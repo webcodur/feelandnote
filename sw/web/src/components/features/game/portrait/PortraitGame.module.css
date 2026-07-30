@@ -1,0 +1,19 @@
+.countdownFill {
+  animation: portrait-countdown-drain 3s linear forwards;
+  transform-origin: left center;
+}
+
+@keyframes portrait-countdown-drain {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .countdownFill {
+    animation-timing-function: steps(3, end);
+  }
+}

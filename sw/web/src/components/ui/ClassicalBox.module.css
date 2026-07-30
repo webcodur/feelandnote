@@ -81,11 +81,11 @@
     height: calc(100% + 8px);
     opacity: 1;
     border-color: var(--color-accent);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.2);
   }
 
   .hoverable:hover {
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 0 20px rgba(var(--color-accent-rgb), 0.4);
   }
 
   /* Danger variant - red borders & glow */

@@ -1,8 +1,8 @@
 # 쉼터 게임 카드 상징 이미지 발주서
 
-> **최종 실측 체크: 26.07.28** — 납품 파일은 5장이나 기억궁은 구현·자산만 보존하고 `/rest` 등록 지점을 주석 처리해 비공개 상태다. 현재 허브 노출은 4장이다.
+> **최종 실측 체크: 26.07.30** — 카드 자산 5장과 `/rest` 등록 코드를 대조했다. 기억궁·시대의 초상·유랑은 구현만 보존하고 공개 진입을 주석 처리했다. 현재 허브에는 배경 자산이 연결된 게임 4종만 노출된다.
 
-쉼터(`/rest`) 허브의 게임 카드 5장에 배경으로 깔릴 상징 이미지를 만든다.
+쉼터(`/rest`) 허브용 게임 카드 상징 이미지 5장을 관리한다. 현재 공개 카드가 사용하는 자산은 4장이고, `memory-card.webp`는 비공개 게임 구현이 보존한다.
 
 ## 1. 목적과 표시 방식
 
@@ -88,11 +88,11 @@ A misty East Asian ink-wash lakescape, painted as a digital illustration. Layere
 
 **핵심**: 유일하게 사람 실루엣이 허용된다. 단 얼굴이 없는 먹點 수준의 어부 하나뿐이다. 나머지 게임은 인물 금지를 그대로 지킨다.
 
-### 3-5. 기억궁 (MEMORY) — 사라지는 초상
+### 3-5. 시대의 초상 (PORTRAITS IN TIME) — 가려진 얼굴
 
-**원본 캔버스**: 숯빛 석재와 낡은 황동으로 지은 어두운 기록 회랑. 뒷면만 보이는 직사각형 초상 카드가 황동 레일에 줄지어 걸리고 소실점을 향해 멀어진다. 같은 두 장만 왼쪽 중앙에서 좁은 금빛 테두리광을 받는다.
+**원본 캔버스**: 숯빛 석재와 낡은 황동으로 지은 어두운 기록 회랑. 뒷면만 보이는 직사각형 초상 카드가 황동 레일에 줄지어 걸리고 소실점을 향해 멀어진다. 같은 두 장에 빛이 들던 기존 기억궁 그림을 그대로 사용한다.
 
-**게임 내용**: 인물의 얼굴을 기억해 같은 초상 두 장을 찾는 짝 맞추기 게임.
+**게임 내용**: 흐릿한 초상이 3초마다 선명해지는 동안 네 이름 중 인물을 빠르게 맞히는 1인용 게임.
 
 **프롬프트**
 
@@ -100,7 +100,7 @@ A misty East Asian ink-wash lakescape, painted as a digital illustration. Layere
 A vast dark archival gallery in strict perspective, built from charcoal stone and aged brass. Rows of rectangular portrait cards hang from thin brass rails and recede toward a shadowed vanishing point. Every card is turned face-down, showing only refined embossed concentric-line patterns like a memory maze. Near the left-center, exactly two matching face-down cards catch the same narrow warm-gold rim light, visually suggesting a pair without showing their fronts. The floor is dark polished stone with restrained, physically plausible reflections. Painterly cinematic game key art, mostly near-black with aged brass, muted gold and a subtle cold blue ambient fill. Keep the rightmost 35 percent calmer and darker. No people, no visible faces, no readable writing, no letters, no numbers, no logos, no watermark, no UI panels, no playing-card suits.
 ```
 
-**핵심**: 실제 얼굴을 배경에 합성하지 않는다. 두 장의 같은 금빛과 나머지 카드의 어둠만으로 짝 맞추기를 읽게 한다.
+**핵심**: 실제 얼굴을 카드 배경에 합성하지 않는다. 가려진 초상이 늘어선 회랑은 게임 안에서 한 사람의 얼굴이 서서히 드러나는 경험을 미리 암시한다.
 
 ## 4. 규격과 납품
 
@@ -113,6 +113,8 @@ A vast dark archival gallery in strict perspective, built from charcoal stone an
 | 경로 | `sw/web/public/images/games/` (신규 폴더) |
 | 용량 | 장당 150KB 이하 목표 (블러가 걸리므로 화질 손실 무해) |
 
+`memory-card.webp`는 기억궁용으로 납품된 파일명을 바꾸거나 복제하지 않고 시대의 초상 카드와 전체화면 배경에서 재사용한다. 비공개 기억궁 코드도 같은 경로를 참조하므로 파일은 유지한다.
+
 기존 인게임 배경(`public/images/backgrounds/{게임}-1-{pc|mb}.webp`)과는 **별개 자산**이다. 그쪽은 게임 플레이 중 배경이고, 이번 건은 카드용이다. 같은 폴더에 섞지 않는다.
 
 ## 5. 진행 방식
@@ -122,11 +124,12 @@ A vast dark archival gallery in strict perspective, built from charcoal stone an
 3. 5장이 나란히 놓였을 때 **한 세트로 보이는지** 확인한다. 톤은 각기 다르되 어둠의 깊이와 빛의 세기가 비슷해야 카드 5장이 형제로 읽힌다.
 4. 이미지 생성은 비용이 발생하므로 **사용자 승인 후** 실행한다.
 
-## 6. 적용 현황 (26.07.15 납품 → 26.07.28 기억궁 비공개)
+## 6. 적용 현황 (26.07.15 납품 → 26.07.30 시대의 초상 구현·비공개)
 
 5장 모두 납품·연결 완료. 파일은 `sw/web/public/images/games/`에 `dawn-card.webp`(24KB)·`labyrinth-card.webp`(64KB)·`hegemony-card.webp`(47KB)·`suikoden-card.webp`(77KB)·`memory-card.webp`(147KB)로 있다.
 
-- **기억궁 비공개(26.07.28)**: 게임 구현·번역·이미지·조회 코드는 보존한다. `rest/page.tsx`의 데이터 조회·목차 등록, `RestGameGrid.tsx`의 카드·동적 import·렌더, `navigation.tsx`의 하위 링크만 주석 처리했다.
+- **시대의 초상 구현 보존·진입 비공개(26.07.30)**: `memory-card.webp`를 카드와 전체화면 배경에 재사용한다. 초상 조회·동적 로더·렌더 코드는 보존돼 있지만, `RestGameGrid.tsx`와 `rest/page.tsx`의 공개 카드·목차에서 제외되어 화면에서 진입할 수 없다.
+- **기억궁 비공개 유지(26.07.28~)**: 기억궁 구현·번역·조회 코드는 보존하되 `/rest` 등록 지점은 계속 주석 상태다. 시대의 초상은 기억궁을 다시 공개한 것이 아니라 별도 게임이다.
 - **연결 지점**: `HubCard`(`sw/web/src/components/shared/HubCard.tsx`)에 `backgroundImage` prop 추가 → `RestGameGrid`(`sw/web/src/components/features/rest/RestGameGrid.tsx`)의 `GAME_SECTIONS[].image`가 게임별 경로를 넘긴다.
 - **표시 처리(현행값)**: `next/image` `fill` + `object-cover`, `opacity-90`. 그 위에 왼쪽만 짙은 가로 그라디언트 `from-bg-main/95 via-bg-main/60 to-transparent`.
 - **블러는 걸지 않는다(변경됨)**: 초기 적용은 `blur-[3px]` + `opacity-70`이었으나 카드 개편에서 블러를 걷고 그림을 선명하게 두는 쪽으로 바뀌었다. **따라서 §1의 "블러 후 남는 큰 덩어리만 생각하라"는 전제는 지금 화면과 다르다.** 다만 §2의 발주 규칙(강한 명암 대비, 왼쪽 60%에 주 형상, 오른쪽 40% 비우기)은 그라디언트가 왼쪽을 덮는 구조 때문에 그대로 유효하다. 새로 뽑을 때는 선명한 상태로 선별한다.

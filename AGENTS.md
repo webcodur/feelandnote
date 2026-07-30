@@ -109,6 +109,7 @@ pnpm build:audio-bo
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
 | `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 7종 |
+| `docs/project/celeb-detail-themes.md` | **인물 상세 테마 SSoT** — 직군·fiction 기반 8개 계열, 인물별 변형, CSS 변수 적용 범위, `/lab/celeb-themes` 비교·대비 검증 |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
 | `docs/project/audio-bo.md` | 음성 작업실(audio-bo) — 음원 정리·받아쓰기·화자 학습·합성 |
 | `docs/project/audio-bo-tts-engine-research.md` | audio-bo TTS 엔진 조사 |
@@ -248,12 +249,14 @@ pnpm build:audio-bo
 |------|------|
 | `docs/project/remotion-bo-plan.md` | 영상 제작 관리 통합 이력 — remotion-bo의 세 시리즈를 web-bo로 이관하고 앱을 폐기한 기록 |
 
-### 게임 (천도)
+### 게임
 
 | 문서 | 내용 |
 |------|------|
 | `docs/project/suikoden-dev.md` | 천도 게임 개발 룰북 — **26.07.30 핵심 완주 흐름 구현.** 브라우저 실제 완주·실 DB 고정 인물·전체 web 빌드는 검증 대기 |
 | `docs/suikoden-sim/` | 천도 게임 현역 기획서·구현 현황 (README + 10개 문서). 현재 코드 사실은 `10-implementation-status.md`가 기준 |
+| `docs/project/wander-game.md` | 유랑 게임 현역 규격 — 시대 선택, 실제 인물 8명과의 사건, 군세·책략·민심 성장, 결정적 귀환 |
+| `docs/project/portrait-game.md` | 시대의 초상 현역 규격 — 구현 보존·공개 진입 비공개. 사진 로드 후 타이머, 4단계 점수, 모바일 2열 선택, 사진 오류 성적 제외 |
 
 ## TODO
 

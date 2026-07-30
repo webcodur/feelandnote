@@ -94,6 +94,7 @@ export const NAV_ITEMS: NavItem[] = [
       { key: "labyrinth", href: "/rest#labyrinth", label: "미궁" },
       { key: "hegemony", href: "/rest#hegemony", label: "패권" },
       { key: "suikoden", href: "/rest#suikoden", label: "천도" },
+      // { key: "wander", href: "/rest#wander", label: "유랑" }, // 비공개(26.07.30)
       // { key: "memory", href: "/rest#memory", label: "기억궁" }, // 비공개(26.07.28)
     ],
   },

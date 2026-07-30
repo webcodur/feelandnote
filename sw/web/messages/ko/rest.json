@@ -2,6 +2,64 @@
   "rest": {
     "section": "쉼터",
     "arena": {
+      "portrait": {
+        "label": "시대의 초상",
+        "description": "흐릿한 초상 속 인물을 빠르게 알아보세요",
+        "intro": "가려진 초상이 서서히 선명해집니다. 네 인물 중 누구인지 알아보고, 가장 이른 순간에 답해 높은 점수를 얻으세요.",
+        "startGame": "초상 감정 시작",
+        "notEnoughFigures": "게임에 필요한 인물 사진을 충분히 불러오지 못했습니다.",
+        "keyboardHelp": "숫자키 1–4로 선택 · Enter로 다음 초상",
+        "mobileRuleSummary": "초상은 3초마다 선명해집니다. 빨리 알아볼수록 높은 점수를 얻습니다.",
+        "bestScore": "최고 기록 {score}점",
+        "rules": {
+          "revealTitle": "서서히 드러나는 얼굴",
+          "revealBody": "초상은 3초마다 한 단계씩 선명해집니다.",
+          "speedTitle": "빠른 감정",
+          "speedBody": "처음 알아보면 1,000점, 늦을수록 점수가 낮아집니다.",
+          "scoreTitle": "열 점의 초상",
+          "scoreBody": "초상 10점을 감정하고 정답률과 연속 기록을 남깁니다."
+        },
+        "round": "초상 {current} / {total}",
+        "roundStatus": "초상 {current}/{total}. 현재 획득 가능 점수 {points}점.",
+        "score": "점수",
+        "streak": "연속",
+        "possiblePoints": "지금 맞히면 {points}점",
+        "threeSecondWindow": "남은 기회 3초",
+        "loadingPortrait": "초상 준비 중",
+        "revealComplete": "판정 완료",
+        "revealProgress": "초상 공개 단계와 획득 가능 점수",
+        "revealStages": {
+          "0": "첫 윤곽",
+          "1": "희미한 인상",
+          "2": "드러난 이목구비",
+          "3": "거의 선명한 초상"
+        },
+        "hiddenPortraitAlt": "아직 정체가 드러나지 않은 인물 초상",
+        "question": "이 초상의 인물은 누구일까요?",
+        "answerTitle": "초상의 주인",
+        "correct": "정답! +{points}점",
+        "incorrect": "다른 인물을 골랐습니다.",
+        "timeUp": "초상이 완전히 드러났습니다.",
+        "answerIs": "정답은 {name}입니다.",
+        "correctChoice": "정답",
+        "wrongChoice": "선택한 오답",
+        "imageError": "초상을 불러오지 못했습니다.",
+        "imageSkipped": "사진 문제로 이 초상은 성적에서 제외합니다.",
+        "next": "다음 초상",
+        "finish": "감정 결과 보기",
+        "result": {
+          "breadcrumb": "감정 결과",
+          "title": "초상 감정을 마쳤습니다",
+          "summary": "얼굴이 선명해지기 전에 시대의 인물들을 얼마나 알아보았는지 확인해 보세요.",
+          "finalScore": "최종 점수",
+          "correct": "정답",
+          "accuracy": "정답률",
+          "bestStreak": "최대 연속",
+          "skipped": "사진을 불러오지 못한 {count}문제는 점수와 정답률에서 제외했습니다.",
+          "replay": "새 초상 도전",
+          "lobby": "게임 안내"
+        }
+      },
       "memory": {
         "label": "기억궁",
         "description": "같은 인물의 얼굴을 찾아 짝을 맞추세요",
@@ -728,6 +786,222 @@
           "preparing": "준비 중",
           "trainingHint": "※ 연병장 건설 시 훈련 가능"
         }
+      },
+      "wander": {
+        "label": "유랑",
+        "premise": "누명을 쓰고 고향에서 쫓겨났습니다. 여덟 번의 만남으로 힘과 뜻을 모아, 고향을 장악한 섭정을 끌어내리세요.",
+        "objectiveTitle": "목표: 고향 탈환",
+        "objectiveBody": "인물의 강점과 사건의 조건을 살펴 군세·책략·민심을 키우세요. 한 힘을 얻으면 다른 힘을 조금 잃습니다. 가장 강한 방식의 결정력이 85 이상이면 승리합니다.",
+        "selectEra": "떠돌 시대를 선택하세요",
+        "available": "만날 수 있는 인물 {count}명",
+        "start": "추방자의 길을 떠난다",
+        "notEnoughFigures": "이 시대의 인물을 충분히 불러오지 못했습니다.",
+        "beforeEra": "기원전",
+        "progress": "인연의 여정",
+        "encounter": "{region}에서 {name}을(를) 만났습니다",
+        "events": {
+          "closedGate": {
+            "title": "닫힌 국경",
+            "body": "전쟁으로 길이 막힌 성문 앞에서 {name}이(가) 통행을 도울 방법을 제안합니다.",
+            "choices": {
+              "might": "봉쇄선을 돌파한다",
+              "insight": "비밀 통행로를 찾는다",
+              "support": "피란민과 성문을 연다"
+            }
+          },
+          "hiddenSalon": {
+            "title": "비밀 살롱",
+            "body": "감시를 피해 모인 사람들 사이에서 {name}이(가) 당신의 추방 이야기를 듣습니다.",
+            "choices": {
+              "might": "모임의 호위대를 꾸린다",
+              "insight": "비밀 연락망을 설계한다",
+              "support": "참석자들의 지지를 모은다"
+            }
+          },
+          "burningArchive": {
+            "title": "불타는 기록관",
+            "body": "섭정의 첩자가 기록을 없애려 합니다. {name}과(와) 함께 무엇을 먼저 구할지 정해야 합니다.",
+            "choices": {
+              "might": "방화범을 제압한다",
+              "insight": "결정적 장부를 구한다",
+              "support": "증언자부터 대피시킨다"
+            }
+          },
+          "marketRiot": {
+            "title": "시장 광장의 소요",
+            "body": "굶주린 군중과 병사들이 맞섭니다. {name}이(가) 당신에게 어느 편에 설지 묻습니다.",
+            "choices": {
+              "might": "병사들의 무기를 거둔다",
+              "insight": "배후의 선동자를 찾는다",
+              "support": "군중 앞에서 연설한다"
+            }
+          },
+          "stormHarbor": {
+            "title": "폭풍 속의 항구",
+            "body": "귀환 자금을 실은 배가 좌초될 위기입니다. 항구에서 만난 {name}이(가) 손을 내밉니다.",
+            "choices": {
+              "might": "밧줄을 잡고 배를 구한다",
+              "insight": "화물을 살릴 순서를 짠다",
+              "support": "항구 사람들을 움직인다"
+            }
+          },
+          "publicTrial": {
+            "title": "광장의 재판",
+            "body": "무고한 사람이 반역자로 몰렸습니다. {name}과(와) 함께 공개 재판에 나섭니다.",
+            "choices": {
+              "might": "재판장을 지킨다",
+              "insight": "증언의 모순을 밝힌다",
+              "support": "광장의 여론을 모은다"
+            }
+          },
+          "nightPursuit": {
+            "title": "한밤의 추격",
+            "body": "섭정이 보낸 추격대가 여관을 포위합니다. {name}이(가) 탈출 방법을 고르라고 합니다.",
+            "choices": {
+              "might": "포위망을 뚫는다",
+              "insight": "추격대를 다른 길로 보낸다",
+              "support": "주민들의 은신처를 빌린다"
+            }
+          },
+          "farewellFeast": {
+            "title": "마지막 연회",
+            "body": "귀환 전날, {name}이(가) 지금까지 모은 힘을 어디에 쓸지 마지막으로 묻습니다.",
+            "choices": {
+              "might": "귀환군의 맹세를 받는다",
+              "insight": "마지막 작전을 검토한다",
+              "support": "고향에 보낼 선언문을 읽는다"
+            }
+          }
+        },
+        "powerChanged": "{power} +{gain} · {lostPower} -{penalty}",
+        "bestReturn": "현재 최고 귀환",
+        "returnReadiness": "고향 탈환 준비도",
+        "eventAdvantage": "사건에 유리",
+        "tradeoff": "대가: {power} -{amount}",
+        "affinity": {
+          "strong": "인물의 특기",
+          "steady": "무난한 선택",
+          "weak": "낯선 역할"
+        },
+        "nextJourney": "다음 여정",
+        "returnHome": "고향으로 귀환",
+        "returnTitle": "이제 고향으로 돌아갈 때입니다",
+        "returnBody": "여덟 인연이 모은 힘을 한곳에 집중하세요. 섭정의 권력을 무너뜨릴 귀환 방식을 선택하면 결말이 결정됩니다.",
+        "requiredScore": "탈환에 필요한 결정력: {score}",
+        "chooseReturnPlan": "귀환 방식을 고르면 예상 결과를 확인할 수 있습니다.",
+        "confirmReturn": "{plan} · 결정력 {score}. 이 방식으로 돌아가겠습니까?",
+        "launchReturn": "귀환 작전 개시",
+        "decisionPower": "결정력",
+        "ready": "탈환 가능",
+        "notReady": "힘이 부족함",
+        "eras": {
+          "ancient": {
+            "label": "고대",
+            "period": "문명의 탄생–500년"
+          },
+          "medieval": {
+            "label": "중세",
+            "period": "501–1499년"
+          },
+          "earlyModern": {
+            "label": "근세",
+            "period": "1500–1788년"
+          },
+          "revolution": {
+            "label": "혁명의 시대",
+            "period": "1789–1913년"
+          },
+          "modern": {
+            "label": "현대",
+            "period": "1914년–현재"
+          }
+        },
+        "powers": {
+          "might": {
+            "label": "군세"
+          },
+          "insight": {
+            "label": "책략"
+          },
+          "support": {
+            "label": "민심"
+          }
+        },
+        "choices": {
+          "might": {
+            "label": "전우로 청한다",
+            "description": "함께 위험을 감수하며 귀환할 군세를 모읍니다."
+          },
+          "insight": {
+            "label": "계책을 구한다",
+            "description": "섭정의 약점을 파고들 지혜와 증거를 얻습니다."
+          },
+          "support": {
+            "label": "뜻을 함께 퍼뜨린다",
+            "description": "당신의 사연을 세상에 알려 고향의 민심을 움직입니다."
+          }
+        },
+        "outcomes": {
+          "might": "{name}이(가) 귀환의 전우가 되었습니다.",
+          "insight": "{name}이(가) 섭정을 무너뜨릴 계책을 건넸습니다.",
+          "support": "{name}이(가) 당신의 대의를 세상에 알렸습니다."
+        },
+        "plans": {
+          "might": {
+            "label": "봉기의 귀환",
+            "description": "모은 전우들과 성문을 열고 섭정의 친위대를 제압합니다."
+          },
+          "insight": {
+            "label": "폭로의 귀환",
+            "description": "범죄와 거짓을 공개해 섭정의 측근부터 무너뜨립니다."
+          },
+          "support": {
+            "label": "민중의 귀환",
+            "description": "고향 사람들이 스스로 문을 열고 섭정을 끌어내리게 합니다."
+          }
+        },
+        "bondRoles": {
+          "might": "전우",
+          "insight": "참모",
+          "support": "후원자"
+        },
+        "regions": {
+          "east_asia": "동아시아",
+          "southeast_asia": "동남아시아",
+          "south_asia": "남아시아",
+          "central_asia": "중앙아시아",
+          "middle_east": "중동",
+          "east_europe": "동유럽",
+          "west_europe": "서유럽",
+          "africa": "아프리카",
+          "americas": "아메리카",
+          "oceania": "오세아니아"
+        },
+        "breadcrumbs": {
+          "journey": "세계 유랑",
+          "return": "귀환 작전",
+          "result": "운명의 결말"
+        },
+        "result": {
+          "victoryTitle": "고향을 되찾았습니다",
+          "victoryBody": "섭정의 권력은 무너졌고, 추방자는 여덟 인연과 함께 고향으로 돌아왔습니다.",
+          "victoryBodies": {
+            "might": "{name}이(가) 성문을 열자 함께 모은 전우들이 친위대를 무장 해제했습니다. 고향은 긴 밤 끝에 주인을 맞았습니다.",
+            "insight": "{name}의 계책으로 숨겨진 장부와 거짓 증언이 한꺼번에 드러났습니다. 측근들이 떠난 섭정은 스스로 권좌에서 내려왔습니다.",
+            "support": "{name}이(가) 퍼뜨린 대의가 고향에 먼저 닿았습니다. 사람들이 성문을 열고 광장을 채우자 섭정은 더 버티지 못했습니다."
+          },
+          "defeatTitle": "성문은 열리지 않았습니다",
+          "defeatBody": "모은 힘이 섭정의 권력을 넘지 못했습니다. 유랑에서 한 가지 힘을 더 굳게 모아야 합니다.",
+          "betterPlan": "당시 가장 강했던 길은 {plan}, 결정력 {score}이었습니다.",
+          "score": "결정력",
+          "required": "필요",
+          "bonds": "인연",
+          "companions": "함께한 사람들",
+          "decidingBond": "결정적 인연: {name}",
+          "bondEffect": "{power} +{gain} · {lostPower} -{penalty}",
+          "replay": "다른 시대에서 다시",
+          "exit": "쉼터로 돌아가기"
+        }
       }
     },
     "hub": {
@@ -736,7 +1010,9 @@
       "labyrinth": "현자 6인의 행적을 살펴 은둔한 인물을 찾아내는 탐문 게임",
       "hegemony": "인물 카드로 군령을 내려 상대와 격돌하는 전략 대전",
       "suikoden": "역사 속 인물들을 이끌고 세력을 키워 문명을 통일하는 전략 시뮬레이션",
-      "memory": "인물의 얼굴을 기억해 같은 초상 두 장을 찾는 짝 맞추기 게임"
+      "memory": "인물의 얼굴을 기억해 같은 초상 두 장을 찾는 짝 맞추기 게임",
+      "portrait": "서서히 선명해지는 초상을 보고 역사 속 인물을 맞히는 1인용 게임",
+      "wander": "시대를 건너 인물들과 힘을 모아 빼앗긴 고향을 되찾는 여정"
     },
     "meta": {
       "title": "쉼터",
