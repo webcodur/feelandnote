@@ -1,0 +1,135 @@
+.scope {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-main);
+  background-image:
+    radial-gradient(circle at var(--celeb-theme-focus-x) 0%, rgba(var(--color-accent-rgb), 0.14), transparent 38rem),
+    linear-gradient(var(--celeb-theme-angle), transparent 45%, rgba(var(--color-accent-rgb), 0.025) 50%, transparent 55%);
+}
+
+.scope[data-celeb-era="ancient"] {
+  background-image:
+    radial-gradient(circle at var(--celeb-theme-focus-x) 0%, rgba(var(--color-accent-rgb), 0.12), transparent 34rem),
+    repeating-linear-gradient(var(--celeb-theme-angle), transparent 0 24px, rgba(var(--color-accent-rgb), 0.025) 25px 26px);
+}
+
+.scope[data-celeb-era="heritage"] {
+  background-image:
+    radial-gradient(circle at var(--celeb-theme-focus-x) 0%, rgba(var(--color-accent-rgb), 0.13), transparent 36rem),
+    linear-gradient(var(--celeb-theme-angle), transparent 35%, rgba(var(--color-accent-rgb), 0.035), transparent 65%);
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 250px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(var(--color-accent-rgb), 0.28);
+  background:
+    linear-gradient(180deg, rgba(var(--color-accent-rgb), 0.08), transparent 42%),
+    var(--color-bg-secondary);
+}
+
+.light {
+  position: absolute;
+  inset: -60% -20%;
+  background: conic-gradient(from var(--celeb-theme-angle), transparent, rgba(var(--color-accent-rgb), 0.13), transparent 22%);
+  filter: blur(20px);
+}
+
+.orbitOuter,
+.orbitInner {
+  position: absolute;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  border-radius: 50%;
+  transform: rotate(var(--celeb-theme-angle));
+}
+
+.orbitOuter { width: 320px; height: 140px; }
+.orbitInner { width: 210px; height: 210px; border-style: dashed; }
+
+.icon {
+  position: absolute;
+  width: 116px;
+  height: 116px;
+  color: rgba(var(--color-accent-rgb), 0.18);
+  filter: drop-shadow(0 0 28px rgba(var(--color-accent-rgb), 0.22));
+}
+
+.copy {
+  position: relative;
+  z-index: 2;
+  max-width: 92%;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  text-shadow: 0 2px 28px var(--color-bg-secondary);
+}
+
+.subtitle {
+  margin-top: 0.8rem;
+  color: var(--color-accent);
+  font-family: var(--font-cinzel);
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.themeMark {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.75rem;
+  color: rgba(var(--color-accent-rgb), 0.72);
+  font-family: var(--font-cinzel);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.compact { height: 180px; }
+.compact .title { font-size: clamp(1.7rem, 4vw, 2.25rem); }
+.compact .subtitle { font-size: 0.75rem; }
+.compact .icon { width: 84px; height: 84px; }
+.compact .orbitOuter { width: 230px; height: 100px; }
+.compact .orbitInner { width: 150px; height: 150px; }
+.compact .themeMark { font-size: 0.625rem; }
+
+.hero[data-theme-motif="regalia"] .orbitOuter { border-radius: 2px; transform: rotate(45deg); }
+.hero[data-theme-motif="archive"] .orbitOuter { border-radius: 50% 8% 50% 8%; }
+.hero[data-theme-motif="orbit"] .orbitOuter { transform: rotate(18deg); }
+.hero[data-theme-motif="orbit"] .orbitInner { transform: rotate(72deg); }
+.hero[data-theme-motif="stage"] .light { background: linear-gradient(110deg, transparent 28%, rgba(var(--color-accent-rgb), 0.18) 50%, transparent 72%); }
+.hero[data-theme-motif="resonance"] .orbitOuter { width: 430px; height: 70px; }
+.hero[data-theme-motif="venture"] .orbitOuter { border-radius: 0; transform: rotate(30deg); }
+.hero[data-theme-motif="arena"] .orbitInner { border-width: 2px; }
+.hero[data-theme-motif="mythic"] .orbitOuter { border-style: dotted; }
+
+@media (min-width: 640px) {
+  .hero { height: 300px; }
+  .compact { height: 180px; }
+  .themeMark { right: 1.5rem; bottom: 1rem; }
+}
+
+@media (min-width: 768px) {
+  .hero { height: 350px; }
+  .compact { height: 180px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .light { filter: none; }
+}
