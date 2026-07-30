@@ -72,6 +72,8 @@ sw/remotion/fix-json.cjs
 sw/remotion/scripts/voice/_test-*.ts
 sw/remotion/scripts/voice/test-voices.ts
 sw/remotion/scripts/voice/subs-*.json
+sw/remotion/scripts/_cleanup-active-log.txt
+sw/remotion/scripts/_audit-active-out.json
 sw/remotion/.old_*
 sw/remotion/.render-check/
 sw/remotion/_dbg_*
@@ -114,6 +116,7 @@ sw/인물-*.txt
 
 # 일회성 작업 스크립트·중간 산출물 (파일명 앞에 .tmp- 를 붙인다)
 .tmp-*
+**/.tmp/
 /sw/web-bo/scripts/_targets.json
 
 # 감사·점검 리포트 (로컬 재생성)
