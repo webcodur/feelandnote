@@ -549,13 +549,11 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
           )}
         </div>
 
-        {/* 대사 원문 — 라벨·값 수평 (영문 또는 통합 모드에서만 노출) */}
-        {editLang !== 'ko' && (
-          <div className="flex items-start gap-2">
-            <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">대사 원문 -</span>
-            <AutoResizeTextarea placeholder="실제 발언 영어 원문" value={person.quoteOrigin ?? ''} onChange={e => set('quoteOrigin', e.target.value)} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs italic leading-snug text-text-secondary focus:border-accent focus:outline-none" />
-          </div>
-        )}
+        {/* 제작 메모. 렌더 문구나 필수 출처로 사용하지 않는다. */}
+        <div className="flex items-start gap-2">
+          <span className="w-24 shrink-0 pt-1.5 text-xs text-text-dim">대사 메모 -</span>
+          <AutoResizeTextarea placeholder="필요할 때만 자유롭게 메모" value={person.quoteOrigin ?? ''} onChange={e => set('quoteOrigin', e.target.value)} rows={2} className="min-w-0 flex-1 resize-none rounded-md border border-border/60 bg-bg-main/50 px-2 py-1.5 text-xs leading-snug text-text-secondary focus:border-accent focus:outline-none" />
+        </div>
         {/* 소속 — 라벨·값 수평 */}
         <div className="flex items-center gap-2">
           <span className="w-24 shrink-0 text-xs text-text-dim">소속 -</span>

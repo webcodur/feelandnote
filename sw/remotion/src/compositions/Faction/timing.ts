@@ -681,13 +681,13 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       // 세로 쇼츠는 롱폼 전용 그룹을 건너뛴다(쇼츠 길이 대응). 가로 롱폼에는 그대로 노출.
       if (portrait && cluster.longformOnly) continue
       const people = cluster.people
-      // 화보 카드 — 그룹마다 진입(브릿지) 컷. 1명 그룹도 단독 화보로 진입한다.
+      // 화보 카드 — 그룹마다 진입(브릿지) 컷. 실제 cluster.image가 있을 때만 만든다.
       // 등장 인물 수(disabled 제외)에 따라 길이를 줄인다 — 인원이 적으면 짧게.
       const shotCount = (people ?? []).filter((p) => !p.disabled && !(portrait && p.longformOnly)).length
       // solo 세력은 화보 컷을 생략한다(인물 컷만 순차 노출).
-      // 노출 인물 1명 + 단체 화보(cluster.image) 없음 → 역시 화보(브릿지) 카드를 생략한다.
-      // 로고(logoVid·logoImg)로 진입해 바로 인물 컷으로 넘어간다. 소제목(label)은 로고 카드가 흡수(GroupCard).
-      if (!group.solo && !(shotCount === 1 && !cluster.image)) {
+      // cluster.image가 없으면 인원 수와 무관하게 빈 TEAM SHOT 카드를 만들지 않는다.
+      // 로고(logoVid·logoImg)로 진입해 바로 인물 컷으로 넘어간다. 단일 묶음 소제목(label)은 로고 카드가 흡수(GroupCard).
+      if (!group.solo && cluster.image) {
         push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterSecOf(script, shotCount))
       }
       ;(people ?? []).forEach((person, pi) => {

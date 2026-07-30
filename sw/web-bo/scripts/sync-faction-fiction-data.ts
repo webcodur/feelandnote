@@ -193,17 +193,7 @@ const EPISODE_META: Record<string, EpisodeMeta> = {
     bioSourceEn: "Virgil's Aeneid",
     nationality: 'IT',
   },
-  'world-mythology': {
-    title: '세계 신화',
-    titleEn: 'World mythology',
-    bioSource: '힌두교 신화와 고대 서사 전승',
-    bioSourceEn: 'Hindu mythology and ancient epic tradition',
-    nationality: 'IN',
-  },
 }
-
-// 이 편은 옛 데이터에 mythical 필드가 통째로 빠져 있었으므로 폴더 자체를 근거로 복구한다.
-const FORCED_MYTHICAL_EPISODES = new Set(['world-mythology'])
 
 // 동일 클러스터에 같은 인물이 본명과 왕호로 두 번 들어간 옛 원고 결함.
 // 주문왕 행을 남기고 희백 창(Ji Chang) 중복 행만 제거한다.
@@ -468,8 +458,7 @@ async function main() {
 
   const mythical = people.filter((row) => {
     if (duplicatePlacementIds.has(row.id)) return false
-    const episode = episodeOf(row)
-    return row.mythical || Boolean(episode && FORCED_MYTHICAL_EPISODES.has(episode.folder))
+    return row.mythical
   })
   const canonicalGroups = new Map<string, PersonRow[]>()
   for (const person of mythical) {

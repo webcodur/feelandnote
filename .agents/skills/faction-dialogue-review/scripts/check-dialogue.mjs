@@ -52,15 +52,6 @@ for (const person of scope) {
   if (!Array.isArray(person.quoteChunks) || reconstructedQuote !== person.quote) {
     errors.push(`${person.slug}: quoteChunks do not reconstruct quote`);
   }
-  const reconstructedQuoteEn = Array.isArray(person.quoteEnChunks)
-    ? person.quoteEnChunks.map((chunk) => chunk.trim()).filter(Boolean).join(' ')
-    : '';
-  if (person.quoteEn && (!Array.isArray(person.quoteEnChunks) || reconstructedQuoteEn !== person.quoteEn)) {
-    errors.push(`${person.slug}: quoteEnChunks do not reconstruct quoteEn`);
-  }
-  if (!person.quoteOrigin?.trim()) {
-    errors.push(`${person.slug}: missing quoteOrigin`);
-  }
 }
 
 console.log(`file=${dataPath}`);

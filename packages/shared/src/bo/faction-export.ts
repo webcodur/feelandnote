@@ -17,8 +17,8 @@
  *
  * ## 백업
  *
- * 덮어쓰기 전 항상 `<에피소드>/.export-backup/<시각>/faction-data.json` 으로 보관하고 최근 10회만
- * 남긴다. 발효 전 원본은 `.export-backup/_original/` 에 **한 번만** 따로 복사해 회차 정리에서
+ * 실제 내용이 바뀌는 덮어쓰기 전 `<에피소드>/.export-backup/<시각>/faction-data.json` 으로 보관하고 최근 10회만
+ * 남긴다. 내용이 같으면 파일·마커 시각·백업을 모두 건드리지 않는다. 발효 전 원본은 `.export-backup/_original/` 에 **한 번만** 따로 복사해 회차 정리에서
  * 제외한다. **git 추적 밖 자산이라 이 백업이 유일한 원본 보존 수단이다.**
  */
 
@@ -126,7 +126,10 @@ export function backupFactionData(episodeDir: string, dataPath: string, isPristi
 
 export interface FactionExportResult {
   folder: string
+  /** 내보내기가 정상 완료됐는가. 내용이 이미 같아 파일을 안 쓴 경우도 true다. */
   written: boolean
+  /** 디스크의 faction-data.json 바이트를 실제로 바꿨는가 */
+  changed: boolean
   reason: string
   backupDir?: string | null
   /** 막힌 경우 파일 ↔ DB 의 의미 차이 (JSON Pointer) */
@@ -152,7 +155,8 @@ export interface ExportToFileOptions {
 }
 
 /**
- * 한 에피소드를 DB 에서 뽑아 파일로 쓴다. 막히면 `written:false` + 사유·차이를 돌려준다(던지지 않는다).
+ * 한 에피소드를 DB 에서 뽑아 파일과 동기화한다. 이미 같으면 `written:true, changed:false`로 끝낸다.
+ * 막히면 `written:false` + 사유·차이를 돌려준다(던지지 않는다).
  * 조립 자체가 실패하면(에피소드 없음 등) 그건 진짜 오류라 던진다.
  */
 export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Promise<FactionExportResult> {
@@ -165,7 +169,7 @@ export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Pro
   if (state.kind === 'hand-edited' && !force) {
     const diffs = diffPointers(stripGenerated(state.doc), stripGenerated(fresh))
     return {
-      folder, written: false, diffs,
+      folder, written: false, changed: false, diffs,
       reason: `손 편집 감지 — 파일 체크섬 ${state.actual.slice(0, 8)} ≠ 마커 ${state.marker.checksum.slice(0, 8)}`,
     }
   }
@@ -178,9 +182,21 @@ export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Pro
     const diffs = diffPointers(stripGenerated(state.doc), stripGenerated(fresh))
     if (diffs.length) {
       return {
-        folder, written: false, diffs,
+        folder, written: false, changed: false, diffs,
         reason: `발효 전 파일이 DB 와 다르다 — 차이 ${diffs.length}곳. 파일 쪽이 최신이면 먼저 \`pnpm faction:import\``,
       }
+    }
+  }
+
+  // 생성 마커의 시각만 바꾸는 무의미한 export는 파일도 백업도 만들지 않는다.
+  // DB 조립 결과가 현재 생성 파일과 byte-independent하게 같으면 이미 동기화된 상태다.
+  if (state.kind === 'generated' && docChecksum(fresh) === state.marker.checksum) {
+    return {
+      folder,
+      written: true,
+      changed: false,
+      reason: '변화 없음',
+      backupDir: null,
     }
   }
 
@@ -200,7 +216,7 @@ export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Pro
     : state.kind === 'absent' ? '신규 생성'
     : state.kind === 'hand-edited' ? '손 편집 무시(force)'
     : '갱신'
-  return { folder, written: true, reason, backupDir }
+  return { folder, written: true, changed: true, reason, backupDir }
 }
 
 /**

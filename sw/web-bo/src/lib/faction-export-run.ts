@@ -16,8 +16,10 @@ import { assertFactionLocal } from '@/lib/faction-local'
 
 export interface FactionExportResult {
   folder: string
-  /** 파일을 실제로 썼는가 */
+  /** 내보내기가 정상 완료됐는가 */
   written: boolean
+  /** 파일을 실제로 바꿨는가 */
+  changed: boolean
   /** 사람이 읽을 결과 사유 */
   reason: string
   /** 덮어쓰기 전 보관 위치 */
@@ -45,5 +47,12 @@ export async function runFactionExport(
       return { script, episodeId: row.id as string }
     },
   })
-  return { folder: r.folder, written: r.written, reason: r.reason, backupDir: r.backupDir, diffs: r.diffs }
+  return {
+    folder: r.folder,
+    written: r.written,
+    changed: r.changed,
+    reason: r.reason,
+    backupDir: r.backupDir,
+    diffs: r.diffs,
+  }
 }

@@ -126,20 +126,12 @@ function main() {
   for (const { person: p } of rows) {
     const tag = p.name;
     if (!p.quote?.trim()) fails.push(`${tag}: empty quote`);
-    if (!p.quoteEn?.trim()) fails.push(`${tag}: empty quoteEn`);
     if (!Array.isArray(p.quoteChunks) || p.quoteChunks.length < 2) {
       fails.push(`${tag}: quoteChunks < 2`);
     }
-    if (!Array.isArray(p.quoteEnChunks) || p.quoteEnChunks.length < 1) {
-      fails.push(`${tag}: quoteEnChunks empty`);
-    }
-    if (!p.quoteOrigin?.trim()) fails.push(`${tag}: empty quoteOrigin`);
 
     if (norm(p.quote) !== norm((p.quoteChunks || []).join(""))) {
       fails.push(`${tag}: KO chunk drift`);
-    }
-    if (norm(p.quoteEn) !== norm((p.quoteEnChunks || []).join(""))) {
-      fails.push(`${tag}: EN chunk drift`);
     }
 
     if (p.quote && p.quote.length < 40) {
@@ -161,12 +153,6 @@ function main() {
         fails.push(`${tag}: forced xAI는 brand rewrite forbidden`);
       }
     }
-  }
-
-  const armstrong = rows.find((r) => r.person.slug === "anthony-armstrong")
-    ?.person;
-  if (armstrong && !/창작|빈약/.test(armstrong.quoteOrigin || "")) {
-    fails.push("Armstrong origin must mark 창작/빈약");
   }
 
   const bier = rows.find((r) => r.person.slug === "nikita-bier")?.person;

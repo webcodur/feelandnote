@@ -107,7 +107,9 @@ async function main() {
   }
 
   const blocked = results.filter(r => !r.written)
-  console.log(`\n기록 ${results.length - blocked.length}편 · 중단 ${blocked.length}편`)
+  const changed = results.filter(r => r.written && r.changed)
+  const unchanged = results.filter(r => r.written && !r.changed)
+  console.log(`\n변경 ${changed.length}편 · 변화 없음 ${unchanged.length}편 · 중단 ${blocked.length}편`)
 
   // 등록 목록 재생성은 전량 export 일 때만(단일 에피소드 export 는 목록을 건드리지 않는다)
   if (args.all) {

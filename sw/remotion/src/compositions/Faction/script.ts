@@ -63,8 +63,8 @@ function inheritEpithetVoice(p: FactionPerson, common?: FactionNarratorVoice): F
 
 function resolvePerson(p: FactionPerson, en: boolean, commonVoice?: FactionNarratorVoice): FactionPerson {
   if (!en) {
-    // 한국어판: 가상 독백(quote) 아래에 원전의 사실과 재구성 방향(quoteOrigin)을 보조 표기로 노출한다.
-    return inheritEpithetVoice({ ...p, quoteEn: p.quoteOrigin }, commonVoice)
+    // quoteOrigin은 제작 메모다. 한국어 렌더 문구로 노출하지 않는다.
+    return inheritEpithetVoice({ ...p, quoteEn: undefined }, commonVoice)
   }
   return inheritEpithetVoice({
     ...p,

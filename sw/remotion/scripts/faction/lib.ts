@@ -37,7 +37,7 @@ export interface EpisodeFolder {
   folder: string
   dir: string
   dataPath: string
-  /** DB로 처음 가져올 때 쓸 제작 상태. 기존 DB 상태는 import가 보존한다. */
+  /** DB에 처음 들어가는 편의 안전 기본값. 운영 상태는 DB만이 원천이다. */
   status: 'ready' | 'blocked'
   /** _episodes.json 에 실린 편 = 서비스 등록분 */
   registered: boolean
@@ -63,22 +63,12 @@ export function scanEpisodes(): EpisodeFolder[] {
     const dataPath = path.join(dir, 'faction-data.json')
     if (!existsSync(dataPath)) continue
 
-    let status: EpisodeFolder['status'] = 'blocked'
-    const statusPath = path.join(dir, '_status.json')
-    if (existsSync(statusPath)) {
-      try {
-        const s = JSON.parse(readFileSync(statusPath, 'utf-8')) as { status?: string }
-        if (s.status === 'ready' || s.status === 'blocked') status = s.status
-      } catch {
-        throw new Error(`_status.json 파싱 실패: ${statusPath}`)
-      }
-    }
     const idx = registered.indexOf(name)
     out.push({
       folder: name,
       dir,
       dataPath,
-      status,
+      status: 'blocked',
       registered: idx >= 0,
       sortOrder: idx >= 0 ? idx + 1 : 0,
     })

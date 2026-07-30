@@ -1,4 +1,4 @@
 interface:
-  display_name: "팩션 대사 비판 검토"
-  short_description: "새 관점을 생성하며 팩션 대사를 반복 검토합니다"
-  default_prompt: "Use $faction-dialogue-review to critically reread a faction dialogue through newly generated lenses before revising it."
+  display_name: "팩션 대사 작성"
+  short_description: "근거 있는 팩션 대사를 작성하고 바로 검증합니다"
+  default_prompt: "Use $faction-dialogue-review to write a sourced faction dialogue once, apply it safely, and verify the result without creating review logs."

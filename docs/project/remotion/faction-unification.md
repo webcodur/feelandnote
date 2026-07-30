@@ -123,7 +123,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - 이관 실적: 에피소드 23(등록 14)·세력 123(태그 연결 21)·클러스터 184·인물 537(셀럽 연결 435)·편 댓글 6·quoteDuration 301·longformLayout 6. 멱등(2회차 동일 행수·에러 0).
 - **왕복 검증 6종 — 23/23편 전부 통과**: ① 정규화 JSON 비교(키순 무시·undefined≡부재·빈배열≡부재·duration 2자리, 불일치 JSON Pointer 전량) ② `factionVariants` fileSuffix 집합 ③ `analyzeTiming` totalFrames 전 편 ④ `buildVoiceJobs` file·text·chunks ⑤ SRT 바이트 ⑥ 한글 U+FFFD. 검증기 자체를 10종 변조 주입으로 반증 시험(오탐 0·미탐 0).
 - 이관 구현 규칙: NOT NULL boolean의 false ≡ 키 부재 · numeric은 Number() 복원(PostgREST 문자열 함정) · `.in()` 200개 청크(462개 실패 실측 이력) · tagSlug 원문은 data에 보존(tag_id는 파생) · sort_order=_episodes.json 순번.
-- **미해소 명단**: 프로필 없는 slug 99명(Path-of-Kings 계열 42·korea-sports 14·great-hackers 8·해적 6·world-football 5·Gods-Greek 계열 10·Digital-Resistance 5·cold-war 5·기타 4) — celeb_id null, slug 문자열 보존. 등록 필요 시 celeb 파이프라인.
+- **미해소 명단(당시 실측)**: 프로필 없는 slug 99명 — `celeb_id=null`로 두고 slug 문자열을 보존했다. 현재 등록 큐는 셀럽 파이프라인 장부를 따른다.
 
 ## 6. 렌더 경로 — 내보내기(export) 방식 확정
 
@@ -190,7 +190,7 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
   - **흩어져 있던 경로 조립을 이번에 수렴** — `factionEpisodePaths`(shared `bo/faction-export`)가 `path.join(factionsDir, path.basename(folder))` 였다. 보관함 편이 들어온 뒤로 **web-bo 자동 내보내기가 `public/factions/<이름>` 이라는 없는 자리를 가리키고 있었다**(CLI 는 스캔 결과 경로를 써서 멀쩡했으므로 드러나지 않았다). `episodeDirOf` 로 교체. 자산 창구(`lib/faction-asset.ts`)도 같은 함수로 뿌리를 정한다.
   - 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR`. `.gitignore` 에 새 경로 항목 추가(옛 `public/factions/` 패턴이 못 덮는다).
   - **실측**: `faction:verify --all` 95/95 통과 · 이동 후 보관함 편 내보내기가 새 위치에 기록되고 백업(`.export-backup/_original`)도 그 아래 생성 · 승격(보관함→뿌리) 실이동 왕복 성공 · `public/factions` 스캔 23편 유지 · `remotion compositions` 경고 0(팩션 컴포지션은 등록 14편분) · tsc web-bo·remotion 0.
-- 26.07.29 **폐기된 `great-hackers-state`의 로컬 실물 제거** — 26.07.28 DB·인물 삭제 뒤 `idea-bank/shadow-world/great-hackers-state`만 남아 있던 26파일·20,087,954바이트를 제거했다. 현재 보관함은 DB 후보 71편 ↔ 로컬 71편이며 정규화 내용 대조 불일치 0.
+- 26.07.30 **「위대한 해커들」 3편 전면 비활성화** — `great-hackers-faces`·`great-hackers-masked`·`great-hackers-state`를 모두 DB `blocked/registered=false/sort_order=0`으로 내리고 렌더 등록 목록에서 제거했다. 도감 자료는 연결을 끊거나 삭제하지 않고 `state-hackers`·`masked-hackers`의 `is_featured=false`로 비활성화했으며, 국가편의 세 그룹 연결·배정 8건·이미지 메타데이터는 유지한다. 전용 기획·대사 검토 Markdown과 export/archive/REF 백업만 로컬에서 제거했고 `faction-data.json`과 현재 이미지 자산은 비활성 자료로 남겼다. 로컬 `_status.json`은 이후 전 편에서 폐기했으며 운영 상태는 DB만 쓴다.
 - 26.07.29 **활성·비활성 팩션 실물 1차 재통합** — 사용자 운영 판단에 따라 `sw/remotion/idea-bank/`의 71편·719파일·210,216,734바이트를 원래 자리인 **`sw/remotion/public/factions/not-using/`** 로 이동했다. DB 키와 내용은 불변이며 전용 `resolveEpisodeLocation`·`IDEA_BANK_ROOT`·`IDEA_BANK_DIR` 분기를 제거했다. 로더는 `not-using/`의 데이터와 발화 시각을 모두 제외하고, 표준 렌더는 기존 참조 기반 창고를 쓰므로 활성 영상의 입력은 변하지 않는다. `--full-public`을 명시한 옛 통짜 렌더만 후보 자산까지 포함한다.
   - DB 92편 ↔ 로컬 92편 키 전수 일치. `_episodes.json`에만 남아 있던 DB 부재 별칭 `Gods-Greek-Compact`를 제거하고 `registered=true` 13편으로 재생성했다.
 - 26.07.29 **경로 상태값 최종 폐기** — `not-using/<분류>/<이름>` 71편을 전부 `public/factions/<이름>`으로 평탄화하고 DB `folder`도 함께 바꿨다. 활성 `Social-Network`와 충돌한 옛 소형 초안만 `social-network-draft`로 명시했다. 분류 서랍에 남은 기획 문서는 `_docs/idea-bank/`로 옮겼다. 이후 활성 여부는 오직 `registered`, 도감 이전 가능 여부는 `status=ready|blocked`가 맡는다. 렌더 로더와 활성 편 정비 스크립트도 `_episodes.json` 화이트리스트를 읽는다.

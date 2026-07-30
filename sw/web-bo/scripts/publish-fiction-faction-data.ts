@@ -31,7 +31,6 @@ const EPISODES = [
   'myth-mesopotamia',
   'myth-norse',
   'virgil-aeneid',
-  'world-mythology',
 ] as const
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL
