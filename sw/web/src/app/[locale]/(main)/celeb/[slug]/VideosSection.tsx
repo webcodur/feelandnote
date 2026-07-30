@@ -87,14 +87,14 @@ export default function VideosSection({
       <style jsx>{`
         .videos-scroll {
           scrollbar-width: thin;
-          scrollbar-color: rgba(var(--color-accent-rgb, 180, 150, 90) / 0.3)
+          scrollbar-color: rgba(var(--color-accent-rgb, 180, 150, 90), 0.3)
             transparent;
         }
         .videos-scroll::-webkit-scrollbar {
           height: 4px;
         }
         .videos-scroll::-webkit-scrollbar-thumb {
-          background: rgba(var(--color-accent-rgb, 180, 150, 90) / 0.3);
+          background: rgba(var(--color-accent-rgb, 180, 150, 90), 0.3);
           border-radius: 2px;
         }
       `}</style>
