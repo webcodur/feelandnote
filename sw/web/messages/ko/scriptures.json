@@ -25,7 +25,7 @@
       "era": "시간의 흐름을 따라 인류가 남긴 불후의 발자취를 돌아봅니다.",
       "profession": "철학, 문화, 과학… 각자의 자리에서 정점을 찍은 이들의 궤적을 탐구합니다.",
       "museum": "수많은 사상과 창작물들이 어떻게 얽혀있는지 거대한 연대기 속에서 확인하세요.",
-      "academy": "영상 제작, 음악 이론 등 체계적인 교육 콘텐츠를 체화하는 수련의 공간입니다.",
+      "academy": "AI의 원리, 영상 제작, 음악 이론 등 체계적인 교육 콘텐츠를 체화하는 수련의 공간입니다.",
       "figureLabel": "오늘의 인물",
       "eraLabel": "불후의 명작",
       "professionLabel": "길의 갈래",
@@ -36,6 +36,7 @@
       "academyReading": "독서법 비교",
       "academyVideo": "영상 제작",
       "academyMusic": "화성학 레슨",
+      "academyAi": "AI 원리",
       "enterMuseum": "박물관 입장하기",
       "exploreAcademy": "학당 둘러보기",
       "continueLearning": "내 학습 기록 이어보기",
@@ -145,10 +146,10 @@
       }
     },
     "academy": {
-      "metaTitle": "학당 - 영상 제작·화성학 강좌 | 서가",
-      "metaDescription": "영상 제작 기초, 화성학 레슨 등 체계적인 무료 교육 콘텐츠. 전문가가 추천하는 학습 자료를 만나보세요.",
+      "metaTitle": "학당 - AI·영상 제작·화성학 강좌 | 서가",
+      "metaDescription": "AI 원리와 활용법, 영상 제작 기초, 화성학 레슨 등 체계적인 무료 교육 콘텐츠. 전문가가 추천하는 학습 자료를 만나보세요.",
       "pageTitle": "지혜의 학당",
-      "defaultDescription": "영상 제작부터 화성학까지, 체계적인 교육 콘텐츠를 만나보세요.",
+      "defaultDescription": "AI의 원리부터 영상 제작과 화성학까지, 체계적인 교육 콘텐츠를 만나보세요.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "학당 카테고리 선택",
       "courseTabsLabel": "코스 선택",
@@ -220,6 +221,10 @@
         "music": {
           "label": "음악",
           "description": "화성학 레슨"
+        },
+        "ai": {
+          "label": "AI",
+          "description": "AI 원리와 활용 레슨"
         }
       },
       "course": {
@@ -252,6 +257,20 @@
             "label": "화성학",
             "description": "소리의 기초부터 음계, 화음, 진행, 곡 분석까지 화성학의 전 과정을 배운다"
           }
+        },
+        "ai": {
+          "foundations": {
+            "label": "AI의 원리",
+            "description": "학습과 추론, 신경망, 토큰, 어텐션. 생성형 AI가 답을 만들어내는 구조를 이해한다"
+          },
+          "prompting": {
+            "label": "질문의 기술",
+            "description": "맥락 설계, 예시 제시, 단계 유도, 검증. 원하는 답을 얻어내는 요령을 익힌다"
+          },
+          "creation": {
+            "label": "AI와 창작",
+            "description": "이미지·음성·음악 생성 원리부터 저작권, 편향, 사람이 남는 자리까지 다룬다"
+          }
         }
       }
     },
@@ -283,7 +302,7 @@
         },
         "academy": {
           "label": "학당",
-          "description": "영상 제작, 화성학 레슨 등 교육 콘텐츠"
+          "description": "AI 원리, 영상 제작, 화성학 레슨 등 교육 콘텐츠"
         }
       },
       "toc": "목차",
