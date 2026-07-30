@@ -12,9 +12,10 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - 실측 분포(2026-07-29): full 1,325 / light 469 / fiction 257 / relation 3
     - `relation` = 관계 실존 인물(2026-07 신설). 다른 셀럽·영상(팩션 등)과의 관계 때문에 등록. basic 최소 + 아바타만, 홈·검색·탐색 비노출(연결로만)
     - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 상단 인물 검색과 대표 원전 연결로 노출하며 승격 대상은 아님
-  - `content_research_status` (text, 기본값 `'open'`): `open` / `queued` / `researching` / `deferred` / `confirmed_empty`
-    - 실제 `user_contents`가 양수면 그 개수가 우선
-    - 실제 0건 + `confirmed_empty`만 화면용 `-1`, 나머지는 열린 `0`
+  - `content_research_status` (text, 기본값 `'open'`): `open` / `researching` / `confirmed_empty`
+    - 실제 `user_contents`가 양수면 활성 여부나 조사 상태와 무관하게 그 개수를 표시한다
+    - 실제 0건인 활성 프로필은 `open`·`researching`이면 `0`, `confirmed_empty`면 `-1`이다
+    - 실제 0건인 비활성 프로필은 조사 상태와 무관하게 `-1`이다
     - `content_research_updated_at`, `content_research_confirmed_empty_at`이 변경·확정 시각을 보존
     - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부한다. 신규 `confirmed_empty`는 아래 조사 장부의 완료 함수만 기록할 수 있다
     - 확정 뒤 콘텐츠가 추가되면 트리거가 상태를 `open`으로 자동 복귀시킨다
@@ -48,7 +49,6 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 완료 시 실제 콘텐츠가 0건일 때만 `profiles.content_research_status='confirmed_empty'`, 1건 이상이면 `open`이다
   - 실행 시작·프로필 `researching`, 실행 취소·프로필 `open`은 각각 DB 트랜잭션으로 함께 바뀐다. 완료·취소된 실행과 하위 기록은 불변이다
   - 네 테이블은 RLS를 켜고 anon·authenticated 권한을 주지 않는다. web-bo 관리자 서버 액션이 service role로만 읽고 쓴다
-  - 최초 도입 시점의 레거시 예외는 전면 조사 기록이 이미 별도 문서에 남은 앤서니 암스트롱 1명뿐이다
 - **`fiction_source_contents`**: 기존 `contents` 중 신화·전설·허구 작품을 대표할 행을 관리자가 지정한다
   - PK/FK `content_id → contents.id`, 삭제 RESTRICT. 작품·판본 테이블을 새로 복제하지 않고 기존 콘텐츠를 정본 링크로 재사용한다
   - 공개 SELECT만 허용하고 쓰기는 service role 전용이다
