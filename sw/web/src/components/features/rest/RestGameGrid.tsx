@@ -38,7 +38,8 @@ const GAME_SECTIONS = [
   { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp" },
   { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp" },
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp" },
-  { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: undefined },
+  // 유랑 비공개(26.07.30): 구현은 보존하고 공개 카드만 숨긴다.
+  // { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: undefined },
   // { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp" },
   // 시대의 초상 비공개(26.07.30): 구현은 보존하고 공개 카드만 숨긴다.
   // { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp" },
@@ -58,7 +59,7 @@ interface Props {
   wanderPools: WanderPools;
   // memoryFigures: MemoryFigure[];
   portraitFigures: PortraitFigure[];
-  gameLabels: Record<Exclude<GameId, "portrait">, GameLabel>;
+  gameLabels: Record<Exclude<GameId, "portrait" | "wander">, GameLabel>;
 }
 
 export default function RestGameGrid({

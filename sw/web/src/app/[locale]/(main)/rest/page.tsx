@@ -26,7 +26,8 @@ const GAME_SECTIONS = [
   { href: "/rest#labyrinth", valueKey: "labyrinth" as const },
   { href: "/rest#hegemony",  valueKey: "hegemony" as const },
   { href: "/rest#suikoden",  valueKey: "suikoden" as const },
-  { href: "/rest#wander",    valueKey: "wander" as const },
+  // 유랑 비공개(26.07.30): 구현은 보존하고 공개 바로가기만 숨긴다.
+  // { href: "/rest#wander", valueKey: "wander" as const },
   // { href: "/rest#memory", valueKey: "memory" as const },
   // 시대의 초상 비공개(26.07.30): 구현은 보존하고 공개 바로가기만 숨긴다.
   // { href: "/rest#portrait", valueKey: "portrait" as const },
