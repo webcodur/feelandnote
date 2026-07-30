@@ -143,13 +143,19 @@ export async function promoteSoloShotToAvatar(
   if (!existsSync(image.abs)) throw new Error(`${name} — 개인샷 파일이 없습니다: ${image.rel}`)
 
   const { data: profile, error: prErr } = await db
-    .from('profiles').select('id, slug, avatar_url').eq('id', celebId).maybeSingle()
+    .from('profiles').select('id, slug, avatar_url, celeb_tier').eq('id', celebId).maybeSingle()
   if (prErr) throw new Error(`셀럽 프로필 조회 실패: ${prErr.message}`)
   if (!profile) throw new Error(`${name} — 셀럽 프로필(${celebId})이 없습니다`)
 
   const had = !!(profile.avatar_url as string | null)?.trim()
   if (had && !force) {
     throw new Error(`${name} — 이미 얼굴 사진이 있습니다. 갈아치우려면 덮어쓰기를 켜고 다시 실행하세요.`)
+  }
+  if (profile.celeb_tier !== 'fiction') {
+    throw new Error(
+      `${name} — 실존 인물의 팩션 개인샷은 신원 근거 없이 셀럽 아바타로 자동 승격할 수 없습니다. `
+      + '공식·기관·본인 페이지를 대조한 뒤 아바타 업로드 도구에 --identity-evidence를 명시해 수동 등록하세요.'
+    )
   }
 
   const { code, log } = await runScript([
@@ -158,6 +164,7 @@ export async function promoteSoloShotToAvatar(
     '--slug', (profile.slug as string) || (person.slug as string) || celebId,
     '--image-file', image.abs,
     '--source-note', `faction:${folder} 개인샷 (${image.rel})`,
+    '--identity-evidence', `fiction:${folder}/${personId}`,
     '--face-detect', 'true',
     // 얼굴을 못 찾으면 대체 크롭으로 올리지 않고 실패시킨다 — 조용한 대체 금지
     '--require-face', 'true',

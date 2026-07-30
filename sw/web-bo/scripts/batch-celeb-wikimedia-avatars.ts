@@ -488,6 +488,8 @@ type Outcome =
 
 interface ProfileRow {
   id: string
+  slug: string
+  profile_type: string
   nickname: string | null
   nickname_en: string | null
   wikidata_qid: string | null
@@ -515,7 +517,7 @@ async function processOne(
   const existing = profile.wikidata_qid?.trim()
   let qidReassigned = false
 
-  async function evaluate(qid: string, prevQid: string | null): Promise<Detail | null> {
+  async function evaluate(qid: string): Promise<Detail | null> {
     const d = await getEntityDetail(qid)
     if (!d.isHuman) return null
     if (d.p18File) {
@@ -532,7 +534,16 @@ async function processOne(
   }
 
   if (existing) {
-    detail = await evaluate(existing, null)
+    detail = await evaluate(existing)
+  }
+  if (!detail && !dryRun) {
+    return {
+      kind: 'skipped',
+      reason: existing ? 'verified_qid_no_image' : 'missing_verified_qid',
+      detail: existing
+        ? `DB의 확인된 QID ${existing}에 P18·enwiki 이미지가 없어 자동 재탐색·QID 교체를 차단함`
+        : 'DB에 사전 검증된 wikidata_qid가 없어 자동 검색 결과의 실서비스 등록을 차단함. --dry-run으로 후보만 조사한 뒤 QID를 독립 검증하라.',
+    }
   }
   let chosenHitDescription: string | undefined
   let chosenHitScore = 0
@@ -560,7 +571,7 @@ async function processOne(
     const candidates = strict.length > 0 ? strict : filtered
     for (const c of candidates) {
       const h = c.hit
-      detail = await evaluate(h.id, existing ?? null)
+      detail = await evaluate(h.id)
       if (detail) {
         qidReassigned = h.id !== existing
         chosenHitDescription = h.description
@@ -762,7 +773,7 @@ async function main() {
   const ids = targets.map((t) => t[1])
   const { data: profiles, error: profErr } = await supabase
     .from('profiles')
-    .select('id, nickname, nickname_en, wikidata_qid, profession')
+    .select('id, slug, profile_type, nickname, nickname_en, wikidata_qid, profession')
     .in('id', ids)
   if (profErr) throw new Error(`profiles select 실패: ${profErr.message}`)
   const profById = new Map<string, ProfileRow>(
@@ -778,6 +789,22 @@ async function main() {
     const prof = profById.get(profileId)
     if (!prof) {
       rows.push({ slug, profileId, outcome: { kind: 'error', detail: 'profile not found' } })
+      continue
+    }
+    if (prof.profile_type !== 'CELEB') {
+      rows.push({
+        slug,
+        profileId,
+        outcome: { kind: 'error', detail: `target is not CELEB: ${prof.profile_type}` },
+      })
+      continue
+    }
+    if (prof.slug !== slug) {
+      rows.push({
+        slug,
+        profileId,
+        outcome: { kind: 'error', detail: `celeb-id/slug mismatch: DB=${prof.slug}` },
+      })
       continue
     }
     try {

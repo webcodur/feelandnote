@@ -1,4 +1,6 @@
 /**
+ * @deprecated 신원 오등록 위험 때문에 실행을 차단했다.
+ *
  * 셀럽 아바타 자동 등록 (URL 기반) — 임의 웹 이미지 URL 또는 자동 후보 탐색 → face detection 크롭 → R2 → profiles.avatar_url
  *
  * 라이선스 검증을 스킵하고 사용자 명시 URL 또는 자동 탐색한 후보 이미지를 그대로 채용한다.
@@ -548,7 +550,16 @@ async function processOne(args: {
   }
 }
 
+function rejectDeprecatedScript(): void {
+  throw new Error(
+    '이 스크립트는 임의 검색 결과·로컬 파일을 신원 검증 없이 등록할 수 있어 폐기됐다. '
+    + 'upload-celeb-image-from-wikimedia.ts에 --image-url/--image-file, '
+    + '--identity-evidence, --source-note를 명시해 사용하라.'
+  )
+}
+
 async function main() {
+  rejectDeprecatedScript()
   const argv = process.argv.slice(2)
   const getFlag = (n: string) => {
     const i = argv.indexOf(n)

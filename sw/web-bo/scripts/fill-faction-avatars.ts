@@ -1,4 +1,6 @@
 /**
+ * @deprecated 실존 인물의 팩션 화보를 신원 근거로 오인할 수 있어 실행을 차단했다.
+ *
  * 프로필 사진(avatar)이 없는 세력도감 인물에게, 전용 화보(단독샷)에서 얼굴을 검출·정사각 크롭해 아바타로 박는다.
  * face-api(SSD MobileNet) + sharp. 얼굴 미검출 시 상단 정사각 fallback.
  *
@@ -84,7 +86,15 @@ async function toAvatar(buf: Buffer): Promise<{ out: Buffer; face: boolean }> {
   return { out, face: false }
 }
 
+function rejectDeprecatedScript(): void {
+  throw new Error(
+    '이 스크립트는 팩션 REF를 실존 인물 아바타로 직접 승격할 수 있어 폐기됐다. '
+    + '실존 인물은 외부 신원 근거를 대조한 뒤 guarded uploader로 등록하라.'
+  )
+}
+
 async function main() {
+  rejectDeprecatedScript()
   setWasmPaths(resolve(__dirname, '..', 'node_modules', '@tensorflow', 'tfjs-backend-wasm', 'dist') + '/')
   await import('@tensorflow/tfjs-backend-wasm')
   await tf.setBackend('wasm')
