@@ -1,8 +1,9 @@
 "use client";
 
 import { Home, RotateCcw, ShieldX, Trophy } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Avatar from "@/components/ui/Avatar";
+import { withParticle } from "@/lib/korean-particle";
 import type { WanderReturnResult, WanderState } from "@/lib/game/wander/types";
 
 interface Props {
@@ -14,9 +15,12 @@ interface Props {
 
 export default function WanderResult({ state, result, onReplay, onExit }: Props) {
   const t = useTranslations("rest.arena.wander");
+  const locale = useLocale();
+  // 한국어 문구는 이름 받침에 따라 조사가 달라진다. 영어에는 조사가 없으므로 이름만 넣는다.
+  const named = (name: string) => (locale === "ko" ? withParticle(name, "subject") : name);
   const ResultIcon = result.victory ? Trophy : ShieldX;
   const victoryBody = result.strongestBond
-    ? t(`result.victoryBodies.${result.plan}`, { name: result.strongestBond.figure.name })
+    ? t(`result.victoryBodies.${result.plan}`, { name: named(result.strongestBond.figure.name) })
     : t("result.victoryBody");
   return (
     <div className="mx-auto flex min-h-full w-full max-w-3xl flex-1 flex-col items-center justify-center py-8 text-center">
