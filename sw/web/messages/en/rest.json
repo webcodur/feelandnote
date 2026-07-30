@@ -256,8 +256,13 @@
         "description": "A strategy simulation to unify civilizations with historical figures",
         "headerDesc": "Those With Will Shall Conquer",
         "headerSub": "Lead historical figures, grow your faction, and unify civilization.",
-        "devNoticeTitle": "This game is under development",
-        "devNoticeDesc": "Cheondo is currently being developed. We'll be back with a more complete experience soon.",
+        "startGame": "Begin a New Realm",
+        "continueGame": "Continue Conquest",
+        "newGame": "New Game",
+        "savedGame": "Autosaved Campaign",
+        "unavailable": "The game data could not be loaded completely.",
+        "saveUnavailableWarning": "Your progress cannot be saved. Closing this window will erase the current campaign.",
+        "missingCharacters": "This scenario cannot start because {count} required figures are missing.",
         "rules": {
           "title": "Game Rules",
           "desc": "A strategy simulation where you grow your faction with historical figures",
@@ -445,10 +450,10 @@
           "diplomacy_threat": "Enemy morale -15",
           "inspire": "All allies morale +10",
           "culture_sway": "Enemy morale -15",
-          "trap": "Place trap in front row",
+          "trap": "Trap the enemy front row and damage their next actions",
           "siege_strike": "Wall damage ×3",
           "ambush": "Preemptive damage, undodgeable",
-          "detect_trap": "Nullify enemy traps"
+          "detect_trap": "Remove all traps affecting allies"
         },
         "region": {
           "east_asia": "East Asia",
@@ -517,7 +522,7 @@
             "name": "Crusades",
             "subtitle": "A clash of East and West over the Holy Land",
             "desc": "Across the Mediterranean, Crusader and Islamic forces collide. Who will control the Holy City of Jerusalem? Ottoman ambitions stir in Constantinople, and Eastern European lords refuse to stand idle.",
-            "objective": "Secure the Holy Land (Cairo) and eliminate 3+ rival factions",
+            "objective": "Unify all territories",
             "cand1": "Richard the Lionheart. Leads a great army on crusade to reclaim the Holy Land.",
             "cand2": "Defender of Islam. Protects the Holy Land with mercy and martial prowess."
           },
@@ -534,7 +539,7 @@
             "name": "Napoleonic Wars",
             "subtitle": "The flames of revolution sweep across Europe",
             "desc": "Napoleon rises amidst the flames of the French Revolution. Wellington of Britain opposes him, while Bismarck of Prussia and Russian giants eye European hegemony. The great clash between old and new order begins.",
-            "objective": "Secure 5+ European territories",
+            "objective": "Unify all territories",
             "cand1": "Child of the revolution. Harbors the ambition to establish a new order across all of Europe.",
             "cand2": "The Iron Duke. Stakes the prestige of the British Empire to halt France's ambitions."
           },
@@ -542,7 +547,7 @@
             "name": "Mongol Empire",
             "subtitle": "The steppe lord rides toward the world",
             "desc": "Genghis Khan unifies the steppes and embarks on world conquest. Forces inheriting Tang Taizong's legacy control the western regions, while Zhu Yuanzhang prepares his northern campaign from the south. Who shall rule the Eurasian continent?",
-            "objective": "Secure 7+ Eurasian territories",
+            "objective": "Unify all territories",
             "cand1": "The Great Khan. Born on horseback, conquers the world on horseback.",
             "cand2": "Heavenly Khan. Harbors the great ambition to extend Tang glory to the western regions."
           }
@@ -556,6 +561,7 @@
           "diffNormal": "Normal",
           "diffHard": "Hard",
           "selectLord": "Select Lord",
+          "objectiveLabel": "Victory Condition",
           "existingFactions": "Existing Factions",
           "wanderers": "Wandering Talents",
           "lordCandidates": "Lord Candidates",
@@ -713,6 +719,10 @@
           "moraleLabel": "Morale",
           "loyaltyLabel": "Loyalty",
           "troopsLabel": "Troops",
+          "reserveTroops": "Reserve Troops",
+          "reinforce": "Reinforce (+{count})",
+          "troopsFull": "This unit is already at full strength.",
+          "noReserveTroops": "No reserve troops are available. Build barracks to recruit more.",
           "selectCharPrompt": "Select a character",
           "noBio": "No records",
           "preparing": "Preparing",

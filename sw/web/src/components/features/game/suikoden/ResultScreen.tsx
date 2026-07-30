@@ -17,7 +17,7 @@ export default function ResultScreen({ state, onRestart }: Props) {
   const leaderName = playerFaction?.members.find(m => m.id === playerFaction.leaderId)?.nickname ?? ''
 
   return (
-    <div className="flex flex-col items-center justify-center text-center space-y-6 p-8">
+    <div className="flex w-full flex-col items-center justify-center text-center space-y-6 p-4 sm:p-8">
       <div className="text-4xl font-black text-text-primary">
         {isVictory ? text.result.badgeVictory : state.winner ? text.result.badgeDefeat : text.result.badgeTimeout}
       </div>
@@ -36,7 +36,7 @@ export default function ResultScreen({ state, onRestart }: Props) {
       </div>
 
       {/* 결산 */}
-      <div className="bg-stone-800 border border-stone-700 rounded p-4 text-sm text-left space-y-2 min-w-[280px]">
+      <div className="w-full max-w-[280px] bg-stone-800 border border-stone-700 rounded p-4 text-sm text-left space-y-2">
         <div className="flex justify-between text-text-primary">
           <span>{text.result.elapsed}</span><span className="text-amber-400">{formatSuikodenElapsed(state.gameTime.year, state.gameTime.month, locale)}</span>
         </div>
@@ -54,7 +54,7 @@ export default function ResultScreen({ state, onRestart }: Props) {
 
       <button
         onClick={onRestart}
-        className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded transition-colors"
+        className="px-8 py-3 bg-amber-600 hover:bg-amber-500 text-stone-900 font-bold rounded"
       >
         {text.result.restart}
       </button>

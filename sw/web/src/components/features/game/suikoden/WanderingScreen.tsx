@@ -114,22 +114,22 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
     <div className="space-y-4">
       {/* 헤더 */}
       <div className="bg-stone-800/80 border border-stone-700 rounded-lg p-4">
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-3">
           <button onClick={() => setSelectedCharId(wandering.leader.id)} className="shrink-0">
             <CharacterPortrait character={wandering.leader} size={48} />
           </button>
-          <div className="flex-1">
-            <h2 className="text-lg font-bold text-stone-100">
+          <div className="min-w-0 flex-1 basis-[calc(100%-3.75rem)] sm:basis-auto">
+            <h2 className="break-words text-lg font-bold text-stone-100">
               {tS('wander.title', { name: wandering.leader.nickname })}
             </h2>
-            <p className="text-xs text-text-secondary">
+            <p className="break-words text-xs text-text-secondary">
               {isTraveling
                 ? tS('wander.moveTo', { from: currentRegion ? tS(`region.${currentRegion.id}`) : '', to: travelTargetRegion ? tS(`region.${travelTargetRegion.id}`) : '' })
                 : currentRegion ? tS(`region.${currentRegion.id}`) : ''
               } · {tS('wander.dayCount', { day: wandering.turnsWandered })} · {tS('wander.gold', { amount: wandering.gold })}
             </p>
           </div>
-          <div className="text-right">
+          <div className="ml-auto shrink-0 text-right sm:ml-0">
             <div className="text-xs text-text-secondary">{tS('wander.companions')}</div>
             <div className="text-sm font-bold text-amber-300">
               {wandering.companions.length}/{WANDERING_MAX_COMPANIONS}
@@ -138,7 +138,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
           {inspectTerritoryId && (
             <button
               onClick={() => setInspectTerritoryId(null)}
-              className="ml-2 px-3 py-1.5 bg-amber-700/50 hover:bg-amber-700 text-amber-200 text-xs font-bold rounded transition-colors"
+              className="w-full break-words rounded bg-amber-700/50 px-3 py-1.5 text-xs font-bold text-amber-200 hover:bg-amber-700 sm:ml-2 sm:w-auto"
             >
               {tS('wander.backToMain')}
             </button>
@@ -149,13 +149,13 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
         <div className="mt-3">
           {isTraveling ? (
             <>
-              <div className="flex items-center justify-between text-[10px] text-text-secondary mb-1">
+              <div className="mb-1 flex flex-wrap items-center justify-between gap-x-2 text-[10px] text-text-secondary">
                 <span>{tS('wander.moveTo', { from: currentRegion ? tS(`region.${currentRegion.id}`) : '', to: travelTargetRegion ? tS(`region.${travelTargetRegion.id}`) : '' })}</span>
                 <span>{tS('wander.travelDays', { current: wandering.travelProgress, total: wandering.travelDuration })}</span>
               </div>
               <div className="w-full h-2 bg-stone-700 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-amber-500 rounded-full transition-all"
+                  className="h-full bg-amber-500 rounded-full transition-[width]"
                   style={{ width: `${(wandering.travelProgress / wandering.travelDuration) * 100}%` }}
                 />
               </div>
@@ -190,7 +190,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                       <button
                         key={char.id}
                         onClick={() => setSelectedCharId(char.id)}
-                        className={`flex flex-col items-center gap-0.5 min-w-[52px] rounded p-1 transition-colors ${selectedCharId === char.id ? 'bg-amber-900/40 ring-1 ring-amber-500/50' : 'hover:bg-stone-700/50'}`}
+                        className={`flex flex-col items-center gap-0.5 min-w-[52px] rounded p-1 ${selectedCharId === char.id ? 'bg-amber-900/40 ring-1 ring-amber-500/50' : 'hover:bg-stone-700/50'}`}
                       >
                         <CharacterPortrait character={char} size={32} />
                         <span className="text-[10px] text-text-primary truncate max-w-[52px]">{char.nickname}</span>
@@ -221,17 +221,17 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                             footer={
                               <div className="px-3 pb-3">
                                 {!event.resolved ? (
-                                  <div className="flex gap-2">
+                                  <div className="flex flex-col gap-2 sm:flex-row">
                                     <button
                                       onClick={handleAttemptRecruit}
                                       disabled={wandering.companions.length >= WANDERING_MAX_COMPANIONS}
-                                      className="flex-1 py-2 bg-amber-700 hover:bg-amber-600 disabled:bg-stone-700 disabled:text-text-secondary text-stone-100 text-sm font-bold rounded transition-colors"
+                                      className="min-w-0 flex-1 break-words whitespace-normal py-2 bg-amber-700 hover:bg-amber-600 disabled:bg-stone-700 disabled:text-text-secondary text-stone-100 text-sm font-bold rounded"
                                     >
                                       {tS('wander.tryRecruit')}
                                     </button>
                                     <button
                                       onClick={handleDismiss}
-                                      className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-text-primary text-sm rounded transition-colors"
+                                      className="min-w-0 flex-1 break-words whitespace-normal py-2 bg-stone-700 hover:bg-stone-600 text-text-primary text-sm rounded"
                                     >
                                       {tS('wander.passBy')}
                                     </button>
@@ -271,7 +271,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                 <button
                   onClick={handleNextDay}
                   disabled={hasPendingGuest}
-                  className="w-full py-3 bg-stone-700 hover:bg-stone-600 disabled:opacity-40 disabled:cursor-not-allowed text-text-primary font-bold rounded-lg transition-colors text-sm"
+                  className="w-full break-words whitespace-normal py-3 bg-stone-700 hover:bg-stone-600 disabled:opacity-40 disabled:cursor-not-allowed text-text-primary font-bold rounded-lg text-sm"
                 >
                   {hasPendingGuest
                     ? tS('wander.handleVisitorFirst')
@@ -294,7 +294,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                               <button
                                 key={t.id}
                                 onClick={() => handleRaiseArmy(t.id)}
-                                className="px-4 py-2 bg-red-900/40 border border-red-800/60 rounded hover:bg-red-800/60 hover:border-red-600 transition-colors text-sm text-text-primary"
+                                className="max-w-full break-words whitespace-normal px-4 py-2 bg-red-900/40 border border-red-800/60 rounded hover:bg-red-800/60 hover:border-red-600 text-sm text-text-primary"
                               >
                                 {tS('wander.raiseArmy', { territory: tS(`territory.${t.id}`) })}
                               </button>
@@ -328,14 +328,14 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
         <div className="space-y-4">
           <div className="bg-stone-800/80 border border-stone-700 rounded-lg p-2.5">
             {/* 탭 헤더 */}
-            <div className="flex items-center gap-2 mb-2">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               <span className="text-sm font-bold text-text-primary mr-auto">
                 {isTraveling ? tS('wander.travelingTo', { region: travelTargetRegion ? tS(`region.${travelTargetRegion.id}`) : '' }) : tS('wander.regionMove')}
               </span>
               <div className="flex bg-stone-900/80 rounded p-0.5 gap-0.5">
                 <button
                   onClick={() => setMapMode('globe')}
-                  className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
+                  className={`px-2 py-0.5 text-[10px] rounded ${
                     mapMode === 'globe'
                       ? 'bg-stone-700 text-text-primary font-bold'
                       : 'text-text-secondary hover:text-text-secondary'
@@ -345,7 +345,7 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                 </button>
                 <button
                   onClick={() => setMapMode('text')}
-                  className={`px-2 py-0.5 text-[10px] rounded transition-colors ${
+                  className={`px-2 py-0.5 text-[10px] rounded ${
                     mapMode === 'text'
                       ? 'bg-stone-700 text-text-primary font-bold'
                       : 'text-text-secondary hover:text-text-secondary'
@@ -397,16 +397,16 @@ export default function WanderingScreen({ state, onUpdateState, onDialog, onClea
                 <p className="text-xs text-text-primary">
                   {tS('wander.moveConfirm', { name: tS(`region.${confirmTargetRegion.id}`) })} ({wandering.travelDuration || 20})
                 </p>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 sm:flex-row">
                   <button
                     onClick={handleConfirmMove}
-                    className="flex-1 py-2 bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-bold rounded transition-colors"
+                    className="min-w-0 flex-1 break-words whitespace-normal py-2 bg-amber-700 hover:bg-amber-600 text-stone-100 text-sm font-bold rounded"
                   >
                     {tS('wander.depart')}
                   </button>
                   <button
                     onClick={() => setConfirmMoveTarget(null)}
-                    className="flex-1 py-2 bg-stone-700 hover:bg-stone-600 text-text-primary text-sm rounded transition-colors"
+                    className="min-w-0 flex-1 break-words whitespace-normal py-2 bg-stone-700 hover:bg-stone-600 text-text-primary text-sm rounded"
                   >
                     {tS('wander.cancel')}
                   </button>
@@ -491,7 +491,7 @@ function TerritoryInspectView({ state, territoryId, wanderingRegionId, canRaiseA
       {!owner && isInCurrentRegion && canRaiseArmy && (
         <button
           onClick={() => onRaiseArmy(territoryId)}
-          className="w-full py-3 bg-red-900/50 border border-red-700 rounded-lg hover:bg-red-800/60 hover:border-red-500 transition-colors text-sm text-stone-100 font-bold"
+          className="w-full break-words whitespace-normal py-3 bg-red-900/50 border border-red-700 rounded-lg hover:bg-red-800/60 hover:border-red-500 text-sm text-stone-100 font-bold"
         >
           {tS('wander.raiseHere')}
         </button>

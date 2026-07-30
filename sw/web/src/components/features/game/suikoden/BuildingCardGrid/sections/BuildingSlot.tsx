@@ -41,7 +41,7 @@ export default function BuildingSlot({
 
   return (
     <div
-      className={`relative rounded border min-w-[100px] transition-all ${
+      className={`relative rounded border min-w-[100px] ${
         isDragOver
           ? 'border-amber-400 bg-amber-500/15 ring-1 ring-amber-400/50'
           : isConstructing
@@ -56,11 +56,11 @@ export default function BuildingSlot({
     >
       {/* 건물 헤더 */}
       <div
-        className={`flex items-center justify-between px-1.5 py-1 rounded-t transition-colors ${readOnly ? '' : 'cursor-pointer hover:bg-stone-700/30'}`}
+        className={`flex items-center justify-between px-1.5 py-1 rounded-t ${readOnly ? '' : 'cursor-pointer hover:bg-stone-700/30'}`}
         onClick={readOnly ? undefined : (e) => { e.stopPropagation(); setShowMenu(!showMenu) }}
       >
         <span
-          className="text-[10px] font-bold text-text-secondary hover:text-amber-300 transition-colors"
+          className="text-[10px] font-bold text-text-secondary hover:text-amber-300"
           onClick={(e) => { e.stopPropagation(); onClickInfo?.() }}
         >
           {buildingName}{index != null ? index : ''}
@@ -83,7 +83,7 @@ export default function BuildingSlot({
             draggable={!readOnly}
             onDragStart={readOnly ? undefined : onDragStartChar}
             onClick={readOnly ? undefined : (e) => { e.stopPropagation(); onClickChar?.() }}
-            className={`flex items-center gap-1.5 p-1 rounded select-none transition-colors ${
+            className={`flex items-center gap-1.5 p-1 rounded select-none ${
               readOnly
                 ? ''
                 : isSelected
@@ -104,7 +104,7 @@ export default function BuildingSlot({
               if (onClickAssign) onClickAssign()
               else onClickAssignHint?.()
             }}
-            className={`text-[9px] text-center py-1.5 rounded transition-colors ${
+            className={`text-[9px] text-center py-1.5 rounded ${
               onClickAssign
                 ? 'text-amber-400/60 cursor-pointer hover:bg-amber-500/5 hover:text-amber-300'
                 : onClickAssignHint

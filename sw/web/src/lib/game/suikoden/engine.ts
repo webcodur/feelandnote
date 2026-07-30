@@ -18,6 +18,7 @@ import {
   getTerritoryDef, getEffectiveGradeScore, isActiveTerritory, isActiveRegion,
 } from './utils'
 import { initBattleState, syncLegacyParticipants } from './battleEngine'
+import { resolveCampaignOutcome } from './campaign'
 
 // ── 게임 초기화 ──
 
@@ -965,27 +966,41 @@ export function applyBattleResult(state: GameState, rawBattle: BattleState): Gam
     if (defFaction && atkFaction) {
       const taken = defFaction.territories.find(t => t.id === battle.defenderTerritoryId)
       if (taken) {
-        defFaction.territories = defFaction.territories.filter(t => t.id !== battle.defenderTerritoryId)
-        atkFaction.territories = [...atkFaction.territories, taken]
+        const remainingTerritories = defFaction.territories.filter(t => t.id !== battle.defenderTerritoryId)
+        const retreatTerritory = remainingTerritories[0]
+        const keepDefeatedForPlayerDisposition = atkFaction.id === s.playerFactionId
+        const clearedTaken = {
+          ...taken,
+          buildingCards: taken.buildingCards.map(card => ({
+            ...card,
+            assigneeId: null,
+            constructionWorkerId: null,
+          })),
+        }
 
-        // 방어측 캐릭터 배치 이동 (defeated 캐릭터는 제외 — disposition에서 처리)
         s = {
           ...s,
-          placements: s.placements.map(p => {
-            if (p.factionId === battle.defenderFactionId && p.territoryId === battle.defenderTerritoryId) {
-              if (defeatedIds.has(p.characterId)) return p // disposition에서 처리
-              const remainingTerritory = defFaction.territories[0]
-              if (remainingTerritory) {
-                return { ...p, territoryId: remainingTerritory.id, task: 'idle' as const, assignedBuildingId: null }
-              }
+          factions: s.factions.map(f => {
+            if (f.id === defFaction.id) return { ...f, territories: remainingTerritories }
+            if (f.id === atkFaction.id) return { ...f, territories: [...f.territories, clearedTaken] }
+            return f
+          }),
+          placements: s.placements.flatMap(p => {
+            if (p.factionId !== defFaction.id || p.territoryId !== battle.defenderTerritoryId) {
+              return [p]
             }
-            return p
+            if (keepDefeatedForPlayerDisposition && defeatedIds.has(p.characterId)) {
+              return [p]
+            }
+            return retreatTerritory
+              ? [{ ...p, territoryId: retreatTerritory.id, task: 'idle' as const, assignedBuildingId: null }]
+              : []
           }),
         }
         log.push(`${atkFaction.name}이(가) ${taken.name}을(를) 점령!`)
       }
     }
-    // 세력 제거는 disposition 이후로 연기 (defeatedIds가 있으면)
+    // 플레이어가 처리할 포로가 없으면 영토를 잃은 AI 세력을 즉시 제거한다.
     if (defeatedIds.size === 0) {
       s = { ...s, factions: s.factions.filter(f => f.territories.length > 0 || f.id === s.playerFactionId) }
     }
@@ -1045,8 +1060,19 @@ export function applyDisposition(
   targetCharId: string,
   action: DispositionAction,
 ): { state: GameState; result: DispositionResult } {
-  const disp = state.disposition!
-  const target = disp.targets[disp.currentIndex]
+  const disp = state.disposition
+  const target = disp?.targets[disp.currentIndex]
+  if (!disp || !target || target.character.id !== targetCharId) {
+    return {
+      state,
+      result: {
+        characterId: targetCharId,
+        characterName: target?.character.nickname ?? '',
+        action,
+        success: false,
+      },
+    }
+  }
   const char = target.character
   const log = [...state.log]
   const factions = state.factions.map(f => ({ ...f, members: [...f.members], prisoners: [...f.prisoners] }))
@@ -1150,16 +1176,6 @@ export function applyDisposition(
 
 /** 전체 처분 완료 → strategy로 복귀 */
 export function finalizeDisposition(state: GameState): GameState {
-  let s: GameState = { ...state, disposition: null, battle: null, phase: 'strategy' }
-
-  // 영토 없는 세력 제거
-  s = { ...s, factions: s.factions.filter(f => f.territories.length > 0 || f.id === s.playerFactionId) }
-
-  // 승리 조건 확인
-  const active = s.factions.filter(f => f.territories.length > 0)
-  if (active.length === 1) {
-    s = { ...s, isGameOver: true, winner: active[0].id, phase: 'result' }
-  }
-
-  return s
+  const next: GameState = { ...state, disposition: null, battle: null, phase: 'strategy' }
+  return resolveCampaignOutcome(next)
 }

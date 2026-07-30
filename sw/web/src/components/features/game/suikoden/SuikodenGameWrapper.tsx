@@ -12,6 +12,7 @@ import GameShell from "../shared/GameShell";
 import GameAudioPlayer from "@/components/shared/GameAudioPlayer";
 import { useRegisterGameAudio } from "@/contexts/GameAudioContext";
 import SuikodenGame from "./SuikodenGame";
+import type { SuikodenStartMode } from "@/lib/game/suikoden/save";
 import SuikodenLobby from "./SuikodenLobby";
 import SuikodenBackground from "./SuikodenBackground";
 import { useSuikodenAudio } from "./hooks/useSuikodenAudio";
@@ -53,10 +54,10 @@ export default function SuikodenGameWrapper({ characters, dialogues, initialFull
 
   const Lobby = useMemo(
     () =>
-      function SuikodenLobbyAdapter({ onStart, onExit }: { onStart: () => void; onExit: () => void }) {
-        return <SuikodenLobby characterCount={characters.length} onStart={onStart} onExit={onExit} />;
+      function SuikodenLobbyAdapter({ onStart, onExit }: { onStart: (mode: SuikodenStartMode) => void; onExit: () => void }) {
+        return <SuikodenLobby onStart={onStart} onExit={onExit} />;
       },
-    [characters.length],
+    [],
   );
 
   const Game = useMemo(
@@ -65,7 +66,7 @@ export default function SuikodenGameWrapper({ characters, dialogues, initialFull
         onEnterFullScreen?: () => void;
         onHomeRef?: React.MutableRefObject<(() => void) | null>;
         onPhaseChange?: (phase: string) => void;
-        onStartRef?: React.MutableRefObject<(() => void) | null>;
+        onStartRef?: React.MutableRefObject<((mode: SuikodenStartMode) => void) | null>;
       }) {
         return <SuikodenGame characters={characters} dialogues={dialogues} {...props} />;
       },

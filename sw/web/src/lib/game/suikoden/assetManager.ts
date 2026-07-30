@@ -13,7 +13,9 @@ async function checkAssetExists(path: string): Promise<boolean> {
   if (assetCache.has(path)) return assetCache.get(path)!
   if (checkPromises.has(path)) return checkPromises.get(path)!
 
-  const promise = fetch(path, { method: 'HEAD' })
+  const controller = new AbortController()
+  const timeout = window.setTimeout(() => controller.abort(), 3000)
+  const promise = fetch(path, { method: 'HEAD', signal: controller.signal })
     .then(res => {
       const exists = res.ok
       assetCache.set(path, exists)
@@ -23,6 +25,7 @@ async function checkAssetExists(path: string): Promise<boolean> {
       assetCache.set(path, false)
       return false
     })
+    .finally(() => window.clearTimeout(timeout))
 
   checkPromises.set(path, promise)
   return promise

@@ -1,10 +1,11 @@
 // 천도 — AI 턴제 행동
 
 import type { GameState, Faction, TerritoryId } from './types'
-import { BUILDINGS, BUILDING_CATEGORY } from './constants'
-import { shuffle, getTerritoryDef, getTotalTroops, isActiveTerritory } from './utils'
-import { commandBuild, commandAssign, commandTrain, commandDispatch, commandAssignRecruiter, commandEquip } from './turnEngine'
+import { BUILDINGS } from './constants'
+import { getTerritoryDef, getTotalTroops, isActiveTerritory } from './utils'
+import { commandBuild, commandAssign, commandUnassign, commandTrain, commandDispatch, commandAssignRecruiter, commandEquip, commandReinforce } from './turnEngine'
 import { initBattle } from './engine'
+import { resolveCampaignOutcome } from './campaign'
 
 /** 매 턴마다 호출. AI 세력들의 의사결정 실행. */
 export function evaluateAIDecisions(state: GameState): GameState {
@@ -23,34 +24,39 @@ export function evaluateAIDecisions(state: GameState): GameState {
   return s
 }
 
-function executeAIFaction(state: GameState, faction: Faction): GameState {
+function executeAIFaction(state: GameState, initialFaction: Faction): GameState {
   let s = state
-  const personality = faction.aiPersonality ?? 'conqueror'
+  const personality = initialFaction.aiPersonality ?? 'conqueror'
+  const getCurrentFaction = () => s.factions.find(f => f.id === initialFaction.id)
 
   // 1. idle 캐릭터에게 일 부여
+  let faction = getCurrentFaction()
+  if (!faction) return s
   s = assignIdleCharacters(s, faction)
 
   // 2. 건설 결정
-  if (faction.resources.gold >= 150) {
+  faction = getCurrentFaction()
+  if (faction && faction.resources.gold >= 150) {
     s = aiBuild(s, faction, personality)
   }
 
-  // 3. 병사 모집
-  const hasBarracks = faction.territories.some(t =>
-    t.buildingCards.some(c => c.defId === 'barracks' && !c.isConstructing)
-  )
-  if (hasBarracks && faction.resources.food > 100) {
+  // 3. 생산·비축한 예비 병사를 손실이 큰 부대부터 보충
+  faction = getCurrentFaction()
+  if (faction && faction.resources.troops > 0) {
     s = aiRecruit(s, faction)
   }
 
   // 4. 무주지 확장
-  s = aiExpand(s, faction)
+  faction = getCurrentFaction()
+  if (faction) s = aiExpand(s, faction)
 
   // 5. 장비 자동 분배
-  s = aiDistributeEquipment(s, faction)
+  faction = getCurrentFaction()
+  if (faction) s = aiDistributeEquipment(s, faction)
 
   // 6. 침공 판단 (이미 전투 중이면 스킵)
-  if (!s.battle && shouldInvade(s, faction, personality)) {
+  faction = getCurrentFaction()
+  if (faction && !s.battle && shouldInvade(s, faction, personality)) {
     s = aiInvade(s, faction)
   }
 
@@ -232,25 +238,23 @@ function aiBuild(state: GameState, faction: Faction, personality: string): GameS
   return state
 }
 
-// ── 병사 모집 ──
+// ── 병사 보충 ──
 
 function aiRecruit(state: GameState, faction: Faction): GameState {
-  const totalRecruit = Math.min(100, faction.resources.food)
-  return {
-    ...state,
-    factions: state.factions.map(f =>
-      f.id === faction.id
-        ? {
-            ...f,
-            resources: { ...f.resources, food: f.resources.food - totalRecruit },
-            members: f.members.map(m => ({
-              ...m,
-              troops: Math.min(m.maxTroops, m.troops + Math.floor(totalRecruit / f.members.length)),
-            })),
-          }
-        : f
-    ),
+  let next = state
+  const membersByNeed = [...faction.members].sort((a, b) => {
+    const aRatio = a.maxTroops > 0 ? a.troops / a.maxTroops : 1
+    const bRatio = b.maxTroops > 0 ? b.troops / b.maxTroops : 1
+    return aRatio - bRatio
+  })
+
+  for (const member of membersByNeed) {
+    const currentFaction = next.factions.find(f => f.id === faction.id)
+    if (!currentFaction || currentFaction.resources.troops <= 0) break
+    next = commandReinforce(next, member.id, false)
   }
+
+  return next
 }
 
 // ── 무주지 확장 ──
@@ -341,50 +345,118 @@ function shouldInvade(state: GameState, faction: Faction, personality: string): 
   return ratio >= ratioThreshold && Math.random() < chance
 }
 
-/** AI가 플레이어 영토를 침공 — 실제 전투 개시 */
+/** AI가 플레이어 영토를 침공 — 인접 거점의 대기 병력만 출진 */
 function aiInvade(state: GameState, faction: Faction): GameState {
   const playerFaction = state.factions.find(f => f.id === state.playerFactionId)
   if (!playerFaction) return state
 
-  const myTerritoryIds = new Set(faction.territories.map(t => t.id))
   const playerTerritoryIds = new Set(playerFaction.territories.map(t => t.id))
-  const targetCandidates: TerritoryId[] = []
+  const routes: { sourceId: TerritoryId; targetId: TerritoryId }[] = []
 
   for (const territory of faction.territories) {
     const tDef = getTerritoryDef(territory.id)
     if (!tDef) continue
-    for (const nId of tDef.neighbors) {
-      if (!myTerritoryIds.has(nId) && playerTerritoryIds.has(nId)) {
-        targetCandidates.push(nId)
+    for (const neighborId of tDef.neighbors) {
+      if (playerTerritoryIds.has(neighborId)) {
+        routes.push({ sourceId: territory.id, targetId: neighborId })
       }
     }
   }
 
-  if (targetCandidates.length === 0) return state
+  if (routes.length === 0) return state
 
-  const targetId = targetCandidates[Math.floor(Math.random() * targetCandidates.length)]
-  const targetName = getTerritoryDef(targetId)?.name ?? '미지'
-
-  // AI 공격대: 최대 5명 (병력 많은 순)
-  const attackerIds = [...faction.members]
+  const route = routes[Math.floor(Math.random() * routes.length)]
+  const targetName = getTerritoryDef(route.targetId)?.name ?? '미지'
+  const stationedAttackerIds = new Set(
+    state.placements
+      .filter(placement => placement.factionId === faction.id
+        && placement.territoryId === route.sourceId)
+      .map(placement => placement.characterId),
+  )
+  const attackerIds = faction.members
+    .filter(member => stationedAttackerIds.has(member.id) && member.hp > 0 && member.troops > 0)
     .sort((a, b) => b.troops - a.troops)
     .slice(0, 5)
-    .map(m => m.id)
+    .map(member => member.id)
 
-  // 플레이어 방어대: 최대 5명 (병력 많은 순)
-  const defenderIds = [...playerFaction.members]
+  if (attackerIds.length === 0) return state
+
+  // AI도 출진 전에 현재 업무를 중단하고 대기 상태로 전환한다.
+  let invasionState = state
+  for (const attackerId of attackerIds) {
+    invasionState = commandUnassign(invasionState, attackerId)
+  }
+
+  const stationedDefenderIds = new Set(
+    state.placements
+      .filter(placement => placement.factionId === playerFaction.id
+        && placement.territoryId === route.targetId)
+      .map(placement => placement.characterId),
+  )
+  const defenderIds = playerFaction.members
+    .filter(member => stationedDefenderIds.has(member.id) && member.hp > 0 && member.troops > 0)
     .sort((a, b) => b.troops - a.troops)
     .slice(0, 5)
-    .map(m => m.id)
+    .map(member => member.id)
 
-  if (attackerIds.length === 0 || defenderIds.length === 0) return state
+  // 전투 가능한 수비대가 없으면 거점을 즉시 빼앗고 주둔 인물은 남은 영토로 후퇴시킨다.
+  if (defenderIds.length === 0) {
+    const captured = playerFaction.territories.find(territory => territory.id === route.targetId)
+    if (!captured) return state
+    const remainingTerritories = playerFaction.territories.filter(territory => territory.id !== route.targetId)
+    const retreatTerritory = remainingTerritories[0]
+    const clearedCaptured = {
+      ...captured,
+      buildingCards: captured.buildingCards.map(card => ({
+        ...card,
+        assigneeId: null,
+        constructionWorkerId: null,
+      })),
+    }
 
-  const battle = initBattle(faction, playerFaction, attackerIds, defenderIds, targetId)
+    return resolveCampaignOutcome({
+      ...invasionState,
+      factions: invasionState.factions.map(current => {
+        if (current.id === faction.id) {
+          return { ...current, territories: [...current.territories, clearedCaptured], fame: current.fame + 5 }
+        }
+        if (current.id === playerFaction.id) {
+          return { ...current, territories: remainingTerritories }
+        }
+        return current
+      }),
+      placements: invasionState.placements.flatMap(placement => {
+        if (placement.factionId !== playerFaction.id || placement.territoryId !== route.targetId) {
+          return [placement]
+        }
+        return retreatTerritory
+          ? [{ ...placement, territoryId: retreatTerritory.id, task: 'idle' as const, assignedBuildingId: null }]
+          : []
+      }),
+      viewingTerritoryId: invasionState.viewingTerritoryId === route.targetId && retreatTerritory
+        ? retreatTerritory.id
+        : invasionState.viewingTerritoryId,
+      log: [...invasionState.log, `${faction.name}이(가) 빈 수비대의 ${targetName}을(를) 점령!`],
+    })
+  }
+
+  const mobilizedFaction = invasionState.factions.find(current => current.id === faction.id)
+  const mobilizedPlayerFaction = invasionState.factions.find(current => current.id === playerFaction.id)
+  if (!mobilizedFaction || !mobilizedPlayerFaction) return state
+
+  const battle = initBattle(
+    mobilizedFaction,
+    mobilizedPlayerFaction,
+    attackerIds,
+    defenderIds,
+    route.targetId,
+    invasionState.playerFactionId,
+  )
 
   return {
-    ...state,
+    ...invasionState,
     battle,
     phase: 'battle',
-    log: [...state.log, `${faction.name}이(가) ${targetName}에 침공해왔다!`],
+    log: [...invasionState.log, `${faction.name}이(가) ${targetName}에 침공해왔다!`],
   }
 }

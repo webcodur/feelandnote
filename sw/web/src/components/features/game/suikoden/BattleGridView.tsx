@@ -2,7 +2,7 @@
 
 import { useLocale } from 'next-intl'
 import type { BattleUnit, BattleAnimation } from '@/lib/game/suikoden/types'
-import { BATTLE_GRID_ROWS, BATTLE_GRID_COLS, CLASS_INFO } from '@/lib/game/suikoden/constants'
+import { BATTLE_GRID_ROWS, BATTLE_GRID_COLS } from '@/lib/game/suikoden/constants'
 import CharacterPortrait from './CharacterPortrait'
 import { getSuikodenText } from './i18n'
 
@@ -39,19 +39,19 @@ export default function BattleGridView({
     : grid
 
   return (
-    <div className="space-y-0.5">
+    <div className="min-w-0 space-y-0.5">
       {rows.map((row, rowIdx) => (
-        <div key={rowIdx} className="flex items-center gap-0.5">
+        <div key={rowIdx} className="flex min-w-0 items-center gap-0.5">
           <span className="text-[8px] text-text-secondary w-5 shrink-0 text-right">
             {rowLabels[rowIdx]}
           </span>
-          <div className="flex gap-0.5">
+          <div className="grid min-w-0 flex-1 grid-cols-5 gap-0.5">
             {row.map((unit, colIdx) => {
               if (!unit) {
                 return (
                   <div
                     key={colIdx}
-                    className="w-12 h-14 border border-stone-800 rounded bg-stone-900/30"
+                    className="h-14 w-full min-w-0 rounded border border-stone-800 bg-stone-900/30"
                   />
                 )
               }
@@ -60,7 +60,6 @@ export default function BattleGridView({
               const isSelected = unit.id === selectedTargetId
               const isCurrent = unit.id === currentUnitId
               const hpRatio = unit.hp / unit.maxHp
-              const cls = CLASS_INFO[unit.character.unitClass]
 
               // 애니메이션 하이라이트
               const isAnimTarget = animation?.targetId === unit.id
@@ -71,7 +70,7 @@ export default function BattleGridView({
                   key={colIdx}
                   onClick={() => isValid && onSelectTarget?.(unit.id)}
                   disabled={!isValid && !isCurrent}
-                  className={`relative w-12 h-14 rounded border transition-all ${
+                  className={`relative h-14 w-full min-w-0 rounded border ${
                     unit.isDefeated
                       ? 'border-stone-700 opacity-30'
                       : isCurrent
@@ -92,7 +91,7 @@ export default function BattleGridView({
                   <div className="mx-0.5 mt-0.5">
                     <div className="h-1 bg-stone-700 rounded-full overflow-hidden">
                       <div
-                        className="h-full rounded-full transition-all"
+                        className="h-full rounded-full transition-[width]"
                         style={{
                           width: `${hpRatio * 100}%`,
                           backgroundColor: hpRatio > 0.5 ? '#22c55e' : hpRatio > 0.2 ? '#eab308' : '#ef4444',
@@ -102,7 +101,7 @@ export default function BattleGridView({
                   </div>
 
                   {/* 이름 */}
-                  <div className="text-[7px] text-center text-text-secondary truncate px-0.5 leading-tight">
+                  <div className="truncate px-0.5 text-center text-[7px] leading-tight text-text-secondary">
                     {unit.character.nickname.slice(0, 3)}
                   </div>
 

@@ -64,7 +64,7 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
         return s
       })
     }, 1200)
-  }, [acting, current, onUpdateState])
+  }, [acting, current, onUpdateState, text.disposition])
 
   const handleFinish = useCallback(() => {
     onUpdateState(s => finalizeDisposition(s))
@@ -186,7 +186,7 @@ export default function DispositionScreen({ state, onUpdateState }: Props) {
                   key={action}
                   onClick={() => handleAction(action)}
                   disabled={acting}
-                  className={`py-2.5 rounded text-sm text-stone-100 font-bold transition-colors disabled:opacity-40 ${info.color}`}
+                  className={`py-2.5 rounded text-sm text-stone-100 font-bold disabled:opacity-40 ${info.color}`}
                 >
                   <div>{info.label}</div>
                   <div className="text-[9px] font-normal text-text-primary/70 mt-0.5">{info.desc}</div>

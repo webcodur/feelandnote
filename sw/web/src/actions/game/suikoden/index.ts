@@ -11,6 +11,7 @@ import type { PersonaJsonb } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
 import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
 import type { Tables } from '@/types/supabase'
+import { SUIKODEN_CHARACTER_IDS } from '@/lib/game/suikoden/scenarios'
 
 const CUTOFF_YEARS = 120
 
@@ -67,6 +68,7 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .not('death_date', 'is', null)
     .not('death_date', 'eq', '')
     .not('profession', 'is', null)
+    .in('id', SUIKODEN_CHARACTER_IDS)
 
   if (error || !data) {
     console.error("[loadSuikodenCharacters] 캐릭터 조회 실패:", error?.message);
@@ -118,7 +120,8 @@ async function fetchSuikodenDialogues(locale: string): Promise<Record<string, Su
 
   const { data, error } = await supabase
     .from('celeb_dialogues')
-    .select('celeb_id, lines, lines_en');
+    .select('celeb_id, lines, lines_en')
+    .in('celeb_id', SUIKODEN_CHARACTER_IDS);
 
   if (error || !data) {
     console.error("[loadSuikodenDialogues] 대사 조회 실패:", error?.message)

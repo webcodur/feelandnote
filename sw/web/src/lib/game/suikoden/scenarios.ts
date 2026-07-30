@@ -99,7 +99,7 @@ export const SCENARIOS: ScenarioDef[] = [
     subtitle: '성지를 둘러싼 동서 문명의 충돌',
     era: 'medieval',
     description: '지중해를 사이에 두고 십자군과 이슬람 세력이 격돌한다. 성지 예루살렘의 주인은 누가 될 것인가. 콘스탄티노플에서는 오스만의 야망이 꿈틀거리고, 동유럽의 영주들도 가만히 있지 않는다.',
-    objective: '성지(카이로)를 확보하고 적대 세력 3개 이상을 제거하라',
+    objective: '전 영토를 통일하라',
     difficulty: 'hard',
     playerCandidates: [
       { profileId: ID.리처드1세, startTerritoryId: 'london', startDescription: '사자심왕 리처드. 성지 탈환을 위해 대군을 이끌고 원정에 나선다.' },
@@ -141,7 +141,7 @@ export const SCENARIOS: ScenarioDef[] = [
     subtitle: '혁명의 불길이 유럽을 휩쓴다',
     era: 'modern',
     description: '프랑스 혁명의 불길 속에서 나폴레옹이 등극했다. 영국의 웰링턴이 대항하고, 프로이센의 비스마르크, 러시아의 거인들이 유럽 패권을 노린다. 구질서와 신질서의 대충돌이 시작된다.',
-    objective: '유럽 5개 영토 이상을 확보하라',
+    objective: '전 영토를 통일하라',
     difficulty: 'hard',
     playerCandidates: [
       { profileId: ID.나폴레옹, startTerritoryId: 'paris', startDescription: '혁명의 아들. 유럽 전역에 새로운 질서를 세우겠다는 야망을 품었다.' },
@@ -163,7 +163,7 @@ export const SCENARIOS: ScenarioDef[] = [
     subtitle: '초원의 패자가 세계를 향해 말을 달린다',
     era: 'medieval',
     description: '칭기즈 칸이 초원을 통일하고 세계 정복에 나선다. 당 태종 이세민의 유산을 이은 세력이 서역을 장악하고, 주원장이 남방에서 호시탐탐 북벌을 준비한다. 유라시아 대륙의 주인은 누구인가.',
-    objective: '유라시아 7개 영토 이상을 확보하라',
+    objective: '전 영토를 통일하라',
     difficulty: 'hard',
     playerCandidates: [
       { profileId: ID.칭기즈칸, startTerritoryId: 'samarkand', startDescription: '대칸. 말 위에서 태어나 말 위에서 세계를 정복한다.' },
@@ -179,3 +179,25 @@ export const SCENARIOS: ScenarioDef[] = [
     wandererIds: [ID.악비, ID.왕양명, ID.소동파, ID.세종대왕, ID.이정],
   },
 ]
+
+/** 시나리오 5종에서 실제로 사용하는 프로필 ID 전체 */
+export const SUIKODEN_CHARACTER_IDS = [...new Set(
+  SCENARIOS.flatMap(scenario => [
+    ...scenario.playerCandidates.map(candidate => candidate.profileId),
+    ...scenario.aiFactions.flatMap(faction => [faction.leaderId, ...faction.memberIds]),
+    ...scenario.wandererIds,
+  ]),
+)]
+
+/** 선택한 시나리오에서 불러오지 못한 인물 ID를 반환한다. */
+export function getMissingScenarioCharacterIds(
+  scenario: ScenarioDef,
+  loadedCharacterIds: ReadonlySet<string>,
+): string[] {
+  const requiredIds = new Set([
+    ...scenario.playerCandidates.map(candidate => candidate.profileId),
+    ...scenario.aiFactions.flatMap(faction => [faction.leaderId, ...faction.memberIds]),
+    ...scenario.wandererIds,
+  ])
+  return [...requiredIds].filter(id => !loadedCharacterIds.has(id))
+}

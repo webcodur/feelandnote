@@ -1,12 +1,13 @@
 // 천도 — 턴제 게임 엔진
 
 import type {
-  GameState, GameTime, Season, TerritoryId, TaxRate, BuildingCard, ThreatCard, ThreatType, TroopEquipment,
+  GameState, Season, TerritoryId, TaxRate, BuildingCard, ThreatCard, ThreatType, TroopEquipment,
 } from './types'
-import { TURN, BUILDINGS, TERRITORIES, DIFFICULTY_CONFIG, THREAT_DEFS, GRADE_SALARY, GRADE_FAME_REQ, EQUIPMENT_MAX } from './constants'
-import { getTerritoryDef, getTotalTroops } from './utils'
+import { TURN, BUILDINGS, THREAT_DEFS, GRADE_SALARY, GRADE_FAME_REQ, EQUIPMENT_MAX } from './constants'
+import { getTotalTroops } from './utils'
 import { evaluateAIDecisions, assignIdleCharactersForFaction } from './aiTurn'
 import { checkSeasonEvents } from './events'
+import { resolveCampaignOutcome } from './campaign'
 
 // ── 메인 턴 처리 ──
 
@@ -264,16 +265,8 @@ function consumeFood(state: GameState): GameState {
 // ── 이벤트 체크 ──
 
 function checkEvents(state: GameState): GameState {
-  const activeFactions = state.factions.filter(f => f.territories.length > 0)
-  if (activeFactions.length === 1) {
-    return {
-      ...state,
-      isGameOver: true,
-      winner: activeFactions[0].id,
-      phase: 'result',
-    }
-  }
-  return checkSeasonEvents(state)
+  const resolved = resolveCampaignOutcome(state)
+  return resolved.isGameOver ? resolved : checkSeasonEvents(resolved)
 }
 
 // ── 명령 함수 ──
@@ -530,6 +523,33 @@ export function commandPunish(state: GameState, charId: string): GameState {
       }
     }),
     log: [...state.log, '처벌'],
+  }
+}
+
+/** 세력의 예비 병사를 선택한 인물의 부대에 최대치까지 보충 */
+export function commandReinforce(state: GameState, charId: string, recordLog = true): GameState {
+  const faction = state.factions.find(f => f.members.some(m => m.id === charId))
+  const character = faction?.members.find(m => m.id === charId)
+  if (!faction || !character) return state
+
+  const amount = Math.min(
+    Math.max(0, Math.floor(faction.resources.troops)),
+    Math.max(0, character.maxTroops - character.troops),
+  )
+  if (amount <= 0) return state
+
+  return {
+    ...state,
+    factions: state.factions.map(f => f.id === faction.id
+      ? {
+          ...f,
+          resources: { ...f.resources, troops: f.resources.troops - amount },
+          members: f.members.map(m => m.id === charId
+            ? { ...m, troops: m.troops + amount }
+            : m),
+        }
+      : f),
+    log: recordLog ? [...state.log, `${character.nickname} 병사 ${amount}명 보충`] : state.log,
   }
 }
 

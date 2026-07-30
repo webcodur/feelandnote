@@ -1,5 +1,7 @@
 # 03. 전투 시스템
 
+> **최종 실측 체크: 26.07.30** — 전투 엔진·캠페인 손실 반영·전투 화면 대조
+
 > **2026-06 개편.** 6전술 상성 카드 전투는 폐기됐고, 3×5 그리드 개별 유닛 턴제로 교체됐다.
 > 아래 「현행 설계」가 코드와 일치한다. 폐기된 전술 카드 설계는 부록에 원문 그대로 남긴다.
 
@@ -76,7 +78,9 @@ ambush(매복), detect_trap(함정 탐지)
 ```
 
 - `charge`만 특례 조건 — `martial ≥ 50` **또는** `command ≥ 70`
-- `duel_provoke`는 **아직 껍데기다.** 일기토 대신 배율 1.3의 일반 근접 공격을 낸다
+- `duel_provoke`는 대상과 1:1로 상호 타격한다. 시전자가 1.3배 선공하고, 대상이 생존하면 1.1배로 반격한다
+- `trap`은 적 전열에 함정을 걸어 다음 행동 직전 최대 HP 20% 피해를 주며, `detect_trap`은 아군에게 남은 함정을 해제한다
+- 혼란·방어·철벽·결계는 다음 행동 또는 다음 피격까지만 유지된다. 모든 대상 지정 기술은 플레이어 화면에서 대상을 직접 고른다
 
 ---
 
@@ -171,7 +175,7 @@ HP        = max(10, round(300 + command×2.0 + martial×1.0))
 | **방어 승리** | 공격 측 전원 괴멸 또는 사기 0 | 공격 측 후퇴 |
 | **무승부** | 30턴 소진 | 양측 후퇴 |
 
-종료 처리 순서: `checkBattleEnd` → `syncLegacyParticipants` → `applyBattleResult` → `collectDispositionTargets`. 포로가 있으면 `disposition` 페이즈, 없으면 `strategy`로(잔존 세력 1개면 `result`).
+종료 처리 순서: `checkBattleEnd` → `syncLegacyParticipants` → `applyBattleResult` → `collectDispositionTargets` → `resolveCampaignOutcome`. 기존 부상과 병력 비율을 전투 시작 HP에 반영하고, 종료 시 남은 체력·병력을 캠페인 인물에 다시 기록하므로 다음 전투에서 원상 복구되지 않는다. 포로가 있으면 `disposition` 페이즈로 이동하고, 처분까지 끝난 뒤에도 같은 중앙 캠페인 판정으로 통일·패망·제한 턴을 결정한다.
 
 ### 포로 처분 (Disposition)
 

@@ -23,6 +23,7 @@ export interface StrategyCommands {
   handleTrain: () => void
   handleReward: () => void
   handlePunish: () => void
+  handleReinforce: () => void
   handleDemolish: (buildingInstanceId: string) => void
   handleSetTaxRate: (rate: TaxRate) => void
   handleDiplomacy: (action: string, targetFactionId: string) => void

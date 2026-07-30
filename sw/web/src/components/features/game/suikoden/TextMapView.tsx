@@ -57,7 +57,7 @@ export default function TextMapView({
           <div
             key={region.id}
             onClick={() => setFocusedRegion(prev => prev === region.id ? null : region.id)}
-            className={`flex items-center gap-2.5 py-2 rounded-md border cursor-pointer transition-all duration-200 ${
+            className={`flex items-center gap-2.5 py-2 rounded-md border cursor-pointer ${
               isFocused
                 ? 'border-sky-400/50 bg-gradient-to-r from-sky-950/40 to-sky-900/20'
                 : isLinked
@@ -80,7 +80,7 @@ export default function TextMapView({
                 />
               )}
               <span
-                className={`relative block w-2.5 h-2.5 rounded-full transition-all duration-200 ${
+                className={`relative block w-2.5 h-2.5 rounded-full ${
                   isFocused ? 'scale-125 shadow-[0_0_6px_var(--glow)]' : ''
                 }`}
                 style={{
@@ -92,7 +92,7 @@ export default function TextMapView({
 
             {/* 2열: 지역명 */}
             <div
-              className={`shrink-0 w-[56px] text-[11px] font-bold leading-none tracking-wide transition-colors duration-200 ${
+              className={`shrink-0 w-[56px] text-[11px] font-bold leading-none tracking-wide ${
                 isFocused
                   ? 'text-sky-200'
                   : isLinked
@@ -122,7 +122,7 @@ export default function TextMapView({
                     }}
                     title={`${tS(`territory.${tDef.id}`)}${owner ? ` (${stripSuikodenFactionSuffix(owner.name)})` : ` (${text.map.unclaimed})`}`}
                     style={{ fontFamily: 'var(--font-sans)', fontWeight: isViewing ? 700 : 400 }}
-                    className={`text-[10px] px-1.5 py-0.5 rounded border transition-all duration-150 ${
+                    className={`text-[10px] px-1.5 py-0.5 rounded border ${
                       isViewing
                         ? 'border-amber-400/60 bg-amber-900/30 text-amber-200 shadow-[0_0_4px_rgba(251,191,36,0.15)]'
                         : isPlayer
@@ -152,7 +152,7 @@ export default function TextMapView({
                     onSelectRegion(region.id)
                   }}
                   style={{ fontFamily: 'var(--font-sans)', fontWeight: 600 }}
-                  className="text-[9px] px-2 py-0.5 rounded bg-amber-700/50 hover:bg-amber-600/60 text-amber-200 transition-colors ml-auto border border-amber-600/30"
+                  className="text-[9px] px-2 py-0.5 rounded bg-amber-700/50 hover:bg-amber-600/60 text-amber-200 ml-auto border border-amber-600/30"
                 >
                   {text.map.move}
                 </button>
