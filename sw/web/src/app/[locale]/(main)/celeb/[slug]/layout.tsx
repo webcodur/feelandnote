@@ -2,9 +2,10 @@ import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
+import { CelebThemeHero, CelebThemeScope } from "@/components/features/celeb/CelebTheme";
 import SectionHeader from "@/components/shared/SectionHeader";
-import PrismBanner from "@/components/lab/PrismBanner";
 import PageContainer from "@/components/layout/PageContainer";
+import { resolveCelebTheme } from "@/lib/celeb/theme";
 import styles from "./CelebDetailTypography.module.css";
 
 interface LayoutProps {
@@ -84,6 +85,12 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
     notFound();
   }
   const profile = result.data;
+  const theme = resolveCelebTheme({
+    slug,
+    profession: profile.profession,
+    birthDate: profile.birth_date,
+    tier: profile.celeb_tier,
+  });
 
   const pageTitle = `${profile.nickname}${t("archiveSuffix")}`;
   const englishTitle = t("archiveEnglish");
@@ -108,15 +115,8 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
       : buildHeadlineKo(profile.nickname, headlineProfessionLabel, counts);
 
   return (
-    <>
-      <PrismBanner height={350} compact>
-        <p aria-hidden="true" className="text-4xl sm:text-5xl md:text-6xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
-          {pageTitle}
-        </p>
-        <p className="text-[#d4af37] tracking-[0.3em] sm:tracking-[0.5em] text-base sm:text-lg mt-3 sm:mt-4 uppercase font-cinzel text-center">
-          {englishTitle}
-        </p>
-      </PrismBanner>
+    <CelebThemeScope theme={theme}>
+      <CelebThemeHero title={pageTitle} subtitle={englishTitle} theme={theme} />
       <RecentProfileTracker
         profile={{
           id: profile.id,
@@ -153,6 +153,6 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
           {children}
         </main>
       </PageContainer>
-    </>
+    </CelebThemeScope>
   );
 }
