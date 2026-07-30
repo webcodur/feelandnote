@@ -161,6 +161,7 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/terms', 'yearly', 0.3],
   ['/privacy', 'yearly', 0.3],
   ['/contact', 'yearly', 0.3],
+  ['/account-deletion', 'yearly', 0.3],
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
