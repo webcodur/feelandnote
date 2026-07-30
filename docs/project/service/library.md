@@ -29,7 +29,7 @@
 | `/library/era` | 불후의 명작. 전 시대 + 시대별 인물의 선택 | `getScripturesByEra`, `getChosenScriptures`, `getTopCelebsAcrossAllEras` |
 | `/library/profession` | 갈림길. 분야별 인물의 필독서 | `getProfessionContentCounts` |
 | `/library/museum` | 박물관. 매체 역사 전시 | `constants/scripturesMuseum.ts` (정적 JSON) |
-| `/library/academy` | 학당. 카테고리 4종 카드 | `ACADEMY_CATEGORY_IDS` (정적) |
+| `/library/academy` | 학당. 공개 카테고리 카드 3종. AI 데이터·직접 경로는 유지하되 진입 카드는 출간 전까지 숨김 | `VISIBLE_ACADEMY_CATEGORY_IDS` ← `ACADEMY_CATEGORY_IDS` (정적) |
 | `/library/academy/[category]` | 카테고리 진입 → 첫 코스로 리다이렉트 | — |
 | `/library/academy/[category]/[course]` | 코스 본문(레슨) | `getAcademyLessonProgressState`. 레슨 목록(`ACADEMY_CONTENT_FILTERS`)은 페이지가 아니라 `AcademyLessonView`가 읽는다 |
 | `/library/figure` | 레거시. `/explore/today`로 리다이렉트 | — |
@@ -86,7 +86,7 @@
 
 `/library/academy` → `[category]` → `[course]` 3단이다.
 
-- **`/library/academy`**: `ACADEMY_CATEGORY_IDS`를 카드 4장으로 깐다. 각 카드는 그 카테고리의 **첫 코스**로 바로 보낸다(`/library/academy/{cat}/{firstCourse}`). 카드 아이콘은 페이지 안의 `CATEGORY_ICONS` 맵이 정한다 — **카테고리를 늘릴 때 이 맵도 함께 늘려야 한다**(빠지면 `Icon`이 undefined가 되어 렌더가 깨진다).
+- **`/library/academy`**: `ACADEMY_CATEGORY_IDS` 중 `VISIBLE_ACADEMY_CATEGORY_IDS`가 남긴 book·video·music을 카드 3장으로 깐다. AI는 데이터와 직접 경로를 유지하되 공개 진입 카드 한 곳만 출간 전까지 제외한다. 각 카드는 그 카테고리의 **첫 코스**로 바로 보낸다(`/library/academy/{cat}/{firstCourse}`). 카드 아이콘은 페이지 안의 `CATEGORY_ICONS` 맵이 정한다 — **카테고리를 늘릴 때 이 맵도 함께 늘려야 한다**(빠지면 `Icon`이 undefined가 되어 렌더가 깨진다).
 - **`/library/academy/[category]`**: 페이지 본문이 없다. `ACADEMY_CATEGORY_IDS`에서 카테고리를 찾아 첫 코스로 리다이렉트하고, 없는 카테고리면 `/library/academy`로 되돌린다.
 - **`/library/academy/[category]/layout.tsx`**: 제목과 카테고리 탭(`AcademyCategoryTabs`)을 레이아웃에 둔다. 코스를 갈아탈 때 이 부분이 리로드되지 않게 하려는 배치다.
 - **`/library/academy/[category]/[course]`**: 카테고리·코스를 검증하고(둘 중 하나라도 어긋나면 리다이렉트) `AcademyLessonView`를 렌더한다.
@@ -107,6 +107,14 @@
 각 코스가 담는 레슨 id 목록은 `ACADEMY_CONTENT_FILTERS`가 정한다. `music/harmony`만 12개이고 나머지 여덟 코스는 모두 8개다. 모든 학당 코스의 `SUB_CATEGORY_VIEW_TYPE` 값은 `lesson`이다.
 
 레슨 본문은 정적 JSON이다. `constants/scriptures/{ko,en}/`의 `book-academy.json`·`video-academy.json`·`music-harmony.json`·`ai-academy.json` 네 벌이고, `getScripturesData(locale)`가 로케일별로 캐시해 내준다. 카테고리와 레슨 파일을 잇는 곳은 `AcademyLessonView`의 `getLessonSource()`다. **분기에 없는 카테고리는 화성학 레슨으로 조용히 폴백하므로**, 카테고리를 늘릴 때 이 함수도 함께 늘린다.
+
+### AI 레슨 이미지
+
+AI 학당 24개 레슨에는 레슨마다 핵심 단계 한 곳에 GPT 생성 이미지 1장을 둔다. 공개 파일은 `public/images/scriptures/ai/ai-academy/<lesson-id>.webp`의 640×640 실제 WebP이고, 한국어·영문 데이터가 같은 파일을 공유하되 `imageAlt`만 각 언어로 쓴다. 이미지는 UI·텍스트·도식 대신 분류 작업대, 금형 공방, 무대 그림막, 보존 작업 같은 실제 물리 장면으로 개념을 설명한다.
+
+AI 학당의 데이터와 `/library/academy/ai/{foundations|prompting|creation}` 직접 경로는 활성 상태다. 다만 `/library/academy`의 AI 카테고리 카드 한 곳은 `VISIBLE_ACADEMY_CATEGORY_IDS`에서 제외해 공개 진입점으로 노출하지 않는다.
+
+26.07.30 검수에서 24장 원본을 승인·실패 기준에 맞춰 전수 육안 확인했고, 공개 파일 24장과 KO/EN 연결 48곳의 id·단계·URL·대체 텍스트를 일대일 대조했다. 공개본은 전부 640×640 WebP이며 1024×1024 승인 후보를 quality 88로 변환한 바이트와 일치했다. `tsc --noEmit`과 전체 `build:web`, KO/EN 3개 코스 경로 6곳 및 이미지 URL 24곳의 개발 서버 응답도 통과했다.
 
 `music/harmony`는 전용 구현이 따로 있다. `components/features/scriptures/academy/HarmonyLesson/`과 `SheetMusic.tsx`(악보)다. 레슨 데이터 타입(`LessonSection`)은 단계(`steps`)·목표(`objectives`)·악보 예제(`sheetExamples`)·퀴즈(`quiz`)를 갖는다.
 

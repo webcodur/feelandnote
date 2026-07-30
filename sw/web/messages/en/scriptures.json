@@ -25,7 +25,7 @@
       "era": "Trace the timeless footprints left by humanity across the flow of time.",
       "profession": "Explore the diverse trajectories of those who reached the pinnacle in their respective fields.",
       "museum": "See how countless ideas and creations intertwine within a grand chronicle.",
-      "academy": "A space to internalize filmmaking and music theory through structured lessons.",
+      "academy": "A space to internalize how AI works, filmmaking, and music theory through structured lessons.",
       "figureLabel": "Today's Figure",
       "eraLabel": "Masterpieces",
       "professionLabel": "Crossroads",
@@ -36,6 +36,7 @@
       "academyReading": "Reading Methods",
       "academyVideo": "Filmmaking",
       "academyMusic": "Harmony Lessons",
+      "academyAi": "How AI Works",
       "enterMuseum": "Enter Museum",
       "exploreAcademy": "Explore Academy",
       "continueLearning": "Resume Learning",
@@ -145,10 +146,10 @@
       }
     },
     "academy": {
-      "metaTitle": "Academy - Filmmaking & Music Theory Courses | Library",
-      "metaDescription": "Free filmmaking tutorials, music theory lessons, and curated educational content recommended by industry professionals.",
+      "metaTitle": "Academy - AI, Filmmaking & Music Theory Courses | Library",
+      "metaDescription": "Free courses on how AI works and how to use it, plus filmmaking tutorials, music theory lessons, and curated educational content recommended by industry professionals.",
       "pageTitle": "Academy of Wisdom",
-      "defaultDescription": "From filmmaking to harmony lessons, explore systematic educational content.",
+      "defaultDescription": "From how AI works to filmmaking and harmony, explore systematic educational content.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "Select academy category",
       "courseTabsLabel": "Select course",
@@ -220,6 +221,10 @@
         "music": {
           "label": "Music",
           "description": "Harmony lessons"
+        },
+        "ai": {
+          "label": "AI",
+          "description": "How AI works and how to use it"
         }
       },
       "course": {
@@ -252,6 +257,20 @@
             "label": "Harmony",
             "description": "From the basics of sound to scales, chords, progressions, and song analysis — the complete course in harmony"
           }
+        },
+        "ai": {
+          "foundations": {
+            "label": "How AI Works",
+            "description": "Training and inference, neural networks, tokens, attention — understand how generative AI produces an answer"
+          },
+          "prompting": {
+            "label": "Asking Well",
+            "description": "Frame the context, show examples, force the steps, verify the result — get the answer you actually wanted"
+          },
+          "creation": {
+            "label": "AI and Creative Work",
+            "description": "How images, voices, and music are generated, and where copyright, bias, and human judgment come in"
+          }
         }
       }
     },
@@ -283,7 +302,7 @@
         },
         "academy": {
           "label": "Academy",
-          "description": "Filmmaking, harmony lessons, and more"
+          "description": "How AI works, filmmaking, harmony lessons, and more"
         }
       },
       "toc": "Table of Contents",
