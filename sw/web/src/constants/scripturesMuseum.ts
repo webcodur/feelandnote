@@ -91,6 +91,9 @@ export const SUB_CATEGORY_VIEW_TYPE: Record<string, ViewType> = {
   "video/composition": "lesson",
   "video/editing": "lesson",
   "video/narrative": "lesson",
+  "ai/foundations": "lesson",
+  "ai/prompting": "lesson",
+  "ai/creation": "lesson",
 };
 
 export const ACADEMY_CONTENT_FILTERS = {
@@ -111,6 +114,15 @@ export const ACADEMY_CONTENT_FILTERS = {
   },
   "book/system": {
     lessonIds: ["classification_system", "isbn", "editions", "book_anatomy", "translation", "references", "publishing_ecosystem", "out_of_print"],
+  },
+  "ai/foundations": {
+    lessonIds: ["what_is_ai", "learning_from_data", "neural_network", "tokens_and_embeddings", "transformer_attention", "next_token_prediction", "hallucination", "training_pipeline"],
+  },
+  "ai/prompting": {
+    lessonIds: ["prompt_anatomy", "context_window", "examples_and_format", "stepwise_reasoning", "iteration", "verification", "tools_and_search", "common_failures"],
+  },
+  "ai/creation": {
+    lessonIds: ["generative_media", "diffusion", "voice_and_music", "ai_in_studio", "copyright", "detection", "bias", "human_role"],
   },
 } as const;
 
@@ -136,6 +148,7 @@ import koGame from './scriptures/ko/game.json';
 import koMusicHarmony from './scriptures/ko/music-harmony.json';
 import koVideoAcademy from './scriptures/ko/video-academy.json';
 import koBookAcademy from './scriptures/ko/book-academy.json';
+import koAiAcademy from './scriptures/ko/ai-academy.json';
 
 import enBook from './scriptures/en/book.json';
 import enVideo from './scriptures/en/video.json';
@@ -144,6 +157,7 @@ import enGame from './scriptures/en/game.json';
 import enMusicHarmony from './scriptures/en/music-harmony.json';
 import enVideoAcademy from './scriptures/en/video-academy.json';
 import enBookAcademy from './scriptures/en/book-academy.json';
+import enAiAcademy from './scriptures/en/ai-academy.json';
 
 interface LocaleData {
   book: Record<string, unknown>;
@@ -153,11 +167,12 @@ interface LocaleData {
   musicHarmony: Record<string, unknown>;
   videoAcademy: Record<string, unknown>;
   bookAcademy: Record<string, unknown>;
+  aiAcademy: Record<string, unknown>;
 }
 
 const DATA: Record<string, LocaleData> = {
-  ko: { book: koBook, video: koVideo, music: koMusic, game: koGame, musicHarmony: koMusicHarmony, videoAcademy: koVideoAcademy, bookAcademy: koBookAcademy },
-  en: { book: enBook, video: enVideo, music: enMusic, game: enGame, musicHarmony: enMusicHarmony, videoAcademy: enVideoAcademy, bookAcademy: enBookAcademy },
+  ko: { book: koBook, video: koVideo, music: koMusic, game: koGame, musicHarmony: koMusicHarmony, videoAcademy: koVideoAcademy, bookAcademy: koBookAcademy, aiAcademy: koAiAcademy },
+  en: { book: enBook, video: enVideo, music: enMusic, game: enGame, musicHarmony: enMusicHarmony, videoAcademy: enVideoAcademy, bookAcademy: enBookAcademy, aiAcademy: enAiAcademy },
 };
 
 function buildTimelines(d: LocaleData) {
@@ -211,6 +226,7 @@ function buildTimelines(d: LocaleData) {
     harmonyLessons: d.musicHarmony.MUSIC_HARMONY_LESSONS as LessonSection[],
     videoLessons: d.videoAcademy.VIDEO_ACADEMY_LESSONS as LessonSection[],
     bookLessons: d.bookAcademy.BOOK_ACADEMY_LESSONS as LessonSection[],
+    aiLessons: d.aiAcademy.AI_ACADEMY_LESSONS as LessonSection[],
   };
 }
 
@@ -284,6 +300,14 @@ export const ACADEMY_CATEGORY_IDS = [
     id: "music", available: true,
     courses: [
       { id: "harmony" },
+    ],
+  },
+  {
+    id: "ai", available: true,
+    courses: [
+      { id: "foundations" },
+      { id: "prompting" },
+      { id: "creation" },
     ],
   },
 ] as const;
