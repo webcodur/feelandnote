@@ -2,6 +2,64 @@
   "rest": {
     "section": "Rest",
     "arena": {
+      "portrait": {
+        "label": "Portraits in Time",
+        "description": "Identify each figure before the portrait comes into focus",
+        "intro": "A veiled portrait gradually comes into focus. Identify the figure among four names and answer at the earliest moment for the highest score.",
+        "startGame": "Begin Appraisal",
+        "notEnoughFigures": "There are not enough figure portraits available to start the game.",
+        "keyboardHelp": "Press 1–4 to choose · Enter for the next portrait",
+        "mobileRuleSummary": "The portrait clears every three seconds. Recognize it sooner to score higher.",
+        "bestScore": "Best score: {score}",
+        "rules": {
+          "revealTitle": "A Face Revealed",
+          "revealBody": "The portrait becomes clearer every three seconds.",
+          "speedTitle": "Quick Appraisal",
+          "speedBody": "Earn 1,000 points at first sight. Later answers are worth less.",
+          "scoreTitle": "Ten Portraits",
+          "scoreBody": "Appraise ten portraits and record your accuracy and best streak."
+        },
+        "round": "Portrait {current} / {total}",
+        "roundStatus": "Portrait {current} of {total}. {points} points currently available.",
+        "score": "Score",
+        "streak": "Streak",
+        "possiblePoints": "Answer now for {points} points",
+        "threeSecondWindow": "3 seconds left",
+        "loadingPortrait": "Preparing portrait",
+        "revealComplete": "Appraisal complete",
+        "revealProgress": "Portrait reveal stages and available points",
+        "revealStages": {
+          "0": "First Silhouette",
+          "1": "Faint Impression",
+          "2": "Features Emerging",
+          "3": "Nearly Clear"
+        },
+        "hiddenPortraitAlt": "A veiled portrait of an unidentified figure",
+        "question": "Who is shown in this portrait?",
+        "answerTitle": "The Figure Revealed",
+        "correct": "Correct! +{points}",
+        "incorrect": "That was another figure.",
+        "timeUp": "The portrait has fully emerged.",
+        "answerIs": "The answer is {name}.",
+        "correctChoice": "correct answer",
+        "wrongChoice": "selected incorrect answer",
+        "imageError": "The portrait could not be loaded.",
+        "imageSkipped": "This portrait is excluded from your results because its image failed to load.",
+        "next": "Next Portrait",
+        "finish": "View Results",
+        "result": {
+          "breadcrumb": "Results",
+          "title": "Appraisal Complete",
+          "summary": "See how many figures you recognized before their faces came into focus.",
+          "finalScore": "Final Score",
+          "correct": "Correct",
+          "accuracy": "Accuracy",
+          "bestStreak": "Best Streak",
+          "skipped": "{count} image {count, plural, one {failure was} other {failures were}} excluded from your score and accuracy.",
+          "replay": "New Portraits",
+          "lobby": "How to Play"
+        }
+      },
       "memory": {
         "label": "Memory Hall",
         "description": "Find two cards showing the same historical figure",
@@ -726,7 +784,8 @@
       "labyrinth": "Track the deeds of six sages to find the hidden figure",
       "hegemony": "A strategic battle using figure cards to issue commands",
       "suikoden": "Lead historical figures, build power, and unite civilizations",
-      "memory": "A face-pair game of remembering and matching historical figures"
+      "memory": "A face-pair game of remembering and matching historical figures",
+      "portrait": "A solo game of identifying figures as their portraits come into focus"
     },
     "meta": {
       "title": "Rest",
