@@ -9,9 +9,8 @@ import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import type { GameCharacter } from "@/lib/game/suikoden/types";
 import type { WanderPools } from "@/lib/game/wander/types";
 import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenGameWrapper";
-// 기억궁 비공개(26.07.28): 구현은 보존하고 /rest 등록만 주석 처리한다.
-// import { Brain } from "lucide-react";
-// import type { MemoryFigure } from "@/components/features/game/memory/types";
+import { Brain, ScanFace } from "lucide-react";
+import type { MemoryFigure } from "@/components/features/game/memory/types";
 import type { PortraitFigure } from "@/components/features/game/portrait/types";
 
 function GameLoadingScreen() {
@@ -27,23 +26,22 @@ const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth
 const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"), { loading: GameLoadingScreen });
 const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/suikoden/SuikodenGameWrapper"), { loading: GameLoadingScreen });
 const WanderGame = dynamic(() => import("@/components/features/game/wander/WanderGame"), { loading: GameLoadingScreen });
-// const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
+const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
 const PortraitGame = dynamic(() => import("@/components/features/game/portrait/PortraitGame"), { loading: GameLoadingScreen });
 
-type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander" | "portrait";
-type PublicGameId = Exclude<GameId, "portrait" | "wander">;
+export type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander" | "memory" | "portrait";
 
 // image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/project/game-card-images.md)
+// dev: true — 미공개 게임. 개발자 모드에서만 카드를 띄운다.
 const GAME_SECTIONS = [
-  { valueKey: "dawn" as const, label: "DAWN", icon: Clock, image: "/images/games/dawn-card.webp" },
-  { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp" },
-  { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp" },
-  { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp" },
-  // 유랑 비공개(26.07.30): 구현은 보존하고 공개 카드만 숨긴다.
-  // { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: undefined },
-  // { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp" },
-  // 시대의 초상 비공개(26.07.30): 구현은 보존하고 공개 카드만 숨긴다.
-  // { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp" },
+  { valueKey: "dawn" as const, label: "DAWN", icon: Clock, image: "/images/games/dawn-card.webp", dev: false },
+  { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp", dev: false },
+  { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp", dev: false },
+  { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp", dev: false },
+  { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: "/images/games/wander-card.webp", dev: true },
+  { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp", dev: true },
+  // 시대의 초상은 기억궁 카드 그림을 함께 쓴다 (docs/project/game-card-images.md §5)
+  { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp", dev: true },
 ] as const;
 
 interface GameLabel {
@@ -57,10 +55,12 @@ interface Props {
   bgImagesHegemony: GameBackgroundImages | null;
   suikodenCharacters: GameCharacter[];
   suikodenDialogues: DialoguesMap;
-  wanderPools: WanderPools;
-  // memoryFigures: MemoryFigure[];
-  portraitFigures: PortraitFigure[];
-  gameLabels: Record<PublicGameId, GameLabel>;
+  /** 미공개 게임 자료는 개발자 모드가 아닐 때 조회하지 않으므로 null이 들어온다 */
+  wanderPools: WanderPools | null;
+  memoryFigures: MemoryFigure[] | null;
+  portraitFigures: PortraitFigure[] | null;
+  gameLabels: Partial<Record<GameId, GameLabel>>;
+  devMode: boolean;
 }
 
 export default function RestGameGrid({
@@ -70,16 +70,18 @@ export default function RestGameGrid({
   suikodenCharacters,
   suikodenDialogues,
   wanderPools,
-  // memoryFigures,
+  memoryFigures,
   portraitFigures,
   gameLabels,
+  devMode,
 }: Props) {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
+  const visibleSections = GAME_SECTIONS.filter((game) => devMode || !game.dev);
 
   useEffect(() => {
     const activateFromHash = () => {
       const hash = window.location.hash.slice(1) as GameId;
-      if (GAME_SECTIONS.some((game) => game.valueKey === hash)) setActiveGame(hash);
+      if (GAME_SECTIONS.some((game) => game.valueKey === hash && (devMode || !game.dev))) setActiveGame(hash);
     };
     const frame = window.requestAnimationFrame(activateFromHash);
     window.addEventListener("hashchange", activateFromHash);
@@ -87,9 +89,9 @@ export default function RestGameGrid({
       window.cancelAnimationFrame(frame);
       window.removeEventListener("hashchange", activateFromHash);
     };
-  }, []);
+  }, [devMode]);
 
-  const openGame = (game: PublicGameId) => {
+  const openGame = (game: GameId) => {
     setActiveGame(game);
     window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${game}`);
   };
@@ -102,16 +104,18 @@ export default function RestGameGrid({
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-        {GAME_SECTIONS.map((game) => {
+        {visibleSections.map((game) => {
           const Icon = game.icon;
+          const labels = gameLabels[game.valueKey];
+          if (!labels) return null;
           return (
             <HubCard
               key={game.valueKey}
               id={game.valueKey}
               onClick={() => openGame(game.valueKey)}
-              title={gameLabels[game.valueKey].title}
-              description={gameLabels[game.valueKey].description}
-              label={game.label}
+              title={labels.title}
+              description={labels.description}
+              label={game.dev ? `${game.label} · 개발 중` : game.label}
               icon={<Icon className="h-5 w-5" />}
               backgroundImage={game.image}
             />
@@ -140,17 +144,15 @@ export default function RestGameGrid({
         />
       )}
 
-      {/* {activeGame === "wander" && <WanderGame pools={wanderPools} initialFullScreen onExitFullScreenExternal={handleExit} />} */}
+      {activeGame === "wander" && wanderPools && (
+        <WanderGame pools={wanderPools} initialFullScreen onExitFullScreenExternal={handleExit} />
+      )}
 
-      {/* {activeGame === "memory" && (
-        <MemoryGame
-          figures={memoryFigures}
-          initialFullScreen={true}
-          onExitFullScreenExternal={handleExit}
-        />
-      )} */}
+      {activeGame === "memory" && memoryFigures && (
+        <MemoryGame figures={memoryFigures} initialFullScreen={true} onExitFullScreenExternal={handleExit} />
+      )}
 
-      {activeGame === "portrait" && (
+      {activeGame === "portrait" && portraitFigures && (
         <PortraitGame figures={portraitFigures} initialFullScreen={true} onExitFullScreenExternal={handleExit} />
       )}
     </>

@@ -7,12 +7,11 @@
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
-import RestGameGrid from "@/components/features/rest/RestGameGrid";
+import RestGameGrid, { type GameId } from "@/components/features/rest/RestGameGrid";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
 import { loadWanderPools } from "@/actions/game/wander";
-// 기억궁 비공개(26.07.28): 구현은 보존하고 /rest 등록만 주석 처리한다.
-// import { getMemoryFigures } from "@/actions/game/getMemoryFigures";
+import { getMemoryFigures } from "@/actions/game/getMemoryFigures";
 import { getPortraitFigures } from "@/actions/game/getPortraitFigures";
 
 export async function generateMetadata() {
@@ -21,22 +20,29 @@ export async function generateMetadata() {
 }
 
 // #region 게임 정의
+// dev: true — 미공개 게임. 개발자 모드(로컬 개발 서버 또는 ?dev=1)에서만 노출한다.
 const GAME_SECTIONS = [
-  { href: "/rest#dawn",      valueKey: "dawn" as const },
-  { href: "/rest#labyrinth", valueKey: "labyrinth" as const },
-  { href: "/rest#hegemony",  valueKey: "hegemony" as const },
-  { href: "/rest#suikoden",  valueKey: "suikoden" as const },
-  // 유랑 비공개(26.07.30): 구현은 보존하고 공개 바로가기만 숨긴다.
-  // { href: "/rest#wander", valueKey: "wander" as const },
-  // { href: "/rest#memory", valueKey: "memory" as const },
-  // 시대의 초상 비공개(26.07.30): 구현은 보존하고 공개 바로가기만 숨긴다.
-  // { href: "/rest#portrait", valueKey: "portrait" as const },
+  { href: "/rest#dawn",      valueKey: "dawn" as const,      dev: false },
+  { href: "/rest#labyrinth", valueKey: "labyrinth" as const, dev: false },
+  { href: "/rest#hegemony",  valueKey: "hegemony" as const,  dev: false },
+  { href: "/rest#suikoden",  valueKey: "suikoden" as const,  dev: false },
+  { href: "/rest#wander",    valueKey: "wander" as const,    dev: true },
+  { href: "/rest#memory",    valueKey: "memory" as const,    dev: true },
+  { href: "/rest#portrait",  valueKey: "portrait" as const,  dev: true },
 ] as const;
 // #endregion
 
-export default async function RestPage() {
+interface RestPageProps {
+  searchParams: Promise<{ dev?: string }>;
+}
+
+export default async function RestPage({ searchParams }: RestPageProps) {
   const t = await getTranslations("rest.arena");
   const tHub = await getTranslations("rest.hub");
+
+  const { dev } = await searchParams;
+  const devMode = process.env.NODE_ENV === "development" || dev === "1";
+  const visibleSections = GAME_SECTIONS.filter((game) => devMode || !game.dev);
 
   const [
     bgImagesDawn,
@@ -44,35 +50,34 @@ export default async function RestPage() {
     bgImagesHegemony,
     suikodenCharacters,
     suikodenDialogues,
-    wanderPools,
-    // memoryFigures,
-    portraitFigures,
   ] = await Promise.all([
     getGameBackgroundImages("dawn-1"),
     getGameBackgroundImages("labyrinth-1"),
     getGameBackgroundImages("hegemony-1"),
     loadSuikodenCharacters(),
     loadSuikodenDialogues(),
-    loadWanderPools(),
-    // getMemoryFigures(),
-    getPortraitFigures(),
   ]);
 
+  // 미공개 게임 자료는 개발자 모드에서만 조회한다 — 평소 통신량을 늘리지 않기 위함
+  const [wanderPools, memoryFigures, portraitFigures] = devMode
+    ? await Promise.all([loadWanderPools(), getMemoryFigures(), getPortraitFigures()])
+    : [null, null, null];
+
   // 목차 줄 항목 — 아이콘은 아래 게임 카드가 이미 크게 달고 있어 여기서는 번호와 이름만 쓴다
-  const hubItems = GAME_SECTIONS.map((game) => ({
+  const hubItems = visibleSections.map((game) => ({
     label: t(`${game.valueKey}.label`),
     href: game.href,
   }));
 
   const gameLabels = Object.fromEntries(
-    GAME_SECTIONS.map((game) => [
+    visibleSections.map((game) => [
       game.valueKey,
       {
         title: t(`${game.valueKey}.label`),
         description: tHub(game.valueKey),
       },
     ])
-  ) as Record<"dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander", { title: string; description: string }>;
+  ) as Partial<Record<GameId, { title: string; description: string }>>;
 
   return (
     <div className="space-y-8">
@@ -87,8 +92,10 @@ export default async function RestPage() {
         suikodenCharacters={suikodenCharacters}
         suikodenDialogues={suikodenDialogues}
         wanderPools={wanderPools}
+        memoryFigures={memoryFigures}
         portraitFigures={portraitFigures}
         gameLabels={gameLabels}
+        devMode={devMode}
       />
     </div>
   );
