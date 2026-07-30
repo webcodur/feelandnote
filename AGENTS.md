@@ -76,6 +76,23 @@ pnpm build:audio-bo
 - Supabase (PostgreSQL, 인증, SSR)
 - TypeScript 5, pnpm
 
+## 환경변수 · 비밀값
+
+**환경변수·비밀 파일은 커밋하지 않는다.** `.gitignore`가 `.env`·`.env.*`·`ga-credentials.json`·`.mcp.json`·`**/credentials/`를 전부 제외한다. 그래서 **`git clone` + `pnpm install` 만으로는 어떤 앱도 뜨지 않는다.** 다른 컴퓨터에서 개발을 시작하려면 아래 파일을 사람이 직접 옮겨야 한다.
+
+| 파일 | 위치 | 없으면 |
+|------|------|--------|
+| `.env` | `sw/web/` | 사용자 웹 구동 불가 |
+| `.env` | `sw/web-bo/` | 백오피스 구동 불가 |
+| `.env` | `sw/remotion/` | 음성 합성·R2·DB 조회 실패 |
+| `ga-credentials.json` | 루트 | 유입 통계 조회 불가(구동은 됨) |
+| `.mcp.json` | 루트 | AI 도구의 DB·검색 콘솔 조회 불가(서비스 무관) |
+
+`sw/lab`·`sw/android`·`packages/*`는 자체 환경변수 파일이 없다. `sw/audio-bo`도 파일 없이 로컬 폴더 경로를 코드 기본값으로 쓴다.
+빈칸 서식지 파일도 두지 않는다 — 무엇이 필요한지는 아래 문서가 답한다.
+
+> **키 이름별 용도·발급처·중복 배치·유출 시 처리 순서는 `docs/project/env-vars.md`가 SSoT다.** 값 자체는 어느 문서에도 적지 않는다.
+
 ## UI 상호작용 원칙 (전 앱 공통)
 
 조작용 요소의 hover는 **즉각 반응**이 기본이다. 사용자가 손을 올린 즉시 상태가 바뀌어야 한다.
@@ -160,12 +177,12 @@ pnpm build:audio-bo
 > 옛 규격 문서 `sw/web-bo/docs/todo/virtual-monologue-plan.md`는 26.07.20 `c493cad1`에서 삭제됐다(GLM 시대 규격이라 이미 낡음). 회수하려면 `git show c493cad1^:<경로>`.
 > 독백을 고친 뒤 서비스 반영이 안 보이면 캐시 7일이 남은 것이다 — `/api/revalidate`에 `celebs` 태그를 던지면 즉시 갱신된다(전량 갱신 비용 실측 10MB 미만).
 
-**셀럽 아바타 정비 (진행 중, 26.07.30 기준)** — 작업 문서는 **저장소 루트**의 `celeb-avatar-*.md` 4종이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
+**셀럽 아바타 정비 (진행 중, 26.07.31 기준)** — 작업 문서는 **저장소 루트**의 `celeb-avatar-*.md` 4종이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
 
 | 문서 | 내용 · 상태 |
 |------|------|
-| `celeb-avatar-defects.md` | **26.07.29 등록 아바타 1,844명 전수 육안 재검수. 최초 확정 376명 + 후속 신원 감사 14명 중 26.07.30까지 133명 교체·역검증 완료, 현재 잔여 257명.** probable 148명은 신원·원본 대조 전이라 확정 명단에 넣지 않았다. 완료된 인물은 R2 재다운로드·800×800 RGBA WebP·업로드본 해시 일치까지 확인한 뒤 문서에서 제거한다 |
-| `celeb-avatar-missing.md` | 비fiction CELEB DB 실측 — 활성 미등록 7명(`chen-shou`·`hai-rui`·`kim-chi-ha`·`kong-rong`·`liu-xie`·`pang-juan`·`wang-chong`)과 비활성 미등록 7명(`jebe`·`ahmed-sherif`·`hu-hai`·`ishak-pasha`·`jamukha`·`parmenion`·`zhao-gao`). 신원 불일치·근거 부재 이미지는 DB·R2에서 제거함. 이번 초상화 정비 범위 밖인 `fiction` 티어 미등록 209명은 집계에서 제외 |
+| `celeb-avatar-defects.md` | **26.07.29 등록 아바타 1,844명 전수 육안 재검수. 최초 확정 376명 + 후속 신원 감사 14명 중 2026-07-30까지 228명 교체·역검증 완료, 현재 잔여 162명.** probable 148명은 신원·원본 대조 전이라 확정 명단에 넣지 않았다. 완료된 인물은 R2 재다운로드·800×800 RGBA WebP·업로드본 해시 일치까지 확인한 뒤 문서에서 제거한다 |
+| `celeb-avatar-missing.md` | 2026-07-31 01:24 KST 비fiction CELEB DB 실측 — 미등록 11명은 활성 4명(`hai-rui`·`kong-rong`·`pang-juan`·`wang-chong`)과 비활성 7명이다. 이번 삼국지 생성 52명은 아바타 등록 52·비활성 보류 0·활성 미등록 0으로 완료했다. `fiction` 티어 미등록 209명은 별도 트랙이라 제외 |
 | `celeb-avatar-local-assets.md` | R2 검증 후 로컬 재료 전량 정리. `D:\image\서비스_재료\인물`은 비어 있고 R2 검색기·다운로드 폴더만 유지 |
 | `celeb-avatar-modern-targets.md` | `ahmed-sherif`의 Neuralink CEO 설명 불일치와 이미지 등록 보류 근거 |
 
@@ -189,6 +206,7 @@ pnpm build:audio-bo
 
 | 문서 | 내용 |
 |------|------|
+| `docs/project/env-vars.md` | **환경변수·비밀값 SSoT** — 옮겨야 할 파일 6종, 앱별 배치, 키 이름별 용도·발급처, 컴퓨터마다 달라지는 로컬 경로, 유출 시 처리 순서 |
 | `docs/project/external-services.md` | Supabase, R2, GA, 음성 경로, 크론잡, egress 사고 이력 |
 | `docs/project/openai-usage.md` | OpenAI/GPT API — 모델 선택, 이미지 생성 해상도·품질·비용 기준 |
 | `docs/project/web-egress-audit-2026-06-29.md` | web egress 전수 재점검 보고서(2026-06-29) — 원인 정정·적용 조치·복구 후 과제 |
@@ -226,10 +244,9 @@ pnpm build:audio-bo
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
 | `factions/_docs/folder-rules.md` | **팩션 폴더·파일·단계 규격 SSoT** (춘추전국 정리. 신규 작업 필수) |
 | `factions/_voice-casting/README.md` | ELE 보이스 캐스팅 운영 |
-| `sw/remotion/public/factions/_docs/idea-bank/IDEAS-BANK.md` | 에피소드 아이디어 뱅크(후보 풀). **26.07.26에 72편을 DB로 이관했고, 26.07.28 `great-hackers-state` 폐기 후 현재 71편이다.** 기획 문서만 이곳에 두며, 영상 편 실물은 활성 여부와 무관하게 모두 `public/factions/<폴더>` 한 단계에 둔다. 활성 여부는 경로가 아니라 DB `registered`가 결정한다 |
+| `sw/remotion/public/factions/_docs/idea-bank/IDEAS-BANK.md` | 에피소드 아이디어 뱅크(후보 풀). 기획 문서만 이곳에 두며, 영상 편 실물은 활성 여부와 무관하게 모두 `public/factions/<폴더>` 한 단계에 둔다. 활성 여부는 경로가 아니라 DB `registered`가 결정한다. `great-hackers-faces`·`great-hackers-masked`·`great-hackers-state` 3편은 `blocked/registered=false` 상태로 유지하며 다시 제작 큐에 넣지 않는다 |
 | `sw/remotion/public/factions/_docs/idea-bank/korea-ideas/` | 한국 소재 아이디어 뱅크 문서 |
 | `sw/remotion/public/factions/_docs/idea-bank/philosophy-and-myth/` | 신화 시리즈 기획 문서·`00-QUEUE.md`·`mythology-plan.md` |
-| `factions/great-hackers-faces/_docs/plan.md` | 위대한 해커들 3부작 기획 |
 | `factions/Digital-Resistance/_docs/saga-expansion.md` | 디지털 레지스탕스 확장 기획 |
 | `factions/Social-Network/_docs/social-streaming-plan.md` | 소셜·스트리밍 통합 기획 |
 | `factions/Homer-Iliad/_docs/quotes/` · `Homer-Odyssey/_docs/` | 호메로스 어록 조사 |
@@ -263,10 +280,11 @@ pnpm build:audio-bo
 미완료 작업 목록. 각 항목의 상세 계획은 `docs/todo/` 디렉토리 참조.
 TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 제거하고 추후의 개발자에게 정보를 공유할 필요성이 있는 경우 상단의 "상세 레퍼런스" 에서 참조할 수 있는 문서를 따로 작성함으로서 마무리를 해줘야 한다.
 
+> **팩션 대사 운영 정정(2026-07-31):** 필수값은 한국어 `quote`와 `quoteChunks`뿐이다. `quoteOrigin`은 자유 메모칸이라 비어 있어도 결손이 아니다. 팩션 영문 대사·영문 청크는 현재 제작하지 않으며 기존 값만 보존한다. 아래 TODO의 영문·origin 결손 수치는 과거 감사 이력으로만 읽는다.
+
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
 | 안드로이드 앱(TWA) 출시 | `docs/project/android-app-feasibility-review-2026-07-29.md` §14 | **코드 구현 완료·실기기/Play 미착수(26.07.30)** | PWA + TWA 방식. 코드로 가능한 범위는 끝냈다 — UGC 신고·차단(서버 계층·화면 부품·게시판/댓글/방명록/프로필 연결·차단 콘텐츠 숨김·차단 관리), PWA(아이콘 4종·manifest 보강·서비스 워커·오프라인 화면), Play 창구(`/account-deletion`·`/.well-known/assetlinks.json`·약관 7·8조), 백오피스 신고 처리 보강, 안드로이드 셸 `sw/android`. 실측: `tsc` 0 · 관련 파일 `eslint` 0 · `next build` 성공 · 신규 경로 전부 200.<br>🔴 **조사 시점 판정 정정** — 계획서가 부재로 본 `blocks` 테이블과 web-bo `/reports` 화면은 **이미 있었다**. 없던 것은 `reports.target_user_id` 하나뿐이었다.<br>**미검증**: 안드로이드 빌드(SDK·Gradle·bubblewrap 미설치. 설치는 승인 사항), 로그인 상태의 신고·차단 실동작(`reports`·`blocks` 0건), 실기기 QA 전부, 서비스 워커의 실제 등록(배포 후 동작).<br>**유저 확정 필요**: 앱 식별자 `com.feelandnote.app`, 계정 삭제 처리 기간(임의값), 약관 개정일 표기, Gradle·AGP·androidbrowserhelper 버전, `www` 하위 도메인 사용 여부.<br>**제약**: 차단은 단방향(RLS상 "나를 차단한 사람"은 읽을 수 없다), 게시 전 동의는 안내 표시 방식. |
-| 사용자 대면 셀럽·세력도감 데이터 전수 정비 | `docs/todo/public-celeb-data-cleanup.md` | **팩션 필수 결손 0·프로필 필수행 1명 보류·웹 대사 교정 중(26.07.30)** | 유튜브 공개 팩션 대사 6편 144배치는 보호한다. 비보호 87편·1,089배치의 KO·EN 본문/출처 결손과 본문↔청크 오류는 0으로 수렴했고, 고유 383배치를 조건부 반영했다. 감상철학·영향력·페르소나 결손은 근거가 부족한 앤서니 암스트롱 각 1건만 보류했고 불완전 행은 0이다. 웹용 21개 대사는 KO 결손 149명·EN 136명(수정 가능 KO 120·EN 96)이며 5명씩 병렬 조사·반영한다. 콘텐츠 review 결손은 KO·EN 0, locale 결손은 KO 586·EN 91, thumbnail 결손은 KO 431·EN 382이며, 짧은 감상문·Google Books legacy 244건은 인물별 출처 감사로 계속 정비한다. 프로필·비공개 팩션 내용 감사와 실화면 검수도 계속 진행한다. |
 | 가상 독백 전수 품질 정비 | `docs/todo/virtual-monologue-quality-overhaul.md` · `docs/todo/virtual-monologue-handoff-2026-07-30.md` | **실존 full·light 한국어 전수 완료(26.07.30)** | 활성 실존 1,476명을 전원 판정해 유지 624·게시 139·보류 713으로 마감했다. 누락·중복·해시·상태 불일치와 `unreviewed`·`draft`·`approved` 잔존은 모두 0이다. 게시분은 원문 SHA-256 조건부 UPDATE·캐시 HTTP 200·재실행 `SKIP`·공개 한국어 HTML 문단 완전 일치를 통과했다. 전원 dossier 방식의 병목을 없애고 100명 텍스트 판정→결함자만 재작성·두 독립 검토→사람 통독 구조로 바꿨다. 다음 별도 범위는 `fiction-profile-monologue` 원전 트랙과 `virtual_monologue_en`이다. |
 | 북리커맨드 완전 통합 | `docs/project/remotion-bo-plan.md` 「최종 이관」 · `docs/project/remotion/book-recommend/unification-phase1.md` | **완료(26.07.29)** | web-bo `/book-recommend`에 제작 현황·리소스를 통합하고 Scenario·Voice·Render·YouTube·Cards 전 화면과 42개 로컬 제작 API를 이관했다. 데이터 원천은 계속 `sw/remotion/public/episodes`, 렌더 엔진은 `sw/remotion`이다. `sw/remotion-bo` 앱·워크스페이스·실행 명령은 폐기했다. Deep 감상배경과 본 서비스 노출 형식은 별도 후속 기획이며 이번 이관 범위가 아니다. |
 | web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | Pro 결제 복구(26.07.03). 실측 PostgREST 100%. 페이로드 다이어트(persona 7MB→560KB·review_en·게임)·정적화 머지 완료. **CRON_SECRET(④)·태그 국소화(⑤) 완료(26.07.15)** — BO 저장 1회가 캐시 74곳을 전멸시키던 구조 해소. **tracker RPC 교정 완료(26.07.15)** — `get_tracker_candidates`가 부재 컬럼(`quotes`) 참조로 100% 실패 → 매번 fallback → fallback은 462개 id를 단일 `in()`에 실어 URL 한도 초과(실측 300 OK / 462 fail)로 후보 0 → 미궁 게임 진입 불가였다. RPC 재정의(cultural_journey 기준·본문 제외·전체 후보 반환) + `selectInChunks`(200개 단위) 적용. **잔여 (26.07.16 실측 재조사)**: ① ~~all-persona-vectors 경량화~~ → **완료(26.07.16).** RPC화는 불필요했다 — `celeb_persona`에 이미 flat smallint 16컬럼이 있고 트리거 `trg_sync_persona_columns`가 동기화한다(16축 × 1577행 전수 대조 불일치 0). `getSimilarByCelebId.ts`의 select만 교체. **실측 gzip 2.0MB→0.11MB(18.7배)**, 셀럽 1,000명 top-5 전원 동일·거리값 불일치 0으로 결과 동일성 확인. 조용한 실패(에러 미수신)도 함께 해소. ② **`[locale]` 정적 렌더 — 착수 금지.** ⚠️ 전역 차단자는 셀럽 페이지가 아니라 **루트 `app/layout.tsx`의 `await getLocale()`**이다(locale param이 없어 `setRequestLocale` 불가 → headers 폴백 → 전 라우트 동적 확정). 그 결과 셀럽 page의 `revalidate=3600`은 **죽은 코드**이고(prerender-manifest의 dynamicRoutes 0건, `[locale]` 하위 .html 0건) 그 옆 "쿠키를 읽지 않는다" 주석은 거짓이다(`getCelebBySlug`가 `auth.getUser()` 호출). 게다가 체인에 Suspense 경계가 없어 정적화 시 CSR 이탈이 아니라 빌드 실패/라우트 통째 이탈이다. 착수하려면 루트 레이아웃 구조 변경 + Suspense 신설 + 5개소 연쇄 수정이 선행돼야 하고, 색인 회복 관측 중인 지금은 위험 대비 이득이 안 맞는다 |

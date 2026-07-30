@@ -2225,34 +2225,6 @@ metadata:
 등록 통로·컬럼 함정은 [[reference_celeb_bulk_register_workaround]]. 완료 현황: 전 8에피소드(AI-Supremacy·X-Empire·Digital-Resistance·Social-Network·Streaming-Empire·Path-of-Kings·PayPal-Mafia·Iliad-Odyssey) 인물 268명 유령 0, 100% DB 연결(실존 237 light/relation + 신화 30 fiction, 오디세우스 slug 1개 공유). 신규 등록분 status=inactive라 검수 후 수동 active 전환 필요.
 ```
 
-## project_faction_hackers_arc
-
-```markdown
----
-name: project_faction_hackers_arc
-description: 팩션 「위대한 해커들」 3부작 기획 확정(데이터 미작성). 조사 원자료·출연 명단은 faction-hackers-plan.md
-metadata: 
-  node_type: memory
-  type: project
-  originSessionId: 3278cdb7-e685-4be3-a7ca-57b069202d25
----
-
-팩션(세력도) 신규 「위대한 해커들」을 **3부작 + 종장**으로 기획 확정(2026-06-29). **해킹의 역사 연도순**(편 사이·편 내부 과거→현재).
-
-**진행 상태(2026-06-29)**: 에피소드 폴더 `12-위대한해커-개인의시대`·`13-위대한해커-가면의시대`·`14-위대한해커-국가의군단` 생성. 각 `data.json`(세력·인물·세력명·이력 ko/en, **대사·음성·이미지 없는 credit 골격**) + 발주서(`person-prompts.md`·`group-prompts.md`) 작성 완료. `_episodes.json` 등록 완료. BO 로드·렌더 검증됨(12 캡처 확인). 종장 「다시, 얼굴」은 14편의 마지막 진영으로 들어감(독립 4편 승격은 미정).
-**얼굴 REF 수집(2026-06-29)**: 각 에피소드 `_refs/<그룹슬러그>/<인물>.png`에 **그룹별 분리** 저장(한 폴더 금지). **18/18 전원 확보**(위키미디어 + 뉴스 og:image/본문 직접 추출: NCA·Krebs·NPR·아우룸·The Register·ComputerWeekly·businesspost). 발주서 REF 경로도 그룹별 PNG로 갱신됨. 약한 REF(저해상/듀오/캐주얼: 이정훈·블랭큰십·발라섹·구즈만)는 생성 후 개선 전제라 무방. **뉴스 이미지는 WebFetch가 못 뽑음 → 원본 HTML fetch + og:image/본문 정규식 추출 + sharp PNG 방식이 정답**(WIRED·namu는 차단, 한국인은 한국 뉴스 og:image로).
-**남은 단계(승인/유료/명시 필요)**: ① 이미지 생성(발주서대로, 유료) ③ 대사 작성(person-quote-mining)+음성 합성(ElevenLabs 유저 전담) ④ 렌더 ⑤ 유튜브.
-
-- **1편 「얼굴 있는 자들」**(인물형, 개인의 시대 1971~2000): 기원-프리킹/첫웜(워즈&잡스 블루박스·드레이퍼·더멘토·모리스) + 개인 무법자 전설(폴슨·미트닉·ILOVEYOU·마피아보이). 미화부담 최저 → **1편부터 제작**.
-- **2편 「가면 쓴 자들」**(팀형, 집단·저항 1996~2023): 해커티비스트(cDc·어나니머스·LulzSec·피니어스피셔) + 사이버크라임(이블코프·LockBit·다크사이드·스캐터드, **현상수배 도감 톤**).
-- **3편 「국가의 군단」**(팀형, 사이버전 2010~현재): 미·이스라엘(스턱스넷·Equation·8200) / 중(61398) / 러(팬시베어·샌드웜) / 북(라자루스, 클라이맥스). 정치 균형 톤, 후순위.
-- **종장 「다시, 얼굴」**(인물형, 현재 수호자): geohot·밀러&발라섹·이정훈·허친스. 원래 1편에 있던 보안 수호자를 가장 현대라 역사 끝으로 이동(얼굴→가면→군단→다시 얼굴). 3편 코다 또는 독립 4편.
-
-핵심: 09-디지털저항군(=이념·프라이버시 철학)과 **인물 중복 0건**. 본 시리즈는 실제 침투·익스플로잇·사이버전. 한국 hook=이정훈·평창마비(샌드웜)·삼성유출(Lapsus$)·라자루스·OpNorthKorea.
-
-조사 원자료(후보 161건)·3안 비교·톤정책 전문은 `docs/project/remotion/faction-hackers-plan.md`. AGENTS.md 영상표·faction-ideas.md에서 연결됨. 기획 방법론은 스킬 [[faction-series-concept]], 제작은 `faction.md`.
-```
-
 ## project_faction_iliad_dialogue_rewrite
 
 ```markdown
