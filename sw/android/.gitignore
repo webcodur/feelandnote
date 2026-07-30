@@ -1,0 +1,21 @@
+# 파일명: /sw/android/.gitignore
+# 책임: 서명 비밀값과 빌드 산출물을 저장소 밖에 둔다.
+
+# 🔴 서명 비밀값. 절대 추적하지 않는다.
+keystore.properties
+*.jks
+*.keystore
+
+# 빌드 산출물
+build/
+.gradle/
+local.properties
+captures/
+.cxx/
+*.apk
+*.aab
+output-metadata.json
+
+# IDE
+.idea/
+*.iml

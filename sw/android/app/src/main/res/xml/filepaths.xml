@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/xml/filepaths.xml
+  기능: 파일 공유 경로
+  책임: 스플래시 그림을 브라우저에 넘길 때 쓰는 폴더만 열어 준다.
+-->
+<paths>
+    <files-path
+        name="twa_splash"
+        path="twa_splash/" />
+</paths>

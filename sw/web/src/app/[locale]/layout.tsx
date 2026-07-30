@@ -13,6 +13,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
+import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -123,6 +124,7 @@ export default async function LocaleLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
           />
           <PortraitSharpenFilter />
+          <ServiceWorkerRegistrar />
           {children}
           <Footer />
           {process.env.NODE_ENV === "production" && (

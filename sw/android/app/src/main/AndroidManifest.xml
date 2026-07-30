@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /sw/android/app/src/main/AndroidManifest.xml
+  기능: 앱 구성 선언
+  책임: TWA 실행 진입점과 도메인 연결(App Links)을 정의한다.
+
+  자체 액티비티 코드가 없다. androidbrowserhelper 의 LauncherActivity 를 그대로 지목하고
+  시작 주소·색상·스플래시만 meta-data 로 넘긴다.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 알림 위임을 쓰지 않으므로 POST_NOTIFICATIONS 는 선언하지 않는다(1차 출시 범위 밖). -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FeelAndNote"
+        tools:targetApi="36">
+
+        <activity
+            android:name="com.google.androidbrowserhelper.trusted.LauncherActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.FeelAndNote.Splash">
+
+            <meta-data
+                android:name="android.support.customtabs.trusted.DEFAULT_URL"
+                android:value="@string/default_url" />
+
+            <meta-data
+                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
+                android:resource="@color/status_bar" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR"
+                android:resource="@color/navigation_bar" />
+
+            <meta-data
+                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
+                android:resource="@drawable/splash" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
+                android:resource="@color/splash_background" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
+                android:value="300" />
+            <meta-data
+                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
+                android:value="${applicationId}.fileprovider" />
+
+            <!-- 도메인 검증이 실패하면 일반 Custom Tab 으로 물러난다. 흰 화면으로 죽지 않게 한다. -->
+            <meta-data
+                android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
+                android:value="customtabs" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!--
+              App Links. 경로를 좁히지 않고 도메인 전체를 받는다.
+              근거: 이 서비스의 공개 주소는 /celeb/<인물>, /content/<작품>, /explore/*, /library/*,
+              /agora/*, /<사용자>/reading 등으로 넓게 퍼져 있고 앞에 /ko·/en 이 붙는 변형까지 있다.
+              계획서 §11 은 "모든 feelandnote.com 주요 URL 이 앱으로 정상 연결된다"를 출시 조건으로 둔다.
+              경로 목록을 열거하면 라우트가 늘 때마다 앱을 다시 내야 하므로 도메인 단위로 받는다.
+              ⚠️ www 하위 도메인은 실제 서비스 여부를 확인하지 못해 넣지 않았다. 쓰고 있다면
+              여기에 host 를 추가하고 그 주소에도 assetlinks.json 이 응답해야 한다.
+            -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="feelandnote.com" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <!-- 브라우저와 연결을 유지해 앱이 살아 있는 것으로 취급되게 한다. -->
+        <service
+            android:name="com.google.androidbrowserhelper.trusted.DelegationService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <!-- 스플래시 이미지를 브라우저에 넘기는 통로. TWA 스플래시에 필수다. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+    </application>
+
+    <!-- Custom Tabs 지원 브라우저를 조회할 수 있어야 한다(Android 11+ 패키지 가시성). -->
+    <queries>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+    </queries>
+</manifest>

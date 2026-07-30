@@ -6,6 +6,7 @@ import { routing } from './routing';
 const NAMESPACES = [
   'core', 'nav', 'home', 'auth', 'explore', 'agora',
   'scriptures', 'content', 'profile', 'celeb', 'rest', 'flow', 'reading',
+  'moderation',
 ] as const;
 
 async function loadMessages(locale: string) {

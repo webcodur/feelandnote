@@ -1,0 +1,59 @@
+{
+  "packageId": "com.feelandnote.app",
+  "host": "feelandnote.com",
+  "name": "Feel&Note - 감상 아카이브",
+  "launcherName": "Feel&Note",
+  "display": "standalone",
+  "themeColor": "#0a0a0a",
+  "themeColorDark": "#0a0a0a",
+  "navigationColor": "#0a0a0a",
+  "navigationColorDark": "#0a0a0a",
+  "navigationDividerColor": "#0a0a0a",
+  "navigationDividerColorDark": "#0a0a0a",
+  "backgroundColor": "#0a0a0a",
+  "enableNotifications": false,
+  "startUrl": "/?utm_source=android_app&utm_medium=twa",
+  "iconUrl": "https://feelandnote.com/icons/android-512.png",
+  "maskableIconUrl": "https://feelandnote.com/icons/android-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "",
+    "alias": ""
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "오늘의 인물",
+      "short_name": "오늘의 인물",
+      "url": "/explore/today?utm_source=android_app&utm_medium=twa&utm_content=shortcut_today",
+      "chosenIconUrl": "https://feelandnote.com/icons/android-512.png"
+    },
+    {
+      "name": "검색",
+      "short_name": "검색",
+      "url": "/search?utm_source=android_app&utm_medium=twa&utm_content=shortcut_search",
+      "chosenIconUrl": "https://feelandnote.com/icons/android-512.png"
+    },
+    {
+      "name": "내 기록관",
+      "short_name": "내 기록관",
+      "url": "/login?utm_source=android_app&utm_medium=twa&utm_content=shortcut_chamber",
+      "chosenIconUrl": "https://feelandnote.com/icons/android-512.png"
+    }
+  ],
+  "generatorApp": "manual",
+  "webManifestUrl": "https://feelandnote.com/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://feelandnote.com/",
+  "minSdkVersion": 23,
+  "orientation": "any",
+  "appVersion": "1.0.0"
+}

@@ -1,0 +1,128 @@
+{
+  "report": {
+    "menu": {
+      "post": "Report post",
+      "comment": "Report comment",
+      "guestbook": "Report guestbook entry",
+      "record": "Report record",
+      "content": "Report content",
+      "feedback": "Report feedback",
+      "author": "Report author",
+      "user": "Report user"
+    },
+    "title": "Report",
+    "subtitle": "Tell us what's wrong.",
+    "guide": "Only our moderators can see your report. We review every report and act on it. The person you report will not be told who reported them.",
+    "targetLabel": "Reporting",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "Choose a reason",
+    "detailLabel": "Details",
+    "detailOptional": "Details (optional)",
+    "detailRequired": "Details (required)",
+    "detailPlaceholder": "The more specific you are, the faster we can review it.",
+    "charCount": "{count} / {max}",
+    "submit": "Submit report",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "reason": {
+      "spam": "Spam or advertising",
+      "hate": "Hate speech or discrimination",
+      "violence": "Violence or threats",
+      "sexual": "Sexual content",
+      "impersonation": "Impersonation",
+      "privacy": "Exposing private information",
+      "copyright": "Copyright infringement",
+      "other": "Something else"
+    },
+    "reasonHint": {
+      "spam": "Repeated posts, promotion, or flooding",
+      "hate": "Attacks or slurs aimed at a person or group",
+      "violence": "Encouraging violence or threatening harm",
+      "sexual": "Sexually explicit or offensive material",
+      "impersonation": "Pretending to be another person or organization",
+      "privacy": "Contact details, address, or identity shared without consent",
+      "copyright": "Work posted without the rights holder's permission",
+      "other": "A problem none of the reasons above cover"
+    },
+    "result": {
+      "success": "Report submitted. We'll review it and take action.",
+      "alreadyReported": "You've already reported this. Your report is under review.",
+      "selfTarget": "You can't report your own content.",
+      "loginRequired": "Sign in to submit a report.",
+      "reasonMissing": "Choose a reason for your report.",
+      "detailMissing": "Please add details when you choose \"Something else\".",
+      "detailTooLong": "Details can be up to {max} characters.",
+      "error": "We couldn't submit your report. Please try again in a moment."
+    },
+    "close": "Close"
+  },
+  "block": {
+    "menu": {
+      "block": "Block user",
+      "blockAuthor": "Block author",
+      "unblock": "Unblock"
+    },
+    "confirmTitle": "Block {nickname}?",
+    "confirmMessage": "Once blocked, this user's posts and activity will no longer appear for you. You can unblock them at any time.",
+    "confirmNote": "They won't be told that you blocked them.",
+    "confirm": "Block",
+    "cancel": "Cancel",
+    "unblockConfirmTitle": "Unblock {nickname}?",
+    "unblockConfirmMessage": "Their posts and activity will appear for you again.",
+    "unblockConfirm": "Unblock",
+    "processing": "Working...",
+    "result": {
+      "success": "You blocked {nickname}.",
+      "alreadyBlocked": "You've already blocked this user.",
+      "unblocked": "You unblocked {nickname}.",
+      "notBlocked": "This user wasn't blocked.",
+      "selfTarget": "You can't block yourself.",
+      "loginRequired": "Sign in to block someone.",
+      "notFound": "We couldn't find that user.",
+      "error": "We couldn't update the block. Please try again in a moment."
+    }
+  },
+  "blockedList": {
+    "title": "Blocked users",
+    "description": "Posts and activity from blocked users never appear for you.",
+    "count": "{count}",
+    "empty": "You haven't blocked anyone.",
+    "emptyGuide": "If someone bothers you, block them from their profile or from the post menu.",
+    "blockedAt": "Blocked {date}",
+    "unblock": "Unblock",
+    "loadMore": "Load more",
+    "loadError": "We couldn't load your blocked users.",
+    "loginRequired": "Please sign in to continue.",
+    "manage": "Manage blocked users"
+  },
+  "myReports": {
+    "title": "My reports",
+    "description": "See the reports you've submitted and how they were handled.",
+    "count": "{count}",
+    "empty": "You haven't submitted any reports.",
+    "reportedAt": "Submitted {date}",
+    "resolvedAt": "Handled {date}",
+    "resolutionNote": "Outcome",
+    "loadMore": "Load more",
+    "loadError": "We couldn't load your reports.",
+    "status": {
+      "pending": "Under review",
+      "resolved": "Resolved",
+      "rejected": "No action taken"
+    },
+    "targetType": {
+      "user": "User",
+      "record": "Record",
+      "content": "Content",
+      "comment": "Comment",
+      "guestbook": "Guestbook",
+      "post": "Post",
+      "feedback": "Feedback"
+    }
+  },
+  "ugcNotice": {
+    "title": "Before you post",
+    "body": "By posting, you agree to the Terms of Service and the prohibited content standards. Abusive language, discriminatory remarks, advertising, exposure of personal information, and copyright infringement may be reported and removed by our team.",
+    "link": "View Terms of Service"
+  }
+}

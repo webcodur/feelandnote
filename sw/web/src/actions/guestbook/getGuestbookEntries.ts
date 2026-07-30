@@ -2,6 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
+import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { GuestbookEntryWithAuthor } from '@/types/database'
 
 interface GetGuestbookEntriesParams {
@@ -48,5 +49,21 @@ const getGuestbookEntriesCached = unstable_cache(
 
 export async function getGuestbookEntries(params: GetGuestbookEntriesParams) {
   const { profileId, limit = 20, offset = 0 } = params
-  return getGuestbookEntriesCached(profileId, limit, offset)
+  const cached = await getGuestbookEntriesCached(profileId, limit, offset)
+
+  // 🔴 차단 필터는 반드시 캐시 밖에서 적용한다.
+  // 위 캐시는 profileId·limit·offset 만 키로 쓰며 보는 사람과 무관하게 공유된다.
+  // 차단 목록을 캐시 안에서 읽으면 한 사람의 차단 결과가 전체 사용자에게 캐시된다.
+  const blockedIds = await getBlockedUserIds()
+  if (blockedIds.length === 0) return cached
+
+  const entries = filterBlocked(cached.entries, (entry) => entry.author_id, blockedIds)
+  const removed = cached.entries.length - entries.length
+
+  return {
+    entries,
+    // 걸러낸 만큼만 줄인다. 뒷 페이지의 차단 글은 알 수 없어 정확한 값이 아니다.
+    total: Math.max(cached.total - removed, entries.length),
+    hasMore: cached.hasMore,
+  }
 }

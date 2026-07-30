@@ -16,6 +16,8 @@ import { ko } from "date-fns/locale";
 import { enUS } from "date-fns/locale";
 import type { EntryItemProps } from "./types";
 import { Z_INDEX } from "@/constants/zIndex";
+import { ModerationMenu } from "@/components/features/moderation";
+import { ENUM_REPORT_TARGET_TYPE } from "@/constants/moderation";
 
 function cn(...classes: (string | undefined | null | false)[]) {
   return classes.filter(Boolean).join(" ");
@@ -126,6 +128,19 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
             </p>
           )}
         </div>
+
+        {/* 신고·차단 - 남이 남긴 글에만 뜬다 */}
+        {!isEditing && !isHiddenPrivate && (
+          <ModerationMenu
+            className="ml-1"
+            targetType={ENUM_REPORT_TARGET_TYPE.GUESTBOOK}
+            targetId={entry.id}
+            authorId={entry.author_id}
+            authorNickname={entry.author.nickname ?? ""}
+            viewerId={currentUserId ?? null}
+            targetLabel={entry.content}
+          />
+        )}
 
         {/* 메뉴 - 우측 상단 배치 */}
         {(canDelete || canEdit) && !isEditing && (

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0a0a">
+<title>연결이 끊겼습니다 · Feel&amp;Note</title>
+<style>
+  /* 외부 요청 0 — 폰트·이미지·CSS를 밖에서 불러오지 않는다. 기기 기본 서체만 쓴다. */
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+  }
+  main {
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  .mark {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 56px;
+    line-height: 1;
+    color: #d4af37;
+    letter-spacing: 0.02em;
+  }
+  .brand {
+    margin-top: 10px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    letter-spacing: 0.34em;
+    color: #c8a97e;
+  }
+  .rule {
+    margin: 26px auto;
+    width: 132px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(200,169,126,0) 0%, #c8a97e 50%, rgba(200,169,126,0) 100%);
+  }
+  h1 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 600;
+    color: #e0e0e0;
+  }
+  h1 .en {
+    display: block;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #c8a97e;
+  }
+  p {
+    margin: 18px 0 0;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #a0a0a0;
+    word-break: keep-all;
+  }
+  p .en {
+    display: block;
+    margin-top: 6px;
+    font-size: 14px;
+    color: #7d7d7d;
+  }
+  button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px 20px;
+    border: 1px solid #c8a97e;
+    border-radius: 2px;
+    background: rgba(200, 169, 126, 0.08);
+    color: #d4af37;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+  /* 조작 요소는 즉각 반응한다 — transition 없음 */
+  button:hover, button:focus-visible {
+    background: rgba(200, 169, 126, 0.18);
+    border-color: #d4af37;
+    color: #f2e2b8;
+    outline: none;
+  }
+  button:active { background: rgba(200, 169, 126, 0.26); }
+  .hint {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #6f6f6f;
+  }
+  .state {
+    margin-top: 16px;
+    min-height: 20px;
+    font-size: 14px;
+    color: #d4af37;
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark" aria-hidden="true">F</div>
+  <div class="brand">FEEL&amp;NOTE</div>
+  <div class="rule" aria-hidden="true"></div>
+
+  <h1>
+    연결이 끊겼습니다
+    <span class="en">You are offline</span>
+  </h1>
+
+  <p>
+    네트워크에 닿지 못해 이 화면을 대신 띄웠습니다. 연결을 확인한 뒤 다시 시도해 주세요.
+    <span class="en">We could not reach the network. Check your connection and try again.</span>
+  </p>
+
+  <button type="button" id="retry">다시 시도 · Retry</button>
+
+  <p class="state" id="state" role="status" aria-live="polite"></p>
+
+  <p class="hint">
+    연결이 돌아오면 자동으로 원래 화면으로 되돌아갑니다.
+    <span class="en">You will return automatically once the connection is back.</span>
+  </p>
+</main>
+
+<script>
+  (function () {
+    var stateEl = document.getElementById('state');
+    var retryEl = document.getElementById('retry');
+
+    // 서비스 워커가 오프라인 화면을 내보낼 때 원래 목적지를 쿼리로 넘긴다
+    var target = new URLSearchParams(location.search).get('from');
+    var isSameOrigin = false;
+    if (target) {
+      try { isSameOrigin = new URL(target, location.origin).origin === location.origin; } catch (e) { isSameOrigin = false; }
+    }
+
+    function go() {
+      if (isSameOrigin && target) { location.replace(target); return; }
+      location.reload();
+    }
+
+    retryEl.addEventListener('click', function () {
+      stateEl.textContent = navigator.onLine ? '다시 불러옵니다 · Reloading' : '아직 연결되지 않았습니다 · Still offline';
+      go();
+    });
+
+    window.addEventListener('online', function () {
+      stateEl.textContent = '연결이 복구됐습니다 · Back online';
+      go();
+    });
+  })();
+</script>
+</body>
+</html>

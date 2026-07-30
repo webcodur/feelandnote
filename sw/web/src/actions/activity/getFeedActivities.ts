@@ -6,6 +6,7 @@ import { getTitleInfo } from '@/constants/titles'
 import type { ActivityActionType, ActivityTargetType, ContentType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
+import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 
 export interface FeedActivity {
   id: string
@@ -65,7 +66,18 @@ export async function getFeedActivities(
     return { activities: [], nextCursor: null }
   }
 
-  const followingIds = following.map(f => f.following_id)
+  // 팔로우 중이라도 차단한 사람의 활동은 빼고 조회한다.
+  // 조회 전에 걸러야 걸러낸 만큼 빈자리가 생기지 않는다.
+  const blockedIds = await getBlockedUserIds()
+  const followingIds = filterBlocked(
+    following.map(f => f.following_id),
+    (id) => id,
+    blockedIds
+  )
+
+  if (followingIds.length === 0) {
+    return { activities: [], nextCursor: null }
+  }
 
   // contentType 필터가 있으면 해당 타입의 content_id 목록 조회
   let filteredContentIds: string[] | null = null

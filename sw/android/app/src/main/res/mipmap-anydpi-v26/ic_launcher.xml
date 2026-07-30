@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+  기능: adaptive icon 정의
+  책임: 런처가 원형·둥근사각 등 어떤 모양으로 깎아도 로고가 살아남게 한다.
+
+  전경 그림은 캔버스의 55% 크기로 만들어 두었다(sw/web/scripts/generate-android-launcher-icons.mjs).
+  adaptive icon 은 바깥을 깎고 가운데 72/108 만 보장하므로 그 안에 들어간다.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+    <monochrome android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

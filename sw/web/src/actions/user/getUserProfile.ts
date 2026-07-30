@@ -6,6 +6,7 @@ import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
 import { getLocale } from 'next-intl/server'
 import type { CelebTier as SharedCelebTier } from '@feelandnote/shared/constants/celeb-tiers'
+import { getDisplayDialogueQuote } from '@/lib/utils/celeb-dialogues'
 
 interface SelectedTitle {
   name: string
@@ -150,6 +151,9 @@ async function getUserProfileInner(userId: string): Promise<ActionResult<PublicU
     dialogueQuote = (dlg as { quote?: string | null } | null)?.quote ?? null
     dialogueQuoteEn = (dlg as { quote_en?: string | null } | null)?.quote_en ?? null
   }
+
+  dialogueQuote = getDisplayDialogueQuote(dialogueQuote)
+  dialogueQuoteEn = getDisplayDialogueQuote(dialogueQuoteEn)
 
   const locale = await getLocale()
   const isEn = locale === 'en'

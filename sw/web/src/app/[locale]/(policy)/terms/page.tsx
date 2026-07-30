@@ -80,6 +80,28 @@ export default async function TermsPage() {
         </p>
       </section>
 
+      <section className="space-y-4">
+        <h2 className="text-xl font-bold">{t("terms7Title")}</h2>
+        <p className="text-text-secondary leading-relaxed">
+          {t("terms7Intro")}
+        </p>
+        <ul className="list-disc pl-5 space-y-2 text-text-secondary leading-relaxed">
+          <li>{t("terms7Item1")}</li>
+          <li>{t("terms7Item2")}</li>
+          <li>{t("terms7Item3")}</li>
+          <li>{t("terms7Item4")}</li>
+          <li>{t("terms7Item5")}</li>
+          <li>{t("terms7Item6")}</li>
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-bold">{t("terms8Title")}</h2>
+        <p className="text-text-secondary leading-relaxed whitespace-pre-line">
+          {t("terms8Body")}
+        </p>
+      </section>
+
       <footer className="pt-8 border-t border-border">
         <p className="text-sm text-text-secondary">
           {t("termsAddendum")}<br/>

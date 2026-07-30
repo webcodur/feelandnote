@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/values/strings.xml
+  기능: 문자열 자원
+  책임: 앱 이름과 시작 주소를 한 곳에서 관리한다. 웹 manifest 와 값이 어긋나지 않게 한다.
+-->
+<resources>
+    <!-- 웹 manifest 의 short_name 과 같게 둔다. 런처에 표시되는 이름이라 짧아야 한다. -->
+    <string name="app_name">Feel&amp;Note</string>
+
+    <!-- 웹 manifest 의 start_url 과 같은 계측 표시를 붙여 앱 실행과 웹 방문을 구분한다. -->
+    <string name="default_url">https://feelandnote.com/?utm_source=android_app&amp;utm_medium=twa</string>
+
+    <string name="shortcut_today_short">오늘의 인물</string>
+    <string name="shortcut_today_long">오늘의 인물 보기</string>
+    <string name="shortcut_search_short">검색</string>
+    <string name="shortcut_search_long">인물과 작품 검색</string>
+    <string name="shortcut_chamber_short">내 기록관</string>
+    <string name="shortcut_chamber_long">내 감상 기록 보기</string>
+</resources>

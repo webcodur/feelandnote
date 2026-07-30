@@ -3,6 +3,8 @@
 > 조사일: 2026-07-29  
 > 대상: 사용자 본서비스 `sw/web`  
 > 목적: `feelandnote.com` 본서비스를 안드로이드 앱으로 제공할 때의 구현 방식, 정책 위험, 출시 범위를 결정한다.
+>
+> **구현 현황: 2026-07-30 §14 참조.** 코드로 가능한 범위는 대부분 구현했다. 이 문서 본문은 조사 시점(07-29)의 판정이므로, **§3.2의 "부족한 것"과 §5.1의 "조사 결과"는 이미 해소된 항목이 있다.** 현재 상태는 §14가 기준이다.
 
 ## 1. 결론
 
@@ -548,3 +550,103 @@ TWA 셸 자체는 작지만 정책 보강과 실기기 QA가 실제 작업의 �
 - Google Mobile Ads, WebView API for Ads  
   https://developers.google.com/admob/android/browser/webview/api-for-ads
 
+
+## 14. 구현 현황 (2026-07-30)
+
+> **최종 실측 체크: 26.07.30** — 코드·DB·빌드 실측. 실기기·Play Console 작업은 미착수.
+
+### 14.1 조사 시점 판정의 정정
+
+조사(07-29)가 부재로 본 것 중 **실제로는 이미 있던 것**이 있다. 착수 전 실측에서 드러났다.
+
+| 조사 시점 서술 | 실측 결과 |
+|----------------|-----------|
+| §5.1 "`blocked_users`, `user_blocks` 등 사용자 차단 모델은 검색되지 않았다" | **`public.blocks` 테이블이 실재한다.** `unique(blocker_id, blocked_id)`·자기차단 CHECK·양쪽 FK CASCADE·RLS(blocker 본인 한정 select/insert/delete)까지 완비. 행은 0건이었다 |
+| §5.1 "`reports` 테이블 타입은 존재한다" | 타입만이 아니라 **테이블이 실재하고 운영 화면도 있었다.** `sw/web-bo`의 `/reports` 목록·상세·처리 화면 3종 |
+| §5.1 권장 스키마의 `target_user_id` | 유일하게 없던 컬럼. 이번에 추가했다 |
+
+### 14.2 이번에 구현한 것
+
+**DB** — 마이그레이션 `moderation_reports_extend_for_play_ugc`
+- `reports.target_user_id` 추가(신고 대상 콘텐츠의 작성자, FK → `profiles` ON DELETE SET NULL)
+- `target_type` CHECK에 `post`·`feedback` 추가(자유게시판 글·피드백 신고를 받기 위함. 기존 5종은 유지)
+- 인덱스 3종: `(status, created_at desc)` · `(target_type, target_id)` · `(target_user_id)`
+- `unique(reporter_id, target_type, target_id)` — 같은 사람이 같은 대상을 중복 신고하지 못한다
+
+**사용자 웹 — 신고·차단 (§5.1 요구)**
+- 서버 계층: `src/actions/moderation/`(`createReport`·`blockUser`·`unblockUser`·`getBlockedUsers`·`getMyReports`), `src/constants/moderation.ts`, `src/lib/moderation/blockFilter.ts`
+- 화면 부품: `src/components/features/moderation/`(신고 대화 상자·차단 확인·조작 메뉴·차단 관리 카드·게시 전 안내)
+- 붙인 자리: 자유게시판 글 상세, 자유게시판 댓글, 방명록 항목, 일반 사용자 프로필
+- 차단 콘텐츠 숨김: `getFreePosts`·`getFreeComments`(캐시 없음, 조회 지점에서 필터) / `getGuestbookEntries`(**`unstable_cache` 사용 — 필터를 캐시 밖 래퍼에서 적용**)
+- 게시 전 약관 안내: 자유게시판 글 작성 폼, 자유게시판 댓글 폼, 방명록 작성 폼
+- 다국어: `messages/{ko,en}/moderation.json`
+
+**사용자 웹 — PWA (§3.2 요구)**
+- 아이콘: `public/icons/`에 192·512·maskable 512·Play Store 512. 생성 스크립트 `scripts/generate-app-icons.mjs`
+- `manifest.ts`: 아이콘 3종 + `purpose`, `id`·`scope`·`lang`·`dir`·`categories`·`orientation`, 런처 바로가기 3종, `start_url`에 TWA 계측 표시
+- 서비스 워커 `public/sw.js`: §3.2 캐시 정책표 그대로. 인증·API·Server Action·비GET·Range 전부 우회
+- 오프라인 화면 `public/offline.html`: 외부 요청 0, 다시 시도 버튼, 온라인 복구 시 원래 화면 복귀
+- 등록 부품 `src/components/pwa/ServiceWorkerRegistrar.tsx`(개발 환경 제외)
+- `src/middleware.ts`: `/sw.js`·`/offline.html`이 로케일 접두어가 붙어 404였던 것을 통과 목록에 추가해 해소
+
+**사용자 웹 — Play 정책 창구 (§5.2, §3.2)**
+- `/account-deletion`(ko·en, 비로그인 접근). `sitemap.ts` 등재
+- `/.well-known/assetlinks.json` 라우트. 패키지명·SHA-256 지문을 환경변수로 읽는다
+- 이용약관에 제7조(금지 콘텐츠, 게시 시 동의 명시)·제8조(신고·차단 및 게시물 조치) 추가
+
+**백오피스 — 신고 운영 (§5.1 「운영 화면」)**
+- 신고 큐 보강(대상 종류 필터·대상 작성자·반복 신고 집계는 카운트 조회)
+- 상세 화면에 대상 원문 스냅샷(`src/lib/report-snapshot.ts`), 삭제된 원문은 "삭제됨" 표시
+- 조치: 처리·반려·되돌리기 + 처리 메모·처리자 기록, 대상 숨김·삭제, 계정 정지·해제(`profiles.status`·`suspended_at`·`suspended_reason` 실측 확인 후 사용)
+
+**안드로이드 셸 — `sw/android/`**
+- Gradle 프로젝트(`compileSdk`·`targetSdk` 36, `minSdk` 23), 버전 카탈로그, 서명은 추적 밖 `keystore.properties`에서만 읽는다
+- `AndroidManifest.xml`: `androidbrowserhelper`의 LauncherActivity·DelegationService·FileProvider, App Links는 `feelandnote.com` 도메인 전체를 받는다
+- 리소스: 문자열·색·테마(웹 manifest 값과 일치), 밀도 5종 런처 아이콘 + adaptive icon, 스플래시, 런처 바로가기 3종
+- `twa-manifest.json`, `.gitignore`, `keystore.properties.example`, `README.md`
+- 아이콘 생성 스크립트 `sw/web/scripts/generate-android-launcher-icons.mjs`
+
+### 14.3 검증한 것 / 안 한 것
+
+**돌려서 확인**
+- `sw/web` `npx tsc --noEmit` 에러 0 · 신고·차단 관련 파일 `eslint --quiet` 에러 0
+- `sw/web-bo` `src` 영역 타입 에러 0(잔여 72건은 전부 유저의 `scripts/` 작업물) · 신고 화면 린트 0
+- `npx next build --webpack` 성공, 정적 페이지 132개 생성, `/[locale]/account-deletion`·`/.well-known/assetlinks.json` 라우트 등재
+- 프로덕션 서버 실측 응답: `/account-deletion` 200 · `/en/account-deletion` 200 · `/.well-known/assetlinks.json` 200 · `/sw.js` 200 · `/offline.html` 200 · `/manifest.webmanifest` 200(아이콘 3종·바로가기 3종 포함) · `/agora/board/free` 200
+- 안드로이드 리소스 참조 20종 전부 실재 확인
+
+**확인하지 않은 것**
+- **안드로이드 빌드.** Android SDK·Gradle·bubblewrap이 이 환경에 없어 AAB를 만들 수 없다. 설치는 유저 승인 사항이라 시도하지 않았다
+- **로그인 상태의 신고·차단 동작.** 실제 접수·차단·숨김을 로그인해 눌러보지 않았다. `reports`·`blocks` 행은 여전히 0건이다
+- **실기기 확인 전부**(§11의 로그인·뒤로가기·외부 링크·광고·오프라인)
+- **서비스 워커의 실제 브라우저 등록.** 개발 환경에서는 등록하지 않도록 만들었고 배포 후에야 동작한다
+
+### 14.4 유저가 정해야 할 것
+
+| 항목 | 현재 값 | 왜 |
+|------|---------|-----|
+| 앱 식별자 `com.feelandnote.app` | 후보 | 배포 후 바꿀 수 없다. 상표·조직 소유와 기존 사용 여부 확인 필요 |
+| 계정 삭제 처리 기간(요청 회신 영업일 3일 / 완료 7일) | 임의로 넣음 | 운영 절차 문서가 없어 근거가 없다 |
+| 계정 삭제 요청 시 요구 항목·메일 제목 규칙 | 임의로 넣음 | 같은 이유 |
+| 약관 개정일 표기 | 그대로 둠(2026-01-11) | 조항을 추가했으니 개정일을 올릴지는 법적 판단이다 |
+| `androidGradlePlugin` 8.9.1 · `androidbrowserhelper` 2.5.0 · Gradle 8.11.1 | 미검증 | 내려받아 확인하지 못했다. Android Studio 동기화 때 확인·조정 |
+| `www` 하위 도메인 | App Links에 넣지 않음 | 실제 서비스 여부를 확인하지 못했다 |
+| Play Store 등록 아이콘 | 192px 원본을 512로 확대 | 벡터나 1024px 원본이 있으면 다시 뽑는 편이 좋다 |
+
+### 14.5 남은 일 — 코드 밖
+
+1. 로그인 상태로 신고·차단 눌러보고 `reports`·`blocks` 적재 확인
+2. 안드로이드 키스토어 생성 → SHA-256 지문 → 환경변수 `ANDROID_APP_CERT_FINGERPRINTS` 주입 → `assetlinks.json` 검증
+3. Android Studio에서 Gradle Wrapper 생성·동기화·AAB 빌드(`sw/android/README.md`)
+4. Data Safety 응답을 실제 수집 항목과 대조(§5.3)
+5. `광고 포함` 신고와 콘텐츠 등급(§5.4)
+6. 심사용 이메일·비밀번호 계정 준비(§5.5)
+7. 개인 개발자 계정이면 비공개 테스트 12명·14일(§5.6)
+8. 실기기 QA(§11)
+
+### 14.6 알려진 제약
+
+- **차단은 단방향이다.** "내가 차단한 사람"은 숨기지만 "나를 차단한 사람"은 숨기지 못한다. `blocks` RLS가 blocker 본인 행만 select를 허용해 일반 클라이언트로 읽을 수 없다. 양방향이 필요하면 `SECURITY DEFINER` RPC 신설 또는 RLS 정책 추가가 선행돼야 한다.
+- **목록의 전체 건수는 차단 필터 후 근사값이다.** 걸러낸 만큼만 빼므로 뒷 페이지의 차단 글은 반영되지 않는다.
+- **게시 전 약관 동의는 안내 표시 방식이다.** 별도 확인 절차로 제출을 막지 않았다. 약관 제7조에 "게시 시 동의로 본다"를 넣어 요건을 받치고, 기존 작성 흐름을 건드리지 않는 쪽을 택했다. Play 심사가 명시적 동의를 요구하면 확인 절차로 바꿔야 한다.
+- **런처 바로가기 "빠른 기록"은 넣지 못했다.** 홈 화면 안의 탭으로만 열려 바로 들어갈 주소가 없다. "내 기록관"은 고정 주소가 없어 로그인 화면의 자동 이동에 기댄다.

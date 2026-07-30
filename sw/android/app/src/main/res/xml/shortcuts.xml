@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/xml/shortcuts.xml
+  기능: 런처 바로가기
+  책임: 앱 아이콘을 길게 눌렀을 때 자주 쓰는 화면으로 바로 들어가게 한다.
+
+  웹 manifest 의 shortcuts 와 같은 목록을 유지한다(sw/web/src/app/manifest.ts).
+  TWA 는 웹 manifest 의 바로가기를 자동으로 가져오지 않으므로 앱 쪽에도 따로 선언한다.
+
+  ⚠️ targetPackage 에 릴리스 식별자를 적었다. 디버그 빌드는 식별자에 .debug 가 붙어
+     이 바로가기가 동작하지 않는다. 확인은 릴리스 빌드로 한다.
+  ⚠️ "빠른 기록"은 넣지 않았다. 홈 화면 안의 탭으로만 열려 바로 들어갈 주소가 없다.
+-->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="today"
+        android:shortcutLongLabel="@string/shortcut_today_long"
+        android:shortcutShortLabel="@string/shortcut_today_short">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://feelandnote.com/explore/today?utm_source=android_app&amp;utm_medium=twa&amp;utm_content=shortcut_today"
+            android:targetClass="com.google.androidbrowserhelper.trusted.LauncherActivity"
+            android:targetPackage="com.feelandnote.app" />
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="search"
+        android:shortcutLongLabel="@string/shortcut_search_long"
+        android:shortcutShortLabel="@string/shortcut_search_short">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://feelandnote.com/search?utm_source=android_app&amp;utm_medium=twa&amp;utm_content=shortcut_search"
+            android:targetClass="com.google.androidbrowserhelper.trusted.LauncherActivity"
+            android:targetPackage="com.feelandnote.app" />
+    </shortcut>
+
+    <!--
+      내 기록관 주소에는 사용자 고유번호가 들어가 고정 주소가 없다.
+      로그인 화면은 이미 로그인한 사람을 자기 기록관으로 보내 주므로 그 경로를 쓴다.
+    -->
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutId="chamber"
+        android:shortcutLongLabel="@string/shortcut_chamber_long"
+        android:shortcutShortLabel="@string/shortcut_chamber_short">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://feelandnote.com/login?utm_source=android_app&amp;utm_medium=twa&amp;utm_content=shortcut_chamber"
+            android:targetClass="com.google.androidbrowserhelper.trusted.LauncherActivity"
+            android:targetPackage="com.feelandnote.app" />
+    </shortcut>
+</shortcuts>

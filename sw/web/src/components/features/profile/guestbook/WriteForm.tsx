@@ -12,6 +12,7 @@ import { Lock, Send } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
 import type { WriteFormProps } from "./types";
+import { UgcTermsNotice } from "@/components/features/moderation";
 
 export default function WriteForm({
   profileId,
@@ -55,7 +56,10 @@ export default function WriteForm({
   };
 
   return (
-    <div className="mb-8 bg-white/[0.02] rounded-lg overflow-hidden">
+    <div className="mb-8 space-y-2">
+      <UgcTermsNotice />
+
+      <div className="bg-white/[0.02] rounded-lg overflow-hidden">
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
@@ -94,6 +98,7 @@ export default function WriteForm({
             </span>
           </Button>
         </div>
+      </div>
       </div>
     </div>
   );
