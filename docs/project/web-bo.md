@@ -1,6 +1,6 @@
 # Web BO
 
-> **최종 실측 체크: 26.07.29** — 서재 탐방 제작·리소스 통합과 remotion-bo 폐기 반영
+> **최종 실측 체크: 26.07.30** — 부분 대조: 신고 처리 화면·액션만 실측했고 문서 전체는 미대조. 그 앞 대조는 26.07.29(서재 탐방 제작·리소스 통합과 remotion-bo 폐기)
 
 서비스 운영과 영상 제작 관리를 함께 담당하는 관리자 백오피스다. 실제 서비스 데이터는
 Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
@@ -247,11 +247,15 @@ pnpm dev:bo
 | `/today-figure` | 오늘의 인물 | 오늘 기준 앞뒤 7일(15건) 날짜별 선정 셀럽 확인. 출처 배지(뉴스·시드·예측). 조회 전용 | `daily_figures`, `profiles`, `user_contents` |
 | `/guestbooks` | 방명록 관리 | 방명록 목록, 비공개·미확인 필터와 미확인 배지 | `guestbook_entries`, `profiles` |
 | `/free-board` | 자유게시판 관리 | 글·댓글 탭, 노출·숨김 필터. 부적절한 글과 댓글을 숨김 처리 | `free_posts`, `free_post_comments`, `profiles` |
-| `/reports` | 신고 관리 | 신고 목록, 상태(대기·처리완료·반려) 필터 | `reports`, `profiles` |
-| `/reports/[id]` | 신고 상세 | 신고자·타임라인·대상 정보·처리 메모. 대기 상태에서만 처리·반려 실행 | `reports`, `profiles` |
+| `/reports` | 신고 관리 | 신고 목록. 상태·대상 종류 필터, 대기 건 우선 배치, 신고 대상 작성자 표시, 같은 대상에 쌓인 신고 묶음, 반복 신고·남발 집계(카운트 조회) | `reports`, `profiles` |
+| `/reports/[id]` | 신고 상세 | 신고자·대상 작성자·처리 이력. **대상 원문 스냅샷**(글·댓글·방명록·감상 기록·프로필. 이미 지워졌으면 "삭제됨" 표시). 조치: 처리·반려·되돌리기 + 처리 메모, 대상 숨김·삭제, 계정 정지·해제 | `reports`, `profiles`, `free_posts`, `free_post_comments`, `board_comments`, `guestbook_entries`, `feedbacks`, `user_contents` |
+
+**신고는 사용자 웹에서 들어온다.** 접수 창구는 `sw/web`의 자유게시판 글·댓글, 방명록, 사용자 프로필이다. 신고 사유 목록의 정본은 `sw/web/src/constants/moderation.ts`이며 `sw/web-bo/src/constants/moderation.ts`가 같은 값을 들고 있다 — **한쪽만 고치면 운영 화면의 사유 라벨이 어긋난다.** 원문 조회는 `sw/web-bo/src/lib/report-snapshot.ts`가 대상 종류별 테이블·숨김 수단·삭제 가능 여부를 쥔다. 배경과 Play 정책 요건은 [안드로이드 앱 SSoT](./android-app-feasibility-review-2026-07-29.md) §5.1·§14.
+
+⚠️ **관리자는 남의 차단 내역을 볼 수 없다.** `blocks`의 RLS가 차단한 본인 행만 select를 허용한다. 운영 화면에서 차단 관계를 다뤄야 하면 `SECURITY DEFINER` RPC 신설이 선행돼야 한다.
 | `/titles` | 칭호 관리 | 칭호 카드 그리드(등급·분류·보너스 점수·획득자 수) | `titles`, `user_titles` |
 
-`/free-board`는 `(admin)` **화면** 중 유일하게 service-role 클라이언트(`createAdminClient()`)를 직접 사용한다. 다른 화면은 모두 일반 클라이언트로 읽는다. 단 서버 액션은 별개다 — `celebs.ts`, `contents.ts`, `records.ts`, `reports.ts`, `dialogues.ts`, `today-figure.ts`, `members.ts`가 service-role을 쓴다.
+`/free-board`는 `(admin)` **화면** 중 유일하게 service-role 클라이언트(`createAdminClient()`)를 직접 사용한다. 다른 화면은 모두 일반 클라이언트로 읽는다. 단 서버 액션은 별개다 — `celebs.ts`, `contents.ts`, `records.ts`, `reports/`, `dialogues.ts`, `today-figure.ts`, `members.ts`가 service-role을 쓴다.
 
 ### 시스템
 
@@ -295,7 +299,7 @@ pnpm dev:bo
 | `actions/admin/contents.ts` | `/contents`, `/contents/[id]` |
 | `actions/admin/fiction-sources.ts` | `/fiction-sources` |
 | `actions/admin/records.ts` | `/records`, `/records/[id]` |
-| `actions/admin/reports.ts` | `/reports`, `/reports/[id]` |
+| `actions/admin/reports/` | `/reports`, `/reports/[id]` — 단일 파일에서 5개로 나눴다(`list`·`detail`·`history`·`abuse`·`moderation`) |
 | `actions/admin/titles.ts` | `/titles` |
 | `actions/admin/free-board.ts` | `/free-board` |
 | `actions/admin/users.ts` | `/users`, `/users/[id]` |

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/values/colors.xml
+  기능: 색상 자원
+  책임: 웹 manifest 의 배경색·테마색과 앱 껍데기 색을 일치시킨다.
+
+  값 출처는 sw/web/src/app/manifest.ts 다.
+    background_color #0a0a0a
+    theme_color      #c8a97e
+-->
+<resources>
+    <color name="brand_background">#FF0A0A0A</color>
+    <color name="brand_accent">#FFC8A97E</color>
+
+    <!-- 상태바·내비게이션바는 화면과 이어 보이게 배경색을 그대로 쓴다. -->
+    <color name="status_bar">#FF0A0A0A</color>
+    <color name="navigation_bar">#FF0A0A0A</color>
+
+    <color name="splash_background">#FF0A0A0A</color>
+    <color name="ic_launcher_background">#FF0A0A0A</color>
+</resources>

@@ -2,154 +2,104 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { CheckCircle, XCircle, Loader2, Ban, Trash2 } from 'lucide-react'
-import { resolveReport, rejectReport } from '@/actions/admin/reports'
+import { CheckCircle, Loader2, RotateCcw, XCircle } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import { rejectReport, reopenReport, resolveReport } from '@/actions/admin/reports/moderation'
+import { ENUM_REPORT_STATUS } from '@/constants/moderation'
 
 interface ReportActionsProps {
-  report: {
-    id: string
-    target_type: string
-    target_id: string
-  }
+  reportId: string
+  status: string
+  resolutionNote: string | null
+  resolverNickname: string | null
+  resolvedAt: string | null
 }
 
-export default function ReportActions({ report }: ReportActionsProps) {
+export default function ReportActions({
+  reportId,
+  status,
+  resolutionNote,
+  resolverNickname,
+  resolvedAt,
+}: ReportActionsProps) {
   const router = useRouter()
-  const [isProcessing, setIsProcessing] = useState(false)
   const [note, setNote] = useState('')
-  const [action, setAction] = useState<'none' | 'suspend_user' | 'delete_content'>('none')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleResolve = async () => {
-    if (!note.trim()) {
-      alert('처리 메모를 입력해주세요')
-      return
-    }
-
-    setIsProcessing(true)
+  const submit = async (kind: 'resolve' | 'reject' | 'reopen') => {
+    setLoading(true)
+    setError('')
     try {
-      // TODO: 실제 사용자 ID 가져오기
-      await resolveReport(report.id, '', note, action)
+      if (kind === 'resolve') await resolveReport(reportId, note)
+      if (kind === 'reject') await rejectReport(reportId, note)
+      if (kind === 'reopen') await reopenReport(reportId)
+      setNote('')
       router.refresh()
-    } catch (error) {
-      console.error('Failed to resolve report:', error)
-      alert('신고 처리에 실패했습니다')
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : '처리에 실패했습니다')
     } finally {
-      setIsProcessing(false)
+      setLoading(false)
     }
   }
 
-  const handleReject = async () => {
-    if (!note.trim()) {
-      alert('반려 사유를 입력해주세요')
-      return
-    }
+  const closed = status !== ENUM_REPORT_STATUS.PENDING
+  const spinner = loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null
 
-    setIsProcessing(true)
-    try {
-      await rejectReport(report.id, '', note)
-      router.refresh()
-    } catch (error) {
-      console.error('Failed to reject report:', error)
-      alert('신고 반려에 실패했습니다')
-    } finally {
-      setIsProcessing(false)
-    }
+  if (closed) {
+    return (
+      <div className="space-y-3">
+        <div className="p-4 bg-bg-secondary rounded-lg space-y-1">
+          <p className="text-sm text-text-secondary">처리 메모</p>
+          <p className="text-sm text-text-primary whitespace-pre-wrap">
+            {resolutionNote || '메모가 남아 있지 않습니다'}
+          </p>
+        </div>
+        <p className="text-sm text-text-secondary">
+          처리자 {resolverNickname || '기록 없음'}
+          {resolvedAt && ` · ${new Date(resolvedAt).toLocaleString('ko-KR')}`}
+        </p>
+        <Button variant="secondary" onClick={() => submit('reopen')} disabled={loading}>
+          {spinner ?? <RotateCcw className="w-4 h-4" />}
+          다시 대기로 돌리기
+        </Button>
+        {error && <p className="text-sm text-danger-text">{error}</p>}
+      </div>
+    )
   }
 
   return (
     <div className="space-y-4">
-      {/* Note */}
       <div>
-        <label className="block text-sm text-text-secondary mb-2">
-          처리 메모 <span className="text-red-400">*</span>
+        <label htmlFor="report-note" className="block text-sm text-text-secondary mb-2">
+          처리 메모 <span className="text-danger-text">*</span>
         </label>
         <textarea
+          id="report-note"
           value={note}
-          onChange={(e) => setNote(e.target.value)}
-          placeholder="처리 내용을 입력하세요..."
-          className="w-full px-4 py-3 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none resize-none"
+          onChange={(event) => setNote(event.target.value)}
+          placeholder="무엇을 확인하고 어떻게 조치했는지 남겨주세요. 이 기록이 심사 근거가 됩니다."
           rows={3}
+          className="w-full px-4 py-3 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary placeholder:text-text-secondary resize-none focus:border-accent focus:outline-none"
         />
       </div>
 
-      {/* Action Options */}
-      {report.target_type === 'user' && (
-        <div>
-          <label className="block text-sm text-text-secondary mb-2">추가 조치</label>
-          <div className="flex gap-2">
-            <Button
-              variant={action === 'none' ? 'primary' : 'secondary'}
-              size="sm"
-              onClick={() => setAction('none')}
-            >
-              조치 없음
-            </Button>
-            <Button
-              variant={action === 'suspend_user' ? 'primary' : 'secondary'}
-              size="sm"
-              onClick={() => setAction('suspend_user')}
-              className={action === 'suspend_user' ? 'bg-red-500' : ''}
-            >
-              <Ban className="w-4 h-4" />
-              사용자 정지
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {['record', 'comment', 'guestbook'].includes(report.target_type) && (
-        <div>
-          <label className="block text-sm text-text-secondary mb-2">추가 조치</label>
-          <div className="flex gap-2">
-            <Button
-              variant={action === 'none' ? 'primary' : 'secondary'}
-              size="sm"
-              onClick={() => setAction('none')}
-            >
-              조치 없음
-            </Button>
-            <Button
-              variant={action === 'delete_content' ? 'primary' : 'secondary'}
-              size="sm"
-              onClick={() => setAction('delete_content')}
-              className={action === 'delete_content' ? 'bg-red-500' : ''}
-            >
-              <Trash2 className="w-4 h-4" />
-              콘텐츠 삭제
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Buttons */}
-      <div className="flex gap-2 pt-4 border-t border-border">
-        <Button
-          onClick={handleResolve}
-          disabled={isProcessing || !note.trim()}
-          className="flex-1"
-        >
-          {isProcessing ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <CheckCircle className="w-4 h-4" />
-          )}
+      <div className="flex flex-wrap gap-2 pt-4 border-t border-border">
+        <Button onClick={() => submit('resolve')} disabled={loading || note.trim().length === 0}>
+          {spinner ?? <CheckCircle className="w-4 h-4" />}
           처리 완료
         </Button>
         <Button
           variant="secondary"
-          onClick={handleReject}
-          disabled={isProcessing || !note.trim()}
-          className="text-gray-400"
+          onClick={() => submit('reject')}
+          disabled={loading || note.trim().length === 0}
         >
-          {isProcessing ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <XCircle className="w-4 h-4" />
-          )}
+          {spinner ?? <XCircle className="w-4 h-4" />}
           반려
         </Button>
       </div>
+
+      {error && <p className="text-sm text-danger-text">{error}</p>}
     </div>
   )
 }

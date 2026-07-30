@@ -14,9 +14,15 @@ const authPaths = ['/login', '/signup'];
 // 미들웨어를 건너뛸 SEO/메타데이터 경로
 const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml', '/opengraph-image']
 
+// 미들웨어를 건너뛸 PWA 정적 파일
+// 아래 matcher는 .png·.webmanifest 등 확장자만 제외하고 .js·.html은 제외하지 않는다.
+// 그대로 두면 next-intl이 /ko/sw.js 로 재작성해 404가 되고 서비스 워커 등록이 실패한다.
+const PWA_PATHS = ['/sw.js', '/offline.html']
+
 export async function middleware(request: NextRequest) {
-  // 0) SEO 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
-  if (SEO_PATHS.includes(request.nextUrl.pathname)) {
+  // 0) SEO·PWA 정적 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
+  const { pathname: rawPathname } = request.nextUrl
+  if (SEO_PATHS.includes(rawPathname) || PWA_PATHS.includes(rawPathname)) {
     return NextResponse.next()
   }
 

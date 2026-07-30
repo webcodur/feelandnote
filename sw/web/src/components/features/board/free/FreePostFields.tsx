@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl'
 import type { FreePostDraft } from './useFreePostDraft'
+import { UgcTermsNotice } from '@/components/features/moderation'
 
 interface FreePostFieldsProps {
   draft: FreePostDraft
@@ -105,6 +106,9 @@ export default function FreePostFields({ draft, isLoggedIn, mode, compact = fals
           <p className="text-xs mt-1">{t('free.passwordHint')}</p>
         </div>
       )}
+
+      {/* 게시 전 약관·금지 콘텐츠 안내 (작성 시에만) */}
+      {mode === 'create' && <UgcTermsNotice />}
 
       {/* 에러 */}
       {draft.error && <p className="text-sm text-red-400">{draft.error}</p>}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/values/themes.xml
+  기능: 테마 자원
+  책임: 실행 직후 흰 화면이 번쩍이지 않게 껍데기 테마를 어둡게 고정한다.
+-->
+<resources>
+    <style name="Theme.FeelAndNote" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorBackground">@color/brand_background</item>
+        <item name="android:windowBackground">@color/brand_background</item>
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:navigationBarColor">@color/navigation_bar</item>
+    </style>
+
+    <!-- 브라우저 화면이 올라오기 전 잠깐 보이는 창. 배경만 깔고 아무것도 그리지 않는다. -->
+    <style name="Theme.FeelAndNote.Splash" parent="Theme.FeelAndNote">
+        <item name="android:windowBackground">@color/splash_background</item>
+    </style>
+</resources>

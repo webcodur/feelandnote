@@ -13,6 +13,8 @@ import UserBioSection from "./UserBioSection";
 import ProfileInfluenceSection from "./ProfileInfluenceSection";
 import ProfilePersonaSection from "./ProfilePersonaSection";
 import ImageGallery from "@/components/features/profile/ImageGallery";
+import { ModerationMenu } from "@/components/features/moderation";
+import { ENUM_REPORT_TARGET_TYPE } from "@/constants/moderation";
 
 interface ProfileContentProps {
   profile: PublicUserProfile;
@@ -39,6 +41,20 @@ export default function ProfileContent({
 
   return (
     <div className="space-y-8 sm:space-y-12">
+      {/* 신고·차단 — 남의 일반 사용자 프로필에만 뜬다. 인물(셀럽)은 운영이 만든 자료라 대상이 아니다 */}
+      {profile.profile_type !== "CELEB" && !isOwner && (
+        <div className="flex justify-end">
+          <ModerationMenu
+            targetType={ENUM_REPORT_TARGET_TYPE.USER}
+            targetId={userId}
+            authorId={userId}
+            authorNickname={profile.nickname}
+            viewerId={guestbookCurrentUserId}
+            targetLabel={profile.nickname}
+          />
+        </div>
+      )}
+
       {/* 1. Bio & Profile Info */}
       {profile.profile_type === "CELEB" ? (
         <ProfileBioSection profile={profile} isOwner={isOwner} />

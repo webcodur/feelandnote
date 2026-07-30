@@ -13,6 +13,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악) 소비 기록 및 관�
 | 3 | remotion | `sw/remotion` | 3002 + 8001 | 영상 제작 (Studio + serve) |
 | 4 | lab | `sw/lab` | 3004 | 실험 공간 — 2D/3D, 게임 (Vite) |
 | 5 | audio-bo | `sw/audio-bo` | 3005 | 로컬 음원 정리·받아쓰기·화자 학습·음성 합성 작업실 (Next.js) |
+| 6 | android | `sw/android` | — | 안드로이드 앱 셸 (Gradle + TWA). `sw/web`을 감싸는 껍데기라 자체 화면·서버가 없다. Node 패키지가 아니므로 pnpm 워크스페이스에 넣지 않는다. 빌드는 Android Studio |
 
 **공유 패키지** (`packages/`):
 - `content-search` — 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify). ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. 책 메타 출처는 네이버·OpenLibrary만
@@ -114,6 +115,8 @@ pnpm build:audio-bo
 | `docs/project/game-card-images.md` | 쉼터 게임 카드 상징 이미지 발주서 — 로비 캔버스 4종(여명·미궁·패권·천도) 기반 프롬프트·규격·납품 경로 |
 | `docs/project/code-rules.md` | 코드 규칙, 디자인 시스템 |
 | `docs/project/i18n.md` | 다국어화 계획, 진행 현황, 기술 참조 |
+| `docs/project/android-app-feasibility-review-2026-07-29.md` | **안드로이드 앱 SSoT** — PWA + TWA 방식 선정 근거, Play 정책 요건(UGC 신고·차단·계정 삭제·Data Safety·대상 API), 출시 판정 기준. **§14가 구현 현황이며 본문(07-29 조사)보다 우선한다** |
+| `sw/android/README.md` | 안드로이드 앱 셸 — 갖춘 것·없는 것, Android Studio 여는 절차, 키스토어·서명 지문·도메인 검증 순서 |
 
 ### DB · 데이터
 
@@ -258,6 +261,7 @@ pnpm build:audio-bo
 TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 제거하고 추후의 개발자에게 정보를 공유할 필요성이 있는 경우 상단의 "상세 레퍼런스" 에서 참조할 수 있는 문서를 따로 작성함으로서 마무리를 해줘야 한다.
 
 | 작업 | 계획서 | 상태 | 비고 |
+| 안드로이드 앱(TWA) 출시 | `docs/project/android-app-feasibility-review-2026-07-29.md` §14 | **코드 구현 완료·실기기/Play 미착수(26.07.30)** | PWA + TWA 방식. 코드로 가능한 범위는 끝냈다 — UGC 신고·차단(서버 계층·화면 부품·게시판/댓글/방명록/프로필 연결·차단 콘텐츠 숨김·차단 관리), PWA(아이콘 4종·manifest 보강·서비스 워커·오프라인 화면), Play 창구(`/account-deletion`·`/.well-known/assetlinks.json`·약관 7·8조), 백오피스 신고 처리 보강, 안드로이드 셸 `sw/android`. 실측: `tsc` 0 · 관련 파일 `eslint` 0 · `next build` 성공 · 신규 경로 전부 200.<br>🔴 **조사 시점 판정 정정** — 계획서가 부재로 본 `blocks` 테이블과 web-bo `/reports` 화면은 **이미 있었다**. 없던 것은 `reports.target_user_id` 하나뿐이었다.<br>**미검증**: 안드로이드 빌드(SDK·Gradle·bubblewrap 미설치. 설치는 승인 사항), 로그인 상태의 신고·차단 실동작(`reports`·`blocks` 0건), 실기기 QA 전부, 서비스 워커의 실제 등록(배포 후 동작).<br>**유저 확정 필요**: 앱 식별자 `com.feelandnote.app`, 계정 삭제 처리 기간(임의값), 약관 개정일 표기, Gradle·AGP·androidbrowserhelper 버전, `www` 하위 도메인 사용 여부.<br>**제약**: 차단은 단방향(RLS상 "나를 차단한 사람"은 읽을 수 없다), 게시 전 동의는 안내 표시 방식. |
 |------|--------|------|------|
 | 사용자 대면 셀럽·세력도감 데이터 전수 정비 | `docs/todo/public-celeb-data-cleanup.md` | **팩션 필수 결손 0·프로필 필수행 1명 보류·웹 대사 교정 중(26.07.30)** | 유튜브 공개 팩션 대사 6편 144배치는 보호한다. 비보호 87편·1,089배치의 KO·EN 본문/출처 결손과 본문↔청크 오류는 0으로 수렴했고, 고유 383배치를 조건부 반영했다. 감상철학·영향력·페르소나 결손은 근거가 부족한 앤서니 암스트롱 각 1건만 보류했고 불완전 행은 0이다. 웹용 21개 대사는 KO 결손 149명·EN 136명(수정 가능 KO 120·EN 96)이며 5명씩 병렬 조사·반영한다. 콘텐츠 review 결손은 KO·EN 0, locale 결손은 KO 586·EN 91, thumbnail 결손은 KO 431·EN 382이며, 짧은 감상문·Google Books legacy 244건은 인물별 출처 감사로 계속 정비한다. 프로필·비공개 팩션 내용 감사와 실화면 검수도 계속 진행한다. |
 | 가상 독백 전수 품질 정비 | `docs/todo/virtual-monologue-quality-overhaul.md` · `docs/todo/virtual-monologue-handoff-2026-07-30.md` | **VM-P1·VM-KO-01·02 완료, 후속 배치 원자 체크포인트(26.07.30)** | 활성 1,527명. 74명을 전원 판정해 48명 게시·26명 보류했고, 게시분은 조건부 UPDATE·캐시·재실행 `SKIP`·공개 HTML 일치까지 확인했다. VM-KO-03은 첫 수정 뒤 두 검토 완료(통과 2·마지막 수정 대상 23), VM-KO-04는 후보 25명·검토 0, VM-KO-05는 dossier 25/25, VM-KO-06은 9명 병합·16명 미조사다. 재개 명령·배치 해시·보류 조건은 인수인계서가 쥔다. 이후 같은 25~40명 한국어 배치→시각 화면→fiction→영문 순서 |

@@ -7,6 +7,7 @@ import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/
 import { isValidAnonPassword, hashPassword, hashIp } from '@/lib/board/anonPassword'
 import { canMutateFree } from '@/lib/board/freeAuth'
 import { FREE_COMMENT_COLS, FREE_AUTHOR_JOIN, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
+import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { FreePostComment } from '@/types/database'
 
 export async function getFreeComments(postId: string): Promise<FreePostComment[]> {
@@ -22,7 +23,11 @@ export async function getFreeComments(postId: string): Promise<FreePostComment[]
     console.error('[자유게시판 댓글] Error:', error)
     return []
   }
-  return (data ?? []) as unknown as FreePostComment[]
+
+  // 차단한 사용자의 댓글을 걷어낸다. 이 조회는 캐시하지 않아 보는 사람 기준으로 걸러진다.
+  const comments = (data ?? []) as unknown as FreePostComment[]
+  const blockedIds = await getBlockedUserIds()
+  return filterBlocked(comments, (comment) => comment.author_id, blockedIds)
 }
 
 interface CreateFreeCommentParams {

@@ -13,6 +13,8 @@ import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTab
 import { loadRememberedNickname, rememberNickname } from './useFreePostDraft'
 import PasswordPromptModal from './PasswordPromptModal'
 import FreeAvatar from './FreeAvatar'
+import { ModerationMenu, UgcTermsNotice } from '@/components/features/moderation'
+import { ENUM_REPORT_TARGET_TYPE } from '@/constants/moderation'
 
 interface FreeCommentSectionProps {
   postId: string
@@ -262,26 +264,39 @@ export default function FreeCommentSection({
                   </p>
                 )}
               </div>
-              {canMutate(comment) && editingId !== comment.id && (
-                <div className="flex gap-1 self-start opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
-                  <button
-                    type="button"
-                    onClick={() => startEditing(comment)}
-                    aria-label={t('edit')}
-                    title={t('edit')}
-                    className="rounded p-1.5 text-text-secondary/70 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
-                  >
-                    <Pencil size={14} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteClick(comment)}
-                    aria-label={t('delete')}
-                    title={t('delete')}
-                    className="rounded p-1.5 text-text-secondary/70 hover:bg-red-500/5 hover:text-red-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-400"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+              {editingId !== comment.id && (
+                <div className="flex gap-1 self-start">
+                  {canMutate(comment) && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => startEditing(comment)}
+                        aria-label={t('edit')}
+                        title={t('edit')}
+                        className="rounded p-1.5 text-text-secondary/70 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteClick(comment)}
+                        aria-label={t('delete')}
+                        title={t('delete')}
+                        className="rounded p-1.5 text-text-secondary/70 hover:bg-red-500/5 hover:text-red-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-red-400"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </>
+                  )}
+
+                  <ModerationMenu
+                    targetType={ENUM_REPORT_TARGET_TYPE.COMMENT}
+                    targetId={comment.id}
+                    authorId={comment.author_id ?? null}
+                    authorNickname={freeDisplayName(comment, t('free.anonymous'))}
+                    viewerId={currentUserId ?? null}
+                    targetLabel={comment.content}
+                  />
                 </div>
               )}
             </div>
@@ -297,6 +312,7 @@ export default function FreeCommentSection({
 
       {/* 댓글 작성 폼 (누구나) */}
       <form onSubmit={handleSubmit} className="space-y-3">
+        <UgcTermsNotice />
         {!isLoggedIn && (
           <div className="flex flex-col sm:flex-row gap-3">
             <input

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  파일명: /app/src/main/res/drawable/splash.xml
+  기능: 스플래시 이미지
+  책임: 브라우저 화면이 준비될 때까지 보여줄 로고를 배경 위 가운데에 놓는다.
+
+  androidbrowserhelper 가 이 그림을 파일로 내보내 브라우저에 넘기므로 단일 그림이어야 한다.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+    <item
+        android:width="192dp"
+        android:height="192dp"
+        android:gravity="center">
+        <bitmap android:src="@mipmap/ic_launcher_foreground" />
+    </item>
+</layer-list>

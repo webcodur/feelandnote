@@ -14,6 +14,8 @@ import { shouldCountView } from '@/lib/board/viewDedup'
 import PasswordPromptModal from './PasswordPromptModal'
 import FreeCommentSection from './FreeCommentSection'
 import FreeAvatar from './FreeAvatar'
+import { ModerationMenu } from '@/components/features/moderation'
+import { ENUM_REPORT_TARGET_TYPE } from '@/constants/moderation'
 
 interface FreePostDetailProps {
   post: FreePost
@@ -90,10 +92,10 @@ export default function FreePostDetail({
           <div className="flex-1 h-px bg-gradient-to-l from-accent-dim/50 to-transparent" />
         </div>
 
-        {/* 수정·삭제 (권한 있는 경우만 노출, 익명 글은 누구나 비밀번호로) */}
-        {canManage && (
-          <div className="flex items-center justify-end mb-4">
-            <div className="flex items-center gap-2">
+        {/* 수정·삭제 (권한 있는 경우만 노출, 익명 글은 누구나 비밀번호로) + 신고·차단 */}
+        <div className="flex items-center justify-end gap-2 mb-4">
+          {canManage && (
+            <>
               <Link href={`/agora/board/free/${post.id}/edit`}>
                 <Button size="sm" className="font-serif">
                   <Edit3 size={14} />
@@ -108,9 +110,18 @@ export default function FreePostDetail({
                 <Trash2 size={14} />
                 {t('delete')}
               </Button>
-            </div>
-          </div>
-        )}
+            </>
+          )}
+
+          <ModerationMenu
+            targetType={ENUM_REPORT_TARGET_TYPE.POST}
+            targetId={post.id}
+            authorId={post.author_id ?? null}
+            authorNickname={freeDisplayName(post, t('free.anonymous'))}
+            viewerId={currentUserId ?? null}
+            targetLabel={post.title}
+          />
+        </div>
 
         {/* 제목 */}
         <h1 className="text-xl md:text-2xl font-serif font-bold text-text-primary mb-4 leading-tight">

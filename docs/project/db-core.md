@@ -1,6 +1,6 @@
 # DB 스키마 - Core
 
-> **최종 실측 체크: 26.07.16** — 실 DB 스키마 전량 대조, 아카이브에 격리됐던 sources·verified 정의 회수
+> **최종 실측 체크: 26.07.30** — 부분 대조: `blocks`·`reports`의 컬럼·제약·인덱스·RLS만 실 DB와 대조했다. 문서 전체 대조는 26.07.16(실 DB 스키마 전량, 아카이브에 격리됐던 sources·verified 정의 회수)
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
@@ -17,7 +17,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `birth_date` / `death_date`는 **text** (BC 표기 `-384` 등을 담기 위함. date 타입 아님)
   - 셀럽 전용 컬럼은 `db-celeb.md` 참조
 - **`follows`**: 팔로우 관계(follower_id → following_id)
-- **`blocks`**: 차단 관계(blocker_id → blocked_id)
+- **`blocks`**: 차단 관계(blocker_id → blocked_id). `unique(blocker_id, blocked_id)`, 자기 차단 금지 CHECK, 양쪽 FK CASCADE
+  - 🔴 **RLS가 `blocker_id = auth.uid()` 행만 select를 허용한다.** 즉 "내가 차단한 사람"은 읽지만 **"나를 차단한 사람"은 누구도 읽을 수 없다**(관리자 화면도 마찬가지). 목록 숨김이 단방향인 이유가 이것이다. 양방향이 필요하면 `SECURITY DEFINER` RPC 신설 또는 RLS 정책 추가가 선행돼야 한다 — 코드로 우회할 수 없다
 - **`user_social`**: 소셜 카운트 캐시 (follower/following/friend/content_count)
 
 ### profiles.quotes — 삭제됨
@@ -241,7 +242,11 @@ ORDER BY c.created_at DESC;
 - **`notifications`**, **`guestbook_entries`**, **`notices`**, **`feedbacks`**, **`board_comments`**
 - **`free_posts`** / **`free_post_comments`**: 자유게시판 (author_id ON DELETE SET NULL)
 - **`record_likes`** / **`record_comments`**: 기록 반응
-- **`reports`**: 신고. target_type CHECK: user|record|content|comment|guestbook / status CHECK: pending|resolved|rejected
+- **`reports`**: 신고. target_type CHECK: user|record|content|comment|guestbook|**post|feedback**(26.07.30 2종 추가) / status CHECK: pending|resolved|rejected
+  - `target_user_id` — 신고 대상 글의 작성자(FK → `profiles` ON DELETE SET NULL). 운영 화면이 반복 신고·악용을 집계하는 축이다. 26.07.30 추가
+  - `unique(reporter_id, target_type, target_id)` — 같은 사람이 같은 대상을 중복 신고하지 못한다. **접수 액션은 이 위반(23505)을 오류가 아니라 "이미 신고함"으로 돌려준다**
+  - 인덱스: `(status, created_at desc)` · `(target_type, target_id)` · `(target_user_id)`
+  - RLS: 본인 신고 insert·select, `admin`·`super_admin`은 ALL
 - **`user_scores`** / **`score_logs`**: 활동 점수 시스템
 - **`tier_lists`**, **`blind_game_scores`**: 경장(Arena) 게임
 - **`activity_logs`**: 활동 로그 (90일 보관)

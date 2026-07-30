@@ -2048,6 +2048,7 @@ export type Database = {
           status: string
           target_id: string
           target_type: string
+          target_user_id: string | null
           updated_at: string | null
         }
         Insert: {
@@ -2062,6 +2063,7 @@ export type Database = {
           status?: string
           target_id: string
           target_type: string
+          target_user_id?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -2076,6 +2078,7 @@ export type Database = {
           status?: string
           target_id?: string
           target_type?: string
+          target_user_id?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -2103,6 +2106,20 @@ export type Database = {
           {
             foreignKeyName: "reports_resolved_by_fkey"
             columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_target_user_id_fkey"
+            columns: ["target_user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_target_user_id_fkey"
+            columns: ["target_user_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]

@@ -1,8 +1,8 @@
 # 아키텍처
 
-> **최종 실측 체크: 26.07.29** — remotion-bo 폐기와 서재 탐방 web-bo 이관 반영
+> **최종 실측 체크: 26.07.30** — 안드로이드 앱 셸 신설과 sw/web 신규 경로 반영
 
-`sw/` 아래 5개 앱으로 구성한다.
+`sw/` 아래 6개 앱으로 구성한다.
 
 | 앱 | 스택 | 역할 |
 |---|---|---|
@@ -11,6 +11,9 @@
 | `sw/remotion` | Remotion | 영상·카드 컴포지션 |
 | `sw/lab` | Vite + React | 그래픽 실험장 |
 | `sw/audio-bo` | Next.js App Router | 로컬 GPU 음성 작업실 |
+| `sw/android` | Gradle + TWA | 안드로이드 앱 셸 (상세: [안드로이드 앱 SSoT](./android-app-feasibility-review-2026-07-29.md)) |
+
+`sw/android`는 자체 화면이 없다. 사용자의 브라우저가 `feelandnote.com`을 전체 화면으로 그리고, 앱은 그 껍데기만 맡는다. 웹을 배포하면 앱 내용도 함께 바뀌므로 앱을 다시 낼 필요가 없다. Node 패키지가 아니라 `pnpm-workspace.yaml`에 넣지 않으며(워크스페이스는 글롭이 아니라 개별 명시 방식이다), 빌드는 Android Studio가 맡는다.
 
 ---
 
@@ -40,32 +43,34 @@ app/
       notifications/
       rest/            # 쉼터 (게임 허브 단일 페이지)
       page.tsx         # 홈
-    (policy)/          # about, contact, terms, privacy
+    (policy)/          # about, contact, terms, privacy, account-deletion
     (standalone)/      # search
     lab/               # 사내 실험 화면 11종 (+ 허브·상세 = page.tsx 13개). 목록 SSoT는 constants/lab.tsx의 LAB_ITEMS
     reading/           # 독서 워크스페이스 (자체 components, hooks 보유)
     layout.tsx  |  not-found.tsx
   api/                 # avatar, celeb-works, cron/today-figure, revalidate, tts, wiki-summary
   auth/callback/       # OAuth 콜백
+  .well-known/         # assetlinks.json — 안드로이드 앱↔도메인 소유 검증. 지문은 환경변수로 읽는다
   feed.xml/            # RSS
   layout.tsx  |  error.tsx  |  manifest.ts  |  robots.ts  |  sitemap.ts
   opengraph-image.tsx  |  globals.css
 
 actions/               # Server Actions
                        # achievements, activity, auth, board, celebs, contents, flows,
-                       # game, guestbook, home, notes, notifications, persona,
+                       # game, guestbook, home, moderation, notes, notifications, persona,
                        # recommendations, scriptures, search, user
 components/
   features/            # agora, board, book, celeb, content, figure, game, home,
-                       # influence, landing, profile, quickRecord, recommendations,
-                       # rest, scriptures, user, youtube
+                       # influence, landing, moderation, profile, quickRecord,
+                       # recommendations, rest, scriptures, user, youtube
   layout/              # header, BottomNav, LayoutMain, PageContainer, FloatingMusicPlayer
+  pwa/                 # ServiceWorkerRegistrar — 개발 환경에서는 등록하지 않는다
   shared/              # content, filters, search, Hub*, PageBanner, LocaleSwitcher 등
   ui/                  # cards, icons, Layout, Button, Modal, Avatar 등 원자 컴포넌트
   lab/
 constants/             # affiliatePlatforms, agora, archive, board, categories,
                        # celebProfessions, filterStyles, image, influence, lab, materials/,
-                       # navigation, platformLinks, professionIcons, review-presets,
+                       # moderation, navigation, platformLinks, professionIcons, review-presets,
                        # scriptures/, scriptures, scripturesMuseum, searchPresets,
                        # statuses, titles, youtube, zIndex
 contexts/              # GameAudioContext, QuickRecordContext
@@ -74,11 +79,23 @@ hooks/                 # useCelebGreeting, useCountries, useDebounce, useDialogu
                        # useFilterLabels, useHorizontalScroll, usePreloadImages,
                        # useRecentContents, useRecentProfiles, useTextToSpeech, useVoiceMuted
 i18n/                  # navigation, request, routing
-lib/                   # auth, board, cache, config, countries, errors, game, persona,
-                       # r2, seo, supabase(client/server/middleware), url, utils
+lib/                   # auth, board, cache, config, countries, errors, game, moderation,
+                       # persona, r2, seo, supabase(client/server/middleware), url, utils
 types/                 # academy, content, database, home, locale, recommendation,
                        # supabase(자동생성)
 ```
+
+### 설치형 앱(PWA) 자산
+
+`sw/web/public` 아래에 둔다. 안드로이드 앱이 이 웹을 그대로 감싸므로 앱 요건과 직결된다.
+
+| 경로 | 내용 |
+|---|---|
+| `icons/` | `android-192` · `android-512` · `android-maskable-512` · `play-store-512`. 생성기는 `scripts/generate-app-icons.mjs`(웹용)와 `scripts/generate-android-launcher-icons.mjs`(안드로이드 런처용, 산출물은 `sw/android`로 나간다) |
+| `sw.js` | 캐시 담당. 화면 이동은 네트워크 우선·실패 시 오프라인 화면, 정적 자산은 캐시 우선, 그림은 개수 상한을 둔 캐시. **로그인·개인 기록·Server Action·API는 캐시하지 않는다** |
+| `offline.html` | 연결이 끊겼을 때 뜨는 브랜드 화면. 외부 요청 0, 다시 시도 버튼, 복구 시 원래 화면으로 자동 이동 |
+
+🔴 **`.js`·`.html` 정적 파일은 미들웨어 통과 목록에 있어야 한다.** 로케일 처리가 `/sw.js`를 `/ko/sw.js`로 바꿔 404가 나던 사고가 있었다(26.07.30 해소). 새 정적 파일을 `public`에 둘 때 `src/middleware.ts`를 함께 확인한다.
 
 ### 네비게이션
 
