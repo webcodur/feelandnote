@@ -93,7 +93,7 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
   const accent = group.color ?? DEFAULT_ACCENT
   // 로고 로드 실패 횟수 — 0=1차(logoVid 우선), 1=이미지 로고 재시도, 2+=색 배경 폴백
   const [artErrCount, setArtErrCount] = React.useState(0)
-  // 화보 카드가 생략되는 1인 진영(노출 1명 + cluster.image 없음)의 소제목을 로고 카드가 흡수한다.
+  // 화보 카드가 생략되는 단일 묶음(cluster.image 없음)의 소제목을 로고 카드가 흡수한다.
   // buildCues 의 화보 카드 생략 조건과 동일하게 판정한다.
   const soloSub = React.useMemo(() => {
     const cs = group.clusters
@@ -101,8 +101,7 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
     const vis = cs.filter(c => (c.people ?? []).some(p => !p.disabled))
     if (vis.length !== 1) return undefined
     const c = vis[0]
-    const n = (c.people ?? []).filter(p => !p.disabled).length
-    return n === 1 && !c.image && c.label?.trim() ? c.label : undefined
+    return !c.image && c.label?.trim() ? c.label : undefined
   }, [group])
   // 가로는 이미지를 중앙 정렬(세로는 상단 정렬)
   const fallbackPos = orientation === 'landscape' ? 'center center' : 'center top'

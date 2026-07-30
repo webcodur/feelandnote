@@ -118,10 +118,6 @@ function main() {
     if (!Array.isArray(p.quoteChunks) || p.quoteChunks.length < 2) {
       fails.push(`${tag}: quoteChunks < 2`)
     }
-    if (!p.quoteEn?.trim()) fails.push(`${tag}: empty quoteEn`)
-    if (!Array.isArray(p.quoteEnChunks) || p.quoteEnChunks.length < 1) {
-      fails.push(`${tag}: empty quoteEnChunks`)
-    }
     if (!POLITE.test(p.quote || '')) fails.push(`${tag}: no 정중체 pattern`)
     if (!PHILOSOPHY.test(p.quote || '')) fails.push(`${tag}: weak philosophy markers`)
     // 기자 보고체 차단 — 말하는 이 1인칭이어야 함

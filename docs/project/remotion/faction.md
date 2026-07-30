@@ -159,7 +159,6 @@ FPS 60. 해상도 1080×1920(9:16). 컷마다 시작·길이를 `buildCues()`가
 ```
 sw/remotion/public/factions/<에피소드>/
   faction-data.json   # 렌더용 빌드 산출물 (DB에서 내보낸다 — 직접 편집 금지). data.ko.json / data.json 폐기
-  _status.json        # todo | live | done  (BO VALID_STATUSES)
   00-발주서-인덱스.md  # 이미지 착수 시 (스킬 faction-image)
   00-<group-slug>.md  # 세력별 발주서 (또는 NN-slug/00-발주서.md)
   NN-<slug>/          # 세력 폴더 (groups[] 순서 = 01, 02 …)
@@ -187,7 +186,7 @@ sw/remotion/public/music/  # 배경음악
 
 - 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다(렌더는 미지 키를 무시한다).
 - 손으로 고치면 다음 내보내기가 **checksum 불일치로 중단하고 diff를 뿜는다.** `--force`로만 강행된다.
-- 내보내기 전 원본은 `.export-backup/<시각>/`에 남는다(git 미추적이라 필수).
+- DB 조립 결과가 현재 파일과 같으면 파일·마커 시각·백업을 모두 건드리지 않는다. 실제 내용이 바뀔 때만 내보내기 전 원본을 `.export-backup/<시각>/`에 남긴다.
 - 수정은 web-bo `/factions` 편집 화면에서 한다. 이미 손으로 고쳐 버렸다면 `pnpm faction:import -- --episode <편>`으로 DB에 재흡수하되, **반대 방향으로 덮어쓸 위험이 있으므로 사람이 판단해 실행한다**(임의 실행 금지).
 - 상시 감시는 `pnpm faction:verify`(`--all` / `--episode <편>` / `--drift`).
 
@@ -240,8 +239,8 @@ sw/remotion/public/music/  # 배경음악
 3. **사진 발주·배치** — *어디서: 발주서 `sw/remotion/public/factions/<편>/*.md` + 편집기 사진 풀. 파일은 로컬.*
    스킬 `faction-image` + `00-발주서-*.md`. **단체샷 승인 → 크롭(`<slug>-crop`) → 개인샷(`<slug>.png`)** 순서(folder-rules §8). `person-prompts.md`/`group-prompts.md` 신규 금지. 파일을 세력 폴더 정본 경로에 두고 `logoImg` / `clusters[].image` / `people[].image`를 실제 파일과 동일 문자열로 맞춘다(유저 승인 후).
 4. **대사·수식어 작성** — *어디서: 편집기 정비 탭 인물 행. 쓰는 곳은 DB다.*
-   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 본 서비스 가상 독백에서 핵심 갈등 하나를 압축해 만들며, 독백에 없는 철학을 새로 붙이지 않는다. 어록 출처는 `quoteOrigin`·`minedQuotes`.
-   검토는 스킬 `faction-dialogue-review`. 작성·수정은 완성이 아니라 새 판이다. 현재 문장에서 검토 렌즈를 4~7개 새로 만들고, 최소 3개로 따로 읽은 뒤 수정한다. 수정안은 이전 평가를 보지 않는 새 순환을 한 번 더 거친다. 두 순환을 통과해야 승인 후보이며, 최종 승인은 사용자만 한다. 이력은 `_docs/dialogue-review/`에 둔다.
+   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 본 서비스 가상 독백에서 핵심 갈등 하나를 압축해 만들며, 독백에 없는 철학을 새로 붙이지 않는다. `quoteOrigin`은 출처 필수칸이 아니라 자유 메모칸이며 비어 있어도 정상이다.
+   스킬 `faction-dialogue-review`로 한국어 본문과 청크를 한 번 작성하고, 조건부 DB 반영 → export → drift·구조 검증으로 끝낸다. 영문은 현재 제작하지 않으며 별도 요청이 있을 때만 작성한다. 순환 장부·후보 상태·인물별 검토 문서는 만들지 않는다.
 5. **음성 합성** — *어디서: 터미널 `pnpm voice:faction`. 산출물은 `<편>/voice/`(로컬).*
    유저가 명시적으로 요청할 때만 돌린다(`gotchas.md` §6).
 6. **받아쓰기·발화 시각** — *어디서: 스킬 `/faction-voice-sync`(WhisperX + `pnpm voice:faction-align`). 산출물은 `data.timing.pN.<언어>.json`(로컬), 음성 길이는 DB.*

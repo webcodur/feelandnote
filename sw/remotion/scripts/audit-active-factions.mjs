@@ -70,10 +70,6 @@ for (const s of series) {
     }
   }
 
-  if (!fs.existsSync(path.join(base, "_status.json"))) {
-    issues.push("no _status.json");
-  }
-
   // root clutter patterns
   for (const f of rootFiles) {
     if (/quote[-_]?(research|mining|bank)/i.test(f))
@@ -156,18 +152,8 @@ for (const s of series) {
     }
   }
 
-  let status = null;
-  try {
-    status = JSON.parse(
-      fs.readFileSync(path.join(base, "_status.json"), "utf8"),
-    ).status;
-  } catch {
-    /* */
-  }
-
   report.push({
     series: s,
-    status,
     groupDirs: groupDirs.length,
     oldAssetNames: oldNames.length,
     newAssetNames: newNames.length,
@@ -192,7 +178,7 @@ for (const r of report) {
     flags.push(`flat:${r.flatPeopleAtGroupRoot}`);
   const mark = flags.length ? "⚠" : "✓";
   console.log(
-    `${mark} ${r.series} [${r.status || "?"}] groups=${r.groupDirs} new=${r.newAssetNames} ${flags.join(" ") || "clean"}`,
+    `${mark} ${r.series} groups=${r.groupDirs} new=${r.newAssetNames} ${flags.join(" ") || "clean"}`,
   );
   if (r.issues.length) {
     for (const i of r.issues.slice(0, 12)) console.log("    · " + i);
@@ -207,7 +193,3 @@ for (const r of report) {
       console.log(`    miss: …+${r.missingCount - r.missingSamples.length}`);
   }
 }
-
-const outPath = path.resolve("sw/remotion/scripts/_audit-active-out.json");
-fs.writeFileSync(outPath, JSON.stringify(report, null, 2), "utf8");
-console.log("\nWrote " + outPath);

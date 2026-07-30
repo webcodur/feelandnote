@@ -2,11 +2,11 @@
  * 검증된 셀럽 대사 배치 JSON을 celeb_dialogues에 안전하게 반영한다.
  *
  * - 기본은 dry-run이다. --apply에서만 쓴다.
- * - 유튜브 업로드 팩션 출연자는 일괄 차단한다.
- * - 기존 quote와 greeting 3줄은 바이트 단위로 일치해야 하며 그대로 보존한다.
+ * - 팩션 영상 출연 여부와 무관하게 개인 대사만 다룬다.
+ * - 기존 한국어 quote와 greeting 3줄은 바이트 단위로 일치해야 하며 그대로 보존한다.
  * - 새로 채우는 문장에는 ELE 발화 지시 태그를 허용하지 않는다.
  * - 이미 채워진 슬롯은 같은 문장인지 대조하고 절대 덮어쓰지 않는다.
- * - fillKo/fillEn과 상황 키는 결손이 있는 부분만 넣어도 된다.
+ * - 한국어 빈 슬롯만 채우며 lines_en은 읽거나 쓰지 않는다.
  *
  * 실행:
  *   pnpm exec tsx scripts/apply-dialogue-gap-batch.ts <batch.json>
@@ -51,22 +51,16 @@ type BatchTarget = {
   id: string
   slug: string
   nickname: string
-  nicknameEn: string
   /** 조사 후보에는 남기되 실제 반영에서는 제외할 때 사유를 기록한다. */
   skipReason?: string
   /** 익명·필명 인물은 생년을 알 수 없어 null/빈 문자열일 수 있다. DB 값과 정확히 대조한다. */
   birthDate: string | null
   profession: string
   quote: string
-  quoteEn: string
-  /** 현재 DB greeting이 4줄 이상인 구조 파손을 정리할 때만 쓴다. 최종 greeting은 아래 3줄이다. */
-  currentGreetingKo?: string[]
-  currentGreetingEn?: string[]
+  /** 현재 DB greeting의 exact 잠금. 전부 비었으면 null, 생략하면 greetingKo와 같다고 본다. */
+  currentGreetingKo?: string[] | null
   greetingKo: Triple
-  greetingEn: Triple
   fillKo?: FillLines
-  fillEn?: FillLines
-  sources: string[]
 }
 
 type BatchFile = {
@@ -78,7 +72,6 @@ type ProfileRow = {
   id: string
   slug: string
   nickname: string
-  nickname_en: string
   birth_date: string | null
   profession: string | null
 }
@@ -86,7 +79,6 @@ type ProfileRow = {
 type DialogueRow = {
   celeb_id: string
   lines: unknown
-  lines_en: unknown
   updated_at: string
 }
 
@@ -97,12 +89,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function sameDialogue(value: unknown, expected: DialogueLines): boolean {
   if (!isRecord(value)) return false
   return SITUATIONS.every(key => JSON.stringify(value[key]) === JSON.stringify(expected[key]))
-}
-
-function validateStringArray(value: unknown, label: string): asserts value is string[] {
-  if (!Array.isArray(value) || !value.length || value.some(line => typeof line !== 'string' || !line.trim())) {
-    throw new Error(`${label}: 비어 있지 않은 문자열 배열이 아님`)
-  }
 }
 
 function validateTriple(
@@ -134,45 +120,47 @@ function validateBatch(batch: BatchFile) {
   }
 
   for (const target of batch.targets) {
-    for (const field of ['id', 'slug', 'nickname', 'nicknameEn', 'profession', 'quote', 'quoteEn'] as const) {
+    for (const field of ['id', 'slug', 'nickname', 'profession', 'quote'] as const) {
       if (!target[field]?.trim()) throw new Error(`${target.nickname || target.id}.${field}: 빈 값`)
     }
     if (target.birthDate !== null && typeof target.birthDate !== 'string') {
       throw new Error(`${target.nickname || target.id}.birthDate: 문자열 또는 null이어야 함`)
     }
-    const currentGreetingKo = target.currentGreetingKo ?? target.greetingKo
-    const currentGreetingEn = target.currentGreetingEn ?? target.greetingEn
-    validateStringArray(currentGreetingKo, `${target.nickname}.currentGreetingKo`)
-    validateStringArray(currentGreetingEn, `${target.nickname}.currentGreetingEn`)
-    validateTriple(target.greetingKo, `${target.nickname}.greetingKo`, 'all')
-    validateTriple(target.greetingEn, `${target.nickname}.greetingEn`, 'all')
-    if (!target.fillKo && !target.fillEn) {
-      throw new Error(`${target.nickname}: fillKo와 fillEn이 모두 없음`)
+    const currentGreetingKo = target.currentGreetingKo === undefined
+      ? target.greetingKo
+      : target.currentGreetingKo
+    if (currentGreetingKo !== null) {
+      if (!Array.isArray(currentGreetingKo)
+        || currentGreetingKo.some(line => typeof line !== 'string')) {
+        throw new Error(`${target.nickname}.currentGreetingKo: 문자열 배열 또는 null이 아님`)
+      }
     }
-    const preservedTaggedKo = new Set(currentGreetingKo.filter(line => !target.greetingKo.includes(line)))
-    const preservedTaggedEn = new Set(currentGreetingEn.filter(line => !target.greetingEn.includes(line)))
+    validateTriple(target.greetingKo, `${target.nickname}.greetingKo`, 'all')
+    if (!target.fillKo) {
+      throw new Error(`${target.nickname}: fillKo 없음`)
+    }
+    const preservedTaggedKo = new Set((currentGreetingKo ?? []).filter(line => !target.greetingKo.includes(line)))
     for (const situation of FILL_SITUATIONS) {
       const fillKo = target.fillKo?.[situation]
-      const fillEn = target.fillEn?.[situation]
       if (fillKo) validateTriple(fillKo, `${target.nickname}.fillKo.${situation}`, preservedTaggedKo)
-      if (fillEn) validateTriple(fillEn, `${target.nickname}.fillEn.${situation}`, preservedTaggedEn)
-    }
-    if (!Array.isArray(target.sources) || !target.sources.length
-      || target.sources.some(source => !/^https?:\/\//.test(source))) {
-      throw new Error(`${target.nickname}.sources: 출처 URL 없음`)
     }
   }
 }
 
-function assertCurrentBase(target: BatchTarget, lines: Record<string, unknown>, linesEn: Record<string, unknown>) {
-  if (lines.quote !== target.quote || linesEn.quote !== target.quoteEn) {
+function assertCurrentBase(target: BatchTarget, lines: Record<string, unknown>) {
+  if (lines.quote !== target.quote) {
     throw new Error(`${target.nickname}: 기존 대표 어록이 배치 기준과 다름`)
   }
-  if (JSON.stringify(lines.greeting) !== JSON.stringify(target.currentGreetingKo ?? target.greetingKo)
-    || JSON.stringify(linesEn.greeting) !== JSON.stringify(target.currentGreetingEn ?? target.greetingEn)) {
+  const expectedGreeting = target.currentGreetingKo === undefined
+    ? target.greetingKo
+    : target.currentGreetingKo
+  const actualGreeting = lines.greeting === undefined ? null : lines.greeting
+  const greetingMatchesBase = JSON.stringify(actualGreeting) === JSON.stringify(expectedGreeting)
+  const greetingMatchesApplied = JSON.stringify(actualGreeting) === JSON.stringify(target.greetingKo)
+  if (!greetingMatchesBase && !greetingMatchesApplied) {
     throw new Error(`${target.nickname}: 기존 greeting이 배치 기준과 다름`)
   }
-  if (lines.answer !== undefined || linesEn.answer !== undefined) {
+  if (lines.answer !== undefined) {
     throw new Error(`${target.nickname}: 폐기된 answer 필드가 있어 수동 검토 필요`)
   }
 }
@@ -254,42 +242,6 @@ function validateCompleteDialogue(lines: DialogueLines, label: string) {
   }
 }
 
-async function assertNoneUploaded(ids: string[]) {
-  const lineupPath = path.resolve(process.cwd(), '../remotion/scripts/youtube/faction-lineup.json')
-  const lineup = JSON.parse(await readFile(lineupPath, 'utf8')) as Record<string, { uploads?: Record<string, unknown> }>
-  const uploadedFolders = Object.entries(lineup)
-    .filter(([, value]) => Object.keys(value.uploads ?? {}).length)
-    .map(([folder]) => folder)
-
-  const { data: episodes, error: episodeError } = await db
-    .from('faction_episodes')
-    .select('id')
-    .in('folder', uploadedFolders)
-  if (episodeError) throw new Error(`업로드 에피소드 조회 실패: ${episodeError.message}`)
-
-  const { data: groups, error: groupError } = await db
-    .from('faction_groups')
-    .select('id')
-    .in('episode_id', (episodes ?? []).map(row => row.id as string))
-  if (groupError) throw new Error(`업로드 세력 조회 실패: ${groupError.message}`)
-
-  const { data: clusters, error: clusterError } = await db
-    .from('faction_clusters')
-    .select('id')
-    .in('group_id', (groups ?? []).map(row => row.id as string))
-  if (clusterError) throw new Error(`업로드 클러스터 조회 실패: ${clusterError.message}`)
-
-  const { data: protectedPeople, error: peopleError } = await db
-    .from('faction_people')
-    .select('celeb_id, name')
-    .in('cluster_id', (clusters ?? []).map(row => row.id as string))
-    .in('celeb_id', ids)
-  if (peopleError) throw new Error(`업로드 출연자 조회 실패: ${peopleError.message}`)
-  if ((protectedPeople ?? []).length) {
-    throw new Error(`업로드 팩션 출연자 보호: ${(protectedPeople ?? []).map(row => row.name).join(', ')}`)
-  }
-}
-
 async function main() {
   const batchArg = process.argv.slice(2).find(arg => !arg.startsWith('--'))
   if (!batchArg) throw new Error('배치 JSON 경로를 지정해야 함')
@@ -304,18 +256,17 @@ async function main() {
     console.log(`EXCLUDE ${target.nickname}: ${target.skipReason}`)
   }
   if (!targets.length) throw new Error('제외되지 않은 적용 대상 없음')
-  await assertNoneUploaded(targets.map(target => target.id))
 
   const ids = targets.map(target => target.id)
   const { data: profileData, error: profileError } = await db
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, birth_date, profession')
+    .select('id, slug, nickname, birth_date, profession')
     .in('id', ids)
   if (profileError) throw new Error(`프로필 조회 실패: ${profileError.message}`)
 
   const { data: dialogueData, error: dialogueError } = await db
     .from('celeb_dialogues')
-    .select('celeb_id, lines, lines_en, updated_at')
+    .select('celeb_id, lines, updated_at')
     .in('celeb_id', ids)
   if (dialogueError) throw new Error(`대사 조회 실패: ${dialogueError.message}`)
 
@@ -325,9 +276,7 @@ async function main() {
     target: BatchTarget
     dialogue: DialogueRow
     currentLines: Record<string, unknown>
-    currentLinesEn: Record<string, unknown>
     lines: DialogueLines
-    linesEn: DialogueLines
   }> = []
 
   for (const target of targets) {
@@ -335,7 +284,6 @@ async function main() {
     if (!profile
       || profile.slug !== target.slug
       || profile.nickname !== target.nickname
-      || profile.nickname_en !== target.nicknameEn
       || profile.birth_date !== target.birthDate
       || profile.profession !== target.profession) {
       throw new Error(`${target.nickname}: 동명이인 차단 실패 ${JSON.stringify(profile)}`)
@@ -344,13 +292,12 @@ async function main() {
     const dialogue = dialogues.get(target.id)
     if (!dialogue) throw new Error(`${target.nickname}: celeb_dialogues 행 없음`)
     const currentLines = isRecord(dialogue.lines) ? dialogue.lines : {}
-    const currentLinesEn = isRecord(dialogue.lines_en) ? dialogue.lines_en : {}
-    assertCurrentBase(target, currentLines, currentLinesEn)
+    assertCurrentBase(target, currentLines)
 
-    const currentGreetingKo = target.currentGreetingKo ?? target.greetingKo
-    const currentGreetingEn = target.currentGreetingEn ?? target.greetingEn
-    const preservedTaggedKo = new Set(currentGreetingKo.filter(line => !target.greetingKo.includes(line)))
-    const preservedTaggedEn = new Set(currentGreetingEn.filter(line => !target.greetingEn.includes(line)))
+    const currentGreetingKo = target.currentGreetingKo === undefined
+      ? target.greetingKo
+      : target.currentGreetingKo
+    const preservedTaggedKo = new Set((currentGreetingKo ?? []).filter(line => !target.greetingKo.includes(line)))
     const lines = buildMergedLines(
       target.greetingKo,
       currentLines,
@@ -358,26 +305,16 @@ async function main() {
       `${target.nickname}.KO`,
       preservedTaggedKo,
     )
-    const linesEn = buildMergedLines(
-      target.greetingEn,
-      currentLinesEn,
-      target.fillEn,
-      `${target.nickname}.EN`,
-      preservedTaggedEn,
-    )
     validateCompleteDialogue(lines, `${target.nickname}.KO`)
-    validateCompleteDialogue(linesEn, `${target.nickname}.EN`)
 
     const alreadyDone = currentLines.quote === target.quote
-      && currentLinesEn.quote === target.quoteEn
       && sameDialogue(currentLines, lines)
-      && sameDialogue(currentLinesEn, linesEn)
     if (alreadyDone) {
-      console.log(`SKIP ${target.nickname}: KO/EN 21줄 이미 일치`)
+      console.log(`SKIP ${target.nickname}: KO 21줄 이미 일치`)
       continue
     }
 
-    work.push({ target, dialogue, currentLines, currentLinesEn, lines, linesEn })
+    work.push({ target, dialogue, currentLines, lines })
     console.log(`PLAN ${target.nickname}: 기존 대사·greeting·태그 보존, 빈 슬롯만 보완`)
   }
 
@@ -387,20 +324,19 @@ async function main() {
   }
 
   for (const item of work) {
-    const { target, dialogue, currentLines, currentLinesEn, lines, linesEn } = item
+    const { target, dialogue, currentLines, lines } = item
     const { data: changed, error: updateError } = await db
       .from('celeb_dialogues')
       .update({
         lines: { ...currentLines, quote: target.quote, ...lines },
-        lines_en: { ...currentLinesEn, quote: target.quoteEn, ...linesEn },
       })
       .eq('celeb_id', target.id)
       .eq('updated_at', dialogue.updated_at)
-      .select('celeb_id, lines, lines_en')
+      .select('celeb_id, lines')
       .maybeSingle()
     if (updateError) throw new Error(`${target.nickname}: 대사 갱신 실패 ${updateError.message}`)
     if (!changed) throw new Error(`${target.nickname}: 대사 갱신 충돌`)
-    if (!sameDialogue(changed.lines, lines) || !sameDialogue(changed.lines_en, linesEn)) {
+    if (!sameDialogue(changed.lines, lines)) {
       throw new Error(`${target.nickname}: 갱신 후 21줄 검증 실패`)
     }
     console.log(`APPLIED ${target.nickname}: 기존 대사·greeting·태그 보존, 빈 슬롯만 보완`)
