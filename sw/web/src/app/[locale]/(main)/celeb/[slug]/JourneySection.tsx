@@ -31,6 +31,13 @@ function formatYear(year: number, yearEnd: number | null, bc: string): string {
   return `${one(year)}–${one(yearEnd)}`;
 }
 
+/** 실존 인물은 연도, fiction 인물은 원전 안의 서사 단계가 위치 표지가 된다. */
+function formatPosition(event: CelebTimelineEvent, bc: string): string {
+  if (event.sequenceLabel) return event.sequenceLabel;
+  if (event.year != null) return formatYear(event.year, event.yearEnd, bc);
+  return "";
+}
+
 /** 나란히 보기 · 연표만 · 지도만 */
 type ViewMode = "both" | "timeline" | "atlas";
 
@@ -222,7 +229,7 @@ export default function JourneySection({ events }: Props) {
               <span className="block min-w-0">
                 <span className="flex items-center justify-between gap-3">
                   <span className="font-mono text-sm text-accent">
-                    {formatYear(event.year, event.yearEnd, bc)}
+                    {formatPosition(event, bc)}
                   </span>
                   <span className="shrink-0 font-mono text-[10px] leading-none tracking-tight text-text-secondary/70">
                     {t("timelinePage", { current: at + 1, total })}
@@ -357,7 +364,7 @@ export default function JourneySection({ events }: Props) {
           />
         }
         event={event}
-        yearLabel={event ? formatYear(event.year, event.yearEnd, bc) : null}
+        yearLabel={event ? formatPosition(event, bc) : null}
         markerOrder={event ? orderById[event.id] : undefined}
         current={at}
         total={total}

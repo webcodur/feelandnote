@@ -11,9 +11,10 @@ import { STATIC_REVALIDATE } from '@/lib/cache'
 
 export interface CelebTimelineEvent {
   id: string
-  year: number
+  year: number | null
   yearEnd: number | null
   month: number | null
+  sequenceLabel: string | null
   title: string
   description: string | null
   kind: string
@@ -25,9 +26,11 @@ export interface CelebTimelineEvent {
 
 interface EventRow {
   id: string
-  year: number
+  year: number | null
   year_end: number | null
   month: number | null
+  sequence_label: string | null
+  sequence_label_en: string | null
   title: string
   title_en: string | null
   description: string | null
@@ -46,10 +49,10 @@ async function fetchEvents(celebId: string): Promise<EventRow[]> {
   const { data, error } = await supabase
     .from('celeb_timeline_events')
     .select(
-      'id, year, year_end, month, title, title_en, description, description_en, kind, place_name, place_name_en, lat, lng, source_url, sort_order',
+      'id, year, year_end, month, sequence_label, sequence_label_en, title, title_en, description, description_en, kind, place_name, place_name_en, lat, lng, source_url, sort_order',
     )
     .eq('celeb_id', celebId)
-    .order('year')
+    .order('year', { nullsFirst: false })
     .order('sort_order')
     .overrideTypes<EventRow[], { merge: false }>()
 
@@ -75,6 +78,8 @@ export async function getCelebTimelineEvents(
     year: row.year,
     yearEnd: row.year_end,
     month: row.month,
+    sequenceLabel:
+      isEn && row.sequence_label_en ? row.sequence_label_en : row.sequence_label,
     title: isEn && row.title_en ? row.title_en : row.title,
     description: isEn && row.description_en ? row.description_en : row.description,
     kind: row.kind,
