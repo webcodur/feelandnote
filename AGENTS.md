@@ -246,12 +246,13 @@ pnpm build:audio-bo
 |------|------|
 | `docs/project/remotion-bo-plan.md` | 영상 제작 관리 통합 이력 — remotion-bo의 세 시리즈를 web-bo로 이관하고 앱을 폐기한 기록 |
 
-### 게임 (천도)
+### 게임
 
 | 문서 | 내용 |
 |------|------|
 | `docs/project/suikoden-dev.md` | 천도 게임 개발 룰북 — **26.07.30 핵심 완주 흐름 구현.** 브라우저 실제 완주·실 DB 고정 인물·전체 web 빌드는 검증 대기 |
 | `docs/suikoden-sim/` | 천도 게임 현역 기획서·구현 현황 (README + 10개 문서). 현재 코드 사실은 `10-implementation-status.md`가 기준 |
+| `docs/project/wander-game.md` | 유랑 게임 현역 규격 — 시대 선택, 실제 인물 8명과의 사건, 군세·책략·민심 성장, 결정적 귀환 |
 | `docs/project/portrait-game.md` | 시대의 초상 현역 규격 — 구현 보존·공개 진입 비공개. 사진 로드 후 타이머, 4단계 점수, 모바일 2열 선택, 사진 오류 성적 제외 |
 
 ## TODO

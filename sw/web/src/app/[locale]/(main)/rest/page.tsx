@@ -10,6 +10,7 @@ import HubNav from "@/components/shared/HubNav";
 import RestGameGrid from "@/components/features/rest/RestGameGrid";
 import { getGameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import { loadSuikodenCharacters, loadSuikodenDialogues } from "@/actions/game/suikoden";
+import { loadWanderPools } from "@/actions/game/wander";
 // 기억궁 비공개(26.07.28): 구현은 보존하고 /rest 등록만 주석 처리한다.
 // import { getMemoryFigures } from "@/actions/game/getMemoryFigures";
 import { getPortraitFigures } from "@/actions/game/getPortraitFigures";
@@ -25,6 +26,7 @@ const GAME_SECTIONS = [
   { href: "/rest#labyrinth", valueKey: "labyrinth" as const },
   { href: "/rest#hegemony",  valueKey: "hegemony" as const },
   { href: "/rest#suikoden",  valueKey: "suikoden" as const },
+  { href: "/rest#wander",    valueKey: "wander" as const },
   // { href: "/rest#memory", valueKey: "memory" as const },
   // 시대의 초상 비공개(26.07.30): 구현은 보존하고 공개 바로가기만 숨긴다.
   // { href: "/rest#portrait", valueKey: "portrait" as const },
@@ -41,6 +43,7 @@ export default async function RestPage() {
     bgImagesHegemony,
     suikodenCharacters,
     suikodenDialogues,
+    wanderPools,
     // memoryFigures,
     portraitFigures,
   ] = await Promise.all([
@@ -49,6 +52,7 @@ export default async function RestPage() {
     getGameBackgroundImages("hegemony-1"),
     loadSuikodenCharacters(),
     loadSuikodenDialogues(),
+    loadWanderPools(),
     // getMemoryFigures(),
     getPortraitFigures(),
   ]);
@@ -67,7 +71,7 @@ export default async function RestPage() {
         description: tHub(game.valueKey),
       },
     ])
-  ) as Record<"dawn" | "labyrinth" | "hegemony" | "suikoden", { title: string; description: string }>;
+  ) as Record<"dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander", { title: string; description: string }>;
 
   return (
     <div className="space-y-8">
@@ -81,6 +85,7 @@ export default async function RestPage() {
         bgImagesHegemony={bgImagesHegemony}
         suikodenCharacters={suikodenCharacters}
         suikodenDialogues={suikodenDialogues}
+        wanderPools={wanderPools}
         portraitFigures={portraitFigures}
         gameLabels={gameLabels}
       />
