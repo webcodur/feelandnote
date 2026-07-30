@@ -11,6 +11,7 @@ export const ALLOWED_IMAGE_HOSTS = new Set([
   'shopping-phinf.pstatic.net', // 네이버 쇼핑(도서)
   'bookthumb-phinf.pstatic.net', // 네이버 책
   'i.scdn.co', // Spotify
+  'is1-ssl.mzstatic.com', // Apple Music
   'image.tmdb.org', // TMDB
   'i.gr-assets.com', // Goodreads
   'covers.openlibrary.org', // OpenLibrary
@@ -119,4 +120,3 @@ export async function fetchExternalImageFollowingRedirects(start: URL): Promise<
 
   throw new Error('리다이렉트가 너무 많다.')
 }
-
