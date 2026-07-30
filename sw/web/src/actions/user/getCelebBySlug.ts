@@ -10,7 +10,11 @@ import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
 import { getTitleInfo } from '@/constants/titles'
-import { DIALOGUE_PROFILE_SELECT, type DialogueProfile } from '@/lib/utils/celeb-dialogues'
+import {
+  DIALOGUE_PROFILE_SELECT,
+  getDisplayDialogueQuote,
+  type DialogueProfile,
+} from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
 
 export interface ContentTypeCounts {
@@ -285,7 +289,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     profile: profile as PublicCelebBySlugData['profile'],
     contentCount: resolveCelebContentCount(
       contentCountResult.count,
-      profile.content_research_status
+      profile.content_research_status,
+      true
     ),
     followerCount: followerResult.count || 0,
     guestbookCount: guestbookResult.count || 0,
@@ -368,6 +373,8 @@ async function getCelebBySlugInner(
   }
 
   const d = pub.dialogue
+  const quoteKo = getDisplayDialogueQuote(d?.quote)
+  const quoteEn = getDisplayDialogueQuote(d?.quote_en)
 
   return {
     success: true,
@@ -379,7 +386,7 @@ async function getCelebBySlugInner(
       nickname_ko: profile.nickname || 'Unknown',
       avatar_url: profile.avatar_url,
       bio: resolve('bio', profile.bio_en, profile.bio),
-      quotes: resolve('quotes', d?.quote_en ?? null, d?.quote ?? null),
+      quotes: resolve('quotes', quoteEn, quoteKo),
       monologue: resolve('monologue', d?.monologue_en ?? null, d?.monologue ?? null),
       profession: profile.profession,
       title: resolve('title', profile.title_en, profile.title),

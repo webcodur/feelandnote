@@ -94,6 +94,7 @@ interface PublicCelebData {
   quoteEnMap: Record<string, string>
   voiceMap: Record<string, { voice_v: number; voice_speed: number }>
   contentResearchStatusMap: Record<string, string>
+  profileActiveMap: Record<string, boolean>
   rankingMap: Record<string, number>
   influenceTotal: number
 }
@@ -142,7 +143,7 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchStatusMap: {}, rankingMap: {}, influenceTotal: 0 }
+    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchStatusMap: {}, profileActiveMap: {}, rankingMap: {}, influenceTotal: 0 }
   }
 
   // 병렬 조회: 태그, 대사, 음성, 콘텐츠 조사 상태, 영향력
@@ -158,7 +159,7 @@ async function fetchCelebsPublic(
       .in('id', celebIds)
       .eq('has_voice', true),
     supabase.from('profiles')
-      .select('id, content_research_status')
+      .select('id, status, content_research_status')
       .in('id', celebIds),
     // 전체 순위를 매기는 목록이라 전수가 필요하다. 1,000행 상한에 걸리므로 나눠 받는다 —
     // 자르면 1,001위부터가 순위 없음으로 떨어지고 influenceTotal(분모)도 함께 축소된다.
@@ -206,8 +207,10 @@ async function fetchCelebsPublic(
   })
 
   const contentResearchStatusMap: Record<string, string> = {}
+  const profileActiveMap: Record<string, boolean> = {}
   ;(researchStatusResult.data ?? []).forEach(row => {
     contentResearchStatusMap[row.id] = row.content_research_status
+    profileActiveMap[row.id] = row.status === 'active'
   })
 
   // 영향력 랭킹 맵
@@ -219,7 +222,8 @@ async function fetchCelebsPublic(
   return {
     rows, total, totalPages, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
-    voiceMap, contentResearchStatusMap, rankingMap, influenceTotal: influenceRows.length,
+    voiceMap, contentResearchStatusMap, profileActiveMap,
+    rankingMap, influenceTotal: influenceRows.length,
   }
 }
 
@@ -302,7 +306,8 @@ export async function getCelebs(
       follower_count: row.follower_count,
       content_count: resolveCelebContentCount(
         row.content_count,
-        pub.contentResearchStatusMap[row.id]
+        pub.contentResearchStatusMap[row.id],
+        pub.profileActiveMap[row.id] === true
       ),
       is_following: myFollowings.has(row.id),
       is_follower: myFollowers.has(row.id),

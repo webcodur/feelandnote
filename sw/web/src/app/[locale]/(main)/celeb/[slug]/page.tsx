@@ -15,6 +15,7 @@ import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
 import { getCountryNameByLocale } from "@/lib/countries";
+import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
 import {
@@ -150,7 +151,10 @@ export default async function CelebPage({ params }: PageProps) {
     ? Object.fromEntries(
         Object.entries(rawLines).map(([k, v]) =>
           [k, typeof v === "string" ? [v] : v]
-        ).filter(([, v]) => Array.isArray(v))
+        ).filter(([key, value]) =>
+          Array.isArray(value)
+          && (key !== "quote" || getDisplayDialogueQuote(value[0]) !== null)
+        )
       ) as Record<string, string[]>
     : null;
 

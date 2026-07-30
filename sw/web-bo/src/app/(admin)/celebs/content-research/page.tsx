@@ -13,7 +13,10 @@ import {
   CONTENT_RESEARCH_BUCKETS,
   type ContentResearchBucket,
 } from '@/actions/admin/content-research-types'
-import type { CelebContentResearchStatus } from '@feelandnote/shared/constants/celeb-content-research'
+import {
+  CELEB_CONTENT_RESEARCH_STATUSES,
+  type CelebContentResearchStatus,
+} from '@feelandnote/shared/constants/celeb-content-research'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
@@ -52,30 +55,20 @@ const BUCKET_META: Record<
   inactive_triage: {
     label: '비활성·쓱 보기',
     shortLabel: '비활성 선별',
-    description: '영향력·자료 존재 가능성만 보고 조사 큐 여부 결정',
+    description: '영향력·자료 존재 가능성만 보고 조사 시작 여부 결정',
     className: 'border-amber-500/30 bg-amber-500/10 text-amber-200',
   },
   confirmed_empty: {
-    label: '조사 완료·없음',
+    label: '없음 확정',
     shortLabel: '-1 확정',
-    description: '정식 조사에서 콘텐츠가 없음을 확인',
+    description: '콘텐츠 없음으로 닫아 표시값 -1',
     className: 'border-slate-500/30 bg-slate-500/10 text-slate-200',
   },
 }
 
-const VALID_RESEARCH_STATUSES = new Set([
-  'open',
-  'queued',
-  'researching',
-  'deferred',
-  'confirmed_empty',
-])
-
 const RESEARCH_STATUS_LABELS: Record<CelebContentResearchStatus, string> = {
   open: '열린 0',
-  queued: '조사 큐',
   researching: '조사 중',
-  deferred: '보류',
   confirmed_empty: '-1 확정',
 }
 
@@ -88,7 +81,7 @@ function parseBucket(value: string | undefined): ContentResearchBucket | 'all' {
 function parseResearchStatus(
   value: string | undefined
 ): CelebContentResearchStatus | 'all' {
-  return VALID_RESEARCH_STATUSES.has(value ?? '')
+  return CELEB_CONTENT_RESEARCH_STATUSES.includes(value as CelebContentResearchStatus)
     ? (value as CelebContentResearchStatus)
     : 'all'
 }
@@ -145,7 +138,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
           </div>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
             <strong className="text-text-primary">0은 가능성을 열어 둔 상태</strong>이고,
-            정식 조사로 없음이 확인된 경우만 <strong className="text-rose-300">-1</strong>로
+            콘텐츠 없음으로 확정한 경우 <strong className="text-rose-300">-1</strong>로
             닫습니다. 콘텐츠가 하나라도 등록되면 조사 상태와 무관하게 실측 개수를 표시합니다.
           </p>
         </div>
@@ -167,9 +160,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
           <p className="mt-2 text-2xl font-bold text-text-primary">
             {(
               workspace.statusCounts.open +
-              workspace.statusCounts.queued +
-              workspace.statusCounts.researching +
-              workspace.statusCounts.deferred
+              workspace.statusCounts.researching
             ).toLocaleString()}
           </p>
           <p className="mt-1 text-xs text-text-tertiary">전부 표시값 0, 다시 조사 가능</p>
@@ -192,7 +183,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
           <p className="mt-2 text-2xl font-bold text-rose-300">
             {workspace.statusCounts.confirmed_empty.toLocaleString()}
           </p>
-          <p className="mt-1 text-xs text-text-tertiary">정식 조사 완료, 표시값 -1</p>
+          <p className="mt-1 text-xs text-text-tertiary">없음 확정, 표시값 -1</p>
         </div>
       </section>
 
