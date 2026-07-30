@@ -7,14 +7,14 @@
 import { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import AcademyCategoryTabs from "@/components/features/scriptures/academy/AcademyCategoryTabs";
+import AcademyCategoryTabs from "@/components/features/library/academy/AcademyCategoryTabs";
 
 interface Props {
   children: ReactNode;
 }
 
 export default async function AcademyCategoryLayout({ children }: Props) {
-  const t = await getTranslations("scriptures.academy");
+  const t = await getTranslations("library.academy");
 
   return (
     <div className="w-full max-w-5xl mx-auto pt-8 sm:pt-12 md:pt-20">

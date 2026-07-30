@@ -8,28 +8,28 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
-import { SCRIPTURES_GROUP_ID, SCRIPTURES_SECTIONS, hubNavItems, scripturesSection } from "@/components/shared/hubSectionUtils";
+import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, librarySection } from "@/components/shared/hubSectionUtils";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
-import { getTodayFigure, getScripturesByEra, getProfessionContentCounts, getContentSamplesByProfession } from "@/actions/scriptures";
-import { getAcademyLessonProgressState } from "@/actions/scriptures/academyProgress";
-import FigurePreview from "@/components/features/scriptures/hub/FigurePreview";
-import EraPreview from "@/components/features/scriptures/hub/EraPreview";
-import ProfessionPreview from "@/components/features/scriptures/hub/ProfessionPreview";
-import MuseumPreview from "@/components/features/scriptures/hub/MuseumPreview";
-import AcademyPreview from "@/components/features/scriptures/hub/AcademyPreview";
+import { getTodayFigure, getLibraryByEra, getProfessionContentCounts, getContentSamplesByProfession } from "@/actions/library";
+import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
+import FigurePreview from "@/components/features/library/hub/FigurePreview";
+import EraPreview from "@/components/features/library/hub/EraPreview";
+import ProfessionPreview from "@/components/features/library/hub/ProfessionPreview";
+import MuseumPreview from "@/components/features/library/hub/MuseumPreview";
+import AcademyPreview from "@/components/features/library/hub/AcademyPreview";
 
 export async function generateMetadata() {
-  const t = await getTranslations("scriptures.meta");
+  const t = await getTranslations("library.meta");
   return { title: t("title"), description: t("description"), alternates: await getLocalizedAlternates("/library") };
 }
 
 async function ScripturesHubContent() {
-  const tHub = await getTranslations("scriptures.hub");
+  const tHub = await getTranslations("library.hub");
 
   const [todayFigureRes, eraData, professionCounts, academyState] = await Promise.all([
     getTodayFigure(),
-    getScripturesByEra(),
+    getLibraryByEra(),
     getProfessionContentCounts(),
     getAcademyLessonProgressState(),
   ]);
@@ -43,14 +43,14 @@ async function ScripturesHubContent() {
     <div className="space-y-12 md:space-y-16 mt-4">
       {/* 1/5 오늘의 인물 */}
       {figure && contents && (
-        <HubSection {...scripturesSection("figure", tHub)}>
+        <HubSection {...librarySection("figure", tHub)}>
           <FigurePreview figure={figure} contents={contents} />
         </HubSection>
       )}
 
       {/* 2/5 불후의 명작 */}
       {eraData && eraData.length > 0 && (
-        <HubSection {...scripturesSection("era", tHub)}>
+        <HubSection {...librarySection("era", tHub)}>
           <EraPreview eras={eraData.map(e => ({
             era: e.era,
             label: e.label,
@@ -66,18 +66,18 @@ async function ScripturesHubContent() {
 
       {/* 3/5 길의 갈래 */}
       {professionCounts && professionCounts.length > 0 && (
-        <HubSection {...scripturesSection("profession", tHub)}>
+        <HubSection {...librarySection("profession", tHub)}>
           <ProfessionPreview professionCounts={professionCounts} contentSamples={professionContentSamples} />
         </HubSection>
       )}
 
       {/* 4/5 박물관 */}
-      <HubSection {...scripturesSection("museum", tHub)}>
+      <HubSection {...librarySection("museum", tHub)}>
         <MuseumPreview />
       </HubSection>
 
       {/* 5/5 학당 */}
-      <HubSection {...scripturesSection("academy", tHub)}>
+      <HubSection {...librarySection("academy", tHub)}>
         <AcademyPreview isSignedIn={academyState.isSignedIn} />
       </HubSection>
     </div>
@@ -85,14 +85,14 @@ async function ScripturesHubContent() {
 }
 
 export default async function ScripturesPage() {
-  const tHub = await getTranslations("scriptures.hub");
+  const tHub = await getTranslations("library.hub");
 
   return (
     <div className="space-y-8 pb-20">
       {/* 목차 줄 — SSoT config에서 라벨·순서·번호 동기화 */}
       <HubNav
-        hubItems={hubNavItems(SCRIPTURES_SECTIONS, tHub)}
-        groupId={SCRIPTURES_GROUP_ID}
+        hubItems={hubNavItems(LIBRARY_SECTIONS, tHub)}
+        groupId={LIBRARY_GROUP_ID}
       />
 
       <ScripturesHubContent />

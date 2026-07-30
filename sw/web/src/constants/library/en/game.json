@@ -1,0 +1,376 @@
+{
+  "GAME_HISTORY_TIMELINE": [
+    {
+      "id": "board_dice",
+      "name": "Board Games and Dice",
+      "period": "c. 3000 BCE ~",
+      "startYear": -3000,
+      "media": "Board Games / Dice",
+      "description": "Humanity's first structured play. On boards carved from wood and stone, every archetype of games — rules, strategy, and probability — was born.",
+      "contents": [
+        "Royal Game of Ur (c. 2600 BCE)",
+        "Senet (Ancient Egypt)",
+        "Precursors to Go and Chess"
+      ],
+      "imageUrl": "/images/library/game/interface/01_physical_tokens.png",
+      "essay": {
+        "title": "Rules Build Worlds",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "The cuneiform rule tablet of the Royal Game of Ur dates to 2600 BCE, yet its essence is indistinguishable from any modern game design document. 'Place your piece on this square to capture your opponent' — this single rule erects a kingdom on a board.\n\nSenet was sacred enough to be buried with pharaohs; Go was a discipline of lords; chess was a miniature battlefield. Strategy, probability, decision-making — every principle of games was already here. The digital games of millennia later never escape the logic of these wood and stone originals."
+      }
+    },
+    {
+      "id": "arcade",
+      "name": "Arcade",
+      "period": "1972 ~ 2000",
+      "startYear": 1972,
+      "endYear": 2000,
+      "media": "Arcade Cabinet",
+      "description": "Coin-operated electronic game machines for public venues. From Pong to Street Fighter, the arcade hall became the first gamer community.",
+      "contents": [
+        "Pong (1972)",
+        "Space Invaders (1978)",
+        "Street Fighter II (1991)"
+      ],
+      "imageUrl": "/images/library/game/platform/02_arcade.png",
+      "essay": {
+        "title": "Coins and High Scores",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "When Atari's Pong was installed at a bar in 1972, the coin box overflowed and the machine broke down. In 1978, Space Invaders triggered a 100-yen coin shortage across Japan. It was the moment electronic games graduated from toy to industry.\n\nPac-Man drew women and couples into arcades, expanding the gaming population, while Street Fighter II established the ritual of 'place a coin on the screen to challenge.' The leaderboard culture of leaving your three-letter initials after a high score is the ancestor of today's online ranking boards."
+      }
+    },
+    {
+      "id": "home_console",
+      "name": "Home Console",
+      "period": "1983 ~",
+      "startYear": 1983,
+      "media": "Home Console",
+      "description": "Dedicated devices for playing games at home via a television. Nintendo resurrected the industry after the Atari Shock and established the standards of game design.",
+      "contents": [
+        "Super Mario Bros. (1985)",
+        "The Legend of Zelda (1986)",
+        "Final Fantasy VII (1997)"
+      ],
+      "essay": {
+        "title": "The Atari Crash and Nintendo's Revival",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "In 1983, a flood of low-quality games collapsed the North American gaming market — the Atari Crash. The architect of its revival was Nintendo, a playing card company from Kyoto. By restoring quality trust with the 'Nintendo Seal of Quality,' it defined the grammar of the platformer with Super Mario Bros. and the prototype of free exploration with The Legend of Zelda.\n\nThe console wars with Sega and the arrival of the Sony PlayStation grew gaming into an industry on par with film and music. As the generation that grew up gripping controllers in front of living room CRTs came of age, the perception of games as children's toys began, slowly, to change."
+      },
+      "imageUrl": "/images/library/game/platform/07_home_console.png"
+    },
+    {
+      "id": "pc_gaming",
+      "name": "PC Gaming",
+      "period": "1993 ~",
+      "startYear": 1993,
+      "media": "PC Gaming",
+      "description": "General-purpose computers used as gaming platforms. FPS and RTS genres optimized for keyboard and mouse were born here, and modding culture along with digital distribution created an ecosystem unique to PC.",
+      "contents": [
+        "Doom (1993)",
+        "StarCraft (1998)",
+        "Steam (2003)"
+      ],
+      "imageUrl": "/images/library/game/interface/04_mouse_keyboard.png",
+      "essay": {
+        "title": "FPS, RTS, and Mods",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "Doom's popularization of FPS in 1993 simultaneously opened the doors to LAN multiplayer and modding culture. The WAD editor that let users build their own maps was the first to blur the line between consumer and creator. In 1998, StarCraft triggered a cultural phenomenon in Korea: the explosion of PC bangs, the emergence of professional players, and the birth of esports.\n\nWhere consoles maintained a closed hardware ecosystem, PC offered a two-sided freedom — graphics card upgrades, user-made mods, and engine licensing. When Steam unified digital distribution in 2003, it laid the foundation for the indie game renaissance."
+      }
+    },
+    {
+      "id": "handheld_mobile",
+      "name": "Handheld and Mobile",
+      "period": "1989 ~",
+      "startYear": 1989,
+      "media": "Handheld / Smartphone",
+      "description": "Portable gaming that began with the Game Boy entered the smartphone era and became a daily habit for three billion people worldwide.",
+      "contents": [
+        "Tetris (Game Boy, 1989)",
+        "Pokémon Red & Green (1996)",
+        "Angry Birds (2009)"
+      ],
+      "essay": {
+        "title": "100 Million Game Boys, 3 Billion Smartphones",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "The 1989 Nintendo Game Boy chose a black-and-white screen over competitors' color displays. In return, it ran for 30 hours on four AA batteries. Combined with the addictiveness of Tetris, it sold over 100 million units, and Pokémon in 1996 transformed gaming into 'something you do with friends' via link cables.\n\nAfter the App Store sparked a distribution revolution in 2008, Angry Birds and Clash of Clans proved the commercial potential of free-to-play. Mobile gaming overtook console and PC revenue, and in 2016 Pokémon GO converted real-world space into a game field using AR. 'Gamer' is no longer a niche hobby identity — it is the human default."
+      },
+      "imageUrl": "/images/library/game/platform/09_handheld_mobile.png"
+    },
+    {
+      "id": "online_vr_cloud",
+      "name": "Online · VR · Cloud",
+      "period": "2000 ~",
+      "startYear": 2000,
+      "media": "Online / VR / Cloud Gaming",
+      "description": "The internet connects tens of thousands into a single virtual world; VR headsets erase the distance between screen and eye; cloud gaming transcends hardware limitations.",
+      "contents": [
+        "World of Warcraft (2004)",
+        "Half-Life: Alyx (2020)",
+        "Xbox Cloud Gaming"
+      ],
+      "essay": {
+        "title": "Connection, Embodiment, Streaming",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "When the servers of Lineage and World of Warcraft opened, games transformed from software you complete alone into virtual worlds thousands inhabit together. Guilds formed, economies thrived in auction houses, and hundreds coordinated siege battles — entire societies took shape inside the game.\n\nVR erases the boundary from a different direction. In 2020, Half-Life: Alyx proved that VR could be a fully realized title, not a tech demo. Cloud gaming runs the game on high-performance servers and streams only the video feed, clearing hardware barriers. The game platform is no longer a specific device — it is the act of connection itself."
+      },
+      "imageUrl": "/images/library/game/platform/10_online_vr_cloud.png"
+    }
+  ],
+  "GAME_INTF_HISTORY_TIMELINE": [
+    {
+      "id": "physical_tokens",
+      "name": "Boards and Dice",
+      "period": "Ancient ~ Mid-20th Century",
+      "startYear": -3000,
+      "endYear": 1970,
+      "media": "Physical Boards and Tools",
+      "description": "An analog interface where players moved pieces by hand and rolled dice to govern the variables of play. Bone dice were the world's first hardware random number generators.",
+      "contents": [
+        "Senet and the Royal Game of Ur",
+        "Probability generation through dice",
+        "Movement of chess pieces"
+      ],
+      "imageUrl": "/images/library/game/interface/01_physical_tokens.png",
+      "essay": {
+        "title": "The Interface of Hands and Bone",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "The oldest game interface is the human hand itself. Players picked up pieces carved from wood or ivory, moved them across grid boards, and threw dice to introduce variables.\n\nThe role of the die is fundamental. It was the first hardware random number generator (RNG) — a device to simulate 'chance,' that which lies beyond human control. Players interacted with the game world by combining the outcome of bone tumbling according to physical laws with their own strategy. The pseudo-random number generation running inside computers thousands of years later is the heir of these bone fragments."
+      }
+    },
+    {
+      "id": "arcade_lever",
+      "name": "Levers and Buttons",
+      "period": "1970s ~ 1980s",
+      "startYear": 1971,
+      "endYear": 1990,
+      "media": "Arcade Joystick",
+      "description": "The first digital input devices designed to control objects on an electronic screen. A primal control scheme of throwing the full weight of the body into the lever and hammering buttons with the fist.",
+      "contents": [
+        "Atari Pong's dial paddle",
+        "Space Invaders 8-directional lever",
+        "Street Fighter II 6-button layout"
+      ],
+      "imageUrl": "/images/library/game/interface/02_arcade_lever.png",
+      "essay": {
+        "title": "An Era of Full-Arm Control",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "The arcade cabinet's interface was the most primal and intuitive combat device imaginable. Throwing your body weight into the lever with your whole arm, hammering buttons with your fist — these were physical extensions that made you one with the spaceship or fighter on screen.\n\nThe 8-directional lever and 6-strength-button combination codified by Street Fighter II was the definitive fighting game interface: capable of expressing complex analog nuances through digital inputs. The Hadouken command (↓↘→+P) — this grammar of using combinations of digital inputs to express analog techniques — remains the foundation of fighting games today."
+      }
+    },
+    {
+      "id": "d_pad",
+      "name": "D-Pad and Gamepad",
+      "period": "1983 ~ 2000",
+      "startYear": 1983,
+      "endYear": 2000,
+      "media": "D-Pad / Gamepad",
+      "description": "The cross-shaped directional pad developed by Nintendo. A revolutionary form factor that replaced the joystick, letting a single thumb control all four directions.",
+      "contents": [
+        "Nintendo D-Pad patent (1982)",
+        "Famicom controller A & B buttons",
+        "Super Famicom L & R shoulder buttons"
+      ],
+      "imageUrl": "/images/library/game/interface/03_d_pad.png",
+      "essay": {
+        "title": "Two Thumbs Govern the World",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "In 1982, Gunpei Yokoi needed a flat input device small enough to fit inside a Game & Watch. The solution was a D-Pad: a cross-shaped plastic plate with four contact points underneath. When transplanted into the Famicom (NES) controller, a new standard for game interfaces was born.\n\nNo longer was it necessary to move the entire arm. The left thumb indicated direction and the right thumb decided action — that was enough to command the digital world. This thumb-centric pad layout remains the default on the latest consoles, decades on."
+      }
+    },
+    {
+      "id": "mouse_keyboard",
+      "name": "Mouse and Keyboard",
+      "period": "1990s ~",
+      "startYear": 1990,
+      "media": "Mouse / Keyboard (WASD)",
+      "description": "Office input devices evolved into tools for precision targeting and multi-command input when they met FPS and RTS games. WASD + mouse became the standard PC gaming control scheme.",
+      "contents": [
+        "Mouse aiming in Doom and Quake",
+        "Establishment of WASD movement",
+        "StarCraft APM (Actions Per Minute)"
+      ],
+      "imageUrl": "/images/library/game/interface/04_mouse_keyboard.png",
+      "essay": {
+        "title": "WASD and Mouse Aim",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "When Quake pro players felt the limitations of arrow keys and remapped movement to W, A, S, D, it became the PC gaming standard. The mouse in the right hand turned into a sniper scope with pixel-level precision, and in RTS games it became a magic wand capable of selecting hundreds of units in a single drag.\n\nThis combination, capable of absorbing the hundreds of actions per minute of professional players, completed the fastest possible physical multi-input system between human and computer — a realm of precision and speed unreachable by a console pad."
+      }
+    },
+    {
+      "id": "analog_haptic",
+      "name": "Analog Stick and Haptics",
+      "period": "1996 ~",
+      "startYear": 1996,
+      "media": "Analog Stick / Haptic Feedback",
+      "description": "The analog stick that enabled 360-degree movement for the 3D era, and haptic feedback that translated on-screen impacts back into vibrations felt in the hand.",
+      "contents": [
+        "Nintendo 64 analog stick (1996)",
+        "Sony DualShock rumble (1997)",
+        "DualSense adaptive triggers (2020)"
+      ],
+      "imageUrl": "/images/library/game/interface/05_analog_haptic.png",
+      "essay": {
+        "title": "360-Degree Movement and the Sense of Touch",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "When Super Mario 64 opened 3D space, free 360-degree movement was impossible with the existing D-Pad. The analog stick on the Nintendo 64 controller moved beyond binary digital input, enabling gradations of speed — from a cautious tip-toe to an all-out sprint.\n\nA more fundamental leap came from the Sony DualShock's rumble. Until then, games had only reached the senses of sight and sound. The moment the controller buzzed, the shockwave of an explosion was delivered to the fingertips — through touch. The latest DualSense simulates even the taut tension of a drawn bowstring through its haptic motors, finger by finger."
+      }
+    },
+    {
+      "id": "touch_motion",
+      "name": "Touch and Motion",
+      "period": "2006 ~",
+      "startYear": 2006,
+      "media": "Touchscreen / Motion Control",
+      "description": "The Nintendo Wii's motion recognition and the iPhone's touchscreen eliminated the need to memorize complex button layouts, opening an era of game control through intuitive gesture alone.",
+      "contents": [
+        "Nintendo Wii Remote (2006)",
+        "iPhone touchscreen (2007)",
+        "Angry Birds slingshot gesture"
+      ],
+      "imageUrl": "/images/library/game/interface/06_touch_motion.png",
+      "essay": {
+        "title": "Control Without Buttons",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "Memorizing dozens of button layouts was an enormous barrier to entry for non-gamers. In 2006, the Nintendo Wii tore it down. To play tennis, you simply swung the Remote like an actual racket.\n\nThe iPhone's touchscreen, arriving at almost the same moment, eliminated the controller as a mediator entirely. You rubbed the screen directly and pulled back a slingshot to release. As the input device and output display merged onto a single pane of glass, this radical intuitiveness brought three billion people into gaming."
+      }
+    }
+  ],
+  "GAME_GFX_HISTORY_TIMELINE": [
+    {
+      "id": "text_adventure",
+      "name": "Text Adventure",
+      "period": "1975 ~ 1985",
+      "startYear": 1975,
+      "endYear": 1985,
+      "media": "Text Adventure / MUD",
+      "description": "Before graphics existed, mazes and monsters were conjured through text description alone. The player's imagination was the finest GPU.",
+      "contents": [
+        "Colossal Cave Adventure (1976)",
+        "Zork (1977)",
+        "Early MUD games"
+      ],
+      "imageUrl": "/images/library/game/world/01_text_mud.png",
+      "essay": {
+        "title": "Imagination as a Graphics Engine",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "'You are standing in an open field west of a white house.' On Zork's (1977) screen, only white terminal characters blinked. The player typed 'go north' to explore the world.\n\n'From deep within the cave, you hear a low growl' — this single sentence produces a chill more effective than any ray-traced render. Text adventures were a hybrid of fiction and programming, and the player's brain was the world's most powerful rendering device."
+      }
+    },
+    {
+      "id": "pixel_2d",
+      "name": "2D Pixel Art",
+      "period": "1980s ~ Early 1990s",
+      "startYear": 1980,
+      "endYear": 1995,
+      "media": "8-bit · 16-bit Dot Graphics",
+      "description": "An era of craftsmanship in which intricate artwork was completed with only a handful of colors and tiny dots (pixels). Constraint itself gave birth to a singularly distinctive visual style.",
+      "contents": [
+        "Super Mario Bros. tile maps",
+        "Metal Slug dot animation",
+        "Chrono Trigger 16-bit art"
+      ],
+      "imageUrl": "/images/library/game/world/02_pixel_2d.png",
+      "essay": {
+        "title": "The Art That Constraint Made",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "The reason Mario wears a cap and sports a mustache is that there was no way to render hair and a mouth within a handful of pixels. 54 colors on the NES, 256 on the SNES. Within these harsh limits, artists placed dots one by one to create astonishing work.\n\nMetal Slug's explosion effects and Chrono Trigger's twilight landscapes are the products of that painstaking labor. When modern indie games deliberately choose dot graphics over the latest 3D engines, it is because pixel art is not a relic of the past but an established visual style — as legitimate as watercolor or oil paint."
+      }
+    },
+    {
+      "id": "isometric",
+      "name": "Isometric",
+      "period": "1990s",
+      "startYear": 1990,
+      "endYear": 2000,
+      "media": "Isometric / Quarter-View",
+      "description": "A technique that arranged 2D tiles in a diamond pattern to create the illusion of three-dimensional space. An elegant compromise from an era when true 3D was beyond computational reach.",
+      "contents": [
+        "SimCity 2000 (1993)",
+        "Diablo (1996)",
+        "StarCraft (1998)"
+      ],
+      "imageUrl": "/images/library/game/world/03_isometric.png",
+      "essay": {
+        "title": "Tricking 2D into Looking like 3D",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "Tilt a 2D image at 45 degrees and layer it with others, and a flat surface gains depth. It is an optical illusion — and it worked extraordinarily well.\n\nThis angle, looking down from an oblique vantage, fit perfectly with SimCity's city-building, Diablo's dungeon-crawling, and StarCraft's battlefield command. The fixed, undistorted perspective made complex unit management intuitive, and the sight of dot sprites moving across diamond tiles evoked the pleasure of peering into a diorama inside a glass box."
+      }
+    },
+    {
+      "id": "early_3d",
+      "name": "3D and Polygons",
+      "period": "1993 ~ 2001",
+      "startYear": 1993,
+      "endYear": 2001,
+      "media": "Early 3D Polygons",
+      "description": "The turning point where triangle (polygon) calculation created real-time 3D space with X, Y, and Z axes. For the first time, you could rotate the camera a full 360 degrees.",
+      "contents": [
+        "Virtua Fighter (1993)",
+        "Super Mario 64 (1996)",
+        "The Legend of Zelda: Ocarina of Time (1998)"
+      ],
+      "imageUrl": "/images/library/game/world/04_early_3d_polygon.png",
+      "essay": {
+        "title": "The Camera Turns 360 Degrees",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "Virtua Fighter's characters looked as though they were assembled from stacked lumber. Dot-art purists called it grotesque. But players shuddered — because the camera could rotate a full 360 degrees.\n\nOnce Super Mario 64 demonstrated free 360-degree movement via the analog stick, and The Legend of Zelda: Ocarina of Time established the grammar of 3D combat with Z-targeting, there was no going back. From the paper-puppet theater of 2D to a three-dimensional space with weight and gravity — it was the most radical visual transformation in the history of games."
+      }
+    },
+    {
+      "id": "seamless_openworld",
+      "name": "Open World",
+      "period": "2001 ~",
+      "startYear": 2001,
+      "media": "Seamless Open World",
+      "description": "Vast worlds rendered without loading screens. The moment you could actually walk to the mountaintop visible in the distance, the game world became a place to inhabit.",
+      "contents": [
+        "GTA III (2001)",
+        "The Elder Scrolls V: Skyrim (2011)",
+        "The Legend of Zelda: Breath of the Wild (2017)"
+      ],
+      "imageUrl": "/images/library/game/world/05_seamless_openworld.png",
+      "essay": {
+        "title": "The Disappearance of the Loading Screen",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "The loading screen is a rupture of illusion. When the mountain ahead turns out to be a painted backdrop, and stepping inside a building triggers a black screen, immersion shatters.\n\nWhen GTA III (2001) erased this rupture with streaming loading, the game world became, for the first time, a space you could truly inhabit. Skyrim's unbroken horizon stretching from dungeon to snowy peak. Breath of the Wild's promise that you can go anywhere you can see from atop the tower. The essence of the seamless open world is not graphical technology but the technology of presence."
+      }
+    },
+    {
+      "id": "raytracing",
+      "name": "Ray Tracing",
+      "period": "2018 ~",
+      "startYear": 2018,
+      "media": "Ray Tracing / Advanced Engines",
+      "description": "Technology that computes the path of light in real time, achieving graphics indistinguishable from reality. The final challenge of game graphics was never polygon count — it was light.",
+      "contents": [
+        "Cyberpunk 2077 neon sign reflections",
+        "Unreal Engine 5 Nanite & Lumen",
+        "Red Dead Redemption 2 natural lighting"
+      ],
+      "imageUrl": "/images/library/game/world/07_raytracing_photorealism.png",
+      "essay": {
+        "title": "Simulating Light",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 2,
+        "contentMarkdown": "No matter how many polygons you added, the warped reflection of a neon sign in a puddle or sunlight scattering through leaves could not be convincingly faked.\n\nNVIDIA RTX's real-time ray tracing does not paint artificial light effects — instead, it physically computes tens of thousands of trajectories per frame as light particles bounce off surfaces and reach the eye. Unreal Engine 5's Nanite sculpts a single mountain from hundreds of millions of micro-polygons. Game visuals have arrived at the threshold where they are indistinguishable from a digital twin of reality."
+      }
+    }
+  ]
+}

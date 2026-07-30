@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { redirect } from "next/navigation";
-import { ACADEMY_CATEGORY_IDS } from "@/constants/scripturesMuseum";
+import { ACADEMY_CATEGORY_IDS } from "@/constants/libraryMuseum";
 
 export default async function CategoryPage({
   params,

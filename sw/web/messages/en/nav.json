@@ -2,7 +2,7 @@
   "nav": {
     "home": "Home",
     "explore": "Explore",
-    "scriptures": "Library",
+    "library": "Library",
     "rest": "Rest",
     "agora": "Agora",
     "archive": "My Archives",
@@ -52,7 +52,7 @@
     "home": "Home",
     "playlists": "Playlists",
     "explore": "Explore",
-    "scriptures": "Hall of Wisdom",
+    "library": "Hall of Wisdom",
     "board": "Board",
     "notice": "Announcements",
     "feedback": "Feedback"
