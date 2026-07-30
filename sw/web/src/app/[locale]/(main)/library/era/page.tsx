@@ -6,19 +6,19 @@
 
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import EraSection from "@/components/features/scriptures/sections/EraSection";
-import { getScripturesByEra, getChosenScriptures, getTopCelebsAcrossAllEras } from "@/actions/scriptures";
+import EraSection from "@/components/features/library/sections/EraSection";
+import { getLibraryByEra, getChosenLibrary, getTopCelebsAcrossAllEras } from "@/actions/library";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
-  const t = await getTranslations("scriptures.era");
+  const t = await getTranslations("library.era");
   return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/era") };
 }
 
 async function EraContent() {
   const [eraData, chosenData, topCelebs] = await Promise.all([
-    getScripturesByEra(),
-    getChosenScriptures({ page: 1, limit: 12 }),
+    getLibraryByEra(),
+    getChosenLibrary({ page: 1, limit: 12 }),
     getTopCelebsAcrossAllEras(),
   ]);
 

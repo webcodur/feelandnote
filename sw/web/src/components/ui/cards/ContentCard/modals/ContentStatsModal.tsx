@@ -10,7 +10,7 @@ import { Users, Crown, User } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getCelebsForContent } from "@/actions/scriptures";
+import { getCelebsForContent } from "@/actions/library";
 import { getCelebForModal } from "@/actions/celebs";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import type { CelebProfile } from "@/types/home";

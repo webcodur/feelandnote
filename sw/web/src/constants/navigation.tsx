@@ -66,7 +66,7 @@ export const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    key: "scriptures",
+    key: "library",
     href: "/library",
     label: "서가",
     icon: BookOpen,
@@ -144,9 +144,9 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
     className: "bg-bg-main border-t border-white/10",
     link: "/explore",
   },
-  scriptures: {
-    id: "scriptures-section",
-    key: "scriptures",
+  library: {
+    id: "library-section",
+    key: "library",
     svgSrc: "/images/decorations/scroll.svg",
     className: "bg-bg-main border-t border-white/10",
     link: "/library",
@@ -171,7 +171,7 @@ export const HOME_SECTIONS: Record<string, HomeSectionConfig> = {
 export const SECTION_ORDER = [
   "home-banner",
   "explore-section",
-  "scriptures-section",
+  "library-section",
   "rest-section",
   "archive-section",
 ] as const;

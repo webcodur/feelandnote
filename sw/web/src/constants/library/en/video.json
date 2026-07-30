@@ -1,0 +1,400 @@
+{
+  "VIDEO_TECH_HISTORY_TIMELINE": [
+    {
+      "id": "optical_illusion",
+      "name": "Optical Illusion",
+      "period": "Mid-19th Century",
+      "startYear": 1832,
+      "endYear": 1890,
+      "media": "Zoetrope & Praxinoscope",
+      "description": "Early visual devices that exploited the persistence of vision to make still images appear to move. Without lenses or projectors, they created the illusion of motion — the most primal form of visual special effect.",
+      "contents": [
+        "Phenakistoscope",
+        "Zoetrope",
+        "Émile Reynaud's Praxinoscope"
+      ],
+      "imageUrl": "/images/library/video/technique/01_optical_illusion.png",
+      "essay": {
+        "title": "The First Magic Conjured by Persistence of Vision",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "Before cinema was born, 19th-century audiences were captivated by remarkable 'optical toys.' The phenakistoscope, invented by Joseph Plateau in 1832, arranged sequential drawings around the edge of a spinning disc and used slits to view their reflection in a mirror — producing the uncanny illusion that still images had come to life.\n\nIt was the first commercially successful device to exploit the human eye's 'persistence of vision.' From there, it evolved into the cylindrical zoetrope and then the praxinoscope, which used mirrors to reduce flickering, becoming a centrepiece of bourgeois entertainment in 19th-century parlours. Though photography and film had yet to be married, these devices created 'movement that did not exist' through tricks of light and retina — making them the purest origin point of visual special effects."
+      }
+    },
+    {
+      "id": "editing_montage",
+      "name": "Editing and Montage",
+      "period": "1900s – 1920s",
+      "startYear": 1903,
+      "endYear": 1930,
+      "media": "Film Splicer",
+      "description": "Moving beyond visual trickery, this era established editing — the act of cutting and joining film — as cinema's own native grammar for constructing time and space.",
+      "contents": [
+        "The Great Train Robbery (1903) — cross-cutting",
+        "Griffith's The Birth of a Nation",
+        "Soviet Montage Theory (Battleship Potemkin)"
+      ],
+      "essay": {
+        "title": "Cut Through Time, Paste Through Space",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "The true power that elevated cinema from visual novelty to the dominant narrative medium of humanity was born not from dazzling special effects, but from the hands of an editor holding a pair of scissors. Early films were little more than stage plays recorded from a fixed camera, beginning to end. Then Edwin S. Porter invented cross-cutting in The Great Train Robbery (1903), alternating between events unfolding in different locations, and cinema's own distinctive grammar was born.\n\nD.W. Griffith went on to interweave close-ups and wide shots, using frame size to control emotion. In the 1920s, Soviet filmmaker Sergei Eisenstein used Battleship Potemkin to demonstrate his 'montage' theory — the collision of two unrelated images generates a third meaning neither image contains alone. This principle became the foundational law of film editing.\n\nThrough the simple, almost violent act of physically cutting celluloid and splicing it back together with tape, directors gained the ability to compress or expand real time at will, and to architect imaginary spaces that had never existed. If visual special effects were magic tricks that deceived the eye, editing and montage were a divine power that rewrote the very rules of time and space."
+      },
+      "imageUrl": "/images/library/video/technique/editing_montage.png"
+    },
+    {
+      "id": "stop_motion",
+      "name": "Stop Motion & Miniatures",
+      "period": "Early-to-Mid 20th Century",
+      "startYear": 1902,
+      "endYear": 1980,
+      "media": "Stop Motion Animation",
+      "description": "A classic special-effects technique in which miniature models are shifted incrementally and photographed one frame at a time, breathing movement into inanimate objects.",
+      "contents": [
+        "King Kong (1933)",
+        "Jason and the Argonauts (1963)",
+        "Original Star Wars trilogy"
+      ],
+      "imageUrl": "/images/library/video/technique/03_stop_motion.png",
+      "essay": {
+        "title": "Breathing Life into Frozen Time",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "Before computer graphics, the only way to put a giant monster or alien creature on screen was to move a physical model by hand. For King Kong (1933), Willis O'Brien photographed a 45-centimetre puppet — a wire armature covered in sponge and rabbit fur — shifting it millimetre by millimetre, one frame at a time.\n\nThis painstaking process — sometimes requiring 24 separate adjustments and exposures to produce a single second of footage — was called stop motion animation. O'Brien's protégé Ray Harryhausen elevated the technique to an art form. The three-minute sequence in Jason and the Argonauts (1963), in which live actors duel seven skeleton warriors, is considered the pinnacle of stop motion, combining miniatures with rear projection in extraordinary precision.\n\nStop motion survived into its own distinct narrative mode through clay animation (Wallace and Gromit) and puppet films (The Nightmare Before Christmas), and even in the age of full digital production, it endures — prized for its distinctive texture and analogue warmth."
+      }
+    },
+    {
+      "id": "matte_painting",
+      "name": "Matte Painting & Optical Printing",
+      "period": "1930s – 1980s",
+      "startYear": 1930,
+      "endYear": 1990,
+      "media": "Optical Printer and Glass Matte",
+      "description": "A technique combining matte paintings — backgrounds rendered on glass and composited with live-action footage — with optical printing, which physically re-photographs and overlays multiple strips of film.",
+      "contents": [
+        "Gone with the Wind (1939)",
+        "The Wizard of Oz",
+        "Indiana Jones series"
+      ],
+      "imageUrl": "/images/library/video/technique/04_matte_painting.png",
+      "essay": {
+        "title": "An Empire of Illusion Painted on Glass",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "Vast Gothic castles, ruined alien planets, armies stretching to the horizon — grand mise-en-scène impossible to build as practical sets fell to painters for much of the 20th century. Matte painting works by masking part of a large pane of glass, rendering an elaborately detailed background on the masked portion, then compositing live-action actors into the transparent space that remains.\n\nThe burning Atlanta station in Gone with the Wind and the cavernous hangar bay in The Empire Strikes Back were both illusions born of brush and paint. The parallel development of the optical printer — which physically and optically re-photographs multiple strips of film onto a single frame — allowed matte paintings, miniatures, and live footage to be seamlessly fused.\n\nThe special effects of this era demanded extreme craftsmanship bridging the shoot and the post-production lab. There was no Ctrl+Z; a single exposure error could condemn months of compositing work. These analogue practical effects were the frontline technology for extending the realism of the moving image."
+      }
+    },
+    {
+      "id": "cgi_era",
+      "name": "The Dawn of CGI",
+      "period": "1980s – 2000s",
+      "startYear": 1982,
+      "endYear": 2005,
+      "media": "Computer-Generated Imagery (CGI)",
+      "description": "Technology for creating three-dimensional virtual objects in software and compositing them with live footage. Films like Jurassic Park and Terminator 2 triggered a visual revolution that transcended all physical constraints.",
+      "contents": [
+        "Tron (1982)",
+        "Terminator 2: Judgment Day (1991)",
+        "Jurassic Park (1993)"
+      ],
+      "imageUrl": "/images/library/video/technique/05_cgi_era.png",
+      "essay": {
+        "title": "Pixels and Polygons: A World Built Grain by Grain",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "Tron (1982) was a pioneering work in bringing CGI into mainstream cinematic storytelling, but the true seismic shift came in the early 1990s. When the liquid-metal T-1000 in James Cameron's Terminator 2: Judgment Day (1991) fluidly passed through iron bars, audiences felt the shock of digital imagery breaking the laws of physics.\n\nThe decisive turning point was Steven Spielberg's Jurassic Park (1993). Originally planned with stop motion, the dinosaurs were handed over to ILM (Industrial Light & Magic), whose CGI gave them the tremor of muscle and the texture of skin — living, breathing creatures. In that moment, the paradigm of special effects shifted irrevocably from analogue model-making to pure digital data.\n\nThe arrival of CGI liberated imagination completely from physical constraints. Toy Story (1995) became the first feature-length film made entirely in CGI, deploying a three-dimensionality and tactility that cel animation had never achieved, and overturning the entire animation market."
+      }
+    },
+    {
+      "id": "virtual_production",
+      "name": "Virtual Production",
+      "period": "2010s –",
+      "startYear": 2009,
+      "media": "Motion Capture and LED Volume",
+      "description": "A fusion of performance capture — which synchronises an actor's movements to a digital character in real time — and virtual production systems that project fully rendered virtual worlds onto massive LED screens.",
+      "contents": [
+        "Avatar (2009)",
+        "Planet of the Apes reboot series",
+        "The Mandalorian (LED Volume)"
+      ],
+      "essay": {
+        "title": "Merging Reality and the Digital",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "If CGI was about 'layering' digital images onto live footage after the fact, the latest special effects 'fuse' the real and the digital from the moment of photography. At the origin of this fusion is performance capture. Evolved from the technology that created Gollum in The Lord of the Rings, it reached a new threshold in Avatar (2009), synchronising the micro-movements of an actor's facial muscles directly onto a Na'vi character in real time, giving virtual figures a complete capacity for human performance.\n\nThe most recent visual revolution is 'virtual production,' which replaces the green screen entirely. Pioneered in Jon Favreau's series The Mandalorian, the technology projects a photorealistic 3D environment — built in a game engine such as Unreal Engine — onto a massive hemispherical LED screen called a Volume.\n\nUnder this system, the camera treats the virtual sunlight on the LED screen as its actual light source, and the perspective of the background shifts in real time to match the lens. What was once the province of post-production has moved into the shoot itself — an empty stage transforms, instantly and infinitely, into the heart of a universe."
+      },
+      "imageUrl": "/images/library/video/technique/08_virtual_production.png"
+    }
+  ],
+  "VIDEO_SPACE_HISTORY_TIMELINE": [
+    {
+      "id": "nickelodeon",
+      "name": "Nickelodeon",
+      "period": "1905 – 1910s",
+      "startYear": 1905,
+      "endYear": 1915,
+      "media": "Early Permanent Movie Theatre",
+      "description": "The earliest movie theatres, where workers and immigrants watched short silent films for a nickel admission. The first space where cinema evolved from a travelling-fair curiosity into a fixture of everyday popular culture.",
+      "contents": [
+        "First nickelodeon in Pittsburgh (1905)",
+        "Series of short silent films (under 10 minutes)",
+        "Improvised piano accompaniment"
+      ],
+      "imageUrl": "/images/library/video/space/01_nickelodeon.png",
+      "essay": {
+        "title": "A Five-Cent Dream: The Projector in the Back Alley",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "In 1905, in Pittsburgh, Pennsylvania, a storefront opened bearing the name 'nickelodeon' — a portmanteau of 'nickel' (the five-cent coin) and 'odeon' (Greek for theatre). About a hundred wooden chairs were arranged in a vacant back room, a screen was hung, and the world's first permanent movie theatre was open for business.\n\nPoor immigrants and labourers paid their five cents and were thrilled by short films, melodramas, comedies, and newsreels accompanied by rudimentary piano playing. The universal language of moving images — requiring no translation — instantly captivated those who spoke no English. Within a few years, more than 8,000 nickelodeons had sprung up across the United States.\n\nUnlike theatre or opera, which were élite arts from their inception, the nickelodeon had no class barriers by design. Despite being dismissed by the establishment as cheap pleasure for the lower orders, this space served as the incubator from which cinema grew from a fairground novelty into a vast industry and a medium in its own right."
+      }
+    },
+    {
+      "id": "movie_palace",
+      "name": "Movie Palace",
+      "period": "1910s – 1940s",
+      "startYear": 1914,
+      "endYear": 1950,
+      "media": "Large Single-Screen Theatre (Movie Palace)",
+      "description": "Lavish grand theatres with imposing architectural styles, thousands of seats, pipe organs, and chandeliers. Cinema-going was elevated from cheap entertainment to a refined leisure activity for the middle class.",
+      "contents": [
+        "New York Strand Theatre (1914)",
+        "Grauman's Chinese Theatre, Hollywood",
+        "Single-screen venues seating thousands"
+      ],
+      "imageUrl": "/images/library/video/space/02_movie_palace.png",
+      "essay": {
+        "title": "Collective Fantasy Beneath Marble Columns",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "Having witnessed the explosive growth of the nickelodeon, film capital turned its eyes to higher profitability. To attract middle-class audiences, the spaces themselves had to be elevated. The answer came in 1914 with the Strand Theatre, which opened on Broadway in New York with 3,300 seats.\n\nThese vast theatres, known as 'movie palaces,' lived up to their name with interiors blending Gothic, Renaissance, and Moorish ornament. Marble staircases, enormous crystal chandeliers, gilded decoration, impeccably uniformed ushers, lounges, and even nurseries. These were not simply places to watch films; they were spaces where a worker or an ordinary citizen could pay an admission fee and, for two hours, enjoy the 'luxury of an experience' — as if invited into an aristocrat's mansion.\n\nCinema-going became a grand ritual of escape from daily life. Thousands of audience members sat in the same space, holding their breath before a black-and-white screen, while a great Wurlitzer organ played between reels. The movie palace was a magnificent cathedral of consumption sustaining the golden age of the Hollywood studio system during the era of sound film that arrived in the 1920s."
+      }
+    },
+    {
+      "id": "drive_in",
+      "name": "Drive-In Theatre",
+      "period": "1930s – 1970s",
+      "startYear": 1933,
+      "endYear": 1980,
+      "media": "Outdoor Automotive Theatre",
+      "description": "Theatres where audiences watched films on a vast outdoor screen from inside their own cars. An emblem of American car culture after World War II and the birthplace of a distinctive youth culture.",
+      "contents": [
+        "First drive-in opens in New Jersey (1933)",
+        "B-movies and teenage romance",
+        "In-car speaker audio systems"
+      ],
+      "imageUrl": "/images/library/video/space/03_drive_in.png",
+      "essay": {
+        "title": "Youth Reflected in the Windscreen, Under a Sky Full of Stars",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "When Richard Hollingshead opened a 'theatre where you drive in and watch without leaving your car' in New Jersey in 1933, it was another revolution in space. In the America of the 1950s — with suburban sprawl and the personal car boom — the drive-in became an irresistible cultural code.\n\nThe drive-in dismantled the solemnity of conventional cinema. Admission was charged by the car, so whole families could head out without dressing up, and a crying or fidgety child in the back seat drew no disapproving stares. Above all, it was the most appealing private sanctuary where teenagers could enjoy a rendezvous away from parental eyes.\n\nTo serve families and young couples alike, drive-ins ran a steady diet of lighter B-movies — monster films, teen comedies, science fiction. From more than 4,000 across the United States at their 1950s peak, drive-ins gradually faded with the spread of colour television and rising suburban land prices. They remain, however, the most romantic shrine of mid-20th-century Americana — of road movies and rock and roll."
+      }
+    },
+    {
+      "id": "multiplex",
+      "name": "Multiplex",
+      "period": "1980s –",
+      "startYear": 1980,
+      "media": "Multiplex Cinema",
+      "description": "A commercial, shopping-mall-style theatre concentrating dozens of screens under one roof to screen a wide range of films simultaneously.",
+      "contents": [
+        "Shopping mall–integrated theatres",
+        "Digital projection and Dolby sound",
+        "The popcorn industry"
+      ],
+      "imageUrl": "/images/library/video/space/04_multiplex.png",
+      "essay": {
+        "title": "The Screen Department Store of the Blockbuster Era",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "The arrival of Jaws (1975) and Star Wars (1977) reshaped Hollywood into a system where a handful of 'blockbusters' claimed the lion's share of box-office revenue. In a distribution structure requiring a single film to sweep thousands of screens in its opening week, the old single-screen palace of a thousand seats was hopelessly inefficient.\n\nThe gap was filled by the multiplex — a model born in Canadian multi-screen chains and firmly established in the United States by the 1980s. It placed ten or so mid-sized screens inside a large building, controlled from a single central projection booth managing multiple film formats.\n\nThe multiplex changed everything. Audiences no longer decided which film to see and then left home; instead, they arrived at the shopping mall where the multiplex was located, scanned the schedule, and chose on impulse. Stadium-style tiered seating and Dolby Digital surround sound raised the technical quality of the experience dramatically, but the space's own mystery was lost — it became an efficient 'visual buffet.' The thoroughly industrialised cinema, where popcorn and soft drinks became the primary revenue model, had arrived."
+      }
+    },
+    {
+      "id": "home_mobile",
+      "name": "Home Playback and the Living Room",
+      "period": "2000s –",
+      "startYear": 2000,
+      "media": "Home Theatre and Mobile Devices",
+      "description": "Advances in high-resolution television, streaming services, and the smartphone have produced today's viewing culture: high-quality moving images consumed in private spaces, with no need to pass through a large cinema.",
+      "contents": [
+        "Large 4K TV home theatre",
+        "Streaming platform original film releases",
+        "Watching on a smartphone in bed"
+      ],
+      "imageUrl": "/images/library/video/space/05_home_mobile.png",
+      "essay": {
+        "title": "Fractured Screens: The Theatre Atomised into the Individual",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "The gradual infiltration of the moving image into daily life — which began with television and VHS — reached its completion in the 21st century. Where 'watching a film at home' once meant a degraded experience on a small, grainy CRT screen from a worn tape, the proliferation of large OLED televisions supporting 4K UHD resolution, soundbars, and the rise of streaming platforms such as Netflix has transformed the living room into a perfect home theatre.\n\nThe spatial revolution ultimately converged on the smartphone — the apotheosis of personalisation. The culture of 'the screen in the dark' — which was essentially about gathering with others and surrendering to immersion — gave way to an era of consuming moving images anytime, anywhere, through a six-inch LCD on the morning commute or beneath the duvet.\n\nThis fragmented screen environment shakes the very foundations of content itself. Long-form, slow-burning theatrical cinema now faces evolutionary pressure to become short-form content or binge-watchable episodic formats — things that can be paused at any moment or skipped ahead by ten seconds. In an age when the sovereignty of viewing has passed entirely from the projectionist's booth to the viewer's touchscreen, cinema is — ironically — redefining itself around immersive physical experiences that home cannot replicate: IMAX, 4DX, the theme-park thrill that a living room can never provide."
+      }
+    }
+  ],
+  "VIDEO_HISTORY_TIMELINE": [
+    {
+      "id": "magic_lantern",
+      "name": "Magic Lantern",
+      "period": "17th Century –",
+      "startYear": 1650,
+      "endYear": 1900,
+      "media": "Magic Lantern",
+      "description": "A device that projected images painted on glass slides onto a wall using a lens and light source. As the first instance of 'projection,' it is the progenitor of the visual medium — storytelling through light.",
+      "contents": [
+        "Projection of sermon illustrations in churches",
+        "Visual aids for scientific lectures",
+        "Lantern shows (travelling performances)"
+      ],
+      "imageUrl": "/images/library/video/media/01_magic_lantern.png",
+      "essay": {
+        "title": "The Phantasm of Light: A Storyteller in the Dark",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "In the mid-17th century, Dutch scientist Christiaan Huygens devised an apparatus that used a concave mirror and lens to project enlarged images — painted on glass slides — onto the wall of a darkened room. This 'magic lantern' was both an application of optical principles and the first device through which humanity transmitted narrative by means of light.\n\nEarly magic lanterns were used in monasteries and churches as tools for conveying religious doctrine visually. The experience of seeing hellfire and heavenly radiance projected into darkness delivered a powerful emotional jolt to audiences who were, for the most part, illiterate. By the 18th century, travelling lanternists were touring Europe performing horror shows and fantastical dramas — what they called 'phantasmagoria.'\n\nThe magic lantern's technical significance lies in establishing the concept of 'projection' itself: producing images in reproducible form and delivering them simultaneously to a large audience through a light source. This structure became the direct ancestor of the film projector. The three essential elements of the moving image — light, lens, and darkness — were already combined in this era."
+      }
+    },
+    {
+      "id": "early_cinema",
+      "name": "Early Cinema",
+      "period": "1890s –",
+      "startYear": 1890,
+      "endYear": 1910,
+      "media": "Cinematograph",
+      "description": "Technology that creates moving images by projecting rapidly sequenced photographs. The Lumière brothers' Cinématographe is its most famous embodiment — the first successful recording and reproduction of real movement in human history.",
+      "contents": [
+        "L'Arrivée d'un train en gare de La Ciotat (Lumière, 1896)",
+        "A Trip to the Moon (Méliès, 1902)",
+        "Early newsreels"
+      ],
+      "imageUrl": "/images/library/video/media/02_early_cinema.png",
+      "essay": {
+        "title": "Moving Light Captures Reality",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "On 28 December 1895, in the basement salon of the Grand Café on the Boulevard des Capucines in Paris, Auguste and Louis Lumière screened their Cinématographe to an audience of 33. Everyday scenes — factory workers leaving at the end of a shift, a train arriving at a station, a baby being fed — moved across the screen. Some in the audience reportedly fled their seats in fright at the image of an approaching train.\n\nThe device's mechanism was to capture 16 frames per second of continuous photographs on celluloid film, then project them at the same speed — exploiting the human eye's persistence of vision to render the sequence as continuous movement. Combining shooting, developing, and projection in a single machine, the Cinématographe outpaced Edison's contemporaneous Kinetoscope, which was limited to individual viewing.\n\nEarly cinema began as 'record,' but quickly evolved into 'narrative.' Stage magician turned filmmaker Georges Méliès developed special effects including double exposure, dissolves, and stop motion, using them to create A Trip to the Moon in 1902. This fourteen-minute work was the first science fiction film in history, and a landmark demonstrating that cinema could construct worlds of the imagination, not only document reality."
+      }
+    },
+    {
+      "id": "silent_film",
+      "name": "Silent Film",
+      "period": "1900s – 1920s",
+      "startYear": 1900,
+      "endYear": 1930,
+      "media": "Silent Film",
+      "description": "Films relying on intertitles and accompaniment music rather than spoken dialogue. Visual performance and editing techniques developed to an extreme degree. The golden age that gave birth to stars such as Charlie Chaplin and Buster Keaton.",
+      "contents": [
+        "The Birth of a Nation (Griffith, 1915)",
+        "Battleship Potemkin (Eisenstein, 1925)",
+        "Chaplin short film series"
+      ],
+      "imageUrl": "/images/library/video/media/03_silent_film.png",
+      "essay": {
+        "title": "The Age When Silence Spoke: The Language of Gesture",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "It is paradoxical that it was silent film — film without sound — that established the fundamental grammar of cinema. Precisely because dialogue was unavailable, directors were compelled to concentrate all their narrative resources in camera placement, lens choice, editing rhythm, and the physical expressiveness of the actor.\n\nD.W. Griffith systematised the basic grammar of cinema as we know it today in The Birth of a Nation (1915): close-ups, cross-cutting, fade-ins and fade-outs. Sergei Eisenstein demonstrated montage theory in the 'Odessa Steps' sequence of Battleship Potemkin (1925). The collision of two unrelated images to generate a third meaning neither possesses alone became a foundational principle of film editing.\n\nThe silent era simultaneously gave birth to the phenomenon of the 'movie star.' Charlie Chaplin's Tramp character made audiences around the world laugh and cry without a single word of dialogue, proving that cinema was a universal medium that transcended language. Buster Keaton invented a stunt comedy of the body as instrument, pitting himself against gravity and machinery.\n\nIn silent-era theatres, a pianist or small orchestra played continuously, improvising music to match the images. The same film would receive different music in every theatre, at every performance — making early cinema a kind of live event."
+      }
+    },
+    {
+      "id": "talkies",
+      "name": "Sound Film (Talkies)",
+      "period": "1927 –",
+      "startYear": 1927,
+      "media": "Talkies",
+      "description": "Technology for synchronising a soundtrack to film, enabling playback of dialogue and sound effects. From The Jazz Singer (1927) onward, the film industry was entirely restructured, and the musical and drama genres came fully into bloom.",
+      "contents": [
+        "The Jazz Singer (1927)",
+        "The Wizard of Oz (1939)",
+        "Citizen Kane (1941)"
+      ],
+      "imageUrl": "/images/library/video/media/04_talkies.png",
+      "essay": {
+        "title": "The Day Sound Broke Through the Screen",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "On 6 October 1927, when Al Jolson said 'Wait a minute, wait a minute — you ain't heard nothin' yet!' during the screening of The Jazz Singer at the Warner Theatre in New York, film history split irrevocably in two. Warner Bros.' Vitaphone system synchronised the film with a separate gramophone disc, but the standard was soon set by Movietone, which optically recorded the soundtrack directly onto the film strip itself.\n\nThe arrival of sound shook the entire industry. Many silent-era stars fell from grace due to their voices or accents — a tragedy Billy Wilder explored in Sunset Boulevard — while stage actors from Broadway flooded in as replacements. The new industries of dubbing and subtitling were born from the need to cross linguistic borders.\n\nTechnological possibility accelerated the divergence of genres. Musicals, screwball comedies, gangster films, and horror pictures each used sound as a core expressive tool to establish their own distinct grammars. The Wizard of Oz (1939) demonstrated the potential of fantasy by combining Technicolor with sound, and Orson Welles' Citizen Kane (1941) opened a new horizon for film as art by integrating deep-focus cinematography with innovative sound design."
+      }
+    },
+    {
+      "id": "television",
+      "name": "Television",
+      "period": "1950s –",
+      "startYear": 1950,
+      "media": "Television Broadcasting",
+      "description": "A medium transmitting video signals to the home via cathode-ray tube in real time. News, drama, and entertainment programmes watched in the living room — the revolutionary moment when moving images first truly penetrated everyday life.",
+      "contents": [
+        "Live broadcast of Moon landing (1969)",
+        "I Love Lucy (1951–)",
+        "Olympic and World Cup broadcasts"
+      ],
+      "imageUrl": "/images/library/video/media/05_television.png",
+      "essay": {
+        "title": "The World Enters the Living Room: The Age of the Cathode-Ray Tube",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "Where cinema required a specific physical space — the theatre — television brought the moving image into the domestic living room. Following the BBC's launch of regular broadcasts in 1936, and through the Second World War and into the 1950s, television became an essential household appliance in middle-class homes across America and Europe. In 1950, 9 per cent of American households owned a television; by 1960, the figure was 87 per cent.\n\nTelevision's essential innovation was 'simultaneity.' The experience of an event being transmitted to tens of millions of homes at the very moment it occurs was without precedent in human history. The 1963 assassination of President Kennedy and the 1969 Apollo 11 Moon landing — watched live by an estimated 600 million people — were the apex of television's 'collective real-time experience.'\n\nTelevision also developed its own distinctive narrative grammar in terms of programme format. The sitcom, the soap opera, the talk show, the news magazine — a genre system entirely different from cinema — was established. I Love Lucy (1951–1957) codified the basic formula of the sitcom: multi-camera filming and the live studio audience (or laugh track). The culture of the 'appointed hour' — the whole family gathering at a fixed time to watch together — formed, and stands in sharp contrast to the 'binge-watching' culture of the streaming era."
+      }
+    },
+    {
+      "id": "vhs",
+      "name": "VHS and Home Video",
+      "period": "1970s – 1990s",
+      "startYear": 1976,
+      "endYear": 2000,
+      "media": "VHS / Betamax (Home Video)",
+      "description": "Technology for recording video on magnetic tape and playing it back freely at home. The viewing pattern chained to broadcast schedules was broken, and for the first time viewers could choose when to watch.",
+      "contents": [
+        "Video rental shop culture",
+        "Home video filming (family records)",
+        "Direct-to-video films"
+      ],
+      "imageUrl": "/images/library/video/media/06_vhs.png",
+      "essay": {
+        "title": "The Freedom of Viewing Opened by the Rewind Button",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "In 1975 Sony launched Betamax, and in 1976 JVC launched VHS, ushering in the home video era. After the ensuing format war — won by VHS on the strength of its longer recording time — by the mid-1980s a substantial portion of households in developed nations owned a VCR.\n\nThe central transformation VHS brought was 'time-shifting.' Sony's Betamax tagline — 'Now you set the schedule' — precisely captured the innovation. The habit of arranging one's life around broadcast times was broken; with the ability to record, rewind, and pause, viewers acquired physical control over moving images for the first time.\n\nThe explosive growth of video rental shops (Blockbuster Video among them) in the 1980s restructured the film industry's revenue model. A 'video second window' was established by which films that failed at the box office could recover their costs through video sales. An entirely direct-to-video market formed for films that bypassed cinemas altogether. The spread of the camcorder opened the era of ordinary people filming and preserving their own footage, extending the family record from the photo album to the videotape."
+      }
+    },
+    {
+      "id": "dvd_bluray",
+      "name": "DVD and Blu-ray",
+      "period": "Late 1990s –",
+      "startYear": 1997,
+      "media": "DVD / Blu-ray Disc",
+      "description": "Technology for storing video on digital optical discs. Picture quality improved dramatically over VHS, and interactive features — chapter selection, subtitles, bonus material — changed the quality of video consumption.",
+      "contents": [
+        "DVD special and director's editions",
+        "Blu-ray HD remasters",
+        "TV series box sets"
+      ],
+      "imageUrl": "/images/library/video/media/07_dvd_bluray.png",
+      "essay": {
+        "title": "The Grain of the Story Made Crisp by Digital",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 3,
+        "contentMarkdown": "With the mainstream adoption of DVD from 1997, video media crossed from analogue to digital. A single 12-centimetre disc holding between 4.7GB (single-layer) and 8.5GB (dual-layer) was overwhelming compared to VHS in picture quality, audio quality, and durability alike. No rewinding was needed; chapters could be accessed instantly; multilingual subtitles and audio tracks could be toggled at will.\n\nThe most significant impact DVD had on film culture was the arrival of 'bonus features.' Director's commentaries, making-of documentaries, deleted scenes, and alternate endings were bundled into a single package, shifting film consumption from 'watch once and move on' to 'dig deep.' The concept of the Director's Cut became familiar to mainstream audiences during this era.\n\nThe Blu-ray Disc, launched in 2006, carried 25 to 50GB of data, accommodating full HD (1080p) video. After defeating Toshiba's HD-DVD in a format war, it became the standard for high-definition physical media — only to find itself immediately set upon by the rise of streaming, which drove physical media as a whole into decline."
+      }
+    },
+    {
+      "id": "streaming",
+      "name": "Streaming",
+      "period": "2010s –",
+      "startYear": 2010,
+      "media": "OTT / Streaming Platform",
+      "description": "A service that transmits and plays video in real time over the internet. Platforms such as Netflix and YouTube simultaneously replaced physical media and broadcast schedules, fundamentally transforming the paradigm of video consumption.",
+      "contents": [
+        "Netflix original series",
+        "YouTube creator content",
+        "Short-form video (TikTok, Reels)"
+      ],
+      "imageUrl": "/images/library/video/media/08_streaming.png",
+      "essay": {
+        "title": "The Infinite Theatre Unlocked by a Single Subscription",
+        "author": "Curator of the Library of Wisdom",
+        "readTime": 4,
+        "contentMarkdown": "When Netflix added a streaming option to its DVD postal rental service in 2007, few predicted it would reshape the entire video industry. But with broadband internet penetration and the rise of the smartphone, streaming had become the dominant form of video consumption by the 2010s.\n\nThree changes lie at the core of what streaming wrought. First, complete liberation from time and space. If VHS gave the freedom of 'when,' streaming added the freedom of 'from anywhere.' The same content library is accessible on the subway, in bed, or on a trip abroad. Second, the recommendation algorithm. Netflix's viewing-history-based recommendation system created a different 'personalised theatre' for every user — a fundamentally different route to content discovery than the video-shop clerk's tip or the broadcast schedule. Third, binge-watching culture. Netflix's strategy of releasing entire seasons at once replaced the 'waiting' culture of weekly scheduling with 'all-at-once' consumption.\n\nYouTube (founded 2005) drove a revolution on a separate axis. By enabling ordinary people — not professional production companies — to produce and distribute video, it gave birth to the 'creator economy.' TikTok (launched 2016) subsequently led the short-form video movement, compressing the unit of content from a 90-minute feature to 15 to 60 seconds, and is redefining the grammar of moving images from the ground up."
+      }
+    }
+  ]
+}

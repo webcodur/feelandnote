@@ -10,12 +10,12 @@
 
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { ACADEMY_CATEGORY_IDS } from "@/constants/scripturesMuseum";
+import { ACADEMY_CATEGORY_IDS } from "@/constants/libraryMuseum";
 import { BookOpen, Film, Music, Cpu, GraduationCap } from "lucide-react";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
-  const t = await getTranslations("scriptures.academy");
+  const t = await getTranslations("library.academy");
   return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/academy") };
 }
 
@@ -27,7 +27,7 @@ const CATEGORY_ICONS = {
 } as const;
 
 export default async function AcademyPage() {
-  const t = await getTranslations("scriptures.academy");
+  const t = await getTranslations("library.academy");
 
   return (
     <div className="w-full pb-20">

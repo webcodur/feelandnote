@@ -5,7 +5,7 @@ import { routing } from './routing';
 /** 메시지 네임스페이스 — 추가 시 여기만 수정 */
 const NAMESPACES = [
   'core', 'nav', 'home', 'auth', 'explore', 'agora',
-  'scriptures', 'content', 'profile', 'celeb', 'rest', 'flow', 'reading',
+  'library', 'content', 'profile', 'celeb', 'rest', 'flow', 'reading',
   'moderation',
 ] as const;
 

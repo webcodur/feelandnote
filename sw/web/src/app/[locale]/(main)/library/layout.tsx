@@ -6,16 +6,16 @@
 
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
-import ScripturesBanner from "@/components/features/scriptures/hub/ScripturesBanner";
+import LibraryBanner from "@/components/features/library/hub/LibraryBanner";
 
 interface Props {
   children: ReactNode;
 }
 
-export default function ScripturesLayout({ children }: Props) {
+export default function LibraryLayout({ children }: Props) {
   return (
     <>
-      <ScripturesBanner />
+      <LibraryBanner />
       <PageContainer>{children}</PageContainer>
     </>
   );

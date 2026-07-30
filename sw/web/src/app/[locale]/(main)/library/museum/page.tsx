@@ -6,11 +6,11 @@
 
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import MuseumTimeline from "@/components/features/scriptures/museum/MuseumTimeline";
+import MuseumTimeline from "@/components/features/library/museum/MuseumTimeline";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
-  const t = await getTranslations("scriptures.museum");
+  const t = await getTranslations("library.museum");
   return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/museum") };
 }
 
