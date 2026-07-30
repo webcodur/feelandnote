@@ -6,12 +6,12 @@
 
 import { getTranslations } from "next-intl/server";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import ProfessionSection from "@/components/features/scriptures/sections/ProfessionSection";
-import { getProfessionContentCounts } from "@/actions/scriptures";
+import ProfessionSection from "@/components/features/library/sections/ProfessionSection";
+import { getProfessionContentCounts } from "@/actions/library";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata() {
-  const t = await getTranslations("scriptures.profession");
+  const t = await getTranslations("library.profession");
   return { title: t("metaTitle"), description: t("metaDescription"), alternates: await getLocalizedAlternates("/library/profession") };
 }
 

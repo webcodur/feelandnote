@@ -10,7 +10,7 @@ import FeaturedWorkInfo from "./FeaturedWorkInfo";
 import DecorativeLabel from "@/components/ui/DecorativeLabel";
 import { useTranslations } from "next-intl";
 
-import type { ScriptureContent } from "@/actions/scriptures";
+import type { LibraryContent } from "@/actions/library";
 import type { UserContentPublic } from "@/actions/contents/getUserContents";
 import type { ContentType } from "@/types/database";
 import type { CategoryId } from "@/constants/categories";
@@ -35,7 +35,7 @@ export interface PickedContentItem {
 export type HomeItemClickHandler = (item: UserContentPublic | PickedContentItem, isWantItem: boolean) => void;
 
 export interface SuggestionProps {
-    suggestions: ScriptureContent[];
+    suggestions: LibraryContent[];
     categoryLabel?: string;
     isSwitchingCategory: boolean;
     localUnreviewedList: UserContentPublic[];

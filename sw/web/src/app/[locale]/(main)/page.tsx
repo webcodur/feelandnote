@@ -20,7 +20,7 @@ import HomeTabSection from "@/components/features/home/HomeTabSection";
 import { HomeNavigationLinks } from "@/components/features/home/HomeNavigationLinks";
 
 import { getProfile } from "@/actions/user/getProfile";
-import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/scriptures";
+import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/library";
 import PopularBooks from "@/components/features/home/PopularBooks";
 import YoutubeChannelLink from "@/components/features/home/YoutubeChannelLink";
 

@@ -164,8 +164,8 @@ for (const file of walk(SRC_ROOT)) {
   const text = readFileSync(file, 'utf8')
   if (!FULLSCAN_RE.test(text)) continue
   const m = findLine(text, FULLSCAN_RE)
-  // scriptures/index.ts는 의도적 풀스캔 + 캐시 + SQL 마이그레이션 후속 RPC 대체 예정 — 제외
-  if (file.endsWith('scriptures/index.ts') || file.endsWith('scriptures\\index.ts')) continue
+  // library/index.ts는 의도적 풀스캔 + 캐시 + SQL 마이그레이션 후속 RPC 대체 예정 — 제외
+  if (file.endsWith('library/index.ts') || file.endsWith('library\\index.ts')) continue
   report(
     'fullscan-pagination',
     file,

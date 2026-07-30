@@ -69,10 +69,10 @@ export const EXPLORE_STANDALONE = [
 // #endregion
 
 // ────────────────────────────────────────────────────
-// #region Scriptures(서가) 허브 config
-export const SCRIPTURES_GROUP_ID = "scriptures";
+// #region Library(서가) 허브 config
+export const LIBRARY_GROUP_ID = "library";
 
-export const SCRIPTURES_SECTIONS = [
+export const LIBRARY_SECTIONS = [
   { key: "figure",     moreHref: "/explore/today",      titleKey: "figureLabel",     subtitleKey: "figure",     moreKey: "moreDetail" },
   { key: "era",        moreHref: "/library/era",        titleKey: "eraLabel",        subtitleKey: "era",        moreKey: "moreDetail" },
   { key: "profession", moreHref: "/library/profession", titleKey: "professionLabel", subtitleKey: "profession", moreKey: "moreDetail" },
@@ -80,6 +80,6 @@ export const SCRIPTURES_SECTIONS = [
   { key: "academy",    moreHref: "/library/academy",    titleKey: "academyLabel",    subtitleKey: "academy",    moreKey: "enterAcademy" },
 ] as const;
 
-export const scripturesSection = (key: (typeof SCRIPTURES_SECTIONS)[number]["key"], t: (k: string) => string) =>
-  hubSection(SCRIPTURES_SECTIONS, SCRIPTURES_GROUP_ID, key, t);
+export const librarySection = (key: (typeof LIBRARY_SECTIONS)[number]["key"], t: (k: string) => string) =>
+  hubSection(LIBRARY_SECTIONS, LIBRARY_GROUP_ID, key, t);
 // #endregion

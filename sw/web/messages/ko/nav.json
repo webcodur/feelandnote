@@ -2,7 +2,7 @@
   "nav": {
     "home": "홈",
     "explore": "탐색",
-    "scriptures": "서가",
+    "library": "서가",
     "rest": "쉼터",
     "agora": "광장",
     "archive": "내 기록",
@@ -52,7 +52,7 @@
     "home": "홈",
     "playlists": "재생목록",
     "explore": "탐색",
-    "scriptures": "지혜의 서가",
+    "library": "지혜의 서가",
     "board": "게시판",
     "notice": "공지사항",
     "feedback": "피드백"

@@ -1,0 +1,1996 @@
+{
+  "AI_ACADEMY_LESSONS": [
+    {
+      "id": "what_is_ai",
+      "title": "What AI Refers To",
+      "difficulty": "beginner",
+      "description": "AI can refer broadly to programs that follow human-written rules as well as generative systems that learn patterns from data. The key distinctions lie in how these systems work and how the different technologies fit together.",
+      "objectives": [
+        "Distinguish how rule-based programs and machine-learning systems operate.",
+        "Explain how artificial intelligence, machine learning, deep learning, and generative AI fit inside one another.",
+        "Identify systems that look similar but work differently under the surface."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How two kinds of chatbots work",
+          "contentMarkdown": "Chatbots can look alike while working in very different ways.\n\nOpen the help window on an online store and buttons usually come first. Track an order. Start a return. Ask about billing. Press one and a message someone wrote in advance appears. Type a question that no button covers, and the window may repeat itself or fail to respond properly.\n\nA recent generative AI chatbot accepts freely written sentences. Faced with a question it has never seen, it composes a new answer on the spot. The response may sound natural, but its content is not always correct.\n\nThe first system follows choices and rules set by people. The second creates a new response from patterns learned in data. Both may be called AI, so the label alone is not enough. To understand what a chatbot can do, you have to ask how it processes a request internally.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Who sets the rules",
+          "contentMarkdown": "Rule-based programs and machine learning differ in **who sets the rules**. Spam filtering shows the distinction clearly.\n\nWith **rule-based filtering**, a person writes every condition. Filter a message if its subject contains `free`. Block it if the sender appears on a particular list. Because the conditions are explicit, it is easy to explain why a message was classified as spam. But a sender might type `f r e e` with spaces and slip past the existing condition. Someone then has to add a new rule.\n\nWith **machine learning**, the system receives hundreds of thousands of spam messages and hundreds of thousands of legitimate messages as training data. It looks across many features, such as word combinations, the number of links, and the time a message was sent, and finds patterns that separate the two groups.\n\nIf a person writes the conditions directly, the system is rule-based. If the system finds the rules in data, it uses machine learning.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/what_is_ai.webp",
+          "imageAlt": "A workbench where the same pebbles are sorted by a fixed hole rule on the left and by comparison with three shape examples on the right"
+        },
+        {
+          "title": "How AI technologies fit together",
+          "contentMarkdown": "AI, machine learning, deep learning, and generative AI are not four technologies of equal scope. **Machine learning sits inside AI, deep learning sits inside machine learning, and generative AI sits inside deep learning.**\n\n| Category | Scope | Example |\n|---|---|---|\n| Artificial intelligence | Any technique that stands in for human judgment | Rule-based diagnostic programs |\n| Machine learning | Techniques that find rules in data | Spam classification, demand forecasting |\n| Deep learning | Techniques that use neural networks with multiple layers | Face recognition, translation |\n| Generative AI | Techniques that produce new output | Chatbots, image generation |\n\nDiagnostic programs used in hospitals in the 1980s were also called artificial intelligence. They contained thousands of conditional statements written by people and did not learn from data. By contrast, AI in today's news usually refers to generative AI.\n\nTreating a feature of AI as a whole as though it belonged specifically to generative AI gets the scope wrong. Applying the characteristics of generative AI to every kind of AI creates the same problem in reverse.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Recognition and generation",
+          "contentMarkdown": "Deep learning first achieved strong results at **recognizing things**. It could examine a photo and distinguish a cat from a dog, convert handwriting into digits, or turn speech into text. Each task selects from a fixed set of answers, so the result is relatively easy to score. At a 2012 image-recognition competition, a neural network sharply reduced the error rate.\n\n**Producing something new** is harder to judge because there may be no single correct answer. Ask for a drawing of a cat and many different images could satisfy the request. People may also disagree about which result is better.\n\nGenerative AI handles creation by reframing it as a problem of predicting what comes next. It predicts the next word or pixel, or predicts what an image should look like after noise is removed. Repeating such predictions countless times produces a sentence or an image.\n\nRecognition systems classify or identify their input. Generative AI uses what it learned to create new output.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to evaluate an AI product",
+          "contentMarkdown": "A product description that says AI does not reveal how the product works internally. Even an automation program made from a hundred conditional statements may be given the AI label. A few checks can help clarify what is underneath.\n\n- **Does the result vary for the same input?** If identical input always produces the same result, the system is more likely to be rule-based.\n- **Can it handle unfamiliar input?** See whether it stops or repeats the same response after you move beyond a prepared list.\n- **Does the provider explain what it learned from?** The training material affects the character of the results.\n- **How are errors handled?** Look for a process in which a person reviews an incorrect result.\n\nExplanations of generative AI use concepts such as training and inference, neural networks, tokens, and attention. Understanding these mechanisms helps you decide how much confidence to place in the output and how far you should rely on it.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Where does machine learning part ways with a rule-based program?",
+          "choices": [
+            "It processes input faster",
+            "Instead of a person writing the rules, the rules are found in data",
+            "It requires an internet connection",
+            "Its results are easier to explain"
+          ],
+          "answerIndex": 1,
+          "explanation": "In a rule-based system a person writes the conditions by hand. Machine learning receives example data and lets the program work out the rule that separates the categories.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Which statement describes the relationship among artificial intelligence, machine learning, deep learning, and generative AI?",
+          "choices": [
+            "They are four separate technologies with no overlap",
+            "Generative AI is the broadest and artificial intelligence the narrowest",
+            "Machine learning sits inside artificial intelligence, deep learning inside machine learning, and generative AI inside deep learning",
+            "Deep learning and machine learning mean the same thing"
+          ],
+          "answerIndex": 2,
+          "explanation": "The four layers are nested rather than parallel. Artificial intelligence is the outermost circle and generative AI the innermost.",
+          "stepIndex": 2
+        },
+        {
+          "question": "How does generative AI produce output when no single correct answer exists?",
+          "choices": [
+            "It picks the closest match from results prepared in advance",
+            "It rewrites the task as predicting what comes next and chains those predictions together",
+            "It runs through rules a person laid out, in order",
+            "It copies results found on the internet without changing them"
+          ],
+          "answerIndex": 1,
+          "explanation": "Generation is hard to score directly. The task gets rewritten as predicting the next word or the next pixel, and those predictions are chained into a finished result.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "learning_from_data",
+      "title": "How Training Differs from Inference",
+      "difficulty": "beginner",
+      "description": "Building a generative AI model and using it to produce answers are separate stages. This lesson explains why conversations do not immediately become training data and how knowledge cutoffs and training data limit a model’s answers.",
+      "objectives": [
+        "Explain when and how training differs from inference",
+        "Distinguish generalization from overfitting using examples",
+        "Assess limitations caused by knowledge cutoffs and training data"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How training differs from inference",
+          "contentMarkdown": "Using generative AI involves two separate stages: **training** and **inference**.\n\nDuring training, developers run large numbers of computing devices for weeks or months to build a model. When training ends, the numbers inside the model are fixed at particular values.\n\nInference begins when a user enters a question and receives an answer, usually within seconds. The model does not change its internal numbers during this process. It uses the values set during training to produce the response.\n\nThink of training as compiling a dictionary and inference as looking up a word in the finished book. Opening the dictionary again and again does not rewrite its contents.\n\nTraining may take weeks or months. A single inference usually takes only a few seconds.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/learning_from_data.webp",
+          "imageAlt": "One metalworking factory with slow steel die making in the rear and repeated stamping from the finished die in front"
+        },
+        {
+          "title": "Why conversations do not train the model",
+          "contentMarkdown": "Correct a chatbot’s wrong answer, and the correction can guide its responses for the rest of the current conversation. The model itself does not change.\n\nContinue in the same conversation, and it can refer to the earlier correction. Open a new conversation and ask the same question, however, and the original mistake may return. During inference, none of the model’s internal numbers are updated.\n\nMemory features work in much the same way. They store something the user said separately, then provide it as material for the model to read when a later conversation begins. They do not retrain the model.\n\nUser conversations may sometimes be collected for a later round of training. Their contents might influence a new model built months afterward, but they are not learned immediately during the conversation.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Generalization and overfitting",
+          "contentMarkdown": "Developers train models to handle inputs they have never seen before. This ability is called **generalization**. Getting only the training material right is not enough.\n\nPicture a student who memorized a hundred past exams along with their answer keys. Give the student one of those exams again, and the score may be perfect. Present a new problem, and the student may be unable to solve it. The student memorized where the answers appeared without learning the method. This is **overfitting**.\n\nTo detect it, developers divide the available material. Most is used for training, while some is held back for testing. If performance on the training material keeps improving while performance on the held-back material begins to fall, the model may be memorizing the data instead of learning its patterns.\n\nThe opposite problem also occurs. If the model’s structure is too simple, it cannot find the patterns at all. It then performs poorly on both the training material and unfamiliar material.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Knowledge cutoffs and current information",
+          "contentMarkdown": "Developers train a model on material collected up to a particular point. The date when that collection ends is the model’s **knowledge cutoff**.\n\nEvents after the cutoff are absent from the training material. Asked about them, a model may admit that it does not know or invent an answer that sounds factual. Information from close to the cutoff may also be unreliable, even when the wording sounds confident.\n\nA search feature can reduce this limitation. After receiving a question, the system can search the web or internal documents, read the results, and use that newly retrieved material in its answer. It is no longer relying only on what was learned during training.\n\nWhen asking about current facts, check whether search is available. If it is not, independently verify any answer to a question whose correct response can change with the date.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How training data shapes answers",
+          "contentMarkdown": "What developers include in the training data, and how much of it they use, affects both the content and depth of a model’s answers.\n\nIf the model was trained on far more English material, the same question may receive a more detailed answer in English. Topics documented mainly in Korean, such as modern Korean history or domestic institutions, may be explained less accurately or with less specificity.\n\nCoverage also varies by field. A topic with abundant writing on the open internet is more likely to receive a detailed answer. A subject found mostly in academic papers or paid sources may get only a basic explanation.\n\nTo judge these limits, inspect the details. Look for names, years, and event titles, then verify each one directly. If the response continues in vague generalities without concrete facts, the model may not have had enough relevant training material.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Why does the same mistake come back in a new conversation?",
+          "choices": [
+            "The feature that saves corrections is switched off",
+            "Nothing inside the model changes during inference",
+            "The model judged the correction to be wrong",
+            "Conversation logs are encrypted and cannot be read"
+          ],
+          "answerIndex": 1,
+          "explanation": "The moment a user is typing is inference. The values inside the model are fixed then, so a correction stays alive only inside the context of that conversation.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Which situation describes overfitting?",
+          "choices": [
+            "Scores are high on the material used for learning but drop on material the model has not seen",
+            "Scores are evenly high on both the learning material and new material",
+            "Training runs far too slowly",
+            "The model is too large to store"
+          ],
+          "answerIndex": 0,
+          "explanation": "Overfitting means the material got memorized instead of the method learned. You spot it when the score on learning material and the score on new material come apart.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What is the safest choice when asking about facts from after the knowledge cutoff?",
+          "choices": [
+            "Ask the same question several times in a row",
+            "Request a longer answer",
+            "Work in a setup with search or document lookup and take the sources along with the answer",
+            "Switch the question to English"
+          ],
+          "answerIndex": 2,
+          "explanation": "Events past the cutoff are not inside the model. It is safer to work where the system reads retrieved material to answer, and to receive the sources so you can check them.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "neural_network",
+      "title": "How Neural Networks Calculate and Learn",
+      "difficulty": "beginner",
+      "description": "A neural network multiplies and adds inputs, filters the results, and passes them through layers. During training, it gradually adjusts its weights to reduce the error between its answers and the correct ones.",
+      "objectives": [
+        "Explain the calculation performed by a single artificial neuron.",
+        "Explain why neural networks use multiple layers.",
+        "Understand neural-network training as a process of adjusting weights."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How neural networks calculate",
+          "contentMarkdown": "Researchers borrowed the name **neural network** from the nerve cells of the brain. The borrowing stops at the name. Neural networks were not designed to reproduce the brain, whose workings are still not fully understood.\n\nWhat happens inside is mostly multiplication and addition. A unit takes in several numbers, multiplies each by a different value, and adds the results. It then filters that total before passing it to the next stage. This single computational unit is called an **artificial neuron**.\n\nResearchers had already proposed this approach in the 1950s. At the time, computers were too weak and there was too little training material. Once both computing power and data became available in the 2010s, neural networks came back into wide use.\n\nThey are sometimes described as thinking like people. In practice, they perform a great deal of arithmetic in a fixed structure.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How an artificial neuron processes inputs",
+          "contentMarkdown": "An artificial neuron receives several inputs and multiplies each one by a **weight**. A weight is a number that determines how strongly an input affects the calculation. The neuron adds the weighted values, then adds one more value that acts as a threshold. Finally, it sends the result through an **activation function** to determine what passes to the next stage.\n\nThink about reviewing a loan application. The reviewer considers income, length of employment, and existing debt. Since these factors do not matter equally, income might receive a large weight and length of employment a smaller one. Multiply each score by its weight, add the results, and approve the loan if the total clears the threshold.\n\nThe activation function filters the calculation by a fixed rule. One common form turns negative values into zero and lets positive values pass unchanged. Without this step, even many stacked layers could be reduced to one simple sequence of multiplication and addition. Activation functions let the network handle problems that cannot be separated by a single straight line.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why neural networks use multiple layers",
+          "contentMarkdown": "Developers place many artificial neurons side by side and feed their results into the next row as inputs. Each row is called a **layer**. One neuron can make only a simple distinction, but several layers can distinguish increasingly complex features. The term **deep learning** comes from building networks with many layers.\n\nWhen a network is trained to recognize faces, different layers process different features.\n\n- First layer: boundaries between light and dark, short lines\n- Middle layers: corners, curves, and textures formed from lines\n- Later layers: facial parts such as eyes, nose, and mouth\n- Final layer: a person's identity, inferred from the arrangement of those parts\n\nNobody separately instructs a middle layer to `find the eyes`. Developers build multiple layers and repeatedly train the network to produce the correct answer. As a result, calculations that respond to features such as eyes or noses emerge in the middle layers. Early layers process simple lines, while later ones distinguish more complex objects.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/neural_network.webp",
+          "imageAlt": "A simple edge shadow passing through four physical mesh layers and assembling into a face on the final wall"
+        },
+        {
+          "title": "How learning adjusts weights",
+          "contentMarkdown": "Developers initially fill a neural network with meaningless weight values. Feed it a photo in this state and it will usually produce a wildly incorrect answer. Reaching the correct answer requires revising those weights again and again.\n\nTraining repeats the following process.\n\n1. Feed in an input and calculate an answer.\n2. Measure the error between that answer and the correct one.\n3. Adjust the weights slightly in the direction that reduces the error.\n4. Move to the next input and repeat.\n\nIn step 3, the calculation moves backward from the final layer to determine how much each weight affected the error. This process is called **backpropagation**.\n\nChanging the weights too much at once can overshoot a better value and make the calculations keep swinging. That is why the adjustments are small. The amount changed at each step is the **learning rate**, one of several settings chosen by a person.\n\nAs this process is repeated across many inputs, the weights gradually change and the error falls.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why model decisions are hard to explain",
+          "contentMarkdown": "After training, the adjusted weights remain inside the model. A large model can contain more than billions of them.\n\nViewed alone, each weight looks like a number with no special meaning. It is difficult to explain in words why any one of them settled on its particular value. Nor can a person select a few factors and present them as the basis for the decision, as in saying that income carries a large weight in a loan review. The model's judgment is distributed across billions of values.\n\nAs a result, a model may produce accurate answers without clearly explaining why. That can be a problem in medicine, hiring, and lending, where the basis for a decision may need to be disclosed.\n\nResearchers are analyzing these internal calculations by checking which neurons respond to particular concepts. For now, they can explain only parts of the process. People still cannot read the entire chain of judgments that leads a model to its answer.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What does a single artificial neuron compute?",
+          "choices": [
+            "It compares the inputs against each other and keeps only the largest",
+            "It multiplies each input by a weight, adds the results, and passes them through an activation function",
+            "It looks each input up in a dictionary and substitutes the meaning",
+            "It shuffles the inputs at random and hands them to the next layer"
+          ],
+          "answerIndex": 1,
+          "explanation": "It multiplies by weights, sums the products, adds a threshold value, then filters the result through an activation function on the way to the next layer. Without that filter, stacked layers collapse into a single multiplication.",
+          "stepIndex": 1
+        },
+        {
+          "question": "In a face recognition network, how do the early layers differ from the later ones in what they pick up?",
+          "choices": [
+            "The early layers see only color and the later ones only size",
+            "The early layers handle simple fragments such as lines and edges, the later ones complex concepts such as parts and identity",
+            "The early and later layers repeat exactly the same work",
+            "The early layers are specified by a person and the later ones settled by learning"
+          ],
+          "answerIndex": 1,
+          "explanation": "As layers go deeper they climb from simple fragments toward complex concepts. Which layer takes which role is not specified by a person but settled during training.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why are weights not moved by a large amount in a single step?",
+          "choices": [
+            "Because it costs more to compute",
+            "Because storage would run short",
+            "Because it overshoots the point of lowest error and the values swing around",
+            "Because weights must never turn negative"
+          ],
+          "answerIndex": 2,
+          "explanation": "A large step jumps past the point where the error is smallest, so the values never settle. The learning rate is kept small and the weights are pushed into place gradually.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "tokens_and_embeddings",
+      "title": "Turning Text into Tokens and Numbers",
+      "difficulty": "intermediate",
+      "description": "AI models split text into tokens and turn those tokens into numerical coordinates for computation. This process affects cost, capacity, and the kinds of mistakes models often make.",
+      "objectives": [
+        "Explain why models need tokens and why token counts differ across languages.",
+        "Describe how embeddings represent the meaning of tokens as numerical coordinates.",
+        "Anticipate token-related mistakes and adjust requests to reduce them."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Why models split text into tokens",
+          "contentMarkdown": "A neural network multiplies and adds. It accepts nothing but numbers, so what a user types must first be divided into units and assigned numerical IDs.\n\nThe simplest approach would number every character. For example, `a` could be 1 and `b` could be 2. But this makes sentences extremely long, while each unit carries very little information.\n\nNumbering every word creates the opposite problem. A complete list cannot easily accommodate new coinages, typos, and proper nouns. Words missing from the list could not be processed.\n\nThe practical middle ground is to bundle character fragments that frequently appear together. Each unit is called a **token**. A token is usually larger than one character and smaller than one word, although a common word may form a single token.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why token counts differ by language",
+          "contentMarkdown": "Tokens are chosen from character combinations that appear frequently in the material used to train a model. Because that material has included large amounts of English, common English words often fit into a single token.\n\nKorean can require several times as many tokens to express the same meaning. Particles and endings attach to words, continually changing their written forms. The splitting rules have also been strongly shaped by English-language data.\n\nThat difference affects real usage.\n\n- Services that charge by token may cost more for the same content in Korean.\n- The amount a model can read at once is measured in tokens. Under the same limit, less Korean text will fit.\n- Output limits are also measured in tokens, so a Korean response may be cut off sooner.\n\nRequesting the same task in English can sometimes reduce cost and processing time. If the final result must be in Korean, however, a person may need to revise its wording and tone.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How embeddings represent meaning",
+          "contentMarkdown": "The ID attached to a token is only an index. Token 3 and token 4 may have nearby numbers without having similar meanings.\n\nThe model therefore converts each token into coordinates made up of hundreds or thousands of numbers. This numerical list is called an **embedding**.\n\nDuring training, tokens with related meanings move toward nearby positions. King and queen, Seoul and Tokyo, and run and sprint end up close together. No person assigns each position by hand. The model adjusts them as it learns from many sentences.\n\nThis property also supports searches based on meaning. Older search systems often needed the characters in a query to match the text being searched. Embeddings can treat `cheap laptop` and `affordable notebook computer` as nearby expressions, allowing both to appear even when their wording differs.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/tokens_and_embeddings.webp",
+          "imageAlt": "Related porcelain miniatures clustered on emerald felt with an unrelated boat isolated far away"
+        },
+        {
+          "title": "How embeddings encode relationships",
+          "contentMarkdown": "Models can use embedding coordinates to calculate relationships between words. Early embedding research tested these relationships by adding and subtracting coordinates.\n\nOne example became famous. Take king, subtract man, and add woman, and the result lands near queen. Take Paris, subtract France, and add Japan, and the result moves close to Tokyo. Relationships such as gender or the link between a country and its capital appeared as consistent differences between coordinates.\n\nThese calculations do not work precisely for every word. A few successful examples became widely known, but results often break down when several meanings and relationships are tangled together. An embedding is not a dictionary that organizes every meaning perfectly.\n\nModern models also represent the same token differently according to context. Surrounding words determine whether bank refers to the edge of a river or a place that holds money. The structure that adjusts a representation to fit its context is called **attention**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Mistakes caused by token processing",
+          "contentMarkdown": "Because a model processes tokens instead of inspecting text one character at a time, it can fail at seemingly simple tasks.\n\n**Counting characters:** A model may miscount how many times a character appears in a word. When the word is stored as one token or several fragments, the individual characters inside those tokens are difficult to inspect.\n\n**Reversing text and word-chain games:** Reversing character order or isolating the final character is weak for the same reason. Both operations require separating characters that have been bundled together.\n\n**Arithmetic:** Long numbers may be split across several tokens, making place values difficult to handle accurately. A calculator or executed code is safer.\n\n**Unusual spellings:** Text containing special characters, severe typos, or rarely used foreign words may split into unfamiliar fragments. The result can become unstable.\n\nFor character work, separate the input with spaces, as in `a b c`. When counting or calculation is required, ask the model to perform it with code to reduce errors.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Why does the same content take more tokens in Korean than in English?",
+          "choices": [
+            "Because Korean carries more information per sentence than English",
+            "Because the token splitting rules were derived from English material",
+            "Because Korean characters were added to Unicode later",
+            "Because Korean requires the embedding to be computed twice"
+          ],
+          "answerIndex": 1,
+          "explanation": "Token units are set from the fragments that appeared often in training material. English material dominated, so the split is efficient for English, while Korean with its attached particles and endings breaks into finer pieces.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What is the key property of an embedding?",
+          "choices": [
+            "It sorts tokens into alphabetical order",
+            "Tokens close in meaning end up close together in the coordinate space",
+            "It compresses tokens to save storage",
+            "It attaches one correct answer to each token"
+          ],
+          "answerIndex": 1,
+          "explanation": "An embedding turns a token into a list of numbers, that is, into coordinates. During training, tokens close in meaning settle near one another, and that property is what made search by meaning possible.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why do questions about how many times a letter appears in a word go wrong so often?",
+          "choices": [
+            "Because the model cannot perform arithmetic at all",
+            "Because the question is too short",
+            "Because the word is already bundled into a token, so the letters inside are not visible one by one",
+            "Because counting letters is a forbidden operation"
+          ],
+          "answerIndex": 2,
+          "explanation": "The model sees input as tokens rather than characters. When a whole word forms one chunk, counting the individual letters inside it is difficult.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "transformer_attention",
+      "title": "How Attention Powers Transformer Language Models",
+      "difficulty": "intermediate",
+      "description": "Attention determines context by calculating relationships among the words in a sentence. This lesson explains how transformers use attention to process language and how parallel computation made larger models possible.",
+      "objectives": [
+        "Explain with an example how attention processes context",
+        "Compare how RNNs and transformers process sentences",
+        "Understand how parallel processing enabled models to grow"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How attention finds context",
+          "contentMarkdown": "Understanding context requires knowing which surrounding words matter to the word currently being processed.\n\n`Daniel handed the book to his brother. He studied the cover for a long time.`\n\nIn the second sentence, **he** refers to the brother. The situation makes the connection natural: the person who received the book is the one studying its cover.\n\nA machine cannot identify that person from **he** alone. It must decide which words in the previous sentence the pronoun connects to, and the answer changes with the sentence.\n\n**Attention** calculates how much the current token should draw on every other token. When processing **he**, it gives brother a high weight and book a low one. These weights do not come from a fixed table. They are calculated again each time a sentence is processed.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/transformer_attention.webp",
+          "imageAlt": "A triangular scene just after Minsu hands his brother a blank book, with only the brother studying the cover"
+        },
+        {
+          "title": "How attention calculates weights",
+          "contentMarkdown": "Attention creates three values for every token: a **query**, a **key**, and **content**. The query is used to search for relevant tokens, the key helps determine relevance, and the content holds the information that will actually be retrieved.\n\nThe current token's query is compared with the keys of all the other tokens. A strong match receives a high weight. Attention then uses those weights to mix and retrieve the tokens' content. It works much like entering a search term in a library catalog and seeing the most relevant materials first.\n\nSeveral versions of this calculation run at the same time. One may focus on grammatical relationships, another on what a pronoun refers to, and another on the main topic. This is called **multi-head attention**.\n\nPeople do not assign each head a role in advance. During training, the model learns which relationships each head will focus on.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How RNNs and transformers differ",
+          "contentMarkdown": "Before transformers, language models commonly used **recurrent neural networks (RNNs)**, which processed a sentence one word at a time from beginning to end. At each step, the model updated a running summary with information from the next word.\n\nThis approach had two weaknesses.\n\n- Information from the beginning became less distinct as sentences grew longer.\n- Each word had to be processed before the next, making it difficult to divide the computation into simultaneous tasks.\n\nThe **transformer**, published in 2017, removed the recurrent structure and processed sentences with attention. It lays out all the tokens at once and allows each one to draw on the information it needs. The first word can refer directly to the last.\n\nAttention alone cannot distinguish the order of words. To supply that information, a value indicating each token's position is added to its embedding.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How parallel processing enabled larger models",
+          "contentMarkdown": "Transformers can calculate information for many tokens at the same time. This **parallel processing** makes it easier to spread the work across multiple computing devices.\n\nAn RNN must finish one step before beginning the next. Even if a hundred machines are connected, each stage still has to wait its turn. A transformer processes the whole sentence at once, so adding more equipment can increase computation speed.\n\nResearchers used this advantage to increase both the amount of training material and the size of models. They observed a tendency for performance to improve when the material grew tenfold and the model also grew tenfold, fueling competition to build larger models.\n\nComputational cost remains a problem. Attention compares every token with every other token, so the work rises quickly as a sentence grows. Processing long documents is therefore expensive, and researchers continue to develop ways to reduce that cost.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Practical limits of attention",
+          "contentMarkdown": "Understanding attention helps explain problems that arise when writing requests or supplying long documents to AI systems.\n\n**Put important conditions near the beginning or end.** A condition buried in the middle of a long request may not be reflected properly. Place any requirement that must be followed at the start or the end.\n\n**Long documents sharply increase time and cost.** As the token count rises, the amount of computation grows at close to the square of that number. If the whole document is unnecessary, provide only the relevant sections.\n\n**Reduce ambiguous references.** Expressions such as `it` or `the thing mentioned above` can lead the model to draw on the wrong information. Repeating the specific name makes a mistaken connection less likely.\n\nAfter working out the context, the model builds its response by selecting the next token one at a time.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What does attention do?",
+          "choices": [
+            "It deletes unnecessary words from the sentence",
+            "It computes how much the token being processed should draw on each of the other tokens",
+            "It sorts the words into alphabetical order",
+            "It fixes the length of the sentence in advance"
+          ],
+          "answerIndex": 1,
+          "explanation": "Attention computes how much the tokens should draw on one another. Those weights do not come from a fixed table but are computed fresh for every sentence.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Where does the transformer part ways with the earlier recurrent approach?",
+          "choices": [
+            "It reads the words one at a time in order, front to back",
+            "It lays the whole sentence out at once and lets the tokens reference each other",
+            "It runs on rules alone with no training",
+            "It has no limit on sentence length whatsoever"
+          ],
+          "answerIndex": 1,
+          "explanation": "The recurrent approach read front to back while updating a running summary. The transformer drops the recurrence, handles the whole sentence at once, and has the tokens reference each other directly.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why do cost and time rise sharply when a long document is fed in?",
+          "choices": [
+            "Because the document gets read through several times over",
+            "Because every token is matched against every other token, so computation swells steeply as length grows",
+            "Because long documents use separate storage",
+            "Because an extra translation step gets added"
+          ],
+          "answerIndex": 1,
+          "explanation": "Attention matches every token against every other token, so the amount of computation grows close to the square of the length. Excerpting only the part that matters pays off.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "next_token_prediction",
+      "title": "How AI Generates Answers One Token at a Time",
+      "difficulty": "intermediate",
+      "description": "Generative AI builds an answer by choosing one token at a time based on everything written so far. How it selects among candidates affects both the variety and consistency of the result.",
+      "objectives": [
+        "Explain how AI builds an answer by repeatedly predicting the next token.",
+        "Distinguish how temperature affects accuracy, consistency, and variety.",
+        "Explain why the same prompt can produce different answers and how to reduce those differences."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "AI predicts the next token",
+          "contentMarkdown": "Generative AI does not decide on a complete answer in advance. It looks only at the input and the text written so far, then calculates **the probability of the next token**. A token may be a single character, a whole word, or part of a word.\n\nThe model selects one candidate and appends it, making the text one token longer. It then uses that longer text to calculate the next set of probabilities. The process repeats until the model produces a signal that the answer should end.\n\nWhile writing the first sentence, it does not yet know what the last sentence will be. Still, each selected token narrows the candidates that can plausibly follow, so the result usually holds together.\n\nThe way an answer appears on screen one character or word at a time is not merely a visual effect. The answer is genuinely being built by selecting tokens in sequence.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/next_token_prediction.webp",
+          "imageAlt": "A mosaic artisan placing one tile at the end of a finished path with an unplanned blank floor and candidate pieces ahead"
+        },
+        {
+          "title": "Each candidate has a different probability",
+          "contentMarkdown": "The model gives every possible next token a different probability. After `The weather today is`, for example, the candidates might look like this.\n\n| Candidate | Probability |\n|---|---|\n| fine | High |\n| cloudy | Medium |\n| cold | Medium |\n| rectangular | Near zero |\n\nAcross the full vocabulary, most tokens have probabilities near zero. A small number that fit the context divide most of the probability among them.\n\nAlways choosing the highest-probability candidate tends to produce safe sentences. It can also make the wording predictable or cause the same phrase to repeat.\n\nSelecting candidates randomly according to their probabilities creates more variety, but it also increases the chance of drawing something that fits the context less well. Services and developers adjust settings to strike a balance between stability and variety.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Temperature controls output variety",
+          "contentMarkdown": "**Temperature** is a common setting for controlling randomness when the next token is selected. It determines how strongly the model concentrates on candidates with high probabilities.\n\n- Lowering the temperature makes high-probability candidates more likely to be selected. The output becomes more stable, which suits translation, summarization, data extraction, and code, where accuracy matters.\n- Raising the temperature gives lower-probability candidates a greater chance of being selected. This can produce more varied results for brainstorming or creating several drafts. If the temperature is too high, sentences may become awkward or the content may lose coherence.\n\nOther settings restrict the candidate pool itself. Common methods include keeping only a few of the highest-probability candidates or adding candidates from highest probability downward until their cumulative probability reaches a set share.\n\nConsumer interfaces usually hide these settings and use values chosen by the service. Developer connections may allow temperature and the candidate range to be specified directly.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "The same prompt can produce different answers",
+          "contentMarkdown": "The same question can produce a different answer each time because randomness enters when the next token is selected. If the model chooses a different token at any point, the text available as context also changes, and the rest of the answer can follow another path.\n\nThis variation can be a problem when:\n\n- The same fields must be extracted from the same material on every run.\n- Test or validation results must be checked repeatedly.\n- Several people need to receive the same result.\n\nWith a developer connection, lowering the temperature can reduce randomness, and the same starting seed can be specified. Even then, identical results are not guaranteed. Differences may still arise from computation order or changes made by the service.\n\nRestricting the output format can reduce variation further. Define the table cells or fields in advance, or require the model to answer only `yes` or `no`. A narrower range of valid choices leaves less room for the outputs to diverge.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Limits of next-token prediction",
+          "contentMarkdown": "Repeatedly predicting the next token is powerful for producing natural sentences, but it has limits when managing the overall structure of a long piece.\n\n**Sentence flow is strong.** The model has practiced predicting what comes next countless times, so it can continue with expressions that fit the surrounding context.\n\n**The overall structure can slip.** Because the conclusion and full organization are not fixed before writing begins, a long response may become logically inconsistent or forget a condition stated near the start. One way to reduce this problem is to ask for an outline first, then provide that outline again when requesting the full text.\n\n**An early error can carry through the answer.** Each token is chosen from what has already been written. If a false premise appears early, later content may continue to build on it. You should not expect the model to notice the mistake midway and automatically start over.\n\nHallucinations, in which the model gives plausible but false information, are also related to this process. AI is not inherently a fact-lookup system. It builds an answer by continuing with tokens that are likely to fit the context.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "How does a generative model build an answer?",
+          "choices": [
+            "It computes the entire answer in one pass and returns it",
+            "It scores the probability of the next token, picks one, appends it, and repeats",
+            "It retrieves the closest match from answers stored in advance",
+            "It builds the sentence backward, from the end to the beginning"
+          ],
+          "answerIndex": 1,
+          "explanation": "The single calculation the model performs is scoring the probability of the next token. It picks one, appends it, and feeds the now longer text back in for the same calculation.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Which setting suits work that extracts fields from source material accurately?",
+          "choices": [
+            "Raise the temperature to widen the range of candidates",
+            "Lower the temperature so weight concentrates on high-probability candidates",
+            "Change the temperature at random across several runs",
+            "The result is the same regardless of temperature"
+          ],
+          "answerIndex": 1,
+          "explanation": "Lowering the temperature sharpens the distribution and stabilizes the output. That suits translation, summarizing, and data extraction, where accuracy matters.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why does the internal logic of a long piece come apart so easily?",
+          "choices": [
+            "Because long pieces were absent from the training material",
+            "Because it appends the next phrase as it goes instead of fixing a conclusion in advance",
+            "Because a cap on the number of sentences is in force",
+            "Because the spell checker is not running"
+          ],
+          "answerIndex": 1,
+          "explanation": "The model appends one token after another rather than laying out an overall design first. Long pieces can therefore drop an earlier condition or drift out of logic, which is why asking for an outline first helps.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "hallucination",
+      "title": "Why AI Hallucinates and How to Verify Answers",
+      "difficulty": "intermediate",
+      "description": "AI can present invented sources and quotations as if they were real. Learn why hallucinations occur, which questions invite them, and how to verify the answers you receive.",
+      "objectives": [
+        "Explain how AI generates answers and why that process can produce hallucinations.",
+        "Recognize questions that are especially likely to trigger hallucinations.",
+        "Build a process for verifying sources and factual claims provided by AI."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How AI invents sources",
+          "contentMarkdown": "AI can produce a paper title, an author, and a publication year in a single line even when the paper does not exist. The format may look completely natural. It may even use the name of a real journal or researcher, yet the paper itself appears nowhere.\n\nThe same thing happens with court decisions, book page numbers, statistics, and interview quotes. This effect is called **hallucination**.\n\nIt is different from a human lie. AI has no intent to deceive and no awareness that it has produced something nonexistent. It has simply generated a plausible answer that fits the question.\n\nTone gives nothing away. Accurate and invented answers can sound equally calm and confident, so wording alone cannot tell you which one you received.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/hallucination.webp",
+          "imageAlt": "A grand academic archive illusion revealed from the side as a thin painted stage flat with empty space behind it"
+        },
+        {
+          "title": "How AI predicts what comes next",
+          "contentMarkdown": "AI does not answer by searching through a stored list of facts. It calculates which words are likely to come next based on the text that came before.\n\nAfter a phrase like `according to a study published in 2019`, something shaped like a paper title is likely to follow. AI produces language that fits that slot, but it does not separately check whether the paper exists.\n\nFacts are not stored as individual entries, either. They are distributed across many weights. Information that appeared often in the training material may be reproduced fairly accurately, while rare facts can blend with similar information.\n\nThat is why AI may correctly name a famous person's best-known work but get details of a lesser-known person's career wrong. It cannot clearly distinguish what it knows from what it does not.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Which questions invite hallucination",
+          "contentMarkdown": "Hallucination becomes more likely when a question asks for details that are difficult to verify. Take extra care when several of these conditions overlap.\n\n- **You ask for a specific identifier.** Paper titles, case numbers, page numbers, exact dates, and quotations all require direct confirmation.\n- **Little relevant material is available.** Training data may be thin for local figures, small organizations, one country's institutions, or details of an old event.\n- **The question assumes something nonexistent.** If a prompt includes a false concept or event, AI may invent an explanation instead of correcting the premise.\n- **You ask about events after the knowledge cutoff.** AI may connect unknown recent information to older knowledge and answer as though it knows.\n- **You demand a long list.** If only six supported examples exist but you request ten, AI may fill in the remaining four.\n\nFixed list lengths are especially risky. Instead of saying `give me ten`, ask for `only the examples whose evidence you can verify`.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why search results still need verification",
+          "contentMarkdown": "Search and document lookup can greatly reduce hallucination because AI can base its answer on material it has just found rather than relying on recall. Errors can still remain.\n\n- If it retrieves an inaccurate blog post or faulty document, it may repeat the error as written.\n- While summarizing a source, it may add a causal relationship that the original never claimed or omit an important condition.\n- It may provide an address that looks like supporting evidence, only for the link to contain different information or lead to a missing page.\n\nWhen AI provides a source, **open the link yourself and confirm that the claimed information is actually there.** Do not stop at the page title. Find the relevant passage in the body and check its conditions as well. Skipping this step cuts the benefit of search in half.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to verify an AI answer",
+          "contentMarkdown": "Anecdotes and quotations produced by AI should be compared with other materials before you use them. The same standard applies when working with biographical information or quoted language.\n\n- **Delegate only what you can verify.** If you have no way to check claims in a field, do not entrust the entire fact-checking process to AI.\n- **Confirm identifiers in the original source.** Check titles, years, page numbers, and case numbers directly in the source material.\n- **Rephrase the question and ask again.** If the answer changes substantially when the same question is worded differently, its basis may be weak.\n- **Tell AI to admit when it does not know.** Add a condition such as `If you cannot verify it, do not guess. Say that you do not know.`\n\nNo single setting can eliminate hallucination. Important facts and sources still require separate human verification.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the underlying reason hallucination occurs?",
+          "choices": [
+            "False information is mixed into the training material",
+            "The structure continues a plausible next phrase with no step that looks facts up",
+            "It only happens when the internet connection drops",
+            "The user asked a difficult question"
+          ],
+          "answerIndex": 1,
+          "explanation": "The model is not a fact lookup system but one that computes the probability of the next token. It produces a string that fits the slot, and no step confirming that the thing exists sits in the structure.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Which request carries the highest risk of hallucination?",
+          "choices": [
+            "Asking for an explanation of a widely known concept",
+            "Asking for a sentence to be tightened up",
+            "Asking for exactly ten accurate references on a little known topic",
+            "Asking for the spelling in a piece of writing to be fixed"
+          ],
+          "answerIndex": 2,
+          "explanation": "Risk peaks where thin material, specific identifiers, and a pinned item count overlap. The model tends to fill the count even when the basis runs short.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What check still remains even for an answer produced with search attached?",
+          "choices": [
+            "Ask for the answer again at greater length",
+            "Open the cited links directly and confirm the content is there",
+            "Repeat the same question ten times",
+            "Translate the answer into another language"
+          ],
+          "answerIndex": 1,
+          "explanation": "Retrieved material can be wrong, a summary can drift from the original, and a link can be formatted correctly but lead nowhere. Skipping the step of opening the source cuts the benefit of search.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "training_pipeline",
+      "title": "Why Conversational AI Speaks Differently",
+      "difficulty": "advanced",
+      "description": "Conversational AI is shaped through pretraining, fine-tuning, and preference tuning. These stages explain why services built on the same base model can speak differently and draw different refusal lines.",
+      "objectives": [
+        "Distinguish the roles of pretraining, fine-tuning, and preference tuning.",
+        "Explain why services built from the same base model can develop different characters.",
+        "Recognize the side effects of human preference tuning and reduce them with specific prompts."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "The three stages of conversational model training",
+          "contentMarkdown": "Conversational models are built through three stages in sequence: **pretraining, fine-tuning, and preference tuning**. Each teaches a different set of abilities and responses.\n\n| Stage | What it does | What the model learns |\n|---|---|---|\n| Pretraining | Predicts the next token across vast amounts of text | Feel for language, knowledge of the world |\n| Fine-tuning | Learns from paired instructions and model answers | How to respond to a request |\n| Preference tuning | Learns from answers that people judge better | Tone, refusal thresholds, safety judgment |\n\nPretraining consumes most of the time and money. Fine-tuning and preference tuning are smaller by comparison, yet they are largely responsible for the tone and behavior users notice.\n\nThe model acquires its knowledge and language ability during pretraining. The later stages shape how it conducts an actual conversation and give the finished service its character.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/training_pipeline.webp",
+          "imageAlt": "One pottery workshop arranged continuously from basic forming to functional refinement to selection of the finished vessel"
+        },
+        {
+          "title": "What pretraining teaches",
+          "contentMarkdown": "Pretraining feeds the model enormous quantities of text, including web pages, books, encyclopedias, and code, and asks it to predict the next token. No one has to label the correct answer separately. The text already supplies it as the token that comes next.\n\nA model that finishes this stage can continue sentences naturally. It is not yet easy to use as a conversation partner. Ask it a question and, instead of answering, it may produce more similar questions because online text often places one question after another.\n\nKnowledge enters at this stage too. The model learns frequent material well and may not learn rare material thoroughly. The latest point represented in the training data also helps determine its knowledge cutoff.\n\nA model with language ability and knowledge, but without training to respond properly to requests, is called a **base model**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "What fine-tuning changes",
+          "contentMarkdown": "Fine-tuning uses examples that pair an instruction with a model answer. Across many such pairs, the model learns how different kinds of requests should be answered.\n\nAfter fine-tuning, it answers questions, follows requested formats, and explains complex ideas step by step. Its store of knowledge does not grow dramatically. What changes is how it brings out what it learned during pretraining and applies it to the request at hand.\n\nThis stage also teaches a tone suited to a particular use. Add legal documents to the same base model and it will use legal phrasing more often. Add counseling material and its voice will sound more like a counselor's. Companies use the same method to create internal models.\n\nServices built on one base model can therefore respond in very different ways. Their fine-tuning data differs even when their foundation is identical.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How human preferences shape responses",
+          "contentMarkdown": "During preference tuning, people compare several answers to the same question and choose the better one. The model uses those choices to learn the qualities people tend to prefer.\n\nThis is where services can diverge in several visible ways.\n\n- **Tone:** Whether the voice is stiff or warm\n- **Answer length:** Whether it explains in detail or answers briefly\n- **Refusal thresholds:** How far it answers and where it stops\n- **Expressions of uncertainty:** Whether it sounds certain or admits that it does not know\n- **Format habits:** Whether it favors lists or explains in paragraphs\n\nThe company decides what counts as a better answer. Evaluators choose according to those standards, and the model learns the tone and judgment behind the selected responses.\n\nAsk several services the same question and their core answers may be similar while their attitudes differ. That gap often reflects different preference-tuning criteria.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Side effects of preference tuning",
+          "contentMarkdown": "What people prefer is not always the same as what is accurate or appropriate. As a result, tuning a model to human preferences can produce several side effects.\n\n**It may agree too readily.** When a user begins with a false premise, the model may go along instead of correcting it. This tendency can emerge when evaluators favor answers that agree with them.\n\n**It may become more cautious than necessary.** The model may refuse harmless requests or attach so many warnings that the main answer gets lost.\n\n**It may favor long, formal answers.** Even a question that could be answered briefly may receive lists, subheadings, and a lengthy explanation.\n\nSpecific instructions can reduce these tendencies. Try prompts such as `Point out any false premise in my question`, `State how confident you are`, or `Answer in three sentences`. Directly requesting disagreement, confidence, or a fixed length helps override the model's defaults.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What state is a base model in after pretraining finishes?",
+          "choices": [
+            "Ready to use as a conversation partner that answers questions directly",
+            "Good at continuing sentences but not in the shape of answering a request",
+            "Without knowledge but already in conversational form",
+            "Fully finished, with human preferences already folded in"
+          ],
+          "answerIndex": 1,
+          "explanation": "Pretraining installs a feel for language and knowledge through next-token prediction. The shape of answering a request appears in the next stage, fine-tuning.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Why do services with entirely different characters come out of the same base model?",
+          "choices": [
+            "Because pretraining is redone from scratch for each service",
+            "Because the material layered on and the criteria used differ at the fine-tuning and preference tuning stages",
+            "Because each service splits text into tokens differently",
+            "Because the servers sit in different locations"
+          ],
+          "answerIndex": 1,
+          "explanation": "Expensive pretraining builds the foundation, and character is settled in the two later stages. Different layered material and different preference criteria yield different characters from the same foundation.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What side effect comes out of folding in human preferences?",
+          "choices": [
+            "Knowledge disappears",
+            "Sentences stop being grammatical",
+            "It leans toward agreeing with the user and answers run longer than needed",
+            "It loses the ability to handle other languages"
+          ],
+          "answerIndex": 2,
+          "explanation": "The answer people rate highly and the accurate answer do not always coincide. An agreeable posture, excessive caution, and long formal formatting are left behind as defaults.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "prompt_anatomy",
+      "title": "The Four Elements of an AI Prompt",
+      "difficulty": "beginner",
+      "description": "Effective AI requests specify the context, task, format, and constraints. Understanding these four elements helps you revise a prompt until it produces the result you need.",
+      "objectives": [
+        "Identify and write the context, task, format, and constraints in a prompt.",
+        "Predict how changing a request will change the AI's response.",
+        "Find missing elements and revise a prompt to make it more specific."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Specify the missing information",
+          "contentMarkdown": "Type `Write a blog post` and you will get something general enough for almost anyone. If you do not name the reader, the AI assumes an average reader. If you leave out the length, it chooses something in the middle. The more information you omit, the more the AI has to guess.\n\nTry a more specific request:\n\n`This is a science blog for middle school students. Explain photosynthesis in about 400 words. Use three subheadings and exactly one analogy. Do not use chemical formulas.`\n\nNow the reader, length, structure, and prohibitions are fixed. A good prompt does not depend on clever phrasing. It **reduces the information the AI has to guess**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "The four elements of a prompt",
+          "contentMarkdown": "A prompt can include **context, task, format, and constraints**. Sorting the necessary information into these four elements makes it easier to see what is missing.\n\n| Element | What to include | Example |\n|---|---|---|\n| Context | Who will read it, why, and where it will be used | Science blog for middle schoolers, classroom handout |\n| Task | What the AI should do | Write an explanation of how photosynthesis works |\n| Format | The length and structure of the result | About 400 words, three subheadings, prose paragraphs |\n| Constraints | Requirements and prohibitions | No chemical formulas, one analogy only |\n\nYou do not always need all four. A simple question may need only the task. When a response disappoints, look for the missing element and add it.\n\nContext is especially easy to omit. You already know your situation and purpose, so it is tempting to assume the AI knows them too.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/prompt_anatomy.webp",
+          "imageAlt": "An overhead fabrication bench physically integrating user, task, finished shell, and height limit in one child-scale sluice exhibit"
+        },
+        {
+          "title": "State the audience and purpose",
+          "contentMarkdown": "Context tells the AI **who will read the result** and **how it will be used**. Even when the topic stays the same, the audience and purpose can change the vocabulary, level of explanation, and structure.\n\nWrite `An investment analyst will read this`, and the AI will address someone familiar with the field. Write `A college student encountering the topic for the first time will read this`, and it will begin by explaining unfamiliar concepts.\n\nState the purpose as well. `This will open a presentation` encourages an opening line that draws in the audience. `This is an internal document` moves the conclusion and work-related information toward the beginning.\n\nYou can also assign a role, as in `You are an editor with twenty years of experience`. A role can shape tone and point of view, but it does not give the AI knowledge it did not already have. Naming the audience and purpose changes the result more reliably than assigning a role alone.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Describe the task with a verb",
+          "contentMarkdown": "Do not put only a topic in the task. Use a verb to state **what the AI must do**. Type `about remote work`, and the AI cannot tell whether you want an overview, a summary of opposing views, or a draft policy.\n\nMake the action explicit:\n\n- `List three advantages and three disadvantages of adopting remote work.`\n- `Rebut the arguments against adopting remote work.`\n- `Draft a remote work policy as numbered clauses.`\n\nChanging the verb produces a different deliverable. Decide whether the job is to summarize, compare, draft, review, classify, translate, or extract.\n\nSeveral tasks packed into one request can leave each response short and shallow. If you need a summary, a critique, and an alternative, split them into separate requests and submit them in sequence.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "State requirements and prohibitions",
+          "contentMarkdown": "Constraints tell the AI **what it must do** and **what it must not do**. Excluding unwanted language or content in advance reduces the editing needed afterward.\n\nCollect the constraints you use often so you can reuse them:\n\n- `Leave out anything that cannot be verified, and say when you do not know.`\n- `When you include a number or quotation, provide its source.`\n- `Write only in prose paragraphs, with no subheadings or lists.`\n- `Do not use inflated modifiers or end with an encouraging remark.`\n- `Add nothing that is not in the source text.`\n\nDuring training, AI develops a tendency to treat long, formal responses as desirable. If that is not what you want, name the language and formats to exclude directly in the prompt.\n\nKeep a list of constraints suited to your work. For each new request, you can select and attach the ones you need.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which one is not one of the four slots of a prompt?",
+          "choices": [
+            "Context",
+            "Task",
+            "Model name",
+            "Constraints"
+          ],
+          "answerIndex": 2,
+          "explanation": "The four slots are context, task, format, and constraints. Which model you happen to be using is not something you write inside the prompt.",
+          "stepIndex": 1
+        },
+        {
+          "question": "What belongs in the context slot?",
+          "choices": [
+            "Who reads it and what it will be used for",
+            "The character count of the answer",
+            "A list of expressions to avoid",
+            "How many times to repeat the request"
+          ],
+          "answerIndex": 0,
+          "explanation": "Context is reader and purpose. Stating who reads it and what it is for moves the result more reliably than assigning a role.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What happens when one request asks for a summary, a critique, and an alternative together?",
+          "choices": [
+            "All three come out more accurate",
+            "All three come out shallow, so splitting them into separate requests works better",
+            "Only the summary is produced and the rest is ignored",
+            "The request gets refused"
+          ],
+          "answerIndex": 1,
+          "explanation": "Overlapping tasks split the attention and the space each one gets, so all three end up thin. Ask for them separately.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "context_window",
+      "title": "How Much AI Can Read at Once",
+      "difficulty": "beginner",
+      "description": "AI can consult only a limited amount of information at one time. Understanding that limit helps you divide long conversations and documents into manageable parts.",
+      "objectives": [
+        "Explain what a context window is and what information it contains.",
+        "Divide a long document so that only the necessary material is provided.",
+        "Decide when to end an existing conversation and start a new one."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "What goes into the context window",
+          "contentMarkdown": "A model produces answers using only the information within a fixed range. That range is the **context window**, and its size is measured in tokens.\n\nA desk is a useful picture. The model can consult whatever is spread across the desk, but anything left in a drawer is invisible. When space is limited, not every document can be laid out at once.\n\nThe context window contains more than the question you typed.\n\n- Instructions the service inserted ahead of you\n- The conversation so far\n- Text you pasted and the contents of attached files\n- Material retrieved through search\n- The answer being generated right now\n\nAll of this has to fit under the limit together. Limits differ by service and model, and they keep growing year over year. Even so, there is always a ceiling on how much a model can read at once.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/context_window.webp",
+          "imageAlt": "An archivist able to examine only the records on a small circular light table while the rest remain in closed cabinets"
+        },
+        {
+          "title": "What happens when the limit is exceeded",
+          "contentMarkdown": "When a conversation gets too long, the model may stop consulting information from the beginning. You asked for a different tone and the old one comes back. A phrase you banned reappears.\n\nOnce the limit is exceeded, the earliest parts of the conversation are usually cut away. Some services do this quietly. The model can no longer see the removed material, so from its perspective, that material might as well never have been provided.\n\nProblems can appear even when everything fits. Several experiments have found that models tend to miss information buried in the middle of a long context. They consult the beginning and end more reliably, while details in the middle can slip past them.\n\nPut conditions that absolutely must hold near the beginning or end of your request. With long source material, paste the material first and place the task instructions last. This reduces the chance that the model will overlook what it needs to do.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to divide a long document",
+          "contentMarkdown": "You do not always need to provide an entire long document. Adding far more information than the task requires can raise costs and reduce accuracy.\n\n- **Excerpt the relevant sections.** Select the passages connected to your question. If you do not know which sections matter, provide the table of contents first and ask the model to identify them.\n- **Process it in stages.** Request a summary of each chapter, then combine only those summaries and ask for an overall conclusion.\n- **Mark the source boundaries.** Put dividers at the beginning and end, and clearly label which text is source material. This reduces the chance that the model will confuse the source with your instructions.\n- **Restrict the answer to the source.** Add `Do not include anything that is not in the material below`.\n\nThat final instruction matters. Without it, the model may mix background knowledge into its answer even when that information never appeared in the document. For work that must evaluate only what the source says, the result then becomes difficult to trust.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "When to start a new conversation",
+          "contentMarkdown": "A longer conversation does not always produce a better answer. Start a new one when you see signals like these:\n\n- The rules you established at the beginning keep getting broken.\n- You have pointed out the same problem at least twice and it still is not fixed.\n- The discussion has moved to a completely different topic.\n- Several failed attempts and incorrect drafts have accumulated.\n\nFailed attempts are especially likely to pull later answers in the same direction. If three bad drafts remain in the conversation, the fourth may come out looking much like the ones before it.\n\nBefore starting fresh, collect only the settled conclusions and the conditions that must be followed. You can ask for a summary of the existing conversation and paste that summary into the new one. There is no need to carry over every unnecessary detour and failed attempt.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How memory differs from the context window",
+          "contentMarkdown": "A service remembering previous conversations does not increase how much the model can read at one time.\n\nThe service stores selected information you provided, then inserts it again when a later conversation begins. The model reads that stored information anew each time. Anything inserted this way still occupies part of the context window.\n\nIf too much is stored, less room may remain for the current task. An old memory can also conflict with what you are doing now and interfere with the answer.\n\nConversation does not change the inside of the model. What changes is which information the service saves and supplies again. Clear memories that are irrelevant to your current work, and keep only the conditions you will continue to need.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which one does not sit inside the context window?",
+          "choices": [
+            "The conversation up to this point",
+            "The body text of a document you pasted",
+            "The entire original training corpus",
+            "The answer being generated right now"
+          ],
+          "answerIndex": 2,
+          "explanation": "Instructions, the conversation, pasted material, search results, and the answer in progress all share the context window. Training data is dissolved inside the model and never loaded into that window.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why should conditions that must hold go at the front or the back of a request?",
+          "choices": [
+            "Sentences at the edges are cheaper to process",
+            "Information placed in the middle of a long context is reported to get missed",
+            "There is a character limit that applies to the middle",
+            "Position makes no difference, so it is only a habit"
+          ],
+          "answerIndex": 1,
+          "explanation": "Even under the ceiling, the middle of a long context blurs, and that has been observed across several experiments. Key conditions belong at one end or the other.",
+          "stepIndex": 1
+        },
+        {
+          "question": "In a conversation where several failed attempts have piled up, what is worth doing?",
+          "choices": [
+            "Repeat the same request in stronger language",
+            "Carry only the settled conclusions into a fresh conversation",
+            "Ask it to delete the front of the conversation",
+            "Ask for a longer answer and try again"
+          ],
+          "answerIndex": 1,
+          "explanation": "Wrong attempts left in the context keep pulling the work their way. Summarizing the conclusions and moving them into a new conversation is faster.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "examples_and_format",
+      "title": "Getting Better AI Results with Examples",
+      "difficulty": "beginner",
+      "description": "Examples can communicate tone and output structure more precisely than explanation alone. The key is knowing how to choose them, format them, and keep them from pushing the result in the wrong direction.",
+      "objectives": [
+        "Pair input and output examples effectively.",
+        "Specify output length, structure, and formatting in concrete terms.",
+        "Identify and correct examples that distort the result."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "When examples are more precise than words",
+          "contentMarkdown": "Describing a tone in words can become vague almost immediately. A request like `Not too stiff, but not too casual either. Keep it plain.` may mean something different to every reader.\n\nOne example is often more precise. Paste a paragraph you like and write `Match the tone of this paragraph.` The AI can then use its word choice, sentence length, and sentence endings as guides.\n\nSupplying a few examples inside a request is called **few-shot prompting**. It does not retrain the AI. The examples guide its response only within that conversation.\n\nTone, table design, classification criteria, and ways of organizing material can all be tedious to describe in detail. When a condition is hard to put into words, showing an example is usually faster.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/examples_and_format.webp",
+          "imageAlt": "A woodworking apprentice building a new stool frame to match the proportions of one finished asymmetric wooden stool"
+        },
+        {
+          "title": "Pairing input and output examples",
+          "contentMarkdown": "Each example should pair an input with its intended output.\n\nWrite `Organize the information in the following format.` Then provide a pair such as `Input: review of the iPhone 15 / Output: product=iPhone 15, category=electronics, sentiment=positive`.\n\nA few guidelines make the examples more reliable.\n\n- **Use only two or three.** Too many examples consume much of the text the AI can consider at once. They may also make inputs unlike the examples harder to handle.\n- **Choose different kinds.** Two contrasting examples are better than three similar ones. A positive case and a negative case, for instance, establish a broader standard.\n- **Include a difficult case.** Show how an ambiguous input should be handled so the same judgment can carry over.\n- **Check every answer carefully.** If an example contains an error, the AI may adopt that error as part of the rule.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Specifying the output format",
+          "contentMarkdown": "Leave the output format open and the response may take a different shape each time. One answer may include subheadings, while another turns a list into paragraphs. This happens because the AI includes a sampling step that selects the next expression from several candidates.\n\nState the format in concrete terms.\n\n- **Shape:** `Organize this as a table with three columns: item, evidence, and risk.`\n- **Length:** `Keep each item to two sentences or fewer.`\n- **Heading:** `Start each item with a one-line bold heading.`\n- **First line:** `Output only the result, with no explanation or greeting.`\n\nIf a program will process the answer directly, the format must be fixed. A change in structure can break whatever comes next. In that situation, a completed format example is usually more reliable than conditions alone.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How bad examples distort results",
+          "contentMarkdown": "Examples exert a strong pull on the response. Poorly chosen ones can push the result in the wrong direction.\n\n**Using only one type:** Show three positive cases and the AI may classify a later negative case as positive. Include contrasting types in the example set.\n\n**Copying the wording:** A paragraph supplied to demonstrate tone may contribute specific phrases as well. Define the scope clearly: `Do not reuse the wording. Follow only the sentence length and tone.`\n\n**Forcing content into a fixed format:** Material that does not belong in a table may still be squeezed into its cells. Add an open-ended column or allow supplementary notes below the table.\n\nIf the response resembles the original examples too closely, reduce the number of examples or replace them with examples of a different kind.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Managing examples for repeated work",
+          "contentMarkdown": "If you repeat the same kind of work, keep your frequently used examples and output formats in a separate document. You will not have to rebuild the request each time, and the results will vary less.\n\nThree things are worth collecting.\n\n- Two or three paragraphs that clearly show your voice\n- A few output formats you use often\n- A list of constraints that apply every time\n\nThis project follows the same practice. Each repeated task has its own specification document, which the AI reads before starting. The document preserves the standard, so a person does not have to remember and retype every condition.\n\nReview old examples regularly. If your voice has changed but you keep supplying earlier paragraphs, the output will continue to follow the old style. When a result feels unlike your current work, first check whether the examples still match your standards.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What effect does few-shot prompting have on the model?",
+          "choices": [
+            "The model learns the examples and keeps them permanently",
+            "They are consulted only inside that request and conversation, and the model itself does not change",
+            "The model's knowledge cutoff moves forward",
+            "Other users see the effect in their results too"
+          ],
+          "answerIndex": 1,
+          "explanation": "Putting examples inside a request is not training. They are imitated within that context and nothing remains once the conversation ends.",
+          "stepIndex": 0
+        },
+        {
+          "question": "What is the better way to choose examples?",
+          "choices": [
+            "Include ten or more examples that resemble each other",
+            "Pick two or three that differ in character and include an awkward case",
+            "Include one easy example and nothing more",
+            "Skip examples and write a long description instead"
+          ],
+          "answerIndex": 1,
+          "explanation": "Two or three cover it, and pairing different kinds with an ambiguous case is what communicates the criteria.",
+          "stepIndex": 1
+        },
+        {
+          "question": "The wording from your tone example keeps appearing in the output. What do you do?",
+          "choices": [
+            "Add more examples",
+            "State the scope: do not reuse the wording, take only sentence length and tone",
+            "Remove every format instruction",
+            "Ask for a longer answer"
+          ],
+          "answerIndex": 1,
+          "explanation": "Examples act with force, so wording gets copied along with tone. Name the scope to borrow from, or swap in an example with a different character.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "stepwise_reasoning",
+      "title": "Setting the Order of Work for AI",
+      "difficulty": "intermediate",
+      "description": "Demand a conclusion too early and important conditions or checks may get skipped. Specifying the order of work and adding checkpoints can make an AI’s answers more accurate and easier to verify.",
+      "objectives": [
+        "Break a complex request into connected, verifiable steps",
+        "Request and approve a plan before asking for a full draft",
+        "Distinguish work that benefits from multiple steps from work that does not"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Why conditions should come before conclusions",
+          "contentMarkdown": "A generative AI builds an answer by choosing the next `token`, meaning the next character or fragment of a word, based on the text that came before it. Once it starts with a conclusion, the rest can easily develop in a way that supports that conclusion. It rarely goes back and corrects an unchecked conclusion on its own.\n\nQuestions involving calculation or comparison often expose this problem. Ask for only the answer to a problem with three conditions, and the AI may overlook one while still producing something polished and plausible.\n\nSpecify the order instead.\n\n`Check each condition one at a time, then write your conclusion.`\n\nThe written checks remain available as context when the conclusion is formed. Research has confirmed the value of this approach, and many services now perform parts of the checking process internally.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to divide work into ordered steps",
+          "contentMarkdown": "When assigning several tasks at once, number the steps and state their order.\n\n`Work in this order. 1) Pull and quote every relevant clause from the source. 2) Judge clause by clause whether it applies to our situation. 3) Collect only the clauses that apply and write the appropriate actions.`\n\nThis separates finding information from judging it. It also makes mistakes easier to trace. If the actions in step three look wrong, you can start by checking the clauses quoted in step one.\n\nFollow three rules when dividing the work.\n\n- **Give each step one job.** Asking the AI to extract and judge at the same time mixes two tasks.\n- **Make later steps use earlier results.** A list of unrelated tasks does not improve accuracy.\n- **Ask it to show intermediate results.** If those results stay hidden, you cannot tell where an error occurred.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why the plan should come before the draft",
+          "contentMarkdown": "For a long report, proposal, or other substantial document, getting the plan before the full draft is safer.\n\n`Do not write it yet. Give me the outline and what each section will cover. I will review that before you write the body.`\n\nIf the direction is wrong, reviewing the plan lets you correct a few lines. Discover the problem after the full text is written, and the entire document may need to be redone.\n\nCheck three things:\n\n- Is the scope right?\n- Is anything missing?\n- Does the order flow naturally?\n\nIf changes are needed, ask for the revised plan to be printed again. Pointing out corrections and immediately requesting the body can cause some of them to be missed. The updated plan needs to remain in the conversation as written context for the answer that follows.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/stepwise_reasoning.webp",
+          "imageAlt": "An engineer checking the joint sequence on a scale bridge model before work begins across the real empty span"
+        },
+        {
+          "title": "How to make AI review its own answer",
+          "contentMarkdown": "After an AI produces an answer, use a separate request to make it look for problems.\n\n`Mark the claims in the answer above that rest on weak support.`\n\n`Pull only the sentences in the draft above that need fact-checking.`\n\n`Argue against this conclusion from the opposing position.`\n\nA follow-up in the same conversation treats the earlier answer as the material to review. The AI will not catch every flaw in its own writing, but a targeted review increases the chance of finding errors.\n\nAvoid adding only a doubtful question such as `Is that right?` The AI may try to agree with your suspicion and change an answer that was already correct.\n\nState exactly what it should check. Useful criteria include **whether claims have support**, **whether every stated condition was met**, and **whether any sentences require fact-checking**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "When a task needs separate steps",
+          "contentMarkdown": "Not every request needs to be divided into steps. More steps take additional time and cost to process.\n\nBreaking the work apart is useful for:\n\n- Judgments that must account for several conditions\n- Work that extracts and organizes source material before reaching a conclusion\n- Tasks combining calculation and comparison\n- Long deliverables where structure matters\n\nA direct request is usually enough for:\n\n- Translation, spelling correction, or tone polishing\n- Short fact checks\n- Format conversion\n\nAdding multiple stages to these simpler tasks often produces more explanation without materially changing the result. In those cases, ask: `Output the result only, with no explanation.`\n\nUse a human workflow as the test. If a person would need intermediate notes, calculations, or organized findings to complete the task, put that sequence into the request.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Why is a request that demands the conclusion straight away a disadvantage?",
+          "choices": [
+            "The answer comes out shorter",
+            "Once a conclusion is started, what follows gets written to support it, and the model cannot walk itself back",
+            "It costs more to run",
+            "The formatting falls apart"
+          ],
+          "answerIndex": 1,
+          "explanation": "The model extends what it has already written. A conclusion produced without checking will not be reversed later, so put the checking in front of it.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why take the plan first on a sizable piece of work?",
+          "choices": [
+            "Plans are more accurate than bodies of text",
+            "A wrong direction can be corrected in a few lines",
+            "Plans cost nothing to produce",
+            "You no longer have to write the body"
+          ],
+          "answerIndex": 1,
+          "explanation": "Drift found after the full text arrives means rewriting the whole thing. Caught at the plan stage, the cost of correction is far smaller.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which task does not need to be split into steps?",
+          "choices": [
+            "A judgment carrying several conditions",
+            "Extracting items from a source, organizing them, and reaching a conclusion",
+            "Correcting the spelling in a sentence",
+            "A review that mixes calculation and comparison"
+          ],
+          "answerIndex": 2,
+          "explanation": "Work a person handles without scratch notes has no use for steps. Spelling correction and format conversion just gain a longer preamble.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "iteration",
+      "title": "How to Revise AI Responses Part by Part",
+      "difficulty": "intermediate",
+      "description": "Treat an AI’s first response as a draft, then revise only what needs work. Preserve what already works, and know when a fresh conversation will be more effective.",
+      "objectives": [
+        "Request precise changes without rewriting the entire response.",
+        "Tell the AI which content and formatting it must preserve.",
+        "Decide whether to continue revising or start a new conversation."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "What to check in the first response",
+          "contentMarkdown": "A single request rarely produces a finished response. Just as you would review and shape a draft from a person, treat an AI’s first answer as a draft.\n\nCheck the **information** before worrying about polish. The response shows how the AI understood your request. If it heads in a completely different direction, your original instructions may have left out an important condition.\n\nStart with three questions.\n\n- Was the task understood correctly?\n- Did the response follow the requested format?\n- Are the facts and supporting evidence sound?\n\nIf the task itself was misunderstood, add the missing conditions and start over. If the overall direction is right and only the format or facts are wrong, continue from the current response and revise those parts.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Specify exactly what to change",
+          "contentMarkdown": "Asking only `Rewrite it` can erase the parts that already work. Each new response may use different wording and organization, so the second paragraph you liked could disappear.\n\nInstead of requesting a full rewrite, identify both the location and the problem.\n\n- `Remove the statistic from the second paragraph and replace it with one example. Leave everything else unchanged.`\n- `The last sentence sounds preachy. Replace it with a factual explanation.`\n- `The third and fifth items repeat the same point. Merge them.`\n\nThe more precisely you name the target, the easier it is to preserve the surrounding text. If the location is difficult to describe, quote the sentence itself and state the change you want. That reduces the chance that the AI will edit the wrong passage.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/iteration.webp",
+          "imageAlt": "A conservator repairing only one small tear in an otherwise intact tapestry"
+        },
+        {
+          "title": "Specify what should stay",
+          "contentMarkdown": "Even when you request one small change, the AI may also alter the tone or structure of nearby sentences. Along with what to revise, name **what must not change**.\n\n- `Leave the first and last paragraphs exactly as they are.`\n- `Keep the title and subheadings.`\n- `Keep the overall length close to what it is now.`\n\nAfter several rounds, earlier requirements can fade from the conversation. After about three exchanges, restate all the conditions you have settled on as a list.\n\nFor a long piece, you can also limit what the AI returns. `Rewrite only the third section. Do not print the rest.` This leaves less room for unrelated parts to be changed.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Ask for options when direction is unclear",
+          "contentMarkdown": "When you have not settled on a direction, ask for several options at the start and compare them. This works well for titles, openings, structures, and names.\n\nFor example: `Give me ten title candidates in different directions.` You can choose one candidate or combine the strongest parts of two.\n\nA large number alone may produce a string of similar options. As the AI generates each candidate, the earlier ones can influence what follows. Add a condition such as `in different directions`, or divide the options into types yourself.\n\n`Give me three each in explanatory, question, and quotation form.`\n\nOnce you know which direction you want, stop expanding the list. Choosing one option and revising it precisely is usually faster.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "When to start a new conversation",
+          "contentMarkdown": "If you point out the same problem three times and it still is not fixed, stop revising and start a new conversation. Failed requests and responses remain in the context, which can lead the AI to repeat similar results.\n\nBring the useful decisions with you when you start fresh.\n\n- List the requirements you have confirmed\n- Include a paragraph you liked as an example\n- State the results you do not want and the approaches that failed\n\nThe last point is especially important. If you do not explain what went wrong, the new conversation may produce the same kind of response.\n\nWhen the result is nearly finished, editing the remainder yourself may be faster. If several rounds of requests would take longer than fixing the final few sentences directly, there is no need to keep asking.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Why is `Rewrite it` an expensive request?",
+          "choices": [
+            "It costs twice as much to run",
+            "The parts that came out well are lost too, and the result can come back completely different",
+            "The exact same result repeats",
+            "Format instructions stop applying"
+          ],
+          "answerIndex": 1,
+          "explanation": "A full rewrite throws away the parts you wanted to keep. Because candidates are sampled, what you liked may not come back at all.",
+          "stepIndex": 1
+        },
+        {
+          "question": "How do you reduce changes to parts you never asked about?",
+          "choices": [
+            "Ask for a longer answer",
+            "Name what should stay untouched, or narrow the range to be rewritten",
+            "Send the same request twice",
+            "Remove the format instructions"
+          ],
+          "answerIndex": 1,
+          "explanation": "Stating what not to touch, or asking for one section only, leaves far less room for the rest to shift.",
+          "stepIndex": 2
+        },
+        {
+          "question": "What must you carry into a new conversation?",
+          "choices": [
+            "The complete transcript of the previous conversation",
+            "The settled requirements plus a record of what failed",
+            "The configuration values of the model you used",
+            "The timestamps of your requests"
+          ],
+          "answerIndex": 1,
+          "explanation": "Without a record of the failed directions, the new conversation falls into the same hole. Move the settled conditions, the examples you liked, and the failure list together.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "verification",
+      "title": "How to Verify AI Answers",
+      "difficulty": "intermediate",
+      "description": "Learn a practical routine for catching confident but incorrect AI answers. You will also distinguish work AI can assist with from decisions that require human verification.",
+      "objectives": [
+        "Request evidence and check the original source yourself",
+        "Rephrase questions to test whether an answer remains consistent",
+        "Distinguish appropriate AI tasks from decisions AI should not make"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Why tone cannot tell you what is true",
+          "contentMarkdown": "An accurate answer and an invented one can arrive in the same confident voice. AI does not necessarily recognize that it has made something up, so a wrong answer may sound every bit as assured as a correct one.\n\nVerification therefore has to be a routine, not a feeling. Checking only the parts that look odd will miss errors. Even natural, convincing prose can contain false information.\n\nAlways check the following:\n\n- Names of people and organizations, and titles of works\n- Years, dates, figures, and percentages\n- Quotations and their sources\n- Statutes, regulations, and court decisions\n- Links and document titles\n\nNot every sentence needs the same scrutiny. Start by isolating names, numbers, quotations, legal information, and links. Comparing those against reliable sources cuts the workload substantially.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/verification.webp",
+          "imageAlt": "A surveyor checking two equally convincing unmarked compasses against a noon meridian shadow"
+        },
+        {
+          "title": "How to request specific sources",
+          "contentMarkdown": "Ask only for sources, and you may receive an answer that merely looks properly documented. Specify what evidence to provide and how to display it.\n\n`After each claim, give the document name and the specific passage it rests on. Mark any claim you cannot support as no source found.`\n\nThe final instruction matters. Unless the AI has a way to acknowledge missing evidence, it may try to fill the gap with a source it invented.\n\nIf search is available, request links as well. Then **open each link and confirm that the cited statement is actually there.** Recognizing a document title and moving on does not count as checking the source.\n\nLeave paywalled or inaccessible material marked as unverified. If you have not seen the original, do not treat the claim as confirmed.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to test an answer by rephrasing",
+          "contentMarkdown": "Ask about the same subject in different ways to see how stable the answer is. When the evidence is solid, changing the wording should produce a similar response. When support is thin, details such as the year or the person involved may shift from one answer to the next.\n\nTry these approaches:\n\n- **Ask again in a new conversation.** In the same conversation, the AI may simply repeat an earlier answer because it remains in context.\n- **Remove the assumption.** Instead of `A is said to have done B. Is that true?`, ask `What facts are established about the relationship between A and B?`\n- **Include a false premise.** If the AI accepts and explains something that never happened instead of correcting it, its evidence may be weak.\n\nConsistency does not prove correctness. A widely repeated error can produce the same wrong answer every time. Rephrasing is a useful test, but it never replaces checking the original source.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Which decisions require human verification",
+          "contentMarkdown": "Do not delegate the final conclusion in a field where you cannot judge whether the answer is correct. Without the knowledge or material needed to verify it, you may not notice a serious error.\n\n| Good tasks to delegate | Handle with care |\n|---|---|\n| Drafting and tightening wording | Work where factual accuracy determines the conclusion |\n| Format conversion, classification, and organizing | Legal, medical, and tax judgments |\n| Translation drafts | Final conclusions in a field you cannot verify |\n| Expanding the range of ideas | Final confirmation of calculations |\n\nAI can still assist with the work in the right column. Have it produce a draft or organize a review checklist, then examine the result yourself or leave the final judgment to a qualified specialist.\n\nWhen the boundary is unclear, ask: **Who is responsible if this is wrong?** If the responsibility is yours, require a separate verification process.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to build verification into a request",
+          "contentMarkdown": "Adding verification conditions to the initial request reduces the work required after the answer arrives. Useful instructions include:\n\n- `Mark anything you are not certain of as needs checking`\n- `Say that you do not know when you do not, and do not fill gaps with guesses`\n- `Give every item a confidence level of high, medium, or low`\n- `Do not add unsupported items merely to reach a target count`\n- `Do not include anything that is not in the material below`\n\nConfidence labels help you decide what to examine first. Begin with items marked `low`. Still, the AI also generated those labels, so they are not guarantees. Important claims need checking even when their confidence is marked `high`.\n\nTreat anecdotes and quotations about people the same way. Do not use them straight from the AI response. Compare them with other material and accept them only after confirming the facts.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which items should be verified first?",
+          "choices": [
+            "General conceptual explanations",
+            "Names, years, figures, quotations, and their sources",
+            "The tone of the sentences",
+            "The overall length of the answer"
+          ],
+          "answerIndex": 1,
+          "explanation": "Description and explanation are relatively safe. Concrete identifiers such as names, dates, figures, quotations, and statutes are what you check.",
+          "stepIndex": 0
+        },
+        {
+          "question": "What condition is worth adding when you ask for sources?",
+          "choices": [
+            "List as many sources as possible",
+            "Mark any claim you cannot support as no source found",
+            "Present sources in English only",
+            "Collect all sources at the very end of the answer"
+          ],
+          "answerIndex": 1,
+          "explanation": "Without somewhere to record an absence, the blank gets filled. Leaving open the option to write no source found is the point.",
+          "stepIndex": 1
+        },
+        {
+          "question": "You asked the same question in different ways and the answer did not wobble. What does that mean?",
+          "choices": [
+            "It can be treated as established fact",
+            "You can skip going to the source",
+            "The support may well be thick, but widely circulated errors are wrong consistently, so the source still needs checking",
+            "The topic cannot be verified at all"
+          ],
+          "answerIndex": 2,
+          "explanation": "The wobble test is a rough gauge of how thick the evidence is. Widely circulated errors stay wrong consistently, so it cannot replace going to the source.",
+          "stepIndex": 2
+        }
+      ]
+    },
+    {
+      "id": "tools_and_search",
+      "title": "Using AI Search and Tools Safely",
+      "difficulty": "advanced",
+      "description": "AI can answer from what it learned during training or consult outside sources first. Knowing which route it took helps you verify evidence and decide which tasks still need human review.",
+      "objectives": [
+        "Distinguish answers based on internal knowledge from answers based on external sources.",
+        "Check search results and evidence links for errors.",
+        "Decide which tasks to delegate to tools and which actions require human approval."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Two ways AI produces an answer",
+          "contentMarkdown": "AI can **answer from learned knowledge or find and read outside material first.**\n\n**Answering from learned knowledge.** The model forms a response from patterns absorbed during training. This is fast and inexpensive, but information published after its training data was collected may be missing. It may also struggle to identify precise sources and make more mistakes with obscure facts.\n\n**Finding, reading, then answering.** The model retrieves relevant material from the web or a document collection, reads it, and uses it to form the response. This takes more time and costs more, but it can check current information and point to supporting evidence.\n\nUsing retrieved material to produce an answer is called **retrieval-augmented generation (RAG)**. It is commonly used for company policies, product manuals, research papers, and other sources the model did not learn during training.\n\nA search indicator and evidence links will usually tell you which approach the AI used.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why search-based answers can still be wrong",
+          "contentMarkdown": "Search results and evidence links do not guarantee an accurate answer. Errors can enter at every stage of finding, reading, and citing the material.\n\n- **Finding the material.** The search may retrieve irrelevant sources. The AI can also misunderstand the question and use the wrong search terms.\n- **The material itself.** A retrieved document may be incorrect or outdated. Superseded rules, faulty summaries, and promotional pages all fall into this category.\n- **Interpreting the material.** The answer may add a cause-and-effect relationship that the source never states or omit an important condition.\n- **Citing the evidence.** The response may rely on one source but attach an unrelated link as support.\n\nThe last error is especially difficult to catch. When a link title seems to match the answer, it is tempting to move on without opening it.\n\nTo verify the answer, open the link and look for the sentence that actually supports the claim.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to request tool use",
+          "contentMarkdown": "An AI with search or calculation tools will not necessarily use them automatically. Name the tool and state how the result should be checked.\n\n- `Search and confirm before answering. Include the evidence links.`\n- `Do not calculate this yourself. Run code and give me the result.`\n- `Answer only from the attached document. If it is not there, say so.`\n\nAvailable tools vary by service. Common options include web search, code execution, document lookup, and image generation.\n\nFor calculations, asking the AI to run code is safer. Models process numbers as pieces called tokens, which can lead them to mishandle place value. Code is a better choice for tasks with a definite answer, such as adding table totals, calculating dates, or converting units.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to provide source material directly",
+          "contentMarkdown": "When you already know which material should be reviewed, providing the text or file yourself is more reliable than leaving the search to the AI. You control exactly which sources the answer may use.\n\n- **Mark the boundaries of the material.** Show clearly where the source begins and ends. This reduces the risk that a sentence inside it will be mistaken for a new instruction.\n- **Require answers from the supplied material only.** If the AI mixes in learned background knowledge, it becomes difficult to tell what the review actually found.\n- **Require supporting quotations.** Ask for the sentence or paragraph behind each judgment.\n- **Provide only what is needed.** Supplying the relevant sections makes information easier to find and reduces cost.\n\nDocuments obtained from outside sources may contain text disguised as instructions. If the AI treats that text as a command, it may produce an unexpected answer or action. When a document comes from a source you do not trust, review the output before allowing anything to run.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "When human approval is required",
+          "contentMarkdown": "When AI tools can take real actions, decide where human review belongs by asking **whether the action can be reversed**. Some systems do more than find and read information. They can edit files, send email, or place orders.\n\n- **Reversible work.** Drafting, retrieving information, calculating, and reading files can be delegated first and reviewed afterward.\n- **Hard-to-reverse work.** Sending, paying, deleting, publishing, and sharing outside the organization should be checked by a person before execution.\n\nThe approval point can be written directly into the request.\n\n`Show me the draft and get my approval before sending it.`\n\nThe person who will bear responsibility if something goes wrong should confirm the final action.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/tools_and_search.webp",
+          "imageAlt": "A worker inspecting the first unmarked CNC part with a caliper while holding the batch-start lever"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "How does retrieval augmented generation differ from answering from memory?",
+          "choices": [
+            "It updates the values inside the model as it goes",
+            "It fetches material, places it in the context, and answers on that basis",
+            "The knowledge cutoff disappears",
+            "Hallucination is eliminated completely"
+          ],
+          "answerIndex": 1,
+          "explanation": "Retrieval augmented generation does not modify the model. It fetches material into the context and forms the answer on top of that material.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why is handing table totals or date arithmetic to code execution safer?",
+          "choices": [
+            "Code runs faster",
+            "It sidesteps the problem of numbers being split into tokens and place value getting scrambled",
+            "Code execution is free",
+            "It stores the results of the calculation"
+          ],
+          "answerIndex": 1,
+          "explanation": "Long numbers get split across several tokens and place value gets scrambled. Moving the calculation itself into code avoids that weakness.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which kind of work is risky to leave automatic without human review?",
+          "choices": [
+            "Looking up material",
+            "Producing a draft",
+            "Hard to reverse actions such as sending mail or making a payment",
+            "Reading a file"
+          ],
+          "answerIndex": 2,
+          "explanation": "Reversible work can be delegated, but actions that are hard to undo, such as sending, paying, deleting, or publishing, run only after a person checks them.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "common_failures",
+      "title": "Five Common Failures in AI Responses",
+      "difficulty": "advanced",
+      "description": "AI may agree with a flawed premise, miss instructions, or present uncertain information as fact. Learn to recognize five common failure patterns and revise your requests to prevent them.",
+      "objectives": [
+        "Distinguish common failure patterns and their symptoms in AI responses.",
+        "Add conditions that address each type of failure.",
+        "Check the context, task, format, and constraints of a request after receiving a poor response."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "When AI agrees with a false premise",
+          "contentMarkdown": "AI sometimes accepts a false premise and builds an explanation on top of it instead of pushing back. Even after giving the correct answer, it may change its position when asked, `Are you sure about that?`\n\nThis tendency can arise from the process used to teach AI human preferences. Evaluators generally favored answers that agreed with their judgments, which can encourage the model to accommodate the person asking.\n\nWatch for two recurring symptoms:\n\n- It apologizes and revises every time you object, but the answer does not become more accurate.\n- When asked separately about two opposing claims, it agrees with both.\n\nAvoid presenting your own view as if it were the expected answer. Try instructions such as:\n\n- `If my reasoning is wrong, point out exactly where.`\n- `Find evidence that argues against this conclusion.`\n- Ask neutrally without revealing the answer you expect.\n\nInstead of `I think it is A. Is that right?`, ask `Between A and B, which one does the evidence support?` This reduces the pressure to agree with you.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "When AI misses multiple instructions",
+          "contentMarkdown": "AI can lose track of some requirements when a single request contains many of them. The tone may be right while the response runs too long, or the format may be correct while a prohibited phrase still appears.\n\nThe problem becomes more common as conditions accumulate. In a long request, instructions buried near the middle are especially easy to miss.\n\nThree practices can reduce these failures:\n\n- **Set the conditions out as a list.** Do not mix them into one paragraph. Put each condition on its own line and state how many there are.\n- **Request a check after writing.** `After writing, go through the five conditions one at a time and mark whether each was met.`\n- **Divide the work.** Instead of imposing every condition at once, request a draft first and then add conditions during revision.\n\nA condition that is repeatedly missed is probably important enough to emphasize. Repeat it once more at the end of the request.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "When AI presents uncertainty as fact",
+          "contentMarkdown": "AI can state something it does not know as if it were established fact. Unsupported and verified answers often arrive in the same confident voice, which makes the difference hard to detect.\n\nThis problem appears often with regional systems, the history of small institutions, details of old events, and regulations that changed recently. Even when little reference material exists, AI may insert unsupported information to complete every field in the requested format.\n\nCreate a place for uncertainty in the request:\n\n- `Mark anything you are not certain of as needs checking.`\n- `Leave out anything you cannot support.`\n- `Give a confidence level for each item.`\n\nAfter receiving the answer, you can also ask, `Pull only the sentences in the answer above that need fact checking.` AI will not catch every error by reviewing its own writing, but the result can serve as a list of items to verify separately.\n\nNever treat a decisive tone as proof that a statement is true.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why long responses drift from instructions",
+          "contentMarkdown": "The longer a response becomes, the more likely AI is to lose track of the original instructions. It may follow every condition at the beginning, shift tone midway through, and include prohibited material near the end.\n\nAI constructs a response by adding the next `token` in sequence. Because recently written material is closer to what it is producing now, a long answer can gradually drift away from instructions given at the start.\n\nBreak long deliverables into smaller pieces:\n\n- Request one section at a time and restate the conditions for each section.\n- Confirm the outline first, then fill in each section separately.\n- After receiving the full response, request only the later portion again with the missed conditions reapplied.\n\nWorking in sections is usually faster than receiving one long result and revising the whole thing. If most problems appear near the end, regenerate only that part.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/common_failures.webp",
+          "imageAlt": "A mural pattern gradually drifting along a long wall as the painter copies only the immediately previous version"
+        },
+        {
+          "title": "How to diagnose a poor response",
+          "contentMarkdown": "When a result disappoints, first check whether the request omitted a condition the AI needed.\n\n- **Context:** Did you identify the intended reader and the purpose of the writing?\n- **Task:** Did you state the required action with a clear verb, or did you provide only a topic?\n- **Format:** Did you define the structure and form of the output? Without a format, the response may differ each time.\n- **Constraints:** Did you say what must not appear? Without constraints, AI falls back on its usual patterns.\n- **Examples:** Did you demonstrate requirements that are difficult to explain in words?\n- **Steps:** If the task requires judging several conditions, did you specify the order in which to handle them?\n- **Materials:** Did you provide reference material for fact-based work instead of making AI rely only on memory?\n\nWhen the same failure keeps recurring, walk through this list one item at a time before looking for a different tool.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the most reliable way to ask that avoids the tilt toward agreement?",
+          "choices": [
+            "State your own conclusion first and have it confirmed",
+            "Withhold the conclusion and ask which of two positions the evidence supports",
+            "Repeat the same question several times",
+            "Request a longer answer"
+          ],
+          "answerIndex": 1,
+          "explanation": "Revealing your answer first creates room for it to accommodate you. Hiding the conclusion and asking neutrally is more reliable.",
+          "stepIndex": 0
+        },
+        {
+          "question": "What is the right response when some of several conditions go unmet?",
+          "choices": [
+            "Blend the conditions naturally into a paragraph",
+            "Set the conditions out as a list and have them checked one by one after writing",
+            "Add more conditions for emphasis",
+            "Remove all conditions and leave it open"
+          ],
+          "answerIndex": 1,
+          "explanation": "Putting conditions on separate lines, stating how many there are, and attaching a self check afterward all reduce the dropping.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Why do the original conditions fade in the later part of a long deliverable?",
+          "choices": [
+            "Because of a character limit",
+            "Because generation appends the next token, so the sentence just written is close and the original instruction is far",
+            "Because a translation stage gets inserted",
+            "Because format instructions stop working past a certain point"
+          ],
+          "answerIndex": 1,
+          "explanation": "Generation continues from what was already written. As the original instruction recedes its influence shrinks, so split by section and restate the conditions.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "generative_media",
+      "title": "How Generative AI Creates Media",
+      "difficulty": "beginner",
+      "description": "Generative AI uses different methods to create text, images, voice, music, and video. Longer media makes consistency increasingly difficult to maintain.",
+      "objectives": [
+        "Distinguish recognizing an existing subject from generating something new",
+        "Explain how generative AI creates text, images, voice, music, and video",
+        "Understand why longer videos and music are more difficult to generate consistently"
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "The difference between classification and generation",
+          "contentMarkdown": "Choosing whether a photo shows a dog or a cat is easier than producing a new photo of a cat.\n\nClassification has a fixed answer. With two options, a response is right or wrong immediately, so both training and scoring stay simple.\n\nGeneration has no single correct answer. There are countless plausible cat photos, so the first challenge is deciding what the model should treat as the answer during training.\n\nGenerative AI handles this by rewriting the task as **a small problem with an answer that can be checked**. For text, it predicts the next token. For images, it predicts what the frame should look like with some noise removed. Repeating these small operations many times produces a finished result.\n\nText, images, sound, and video require different processes, but all are created by solving small problems repeatedly.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How generation differs by medium",
+          "contentMarkdown": "Generative AI uses different units and methods according to the properties of each medium.\n\n| Medium | Unit | How it is created |\n|---|---|---|\n| Text | Token | Calculate the probability of the next token and append tokens in order |\n| Image | The whole frame | Start from noise and remove it over many passes |\n| Voice | Sound features | Convert text to pronunciation, pronunciation to acoustics, and acoustics to a waveform |\n| Music | Audio or notation | Produce a waveform directly or arrange notes in sequence |\n| Video | Many frames | Add the flow of time to image generation |\n\nThe key question is whether the result can be built one piece at a time in order, or whether the whole thing must be refined at once.\n\nText runs from beginning to end, so the model can choose one token after another. An image has no comparable order. Instead, the model repeatedly removes noise across the entire frame.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why video and long music are difficult",
+          "contentMarkdown": "Video is harder to create than a single image because the characters and background must remain consistent from one frame to the next.\n\nWhen the images in a video are generated separately, differences creep in. A character's clothes may change color, an object in the background may disappear, or a face may shift slightly. Human eyes catch this kind of drift easily when scenes follow one another.\n\nTo reduce it, a model can refer to the previous frame when producing the next one or learn the flow of time along with the images. Because more images must be processed, the computation grows with the number of frames.\n\nMusic has a similar problem as it gets longer. A few seconds of audio can sound plausible, but in a three-minute piece, the opening and later sections are far apart and difficult to connect.\n\nGenerative AI therefore has more trouble maintaining consistency in long videos and music than in short results.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/generative_media.webp",
+          "imageAlt": "A stop-motion worker comparing two identical clay bird puppets that differ only in one wing color"
+        },
+        {
+          "title": "How text, images, and sound are connected",
+          "contentMarkdown": "Current generative AI can convert and process text, images, and sound together. It can describe an image, create a picture that matches a passage, or transcribe spoken audio.\n\n**Embeddings** represent text and images as numerical coordinates. During training, the coordinates for the word `cat` are moved closer to the coordinates for a photo of a cat.\n\nPlacing different media in the same coordinate space makes it possible to connect them. A system can search for images with text, find images similar to another image, or use the meaning of a passage as a condition for producing a new picture.\n\nWhen generating an image from text, the model uses the sentence's coordinates to guide what kind of picture it creates.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Tasks that work well and tasks that remain difficult",
+          "contentMarkdown": "Generative AI works well for producing drafts, modifying existing material, and filling in missing areas.\n\n- **Tasks it handles well:** creating background images, drafting rough storyboards, producing placeholder voice, and making diagrams for reference material\n- **Tasks prone to errors:** writing exact text, keeping a specific person's appearance consistent, producing a requested number of objects, and creating physically sound structures\n- **Tasks affected by length:** making long videos or music and maintaining the same appearance across many scenes\n\nIncorrect finger counts and garbled signs are failures to reproduce exact forms and quantities. When a character's face or clothing changes between scenes, the problem is a failure to maintain consistency across multiple images.\n\nWhen reviewing generated media, check the lettering, object counts, character appearances, and connections between scenes. Those details make awkward results easier to spot.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the shared idea that turns generation, a problem with no single answer, into something a model can be trained on?",
+          "choices": [
+            "People label every correct answer by hand",
+            "It gets rewritten as small prediction problems that do have answers, and the results are chained together",
+            "Finished results are stored and retrieved when needed",
+            "Outputs are produced at random and a person picks one"
+          ],
+          "answerIndex": 1,
+          "explanation": "Next token prediction and noise removal are small problems with known answers. Chaining many of them produces the finished result.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why is video generation harder than a single image?",
+          "choices": [
+            "It needs a higher resolution",
+            "Consistency across frames has to be maintained and the computation grows with the number of frames",
+            "It uses more colors",
+            "Sound has to be produced at the same time"
+          ],
+          "answerIndex": 1,
+          "explanation": "Frames produced independently disagree on clothing color, background objects, and faces. Adding the time axis raises the consistency problem and the computational load together.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Why can a sentence steer image generation?",
+          "choices": [
+            "The sentence is looked up in a dictionary of image descriptions",
+            "Text and images were trained together so they share one coordinate space",
+            "The letters are written directly into the picture",
+            "The sentence is translated and used as the image file name"
+          ],
+          "answerIndex": 1,
+          "explanation": "Text and images become coordinates in the same space, with related meanings placed close together. That is why the coordinates of a sentence can set the direction of generation.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "diffusion",
+      "title": "How Diffusion Models Make Images",
+      "difficulty": "intermediate",
+      "description": "Diffusion models create images by starting with noise and gradually clearing it away. Text guides the process, but the method can still produce errors in fingers, lettering, counts, and relationships between objects.",
+      "objectives": [
+        "Explain how a diffusion model turns noise into an image.",
+        "Explain how a prompt and seed affect the generated result.",
+        "Distinguish common image errors by cause and choose an appropriate way to correct them."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Creating images by removing noise",
+          "contentMarkdown": "To create an image, a **diffusion model** first learns how noise is added to photographs.\n\nA little noise is mixed into a photo, then more, then more again. After a few hundred rounds, the original image disappears into a grainy field. Because every stage of this process is known, the frame from one step earlier can serve as the correct answer.\n\nDuring training, the model sees a noisy frame and predicts what it looked like before the latest noise was added. It compares that prediction with the answer and gradually learns how to clear noise away.\n\nGeneration runs the sequence in reverse. It starts from pure noise and removes a little at a time. Shapes begin to appear after roughly twenty steps, and continued refinement produces a finished image. The problem of creating a new picture has been rewritten as a problem of removing noise.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/diffusion.webp",
+          "imageAlt": "A conservator in an archaeology tent revealing mosaic only where sand has been brushed away"
+        },
+        {
+          "title": "Guiding generation with text",
+          "contentMarkdown": "Noise alone provides no control over what kind of image will emerge. To produce a desired picture, the model also receives a sentence throughout the denoising process.\n\nText and images are linked within the same coordinate space. A sentence and an image with similar meanings occupy nearby positions. At every step, the sentence's coordinates guide the frame toward an image that lies close to them.\n\nThe strength of that guidance can be adjusted. A low value treats the sentence loosely and produces more varied results. A high value stays closer to the wording, but the image may become stiff or its colors overly intense.\n\nThe same sentence can still produce a different picture on every run because each run begins with different noise. Fixing that initial noise makes it possible to produce a similar image again. The value that determines the starting noise is called the **seed**.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why fingers and text go wrong",
+          "contentMarkdown": "Fingers and lettering often come out with the wrong count or sequence because a diffusion model refines the entire frame at once.\n\nThe broad appearance settles quickly. Whether someone is standing, the setting is indoors, or the light feels warm may be decided within the first few steps. Exactly five fingers, however, is a local condition that requires attention to the hand itself. If that area develops a convincing hand-like texture, the image may be completed even with the wrong number of fingers.\n\nText demands both accurate shapes and the correct order. People notice even one mistaken letter immediately. Recent models can render short phrases fairly accurately, but long sentences or unfamiliar scripts may still appear blurred or malformed.\n\nRequested quantities drift for the same reason. Ask for seven apples, and receiving six or eight is common.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why relationships between objects fail",
+          "contentMarkdown": "A picture can look natural overall while the positions and connections among its parts do not hold up under inspection. Diffusion models do not always calculate those relationships precisely.\n\n- **Depth:** An object that belongs in the background may cover one in front, or a shadow may fall in a direction that conflicts with the lighting.\n- **Contact:** A chair leg may stop above the floor, or an object being held may pass through the hand.\n- **Period and objects:** An item that did not exist at the time may appear in a Joseon-era scene. Objects that occurred together in the training material can be reproduced together.\n- **Scale:** People and objects may be sized incorrectly relative to one another.\n\nThese errors are easier to spot on close examination than at first glance. A diffusion model organizes the frame into plausible-looking textures rather than placing objects according to physical rules. Before an image is used, its depth, connections, historical period, and proportions should each be checked.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Correcting errors without starting over",
+          "contentMarkdown": "Wrong fingers, garbled text, and misplaced objects can often be corrected without generating the entire image again.\n\n- **Regenerate only one region:** Select the hand, face, or other problem area and denoise only that portion. Everything outside the selected area remains unchanged.\n- **Keep the seed and revise the sentence:** If the composition already works, preserve the seed and adjust the wording slightly. This reduces the large changes that can occur when starting over.\n- **Provide a sketch or reference image:** Draw the desired pose and composition with simple lines, or supply an image to follow. This makes counts and placement more stable.\n- **Add text afterward:** Do not ask the model to draw the words. Leave an empty area for them, then insert the exact wording during editing.\n\nAdding text afterward is the most reliable method in practice. This project also keeps AI-generated text out of its videos and learning materials. The words are added separately when each frame is composed.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "How is a diffusion model trained?",
+          "choices": [
+            "It memorizes finished images as they are",
+            "It learns to reverse the process of mixing noise into an image",
+            "It traces lines drawn by a person",
+            "It averages several images stacked together"
+          ],
+          "answerIndex": 1,
+          "explanation": "Adding noise step by step is something people can produce, and the answer at each step is known. The model learns to run it backwards, then starts from pure noise and clears it away into an image.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why does the same sentence produce a different image each time?",
+          "choices": [
+            "The sentence is interpreted differently on each run",
+            "The noise at the starting point differs on each run",
+            "The model keeps training",
+            "The resolution changes automatically"
+          ],
+          "answerIndex": 1,
+          "explanation": "Denoising starts from noise that differs every run. Fixing that value produces a similar result again, and the value is called the seed.",
+          "stepIndex": 1
+        },
+        {
+          "question": "When exact lettering is needed inside an image, what is the most reliable approach in practice?",
+          "choices": [
+            "Repeat the words several times in the request",
+            "Raise the resolution to the maximum",
+            "Leave the space empty and place the type during editing",
+            "Ask for the text in English instead"
+          ],
+          "answerIndex": 2,
+          "explanation": "Letters need fixed shapes in a fixed order, so leaving them to generation invites errors. Reserving the space and adding type in an edit is reliable.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "voice_and_music",
+      "title": "Synthesizing Voice and Music",
+      "difficulty": "intermediate",
+      "description": "How text becomes speech, what consent requires when modeling a specific person’s voice, and why synthetic speech and music can still sound awkward.",
+      "objectives": [
+        "Explain the three stages that turn text into speech.",
+        "Identify the consent conditions for modeling and using a specific person’s voice.",
+        "Recognize awkward features in synthetic speech and music."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Three stages from text to speech",
+          "contentMarkdown": "Turning text into speech involves three stages: **pronunciation analysis, acoustic feature generation, and waveform generation**.\n\n**1. Pronunciation analysis**\n\nWritten characters are converted into the sounds that should actually be spoken. The same notation may need different readings depending on context. In Korean, `10%` can be read using either of two common terms for percent. `2026` might be read as a complete number or digit by digit. Sino-Korean vocabulary and loanwords add still more choices.\n\n**2. Acoustic feature generation**\n\nThe pronunciation information is used to determine pitch, duration, and intensity. This stage also decides where intonation rises and how long each pause should last.\n\n**3. Waveform generation**\n\nThose acoustic features are converted into a sound wave. The result is an audio file a person can hear.\n\nIn practice, pronunciation analysis needs the most frequent correction. Numbers, English words, proper nouns, and units are often misread. The usual fix is to write out the desired pronunciation explicitly.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Conditions for modeling a person’s voice",
+          "contentMarkdown": "Producing a specific person’s voice requires recordings of that person as training material. It once took hours of audio. Now a short recording can produce a voice that sounds somewhat similar.\n\nAs the amount of required material has fallen, consent has become a larger concern. A voice can identify a person, and using an unauthorized synthetic version can enable impersonation. Phone scams imitating a family member’s voice have been reported in several countries.\n\nWhen working with a specific person’s voice, follow these standards:\n\n- Do not create the voice without that person’s consent.\n- When obtaining consent, define the purpose and scope of use.\n- Tell listeners that the voice is synthetic.\n- When using a voice actor’s or performer’s voice, confirm what the contract permits.\n\nRelevant rules are still taking shape in different countries. If it is unclear whether a use is allowed, the safer choice is not to proceed.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why synthetic speech can sound awkward",
+          "contentMarkdown": "A short sample of synthetic speech can now be difficult to distinguish from a human voice. Listen longer, though, and differences often emerge in breathing, stress, emotional continuity, and repetition.\n\n**Breathing**\n\nPeople breathe and pause while speaking. A synthetic voice may fill places that need a breath with steady sound, or continue without pausing at all.\n\n**Stress and phrasing**\n\nWhat to emphasize and where to break depends on meaning. If the system interprets that meaning incorrectly, it can produce intonation that people would not normally use. This happens especially often in long sentences containing several clauses.\n\n**Emotional continuity**\n\nEmotion may sound natural within a single sentence but shift abruptly across several sentences. A sad passage, for example, may suddenly continue in a bright voice for no apparent reason.\n\n**Repeated sentences**\n\nPeople usually vary their intonation or speed when repeating a sentence. Synthetic speech often delivers it the same way each time.\n\nSplitting a script into shorter sections and marking the intended pauses directly can reduce much of this awkwardness.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/voice_and_music.webp",
+          "imageAlt": "A singer taking a breath between lines while the director signals a deliberate pause in the recording studio"
+        },
+        {
+          "title": "Two methods for generating music",
+          "contentMarkdown": "Music is mainly generated in two ways: **producing the sound directly** or **producing a score**.\n\n**Producing the sound directly**\n\nThe system creates a waveform, or data close to one, without first writing a score. Instrument sounds and a sense of space arrive together. The finished result, however, is difficult to edit in detail. Even replacing a single note played by one instrument can be hard.\n\n**Producing a score**\n\nThe system creates notes and chord progressions first. Individual notes are easy to edit, and the instruments used for performance can be changed. The texture of the final recording still needs separate work.\n\nBoth methods struggle with longer compositions. A few dozen seconds may sound natural, yet the opening and later sections of a three-minute piece may not connect well. A returning chorus might conflict with the earlier chorus, or the music may repeat the same passage without developing.\n\nKnowing the chord progressions and song structures taught in harmony makes these differences easier to hear.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to listen to synthetic speech and music",
+          "contentMarkdown": "When listening to synthetic speech or music, consider how the work is labeled, what the sound reveals, and how the piece develops.\n\n**Check whether it is labeled as synthetic**\n\nSome platforms indicate whether speech or music was synthesized. A label confirms that the result is synthetic. The absence of one does not necessarily mean a person made it.\n\n**Listen for traces of performance**\n\nHuman performance may include slight delays in timing or small changes in volume. Rhythm and volume that are unusually even can be a clue that the sound was synthesized. Human-made electronic music can also sound very even, so this feature alone is not enough to reach a conclusion.\n\n**Follow the structure**\n\nListen to how the piece moves from the opening into the chorus and later sections. Does it develop, or merely repeat the same passage? If the chorus returns, consider whether it fits with its earlier appearance.\n\nYou do not always need to determine whether a work is synthetic. When keeping a listening record, note any available information about how it was made. Comparing those records later can show how your taste has changed.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which stage of turning text into sound do practitioners adjust most often?",
+          "choices": [
+            "The stage that produces the waveform",
+            "The stage that decides how numbers, English words, and proper nouns are pronounced",
+            "The stage that sets the volume",
+            "The stage that changes the file format"
+          ],
+          "answerIndex": 1,
+          "explanation": "Pronunciation is where numbers, units, loanwords, and proper nouns get read incorrectly. The fix is to write the pronunciation out directly.",
+          "stepIndex": 0
+        },
+        {
+          "question": "What standard applies when synthesizing a specific person's voice?",
+          "choices": [
+            "Consent is unnecessary if only a short recording is used",
+            "Get the person's consent, define the scope of use, and disclose that the voice is synthetic",
+            "There are no constraints as long as the use is not commercial",
+            "Recordings that are already public can be used freely"
+          ],
+          "answerIndex": 1,
+          "explanation": "A voice identifies a person. Consent, a defined scope of use, and disclosure are the baseline, and the relevant rules are still being settled country by country.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Which of these is least likely to be where synthetic speech still sounds off?",
+          "choices": [
+            "Where breaths and pauses fall",
+            "Stress and phrasing in long sentences",
+            "The raw audio quality of the sound",
+            "The emotional line running across paragraphs"
+          ],
+          "answerIndex": 2,
+          "explanation": "Audio quality has reached a point that is hard to tell from a person. The remaining awkwardness sits in breathing, stress and phrasing, emotional arc, and repeated lines.",
+          "stepIndex": 2
+        }
+      ]
+    },
+    {
+      "id": "ai_in_studio",
+      "title": "Deciding What to Delegate to AI in Production",
+      "difficulty": "intermediate",
+      "description": "Break production into stages to decide what AI can handle and what requires human judgment. Weigh working time, review burden, and whether a person can reliably catch errors.",
+      "objectives": [
+        "Identify which stages of production are suitable for AI assistance.",
+        "Explain why people must handle fact checking and final review.",
+        "Decide whether to use AI by comparing production time and review burden."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Decide what to delegate at each stage",
+          "contentMarkdown": "One video can involve research, a script draft, fact checking, locking the structure, preparing images, recording voice, captions, editing, and review.\n\nThese stages differ in character. Research and drafting are high-volume tasks, but an unsatisfying result is easy to replace. Fact checking and review may involve less work, yet a mistake becomes much harder to correct once it has been published.\n\nDo not decide whether to delegate the entire production process. **Make a separate decision about AI at each stage.** Saying that a video was “made with AI” reveals very little. What matters is whether AI was used for research, captions, or even the final judgment.\n\nThe most important question is **whether a person can catch a wrong result**. Delegate work that can be checked and corrected immediately. When errors are hard to notice, keep the work with a person or require a separate verification step.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Tasks that are well suited to AI",
+          "contentMarkdown": "AI is most useful when a result can be checked immediately and corrected easily.\n\n- **Drafting:** It removes the burden of starting from an empty screen. Even a weak draft makes it easier to move forward because there is already something to revise.\n- **Background and prop images:** Backgrounds, textures, and props are more forgiving than faces or depictions of a specific person.\n- **Caption and translation drafts:** AI can help with repetitive work such as transcription and caption timing. Delegate only the translation draft, then have a person check whether the language sounds natural.\n- **Organizing reference material:** AI can pull needed items from a long source and arrange them in a table. Keeping the source beside the table makes errors easier to spot.\n- **Creating variants:** It can shorten the same material or produce several drafts in different registers.\n\nIf something goes wrong in these tasks, a person can compare the result with the source or reference material and fix it quickly.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Tasks that require human judgment",
+          "contentMarkdown": "People should remain responsible for fact checking, choosing the subject and structure, setting the approach to sensitive material, and conducting the final review.\n\n- **Fact checking:** Compare people, years, quotations, and figures against the original or another source. AI can present false and accurate information in the same confident tone. If verification is also delegated, there is no longer a reliable step for filtering out errors.\n- **Choosing the subject and structure:** Decide what to cover, what belongs first, and what to leave out. These choices determine the character of the finished work.\n- **Setting the approach:** Decide how far to go when presenting sensitive material, including which words and images to use when discussing someone’s death.\n- **Final review:** Before publishing, a person should examine the work from beginning to end.\n\nThis project follows the same practice. Anecdotes and quotations about a person are used only after comparison with other sources. Generated images are reviewed immediately, and any image containing details that do not fit the period or location is rejected.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/ai_in_studio.webp",
+          "imageAlt": "An art director removing the only modern unmarked clear water bottle from an otherwise coherent period set"
+        },
+        {
+          "title": "When AI makes the work slower",
+          "contentMarkdown": "Doing the work directly is faster when correcting an AI result takes too much time. Reconsider using AI in these situations:\n\n- **The fixes are scattered:** If ten different places each need a small correction, writing the material yourself may be quicker. That differs from making one large correction in a single place.\n- **The request is longer than the output:** Explaining every condition can take longer than producing the result directly. This often happens with a short line or a single title.\n- **Finding errors requires expert knowledge:** The burden of reviewing the result becomes greater than the burden of creating it.\n- **You have pointed out the same problem three or more times:** If the same error keeps returning, handle that task yourself.\n\nWhen the choice is unclear, measure the time. Compare the time spent generating and correcting an AI result with the time required to make it directly. Relying on intuition makes it easy to overlook how long the corrections actually take.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Disclose AI use and keep production records",
+          "contentMarkdown": "Before publishing, decide how much AI use to disclose and how the production process will be recorded.\n\nA **disclosure standard** defines which stages of AI use you will identify. Platform rules differ, and those rules are becoming more specific. Disclosure is the safer choice for elements that might be mistaken for a real person, such as an AI-generated voice or an image of a person.\n\n**Production records** should state what was used at each stage and which conditions produced the result. They make it possible to trace the process if a problem appears and provide a reference when a similar result must be created again. For an AI-generated image, a common approach is to store the request text and settings beside the image file.\n\nSet the disclosure standard and recordkeeping method before production begins. Otherwise, you may have to reconstruct everything at once, and after the work is finished it can be difficult to determine exactly what was used at each stage.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which criterion works for deciding whether to delegate a production stage?",
+          "choices": [
+            "Whether the workload is large or small",
+            "Whether a person can catch a mistake",
+            "Whether the work is interesting or tedious",
+            "How large the budget is"
+          ],
+          "answerIndex": 1,
+          "explanation": "Stages where a mistake can pass by quietly stay with people. Stages whose results can be judged right away and undone easily get delegated.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why should fact checking not be delegated?",
+          "choices": [
+            "Because it becomes slower",
+            "Because it costs too much",
+            "Because invented and accurate material arrive in the same tone, so the check stops existing as a step",
+            "Because there is no search function"
+          ],
+          "answerIndex": 2,
+          "explanation": "The purpose of a check is to filter out what is wrong. If the filter shares the same characteristic, the step does not hold.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which is a signal that delegating is actually slowing you down?",
+          "choices": [
+            "The result is badly off in one single place",
+            "Writing out every condition makes the request longer than the output",
+            "The result came out in the format that was specified",
+            "Several drafts arrived at once"
+          ],
+          "answerIndex": 1,
+          "explanation": "For short lines or a single title, writing out the conditions means the work is already done. Corrections scattered across many spots are the same signal.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "copyright",
+      "title": "Copyright and Training Data",
+      "difficulty": "advanced",
+      "description": "Generative AI raises questions about rights in training material and in what gets generated. This lesson separates unresolved legal issues from the standards users can follow now.",
+      "objectives": [
+        "Explain what is disputed about rights in training data.",
+        "Understand why ownership of AI-generated work is difficult to determine.",
+        "Decide what to check and record when using AI-generated work."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "What to know before the law is settled",
+          "contentMarkdown": "This is not legal advice. It introduces issues still under debate and practical standards that users can consult.\n\nThe relevant rules differ by country and continue to change. Lawsuits are under way in several countries, and different jurisdictions have reached different conclusions on the same questions. A ruling in one country should not be treated as a rule that applies everywhere.\n\nWhen an actual legal determination is needed, consult a professional and official sources from the relevant country. If AI-generated material will be used commercially, also review the service's terms of use and license.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Rights disputes over training material",
+          "contentMarkdown": "Developers train generative models on large volumes of text, images, and audio. Much of that material cannot be used freely without permission from the copyright holder.\n\nThe main disputes are these.\n\n- **Is training itself a use of copyrighted work?** One side compares it to a person reading a book and learning from it. The other argues that copying and processing material at scale make model training fundamentally different from human learning.\n- **Does the output substitute for the original?** Some argue that the analysis should change when a system repeatedly produces images very similar to a particular artist's style and the artist loses work as a result.\n- **Are consent and compensation required?** The dispute includes whether developers must obtain permission before using material and whether its providers should be paid.\n- **Can rights holders demand exclusion from training?** Whether they may opt out is also contested. However, finding and removing a specific item after a model has already been trained is technically difficult.\n\nStandards vary by country. Some broadly permit the analysis of material for research, while others give greater weight to the rights holder's consent.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How rights in AI-generated work are judged",
+          "contentMarkdown": "Determining rights in AI-generated work requires considering human creative contribution, the service's terms, and possible infringement of other people's rights.\n\n**How much did a person create?** Copyright systems in many countries generally protect work created directly by people. Authorities differ on how much human authorship is present in a result produced from a single short prompt. In some cases, protection has been denied because the human contribution was too limited.\n\n**Who holds the rights?** The relationship among the user, the service provider, and the suppliers of training material depends largely on the terms of use. Terms differ by service, and the same service may set different conditions for paid and free users.\n\n**Does it infringe someone else's rights?** A separate problem arises if the result is excessively similar to a particular work. Relevant rights must also be checked when a real person's face or a trademark appears. Even if you generated something yourself, it may not be free to use when it resembles another person's work.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Standards for using AI-generated work",
+          "contentMarkdown": "Even before the legal questions are settled, users can follow practical standards for AI-generated work.\n\n- **Decide the use first.** Personal practice and commercial use come with different conditions. If the work will be sold or used in advertising, check the service's terms and license before starting.\n- **Do not name living artists in prompts.** Directly requesting a particular artist's style raises the risk of a dispute. Instead, describe the qualities you want, such as color, materials, and composition.\n- **Avoid real people and trademarks.** Faces, logos, and characters may bring publicity, trademark, or other rights into play.\n- **Check for resemblance to existing work.** Before publishing or selling the result, compare it with existing works using image search or similar methods.\n- **Record the production process.** Keep the tool, prompts, and applicable usage terms. These records can support a later explanation of how the work was made. Details that were not recorded during production may be difficult to reconstruct accurately.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/copyright.webp",
+          "imageAlt": "A designer composing an original abstract resin-and-metal still life without brands, people, or characters"
+        },
+        {
+          "title": "How to record the use of AI",
+          "contentMarkdown": "When viewing or documenting work made with the help of generative AI, record only confirmed facts.\n\nIf the creator has disclosed the stage at which AI was used, carry that information over as stated. If no such information has been published, write **cannot be confirmed**. Do not infer AI use from the finished work alone.\n\nEven when creators disclose that they used AI, they often do not explain the extent of its involvement. It may have been used for part of a background or to produce the entire result. A simple used-or-not-used label may therefore misrepresent the actual production process.\n\nFor your own work, note which tool was used at each stage in the production log. A person should separately verify factual material produced by AI. When documenting outside work, include only information confirmed by the creator or an official source.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which of these is not part of the dispute over training data rights?",
+          "choices": [
+            "Whether training counts as a use of a copyrighted work",
+            "Whether the output takes the place of the original",
+            "Whether rights holders need to consent and be compensated",
+            "Whether the model computes quickly enough"
+          ],
+          "answerIndex": 3,
+          "explanation": "The disputed points are the nature of training, substitution effects, consent and compensation, and whether removal after the fact is possible. Compute speed has nothing to do with rights.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Among the questions about generated work, which one affects a user most directly?",
+          "choices": [
+            "Whether the output resembles an existing work, a real person, or a trademark",
+            "Who paid for training the model",
+            "Which country the service's servers are in",
+            "What file format the output is in"
+          ],
+          "answerIndex": 0,
+          "explanation": "Separately from ownership, resemblance to an existing work, a real person, or a trademark is a problem in itself. It is also the part a user can check directly.",
+          "stepIndex": 2
+        },
+        {
+          "question": "How can risk be reduced in an image generation request?",
+          "choices": [
+            "Name several living artists together",
+            "Describe the qualities you want and avoid naming a specific artist",
+            "Supply a photo of a real person as reference",
+            "Provide an image containing a trademark as reference"
+          ],
+          "answerIndex": 1,
+          "explanation": "Requests that summon an artist's style by name carry high dispute risk. Describing the qualities you want directly is safer.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "detection",
+      "title": "How to Verify AI-Generated Content",
+      "difficulty": "intermediate",
+      "description": "Learn the common signs of AI-generated images, video, and audio, along with the limits of detection tools. The most reliable judgments come from tracing a post to its source.",
+      "objectives": [
+        "Identify common signs of generated content across different media.",
+        "Explain why detection tools can misclassify both human and AI-generated work.",
+        "Evaluate a post’s provenance by checking its account, original source, and supporting reports."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "Why clues are not proof",
+          "contentMarkdown": "Suspicious details in an image or a piece of writing may raise the likelihood that it was generated, but they do not prove anything by themselves.\n\nPeople sometimes draw awkward hands, and plenty of people write polished prose. Conversely, an AI-generated image may contain no obvious flaws at all. Generation tools improve quickly, so a clue that worked yesterday may not work today.\n\nThe greatest risk is accusing someone without evidence. Student assignments and artists’ work have been wrongly labeled as AI-generated, causing real problems for their creators.\n\n**Use clues as supporting evidence, but make the final judgment only after checking the source.**",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "What to check in AI-generated images",
+          "contentMarkdown": "An AI-generated image can look convincing as a whole while breaking small, local rules. A systematic check makes those inconsistencies easier to find.\n\n- **Counts:** Examine fingers, teeth, stairs, windows, and other details whose accuracy becomes clear only when counted.\n- **Lettering:** Read signs, book covers, and words on clothing. Short words may look correct while longer text becomes blurred or unreadable.\n- **Symmetry:** Check whether earrings and the arms of glasses match, and whether patterns continue naturally.\n- **Contact:** Look at how hands meet objects, chairs rest on floors, and seams connect across clothing.\n- **Shadows and reflections:** See whether shadows agree with the light source and whether reflections match the actual scene.\n- **Background detail:** Inspect distant faces, crowds, and foliage for smeared or indistinct forms.\n\nStart with the entire image. Then check counts and lettering. Finish by examining contact between objects, shadows, and reflections.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to check AI-generated video and audio",
+          "contentMarkdown": "In video, check whether people and their surroundings remain consistent as time passes.\n\n- Watch for clothing colors, hair length, or background objects changing while a scene continues.\n- Check whether a face wavers slightly or its outline blends into the background.\n- Look closely at walking and hand movements.\n- Compare mouth shapes with the sound.\n\nFor audio, listen for breathing, stress, shifts in emotion, and repeated phrasing.\n\nDeepfake scams often involve **urgent requests, money transfers, or identity checks**. Common examples include a call demanding money immediately, instructions from someone posing as a manager, or a message claiming that a family member is in danger.\n\nIn that situation, analyzing the voice is less reliable than ending the call and calling back on a number you already know. Families and organizations can also agree on a verification method in advance.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/detection.webp",
+          "imageAlt": "A woman ending a suspicious smartphone call, placing it face down, and verifying through a separate corded phone"
+        },
+        {
+          "title": "Why AI detection tools make mistakes",
+          "contentMarkdown": "A detection result should never be treated as a final verdict. Errors occur in both directions. Human writing may be flagged as AI-generated, while generated writing may pass as human. Detectors have also been reported to misclassify writing by people working in a language that is not their first.\n\nThese tools search text or images for statistical traits associated with generation. Meanwhile, developers improve generation tools by reducing those same traits. Detectors must keep chasing a moving target, which makes consistent accuracy difficult.\n\nAnother approach adds a marker during production. An invisible pattern can be embedded in the work, or production information can be attached to the file under proposed standards. But verification fails if someone removes the marker or uses a tool that does not follow the standard.\n\nNo current method can accurately identify every piece of generated content.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to verify a post’s source",
+          "contentMarkdown": "Checking where material came from is usually more reliable than judging it by appearance alone.\n\n- **Check who posted it:** See when the account was created and what it has posted before.\n- **Find the original:** Use reverse image search to locate the earliest posting. For a photograph of an event, check whether news organizations reported the same story.\n- **Compare other sources:** Major events are usually covered in several places. Information found on only one account or website needs further verification.\n- **Check the description:** An old photograph may be presented as evidence of a recent event. Even when the image is real, a false description turns the post into misinformation.\n\nReal photographs paired with misleading captions are especially easy to overlook. Focusing only on whether AI created an image can leave that kind of deception undetected.\n\nTo verify a post, trace its evidence to the source and open the original yourself.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What is the right attitude toward cues in generated work?",
+          "choices": [
+            "Treat a single cue as confirmation that it was generated",
+            "Read cues only as signals that raise probability and judge by provenance",
+            "Treat the absence of cues as confirmation that a person made it",
+            "Accept a detection tool's result as the final verdict"
+          ],
+          "answerIndex": 1,
+          "explanation": "Work made by people contains errors too, and generated work may contain none. Cues are reference. The judgment comes from the path and the source.",
+          "stepIndex": 0
+        },
+        {
+          "question": "What is the most reliable response to a scam using a deepfake voice?",
+          "choices": [
+            "Analyze the audio quality closely during the call",
+            "Run the recording through a detection app",
+            "Hang up and call back on a number you already have",
+            "Ask the caller a difficult question"
+          ],
+          "answerIndex": 2,
+          "explanation": "When an urgent request and a money transfer are involved, cue analysis is of little use. Switching to a different path to confirm is reliable.",
+          "stepIndex": 2
+        },
+        {
+          "question": "Which kind of false information is easy to miss while focusing on detection?",
+          "choices": [
+            "A generated image with smeared lettering",
+            "A real photo spreading with a wrong caption",
+            "Clothing color changing within a video",
+            "Speech with no breathing in it"
+          ],
+          "answerIndex": 1,
+          "explanation": "Old photos circulating as new events are more common than generated ones. Looking only at whether something was generated misses this category entirely.",
+          "stepIndex": 4
+        }
+      ]
+    },
+    {
+      "id": "bias",
+      "title": "Where Bias Comes From",
+      "difficulty": "advanced",
+      "description": "AI can lean toward patterns in its training material and the preferences of the majority. Recognizing what is missing from an answer or recommendation helps reveal that bias.",
+      "objectives": [
+        "Distinguish three causes of AI bias.",
+        "Explain how differences in the amount of material available across languages and regions affect answers.",
+        "Identify omissions that reveal bias in recommendations and creative results."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How training material shapes results",
+          "contentMarkdown": "AI learns rules that recur in its training material. When it encounters more examples from one side, its results tend to lean that way too.\n\nAsk for a picture of a nurse and one gender may appear most often. Ask for a chief executive and another may dominate. The model saw more images with those associations during training. It did not independently decide how gender relates to either profession.\n\nNames work the same way. If a name frequently appeared alongside a particular occupation or region in the training material, that association may carry into the answer.\n\nCorrecting this is difficult. Removing one combination from the material can throw off other results. Forcing every output to include multiple genders or backgrounds can make historical scenes incoherent. Adjustments of this kind have caused problems in practice.\n\nBias is not a switch that one setting can turn on and off.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How language data affects performance",
+          "contentMarkdown": "AI may give answers of different quality depending on the language used for the question. English material dominates, a handful of major languages come next, and the rest have far less.\n\nSeveral effects follow.\n\n- The same question may receive a more detailed answer in English.\n- People, events, and institutions from languages with less material may be described inaccurately.\n- Questions requiring cultural context may be answered according to English-language norms.\n- Nuance and idiom may sound awkward in languages with less material.\n\nTokenization adds another problem. Languages with less material are often divided into more, smaller tokens, so processing the same content can cost more.\n\nAnswers about modern Korean history or Korean institutions therefore need closer checking for both factual accuracy and wording.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Why answers converge on majority taste",
+          "contentMarkdown": "AI readily produces common expressions and answers that many people prefer. Because it selects the next words by probability, familiar language is more likely to be chosen while unusual language gets pushed aside. Results drift toward what is smooth and unobjectionable.\n\nHuman preference tuning adds the same pressure. The forms of answers that most evaluators rated highly become the default.\n\nIn creative work, this can make results resemble one another. Many people receive the same familiar language or structures, so writing and images made with the same tools begin to converge.\n\nYou can reduce this tendency by splitting your request into distinct directions. Write `exclude safe, conventional answers`, specify several contrasting approaches and request each separately, or ask for multiple candidates from the start.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Which works recommendations tend to omit",
+          "contentMarkdown": "AI often recommends works that appear frequently in its training material and overlooks those mentioned less often. Quality is not the only factor. The number of times a work appears in the material also affects whether it surfaces.\n\nSome works are especially easy to miss.\n\n- **Works with few translations:** Strong reviews may not help if the work is rarely mentioned.\n- **Older and very recent works:** Older works may have little material, while recent ones may have appeared after the model's knowledge cutoff.\n- **Works created in smaller regions**\n- **Works known only within one genre:** Widely recognized landmarks may appear repeatedly while others disappear.\n\nRecommendation lists therefore tend to fill up with works that are already famous. The entries may not be wrong, but the range is narrow.\n\nSpecify a region, period, language, or scale to get different recommendations. You can also add a condition such as `include lesser-known works`.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "How to identify what results leave out",
+          "contentMarkdown": "Checking what an AI result leaves out can reveal the direction of its bias. Use questions like these:\n\n- Is everything concentrated in one region?\n- Do the examples come from only one period?\n- Do gender and background lean in one direction?\n- Are all the names familiar, with no lesser-known ones included?\n\nThe same problem arises when this project gathers material about people. The list can cluster around regions and eras with abundant sources, narrowing the range of people and works covered in the appreciation records. That is why material is filled in separately by region and era.\n\nBias cannot yet be eliminated completely. Instead, identify which way a result leans, then request it again with the missing regions, periods, or backgrounds specified as conditions.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/bias.webp",
+          "imageAlt": "A curator filling an empty space in a moth drawer dominated by one species with a different specimen"
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Why does gender come out clustered on one side when a particular occupation is requested?",
+          "choices": [
+            "Because a rule is written telling the model to judge that way",
+            "Because the distribution in the training material leans one way and the model reproduces that distribution",
+            "Because the request was too short",
+            "Because the image resolution was low"
+          ],
+          "answerIndex": 1,
+          "explanation": "The model reproduces the distribution held in the material rather than making a judgment. Skew in the material comes out as skew in the result.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Why do results tilt toward the unobjectionable and resemble each other?",
+          "choices": [
+            "Because the model stores the same answer",
+            "Because common high probability expressions are easier to select and preference tuning pushes the same way",
+            "Because the request is long",
+            "Because it passes through a translation step"
+          ],
+          "answerIndex": 1,
+          "explanation": "In a structure that selects by probability, common expressions have the advantage, and human preference tuning makes what most raters liked the default.",
+          "stepIndex": 2
+        },
+        {
+          "question": "How do you respond to bias in a recommendation list?",
+          "choices": [
+            "Repeat the same question several times",
+            "Narrow the conditions by specifying region, period, or language",
+            "Ask for a longer list",
+            "Take the answer in English"
+          ],
+          "answerIndex": 1,
+          "explanation": "Without narrowed conditions the list fills with frequently mentioned works. Specifying region, period, and scale produces a different list.",
+          "stepIndex": 3
+        }
+      ]
+    },
+    {
+      "id": "human_role",
+      "title": "What People Must Decide When Using AI",
+      "difficulty": "advanced",
+      "description": "AI can assist with production, but people must still define their taste, set the direction, and take responsibility for the result. Clear standards help determine what to delegate and what to verify yourself.",
+      "objectives": [
+        "Explain why AI recommendations may differ from personal taste.",
+        "Identify why people must determine the direction of AI-assisted work.",
+        "Set review and approval procedures according to who is responsible for the result."
+      ],
+      "sheetExamples": [],
+      "steps": [
+        {
+          "title": "How AI recommendations differ from personal taste",
+          "contentMarkdown": "Ask AI to recommend a film and it will usually favor works that appear often in its sources and receive strong ratings from many people. As we saw earlier, its answers tend to lean toward aggregated judgments.\n\nWhat many people like is not necessarily what you like. The two may overlap, but they do not always.\n\nOne person may find a scene dull while another notices something new in it. Even an acclaimed work can leave you cold. Taste develops from your experiences, the circumstances in which you encountered a work, and everything you had seen before it.\n\nAI needs records to infer those influences. Give it your viewing history and reactions, and it can estimate your preferences from them. Without records, it has no basis for doing so.\n\nTo receive recommendations that reflect your taste, you need to record what you experienced and how it made you feel.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Who determines the direction of the work",
+          "contentMarkdown": "The person making something must choose the subject, decide what comes first, and determine what to leave out. Each choice changes the result.\n\nTasks such as organizing source material or drafting sentences can be delegated to AI. But if AI also sets the direction, the maker's judgment will not be visible in the finished work.\n\nWhat to cut requires particular attention. Give AI a large collection of material and ask it to organize everything, and it may produce a result that includes it all. The maker must remove whatever does not serve the purpose. That standard comes from the production goal, not from the material itself.\n\nThe four-part request introduced earlier serves the same function. Before you can state the context and constraints, you must decide what result you want and what you will not allow. Writing a specific request means expressing those decisions clearly.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "Who is responsible for the result",
+          "contentMarkdown": "Whoever releases an AI-assisted result cannot use the tool to avoid responsibility when something goes wrong. If a text includes a false claim, an image infringes someone else's rights, or a report contains a faulty judgment, responsibility rests with the person or organization that released it.\n\nThe standard can be stated in one question: **Who is responsible if it is wrong?** That party must define the review process and make the final decision.\n\nIn practice:\n\n- The author checks facts against the original source.\n- A responsible person approves any action that will be difficult to reverse.\n- Before publication, the responsible person reviews the entire result again.\n- The worker records which tools were used at each stage.\n\nAll four practices follow the same principle. The party responsible for the final result must identify errors and control whether the work proceeds.",
+          "exampleId": null,
+          "imageUrl": "/images/library/ai/ai-academy/human_role.webp",
+          "imageAlt": "A printmaker inspecting the first abstract proof while holding the press lever before a large edition begins"
+        },
+        {
+          "title": "Why records of your taste matter",
+          "contentMarkdown": "Keeping track of what you read, watch, and listen to helps you communicate your preferences more accurately when using AI.\n\n**They provide evidence for estimating your taste.** Without personal records, recommendations will rely on the judgments of many other people. Your own notes show which works and passages you liked.\n\n**They reveal how your taste has changed.** Compare what you wrote about a work five years ago with your response today, and you can see how your thinking has shifted. Only someone who kept the record can recover that information.\n\n**They create standards for choosing new works.** As you note which subjects and forms of expression suit you, those patterns can guide your next choice.\n\nThe record does not need to be long. One or two lines about what you encountered and what stayed with you are enough. AI can summarize the whole work, but you should record the memorable part yourself. If someone else supplies that response, you cannot tell what actually moved you.",
+          "exampleId": null,
+          "imageUrl": null
+        },
+        {
+          "title": "What to know and how to judge",
+          "contentMarkdown": "Using AI well requires an understanding of how it works, how to make requests, and how to evaluate its results.\n\nFirst, we examined how AI produces an answer. Developers separate training from inference. AI divides sentences into tokens, uses attention to identify context, and appends the next token. Because of this process, it can also generate claims that are not true.\n\nNext came the structure of a request. Fill in the four parts, provide examples, divide the work into steps, and add a verification procedure.\n\nWe then considered how images and sound are generated, copyright and other rights, the limits of detecting AI output, and the ways bias enters a result.\n\nThese principles help people decide how far to trust AI. That judgment determines what to do personally, what to delegate, and what to check at the end.\n\nSpecific standards also require knowledge of the field. To evaluate results, you need to understand light and composition in video, harmony in music, and classification and systems in books.",
+          "exampleId": null,
+          "imageUrl": null
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Why can taste not be delegated?",
+          "choices": [
+            "Because the technology is not good enough yet",
+            "Because a majority rating differs from an individual's taste, and individual judgment comes out entangled with that person's experience",
+            "Because taste cannot be built from data, which makes recommendation itself impossible",
+            "Because computing taste takes too long"
+          ],
+          "answerIndex": 1,
+          "explanation": "What a model returns is what is mentioned often and rated well by many. Individual judgment emerges from experience and situation, so it cannot be handled without your own records.",
+          "stepIndex": 0
+        },
+        {
+          "question": "Which is least likely to be a decision a person has to make during production?",
+          "choices": [
+            "Which subject to cover",
+            "What to put first",
+            "What to leave out",
+            "Transcription and caption timing"
+          ],
+          "answerIndex": 3,
+          "explanation": "Choosing the subject, the arrangement, and what to discard creates the character of the result. Transcription and timing can be checked right away, which makes them good candidates for delegation.",
+          "stepIndex": 1
+        },
+        {
+          "question": "Which assignment criterion recurred throughout this course?",
+          "choices": [
+            "How much it costs",
+            "How long the work takes",
+            "Who answers for it when it is wrong",
+            "How long the output is"
+          ],
+          "answerIndex": 2,
+          "explanation": "Fact checking, approval points, final review, and record keeping all come from this criterion. When responsibility lands on you, you hold the checking step yourself.",
+          "stepIndex": 2
+        }
+      ]
+    }
+  ]
+}
