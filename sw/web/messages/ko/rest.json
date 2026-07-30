@@ -2,6 +2,64 @@
   "rest": {
     "section": "쉼터",
     "arena": {
+      "portrait": {
+        "label": "시대의 초상",
+        "description": "흐릿한 초상 속 인물을 빠르게 알아보세요",
+        "intro": "가려진 초상이 서서히 선명해집니다. 네 인물 중 누구인지 알아보고, 가장 이른 순간에 답해 높은 점수를 얻으세요.",
+        "startGame": "초상 감정 시작",
+        "notEnoughFigures": "게임에 필요한 인물 사진을 충분히 불러오지 못했습니다.",
+        "keyboardHelp": "숫자키 1–4로 선택 · Enter로 다음 초상",
+        "mobileRuleSummary": "초상은 3초마다 선명해집니다. 빨리 알아볼수록 높은 점수를 얻습니다.",
+        "bestScore": "최고 기록 {score}점",
+        "rules": {
+          "revealTitle": "서서히 드러나는 얼굴",
+          "revealBody": "초상은 3초마다 한 단계씩 선명해집니다.",
+          "speedTitle": "빠른 감정",
+          "speedBody": "처음 알아보면 1,000점, 늦을수록 점수가 낮아집니다.",
+          "scoreTitle": "열 점의 초상",
+          "scoreBody": "초상 10점을 감정하고 정답률과 연속 기록을 남깁니다."
+        },
+        "round": "초상 {current} / {total}",
+        "roundStatus": "초상 {current}/{total}. 현재 획득 가능 점수 {points}점.",
+        "score": "점수",
+        "streak": "연속",
+        "possiblePoints": "지금 맞히면 {points}점",
+        "threeSecondWindow": "남은 기회 3초",
+        "loadingPortrait": "초상 준비 중",
+        "revealComplete": "판정 완료",
+        "revealProgress": "초상 공개 단계와 획득 가능 점수",
+        "revealStages": {
+          "0": "첫 윤곽",
+          "1": "희미한 인상",
+          "2": "드러난 이목구비",
+          "3": "거의 선명한 초상"
+        },
+        "hiddenPortraitAlt": "아직 정체가 드러나지 않은 인물 초상",
+        "question": "이 초상의 인물은 누구일까요?",
+        "answerTitle": "초상의 주인",
+        "correct": "정답! +{points}점",
+        "incorrect": "다른 인물을 골랐습니다.",
+        "timeUp": "초상이 완전히 드러났습니다.",
+        "answerIs": "정답은 {name}입니다.",
+        "correctChoice": "정답",
+        "wrongChoice": "선택한 오답",
+        "imageError": "초상을 불러오지 못했습니다.",
+        "imageSkipped": "사진 문제로 이 초상은 성적에서 제외합니다.",
+        "next": "다음 초상",
+        "finish": "감정 결과 보기",
+        "result": {
+          "breadcrumb": "감정 결과",
+          "title": "초상 감정을 마쳤습니다",
+          "summary": "얼굴이 선명해지기 전에 시대의 인물들을 얼마나 알아보았는지 확인해 보세요.",
+          "finalScore": "최종 점수",
+          "correct": "정답",
+          "accuracy": "정답률",
+          "bestStreak": "최대 연속",
+          "skipped": "사진을 불러오지 못한 {count}문제는 점수와 정답률에서 제외했습니다.",
+          "replay": "새 초상 도전",
+          "lobby": "게임 안내"
+        }
+      },
       "memory": {
         "label": "기억궁",
         "description": "같은 인물의 얼굴을 찾아 짝을 맞추세요",
@@ -726,7 +784,8 @@
       "labyrinth": "현자 6인의 행적을 살펴 은둔한 인물을 찾아내는 탐문 게임",
       "hegemony": "인물 카드로 군령을 내려 상대와 격돌하는 전략 대전",
       "suikoden": "역사 속 인물들을 이끌고 세력을 키워 문명을 통일하는 전략 시뮬레이션",
-      "memory": "인물의 얼굴을 기억해 같은 초상 두 장을 찾는 짝 맞추기 게임"
+      "memory": "인물의 얼굴을 기억해 같은 초상 두 장을 찾는 짝 맞추기 게임",
+      "portrait": "서서히 선명해지는 초상을 보고 역사 속 인물을 맞히는 1인용 게임"
     },
     "meta": {
       "title": "쉼터",

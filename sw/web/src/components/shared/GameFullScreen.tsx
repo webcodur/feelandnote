@@ -32,6 +32,8 @@ interface GameFullScreenProps {
   background?: React.ReactNode;
   /** 페이지 진입 시 바로 전체화면 */
   initialFullScreen?: boolean;
+  /** 대사 자막 영역을 위해 콘텐츠 아래 여백을 확보할지 여부 */
+  reserveSubtitleSpace?: boolean;
   /** i18n: "나가기" */
   exitLabel?: string;
   /** i18n: "나가기 (ESC)" */
@@ -42,7 +44,7 @@ const subscribe = () => () => {};
 const getSnapshot = () => true;
 const getServerSnapshot = () => false;
 
-export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen, exitLabel = "나가기", exitEscLabel = "나가기 (ESC)" }: GameFullScreenProps) {
+export default function GameFullScreen({ children, title, breadcrumbs, footerExtra, onExitFullScreen, onHome, background, initialFullScreen, reserveSubtitleSpace = true, exitLabel = "나가기", exitEscLabel = "나가기 (ESC)" }: GameFullScreenProps) {
   const isMounted = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [isFullScreen, setIsFullScreen] = useState(initialFullScreen ?? false);
   const [visible, setVisible] = useState(false);
@@ -142,8 +144,8 @@ export default function GameFullScreen({ children, title, breadcrumbs, footerExt
           </nav>
         </div>
 
-        {/* 콘텐츠 — 하단 여백은 대사 자막(DialogueSubtitle) 영역 확보용 */}
-        <div className="flex-1 overflow-y-auto px-3 py-2 pb-28 sm:px-4 md:px-6 lg:px-8 flex flex-col min-h-0">
+        {/* 콘텐츠 — 기본은 대사 자막 영역을 확보하며, 자막이 없는 게임은 여백을 해제할 수 있다 */}
+        <div className={`flex-1 overflow-y-auto px-3 py-2 sm:px-4 md:px-6 lg:px-8 flex flex-col min-h-0 ${reserveSubtitleSpace ? "pb-28" : "pb-3 sm:pb-4"}`}>
           {rendered}
         </div>
 

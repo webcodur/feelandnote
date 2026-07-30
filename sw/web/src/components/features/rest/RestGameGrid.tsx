@@ -11,6 +11,7 @@ import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenG
 // 기억궁 비공개(26.07.28): 구현은 보존하고 /rest 등록만 주석 처리한다.
 // import { Brain } from "lucide-react";
 // import type { MemoryFigure } from "@/components/features/game/memory/types";
+import type { PortraitFigure } from "@/components/features/game/portrait/types";
 
 function GameLoadingScreen() {
   return (
@@ -25,8 +26,9 @@ const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth
 const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"), { loading: GameLoadingScreen });
 const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/suikoden/SuikodenGameWrapper"), { loading: GameLoadingScreen });
 // const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
+const PortraitGame = dynamic(() => import("@/components/features/game/portrait/PortraitGame"), { loading: GameLoadingScreen });
 
-type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden";
+type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden" | "portrait";
 
 // image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/project/game-card-images.md)
 const GAME_SECTIONS = [
@@ -35,6 +37,8 @@ const GAME_SECTIONS = [
   { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp" },
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp" },
   // { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp" },
+  // 시대의 초상 비공개(26.07.30): 구현은 보존하고 공개 카드만 숨긴다.
+  // { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp" },
 ] as const;
 
 interface GameLabel {
@@ -49,7 +53,8 @@ interface Props {
   suikodenCharacters: GameCharacter[];
   suikodenDialogues: DialoguesMap;
   // memoryFigures: MemoryFigure[];
-  gameLabels: Record<GameId, GameLabel>;
+  portraitFigures: PortraitFigure[];
+  gameLabels: Record<Exclude<GameId, "portrait">, GameLabel>;
 }
 
 export default function RestGameGrid({
@@ -59,6 +64,7 @@ export default function RestGameGrid({
   suikodenCharacters,
   suikodenDialogues,
   // memoryFigures,
+  portraitFigures,
   gameLabels,
 }: Props) {
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
@@ -115,6 +121,10 @@ export default function RestGameGrid({
           onExitFullScreenExternal={handleExit}
         />
       )} */}
+
+      {activeGame === "portrait" && (
+        <PortraitGame figures={portraitFigures} initialFullScreen={true} onExitFullScreenExternal={handleExit} />
+      )}
     </>
   );
 }
