@@ -306,7 +306,9 @@ async function main() {
     writeFileSync(fp, JSON.stringify(failures, null, 2), 'utf-8')
     console.log(`실패 목록: ${fp}`)
   }
-  try { rmSync(WORK, { recursive: true, force: true }) } catch { /* 무시 */ }
+  // WORK 폴더는 통째로 지우지 않는다. 여러 작업자가 동시에 돌 때
+  // 남의 인물 작업 폴더까지 날려 생성이 실패한다(실측). 개별 폴더는
+  // processOne 의 finally 에서 이미 지운다.
 }
 
 main().catch(e => { console.error(e); process.exit(1) })
