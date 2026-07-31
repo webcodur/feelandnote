@@ -68,6 +68,8 @@ The crop is exactly this and nothing else:
 - The person therefore spans almost the entire height of the square frame, from top to bottom.
 
 Do not crop tighter than this (no waist-up, no chest-up, no head-and-shoulders close-up). Do not crop wider than this (no full body with feet, no distant figure).
+
+If the person is seated, kneeling or crouching so that the knees are hidden behind a desk, table or railing, keep the SAME apparent size: the bottom edge still falls at desk height or lower, and the head still nearly touches the top of the frame. Do NOT pull the camera back to reveal the knees — filling the height matters more than seeing the knees.
 If the setting described below is a wide place, move the camera IN CLOSE to the person and let the setting fall away behind them, out of focus. The setting is context behind the person, never the subject.`
 
 function buildPrompt(row, outPath) {
