@@ -86,7 +86,7 @@ export interface Member {
   email: string | null
   nickname: string | null
   avatar_url: string | null
-  /** 인물 상세 대문 초상화(원본 비율). 얼굴 크롭 아바타와 별개 */
+  /** 인물 상세 상단 대표 화보(원본 비율). 얼굴 크롭 아바타와 별개 */
   portrait_url?: string | null
   bio: string | null
   profile_type: ProfileType
