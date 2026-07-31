@@ -127,6 +127,7 @@ pnpm build:audio-bo
 | `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
 | `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 7종 |
 | `docs/project/celeb-detail-themes.md` | **인물 상세 테마 SSoT** — 직군·fiction 기반 8개 계열, 인물별 변형, CSS 변수 적용 범위, `/lab/celeb-themes` 비교·대비 검증. **26.07.31 기준 실험 전용** — 서비스 인물 상세에는 걸지 않는다 |
+| `docs/project/celeb-world-banners.md` | **인물 세계 배너 발주서** — 인물이 산 세계 39종의 배경 사진 규격(밝기·채도·빛·구도·잘림 대비·파일)과 세계별 발주 내역, 검수 기준. 판정 규칙은 `sw/web/src/lib/celeb/world.ts`가 SSoT. `/lab/celeb-worlds`에서 배너·사진 틀·직군 물건·배정을 확인한다. **26.07.31 규격 승인, 생성 미착수** |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
 | `docs/project/audio-bo.md` | 음성 작업실(audio-bo) — 음원 정리·받아쓰기·화자 학습·합성 |
 | `docs/project/audio-bo-tts-engine-research.md` | audio-bo TTS 엔진 조사 |
