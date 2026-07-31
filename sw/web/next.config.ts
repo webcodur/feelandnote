@@ -4,6 +4,8 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  // 개발 서버가 .next를 쓰는 동안에도 빌드 검증을 하려면 NEXT_DIST_DIR로 산출 위치를 분리한다
+  distDir: process.env.NEXT_DIST_DIR || '.next',
   devIndicators: false,
   transpilePackages: ['@feelandnote/api-clients', '@feelandnote/shared'],
   images: {
