@@ -13,14 +13,17 @@ interface PageTabsProps<T extends TabItem> {
   tabs: readonly T[] | T[];
   activeTabValue: string;
   className?: string;
+  /** 항목이 많아 한 줄에 안 들어갈 때 옆으로 밀지 않고 여러 줄로 내려 전부 보여준다 */
+  wrap?: boolean;
 }
 
-export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, className = "" }: PageTabsProps<T>) {
+export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, className = "", wrap = false }: PageTabsProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, top: 0 });
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const isInitialRender = useRef(true);
+  // 첫 배치는 움직임 없이 자리를 잡고, 그 다음부터 미끄러지듯 이동한다
+  const [slideEnabled, setSlideEnabled] = useState(false);
 
   const activeIndex = tabs.findIndex((tab) => tab.value === activeTabValue);
 
@@ -36,6 +39,8 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
     setIndicatorStyle({
       left: tabRect.left - containerRect.left + container.scrollLeft,
       width: tabRect.width,
+      // 여러 줄일 때는 해당 항목이 놓인 줄의 아래에 붙인다
+      top: tabRect.bottom - containerRect.top - 2,
     });
   }, []);
 
@@ -43,12 +48,12 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
   useEffect(() => {
     if (hoveredIndex === null && activeIndex >= 0) {
       updateIndicator(activeIndex);
-      // 첫 렌더 후 트랜지션 활성화
-      if (isInitialRender.current) {
-        requestAnimationFrame(() => { isInitialRender.current = false; });
+      if (!slideEnabled) {
+        const frame = requestAnimationFrame(() => setSlideEnabled(true));
+        return () => cancelAnimationFrame(frame);
       }
     }
-  }, [activeIndex, hoveredIndex, updateIndicator]);
+  }, [activeIndex, hoveredIndex, updateIndicator, slideEnabled]);
 
   // 리사이즈 시 인디케이터 업데이트
   useEffect(() => {
@@ -79,7 +84,9 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
         {/* Scrollable Area */}
         <div
           ref={containerRef}
-          className="relative flex items-center justify-center gap-0 sm:gap-4 overflow-x-auto scrollbar-hidden px-2 pb-[1px]"
+          className={`relative flex items-center justify-center gap-0 sm:gap-4 px-2 pb-[1px] ${
+            wrap ? "flex-wrap" : "overflow-x-auto scrollbar-hidden"
+          }`}
           onMouseLeave={handleMouseLeave}
         >
           {tabs.map((tab, index) => {
@@ -114,10 +121,11 @@ export default function PageTabs<T extends TabItem>({ tabs, activeTabValue, clas
 
           {/* Sliding Indicator */}
           <div
-            className={`absolute bottom-0 h-[2px] bg-accent shadow-[0_0_10px_#d4af37] ease-out ${isInitialRender.current ? '' : 'transition-all duration-300'}`}
+            className={`absolute h-[2px] bg-accent shadow-[0_0_10px_#d4af37] ease-out ${wrap ? '' : 'bottom-0'} ${slideEnabled ? 'transition-all duration-300' : ''}`}
             style={{
               left: indicatorStyle.left,
               width: indicatorStyle.width,
+              ...(wrap ? { top: indicatorStyle.top } : {}),
             }}
           />
         </div>

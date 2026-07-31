@@ -19,6 +19,7 @@ export default function LabTabs() {
     <PageTabs
       tabs={LAB_ITEMS}
       activeTabValue={activeTab}
+      wrap
     />
   );
 }
