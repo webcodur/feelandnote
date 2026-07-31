@@ -1,8 +1,10 @@
 # 인물 상세 테마
 
-> **최종 실측 체크: 26.07.30** — 테마 결정 함수·운영 상세 연결·lab 비교 화면·프로덕션 빌드 대조
+> **상태: 실험 전용 (26.07.31)** — 서비스 인물 상세에는 걸지 않는다. `/[locale]/lab/celeb-themes`에서만 확인한다. 운영 상세의 연결 코드는 `sw/web/src/app/[locale]/(main)/celeb/[slug]/layout.tsx`에 주석으로 남겨 뒀고, 상단 배너는 기존 `PrismBanner`로 되돌렸다.
+>
+> **최종 실측 체크: 26.07.30** — 테마 결정 함수·lab 비교 화면·프로덕션 빌드 대조
 
-인물 상세(`/[locale]/celeb/[slug]`)는 하나의 금색 네오 판테온 화면을 모든 인물에게 반복하지 않는다. 인물의 성격에 맞는 8개 분위기 계열 가운데 하나를 서버에서 정하고, 같은 계열 안에서도 인물마다 색과 배경 초점을 조금씩 달리한다.
+인물 상세(`/[locale]/celeb/[slug]`)를 하나의 금색 네오 판테온 화면으로 반복하지 않으려는 안이다. 인물의 성격에 맞는 8개 분위기 계열 가운데 하나를 서버에서 정하고, 같은 계열 안에서도 인물마다 색과 배경 초점을 조금씩 달리한다.
 
 ## 결정 원칙
 
@@ -31,9 +33,9 @@ DB에 테마 컬럼을 추가하거나 별도 요청을 보내지 않는다. `pr
 
 공유 직군 단일원천 `packages/shared/src/constants/celeb-professions.ts`의 15종을 모두 명시적으로 처리한다. 신규 직군을 추가하면 이 문서의 표와 `PROFESSION_THEMES`를 함께 갱신한다.
 
-## 적용 범위
+## 적용 범위 (실험 화면 한정)
 
-최상위 `CelebThemeScope`가 아래 CSS 변수를 인물별 값으로 덮는다.
+최상위 `CelebThemeScope`가 아래 CSS 변수를 인물별 값으로 덮는다. 현재 이 스코프는 lab 비교 화면 안에서만 살아 있다.
 
 - 강조색: `--color-accent`, `--color-accent-hover`, `--color-accent-dim`, `--color-accent-rgb`
 - 배경: `--color-bg-main`, `--color-bg-secondary`, `--color-bg-card`
@@ -68,6 +70,6 @@ lab의 모형과 운영 상세는 같은 resolver·스코프·배너를 import�
 | `sw/web/src/lib/celeb/theme.ts` | 계열 정의·직군 매핑·결정 함수·대비 계산 |
 | `sw/web/src/components/features/celeb/CelebTheme.tsx` | 공용 스코프·상단 배너 |
 | `sw/web/src/components/features/celeb/CelebTheme.module.css` | 배경 결·문양·반응형 표현 |
-| `sw/web/src/app/[locale]/(main)/celeb/[slug]/layout.tsx` | 운영 상세 연결 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/layout.tsx` | 운영 상세 연결 — **주석 처리(비활성)**. 되살리려면 주석 4곳을 풀고 `PrismBanner` 배너를 걷어낸다 |
 | `sw/web/src/components/lab/CelebThemesPreview.tsx` | 8개 계열 비교 |
 | `sw/web/src/app/[locale]/lab/celeb-themes/page.tsx` | lab 주소 |

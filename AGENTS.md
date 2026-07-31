@@ -126,7 +126,7 @@ pnpm build:audio-bo
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
 | `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 7종 |
-| `docs/project/celeb-detail-themes.md` | **인물 상세 테마 SSoT** — 직군·fiction 기반 8개 계열, 인물별 변형, CSS 변수 적용 범위, `/lab/celeb-themes` 비교·대비 검증 |
+| `docs/project/celeb-detail-themes.md` | **인물 상세 테마 SSoT** — 직군·fiction 기반 8개 계열, 인물별 변형, CSS 변수 적용 범위, `/lab/celeb-themes` 비교·대비 검증. **26.07.31 기준 실험 전용** — 서비스 인물 상세에는 걸지 않는다 |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
 | `docs/project/audio-bo.md` | 음성 작업실(audio-bo) — 음원 정리·받아쓰기·화자 학습·합성 |
 | `docs/project/audio-bo-tts-engine-research.md` | audio-bo TTS 엔진 조사 |
@@ -163,6 +163,7 @@ pnpm build:audio-bo
 | B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 (2026-03 회차 스냅샷) |
 | S | `../faction-ai-group-refactor.md` | 세력도감 AI 그룹 구조 (구현 완료. `faction-celeb-sync` 스킬이 참조) |
 | G | `celeb-gotchas.md` | **셀럽 데이터 함정 모음** — 목록 노출 기준, 페이지 안 뜰 때 증상별 원인, 대사 3대 결함, 등급 승격 조건, 선정 기준, 책 메타 출처 제한, 등록 우회 |
+| H | `hero-photo-status.md` | **인물 상세 대표 화보 현황과 미진분** — 목표 크롭 규격, 출처별 채움 현황, 크롭 규격이 통일 안 된 구간(표본 실측), 다시 손볼 때의 절차, 남은 인물. 규격·도구 자체는 `db-celeb.md` |
 
 **가상 독백 (`profiles.virtual_monologue`)** — 셀럽 상세 페이지의 1인칭 독백. 문장 작성 규격은 코드, 전수 품질 정비의 판정·근거·검토·게시 절차는 `docs/todo/virtual-monologue-quality-overhaul.md`가 쥔다.
 
