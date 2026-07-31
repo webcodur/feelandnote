@@ -2,10 +2,19 @@
 
 import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
 
+// avatar = 얼굴 크롭 800×800(목록·관계도), portrait = 인물 상세 상단 대표 화보(원본 비율)
+// 화보 파일명 photo.webp는 일괄 등록 스크립트(scripts/upload-celeb-hero-photo.ts)와 같은 자리다
+const CELEB_IMAGE_FILENAMES = {
+  avatar: 'avatar.webp',
+  portrait: 'photo.webp',
+} as const
+
+type CelebImageType = keyof typeof CELEB_IMAGE_FILENAMES
+
 interface UploadCelebImageInput {
   celebId: string
   image: string // base64
-  type: 'avatar'
+  type: CelebImageType
 }
 
 interface UploadCelebImageResult {
@@ -27,10 +36,10 @@ function buildPublicUrl(key: string): string {
 export async function uploadCelebImage(
   input: UploadCelebImageInput
 ): Promise<UploadCelebImageResult> {
-  const { celebId, image } = input
+  const { celebId, image, type } = input
 
   const buffer = Buffer.from(image.split(',')[1], 'base64')
-  const key = buildKey(celebId, 'avatar.webp')
+  const key = buildKey(celebId, CELEB_IMAGE_FILENAMES[type])
 
   try {
     await uploadToR2(key, buffer, 'image/webp')
@@ -44,8 +53,14 @@ export async function uploadCelebImage(
 }
 
 export async function deleteCelebImages(celebId: string): Promise<void> {
-  const key = buildKey(celebId, 'avatar.webp')
-  await deleteFromR2(key)
+  for (const filename of Object.values(CELEB_IMAGE_FILENAMES)) {
+    await deleteFromR2(buildKey(celebId, filename))
+  }
+}
+
+// 대표 화보만 내린다(아바타는 그대로 둔다)
+export async function deleteCelebPortrait(celebId: string): Promise<void> {
+  await deleteFromR2(buildKey(celebId, CELEB_IMAGE_FILENAMES.portrait))
 }
 
 // #region 세력도감(faction) 이미지

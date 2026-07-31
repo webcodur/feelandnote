@@ -29,7 +29,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
       원전 검토를 거치지 않은 대량 독백으로 빈칸을 메우지 않는다
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
-  - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨
+  - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨. **2026-07-31 값 전량 비움(817건 → 0)** — 815건이 옛 Supabase Storage(`avatars` 버킷)를 가리켰으나 그 버킷에 portrait 파일은 0개였다(실측: `storage.objects` 852건 중 이름에 portrait 포함 0, 샘플 URL HTTP 400). 되살릴 원본이 없으므로 재도입은 신규 생성이다
 - **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
   - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT
   - `rel_group`: family(혈연)/thought(사상)/career(공동 창업)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
@@ -187,6 +187,7 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 | 파일명 | 크기 | 비율 | 용도 |
 |--------|------|------|------|
 | `avatar.webp` | 800×800 | 1:1 | 원형 아바타, 카드 썸네일, 모든 이미지 표시 (레티나 3x 대응) |
+| `photo.webp` | 1024~1080 | 1:1 | **인물 상세 상단 대표 화보**(2026-07-31 신설). 얼굴 크롭이 아니라 복식·배경이 있는 환경 인물사진 |
 
 **아바타 구도 규격**
 
@@ -197,7 +198,27 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 > 2026-03-24 이전 등록 셀럽은 300×300. 신규 업로드분만 800×800.
 
-Portrait(9:16)은 전면 제거됨. DB 컬럼(`portrait_url`)만 잔류.
+**대표 화보 규격 (`photo.webp` → `profiles.portrait_url`)**
+
+- 얼굴만 담는 아바타와 정반대다. **복식·배경·소품이 있는 정사각 환경 인물사진**이고, 상반신~무릎이 들어간다.
+- 화면 표시는 PC 240·모바일 224이라 1024면 레티나 3배를 덮는다. 생성은 1024×1024, 저장은 1080 상한(1024 산출물은 확대하지 않아 그대로 남는다).
+- **대문이 비면 화면이 세력도감 화보(`celeb_tag_assignments.spotlight_image_url`) → 얼굴 아바타 순으로 물러난다.** 그래서 전량을 채우지 않아도 화면이 깨지지 않는다(`getCelebBySlug`의 `photoUrl`).
+- 옛 Portrait(9:16)은 전면 제거됐고, 그 컬럼을 이 용도로 재사용한다(물리 명칭 유지).
+
+**대표 화보 채우는 세 경로**
+
+| 경로 | 도구 | 비고 |
+|------|------|------|
+| 손에 있는 파일 등록 | `sw/web-bo/scripts/upload-celeb-hero-photo.ts` | 배치 JSON `[{slug, celeb_id, nickname, image}]`. id-slug 일치를 확인한 뒤에만 쓴다 |
+| 팩션 폴더에서 전용 | `scan-faction-portrait-candidates.mjs` 로 후보 수집 → 눈으로 1장 선별 → 위 등록 도구 | **유튜브에 올라간 편만 대상**(`scripts/youtube/faction-lineup.json`). 팩션 원본은 영상 자산이므로 절대 삭제하지 않는다 |
+| codex 로 생성 | `generate-celeb-hero-photos.mjs` | 얼굴 아바타를 REF로 붙여 생성 → 진위검사 → 등록 → 생성물 로컬 삭제까지 한 건에 끝낸다. 대상 추출은 `pick-hero-photo-targets.mjs` |
+
+**생성 시 함정 (2026-07-31 실측)**
+
+- 실사 질감 강제 문구를 빼면 **회화체로 나온다.** 러너의 `RENDERING` 블록이 그 방어막이고 지우면 안 된다.
+- codex 프로세스가 시간 초과로 죽어도 **그림은 이미 나와 있는 경우가 있다.** 실패를 바로 던지지 말고 산출물 회수를 먼저 시도한다.
+- 생성 실패 세션에서 최장 base64를 뽑으면 **넣어준 REF가 그대로 돌아온다.** 축소 지문(64×64 md5) 대조로 걸러야 한다.
+- 발주서는 인물마다 앵글·조명·시선을 새로 짠다. 골격을 고정하면 "같은 날 같은 스튜디오에서 찍은 증명사진"이 된다(`docs/project/image-generation.md` §5.2). 작성 규칙 원본은 러너 배치를 만들 때 쓰는 `BRIEF-GUIDE.md` 양식을 따른다.
 
 ---
 

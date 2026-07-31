@@ -48,6 +48,29 @@ export function createPreviewUrl(file: File): Promise<string> {
   })
 }
 
+// 대표 화보(profiles.portrait_url) 긴 변 상한. 얼굴 크롭이 아니라 원본을 그대로 쓴다
+const PORTRAIT_MAX_EDGE = 1080
+
+/**
+ * 대표 화보용 축소. 자르지 않고 원본 비율을 유지하며, 원본이 작으면 확대하지 않는다.
+ * 일괄 등록 스크립트(scripts/upload-celeb-hero-photo.ts)의 sharp fit:inside 처리와 같은 규격이다.
+ * (아바타는 얼굴 중앙 크롭 800×800 — resizeSingleImage 쪽)
+ */
+export async function resizePortraitImage(file: File): Promise<string> {
+  const source = await createImageBitmap(file)
+  const scale = Math.min(1, PORTRAIT_MAX_EDGE / Math.max(source.width, source.height))
+  const width = Math.round(source.width * scale)
+  const height = Math.round(source.height * scale)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  canvas.getContext('2d')!.drawImage(source, 0, 0, width, height)
+  source.close()
+
+  return canvas.toDataURL('image/webp', 0.88)
+}
+
 /**
  * 단일 이미지를 지정 타입에 맞게 리사이징하여 webp base64로 반환
  */
