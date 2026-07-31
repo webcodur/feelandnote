@@ -86,6 +86,8 @@ export interface Member {
   email: string | null
   nickname: string | null
   avatar_url: string | null
+  /** 인물 상세 대문 초상화(원본 비율). 얼굴 크롭 아바타와 별개 */
+  portrait_url?: string | null
   bio: string | null
   profile_type: ProfileType
   status: string
@@ -360,6 +362,7 @@ export async function getMember(id: string): Promise<Member | null> {
     email: data.email,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
+    portrait_url: data.portrait_url ?? null,
     bio: data.bio,
     profile_type: profileType,
     status: data.status,
@@ -461,6 +464,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     email: data.email,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
+    portrait_url: data.portrait_url ?? null,
     bio: data.bio,
     profile_type: profileType,
     status: data.status,

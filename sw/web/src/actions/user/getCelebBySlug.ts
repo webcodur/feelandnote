@@ -142,6 +142,7 @@ interface PublicCelebBySlugData {
     content_research_status: string | null
     view_count: number | null
     youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
+    portrait_url: string | null
   }
   contentCount: number
   followerCount: number
@@ -150,6 +151,8 @@ interface PublicCelebBySlugData {
   dialogue: DialogueProfile | null
   factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
+  /** 상단 대표 화보(1:1). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
+  photoUrl: string | null
 }
 
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
@@ -157,7 +160,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -298,13 +301,15 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
     factionTags,
     relations,
+    // 전용 화보 → 세력도감 화보(정렬 첫 장) 순. 둘 다 없으면 화면이 얼굴 사진으로 돌아간다
+    photoUrl: profile.portrait_url ?? factionTags.find((t) => t.factionImageUrl)?.factionImageUrl ?? null,
   }
 }
 
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
-  // v2: 활성 관계 인물도 wikidata_qid를 내려 두 CTA를 모두 구성한다.
-  ['celeb-by-slug-v2'],
+  // v3: 상단 대표 화보(photoUrl) 추가 — 전용 화보 없으면 세력도감 화보로 대체한다.
+  ['celeb-by-slug-v3'],
   // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + celeb_tag_assignments(소속 세력도감)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
 )
@@ -316,6 +321,8 @@ export type CelebBySlugProfile = PublicUserProfile & {
   contentTypeCounts: ContentTypeCounts
   factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
+  /** 상단 대표 화보(1:1). 없으면 null이라 화면이 얼굴 사진으로 돌아간다 */
+  photo_url: string | null
   /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
   translationFallbacks: string[]
 }
@@ -425,6 +432,7 @@ async function getCelebBySlugInner(
       // 배포 전에 만들어진 캐시 항목에는 이 필드가 없다 — 빈 배열로 대체해 화면 오류를 막는다
       factionTags: pub.factionTags ?? [],
       relations: pub.relations ?? [],
+      photo_url: pub.photoUrl ?? null,
       translationFallbacks,
     },
   }

@@ -23,6 +23,7 @@ import { trackEvent, useSectionViewTracking } from "@/lib/analytics/track";
 import { FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import ShareButtons from "@/components/ui/ShareButtons";
+import CelebHeroPhoto from "./CelebHeroPhoto";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 
@@ -338,26 +339,15 @@ export default function CelebPageContent({
         {/* 모바일: 세로 스택 */}
         <div className="rounded-sm border border-accent-dim/40 bg-bg-card/40 px-2 py-5 md:hidden">
           <div className="flex flex-col items-center gap-4">
-            <button
-              type="button"
+            <CelebHeroPhoto
+              photoUrl={profile.photo_url}
+              avatarUrl={profile.avatar_url}
+              nickname={nickname}
               onClick={handleAvatarClick}
-              className="w-28 h-28 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary transition-all duration-300 cursor-pointer active:scale-95"
-            >
-              {profile.avatar_url ? (
-                <Image
-                  src={profile.avatar_url}
-                  alt={nickname}
-                  width={112}
-                  height={112}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-2xl font-serif text-accent/30">
-                  {nickname.charAt(0)}
-                </div>
-              )}
-            </button>
+              photoSize="w-56 h-56"
+              avatarSize="w-28 h-28"
+              initialSize="text-2xl"
+            />
 
             <div className="space-y-2 w-full text-center">
               <p className="font-serif text-xl text-text-primary tracking-tight">
@@ -427,26 +417,15 @@ export default function CelebPageContent({
         {/* PC: 기존 2열 레이아웃 */}
         <ClassicalBox hover={false} className="px-5 py-5 hidden md:block">
           <div className="grid grid-cols-[auto_1fr] gap-6">
-            <button
-              type="button"
+            <CelebHeroPhoto
+              photoUrl={profile.photo_url}
+              avatarUrl={profile.avatar_url}
+              nickname={nickname}
               onClick={handleAvatarClick}
-              className="w-44 h-44 flex-shrink-0 rounded-full overflow-hidden ring-1 ring-accent/20 hover:ring-accent/60 bg-bg-secondary self-start transition-all duration-300 cursor-pointer active:scale-95"
-            >
-              {profile.avatar_url ? (
-                <Image
-                  src={profile.avatar_url}
-                  alt={nickname}
-                  width={176}
-                  height={176}
-                  className="w-full h-full object-cover"
-                  unoptimized
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl font-serif text-accent/30">
-                  {nickname.charAt(0)}
-                </div>
-              )}
-            </button>
+              photoSize="w-60 h-60"
+              avatarSize="w-44 h-44"
+              initialSize="text-3xl"
+            />
 
             <div className="space-y-2 min-w-0">
               <p className="font-serif text-2xl text-text-primary tracking-tight">

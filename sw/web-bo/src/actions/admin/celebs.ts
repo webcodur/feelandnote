@@ -88,6 +88,8 @@ interface UpdateCelebInput {
   cultural_journey?: string
   cultural_journey_en?: string
   avatar_url?: string
+  /** 인물 상세 상단 대표 화보. 빈 문자열이면 내린다 */
+  portrait_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive' | 'suspended'
   celeb_tier?: 'full' | 'light'
@@ -800,6 +802,7 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
   if (input.cultural_journey !== undefined) updateData.consumption_philosophy = input.cultural_journey
   if (input.cultural_journey_en !== undefined) updateData.consumption_philosophy_en = input.cultural_journey_en || null
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
+  if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url || null
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
   if (input.status !== undefined) updateData.status = input.status
   if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier
