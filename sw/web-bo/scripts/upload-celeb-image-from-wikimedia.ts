@@ -221,7 +221,6 @@ const PROVENANCE_QUARANTINED_SLUGS = new Set([
   'ishak-pasha',
   'jamukha',
   'hai-rui',
-  'kong-rong',
   'parmenion',
   'wang-chong',
 ])
