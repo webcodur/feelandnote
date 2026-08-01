@@ -1,17 +1,20 @@
 /*
   파일명: /components/features/library/curated/CuratedHubView.tsx
   기능: 기관 선정 허브
-  책임: 선정 주체를 성격별(대학·언론·시상기관·투표 등)로 묶어 칩으로 조망하게 하고,
-        칩을 고르면 그 기관만 펼친다. 스물이 넘는 기관을 세로로 늘어놓지 않기 위한 구성이다.
+  책임: 선정 주체를 갈래(대학·언론·시상기관·투표 등)별 탭으로 가르고, 고른 갈래의 기관만 진열한다.
+        데이터는 서버가 한 번에 실어 보내므로 탭 전환은 서버를 다시 다녀오지 않는다.
 */ // ------------------------------
 
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import NationalityText from "@/components/ui/NationalityText";
+import FilterTabs from "@/components/ui/FilterTabs";
 import type { CuratedHub } from "@/actions/library/types";
 import CuratedListCard from "./CuratedListCard";
-import CuratedKindTabs from "./CuratedKindTabs";
 
 /** 갈래 진열 순서. 여기 없는 갈래는 뒤에 붙는다 */
 const KIND_ORDER = ["university", "media", "award", "festival", "community", "bookstore", "library", "organization"];
@@ -21,8 +24,8 @@ const LISTS_PER_CURATOR = 2;
 
 type Curator = CuratedHub["curators"][number];
 
-async function CuratorCard({ curator }: { curator: Curator }) {
-  const t = await getTranslations("library.curated");
+function CuratorCard({ curator }: { curator: Curator }) {
+  const t = useTranslations("library.curated");
 
   return (
     <div className="rounded-2xl border border-white/[0.06] bg-[#161616]/80 p-4 hover:border-white/[0.12] sm:p-5">
@@ -77,12 +80,8 @@ async function CuratorCard({ curator }: { curator: Curator }) {
   );
 }
 
-export default async function CuratedHubView({ hub, selected }: { hub: CuratedHub; selected: string | null }) {
-  const t = await getTranslations("library.curated");
-
-  if (hub.curators.length === 0) {
-    return <p className="py-16 text-center text-[14px] text-text-tertiary">{t("empty")}</p>;
-  }
+export default function CuratedHubView({ hub, selected }: { hub: CuratedHub; selected: string | null }) {
+  const t = useTranslations("library.curated");
 
   const byKind = new Map<string, Curator[]>();
   for (const c of hub.curators) {
@@ -97,19 +96,36 @@ export default async function CuratedHubView({ hub, selected }: { hub: CuratedHu
   });
 
   // 탭이므로 늘 한 갈래가 켜져 있다. 주소에 없으면 첫 갈래로 연다
-  const active = selected && byKind.has(selected) ? selected : kinds[0];
-  const tabItems = kinds.map((k) => ({ value: k, label: t(`kind.${k}`) }));
-  const counts = Object.fromEntries(kinds.map((k) => [k, byKind.get(k)!.length]));
+  const [active, setActive] = useState(() => (selected && byKind.has(selected) ? selected : kinds[0]));
+
+  if (hub.curators.length === 0) {
+    return <p className="py-16 text-center text-[14px] text-text-tertiary">{t("empty")}</p>;
+  }
+
+  /**
+   * 탭을 갈아도 서버를 다시 다녀오지 않는다 — 기관 자료는 이미 전부 받아 두었다.
+   * 주소만 바꿔 링크 공유와 새로고침이 듣게 한다(라우터로 밀면 왕복이 생겨 반응이 늦다).
+   */
+  const handleSelect = (kind: string) => {
+    setActive(kind);
+    const url = `${window.location.pathname}?kind=${kind}`;
+    window.history.replaceState(null, "", url);
+  };
 
   return (
     <div className="space-y-7">
       <p className="max-w-3xl text-[14px] leading-relaxed text-text-secondary">{t("intro")}</p>
 
-      <CuratedKindTabs items={tabItems} activeValue={active} counts={counts} />
+      <FilterTabs
+        items={kinds.map((k) => ({ value: k, label: t(`kind.${k}`) }))}
+        activeValue={active}
+        counts={Object.fromEntries(kinds.map((k) => [k, byKind.get(k)!.length]))}
+        onSelect={handleSelect}
+      />
 
       {/* 기관이 스물이 넘어 한 줄에 하나씩 쌓으면 스크롤이 끝없다. 넓은 화면은 두 줄로 나눈다 */}
       <div className="grid gap-4 lg:grid-cols-2">
-        {byKind.get(active)!.map((curator) => (
+        {(byKind.get(active) ?? []).map((curator) => (
           <CuratorCard key={curator.slug} curator={curator} />
         ))}
       </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, Check } from "lucide-react";
+// 고른 항목은 배경·글자색으로 이미 드러나므로 체크 표시를 따로 두지 않는다
+import { ChevronDown } from "lucide-react";
 import Button from "./Button";
 import BottomSheet from "./BottomSheet";
 import {
@@ -144,7 +145,6 @@ export default function FilterTabs<T extends string>({
                     {typeof count === "number" ? count.toLocaleString() : count}
                   </span>
                 )}
-                {isActive && <Check size={18} className="text-accent" />}
               </Button>
             );
           })}
