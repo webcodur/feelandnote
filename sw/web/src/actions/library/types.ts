@@ -128,6 +128,8 @@ export interface CuratedListDetail extends CuratedListSummary {
   sourceUrl: string
   curator: CuratorSummary
   items: CuratedListItem[]
+  /** 아직 내려보내지 않은 작품 수. 0보다 크면 「더 보기」가 뜬다 */
+  remainingCount: number
   /** 우리 콘텐츠와 이어진 항목 수 */
   linkedCount: number
   /** 같은 계열의 다른 해 */
