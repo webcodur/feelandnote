@@ -123,7 +123,7 @@
         "todayFigure": "Today's Figure",
         "quickRecord": "Quick Record",
         "freeBoard": "Free Board",
-        "intro": "[[Alexander the Great]] kept Homer's 《Iliad》 at his side on the battlefield.\n[[Napoleon]] read 《The Sorrows of Young Werther》 seven times and carried it on his Egyptian campaign.\n[[Lincoln]] was immersed in 《Shakespeare's Plays》, reciting lines and frequenting the theater.\n\nWhat works captured the hearts of great figures, and what single line changed their lives? Those traces continue to inspire us thousands of years later.\n\n[[Feel&Note]] gathers those records in one place. The books great figures read, the films that moved them, the music they listened to, and the games they immersed themselves in — a trajectory anyone can explore. You can leave your own impressions in this same space. Just as someone's single line from a thousand years ago reaches us today, the line you leave now may become someone's inspiration in the distant future.",
+        "intro": "[[Alexander the Great]] kept Homer's 《Iliad》 at his side on the battlefield.\n[[Napoleon]] read 《The Sorrows of Young Werther》 seven times and carried it on his Egyptian campaign.\n[[Lincoln]] was immersed in 《Shakespeare's Plays》, reciting lines and frequenting the theater.\n\nWhat works captured the hearts of great figures, and what single line changed their lives? Those traces continue to inspire us thousands of years later.\n\nSo we set out to follow those traces.",
         "inspirationChainTitle": "Chain of Inspiration",
         "inspirationChains": [
           [
@@ -163,7 +163,8 @@
         ],
         "inspirationConclusion": "One person's inspiration becomes another's creation. That creation transforms yet another's life.",
         "introSub": "A Single Line Recorded\nA Thousand Years of Echoes",
-        "introLink": "What We Are Building"
+        "introClose": "Close intro",
+        "introReopen": "About Feel&Note"
       }
     }
   },
