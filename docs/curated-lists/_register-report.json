@@ -1,7 +1,7 @@
 {
-  "created": 409,
-  "linkedExisting": 3,
-  "notFound": 326,
+  "created": 12,
+  "linkedExisting": 0,
+  "notFound": 314,
   "failures": [
     {
       "list": "akutagawa-prize",
@@ -52,11 +52,6 @@
       "list": "akutagawa-prize",
       "title": "이렇게 째째한 로맨스",
       "creator": "다이도 다마키"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Lover",
-      "creator": "Marguerite Duras"
     },
     {
       "list": "akutagawa-prize",
@@ -212,11 +207,6 @@
       "list": "akutagawa-prize",
       "title": "등반",
       "creator": "오비 주조"
-    },
-    {
-      "list": "newbery-medal",
-      "title": "Flora & Ulysses: The Illuminated Adventures",
-      "creator": "Kate DiCamillo"
     },
     {
       "list": "dongin-literary-award",
@@ -389,11 +379,6 @@
       "creator": "남해의봄날·이유출판·온다프레스·열매하나·포토밭출판사"
     },
     {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "The Story of the Lost Child",
-      "creator": "Elena Ferrante; translated by Ann Goldstein"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Crossing-Over",
       "creator": "Thomas Morgan"
@@ -555,11 +540,6 @@
     },
     {
       "list": "st-johns-great-books",
-      "title": "Security, Territory, and Population",
-      "creator": "Michel Foucault"
-    },
-    {
-      "list": "st-johns-great-books",
       "title": "Experiments concerning the efficacy of electric conflict on the magnetic needle",
       "creator": "Hans Christian Ørsted"
     },
@@ -592,11 +572,6 @@
       "list": "st-johns-great-books",
       "title": "On the Nature of Light and Colors",
       "creator": "Thomas Young"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Roving Shadows",
-      "creator": "Pascal Quignard"
     },
     {
       "list": "akutagawa-prize",
@@ -849,11 +824,6 @@
       "creator": "후루이 요시키치"
     },
     {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "Septology",
-      "creator": "Jon Fosse; translated by Damion Searls"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "시카노 섬",
       "creator": "오카마쓰 가즈오"
@@ -1069,11 +1039,6 @@
       "creator": "후루카와 마코토"
     },
     {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "The Copenhagen Trilogy",
-      "creator": "Tove Ditlevsen; translated by Tiina Nunnally and Michael Favala Goldman"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Memoir on the Combination of Gaseous Substances with Each Other",
       "creator": "Joseph-Louis Gay-Lussac"
@@ -1092,11 +1057,6 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "어떤 파리",
       "creator": "박순녀"
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "The Vegetarian",
-      "creator": "Han Kang; translated by Deborah Smith"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1142,11 +1102,6 @@
       "list": "snu-recommended-100",
       "title": "홉스봄 4부작: 혁명의 시대, 자본의 시대, 제국의 시대, 극단의 시대",
       "creator": "홉스봄"
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "My Brilliant Friend",
-      "creator": "Elena Ferrante; translated by Ann Goldstein"
     },
     {
       "list": "st-johns-great-books",
@@ -1279,11 +1234,6 @@
       "creator": "미키 다쿠"
     },
     {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "When We Cease to Understand the World",
-      "creator": "Benjamín Labatut; translated by Adrian Nathan West"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "불신시대 / 영주와 고양이",
       "creator": "박경리"
@@ -1364,11 +1314,6 @@
       "creator": "하세 겐"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Order of the Day",
-      "creator": "Éric Vuillard"
-    },
-    {
       "list": "korea-publication-award",
       "title": "김군을 찾아서",
       "creator": "강소영 편집자"
@@ -1407,11 +1352,6 @@
       "list": "akutagawa-prize",
       "title": "Child of Okinawa",
       "creator": "히가시 미네오"
-    },
-    {
-      "list": "newbery-medal",
-      "title": "The View from Saturday",
-      "creator": "E.L. Konigsburg"
     },
     {
       "list": "st-johns-great-books",

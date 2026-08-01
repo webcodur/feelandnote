@@ -318,16 +318,55 @@ function bestVideo(cands: Found[], rawTitle: string, year: number | null, loose 
   return yearOk.find((c) => c.thumbnail) ?? yearOk[0]
 }
 
-function bestOf(cands: Found[], rawTitle: string, rawCreator: string | null): Found | null {
+/**
+ * 검색어에 넣을 저자명을 다듬는다.
+ * 괄호 안 본명·필명(『Émile Ajar (Romain Gary)』)이나 악센트(Éric)가 그대로 들어가면
+ * 검색처가 한 건도 돌려주지 않는다. 첫 저자만 남기고 악센트를 풀어 쓴다.
+ */
+function queryAuthor(raw: string): string {
+  return raw
+    .replace(/\([^)]*\)/g, ' ')
+    .split(/[,;&]|\band\b/)[0]
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/** 이름이 어느 문자로 적혔는지 — 체계가 다르면 글자 대조로는 같은 사람인지 알 수 없다 */
+function scriptOf(s: string): 'ko' | 'ja' | 'cjk' | 'latin' | 'other' {
+  if (/[가-힣]/.test(s)) return 'ko'
+  if (/[ぁ-んァ-ヶ]/.test(s)) return 'ja'
+  if (/[一-鿿]/.test(s)) return 'cjk'
+  if (/[A-Za-z]/.test(s)) return 'latin'
+  return 'other'
+}
+
+/**
+ * @param authorInQuery 저자까지 넣어 검색한 결과인가.
+ *   그렇다면 검색처가 이미 저자로 걸러준 셈이라, 이름 표기가 서로 다른 문자여서
+ *   글자 대조가 불가능한 경우에 한해 제목 완전일치만으로 채택한다.
+ */
+function bestOf(cands: Found[], rawTitle: string, rawCreator: string | null, authorInQuery = false): Found | null {
   const titleOk = cands.filter((c) => c.title && titleClose(rawTitle, c.title))
   if (titleOk.length === 0) return null
   if (!rawCreator) {
     // 저자가 없는 항목은 표지가 있는 쪽을 고른다 — 목록 화면이 표지로 읽히기 때문이다
     return titleOk.find((c) => c.thumbnail) ?? titleOk[0]
   }
+
   const both = titleOk.filter((c) => authorClose(rawCreator, c.creator))
-  if (both.length === 0) return null
-  return both.find((c) => c.thumbnail) ?? both[0]
+  if (both.length > 0) return both.find((c) => c.thumbnail) ?? both[0]
+
+  // 저자 이름이 서로 다른 문자로 적혀 있으면(「Marguerite Duras」 ↔ 「마르그리트 뒤라스」)
+  // 글자 대조로는 같은 사람인지 알 수 없다. 검색처가 저자로 걸러준 경우에만 제목 완전일치에 기댄다.
+  // ⚠️ 저자 없이 제목만으로 검색한 결과에 이 규칙을 쓰면 엉뚱한 책이 붙는다
+  //    (『One-Way』가 같은 제목의 영어교재에 붙은 사례, 26.08.01).
+  if (!authorInQuery) return null
+  const crossScript = titleOk.filter(
+    (c) => c.creator && scriptOf(rawCreator) !== scriptOf(c.creator) && normTitle(rawTitle) === normTitle(c.title)
+  )
+  return crossScript.find((c) => c.thumbnail) ?? crossScript[0] ?? null
 }
 // #endregion
 
@@ -413,7 +452,8 @@ async function main() {
       found = bestOf(
         await searchKakao(it.raw_creator ? `${it.raw_title} ${it.raw_creator}` : it.raw_title),
         it.raw_title,
-        it.raw_creator
+        it.raw_creator,
+        !!it.raw_creator
       )
       await sleep(120)
       if (!found) {
@@ -424,8 +464,14 @@ async function main() {
       // 원서를 먼저 본다. 저자 표기가 로마자 그대로라 오연결 위험이 가장 낮다
       found = bestOf(await searchOpenLibrary(it.raw_title, it.raw_creator), it.raw_title, it.raw_creator)
       await sleep(200)
+      if (!found && it.raw_creator) {
+        // 국내 출간본을 저자까지 넣어 찾는다 — 검색처가 저자로 걸러주므로
+        // 「Marguerite Duras」↔「마르그리트 뒤라스」처럼 표기가 갈려도 이을 수 있다
+        found = bestOf(await searchKakao(`${it.raw_title} ${queryAuthor(it.raw_creator)}`), it.raw_title, it.raw_creator, true)
+        await sleep(120)
+      }
       if (!found) {
-        // 국내 출간본에 원제가 그대로 실린 경우까지만 줍는다
+        // 마지막으로 제목만. 이 결과에는 표기가 갈린 저자를 인정하지 않는다
         found = bestOf(await searchKakao(it.raw_title), it.raw_title, it.raw_creator)
         await sleep(120)
       }
