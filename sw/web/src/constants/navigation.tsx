@@ -124,7 +124,6 @@ export const FOOTER_BRAND_LINKS: NavSubLink[] = [
   { key: "search", href: "/search", label: "검색" },
   { key: "terms", href: "/terms", label: "이용약관" },
   { key: "privacy", href: "/privacy", label: "개인정보처리방침" },
-  { key: "contact", href: "/contact", label: "문의하기" },
 ];
 
 export const FOOTER_MISC_LINKS: NavSubLink[] = [

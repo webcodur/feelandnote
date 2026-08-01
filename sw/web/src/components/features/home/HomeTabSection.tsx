@@ -3,7 +3,8 @@
 import { useState, useRef, Fragment, type ReactNode } from "react";
 import Logo from "@/components/ui/Logo";
 import { Tabs, Tab } from "@/components/ui/Tab";
-import { ChevronDown, Info } from "lucide-react";
+import { ChevronDown, ChevronRight, Info } from "lucide-react";
+import Link from "next/link";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import InspirationChainGraphic from "./InspirationChainGraphic";
 import { useTranslations } from "next-intl";
@@ -61,6 +62,7 @@ interface HomeTabSectionProps {
       author: { name: string; avatar_url: string | null } | null;
     }[][];
     inspirationConclusion: string;
+    introLink: string;
   };
 }
 
@@ -131,6 +133,16 @@ export default function HomeTabSection({
                   </p>
                 )}
               </div>
+
+              <Link
+                href="/about"
+                className="group inline-flex items-center gap-2 mt-1 text-[12.5px] md:text-[13.5px] tracking-wide text-text-primary/55 hover:text-accent"
+              >
+                <span className="border-b border-white/15 group-hover:border-accent/60 pb-0.5">
+                  {labels.introLink}
+                </span>
+                <ChevronRight size={14} strokeWidth={1.5} />
+              </Link>
             </div>
           </div>
         </div>

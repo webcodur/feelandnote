@@ -157,10 +157,10 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/library/profession', 'weekly', 0.7],
   // 기타
   ['/rest', 'monthly', 0.5],
-  ['/about', 'yearly', 0.5],
+  // 홈 첫 화면에서 바로 이어지고 서비스가 무엇을 하는 곳인지 답하는 자리라 상향(2026-08-01)
+  ['/about', 'monthly', 0.7],
   ['/terms', 'yearly', 0.3],
   ['/privacy', 'yearly', 0.3],
-  ['/contact', 'yearly', 0.3],
   ['/account-deletion', 'yearly', 0.3],
 ]
 

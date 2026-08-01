@@ -8,7 +8,9 @@
       "visitArchive": "유튜브 시리즈 안내 보기",
       "libraryTour": "서재 탐방",
       "faction": "세력도감",
-      "imageAlt": "왼쪽의 거대한 서재와 오른쪽의 전략 회의실이 중앙의 빛나는 통로로 이어진 필앤노트 영상관"
+      "imageAlt": "왼쪽의 거대한 서재와 오른쪽의 전략 회의실이 중앙의 빛나는 통로로 이어진 필앤노트 영상관",
+      "playChannel": "유튜브 채널에서 영상 보기",
+      "openSeries": "시리즈 설명 보기"
     },
     "explore": {
       "englishTitle": "Notable Figures",
@@ -160,7 +162,8 @@
           ]
         ],
         "inspirationConclusion": "누군가의 영감은 다른 이의 창작물이 됩니다. 그 창작물은 또 다른 누군가의 인생을 바꿉니다.",
-        "introSub": "한 줄의 기록\n천 년의 울림"
+        "introSub": "한 줄의 기록\n천 년의 울림",
+        "introLink": "우리가 만들려는 것"
       }
     }
   },

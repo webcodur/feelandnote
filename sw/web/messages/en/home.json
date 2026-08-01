@@ -8,7 +8,9 @@
       "visitArchive": "View the YouTube Series Guide",
       "libraryTour": "Library Tour",
       "faction": "Faction Atlas",
-      "imageAlt": "A monumental library and a strategy chamber joined by a luminous passage in the Feel and Note video archive"
+      "imageAlt": "A monumental library and a strategy chamber joined by a luminous passage in the Feel and Note video archive",
+      "playChannel": "Watch on YouTube",
+      "openSeries": "View series details"
     },
     "explore": {
       "englishTitle": "Notable Figures",
@@ -160,7 +162,8 @@
           ]
         ],
         "inspirationConclusion": "One person's inspiration becomes another's creation. That creation transforms yet another's life.",
-        "introSub": "A Single Line Recorded\nA Thousand Years of Echoes"
+        "introSub": "A Single Line Recorded\nA Thousand Years of Echoes",
+        "introLink": "What We Are Building"
       }
     }
   },
