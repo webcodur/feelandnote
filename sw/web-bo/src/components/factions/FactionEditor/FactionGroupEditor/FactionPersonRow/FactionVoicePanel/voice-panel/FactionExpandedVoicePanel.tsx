@@ -26,19 +26,19 @@ import { useEleVoiceHistory } from './useEleVoiceHistory'
 import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
- * 북리커맨드 ExpandedVoicePanel 통째 복제 — 세력도 인물 1명용.
+ * 북리커맨드 ExpandedVoicePanel 통째 복제 — 세력도감 인물 1명용.
  *
  * 화면(레이아웃·섹션 구성·버튼·드롭다운·라벨·슬레이트 톤·여백)은 북리커맨드와 동일하다:
  *  - 저장된 음원 섹션(공용 SavedVoiceSection) + 트림.
  *  - 새 음원 생성 섹션(GenerateSection 을 그대로 재사용) — 엔진 토글·캐릭터 보이스·스타일·
  *    입력 텍스트·미리듣기·생성/생성 및 저장 버튼까지 북리커맨드와 픽셀 동일.
  *
- * 세력도는 단일 대사라 북리커맨드의 SYNC/BREATH 모드(쇼츠 세그먼트 타이밍·들숨 처리)는 없다.
+ * 세력도감는 단일 대사라 북리커맨드의 SYNC/BREATH 모드(쇼츠 세그먼트 타이밍·들숨 처리)는 없다.
  * 따라서 TRIM 모드 화면만 둔다(북리커맨드도 기본이 TRIM).
  *
  * 데이터만 인물에 맞춰 교체했다:
  *  - 구간 spec → 인물 quote 음성 spec(useFactionVoiceSpec).
- *  - 저장/재생/생성 라우트 → 공용 useVoiceGeneration 에 세력도 음원 경로(voiceEndpoints)를 넘긴다.
+ *  - 저장/재생/생성 라우트 → 공용 useVoiceGeneration 에 세력도감 음원 경로(voiceEndpoints)를 넘긴다.
  *
  * 발화 스타일은 인물 quoteStyle 에 영속한다 — 입력칸 blur 시 저장되고, 미리듣기·일괄 생성·렌더가
  * 같은 스타일을 쓴다. ELE 인물은 감정/강도(quoteEleOptions)도 입력받아 미리듣기에 반영한다.
@@ -112,8 +112,8 @@ export function FactionExpandedVoicePanel({
   const onChangeRef = useRef(onChange)
   onChangeRef.current = onChange
 
-  // BreathModeContent 의 로드·저장 라우트를 세력도 경로로 갈아끼우는 어댑터.
-  // (북리커맨드는 /voice/play·/voice/save, 세력도는 /faction-voice/{episode}/...)
+  // BreathModeContent 의 로드·저장 라우트를 세력도감 경로로 갈아끼우는 어댑터.
+  // (북리커맨드는 /voice/play·/voice/save, 세력도감는 /faction-voice/{episode}/...)
   const breathEndpoints: BreathEndpoints = useMemo(() => ({
     loadUrl: (s, _name, fileName) =>
       `/api/${s}/voice/${folderToParam(episodeName)}/${encodeURIComponent(fileName)}?t=${Date.now()}`,
@@ -216,7 +216,7 @@ export function FactionExpandedVoicePanel({
   // 현재 선택 보이스의 소속 계정 — 목록에 있으면 생성 API 에 힌트로 넘긴다(계정 오탐 방지).
   const eleAccountId = eleVoices.find(v => v.voice_id === spec.eleVoiceId)?.account?.id ?? null
 
-  // 세력도 서버 창구 — 인물 음원 파일 하나에 저장·재생하고, 정렬은 백그라운드 작업으로 돌린다.
+  // 세력도감 서버 창구 — 인물 음원 파일 하나에 저장·재생하고, 정렬은 백그라운드 작업으로 돌린다.
   // 미리듣기 합성 라우트만 서재 탐방과 같은 경로를 그대로 쓴다.
   const voiceEndpoints: VoiceGenEndpoints = {
     previewUrl: route => `/api/${series}/voice/${route}/preview`,
@@ -427,7 +427,7 @@ export function FactionExpandedVoicePanel({
         )}
       </div>
 
-      {/* ELE 감정/강도·DB 연동 — 북리커맨드는 상위 VOICE 패널에서 화자별로 보유하지만, 세력도는 그
+      {/* ELE 감정/강도·DB 연동 — 북리커맨드는 상위 VOICE 패널에서 화자별로 보유하지만, 세력도감는 그
           패널이 없으므로 인물 단위로 여기서 입력받는다(데이터 연결부). ELE 선택 시에만, 북리커맨드
           ENGINE 행 입력칸과 같은 슬레이트 인라인 박스 스타일로 노출한다. */}
       {spec.chosenEngine === 'elevenlabs' && (

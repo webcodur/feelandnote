@@ -135,7 +135,7 @@ Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UT
 | `GA_CREDENTIALS_PATH` | web | 아래 인증 파일의 경로 |
 | `ga-credentials.json` | 저장소 루트 | 🔴 **구글 서비스 계정 키 파일.** 개인 키가 그대로 들어 있다 (`claude-analytics@feelandnote.iam.gserviceaccount.com`) |
 
-### 3-9. 팩션(세력도) 로컬 연동
+### 3-9. 팩션(세력도감) 로컬 연동
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|

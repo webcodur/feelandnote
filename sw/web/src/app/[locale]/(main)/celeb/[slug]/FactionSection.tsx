@@ -169,7 +169,7 @@ export default function FactionSection({
               </div>
             </button>
 
-            {/* 이 테마를 다룬 세력도 영상과 배경음악. 없으면 아무것도 뜨지 않는다 */}
+            {/* 이 테마를 다룬 세력도감 영상과 배경음악. 없으면 아무것도 뜨지 않는다 */}
             <FactionMediaLinks videos={tag.videos} music={tag.music} title={name} />
             </div>
           );

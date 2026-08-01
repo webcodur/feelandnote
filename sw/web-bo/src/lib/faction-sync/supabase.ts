@@ -45,7 +45,7 @@ export interface CelebAssignmentRow {
   /** 인물 대사 — 제작 데이터(faction_people.quote)가 유일한 출처라 출간이 항상 되쓴다 */
   quote: string | null
   quote_en: string | null
-  spotlight_image_url: string | null
+  faction_image_url: string | null
   sort_order: number | null
 }
 
@@ -64,7 +64,7 @@ export interface CelebProfileRow {
 
 export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, theme_music, is_featured, is_fiction, sort_order'
 export const ASSIGNMENT_COLUMNS =
-  'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, quote, quote_en, spotlight_image_url, sort_order'
+  'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, quote, quote_en, faction_image_url, sort_order'
 export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'
 
 /** 출간에 필요한 Supabase 환경변수 중 빈 것들 */

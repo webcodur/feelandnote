@@ -41,7 +41,7 @@ export interface FactionTagItem {
   roleShortEn: string | null
   roleLong: string | null
   roleLongEn: string | null
-  /** 이 테마를 다룬 세력도 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
+  /** 이 테마를 다룬 세력도감 영상(긴 영상·짧은 영상). 둘 다 없으면 null */
   videos: FactionVideos | null
   /** 이 테마 구간에 흐르는 배경음악. 없으면 null */
   music: FactionMusic | null
@@ -49,7 +49,7 @@ export interface FactionTagItem {
 
 interface FactionTagAssignmentRow {
   tag_id: string
-  spotlight_image_url: string | null
+  faction_image_url: string | null
   sort_order: number | null
   short_desc: string | null
   short_desc_en: string | null
@@ -143,6 +143,8 @@ interface PublicCelebBySlugData {
     view_count: number | null
     youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
     portrait_url: string | null
+    portrait_caption: string | null
+    portrait_caption_en: string | null
   }
   contentCount: number
   followerCount: number
@@ -153,6 +155,9 @@ interface PublicCelebBySlugData {
   relations: CelebRelationItem[]
   /** 상단 대표 화보(1:1). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
   photoUrl: string | null
+  /** 그 화보가 그린 순간을 적은 한 줄. 비어 있으면 화면에 아무것도 뜨지 않는다 */
+  photoCaption: string | null
+  photoCaptionEn: string | null
 }
 
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
@@ -160,7 +165,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -201,7 +206,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
     supabase
       .from('celeb_tag_assignments')
-      .select('tag_id, spotlight_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music)')
+      .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music)')
       .eq('celeb_id', userId)
       .order('sort_order', { ascending: true }),
     supabase
@@ -229,7 +234,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       name_en: a.tag.name_en,
       slug: a.tag.slug as string,
       color: a.tag.color ?? '#b4965a',
-      factionImageUrl: a.spotlight_image_url ?? null,
+      factionImageUrl: a.faction_image_url ?? null,
       description: a.tag.description ?? null,
       description_en: a.tag.description_en ?? null,
       roleShort: a.short_desc ?? null,
@@ -303,6 +308,9 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     relations,
     // 전용 화보 → 세력도감 화보(정렬 첫 장) 순. 둘 다 없으면 화면이 얼굴 사진으로 돌아간다
     photoUrl: profile.portrait_url ?? factionTags.find((t) => t.factionImageUrl)?.factionImageUrl ?? null,
+    // 설명은 전용 화보에만 붙는다. 세력도감 화보를 끌어다 쓴 경우에는 그 그림의 설명이 아니므로 비운다
+    photoCaption: profile.portrait_url ? profile.portrait_caption ?? null : null,
+    photoCaptionEn: profile.portrait_url ? profile.portrait_caption_en ?? null : null,
   }
 }
 
@@ -323,6 +331,9 @@ export type CelebBySlugProfile = PublicUserProfile & {
   relations: CelebRelationItem[]
   /** 상단 대표 화보(1:1). 없으면 null이라 화면이 얼굴 사진으로 돌아간다 */
   photo_url: string | null
+  /** 그 화보가 그린 순간 한 줄. 비면 크게 보기에 아무것도 뜨지 않는다. 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다 */
+  photo_caption: string | null
+  photo_caption_en: string | null
   /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
   translationFallbacks: string[]
 }
@@ -433,6 +444,8 @@ async function getCelebBySlugInner(
       factionTags: pub.factionTags ?? [],
       relations: pub.relations ?? [],
       photo_url: pub.photoUrl ?? null,
+      photo_caption: pub.photoCaption ?? null,
+      photo_caption_en: pub.photoCaptionEn ?? null,
       translationFallbacks,
     },
   }

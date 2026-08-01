@@ -5,7 +5,7 @@ import { factionEpisodeDir } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
 import { paramToFolder } from '@/lib/faction-edit-route'
 
-// ── 세력도 발화 시각 읽기·쓰기 ──
+// ── 세력도감 발화 시각 읽기·쓰기 ──
 //
 // 산출물은 편별로 나뉘어 있다: public/factions/{에피소드}/data.timing.p<N>.<lang>.json
 // (키 = 음원 파일명에서 확장자를 뗀 이름). 인물이 몇 편에 속하는지 화면이 몰라도 되도록,

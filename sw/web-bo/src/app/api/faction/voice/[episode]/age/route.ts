@@ -8,7 +8,7 @@ import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
 import { paramToFolder } from '@/lib/faction-edit-route'
 
-// ── 세력도 인물 음성 연령 변형
+// ── 세력도감 인물 음성 연령 변형
 //
 // 원본을 두고 늙거나 젊게 변형한 예상안을 만들어 들어보고, 마음에 들면 덮어쓴다.
 // 진짜 원본은 voice/ori/ 에 영구 보관해 예상안은 항상 원본 기준으로 생성한다(누적 왜곡 없음).

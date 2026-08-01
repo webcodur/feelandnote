@@ -15,7 +15,7 @@ const PILL_IDLE = "border-white/15 bg-white/[0.04] text-white/85 hover:border-ac
 const PILL_ON = "border-accent bg-accent/15 text-accent";
 
 /*
-  테마를 다룬 세력도 영상 보기 + 그 테마 구간에 흐르는 배경음악 듣기.
+  테마를 다룬 세력도감 영상 보기 + 그 테마 구간에 흐르는 배경음악 듣기.
 
   둘 다 없으면 아무것도 그리지 않는다 — 빈 자리를 남기지 않는다.
   긴 영상·짧은 영상이 둘 다 있으면 둘 다 고를 수 있고, 음악은 같은 줄 맨 뒤에 붙는다.
@@ -151,7 +151,7 @@ function FactionMusicPill({ music }: { music: FactionMusic }) {
 
 /*
   재생 창.
-  세력도 영상은 긴 것도 짧은 것도 모두 세로(9:16)라 세로 비율로 띄운다.
+  세력도감 영상은 긴 것도 짧은 것도 모두 세로(9:16)라 세로 비율로 띄운다.
   닫는 길은 셋 — 바깥 어두운 곳 누르기, 오른쪽 위 닫기 표시, Esc.
   열려 있는 동안 뒤 화면이 따라 스크롤되지 않게 잠근다.
 */

@@ -75,7 +75,7 @@ export async function POST(req: Request) {
   return factionSyncPost(req)
 }
 
-// ─── 세력도(Faction) 동기화 ─────────────────────────────
+// ─── 세력도감(Faction) 동기화 ─────────────────────────────
 
 type FactionLineup = Record<string, { uploads?: Record<string, { videoId: string; uploadedAt: string }> }>
 

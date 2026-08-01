@@ -17,9 +17,9 @@ function localized(value: string | null, fallback: string, locale: Locale) {
 
 function themeCover(tag: FeaturedTag) {
   const teamImage = toTeamImages(tag.team_images)[0]?.url;
-  const spotlight = tag.celebs.find((celeb) => celeb.spotlight_image_url)?.spotlight_image_url;
+  const factionImage = tag.celebs.find((celeb) => celeb.faction_image_url)?.faction_image_url;
   const avatar = tag.celebs.find((celeb) => celeb.avatar_url)?.avatar_url;
-  return teamImage ?? spotlight ?? avatar ?? null;
+  return teamImage ?? factionImage ?? avatar ?? null;
 }
 
 function toTheme(entry: IndexedTag, locale: Locale): CollectionTheme {

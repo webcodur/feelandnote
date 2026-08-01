@@ -1,6 +1,6 @@
 /**
  * 세력도감 태그 단체 이미지(team_images) 일괄 등록
- * faction AI-Supremacy 세력별 group.png → 1080 정사각 webp → R2 spotlight/{tagId}/team/{uuid}.webp → celeb_tags.team_images 재구성
+ * faction AI-Supremacy 세력별 group.png → 1080 정사각 webp → R2 faction/{tagId}/team/{uuid}.webp → celeb_tags.team_images 재구성
  *
  * 사용법 (sw/web-bo 디렉토리에서): npx tsx scripts/upload-tag-team-images.ts
  */
@@ -69,7 +69,7 @@ async function main() {
     for (const g of m.groups) {
       const png = readFileSync(`${BASE}/${m.dir}/${g}/group.png`)
       const webp = await sharp(png).resize(1080, 1080, { fit: 'cover', position: 'attention' }).webp({ quality: 85 }).toBuffer()
-      const key = `spotlight/${tagId}/team/${randomUUID()}.webp`
+      const key = `faction/${tagId}/team/${randomUUID()}.webp`
       await s3.send(new PutObjectCommand({
         Bucket: R2_BUCKET_NAME, Key: key, Body: webp,
         ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',

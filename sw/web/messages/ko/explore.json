@@ -325,7 +325,7 @@
         "description": "같은 문제에 답한 사람들을 진영별로 모았습니다.\n단체 화보와 대사, 각자의 서재를 따라가며 인물 사이의 관계를 살펴보세요.",
         "select": "테마 선택",
         "openInNewTab": "새 탭에서 열기",
-        "heroPreview": "대표 세력도 화보",
+        "heroPreview": "대표 세력도감 화보",
         "viewTitle": "도감을 보는 방식",
         "stats": {
           "themes": "전체 테마",

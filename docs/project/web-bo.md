@@ -7,7 +7,7 @@ Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원
 
 | 프로젝트 | 포트 | 역할 | 데이터원 |
 | --- | --- | --- | --- |
-| **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도·가상 담화·서재 탐방 | Supabase + 로컬 Remotion |
+| **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도감·가상 담화·서재 탐방 | Supabase + 로컬 Remotion |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
 구 remotion-bo의 이관 이력은 [영상 제작 관리 통합 이력](./remotion-bo-plan.md),
@@ -28,12 +28,12 @@ pnpm dev:bo
 
 `/login`은 Supabase 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
 
-단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도·가상 담화 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도](#세력도)·[가상 담화](#가상-담화) 절).
+단 **창구(API)는 화면 검사에 기댈 수 없다.** `src/proxy.ts`의 matcher가 이미지 확장자로 끝나는 주소를 제외하므로 세력도감·가상 담화 자산 창구는 라우트마다 스스로 관리자 확인을 한다(위 [세력도감](#세력도감)·[가상 담화](#가상-담화) 절).
 
 ## 화면 구성
 
 26.07.16 전수 감사 당시 페이지는 52개였고 그중 11개가 화면 없는 리다이렉트 통로였다.
-이후 세력도·가상 담화·서재 탐방이 추가됐으므로 이 숫자는 현재 총계로 사용하지 않는다.
+이후 세력도감·가상 담화·서재 탐방이 추가됐으므로 이 숫자는 현재 총계로 사용하지 않는다.
 아래 표와 실제 `app/` 라우트를 기준으로 본다.
 
 왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며
@@ -61,10 +61,10 @@ pnpm dev:bo
 | `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `profiles` |
 | `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `profiles` |
 | `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `profiles` |
-| `/celebs/tags` | → 리다이렉트 | `/factions`로 보낸다. 도감 테마 관리는 26.07.25에 세력도 화면으로 흡수됐다 | — |
+| `/celebs/tags` | → 리다이렉트 | `/factions`로 보낸다. 도감 테마 관리는 26.07.25에 세력도감 화면으로 흡수됐다 | — |
 | `/celebs/journeys` | 셀럽 감상 여정 편집 | `cultural_journey` 일괄 편집, 50건 단위 | `profiles` |
 | `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `profiles` |
-| `/celebs/content-research` · `/celebs/content-research/[celebId]` | Light 콘텐츠 조사 목록·인물별 장부 | 목록은 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도 연결로 작업 대상을 분류한다. 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 기록하고 완료 게이트를 통과한 0건만 `-1`로 확정한다. 감상여정은 읽지 않는다 | `profiles`, `user_contents`, `celeb_content_research_*` 4테이블 |
+| `/celebs/content-research` · `/celebs/content-research/[celebId]` | Light 콘텐츠 조사 목록·인물별 장부 | 목록은 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류한다. 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 기록하고 완료 게이트를 통과한 0건만 `-1`로 확정한다. 감상여정은 읽지 않는다 | `profiles`, `user_contents`, `celeb_content_research_*` 4테이블 |
 | `/celebs/vectors` | 페르소나 분석 | 덕목·능력·성향 16개 축 벡터 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
 | `/celebs/vectors/[slug]` | (닉네임) 페르소나 분석 | 단건 페르소나 축 확인 | `celeb_persona` |
 | `/celebs/influence` | 영향력 평가 | 6개 영역 + 통시성 영향력 대시보드 | `celeb_influence` |
@@ -122,15 +122,15 @@ pnpm dev:bo
 
 도서 메타 출처 규칙(네이버·OpenLibrary만 허용)은 [external-services.md](./external-services.md)를 따른다. 스키마는 [db-core.md](./db-core.md)에 있다.
 
-### 세력도
+### 세력도감
 
-> 26.07.25 신설 — 팩션(세력도) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
+> 26.07.25 신설 — 팩션(세력도감) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「세력도」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md)다.
+영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md)다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도 | **표 하나.** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 표 아래 영상 편은 DB `status`에 따라 「옮길 수 있는 편」(`ready`)과 「못 옮기는 편」(`blocked`)으로만 나뉜다. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
+| `/factions` | 세력도감 | **표 하나.** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 표 아래 영상 편은 DB `status`에 따라 「옮길 수 있는 편」(`ready`)과 「못 옮기는 편」(`blocked`)으로만 나뉜다. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
 | `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물 배정(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다** | `celeb_tags`, `celeb_tag_assignments` |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
@@ -186,7 +186,7 @@ pnpm dev:bo
 - 소개문은 **채움 전용** — 도감에서 사람이 다듬은 글은 덮지 않는다(`force`로만 덮음).
 - `sort_order`는 태그를 관통하는 전역 순번으로 항상 다시 쓴다.
 - 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인 배치만** 채택하고 나머지는 건너뛴다. 판정은 편 전체를 보므로 세력을 하나씩 출간해도 결과가 같다.
-- 이미지는 개인샷 `spotlight/{tagId}/celeb-{celebId}.webp`(고정 키 + `?v=`), 그룹샷 `spotlight/{tagId}/team/g{NN}c{NN}-{hash8}.webp`. 그룹샷 배열(`team_images`)은 **태그 단위로 다시 만든다** — 그 태그를 나눠 쓰는 편 전체 세력의 사진을 세력→묶음 순으로 모으며, 한 장이라도 실패하면 배열 교체를 보류한다.
+- 이미지는 개인샷 `faction/{tagId}/celeb-{celebId}.webp`(고정 키 + `?v=`), 그룹샷 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp`. 그룹샷 배열(`team_images`)은 **태그 단위로 다시 만든다** — 그 태그를 나눠 쓰는 편 전체 세력의 사진을 세력→묶음 순으로 모으며, 한 장이라도 실패하면 배열 교체를 보류한다.
 - 태그가 없으면 출간이 만들 수 있다(항상 숨김 `is_featured=false`). 만든 뒤 `faction_groups.tag_id`를 되쓴다. 연결 키(`tagSlug`)조차 없으면 `tag-slug-missing`으로 막힌다.
 - 사진 범위를 켰는데 `FACTION_LOCAL`이 없으면 조용히 건너뛰지 않고 사유를 들고 실패한다.
 
@@ -198,7 +198,7 @@ pnpm dev:bo
 
 영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 Supabase 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [discourse.md](./remotion/discourse.md), 통합 설계는 [discourse-unification.md](./remotion/discourse-unification.md)다.
 
-⚠ **손 편집 감시가 세력도와 다르다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
+⚠ **손 편집 감시가 세력도감와 다르다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
@@ -228,9 +228,9 @@ pnpm dev:bo
 
 `media` · `media/folder` · `media/[episode]/[...path]` · `asset/[...path]` · `music` · `music/[...path]` · `voice/[episode]` · `voice/[episode]/[file]`.
 
-주소 첫 토막을 시리즈 이름(`discourse`)으로 둔 것은 공용 사진 부품이 `/api/{시리즈}/media`를 부르기 때문이다 — 그 부품을 한 줄도 고치지 않고 쓴다(세력도와 같은 판단).
+주소 첫 토막을 시리즈 이름(`discourse`)으로 둔 것은 공용 사진 부품이 `/api/{시리즈}/media`를 부르기 때문이다 — 그 부품을 한 줄도 고치지 않고 쓴다(세력도감와 같은 판단).
 
-⚠ 세력도와 같은 함정을 그대로 안고 있다. `src/proxy.ts`의 matcher가 **이미지 확장자로 끝나는 주소를 로그인 검사에서 제외**하므로 라우트마다 `guardDiscourseRoute()`(로컬 스위치 + 관리자 확인)를 첫 줄에 두고, 경로 잠금(`lib/discourse-asset.ts`)을 겹친다. 둘 중 하나만 있으면 뚫린다.
+⚠ 세력도감와 같은 함정을 그대로 안고 있다. `src/proxy.ts`의 matcher가 **이미지 확장자로 끝나는 주소를 로그인 검사에서 제외**하므로 라우트마다 `guardDiscourseRoute()`(로컬 스위치 + 관리자 확인)를 첫 줄에 두고, 경로 잠금(`lib/discourse-asset.ts`)을 겹친다. 둘 중 하나만 있으면 뚫린다.
 
 ### 게임
 
@@ -267,7 +267,7 @@ pnpm dev:bo
 
 ## API 라우트
 
-서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 영상 제작용 로컬 자산 창구(`api/faction/**`·`api/discourse/**`·`api/rm-asset/**`)는 별개이므로 위 [세력도](#세력도)·[가상 담화](#가상-담화) 절을 본다.
+서비스 운영용 창구는 `src/app/api/` 아래 4개다. 모두 GET만 받는다. 영상 제작용 로컬 자산 창구(`api/faction/**`·`api/discourse/**`·`api/rm-asset/**`)는 별개이므로 위 [세력도감](#세력도감)·[가상 담화](#가상-담화) 절을 본다.
 
 | 라우트 | 입력 | 하는 일 |
 | --- | --- | --- |

@@ -9,7 +9,7 @@ import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { buildVoiceAssignPatch, langFieldsOf, type FactionVoiceSlot } from './voice-slots'
 
 /**
- * 북리커맨드 useVoiceSpec 의 세력도(인물 1명) 어댑터 — 슬롯(대사/수식어) 파라미터화.
+ * 북리커맨드 useVoiceSpec 의 세력도감(인물 1명) 어댑터 — 슬롯(대사/수식어) 파라미터화.
  *
  * 한 인물의 한 음성 슬롯(대사 또는 수식어 나레이션)을 "에피소드 + 구간키" 단위로 치환한다.
  * 읽고 쓰는 인물 필드는 slot.fields 로, 합성 텍스트는 slot.text 로 갈린다(대사·수식어 동일 UI 공유).

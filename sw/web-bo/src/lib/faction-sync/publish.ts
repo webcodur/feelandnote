@@ -132,7 +132,7 @@ export async function publishEpisode(
   // 한 태그를 여러 세력이 나눠 쓰는 편이 있다(페이팔 마피아 4세력·디지털 레지스탕스 6세력 → 태그 1개).
   // 태그 자체는 첫 세력에서 한 번만 손대고, 나머지는 같은 태그임을 알리고 넘어간다.
   const tagTouched = new Set<string>()
-  /** 이번 호출에서 새로 만든 태그 — 뒤 세력도 같은 행을 보게 담아 둔다 */
+  /** 이번 호출에서 새로 만든 태그 — 뒤 세력도감 같은 행을 보게 담아 둔다 */
   const createdTags = new Map<string, CelebTagRow>()
 
   for (const g of targets) {
@@ -247,7 +247,7 @@ export async function publishEpisode(
         const hash = await hashOfFile(p.image.abs)
         if (!hash) { add({ ...label, action: 'blocked', reason: `file-missing: ${p.image.rel}` }); continue }
 
-        const dbUrl = assignment?.spotlight_image_url ?? null
+        const dbUrl = assignment?.faction_image_url ?? null
         if (isUnchanged(manifest[p.image.rel], hash, key, tagId) && dbUrl?.includes(key)) {
           add({ ...label, action: 'skipped', reason: 'unchanged' })
           continue
@@ -261,12 +261,12 @@ export async function publishEpisode(
           await uploadToR2(key, webp, OUTPUT_CONTENT_TYPE)
           const url = publicUrl(key)
           const { error } = await db
-            .from('celeb_tag_assignments').update({ spotlight_image_url: url })
+            .from('celeb_tag_assignments').update({ faction_image_url: url })
             .eq('tag_id', tagId).eq('celeb_id', celebId)
-          if (error) { add({ ...label, action: 'blocked', reason: `spotlight-update: ${error.message}` }); continue }
+          if (error) { add({ ...label, action: 'blocked', reason: `faction-image-update: ${error.message}` }); continue }
           manifest[p.image.rel] = { hash, r2Key: key, uploadedAt: new Date().toISOString(), tagId }
           manifestDirty = true
-          if (assignment) assignment.spotlight_image_url = url
+          if (assignment) assignment.faction_image_url = url
           add({ ...label, action, reason: key })
         } catch (e) {
           add({ ...label, action: 'blocked', reason: `upload: ${errText(e)}` })

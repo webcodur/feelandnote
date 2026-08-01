@@ -7,7 +7,7 @@ import { guardFactionRoute } from '@/lib/faction-route'
 // 실행 스크립트는 여전히 파일을 읽으므로 렌더 직전에 ensureFactionExport 로 파일을 DB 와 맞춘다.
 import { loadFactionScriptFromDb, ensureFactionExport } from '@/lib/faction-episode-data'
 
-// 세력도 렌더 코덱 — 옛 시리즈 정의(series-registry 의 faction.render.codec)에 있던 값을 상수로 옮겼다.
+// 세력도감 렌더 코덱 — 옛 시리즈 정의(series-registry 의 faction.render.codec)에 있던 값을 상수로 옮겼다.
 // 이 창구는 팩션 전용이라 시리즈 판별이 없다(prores 프로필은 책 기반 시리즈 전용이라 버렸다).
 const RENDER_CODEC = 'h264'
 
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   const blocked = await ensureFactionExport(episode)
   if (blocked) return NextResponse.json({ error: blocked }, { status: 400 })
 
-  // 세력도 — 컴포지션 ID·출력 접미사는 factionVariants(에피소드 데이터 기반) 단일원천을 따른다(Root.tsx 등록과 일치).
+  // 세력도감 — 컴포지션 ID·출력 접미사는 factionVariants(에피소드 데이터 기반) 단일원천을 따른다(Root.tsx 등록과 일치).
   // 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼). 가로(LH)·영문(EN)은 Root.tsx에서 주석.
   const base = factionCompBase(episode)
   const factionData = await loadFactionScriptFromDb(episode)

@@ -1,6 +1,6 @@
-# 팩션(세력도) 제작 규칙
+# 팩션(세력도감) 제작 규칙
 
-팩션(세력도) 시리즈를 만들 때 지켜야 하는 누적 규칙을 모은 문서다. 용어와 데이터 구조, 인물 채택 기준, 인물 문구와 대사 작성법, 음성 파일 좌표와 음량, 영상 미디어 처리, 로고·썸네일, 셀럽 DB 연동을 담는다. 팩션 데이터를 편집하거나 음성·영상을 다시 뽑기 전에 읽는다. 이미지 발주 프롬프트 작성법과 생성 도구 사용법은 `docs/project/image-generation.md`에 있다.
+팩션(세력도감) 시리즈를 만들 때 지켜야 하는 누적 규칙을 모은 문서다. 용어와 데이터 구조, 인물 채택 기준, 인물 문구와 대사 작성법, 음성 파일 좌표와 음량, 영상 미디어 처리, 로고·썸네일, 셀럽 DB 연동을 담는다. 팩션 데이터를 편집하거나 음성·영상을 다시 뽑기 전에 읽는다. 이미지 발주 프롬프트 작성법과 생성 도구 사용법은 `docs/project/image-generation.md`에 있다.
 
 ---
 
@@ -168,7 +168,7 @@
 
 인물 대사 음성은 `public/factions/<ep>/voice/F{세력+1}C{그룹+1}P{인물+1}-quote.wav` 형식의 **위치 기반 파일명**이다(0패딩). 규칙 SSoT는 `sw/remotion/src/compositions/Faction/voice-names.ts`의 `vnPersonQuote`이고, BO 쪽 복제본이 `sw/web-bo/src/lib/faction-voice.ts`다. 데이터 파일에는 음성 파일명이 없고 인덱스로 계산된다(`quoteElevenlabsVoiceId`·`quoteDuration`만 있음).
 
-**함정:** 데이터에서 인물을 옮기거나 **세력을 병합·삭제·순서변경**하면 음성이 자동으로 따라오지 않는다. BO에서 "음성 확인 안 됨"이 뜨거나, 영상에서 **엉뚱한 인물 음성이 재생**된다(F 인덱스가 밀려 옛 좌표의 wav가 다른 인물에 매칭). F번호는 `groups` 배열의 raw 인덱스+1이며 **disabled 세력도 번호를 소비한다.**
+**함정:** 데이터에서 인물을 옮기거나 **세력을 병합·삭제·순서변경**하면 음성이 자동으로 따라오지 않는다. BO에서 "음성 확인 안 됨"이 뜨거나, 영상에서 **엉뚱한 인물 음성이 재생**된다(F 인덱스가 밀려 옛 좌표의 wav가 다른 인물에 매칭). F번호는 `groups` 배열의 raw 인덱스+1이며 **disabled 세력도감 번호를 소비한다.**
 
 > BO 편집기의 이동 버튼은 26.07.24부터 전부 재배치 API(`/faction-voice/<ep>/reorder`)를 경유한다 — 인물 이동·그룹(cluster) 이동에만 있던 wav 자동 재배치를 세력 ▲▼(`moveGroup`·`moveGroupInPart`)에도 붙였다(그 전까지 세력 순서변경은 배열만 바꿔 음원이 어긋났다. Gods-Greek F04↔F05 사고가 이 결함). **병합·삭제·JSON 직접 편집은 여전히 수동 rename 대상이다.**
 
@@ -300,8 +300,9 @@ npx tsx scripts/upload-celeb-image-from-wikimedia.ts --celeb-id <profiles.id UUI
 - `removeAlpha()`는 얼굴 검출 텐서 변환에만 쓰이고 출력(extract→resize→webp)은 알파를 유지하므로 투명 webp가 그대로 나온다.
 - 누끼 이미지에서도 얼굴 검출이 정상이다(0.55~0.997). `--face-detect false`는 불필요하다.
 - CUDA dll 경고는 무시한다(CPU 폴백).
-- `crop-faces.ts`는 무릎까지 전신 크롭(4.5:7)용이라 아바타와 무관하다. 얼굴 정사각 크롭은 upload 스크립트가 이미 한다(faceFrameRatio 0.45).
+- 얼굴 정사각 크롭은 upload 스크립트가 이미 한다. **2026-08-01부터 눈높이·턱끝 랜드마크 기준으로 통일됐다** — 상자에 배율(0.45·2.2배)을 곱하던 옛 방식과 조절 인자는 폐기됐고, 계산은 `sw/web-bo/src/lib/avatar-geometry.ts` 한 곳이 한다. 수치는 `docs/project/celeb-avatar-spec.md` §1·§6이 SSoT다. **얼굴을 못 찾으면 대체 크롭으로 올리지 않고 실패한다.**
+- `crop-faces.ts`는 아바타용 얼굴 정사각 크롭 도구다(같은 규격·같은 계산). 무릎까지 전신 크롭은 `crop-body.ts`가 따로 있다.
 
 **배치 주의:** 여러 명을 bash `while IFS= read`로 순회할 때 배치 tsv 마지막 줄에 개행이 없으면 마지막 1명이 스킵된다(개행을 추가하거나 마지막 인물은 개별 실행). `getFeaturedTags`는 `unstable_cache`(tags:['celebs'])라 갱신 후 새로고침·revalidate가 필요하다.
 
-아바타 이미지를 새로 생성할 때의 연출 규칙(골격 고정 금지)은 `docs/project/image-generation.md` §5.2를 따른다.
+아바타 이미지를 새로 생성할 때의 연출 규칙(골격 고정 금지)은 `docs/project/image-generation.md` §5.2를 따른다. **프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`가 SSoT다**(눈높이·턱끝·콧대 수치와 FRAMING 블록 전문이 여기 있다. 머리 위와 턱 아래는 자유라 규격 항목이 아니다).

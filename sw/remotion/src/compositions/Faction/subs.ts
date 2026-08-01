@@ -1,5 +1,5 @@
 /**
- * subs.ts — 세력도(Faction) 별도 자막(.srt) 생성 SSoT
+ * subs.ts — 세력도감(Faction) 별도 자막(.srt) 생성 SSoT
  *
  * 영상(Faction.tsx)과 동일한 컷 구성(buildCues)·동일한 발화 시각(voiceTimings)으로
  * 자막 조각(Sub[])을 만든다. SRT 파일 생성(scripts/srt/faction-srt.ts)과

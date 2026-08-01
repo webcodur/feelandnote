@@ -8,7 +8,7 @@ import { isValidSeries } from '@/features/book-recommend/lib/series-registry'
 
 /**
  * 배경음악 창구 — 음악 파일은 시리즈와 무관하게 public/music/ 한 곳에 모여 있다.
- * 세력도 전용이던 창구(faction-music)를 걷어내면서 시리즈 공용으로 남겼다.
+ * 세력도감 전용이던 창구(faction-music)를 걷어내면서 시리즈 공용으로 남겼다.
  */
 const MUSIC_DIR = path.join(REMOTION_ROOT, 'public', 'music')
 

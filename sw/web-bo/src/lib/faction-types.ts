@@ -1,5 +1,5 @@
 /**
- * 세력도(Faction) 데이터 모델 — BO 측 정의.
+ * 세력도감(Faction) 데이터 모델 — BO 측 정의.
  * sw/remotion/src/compositions/Faction/types.ts 와 구조 동기화.
  *
  * 한 파일(data.json)에 한국어 필드 + 영문 필드(*En)를 함께 둔다. 렌더 로더가 언어별로 펼친다.
@@ -30,7 +30,7 @@ export interface ZoomFocus {
 }
 
 /**
- * 카드뉴스(SNS) 전용 필드 — 영상 렌더는 쓰지 않고, 세력도 카드 미리보기·출고에만 쓴다.
+ * 카드뉴스(SNS) 전용 필드 — 영상 렌더는 쓰지 않고, 세력도감 카드 미리보기·출고에만 쓴다.
  * 영상 데이터(faction-data.json)와 분리해 person-cards/<인물>.json 에 저장하고,
  * mergeFactionCards 가 인물 이름 키로 영상 인물에 병합한다.
  * remotion Faction/types.ts 의 인물 카드 필드와 구조 동기화.

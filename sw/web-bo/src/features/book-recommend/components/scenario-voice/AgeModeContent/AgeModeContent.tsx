@@ -5,7 +5,7 @@ import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 
 /**
  * 연령 변형 로드·처리 라우트를 주입하는 어댑터.
- * 세력도·북리커맨드가 저장 경로만 갈아끼워 같은 UI 를 공유한다(동작 동일).
+ * 세력도감·북리커맨드가 저장 경로만 갈아끼워 같은 UI 를 공유한다(동작 동일).
  */
 export type AgeEndpoints = {
   /** 원본 재생용 GET URL(캐시 무력화 쿼리 포함) */

@@ -188,7 +188,7 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
 
   /**
    * 편집기 뼈대 — 대본 전체 저장·손댐 표시·Ctrl+S·사진 폴더 조작. 담화 편집기와 같은 부품을 쓴다.
-   * 세력도가 갈리는 지점은 사진 경로 순회 하나뿐이다(세력 > 그룹 > 인물 + 시작 화면의 'logo:' 형식).
+   * 세력도감가 갈리는 지점은 사진 경로 순회 하나뿐이다(세력 > 그룹 > 인물 + 시작 화면의 'logo:' 형식).
    */
   /**
    * 저장 기준 시각 — 대본을 불러온 순간의 값이다. 저장할 때 이 값을 함께 보내 그 사이 다른 곳에서
@@ -302,7 +302,7 @@ ${res.exported.reason}`)
   useEffect(() => { loadVoices() }, [loadVoices])
 
   useEffect(() => {
-    if (script) document.title = `${script.title || name} — 세력도`
+    if (script) document.title = `${script.title || name} — 세력도감`
   }, [script, name])
 
   // 루트 state 갱신 헬퍼

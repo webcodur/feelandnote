@@ -71,7 +71,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
     └ faction_clusters                         celeb_tag_assignments (unique(celeb,tag))
        └ faction_people ─celeb_id─┐   투영       · short_desc(세력별 한줄 소개)
             quote·음성설정·컷효과   │ ─────▶      · long_desc(세력별 상세 설명, 사람이 다듬음)
-            lines[0]·epithet ─────┘             · sort_order · spotlight_image_url(R2 개인샷)
+            lines[0]·epithet ─────┘             · sort_order · faction_image_url(R2 개인샷)
                                                profiles — 불가침
 ```
 
@@ -143,7 +143,7 @@ DB → pnpm faction:export → faction-data.json(+_episodes.json 재생성) → 
 ## 8. web-bo 이식
 
 - **하이브리드**: 공유 부품 4종(`media` 1,304 · `editor` 329 · `voice` 741 · `episode-store` 366 = 2,740줄, 담화 공용)은 `packages/shared` 승격(복사 금지 — 갈라짐 이력 있음). **완료 26.07.25 — `packages/shared/src/bo/`, 실측 승격량은 의존 폐포 포함 3,900여 줄(§10 Phase 3 참조).** 편집기 본체(56파일 11,912줄)는 **복사 이식 + 데이터층만 재작성**(~1,500줄). `FactionPreview`는 DOM 목업(@remotion/player 미사용)이라 이식 용이. Task Queue(`runTask` 계열)도 shared 승격(렌더 버튼용).
-- 라우트(**4a 에서 확정된 실제 주소**): `(admin)/factions/…`(목록·[episode]), 액션 `actions/admin/factions/{episodes,script,export,publish}.ts`, 로컬 fs 라우트는 **`api/faction/` 아래**로 잡았다 — `media`·`media/folder`·`media/[episode]/[...path]`·`asset/[...path]`·`voice`(+`[episode]`·`[file]`·`save`·`age`·`reorder`·`timing`·`analyze`)·`task`(+`[id]`). 하이픈(`api/faction-media`)이 아닌 이유: 공용 부품이 `/api/${series}/media` 를 하드코딩해 부르므로 시리즈 이름을 첫 토막에 둬야 부품을 고치지 않고 쓴다. 화면 인증은 (admin)/layout.tsx 가 하지만 **창구는 스스로 확인해야 한다** — `proxy.ts` matcher 가 이미지 확장자로 끝나는 주소를 제외하기 때문이다(진행 로그 참조). 사이드바 menuGroups 「세력도」 — nextjs-page 스킬 규약.
+- 라우트(**4a 에서 확정된 실제 주소**): `(admin)/factions/…`(목록·[episode]), 액션 `actions/admin/factions/{episodes,script,export,publish}.ts`, 로컬 fs 라우트는 **`api/faction/` 아래**로 잡았다 — `media`·`media/folder`·`media/[episode]/[...path]`·`asset/[...path]`·`voice`(+`[episode]`·`[file]`·`save`·`age`·`reorder`·`timing`·`analyze`)·`task`(+`[id]`). 하이픈(`api/faction-media`)이 아닌 이유: 공용 부품이 `/api/${series}/media` 를 하드코딩해 부르므로 시리즈 이름을 첫 토막에 둬야 부품을 고치지 않고 쓴다. 화면 인증은 (admin)/layout.tsx 가 하지만 **창구는 스스로 확인해야 한다** — `proxy.ts` matcher 가 이미지 확장자로 끝나는 주소를 제외하기 때문이다(진행 로그 참조). 사이드바 menuGroups 「세력도감」 — nextjs-page 스킬 규약.
 - **저장 방식(26.07.25 실행 전략 확정)**: 편집기의 기존 "전체 스크립트 저장" 계약을 유지하고, DB 쪽은 **원자 RPC `faction_save_episode(folder, script jsonb)`**(plpgsql 트랜잭션: delete-then-insert + split 규칙 SQL 재현 또는 서버 액션에서 split 후 jsonb 전달)로 받는다. 부분 저장(savePerson 등)은 후속 최적화로 미룬다 — 데이터층 재작성량 최소화 + 저장 중 크래시 시 DB 반파 위험 제거. 낙관적 잠금은 `updated_at` 대조 유지. **reorder는 여전히 최난점** — 저장으로 position이 바뀌면 wav·timing 키·word-timings targets 3중 이동이 필요하므로, 기존 `faction-voice/[episode]/reorder` 라우트를 web-bo로 이식하고 편집기의 순서 변경 흐름이 그것을 호출하는 기존 계약을 그대로 유지한다.
 - 낙관적 잠금: `updated_at` 대조. 로컬 전용 라우트 가드: `FACTION_LOCAL=1` 미설정 시 503+사유. `REMOTION_ROOT` env 파라미터화.
 - 캐시: 제작 데이터는 web 미노출이라 revalidate 불필요. **출간 액션만** `[TAGS, CELEBS]`. Tailwind 토큰 치환표는 Phase 4 착수 시 작성.

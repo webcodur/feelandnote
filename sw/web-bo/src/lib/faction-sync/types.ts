@@ -1,5 +1,5 @@
 /**
- * 세력도 출간 계약 타입 — 진단(diagnose)·출간(publish) 요청/응답.
+ * 세력도감 출간 계약 타입 — 진단(diagnose)·출간(publish) 요청/응답.
  *
  * 설계 단일원천: docs/project/remotion/faction-unification.md §4(경계)·§9(개조 방향)
  *
@@ -165,7 +165,7 @@ export interface FactionPublishScope {
    * 인물 대사(quote·quote_en)는 제작 데이터가 유일한 출처라 항상 되쓴다.
    */
   descs?: boolean
-  /** 개인샷 업로드 + spotlight_image_url 갱신 */
+  /** 개인샷 업로드 + faction_image_url 갱신 */
   personImages?: boolean
   /** 그룹샷 업로드 + team_images 재구성 */
   teamImages?: boolean

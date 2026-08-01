@@ -3,7 +3,7 @@ import { guardFactionRoute } from '@/lib/faction-route'
 import { reorderFactionVoiceFiles, sanitizeRenames } from '@/lib/faction-voice-reorder'
 import { paramToFolder } from '@/lib/faction-edit-route'
 
-// ── 세력도 인물 음원 재배치(자리 맞바꾸기) 창구
+// ── 세력도감 인물 음원 재배치(자리 맞바꾸기) 창구
 //
 // 음원 파일명이 "인물 자리"(F{세력}C{묶음}P{인물}-quote.wav) 기반이라, 편집기에서 인물 순서를
 // 바꾸면 음원과 발화 시각 산출물을 함께 옮겨야 한다. 그 절차는 `lib/faction-voice-reorder` 에 있다 —

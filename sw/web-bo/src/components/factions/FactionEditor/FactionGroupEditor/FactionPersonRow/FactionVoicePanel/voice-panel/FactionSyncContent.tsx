@@ -6,8 +6,8 @@ import { VoiceTimingEditor } from '@/components/VoiceTimingEditor'
 import { folderToParam } from '@/lib/faction-edit-route'
 
 /**
- * 세력도 SYNC 패널 — whisper가 잘못 잡은 발화 시각을 음원 들으며 드래그로 교정한다.
- * 북리커맨드 SyncModeContent 와 같은 VoiceTimingEditor를 쓰되, 데이터 연결만 세력도에 맞춘다:
+ * 세력도감 SYNC 패널 — whisper가 잘못 잡은 발화 시각을 음원 들으며 드래그로 교정한다.
+ * 북리커맨드 SyncModeContent 와 같은 VoiceTimingEditor를 쓰되, 데이터 연결만 세력도감에 맞춘다:
  *  - 발화 시각: /faction-voice/{ep}/timing (편별 data.timing.p<N>.<lang>.json 에서 stem 으로 검색/저장)
  *  - 음원: /faction-voice/{ep}/{voiceFile}
  * 인물 대사는 한 세그먼트(그 안 sub=의미 덩어리) 구조라, 세그먼트 1개 + sub 경계(subTimings)를 드래그한다.

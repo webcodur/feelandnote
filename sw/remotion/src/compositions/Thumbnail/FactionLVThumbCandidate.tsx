@@ -1,5 +1,5 @@
 /**
- * FactionLVThumbCandidate — 세력도 세로 롱폼(KO-LV) 썸네일 (채택안, 컴포지션 ID: -KO-LV-TH).
+ * FactionLVThumbCandidate — 세력도감 세로 롱폼(KO-LV) 썸네일 (채택안, 컴포지션 ID: -KO-LV-TH).
  *
  * 우측: 대표 인물(GEM에서 고른 lvThumbnailImage, 없으면 첫 인물).
  * 좌측: 세력색 포인트 + 타이틀 + 시작문구.

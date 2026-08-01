@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * 세력도 관리 화면의 관점 전환 껍데기.
+ * 세력도감 관리 화면의 관점 전환 껍데기.
  *
  * 영상 편과 도감 테마는 같은 DB를 공유하지만 운영자가 훑는 기준은 다르다.
  * 한 표에 섞지 않고 URL에 남는 두 모드로 나눠, 새로고침·뒤로 가기·직접 링크에서도
@@ -92,7 +92,7 @@ export default function FactionBoard({
       <div className="flex flex-wrap items-stretch justify-between gap-3 rounded-xl border border-border bg-bg-secondary/60 p-2">
         <div
           role="group"
-          aria-label="세력도 관리 기준"
+          aria-label="세력도감 관리 기준"
           className="grid min-w-0 flex-1 grid-cols-1 gap-1 sm:grid-cols-2"
         >
           {VIEW_OPTIONS.map(option => {

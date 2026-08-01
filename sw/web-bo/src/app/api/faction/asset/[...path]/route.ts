@@ -1,5 +1,5 @@
 /**
- * 세력도 자산 서빙 — GET /api/faction/asset/{public/factions 기준 상대경로}
+ * 세력도감 자산 서빙 — GET /api/faction/asset/{public/factions 기준 상대경로}
  *
  * 사진 창구(`../media/{에피소드}/{경로}`)는 에피소드 안쪽만 다룬다. 이 창구는 그보다 넓게
  * `public/factions/` 아래 아무 자산이나 내준다 — 로고·썸네일·캐스팅 자료처럼 에피소드 폴더 밖에

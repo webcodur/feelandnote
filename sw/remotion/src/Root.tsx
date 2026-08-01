@@ -188,7 +188,7 @@ export const RemotionRoot: React.FC = () => {
         })()}
       </Folder>
 
-      {/* === 세력도 === */}
+      {/* === 세력도감 === */}
       <Folder name="Faction">
         {Object.entries(factionEpisodes)
           // 한국어 키만 (영문 키 '-en'은 지금 미사용). EN 컴포지션은 아래 주석 참고.
@@ -352,7 +352,7 @@ export const RemotionRoot: React.FC = () => {
           })}
       </Folder>
 
-      {/* === 세력도 카드뉴스 (still 추출) === */}
+      {/* === 세력도감 카드뉴스 (still 추출) === */}
       <Folder name="FactionCard">
         {(() => {
           const ep = "Digital-Resistance";

@@ -7,7 +7,7 @@ import { imageSrc } from '../shared/timing'
 import { ImageFocusPicker } from '@feelandnote/shared/bo/media'
 
 /**
- * 세력도 "움직임 효과" 통합 관리 시트.
+ * 세력도감 "움직임 효과" 통합 관리 시트.
  * 전환·지속·줌 목표점·지지직·속도를 에피소드 전역 → 세력 → 그룹샷 → 인물 한 화면에서,
  * 모든 대상에 동일한 컨트롤로 다룬다(여기저기 흩어진 효과 입력을 이 한 곳으로 모은다).
  * 빈 값 = 상위(전역·세력) 설정을 따른다. 명시한 값만 그 대상에 덮어쓴다.

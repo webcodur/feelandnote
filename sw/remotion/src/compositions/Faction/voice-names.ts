@@ -1,5 +1,5 @@
 /**
- * 세력도(Faction) 음성 파일명·경로 규칙.
+ * 세력도감(Faction) 음성 파일명·경로 규칙.
  * BookRecommend voice-names의 "정렬 가능한 0패딩 명명"을 참고한다.
  */
 

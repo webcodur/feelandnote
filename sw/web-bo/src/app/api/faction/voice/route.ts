@@ -4,7 +4,7 @@ import { FACTION_SERIES } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
 
 /**
- * POST : 세력도 인물 대사 음성 생성 트리거.
+ * POST : 세력도감 인물 대사 음성 생성 트리거.
  *   pnpm voice:faction -- --episode <name> [--engine <gemini|gemini-v3>] [--normalize] [--only <file>] [--force]
  * 를 백그라운드 작업으로 실행한다. 진행 상태는 /api/faction/task 로 조회.
  *

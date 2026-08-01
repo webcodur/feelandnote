@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getEleAccounts, resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
 import { guardFactionRoute } from '@/lib/faction-route'
 
-// 이식 시 교체: 이 앱의 음성 창구는 세력도 전용이므로 `[series]` 동적 세그먼트와
+// 이식 시 교체: 이 앱의 음성 창구는 세력도감 전용이므로 `[series]` 동적 세그먼트와
 // 시리즈 유효성 검사(isValidSeries)를 없애고 guardFactionRoute() 진입 검사로 갈음했다.
 
 export async function POST(req: Request) {

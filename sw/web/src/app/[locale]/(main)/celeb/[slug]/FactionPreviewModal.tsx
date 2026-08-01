@@ -217,7 +217,7 @@ export default function FactionPreviewModal({
 
         <div className="grid gap-8 p-5 sm:p-7">
           <div className="space-y-7">
-            {/* 이 테마를 다룬 세력도 영상·배경음악 — 창을 떠나지 않고 그 자리에서 본다. 없으면 안 뜬다 */}
+            {/* 이 테마를 다룬 세력도감 영상·배경음악 — 창을 떠나지 않고 그 자리에서 본다. 없으면 안 뜬다 */}
             <FactionMediaLinks videos={tag.videos} music={tag.music} title={name} />
 
             {description && (

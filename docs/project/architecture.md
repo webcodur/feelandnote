@@ -40,10 +40,11 @@ app/
       explore/         # 탐색 (figures, ranking, persona, today, faction/[slug],
                        #       feed, timeline, youtube, directory)
       library/         # 서가 (era, profession, museum, academy/[category]/[course])
+      about/           # 서비스 소개 (문의 안내 흡수). 본문(AboutBody)은 홈 첫 방문 환영판과 공유
       notifications/
       rest/            # 쉼터 (게임 허브 단일 페이지)
-      page.tsx         # 홈
-    (policy)/          # about(문의 안내 흡수), terms, privacy, account-deletion
+      page.tsx         # 홈 — 첫 방문에만 환영판(소개 본문) 표시, 닫으면 쿠키(fn_intro_seen) 1년
+    (policy)/          # terms, privacy, account-deletion
     (standalone)/      # search
     lab/               # 사내 실험 화면 11종 (+ 허브·상세 = page.tsx 13개). 목록 SSoT는 constants/lab.tsx의 LAB_ITEMS
     reading/           # 독서 워크스페이스 (자체 components, hooks 보유)
@@ -192,7 +193,7 @@ src/
   compositions/
     BookRecommend/     # 북리커맨드 롱폼·쇼츠·솔로 (현역 렌더는 legacy/)
     BookCard/          # SNS 카드뉴스
-    Faction/           # 세력도 세로 롱폼·쇼츠
+    Faction/           # 세력도감 세로 롱폼·쇼츠
     FactionCard/
     OlympusMV/
     Thumbnail/
