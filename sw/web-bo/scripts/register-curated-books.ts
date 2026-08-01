@@ -136,6 +136,23 @@ interface Found {
 const stripTags = (s: string) => s.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').trim()
 
 /**
+ * 카카오가 돌려주는 표지 주소는 두 형태가 섞여 있다.
+ * 하나는 원본(456×687 등)이고, 하나는 `search1.kakaocdn.net/thumb/R120x174...` 로
+ * **120픽셀까지 줄여놓은 썸네일**이다. 후자를 그대로 쓰면 목록 화면에서 흐릿하게 늘어난다.
+ * 다행히 줄인 주소 안에 원본 주소가 `fname`으로 들어 있으므로 꺼내 쓴다.
+ */
+function fullSizeCover(url: string | null | undefined): string | null {
+  if (!url) return null
+  const m = url.match(/[?&]fname=([^&]+)/)
+  if (!m) return url
+  try {
+    return decodeURIComponent(m[1]).replace(/^http:\/\//, 'https://')
+  } catch {
+    return url
+  }
+}
+
+/**
  * 카카오 책 검색.
  *
  * 🔴 네이버 책 검색 API는 종료됐다 — 호출하면 404 `SE05 존재하지 않는 검색 api`가 온다(26.08.01 실측).
@@ -168,7 +185,7 @@ async function searchKakao(query: string): Promise<Found[]> {
     locale: 'ko' as const,
     title: stripTags(b.title ?? ''),
     creator: (b.authors ?? []).join(', ') || null,
-    thumbnail: b.thumbnail || null,
+    thumbnail: fullSizeCover(b.thumbnail),
     description: stripTags(b.contents ?? '') || null,
     publisher: b.publisher || null,
     // isbn 필드는 "10자리 13자리"가 공백으로 붙어 온다. 13자리를 정본으로 쓴다
