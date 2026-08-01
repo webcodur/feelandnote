@@ -31,8 +31,10 @@ function CuratorCard({ curator }: { curator: Curator }) {
     <div className="rounded-2xl border border-white/[0.06] bg-[#161616]/80 p-4 hover:border-white/[0.12] sm:p-5">
       <div className="flex items-start gap-3">
         {curator.logoUrl ? (
-          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-neutral-900">
-            <Image src={curator.logoUrl} alt={curator.name} fill className="object-contain" sizes="44px" />
+          // 기관 로고는 대부분 흰 종이 위에 쓰이도록 만들어져 검은 글자가 많다.
+          // 어두운 화면에 그대로 얹으면 묻히므로 밝은 타일 위에 올린다
+          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-white p-1">
+            <Image src={curator.logoUrl} alt={curator.name} fill className="object-contain p-1" sizes="44px" />
           </div>
         ) : (
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/[0.06] bg-neutral-900 text-[15px] font-serif font-bold text-text-tertiary">
