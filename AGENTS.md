@@ -16,7 +16,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악) 소비 기록 및 관�
 | 6 | android | `sw/android` | — | 안드로이드 앱 셸 (Gradle + TWA). `sw/web`을 감싸는 껍데기라 자체 화면·서버가 없다. Node 패키지가 아니므로 pnpm 워크스페이스에 넣지 않는다. 빌드는 Android Studio |
 
 **공유 패키지** (`packages/`):
-- `content-search` — 외부 콘텐츠 검색 API (Naver, TMDB, IGDB, Spotify). ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. 책 메타 출처는 네이버·OpenLibrary만
+- `content-search` — 외부 콘텐츠 검색 API (Kakao, TMDB, IGDB, Spotify, Naver 뉴스·블로그·이미지). **BOOK 한국어 메타는 카카오 도서 검색(`kakao-books.ts`)이 유일 출처다.** 네이버 도서 검색은 26.07.31 종료([공지 32564](https://developers.naver.com/notice/article/32564))라 래퍼·전용 스크립트를 전량 제거했다 — 되살릴 API가 없으니 `naver-books`를 다시 만들지 마라. 전환 내역·카카오 응답 특성(ISBN 두 개 동시 반환, 표지 원본 추출, 판매 상태 제공)은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절. ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. 책 메타 출처는 네이버·OpenLibrary만
 - `ai-services` — AI 서비스 (셀럽 프로필 타입, 영향력 분석)
 - `influence-constants` — 영향력 평가 상수
 - `shared` — 공유 상수, 타입, 훅
@@ -154,7 +154,7 @@ pnpm build:audio-bo
 | 0 | `celeb-pipeline.md` | 파이프라인, 티어, 업데이트 가드, 작업 큐 |
 | 1 | `celeb-1-basic-profile.md` | 기본 정보 |
 | 2 | `celeb-2-content-collector.md` | 콘텐츠 수집 |
-| 3 | `celeb-3-cultural-journey.md` | 감상 여정 |
+| 3 | `celeb-3-cultural-journey.md` | 감상 여정 — ⛔ **폐기 예정. 신규 작성 금지.** 기존 데이터 참조용으로만 남겨 둔다 |
 | 4 | `celeb-4-influence.md` | 영향력 평가 |
 | 5 | `celeb-5-persona.md` | 페르소나 |
 | 6 | `celeb-speech.md` | Speech 트랙 (tone → quotes → dialogue) |
@@ -164,6 +164,7 @@ pnpm build:audio-bo
 | B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 (2026-03 회차 스냅샷) |
 | S | `../faction-ai-group-refactor.md` | 세력도감 AI 그룹 구조 (구현 완료. `faction-celeb-sync` 스킬이 참조) |
 | G | `celeb-gotchas.md` | **셀럽 데이터 함정 모음** — 목록 노출 기준, 페이지 안 뜰 때 증상별 원인, 대사 3대 결함, 등급 승격 조건, 선정 기준, 책 메타 출처 제한, 등록 우회 |
+| V | `../celeb-avatar-spec.md` | **셀럽 아바타 규격 SSoT**(26.08.01 신설) — 프레임 기하는 **눈높이 46·턱끝 81·콧대 가로 50** 셋뿐이며 **소개 화면(`/about`) 8인 실측에서 뽑았다**(이상적 수치로 잡았다가 그 8인이 전원 불합격이라 뒤집은 이력이 문서에 있다). **머리 위도 턱 아래도 자유** — 머리카락·모자·투구가 잘려도, 어깨가 안 보여도 무방하고, 얼굴이 잘리거나 쇄골이 드러나는 것만 막는다. 그 밖에 원형 마스크·세로 직사각 잘림 안전 영역, 고정할 것과 인물마다 달리할 것, 발주 프롬프트 확정본, 판정 기준, 자르는 규칙(눈·턱 랜드마크 기준, 구현은 `sw/web-bo/src/lib/avatar-geometry.ts` 하나), 판정 도구 2종(`measure-avatar-geometry.ts` 수치·`build-avatar-contact-sheet.ts` 눈 검수용 격자). **소급 교체 없음 — 신규분부터 적용** |
 | H | `hero-photo-status.md` | **인물 상세 대표 화보 현황과 미진분** — 목표 크롭 규격, 출처별 채움 현황, 크롭 규격이 통일 안 된 구간(표본 실측), 다시 손볼 때의 절차, 남은 인물. 규격·도구 자체는 `db-celeb.md` |
 
 **가상 독백 (`profiles.virtual_monologue`)** — 셀럽 상세 페이지의 1인칭 독백. 문장 작성 규격은 코드, 전수 품질 정비의 판정·근거·검토·게시 절차는 `docs/todo/virtual-monologue-quality-overhaul.md`가 쥔다.
@@ -179,7 +180,9 @@ pnpm build:audio-bo
 > 옛 규격 문서 `sw/web-bo/docs/todo/virtual-monologue-plan.md`는 26.07.20 `c493cad1`에서 삭제됐다(GLM 시대 규격이라 이미 낡음). 회수하려면 `git show c493cad1^:<경로>`.
 > 독백을 고친 뒤 서비스 반영이 안 보이면 캐시 7일이 남은 것이다 — `/api/revalidate`에 `celebs` 태그를 던지면 즉시 갱신된다(전량 갱신 비용 실측 10MB 미만).
 
-**셀럽 아바타 정비 (진행 중, 26.07.31 기준)** — 작업 문서는 **저장소 루트**의 `celeb-avatar-*.md` 4종이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
+**셀럽 아바타 정비 (진행 중, 26.08.01 기준)** — 작업 문서는 **저장소 루트**에 흩어져 있고 실제로는 아래 표의 4종 외에 `celeb-avatar-visual-audit-handoff.md`(육안 감사 인수인계)·`three-kingdoms-avatar-handoff-2026-07-31.md`(삼국지 회차 인수인계)·`todo_celeb_avatar_overhaul.md`(전면 재작업 절차)·`육안검사.txt`(인물별 증상 메모)까지 **8종**이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
+
+> 규격은 이 문서들이 아니라 `docs/project/celeb-avatar-spec.md`가 쥔다. 작업 문서에는 **명단과 이력만** 남기고 구도 규격을 다시 적지 않는다 — 26.08.01 이전에는 문서 5곳이 제각기 규격을 서술해 서로 어긋나 있었다.
 
 | 문서 | 내용 · 상태 |
 |------|------|
@@ -193,7 +196,7 @@ pnpm build:audio-bo
 신원 불일치·근거 부재로 이미지를 제거한 14명은 같은 스크립트의 `PROVENANCE_QUARANTINED_SLUGS`로 추가 격리한다. 임시 폴더로 복사하거나 파일명을 바꿔도 업로드할 수 없으며, 인물 고유 근거를 재검토한 뒤 검역 목록을 명시적으로 해제해야 한다.
 임의 검색 결과를 자동 채택하던 `upload-celeb-image-from-url.ts`와 실존 인물에게 팩션 REF를 직접 승격하던 `fill-faction-avatars.ts`는 실행 차단했다. `batch-celeb-wikimedia-avatars.ts`도 DB의 UUID–slug–CELEB 일치를 확인하지 않으면 처리하지 않으며, 검증된 `wikidata_qid`가 없는 대상은 live 자동 검색·QID 채택·업로드를 금지하고 dry-run 후보 조사만 허용한다.
 
-남은 작업: `ahmed-sherif` 프로필의 근거 확보·교정 또는 삭제 결정. 임의 얼굴 등록은 금지한다. 등록 자동화는 `.agents/skills/celeb-avatar-wikimedia/SKILL.md`, 규격은 `docs/project/db-celeb.md`(800×800 WebP).
+남은 작업: `ahmed-sherif` 프로필의 근거 확보·교정 또는 삭제 결정. 임의 얼굴 등록은 금지한다. 등록 자동화는 `.agents/skills/celeb-avatar-wikimedia/SKILL.md`, 파일 규격은 `docs/project/db-celeb.md`(800×800 WebP), **구도·프레이밍·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`**가 SSoT다.
 
 **셀럽 자료 디렉토리**
 
@@ -241,6 +244,7 @@ pnpm build:audio-bo
 | `docs/project/remotion/faction.md` | 세력도 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
 | `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
+| `faction-video-clips.md` (저장소 루트) | **팩션 화면 영상화 검토(Higgsfield)** — 인물 화면을 정지 이미지에서 AI 생성 영상으로. 수단 넷(립싱크·배경 원소 연출·정지 유지·구도를 바꾼 새 연출)을 **위계 없이 화면 조건에 따라 골라 쓴다**(선택 기준표 §4.1). 립싱크는 Higgsfield Speak / Lipsync Studio — 그림 1장 + 기존 대사 wav 업로드, 한국어 포함 40개 언어(시드댄스는 오디오를 구조 참조로만 써서 부적합). 배경 원소는 번개·화염 있는 인물에만 통한다. 우리 쪽 구조 실측(`imageChanges`는 발화 시각 기준 교체, 영상 재생·줌 정지 이미 지원, **인물 대사 음성은 실제 재생됨 — faction-rules.md §3.1 기록 정정**), 에피소드별 규모, 발주 원칙(컷은 AI에 맡기지 않음·카메라 고정·어중간한 입모양 금지), 미결정 두 갈래, 미확인 항목과 확인 방법. **26.08.01 조사, MCP 인증 전·생성 미착수** |
 | `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`profiles.virtual_monologue`(사료 — 런타임 의존 아님). **편집은 web-bo `/discourses`** |
 | `docs/project/remotion/discourse-unification.md` | **담화 완전 통합 SSoT** — DB 단일 원천(discourse_* 3테이블), 편집·출간은 web-bo `/discourses` 하나, 세 파일(discourse-data·cast·turns)은 렌더용 산출물(직접 편집 금지). 왕복 검증 7종·반증 시험 10종·export 발효·remotion-bo 담화 폐기. **26.07.26 Phase 5 완료** |
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
