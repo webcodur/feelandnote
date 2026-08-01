@@ -24,7 +24,6 @@ const LOCALES: Locale[] = ['ko', 'en']
 const SOURCE_OPTIONS = [
   'kakao_book',
   'aladin',
-  'naver_book', // 26.07.31 API 종료. 기존 등록분 표기용으로만 남긴다
   'openlibrary',
   'goodreads',
   'manual',

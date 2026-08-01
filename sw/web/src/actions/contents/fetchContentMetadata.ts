@@ -24,8 +24,7 @@ async function fetchMetadataFromApi(
 ): Promise<ContentMetadata> {
   switch (type) {
     case 'BOOK': {
-      // 네이버 도서 API는 26.07.31 종료. 기존 naver_book 소스 콘텐츠도 카카오로 재조회한다
-      // (ISBN이 같으면 같은 책이므로 소스 표기와 무관하게 메타를 얻을 수 있다)
+      // ISBN이 같으면 같은 책이므로 출처 표기와 무관하게 카카오로 메타를 얻는다
       if (externalSource === 'google_books') {
         // Google Books 소스 → Google Books 우선
         const googleBook = await getGoogleBookByIsbn(externalId)
@@ -37,7 +36,7 @@ async function fetchMetadataFromApi(
           return { id: externalId, metadata: kakaoBook.metadata }
         }
       } else {
-        // 그 외(kakao_book·naver_book·openlibrary) → 카카오 우선
+        // 그 외(kakao_book·openlibrary·출처 미상) → 카카오 우선
         const kakaoBook = await getKakaoBookByIsbn(externalId)
         if (kakaoBook) {
           return { id: externalId, metadata: kakaoBook.metadata }

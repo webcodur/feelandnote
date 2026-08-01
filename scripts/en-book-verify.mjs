@@ -209,7 +209,7 @@ async function main() {
     .eq('locale', 'en')
     .eq('verified', false)
     .eq('contents.type', 'BOOK')
-    .eq('contents.external_source', 'naver_book')
+    .eq('contents.external_source', 'kakao_book')
     .order('title')
     .range(OFFSET, OFFSET + LIMIT - 1)
 

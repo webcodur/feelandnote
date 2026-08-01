@@ -186,7 +186,7 @@ async function main() {
       .from('contents')
       .select('id, external_source')
       .eq('type', 'BOOK')
-      .eq('external_source', 'naver_book')
+      .eq('external_source', 'kakao_book')
       .range(offset, offset + PAGE - 1)
     if (e || !page?.length) break
     items.push(...page)

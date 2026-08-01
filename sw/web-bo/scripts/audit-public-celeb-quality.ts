@@ -429,7 +429,7 @@ async function main() {
     issue.thumbnailMissingKo += Number(Boolean(ko) && !text(ko?.thumbnail_url))
     issue.thumbnailMissingEn += Number(Boolean(en) && !text(en?.thumbnail_url))
     issue.legacyBookSource += Number(content?.type === 'BOOK'
-      && !['kakao_book', 'aladin', 'naver_book', 'openlibrary'].includes(content.external_source ?? ''))
+      && !['kakao_book', 'aladin', 'openlibrary'].includes(content.external_source ?? ''))
     contentIssuesByUser.set(row.user_id, issue)
   }
   const contentAuditQueue = [...contentIssuesByUser.entries()]
@@ -484,7 +484,7 @@ async function main() {
     }).length,
     legacyBookSource: scopeContents.filter(row => {
       const content = contentById.get(row.content_id)
-      return content?.type === 'BOOK' && !['kakao_book', 'aladin', 'naver_book', 'openlibrary'].includes(content.external_source ?? '')
+      return content?.type === 'BOOK' && !['kakao_book', 'aladin', 'openlibrary'].includes(content.external_source ?? '')
     }).length,
     reviewLengthKo: {
       p10: percentile(scopeContents.map(row => text(row.review).length).filter(Boolean), 0.1),

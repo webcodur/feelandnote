@@ -20,7 +20,7 @@ interface AddContentParams {
   releaseDate?: string
   metadata?: Record<string, unknown>  // 원본 메타데이터
   subtype?: string              // video의 경우 movie | tv
-  externalSource?: string       // 외부 API 출처 (naver_book, tmdb 등)
+  externalSource?: string       // 외부 API 출처 (kakao_book, tmdb 등)
   /** @deprecated status는 더 이상 사용하지 않음. 리뷰 유무로 감상 여부 판단. */
   status?: ContentStatus
   createdAt?: string            // 추가 날짜 (YYYY-MM-DD), 기본값: 오늘
