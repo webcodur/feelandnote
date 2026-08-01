@@ -1,5 +1,5 @@
 /**
- * 세력도(Faction) 에피소드 로더
+ * 세력도감(Faction) 에피소드 로더
  *
  * public/factions/{name}/faction-data.json 한 파일을 스캔한다(한국어 필드 + 영문 필드 *En 병기).
  * 한 파일에서 ko/en 두 벌의 스크립트를 펼친다.

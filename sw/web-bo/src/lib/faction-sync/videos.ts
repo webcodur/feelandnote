@@ -175,7 +175,7 @@ export function pickTagVariants(
 }
 
 /**
- * 업로드 기록 전체의 공개 상태를 유튜브에 물어본다 — 세력도는 KO 채널 하나뿐이라 1 unit.
+ * 업로드 기록 전체의 공개 상태를 유튜브에 물어본다 — 세력도감는 KO 채널 하나뿐이라 1 unit.
  * 기록이 없으면 null(조회 자체를 하지 않는다).
  */
 export async function checkFactionUploadsLive(uploads: FactionUploads): Promise<LiveCheck | null> {

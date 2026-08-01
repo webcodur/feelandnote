@@ -34,7 +34,7 @@ type YTStatusList = { items?: YTStatusItem[] }
 
 const BATCH = 50
 
-/** variant 키의 채널 — en- 접두사만 EN, 나머지는 KO(세력도는 전부 KO) */
+/** variant 키의 채널 — en- 접두사만 EN, 나머지는 KO(세력도감는 전부 KO) */
 export function channelOfVariant(variantKey: string): 'ko' | 'en' {
   return variantKey.startsWith('en-') ? 'en' : 'ko'
 }

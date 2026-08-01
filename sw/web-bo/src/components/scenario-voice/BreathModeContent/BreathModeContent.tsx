@@ -13,7 +13,7 @@ type Props = {
   name: string
   file: VoiceFile
   onRefresh: () => void
-  /** 로드·저장 라우트 어댑터 (선택) — 세력도 등 다른 저장 경로용. 미지정 시 북리커맨드 기본 라우트. */
+  /** 로드·저장 라우트 어댑터 (선택) — 세력도감 등 다른 저장 경로용. 미지정 시 북리커맨드 기본 라우트. */
   endpoints?: BreathEndpoints
 }
 

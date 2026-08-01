@@ -169,7 +169,7 @@ function getTriageSignals(
 
   if (factionLinked) {
     score += 1
-    signals.push('세력도 연결')
+    signals.push('세력도감 연결')
   }
 
   if (signals.length === 0) signals.push('뚜렷한 선행 신호 없음')

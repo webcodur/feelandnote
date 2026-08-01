@@ -235,7 +235,7 @@ export default function CelebTagSelector({ selectedTags, onTagsChange }: Props) 
         <p className="text-sm text-text-tertiary">
           등록된 테마가 없습니다.{' '}
           <Link href="/factions" className="text-accent hover:underline">
-            세력도
+            세력도감
           </Link>
           화면에서 도감 테마를 만들 수 있습니다.
         </p>

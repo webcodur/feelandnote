@@ -7,7 +7,7 @@ import { parseWav, channelToFloat, muteRegions, applyRegions, applyEdits, toAudi
 /**
  * 음원 로드 URL·저장 호출을 주입하는 어댑터.
  * 미지정이면 북리커맨드 기본 라우트(/voice/play, /voice/save)를 쓴다.
- * 세력도 등 다른 저장 경로는 이 어댑터로 라우트만 갈아끼운다(동작 동일).
+ * 세력도감 등 다른 저장 경로는 이 어댑터로 라우트만 갈아끼운다(동작 동일).
  */
 export type BreathEndpoints = {
   /** 캐시 무력화 쿼리까지 포함한 음원 GET URL */

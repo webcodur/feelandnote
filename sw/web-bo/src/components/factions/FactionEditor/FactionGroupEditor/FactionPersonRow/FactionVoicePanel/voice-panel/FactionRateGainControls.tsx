@@ -3,7 +3,7 @@
 import { GAIN_DB_MIN, GAIN_DB_MAX, GAIN_DB_STEP, isUnityGain } from '@feelandnote/shared/bo/gain'
 
 /**
- * 세력도 인물 음성 배속·게인 조절 줄.
+ * 세력도감 인물 음성 배속·게인 조절 줄.
  *
  * 북리커맨드 FieldAudioControls 의 배속 셔터(0.75/1/1.25/1.5/2…)·gain.ts 의 dB 게인 개념을
  * 인물 데이터(quotePlaybackRate / quoteGainDb)에 영속하는 형태로 이식한다.

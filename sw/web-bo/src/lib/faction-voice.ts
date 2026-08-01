@@ -1,5 +1,5 @@
 /**
- * 세력도(Faction) 음성 파일명·경로 규칙 — BO 측 정의.
+ * 세력도감(Faction) 음성 파일명·경로 규칙 — BO 측 정의.
  *
  * sw/remotion/src/compositions/Faction/voice-names.ts(vnPersonQuote)와
  * 렌더 인덱싱(buildCues)의 명명 규칙을 그대로 옮긴다. BO에서 인물 음성 파일명을

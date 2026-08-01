@@ -56,7 +56,7 @@
 | `description_en` | text | - | - | 태그 설명 (영문) |
 | `color` | text | - | `#7c4dff` | HEX 색상. 태그 pill UI에 사용 |
 | `slug` | text | - | - | 테마별 고유 주소. `/explore/faction/<slug>` (예: `xai`). UNIQUE(null 허용). BO에서 입력 |
-| `team_images` | jsonb | ✅ | `[]` | 단체 사진 목록. **주소만이 아니라 `{url, label, labelEn, celebIds}`** (26.07.27, 위 개편 ③). 옛 문자열 배열도 읽힌다. R2: `spotlight/{tagId}/team/{uuid}.webp`(물리 명칭은 옛 이름 유지) |
+| `team_images` | jsonb | ✅ | `[]` | 단체 사진 목록. **주소만이 아니라 `{url, label, labelEn, celebIds}`** (26.07.27, 위 개편 ③). 옛 문자열 배열도 읽힌다. R2: `faction/{tagId}/team/{uuid}.webp` |
 | `sort_order` | integer | - | `0` | 태그 목록 정렬 순서 (낮을수록 먼저) |
 | `is_featured` | boolean | - | `false` | `true`면 세력도감에 노출, `false`면 예고편(Soon) 표시 |
 | `start_date` | date | - | - | 기간 한정 태그 시작일 (미사용) |
@@ -75,7 +75,7 @@
 | `short_desc_en` | text | - | - | 한줄 소개 (영문) |
 | `long_desc` | text | - | - | 이 태그에서 이 인물의 상세 설명 (한국어, 1~2문장) |
 | `long_desc_en` | text | - | - | 상세 설명 (영문) |
-| `spotlight_image_url`(물리 명칭은 옛 이름 유지) | text | - | - | 이 태그 전용 인물 화보 1장 URL. 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `spotlight/{tagId}/celeb-{celebId}.webp` |
+| `faction_image_url` | text | - | - | 이 태그 전용 인물 화보 1장 URL. 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `faction/{tagId}/celeb-{celebId}.webp` |
 | `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저) |
 | `hidden` | boolean | ✅ | `false` | **이 테마에서 이 인물을 감출지**(26.07.27 신설, 위 개편 ①). 셀럽 전역 상태와 무관하다 |
 | `assigned_at` | timestamptz | - | `now()` | 배정 시각 |
@@ -161,7 +161,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 > | `CuratedSpotlightDesktop`(+ `curatedSpotlightDesktop/` 하위 `CelebThumbnails`·`useCuratedSpotlight`) | `FactionShowcase` |
 > | `CuratedSpotlightMobile` / `FeaturedSpotlightMobile` / `FeaturedSpotlightDesktop` | `FactionShowcase` (데스크탑·모바일 분리 컴포넌트 자체가 없어짐. 반응형 한 벌로 처리하고, 테마 전환 UI만 드로어/시트로 나뉨) |
 > | `SpotlightTeamBanner` (단체 이미지 상단 가로 배너) | `FactionShowcase` 좌측 사진 영역의 단체 항목 (**상단 배너가 아니다**. 여러 장이면 그 자리에서 캐러셀) |
-> | `SpotlightHeroImage` (Hero 카드 아래 전용 화보) | `FactionShowcase` 좌측 큰 사진 그 자체 (`spotlight_image_url ?? avatar_url`. **Hero "아래"가 아니라 Hero 본체**) |
+> | `SpotlightHeroImage` (Hero 카드 아래 전용 화보) | `FactionShowcase` 좌측 큰 사진 그 자체 (`faction_image_url ?? avatar_url`. **Hero "아래"가 아니라 Hero 본체**) |
 >
 > 즉 단체샷·전용 화보를 그리는 별도 컴포넌트는 없다. 이미지 관련 화면 문제는 전부 `FactionShowcase.tsx` 한 곳을 본다.
 
@@ -181,7 +181,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 ### 백오피스 관리 (web-bo)
 
-- 관리 화면은 **세력도 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
+- 관리 화면은 **세력도감 하나로 합쳤다(26.07.25)**. 옛 주소 `/celebs/tags`·`/members/tags`는 `/factions`로 보내는 리다이렉트만 남았고 사이드바 「태그」 항목도 없앴다
   - **`/factions` 는 두 작업 모드다(26.07.29)**. 같은 DB를 읽되 `영상 편`은 `faction_episodes` 한 편을 한 행으로, `도감 테마`는 `celeb_tags` 한 테마를 한 행으로 보여준다. 주소의 `?view=videos|themes`가 현재 관점을 쥐고 기본은 영상 편이다. 모드마다 「새 영상 편」·「새 테마」 조작이 바뀐다
   - **영상 편 모드**: 연결 여부와 무관하게 모든 편이 반드시 한 행씩 보인다. 제목·폴더, 렌더 편성(`registered`·순번), 도감 이관 가능 여부(`ready|blocked`·사유), 세력/인물 수, 연결 테마, 수정일을 한 표에서 확인한다. 전체·렌더 편성·미편성·테마 미연결 필터와 제목/폴더/테마 검색을 제공한다. `ready|blocked`는 영상 제작 진척도가 아니라 **도감으로 옮길 수 있는지**이므로 옛 `준비/작업 중/완료` 의미로 표시하지 않는다
   - **도감 테마 모드**: 열은 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·영상이다. 「영상」 칸에는 그 테마를 세력으로 쓰는 편이 배지로 붙고(복수 가능, 누르면 그 편 편집기로) 없으면 「글 전용」이다. 끌어서 진열 순서를 바꾼다
@@ -250,7 +250,7 @@ export type FeaturedCeleb = CelebProfile & {
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
-  spotlight_image_url: string | null
+  faction_image_url: string | null
 }
 ```
 

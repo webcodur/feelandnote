@@ -1,5 +1,5 @@
 /**
- * 세력도 로컬 자산 접근 가드 — **별칭만 남긴다.**
+ * 세력도감 로컬 자산 접근 가드 — **별칭만 남긴다.**
  *
  * 규칙 본체는 시리즈 무관이라 `lib/remotion-local.ts` 로 올렸다(26.07.26, 담화가 붙으면서).
  * 팩션 코드가 부르는 이름(`FACTION_LOCAL`·`factionLocalGuard`·`assertFactionLocal`)은 그대로 둔다 —

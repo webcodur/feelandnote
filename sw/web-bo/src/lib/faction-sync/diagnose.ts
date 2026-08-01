@@ -200,7 +200,7 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
         assigned: !!assignment,
         soloShot: soloShotStateOf(
           hash,
-          assignment?.spotlight_image_url,
+          assignment?.faction_image_url,
           tagId && p.celebId ? soloShotKey(tagId, p.celebId) : null,
           tagId,
           manifest,

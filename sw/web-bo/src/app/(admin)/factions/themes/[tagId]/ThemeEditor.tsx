@@ -204,7 +204,7 @@ export default function ThemeEditor({
         long_desc: null,
         short_desc_en: null,
         long_desc_en: null,
-        spotlight_image_url: null,
+        faction_image_url: null,
         hidden: false,
         sort_order: result.sort_order ?? prev.length,
         celeb: { id: celeb.id, nickname: celeb.nickname, avatar_url: celeb.avatar_url, title: celeb.title },
@@ -272,8 +272,9 @@ export default function ThemeEditor({
 
     setImgBusy(true)
     try {
+      // 자른 결과는 무손실 PNG다. webp 압축은 resizeSingleImage에서 한 번만 한다
       const blob = await (await fetch(dataUrl)).blob()
-      const file = new File([blob], 'faction.webp', { type: 'image/webp' })
+      const file = new File([blob], 'faction.png', { type: 'image/png' })
       const resized = await resizeSingleImage(file, 'faction')
 
       if (target.kind === 'team') {
@@ -286,7 +287,7 @@ export default function ThemeEditor({
         const up = await uploadTagCelebImage({ tagId: tag.id, celebId: target.celebId, image: resized })
         if (!up.success || !up.url) throw new Error(up.error ?? '업로드 실패')
         await setTagCelebImage(tag.id, target.celebId, up.url)
-        setCelebs(prev => prev.map(c => c.celeb_id === target.celebId ? { ...c, spotlight_image_url: up.url! } : c))
+        setCelebs(prev => prev.map(c => c.celeb_id === target.celebId ? { ...c, faction_image_url: up.url! } : c))
       }
     } catch (e) {
       alert(e instanceof Error ? e.message : '이미지 업로드 실패')
@@ -355,7 +356,7 @@ export default function ThemeEditor({
   const handleRemoveCelebImage = async (celebId: string) => {
     await setTagCelebImage(tag.id, celebId, null)
     await deleteTagCelebImage({ tagId: tag.id, celebId })
-    setCelebs(prev => prev.map(c => c.celeb_id === celebId ? { ...c, spotlight_image_url: null } : c))
+    setCelebs(prev => prev.map(c => c.celeb_id === celebId ? { ...c, faction_image_url: null } : c))
   }
   // #endregion
 
@@ -692,7 +693,7 @@ export default function ThemeEditor({
                     {item.hidden ? '숨김' : '도감 노출'}
                   </button>
                   <CelebFactionImage
-                    url={item.spotlight_image_url}
+                    url={item.faction_image_url}
                     busy={imgBusy}
                     onPick={(file) => pickImage({ kind: 'celeb', celebId: item.celeb_id }, file)}
                     onRemove={() => handleRemoveCelebImage(item.celeb_id)}

@@ -136,12 +136,12 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
     .map(id => items.findIndex(it => it.type === "celeb" && it.celeb.id === id))
     .filter(i => i >= 0)
     .map(itemIdx => ({ celeb: (items[itemIdx] as { celeb: FeaturedCeleb }).celeb, itemIdx }));
-  const celebSrc = current.type === "celeb" ? current.celeb.spotlight_image_url ?? current.celeb.avatar_url : null;
+  const celebSrc = current.type === "celeb" ? current.celeb.faction_image_url ?? current.celeb.avatar_url : null;
   const photoSrc = current.type === "team" ? teamSrc : celebSrc;
   const fallbackInitial = current.type === "team" ? teamName[0] : current.celeb.nickname[0];
   const photoAlt = current.type === "team" ? teamName : current.celeb.nickname;
 
-  // 이 인물이 세력도 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
+  // 이 인물이 세력도감 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
   const factionQuote =
     current.type === "celeb"
       ? (locale === "en" ? current.celeb.faction_quote_en ?? current.celeb.faction_quote : current.celeb.faction_quote)?.trim() || null
@@ -409,7 +409,7 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
         <div className="md:w-[56%] flex flex-col gap-5">
           {photo}
           {/*
-            이 테마를 다룬 세력도 영상과 그 구간에 흐르는 배경음악. 고른 항목이 사람이든 단체든
+            이 테마를 다룬 세력도감 영상과 그 구간에 흐르는 배경음악. 고른 항목이 사람이든 단체든
             테마 자체의 것이라 선택과 무관하게 같은 자리에 둔다. 없으면 아무것도 뜨지 않는다.
           */}
           <FactionMediaLinks videos={activeTag.videos} music={activeTag.music} title={teamName} />

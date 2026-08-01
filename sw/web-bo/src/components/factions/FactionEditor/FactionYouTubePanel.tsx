@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Upload, Eye, Trash2, Loader, Film } from '@feelandnote/shared/bo/icons'
 
-// #region 타입 — youtube/status·youtube/sync 응답 형태(세력도 한국어 세로 2종 전용)
+// #region 타입 — youtube/status·youtube/sync 응답 형태(세력도감 한국어 세로 2종 전용)
 
 type AuthState = { authenticated: boolean; expiryDate?: string; hasRefreshToken?: boolean }
 

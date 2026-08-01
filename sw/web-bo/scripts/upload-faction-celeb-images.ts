@@ -1,6 +1,6 @@
 /**
- * 세력도감 태그 전용 인물 개인샷(celeb_tag_assignments.spotlight_image_url) 일괄 등록
- * faction 인물 원본 이미지(전신/연출 화보) → 원본 비율 유지 webp → R2 spotlight/{tagId}/celeb-{celebId}.webp → assignment 갱신
+ * 세력도감 태그 전용 인물 개인샷(celeb_tag_assignments.faction_image_url) 일괄 등록
+ * faction 인물 원본 이미지(전신/연출 화보) → 원본 비율 유지 webp → R2 faction/{tagId}/celeb-{celebId}.webp → assignment 갱신
  * ※ 아바타(avatar_url, 얼굴 크롭)와 별개. 여기서는 얼굴 크롭하지 않고 원본을 그대로 쓴다.
  *
  * 입력: scratchpad/faction_img_batch.json  [{slug, celeb_id, tag, tag_id, image}]
@@ -54,13 +54,13 @@ async function main() {
     const png = readFileSync(r.image)
     // 얼굴 크롭 없음. 원본 비율 유지, 최대 1080으로만 축소(확대 안 함).
     const webp = await sharp(png).resize(1080, 1080, { fit: 'inside', withoutEnlargement: true }).webp({ quality: 88 }).toBuffer()
-    const key = `spotlight/${r.tag_id}/celeb-${r.celeb_id}.webp`
+    const key = `faction/${r.tag_id}/celeb-${r.celeb_id}.webp`
     await s3.send(new PutObjectCommand({
       Bucket: R2_BUCKET_NAME, Key: key, Body: webp,
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
-    const { error } = await sb.from('celeb_tag_assignments').update({ spotlight_image_url: url }).eq('tag_id', r.tag_id).eq('celeb_id', r.celeb_id)
+    const { error } = await sb.from('celeb_tag_assignments').update({ faction_image_url: url }).eq('tag_id', r.tag_id).eq('celeb_id', r.celeb_id)
     if (error) { console.error(`[${r.slug}] 갱신 실패`, error.message); continue }
     ok++
     console.log(`  ${r.slug} (${r.tag}) <- ${r.image.split('/').pop()} (${(webp.length / 1024).toFixed(0)}KB)`)

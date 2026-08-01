@@ -3,7 +3,7 @@
  * 로컬 화보(배경 포함 연출컷) → 원본 비율 유지 webp → R2 celebs/{celebId}/photo.webp → profiles 갱신
  *
  * ※ 아바타(avatar_url, 얼굴 크롭 800×800)와 별개다. 여기서는 얼굴을 자르지 않고 원본을 그대로 쓴다.
- * ※ 세력도감 개인화보(celeb_tag_assignments.spotlight_image_url)와도 별개다.
+ * ※ 세력도감 개인화보(celeb_tag_assignments.faction_image_url)와도 별개다.
  *    대문이 비어 있으면 화면이 세력도감 화보를 자동으로 끌어다 쓴다(getCelebBySlug).
  *
  * 입력: scratchpad/hero_photo_batch.json  [{slug, celeb_id, nickname, image}]

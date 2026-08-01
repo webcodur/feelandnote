@@ -97,7 +97,7 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    key: 'factions', label: '세력도', icon: Swords,
+    key: 'factions', label: '세력도감', icon: Swords,
     children: [
       { href: '/factions', label: '목록·도감 테마', icon: Swords },
     ],

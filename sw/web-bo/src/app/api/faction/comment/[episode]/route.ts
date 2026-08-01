@@ -3,7 +3,7 @@ import { guardFactionRoute } from '@/lib/faction-route'
 import { readFactionComment, writeFactionComment } from '@/lib/faction-file-utils'
 import { paramToFolder } from '@/lib/faction-edit-route'
 
-// ── 세력도 편별 댓글(해설 텍스트) 읽기/쓰기 ──
+// ── 세력도감 편별 댓글(해설 텍스트) 읽기/쓰기 ──
 //
 // 영상 데이터(faction-data.json)와 별개인 사람용 해설 글이다.
 // 파일: public/factions/{ep}/comment.p<part>.txt (편별 1개. part 0 = 편 구분 없는 통합편).

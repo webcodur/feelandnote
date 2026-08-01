@@ -8,7 +8,10 @@
  * 돌려주는 일이 있어(26.07.28: 1,141건 중 292건만 진짜), 크기만 보면 실패가 성공으로 잡힌다.
  *
  * 입력 JSON: [{slug, celeb_id, nickname, avatar_url, brief}]
- *   brief = 인물별 연출 본문(WARDROBE/ACTION/SETTING/CAMERA). 공통부는 이 파일이 붙인다.
+ *   brief = 인물별 연출 본문(SHOT MODE/WARDROBE/ACTION/SETTING/CAMERA). 공통부는 이 파일이 붙인다.
+ *   SHOT MODE 는 POSED / ABSORBED 둘 중 하나를 반드시 첫 줄에 적는다. ABSORBED 면 시선이
+ *   향할 대상을 이름으로 지목한다(`gaze target: the line he is writing`). 이 표기가 없으면
+ *   본업 중인데 카메라를 보는 컷이 나온다(26.07.22 올림포스 25장 전량 폐기의 원인).
  *
  * 사용법 (sw/web-bo 에서): node scripts/generate-celeb-hero-photos.mjs <배치.json> [--limit N] [--concurrency 3]
  */
@@ -57,6 +60,30 @@ No legible text, lettering or signage anywhere in the frame.`
 const IDENTITY = `IDENTITY — READ FIRST
 The face, age, build and features come ENTIRELY from the attached reference image. Do NOT invent, describe or alter any facial feature. Re-pose the person into the stance described below; take ONLY the face from the reference. Do NOT copy the reference photo's pose, crop, framing, background or lighting — those are all replaced by the directions below.`
 
+// 화보형(정면 응시)과 본업 몰입형(일감 응시)은 섞이면 둘 다 죽는다.
+// 책을 읽으면서 카메라를 보는 컷, 빈손으로 포즈만 잡았는데 작업 중이라는 컷이 그 실패다.
+const GAZE = `GAZE — IT MUST MATCH THE SHOT MODE DECLARED ABOVE
+This portrait is exactly one of two modes. They never mix.
+
+POSED — a magazine cover portrait. The person has stopped whatever they do and now holds the camera's eye. Head and torso squared to the lens, gaze straight down the barrel. Hands are at rest. Nothing is being read, written, examined, played or operated in this mode.
+
+ABSORBED — caught mid-work, unaware of the camera. The eyes are locked on the exact object named above as the gaze target, and the head and upper body turn toward that object. The person never looks at the lens and never acknowledges it.
+
+A person reading, writing, operating a tool or studying an object while facing the lens is a failure. A person standing empty-handed and posed when the direction calls for work in progress is equally a failure.
+
+In ABSORBED mode the gaze target is always a solid object inside the frame that the viewer can see — a page, a blade, an instrument, a face, a map. Never the sky, the horizon, the middle distance or empty air.`
+
+// 물건이 허공에 뜨거나 팔다리가 가구를 뚫는 컷을 막는다.
+const PHYSICALITY = `PHYSICALITY — GRAVITY AND ANATOMY HOLD
+Every object in the frame is supported by something the viewer can see: gripped by a hand whose fingers actually close around it, resting on a surface, hanging from a fixture, or strapped to the body. Nothing hovers unsupported in the air.
+The person's weight rests on something — feet planted on the floor, hips on the seat, a forearm on the table — and a contact shadow sits exactly where body meets surface.
+Anatomy holds: five fingers on each hand with natural joints and believable grip, limbs bending only where real joints bend, both arms belonging to the same body at the same scale, neck and spine consistent with where the head turns. Clothing drapes over the body underneath and follows gravity.
+Where the person meets furniture, the two touch at the surface — no arm, leg or hand passing through wood, stone or cloth.
+
+A vehicle or machine in the frame must be a whole working object, not a few of its parts. If a chariot, cart, boat, carriage or engine appears at all, the parts that make it work are visible and joined: the floor the person stands on, the body that floor belongs to, the wheels or hull under that body, the pole or shaft that reaches the animals, and the harness that ties the animals to that pole. Draught animals stand AHEAD of the vehicle in line with its pole, never alongside the driver. A rail, wheel or yoke that connects to nothing, or a person standing on nothing, is a failure.
+
+Weapons and tools obey the same law. A blade is held by its grip with the whole hand closed around it, and its weight pulls the wrist and shoulder the way that weight really would. A sheathed weapon hangs from a belt or baldric that visibly carries it. A spear, staff or standard either rests its butt on the ground or is carried at a balance point the arm could actually hold. Straps, buckles and scabbards connect to something. A weapon never floats beside the body, and the hand never grips air.`
+
 // 이 지시가 없으면 인물이 원경으로 작게 박힌다(다리우스 1세 실측, 26.07.31).
 // 대문은 정사각 240px로 뜨므로 얼굴이 일정 크기 이상 잡혀야 한다.
 const FRAMING = `FRAMING — FIXED CROP, NON-NEGOTIABLE
@@ -70,6 +97,7 @@ The crop is exactly this and nothing else:
 Do not crop tighter than this (no waist-up, no chest-up, no head-and-shoulders close-up). Do not crop wider than this (no full body with feet, no distant figure).
 
 If the person is seated, kneeling or crouching so that the knees are hidden behind a desk, table or railing, keep the SAME apparent size: the bottom edge still falls at desk height or lower, and the head still nearly touches the top of the frame. Do NOT pull the camera back to reveal the knees — filling the height matters more than seeing the knees.
+Measure the headroom: the crown of the head sits within the TOP 5 PERCENT of the frame height. A seated figure leaning over a desk still reaches that high — bring the camera closer instead of leaving empty wall above them.
 If the setting described below is a wide place, move the camera IN CLOSE to the person and let the setting fall away behind them, out of focus. The setting is context behind the person, never the subject.`
 
 function buildPrompt(row, outPath) {
@@ -80,6 +108,10 @@ Create a NEW environmental portrait photograph of the person in the attached ref
 ${IDENTITY}
 
 ${row.brief.trim()}
+
+${GAZE}
+
+${PHYSICALITY}
 
 ${FRAMING}
 
@@ -237,6 +269,12 @@ async function main() {
 
   const all = JSON.parse(readFileSync(batchPath, 'utf-8'))
   const rows = all.slice(0, limit === Infinity ? all.length : limit)
+
+  // 연출문에 갈래 표기가 없으면 한 건도 뽑지 않는다 — 생성 뒤에 알면 한도만 태운다
+  const badMode = rows.filter(r => !/^\s*SHOT MODE:\s*(POSED|ABSORBED)\b/im.test(r.brief || ''))
+  if (badMode.length) throw new Error(`SHOT MODE 누락 ${badMode.length}건: ${badMode.slice(0, 5).map(r => r.slug).join(', ')}`)
+  const noTarget = rows.filter(r => /^\s*SHOT MODE:\s*ABSORBED\b/im.test(r.brief) && !/gaze target:\s*\S/i.test(r.brief))
+  if (noTarget.length) throw new Error(`ABSORBED 인데 시선 대상 미지정 ${noTarget.length}건: ${noTarget.slice(0, 5).map(r => r.slug).join(', ')}`)
   mkdirSync(WORK, { recursive: true })
 
   const stats = { ok: 0, fail: 0, rate: 0, skip: 0 }

@@ -5,7 +5,7 @@ import {
 } from '@/actions/admin/factions/episodes'
 
 /**
- * 세력도 진행 상태 창구.
+ * 세력도감 진행 상태 창구.
  *
  * 교체: 옛 대시보드는 편 폴더를 훑어 `_status.json` 파일을 읽고 썼다(북리커맨드는 폴더 이동).
  *   이제 진행 상태의 원본은 DB(faction_episodes.status)다 — 파일을 건드리지 않는다.

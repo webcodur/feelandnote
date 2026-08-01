@@ -5,7 +5,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 # 팩션 영상 → 세력도감 연동
 
-세력도감(`/explore/faction`)은 셀럽을 테마(태그)로 묶어 보여준다. **표준 경로는 web-bo(포트 3001) `/factions/<편>` 편집기 헤더의 「출간」 패널이다** — 수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 파이프라인 SSoT는 `docs/project/web-bo.md` 「세력도」 절(설계 근거는 `docs/project/remotion/faction-unification.md` §4·§9), 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`.
+세력도감(`/explore/faction`)은 셀럽을 테마(태그)로 묶어 보여준다. **표준 경로는 web-bo(포트 3001) `/factions/<편>` 편집기 헤더의 「출간」 패널이다** — 수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 파이프라인 SSoT는 `docs/project/web-bo.md` 「세력도감」 절(설계 근거는 `docs/project/remotion/faction-unification.md` §4·§9), 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`.
 
 > **26.07.25 이관** — 출간 배관이 remotion-bo에서 web-bo로 옮겨 오면서 창구가 **API 라우트가 아니라 서버 액션**(`src/actions/admin/factions/publish.ts`의 `diagnoseFactionPublish`·`publishFactionEpisode`)이 됐다. 옛 `api/faction/db-sync/{status,publish}` 2라우트는 삭제됐고 **remotion-bo의 팩션 주소는 404다.** 서버 액션은 `curl`로 찌를 수 없으므로 진단·출간은 화면에서 한다.
 
@@ -35,20 +35,22 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 - **제작 측(비공개)** — `faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts` 5테이블. 투영은 `faction_groups.tag_id` → `celeb_tags`, `faction_people.celeb_id` → `celeb_tag_assignments` 단방향이다. 제작 데이터도 같은 DB에 있으므로 텍스트를 파일과 대조할 일이 없다.
 - `celeb_tags` — 태그 마스터(테마). 그룹 헤더도 여기 일반 태그 1행으로 존재.
-- `celeb_tag_assignments` — (tag_id, celeb_id) 배정. 태그별 인물 소개(`short_desc`/`long_desc`)와 **개인샷**(`spotlight_image_url`, 물리 명칭은 옛 이름 유지)이 여기 붙는다.
+- `celeb_tag_assignments` — (tag_id, celeb_id) 배정. 태그별 인물 소개(`short_desc`/`long_desc`)와 **개인샷**(`faction_image_url`, 물리 명칭은 옛 이름 유지)이 여기 붙는다.
 - `profiles.avatar_url` — 인물 공통 아바타(태그 무관).
 
 ## 이미지 3종 — 절대 혼동 금지
 
-화면 소스: `FactionShowcase.tsx`에서 Hero = `spotlight_image_url ?? avatar_url`, 리스트 썸네일 = `avatar_url`, 단체샷 = `team_images`.
+화면 소스: `FactionShowcase.tsx`에서 Hero = `faction_image_url ?? avatar_url`, 리스트 썸네일 = `avatar_url`, 단체샷 = `team_images`.
 
 | 종류 | 컬럼/필드 | 성격 | R2 경로 | 채우는 경로 |
 |------|-----------|------|---------|------|
 | **아바타** | `profiles.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-wikimedia` 스킬 또는 `web-bo/scripts/upload-celeb-image-from-wikimedia.ts --image-file` |
-| **개인샷** | `assignments.spotlight_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) | `spotlight/{tagId}/celeb-{celebId}.webp` | 출간 패널(person.image → 원본 비율 유지, **얼굴 크롭 금지**) |
-| **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(캐러셀) | `spotlight/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 출간 패널(clusters[].image 전체, 태그 단위 재구성) |
+| **개인샷** | `assignments.faction_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) | `faction/{tagId}/celeb-{celebId}.webp` | 출간 패널(person.image → 원본 비율 유지, **얼굴 크롭 금지**) |
+| **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(캐러셀) | `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 출간 패널(clusters[].image 전체, 태그 단위 재구성) |
 
 **함정**: 개인샷을 안 채우면 Hero가 아바타(얼굴 크롭)로 폴백돼 "얼굴이 Hero에 뜬다". 아바타=얼굴, 개인샷=원본 전신 — 반드시 다른 이미지.
+
+아바타의 프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`가 SSoT다(개인샷에는 적용하지 않는다).
 
 ## 파이프라인이 못 하는 것 (예외 작업)
 
@@ -66,7 +68,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 1. **원본 선정** — 기존 `_refs/<인물>`을 먼저 열고, 팩션 개인 화보 후보를 한 장씩 직접 대조한다. 첫 파일을
    자동 채택하거나 비교용 시트·합본을 만들지 않는다. 일치하는 컷이 없으면 조사 후 서로 구별되는 익명 REF와
    개인 화보를 먼저 설계한다. 실제 얼굴을 추정·생성하거나 일반 웹 사진을 본인 사진으로 대체하지 않는다.
-2. **크롭** — `sw/web-bo/scripts/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
+2. **크롭** — 목표 프레임 기하는 `docs/project/celeb-avatar-spec.md` §1·§2를 따른다. `sw/web-bo/scripts/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
    검출되지 않은 경우에만 수동 정사각 크롭을 허용한다. 수동 크롭도 승인된 REF의 은폐 방식·복식·소품을
    보존하며 얼굴을 보정하거나 드러내지 않는다.
 3. **배경 제거** — 반드시 `nobg-cutout` 스킬과 `C:\project\nobg` 전용 도구를 쓴다. 서비스 배경
@@ -96,4 +98,4 @@ curl.exe -X POST "https://feelandnote.com/api/revalidate" -H "Content-Type: appl
 ```
 `CRON_SECRET`은 `sw/web/.env`. (출간 패널은 이걸 자동으로 한다.)
 
-관련: `celeb-avatar-wikimedia`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `celeb-tag-system.md`(태그 SSoT), `web-bo.md` 「세력도」 절(출간 배관), `faction-unification.md`(통합 설계).
+관련: `celeb-avatar-wikimedia`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `celeb-tag-system.md`(태그 SSoT), `web-bo.md` 「세력도감」 절(출간 배관), `faction-unification.md`(통합 설계).

@@ -1,6 +1,6 @@
 /**
  * 페이팔 마피아 세력도감 이미지 채우기.
- * 세력도(faction) 영상용 인물 개인샷 → 세력도감 전용 화보(spotlight_image_url),
+ * 세력도감(faction) 영상용 인물 개인샷 → 세력도감 전용 화보(faction_image_url),
  * 진영 단체샷 → 세력도감 상단 단체 배너(team_images)로 옮긴다.
  * 정사각 1024 원본 → 1080 webp 변환 후 R2 업로드.
  *
@@ -63,10 +63,10 @@ async function main() {
     const path = resolve(FACTION_ROOT, c.file)
     if (!existsSync(path)) { console.log(`  파일 없음: ${c.name} (${c.file})`); continue }
     const body = await toWebp(path)
-    const key = `spotlight/${TAG_ID}/celeb-${c.id}.webp`
+    const key = `faction/${TAG_ID}/celeb-${c.id}.webp`
     await r2.send(new PutObjectCommand({ Bucket, Key: key, Body: body, ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable' }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
-    const { error } = await supabase.from('celeb_tag_assignments').update({ spotlight_image_url: url }).eq('tag_id', TAG_ID).eq('celeb_id', c.id)
+    const { error } = await supabase.from('celeb_tag_assignments').update({ faction_image_url: url }).eq('tag_id', TAG_ID).eq('celeb_id', c.id)
     console.log(`  ${c.name} → 화보 등록${error ? ' [DB오류:' + error.message + ']' : ''}`)
   }
 
@@ -76,7 +76,7 @@ async function main() {
     const path = resolve(FACTION_ROOT, rel)
     if (!existsSync(path)) { console.log(`  단체샷 없음: ${rel}`); continue }
     const body = await toWebp(path)
-    const key = `spotlight/${TAG_ID}/team/${i}.webp`
+    const key = `faction/${TAG_ID}/team/${i}.webp`
     await r2.send(new PutObjectCommand({ Bucket, Key: key, Body: body, ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable' }))
     teamUrls.push(`${R2_PUBLIC_URL}/${key}`)
     console.log(`  단체샷 업로드: ${rel}`)

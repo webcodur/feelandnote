@@ -5,7 +5,7 @@ import { guardFactionRoute } from '@/lib/faction-route'
 import { paramToFolder } from '@/lib/faction-edit-route'
 
 /**
- * POST : 세력도 음성 정렬 — 받아쓰기 → 발화 시각을 하나의 백그라운드 작업으로 순차 실행한다.
+ * POST : 세력도감 음성 정렬 — 받아쓰기 → 발화 시각을 하나의 백그라운드 작업으로 순차 실행한다.
  * 팩션엔 의미 분할 단계가 없다.
  *   pnpm voice:transcribe -- --episode <ep> --faction --lang <lang> [--only <이름>]
  *   pnpm voice:faction-align -- --episode <ep> --lang <lang> [--only <이름>]

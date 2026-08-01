@@ -37,7 +37,7 @@ export interface CelebTagAssignment {
   long_desc: string | null
   short_desc_en: string | null
   long_desc_en: string | null
-  spotlight_image_url: string | null
+  faction_image_url: string | null
   sort_order: number
   /** 도감에서 이 테마의 이 인물을 감출지. 셀럽 전역 상태와 무관한 웹 전용 스위치다 */
   hidden: boolean
@@ -94,8 +94,8 @@ export interface TagsResponse {
 // #endregion
 
 /**
- * 도감 테마 화면 갱신 — 목록(세력도)과 테마 편집 화면 두 곳.
- * 옛 태그 관리 주소(`/celebs/tags`)는 26.07.25 에 세력도로 흡수됐다.
+ * 도감 테마 화면 갱신 — 목록(세력도감)과 테마 편집 화면 두 곳.
+ * 옛 태그 관리 주소(`/celebs/tags`)는 26.07.25 에 세력도감로 흡수됐다.
  */
 function revalidateThemeScreens() {
   revalidatePath('/factions')
@@ -370,7 +370,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
 
   const { data, error } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, spotlight_image_url, sort_order, hidden, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
+    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, faction_image_url, sort_order, hidden, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
 
@@ -386,7 +386,7 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     long_desc: item.long_desc,
     short_desc_en: item.short_desc_en ?? null,
     long_desc_en: item.long_desc_en ?? null,
-    spotlight_image_url: item.spotlight_image_url ?? null,
+    faction_image_url: item.faction_image_url ?? null,
     hidden: item.hidden === true,
     sort_order: item.sort_order ?? 0,
     celeb: (Array.isArray(item.celeb) ? item.celeb[0] : item.celeb) as CelebTagAssignment['celeb'],
@@ -715,7 +715,7 @@ export async function setTagCelebImage(
 
   const { error } = await supabase
     .from('celeb_tag_assignments')
-    .update({ spotlight_image_url: url })
+    .update({ faction_image_url: url })
     .eq('tag_id', tagId)
     .eq('celeb_id', celebId)
 
@@ -725,7 +725,7 @@ export async function setTagCelebImage(
   }
 
   revalidateThemeScreens()
-  // celeb_tag_assignments.spotlight_image_url — 셀럽 카드 이미지에도 반영된다
+  // celeb_tag_assignments.faction_image_url — 셀럽 카드 이미지에도 반영된다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }

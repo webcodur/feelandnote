@@ -170,7 +170,7 @@ export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; c
       )}
       {/* 상단 그라데이션 — 상단 헤더 가독 */}
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}aa 0%, transparent 20%)` }} />
-      {/* 묶음 캡션 — 단체 명칭 한 필드(앞부분\n뒷부분). 명칭이 있을 때만 (로고 세력도 표시) */}
+      {/* 묶음 캡션 — 단체 명칭 한 필드(앞부분\n뒷부분). 명칭이 있을 때만 (로고 세력도감 표시) */}
       {cluster.label?.trim() && (
         <div style={{ opacity: captionOp }}>
           <CardCaption accent={accent} caption={cluster.label} orientation={orientation} />

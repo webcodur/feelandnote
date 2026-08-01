@@ -1,7 +1,6 @@
 "use client";
 
 import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
 import type { Locale } from "@/types/locale";
@@ -22,6 +21,7 @@ import { type GuestbookEntryWithAuthor } from "@/types/database";
 import { trackEvent, useSectionViewTracking } from "@/lib/analytics/track";
 import { FormattedText } from "@/components/ui";
 import ClassicalBox from "@/components/ui/ClassicalBox";
+import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import ShareButtons from "@/components/ui/ShareButtons";
 import CelebHeroPhoto from "./CelebHeroPhoto";
 import NationalityText from "@/components/ui/NationalityText";
@@ -265,10 +265,26 @@ export default function CelebPageContent({
     return () => observer.disconnect();
   }, [sectionKey]);
 
-  const handleAvatarClick = useCallback(() => {
+  const handleGreetingPlay = useCallback(() => {
     trackEvent("celeb_voice_play", { kind: "greeting" });
     fireGreeting({ ...profile, greeting, nickname });
   }, [fireGreeting, greeting, nickname, profile]);
+
+  /* 크게 보기 — 대표 화보가 있으면 화보를, 없으면 얼굴 사진을 그대로 띄운다.
+     첫 글자만 있는 인물은 띄울 그림이 없으므로 누를 수 없게 둔다. */
+  const zoomImageUrl = profile.photo_url ?? profile.avatar_url ?? null;
+  /* 설명은 전용 화보에만 붙는다. 얼굴 사진으로 돌아간 인물에게는 뜨지 않는다 */
+  const zoomCaption = profile.photo_url
+    ? (locale === "en" ? profile.photo_caption_en ?? profile.photo_caption : profile.photo_caption) ?? null
+    : null;
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const handleZoom = useCallback(() => {
+    if (!zoomImageUrl) return;
+    setZoomOpen(true);
+  }, [zoomImageUrl]);
+
+  // 인사말이 없는 인물에게는 인사 배지를 달지 않는다(눌러도 아무 말도 안 나온다)
+  const canGreet = (greeting?.length ?? 0) > 0;
 
   const handleQuotePlay = useCallback(() => {
     trackEvent("celeb_voice_play", { kind: "quote" });
@@ -343,7 +359,10 @@ export default function CelebPageContent({
               photoUrl={profile.photo_url}
               avatarUrl={profile.avatar_url}
               nickname={nickname}
-              onClick={handleAvatarClick}
+              onZoom={handleZoom}
+              zoomLabel={t("enlargePhoto")}
+              onGreet={canGreet ? handleGreetingPlay : undefined}
+              greetLabel={t("playGreetingVoice")}
               photoSize="w-56 h-56"
               avatarSize="w-28 h-28"
               initialSize="text-2xl"
@@ -402,13 +421,14 @@ export default function CelebPageContent({
                   )}
                 </div>
               )}
-            </div>
 
-            <div className="flex w-full justify-end border-t border-white/10 pt-3">
               <ShareButtons
                 title={shareTitle}
                 path={`/celeb/${slug}`}
+                align="center"
                 comfortable
+                showLabel={false}
+                className="pt-2"
               />
             </div>
           </div>
@@ -421,7 +441,10 @@ export default function CelebPageContent({
               photoUrl={profile.photo_url}
               avatarUrl={profile.avatar_url}
               nickname={nickname}
-              onClick={handleAvatarClick}
+              onZoom={handleZoom}
+              zoomLabel={t("enlargePhoto")}
+              onGreet={canGreet ? handleGreetingPlay : undefined}
+              greetLabel={t("playGreetingVoice")}
               photoSize="w-60 h-60"
               avatarSize="w-44 h-44"
               initialSize="text-3xl"
@@ -480,18 +503,30 @@ export default function CelebPageContent({
                   )}
                 </div>
               )}
-            </div>
-          </div>
 
-          <div className="mt-4 flex justify-end border-t border-white/10 pt-3">
-            <ShareButtons
-              title={shareTitle}
-              path={`/celeb/${slug}`}
-              comfortable
-            />
+              <ShareButtons
+                title={shareTitle}
+                path={`/celeb/${slug}`}
+                align="start"
+                comfortable
+                showLabel={false}
+                className="pt-2"
+              />
+            </div>
           </div>
         </ClassicalBox>
       </section>
+
+      {/* 초상화 크게 보기 */}
+      {zoomImageUrl && (
+        <ImageViewerModal
+          src={zoomImageUrl}
+          alt={nickname}
+          caption={zoomCaption}
+          isOpen={zoomOpen}
+          onClose={() => setZoomOpen(false)}
+        />
+      )}
 
       {/* 실존 인물은 기록물, 픽션 인물은 대표 원전·등장 작품을 같은 02번 자리에서 연다. */}
       <section

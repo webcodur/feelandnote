@@ -5,7 +5,7 @@
  * `id === '...'` 같은 하드코딩 비교는 두지 않는다 — 시리즈가 늘 때마다 분기가 번식한다.
  *
  * ⚠ **지금 이 앱에 남은 시리즈는 서재 탐방 하나뿐이다**(26.07.26).
- *   세력도는 26.07.25, 가상 담화는 26.07.26 에 각각 web-bo 로 이관됐다.
+ *   세력도감는 26.07.25, 가상 담화는 26.07.26 에 각각 web-bo 로 이관됐다.
  *   그래서 아래 「계열별 등록표」 얼개(SERIES_HOMES·EDITORS·EPISODE_LISTS 등)는 지금
  *   **한 명뿐인 표**가 됐다. 새 시리즈를 여기 얹을 계획이 없다면 얼개 자체를 걷어내고
  *   서재 탐방을 web-bo 로 마저 옮기는 쪽이 낫다 — 설계 문서
@@ -16,7 +16,7 @@
  * 데이터 구조 계열 — 에피소드 저장 형식·IO·편집 화면이 이 값으로 갈린다.
  * - book: episodes/<인물>/ 의 책 본문(meta·books·shorts). 서재 탐방
  *
- * 세력도(faction)·가상 담화(discourse)는 이 앱에서 폐기됐다 — 편집·출간 전부 web-bo 로 이관
+ * 세력도감(faction)·가상 담화(discourse)는 이 앱에서 폐기됐다 — 편집·출간 전부 web-bo 로 이관
  * (`faction-unification.md` §9 · `discourse-unification.md` §8).
  */
 export type SeriesDataModel = 'book'

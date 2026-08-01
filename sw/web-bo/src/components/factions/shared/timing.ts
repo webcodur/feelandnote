@@ -1,4 +1,4 @@
-// 세력도 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
+// 세력도감 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
 
 import type { FactionScript, FactionPerson, FactionEra, FactionChapter } from '@/lib/faction-types'
 

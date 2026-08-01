@@ -1,7 +1,7 @@
 /**
  * 이 패널의 타입은 원래 서재 탐방 편집기의 대본 타입(EpisodeData)을 물고 있었다.
- * 세력도는 그 편집기를 쓰지 않으므로, 여기서는 **어떤 대본이든 받는 열린 모양**으로 둔다.
- * 실제로 세력도가 쓰는 것은 이 파일의 스타일 상수(BTN_*)와 화면 조각 몇 개뿐이다.
+ * 세력도감는 그 편집기를 쓰지 않으므로, 여기서는 **어떤 대본이든 받는 열린 모양**으로 둔다.
+ * 실제로 세력도감가 쓰는 것은 이 파일의 스타일 상수(BTN_*)와 화면 조각 몇 개뿐이다.
  */
 type EpisodeData = Record<string, unknown>
 import type { VoiceFile, VoiceSection, EngineKind, EleSettings } from '@feelandnote/shared/bo/voice-utils'

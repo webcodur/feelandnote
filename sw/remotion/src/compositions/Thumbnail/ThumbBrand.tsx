@@ -1,5 +1,5 @@
 /**
- * ThumbBrand — 세력도 썸네일 공통 브랜딩(상단 「세력도감」 배지 + 하단 「FEEL&NOTE」 푸터).
+ * ThumbBrand — 세력도감 썸네일 공통 브랜딩(상단 「세력도감」 배지 + 하단 「FEEL&NOTE」 푸터).
  * GEM·후보 시안이 공유해 시리즈 정체성을 통일한다.
  */
 import React from 'react'

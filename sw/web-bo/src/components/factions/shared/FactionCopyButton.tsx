@@ -70,7 +70,7 @@ export function FactionCopyButton({ script }: { script: FactionScript }) {
       className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
       title="활성 세력·인물의 이름과 설명을 텍스트로 복사"
     >
-      <Copy size={15} /> {copied ? '복사됨' : '세력도 복사'}
+      <Copy size={15} /> {copied ? '복사됨' : '세력도감 복사'}
     </button>
   )
 }

@@ -3,7 +3,7 @@
  *   - 1편(BIG-4): openai · google-deepmind · anthropic · xai
  *   - 2편(오픈 프론티어): ai-pioneers · meta · mistral · hugging-face · deepseek · thinking-machines · ssi
  *   - 단체샷 → celeb_tags.team_images (상단 배너)
- *   - 인물 전용 화보 → celeb_tag_assignments.spotlight_image_url
+ *   - 인물 전용 화보 → celeb_tag_assignments.faction_image_url
  *   - 파일명이 인물명과 다른 진영은 personFiles로 명시 매핑
  *   - 점증 업로드: 이미 채워진 팀/인물은 건너뜀 (재실행 안전)
  *   - _logo·보관/복사본/번호변형 파일은 제외
@@ -128,17 +128,17 @@ async function run() {
     const dir = resolve(FACTION_ROOT, team.dir)
     console.log(`\n=== ${team.slug} (${team.dir}) ===`)
 
-    // 태그 + 배정 인물 조회 (기존 team_images / spotlight_image_url 포함 — 점증 업로드)
+    // 태그 + 배정 인물 조회 (기존 team_images / faction_image_url 포함 — 점증 업로드)
     const { data: tag } = await supabase.from('celeb_tags').select('id, team_images').eq('slug', team.slug).single()
     if (!tag) { console.log('  태그 없음 — 건너뜀'); continue }
     const { data: assigns } = await supabase
       .from('celeb_tag_assignments')
-      .select('celeb_id, spotlight_image_url, profiles!celeb_tag_assignments_celeb_id_fkey(nickname)')
+      .select('celeb_id, faction_image_url, profiles!celeb_tag_assignments_celeb_id_fkey(nickname)')
       .eq('tag_id', tag.id)
     const people = (assigns ?? []).map((a) => ({
       celeb_id: a.celeb_id,
       nickname: (a.profiles as unknown as { nickname: string }).nickname,
-      hasImage: !!a.spotlight_image_url,
+      hasImage: !!a.faction_image_url,
     }))
 
     // 1) 단체샷 → team_images (이미 있으면 건너뜀)
@@ -150,7 +150,7 @@ async function run() {
       for (const f of team.teamFiles) {
         const p = resolve(dir, f)
         if (!existsSync(p)) { console.log(`  [단체] 누락: ${f}`); continue }
-        const url = await upload(`spotlight/${tag.id}/team/${randomUUID()}.webp`, await toWebp(p))
+        const url = await upload(`faction/${tag.id}/team/${randomUUID()}.webp`, await toWebp(p))
         teamUrls.push(url)
         console.log(`  [단체] ${f} → 업로드`)
       }
@@ -159,7 +159,7 @@ async function run() {
       }
     }
 
-    // 2) 인물 화보 → spotlight_image_url (이미 있으면 건너뜀)
+    // 2) 인물 화보 → faction_image_url (이미 있으면 건너뜀)
     //    personFiles 명시 매핑 우선, 없으면 파일명=nickname 자동 매칭
     const fileMap = team.personFiles
       ? Object.fromEntries(Object.entries(team.personFiles).map(([nick, f]) => [nick, resolve(dir, f)]))
@@ -168,9 +168,9 @@ async function run() {
       if (person.hasImage && !FORCE_PERSON) continue
       const path = fileMap[person.nickname]
       if (!path) { console.log(`  [인물] 파일 없음: ${person.nickname}`); continue }
-      const url = await upload(`spotlight/${tag.id}/celeb-${person.celeb_id}.webp`, await toWebp(path))
+      const url = await upload(`faction/${tag.id}/celeb-${person.celeb_id}.webp`, await toWebp(path))
       await supabase.from('celeb_tag_assignments')
-        .update({ spotlight_image_url: url }).eq('tag_id', tag.id).eq('celeb_id', person.celeb_id)
+        .update({ faction_image_url: url }).eq('tag_id', tag.id).eq('celeb_id', person.celeb_id)
       console.log(`  [인물] ${person.nickname} → 업로드`)
     }
   }

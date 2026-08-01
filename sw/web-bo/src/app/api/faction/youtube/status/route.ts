@@ -39,7 +39,7 @@ function checkToken(fileName: string) {
 }
 
 /**
- * 세력도 업로드 상태 — 한국어 세로 영상. 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(에피소드 데이터의 진영 part 수만큼).
+ * 세력도감 업로드 상태 — 한국어 세로 영상. 세로 롱폼(KO-LV, 편 경계 있으면 KO-LV{N}편) + 세로 쇼츠 N편(에피소드 데이터의 진영 part 수만큼).
  * 출력: out/Faction/{ep}-KO-LV.mp4 또는 {ep}-KO-LV{N}.mp4 (롱폼) · {ep}-KO-S{N}.mp4 (쇼츠)
  * 기록: scripts/youtube/faction-lineup.json
  */
@@ -82,7 +82,7 @@ async function factionStatus(episode: string) {
     })
   }
 
-  // 기록된 영상이 유튜브에 아직 있는지 대조 — 세력도는 KO 채널 하나뿐이라 1 unit.
+  // 기록된 영상이 유튜브에 아직 있는지 대조 — 세력도감는 KO 채널 하나뿐이라 1 unit.
   const live = await checkUploadsLive(episodeMeta?.uploads, () => 'ko')
 
   return NextResponse.json({ auth, lineup: episodeMeta, variants, meta: null, live })

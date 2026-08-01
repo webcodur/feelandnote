@@ -8,7 +8,7 @@ import { factionVoiceDir, factionVoiceFilePath } from '@/lib/faction-paths'
 import { guardFactionRoute } from '@/lib/faction-route'
 import { paramToFolder } from '@/lib/faction-edit-route'
 
-// ── 세력도 인물 대사 음성 저장 (미리듣기 → 인물 음원 확정)
+// ── 세력도감 인물 대사 음성 저장 (미리듣기 → 인물 음원 확정)
 //
 // 음원은 public/factions/{에피소드}/voice/{파일} 에 둔다. 이 창구가 그 자리에 쓴다.
 //

@@ -1,5 +1,5 @@
 /**
- * 세력도 내보내기 몸통 — DB → faction-data.json.
+ * 세력도감 내보내기 몸통 — DB → faction-data.json.
  *
  * 내보내기 액션(`actions/admin/factions/export.ts`)과 저장 액션(script.ts)이 함께 쓴다.
  * 저장이 내보내기 액션을 다시 부르면 관리자 확인(외부 왕복 2회)이 저장마다 두 번 돌아서,

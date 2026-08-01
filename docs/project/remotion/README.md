@@ -7,7 +7,7 @@ Remotion(React 기반 영상 프레임워크)으로 제작하는 영상 시리�
 | 시리즈 | 문서 | 설명 |
 |--------|------|------|
 | 서재 탐방 | [book-recommend/](book-recommend/README.md) | 셀럽의 추천 도서 소개. 롱폼(16:9) + 쇼츠(9:16) |
-| 세력도 | [faction.md](faction.md) · 데이터 `sw/remotion/public/factions/` · [폴더 규격](../../../sw/remotion/public/factions/_docs/folder-rules.md) · [ELE 보이스](../../../sw/remotion/public/factions/_voice-casting/README.md) | 인물 진영별 시네마틱. **에피소드 조사·어록은 각 팩션 폴더** |
+| 세력도감 | [faction.md](faction.md) · 데이터 `sw/remotion/public/factions/` · [폴더 규격](../../../sw/remotion/public/factions/_docs/folder-rules.md) · [ELE 보이스](../../../sw/remotion/public/factions/_voice-casting/README.md) | 인물 진영별 시네마틱. **에피소드 조사·어록은 각 팩션 폴더** |
 | 가상 담화 | [discourse.md](discourse.md) · 데이터 `sw/remotion/public/discourses/` | 인물이 자기 사상을 1인칭으로 말하고 서로 반박·대담. 세로 롱폼 + 쇼츠 |
 
 > 「저승 술집(hell-bar)」은 폐기됐다(2026-07-16). 구현된 적이 없으며 가상 담화가 대체한다. 기획 보존본: [`docs/archive/hell-bar/README.md`](../../archive/hell-bar/README.md)

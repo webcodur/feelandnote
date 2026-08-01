@@ -18,12 +18,12 @@ export async function POST(req: Request) {
   if (blocked) return NextResponse.json({ error: blocked }, { status: 400 })
 
   const args = ['youtube:upload', '--', '--episode', episode]
-  // 세력도 — CLI 가 별도 진입점으로 위임하도록 시리즈 플래그를 넘긴다.
+  // 세력도감 — CLI 가 별도 진입점으로 위임하도록 시리즈 플래그를 넘긴다.
   args.push('--series', 'faction')
   if (type) args.push('--type', type)
   if (dry) args.push('--dry')
   // 원본에 있던 --lang·--shorts-index·--book-index 는 넘기지 않는다.
-  // 세력도 진입점은 uploadFaction(episode, type, dry) 로만 받아 그 셋을 읽지 않는다
+  // 세력도감 진입점은 uploadFaction(episode, type, dry) 로만 받아 그 셋을 읽지 않는다
   // (확인: sw/remotion/scripts/youtube/youtube-upload.ts 의 `if (series === 'faction')` 분기).
 
   const task = queueTask('youtube-upload', FACTION_SERIES, episode, args)

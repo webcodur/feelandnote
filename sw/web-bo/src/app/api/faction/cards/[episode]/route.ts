@@ -1,5 +1,5 @@
 /**
- * 세력도 카드뉴스 대본 API — 에피소드별 person-cards/<인물이름>.json 읽기/저장.
+ * 세력도감 카드뉴스 대본 API — 에피소드별 person-cards/<인물이름>.json 읽기/저장.
  * 카드 전용 필드(스토리·나레이션·카드 문구)는 영상 데이터(faction-data.json)와 분리해 여기 담는다.
  */
 import { NextResponse } from 'next/server'

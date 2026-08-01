@@ -30,9 +30,9 @@ export interface FeaturedCeleb {
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
-  spotlight_image_url: string | null
+  faction_image_url: string | null
   /**
-   * 세력도 영상에서 이 인물이 하는 말 — 개인 화보에서 말풍선으로 띄운다.
+   * 세력도감 영상에서 이 인물이 하는 말 — 개인 화보에서 말풍선으로 띄운다.
    * `CelebProfile.quotes`(셀럽 명언)와 다른 값이다. 원천은 제작 데이터이고 출간이 실어 나른다.
    */
   faction_quote: string | null
@@ -184,7 +184,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 2. 모든 태그의 assignments 한 번에 조회 — 감춘 배정은 DB 에서 걸러 16자리를 차지하지 않게 한다
   const { data: allAssignments, error: assignmentsError } = await supabase
     .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, spotlight_image_url, sort_order')
+    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order')
     .in('tag_id', tagIds)
     .eq('hidden', false)
     .order('sort_order', { ascending: true })
@@ -297,7 +297,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           long_desc_en: a.long_desc_en,
           faction_quote: a.quote ?? null,
           faction_quote_en: a.quote_en ?? null,
-          spotlight_image_url: a.spotlight_image_url ?? null,
+          faction_image_url: a.faction_image_url ?? null,
         }
       })
       .filter((c): c is FeaturedCeleb => c !== null)

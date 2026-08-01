@@ -175,7 +175,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 - **`celeb_tags`**: id, `name`(UNIQUE), name_en, description, description_en, `slug`, color(기본 `#7c4dff`), sort_order, is_featured(bool), start_date, end_date, `team_images`(jsonb NOT NULL 기본 `[]`), `parent_id`
   - **`parent_id`**(uuid, 자기참조 FK → `celeb_tags.id`, `on delete set null`, 인덱스 `idx_celeb_tags_parent_id`) — 상위 그룹 계층. null이면 무소속. **자식을 가진 태그가 곧 그룹 헤더다**(별도 플래그 없음). 26.07.26 마이그레이션 `add_celeb_tags_parent_id`로 코드 상수(`constants/factionGroups.ts`, 삭제됨)에서 승격했다. 위계는 두 단계까지
-- **`celeb_tag_assignments`**: id, celeb_id, tag_id, assigned_at, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, `spotlight_image_url`(물리 명칭은 옛 이름 유지)
+- **`celeb_tag_assignments`**: id, celeb_id, tag_id, assigned_at, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, `faction_image_url`
   - UNIQUE(celeb_id, tag_id)
 
 ---
@@ -191,8 +191,13 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 **아바타 구도 규격**
 
-- 얼굴·목·어깨 윗부분만 담는 타이트한 헤드숏이다. 양쪽 어깨는 보이되 프레임 하단은 어깨선에서 끝나며, 쇄골선과 가슴은 보이지 않아야 한다.
-- 정면 또는 정면에 가까운 약한 3/4 각도와 카메라를 향한 시선을 기본으로 한다. 옆모습, 과도한 얼굴 확대, 상반신이 길게 들어오는 구도는 불량이다.
+> 프레임 기하(눈과 턱이 화면 어디에 오는가)·안전 영역·발주 프롬프트·판정 기준은 **`docs/project/celeb-avatar-spec.md`가 SSoT다.** 아래는 요약이다.
+
+- 얼굴이 화면 대부분을 채우는 타이트한 헤드숏이다. 화면을 100단위로 볼 때 **눈높이 46 · 턱끝 81 · 콧대 가로 50** 셋이 규격이다.
+- **머리 위는 자유다.** 머리카락·모자·투구·왕관이 화면 위로 잘려도 무방하다. 다만 이마·눈썹·귀 등 얼굴 자체가 잘리면 불합격이다.
+- **턱 아래도 자유다.** 맨 목·옷깃·갑옷·머리카락 무엇이 채우든 되고 어깨가 안 보여도 된다. 어깨를 담으려고 카메라를 빼지 않는다. 쇄골·가슴이 드러나 상반신이 길어지는 것만 막는다.
+- **얼굴이 없는 인물은 규격 밖이다.** 사토시 나카모토·클로윈디처럼 신원이 공개되지 않은 인물은 눈·턱 기준이 면제되고 사람이 직접 등록한다.
+- 정면 또는 3/4 15도 이내와 카메라를 향한 시선을 기본으로 한다. 옆모습, 과도한 얼굴 확대, 상반신이 길게 들어오는 구도는 불량이다.
 - 의상은 목과 쇄골을 가리고, 배경 제거 후에도 머리카락·귀·어깨 외곽이 자연스러운 투명 RGBA여야 한다.
 - 고대·중세 인물도 회화·삽화·흑백 복원풍이 아니라 21세기 카메라로 촬영한 듯한 컬러 하이퍼리얼리즘을 사용한다.
 
@@ -202,7 +207,7 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 - 얼굴만 담는 아바타와 정반대다. **복식·배경·소품이 있는 정사각 환경 인물사진**이고, 상반신~무릎이 들어간다.
 - 화면 표시는 PC 240·모바일 224이라 1024면 레티나 3배를 덮는다. 생성은 1024×1024, 저장은 1080 상한(1024 산출물은 확대하지 않아 그대로 남는다).
-- **대문이 비면 화면이 세력도감 화보(`celeb_tag_assignments.spotlight_image_url`) → 얼굴 아바타 순으로 물러난다.** 그래서 전량을 채우지 않아도 화면이 깨지지 않는다(`getCelebBySlug`의 `photoUrl`).
+- **대문이 비면 화면이 세력도감 화보(`celeb_tag_assignments.faction_image_url`) → 얼굴 아바타 순으로 물러난다.** 그래서 전량을 채우지 않아도 화면이 깨지지 않는다(`getCelebBySlug`의 `photoUrl`).
 - 옛 Portrait(9:16)은 전면 제거됐고, 그 컬럼을 이 용도로 재사용한다(물리 명칭 유지).
 
 **대표 화보 채우는 세 경로**
@@ -218,7 +223,10 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 - 실사 질감 강제 문구를 빼면 **회화체로 나온다.** 러너의 `RENDERING` 블록이 그 방어막이고 지우면 안 된다.
 - codex 프로세스가 시간 초과로 죽어도 **그림은 이미 나와 있는 경우가 있다.** 실패를 바로 던지지 말고 산출물 회수를 먼저 시도한다.
 - 생성 실패 세션에서 최장 base64를 뽑으면 **넣어준 REF가 그대로 돌아온다.** 축소 지문(64×64 md5) 대조로 걸러야 한다.
-- 발주서는 인물마다 앵글·조명·시선을 새로 짠다. 골격을 고정하면 "같은 날 같은 스튜디오에서 찍은 증명사진"이 된다(`docs/project/image-generation.md` §5.2). 작성 규칙 원본은 러너 배치를 만들 때 쓰는 `BRIEF-GUIDE.md` 양식을 따른다.
+- 발주서는 인물마다 앵글·조명·시선을 새로 짠다. 골격을 고정하면 "같은 날 같은 스튜디오에서 찍은 증명사진"이 된다(`docs/project/image-generation.md` §5.2). **연출문 양식과 두 갈래(화보형·본업 몰입형) 규칙은 `docs/project/celeb/hero-photo-status.md` 「연출문 양식」이 SSoT다.** 러너가 갈래 표기를 검사해 없으면 생성을 거부한다.
+  > 2026-08-01 이전에는 이 자리가 `BRIEF-GUIDE.md`를 가리켰으나 **그런 파일은 저장소에 없다**(전수 검색 확인). 이전 회차의 인물별 연출문 실물도 남아 있지 않다.
+
+**인물 이미지가 자리마다 여섯 종으로 갈린다** — 어느 그림이 어디로 가는지는 `docs/project/person-image-map.md`가 지도다.
 
 ---
 

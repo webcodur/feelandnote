@@ -57,9 +57,9 @@ type GenerateSectionProps = {
   metaError: string | null
   handleSegmentMetaChange: (next: VoiceMeta) => void
   eleSendOpts: EleSendOpts
-  /** 미리듣기 재생 배속 (선택) — 세력도 인물 배속을 미리듣기에 반영. 미지정이면 1배속. */
+  /** 미리듣기 재생 배속 (선택) — 세력도감 인물 배속을 미리듣기에 반영. 미지정이면 1배속. */
   previewPlaybackRate?: number
-  /** 미리듣기 음량 dB 게인 (선택) — 세력도 인물 게인을 미리듣기에 반영. 미지정이면 0dB. */
+  /** 미리듣기 음량 dB 게인 (선택) — 세력도감 인물 게인을 미리듣기에 반영. 미지정이면 0dB. */
   previewGainDb?: number
   /** 엔진 선택 드롭다운을 이 섹션에서 숨긴다 (선택) — 호출 측이 엔진 선택을 상단에 따로 둘 때. 미지정이면 표시(기존 동작). */
   hideEngineSelect?: boolean

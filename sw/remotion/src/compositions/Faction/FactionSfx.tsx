@@ -3,7 +3,7 @@ import { Audio, Sequence, staticFile } from 'remotion'
 import { f, ENTER_NAME_SEC, type TimedCue } from './timing'
 
 /**
- * 세력도 효과음(SFX).
+ * 세력도감 효과음(SFX).
  * - 세력 등장(로고 카드, group 컷) → chime: 새 진영 등장 강조.
  * - 인물 등장(person 컷, 박스 슬라이드 인 시점) → whoosh: 전환 리듬.
  * 음량은 BGM을 덮지 않게 낮게 깐다. 음원은 common/sfx 공용 자산.

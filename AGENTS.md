@@ -27,6 +27,11 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악) 소비 기록 및 관�
 - 자체 검수에서는 형식 충족만 보지 말고, 결과물의 개연성·맥락·구도·실사용 가능성을 직접 판단한다. 실패 후보를 성공한 결과처럼 넘기지 않는다.
 - 작업보고에는 산출물과 저장 경로, 변경 내용, 자체 피드백, 현재 사용 가능 여부를 함께 적는다.
 - 이미지 생성은 생성 직후 육안으로 검수하며, 공간 관계나 시대·물리적 개연성이 어긋나면 그 이유를 명시하고 승인 후보로 취급하지 않는다.
+- **이미지를 만들었으면 파일의 전체 경로를 답변에 반드시 적는다.** 사용자가 그 줄을 복사해 바로 열 수 있어야 한다.
+  - 한 장이면 그 파일의 전체 경로를, 여러 장이면 파일별 경로를 줄 단위로 적는다. 열 장이 넘으면 폴더 전체 경로 + 파일 수를 적고 대표 몇 개만 나열한다.
+  - `.tmp/foo.png` 같은 상대 경로나 "산출물 폴더에 저장했다" 같은 서술로 대신하지 않는다. `C:\project\feelandnote\...` 로 시작하는 전체 경로를 쓴다.
+  - 대화창에 이미지를 띄워 보여줬더라도 경로는 따로 적는다. 사용자가 원본 해상도로 확인하거나 다른 도구로 열 수 있어야 한다.
+  - 임시 파일을 정리하기 전에는 사용자가 확인할 시간을 준다. 보여주자마자 지우지 않는다.
 
 ## 주요 명령어
 
@@ -122,6 +127,7 @@ pnpm build:audio-bo
 | `docs/project/architecture.md` | 앱 6종 디렉토리 구조, 네비게이션, 라우팅, `[locale]`·레거시 리다이렉트 |
 | `docs/project/service/README.md` | **사용자 대면 화면 허브** — 화면 그룹 구성·전체 지도 |
 | `docs/project/service/library.md` | 서가(`/library`) — 시대별·직군별·박물관·학당 |
+| `docs/project/service/curated-lists.md` | **기관 선정**(`/library/curated`) — 대학·언론·시상기관이 뽑은 작품 목록. 3층 구조(기관→목록→작품), 수집·적재·연결 도구 3종, 목록별 연결률과 그 한계. 🔴 네이버 책 API 종료·TMDB 영문 검색 필수 등 서지 조회 함정 포함 |
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
@@ -143,6 +149,7 @@ pnpm build:audio-bo
 |------|------|
 | `docs/project/db-core.md` | DB 스키마 — 사용자, 콘텐츠, 커뮤니티, UUID 체계 |
 | `docs/project/db-celeb.md` | DB 스키마 — 셀럽 테이블, 이미지 규격, slug, Wikidata QID |
+| `docs/project/person-image-map.md` | **인물 이미지 지도** — 같은 사람의 그림이 들어가는 여섯 자리(얼굴·인물 대문·세력도감 큰 사진/단체·영상 인물/단체 화면)의 저장 위치·파일 규격·규격 SSoT·채우는 도구와 비었을 때의 폴백. 규격 본문은 복제하지 않는다 |
 | `docs/project/fiction-faction-link-audit-2026-07-29.md` | 신화·서사 팩션 18편의 fiction 프로필·태그·대표 원전 전수 연결 실측과 재현 절차 |
 
 > content_locales 설계·마이그레이션 기록과 BOOK en 데이터 검증 이력은 완료되어 `docs/archive/`로 옮겼다.
@@ -183,6 +190,8 @@ pnpm build:audio-bo
 **셀럽 아바타 정비 (진행 중, 26.08.01 기준)** — 작업 문서는 **저장소 루트**에 흩어져 있고 실제로는 아래 표의 4종 외에 `celeb-avatar-visual-audit-handoff.md`(육안 감사 인수인계)·`three-kingdoms-avatar-handoff-2026-07-31.md`(삼국지 회차 인수인계)·`todo_celeb_avatar_overhaul.md`(전면 재작업 절차)·`육안검사.txt`(인물별 증상 메모)까지 **8종**이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
 
 > 규격은 이 문서들이 아니라 `docs/project/celeb-avatar-spec.md`가 쥔다. 작업 문서에는 **명단과 이력만** 남기고 구도 규격을 다시 적지 않는다 — 26.08.01 이전에는 문서 5곳이 제각기 규격을 서술해 서로 어긋나 있었다.
+>
+> 이 표(167행)의 수치 요약은 **무엇을 찾을지 알려주는 색인**이지 규격 자체가 아니다. 규격을 확인할 때는 반드시 원문을 연다.
 
 | 문서 | 내용 · 상태 |
 |------|------|
@@ -241,7 +250,7 @@ pnpm build:audio-bo
 | `docs/project/remotion/README.md` | 공통 — 코드 구조, 명령어, 음성 파이프라인 |
 | `docs/project/remotion/gotchas.md` | **영상·음성 제작 함정 모음** — 음성 합성 엔진별 한계·키 로테이션, 정렬과 자막 타이밍(**폐기된 접근 3종** 재제안 금지), 렌더와 미리보기, 데이터 구조 함정, 환경, 작업 규칙 |
 | `docs/project/remotion/book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
-| `docs/project/remotion/faction.md` | 세력도 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
+| `docs/project/remotion/faction.md` | 세력도감 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
 | `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
 | `faction-video-clips.md` (저장소 루트) | **팩션 화면 영상화 검토(Higgsfield)** — 인물 화면을 정지 이미지에서 AI 생성 영상으로. 수단 넷(립싱크·배경 원소 연출·정지 유지·구도를 바꾼 새 연출)을 **위계 없이 화면 조건에 따라 골라 쓴다**(선택 기준표 §4.1). 립싱크는 Higgsfield Speak / Lipsync Studio — 그림 1장 + 기존 대사 wav 업로드, 한국어 포함 40개 언어(시드댄스는 오디오를 구조 참조로만 써서 부적합). 배경 원소는 번개·화염 있는 인물에만 통한다. 우리 쪽 구조 실측(`imageChanges`는 발화 시각 기준 교체, 영상 재생·줌 정지 이미 지원, **인물 대사 음성은 실제 재생됨 — faction-rules.md §3.1 기록 정정**), 에피소드별 규모, 발주 원칙(컷은 AI에 맡기지 않음·카메라 고정·어중간한 입모양 금지), 미결정 두 갈래, 미확인 항목과 확인 방법. **26.08.01 조사, MCP 인증 전·생성 미착수** |
@@ -260,7 +269,7 @@ pnpm build:audio-bo
 | `factions/world-best-2026/resume.md` | 2026 월드 베스트 11 보류 — 재개 시 이 문서만 |
 
 **[팩션 REF 이미지 세팅 원칙]**
-팩션(세력도) 등 인물 얼굴 REF가 없는 에피소드를 작업할 때는 반드시 다음의 단일 원칙만을 따른다.
+팩션(세력도감) 등 인물 얼굴 REF가 없는 에피소드를 작업할 때는 반드시 다음의 단일 원칙만을 따른다.
 1. **오직 `D:\image\완성` 폴더(하위 포함)에서만 인물명과 일치하는 실사 이미지를 검색하여 할당한다.** (`_refs/<세력명>/<인물명>.png` 구조)
 2. **`D:\image\_재료` 폴더의 가상 얼굴 재료는 절대 사용하지 않는다.** (여러 인물에게 같은 얼굴이 중복 할당되거나 매칭이 어긋나는 참사를 원천 차단하기 위함)
 3. 완성 폴더에 인물 이미지가 없다면, AI가 임의로 인터넷에서 대체 이미지를 다운로드하거나 꼼수를 쓰지 말고 사용자에게 "어떤 인물들의 이미지가 완성 폴더에 없는지"를 누락 명단으로 보고한 뒤 지시를 대기한다.
@@ -290,6 +299,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 
 | 작업 | 계획서 | 상태 | 비고 |
 |------|--------|------|------|
+| 기관 선정 | `docs/project/service/curated-lists.md` | **완료·가동 중(26.08.01)** | 대학·언론·시상기관이 뽑은 작품 목록. 실측 25기관·25목록·2,529항목·표지 85%, 실서비스 반영 확인. 전용 백오피스 화면은 **예정 없음** — 조사 JSON을 `import-curated-list` → `match-curated-items` → `register-curated-books` 순으로 돌리고 `/api/revalidate`에 `curated` 태그를 던지는 것이 운영 절차다.<br>**남은 것**: 미연결 314건은 대부분 국내 미출간작(아쿠타가와 로마자 표기 132)과 논문·발췌(세인트존스 86)라 서지 조회로는 한계. 표지만 없는 72건은 ISBN 보유가 6건뿐이라 자동 보강 열쇠가 없다 — **둘 다 그대로 두기로 결정**(화면은 제목 기반 생성 표지로 채워진다). |
 | 안드로이드 앱(TWA) 출시 | `docs/project/android-app-feasibility-review-2026-07-29.md` §14 | **코드 구현 완료·실기기/Play 미착수(26.07.30)** | PWA + TWA 방식. 코드로 가능한 범위는 끝냈다 — UGC 신고·차단(서버 계층·화면 부품·게시판/댓글/방명록/프로필 연결·차단 콘텐츠 숨김·차단 관리), PWA(아이콘 4종·manifest 보강·서비스 워커·오프라인 화면), Play 창구(`/account-deletion`·`/.well-known/assetlinks.json`·약관 7·8조), 백오피스 신고 처리 보강, 안드로이드 셸 `sw/android`. 실측: `tsc` 0 · 관련 파일 `eslint` 0 · `next build` 성공 · 신규 경로 전부 200.<br>🔴 **조사 시점 판정 정정** — 계획서가 부재로 본 `blocks` 테이블과 web-bo `/reports` 화면은 **이미 있었다**. 없던 것은 `reports.target_user_id` 하나뿐이었다.<br>**미검증**: 안드로이드 빌드(SDK·Gradle·bubblewrap 미설치. 설치는 승인 사항), 로그인 상태의 신고·차단 실동작(`reports`·`blocks` 0건), 실기기 QA 전부, 서비스 워커의 실제 등록(배포 후 동작).<br>**유저 확정 필요**: 앱 식별자 `com.feelandnote.app`, 계정 삭제 처리 기간(임의값), 약관 개정일 표기, Gradle·AGP·androidbrowserhelper 버전, `www` 하위 도메인 사용 여부.<br>**제약**: 차단은 단방향(RLS상 "나를 차단한 사람"은 읽을 수 없다), 게시 전 동의는 안내 표시 방식. |
 | 가상 독백 전수 품질 정비 | `docs/todo/virtual-monologue-quality-overhaul.md` · `docs/todo/virtual-monologue-handoff-2026-07-30.md` | **실존 full·light 한국어 전수 완료(26.07.30)** | 활성 실존 1,476명을 전원 판정해 유지 624·게시 139·보류 713으로 마감했다. 누락·중복·해시·상태 불일치와 `unreviewed`·`draft`·`approved` 잔존은 모두 0이다. 게시분은 원문 SHA-256 조건부 UPDATE·캐시 HTTP 200·재실행 `SKIP`·공개 한국어 HTML 문단 완전 일치를 통과했다. 전원 dossier 방식의 병목을 없애고 100명 텍스트 판정→결함자만 재작성·두 독립 검토→사람 통독 구조로 바꿨다. 다음 별도 범위는 `fiction-profile-monologue` 원전 트랙과 `virtual_monologue_en`이다. |
 | 북리커맨드 완전 통합 | `docs/project/remotion-bo-plan.md` 「최종 이관」 · `docs/project/remotion/book-recommend/unification-phase1.md` | **완료(26.07.29)** | web-bo `/book-recommend`에 제작 현황·리소스를 통합하고 Scenario·Voice·Render·YouTube·Cards 전 화면과 42개 로컬 제작 API를 이관했다. 데이터 원천은 계속 `sw/remotion/public/episodes`, 렌더 엔진은 `sw/remotion`이다. `sw/remotion-bo` 앱·워크스페이스·실행 명령은 폐기했다. Deep 감상배경과 본 서비스 노출 형식은 별도 후속 기획이며 이번 이관 범위가 아니다. |

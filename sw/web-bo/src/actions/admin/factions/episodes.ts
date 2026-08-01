@@ -1,7 +1,7 @@
 'use server'
 
 /**
- * 세력도 에피소드 관리 — 목록·만들기·복제·이름변경·삭제·진행 상태·노출.
+ * 세력도감 에피소드 관리 — 목록·만들기·복제·이름변경·삭제·진행 상태·노출.
  *
  * 텍스트·구성의 단일 원천은 DB 다(문서 §0). 목록도 폴더를 훑지 않고 DB 에서 센다 —
  * 폴더를 훑으면 파일이 없는 편이 목록에서 사라져 "만들었는데 안 보인다"가 된다.
@@ -182,7 +182,7 @@ export async function getFactionEpisodeMeta(folder: string): Promise<FactionEpis
 
 /* ────────────────────────── 만들기·복제 ────────────────────────── */
 
-/** 빈 세력도 만들기 — 미등록·todo 로 시작한다 */
+/** 빈 세력도감 만들기 — 미등록·todo 로 시작한다 */
 export async function createFactionEpisode(
   folder: string, title: string,
 ): Promise<{ folder: string; episodeId: string }> {

@@ -74,7 +74,7 @@ async function getSoloImageCounts(): Promise<Map<string, number>> {
   const rows = await selectAllPages<{ tag_id: string; celeb_id: string }>((from, to) =>
     supabase.from('celeb_tag_assignments')
       .select('tag_id,celeb_id')
-      .not('spotlight_image_url', 'is', null)
+      .not('faction_image_url', 'is', null)
       .order('tag_id').order('celeb_id').range(from, to))
 
   const counts = new Map<string, number>()

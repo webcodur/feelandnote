@@ -37,8 +37,8 @@
 | `lines[1..2]` join(', ') | `assignments.long_desc` | — | 채움 전용 |
 | `epithetEn` ?? `linesEn[0]` / `linesEn[1..2]` | `short_desc_en` / `long_desc_en` | — | 채움 전용 |
 | 데이터 배열 순서(세력→클러스터→인물) | `assignments.sort_order` | — | 출간 시 항상 재기록. **태그 공유 시 전역 순번**(그 태그를 공유하는 전체 세력을 관통해 계산 — 한 세력만 출간해도 전역 기준) |
-| `person.image` (로컬 PNG) | `assignments.spotlight_image_url` | R2 `spotlight/{tagId}/celeb-{celebId}.webp` | sharp inside-fit 1080, webp q88, **얼굴 크롭 금지**(원본 비율). 물리 경로 옛 명칭 유지 |
-| `clusters[].image` (로컬 `_group.png`) | `celeb_tags.team_images[]` | R2 `spotlight/{tagId}/team/g{NN}c{NN}-{hash8}.webp`(g=세력 번호·c=클러스터 번호, 각 2자리) | 1080 정사각(cover·attention). **재구성은 태그 단위** — 그 태그를 공유하는 전체 세력의 그룹샷을 세력→클러스터 순서로 모아 배열을 만든다(한 세력만 출간해도 다른 세력 몫 유지, 덮어쓰기 방지). 한 장이라도 파일 결손이면 배열 교체 보류 |
+| `person.image` (로컬 PNG) | `assignments.faction_image_url` | R2 `faction/{tagId}/celeb-{celebId}.webp` | sharp inside-fit 1080, webp q88, **얼굴 크롭 금지**(원본 비율).  |
+| `clusters[].image` (로컬 `_group.png`) | `celeb_tags.team_images[]` | R2 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp`(g=세력 번호·c=클러스터 번호, 각 2자리) | 1080 정사각(cover·attention). **재구성은 태그 단위** — 그 태그를 공유하는 전체 세력의 그룹샷을 세력→클러스터 순서로 모아 배열을 만든다(한 세력만 출간해도 다른 세력 몫 유지, 덮어쓰기 방지). 한 장이라도 파일 결손이면 배열 교체 보류 |
 | `person.mythical` | `profiles.celeb_tier = 'fiction'` 대조 | — | 진단 표시용 |
 
 **건드리지 않는 것**: `profiles`의 인물 본문(닉네임·bio·아바타 — celeb 파이프라인 소관), DB에서 사람이 다듬은 `short_desc`/`long_desc`(채움 전용 원칙), 상위 그룹 계층(**26.07.26부터 `celeb_tags.parent_id`가 정본** — 출간은 손대지 않고 "추가 필요 slug" 안내만 출력한다. ⚠️ 그 안내 문구는 아직 삭제된 옛 상수 파일을 가리킨다).

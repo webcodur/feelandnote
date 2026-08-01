@@ -1,5 +1,5 @@
 /**
- * 세력도 제작 데이터 DB 접근 — 서버 전용.
+ * 세력도감 제작 데이터 DB 접근 — 서버 전용.
  *
  * 팩션 5테이블은 RLS 로 admin 전용이고, 원자 저장 함수(`faction_replace_episode`)는 service_role
  * 에게만 실행 권한이 있다(문서 §3). 그래서 이 파일은 service role 클라이언트를 쓴다 —

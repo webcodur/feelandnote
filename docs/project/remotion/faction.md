@@ -1,4 +1,4 @@
-# 팩션(Faction) — 세력도 시리즈
+# 팩션(Faction) — 세력도감 시리즈
 
 AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는 세로 영상** 시리즈. 무대사·무자막 음성 없이, 고정 길이 컷의 시간순 나열로 구성한다. 첫 에피소드는 `llm` — "AI를 만드는 사람들".
 
@@ -111,7 +111,7 @@ FactionCluster { label?; labelEn?; image?; people: FactionPerson[] }  // label =
 FactionPerson { name; role?; org?; image?; slug? }
 ```
 
-- **무결성 규칙**: 인물은 항상 `clusters[].people`에 담는다. `group.people`·`group.label`·`group.shotEffects`는 폐지됐다(2026-07 통일 이관 — 안 나눈 세력도 그룹 1개로 저장). 음원 파일명도 항상 그룹 자리 포함 `FxxCxxPxx`(solo 포함).
+- **무결성 규칙**: 인물은 항상 `clusters[].people`에 담는다. `group.people`·`group.label`·`group.shotEffects`는 폐지됐다(2026-07 통일 이관 — 안 나눈 세력도감 그룹 1개로 저장). 음원 파일명도 항상 그룹 자리 포함 `FxxCxxPxx`(solo 포함).
 - **폐기된 필드**: `subtitle`/`subtitleEn`/`subtitleByPart`(→ `title`로 흡수), `tagline`/`taglineEn`(→ `name` 뒷부분으로 흡수), `note`/`noteEn`(→ `label` 뒷부분으로 흡수), `titleArt`/`titleArtCrop`/`logo`(→ `logoVid`/`logoImg`/`logoCrop`으로 분리 이관, 2026-07), `group.image`/`group.imageCrop`(카드 표지 배경 별도 지정 칸 — 로고 이미지와 위계가 같아 폐지, 표지는 logoImg 단일 소스. 2026-07). 통합 전에는 앞부분·뒷부분이 별도 필드였으나 지금은 한 필드 개행으로 합쳤다.
 - BO 측 동일 정의: `sw/web-bo/src/lib/faction-types.ts` (구조 동기화 유지). remotion-bo 쪽 사본은 Phase 5에서 삭제됐다.
 
@@ -209,7 +209,7 @@ sw/remotion/public/music/  # 배경음악
 
 ## 편집 화면 (web-bo, `FactionEditor.tsx`)
 
-주소는 **web-bo(포트 3001)** 의 `/factions`(편 목록)·`/factions/<편>/<언어>/<탭>`(편집기)다. 사이드바 「세력도」로 들어간다. 언어는 `ko|en|both`, 탭은 `info|shorts|longform`이며 `/factions/<편>`으로 들어오면 `ko/info`로 보낸다.
+주소는 **web-bo(포트 3001)** 의 `/factions`(편 목록)·`/factions/<편>/<언어>/<탭>`(편집기)다. 사이드바 「세력도감」로 들어간다. 언어는 `ko|en|both`, 탭은 `info|shorts|longform`이며 `/factions/<편>`으로 들어오면 `ko/info`로 보낸다.
 
 **로컬 실행이 전제다** — 사진·음성·발화 시각·렌더 산출물은 `sw/remotion/` 디스크에 있으므로 팩션 로컬 자산 창구(`api/faction/**`)는 `sw/web-bo/.env`의 `FACTION_LOCAL=1`이 없으면 503과 사유를 낸다. 렌더 저장소를 다른 자리에 두려면 `REMOTION_ROOT`로 옮긴다.
 
@@ -250,7 +250,7 @@ sw/remotion/public/music/  # 배경음악
 8. **렌더·자막·썸네일** — *어디서: 편집기 「렌더」 버튼, 또는 Remotion Studio에서 `Faction-<KEY>` 확인 후 직접.*
    「렌더」 버튼은 세 영상(`out/Faction/{ep}-KO-LV.mp4`·`-KO-S1.mp4`·`-KO-S2.mp4`)과 자막 3종(`.srt`)을 함께 만든다. 컴포지션 ID는 `Faction-<KEY>-KO-LV`·`-KO-S1`·`-KO-S2`. 렌더 직전에 파일을 DB와 맞추는 내보내기가 한 번 더 돈다.
 9. **유튜브 업로드 · 세력도감 출간** — *어디서: 편집기 헤더의 「유튜브」·「출간」 패널.*
-   유튜브는 아래 「유튜브 업로드」 절 참조. 출간은 세력도감(DB `celeb_tags`·`celeb_tag_assignments` + R2 이미지)에 반영한다 — 진단으로 막힌 항목을 확인하고, 미리보기(dry-run)로 변경 예정을 본 뒤 출간한다. 소개문은 채움 전용(도감에서 사람이 다듬은 글을 덮지 않음), 이미지는 해시 기반 멱등 업로드, 출간할 때만 운영 웹 캐시를 무효화한다. **상세는 `docs/project/web-bo.md` 「세력도」 절, 설계 SSoT는 `faction-unification.md` §4·§9.**
+   유튜브는 아래 「유튜브 업로드」 절 참조. 출간은 세력도감(DB `celeb_tags`·`celeb_tag_assignments` + R2 이미지)에 반영한다 — 진단으로 막힌 항목을 확인하고, 미리보기(dry-run)로 변경 예정을 본 뒤 출간한다. 소개문은 채움 전용(도감에서 사람이 다듬은 글을 덮지 않음), 이미지는 해시 기반 멱등 업로드, 출간할 때만 운영 웹 캐시를 무효화한다. **상세는 `docs/project/web-bo.md` 「세력도감」 절, 설계 SSoT는 `faction-unification.md` §4·§9.**
 
 ## 자막(SRT)
 

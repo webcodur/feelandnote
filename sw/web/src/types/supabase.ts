@@ -953,7 +953,7 @@ export type Database = {
           short_desc: string | null
           short_desc_en: string | null
           sort_order: number | null
-          spotlight_image_url: string | null
+          faction_image_url: string | null
           tag_id: string
         }
         Insert: {
@@ -968,7 +968,7 @@ export type Database = {
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
-          spotlight_image_url?: string | null
+          faction_image_url?: string | null
           tag_id: string
         }
         Update: {
@@ -983,7 +983,7 @@ export type Database = {
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
-          spotlight_image_url?: string | null
+          faction_image_url?: string | null
           tag_id?: string
         }
         Relationships: [
