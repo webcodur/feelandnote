@@ -40,8 +40,10 @@ export default function BottomSheet({ isOpen, onClose, children, title }: Bottom
   if (!isOpen) return null;
 
   const sheetContent = (
+    // 🔴 backdrop-blur를 쓰지 않는다. 화면 전체를 매 프레임 흐리게 다시 그려야 해서
+    //    시트가 올라오는 동안 폭 좁은 기기에서 눈에 띄게 버벅인다. 대신 배경을 더 어둡게 덮는다
     <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm animate-bottomsheet-overlay"
+      className="fixed inset-0 bg-black/85 animate-bottomsheet-overlay"
       style={{ zIndex: Z_INDEX.modal }}
       onClick={onClose}
     >
