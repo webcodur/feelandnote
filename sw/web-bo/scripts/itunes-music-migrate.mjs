@@ -82,6 +82,71 @@ async function findTrack(title, creator) {
   return null
 }
 
+/**
+ * 인물 조사에서 적어 둔 음악 후보를 등록한다.
+ * 조사 중에는 아이튠즈를 두드리지 않고 celeb_music_candidates에만 남기므로, 여기서 받아 처리한다.
+ */
+async function registerCandidates(budget) {
+  const { data: cands, error } = await sb
+    .from('celeb_music_candidates')
+    .select('id, celeb_id, title, artist, source_url, evidence')
+    .eq('status', 'pending')
+    .order('created_at')
+    .limit(budget)
+
+  if (error) throw error
+  if (!cands.length) return 0
+
+  console.log(`\n조사에서 넘어온 음악 후보 ${cands.length}건 처리\n`)
+  let done = 0
+  for (const c of cands) {
+    if (blocked) break
+    let hit = null
+    try {
+      hit = await findTrack(c.title, c.artist || '')
+    } catch (e) {
+      console.log(`\n⛔ ${e.message} — 후보 처리를 여기서 멈춘다.`)
+      break
+    }
+    if (!hit) {
+      if (!DRY) {
+        await sb.from('celeb_music_candidates')
+          .update({ status: 'rejected', reject_reason: '아이튠즈에서 못 찾거나 미리듣기 없음', updated_at: new Date().toISOString() })
+          .eq('id', c.id)
+      }
+      console.log(`  [기각] ${c.title.slice(0, 30)} / ${(c.artist || '').slice(0, 20)}`)
+      continue
+    }
+
+    console.log(`  [등록] ${c.title.slice(0, 30)} / ${(c.artist || '').slice(0, 20)}`)
+    done++
+    if (DRY) continue
+
+    const externalId = `itunes-${hit.id}`
+    let { data: content } = await sb.from('contents').select('id').eq('external_id', externalId).maybeSingle()
+    if (!content) {
+      const ins = await sb.from('contents').insert({
+        type: 'MUSIC', external_source: 'itunes', external_id: externalId,
+        metadata: { previewUrl: hit.preview, itunesUrl: hit.itunesUrl, entityType: 'track' },
+      }).select('id').single()
+      content = ins.data
+      await sb.from('content_locales').insert({
+        content_id: content.id, locale: 'ko', title: c.title, creator: c.artist || null,
+        thumbnail_url: hit.cover, sources: { primary: 'itunes', thumbnail: 'itunes' }, verified: true,
+      })
+    }
+
+    await sb.from('user_contents').insert({
+      user_id: c.celeb_id, content_id: content.id, status: 'FINISHED',
+      review: c.evidence || null, source_url: c.source_url, visibility: 'public',
+    })
+    await sb.from('celeb_music_candidates')
+      .update({ status: 'registered', content_id: content.id, updated_at: new Date().toISOString() })
+      .eq('id', c.id)
+  }
+  return done
+}
+
 async function main() {
   const { data: rows, error } = await sb
     .from('contents')
@@ -125,12 +190,25 @@ async function main() {
       .eq('id', row.id)
   }
 
+  console.log(`\n이전 ${moved} / 보류 ${held}${blocked ? ' / 차단으로 조기 종료' : ''}`)
+
+  // 남은 호출 여유로 조사 후보를 처리한다. 차단됐으면 건너뛴다.
+  let registered = 0
+  if (!blocked) {
+    const budget = Math.max(0, LIMIT - moved - held)
+    if (budget > 0) registered = await registerCandidates(budget)
+  }
+
   const { count } = await sb.from('contents')
     .select('id', { count: 'exact', head: true })
     .eq('type', 'MUSIC').eq('external_source', 'spotify')
+  const { count: pending } = await sb.from('celeb_music_candidates')
+    .select('id', { count: 'exact', head: true }).eq('status', 'pending')
 
-  console.log(`\n이전 ${moved} / 보류 ${held}${blocked ? ' / 차단으로 조기 종료' : ''}`)
+  console.log(`\n── 결과 ──`)
+  console.log(`이전 ${moved}곡 / 조사 후보 등록 ${registered}건`)
   console.log(`남은 Spotify 곡: ${count}곡${count > 0 ? ' — 내일 다시 돌린다' : ' — 이전 완료'}`)
+  console.log(`대기 중인 조사 후보: ${pending}건`)
 }
 
 main().catch((e) => { console.error('실패:', e.message); process.exit(1) })
