@@ -25,7 +25,12 @@ cd sw/web-bo && node scripts/itunes-music-migrate.mjs --limit 50 # 50곡만
 cd sw/web-bo && node scripts/itunes-music-migrate.mjs --dry-run  # 판정만, DB 미수정
 ```
 
-스크립트가 알아서 하는 것:
+스크립트가 **두 가지를 함께** 처리한다.
+
+1. **기존 Spotify 곡 이전** — 남은 곡을 순서대로 집어 아이튠즈에서 같은 곡을 찾는다
+2. **조사에서 넘어온 후보 등록** — `celeb_music_candidates`의 `pending` 건을 콘텐츠로 만들고 인물에 연결한다
+
+세부:
 - 남은 Spotify 곡을 순서대로 집어 아이튠즈에서 같은 곡을 찾는다
 - 제목·아티스트가 모두 맞고 **미리듣기 음원이 있는** 후보만 채택
 - 표지·출처·`metadata.previewUrl`·`external_id`를 갱신
@@ -45,8 +50,26 @@ cd sw/web-bo && node scripts/itunes-music-migrate.mjs --dry-run  # 판정만, DB
 **3. 한국 스토어는 아티스트를 한국어로 준다**
 `Nirvana`를 찾는데 `너바나`가 와서 다른 사람으로 걸러진다. 미국 스토어를 먼저 보고 한국으로 되짚어야 한다. 이걸 안 하면 성공률이 25%까지 떨어진다(실측: 고친 뒤 50%).
 
-**4. 조사 중에는 음악을 등록하지 마라**
-인물 조사(`celeb-2-content-collector`)에서 음악 후보를 만나면 **곡명·아티스트·출처만 장부에 남기고 넘어간다.** 남은 음악인 270명이면 200곡 안팎이 등록 대상인데, 이는 차단 지점(232곡)과 같은 규모다. 조사와 등록을 같이 하면 조사 도중에 음악이 통째로 실패한다. 등록은 이 스킬이 맡는다.
+**4. 조사 중에는 음악을 등록하지 마라 — 후보 표에만 넣는다**
+인물 조사(`celeb-2-content-collector`)에서 음악 후보를 만나면 `contents`·`user_contents`를 만들지 말고 아래 표에 한 줄만 넣는다.
+
+```sql
+INSERT INTO celeb_music_candidates (celeb_id, title, artist, source_url, evidence)
+VALUES ('{셀럽 id}', '{곡명}', '{아티스트}', '{인터뷰·기사 URL}', '{언급 정황 한 줄}')
+ON CONFLICT DO NOTHING;
+```
+
+| 칸 | 내용 |
+|----|------|
+| `source_url` | 필수. 인물이 그 곡을 언급한 인터뷰·기사·방송 원본 |
+| `evidence` | 언급 정황 한 줄. 나중에 review를 쓸 때 근거가 된다 |
+| `status` | `pending` → 이 스킬이 `registered`(+`content_id`) 또는 `rejected`(+사유)로 바꾼다 |
+
+같은 인물+같은 곡은 한 번만 들어간다(유니크 인덱스).
+
+**정식 조사 장부(`celeb_content_research_*`)는 쓰지 마라** — run 개설·4유형 scope·완료 함수로 이어지는 무거운 절차이고, 트리거가 진행 중인 run 외의 입력을 막는다.
+
+남은 음악인 270명이면 200곡 안팎이 등록 대상인데 이는 차단 지점(232곡)과 같은 규모다. 조사와 등록을 같이 하면 조사 도중에 음악이 통째로 실패한다.
 
 ## 참고 수치
 

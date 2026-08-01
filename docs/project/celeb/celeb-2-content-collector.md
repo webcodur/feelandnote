@@ -271,7 +271,18 @@ curl -s "https://api.igdb.com/v4/games" \
 
 Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 구독을 요구하게 됐고 26.08.01 우리 앱에 적용돼 조회가 전부 403이다. 아이튠즈가 그 자리를 대신한다(래퍼: `packages/content-search/src/itunes-music.ts`).
 
-> ⛔ **인물 조사 중에 MUSIC을 등록하지 마라.** 곡명·아티스트·출처만 조사 장부에 남기고 넘어간다.
+> ⛔ **인물 조사 중에 MUSIC을 등록하지 마라.** 아래 표에 한 줄 넣고 넘어간다.
+>
+> ```sql
+> INSERT INTO celeb_music_candidates (celeb_id, title, artist, source_url, evidence)
+> VALUES ('{셀럽 id}', '{곡명}', '{아티스트}', '{인터뷰·기사 URL}', '{언급 정황 한 줄}')
+> ON CONFLICT DO NOTHING;   -- 같은 인물+같은 곡은 한 번만
+> ```
+>
+> `contents`·`user_contents`는 만들지 않는다. 등록은 `/celeb-music-collect`가 하루치씩 처리하며,
+> 성공하면 `status='registered'`와 `content_id`가 채워진다. 실패하면 `rejected`와 사유가 남는다.
+> **정식 조사 장부(`celeb_content_research_*`)는 쓰지 마라** — run 개설·4유형 scope·완료 함수로
+> 이어지는 무거운 절차라 후보 한두 건 남기는 용도에 맞지 않고, 트리거가 진행 중인 run 외의 입력을 막는다.
 >
 > **왜**: 아이튠즈는 인증이 없는 대신 IP 단위 속도 제한이 빡빡하다. **26.08.01 실측에서 232곡을 처리한 뒤 차단**됐고, 세 번 물러났다 재시도해도 풀리지 않아 남은 1,232곡이 손도 못 대고 실패했다. 차단은 3시간가량 이어졌다.
 >
