@@ -4,8 +4,8 @@
   책임: 네 항목이 각각 "무엇을 만든다"고 말한 것을 실제 데이터 한 컷으로 보여 준다.
         조회는 getAboutShowcase가 맡고 여기서는 배치만 한다.
 
-  여기의 그림은 설명을 돕는 예시일 뿐 누를 것이 아니다. 읽는 중에 다른 화면으로
-  튕겨 나가지 않도록 어디로도 이어 두지 않는다.
+  여기의 그림은 설명을 돕는 예시일 뿐 다른 화면으로 넘기지 않는다. 누르면 그 자리에서
+  짧은 안내만 뜬다. 글자는 code-rules.md 기준(14px 이상·또렷한 색)을 지킨다.
 */ // ------------------------------
 
 import Image from "next/image";
@@ -31,19 +31,20 @@ function Face({
   info: AboutInfo;
   size?: "md" | "lg";
 }) {
-  const box = size === "lg" ? "w-20 h-20 md:w-24 md:h-24" : "w-14 h-14 md:w-16 md:h-16";
+  const box = size === "lg" ? "w-24 h-24 md:w-28 md:h-28" : "w-16 h-16 md:w-20 md:h-20";
+  const width = size === "lg" ? "w-28" : "w-20";
   return (
     <InfoPeek info={info} className="shrink-0">
-      <span className="flex flex-col items-center gap-1.5">
+      <span className="flex flex-col items-center gap-2">
         <span
-          className={`relative block ${box} rounded-full overflow-hidden border border-border hover:border-accent-primary`}
+          className={`relative block ${box} rounded-full overflow-hidden border border-accent-dim hover:border-accent`}
         >
-          <Image src={avatarUrl} alt={name} fill sizes="96px" className="object-cover" />
+          <Image src={avatarUrl} alt={name} fill sizes="112px" className="object-cover" />
         </span>
-        <span className="text-[11px] text-text-secondary text-center leading-tight w-16 truncate">
+        <span className={`text-sm text-text-primary text-center leading-tight ${width} truncate`}>
           {name}
         </span>
-        {caption && <span className="text-[10px] text-text-secondary/60">{caption}</span>}
+        {caption && <span className="text-sm text-text-secondary">{caption}</span>}
       </span>
     </InfoPeek>
   );
@@ -53,8 +54,8 @@ export default function VisionShowcase({ index, data, labels }: Props) {
   if (index === 1) {
     if (!data.faces.length) return null;
     return (
-      <div className="pt-2 space-y-2">
-        <div className="flex gap-3 overflow-x-auto pb-1">
+      <div className="pt-3 space-y-3">
+        <div className="flex gap-4 overflow-x-auto pb-2">
           {data.faces.map((f) => (
             <Face
               key={f.slug ?? f.name}
@@ -65,7 +66,7 @@ export default function VisionShowcase({ index, data, labels }: Props) {
             />
           ))}
         </div>
-        <p className="text-[11px] text-text-secondary/70 leading-relaxed">{labels.facesNote}</p>
+        <p className="text-sm leading-relaxed text-text-secondary">{labels.facesNote}</p>
       </div>
     );
   }
@@ -73,20 +74,20 @@ export default function VisionShowcase({ index, data, labels }: Props) {
   if (index === 2) {
     if (!data.teamShots.length) return null;
     return (
-      <div className="pt-2 grid gap-3 sm:grid-cols-2">
+      <div className="pt-3 grid gap-4 sm:grid-cols-2">
         {data.teamShots.map((shot) => (
           <InfoPeek key={shot.url} info={shot.info} className="block">
-            <span className="flex flex-col gap-1.5">
-              <span className="relative block aspect-[4/3] w-full overflow-hidden rounded-md border border-border hover:border-accent-primary">
+            <span className="flex flex-col gap-2">
+              <span className="relative block aspect-[4/3] w-full overflow-hidden rounded-md border border-accent-dim hover:border-accent">
                 <Image
                   src={shot.url}
                   alt={shot.label ?? shot.tagName}
                   fill
-                  sizes="(max-width: 640px) 100vw, 320px"
+                  sizes="(max-width: 640px) 100vw, 360px"
                   className="object-cover"
                 />
               </span>
-              <span className="text-[11px] text-text-secondary">
+              <span className="text-sm text-text-secondary">
                 {shot.tagName}
                 {shot.label ? ` · ${shot.label}` : ""}
               </span>
@@ -102,33 +103,33 @@ export default function VisionShowcase({ index, data, labels }: Props) {
     const j = data.journey;
     if (!j) return null;
     return (
-      <div className="pt-3 flex gap-3 sm:gap-4">
+      <div className="pt-3 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5">
         <div className="shrink-0">
           <Face name={j.name} avatarUrl={j.avatarUrl} info={j.face} size="lg" />
         </div>
 
-        <ul className="flex-1 min-w-0 space-y-2.5">
+        <ul className="flex-1 min-w-0 space-y-3">
           {j.items.map((it) => (
-            <li key={it.thumbnailUrl} className="flex items-center gap-2.5">
-              <span aria-hidden className="text-accent-primary/50 text-sm leading-none shrink-0">
+            <li key={it.thumbnailUrl} className="flex items-center gap-3">
+              <span aria-hidden className="text-accent text-lg leading-none shrink-0">
                 →
               </span>
               <InfoPeek info={it.info} className="flex-1 min-w-0">
-                <span className="flex items-center gap-2.5">
-                  <span className="relative block w-9 aspect-[2/3] shrink-0 overflow-hidden rounded-sm border border-border hover:border-accent-primary">
+                <span className="flex items-center gap-3">
+                  <span className="relative block w-12 aspect-[2/3] shrink-0 overflow-hidden rounded-sm border border-accent-dim hover:border-accent">
                     <Image
                       src={it.thumbnailUrl}
                       alt={it.title}
                       fill
-                      sizes="36px"
+                      sizes="48px"
                       className="object-cover"
                     />
                   </span>
-                  <span className="min-w-0 rounded-lg border border-border bg-bg-main/60 px-2.5 py-1.5">
-                    <span className="block text-[11px] text-text-primary/90 font-medium truncate">
+                  <span className="min-w-0 engraved-plate rounded-lg px-3 py-2">
+                    <span className="block text-sm text-text-primary font-medium truncate">
                       {it.title}
                     </span>
-                    <span className="block text-[11px] leading-relaxed text-text-secondary line-clamp-2">
+                    <span className="block text-sm leading-relaxed text-text-secondary line-clamp-2">
                       {it.quote}
                     </span>
                   </span>
@@ -145,15 +146,15 @@ export default function VisionShowcase({ index, data, labels }: Props) {
   const some = data.faces.slice(4, 8);
   if (!some.length) return null;
   return (
-    <div className="pt-2 flex items-start gap-3">
+    <div className="pt-3 flex items-start gap-4 overflow-x-auto pb-2">
       {some.map((f) => (
         <Face key={f.slug ?? f.name} name={f.name} avatarUrl={f.avatarUrl} info={f.info} />
       ))}
-      <div className="flex flex-col items-center gap-1.5 shrink-0">
-        <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-dashed border-accent-primary/50 flex items-center justify-center text-accent-primary/70 text-xl">
+      <div className="flex flex-col items-center gap-2 shrink-0">
+        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-dashed border-accent flex items-center justify-center text-accent text-2xl">
           +
         </div>
-        <span className="text-[11px] text-accent-primary/80 text-center w-16">{labels.yourSlot}</span>
+        <span className="text-sm text-accent text-center w-20">{labels.yourSlot}</span>
       </div>
     </div>
   );

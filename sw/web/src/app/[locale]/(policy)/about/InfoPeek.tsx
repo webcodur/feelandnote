@@ -31,15 +31,13 @@ export default function InfoPeek({ info, className, children }: Props) {
       </button>
 
       <Modal isOpen={open} onClose={() => setOpen(false)} title={info.heading} size="sm">
-        <ModalBody className="py-4 px-4 space-y-3">
-          {info.subheading && (
-            <p className="text-sm text-accent-primary">{info.subheading}</p>
-          )}
+        <ModalBody className="py-5 px-5 space-y-3">
+          {info.subheading && <p className="text-base text-accent">{info.subheading}</p>}
           {info.facts.length > 0 && (
-            <p className="text-xs text-text-secondary">{info.facts.join(" · ")}</p>
+            <p className="text-sm text-text-secondary">{info.facts.join(" · ")}</p>
           )}
           {info.body && (
-            <p className="text-[13px] leading-relaxed text-text-secondary">{info.body}</p>
+            <p className="text-base leading-relaxed text-text-secondary">{info.body}</p>
           )}
         </ModalBody>
       </Modal>
