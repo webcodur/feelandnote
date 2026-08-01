@@ -4,6 +4,7 @@
   "private": true,
   "exports": {
     "./kakao-books": "./src/kakao-books.ts",
+    "./itunes-music": "./src/itunes-music.ts",
     "./google-books": "./src/google-books.ts",
     "./tmdb": "./src/tmdb.ts",
     "./igdb": "./src/igdb.ts",
