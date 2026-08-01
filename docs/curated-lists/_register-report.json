@@ -1,7 +1,7 @@
 {
-  "created": 190,
-  "linkedExisting": 2,
-  "notFound": 337,
+  "created": 295,
+  "linkedExisting": 0,
+  "notFound": 377,
   "failures": [
     {
       "list": "akutagawa-prize",
@@ -54,6 +54,11 @@
       "creator": "다이도 다마키"
     },
     {
+      "list": "pulitzer-history",
+      "title": "A History of the United States, Vol. VI: The War for Southern Independence, 1849-1865",
+      "creator": "Edward Channing"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Renrakuin",
       "creator": "구라미쓰 도시오"
@@ -99,6 +104,11 @@
       "creator": "Benjamin Franklin"
     },
     {
+      "list": "pulitzer-history",
+      "title": "The Metaphysical Club: A Story of Ideas in America",
+      "creator": "Louis Menand"
+    },
+    {
       "list": "snu-recommended-100",
       "title": "자본론 1권",
       "creator": "마르크스"
@@ -112,6 +122,11 @@
       "list": "npr-top-100-sf-fantasy",
       "title": "The Vorkosigan Saga",
       "creator": "Lois McMaster Bujold"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "The Impending Crisis, 1848-1861",
+      "creator": "David M. Potter"
     },
     {
       "list": "st-johns-great-books",
@@ -152,6 +167,11 @@
       "list": "korea-publication-award",
       "title": "요리는 감이여",
       "creator": "창비교육"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Paul Revere and the World He Lived In",
+      "creator": "Esther Forbes"
     },
     {
       "list": "akutagawa-prize",
@@ -219,6 +239,11 @@
       "creator": "오비 주조"
     },
     {
+      "list": "caldecott-medal",
+      "title": "The Funny Little Woman",
+      "creator": "Blair Lent"
+    },
+    {
       "list": "dongin-literary-award",
       "title": "이 성숙한 밤의 포옹",
       "creator": "서기원"
@@ -232,6 +257,11 @@
       "list": "snu-recommended-100",
       "title": "같기도 하고, 아니 같기도 하고",
       "creator": "홉프만"
+    },
+    {
+      "list": "caldecott-medal",
+      "title": "Baboushka and the Three Kings",
+      "creator": "Nicolas Sidjakov"
     },
     {
       "list": "akutagawa-prize",
@@ -389,6 +419,16 @@
       "creator": "Jim Butcher"
     },
     {
+      "list": "caldecott-medal",
+      "title": "Animals of the Bible, A Picture Book",
+      "creator": "Dorothy P. Lathrop"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Jefferson and His Time, Vols. I-V",
+      "creator": "Dumas Malone"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "On the Influence of Gravitation on the Propagation of Light",
       "creator": "Albert Einstein"
@@ -424,6 +464,16 @@
       "creator": "François Jacob & Jacques Monod"
     },
     {
+      "list": "pulitzer-history",
+      "title": "The Race Beat: The Press, the Civil Rights Struggle, and the Awakening of a Nation",
+      "creator": "Gene Roberts and Hank Klibanoff"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Puritan Village: The Formation of a New England Town",
+      "creator": "Sumner Chilton Powell"
+    },
+    {
       "list": "hyundae-munhak-award-fiction",
       "title": "이별의 방식",
       "creator": "이세기"
@@ -442,6 +492,11 @@
       "list": "akutagawa-prize",
       "title": "Still Life",
       "creator": "이케자와 나쓰키"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "A Nation Under Our Feet: Black Political Struggles in the Rural South from Slavery to the Great Migration",
+      "creator": "Steven Hahn"
     },
     {
       "list": "korea-publication-award",
@@ -484,6 +539,11 @@
       "creator": "하다 게이스케"
     },
     {
+      "list": "caldecott-medal",
+      "title": "The Glorious Flight: Across the Channel with Louis Blériot",
+      "creator": "Alice & Martin Provensen"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Tsui no Sumika",
       "creator": "이소자키 겐이치로"
@@ -507,6 +567,11 @@
       "list": "st-johns-great-books",
       "title": "The Fahrenheit Scale",
       "creator": "Daniel Fahrenheit"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "The Founding of the American Republic, Volume II: The War of Independence: American Phase",
+      "creator": "Claude H. Van Tyne"
     },
     {
       "list": "st-johns-great-books",
@@ -539,6 +604,11 @@
       "creator": "토리야마 마코토"
     },
     {
+      "list": "pulitzer-history",
+      "title": "The Transformation of Virginia, 1740-1790",
+      "creator": "Rhys L. Isaac"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "On the Absolute Quantity of Electricity Associated with the Particles or Atoms of Matter",
       "creator": "Michael Faraday"
@@ -554,9 +624,9 @@
       "creator": "후지사와 슈"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Life Before Us",
-      "creator": "Émile Ajar (Romain Gary)"
+      "list": "pulitzer-history",
+      "title": "Custer's Trials: A Life on the Frontier of a New America",
+      "creator": "T.J. Stiles"
     },
     {
       "list": "akutagawa-prize",
@@ -584,9 +654,19 @@
       "creator": "Hans Christian Ørsted"
     },
     {
+      "list": "pulitzer-history",
+      "title": "Russia Leaves the War: Soviet-American Relations, 1917-1920",
+      "creator": "George F. Kennan"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "On the motion of the stretched string",
       "creator": "Brook Taylor"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Scientists Against Time",
+      "creator": "James Phinney Baxter 3rd"
     },
     {
       "list": "snu-recommended-100",
@@ -597,6 +677,11 @@
       "list": "akutagawa-prize",
       "title": "A Portrait of Shino",
       "creator": "미우라 데쓰오"
+    },
+    {
+      "list": "caldecott-medal",
+      "title": "We Are Water Protectors",
+      "creator": "Michaela Goade"
     },
     {
       "list": "akutagawa-prize",
@@ -617,6 +702,11 @@
       "list": "st-johns-great-books",
       "title": "On the Nature of Light and Colors",
       "creator": "Thomas Young"
+    },
+    {
+      "list": "caldecott-medal",
+      "title": "A Tree is Nice",
+      "creator": "Marc Simont"
     },
     {
       "list": "akutagawa-prize",
@@ -699,6 +789,11 @@
       "creator": "로크"
     },
     {
+      "list": "cwa-gold-dagger",
+      "title": "A Small Death in Lisbon",
+      "creator": "Robert Wilson"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "The Mud of a Century",
       "creator": "이시이 유카"
@@ -732,6 +827,11 @@
       "list": "akutagawa-prize",
       "title": "Touring the Land of the Dead",
       "creator": "가시마다 마키"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Combee: Harriet Tubman, the Combahee River Raid, and Black Freedom During the Civil War",
+      "creator": "Edda L. Fields-Black"
     },
     {
       "list": "st-johns-great-books",
@@ -774,6 +874,11 @@
       "creator": "홍순명"
     },
     {
+      "list": "pulitzer-history",
+      "title": "...the Heavens and the Earth: A Political History of the Space Age",
+      "creator": "Walter A. McDougall"
+    },
+    {
       "list": "dongin-literary-award",
       "title": "너는 뭐냐",
       "creator": "남정현"
@@ -802,6 +907,11 @@
       "list": "st-johns-great-books",
       "title": "Essays",
       "creator": "Theodor Boveri"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Voyagers to the West: A Passage in the Peopling of America on the Eve of the Revolution",
+      "creator": "Bernard Bailyn"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -867,6 +977,11 @@
       "list": "akutagawa-prize",
       "title": "Requiem",
       "creator": "고 시즈코"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "The Hemingses of Monticello: An American Family",
+      "creator": "Annette Gordon-Reed"
     },
     {
       "list": "st-johns-great-books",
@@ -964,6 +1079,11 @@
       "creator": "모리 레이코"
     },
     {
+      "list": "pulitzer-history",
+      "title": "Main Currents in American Thought, 2 vols.",
+      "creator": "Vernon Louis Parrington"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Kaya no Ki Matsuri",
       "creator": "다카키 슈조"
@@ -1004,6 +1124,11 @@
       "creator": "조선미"
     },
     {
+      "list": "cwa-gold-dagger",
+      "title": "The Kingdoms of Savannah",
+      "creator": "George Dawes Green"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "Selected movies",
       "creator": "Alfred Hitchcock"
@@ -1027,6 +1152,11 @@
       "list": "locus-fantasy-novel",
       "title": "Babel, or the Necessity of Violence",
       "creator": "R. F. Kuang"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "The Fate of Liberty: Abraham Lincoln and Civil Liberties",
+      "creator": "Mark E. Neely"
     },
     {
       "list": "snu-recommended-100",
@@ -1059,6 +1189,16 @@
       "creator": "마치야 료헤이"
     },
     {
+      "list": "pulitzer-history",
+      "title": "Polio: An American Story",
+      "creator": "David M. Oshinsky"
+    },
+    {
+      "list": "caldecott-medal",
+      "title": "Fireworks",
+      "creator": "Cátia Chien"
+    },
+    {
       "list": "korea-publication-award",
       "title": "힘든 시대를 위한 좋은 경제학",
       "creator": "김승진 옮김"
@@ -1082,6 +1222,16 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "잠시 눕는 풀 / 바라암",
       "creator": "김원일"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "An Army at Dawn: The War in North Africa, 1942-1943",
+      "creator": "Rick Atkinson"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "The Triumphant Empire: Thunder-Clouds Gather in the West 1763-1766",
+      "creator": "Lawrence H. Gipson"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1132,6 +1282,11 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "두고 온 사람 / 호도나무골 전설",
       "creator": "유재용"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Exploration and Empire: The Explorer and the Scientist in the Winning of the American West",
+      "creator": "William H. Goetzmann"
     },
     {
       "list": "akutagawa-prize",
@@ -1229,6 +1384,11 @@
       "creator": "오유권"
     },
     {
+      "list": "caldecott-medal",
+      "title": "Finding Winnie: The True Story of the World's Most Famous Bear",
+      "creator": "Sophie Blackall"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "상신",
       "creator": "고미 야스스케"
@@ -1262,6 +1422,11 @@
       "list": "akutagawa-prize",
       "title": "The Smoke in the Mountain Valley",
       "creator": "시게카네 요시코"
+    },
+    {
+      "list": "cwa-gold-dagger",
+      "title": "The Death of Us",
+      "creator": "Abigail Dean"
     },
     {
       "list": "korea-publication-award",
@@ -1329,6 +1494,11 @@
       "creator": "Madame de Sévigne"
     },
     {
+      "list": "pulitzer-history",
+      "title": "Blood in the Water: The Attica Prison Uprising of 1971 and Its Legacy",
+      "creator": "Heather Ann Thompson"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "검은 방울새",
       "creator": "미키 다쿠"
@@ -1364,6 +1534,11 @@
       "creator": "조우리"
     },
     {
+      "list": "baillie-gifford-nonfiction",
+      "title": "The Third Reich: A New History",
+      "creator": "Michael Burleigh"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "벽 S·카르마씨의 범죄",
       "creator": "아베 코보"
@@ -1389,6 +1564,11 @@
       "creator": "송병수"
     },
     {
+      "list": "baillie-gifford-nonfiction",
+      "title": "How to End a Story: Collected Diaries",
+      "creator": "Helen Garner"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Hana Kutashi",
       "creator": "마쓰우라 히사키"
@@ -1412,6 +1592,11 @@
       "list": "akutagawa-prize",
       "title": "Asakusa no Kodomo",
       "creator": "하세 겐"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "The Victory at Sea",
+      "creator": "William Sowden Sims and Burton J. Hendrick"
     },
     {
       "list": "korea-publication-award",
@@ -1514,6 +1699,11 @@
       "creator": "Édouard Manet"
     },
     {
+      "list": "caldecott-medal",
+      "title": "Ashanti to Zulu: African Traditions",
+      "creator": "Leo & Diane Dillon"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "Third Symphony",
       "creator": "Ludwig van Beethoven"
@@ -1582,6 +1772,11 @@
       "list": "prix-goncourt",
       "title": "Jerome: or, The Latitude of Love",
       "creator": "Maurice Bedel"
+    },
+    {
+      "list": "pulitzer-history",
+      "title": "Original Meanings: Politics and Ideas in the Making of the Constitution",
+      "creator": "Jack N. Rakove"
     },
     {
       "list": "st-johns-great-books",
@@ -1687,6 +1882,11 @@
       "list": "akutagawa-prize",
       "title": "Fukai Kawa",
       "creator": "다쿠보 히데오"
+    },
+    {
+      "list": "baillie-gifford-nonfiction",
+      "title": "Pushkin: A Biography",
+      "creator": "T.J. Binyon"
     }
   ]
 }

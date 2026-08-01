@@ -1,0 +1,672 @@
+{
+  "curator": {
+    "slug": "american-library-association",
+    "name": "미국도서관협회",
+    "name_en": "American Library Association",
+    "kind": "library",
+    "country": "US",
+    "founded_year": 1876,
+    "homepage_url": "https://www.ala.org",
+    "description": "미국도서관협회는 미국의 도서관과 사서를 대표하는 단체다. 산하 어린이도서관서비스협회(ALSC)를 통해 뉴베리상과 칼데콧상을 비롯한 주요 아동문학상을 운영한다. 해마다 1월에 열리는 청소년미디어상 발표에서 수상작을 공개한다.",
+    "description_en": "The American Library Association represents libraries and library workers in the United States. Through its Association for Library Service to Children (ALSC) division, it administers the major American children's book awards, including the Newbery and Caldecott Medals. Winners are revealed each January at the association's Youth Media Awards announcements."
+  },
+  "list": {
+    "slug": "caldecott-medal",
+    "title": "칼데콧상 수상작",
+    "title_en": "Caldecott Medal Winners",
+    "description": "칼데콧상은 1938년에 시작된 미국 그림책 최고의 상이다. 글이 아니라 그림에 주는 상이어서, 해마다 가장 뛰어난 미국 그림책을 그린 화가 한 사람에게 수여한다. 19세기 영국 삽화가 랜돌프 칼데콧의 이름을 땄다.",
+    "description_en": "First awarded in 1938, the Caldecott Medal is the foremost American prize for picture books. It honors the artwork rather than the text: each year it goes to the illustrator of the most distinguished American picture book for children. The medal is named after the nineteenth-century English illustrator Randolph Caldecott.",
+    "published_year": null,
+    "edition": null,
+    "method": "미국도서관협회 산하 어린이도서관서비스협회의 선정위원회가 전해에 미국에서 나온 그림책을 심사한다. 화가는 미국 시민이거나 미국 거주자여야 하고, 그림은 이전에 발표된 적 없는 원작이어야 한다. 심사 기준은 화법의 완성도, 이야기·주제·개념을 그림으로 풀어낸 솜씨, 소재에 어울리는 화풍, 줄거리·인물·배경·분위기를 그림이 얼마나 살려내는가, 어린이 독자에게 보여줄 책으로서의 완성도다. 그림을 가장 앞에 두되 글과 판면 구성도 그림책의 효과에 영향을 주는 한 함께 본다. 교훈성이나 인기는 평가에 넣지 않는다. 결과는 해마다 1월 협회 행사에서 발표한다.",
+    "method_en": "A selection committee of the ALA's Association for Library Service to Children reviews picture books published in the United States during the preceding year. Artists must be U.S. citizens or residents, and the illustrations must be original work not previously published. Committee members weigh excellence of execution in the artistic technique employed, excellence of pictorial interpretation of story, theme, or concept, appropriateness of style to the story, the way the pictures delineate plot, character, setting, and mood, and the book's overall excellence of presentation for a child audience. Illustration comes first, though text and design are considered where they affect the book's success as a picture book; didactic intent and popularity are not criteria. Results are announced each January at an ALA event.",
+    "source_url": "https://www.ala.org/sites/default/files/2025-09/caldecott-medal-honors-to-present.pdf",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "children",
+      "picture-book"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Animals of the Bible, A Picture Book",
+      "raw_creator": "Dorothy P. Lathrop",
+      "rank": null,
+      "year": 1938,
+      "note": "글: Helen Dean Fish가 성경 본문을 선별"
+    },
+    {
+      "raw_title": "Mei Li",
+      "raw_creator": "Thomas Handforth",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Abraham Lincoln",
+      "raw_creator": "Ingri & Edgar Parin d'Aulaire",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "They Were Strong and Good",
+      "raw_creator": "Robert Lawson",
+      "rank": null,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "Make Way for Ducklings",
+      "raw_creator": "Robert McCloskey",
+      "rank": null,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "The Little House",
+      "raw_creator": "Virginia Lee Burton",
+      "rank": null,
+      "year": 1943,
+      "note": null
+    },
+    {
+      "raw_title": "Many Moons",
+      "raw_creator": "Louis Slobodkin",
+      "rank": null,
+      "year": 1944,
+      "note": "글: James Thurber"
+    },
+    {
+      "raw_title": "Prayer for a Child",
+      "raw_creator": "Elizabeth Orton Jones",
+      "rank": null,
+      "year": 1945,
+      "note": "글: Rachel Field"
+    },
+    {
+      "raw_title": "The Rooster Crows",
+      "raw_creator": "Maud & Miska Petersham",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "The Little Island",
+      "raw_creator": "Leonard Weisgard",
+      "rank": null,
+      "year": 1947,
+      "note": "글: Golden MacDonald (Margaret Wise Brown의 필명)"
+    },
+    {
+      "raw_title": "White Snow, Bright Snow",
+      "raw_creator": "Roger Duvoisin",
+      "rank": null,
+      "year": 1948,
+      "note": "글: Alvin Tresselt"
+    },
+    {
+      "raw_title": "The Big Snow",
+      "raw_creator": "Berta & Elmer Hader",
+      "rank": null,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "Song of the Swallows",
+      "raw_creator": "Leo Politi",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "The Egg Tree",
+      "raw_creator": "Katherine Milhous",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "Finders Keepers",
+      "raw_creator": "Nicolas Mordvinoff",
+      "rank": null,
+      "year": 1952,
+      "note": "그림은 필명 Nicolas로 표기. 글: Will (William Lipkind의 필명)"
+    },
+    {
+      "raw_title": "The Biggest Bear",
+      "raw_creator": "Lynd Ward",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "Madeline's Rescue",
+      "raw_creator": "Ludwig Bemelmans",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Cinderella, or the Little Glass Slipper",
+      "raw_creator": "Marcia Brown",
+      "rank": null,
+      "year": 1955,
+      "note": "글: Charles Perrault 원작을 Marcia Brown이 옮김"
+    },
+    {
+      "raw_title": "Frog Went A-Courtin'",
+      "raw_creator": "Feodor Rojankovsky",
+      "rank": null,
+      "year": 1956,
+      "note": "글: John Langstaff가 다시 씀"
+    },
+    {
+      "raw_title": "A Tree is Nice",
+      "raw_creator": "Marc Simont",
+      "rank": null,
+      "year": 1957,
+      "note": "글: Janice Udry"
+    },
+    {
+      "raw_title": "Time of Wonder",
+      "raw_creator": "Robert McCloskey",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Chanticleer and the Fox",
+      "raw_creator": "Barbara Cooney",
+      "rank": null,
+      "year": 1959,
+      "note": "글: Chaucer의 캔터베리 이야기를 Barbara Cooney가 각색"
+    },
+    {
+      "raw_title": "Nine Days to Christmas",
+      "raw_creator": "Marie Hall Ets",
+      "rank": null,
+      "year": 1960,
+      "note": "글: Marie Hall Ets, Aurora Labastida"
+    },
+    {
+      "raw_title": "Baboushka and the Three Kings",
+      "raw_creator": "Nicolas Sidjakov",
+      "rank": null,
+      "year": 1961,
+      "note": "글: Ruth Robbins"
+    },
+    {
+      "raw_title": "Once a Mouse",
+      "raw_creator": "Marcia Brown",
+      "rank": null,
+      "year": 1962,
+      "note": "Marcia Brown이 다시 쓰고 그림"
+    },
+    {
+      "raw_title": "The Snowy Day",
+      "raw_creator": "Ezra Jack Keats",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "Where the Wild Things Are",
+      "raw_creator": "Maurice Sendak",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "May I Bring a Friend?",
+      "raw_creator": "Beni Montresor",
+      "rank": null,
+      "year": 1965,
+      "note": "글: Beatrice Schenk de Regniers"
+    },
+    {
+      "raw_title": "Always Room for One More",
+      "raw_creator": "Nonny Hogrogian",
+      "rank": null,
+      "year": 1966,
+      "note": "글: Sorche Nic Leodhas (Leclair Alger의 필명)"
+    },
+    {
+      "raw_title": "Sam, Bangs & Moonshine",
+      "raw_creator": "Evaline Ness",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Drummer Hoff",
+      "raw_creator": "Ed Emberley",
+      "rank": null,
+      "year": 1968,
+      "note": "글: Barbara Emberley 각색"
+    },
+    {
+      "raw_title": "The Fool of the World and the Flying Ship",
+      "raw_creator": "Uri Shulevitz",
+      "rank": null,
+      "year": 1969,
+      "note": "글: Arthur Ransome이 다시 씀"
+    },
+    {
+      "raw_title": "Sylvester and the Magic Pebble",
+      "raw_creator": "William Steig",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "A Story A Story",
+      "raw_creator": "Gail E. Haley",
+      "rank": null,
+      "year": 1971,
+      "note": "Gail E. Haley가 다시 쓰고 그림"
+    },
+    {
+      "raw_title": "One Fine Day",
+      "raw_creator": "Nonny Hogrogian",
+      "rank": null,
+      "year": 1972,
+      "note": "Nonny Hogrogian이 다시 쓰고 그림"
+    },
+    {
+      "raw_title": "The Funny Little Woman",
+      "raw_creator": "Blair Lent",
+      "rank": null,
+      "year": 1973,
+      "note": "글: Arlene Mosel이 다시 씀"
+    },
+    {
+      "raw_title": "Duffy and the Devil",
+      "raw_creator": "Margot Zemach",
+      "rank": null,
+      "year": 1974,
+      "note": "글: Harve Zemach가 다시 씀"
+    },
+    {
+      "raw_title": "Arrow to the Sun",
+      "raw_creator": "Gerald McDermott",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Why Mosquitoes Buzz in People's Ears",
+      "raw_creator": "Leo & Diane Dillon",
+      "rank": null,
+      "year": 1976,
+      "note": "글: Verna Aardema가 다시 씀"
+    },
+    {
+      "raw_title": "Ashanti to Zulu: African Traditions",
+      "raw_creator": "Leo & Diane Dillon",
+      "rank": null,
+      "year": 1977,
+      "note": "글: Margaret Musgrove"
+    },
+    {
+      "raw_title": "Noah's Ark",
+      "raw_creator": "Peter Spier",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "The Girl Who Loved Wild Horses",
+      "raw_creator": "Paul Goble",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Ox-Cart Man",
+      "raw_creator": "Barbara Cooney",
+      "rank": null,
+      "year": 1980,
+      "note": "글: Donald Hall"
+    },
+    {
+      "raw_title": "Fables",
+      "raw_creator": "Arnold Lobel",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Jumanji",
+      "raw_creator": "Chris Van Allsburg",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Shadow",
+      "raw_creator": "Marcia Brown",
+      "rank": null,
+      "year": 1983,
+      "note": "글: Blaise Cendrars의 프랑스어 원작을 Marcia Brown이 옮김"
+    },
+    {
+      "raw_title": "The Glorious Flight: Across the Channel with Louis Blériot",
+      "raw_creator": "Alice & Martin Provensen",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Saint George and the Dragon",
+      "raw_creator": "Trina Schart Hyman",
+      "rank": null,
+      "year": 1985,
+      "note": "글: Margaret Hodges가 다시 씀"
+    },
+    {
+      "raw_title": "The Polar Express",
+      "raw_creator": "Chris Van Allsburg",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Hey, Al",
+      "raw_creator": "Richard Egielski",
+      "rank": null,
+      "year": 1987,
+      "note": "글: Arthur Yorinks"
+    },
+    {
+      "raw_title": "Owl Moon",
+      "raw_creator": "John Schoenherr",
+      "rank": null,
+      "year": 1988,
+      "note": "글: Jane Yolen"
+    },
+    {
+      "raw_title": "Song and Dance Man",
+      "raw_creator": "Stephen Gammell",
+      "rank": null,
+      "year": 1989,
+      "note": "글: Karen Ackerman"
+    },
+    {
+      "raw_title": "Lon Po Po: A Red-Riding Hood Story from China",
+      "raw_creator": "Ed Young",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Black and White",
+      "raw_creator": "David Macaulay",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Tuesday",
+      "raw_creator": "David Wiesner",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Mirette on the High Wire",
+      "raw_creator": "Emily Arnold McCully",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "Grandfather's Journey",
+      "raw_creator": "Allen Say",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Smoky Night",
+      "raw_creator": "David Diaz",
+      "rank": null,
+      "year": 1995,
+      "note": "글: Eve Bunting"
+    },
+    {
+      "raw_title": "Officer Buckle and Gloria",
+      "raw_creator": "Peggy Rathmann",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Golem",
+      "raw_creator": "David Wisniewski",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Rapunzel",
+      "raw_creator": "Paul O. Zelinsky",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Snowflake Bentley",
+      "raw_creator": "Mary Azarian",
+      "rank": null,
+      "year": 1999,
+      "note": "글: Jacqueline Briggs Martin"
+    },
+    {
+      "raw_title": "Joseph Had a Little Overcoat",
+      "raw_creator": "Simms Taback",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "So You Want to Be President?",
+      "raw_creator": "David Small",
+      "rank": null,
+      "year": 2001,
+      "note": "글: Judith St. George"
+    },
+    {
+      "raw_title": "The Three Pigs",
+      "raw_creator": "David Wiesner",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "My Friend Rabbit",
+      "raw_creator": "Eric Rohmann",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Man Who Walked Between the Towers",
+      "raw_creator": "Mordicai Gerstein",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Kitten's First Full Moon",
+      "raw_creator": "Kevin Henkes",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Hello, Goodbye Window",
+      "raw_creator": "Chris Raschka",
+      "rank": null,
+      "year": 2006,
+      "note": "글: Norton Juster"
+    },
+    {
+      "raw_title": "Flotsam",
+      "raw_creator": "David Wiesner",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Invention of Hugo Cabret",
+      "raw_creator": "Brian Selznick",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The House in the Night",
+      "raw_creator": "Beth Krommes",
+      "rank": null,
+      "year": 2009,
+      "note": "글: Susan Marie Swanson"
+    },
+    {
+      "raw_title": "The Lion & the Mouse",
+      "raw_creator": "Jerry Pinkney",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "A Sick Day for Amos McGee",
+      "raw_creator": "Erin E. Stead",
+      "rank": null,
+      "year": 2011,
+      "note": "글: Philip C. Stead"
+    },
+    {
+      "raw_title": "A Ball for Daisy",
+      "raw_creator": "Chris Raschka",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "This Is Not My Hat",
+      "raw_creator": "Jon Klassen",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Locomotive",
+      "raw_creator": "Brian Floca",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "The Adventures of Beekle: The Unimaginary Friend",
+      "raw_creator": "Dan Santat",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Finding Winnie: The True Story of the World's Most Famous Bear",
+      "raw_creator": "Sophie Blackall",
+      "rank": null,
+      "year": 2016,
+      "note": "글: Lindsay Mattick"
+    },
+    {
+      "raw_title": "Radiant Child: The Story of Young Artist Jean-Michel Basquiat",
+      "raw_creator": "Javaka Steptoe",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Wolf in the Snow",
+      "raw_creator": "Matthew Cordell",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Hello Lighthouse",
+      "raw_creator": "Sophie Blackall",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "The Undefeated",
+      "raw_creator": "Kadir Nelson",
+      "rank": null,
+      "year": 2020,
+      "note": "글: Kwame Alexander"
+    },
+    {
+      "raw_title": "We Are Water Protectors",
+      "raw_creator": "Michaela Goade",
+      "rank": null,
+      "year": 2021,
+      "note": "글: Carole Lindstrom"
+    },
+    {
+      "raw_title": "Watercress",
+      "raw_creator": "Jason Chin",
+      "rank": null,
+      "year": 2022,
+      "note": "글: Andrea Wang"
+    },
+    {
+      "raw_title": "Hot Dog",
+      "raw_creator": "Doug Salati",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Big",
+      "raw_creator": "Vashti Harrison",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "Chooch Helped",
+      "raw_creator": "Rebecca Lee Kunz",
+      "rank": null,
+      "year": 2025,
+      "note": "글: Andrea L. Rogers"
+    },
+    {
+      "raw_title": "Fireworks",
+      "raw_creator": "Cátia Chien",
+      "rank": null,
+      "year": 2026,
+      "note": "글: Matthew Burgess"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.ala.org/sites/default/files/2025-09/caldecott-medal-honors-to-present.pdf — ALSC 공식 PDF 'Caldecott Medal & Honor Books, 1938 to present'. curl로 내려받아 pdftotext -layout으로 전문 추출, 813줄 전체를 직접 읽고 'Medal Winner' 항목만 발췌. 1938~2026 전 회차의 1차 출처.",
+      "https://www.ala.org/alsc/awardsgrants/bookmedia/caldecott — ALSC 칼데콧상 공식 안내. 수상 자격·심사 기준(method)과 위 PDF 링크를 여기서 확인.",
+      "https://www.nypl.org/blog/2026/01/26/2026-winners-newbery-caldecott-king-belpre-more-awards-american-library-association — 뉴욕공공도서관 2026-01-26 게시글. 2026년 수상작 Fireworks(그림 Cátia Chien, 글 Matthew Burgess) 교차 확인 및 악센트 표기 확인.",
+      "https://en.wikipedia.org/wiki/Caldecott_Medal — 연도 기준(수상 연도는 전해 출간작 대상)과 초기 수상작 교차 대조.",
+      "https://en.wikipedia.org/wiki/The_Glorious_Flight — 1984년 수상작 제목의 Blériot 악센트 표기 확인."
+    ],
+    "item_count": 89,
+    "year_range": "1938–2026",
+    "year_basis": "시상 연도(award year)다. 출간 연도가 아니다. ALSC 규정상 각 회차는 '전해에 미국에서 출간된' 그림책을 대상으로 하므로, 실제 출간 연도는 대체로 표기된 연도의 한 해 전이다(예: 1984년 수상작 The Glorious Flight는 1983년 출간).",
+    "honor_books_excluded": "출처 PDF는 각 연도를 'YYYY Medal Winner' 줄과 그 뒤의 'Honor Books:' 목록으로 나눠 표기한다. 'Medal Winner' 표기 바로 다음에 오는 작품만 채록하고 'Honor Books:' 아래 항목은 전부 버렸다. 결과 항목 수 89개가 1938~2026년의 회차 수 89와 정확히 일치하므로 아너 도서가 섞이지 않았음을 확인했다. 연도별 중복 항목이 없다는 점도 스크립트로 검사했다.",
+    "gaps": "없다. 1938년부터 2026년까지 89개 연도가 빠짐없이 이어지며 중복도 없다. 칼데콧상은 공동 수상이나 미시상 연도가 없어 연도당 정확히 한 작품이다.",
+    "uncertainties": "① 1984년 수상작 제목을 ALSC PDF는 'Louis Bleriot'로, 위키백과와 원서 표기는 'Louis Blériot'로 적는다. 원서 표기를 따라 악센트를 살렸다. ② 1952년 수상작의 화가는 PDF에 필명 'Nicolas'로 적히고 괄호로 본명 Nicholas Mordvinoff가 병기돼 있어, 본명을 raw_creator에 넣고 필명을 note에 남겼다. 마찬가지로 1947·1966년 글쓴이는 필명으로 표기돼 있어 note에 본명을 병기했다. ③ 공동 작업 항목(1940 d'Aulaire 부부, 1946 Petersham 부부, 1949 Hader 부부, 1976·1977 Dillon 부부, 1984 Provensen 부부)은 두 사람을 한 칸에 '&'로 묶은 PDF 표기를 그대로 두었다. ④ 2026년 수상작은 ALSC PDF와 뉴욕공공도서관 게시글 두 곳에서 확인했다. 2027년 이후 회차는 발표 전이므로 포함하지 않았다."
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "curator": {
+    "slug": "crime-writers-association",
+    "name": "영국 추리작가협회",
+    "name_en": "Crime Writers' Association",
+    "kind": "award",
+    "country": "GB",
+    "founded_year": 1953,
+    "homepage_url": "https://thecwa.co.uk",
+    "description": "영국 추리작가협회는 작가 존 크리시가 1953년에 만든 범죄소설 작가들의 직능 단체다. 설립 두 해 만인 1955년부터 매년 대거(Dagger)라는 이름의 상을 주기 시작했고, 지금은 장편·논픽션·번역·단편·신인 등 열세 개 부문으로 나뉘어 있다. 이 가운데 아홉 부문은 출판계 종사자들이 독립 심사위원으로 참여해 가린다.",
+    "description_en": "The Crime Writers' Association was founded in 1953 by the novelist John Creasey as a professional body for British crime writers. It began handing out its Dagger awards in 1955, less than two years after its founding, and now presents thirteen Daggers covering novels, non-fiction, translated fiction, short stories, and debut authors. Nine of them are for books and short stories and are judged independently by industry professionals."
+  },
+  "list": {
+    "slug": "cwa-gold-dagger",
+    "title": "CWA 골드 대거",
+    "title_en": "CWA Gold Dagger",
+    "description": "CWA 골드 대거는 영국 추리작가협회가 그해 최고의 범죄소설 한 편에 주는 상으로, 영국 범죄·스릴러 소설계의 최고 영예로 꼽힌다. 1955년 크로스드 레드 헤링 상이라는 이름으로 시작해 1960년 골드 대거로 바뀌었고, 존 르 카레·루스 렌들·콜린 덱스터·이언 랜킨·발 맥더미드 등이 이름을 올렸다. 협회는 범죄소설을 가장 넓게 잡아 스릴러, 미스터리, 경찰 수사물, 심리 서스펜스, 첩보물을 모두 대상에 넣는다.",
+    "description_en": "The CWA Gold Dagger is awarded by the Crime Writers' Association to the best crime novel of the year and is regarded as the leading prize in British crime and thriller fiction. It began in 1955 as the Crossed Red Herrings Award and was renamed the Gold Dagger in 1960; its roll call includes John le Carré, Ruth Rendell, Colin Dexter, Ian Rankin, and Val McDermid. The CWA applies the broadest definition of the crime novel, taking in thrillers, mysteries, police procedurals, psychological suspense, and spy fiction.",
+    "published_year": null,
+    "edition": null,
+    "method": "국적을 가리지 않는 모든 작가가 대상이지만 영어로 쓰인 작품이어야 하고, 심사 기간 안에 영국에서 처음 출간돼야 한다(공식 부문 소개 페이지 명시). 2006년 협회가 번역서를 위한 별도 대거를 만들면서 그때부터 번역서는 이 부문에서 빠졌다. 출판계 종사자로 짜인 독립 심사위원단이 가리며, 예심 명단은 5월 브리스톨 크라임페스트에서, 최종 후보는 여름 런던 행사에서, 수상작은 시상 만찬에서 발표한다.",
+    "method_en": "Open to authors of any nationality, but the book must be originally written in English and first published in the UK during the judging period, as stated on the official award page. Since 2006, when the CWA created a separate Dagger for books in translation, translated works have been excluded from this category. Judging is carried out independently by industry professionals; longlists are traditionally announced at CrimeFest in Bristol in May, shortlists at a London event in summer, and winners at the annual Dagger awards dinner.",
+    "source_url": "https://thecwa.co.uk/past-winners?past_winners_awards%5B%5D=gold",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "mystery",
+      "thriller"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Little Walls",
+      "raw_creator": "Winston Graham",
+      "rank": null,
+      "year": 1955,
+      "note": "크로스드 레드 헤링 상(Crossed Red Herring Award) 시기의 첫 수상작이다. 공식 CWA 역대 수상 목록은 1960년부터만 제공하므로 이 항목은 위키백과 Gold Dagger 문서와 Goodreads의 Crossed Red Herring Award 목록으로 확인했다."
+    },
+    {
+      "raw_title": "The Second Man",
+      "raw_creator": "Edward Grierson",
+      "rank": null,
+      "year": 1956,
+      "note": "크로스드 레드 헤링 상 시기. 공식 목록 미수록, 위키백과·Goodreads로 확인."
+    },
+    {
+      "raw_title": "The Colour of Murder",
+      "raw_creator": "Julian Symons",
+      "rank": null,
+      "year": 1957,
+      "note": "크로스드 레드 헤링 상 시기. 공식 목록 미수록, 위키백과·Goodreads로 확인."
+    },
+    {
+      "raw_title": "Someone from the Past",
+      "raw_creator": "Margot Bennett",
+      "rank": null,
+      "year": 1958,
+      "note": "크로스드 레드 헤링 상 시기. 공식 목록 미수록, 위키백과·Goodreads로 확인."
+    },
+    {
+      "raw_title": "Passage of Arms",
+      "raw_creator": "Eric Ambler",
+      "rank": null,
+      "year": 1959,
+      "note": "크로스드 레드 헤링 상 시기의 마지막 수상작이다. 공식 목록 미수록, 위키백과·Goodreads로 확인."
+    },
+    {
+      "raw_title": "The Night of Wenceslas",
+      "raw_creator": "Lionel Davidson",
+      "rank": null,
+      "year": 1960,
+      "note": "골드 대거로 이름을 바꾼 첫해 수상작이며, 공식 CWA 역대 수상 목록도 이 해부터 시작한다."
+    },
+    {
+      "raw_title": "The Spoilt Kill",
+      "raw_creator": "Mary Kelly",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "When I Grow Rich",
+      "raw_creator": "Joan Fleming",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "The Spy Who Came in from the Cold",
+      "raw_creator": "John le Carré",
+      "rank": null,
+      "year": 1963,
+      "note": "공식 목록 표기는 \"The Spy Who Came In From The Cold\"이며 저자명은 \"John le Carré\"로 동일하다. 제목 대소문자는 통용 표기로 정리했다."
+    },
+    {
+      "raw_title": "The Perfect Murder",
+      "raw_creator": "H. R. F. Keating",
+      "rank": null,
+      "year": 1964,
+      "note": "공식 목록 저자 표기는 마침표가 빠진 \"H.R.F Keating\"이다."
+    },
+    {
+      "raw_title": "The Far Side of the Dollar",
+      "raw_creator": "Ross Macdonald",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "A Long Way to Shiloh",
+      "raw_creator": "Lionel Davidson",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Murder Against the Grain",
+      "raw_creator": "Emma Lathen",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Skin Deep",
+      "raw_creator": "Peter Dickinson",
+      "rank": null,
+      "year": 1968,
+      "note": "공식 목록에는 \"Skin Deep (The Glass-sided Ants' Nest)\"으로 병기돼 있다. 앞이 영국판 제목, 괄호 안이 미국판 제목이다."
+    },
+    {
+      "raw_title": "A Pride of Heroes",
+      "raw_creator": "Peter Dickinson",
+      "rank": null,
+      "year": 1969,
+      "note": "피터 디킨슨이 2년 연속 수상했다."
+    },
+    {
+      "raw_title": "Young Man I Think You're Dying",
+      "raw_creator": "Joan Fleming",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "The Steam Pig",
+      "raw_creator": "James McClure",
+      "rank": null,
+      "year": 1971,
+      "note": "공식 목록 표기는 \"James McClure\", 위키백과 표기는 \"James H. McClure\"다."
+    },
+    {
+      "raw_title": "The Levanter",
+      "raw_creator": "Eric Ambler",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Defection of A. J. Lewinter",
+      "raw_creator": "Robert Littell",
+      "rank": null,
+      "year": 1973,
+      "note": "공식 목록 표기는 \"The Defection of A.J Lewinter\"다."
+    },
+    {
+      "raw_title": "Other Paths to Glory",
+      "raw_creator": "Anthony Price",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "The Seven-Per-Cent Solution",
+      "raw_creator": "Nicholas Meyer",
+      "rank": null,
+      "year": 1975,
+      "note": "공식 목록은 전부 소문자인 \"The seven per cent solution\"으로 적혀 있다. 통용 표기로 정리했다."
+    },
+    {
+      "raw_title": "A Demon in My View",
+      "raw_creator": "Ruth Rendell",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Honourable Schoolboy",
+      "raw_creator": "John le Carré",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "The Chelsea Murders",
+      "raw_creator": "Lionel Davidson",
+      "rank": null,
+      "year": 1978,
+      "note": "라이오넬 데이비드슨의 세 번째 수상이다."
+    },
+    {
+      "raw_title": "Whip Hand",
+      "raw_creator": "Dick Francis",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Murder of the Maharajah",
+      "raw_creator": "H. R. F. Keating",
+      "rank": null,
+      "year": 1980,
+      "note": "공식 목록 표기는 \"The Murder of the Maharajah\", 위키백과 표기는 \"The Murder of the Maharaja\"다. 공식 표기를 따랐다."
+    },
+    {
+      "raw_title": "Gorky Park",
+      "raw_creator": "Martin Cruz Smith",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "The False Inspector Dew",
+      "raw_creator": "Peter Lovesey",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Accidental Crimes",
+      "raw_creator": "John Hutton",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "The Twelfth Juror",
+      "raw_creator": "B. M. Gill",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Monkey Puzzle",
+      "raw_creator": "Paula Gosling",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Live Flesh",
+      "raw_creator": "Ruth Rendell",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "A Fatal Inversion",
+      "raw_creator": "Barbara Vine",
+      "rank": null,
+      "year": 1987,
+      "note": "바버라 바인은 루스 렌들의 필명이다."
+    },
+    {
+      "raw_title": "Ratking",
+      "raw_creator": "Michael Dibdin",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "The Wench Is Dead",
+      "raw_creator": "Colin Dexter",
+      "rank": null,
+      "year": 1989,
+      "note": "공식 목록 표기는 \"The Wench is Dead\"다."
+    },
+    {
+      "raw_title": "Bones and Silence",
+      "raw_creator": "Reginald Hill",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "King Solomon's Carpet",
+      "raw_creator": "Barbara Vine",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "The Way Through the Woods",
+      "raw_creator": "Colin Dexter",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Cruel and Unusual",
+      "raw_creator": "Patricia Cornwell",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Scold's Bridle",
+      "raw_creator": "Minette Walters",
+      "rank": null,
+      "year": 1994,
+      "note": "공식 목록에는 \"The Schold's Bridle\"로 잘못 적혀 있다. 실제 제목으로 바로잡았다."
+    },
+    {
+      "raw_title": "The Mermaids Singing",
+      "raw_creator": "Val McDermid",
+      "rank": null,
+      "year": 1995,
+      "note": "이 해부터 매캘런(Macallan) 후원으로 \"Macallan Gold Dagger\"라 불렸다."
+    },
+    {
+      "raw_title": "Popcorn",
+      "raw_creator": "Ben Elton",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Black and Blue",
+      "raw_creator": "Ian Rankin",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Sunset Limited",
+      "raw_creator": "James Lee Burke",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "A Small Death in Lisbon",
+      "raw_creator": "Robert Wilson",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Motherless Brooklyn",
+      "raw_creator": "Jonathan Lethem",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Sidetracked",
+      "raw_creator": "Henning Mankell",
+      "rank": null,
+      "year": 2001,
+      "note": "스웨덴어 원작의 번역서다. 2006년부터는 번역서가 이 부문 대상에서 빠졌다."
+    },
+    {
+      "raw_title": "The Athenian Murders",
+      "raw_creator": "José Carlos Somoza",
+      "rank": null,
+      "year": 2002,
+      "note": "공식 목록에는 저자가 \"Jose Carlos Samoza\"로 잘못 적혀 있다. 스페인어 원작의 번역서이며, 매캘런 후원의 마지막 해다."
+    },
+    {
+      "raw_title": "Fox Evil",
+      "raw_creator": "Minette Walters",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Blacklist",
+      "raw_creator": "Sara Paretsky",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Silence of the Grave",
+      "raw_creator": "Arnaldur Indriðason",
+      "rank": null,
+      "year": 2005,
+      "note": "아이슬란드어 원작의 번역서다. 공식 목록에는 저자명이 \"Arnaldur Indri­ason\"으로 글자가 깨져 표시된다. 번역서가 이 부문에서 수상한 마지막 사례다."
+    },
+    {
+      "raw_title": "Raven Black",
+      "raw_creator": "Ann Cleeves",
+      "rank": null,
+      "year": 2006,
+      "note": "이 해부터 3년간 던컨 로리(Duncan Lawrie) 은행 후원으로 \"Duncan Lawrie Dagger\"라 불렸고 상금 2만 파운드가 걸렸다. 같은 해 번역서를 위한 별도 대거가 신설되면서 이 부문은 영어로 쓰인 작품만 받게 됐다."
+    },
+    {
+      "raw_title": "The Broken Shore",
+      "raw_creator": "Peter Temple",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Blood from Stone",
+      "raw_creator": "Frances Fyfield",
+      "rank": null,
+      "year": 2008,
+      "note": "던컨 로리 후원의 마지막 해다. 공식 목록 표기는 \"Blood From Stone\"."
+    },
+    {
+      "raw_title": "A Whispered Name",
+      "raw_creator": "William Brodrick",
+      "rank": null,
+      "year": 2009,
+      "note": "후원이 끝나고 다시 \"Gold Dagger\"로 돌아왔다."
+    },
+    {
+      "raw_title": "Blacklands",
+      "raw_creator": "Belinda Bauer",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Crooked Letter, Crooked Letter",
+      "raw_creator": "Tom Franklin",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "The Rage",
+      "raw_creator": "Gene Kerrigan",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Dead Lions",
+      "raw_creator": "Mick Herron",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "This Dark Road to Mercy",
+      "raw_creator": "Wiley Cash",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Life or Death",
+      "raw_creator": "Michael Robotham",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Dodgers",
+      "raw_creator": "Bill Beverly",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Dry",
+      "raw_creator": "Jane Harper",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Liar",
+      "raw_creator": "Steve Cavanagh",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Puppet Show",
+      "raw_creator": "M. W. Craven",
+      "rank": null,
+      "year": 2019,
+      "note": "공식 목록 저자 표기는 \"M W Craven\"이다."
+    },
+    {
+      "raw_title": "Good Girl, Bad Girl",
+      "raw_creator": "Michael Robotham",
+      "rank": null,
+      "year": 2020,
+      "note": "마이클 로보텀의 두 번째 수상이다. 같은 해 루 버니의 「November Road」가 우수작(Highly Commended)으로 함께 언급됐다."
+    },
+    {
+      "raw_title": "We Begin at the End",
+      "raw_creator": "Chris Whitaker",
+      "rank": null,
+      "year": 2021,
+      "note": "같은 해 니치 프렌치의 「House of Correction」이 우수작(Highly Commended)으로 함께 언급됐다."
+    },
+    {
+      "raw_title": "Sunset Swing",
+      "raw_creator": "Ray Celestin",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "The Kingdoms of Savannah",
+      "raw_creator": "George Dawes Green",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Tell Me What I Am",
+      "raw_creator": "Una Mannion",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "The Book of Secrets",
+      "raw_creator": "Anna Mazzola",
+      "rank": null,
+      "year": 2025,
+      "note": "이 해부터 케빈 앤더슨 어소시에이츠(Kevin Anderson & Associates) 후원으로 \"KAA Gold Dagger\"라 불린다. 2025년 5월 후원 계약이 발표됐다."
+    },
+    {
+      "raw_title": "The Death of Us",
+      "raw_creator": "Abigail Dean",
+      "rank": null,
+      "year": 2026,
+      "note": "가장 최근 수상작이다. 2026년 7월 2일 런던 드 비어 그랜드 코노트 룸스에서 열린 시상식에서 발표됐다. 출판사는 하퍼콜린스(Hemlock Press)."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://thecwa.co.uk/past-winners?past_winners_awards%5B%5D=gold (공식 CWA 역대 수상 목록, 골드 대거 부문 필터. 총 16페이지 전부를 /past-winners/page/N/?past_winners_awards[]=gold 형식으로 열어 수집했다. 1960~2026년 수상작 67편을 이 목록에서 확인했다)",
+      "https://thecwa.co.uk/awards-and-competitions/the-daggers/gold-dagger/ (공식 부문 소개. 현재 정식 명칭 \"CWA KAA Gold Dagger\", 응모 자격, 1955년 크로스드 레드 헤링스 상으로 출발해 1960년 골드 대거로 개명, 2006년 번역서 분리 확인. 2026년 수상작 The Death of Us / Abigail Dean 및 심사평 확인)",
+      "https://thecwa.co.uk/awards-and-competitions/the-daggers/ (현행 13개 대거 부문 명칭, \"아홉 개 부문은 출판계 종사자가 독립 심사한다\"는 문구 확인)",
+      "https://en.wikipedia.org/wiki/Gold_Dagger (교차 대조용 역대 수상작 전체 목록. 1955~1959년 크로스드 레드 헤링 시기, 매캘런 1995~2002년, 던컨 로리 2006~2008년 상금 2만 파운드, 1969~2005년 실버 대거 존재 및 폐지 확인)",
+      "https://en.wikipedia.org/wiki/Crime_Writers'_Association (1953년 존 크리시 설립, 1955년 첫 크로스드 레드 헤링 수여, 예심·최종 후보·수상 발표 일정 확인)",
+      "https://www.goodreads.com/award/show/4771-cwa-crossed-red-herring-award (1955~1959년 수상작 5편 독립 대조)",
+      "https://crimespreemag.com/2025-cwa-dagger-awards-announced/ (2025년 부문 명칭이 \"The KAA GOLD DAGGER\"였음과 수상작 확인)",
+      "https://promotingcrime.blogspot.com/2025/05/new-blood-for-cwa-daggers-with-awards.html (2025년 5월 케빈 앤더슨 어소시에이츠의 골드 대거 신규 후원 발표 확인)",
+      "WebSearch: \"CWA Dagger Awards 2026 winners Gold Dagger announced\" (2026년 시상식 2026-07-02 런던 개최, 골드 대거 수상자 Abigail Dean 확인. 개별 기사 본문은 열지 않았다)"
+    ],
+    "item_count": 72,
+    "year_range": "1955-2026",
+    "year_basis": "시상 연도다. 공식 CWA 역대 수상 목록이 각 항목에 붙여 놓은 연도 값을 그대로 옮겼다(1955~1959년은 위키백과·Goodreads 기준). 출간 연도가 아니므로 작품에 따라 전년도 출간작일 수 있다. 예로 2026년 수상작 The Death of Us는 2026년 7월 2일 시상식에서 발표됐다.",
+    "name_changes": "① 1955~1959년: \"Crossed Red Herring Award\"(공식 페이지는 \"Crossed Red Herrings Award\"로 표기). 첫 수상은 1955년 윈스턴 그레이엄의 The Little Walls. ② 1960년: \"Gold Dagger\"로 개명, 이후 후원사에 따라 이름이 바뀌어 왔다. ③ 1995~2002년: 위스키 브랜드 매캘런 후원으로 \"Macallan Gold Dagger\". ④ 2006~2008년: 던컨 로리 은행 후원으로 \"Duncan Lawrie Dagger\", 상금 2만 파운드가 걸려 당시 세계 최대 상금의 범죄소설상이었다. 2008년 후원 종료. ⑤ 2009~2024년: 후원 없이 \"Gold Dagger\". ⑥ 2025년~현재: 케빈 앤더슨 어소시에이츠 후원으로 \"CWA KAA Gold Dagger\". 2025년 5월 후원 발표, 2025년 시상부터 이 이름이 쓰였다. 별도로 2006년에는 이름이 아니라 자격 요건이 바뀌었다 — 번역서를 위한 별도 대거(International, 현 Crime Fiction in Translation)가 신설되면서 번역서가 이 부문에서 빠졌다.",
+    "gaps": "연도 결번은 없다. 1955년부터 2026년까지 72개 연도가 끊김 없이 이어지며 연도마다 수상작이 정확히 1편이다(72개 연도 = 72개 항목). 공동 수상은 확인되지 않았다. 다만 자료 출처가 구간별로 갈린다 — 공식 CWA 역대 수상 목록은 1960년부터만 실려 있어 1955~1959년 5편은 위키백과와 Goodreads로만 확인했다. 1960~2026년 67편은 공식 목록과 위키백과 양쪽에서 일치를 확인했다.",
+    "uncertainties": "① 표기 차이 — 공식 목록의 제목·저자 표기가 통용 표기와 어긋나는 항목이 여럿이다. 1994년은 공식 목록에 \"The Schold's Bridle\", 2002년 저자는 \"Jose Carlos Samoza\"로 잘못 적혀 있고, 2005년 저자 \"Arnaldur Indriðason\"은 글자가 깨져 표시된다. 이런 명백한 오기는 바로잡고 각 항목 note에 원표기를 남겼다. 1975년(전부 소문자), 1964·1980년(H.R.F Keating 마침표 누락) 등 형식 차이도 note에 적었다. ② 1980년 제목은 공식 목록 \"The Murder of the Maharajah\"와 위키백과 \"The Murder of the Maharaja\"가 갈린다. 공식 표기를 채택했다. ③ 1971년 저자는 공식 \"James McClure\", 위키백과 \"James H. McClure\"로 갈린다. 공식 표기를 채택했다. ④ 2003~2005년 후원사는 확인하지 못했다. 매캘런 후원이 2002년에 끝나고 던컨 로리가 2006년에 시작한 사이 구간인데, 이 3년의 명칭·후원 여부를 밝힌 문서를 찾지 못했다. 확인하려면 해당 연도 CWA 보도자료나 당시 언론 기사를 열어야 한다. ⑤ 심사위원 구성·상금 액수는 현행 공식 부문 페이지에 적혀 있지 않다. 2026년 심사위원 명단만 게시돼 있고 금액 언급은 없다. 확인된 상금 정보는 던컨 로리 시기(2006~2008년) 2만 파운드뿐이며 이는 위키백과 출처다. ⑥ 2020·2021년에는 수상작과 별개로 \"Highly Commended\" 작품이 공식 목록에 표시돼 있다. 수상작이 아니므로 items에 넣지 않고 해당 연도 note에만 적었다."
+  }
+}

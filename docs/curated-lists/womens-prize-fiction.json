@@ -1,0 +1,266 @@
+{
+  "curator": {
+    "slug": "womens-prize",
+    "name": "여성문학상",
+    "name_en": "Women's Prize",
+    "kind": "award",
+    "country": "GB",
+    "founded_year": 1996,
+    "homepage_url": "https://womensprize.com",
+    "description": "1991년 부커상 최종 후보에 여성 작가가 한 명도 오르지 않은 일을 계기로 만들어진 영국의 문학상이다. 당시 영국에서 출간되는 소설의 약 60퍼센트를 여성이 썼는데도 평단의 조명과 대우는 남성 작가에게 쏠려 있다는 문제의식에서 출판계 인사들이 모여 1996년 첫 시상을 했다. 후원사가 바뀔 때마다 이름도 바뀌어 오렌지상, 베일리스 여성문학상을 거쳐 지금의 여성문학상으로 불린다.",
+    "description_en": "The Women's Prize was founded in response to the 1991 Booker Prize shortlist, which included no women even though women wrote roughly 60% of novels published in the UK. A group of publishing figures set out to correct the imbalance in the coverage, respect and reverence given to women writers, and the first award was made in 1996. The prize has carried the name of successive sponsors, running as the Orange Prize for Fiction and the Baileys Women's Prize for Fiction before settling on the Women's Prize for Fiction."
+  },
+  "list": {
+    "slug": "womens-prize-fiction",
+    "title": "여성문학상 수상작",
+    "title_en": "Women's Prize for Fiction",
+    "description": "1996년부터 해마다 한 편씩 뽑은 여성문학상 소설 부문 수상작이다. 국적을 가리지 않고 여성 작가가 영어로 쓴 장편소설 가운데 전년도에 영국에서 출간된 작품을 대상으로 한다. 수상자는 상금 3만 파운드와 그리젤 니븐이 만든 청동상 '베시(Bessie)'를 받는다.",
+    "description_en": "The annual fiction winners of the Women's Prize, awarded every year since 1996. The prize goes to the best original full-length novel written in English by a woman of any nationality and published in the United Kingdom in the preceding year. The winner receives £30,000 and the 'Bessie', a bronze statuette by Grizel Niven.",
+    "published_year": null,
+    "edition": null,
+    "method": "공식 홈페이지에 따르면 각 분야에서 정상급에 오른 열성 독자 다섯 명으로 꾸린 여성 심사위원단이 수상작을 정한다. 판단 기준은 탁월함(excellence), 독창성(originality), 접근성(accessibility) 세 가지다. 여름에 출판사 응모를 받아 후보 목록과 최종 후보를 거쳐 수상작을 발표한다.",
+    "method_en": "According to the official site, the winner is chosen by a panel of five women, all passionate readers at the top of their respective professions. Judging is based on three criteria: excellence, originality and accessibility. Publishers submit titles in the summer, and the prize proceeds through a longlist and a shortlist before the winner is announced.",
+    "source_url": "https://womensprize.com/prizes/womens-prize-for-fiction/previous-prizes/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "A Spell of Winter",
+      "raw_creator": "Helen Dunmore",
+      "rank": null,
+      "year": 1996,
+      "note": "제1회 수상작. 당시 명칭은 오렌지상(Orange Prize for Fiction)."
+    },
+    {
+      "raw_title": "Fugitive Pieces",
+      "raw_creator": "Anne Michaels",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Larry's Party",
+      "raw_creator": "Carol Shields",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "A Crime in the Neighborhood",
+      "raw_creator": "Suzanne Berne",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "When I Lived in Modern Times",
+      "raw_creator": "Linda Grant",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Idea of Perfection",
+      "raw_creator": "Kate Grenville",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Bel Canto",
+      "raw_creator": "Ann Patchett",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Property",
+      "raw_creator": "Valerie Martin",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Small Island",
+      "raw_creator": "Andrea Levy",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "We Need to Talk About Kevin",
+      "raw_creator": "Lionel Shriver",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "On Beauty",
+      "raw_creator": "Zadie Smith",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Half of a Yellow Sun",
+      "raw_creator": "Chimamanda Ngozi Adichie",
+      "rank": null,
+      "year": 2007,
+      "note": "2020년 역대 수상작 24편을 놓고 독자 1만 명이 투표한 '위너 오브 위너스(Winner of Winners)'에 뽑혔다."
+    },
+    {
+      "raw_title": "The Road Home",
+      "raw_creator": "Rose Tremain",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Home",
+      "raw_creator": "Marilynne Robinson",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Lacuna",
+      "raw_creator": "Barbara Kingsolver",
+      "rank": null,
+      "year": 2010,
+      "note": "바버라 킹솔버의 첫 번째 수상."
+    },
+    {
+      "raw_title": "The Tiger's Wife",
+      "raw_creator": "Téa Obreht",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "The Song of Achilles",
+      "raw_creator": "Madeline Miller",
+      "rank": null,
+      "year": 2012,
+      "note": "오렌지가 17년간 이어온 후원 종료를 발표한 해의 수상작."
+    },
+    {
+      "raw_title": "May We Be Forgiven",
+      "raw_creator": "A. M. Homes",
+      "rank": null,
+      "year": 2013,
+      "note": "후원사 없이 개인 후원자들의 지원으로 치러진 회차."
+    },
+    {
+      "raw_title": "A Girl Is a Half-formed Thing",
+      "raw_creator": "Eimear McBride",
+      "rank": null,
+      "year": 2014,
+      "note": "베일리스가 후원사로 붙은 첫 회차."
+    },
+    {
+      "raw_title": "How to Be Both",
+      "raw_creator": "Ali Smith",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Glorious Heresies",
+      "raw_creator": "Lisa McInerney",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Power",
+      "raw_creator": "Naomi Alderman",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Home Fire",
+      "raw_creator": "Kamila Shamsie",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "An American Marriage",
+      "raw_creator": "Tayari Jones",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Hamnet",
+      "raw_creator": "Maggie O'Farrell",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Piranesi",
+      "raw_creator": "Susanna Clarke",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Book of Form and Emptiness",
+      "raw_creator": "Ruth Ozeki",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Demon Copperhead",
+      "raw_creator": "Barbara Kingsolver",
+      "rank": null,
+      "year": 2023,
+      "note": "킹솔버는 이 상을 두 번 받은 첫 작가가 됐다."
+    },
+    {
+      "raw_title": "Brotherless Night",
+      "raw_creator": "V. V. Ganeshananthan",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "The Safekeep",
+      "raw_creator": "Yael van der Wouden",
+      "rank": null,
+      "year": 2025,
+      "note": "서른 번째 수상작. 2025년 6월 12일 발표."
+    },
+    {
+      "raw_title": "The Correspondent",
+      "raw_creator": "Virginia Evans",
+      "rank": null,
+      "year": 2026,
+      "note": "2026년 6월 11일 발표된 최신 수상작."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://womensprize.com/prizes/womens-prize-for-fiction/ — 공식. 상의 취지, 심사 방식(여성 5인 심사위원단, 탁월함·독창성·접근성), 상금 3만 파운드와 '베시' 청동상, 최근 수상작(2021~2026) 확인.",
+      "https://womensprize.com/prizes/womens-prize-for-fiction/previous-prizes/ — 공식 역대 수상작 목록. 작품·작가는 전부 일치했으나 페이지를 읽어들인 결과에서 연도 표기가 한 칸씩 밀려 2002년이 빠지고 1996년이 두 번 나왔다. 아래 3번 공식 PDF와 위키백과로 바로잡았다.",
+      "https://womensprize.com/app/uploads/2025/04/Timeline_slide.pdf — 공식 30주년 연혁 자료(A BRIEF HISTORY: THE WOMEN'S PRIZE). 1996~2024년 수상작 전체와 명칭 변천 구간, 주요 사건(2012년 오렌지 후원 종료, 2014년 베일리스 첫 시상, 2017년 복수 후원사 체제, 2024년 논픽션 부문 신설)을 담고 있다. PDF 본문을 직접 추출해 읽었다.",
+      "https://en.wikipedia.org/wiki/List_of_Women%27s_Prize_for_Fiction_winners — 1996~2026년 수상작 전체 대조.",
+      "https://en.wikipedia.org/wiki/Women%27s_Prize_for_Fiction — 창설 배경(1991년 부커상 최종 후보 전원 남성), 응모 자격, 후원사별 명칭 적용 연도, 2024년 논픽션 부문 신설 확인.",
+      "https://lithub.com/here-are-the-winners-of-the-2026-womens-prizes-in-fiction-and-nonfiction/ — 2026년 수상작(Virginia Evans, The Correspondent)과 발표일(2026년 6월 11일) 확인.",
+      "웹 검색 교차 확인 2건 — 'Bel Canto 2002년 오렌지상 수상', 'Fugitive Pieces 1997년 오렌지상 수상'. 공식 페이지의 연도 밀림을 판정하기 위해 별도로 대조했다."
+    ],
+    "item_count": 31,
+    "year_range": "1996–2026",
+    "name_changes": "Orange Prize for Fiction (1996–2006, 2009–2012) → Orange Broadband Prize for Fiction (2007–2008) → Women's Prize for Fiction (2013, 후원사 없이 개인 후원자 지원) → Baileys Women's Prize for Fiction (2014–2017) → Women's Prize for Fiction (2018–현재). 통신사 오렌지가 17년 후원을 마친다고 2012년에 발표했고, 2013년 회차는 셰리 블레어·조애나 트롤럽·엘리자베스 뷰컨 등 개인 후원자들이 떠받쳤다. 2014년부터 베일리스가 후원사로 붙었고, 2017년부터는 냇웨스트·프리맨틀·딜로이트·오더블·베일리스 등이 함께 대는 복수 후원 체제로 바뀌면서 이름이 여성문학상으로 굳었다. 명칭 적용 연도는 위키백과 본문 기준이며, 공식 PDF 연혁도 '2014년 베일리스 첫 시상'으로 같은 이야기를 한다.",
+    "gaps": "빠진 해 없음. 1996년부터 2026년까지 31회가 연도 공백 없이 이어진다. 요청대로 2024년 신설된 논픽션 부문(2024년 Naomi Klein, Doppelganger / 2026년 Lyse Doucet, The Finest Hotel in Kabul 등)은 담지 않았다.",
+    "uncertainties": "① 공식 역대 수상작 페이지를 읽어들인 결과에서 연도가 한 칸씩 어긋나 1997~2002년 구간이 실제보다 한 해씩 앞당겨 보였다. 공식 30주년 연혁 PDF의 원문과 위키백과가 서로 일치했고, 별도 검색으로도 Bel Canto가 2002년, Fugitive Pieces가 1997년 수상임을 확인해 그 값을 채택했다. 카드 목록을 글로 바꾸는 과정의 표시 문제로 판단한다. ② 위키백과의 수상작 목록 문서는 베일리스 후원 구간을 2013~2017년으로 적었으나, 위키백과 본문 문서와 공식 PDF 연혁은 2014~2017년으로 적는다. 후자를 택했다. ③ 논픽션 부문 후원처를 두고 공식 PDF는 Findmypast, 위키백과는 Charlotte Aitken Trust를 든다. 이 목록의 범위 밖이라 더 파고들지 않았다. ④ 원어 제목·작가명은 공식 자료와 위키백과 표기를 그대로 옮겼다."
+  }
+}
