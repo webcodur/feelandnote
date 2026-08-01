@@ -278,14 +278,22 @@ poster_path → `https://image.tmdb.org/t/p/w500` + path
 
 ### GAME - IGDB API
 
+⚠️ **자격증명 이름이 `IGDB_*`가 아니라 `TWITCH_*`다.** IGDB는 트위치 계정으로 인증하기 때문이다.
+`.env`에서 `IGDB_`로 찾으면 안 나온다(26.08.01 작업조가 실제로 여기서 막혔다).
+**토큰은 저장돼 있지 않다 — 매번 트위치에서 발급받아 쓴다.**
+
 ```bash
-export $(grep -E "^IGDB_" ./sw/web/.env | xargs) && \
+export $(grep -E "^TWITCH_CLIENT_(ID|SECRET)=" ./sw/web/.env | xargs) && \
+TOKEN=$(curl -s -X POST "https://id.twitch.tv/oauth2/token?client_id=$TWITCH_CLIENT_ID&client_secret=$TWITCH_CLIENT_SECRET&grant_type=client_credentials" \
+  | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.parse(s).access_token))") && \
 curl -s "https://api.igdb.com/v4/games" \
-  -H "Client-ID: $IGDB_CLIENT_ID" \
-  -H "Authorization: Bearer $IGDB_ACCESS_TOKEN" \
+  -H "Client-ID: $TWITCH_CLIENT_ID" \
+  -H "Authorization: Bearer $TOKEN" \
   -d "search \"{검색어}\"; fields name,cover.url; limit 3;" \
-| jq '[.[] | {id, name, cover_url: .cover.url}]'
+| node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(s))"
 ```
+
+코드에서는 `packages/content-search/src/igdb.ts`가 토큰 발급·갱신을 알아서 한다. **26.08.01 실측 정상.**
 
 ### MUSIC - 아이튠즈 〔조사 중에는 등록하지 않는다〕
 
@@ -550,13 +558,19 @@ VALUES
 
 프로젝트 `.env` 파일에 설정됨: `sw/web/.env`, `sw/web-bo/.env`
 
-| 변수명 | 용도 | 타입 |
-|--------|------|------|
-| `KAKAO_REST_API_KEY` | 카카오 도서 API | BOOK (한국어판). 앱 `feelandnote`(ID 1366184)의 REST API 키 |
-| ~~`GOOGLE_BOOKS_API_KEY`~~ | ~~구글 도서 API~~ | **사용 금지** (위 "영문판 매칭 분기" 참조) |
-| `TMDB_ACCESS_TOKEN` | TMDB API | VIDEO |
-| `IGDB_CLIENT_ID` / `IGDB_ACCESS_TOKEN` | IGDB API | GAME |
-| `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` | Spotify API | MUSIC |
+> ⚠️ **이 표는 `packages/content-search/src/*.ts`가 실제로 읽는 이름을 적는다.** 서비스 이름과 변수 이름이
+> 다른 경우가 있어(IGDB는 트위치 계정으로 인증한다) 짐작으로 찾으면 "자격증명이 없다"는 오진이 난다.
+> 26.08.01에 TMDB·IGDB 두 건이 실제로 그렇게 어긋나 있었다. **표를 고칠 때는 코드를 열어 확인한다.**
+
+| 변수명 | 용도 | 타입 | 26.08.01 실측 |
+|--------|------|------|---------------|
+| `KAKAO_REST_API_KEY` | 카카오 도서 API | BOOK | 정상. 앱 `feelandnote`(ID 1366184)의 REST API 키 |
+| `TMDB_API_KEY` | TMDB API | VIDEO | 정상. **`TMDB_ACCESS_TOKEN`이 아니다** — Bearer 방식은 401이 난다. `api_key` 쿼리 파라미터로 쓴다 |
+| `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | IGDB API | GAME | 정상. **`IGDB_*`가 아니다** — IGDB는 트위치 계정으로 인증한다. 토큰은 저장돼 있지 않고 매번 발급받는다 |
+| (없음) | 아이튠즈 | MUSIC | 인증·키가 없는 공개 창구. 대신 IP 속도 제한이 있다 |
+| ~~`SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET`~~ | ~~Spotify API~~ | ~~MUSIC~~ | **26.08.01 차단.** 토큰 발급은 되지만 모든 조회가 403 |
+| ~~`GOOGLE_BOOKS_API_KEY`~~ | ~~구글 도서 API~~ | — | **사용 금지** (위 "영문판 매칭 분기" 참조) |
+| ~~`NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET`~~ | ~~네이버 도서~~ | — | **26.07.31 종료.** 같은 키의 뉴스·블로그·이미지 검색은 계속 유효하다 |
 
 ---
 
