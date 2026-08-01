@@ -22,8 +22,17 @@ import type {
   ContentCuratedEntry,
 } from './types'
 
-/** 목록 하나에 담기는 작품 수 상한. 지금 최대가 100선이라 여유를 두되 무한 조회는 막는다 */
+/** 목록 하나에 담기는 작품 수 상한. 무한 조회를 막는 안전선이다 */
 const MAX_ITEMS_PER_LIST = 500
+
+/**
+ * 처음 내려보내는 작품 수.
+ *
+ * 목록 대부분이 100편 이하라 이 선이면 한 번에 다 보인다.
+ * 세인트존스(323)·아쿠타가와(189)처럼 큰 목록만 잘리는데, 전량을 그대로 실으면
+ * 화면 하나가 3MB에 이르러(실측 2,959KB·2.3초) 폭 좁은 기기에서 눈에 띄게 굼떠진다.
+ */
+const INITIAL_ITEMS = 120
 
 const pick = (ko: string | null, en: string | null, locale: string) =>
   (locale === 'en' ? en || ko : ko || en) ?? ''
@@ -210,7 +219,7 @@ interface ItemRow {
   contents: { id: string; type: string; content_locales: ContentLocaleRow[] | null } | null
 }
 
-async function fetchCuratedList(listSlug: string, locale: string): Promise<CuratedListDetail | null> {
+async function fetchCuratedList(listSlug: string, locale: string, showAll: boolean): Promise<CuratedListDetail | null> {
   const supabase = createStaticClient()
 
   const { data: list } = await supabase.from('curated_lists').select(LIST_COLS).eq('slug', listSlug).maybeSingle()
@@ -221,18 +230,19 @@ async function fetchCuratedList(listSlug: string, locale: string): Promise<Curat
   if (!curator) return null
   const c = curator as CuratorRow
 
-  const [{ data: items }, { data: siblings }] = await Promise.all([
+  const [{ data: items, count: totalItems }, { data: siblings }] = await Promise.all([
     supabase
       .from('curated_list_items')
       .select(
         `id, content_id, raw_title, raw_creator, rank, year, note, note_en, sort_order,
-         contents(id, type, content_locales(${CL_SELECT_LIST}))`
+         contents(id, type, content_locales(${CL_SELECT_LIST}))`,
+        { count: 'exact' }
       )
       .eq('list_id', l.id)
       .eq('hidden', false)
       .order('sort_order', { ascending: true })
       .order('id', { ascending: true })
-      .limit(MAX_ITEMS_PER_LIST),
+      .limit(showAll ? MAX_ITEMS_PER_LIST : INITIAL_ITEMS),
     // 같은 계열의 다른 해 — 연도 전환용
     l.series_key
       ? supabase
@@ -267,12 +277,16 @@ async function fetchCuratedList(listSlug: string, locale: string): Promise<Curat
     | { slug: string; title: string; title_en: string | null; edition: string | null; published_year: number | null }[]
     | null
 
+  const total = totalItems ?? mapped.length
+
   return {
-    ...toListSummary(l, locale, mapped.length, c.slug),
+    // 편수는 화면에 그린 수가 아니라 목록이 담은 전체 수다(잘라 보내도 「100편」은 그대로여야 한다)
+    ...toListSummary(l, locale, total, c.slug),
     method: pickOrNull(l.method, l.method_en, locale),
     sourceUrl: l.source_url,
     curator: toCuratorSummary(c, locale, 0),
     items: mapped,
+    remainingCount: Math.max(0, total - mapped.length),
     linkedCount: mapped.filter((i) => i.contentId).length,
     siblings:
       seriesRows?.map((s) => ({
@@ -290,8 +304,8 @@ const getCuratedListCached = unstable_cache(fetchCuratedList, ['curated-list'], 
   tags: [CACHE_TAGS.CURATED, CACHE_TAGS.CONTENTS],
 })
 
-export async function getCuratedList(listSlug: string): Promise<CuratedListDetail | null> {
-  return getCuratedListCached(listSlug, await getLocale())
+export async function getCuratedList(listSlug: string, showAll = false): Promise<CuratedListDetail | null> {
+  return getCuratedListCached(listSlug, await getLocale(), showAll)
 }
 // #endregion
 

@@ -408,7 +408,8 @@
         "history": "History",
         "philosophy": "Philosophy"
       },
-      "moreLists": "See {count} more lists"
+      "moreLists": "See {count} more lists",
+      "showRemaining": "Show {count} more"
     }
   }
 }

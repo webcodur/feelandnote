@@ -10,8 +10,8 @@ import { getLocalizedAlternates } from "@/lib/seo";
 import CuratedListView from "@/components/features/library/curated/CuratedListView";
 
 /** 주소의 기관과 목록이 실제로 맺어진 짝인지 확인한다 — 어긋난 주소는 없는 화면으로 돌린다 */
-async function loadPaired(curatorSlug: string, listSlug: string) {
-  const list = await getCuratedList(listSlug)
+async function loadPaired(curatorSlug: string, listSlug: string, showAll = false) {
+  const list = await getCuratedList(listSlug, showAll)
   if (!list || list.curator.slug !== curatorSlug) return null
   return list
 }
@@ -27,9 +27,16 @@ export async function generateMetadata({ params }: { params: Promise<{ curator: 
   };
 }
 
-export default async function CuratedListPage({ params }: { params: Promise<{ curator: string; list: string }> }) {
+export default async function CuratedListPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ curator: string; list: string }>;
+  searchParams: Promise<{ all?: string }>;
+}) {
   const { curator, list: listSlug } = await params;
-  const list = await loadPaired(curator, listSlug);
+  const { all } = await searchParams;
+  const list = await loadPaired(curator, listSlug, all === "1");
   if (!list) notFound();
 
   return (

@@ -173,6 +173,18 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           />
         ))}
       </div>
+
+      {/* 큰 목록은 처음에 일부만 보낸다 — 전량을 한 번에 실으면 폭 좁은 기기에서 화면이 늦게 뜬다 */}
+      {list.remainingCount > 0 && (
+        <div className="pt-2 text-center">
+          <Link
+            href={`/library/curated/${list.curator.slug}/${list.slug}?all=1`}
+            className="inline-block rounded-lg border border-white/[0.08] px-4 py-2 text-[13px] text-text-secondary hover:border-accent/40 hover:text-accent"
+          >
+            {t("showRemaining", { count: list.remainingCount })}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
