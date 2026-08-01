@@ -109,67 +109,58 @@ export default async function CuratedHubView({ hub, selected }: { hub: CuratedHu
     return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
   });
 
-  const picked = selected ? hub.curators.find((c) => c.slug === selected) ?? null : null;
+  // 고른 갈래가 있으면 그 갈래만, 없으면 전부 — 첫 화면을 비워두지 않는다
+  const shown = selected && byKind.has(selected) ? [selected] : kinds;
 
   return (
     <div className="space-y-7">
       <p className="max-w-3xl text-[14px] leading-relaxed text-text-secondary">{t("intro")}</p>
 
-      {/* 조망 줄 — 어떤 곳들이 있는지 한눈에 보이고, 누르면 그 기관만 남는다 */}
-      <div className="space-y-2.5 overflow-hidden rounded-xl border border-white/[0.06] bg-[#131313]/60 p-3.5 sm:p-4">
+      {/* 갈래 줄 — 기관 이름은 아래 카드에 이미 있으므로 여기서는 갈래만 고른다 */}
+      <div className="flex flex-wrap gap-1.5">
         {kinds.map((kind) => {
           const KindIcon = KIND_ICONS[kind] ?? Landmark;
+          const on = kind === selected;
           return (
-            // min-w-0이 없으면 칩이 많은 줄(시상 기관 10곳)이 줄바꿈 대신 부모를 밀어내 가로 스크롤이 생긴다
-            <div key={kind} className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1.5">
-              <span className="inline-flex w-full shrink-0 items-center gap-1.5 text-[11px] text-text-tertiary sm:w-auto sm:min-w-[104px]">
-                <KindIcon size={13} className="text-accent" />
-                {t(`kind.${kind}`)}
-              </span>
-              {byKind.get(kind)!.map((c) => {
-                const on = c.slug === selected;
-                return (
-                  <Link
-                    key={c.slug}
-                    href={on ? "/library/curated" : `/library/curated?c=${c.slug}`}
-                    aria-pressed={on}
-                    className={
-                      on
-                        ? "inline-flex items-center gap-1 rounded-md border border-accent/50 bg-accent/15 px-2 py-1 text-[12px] text-accent"
-                        : "rounded-md border border-white/[0.08] px-2 py-1 text-[12px] text-text-secondary hover:border-accent/40 hover:text-accent"
-                    }
-                  >
-                    {c.name}
-                    {on && <X size={11} />}
-                  </Link>
-                );
-              })}
-            </div>
+            <Link
+              key={kind}
+              href={on ? "/library/curated" : `/library/curated?kind=${kind}`}
+              aria-pressed={on}
+              className={
+                on
+                  ? "inline-flex items-center gap-1.5 rounded-lg border border-accent/50 bg-accent/15 px-2.5 py-1.5 text-[13px] text-accent"
+                  : "inline-flex items-center gap-1.5 rounded-lg border border-white/[0.08] px-2.5 py-1.5 text-[13px] text-text-secondary hover:border-accent/40 hover:text-accent"
+              }
+            >
+              <KindIcon size={14} className={on ? "text-accent" : "text-text-tertiary"} />
+              {t(`kind.${kind}`)}
+              <span className="text-[11px] opacity-60">{byKind.get(kind)!.length}</span>
+              {on && <X size={12} />}
+            </Link>
           );
         })}
       </div>
 
-      {picked ? (
-        <CuratorCard curator={picked} />
-      ) : (
-        kinds.map((kind) => {
-          const KindIcon = KIND_ICONS[kind] ?? Landmark;
-          return (
-            <section key={kind} className="space-y-4">
-              <h2 className="flex items-center gap-2 text-[17px] font-serif font-bold text-text-primary">
-                <KindIcon size={16} className="text-accent" />
-                {t(`kind.${kind}`)}
-              </h2>
-              {/* 기관이 스물이 넘어 한 줄에 하나씩 쌓으면 스크롤이 끝없다. 넓은 화면은 두 줄로 나눈다 */}
-              <div className="grid gap-4 lg:grid-cols-2">
-                {byKind.get(kind)!.map((curator) => (
-                  <CuratorCard key={curator.slug} curator={curator} />
-                ))}
-              </div>
-            </section>
-          );
-        })
-      )}
+      {shown.map((kind) => (
+        <section key={kind} className="space-y-4">
+          {/* 한 갈래만 보고 있을 때는 칩이 이미 그 갈래를 보여주므로 제목을 또 달지 않는다 */}
+          {!selected && (
+            <h2 className="flex items-center gap-2 text-[17px] font-serif font-bold text-text-primary">
+              {(() => {
+                const KindIcon = KIND_ICONS[kind] ?? Landmark;
+                return <KindIcon size={16} className="text-accent" />;
+              })()}
+              {t(`kind.${kind}`)}
+            </h2>
+          )}
+          {/* 기관이 스물이 넘어 한 줄에 하나씩 쌓으면 스크롤이 끝없다. 넓은 화면은 두 줄로 나눈다 */}
+          <div className="grid gap-4 lg:grid-cols-2">
+            {byKind.get(kind)!.map((curator) => (
+              <CuratorCard key={curator.slug} curator={curator} />
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }

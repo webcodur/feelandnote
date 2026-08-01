@@ -19,14 +19,14 @@ export async function generateMetadata() {
   };
 }
 
-export default async function CuratedPage({ searchParams }: { searchParams: Promise<{ c?: string }> }) {
-  const { c } = await searchParams;
+export default async function CuratedPage({ searchParams }: { searchParams: Promise<{ kind?: string }> }) {
+  const { kind } = await searchParams;
   const hub = await getCuratedHub();
 
   // 제목은 배너 breadcrumb(서가 > 기관 선정)이 맡는다. 여기서 또 쓰면 같은 말이 두 번 나온다
   return (
     <div className="pb-20">
-      <CuratedHubView hub={hub} selected={c ?? null} />
+      <CuratedHubView hub={hub} selected={kind ?? null} />
     </div>
   );
 }
