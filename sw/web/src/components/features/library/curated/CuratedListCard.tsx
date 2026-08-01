@@ -4,13 +4,15 @@
   책임: 허브·기관 화면에서 같은 모양으로 목록을 진열한다.
 */ // ------------------------------
 
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ListOrdered, CalendarClock } from "lucide-react";
 import type { CuratedListSummary } from "@/actions/library/types";
 
-export default async function CuratedListCard({ list }: { list: CuratedListSummary }) {
-  const t = await getTranslations("library.curated");
+export default function CuratedListCard({ list }: { list: CuratedListSummary }) {
+  const t = useTranslations("library.curated");
 
   return (
     <Link
