@@ -105,13 +105,17 @@
       "cancel": "취소",
       "save": "저장",
       "edit": "수정",
-      "delete": "삭제"
+      "delete": "삭제",
+      "inviteFirst": "첫 인사를 기다리고 있습니다.",
+      "inviteCount": "인사 {count}개가 남아 있습니다. 한마디 더 남겨보세요."
     },
     "fictionGuestbook": {
       "empty": "아직 남겨진 감상이 없습니다.",
       "placeholder": "이 인물과 원전에 대한 감상이나 해석을 남겨주세요.",
       "loginPrompt": "이 인물과 원전에 대한 감상을 남겨보세요.",
-      "loginHint": "감상록은 로그인 후 작성할 수 있습니다."
+      "loginHint": "감상록은 로그인 후 작성할 수 있습니다.",
+      "inviteFirst": "첫 감상을 기다리고 있습니다.",
+      "inviteCount": "감상 {count}개가 남아 있습니다. 생각을 보태보세요."
     }
   },
   "userBio": {

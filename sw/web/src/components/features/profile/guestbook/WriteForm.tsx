@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
-import { Lock, Send } from "lucide-react";
+import { Lock, Send, Sparkles } from "lucide-react";
 import type { GuestbookEntryWithAuthor } from "@/types/database";
 import { createGuestbookEntry } from "@/actions/guestbook";
 import type { WriteFormProps } from "./types";
@@ -17,6 +17,7 @@ import { UgcTermsNotice } from "@/components/features/moderation";
 export default function WriteForm({
   profileId,
   onSubmit,
+  entryCount = 0,
   isFiction = false,
 }: WriteFormProps) {
   const t = useTranslations("profileSection.guestbook");
@@ -55,9 +56,17 @@ export default function WriteForm({
     setIsPrivate(checked);
   };
 
+  const tScope = isFiction ? tFiction : t;
+  const invite = entryCount > 0
+    ? tScope("inviteCount", { count: entryCount })
+    : tScope("inviteFirst");
+
   return (
     <div className="mb-8 space-y-2">
-      <UgcTermsNotice />
+      <p className="flex items-center gap-1.5 text-xs text-accent">
+        <Sparkles size={11} strokeWidth={2} aria-hidden />
+        {invite}
+      </p>
 
       <div className="bg-white/[0.02] rounded-lg overflow-hidden">
       <textarea
@@ -100,6 +109,8 @@ export default function WriteForm({
         </div>
       </div>
       </div>
+
+      <UgcTermsNotice variant="compact" className="px-1" />
     </div>
   );
 }

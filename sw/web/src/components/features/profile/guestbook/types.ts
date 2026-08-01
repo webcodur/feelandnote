@@ -31,5 +31,7 @@ export interface EntryItemProps {
 export interface WriteFormProps {
   profileId: string;
   onSubmit: (entry: GuestbookEntryWithAuthor) => void;
+  /** 이미 남겨진 글 수. 0이면 첫 글을 권하고, 1건 이상이면 참여 규모를 보여준다. */
+  entryCount?: number;
   isFiction?: boolean;
 }
