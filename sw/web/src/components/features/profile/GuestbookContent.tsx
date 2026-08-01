@@ -132,6 +132,7 @@ export default function GuestbookContent({
         <WriteForm
           profileId={profileId}
           onSubmit={handleAddEntry}
+          entryCount={total}
           isFiction={isFiction}
         />
       ) : (

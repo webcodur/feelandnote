@@ -105,13 +105,17 @@
       "cancel": "Cancel",
       "save": "Save",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "inviteFirst": "No one has greeted this figure yet. Be the first.",
+      "inviteCount": "{count} greetings so far. Add yours."
     },
     "fictionGuestbook": {
       "empty": "No reader notes yet.",
       "placeholder": "Leave a reflection or interpretation of this figure and their source texts.",
       "loginPrompt": "Leave a reflection on this figure and their source texts.",
-      "loginHint": "Sign in to add a reader note."
+      "loginHint": "Sign in to add a reader note.",
+      "inviteFirst": "No one has shared a reflection on this figure yet. Be the first.",
+      "inviteCount": "{count} reflections so far. Add yours."
     }
   },
   "userBio": {

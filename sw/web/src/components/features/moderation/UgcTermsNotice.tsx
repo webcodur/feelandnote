@@ -13,10 +13,28 @@ import { ShieldAlert } from "lucide-react";
 
 interface UgcTermsNoticeProps {
   className?: string;
+  /** compact: 경고 박스 없이 한 줄 고지만 노출한다.
+   *  방명록처럼 작성자가 적은 화면에서 큰 경고 박스가 위축 요인이 되므로,
+   *  Play 정책이 요구하는 "게시 전 약관 고지"는 유지하되 무게를 줄인다. */
+  variant?: "panel" | "compact";
 }
 
-export default function UgcTermsNotice({ className = "" }: UgcTermsNoticeProps) {
+export default function UgcTermsNotice({
+  className = "",
+  variant = "panel",
+}: UgcTermsNoticeProps) {
   const t = useTranslations("moderation.ugcNotice");
+
+  if (variant === "compact") {
+    return (
+      <p className={`text-[10px] leading-relaxed text-text-secondary opacity-70 ${className}`}>
+        {t("compact")}{" "}
+        <Link href="/terms" className="underline underline-offset-2 hover:text-accent">
+          {t("linkShort")}
+        </Link>
+      </p>
+    );
+  }
 
   return (
     <div className={`rounded-sm border border-border bg-black/20 p-3 ${className}`}>
