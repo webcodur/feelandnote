@@ -406,7 +406,10 @@
         "korean-literature": "한국문학",
         "horror": "공포",
         "history": "역사",
-        "philosophy": "철학"
+        "philosophy": "철학",
+        "fantasy": "판타지",
+        "comedy": "코미디",
+        "korean-film": "한국영화"
       },
       "moreLists": "목록 {count}개 더 보기",
       "showRemaining": "나머지 {count}편 더 보기",
@@ -415,7 +418,9 @@
         "VIDEO": "영상",
         "GAME": "게임",
         "MUSIC": "음악"
-      }
+      },
+      "viewByKind": "기관별",
+      "viewByTopic": "주제별"
     }
   }
 }

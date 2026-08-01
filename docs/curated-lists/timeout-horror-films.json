@@ -1,0 +1,748 @@
+{
+  "curator": {
+    "slug": "time-out",
+    "name": "타임아웃",
+    "name_en": "Time Out",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 1968,
+    "homepage_url": "https://www.timeout.com",
+    "description": "1968년 런던에서 창간한 도시 문화 안내 매체다. 세계 주요 도시의 영화·공연·음식·전시 정보를 다루며, 각 도시판 편집진이 지역 소식을 별도로 만든다. 영화·음악 분야의 '최고 100선' 목록으로 널리 알려져 있다.",
+    "description_en": "Time Out is a city-culture guide founded in London in 1968, covering film, theatre, music, food and events across major cities worldwide. Each city edition is produced by its own local editorial team. It is widely known for its 'best of' film and music rankings compiled by its critics and polled experts."
+  },
+  "list": {
+    "slug": "timeout-100-horror-films",
+    "title": "타임아웃 100대 공포영화",
+    "title_en": "Time Out: The 100 Best Horror Films",
+    "description": "타임아웃이 뽑은 역대 공포영화 100편의 순위 목록이다. 1위는 '엑소시스트'(1973), 2위는 '샤이닝'(1980)이며 1920년대 무성영화부터 2025년 신작까지 아우른다. 새 작품이 나오면 순위를 고쳐 다시 내놓는다.",
+    "description_en": "Time Out's ranked countdown of the 100 greatest horror films ever made, topped by 'The Exorcist' (1973) and 'The Shining' (1980). The selection spans silent-era classics of the 1920s through releases as recent as 2025, and is periodically revised and republished.",
+    "published_year": 2026,
+    "edition": "Updated for 2026 (published Monday 23 March 2026)",
+    "method": "타임아웃 영화 담당 필진과 공포영화 전문가들이 함께 고른다. 기사 머리에 '타임아웃 필진과 공포영화 전문가가 뽑았다'고 밝혔고, 본문에서도 이 순위를 '투표'라 부르며 '타임아웃 전문가 심사단이 그렇게 표를 던졌다'고 적었다. 다만 참여 인원수는 현재 기사에 적혀 있지 않다. 공동 필자로 Tom Huddleston, Cath Clarke, Dave Calhoun, Nigel Floyd, Phil de Semlyen, David Ehrlich, Joshua Rothkopf, Andy Kryza, Alim Kheraj, Matthew Singer가 표기돼 있다.",
+    "method_en": "Chosen by Time Out's film writers together with horror experts. The article's standfirst states the films were 'chosen by Time Out writers and horror experts', and the entry texts refer to the ranking as a 'poll' and to 'Time Out's panel of experts' who 'voted' on it; the current article does not state how many people took part. Credited writers: Tom Huddleston, Cath Clarke, Dave Calhoun, Nigel Floyd, Phil de Semlyen, David Ehrlich, Joshua Rothkopf, Andy Kryza, Alim Kheraj and Matthew Singer.",
+    "source_url": "https://www.timeout.com/film/best-horror-films",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "VIDEO",
+    "topics": [
+      "horror",
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Exorcist",
+      "raw_creator": "William Friedkin",
+      "rank": 1,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Shining",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 2,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "The Texas Chain Saw Massacre",
+      "raw_creator": "Tobe Hooper",
+      "rank": 3,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Alien",
+      "raw_creator": "Ridley Scott",
+      "rank": 4,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Psycho",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 5,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "The Thing",
+      "raw_creator": "John Carpenter",
+      "rank": 6,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Rosemary's Baby",
+      "raw_creator": "Roman Polanski",
+      "rank": 7,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Halloween",
+      "raw_creator": "John Carpenter",
+      "rank": 8,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Dawn of the Dead",
+      "raw_creator": "George A Romero",
+      "rank": 9,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Jaws",
+      "raw_creator": "Steven Spielberg",
+      "rank": 10,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Suspiria",
+      "raw_creator": "Dario Argento",
+      "rank": 11,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Night of the Living Dead",
+      "raw_creator": "George A Romero",
+      "rank": 12,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Don't Look Now",
+      "raw_creator": "Nicolas Roeg",
+      "rank": 13,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Hereditary",
+      "raw_creator": "Ari Aster",
+      "rank": 14,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Innocents",
+      "raw_creator": "Jack Clayton",
+      "rank": 15,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Carrie",
+      "raw_creator": "Brian De Palma",
+      "rank": 16,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "An American Werewolf in London",
+      "raw_creator": "John Landis",
+      "rank": 17,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Evil Dead II",
+      "raw_creator": "Sam Raimi",
+      "rank": 18,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Fly",
+      "raw_creator": "David Cronenberg",
+      "rank": 19,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Let the Right One In",
+      "raw_creator": "Tomas Alfredson",
+      "rank": 20,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "A Nightmare on Elm Street",
+      "raw_creator": "Wes Craven",
+      "rank": 21,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Audition",
+      "raw_creator": "Takashi Miike",
+      "rank": 22,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Haunting",
+      "raw_creator": "Robert Wise",
+      "rank": 23,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "Nosferatu: A Symphony of Horror",
+      "raw_creator": "FW Murnau",
+      "rank": 24,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "Freaks",
+      "raw_creator": "Tod Browning",
+      "rank": 25,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Omen",
+      "raw_creator": "Richard Donner",
+      "rank": 26,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Poltergeist",
+      "raw_creator": "Tobe Hooper",
+      "rank": 27,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "The Blair Witch Project",
+      "raw_creator": "Daniel Myrick, Eduardo Sánchez",
+      "rank": 28,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Evil Dead",
+      "raw_creator": "Sam Raimi",
+      "rank": 29,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "The Birds",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 30,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "The Changeling",
+      "raw_creator": "Peter Medak",
+      "rank": 31,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Videodrome",
+      "raw_creator": "David Cronenberg",
+      "rank": 32,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Cat People",
+      "raw_creator": "Jacques Tourneur",
+      "rank": 33,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Bride of Frankenstein",
+      "raw_creator": "James Whale",
+      "rank": 34,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "Carnival of Souls",
+      "raw_creator": "Herk Harvey",
+      "rank": 35,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "The Wicker Man",
+      "raw_creator": "Robin Hardy",
+      "rank": 36,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Frankenstein",
+      "raw_creator": "James Whale",
+      "rank": 37,
+      "year": 1931,
+      "note": null
+    },
+    {
+      "raw_title": "Eyes Without a Face",
+      "raw_creator": "Georges Franju",
+      "rank": 38,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Jacob's Ladder",
+      "raw_creator": "Adrian Lyne",
+      "rank": 39,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Possession",
+      "raw_creator": "Andrzej Zulawski",
+      "rank": 40,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "The Devil's Backbone",
+      "raw_creator": "Guillermo del Toro",
+      "rank": 41,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Hour of the Wolf",
+      "raw_creator": "Ingmar Bergman",
+      "rank": 42,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "The Tenant",
+      "raw_creator": "Roman Polanski",
+      "rank": 43,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Silence of the Lambs",
+      "raw_creator": "Jonathan Demme",
+      "rank": 44,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "The Others",
+      "raw_creator": "Alejandro Amenábar",
+      "rank": 45,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Dead of Night",
+      "raw_creator": "Alberto Cavalcanti, Charles Crichton, Basil Dearden, Robert Hamer",
+      "rank": 46,
+      "year": 1945,
+      "note": null
+    },
+    {
+      "raw_title": "Invasion of the Body Snatchers",
+      "raw_creator": "Philip Kaufman",
+      "rank": 47,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Ring",
+      "raw_creator": "Hideo Nakata",
+      "rank": 48,
+      "year": 1998,
+      "note": "Alternative title(s): Ringu"
+    },
+    {
+      "raw_title": "Peeping Tom",
+      "raw_creator": "Michael Powell",
+      "rank": 49,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "The Descent",
+      "raw_creator": "Neil Marshall",
+      "rank": 50,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Devils",
+      "raw_creator": "Ken Russell",
+      "rank": 51,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Deep Red",
+      "raw_creator": "Dario Argento",
+      "rank": 52,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Eraserhead",
+      "raw_creator": "David Lynch",
+      "rank": 53,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Scream",
+      "raw_creator": "Wes Craven",
+      "rank": 54,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Repulsion",
+      "raw_creator": "Roman Polanski",
+      "rank": 55,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "The Wailing",
+      "raw_creator": "Na Hong-jin",
+      "rank": 56,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Sixth Sense",
+      "raw_creator": "M Night Shyamalan",
+      "rank": 57,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Vanishing",
+      "raw_creator": "George Sluizer",
+      "rank": 58,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Kwaidan",
+      "raw_creator": "Masaki Kobayashi",
+      "rank": 59,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "The Substance",
+      "raw_creator": "Coralie Fargeat",
+      "rank": 60,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "Vampyr",
+      "raw_creator": "Carl Theodor Dreyer",
+      "rank": 61,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "[Rec]",
+      "raw_creator": "Jaume Balagueró and Paco Plaza",
+      "rank": 62,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Les Diaboliques",
+      "raw_creator": "Henri-Georges Clouzot",
+      "rank": 63,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "The Night of the Hunter",
+      "raw_creator": "Charles Laughton",
+      "rank": 64,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Lake Mungo",
+      "raw_creator": "Joel Anderson",
+      "rank": 65,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Pulse",
+      "raw_creator": "Kiyoshi Kurosawa",
+      "rank": 66,
+      "year": 2001,
+      "note": "Alternative title(s): Kairo"
+    },
+    {
+      "raw_title": "The Beyond",
+      "raw_creator": "Lucio Fulci",
+      "rank": 67,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "The Witch",
+      "raw_creator": "Robert Eggers",
+      "rank": 68,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Night of the Demon",
+      "raw_creator": "Jacques Tourneur",
+      "rank": 69,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "The Babadook",
+      "raw_creator": "Jennifer Kent",
+      "rank": 70,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Get Out",
+      "raw_creator": "Jordan Peele",
+      "rank": 71,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "28 Days Later…",
+      "raw_creator": "Danny Boyle",
+      "rank": 72,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "The Cabinet of Dr Caligari",
+      "raw_creator": "Robert Wiene",
+      "rank": 73,
+      "year": 1920,
+      "note": null
+    },
+    {
+      "raw_title": "Kill, Baby... Kill!",
+      "raw_creator": "Mario Bava",
+      "rank": 74,
+      "year": 1966,
+      "note": "Alternative title(s): Operazione Paura, Curse of the Dead"
+    },
+    {
+      "raw_title": "Weapons",
+      "raw_creator": "Zach Cregger",
+      "rank": 75,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "The Old Dark House",
+      "raw_creator": "James Whale",
+      "rank": 76,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "Black Christmas",
+      "raw_creator": "Bob Clark",
+      "rank": 77,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Black Sunday",
+      "raw_creator": "Mario Bava",
+      "rank": 78,
+      "year": 1960,
+      "note": "Alternative title(s): The Mask of Satan, Revenge of the Vampire"
+    },
+    {
+      "raw_title": "Hellraiser",
+      "raw_creator": "Clive Barker",
+      "rank": 79,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Fog",
+      "raw_creator": "John Carpenter",
+      "rank": 80,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Sinners",
+      "raw_creator": "Ryan Coogler",
+      "rank": 81,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "It Follows",
+      "raw_creator": "David Robert Mitchell",
+      "rank": 82,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Ginger Snaps",
+      "raw_creator": "John Fawcett",
+      "rank": 83,
+      "year": 2000,
+      "note": "Director not printed in the list entry; taken from Time Out’s own film page timeout.com/movies/ginger-snaps"
+    },
+    {
+      "raw_title": "A Quiet Place",
+      "raw_creator": "John Krasinski,",
+      "rank": 84,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Midsommar",
+      "raw_creator": "Ari Aster",
+      "rank": 85,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Invasion of the Body Snatchers",
+      "raw_creator": "Don Siegel",
+      "rank": 86,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "Black Sabbath",
+      "raw_creator": "Mario Bava",
+      "rank": 87,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "Dracula",
+      "raw_creator": "Terence Fisher",
+      "rank": 88,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Candyman",
+      "raw_creator": "Bernard Rose",
+      "rank": 89,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Phantasm",
+      "raw_creator": "Don Coscarelli",
+      "rank": 90,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Saló, or the 120 Days of Sodom",
+      "raw_creator": "Pier Paolo Pasolini",
+      "rank": 91,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Day of the Dead",
+      "raw_creator": "George A Romero",
+      "rank": 92,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Dead Ringers",
+      "raw_creator": "David Cronenberg",
+      "rank": 93,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Braindead",
+      "raw_creator": "Peter Jackson",
+      "rank": 94,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Re-Animator",
+      "raw_creator": "Stuart Gordon",
+      "rank": 95,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Saint Maud",
+      "raw_creator": "Rose Glass",
+      "rank": 96,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "God Told Me To",
+      "raw_creator": "Larry Cohen",
+      "rank": 97,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Mist",
+      "raw_creator": "Frank Darabont",
+      "rank": 98,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Invisible Man",
+      "raw_creator": "Leigh Whannell",
+      "rank": 99,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Talk To Me",
+      "raw_creator": "Danny and Michael Philippou",
+      "rank": 100,
+      "year": 2023,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.timeout.com/film/best-horror-films — Time Out 원문. 전체 본문을 Jina Reader(r.jina.ai)로 받아 100개 항목 전량 추출. 제목·연도·감독 모두 이 페이지 기재값.",
+      "https://www.timeout.com/los-angeles/film/the-100-best-horror-films — WebFetch. 위 URL로 리다이렉트되며 동일 기사. 100~42위 구간 교차 확인.",
+      "https://www.timeout.com/movies/ginger-snaps — WebFetch. 83위 'Ginger Snaps' 감독 표기가 목록 항목에 누락돼 타임아웃 자체 작품 페이지에서 보충(John Fawcett).",
+      "https://www.timeout.com/london/film/100-best-horror-films — 시도했으나 404(현재는 존재하지 않음). 구판 단독 페이지 접근 실패.",
+      "https://eidr.org/documents/Horror_for_October.pdf — 시도했으나 404."
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "edition_confirmed": "'100 Best Horror Movies of All-Time (Updated for 2026)' 판. 근거 — 기사 제목에 'Updated for 2026', 게재일 메타 2026-03-23, 본문 표기 'Monday 23 March 2026', 그리고 '2026년 갱신' 안내문에서 'Weapons'(2025) 추가 사유를 밝힘. 2025년작 'Sinners'·'Weapons'가 목록에 포함된 점으로도 확인.",
+    "gaps": "없음. 1~100위 결번·중복 없이 100편 전량 수집. 다만 83위 감독 1건은 목록 항목이 아니라 타임아웃 작품 페이지에서 보충했다(note에 표기).",
+    "uncertainties": "① 선정 방식의 참여 인원수(예: 몇 명 투표)는 현재 기사에 적혀 있지 않아 미확인. 확인하려면 초판(2016년 무렵) 기사 아카이브를 열어야 하나 구 URL은 404다. ② 이 목록은 갱신을 거듭한 판본이라 초판 순위와 다르다. 초판 대조는 미수행. ③ 연도는 타임아웃 표기 기준이며 국가별 개봉 연도와 다를 수 있다. ④ 78·74·66·48위는 원문 제목에 병기된 별칭을 note로 분리했다."
+  }
+}

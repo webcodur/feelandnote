@@ -89,10 +89,12 @@ export default function CuratedHubView({
   hub,
   selectedKind,
   selectedMedia,
+  selectedTopic,
 }: {
   hub: CuratedHub;
   selectedKind: string | null;
   selectedMedia: string | null;
+  selectedTopic: string | null;
 }) {
   const t = useTranslations("library.curated");
 
@@ -105,6 +107,10 @@ export default function CuratedHubView({
     selectedMedia && mediaCounts.has(selectedMedia) ? selectedMedia : (medias[0] ?? "BOOK")
   );
   const [kind, setKind] = useState<string | null>(selectedKind);
+  // 주제는 갈래를 가로지른다 — 공포는 타임아웃(언론)과 브램 스토커(상)에 나뉘어 있다.
+  // 그래서 갈래와 나란히 두지 않고 「무엇으로 훑을지」를 갈아끼우는 방식으로 둔다
+  const [byTopic, setByTopic] = useState(!!selectedTopic);
+  const [topic, setTopic] = useState<string | null>(selectedTopic);
 
   // 고른 매체의 목록만 남기고, 그 매체를 하나도 안 낸 기관은 뺀다
   const inMedia = hub.curators
@@ -123,8 +129,25 @@ export default function CuratedHubView({
     return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
   });
 
-  // 매체를 갈아타면 갈래 구성이 통째로 바뀐다. 지금 매체에 없는 갈래는 첫 갈래로 흘려보낸다
+  // 주제별 묶음 — 한 목록이 주제를 여럿 달 수 있어 기관이 여러 주제에 나타난다
+  const byTopicMap = new Map<string, Curator[]>();
+  for (const c of inMedia) {
+    const seen = new Set<string>();
+    for (const l of c.lists) for (const tp of l.topics) seen.add(tp);
+    for (const tp of seen) {
+      const scoped = { ...c, lists: c.lists.filter((l) => l.topics.includes(tp)) };
+      const arr = byTopicMap.get(tp);
+      if (arr) arr.push(scoped);
+      else byTopicMap.set(tp, [scoped]);
+    }
+  }
+  const topics = [...byTopicMap.keys()].sort((a, b) => byTopicMap.get(b)!.length - byTopicMap.get(a)!.length);
+
+  // 매체를 갈아타면 구성이 통째로 바뀐다. 지금 매체에 없는 값은 첫 항목으로 흘려보낸다
   const activeKind = kind && byKind.has(kind) ? kind : kinds[0];
+  const activeTopic = topic && byTopicMap.has(topic) ? topic : topics[0];
+  const useTopics = byTopic && topics.length > 0;
+  const shown = useTopics ? (byTopicMap.get(activeTopic) ?? []) : (byKind.get(activeKind) ?? []);
 
   if (hub.curators.length === 0) {
     return <p className="py-16 text-center text-[14px] text-text-tertiary">{t("empty")}</p>;
@@ -134,9 +157,10 @@ export default function CuratedHubView({
    * 탭을 갈아도 서버를 다시 다녀오지 않는다 — 기관 자료는 이미 전부 받아 두었다.
    * 주소만 바꿔 링크 공유와 새로고침이 듣게 한다(라우터로 밀면 왕복이 생겨 반응이 늦다).
    */
-  const syncUrl = (nextMedia: string, nextKind: string | undefined) => {
-    const q = new URLSearchParams({ media: nextMedia });
-    if (nextKind) q.set("kind", nextKind);
+  const syncUrl = (next: { media: string; kind?: string; topic?: string }) => {
+    const q = new URLSearchParams({ media: next.media });
+    if (next.kind) q.set("kind", next.kind);
+    if (next.topic) q.set("topic", next.topic);
     window.history.replaceState(null, "", `${window.location.pathname}?${q}`);
   };
 
@@ -156,7 +180,8 @@ export default function CuratedHubView({
                 onClick={() => {
                   setMedia(m);
                   setKind(null);
-                  syncUrl(m, undefined);
+                  setTopic(null);
+                  syncUrl({ media: m });
                 }}
                 className={
                   on
@@ -172,20 +197,61 @@ export default function CuratedHubView({
         </div>
       )}
 
-      {/* 누가 뽑았나 */}
-      <FilterTabs
-        items={kinds.map((k) => ({ value: k, label: t(`kind.${k}`) }))}
-        activeValue={activeKind}
-        counts={Object.fromEntries(kinds.map((k) => [k, byKind.get(k)!.length]))}
-        onSelect={(k) => {
-          setKind(k);
-          syncUrl(media, k);
-        }}
-      />
+      {/* 무엇으로 훑을지 — 누가 뽑았나(갈래) 또는 무엇에 관한 목록인가(주제) */}
+      {topics.length > 0 && (
+        <div className="flex items-center gap-3 text-[12px]">
+          <button
+            type="button"
+            onClick={() => {
+              setByTopic(false);
+              syncUrl({ media, kind: activeKind });
+            }}
+            className={useTopics ? "text-text-tertiary hover:text-accent" : "font-bold text-accent"}
+          >
+            {t("viewByKind")}
+          </button>
+          <span className="text-text-tertiary/40">/</span>
+          <button
+            type="button"
+            onClick={() => {
+              setByTopic(true);
+              syncUrl({ media, topic: activeTopic });
+            }}
+            className={useTopics ? "font-bold text-accent" : "text-text-tertiary hover:text-accent"}
+          >
+            {t("viewByTopic")}
+          </button>
+        </div>
+      )}
+
+      {useTopics ? (
+        <FilterTabs
+          items={topics.map((tp) => ({
+            value: tp,
+            label: t.has(`topicLabel.${tp}`) ? t(`topicLabel.${tp}`) : tp,
+          }))}
+          activeValue={activeTopic}
+          counts={Object.fromEntries(topics.map((tp) => [tp, byTopicMap.get(tp)!.length]))}
+          onSelect={(tp) => {
+            setTopic(tp);
+            syncUrl({ media, topic: tp });
+          }}
+        />
+      ) : (
+        <FilterTabs
+          items={kinds.map((k) => ({ value: k, label: t(`kind.${k}`) }))}
+          activeValue={activeKind}
+          counts={Object.fromEntries(kinds.map((k) => [k, byKind.get(k)!.length]))}
+          onSelect={(k) => {
+            setKind(k);
+            syncUrl({ media, kind: k });
+          }}
+        />
+      )}
 
       {/* 기관이 스물이 넘어 한 줄에 하나씩 쌓으면 스크롤이 끝없다. 넓은 화면은 두 줄로 나눈다 */}
       <div className="grid gap-4 lg:grid-cols-2">
-        {(byKind.get(activeKind) ?? []).map((curator) => (
+        {shown.map((curator) => (
           <CuratorCard key={curator.slug} curator={curator} />
         ))}
       </div>

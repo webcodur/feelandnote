@@ -1,0 +1,384 @@
+{
+  "curator": {
+    "slug": "locus-magazine",
+    "name": "로커스",
+    "name_en": "Locus Magazine",
+    "kind": "media",
+    "country": "US",
+    "founded_year": 1968,
+    "homepage_url": "https://locusmag.com",
+    "description": "1968년 창간한 미국의 SF·판타지 전문지다. 1971년부터 매년 로커스상을 시상하는데, 심사위원단이 아니라 독자 투표로 수상작을 정한다. 투표는 누구에게나 열려 있고 정기구독자의 표를 두 배로 계산한다.",
+    "description_en": "Locus is an American magazine covering the science fiction, fantasy, and horror publishing field, founded in 1968. Since 1971 it has presented the annual Locus Awards, whose winners are chosen by a poll of readers rather than by a jury. The poll is open to anyone, but the votes of subscribers count twice as much as those of non-subscribers."
+  },
+  "list": {
+    "slug": "locus-fantasy-novel",
+    "title": "로커스상 판타지 장편",
+    "title_en": "Locus Award for Best Fantasy Novel",
+    "description": "로커스지가 매년 독자 투표로 뽑는 최고의 판타지 장편소설이다. 1978년 톨킨의 실마릴리온을 첫 수상작으로 신설됐고, 1979년 한 해를 건너뛴 뒤 1980년부터 매년 이어지고 있다. 어슐러 K. 르 귄, 닐 게이먼, 조지 R. R. 마틴, 차이나 미에빌 등이 여러 차례 수상했다.",
+    "description_en": "An annual award for the best fantasy novel of the year, chosen by a poll of Locus magazine readers. The category was introduced in 1978 with J. R. R. Tolkien’s The Silmarillion, was not presented in 1979, and has been given every year since 1980. Repeat winners include Ursula K. Le Guin, Neil Gaiman, George R. R. Martin, Orson Scott Card, Gene Wolfe, and China Miéville.",
+    "published_year": null,
+    "edition": null,
+    "method": "독자 투표다. 2월 1일부터 4월 1일까지 공개 투표용지로 독자들이 투표하며, 각 부문에서 최대 5편까지 1~5위로 순위를 매긴다. 투표는 누구에게나 열려 있으나 정기구독자의 표는 두 배로 계산한다.",
+    "method_en": "Determined by a readers’ poll. Voting runs from February 1 to April 1 on an open public ballot, with voters ranking up to five works per category. The poll is open to anyone, but subscriber votes count twice as much as non-subscriber votes.",
+    "source_url": "https://www.sfadb.com/Locus_Awards_Winners_By_Category",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "fantasy"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Silmarillion",
+      "raw_creator": "J. R. R. Tolkien",
+      "rank": null,
+      "year": 1978,
+      "note": "부문 신설 첫 회 수상작. 저자 사후 크리스토퍼 톨킨이 편집해 1977년 출간했다."
+    },
+    {
+      "raw_title": "Harpist in the Wind",
+      "raw_creator": "Patricia A. McKillip",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Lord Valentine's Castle",
+      "raw_creator": "Robert Silverberg",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "The Claw of the Conciliator",
+      "raw_creator": "Gene Wolfe",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "The Sword of the Lictor",
+      "raw_creator": "Gene Wolfe",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "The Mists of Avalon",
+      "raw_creator": "Marion Zimmer Bradley",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Job: A Comedy of Justice",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Trumps of Doom",
+      "raw_creator": "Roger Zelazny",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Soldier of the Mist",
+      "raw_creator": "Gene Wolfe",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Seventh Son",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Red Prophet",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Prentice Alvin",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Tehanu: The Last Book of Earthsea",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Beauty",
+      "raw_creator": "Sheri S. Tepper",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Last Call",
+      "raw_creator": "Tim Powers",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Innkeeper's Song",
+      "raw_creator": "Peter S. Beagle",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Brittle Innings",
+      "raw_creator": "Michael Bishop",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Alvin Journeyman",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "A Game of Thrones",
+      "raw_creator": "George R. R. Martin",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Earthquake Weather",
+      "raw_creator": "Tim Powers",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "A Clash of Kings",
+      "raw_creator": "George R. R. Martin",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Harry Potter and the Prisoner of Azkaban",
+      "raw_creator": "J. K. Rowling",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "A Storm of Swords",
+      "raw_creator": "George R. R. Martin",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "American Gods",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "The Scar",
+      "raw_creator": "China Miéville",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Paladin of Souls",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Iron Council",
+      "raw_creator": "China Miéville",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Anansi Boys",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Privilege of the Sword",
+      "raw_creator": "Ellen Kushner",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Making Money",
+      "raw_creator": "Terry Pratchett",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Lavinia",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The City & the City",
+      "raw_creator": "China Miéville",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Kraken",
+      "raw_creator": "China Miéville",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "A Dance with Dragons",
+      "raw_creator": "George R. R. Martin",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Apocalypse Codex",
+      "raw_creator": "Charles Stross",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "The Ocean at the End of the Lane",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "The Goblin Emperor",
+      "raw_creator": "Katherine Addison",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Uprooted",
+      "raw_creator": "Naomi Novik",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "All the Birds in the Sky",
+      "raw_creator": "Charlie Jane Anders",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Stone Sky",
+      "raw_creator": "N. K. Jemisin",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Spinning Silver",
+      "raw_creator": "Naomi Novik",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Middlegame",
+      "raw_creator": "Seanan McGuire",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "The City We Became",
+      "raw_creator": "N. K. Jemisin",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Jade Legacy",
+      "raw_creator": "Fonda Lee",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Babel, or the Necessity of Violence",
+      "raw_creator": "R. F. Kuang",
+      "rank": null,
+      "year": 2023,
+      "note": "sfadb는 약칭 Babel로 표기한다."
+    },
+    {
+      "raw_title": "Witch King",
+      "raw_creator": "Martha Wells",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "A Sorceress Comes to Call",
+      "raw_creator": "T. Kingfisher",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "The Everlasting",
+      "raw_creator": "Alix E. Harrow",
+      "rank": null,
+      "year": 2026,
+      "note": "2026년 5월 30일 베이 에어리어 북 페스티벌에서 발표된 최신 수상작이다."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.sfadb.com/Locus_Awards_Winners_By_Category (Science Fiction Awards Database, 부문별 수상자 전체 목록 — 1978~2026 판타지 장편 부문 48건 확보)",
+      "https://en.wikipedia.org/wiki/Locus_Award_for_Best_Fantasy_Novel (교차 대조 — 연도·제목·저자 48건 전부 일치, 1979년 미시상 확인)",
+      "https://locusmag.com/2026/05/2026-locus-awards-winners/ (로커스 공식 — 2026년 수상작 The Everlasting 및 2026년 5월 30일 발표 확인)",
+      "https://locusmag.com/2026/04/2026-top-ten-finalists-for-locus-awards/ (로커스 공식 — 2026년 판타지 장편 최종 후보 10편 및 투표 방식 문구 확인)",
+      "https://en.wikipedia.org/wiki/Locus_Award (상 전반 — 1971년 창설, 전년도 출간작 대상, 구독자 표 2배 가중 확인)"
+    ],
+    "item_count": 48,
+    "year_range": "1978~2026",
+    "year_basis": "시상 연도(수상 발표가 이뤄진 해)다. 출간 연도가 아니다. 로커스상은 전년도에 출간된 작품을 대상으로 하므로 각 항목의 출간 연도는 대체로 year-1이다. 예: 2026년 수상작 The Everlasting은 2025년 출간작이며, 1978년 수상작 The Silmarillion은 1977년 출간작이다.",
+    "first_year_confirmed": "1978년이 판타지 장편 부문의 첫 회다. 근거는 두 가지가 일치한다. ① sfadb 부문별 수상자 목록에서 이 부문 최초 항목이 1978년 The Silmarillion이다. ② 위키백과 해당 부문 문서의 수상 표도 1978년에서 시작한다. 로커스상 자체는 1971년에 창설됐으나 초기에는 SF와 판타지를 나누지 않은 단일 장편 부문만 있었고, 판타지 장편이 별도 부문으로 갈라진 것이 1978년이다.",
+    "gaps": "1979년 한 해만 비어 있다. 이 해에는 판타지 장편 부문 수상작이 없다(sfadb 목록과 위키백과 수상 표 모두 1978년 다음 항목이 1980년이며, 위키백과는 1979년 미시상을 명시한다). 1980~2026년은 한 해도 빠짐없이 연속이다. 미확인: 1979년에 시상하지 않은 사유는 열어 본 출처 어디에도 설명이 없다.",
+    "uncertainties": "① 2023년 수상작 표기가 출처마다 다르다. sfadb는 Babel, 위키백과는 Babel, or the Necessity of Violence로 적는다. 여기서는 위키백과 표기를 채택했고 항목 비고에 병기했다(실제 출간 전체 부제는 더 길다). ② 로커스 공식 About the Locus Awards 페이지는 403으로 열리지 않아, 투표 방식의 세부(구독자 표 2배 가중, 부문당 5편 순위 지정)는 위키백과 Locus Award 문서와 2026년 최종 후보 공식 발표문의 문구 \"These results are from the February 1 to April 1 voting by readers on an open public ballot\"로 확인했다. ③ 저자명 표기는 이니셜 사이 공백 유무가 출처마다 다르다(J. R. R. Tolkien / J.R.R. Tolkien). 공백을 넣은 형태로 통일했다. ④ 각 작품의 실제 출간 연도는 개별 확인하지 않았다. year 값은 시상 연도이며, 출간 연도가 필요하면 별도 확인이 필요하다."
+  }
+}
