@@ -267,15 +267,29 @@ curl -s "https://api.igdb.com/v4/games" \
 | jq '[.[] | {id, name, cover_url: .cover.url}]'
 ```
 
-### MUSIC - Spotify API 〔🔴 26.08.01 차단 — 신규 등록 불가〕
+### MUSIC - 아이튠즈 〔조사 중에는 등록하지 않는다〕
 
-**토큰 발급은 되지만 모든 조회가 거부된다.** `/v1/search`·`/v1/albums/{id}` 공히 `Active premium subscription required for the owner of the app`을 반환한다(26.08.01 실측). 앱 소유 계정에 Spotify 유료 구독이 없으면 client_credentials 방식 자체가 막히도록 정책이 바뀐 것으로 보인다.
+Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 구독을 요구하게 됐고 26.08.01 우리 앱에 적용돼 조회가 전부 403이다. 아이튠즈가 그 자리를 대신한다(래퍼: `packages/content-search/src/itunes-music.ts`).
 
-- **MUSIC 신규 등록은 현재 불가능하다.** 곡을 좋아한다는 A급 증거를 확보해도 메타를 잡을 수 없어 보류한다(실제로 이번 회차에서 박소담·김고은·이병헌 건이 이 사유로 등록되지 못했다).
-- 부분 우회: `https://open.spotify.com/oembed?url={트랙·앨범 URL}`은 인증 없이 제목·썸네일을 준다. 다만 트랙 URL을 이미 알고 있어야 하고 ISRC·앨범 메타는 못 얻는다.
-- 해소하려면 앱 소유 계정에 Spotify 유료 구독을 붙이거나 다른 음악 메타 출처를 도입해야 한다. 그 전까지 MUSIC 후보는 조사 장부에만 남긴다.
+> ⛔ **인물 조사 중에 MUSIC을 등록하지 마라.** 곡명·아티스트·출처만 조사 장부에 남기고 넘어간다.
+>
+> **왜**: 아이튠즈는 인증이 없는 대신 IP 단위 속도 제한이 빡빡하다. **26.08.01 실측에서 232곡을 처리한 뒤 차단**됐고, 세 번 물러났다 재시도해도 풀리지 않아 남은 1,232곡이 손도 못 대고 실패했다. 차단은 3시간가량 이어졌다.
+>
+> 남은 음악인 270명을 조사하면 **200곡 안팎이 등록 대상이 된다**(직군별 실측: 뮤지션 인당 0.75곡, 배우 0.04곡, 감독 0곡). 차단 지점과 거의 같은 규모라, 조사와 등록을 같이 하면 조사 도중에 음악이 통째로 실패한다.
 
-### MUSIC - Spotify API (참고용 호출 규격)
+**등록은 하루 한 번 별도로 돌린다.**
+
+```bash
+cd sw/web-bo && node scripts/itunes-music-migrate.mjs          # 200곡(기본 상한)
+cd sw/web-bo && node scripts/itunes-music-migrate.mjs --dry-run # 판정만
+```
+
+- 상한 200곡, 차단이 감지되면 즉시 멈추고 남은 분량은 다음 회차로 넘긴다.
+- **미리듣기 음원(`previewUrl`)이 없는 곡은 옮기지 않는다.** 옮기는 순간 재생이 끊긴다(실제로 80곡을 그렇게 죽였다가 백업에서 되돌렸다).
+- 재생은 우리 플레이어가 미리듣기 음원을 직접 재생한다. `metadata.previewUrl`이 그 주소다.
+- `contents.external_source`는 `itunes`, `external_id`는 `itunes-{trackId}`.
+
+### MUSIC - Spotify API 〔🔴 26.08.01 차단 — 참고용 호출 규격〕
 
 ```bash
 export $(grep -E "^SPOTIFY_" ./sw/web/.env | xargs) && \
