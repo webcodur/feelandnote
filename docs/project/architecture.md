@@ -43,7 +43,7 @@ app/
       notifications/
       rest/            # 쉼터 (게임 허브 단일 페이지)
       page.tsx         # 홈
-    (policy)/          # about, contact, terms, privacy, account-deletion
+    (policy)/          # about(문의 안내 흡수), terms, privacy, account-deletion
     (standalone)/      # search
     lab/               # 사내 실험 화면 11종 (+ 허브·상세 = page.tsx 13개). 목록 SSoT는 constants/lab.tsx의 LAB_ITEMS
     reading/           # 독서 워크스페이스 (자체 components, hooks 보유)
@@ -127,7 +127,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 #### 풋터 링크
 
 - `FOOTER_NAV_ITEMS`: `subLinks`를 가진 항목 중 `rest`를 뺀 것 → explore, scriptures.
-- `FOOTER_BRAND_LINKS`: `/about`(서비스 소개), `/search`(검색), `/terms`(이용약관), `/privacy`(개인정보처리방침), `/contact`(문의하기).
+- `FOOTER_BRAND_LINKS`: `/about`(서비스 소개), `/search`(검색), `/terms`(이용약관), `/privacy`(개인정보처리방침). 문의 안내는 `/about#contact`가 맡는다(2026-08-01 `/contact` 폐기·영구 리다이렉트).
 - `FOOTER_MISC_LINKS`: `/rest`(쉼터), `/agora/social`(소셜), `/agora/board/notice`(공지사항), `/agora/board/feedback`(피드백).
 
 #### 홈 섹션

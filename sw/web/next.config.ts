@@ -75,6 +75,9 @@ const nextConfig: NextConfig = {
         destination: '/:locale/library/:path*',
         permanent: true,
       },
+      // 문의하기 → 서비스 소개 흡수 (2026-08-01)
+      { source: '/contact', destination: '/about#contact', permanent: true },
+      { source: '/:locale(ko|en)/contact', destination: '/:locale/about#contact', permanent: true },
       // 스포트라이트 → 세력도감(faction) 개명 (2026-07-25)
       {
         source: '/explore/spotlight',

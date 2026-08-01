@@ -136,6 +136,7 @@ export default async function MainPage() {
         labels={{
           intro: t("intro"),
           introSub: t("introSub"),
+          introLink: t("introLink"),
           todayFigure: t("todayFigure"),
           quickRecord: t("quickRecord"),
           freeBoard: t("freeBoard"),

@@ -136,7 +136,7 @@ export default async function AccountDeletionPage() {
           </a>
         </div>
         <Link
-          href="/contact"
+          href="/about#contact"
           className="inline-block rounded-lg bg-bg-card/50 px-4 py-3 border border-border text-accent hover:bg-white/5 font-medium"
         >
           {t("accountDeletion6ContactLink")}
