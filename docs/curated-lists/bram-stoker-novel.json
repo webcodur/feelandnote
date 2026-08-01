@@ -1,0 +1,375 @@
+{
+  "curator": {
+    "slug": "horror-writers-association",
+    "name": "미국 호러작가협회",
+    "name_en": "Horror Writers Association",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1985,
+    "homepage_url": "https://horror.org",
+    "description": "미국 호러작가협회(HWA)는 1985년 HOWL(Horror and Occult Writers League)이라는 이름으로 출발해 1987년 정식 단체로 결성된 공포·다크판타지 작가 단체다. 오하이오주 콜럼버스에 본부를 두고 여러 대륙에 걸쳐 1,250명 이상의 회원을 두고 있다. 협회는 1987년부터 『드라큘라』의 작가 브램 스토커를 기려 브램 스토커상을 시상하고 있으며, 이 상은 공포 문학을 대표하는 상으로 꼽힌다.",
+    "description_en": "The Horror Writers Association (HWA) began in 1985 as HOWL (Horror and Occult Writers League) and was formally organized in 1987. Based in Columbus, Ohio, it has more than 1,250 members across several continents and works to promote horror and dark fantasy writing. Since 1987 it has presented the Bram Stoker Awards, named in honor of Bram Stoker, the author of Dracula."
+  },
+  "list": {
+    "slug": "bram-stoker-novel",
+    "title": "브램 스토커상 장편소설",
+    "title_en": "Bram Stoker Award for Superior Achievement in a Novel",
+    "description": "미국 호러작가협회가 1987년부터 해마다 시상하는 브램 스토커상의 장편소설 부문 수상작 목록이다. 『드라큘라』를 쓴 브램 스토커의 이름을 딴 상으로, 공포 문학에서 가장 널리 알려진 상으로 통한다. 상의 이름이 \"최우수(best)\"가 아니라 \"빼어난 성취(superior achievement)\"인 만큼 규정상 공동 수상이 허용되며, 실제로 1987년과 2005년에 두 작품이 함께 수상했다.",
+    "description_en": "Winners of the Novel category of the Bram Stoker Awards, presented annually by the Horror Writers Association since 1987. The award is named for Bram Stoker, author of Dracula, and is the best-known honor in horror literature. Because it recognizes \"superior achievement\" rather than the \"best\" work of the year, the rules permit ties, and the Novel category has been shared twice, in 1987 and 2005.",
+    "published_year": null,
+    "edition": null,
+    "method": "2단계 방식이다. 협회 회원이 추천한 작품을 정해진 산식으로 집계해 예비 후보를 만들고, 부문별 심사위원단이 별도로 자체 예비 후보를 추린다. 이후 정회원(Active member)이 두 차례 투표해 최종 후보와 수상작을 정한다. \"올해 최고작\"이 아니라 \"빼어난 성취\"를 가린다는 취지라 규정이 공동 수상을 허용한다.",
+    "method_en": "A two-tiered process. Works recommended by HWA members are compiled into a preliminary ballot by a set formula, while each category jury independently assembles its own preliminary ballot. Active HWA members then vote in two rounds to determine the final ballot and the winners. Because the award is given for \"superior achievement\" rather than the \"best of the year,\" the rules deliberately allow for ties.",
+    "source_url": "https://bramstokerawards.horror.org/winners-nominees/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "horror"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Misery",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 1987,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Swan Song",
+      "raw_creator": "Robert R. McCammon",
+      "rank": null,
+      "year": 1987,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "The Silence of the Lambs",
+      "raw_creator": "Thomas Harris",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Carrion Comfort",
+      "raw_creator": "Dan Simmons",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Mine",
+      "raw_creator": "Robert R. McCammon",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Boy's Life",
+      "raw_creator": "Robert R. McCammon",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Blood of the Lamb",
+      "raw_creator": "Thomas F. Monteleone",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "The Throat",
+      "raw_creator": "Peter Straub",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "Dead in the Water",
+      "raw_creator": "Nancy Holder",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Zombie",
+      "raw_creator": "Joyce Carol Oates",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "The Green Mile",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Children of the Dusk",
+      "raw_creator": "Janet Berliner & George Guthridge",
+      "rank": null,
+      "year": 1997,
+      "note": "2인 공저 1작품"
+    },
+    {
+      "raw_title": "Bag of Bones",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Mr. X",
+      "raw_creator": "Peter Straub",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Traveling Vampire Show",
+      "raw_creator": "Richard Laymon",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "American Gods",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Night Class",
+      "raw_creator": "Tom Piccirilli",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "lost boy lost girl",
+      "raw_creator": "Peter Straub",
+      "rank": null,
+      "year": 2003,
+      "note": "공식 페이지 표기 그대로. 통용 표기는 lost boy, lost girl"
+    },
+    {
+      "raw_title": "In the Night Room",
+      "raw_creator": "Peter Straub",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Creepers",
+      "raw_creator": "David Morrell",
+      "rank": null,
+      "year": 2005,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Dread in the Beast",
+      "raw_creator": "Charlee Jacob",
+      "rank": null,
+      "year": 2005,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Lisey's Story",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Missing",
+      "raw_creator": "Sarah Langan",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Duma Key",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Audrey's Door",
+      "raw_creator": "Sarah Langan",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "A Dark Matter",
+      "raw_creator": "Peter Straub",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Flesh Eaters",
+      "raw_creator": "Joe McKinney",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "The Drowning Girl",
+      "raw_creator": "Caitlin R. Kiernan",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Doctor Sleep",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Blood Kin",
+      "raw_creator": "Steve Rasnic Tem",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "A Head Full of Ghosts",
+      "raw_creator": "Paul Tremblay",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Fisherman",
+      "raw_creator": "John Langan",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Ararat",
+      "raw_creator": "Christopher Golden",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Cabin at the End of the World",
+      "raw_creator": "Paul Tremblay",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Coyote Rage",
+      "raw_creator": "Owl Goingback",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "The Only Good Indians",
+      "raw_creator": "Stephen Graham Jones",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "My Heart Is a Chainsaw",
+      "raw_creator": "Stephen Graham Jones",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Devil Takes You Home",
+      "raw_creator": "Gabino Iglesias",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "The Reformatory",
+      "raw_creator": "Tananarive Due",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "The Haunting of Velkwood",
+      "raw_creator": "Gwendolyn Kiste",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "The Buffalo Hunter Hunter",
+      "raw_creator": "Stephen Graham Jones",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://bramstokerawards.horror.org/winners-nominees/ — 공식 연도별 색인 및 심사 방식(추천 집계 + 부문 심사위원단 + 정회원 2회 투표, 공동 수상 허용) 확인",
+      "https://bramstokerawards.horror.org/about-the-awards/ — 상의 유래(브램 스토커, 『드라큘라』) 확인",
+      "https://bramstokerawards.horror.org/about-the-awards/1987-bram-stoker-award-nominees-winner/ — 1987 공동 수상 확인",
+      "https://bramstokerawards.horror.org/about-the-awards/1988-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1989-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1990-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1991-bram-stoker-award-winners-nominees/",
+      "https://www.thebramstokerawards.com/about-the-awards/1992-bram-stoker-award-winners-nominees/ — horror.org 쪽 동일 슬러그가 404라 공식 미러 도메인 사용",
+      "https://bramstokerawards.horror.org/about-the-awards/1993-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1994-bram-stoker-award-winners-nominees/",
+      "https://www.thebramstokerawards.com/about-the-awards/1995-bram-stoker-award-winners-nominees/ — 공식 미러 도메인",
+      "https://bramstokerawards.horror.org/about-the-awards/1996-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1997-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1998-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/1999-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2000-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2001-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2002-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2003-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2004-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2005-bram-stoker-award-winners-nominees/ — 2005 공동 수상 확인",
+      "https://bramstokerawards.horror.org/about-the-awards/2006-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2007-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2008-bram-stoker-award-winners-nominees-2/ — 2008년도 페이지",
+      "https://bramstokerawards.horror.org/about-the-awards/2008-bram-stoker-award-winners-nominees/ — 슬러그는 2008이나 실제 내용은 2009년도",
+      "https://bramstokerawards.horror.org/about-the-awards/2010-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2011-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2012-bram-stoker-awards-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2013-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2014-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2015-bram-stoker-award-nominees-winners/",
+      "https://bramstokerawards.horror.org/about-the-awards/2016-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/about-the-awards/2017-bram-stoker-award-winners-nominees/",
+      "https://bramstokerawards.horror.org/news/2018-bram-stoker-awards-winners-nominees/",
+      "https://bramstokerawards.horror.org/news/the-2019-bram-stoker-award-winners/",
+      "https://bramstokerawards.horror.org/uncategorized/the-bram-stoker-awards-2020/",
+      "https://bramstokerawards.horror.org/news/4491/ — 2021년도 수상 발표",
+      "https://www.thebramstokerawards.com/front-page/the-2022-bram-stoker-award-winners/ — 2022년도 수상 발표",
+      "https://horror.org/the-2023-bram-stoker-award-winners/ — 2023년도 수상 발표",
+      "https://bramstokerawards.horror.org/front-page/the-2024-bram-stoker-award-winners/ — 2024년도 수상 발표",
+      "https://bramstokerawards.horror.org/front-page/6370/ — 2025년도 수상 발표(2026년 6월 6일 피츠버그 StokerCon 시상)",
+      "https://en.wikipedia.org/wiki/Bram_Stoker_Award_for_Best_Novel — 교차 대조용",
+      "https://en.wikipedia.org/wiki/Horror_Writers_Association — 협회 창립 연도·본부 확인",
+      "https://lithub.com/here-are-the-winners-of-the-2025-stoker-awards/ — 2025년도 수상 교차 확인",
+      "https://www.sfadb.com/Bram_Stoker_Awards_2025 — 연도 기준 차이 확인용(시상 연도 기준으로 표기)"
+    ],
+    "item_count": 41,
+    "year_range": "1987–2025",
+    "year_basis": "출간(자격) 연도 기준이다. 공식 사이트가 각 회차를 작품 출간 연도로 이름 붙이고 시상식은 이듬해에 연다. 예컨대 2025년도 수상작 The Buffalo Hunter Hunter는 2026년 6월 6일 피츠버그 StokerCon에서 시상됐고, 2023년도 수상작 The Reformatory는 2024년 6월 1일 샌디에이고에서 시상됐다. 일부 외부 데이터베이스(sfadb 등)는 같은 상을 시상 연도로 표기해 1년씩 어긋나므로 대조 시 주의가 필요하다.",
+    "joint_wins": "공동 수상은 두 번이다. 1987년 Misery(Stephen King)와 Swan Song(Robert R. McCammon), 2005년 Creepers(David Morrell)와 Dread in the Beast(Charlee Jacob). 두 해 모두 공식 페이지에서 두 작품이 각각 Winner로 표시된 것을 직접 확인했다. 1997년 Children of the Dusk는 공동 수상이 아니라 Janet Berliner와 George Guthridge 두 사람이 함께 쓴 한 작품이므로 항목을 하나로 뒀다. 나머지 37개 회차는 모두 단독 수상이다.",
+    "gaps": "1987년부터 2025년까지 39개 회차가 빠짐없이 채워졌고 결번은 없다. 41개 항목 = 39개 회차 + 공동 수상 2회의 추가 1건씩. 1992년과 1995년은 horror.org 도메인의 해당 주소가 404를 반환해, 같은 사이트의 공식 미러 도메인(thebramstokerawards.com)에서 동일 페이지를 열어 확인했다. 2022년도 역시 horror.org 색인이 최종 후보 페이지로 연결돼 미러 도메인의 수상 발표 페이지를 열었다.",
+    "uncertainties": "① 2003년 수상작 표기: 공식 페이지는 \"lost boy lost girl\"로 적었으나 위키백과와 일반 유통 표기는 \"lost boy, lost girl\"(쉼표 포함)이다. 공식 표기를 그대로 뒀다. ② 저자명 표기: 2015·2018년 수상자를 공식 페이지는 \"Paul Tremblay\"로, 위키백과는 \"Paul G. Tremblay\"로 적는다. 공식 표기를 따랐다. ③ 2025년도 장편 부문에 대해 한 검색 요약이 \"Michael Wehunt, The October Film Haunt\"라고 잘못 전했으나, 공식 수상 발표 페이지를 직접 열어 Stephen Graham Jones의 The Buffalo Hunter Hunter가 장편 부문 수상작임을 확인했다. ④ 협회 창립 연도 1985년은 위키백과 확인분이며 공식 사이트에서 직접 재확인하지는 않았다. ⑤ 이 목록은 장편(Novel) 부문 한정이며 First Novel·Short Fiction·Graphic Novel·Young Adult·Middle Grade 등 다른 부문은 모두 제외했다."
+  }
+}

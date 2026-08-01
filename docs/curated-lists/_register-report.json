@@ -1,7 +1,7 @@
 {
-  "created": 12,
-  "linkedExisting": 0,
-  "notFound": 314,
+  "created": 190,
+  "linkedExisting": 2,
+  "notFound": 337,
   "failures": [
     {
       "list": "akutagawa-prize",
@@ -79,6 +79,11 @@
       "creator": "오기노 안나"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Conan The Barbarian Series",
+      "creator": "Robert E. Howard and Mark Schultz"
+    },
+    {
       "list": "dongin-literary-award",
       "title": "안개의 덫",
       "creator": "김향숙"
@@ -102,6 +107,11 @@
       "list": "korea-publication-award",
       "title": "오뇌의 무도 주해",
       "creator": "소명출판"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Vorkosigan Saga",
+      "creator": "Lois McMaster Bujold"
     },
     {
       "list": "st-johns-great-books",
@@ -319,6 +329,11 @@
       "creator": "하야시 교코"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Dark Tower Series",
+      "creator": "Stephen King"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "Principles of Nature and Grace",
       "creator": "Gottfried Wilhelm Leibniz"
@@ -332,6 +347,11 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "우리 교실의 전설",
       "creator": "김국태"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Wheel Of Time Series",
+      "creator": "Robert Jordan"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -364,9 +384,19 @@
       "creator": "Niels Bohr"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Codex Alera Series",
+      "creator": "Jim Butcher"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "On the Influence of Gravitation on the Propagation of Light",
       "creator": "Albert Einstein"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Mars Trilogy",
+      "creator": "Kim Stanley Robinson"
     },
     {
       "list": "akutagawa-prize",
@@ -429,6 +459,11 @@
       "creator": "Anne Bradstreet"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Outlander Series",
+      "creator": "Diana Gabaldon"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "The Rise and Decline of the Roman Republic",
       "creator": null
@@ -457,6 +492,11 @@
       "list": "akutagawa-prize",
       "title": "He's Leaving Home: My Young Son Becomes a Zen Monk",
       "creator": "미우라 기요히로"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Kushiel's Legacy Series",
+      "creator": "Jacqueline Carey"
     },
     {
       "list": "st-johns-great-books",
@@ -564,6 +604,11 @@
       "creator": "다카하시 기이치로"
     },
     {
+      "list": "bram-stoker-novel",
+      "title": "The Haunting of Velkwood",
+      "creator": "Gwendolyn Kiste"
+    },
+    {
       "list": "nebula-best-novel",
       "title": "Blackout/All Clear",
       "creator": "Connie Willis"
@@ -592,6 +637,11 @@
       "list": "akutagawa-prize",
       "title": "돌의 내력",
       "creator": "오쿠이즈미 야스히로"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Sandman Series",
+      "creator": "Neil Gaiman"
     },
     {
       "list": "snu-recommended-100",
@@ -689,6 +739,16 @@
       "creator": "Jean-Jacques Rousseau"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Mote In God's Eye",
+      "creator": "Larry Niven and Jerry Pournelle"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Legend Of Drizzt Series",
+      "creator": "R. A. Salvatore"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "The Chromosomes and Mendel’s Two Laws",
       "creator": "Thomas Morgan"
@@ -722,6 +782,11 @@
       "list": "akutagawa-prize",
       "title": "Kita no Kawa",
       "creator": "다카이 유이치"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Sword Of Truth Series",
+      "creator": "Terry Goodkind"
     },
     {
       "list": "st-johns-great-books",
@@ -839,6 +904,11 @@
       "creator": "권태웅"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Farseer Trilogy",
+      "creator": "Robin Hobb"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Crabs",
       "creator": "고노 다에코"
@@ -899,6 +969,11 @@
       "creator": "다카키 슈조"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Xanth Series",
+      "creator": "Piers Anthony"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Chichi ga Kieta",
       "creator": "오쓰지 가쓰히코"
@@ -949,6 +1024,11 @@
       "creator": "최상규"
     },
     {
+      "list": "locus-fantasy-novel",
+      "title": "Babel, or the Necessity of Violence",
+      "creator": "R. F. Kuang"
+    },
+    {
       "list": "snu-recommended-100",
       "title": "페더랄리스트 페이퍼",
       "creator": "헤밀튼 외"
@@ -982,6 +1062,11 @@
       "list": "korea-publication-award",
       "title": "힘든 시대를 위한 좋은 경제학",
       "creator": "김승진 옮김"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Culture Series",
+      "creator": "Iain Banks"
     },
     {
       "list": "st-johns-great-books",
@@ -1124,6 +1209,11 @@
       "creator": "임철우"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Dune Chronicles",
+      "creator": "Frank Herbert"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "바닷사람의 배",
       "creator": "곤도 게이타로"
@@ -1164,6 +1254,11 @@
       "creator": "Thomas Morgan"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Amber Chronicles",
+      "creator": "Roger Zelazny"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "The Smoke in the Mountain Valley",
       "creator": "시게카네 요시코"
@@ -1177,6 +1272,11 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "탁자의 위치 / 도박사",
       "creator": "이광숙"
+    },
+    {
+      "list": "locus-fantasy-novel",
+      "title": "Tehanu: The Last Book of Earthsea",
+      "creator": "Ursula K. Le Guin"
     },
     {
       "list": "akutagawa-prize",
@@ -1404,6 +1504,11 @@
       "creator": "라울 힐베르크 지음, 김학이 옮김"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Space Trilogy",
+      "creator": "C.S. Lewis"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "Art",
       "creator": "Édouard Manet"
@@ -1452,6 +1557,11 @@
       "list": "akutagawa-prize",
       "title": "Rip It Up",
       "creator": "마치다 고"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Malazan Book Of The Fallen series",
+      "creator": "Steven Erikson"
     },
     {
       "list": "st-johns-great-books",
@@ -1532,6 +1642,11 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "바다가 부르는 소리 / 밀랍인형들의 집",
       "creator": "손영목"
+    },
+    {
+      "list": "locus-fantasy-novel",
+      "title": "Job: A Comedy of Justice",
+      "creator": "Robert A. Heinlein"
     },
     {
       "list": "st-johns-great-books",

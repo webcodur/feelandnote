@@ -1,0 +1,753 @@
+{
+  "curator": {
+    "slug": "bbc-culture",
+    "name": "BBC 컬처",
+    "name_en": "BBC Culture",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": null,
+    "homepage_url": "https://www.bbc.com/culture",
+    "description": "BBC의 영어권 국제 서비스가 운영하는 예술·문화 섹션이다. 2015년부터 전 세계 영화 평론가를 상대로 한 주제별 대규모 투표를 이어 왔으며, 21세기 최고의 영화 100편·역대 최고의 코미디 100편·비영어권 영화 100편 등이 그 결과물이다. 대중이 참여하는 「빅 리드」와 달리 이 투표들은 직업 평론가만 참여한다.",
+    "description_en": "BBC Culture is the arts and culture section of the BBC's international English-language service. Since 2015 it has run a series of large themed polls of film critics worldwide, producing rankings such as the 100 greatest films of the 21st Century, the 100 greatest comedies, and the 100 greatest foreign-language films. Unlike the BBC's public-vote projects such as The Big Read, these polls are open only to professional critics."
+  },
+  "list": {
+    "slug": "bbc-greatest-comedies",
+    "title": "BBC 선정 100대 코미디 영화",
+    "title_en": "BBC Culture: The 100 Greatest Comedies of All Time",
+    "description": "BBC 컬처가 2017년 8월에 발표한 역대 최고의 코미디 영화 순위다. 전 세계 평론가 253명이 각자 최고의 코미디 10편을 적어 냈고, 빌리 와일더의 「Some Like It Hot」(1959)이 1위에 올랐다. 100위는 두 편이 같은 표를 얻어 공동 순위가 되면서 목록에 실린 작품은 모두 101편이다.",
+    "description_en": "BBC Culture's ranking of the greatest comedy films ever made, published in August 2017. A total of 253 critics from around the world each named their ten best comedies, and Billy Wilder's \"Some Like It Hot\" (1959) came out on top. Two films tied for 100th place, so the published list actually contains 101 titles.",
+    "published_year": 2017,
+    "edition": null,
+    "method": "출처 페이지 표기 그대로: BBC 컬처가 6개 대륙 52개국의 영화 평론가 253명(여성 118명, 남성 135명)에게 \"역대 최고의 코미디 10편은 무엇이라고 보는가\"를 물었다. 영화가 발명된 이후 만들어진 모든 나라의 작품이 후보가 될 수 있었고, BBC는 코미디의 정의를 미리 정하지 않고 평론가 각자의 판단에 맡겼다. 이상적인 위대함의 기준보다 자기 삶의 일부가 된 개인적 애착작을 고르라고 안내했다. 100위는 두 편이 공동 순위다.",
+    "method_en": "As stated by the source: BBC Culture asked 253 film critics (118 women, 135 men) from 52 countries and six continents a single question, \"What do you think are the 10 best comedies of all time?\" Films from any country made since the invention of cinema were eligible, and BBC Culture deliberately declined to define in advance what counts as a comedy, leaving that to each critic. Voters were urged to go with their heart and pick personal favourites rather than films meeting some ideal of greatness. Two films are tied at number 100.",
+    "source_url": "https://www.bbc.com/culture/article/20170821-the-100-greatest-comedies-of-all-time",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "VIDEO",
+    "topics": [
+      "comedy",
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Some Like It Hot",
+      "raw_creator": "Billy Wilder",
+      "rank": 1,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Dr Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 2,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "Annie Hall",
+      "raw_creator": "Woody Allen",
+      "rank": 3,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Groundhog Day",
+      "raw_creator": "Harold Ramis",
+      "rank": 4,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "Duck Soup",
+      "raw_creator": "Leo McCarey",
+      "rank": 5,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Life of Brian",
+      "raw_creator": "Terry Jones",
+      "rank": 6,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Airplane!",
+      "raw_creator": "Jim Abrahams, David Zucker and Jerry Zucker",
+      "rank": 7,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Playtime",
+      "raw_creator": "Jacques Tati",
+      "rank": 8,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "This Is Spinal Tap",
+      "raw_creator": "Rob Reiner",
+      "rank": 9,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "The General",
+      "raw_creator": "Clyde Bruckman and Buster Keaton",
+      "rank": 10,
+      "year": 1926,
+      "note": null
+    },
+    {
+      "raw_title": "The Big Lebowski",
+      "raw_creator": "Joel and Ethan Coen",
+      "rank": 11,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Modern Times",
+      "raw_creator": "Charlie Chaplin",
+      "rank": 12,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "To Be or Not To Be",
+      "raw_creator": "Ernst Lubitsch",
+      "rank": 13,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "His Girl Friday",
+      "raw_creator": "Howard Hawks",
+      "rank": 14,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Monty Python and the Holy Grail",
+      "raw_creator": "Terry Gilliam and Terry Jones",
+      "rank": 15,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Dictator",
+      "raw_creator": "Charlie Chaplin",
+      "rank": 16,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Bringing Up Baby",
+      "raw_creator": "Howard Hawks",
+      "rank": 17,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "Sherlock Jr",
+      "raw_creator": "Buster Keaton",
+      "rank": 18,
+      "year": 1924,
+      "note": null
+    },
+    {
+      "raw_title": "The Lady Eve",
+      "raw_creator": "Preston Sturges",
+      "rank": 19,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "Blazing Saddles",
+      "raw_creator": "Mel Brooks",
+      "rank": 20,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "City Lights",
+      "raw_creator": "Charlie Chaplin",
+      "rank": 21,
+      "year": 1931,
+      "note": null
+    },
+    {
+      "raw_title": "Young Frankenstein",
+      "raw_creator": "Mel Brooks",
+      "rank": 22,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "The Party",
+      "raw_creator": "Blake Edwards",
+      "rank": 23,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Withnail and I",
+      "raw_creator": "Bruce Robinson",
+      "rank": 24,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Gold Rush",
+      "raw_creator": "Charlie Chaplin",
+      "rank": 25,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Mon Oncle",
+      "raw_creator": "Jacques Tati",
+      "rank": 26,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Apartment",
+      "raw_creator": "Billy Wilder",
+      "rank": 27,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "It Happened One Night",
+      "raw_creator": "Frank Capra",
+      "rank": 28,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "When Harry Met Sally...",
+      "raw_creator": "Rob Reiner",
+      "rank": 29,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Monsieur Hulot's Holiday",
+      "raw_creator": "Jacques Tati",
+      "rank": 30,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "Tootsie",
+      "raw_creator": "Sydney Pollack",
+      "rank": 31,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Raising Arizona",
+      "raw_creator": "Joel and Ethan Coen",
+      "rank": 32,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Anchorman: The Legend of Ron Burgundy",
+      "raw_creator": "Adam McKay",
+      "rank": 33,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Clueless",
+      "raw_creator": "Amy Heckerling",
+      "rank": 34,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Singin' in the Rain",
+      "raw_creator": "Stanley Donen and Gene Kelly",
+      "rank": 35,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "A Fish Called Wanda",
+      "raw_creator": "Charles Crichton and John Cleese",
+      "rank": 36,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Sullivan's Travels",
+      "raw_creator": "Preston Sturges",
+      "rank": 37,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "The Philadelphia Story",
+      "raw_creator": "George Cukor",
+      "rank": 38,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "A Night at the Opera",
+      "raw_creator": "Sam Wood and Edmund Goulding",
+      "rank": 39,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "The Producers",
+      "raw_creator": "Mel Brooks",
+      "rank": 40,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan",
+      "raw_creator": "Larry Charles",
+      "rank": 41,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Awful Truth",
+      "raw_creator": "Leo McCarey",
+      "rank": 42,
+      "year": 1937,
+      "note": null
+    },
+    {
+      "raw_title": "M*A*S*H",
+      "raw_creator": "Robert Altman",
+      "rank": 43,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Bridesmaids",
+      "raw_creator": "Paul Feig",
+      "rank": 44,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Big Deal on Madonna Street",
+      "raw_creator": "Mario Monicelli",
+      "rank": 45,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Pulp Fiction",
+      "raw_creator": "Quentin Tarantino",
+      "rank": 46,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Animal House",
+      "raw_creator": "John Landis",
+      "rank": 47,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Trouble in Paradise",
+      "raw_creator": "Ernst Lubitsch",
+      "rank": 48,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Discreet Charm of the Bourgeoisie",
+      "raw_creator": "Luis Buñuel",
+      "rank": 49,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Women on the Verge of a Nervous Breakdown",
+      "raw_creator": "Pedro Almodóvar",
+      "rank": 50,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Seven Chances",
+      "raw_creator": "Buster Keaton",
+      "rank": 51,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "My Man Godfrey",
+      "raw_creator": "Gregory La Cava",
+      "rank": 52,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "The Blues Brothers",
+      "raw_creator": "John Landis",
+      "rank": 53,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Harold and Maude",
+      "raw_creator": "Hal Ashby",
+      "rank": 54,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Best in Show",
+      "raw_creator": "Christopher Guest",
+      "rank": 55,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Broadcast News",
+      "raw_creator": "James L Brooks",
+      "rank": 56,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Mean Girls",
+      "raw_creator": "Mark Waters",
+      "rank": 57,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Zelig",
+      "raw_creator": "Woody Allen",
+      "rank": 58,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Toni Erdmann",
+      "raw_creator": "Maren Ade",
+      "rank": 59,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Shaun of the Dead",
+      "raw_creator": "Edgar Wright",
+      "rank": 60,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Team America: World Police",
+      "raw_creator": "Trey Parker",
+      "rank": 61,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "What We Do in the Shadows",
+      "raw_creator": "Jemaine Clement and Taika Waititi",
+      "rank": 62,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Arsenic and Old Lace",
+      "raw_creator": "Frank Capra",
+      "rank": 63,
+      "year": 1944,
+      "note": null
+    },
+    {
+      "raw_title": "Step Brothers",
+      "raw_creator": "Adam McKay",
+      "rank": 64,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Caddyshack",
+      "raw_creator": "Harold Ramis",
+      "rank": 65,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Hot Fuzz",
+      "raw_creator": "Edgar Wright",
+      "rank": 66,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Sons of the Desert",
+      "raw_creator": "William A Seiter",
+      "rank": 67,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Ninotchka",
+      "raw_creator": "Ernst Lubitsch",
+      "rank": 68,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Love and Death",
+      "raw_creator": "Woody Allen",
+      "rank": 69,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "In the Loop",
+      "raw_creator": "Armando Iannucci",
+      "rank": 70,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Royal Tenenbaums",
+      "raw_creator": "Wes Anderson",
+      "rank": 71,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Naked Gun: From the Files of Police Squad!",
+      "raw_creator": "David Zucker",
+      "rank": 72,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "The Nutty Professor",
+      "raw_creator": "Jerry Lewis",
+      "rank": 73,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "Trading Places",
+      "raw_creator": "John Landis",
+      "rank": 74,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "The Palm Beach Story",
+      "raw_creator": "Preston Sturges",
+      "rank": 75,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Design for Living",
+      "raw_creator": "Ernst Lubitsch",
+      "rank": 76,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Divorce Italian Style",
+      "raw_creator": "Pietro Germi",
+      "rank": 77,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Princess Bride",
+      "raw_creator": "Rob Reiner",
+      "rank": 78,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Dinner Game",
+      "raw_creator": "Francis Veber",
+      "rank": 79,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Office Space",
+      "raw_creator": "Mike Judge",
+      "rank": 80,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "There's Something About Mary",
+      "raw_creator": "Bobby and Peter Farrelly",
+      "rank": 81,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Top Secret!",
+      "raw_creator": "Jim Abrahams, David Zucker and Jerry Zucker",
+      "rank": 82,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Safety Last!",
+      "raw_creator": "Fred C Newmeyer and Sam Taylor",
+      "rank": 83,
+      "year": 1923,
+      "note": null
+    },
+    {
+      "raw_title": "Waiting for Guffman",
+      "raw_creator": "Christopher Guest",
+      "rank": 84,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Amarcord",
+      "raw_creator": "Federico Fellini",
+      "rank": 85,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Kind Hearts and Coronets",
+      "raw_creator": "Robert Hamer",
+      "rank": 86,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "Gentlemen Prefer Blondes",
+      "raw_creator": "Howard Hawks",
+      "rank": 87,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "Zoolander",
+      "raw_creator": "Ben Stiller",
+      "rank": 88,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Daisies",
+      "raw_creator": "Vera Chytilová",
+      "rank": 89,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "A New Leaf",
+      "raw_creator": "Elaine May",
+      "rank": 90,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "What's Up, Doc?",
+      "raw_creator": "Peter Bogdanovich",
+      "rank": 91,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Exterminating Angel",
+      "raw_creator": "Luis Buñuel",
+      "rank": 92,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "South Park: Bigger, Longer & Uncut",
+      "raw_creator": "Trey Parker",
+      "rank": 93,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Rushmore",
+      "raw_creator": "Wes Anderson",
+      "rank": 94,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Ghostbusters",
+      "raw_creator": "Ivan Reitman",
+      "rank": 95,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Born Yesterday",
+      "raw_creator": "George Cukor",
+      "rank": 96,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "The Music Box",
+      "raw_creator": "James Parrott",
+      "rank": 97,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Hangover",
+      "raw_creator": "Todd Phillips",
+      "rank": 98,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Jerk",
+      "raw_creator": "Carl Reiner",
+      "rank": 99,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The King of Comedy",
+      "raw_creator": "Martin Scorsese",
+      "rank": 100,
+      "year": 1982,
+      "note": "공동 100위"
+    },
+    {
+      "raw_title": "The Ladies Man",
+      "raw_creator": "Jerry Lewis",
+      "rank": 100,
+      "year": 1961,
+      "note": "공동 100위"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.bbc.com/culture/article/20170821-the-100-greatest-comedies-of-all-time (BBC 원문. www.bbc.com 직접 접근이 차단돼 Jina Reader(r.jina.ai) 경유로 원문 전문을 받아 100~1위 역순 목록과 투표 규모 문단을 그대로 확인했다)",
+      "https://thefilmstage.com/the-100-greatest-comedies-of-all-time-according-to-bbcs-critics-poll/ (2차 대조. 101편 전 항목의 제목·감독·연도와 공동 100위가 BBC 원문과 완전 일치)"
+    ],
+    "item_count": 101,
+    "expected_count": 100,
+    "top_rank": "1위는 「Some Like It Hot」(Billy Wilder, 1959). BBC 원문 목록이 100위부터 역순으로 내려와 마지막 줄이 '1. Some Like It Hot (Billy Wilder, 1959)'이며, 본문에도 '유럽·동아시아·라틴아메리카 평론가들 덕분에 Some Like It Hot이 최종 1위에 올랐다'고 적혀 있다.",
+    "tied_ranks": "100위 공동 2편 — 「The King of Comedy」(Martin Scorsese, 1982), 「The Ladies Man」(Jerry Lewis, 1961). BBC 원문이 '100. (tie)'로 표기했다. 그래서 항목 수가 101편이다.",
+    "gaps": "없음. 1위부터 99위까지 결번·중복 없이 각 1편, 100위만 2편이다.",
+    "uncertainties": "제목의 작은따옴표는 BBC 원문의 둥근 따옴표(’)를 곧은 따옴표(')로 통일했다. 감독 이름의 가운뎃점 표기(예: William A Seiter, Fred C Newmeyer)는 BBC 원문이 마침표를 생략한 영국식이라 원문 그대로 두었다. BBC 컬처의 창설 연도는 출처에서 확인되지 않아 null로 남겼다."
+  }
+}

@@ -1,6 +1,6 @@
 {
   "generatedFor": "all",
-  "matched": 0,
+  "matched": 175,
   "ambiguous": [
     {
       "list": "prix-goncourt",
@@ -8,14 +8,6 @@
       "creator": "Julien Gracq",
       "candidates": [
         "ba3cbec1-fe1a-4458-a318-5011fd42aaf8(저자불일치: Richard Howard)"
-      ]
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "괴물",
-      "creator": "봉준호",
-      "candidates": [
-        "1668caad-85f8-40af-844b-91b02c99f218(저자불일치: -)"
       ]
     },
     {
@@ -44,20 +36,20 @@
       ]
     },
     {
+      "list": "locus-fantasy-novel",
+      "title": "Last Call",
+      "creator": "Tim Powers",
+      "candidates": [
+        "7df3df95-97c2-4a99-9dd2-36b2fef96645(저자불일치: Daniel Okrent)"
+      ]
+    },
+    {
       "list": "st-johns-great-books",
       "title": "Essays",
       "creator": "François Jacob & Jacques Monod",
       "candidates": [
         "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
         "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
-      ]
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Law",
-      "creator": "Roger Vailland",
-      "candidates": [
-        "29c5564f-ec8b-4ecf-95b5-e27555ae59a1(저자불일치: Frédéric Bastiat)"
       ]
     },
     {
@@ -164,30 +156,6 @@
       ]
     },
     {
-      "list": "akutagawa-prize",
-      "title": "불꽃",
-      "creator": "마타요시 나오키",
-      "candidates": [
-        "c59966f3-42c3-4fea-ba76-c56bd5ae1c40(저자불일치: 선우휘)"
-      ]
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "The Vegetarian",
-      "creator": "Han Kang; translated by Deborah Smith",
-      "candidates": [
-        "fb9f861c-32a6-46df-8ebd-a7b218e42f95(저자불일치: Thomas R. Allinson)"
-      ]
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "My Brilliant Friend",
-      "creator": "Elena Ferrante; translated by Ann Goldstein",
-      "candidates": [
-        "c802e2e8-1318-48c4-a495-90554af956a7(저자불일치: Nancy K. Miller)"
-      ]
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Democracy and Education",
       "creator": "Booker T. Washington",
@@ -212,14 +180,6 @@
       ]
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Anna Karenina",
-      "creator": "Clarence Brown",
-      "candidates": [
-        "5c5e79f3-13b7-4976-a6dd-4b6a47a63979(저자불일치: Julien Duvivier)"
-      ]
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Essays",
       "creator": "George Beadle & Edward Tatum",
@@ -236,14 +196,6 @@
         "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
         "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
       ]
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Civilization",
-      "creator": "Georges Duhamel",
-      "candidates": [
-        "06f2a8a2-b0e1-4e7b-b554-00798a4ed04d(저자불일치: Joshua Cole)"
-      ]
     }
   ],
   "noAuthorPicked": [],
@@ -259,14 +211,19 @@
       "creator": "모리 아쓰시"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "실미도",
-      "creator": "강우석"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Yoru to Kiri no Sumi de",
       "creator": "기타 모리오"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "The Dinner Game",
+      "creator": "Francis Veber"
+    },
+    {
+      "list": "locus-fantasy-novel",
+      "title": "Lavinia",
+      "creator": "Ursula K. Le Guin"
     },
     {
       "list": "akutagawa-prize",
@@ -275,13 +232,13 @@
     },
     {
       "list": "national-book-award-fiction",
-      "title": "The Centaur",
-      "creator": "John Updike"
-    },
-    {
-      "list": "national-book-award-fiction",
       "title": "The Collected Stories of William Faulkner",
       "creator": "William Faulkner"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "Big Deal on Madonna Street",
+      "creator": "Mario Monicelli"
     },
     {
       "list": "st-johns-great-books",
@@ -294,24 +251,29 @@
       "creator": "엔도 슈사쿠"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "99%",
-      "creator": "김경욱"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Sacred Night",
-      "creator": "Tahar Ben Jelloun"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Red Desert",
-      "creator": "Michelangelo Antonioni"
-    },
-    {
       "list": "snu-recommended-100",
       "title": "제자백가선도",
       "creator": null
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "The Jerk",
+      "creator": "Carl Reiner"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "Airplane!",
+      "creator": "Jim Abrahams, David Zucker and Jerry Zucker"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Invasion of the Body Snatchers",
+      "creator": "Philip Kaufman"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Peeping Tom",
+      "creator": "Michael Powell"
     },
     {
       "list": "akutagawa-prize",
@@ -319,29 +281,9 @@
       "creator": "호사카 가즈시"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "The Einstein Intersection",
-      "creator": "Samuel R. Delany"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "그때 그 마음",
-      "creator": "정소현"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Les Flamboyants",
-      "creator": "Patrick Grainville"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "개교기념일",
-      "creator": "김인숙"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "A Father's Love",
-      "creator": "Jacques Chessex"
+      "list": "timeout-100-horror-films",
+      "title": "Suspiria",
+      "creator": "Dario Argento"
     },
     {
       "list": "akutagawa-prize",
@@ -349,34 +291,19 @@
       "creator": "다이도 다마키"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Histoire d'un Fait divers",
-      "creator": "Jean-Jacques Gautier"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Lover",
-      "creator": "Marguerite Duras"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Renrakuin",
       "creator": "구라미쓰 도시오"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The Echo Maker",
-      "creator": "Richard Powers"
+      "list": "locus-fantasy-novel",
+      "title": "Red Prophet",
+      "creator": "Orson Scott Card"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Middle Passage",
-      "creator": "Charles Johnson"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Hana-bi",
-      "creator": "Takeshi Kitano"
+      "list": "bram-stoker-novel",
+      "title": "The Missing",
+      "creator": "Sarah Langan"
     },
     {
       "list": "akutagawa-prize",
@@ -389,14 +316,14 @@
       "creator": "시바 시로"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "일식",
-      "creator": "히라노 게이치로"
+      "list": "locus-fantasy-novel",
+      "title": "A Clash of Kings",
+      "creator": "George R. R. Martin"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Les Filles du Calvaire",
-      "creator": "Pierre Combescot"
+      "list": "bram-stoker-novel",
+      "title": "The Only Good Indians",
+      "creator": "Stephen Graham Jones"
     },
     {
       "list": "akutagawa-prize",
@@ -409,24 +336,14 @@
       "creator": "오기노 안나"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Manon",
-      "creator": "Henri-Georges Clouzot"
+      "list": "bram-stoker-novel",
+      "title": "Audrey's Door",
+      "creator": "Sarah Langan"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Ten North Frederick",
-      "creator": "John O'Hara"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Au revoir les enfants",
-      "creator": "Louis Malle"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Uprooted",
-      "creator": "Naomi Novik"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Conan The Barbarian Series",
+      "creator": "Robert E. Howard and Mark Schultz"
     },
     {
       "list": "dongin-literary-award",
@@ -434,14 +351,19 @@
       "creator": "김향숙"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Trois jours chez ma mère",
-      "creator": "François Weyergans"
+      "list": "timeout-100-horror-films",
+      "title": "The Blair Witch Project",
+      "creator": "Daniel Myrick, Eduardo Sánchez"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Michael Collins",
-      "creator": "Neil Jordan"
+      "list": "locus-fantasy-novel",
+      "title": "A Sorceress Comes to Call",
+      "creator": "T. Kingfisher"
+    },
+    {
+      "list": "locus-fantasy-novel",
+      "title": "Kraken",
+      "creator": "China Miéville"
     },
     {
       "list": "st-johns-great-books",
@@ -454,9 +376,9 @@
       "creator": "마르크스"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Les Civilisés",
-      "creator": "Claude Farrère"
+      "list": "timeout-100-horror-films",
+      "title": "Nosferatu: A Symphony of Horror",
+      "creator": "FW Murnau"
     },
     {
       "list": "korea-publication-award",
@@ -464,24 +386,29 @@
       "creator": "소명출판"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Forbidden Games",
-      "creator": "René Clément"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Vorkosigan Saga",
+      "creator": "Lois McMaster Bujold"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Happening",
-      "creator": "Audrey Diwan"
+      "list": "bram-stoker-novel",
+      "title": "Mr. X",
+      "creator": "Peter Straub"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "The Terminal Experiment",
-      "creator": "Robert J. Sawyer"
+      "list": "bram-stoker-novel",
+      "title": "lost boy lost girl",
+      "creator": "Peter Straub"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Family Diary",
-      "creator": "Valerio Zurlini"
+      "list": "bbc-greatest-comedies",
+      "title": "Safety Last!",
+      "creator": "Fred C Newmeyer and Sam Taylor"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Crystal Cave",
+      "creator": "Mary Stewart"
     },
     {
       "list": "st-johns-great-books",
@@ -499,19 +426,14 @@
       "creator": "하타야마 히로시"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "삼풍백화점",
-      "creator": "정이현"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Anathem",
+      "creator": "Neal Stephenson"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "소년이로",
-      "creator": "편혜영"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Dreams of My Russian Summers",
-      "creator": "Andreï Makine"
+      "list": "bbc-greatest-comedies",
+      "title": "A New Leaf",
+      "creator": "Elaine May"
     },
     {
       "list": "prix-goncourt",
@@ -524,9 +446,19 @@
       "creator": "Gottfried Wilhelm Leibniz"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "유턴지점에 보물지도를 묻다",
-      "creator": "윤성희"
+      "list": "timeout-100-horror-films",
+      "title": "Saint Maud",
+      "creator": "Rose Glass"
+    },
+    {
+      "list": "bram-stoker-novel",
+      "title": "A Dark Matter",
+      "creator": "Peter Straub"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "South Park: Bigger, Longer & Uncut",
+      "creator": "Trey Parker"
     },
     {
       "list": "akutagawa-prize",
@@ -539,19 +471,9 @@
       "creator": "후루야마 고마오"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Before the Rain",
-      "creator": "Milčo Mančevski"
-    },
-    {
       "list": "korea-publication-award",
       "title": "요리는 감이여",
       "creator": "창비교육"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Dans la main de l'Ange",
-      "creator": "Dominique Fernandez"
     },
     {
       "list": "akutagawa-prize",
@@ -559,14 +481,24 @@
       "creator": "마루야 사이이치"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Let the Great World Spin",
-      "creator": "Colum McCann"
+      "list": "locus-fantasy-novel",
+      "title": "Alvin Journeyman",
+      "creator": "Orson Scott Card"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Belle de Jour",
-      "creator": "Luis Buñuel"
+      "list": "bram-stoker-novel",
+      "title": "Boy's Life",
+      "creator": "Robert R. McCammon"
+    },
+    {
+      "list": "locus-fantasy-novel",
+      "title": "Brittle Innings",
+      "creator": "Michael Bishop"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "What We Do in the Shadows",
+      "creator": "Jemaine Clement and Taika Waititi"
     },
     {
       "list": "akutagawa-prize",
@@ -574,34 +506,14 @@
       "creator": "후지노 카오리"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Cardinal Messias",
-      "creator": "Goffredo Alessandrini"
-    },
-    {
       "list": "snu-recommended-100",
       "title": "퇴계문선",
       "creator": "이황"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Someone You Can Build a Nest In",
-      "creator": "John Wiswell"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Trust Exercise",
-      "creator": "Susan Choi"
-    },
-    {
       "list": "hugo-best-novel",
       "title": "Blackout/All Clear",
       "creator": "Connie Willis"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "우리들의 일그러진 영웅",
-      "creator": "박종원"
     },
     {
       "list": "st-johns-great-books",
@@ -614,19 +526,14 @@
       "creator": "Nicomachus"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Shadow Country",
-      "creator": "Peter Matthiessen"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Sonnets from Children of the Poor",
       "creator": "Gwendolyn Brooks"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Lullaby",
-      "creator": "Leïla Slimani"
+      "list": "bram-stoker-novel",
+      "title": "Mine",
+      "creator": "Robert R. McCammon"
     },
     {
       "list": "akutagawa-prize",
@@ -644,14 +551,14 @@
       "creator": null
     },
     {
-      "list": "prix-goncourt",
-      "title": "To Forget Palermo",
-      "creator": "Edmonde Charles-Roux"
+      "list": "bbc-greatest-comedies",
+      "title": "The Naked Gun: From the Files of Police Squad!",
+      "creator": "David Zucker"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The Siege of the Alcazar",
-      "creator": "Augusto Genina"
+      "list": "bram-stoker-novel",
+      "title": "The Throat",
+      "creator": "Peter Straub"
     },
     {
       "list": "akutagawa-prize",
@@ -664,14 +571,14 @@
       "creator": "기요오카 다카유키"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "상속",
-      "creator": "김성중"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Elric Saga",
+      "creator": "Michael Moorcock"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Man of Aran",
-      "creator": "Robert J. Flaherty"
+      "list": "bbc-greatest-comedies",
+      "title": "Divorce Italian Style",
+      "creator": "Pietro Germi"
     },
     {
       "list": "akutagawa-prize",
@@ -679,54 +586,19 @@
       "creator": "오비 주조"
     },
     {
-      "list": "newbery-medal",
-      "title": "Flora & Ulysses: The Illuminated Adventures",
-      "creator": "Kate DiCamillo"
+      "list": "bram-stoker-novel",
+      "title": "Blood Kin",
+      "creator": "Steve Rasnic Tem"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Faust",
-      "creator": "Alexander Sokurov"
+      "list": "locus-fantasy-novel",
+      "title": "The Sword of the Lictor",
+      "creator": "Gene Wolfe"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Great Swindle",
-      "creator": "Pierre Lemaitre"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Rise of Simon Lachaume",
-      "creator": "Maurice Druon"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "피에타",
-      "creator": "김기덕"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Rite of Passage",
-      "creator": "Alexei Panshin"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "No Enemy But Time",
-      "creator": "Michael Bishop"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "사의 찬미",
-      "creator": "김호선"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "L'Araigne",
-      "creator": "Henri Troyat"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "어떤 진심",
-      "creator": "안보윤"
+      "list": "timeout-100-horror-films",
+      "title": "It Follows",
+      "creator": "David Robert Mitchell"
     },
     {
       "list": "dongin-literary-award",
@@ -734,9 +606,9 @@
       "creator": "서기원"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Waiting",
-      "creator": "Ha Jin"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Caves Of Steel",
+      "creator": "Isaac Asimov"
     },
     {
       "list": "st-johns-great-books",
@@ -749,19 +621,9 @@
       "creator": "홉프만"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Slow River",
-      "creator": "Nicola Griffith"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Room Next Door",
-      "creator": "Pedro Almodóvar"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Valet de nuit",
-      "creator": "Michel Host"
+      "list": "locus-fantasy-novel",
+      "title": "The Goblin Emperor",
+      "creator": "Katherine Addison"
     },
     {
       "list": "akutagawa-prize",
@@ -769,49 +631,14 @@
       "creator": "가와무라 아키라"
     },
     {
-      "list": "prix-goncourt",
-      "title": "La Maternelle",
-      "creator": "Léon Frapié"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "최애, 타오르다",
-      "creator": "우사미 린"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Shōnen no Hashi",
       "creator": "고토 기이치"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Parable of the Talents",
-      "creator": "Octavia E. Butler"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Stations of the Tide",
-      "creator": "Michael Swanwick"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "남산의 부장들",
-      "creator": "우민호"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "그 밤의 경숙",
-      "creator": "김숨"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Playthings",
       "creator": "쓰무라 세쓰코"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "All the Beauty and the Bloodshed",
-      "creator": "Laura Poitras"
     },
     {
       "list": "akutagawa-prize",
@@ -824,24 +651,14 @@
       "creator": "송상옥"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "The Quantum Rose",
-      "creator": "Catherine Asaro"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Ryū Kanfū",
       "creator": "야기 요시노리"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "우리 생애 최고의 순간",
-      "creator": "임순례"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Der Kaiser von Kalifornien",
-      "creator": "Luis Trenker"
+      "list": "bram-stoker-novel",
+      "title": "Lisey's Story",
+      "creator": "Stephen King"
     },
     {
       "list": "akutagawa-prize",
@@ -852,6 +669,16 @@
       "list": "akutagawa-prize",
       "title": "Hariganemushi",
       "creator": "요시무라 만이치"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Ring",
+      "creator": "Hideo Nakata"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Sunshine",
+      "creator": "Robin McKinley"
     },
     {
       "list": "korea-publication-award",
@@ -874,19 +701,19 @@
       "creator": "고메타니 후미코"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Romeo and Juliet",
-      "creator": "Renato Castellani"
+      "list": "timeout-100-horror-films",
+      "title": "The Descent",
+      "creator": "Neil Marshall"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "맹스피드 엄마",
-      "creator": "나가시마 유"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Foundation Trilogy",
+      "creator": "Isaac Asimov"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "은비령",
-      "creator": "이순원"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Kingkiller Chronicles",
+      "creator": "Patrick Rothfuss"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -904,9 +731,9 @@
       "creator": "Madame de Sévigné"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "In America",
-      "creator": "Susan Sontag"
+      "list": "timeout-100-horror-films",
+      "title": "Deep Red",
+      "creator": "Dario Argento"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -914,9 +741,9 @@
       "creator": "한말숙"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "초록물고기",
-      "creator": "이창동"
+      "list": "timeout-100-horror-films",
+      "title": "The Innocents",
+      "creator": "Jack Clayton"
     },
     {
       "list": "akutagawa-prize",
@@ -924,34 +751,29 @@
       "creator": "하야시 교코"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "의형제",
-      "creator": "장훈"
+      "list": "locus-fantasy-novel",
+      "title": "Trumps of Doom",
+      "creator": "Roger Zelazny"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "어쩔수가없다",
-      "creator": "박찬욱"
+      "list": "locus-fantasy-novel",
+      "title": "Harpist in the Wind",
+      "creator": "Patricia A. McKillip"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "갯비나리",
-      "creator": "한승원"
+      "list": "bbc-greatest-comedies",
+      "title": "Design for Living",
+      "creator": "Ernst Lubitsch"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Private Gaspard",
-      "creator": "René Benjamin"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Eyre Affair",
+      "creator": "Jasper Fforde"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "A Time of Changes",
-      "creator": "Robert Silverberg"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Babel-17",
-      "creator": "Samuel R. Delany"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Dark Tower Series",
+      "creator": "Stephen King"
     },
     {
       "list": "st-johns-great-books",
@@ -969,39 +791,14 @@
       "creator": "김국태"
     },
     {
-      "list": "prix-goncourt",
-      "title": "When the Man Passed By",
-      "creator": "Marius Grout"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Wheel Of Time Series",
+      "creator": "Robert Jordan"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Poor Things",
-      "creator": "Yorgos Lanthimos"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "물방울",
-      "creator": "메도루마 슌"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Scipio Africanus: The Defeat of Hannibal",
-      "creator": "Carmine Gallone"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Le peuple de la mer",
-      "creator": "Marc Elder"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The True True Story of Raja the Gullible (and His Mother)",
-      "creator": "Rabih Alameddine"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "L'Epervier de Maheux",
-      "creator": "Jean Carrière"
+      "list": "locus-fantasy-novel",
+      "title": "The Scar",
+      "creator": "China Miéville"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1009,14 +806,24 @@
       "creator": "최인호"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Perdido Street Station",
+      "creator": "China Miéville"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Dead of Night",
+      "creator": "Alberto Cavalcanti, Charles Crichton, Basil Dearden, Robert Hamer"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Once And Future King",
+      "creator": "T.H. White"
+    },
+    {
       "list": "yi-sang-literary-award",
       "title": "관계",
       "creator": "유재용"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "A Pigeon Sat on a Branch Reflecting on Existence",
-      "creator": "Roy Andersson"
     },
     {
       "list": "akutagawa-prize",
@@ -1029,34 +836,14 @@
       "creator": "이도가와 이코"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "잉여인간",
-      "creator": "유현목"
+      "list": "bbc-greatest-comedies",
+      "title": "Bridesmaids",
+      "creator": "Paul Feig"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "여름의 흐름",
-      "creator": "마루야마 겐지"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "The Speed of Dark",
-      "creator": "Elizabeth Moon"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Soul of Malaya",
-      "creator": "Henri Fauconnier"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "게르마늄 라디오",
-      "creator": "하나무라 만게쓰"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "개 신랑 들이기",
-      "creator": "다와다 요코"
+      "list": "bram-stoker-novel",
+      "title": "Bag of Bones",
+      "creator": "Stephen King"
     },
     {
       "list": "akutagawa-prize",
@@ -1069,24 +856,14 @@
       "creator": "Niels Bohr"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "나는 나대로 혼자서 간다",
-      "creator": "와카타케 치사코"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Codex Alera Series",
+      "creator": "Jim Butcher"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "The Claw of the Conciliator",
-      "creator": "Gene Wolfe"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Blood Tie",
-      "creator": "Mary Lee Settle"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "알파의 시간",
-      "creator": "하성란"
+      "list": "bram-stoker-novel",
+      "title": "Carrion Comfort",
+      "creator": "Dan Simmons"
     },
     {
       "list": "st-johns-great-books",
@@ -1094,9 +871,9 @@
       "creator": "Albert Einstein"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Interior Chinatown",
-      "creator": "Charles Yu"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Mars Trilogy",
+      "creator": "Kim Stanley Robinson"
     },
     {
       "list": "akutagawa-prize",
@@ -1104,19 +881,9 @@
       "creator": "히노 아시헤이"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Sacro GRA",
-      "creator": "Gianfranco Rosi"
-    },
-    {
       "list": "korea-publication-award",
       "title": "어딘가에는 ○○○이 있다",
       "creator": "남해의봄날·이유출판·온다프레스·열매하나·포토밭출판사"
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "The Story of the Lost Child",
-      "creator": "Elena Ferrante; translated by Ann Goldstein"
     },
     {
       "list": "st-johns-great-books",
@@ -1129,19 +896,14 @@
       "creator": "James Baldwin"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Les eaux mêlées",
-      "creator": "Roger Ikor"
+      "list": "timeout-100-horror-films",
+      "title": "Black Christmas",
+      "creator": "Bob Clark"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Hands over the City",
-      "creator": "Francesco Rosi"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Captain Conan",
-      "creator": "Roger Vercel"
+      "list": "bram-stoker-novel",
+      "title": "The Traveling Vampire Show",
+      "creator": "Richard Laymon"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1154,14 +916,14 @@
       "creator": "가사하라 준"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "Sakebi",
-      "creator": "하타케야마 유시오"
+      "list": "timeout-100-horror-films",
+      "title": "Black Sunday",
+      "creator": "Mario Bava"
     },
     {
       "list": "akutagawa-prize",
-      "title": "그래도 우리의 나날",
-      "creator": "시바타 쇼"
+      "title": "Sakebi",
+      "creator": "하타케야마 유시오"
     },
     {
       "list": "akutagawa-prize",
@@ -1174,34 +936,14 @@
       "creator": "사계절"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "고갯마루",
-      "creator": "이혜경"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Last Unicorn",
+      "creator": "Peter S. Beagle"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Les Bêtes",
-      "creator": "Pierre Gascar"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "돼지의 보복",
-      "creator": "마타요시 에이키"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "A Year of the Quiet Sun",
-      "creator": "Krzysztof Zanussi"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Vera Drake",
-      "creator": "Mike Leigh"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "흙 속의 아이",
-      "creator": "나카무라 후미노리"
+      "list": "bram-stoker-novel",
+      "title": "Zombie",
+      "creator": "Joyce Carol Oates"
     },
     {
       "list": "akutagawa-prize",
@@ -1209,9 +951,9 @@
       "creator": "야마모토 미치코"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "어느 '고쿠라 일기'전",
-      "creator": "마쓰모토 세이초"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Outlander Series",
+      "creator": "Diana Gabaldon"
     },
     {
       "list": "st-johns-great-books",
@@ -1219,14 +961,14 @@
       "creator": null
     },
     {
+      "list": "bbc-greatest-comedies",
+      "title": "Love and Death",
+      "creator": "Woody Allen"
+    },
+    {
       "list": "hugo-best-novel",
       "title": "They'd Rather Be Right",
       "creator": "Mark Clifton and Frank Riley"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "A Master of Djinn",
-      "creator": "P. Djèlí Clark"
     },
     {
       "list": "akutagawa-prize",
@@ -1234,24 +976,9 @@
       "creator": "하다 게이스케"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Cold Mountain",
-      "creator": "Charles Frazier"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Goodbye, Columbus",
-      "creator": "Philip Roth"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Tsui no Sumika",
       "creator": "이소자키 겐이치로"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "옥합을 깨뜨릴 때",
-      "creator": "김수용"
     },
     {
       "list": "akutagawa-prize",
@@ -1259,9 +986,14 @@
       "creator": "미우라 기요히로"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Live Fast",
-      "creator": "Brigitte Giraud"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Kushiel's Legacy Series",
+      "creator": "Jacqueline Carey"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "Born Yesterday",
+      "creator": "George Cukor"
     },
     {
       "list": "st-johns-great-books",
@@ -1274,29 +1006,9 @@
       "creator": "Daniel Fahrenheit"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The Woman Who Left",
-      "creator": "Lav Diaz"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Shinsekai",
       "creator": "야마시타 스미토"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Loyalty of Love",
-      "creator": "Guido Brignone"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Week-end at Zuydcoote",
-      "creator": "Robert Merle"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Pietà",
-      "creator": "Kim Ki-duk"
     },
     {
       "list": "st-johns-great-books",
@@ -1304,39 +1016,9 @@
       "creator": "Virginia Woolf"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "8월의 크리스마스",
-      "creator": "허진호"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "뱀에게 피어싱",
-      "creator": "가네하라 히토미"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "영리",
-      "creator": "누마타 신스케"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "A Man Scans His Past",
-      "creator": "Maurice Constantin-Weyer"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Life Dances On",
-      "creator": "Julien Duvivier"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Saint-Germain ou la négociation",
-      "creator": "Francis Walder"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Paco's Story",
-      "creator": "Larry Heinemann"
+      "list": "bbc-greatest-comedies",
+      "title": "Anchorman: The Legend of Ron Burgundy",
+      "creator": "Adam McKay"
     },
     {
       "list": "akutagawa-prize",
@@ -1344,19 +1026,9 @@
       "creator": "도미자와 우이오"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "뱀을 밟다",
-      "creator": "가와카미 히로미"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Not One Less",
-      "creator": "Zhang Yimou"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The Eighth Day",
-      "creator": "Thornton Wilder"
+      "list": "timeout-100-horror-films",
+      "title": "Sinners",
+      "creator": "Ryan Coogler"
     },
     {
       "list": "st-johns-great-books",
@@ -1369,9 +1041,9 @@
       "creator": "토리야마 마코토"
     },
     {
-      "list": "prix-goncourt",
-      "title": "De Goupil à Margot",
-      "creator": "Louis Pergaud"
+      "list": "bram-stoker-novel",
+      "title": "The Night Class",
+      "creator": "Tom Piccirilli"
     },
     {
       "list": "st-johns-great-books",
@@ -1379,14 +1051,9 @@
       "creator": "Michael Faraday"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Ship Fever and Other Stories",
-      "creator": "Andrea Barrett"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Falling Free",
-      "creator": "Lois McMaster Bujold"
+      "list": "timeout-100-horror-films",
+      "title": "Lake Mungo",
+      "creator": "Joel Anderson"
     },
     {
       "list": "akutagawa-prize",
@@ -1414,9 +1081,9 @@
       "creator": "Hermann Minkowski"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "공동경비구역 JSA",
-      "creator": "박찬욱"
+      "list": "locus-fantasy-novel",
+      "title": "The Everlasting",
+      "creator": "Alix E. Harrow"
     },
     {
       "list": "nebula-best-novel",
@@ -1424,54 +1091,14 @@
       "creator": "Ursula K. Le Guin"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Pareils à des enfants",
-      "creator": "Marc Bernard"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "라임포토스의 배",
-      "creator": "쓰무라 기쿠코"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "미",
-      "creator": "마르시아스 심"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The Magic Barrel",
-      "creator": "Bernard Malamud"
-    },
-    {
-      "list": "st-johns-great-books",
-      "title": "Security, Territory, and Population",
-      "creator": "Michel Foucault"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Quand la mer se retire",
-      "creator": "Armand Lanoux"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "아름다운 청년 전태일",
-      "creator": "박광수"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Experiments concerning the efficacy of electric conflict on the magnetic needle",
       "creator": "Hans Christian Ørsted"
     },
     {
-      "list": "prix-goncourt",
-      "title": "En France",
-      "creator": "Marius-Ary Leblond"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Lo squadrone bianco",
-      "creator": "Augusto Genina"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Neverwhere",
+      "creator": "Neil Gaiman"
     },
     {
       "list": "st-johns-great-books",
@@ -1479,29 +1106,9 @@
       "creator": "Brook Taylor"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Bond",
-      "creator": "Jacques Borel"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "맛있는 밥을 먹을 수 있기를",
-      "creator": "다카세 준코"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Great War",
-      "creator": "Mario Monicelli"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "A Portrait of Shino",
       "creator": "미우라 데쓰오"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "체스의 모든 것",
-      "creator": "김금희"
     },
     {
       "list": "akutagawa-prize",
@@ -1509,29 +1116,9 @@
       "creator": "다카하시 기이치로"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "A Crown of Feathers and Other Stories",
-      "creator": "Isaac Bashevis Singer"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Sermon on the Fall of Rome",
-      "creator": "Jérôme Ferrari"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Camouflage",
-      "creator": "Joe Haldeman"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "마지막 우상",
-      "creator": "홍성원"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "혈맥",
-      "creator": "김수용"
+      "list": "bram-stoker-novel",
+      "title": "The Haunting of Velkwood",
+      "creator": "Gwendolyn Kiste"
     },
     {
       "list": "nebula-best-novel",
@@ -1539,9 +1126,9 @@
       "creator": "Connie Willis"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "배웅불",
-      "creator": "다카하시 히로키"
+      "list": "bram-stoker-novel",
+      "title": "A Head Full of Ghosts",
+      "creator": "Paul Tremblay"
     },
     {
       "list": "st-johns-great-books",
@@ -1549,24 +1136,14 @@
       "creator": "Thomas Young"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Steps",
-      "creator": "Jerzy Kosinski"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Mists Of Avalon",
+      "creator": "Marion Zimmer Bradley"
     },
     {
-      "list": "st-johns-great-books",
-      "title": "Remembrance of Things Past",
-      "creator": "Marcel Proust"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Faux passeports",
-      "creator": "Charles Plisnier"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Roving Shadows",
-      "creator": "Pascal Quignard"
+      "list": "locus-fantasy-novel",
+      "title": "The Privilege of the Sword",
+      "creator": "Ellen Kushner"
     },
     {
       "list": "akutagawa-prize",
@@ -1584,24 +1161,14 @@
       "creator": "쇼노 준조"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Flame That Is France",
-      "creator": "Henry Malherbe"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "바다에서 기다리다",
-      "creator": "이토야마 아키코"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "산 자들의 밤",
-      "creator": "다키구치 유키"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "돌의 내력",
       "creator": "오쿠이즈미 야스히로"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Sandman Series",
+      "creator": "Neil Gaiman"
     },
     {
       "list": "snu-recommended-100",
@@ -1619,6 +1186,11 @@
       "creator": "푸른역사"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Small Gods",
+      "creator": "Terry Pratchett"
+    },
+    {
       "list": "korea-publication-award",
       "title": "민주인권 그림책 시리즈 (전8권)",
       "creator": "민주화운동기념사업회 기획, 권윤덕 총감독"
@@ -1629,29 +1201,9 @@
       "creator": "Archimedes"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The News from Paraguay",
-      "creator": "Lily Tuck"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Great King",
-      "creator": "Veit Harlan"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "갈매기 / 사망보류",
       "creator": "이범선"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Augustus",
-      "creator": "John Williams"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Three Junes",
-      "creator": "Julia Glass"
     },
     {
       "list": "akutagawa-prize",
@@ -1659,24 +1211,9 @@
       "creator": "무라타 기요코"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The Hair of Harold Roux",
-      "creator": "Thomas Williams"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Chimera",
-      "creator": "John Barth"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "태백산맥",
-      "creator": "임권택"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "서울의 봄",
-      "creator": "김성수"
+      "list": "bbc-greatest-comedies",
+      "title": "My Man Godfrey",
+      "creator": "Gregory La Cava"
     },
     {
       "list": "akutagawa-prize",
@@ -1684,9 +1221,14 @@
       "creator": "쓰지 류이치"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "The Moon and the Sun",
-      "creator": "Vonda N. McIntyre"
+      "list": "bram-stoker-novel",
+      "title": "Coyote Rage",
+      "creator": "Owl Goingback"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Stardust",
+      "creator": "Neil Gaiman"
     },
     {
       "list": "st-johns-great-books",
@@ -1699,24 +1241,9 @@
       "creator": "로크"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Spartina",
-      "creator": "John Casey"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Mud of a Century",
       "creator": "이시이 유카"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "시간이 스며드는 아침",
-      "creator": "양이"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "고역열차",
-      "creator": "니시무라 겐타"
     },
     {
       "list": "akutagawa-prize",
@@ -1724,14 +1251,19 @@
       "creator": "사카타 히로오"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "저 하늘에도 슬픔이",
-      "creator": "김수용"
+      "list": "timeout-100-horror-films",
+      "title": "Jacob's Ladder",
+      "creator": "Adrian Lyne"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "그랜드 피날레",
-      "creator": "아베 가즈시게"
+      "list": "bbc-greatest-comedies",
+      "title": "The Party",
+      "creator": "Blake Edwards"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Les Diaboliques",
+      "creator": "Henri-Georges Clouzot"
     },
     {
       "list": "edgar-best-novel",
@@ -1744,6 +1276,11 @@
       "creator": "송영"
     },
     {
+      "list": "locus-fantasy-novel",
+      "title": "Spinning Silver",
+      "creator": "Naomi Novik"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Kakushō",
       "creator": "고타니 쓰요시"
@@ -1754,34 +1291,9 @@
       "creator": "가토 유키코"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Paris Trout",
-      "creator": "Pete Dexter"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "The Buffalo Hunter Hunter",
-      "creator": "Stephen Graham Jones"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Touring the Land of the Dead",
       "creator": "가시마다 마키"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "아테나이의 비명",
-      "creator": "정을병"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Terres lorraines",
-      "creator": "Émile Moselly"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Fields of Glory",
-      "creator": "Jean Rouaud"
     },
     {
       "list": "st-johns-great-books",
@@ -1789,29 +1301,39 @@
       "creator": "Jean-Jacques Rousseau"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Les Bêtises",
-      "creator": "Jacques Laurent"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Mote In God's Eye",
+      "creator": "Larry Niven and Jerry Pournelle"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "낚시하는 소녀",
-      "creator": "전성태"
+      "list": "locus-fantasy-novel",
+      "title": "The City We Became",
+      "creator": "N. K. Jemisin"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "우아한 세계",
-      "creator": "한재림"
+      "list": "bram-stoker-novel",
+      "title": "Dead in the Water",
+      "creator": "Nancy Holder"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Hath Not the Potter",
-      "creator": "Maxence Van Der Meersch"
+      "list": "timeout-100-horror-films",
+      "title": "God Told Me To",
+      "creator": "Larry Cohen"
     },
     {
-      "list": "prix-goncourt",
-      "title": "I'm Gone",
-      "creator": "Jean Echenoz"
+      "list": "bbc-greatest-comedies",
+      "title": "Waiting for Guffman",
+      "creator": "Christopher Guest"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Legend Of Drizzt Series",
+      "creator": "R. A. Salvatore"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "The Great Dictator",
+      "creator": "Charlie Chaplin"
     },
     {
       "list": "st-johns-great-books",
@@ -1819,14 +1341,9 @@
       "creator": "Thomas Morgan"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Under Fire",
-      "creator": "Henri Barbusse"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "베를린 필",
-      "creator": "김채원"
+      "list": "timeout-100-horror-films",
+      "title": "A Quiet Place",
+      "creator": "John Krasinski,"
     },
     {
       "list": "st-johns-great-books",
@@ -1839,19 +1356,24 @@
       "creator": "스나카와 분지"
     },
     {
+      "list": "timeout-100-horror-films",
+      "title": "Phantasm",
+      "creator": "Don Coscarelli"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Dracula",
+      "creator": "Terence Fisher"
+    },
+    {
       "list": "korea-publication-award",
       "title": "들풀들이 들려주는 위대한 백성이야기 (1~3권)",
       "creator": "홍순명"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "초식",
-      "creator": "이제하"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "반딧불강",
-      "creator": "미야모토 데루"
+      "list": "timeout-100-horror-films",
+      "title": "Vampyr",
+      "creator": "Carl Theodor Dreyer"
     },
     {
       "list": "dongin-literary-award",
@@ -1859,39 +1381,19 @@
       "creator": "남정현"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The Southerner",
-      "creator": "Jean Renoir"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Tomorrow Is My Turn",
-      "creator": "André Cayatte"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Kita no Kawa",
       "creator": "다카이 유이치"
     },
     {
-      "list": "prix-goncourt",
-      "title": "John l'enfer",
-      "creator": "Didier Decoin"
+      "list": "locus-fantasy-novel",
+      "title": "Anansi Boys",
+      "creator": "Neil Gaiman"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Margin",
-      "creator": "André Pieyre de Mandiargues"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "카인의 후예",
-      "creator": "유현목"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Vagabond",
-      "creator": "Agnès Varda"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Sword Of Truth Series",
+      "creator": "Terry Goodkind"
     },
     {
       "list": "st-johns-great-books",
@@ -1904,24 +1406,14 @@
       "creator": "Amin Maalouf"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Compass",
-      "creator": "Mathias Énard"
+      "list": "bram-stoker-novel",
+      "title": "Dread in the Beast",
+      "creator": "Charlee Jacob"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The Iron Crown",
-      "creator": "Alessandro Blasetti"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "God Was Born in Exile",
-      "creator": "Vintilă Horia"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "모가디슈",
-      "creator": "류승완"
+      "list": "timeout-100-horror-films",
+      "title": "Let the Right One In",
+      "creator": "Tomas Alfredson"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1929,14 +1421,14 @@
       "creator": "전상국"
     },
     {
+      "list": "timeout-100-horror-films",
+      "title": "Weapons",
+      "creator": "Zach Cregger"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Nekobaba no Iru Machi de",
       "creator": "다키자와 미에코"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Mandarins",
-      "creator": "Simone de Beauvoir"
     },
     {
       "list": "akutagawa-prize",
@@ -1949,19 +1441,14 @@
       "creator": "후치노 지야"
     },
     {
-      "list": "prix-goncourt",
-      "title": "L'Etat sauvage",
-      "creator": "Georges Conchon"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "풀의 검",
       "creator": "노로 구니노부"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Plains Song",
-      "creator": "Wright Morris"
+      "list": "bram-stoker-novel",
+      "title": "Duma Key",
+      "creator": "Stephen King"
     },
     {
       "list": "snu-recommended-100",
@@ -1974,6 +1461,11 @@
       "creator": "André Savignon"
     },
     {
+      "list": "bbc-greatest-comedies",
+      "title": "Seven Chances",
+      "creator": "Buster Keaton"
+    },
+    {
       "list": "st-johns-great-books",
       "title": "The Devils",
       "creator": "Fyodor Dostoevsky"
@@ -1982,6 +1474,11 @@
       "list": "edgar-best-novel",
       "title": "La Brava",
       "creator": "Elmore Leonard"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Riftwar Saga",
+      "creator": "Raymond E. Feist"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1999,19 +1496,14 @@
       "creator": "고 시즈코"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "곰의 포석",
-      "creator": "호리에 도시유키"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Our New Citizen",
       "creator": "Booker T. Washington"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "소원",
-      "creator": "이준익"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Mistborn Trilogy",
+      "creator": "Brandon Sanderson"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2025,48 +1517,18 @@
     },
     {
       "list": "akutagawa-prize",
-      "title": "혼자있기 좋은날",
-      "creator": "아오야마 나나에"
-    },
-    {
-      "list": "akutagawa-prize",
       "title": "요코",
       "creator": "후루이 요시키치"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "미래의 조각",
-      "creator": "정영수"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Mon village à l'heure allemande",
-      "creator": "Jean-Louis Bory"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Man Plus",
-      "creator": "Frederik Pohl"
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "Septology",
-      "creator": "Jon Fosse; translated by Damion Searls"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Brazil Red",
-      "creator": "Jean-Christophe Rufin"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Lucifer's Hammer",
+      "creator": "Larry Niven and Jerry Pournelle"
     },
     {
       "list": "akutagawa-prize",
       "title": "시카노 섬",
       "creator": "오카마쓰 가즈오"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Magdalene Sisters",
-      "creator": "Peter Mullan"
     },
     {
       "list": "korea-publication-award",
@@ -2079,9 +1541,9 @@
       "creator": "권태웅"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Le Chasseur Zéro",
-      "creator": "Pascale Roze"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Farseer Trilogy",
+      "creator": "Robin Hobb"
     },
     {
       "list": "akutagawa-prize",
@@ -2089,44 +1551,24 @@
       "creator": "고노 다에코"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Le supplice de Phèdre",
-      "creator": "Henri Deberly"
+      "list": "timeout-100-horror-films",
+      "title": "Re-Animator",
+      "creator": "Stuart Gordon"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Mercy of God",
-      "creator": "Jean Cau"
+      "list": "timeout-100-horror-films",
+      "title": "Invasion of the Body Snatchers",
+      "creator": "Don Siegel"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Not Everybody Lives the Same Way",
-      "creator": "Jean-Paul Dubois"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Kindly Ones",
-      "creator": "Jonathan Littell"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Hyperion Cantos",
+      "creator": "Dan Simmons"
     },
     {
       "list": "st-johns-great-books",
       "title": "Letter to Professor S. De Luca",
       "creator": "Stanislao Cannizzaro"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "임신 캘린더",
-      "creator": "오가와 요코"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Desire",
-      "creator": "Jean Fayard"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Victory Over Japan",
-      "creator": "Ellen Gilchrist"
     },
     {
       "list": "st-johns-great-books",
@@ -2139,6 +1581,11 @@
       "creator": "한명기"
     },
     {
+      "list": "timeout-100-horror-films",
+      "title": "Pulse",
+      "creator": "Kiyoshi Kurosawa"
+    },
+    {
       "list": "korea-publication-award",
       "title": "청소년을 위한 토론학교 시리즈",
       "creator": "우리학교"
@@ -2147,11 +1594,6 @@
       "list": "st-johns-great-books",
       "title": "Excerpt from Essai de Statique Chimique",
       "creator": "Claude Berthollet"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Lust, Caution",
-      "creator": "Ang Lee"
     },
     {
       "list": "akutagawa-prize",
@@ -2169,14 +1611,9 @@
       "creator": "김수용"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "슈리의 말",
-      "creator": "다카야마 하네코"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Nêne",
-      "creator": "Ernest Pérochon"
+      "list": "locus-fantasy-novel",
+      "title": "Jade Legacy",
+      "creator": "Fonda Lee"
     },
     {
       "list": "st-johns-great-books",
@@ -2184,29 +1621,19 @@
       "creator": "Max Planck"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Annihilation",
-      "creator": "Jeff VanderMeer"
+      "list": "timeout-100-horror-films",
+      "title": "The Invisible Man",
+      "creator": "Leigh Whannell"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Powers",
-      "creator": "Ursula K. Le Guin"
+      "list": "timeout-100-horror-films",
+      "title": "Talk To Me",
+      "creator": "Danny and Michael Philippou"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "깊은 숨을 쉴 때마다",
-      "creator": "신경숙"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Charming Billy",
-      "creator": "Alice McDermott"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "내 고운 벗님",
-      "creator": "성석제"
+      "list": "timeout-100-horror-films",
+      "title": "[Rec]",
+      "creator": "Jaume Balagueró and Paco Plaza"
     },
     {
       "list": "akutagawa-prize",
@@ -2214,14 +1641,39 @@
       "creator": "모리 레이코"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Something Wicked This Way Comes",
+      "creator": "Ray Bradbury"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "The Fog",
+      "creator": "John Carpenter"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Sword of Shannara Trilogy",
+      "creator": "Terry Brooks"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Kaya no Ki Matsuri",
       "creator": "다카키 슈조"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Xanth Series",
+      "creator": "Piers Anthony"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Chichi ga Kieta",
       "creator": "오쓰지 가쓰히코"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Hour of the Wolf",
+      "creator": "Ingmar Bergman"
     },
     {
       "list": "akutagawa-prize",
@@ -2234,6 +1686,11 @@
       "creator": "모토야 유키코"
     },
     {
+      "list": "locus-fantasy-novel",
+      "title": "The Innkeeper's Song",
+      "creator": "Peter S. Beagle"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Kikotowa",
       "creator": "아사부키 마리코"
@@ -2244,29 +1701,9 @@
       "creator": "Joseph-Louis Gay-Lussac"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "빛의 걸음걸이",
-      "creator": "윤대녕"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "괴테는 모든 것을 말했다",
-      "creator": "스즈키 유이"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The Round House",
-      "creator": "Louise Erdrich"
-    },
-    {
       "list": "korea-publication-award",
       "title": "한국의 초상화 - 형(形)과 영(影)의 예술",
       "creator": "조선미"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "사육",
-      "creator": "오에 겐자부로"
     },
     {
       "list": "st-johns-great-books",
@@ -2274,14 +1711,9 @@
       "creator": "Alfred Hitchcock"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "얼룩",
-      "creator": "박성원"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "해협의 빛",
-      "creator": "쓰지 히토나리"
+      "list": "locus-fantasy-novel",
+      "title": "Seventh Son",
+      "creator": "Orson Scott Card"
     },
     {
       "list": "akutagawa-prize",
@@ -2289,9 +1721,9 @@
       "creator": "야스오카 쇼타로"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Missing Person",
-      "creator": "Patrick Modiano"
+      "list": "bbc-greatest-comedies",
+      "title": "Broadcast News",
+      "creator": "James L Brooks"
     },
     {
       "list": "akutagawa-prize",
@@ -2299,44 +1731,29 @@
       "creator": "사쿠라다 쓰네히사"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "2312",
-      "creator": "Kim Stanley Robinson"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Der Postmeister",
-      "creator": "Gustav Ucicky"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Moving Mars",
-      "creator": "Greg Bear"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "하오의 순유 / 한춘무사",
       "creator": "최상규"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "에게해에 바친다",
-      "creator": "이케다 마스오"
+      "list": "locus-fantasy-novel",
+      "title": "Iron Council",
+      "creator": "China Miéville"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "The Falling Woman",
-      "creator": "Pat Murphy"
+      "list": "locus-fantasy-novel",
+      "title": "Babel, or the Necessity of Violence",
+      "creator": "R. F. Kuang"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "Hot Fuzz",
+      "creator": "Edgar Wright"
     },
     {
       "list": "snu-recommended-100",
       "title": "페더랄리스트 페이퍼",
       "creator": "헤밀튼 외"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "A Fine of Two Hundred Francs",
-      "creator": "Elsa Triolet"
     },
     {
       "list": "snu-recommended-100",
@@ -2349,11 +1766,6 @@
       "creator": "Sophocles"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "내부자들",
-      "creator": "우민호"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Taimu Surippu Konbināto",
       "creator": "쇼노 요리코"
@@ -2364,44 +1776,34 @@
       "creator": "이시즈카 기쿠조"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The Circle",
-      "creator": "Jafar Panahi"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "1R 1-Pun 34-Byō",
       "creator": "마치야 료헤이"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "A Song for a New Day",
-      "creator": "Sarah Pinsker"
+      "list": "bbc-greatest-comedies",
+      "title": "The Exterminating Angel",
+      "creator": "Luis Buñuel"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The Man with the Golden Arm",
-      "creator": "Nelson Algren"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Culture Series",
+      "creator": "Iain Banks"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Long Holiday",
-      "creator": "Francis Ambrière"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Cat's Cradle",
+      "creator": "Kurt Vonnegut"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Batouala",
-      "creator": "René Maran"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Wicked",
+      "creator": "Gregory Maguire"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "모르그 디오라마",
-      "creator": "박민정"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Roots of Heaven",
-      "creator": "Romain Gary"
+      "list": "locus-fantasy-novel",
+      "title": "Witch King",
+      "creator": "Martha Wells"
     },
     {
       "list": "st-johns-great-books",
@@ -2414,14 +1816,9 @@
       "creator": "이동하"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "아직 집에는 가지 않을래요",
-      "creator": "백수린"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "인정사정 볼 것 없다",
-      "creator": "이명세"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Old Man's War",
+      "creator": "John Scalzi"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2429,14 +1826,9 @@
       "creator": "김원일"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The Legend of the Holy Drinker",
-      "creator": "Ermanno Olmi"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Les enfants gâtés",
-      "creator": "Philippe Hériat"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "World War Z",
+      "creator": "Max Brooks"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2449,9 +1841,9 @@
       "creator": "Blaise Pascal"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Most Secret Memory of Men",
-      "creator": "Mohamed Mbougar Sarr"
+      "list": "bbc-greatest-comedies",
+      "title": "Office Space",
+      "creator": "Mike Judge"
     },
     {
       "list": "korea-publication-award",
@@ -2464,49 +1856,14 @@
       "creator": "도널드 서순 지음, 정영목·오숙은·한경희·이은진 옮김"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Patience Stone",
-      "creator": "Atiq Rahimi"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Olympia",
-      "creator": "Leni Riefenstahl"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "그늘의 집",
-      "creator": "현월"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Way We Laughed",
-      "creator": "Gianni Amelio"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Green Ray",
-      "creator": "Éric Rohmer"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Alabama Song",
-      "creator": "Gilles Leroy"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Sang et Lumières",
-      "creator": "Joseph Peyre"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Does the Inertia of a Body Depend upon its Energy Content?",
       "creator": "Albert Einstein"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Cronus' Children",
-      "creator": "Yves Navarre"
+      "list": "bbc-greatest-comedies",
+      "title": "A Fish Called Wanda",
+      "creator": "Charles Crichton and John Cleese"
     },
     {
       "list": "akutagawa-prize",
@@ -2514,39 +1871,24 @@
       "creator": "한다 요시유키"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Babel",
-      "creator": "R. F. Kuang"
+      "list": "timeout-100-horror-films",
+      "title": "Day of the Dead",
+      "creator": "George A Romero"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Battle",
-      "creator": "Patrick Rambaud"
+      "list": "bram-stoker-novel",
+      "title": "Creepers",
+      "creator": "David Morrell"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Monsoon Wedding",
-      "creator": "Mira Nair"
+      "list": "bram-stoker-novel",
+      "title": "Children of the Dusk",
+      "creator": "Janet Berliner & George Guthridge"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Rickshaw Man",
-      "creator": "Hiroshi Inagaki"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Man's Fate",
-      "creator": "André Malraux"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "From Afar",
-      "creator": "Lorenzo Vigas"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Father Mother Sister Brother",
-      "creator": "Jim Jarmusch"
+      "list": "bbc-greatest-comedies",
+      "title": "Ninotchka",
+      "creator": "Ernst Lubitsch"
     },
     {
       "list": "st-johns-great-books",
@@ -2559,14 +1901,9 @@
       "creator": "후루카와 마코토"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "서편제",
-      "creator": "임권택"
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "The Copenhagen Trilogy",
-      "creator": "Tove Ditlevsen; translated by Tiina Nunnally and Michael Favala Goldman"
+      "list": "locus-fantasy-novel",
+      "title": "The Mists of Avalon",
+      "creator": "Marion Zimmer Bradley"
     },
     {
       "list": "st-johns-great-books",
@@ -2579,19 +1916,24 @@
       "creator": "유재용"
     },
     {
+      "list": "timeout-100-horror-films",
+      "title": "The Beyond",
+      "creator": "Lucio Fulci"
+    },
+    {
+      "list": "bram-stoker-novel",
+      "title": "The Reformatory",
+      "creator": "Tananarive Due"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "20,000 Leagues Under The Sea",
+      "creator": "Jules Verne"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Hon no Hanashi",
       "creator": "유키 시게코"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Sandra",
-      "creator": "Luchino Visconti"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Anne-Marie",
-      "creator": "Lucien Bodard"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2602,21 +1944,6 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "유다 행전",
       "creator": "유현종"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Le Vitriol de Lune",
-      "creator": "Henri Béraud"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Seeker",
-      "creator": "Jack McDevitt"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "안드로메다 남자",
-      "creator": "스와 데쓰시"
     },
     {
       "list": "akutagawa-prize",
@@ -2634,19 +1961,9 @@
       "creator": "Jean Tharaud, Jérôme Tharaud"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "Red Mars",
-      "creator": "Kim Stanley Robinson"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "보라색 치마를 입은 여자",
-      "creator": "이마무라 나쓰코"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The Field of Vision",
-      "creator": "Wright Morris"
+      "list": "bbc-greatest-comedies",
+      "title": "Ghostbusters",
+      "creator": "Ivan Reitman"
     },
     {
       "list": "st-johns-great-books",
@@ -2654,9 +1971,9 @@
       "creator": "Jean-Antoine Nollet"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "취화선",
-      "creator": "임권택"
+      "list": "timeout-100-horror-films",
+      "title": "Kwaidan",
+      "creator": "Masaki Kobayashi"
     },
     {
       "list": "akutagawa-prize",
@@ -2674,29 +1991,14 @@
       "creator": "Werner Karl Heisenberg"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Europe Central",
-      "creator": "William T. Vollmann"
-    },
-    {
       "list": "snu-recommended-100",
       "title": "홉스봄 4부작: 혁명의 시대, 자본의 시대, 제국의 시대, 극단의 시대",
       "creator": "홉스봄"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The Spectator Bird",
-      "creator": "Wallace Stegner"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The Complete Stories",
-      "creator": "Flannery O'Connor"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "젖과 알",
-      "creator": "가와카미 미에코"
+      "list": "bbc-greatest-comedies",
+      "title": "When Harry Met Sally...",
+      "creator": "Rob Reiner"
     },
     {
       "list": "prix-goncourt",
@@ -2704,29 +2006,19 @@
       "creator": "Didier Van Cauwelaert"
     },
     {
+      "list": "bram-stoker-novel",
+      "title": "Ararat",
+      "creator": "Christopher Golden"
+    },
+    {
       "list": "korea-publication-award",
       "title": "열정세대",
       "creator": "양철북"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "축제",
-      "creator": "임권택"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "The Saint of Bright Doors",
-      "creator": "Vajra Chandrasekera"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "양의 미래",
-      "creator": "황정은"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "발로 차 주고 싶은 등짝",
-      "creator": "와타야 리사"
+      "list": "locus-fantasy-novel",
+      "title": "Prentice Alvin",
+      "creator": "Orson Scott Card"
     },
     {
       "list": "yi-sang-literary-award",
@@ -2734,14 +2026,14 @@
       "creator": "임철우"
     },
     {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Dune Chronicles",
+      "creator": "Frank Herbert"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "바닷사람의 배",
       "creator": "곤도 게이타로"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Brokeback Mountain",
-      "creator": "Ang Lee"
     },
     {
       "list": "akutagawa-prize",
@@ -2749,24 +2041,14 @@
       "creator": "헨미 요"
     },
     {
+      "list": "bbc-greatest-comedies",
+      "title": "Arsenic and Old Lace",
+      "creator": "Frank Capra"
+    },
+    {
       "list": "hyundae-munhak-award-fiction",
       "title": "이역의 산장",
       "creator": "오유권"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "8월의 길 위에 버리다",
-      "creator": "이토 다카미"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Aparajito",
-      "creator": "Satyajit Ray"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "And Their Children After Them",
-      "creator": "Nicolas Mathieu"
     },
     {
       "list": "akutagawa-prize",
@@ -2784,19 +2066,9 @@
       "creator": "시미즈 모토요시"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The Rabbit Hutch",
-      "creator": "Tess Gunty"
-    },
-    {
       "list": "snu-recommended-100",
       "title": "율곡문선",
       "creator": "이이"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Artists Under the Big Top: Perplexed",
-      "creator": "Alexander Kluge"
     },
     {
       "list": "st-johns-great-books",
@@ -2804,14 +2076,19 @@
       "creator": "Thomas Morgan"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Fortune Smiles",
-      "creator": "Adam Johnson"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Amber Chronicles",
+      "creator": "Roger Zelazny"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Raboliot",
-      "creator": "Maurice Genevoix"
+      "list": "locus-fantasy-novel",
+      "title": "Making Money",
+      "creator": "Terry Pratchett"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Kill, Baby... Kill!",
+      "creator": "Mario Bava"
     },
     {
       "list": "akutagawa-prize",
@@ -2819,29 +2096,9 @@
       "creator": "시게카네 요시코"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "석화촌",
-      "creator": "정진우"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Blackouts",
-      "creator": "Justin Torres"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "구멍",
-      "creator": "오야마다 히로코"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Story of Qiu Ju",
-      "creator": "Zhang Yimou"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Priest",
-      "creator": "Béatrix Beck"
+      "list": "bram-stoker-novel",
+      "title": "The Fisherman",
+      "creator": "John Langan"
     },
     {
       "list": "korea-publication-award",
@@ -2854,9 +2111,9 @@
       "creator": "이광숙"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "The Waters of Kronos",
-      "creator": "Conrad Richter"
+      "list": "locus-fantasy-novel",
+      "title": "Tehanu: The Last Book of Earthsea",
+      "creator": "Ursula K. Le Guin"
     },
     {
       "list": "akutagawa-prize",
@@ -2869,29 +2126,9 @@
       "creator": "William Wordsworth"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Keynote",
-      "creator": "Alphonse de Châteaubriant"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "시인과 도둑",
-      "creator": "이문열"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Remarks on the Preceding Papers by Mr. Bernoulli",
       "creator": "Leonhard Euler"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "감상 여행",
-      "creator": "다나베 세이코"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Casta Diva",
-      "creator": "Carmine Gallone"
     },
     {
       "list": "akutagawa-prize",
@@ -2899,9 +2136,9 @@
       "creator": "아라이 만"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Lost Shore",
-      "creator": "Anna Langfus"
+      "list": "timeout-100-horror-films",
+      "title": "Poltergeist",
+      "creator": "Tobe Hooper"
     },
     {
       "list": "korea-publication-award",
@@ -2909,49 +2146,14 @@
       "creator": "도서출판 길"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "파국",
-      "creator": "도노 하루카"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Ohm Krüger",
-      "creator": "Hans Steinhoff"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "광장의 고독",
-      "creator": "홋타 요시에"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "강변마을",
-      "creator": "전경린"
+      "list": "bbc-greatest-comedies",
+      "title": "The Awful Truth",
+      "creator": "Leo McCarey"
     },
     {
       "list": "akutagawa-prize",
       "title": "Seisui",
       "creator": "세이라이 유이치"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Bengasi",
-      "creator": "Augusto Genina"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Texaco",
-      "creator": "Patrick Chamoiseau"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Mr. Sammler's Planet",
-      "creator": "Saul Bellow"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Last of the Just",
-      "creator": "André Schwarz-Bart"
     },
     {
       "list": "akutagawa-prize",
@@ -2969,39 +2171,19 @@
       "creator": "안도 호세"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Le Chèvrefeuille",
-      "creator": "Thierry Sandre"
+      "list": "bbc-greatest-comedies",
+      "title": "Sons of the Desert",
+      "creator": "William A Seiter"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Rabevel ou Le mal des ardents",
-      "creator": "Lucien Fabre"
+      "list": "timeout-100-horror-films",
+      "title": "The Old Dark House",
+      "creator": "James Whale"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "World's Fair",
-      "creator": "E. L. Doctorow"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "First Name: Carmen",
-      "creator": "Jean-Luc Godard"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Hell of a Book",
-      "creator": "Jason Mott"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Houris",
-      "creator": "Kamel Daoud"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Call of the Soil",
-      "creator": "Adrien Bertrand"
+      "list": "locus-fantasy-novel",
+      "title": "A Storm of Swords",
+      "creator": "George R. R. Martin"
     },
     {
       "list": "st-johns-great-books",
@@ -3009,9 +2191,14 @@
       "creator": "Madame de Sévigne"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Still Life",
-      "creator": "Jia Zhangke"
+      "list": "timeout-100-horror-films",
+      "title": "Candyman",
+      "creator": "Bernard Rose"
+    },
+    {
+      "list": "locus-fantasy-novel",
+      "title": "Earthquake Weather",
+      "creator": "Tim Powers"
     },
     {
       "list": "akutagawa-prize",
@@ -3019,24 +2206,9 @@
       "creator": "미키 다쿠"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "꿈꾸는 인큐베이터",
-      "creator": "박완서"
-    },
-    {
-      "list": "nyt-100-best-books-21st-century",
-      "title": "When We Cease to Understand the World",
-      "creator": "Benjamín Labatut; translated by Adrian Nathan West"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "A Frolic of His Own",
-      "creator": "William Gaddis"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Fruits of Winter",
-      "creator": "Bernard Clavel"
+      "list": "locus-fantasy-novel",
+      "title": "The Apocalypse Codex",
+      "creator": "Charles Stross"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -3044,24 +2216,9 @@
       "creator": "박경리"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "General Della Rovere",
-      "creator": "Roberto Rossellini"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Ivan's Childhood",
-      "creator": "Andrei Tarkovsky"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "The Healer's War",
-      "creator": "Elizabeth Ann Scarborough"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Luciano Serra, Pilot",
-      "creator": "Goffredo Alessandrini"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Going Postal",
+      "creator": "Terry Pratchett"
     },
     {
       "list": "akutagawa-prize",
@@ -3079,11 +2236,6 @@
       "creator": "고지마 노부오"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "별을 사랑하는 마음으로",
-      "creator": "윤후명"
-    },
-    {
       "list": "korea-publication-award",
       "title": "4x4의 세계",
       "creator": "조우리"
@@ -3099,24 +2251,14 @@
       "creator": "아오노 소"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "The State of Things",
-      "creator": "Wim Wenders"
+      "list": "timeout-100-horror-films",
+      "title": "Hellraiser",
+      "creator": "Clive Barker"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Écrit sur de l'eau...",
-      "creator": "Francis de Miomandre"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "전기수 이야기",
-      "creator": "이승우"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "당신의 나무",
-      "creator": "김영하"
+      "list": "bbc-greatest-comedies",
+      "title": "In the Loop",
+      "creator": "Armando Iannucci"
     },
     {
       "list": "akutagawa-prize",
@@ -3124,14 +2266,9 @@
       "creator": "오오카 아키라"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Going After Cacciato",
-      "creator": "Tim O'Brien"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "봄의 정원",
-      "creator": "시바사키 도모카"
+      "list": "locus-fantasy-novel",
+      "title": "Middlegame",
+      "creator": "Seanan McGuire"
     },
     {
       "list": "akutagawa-prize",
@@ -3144,14 +2281,9 @@
       "creator": "송병수"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Un grand pas vers le Bon Dieu",
-      "creator": "Jean Vautrin"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The Great Fire",
-      "creator": "Shirley Hazzard"
+      "list": "locus-fantasy-novel",
+      "title": "Beauty",
+      "creator": "Sheri S. Tepper"
     },
     {
       "list": "akutagawa-prize",
@@ -3159,34 +2291,14 @@
       "creator": "마쓰우라 히사키"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "완장",
-      "creator": "윤흥길"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Savage Play",
-      "creator": "Paul Colin"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Sabbath's Theater",
-      "creator": "Philip Roth"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Dareka ga Sawatta",
       "creator": "미야하라 아키오"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Morte d'Urban",
-      "creator": "J. F. Powers"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Strike",
-      "creator": "Karel Steklý"
+      "list": "bram-stoker-novel",
+      "title": "In the Night Room",
+      "creator": "Peter Straub"
     },
     {
       "list": "snu-recommended-100",
@@ -3199,44 +2311,24 @@
       "creator": "하세 겐"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Order of the Day",
-      "creator": "Éric Vuillard"
+      "list": "locus-fantasy-novel",
+      "title": "Lord Valentine's Castle",
+      "creator": "Robert Silverberg"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "편의점 인간",
-      "creator": "무라타 사야카"
+      "list": "bbc-greatest-comedies",
+      "title": "This Is Spinal Tap",
+      "creator": "Rob Reiner"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Brecht's Lover",
-      "creator": "Jacques-Pierre Amette"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Wrestler",
-      "creator": "Darren Aronofsky"
+      "list": "locus-fantasy-novel",
+      "title": "Soldier of the Mist",
+      "creator": "Gene Wolfe"
     },
     {
       "list": "korea-publication-award",
       "title": "김군을 찾아서",
       "creator": "강소영 편집자"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Within a Budding Grove",
-      "creator": "Marcel Proust"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Three Strong Women",
-      "creator": "Marie NDiaye"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "태양의 계절",
-      "creator": "이시하라 신타로"
     },
     {
       "list": "akutagawa-prize",
@@ -3247,11 +2339,6 @@
       "list": "akutagawa-prize",
       "title": "The Three Crabs",
       "creator": "오바 미나코"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "them",
-      "creator": "Joyce Carol Oates"
     },
     {
       "list": "cannes-palme-dor",
@@ -3269,9 +2356,9 @@
       "creator": "Flannery O’Connor"
     },
     {
-      "list": "prix-goncourt",
-      "title": "La Maison vide",
-      "creator": "Laurent Mauvignier"
+      "list": "bram-stoker-novel",
+      "title": "Blood of the Lamb",
+      "creator": "Thomas F. Monteleone"
     },
     {
       "list": "st-johns-great-books",
@@ -3279,29 +2366,14 @@
       "creator": "Charles-Augustin de Coulomb"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Lord of Misrule",
-      "creator": "Jaimy Gordon"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Child of Okinawa",
       "creator": "히가시 미네오"
     },
     {
-      "list": "newbery-medal",
-      "title": "The View from Saturday",
-      "creator": "E.L. Konigsburg"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "What is Metaphysics?",
       "creator": "Martin Heidegger"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "L'Ordre",
-      "creator": "Marcel Arland"
     },
     {
       "list": "edgar-best-novel",
@@ -3314,9 +2386,24 @@
       "creator": "유재용"
     },
     {
+      "list": "timeout-100-horror-films",
+      "title": "Black Sabbath",
+      "creator": "Mario Bava"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "The Place of Shells",
       "creator": "이시자와 마이"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Repulsion",
+      "creator": "Roman Polanski"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Dragonflight",
+      "creator": "Anne McCaffrey"
     },
     {
       "list": "korea-publication-award",
@@ -3325,18 +2412,8 @@
     },
     {
       "list": "akutagawa-prize",
-      "title": "가족시네마",
-      "creator": "유미리"
-    },
-    {
-      "list": "akutagawa-prize",
       "title": "Sagawa-kun Kara no Tegami",
       "creator": "가라 주로"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "한없이 투명에 가까운 블루",
-      "creator": "무라카미 류"
     },
     {
       "list": "st-johns-great-books",
@@ -3344,24 +2421,14 @@
       "creator": "Rudolf Virchow"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "흑맥",
-      "creator": "이문희"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Martian Chronicles",
+      "creator": "Ray Bradbury"
     },
     {
       "list": "akutagawa-prize",
       "title": "Washi",
       "creator": "도노베 가오루"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Vive L'Amour",
-      "creator": "Tsai Ming-liang"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "부당거래",
-      "creator": "류승완"
     },
     {
       "list": "akutagawa-prize",
@@ -3374,34 +2441,24 @@
       "creator": "라울 힐베르크 지음, 김학이 옮김"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "그들도 우리처럼",
-      "creator": "박광수"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Space Trilogy",
+      "creator": "C.S. Lewis"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Love and Empire",
-      "creator": "Érik Orsenna"
+      "list": "timeout-100-horror-films",
+      "title": "Ginger Snaps",
+      "creator": "John Fawcett"
     },
     {
-      "list": "prix-goncourt",
-      "title": "Cry, Mother Spain",
-      "creator": "Lydie Salvayre"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "간병입문",
-      "creator": "모부 노리오"
+      "list": "timeout-100-horror-films",
+      "title": "The Substance",
+      "creator": "Coralie Fargeat"
     },
     {
       "list": "st-johns-great-books",
       "title": "Art",
       "creator": "Édouard Manet"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "삼일천하",
-      "creator": "신상옥"
     },
     {
       "list": "st-johns-great-books",
@@ -3419,19 +2476,14 @@
       "creator": "김동광·김명진 옮김"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Close to Eden",
-      "creator": "Nikita Mikhalkov"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Bodhisattva",
       "creator": "이시카와 준"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "Redeployment",
-      "creator": "Phil Klay"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Book Of The New Sun",
+      "creator": "Gene Wolfe"
     },
     {
       "list": "akutagawa-prize",
@@ -3444,16 +2496,6 @@
       "creator": "요시다 도모코"
     },
     {
-      "list": "nebula-best-novel",
-      "title": "All the Birds in the Sky",
-      "creator": "Charlie Jane Anders"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Wedding",
-      "creator": "Yann Queffélec"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "The Periodic Law of the Chemical Elements",
       "creator": "Dmitri Mendeleev"
@@ -3464,9 +2506,14 @@
       "creator": "다다 유케이"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "도쿄도 동정탑",
-      "creator": "구단 리에"
+      "list": "timeout-100-horror-films",
+      "title": "Braindead",
+      "creator": "Peter Jackson"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "The Changeling",
+      "creator": "Peter Medak"
     },
     {
       "list": "akutagawa-prize",
@@ -3474,84 +2521,14 @@
       "creator": "마치다 고"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "유형의 땅",
-      "creator": "조정래"
-    },
-    {
-      "list": "blue-dragon-best-film",
-      "title": "마더",
-      "creator": "봉준호"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "여기 우리 마주",
-      "creator": "최은미"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Darwin's Radio",
-      "creator": "Greg Bear"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Wolves",
-      "creator": "Guy Mazeline"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Lebanon",
-      "creator": "Samuel Maoz"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Ogre",
-      "creator": "Michel Tournier"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "베리에이션 루트",
-      "creator": "마쓰나가 K 산조"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Watching Over Her",
-      "creator": "Jean-Baptiste Andrea"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Creezy",
-      "creator": "Félicien Marceau"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Trading Secrets",
-      "creator": "Paule Constant"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Malazan Book Of The Fallen series",
+      "creator": "Steven Erikson"
     },
     {
       "list": "st-johns-great-books",
       "title": "Mendelian Proportions in a Mixed Population",
       "creator": "G. H. Hardy"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "Justice Is Done",
-      "creator": "André Cayatte"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "곰 이야기",
-      "creator": "양귀자"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Anomaly",
-      "creator": "Hervé Le Tellier"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Ingrid Caven",
-      "creator": "Jean-Jacques Schuhl"
     },
     {
       "list": "st-johns-great-books",
@@ -3569,49 +2546,39 @@
       "creator": "Maurice Bedel"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "어릿광대의 나비",
-      "creator": "엔조 도"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Chronicles Of Thomas Covenant The Unbeliever",
+      "creator": "Stephen R. Donaldson"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "판문점",
-      "creator": "이호철"
+      "list": "bram-stoker-novel",
+      "title": "The Drowning Girl",
+      "creator": "Caitlin R. Kiernan"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "사랑보다 조금 더 짙은 얼굴",
-      "creator": "임솔아"
+      "list": "bram-stoker-novel",
+      "title": "The Devil Takes You Home",
+      "creator": "Gabino Iglesias"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Map and the Territory",
-      "creator": "Michel Houellebecq"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "Journey To The Center Of The Earth",
+      "creator": "Jules Verne"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "사제와 제물",
-      "creator": "현길언"
+      "list": "timeout-100-horror-films",
+      "title": "Cat People",
+      "creator": "Jacques Tourneur"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "시장",
-      "creator": "이만희"
+      "list": "timeout-100-horror-films",
+      "title": "The Mist",
+      "creator": "Frank Darabont"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "유희",
-      "creator": "이양지"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "The Lost Ones",
-      "creator": "Frédérick Tristan"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "파크 라이프",
-      "creator": "요시다 슈이치"
+      "list": "bbc-greatest-comedies",
+      "title": "Top Secret!",
+      "creator": "Jim Abrahams, David Zucker and Jerry Zucker"
     },
     {
       "list": "st-johns-great-books",
@@ -3619,9 +2586,9 @@
       "creator": "Hans Spemann"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "도둑일기",
-      "creator": "김용성"
+      "list": "bram-stoker-novel",
+      "title": "Flesh Eaters",
+      "creator": "Joe McKinney"
     },
     {
       "list": "st-johns-great-books",
@@ -3634,24 +2601,19 @@
       "creator": "고미숙·한경애 외"
     },
     {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "타인의 얼굴",
-      "creator": "한수산"
+      "list": "timeout-100-horror-films",
+      "title": "Carnival of Souls",
+      "creator": "Herk Harvey"
+    },
+    {
+      "list": "timeout-100-horror-films",
+      "title": "Saló, or the 120 Days of Sodom",
+      "creator": "Pier Paolo Pasolini"
     },
     {
       "list": "akutagawa-prize",
       "title": "Atsumonozaki",
       "creator": "나카야마 기슈"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "The World According to Garp",
-      "creator": "John Irving"
-    },
-    {
-      "list": "national-book-award-fiction",
-      "title": "Mating",
-      "creator": "Norman Rush"
     },
     {
       "list": "korea-publication-award",
@@ -3664,24 +2626,24 @@
       "creator": "쇼지 가오루"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Three Colours: Blue",
-      "creator": "Krzysztof Kieślowski"
+      "list": "bbc-greatest-comedies",
+      "title": "The Lady Eve",
+      "creator": "Preston Sturges"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Atlantic City",
-      "creator": "Louis Malle"
+      "list": "locus-fantasy-novel",
+      "title": "A Dance with Dragons",
+      "creator": "George R. R. Martin"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "Zoolander",
+      "creator": "Ben Stiller"
     },
     {
       "list": "st-johns-great-books",
       "title": "Poems 1 and 31",
       "creator": "Sappho"
-    },
-    {
-      "list": "hyundae-munhak-award-fiction",
-      "title": "좋아하는 마음 없이",
-      "creator": "김지연"
     },
     {
       "list": "prix-goncourt",
@@ -3694,16 +2656,6 @@
       "creator": null
     },
     {
-      "list": "venice-golden-lion",
-      "title": "A City of Sadness",
-      "creator": "Hou Hsiao-hsien"
-    },
-    {
-      "list": "venice-golden-lion",
-      "title": "The Return",
-      "creator": "Andrey Zvyagintsev"
-    },
-    {
       "list": "prix-goncourt",
       "title": "The Lacemaker",
       "creator": "Pascal Lainé"
@@ -3714,14 +2666,14 @@
       "creator": "손영목"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "독짓는 늙은이",
-      "creator": "최하원"
+      "list": "locus-fantasy-novel",
+      "title": "Job: A Comedy of Justice",
+      "creator": "Robert A. Heinlein"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Somewhere",
-      "creator": "Sofia Coppola"
+      "list": "timeout-100-horror-films",
+      "title": "Evil Dead II",
+      "creator": "Sam Raimi"
     },
     {
       "list": "st-johns-great-books",
@@ -3729,29 +2681,9 @@
       "creator": "Gregor Mendel"
     },
     {
-      "list": "venice-golden-lion",
-      "title": "Cyclo",
-      "creator": "Tran Anh Hung"
-    },
-    {
-      "list": "prix-goncourt",
-      "title": "Vent de Mars",
-      "creator": "Henri Pourrat"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Phoenix Tree",
       "creator": "기자키 사토코"
-    },
-    {
-      "list": "nebula-best-novel",
-      "title": "Timescape",
-      "creator": "Gregory Benford"
-    },
-    {
-      "list": "akutagawa-prize",
-      "title": "도롱뇽의 49재",
-      "creator": "아사히나 아키"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -3764,9 +2696,9 @@
       "creator": "시바키 요시코"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "중음의 꽃",
-      "creator": "겐유 소큐"
+      "list": "bram-stoker-novel",
+      "title": "My Heart Is a Chainsaw",
+      "creator": "Stephen Graham Jones"
     },
     {
       "list": "korea-publication-award",
@@ -3774,14 +2706,14 @@
       "creator": "위고·제철소·코난북스"
     },
     {
-      "list": "blue-dragon-best-film",
-      "title": "밀수",
-      "creator": "류승완"
-    },
-    {
       "list": "prix-goncourt",
       "title": "The French Art of War",
       "creator": "Alexis Jenni"
+    },
+    {
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Thrawn Trilogy",
+      "creator": "Timothy Zahn"
     },
     {
       "list": "st-johns-great-books",
@@ -3794,24 +2726,29 @@
       "creator": "다쿠보 히데오"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The Forests of the Night",
-      "creator": "Jean-Louis Curtis"
+      "list": "bram-stoker-novel",
+      "title": "The Cabin at the End of the World",
+      "creator": "Paul Tremblay"
     },
     {
-      "list": "national-book-award-fiction",
-      "title": "J R",
-      "creator": "William Gaddis"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "A Song Of Ice And Fire Series",
+      "creator": "George R.R. Martin"
     },
     {
-      "list": "akutagawa-prize",
-      "title": "헌치백",
-      "creator": "이치카와 사오"
+      "list": "npr-top-100-sf-fantasy",
+      "title": "The Belgariad",
+      "creator": "David Eddings"
     },
     {
-      "list": "prix-goncourt",
-      "title": "The House of Scorta",
-      "creator": "Laurent Gaudé"
+      "list": "bbc-greatest-comedies",
+      "title": "Caddyshack",
+      "creator": "Harold Ramis"
+    },
+    {
+      "list": "bbc-greatest-comedies",
+      "title": "The Ladies Man",
+      "creator": "Jerry Lewis"
     }
   ]
 }

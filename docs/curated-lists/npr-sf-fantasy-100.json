@@ -1,0 +1,747 @@
+{
+  "curator": {
+    "slug": "npr",
+    "name": "NPR",
+    "name_en": "National Public Radio",
+    "kind": "media",
+    "country": "US",
+    "founded_year": 1970,
+    "homepage_url": "https://www.npr.org",
+    "description": "NPR은 1970년 설립된 미국의 비영리 공영 라디오 방송 네트워크다. 회원 방송국 연합체로 뉴스와 문화 프로그램을 제작해 전국에 배급한다. 도서 분야에서는 서평과 함께 해마다 여름 독자 참여 설문을 열어 주제별 100선을 발표해 왔다.",
+    "description_en": "NPR is a non-profit American public radio network founded in 1970. It produces and distributes news and cultural programming through a network of member stations. Its books coverage includes reviews and an annual summer reader poll that produces themed top-100 lists."
+  },
+  "list": {
+    "slug": "npr-top-100-sf-fantasy",
+    "title": "NPR 최고의 SF·판타지 100",
+    "title_en": "NPR Top 100 Science Fiction & Fantasy Books",
+    "description": "NPR이 2011년 여름 독자 설문으로 발표한 SF·판타지 100선이다. 평론가가 아니라 청취자·독자의 투표로 순위가 정해졌고, 1위는 J.R.R. 톨킨의 『반지의 제왕』이다. 단권이 아니라 시리즈 단위로 오른 항목이 3분의 1에 가깝다.",
+    "description_en": "NPR's 2011 summer reader poll of the best science fiction and fantasy books. The ranking was decided by listener and reader votes rather than by critics, and J.R.R. Tolkien's The Lord of the Rings took first place. Close to a third of the entries are whole series rather than single volumes.",
+    "published_year": 2011,
+    "edition": null,
+    "method": "독자 5,000명 이상이 후보를 추천했고, NPR 전문가 패널이 수백 편의 추천작을 검토해 설문 기준에 맞지 않는 작품을 걸러 237편의 최종 후보를 확정했다. 이후 독자 1인당 10표씩 행사하는 투표를 열어 6만 표 이상이 접수됐고 상위 100편을 순위대로 발표했다. 청소년물(YA)과 호러는 별도 목록으로 미루기로 하여 이 목록에서 제외됐다.",
+    "method_en": "More than 5,000 readers submitted nominations; an NPR panel of experts reviewed hundreds of the most popular nominations and removed titles that did not fit the survey criteria, leaving 237 finalists. Readers then voted with 10 votes each, and more than 60,000 ballots were cast. The top 100 vote-getters were published in ranked order. Young adult and horror titles were excluded by the panel and reserved for separate future polls.",
+    "source_url": "https://www.npr.org/2011/08/11/139085843/your-picks-top-100-science-fiction-fantasy-books",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "sf",
+      "fantasy"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Lord Of The Rings",
+      "raw_creator": "J.R.R. Tolkien",
+      "rank": 1,
+      "year": null,
+      "note": "NPR 인쇄판 목록에는 'The Lord Of The Rings Trilogy'로 표기된 3부작 단위 항목이다."
+    },
+    {
+      "raw_title": "The Hitchhiker's Guide To The Galaxy",
+      "raw_creator": "Douglas Adams",
+      "rank": 2,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Ender's Game",
+      "raw_creator": "Orson Scott Card",
+      "rank": 3,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Dune Chronicles",
+      "raw_creator": "Frank Herbert",
+      "rank": 4,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "A Song Of Ice And Fire Series",
+      "raw_creator": "George R.R. Martin",
+      "rank": 5,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다. 인쇄판에는 저자가 'George R. R. Martin'으로 표기돼 있다."
+    },
+    {
+      "raw_title": "1984",
+      "raw_creator": "George Orwell",
+      "rank": 6,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Fahrenheit 451",
+      "raw_creator": "Ray Bradbury",
+      "rank": 7,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Foundation Trilogy",
+      "raw_creator": "Isaac Asimov",
+      "rank": 8,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": 9,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "American Gods",
+      "raw_creator": "Neil Gaiman",
+      "rank": 10,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Princess Bride",
+      "raw_creator": "William Goldman",
+      "rank": 11,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Wheel Of Time Series",
+      "raw_creator": "Robert Jordan",
+      "rank": 12,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Animal Farm",
+      "raw_creator": "George Orwell",
+      "rank": 13,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Neuromancer",
+      "raw_creator": "William Gibson",
+      "rank": 14,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Watchmen",
+      "raw_creator": "Alan Moore and Dave Gibbons",
+      "rank": 15,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "I, Robot",
+      "raw_creator": "Isaac Asimov",
+      "rank": 16,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Stranger In A Strange Land",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": 17,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Kingkiller Chronicles",
+      "raw_creator": "Patrick Rothfuss",
+      "rank": 18,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Slaughterhouse-Five",
+      "raw_creator": "Kurt Vonnegut",
+      "rank": 19,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Frankenstein",
+      "raw_creator": "Mary Wollstonecraft Shelley",
+      "rank": 20,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Do Androids Dream Of Electric Sheep?",
+      "raw_creator": "Philip K. Dick",
+      "rank": 21,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Handmaid's Tale",
+      "raw_creator": "Margaret Atwood",
+      "rank": 22,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Dark Tower Series",
+      "raw_creator": "Stephen King",
+      "rank": 23,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "2001: A Space Odyssey",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": 24,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Stand",
+      "raw_creator": "Stephen King",
+      "rank": 25,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Snow Crash",
+      "raw_creator": "Neal Stephenson",
+      "rank": 26,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Martian Chronicles",
+      "raw_creator": "Ray Bradbury",
+      "rank": 27,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Cat's Cradle",
+      "raw_creator": "Kurt Vonnegut",
+      "rank": 28,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Sandman Series",
+      "raw_creator": "Neil Gaiman",
+      "rank": 29,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "A Clockwork Orange",
+      "raw_creator": "Anthony Burgess",
+      "rank": 30,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Starship Troopers",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": 31,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Watership Down",
+      "raw_creator": "Richard Adams",
+      "rank": 32,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Dragonflight",
+      "raw_creator": "Anne McCaffrey",
+      "rank": 33,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Moon Is A Harsh Mistress",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": 34,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Canticle For Leibowitz",
+      "raw_creator": "Walter M. Miller Jr.",
+      "rank": 35,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Time Machine",
+      "raw_creator": "H.G. Wells",
+      "rank": 36,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "20,000 Leagues Under The Sea",
+      "raw_creator": "Jules Verne",
+      "rank": 37,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Flowers For Algernon",
+      "raw_creator": "Daniel Keyes",
+      "rank": 38,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The War Of The Worlds",
+      "raw_creator": "H.G. Wells",
+      "rank": 39,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Amber Chronicles",
+      "raw_creator": "Roger Zelazny",
+      "rank": 40,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Belgariad",
+      "raw_creator": "David Eddings",
+      "rank": 41,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Mists Of Avalon",
+      "raw_creator": "Marion Zimmer Bradley",
+      "rank": 42,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Mistborn Trilogy",
+      "raw_creator": "Brandon Sanderson",
+      "rank": 43,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Ringworld",
+      "raw_creator": "Larry Niven",
+      "rank": 44,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Left Hand Of Darkness",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": 45,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Silmarillion",
+      "raw_creator": "J.R.R. Tolkien",
+      "rank": 46,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Once And Future King",
+      "raw_creator": "T.H. White",
+      "rank": 47,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Neverwhere",
+      "raw_creator": "Neil Gaiman",
+      "rank": 48,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Childhood's End",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": 49,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Contact",
+      "raw_creator": "Carl Sagan",
+      "rank": 50,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Hyperion Cantos",
+      "raw_creator": "Dan Simmons",
+      "rank": 51,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Stardust",
+      "raw_creator": "Neil Gaiman",
+      "rank": 52,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Cryptonomicon",
+      "raw_creator": "Neal Stephenson",
+      "rank": 53,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "World War Z",
+      "raw_creator": "Max Brooks",
+      "rank": 54,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Last Unicorn",
+      "raw_creator": "Peter S. Beagle",
+      "rank": 55,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Forever War",
+      "raw_creator": "Joe Haldeman",
+      "rank": 56,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Small Gods",
+      "raw_creator": "Terry Pratchett",
+      "rank": 57,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Chronicles Of Thomas Covenant The Unbeliever",
+      "raw_creator": "Stephen R. Donaldson",
+      "rank": 58,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Vorkosigan Saga",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": 59,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Going Postal",
+      "raw_creator": "Terry Pratchett",
+      "rank": 60,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Mote In God's Eye",
+      "raw_creator": "Larry Niven and Jerry Pournelle",
+      "rank": 61,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Sword Of Truth Series",
+      "raw_creator": "Terry Goodkind",
+      "rank": 62,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Road",
+      "raw_creator": "Cormac McCarthy",
+      "rank": 63,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Jonathan Strange & Mr. Norrell",
+      "raw_creator": "Susanna Clarke",
+      "rank": 64,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "I Am Legend",
+      "raw_creator": "Richard Matheson",
+      "rank": 65,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Riftwar Saga",
+      "raw_creator": "Raymond E. Feist",
+      "rank": 66,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Sword of Shannara Trilogy",
+      "raw_creator": "Terry Brooks",
+      "rank": 67,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Conan The Barbarian Series",
+      "raw_creator": "Robert E. Howard and Mark Schultz",
+      "rank": 68,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Farseer Trilogy",
+      "raw_creator": "Robin Hobb",
+      "rank": 69,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Time Traveler's Wife",
+      "raw_creator": "Audrey Niffenegger",
+      "rank": 70,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Way Of Kings",
+      "raw_creator": "Brandon Sanderson",
+      "rank": 71,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Journey To The Center Of The Earth",
+      "raw_creator": "Jules Verne",
+      "rank": 72,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Legend Of Drizzt Series",
+      "raw_creator": "R. A. Salvatore",
+      "rank": 73,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Old Man's War",
+      "raw_creator": "John Scalzi",
+      "rank": 74,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Diamond Age",
+      "raw_creator": "Neal Stephenson",
+      "rank": 75,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Rendezvous With Rama",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": 76,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Kushiel's Legacy Series",
+      "raw_creator": "Jacqueline Carey",
+      "rank": 77,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Dispossessed",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": 78,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Something Wicked This Way Comes",
+      "raw_creator": "Ray Bradbury",
+      "rank": 79,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Wicked",
+      "raw_creator": "Gregory Maguire",
+      "rank": 80,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Malazan Book Of The Fallen series",
+      "raw_creator": "Steven Erikson",
+      "rank": 81,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Eyre Affair",
+      "raw_creator": "Jasper Fforde",
+      "rank": 82,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Culture Series",
+      "raw_creator": "Iain Banks",
+      "rank": 83,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Crystal Cave",
+      "raw_creator": "Mary Stewart",
+      "rank": 84,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Anathem",
+      "raw_creator": "Neal Stephenson",
+      "rank": 85,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Codex Alera Series",
+      "raw_creator": "Jim Butcher",
+      "rank": 86,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Book Of The New Sun",
+      "raw_creator": "Gene Wolfe",
+      "rank": 87,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Thrawn Trilogy",
+      "raw_creator": "Timothy Zahn",
+      "rank": 88,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Outlander Series",
+      "raw_creator": "Diana Gabaldon",
+      "rank": 89,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Elric Saga",
+      "raw_creator": "Michael Moorcock",
+      "rank": 90,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Illustrated Man",
+      "raw_creator": "Ray Bradbury",
+      "rank": 91,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Sunshine",
+      "raw_creator": "Robin McKinley",
+      "rank": 92,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Fire Upon The Deep",
+      "raw_creator": "Vernor Vinge",
+      "rank": 93,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Caves Of Steel",
+      "raw_creator": "Isaac Asimov",
+      "rank": 94,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Mars Trilogy",
+      "raw_creator": "Kim Stanley Robinson",
+      "rank": 95,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "Lucifer's Hammer",
+      "raw_creator": "Larry Niven and Jerry Pournelle",
+      "rank": 96,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Doomsday Book",
+      "raw_creator": "Connie Willis",
+      "rank": 97,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Perdido Street Station",
+      "raw_creator": "China Miéville",
+      "rank": 98,
+      "year": null,
+      "note": "NPR 인쇄판에는 저자가 'China Mieville'(액센트 없음)로 표기돼 있다."
+    },
+    {
+      "raw_title": "The Xanth Series",
+      "raw_creator": "Piers Anthony",
+      "rank": 99,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    },
+    {
+      "raw_title": "The Space Trilogy",
+      "raw_creator": "C.S. Lewis",
+      "rank": 100,
+      "year": null,
+      "note": "개별 작품이 아니라 시리즈(연작) 단위로 오른 항목이다. 제목은 NPR 원문 표기 그대로 유지했다."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.npr.org/2011/08/11/139085843/your-picks-top-100-science-fiction-fantasy-books (curl로 원문 HTML 수신, 순위·제목·저자 100건 전수 파싱)",
+      "https://www.npr.org/2011/08/09/139248590/top-100-science-fiction-fantasy-books (NPR 인쇄판 목록, 순위·표기 교차 확인 및 투표 규모 문구 확인)",
+      "https://text.npr.org/139085843 (NPR 텍스트판, 추천 5,000명·투표 6만 명 문구 확인. 목록 본문은 미수록)"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "top_rank": "1위 The Lord Of The Rings (J.R.R. Tolkien). 본문 목록의 카드 제목과 인쇄판(139248590)의 '1. The Lord Of The Rings Trilogy, by J.R.R. Tolkien' 두 곳에서 일치를 확인했다.",
+    "series_entries": "31건. 1(반지의 제왕 3부작), 4, 5, 8, 12, 18, 23, 29, 40, 41, 43, 51, 58, 59, 62, 66, 67, 68, 69, 73, 77, 81, 83, 86, 87, 88, 89, 90, 95, 99, 100위가 개별 작품이 아니라 연작 단위로 올랐다. 제목은 원문 표기를 그대로 두고 각 항목 note에 표시했다.",
+    "gaps": "출간연도는 NPR 원문에 표기되지 않아 전 항목 year를 null로 두었다. 추정으로 채우지 않았다. 237편 최종 후보 전체 명단은 이번 수집 범위 밖이다.",
+    "uncertainties": "본문 목록과 인쇄판의 표기가 세 곳에서 다르다 — 1위(The Lord Of The Rings / The Lord Of The Rings Trilogy), 5위 저자(George R.R. Martin / George R. R. Martin), 98위 저자(China Miéville / China Mieville). 본문 목록 표기를 채택하고 차이를 note에 남겼다. 16위 I, Robot과 27위 The Martian Chronicles는 단편집이지만 NPR이 단일 항목으로 올린 것이라 시리즈 항목으로 세지 않았다."
+  }
+}
