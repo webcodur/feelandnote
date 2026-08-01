@@ -97,6 +97,8 @@ export interface CuratedListSummary {
   topics: string[]
   coverImageUrl: string | null
   itemCount: number
+  /** 목록 앞머리 작품의 표지 몇 장. 목록이 무엇을 담았는지 글자보다 빨리 보여준다 */
+  covers: string[]
 }
 
 export interface CuratedListItem {

@@ -97,7 +97,13 @@ function toCuratorSummary(c: CuratorRow, locale: string, listCount: number): Cur
   }
 }
 
-function toListSummary(l: ListRow, locale: string, itemCount: number, curatorSlug: string): CuratedListSummary {
+function toListSummary(
+  l: ListRow,
+  locale: string,
+  itemCount: number,
+  curatorSlug: string,
+  covers: string[] = []
+): CuratedListSummary {
   return {
     slug: l.slug,
     curatorSlug,
@@ -112,7 +118,43 @@ function toListSummary(l: ListRow, locale: string, itemCount: number, curatorSlu
     topics: l.topics ?? [],
     coverImageUrl: l.cover_image_url,
     itemCount,
+    covers,
   }
+}
+
+/** 목록 앞머리에서 표지 몇 장을 골라온다. 「무엇이 담겼는지」를 글자보다 빨리 알린다 */
+const COVERS_PER_LIST = 5
+/** 앞머리 몇 번째까지 훑을지 — 표지 없는 작품이 섞여 있어 뽑을 수보다 넉넉히 본다 */
+const COVER_SCAN_DEPTH = 14
+
+async function fetchCoversByList(
+  supabase: ReturnType<typeof createStaticClient>,
+  listIds: string[],
+  locale: string
+): Promise<Map<string, string[]>> {
+  const out = new Map<string, string[]>()
+  if (listIds.length === 0) return out
+
+  const { data } = await supabase
+    .from('curated_list_items')
+    .select(`list_id, sort_order, contents(content_locales(${CL_SELECT_LIST}))`)
+    .in('list_id', listIds)
+    .eq('hidden', false)
+    .lte('sort_order', COVER_SCAN_DEPTH)
+    .order('sort_order', { ascending: true })
+
+  for (const row of (data ?? []) as unknown as {
+    list_id: string
+    contents: { content_locales: ContentLocaleRow[] | null } | null
+  }[]) {
+    const arr = out.get(row.list_id) ?? []
+    if (arr.length >= COVERS_PER_LIST) continue
+    const content = Array.isArray(row.contents) ? row.contents[0] : row.contents
+    const url = content ? flattenLocales(content.content_locales, locale).thumbnail_url : null
+    if (url) arr.push(url)
+    out.set(row.list_id, arr)
+  }
+  return out
 }
 // #endregion
 
@@ -139,6 +181,12 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
   const curatorRows = (curators ?? []) as CuratorRow[]
   const listRows = (lists ?? []) as (ListRow & { curated_list_items: { count: number }[] | null })[]
 
+  const coversByList = await fetchCoversByList(
+    supabase,
+    listRows.map((l) => l.id),
+    locale
+  )
+
   const slugById = new Map(curatorRows.map((c) => [c.id, c.slug]))
   const listsByCurator = new Map<string, CuratedListSummary[]>()
   for (const l of listRows) {
@@ -146,7 +194,7 @@ async function fetchCuratedHub(locale: string): Promise<CuratedHub> {
     if (!curatorSlug) continue
     const itemCount = l.curated_list_items?.[0]?.count ?? 0
     const arr = listsByCurator.get(l.curator_id)
-    const summary = toListSummary(l, locale, itemCount, curatorSlug)
+    const summary = toListSummary(l, locale, itemCount, curatorSlug, coversByList.get(l.id) ?? [])
     if (arr) arr.push(summary)
     else listsByCurator.set(l.curator_id, [summary])
   }
@@ -187,10 +235,17 @@ async function fetchCurator(slug: string, locale: string): Promise<CuratorDetail
     .order('id', { ascending: true })
 
   const listRows = (lists ?? []) as (ListRow & { curated_list_items: { count: number }[] | null })[]
+  const coversByList = await fetchCoversByList(
+    supabase,
+    listRows.map((l) => l.id),
+    locale
+  )
 
   return {
     ...toCuratorSummary(c, locale, listRows.length),
-    lists: listRows.map((l) => toListSummary(l, locale, l.curated_list_items?.[0]?.count ?? 0, c.slug)),
+    lists: listRows.map((l) =>
+      toListSummary(l, locale, l.curated_list_items?.[0]?.count ?? 0, c.slug, coversByList.get(l.id) ?? [])
+    ),
   }
 }
 
