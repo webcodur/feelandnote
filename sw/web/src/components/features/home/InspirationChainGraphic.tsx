@@ -2,7 +2,7 @@
 
 import { ArrowDown, ArrowRight } from "lucide-react";
 import Avatar from "@/components/ui/Avatar";
-import { renderHighlighted } from "./HomeTabSection";
+import { renderHighlighted } from "./IntroFrame";
 
 interface ProfileInfo {
   name: string;

@@ -1,7 +1,9 @@
 import { getLocale, getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { getProfilesBySlugs } from "@/actions/celebs/getProfilesBySlugs";
+import { getAboutShowcase } from "@/actions/policy/getAboutShowcase";
+import AboutBody from "./about/AboutBody";
 
 export async function generateMetadata() {
   const t = await getTranslations("site");
@@ -53,6 +55,12 @@ export default async function MainPage() {
   const supabase = await createClient();
   const locale = await getLocale();
   const t = await getTranslations("home.ui.tabs");
+  // 환영판을 닫은 적이 있으면 다음 방문부터는 바로 콘텐츠로 들어간다.
+  // 환영판에는 서비스 소개 본문을 통째로 실어 첫 방문 한 번에 다 보여 준다(상설본은 /about)
+  const introDismissed = (await cookies()).get("fn_intro_seen")?.value === "1";
+  const aboutPanel = introDismissed ? null : (
+    <AboutBody showcase={await getAboutShowcase(locale)} />
+  );
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -83,29 +91,6 @@ export default async function MainPage() {
     getQuickRecordSuggestions('BOOK')
   ]);
 
-  const rawChains = t.raw("inspirationChains") as { reader: string; author: string; text: string }[][];
-  const slugSet = new Set<string>();
-  rawChains.forEach(chain => chain.forEach(step => {
-    slugSet.add(step.reader);
-    slugSet.add(step.author);
-  }));
-
-  // 캐시 키 안정화 — 명단 순서가 흔들려도 같은 캐시를 쓴다
-  const profileMap = await getProfilesBySlugs(Array.from(slugSet).sort());
-
-  const isEn = locale === 'en';
-  const inspirationChains = rawChains.map(chain => 
-    chain.map(step => {
-      const r = profileMap[step.reader];
-      const a = profileMap[step.author];
-      return {
-        text: step.text,
-        reader: r ? { avatar_url: r.avatar_url, name: (isEn ? r.nickname_en || r.nickname : r.nickname) ?? step.reader } : null,
-        author: a ? { avatar_url: a.avatar_url, name: (isEn ? a.nickname_en || a.nickname : a.nickname) ?? step.author } : null,
-      };
-    })
-  );
-
   const RecordSection = (
     <HomeRecordSection
         unreviewedList={unreviewedResult.items}
@@ -133,16 +118,14 @@ export default async function MainPage() {
         recordSection={RecordSection}
         figureSection={FigureSectionContent}
         freeSection={<HomeFreeBoardSection />}
+        introDismissed={introDismissed}
+        aboutPanel={aboutPanel}
         labels={{
-          intro: t("intro"),
-          introSub: t("introSub"),
-          introLink: t("introLink"),
           todayFigure: t("todayFigure"),
           quickRecord: t("quickRecord"),
           freeBoard: t("freeBoard"),
-          inspirationChainTitle: t("inspirationChainTitle"),
-          inspirationChains: inspirationChains,
-          inspirationConclusion: t("inspirationConclusion"),
+          introClose: t("introClose"),
+          introReopen: t("introReopen"),
         }}
       />
       {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}

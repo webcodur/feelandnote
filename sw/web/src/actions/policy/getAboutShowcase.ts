@@ -106,6 +106,21 @@ const FACE_SLUGS = [
 /** 세 번째 항목의 장면에 세울 인물 후보. 앞에서부터 자료가 갖춰진 사람을 쓴다 */
 const JOURNEY_SLUGS = ['elon-musk', 'bill-gates', 'park-chan-wook', 'quentin-tarantino'] as const
 
+/**
+ * 장면에 세울 작품을 못박는다.
+ *
+ * 자료에서 아무 기록이나 집으면 말씨가 제각각이고(대개 평서체) 그 사람이 드러나지도 않는다.
+ * 화면에 세울 세 권만 골라 두고, 그 기록은 정중한 말씨로 다듬어 두었다.
+ * 목록에 없거나 기록이 사라진 작품은 자동으로 빠지고 남은 것만 선다.
+ */
+const JOURNEY_CONTENT_IDS: Record<string, readonly string[]> = {
+  'elon-musk': [
+    'f1a2b3c4-5d6e-7f80-9a1b-2c3d4e5f6a7b', // 파운데이션
+    '6d3fb602-14e4-473b-88ed-652ee986757b', // 차라투스트라는 이렇게 말했다
+    '6b6937bb-e041-4750-916e-12988089fe02', // 호빗
+  ],
+}
+
 /** 장면에 세우는 작품 수 */
 const JOURNEY_ITEMS = 3
 
@@ -116,9 +131,6 @@ const JOURNEY_ITEMS = 3
  * "이 사람의 기록이 이렇게 만들어졌다"가 한눈에 읽힌다.
  */
 const EVIDENCE_SLUGS = ['isaac-newton', 'sejong-the-great', 'william-shakespeare', 'bill-gates'] as const
-
-/** 말풍선에 넣을 길이. 문장이 이보다 길면 잘라 말줄임한다 */
-const QUOTE_MAX = 96
 
 /** "1450-03-30" → 1450, "-399" → -399 */
 function toYear(raw: string | null): number | null {
@@ -157,81 +169,6 @@ function toBrief(text: string | null, max = 150): string | undefined {
   const flat = text.replace(/\s+/g, ' ').trim()
   if (!flat) return undefined
   return flat.length <= max ? flat : `${flat.slice(0, max).trimEnd()}…`
-}
-
-/**
- * 감상문에서 이 작품을 두고 한 말 한 대목을 뽑는다.
- *
- * 아무 문장이나 집으면 그 사람이 안 느껴지는 밋밋한 줄이 된다. 순서는 이렇다.
- *  1. 따옴표 안에 그대로 남은 본인 발언 — 인물이 가장 잘 드러난다
- *  2. 이 작품을 어떻게 만났는지 말하는 문장(추천받았다·어린 시절에 읽었다 따위)
- *  3. 작품 이름이 든 문장
- * 옆에 선 표지와 말이 어긋나지 않도록 다른 작품을 말한 문장은 어느 단계에서도 쓰지 않는다.
- */
-function toQuote(
-  review: string,
-  title: string
-): { text: string; isEncounter: boolean; isSpoken: boolean } | null {
-  const sentences = review
-    .split('\n')
-    .flatMap((line) => line.split(/(?<=[.!?。])\s+/))
-    .map((s) => s.trim())
-    .filter((s) => s.length >= 12)
-  if (!sentences.length) return null
-
-  const head = title.split(/[:(–-]/)[0]?.trim() ?? title
-
-  /**
-   * 감상문에는 다른 작품 이야기도 섞인다. 문장에 작품 이름이 나오는데 그게 이 작품이
-   * 아니면, 옆에 선 표지와 말이 딴 이야기가 된다. 그런 문장은 쓰지 않는다.
-   */
-  const mentionsOtherWork = (s: string) => {
-    const named = [...s.matchAll(/[《『「]([^》』」]{2,})[》』」]/g)].map((m) => m[1])
-    if (!named.length) return false
-    return !named.some((n) => n.includes(head) || head.includes(n.split(/[:(–-]/)[0].trim()))
-  }
-
-  /**
-   * 이 작품 이야기가 아닌 인용을 걸러낸다.
-   *
-   * 감상문에 실린 인용이라고 다 그 작품에 대한 말은 아니다. 파리대왕 기록에는
-   * "내가 읽은 책들의 영웅들은…"처럼 읽은 책 전반을 말한 대목이 실려 있어, 그대로 쓰면
-   * 표지와 말이 딴 이야기가 된다. 여러 책을 견주는 대목도 마찬가지다.
-   */
-  const isAboutThisWork = (s: string) => {
-    if (mentionsOtherWork(s)) return false
-    // 읽은 것 전반을 뭉뚱그린 말
-    if (/(책들|작품들|영화들|소설들|읽은 책 ?중)/.test(s)) return false
-    // 여러 작품·인명을 견주는 말 (로마자 고유명사가 셋 이상)
-    const proper = s.match(/\b[A-Z][A-Za-z]+\b/g) ?? []
-    if (proper.length >= 3) return false
-    return true
-  }
-
-  // 1. 본인이 그대로 남긴 말. 따옴표째 뽑아 그 사람 목소리로 들리게 한다.
-  //    "정말 좋다" 수준의 짧은 감탄은 그 사람이 드러나지 않으므로 길이를 세워 거른다
-  const spoken = [...review.matchAll(/["“]([^"”]{26,})["”]/g)]
-    .map((m) => m[1].trim())
-    .find(isAboutThisWork)
-
-  // 2. 이 작품을 어떻게 만났는지 말하는 문장.
-  //    남에게 권하는 문장("사람들에게 읽어보라고 권한다")은 경위가 아니므로 걸러낸다.
-  const recommendsOthers = /(에게|한테)\s*\S{0,12}(추천|권한|권하|권합|읽어\s?보라|읽으라)/
-  const encounter = sentences.find(
-    (s) =>
-      /(추천했|추천받|권유받|권유했|권해 ?주|선물했|선물받|계기로|읽게 되|보게 되|듣게 되|접하게 되|어린 ?시절|어릴 ?때|살 때|세 때|회상했|처음 (읽|봤|보았|접|만났)|사전 (출판 )?사본|recommended (it |me |this )?to me|gave me|handed me|told me to read|got me into)/.test(
-        s
-      ) &&
-      !recommendsOthers.test(s) &&
-      !mentionsOtherWork(s)
-  )
-  const named = head.length >= 2 ? sentences.find((s) => s.includes(head) && !mentionsOtherWork(s)) : undefined
-
-  const picked = spoken ?? encounter ?? named ?? sentences[0]
-  const trimmed = picked.length <= QUOTE_MAX ? picked : `${picked.slice(0, QUOTE_MAX).trimEnd()}…`
-  // 본인 말은 따옴표를 살려 인용임을 드러낸다
-  const text = spoken ? `"${trimmed}"` : trimmed
-  return { text, isEncounter: Boolean(spoken || encounter), isSpoken: Boolean(spoken) }
 }
 
 async function fetchFaces(
@@ -288,14 +225,17 @@ async function fetchJourney(
     const person = (people ?? []).find((p) => p.slug === slug)
     if (!person?.avatar_url) continue
 
+    const pinned = JOURNEY_CONTENT_IDS[slug]
+    if (!pinned?.length) continue
+
     // user_contents와 content_locales는 contents를 거쳐 이어지므로 한 번에 조인하지 않고 나눠 읽는다
     const reviewField = isEn ? 'review_en' : 'review'
     const { data: rows } = await supabase
       .from('user_contents')
       .select(`content_id, ${reviewField}`)
       .eq('user_id', person.id)
+      .in('content_id', pinned as unknown as string[])
       .not(reviewField, 'is', null)
-      .limit(60)
 
     const reviewByContent = new Map<string, string>()
     for (const row of rows ?? []) {
@@ -315,41 +255,26 @@ async function fetchJourney(
       .not('thumbnail_url', 'is', null)
       .limit(60)
 
-    // 작품과 그 작품에 대한 말을 한 줄로 묶는다. 짝이 어긋나면 말과 그림이 따로 논다.
-    // 만난 경위가 적히지 않은 감상문은 이 항목이 말하는 바와 어긋나므로 아예 세우지 않는다
-    // 본인이 그 작품을 두고 한 말이 그대로 남은 것만 세운다.
-    // 우리가 정리한 서술을 옮기면 화면의 정중한 말씨와 어긋나고, 누구 말인지도 흐려진다
-    const candidates: { item: AboutJourneyItem; namesWork: boolean }[] = []
-    for (const loc of locales ?? []) {
-      if (!loc.thumbnail_url) continue
-      const review = reviewByContent.get(loc.content_id)
-      if (!review) continue
-      const quote = toQuote(review, loc.title)
-      if (!quote?.isSpoken) continue
-      const item: AboutJourneyItem = {
+    // 못박아 둔 순서대로 세운다. 기록 앞 대목을 그대로 쓰므로 말씨는 자료가 쥔다
+    const byContent = new Map((locales ?? []).map((loc) => [loc.content_id, loc]))
+    const items: AboutJourneyItem[] = []
+    for (const contentId of pinned) {
+      if (items.length >= JOURNEY_ITEMS) break
+      const loc = byContent.get(contentId)
+      const review = reviewByContent.get(contentId)
+      if (!loc?.thumbnail_url || !review) continue
+      items.push({
         title: loc.title,
         thumbnailUrl: loc.thumbnail_url,
-        quote: quote.text,
+        quote: toBrief(review, 110) ?? '',
         info: {
           heading: loc.title,
           subheading: loc.creator || undefined,
           facts: [],
-          body: toBrief(loc.description) ?? quote.text,
+          body: toBrief(review, 300),
         },
-      }
-      candidates.push({
-        item,
-        namesWork: quote.text.includes(loc.title.split(/[:(–-]/)[0].trim()),
       })
     }
-    // 작품을 짚어 말한 대목을 먼저, 그다음은 맥락이 더 담긴 긴 말 순으로 세운다
-    const items = candidates
-      .sort((a, b) => {
-        if (a.namesWork !== b.namesWork) return a.namesWork ? -1 : 1
-        return b.item.quote.length - a.item.quote.length
-      })
-      .slice(0, JOURNEY_ITEMS)
-      .map((c) => c.item)
     if (items.length < 2) continue
 
     const name = (isEn ? person.nickname_en : person.nickname) || person.nickname

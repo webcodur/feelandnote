@@ -73,10 +73,11 @@ export default function VisionShowcase({ index, data, labels }: Props) {
 
   if (index === 2) {
     if (!data.teamShots.length) return null;
+    // 좁은 화면에서 위아래로 쌓으면 한 장씩만 보이고 화면이 길어진다. 옆으로 밀어 본다
     return (
-      <div className="pt-3 grid gap-4 sm:grid-cols-2">
+      <div className="pt-3 flex gap-4 overflow-x-auto pb-2">
         {data.teamShots.map((shot) => (
-          <InfoPeek key={shot.url} info={shot.info} className="block">
+          <InfoPeek key={shot.url} info={shot.info} className="block w-64 sm:w-auto sm:flex-1 shrink-0">
             <span className="flex flex-col gap-2">
               <span className="relative block aspect-[4/3] w-full overflow-hidden rounded-md border border-accent-dim hover:border-accent">
                 <Image

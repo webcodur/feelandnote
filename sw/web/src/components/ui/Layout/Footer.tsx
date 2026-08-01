@@ -1,28 +1,46 @@
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
+import { Youtube } from "lucide-react";
 import { FOOTER_NAV_ITEMS, FOOTER_BRAND_LINKS, FOOTER_MISC_LINKS } from "@/constants/navigation";
+import { getYoutubeChannel } from "@/constants/youtube";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 
 const linkClassName = "block text-sm  hover:text-white transition-colors duration-300 font-sans";
 const sectionTitleClassName = "text-xs font-cinzel font-medium tracking-[0.2em] text-accent/50 mb-4";
 
+const DecorativeBorder = () => (
+  <div className="absolute inset-x-0 top-0 z-20">
+    <div
+      className="w-full h-3"
+      style={{
+        background: "linear-gradient(to bottom, #000000, #050505 40%, transparent)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 3px rgba(0,0,0,0.6)",
+      }}
+    />
+    <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/15 to-transparent" />
+  </div>
+);
+
+/** 유튜브 채널 표시 — 언어에 맞는 채널로 새 창에서 연다 */
+const YoutubeLink = ({ size, url, label }: { size: number; url: string; label: string }) => (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={label}
+    title={label}
+    className="text-text-secondary hover:text-accent"
+  >
+    <Youtube size={size} strokeWidth={1.5} aria-hidden />
+  </a>
+);
+
 export default async function Footer() {
   const t = await getTranslations();
   const currentYear = new Date().getFullYear();
-
-  const DecorativeBorder = () => (
-    <div className="absolute inset-x-0 top-0 z-20">
-      <div
-        className="w-full h-3"
-        style={{
-          background: "linear-gradient(to bottom, #000000, #050505 40%, transparent)",
-          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 3px rgba(0,0,0,0.6)",
-        }}
-      />
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-accent/15 to-transparent" />
-    </div>
-  );
+  const locale = await getLocale();
+  const youtube = { url: getYoutubeChannel(locale).url, label: t("policy.aboutActivityTitle") };
 
   return (
     <>
@@ -102,6 +120,7 @@ export default async function Footer() {
               {t("layout.footer.neoPantheon")}
             </Link>
             <div className="flex items-center gap-4">
+              <YoutubeLink size={18} url={youtube.url} label={youtube.label} />
               <LocaleSwitcher variant="text" />
               <p className="text-[10px] font-sans tracking-widest uppercase">
                 &copy; {currentYear} {t("layout.footer.copyright")}
@@ -171,7 +190,10 @@ export default async function Footer() {
 
           {/* 언어 전환 + Copyright */}
           <div className="flex flex-col items-center gap-2 pt-5 border-t border-white/[0.06]">
-            <LocaleSwitcher variant="text" />
+            <div className="flex items-center gap-4">
+              <YoutubeLink size={20} url={youtube.url} label={youtube.label} />
+              <LocaleSwitcher variant="text" />
+            </div>
             <p className="text-[10px] font-sans tracking-widest uppercase">
               &copy; {currentYear} FeelDT
             </p>
