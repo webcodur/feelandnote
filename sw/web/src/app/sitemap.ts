@@ -114,6 +114,33 @@ async function fetchReviewedContentIds(): Promise<string[]> {
   return [...contentIds]
 }
 
+/**
+ * 기관 선정 — 선정 주체와 목록의 주소.
+ *
+ * 목록 화면은 "서울대 권장도서 100선" 같은 검색어와 정면으로 맞는 자리라 개별 등재한다.
+ * 규모가 작아(기관 수십·목록 수백) 페이징 없이 한 번에 받는다.
+ */
+async function fetchCuratedPaths(): Promise<string[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) return []
+
+  const res = await fetch(
+    `${url}/rest/v1/curators?select=slug,curated_lists(slug)&is_featured=eq.true&limit=1000`,
+    { headers: { apikey: key, Authorization: `Bearer ${key}` }, next: { revalidate: 86400 } },
+  )
+  if (!res.ok) {
+    console.error(`[sitemap] curators REST failed: ${res.status} ${res.statusText}`)
+    return []
+  }
+
+  const data: { slug: string; curated_lists: { slug: string }[] | null }[] = await res.json()
+  return data.flatMap((c) => [
+    `/library/curated/${c.slug}`,
+    ...(c.curated_lists ?? []).map((l) => `/library/curated/${c.slug}/${l.slug}`),
+  ])
+}
+
 function entry(
   path: string,
   changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'],
@@ -155,6 +182,7 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/library/museum', 'monthly', 0.7],
   ['/library/academy', 'monthly', 0.7],
   ['/library/profession', 'weekly', 0.7],
+  ['/library/curated', 'weekly', 0.8],
   // 기타
   ['/rest', 'monthly', 0.5],
   // 홈 첫 화면에서 바로 이어지고 서비스가 무엇을 하는 곳인지 답하는 자리라 상향(2026-08-01)
@@ -165,7 +193,11 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [celebs, reviewedContentIds] = await Promise.all([fetchCelebs(), fetchReviewedContentIds()])
+  const [celebs, reviewedContentIds, curatedPaths] = await Promise.all([
+    fetchCelebs(),
+    fetchReviewedContentIds(),
+    fetchCuratedPaths(),
+  ])
 
   const staticEntries = staticPaths.flatMap(([path, freq, priority]) => entry(path, freq, priority))
   const celebEntries = celebs.flatMap((celeb) =>
@@ -173,6 +205,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   )
   // 쿼리스트링(?category=book)은 붙이지 않는다 — 상세 페이지는 id만으로 조회되므로 /content/{id}가 정본이다
   const contentEntries = reviewedContentIds.flatMap((id) => entry(`/content/${id}`, 'monthly', 0.6))
+  const curatedEntries = curatedPaths.flatMap((path) => entry(path, 'monthly', 0.7))
 
-  return [...staticEntries, ...celebEntries, ...contentEntries]
+  return [...staticEntries, ...celebEntries, ...contentEntries, ...curatedEntries]
 }

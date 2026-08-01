@@ -1,5 +1,5 @@
 // Supabase 자동 생성 타입
-// MCP generate_typescript_types로 생성됨 (2026-06-12)
+// MCP generate_typescript_types로 생성됨 (2026-08-01)
 
 export type Json =
   | string
@@ -17,6 +17,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      _backup_virtual_monologue_en_v1: {
+        Row: {
+          backed_up_at: string | null
+          id: string | null
+          slug: string | null
+          virtual_monologue_en: string | null
+        }
+        Insert: {
+          backed_up_at?: string | null
+          id?: string | null
+          slug?: string | null
+          virtual_monologue_en?: string | null
+        }
+        Update: {
+          backed_up_at?: string | null
+          id?: string | null
+          slug?: string | null
+          virtual_monologue_en?: string | null
+        }
+        Relationships: []
+      }
+      _backup_virtual_monologue_ko_v1: {
+        Row: {
+          backed_up_at: string | null
+          id: string | null
+          slug: string | null
+          virtual_monologue: string | null
+        }
+        Insert: {
+          backed_up_at?: string | null
+          id?: string | null
+          slug?: string | null
+          virtual_monologue?: string | null
+        }
+        Update: {
+          backed_up_at?: string | null
+          id?: string | null
+          slug?: string | null
+          virtual_monologue?: string | null
+        }
+        Relationships: []
+      }
       academy_lesson_progress: {
         Row: {
           category_id: string
@@ -318,6 +360,227 @@ export type Database = {
           },
         ]
       }
+      celeb_content_research_findings: {
+        Row: {
+          content_id: string | null
+          content_type: string
+          created_at: string
+          creator: string | null
+          decision: string
+          evidence_summary: string | null
+          id: string
+          rejection_reason: string | null
+          run_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content_id?: string | null
+          content_type: string
+          created_at?: string
+          creator?: string | null
+          decision?: string
+          evidence_summary?: string | null
+          id?: string
+          rejection_reason?: string | null
+          run_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content_id?: string | null
+          content_type?: string
+          created_at?: string
+          creator?: string | null
+          decision?: string
+          evidence_summary?: string | null
+          id?: string
+          rejection_reason?: string | null
+          run_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_content_research_findings_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_content_research_findings_scope_fkey"
+            columns: ["run_id", "content_type"]
+            isOneToOne: false
+            referencedRelation: "celeb_content_research_scopes"
+            referencedColumns: ["run_id", "content_type"]
+          },
+        ]
+      }
+      celeb_content_research_runs: {
+        Row: {
+          batch_key: string
+          celeb_id: string
+          completed_at: string | null
+          created_at: string
+          homonym_notes: string | null
+          id: string
+          name_variants: string[]
+          researcher_id: string | null
+          researcher_label: string
+          started_at: string
+          status: string
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          batch_key: string
+          celeb_id: string
+          completed_at?: string | null
+          created_at?: string
+          homonym_notes?: string | null
+          id?: string
+          name_variants: string[]
+          researcher_id?: string | null
+          researcher_label: string
+          started_at?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          batch_key?: string
+          celeb_id?: string
+          completed_at?: string | null
+          created_at?: string
+          homonym_notes?: string | null
+          id?: string
+          name_variants?: string[]
+          researcher_id?: string | null
+          researcher_label?: string
+          started_at?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_content_research_runs_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_content_research_runs_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_content_research_scopes: {
+        Row: {
+          completed_at: string | null
+          content_type: string
+          created_at: string
+          run_id: string
+          search_notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          content_type: string
+          created_at?: string
+          run_id: string
+          search_notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          content_type?: string
+          created_at?: string
+          run_id?: string
+          search_notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_content_research_scopes_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "celeb_content_research_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_content_research_sources: {
+        Row: {
+          access_status: string
+          checked_at: string
+          content_type: string
+          created_at: string
+          finding_id: string | null
+          id: string
+          notes: string | null
+          run_id: string
+          source_kind: string
+          source_tier: string
+          title: string | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          access_status?: string
+          checked_at?: string
+          content_type: string
+          created_at?: string
+          finding_id?: string | null
+          id?: string
+          notes?: string | null
+          run_id: string
+          source_kind: string
+          source_tier: string
+          title?: string | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          access_status?: string
+          checked_at?: string
+          content_type?: string
+          created_at?: string
+          finding_id?: string | null
+          id?: string
+          notes?: string | null
+          run_id?: string
+          source_kind?: string
+          source_tier?: string
+          title?: string | null
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_content_research_sources_finding_fkey"
+            columns: ["finding_id", "run_id", "content_type"]
+            isOneToOne: false
+            referencedRelation: "celeb_content_research_findings"
+            referencedColumns: ["id", "run_id", "content_type"]
+          },
+          {
+            foreignKeyName: "celeb_content_research_sources_scope_fkey"
+            columns: ["run_id", "content_type"]
+            isOneToOne: false
+            referencedRelation: "celeb_content_research_scopes"
+            referencedColumns: ["run_id", "content_type"]
+          },
+        ]
+      }
       celeb_dialogues: {
         Row: {
           celeb_id: string
@@ -546,10 +809,142 @@ export type Database = {
           },
         ]
       }
+      celeb_relations: {
+        Row: {
+          created_at: string
+          from_id: string
+          id: string
+          label_en: string | null
+          label_ko: string | null
+          note: string | null
+          note_en: string | null
+          rel_group: string
+          rel_type: string
+          source: string
+          to_id: string
+        }
+        Insert: {
+          created_at?: string
+          from_id: string
+          id?: string
+          label_en?: string | null
+          label_ko?: string | null
+          note?: string | null
+          note_en?: string | null
+          rel_group: string
+          rel_type: string
+          source?: string
+          to_id: string
+        }
+        Update: {
+          created_at?: string
+          from_id?: string
+          id?: string
+          label_en?: string | null
+          label_ko?: string | null
+          note?: string | null
+          note_en?: string | null
+          rel_group?: string
+          rel_type?: string
+          source?: string
+          to_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_relations_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_relations_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_relations_to_id_fkey"
+            columns: ["to_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_relations_to_id_fkey"
+            columns: ["to_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_relations_external: {
+        Row: {
+          created_at: string
+          from_id: string
+          id: string
+          image_url: string | null
+          name_en: string | null
+          name_ko: string | null
+          note: string | null
+          note_en: string | null
+          qid: string
+          rel_group: string
+          rel_type: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          from_id: string
+          id?: string
+          image_url?: string | null
+          name_en?: string | null
+          name_ko?: string | null
+          note?: string | null
+          note_en?: string | null
+          qid: string
+          rel_group?: string
+          rel_type: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          from_id?: string
+          id?: string
+          image_url?: string | null
+          name_en?: string | null
+          name_ko?: string | null
+          note?: string | null
+          note_en?: string | null
+          qid?: string
+          rel_group?: string
+          rel_type?: string
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_relations_external_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_relations_external_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       celeb_tag_assignments: {
         Row: {
           assigned_at: string | null
           celeb_id: string
+          hidden: boolean
           id: string
           long_desc: string | null
           long_desc_en: string | null
@@ -564,6 +959,7 @@ export type Database = {
         Insert: {
           assigned_at?: string | null
           celeb_id: string
+          hidden?: boolean
           id?: string
           long_desc?: string | null
           long_desc_en?: string | null
@@ -578,6 +974,7 @@ export type Database = {
         Update: {
           assigned_at?: string | null
           celeb_id?: string
+          hidden?: boolean
           id?: string
           long_desc?: string | null
           long_desc_en?: string | null
@@ -622,6 +1019,7 @@ export type Database = {
           end_date: string | null
           id: string
           is_featured: boolean | null
+          is_fiction: boolean
           name: string
           name_en: string | null
           parent_id: string | null
@@ -629,9 +1027,9 @@ export type Database = {
           sort_order: number | null
           start_date: string | null
           team_images: Json
-          youtube_videos: Json | null
           theme_music: Json | null
           updated_at: string | null
+          youtube_videos: Json | null
         }
         Insert: {
           color?: string | null
@@ -641,6 +1039,7 @@ export type Database = {
           end_date?: string | null
           id?: string
           is_featured?: boolean | null
+          is_fiction?: boolean
           name: string
           name_en?: string | null
           parent_id?: string | null
@@ -648,9 +1047,9 @@ export type Database = {
           sort_order?: number | null
           start_date?: string | null
           team_images?: Json
-          youtube_videos?: Json | null
           theme_music?: Json | null
           updated_at?: string | null
+          youtube_videos?: Json | null
         }
         Update: {
           color?: string | null
@@ -660,6 +1059,7 @@ export type Database = {
           end_date?: string | null
           id?: string
           is_featured?: boolean | null
+          is_fiction?: boolean
           name?: string
           name_en?: string | null
           parent_id?: string | null
@@ -667,9 +1067,9 @@ export type Database = {
           sort_order?: number | null
           start_date?: string | null
           team_images?: Json
-          youtube_videos?: Json | null
           theme_music?: Json | null
           updated_at?: string | null
+          youtube_videos?: Json | null
         }
         Relationships: [
           {
@@ -744,6 +1144,99 @@ export type Database = {
           },
         ]
       }
+      celeb_timeline_events: {
+        Row: {
+          celeb_id: string
+          created_at: string
+          day: number | null
+          description: string | null
+          description_en: string | null
+          id: string
+          kind: string
+          lat: number | null
+          lng: number | null
+          month: number | null
+          place_name: string | null
+          place_name_en: string | null
+          place_qid: string | null
+          sequence_label: string | null
+          sequence_label_en: string | null
+          sort_order: number
+          source: string
+          source_url: string | null
+          title: string
+          title_en: string | null
+          updated_at: string
+          year: number | null
+          year_end: number | null
+        }
+        Insert: {
+          celeb_id: string
+          created_at?: string
+          day?: number | null
+          description?: string | null
+          description_en?: string | null
+          id?: string
+          kind?: string
+          lat?: number | null
+          lng?: number | null
+          month?: number | null
+          place_name?: string | null
+          place_name_en?: string | null
+          place_qid?: string | null
+          sequence_label?: string | null
+          sequence_label_en?: string | null
+          sort_order?: number
+          source?: string
+          source_url?: string | null
+          title: string
+          title_en?: string | null
+          updated_at?: string
+          year?: number | null
+          year_end?: number | null
+        }
+        Update: {
+          celeb_id?: string
+          created_at?: string
+          day?: number | null
+          description?: string | null
+          description_en?: string | null
+          id?: string
+          kind?: string
+          lat?: number | null
+          lng?: number | null
+          month?: number | null
+          place_name?: string | null
+          place_name_en?: string | null
+          place_qid?: string | null
+          sequence_label?: string | null
+          sequence_label_en?: string | null
+          sort_order?: number
+          source?: string
+          source_url?: string | null
+          title?: string
+          title_en?: string | null
+          updated_at?: string
+          year?: number | null
+          year_end?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_timeline_events_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_timeline_events_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       celeb_views_daily: {
         Row: {
           celeb_id: string
@@ -766,6 +1259,13 @@ export type Database = {
             columns: ["celeb_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_views_daily_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
         ]
@@ -931,77 +1431,199 @@ export type Database = {
         }
         Relationships: []
       }
-      fiction_source_characters: {
+      curated_list_items: {
         Row: {
-          celeb_id: string
-          content_id: string
+          content_id: string | null
           created_at: string
-          relation_type: string
+          hidden: boolean
+          id: string
+          list_id: string
+          note: string | null
+          note_en: string | null
+          rank: number | null
+          raw_creator: string | null
+          raw_title: string
           sort_order: number
-        }
-        Insert: {
-          celeb_id: string
-          content_id: string
-          created_at?: string
-          relation_type?: string
-          sort_order?: number
-        }
-        Update: {
-          celeb_id?: string
-          content_id?: string
-          created_at?: string
-          relation_type?: string
-          sort_order?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fiction_source_characters_celeb_id_fkey"
-            columns: ["celeb_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fiction_source_characters_celeb_id_fkey"
-            columns: ["celeb_id"]
-            isOneToOne: false
-            referencedRelation: "profiles_compat"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fiction_source_characters_content_id_fkey"
-            columns: ["content_id"]
-            isOneToOne: false
-            referencedRelation: "fiction_source_contents"
-            referencedColumns: ["content_id"]
-          },
-        ]
-      }
-      fiction_source_contents: {
-        Row: {
-          content_id: string
-          created_at: string
           updated_at: string
+          year: number | null
         }
         Insert: {
-          content_id: string
+          content_id?: string | null
           created_at?: string
+          hidden?: boolean
+          id?: string
+          list_id: string
+          note?: string | null
+          note_en?: string | null
+          rank?: number | null
+          raw_creator?: string | null
+          raw_title: string
+          sort_order?: number
           updated_at?: string
+          year?: number | null
         }
         Update: {
-          content_id?: string
+          content_id?: string | null
           created_at?: string
+          hidden?: boolean
+          id?: string
+          list_id?: string
+          note?: string | null
+          note_en?: string | null
+          rank?: number | null
+          raw_creator?: string | null
+          raw_title?: string
+          sort_order?: number
           updated_at?: string
+          year?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "fiction_source_contents_content_id_fkey"
+            foreignKeyName: "curated_list_items_content_id_fkey"
             columns: ["content_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "contents"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "curated_list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "curated_lists"
+            referencedColumns: ["id"]
+          },
         ]
+      }
+      curated_lists: {
+        Row: {
+          content_type: string
+          cover_image_url: string | null
+          created_at: string
+          curator_id: string
+          description: string | null
+          description_en: string | null
+          edition: string | null
+          id: string
+          is_annual: boolean
+          is_featured: boolean
+          is_ranked: boolean
+          method: string | null
+          method_en: string | null
+          published_year: number | null
+          slug: string
+          sort_order: number
+          source_url: string
+          title: string
+          title_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          content_type?: string
+          cover_image_url?: string | null
+          created_at?: string
+          curator_id: string
+          description?: string | null
+          description_en?: string | null
+          edition?: string | null
+          id?: string
+          is_annual?: boolean
+          is_featured?: boolean
+          is_ranked?: boolean
+          method?: string | null
+          method_en?: string | null
+          published_year?: number | null
+          slug: string
+          sort_order?: number
+          source_url: string
+          title: string
+          title_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content_type?: string
+          cover_image_url?: string | null
+          created_at?: string
+          curator_id?: string
+          description?: string | null
+          description_en?: string | null
+          edition?: string | null
+          id?: string
+          is_annual?: boolean
+          is_featured?: boolean
+          is_ranked?: boolean
+          method?: string | null
+          method_en?: string | null
+          published_year?: number | null
+          slug?: string
+          sort_order?: number
+          source_url?: string
+          title?: string
+          title_en?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "curated_lists_curator_id_fkey"
+            columns: ["curator_id"]
+            isOneToOne: false
+            referencedRelation: "curators"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      curators: {
+        Row: {
+          country: string | null
+          created_at: string
+          description: string | null
+          description_en: string | null
+          founded_year: number | null
+          homepage_url: string | null
+          id: string
+          is_featured: boolean
+          kind: string
+          logo_url: string | null
+          name: string
+          name_en: string | null
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          founded_year?: number | null
+          homepage_url?: string | null
+          id?: string
+          is_featured?: boolean
+          kind: string
+          logo_url?: string | null
+          name: string
+          name_en?: string | null
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          description_en?: string | null
+          founded_year?: number | null
+          homepage_url?: string | null
+          id?: string
+          is_featured?: boolean
+          kind?: string
+          logo_url?: string | null
+          name?: string
+          name_en?: string | null
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       daily_figures: {
         Row: {
@@ -1038,6 +1660,526 @@ export type Database = {
             columns: ["celeb_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discourse_episodes: {
+        Row: {
+          created_at: string
+          data: Json
+          folder: string
+          id: string
+          logline: string | null
+          logline_en: string | null
+          longform_layout: Json | null
+          notice: string | null
+          notice_en: string | null
+          registered: boolean
+          sort_order: number
+          status: string
+          title: string
+          title_en: string | null
+          topic: string | null
+          topic_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          folder: string
+          id?: string
+          logline?: string | null
+          logline_en?: string | null
+          longform_layout?: Json | null
+          notice?: string | null
+          notice_en?: string | null
+          registered?: boolean
+          sort_order?: number
+          status?: string
+          title: string
+          title_en?: string | null
+          topic?: string | null
+          topic_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          folder?: string
+          id?: string
+          logline?: string | null
+          logline_en?: string | null
+          longform_layout?: Json | null
+          notice?: string | null
+          notice_en?: string | null
+          registered?: boolean
+          sort_order?: number
+          status?: string
+          title?: string
+          title_en?: string | null
+          topic?: string | null
+          topic_en?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      discourse_speakers: {
+        Row: {
+          celeb_id: string | null
+          color: string | null
+          data: Json
+          disabled: boolean
+          episode_id: string
+          epithet: string | null
+          epithet_duration: number | null
+          epithet_en: string | null
+          era: string | null
+          id: string
+          image: string | null
+          lines: string[] | null
+          lines_en: string[] | null
+          living: boolean
+          mythical: boolean
+          name: string
+          name_en: string | null
+          position: number
+          slug: string | null
+        }
+        Insert: {
+          celeb_id?: string | null
+          color?: string | null
+          data?: Json
+          disabled?: boolean
+          episode_id: string
+          epithet?: string | null
+          epithet_duration?: number | null
+          epithet_en?: string | null
+          era?: string | null
+          id?: string
+          image?: string | null
+          lines?: string[] | null
+          lines_en?: string[] | null
+          living?: boolean
+          mythical?: boolean
+          name: string
+          name_en?: string | null
+          position: number
+          slug?: string | null
+        }
+        Update: {
+          celeb_id?: string | null
+          color?: string | null
+          data?: Json
+          disabled?: boolean
+          episode_id?: string
+          epithet?: string | null
+          epithet_duration?: number | null
+          epithet_en?: string | null
+          era?: string | null
+          id?: string
+          image?: string | null
+          lines?: string[] | null
+          lines_en?: string[] | null
+          living?: boolean
+          mythical?: boolean
+          name?: string
+          name_en?: string | null
+          position?: number
+          slug?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discourse_speakers_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discourse_speakers_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discourse_speakers_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "discourse_episodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discourse_turns: {
+        Row: {
+          chunks: string[] | null
+          chunks_en: string[] | null
+          data: Json
+          disabled: boolean
+          duration: number | null
+          episode_id: string
+          gain_db: number | null
+          id: string
+          image: string | null
+          kind: string
+          origin: string | null
+          origin_ref: string | null
+          part: number | null
+          playback_rate: number | null
+          position: number
+          speaker_id: string
+          text: string
+          text_en: string | null
+          to_speaker_id: string | null
+        }
+        Insert: {
+          chunks?: string[] | null
+          chunks_en?: string[] | null
+          data?: Json
+          disabled?: boolean
+          duration?: number | null
+          episode_id: string
+          gain_db?: number | null
+          id?: string
+          image?: string | null
+          kind: string
+          origin?: string | null
+          origin_ref?: string | null
+          part?: number | null
+          playback_rate?: number | null
+          position: number
+          speaker_id: string
+          text: string
+          text_en?: string | null
+          to_speaker_id?: string | null
+        }
+        Update: {
+          chunks?: string[] | null
+          chunks_en?: string[] | null
+          data?: Json
+          disabled?: boolean
+          duration?: number | null
+          episode_id?: string
+          gain_db?: number | null
+          id?: string
+          image?: string | null
+          kind?: string
+          origin?: string | null
+          origin_ref?: string | null
+          part?: number | null
+          playback_rate?: number | null
+          position?: number
+          speaker_id?: string
+          text?: string
+          text_en?: string | null
+          to_speaker_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discourse_turns_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "discourse_episodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discourse_turns_speaker_id_fkey"
+            columns: ["speaker_id"]
+            isOneToOne: false
+            referencedRelation: "discourse_speakers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discourse_turns_to_speaker_id_fkey"
+            columns: ["to_speaker_id"]
+            isOneToOne: false
+            referencedRelation: "discourse_speakers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_clusters: {
+        Row: {
+          data: Json
+          disabled: boolean
+          group_id: string
+          id: string
+          image: string | null
+          label: string | null
+          label_en: string | null
+          longform_only: boolean
+          position: number
+        }
+        Insert: {
+          data?: Json
+          disabled?: boolean
+          group_id: string
+          id?: string
+          image?: string | null
+          label?: string | null
+          label_en?: string | null
+          longform_only?: boolean
+          position: number
+        }
+        Update: {
+          data?: Json
+          disabled?: boolean
+          group_id?: string
+          id?: string
+          image?: string | null
+          label?: string | null
+          label_en?: string | null
+          longform_only?: boolean
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_clusters_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "faction_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_episode_parts: {
+        Row: {
+          comment: string | null
+          episode_id: string
+          part: number
+        }
+        Insert: {
+          comment?: string | null
+          episode_id: string
+          part: number
+        }
+        Update: {
+          comment?: string | null
+          episode_id?: string
+          part?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_episode_parts_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "faction_episodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_episodes: {
+        Row: {
+          block_note: string | null
+          created_at: string
+          data: Json
+          folder: string
+          id: string
+          logline: string | null
+          logline_en: string | null
+          longform_layout: Json | null
+          registered: boolean
+          sort_order: number
+          status: string
+          title: string
+          title_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          block_note?: string | null
+          created_at?: string
+          data?: Json
+          folder: string
+          id?: string
+          logline?: string | null
+          logline_en?: string | null
+          longform_layout?: Json | null
+          registered?: boolean
+          sort_order?: number
+          status?: string
+          title: string
+          title_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          block_note?: string | null
+          created_at?: string
+          data?: Json
+          folder?: string
+          id?: string
+          logline?: string | null
+          logline_en?: string | null
+          longform_layout?: Json | null
+          registered?: boolean
+          sort_order?: number
+          status?: string
+          title?: string
+          title_en?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      faction_groups: {
+        Row: {
+          color: string | null
+          data: Json
+          disabled: boolean
+          episode_id: string
+          id: string
+          longform_only: boolean
+          name: string
+          name_en: string | null
+          part: number | null
+          position: number
+          tag_id: string | null
+        }
+        Insert: {
+          color?: string | null
+          data?: Json
+          disabled?: boolean
+          episode_id: string
+          id?: string
+          longform_only?: boolean
+          name: string
+          name_en?: string | null
+          part?: number | null
+          position: number
+          tag_id?: string | null
+        }
+        Update: {
+          color?: string | null
+          data?: Json
+          disabled?: boolean
+          episode_id?: string
+          id?: string
+          longform_only?: boolean
+          name?: string
+          name_en?: string | null
+          part?: number | null
+          position?: number
+          tag_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_groups_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "faction_episodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faction_groups_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "celeb_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faction_people: {
+        Row: {
+          celeb_id: string | null
+          cluster_id: string
+          data: Json
+          disabled: boolean
+          epithet: string | null
+          epithet_duration: number | null
+          epithet_en: string | null
+          id: string
+          image: string | null
+          lines: string[] | null
+          lines_en: string[] | null
+          longform_only: boolean
+          mined: Json | null
+          mythical: boolean
+          name: string
+          name_en: string | null
+          org: string | null
+          position: number
+          quote: string | null
+          quote_chunks: string[] | null
+          quote_duration: number | null
+          quote_en: string | null
+          quote_en_chunks: string[] | null
+          quote_origin: string | null
+          slug: string | null
+        }
+        Insert: {
+          celeb_id?: string | null
+          cluster_id: string
+          data?: Json
+          disabled?: boolean
+          epithet?: string | null
+          epithet_duration?: number | null
+          epithet_en?: string | null
+          id?: string
+          image?: string | null
+          lines?: string[] | null
+          lines_en?: string[] | null
+          longform_only?: boolean
+          mined?: Json | null
+          mythical?: boolean
+          name: string
+          name_en?: string | null
+          org?: string | null
+          position: number
+          quote?: string | null
+          quote_chunks?: string[] | null
+          quote_duration?: number | null
+          quote_en?: string | null
+          quote_en_chunks?: string[] | null
+          quote_origin?: string | null
+          slug?: string | null
+        }
+        Update: {
+          celeb_id?: string | null
+          cluster_id?: string
+          data?: Json
+          disabled?: boolean
+          epithet?: string | null
+          epithet_duration?: number | null
+          epithet_en?: string | null
+          id?: string
+          image?: string | null
+          lines?: string[] | null
+          lines_en?: string[] | null
+          longform_only?: boolean
+          mined?: Json | null
+          mythical?: boolean
+          name?: string
+          name_en?: string | null
+          org?: string | null
+          position?: number
+          quote?: string | null
+          quote_chunks?: string[] | null
+          quote_duration?: number | null
+          quote_en?: string | null
+          quote_en_chunks?: string[] | null
+          quote_origin?: string | null
+          slug?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faction_people_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faction_people_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faction_people_cluster_id_fkey"
+            columns: ["cluster_id"]
+            isOneToOne: false
+            referencedRelation: "faction_clusters"
             referencedColumns: ["id"]
           },
         ]
@@ -1112,6 +2254,78 @@ export type Database = {
             columns: ["resolved_by"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fiction_source_characters: {
+        Row: {
+          celeb_id: string
+          content_id: string
+          created_at: string
+          relation_type: string
+          sort_order: number
+        }
+        Insert: {
+          celeb_id: string
+          content_id: string
+          created_at?: string
+          relation_type?: string
+          sort_order?: number
+        }
+        Update: {
+          celeb_id?: string
+          content_id?: string
+          created_at?: string
+          relation_type?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_characters_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fiction_source_characters_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fiction_source_characters_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "fiction_source_contents"
+            referencedColumns: ["content_id"]
+          },
+        ]
+      }
+      fiction_source_contents: {
+        Row: {
+          content_id: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          content_id: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          content_id?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fiction_source_contents_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: true
+            referencedRelation: "contents"
             referencedColumns: ["id"]
           },
         ]
@@ -1402,6 +2616,130 @@ export type Database = {
           },
         ]
       }
+      free_post_comments: {
+        Row: {
+          author_id: string | null
+          content: string
+          created_at: string
+          id: string
+          ip_hash: string | null
+          is_anonymous: boolean
+          is_deleted: boolean
+          nickname: string | null
+          password_hash: string | null
+          post_id: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          is_anonymous?: boolean
+          is_deleted?: boolean
+          nickname?: string | null
+          password_hash?: string | null
+          post_id: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          is_anonymous?: boolean
+          is_deleted?: boolean
+          nickname?: string | null
+          password_hash?: string | null
+          post_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "free_post_comments_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "free_post_comments_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "free_post_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "free_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      free_posts: {
+        Row: {
+          author_id: string | null
+          content: string
+          created_at: string
+          id: string
+          ip_hash: string | null
+          is_anonymous: boolean
+          is_deleted: boolean
+          nickname: string | null
+          password_hash: string | null
+          title: string
+          updated_at: string
+          view_count: number
+        }
+        Insert: {
+          author_id?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          is_anonymous?: boolean
+          is_deleted?: boolean
+          nickname?: string | null
+          password_hash?: string | null
+          title: string
+          updated_at?: string
+          view_count?: number
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          is_anonymous?: boolean
+          is_deleted?: boolean
+          nickname?: string | null
+          password_hash?: string | null
+          title?: string
+          updated_at?: string
+          view_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "free_posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "free_posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       guestbook_entries: {
         Row: {
           author_id: string
@@ -1681,11 +3019,11 @@ export type Database = {
           birth_date: string | null
           celeb_tier: string | null
           claimed_by: string | null
+          consumption_philosophy: string | null
+          consumption_philosophy_en: string | null
           content_research_confirmed_empty_at: string | null
           content_research_status: string
           content_research_updated_at: string | null
-          consumption_philosophy: string | null
-          consumption_philosophy_en: string | null
           created_at: string
           cultural_journey: string | null
           cultural_journey_en: string | null
@@ -1714,6 +3052,8 @@ export type Database = {
           title: string | null
           title_en: string | null
           view_count: number
+          virtual_monologue: string | null
+          virtual_monologue_en: string | null
           voice_id_en: string | null
           voice_id_ko: string | null
           voice_speed: number
@@ -1728,11 +3068,11 @@ export type Database = {
           birth_date?: string | null
           celeb_tier?: string | null
           claimed_by?: string | null
+          consumption_philosophy?: string | null
+          consumption_philosophy_en?: string | null
           content_research_confirmed_empty_at?: string | null
           content_research_status?: string
           content_research_updated_at?: string | null
-          consumption_philosophy?: string | null
-          consumption_philosophy_en?: string | null
           created_at?: string
           cultural_journey?: string | null
           cultural_journey_en?: string | null
@@ -1761,6 +3101,8 @@ export type Database = {
           title?: string | null
           title_en?: string | null
           view_count?: number
+          virtual_monologue?: string | null
+          virtual_monologue_en?: string | null
           voice_id_en?: string | null
           voice_id_ko?: string | null
           voice_speed?: number
@@ -1775,11 +3117,11 @@ export type Database = {
           birth_date?: string | null
           celeb_tier?: string | null
           claimed_by?: string | null
+          consumption_philosophy?: string | null
+          consumption_philosophy_en?: string | null
           content_research_confirmed_empty_at?: string | null
           content_research_status?: string
           content_research_updated_at?: string | null
-          consumption_philosophy?: string | null
-          consumption_philosophy_en?: string | null
           created_at?: string
           cultural_journey?: string | null
           cultural_journey_en?: string | null
@@ -1808,6 +3150,8 @@ export type Database = {
           title?: string | null
           title_en?: string | null
           view_count?: number
+          virtual_monologue?: string | null
+          virtual_monologue_en?: string | null
           voice_id_en?: string | null
           voice_id_ko?: string | null
           voice_speed?: number
@@ -1989,51 +3333,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      remotion_images: {
-        Row: {
-          created_at: string
-          desc_en: string | null
-          desc_ko: string
-          height: number
-          id: string
-          prompt: string | null
-          r2_key: string
-          r2_url: string
-          source: string
-          tags: string[]
-          type: string
-          width: number
-        }
-        Insert: {
-          created_at?: string
-          desc_en?: string | null
-          desc_ko: string
-          height: number
-          id: string
-          prompt?: string | null
-          r2_key: string
-          r2_url: string
-          source: string
-          tags?: string[]
-          type: string
-          width: number
-        }
-        Update: {
-          created_at?: string
-          desc_en?: string | null
-          desc_ko?: string
-          height?: number
-          id?: string
-          prompt?: string | null
-          r2_key?: string
-          r2_url?: string
-          source?: string
-          tags?: string[]
-          type?: string
-          width?: number
-        }
-        Relationships: []
       }
       reports: {
         Row: {
@@ -2564,6 +3863,25 @@ export type Database = {
       }
     }
     Functions: {
+      apply_virtual_monologue_candidate: {
+        Args: {
+          p_candidate_text: string
+          p_expected_text: string
+          p_slug: string
+        }
+        Returns: {
+          applied: boolean
+          current_text: string
+        }[]
+      }
+      assert_celeb_content_research_run_ready: {
+        Args: { target_run_id: string }
+        Returns: undefined
+      }
+      cancel_celeb_content_research_run: {
+        Args: { target_run_id: string }
+        Returns: string
+      }
       claim_next_celeb_philosophy_rewrite: {
         Args: { p_lease_minutes?: number; p_worker: string }
         Returns: {
@@ -2578,6 +3896,14 @@ export type Database = {
           priority: number
           profession: string
           slug: string
+        }[]
+      }
+      complete_celeb_content_research_run: {
+        Args: { target_run_id: string }
+        Returns: {
+          actual_content_count: number
+          celeb_id: string
+          final_research_status: string
         }[]
       }
       complete_celeb_philosophy_rewrite: {
@@ -2611,9 +3937,31 @@ export type Database = {
         }[]
       }
       delete_auth_user: { Args: { target_user_id: string }; Returns: undefined }
+      discourse_replace_episode: {
+        Args: {
+          p_episode: Json
+          p_expected_updated_at?: string
+          p_folder: string
+          p_speakers?: Json
+          p_turns?: Json
+        }
+        Returns: Json
+      }
       enqueue_missing_celeb_philosophy_rewrite_jobs: {
         Args: never
         Returns: number
+      }
+      faction_replace_episode: {
+        Args: {
+          p_clusters?: Json
+          p_episode: Json
+          p_expected_updated_at?: string
+          p_folder: string
+          p_groups?: Json
+          p_parts?: Json
+          p_people?: Json
+        }
+        Returns: Json
       }
       fail_celeb_philosophy_rewrite: {
         Args: {
@@ -2780,6 +4128,12 @@ export type Database = {
           title: string
         }[]
       }
+      get_review_celeb_ids: {
+        Args: never
+        Returns: {
+          celeb_id: string
+        }[]
+      }
       get_scriptures_by_era: {
         Args: {
           p_category?: string
@@ -2883,6 +4237,13 @@ export type Database = {
           slug: string
         }[]
       }
+      get_trending_celebs: {
+        Args: { p_days?: number; p_limit?: number }
+        Returns: {
+          celeb_id: string
+          views: number
+        }[]
+      }
       get_user_content_counts: {
         Args: { p_category?: string }
         Returns: {
@@ -2890,13 +4251,9 @@ export type Database = {
           user_count: number
         }[]
       }
-      get_trending_celebs: {
-        Args: { p_days?: number; p_limit?: number }
-        Returns: { celeb_id: string; views: number }[]
-      }
       increment_celeb_view: {
-        Args: { p_celeb_id: string }
-        Returns: undefined
+        Args: { p_celeb_id: string; p_increment?: boolean }
+        Returns: number
       }
       increment_feedback_view_count: {
         Args: { feedback_id: string }
@@ -2910,6 +4267,14 @@ export type Database = {
       renew_celeb_philosophy_rewrite_lease: {
         Args: { p_celeb_id: string; p_lease_minutes?: number; p_worker: string }
         Returns: boolean
+      }
+      set_celeb_quote: {
+        Args: { p_celeb_id: string; p_quote_en?: string; p_quote_ko: string }
+        Returns: boolean
+      }
+      set_fiction_narrative_events: {
+        Args: { p_celeb_id: string; p_events: Json }
+        Returns: number
       }
       set_fiction_source_characters: {
         Args: { p_celeb_ids?: string[]; p_content_id: string }

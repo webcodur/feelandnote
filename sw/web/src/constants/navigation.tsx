@@ -76,6 +76,7 @@ export const NAV_ITEMS: NavItem[] = [
     subLinks: [
       { key: "era", href: "/library/era", label: "불후의 명작" },
       { key: "profession", href: "/library/profession", label: "갈림길" },
+      { key: "curated", href: "/library/curated", label: "기관 선정" },
       { key: "museum", href: "/library/museum", label: "박물관" },
       { key: "academy", href: "/library/academy", label: "학당" },
     ],

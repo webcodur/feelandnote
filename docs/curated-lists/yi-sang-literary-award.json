@@ -1,0 +1,402 @@
+{
+  "curator": {
+    "slug": "munhaksasang",
+    "name": "문학사상사",
+    "name_en": "Munhaksasang",
+    "kind": "award",
+    "country": "KR",
+    "founded_year": null,
+    "homepage_url": null,
+    "description": "1977년 이상문학상을 제정해 2024년 제47회까지 주관한 한국의 문학 전문 출판사다. 소설가 이상의 문학적 업적을 기리기 위해 상을 만들었고, 해마다 대상 수상작을 표제로 삼은 이상문학상 작품집을 펴냈다. 2025년 제48회부터는 다산북스가 주관사를 이어받았다.",
+    "description_en": "Munhaksasang is a Korean literary publishing house that founded the Yi Sang Literary Award in 1977 and administered it through the 47th edition in 2024. The award was created to honor the legacy of the modernist writer Yi Sang, and each year the publisher issued an anthology titled after the Grand Prize winning story. From the 48th edition in 2025, the publisher Dasan Books took over as the award's organizer."
+  },
+  "list": {
+    "slug": "yi-sang-literary-award",
+    "title": "이상문학상 대상 수상작",
+    "title_en": "Yi Sang Literary Award Grand Prize Winners",
+    "description": "이상문학상은 1977년 문학사상사가 소설가 이상을 기려 제정한 한국의 대표적인 문학상이다. 장편은 제외하고 전년도에 문예지 등에 발표된 중편·단편 순수문학 소설만을 대상으로 하며, 그중 가장 뛰어난 한 편에 대상을 준다. 이 목록은 제1회부터 최신 회차까지의 대상 수상작만 모은 것으로 우수상은 포함하지 않는다.",
+    "description_en": "The Yi Sang Literary Award was established in 1977 by the publisher Munhaksasang in honor of the modernist writer Yi Sang, and it is among the most prominent literary prizes in South Korea. It considers only novellas and short stories of literary fiction published in literary magazines during the preceding year, excluding full-length novels, and the single finest work receives the Grand Prize. This list collects the Grand Prize winners from the first edition to the most recent, and excludes the Excellence Prize recipients.",
+    "published_year": null,
+    "edition": null,
+    "method": "전년도 1월부터 12월까지 문예지를 비롯한 각 잡지에 발표된 중편·단편 순수문학 소설을 심사 대상으로 삼는다. 예비심사를 거쳐 본심에 회부하고 심사위원단이 대상 한 편을 정한다. 수상작품집은 이듬해 1월에 대상 수상작 제목을 표제로 삼아 발간한다.",
+    "method_en": "Eligible works are novellas and short stories of literary fiction published in literary magazines and other periodicals between January and December of the preceding year. Entries pass through a preliminary screening before being referred to a final round, where a panel of judges selects a single Grand Prize winner. The award anthology is published the following January under the title of the winning story.",
+    "source_url": "https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%83%81%EB%AC%B8%ED%95%99%EC%83%81",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "korean-literature"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "서울의 달빛 0장",
+      "raw_creator": "김승옥",
+      "rank": null,
+      "year": 1977,
+      "note": "제1회"
+    },
+    {
+      "raw_title": "잔인한 도시",
+      "raw_creator": "이청준",
+      "rank": null,
+      "year": 1978,
+      "note": "제2회"
+    },
+    {
+      "raw_title": "저녁의 게임",
+      "raw_creator": "오정희",
+      "rank": null,
+      "year": 1979,
+      "note": "제3회"
+    },
+    {
+      "raw_title": "관계",
+      "raw_creator": "유재용",
+      "rank": null,
+      "year": 1980,
+      "note": "제4회"
+    },
+    {
+      "raw_title": "엄마의 말뚝 2",
+      "raw_creator": "박완서",
+      "rank": null,
+      "year": 1981,
+      "note": "제5회"
+    },
+    {
+      "raw_title": "깊고 푸른 밤",
+      "raw_creator": "최인호",
+      "rank": null,
+      "year": 1982,
+      "note": "제6회"
+    },
+    {
+      "raw_title": "먼 그대",
+      "raw_creator": "서영은",
+      "rank": null,
+      "year": 1983,
+      "note": "제7회"
+    },
+    {
+      "raw_title": "어두운 기억의 저편",
+      "raw_creator": "이균영",
+      "rank": null,
+      "year": 1984,
+      "note": "제8회"
+    },
+    {
+      "raw_title": "나그네는 길에서도 쉬지 않는다",
+      "raw_creator": "이제하",
+      "rank": null,
+      "year": 1985,
+      "note": "제9회"
+    },
+    {
+      "raw_title": "흐르는 북",
+      "raw_creator": "최일남",
+      "rank": null,
+      "year": 1986,
+      "note": "제10회"
+    },
+    {
+      "raw_title": "우리들의 일그러진 영웅",
+      "raw_creator": "이문열",
+      "rank": null,
+      "year": 1987,
+      "note": "제11회"
+    },
+    {
+      "raw_title": "붉은 방",
+      "raw_creator": "임철우",
+      "rank": null,
+      "year": 1988,
+      "note": "제12회 (공동 수상)"
+    },
+    {
+      "raw_title": "해변의 길손",
+      "raw_creator": "한승원",
+      "rank": null,
+      "year": 1988,
+      "note": "제12회 (공동 수상)"
+    },
+    {
+      "raw_title": "겨울의 환",
+      "raw_creator": "김채원",
+      "rank": null,
+      "year": 1989,
+      "note": "제13회"
+    },
+    {
+      "raw_title": "마음의 감옥",
+      "raw_creator": "김원일",
+      "rank": null,
+      "year": 1990,
+      "note": "제14회"
+    },
+    {
+      "raw_title": "우리 시대의 소설가",
+      "raw_creator": "조성기",
+      "rank": null,
+      "year": 1991,
+      "note": "제15회"
+    },
+    {
+      "raw_title": "숨은 꽃",
+      "raw_creator": "양귀자",
+      "rank": null,
+      "year": 1992,
+      "note": "제16회"
+    },
+    {
+      "raw_title": "얼음의 도가니",
+      "raw_creator": "최수철",
+      "rank": null,
+      "year": 1993,
+      "note": "제17회"
+    },
+    {
+      "raw_title": "하나코는 없다",
+      "raw_creator": "최윤",
+      "rank": null,
+      "year": 1994,
+      "note": "제18회"
+    },
+    {
+      "raw_title": "하얀 배",
+      "raw_creator": "윤후명",
+      "rank": null,
+      "year": 1995,
+      "note": "제19회"
+    },
+    {
+      "raw_title": "천지간",
+      "raw_creator": "윤대녕",
+      "rank": null,
+      "year": 1996,
+      "note": "제20회"
+    },
+    {
+      "raw_title": "사랑의 예감",
+      "raw_creator": "김지원",
+      "rank": null,
+      "year": 1997,
+      "note": "제21회"
+    },
+    {
+      "raw_title": "아내의 상자",
+      "raw_creator": "은희경",
+      "rank": null,
+      "year": 1998,
+      "note": "제22회"
+    },
+    {
+      "raw_title": "내 마음의 옥탑방",
+      "raw_creator": "박상우",
+      "rank": null,
+      "year": 1999,
+      "note": "제23회"
+    },
+    {
+      "raw_title": "시인의 별",
+      "raw_creator": "이인화",
+      "rank": null,
+      "year": 2000,
+      "note": "제24회"
+    },
+    {
+      "raw_title": "부석사",
+      "raw_creator": "신경숙",
+      "rank": null,
+      "year": 2001,
+      "note": "제25회"
+    },
+    {
+      "raw_title": "뱀장어 스튜",
+      "raw_creator": "권지예",
+      "rank": null,
+      "year": 2002,
+      "note": "제26회"
+    },
+    {
+      "raw_title": "바다와 나비",
+      "raw_creator": "김인숙",
+      "rank": null,
+      "year": 2003,
+      "note": "제27회"
+    },
+    {
+      "raw_title": "화장",
+      "raw_creator": "김훈",
+      "rank": null,
+      "year": 2004,
+      "note": "제28회"
+    },
+    {
+      "raw_title": "몽고반점",
+      "raw_creator": "한강",
+      "rank": null,
+      "year": 2005,
+      "note": "제29회"
+    },
+    {
+      "raw_title": "밤이여, 나뉘어라",
+      "raw_creator": "정미경",
+      "rank": null,
+      "year": 2006,
+      "note": "제30회"
+    },
+    {
+      "raw_title": "천사는 여기 머문다",
+      "raw_creator": "전경린",
+      "rank": null,
+      "year": 2007,
+      "note": "제31회"
+    },
+    {
+      "raw_title": "사랑을 믿다",
+      "raw_creator": "권여선",
+      "rank": null,
+      "year": 2008,
+      "note": "제32회"
+    },
+    {
+      "raw_title": "산책하는 이들의 다섯 가지 즐거움",
+      "raw_creator": "김연수",
+      "rank": null,
+      "year": 2009,
+      "note": "제33회"
+    },
+    {
+      "raw_title": "아침의 문",
+      "raw_creator": "박민규",
+      "rank": null,
+      "year": 2010,
+      "note": "제34회"
+    },
+    {
+      "raw_title": "맨발로 글목을 돌다",
+      "raw_creator": "공지영",
+      "rank": null,
+      "year": 2011,
+      "note": "제35회"
+    },
+    {
+      "raw_title": "옥수수와 나",
+      "raw_creator": "김영하",
+      "rank": null,
+      "year": 2012,
+      "note": "제36회"
+    },
+    {
+      "raw_title": "침묵의 미래",
+      "raw_creator": "김애란",
+      "rank": null,
+      "year": 2013,
+      "note": "제37회"
+    },
+    {
+      "raw_title": "몬순",
+      "raw_creator": "편혜영",
+      "rank": null,
+      "year": 2014,
+      "note": "제38회"
+    },
+    {
+      "raw_title": "뿌리 이야기",
+      "raw_creator": "김숨",
+      "rank": null,
+      "year": 2015,
+      "note": "제39회"
+    },
+    {
+      "raw_title": "천국의 문",
+      "raw_creator": "김경욱",
+      "rank": null,
+      "year": 2016,
+      "note": "제40회"
+    },
+    {
+      "raw_title": "풍경소리",
+      "raw_creator": "구효서",
+      "rank": null,
+      "year": 2017,
+      "note": "제41회"
+    },
+    {
+      "raw_title": "꿈을 꾸었다고 말했다",
+      "raw_creator": "손홍규",
+      "rank": null,
+      "year": 2018,
+      "note": "제42회"
+    },
+    {
+      "raw_title": "그들의 첫 번째와 두 번째 고양이",
+      "raw_creator": "윤이형",
+      "rank": null,
+      "year": 2019,
+      "note": "제43회"
+    },
+    {
+      "raw_title": "마음의 부력",
+      "raw_creator": "이승우",
+      "rank": null,
+      "year": 2021,
+      "note": "제44회 (2020년은 저작권 양도 조항 논란으로 시상·작품집 발간이 이루어지지 않아 제44회가 2021년으로 넘어감)"
+    },
+    {
+      "raw_title": "불장난",
+      "raw_creator": "손보미",
+      "rank": null,
+      "year": 2022,
+      "note": "제45회"
+    },
+    {
+      "raw_title": "홈 스위트 홈",
+      "raw_creator": "최진영",
+      "rank": null,
+      "year": 2023,
+      "note": "제46회"
+    },
+    {
+      "raw_title": "일러두기",
+      "raw_creator": "조경란",
+      "rank": null,
+      "year": 2024,
+      "note": "제47회"
+    },
+    {
+      "raw_title": "그 개와 혁명",
+      "raw_creator": "예소연",
+      "rank": null,
+      "year": 2025,
+      "note": "제48회 (주관사가 문학사상사에서 다산북스로 바뀐 뒤 첫 수상)"
+    },
+    {
+      "raw_title": "눈과 돌멩이",
+      "raw_creator": "위수정",
+      "rank": null,
+      "year": 2026,
+      "note": "제49회 (2026년 1월 27일 발표, 확인 시점 기준 최신 회차)"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://ko.wikipedia.org/wiki/%EC%9D%B4%EC%83%81%EB%AC%B8%ED%95%99%EC%83%81 (위키백과 「이상문학상」 - 제1회~제49회 대상 수상작 전체 목록의 주 출처)",
+      "https://ko.wikipedia.org/w/index.php?title=%EC%9D%B4%EC%83%81%EB%AC%B8%ED%95%99%EC%83%81&action=raw (같은 문서의 원본 위키텍스트 - 표기·각주 재확인)",
+      "https://namu.wiki/w/%EC%9D%B4%EC%83%81%EB%AC%B8%ED%95%99%EC%83%81 (나무위키 「이상문학상」 - 주관사 변경 시점, 심사 방식, 2020년 시상 무산 확인)",
+      "https://www.poemhouse.kr/hof/1835 (한국시문화회관 「역대 이상문학상 수상작」 - 제1회~제39회 교차 검증)",
+      "https://www.khan.co.kr/article/202601272134005 (경향신문 「제49회 이상문학상 대상에 위수정 작가 '눈과 돌멩이'」 - 최신 회차 및 심사위원 확인)",
+      "https://ko.wikipedia.org/wiki/%EB%B0%95%EC%99%84%EC%84%9C (위키백과 「박완서」 - 제5회 수상작이 「엄마의 말뚝 2」임을 확인)",
+      "WebSearch: \"2026 제49회 이상문학상 대상 위수정 눈과 돌멩이\" (경향신문·미주중앙일보·교보문고 결과로 최신 회차 교차 확인)",
+      "WebSearch: \"2020년 이상문학상 저작권 논란 수상 거부 김금희 최은영 이기호 시상 취소\" (YTN·뉴시스·문화+서울 결과로 2020년 시상 무산 확인)",
+      "WebSearch: \"제48회 이상문학상 2025 대상 예소연 그 개와 혁명 다산북스\" (YTN·교보문고 결과로 주관사 이관 확인)",
+      "WebSearch: \"제39회 이상문학상 작품집 김숨 뿌리 이야기 2015 대상\" (교보문고 작품집 표기로 띄어쓰기 확인)",
+      "WebSearch: \"제5회 이상문학상 대상 박완서 엄마의 말뚝 2 1981\""
+    ],
+    "item_count": 50,
+    "year_range": "1977 ~ 2026",
+    "gaps": "2020년에는 대상 수상작이 없다. 제44회 우수상 수상자로 선정된 김금희·최은영·이기호가 저작권 3년 양도 조항을 문제 삼아 수상을 거부했고, 주관사인 문학사상사가 2020년 1월 6일로 예정했던 발표 기자간담회를 무기한 연기한 뒤 그해 수상작과 작품집을 내지 않기로 결정했다(YTN·뉴시스 보도, 나무위키). 이 때문에 제43회(2019)에서 제44회(2021)로 건너뛴다. 그 외 제1회부터 제49회까지 회차는 빠짐없이 연속한다.",
+    "uncertainties": "① 제5회(1981) 박완서 수상작을 위키백과 「이상문학상」 문서와 한국시문화회관 목록은 「엄마의 말뚝」으로만 적었으나, 위키백과 「박완서」 문서는 「엄마의 말뚝 2」로 적었다. 연작 중 두 번째 작품이 수상작이므로 「엄마의 말뚝 2」를 채택했다. ② 제13회(1989) 김채원 수상작을 한국시문화회관은 「겨울의 환幻」으로 한자를 병기했으나 지시에 따라 한글만 남겨 「겨울의 환」으로 적었다. ③ 제39회(2015) 김숨 수상작을 한국시문화회관은 「뿌리이야기」로 붙여 썼으나 교보문고의 작품집 서지와 위키백과가 「뿌리 이야기」로 띄어 써서 후자를 채택했다. ④ 제12회(1988)는 임철우와 한승원의 공동 수상이라 항목이 두 개이므로 항목 수(50)가 회차 수(49)보다 하나 많다. ⑤ 주관사가 2025년 제48회부터 문학사상사에서 다산북스로 바뀌었다. 지시된 형식에 따라 curator는 상을 제정한 문학사상사로 두되 이 변경을 소개 문구에 적었다."
+  }
+}

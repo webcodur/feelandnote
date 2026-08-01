@@ -1,0 +1,749 @@
+{
+  "curator": {
+    "slug": "time-magazine",
+    "name": "타임",
+    "name_en": "TIME",
+    "kind": "media",
+    "country": "US",
+    "founded_year": 1923,
+    "homepage_url": "https://time.com",
+    "description": "1923년 창간한 미국의 시사 주간지다. 정치·경제·문화 전반을 다루며 「올해의 인물」 같은 연례 기획으로 널리 알려져 있다. 문학·영화·음악 분야의 「All-TIME 100」 선정 목록도 꾸준히 발표해 왔다.",
+    "description_en": "TIME is an American weekly news magazine founded in 1923. It covers politics, business, and culture, and is widely known for annual features such as Person of the Year. It has also published a series of All-TIME 100 lists in literature, film, and music."
+  },
+  "list": {
+    "slug": "time-100-novels",
+    "title": "타임 선정 100대 소설",
+    "title_en": "All-TIME 100 Novels",
+    "description": "타임의 평론가 두 사람이 1923년부터 2005년 사이 영어로 발표된 소설 100편을 고른 목록이다. 순위를 매기지 않고 제목의 알파벳 순으로 배열했다. 앨런 무어의 그래픽 노블 「왓치맨」이 포함된 것으로도 화제가 됐다.",
+    "description_en": "A selection of 100 novels written in English and published between 1923 and 2005, chosen by two TIME book critics. The list is unranked and presented alphabetically by title. Its inclusion of Alan Moore's graphic novel Watchmen drew particular attention.",
+    "published_year": 2005,
+    "edition": null,
+    "method": "타임의 평론가 리처드 라카요와 레브 그로스먼이 골랐다. 대상은 타임이 창간한 1923년 이후 세계 어디서든 영어로 출간된 소설이며, 1922년에 나온 제임스 조이스의 「율리시스」는 이 기준 때문에 제외됐다. 두 사람이 각자 후보 목록을 만들었더니 80편 넘게 겹쳤고, 남은 자리는 둘이 나눠 각자의 선택으로 채웠다. 2005년 1월부터 시작해 예전에 읽은 작품을 다시 읽는 과정을 거쳤다.",
+    "method_en": "Chosen by TIME critics Richard Lacayo and Lev Grossman. The parameters were English-language novels published anywhere in the world since 1923, the year TIME began, which excluded James Joyce's Ulysses (1922). Each critic drew up his own list of nominees; more than 80 titles matched, and the two divided the remaining slots between them so each could include books the other might not have chosen. The project, begun in January 2005, involved re-reading as much as reading.",
+    "source_url": "http://web.archive.org/web/20120411023547/http://entertainment.time.com/2005/10/16/all-time-100-novels/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Adventures of Augie March",
+      "raw_creator": "Saul Bellow",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "All the King's Men",
+      "raw_creator": "Robert Penn Warren",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "American Pastoral",
+      "raw_creator": "Philip Roth",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "An American Tragedy",
+      "raw_creator": "Theodore Dreiser",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Animal Farm",
+      "raw_creator": "George Orwell",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "Appointment in Samarra",
+      "raw_creator": "John O'Hara",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Are You There God? It's Me, Margaret",
+      "raw_creator": "Judy Blume",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "The Assistant",
+      "raw_creator": "Bernard Malamud",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "At Swim-Two-Birds",
+      "raw_creator": "Flann O'Brien",
+      "rank": null,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "Atonement",
+      "raw_creator": "Ian McEwan",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Beloved",
+      "raw_creator": "Toni Morrison",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Berlin Stories",
+      "raw_creator": "Christopher Isherwood",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "The Big Sleep",
+      "raw_creator": "Raymond Chandler",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "The Blind Assassin",
+      "raw_creator": "Margaret Atwood",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Blood Meridian",
+      "raw_creator": "Cormac McCarthy",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Brideshead Revisited",
+      "raw_creator": "Evelyn Waugh",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "The Bridge of San Luis Rey",
+      "raw_creator": "Thornton Wilder",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "Call It Sleep",
+      "raw_creator": "Henry Roth",
+      "rank": null,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "Catch-22",
+      "raw_creator": "Joseph Heller",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Catcher in the Rye",
+      "raw_creator": "J.D. Salinger",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "A Clockwork Orange",
+      "raw_creator": "Anthony Burgess",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "The Confessions of Nat Turner",
+      "raw_creator": "William Styron",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "The Corrections",
+      "raw_creator": "Jonathan Franzen",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Crying of Lot 49",
+      "raw_creator": "Thomas Pynchon",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "A Dance to the Music of Time",
+      "raw_creator": "Anthony Powell",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "The Day of the Locust",
+      "raw_creator": "Nathanael West",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Death Comes for the Archbishop",
+      "raw_creator": "Willa Cather",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "A Death in the Family",
+      "raw_creator": "James Agee",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Death of the Heart",
+      "raw_creator": "Elizabeth Bowen",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Deliverance",
+      "raw_creator": "James Dickey",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Dog Soldiers",
+      "raw_creator": "Robert Stone",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Falconer",
+      "raw_creator": "John Cheever",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "The French Lieutenant's Woman",
+      "raw_creator": "John Fowles",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Golden Notebook",
+      "raw_creator": "Doris Lessing",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Go Tell it on the Mountain",
+      "raw_creator": "James Baldwin",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "Gone With the Wind",
+      "raw_creator": "Margaret Mitchell",
+      "rank": null,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "The Grapes of Wrath",
+      "raw_creator": "John Steinbeck",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Gravity's Rainbow",
+      "raw_creator": "Thomas Pynchon",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Gatsby",
+      "raw_creator": "F. Scott Fitzgerald",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "A Handful of Dust",
+      "raw_creator": "Evelyn Waugh",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "The Heart is A Lonely Hunter",
+      "raw_creator": "Carson McCullers",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "The Heart of the Matter",
+      "raw_creator": "Graham Greene",
+      "rank": null,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "Herzog",
+      "raw_creator": "Saul Bellow",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "Housekeeping",
+      "raw_creator": "Marilynne Robinson",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "A House for Mr. Biswas",
+      "raw_creator": "V.S. Naipaul",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "I, Claudius",
+      "raw_creator": "Robert Graves",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Infinite Jest",
+      "raw_creator": "David Foster Wallace",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Invisible Man",
+      "raw_creator": "Ralph Ellison",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "Light in August",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Lion, The Witch and the Wardrobe",
+      "raw_creator": "C.S. Lewis",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "Lolita",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Lord of the Flies",
+      "raw_creator": "William Golding",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "The Lord of the Rings",
+      "raw_creator": "J.R.R. Tolkien",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "The Moviegoer",
+      "raw_creator": "Walker Percy",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Loving",
+      "raw_creator": "Henry Green",
+      "rank": null,
+      "year": 1945,
+      "note": null
+    },
+    {
+      "raw_title": "Lucky Jim",
+      "raw_creator": "Kingsley Amis",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "The Man Who Loved Children",
+      "raw_creator": "Christina Stead",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight's Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Money",
+      "raw_creator": "Martin Amis",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Mrs. Dalloway",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Naked Lunch",
+      "raw_creator": "William Burroughs",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Native Son",
+      "raw_creator": "Richard Wright",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Neuromancer",
+      "raw_creator": "William Gibson",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Never Let Me Go",
+      "raw_creator": "Kazuo Ishiguro",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "1984",
+      "raw_creator": "George Orwell",
+      "rank": null,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "On the Road",
+      "raw_creator": "Jack Kerouac",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "One Flew Over the Cuckoo's Nest",
+      "raw_creator": "Ken Kesey",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "The Painted Bird",
+      "raw_creator": "Jerzy Kosinski",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "Pale Fire",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "A Passage to India",
+      "raw_creator": "E.M. Forster",
+      "rank": null,
+      "year": 1924,
+      "note": null
+    },
+    {
+      "raw_title": "Play It As It Lays",
+      "raw_creator": "Joan Didion",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Portnoy's Complaint",
+      "raw_creator": "Philip Roth",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Possession",
+      "raw_creator": "A.S. Byatt",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "The Power and the Glory",
+      "raw_creator": "Graham Greene",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "The Prime of Miss Jean Brodie",
+      "raw_creator": "Muriel Spark",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Rabbit, Run",
+      "raw_creator": "John Updike",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Ragtime",
+      "raw_creator": "E.L. Doctorow",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "The Recognitions",
+      "raw_creator": "William Gaddis",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Red Harvest",
+      "raw_creator": "Dashiell Hammett",
+      "rank": null,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "Revolutionary Road",
+      "raw_creator": "Richard Yates",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Sheltering Sky",
+      "raw_creator": "Paul Bowles",
+      "rank": null,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "Slaughterhouse Five",
+      "raw_creator": "Kurt Vonnegut",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Snow Crash",
+      "raw_creator": "Neal Stephenson",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "The Sot-Weed Factor",
+      "raw_creator": "John Barth",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "The Sound and the Fury",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "The Sportswriter",
+      "raw_creator": "Richard Ford",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "The Spy Who Came in From the Cold",
+      "raw_creator": "John le Carre",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "The Sun Also Rises",
+      "raw_creator": "Ernest Hemingway",
+      "rank": null,
+      "year": 1926,
+      "note": null
+    },
+    {
+      "raw_title": "Their Eyes Were Watching God",
+      "raw_creator": "Zora Neale Hurston",
+      "rank": null,
+      "year": 1937,
+      "note": null
+    },
+    {
+      "raw_title": "Things Fall Apart",
+      "raw_creator": "Chinua Achebe",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "To Kill a Mockingbird",
+      "raw_creator": "Harper Lee",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "To the Lighthouse",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "Tropic of Cancer",
+      "raw_creator": "Henry Miller",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Ubik",
+      "raw_creator": "Philip K. Dick",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Under the Net",
+      "raw_creator": "Iris Murdoch",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Under the Volcano",
+      "raw_creator": "Malcolm Lowry",
+      "rank": null,
+      "year": 1947,
+      "note": null
+    },
+    {
+      "raw_title": "Watchmen",
+      "raw_creator": "Alan Moore & Dave Gibbons",
+      "rank": null,
+      "year": 1986,
+      "note": "TIME 슬라이드에 저자 항목이 비어 있으나 TIME 자체 주소 슬러그(watchmen-1986-by-alan-moore-dave-gibbons)가 두 사람을 명기한다. 그래픽 노블."
+    },
+    {
+      "raw_title": "White Noise",
+      "raw_creator": "Don DeLillo",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "White Teeth",
+      "raw_creator": "Zadie Smith",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Wide Sargasso Sea",
+      "raw_creator": "Jean Rhys",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "http://web.archive.org/web/20120411023547/http://entertainment.time.com/2005/10/16/all-time-100-novels/ (타임 원문 슬라이드쇼 아카이브 — 100편 전체의 제목·저자·연도가 담긴 데이터를 여기서 추출. 본문 686KB 회수 성공)",
+      "http://web.archive.org/web/20120411023547/.../all-time-100-novels/ 내 how-we-picked-the-list 슬라이드 (리처드 라카요가 쓴 선정 경위 전문 — method 근거)",
+      "http://web.archive.org/cdx/search/cdx?url=entertainment.time.com/2005/10/16/all-time-100-novels* (아카이브 스냅샷 목록 확인)",
+      "https://www.sfadb.com/TimeMag (교차 확인 — SF 분야 20편만 수록, 선정자·기간·무순위 서술 일치)",
+      "https://entertainment.time.com/2005/10/16/all-time-100-novels/ (원본 라이브 URL — SSL 인증서 불일치 및 WAF 차단으로 회수 실패)",
+      "https://en.wikipedia.org/wiki/Time%27s_List_of_the_100_Best_Novels 및 동 API (문서 부재/404 — 사용 못 함)",
+      "https://thegreatestbooks.org/lists/1 (403 차단)"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "ranked": "순위 없음. 타임 원문 슬라이드가 제목 알파벳 순으로 배열돼 있고 각 슬라이드에 A - B, C - D, F - G, H - I, L - N, O - R, S - T, U - W 같은 알파벳 구간 표시가 붙어 있다. 원문 어디에도 순위 표기가 없으며 sfadb도 무순위로 서술한다. 따라서 is_ranked=false, rank는 전부 null.",
+    "gaps": "없음. 타임 원문에 실린 100편을 모두 담았다.",
+    "uncertainties": "① 왓치맨 슬라이드에는 저자 항목이 비어 있어 타임 자체 주소 슬러그에 적힌 두 저자(Alan Moore & Dave Gibbons)를 사용했다. ② 연도는 타임이 각 슬라이드에 적은 값(Year Released) 그대로다. 일반적으로 통용되는 초판 연도와 어긋나는 항목이 있다 — 1984는 1948, 애니멀 팜은 1946, 시계태엽 오렌지는 1963, 파리대왕은 1955, 다시 찾은 브라이즈헤드는 1946으로 적혀 있다. 원문 값을 그대로 보존했다. ③ 타임의 알파벳 배열 자체에도 흐트러진 곳이 있다(The Moviegoer가 The Lord of the Rings와 Loving 사이에 있음). 원문 배열 순서를 그대로 두었다."
+  }
+}

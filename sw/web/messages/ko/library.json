@@ -42,7 +42,10 @@
       "continueLearning": "내 학습 기록 이어보기",
       "moreDetail": "더보기",
       "exploreMuseum": "관람하기",
-      "enterAcademy": "학당 입장"
+      "enterAcademy": "학당 입장",
+      "curatedLabel": "기관 선정",
+      "curated": "대학과 언론사, 시상 기관이 직접 골라낸 목록으로 작품을 만납니다.",
+      "exploreCurated": "선정 목록 보기"
     },
     "meta": {
       "title": "서가 - 셀럽 추천 도서·영화 아카이브",
@@ -355,6 +358,57 @@
         "representativePrefix": "대표 ",
         "recommendedWorks": "추천 작품"
       }
+    },
+    "curated": {
+      "metaTitle": "기관 선정 - 대학·언론이 뽑은 필독서",
+      "metaDescription": "서울대 권장도서 100선, 뉴욕타임스 21세기 최고의 책, 부커상 수상작 등 대학·언론·시상 기관이 발표한 작품 목록을 모았습니다.",
+      "title": "기관 선정",
+      "intro": "사람이 아니라 기관이 고른 목록입니다. 대학이 학생에게 권하는 책, 언론이 한 해를 정리하며 꼽은 작품, 심사위원단이 상을 준 작품을 원문 그대로 옮겨 담았습니다.",
+      "kind": {
+        "university": "대학·교육기관",
+        "media": "언론·매체",
+        "award": "시상 기관",
+        "organization": "단체",
+        "community": "대중 투표",
+        "bookstore": "서점",
+        "library": "도서관",
+        "festival": "영화제"
+      },
+      "listCount": "목록 {count}개",
+      "itemCount": "{count}편",
+      "viewList": "목록 보기",
+      "viewCurator": "이 기관의 다른 목록",
+      "ranked": "순위 있음",
+      "annual": "해마다 발표",
+      "source": "출처 원문",
+      "method": "선정 방식",
+      "published": "{year}년 발표",
+      "notRegistered": "아직 등록되지 않은 작품",
+      "linkedSummary": "{total}편 가운데 {linked}편을 서비스에서 볼 수 있습니다.",
+      "otherEditions": "다른 해",
+      "backToHub": "기관 선정으로",
+      "empty": "아직 등록된 목록이 없습니다.",
+      "emptyLists": "이 기관의 목록을 준비하고 있습니다.",
+      "rankLabel": "{rank}위",
+      "yearLabel": "{year}년",
+      "onContent": {
+        "title": "선정 이력",
+        "subtitle": "이 작품을 뽑은 기관과 목록입니다.",
+        "badge": "{count}곳 선정"
+      },
+      "topicLabel": {
+        "classics": "고전",
+        "novel": "소설",
+        "sf": "SF",
+        "mystery": "추리",
+        "children": "아동·청소년",
+        "film": "영화",
+        "korean-literature": "한국문학",
+        "horror": "공포",
+        "history": "역사",
+        "philosophy": "철학"
+      },
+      "moreLists": "목록 {count}개 더 보기"
     }
   }
 }

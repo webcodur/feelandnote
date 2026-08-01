@@ -27,6 +27,8 @@ export const CACHE_TAGS = {
   TAGS: 'tags',
   /** 픽션 인물 ↔ 대표 원전 콘텐츠 연결 */
   FICTION_SOURCES: 'fiction-sources',
+  /** 기관 선정 목록(선정 주체·목록·담긴 작품) */
+  CURATED: 'curated',
 } as const
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS]

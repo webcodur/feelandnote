@@ -11,11 +11,12 @@ import HubSection from "@/components/shared/HubSection";
 import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, librarySection } from "@/components/shared/hubSectionUtils";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
-import { getTodayFigure, getLibraryByEra, getProfessionContentCounts, getContentSamplesByProfession } from "@/actions/library";
+import { getTodayFigure, getLibraryByEra, getProfessionContentCounts, getContentSamplesByProfession, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
 import FigurePreview from "@/components/features/library/hub/FigurePreview";
 import EraPreview from "@/components/features/library/hub/EraPreview";
 import ProfessionPreview from "@/components/features/library/hub/ProfessionPreview";
+import CuratedPreview from "@/components/features/library/hub/CuratedPreview";
 import MuseumPreview from "@/components/features/library/hub/MuseumPreview";
 import AcademyPreview from "@/components/features/library/hub/AcademyPreview";
 
@@ -27,10 +28,11 @@ export async function generateMetadata() {
 async function ScripturesHubContent() {
   const tHub = await getTranslations("library.hub");
 
-  const [todayFigureRes, eraData, professionCounts, academyState] = await Promise.all([
+  const [todayFigureRes, eraData, professionCounts, curatedHub, academyState] = await Promise.all([
     getTodayFigure(),
     getLibraryByEra(),
     getProfessionContentCounts(),
+    getCuratedHub(),
     getAcademyLessonProgressState(),
   ]);
 
@@ -41,14 +43,14 @@ async function ScripturesHubContent() {
 
   return (
     <div className="space-y-12 md:space-y-16 mt-4">
-      {/* 1/5 오늘의 인물 */}
+      {/* 1/6 오늘의 인물 */}
       {figure && contents && (
         <HubSection {...librarySection("figure", tHub)}>
           <FigurePreview figure={figure} contents={contents} />
         </HubSection>
       )}
 
-      {/* 2/5 불후의 명작 */}
+      {/* 2/6 불후의 명작 */}
       {eraData && eraData.length > 0 && (
         <HubSection {...librarySection("era", tHub)}>
           <EraPreview eras={eraData.map(e => ({
@@ -64,19 +66,26 @@ async function ScripturesHubContent() {
         </HubSection>
       )}
 
-      {/* 3/5 길의 갈래 */}
+      {/* 3/6 길의 갈래 */}
       {professionCounts && professionCounts.length > 0 && (
         <HubSection {...librarySection("profession", tHub)}>
           <ProfessionPreview professionCounts={professionCounts} contentSamples={professionContentSamples} />
         </HubSection>
       )}
 
-      {/* 4/5 박물관 */}
+      {/* 4/6 기관 선정 */}
+      {curatedHub.curators.length > 0 && (
+        <HubSection {...librarySection("curated", tHub)}>
+          <CuratedPreview hub={curatedHub} />
+        </HubSection>
+      )}
+
+      {/* 5/6 박물관 */}
       <HubSection {...librarySection("museum", tHub)}>
         <MuseumPreview />
       </HubSection>
 
-      {/* 5/5 학당 */}
+      {/* 6/6 학당 */}
       <HubSection {...librarySection("academy", tHub)}>
         <AcademyPreview isSignedIn={academyState.isSignedIn} />
       </HubSection>

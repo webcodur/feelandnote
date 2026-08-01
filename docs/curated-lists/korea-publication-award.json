@@ -1,0 +1,918 @@
+{
+  "curator": {
+    "slug": "hankook-ilbo",
+    "name": "한국일보",
+    "name_en": "The Hankook Ilbo",
+    "kind": "media",
+    "country": "KR",
+    "founded_year": 1954,
+    "homepage_url": "https://www.hankookilbo.com",
+    "description": "1954년 창간된 한국의 일간 신문이다. 1960년 한국출판문화상을 제정해 해마다 직접 주최하며, 한 해 출판물 가운데 가장 뛰어난 성취를 보여준 책을 부문별로 가려 시상한다. 옛 이름은 창업주 장기영의 호를 딴 백상출판문화상이었다.",
+    "description_en": "The Hankook Ilbo is a Korean daily newspaper founded in 1954. It established the Korea Publication Award in 1960 and has hosted it annually ever since, honoring the year's most accomplished books by category. The prize was formerly called the Baeksang Publication Culture Award, after the pen name of founder Chang Key-young."
+  },
+  "list": {
+    "slug": "korea-publication-award",
+    "title": "한국출판문화상 수상작",
+    "title_en": "Korea Publication Award",
+    "description": "1960년 제정된 한국에서 가장 오래된 출판상이다. 저술(학술), 저술(교양), 번역, 편집, 어린이·청소년 다섯 부문에서 그해의 대표작을 가린다. 저자뿐 아니라 역자와 편집자, 출판사의 몫까지 함께 평가한다는 점에서 국내 출판계에서 가장 권위 있는 상으로 꼽힌다.",
+    "description_en": "Established in 1960, the Korea Publication Award is the oldest book prize in South Korea. It honors the year's outstanding titles in five categories: scholarly writing, general-interest writing, translation, editing, and children's and young adult books. It is regarded as the country's most authoritative publishing prize because it recognizes translators, editors, and publishers alongside authors.",
+    "published_year": null,
+    "edition": null,
+    "method": "전년도 11월 1일부터 그해 10월 31일까지 발행된 도서(기간 안에 완간된 전집·시리즈 포함)를 대상으로 출판사가 응모한다. 10월 말부터 11월 중순까지 접수한 뒤 예심에서 부문마다 올해의 책 10종씩 모두 50종을 추리고, 12월 중순 본심을 거쳐 부문별 수상작을 정해 12월 말 지면에 발표한다. 제66회(2025년)에는 다섯 부문에 1,189종이 응모했고 학계와 출판계를 아우른 심사위원 7명이 예심과 본심을 함께 맡았다. 상금은 각 500만 원이며 공동수상은 각 250만 원이다.",
+    "method_en": "Publishers submit titles issued between November 1 of the previous year and October 31 of the award year, including multi-volume sets completed within that window. Entries are accepted from late October to mid-November. A preliminary round names ten Books of the Year in each of the five categories, fifty in all, and a final round in mid-December picks one winner per category, announced in the paper at the end of December. For the 66th edition (2025), 1,189 titles were entered and a panel of seven judges drawn from academia and publishing handled both rounds. Each award carries 5 million won, halved to 2.5 million won apiece when shared.",
+    "source_url": "https://www.hankookilbo.com/News/Read/A2024122520430005698",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": []
+  },
+  "items": [
+    {
+      "raw_title": "한국전쟁: 38선 충돌과 전쟁의 형성",
+      "raw_creator": "정병준",
+      "rank": null,
+      "year": 2006,
+      "note": "저술-학술 부문 · 제47회 · 돌베개 발행"
+    },
+    {
+      "raw_title": "미래교양사전",
+      "raw_creator": "이인식",
+      "rank": null,
+      "year": 2006,
+      "note": "저술-교양 부문 · 제47회 · 갤리온 발행"
+    },
+    {
+      "raw_title": "사생활의 역사 (전5권)",
+      "raw_creator": "필립 아리에스·조르주 뒤비 책임편집, 주명철·전수연 외 옮김",
+      "rank": null,
+      "year": 2006,
+      "note": "번역 부문 (공동수상) · 제47회 · 새물결 발행"
+    },
+    {
+      "raw_title": "순수이성비판 (전2권)",
+      "raw_creator": "임마누엘 칸트 지음, 백종현 옮김",
+      "rank": null,
+      "year": 2006,
+      "note": "번역 부문 (공동수상) · 제47회 · 아카넷 발행"
+    },
+    {
+      "raw_title": "붓끝으로 부사산 바람을 가르다",
+      "raw_creator": "남옥 지음, 김보경 옮김",
+      "rank": null,
+      "year": 2006,
+      "note": "편집 부문 · 제47회 · 소명출판 발행"
+    },
+    {
+      "raw_title": "들풀들이 들려주는 위대한 백성이야기 (1~3권)",
+      "raw_creator": "홍순명",
+      "rank": null,
+      "year": 2006,
+      "note": "어린이·청소년 부문 · 제47회 · 부키 발행"
+    },
+    {
+      "raw_title": "공안파와 조선후기 한문학",
+      "raw_creator": "강명관",
+      "rank": null,
+      "year": 2007,
+      "note": "저술-학술 부문 · 제48회 · 소명출판 발행"
+    },
+    {
+      "raw_title": "나쁜 사마리아인들",
+      "raw_creator": "장하준 지음, 이순희 옮김",
+      "rank": null,
+      "year": 2007,
+      "note": "저술-교양 부문 · 제48회 · 부키 발행"
+    },
+    {
+      "raw_title": "만들어진 신",
+      "raw_creator": "리처드 도킨스 지음, 이한음 옮김",
+      "rank": null,
+      "year": 2007,
+      "note": "번역 부문 · 제48회 · 김영사 발행"
+    },
+    {
+      "raw_title": "소성(所聲)",
+      "raw_creator": null,
+      "rank": null,
+      "year": 2007,
+      "note": "편집 부문 · 제48회 · 발행처 미확인 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "달인 시리즈 (전4권)",
+      "raw_creator": "고미숙·한경애 외",
+      "rank": null,
+      "year": 2007,
+      "note": "어린이·청소년 부문 · 제48회 · 그린비 발행"
+    },
+    {
+      "raw_title": "니벨룽의 보물",
+      "raw_creator": "정문길",
+      "rank": null,
+      "year": 2008,
+      "note": "저술-학술 부문 · 제49회 · 문학과지성사 발행"
+    },
+    {
+      "raw_title": "나의 국토 나의 산하 (전3권)",
+      "raw_creator": "박태순",
+      "rank": null,
+      "year": 2008,
+      "note": "저술-교양 부문 · 제49회 · 한길사 발행"
+    },
+    {
+      "raw_title": "진인각, 최후의 20년",
+      "raw_creator": "육건동 지음, 박한제·김형종 옮김",
+      "rank": null,
+      "year": 2008,
+      "note": "번역 부문 · 제49회 · 사계절 발행"
+    },
+    {
+      "raw_title": "세밀한 일러스트와 희귀 사진으로 본 근대 조선",
+      "raw_creator": "김장춘 엮음",
+      "rank": null,
+      "year": 2008,
+      "note": "편집 부문 · 제49회 · 살림 발행"
+    },
+    {
+      "raw_title": "보리 국어사전",
+      "raw_creator": "토박이 사전 편찬실 엮음",
+      "rank": null,
+      "year": 2008,
+      "note": "어린이·청소년 부문 · 제49회 · 보리 발행"
+    },
+    {
+      "raw_title": "고구려 별자리와 신화",
+      "raw_creator": "김일권",
+      "rank": null,
+      "year": 2009,
+      "note": "저술-학술 부문 (공동수상) · 제50회 · 사계절 발행"
+    },
+    {
+      "raw_title": "공동체론",
+      "raw_creator": "박호성",
+      "rank": null,
+      "year": 2009,
+      "note": "저술-학술 부문 (공동수상) · 제50회 · 효형출판 발행"
+    },
+    {
+      "raw_title": "로쟈의 인문학 서재",
+      "raw_creator": "이현우",
+      "rank": null,
+      "year": 2009,
+      "note": "저술-교양 부문 · 제50회 · 산책자 발행"
+    },
+    {
+      "raw_title": "홀로코스트, 유럽 유대인의 파괴 1·2",
+      "raw_creator": "라울 힐베르크 지음, 김학이 옮김",
+      "rank": null,
+      "year": 2009,
+      "note": "번역 부문 · 제50회 · 개마고원 발행"
+    },
+    {
+      "raw_title": "앤디 워홀 일기",
+      "raw_creator": "앤디 워홀 지음, 팻 해켓 엮음, 홍예빈 옮김",
+      "rank": null,
+      "year": 2009,
+      "note": "편집 부문 · 제50회 · 미메시스 발행"
+    },
+    {
+      "raw_title": "열정세대",
+      "raw_creator": "양철북",
+      "rank": null,
+      "year": 2009,
+      "note": "어린이·청소년 부문 · 제50회 · 양철북 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "마을로 간 한국전쟁",
+      "raw_creator": "박찬승",
+      "rank": null,
+      "year": 2010,
+      "note": "저술-학술 부문 · 제51회 · 돌베개 발행"
+    },
+    {
+      "raw_title": "좌우파 사전",
+      "raw_creator": "구갑우·김기원·김성천·서영표·안병진·안현효·은수미·이강국·이건범·이명원·이병민·조형근·최현·황덕순 공저",
+      "rank": null,
+      "year": 2010,
+      "note": "저술-교양 부문 · 제51회 · 위즈덤하우스 발행"
+    },
+    {
+      "raw_title": "파브르 곤충기 (전10권)",
+      "raw_creator": "장 앙리 파브르 지음, 김진일 옮김",
+      "rank": null,
+      "year": 2010,
+      "note": "번역 부문 · 제51회 · 현암사 발행"
+    },
+    {
+      "raw_title": "겨레 전통 도감 (전5권)",
+      "raw_creator": "보리",
+      "rank": null,
+      "year": 2010,
+      "note": "편집 부문 (공동수상) · 제51회 · 보리 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "한국의 초상화 - 형(形)과 영(影)의 예술",
+      "raw_creator": "조선미",
+      "rank": null,
+      "year": 2010,
+      "note": "편집 부문 (공동수상) · 제51회 · 돌베개 발행"
+    },
+    {
+      "raw_title": "울기엔 좀 애매한",
+      "raw_creator": "최규석",
+      "rank": null,
+      "year": 2010,
+      "note": "어린이·청소년 부문 · 제51회 · 사계절 발행"
+    },
+    {
+      "raw_title": "정조와 불량선비 강이천",
+      "raw_creator": "백승종",
+      "rank": null,
+      "year": 2011,
+      "note": "저술-학술 부문 (공동수상) · 제52회 · 푸른역사 발행"
+    },
+    {
+      "raw_title": "평등, 자유, 권리",
+      "raw_creator": "이종은",
+      "rank": null,
+      "year": 2011,
+      "note": "저술-학술 부문 (공동수상) · 제52회 · 책세상 발행"
+    },
+    {
+      "raw_title": "LHC, 현대 물리학의 최전선",
+      "raw_creator": "이강영",
+      "rank": null,
+      "year": 2011,
+      "note": "저술-교양 부문 · 제52회 · 사이언스북스 발행"
+    },
+    {
+      "raw_title": "펠로폰네소스 전쟁사",
+      "raw_creator": "투퀴디데스 지음, 천병희 옮김",
+      "rank": null,
+      "year": 2011,
+      "note": "번역 부문 · 제52회 · 도서출판 숲 발행"
+    },
+    {
+      "raw_title": "지혜로 지은 집, 한국 건축",
+      "raw_creator": "김도경",
+      "rank": null,
+      "year": 2011,
+      "note": "편집 부문 · 제52회 · 현암사 발행"
+    },
+    {
+      "raw_title": "청소년을 위한 토론학교 시리즈",
+      "raw_creator": "우리학교",
+      "rank": null,
+      "year": 2011,
+      "note": "어린이·청소년 부문 (공동수상) · 제52회 · 우리학교 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "멋지기 때문에 놀러왔지",
+      "raw_creator": "설흔",
+      "rank": null,
+      "year": 2011,
+      "note": "어린이·청소년 부문 (공동수상) · 제52회 · 창비 발행"
+    },
+    {
+      "raw_title": "사당동 더하기 25",
+      "raw_creator": "조은",
+      "rank": null,
+      "year": 2012,
+      "note": "저술-학술 부문 · 제53회 · 또하나의문화 발행"
+    },
+    {
+      "raw_title": "작지만 큰 한국사, 소금",
+      "raw_creator": "유승훈",
+      "rank": null,
+      "year": 2012,
+      "note": "저술-교양 부문 · 제53회 · 푸른역사 발행"
+    },
+    {
+      "raw_title": "유럽 문화사 (전5권)",
+      "raw_creator": "도널드 서순 지음, 정영목·오숙은·한경희·이은진 옮김",
+      "rank": null,
+      "year": 2012,
+      "note": "번역 부문 · 제53회 · 뿌리와이파리 발행"
+    },
+    {
+      "raw_title": "나는 작은 회사에 다닌다",
+      "raw_creator": "김정래·전민진",
+      "rank": null,
+      "year": 2012,
+      "note": "편집 부문 (공동수상) · 제53회 · 남해의봄날 발행"
+    },
+    {
+      "raw_title": "한국의 전통색",
+      "raw_creator": "문은배",
+      "rank": null,
+      "year": 2012,
+      "note": "편집 부문 (공동수상) · 제53회 · 안그라픽스 발행"
+    },
+    {
+      "raw_title": "장수탕 선녀님",
+      "raw_creator": "백희나",
+      "rank": null,
+      "year": 2012,
+      "note": "어린이·청소년 부문 · 제53회 · 책읽는곰 발행"
+    },
+    {
+      "raw_title": "실크로드 사전",
+      "raw_creator": "정수일",
+      "rank": null,
+      "year": 2013,
+      "note": "저술-학술 부문 · 제54회 · 창비 발행"
+    },
+    {
+      "raw_title": "역사평설 병자호란",
+      "raw_creator": "한명기",
+      "rank": null,
+      "year": 2013,
+      "note": "저술-교양 부문 (공동수상) · 제54회 · 푸른역사 발행"
+    },
+    {
+      "raw_title": "어메이징 그래비티",
+      "raw_creator": "조진호",
+      "rank": null,
+      "year": 2013,
+      "note": "저술-교양 부문 (공동수상) · 제54회 · 궁리 발행"
+    },
+    {
+      "raw_title": "돈의 철학",
+      "raw_creator": "게오르그 짐멜 지음, 김덕영 옮김",
+      "rank": null,
+      "year": 2013,
+      "note": "번역 부문 · 제54회 · 길 발행"
+    },
+    {
+      "raw_title": "외면하지 않을 권리",
+      "raw_creator": "한다솜 등 지음, 설원민 편집",
+      "rank": null,
+      "year": 2013,
+      "note": "편집 부문 (공동수상) · 제54회 · 교육공동체 벗 발행"
+    },
+    {
+      "raw_title": "쓰레기 고서들의 반란",
+      "raw_creator": "장유승 지음, 이은혜 편집",
+      "rank": null,
+      "year": 2013,
+      "note": "편집 부문 (공동수상) · 제54회 · 글항아리 발행"
+    },
+    {
+      "raw_title": "어떤 아이가",
+      "raw_creator": "송미경",
+      "rank": null,
+      "year": 2013,
+      "note": "어린이·청소년 부문 · 제54회 · 시공주니어 발행"
+    },
+    {
+      "raw_title": "한국 자본주의",
+      "raw_creator": "장하성",
+      "rank": null,
+      "year": 2014,
+      "note": "저술-학술 부문 · 제55회 · 헤이북스 발행"
+    },
+    {
+      "raw_title": "모멸감",
+      "raw_creator": "김찬호",
+      "rank": null,
+      "year": 2014,
+      "note": "저술-교양 부문 (공동수상) · 제55회 · 문학과지성사 발행"
+    },
+    {
+      "raw_title": "우주의 끝을 찾아서",
+      "raw_creator": "이강환",
+      "rank": null,
+      "year": 2014,
+      "note": "저술-교양 부문 (공동수상) · 제55회 · 현암사 발행"
+    },
+    {
+      "raw_title": "우리 본성의 선한 천사",
+      "raw_creator": "스티븐 핑커 지음, 김명남 옮김",
+      "rank": null,
+      "year": 2014,
+      "note": "번역 부문 · 제55회 · 사이언스북스 발행"
+    },
+    {
+      "raw_title": "밀양을 살다",
+      "raw_creator": "밀양구술프로젝트",
+      "rank": null,
+      "year": 2014,
+      "note": "편집 부문 · 제55회 · 오월의봄 발행"
+    },
+    {
+      "raw_title": "진짜 코 파는 이야기",
+      "raw_creator": "이갑규",
+      "rank": null,
+      "year": 2014,
+      "note": "어린이·청소년 부문 · 제55회 · 책읽는곰 발행"
+    },
+    {
+      "raw_title": "현앨리스와 그의 시대",
+      "raw_creator": "정병준",
+      "rank": null,
+      "year": 2015,
+      "note": "저술-학술 부문 · 제56회 · 돌베개 발행"
+    },
+    {
+      "raw_title": "노동여지도",
+      "raw_creator": "박점규",
+      "rank": null,
+      "year": 2015,
+      "note": "저술-교양 부문 (공동수상) · 제56회 · 알마 발행"
+    },
+    {
+      "raw_title": "세상 물정의 물리학",
+      "raw_creator": "김범준",
+      "rank": null,
+      "year": 2015,
+      "note": "저술-교양 부문 (공동수상) · 제56회 · 동아시아 발행"
+    },
+    {
+      "raw_title": "주자평전",
+      "raw_creator": "수징난 지음, 김태완 옮김",
+      "rank": null,
+      "year": 2015,
+      "note": "번역 부문 · 제56회 · 역사비평사 발행"
+    },
+    {
+      "raw_title": "자기록: 여자, 글로 말하다",
+      "raw_creator": "풍양 조씨 지음, 김경미 역주",
+      "rank": null,
+      "year": 2015,
+      "note": "편집 부문 (공동수상) · 제56회 · 나의시간 발행"
+    },
+    {
+      "raw_title": "금요일엔 돌아오렴",
+      "raw_creator": "416 세월호참사 시민기록위원회 작가기록단",
+      "rank": null,
+      "year": 2015,
+      "note": "편집 부문 (공동수상) · 제56회 · 창비 발행"
+    },
+    {
+      "raw_title": "대추 한 알",
+      "raw_creator": "장석주 시, 유리 그림",
+      "rank": null,
+      "year": 2015,
+      "note": "어린이·청소년 부문 · 제56회 · 이야기꽃 발행"
+    },
+    {
+      "raw_title": "중력파, 아인슈타인의 마지막 선물",
+      "raw_creator": "오정근",
+      "rank": null,
+      "year": 2016,
+      "note": "저술-학술 부문 · 제57회 · 동아시아 발행"
+    },
+    {
+      "raw_title": "우리는 왜 공부할수록 가난해지는가",
+      "raw_creator": "천주희",
+      "rank": null,
+      "year": 2016,
+      "note": "저술-교양 부문 (공동수상) · 제57회 · 사이행성 발행"
+    },
+    {
+      "raw_title": "우리말 절대지식",
+      "raw_creator": "김승용",
+      "rank": null,
+      "year": 2016,
+      "note": "저술-교양 부문 (공동수상) · 제57회 · 동아시아 발행"
+    },
+    {
+      "raw_title": "나쓰메 소세키 소설 전집 (전14권)",
+      "raw_creator": "나쓰메 소세키 지음, 송태욱 옮김",
+      "rank": null,
+      "year": 2016,
+      "note": "번역 부문 · 제57회 · 현암사 발행"
+    },
+    {
+      "raw_title": "아틀라스 역사 시리즈",
+      "raw_creator": "사계절",
+      "rank": null,
+      "year": 2016,
+      "note": "편집 부문 · 제57회 · 사계절 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "다윈 영의 악의 기원",
+      "raw_creator": "박지리",
+      "rank": null,
+      "year": 2016,
+      "note": "어린이·청소년 부문 (공동수상) · 제57회 · 사계절 발행"
+    },
+    {
+      "raw_title": "할머니의 여름휴가",
+      "raw_creator": "안녕달",
+      "rank": null,
+      "year": 2016,
+      "note": "어린이·청소년 부문 (공동수상) · 제57회 · 창비 발행"
+    },
+    {
+      "raw_title": "포스트휴먼이 온다",
+      "raw_creator": "이종관",
+      "rank": null,
+      "year": 2017,
+      "note": "저술-학술 부문 (공동수상) · 제58회 · 사월의책 발행"
+    },
+    {
+      "raw_title": "조선의 생태환경사",
+      "raw_creator": "김동진",
+      "rank": null,
+      "year": 2017,
+      "note": "저술-학술 부문 (공동수상) · 제58회 · 푸른역사 발행"
+    },
+    {
+      "raw_title": "아픔이 길이 되려면",
+      "raw_creator": "김승섭",
+      "rank": null,
+      "year": 2017,
+      "note": "저술-교양 부문 · 제58회 · 동아시아 발행"
+    },
+    {
+      "raw_title": "미국의 반지성주의",
+      "raw_creator": "리처드 호프스태터 지음, 유강은 옮김",
+      "rank": null,
+      "year": 2017,
+      "note": "번역 부문 (공동수상) · 제58회 · 교유서가 발행"
+    },
+    {
+      "raw_title": "실크로드 세계사",
+      "raw_creator": "피터 프랭코판 지음, 이재황 옮김",
+      "rank": null,
+      "year": 2017,
+      "note": "번역 부문 (공동수상) · 제58회 · 책과함께 발행"
+    },
+    {
+      "raw_title": "아무튼 시리즈",
+      "raw_creator": "위고·제철소·코난북스",
+      "rank": null,
+      "year": 2017,
+      "note": "편집 부문 · 제58회 · 위고·제철소·코난북스 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "간질간질",
+      "raw_creator": "서현",
+      "rank": null,
+      "year": 2017,
+      "note": "어린이·청소년 부문 · 제58회 · 사계절 발행"
+    },
+    {
+      "raw_title": "한반도 화교사",
+      "raw_creator": "이정희",
+      "rank": null,
+      "year": 2018,
+      "note": "저술-학술 부문 · 제59회 · 동아시아 발행"
+    },
+    {
+      "raw_title": "고기로 태어나서",
+      "raw_creator": "한승태",
+      "rank": null,
+      "year": 2018,
+      "note": "저술-교양 부문 · 제59회 · 시대의창 발행"
+    },
+    {
+      "raw_title": "카를 마르크스",
+      "raw_creator": "개러스 존스 지음, 홍기빈 옮김",
+      "rank": null,
+      "year": 2018,
+      "note": "번역 부문 · 제59회 · 아르테 발행"
+    },
+    {
+      "raw_title": "한국역사연구회 시대사총서 (전10권)",
+      "raw_creator": "푸른역사",
+      "rank": null,
+      "year": 2018,
+      "note": "편집 부문 (공동수상) · 제59회 · 푸른역사 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "안평",
+      "raw_creator": "심경호",
+      "rank": null,
+      "year": 2018,
+      "note": "편집 부문 (공동수상) · 제59회 · 알마 발행"
+    },
+    {
+      "raw_title": "손바닥 동시",
+      "raw_creator": "유강희",
+      "rank": null,
+      "year": 2018,
+      "note": "어린이·청소년 부문 · 제59회 · 창비 발행"
+    },
+    {
+      "raw_title": "3월 1일의 밤",
+      "raw_creator": "권보드래",
+      "rank": null,
+      "year": 2019,
+      "note": "저술-학술 부문 · 제60회 · 돌베개 발행"
+    },
+    {
+      "raw_title": "중공업 가족의 유토피아",
+      "raw_creator": "양승훈",
+      "rank": null,
+      "year": 2019,
+      "note": "저술-교양 부문 · 제60회 · 오월의봄 발행"
+    },
+    {
+      "raw_title": "아름다움의 진화",
+      "raw_creator": "리처드 프럼 지음, 양병찬 옮김",
+      "rank": null,
+      "year": 2019,
+      "note": "번역 부문 · 제60회 · 동아시아 발행"
+    },
+    {
+      "raw_title": "요리는 감이여",
+      "raw_creator": "창비교육",
+      "rank": null,
+      "year": 2019,
+      "note": "편집 부문 · 제60회 · 창비교육 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "우주로 가는 계단",
+      "raw_creator": "전수경 지음, 소윤경 그림",
+      "rank": null,
+      "year": 2019,
+      "note": "어린이·청소년 부문 (공동수상) · 제60회 · 창비 발행"
+    },
+    {
+      "raw_title": "강이",
+      "raw_creator": "이수지",
+      "rank": null,
+      "year": 2019,
+      "note": "어린이·청소년 부문 (공동수상) · 제60회 · 비룡소 발행"
+    },
+    {
+      "raw_title": "거대도시, 서울철도",
+      "raw_creator": "전현우",
+      "rank": null,
+      "year": 2020,
+      "note": "저술-학술 부문 · 제61회 · 워크룸프레스 발행"
+    },
+    {
+      "raw_title": "물질의 물리학",
+      "raw_creator": "한정훈",
+      "rank": null,
+      "year": 2020,
+      "note": "저술-교양 부문 · 제61회 · 김영사 발행"
+    },
+    {
+      "raw_title": "힘든 시대를 위한 좋은 경제학",
+      "raw_creator": "김승진 옮김",
+      "rank": null,
+      "year": 2020,
+      "note": "번역 부문 · 제61회 · 생각의힘 발행"
+    },
+    {
+      "raw_title": "한편",
+      "raw_creator": "신새벽 편집자",
+      "rank": null,
+      "year": 2020,
+      "note": "편집 부문 (공동수상) · 제61회 · 민음사 발행"
+    },
+    {
+      "raw_title": "김군을 찾아서",
+      "raw_creator": "강소영 편집자",
+      "rank": null,
+      "year": 2020,
+      "note": "편집 부문 (공동수상) · 제61회 · 후마니타스 발행"
+    },
+    {
+      "raw_title": "5번 레인",
+      "raw_creator": "은소홀",
+      "rank": null,
+      "year": 2020,
+      "note": "어린이·청소년 부문 · 제61회 · 문학동네 발행"
+    },
+    {
+      "raw_title": "한국주택 유전자",
+      "raw_creator": "박철수",
+      "rank": null,
+      "year": 2021,
+      "note": "저술-학술 부문 · 제62회 · 마티 발행"
+    },
+    {
+      "raw_title": "사이보그가 되다",
+      "raw_creator": "김초엽·김원영",
+      "rank": null,
+      "year": 2021,
+      "note": "저술-교양 부문 · 제62회 · 사계절출판사 발행"
+    },
+    {
+      "raw_title": "자폐의 거의 모든 역사",
+      "raw_creator": "존 돈반·캐런 저커 지음, 강병철 옮김",
+      "rank": null,
+      "year": 2021,
+      "note": "번역 부문 · 제62회 · 꿈꿀자유 발행"
+    },
+    {
+      "raw_title": "한반도 바닷물고기 세밀화 대도감",
+      "raw_creator": "명정구 글, 조광현 그림",
+      "rank": null,
+      "year": 2021,
+      "note": "편집 부문 (공동수상) · 제62회 · 도서출판 보리 발행"
+    },
+    {
+      "raw_title": "북클럽 자본",
+      "raw_creator": "고병권",
+      "rank": null,
+      "year": 2021,
+      "note": "편집 부문 (공동수상) · 제62회 · 천년의상상 발행"
+    },
+    {
+      "raw_title": "엄마 도감",
+      "raw_creator": "권정민",
+      "rank": null,
+      "year": 2021,
+      "note": "어린이·청소년 부문 (공동수상) · 제62회 · 웅진주니어 발행"
+    },
+    {
+      "raw_title": "국경",
+      "raw_creator": "구돌 글, 해랑 그림",
+      "rank": null,
+      "year": 2021,
+      "note": "어린이·청소년 부문 (공동수상) · 제62회 · 책읽는곰 발행"
+    },
+    {
+      "raw_title": "한국 사회학의 지성사",
+      "raw_creator": "정수복",
+      "rank": null,
+      "year": 2022,
+      "note": "저술-학술 부문 · 제63회 · 푸른역사 발행"
+    },
+    {
+      "raw_title": "인류 본사",
+      "raw_creator": "이희수",
+      "rank": null,
+      "year": 2022,
+      "note": "저술-교양 부문 · 제63회 · 휴머니스트 발행"
+    },
+    {
+      "raw_title": "에세",
+      "raw_creator": "미셸 드 몽테뉴 지음, 심민화·최권행 옮김",
+      "rank": null,
+      "year": 2022,
+      "note": "번역 부문 · 제63회 · 민음사 발행"
+    },
+    {
+      "raw_title": "어딘가에는 ○○○이 있다",
+      "raw_creator": "남해의봄날·이유출판·온다프레스·열매하나·포토밭출판사",
+      "rank": null,
+      "year": 2022,
+      "note": "편집 부문 · 제63회 · 남해의봄날·이유출판·온다프레스·열매하나·포토밭출판사 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "토마토 기준",
+      "raw_creator": "김준현",
+      "rank": null,
+      "year": 2022,
+      "note": "어린이·청소년 부문 (공동수상) · 제63회 · 문학동네 발행"
+    },
+    {
+      "raw_title": "무등이왓에 부는 바람",
+      "raw_creator": "김영화",
+      "rank": null,
+      "year": 2022,
+      "note": "어린이·청소년 부문 (공동수상) · 제63회 · 이야기꽃 발행"
+    },
+    {
+      "raw_title": "빈곤 과정",
+      "raw_creator": "조문영",
+      "rank": null,
+      "year": 2023,
+      "note": "저술-학술 부문 · 제64회 · 글항아리 발행"
+    },
+    {
+      "raw_title": "동물권력",
+      "raw_creator": "남종영",
+      "rank": null,
+      "year": 2023,
+      "note": "저술-교양 부문 · 제64회 · 북트리거 발행"
+    },
+    {
+      "raw_title": "20세기, 그 너머의 과학사",
+      "raw_creator": "김동광·김명진 옮김",
+      "rank": null,
+      "year": 2023,
+      "note": "번역 부문 · 제64회 · 뿌리와이파리 발행"
+    },
+    {
+      "raw_title": "오뇌의 무도 주해",
+      "raw_creator": "소명출판",
+      "rank": null,
+      "year": 2023,
+      "note": "편집 부문 · 제64회 · 소명출판 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "잘 헤어졌어",
+      "raw_creator": "김양미",
+      "rank": null,
+      "year": 2023,
+      "note": "어린이·청소년 부문 (공동수상) · 제64회 · 문학과지성사 발행"
+    },
+    {
+      "raw_title": "받침 구조대",
+      "raw_creator": "곽미영 글, 이지은 그림",
+      "rank": null,
+      "year": 2023,
+      "note": "어린이·청소년 부문 (공동수상) · 제64회 · 만만한책방 발행"
+    },
+    {
+      "raw_title": "휘말린 날들",
+      "raw_creator": "서보경",
+      "rank": null,
+      "year": 2024,
+      "note": "저술-학술 부문 · 제65회 · 반비 발행"
+    },
+    {
+      "raw_title": "헌법의 순간",
+      "raw_creator": "박혁",
+      "rank": null,
+      "year": 2024,
+      "note": "저술-교양 부문 · 제65회 · 페이퍼로드 발행"
+    },
+    {
+      "raw_title": "세상 모든 것의 물질",
+      "raw_creator": "수지 시히 지음, 노승영 옮김",
+      "rank": null,
+      "year": 2024,
+      "note": "번역 부문 · 제65회 · 까치 발행"
+    },
+    {
+      "raw_title": "민주인권 그림책 시리즈 (전8권)",
+      "raw_creator": "민주화운동기념사업회 기획, 권윤덕 총감독",
+      "rank": null,
+      "year": 2024,
+      "note": "편집 부문 · 제65회 · 사계절출판사 발행"
+    },
+    {
+      "raw_title": "오늘의 할 일",
+      "raw_creator": "김동수",
+      "rank": null,
+      "year": 2024,
+      "note": "어린이·청소년 부문 · 제65회 · 창비 발행"
+    },
+    {
+      "raw_title": "문학의 민주주의",
+      "raw_creator": "장성규",
+      "rank": null,
+      "year": 2025,
+      "note": "저술-학술 부문 · 제66회 · 역락 발행"
+    },
+    {
+      "raw_title": "죽은 다음",
+      "raw_creator": "희정",
+      "rank": null,
+      "year": 2025,
+      "note": "저술-교양 부문 · 제66회 · 한겨레출판 발행"
+    },
+    {
+      "raw_title": "가장 느린 정의",
+      "raw_creator": "리아 락슈미 피엡즈나-사마라신하 지음, 전혜은·제이 옮김",
+      "rank": null,
+      "year": 2025,
+      "note": "번역 부문 · 제66회 · 오월의봄 발행"
+    },
+    {
+      "raw_title": "다석일지",
+      "raw_creator": "도서출판 길",
+      "rank": null,
+      "year": 2025,
+      "note": "편집 부문 · 제66회 · 도서출판 길 발행 · 저자 표기 미확인(출판사 수상)"
+    },
+    {
+      "raw_title": "4x4의 세계",
+      "raw_creator": "조우리",
+      "rank": null,
+      "year": 2025,
+      "note": "어린이·청소년 부문 · 제66회 · 창비 발행"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://ko.wikipedia.org/wiki/%ED%95%9C%EA%B5%AD%EC%B6%9C%ED%8C%90%EB%AC%B8%ED%99%94%EC%83%81",
+      "http://web.archive.org/web/20200218143826/http://company.hankookilbo.com:80/business/sub1_3_pop.html",
+      "https://www.hankookilbo.com/News/Read/200612132357617573",
+      "http://web.archive.org/web/20210126083132/https://www.hankookilbo.com/Series/S-PLANNING-SP-33-986",
+      "https://www.hankookilbo.com/News/Read/201612231475628840",
+      "https://www.hankookilbo.com/News/Read/201612231936803506",
+      "https://www.hankookilbo.com/News/Read/201612231563846119",
+      "https://www.hankookilbo.com/News/Read/201612231942070926",
+      "https://www.hankookilbo.com/News/Read/201612231955240343",
+      "https://www.hankookilbo.com/News/Read/201712211728867929",
+      "https://www.hankookilbo.com/News/Read/201712210958973331",
+      "https://www.hankookilbo.com/News/Read/201712210912027196",
+      "https://www.hankookilbo.com/News/Read/201912261151714320",
+      "https://www.hankookilbo.com/News/Read/A2021010409260000974",
+      "http://member.kpa21.or.kr/?post_type=kpa_bbs&p=962389",
+      "https://m.hankookilbo.com/News/Read/A2023010614100000945",
+      "https://news.nate.com/view/20240104n31547",
+      "https://www.hankookilbo.com/News/Read/A2024122520430005698",
+      "https://www.hankookilbo.com/News/Read/A2025010614060005059",
+      "https://www.changbi.com/newsDetail?newsid=6833",
+      "https://v.daum.net/v/20251227043148016",
+      "https://v.daum.net/v/20251206043307347",
+      "https://bookawards.hankookilbo.com/"
+    ],
+    "item_count": 122,
+    "year_range": "2006-2025",
+    "scope": "최근 20년(제47회 2006년 ~ 제66회 2025년)으로 한정했다. 1960년 제1회부터 제46회(2005년)까지는 부문 구성이 지금과 크게 달라(저작상 단일 → 인문·사회·시사교양 저작상 + 출판상 13~16개 세부 분야) 부문·저자 정보를 신뢰할 수준으로 확보하기 어려워 제외했다. 제66회(2025년 12월 27일 수상작 발표, 2026년 1월 7일 시상식)가 출처로 확인된 가장 최근 회차다. 오늘(2026년 8월 1일) 기준으로 제67회 발표 기사나 응모 공고는 검색되지 않았고, 공식 응모 사이트 bookawards.hankookilbo.com도 제66회 페이지가 그대로 걸려 있다.",
+    "category_changes": "1960년 제정 당시에는 저작상만 시상했다. 1991년 제32회부터 출판상을 따로 두어 사전·문고·전집·기획·번역·사진·예술·장정·제작·전자출판물 등 10여 개 세부 분야로 나누어 시상했다(제41회 2000년 13개 분야 16종, 제42회 2001년 14개 분야, 제43회 2002년 13개 부문 15종). 저작상 쪽도 2000년 전후에는 인문과학·사회과학·시사교양 3개 저작상 체제였다. 2003년 제44회부터 지금의 저술(학술)·저술(교양)·번역·편집·어린이·청소년 5개 부문 체제로 정리됐고 이후 현재까지 유지된다. 부문별로 공동수상이 나오면 그해 수상작은 6~7종이 된다. 과거에는 출판인 개인을 표창하는 백상특별상(제46~52회 확인)도 함께 시상했으나 현재는 운영되지 않는다. 다만 2003년 제44회부터 5개 부문이라는 진술의 근거는 위키백과 표의 머리글 구조 변화이며 한국일보 원문으로는 확인하지 못했다.",
+    "gaps": "1960년 제1회 ~ 2005년 제46회는 수집 범위에서 제외했다(scope 참조). 수집 범위 안에서 채우지 못한 항목은 다음과 같다. (1) 제48회(2007) 편집 부문 소성(所聲)의 저자·출판사 — 위키백과 각주에 송현상(디자인 주 팀장)이라고만 적혀 있고 웹 검색·서점 데이터베이스 어디에서도 서지사항을 찾지 못했다. 확인하려면 국립중앙도서관 소장 검색이나 2007년 12월 한국일보 지면 원문이 필요하다. (2) 편집 부문 수상작 가운데 출판사가 수상 주체인 건(제51회 겨레 전통 도감, 제57회 아틀라스 역사 시리즈, 제58회 아무튼 시리즈, 제59회 한국역사연구회 시대사총서, 제60회 요리는 감이여, 제63회 어딘가에는 ○○○이 있다, 제64회 오뇌의 무도 주해, 제66회 다석일지)은 저자 표기가 확인되지 않아 raw_creator에 출판사명을 넣고 note에 그 사실을 적었다. (3) 제50회(2009) 열정세대와 제52회(2011) 청소년을 위한 토론학교 시리즈도 저자 표기가 출처마다 달라 출판사명으로 대체했다. (4) 제61회(2020) 번역 부문 힘든 시대를 위한 좋은 경제학의 원저자는 시상식 기사 본문에 없어 역자만 적었다.",
+    "uncertainties": "① 제47~53회(2006~2012)의 부문 배정 가운데 저술(학술)·저술(교양)은 한국일보 공식 역대 수상자 페이지 아카이브에서 직접 확인했으나, 이 페이지는 해당 회차에서 저술 부문만 싣고 있어 번역·편집·어린이·청소년 배정은 위키백과 표의 열 구조에 근거한다. 제47회만 한국일보 예심 후보작 기사로 부문을 교차 확인했다. ② 제47회 번역 부문이 사생활의 역사와 순수이성비판 공동수상이라는 서술은 위키백과에만 근거한다. 두 책 모두 그해 번역 부문 예심 통과작인 것은 한국일보 기사로 확인했다. ③ 위키백과 표에서 발견해 한국일보 원문으로 바로잡은 오류 — 김군을 찾아서는 제63회가 아니라 제61회 편집 부문 공동수상작이다(제61회 시상식 기사에 강소영 편집자 수상 소감이 실려 있고 '편집 부문에서 공동 수상작이 나와 모두 6종'이라고 명시). 제63회 공동수상은 어린이·청소년 부문에서 나왔다. 제58회 어린이·청소년 수상작은 반질반질이 아니라 간질간질(서현, 사계절)이다. 제58회 번역은 미국의 반지성주의와 실크로드 세계사 공동수상, 제59회 편집은 한국역사연구회 시대사총서와 안평 공동수상인데 위키백과에는 각각 한 종만 실려 있었다. 제47회 어린이·청소년 수상작 제목은 풀들이…가 아니라 들풀들이 들려주는 위대한 백성이야기이고, 제51회 번역은 파브로 곤충기가 아니라 파브르 곤충기다. ④ 표기 흔들림 — 제47회 학술 수상작을 한국일보 아카이브 표는 '한국전쟁:38선의 충돌과 전쟁의 형성'으로 적었으나 책 표제는 '한국전쟁: 38선 충돌과 전쟁의 형성'이라 후자를 택했다. 제61회 학술 수상작은 기사 표기가 '거대도시, 서울철도'이고 책 표제는 '거대도시 서울 철도'인데 출처 표기를 그대로 두었다. ⑤ 제57·58·60회는 발표 기사의 수상작 일람이 이미지로만 실려 텍스트를 읽지 못했다. 대신 부문별 심사평·수상자 인터뷰 기사로 항목을 채운 뒤 기사 본문의 '5개 부문 N종'과 종수를 대조해 누락이 없음을 확인했다(57회 1+2+1+1+2=7, 58회 2+1+2+1+1=7, 60회 1+1+1+1+2=6)."
+  }
+}

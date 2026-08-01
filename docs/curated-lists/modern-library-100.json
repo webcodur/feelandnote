@@ -1,0 +1,749 @@
+{
+  "curator": {
+    "slug": "modern-library",
+    "name": "모던 라이브러리",
+    "name_en": "Modern Library",
+    "kind": "organization",
+    "country": "US",
+    "founded_year": 1917,
+    "homepage_url": null,
+    "description": "모던 라이브러리는 1917년 앨버트 보니와 호러스 리버라이트가 창립한 미국의 고전 총서 브랜드다. 1925년 베넷 서프와 도널드 클롭퍼가 인수했고, 이들이 1927년 자회사로 세운 랜덤하우스가 나중에 모회사를 앞질러 지금은 랜덤하우스의 임프린트로 남았다. 영미 문학 고전을 저렴한 보급판으로 묶어 내는 총서로 잘 알려져 있다.",
+    "description_en": "Modern Library is an American classics imprint founded in 1917 by Albert Boni and Horace Liveright. Bennett Cerf and Donald Klopfer bought it in 1925 and founded Random House in 1927 as its subsidiary; Random House eventually overtook its parent, and Modern Library is now an imprint of Random House. It is best known for issuing affordable uniform editions of English-language literary classics."
+  },
+  "list": {
+    "slug": "modern-library-100-novels",
+    "title": "모던 라이브러리 100대 영문소설",
+    "title_en": "Modern Library 100 Best Novels (Board's List)",
+    "description": "모던 라이브러리가 1998년 발표한 20세기 영문 소설 100선이다. 편집위원 10인의 투표로 순위를 매겼으며 제임스 조이스의 『율리시스』가 1위에 올랐다. 같은 시기 함께 공개된 독자 투표 목록과는 별개의 목록이다.",
+    "description_en": "A 1998 ranking of the 100 best English-language novels of the 20th century, selected by vote of the Modern Library editorial board. James Joyce's Ulysses took the top spot. It is distinct from the separate Reader's List released at the same time.",
+    "published_year": 1998,
+    "edition": "편집위원회 선정",
+    "method": "1998년 초 모던 라이브러리가 자사 편집위원 10인을 대상으로 투표를 실시해 순위를 정했다. 위원은 대니얼 J. 부어스틴, A. S. 바이엇, 크리스토퍼 서프, 셸비 푸트, 바탄 그레고리언, 에드먼드 모리스, 존 리처드슨, 아서 슐레진저 주니어, 윌리엄 스타이런, 고어 비달이다. 후보는 모던 라이브러리의 모회사 랜덤하우스가 펴낸 약 400편의 소설에서 뽑혔고, 그레고리언을 제외한 위원 전원이 랜덤하우스 또는 계열사에서 책을 낸 저자다.",
+    "method_en": "In early 1998 the Modern Library polled its ten-member editorial board to rank the best novels. The board consisted of Daniel J. Boorstin, A. S. Byatt, Christopher Cerf, Shelby Foote, Vartan Gregorian, Edmund Morris, John Richardson, Arthur Schlesinger Jr., William Styron and Gore Vidal. Candidates were drawn from roughly 400 novels published by Random House, which owns Modern Library; all board members except Gregorian were themselves published by Random House or an affiliate.",
+    "source_url": "https://sites.prh.com/modern-library-top-100",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Ulysses",
+      "raw_creator": "James Joyce",
+      "rank": 1,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Gatsby",
+      "raw_creator": "F. Scott Fitzgerald",
+      "rank": 2,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "A Portrait of the Artist as a Young Man",
+      "raw_creator": "James Joyce",
+      "rank": 3,
+      "year": 1916,
+      "note": null
+    },
+    {
+      "raw_title": "Lolita",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": 4,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": 5,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Sound and the Fury",
+      "raw_creator": "William Faulkner",
+      "rank": 6,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "Catch-22",
+      "raw_creator": "Joseph Heller",
+      "rank": 7,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Darkness at Noon",
+      "raw_creator": "Arthur Koestler",
+      "rank": 8,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Sons and Lovers",
+      "raw_creator": "D. H. Lawrence",
+      "rank": 9,
+      "year": 1913,
+      "note": null
+    },
+    {
+      "raw_title": "The Grapes of Wrath",
+      "raw_creator": "John Steinbeck",
+      "rank": 10,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Under the Volcano",
+      "raw_creator": "Malcolm Lowry",
+      "rank": 11,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Way of All Flesh",
+      "raw_creator": "Samuel Butler",
+      "rank": 12,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "1984",
+      "raw_creator": "George Orwell",
+      "rank": 13,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "I, Claudius",
+      "raw_creator": "Robert Graves",
+      "rank": 14,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "To the Lighthouse",
+      "raw_creator": "Virginia Woolf",
+      "rank": 15,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "An American Tragedy",
+      "raw_creator": "Theodore Dreiser",
+      "rank": 16,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Heart Is a Lonely Hunter",
+      "raw_creator": "Carson McCullers",
+      "rank": 17,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Slaughterhouse-Five",
+      "raw_creator": "Kurt Vonnegut",
+      "rank": 18,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Invisible Man",
+      "raw_creator": "Ralph Ellison",
+      "rank": 19,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Native Son",
+      "raw_creator": "Richard Wright",
+      "rank": 20,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Henderson the Rain King",
+      "raw_creator": "Saul Bellow",
+      "rank": 21,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Appointment in Samarra",
+      "raw_creator": "John O'Hara",
+      "rank": 22,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "U.S.A. (trilogy)",
+      "raw_creator": "John Dos Passos",
+      "rank": 23,
+      "year": null,
+      "note": "다권 연작(트릴로지)으로 목록에 오름"
+    },
+    {
+      "raw_title": "Winesburg, Ohio",
+      "raw_creator": "Sherwood Anderson",
+      "rank": 24,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Passage to India",
+      "raw_creator": "E. M. Forster",
+      "rank": 25,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Wings of the Dove",
+      "raw_creator": "Henry James",
+      "rank": 26,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Ambassadors",
+      "raw_creator": "Henry James",
+      "rank": 27,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Tender Is the Night",
+      "raw_creator": "F. Scott Fitzgerald",
+      "rank": 28,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Studs Lonigan Trilogy",
+      "raw_creator": "James T. Farrell",
+      "rank": 29,
+      "year": null,
+      "note": "다권 연작(트릴로지)으로 목록에 오름"
+    },
+    {
+      "raw_title": "The Good Soldier",
+      "raw_creator": "Ford Madox Ford",
+      "rank": 30,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Animal Farm",
+      "raw_creator": "George Orwell",
+      "rank": 31,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Golden Bowl",
+      "raw_creator": "Henry James",
+      "rank": 32,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Sister Carrie",
+      "raw_creator": "Theodore Dreiser",
+      "rank": 33,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Handful of Dust",
+      "raw_creator": "Evelyn Waugh",
+      "rank": 34,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "As I Lay Dying",
+      "raw_creator": "William Faulkner",
+      "rank": 35,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "All the King's Men",
+      "raw_creator": "Robert Penn Warren",
+      "rank": 36,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Bridge of San Luis Rey",
+      "raw_creator": "Thornton Wilder",
+      "rank": 37,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Howards End",
+      "raw_creator": "E. M. Forster",
+      "rank": 38,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Go Tell It on the Mountain",
+      "raw_creator": "James Baldwin",
+      "rank": 39,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Heart of the Matter",
+      "raw_creator": "Graham Greene",
+      "rank": 40,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Lord of the Flies",
+      "raw_creator": "William Golding",
+      "rank": 41,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Deliverance",
+      "raw_creator": "James Dickey",
+      "rank": 42,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Dance to the Music of Time (series)",
+      "raw_creator": "Anthony Powell",
+      "rank": 43,
+      "year": null,
+      "note": "다권 연작(시리즈)으로 목록에 오름"
+    },
+    {
+      "raw_title": "Point Counter Point",
+      "raw_creator": "Aldous Huxley",
+      "rank": 44,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Sun Also Rises",
+      "raw_creator": "Ernest Hemingway",
+      "rank": 45,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Secret Agent",
+      "raw_creator": "Joseph Conrad",
+      "rank": 46,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Nostromo",
+      "raw_creator": "Joseph Conrad",
+      "rank": 47,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Rainbow",
+      "raw_creator": "D. H. Lawrence",
+      "rank": 48,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Women in Love",
+      "raw_creator": "D. H. Lawrence",
+      "rank": 49,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Tropic of Cancer",
+      "raw_creator": "Henry Miller",
+      "rank": 50,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Naked and the Dead",
+      "raw_creator": "Norman Mailer",
+      "rank": 51,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Portnoy's Complaint",
+      "raw_creator": "Philip Roth",
+      "rank": 52,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Pale Fire",
+      "raw_creator": "Vladimir Nabokov",
+      "rank": 53,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Light in August",
+      "raw_creator": "William Faulkner",
+      "rank": 54,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "On the Road",
+      "raw_creator": "Jack Kerouac",
+      "rank": 55,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Maltese Falcon",
+      "raw_creator": "Dashiell Hammett",
+      "rank": 56,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Parade's End",
+      "raw_creator": "Ford Madox Ford",
+      "rank": 57,
+      "year": null,
+      "note": "다권 연작(4부작)으로 목록에 오름"
+    },
+    {
+      "raw_title": "The Age of Innocence",
+      "raw_creator": "Edith Wharton",
+      "rank": 58,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Zuleika Dobson",
+      "raw_creator": "Max Beerbohm",
+      "rank": 59,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Moviegoer",
+      "raw_creator": "Walker Percy",
+      "rank": 60,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Death Comes for the Archbishop",
+      "raw_creator": "Willa Cather",
+      "rank": 61,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "From Here to Eternity",
+      "raw_creator": "James Jones",
+      "rank": 62,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Wapshot Chronicle",
+      "raw_creator": "John Cheever",
+      "rank": 63,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Catcher in the Rye",
+      "raw_creator": "J. D. Salinger",
+      "rank": 64,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Clockwork Orange",
+      "raw_creator": "Anthony Burgess",
+      "rank": 65,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Of Human Bondage",
+      "raw_creator": "W. Somerset Maugham",
+      "rank": 66,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Heart of Darkness",
+      "raw_creator": "Joseph Conrad",
+      "rank": 67,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Main Street",
+      "raw_creator": "Sinclair Lewis",
+      "rank": 68,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The House of Mirth",
+      "raw_creator": "Edith Wharton",
+      "rank": 69,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Alexandria Quartet",
+      "raw_creator": "Lawrence Durrell",
+      "rank": 70,
+      "year": null,
+      "note": "다권 연작(4부작)으로 목록에 오름"
+    },
+    {
+      "raw_title": "A High Wind in Jamaica",
+      "raw_creator": "Richard Hughes",
+      "rank": 71,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A House for Mr Biswas",
+      "raw_creator": "V. S. Naipaul",
+      "rank": 72,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Day of the Locust",
+      "raw_creator": "Nathanael West",
+      "rank": 73,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Farewell to Arms",
+      "raw_creator": "Ernest Hemingway",
+      "rank": 74,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Scoop",
+      "raw_creator": "Evelyn Waugh",
+      "rank": 75,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Prime of Miss Jean Brodie",
+      "raw_creator": "Muriel Spark",
+      "rank": 76,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Finnegans Wake",
+      "raw_creator": "James Joyce",
+      "rank": 77,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Kim",
+      "raw_creator": "Rudyard Kipling",
+      "rank": 78,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Room with a View",
+      "raw_creator": "E. M. Forster",
+      "rank": 79,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Brideshead Revisited",
+      "raw_creator": "Evelyn Waugh",
+      "rank": 80,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Adventures of Augie March",
+      "raw_creator": "Saul Bellow",
+      "rank": 81,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Angle of Repose",
+      "raw_creator": "Wallace Stegner",
+      "rank": 82,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Bend in the River",
+      "raw_creator": "V. S. Naipaul",
+      "rank": 83,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Death of the Heart",
+      "raw_creator": "Elizabeth Bowen",
+      "rank": 84,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Lord Jim",
+      "raw_creator": "Joseph Conrad",
+      "rank": 85,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Ragtime",
+      "raw_creator": "E. L. Doctorow",
+      "rank": 86,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Old Wives' Tale",
+      "raw_creator": "Arnold Bennett",
+      "rank": 87,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Call of the Wild",
+      "raw_creator": "Jack London",
+      "rank": 88,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Loving",
+      "raw_creator": "Henry Green",
+      "rank": 89,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight's Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": 90,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Tobacco Road",
+      "raw_creator": "Erskine Caldwell",
+      "rank": 91,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Ironweed",
+      "raw_creator": "William Kennedy",
+      "rank": 92,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Magus",
+      "raw_creator": "John Fowles",
+      "rank": 93,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Wide Sargasso Sea",
+      "raw_creator": "Jean Rhys",
+      "rank": 94,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Under the Net",
+      "raw_creator": "Iris Murdoch",
+      "rank": 95,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Sophie's Choice",
+      "raw_creator": "William Styron",
+      "rank": 96,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Sheltering Sky",
+      "raw_creator": "Paul Bowles",
+      "rank": 97,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Postman Always Rings Twice",
+      "raw_creator": "James M. Cain",
+      "rank": 98,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Ginger Man",
+      "raw_creator": "J. P. Donleavy",
+      "rank": 99,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Magnificent Ambersons",
+      "raw_creator": "Booth Tarkington",
+      "rank": 100,
+      "year": null,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://sites.prh.com/modern-library-top-100 (Penguin Random House 공식 페이지 — 1~100위 전체 목록 확보, 주 출처)",
+      "https://en.wikipedia.org/wiki/Modern_Library%27s_100_Best_Novels (편집위원 10인 명단·선정 방식·1~10위 출간연도 확인. 저작권 사유로 전체 100편은 게재하지 않음)",
+      "http://mindfulpleasures.blogspot.com/2015/04/the-modern-librarys-100-best-novels.html (1~100위 전체 목록 교차 대조용 2차 출처)",
+      "https://en.wikipedia.org/wiki/Modern_Library (모던 라이브러리 창립 연도·랜덤하우스 관계 확인)",
+      "https://www.sfadb.com/db/Modern_Library_Board (SF 해당작 8편만 수록 — 전체 목록 확보 실패)",
+      "차단되어 열지 못한 곳: thegreatestbooks.org(403), librarything.com(403), listchallenges.com(403), web.archive.org(도구 차단)"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "list_type": "편집위원회(Board's List) 목록이다. 출처 페이지 두 곳 모두 편집위원 투표 결과임을 명시했고, 1위 율리시스·2위 위대한 개츠비 순서가 편집위원 목록의 특징이다. 독자 투표(Reader's List)는 1위가 아인 랜드의 Atlas Shrugged로 전혀 다르며 본 파일에 섞이지 않았다.",
+    "top_rank": "1위는 제임스 조이스의 Ulysses(1922). Penguin Random House 공식 목록 페이지와 Wikipedia 편집위원 목록 표, 그리고 2차 출처 블로그 목록 세 곳이 모두 1위로 표기했다.",
+    "gaps": "출간연도(year)는 Wikipedia 표에서 확인된 1~10위만 채웠고 11~100위는 null이다. 공식 페이지와 2차 출처 목록에 연도가 표기되지 않았다. 채우려면 각 작품별 개별 확인이 필요하다.",
+    "uncertainties": "① 모던 라이브러리 임프린트 공식 홈페이지 URL을 확인하지 못해 homepage_url은 null이다(penguinrandomhouse.com/imprints/modern-library/ 는 404). ② 63위 표기가 출처마다 The Wapshot Chronicle(공식)과 The Wapshot Chronicles(2차 출처)로 갈렸다. 공식 페이지 표기이자 원제인 단수형을 채택했다. ③ 23·29·43·57·70위는 단행본이 아니라 다권 연작이며 출처 표기를 그대로 옮겼다(note 참조)."
+  }
+}

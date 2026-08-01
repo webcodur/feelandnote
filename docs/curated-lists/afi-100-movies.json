@@ -1,0 +1,748 @@
+{
+  "curator": {
+    "slug": "american-film-institute",
+    "name": "미국영화연구소",
+    "name_en": "American Film Institute",
+    "kind": "organization",
+    "country": "US",
+    "founded_year": 1967,
+    "homepage_url": "https://www.afi.com",
+    "description": "미국영화연구소(AFI)는 1967년 설립된 미국의 비영리 영화예술 기관이다. 영화·영상 유산의 보존과 교육을 맡으며, AFI 영화학교와 AFI 페스트 영화제를 운영한다. 1998년부터 이어온 'AFI 100 Years...' 연작 목록으로 미국 영화의 정전을 정리해 왔다.",
+    "description_en": "The American Film Institute (AFI), founded in 1967, is a nonprofit organization dedicated to preserving and advancing the art of the moving image. It runs the AFI Conservatory film school and the AFI FEST film festival. Since 1998 its 'AFI 100 Years...' series of lists has served as a widely cited canon of American cinema."
+  },
+  "list": {
+    "slug": "afi-100-years-100-movies",
+    "title": "AFI 선정 100대 영화",
+    "title_en": "AFI's 100 Years...100 Movies",
+    "description": "미국영화연구소가 뽑은 미국 영화 100편의 순위 목록이다. 1998년 초판을 10년 만에 다시 투표해 갱신한 2007년 10주년 기념판으로, 23편이 교체되었다. 1위는 초판과 마찬가지로 「시민 케인」이다.",
+    "description_en": "The American Film Institute's ranked list of the 100 greatest American films. This is the 10th Anniversary Edition, re-polled and released in 2007, in which 23 titles were replaced from the original 1998 list. Citizen Kane again took the top spot.",
+    "published_year": 2007,
+    "edition": "10주년 기념판",
+    "method": "장편 미국 영화만을 대상으로 하며, 평단의 평가·주요 수상·시대를 넘긴 대중성·역사적 의의·문화적 영향을 기준으로 삼는다. 감독·각본가·배우·편집기사·촬영감독 등 영화 창작자와 평론가·역사가로 구성된 심사단이 사전에 추린 후보작 목록을 놓고 투표한다. 결과는 2007년 6월 20일 CBS에서 모건 프리먼 진행으로 3시간 특별방송을 통해 공개되었다. (심사단 규모: 1998년 초판은 400편의 후보 중에서 1,500명 이상이 투표했다고 확인되나, 2007년판의 정확한 인원은 필자가 연 출처에서 확인하지 못했다.)",
+    "method_en": "Eligible titles are feature-length American films, judged on critical recognition, major awards, popularity over time, historical significance, and cultural impact. A jury of film artists (directors, screenwriters, actors, editors, cinematographers) together with critics and historians voted from a pre-selected ballot of nominated films. The results were revealed in a three-hour television special on CBS on June 20, 2007, hosted by Morgan Freeman. (Jury size: the 1998 original is documented as a poll of more than 1,500 industry figures choosing from 400 nominated films; the exact figure for the 2007 edition was not confirmed in the sources opened.)",
+    "source_url": "https://www.afi.com/afis-100-years-100-movies-10th-anniversary-edition/",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "VIDEO",
+    "topics": [
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Citizen Kane",
+      "raw_creator": "Orson Welles",
+      "rank": 1,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "The Godfather",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": 2,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Casablanca",
+      "raw_creator": "Michael Curtiz",
+      "rank": 3,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Raging Bull",
+      "raw_creator": "Martin Scorsese",
+      "rank": 4,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Singin' in the Rain",
+      "raw_creator": "Gene Kelly, Stanley Donen",
+      "rank": 5,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "Gone with the Wind",
+      "raw_creator": "Victor Fleming",
+      "rank": 6,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Lawrence of Arabia",
+      "raw_creator": "David Lean",
+      "rank": 7,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Schindler's List",
+      "raw_creator": "Steven Spielberg",
+      "rank": 8,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "Vertigo",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 9,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Wizard of Oz",
+      "raw_creator": "Victor Fleming",
+      "rank": 10,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "City Lights",
+      "raw_creator": "Charles Chaplin",
+      "rank": 11,
+      "year": 1931,
+      "note": null
+    },
+    {
+      "raw_title": "The Searchers",
+      "raw_creator": "John Ford",
+      "rank": 12,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "Star Wars",
+      "raw_creator": "George Lucas",
+      "rank": 13,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Psycho",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 14,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "2001: A Space Odyssey",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 15,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Sunset Boulevard",
+      "raw_creator": "Billy Wilder",
+      "rank": 16,
+      "year": 1950,
+      "note": "AFI 공식 표기는 'Sunset Blvd.'"
+    },
+    {
+      "raw_title": "The Graduate",
+      "raw_creator": "Mike Nichols",
+      "rank": 17,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "The General",
+      "raw_creator": "Buster Keaton, Clyde Bruckman",
+      "rank": 18,
+      "year": 1926,
+      "note": "개봉 연도가 출처마다 1926/1927로 갈린다"
+    },
+    {
+      "raw_title": "On the Waterfront",
+      "raw_creator": "Elia Kazan",
+      "rank": 19,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "It's a Wonderful Life",
+      "raw_creator": "Frank Capra",
+      "rank": 20,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "Chinatown",
+      "raw_creator": "Roman Polanski",
+      "rank": 21,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Some Like It Hot",
+      "raw_creator": "Billy Wilder",
+      "rank": 22,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "The Grapes of Wrath",
+      "raw_creator": "John Ford",
+      "rank": 23,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "E.T. the Extra-Terrestrial",
+      "raw_creator": "Steven Spielberg",
+      "rank": 24,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "To Kill a Mockingbird",
+      "raw_creator": "Robert Mulligan",
+      "rank": 25,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Mr. Smith Goes to Washington",
+      "raw_creator": "Frank Capra",
+      "rank": 26,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "High Noon",
+      "raw_creator": "Fred Zinnemann",
+      "rank": 27,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "All About Eve",
+      "raw_creator": "Joseph L. Mankiewicz",
+      "rank": 28,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "Double Indemnity",
+      "raw_creator": "Billy Wilder",
+      "rank": 29,
+      "year": 1944,
+      "note": null
+    },
+    {
+      "raw_title": "Apocalypse Now",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": 30,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Maltese Falcon",
+      "raw_creator": "John Huston",
+      "rank": 31,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "The Godfather Part II",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": 32,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "One Flew Over the Cuckoo's Nest",
+      "raw_creator": "Milos Forman",
+      "rank": 33,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Snow White and the Seven Dwarfs",
+      "raw_creator": "David Hand",
+      "rank": 34,
+      "year": 1937,
+      "note": null
+    },
+    {
+      "raw_title": "Annie Hall",
+      "raw_creator": "Woody Allen",
+      "rank": 35,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "The Bridge on the River Kwai",
+      "raw_creator": "David Lean",
+      "rank": 36,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "The Best Years of Our Lives",
+      "raw_creator": "William Wyler",
+      "rank": 37,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "The Treasure of the Sierra Madre",
+      "raw_creator": "John Huston",
+      "rank": 38,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 39,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "The Sound of Music",
+      "raw_creator": "Robert Wise",
+      "rank": 40,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "King Kong",
+      "raw_creator": "Merian C. Cooper, Ernest B. Schoedsack",
+      "rank": 41,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Bonnie and Clyde",
+      "raw_creator": "Arthur Penn",
+      "rank": 42,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight Cowboy",
+      "raw_creator": "John Schlesinger",
+      "rank": 43,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Philadelphia Story",
+      "raw_creator": "George Cukor",
+      "rank": 44,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Shane",
+      "raw_creator": "George Stevens",
+      "rank": 45,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "It Happened One Night",
+      "raw_creator": "Frank Capra",
+      "rank": 46,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "A Streetcar Named Desire",
+      "raw_creator": "Elia Kazan",
+      "rank": 47,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "Rear Window",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 48,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Intolerance",
+      "raw_creator": "D. W. Griffith",
+      "rank": 49,
+      "year": 1916,
+      "note": "전체 제목은 'Intolerance: Love's Struggle Throughout the Ages'"
+    },
+    {
+      "raw_title": "The Lord of the Rings: The Fellowship of the Ring",
+      "raw_creator": "Peter Jackson",
+      "rank": 50,
+      "year": 2001,
+      "note": "2007년판에 새로 진입한 4편 중 하나(1996년 이후 작품)"
+    },
+    {
+      "raw_title": "West Side Story",
+      "raw_creator": "Robert Wise, Jerome Robbins",
+      "rank": 51,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Taxi Driver",
+      "raw_creator": "Martin Scorsese",
+      "rank": 52,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Deer Hunter",
+      "raw_creator": "Michael Cimino",
+      "rank": 53,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "M*A*S*H",
+      "raw_creator": "Robert Altman",
+      "rank": 54,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "North by Northwest",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 55,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Jaws",
+      "raw_creator": "Steven Spielberg",
+      "rank": 56,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Rocky",
+      "raw_creator": "John G. Avildsen",
+      "rank": 57,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Gold Rush",
+      "raw_creator": "Charles Chaplin",
+      "rank": 58,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Nashville",
+      "raw_creator": "Robert Altman",
+      "rank": 59,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Duck Soup",
+      "raw_creator": "Leo McCarey",
+      "rank": 60,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Sullivan's Travels",
+      "raw_creator": "Preston Sturges",
+      "rank": 61,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "American Graffiti",
+      "raw_creator": "George Lucas",
+      "rank": 62,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Cabaret",
+      "raw_creator": "Bob Fosse",
+      "rank": 63,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Network",
+      "raw_creator": "Sidney Lumet",
+      "rank": 64,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The African Queen",
+      "raw_creator": "John Huston",
+      "rank": 65,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "Raiders of the Lost Ark",
+      "raw_creator": "Steven Spielberg",
+      "rank": 66,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Who's Afraid of Virginia Woolf?",
+      "raw_creator": "Mike Nichols",
+      "rank": 67,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Unforgiven",
+      "raw_creator": "Clint Eastwood",
+      "rank": 68,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Tootsie",
+      "raw_creator": "Sydney Pollack",
+      "rank": 69,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "A Clockwork Orange",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 70,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Saving Private Ryan",
+      "raw_creator": "Steven Spielberg",
+      "rank": 71,
+      "year": 1998,
+      "note": "2007년판 신규 진입작"
+    },
+    {
+      "raw_title": "The Shawshank Redemption",
+      "raw_creator": "Frank Darabont",
+      "rank": 72,
+      "year": 1994,
+      "note": "2007년판 신규 진입작"
+    },
+    {
+      "raw_title": "Butch Cassidy and the Sundance Kid",
+      "raw_creator": "George Roy Hill",
+      "rank": 73,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Silence of the Lambs",
+      "raw_creator": "Jonathan Demme",
+      "rank": 74,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "In the Heat of the Night",
+      "raw_creator": "Norman Jewison",
+      "rank": 75,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Forrest Gump",
+      "raw_creator": "Robert Zemeckis",
+      "rank": 76,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "All the President's Men",
+      "raw_creator": "Alan J. Pakula",
+      "rank": 77,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Modern Times",
+      "raw_creator": "Charles Chaplin",
+      "rank": 78,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "The Wild Bunch",
+      "raw_creator": "Sam Peckinpah",
+      "rank": 79,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Apartment",
+      "raw_creator": "Billy Wilder",
+      "rank": 80,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Spartacus",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 81,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Sunrise: A Song of Two Humans",
+      "raw_creator": "F. W. Murnau",
+      "rank": 82,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "Titanic",
+      "raw_creator": "James Cameron",
+      "rank": 83,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Easy Rider",
+      "raw_creator": "Dennis Hopper",
+      "rank": 84,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "A Night at the Opera",
+      "raw_creator": "Sam Wood",
+      "rank": 85,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "Platoon",
+      "raw_creator": "Oliver Stone",
+      "rank": 86,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "12 Angry Men",
+      "raw_creator": "Sidney Lumet",
+      "rank": 87,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "Bringing Up Baby",
+      "raw_creator": "Howard Hawks",
+      "rank": 88,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "The Sixth Sense",
+      "raw_creator": "M. Night Shyamalan",
+      "rank": 89,
+      "year": 1999,
+      "note": "2007년판 신규 진입작"
+    },
+    {
+      "raw_title": "Swing Time",
+      "raw_creator": "George Stevens",
+      "rank": 90,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "Sophie's Choice",
+      "raw_creator": "Alan J. Pakula",
+      "rank": 91,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "GoodFellas",
+      "raw_creator": "Martin Scorsese",
+      "rank": 92,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "The French Connection",
+      "raw_creator": "William Friedkin",
+      "rank": 93,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Pulp Fiction",
+      "raw_creator": "Quentin Tarantino",
+      "rank": 94,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "The Last Picture Show",
+      "raw_creator": "Peter Bogdanovich",
+      "rank": 95,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Do the Right Thing",
+      "raw_creator": "Spike Lee",
+      "rank": 96,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Blade Runner",
+      "raw_creator": "Ridley Scott",
+      "rank": 97,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Yankee Doodle Dandy",
+      "raw_creator": "Michael Curtiz",
+      "rank": 98,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Toy Story",
+      "raw_creator": "John Lasseter",
+      "rank": 99,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Ben-Hur",
+      "raw_creator": "William Wyler",
+      "rank": 100,
+      "year": 1959,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.afi.com/afis-100-years-100-movies-10th-anniversary-edition/",
+      "https://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Movies_(10th_Anniversary_Edition)",
+      "https://letterboxd.com/afi/list/afis-100-years100-movies-10th-anniversary/",
+      "https://www.filmsite.org/afi100films_2007.html",
+      "https://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Movies",
+      "https://en.wikipedia.org/wiki/AFI_100_Years..._series"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "edition_confirmed": "2007년 10주년 기념판이 맞다. 근거 세 가지 — ① AFI 공식 페이지 제목이 'AFI'S 100 YEARS…100 MOVIES — 10TH ANNIVERSARY EDITION'이고 URL도 동일하다. ② 위키백과 해당 문서 첫 문장이 '2007년에 갱신한 판이며 원본 목록은 1998년에 공개되었다'고 명시한다. ③ 목록 내용 자체가 10주년판 특유의 항목을 담고 있다 — 「반지의 제왕: 반지 원정대」(2001, 50위), 「식스 센스」(1999, 89위), 「라이언 일병 구하기」(1998, 71위)는 1998년 초판 시점에 존재하지 않았거나 대상이 아니었던 작품이며, 초판 1위~5위와 달리 「분노의 주먹」이 4위, 「사랑은 비를 타고」가 5위로 올라와 있다.",
+    "gaps": "없다. 순위 1위부터 100위까지 결번 없이 모두 채웠다.",
+    "uncertainties": "① AFI 공식 페이지는 스크립트로 목록을 나중에 불러오는 구조라 본문에서 1~13위까지만 읽혔다. 14~100위는 AFI가 직접 운영하는 레터박스드 공식 계정 목록, 위키백과 표, filmsite.org 세 곳에서 각각 읽어 순위·제목이 완전히 일치함을 확인한 뒤 기록했다. ② 18위 「제너럴」의 개봉 연도는 위키백과가 1926년, filmsite가 1927년으로 갈린다. 1926년을 채택하고 해당 항목에 메모를 남겼다. ③ 제목 표기 차이 — 16위는 AFI가 'Sunset Blvd.', 다른 곳은 'Sunset Boulevard'로 적는다. 49위는 짧은 형태 'Intolerance'와 전체 제목 두 가지가 쓰인다. 92위는 'GoodFellas'와 'Goodfellas' 두 표기가 있다. ④ 공동 연출 표기 차이 — 10위 「오즈의 마법사」는 AFI 페이지가 빅터 플레밍과 킹 비더를 함께 적으나 위키백과·filmsite는 크레딧상 감독인 빅터 플레밍만 적는다. 크레딧 기준을 따랐다. 18위 「제너럴」도 filmsite는 버스터 키튼만, 위키백과는 클라이드 브럭먼을 함께 적는다. 공동 감독을 병기했다. ⑤ 2007년판 심사단의 정확한 인원수는 열어본 어느 출처에도 없었다. 위키백과 'AFI 100 Years... series' 문서는 연작 전반에 대해 '창작계 인사 1,000명 이상'이라고만 적고, 1998년 초판에 대해서는 '400편의 후보 중 1,500명 이상 투표'라고 명시한다. 2007년판 수치를 확정하려면 AFI가 2007년에 낸 보도자료 원문을 열어야 한다."
+  }
+}

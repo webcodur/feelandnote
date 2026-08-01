@@ -1,0 +1,742 @@
+{
+  "curator": {
+    "slug": "new-york-times",
+    "name": "뉴욕타임스",
+    "name_en": "The New York Times",
+    "kind": "media",
+    "country": "US",
+    "founded_year": 1851,
+    "homepage_url": "https://www.nytimes.com",
+    "description": "1851년 뉴욕에서 창간한 미국의 일간지다. 부속 서평지 뉴욕타임스 북리뷰는 1896년부터 이어져 영어권 출판계에서 가장 오래되고 영향력 있는 서평 매체로 꼽힌다. 베스트셀러 목록과 연말 도서 선정으로 독서 시장에 큰 영향을 미친다.",
+    "description_en": "Founded in New York in 1851, The New York Times is one of the most widely read American daily newspapers. Its book supplement, The New York Times Book Review, has been published since 1896 and is among the most influential review outlets in the English-speaking world. Its bestseller lists and year-end selections carry substantial weight in the publishing market."
+  },
+  "list": {
+    "slug": "nyt-100-best-books-21st-century",
+    "title": "21세기 최고의 책 100",
+    "title_en": "The 100 Best Books of the 21st Century",
+    "description": "뉴욕타임스 북리뷰가 21세기의 첫 25년을 결산하며 2024년 7월에 발표한 순위 목록이다. 소설가·논픽션 작가·평론가·번역가·서점원 등 503명이 각자 21세기 최고의 책 10권을 투표해 상위 100권을 뽑았다. 1위는 엘레나 페란테의 『My Brilliant Friend』다.",
+    "description_en": "A ranked list published by The New York Times Book Review in July 2024 to take stock of the first quarter of the 21st century. Ballots from 503 novelists, nonfiction writers, critics, translators, booksellers and other literary figures, each naming their 10 best books of the century, were tallied into a top 100. Elena Ferrante's \"My Brilliant Friend\" took the top spot.",
+    "published_year": 2024,
+    "edition": null,
+    "method": "출처 페이지의 'Methodology' 항목 그대로: 뉴욕타임스 북리뷰가 데이터 저널리즘 부서 The Upshot과 함께 소설가·논픽션 작가·학자·편집자·기자·평론가·출판인·시인·번역가·서점원·사서 등 문학계 인사 수백 명에게 설문을 보내 각자 21세기 최고의 책 10권을 꼽게 했다. 최종 응답자는 503명이다. '최고'의 기준은 응답자 각자의 정의에 맡겼다. 유일한 조건은 2000년 1월 1일 이후 미국에서 영어로 출간된 책이어야 한다는 것이며 번역서도 포함했다. 투표 후 응답자에게 무작위로 뽑은 두 책 중 선호작을 고르는 문항을 추가로 제시했고, 이 결과를 득표수와 합산해 상위 100권 순위를 만들었다.",
+    "method_en": "As stated in the source page's Methodology section: in collaboration with The Upshot, the Times's data-journalism department, the Book Review sent a survey to hundreds of novelists, nonfiction writers, academics, book editors, journalists, critics, publishers, poets, translators, booksellers, librarians and other literary luminaries, asking them to pick their 10 best books of the 21st century; 503 people responded. Respondents defined \"best\" for themselves. The only rules were that a book had to be published in the United States, in English, on or after Jan. 1, 2000 (translations counted). After casting ballots, respondents could answer a series of head-to-head prompts choosing between two randomly selected titles; that data was combined with the vote tallies to produce the top 100.",
+    "source_url": "https://www.nytimes.com/interactive/2024/books/best-books-21st-century.html",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "My Brilliant Friend",
+      "raw_creator": "Elena Ferrante; translated by Ann Goldstein",
+      "rank": 1,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Warmth of Other Suns",
+      "raw_creator": "Isabel Wilkerson",
+      "rank": 2,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Wolf Hall",
+      "raw_creator": "Hilary Mantel",
+      "rank": 3,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Known World",
+      "raw_creator": "Edward P. Jones",
+      "rank": 4,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Corrections",
+      "raw_creator": "Jonathan Franzen",
+      "rank": 5,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "2666",
+      "raw_creator": "Roberto Bolaño; translated by Natasha Wimmer",
+      "rank": 6,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The Underground Railroad",
+      "raw_creator": "Colson Whitehead",
+      "rank": 7,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Austerlitz",
+      "raw_creator": "W.G. Sebald; translated by Anthea Bell",
+      "rank": 8,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Never Let Me Go",
+      "raw_creator": "Kazuo Ishiguro",
+      "rank": 9,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Gilead",
+      "raw_creator": "Marilynne Robinson",
+      "rank": 10,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "The Brief Wondrous Life of Oscar Wao",
+      "raw_creator": "Junot Díaz",
+      "rank": 11,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Year of Magical Thinking",
+      "raw_creator": "Joan Didion",
+      "rank": 12,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Road",
+      "raw_creator": "Cormac McCarthy",
+      "rank": 13,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Outline",
+      "raw_creator": "Rachel Cusk",
+      "rank": 14,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Pachinko",
+      "raw_creator": "Min Jin Lee",
+      "rank": 15,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Amazing Adventures of Kavalier & Clay",
+      "raw_creator": "Michael Chabon",
+      "rank": 16,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Sellout",
+      "raw_creator": "Paul Beatty",
+      "rank": 17,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Lincoln in the Bardo",
+      "raw_creator": "George Saunders",
+      "rank": 18,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Say Nothing",
+      "raw_creator": "Patrick Radden Keefe",
+      "rank": 19,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Erasure",
+      "raw_creator": "Percival Everett",
+      "rank": 20,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Evicted",
+      "raw_creator": "Matthew Desmond",
+      "rank": 21,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Behind the Beautiful Forevers",
+      "raw_creator": "Katherine Boo",
+      "rank": 22,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Hateship, Friendship, Courtship, Loveship, Marriage",
+      "raw_creator": "Alice Munro",
+      "rank": 23,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Overstory",
+      "raw_creator": "Richard Powers",
+      "rank": 24,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Random Family",
+      "raw_creator": "Adrian Nicole LeBlanc",
+      "rank": 25,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Atonement",
+      "raw_creator": "Ian McEwan",
+      "rank": 26,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Americanah",
+      "raw_creator": "Chimamanda Ngozi Adichie",
+      "rank": 27,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Cloud Atlas",
+      "raw_creator": "David Mitchell",
+      "rank": 28,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "The Last Samurai",
+      "raw_creator": "Helen DeWitt",
+      "rank": 29,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Sing, Unburied, Sing",
+      "raw_creator": "Jesmyn Ward",
+      "rank": 30,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "White Teeth",
+      "raw_creator": "Zadie Smith",
+      "rank": 31,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Line of Beauty",
+      "raw_creator": "Alan Hollinghurst",
+      "rank": 32,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Salvage the Bones",
+      "raw_creator": "Jesmyn Ward",
+      "rank": 33,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Citizen",
+      "raw_creator": "Claudia Rankine",
+      "rank": 34,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Fun Home",
+      "raw_creator": "Alison Bechdel",
+      "rank": 35,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Between the World and Me",
+      "raw_creator": "Ta-Nehisi Coates",
+      "rank": 36,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Years",
+      "raw_creator": "Annie Ernaux; translated by Alison L. Strayer",
+      "rank": 37,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Savage Detectives",
+      "raw_creator": "Roberto Bolaño; translated by Natasha Wimmer",
+      "rank": 38,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "A Visit From the Goon Squad",
+      "raw_creator": "Jennifer Egan",
+      "rank": 39,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "H Is for Hawk",
+      "raw_creator": "Helen Macdonald",
+      "rank": 40,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Small Things Like These",
+      "raw_creator": "Claire Keegan",
+      "rank": 41,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "A Brief History of Seven Killings",
+      "raw_creator": "Marlon James",
+      "rank": 42,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Postwar",
+      "raw_creator": "Tony Judt",
+      "rank": 43,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Fifth Season",
+      "raw_creator": "N.K. Jemisin",
+      "rank": 44,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Argonauts",
+      "raw_creator": "Maggie Nelson",
+      "rank": 45,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Goldfinch",
+      "raw_creator": "Donna Tartt",
+      "rank": 46,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "A Mercy",
+      "raw_creator": "Toni Morrison",
+      "rank": 47,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Persepolis",
+      "raw_creator": "Marjane Satrapi",
+      "rank": 48,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Vegetarian",
+      "raw_creator": "Han Kang; translated by Deborah Smith",
+      "rank": 49,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Trust",
+      "raw_creator": "Hernan Diaz",
+      "rank": 50,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Life After Life",
+      "raw_creator": "Kate Atkinson",
+      "rank": 51,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Train Dreams",
+      "raw_creator": "Denis Johnson",
+      "rank": 52,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Runaway",
+      "raw_creator": "Alice Munro",
+      "rank": 53,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Tenth of December",
+      "raw_creator": "George Saunders",
+      "rank": 54,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "The Looming Tower",
+      "raw_creator": "Lawrence Wright",
+      "rank": 55,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Flamethrowers",
+      "raw_creator": "Rachel Kushner",
+      "rank": 56,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Nickel and Dimed",
+      "raw_creator": "Barbara Ehrenreich",
+      "rank": 57,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Stay True",
+      "raw_creator": "Hua Hsu",
+      "rank": 58,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Middlesex",
+      "raw_creator": "Jeffrey Eugenides",
+      "rank": 59,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Heavy",
+      "raw_creator": "Kiese Laymon",
+      "rank": 60,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Demon Copperhead",
+      "raw_creator": "Barbara Kingsolver",
+      "rank": 61,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "10:04",
+      "raw_creator": "Ben Lerner",
+      "rank": 62,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Veronica",
+      "raw_creator": "Mary Gaitskill",
+      "rank": 63,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Believers",
+      "raw_creator": "Rebecca Makkai",
+      "rank": 64,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Plot Against America",
+      "raw_creator": "Philip Roth",
+      "rank": 65,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "We the Animals",
+      "raw_creator": "Justin Torres",
+      "rank": 66,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Far From the Tree",
+      "raw_creator": "Andrew Solomon",
+      "rank": 67,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Friend",
+      "raw_creator": "Sigrid Nunez",
+      "rank": 68,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The New Jim Crow",
+      "raw_creator": "Michelle Alexander",
+      "rank": 69,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "All Aunt Hagar’s Children",
+      "raw_creator": "Edward P. Jones",
+      "rank": 70,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Copenhagen Trilogy",
+      "raw_creator": "Tove Ditlevsen; translated by Tiina Nunnally and Michael Favala Goldman",
+      "rank": 71,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Secondhand Time",
+      "raw_creator": "Svetlana Alexievich; translated by Bela Shayevich",
+      "rank": 72,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Passage of Power",
+      "raw_creator": "Robert Caro",
+      "rank": 73,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Olive Kitteridge",
+      "raw_creator": "Elizabeth Strout",
+      "rank": 74,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Exit West",
+      "raw_creator": "Mohsin Hamid",
+      "rank": 75,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Tomorrow, and Tomorrow, and Tomorrow",
+      "raw_creator": "Gabrielle Zevin",
+      "rank": 76,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "An American Marriage",
+      "raw_creator": "Tayari Jones",
+      "rank": 77,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Septology",
+      "raw_creator": "Jon Fosse; translated by Damion Searls",
+      "rank": 78,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "A Manual for Cleaning Women",
+      "raw_creator": "Lucia Berlin",
+      "rank": 79,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Story of the Lost Child",
+      "raw_creator": "Elena Ferrante; translated by Ann Goldstein",
+      "rank": 80,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Pulphead",
+      "raw_creator": "John Jeremiah Sullivan",
+      "rank": 81,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Hurricane Season",
+      "raw_creator": "Fernanda Melchor; translated by Sophie Hughes",
+      "rank": 82,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "When We Cease to Understand the World",
+      "raw_creator": "Benjamín Labatut; translated by Adrian Nathan West",
+      "rank": 83,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Emperor of All Maladies",
+      "raw_creator": "Siddhartha Mukherjee",
+      "rank": 84,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Pastoralia",
+      "raw_creator": "George Saunders",
+      "rank": 85,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Frederick Douglass",
+      "raw_creator": "David W. Blight",
+      "rank": 86,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Detransition, Baby",
+      "raw_creator": "Torrey Peters",
+      "rank": 87,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Collected Stories of Lydia Davis",
+      "raw_creator": "Lydia Davis",
+      "rank": 88,
+      "year": 2010,
+      "note": "출처 페이지에 저자 표기줄이 없다. 제목 'The Collected Stories of Lydia Davis'에 저자명이 포함돼 있어 그대로 채웠다."
+    },
+    {
+      "raw_title": "The Return",
+      "raw_creator": "Hisham Matar",
+      "rank": 89,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Sympathizer",
+      "raw_creator": "Viet Thanh Nguyen",
+      "rank": 90,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Human Stain",
+      "raw_creator": "Philip Roth",
+      "rank": 91,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Days of Abandonment",
+      "raw_creator": "Elena Ferrante; translated by Ann Goldstein",
+      "rank": 92,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Station Eleven",
+      "raw_creator": "Emily St. John Mandel",
+      "rank": 93,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "On Beauty",
+      "raw_creator": "Zadie Smith",
+      "rank": 94,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Bring Up the Bodies",
+      "raw_creator": "Hilary Mantel",
+      "rank": 95,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Wayward Lives, Beautiful Experiments",
+      "raw_creator": "Saidiya Hartman",
+      "rank": 96,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Men We Reaped",
+      "raw_creator": "Jesmyn Ward",
+      "rank": 97,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Bel Canto",
+      "raw_creator": "Ann Patchett",
+      "rank": 98,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "How to Be Both",
+      "raw_creator": "Ali Smith",
+      "rank": 99,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Tree of Smoke",
+      "raw_creator": "Denis Johnson",
+      "rank": 100,
+      "year": 2007,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.nytimes.com/interactive/2024/books/best-books-21st-century.html",
+      "https://tertulia.com/editorial-list/best-books-twenty-first-century-new-york-times",
+      "https://bookshopsantacruz.com/nyt-100-best-books",
+      "https://thishouseofbooks.com/list/top-100-books-21st-century"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "gaps": "없다. 뉴욕타임스 원문 페이지에서 1~100위를 빠짐없이 회수했다. 페이지 안에 심어진 구조화 데이터(schema.org ItemList, numberOfItems 100)와 화면에 렌더링된 100개 항목 수가 일치하는 것도 확인했다.",
+    "uncertainties": "① 88위는 원문에 저자 표기줄 자체가 없고 제목 'The Collected Stories of Lydia Davis' 안에 저자명이 들어 있어, 저자를 'Lydia Davis'로 채우고 해당 항목 note에 사정을 적었다. ② 번역서는 원문이 '저자; translated by 역자' 형식으로 표기해 그 문자열을 그대로 옮겼다(예: 1위 'Elena Ferrante; translated by Ann Goldstein'). ③ 연도는 원문에 병기된 미국 출간 연도이며 원서 초판 연도와 다를 수 있다(예: 1위 My Brilliant Friend는 2012로 표기, 이탈리아 원서는 2011). ④ 2차 출처로 열어본 서점 페이지(bookshopsantacruz.com, thishouseofbooks.com)는 순위가 뒤섞이거나 항목이 누락돼 있어 채택하지 않았다. tertulia.com은 1~10위만 노출했고 뉴욕타임스 원문과 일치했다."
+  }
+}

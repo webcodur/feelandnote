@@ -18,6 +18,7 @@ import MyNoteSection from "./MyNoteSection";
 import AllReviewsSection from "./AllReviewsSection";
 import RecentContentsSection from "./RecentContentsSection";
 import FictionCharactersSection from "./FictionCharactersSection";
+import CuratedEntriesSection from "./CuratedEntriesSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
 import type { ContentDetailData } from "@/actions/contents/getContentDetail";
 import { useTranslations } from "next-intl";
@@ -29,9 +30,10 @@ interface ContentDetailPageProps {
 export default function ContentDetailPage({ initialData }: ContentDetailPageProps) {
   const router = useRouter();
   const t = useTranslations("contentDetail");
+  const tCurated = useTranslations("library.curated");
   const [data, setData] = useState(initialData);
 
-  const { content, userRecord, isLoggedIn, initialReviews, fictionCharacters } = data;
+  const { content, userRecord, isLoggedIn, initialReviews, fictionCharacters, curatedEntries } = data;
 
   // 최근 접근 콘텐츠
   const { recentItems, addItem } = useRecentContents(content.id);
@@ -91,6 +93,21 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             defaultOpen
           >
             <FictionCharactersSection characters={fictionCharacters} />
+          </AccordionSection>
+        )}
+
+        {/* 기관·매체가 이 작품을 뽑은 이력 — 대학 필독서·언론 선정·수상 */}
+        {curatedEntries.length > 0 && (
+          <AccordionSection
+            title={tCurated("onContent.title")}
+            badge={(
+              <span className="rounded-full border border-accent/20 bg-accent/[0.06] px-2 py-0.5 text-[10px] text-accent">
+                {tCurated("onContent.badge", { count: curatedEntries.length })}
+              </span>
+            )}
+            defaultOpen
+          >
+            <CuratedEntriesSection entries={curatedEntries} />
           </AccordionSection>
         )}
 
