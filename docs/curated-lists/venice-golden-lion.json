@@ -1,0 +1,702 @@
+{
+  "curator": {
+    "slug": "venice-film-festival",
+    "name": "베니스 국제영화제",
+    "name_en": "Venice International Film Festival",
+    "kind": "festival",
+    "country": "IT",
+    "founded_year": 1932,
+    "homepage_url": "https://www.labiennale.org",
+    "description": "베니스 국제영화제는 1932년 8월 베네치아 비엔날레의 한 부문으로 처음 열린, 역사상 최초의 국제영화제다. 주최 측인 라 비엔날레 디 베네치아는 공식 홈페이지에서 1932년 베니스 영화제를 \"역사상 첫 번째 영화제\"라고 밝히고 있다. 매년 늦여름 리도섬에서 열리며 최고 작품상으로 황금사자상을 준다.",
+    "description_en": "The Venice International Film Festival was first held in August 1932 as a section of the Venice Biennale, making it the oldest film festival in the world. La Biennale di Venezia states on its official site that the 1932 Venice Film Festival was \"the first film festival in history.\" Held each late summer on the Lido, it awards the Golden Lion as its top prize for best film."
+  },
+  "list": {
+    "slug": "venice-golden-lion",
+    "title": "베니스 영화제 황금사자상",
+    "title_en": "Venice Film Festival Golden Lion",
+    "description": "베니스 국제영화제 경쟁부문 최고 작품상 수상작을 모은 목록이다. 황금사자상은 1949년 산마르코 황금사자상이라는 이름으로 제정되어 1954년부터 지금의 이름으로 굳었고, 그 이전 최고상 자리는 코파 무솔리니(1934~1942)와 베네치아 국제 그랑프리(1947~1948)가 맡았다. 사람에게 주는 명예 황금사자상(공로상)은 이 목록에서 뺐다.",
+    "description_en": "A list of the films awarded the top prize in the main competition of the Venice International Film Festival. The Golden Lion was created in 1949 as the Golden Lion of Saint Mark and took its present name from 1954; before that, the equivalent top prize was the Coppa Mussolini (1934-1942) and the Gran Premio Internazionale di Venezia (1947-1948). The honorary Golden Lion for Lifetime Achievement, which is given to people rather than films, is excluded.",
+    "published_year": null,
+    "edition": null,
+    "method": "국제 심사위원단이 경쟁부문 상영작을 모두 관람한 뒤 합의로 뽑는다. 2025년 제82회의 경우 공식 발표문에 따르면 알렉산더 페인이 위원장을 맡은 7인 심사위원단이 경쟁작 21편을 모두 본 뒤 수상작을 정했다. 1932년 제1회는 심사위원단과 공식 시상이 없어 관객 투표로 목록만 발표했고, 1934년부터 공식 시상이 시작됐다.",
+    "method_en": "An international jury views all the films in the main competition and decides the winner by deliberation. For the 82nd edition in 2025, the official announcement states that a seven-member jury chaired by Alexander Payne selected the winners \"having viewed all 21 films in competition.\" The first edition in 1932 had no jury and no official prizes; results were announced by audience referendum, and official awards began in 1934.",
+    "source_url": "https://en.wikipedia.org/wiki/Golden_Lion",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "VIDEO",
+    "topics": [
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Loyalty of Love",
+      "raw_creator": "Guido Brignone",
+      "rank": null,
+      "year": 1934,
+      "note": "원제: Teresa Confalonieri; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Man of Aran",
+      "raw_creator": "Robert J. Flaherty",
+      "rank": null,
+      "year": 1934,
+      "note": "코파 무솔리니 외국 작품상; 영국·아일랜드 자유국"
+    },
+    {
+      "raw_title": "Casta Diva",
+      "raw_creator": "Carmine Gallone",
+      "rank": null,
+      "year": 1935,
+      "note": "원제: Casta Diva; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Anna Karenina",
+      "raw_creator": "Clarence Brown",
+      "rank": null,
+      "year": 1935,
+      "note": "코파 무솔리니 외국 작품상; 미국"
+    },
+    {
+      "raw_title": "Lo squadrone bianco",
+      "raw_creator": "Augusto Genina",
+      "rank": null,
+      "year": 1936,
+      "note": "원제: Lo squadrone bianco; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Der Kaiser von Kalifornien",
+      "raw_creator": "Luis Trenker",
+      "rank": null,
+      "year": 1936,
+      "note": "원제: Der Kaiser von Kalifornien; 코파 무솔리니 외국 작품상; 독일"
+    },
+    {
+      "raw_title": "Scipio Africanus: The Defeat of Hannibal",
+      "raw_creator": "Carmine Gallone",
+      "rank": null,
+      "year": 1937,
+      "note": "원제: Scipione l'africano; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Life Dances On",
+      "raw_creator": "Julien Duvivier",
+      "rank": null,
+      "year": 1937,
+      "note": "원제: Un carnet de bal; 코파 무솔리니 외국 작품상; 프랑스"
+    },
+    {
+      "raw_title": "Luciano Serra, Pilot",
+      "raw_creator": "Goffredo Alessandrini",
+      "rank": null,
+      "year": 1938,
+      "note": "원제: Luciano Serra pilota; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Olympia",
+      "raw_creator": "Leni Riefenstahl",
+      "rank": null,
+      "year": 1938,
+      "note": "원제: Olympia; 코파 무솔리니 외국 작품상; 독일"
+    },
+    {
+      "raw_title": "Cardinal Messias",
+      "raw_creator": "Goffredo Alessandrini",
+      "rank": null,
+      "year": 1939,
+      "note": "원제: Abuna Messias; 코파 무솔리니 이탈리아 작품상; 이 해 외국 작품상은 시상하지 않았다"
+    },
+    {
+      "raw_title": "The Siege of the Alcazar",
+      "raw_creator": "Augusto Genina",
+      "rank": null,
+      "year": 1940,
+      "note": "원제: L'assedio dell'Alcazar; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Der Postmeister",
+      "raw_creator": "Gustav Ucicky",
+      "rank": null,
+      "year": 1940,
+      "note": "원제: Der Postmeister; 코파 무솔리니 외국 작품상; 독일"
+    },
+    {
+      "raw_title": "The Iron Crown",
+      "raw_creator": "Alessandro Blasetti",
+      "rank": null,
+      "year": 1941,
+      "note": "원제: La corona di ferro; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "Ohm Krüger",
+      "raw_creator": "Hans Steinhoff",
+      "rank": null,
+      "year": 1941,
+      "note": "원제: Ohm Krüger; 코파 무솔리니 외국 작품상; 독일"
+    },
+    {
+      "raw_title": "Bengasi",
+      "raw_creator": "Augusto Genina",
+      "rank": null,
+      "year": 1942,
+      "note": "원제: Bengasi; 코파 무솔리니 이탈리아 작품상"
+    },
+    {
+      "raw_title": "The Great King",
+      "raw_creator": "Veit Harlan",
+      "rank": null,
+      "year": 1942,
+      "note": "원제: Der große König; 코파 무솔리니 외국 작품상; 독일"
+    },
+    {
+      "raw_title": "The Southerner",
+      "raw_creator": "Jean Renoir",
+      "rank": null,
+      "year": 1946,
+      "note": "원제: The Southerner; 코파 무솔리니 폐지 후 이탈리아·외국 부문을 하나로 합친 최고 작품상; 미국"
+    },
+    {
+      "raw_title": "The Strike",
+      "raw_creator": "Karel Steklý",
+      "rank": null,
+      "year": 1947,
+      "note": "원제: Siréna; 베네치아 국제 그랑프리(Gran Premio Internazionale di Venezia); 체코슬로바키아"
+    },
+    {
+      "raw_title": "Hamlet",
+      "raw_creator": "Laurence Olivier",
+      "rank": null,
+      "year": 1948,
+      "note": "원제: Hamlet; 베네치아 국제 그랑프리(Gran Premio Internazionale di Venezia); 영국"
+    },
+    {
+      "raw_title": "Manon",
+      "raw_creator": "Henri-Georges Clouzot",
+      "rank": null,
+      "year": 1949,
+      "note": "원제: Manon; 산마르코 황금사자상(Leone di San Marco) 초대 수상작; 프랑스"
+    },
+    {
+      "raw_title": "Justice Is Done",
+      "raw_creator": "André Cayatte",
+      "rank": null,
+      "year": 1950,
+      "note": "원제: Justice est faite; 산마르코 황금사자상(Leone di San Marco); 프랑스"
+    },
+    {
+      "raw_title": "Rashomon",
+      "raw_creator": "Akira Kurosawa",
+      "rank": null,
+      "year": 1951,
+      "note": "원제: 羅生門; 산마르코 황금사자상(Leone di San Marco); 일본"
+    },
+    {
+      "raw_title": "Forbidden Games",
+      "raw_creator": "René Clément",
+      "rank": null,
+      "year": 1952,
+      "note": "원제: Jeux interdits; 산마르코 황금사자상(Leone di San Marco); 프랑스"
+    },
+    {
+      "raw_title": "Romeo and Juliet",
+      "raw_creator": "Renato Castellani",
+      "rank": null,
+      "year": 1954,
+      "note": "원제: Romeo and Juliet; 이 해부터 상 이름이 황금사자상으로 굳었다; 영국"
+    },
+    {
+      "raw_title": "Ordet",
+      "raw_creator": "Carl Theodor Dreyer",
+      "rank": null,
+      "year": 1955,
+      "note": "원제: Ordet; 덴마크"
+    },
+    {
+      "raw_title": "Aparajito",
+      "raw_creator": "Satyajit Ray",
+      "rank": null,
+      "year": 1957,
+      "note": "원제: অপরাজিত; 인도"
+    },
+    {
+      "raw_title": "Rickshaw Man",
+      "raw_creator": "Hiroshi Inagaki",
+      "rank": null,
+      "year": 1958,
+      "note": "원제: 無法松の一生; 일본"
+    },
+    {
+      "raw_title": "General Della Rovere",
+      "raw_creator": "Roberto Rossellini",
+      "rank": null,
+      "year": 1959,
+      "note": "원제: Il generale della Rovere; 공동 수상; 프랑스·이탈리아"
+    },
+    {
+      "raw_title": "The Great War",
+      "raw_creator": "Mario Monicelli",
+      "rank": null,
+      "year": 1959,
+      "note": "원제: La grande guerra; 공동 수상; 이탈리아"
+    },
+    {
+      "raw_title": "Tomorrow Is My Turn",
+      "raw_creator": "André Cayatte",
+      "rank": null,
+      "year": 1960,
+      "note": "원제: Le Passage du Rhin; 프랑스"
+    },
+    {
+      "raw_title": "Last Year at Marienbad",
+      "raw_creator": "Alain Resnais",
+      "rank": null,
+      "year": 1961,
+      "note": "원제: L'année dernière à Marienbad; 프랑스"
+    },
+    {
+      "raw_title": "Family Diary",
+      "raw_creator": "Valerio Zurlini",
+      "rank": null,
+      "year": 1962,
+      "note": "원제: Cronaca familiare; 공동 수상; 이탈리아"
+    },
+    {
+      "raw_title": "Ivan's Childhood",
+      "raw_creator": "Andrei Tarkovsky",
+      "rank": null,
+      "year": 1962,
+      "note": "원제: Иваново детство; 공동 수상; 소련"
+    },
+    {
+      "raw_title": "Hands over the City",
+      "raw_creator": "Francesco Rosi",
+      "rank": null,
+      "year": 1963,
+      "note": "원제: Le mani sulla città; 이탈리아"
+    },
+    {
+      "raw_title": "Red Desert",
+      "raw_creator": "Michelangelo Antonioni",
+      "rank": null,
+      "year": 1964,
+      "note": "원제: Il deserto rosso; 이탈리아"
+    },
+    {
+      "raw_title": "Sandra",
+      "raw_creator": "Luchino Visconti",
+      "rank": null,
+      "year": 1965,
+      "note": "원제: Vaghe stelle dell'Orsa...; 이탈리아"
+    },
+    {
+      "raw_title": "The Battle of Algiers",
+      "raw_creator": "Gillo Pontecorvo",
+      "rank": null,
+      "year": 1966,
+      "note": "원제: La battaglia di Algeri; 알제리·이탈리아"
+    },
+    {
+      "raw_title": "Belle de Jour",
+      "raw_creator": "Luis Buñuel",
+      "rank": null,
+      "year": 1967,
+      "note": "원제: Belle de Jour; 프랑스"
+    },
+    {
+      "raw_title": "Artists Under the Big Top: Perplexed",
+      "raw_creator": "Alexander Kluge",
+      "rank": null,
+      "year": 1968,
+      "note": "원제: Die Artisten in der Zirkuskuppel: Ratlos; 서독"
+    },
+    {
+      "raw_title": "Atlantic City",
+      "raw_creator": "Louis Malle",
+      "rank": null,
+      "year": 1980,
+      "note": "원제: Atlantic City; 11년 만에 부활한 황금사자상; 공동 수상; 캐나다·프랑스"
+    },
+    {
+      "raw_title": "Gloria",
+      "raw_creator": "John Cassavetes",
+      "rank": null,
+      "year": 1980,
+      "note": "원제: Gloria; 공동 수상; 미국"
+    },
+    {
+      "raw_title": "Marianne and Juliane",
+      "raw_creator": "Margarethe von Trotta",
+      "rank": null,
+      "year": 1981,
+      "note": "원제: Die bleierne Zeit; 서독"
+    },
+    {
+      "raw_title": "The State of Things",
+      "raw_creator": "Wim Wenders",
+      "rank": null,
+      "year": 1982,
+      "note": "원제: Der Stand der Dinge; 서독"
+    },
+    {
+      "raw_title": "First Name: Carmen",
+      "raw_creator": "Jean-Luc Godard",
+      "rank": null,
+      "year": 1983,
+      "note": "원제: Prénom Carmen; 프랑스"
+    },
+    {
+      "raw_title": "A Year of the Quiet Sun",
+      "raw_creator": "Krzysztof Zanussi",
+      "rank": null,
+      "year": 1984,
+      "note": "원제: Rok spokojnego słońca; 폴란드"
+    },
+    {
+      "raw_title": "Vagabond",
+      "raw_creator": "Agnès Varda",
+      "rank": null,
+      "year": 1985,
+      "note": "원제: Sans toit ni loi; 프랑스"
+    },
+    {
+      "raw_title": "The Green Ray",
+      "raw_creator": "Éric Rohmer",
+      "rank": null,
+      "year": 1986,
+      "note": "원제: Le Rayon vert; 프랑스"
+    },
+    {
+      "raw_title": "Au revoir les enfants",
+      "raw_creator": "Louis Malle",
+      "rank": null,
+      "year": 1987,
+      "note": "원제: Au revoir les enfants; 프랑스·서독"
+    },
+    {
+      "raw_title": "The Legend of the Holy Drinker",
+      "raw_creator": "Ermanno Olmi",
+      "rank": null,
+      "year": 1988,
+      "note": "원제: La leggenda del santo bevitore; 이탈리아·프랑스"
+    },
+    {
+      "raw_title": "A City of Sadness",
+      "raw_creator": "Hou Hsiao-hsien",
+      "rank": null,
+      "year": 1989,
+      "note": "원제: 悲情城市; 대만"
+    },
+    {
+      "raw_title": "Rosencrantz & Guildenstern Are Dead",
+      "raw_creator": "Tom Stoppard",
+      "rank": null,
+      "year": 1990,
+      "note": "원제: Rosencrantz & Guildenstern Are Dead; 영국·미국"
+    },
+    {
+      "raw_title": "Close to Eden",
+      "raw_creator": "Nikita Mikhalkov",
+      "rank": null,
+      "year": 1991,
+      "note": "원제: Урга — территория любви; 소련"
+    },
+    {
+      "raw_title": "The Story of Qiu Ju",
+      "raw_creator": "Zhang Yimou",
+      "rank": null,
+      "year": 1992,
+      "note": "원제: 秋菊打官司; 중국"
+    },
+    {
+      "raw_title": "Short Cuts",
+      "raw_creator": "Robert Altman",
+      "rank": null,
+      "year": 1993,
+      "note": "원제: Short Cuts; 공동 수상; 미국"
+    },
+    {
+      "raw_title": "Three Colours: Blue",
+      "raw_creator": "Krzysztof Kieślowski",
+      "rank": null,
+      "year": 1993,
+      "note": "원제: Trois couleurs: Bleu; 공동 수상; 프랑스·폴란드"
+    },
+    {
+      "raw_title": "Before the Rain",
+      "raw_creator": "Milčo Mančevski",
+      "rank": null,
+      "year": 1994,
+      "note": "원제: Пред дождот; 공동 수상; 마케도니아"
+    },
+    {
+      "raw_title": "Vive L'Amour",
+      "raw_creator": "Tsai Ming-liang",
+      "rank": null,
+      "year": 1994,
+      "note": "원제: 愛情萬歲; 공동 수상; 대만"
+    },
+    {
+      "raw_title": "Cyclo",
+      "raw_creator": "Tran Anh Hung",
+      "rank": null,
+      "year": 1995,
+      "note": "원제: Xích lô; 베트남·프랑스"
+    },
+    {
+      "raw_title": "Michael Collins",
+      "raw_creator": "Neil Jordan",
+      "rank": null,
+      "year": 1996,
+      "note": "원제: Michael Collins; 아일랜드·영국"
+    },
+    {
+      "raw_title": "Hana-bi",
+      "raw_creator": "Takeshi Kitano",
+      "rank": null,
+      "year": 1997,
+      "note": "원제: はなび; 일본"
+    },
+    {
+      "raw_title": "The Way We Laughed",
+      "raw_creator": "Gianni Amelio",
+      "rank": null,
+      "year": 1998,
+      "note": "원제: Così ridevano; 이탈리아"
+    },
+    {
+      "raw_title": "Not One Less",
+      "raw_creator": "Zhang Yimou",
+      "rank": null,
+      "year": 1999,
+      "note": "원제: 一個都不能少; 중국"
+    },
+    {
+      "raw_title": "The Circle",
+      "raw_creator": "Jafar Panahi",
+      "rank": null,
+      "year": 2000,
+      "note": "원제: دایره; 이란"
+    },
+    {
+      "raw_title": "Monsoon Wedding",
+      "raw_creator": "Mira Nair",
+      "rank": null,
+      "year": 2001,
+      "note": "원제: Monsoon Wedding; 인도"
+    },
+    {
+      "raw_title": "The Magdalene Sisters",
+      "raw_creator": "Peter Mullan",
+      "rank": null,
+      "year": 2002,
+      "note": "원제: The Magdalene Sisters; 아일랜드·영국"
+    },
+    {
+      "raw_title": "The Return",
+      "raw_creator": "Andrey Zvyagintsev",
+      "rank": null,
+      "year": 2003,
+      "note": "원제: Возвращение; 러시아"
+    },
+    {
+      "raw_title": "Vera Drake",
+      "raw_creator": "Mike Leigh",
+      "rank": null,
+      "year": 2004,
+      "note": "원제: Vera Drake; 영국"
+    },
+    {
+      "raw_title": "Brokeback Mountain",
+      "raw_creator": "Ang Lee",
+      "rank": null,
+      "year": 2005,
+      "note": "원제: Brokeback Mountain; 미국"
+    },
+    {
+      "raw_title": "Still Life",
+      "raw_creator": "Jia Zhangke",
+      "rank": null,
+      "year": 2006,
+      "note": "원제: 三峡好人; 중국"
+    },
+    {
+      "raw_title": "Lust, Caution",
+      "raw_creator": "Ang Lee",
+      "rank": null,
+      "year": 2007,
+      "note": "원제: 色，戒; 대만·중국·미국"
+    },
+    {
+      "raw_title": "The Wrestler",
+      "raw_creator": "Darren Aronofsky",
+      "rank": null,
+      "year": 2008,
+      "note": "원제: The Wrestler; 미국"
+    },
+    {
+      "raw_title": "Lebanon",
+      "raw_creator": "Samuel Maoz",
+      "rank": null,
+      "year": 2009,
+      "note": "원제: לבנון; 이스라엘"
+    },
+    {
+      "raw_title": "Somewhere",
+      "raw_creator": "Sofia Coppola",
+      "rank": null,
+      "year": 2010,
+      "note": "원제: Somewhere; 만장일치 수상; 미국"
+    },
+    {
+      "raw_title": "Faust",
+      "raw_creator": "Alexander Sokurov",
+      "rank": null,
+      "year": 2011,
+      "note": "원제: Фауст; 만장일치 수상; 러시아"
+    },
+    {
+      "raw_title": "Pietà",
+      "raw_creator": "Kim Ki-duk",
+      "rank": null,
+      "year": 2012,
+      "note": "원제: 피에타; 한국"
+    },
+    {
+      "raw_title": "Sacro GRA",
+      "raw_creator": "Gianfranco Rosi",
+      "rank": null,
+      "year": 2013,
+      "note": "원제: Sacro GRA; 이탈리아"
+    },
+    {
+      "raw_title": "A Pigeon Sat on a Branch Reflecting on Existence",
+      "raw_creator": "Roy Andersson",
+      "rank": null,
+      "year": 2014,
+      "note": "원제: En duva satt på en gren och funderade på tillvaron; 스웨덴"
+    },
+    {
+      "raw_title": "From Afar",
+      "raw_creator": "Lorenzo Vigas",
+      "rank": null,
+      "year": 2015,
+      "note": "원제: Desde allá; 베네수엘라"
+    },
+    {
+      "raw_title": "The Woman Who Left",
+      "raw_creator": "Lav Diaz",
+      "rank": null,
+      "year": 2016,
+      "note": "원제: Ang Babaeng Humayo; 필리핀"
+    },
+    {
+      "raw_title": "The Shape of Water",
+      "raw_creator": "Guillermo del Toro",
+      "rank": null,
+      "year": 2017,
+      "note": "원제: The Shape of Water; 미국·멕시코"
+    },
+    {
+      "raw_title": "Roma",
+      "raw_creator": "Alfonso Cuarón",
+      "rank": null,
+      "year": 2018,
+      "note": "원제: Roma; 멕시코·미국"
+    },
+    {
+      "raw_title": "Joker",
+      "raw_creator": "Todd Phillips",
+      "rank": null,
+      "year": 2019,
+      "note": "원제: Joker; 미국"
+    },
+    {
+      "raw_title": "Nomadland",
+      "raw_creator": "Chloé Zhao",
+      "rank": null,
+      "year": 2020,
+      "note": "원제: Nomadland; 미국"
+    },
+    {
+      "raw_title": "Happening",
+      "raw_creator": "Audrey Diwan",
+      "rank": null,
+      "year": 2021,
+      "note": "원제: L'Événement; 만장일치 수상; 프랑스"
+    },
+    {
+      "raw_title": "All the Beauty and the Bloodshed",
+      "raw_creator": "Laura Poitras",
+      "rank": null,
+      "year": 2022,
+      "note": "원제: All the Beauty and the Bloodshed; 미국"
+    },
+    {
+      "raw_title": "Poor Things",
+      "raw_creator": "Yorgos Lanthimos",
+      "rank": null,
+      "year": 2023,
+      "note": "원제: Poor Things; 아일랜드·영국·미국"
+    },
+    {
+      "raw_title": "The Room Next Door",
+      "raw_creator": "Pedro Almodóvar",
+      "rank": null,
+      "year": 2024,
+      "note": "원제: La habitación de al lado; 스페인"
+    },
+    {
+      "raw_title": "Father Mother Sister Brother",
+      "raw_creator": "Jim Jarmusch",
+      "rank": null,
+      "year": 2025,
+      "note": "원제: Father Mother Sister Brother; 제82회, 최신 수상작; 미국·아일랜드·프랑스"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://en.wikipedia.org/wiki/Golden_Lion — 위키백과 「Golden Lion」 문서. action=raw로 원본 위키텍스트를 내려받아 1949~2025 수상작 표(영문 제목·원제·감독·제작국)와 무시상 연도 주석을 직접 읽었다. 1946~1948 최고상 계보도 이 문서 History 절에서 확인했다.",
+      "https://en.wikipedia.org/wiki/Venice_Film_Festival — 위키백과 「Venice Film Festival」 문서 원본. 「Mussolini Cup (Coppa Mussolini)」 절에서 1934~1942 이탈리아 작품상·외국 작품상 표를 그대로 읽었고, 1932년 관객 투표와 1943년 코파 무솔리니 폐지 서술을 확인했다.",
+      "https://en.wikipedia.org/wiki/Mussolini_Cup — 위 문서의 해당 절로 넘어가는 리다이렉트임을 확인했다.",
+      "https://en.wikipedia.org/wiki/7th_Venice_International_Film_Festival — 1939년(무효 처리된 제7회) 문서. 코파 무솔리니가 「Cardinal Messias」에만 주어졌고 나머지 주요 상은 시상되지 않았다는 서술을 확인했다.",
+      "https://en.wikipedia.org/wiki/7th_Venice_International_Film_Festival_(1946) — 1946년 문서. 코파 무솔리니라는 이름이 사라지고 이탈리아·외국 두 부문이 하나의 최고상으로 통합됐으며 「The Southerner」가 받았다는 서술을 확인했다.",
+      "https://en.wikipedia.org/wiki/8th_Venice_International_Film_Festival — 1947년 문서. 최고상 명칭이 Grand International Prize of Venice이고 수상작이 「The Strike」임을 확인했다.",
+      "https://en.wikipedia.org/wiki/9th_Venice_International_Film_Festival — 1948년 문서. 최고상 명칭이 Grand International Prize of Venice이고 수상작이 「Hamlet」임을 확인했다.",
+      "https://en.wikipedia.org/wiki/The_Strike_(1947_film) — 1947년 수상작의 원제가 체코어 「Siréna」임을 확인했다.",
+      "https://www.labiennale.org/en/news/official-awards-82nd-venice-international-film-festival — 공식 홈페이지 제82회(2025) 공식 수상 발표. 황금사자상 작품상이 짐 자무시의 「Father Mother Sister Brother」(미국·아일랜드·프랑스)이고 알렉산더 페인 위원장 등 7인 심사위원단이 경쟁작 21편을 본 뒤 결정했다는 내용을 확인했다.",
+      "https://www.labiennale.org/en/history/recent-years — 공식 홈페이지 연혁. 제82회가 2025년 8월 27일~9월 6일 열렸고 황금사자상이 「Father Mother Sister Brother」임을 재확인했다.",
+      "https://www.labiennale.org/en/cinema/history — 공식 홈페이지 영화제 연혁 첫 화면. \"1932년 베니스 영화제가 역사상 첫 영화제\"라는 문장을 확인했다. 다만 상 명칭 변천·1969~1979 비경쟁기 상세는 이 화면에 없었다.",
+      "https://en.wikipedia.org/wiki/83rd_Venice_International_Film_Festival — 제83회가 2026년 9월 2~12일 예정이며 아직 열리지 않아 수상작이 없음을 확인했다(오늘 날짜 추정이 아니라 문서 확인).",
+      "WebSearch: \"Venice Film Festival 2025 Golden Lion winner best film\" — Variety·Deadline·Screen Daily·Hollywood Reporter 결과가 모두 짐 자무시 「Father Mother Sister Brother」로 일치했다."
+    ],
+    "item_count": 89,
+    "year_range": "1934~2025",
+    "year_basis": "수상 연도(해당 회차 영화제가 열려 시상한 해)를 넣었다. 영화의 제작·개봉 연도가 아니다. 예컨대 1945년 제작된 「The Southerner」는 1946년 영화제에서 최고상을 받았으므로 1946으로 적었다.",
+    "no_award_years": [
+      "1932 — 제1회. 심사위원단도 공식 시상도 없었고 관객 투표 결과만 발표했다(최우수 작품 「À Nous la Liberté」, 감독 니콜라이 에크). 공식 최고상이 아니므로 목록에서 제외했다.",
+      "1933 — 영화제가 열리지 않았다. 1934년부터 연례 행사로 선언됐다.",
+      "1939 — 코파 무솔리니 이탈리아 작품상만 시상하고 외국 작품상은 시상하지 않았다.",
+      "1943 — 무솔리니 실각으로 코파 무솔리니가 폐지됐고 영화제도 열리지 않았다.",
+      "1944 — 전쟁으로 영화제가 열리지 않았다.",
+      "1945 — 전쟁으로 영화제가 열리지 않았다.",
+      "1953 — 심사위원단이 우열을 가리지 못해 최고상을 무효 처리했다.",
+      "1956 — 「버마의 하프」와 「Calle Mayor」가 맞서 심사위원단이 결정하지 못했고 최고상을 시상하지 않았다.",
+      "1969 — 비경쟁으로 치러져 시상하지 않았다.",
+      "1970 — 비경쟁으로 치러져 시상하지 않았다.",
+      "1971 — 비경쟁으로 치러져 시상하지 않았다.",
+      "1972 — 비경쟁으로 치러져 시상하지 않았다.",
+      "1973 — 영화제가 조직되지 않았다.",
+      "1974 — 영화제가 조직되지 않았다.",
+      "1975 — 영화제가 조직되지 않았다.",
+      "1976 — 영화제가 조직되지 않았다.",
+      "1977 — 영화제가 조직되지 않았다.",
+      "1978 — 영화제가 조직되지 않았다.",
+      "1979 — 영화제는 열렸으나 비경쟁이어서 시상하지 않았다. 최고상은 1980년에 부활했다."
+    ],
+    "name_changes": "최고상의 이름은 네 번 바뀌었다. ① 1932년 제1회는 공식 상이 없었고 관객 투표 결과만 있었다. ② 1934~1942년은 코파 무솔리니(Coppa Mussolini)가 최고상이었고, 이탈리아 작품상과 외국 작품상 두 갈래로 나뉘어 있었다. 1943년 무솔리니 실각과 함께 폐지됐다. ③ 1946년에는 코파 무솔리니라는 이름이 사라지고 이탈리아·외국 두 부문을 하나로 합친 단일 최고 작품상이 주어졌다. ④ 1947~1948년은 베네치아 국제 그랑프리(Gran Premio Internazionale di Venezia)였다. ⑤ 1949년에 산마르코 황금사자상(Leone d’Oro di San Marco)으로 제정됐고, 1954년부터 황금사자상(Leone d’Oro)으로 이름이 굳어 지금에 이른다.",
+    "joint_wins": "두 편이 함께 최고상을 받은 해는 1959년(「General Della Rovere」·「The Great War」), 1962년(「Family Diary」·「Ivan’s Childhood」), 1980년(「Atlantic City」·「Gloria」), 1993년(「Short Cuts」·「Three Colours: Blue」), 1994년(「Before the Rain」·「Vive L’Amour」) 다섯 해다. 모두 항목을 각각 넣었다. 이와 별개로 1934~1942년 코파 무솔리니 시기에는 공동 수상이 아니라 이탈리아 작품상·외국 작품상이라는 두 개의 최고상이 매년 나란히 주어졌고, 이 역시 양쪽 모두 항목으로 넣고 note에 어느 부문인지 적었다.",
+    "honorary_excluded": "위키백과 「Golden Lion」 문서에는 작품에 주는 「Winners」 표와, 사람에게 주는 「Golden Lion for Lifetime Achievement」(명예 황금사자상, 1970년 오슨 웰스부터 2025년 베르너 헤어초크·킴 노백까지) 표가 따로 있다. 이 목록은 「Winners」 표와 그 전신인 코파 무솔리니·베네치아 국제 그랑프리 수상작만 옮겼고, 공로상 표는 수록 대상에서 통째로 뺐다. 실제로 2025년 공로상 수상자인 베르너 헤어초크·킴 노백은 items에 없고, 2025년 항목은 작품상 수상작인 「Father Mother Sister Brother」 하나다.",
+    "gaps": "① 1932년 관객 투표 결과(「À Nous la Liberté」)는 공식 상이 아니라 목록에서 뺐다. 최고상 계보에 포함해야 한다고 보면 별도 판단이 필요하다. ② 「Casta Diva」, 「Lo squadrone bianco」, 「Bengasi」, 「Der Kaiser von Kalifornien」, 「Der Postmeister」, 「Ohm Krüger」, 「Olympia」는 출처 표에 별도 영문 제목 칸이 없어 원제를 그대로 raw_title에 넣었다. ③ 1940~1942년 영화제는 리도가 아닌 곳에서 열렸고 이탈리아-독일 영화제로 개칭됐던 탓에 공식 연혁에서 무효(void) 회차로 취급되지만, 코파 무솔리니 자체는 시상됐으므로 목록에 넣었다. ④ 각 항목의 제작국은 note 끝에 적었을 뿐 별도 필드로 두지 않았다.",
+    "uncertainties": "① 1934~1942년 코파 무솔리니를 최고상 계보로 볼 때 이탈리아 작품상과 외국 작품상 가운데 어느 쪽이 「진짜 최고상」인지는 출처가 우열을 정해두지 않았다. 위키백과는 \"Best Italian Film and Best Foreign Film 두 부문의 최고상\"이라고만 쓴다. 그래서 양쪽을 모두 넣었고, 한쪽만 필요하면 note의 부문 표기로 걸러낼 수 있다. ② 1946년 최고상의 공식 이탈리아어 명칭은 열어본 문서들에서 확인되지 않았다. 위키백과 1946년 문서는 \"코파 무솔리니라는 이름을 잃고 두 부문이 하나로 통합된 상\"이라고만 서술하고, 「Golden Lion」 문서 본문도 \"main prize\"라고만 쓴다. 확인하려면 라 비엔날레 역사자료실(ASAC) 1946년 회차 기록을 열어야 한다. ③ 1949~1953년 상 이름을 「Golden Lion of Saint Mark」로 적은 근거는 위키백과 인포박스와 본문이며, 해당 서술에는 출처 표시가 붙어 있지 않다(문서 자체에 citation needed 표시가 있다). 공식 확인은 labiennale.org 연혁의 1940~50년대 항목을 열어야 한다. ④ 1969~1979년 무시상 사유(비경쟁 / 미조직)는 위키백과가 라 비엔날레 공식 연혁을 인용해 연도별로 구분해둔 것을 그대로 옮겼고, 공식 페이지 원문을 직접 열어 대조하지는 않았다."
+  }
+}

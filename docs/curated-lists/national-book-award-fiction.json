@@ -1,0 +1,649 @@
+{
+  "curator": {
+    "slug": "national-book-foundation",
+    "name": "전미도서재단",
+    "name_en": "National Book Foundation",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1950,
+    "homepage_url": "https://www.nationalbook.org",
+    "description": "전미도서상(National Book Award)을 주관하는 미국의 비영리 문학 단체다. 1950년 첫 시상 이래 해마다 미국 문학의 성취를 가려 뽑아 왔으며, 현재는 소설·논픽션·시·번역문학·아동청소년문학 다섯 부문을 시상한다. 시상과 함께 독서 진흥 사업도 병행한다.",
+    "description_en": "The National Book Foundation is the American nonprofit that administers the National Book Awards, first presented in 1950. It currently honors five categories each year: Fiction, Nonfiction, Poetry, Translated Literature, and Young People’s Literature. Alongside the prizes, the Foundation runs public programs to expand the audience for literature in the United States."
+  },
+  "list": {
+    "slug": "national-book-award-fiction",
+    "title": "전미도서상 소설 부문",
+    "title_en": "National Book Award for Fiction",
+    "description": "1950년부터 해마다 발표되는 전미도서상 소설 부문 역대 수상작 목록이다. 미국 문학에서 가장 오래되고 권위 있는 상 가운데 하나로, 랠프 엘리슨·솔 벨로·필립 로스·코맥 매카시·퍼시벌 에버렛 등이 이름을 올렸다. 1973~1975년에는 공동 수상이, 1980~1983년에는 하드커버와 페이퍼백으로 나뉜 복수 수상이 있었다.",
+    "description_en": "The complete roll of winners of the National Book Award for Fiction, presented annually since 1950. One of the oldest and most prestigious literary prizes in the United States, its honorees include Ralph Ellison, Saul Bellow, Philip Roth, Cormac McCarthy, and Percival Everett. Fiction was shared by two co-winners in 1973, 1974, and 1975, and split into separate hardcover and paperback awards from 1980 through 1983.",
+    "published_year": null,
+    "edition": null,
+    "method": "출판사가 응모하며 저자가 직접 응모할 수 없다. 저자는 미국 시민이거나 미국(속령·부족 자치지역 포함)에 주된 거주지를 두어야 하고 자격 판정일 기준 생존해 있어야 한다. 책은 미국 소재 출판사가 해당 심사 기간에 펴낸 영어 원작 단행본이어야 하며 선집은 제외된다. 재단이 위촉한 심사위원 5인(위원장 포함)이 부문마다 심사해 9월 중순 예심 10종, 10월 최종후보 5종을 발표하고 11월 시상식에서 수상작을 가린다. 수상자에게 1만 달러, 최종후보에게 1천 달러를 준다.",
+    "method_en": "Titles are entered by publishers; authors may not submit their own work. Authors must be US citizens or maintain their primary residence in the US, its territories, or Tribal lands, and must be living as of the eligibility date. Books must be full-length works originally written in English and published in the eligibility window by a US-based publisher; anthologies are ineligible. A panel of five judges per category, including a chair, is chosen by the National Book Foundation. A longlist of ten is announced in mid-September, five finalists in October, and the winner at the November ceremony. Winners receive $10,000 and finalists $1,000.",
+    "source_url": "https://www.nationalbook.org/national-book-awards/years/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Man with the Golden Arm",
+      "raw_creator": "Nelson Algren",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "The Collected Stories of William Faulkner",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "From Here to Eternity",
+      "raw_creator": "James Jones",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "Invisible Man",
+      "raw_creator": "Ralph Ellison",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "The Adventures of Augie March",
+      "raw_creator": "Saul Bellow",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "A Fable",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Ten North Frederick",
+      "raw_creator": "John O'Hara",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "The Field of Vision",
+      "raw_creator": "Wright Morris",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "The Wapshot Chronicle",
+      "raw_creator": "John Cheever",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Magic Barrel",
+      "raw_creator": "Bernard Malamud",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Goodbye, Columbus",
+      "raw_creator": "Philip Roth",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "The Waters of Kronos",
+      "raw_creator": "Conrad Richter",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Moviegoer",
+      "raw_creator": "Walker Percy",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Morte d'Urban",
+      "raw_creator": "J. F. Powers",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "The Centaur",
+      "raw_creator": "John Updike",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "Herzog",
+      "raw_creator": "Saul Bellow",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "The Collected Stories of Katherine Anne Porter",
+      "raw_creator": "Katherine Anne Porter",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "The Fixer",
+      "raw_creator": "Bernard Malamud",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "The Eighth Day",
+      "raw_creator": "Thornton Wilder",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Steps",
+      "raw_creator": "Jerzy Kosinski",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "them",
+      "raw_creator": "Joyce Carol Oates",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Mr. Sammler's Planet",
+      "raw_creator": "Saul Bellow",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "The Complete Stories",
+      "raw_creator": "Flannery O'Connor",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Augustus",
+      "raw_creator": "John Williams",
+      "rank": null,
+      "year": 1973,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Chimera",
+      "raw_creator": "John Barth",
+      "rank": null,
+      "year": 1973,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Gravity's Rainbow",
+      "raw_creator": "Thomas Pynchon",
+      "rank": null,
+      "year": 1974,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "A Crown of Feathers and Other Stories",
+      "raw_creator": "Isaac Bashevis Singer",
+      "rank": null,
+      "year": 1974,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Dog Soldiers",
+      "raw_creator": "Robert Stone",
+      "rank": null,
+      "year": 1975,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "The Hair of Harold Roux",
+      "raw_creator": "Thomas Williams",
+      "rank": null,
+      "year": 1975,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "J R",
+      "raw_creator": "William Gaddis",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Spectator Bird",
+      "raw_creator": "Wallace Stegner",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Blood Tie",
+      "raw_creator": "Mary Lee Settle",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Going After Cacciato",
+      "raw_creator": "Tim O'Brien",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Sophie's Choice",
+      "raw_creator": "William Styron",
+      "rank": null,
+      "year": 1980,
+      "note": "Fiction - Hardcover 부문"
+    },
+    {
+      "raw_title": "The World According to Garp",
+      "raw_creator": "John Irving",
+      "rank": null,
+      "year": 1980,
+      "note": "Fiction - Paperback 부문"
+    },
+    {
+      "raw_title": "Plains Song",
+      "raw_creator": "Wright Morris",
+      "rank": null,
+      "year": 1981,
+      "note": "Fiction - Hardcover 부문"
+    },
+    {
+      "raw_title": "The Stories of John Cheever",
+      "raw_creator": "John Cheever",
+      "rank": null,
+      "year": 1981,
+      "note": "Fiction - Paperback 부문"
+    },
+    {
+      "raw_title": "Rabbit is Rich",
+      "raw_creator": "John Updike",
+      "rank": null,
+      "year": 1982,
+      "note": "Fiction - Hardcover 부문"
+    },
+    {
+      "raw_title": "So Long, See You Tomorrow",
+      "raw_creator": "William Maxwell",
+      "rank": null,
+      "year": 1982,
+      "note": "Fiction - Paperback 부문. 같은 책이 1981년 Fiction - Hardcover 최종후보였다"
+    },
+    {
+      "raw_title": "The Color Purple",
+      "raw_creator": "Alice Walker",
+      "rank": null,
+      "year": 1983,
+      "note": "Fiction - Hardcover 부문"
+    },
+    {
+      "raw_title": "The Collected Stories of Eudora Welty",
+      "raw_creator": "Eudora Welty",
+      "rank": null,
+      "year": 1983,
+      "note": "Fiction - Paperback 부문"
+    },
+    {
+      "raw_title": "Victory Over Japan",
+      "raw_creator": "Ellen Gilchrist",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "White Noise",
+      "raw_creator": "Don DeLillo",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "World's Fair",
+      "raw_creator": "E. L. Doctorow",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Paco's Story",
+      "raw_creator": "Larry Heinemann",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Paris Trout",
+      "raw_creator": "Pete Dexter",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Spartina",
+      "raw_creator": "John Casey",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Middle Passage",
+      "raw_creator": "Charles Johnson",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Mating",
+      "raw_creator": "Norman Rush",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "All the Pretty Horses",
+      "raw_creator": "Cormac McCarthy",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "The Shipping News",
+      "raw_creator": "E. Annie Proulx",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "A Frolic of His Own",
+      "raw_creator": "William Gaddis",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Sabbath's Theater",
+      "raw_creator": "Philip Roth",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Ship Fever and Other Stories",
+      "raw_creator": "Andrea Barrett",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Cold Mountain",
+      "raw_creator": "Charles Frazier",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Charming Billy",
+      "raw_creator": "Alice McDermott",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Waiting",
+      "raw_creator": "Ha Jin",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "In America",
+      "raw_creator": "Susan Sontag",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Corrections",
+      "raw_creator": "Jonathan Franzen",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Three Junes",
+      "raw_creator": "Julia Glass",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Fire",
+      "raw_creator": "Shirley Hazzard",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The News from Paraguay",
+      "raw_creator": "Lily Tuck",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Europe Central",
+      "raw_creator": "William T. Vollmann",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Echo Maker",
+      "raw_creator": "Richard Powers",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Tree of Smoke",
+      "raw_creator": "Denis Johnson",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Shadow Country",
+      "raw_creator": "Peter Matthiessen",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Let the Great World Spin",
+      "raw_creator": "Colum McCann",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Lord of Misrule",
+      "raw_creator": "Jaimy Gordon",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Salvage the Bones",
+      "raw_creator": "Jesmyn Ward",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "The Round House",
+      "raw_creator": "Louise Erdrich",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Good Lord Bird",
+      "raw_creator": "James McBride",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Redeployment",
+      "raw_creator": "Phil Klay",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Fortune Smiles",
+      "raw_creator": "Adam Johnson",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Underground Railroad",
+      "raw_creator": "Colson Whitehead",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Sing, Unburied, Sing",
+      "raw_creator": "Jesmyn Ward",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Friend",
+      "raw_creator": "Sigrid Nunez",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Trust Exercise",
+      "raw_creator": "Susan Choi",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Interior Chinatown",
+      "raw_creator": "Charles Yu",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Hell of a Book",
+      "raw_creator": "Jason Mott",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Rabbit Hutch",
+      "raw_creator": "Tess Gunty",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Blackouts",
+      "raw_creator": "Justin Torres",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "James",
+      "raw_creator": "Percival Everett",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "The True True Story of Raja the Gullible (and His Mother)",
+      "raw_creator": "Rabih Alameddine",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.nationalbook.org/national-book-awards/years/ — 시상 연도 목록. 최신 회차가 2025년임을 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-2025/ — 2025 소설 부문 수상작 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-2024/ — 2024 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-2023/ — 2023 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-2022/ — 2022 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1950/ — 1950 확인, 초회 부문은 소설·논픽션·시 3개",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1954/ — 1954 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1973/ — 1973 공동 수상 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1974/ — 1974 공동 수상 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1975/ — 1975 공동 수상 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1980/ — 1980 부문 분화 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1981/ — 1981 부문 목록 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1982/ — 1982 부문 목록 확인",
+      "https://www.nationalbook.org/awards-prizes/national-book-awards-1983/ — 1983 부문 분화 확인",
+      "https://www.nationalbook.org/books/sophies-choice/ — 1980 Fiction - Hardcover 수상 확인",
+      "https://www.nationalbook.org/books/the-world-according-to-garp/ — 1980 Fiction - Paperback 수상 확인",
+      "https://www.nationalbook.org/books/the-stories-of-john-cheever/ — 1981 Fiction - Paperback 수상 확인",
+      "https://www.nationalbook.org/books/rabbit-is-rich/ — 1982 Fiction - Hardcover 수상 확인",
+      "https://www.nationalbook.org/books/so-long-see-you-tomorrow/ — 1981 Fiction - Hardcover 최종후보 표기 확인",
+      "https://www.nationalbook.org/people/william-maxwell/ — 1982 Fiction - Paperback 수상 확정",
+      "https://www.nationalbook.org/people/wright-morris/ — 1981 Fiction - Hardcover 수상 확인",
+      "https://www.nationalbook.org/people/eudora-welty/ — 1983 Fiction - Paperback 수상 확인",
+      "https://www.nationalbook.org/national-book-awards/ — 현행 5개 부문·심사위원 25인 확인",
+      "https://www.nationalbook.org/national-book-awards/submissions/ — 응모 자격·심사 일정·상금 확인",
+      "https://en.wikipedia.org/wiki/National_Book_Award_for_Fiction — 1950~2024 전체 목록 대조용",
+      "https://www.abebooks.com/books/american-literature-nba-foundation/national-book-awards.shtml — 3차 대조용(2022·2023 항목에 부문 혼입 오류 발견, 채택하지 않음)"
+    ],
+    "item_count": 83,
+    "year_range": "1950–2025",
+    "split_years": "1980~1983년 네 해는 소설 부문이 Fiction - Hardcover와 Fiction - Paperback으로 나뉘어 각각 수상작을 냈다. 이 목록에는 두 갈래를 모두 담았다(해마다 2편, 총 8편). 같은 시기 공식 자료에 First Novel, Mystery - Hardcover/Paperback, Science Fiction - Hardcover/Paperback, Western, Original Paperback, Children’s Books - Fiction 등 별도 이름의 부문이 함께 있었으나 소설 부문 본상이 아니므로 제외했다. 한편 1973·1974·1975년 세 해는 부문 분화가 아니라 한 부문에서 두 편이 공동 수상한 경우이며, 각 항목의 비고에 표시했다.",
+    "gaps": "1950~2025년 76개 회차가 빠짐없이 들어 있다. 누락 연도 없음. 다만 목록 전체를 공식 사이트에서 한 페이지로 받아올 수 없어, 1950~2024년 본문은 위키백과 소설 부문 문서를 골격으로 삼고 공식 사이트에서 1950·1954·1973·1974·1975·1980~1983·2022·2023·2024·2025년을 개별 확인해 대조했다. 나머지 연도는 위키백과와 별도 3차 자료가 일치하는 것으로 확인했으나 공식 페이지를 한 해씩 직접 열지는 않았다.",
+    "uncertainties": "① So Long, See You Tomorrow는 공식 도서 페이지 상단에 1981년 Fiction - Hardcover 최종후보로만 표시돼 혼동 소지가 있었으나, 저자 페이지에서 1982년 Fiction - Paperback 수상이 확정됐다. ② 3차 대조로 쓴 abebooks 목록은 2022년에 South to America(실제 논픽션 부문), 2023년에 A First Time for Everything(실제 아동청소년문학 부문)을 소설 수상작으로 잘못 실었고 1954년을 누락했다. 해당 연도는 공식 사이트로 다시 확인해 바로잡았다. ③ 제목 표기는 시상 당시 표기를 따랐다. 1981년 Plains Song은 원서 부제를 포함하면 Plains Song: For Female Voices이나 공식 표기를 따라 Plains Song으로 적었다. 1970년 them은 원제 그대로 소문자다. ④ 1993년 저자명은 시상 당시 표기인 E. Annie Proulx로 적었다(현재는 Annie Proulx로 표기)."
+  }
+}
