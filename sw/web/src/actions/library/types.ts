@@ -65,3 +65,93 @@ export interface UserContentJoinRow {
 }
 
 export type StaticSupabase = ReturnType<typeof createStaticClient>
+
+// ────────────────────────────────────────────────────
+// 기관 선정 — 대학·언론·시상기관 등이 발표한 작품 목록
+export interface CuratorSummary {
+  slug: string
+  name: string
+  /** university | media | award | organization | community | bookstore | library | festival */
+  kind: string
+  country: string | null
+  foundedYear: number | null
+  description: string | null
+  logoUrl: string | null
+  homepageUrl: string | null
+  listCount: number
+}
+
+export interface CuratedListSummary {
+  slug: string
+  curatorSlug: string
+  title: string
+  description: string | null
+  publishedYear: number | null
+  /** 판·회차 표기. 같은 계열의 해마다 다른 판을 구분한다 */
+  edition: string | null
+  /** 같은 계열 목록을 묶는 열쇠. 없으면 단발 목록 */
+  seriesKey: string | null
+  isRanked: boolean
+  isAnnual: boolean
+  contentType: string
+  topics: string[]
+  coverImageUrl: string | null
+  itemCount: number
+}
+
+export interface CuratedListItem {
+  id: string
+  rank: number | null
+  year: number | null
+  note: string | null
+  /** 목록 원문의 표기. 우리가 가지지 않은 작품도 이 값으로 진열된다 */
+  rawTitle: string
+  rawCreator: string | null
+  /** 우리 콘텐츠와 이어졌을 때만 채워진다 */
+  contentId: string | null
+  title: string
+  creator: string | null
+  thumbnailUrl: string | null
+  contentType: string | null
+}
+
+export interface CuratedListSibling {
+  slug: string
+  title: string
+  edition: string | null
+  publishedYear: number | null
+  isCurrent: boolean
+}
+
+export interface CuratedListDetail extends CuratedListSummary {
+  method: string | null
+  sourceUrl: string
+  curator: CuratorSummary
+  items: CuratedListItem[]
+  /** 우리 콘텐츠와 이어진 항목 수 */
+  linkedCount: number
+  /** 같은 계열의 다른 해 */
+  siblings: CuratedListSibling[]
+}
+
+export interface CuratorDetail extends CuratorSummary {
+  lists: CuratedListSummary[]
+}
+
+export interface CuratedHub {
+  curators: (CuratorSummary & { lists: CuratedListSummary[] })[]
+}
+
+/** 작품 상세의 선정 이력 한 줄 */
+export interface ContentCuratedEntry {
+  listSlug: string
+  listTitle: string
+  edition: string | null
+  publishedYear: number | null
+  curatorSlug: string
+  curatorName: string
+  curatorKind: string
+  curatorLogoUrl: string | null
+  rank: number | null
+  year: number | null
+}

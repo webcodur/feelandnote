@@ -1,0 +1,747 @@
+{
+  "curator": {
+    "slug": "sight-and-sound",
+    "name": "사이트 앤 사운드",
+    "name_en": "Sight and Sound (British Film Institute)",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 1932,
+    "homepage_url": "https://www.bfi.org.uk/sight-and-sound",
+    "description": "1932년 창간해 영국영화협회(BFI)가 발행하는 영화 잡지다. 1952년부터 10년에 한 번씩 전 세계 평론가와 감독에게 역대 최고의 영화를 묻는 투표를 진행해 왔다. 이 투표 결과는 영화사의 정전을 사실상 규정하는 목록으로 통한다.",
+    "description_en": "Founded in 1932 and published by the British Film Institute, Sight and Sound is one of the longest-running film magazines in the world. Since 1952 it has polled critics and directors worldwide once every decade on the greatest films ever made. The resulting list is widely treated as the closest thing cinema has to an official canon."
+  },
+  "list": {
+    "slug": "sight-and-sound-greatest-films-2022",
+    "title": "사이트 앤 사운드 위대한 영화 100",
+    "title_en": "Sight and Sound: The Greatest Films of All Time (2022 Critics' Poll)",
+    "description": "영국영화협회가 2022년 12월에 발표한 여덟 번째 10년 주기 투표의 평론가 부문 상위 100편이다. 평론가·프로그래머·큐레이터·아카이비스트·학자 1,639명이 각자 최고의 영화 10편을 적어 냈다. 1위는 샹탈 아케르만의 「Jeanne Dielman, 23 quai du Commerce, 1080 Bruxelles」(1975)로, 여성 감독의 작품이 이 투표에서 1위에 오른 것은 처음이다. 2012년 1위였던 「Vertigo」는 2위로 내려갔다.",
+    "description_en": "The critics' top 100 from the eighth edition of the British Film Institute's once-a-decade poll, published in December 2022. Ballots came from 1,639 critics, programmers, curators, archivists and academics, each naming ten films. Chantal Akerman's \"Jeanne Dielman, 23 quai du Commerce, 1080 Bruxelles\" (1975) took first place, the first film by a woman director ever to top the poll, displacing \"Vertigo\", which had won in 2012 and now sits at number two.",
+    "published_year": 2022,
+    "edition": "2022년 평론가 투표",
+    "method": "출처 페이지 표기 그대로: 평론가·프로그래머·큐레이터·아카이비스트·학자 1,639명이 각자 상위 10편 투표용지를 제출했다. 역대 최대 규모이며 2012년의 약 두 배다. BFI는 투표자에게 '위대함'의 기준을 각자 해석하도록 맡겼다 — 영화사적 중요성, 미학적 성취, 혹은 개인의 삶과 영화관에 미친 영향 중 무엇을 기준 삼아도 무방하다고 안내했다. 같은 득표수를 얻은 작품은 공동 순위로 처리했고, 공동 순위 다음 순번은 그만큼 건너뛴다(예: 공동 21위 2편 다음은 23위).",
+    "method_en": "As stated by the source: 1,639 critics, programmers, curators, archivists and academics each submitted a top-ten ballot, making this the largest edition of the poll to date and roughly double the 2012 turnout. The BFI asked voters to interpret \"greatest\" as they chose, whether by a film's importance in cinematic history, its aesthetic achievement, or its personal impact on their own life and view of cinema. Films with equal vote totals share a rank, and subsequent ranks are skipped accordingly (e.g. two films tied at 21 are followed by rank 23).",
+    "source_url": "https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "VIDEO",
+    "topics": [
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Jeanne Dielman, 23 Quai du Commerce, 1080 Bruxelles",
+      "raw_creator": "Chantal Akerman",
+      "rank": 1,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Vertigo",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 2,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Citizen Kane",
+      "raw_creator": "Orson Welles",
+      "rank": 3,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "Tokyo Story",
+      "raw_creator": "Yasujirō Ozu",
+      "rank": 4,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "In the Mood for Love",
+      "raw_creator": "Wong Kar Wai",
+      "rank": 5,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "2001: A Space Odyssey",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 6,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Beau travail",
+      "raw_creator": "Claire Denis",
+      "rank": 7,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Mulholland Dr.",
+      "raw_creator": "David Lynch",
+      "rank": 8,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Man with a Movie Camera",
+      "raw_creator": "Dziga Vertov",
+      "rank": 9,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "Singin' in the Rain",
+      "raw_creator": "Gene Kelly, Stanley Donen",
+      "rank": 10,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "Sunrise A Song of Two Humans",
+      "raw_creator": "F.W. Murnau",
+      "rank": 11,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "The Godfather",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": 12,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "La Règle du jeu",
+      "raw_creator": "Jean Renoir",
+      "rank": 13,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Cléo from 5 to 7",
+      "raw_creator": "Agnès Varda",
+      "rank": 14,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "The Searchers",
+      "raw_creator": "John Ford",
+      "rank": 15,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "Meshes of the Afternoon",
+      "raw_creator": "Maya Deren, Alexander Hackenschmied",
+      "rank": 16,
+      "year": 1943,
+      "note": null
+    },
+    {
+      "raw_title": "Close-up",
+      "raw_creator": "Abbas Kiarostami",
+      "rank": 17,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Persona",
+      "raw_creator": "Ingmar Bergman",
+      "rank": 18,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Apocalypse Now",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": 19,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Seven Samurai",
+      "raw_creator": "Akira Kurosawa",
+      "rank": 20,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Late Spring",
+      "raw_creator": "Yasujirō Ozu",
+      "rank": 21,
+      "year": 1949,
+      "note": "공동 21위 (2편)"
+    },
+    {
+      "raw_title": "The Passion of Joan of Arc",
+      "raw_creator": "Carl Th. Dreyer",
+      "rank": 21,
+      "year": 1927,
+      "note": "공동 21위 (2편)"
+    },
+    {
+      "raw_title": "Playtime",
+      "raw_creator": "Jacques Tati",
+      "rank": 23,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Do the Right Thing",
+      "raw_creator": "Spike Lee",
+      "rank": 24,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "The Night of the Hunter",
+      "raw_creator": "Charles Laughton",
+      "rank": 25,
+      "year": 1955,
+      "note": "공동 25위 (2편)"
+    },
+    {
+      "raw_title": "Au hasard Balthazar",
+      "raw_creator": "Robert Bresson",
+      "rank": 25,
+      "year": 1966,
+      "note": "공동 25위 (2편)"
+    },
+    {
+      "raw_title": "Shoah",
+      "raw_creator": "Claude Lanzmann",
+      "rank": 27,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Daisies",
+      "raw_creator": "Věra Chytilová",
+      "rank": 28,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Taxi Driver",
+      "raw_creator": "Martin Scorsese",
+      "rank": 29,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Portrait of a Lady on Fire",
+      "raw_creator": "Céline Sciamma",
+      "rank": 30,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "8½",
+      "raw_creator": "Federico Fellini",
+      "rank": 31,
+      "year": 1963,
+      "note": "공동 31위 (3편)"
+    },
+    {
+      "raw_title": "Psycho",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 31,
+      "year": 1960,
+      "note": "공동 31위 (3편)"
+    },
+    {
+      "raw_title": "Mirror",
+      "raw_creator": "Andrei Tarkovsky",
+      "rank": 31,
+      "year": 1975,
+      "note": "공동 31위 (3편)"
+    },
+    {
+      "raw_title": "L'Atalante",
+      "raw_creator": "Jean Vigo",
+      "rank": 34,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Pather Panchali",
+      "raw_creator": "Satyajit Ray",
+      "rank": 35,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "M",
+      "raw_creator": "Fritz Lang",
+      "rank": 36,
+      "year": 1931,
+      "note": "공동 36위 (2편)"
+    },
+    {
+      "raw_title": "City Lights",
+      "raw_creator": "Charles Chaplin",
+      "rank": 36,
+      "year": 1931,
+      "note": "공동 36위 (2편)"
+    },
+    {
+      "raw_title": "Rear Window",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 38,
+      "year": 1954,
+      "note": "공동 38위 (3편)"
+    },
+    {
+      "raw_title": "À bout de souffle",
+      "raw_creator": "Jean-Luc Godard",
+      "rank": 38,
+      "year": 1960,
+      "note": "공동 38위 (3편)"
+    },
+    {
+      "raw_title": "Some Like It Hot",
+      "raw_creator": "Billy Wilder",
+      "rank": 38,
+      "year": 1959,
+      "note": "공동 38위 (3편)"
+    },
+    {
+      "raw_title": "Rashomon",
+      "raw_creator": "Akira Kurosawa",
+      "rank": 41,
+      "year": 1950,
+      "note": "공동 41위 (2편)"
+    },
+    {
+      "raw_title": "Bicycle Thieves",
+      "raw_creator": "Vittorio De Sica",
+      "rank": 41,
+      "year": 1948,
+      "note": "공동 41위 (2편)"
+    },
+    {
+      "raw_title": "Stalker",
+      "raw_creator": "Andrei Tarkovsky",
+      "rank": 43,
+      "year": 1979,
+      "note": "공동 43위 (2편)"
+    },
+    {
+      "raw_title": "Killer of Sheep",
+      "raw_creator": "Charles Burnett",
+      "rank": 43,
+      "year": 1977,
+      "note": "공동 43위 (2편)"
+    },
+    {
+      "raw_title": "Barry Lyndon",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 45,
+      "year": 1975,
+      "note": "공동 45위 (3편)"
+    },
+    {
+      "raw_title": "North by Northwest",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": 45,
+      "year": 1959,
+      "note": "공동 45위 (3편)"
+    },
+    {
+      "raw_title": "The Battle of Algiers",
+      "raw_creator": "Gillo Pontecorvo",
+      "rank": 45,
+      "year": 1966,
+      "note": "공동 45위 (3편)"
+    },
+    {
+      "raw_title": "Ordet",
+      "raw_creator": "Carl Th. Dreyer",
+      "rank": 48,
+      "year": 1955,
+      "note": "공동 48위 (2편)"
+    },
+    {
+      "raw_title": "Wanda",
+      "raw_creator": "Barbara Loden",
+      "rank": 48,
+      "year": 1970,
+      "note": "공동 48위 (2편)"
+    },
+    {
+      "raw_title": "The Piano",
+      "raw_creator": "Jane Campion",
+      "rank": 50,
+      "year": 1992,
+      "note": "공동 50위 (2편)"
+    },
+    {
+      "raw_title": "The 400 Blows",
+      "raw_creator": "François Truffaut",
+      "rank": 50,
+      "year": 1959,
+      "note": "공동 50위 (2편)"
+    },
+    {
+      "raw_title": "News from Home",
+      "raw_creator": "Chantal Akerman",
+      "rank": 52,
+      "year": 1976,
+      "note": "공동 52위 (2편)"
+    },
+    {
+      "raw_title": "Fear Eats the Soul",
+      "raw_creator": "Rainer Werner Fassbinder",
+      "rank": 52,
+      "year": 1974,
+      "note": "공동 52위 (2편)"
+    },
+    {
+      "raw_title": "The Apartment",
+      "raw_creator": "Billy Wilder",
+      "rank": 54,
+      "year": 1960,
+      "note": "공동 54위 (5편)"
+    },
+    {
+      "raw_title": "Sherlock Jr.",
+      "raw_creator": "Buster Keaton",
+      "rank": 54,
+      "year": 1924,
+      "note": "공동 54위 (5편)"
+    },
+    {
+      "raw_title": "Le Mépris",
+      "raw_creator": "Jean-Luc Godard",
+      "rank": 54,
+      "year": 1963,
+      "note": "공동 54위 (5편)"
+    },
+    {
+      "raw_title": "Battleship Potemkin",
+      "raw_creator": "Sergei M. Eisenstein",
+      "rank": 54,
+      "year": 1925,
+      "note": "공동 54위 (5편)"
+    },
+    {
+      "raw_title": "Blade Runner",
+      "raw_creator": "Ridley Scott",
+      "rank": 54,
+      "year": 1982,
+      "note": "공동 54위 (5편)"
+    },
+    {
+      "raw_title": "Sans soleil",
+      "raw_creator": "Chris Marker",
+      "rank": 59,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Daughters of the Dust",
+      "raw_creator": "Julie Dash",
+      "rank": 60,
+      "year": 1991,
+      "note": "공동 60위 (3편)"
+    },
+    {
+      "raw_title": "La dolce vita",
+      "raw_creator": "Federico Fellini",
+      "rank": 60,
+      "year": 1960,
+      "note": "공동 60위 (3편)"
+    },
+    {
+      "raw_title": "Moonlight",
+      "raw_creator": "Barry Jenkins",
+      "rank": 60,
+      "year": 2016,
+      "note": "공동 60위 (3편)"
+    },
+    {
+      "raw_title": "The Third Man",
+      "raw_creator": "Carol Reed",
+      "rank": 63,
+      "year": 1949,
+      "note": "공동 63위 (3편)"
+    },
+    {
+      "raw_title": "GoodFellas",
+      "raw_creator": "Martin Scorsese",
+      "rank": 63,
+      "year": 1990,
+      "note": "공동 63위 (3편)"
+    },
+    {
+      "raw_title": "Casablanca",
+      "raw_creator": "Michael Curtiz",
+      "rank": 63,
+      "year": 1942,
+      "note": "공동 63위 (3편)"
+    },
+    {
+      "raw_title": "Touki Bouki",
+      "raw_creator": "Djibril Diop Mambéty",
+      "rank": 66,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Red Shoes",
+      "raw_creator": "Michael Powell, Emeric Pressburger",
+      "rank": 67,
+      "year": 1948,
+      "note": "공동 67위 (5편)"
+    },
+    {
+      "raw_title": "Metropolis",
+      "raw_creator": "Fritz Lang",
+      "rank": 67,
+      "year": 1927,
+      "note": "공동 67위 (5편)"
+    },
+    {
+      "raw_title": "Andrei Rublev",
+      "raw_creator": "Andrei Tarkovsky",
+      "rank": 67,
+      "year": 1966,
+      "note": "공동 67위 (5편)"
+    },
+    {
+      "raw_title": "La Jetée",
+      "raw_creator": "Chris Marker",
+      "rank": 67,
+      "year": 1962,
+      "note": "공동 67위 (5편)"
+    },
+    {
+      "raw_title": "The Gleaners and I",
+      "raw_creator": "Agnès Varda",
+      "rank": 67,
+      "year": 2000,
+      "note": "공동 67위 (5편)"
+    },
+    {
+      "raw_title": "L'avventura",
+      "raw_creator": "Michelangelo Antonioni",
+      "rank": 72,
+      "year": 1960,
+      "note": "공동 72위 (3편)"
+    },
+    {
+      "raw_title": "Journey to Italy",
+      "raw_creator": "Roberto Rossellini",
+      "rank": 72,
+      "year": 1954,
+      "note": "공동 72위 (3편)"
+    },
+    {
+      "raw_title": "My Neighbour Totoro",
+      "raw_creator": "Hayao Miyazaki",
+      "rank": 72,
+      "year": 1988,
+      "note": "공동 72위 (3편)"
+    },
+    {
+      "raw_title": "Spirited Away",
+      "raw_creator": "Hayao Miyazaki",
+      "rank": 75,
+      "year": 2001,
+      "note": "공동 75위 (3편)"
+    },
+    {
+      "raw_title": "Sansho the Bailiff",
+      "raw_creator": "Kenji Mizoguchi",
+      "rank": 75,
+      "year": 1954,
+      "note": "공동 75위 (3편)"
+    },
+    {
+      "raw_title": "Imitation of Life",
+      "raw_creator": "Douglas Sirk",
+      "rank": 75,
+      "year": 1959,
+      "note": "공동 75위 (3편)"
+    },
+    {
+      "raw_title": "Histoire(s) du Cinéma",
+      "raw_creator": "Jean-Luc Godard",
+      "rank": 78,
+      "year": 1988,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "A Matter of Life and Death",
+      "raw_creator": "Michael Powell, Emeric Pressburger",
+      "rank": 78,
+      "year": 1946,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "Modern Times",
+      "raw_creator": "Charles Chaplin",
+      "rank": 78,
+      "year": 1936,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "Sunset Blvd.",
+      "raw_creator": "Billy Wilder",
+      "rank": 78,
+      "year": 1950,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "Céline and Julie Go Boating",
+      "raw_creator": "Jacques Rivette",
+      "rank": 78,
+      "year": 1974,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "A Brighter Summer Day",
+      "raw_creator": "Edward Yang",
+      "rank": 78,
+      "year": 1991,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "Sátántangó",
+      "raw_creator": "Béla Tarr",
+      "rank": 78,
+      "year": 1994,
+      "note": "공동 78위 (7편)"
+    },
+    {
+      "raw_title": "Blue Velvet",
+      "raw_creator": "David Lynch",
+      "rank": 85,
+      "year": 1986,
+      "note": "공동 85위 (3편)"
+    },
+    {
+      "raw_title": "The Spirit of the Beehive",
+      "raw_creator": "Víctor Erice",
+      "rank": 85,
+      "year": 1973,
+      "note": "공동 85위 (3편)"
+    },
+    {
+      "raw_title": "Pierrot le fou",
+      "raw_creator": "Jean-Luc Godard",
+      "rank": 85,
+      "year": 1965,
+      "note": "공동 85위 (3편)"
+    },
+    {
+      "raw_title": "The Shining",
+      "raw_creator": "Stanley Kubrick",
+      "rank": 88,
+      "year": 1980,
+      "note": "공동 88위 (2편)"
+    },
+    {
+      "raw_title": "CHUNGKING EXPRESS",
+      "raw_creator": "Wong Kar Wai",
+      "rank": 88,
+      "year": 1994,
+      "note": "공동 88위 (2편)"
+    },
+    {
+      "raw_title": "Parasite",
+      "raw_creator": "Bong Joon-ho",
+      "rank": 90,
+      "year": 2019,
+      "note": "공동 90위 (5편)"
+    },
+    {
+      "raw_title": "Yi Yi",
+      "raw_creator": "Edward Yang",
+      "rank": 90,
+      "year": 1999,
+      "note": "공동 90위 (5편)"
+    },
+    {
+      "raw_title": "Ugetsu Monogatari",
+      "raw_creator": "Kenji Mizoguchi",
+      "rank": 90,
+      "year": 1953,
+      "note": "공동 90위 (5편)"
+    },
+    {
+      "raw_title": "The Leopard",
+      "raw_creator": "Luchino Visconti",
+      "rank": 90,
+      "year": 1962,
+      "note": "공동 90위 (5편)"
+    },
+    {
+      "raw_title": "Madame de...",
+      "raw_creator": "Max Ophuls",
+      "rank": 90,
+      "year": 1953,
+      "note": "공동 90위 (5편)"
+    },
+    {
+      "raw_title": "Once upon a Time in the West",
+      "raw_creator": "Sergio Leone",
+      "rank": 95,
+      "year": 1968,
+      "note": "공동 95위 (6편)"
+    },
+    {
+      "raw_title": "A Man Escaped",
+      "raw_creator": "Robert Bresson",
+      "rank": 95,
+      "year": 1956,
+      "note": "공동 95위 (6편)"
+    },
+    {
+      "raw_title": "The General",
+      "raw_creator": "Buster Keaton, Clyde Bruckman",
+      "rank": 95,
+      "year": 1926,
+      "note": "공동 95위 (6편)"
+    },
+    {
+      "raw_title": "Black Girl",
+      "raw_creator": "Ousmane Sembène",
+      "rank": 95,
+      "year": 1965,
+      "note": "공동 95위 (6편)"
+    },
+    {
+      "raw_title": "Tropical Malady",
+      "raw_creator": "Apichatpong Weerasethakul",
+      "rank": 95,
+      "year": 2004,
+      "note": "공동 95위 (6편)"
+    },
+    {
+      "raw_title": "Get Out",
+      "raw_creator": "Jordan Peele",
+      "rank": 95,
+      "year": 2017,
+      "note": "공동 95위 (6편)"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time (BFI 공식 결과 페이지. curl로 HTML을 직접 받아, 페이지에 내장된 결과 데이터(componentState.results, 264개 항목)를 파싱해 100위 이내 100편을 추출했다. WebFetch 요약본은 1위를 Vertigo로 적고 같은 작품을 여러 순위에 중복 배치하는 등 내용이 깨져 나와 폐기하고 원본 파싱으로 대체했다.)",
+      "https://www.bfi.org.uk/news/revealed-results-2022-sight-sound-greatest-films-all-time-poll (BFI 공식 발표 기사. 상위 10편과 투표 인원·투표 방식 확인)",
+      "https://www.bfi.org.uk/sight-and-sound/directors-100-greatest-films-all-time (감독 투표 페이지. 별개 투표임을 확인)",
+      "https://en.wikipedia.org/wiki/Special:Export/The_Sight_and_Sound_Greatest_Films_of_All_Time_2022 (위키백과 원문. 평론가 1,639명 / 감독 480명 구분과 상위 10편 확인)"
+    ],
+    "item_count": 100,
+    "poll_type": "평론가(critics) 투표다. 감독 투표가 아니다. 근거 두 가지 — (1) BFI 결과 페이지 본문에 '1,639 participating critics, programmers, curators, archivists and academics each submitting their top ten ballot'이라 명시돼 있다. (2) 감독 투표는 /sight-and-sound/directors-100-greatest-films-all-time 라는 별도 URL에 있고 투표자 480명, 1위가 「2001: A Space Odyssey」로 서로 다르다. 두 페이지를 각각 열어 대조했다.",
+    "top_rank": "1위는 샹탈 아케르만의 「Jeanne Dielman, 23 Quai du Commerce, 1080 Bruxelles」(1975)다. BFI 결과 페이지 내장 데이터에서 rank 1로 확인했고, BFI 공식 발표 기사의 상위 10편 목록과도 일치한다. 2012년 1위 「Vertigo」는 2위, 그 이전 다섯 차례 1위였던 「Citizen Kane」은 3위다.",
+    "tied_ranks": "공동 순위가 22개 지점에 있다: 21위 2편, 25위 2편, 31위 3편, 36위 2편, 38위 3편, 41위 2편, 43위 2편, 45위 3편, 48위 2편, 50위 2편, 52위 2편, 54위 5편, 60위 3편, 63위 3편, 67위 5편, 72위 3편, 75위 3편, 78위 7편, 85위 3편, 88위 2편, 90위 5편, 95위 6편. 최대 규모는 공동 78위(7편)와 공동 95위(6편)다. 공동 95위 6편이 95~100번 자리를 채우므로 목록은 정확히 100편에서 끝난다. 공동 순위 때문에 1~100 사이 48개 순번(22, 26, 32, 33, 37, 39, 40, 42, 44, 46, 47, 49, 51, 53, 55~58, 61, 62, 64, 65, 68~71, 73, 74, 76, 77, 79~84, 86, 87, 89, 91~94, 96~100)은 비어 있다. 누락이 아니라 공동 순위 처리의 결과다.",
+    "gaps": "빠진 항목 없다. 100편 전부 담았다. 순번이 건너뛰는 것은 공동 순위 때문이며, 각 순번의 등장 편수를 합산하면 정확히 100이다. 원본 데이터에는 101위 이하(전체 264개 항목, 최하 공동 243위)도 들어 있으나 의뢰 범위인 100위까지만 담았다.",
+    "uncertainties": "① 제목·감독명·연도는 모두 BFI 페이지 내장 데이터 표기를 그대로 옮겼다. 다만 BFI 데이터 자체에 표기 흔들림이 있다. 「Sunrise A Song of Two Humans」는 통용 표기 'Sunrise: A Song of Two Humans'에서 콜론이 빠진 채 저장돼 있고(원본의 공백 두 칸은 한 칸으로 정리), 「CHUNGKING EXPRESS」만 전부 대문자다. 임의로 고치지 않고 출처 표기를 유지했다. ② 감독이 두 명인 작품(「Singin' in the Rain」, 「Meshes of the Afternoon」, 「The Red Shoes」, 「A Matter of Life and Death」, 「The General」)은 BFI 표기대로 쉼표로 병기했다. ③ 연도는 BFI 표기 기준이다. 「In the Mood for Love」를 2001년으로 적는 2차 출처가 있으나 BFI는 2000년으로 표기하므로 2000을 따랐다. ④ 100편 전체를 담은 독립 2차 출처로 재대조하지는 못했다. 상위 10편은 BFI 공식 발표 기사로, 공동 95위(「Tropical Malady」·「Get Out」 포함)는 웹 검색으로 각각 별도 확인했다. 그 사이 구간은 BFI 단일 출처(다만 공식 원본 데이터)에 의존한다."
+  }
+}

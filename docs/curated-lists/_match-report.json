@@ -1,0 +1,600 @@
+{
+  "generatedFor": "korea-publication-award",
+  "matched": 5,
+  "ambiguous": [
+    {
+      "list": "korea-publication-award",
+      "title": "펠로폰네소스 전쟁사",
+      "creator": "투퀴디데스 지음, 천병희 옮김",
+      "candidates": [
+        "b2d36d4b-793f-484b-8374-f67af9f2d563(저자불일치: 투키디데스)"
+      ]
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "힘든 시대를 위한 좋은 경제학",
+      "creator": "김승진 옮김",
+      "candidates": [
+        "604a90bc-f7f7-4e5a-9da8-776225b6cc37(저자불일치: 아비지트 배너지, 에스테르 뒤플로)"
+      ]
+    }
+  ],
+  "noAuthorPicked": [],
+  "missing": [
+    {
+      "list": "korea-publication-award",
+      "title": "죽은 다음",
+      "creator": "희정"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "간질간질",
+      "creator": "서현"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "인류 본사",
+      "creator": "이희수"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "장수탕 선녀님",
+      "creator": "백희나"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "미국의 반지성주의",
+      "creator": "리처드 호프스태터 지음, 유강은 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "현앨리스와 그의 시대",
+      "creator": "정병준"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "오뇌의 무도 주해",
+      "creator": "소명출판"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "대추 한 알",
+      "creator": "장석주 시, 유리 그림"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "엄마 도감",
+      "creator": "권정민"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "요리는 감이여",
+      "creator": "창비교육"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국주택 유전자",
+      "creator": "박철수"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국 자본주의",
+      "creator": "장하성"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "에세",
+      "creator": "미셸 드 몽테뉴 지음, 심민화·최권행 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "헌법의 순간",
+      "creator": "박혁"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "미래교양사전",
+      "creator": "이인식"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "거대도시, 서울철도",
+      "creator": "전현우"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "만들어진 신",
+      "creator": "리처드 도킨스 지음, 이한음 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "나는 작은 회사에 다닌다",
+      "creator": "김정래·전민진"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "금요일엔 돌아오렴",
+      "creator": "416 세월호참사 시민기록위원회 작가기록단"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "로쟈의 인문학 서재",
+      "creator": "이현우"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "모멸감",
+      "creator": "김찬호"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "자폐의 거의 모든 역사",
+      "creator": "존 돈반·캐런 저커 지음, 강병철 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "안평",
+      "creator": "심경호"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "북클럽 자본",
+      "creator": "고병권"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "다윈 영의 악의 기원",
+      "creator": "박지리"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "손바닥 동시",
+      "creator": "유강희"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "LHC, 현대 물리학의 최전선",
+      "creator": "이강영"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "어떤 아이가",
+      "creator": "송미경"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "동물권력",
+      "creator": "남종영"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "평등, 자유, 권리",
+      "creator": "이종은"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한반도 화교사",
+      "creator": "이정희"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "진짜 코 파는 이야기",
+      "creator": "이갑규"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "어딘가에는 ○○○이 있다",
+      "creator": "남해의봄날·이유출판·온다프레스·열매하나·포토밭출판사"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "5번 레인",
+      "creator": "은소홀"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "아틀라스 역사 시리즈",
+      "creator": "사계절"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "무등이왓에 부는 바람",
+      "creator": "김영화"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "사이보그가 되다",
+      "creator": "김초엽·김원영"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "세밀한 일러스트와 희귀 사진으로 본 근대 조선",
+      "creator": "김장춘 엮음"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "문학의 민주주의",
+      "creator": "장성규"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "아픔이 길이 되려면",
+      "creator": "김승섭"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "좌우파 사전",
+      "creator": "구갑우·김기원·김성천·서영표·안병진·안현효·은수미·이강국·이건범·이명원·이병민·조형근·최현·황덕순 공저"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "니벨룽의 보물",
+      "creator": "정문길"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "고구려 별자리와 신화",
+      "creator": "김일권"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "빈곤 과정",
+      "creator": "조문영"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "자기록: 여자, 글로 말하다",
+      "creator": "풍양 조씨 지음, 김경미 역주"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "고기로 태어나서",
+      "creator": "한승태"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "세상 모든 것의 물질",
+      "creator": "수지 시히 지음, 노승영 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "주자평전",
+      "creator": "수징난 지음, 김태완 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "국경",
+      "creator": "구돌 글, 해랑 그림"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국역사연구회 시대사총서 (전10권)",
+      "creator": "푸른역사"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "민주인권 그림책 시리즈 (전8권)",
+      "creator": "민주화운동기념사업회 기획, 권윤덕 총감독"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "세상 물정의 물리학",
+      "creator": "김범준"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "들풀들이 들려주는 위대한 백성이야기 (1~3권)",
+      "creator": "홍순명"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "우주의 끝을 찾아서",
+      "creator": "이강환"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "공안파와 조선후기 한문학",
+      "creator": "강명관"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "토마토 기준",
+      "creator": "김준현"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "우주로 가는 계단",
+      "creator": "전수경 지음, 소윤경 그림"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "카를 마르크스",
+      "creator": "개러스 존스 지음, 홍기빈 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한편",
+      "creator": "신새벽 편집자"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "쓰레기 고서들의 반란",
+      "creator": "장유승 지음, 이은혜 편집"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "외면하지 않을 권리",
+      "creator": "한다솜 등 지음, 설원민 편집"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "역사평설 병자호란",
+      "creator": "한명기"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "청소년을 위한 토론학교 시리즈",
+      "creator": "우리학교"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "우리말 절대지식",
+      "creator": "김승용"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "포스트휴먼이 온다",
+      "creator": "이종관"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "정조와 불량선비 강이천",
+      "creator": "백승종"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "밀양을 살다",
+      "creator": "밀양구술프로젝트"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "어메이징 그래비티",
+      "creator": "조진호"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국의 초상화 - 형(形)과 영(影)의 예술",
+      "creator": "조선미"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "울기엔 좀 애매한",
+      "creator": "최규석"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "나쁜 사마리아인들",
+      "creator": "장하준 지음, 이순희 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "나쓰메 소세키 소설 전집 (전14권)",
+      "creator": "나쓰메 소세키 지음, 송태욱 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "유럽 문화사 (전5권)",
+      "creator": "도널드 서순 지음, 정영목·오숙은·한경희·이은진 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "앤디 워홀 일기",
+      "creator": "앤디 워홀 지음, 팻 해켓 엮음, 홍예빈 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "물질의 물리학",
+      "creator": "한정훈"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "작지만 큰 한국사, 소금",
+      "creator": "유승훈"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "열정세대",
+      "creator": "양철북"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "붓끝으로 부사산 바람을 가르다",
+      "creator": "남옥 지음, 김보경 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "지혜로 지은 집, 한국 건축",
+      "creator": "김도경"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "사생활의 역사 (전5권)",
+      "creator": "필립 아리에스·조르주 뒤비 책임편집, 주명철·전수연 외 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "잘 헤어졌어",
+      "creator": "김양미"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "다석일지",
+      "creator": "도서출판 길"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "오늘의 할 일",
+      "creator": "김동수"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "할머니의 여름휴가",
+      "creator": "안녕달"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "중력파, 아인슈타인의 마지막 선물",
+      "creator": "오정근"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "가장 느린 정의",
+      "creator": "리아 락슈미 피엡즈나-사마라신하 지음, 전혜은·제이 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "4x4의 세계",
+      "creator": "조우리"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "사당동 더하기 25",
+      "creator": "조은"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국전쟁: 38선 충돌과 전쟁의 형성",
+      "creator": "정병준"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국의 전통색",
+      "creator": "문은배"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한반도 바닷물고기 세밀화 대도감",
+      "creator": "명정구 글, 조광현 그림"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "우리는 왜 공부할수록 가난해지는가",
+      "creator": "천주희"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "마을로 간 한국전쟁",
+      "creator": "박찬승"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "나의 국토 나의 산하 (전3권)",
+      "creator": "박태순"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "김군을 찾아서",
+      "creator": "강소영 편집자"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "3월 1일의 밤",
+      "creator": "권보드래"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "보리 국어사전",
+      "creator": "토박이 사전 편찬실 엮음"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "조선의 생태환경사",
+      "creator": "김동진"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "강이",
+      "creator": "이수지"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "진인각, 최후의 20년",
+      "creator": "육건동 지음, 박한제·김형종 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "한국 사회학의 지성사",
+      "creator": "정수복"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "공동체론",
+      "creator": "박호성"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "홀로코스트, 유럽 유대인의 파괴 1·2",
+      "creator": "라울 힐베르크 지음, 김학이 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "중공업 가족의 유토피아",
+      "creator": "양승훈"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "20세기, 그 너머의 과학사",
+      "creator": "김동광·김명진 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "멋지기 때문에 놀러왔지",
+      "creator": "설흔"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "실크로드 사전",
+      "creator": "정수일"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "아름다움의 진화",
+      "creator": "리처드 프럼 지음, 양병찬 옮김"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "휘말린 날들",
+      "creator": "서보경"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "달인 시리즈 (전4권)",
+      "creator": "고미숙·한경애 외"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "받침 구조대",
+      "creator": "곽미영 글, 이지은 그림"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "겨레 전통 도감 (전5권)",
+      "creator": "보리"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "노동여지도",
+      "creator": "박점규"
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "소성(所聲)",
+      "creator": null
+    },
+    {
+      "list": "korea-publication-award",
+      "title": "아무튼 시리즈",
+      "creator": "위고·제철소·코난북스"
+    }
+  ]
+}

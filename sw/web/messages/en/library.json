@@ -42,7 +42,10 @@
       "continueLearning": "Resume Learning",
       "moreDetail": "View More",
       "exploreMuseum": "Explore",
-      "enterAcademy": "Enter Academy"
+      "enterAcademy": "Enter Academy",
+      "curatedLabel": "Curated by Institutions",
+      "curated": "Discover works through lists chosen by universities, newspapers, and award bodies.",
+      "exploreCurated": "Browse the lists"
     },
     "meta": {
       "title": "Library - Celebrity Reading Lists & Movie Picks",
@@ -355,6 +358,57 @@
         "representativePrefix": "Top ",
         "recommendedWorks": "Recommended Works"
       }
+    },
+    "curated": {
+      "metaTitle": "Curated by Institutions - Lists from Universities and the Press",
+      "metaDescription": "Reading lists published by universities, newspapers, and award bodies, from The New York Times' best books of the 21st century to the Booker Prize winners.",
+      "title": "Curated by Institutions",
+      "intro": "These lists were chosen by institutions rather than individuals. Books universities put before their students, works the press named at the close of a year, titles a jury gave a prize to, transcribed as published.",
+      "kind": {
+        "university": "Universities",
+        "media": "Press & Media",
+        "award": "Award Bodies",
+        "organization": "Organizations",
+        "community": "Public Vote",
+        "bookstore": "Bookstores",
+        "library": "Libraries",
+        "festival": "Festivals"
+      },
+      "listCount": "{count} lists",
+      "itemCount": "{count} works",
+      "viewList": "View list",
+      "viewCurator": "More from this institution",
+      "ranked": "Ranked",
+      "annual": "Annual",
+      "source": "Original source",
+      "method": "Selection method",
+      "published": "Published {year}",
+      "notRegistered": "Not yet in our catalogue",
+      "linkedSummary": "{linked} of {total} works are available here.",
+      "otherEditions": "Other years",
+      "backToHub": "Back to lists",
+      "empty": "No lists yet.",
+      "emptyLists": "Lists from this institution are on the way.",
+      "rankLabel": "No. {rank}",
+      "yearLabel": "{year}",
+      "onContent": {
+        "title": "Selection history",
+        "subtitle": "Institutions and lists that chose this work.",
+        "badge": "Chosen by {count}"
+      },
+      "topicLabel": {
+        "classics": "Classics",
+        "novel": "Novels",
+        "sf": "Science Fiction",
+        "mystery": "Mystery",
+        "children": "Children & YA",
+        "film": "Film",
+        "korean-literature": "Korean Literature",
+        "horror": "Horror",
+        "history": "History",
+        "philosophy": "Philosophy"
+      },
+      "moreLists": "See {count} more lists"
     }
   }
 }

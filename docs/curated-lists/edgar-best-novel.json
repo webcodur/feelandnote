@@ -1,0 +1,561 @@
+{
+  "curator": {
+    "slug": "mystery-writers-of-america",
+    "name": "미국추리작가협회",
+    "name_en": "Mystery Writers of America",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1945,
+    "homepage_url": "https://mysterywriters.org",
+    "description": "미국추리작가협회는 1945년에 설립된 추리·범죄소설 작가들의 직능 단체다. 협회가 매년 주는 상은 추리소설의 원형을 만든 작가 에드거 앨런 포의 이름을 따 에드거상이라 부르며, 트로피도 포의 흉상 모양이다. 회원 작가들로 구성된 자원 심사위원회가 부문별로 수상작을 가린다.",
+    "description_en": "Mystery Writers of America, founded in 1945, is the leading professional organization for mystery and crime writers in the United States. Its annual honors are named the Edgar Allan Poe Awards after the writer who invented the detective story, and the trophy itself is a small bust of Poe. Winners are chosen by volunteer committees of professional writers, making the Edgars a peer award."
+  },
+  "list": {
+    "slug": "edgar-best-novel",
+    "title": "에드거상 최우수 장편",
+    "title_en": "Edgar Award for Best Novel",
+    "description": "에드거상 최우수 장편 부문은 그해 미국에서 출간된 추리·범죄 장편소설 가운데 최고작에 주는 상이다. 1954년 샬럿 제이의 「Beat Not the Bones」를 시작으로 매년 한 편씩 뽑아 왔으며, 레이먼드 챈들러·존 르 카레·엘모어 레너드·스티븐 킹 등이 이름을 올렸다. 신인 장편, 페이퍼백 오리지널 등 다른 부문과는 별도로 시상한다.",
+    "description_en": "The Edgar Award for Best Novel honors the finest crime or mystery novel published in the United States during the preceding year. Awarded every year since 1954, when Charlotte Jay won for Beat Not the Bones, its roll call includes Raymond Chandler, John le Carré, Elmore Leonard, and Stephen King. It is judged separately from the Best First Novel and Best Paperback Original categories.",
+    "published_year": null,
+    "edition": null,
+    "method": "미국추리작가협회 회원인 현역 작가들로 짜인 자원 심사위원회가 부문별로 심사해 수상작을 정하는 동료 심사 방식이다(공식 사이트 edgarawards.com 명시). 시상은 매년 봄 뉴욕에서 열리는 시상식에서 이루어지며, 전년도에 출간된 작품이 대상이다.",
+    "method_en": "Judged by volunteer committees of professional writers who are members of Mystery Writers of America, making it a peer award (as stated on the official site, edgarawards.com). Winners are announced at the annual banquet held in New York each spring, honoring books published in the previous calendar year.",
+    "source_url": "https://edgarawards.com/category-list-best-novel/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "mystery"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Beat Not the Bones",
+      "raw_creator": "Charlotte Jay",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "The Long Goodbye",
+      "raw_creator": "Raymond Chandler",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Beast in View",
+      "raw_creator": "Margaret Millar",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "A Dram of Poison",
+      "raw_creator": "Charlotte Armstrong",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "Room to Swing",
+      "raw_creator": "Ed Lacy",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Eighth Circle",
+      "raw_creator": "Stanley Ellin",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "The Hours Before Dawn",
+      "raw_creator": "Celia Fremlin",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "The Progress of a Crime",
+      "raw_creator": "Julian Symons",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Gideon's Fire",
+      "raw_creator": "J.J. Marric",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Death and the Joyful Woman",
+      "raw_creator": "Ellis Peters",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "The Light of Day",
+      "raw_creator": "Eric Ambler",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "The Spy Who Came in from the Cold",
+      "raw_creator": "John le Carré",
+      "rank": null,
+      "year": 1965,
+      "note": "공식 데이터베이스는 발음 부호 없이 John le Carre로 표기. 위키백과 대조로 John le Carré 확정."
+    },
+    {
+      "raw_title": "The Quiller Memorandum",
+      "raw_creator": "Adam Hall",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "The King of the Rainy Country",
+      "raw_creator": "Nicolas Freeling",
+      "rank": null,
+      "year": 1967,
+      "note": "위키백과 표기는 King of the Rainy Country (정관사 없음)."
+    },
+    {
+      "raw_title": "God Save the Mark",
+      "raw_creator": "Donald E. Westlake",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "A Case of Need",
+      "raw_creator": "Jeffery Hudson",
+      "rank": null,
+      "year": 1969,
+      "note": "공식 데이터베이스는 필명 Jeffery Hudson으로 등재. 실제 저자는 Michael Crichton(위키백과 A Case of Need 문서 확인)."
+    },
+    {
+      "raw_title": "Forfeit",
+      "raw_creator": "Dick Francis",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "The Laughing Policeman",
+      "raw_creator": "Maj Sjöwall & Per Wahlöö",
+      "rank": null,
+      "year": 1971,
+      "note": "공식 데이터베이스는 발음 부호 없이 Maj Sjowall, Per Wahloo로 표기. 위키백과 대조로 Sjöwall·Wahlöö 확정. 스웨덴어 원작 번역서."
+    },
+    {
+      "raw_title": "The Day of the Jackal",
+      "raw_creator": "Frederick Forsyth",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Lingala Code",
+      "raw_creator": "Warren Kiefer",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Dance Hall of the Dead",
+      "raw_creator": "Tony Hillerman",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Peter's Pence",
+      "raw_creator": "Jon Cleary",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Hopscotch",
+      "raw_creator": "Brian Garfield",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Promised Land",
+      "raw_creator": "Robert B. Parker",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Catch Me: Kill Me",
+      "raw_creator": "William H. Hallahan",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "The Eye of the Needle",
+      "raw_creator": "Ken Follett",
+      "rank": null,
+      "year": 1979,
+      "note": "위키백과 표기는 Eye of the Needle (정관사 없음)."
+    },
+    {
+      "raw_title": "The Rheingold Route",
+      "raw_creator": "Arthur Maling",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Whip Hand",
+      "raw_creator": "Dick Francis",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Peregrine",
+      "raw_creator": "William Bayer",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Billingsgate Shoal",
+      "raw_creator": "Rick Boyer",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "La Brava",
+      "raw_creator": "Elmore Leonard",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Briar Patch",
+      "raw_creator": "Ross Thomas",
+      "rank": null,
+      "year": 1985,
+      "note": "위키백과 표기는 Briarpatch (한 단어)."
+    },
+    {
+      "raw_title": "The Suspect",
+      "raw_creator": "L.R. Wright",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "A Dark-Adapted Eye",
+      "raw_creator": "Barbara Vine",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Old Bones",
+      "raw_creator": "Aaron Elkins",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "A Cold Red Sunrise",
+      "raw_creator": "Stuart M. Kaminsky",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Black Cherry Blues",
+      "raw_creator": "James Lee Burke",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "New Orleans Mourning",
+      "raw_creator": "Julie Smith",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "A Dance at the Slaughterhouse",
+      "raw_creator": "Lawrence Block",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Bootlegger's Daughter",
+      "raw_creator": "Margaret Maron",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Sculptress",
+      "raw_creator": "Minette Walters",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "The Red Scream",
+      "raw_creator": "Mary Willis Walker",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Come to Grief",
+      "raw_creator": "Dick Francis",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "The Chatham School Affair",
+      "raw_creator": "Thomas H. Cook",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Cimarron Rose",
+      "raw_creator": "James Lee Burke",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Mr. White's Confession",
+      "raw_creator": "Robert Clark",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Bones",
+      "raw_creator": "Jan Burke",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Bottoms",
+      "raw_creator": "Joe R. Lansdale",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Silent Joe",
+      "raw_creator": "T. Jefferson Parker",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Winter and Night",
+      "raw_creator": "S.J. Rozan",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Resurrection Men",
+      "raw_creator": "Ian Rankin",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "California Girl",
+      "raw_creator": "T. Jefferson Parker",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Citizen Vince",
+      "raw_creator": "Jess Walter",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Janissary Tree",
+      "raw_creator": "Jason Goodwin",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Down River",
+      "raw_creator": "John Hart",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Blue Heaven",
+      "raw_creator": "C.J. Box",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Last Child",
+      "raw_creator": "John Hart",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Lock Artist",
+      "raw_creator": "Steve Hamilton",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Gone",
+      "raw_creator": "Mo Hayder",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Live by Night",
+      "raw_creator": "Dennis Lehane",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Ordinary Grace",
+      "raw_creator": "William Kent Krueger",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Mr. Mercedes",
+      "raw_creator": "Stephen King",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Let Me Die in His Footsteps",
+      "raw_creator": "Lori Roy",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Before the Fall",
+      "raw_creator": "Noah Hawley",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Bluebird, Bluebird",
+      "raw_creator": "Attica Locke",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Down the River Unto the Sea",
+      "raw_creator": "Walter Mosley",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "The Stranger Diaries",
+      "raw_creator": "Elly Griffiths",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Djinn Patrol on the Purple Line",
+      "raw_creator": "Deepa Anappara",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Five Decembers",
+      "raw_creator": "James Kestrel",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Notes on an Execution",
+      "raw_creator": "Danya Kukafka",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Flags on the Bayou",
+      "raw_creator": "James Lee Burke",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "The In Crowd",
+      "raw_creator": "Charlotte Vassell",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "The Big Empty",
+      "raw_creator": "Robert Crais",
+      "rank": null,
+      "year": 2026,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://edgarawards.com/category-list-best-novel/ (공식 에드거상 데이터베이스 Best Novel 부문 목록, 4페이지 전체 366건 원본 HTML 수집. 수상작은 CSS 클래스 edgar-winner로 구분되어 있어 이를 기준으로 73건 추출)",
+      "https://edgarawards.com/ (공식 데이터베이스 홈. 심사 방식 문구, 제80회 시상식 2026-04-29 개최 및 2025년 출간작 대상 확인)",
+      "https://mysterywriters.org/2026-edgar-award-winners/ (2026년 최우수 장편 수상작 The Big Empty / Robert Crais 확인)",
+      "https://mysterywriters.org/mystery-writers-of-america-announces-the-2025-edgar-award-winners/ (2025년 수상작 The In Crowd / Charlotte Vassell, 제79회 2025-05-01 개최 확인)",
+      "https://mysterywriters.org/about-mwa/ (협회 성격 확인. 설립 연도는 이 페이지에 없음)",
+      "https://en.wikipedia.org/wiki/Edgar_Award_for_Best_Novel (교차 대조용 역대 수상작 목록)",
+      "https://en.wikipedia.org/wiki/Mystery_Writers_of_America (설립 연도 1945년 및 에드거 앨런 포 명명 근거)",
+      "https://en.wikipedia.org/wiki/A_Case_of_Need (1969년 수상작 저자 필명 확인)"
+    ],
+    "item_count": 73,
+    "year_range": "1954-2026",
+    "year_basis": "시상 연도(ceremony year)다. 출간 연도가 아니다. 공식 데이터베이스의 Award Year 열 값을 그대로 옮겼다. 에드거상은 전년도에 출간된 작품을 대상으로 하므로 각 항목의 출간 연도는 대체로 year 값보다 1년 앞선다. 예: 2026년 수상작 The Big Empty는 2025년 출간작이며, 2026-04-29 제80회 시상식에서 수상했다.",
+    "gaps": "없다. 1954년부터 2026년까지 73개 연도가 빠짐없이 이어지며 연도별 수상작은 정확히 1편씩이다(73개 연도 = 73개 항목). 공동 수상이나 결번은 확인되지 않았다.",
+    "uncertainties": "① 표기 차이 — 공식 데이터베이스와 위키백과의 제목·저자 표기가 6개 항목에서 갈린다(1965, 1967, 1969, 1971, 1979, 1985). 공식 표기를 본문에 넣고 차이를 각 항목 note에 기록했다. ② 발음 부호 — 공식 데이터베이스는 사이트 전체에서 발음 부호를 생략한다(John le Carre, Maj Sjowall, Per Wahloo). 위키백과 대조로 원표기(le Carré, Sjöwall, Wahlöö)를 복원해 넣었고 해당 항목 note에 명시했다. ③ 협회 설립 연도 1945년은 위키백과에서만 확인했다. 공식 사이트(mysterywriters.org)의 소개 페이지에는 설립 연도가 적혀 있지 않았다. ④ 출판사 정보는 공식 데이터베이스에 있으나 요구 스키마에 필드가 없어 수집하지 않았다."
+  }
+}

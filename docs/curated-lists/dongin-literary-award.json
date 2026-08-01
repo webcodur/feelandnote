@@ -1,0 +1,455 @@
+{
+  "curator": {
+    "slug": "chosun-ilbo",
+    "name": "조선일보",
+    "name_en": "The Chosun Ilbo",
+    "kind": "media",
+    "country": "KR",
+    "founded_year": 1920,
+    "homepage_url": "https://www.chosun.com",
+    "description": "1920년 창간된 한국의 일간 신문이다. 1987년부터 동인문학상을 주관해 매달 독회를 열고 연말에 수상작을 가린다. 그 이전에는 사상계사(1956~1967)와 동서문화사(1979~1985)가 주관했다.",
+    "description_en": "The Chosun Ilbo is a Korean daily newspaper founded in 1920. It has sponsored the Dongin Literary Award since 1987, running monthly reading sessions and selecting a winner at year's end. The award was previously administered by Sasanggye (1956-1967) and Dongseo Munhwasa (1979-1985)."
+  },
+  "list": {
+    "slug": "dongin-literary-award",
+    "title": "동인문학상 수상작",
+    "title_en": "Dongin Literary Award",
+    "description": "소설가 김동인을 기려 1955년 잡지 《사상계》가 제정하고 1956년부터 시상한 문학상이다. 초기에는 단편소설 한 편을 뽑았고, 2000년대 이후로는 그해 출간된 소설집과 장편소설을 대상으로 삼는다. 현대문학상과 함께 한국 문단에서 위상이 높은 상으로 꼽힌다.",
+    "description_en": "Established in 1955 by the magazine Sasanggye in honor of the novelist Kim Dong-in, with the first award given in 1956. Early editions honored a single short story; since the 2000s the prize has gone to story collections and novels published that year. It is regarded as one of Korea's most prestigious literary awards.",
+    "published_year": null,
+    "edition": null,
+    "method": "종신 심사위원으로 구성된 심사위원회가 매달 독회를 열어 그달의 추천작을 고르고, 이렇게 쌓인 후보작을 놓고 연말에 최종 수상작을 정한다. 2025년 기준 심사위원은 정명교·구효서·이승우·김인숙·김동식 5인이다.",
+    "method_en": "A standing jury holds monthly reading sessions to select recommended books, then chooses the year's winner from the accumulated shortlist at year's end. As of 2025 the five jurors are Jeong Myeong-kyo, Ku Hyo-seo, Lee Seung-u, Kim In-sook, and Kim Dong-sik.",
+    "source_url": "https://ko.wikipedia.org/wiki/%EB%8F%99%EC%9D%B8%EB%AC%B8%ED%95%99%EC%83%81",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "korean-literature"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "바비도",
+      "raw_creator": "김성한",
+      "rank": null,
+      "year": 1956,
+      "note": "제1회"
+    },
+    {
+      "raw_title": "불꽃",
+      "raw_creator": "선우휘",
+      "rank": null,
+      "year": 1957,
+      "note": "제2회"
+    },
+    {
+      "raw_title": "모반",
+      "raw_creator": "오상원",
+      "rank": null,
+      "year": 1958,
+      "note": "제3회"
+    },
+    {
+      "raw_title": "잉여인간",
+      "raw_creator": "손창섭",
+      "rank": null,
+      "year": 1959,
+      "note": "제4회"
+    },
+    {
+      "raw_title": "이 성숙한 밤의 포옹",
+      "raw_creator": "서기원",
+      "rank": null,
+      "year": 1960,
+      "note": "제5회 · 이범선과 공동 수상"
+    },
+    {
+      "raw_title": "오발탄",
+      "raw_creator": "이범선",
+      "rank": null,
+      "year": 1960,
+      "note": "제5회 · 서기원과 공동 수상"
+    },
+    {
+      "raw_title": "너는 뭐냐",
+      "raw_creator": "남정현",
+      "rank": null,
+      "year": 1961,
+      "note": "제6회"
+    },
+    {
+      "raw_title": "닳아지는 살들",
+      "raw_creator": "이호철",
+      "rank": null,
+      "year": 1962,
+      "note": "제7회 · 전광용과 공동 수상"
+    },
+    {
+      "raw_title": "꺼삐딴 리",
+      "raw_creator": "전광용",
+      "rank": null,
+      "year": 1962,
+      "note": "제7회 · 이호철과 공동 수상"
+    },
+    {
+      "raw_title": "잔해",
+      "raw_creator": "송병수",
+      "rank": null,
+      "year": 1964,
+      "note": "제9회"
+    },
+    {
+      "raw_title": "서울 1964년 겨울",
+      "raw_creator": "김승옥",
+      "rank": null,
+      "year": 1965,
+      "note": "제10회"
+    },
+    {
+      "raw_title": "웃음소리",
+      "raw_creator": "최인훈",
+      "rank": null,
+      "year": 1966,
+      "note": "제11회"
+    },
+    {
+      "raw_title": "병신과 머저리",
+      "raw_creator": "이청준",
+      "rank": null,
+      "year": 1967,
+      "note": "제12회"
+    },
+    {
+      "raw_title": "난장이가 쏘아올린 작은 공",
+      "raw_creator": "조세희",
+      "rank": null,
+      "year": 1979,
+      "note": "제13회"
+    },
+    {
+      "raw_title": "우리들의 날개",
+      "raw_creator": "전상국",
+      "rank": null,
+      "year": 1980,
+      "note": "제14회"
+    },
+    {
+      "raw_title": "금시조",
+      "raw_creator": "이문열",
+      "rank": null,
+      "year": 1982,
+      "note": "제15회 · 오정희와 공동 수상"
+    },
+    {
+      "raw_title": "동경",
+      "raw_creator": "오정희",
+      "rank": null,
+      "year": 1982,
+      "note": "제15회 · 이문열과 공동 수상"
+    },
+    {
+      "raw_title": "환멸을 찾아서",
+      "raw_creator": "김원일",
+      "rank": null,
+      "year": 1984,
+      "note": "제16회"
+    },
+    {
+      "raw_title": "아테네 가는 배",
+      "raw_creator": "정소성",
+      "rank": null,
+      "year": 1985,
+      "note": "제17회"
+    },
+    {
+      "raw_title": "어제 울린 총소리",
+      "raw_creator": "유재용",
+      "rank": null,
+      "year": 1987,
+      "note": "제18회"
+    },
+    {
+      "raw_title": "지옥에서 보낸 한철",
+      "raw_creator": "박영한",
+      "rank": null,
+      "year": 1988,
+      "note": "제19회"
+    },
+    {
+      "raw_title": "만취당기",
+      "raw_creator": "김문수",
+      "rank": null,
+      "year": 1989,
+      "note": "제20회"
+    },
+    {
+      "raw_title": "안개의 덫",
+      "raw_creator": "김향숙",
+      "rank": null,
+      "year": 1990,
+      "note": "제21회"
+    },
+    {
+      "raw_title": "방황하는 내국인",
+      "raw_creator": "김원우",
+      "rank": null,
+      "year": 1991,
+      "note": "제22회"
+    },
+    {
+      "raw_title": "회색 눈사람",
+      "raw_creator": "최윤",
+      "rank": null,
+      "year": 1992,
+      "note": "제23회"
+    },
+    {
+      "raw_title": "아름다운 얼굴",
+      "raw_creator": "송기원",
+      "rank": null,
+      "year": 1993,
+      "note": "제24회"
+    },
+    {
+      "raw_title": "나의 가장 나종 지니인 것",
+      "raw_creator": "박완서",
+      "rank": null,
+      "year": 1994,
+      "note": "제25회"
+    },
+    {
+      "raw_title": "슬픔의 노래",
+      "raw_creator": "정찬",
+      "rank": null,
+      "year": 1995,
+      "note": "제26회"
+    },
+    {
+      "raw_title": "수색, 어머니 가슴속으로 흐르는 무늬",
+      "raw_creator": "이순원",
+      "rank": null,
+      "year": 1996,
+      "note": "제27회"
+    },
+    {
+      "raw_title": "그는 언제 오는가",
+      "raw_creator": "신경숙",
+      "rank": null,
+      "year": 1997,
+      "note": "제28회"
+    },
+    {
+      "raw_title": "숨은 그림 찾기 1",
+      "raw_creator": "이윤기",
+      "rank": null,
+      "year": 1998,
+      "note": "제29회"
+    },
+    {
+      "raw_title": "곰팡이꽃",
+      "raw_creator": "하성란",
+      "rank": null,
+      "year": 1999,
+      "note": "제30회"
+    },
+    {
+      "raw_title": "내 몸은 너무 오래 서 있거나 걸어왔다",
+      "raw_creator": "이문구",
+      "rank": null,
+      "year": 2000,
+      "note": "제31회"
+    },
+    {
+      "raw_title": "칼의 노래",
+      "raw_creator": "김훈",
+      "rank": null,
+      "year": 2001,
+      "note": "제32회"
+    },
+    {
+      "raw_title": "황만근은 이렇게 말했다",
+      "raw_creator": "성석제",
+      "rank": null,
+      "year": 2002,
+      "note": "제33회"
+    },
+    {
+      "raw_title": "내가 아직 아이였을 때",
+      "raw_creator": "김연수",
+      "rank": null,
+      "year": 2003,
+      "note": "제34회"
+    },
+    {
+      "raw_title": "검은 꽃",
+      "raw_creator": "김영하",
+      "rank": null,
+      "year": 2004,
+      "note": "제35회"
+    },
+    {
+      "raw_title": "꽃게 무덤",
+      "raw_creator": "권지예",
+      "rank": null,
+      "year": 2005,
+      "note": "제36회"
+    },
+    {
+      "raw_title": "틈새",
+      "raw_creator": "이혜경",
+      "rank": null,
+      "year": 2006,
+      "note": "제37회"
+    },
+    {
+      "raw_title": "아름다움이 나를 멸시한다",
+      "raw_creator": "은희경",
+      "rank": null,
+      "year": 2007,
+      "note": "제38회"
+    },
+    {
+      "raw_title": "풍선을 샀어",
+      "raw_creator": "조경란",
+      "rank": null,
+      "year": 2008,
+      "note": "제39회"
+    },
+    {
+      "raw_title": "위험한 독서",
+      "raw_creator": "김경욱",
+      "rank": null,
+      "year": 2009,
+      "note": "제40회"
+    },
+    {
+      "raw_title": "안녕, 엘레나",
+      "raw_creator": "김인숙",
+      "rank": null,
+      "year": 2010,
+      "note": "제41회"
+    },
+    {
+      "raw_title": "저녁의 구애",
+      "raw_creator": "편혜영",
+      "rank": null,
+      "year": 2011,
+      "note": "제42회"
+    },
+    {
+      "raw_title": "어떤 작위의 세계",
+      "raw_creator": "정영문",
+      "rank": null,
+      "year": 2012,
+      "note": "제43회"
+    },
+    {
+      "raw_title": "지상의 노래",
+      "raw_creator": "이승우",
+      "rank": null,
+      "year": 2013,
+      "note": "제44회"
+    },
+    {
+      "raw_title": "별명의 달인",
+      "raw_creator": "구효서",
+      "rank": null,
+      "year": 2014,
+      "note": "제45회"
+    },
+    {
+      "raw_title": "가짜 팔로 하는 포옹",
+      "raw_creator": "김중혁",
+      "rank": null,
+      "year": 2015,
+      "note": "제46회"
+    },
+    {
+      "raw_title": "안녕 주정뱅이",
+      "raw_creator": "권여선",
+      "rank": null,
+      "year": 2016,
+      "note": "제47회"
+    },
+    {
+      "raw_title": "바깥은 여름",
+      "raw_creator": "김애란",
+      "rank": null,
+      "year": 2017,
+      "note": "제48회"
+    },
+    {
+      "raw_title": "누구에게나 친절한 교회 오빠 강민호",
+      "raw_creator": "이기호",
+      "rank": null,
+      "year": 2018,
+      "note": "제49회"
+    },
+    {
+      "raw_title": "독의 꽃",
+      "raw_creator": "최수철",
+      "rank": null,
+      "year": 2019,
+      "note": "제50회"
+    },
+    {
+      "raw_title": "떠도는 땅",
+      "raw_creator": "김숨",
+      "rank": null,
+      "year": 2020,
+      "note": "제51회"
+    },
+    {
+      "raw_title": "날마다 만우절",
+      "raw_creator": "윤성희",
+      "rank": null,
+      "year": 2021,
+      "note": "제52회"
+    },
+    {
+      "raw_title": "완벽한 생애",
+      "raw_creator": "조해진",
+      "rank": null,
+      "year": 2022,
+      "note": "제53회"
+    },
+    {
+      "raw_title": "아무것도 아닌 빛",
+      "raw_creator": "정영선",
+      "rank": null,
+      "year": 2023,
+      "note": "제54회"
+    },
+    {
+      "raw_title": "두 사람의 인터내셔널",
+      "raw_creator": "김기태",
+      "rank": null,
+      "year": 2024,
+      "note": "제55회"
+    },
+    {
+      "raw_title": "마산",
+      "raw_creator": "김기창",
+      "rank": null,
+      "year": 2025,
+      "note": "제56회 · 2025년 11월 12일 발표"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://ko.wikipedia.org/wiki/%EB%8F%99%EC%9D%B8%EB%AC%B8%ED%95%99%EC%83%81 (위키백과 '동인문학상' 문서 및 action=raw 원문) — 제1회~제55회 기본 목록",
+      "https://www.poemhouse.kr/hof/1833 (한국시문화회관 '역대 동인문학상 수상작') — 교차 확인용",
+      "https://namu.wiki/w/%EB%8F%99%EC%9D%B8%EB%AC%B8%ED%95%99%EC%83%81 (나무위키 '동인문학상') — 주관사 변천·중단 사유·수상 거부 논란·회차 대조",
+      "https://v.daum.net/v/20251112105256882 (다음뉴스, '마산 출신 김기창 소설가, 제56회 동인문학상 수상', 2025-11-12) — 제56회 확인",
+      "https://www.newshyu.com/news/articleView.html?idxno=1021296 (뉴스H, 김기창 동문 인터뷰) — 제56회 수상작 제목 재확인",
+      "https://v.daum.net/v/54ZiJzZvGE (조선일보 '[동인문학상] 5월 독회, 본심 후보작 심사평 전문' 다음 전재) — 심사 방식·심사위원 확인",
+      "https://www.chosun.com/tag/dongin-literary-award/ — 접속 차단으로 열지 못함(주관사 1차 자료 미확보)"
+    ],
+    "item_count": 58,
+    "year_range": "1956~2025",
+    "suspended_period": "1968~1978년 11년간 중단. 사상계가 박정희 정권 비판으로 경영난을 겪다 1970년 김지하의 시 '오적' 게재 필화로 폐간되면서 시상이 끊겼다(나무위키). 1979년 동서문화사가 이어받아 재개했고, 1986년에도 한 해 시상이 없었다. 1987년부터 김동인 유족의 요청으로 조선일보가 주관한다.",
+    "gaps": "제8회(1963년)는 당선작 없음이어서 항목에서 제외했다. 1981년과 1983년에도 시상 기록이 없어 제14회(1980) 다음이 제15회(1982), 그다음이 제16회(1984)로 이어진다. 1986년은 주관사 교체 사이의 공백이다. 이 여섯 해(1963, 1968~1978, 1981, 1983, 1986)를 빼면 제1회부터 제56회까지 회차가 끊김 없이 이어진다.",
+    "uncertainties": "① 한국시문화회관 목록은 위키백과·나무위키와 회차 배정이 어긋난다 — 이호철 《닳아지는 살들》을 제8회(1963)로, 김원일을 1985년, 정소성을 1986년으로 적었다. 두 출처가 일치하는 위키백과·나무위키를 따라 이호철·전광용을 제7회(1962) 공동 수상, 김원일 제16회(1984), 정소성 제17회(1985)로 정리했다. ② 제5회(1960) 서기원 《이 성숙한 밤의 포옹》은 위키백과에만 병기돼 있고 한국시문화회관 목록에는 이범선 《오발탄》만 실려 있다. 위키백과를 따라 두 편 모두 넣었다. ③ 박완서 수상작 표기는 《나의 가장 나종 지니인 것》으로 적었다(나무위키 확인). ④ 제54회 정영선 수상작은 위키백과 표에 《아무것도 아닌 빚》으로 적혀 있었으나, 남해타임즈·유튜브 보도 검색으로 《아무것도 아닌 빛》이 맞음을 확인해 바로잡았다. ⑤ 수상 거부·논란: 2000년 황석영이 한겨레 기고문 '동인문학상 후보작을 거부한다'로 후보를 거부했고, 2001년 공선옥이 언론권력과 문학권력의 결탁이라며 비판, 2003년 고종석도 같은 취지로 비판했다(나무위키). 이들 기고문 원문은 직접 열어 확인하지 못했다. ⑥ 조선일보 공식 태그 페이지는 접속이 차단돼 주관사 1차 자료로 대조하지 못했다."
+  }
+}

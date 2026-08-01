@@ -1,0 +1,746 @@
+{
+  "curator": {
+    "slug": "bbc",
+    "name": "BBC",
+    "name_en": "BBC",
+    "kind": "community",
+    "country": "GB",
+    "founded_year": 1922,
+    "homepage_url": "https://www.bbc.co.uk",
+    "description": "BBC는 1922년 설립된 영국의 공영방송이다. 텔레비전·라디오·온라인 서비스를 운영하며 영국 안팎에서 뉴스와 문화 프로그램을 내보낸다. 2003년 「The Big Read」처럼 시청자 참여형 대규모 투표 기획을 진행한 이력이 있다.",
+    "description_en": "The BBC is the United Kingdom's public service broadcaster, founded in 1922. It operates television, radio and online services in the UK and internationally. In 2003 it ran The Big Read, a year-long nationwide public vote to find the nation's best-loved novel."
+  },
+  "list": {
+    "slug": "bbc-big-read-top-100",
+    "title": "BBC 빅 리드 100",
+    "title_en": "BBC The Big Read Top 100",
+    "description": "2003년 4월 BBC가 영국 국민이 가장 사랑하는 소설을 찾겠다며 시작한 대중 투표다. 시리즈가 끝날 때까지 약 75만 표가 모였고, 1위는 J.R.R. 톨킨의 『반지의 제왕』, 2위는 제인 오스틴의 『오만과 편견』이었다. BBC는 1위부터 200위까지를 순위대로 공개했으며 이 목록은 그중 상위 100위다.",
+    "description_en": "The Big Read was a public vote launched by the BBC in April 2003 to find the United Kingdom's best-loved novel. Around three quarters of a million votes were received by the end of the television series, with J.R.R. Tolkien's The Lord of the Rings finishing first and Jane Austen's Pride and Prejudice second. The BBC published the full results in rank order from 1 to 200; this list covers the top 100.",
+    "published_year": 2003,
+    "edition": null,
+    "method": "2003년 4월 시작해 1년에 걸쳐 진행됐다. 시청자가 웹·문자메시지·전화로 좋아하는 소설을 자유롭게 지명해 200편 목록을 추렸고, 상위 21편을 결선 투표에 올렸다. 결선 21편은 저자 한 명당 한 작품만 오를 수 있었다. 희곡은 대상이 아니어서 셰익스피어 작품은 제외됐다. BBC 공식 페이지 기준 시리즈 종료 시점까지 약 75만 표가 접수됐다.",
+    "method_en": "The vote ran for a year from April 2003. The public nominated any novel they wished by web, SMS and telephone; from these nominations a list of 200 was drawn up, and the top 21 went forward to a further round of voting in which only one book per author was permitted. Plays were excluded, so Shakespeare's works were not part of the survey. The BBC's own site states that three quarters of a million votes were received by the end of the series.",
+    "source_url": "https://web.archive.org/web/20041230192841/http://www.bbc.co.uk/arts/bigread/top100.shtml",
+    "is_ranked": true,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "The Lord of the Rings",
+      "raw_creator": "JRR Tolkien",
+      "rank": 1,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Pride and Prejudice",
+      "raw_creator": "Jane Austen",
+      "rank": 2,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "His Dark Materials",
+      "raw_creator": "Philip Pullman",
+      "rank": 3,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Hitchhiker's Guide to the Galaxy",
+      "raw_creator": "Douglas Adams",
+      "rank": 4,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Harry Potter and the Goblet of Fire",
+      "raw_creator": "JK Rowling",
+      "rank": 5,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "To Kill a Mockingbird",
+      "raw_creator": "Harper Lee",
+      "rank": 6,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Winnie the Pooh",
+      "raw_creator": "AA Milne",
+      "rank": 7,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Nineteen Eighty-Four",
+      "raw_creator": "George Orwell",
+      "rank": 8,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Lion, the Witch and the Wardrobe",
+      "raw_creator": "CS Lewis",
+      "rank": 9,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Jane Eyre",
+      "raw_creator": "Charlotte Brontë",
+      "rank": 10,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Catch-22",
+      "raw_creator": "Joseph Heller",
+      "rank": 11,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Wuthering Heights",
+      "raw_creator": "Emily Brontë",
+      "rank": 12,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Birdsong",
+      "raw_creator": "Sebastian Faulks",
+      "rank": 13,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Rebecca",
+      "raw_creator": "Daphne du Maurier",
+      "rank": 14,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Catcher in the Rye",
+      "raw_creator": "JD Salinger",
+      "rank": 15,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Wind in the Willows",
+      "raw_creator": "Kenneth Grahame",
+      "rank": 16,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Great Expectations",
+      "raw_creator": "Charles Dickens",
+      "rank": 17,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Little Women",
+      "raw_creator": "Louisa May Alcott",
+      "rank": 18,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Captain Corelli's Mandolin",
+      "raw_creator": "Louis de Bernieres",
+      "rank": 19,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "War and Peace",
+      "raw_creator": "Leo Tolstoy",
+      "rank": 20,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Gone with the Wind",
+      "raw_creator": "Margaret Mitchell",
+      "rank": 21,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Harry Potter And The Philosopher's Stone",
+      "raw_creator": "JK Rowling",
+      "rank": 22,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Harry Potter And The Chamber Of Secrets",
+      "raw_creator": "JK Rowling",
+      "rank": 23,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Harry Potter And The Prisoner Of Azkaban",
+      "raw_creator": "JK Rowling",
+      "rank": 24,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Hobbit",
+      "raw_creator": "JRR Tolkien",
+      "rank": 25,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Tess Of The D'Urbervilles",
+      "raw_creator": "Thomas Hardy",
+      "rank": 26,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Middlemarch",
+      "raw_creator": "George Eliot",
+      "rank": 27,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Prayer For Owen Meany",
+      "raw_creator": "John Irving",
+      "rank": 28,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Grapes Of Wrath",
+      "raw_creator": "John Steinbeck",
+      "rank": 29,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Alice's Adventures In Wonderland",
+      "raw_creator": "Lewis Carroll",
+      "rank": 30,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Story Of Tracy Beaker",
+      "raw_creator": "Jacqueline Wilson",
+      "rank": 31,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "One Hundred Years Of Solitude",
+      "raw_creator": "Gabriel García Márquez",
+      "rank": 32,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Pillars Of The Earth",
+      "raw_creator": "Ken Follett",
+      "rank": 33,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "David Copperfield",
+      "raw_creator": "Charles Dickens",
+      "rank": 34,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Charlie And The Chocolate Factory",
+      "raw_creator": "Roald Dahl",
+      "rank": 35,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Treasure Island",
+      "raw_creator": "Robert Louis Stevenson",
+      "rank": 36,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Town Like Alice",
+      "raw_creator": "Nevil Shute",
+      "rank": 37,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Persuasion",
+      "raw_creator": "Jane Austen",
+      "rank": 38,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Dune",
+      "raw_creator": "Frank Herbert",
+      "rank": 39,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Emma",
+      "raw_creator": "Jane Austen",
+      "rank": 40,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Anne Of Green Gables",
+      "raw_creator": "LM Montgomery",
+      "rank": 41,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Watership Down",
+      "raw_creator": "Richard Adams",
+      "rank": 42,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Gatsby",
+      "raw_creator": "F Scott Fitzgerald",
+      "rank": 43,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Count Of Monte Cristo",
+      "raw_creator": "Alexandre Dumas",
+      "rank": 44,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Brideshead Revisited",
+      "raw_creator": "Evelyn Waugh",
+      "rank": 45,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Animal Farm",
+      "raw_creator": "George Orwell",
+      "rank": 46,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Christmas Carol",
+      "raw_creator": "Charles Dickens",
+      "rank": 47,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Far From The Madding Crowd",
+      "raw_creator": "Thomas Hardy",
+      "rank": 48,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Goodnight Mister Tom",
+      "raw_creator": "Michelle Magorian",
+      "rank": 49,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Shell Seekers",
+      "raw_creator": "Rosamunde Pilcher",
+      "rank": 50,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Secret Garden",
+      "raw_creator": "Frances Hodgson Burnett",
+      "rank": 51,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Of Mice And Men",
+      "raw_creator": "John Steinbeck",
+      "rank": 52,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Stand",
+      "raw_creator": "Stephen King",
+      "rank": 53,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Anna Karenina",
+      "raw_creator": "Leo Tolstoy",
+      "rank": 54,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Suitable Boy",
+      "raw_creator": "Vikram Seth",
+      "rank": 55,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The BFG",
+      "raw_creator": "Roald Dahl",
+      "rank": 56,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Swallows And Amazons",
+      "raw_creator": "Arthur Ransome",
+      "rank": 57,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Black Beauty",
+      "raw_creator": "Anna Sewell",
+      "rank": 58,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Artemis Fowl",
+      "raw_creator": "Eoin Colfer",
+      "rank": 59,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Crime And Punishment",
+      "raw_creator": "Fyodor Dostoyevsky",
+      "rank": 60,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Noughts And Crosses",
+      "raw_creator": "Malorie Blackman",
+      "rank": 61,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Memoirs Of A Geisha",
+      "raw_creator": "Arthur Golden",
+      "rank": 62,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "A Tale Of Two Cities",
+      "raw_creator": "Charles Dickens",
+      "rank": 63,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Thorn Birds",
+      "raw_creator": "Colleen McCollough",
+      "rank": 64,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Mort",
+      "raw_creator": "Terry Pratchett",
+      "rank": 65,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Magic Faraway Tree",
+      "raw_creator": "Enid Blyton",
+      "rank": 66,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Magus",
+      "raw_creator": "John Fowles",
+      "rank": 67,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Good Omens",
+      "raw_creator": "Terry Pratchett and Neil Gaiman",
+      "rank": 68,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Guards! Guards!",
+      "raw_creator": "Terry Pratchett",
+      "rank": 69,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Lord Of The Flies",
+      "raw_creator": "William Golding",
+      "rank": 70,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Perfume",
+      "raw_creator": "Patrick Süskind",
+      "rank": 71,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Ragged Trousered Philanthropists",
+      "raw_creator": "Robert Tressell",
+      "rank": 72,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Night Watch",
+      "raw_creator": "Terry Pratchett",
+      "rank": 73,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Matilda",
+      "raw_creator": "Roald Dahl",
+      "rank": 74,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Bridget Jones's Diary",
+      "raw_creator": "Helen Fielding",
+      "rank": 75,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Secret History",
+      "raw_creator": "Donna Tartt",
+      "rank": 76,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Woman In White",
+      "raw_creator": "Wilkie Collins",
+      "rank": 77,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Ulysses",
+      "raw_creator": "James Joyce",
+      "rank": 78,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Bleak House",
+      "raw_creator": "Charles Dickens",
+      "rank": 79,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Double Act",
+      "raw_creator": "Jacqueline Wilson",
+      "rank": 80,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Twits",
+      "raw_creator": "Roald Dahl",
+      "rank": 81,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "I Capture The Castle",
+      "raw_creator": "Dodie Smith",
+      "rank": 82,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Holes",
+      "raw_creator": "Louis Sachar",
+      "rank": 83,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Gormenghast",
+      "raw_creator": "Mervyn Peake",
+      "rank": 84,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The God Of Small Things",
+      "raw_creator": "Arundhati Roy",
+      "rank": 85,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Vicky Angel",
+      "raw_creator": "Jacqueline Wilson",
+      "rank": 86,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": 87,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Cold Comfort Farm",
+      "raw_creator": "Stella Gibbons",
+      "rank": 88,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Magician",
+      "raw_creator": "Raymond E Feist",
+      "rank": 89,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "On The Road",
+      "raw_creator": "Jack Kerouac",
+      "rank": 90,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Godfather",
+      "raw_creator": "Mario Puzo",
+      "rank": 91,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Clan Of The Cave Bear",
+      "raw_creator": "Jean M Auel",
+      "rank": 92,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Colour Of Magic",
+      "raw_creator": "Terry Pratchett",
+      "rank": 93,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Alchemist",
+      "raw_creator": "Paulo Coelho",
+      "rank": 94,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Katherine",
+      "raw_creator": "Anya Seton",
+      "rank": 95,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Kane And Abel",
+      "raw_creator": "Jeffrey Archer",
+      "rank": 96,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Love In The Time Of Cholera",
+      "raw_creator": "Gabriel García Márquez",
+      "rank": 97,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Girls In Love",
+      "raw_creator": "Jacqueline Wilson",
+      "rank": 98,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "The Princess Diaries",
+      "raw_creator": "Meg Cabot",
+      "rank": 99,
+      "year": null,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight's Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": 100,
+      "year": null,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://web.archive.org/web/20041230192841/http://www.bbc.co.uk/arts/bigread/top100.shtml",
+      "https://web.archive.org/web/20041230192841/http://www.bbc.co.uk/arts/bigread/top100_2.shtml",
+      "https://web.archive.org/web/20041230192841/http://www.bbc.co.uk/arts/bigread/top200.shtml",
+      "https://web.archive.org/web/20041230192841/http://www.bbc.co.uk/arts/bigread/index.shtml",
+      "https://en.wikipedia.org/wiki/The_Big_Read",
+      "https://en.wikipedia.org/w/index.php?title=The_Big_Read&action=raw",
+      "https://christchurchcitylibraries.com/Literature/Best/2003/BBC/"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "rank_101_200_form": "발주 지시의 전제와 다르다. 101~200위는 알파벳순이 아니라 순위대로 공개됐다. BBC 원본 페이지(top200.shtml)에 'all the rest of the results from number 101 to 200 in numerical order!'라고 명시돼 있고, 실제 목록도 101. Three Men In A Boat (Jerome K. Jerome), 102. Small Gods (Terry Pratchett), 103. The Beach (Alex Garland)... 순으로 번호가 매겨져 있다. 위키백과의 'Top 200 novels in the United Kingdom' 목록도 1~200을 끊김 없는 단일 순위로 싣고 있으며 101~200 구간이 BBC 원본과 일치한다. 다만 이 파일에는 지시대로 상위 100위만 담았다.",
+    "gaps": "없다. 1위부터 100위까지 빠진 번호도 중복된 번호도 없다(프로그램으로 검사).",
+    "uncertainties": "① 제목·저자는 BBC 원본 페이지 표기를 그대로 옮겼다. 원본에는 오탈자·약물 누락이 있다 — 64위 저자 'Colleen McCollough'는 실제로는 Colleen McCullough이고, 19위 'Louis de Bernieres'는 Louis de Bernières다. 41위는 'LM Montgomery', 43위는 'F Scott Fitzgerald'처럼 이니셜에 마침표가 없다. 위키백과는 이들을 표준 표기로 고쳐 싣는다. ② 61위 제목이 BBC 원본은 'Noughts And Crosses'인데 위키백과는 'Noughts & Crosses'로 표기한다. ③ 68위 저자 순서가 BBC 원본은 'Terry Pratchett and Neil Gaiman', 위키백과는 'Neil Gaiman and Terry Pratchett'로 서로 다르다. 이 파일은 모두 BBC 원본을 따랐다. ④ 총 득표수는 출처마다 표현이 다르다 — BBC 자사 페이지는 '3/4 백만 표', 위키백과는 '70만 표 이상'이라 적는다. ⑤ 발행 연도(year) 항목은 BBC가 공개하지 않았으므로 전부 비워 뒀다."
+  }
+}

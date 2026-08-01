@@ -1,0 +1,466 @@
+{
+  "curator": {
+    "slug": "booker-prize-foundation",
+    "name": "부커상 재단",
+    "name_en": "The Booker Prize Foundation",
+    "kind": "award",
+    "country": "GB",
+    "founded_year": 2002,
+    "homepage_url": "https://thebookerprizes.com",
+    "description": "영국에 등록된 자선단체(등록번호 1090049)로, 부커상과 부커 국제상을 운영한다. 2002년 부커상 운영권이 부커 맥코넬사에서 이 재단으로 넘어오며 설립됐다. 상 운영 외에도 교도소 독서 프로그램, 점자·오디오판 제작 지원, 번역가 지원 사업을 병행한다.",
+    "description_en": "A registered charity in England (no. 1090049) that administers the Booker Prize and the International Booker Prize. It was created in 2002, when administration of the prize passed from Booker, McConnell Ltd to the new Foundation. Alongside the prizes it runs a prison reading programme, funds Braille and audio editions, and supports translators and emerging writers."
+  },
+  "list": {
+    "slug": "booker-prize-winners",
+    "title": "부커상 수상작",
+    "title_en": "Booker Prize Winners",
+    "description": "1969년 영국에서 시작된 부커상은 영어로 쓰인 장편소설 한 편에 주는 상 가운데 세계에서 가장 영향력이 크다. 심사위원단이 그해 최고의 소설로 꼽은 작품에 매년 수여한다. 번역서를 대상으로 하는 부커 국제상과는 별개의 상이다.",
+    "description_en": "Founded in the UK in 1969, the Booker Prize is the world's most significant award for a single work of fiction. It is awarded annually to what the judges consider the best sustained work of fiction written in English and published in the UK and Ireland. It is a separate award from the International Booker Prize, which honours translated fiction.",
+    "published_year": null,
+    "edition": null,
+    "method": "부커상 재단이 매년 다섯 명의 심사위원단을 위촉한다. 응모는 출판사만 할 수 있고 작가나 에이전트는 직접 낼 수 없다. 대상은 영어로 처음 쓰인 장편소설로, 작가 국적은 상관없으나(2014년부터 개방) 영국 또는 아일랜드에서 출간돼야 한다. 심사는 13권 안팎의 1차 후보('부커 더즌') → 6권의 최종 후보 → 수상작 순으로 좁혀간다. 수상자는 5만 파운드를, 나머지 최종 후보는 각 2500파운드를 받는다.",
+    "method_en": "The Booker Prize Foundation appoints a panel of five judges each year. Only publishers may submit entries; authors and agents cannot enter directly. Eligible works must be long-form fiction written originally in English by an author of any nationality (open to all nationalities since 2014) and published in the UK and/or Ireland. Judging narrows a longlist of around 13 titles (the 'Booker Dozen') to a shortlist of six, and then to a single winner. The winner receives £50,000 and each of the other shortlisted authors receives £2,500.",
+    "source_url": "https://thebookerprizes.com/the-booker-library/features/full-list-of-booker-prize-winners-shortlisted-and-longlisted-authors",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "Something to Answer For",
+      "raw_creator": "P. H. Newby",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Elected Member",
+      "raw_creator": "Bernice Rubens",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "In a Free State",
+      "raw_creator": "V. S. Naipaul",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "G.",
+      "raw_creator": "John Berger",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Siege of Krishnapur",
+      "raw_creator": "J. G. Farrell",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Conservationist",
+      "raw_creator": "Nadine Gordimer",
+      "rank": null,
+      "year": 1974,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Holiday",
+      "raw_creator": "Stanley Middleton",
+      "rank": null,
+      "year": 1974,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Heat and Dust",
+      "raw_creator": "Ruth Prawer Jhabvala",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Saville",
+      "raw_creator": "David Storey",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Staying On",
+      "raw_creator": "Paul Scott",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "The Sea, the Sea",
+      "raw_creator": "Iris Murdoch",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Offshore",
+      "raw_creator": "Penelope Fitzgerald",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Rites of Passage",
+      "raw_creator": "William Golding",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight’s Children",
+      "raw_creator": "Salman Rushdie",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Schindler’s Ark",
+      "raw_creator": "Thomas Keneally",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Life and Times of Michael K",
+      "raw_creator": "J. M. Coetzee",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Hotel du Lac",
+      "raw_creator": "Anita Brookner",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "The Bone People",
+      "raw_creator": "Keri Hulme",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "The Old Devils",
+      "raw_creator": "Kingsley Amis",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Moon Tiger",
+      "raw_creator": "Penelope Lively",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Oscar and Lucinda",
+      "raw_creator": "Peter Carey",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "The Remains of the Day",
+      "raw_creator": "Kazuo Ishiguro",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Possession",
+      "raw_creator": "A. S. Byatt",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "The Famished Road",
+      "raw_creator": "Ben Okri",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "The English Patient",
+      "raw_creator": "Michael Ondaatje",
+      "rank": null,
+      "year": 1992,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Sacred Hunger",
+      "raw_creator": "Barry Unsworth",
+      "rank": null,
+      "year": 1992,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Paddy Clarke Ha Ha Ha",
+      "raw_creator": "Roddy Doyle",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "How late it was, how late",
+      "raw_creator": "James Kelman",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "The Ghost Road",
+      "raw_creator": "Pat Barker",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Last Orders",
+      "raw_creator": "Graham Swift",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "The God of Small Things",
+      "raw_creator": "Arundhati Roy",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Amsterdam",
+      "raw_creator": "Ian McEwan",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Disgrace",
+      "raw_creator": "J. M. Coetzee",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Blind Assassin",
+      "raw_creator": "Margaret Atwood",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "True History of the Kelly Gang",
+      "raw_creator": "Peter Carey",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Life of Pi",
+      "raw_creator": "Yann Martel",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Vernon God Little",
+      "raw_creator": "DBC Pierre",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Line of Beauty",
+      "raw_creator": "Alan Hollinghurst",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "The Sea",
+      "raw_creator": "John Banville",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Inheritance of Loss",
+      "raw_creator": "Kiran Desai",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Gathering",
+      "raw_creator": "Anne Enright",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The White Tiger",
+      "raw_creator": "Aravind Adiga",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Wolf Hall",
+      "raw_creator": "Hilary Mantel",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Finkler Question",
+      "raw_creator": "Howard Jacobson",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Sense of an Ending",
+      "raw_creator": "Julian Barnes",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Bring Up the Bodies",
+      "raw_creator": "Hilary Mantel",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Luminaries",
+      "raw_creator": "Eleanor Catton",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "The Narrow Road to the Deep North",
+      "raw_creator": "Richard Flanagan",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "A Brief History of Seven Killings",
+      "raw_creator": "Marlon James",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Sellout",
+      "raw_creator": "Paul Beatty",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Lincoln in the Bardo",
+      "raw_creator": "George Saunders",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Milkman",
+      "raw_creator": "Anna Burns",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Girl, Woman, Other",
+      "raw_creator": "Bernardine Evaristo",
+      "rank": null,
+      "year": 2019,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "The Testaments",
+      "raw_creator": "Margaret Atwood",
+      "rank": null,
+      "year": 2019,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Shuggie Bain",
+      "raw_creator": "Douglas Stuart",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "The Promise",
+      "raw_creator": "Damon Galgut",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Seven Moons of Maali Almeida",
+      "raw_creator": "Shehan Karunatilaka",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Prophet Song",
+      "raw_creator": "Paul Lynch",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Orbital",
+      "raw_creator": "Samantha Harvey",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "Flesh",
+      "raw_creator": "David Szalay",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://thebookerprizes.com/the-booker-library/features/full-list-of-booker-prize-winners-shortlisted-and-longlisted-authors (curl 200 — 수상작 전량의 1차 출처)",
+      "https://thebookerprizes.com/booker-prize (curl 200 — 상 개요·기원·수상자 목록·2026 일정)",
+      "https://thebookerprizes.com/booker-prize/enter-the-booker-prize (curl 200 — 응모 자격·심사 방식)",
+      "https://thebookerprizes.com/about-us (curl 200 — 재단 소개)",
+      "https://thebookerprizes.com/the-booker-library/features/booker-prize-winners (r.jina.ai 경유 — 2006~2025 대조 확인)",
+      "https://en.wikipedia.org/wiki/Booker_Prize (WebFetch — 전 연도 교차 대조)",
+      "https://en.wikipedia.org/wiki/Booker_Prize_Foundation (WebFetch — 재단 설립연도 2002, 심사위원 5인)"
+    ],
+    "item_count": 60,
+    "year_range": "1969 ~ 2025 (57개 연도, 빠진 해 없음)",
+    "joint_wins": "세 해가 공동 수상이다. 1974년 The Conservationist(Nadine Gordimer) + Holiday(Stanley Middleton), 1992년 The English Patient(Michael Ondaatje) + Sacred Hunger(Barry Unsworth), 2019년 Girl, Woman, Other(Bernardine Evaristo) + The Testaments(Margaret Atwood). 공식 사이트가 이 세 해만 'Winners'(복수)로 표기한다. 의뢰서에는 1974·1992만 적혀 있었으나 2019년도 실제 공동 수상이므로 포함했다.",
+    "gaps": "없다. 1969년부터 2025년까지 연속으로 모두 확인했다. 2026년은 2026년 7월 28일 1차 후보만 발표된 상태이고 수상작은 2026년 11월 9일 발표 예정이라 아직 없다(출처: thebookerprizes.com/booker-prize).",
+    "uncertainties": "제목 표기가 출처·페이지마다 다른 항목이 있다. 여기 담은 값은 모두 공식 사이트 전체 목록 페이지 표기를 따랐다. (1) 1994년 James Kelman — 전체 목록 페이지는 'How late it was, how late', 같은 사이트의 상 소개 페이지와 위키백과는 'How Late It Was, How Late'. (2) 1983년 J. M. Coetzee — 공식은 'Life and Times of Michael K', 위키백과는 'Life & Times of Michael K'. (3) 1985년 Keri Hulme — 공식은 'The Bone People'이나 원서는 소문자 'the bone people'로 조판된 판본이 있다. 저자명 표기도 페이지에 따라 'J. M. Coetzee'와 'J.M. Coetzee'처럼 마침표 간격이 갈린다. 수상 연도·작품·저자 자체가 출처 간에 어긋난 항목은 하나도 없었다."
+  }
+}

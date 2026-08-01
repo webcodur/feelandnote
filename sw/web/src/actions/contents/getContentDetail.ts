@@ -13,6 +13,8 @@ import {
   getFictionCharactersForContent,
   type FictionSourceCharacter,
 } from '@/actions/fiction/getFictionSources'
+import { getCuratedEntriesForContent } from '@/actions/library/curated'
+import type { ContentCuratedEntry } from '@/actions/library/types'
 import type { CategoryId } from '@/constants/categories'
 import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
@@ -47,6 +49,8 @@ export interface ContentDetailData {
   isLoggedIn: boolean
   initialReviews: ReviewFeedItem[]
   fictionCharacters: FictionSourceCharacter[]
+  /** 이 작품을 뽑은 기관·목록 (대학 필독서·언론 선정·수상 이력) */
+  curatedEntries: ContentCuratedEntry[]
 }
 // #endregion
 
@@ -248,9 +252,10 @@ async function getContentDetailInner(
     throw new Error('콘텐츠를 찾을 수 없습니다')
   }
 
-  const [initialReviews, fictionCharacters] = await Promise.all([
+  const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([
     reviewsPromise,
     getFictionCharactersForContent(content.id, locale),
+    getCuratedEntriesForContent(content.id, locale),
   ])
 
   return {
@@ -259,5 +264,6 @@ async function getContentDetailInner(
     isLoggedIn: !!profile,
     initialReviews,
     fictionCharacters,
+    curatedEntries,
   }
 }

@@ -1,0 +1,575 @@
+{
+  "curator": {
+    "slug": "hugo-awards",
+    "name": "휴고상",
+    "name_en": "The Hugo Awards",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1953,
+    "homepage_url": "https://www.thehugoawards.org",
+    "description": "세계SF협회(World Science Fiction Society)가 주관하는 SF·판타지 분야 최고 권위의 상이다. SF 잡지 《어메이징 스토리스》를 창간한 휴고 건즈백의 이름을 땄고, 1953년 제11회 월드콘(필라델피아)에서 처음 시상했다. 심사위원이 아니라 월드콘 회원들이 직접 후보를 올리고 투표해 수상작을 정한다는 점에서 다른 문학상과 구별된다.",
+    "description_en": "Administered by the World Science Fiction Society, the Hugo Awards are the most prestigious honours in science fiction and fantasy. They are named after Hugo Gernsback, founder of the pioneering magazine Amazing Stories, and were first presented at the 11th Worldcon in Philadelphia in 1953. Unlike juried literary prizes, the Hugos are nominated and voted on directly by the members of the World Science Fiction Convention."
+  },
+  "list": {
+    "slug": "hugo-best-novel",
+    "title": "휴고상 장편소설 수상작",
+    "title_en": "Hugo Award for Best Novel",
+    "description": "휴고상의 여러 부문 가운데 가장 주목받는 장편소설 부문 수상작을 모았다. 4만 단어 이상의 SF·판타지 장편이 대상이며, 전년도에 발표된 작품을 두고 매년 시상한다. 1953년 앨프리드 베스터의 《파괴된 사나이》부터 시작해 뒤네·뉴로맨서·엔더의 게임 등 장르의 뼈대가 된 작품들이 이 목록에 있다.",
+    "description_en": "The Best Novel category is the most closely watched of the Hugo Awards. It honours a work of science fiction or fantasy of forty thousand words or more, published in the previous calendar year. Beginning with Alfred Bester's The Demolished Man in 1953, the list gathers many of the books that defined the genre, among them Dune, Neuromancer and Ender's Game.",
+    "published_year": null,
+    "edition": null,
+    "method": "월드콘(세계SF대회) 회원이 직접 뽑는다. 회원은 부문마다 최대 다섯 편까지 후보를 추천하고, 최다 득표 여섯 편(최종 순위 동률이면 그 이상)이 최종 후보가 된다. 최종 투표는 선호순위를 매기는 즉석결선투표(instant-runoff voting) 방식이며, 각 부문에는 \"수상작 없음(No Award)\" 선택지가 일반 후보처럼 함께 놓인다. 집계는 그해 월드콘의 휴고 운영자가 맡는다. 1959년부터 추천과 최종 투표를 나눈 2단계 방식이 자리 잡았다.",
+    "method_en": "Winners are chosen by the members of the World Science Fiction Convention. Each member may nominate up to five entries per category, and the six works with the highest nominating totals (more in the event of a tie for the final slot) become the finalists. The final ballot uses instant-runoff voting, with members ranking the finalists in order of preference; a \"No Award\" option appears on every ballot and competes as an ordinary finalist. Ballots are tallied by the Hugo Administrator of that year's Worldcon. The two-stage nominating-and-voting process has been in place since 1959.",
+    "source_url": "https://www.thehugoawards.org/hugo-history/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "sf"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Demolished Man",
+      "raw_creator": "Alfred Bester",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "They'd Rather Be Right",
+      "raw_creator": "Mark Clifton and Frank Riley",
+      "rank": null,
+      "year": 1955,
+      "note": "공동 집필작. 공식 페이지 표기 \"They'd Rather Be Right by Mark Clifton and Frank Riley [Astounding Aug,Sep,Oct,Nov 1954]\""
+    },
+    {
+      "raw_title": "Double Star",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "The Big Time",
+      "raw_creator": "Fritz Leiber",
+      "rank": null,
+      "year": 1958,
+      "note": "이 해의 공식 부문명은 \"Best Novel or Novelette\"였다. 공식 페이지에 그렇게 인쇄돼 있다."
+    },
+    {
+      "raw_title": "A Case of Conscience",
+      "raw_creator": "James Blish",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Starship Troopers",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": null,
+      "year": 1960,
+      "note": "공식 페이지 표기 \"Starship Troopers (alt: Starship Soldier)\". 잡지 연재 제목이 Starship Soldier였다."
+    },
+    {
+      "raw_title": "A Canticle for Leibowitz",
+      "raw_creator": "Walter M. Miller, Jr.",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Stranger in a Strange Land",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "The Man in the High Castle",
+      "raw_creator": "Philip K. Dick",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "Way Station",
+      "raw_creator": "Clifford D. Simak",
+      "rank": null,
+      "year": 1964,
+      "note": "공식 페이지 표기 \"Here Gather the Stars (alt: Way Station)\". 잡지 연재 제목이 Here Gather the Stars였다."
+    },
+    {
+      "raw_title": "The Wanderer",
+      "raw_creator": "Fritz Leiber",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "Dune",
+      "raw_creator": "Frank Herbert",
+      "rank": null,
+      "year": 1966,
+      "note": "공동 수상(tie). 공식 페이지에 \"(tie)\"로 명시."
+    },
+    {
+      "raw_title": "This Immortal",
+      "raw_creator": "Roger Zelazny",
+      "rank": null,
+      "year": 1966,
+      "note": "공동 수상(tie). 공식 페이지 표기 \"…And Call Me Conrad (alt: This Immortal)\"."
+    },
+    {
+      "raw_title": "The Moon Is a Harsh Mistress",
+      "raw_creator": "Robert A. Heinlein",
+      "rank": null,
+      "year": 1967,
+      "note": "공식 페이지는 \"The Moon is a Harsh Mistress\"로 인쇄."
+    },
+    {
+      "raw_title": "Lord of Light",
+      "raw_creator": "Roger Zelazny",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Stand on Zanzibar",
+      "raw_creator": "John Brunner",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Left Hand of Darkness",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Ringworld",
+      "raw_creator": "Larry Niven",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "To Your Scattered Bodies Go",
+      "raw_creator": "Philip José Farmer",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Gods Themselves",
+      "raw_creator": "Isaac Asimov",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Rendezvous with Rama",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": null,
+      "year": 1974,
+      "note": "공식 페이지는 \"Rendezvous With Rama\"로 인쇄."
+    },
+    {
+      "raw_title": "The Dispossessed",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "The Forever War",
+      "raw_creator": "Joe Haldeman",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Where Late the Sweet Birds Sang",
+      "raw_creator": "Kate Wilhelm",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Gateway",
+      "raw_creator": "Frederik Pohl",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Dreamsnake",
+      "raw_creator": "Vonda N. McIntyre",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Fountains of Paradise",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "The Snow Queen",
+      "raw_creator": "Joan D. Vinge",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Downbelow Station",
+      "raw_creator": "C. J. Cherryh",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Foundation's Edge",
+      "raw_creator": "Isaac Asimov",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Startide Rising",
+      "raw_creator": "David Brin",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Neuromancer",
+      "raw_creator": "William Gibson",
+      "rank": null,
+      "year": 1985,
+      "note": "공식 사이트의 1985년 페이지 주소가 1995-hugo-awards-2로 잘못 붙어 있다. 해당 페이지 제목은 \"1985 Hugo Awards\", 시상은 Aussiecon Two(멜버른, 1985-08-22~26)."
+    },
+    {
+      "raw_title": "Ender's Game",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Speaker for the Dead",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Uplift War",
+      "raw_creator": "David Brin",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Cyteen",
+      "raw_creator": "C. J. Cherryh",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Hyperion",
+      "raw_creator": "Dan Simmons",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "The Vor Game",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Barrayar",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "A Fire Upon the Deep",
+      "raw_creator": "Vernor Vinge",
+      "rank": null,
+      "year": 1993,
+      "note": "공동 수상(tie). 공식 페이지에 \"(tie)\"로 명시."
+    },
+    {
+      "raw_title": "Doomsday Book",
+      "raw_creator": "Connie Willis",
+      "rank": null,
+      "year": 1993,
+      "note": "공동 수상(tie). 공식 페이지에 \"(tie)\"로 명시."
+    },
+    {
+      "raw_title": "Green Mars",
+      "raw_creator": "Kim Stanley Robinson",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Mirror Dance",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "The Diamond Age",
+      "raw_creator": "Neal Stephenson",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Blue Mars",
+      "raw_creator": "Kim Stanley Robinson",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Forever Peace",
+      "raw_creator": "Joe Haldeman",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "To Say Nothing of the Dog",
+      "raw_creator": "Connie Willis",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "A Deepness in the Sky",
+      "raw_creator": "Vernor Vinge",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Harry Potter and the Goblet of Fire",
+      "raw_creator": "J. K. Rowling",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "American Gods",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Hominids",
+      "raw_creator": "Robert J. Sawyer",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Paladin of Souls",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Jonathan Strange & Mr Norrell",
+      "raw_creator": "Susanna Clarke",
+      "rank": null,
+      "year": 2005,
+      "note": "공식 페이지는 \"Jonathan Strange & Mr. Norrell\"(Mr 뒤 마침표)로 인쇄. 원서 표지 표기는 마침표 없음."
+    },
+    {
+      "raw_title": "Spin",
+      "raw_creator": "Robert Charles Wilson",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Rainbows End",
+      "raw_creator": "Vernor Vinge",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Yiddish Policemen's Union",
+      "raw_creator": "Michael Chabon",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The Graveyard Book",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The City & The City",
+      "raw_creator": "China Miéville",
+      "rank": null,
+      "year": 2010,
+      "note": "공동 수상(tie). 공식 페이지에 \"(tie)\"로 명시."
+    },
+    {
+      "raw_title": "The Windup Girl",
+      "raw_creator": "Paolo Bacigalupi",
+      "rank": null,
+      "year": 2010,
+      "note": "공동 수상(tie). 공식 페이지에 \"(tie)\"로 명시."
+    },
+    {
+      "raw_title": "Blackout/All Clear",
+      "raw_creator": "Connie Willis",
+      "rank": null,
+      "year": 2011,
+      "note": "두 권으로 나뉘어 출간된 한 편의 장편으로 함께 수상."
+    },
+    {
+      "raw_title": "Among Others",
+      "raw_creator": "Jo Walton",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Redshirts: A Novel with Three Codas",
+      "raw_creator": "John Scalzi",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Ancillary Justice",
+      "raw_creator": "Ann Leckie",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "The Three-Body Problem",
+      "raw_creator": "Cixin Liu",
+      "rank": null,
+      "year": 2015,
+      "note": "켄 리우(Ken Liu) 영역. 중국어 원작은 2008년 출간이나 2014년 영역본 출간으로 수상 자격이 생겼다고 공식 페이지가 밝힌다. 공식 페이지는 \"The Three Body Problem\"으로 인쇄."
+    },
+    {
+      "raw_title": "The Fifth Season",
+      "raw_creator": "N. K. Jemisin",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Obelisk Gate",
+      "raw_creator": "N. K. Jemisin",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Stone Sky",
+      "raw_creator": "N. K. Jemisin",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Calculating Stars",
+      "raw_creator": "Mary Robinette Kowal",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "A Memory Called Empire",
+      "raw_creator": "Arkady Martine",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Network Effect",
+      "raw_creator": "Martha Wells",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "A Desolation Called Peace",
+      "raw_creator": "Arkady Martine",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Nettle & Bone",
+      "raw_creator": "T. Kingfisher",
+      "rank": null,
+      "year": 2023,
+      "note": "공식 페이지 표기는 필명 T. Kingfisher. 본명은 Ursula Vernon."
+    },
+    {
+      "raw_title": "Some Desperate Glory",
+      "raw_creator": "Emily Tesh",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "The Tainted Cup",
+      "raw_creator": "Robert Jackson Bennett",
+      "rank": null,
+      "year": 2025,
+      "note": "2025-08-16 시애틀 월드콘에서 발표."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.thehugoawards.org/hugo-history/ (연도별 색인)",
+      "https://www.thehugoawards.org/hugo-history/YYYY-hugo-awards/ — 1953, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966~1984, 1986~2026 전 연도 개별 확인",
+      "https://www.thehugoawards.org/hugo-history/1995-hugo-awards-2/ (실제로는 1985년 페이지. 공식 색인이 1985년에 이 주소를 연결한다)",
+      "https://www.thehugoawards.org/hugo-history/1954-hugo-awards/ (HTTP 404 — 1954년 정규 시상 없음을 확인)",
+      "https://www.thehugoawards.org/the-voting-system/",
+      "https://www.thehugoawards.org/hugo-categories/",
+      "https://www.thehugoawards.org/hugo-history/a-short-history-of-the-hugo-awards-process/",
+      "https://en.wikipedia.org/wiki/Hugo_Award_for_Best_Novel (교차 대조)",
+      "https://en.wikipedia.org/w/index.php?title=Hugo_Award_for_Best_Novel&action=raw (교차 대조, 2011~2025 구간)",
+      "https://en.wikipedia.org/wiki/Hugo_Award (상 명칭 유래·1954년 미시상 배경)"
+    ],
+    "item_count": 74,
+    "year_range": "1953–2025",
+    "no_award_years": [
+      1954,
+      1957
+    ],
+    "joint_wins": "공동 수상 3회. 1966년 Dune(Frank Herbert) / This Immortal(Roger Zelazny), 1993년 A Fire Upon the Deep(Vernor Vinge) / Doomsday Book(Connie Willis), 2010년 The City & The City(China Miéville) / The Windup Girl(Paolo Bacigalupi). 세 해 모두 공식 페이지에 \"(tie)\"가 인쇄돼 있으며 각각 두 항목으로 수록했다.",
+    "retro_hugo_excluded": "공식 연도별 색인은 소급 수여(Retro-Hugo) 연도를 1939·1941·1943~1946·1951·1954로 따로 묶어 별도 링크로 제공한다. 이 목록은 정규 연도 페이지(/hugo-history/YYYY-hugo-awards/)만 열어 수집했고 Retro-Hugo 링크는 열지 않았다. 1954년 정규 페이지는 404이며 그 해에 존재하는 것은 소급 수여뿐이므로 항목에 넣지 않고 미시상 연도로만 기록했다.",
+    "gaps": "2026년 수상작은 아직 없다. 2026년 공식 페이지는 최종 후보 6편만 싣고 \"Voting on the final ballot will open in early May 2026\", \"Only LAcon V WSFS members will be able to vote on the final ballot and choose the winners\"라고 적고 있다. 따라서 확인된 최신 수상 연도는 2025년(The Tainted Cup)이며, 2026년 발표 후 항목 추가가 필요하다.",
+    "uncertainties": "① 공식 연도 페이지는 수상작을 목록 맨 앞에 놓고 HTML에서 class=\"winner\" 속성으로 표시한다. 이 표시는 본문을 일반 텍스트로 변환하면 사라져 \"후보만 있고 수상작 표시가 없는\" 것처럼 보인다. 1953~1965 구간은 원본 HTML의 class=\"winner\"를 직접 확인해 판정했고, 나머지 연도는 게재 순서와 위키백과 목록 대조로 확인했다(불일치 없음). 1966·1993·2010은 공식 페이지에 \"(tie)\"가 별도로 인쇄돼 있다. ② 제목 표기가 공식 페이지와 통용 표기 사이에서 갈리는 항목(1960·1964·1966·1967·1974·2005·2015)은 통용 표기를 raw_title에 넣고 공식 인쇄 표기를 note에 남겼다. ③ 1958년 부문명은 \"Best Novel or Novelette\"였으나 공식·위키백과 모두 장편 부문 계보에 포함시키므로 함께 수록했다. ④ 저자명 표기는 공식 페이지를 따랐다(2015년 Cixin Liu, 2023년 T. Kingfisher). 위키백과는 각각 Liu Cixin, Ursula Vernon으로 적는다."
+  }
+}

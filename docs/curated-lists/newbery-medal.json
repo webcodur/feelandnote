@@ -1,0 +1,784 @@
+{
+  "curator": {
+    "slug": "american-library-association",
+    "name": "미국도서관협회",
+    "name_en": "American Library Association",
+    "kind": "library",
+    "country": "US",
+    "founded_year": 1876,
+    "homepage_url": "https://www.ala.org",
+    "description": "미국도서관협회는 미국의 도서관과 사서를 대표하는 단체다. 산하 어린이도서관서비스협회(ALSC)를 통해 뉴베리상과 칼데콧상을 비롯한 주요 아동문학상을 운영한다. 해마다 1월에 열리는 청소년미디어상 발표에서 수상작을 공개한다.",
+    "description_en": "The American Library Association represents libraries and library workers in the United States. Through its Association for Library Service to Children (ALSC) division, it administers the major American children's book awards, including the Newbery and Caldecott Medals. Winners are revealed each January at the association's Youth Media Awards announcements."
+  },
+  "list": {
+    "slug": "newbery-medal",
+    "title": "뉴베리상 수상작",
+    "title_en": "Newbery Medal Winners",
+    "description": "뉴베리상은 1922년에 시작된 세계 최초의 아동문학상이다. 미국 아동문학에 가장 뛰어나게 기여한 작가에게 해마다 한 편씩 수여하며, 수상작은 미국 전역의 도서관과 학교에서 아동문학의 기준으로 다뤄진다. 18세기 영국의 서적상 존 뉴베리의 이름을 땄다.",
+    "description_en": "Established in 1922, the Newbery Medal was the first children's book award in the world. It is given annually to the author of the most distinguished contribution to American literature for children, and its winners serve as a benchmark for children's literature in libraries and schools across the United States. The medal is named after the eighteenth-century British bookseller John Newbery.",
+    "published_year": null,
+    "edition": null,
+    "method": "미국도서관협회 산하 어린이도서관서비스협회의 선정위원회가 전해에 미국 출판사가 미국에서 영어로 펴낸 아동서를 심사한다. 주제 해석, 구성, 인물, 배경, 문체 등 문학적 완성도를 기준으로 삼으며 교훈성이나 대중적 인기는 평가에 넣지 않는다. 저자는 미국 시민이거나 미국 거주자여야 하고 대상 독자는 14세 이하이며, 재판본·선집·축약본은 제외한다. 위원들은 각자 책을 읽은 뒤 연 2회 비공개로 모여 토론하며, 결과는 매년 1월 협회 행사에서 발표한다.",
+    "method_en": "A selection committee of the ALA's Association for Library Service to Children reviews children's books published in English in the United States by an American publisher during the preceding year. Books are judged on literary quality — interpretation of theme, plot development, delineation of characters, setting, and appropriateness of style — rather than on didactic content or popularity. Authors must be U.S. citizens or residents, the intended audience runs up to age fourteen, and reprints, compilations, and abridgements are ineligible. Members read independently, meet twice a year for closed discussions, and the results are announced each January at an ALA conference.",
+    "source_url": "https://www.ala.org/sites/default/files/alsc/content/awardsgrants/bookmedia/newberymedal/newbery-medals-honors-1922-present.pdf",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "children"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Story of Mankind",
+      "raw_creator": "Hendrik Willem van Loon",
+      "rank": null,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "The Voyages of Doctor Dolittle",
+      "raw_creator": "Hugh Lofting",
+      "rank": null,
+      "year": 1923,
+      "note": null
+    },
+    {
+      "raw_title": "The Dark Frigate",
+      "raw_creator": "Charles Hawes",
+      "rank": null,
+      "year": 1924,
+      "note": null
+    },
+    {
+      "raw_title": "Tales from Silver Lands",
+      "raw_creator": "Charles Finger",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Shen of the Sea",
+      "raw_creator": "Arthur Bowie Chrisman",
+      "rank": null,
+      "year": 1926,
+      "note": null
+    },
+    {
+      "raw_title": "Smoky, the Cowhorse",
+      "raw_creator": "Will James",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "Gay Neck, the Story of a Pigeon",
+      "raw_creator": "Dhan Gopal Mukerji",
+      "rank": null,
+      "year": 1928,
+      "note": null
+    },
+    {
+      "raw_title": "The Trumpeter of Krakow",
+      "raw_creator": "Eric P. Kelly",
+      "rank": null,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "Hitty, Her First Hundred Years",
+      "raw_creator": "Rachel Field",
+      "rank": null,
+      "year": 1930,
+      "note": null
+    },
+    {
+      "raw_title": "The Cat Who Went to Heaven",
+      "raw_creator": "Elizabeth Coatsworth",
+      "rank": null,
+      "year": 1931,
+      "note": null
+    },
+    {
+      "raw_title": "Waterless Mountain",
+      "raw_creator": "Laura Adams Armer",
+      "rank": null,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "Young Fu of the Upper Yangtze",
+      "raw_creator": "Elizabeth Lewis",
+      "rank": null,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Invincible Louisa: The Story of the Author of Little Women",
+      "raw_creator": "Cornelia Meigs",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Dobry",
+      "raw_creator": "Monica Shannon",
+      "rank": null,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "Caddie Woodlawn",
+      "raw_creator": "Carol Ryrie Brink",
+      "rank": null,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "Roller Skates",
+      "raw_creator": "Ruth Sawyer",
+      "rank": null,
+      "year": 1937,
+      "note": null
+    },
+    {
+      "raw_title": "The White Stag",
+      "raw_creator": "Kate Seredy",
+      "rank": null,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "Thimble Summer",
+      "raw_creator": "Elizabeth Enright",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Daniel Boone",
+      "raw_creator": "James Daugherty",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "Call It Courage",
+      "raw_creator": "Armstrong Sperry",
+      "rank": null,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "The Matchlock Gun",
+      "raw_creator": "Walter Edmonds",
+      "rank": null,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Adam of the Road",
+      "raw_creator": "Elizabeth Janet Gray",
+      "rank": null,
+      "year": 1943,
+      "note": null
+    },
+    {
+      "raw_title": "Johnny Tremain",
+      "raw_creator": "Esther Forbes",
+      "rank": null,
+      "year": 1944,
+      "note": null
+    },
+    {
+      "raw_title": "Rabbit Hill",
+      "raw_creator": "Robert Lawson",
+      "rank": null,
+      "year": 1945,
+      "note": null
+    },
+    {
+      "raw_title": "Strawberry Girl",
+      "raw_creator": "Lois Lenski",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "Miss Hickory",
+      "raw_creator": "Carolyn Sherwin Bailey",
+      "rank": null,
+      "year": 1947,
+      "note": null
+    },
+    {
+      "raw_title": "The Twenty-One Balloons",
+      "raw_creator": "William Pène du Bois",
+      "rank": null,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "King of the Wind",
+      "raw_creator": "Marguerite Henry",
+      "rank": null,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "The Door in the Wall",
+      "raw_creator": "Marguerite de Angeli",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "Amos Fortune, Free Man",
+      "raw_creator": "Elizabeth Yates",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "Ginger Pye",
+      "raw_creator": "Eleanor Estes",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "Secret of the Andes",
+      "raw_creator": "Ann Nolan Clark",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "...And Now Miguel",
+      "raw_creator": "Joseph Krumgold",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "The Wheel on the School",
+      "raw_creator": "Meindert DeJong",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Carry On, Mr. Bowditch",
+      "raw_creator": "Jean Lee Latham",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "Miracles on Maple Hill",
+      "raw_creator": "Virginia Sorensen",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "Rifles for Watie",
+      "raw_creator": "Harold Keith",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Witch of Blackbird Pond",
+      "raw_creator": "Elizabeth George Speare",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Onion John",
+      "raw_creator": "Joseph Krumgold",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Island of the Blue Dolphins",
+      "raw_creator": "Scott O'Dell",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Bronze Bow",
+      "raw_creator": "Elizabeth George Speare",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "A Wrinkle in Time",
+      "raw_creator": "Madeleine L'Engle",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "It's Like This, Cat",
+      "raw_creator": "Emily Neville",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "Shadow of a Bull",
+      "raw_creator": "Maia Wojciechowska",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "I, Juan de Pareja",
+      "raw_creator": "Elizabeth Borton de Trevino",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Up a Road Slowly",
+      "raw_creator": "Irene Hunt",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "From the Mixed-Up Files of Mrs. Basil E. Frankweiler",
+      "raw_creator": "E. L. Konigsburg",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "The High King",
+      "raw_creator": "Lloyd Alexander",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Sounder",
+      "raw_creator": "William H. Armstrong",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Summer of the Swans",
+      "raw_creator": "Betsy Byars",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Mrs. Frisby and the Rats of NIMH",
+      "raw_creator": "Robert C. O'Brien",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Julie of the Wolves",
+      "raw_creator": "Jean Craighead George",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Slave Dancer",
+      "raw_creator": "Paula Fox",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "M. C. Higgins, the Great",
+      "raw_creator": "Virginia Hamilton",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "The Grey King",
+      "raw_creator": "Susan Cooper",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Roll of Thunder, Hear My Cry",
+      "raw_creator": "Mildred D. Taylor",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Bridge to Terabithia",
+      "raw_creator": "Katherine Paterson",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "The Westing Game",
+      "raw_creator": "Ellen Raskin",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "A Gathering of Days: A New England Girl's Journal, 1830-1832",
+      "raw_creator": "Joan W. Blos",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Jacob Have I Loved",
+      "raw_creator": "Katherine Paterson",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "A Visit to William Blake's Inn: Poems for Innocent and Experienced Travelers",
+      "raw_creator": "Nancy Willard",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Dicey's Song",
+      "raw_creator": "Cynthia Voigt",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Dear Mr. Henshaw",
+      "raw_creator": "Beverly Cleary",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "The Hero and the Crown",
+      "raw_creator": "Robin McKinley",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Sarah, Plain and Tall",
+      "raw_creator": "Patricia MacLachlan",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "The Whipping Boy",
+      "raw_creator": "Sid Fleischman",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Lincoln: A Photobiography",
+      "raw_creator": "Russell Freedman",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Joyful Noise: Poems for Two Voices",
+      "raw_creator": "Paul Fleischman",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Number the Stars",
+      "raw_creator": "Lois Lowry",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Maniac Magee",
+      "raw_creator": "Jerry Spinelli",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Shiloh",
+      "raw_creator": "Phyllis Reynolds Naylor",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Missing May",
+      "raw_creator": "Cynthia Rylant",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Giver",
+      "raw_creator": "Lois Lowry",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Walk Two Moons",
+      "raw_creator": "Sharon Creech",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "The Midwife's Apprentice",
+      "raw_creator": "Karen Cushman",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "The View from Saturday",
+      "raw_creator": "E.L. Konigsburg",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Out of the Dust",
+      "raw_creator": "Karen Hesse",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Holes",
+      "raw_creator": "Louis Sachar",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Bud, Not Buddy",
+      "raw_creator": "Christopher Paul Curtis",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "A Year Down Yonder",
+      "raw_creator": "Richard Peck",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "A Single Shard",
+      "raw_creator": "Linda Sue Park",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Crispin: The Cross of Lead",
+      "raw_creator": "Avi",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Tale of Despereaux: Being the Story of a Mouse, a Princess, Some Soup, and a Spool of Thread",
+      "raw_creator": "Kate DiCamillo",
+      "rank": null,
+      "year": 2004,
+      "note": "illustrated by Timothy Basil Ering"
+    },
+    {
+      "raw_title": "Kira-Kira",
+      "raw_creator": "Cynthia Kadohata",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Criss Cross",
+      "raw_creator": "Lynne Rae Perkins",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Higher Power of Lucky",
+      "raw_creator": "Susan Patron",
+      "rank": null,
+      "year": 2007,
+      "note": "illustrated by Matt Phelan"
+    },
+    {
+      "raw_title": "Good Masters! Sweet Ladies! Voices from a Medieval Village",
+      "raw_creator": "Laura Amy Schlitz",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The Graveyard Book",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2009,
+      "note": "illustrated by Dave McKean"
+    },
+    {
+      "raw_title": "When You Reach Me",
+      "raw_creator": "Rebecca Stead",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Moon over Manifest",
+      "raw_creator": "Clare Vanderpool",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Dead End in Norvelt",
+      "raw_creator": "Jack Gantos",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The One and Only Ivan",
+      "raw_creator": "Katherine Applegate",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Flora & Ulysses: The Illuminated Adventures",
+      "raw_creator": "Kate DiCamillo",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "The Crossover",
+      "raw_creator": "Kwame Alexander",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Last Stop on Market Street",
+      "raw_creator": "Matt de la Peña",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Girl Who Drank the Moon",
+      "raw_creator": "Kelly Barnhill",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Hello, Universe",
+      "raw_creator": "Erin Entrada Kelly",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Merci Suárez Changes Gears",
+      "raw_creator": "Meg Medina",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "New Kid",
+      "raw_creator": "Jerry Craft",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "When You Trap a Tiger",
+      "raw_creator": "Tae Keller",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Last Cuentista",
+      "raw_creator": "Donna Barba Higuera",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Freewater",
+      "raw_creator": "Amina Luqman-Dawson",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "The Eyes and the Impossible",
+      "raw_creator": "Dave Eggers",
+      "rank": null,
+      "year": 2024,
+      "note": "illustrated by Shawn Harris"
+    },
+    {
+      "raw_title": "The First State of Being",
+      "raw_creator": "Erin Entrada Kelly",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "All the Blues in the Sky",
+      "raw_creator": "Renée Watson",
+      "rank": null,
+      "year": 2026,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.ala.org/sites/default/files/alsc/content/awardsgrants/bookmedia/newberymedal/newbery-medals-honors-1922-present.pdf — ALA/ALSC 공식 PDF 'Newbery Medal Winners & Honor Books, 1922 – Present' (20쪽). pypdf로 텍스트를 추출해 1922~2023년 102개 회차를 확보했다. 이 PDF는 2023년까지만 갱신돼 있다.",
+      "https://www.ala.org/alsc/awardsgrants/bookmedia/newbery — ALA 공식 뉴베리상 안내 페이지. 상의 연혁(1921년 Frederic G. Melcher 제안, 1922년 ALA 집행부 승인), 심사 기준, 응모 자격, 1971년 'runners-up'에서 'honor books'로 명칭 변경을 확인했다.",
+      "https://www.ala.org/news/2024/01/american-library-association-announces-2024-youth-media-award-winners — 2024년 수상작 확인(메달 1편 + 아너 5편 구분).",
+      "https://www.ala.org/news/2025/01/american-library-association-announces-2025-youth-media-award-winners — 2025년 수상작 확인(메달 1편 + 아너 4편 구분).",
+      "https://www.ala.org/news/2026/01/american-library-association-announces-2026-youth-media-award-winners — 2026년 수상작 확인. 2026년 1월 26일 시카고 청소년미디어상 발표(메달 1편 + 아너 4편 구분).",
+      "https://en.wikipedia.org/w/index.php?title=Newbery_Medal&action=raw — 위키백과 원문(wikitext) 97KB를 내려받아 교차 대조용으로 파싱했다."
+    ],
+    "item_count": 105,
+    "year_range": "1922–2026",
+    "year_basis": "시상 연도(award year)다. 출간 연도가 아니다. ALA 공식 PDF가 각 회차를 '2023 Medal Winner:' 형식으로 시상 연도로 표기하며, ALA 안내 페이지와 위키백과 모두 수상 대상을 '전해(the preceding year)에 출간된 책'으로 규정한다. 따라서 여기 적힌 year는 시상 연도이고 실제 책의 출간 연도는 그보다 1년 앞선다. 예를 들어 2026년 수상작 All the Blues in the Sky는 2025년 출간작이다.",
+    "honor_books_excluded": "ALA 공식 PDF는 회차마다 'YYYY Medal Winner:'와 'YYYY Honor Books:'를 별도 표제로 구분해 싣는다. 정규식으로 'YYYY Medal Winner:' 직후부터 다음 'YYYY Honor Book' 표제 직전까지의 구간만 잘라내 메달 수상작만 추출했다. 2024~2026년은 ALA 보도자료 3건에서 메달 수상작과 아너 도서가 문장으로 구분돼 있는 것을 확인하고 메달만 옮겼다. 결과가 회차당 정확히 1편, 총 105편으로 연도별 중복·누락이 없음을 검증했다.",
+    "gaps": "없다. 1922년부터 2026년까지 105개 연도가 빠짐없이 채워졌고, 프로그램으로 확인한 결과 결번도 중복 연도도 없다. 뉴베리상은 창설 이래 매년 거르지 않고 시상됐다.",
+    "uncertainties": "① 위키백과와 프로그램으로 대조한 결과 비교 가능한 105개 회차 중 96개가 표기까지 완전히 일치했고, 불일치 9건은 모두 실질 차이가 아니라 표기 차이였다. 위키백과가 부제를 줄인 경우(1934 Invincible Louisa, 1980 A Gathering of Days, 1982 A Visit to William Blake's Inn, 2004 The Tale of Despereaux)와 저자명 형태가 다른 경우(1933 Elizabeth Lewis/Elizabeth Foreman Lewis, 1942 Walter Edmonds/Walter D. Edmonds, 1943 Elizabeth Janet Gray/Elizabeth Gray Vining, 1964 Emily Neville/Emily Cheney Neville, 1980 Joan W. Blos/Joan Blos)다. 본 목록은 전부 ALA 공식 표기를 따랐다. ② 1927년 수상작 제목은 ALA가 'Smoky, the Cowhorse', 위키백과가 'Smoky the Cowhorse'로 쉼표 유무가 다르다. ALA 표기를 따랐다. ③ 1943년 수상자 Elizabeth Janet Gray는 이후 결혼으로 Elizabeth Gray Vining이 됐다. 수상 당시 표기인 ALA 쪽을 썼다. ④ note에 담은 삽화가 정보는 ALA 원문이 병기한 회차(2004·2007·2009·2024)만 옮겼다. 뉴베리상은 삽화가가 아니라 저자에게 주는 상이므로 raw_creator에는 저자만 넣었다. ⑤ curator.founded_year 1876은 의뢰서에 주어진 값을 그대로 썼고 이번 조사에서 별도 출처로 확인하지 않았다."
+  }
+}

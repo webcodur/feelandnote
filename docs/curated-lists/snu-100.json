@@ -1,0 +1,752 @@
+{
+  "curator": {
+    "slug": "seoul-national-university",
+    "name": "서울대학교",
+    "name_en": "Seoul National University",
+    "kind": "university",
+    "country": "KR",
+    "founded_year": 1946,
+    "homepage_url": "https://www.snu.ac.kr",
+    "description": "서울대학교는 1946년 국립서울대학교설립에관한법령에 따라 세워진 대한민국 최초의 종합 국립대학이다. 같은 해 10월 15일 9개 단과대학과 1개 대학원으로 문을 열었다. 인문·사회·자연과학 기초학문을 아우르는 교양교육 강화를 대학 운영의 핵심 과제로 삼아 왔다.",
+    "description_en": "Seoul National University is the first comprehensive national university of independent Korea, established in 1946 under the Decree on the Establishment of a National University in Seoul. It opened on October 15, 1946 with nine colleges and one graduate school. Strengthening liberal education across the humanities, social sciences, and natural sciences has long been one of its central commitments."
+  },
+  "list": {
+    "slug": "snu-recommended-100",
+    "title": "서울대 권장도서 100선",
+    "title_en": "SNU 100 Recommended Books",
+    "description": "서울대학교가 기초교육 강화의 핵심 과제로 선정해 2005년 3월 발표한 학부생 권장도서 목록이다. 전공을 가리지 않고 재학 기간에 두루 읽기를 권하는 동서양 고전으로 짜였으며 한국문학·외국문학·동양사상·서양사상·과학기술 다섯 분야를 포괄한다. 학교는 후속 작업으로 「권장도서해제집」(서울대학교출판부, 2005)을 펴내고 중앙도서관 기초교육정보실에 전용 서가를 두었다.",
+    "description_en": "A reading list for undergraduates announced by Seoul National University in March 2005 as a core initiative to strengthen its liberal education. It gathers Eastern and Western classics that students of any major are encouraged to read during their years at the university, spanning five fields: Korean literature, foreign literature, Oriental thought, Western thought, and science and technology. SNU followed up with a companion guidebook (Seoul National University Press, 2005) and a dedicated shelf in the main library.",
+    "published_year": 2005,
+    "edition": null,
+    "method": "서울대 권장도서선정위원회가 1993년 발표한 「동서고전 200선」을 바탕으로 선정했고 각 분야별 교수 20여 명이 참여했다. 여정성 교무부처장은 \"교양 함양에 도움되는 책을 선정했다\"고 밝혔다. 발표 목록을 분야별로 세면 한국문학 17권, 외국문학 31권, 동양사상 14권, 서양사상 27권, 과학기술 11권이다. 순위는 매기지 않았고 중앙도서관 서가에는 가나다순으로 배열한다.",
+    "method_en": "Selected by SNU's Recommended Books Selection Committee, building on the university's 1993 list of 200 Eastern and Western classics, with about twenty professors from the various fields taking part. Counting the published list by field gives 17 works of Korean literature, 31 of foreign literature, 14 on Oriental thought, 27 on Western thought, and 11 on science and technology. The list is not ranked; the library shelves the books in Korean alphabetical order.",
+    "source_url": "http://www.snunews.com/news/articleView.html?idxno=2063",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK"
+  },
+  "items": [
+    {
+      "raw_title": "고전시가선집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 1)"
+    },
+    {
+      "raw_title": "연암산문선",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 2)"
+    },
+    {
+      "raw_title": "구운몽",
+      "raw_creator": "김만중",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 3)"
+    },
+    {
+      "raw_title": "춘향전",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 4)"
+    },
+    {
+      "raw_title": "한중록",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 5)"
+    },
+    {
+      "raw_title": "청구야담",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 6)"
+    },
+    {
+      "raw_title": "무정",
+      "raw_creator": "이광수",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 7)"
+    },
+    {
+      "raw_title": "삼대",
+      "raw_creator": "염상섭",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 8)"
+    },
+    {
+      "raw_title": "천변풍경",
+      "raw_creator": "박태원",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 9)"
+    },
+    {
+      "raw_title": "고향",
+      "raw_creator": "이기영",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 10)"
+    },
+    {
+      "raw_title": "탁류",
+      "raw_creator": "채만식",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 11)"
+    },
+    {
+      "raw_title": "인간문제",
+      "raw_creator": "강경애",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 12)"
+    },
+    {
+      "raw_title": "정지용전집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 13)"
+    },
+    {
+      "raw_title": "백석시전집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 14)"
+    },
+    {
+      "raw_title": "카인의 후예",
+      "raw_creator": "황순원",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 15)"
+    },
+    {
+      "raw_title": "토지",
+      "raw_creator": "박경리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 16)"
+    },
+    {
+      "raw_title": "광장",
+      "raw_creator": "최인훈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 한국문학 (출처 목록 번호 17)"
+    },
+    {
+      "raw_title": "당시선",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 18)"
+    },
+    {
+      "raw_title": "홍루몽",
+      "raw_creator": "조설근",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 19)"
+    },
+    {
+      "raw_title": "노신선집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 20) / 공식 사이트 보존본과 후대 유통본은 '루쉰전집'으로 표기한다(공식 사이트에서 직접 확인하지 못함)."
+    },
+    {
+      "raw_title": "변신이영",
+      "raw_creator": "왕몽",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 21) / 후대 유통본은 '변신인형(왕멍)'으로 표기한다(공식 사이트에서 직접 확인하지 못함)."
+    },
+    {
+      "raw_title": "마음",
+      "raw_creator": "나쓰메 소새키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 22)"
+    },
+    {
+      "raw_title": "설국",
+      "raw_creator": "가와바타 야쓰나리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 23)"
+    },
+    {
+      "raw_title": "일리야드, 오디세이야",
+      "raw_creator": "호메로스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 24)"
+    },
+    {
+      "raw_title": "변신",
+      "raw_creator": "오비디우스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 25)"
+    },
+    {
+      "raw_title": "그리스비극선집",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 26)"
+    },
+    {
+      "raw_title": "신곡",
+      "raw_creator": "단테",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 27)"
+    },
+    {
+      "raw_title": "그리스로마신화",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 28)"
+    },
+    {
+      "raw_title": "세익스피어",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 29)"
+    },
+    {
+      "raw_title": "위대한 유산",
+      "raw_creator": "디킨스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 30)"
+    },
+    {
+      "raw_title": "주홍글씨",
+      "raw_creator": "호손",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 31)"
+    },
+    {
+      "raw_title": "젊은 예술가의 초상",
+      "raw_creator": "조이스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 32)"
+    },
+    {
+      "raw_title": "허클베리핀의 모험",
+      "raw_creator": "트웨인",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 33)"
+    },
+    {
+      "raw_title": "황무지",
+      "raw_creator": "엘리어트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 34)"
+    },
+    {
+      "raw_title": "보바리 부인",
+      "raw_creator": "플로베르",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 35)"
+    },
+    {
+      "raw_title": "스완네 집 쪽으로",
+      "raw_creator": "프루스트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 36)"
+    },
+    {
+      "raw_title": "인간조건",
+      "raw_creator": "말로",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 37)"
+    },
+    {
+      "raw_title": "파우스트",
+      "raw_creator": "괴테",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 38)"
+    },
+    {
+      "raw_title": "마의 산",
+      "raw_creator": "토마스 만",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 39)"
+    },
+    {
+      "raw_title": "변신",
+      "raw_creator": "카프카",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 40)"
+    },
+    {
+      "raw_title": "양철북",
+      "raw_creator": "그라스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 41)"
+    },
+    {
+      "raw_title": "돈키호테",
+      "raw_creator": "세르반테스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 42)"
+    },
+    {
+      "raw_title": "백년동안의 고독",
+      "raw_creator": "마르께스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 43)"
+    },
+    {
+      "raw_title": "픽션들",
+      "raw_creator": "보르헤스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 44)"
+    },
+    {
+      "raw_title": "고도를 기다리며",
+      "raw_creator": "베케트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 45)"
+    },
+    {
+      "raw_title": "카라마조프 형제들",
+      "raw_creator": "도스트예프스키",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 46)"
+    },
+    {
+      "raw_title": "안나 카레니나",
+      "raw_creator": "톨스토이",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 47)"
+    },
+    {
+      "raw_title": "체호프 희곡선",
+      "raw_creator": "체호프",
+      "rank": null,
+      "year": null,
+      "note": "분야: 외국문학 (출처 목록 번호 48)"
+    },
+    {
+      "raw_title": "삼국유사",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 49)"
+    },
+    {
+      "raw_title": "금강삼매경론",
+      "raw_creator": "원효",
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 50) / 출처 충돌. 서울대 공식 사이트 book100.snu.ac.kr 보존본의 동양사상 목록에는 이 책 대신 '보조법어 / 지눌'이 실려 있고, 가나다순 첫 화면(논어·다산문선·대학, 중용·맹자·보조법어)에 '금강삼매경론'이 없다. 2005년 발표 당시 표기와 이후 공식 사이트 표기가 다르다."
+    },
+    {
+      "raw_title": "퇴계문선",
+      "raw_creator": "이황",
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 51)"
+    },
+    {
+      "raw_title": "율곡문선",
+      "raw_creator": "이이",
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 52)"
+    },
+    {
+      "raw_title": "다산문선",
+      "raw_creator": "정약용",
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 53)"
+    },
+    {
+      "raw_title": "주역",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 54)"
+    },
+    {
+      "raw_title": "논어",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 55)"
+    },
+    {
+      "raw_title": "맹자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 56)"
+    },
+    {
+      "raw_title": "대학-중용",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 57)"
+    },
+    {
+      "raw_title": "제자백가선도",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 58)"
+    },
+    {
+      "raw_title": "장자",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 59)"
+    },
+    {
+      "raw_title": "아함경",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 60)"
+    },
+    {
+      "raw_title": "사기열전",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 61)"
+    },
+    {
+      "raw_title": "우파니샤드",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 동양사상 (출처 목록 번호 62)"
+    },
+    {
+      "raw_title": "역사",
+      "raw_creator": "헤로도투스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 63)"
+    },
+    {
+      "raw_title": "펠로폰네소스 전쟁사",
+      "raw_creator": "투키디데스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 64) / 일부 유통본에는 이 항목 대신 '의무론(키케로)'이 실려 있다(공식 사이트에서 직접 확인하지 못함)."
+    },
+    {
+      "raw_title": "국가",
+      "raw_creator": "플라톤",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 65)"
+    },
+    {
+      "raw_title": "니코마코스윤리학",
+      "raw_creator": "아리스토텔레스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 66)"
+    },
+    {
+      "raw_title": "고백록",
+      "raw_creator": "아우구스티누스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 67)"
+    },
+    {
+      "raw_title": "군주론",
+      "raw_creator": "마키아벨리",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 68)"
+    },
+    {
+      "raw_title": "방법서설",
+      "raw_creator": "데카르트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 69)"
+    },
+    {
+      "raw_title": "리바이어던",
+      "raw_creator": "홉스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 70)"
+    },
+    {
+      "raw_title": "정부론",
+      "raw_creator": "로크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 71)"
+    },
+    {
+      "raw_title": "법의 정신",
+      "raw_creator": "몽테스큐",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 72)"
+    },
+    {
+      "raw_title": "에밀",
+      "raw_creator": "루소",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 73)"
+    },
+    {
+      "raw_title": "국부론",
+      "raw_creator": "아담 스미스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 74)"
+    },
+    {
+      "raw_title": "도덕 형이상학의 기초",
+      "raw_creator": "칸트",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 75) / 일부 유통본에는 '실천이성비판(칸트)'으로 실려 있다(공식 사이트에서 직접 확인하지 못함)."
+    },
+    {
+      "raw_title": "페더랄리스트 페이퍼",
+      "raw_creator": "헤밀튼 외",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 76)"
+    },
+    {
+      "raw_title": "미국의 민주주의",
+      "raw_creator": "토크빌",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 77)"
+    },
+    {
+      "raw_title": "자유론",
+      "raw_creator": "밀",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 78)"
+    },
+    {
+      "raw_title": "자본론 1권",
+      "raw_creator": "마르크스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 79)"
+    },
+    {
+      "raw_title": "도덕계보학",
+      "raw_creator": "니이체",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 80)"
+    },
+    {
+      "raw_title": "꿈의 해석",
+      "raw_creator": "프로이드",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 81)"
+    },
+    {
+      "raw_title": "프로테스탄티즘의 윤리와 자본주의 정신",
+      "raw_creator": "베버",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 82)"
+    },
+    {
+      "raw_title": "감시와 처벌",
+      "raw_creator": "푸코",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 83)"
+    },
+    {
+      "raw_title": "간디 자서전",
+      "raw_creator": "간디",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 84)"
+    },
+    {
+      "raw_title": "물질문명과 자본주의",
+      "raw_creator": "브로델",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 85)"
+    },
+    {
+      "raw_title": "홉스봄 4부작: 혁명의 시대, 자본의 시대, 제국의 시대, 극단의 시대",
+      "raw_creator": "홉스봄",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 86)"
+    },
+    {
+      "raw_title": "슬픈 열대",
+      "raw_creator": "레비스트로스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 87)"
+    },
+    {
+      "raw_title": "문학과 예술의 사회사",
+      "raw_creator": "하우저",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 88)"
+    },
+    {
+      "raw_title": "미디어의 이해",
+      "raw_creator": "맥루한",
+      "rank": null,
+      "year": null,
+      "note": "분야: 서양사상 (출처 목록 번호 89)"
+    },
+    {
+      "raw_title": "과학고전(Anthology)",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 90) / 공식 사이트 보존본에는 '과학고전선집'으로 표기돼 있다."
+    },
+    {
+      "raw_title": "신논리학",
+      "raw_creator": "베이컨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 91)"
+    },
+    {
+      "raw_title": "종의 기원",
+      "raw_creator": "다윈",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 92)"
+    },
+    {
+      "raw_title": "과학혁명의 구조",
+      "raw_creator": "토마스 쿤",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 93)"
+    },
+    {
+      "raw_title": "괴델, 에셔, 바흐",
+      "raw_creator": "호프스태터",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 94)"
+    },
+    {
+      "raw_title": "부분과 전체",
+      "raw_creator": "하이젠베르크",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 95)"
+    },
+    {
+      "raw_title": "엔트로피",
+      "raw_creator": "리프킨",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 96)"
+    },
+    {
+      "raw_title": "이기적 유전자",
+      "raw_creator": "도킨스",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 97)"
+    },
+    {
+      "raw_title": "수학의 확실성",
+      "raw_creator": "클라인",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 98) / 일부 유통본에는 이 항목 대신 '카오스(제임스 글라크)'가 실려 있다(공식 사이트에서 직접 확인하지 못함)."
+    },
+    {
+      "raw_title": "객관성의 칼날",
+      "raw_creator": "길리스피",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 99)"
+    },
+    {
+      "raw_title": "같기도 하고, 아니 같기도 하고",
+      "raw_creator": "홉프만",
+      "rank": null,
+      "year": null,
+      "note": "분야: 과학기술 (출처 목록 번호 100) / 공식 사이트 보존본에는 저자가 '로얼드 호프만 (Hoffmann, Roald)'으로 표기돼 있다."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "http://www.snunews.com/news/articleView.html?idxno=2063",
+      "http://web.archive.org/web/20130403070756/http://book100.snu.ac.kr/book/book/all.jsp?searchtype=&search=&sort=NAME",
+      "http://web.archive.org/web/20130403070208/http://book100.snu.ac.kr/book/book/",
+      "http://web.archive.org/web/20190225072848/http://book100.snu.ac.kr/book/intro/",
+      "http://web.archive.org/web/20130402044012/http://book100.snu.ac.kr/book/guide/",
+      "http://web.archive.org/web/20130403082404/http://book100.snu.ac.kr/book/exp/",
+      "http://web.archive.org/web/20190604234019/http://book100.snu.ac.kr/book/sitemap/",
+      "http://web.archive.org/web/20070728060747/http://book100.snu.ac.kr/book/board/index_view.jsp?aid=4",
+      "http://web.archive.org/web/2018/http://book100.snu.ac.kr/book/subject/",
+      "http://web.archive.org/cdx/search/cdx?url=book100.snu.ac.kr*",
+      "web.archive.org 보존본 약 320건 (book100.snu.ac.kr 의 all.jsp / list.jsp / korea.jsp / ex.jsp / dong.jsp / seo.jsp / sie.jsp / ebook.jsp, 2007~2019년 캡처)",
+      "https://bs.skuniv.ac.kr/4812",
+      "https://en.snu.ac.kr/about/history/timeline",
+      "https://liberaledu.snu.ac.kr/board/blog/view/821"
+    ],
+    "item_count": 100,
+    "expected_count": 100,
+    "gaps": "빠진 항목 없다. 100개 전부 대학신문(서울대 학내 공식 언론) 2005년 3월 9일자 「서울대, 권장도서 100선 목록 발표해」 기사에 실린 목록 표에서 그대로 옮겼고, 분야별 권수(한국문학 17·외국문학 31·동양사상 14·서양사상 27·과학기술 11)가 서울대가 밝힌 구성과 일치한다.",
+    "uncertainties": "(1) 서울대 공식 전용 사이트 book100.snu.ac.kr 은 현재 폐쇄돼 도메인이 잡히지 않는다. 웹아카이브 보존본으로 접근했으나 목록 화면이 5권씩 끊어 보여주고 다음 쪽 이동이 POST 방식이어서 보존본에서는 1쪽만 열린다. 약 320건의 보존본을 훑어 공식 사이트에서 직접 확인한 것은 36권이다: 구운몽, 한중록, 무정, 고전시가선집, 춘향전, 인간문제, 고향, 감시와 처벌, 토지, 간디 자서전, 광장, 당시선, 설국, 그리스로마신화, 파우스트, 양철북, 돈키호테, 고도를 기다리며, 보조법어, 율곡문선, 다산문선, 논어, 맹자, 대학·중용, 제자백가선도, 사기열전, 국가, 고백록, 그리스비극선집, 과학고전선집, 과학혁명의 구조, 이기적 유전자, 객관성의 칼날, 같기도 하고 아니 같기도 하고, 국부론, 괴델 에셔 바흐. 나머지 64권은 대학신문 기사 표에만 근거한다. (2) 50번 항목이 출처마다 다르다. 대학신문은 '금강삼매경론(원효)'로 적었으나 공식 사이트 보존본에는 '보조법어 / 지눌'이 실려 있다. 동양사상 가나다순 첫 화면에 '금강삼매경론'이 없으므로 공식 사이트 목록에는 이 책이 없다고 판단된다. 어느 쪽이 최종본인지는 서울대 확인이 필요하다. (3) 공식 사이트에서 확인하지 못한 채 2차 출처(서경대학교 경영학부 공지, https://bs.skuniv.ac.kr/4812)와 표기가 갈리는 항목: 20번 노신선집↔루쉰전집, 21번 변신이영(왕몽)↔변신인형(왕멍), 64번 펠로폰네소스 전쟁사(투키디데스)↔의무론(키케로), 75번 도덕 형이상학의 기초(칸트)↔실천이성비판(칸트), 98번 수학의 확실성(클라인)↔카오스(제임스 글라크). 각 항목 note 에 표시했다. (4) 대학신문 표에는 표기 흔들림으로 보이는 대목이 있다: '나쓰메 소새키', '일리야드, 오디세이야', '세익스피어', '도스트예프스키', '니이체', '홉프만', '몽테스큐'. 지시대로 출처 표기 그대로 두었다. (5) edition 은 확인하지 못해 null 로 두었다. 2005년 이후 목록이 개정됐는지 알려주는 공식 문서를 찾지 못했다. (6) 각 책의 원 출간연도(year)는 출처 목록에 없어 전부 null 이다."
+  }
+}

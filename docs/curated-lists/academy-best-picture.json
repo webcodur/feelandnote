@@ -1,0 +1,758 @@
+{
+  "curator": {
+    "slug": "academy-awards",
+    "name": "미국 영화예술과학아카데미",
+    "name_en": "Academy of Motion Picture Arts and Sciences",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1927,
+    "homepage_url": "https://www.oscars.org",
+    "description": "1927년 할리우드 영화인들이 세운 직능 단체다. 배우·감독·제작·촬영 등 분야별 분과에 약 1만 1천 명의 영화인이 회원으로 참여하며, 본부는 캘리포니아주 비벌리힐스에 있다. 1929년부터 매년 아카데미상(오스카)을 주관해왔다.",
+    "description_en": "A professional honorary organization of the film industry, founded in Hollywood in 1927. Its roughly 11,000 members are grouped into branches covering acting, directing, producing, cinematography and other crafts, and it is headquartered in Beverly Hills, California. It has presented the Academy Awards, known as the Oscars, every year since 1929."
+  },
+  "list": {
+    "slug": "academy-best-picture",
+    "title": "아카데미 작품상 수상작",
+    "title_en": "Academy Award for Best Picture",
+    "description": "아카데미상 작품상은 그해 가장 뛰어난 영화 한 편에 주는 최고상으로, 시상식 마지막 순서로 발표하는 것이 관례다. 상은 감독이 아니라 제작자에게 돌아간다. 1929년 제1회 시상식부터 매년 빠짐없이 수여됐다.",
+    "description_en": "Best Picture is the Academy Awards' top honour, given to the finest film of the year and traditionally announced last. The award goes to the film's producers rather than its director. It has been presented every year since the first ceremony in 1929.",
+    "published_year": null,
+    "edition": null,
+    "method": "아카데미 회원 전원이 후보 지명과 최종 투표에 모두 참여하는 유일한 부문이다. 후보 지명 단계에서 정회원과 종신회원은 최대 열 편까지 선호 순위를 매겨 투표하고, 표를 가장 많이 얻은 열 편이 후보가 된다. 후보작 수는 오랫동안 다섯 편이었으나 2009년 열 편으로 늘었고, 2011년부터 다섯~열 편 사이에서 유동적으로 운영되다가 제94회부터 열 편으로 고정됐다. 2009년 후보 확대와 함께 집계 방식도 최다득표제에서 순위를 옮겨가며 계산하는 선호투표로 바뀌었다. 상을 받는 사람은 '제작(producer/produced by)' 크레디트를 가진 최대 세 명의 제작자다.",
+    "method_en": "Best Picture is the only category in which every Academy member may both submit nominations and vote on the final ballot. At the nominating stage, active and life members rank up to ten films in order of preference, and the ten films receiving the most votes become the nominees. The field was long fixed at five nominees, expanded to ten in 2009, floated between five and ten from 2011, and was set at a firm ten from the 94th ceremony onward. Along with the 2009 expansion, counting changed from first-past-the-post to instant-runoff (preferential) voting. The statuettes go to up to three people credited as 'producer' or 'produced by'.",
+    "source_url": "https://en.wikipedia.org/wiki/Academy_Award_for_Best_Picture",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "VIDEO",
+    "topics": [
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Wings",
+      "raw_creator": "William A. Wellman",
+      "rank": null,
+      "year": 1927,
+      "note": "제1회 시상식에는 최고상이 둘이었다. 이 작품이 '아웃스탠딩 픽처'를, F.W. 무르나우의 <선라이즈>가 '유니크 앤드 아티스틱 픽처'를 받았다. 아카데미는 이듬해 후자를 없애고 이 작품의 수상을 최고 영예로 소급 확정했다."
+    },
+    {
+      "raw_title": "The Broadway Melody",
+      "raw_creator": "Harry Beaumont",
+      "rank": null,
+      "year": 1928,
+      "note": "1928/29 대상 기간 작품이다."
+    },
+    {
+      "raw_title": "All Quiet on the Western Front",
+      "raw_creator": "Lewis Milestone",
+      "rank": null,
+      "year": 1929,
+      "note": "1929/30 대상 기간 작품이다."
+    },
+    {
+      "raw_title": "Cimarron",
+      "raw_creator": "Wesley Ruggles",
+      "rank": null,
+      "year": 1930,
+      "note": "1930/31 대상 기간 작품이다."
+    },
+    {
+      "raw_title": "Grand Hotel",
+      "raw_creator": "Edmund Goulding",
+      "rank": null,
+      "year": 1931,
+      "note": "1931/32 대상 기간 작품이다."
+    },
+    {
+      "raw_title": "Cavalcade",
+      "raw_creator": "Frank Lloyd",
+      "rank": null,
+      "year": 1932,
+      "note": "1932/33 대상 기간 작품이다. 이 기간이 1933년 12월까지 이어진 뒤 1934년부터 역년 기준으로 바뀌어, 1933년에 시작하는 대상 기간은 없다."
+    },
+    {
+      "raw_title": "It Happened One Night",
+      "raw_creator": "Frank Capra",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Mutiny on the Bounty",
+      "raw_creator": "Frank Lloyd",
+      "rank": null,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "The Great Ziegfeld",
+      "raw_creator": "Robert Z. Leonard",
+      "rank": null,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "The Life of Emile Zola",
+      "raw_creator": "William Dieterle",
+      "rank": null,
+      "year": 1937,
+      "note": null
+    },
+    {
+      "raw_title": "You Can't Take It with You",
+      "raw_creator": "Frank Capra",
+      "rank": null,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "Gone with the Wind",
+      "raw_creator": "Victor Fleming",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Rebecca",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "How Green Was My Valley",
+      "raw_creator": "John Ford",
+      "rank": null,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "Mrs. Miniver",
+      "raw_creator": "William Wyler",
+      "rank": null,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Casablanca",
+      "raw_creator": "Michael Curtiz",
+      "rank": null,
+      "year": 1943,
+      "note": null
+    },
+    {
+      "raw_title": "Going My Way",
+      "raw_creator": "Leo McCarey",
+      "rank": null,
+      "year": 1944,
+      "note": null
+    },
+    {
+      "raw_title": "The Lost Weekend",
+      "raw_creator": "Billy Wilder",
+      "rank": null,
+      "year": 1945,
+      "note": null
+    },
+    {
+      "raw_title": "The Best Years of Our Lives",
+      "raw_creator": "William Wyler",
+      "rank": null,
+      "year": 1946,
+      "note": null
+    },
+    {
+      "raw_title": "Gentleman's Agreement",
+      "raw_creator": "Elia Kazan",
+      "rank": null,
+      "year": 1947,
+      "note": null
+    },
+    {
+      "raw_title": "Hamlet",
+      "raw_creator": "Laurence Olivier",
+      "rank": null,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "All the King's Men",
+      "raw_creator": "Robert Rossen",
+      "rank": null,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "All About Eve",
+      "raw_creator": "Joseph L. Mankiewicz",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "An American in Paris",
+      "raw_creator": "Vincente Minnelli",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "The Greatest Show on Earth",
+      "raw_creator": "Cecil B. DeMille",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "From Here to Eternity",
+      "raw_creator": "Fred Zinnemann",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "On the Waterfront",
+      "raw_creator": "Elia Kazan",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Marty",
+      "raw_creator": "Delbert Mann",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Around the World in 80 Days",
+      "raw_creator": "Michael Anderson",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "The Bridge on the River Kwai",
+      "raw_creator": "David Lean",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "Gigi",
+      "raw_creator": "Vincente Minnelli",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "Ben-Hur",
+      "raw_creator": "William Wyler",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "The Apartment",
+      "raw_creator": "Billy Wilder",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "West Side Story",
+      "raw_creator": "Robert Wise, Jerome Robbins",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "Lawrence of Arabia",
+      "raw_creator": "David Lean",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Tom Jones",
+      "raw_creator": "Tony Richardson",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "My Fair Lady",
+      "raw_creator": "George Cukor",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "The Sound of Music",
+      "raw_creator": "Robert Wise",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "A Man for All Seasons",
+      "raw_creator": "Fred Zinnemann",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "In the Heat of the Night",
+      "raw_creator": "Norman Jewison",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "Oliver!",
+      "raw_creator": "Carol Reed",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Midnight Cowboy",
+      "raw_creator": "John Schlesinger",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Patton",
+      "raw_creator": "Franklin J. Schaffner",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "The French Connection",
+      "raw_creator": "William Friedkin",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "The Godfather",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Sting",
+      "raw_creator": "George Roy Hill",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Godfather Part II",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "One Flew Over the Cuckoo's Nest",
+      "raw_creator": "Miloš Forman",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Rocky",
+      "raw_creator": "John G. Avildsen",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Annie Hall",
+      "raw_creator": "Woody Allen",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "The Deer Hunter",
+      "raw_creator": "Michael Cimino",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Kramer vs. Kramer",
+      "raw_creator": "Robert Benton",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Ordinary People",
+      "raw_creator": "Robert Redford",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Chariots of Fire",
+      "raw_creator": "Hugh Hudson",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Gandhi",
+      "raw_creator": "Richard Attenborough",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Terms of Endearment",
+      "raw_creator": "James L. Brooks",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Amadeus",
+      "raw_creator": "Miloš Forman",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Out of Africa",
+      "raw_creator": "Sydney Pollack",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Platoon",
+      "raw_creator": "Oliver Stone",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "The Last Emperor",
+      "raw_creator": "Bernardo Bertolucci",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Rain Man",
+      "raw_creator": "Barry Levinson",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Driving Miss Daisy",
+      "raw_creator": "Bruce Beresford",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "Dances With Wolves",
+      "raw_creator": "Kevin Costner",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "The Silence of the Lambs",
+      "raw_creator": "Jonathan Demme",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Unforgiven",
+      "raw_creator": "Clint Eastwood",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Schindler's List",
+      "raw_creator": "Steven Spielberg",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "Forrest Gump",
+      "raw_creator": "Robert Zemeckis",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Braveheart",
+      "raw_creator": "Mel Gibson",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "The English Patient",
+      "raw_creator": "Anthony Minghella",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Titanic",
+      "raw_creator": "James Cameron",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Shakespeare in Love",
+      "raw_creator": "John Madden",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "American Beauty",
+      "raw_creator": "Sam Mendes",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Gladiator",
+      "raw_creator": "Ridley Scott",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "A Beautiful Mind",
+      "raw_creator": "Ron Howard",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Chicago",
+      "raw_creator": "Rob Marshall",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "The Lord of the Rings: The Return of the King",
+      "raw_creator": "Peter Jackson",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Million Dollar Baby",
+      "raw_creator": "Clint Eastwood",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Crash",
+      "raw_creator": "Paul Haggis",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "The Departed",
+      "raw_creator": "Martin Scorsese",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "No Country for Old Men",
+      "raw_creator": "Joel Coen, Ethan Coen",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "Slumdog Millionaire",
+      "raw_creator": "Danny Boyle",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The Hurt Locker",
+      "raw_creator": "Kathryn Bigelow",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The King's Speech",
+      "raw_creator": "Tom Hooper",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Artist",
+      "raw_creator": "Michel Hazanavicius",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Argo",
+      "raw_creator": "Ben Affleck",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "12 Years a Slave",
+      "raw_creator": "Steve McQueen",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Birdman or (The Unexpected Virtue of Ignorance)",
+      "raw_creator": "Alejandro G. Iñárritu",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Spotlight",
+      "raw_creator": "Tom McCarthy",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Moonlight",
+      "raw_creator": "Barry Jenkins",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Shape of Water",
+      "raw_creator": "Guillermo del Toro",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Green Book",
+      "raw_creator": "Peter Farrelly",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Parasite",
+      "raw_creator": "Bong Joon Ho",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Nomadland",
+      "raw_creator": "Chloé Zhao",
+      "rank": null,
+      "year": 2020,
+      "note": "코로나19로 대상 기간이 2021년 2월 말까지 연장된 회차(2020/21)의 수상작이다."
+    },
+    {
+      "raw_title": "CODA",
+      "raw_creator": "Sian Heder",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Everything Everywhere All at Once",
+      "raw_creator": "Daniel Kwan, Daniel Scheinert",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Oppenheimer",
+      "raw_creator": "Christopher Nolan",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Anora",
+      "raw_creator": "Sean Baker",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "One Battle After Another",
+      "raw_creator": "Paul Thomas Anderson",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://en.wikipedia.org/wiki/Academy_Award_for_Best_Picture",
+      "https://en.wikipedia.org/w/index.php?title=Academy_Award_for_Best_Picture&action=raw",
+      "https://en.wikipedia.org/w/index.php?title=Academy_of_Motion_Picture_Arts_and_Sciences&action=raw",
+      "https://en.wikipedia.org/w/api.php (prop=revisions, 수상작 98편 개별 문서 원문 일괄 조회)",
+      "https://www.oscars.org/oscars/rules-eligibility",
+      "https://www.oscars.org/sites/oscars/files/2026-05/99th%20Best%20Picture%20Rules.pdf",
+      "https://www.oscars.org/sites/oscars/files/2026-05/99AA_Best%20Picture%20FAQs.pdf",
+      "https://www.oscars.org/oscars/ceremonies/1929",
+      "https://www.oscars.org/oscars/ceremonies/1930",
+      "https://www.oscars.org/oscars/ceremonies/1934",
+      "https://www.oscars.org/oscars/ceremonies/1936",
+      "https://www.oscars.org/oscars/ceremonies/1940",
+      "https://www.oscars.org/oscars/ceremonies/1946",
+      "https://www.oscars.org/oscars/ceremonies/1953",
+      "https://www.oscars.org/oscars/ceremonies/1960",
+      "https://www.oscars.org/oscars/ceremonies/1968",
+      "https://www.oscars.org/oscars/ceremonies/1975",
+      "https://www.oscars.org/oscars/ceremonies/1983",
+      "https://www.oscars.org/oscars/ceremonies/1991",
+      "https://www.oscars.org/oscars/ceremonies/1998",
+      "https://www.oscars.org/oscars/ceremonies/2005",
+      "https://www.oscars.org/oscars/ceremonies/2012",
+      "https://www.oscars.org/oscars/ceremonies/2020",
+      "https://www.oscars.org/oscars/ceremonies/2021",
+      "https://www.oscars.org/oscars/ceremonies/2022",
+      "https://www.oscars.org/oscars/ceremonies/2023",
+      "https://www.oscars.org/oscars/ceremonies/2024",
+      "https://www.oscars.org/oscars/ceremonies/2025",
+      "https://www.oscars.org/oscars/ceremonies/2026"
+    ],
+    "item_count": 98,
+    "year_range": "1927 ~ 2025",
+    "year_basis": "시상 연도가 아니라 해당 회차의 시상 대상 기간이 시작하는 연도(작품 연도)를 넣었다. 예를 들어 제1회 시상식은 1929년에 열렸지만 대상 기간이 1927/28이므로 year는 1927이다. 1934년 제7회부터는 대상 기간이 역년과 일치해 작품 연도와 그대로 맞는다. 마지막 항목인 제98회는 2026년 3월에 시상했고 2025년 작품이 대상이므로 year는 2025다.",
+    "first_ceremony_note": "oscars.org의 제1회(1929년) 시상식 페이지에서 직접 확인한 결과 최고상은 둘이었다. 'Outstanding Picture'는 <Wings>가, 'Unique and Artistic Picture'는 <Sunrise>가 받았다. 공식 명칭은 문제에 적힌 'Unique and Artistic Production'이 아니라 'Unique and Artistic Picture'였다. 아카데미는 이듬해 후자를 폐지하고 <Wings>의 수상을 최고 영예로 소급 확정했으며, 이후 작품상 계보는 'Outstanding Picture' 쪽만 잇는다. 따라서 items에는 <Wings>만 넣고 <Sunrise>는 해당 항목의 note에 기록했다.",
+    "gaps": "1933년 한 해가 비어 있으나 누락이 아니라 제도상의 공백이다. 제6회의 시상 대상 기간이 1932년 8월부터 1933년 12월까지 17개월이었고, 제7회부터 역년(1934년 1월~12월) 기준으로 바뀌면서 1933년에 시작하는 대상 기간 자체가 존재하지 않는다. 그 밖에 빠진 회차는 없다. 제1회부터 제98회까지 98개 회차의 수상작이 모두 들어 있다.",
+    "uncertainties": "① 제목 표기가 출처마다 다른 항목이 하나 있다. 마지막 수상작을 oscars.org는 'One Battle after Another'로, 위키백과와 작품 자체는 'One Battle After Another'로 적는다. 표준 제목 표기법을 따라 후자를 넣었다. ② 초기 6개 회차(1927/28~1932/33)는 대상 기간이 두 해에 걸쳐 있어 year를 어느 해로 잡느냐에 따라 값이 달라진다. 위키백과는 뒤쪽 해로 연결하지만(1927/28→1928) 이 파일은 앞쪽 해를 썼다. 그 결과 <Cavalcade>는 실제 개봉이 1933년인데 year가 1932다. ③ 감독명은 각 작품의 위키백과 문서 정보상자에서 뽑았고 oscars.org로 교차 확인하지 않았다. oscars.org 작품상 항목은 감독이 아니라 제작자를 싣기 때문이다. ④ oscars.org 교차 확인은 전수가 아니라 22개 회차 표본으로 했다(제1·2·6·8·12·18·25·32·40·47·55·63·70·77·84·92·93·94·95·96·97·98회). 표본은 전부 일치했다."
+  }
+}

@@ -1,0 +1,778 @@
+{
+  "curator": {
+    "slug": "cannes-film-festival",
+    "name": "칸 영화제",
+    "name_en": "Festival de Cannes",
+    "kind": "festival",
+    "country": "FR",
+    "founded_year": 1946,
+    "homepage_url": "https://www.festival-cannes.com",
+    "description": "프랑스 남부 칸에서 매년 5월에 열리는 국제 영화제다. 1939년 창설을 시도했으나 제2차 세계대전으로 무산됐고 1946년에 처음 개최했다. 공식 경쟁부문 최고상인 황금종려상을 비롯한 상을 국제 심사위원단이 결정하며, 예술영화의 세계적 등용문으로 꼽힌다.",
+    "description_en": "An international film festival held every May in Cannes, in the south of France. A first edition was planned for 1939 but was cancelled by the outbreak of the Second World War, and the festival finally launched in 1946. An international jury decides its awards, the highest of which is the Palme d'Or for the Official Competition, and the festival is regarded as a leading showcase for auteur cinema."
+  },
+  "list": {
+    "slug": "cannes-palme-dor",
+    "title": "칸 영화제 황금종려상",
+    "title_en": "Cannes Film Festival Palme d'Or",
+    "description": "칸 영화제 공식 경쟁부문 최고상을 받은 작품을 수상 연도순으로 모은 목록이다. 최고상 명칭은 시기에 따라 Grand Prix du Festival International du Film과 황금종려상(Palme d'Or)을 오갔으며, 명칭과 무관하게 최고상 계보를 잇는 작품을 모두 담았다. 공동 수상한 해는 해당 작품을 모두 넣었다.",
+    "description_en": "Films that received the top award of the Cannes Film Festival's Official Competition, ordered by the year of the award. The name of the top prize alternated over time between the Grand Prix du Festival International du Film and the Palme d'Or; every film in that unbroken line of top awards is included regardless of the name in use. Years with tied winners list every winning film.",
+    "published_year": null,
+    "edition": null,
+    "method": "공식 경쟁부문 상영작을 대상으로 영화제가 매년 새로 구성하는 국제 심사위원단이 최고상 수상작을 결정한다. 영화제 규정상 황금종려상 수상작은 다른 부문 상을 중복해서 받을 수 없다. 심사위원단의 구체적인 표결 절차는 영화제가 공개하지 않는다.",
+    "method_en": "An international jury, newly assembled by the festival each year, selects the top award from the films screened in the Official Competition. Under festival regulations the Palme d'Or-winning film cannot also receive any other award. The festival does not publish the jury's voting procedure.",
+    "source_url": "https://en.wikipedia.org/wiki/Palme_d%27Or",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "VIDEO",
+    "topics": [
+      "film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Union Pacific",
+      "raw_creator": "Cecil B. DeMille",
+      "rank": null,
+      "year": 1939,
+      "note": "1939년 제1회 영화제는 제2차 세계대전 발발로 취소됐다. 2002년 영화제 조직위가 별도 심사위원단을 꾸려 1939년 경쟁 출품작 12편 중 7편을 관람한 뒤 이 작품을 1939년 황금종려상 수상작으로 소급 선정했다. 당시 최고상 명칭은 Grand Prix du Festival International du Film."
+    },
+    {
+      "raw_title": "Brief Encounter",
+      "raw_creator": "David Lean",
+      "rank": null,
+      "year": 1946,
+      "note": "1946년 제1회 개최 영화제에서 최고상 Grand Prix du Festival International du Film이 11편에 공동 수여됐다. 영국."
+    },
+    {
+      "raw_title": "The Last Chance",
+      "raw_creator": "Leopold Lindtberg",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 Die Letzte Chance. 1946년 11편 공동 수상. 스위스."
+    },
+    {
+      "raw_title": "The Lost Weekend",
+      "raw_creator": "Billy Wilder",
+      "rank": null,
+      "year": 1946,
+      "note": "1946년 11편 공동 수상. 미국."
+    },
+    {
+      "raw_title": "María Candelaria",
+      "raw_creator": "Emilio Fernández",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 María Candelaria. 1946년 11편 공동 수상. 멕시코."
+    },
+    {
+      "raw_title": "Men Without Wings",
+      "raw_creator": "František Čáp",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 Muži bez křídel. 1946년 11편 공동 수상. 체코슬로바키아."
+    },
+    {
+      "raw_title": "Neecha Nagar",
+      "raw_creator": "Chetan Anand",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 Neecha Nagar. 1946년 11편 공동 수상. 인도."
+    },
+    {
+      "raw_title": "Pastoral Symphony",
+      "raw_creator": "Jean Delannoy",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 La symphonie pastorale. 1946년 11편 공동 수상. 프랑스."
+    },
+    {
+      "raw_title": "The Red Meadows",
+      "raw_creator": "Bodil Ipsen, Lau Lauritzen Jr.",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 De røde enge. 1946년 11편 공동 수상. 덴마크. 보딜 입센은 최고상을 받은 최초의 여성 감독."
+    },
+    {
+      "raw_title": "Rome, Open City",
+      "raw_creator": "Roberto Rossellini",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 Roma, città aperta. 1946년 11편 공동 수상. 이탈리아."
+    },
+    {
+      "raw_title": "Torment",
+      "raw_creator": "Alf Sjöberg",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 Hets. 1946년 11편 공동 수상. 스웨덴."
+    },
+    {
+      "raw_title": "The Turning Point",
+      "raw_creator": "Fridrikh Ermler",
+      "rank": null,
+      "year": 1946,
+      "note": "원제 Великий перелом (Velikiy perelom). 1946년 11편 공동 수상. 소련."
+    },
+    {
+      "raw_title": "Antoine and Antoinette",
+      "raw_creator": "Jacques Becker",
+      "rank": null,
+      "year": 1947,
+      "note": "원제 Antoine et Antoinette. 1947년에는 최고상 Grand Prix가 장르별로 나뉘어 5편에 수여됐다. 부문: Best Psychological & Love Film. 프랑스."
+    },
+    {
+      "raw_title": "Crossfire",
+      "raw_creator": "Edward Dmytryk",
+      "rank": null,
+      "year": 1947,
+      "note": "1947년 장르별 Grand Prix. 부문: Best Social Film. 미국."
+    },
+    {
+      "raw_title": "Dumbo",
+      "raw_creator": "Ben Sharpsteen",
+      "rank": null,
+      "year": 1947,
+      "note": "1947년 장르별 Grand Prix. 부문: Best Animation Design. 미국."
+    },
+    {
+      "raw_title": "The Damned",
+      "raw_creator": "René Clément",
+      "rank": null,
+      "year": 1947,
+      "note": "원제 Les Maudits. 1947년 장르별 Grand Prix. 부문: Best Adventure & Crime Film. 프랑스."
+    },
+    {
+      "raw_title": "Ziegfeld Follies",
+      "raw_creator": "Vincente Minnelli",
+      "rank": null,
+      "year": 1947,
+      "note": "1947년 장르별 Grand Prix. 부문: Best Musical Comedy. 미국."
+    },
+    {
+      "raw_title": "The Third Man",
+      "raw_creator": "Carol Reed",
+      "rank": null,
+      "year": 1949,
+      "note": "최고상 명칭은 Grand Prix du Festival International du Film. 영국."
+    },
+    {
+      "raw_title": "Miracle in Milan",
+      "raw_creator": "Vittorio De Sica",
+      "rank": null,
+      "year": 1951,
+      "note": "원제 Miracolo a Milano. 1951년 공동 수상. 최고상 명칭은 Grand Prix du Festival International du Film. 이탈리아."
+    },
+    {
+      "raw_title": "Miss Julie",
+      "raw_creator": "Alf Sjöberg",
+      "rank": null,
+      "year": 1951,
+      "note": "원제 Fröken Julie. 1951년 공동 수상. 스웨덴."
+    },
+    {
+      "raw_title": "Othello",
+      "raw_creator": "Orson Welles",
+      "rank": null,
+      "year": 1952,
+      "note": "영화제 등록 제목은 The Tragedy of Othello: The Moor of Venice. 1952년 공동 수상. 최고상 명칭은 Grand Prix du Festival International du Film. 이탈리아·모로코·미국."
+    },
+    {
+      "raw_title": "Two Cents Worth of Hope",
+      "raw_creator": "Renato Castellani",
+      "rank": null,
+      "year": 1952,
+      "note": "원제 Due soldi di speranza. 1952년 공동 수상. 이탈리아."
+    },
+    {
+      "raw_title": "The Wages of Fear",
+      "raw_creator": "Henri-Georges Clouzot",
+      "rank": null,
+      "year": 1953,
+      "note": "원제 Le salaire de la peur. 최고상 명칭은 Grand Prix du Festival International du Film. 프랑스."
+    },
+    {
+      "raw_title": "Gate of Hell",
+      "raw_creator": "Teinosuke Kinugasa",
+      "rank": null,
+      "year": 1954,
+      "note": "원제 地獄門 (Jigokumon). Grand Prix du Festival International du Film 명칭으로 수여된 마지막 해. 일본."
+    },
+    {
+      "raw_title": "Marty",
+      "raw_creator": "Delbert Mann",
+      "rank": null,
+      "year": 1955,
+      "note": "황금종려상(Palme d'Or)이라는 명칭으로 수여된 첫 수상작. 미국."
+    },
+    {
+      "raw_title": "The Silent World",
+      "raw_creator": "Jacques Cousteau, Louis Malle",
+      "rank": null,
+      "year": 1956,
+      "note": "원제 Le monde du silence. 프랑스."
+    },
+    {
+      "raw_title": "Friendly Persuasion",
+      "raw_creator": "William Wyler",
+      "rank": null,
+      "year": 1957,
+      "note": "미국."
+    },
+    {
+      "raw_title": "The Cranes Are Flying",
+      "raw_creator": "Mikhail Kalatozov",
+      "rank": null,
+      "year": 1958,
+      "note": "원제 Летят журавли (Letyat zhuravli). 소련."
+    },
+    {
+      "raw_title": "Black Orpheus",
+      "raw_creator": "Marcel Camus",
+      "rank": null,
+      "year": 1959,
+      "note": "원제 Orfeu Negro. 프랑스·브라질."
+    },
+    {
+      "raw_title": "La dolce vita",
+      "raw_creator": "Federico Fellini",
+      "rank": null,
+      "year": 1960,
+      "note": "원제 La dolce vita. 이탈리아."
+    },
+    {
+      "raw_title": "The Long Absence",
+      "raw_creator": "Henri Colpi",
+      "rank": null,
+      "year": 1961,
+      "note": "원제 Une aussi longue absence. 1961년 공동 수상. 프랑스."
+    },
+    {
+      "raw_title": "Viridiana",
+      "raw_creator": "Luis Buñuel",
+      "rank": null,
+      "year": 1961,
+      "note": "1961년 공동 수상. 스페인."
+    },
+    {
+      "raw_title": "O Pagador de Promessas",
+      "raw_creator": "Anselmo Duarte",
+      "rank": null,
+      "year": 1962,
+      "note": "원제 O Pagador de Promessas. 브라질."
+    },
+    {
+      "raw_title": "The Leopard",
+      "raw_creator": "Luchino Visconti",
+      "rank": null,
+      "year": 1963,
+      "note": "원제 Il gattopardo. 황금종려상 명칭으로 수여된 마지막 해(1964년부터 Grand Prix로 환원). 이탈리아."
+    },
+    {
+      "raw_title": "The Umbrellas of Cherbourg",
+      "raw_creator": "Jacques Demy",
+      "rank": null,
+      "year": 1964,
+      "note": "원제 Les parapluies de Cherbourg. 1964~1974년에는 최고상 명칭이 Grand Prix로 환원됐다. 프랑스."
+    },
+    {
+      "raw_title": "The Knack ...and How to Get It",
+      "raw_creator": "Richard Lester",
+      "rank": null,
+      "year": 1965,
+      "note": "최고상 명칭 Grand Prix 시기. 영국."
+    },
+    {
+      "raw_title": "The Birds, the Bees and the Italians",
+      "raw_creator": "Pietro Germi",
+      "rank": null,
+      "year": 1966,
+      "note": "원제 Signore e signori. 1966년 공동 수상. 최고상 명칭 Grand Prix 시기. 이탈리아."
+    },
+    {
+      "raw_title": "A Man and a Woman",
+      "raw_creator": "Claude Lelouch",
+      "rank": null,
+      "year": 1966,
+      "note": "원제 Un homme et une femme. 1966년 공동 수상. 프랑스."
+    },
+    {
+      "raw_title": "Blowup",
+      "raw_creator": "Michelangelo Antonioni",
+      "rank": null,
+      "year": 1967,
+      "note": "최고상 명칭 Grand Prix 시기. 영국."
+    },
+    {
+      "raw_title": "If....",
+      "raw_creator": "Lindsay Anderson",
+      "rank": null,
+      "year": 1969,
+      "note": "최고상 명칭 Grand Prix 시기. 영국."
+    },
+    {
+      "raw_title": "M*A*S*H",
+      "raw_creator": "Robert Altman",
+      "rank": null,
+      "year": 1970,
+      "note": "최고상 명칭 Grand Prix 시기. 미국."
+    },
+    {
+      "raw_title": "The Go-Between",
+      "raw_creator": "Joseph Losey",
+      "rank": null,
+      "year": 1971,
+      "note": "최고상 명칭 Grand Prix 시기. 영국."
+    },
+    {
+      "raw_title": "The Mattei Affair",
+      "raw_creator": "Francesco Rosi",
+      "rank": null,
+      "year": 1972,
+      "note": "원제 Il caso Mattei. 1972년 공동 수상. 최고상 명칭 Grand Prix 시기. 이탈리아."
+    },
+    {
+      "raw_title": "The Working Class Goes to Heaven",
+      "raw_creator": "Elio Petri",
+      "rank": null,
+      "year": 1972,
+      "note": "원제 La classe operaia va in paradiso. 1972년 공동 수상. 이탈리아."
+    },
+    {
+      "raw_title": "The Hireling",
+      "raw_creator": "Alan Bridges",
+      "rank": null,
+      "year": 1973,
+      "note": "1973년 공동 수상. 최고상 명칭 Grand Prix 시기. 영국."
+    },
+    {
+      "raw_title": "Scarecrow",
+      "raw_creator": "Jerry Schatzberg",
+      "rank": null,
+      "year": 1973,
+      "note": "1973년 공동 수상. 미국."
+    },
+    {
+      "raw_title": "The Conversation",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": null,
+      "year": 1974,
+      "note": "Grand Prix 명칭으로 수여된 마지막 해. 미국."
+    },
+    {
+      "raw_title": "Chronicle of the Years of Fire",
+      "raw_creator": "Mohammed Lakhdar-Hamina",
+      "rank": null,
+      "year": 1975,
+      "note": "원제 Chronique des années de braise. 1975년 황금종려상(Palme d'Or) 명칭이 다시 도입돼 이후 계속 유지된다. 알제리."
+    },
+    {
+      "raw_title": "Taxi Driver",
+      "raw_creator": "Martin Scorsese",
+      "rank": null,
+      "year": 1976,
+      "note": "미국."
+    },
+    {
+      "raw_title": "Padre Padrone",
+      "raw_creator": "Paolo Taviani, Vittorio Taviani",
+      "rank": null,
+      "year": 1977,
+      "note": "원제 Padre padrone. 이탈리아."
+    },
+    {
+      "raw_title": "The Tree of Wooden Clogs",
+      "raw_creator": "Ermanno Olmi",
+      "rank": null,
+      "year": 1978,
+      "note": "원제 L'albero degli zoccoli. 이탈리아."
+    },
+    {
+      "raw_title": "Apocalypse Now",
+      "raw_creator": "Francis Ford Coppola",
+      "rank": null,
+      "year": 1979,
+      "note": "1979년 공동 수상. 미국."
+    },
+    {
+      "raw_title": "The Tin Drum",
+      "raw_creator": "Volker Schlöndorff",
+      "rank": null,
+      "year": 1979,
+      "note": "원제 Die Blechtrommel. 1979년 공동 수상. 서독·프랑스."
+    },
+    {
+      "raw_title": "All That Jazz",
+      "raw_creator": "Bob Fosse",
+      "rank": null,
+      "year": 1980,
+      "note": "1980년 공동 수상. 미국."
+    },
+    {
+      "raw_title": "Kagemusha",
+      "raw_creator": "Akira Kurosawa",
+      "rank": null,
+      "year": 1980,
+      "note": "원제 影武者 (Kagemusha). 1980년 공동 수상. 일본."
+    },
+    {
+      "raw_title": "Man of Iron",
+      "raw_creator": "Andrzej Wajda",
+      "rank": null,
+      "year": 1981,
+      "note": "원제 Człowiek z żelaza. 폴란드."
+    },
+    {
+      "raw_title": "Missing",
+      "raw_creator": "Costa-Gavras",
+      "rank": null,
+      "year": 1982,
+      "note": "1982년 공동 수상. 미국."
+    },
+    {
+      "raw_title": "Yol",
+      "raw_creator": "Yılmaz Güney, Şerif Gören",
+      "rank": null,
+      "year": 1982,
+      "note": "1982년 공동 수상. 튀르키예."
+    },
+    {
+      "raw_title": "The Ballad of Narayama",
+      "raw_creator": "Shōhei Imamura",
+      "rank": null,
+      "year": 1983,
+      "note": "원제 楢山節考 (Narayama Bushikō). 일본."
+    },
+    {
+      "raw_title": "Paris, Texas",
+      "raw_creator": "Wim Wenders",
+      "rank": null,
+      "year": 1984,
+      "note": "서독·프랑스."
+    },
+    {
+      "raw_title": "When Father Was Away on Business",
+      "raw_creator": "Emir Kusturica",
+      "rank": null,
+      "year": 1985,
+      "note": "원제 Отац на службеном путу (Otac na službenom putu). 유고슬라비아."
+    },
+    {
+      "raw_title": "The Mission",
+      "raw_creator": "Roland Joffé",
+      "rank": null,
+      "year": 1986,
+      "note": "영국·미국."
+    },
+    {
+      "raw_title": "Under the Sun of Satan",
+      "raw_creator": "Maurice Pialat",
+      "rank": null,
+      "year": 1987,
+      "note": "원제 Sous le soleil de Satan. 프랑스."
+    },
+    {
+      "raw_title": "Pelle the Conqueror",
+      "raw_creator": "Bille August",
+      "rank": null,
+      "year": 1988,
+      "note": "원제 Pelle Erobreren. 덴마크."
+    },
+    {
+      "raw_title": "Sex, Lies, and Videotape",
+      "raw_creator": "Steven Soderbergh",
+      "rank": null,
+      "year": 1989,
+      "note": "미국."
+    },
+    {
+      "raw_title": "Wild at Heart",
+      "raw_creator": "David Lynch",
+      "rank": null,
+      "year": 1990,
+      "note": "미국."
+    },
+    {
+      "raw_title": "Barton Fink",
+      "raw_creator": "Joel Coen",
+      "rank": null,
+      "year": 1991,
+      "note": "미국."
+    },
+    {
+      "raw_title": "The Best Intentions",
+      "raw_creator": "Bille August",
+      "rank": null,
+      "year": 1992,
+      "note": "원제 Den goda viljan. 덴마크·스웨덴."
+    },
+    {
+      "raw_title": "Farewell My Concubine",
+      "raw_creator": "Chen Kaige",
+      "rank": null,
+      "year": 1993,
+      "note": "원제 霸王別姬 (Bàwáng Bié Jī). 1993년 공동 수상. 홍콩."
+    },
+    {
+      "raw_title": "The Piano",
+      "raw_creator": "Jane Campion",
+      "rank": null,
+      "year": 1993,
+      "note": "1993년 공동 수상. 제인 캠피언은 황금종려상을 받은 최초의 여성 감독. 뉴질랜드·호주·프랑스."
+    },
+    {
+      "raw_title": "Pulp Fiction",
+      "raw_creator": "Quentin Tarantino",
+      "rank": null,
+      "year": 1994,
+      "note": "미국."
+    },
+    {
+      "raw_title": "Underground",
+      "raw_creator": "Emir Kusturica",
+      "rank": null,
+      "year": 1995,
+      "note": "원제 Подземље (Podzemlje). 유고슬라비아."
+    },
+    {
+      "raw_title": "Secrets & Lies",
+      "raw_creator": "Mike Leigh",
+      "rank": null,
+      "year": 1996,
+      "note": "프랑스·영국."
+    },
+    {
+      "raw_title": "The Eel",
+      "raw_creator": "Shōhei Imamura",
+      "rank": null,
+      "year": 1997,
+      "note": "원제 うなぎ (Unagi). 1997년 공동 수상. 일본."
+    },
+    {
+      "raw_title": "Taste of Cherry",
+      "raw_creator": "Abbas Kiarostami",
+      "rank": null,
+      "year": 1997,
+      "note": "원제 طعم گيلاس (Ta'm-e Gilas). 1997년 공동 수상. 이란."
+    },
+    {
+      "raw_title": "Eternity and a Day",
+      "raw_creator": "Theo Angelopoulos",
+      "rank": null,
+      "year": 1998,
+      "note": "원제 Μια αιωνιότητα και μια μέρα. 그리스."
+    },
+    {
+      "raw_title": "Rosetta",
+      "raw_creator": "Jean-Pierre Dardenne, Luc Dardenne",
+      "rank": null,
+      "year": 1999,
+      "note": "벨기에."
+    },
+    {
+      "raw_title": "Dancer in the Dark",
+      "raw_creator": "Lars von Trier",
+      "rank": null,
+      "year": 2000,
+      "note": "덴마크."
+    },
+    {
+      "raw_title": "The Son's Room",
+      "raw_creator": "Nanni Moretti",
+      "rank": null,
+      "year": 2001,
+      "note": "원제 La stanza del figlio. 이탈리아."
+    },
+    {
+      "raw_title": "The Pianist",
+      "raw_creator": "Roman Polanski",
+      "rank": null,
+      "year": 2002,
+      "note": "폴란드·프랑스·독일·영국."
+    },
+    {
+      "raw_title": "Elephant",
+      "raw_creator": "Gus Van Sant",
+      "rank": null,
+      "year": 2003,
+      "note": "미국."
+    },
+    {
+      "raw_title": "Fahrenheit 9/11",
+      "raw_creator": "Michael Moore",
+      "rank": null,
+      "year": 2004,
+      "note": "미국."
+    },
+    {
+      "raw_title": "L'Enfant",
+      "raw_creator": "Jean-Pierre Dardenne, Luc Dardenne",
+      "rank": null,
+      "year": 2005,
+      "note": "원제 L'Enfant. 벨기에·프랑스."
+    },
+    {
+      "raw_title": "The Wind That Shakes the Barley",
+      "raw_creator": "Ken Loach",
+      "rank": null,
+      "year": 2006,
+      "note": "아일랜드·영국·이탈리아·독일."
+    },
+    {
+      "raw_title": "4 Months, 3 Weeks and 2 Days",
+      "raw_creator": "Cristian Mungiu",
+      "rank": null,
+      "year": 2007,
+      "note": "원제 4 luni, 3 săptămâni și 2 zile. 루마니아."
+    },
+    {
+      "raw_title": "The Class",
+      "raw_creator": "Laurent Cantet",
+      "rank": null,
+      "year": 2008,
+      "note": "원제 Entre les murs. 프랑스."
+    },
+    {
+      "raw_title": "The White Ribbon",
+      "raw_creator": "Michael Haneke",
+      "rank": null,
+      "year": 2009,
+      "note": "원제 Das weiße Band. 독일·오스트리아·프랑스."
+    },
+    {
+      "raw_title": "Uncle Boonmee Who Can Recall His Past Lives",
+      "raw_creator": "Apichatpong Weerasethakul",
+      "rank": null,
+      "year": 2010,
+      "note": "원제 ลุงบุญมีระลึกชาติ (Lung Bunmi Raluek Chat). 태국·프랑스·독일."
+    },
+    {
+      "raw_title": "The Tree of Life",
+      "raw_creator": "Terrence Malick",
+      "rank": null,
+      "year": 2011,
+      "note": "미국."
+    },
+    {
+      "raw_title": "Amour",
+      "raw_creator": "Michael Haneke",
+      "rank": null,
+      "year": 2012,
+      "note": "프랑스·독일·오스트리아."
+    },
+    {
+      "raw_title": "Blue Is the Warmest Colour",
+      "raw_creator": "Abdellatif Kechiche",
+      "rank": null,
+      "year": 2013,
+      "note": "원제 La Vie d'Adèle: Chapitres 1 et 2. 감독 압델라티프 케시시와 함께 주연 배우 아델 에그자르쇼폴로스·레아 세두에게도 트로피가 수여된 유일한 사례. 프랑스·벨기에·스페인."
+    },
+    {
+      "raw_title": "Winter Sleep",
+      "raw_creator": "Nuri Bilge Ceylan",
+      "rank": null,
+      "year": 2014,
+      "note": "원제 Kış Uykusu. 튀르키예·프랑스·독일."
+    },
+    {
+      "raw_title": "Dheepan",
+      "raw_creator": "Jacques Audiard",
+      "rank": null,
+      "year": 2015,
+      "note": "프랑스."
+    },
+    {
+      "raw_title": "I, Daniel Blake",
+      "raw_creator": "Ken Loach",
+      "rank": null,
+      "year": 2016,
+      "note": "영국."
+    },
+    {
+      "raw_title": "The Square",
+      "raw_creator": "Ruben Östlund",
+      "rank": null,
+      "year": 2017,
+      "note": "스웨덴·독일·프랑스·덴마크."
+    },
+    {
+      "raw_title": "Shoplifters",
+      "raw_creator": "Hirokazu Kore-eda",
+      "rank": null,
+      "year": 2018,
+      "note": "원제 万引き家族 (Manbiki Kazoku). 일본. 같은 해 장뤼크 고다르의 The Image Book에 일회성 '스페셜 황금종려상'이 별도 수여됐으나 최고상 계보와는 구분되므로 이 목록에서 제외했다."
+    },
+    {
+      "raw_title": "Parasite",
+      "raw_creator": "Bong Joon Ho",
+      "rank": null,
+      "year": 2019,
+      "note": "원제 기생충 (Gisaengchung). 대한민국."
+    },
+    {
+      "raw_title": "Titane",
+      "raw_creator": "Julia Ducournau",
+      "rank": null,
+      "year": 2021,
+      "note": "프랑스·벨기에. 쥘리아 뒤쿠르노는 단독 수상한 최초의 여성 감독."
+    },
+    {
+      "raw_title": "Triangle of Sadness",
+      "raw_creator": "Ruben Östlund",
+      "rank": null,
+      "year": 2022,
+      "note": "스웨덴·독일·프랑스·영국."
+    },
+    {
+      "raw_title": "Anatomy of a Fall",
+      "raw_creator": "Justine Triet",
+      "rank": null,
+      "year": 2023,
+      "note": "원제 Anatomie d'une chute. 프랑스."
+    },
+    {
+      "raw_title": "Anora",
+      "raw_creator": "Sean Baker",
+      "rank": null,
+      "year": 2024,
+      "note": "미국."
+    },
+    {
+      "raw_title": "It Was Just an Accident",
+      "raw_creator": "Jafar Panahi",
+      "rank": null,
+      "year": 2025,
+      "note": "원제 یک تصادف ساده (Yek Tasadof Sadeh), 프랑스어 제목 Un Simple Accident. 이란·프랑스·룩셈부르크."
+    },
+    {
+      "raw_title": "Fjord",
+      "raw_creator": "Cristian Mungiu",
+      "rank": null,
+      "year": 2026,
+      "note": "루마니아·노르웨이·덴마크·프랑스·스웨덴. 크리스티안 문지우의 두 번째 수상(2007년 이후)."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://en.wikipedia.org/wiki/Palme_d%27Or — 영문 위키백과 본문. action=raw로 위키텍스트 원문을 직접 내려받아 연도별 수상 표(1940s~2020s)를 사람이 직접 읽어 옮겼다. 본 목록의 주 출처.",
+      "https://en.wikipedia.org/wiki/Cannes_Film_Festival — 1948년·1950년 미개최 사유(예산 문제) 확인. 위키텍스트 원문 직접 확인.",
+      "https://www.festival-cannes.com/en/press/press-releases/the-79th-festival-de-cannes-winners-list/ — 공식 수상 발표. 2026년(제79회) 황금종려상 Fjord(Cristian Mungiu) 확인. 원 도메인이 403을 반환해 r.jina.ai 리더를 경유해 열었다.",
+      "https://www.festival-cannes.com/en/press/press-releases/the-78th-festival-de-cannes-winners-list/ — 공식 수상 발표. 2025년(제78회) 황금종려상 Un Simple Accident(Jafar Panahi) 확인. 동일하게 r.jina.ai 경유.",
+      "https://www.festival-cannes.com/en/the-festival/the-palme-d-or/ — 공식 황금종려상 소개 페이지. 상 명칭 변천(1946~1954 Grand Prix, 1955년 Marty가 첫 황금종려상, 1964~1974 중단 후 1975년 재도입) 확인. r.jina.ai 경유."
+    ],
+    "item_count": 103,
+    "year_range": "1939~2026",
+    "year_basis": "year 필드는 개봉 연도가 아니라 해당 작품이 최고상을 받은 영화제의 개최 연도(수상 연도)다. 1939년 항목만 예외적으로 성격이 다르다 — 실제 시상은 2002년에 이뤄졌으나 1939년 영화제의 수상작으로 소급 지정된 것이므로 지정 연도인 1939를 넣었고 note에 그 사실을 적었다.",
+    "no_award_years": [
+      "1939 — 제1회 영화제가 제2차 세계대전 발발로 취소돼 당시에는 시상이 없었다. 2002년에 소급 수상작(Union Pacific)이 선정됐고, 그 작품은 items에 포함했다.",
+      "1940~1945 — 제2차 세계대전 기간. 영화제 자체가 열리지 않았고 시상도 없었다. 실제 첫 개최는 1946년이다.",
+      "1948 — 예산 문제로 영화제 미개최.",
+      "1950 — 예산 문제로 영화제 미개최.",
+      "1968 — 5월 시위(May 68)에 연대해 영화제가 중도에 중단됐고 시상이 이뤄지지 않았다.",
+      "2020 — 코로나19로 영화제 취소. 공식 초청작 56편은 발표됐으나 시상은 없었다."
+    ],
+    "joint_wins": "공동 수상 연도는 13개다 — 1946(11편, 최고상이 11편에 동시 수여된 최다 사례), 1947(장르별 부문으로 나뉘어 5편), 1951(2편), 1952(2편), 1961(2편), 1966(2편), 1972(2편), 1973(2편), 1979(2편), 1980(2편), 1982(2편), 1993(2편), 1997(2편). 2013년은 작품이 1편이지만 감독 외에 주연 배우 2명에게도 트로피가 수여된 별개 성격의 사례로, 공동 수상 연도로 세지 않았다.",
+    "name_changes": "1939~1954: Grand Prix du Festival International du Film. 1955: 황금종려상(Palme d'Or) 신설, 첫 수상작은 Marty. 1955~1963: Palme d'Or. 1964~1974: Grand Prix로 환원. 1975: Palme d'Or 재도입, 이후 현재까지 유지. 이 변천은 영문 위키백과 본문과 공식 황금종려상 소개 페이지 양쪽에서 일치하게 확인했다.",
+    "gaps": "1947년 항목 5편은 최고상이 단일 작품이 아니라 장르별(심리·연애, 사회, 애니메이션, 모험·범죄, 뮤지컬 코미디) Grand Prix로 쪼개져 수여된 해의 결과다. 단일 최고상 1편을 기대하는 소비처에서는 이 해를 별도로 다뤄야 한다. 또한 1946년은 11편 공동 수상이라 연도별 대표작 1편을 뽑는 용도에는 그대로 쓰기 어렵다.",
+    "uncertainties": "① 2018년 장뤼크 고다르의 The Image Book에 수여된 일회성 '스페셜 황금종려상'은 최고상 계보가 아니라 별도 상이므로 items에서 제외했다(2018년 정규 수상작은 Shoplifters). ② 심사위원대상(Grand Prix), 감독상 등 다른 상은 전부 제외했다. 다만 1939~1954년과 1964~1974년의 최고상 명칭이 'Grand Prix'였다는 점 때문에 현재의 심사위원대상(Grand Prix)과 이름이 겹치므로 다른 자료와 대조할 때 혼동에 주의해야 한다. ③ 1946년과 1947년 수상작 목록은 공식 사이트의 개별 작품 페이지를 각 편마다 열어 확인하지는 않았고, 위키백과 표(각 항목이 공식 사이트 작품 페이지를 각주로 달고 있음)를 근거로 옮겼다. ④ 제작국 정보는 영문 위키백과 표 기준이며 자료마다 표기가 갈릴 수 있어 note에 참고용으로만 적었다. ⑤ 1993년 Farewell My Concubine의 제작국은 위키백과 표가 홍콩으로 적고 있으나 중국으로 표기하는 자료도 많다."
+  }
+}

@@ -1,0 +1,760 @@
+{
+  "curator": {
+    "slug": "pulitzer-prize",
+    "name": "퓰리처상",
+    "name_en": "The Pulitzer Prizes",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1917,
+    "homepage_url": "https://www.pulitzer.org",
+    "description": "미국 신문 발행인 조지프 퓰리처가 1904년 유언장에 남긴 기금으로 만들어져 1917년 첫 시상을 한 상이다. 컬럼비아대학교가 운영하며 퓰리처상 이사회가 최종 수상자를 결정한다. 언론·문학·연극·음악에 걸쳐 현재 23개 부문에서 매년 봄 수상자를 발표한다.",
+    "description_en": "Established under the 1904 will of newspaper publisher Joseph Pulitzer and first awarded in 1917, the Pulitzer Prizes are administered by Columbia University, with the Pulitzer Prize Board making the final selections. Twenty-three prizes are now announced each spring across journalism, letters, drama and music."
+  },
+  "list": {
+    "slug": "pulitzer-fiction-winners",
+    "title": "퓰리처상 소설 부문 수상작",
+    "title_en": "Pulitzer Prize for Fiction Winners",
+    "description": "퓰리처상 소설 부문의 역대 수상작 전량이다. 1918년 Novel(장편소설) 부문으로 시작해 1947년 Fiction(소설) 부문으로 이름이 바뀐 뒤 오늘까지 이어지는 같은 계보의 상이다. 미국 작가가 쓴 뛰어난 소설, 그중에서도 미국인의 삶을 다룬 작품을 우선해 매년 한 편을 뽑는다.",
+    "description_en": "The complete roll of winners of the Pulitzer Prize for Fiction. The award began in 1918 as the Prize for the Novel and was renamed Fiction in 1947, continuing as the same lineage to the present day. It honours distinguished fiction by an American author, preferably dealing with American life.",
+    "published_year": null,
+    "edition": null,
+    "method": "출판사 등이 그해 출간작을 응모하며, 마감은 10월이다. 심사위원 5명으로 꾸린 소설 부문 심사단이 응모작을 읽고 순위 없이 후보 3편을 이사회에 올린다. 이사회는 5월 초 컬럼비아대 저널리즘스쿨에 모여 후보작을 읽은 뒤 과반 투표로 수상작을 정한다. 이사회는 '수상작 없음'을 의결할 수 있고, 4분의 3 찬성으로는 후보에 오르지 않은 작품을 뽑거나 부문을 바꿔 시상할 수도 있다. 소설 부문 상금은 1만 5천 달러다.",
+    "method_en": "Publishers submit books published during the calendar year, with a final deadline in October. A five-member Fiction jury reads the entries and sends three nominations, in no order of preference, to the Pulitzer Prize Board. The Board meets in early May at Columbia's Journalism School, having read the nominated books, and selects the winner by majority vote. The Board may vote 'no award', and by a three-fourths vote may select an entry that was not nominated or move nominations between categories. The Fiction prize carries an award of $15,000.",
+    "source_url": "https://www.pulitzer.org/prize-winners-by-category/219",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "His Family",
+      "raw_creator": "Ernest Poole",
+      "rank": null,
+      "year": 1918,
+      "note": null
+    },
+    {
+      "raw_title": "The Magnificent Ambersons",
+      "raw_creator": "Booth Tarkington",
+      "rank": null,
+      "year": 1919,
+      "note": null
+    },
+    {
+      "raw_title": "The Age of Innocence",
+      "raw_creator": "Edith Wharton",
+      "rank": null,
+      "year": 1921,
+      "note": null
+    },
+    {
+      "raw_title": "Alice Adams",
+      "raw_creator": "Booth Tarkington",
+      "rank": null,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "One of Ours",
+      "raw_creator": "Willa Cather",
+      "rank": null,
+      "year": 1923,
+      "note": null
+    },
+    {
+      "raw_title": "The Able McLaughlins",
+      "raw_creator": "Margaret Wilson",
+      "rank": null,
+      "year": 1924,
+      "note": null
+    },
+    {
+      "raw_title": "So Big",
+      "raw_creator": "Edna Ferber",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "Arrowsmith",
+      "raw_creator": "Sinclair Lewis",
+      "rank": null,
+      "year": 1926,
+      "note": null
+    },
+    {
+      "raw_title": "Early Autumn",
+      "raw_creator": "Louis Bromfield",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "The Bridge of San Luis Rey",
+      "raw_creator": "Thornton Wilder",
+      "rank": null,
+      "year": 1928,
+      "note": null
+    },
+    {
+      "raw_title": "Scarlet Sister Mary",
+      "raw_creator": "Julia Peterkin",
+      "rank": null,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "Laughing Boy",
+      "raw_creator": "Oliver La Farge",
+      "rank": null,
+      "year": 1930,
+      "note": null
+    },
+    {
+      "raw_title": "Years of Grace",
+      "raw_creator": "Margaret Ayer Barnes",
+      "rank": null,
+      "year": 1931,
+      "note": null
+    },
+    {
+      "raw_title": "The Good Earth",
+      "raw_creator": "Pearl S. Buck",
+      "rank": null,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Store",
+      "raw_creator": "T. S. Stribling",
+      "rank": null,
+      "year": 1933,
+      "note": null
+    },
+    {
+      "raw_title": "Lamb in His Bosom",
+      "raw_creator": "Caroline Miller",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "Now in November",
+      "raw_creator": "Josephine Winslow Johnson",
+      "rank": null,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "Honey in the Horn",
+      "raw_creator": "Harold L. Davis",
+      "rank": null,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "Gone with the Wind",
+      "raw_creator": "Margaret Mitchell",
+      "rank": null,
+      "year": 1937,
+      "note": "pulitzer.org 표기: Gone With the Wind"
+    },
+    {
+      "raw_title": "The Late George Apley",
+      "raw_creator": "John Phillips Marquand",
+      "rank": null,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "The Yearling",
+      "raw_creator": "Marjorie Kinnan Rawlings",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "The Grapes of Wrath",
+      "raw_creator": "John Steinbeck",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "In This Our Life",
+      "raw_creator": "Ellen Glasgow",
+      "rank": null,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Dragon's Teeth",
+      "raw_creator": "Upton Sinclair",
+      "rank": null,
+      "year": 1943,
+      "note": null
+    },
+    {
+      "raw_title": "Journey in the Dark",
+      "raw_creator": "Martin Flavin",
+      "rank": null,
+      "year": 1944,
+      "note": null
+    },
+    {
+      "raw_title": "A Bell for Adano",
+      "raw_creator": "John Hersey",
+      "rank": null,
+      "year": 1945,
+      "note": null
+    },
+    {
+      "raw_title": "All the King's Men",
+      "raw_creator": "Robert Penn Warren",
+      "rank": null,
+      "year": 1947,
+      "note": null
+    },
+    {
+      "raw_title": "Tales of the South Pacific",
+      "raw_creator": "James A. Michener",
+      "rank": null,
+      "year": 1948,
+      "note": null
+    },
+    {
+      "raw_title": "Guard of Honor",
+      "raw_creator": "James Gould Cozzens",
+      "rank": null,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "The Way West",
+      "raw_creator": "A. B. Guthrie",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "The Town",
+      "raw_creator": "Conrad Richter",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "The Caine Mutiny",
+      "raw_creator": "Herman Wouk",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "The Old Man and the Sea",
+      "raw_creator": "Ernest Hemingway",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "A Fable",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "Andersonville",
+      "raw_creator": "MacKinlay Kantor",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "A Death in the Family",
+      "raw_creator": "James Agee",
+      "rank": null,
+      "year": 1958,
+      "note": "pulitzer.org 표기: A Death In The Family"
+    },
+    {
+      "raw_title": "The Travels of Jaimie McPheeters",
+      "raw_creator": "Robert Lewis Taylor",
+      "rank": null,
+      "year": 1959,
+      "note": null
+    },
+    {
+      "raw_title": "Advise and Consent",
+      "raw_creator": "Allen Drury",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "To Kill a Mockingbird",
+      "raw_creator": "Harper Lee",
+      "rank": null,
+      "year": 1961,
+      "note": "pulitzer.org 표기: To Kill A Mockingbird"
+    },
+    {
+      "raw_title": "The Edge of Sadness",
+      "raw_creator": "Edwin O'Connor",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "The Reivers",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "The Keepers of the House",
+      "raw_creator": "Shirley Ann Grau",
+      "rank": null,
+      "year": 1965,
+      "note": "pulitzer.org 표기: The Keepers Of The House"
+    },
+    {
+      "raw_title": "The Collected Stories",
+      "raw_creator": "Katherine Anne Porter",
+      "rank": null,
+      "year": 1966,
+      "note": "pulitzer.org 표기: Collected Stories"
+    },
+    {
+      "raw_title": "The Fixer",
+      "raw_creator": "Bernard Malamud",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "The Confessions of Nat Turner",
+      "raw_creator": "William Styron",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "House Made of Dawn",
+      "raw_creator": "N. Scott Momaday",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Collected Stories",
+      "raw_creator": "Jean Stafford",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Angle of Repose",
+      "raw_creator": "Wallace Stegner",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Optimist's Daughter",
+      "raw_creator": "Eudora Welty",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Killer Angels",
+      "raw_creator": "Michael Shaara",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "Humboldt's Gift",
+      "raw_creator": "Saul Bellow",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Elbow Room",
+      "raw_creator": "James Alan McPherson",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "The Stories of John Cheever",
+      "raw_creator": "John Cheever",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Executioner's Song",
+      "raw_creator": "Norman Mailer",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "A Confederacy of Dunces",
+      "raw_creator": "John Kennedy Toole",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Rabbit Is Rich",
+      "raw_creator": "John Updike",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "The Color Purple",
+      "raw_creator": "Alice Walker",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Ironweed",
+      "raw_creator": "William Kennedy",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Foreign Affairs",
+      "raw_creator": "Alison Lurie",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Lonesome Dove",
+      "raw_creator": "Larry McMurtry",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "A Summons to Memphis",
+      "raw_creator": "Peter Taylor",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Beloved",
+      "raw_creator": "Toni Morrison",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Breathing Lessons",
+      "raw_creator": "Anne Tyler",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "The Mambo Kings Play Songs of Love",
+      "raw_creator": "Oscar Hijuelos",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Rabbit at Rest",
+      "raw_creator": "John Updike",
+      "rank": null,
+      "year": 1991,
+      "note": "pulitzer.org 표기: Rabbit At Rest"
+    },
+    {
+      "raw_title": "A Thousand Acres",
+      "raw_creator": "Jane Smiley",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "A Good Scent from a Strange Mountain",
+      "raw_creator": "Robert Olen Butler",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Shipping News",
+      "raw_creator": "E. Annie Proulx",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "The Stone Diaries",
+      "raw_creator": "Carol Shields",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "Independence Day",
+      "raw_creator": "Richard Ford",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Martin Dressler: The Tale of an American Dreamer",
+      "raw_creator": "Steven Millhauser",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "American Pastoral",
+      "raw_creator": "Philip Roth",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "The Hours",
+      "raw_creator": "Michael Cunningham",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Interpreter of Maladies",
+      "raw_creator": "Jhumpa Lahiri",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Amazing Adventures of Kavalier and Clay",
+      "raw_creator": "Michael Chabon",
+      "rank": null,
+      "year": 2001,
+      "note": "pulitzer.org 표기: The Amazing Adventures of Kavalier & Clay"
+    },
+    {
+      "raw_title": "Empire Falls",
+      "raw_creator": "Richard Russo",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Middlesex",
+      "raw_creator": "Jeffrey Eugenides",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Known World",
+      "raw_creator": "Edward P. Jones",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Gilead",
+      "raw_creator": "Marilynne Robinson",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "March",
+      "raw_creator": "Geraldine Brooks",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "The Road",
+      "raw_creator": "Cormac McCarthy",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Brief Wondrous Life of Oscar Wao",
+      "raw_creator": "Junot Díaz",
+      "rank": null,
+      "year": 2008,
+      "note": "pulitzer.org 표기: Junot Diaz"
+    },
+    {
+      "raw_title": "Olive Kitteridge",
+      "raw_creator": "Elizabeth Strout",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Tinkers",
+      "raw_creator": "Paul Harding",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "A Visit from the Goon Squad",
+      "raw_creator": "Jennifer Egan",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "The Orphan Master's Son",
+      "raw_creator": "Adam Johnson",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "The Goldfinch",
+      "raw_creator": "Donna Tartt",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "All the Light We Cannot See",
+      "raw_creator": "Anthony Doerr",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "The Sympathizer",
+      "raw_creator": "Viet Thanh Nguyen",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "The Underground Railroad",
+      "raw_creator": "Colson Whitehead",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Less",
+      "raw_creator": "Andrew Sean Greer",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Overstory",
+      "raw_creator": "Richard Powers",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "The Nickel Boys",
+      "raw_creator": "Colson Whitehead",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "The Night Watchman",
+      "raw_creator": "Louise Erdrich",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "The Netanyahus",
+      "raw_creator": "Joshua Cohen",
+      "rank": null,
+      "year": 2022,
+      "note": "pulitzer.org 표기: The Netanyahus: An Account of a Minor and Ultimately Even Negligible Episode in the History of a Very Famous Family"
+    },
+    {
+      "raw_title": "Trust",
+      "raw_creator": "Hernan Diaz",
+      "rank": null,
+      "year": 2023,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Demon Copperhead",
+      "raw_creator": "Barbara Kingsolver",
+      "rank": null,
+      "year": 2023,
+      "note": "공동 수상"
+    },
+    {
+      "raw_title": "Night Watch",
+      "raw_creator": "Jayne Anne Phillips",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "James",
+      "raw_creator": "Percival Everett",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "Angel Down",
+      "raw_creator": "Daniel Kraus",
+      "rank": null,
+      "year": 2026,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.pulitzer.org/prize-winners-by-category/219 (공식 Fiction 부문 목록 — 1948~2026 전량의 1차 출처. WebFetch는 403이라 TLS 지문 우회 fetch로 200 수신)",
+      "https://www.pulitzer.org/prize-winners-by-category/261 (공식 Novel 부문 목록 — 1918~1947 전량의 1차 출처. 'The Novel category was re-named Fiction in 1947' 명시)",
+      "https://www.pulitzer.org/prize-winners-categories (부문 목록 — Fiction=219, Novel=261 식별)",
+      "https://www.pulitzer.org/page/administration-prizes (심사 절차 — 책 부문 심사단 5인·후보 3편·이사회 과반 투표·10월 마감)",
+      "https://www.pulitzer.org/page/history-pulitzer-prizes (1904년 유언장, 1917년 시상 시작, 이사회의 수상작 보류 권한)",
+      "https://en.wikipedia.org/wiki/Pulitzer_Prize_for_Fiction (WebFetch 200 — 전 연도 교차 대조 및 수상작 없는 해 확인)",
+      "https://www.pulitzer.org/news/2026-pulitzer-prize-announcement (WebSearch 결과 스니펫으로만 확인 — 2026년 5월 4일 발표, Fiction 수상작 Angel Down. 페이지 본문은 직접 열지 못했고, 수상작 자체는 공식 부문 목록에서 확인했다)"
+    ],
+    "item_count": 100,
+    "year_range": "1918 ~ 2026 (109개 연도 중 수상작 있는 해 99개)",
+    "no_award_years": [
+      1920,
+      1941,
+      1946,
+      1954,
+      1957,
+      1964,
+      1971,
+      1974,
+      1977,
+      2012
+    ],
+    "gaps": "없다. 1918년부터 2026년까지 연속으로 확인했다. 아래 no_award_years 10개 연도를 빼면 나머지 99개 연도가 빈 곳 없이 이어지며, 2023년만 공동 수상이라 항목 수는 100개다. 1964년과 2012년은 공식 목록에 연도 칸은 있으나 수상작 칸이 비어 있고 최종 후보만 실려 있다. 1954·1957·1971·1974·1977년은 공식 목록에 연도 칸 자체가 없다. 두 형태 모두 위키백과가 'No award'로 기록한 해와 정확히 일치한다.",
+    "uncertainties": "제목·저자 표기가 두 출처에서 갈리는 항목이 9개다. 공식 사이트가 대문자 규칙을 일관되게 지키지 않아, 실제 출간 제목(위키백과와 일치)을 raw_title에 넣고 공식 사이트 표기를 각 항목 note에 남겼다. 목록: 1937년 — pulitzer.org \"Gone With the Wind\" / 위키백과·통용 표기 \"Gone with the Wind\"; 1958년 — pulitzer.org \"A Death In The Family\" / 위키백과·통용 표기 \"A Death in the Family\"; 1961년 — pulitzer.org \"To Kill A Mockingbird\" / 위키백과·통용 표기 \"To Kill a Mockingbird\"; 1965년 — pulitzer.org \"The Keepers Of The House\" / 위키백과·통용 표기 \"The Keepers of the House\"; 1966년 — pulitzer.org \"Collected Stories\" / 위키백과·통용 표기 \"The Collected Stories\"; 1991년 — pulitzer.org \"Rabbit At Rest\" / 위키백과·통용 표기 \"Rabbit at Rest\"; 2001년 — pulitzer.org \"The Amazing Adventures of Kavalier & Clay\" / 위키백과·통용 표기 \"The Amazing Adventures of Kavalier and Clay\"; 2008년 — pulitzer.org \"Junot Diaz\" / 위키백과·통용 표기 \"Junot Díaz\"; 2022년 — pulitzer.org \"The Netanyahus: An Account of a Minor and Ultimately Even Negligible Episode in the History of a Very Famous Family\" / 위키백과·통용 표기 \"The Netanyahus\". 이 밖에 1966년 캐서린 앤 포터 수상작은 통상 'The Collected Stories of Katherine Anne Porter'라는 완전한 제목으로 유통되나, 두 출처 모두 저자명을 뺀 형태로 적어 그대로 따랐다. 2023년 두 편은 공식 사이트가 Trust, Demon Copperhead 순으로 싣고 있으나 순위가 아니라 공동 수상이다(is_ranked=false)."
+  }
+}

@@ -1,0 +1,2307 @@
+{
+  "curator": {
+    "slug": "st-johns-college",
+    "name": "세인트존스 칼리지",
+    "name_en": "St. John's College",
+    "kind": "university",
+    "country": "US",
+    "founded_year": 1696,
+    "homepage_url": "https://www.sjc.edu",
+    "description": "미국 메릴랜드주 아나폴리스와 뉴멕시코주 산타페에 캠퍼스를 둔 리버럴 아츠 칼리지다. 1696년 킹 윌리엄 스쿨로 문을 열어 1784년 세인트존스 칼리지로 인가받았고, 1937년부터 고전 원전 읽기를 뼈대로 삼는 그레이트 북스 교육과정을 운영한다. 전공을 나누지 않아 전교생이 같은 원전 목록을 같은 순서로 읽으며, 교수 대신 튜터라 부르는 교원이 이끄는 20명 미만 토론 수업이 수업의 중심이다.",
+    "description_en": "St. John's College is a liberal arts college with campuses in Annapolis, Maryland and Santa Fe, New Mexico. Founded in 1696 as King William's School and chartered as St. John's College in 1784, it adopted its Great Books curriculum in 1937. The college has no majors: every student reads the same original texts in the same order and discusses them in seminars of fewer than 20 students, led by faculty who are called tutors rather than professors."
+  },
+  "list": {
+    "slug": "st-johns-great-books",
+    "title": "세인트존스 고전 목록",
+    "title_en": "St. John's College Great Books Reading List",
+    "description": "세인트존스 칼리지 학부생이 4년간 읽는 원전 목록이다. 1학년 그리스 고전에서 출발해 2학년 성서·중세·르네상스, 3학년 근대, 4학년 19~20세기로 이어지며 문학·철학·정치·수학·자연과학·음악을 한 줄기로 다룬다. 순위 없이 학년별로만 나뉜다.",
+    "description_en": "The list of original texts that St. John's College undergraduates read over four years. It moves chronologically from Greek antiquity in the freshman year through scripture and the medieval and Renaissance worlds in the sophomore year, early modernity in the junior year, and the 19th and 20th centuries in the senior year, treating literature, philosophy, politics, mathematics, natural science, and music as a single sequence. It is unranked and organized only by year of study.",
+    "published_year": null,
+    "edition": null,
+    "method": "학과와 전공을 두지 않고 전교생이 같은 원전을 정해진 순서로 읽는 필수 교육과정이다. 1937년 도입 이후 목록은 계속 바뀌어 왔다. 출처 페이지는 학년별로 저자 카드를 늘어놓고 각 카드에 작품과 주제 분류를 붙여 보여주며, 3·4학년 선택 수업에서만 읽는 책도 같은 목록에 표시 없이 섞여 있다. 출처 페이지 스스로 최근 변경, 한쪽 캠퍼스에서만 읽는 책, 일부만 읽는 책, 3·4학년 선택 수업 도서 때문에 현재 목록과 정확히 일치하지 않을 수 있다고 밝힌다.",
+    "method_en": "A required, non-elective core curriculum: with no departments or majors, all students read the same texts in the same order. The curriculum was adopted in 1937 and the list has been revised continuously since. The source page presents author cards grouped by year of study, each card naming the work(s) and subject tags, with books read only in junior and senior elective classes mixed into the same lists without any marker. The page itself states that it 'may not accurately reflect the current reading list due to recent changes, works that are read only on one campus, works that are read in part, and works that are read by some students as junior and senior elective classes.'",
+    "source_url": "https://www.sjc.edu/academic-programs/undergraduate/great-books-reading-list",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "classics"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Agamemnon",
+      "raw_creator": "Aeschylus",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Libation Bearers",
+      "raw_creator": "Aeschylus",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Eumenides",
+      "raw_creator": "Aeschylus",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Prometheus Bound",
+      "raw_creator": "Aeschylus",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On the Equilibrium of Planes",
+      "raw_creator": "Archimedes",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On Floating Bodies",
+      "raw_creator": "Archimedes",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Clouds",
+      "raw_creator": "Aristophanes",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Poetics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Physics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Metaphysics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Nicomachean Ethics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On Generation and Corruption",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Politics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Parts of Animals",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Generation of Animals",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Essay on a Manner of Determining the Relative Masses of the Elementary Molecules of Bodies",
+      "raw_creator": "Amedeo Avogadro",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Excerpt from Essai de Statique Chimique",
+      "raw_creator": "Claude Berthollet",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Extracts from Lectures on the Elements of Chemistry",
+      "raw_creator": "Joseph Black",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Letter to Professor S. De Luca",
+      "raw_creator": "Stanislao Cannizzaro",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Extracts from A New System of Chemical Philosophy",
+      "raw_creator": "John Dalton",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "The Science and Philosophy of the Organism",
+      "raw_creator": "Hans Driesch",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Elements",
+      "raw_creator": "Euclid",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Hippolytus",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Bacchae",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "The Fahrenheit Scale",
+      "raw_creator": "Daniel Fahrenheit",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On the Expansion of Gases by Heat",
+      "raw_creator": "Joseph-Louis Gay-Lussac",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Memoir on the Combination of Gaseous Substances with Each Other",
+      "raw_creator": "Joseph-Louis Gay-Lussac",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On The Motion of the Heart and Blood in Animals",
+      "raw_creator": "William Harvey",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Histories",
+      "raw_creator": "Herodotus",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Iliad",
+      "raw_creator": "Homer",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Odyssey",
+      "raw_creator": "Homer",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Elements of Chemistry",
+      "raw_creator": "Antoine Lavoisier",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On the Nature of Things",
+      "raw_creator": "Lucretius",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Edme Mariotte",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "The Periodic Law of the Chemical Elements",
+      "raw_creator": "Dmitri Mendeleev",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Arithmetic",
+      "raw_creator": "Nicomachus",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Treatise on the Equilibrium of Liquids",
+      "raw_creator": "Blaise Pascal",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Meno",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Gorgias",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Republic",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Apology",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Crito",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Phaedo",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Symposium",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Parmenides",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Theaetetus",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Sophist",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Timaeus",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Phaedrus",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year · Senior year"
+    },
+    {
+      "raw_title": "Lycurgus",
+      "raw_creator": "Plutarch",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Solon",
+      "raw_creator": "Plutarch",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Excerpt from Sur Les Oxidations Metalliques",
+      "raw_creator": "J.L. Proust",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Almagest",
+      "raw_creator": "Ptolemy",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year · Sophomore year"
+    },
+    {
+      "raw_title": "Poems 1 and 31",
+      "raw_creator": "Sappho",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Oedipus Rex",
+      "raw_creator": "Sophocles",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Oedipus at Colonus",
+      "raw_creator": "Sophocles",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Antigone, Philoctetes",
+      "raw_creator": "Sophocles",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Ajax",
+      "raw_creator": "Sophocles",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "The Organizer-Effect in Embryonic Development (Nobel Lecture 1935)",
+      "raw_creator": "Hans Spemann",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Embryonic Development and Induction",
+      "raw_creator": "Hans Spemann",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Extracts from System of Chemistry",
+      "raw_creator": "J.J. Thomson",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "The History of the Peloponnesian War",
+      "raw_creator": "Thucydides",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Cellular Pathology Lectures",
+      "raw_creator": "Rudolf Virchow",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "On Not Knowing Greek",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": null,
+      "note": "Freshman year"
+    },
+    {
+      "raw_title": "Hebrew Bible",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "New Testament",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Divine Comedy",
+      "raw_creator": "Dante Alighieri",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Proslogium",
+      "raw_creator": "Anselm",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Conics",
+      "raw_creator": "Apollonius",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Summa Theologiae",
+      "raw_creator": "Thomas Aquinas",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "De Anima",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "On Interpretation",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Prior Analytics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Categories",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Confessions",
+      "raw_creator": "Augustine",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "St. Matthew Passion",
+      "raw_creator": "Johann Sebastian Bach",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Inventions",
+      "raw_creator": "Johann Sebastian Bach",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Novum Organum",
+      "raw_creator": "Francis Bacon",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "The Disappointment",
+      "raw_creator": "Aphra Behn",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Anne Bradstreet",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Canterbury Tales",
+      "raw_creator": "Geoffrey Chaucer",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "On the Revolution of the Heavenly Spheres",
+      "raw_creator": "Nicolaus Copernicus",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Missa Papae Marcelli",
+      "raw_creator": "Giovanni Pierluigi da Palestrina",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Michel de Montaigne",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Geometry",
+      "raw_creator": "René Descartes",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Discourse on Method",
+      "raw_creator": "René Descartes",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "John Donne",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "The Correspondence Between Princess Elisabeth of Bohemia and René Descartes",
+      "raw_creator": "Princess Elisabeth",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Discourses",
+      "raw_creator": "Epictetus",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Manual",
+      "raw_creator": "Epictetus",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Quartets",
+      "raw_creator": "Joseph Haydn",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Astronomia Nova",
+      "raw_creator": "Johannes Kepler",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Early History of Rome",
+      "raw_creator": "Livy",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Anne Locke",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "The Prince",
+      "raw_creator": "Niccolò Machiavelli",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Discourses",
+      "raw_creator": "Niccolò Machiavelli",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Guide for the Perplexed",
+      "raw_creator": "Maimonides",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Andrew Marvell",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "L’Orfeo",
+      "raw_creator": "Claudio Monteverdi",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Operas",
+      "raw_creator": "Wolfgang Amadeus Mozart",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Stomping the Blues",
+      "raw_creator": "Albert Murray",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Generation of Conic Sections",
+      "raw_creator": "Blaise Pascal",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "The Enneads",
+      "raw_creator": "Plotinus",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Caesar",
+      "raw_creator": "Plutarch",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Cato the Younger",
+      "raw_creator": "Plutarch",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Antony",
+      "raw_creator": "Plutarch",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Brutus",
+      "raw_creator": "Plutarch",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Sappho",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Songs",
+      "raw_creator": "Franz Schubert",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Richard II",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Henry IV",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "The Tempest",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "As You Like It",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Hamlet",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Othello",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Macbeth",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "King Lear",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Sonnets",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Symphony of Psalms",
+      "raw_creator": "Igor Stravinsky",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Annals",
+      "raw_creator": "Tacitus",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Third Symphony",
+      "raw_creator": "Ludwig van Beethoven",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Introduction to the Analytical Art",
+      "raw_creator": "François Viète",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Aeneid",
+      "raw_creator": "Virgil",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "A Crown of Sonnets Dedicated to Love",
+      "raw_creator": "Lady Mary Wroth",
+      "rank": null,
+      "year": null,
+      "note": "Sophomore year"
+    },
+    {
+      "raw_title": "Articles of Confederation",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Declaration of Independence",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Constitution of the United States of America",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "André-Marie Ampère",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Pride and Prejudice",
+      "raw_creator": "Jane Austen",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Emma",
+      "raw_creator": "Jane Austen",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "On the Vibrating String",
+      "raw_creator": "Daniel Bernoulli",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Don Quixote",
+      "raw_creator": "Miguel de Cervantes",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Excerpts from Coulomb’s Mémoires sur l’électricité et le magnétisme",
+      "raw_creator": "Charles-Augustin de Coulomb",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Princess of Clèves",
+      "raw_creator": "Madame de La Fayette",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Fables",
+      "raw_creator": "Jean de La Fontaine",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Maxims",
+      "raw_creator": "François de La Rochefoucauld",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Essays on the Theory of Numbers",
+      "raw_creator": "Richard Dedekind",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Meditations",
+      "raw_creator": "René Descartes",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Rules for the Direction of the Mind",
+      "raw_creator": "René Descartes",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Middlemarch",
+      "raw_creator": "George Eliot",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Remarks on the Preceding Papers by Mr. Bernoulli",
+      "raw_creator": "Leonhard Euler",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Experimental Researches in Electricity",
+      "raw_creator": "Michael Faraday",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Excerpt from several letters to Peter Collinson on the nature of electricity",
+      "raw_creator": "Benjamin Franklin",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Two New Sciences",
+      "raw_creator": "Galileo Galilei",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "De Magnete",
+      "raw_creator": "William Gilbert",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Federalist",
+      "raw_creator": "Hamilton, Jay, and Madison",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Scarlet Letter",
+      "raw_creator": "Nathaniel Hawthorne",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Leviathan",
+      "raw_creator": "Thomas Hobbes",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Treatise of Human Nature",
+      "raw_creator": "David Hume",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Treatise on Light",
+      "raw_creator": "Christiaan Huygens",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "On the Movement of Bodies by Impact",
+      "raw_creator": "Christiaan Huygens",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Critique of Pure Reason",
+      "raw_creator": "Immanuel Kant",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Foundations of the Metaphysics of Morals",
+      "raw_creator": "Immanuel Kant",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Monadology",
+      "raw_creator": "Gottfried Wilhelm Leibniz",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Discourse on Metaphysics",
+      "raw_creator": "Gottfried Wilhelm Leibniz",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Essay on Dynamics",
+      "raw_creator": "Gottfried Wilhelm Leibniz",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Philosophical Essays",
+      "raw_creator": "Gottfried Wilhelm Leibniz",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Principles of Nature and Grace",
+      "raw_creator": "Gottfried Wilhelm Leibniz",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Second Treatise of Government",
+      "raw_creator": "John Locke",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "On Faraday’s Lines of Force",
+      "raw_creator": "James Clerk Maxwell",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "On Physical Lines of Force",
+      "raw_creator": "James Clerk Maxwell",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "A Dynamical Theory of the Electromagnetic Field",
+      "raw_creator": "James Clerk Maxwell",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Paradise Lost",
+      "raw_creator": "John Milton",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Le Misanthrope",
+      "raw_creator": "Molière",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Don Giovanni",
+      "raw_creator": "Wolfgang Amadeus Mozart",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Principia Mathematica",
+      "raw_creator": "Isaac Newton",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Observations on Several New Electrical Phenomena",
+      "raw_creator": "Jean-Antoine Nollet",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Experiments concerning the efficacy of electric conflict on the magnetic needle",
+      "raw_creator": "Hans Christian Ørsted",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Pensées",
+      "raw_creator": "Blaise Pascal",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Phèdre",
+      "raw_creator": "Jean Racine",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Social Contract",
+      "raw_creator": "Jean-Jacques Rousseau",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Origin of Inequality",
+      "raw_creator": "Jean-Jacques Rousseau",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Wealth of Nations",
+      "raw_creator": "Adam Smith",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Theologico-Political Treatise",
+      "raw_creator": "Baruch Spinoza",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Ethics",
+      "raw_creator": "Baruch Spinoza",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Gulliver’s Travels",
+      "raw_creator": "Jonathan Swift",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "On the motion of the stretched string",
+      "raw_creator": "Brook Taylor",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Adventures of Huckleberry Finn",
+      "raw_creator": "Mark Twain",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "On the Electricity excited by the mere contact of conducting substances of different kinds",
+      "raw_creator": "Alessandro Volta",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Two-Part Prelude of 1799",
+      "raw_creator": "William Wordsworth",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Tristan and Isolde",
+      "raw_creator": "Richard Wagner",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "On the Nature of Light and Colors",
+      "raw_creator": "Thomas Young",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Human Condition",
+      "raw_creator": "Hannah Arendt",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Waiting for Godot",
+      "raw_creator": "Samuel Beckett",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Bhagavad Gita",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Stranger",
+      "raw_creator": "Albert Camus",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Daode jing",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Letters",
+      "raw_creator": "Madame de Sévigne",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Devils",
+      "raw_creator": "Fyodor Dostoevsky",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Marcel Duchamp",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Invisible Man",
+      "raw_creator": "Ralph Ellison",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Alcestis",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Medea",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Hecuba",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Trojan Women",
+      "raw_creator": "Euripides",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "QED",
+      "raw_creator": "Richard Feynman",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Madame Bovary",
+      "raw_creator": "Gustave Flaubert",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Discipline and Punish",
+      "raw_creator": "Michel Foucault",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Security, Territory, and Population",
+      "raw_creator": "Michel Foucault",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "One Hundred Years of Solitude",
+      "raw_creator": "Gabriel García Márquez",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "History of the Decline and Fall of the Roman Empire",
+      "raw_creator": "Edward Gibbon",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "A Course of Pure Mathematics",
+      "raw_creator": "G. H. Hardy",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Philosophy of Nature",
+      "raw_creator": "Georg Hegel",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Elements of Philosophy of Right",
+      "raw_creator": "Georg Hegel",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "What is Metaphysics?",
+      "raw_creator": "Martin Heidegger",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Selected movies",
+      "raw_creator": "Alfred Hitchcock",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Portrait of a Lady",
+      "raw_creator": "Henry James",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Ulysses",
+      "raw_creator": "James Joyce",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Either/Or",
+      "raw_creator": "Soren Kierkegaard",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Dao De Jing",
+      "raw_creator": "Laozi",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Independent People",
+      "raw_creator": "Halldór Laxness",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Totality and Infinity",
+      "raw_creator": "Emmanuel Levinas",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Studies in Animal and Human Behavior",
+      "raw_creator": "Konrad Lorenz",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Ficciones",
+      "raw_creator": "Jorge Luis Borges",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Sunan",
+      "raw_creator": "Ibn Mājah",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Art",
+      "raw_creator": "Édouard Manet",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Moby Dick",
+      "raw_creator": "Herman Melville",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Death of a Salesman",
+      "raw_creator": "Arthur Miller",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Beloved",
+      "raw_creator": "Toni Morrison",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Gay Science",
+      "raw_creator": "Friedrich Nietzsche",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Wise Blood",
+      "raw_creator": "Flannery O’Connor",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Capital",
+      "raw_creator": "Thomas Piketty",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Swann’s Way",
+      "raw_creator": "Marcel Proust",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Remembrance of Things Past",
+      "raw_creator": "Marcel Proust",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Notebooks of Malte Laurids Brigge",
+      "raw_creator": "Ranier Maria Rilke",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Rise and Decline of the Roman Republic",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "Emile",
+      "raw_creator": "Jean-Jacques Rousseau",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "An Introduction to Mathematical Philosophy",
+      "raw_creator": "Bertrand Russell",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Measure for Measure",
+      "raw_creator": "William Shakespeare",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Decline of the West",
+      "raw_creator": "Oswald Spengler",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Music",
+      "raw_creator": "Igor Stravinsky",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Candide",
+      "raw_creator": "Voltaire",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Short stories",
+      "raw_creator": "Eudora Welty",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "A Streetcar Named Desire",
+      "raw_creator": "Tennesee Williams",
+      "rank": null,
+      "year": null,
+      "note": "Junior year"
+    },
+    {
+      "raw_title": "The Works of Zhuangzi",
+      "raw_creator": "Zhuangzi",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Waves",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Finnegans Wake",
+      "raw_creator": "James Joyce",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Awakening",
+      "raw_creator": "Kate Chopin",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Their Eyes Were Watching God",
+      "raw_creator": "Zora Neale Hurston",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "A House for Mr. Biswas",
+      "raw_creator": "V.S. Naipaul",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "The Recognitions",
+      "raw_creator": "William Gaddis",
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "Neuroscience",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Junior year · Senior year"
+    },
+    {
+      "raw_title": "United States Supreme Court Decisions",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Stranger in the Village, The Fire Next Time",
+      "raw_creator": "James Baldwin",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Les Fleurs du Mal",
+      "raw_creator": "Charles Baudelaire",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "George Beadle & Edward Tatum",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Elizabeth Bishop",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "On the Spectrum of Hydrogen",
+      "raw_creator": "Niels Bohr",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Theodor Boveri",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Sonnets from Children of the Poor",
+      "raw_creator": "Gwendolyn Brooks",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Heart of Darkness",
+      "raw_creator": "Joseph Conrad",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Origin of Species",
+      "raw_creator": "Charles Darwin",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Clinton Davisson",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Second Sex",
+      "raw_creator": "Simone de Beauvoir",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Matter Waves",
+      "raw_creator": "Louis de Broglie",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Democracy in America",
+      "raw_creator": "Alexis de Tocqueville",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Emily Dickinson",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Brothers Karamazov",
+      "raw_creator": "Fyodor Dostoevsky",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Selected speeches",
+      "raw_creator": "Frederick Douglass",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Souls of Black Folk",
+      "raw_creator": "W. E. B. Du Bois",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Relativity",
+      "raw_creator": "Albert Einstein",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "On the Electrodynamics of Moving Bodies",
+      "raw_creator": "Albert Einstein",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "On the Influence of Gravitation on the Propagation of Light",
+      "raw_creator": "Albert Einstein",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Foundation of the General Theory of Relativity",
+      "raw_creator": "Albert Einstein",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Does the Inertia of a Body Depend upon its Energy Content?",
+      "raw_creator": "Albert Einstein",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "T. S. Eliot",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "On the Absolute Quantity of Electricity Associated with the Particles or Atoms of Matter",
+      "raw_creator": "Michael Faraday",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Go Down, Moses",
+      "raw_creator": "William Faulkner",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Un Coeur Simple",
+      "raw_creator": "Gustave Flaubert",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Introductory Lectures on Psychoanalysis",
+      "raw_creator": "Sigmund Freud",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Mourning and Melancholia",
+      "raw_creator": "Sigmund Freud",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Beyond the Pleasure Principle",
+      "raw_creator": "Sigmund Freud",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Federalist Papers",
+      "raw_creator": "Hamilton, Jay, and Madison",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Mendelian Proportions in a Mixed Population",
+      "raw_creator": "G. H. Hardy",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Phenomenology of Mind",
+      "raw_creator": "Georg Hegel",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Basic Writings",
+      "raw_creator": "Martin Heidegger",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Word of Nietzsche: God is Dead",
+      "raw_creator": "Martin Heidegger",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Introduction to Metaphysics",
+      "raw_creator": "Martin Heidegger",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Critique of the Physical Concepts of the Particle Picture",
+      "raw_creator": "Werner Karl Heisenberg",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Crisis of the European Sciences and Transcendental Phenomenology",
+      "raw_creator": "Edmund Husserl",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "François Jacob & Jacques Monod",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Philosophical Fragments",
+      "raw_creator": "Søren Kierkegaard",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Fear and Trembling",
+      "raw_creator": "Søren Kierkegaard",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Zoological Philosophy",
+      "raw_creator": "Jean-Baptiste Lamarck",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Selected speeches",
+      "raw_creator": "Abraham Lincoln",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Theory of Parallels",
+      "raw_creator": "Nikolai Lobachevsky",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Capital",
+      "raw_creator": "Karl Marx",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Economic and Philosophic Manuscripts of 1844",
+      "raw_creator": "Karl Marx",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The German Ideology",
+      "raw_creator": "Karl Marx",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Benito Cereno",
+      "raw_creator": "Herman Melville",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Experiments with Plant Hybridization",
+      "raw_creator": "Gregor Mendel",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Space and Time",
+      "raw_creator": "Hermann Minkowski",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Electron",
+      "raw_creator": "Robert Andrews Millikan",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Evolution and Genetics",
+      "raw_creator": "Thomas Morgan",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Chromosomes and Mendel’s Two Laws",
+      "raw_creator": "Thomas Morgan",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Linkage Groups and the Chromosomes",
+      "raw_creator": "Thomas Morgan",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Sex-Linked Inheritance",
+      "raw_creator": "Thomas Morgan",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Crossing-Over",
+      "raw_creator": "Thomas Morgan",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Song of Solomon",
+      "raw_creator": "Toni Morrison",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Beyond Good and Evil",
+      "raw_creator": "Friedrich Nietzsche",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Good Country People, Revelation, The Displaced Person",
+      "raw_creator": "Flannery O’Connor",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Sylvia Plath",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Quantum Hypothesis",
+      "raw_creator": "Max Planck",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Arthur Rimbaud",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Scattering of α & β Particles by Matter and the Structure of the Atom",
+      "raw_creator": "Ernest Rutherford",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Four Lectures of Wave Mechanics—First Lecture",
+      "raw_creator": "Erwin Schrödinger",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Wallace Stevens",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Joel Sussman",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "Walter Sutton",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Cathode Rays",
+      "raw_creator": "J. J. Thomson",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "War and Peace",
+      "raw_creator": "Leo Tolstoy",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "Paul Valéry",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Faust",
+      "raw_creator": "Johann Wolfgang von Goethe",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Atlanta Exposition Address",
+      "raw_creator": "Booker T. Washington",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Our New Citizen",
+      "raw_creator": "Booker T. Washington",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Democracy and Education",
+      "raw_creator": "Booker T. Washington",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Mrs. Dalloway",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "To the Lighthouse, A Room of One’s Own",
+      "raw_creator": "Virginia Woolf",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Essays",
+      "raw_creator": "James Watson & Francis Crick",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Poems",
+      "raw_creator": "William Butler Yeats",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The Origins of Totalitarianism",
+      "raw_creator": "Hannah Arendt",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "Letters",
+      "raw_creator": "Madame de Sévigné",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    },
+    {
+      "raw_title": "The History of the Decline and Fall of the Roman Empire",
+      "raw_creator": "Edward Gibbon",
+      "rank": null,
+      "year": null,
+      "note": "Senior year"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.sjc.edu/academic-programs/undergraduate/great-books-reading-list",
+      "https://www.sjc.edu/academic-programs/undergraduate/great-books-reading-list-glance",
+      "https://www.sjc.edu/academic-programs/undergraduate",
+      "https://www.sjc.edu/about"
+    ],
+    "item_count": 357,
+    "structure": "The primary source page divides the list into four sections by year of study (Freshman, Sophomore, Junior, Senior). Each section is a flat sequence of author cards; every card carries an author heading, a 'Work(s)' line naming one or more works, and 'Subject(s)' tags. The page holds 270 author cards in total: 34 Freshman, 43 Sophomore, 98 Junior, 95 Senior. Individual works were split out of those cards to produce the items above, and each item's note records the year of study of its card.",
+    "gaps": "Subject tags (Literature; Mathematics; Natural Sciences; Philosophy, Theology, and Psychology; Classical Studies and Greek; History and Social Science; Music; Language) appear on the source page but are not stored here. The junior and senior sections mix required seminar readings with elective-class readings and the page marks no boundary between them, so a 'Junior year' or 'Senior year' note cannot be read as 'required seminar text'. Non-book entries were kept as printed because the source lists them as readings: Alfred Hitchcock 'Selected movies', Edouard Manet 'Art', Igor Stravinsky 'Music', and musical works (operas, quartets, symphonies, masses). Eight cards carry no work title at all - Hebrew Bible, New Testament, The Bhagavad Gita, Daode jing, The Rise and Decline of the Roman Republic, Neuroscience (Junior), Neuroscience (Senior), United States Supreme Court Decisions - and for these the card heading was used as the title with the creator left null.",
+    "uncertainties": "1) The alphabetical companion page (great-books-reading-list-glance) prints different titles for several science texts than the main page: Cannizzaro is 'Sketch of a Course of Chemical Philosophy' there but 'Letter to Professor S. De Luca' on the main page, and Fahrenheit, Gay-Lussac, Lavoisier, Berthollet, Black and Avogadro differ likewise. The main page wording was used throughout, since the task designates the Reading List page as primary. 2) Roughly thirty works appear twice, once under Junior and once under Senior (Arendt, Camus, Feynman, Garcia Marquez, Gibbon, Hardy, Henry James, Laozi, Laxness, Lorenz, Borges, Ibn Majah, Manet, Piketty, Proust, Rilke, Russell, Shakespeare, Spengler, Stravinsky, Voltaire, Zhuangzi, Woolf, Joyce, Chopin, Hurston, Naipaul, Gaddis, Duchamp, de Sevigne, Neuroscience). Both copies were kept because the source lists both. 3) Four cards bundle several works inside a single italic span with no separator in the markup and remain as one item: Sophocles 'Antigone, Philoctetes'; James Baldwin 'Stranger in the Village, The Fire Next Time'; Flannery O'Connor 'Good Country People, Revelation, The Displaced Person'; Virginia Woolf 'To the Lighthouse, A Room of One's Own'. They were not split on commas because titles such as Faulkner's 'Go Down, Moses' and Foucault's 'Security, Territory, and Population' contain commas of their own. 4) Six cards whose markup did not map onto titles were resolved by reading the printed text: Shakespeare (Sophomore; trailing 'and Sonnets' outside the italics), Leibniz (Junior; 'Essay on Dynamics' and 'Philosophical Essays' not italicized), Wordsworth (Junior; only '1799' italicized), Gwendolyn Brooks (Senior; 'Sonnets from Children of the Poor'), Hans Spemann (Freshman; the parenthetical '(Nobel Lecture 1935)' folded into the title), and United States Historical Documents (Junior; three documents in plain text, split into three items with creator null). 5) The source gives no publication year or edition for the list itself, so published_year and edition are null; per-work publication years are not printed on the page and are null for every item. 6) Author names are printed inconsistently on the source page and were left exactly as printed: 'Soren Kierkegaard' (Junior) versus 'Soren Kierkegaard' with the slashed o (Senior), 'Madame de Sevigne' versus 'Madame de Sevigne' with an accent, 'Tennesee Williams', 'Ranier Maria Rilke', 'J.J. Thomson' versus 'J. J. Thomson'. 7) The page does not say which works belong to the Annapolis campus and which to Santa Fe, so no campus attribution is recorded; the college's separate per-campus seminar schedule pages were not consulted.",
+    "merged_duplicates": 34
+  }
+}
