@@ -1,0 +1,911 @@
+{
+  "curator": {
+    "slug": "academie-goncourt",
+    "name": "공쿠르 아카데미",
+    "name_en": "Académie Goncourt",
+    "kind": "award",
+    "country": "FR",
+    "founded_year": 1903,
+    "homepage_url": "https://www.academiegoncourt.com",
+    "description": "소설가 에드몽 드 공쿠르가 남긴 유산으로 세워진 프랑스의 문학 단체다. 1892년 5월 7일 작성된 그의 유언을 근거로 소송을 거친 끝에 1903년 1월 19일 정부 인가를 받았고, 같은 해 12월 21일 첫 공쿠르상을 수여했다. 문인 열 명으로 구성돼 「레 디스(열 사람)」로 불리며, 이들이 해마다 수상작을 뽑는다.",
+    "description_en": "A French literary society founded from the estate of the novelist Edmond de Goncourt. Established on the basis of his will of 7 May 1892, it was constituted by decree on 19 January 1903 after a period of litigation and awarded the first Prix Goncourt on 21 December that year. Its ten writer-members, known as les Dix (the Ten), choose the winner each year."
+  },
+  "list": {
+    "slug": "prix-goncourt",
+    "title": "공쿠르상 수상작",
+    "title_en": "Prix Goncourt",
+    "description": "1903년부터 공쿠르 아카데미가 「그해 가장 뛰어나고 상상력이 풍부한 산문」에 주는 상이다. 프랑스 6대 문학상 가운데 가장 널리 알려졌고 권위도 가장 높다. 상금은 10유로에 그치지만 수상작은 곧바로 판매가 치솟으며, 프루스트·말로·보부아르·뒤라스·모디아노가 모두 이 상을 받았다.",
+    "description_en": "Awarded since 1903 by the Académie Goncourt for \"the best and most imaginative prose work of the year\". It is the best known and most prestigious of the six major French literary prizes. The prize money is a symbolic ten euros, but winning transforms a book's sales; past laureates include Marcel Proust, André Malraux, Simone de Beauvoir, Marguerite Duras and Patrick Modiano.",
+    "published_year": null,
+    "edition": null,
+    "method": "문인 열 명으로 이뤄진 공쿠르 아카데미 회원단이 뽑는다. 후보는 세 차례에 걸쳐 15편에서 8편, 다시 4편으로 좁힌다. 최종 4편의 이름을 샴페인 통에 넣고 하나씩 꺼내며 회원이 각자 찬반을 소리 내어 밝힌다. 10차 투표까지는 과반을 넘겨야 하고 그 뒤로는 최다 득표로 정한다. 14차까지 결론이 안 나면 회장의 표를 두 표로 계산한다. 해마다 11월 파리의 드루앙 식당에서 열리며 낮 12시 45분에 수상작을 발표한다. 수상자는 상징적인 의미로 10유로 수표를 받는다.",
+    "method_en": "The winner is chosen by the ten writer-members of the Académie Goncourt. The field is narrowed in three stages, from roughly fifteen finalists to eight and then to four. The four names are drawn one by one from a champagne bucket and each juror votes aloud for or against. An absolute majority is required through the tenth round, after which a simple majority suffices; if no winner emerges after fourteen rounds, the president's vote counts double. The jury meets each November at the Drouant restaurant in Paris and the result is announced at 12:45 p.m. The winner receives a symbolic cheque for ten euros.",
+    "source_url": "https://www.academiegoncourt.com/tous-les-laureats-prix-goncourt",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Enemy Force",
+      "raw_creator": "John Antoine Nau",
+      "rank": null,
+      "year": 1903,
+      "note": "원제: Force ennemie"
+    },
+    {
+      "raw_title": "La Maternelle",
+      "raw_creator": "Léon Frapié",
+      "rank": null,
+      "year": 1904,
+      "note": "원제: La Maternelle / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Les Civilisés",
+      "raw_creator": "Claude Farrère",
+      "rank": null,
+      "year": 1905,
+      "note": "원제: Les Civilisés / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Dingley, l'illustre écrivain",
+      "raw_creator": "Jean Tharaud, Jérôme Tharaud",
+      "rank": null,
+      "year": 1906,
+      "note": "원제: Dingley, l'illustre écrivain / 영어 번역본 제목 미기재(영문 위키백과 기준) / 공식·프랑스어 표기는 Jérôme et Jean Tharaud"
+    },
+    {
+      "raw_title": "Terres lorraines",
+      "raw_creator": "Émile Moselly",
+      "rank": null,
+      "year": 1907,
+      "note": "원제: Terres lorraines / Jean des Brebis ou le livre de la misère 두 작품 공동 수상(공식 아카데미 표기). 영문 위키백과는 Terres lorraines 자리에 Le Rouet d’ivoire를 적어 두 출처가 갈린다 / 영어 번역본 제목 미기재(영문 위키백과 기준) / 저자명 Émile Moselly는 에밀 셰냉의 필명이다"
+    },
+    {
+      "raw_title": "Écrit sur de l'eau...",
+      "raw_creator": "Francis de Miomandre",
+      "rank": null,
+      "year": 1908,
+      "note": "원제: Écrit sur de l'eau... / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "En France",
+      "raw_creator": "Marius-Ary Leblond",
+      "rank": null,
+      "year": 1909,
+      "note": "원제: En France / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "De Goupil à Margot",
+      "raw_creator": "Louis Pergaud",
+      "rank": null,
+      "year": 1910,
+      "note": "원제: De Goupil à Margot / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Keynote",
+      "raw_creator": "Alphonse de Châteaubriant",
+      "rank": null,
+      "year": 1911,
+      "note": "원제: Monsieur des Lourdines"
+    },
+    {
+      "raw_title": "Les Filles de la pluie",
+      "raw_creator": "André Savignon",
+      "rank": null,
+      "year": 1912,
+      "note": "원제: Les Filles de la pluie / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Le peuple de la mer",
+      "raw_creator": "Marc Elder",
+      "rank": null,
+      "year": 1913,
+      "note": "원제: Le peuple de la mer / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Call of the Soil",
+      "raw_creator": "Adrien Bertrand",
+      "rank": null,
+      "year": 1914,
+      "note": "원제: L'Appel du Sol / 전쟁으로 그해에 시상하지 못하고 1916년에 시상했다"
+    },
+    {
+      "raw_title": "Private Gaspard",
+      "raw_creator": "René Benjamin",
+      "rank": null,
+      "year": 1915,
+      "note": "원제: Gaspard"
+    },
+    {
+      "raw_title": "Under Fire",
+      "raw_creator": "Henri Barbusse",
+      "rank": null,
+      "year": 1916,
+      "note": "원제: Le Feu / 국내 출간명: 포화(문학동네) / 1916년에 1914년분과 1916년분 두 편을 함께 시상했다"
+    },
+    {
+      "raw_title": "The Flame That Is France",
+      "raw_creator": "Henry Malherbe",
+      "rank": null,
+      "year": 1917,
+      "note": "원제: La Flamme au poing"
+    },
+    {
+      "raw_title": "Civilization",
+      "raw_creator": "Georges Duhamel",
+      "rank": null,
+      "year": 1918,
+      "note": "원제: Civilisation"
+    },
+    {
+      "raw_title": "Within a Budding Grove",
+      "raw_creator": "Marcel Proust",
+      "rank": null,
+      "year": 1919,
+      "note": "원제: A l'ombre des jeunes filles en fleurs / 국내 출간명: 꽃핀 소녀들의 그늘에서(민음사 『잃어버린 시간을 찾아서』 3·4권) / 『잃어버린 시간을 찾아서』 제2편이다"
+    },
+    {
+      "raw_title": "Nêne",
+      "raw_creator": "Ernest Pérochon",
+      "rank": null,
+      "year": 1920,
+      "note": "원제: Nêne"
+    },
+    {
+      "raw_title": "Batouala",
+      "raw_creator": "René Maran",
+      "rank": null,
+      "year": 1921,
+      "note": "원제: Batouala"
+    },
+    {
+      "raw_title": "Le Vitriol de Lune",
+      "raw_creator": "Henri Béraud",
+      "rank": null,
+      "year": 1922,
+      "note": "원제: Le Vitriol de Lune / Le Martyre de l’obèse 두 작품 공동 수상 / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Rabevel ou Le mal des ardents",
+      "raw_creator": "Lucien Fabre",
+      "rank": null,
+      "year": 1923,
+      "note": "원제: Rabevel ou Le mal des ardents / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Le Chèvrefeuille",
+      "raw_creator": "Thierry Sandre",
+      "rank": null,
+      "year": 1924,
+      "note": "원제: Le Chèvrefeuille, le Purgatoire, le Chapitre XIII 세 작품 공동 수상 / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Raboliot",
+      "raw_creator": "Maurice Genevoix",
+      "rank": null,
+      "year": 1925,
+      "note": "원제: Raboliot / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Le supplice de Phèdre",
+      "raw_creator": "Henri Deberly",
+      "rank": null,
+      "year": 1926,
+      "note": "원제: Le supplice de Phèdre / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Jerome: or, The Latitude of Love",
+      "raw_creator": "Maurice Bedel",
+      "rank": null,
+      "year": 1927,
+      "note": "원제: Jérôme 60° latitude nord"
+    },
+    {
+      "raw_title": "A Man Scans His Past",
+      "raw_creator": "Maurice Constantin-Weyer",
+      "rank": null,
+      "year": 1928,
+      "note": "원제: Un Homme se penche sur son passé"
+    },
+    {
+      "raw_title": "L'Ordre",
+      "raw_creator": "Marcel Arland",
+      "rank": null,
+      "year": 1929,
+      "note": "원제: L'Ordre / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Soul of Malaya",
+      "raw_creator": "Henri Fauconnier",
+      "rank": null,
+      "year": 1930,
+      "note": "원제: Malaisie / 영문 위키백과는 H. Fauconnier로 축약"
+    },
+    {
+      "raw_title": "Desire",
+      "raw_creator": "Jean Fayard",
+      "rank": null,
+      "year": 1931,
+      "note": "원제: Mal d'amour"
+    },
+    {
+      "raw_title": "The Wolves",
+      "raw_creator": "Guy Mazeline",
+      "rank": null,
+      "year": 1932,
+      "note": "원제: Les Loups"
+    },
+    {
+      "raw_title": "Man's Fate",
+      "raw_creator": "André Malraux",
+      "rank": null,
+      "year": 1933,
+      "note": "원제: La Condition humaine / 국내 출간명: 인간의 조건"
+    },
+    {
+      "raw_title": "Captain Conan",
+      "raw_creator": "Roger Vercel",
+      "rank": null,
+      "year": 1934,
+      "note": "원제: Capitaine Conan"
+    },
+    {
+      "raw_title": "Sang et Lumières",
+      "raw_creator": "Joseph Peyre",
+      "rank": null,
+      "year": 1935,
+      "note": "원제: Sang et Lumières / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Hath Not the Potter",
+      "raw_creator": "Maxence Van Der Meersch",
+      "rank": null,
+      "year": 1936,
+      "note": "원제: L’Empreinte du dieu / 영문 위키백과 표기는 L’Empreinte de Dieu"
+    },
+    {
+      "raw_title": "Faux passeports",
+      "raw_creator": "Charles Plisnier",
+      "rank": null,
+      "year": 1937,
+      "note": "원제: Faux passeports / 영어 번역본 제목 미기재(영문 위키백과 기준) / 공쿠르상을 받은 첫 외국인이다"
+    },
+    {
+      "raw_title": "L'Araigne",
+      "raw_creator": "Henri Troyat",
+      "rank": null,
+      "year": 1938,
+      "note": "원제: L'Araigne / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Les enfants gâtés",
+      "raw_creator": "Philippe Hériat",
+      "rank": null,
+      "year": 1939,
+      "note": "원제: Les enfants gâtés / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Long Holiday",
+      "raw_creator": "Francis Ambrière",
+      "rank": null,
+      "year": 1940,
+      "note": "원제: Les grandes vacances / 2차 대전 탓에 1946년에야 출간·시상됐다. 소설이 아니라 회고록이다"
+    },
+    {
+      "raw_title": "Vent de Mars",
+      "raw_creator": "Henri Pourrat",
+      "rank": null,
+      "year": 1941,
+      "note": "원제: Vent de Mars / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Pareils à des enfants",
+      "raw_creator": "Marc Bernard",
+      "rank": null,
+      "year": 1942,
+      "note": "원제: Pareils à des enfants / 영어 번역본 제목 미기재(영문 위키백과 기준) / 영문 위키백과 표기는 Pareil à des enfants"
+    },
+    {
+      "raw_title": "When the Man Passed By",
+      "raw_creator": "Marius Grout",
+      "rank": null,
+      "year": 1943,
+      "note": "원제: Passage de l'Homme"
+    },
+    {
+      "raw_title": "A Fine of Two Hundred Francs",
+      "raw_creator": "Elsa Triolet",
+      "rank": null,
+      "year": 1944,
+      "note": "원제: Le premier accroc coûte 200 francs"
+    },
+    {
+      "raw_title": "Mon village à l'heure allemande",
+      "raw_creator": "Jean-Louis Bory",
+      "rank": null,
+      "year": 1945,
+      "note": "원제: Mon village à l'heure allemande / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Histoire d'un Fait divers",
+      "raw_creator": "Jean-Jacques Gautier",
+      "rank": null,
+      "year": 1946,
+      "note": "원제: Histoire d'un Fait divers / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Forests of the Night",
+      "raw_creator": "Jean-Louis Curtis",
+      "rank": null,
+      "year": 1947,
+      "note": "원제: Les Forêts de la Nuit"
+    },
+    {
+      "raw_title": "The Rise of Simon Lachaume",
+      "raw_creator": "Maurice Druon",
+      "rank": null,
+      "year": 1948,
+      "note": "원제: Les grandes familles"
+    },
+    {
+      "raw_title": "Week-end at Zuydcoote",
+      "raw_creator": "Robert Merle",
+      "rank": null,
+      "year": 1949,
+      "note": "원제: Week-end à Zuydcoote"
+    },
+    {
+      "raw_title": "Savage Play",
+      "raw_creator": "Paul Colin",
+      "rank": null,
+      "year": 1950,
+      "note": "원제: Les jeux sauvages"
+    },
+    {
+      "raw_title": "The Opposing Shore",
+      "raw_creator": "Julien Gracq",
+      "rank": null,
+      "year": 1951,
+      "note": "원제: Le Rivage des Syrtes / 수상을 거부했다"
+    },
+    {
+      "raw_title": "The Priest",
+      "raw_creator": "Béatrix Beck",
+      "rank": null,
+      "year": 1952,
+      "note": "원제: Léon Morin, prêtre / 다른 영문 제목: The Passionate Heart (미국판)"
+    },
+    {
+      "raw_title": "Les Bêtes",
+      "raw_creator": "Pierre Gascar",
+      "rank": null,
+      "year": 1953,
+      "note": "원제: Les Bêtes / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Mandarins",
+      "raw_creator": "Simone de Beauvoir",
+      "rank": null,
+      "year": 1954,
+      "note": "원제: Les Mandarins / 국내 출간명: 레 망다랭(현암사)"
+    },
+    {
+      "raw_title": "Les eaux mêlées",
+      "raw_creator": "Roger Ikor",
+      "rank": null,
+      "year": 1955,
+      "note": "원제: Les eaux mêlées / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Roots of Heaven",
+      "raw_creator": "Romain Gary",
+      "rank": null,
+      "year": 1956,
+      "note": "원제: Les racines du ciel / 국내 출간명: 하늘의 뿌리(문학과지성사)"
+    },
+    {
+      "raw_title": "The Law",
+      "raw_creator": "Roger Vailland",
+      "rank": null,
+      "year": 1957,
+      "note": "원제: La Loi"
+    },
+    {
+      "raw_title": "Saint-Germain ou la négociation",
+      "raw_creator": "Francis Walder",
+      "rank": null,
+      "year": 1958,
+      "note": "원제: Saint-Germain ou la négociation / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Last of the Just",
+      "raw_creator": "André Schwarz-Bart",
+      "rank": null,
+      "year": 1959,
+      "note": "원제: Le dernier des Justes"
+    },
+    {
+      "raw_title": "God Was Born in Exile",
+      "raw_creator": "Vintilă Horia",
+      "rank": null,
+      "year": 1960,
+      "note": "원제: Dieu est né en exil"
+    },
+    {
+      "raw_title": "The Mercy of God",
+      "raw_creator": "Jean Cau",
+      "rank": null,
+      "year": 1961,
+      "note": "원제: La pitié de Dieu"
+    },
+    {
+      "raw_title": "The Lost Shore",
+      "raw_creator": "Anna Langfus",
+      "rank": null,
+      "year": 1962,
+      "note": "원제: Les bagages de sable"
+    },
+    {
+      "raw_title": "Quand la mer se retire",
+      "raw_creator": "Armand Lanoux",
+      "rank": null,
+      "year": 1963,
+      "note": "원제: Quand la mer se retire / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "L'Etat sauvage",
+      "raw_creator": "Georges Conchon",
+      "rank": null,
+      "year": 1964,
+      "note": "원제: L'Etat sauvage / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Bond",
+      "raw_creator": "Jacques Borel",
+      "rank": null,
+      "year": 1965,
+      "note": "원제: L'Adoration"
+    },
+    {
+      "raw_title": "To Forget Palermo",
+      "raw_creator": "Edmonde Charles-Roux",
+      "rank": null,
+      "year": 1966,
+      "note": "원제: Oublier Palerme"
+    },
+    {
+      "raw_title": "The Margin",
+      "raw_creator": "André Pieyre de Mandiargues",
+      "rank": null,
+      "year": 1967,
+      "note": "원제: La Marge"
+    },
+    {
+      "raw_title": "The Fruits of Winter",
+      "raw_creator": "Bernard Clavel",
+      "rank": null,
+      "year": 1968,
+      "note": "원제: Les fruits de l'hiver"
+    },
+    {
+      "raw_title": "Creezy",
+      "raw_creator": "Félicien Marceau",
+      "rank": null,
+      "year": 1969,
+      "note": "원제: Creezy"
+    },
+    {
+      "raw_title": "The Ogre",
+      "raw_creator": "Michel Tournier",
+      "rank": null,
+      "year": 1970,
+      "note": "원제: Le Roi des Aulnes / 다른 영문 제목: The Erl-King (영국판) / 국내 출간명: 마왕(민음사). 옛 판본은 마왕과 황금별(종문화사)"
+    },
+    {
+      "raw_title": "Les Bêtises",
+      "raw_creator": "Jacques Laurent",
+      "rank": null,
+      "year": 1971,
+      "note": "원제: Les Bêtises / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "L'Epervier de Maheux",
+      "raw_creator": "Jean Carrière",
+      "rank": null,
+      "year": 1972,
+      "note": "원제: L'Epervier de Maheux / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "A Father's Love",
+      "raw_creator": "Jacques Chessex",
+      "rank": null,
+      "year": 1973,
+      "note": "원제: L'Ogre / 다른 영문 제목: The Tyrant (2012년 재간) / 1975년판과 2012년판은 마틴 소콜린스키가 옮긴 같은 번역본이다"
+    },
+    {
+      "raw_title": "The Lacemaker",
+      "raw_creator": "Pascal Lainé",
+      "rank": null,
+      "year": 1974,
+      "note": "원제: La Dentellière / 다른 영문 제목: A Web of Lace (1976년판)"
+    },
+    {
+      "raw_title": "The Life Before Us",
+      "raw_creator": "Émile Ajar (Romain Gary)",
+      "rank": null,
+      "year": 1975,
+      "note": "원제: La vie devant soi / 다른 영문 제목: Momo (1978년판) / 국내 출간명: 자기 앞의 생(문학동네) / 공쿠르상은 한 작가에게 한 번만 준다. 로맹 가리는 1956년 Les racines du ciel로 이미 받았으나 이 작품을 에밀 아자르라는 필명으로 냈기에 아카데미는 정체를 모른 채 상을 줬다. 한동안 가리의 사촌 아들 폴 파블로비치가 작가 행세를 했다"
+    },
+    {
+      "raw_title": "Les Flamboyants",
+      "raw_creator": "Patrick Grainville",
+      "rank": null,
+      "year": 1976,
+      "note": "원제: Les Flamboyants / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "John l'enfer",
+      "raw_creator": "Didier Decoin",
+      "rank": null,
+      "year": 1977,
+      "note": "원제: John l'enfer / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Missing Person",
+      "raw_creator": "Patrick Modiano",
+      "rank": null,
+      "year": 1978,
+      "note": "원제: Rue des boutiques obscures / 국내 출간명: 어두운 상점들의 거리(문학동네)"
+    },
+    {
+      "raw_title": "Pélagie: The Return to Acadie",
+      "raw_creator": "Antonine Maillet",
+      "rank": null,
+      "year": 1979,
+      "note": "원제: Pélagie-la-Charrette"
+    },
+    {
+      "raw_title": "Cronus' Children",
+      "raw_creator": "Yves Navarre",
+      "rank": null,
+      "year": 1980,
+      "note": "원제: Le Jardin d'acclimatation"
+    },
+    {
+      "raw_title": "Anne-Marie",
+      "raw_creator": "Lucien Bodard",
+      "rank": null,
+      "year": 1981,
+      "note": "원제: Anne-Marie / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Dans la main de l'Ange",
+      "raw_creator": "Dominique Fernandez",
+      "rank": null,
+      "year": 1982,
+      "note": "원제: Dans la main de l'Ange / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Lost Ones",
+      "raw_creator": "Frédérick Tristan",
+      "rank": null,
+      "year": 1983,
+      "note": "원제: Les égarés"
+    },
+    {
+      "raw_title": "The Lover",
+      "raw_creator": "Marguerite Duras",
+      "rank": null,
+      "year": 1984,
+      "note": "원제: L'Amant / 국내 출간명: 연인(민음사)"
+    },
+    {
+      "raw_title": "The Wedding",
+      "raw_creator": "Yann Queffélec",
+      "rank": null,
+      "year": 1985,
+      "note": "원제: Les Noces barbares"
+    },
+    {
+      "raw_title": "Valet de nuit",
+      "raw_creator": "Michel Host",
+      "rank": null,
+      "year": 1986,
+      "note": "원제: Valet de nuit / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Sacred Night",
+      "raw_creator": "Tahar Ben Jelloun",
+      "rank": null,
+      "year": 1987,
+      "note": "원제: La nuit sacrée"
+    },
+    {
+      "raw_title": "Love and Empire",
+      "raw_creator": "Érik Orsenna",
+      "rank": null,
+      "year": 1988,
+      "note": "원제: L'Exposition coloniale"
+    },
+    {
+      "raw_title": "Un grand pas vers le Bon Dieu",
+      "raw_creator": "Jean Vautrin",
+      "rank": null,
+      "year": 1989,
+      "note": "원제: Un grand pas vers le Bon Dieu / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Fields of Glory",
+      "raw_creator": "Jean Rouaud",
+      "rank": null,
+      "year": 1990,
+      "note": "원제: Les Champs d'honneur"
+    },
+    {
+      "raw_title": "Les Filles du Calvaire",
+      "raw_creator": "Pierre Combescot",
+      "rank": null,
+      "year": 1991,
+      "note": "원제: Les Filles du Calvaire / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "Texaco",
+      "raw_creator": "Patrick Chamoiseau",
+      "rank": null,
+      "year": 1992,
+      "note": "원제: Texaco / 국내 출간명: 텍사코(서가)"
+    },
+    {
+      "raw_title": "The Rock of Tanios",
+      "raw_creator": "Amin Maalouf",
+      "rank": null,
+      "year": 1993,
+      "note": "원제: Le Rocher de Tanios / 국내 출간명: 타니오스의 바위(교양인)"
+    },
+    {
+      "raw_title": "One-Way",
+      "raw_creator": "Didier Van Cauwelaert",
+      "rank": null,
+      "year": 1994,
+      "note": "원제: Un Aller simple"
+    },
+    {
+      "raw_title": "Dreams of My Russian Summers",
+      "raw_creator": "Andreï Makine",
+      "rank": null,
+      "year": 1995,
+      "note": "원제: Le Testament français / 국내 출간명: 프랑스 유언(무소의뿔)"
+    },
+    {
+      "raw_title": "Le Chasseur Zéro",
+      "raw_creator": "Pascale Roze",
+      "rank": null,
+      "year": 1996,
+      "note": "원제: Le Chasseur Zéro / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Battle",
+      "raw_creator": "Patrick Rambaud",
+      "rank": null,
+      "year": 1997,
+      "note": "원제: La Bataille"
+    },
+    {
+      "raw_title": "Trading Secrets",
+      "raw_creator": "Paule Constant",
+      "rank": null,
+      "year": 1998,
+      "note": "원제: Confidence pour confidence"
+    },
+    {
+      "raw_title": "I'm Gone",
+      "raw_creator": "Jean Echenoz",
+      "rank": null,
+      "year": 1999,
+      "note": "원제: Je m'en vais / 다른 영문 제목: I'm Off (영국판) / 국내 출간명: 나는 떠난다(문학동네, 절판)"
+    },
+    {
+      "raw_title": "Ingrid Caven",
+      "raw_creator": "Jean-Jacques Schuhl",
+      "rank": null,
+      "year": 2000,
+      "note": "원제: Ingrid Caven"
+    },
+    {
+      "raw_title": "Brazil Red",
+      "raw_creator": "Jean-Christophe Rufin",
+      "rank": null,
+      "year": 2001,
+      "note": "원제: Rouge Brésil"
+    },
+    {
+      "raw_title": "The Roving Shadows",
+      "raw_creator": "Pascal Quignard",
+      "rank": null,
+      "year": 2002,
+      "note": "원제: Les Ombres errantes / 국내 출간명: 떠도는 그림자들(문학과지성사)"
+    },
+    {
+      "raw_title": "Brecht's Lover",
+      "raw_creator": "Jacques-Pierre Amette",
+      "rank": null,
+      "year": 2003,
+      "note": "원제: La maîtresse de Brecht / 다른 영문 제목: Brecht's Mistress (영국판)"
+    },
+    {
+      "raw_title": "The House of Scorta",
+      "raw_creator": "Laurent Gaudé",
+      "rank": null,
+      "year": 2004,
+      "note": "원제: Le Soleil des Scorta / 다른 영문 제목: The Scortas' Sun (영국판) / 국내 출간명: 스코르타의 태양(문학세계사)"
+    },
+    {
+      "raw_title": "Trois jours chez ma mère",
+      "raw_creator": "François Weyergans",
+      "rank": null,
+      "year": 2005,
+      "note": "원제: Trois jours chez ma mère / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Kindly Ones",
+      "raw_creator": "Jonathan Littell",
+      "rank": null,
+      "year": 2006,
+      "note": "원제: Les Bienveillantes / 국내 출간명: 착한 여신들(랜덤하우스코리아)"
+    },
+    {
+      "raw_title": "Alabama Song",
+      "raw_creator": "Gilles Leroy",
+      "rank": null,
+      "year": 2007,
+      "note": "원제: Alabama Song / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    },
+    {
+      "raw_title": "The Patience Stone",
+      "raw_creator": "Atiq Rahimi",
+      "rank": null,
+      "year": 2008,
+      "note": "원제: Syngué sabour : Pierre de patience / 다른 영문 제목: Stone of Patience (영국판) / 국내 출간명: 인내의 돌(현대문학)"
+    },
+    {
+      "raw_title": "Three Strong Women",
+      "raw_creator": "Marie NDiaye",
+      "rank": null,
+      "year": 2009,
+      "note": "원제: Trois femmes puissantes / 국내 출간명: 세 여인(문학동네)"
+    },
+    {
+      "raw_title": "The Map and the Territory",
+      "raw_creator": "Michel Houellebecq",
+      "rank": null,
+      "year": 2010,
+      "note": "원제: La Carte et le territoire / 국내 출간명: 지도와 영토(문학동네)"
+    },
+    {
+      "raw_title": "The French Art of War",
+      "raw_creator": "Alexis Jenni",
+      "rank": null,
+      "year": 2011,
+      "note": "원제: L'Art français de la guerre"
+    },
+    {
+      "raw_title": "The Sermon on the Fall of Rome",
+      "raw_creator": "Jérôme Ferrari",
+      "rank": null,
+      "year": 2012,
+      "note": "원제: Le Sermon sur la chute de Rome"
+    },
+    {
+      "raw_title": "The Great Swindle",
+      "raw_creator": "Pierre Lemaitre",
+      "rank": null,
+      "year": 2013,
+      "note": "원제: Au revoir là-haut / 국내 출간명: 오르부아르(열린책들)"
+    },
+    {
+      "raw_title": "Cry, Mother Spain",
+      "raw_creator": "Lydie Salvayre",
+      "rank": null,
+      "year": 2014,
+      "note": "원제: Pas pleurer"
+    },
+    {
+      "raw_title": "Compass",
+      "raw_creator": "Mathias Énard",
+      "rank": null,
+      "year": 2015,
+      "note": "원제: Boussole"
+    },
+    {
+      "raw_title": "Lullaby",
+      "raw_creator": "Leïla Slimani",
+      "rank": null,
+      "year": 2016,
+      "note": "원제: Chanson douce / 다른 영문 제목: The Perfect Nanny (미국판) / 국내 출간명: 달콤한 노래(arte)"
+    },
+    {
+      "raw_title": "The Order of the Day",
+      "raw_creator": "Éric Vuillard",
+      "rank": null,
+      "year": 2017,
+      "note": "원제: L'Ordre du jour / 국내 출간명: 그날의 비밀(열린책들)"
+    },
+    {
+      "raw_title": "And Their Children After Them",
+      "raw_creator": "Nicolas Mathieu",
+      "rank": null,
+      "year": 2018,
+      "note": "원제: Leurs enfants après eux / 국내 출간명: 그들 뒤에 남겨진 아이들(민음사)"
+    },
+    {
+      "raw_title": "Not Everybody Lives the Same Way",
+      "raw_creator": "Jean-Paul Dubois",
+      "rank": null,
+      "year": 2019,
+      "note": "원제: Tous les hommes n'habitent pas le monde de la même façon"
+    },
+    {
+      "raw_title": "The Anomaly",
+      "raw_creator": "Hervé Le Tellier",
+      "rank": null,
+      "year": 2020,
+      "note": "원제: L'Anomalie / 국내 출간명: 아노말리(민음사)"
+    },
+    {
+      "raw_title": "The Most Secret Memory of Men",
+      "raw_creator": "Mohamed Mbougar Sarr",
+      "rank": null,
+      "year": 2021,
+      "note": "원제: La plus secrète mémoire des hommes / 국내 출간명: 인간들의 가장 은밀한 기억(엘리) / 사하라 이남 아프리카 출신 첫 수상자다"
+    },
+    {
+      "raw_title": "Live Fast",
+      "raw_creator": "Brigitte Giraud",
+      "rank": null,
+      "year": 2022,
+      "note": "원제: Vivre Vite"
+    },
+    {
+      "raw_title": "Watching Over Her",
+      "raw_creator": "Jean-Baptiste Andrea",
+      "rank": null,
+      "year": 2023,
+      "note": "원제: Veiller sur elle / 국내 출간명: 그녀를 지키다(열린책들)"
+    },
+    {
+      "raw_title": "Houris",
+      "raw_creator": "Kamel Daoud",
+      "rank": null,
+      "year": 2024,
+      "note": "원제: Houris / 영어 번역본 제목 미기재(영문 위키백과 기준) / 국내 출간명: 후리(민음사)"
+    },
+    {
+      "raw_title": "La Maison vide",
+      "raw_creator": "Laurent Mauvignier",
+      "rank": null,
+      "year": 2025,
+      "note": "원제: La Maison vide / 영어 번역본 제목 미기재(영문 위키백과 기준)"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.academiegoncourt.com/tous-les-laureats-prix-goncourt (공식 아카데미 수상자 목록. 1903~2025년 총 123명으로 위키백과 추출 결과와 건수·범위가 일치함을 교차 확인했고, 표기가 갈리는 항목의 최종 판정 근거로 삼았다)",
+      "https://en.wikipedia.org/w/index.php?title=Prix_Goncourt&action=raw (수상자 표 원문을 내려받아 파서로 직접 추출. 연도·저자·원제·영문 제목·각주의 1차 근거)",
+      "https://en.wikipedia.org/wiki/Prix_Goncourt (같은 문서 본문 - 연혁과 심사 방식)",
+      "https://fr.wikipedia.org/w/index.php?title=Prix_Goncourt&action=raw (프랑스어판 수상자 표를 같은 방식으로 추출해 영문판과 전량 대조)",
+      "https://en.wikipedia.org/wiki/Académie_Goncourt (아카데미 설립 경위, 회원 열 명 les Dix)",
+      "https://fr.wikipedia.org/wiki/Académie_Goncourt (설립 날짜 - 1892-05-07 유언, 1903-01-19 인가 법령, 1903-12-21 첫 시상)",
+      "https://fr.wikipedia.org/wiki/Émile_Moselly (1907년 수상작이 두 출처에서 갈려 확인)",
+      "WebSearch \"Prix Goncourt 2025 winner Laurent Mauvignier La Maison vide\" (2025년 11월 4일 수상 발표를 France 24·franceinfo·BnF·Le Devoir 등에서 확인. 2025년이 최신 회차임을 검증)"
+    ],
+    "item_count": 123,
+    "year_range": "1903-2025",
+    "no_award_years": [],
+    "gaps": "빠진 해는 없다. 1903년부터 2025년까지 123년 연속으로 수상작이 있고, 영문·프랑스어 위키백과와 공식 아카데미 목록 세 곳이 모두 123건으로 일치한다. 다만 시상 시점이 어긋난 해가 둘 있다. 1914년분은 전쟁으로 그해에 시상하지 못하고 1916년에 1916년분(바르뷔스)과 함께 두 편을 시상했다. 1940년분(앙브리에르)은 2차 대전 탓에 1946년에야 출간·시상됐다. 두 경우 모두 수상작 자체는 존재하므로 공백 연도로 세지 않았다.",
+    "uncertainties": "① raw_title에는 영문 제목을 우선 넣었다. 영문 번역본 제목이 확인되지 않는 42편은 영문 위키백과가 본문에서 프랑스어 원제를 그대로 쓰므로 원제를 raw_title에 넣고 note에 그 사실을 적었다. ② 영문 제목이 영국판·미국판 등 둘 이상인 11편(1930·1952·1970·1973·1974·1975·1999·2003·2004·2008·2016년)은 도서 목록에서 더 널리 쓰이는 쪽을 raw_title로 골랐고 나머지 표기를 note에 모두 남겨 어느 쪽으로도 조회되게 했다. ③ 한 해에 두세 작품이 함께 수상한 1907·1922·1924년은 대표 한 편을 raw_title로 쓰고 나머지 제목을 note에 적었다. ④ 영문판과 프랑스어판 위키백과를 123건 전량 대조한 결과 여덟 건에서 표기가 갈렸고(1906·1907·1922·1930·1936·1942·1944·2008년), 공식 아카데미 목록을 열어 그쪽 표기를 채택한 뒤 갈린 내용을 각 항목 note에 남겼다. 이 가운데 1907년은 단순 철자 차이가 아니라 작품이 달랐다. 공식과 프랑스어판은 Terres lorraines, 영문판은 Le Rouet d’ivoire를 적는다(프랑스어판 인물 문서는 세 작품 모두를 수상작으로 서술한다). 공식 표기를 따랐다. ⑤ 설립연도는 1903년으로 적었다. 영문·프랑스어 위키백과 모두 정부 인가 법령일(1903-01-19)과 첫 시상일(1903-12-21)을 1903년으로 명시한다. 에드몽 드 공쿠르의 유언은 1892년, 사망은 1896년이다. ⑥ 국내 출간명은 웹에서 실제 확인된 작품에만 적었고 전수 조사가 아니다. note에 국내 출간명이 없다고 해서 국내 미출간이라는 뜻은 아니다."
+  }
+}

@@ -1,0 +1,490 @@
+{
+  "curator": {
+    "slug": "sfwa",
+    "name": "미국 SF·판타지 작가협회",
+    "name_en": "Science Fiction and Fantasy Writers of America",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1965,
+    "homepage_url": "https://www.sfwa.org",
+    "description": "1965년 데이먼 나이트가 세운 미국 SF·판타지 작가 단체로, 회원이 2천 명을 넘는다. 이 단체가 주관하는 네뷸러상은 독자나 대회 참가자가 아니라 글을 쓰는 작가 회원들이 직접 투표해 수상작을 정한다는 점에서, 월드콘 참가 회원의 표로 뽑는 휴고상과 갈린다. 그래서 같은 해에도 두 상의 결과가 자주 엇갈리며, 두 상을 함께 받은 작품은 그만큼 무겁게 다뤄진다.",
+    "description_en": "Founded in 1965 by Damon Knight, the Science Fiction and Fantasy Writers of America now counts more than two thousand members. Its Nebula Awards are voted on by the working writers who make up the organisation, rather than by readers or convention attendees as with the Hugo Awards. The two prizes therefore often diverge, and a book that takes both is regarded as a landmark of the field."
+  },
+  "list": {
+    "slug": "nebula-best-novel",
+    "title": "네뷸러상 장편소설 수상작",
+    "title_en": "Nebula Award for Best Novel",
+    "description": "네뷸러상 여러 부문 가운데 4만 단어 이상의 장편을 대상으로 하는 부문의 수상작을 모았다. 1966년 3월 첫 시상식에서 프랭크 허버트의 《듄》이 첫 수상작으로 호명된 이래 매년 이어지고 있다. 어슐러 K. 르 귄, 아이작 아시모프, 윌리엄 깁슨, 옥타비아 버틀러 등 장르의 뼈대를 세운 작가들이 이 목록에 있다.",
+    "description_en": "The Best Novel category of the Nebula Awards honours works of forty thousand words or more. It has run without interruption since the first ceremony in March 1966, when Frank Herbert's Dune was named the inaugural winner. The roll includes Ursula K. Le Guin, Isaac Asimov, William Gibson and Octavia E. Butler, among the writers who shaped the genre.",
+    "published_year": null,
+    "edition": null,
+    "method": "미국 SF·판타지 작가협회의 정회원·준회원·원로회원이 후보 추천과 최종 투표를 모두 맡는다. 추천 기간은 12월 15일 이전에 열려 이듬해 1월 31일까지 최소 6주간 이어지며, 회원 한 명이 부문마다 최대 다섯 편까지 추천할 수 있다. 추천을 가장 많이 받은 여섯 편이 최종 후보에 오르고(여섯째 자리가 동률이면 모두 포함), 최종 투표에서 표를 가장 많이 받은 한 편이 수상한다. 표가 같으면 추천 수가 많은 쪽이 이긴다. 후보에 오르는 작가가 협회 회원일 필요는 없다.",
+    "method_en": "Full, Associate and Senior members of SFWA both nominate and vote. The nominating period opens no later than 15 December and runs at least six weeks, through 31 January; each member may nominate up to five works per category. The six works with the most nominations form the final ballot, with ties for the sixth place all added, and the work receiving the most votes on that ballot wins. A tie in the final vote is broken by the number of nominations received. Nominated authors need not be members of SFWA.",
+    "source_url": "https://nebulas.sfwa.org/award/best-novel/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "sf"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Dune",
+      "raw_creator": "Frank Herbert",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Babel-17",
+      "raw_creator": "Samuel R. Delany",
+      "rank": null,
+      "year": 1967,
+      "note": "공동 수상. 1966년 발표작을 두고 1967년 3월 25일 시상식에서 두 편이 동률로 함께 수상했다."
+    },
+    {
+      "raw_title": "Flowers for Algernon",
+      "raw_creator": "Daniel Keyes",
+      "rank": null,
+      "year": 1967,
+      "note": "공동 수상. 1966년 발표작을 두고 1967년 3월 25일 시상식에서 두 편이 동률로 함께 수상했다."
+    },
+    {
+      "raw_title": "The Einstein Intersection",
+      "raw_creator": "Samuel R. Delany",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Rite of Passage",
+      "raw_creator": "Alexei Panshin",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "The Left Hand of Darkness",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Ringworld",
+      "raw_creator": "Larry Niven",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "A Time of Changes",
+      "raw_creator": "Robert Silverberg",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "The Gods Themselves",
+      "raw_creator": "Isaac Asimov",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "Rendezvous with Rama",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "The Dispossessed",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "The Forever War",
+      "raw_creator": "Joe Haldeman",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Man Plus",
+      "raw_creator": "Frederik Pohl",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Gateway",
+      "raw_creator": "Frederik Pohl",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Dreamsnake",
+      "raw_creator": "Vonda N. McIntyre",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Fountains of Paradise",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Timescape",
+      "raw_creator": "Gregory Benford",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "The Claw of the Conciliator",
+      "raw_creator": "Gene Wolfe",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "No Enemy But Time",
+      "raw_creator": "Michael Bishop",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Startide Rising",
+      "raw_creator": "David Brin",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Neuromancer",
+      "raw_creator": "William Gibson",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Ender's Game",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Speaker for the Dead",
+      "raw_creator": "Orson Scott Card",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Falling Woman",
+      "raw_creator": "Pat Murphy",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Falling Free",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "The Healer's War",
+      "raw_creator": "Elizabeth Ann Scarborough",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Tehanu: The Last Book of Earthsea",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Stations of the Tide",
+      "raw_creator": "Michael Swanwick",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Doomsday Book",
+      "raw_creator": "Connie Willis",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "Red Mars",
+      "raw_creator": "Kim Stanley Robinson",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Moving Mars",
+      "raw_creator": "Greg Bear",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "The Terminal Experiment",
+      "raw_creator": "Robert J. Sawyer",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Slow River",
+      "raw_creator": "Nicola Griffith",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "The Moon and the Sun",
+      "raw_creator": "Vonda N. McIntyre",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Forever Peace",
+      "raw_creator": "Joe Haldeman",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Parable of the Talents",
+      "raw_creator": "Octavia E. Butler",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Darwin's Radio",
+      "raw_creator": "Greg Bear",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Quantum Rose",
+      "raw_creator": "Catherine Asaro",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "American Gods",
+      "raw_creator": "Neil Gaiman",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "The Speed of Dark",
+      "raw_creator": "Elizabeth Moon",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Paladin of Souls",
+      "raw_creator": "Lois McMaster Bujold",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Camouflage",
+      "raw_creator": "Joe Haldeman",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Seeker",
+      "raw_creator": "Jack McDevitt",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Yiddish Policemen's Union",
+      "raw_creator": "Michael Chabon",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Powers",
+      "raw_creator": "Ursula K. Le Guin",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "The Windup Girl",
+      "raw_creator": "Paolo Bacigalupi",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Blackout/All Clear",
+      "raw_creator": "Connie Willis",
+      "rank": null,
+      "year": 2011,
+      "note": "《Blackout》과 《All Clear》 두 권으로 나뉘어 출간됐으나 한 편의 장편으로 함께 수상했다. 공식 표기 \"Blackout/All Clear\"."
+    },
+    {
+      "raw_title": "Among Others",
+      "raw_creator": "Jo Walton",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "2312",
+      "raw_creator": "Kim Stanley Robinson",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Ancillary Justice",
+      "raw_creator": "Ann Leckie",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Annihilation",
+      "raw_creator": "Jeff VanderMeer",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Uprooted",
+      "raw_creator": "Naomi Novik",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "All the Birds in the Sky",
+      "raw_creator": "Charlie Jane Anders",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Stone Sky",
+      "raw_creator": "N. K. Jemisin",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Calculating Stars",
+      "raw_creator": "Mary Robinette Kowal",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "A Song for a New Day",
+      "raw_creator": "Sarah Pinsker",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Network Effect",
+      "raw_creator": "Martha Wells",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "A Master of Djinn",
+      "raw_creator": "P. Djèlí Clark",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Babel",
+      "raw_creator": "R. F. Kuang",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "The Saint of Bright Doors",
+      "raw_creator": "Vajra Chandrasekera",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "Someone You Can Build a Nest In",
+      "raw_creator": "John Wiswell",
+      "rank": null,
+      "year": 2025,
+      "note": null
+    },
+    {
+      "raw_title": "The Buffalo Hunter Hunter",
+      "raw_creator": "Stephen Graham Jones",
+      "rank": null,
+      "year": 2026,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://nebulas.sfwa.org/award/best-novel/ (공식 부문 목록, 2013~2025 발표작 수상작 확인)",
+      "https://nebulas.sfwa.org/award/best-novel/?_paged=2 (같은 목록 2쪽, 동일 결과 재확인)",
+      "https://nebulas.sfwa.org/award-year/1965/ (첫 회 — Dune, 1966년 3월 11일 시상)",
+      "https://nebulas.sfwa.org/award-year/1966/ (공동 수상 확인, 1967년 3월 25일 시상)",
+      "https://nebulas.sfwa.org/award-year/1976/ (교차 확인 — Man Plus, 1977년 4월 30일 시상)",
+      "https://nebulas.sfwa.org/award-year/1990/ (교차 확인 — Tehanu, 1991년 4월 27일 시상)",
+      "https://nebulas.sfwa.org/award-year/2001/ (교차 확인 — The Quantum Rose, 2002년 4월 27일 시상)",
+      "https://nebulas.sfwa.org/award-year/2010/ (교차 확인 — Blackout/All Clear, 2011년 5월 21일 시상)",
+      "https://nebulas.sfwa.org/award-year/2012/ (교차 확인 — 2312, 2013년 5월 18일 시상)",
+      "https://nebulas.sfwa.org/introducing-sfwas-61st-annual-nebula-award-winners/ (최신 회차 — 61회, 2026년 6월 6일 시카고, 2025년 발표작 대상)",
+      "https://nebulas.sfwa.org/about-the-nebulas/ (주관 단체·투표 자격·부문 연혁)",
+      "https://sfwa.org/complete-nebula-awards-rules/ (심사 규정 — 추천·최종 후보 6편·최다 득표 방식·장편 4만 단어 기준)",
+      "https://en.wikipedia.org/wiki/Nebula_Award_for_Best_Novel (1965~2011 발표작 전체 목록 교차 대조용)"
+    ],
+    "item_count": 62,
+    "year_range": "1966-2026",
+    "year_basis": "시상 연도(시상식이 열린 해)를 넣었다. 공식 사이트 nebulas.sfwa.org와 위키백과는 \"발표(출간) 연도\"로 회차를 표기한다 — 예: 공식 표기 \"2012 Nebula Awards\"는 2013년 5월 18일에 열린 시상식이다. 이 파일은 같은 저장소의 휴고상 목록(시상 연도 기준)과 나란히 놓기 위해 전부 시상 연도로 옮겨 적었으므로, 공식 표기보다 1년씩 크다. 예) 공식 \"1965 — Dune\"은 이 파일에서 year 1966(1966년 3월 11일 시상), 공식 \"2025 — The Buffalo Hunter Hunter\"는 year 2026(2026년 6월 6일 제61회 시상). 발표 연도가 필요하면 year에서 1을 빼면 된다.",
+    "joint_wins": "한 해뿐이다. 1966년 발표작을 대상으로 한 1967년 시상식에서 새뮤얼 R. 딜레이니의 Babel-17과 대니얼 키스의 Flowers for Algernon이 동률로 함께 수상했다(공식 1966년 페이지에서 두 편 모두 winner로 표기됨). 그 밖에 공동 수상 연도는 없다.",
+    "gaps": "없다. 시상 연도 1966년부터 2026년까지 61개 회차가 하나도 빠짐없이 이어진다. 수상작 없음(No Award) 처리된 해도 없다. 1967년만 두 편이라 항목 수는 62개다.",
+    "uncertainties": "① 1965~2011년 발표작 구간은 위키백과 표를 본줄기로 삼고 공식 사이트의 개별 연도 페이지 여섯 곳(1965·1966·1976·1990·2001·2010)을 열어 대조했으며 전부 일치했다. 나머지 연도는 개별 공식 페이지를 직접 열지 않았다 — 확인하려면 https://nebulas.sfwa.org/award-year/<발표연도>/ 를 연도별로 열면 된다. ② 2012~2025년 발표작 구간은 공식 부문 목록과 개별 페이지에서 직접 확인했다. ③ N. K. Jemisin 표기는 공식 목록에 \"N.K. Jemisin\"(공백 없음)으로 나오나 통용 표기인 \"N. K. Jemisin\"으로 적었다. ④ 저자명은 공식 사이트 표기를 따랐고, 별도 필명·본명 확인은 하지 않았다."
+  }
+}

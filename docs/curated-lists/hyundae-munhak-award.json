@@ -1,0 +1,546 @@
+{
+  "curator": {
+    "slug": "hyundae-munhak",
+    "name": "현대문학",
+    "name_en": "Hyundae Munhak",
+    "kind": "media",
+    "country": "KR",
+    "founded_year": 1955,
+    "homepage_url": "https://www.hdmh.co.kr/",
+    "description": "1955년 1월 창간한 월간 문예지로, 현재까지 발행이 이어진 한국 최장수 문학 월간지다. 현대문학사가 발행하며 잡지 발간과 함께 단행본 출판, 신인 추천, 현대문학상 시상을 운영한다. 2026년 8월호로 통권 860호를 냈다.",
+    "description_en": "Hyundae Munhak is a Korean monthly literary magazine launched in January 1955 and the longest continuously published literary monthly in Korea. Published by Hyundae Munhak Publishing, it runs book imprints, a new-writer recommendation system, and the Hyundae Munhak Award. Its August 2026 issue was the 860th."
+  },
+  "list": {
+    "slug": "hyundae-munhak-award-fiction",
+    "title": "현대문학상 소설 부문",
+    "title_en": "Hyundae Munhak Award for Fiction",
+    "description": "월간 『현대문학』이 1955년 제정해 1956년 제1회를 시상한 문학상의 소설 부문 수상작 목록이다. 시·희곡·평론과 함께 부문별로 시상하며, 한 해 동안 문예지에 발표된 중·단편을 대상으로 삼는다. 한국에서 가장 오래된 문학상 가운데 하나로 꼽힌다.",
+    "description_en": "The fiction category of the Hyundae Munhak Award, established in 1955 by the monthly magazine Hyundae Munhak and first presented in 1956. The prize is given separately in fiction, poetry, drama, and criticism, and considers short and novella-length work published in literary journals over the preceding year. It is among the oldest literary prizes in Korea.",
+    "published_year": null,
+    "edition": null,
+    "method": "직전 1년간(전년 12월호부터 당해 11월호까지) 각 문예지에 발표된 작품을 심사 대상으로 삼아 심사위원단이 부문별 수상작 한 편을 선정한다. 소설 부문은 중·단편이 대상이며, 수상작과 함께 수상후보작을 묶어 수상소설집을 펴낸다. 부문별 상금은 1천만 원이고 시상식은 이듬해 3월 말에 열린다. 초기에는 창작집·장편을 대상으로 시상한 회차도 있다.",
+    "method_en": "A jury selects one winning work per category from pieces published in literary journals during the preceding year (December issue of the previous year through the November issue of the award year). The fiction category covers short stories and novellas, and the winner is published alongside shortlisted works in an annual anthology. Each category carries a prize of 10 million won, with the ceremony held at the end of March the following year. In its early decades the prize was sometimes given for story collections or full-length novels.",
+    "source_url": "https://ko.wikipedia.org/wiki/%ED%98%84%EB%8C%80%EB%AC%B8%ED%95%99%EC%83%81",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "korean-literature"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "혈서 / 미해결의 장 / 인간동물원초",
+      "raw_creator": "손창섭",
+      "rank": null,
+      "year": 1956,
+      "note": "제1회"
+    },
+    {
+      "raw_title": "213호 주택",
+      "raw_creator": "김광식",
+      "rank": null,
+      "year": 1957,
+      "note": "제2회"
+    },
+    {
+      "raw_title": "불신시대 / 영주와 고양이",
+      "raw_creator": "박경리",
+      "rank": null,
+      "year": 1958,
+      "note": "제3회"
+    },
+    {
+      "raw_title": "갈매기 / 사망보류",
+      "raw_creator": "이범선",
+      "rank": null,
+      "year": 1959,
+      "note": "제4회"
+    },
+    {
+      "raw_title": "잉태기 / 오늘과 내일",
+      "raw_creator": "서기원",
+      "rank": null,
+      "year": 1960,
+      "note": "제5회"
+    },
+    {
+      "raw_title": "이역의 산장",
+      "raw_creator": "오유권",
+      "rank": null,
+      "year": 1961,
+      "note": "제6회"
+    },
+    {
+      "raw_title": "판문점",
+      "raw_creator": "이호철",
+      "rank": null,
+      "year": 1962,
+      "note": "제7회"
+    },
+    {
+      "raw_title": "가주인산조",
+      "raw_creator": "권태웅",
+      "rank": null,
+      "year": 1963,
+      "note": "제8회"
+    },
+    {
+      "raw_title": "흔적 / 광대 김서방",
+      "raw_creator": "한말숙",
+      "rank": null,
+      "year": 1964,
+      "note": "제9회"
+    },
+    {
+      "raw_title": "흑맥",
+      "raw_creator": "이문희",
+      "rank": null,
+      "year": 1965,
+      "note": "제10회 · 장편"
+    },
+    {
+      "raw_title": "탁자의 위치 / 도박사",
+      "raw_creator": "이광숙",
+      "rank": null,
+      "year": 1966,
+      "note": "제11회"
+    },
+    {
+      "raw_title": "하오의 순유 / 한춘무사",
+      "raw_creator": "최상규",
+      "rank": null,
+      "year": 1967,
+      "note": "제12회"
+    },
+    {
+      "raw_title": "아테나이의 비명",
+      "raw_creator": "정을병",
+      "rank": null,
+      "year": 1968,
+      "note": "제13회"
+    },
+    {
+      "raw_title": "열병",
+      "raw_creator": "송상옥",
+      "rank": null,
+      "year": 1969,
+      "note": "제14회"
+    },
+    {
+      "raw_title": "유다 행전",
+      "raw_creator": "유현종",
+      "rank": null,
+      "year": 1970,
+      "note": "제15회"
+    },
+    {
+      "raw_title": "어떤 파리",
+      "raw_creator": "박순녀",
+      "rank": null,
+      "year": 1971,
+      "note": "제16회"
+    },
+    {
+      "raw_title": "처세술개론 / 타인의 방",
+      "raw_creator": "최인호",
+      "rank": null,
+      "year": 1972,
+      "note": "제17회"
+    },
+    {
+      "raw_title": "백의민족",
+      "raw_creator": "송기숙",
+      "rank": null,
+      "year": 1973,
+      "note": "제18회 · 창작집"
+    },
+    {
+      "raw_title": "초식",
+      "raw_creator": "이제하",
+      "rank": null,
+      "year": 1974,
+      "note": "제19회 · 창작집"
+    },
+    {
+      "raw_title": "잠시 눕는 풀 / 바라암",
+      "raw_creator": "김원일",
+      "rank": null,
+      "year": 1975,
+      "note": "제20회"
+    },
+    {
+      "raw_title": "성흔",
+      "raw_creator": "김문수",
+      "rank": null,
+      "year": 1976,
+      "note": "제21회 · 창작집"
+    },
+    {
+      "raw_title": "사형 / 껍데기 벗기",
+      "raw_creator": "전상국",
+      "rank": null,
+      "year": 1977,
+      "note": "제22회"
+    },
+    {
+      "raw_title": "이별의 방식",
+      "raw_creator": "이세기",
+      "rank": null,
+      "year": 1978,
+      "note": "제23회"
+    },
+    {
+      "raw_title": "우리 교실의 전설",
+      "raw_creator": "김국태",
+      "rank": null,
+      "year": 1979,
+      "note": "제24회"
+    },
+    {
+      "raw_title": "두고 온 사람 / 호도나무골 전설",
+      "raw_creator": "유재용",
+      "rank": null,
+      "year": 1980,
+      "note": "제25회"
+    },
+    {
+      "raw_title": "산행",
+      "raw_creator": "김용운",
+      "rank": null,
+      "year": 1981,
+      "note": "제26회"
+    },
+    {
+      "raw_title": "유형의 땅",
+      "raw_creator": "조정래",
+      "rank": null,
+      "year": 1982,
+      "note": "제27회"
+    },
+    {
+      "raw_title": "완장",
+      "raw_creator": "윤흥길",
+      "rank": null,
+      "year": 1983,
+      "note": "제28회 · 장편"
+    },
+    {
+      "raw_title": "도둑일기",
+      "raw_creator": "김용성",
+      "rank": null,
+      "year": 1984,
+      "note": "제29회 · 장편"
+    },
+    {
+      "raw_title": "마지막 우상",
+      "raw_creator": "홍성원",
+      "rank": null,
+      "year": 1985,
+      "note": "제30회 · 장편"
+    },
+    {
+      "raw_title": "폭력요법 / 폭력연구",
+      "raw_creator": "이동하",
+      "rank": null,
+      "year": 1986,
+      "note": "제31회"
+    },
+    {
+      "raw_title": "친구 / 보행규칙 위반자 외",
+      "raw_creator": "송영",
+      "rank": null,
+      "year": 1987,
+      "note": "제32회"
+    },
+    {
+      "raw_title": "갯비나리",
+      "raw_creator": "한승원",
+      "rank": null,
+      "year": 1988,
+      "note": "제33회 · 장편"
+    },
+    {
+      "raw_title": "바다가 부르는 소리 / 밀랍인형들의 집",
+      "raw_creator": "손영목",
+      "rank": null,
+      "year": 1989,
+      "note": "제34회"
+    },
+    {
+      "raw_title": "사제와 제물",
+      "raw_creator": "현길언",
+      "rank": null,
+      "year": 1990,
+      "note": "제35회"
+    },
+    {
+      "raw_title": "타인의 얼굴",
+      "raw_creator": "한수산",
+      "rank": null,
+      "year": 1991,
+      "note": "제36회"
+    },
+    {
+      "raw_title": "시인과 도둑",
+      "raw_creator": "이문열",
+      "rank": null,
+      "year": 1992,
+      "note": "제37회 · 장편 『시인』 함께 수상 대상"
+    },
+    {
+      "raw_title": "꿈꾸는 인큐베이터",
+      "raw_creator": "박완서",
+      "rank": null,
+      "year": 1993,
+      "note": "제38회"
+    },
+    {
+      "raw_title": "별을 사랑하는 마음으로",
+      "raw_creator": "윤후명",
+      "rank": null,
+      "year": 1994,
+      "note": "제39회"
+    },
+    {
+      "raw_title": "깊은 숨을 쉴 때마다",
+      "raw_creator": "신경숙",
+      "rank": null,
+      "year": 1995,
+      "note": "제40회"
+    },
+    {
+      "raw_title": "곰 이야기",
+      "raw_creator": "양귀자",
+      "rank": null,
+      "year": 1996,
+      "note": "제41회"
+    },
+    {
+      "raw_title": "은비령",
+      "raw_creator": "이순원",
+      "rank": null,
+      "year": 1997,
+      "note": "제42회"
+    },
+    {
+      "raw_title": "빛의 걸음걸이",
+      "raw_creator": "윤대녕",
+      "rank": null,
+      "year": 1998,
+      "note": "제43회"
+    },
+    {
+      "raw_title": "당신의 나무",
+      "raw_creator": "김영하",
+      "rank": null,
+      "year": 1999,
+      "note": "제44회"
+    },
+    {
+      "raw_title": "개교기념일",
+      "raw_creator": "김인숙",
+      "rank": null,
+      "year": 2000,
+      "note": "제45회"
+    },
+    {
+      "raw_title": "미",
+      "raw_creator": "마르시아스 심",
+      "rank": null,
+      "year": 2001,
+      "note": "제46회 · 본명 심상대. 수상 당시 필명 마르시아스 심으로 표기"
+    },
+    {
+      "raw_title": "고갯마루",
+      "raw_creator": "이혜경",
+      "rank": null,
+      "year": 2002,
+      "note": "제47회"
+    },
+    {
+      "raw_title": "좁은 문",
+      "raw_creator": "조경란",
+      "rank": null,
+      "year": 2003,
+      "note": "제48회"
+    },
+    {
+      "raw_title": "내 고운 벗님",
+      "raw_creator": "성석제",
+      "rank": null,
+      "year": 2004,
+      "note": "제49회"
+    },
+    {
+      "raw_title": "유턴지점에 보물지도를 묻다",
+      "raw_creator": "윤성희",
+      "rank": null,
+      "year": 2005,
+      "note": "제50회"
+    },
+    {
+      "raw_title": "삼풍백화점",
+      "raw_creator": "정이현",
+      "rank": null,
+      "year": 2006,
+      "note": "제51회"
+    },
+    {
+      "raw_title": "전기수 이야기",
+      "raw_creator": "이승우",
+      "rank": null,
+      "year": 2007,
+      "note": "제52회"
+    },
+    {
+      "raw_title": "99%",
+      "raw_creator": "김경욱",
+      "rank": null,
+      "year": 2008,
+      "note": "제53회"
+    },
+    {
+      "raw_title": "알파의 시간",
+      "raw_creator": "하성란",
+      "rank": null,
+      "year": 2009,
+      "note": "제54회"
+    },
+    {
+      "raw_title": "얼룩",
+      "raw_creator": "박성원",
+      "rank": null,
+      "year": 2010,
+      "note": "제55회"
+    },
+    {
+      "raw_title": "강변마을",
+      "raw_creator": "전경린",
+      "rank": null,
+      "year": 2011,
+      "note": "제56회"
+    },
+    {
+      "raw_title": "낚시하는 소녀",
+      "raw_creator": "전성태",
+      "rank": null,
+      "year": 2012,
+      "note": "제57회"
+    },
+    {
+      "raw_title": "그 밤의 경숙",
+      "raw_creator": "김숨",
+      "rank": null,
+      "year": 2013,
+      "note": "제58회"
+    },
+    {
+      "raw_title": "양의 미래",
+      "raw_creator": "황정은",
+      "rank": null,
+      "year": 2014,
+      "note": "제59회 · 선정 후 수상 거부(현대문학 연재 검열 사태로 반납)"
+    },
+    {
+      "raw_title": "소년이로",
+      "raw_creator": "편혜영",
+      "rank": null,
+      "year": 2015,
+      "note": "제60회"
+    },
+    {
+      "raw_title": "베를린 필",
+      "raw_creator": "김채원",
+      "rank": null,
+      "year": 2016,
+      "note": "제61회"
+    },
+    {
+      "raw_title": "체스의 모든 것",
+      "raw_creator": "김금희",
+      "rank": null,
+      "year": 2017,
+      "note": "제62회"
+    },
+    {
+      "raw_title": "상속",
+      "raw_creator": "김성중",
+      "rank": null,
+      "year": 2018,
+      "note": "제63회"
+    },
+    {
+      "raw_title": "모르그 디오라마",
+      "raw_creator": "박민정",
+      "rank": null,
+      "year": 2019,
+      "note": "제64회"
+    },
+    {
+      "raw_title": "아직 집에는 가지 않을래요",
+      "raw_creator": "백수린",
+      "rank": null,
+      "year": 2020,
+      "note": "제65회"
+    },
+    {
+      "raw_title": "여기 우리 마주",
+      "raw_creator": "최은미",
+      "rank": null,
+      "year": 2021,
+      "note": "제66회"
+    },
+    {
+      "raw_title": "그때 그 마음",
+      "raw_creator": "정소현",
+      "rank": null,
+      "year": 2022,
+      "note": "제67회"
+    },
+    {
+      "raw_title": "어떤 진심",
+      "raw_creator": "안보윤",
+      "rank": null,
+      "year": 2023,
+      "note": "제68회"
+    },
+    {
+      "raw_title": "미래의 조각",
+      "raw_creator": "정영수",
+      "rank": null,
+      "year": 2024,
+      "note": "제69회"
+    },
+    {
+      "raw_title": "좋아하는 마음 없이",
+      "raw_creator": "김지연",
+      "rank": null,
+      "year": 2025,
+      "note": "제70회"
+    },
+    {
+      "raw_title": "사랑보다 조금 더 짙은 얼굴",
+      "raw_creator": "임솔아",
+      "rank": null,
+      "year": 2026,
+      "note": "제71회"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://ko.wikipedia.org/wiki/%ED%98%84%EB%8C%80%EB%AC%B8%ED%95%99%EC%83%81 — 한국어 위키백과 '현대문학상'. action=raw 위키텍스트까지 열어 제1~69회 소설 부문 원문 표기(한자 포함)를 확보. 다만 2019~2020, 2023년 항목에 오류가 있어 아래 출처로 교정함.",
+      "https://namu.wiki/w/%ED%98%84%EB%8C%80%EB%AC%B8%ED%95%99%EC%83%81 — 나무위키 '현대문학상'. 제1~71회 한글 표기 목록 확보. 위키백과보다 최신(70·71회 수록).",
+      "https://www.poemhouse.kr/hof/1837 — 한국시문화회관 '역대 현대문학상 수상작'. 제1~60회 대조용. 위키백과와 동일한 한자 표기를 그대로 싣고 있어 독립 출처로 보기 어려움(1965년 표기 오류가 동일하게 반복됨).",
+      "https://www.hankookilbo.com/News/Read/201911191564749000 — 한국일보 '제65회 현대문학상에 백수린·유희경·조강석'. 2020년 소설 부문 수상자가 백수린임을 확인(위키백과의 '유희경'은 시 부문 수상자를 잘못 옮긴 것).",
+      "https://encykorea.aks.ac.kr/Article/E0063288 — 한국민족문화대백과사전 '현대문학'. 1955년 1월 창간, 1955년 현대문학상 제정, 시·소설·희곡·평론 4개 부문 시상 확인.",
+      "https://www.hdmh.co.kr/ — 현대문학 공식 사이트. 발행 주체·현대문학상 시상 운영·2026년 8월호 통권 860호 확인.",
+      "웹 검색 결과(검색 엔진 요약)로 교차 확인한 항목: 제71회 임솔아 「사랑보다 조금 더 짙은 얼굴」(뉴시스·KPI뉴스 보도 및 수상소설집 서지), 제70회 김지연 「좋아하는 마음 없이」(경향신문 신간 소개 및 수상소설집 서지), 제68회 안보윤 「어떤 진심」(경향신문 2022-11-28 보도 및 현대문학 도서 페이지), 제64회 박민정 「모르그 디오라마」(경향신문·국민일보·머니투데이 2018-11-29 보도), 제65회 수상작 제목 「아직 집에는 가지 않을래요」(알라딘 수상소설집 서지), 제59회 황정은 수상 거부(한국어 위키백과 '황정은' 및 창비 공지), 1965년 이문희 『흑맥』(KCI 논문 서지 및 1965년 동명 영화 원작 정보), 1975년 김원일 「바라암」, 1976년 김문수 『성흔』(聖痕), 1968년 정을병 「아테나이의 비명」(알라딘 서지), 2001년 마르시아스 심(본명 심상대) 『미』(교보문고 서지)."
+    ],
+    "item_count": 71,
+    "year_range": "1956-2026",
+    "scope": "전 회차. 제1회(1956년)부터 제71회(2026년)까지 71개 회차를 빠짐없이 담았다. 시·희곡·평론 부문은 제외하고 소설 부문만 수록했다. 최신 회차는 오늘 날짜로 추정하지 않고 제71회(2026년, 임솔아) 수상 보도와 수상소설집 서지로 직접 확인했다.",
+    "gaps": "결번 없음 — 제1회부터 제71회까지 회차가 연속하며 수상작이 비는 해는 확인되지 않았다. 다만 제59회(2014년) 황정은 「양의 미래」는 선정 후 작가가 수상을 거부해 상을 반납했으므로, '수상작으로 발표되었으나 수상이 성립하지 않은' 회차로 볼 여지가 있다. 목록에는 남기고 note에 표시했다.",
+    "uncertainties": "① 초기 회차(제1~35회 무렵) 수상작명은 원출처가 한자 표기(예: 「血書」, 『聖痕』)여서 한글로 옮겨 적었다. 표기 규칙에 따라 한자를 떼고 한글만 남겼으나, 당시 지면 표기 자체를 원본 대조하지는 못했다. ② 1965년 이문희 수상작을 위키백과와 한국시문화회관은 모두 『墨麥』(묵맥)으로 적고 있으나, 학술 논문 서지와 1965년 영화 원작 정보는 일관되게 『흑맥』(黑麥)이다. 두 목록이 같은 오기를 공유한 것으로 판단해 '흑맥'으로 적었다. ③ 제65회(2020년) 수상작 제목은 발표 당시 한국일보 보도가 '아직은 집에 가지 않을래요'로, 이후 간행된 수상소설집 서지는 '아직 집에는 가지 않을래요'로 적고 있다. 단행본 표제를 따랐다. ④ 제46회(2001년) 수상자는 본명 심상대이나 수상 및 수상소설집 간행 시 필명 '마르시아스 심'을 썼다. 원출처 표기를 따라 필명으로 적고 note에 본명을 밝혔다. ⑤ 여러 편이 함께 수상 대상이 된 회차는 작품명을 ' / '로 이어 한 항목에 담았다. ⑥ 심사 대상 기간·상금·시상 시기는 제70·71회 보도에서 확인한 최근 운영 방식이며, 초기 회차에도 동일하게 적용되었는지는 확인하지 못했다."
+  }
+}

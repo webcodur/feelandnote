@@ -1,0 +1,1373 @@
+{
+  "curator": {
+    "slug": "nihon-bungaku-shinkokai",
+    "name": "일본문학진흥회",
+    "name_en": "Society for the Promotion of Japanese Literature",
+    "kind": "award",
+    "country": "JP",
+    "founded_year": 1938,
+    "homepage_url": "https://bungakushinko.or.jp",
+    "description": "일본문학진흥회는 아쿠타가와상과 나오키상을 비롯한 일본의 주요 문학상을 주최하는 공익재단법인이다. 1935년 분게이슌주의 기쿠치 간이 두 상을 만든 뒤 1938년부터 이 단체가 운영을 이어받았다. 지금도 아쿠타가와상·나오키상·기쿠치간상·오야소이치논픽션상·마쓰모토세이초상의 수상자 명단을 직접 관리해 공개한다.",
+    "description_en": "The Society for the Promotion of Japanese Literature is a Japanese public-interest foundation that administers the country's leading literary prizes, including the Akutagawa Prize and the Naoki Prize. Kan Kikuchi of Bungeishunju founded both prizes in 1935, and the Society took over their operation in 1938. It maintains and publishes the official rosters of winners for the Akutagawa, Naoki, Kikuchi Kan, Oya Soichi Nonfiction, and Matsumoto Seicho prizes."
+  },
+  "list": {
+    "slug": "akutagawa-prize",
+    "title": "아쿠타가와상 수상작",
+    "title_en": "Akutagawa Prize",
+    "description": "아쿠타가와상은 소설가 아쿠타가와 류노스케를 기려 1935년에 만들어진 일본 순문학상이다. 이미 자리 잡은 대가가 아니라 신문·잡지에 작품을 발표한 신인과 무명 작가에게 주는 신인상이며, 일본 순문학계에서 가장 권위 있는 등용문으로 꼽힌다. 해마다 상반기와 하반기로 나누어 1월과 7월에 두 차례 시상한다.",
+    "description_en": "The Akutagawa Prize is a Japanese literary award established in 1935 in memory of the novelist Ryunosuke Akutagawa. Rather than honoring established masters, it goes to new and unknown writers who have published work in a newspaper or magazine, and it is regarded as the most prestigious gateway into serious Japanese literary fiction. It is awarded twice a year, in January and July, for the second and first halves of the year respectively.",
+    "published_year": null,
+    "edition": null,
+    "method": "신문과 잡지에 발표된 순수문학 단편·중편 가운데 신인 또는 무명 작가의 작품을 대상으로 삼는다. 후보작을 추린 뒤 현역 작가와 평론가, 역대 수상자로 구성된 심사위원회가 도쿄 쓰키지의 요정 신키라쿠에서 심사회를 열어 수상작을 정한다. 원고지 100~200장 분량의 작품이 주로 뽑히며, 심사위원들이 수상작에 합의하지 못하면 그 회차는 수상작을 내지 않는다. 수상자는 상금 100만 엔과 회중시계를 받고 수상작은 《분게이슌주》에 실린다.",
+    "method_en": "Eligible works are short stories and novellas of serious literary fiction published in newspapers or magazines by new or unknown writers. After a shortlist is drawn up, a selection committee of working novelists, critics, and past winners meets at the Shinkiraku restaurant in Tokyo to choose the winner. Entries of roughly 100 to 200 manuscript pages are typically chosen, and when the judges cannot agree on a winner, no prize is given for that term. Winners receive one million yen and a pocket watch, and the winning work is published in Bungeishunju.",
+    "source_url": "https://bungakushinko.or.jp/award/akutagawa/list.html",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "novel"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Sōbō",
+      "raw_creator": "이시카와 다쓰조",
+      "rank": null,
+      "year": 1935,
+      "note": "제1회 상반기 / 원제: 蒼氓 (Sōbō) / 작가 원표기: 石川達三 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Koshamain-Ki",
+      "raw_creator": "쓰루타 도모야",
+      "rank": null,
+      "year": 1936,
+      "note": "제3회 상반기 / 원제: コシャマイン記 (Koshamain-Ki) / 작가 원표기: 鶴田知也 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Jōgai",
+      "raw_creator": "오다 다케오",
+      "rank": null,
+      "year": 1936,
+      "note": "제3회 상반기 / 원제: 城外 (Jōgai) / 작가 원표기: 小田嶽夫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Chichūkai",
+      "raw_creator": "도미자와 우이오",
+      "rank": null,
+      "year": 1936,
+      "note": "제4회 하반기 / 원제: 地中海 (Chichūkai) / 작가 원표기: 冨澤有爲男 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Bodhisattva",
+      "raw_creator": "이시카와 준",
+      "rank": null,
+      "year": 1936,
+      "note": "제4회 하반기 / 원제: 普賢 (Fugen) / 작가 원표기: 石川淳 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Rosy Glasses",
+      "raw_creator": "오자키 가즈오",
+      "rank": null,
+      "year": 1937,
+      "note": "제5회 상반기 / 원제: 暢氣眼鏡 他 (Nonki Megane) / 작가 원표기: 尾崎一雄 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Fun'nyōtan",
+      "raw_creator": "히노 아시헤이",
+      "rank": null,
+      "year": 1937,
+      "note": "제6회 하반기 / 원제: 糞尿譚 (Fun'nyōtan) / 작가 원표기: 火野葦平 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Atsumonozaki",
+      "raw_creator": "나카야마 기슈",
+      "rank": null,
+      "year": 1938,
+      "note": "제7회 상반기 / 원제: 厚物咲 (Atsumonozaki) / 작가 원표기: 中山義秀 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Noriaibasha",
+      "raw_creator": "나카자토 쓰네코",
+      "rank": null,
+      "year": 1938,
+      "note": "제8회 하반기 / 원제: 乗合馬車 他 (Noriaibasha) / 작가 원표기: 中里恒子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Asakusa no Kodomo",
+      "raw_creator": "하세 겐",
+      "rank": null,
+      "year": 1939,
+      "note": "제9회 상반기 / 원제: あさくさの子供 (Asakusa no Kodomo) / 작가 원표기: 長谷健 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Niwatori Sōdō",
+      "raw_creator": "한다 요시유키",
+      "rank": null,
+      "year": 1939,
+      "note": "제9회 상반기 / 원제: 鶏騒動 (Niwatori Sōdō) / 작가 원표기: 半田義之 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Mitsuryōsha",
+      "raw_creator": "사무카와 소타로",
+      "rank": null,
+      "year": 1939,
+      "note": "제10회 하반기 / 원제: 密獵者 (Mitsuryōsha) / 작가 원표기: 寒川光太郎 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Hiraga Gen'nai",
+      "raw_creator": "사쿠라다 쓰네히사",
+      "rank": null,
+      "year": 1940,
+      "note": "제12회 하반기 / 원제: 平賀源内 (Hiraga Gen'nai) / 작가 원표기: 櫻田常久 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Chōkō Deruta",
+      "raw_creator": "다다 유케이",
+      "rank": null,
+      "year": 1941,
+      "note": "제13회 상반기 / 원제: 長江デルタ (Chōkō Deruta) / 작가 원표기: 多田裕計 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Seika no Ichi",
+      "raw_creator": "시바키 요시코",
+      "rank": null,
+      "year": 1941,
+      "note": "제14회 하반기 / 원제: 青果の市 (Seika no Ichi) / 작가 원표기: 芝木好子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Renrakuin",
+      "raw_creator": "구라미쓰 도시오",
+      "rank": null,
+      "year": 1942,
+      "note": "제16회 하반기 / 원제: 連絡員 (Renrakuin) / 작가 원표기: 倉光俊夫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Tensoku no Koro",
+      "raw_creator": "이시즈카 기쿠조",
+      "rank": null,
+      "year": 1943,
+      "note": "제17회 상반기 / 원제: 纏足の頃 (Tensoku no Koro) / 작가 원표기: 石塚喜久三 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Washi",
+      "raw_creator": "도노베 가오루",
+      "rank": null,
+      "year": 1943,
+      "note": "제18회 하반기 / 원제: 和紙 (Washi) / 작가 원표기: 東野邊薫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Ryū Kanfū",
+      "raw_creator": "야기 요시노리",
+      "rank": null,
+      "year": 1944,
+      "note": "제19회 상반기 / 원제: 劉廣福 (Ryū Kanfū) / 작가 원표기: 八木義徳 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "등반",
+      "raw_creator": "오비 주조",
+      "rank": null,
+      "year": 1944,
+      "note": "제19회 상반기 / 원제: 登攀 (Tōhan) / 작가 원표기: 小尾十三 / 국내 출간명"
+    },
+    {
+      "raw_title": "Karitachi",
+      "raw_creator": "시미즈 모토요시",
+      "rank": null,
+      "year": 1944,
+      "note": "제20회 하반기 / 원제: 雁立 (Karitachi) / 작가 원표기: 清水基吉 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Kakushō",
+      "raw_creator": "고타니 쓰요시",
+      "rank": null,
+      "year": 1949,
+      "note": "제21회 상반기 / 원제: 確証 (Kakushō) / 작가 원표기: 小谷剛 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Hon no Hanashi",
+      "raw_creator": "유키 시게코",
+      "rank": null,
+      "year": 1949,
+      "note": "제21회 상반기 / 원제: 本の話 (Hon no Hanashi) / 작가 원표기: 由起しげ子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Bullfight",
+      "raw_creator": "이노우에 야스시",
+      "rank": null,
+      "year": 1949,
+      "note": "제22회 하반기 / 원제: 闘牛 (Tōgyū) / 작가 원표기: 井上靖 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Ihōjin",
+      "raw_creator": "쓰지 류이치",
+      "rank": null,
+      "year": 1950,
+      "note": "제23회 상반기 / 원제: 異邦人 (Ihōjin) / 작가 원표기: 辻亮一 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "벽 S·카르마씨의 범죄",
+      "raw_creator": "아베 코보",
+      "rank": null,
+      "year": 1951,
+      "note": "제25회 상반기 / 원제: 壁 (Kabe—S. Karuma shi no Hanzai) / 작가 원표기: 安部公房 / 국내 출간명"
+    },
+    {
+      "raw_title": "Haru no Kusa",
+      "raw_creator": "이시카와 도시미쓰",
+      "rank": null,
+      "year": 1951,
+      "note": "제25회 상반기 / 원제: 春の草 他 (Haru no Kusa) / 작가 원표기: 石川利光 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "광장의 고독",
+      "raw_creator": "홋타 요시에",
+      "rank": null,
+      "year": 1951,
+      "note": "제26회 하반기 / 원제: 広場の孤独・漢奸その他 (Hiroba no Kodoku) / 작가 원표기: 堀田善衛 / 국내 출간명"
+    },
+    {
+      "raw_title": "상신",
+      "raw_creator": "고미 야스스케",
+      "rank": null,
+      "year": 1952,
+      "note": "제28회 하반기 / 원제: 喪神 (Sōshin) / 작가 원표기: 五味康祐 / 국내 출간명"
+    },
+    {
+      "raw_title": "어느 '고쿠라 일기'전",
+      "raw_creator": "마쓰모토 세이초",
+      "rank": null,
+      "year": 1952,
+      "note": "제28회 하반기 / 원제: 或る「小倉日記」伝 (Aru \"Kokura Nikki\" Den) / 작가 원표기: 松本清張 / 국내 출간명"
+    },
+    {
+      "raw_title": "나쁜 친구들",
+      "raw_creator": "야스오카 쇼타로",
+      "rank": null,
+      "year": 1953,
+      "note": "제29회 상반기 / 원제: 悪い仲間・陰気な愉しみ (Warui Nakama) / 작가 원표기: 安岡章太郎 / 국내 출간명"
+    },
+    {
+      "raw_title": "소나기",
+      "raw_creator": "요시유키 준노스케",
+      "rank": null,
+      "year": 1954,
+      "note": "제31회 상반기 / 원제: 驟雨・その他 (Shūu, sono ta) / 작가 원표기: 吉行淳之介 / 국내 출간명"
+    },
+    {
+      "raw_title": "아메리칸 스쿨",
+      "raw_creator": "고지마 노부오",
+      "rank": null,
+      "year": 1954,
+      "note": "제32회 하반기 / 원제: アメリカン・スクール (Amerikan Sukūru) / 작가 원표기: 小島信夫 / 국내 출간명"
+    },
+    {
+      "raw_title": "풀 사이드 소경",
+      "raw_creator": "쇼노 준조",
+      "rank": null,
+      "year": 1954,
+      "note": "제32회 하반기 / 원제: プールサイド小景 (Pūrusaido Shōkei) / 작가 원표기: 庄野潤三 / 국내 출간명"
+    },
+    {
+      "raw_title": "백색인",
+      "raw_creator": "엔도 슈사쿠",
+      "rank": null,
+      "year": 1955,
+      "note": "제33회 상반기 / 원제: 白い人 (Shiroi Hito) / 작가 원표기: 遠藤周作 / 국내 출간명"
+    },
+    {
+      "raw_title": "태양의 계절",
+      "raw_creator": "이시하라 신타로",
+      "rank": null,
+      "year": 1955,
+      "note": "제34회 하반기 / 원제: 太陽の季節 (Taiyō no Kisetsu) / 작가 원표기: 石原慎太郎 / 국내 출간명"
+    },
+    {
+      "raw_title": "바닷사람의 배",
+      "raw_creator": "곤도 게이타로",
+      "rank": null,
+      "year": 1956,
+      "note": "제35회 상반기 / 원제: 海人舟 (Amabune) / 작가 원표기: 近藤啓太郎 / 국내 출간명"
+    },
+    {
+      "raw_title": "이오지마",
+      "raw_creator": "기쿠무라 이타루",
+      "rank": null,
+      "year": 1957,
+      "note": "제37회 상반기 / 원제: 硫黄島 (Iōjima) / 작가 원표기: 菊村到 / 국내 출간명"
+    },
+    {
+      "raw_title": "The Naked King",
+      "raw_creator": "가이코 다케시",
+      "rank": null,
+      "year": 1957,
+      "note": "제38회 하반기 / 원제: 裸の王様 (Hadaka no Ōsama) / 작가 원표기: 開高健 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "사육",
+      "raw_creator": "오에 겐자부로",
+      "rank": null,
+      "year": 1958,
+      "note": "제39회 상반기 / 원제: 飼育 (Shiiku) / 작가 원표기: 大江健三郎 / 국내 출간명"
+    },
+    {
+      "raw_title": "산탑",
+      "raw_creator": "시바 시로",
+      "rank": null,
+      "year": 1959,
+      "note": "제41회 상반기 / 원제: 山塔 (Santō) / 작가 원표기: 斯波四郎 / 국내 출간명"
+    },
+    {
+      "raw_title": "Yoru to Kiri no Sumi de",
+      "raw_creator": "기타 모리오",
+      "rank": null,
+      "year": 1960,
+      "note": "제43회 상반기 / 원제: 夜と霧の隅で (Yoru to Kiri no Sumi de) / 작가 원표기: 北杜夫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "A Portrait of Shino",
+      "raw_creator": "미우라 데쓰오",
+      "rank": null,
+      "year": 1960,
+      "note": "제44회 하반기 / 원제: 忍ぶ川 (Shinobukawa) / 작가 원표기: 三浦哲郎 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Kujiragami",
+      "raw_creator": "우노 고이치로",
+      "rank": null,
+      "year": 1961,
+      "note": "제46회 하반기 / 원제: 鯨神 (Kujiragami) / 작가 원표기: 宇能鴻一郎 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Bidan no Shuppatsu",
+      "raw_creator": "가와무라 아키라",
+      "rank": null,
+      "year": 1962,
+      "note": "제47회 상반기 / 원제: 美談の出発 (Bidan no Shuppatsu) / 작가 원표기: 川村晃 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Crabs",
+      "raw_creator": "고노 다에코",
+      "rank": null,
+      "year": 1963,
+      "note": "제49회 상반기 / 원제: 蟹 (Kani) / 작가 원표기: 河野多惠子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Shōnen no Hashi",
+      "raw_creator": "고토 기이치",
+      "rank": null,
+      "year": 1963,
+      "note": "제49회 상반기 / 원제: 少年の橋 (Shōnen no Hashi) / 작가 원표기: 後藤紀一 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "감상 여행",
+      "raw_creator": "다나베 세이코",
+      "rank": null,
+      "year": 1963,
+      "note": "제50회 하반기 / 원제: 感傷旅行 センチメンタル・ジャーニィ (Kanshō Ryokō (Senchimentaru Jāni)) / 작가 원표기: 田辺聖子 / 국내 출간명"
+    },
+    {
+      "raw_title": "그래도 우리의 나날",
+      "raw_creator": "시바타 쇼",
+      "rank": null,
+      "year": 1964,
+      "note": "제51회 상반기 / 원제: されどわれらが日々── (Saredo Wareraga Hibi) / 작가 원표기: 柴田翔 / 국내 출간명"
+    },
+    {
+      "raw_title": "Playthings",
+      "raw_creator": "쓰무라 세쓰코",
+      "rank": null,
+      "year": 1965,
+      "note": "제53회 상반기 / 원제: 玩具 (Gangu) / 작가 원표기: 津村節子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Kita no Kawa",
+      "raw_creator": "다카이 유이치",
+      "rank": null,
+      "year": 1965,
+      "note": "제54회 하반기 / 원제: 北の河 (Kita no Kawa) / 작가 원표기: 高井有一 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "여름의 흐름",
+      "raw_creator": "마루야마 겐지",
+      "rank": null,
+      "year": 1966,
+      "note": "제56회 하반기 / 원제: 夏の流れ (Natsu no Nagare) / 작가 원표기: 丸山健二 / 국내 출간명"
+    },
+    {
+      "raw_title": "The Cocktail Party",
+      "raw_creator": "오시로 다쓰히로",
+      "rank": null,
+      "year": 1967,
+      "note": "제57회 상반기 / 원제: カクテル・パーティー (Kakuteru Pātī) / 작가 원표기: 大城立裕 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Tokuyama Dōsuke no Kikyō",
+      "raw_creator": "가시와바라 효조",
+      "rank": null,
+      "year": 1967,
+      "note": "제58회 하반기 / 원제: 徳山道助の帰郷 (Tokuyama Dōsuke no Kikyō) / 작가 원표기: 柏原兵三 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Toshi no Nokori",
+      "raw_creator": "마루야 사이이치",
+      "rank": null,
+      "year": 1968,
+      "note": "제59회 상반기 / 원제: 年の残り (Toshi no Nokori) / 작가 원표기: 丸谷才一 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Three Crabs",
+      "raw_creator": "오바 미나코",
+      "rank": null,
+      "year": 1968,
+      "note": "제59회 상반기 / 원제: 三匹の蟹 (Sanbiki no Kani) / 작가 원표기: 大庭みな子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Fukai Kawa",
+      "raw_creator": "다쿠보 히데오",
+      "rank": null,
+      "year": 1969,
+      "note": "제61회 상반기 / 원제: 深い河 (Fukai Kawa) / 작가 원표기: 田久保英夫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Akazukin-chan Ki o Tsukete",
+      "raw_creator": "쇼지 가오루",
+      "rank": null,
+      "year": 1969,
+      "note": "제61회 상반기 / 원제: 赤頭巾ちゃん気をつけて (Akazukin-chan Ki o Tsukete) / 작가 원표기: 庄司薫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Akashiya no Dairen",
+      "raw_creator": "기요오카 다카유키",
+      "rank": null,
+      "year": 1969,
+      "note": "제62회 하반기 / 원제: アカシヤの大連 (Akashiya no Dairen) / 작가 원표기: 清岡卓行 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Mumyōjōya",
+      "raw_creator": "요시다 도모코",
+      "rank": null,
+      "year": 1970,
+      "note": "제63회 상반기 / 원제: 無明長夜 (Mumyōjōya) / 작가 원표기: 吉田知子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Pureō 8 no Yoake",
+      "raw_creator": "후루야마 고마오",
+      "rank": null,
+      "year": 1970,
+      "note": "제63회 상반기 / 원제: プレオー8の夜明け (Pureō 8 no Yoake) / 작가 원표기: 古山高麗雄 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "요코",
+      "raw_creator": "후루이 요시키치",
+      "rank": null,
+      "year": 1970,
+      "note": "제64회 하반기 / 원제: 杳子 (Yōko) / 작가 원표기: 古井由吉 / 국내 출간명"
+    },
+    {
+      "raw_title": "다듬이질 하는 여인",
+      "raw_creator": "이회성",
+      "rank": null,
+      "year": 1971,
+      "note": "제66회 하반기 / 원제: 砧をうつ女 (Kinuta o Utsu Onna) / 작가 원표기: 李恢成 / 국내 출간명"
+    },
+    {
+      "raw_title": "Child of Okinawa",
+      "raw_creator": "히가시 미네오",
+      "rank": null,
+      "year": 1971,
+      "note": "제66회 하반기 / 원제: オキナワの少年 (Okinawa no Shōnen) / 작가 원표기: 東峰夫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Dareka ga Sawatta",
+      "raw_creator": "미야하라 아키오",
+      "rank": null,
+      "year": 1972,
+      "note": "제67회 상반기 / 원제: 誰かが触った (Dareka ga Sawatta) / 작가 원표기: 宮原昭夫 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Itsuka Kiteki o Narashite",
+      "raw_creator": "하타야마 히로시",
+      "rank": null,
+      "year": 1972,
+      "note": "제67회 상반기 / 원제: いつか汽笛を鳴らして (Itsuka Kiteki o Narashite) / 작가 원표기: 畑山博 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Requiem",
+      "raw_creator": "고 시즈코",
+      "rank": null,
+      "year": 1972,
+      "note": "제68회 하반기 / 원제: れくいえむ (Rekuiemu) / 작가 원표기: 郷静子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Betty-san",
+      "raw_creator": "야마모토 미치코",
+      "rank": null,
+      "year": 1972,
+      "note": "제68회 하반기 / 원제: ベティさんの庭 (Betei-san no Niwa) / 작가 원표기: 山本道子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "검은 방울새",
+      "raw_creator": "미키 다쿠",
+      "rank": null,
+      "year": 1973,
+      "note": "제69회 상반기 / 원제: 鶸 (Hiwa) / 작가 원표기: 三木卓 / 국내 출간명"
+    },
+    {
+      "raw_title": "풀의 검",
+      "raw_creator": "노로 구니노부",
+      "rank": null,
+      "year": 1973,
+      "note": "제70회 하반기 / 원제: 草のつるぎ (Kusa no Tsurugi) / 작가 원표기: 野呂邦暢 / 국내 출간명"
+    },
+    {
+      "raw_title": "Gassan",
+      "raw_creator": "모리 아쓰시",
+      "rank": null,
+      "year": 1973,
+      "note": "제70회 하반기 / 원제: 月山 (Gassan) / 작가 원표기: 森敦 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "질 그릇",
+      "raw_creator": "사카타 히로오",
+      "rank": null,
+      "year": 1974,
+      "note": "제72회 하반기 / 원제: 土の器 (Tsuchi no Utsuwa) / 작가 원표기: 阪田寛夫 / 국내 출간명"
+    },
+    {
+      "raw_title": "저 석양",
+      "raw_creator": "히노 게이조",
+      "rank": null,
+      "year": 1974,
+      "note": "제72회 하반기 / 원제: あの夕陽 (Ano Yūhi) / 작가 원표기: 日野啓三 / 국내 출간명"
+    },
+    {
+      "raw_title": "축제 마당",
+      "raw_creator": "하야시 교코",
+      "rank": null,
+      "year": 1975,
+      "note": "제73회 상반기 / 원제: 祭りの場 (Matsuri no Ba) / 작가 원표기: 林京子 / 국내 출간명"
+    },
+    {
+      "raw_title": "곶",
+      "raw_creator": "나카가미 겐지",
+      "rank": null,
+      "year": 1975,
+      "note": "제74회 하반기 / 원제: 岬 (Misaki) / 작가 원표기: 中上健次 / 국내 출간명"
+    },
+    {
+      "raw_title": "시카노 섬",
+      "raw_creator": "오카마쓰 가즈오",
+      "rank": null,
+      "year": 1975,
+      "note": "제74회 하반기 / 원제: 志賀島 (Shikanoshima) / 작가 원표기: 岡松和夫 / 국내 출간명"
+    },
+    {
+      "raw_title": "한없이 투명에 가까운 블루",
+      "raw_creator": "무라카미 류",
+      "rank": null,
+      "year": 1976,
+      "note": "제75회 상반기 / 원제: 限りなく透明に近いブルー (Kagirinaku Tōmei ni Chikai Burū) / 작가 원표기: 村上龍 / 국내 출간명"
+    },
+    {
+      "raw_title": "Bokutte Nani",
+      "raw_creator": "미타 마사히로",
+      "rank": null,
+      "year": 1977,
+      "note": "제77회 상반기 / 원제: 僕って何 (Bokutte Nani) / 작가 원표기: 三田誠広 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "에게해에 바친다",
+      "raw_creator": "이케다 마스오",
+      "rank": null,
+      "year": 1977,
+      "note": "제77회 상반기 / 원제: エーゲ海に捧ぐ (Ēgekai ni Sasagu) / 작가 원표기: 池田満寿夫 / 국내 출간명"
+    },
+    {
+      "raw_title": "Kaya no Ki Matsuri",
+      "raw_creator": "다카키 슈조",
+      "rank": null,
+      "year": 1977,
+      "note": "제78회 하반기 / 원제: 榧の木祭り (Kaya no Ki Matsuri) / 작가 원표기: 高城修三 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "반딧불강",
+      "raw_creator": "미야모토 데루",
+      "rank": null,
+      "year": 1977,
+      "note": "제78회 하반기 / 원제: 螢川 (Hotarugawa) / 작가 원표기: 宮本輝 / 국내 출간명"
+    },
+    {
+      "raw_title": "Nobuyo",
+      "raw_creator": "다카하시 기이치로",
+      "rank": null,
+      "year": 1978,
+      "note": "제79회 상반기 / 원제: 伸予 (Nobuyo) / 작가 원표기: 高橋揆一郎 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Kugatsu no Sora",
+      "raw_creator": "다카하시 미치쓰나",
+      "rank": null,
+      "year": 1978,
+      "note": "제79회 상반기 / 원제: 九月の空 (Kugatsu no Sora) / 작가 원표기: 高橋三千綱 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Smoke in the Mountain Valley",
+      "raw_creator": "시게카네 요시코",
+      "rank": null,
+      "year": 1979,
+      "note": "제81회 상반기 / 원제: やまあいの煙 (Yamaai no Kemuri) / 작가 원표기: 重兼芳子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Gusha no Yoru",
+      "raw_creator": "아오노 소",
+      "rank": null,
+      "year": 1979,
+      "note": "제81회 상반기 / 원제: 愚者の夜 (Gusha no Yoru) / 작가 원표기: 青野聰 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Mokkingubādo no Iru Machi",
+      "raw_creator": "모리 레이코",
+      "rank": null,
+      "year": 1979,
+      "note": "제82회 하반기 / 원제: モッキングバードのいる町 (Mokkingubādo no Iru Machi) / 작가 원표기: 森禮子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Chichi ga Kieta",
+      "raw_creator": "오쓰지 가쓰히코",
+      "rank": null,
+      "year": 1980,
+      "note": "제84회 하반기 / 원제: 父が消えた (Chichi ga Kieta) / 작가 원표기: 尾辻克彦 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Little Lady",
+      "raw_creator": "요시유키 리에",
+      "rank": null,
+      "year": 1981,
+      "note": "제85회 상반기 / 원제: 小さな貴婦人 (Chisana Kifujin) / 작가 원표기: 吉行理恵 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Sagawa-kun Kara no Tegami",
+      "raw_creator": "가라 주로",
+      "rank": null,
+      "year": 1982,
+      "note": "제88회 하반기 / 원제: 佐川君からの手紙 (Sagawa-kun Kara no Tegami) / 작가 원표기: 唐十郎 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Yume no Kabe",
+      "raw_creator": "가토 유키코",
+      "rank": null,
+      "year": 1982,
+      "note": "제88회 하반기 / 원제: 夢の壁 (Yume no Kabe) / 작가 원표기: 加藤幸子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Mokuji no Sekai",
+      "raw_creator": "가사하라 준",
+      "rank": null,
+      "year": 1983,
+      "note": "제90회 하반기 / 원제: 杢二の世界 (Mokuji no Sekai) / 작가 원표기: 笠原淳 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Hikari Idaku Tomo yo",
+      "raw_creator": "다카기 노부코",
+      "rank": null,
+      "year": 1983,
+      "note": "제90회 하반기 / 원제: 光抱く友よ (Hikari Idaku Tomo yo) / 작가 원표기: 高樹のぶ子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Phoenix Tree",
+      "raw_creator": "기자키 사토코",
+      "rank": null,
+      "year": 1984,
+      "note": "제92회 하반기 / 원제: 青桐 (Aogiri) / 작가 원표기: 木崎さと子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Passover",
+      "raw_creator": "고메타니 후미코",
+      "rank": null,
+      "year": 1985,
+      "note": "제94회 하반기 / 원제: 過越しの祭 (Sugikoshi no matsuri) / 작가 원표기: 米谷ふみ子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "In the Pot",
+      "raw_creator": "무라타 기요코",
+      "rank": null,
+      "year": 1987,
+      "note": "제97회 상반기 / 원제: 鍋の中 (Nabe no Naka) / 작가 원표기: 村田喜代子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "He's Leaving Home: My Young Son Becomes a Zen Monk",
+      "raw_creator": "미우라 기요히로",
+      "rank": null,
+      "year": 1987,
+      "note": "제98회 하반기 / 원제: 長男の出家 (Chōnan no Shukke) / 작가 원표기: 三浦清宏 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Still Life",
+      "raw_creator": "이케자와 나쓰키",
+      "rank": null,
+      "year": 1987,
+      "note": "제98회 하반기 / 원제: スティル・ライフ (Sutiru Raifu) / 작가 원표기: 池澤夏樹 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Tazunebito no Jikan",
+      "raw_creator": "아라이 만",
+      "rank": null,
+      "year": 1988,
+      "note": "제99회 상반기 / 원제: 尋ね人の時間 (Tazunebito no Jikan) / 작가 원표기: 新井満 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Daiyamondo Dasuto",
+      "raw_creator": "나기 게이시",
+      "rank": null,
+      "year": 1988,
+      "note": "제100회 하반기 / 원제: ダイヤモンドダスト (Daiyamondo Dasuto) / 작가 원표기: 南木佳士 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "유희",
+      "raw_creator": "이양지",
+      "rank": null,
+      "year": 1988,
+      "note": "제100회 하반기 / 원제: 由煕 (Yuhi) / 작가 원표기: 李良枝 / 국내 출간명"
+    },
+    {
+      "raw_title": "Nekobaba no Iru Machi de",
+      "raw_creator": "다키자와 미에코",
+      "rank": null,
+      "year": 1989,
+      "note": "제102회 하반기 / 원제: ネコババのいる町で (Nekobaba no Iru Machi de) / 작가 원표기: 瀧澤美恵子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Hyōsō Seikatsu",
+      "raw_creator": "오오카 아키라",
+      "rank": null,
+      "year": 1989,
+      "note": "제102회 하반기 / 원제: 表層生活 (Hyōsō Seikatsu) / 작가 원표기: 大岡玲 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Mura no Namae",
+      "raw_creator": "쓰지하라 노보루",
+      "rank": null,
+      "year": 1990,
+      "note": "제103회 상반기 / 원제: 村の名前 (Mura no Namae) / 작가 원표기: 辻原登 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "임신 캘린더",
+      "raw_creator": "오가와 요코",
+      "rank": null,
+      "year": 1990,
+      "note": "제104회 하반기 / 원제: 妊娠カレンダー (Ninshin Karendā) / 작가 원표기: 小川洋子 / 국내 출간명"
+    },
+    {
+      "raw_title": "Seoimizu",
+      "raw_creator": "오기노 안나",
+      "rank": null,
+      "year": 1991,
+      "note": "제105회 상반기 / 원제: 背負い水 (Seoimizu) / 작가 원표기: 荻野アンナ / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Jidō Kishō Sōchi",
+      "raw_creator": "헨미 요",
+      "rank": null,
+      "year": 1991,
+      "note": "제105회 상반기 / 원제: 自動起床装置 (Jidō Kishō Sōchi) / 작가 원표기: 辺見庸 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Shikō Seisho Apatōn",
+      "raw_creator": "마쓰무라 에이코",
+      "rank": null,
+      "year": 1991,
+      "note": "제106회 하반기 / 원제: 至高聖所 アバトーン (Shikō Seisho Apatōn) / 작가 원표기: 松村栄子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Untenshi",
+      "raw_creator": "후지와라 도모미",
+      "rank": null,
+      "year": 1992,
+      "note": "제107회 상반기 / 원제: 運転士 (Untenshi) / 작가 원표기: 藤原智美 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "개 신랑 들이기",
+      "raw_creator": "다와다 요코",
+      "rank": null,
+      "year": 1992,
+      "note": "제108회 하반기 / 원제: 犬婿入り (Inu mukoiri) / 작가 원표기: 多和田葉子 / 국내 출간명"
+    },
+    {
+      "raw_title": "Sekiryō Kōya",
+      "raw_creator": "요시메키 하루히코",
+      "rank": null,
+      "year": 1993,
+      "note": "제109회 상반기 / 원제: 寂寥郊野 (Sekiryō Kōya) / 작가 원표기: 吉目木晴彦 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "돌의 내력",
+      "raw_creator": "오쿠이즈미 야스히로",
+      "rank": null,
+      "year": 1993,
+      "note": "제110회 하반기 / 원제: 石の来歴 (Ishi no Raireki) / 작가 원표기: 奥泉光 / 국내 출간명"
+    },
+    {
+      "raw_title": "Odorudeku",
+      "raw_creator": "무로이 미쓰히로",
+      "rank": null,
+      "year": 1994,
+      "note": "제111회 상반기 / 원제: おどるでく (Odorudeku) / 작가 원표기: 室井光広 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Taimu Surippu Konbināto",
+      "raw_creator": "쇼노 요리코",
+      "rank": null,
+      "year": 1994,
+      "note": "제111회 상반기 / 원제: タイムスリップ・コンビナート (Taimu Surippu Konbināto) / 작가 원표기: 笙野頼子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Kono Hito no Iki",
+      "raw_creator": "호사카 가즈시",
+      "rank": null,
+      "year": 1995,
+      "note": "제113회 상반기 / 원제: この人の閾 (Kono Hito no Iki) / 작가 원표기: 保坂和志 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "돼지의 보복",
+      "raw_creator": "마타요시 에이키",
+      "rank": null,
+      "year": 1995,
+      "note": "제114회 하반기 / 원제: 豚の報い (Buta no Mukui) / 작가 원표기: 又吉栄喜 / 국내 출간명"
+    },
+    {
+      "raw_title": "뱀을 밟다",
+      "raw_creator": "가와카미 히로미",
+      "rank": null,
+      "year": 1996,
+      "note": "제115회 상반기 / 원제: 蛇を踏む (Hebi o Fumu) / 작가 원표기: 川上弘美 / 국내 출간명"
+    },
+    {
+      "raw_title": "해협의 빛",
+      "raw_creator": "쓰지 히토나리",
+      "rank": null,
+      "year": 1996,
+      "note": "제116회 하반기 / 원제: 海峡の光 (Kaikyō no Hikari) / 작가 원표기: 辻仁成 / 국내 출간명"
+    },
+    {
+      "raw_title": "가족시네마",
+      "raw_creator": "유미리",
+      "rank": null,
+      "year": 1996,
+      "note": "제116회 하반기 / 원제: 家族シネマ (Kazoku Shinema) / 작가 원표기: 柳美里 / 국내 출간명"
+    },
+    {
+      "raw_title": "물방울",
+      "raw_creator": "메도루마 슌",
+      "rank": null,
+      "year": 1997,
+      "note": "제117회 상반기 / 원제: 水滴 (Suiteki) / 작가 원표기: 目取真俊 / 국내 출간명"
+    },
+    {
+      "raw_title": "게르마늄 라디오",
+      "raw_creator": "하나무라 만게쓰",
+      "rank": null,
+      "year": 1998,
+      "note": "제119회 상반기 / 원제: ゲルマニウムの夜 (Gerumaniamu no Yoru) / 작가 원표기: 花村萬月 / 국내 출간명"
+    },
+    {
+      "raw_title": "부에노스아이레스 오전 0시",
+      "raw_creator": "후지사와 슈",
+      "rank": null,
+      "year": 1998,
+      "note": "제119회 상반기 / 원제: ブエノスアイレス午前零時 (Buenosu Airesu Gozen Reiji) / 작가 원표기: 藤沢周 / 국내 출간명"
+    },
+    {
+      "raw_title": "일식",
+      "raw_creator": "히라노 게이치로",
+      "rank": null,
+      "year": 1998,
+      "note": "제120회 하반기 / 원제: 日蝕 (Nisshoku) / 작가 원표기: 平野啓一郎 / 국내 출간명"
+    },
+    {
+      "raw_title": "그늘의 집",
+      "raw_creator": "현월",
+      "rank": null,
+      "year": 1999,
+      "note": "제122회 하반기 / 원제: 蔭の棲みか (Kage no Sumika) / 작가 원표기: 玄月 / 국내 출간명"
+    },
+    {
+      "raw_title": "Natsu no Yakusoku",
+      "raw_creator": "후치노 지야",
+      "rank": null,
+      "year": 1999,
+      "note": "제122회 하반기 / 원제: 夏の約束 (Natsu no Yakusoku) / 작가 원표기: 藤野千夜 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Hana Kutashi",
+      "raw_creator": "마쓰우라 히사키",
+      "rank": null,
+      "year": 2000,
+      "note": "제123회 상반기 / 원제: 花腐し (Hana Kutashi) / 작가 원표기: 松浦寿輝 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Rip It Up",
+      "raw_creator": "마치다 고",
+      "rank": null,
+      "year": 2000,
+      "note": "제123회 상반기 / 원제: きれぎれ (Kiregire) / 작가 원표기: 町田康 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Seisui",
+      "raw_creator": "세이라이 유이치",
+      "rank": null,
+      "year": 2000,
+      "note": "제124회 하반기 / 원제: 聖水 (Seisui) / 작가 원표기: 青来有一 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "곰의 포석",
+      "raw_creator": "호리에 도시유키",
+      "rank": null,
+      "year": 2000,
+      "note": "제124회 하반기 / 원제: 熊の敷石 (Kuma no Shikiishi) / 작가 원표기: 堀江敏幸 / 국내 출간명"
+    },
+    {
+      "raw_title": "중음의 꽃",
+      "raw_creator": "겐유 소큐",
+      "rank": null,
+      "year": 2001,
+      "note": "제125회 상반기 / 원제: 中陰の花 (Chūin no Hana) / 작가 원표기: 玄侑宗久 / 국내 출간명"
+    },
+    {
+      "raw_title": "맹스피드 엄마",
+      "raw_creator": "나가시마 유",
+      "rank": null,
+      "year": 2001,
+      "note": "제126회 하반기 / 원제: 猛スピードで母は (Mō-Supīdo de Haha wa) / 작가 원표기: 長嶋有 / 국내 출간명"
+    },
+    {
+      "raw_title": "파크 라이프",
+      "raw_creator": "요시다 슈이치",
+      "rank": null,
+      "year": 2002,
+      "note": "제127회 상반기 / 원제: パーク・ライフ (Pāku Raifu) / 작가 원표기: 吉田修一 / 국내 출간명"
+    },
+    {
+      "raw_title": "이렇게 째째한 로맨스",
+      "raw_creator": "다이도 다마키",
+      "rank": null,
+      "year": 2002,
+      "note": "제128회 하반기 / 원제: しょっぱいドライブ (Shoppai Doraibu) / 작가 원표기: 大道珠貴 / 국내 출간명"
+    },
+    {
+      "raw_title": "Hariganemushi",
+      "raw_creator": "요시무라 만이치",
+      "rank": null,
+      "year": 2003,
+      "note": "제129회 상반기 / 원제: ハリガネムシ (Hariganemushi) / 작가 원표기: 吉村萬壱 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "뱀에게 피어싱",
+      "raw_creator": "가네하라 히토미",
+      "rank": null,
+      "year": 2003,
+      "note": "제130회 하반기 / 원제: 蛇にピアス (Hebi ni Piasu) / 작가 원표기: 金原ひとみ / 국내 출간명"
+    },
+    {
+      "raw_title": "발로 차 주고 싶은 등짝",
+      "raw_creator": "와타야 리사",
+      "rank": null,
+      "year": 2003,
+      "note": "제130회 하반기 / 원제: 蹴りたい背中 (Keritai Senaka) / 작가 원표기: 綿矢りさ / 국내 출간명"
+    },
+    {
+      "raw_title": "간병입문",
+      "raw_creator": "모부 노리오",
+      "rank": null,
+      "year": 2004,
+      "note": "제131회 상반기 / 원제: 介護入門 (Kaigo Nyūmon) / 작가 원표기: モブ・ノリオ / 국내 출간명"
+    },
+    {
+      "raw_title": "그랜드 피날레",
+      "raw_creator": "아베 가즈시게",
+      "rank": null,
+      "year": 2004,
+      "note": "제132회 하반기 / 원제: グランド･フィナーレ (Gurando Fināre) / 작가 원표기: 阿部和重 / 국내 출간명"
+    },
+    {
+      "raw_title": "흙 속의 아이",
+      "raw_creator": "나카무라 후미노리",
+      "rank": null,
+      "year": 2005,
+      "note": "제133회 상반기 / 원제: 土の中の子供 (Tsuchi no Naka no Kodomo) / 작가 원표기: 中村文則 / 국내 출간명"
+    },
+    {
+      "raw_title": "바다에서 기다리다",
+      "raw_creator": "이토야마 아키코",
+      "rank": null,
+      "year": 2005,
+      "note": "제134회 하반기 / 원제: 沖で待つ (Oki de Matsu) / 작가 원표기: 絲山秋子 / 국내 출간명"
+    },
+    {
+      "raw_title": "8월의 길 위에 버리다",
+      "raw_creator": "이토 다카미",
+      "rank": null,
+      "year": 2006,
+      "note": "제135회 상반기 / 원제: 八月の路上に捨てる (Hachigatsu no Rojō ni Suteru) / 작가 원표기: 伊藤たかみ / 국내 출간명"
+    },
+    {
+      "raw_title": "혼자있기 좋은날",
+      "raw_creator": "아오야마 나나에",
+      "rank": null,
+      "year": 2006,
+      "note": "제136회 하반기 / 원제: ひとり日和 (Hitori Biyori) / 작가 원표기: 青山七恵 / 국내 출간명"
+    },
+    {
+      "raw_title": "안드로메다 남자",
+      "raw_creator": "스와 데쓰시",
+      "rank": null,
+      "year": 2007,
+      "note": "제137회 상반기 / 원제: アサッテの人 (Asatte no Hito) / 작가 원표기: 諏訪哲史 / 국내 출간명"
+    },
+    {
+      "raw_title": "젖과 알",
+      "raw_creator": "가와카미 미에코",
+      "rank": null,
+      "year": 2007,
+      "note": "제138회 하반기 / 원제: 乳と卵 ([[Chichi to Ran]]) / 작가 원표기: 川上未映子 / 국내 출간명"
+    },
+    {
+      "raw_title": "시간이 스며드는 아침",
+      "raw_creator": "양이",
+      "rank": null,
+      "year": 2008,
+      "note": "제139회 상반기 / 원제: 時が滲む朝 (Toki ga Nijimu Asa) / 작가 원표기: 楊逸 / 국내 출간명"
+    },
+    {
+      "raw_title": "라임포토스의 배",
+      "raw_creator": "쓰무라 기쿠코",
+      "rank": null,
+      "year": 2008,
+      "note": "제140회 하반기 / 원제: ポトスライムの舟 (Potosu Raimu no Fune) / 작가 원표기: 津村記久子 / 국내 출간명"
+    },
+    {
+      "raw_title": "Tsui no Sumika",
+      "raw_creator": "이소자키 겐이치로",
+      "rank": null,
+      "year": 2009,
+      "note": "제141회 상반기 / 원제: 終の住処 (Tsui no Sumika) / 작가 원표기: 磯崎憲一郎 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Otome no Mikkoku",
+      "raw_creator": "아카조메 아키코",
+      "rank": null,
+      "year": 2010,
+      "note": "제143회 상반기 / 원제: 乙女の密告 (Otome no Mikkoku) / 작가 원표기: 赤染晶子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "고역열차",
+      "raw_creator": "니시무라 겐타",
+      "rank": null,
+      "year": 2010,
+      "note": "제144회 하반기 / 원제: 苦役列車 (Kueki Ressha) / 작가 원표기: 西村賢太 / 국내 출간명"
+    },
+    {
+      "raw_title": "Kikotowa",
+      "raw_creator": "아사부키 마리코",
+      "rank": null,
+      "year": 2010,
+      "note": "제144회 하반기 / 원제: きことわ (Kikotowa) / 작가 원표기: 朝吹真理子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Cannibals",
+      "raw_creator": "다나카 신야",
+      "rank": null,
+      "year": 2011,
+      "note": "제146회 하반기 / 원제: 共喰い (Tomogui) / 작가 원표기: 田中慎弥 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "어릿광대의 나비",
+      "raw_creator": "엔조 도",
+      "rank": null,
+      "year": 2011,
+      "note": "제146회 하반기 / 원제: 道化師の蝶 (Dōkeshi no Chō) / 작가 원표기: 円城塔 / 국내 출간명"
+    },
+    {
+      "raw_title": "Touring the Land of the Dead",
+      "raw_creator": "가시마다 마키",
+      "rank": null,
+      "year": 2012,
+      "note": "제147회 상반기 / 원제: 冥土めぐり (Meido Meguri) / 작가 원표기: 鹿島田真希 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "ab Sango",
+      "raw_creator": "구로다 나쓰코",
+      "rank": null,
+      "year": 2012,
+      "note": "제148회 하반기 / 원제: ａｂさんご (ab Sango) / 작가 원표기: 黒田夏子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Nails and Eyes",
+      "raw_creator": "후지노 카오리",
+      "rank": null,
+      "year": 2013,
+      "note": "제149회 상반기 / 원제: 爪と目 (Tsume to Me) / 작가 원표기: 藤野可織 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "구멍",
+      "raw_creator": "오야마다 히로코",
+      "rank": null,
+      "year": 2013,
+      "note": "제150회 하반기 / 원제: 穴 (Ana) / 작가 원표기: 小山田浩子 / 국내 출간명"
+    },
+    {
+      "raw_title": "봄의 정원",
+      "raw_creator": "시바사키 도모카",
+      "rank": null,
+      "year": 2014,
+      "note": "제151회 상반기 / 원제: 春の庭 (Haru no Niwa) / 작가 원표기: 柴崎友香 / 국내 출간명"
+    },
+    {
+      "raw_title": "Kyūnenmae no Inori",
+      "raw_creator": "오노 마사쓰구",
+      "rank": null,
+      "year": 2014,
+      "note": "제152회 하반기 / 원제: 九年前の祈り (Kyūnenmae no Inori) / 작가 원표기: 小野正嗣 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "불꽃",
+      "raw_creator": "마타요시 나오키",
+      "rank": null,
+      "year": 2015,
+      "note": "제153회 상반기 / 원제: 火花 (Hibana) / 작가 원표기: 又吉直樹 / 국내 출간명"
+    },
+    {
+      "raw_title": "Sukurappu Ando Birudo",
+      "raw_creator": "하다 게이스케",
+      "rank": null,
+      "year": 2015,
+      "note": "제153회 상반기 / 원제: スクラップ・アンド・ビルド (Sukurappu Ando Birudo) / 작가 원표기: 羽田圭介 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "산 자들의 밤",
+      "raw_creator": "다키구치 유키",
+      "rank": null,
+      "year": 2015,
+      "note": "제154회 하반기 / 원제: 死んでいない者 (Shinde Inai Mono) / 작가 원표기: 滝口悠生 / 국내 출간명"
+    },
+    {
+      "raw_title": "An Exotic Marriage",
+      "raw_creator": "모토야 유키코",
+      "rank": null,
+      "year": 2015,
+      "note": "제154회 하반기 / 원제: 異類婚姻譚 (Irui Konin Tan) / 작가 원표기: 本谷有希子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "편의점 인간",
+      "raw_creator": "무라타 사야카",
+      "rank": null,
+      "year": 2016,
+      "note": "제155회 상반기 / 원제: コンビニ人間 (Konbini Ningen) / 작가 원표기: 村田沙耶香 / 국내 출간명"
+    },
+    {
+      "raw_title": "Shinsekai",
+      "raw_creator": "야마시타 스미토",
+      "rank": null,
+      "year": 2016,
+      "note": "제156회 하반기 / 원제: しんせかい (Shinsekai) / 작가 원표기: 山下澄人 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "영리",
+      "raw_creator": "누마타 신스케",
+      "rank": null,
+      "year": 2017,
+      "note": "제157회 상반기 / 원제: 影裏 (Eiri) / 작가 원표기: 沼田真佑 / 국내 출간명"
+    },
+    {
+      "raw_title": "나는 나대로 혼자서 간다",
+      "raw_creator": "와카타케 치사코",
+      "rank": null,
+      "year": 2017,
+      "note": "제158회 하반기 / 원제: おらおらでひとりいぐも (Ora Ora de Hitori Igumo) / 작가 원표기: 若竹千佐子 / 국내 출간명"
+    },
+    {
+      "raw_title": "The Mud of a Century",
+      "raw_creator": "이시이 유카",
+      "rank": null,
+      "year": 2017,
+      "note": "제158회 하반기 / 원제: 百年泥 (Hyakunen Doro) / 작가 원표기: 石井遊佳 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "배웅불",
+      "raw_creator": "다카하시 히로키",
+      "rank": null,
+      "year": 2018,
+      "note": "제159회 상반기 / 원제: 送り火 (Okuribi) / 작가 원표기: 高橋弘希 / 국내 출간명"
+    },
+    {
+      "raw_title": "1R 1-Pun 34-Byō",
+      "raw_creator": "마치야 료헤이",
+      "rank": null,
+      "year": 2018,
+      "note": "제160회 하반기 / 원제: 1R (1R 1-Pun 34-Byō) / 작가 원표기: 町屋良平 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Nimuroddo",
+      "raw_creator": "우에다 다카히로",
+      "rank": null,
+      "year": 2018,
+      "note": "제160회 하반기 / 원제: ニムロッド (Nimuroddo) / 작가 원표기: 上田岳弘 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "보라색 치마를 입은 여자",
+      "raw_creator": "이마무라 나쓰코",
+      "rank": null,
+      "year": 2019,
+      "note": "제161회 상반기 / 원제: むらさきのスカートの女 (Murasaki no Sukāto no Onna) / 작가 원표기: 今村夏子 / 국내 출간명"
+    },
+    {
+      "raw_title": "Seitaka Awadachisō",
+      "raw_creator": "후루카와 마코토",
+      "rank": null,
+      "year": 2019,
+      "note": "제162회 하반기 / 원제: 背高泡立草 (Seitaka Awadachisō) / 작가 원표기: 古川真人 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "슈리의 말",
+      "raw_creator": "다카야마 하네코",
+      "rank": null,
+      "year": 2020,
+      "note": "제163회 상반기 / 원제: 首里の馬 (Shuri no Uma) / 작가 원표기: 高山羽根子 / 국내 출간명"
+    },
+    {
+      "raw_title": "파국",
+      "raw_creator": "도노 하루카",
+      "rank": null,
+      "year": 2020,
+      "note": "제163회 상반기 / 원제: 破局 (Hakyoku) / 작가 원표기: 遠野遥 / 국내 출간명"
+    },
+    {
+      "raw_title": "최애, 타오르다",
+      "raw_creator": "우사미 린",
+      "rank": null,
+      "year": 2020,
+      "note": "제164회 하반기 / 원제: 推し、燃ゆ (Oshi, Moyu) / 작가 원표기: 宇佐見りん / 국내 출간명"
+    },
+    {
+      "raw_title": "Higanbana ga saku shima",
+      "raw_creator": "리 코토미",
+      "rank": null,
+      "year": 2021,
+      "note": "제165회 상반기 / 원제: 彼岸花 (Higanbana ga saku shima) / 작가 원표기: 李琴峰 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "The Place of Shells",
+      "raw_creator": "이시자와 마이",
+      "rank": null,
+      "year": 2021,
+      "note": "제165회 상반기 / 원제: 貝に続く場所にて (Kai ni tsudzuku basho nite) / 작가 원표기: 石沢麻依 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Black Box",
+      "raw_creator": "스나카와 분지",
+      "rank": null,
+      "year": 2021,
+      "note": "제166회 하반기 / 원제: ブラックボックス (Black Box) / 작가 원표기: 砂川文次 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "맛있는 밥을 먹을 수 있기를",
+      "raw_creator": "다카세 준코",
+      "rank": null,
+      "year": 2022,
+      "note": "제167회 상반기 / 원제: おいしいごはんが食べられますように (Oishii Gohan ga Taberaremasuyōni) / 작가 원표기: 高瀬隼子 / 국내 출간명"
+    },
+    {
+      "raw_title": "Arechi no Kazoku",
+      "raw_creator": "사토 아츠시",
+      "rank": null,
+      "year": 2022,
+      "note": "제168회 하반기 / 원제: 荒地の家族 (Arechi no Kazoku) / 작가 원표기: 佐藤厚志 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Kono Yo no Yorokobi yo",
+      "raw_creator": "이도가와 이코",
+      "rank": null,
+      "year": 2022,
+      "note": "제168회 하반기 / 원제: この世の喜びよ (Kono Yo no Yorokobi yo) / 작가 원표기: 井戸川射子 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "헌치백",
+      "raw_creator": "이치카와 사오",
+      "rank": null,
+      "year": 2023,
+      "note": "제169회 상반기 / 원제: ハンチバック (Hunchback) / 작가 원표기: 市川沙央 / 국내 출간명"
+    },
+    {
+      "raw_title": "도쿄도 동정탑",
+      "raw_creator": "구단 리에",
+      "rank": null,
+      "year": 2023,
+      "note": "제170회 하반기 / 원제: 東京都同情塔 (Tokyō-to Dōjō-tō) / 작가 원표기: 九段理江 / 국내 출간명"
+    },
+    {
+      "raw_title": "베리에이션 루트",
+      "raw_creator": "마쓰나가 K 산조",
+      "rank": null,
+      "year": 2024,
+      "note": "제171회 상반기 / 원제: バリ山行 (Bari Sankō) / 작가 원표기: 松永K三蔵 / 국내 출간명"
+    },
+    {
+      "raw_title": "도롱뇽의 49재",
+      "raw_creator": "아사히나 아키",
+      "rank": null,
+      "year": 2024,
+      "note": "제171회 상반기 / 원제: サンショウウオの四十九日 (Sanshōuo no Shijūkunichi) / 작가 원표기: 朝比奈秋 / 국내 출간명"
+    },
+    {
+      "raw_title": "괴테는 모든 것을 말했다",
+      "raw_creator": "스즈키 유이",
+      "rank": null,
+      "year": 2024,
+      "note": "제172회 하반기 / 원제: ゲーテはすべてを言った (Goethe wa Subete o Itta) / 작가 원표기: 鈴木結生 / 국내 출간명"
+    },
+    {
+      "raw_title": "DTOPIA",
+      "raw_creator": "안도 호세",
+      "rank": null,
+      "year": 2024,
+      "note": "제172회 하반기 / 원제: DTOPIA / 작가 원표기: 安堂ホセ / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Toki no Ie",
+      "raw_creator": "토리야마 마코토",
+      "rank": null,
+      "year": 2025,
+      "note": "제174회 하반기 / 원제: 時の家 (Toki no Ie) / 작가 원표기: 鳥山まこと / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Sakebi",
+      "raw_creator": "하타케야마 유시오",
+      "rank": null,
+      "year": 2025,
+      "note": "제174회 하반기 / 원제: 叫び (Sakebi) / 작가 원표기: 畠山丑雄 / 국내 출간 미확인, 영문·로마자 표기"
+    },
+    {
+      "raw_title": "Zombie Kaishufu",
+      "raw_creator": "코사가와 치토",
+      "rank": null,
+      "year": 2026,
+      "note": "제175회 상반기 / 원제: ゾンビ回収婦 (Zombie Kaishufu) / 작가 원표기: 小砂川チト / 국내 출간 미확인, 영문·로마자 표기"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://bungakushinko.or.jp/award/akutagawa/list.html — 일본문학진흥회 공식 「芥川賞受賞者一覧」(2026년 7월 현재). 회차·연도·상반기/하반기·수상자·수상작·게재지의 기준 자료로 삼았다. 제1회부터 제175회까지 전량 파싱했다.",
+      "https://en.wikipedia.org/wiki/Akutagawa_Prize — 영문 위키백과. 작품의 영어 제목과 헵번식 로마자 표기, 작가 영문 표기를 가져왔다.",
+      "https://ko.wikipedia.org/wiki/아쿠타가와 류노스케상 — 한국어 위키백과. 상의 개요와 한국 번역작 30건 목록을 확인했다.",
+      "https://namu.wiki/w/아쿠타가와상 — 나무위키(2026-07-26 갱신). 제1회~제175회 수상자의 한글 이름 표기와 「국내에 번역된 작품 목록」 79건을 가져왔다.",
+      "Wikipedia API(langlinks) — 영문·일본어 위키백과 작가 문서에서 한국어판 문서 제목을 조회해 한글 이름 30건을 교차 확인했다.",
+      "https://www.aladin.co.kr, https://search.kyobobook.co.kr, https://www.yes24.com — 국내 서점 상품 페이지를 열어 국내 출간명 22건과 작가 한글 표기를 직접 대조했다.",
+      "https://www.yna.co.kr/view/PYH20190117070700073 — 연합뉴스 기사로 제160회 수상자의 한글 표기(마치야 료헤이)를 확인했다."
+    ],
+    "item_count": 189,
+    "year_range": "1935-2026",
+    "no_award_terms": "수상작이 없었던 회차는 33회다: 제2회(1935년 하반기), 제11회(1940년 상반기), 제15회(1942년 상반기), 제24회(1950년 하반기), 제27회(1952년 상반기), 제30회(1953년 하반기), 제36회(1956년 하반기), 제40회(1958년 하반기), 제42회(1959년 하반기), 제45회(1961년 상반기), 제48회(1962년 하반기), 제52회(1964년 하반기), 제55회(1966년 상반기), 제60회(1968년 하반기), 제65회(1971년 상반기), 제71회(1974년 상반기), 제76회(1976년 하반기), 제80회(1978년 하반기), 제83회(1980년 상반기), 제86회(1981년 하반기), 제87회(1982년 상반기), 제89회(1983년 상반기), 제91회(1984년 상반기), 제93회(1985년 상반기), 제95회(1986년 상반기), 제96회(1986년 하반기), 제101회(1989년 상반기), 제112회(1994년 하반기), 제118회(1997년 하반기), 제121회(1999년 상반기), 제142회(2009년 하반기), 제145회(2011년 상반기), 제173회(2025년 상반기). 이 중 제11회는 수상자 다카기 다쿠가 수상을 거부해 공식 명단에 '해당작 없음'으로 기재되어 있다. 또한 태평양전쟁 말기부터 전후 혼란기까지 1945년부터 1948년까지 4년간은 회차 자체가 열리지 않아 제20회(1944년 하반기) 다음이 제21회(1949년 상반기)다.",
+    "korean_edition_coverage": "전체 189건 가운데 80건은 국내 번역 출간명을 확인해 그 제목을 raw_title에 넣었고, 나머지 109건은 국내 출간을 확인하지 못해 영문 제목이 있으면 영문 제목을, 없으면 헵번식 로마자 표기를 넣었다. 각 항목의 note에 어느 쪽인지 표시했다. 출간명의 출처는 두 갈래다. ① 22건은 알라딘·교보문고·예스24 상품 페이지를 직접 열어 제목·역자·출판사·수상 회차까지 대조한 확인분이다(편의점 인간, 불꽃, 헌치백, 도쿄도 동정탑, 도롱뇽의 49재, 베리에이션 루트, 괴테는 모든 것을 말했다, 최애 타오르다, 보라색 치마를 입은 여자, 맛있는 밥을 먹을 수 있기를, 구멍, 봄의 정원, 파국, 영리, 산 자들의 밤, 라임포토스의 배, 배웅불, 개 신랑 들이기, 물방울, 돼지의 보복, 슈리의 말, 나는 나대로 혼자서 간다). 대조한 22건은 모두 목록의 제목과 일치했다. ② 나머지 58건은 나무위키 「국내에 번역된 작품 목록」과 한국어 위키백과 「한국 번역작」에 실린 것을 그대로 옮겼고 서점 페이지로 개별 대조하지는 않았다.",
+    "gaps": "1945~1948년 4년간 시상이 중단되어 해당 기간 항목이 없다. 직목상(나오키상) 수상작은 포함하지 않았다. 후보작·심사경위는 수집하지 않았다.",
+    "uncertainties": "확인분: 회차·연도·상반기/하반기·수상자·일본어 원제는 일본문학진흥회 공식 명단을 그대로 파싱한 것이라 전량 확인분이다. 최신 회차가 제175회(2026년 상반기, 고사가와 치토)라는 점도 공식 페이지에 '2026년 7월 현재'로 명시된 것을 확인했다. 작가 한글 표기는 나무위키 표기를 기본으로 삼았고, 한국어 위키백과에 문서가 있는 28명과 대조해 23명이 일치했다(나머지는 필명·동명이인 구분 표기 차이). 표기가 갈린 세 명은 국내 자료로 직접 확인해 바로잡았다 — 제160회 마치야 료헤이(나무위키의 '마사야 료헤이'는 오기이며 연합뉴스 2019-01-17 기사가 마치야 료헤이로 적었다), 제165회 리 코토미(예스24 작가 페이지), 제170회 구단 리에(문학동네판 표기). / 미확인 추정분: ① 국내 출간을 확인하지 못한 109건 가운데 일부는 실제로 번역서가 있는데 목록에 빠졌을 수 있다. 확인하려면 각 항목을 국내 서점에서 원제·작가명으로 검색해야 한다. ② 국내 출간명 가운데 서점에서 직접 대조하지 않은 58건은 나무위키·한국어 위키백과 표기를 그대로 옮긴 것이라 개정판 제목 변경이나 오기가 섞여 있을 수 있다. ③ 국내 번역서가 없는 최근 수상자 중 후지노 카오리(제149회)·도리야마 마코토(제174회)·고사가와 치토(제175회)의 한글 표기는 나무위키 외에 다른 한국어 출처를 찾지 못했다. 어두에 거센소리를 쓴 표기라 외래어 표기법과는 어긋나며, 국내 번역서가 나오면 표기가 달라질 수 있다. ④ 제84회 수상자는 필명 오쓰지 가쓰히코로 수상했고 본명·화가명은 아카세가와 겐페이다. 한국어 위키백과는 본명 쪽으로 문서를 두고 있으나 수상 당시 이름을 따랐다."
+  }
+}

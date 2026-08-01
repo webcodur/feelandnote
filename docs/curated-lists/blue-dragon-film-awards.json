@@ -1,0 +1,374 @@
+{
+  "curator": {
+    "slug": "blue-dragon-film-awards",
+    "name": "청룡영화상",
+    "name_en": "Blue Dragon Film Awards",
+    "kind": "award",
+    "country": "KR",
+    "founded_year": 1963,
+    "homepage_url": null,
+    "description": "조선일보가 1963년 한국 영화의 질적 향상과 영화산업 진흥을 목적으로 제정한 영화상이다. 1973년 영화법 개정 이후 영화계가 침체하면서 중단되었다가 1990년 스포츠조선과 조선일보의 후원으로 부활했다. 현재 스포츠조선이 주관하며 대종상과 함께 한국을 대표하는 영화 시상식으로 꼽힌다.",
+    "description_en": "Established in 1963 by the Chosun Ilbo newspaper to raise the quality of Korean cinema and promote its film industry. The awards were suspended after the 1973 revision of the Motion Picture Law sent the industry into decline, then revived in 1990 with backing from Sports Chosun and the Chosun Ilbo. Now organized by Sports Chosun, it stands alongside the Grand Bell Awards as one of South Korea's premier film honors."
+  },
+  "list": {
+    "slug": "blue-dragon-best-film",
+    "title": "청룡영화상 최우수작품상",
+    "title_en": "Blue Dragon Film Award for Best Film",
+    "description": "청룡영화상의 최고 영예인 최우수작품상 역대 수상작 목록이다. 1963년 제1회부터 2025년 제46회까지의 수상작을 시상 연도 순으로 담았다. 1974년부터 1989년까지 시상이 중단되어 제10회(1973)와 제11회(1990) 사이에 공백이 있다.",
+    "description_en": "The complete roll of winners of Best Film, the top honor at the Blue Dragon Film Awards, from the 1st ceremony in 1963 through the 46th in 2025, ordered by ceremony year. The awards were suspended from 1974 to 1989, leaving a gap between the 10th ceremony (1973) and the 11th (1990).",
+    "published_year": null,
+    "edition": null,
+    "method": "전문가와 네티즌 투표로 후보작을 결정한 뒤, 청룡영화상 집행위원회의 추천을 받아 9인 심사위원회를 구성하고, 9인 심사위원단 회의를 통해 수상작을 결정한다.",
+    "method_en": "Nominees are determined by a combination of expert and public (netizen) voting. A nine-member jury is then formed on the recommendation of the Blue Dragon Film Awards executive committee, and that jury deliberates to select the winners.",
+    "source_url": "https://en.wikipedia.org/wiki/Blue_Dragon_Film_Award_for_Best_Film",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "VIDEO",
+    "topics": [
+      "film",
+      "korean-film"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "혈맥",
+      "raw_creator": "김수용",
+      "rank": null,
+      "year": 1963,
+      "note": "제1회"
+    },
+    {
+      "raw_title": "잉여인간",
+      "raw_creator": "유현목",
+      "rank": null,
+      "year": 1964,
+      "note": "제2회"
+    },
+    {
+      "raw_title": "저 하늘에도 슬픔이",
+      "raw_creator": "김수용",
+      "rank": null,
+      "year": 1965,
+      "note": "제3회"
+    },
+    {
+      "raw_title": "시장",
+      "raw_creator": "이만희",
+      "rank": null,
+      "year": 1966,
+      "note": "제4회"
+    },
+    {
+      "raw_title": "산불",
+      "raw_creator": "김수용",
+      "rank": null,
+      "year": 1967,
+      "note": "제5회"
+    },
+    {
+      "raw_title": "카인의 후예",
+      "raw_creator": "유현목",
+      "rank": null,
+      "year": 1969,
+      "note": "제6회"
+    },
+    {
+      "raw_title": "독짓는 늙은이",
+      "raw_creator": "최하원",
+      "rank": null,
+      "year": 1970,
+      "note": "제7회"
+    },
+    {
+      "raw_title": "옥합을 깨뜨릴 때",
+      "raw_creator": "김수용",
+      "rank": null,
+      "year": 1971,
+      "note": "제8회"
+    },
+    {
+      "raw_title": "석화촌",
+      "raw_creator": "정진우",
+      "rank": null,
+      "year": 1972,
+      "note": "제9회"
+    },
+    {
+      "raw_title": "삼일천하",
+      "raw_creator": "신상옥",
+      "rank": null,
+      "year": 1973,
+      "note": "제10회"
+    },
+    {
+      "raw_title": "그들도 우리처럼",
+      "raw_creator": "박광수",
+      "rank": null,
+      "year": 1990,
+      "note": "제11회"
+    },
+    {
+      "raw_title": "사의 찬미",
+      "raw_creator": "김호선",
+      "rank": null,
+      "year": 1991,
+      "note": "제12회"
+    },
+    {
+      "raw_title": "우리들의 일그러진 영웅",
+      "raw_creator": "박종원",
+      "rank": null,
+      "year": 1992,
+      "note": "제13회"
+    },
+    {
+      "raw_title": "서편제",
+      "raw_creator": "임권택",
+      "rank": null,
+      "year": 1993,
+      "note": "제14회"
+    },
+    {
+      "raw_title": "태백산맥",
+      "raw_creator": "임권택",
+      "rank": null,
+      "year": 1994,
+      "note": "제15회"
+    },
+    {
+      "raw_title": "아름다운 청년 전태일",
+      "raw_creator": "박광수",
+      "rank": null,
+      "year": 1995,
+      "note": "제16회"
+    },
+    {
+      "raw_title": "축제",
+      "raw_creator": "임권택",
+      "rank": null,
+      "year": 1996,
+      "note": "제17회"
+    },
+    {
+      "raw_title": "초록물고기",
+      "raw_creator": "이창동",
+      "rank": null,
+      "year": 1997,
+      "note": "제18회"
+    },
+    {
+      "raw_title": "8월의 크리스마스",
+      "raw_creator": "허진호",
+      "rank": null,
+      "year": 1998,
+      "note": "제19회"
+    },
+    {
+      "raw_title": "인정사정 볼 것 없다",
+      "raw_creator": "이명세",
+      "rank": null,
+      "year": 1999,
+      "note": "제20회"
+    },
+    {
+      "raw_title": "공동경비구역 JSA",
+      "raw_creator": "박찬욱",
+      "rank": null,
+      "year": 2000,
+      "note": "제21회"
+    },
+    {
+      "raw_title": "봄날은 간다",
+      "raw_creator": "허진호",
+      "rank": null,
+      "year": 2001,
+      "note": "제22회"
+    },
+    {
+      "raw_title": "취화선",
+      "raw_creator": "임권택",
+      "rank": null,
+      "year": 2002,
+      "note": "제23회"
+    },
+    {
+      "raw_title": "봄 여름 가을 겨울 그리고 봄",
+      "raw_creator": "김기덕",
+      "rank": null,
+      "year": 2003,
+      "note": "제24회"
+    },
+    {
+      "raw_title": "실미도",
+      "raw_creator": "강우석",
+      "rank": null,
+      "year": 2004,
+      "note": "제25회 / 2003년 12월 24일 개봉작으로, 시상 연도(2004)와 개봉 연도(2003)가 다르다"
+    },
+    {
+      "raw_title": "친절한 금자씨",
+      "raw_creator": "박찬욱",
+      "rank": null,
+      "year": 2005,
+      "note": "제26회"
+    },
+    {
+      "raw_title": "괴물",
+      "raw_creator": "봉준호",
+      "rank": null,
+      "year": 2006,
+      "note": "제27회"
+    },
+    {
+      "raw_title": "우아한 세계",
+      "raw_creator": "한재림",
+      "rank": null,
+      "year": 2007,
+      "note": "제28회"
+    },
+    {
+      "raw_title": "우리 생애 최고의 순간",
+      "raw_creator": "임순례",
+      "rank": null,
+      "year": 2008,
+      "note": "제29회"
+    },
+    {
+      "raw_title": "마더",
+      "raw_creator": "봉준호",
+      "rank": null,
+      "year": 2009,
+      "note": "제30회"
+    },
+    {
+      "raw_title": "의형제",
+      "raw_creator": "장훈",
+      "rank": null,
+      "year": 2010,
+      "note": "제31회"
+    },
+    {
+      "raw_title": "부당거래",
+      "raw_creator": "류승완",
+      "rank": null,
+      "year": 2011,
+      "note": "제32회"
+    },
+    {
+      "raw_title": "피에타",
+      "raw_creator": "김기덕",
+      "rank": null,
+      "year": 2012,
+      "note": "제33회"
+    },
+    {
+      "raw_title": "소원",
+      "raw_creator": "이준익",
+      "rank": null,
+      "year": 2013,
+      "note": "제34회"
+    },
+    {
+      "raw_title": "변호인",
+      "raw_creator": "양우석",
+      "rank": null,
+      "year": 2014,
+      "note": "제35회 / 2013년 12월 18일 개봉작으로, 시상 연도(2014)와 개봉 연도(2013)가 다르다"
+    },
+    {
+      "raw_title": "암살",
+      "raw_creator": "최동훈",
+      "rank": null,
+      "year": 2015,
+      "note": "제36회"
+    },
+    {
+      "raw_title": "내부자들",
+      "raw_creator": "우민호",
+      "rank": null,
+      "year": 2016,
+      "note": "제37회"
+    },
+    {
+      "raw_title": "택시운전사",
+      "raw_creator": "장훈",
+      "rank": null,
+      "year": 2017,
+      "note": "제38회"
+    },
+    {
+      "raw_title": "1987",
+      "raw_creator": "장준환",
+      "rank": null,
+      "year": 2018,
+      "note": "제39회 / 2017년 12월 27일 개봉작으로, 시상 연도(2018)와 개봉 연도(2017)가 다르다"
+    },
+    {
+      "raw_title": "기생충",
+      "raw_creator": "봉준호",
+      "rank": null,
+      "year": 2019,
+      "note": "제40회"
+    },
+    {
+      "raw_title": "남산의 부장들",
+      "raw_creator": "우민호",
+      "rank": null,
+      "year": 2020,
+      "note": "제41회"
+    },
+    {
+      "raw_title": "모가디슈",
+      "raw_creator": "류승완",
+      "rank": null,
+      "year": 2021,
+      "note": "제42회"
+    },
+    {
+      "raw_title": "헤어질 결심",
+      "raw_creator": "박찬욱",
+      "rank": null,
+      "year": 2022,
+      "note": "제43회"
+    },
+    {
+      "raw_title": "밀수",
+      "raw_creator": "류승완",
+      "rank": null,
+      "year": 2023,
+      "note": "제44회"
+    },
+    {
+      "raw_title": "서울의 봄",
+      "raw_creator": "김성수",
+      "rank": null,
+      "year": 2024,
+      "note": "제45회 / 2023년 11월 22일 개봉작으로, 시상 연도(2024)와 개봉 연도(2023)가 다르다"
+    },
+    {
+      "raw_title": "어쩔수가없다",
+      "raw_creator": "박찬욱",
+      "rank": null,
+      "year": 2025,
+      "note": "제46회"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://en.wikipedia.org/wiki/Blue_Dragon_Film_Award_for_Best_Film — 영문 위키백과 최우수작품상 전체 수상 목록(연도·회차·작품명·감독). 주 출처.",
+      "https://ko.wikipedia.org/wiki/청룡영화상의_수상자_목록 — 한국어 위키백과. 회차별 작품상 수상작과 1964~1973년의 극영화/비극영화 부문 분리 확인.",
+      "https://ko.wikipedia.org/wiki/청룡영화상 — 한국어 위키백과 본문 및 위키텍스트 원문. 주최·중단 사유·부활·심사 방식 확인.",
+      "https://encykorea.aks.ac.kr/Article/E0056425 — 한국민족문화대백과사전 청룡영화상 항목. 제정 취지(1963, 조선일보)와 1990년 12월 부활 확인.",
+      "https://www.soompi.com/article/1799322wpp/winners-of-the-46th-blue-dragon-film-awards — 제46회(2025년 11월 19일 KBS홀) 최우수작품상 《어쩔수가없다》 독립 확인.",
+      "https://ko.wikipedia.org/w/api.php (action=query&prop=revisions, 개별 영화 문서 위키텍스트) — 46편 전편의 감독명을 각 영화 문서 정보상자 감독 항목 원문에서 직접 대조 확인.",
+      "https://ko.wikipedia.org/wiki/김수용_(영화_감독) — 《저 하늘에도 슬픔이》(1965) 연출 확인.",
+      "https://namu.wiki/w/청룡영화상/수상자 — 열람했으나 감독 항목이 다수 어긋나 채택하지 않음(아래 uncertainties 참조)."
+    ],
+    "item_count": 46,
+    "year_range": "1963–2025",
+    "year_basis": "year 값은 시상식이 열린 시상 연도다(개봉 연도가 아니다). 영문 위키백과 수상 목록 표의 연도 열과 회차가 일치하며, 제11회 1990년부터 제46회 2025년까지 회차와 연도가 1:1로 연속한다(11+35=46, 1990+35=2025). 개봉 연도가 시상 연도와 다른 것으로 확인된 4편(실미도·변호인·1987·서울의 봄)은 각 항목 note에 개봉일을 적었다.",
+    "suspended_period": "1974년~1989년 16년간 시상이 중단되었다. 제10회(1973)를 끝으로 멈췄고 제11회(1990)로 재개되었다. 한국어 위키백과는 사유를 \"1973년 영화법 개정으로 인하여 스크린쿼터제가 도입되고, 한국영화의 질이 상당 수준 떨어졌다고 판단하여 한때 폐지\"라고 적고 있으며, 1990년 스포츠조선과 조선일보의 후원으로 부활했다. 한국민족문화대백과사전은 \"1973년 영화법 개정 이후 영화계가 침체에 빠지면서 중단\", \"1990년 12월 계승하여 오늘에 이르렀다\"고 기술한다.",
+    "gaps": "(1) 1968년에는 시상식이 열리지 않았다 — 제5회가 1967년, 제6회가 1969년이다. 두 위키백과 모두 1968년 항목이 없으나 그 사유를 밝힌 서술은 찾지 못했다. (2) 1974~1989년 중단기에는 수상작이 없다. (3) 제2회(1964)부터 제10회(1973)까지는 작품상이 극영화 부문과 비극영화(문화·기록영화) 부문으로 나뉘어 있었다. 이 목록에는 현행 최우수작품상의 계보에 해당하는 극영화 부문 수상작만 담았다. 한국어 위키백과에서 확인한 같은 시기 비극영화 부문 수상작은 낙동강(1964), 홍도(1965), 월남전선(1966), 흥부와 놀부(1967), 성년한국(1969), 밀림의 첨병(1970), 선착장(1971), 04:00 -1950-(1972), 남몰래 묻은 항아리(1973)다.",
+    "uncertainties": "(1) 한국민족문화대백과사전은 \"1974년 제12회 시상을 끝으로 중단\"이라고 적어, 제10회(1973)가 마지막이라는 한국어·영문 위키백과의 회차 기록과 어긋난다. 위키백과 두 판본이 서로 일치하고 제11회(1990)~제46회(2025) 회차·연도가 빈틈없이 연속하므로 위키백과 기준을 채택했다. 주관사 공식 자료로 초기 회차를 재확인할 필요가 있다. (2) 나무위키 수상자 문서를 열람했으나 감독 항목이 실제와 다수 어긋났다(예: 서울의 봄→장재현, 피에타→김기영, 택시운전사→김현석, 제41회 연도를 2021년으로 표기). 채택하지 않았고, 감독명은 전편을 한국어 위키백과 개별 영화 문서 정보상자 원문에서 다시 확인했다. (3) 한국어 위키백과가 공식 홈페이지로 http://www.blueaward.co.kr/ 을 제시하나 직접 열었을 때 내용을 받지 못해 homepage_url은 null로 두었다. (4) 각 항목의 개봉 연도는 실미도·변호인·1987·서울의 봄 네 편만 실제로 확인했다. 나머지 작품의 개봉 연도는 확인하지 않았으므로 note에 적지 않았다."
+  }
+}

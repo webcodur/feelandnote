@@ -1,13 +1,158 @@
 {
-  "generatedFor": "korea-publication-award",
-  "matched": 5,
+  "generatedFor": "all",
+  "matched": 0,
   "ambiguous": [
     {
-      "list": "korea-publication-award",
-      "title": "펠로폰네소스 전쟁사",
-      "creator": "투퀴디데스 지음, 천병희 옮김",
+      "list": "prix-goncourt",
+      "title": "The Opposing Shore",
+      "creator": "Julien Gracq",
       "candidates": [
-        "b2d36d4b-793f-484b-8374-f67af9f2d563(저자불일치: 투키디데스)"
+        "ba3cbec1-fe1a-4458-a318-5011fd42aaf8(저자불일치: Richard Howard)"
+      ]
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "괴물",
+      "creator": "봉준호",
+      "candidates": [
+        "1668caad-85f8-40af-844b-91b02c99f218(저자불일치: -)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Poems",
+      "creator": "Andrew Marvell",
+      "candidates": [
+        "1163c974-ba39-4240-87aa-85ab4b77673d(저자불일치: Emily Dickinson)",
+        "13db286f-7507-4715-8dc2-d24add22477f(저자불일치: Sylvia Plath)",
+        "36533f3d-01ba-4cdc-b2b7-e8b9be4e666e(저자불일치: Sappho)",
+        "3835015e-9648-46ee-bf9f-4020451c359c(저자불일치: Wallace Stevens)",
+        "4252a575-782b-4690-8225-c1b81d648d23(저자불일치: Elizabeth Bishop)",
+        "72f4f619-dbc0-4487-a712-ee2e28a49d67(저자불일치: T. S. Eliot)",
+        "7e991012-c625-49c2-b141-5ef0743cad16(저자불일치: William Butler Yeats)",
+        "a6194ec4-d7f1-4e6f-ae4d-f06c3d58a377(저자불일치: John Donne)",
+        "d5243364-080e-4c17-a789-a5a72675fd0c(저자불일치: Arthur Rimbaud)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "Clinton Davisson",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "François Jacob & Jacques Monod",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Law",
+      "creator": "Roger Vailland",
+      "candidates": [
+        "29c5564f-ec8b-4ecf-95b5-e27555ae59a1(저자불일치: Frédéric Bastiat)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Poems",
+      "creator": "Anne Bradstreet",
+      "candidates": [
+        "1163c974-ba39-4240-87aa-85ab4b77673d(저자불일치: Emily Dickinson)",
+        "13db286f-7507-4715-8dc2-d24add22477f(저자불일치: Sylvia Plath)",
+        "36533f3d-01ba-4cdc-b2b7-e8b9be4e666e(저자불일치: Sappho)",
+        "3835015e-9648-46ee-bf9f-4020451c359c(저자불일치: Wallace Stevens)",
+        "4252a575-782b-4690-8225-c1b81d648d23(저자불일치: Elizabeth Bishop)",
+        "72f4f619-dbc0-4487-a712-ee2e28a49d67(저자불일치: T. S. Eliot)",
+        "7e991012-c625-49c2-b141-5ef0743cad16(저자불일치: William Butler Yeats)",
+        "a6194ec4-d7f1-4e6f-ae4d-f06c3d58a377(저자불일치: John Donne)",
+        "d5243364-080e-4c17-a789-a5a72675fd0c(저자불일치: Arthur Rimbaud)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "André-Marie Ampère",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "Marcel Duchamp",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "Edme Mariotte",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "변신",
+      "creator": "오비디우스",
+      "candidates": [
+        "5a32074a-1984-41db-9901-1f70aeb9d5c8(저자불일치: 프란츠 카프카)",
+        "644550c6-6eae-4d17-a2a4-5861208c9fbb(저자불일치: 프란츠 카프카)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "James Watson & Francis Crick",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "Walter Sutton",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "Theodor Boveri",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Poems",
+      "creator": "Anne Locke",
+      "candidates": [
+        "1163c974-ba39-4240-87aa-85ab4b77673d(저자불일치: Emily Dickinson)",
+        "13db286f-7507-4715-8dc2-d24add22477f(저자불일치: Sylvia Plath)",
+        "36533f3d-01ba-4cdc-b2b7-e8b9be4e666e(저자불일치: Sappho)",
+        "3835015e-9648-46ee-bf9f-4020451c359c(저자불일치: Wallace Stevens)",
+        "4252a575-782b-4690-8225-c1b81d648d23(저자불일치: Elizabeth Bishop)",
+        "72f4f619-dbc0-4487-a712-ee2e28a49d67(저자불일치: T. S. Eliot)",
+        "7e991012-c625-49c2-b141-5ef0743cad16(저자불일치: William Butler Yeats)",
+        "a6194ec4-d7f1-4e6f-ae4d-f06c3d58a377(저자불일치: John Donne)",
+        "d5243364-080e-4c17-a789-a5a72675fd0c(저자불일치: Arthur Rimbaud)"
       ]
     },
     {
@@ -17,39 +162,301 @@
       "candidates": [
         "604a90bc-f7f7-4e5a-9da8-776225b6cc37(저자불일치: 아비지트 배너지, 에스테르 뒤플로)"
       ]
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "불꽃",
+      "creator": "마타요시 나오키",
+      "candidates": [
+        "c59966f3-42c3-4fea-ba76-c56bd5ae1c40(저자불일치: 선우휘)"
+      ]
+    },
+    {
+      "list": "nyt-100-best-books-21st-century",
+      "title": "The Vegetarian",
+      "creator": "Han Kang; translated by Deborah Smith",
+      "candidates": [
+        "fb9f861c-32a6-46df-8ebd-a7b218e42f95(저자불일치: Thomas R. Allinson)"
+      ]
+    },
+    {
+      "list": "nyt-100-best-books-21st-century",
+      "title": "My Brilliant Friend",
+      "creator": "Elena Ferrante; translated by Ann Goldstein",
+      "candidates": [
+        "c802e2e8-1318-48c4-a495-90554af956a7(저자불일치: Nancy K. Miller)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Democracy and Education",
+      "creator": "Booker T. Washington",
+      "candidates": [
+        "0291a170-0725-4404-a474-04f7c575c215(저자불일치: John Dewey)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Poems",
+      "creator": "Paul Valéry",
+      "candidates": [
+        "1163c974-ba39-4240-87aa-85ab4b77673d(저자불일치: Emily Dickinson)",
+        "13db286f-7507-4715-8dc2-d24add22477f(저자불일치: Sylvia Plath)",
+        "36533f3d-01ba-4cdc-b2b7-e8b9be4e666e(저자불일치: Sappho)",
+        "3835015e-9648-46ee-bf9f-4020451c359c(저자불일치: Wallace Stevens)",
+        "4252a575-782b-4690-8225-c1b81d648d23(저자불일치: Elizabeth Bishop)",
+        "72f4f619-dbc0-4487-a712-ee2e28a49d67(저자불일치: T. S. Eliot)",
+        "7e991012-c625-49c2-b141-5ef0743cad16(저자불일치: William Butler Yeats)",
+        "a6194ec4-d7f1-4e6f-ae4d-f06c3d58a377(저자불일치: John Donne)",
+        "d5243364-080e-4c17-a789-a5a72675fd0c(저자불일치: Arthur Rimbaud)"
+      ]
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Anna Karenina",
+      "creator": "Clarence Brown",
+      "candidates": [
+        "5c5e79f3-13b7-4976-a6dd-4b6a47a63979(저자불일치: Julien Duvivier)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "George Beadle & Edward Tatum",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essays",
+      "creator": "Joel Sussman",
+      "candidates": [
+        "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
+        "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
+      ]
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Civilization",
+      "creator": "Georges Duhamel",
+      "candidates": [
+        "06f2a8a2-b0e1-4e7b-b554-00798a4ed04d(저자불일치: Joshua Cole)"
+      ]
     }
   ],
   "noAuthorPicked": [],
   "missing": [
     {
-      "list": "korea-publication-award",
-      "title": "죽은 다음",
-      "creator": "희정"
+      "list": "akutagawa-prize",
+      "title": "Zombie Kaishufu",
+      "creator": "코사가와 치토"
     },
     {
-      "list": "korea-publication-award",
-      "title": "간질간질",
-      "creator": "서현"
+      "list": "akutagawa-prize",
+      "title": "Gassan",
+      "creator": "모리 아쓰시"
     },
     {
-      "list": "korea-publication-award",
-      "title": "인류 본사",
-      "creator": "이희수"
+      "list": "blue-dragon-best-film",
+      "title": "실미도",
+      "creator": "강우석"
     },
     {
-      "list": "korea-publication-award",
-      "title": "장수탕 선녀님",
-      "creator": "백희나"
+      "list": "akutagawa-prize",
+      "title": "Yoru to Kiri no Sumi de",
+      "creator": "기타 모리오"
     },
     {
-      "list": "korea-publication-award",
-      "title": "미국의 반지성주의",
-      "creator": "리처드 호프스태터 지음, 유강은 옮김"
+      "list": "akutagawa-prize",
+      "title": "Kyūnenmae no Inori",
+      "creator": "오노 마사쓰구"
     },
     {
-      "list": "korea-publication-award",
-      "title": "현앨리스와 그의 시대",
-      "creator": "정병준"
+      "list": "national-book-award-fiction",
+      "title": "The Centaur",
+      "creator": "John Updike"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Collected Stories of William Faulkner",
+      "creator": "William Faulkner"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essay on a Manner of Determining the Relative Masses of the Elementary Molecules of Bodies",
+      "creator": "Amedeo Avogadro"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "백색인",
+      "creator": "엔도 슈사쿠"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "99%",
+      "creator": "김경욱"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Sacred Night",
+      "creator": "Tahar Ben Jelloun"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Red Desert",
+      "creator": "Michelangelo Antonioni"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "제자백가선도",
+      "creator": null
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kono Hito no Iki",
+      "creator": "호사카 가즈시"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Einstein Intersection",
+      "creator": "Samuel R. Delany"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "그때 그 마음",
+      "creator": "정소현"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les Flamboyants",
+      "creator": "Patrick Grainville"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "개교기념일",
+      "creator": "김인숙"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "A Father's Love",
+      "creator": "Jacques Chessex"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "이렇게 째째한 로맨스",
+      "creator": "다이도 다마키"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Histoire d'un Fait divers",
+      "creator": "Jean-Jacques Gautier"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Lover",
+      "creator": "Marguerite Duras"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Renrakuin",
+      "creator": "구라미쓰 도시오"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Echo Maker",
+      "creator": "Richard Powers"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Middle Passage",
+      "creator": "Charles Johnson"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Hana-bi",
+      "creator": "Takeshi Kitano"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Naked King",
+      "creator": "가이코 다케시"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "산탑",
+      "creator": "시바 시로"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "일식",
+      "creator": "히라노 게이치로"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les Filles du Calvaire",
+      "creator": "Pierre Combescot"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Odorudeku",
+      "creator": "무로이 미쓰히로"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Seoimizu",
+      "creator": "오기노 안나"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Manon",
+      "creator": "Henri-Georges Clouzot"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Ten North Frederick",
+      "creator": "John O'Hara"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Au revoir les enfants",
+      "creator": "Louis Malle"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Uprooted",
+      "creator": "Naomi Novik"
+    },
+    {
+      "list": "dongin-literary-award",
+      "title": "안개의 덫",
+      "creator": "김향숙"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Trois jours chez ma mère",
+      "creator": "François Weyergans"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Michael Collins",
+      "creator": "Neil Jordan"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Excerpt from several letters to Peter Collinson on the nature of electricity",
+      "creator": "Benjamin Franklin"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "자본론 1권",
+      "creator": "마르크스"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les Civilisés",
+      "creator": "Claude Farrère"
     },
     {
       "list": "korea-publication-award",
@@ -57,14 +464,84 @@
       "creator": "소명출판"
     },
     {
-      "list": "korea-publication-award",
-      "title": "대추 한 알",
-      "creator": "장석주 시, 유리 그림"
+      "list": "venice-golden-lion",
+      "title": "Forbidden Games",
+      "creator": "René Clément"
     },
     {
-      "list": "korea-publication-award",
-      "title": "엄마 도감",
-      "creator": "권정민"
+      "list": "venice-golden-lion",
+      "title": "Happening",
+      "creator": "Audrey Diwan"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Terminal Experiment",
+      "creator": "Robert J. Sawyer"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Family Diary",
+      "creator": "Valerio Zurlini"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Treatise on the Equilibrium of Liquids",
+      "creator": "Blaise Pascal"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "일리야드, 오디세이야",
+      "creator": "호메로스"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Itsuka Kiteki o Narashite",
+      "creator": "하타야마 히로시"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "삼풍백화점",
+      "creator": "정이현"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "소년이로",
+      "creator": "편혜영"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Dreams of My Russian Summers",
+      "creator": "Andreï Makine"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Enemy Force",
+      "creator": "John Antoine Nau"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Essay on Dynamics",
+      "creator": "Gottfried Wilhelm Leibniz"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "유턴지점에 보물지도를 묻다",
+      "creator": "윤성희"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Hikari Idaku Tomo yo",
+      "creator": "다카기 노부코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Pureō 8 no Yoake",
+      "creator": "후루야마 고마오"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Before the Rain",
+      "creator": "Milčo Mančevski"
     },
     {
       "list": "korea-publication-award",
@@ -72,69 +549,309 @@
       "creator": "창비교육"
     },
     {
-      "list": "korea-publication-award",
-      "title": "한국주택 유전자",
-      "creator": "박철수"
+      "list": "prix-goncourt",
+      "title": "Dans la main de l'Ange",
+      "creator": "Dominique Fernandez"
     },
     {
-      "list": "korea-publication-award",
-      "title": "한국 자본주의",
-      "creator": "장하성"
+      "list": "akutagawa-prize",
+      "title": "Toshi no Nokori",
+      "creator": "마루야 사이이치"
     },
     {
-      "list": "korea-publication-award",
-      "title": "에세",
-      "creator": "미셸 드 몽테뉴 지음, 심민화·최권행 옮김"
+      "list": "national-book-award-fiction",
+      "title": "Let the Great World Spin",
+      "creator": "Colum McCann"
     },
     {
-      "list": "korea-publication-award",
-      "title": "헌법의 순간",
-      "creator": "박혁"
+      "list": "venice-golden-lion",
+      "title": "Belle de Jour",
+      "creator": "Luis Buñuel"
     },
     {
-      "list": "korea-publication-award",
-      "title": "미래교양사전",
-      "creator": "이인식"
+      "list": "akutagawa-prize",
+      "title": "Nails and Eyes",
+      "creator": "후지노 카오리"
     },
     {
-      "list": "korea-publication-award",
-      "title": "거대도시, 서울철도",
-      "creator": "전현우"
+      "list": "venice-golden-lion",
+      "title": "Cardinal Messias",
+      "creator": "Goffredo Alessandrini"
     },
     {
-      "list": "korea-publication-award",
-      "title": "만들어진 신",
-      "creator": "리처드 도킨스 지음, 이한음 옮김"
+      "list": "snu-recommended-100",
+      "title": "퇴계문선",
+      "creator": "이황"
     },
     {
-      "list": "korea-publication-award",
-      "title": "나는 작은 회사에 다닌다",
-      "creator": "김정래·전민진"
+      "list": "nebula-best-novel",
+      "title": "Someone You Can Build a Nest In",
+      "creator": "John Wiswell"
     },
     {
-      "list": "korea-publication-award",
-      "title": "금요일엔 돌아오렴",
-      "creator": "416 세월호참사 시민기록위원회 작가기록단"
+      "list": "national-book-award-fiction",
+      "title": "Trust Exercise",
+      "creator": "Susan Choi"
     },
     {
-      "list": "korea-publication-award",
-      "title": "로쟈의 인문학 서재",
-      "creator": "이현우"
+      "list": "hugo-best-novel",
+      "title": "Blackout/All Clear",
+      "creator": "Connie Willis"
     },
     {
-      "list": "korea-publication-award",
-      "title": "모멸감",
-      "creator": "김찬호"
+      "list": "blue-dragon-best-film",
+      "title": "우리들의 일그러진 영웅",
+      "creator": "박종원"
     },
     {
-      "list": "korea-publication-award",
-      "title": "자폐의 거의 모든 역사",
-      "creator": "존 돈반·캐런 저커 지음, 강병철 옮김"
+      "list": "st-johns-great-books",
+      "title": "On the Vibrating String",
+      "creator": "Daniel Bernoulli"
     },
     {
-      "list": "korea-publication-award",
-      "title": "안평",
-      "creator": "심경호"
+      "list": "st-johns-great-books",
+      "title": "Arithmetic",
+      "creator": "Nicomachus"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Shadow Country",
+      "creator": "Peter Matthiessen"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Sonnets from Children of the Poor",
+      "creator": "Gwendolyn Brooks"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Lullaby",
+      "creator": "Leïla Slimani"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kujiragami",
+      "creator": "우노 고이치로"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Excerpt from Sur Les Oxidations Metalliques",
+      "creator": "J.L. Proust"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "그리스비극선집",
+      "creator": null
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "To Forget Palermo",
+      "creator": "Edmonde Charles-Roux"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Siege of the Alcazar",
+      "creator": "Augusto Genina"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Koshamain-Ki",
+      "creator": "쓰루타 도모야"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Akashiya no Dairen",
+      "creator": "기요오카 다카유키"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "상속",
+      "creator": "김성중"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Man of Aran",
+      "creator": "Robert J. Flaherty"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "등반",
+      "creator": "오비 주조"
+    },
+    {
+      "list": "newbery-medal",
+      "title": "Flora & Ulysses: The Illuminated Adventures",
+      "creator": "Kate DiCamillo"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Faust",
+      "creator": "Alexander Sokurov"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Great Swindle",
+      "creator": "Pierre Lemaitre"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Rise of Simon Lachaume",
+      "creator": "Maurice Druon"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "피에타",
+      "creator": "김기덕"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Rite of Passage",
+      "creator": "Alexei Panshin"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "No Enemy But Time",
+      "creator": "Michael Bishop"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "사의 찬미",
+      "creator": "김호선"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "L'Araigne",
+      "creator": "Henri Troyat"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "어떤 진심",
+      "creator": "안보윤"
+    },
+    {
+      "list": "dongin-literary-award",
+      "title": "이 성숙한 밤의 포옹",
+      "creator": "서기원"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Waiting",
+      "creator": "Ha Jin"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Extracts from A New System of Chemical Philosophy",
+      "creator": "John Dalton"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "같기도 하고, 아니 같기도 하고",
+      "creator": "홉프만"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Slow River",
+      "creator": "Nicola Griffith"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Room Next Door",
+      "creator": "Pedro Almodóvar"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Valet de nuit",
+      "creator": "Michel Host"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Bidan no Shuppatsu",
+      "creator": "가와무라 아키라"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "La Maternelle",
+      "creator": "Léon Frapié"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "최애, 타오르다",
+      "creator": "우사미 린"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Shōnen no Hashi",
+      "creator": "고토 기이치"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Parable of the Talents",
+      "creator": "Octavia E. Butler"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Stations of the Tide",
+      "creator": "Michael Swanwick"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "남산의 부장들",
+      "creator": "우민호"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "그 밤의 경숙",
+      "creator": "김숨"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Playthings",
+      "creator": "쓰무라 세쓰코"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "All the Beauty and the Bloodshed",
+      "creator": "Laura Poitras"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Bokutte Nani",
+      "creator": "미타 마사히로"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "열병",
+      "creator": "송상옥"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Quantum Rose",
+      "creator": "Catherine Asaro"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Ryū Kanfū",
+      "creator": "야기 요시노리"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "우리 생애 최고의 순간",
+      "creator": "임순례"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Der Kaiser von Kalifornien",
+      "creator": "Luis Trenker"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "이오지마",
+      "creator": "기쿠무라 이타루"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Hariganemushi",
+      "creator": "요시무라 만이치"
     },
     {
       "list": "korea-publication-award",
@@ -142,44 +859,254 @@
       "creator": "고병권"
     },
     {
-      "list": "korea-publication-award",
-      "title": "다윈 영의 악의 기원",
-      "creator": "박지리"
+      "list": "dongin-literary-award",
+      "title": "모반",
+      "creator": "오상원"
     },
     {
-      "list": "korea-publication-award",
-      "title": "손바닥 동시",
-      "creator": "유강희"
+      "list": "akutagawa-prize",
+      "title": "Haru no Kusa",
+      "creator": "이시카와 도시미쓰"
     },
     {
-      "list": "korea-publication-award",
-      "title": "LHC, 현대 물리학의 최전선",
-      "creator": "이강영"
+      "list": "akutagawa-prize",
+      "title": "Passover",
+      "creator": "고메타니 후미코"
     },
     {
-      "list": "korea-publication-award",
-      "title": "어떤 아이가",
-      "creator": "송미경"
+      "list": "venice-golden-lion",
+      "title": "Romeo and Juliet",
+      "creator": "Renato Castellani"
     },
     {
-      "list": "korea-publication-award",
-      "title": "동물권력",
-      "creator": "남종영"
+      "list": "akutagawa-prize",
+      "title": "맹스피드 엄마",
+      "creator": "나가시마 유"
     },
     {
-      "list": "korea-publication-award",
-      "title": "평등, 자유, 권리",
-      "creator": "이종은"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "은비령",
+      "creator": "이순원"
     },
     {
-      "list": "korea-publication-award",
-      "title": "한반도 화교사",
-      "creator": "이정희"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "성흔",
+      "creator": "김문수"
     },
     {
-      "list": "korea-publication-award",
-      "title": "진짜 코 파는 이야기",
-      "creator": "이갑규"
+      "list": "akutagawa-prize",
+      "title": "Otome no Mikkoku",
+      "creator": "아카조메 아키코"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Letters",
+      "creator": "Madame de Sévigné"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "In America",
+      "creator": "Susan Sontag"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "흔적 / 광대 김서방",
+      "creator": "한말숙"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "초록물고기",
+      "creator": "이창동"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "축제 마당",
+      "creator": "하야시 교코"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "의형제",
+      "creator": "장훈"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "어쩔수가없다",
+      "creator": "박찬욱"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "갯비나리",
+      "creator": "한승원"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Private Gaspard",
+      "creator": "René Benjamin"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "A Time of Changes",
+      "creator": "Robert Silverberg"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Babel-17",
+      "creator": "Samuel R. Delany"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Principles of Nature and Grace",
+      "creator": "Gottfried Wilhelm Leibniz"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "다듬이질 하는 여인",
+      "creator": "이회성"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "우리 교실의 전설",
+      "creator": "김국태"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "When the Man Passed By",
+      "creator": "Marius Grout"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Poor Things",
+      "creator": "Yorgos Lanthimos"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "물방울",
+      "creator": "메도루마 슌"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Scipio Africanus: The Defeat of Hannibal",
+      "creator": "Carmine Gallone"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Le peuple de la mer",
+      "creator": "Marc Elder"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The True True Story of Raja the Gullible (and His Mother)",
+      "creator": "Rabih Alameddine"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "L'Epervier de Maheux",
+      "creator": "Jean Carrière"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "처세술개론 / 타인의 방",
+      "creator": "최인호"
+    },
+    {
+      "list": "yi-sang-literary-award",
+      "title": "관계",
+      "creator": "유재용"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "A Pigeon Sat on a Branch Reflecting on Existence",
+      "creator": "Roy Andersson"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kugatsu no Sora",
+      "creator": "다카하시 미치쓰나"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kono Yo no Yorokobi yo",
+      "creator": "이도가와 이코"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "잉여인간",
+      "creator": "유현목"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "여름의 흐름",
+      "creator": "마루야마 겐지"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Speed of Dark",
+      "creator": "Elizabeth Moon"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Soul of Malaya",
+      "creator": "Henri Fauconnier"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "게르마늄 라디오",
+      "creator": "하나무라 만게쓰"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "개 신랑 들이기",
+      "creator": "다와다 요코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "ab Sango",
+      "creator": "구로다 나쓰코"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the Spectrum of Hydrogen",
+      "creator": "Niels Bohr"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "나는 나대로 혼자서 간다",
+      "creator": "와카타케 치사코"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Claw of the Conciliator",
+      "creator": "Gene Wolfe"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Blood Tie",
+      "creator": "Mary Lee Settle"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "알파의 시간",
+      "creator": "하성란"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the Influence of Gravitation on the Propagation of Light",
+      "creator": "Albert Einstein"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Interior Chinatown",
+      "creator": "Charles Yu"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Fun'nyōtan",
+      "creator": "히노 아시헤이"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Sacro GRA",
+      "creator": "Gianfranco Rosi"
     },
     {
       "list": "korea-publication-award",
@@ -187,9 +1114,59 @@
       "creator": "남해의봄날·이유출판·온다프레스·열매하나·포토밭출판사"
     },
     {
-      "list": "korea-publication-award",
-      "title": "5번 레인",
-      "creator": "은소홀"
+      "list": "nyt-100-best-books-21st-century",
+      "title": "The Story of the Lost Child",
+      "creator": "Elena Ferrante; translated by Ann Goldstein"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Crossing-Over",
+      "creator": "Thomas Morgan"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Stranger in the Village, The Fire Next Time",
+      "creator": "James Baldwin"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les eaux mêlées",
+      "creator": "Roger Ikor"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Hands over the City",
+      "creator": "Francesco Rosi"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Captain Conan",
+      "creator": "Roger Vercel"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "이별의 방식",
+      "creator": "이세기"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Mokuji no Sekai",
+      "creator": "가사하라 준"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Sakebi",
+      "creator": "하타케야마 유시오"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "그래도 우리의 나날",
+      "creator": "시바타 쇼"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Still Life",
+      "creator": "이케자와 나쓰키"
     },
     {
       "list": "korea-publication-award",
@@ -197,74 +1174,444 @@
       "creator": "사계절"
     },
     {
-      "list": "korea-publication-award",
-      "title": "무등이왓에 부는 바람",
-      "creator": "김영화"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "고갯마루",
+      "creator": "이혜경"
     },
     {
-      "list": "korea-publication-award",
-      "title": "사이보그가 되다",
-      "creator": "김초엽·김원영"
+      "list": "prix-goncourt",
+      "title": "Les Bêtes",
+      "creator": "Pierre Gascar"
     },
     {
-      "list": "korea-publication-award",
-      "title": "세밀한 일러스트와 희귀 사진으로 본 근대 조선",
-      "creator": "김장춘 엮음"
+      "list": "akutagawa-prize",
+      "title": "돼지의 보복",
+      "creator": "마타요시 에이키"
     },
     {
-      "list": "korea-publication-award",
-      "title": "문학의 민주주의",
-      "creator": "장성규"
+      "list": "venice-golden-lion",
+      "title": "A Year of the Quiet Sun",
+      "creator": "Krzysztof Zanussi"
     },
     {
-      "list": "korea-publication-award",
-      "title": "아픔이 길이 되려면",
-      "creator": "김승섭"
+      "list": "venice-golden-lion",
+      "title": "Vera Drake",
+      "creator": "Mike Leigh"
     },
     {
-      "list": "korea-publication-award",
-      "title": "좌우파 사전",
-      "creator": "구갑우·김기원·김성천·서영표·안병진·안현효·은수미·이강국·이건범·이명원·이병민·조형근·최현·황덕순 공저"
+      "list": "akutagawa-prize",
+      "title": "흙 속의 아이",
+      "creator": "나카무라 후미노리"
     },
     {
-      "list": "korea-publication-award",
-      "title": "니벨룽의 보물",
-      "creator": "정문길"
+      "list": "akutagawa-prize",
+      "title": "Betty-san",
+      "creator": "야마모토 미치코"
     },
     {
-      "list": "korea-publication-award",
-      "title": "고구려 별자리와 신화",
-      "creator": "김일권"
+      "list": "akutagawa-prize",
+      "title": "어느 '고쿠라 일기'전",
+      "creator": "마쓰모토 세이초"
     },
     {
-      "list": "korea-publication-award",
-      "title": "빈곤 과정",
-      "creator": "조문영"
+      "list": "st-johns-great-books",
+      "title": "The Rise and Decline of the Roman Republic",
+      "creator": null
     },
     {
-      "list": "korea-publication-award",
-      "title": "자기록: 여자, 글로 말하다",
-      "creator": "풍양 조씨 지음, 김경미 역주"
+      "list": "hugo-best-novel",
+      "title": "They'd Rather Be Right",
+      "creator": "Mark Clifton and Frank Riley"
     },
     {
-      "list": "korea-publication-award",
-      "title": "고기로 태어나서",
-      "creator": "한승태"
+      "list": "nebula-best-novel",
+      "title": "A Master of Djinn",
+      "creator": "P. Djèlí Clark"
     },
     {
-      "list": "korea-publication-award",
-      "title": "세상 모든 것의 물질",
-      "creator": "수지 시히 지음, 노승영 옮김"
+      "list": "akutagawa-prize",
+      "title": "Sukurappu Ando Birudo",
+      "creator": "하다 게이스케"
     },
     {
-      "list": "korea-publication-award",
-      "title": "주자평전",
-      "creator": "수징난 지음, 김태완 옮김"
+      "list": "national-book-award-fiction",
+      "title": "Cold Mountain",
+      "creator": "Charles Frazier"
     },
     {
-      "list": "korea-publication-award",
-      "title": "국경",
-      "creator": "구돌 글, 해랑 그림"
+      "list": "national-book-award-fiction",
+      "title": "Goodbye, Columbus",
+      "creator": "Philip Roth"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Tsui no Sumika",
+      "creator": "이소자키 겐이치로"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "옥합을 깨뜨릴 때",
+      "creator": "김수용"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "He's Leaving Home: My Young Son Becomes a Zen Monk",
+      "creator": "미우라 기요히로"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Live Fast",
+      "creator": "Brigitte Giraud"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Sunan",
+      "creator": "Ibn Mājah"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Fahrenheit Scale",
+      "creator": "Daniel Fahrenheit"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Woman Who Left",
+      "creator": "Lav Diaz"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Shinsekai",
+      "creator": "야마시타 스미토"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Loyalty of Love",
+      "creator": "Guido Brignone"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Week-end at Zuydcoote",
+      "creator": "Robert Merle"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Pietà",
+      "creator": "Kim Ki-duk"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "To the Lighthouse, A Room of One’s Own",
+      "creator": "Virginia Woolf"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "8월의 크리스마스",
+      "creator": "허진호"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "뱀에게 피어싱",
+      "creator": "가네하라 히토미"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "영리",
+      "creator": "누마타 신스케"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "A Man Scans His Past",
+      "creator": "Maurice Constantin-Weyer"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Life Dances On",
+      "creator": "Julien Duvivier"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Saint-Germain ou la négociation",
+      "creator": "Francis Walder"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Paco's Story",
+      "creator": "Larry Heinemann"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Chichūkai",
+      "creator": "도미자와 우이오"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "뱀을 밟다",
+      "creator": "가와카미 히로미"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Not One Less",
+      "creator": "Zhang Yimou"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Eighth Day",
+      "creator": "Thornton Wilder"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Music",
+      "creator": "Igor Stravinsky"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Toki no Ie",
+      "creator": "토리야마 마코토"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "De Goupil à Margot",
+      "creator": "Louis Pergaud"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the Absolute Quantity of Electricity Associated with the Particles or Atoms of Matter",
+      "creator": "Michael Faraday"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Ship Fever and Other Stories",
+      "creator": "Andrea Barrett"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Falling Free",
+      "creator": "Lois McMaster Bujold"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "곶",
+      "creator": "나카가미 겐지"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "부에노스아이레스 오전 0시",
+      "creator": "후지사와 슈"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Life Before Us",
+      "creator": "Émile Ajar (Romain Gary)"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Arechi no Kazoku",
+      "creator": "사토 아츠시"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Space and Time",
+      "creator": "Hermann Minkowski"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "공동경비구역 JSA",
+      "creator": "박찬욱"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Tehanu: The Last Book of Earthsea",
+      "creator": "Ursula K. Le Guin"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Pareils à des enfants",
+      "creator": "Marc Bernard"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "라임포토스의 배",
+      "creator": "쓰무라 기쿠코"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "미",
+      "creator": "마르시아스 심"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Magic Barrel",
+      "creator": "Bernard Malamud"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Security, Territory, and Population",
+      "creator": "Michel Foucault"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Quand la mer se retire",
+      "creator": "Armand Lanoux"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "아름다운 청년 전태일",
+      "creator": "박광수"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Experiments concerning the efficacy of electric conflict on the magnetic needle",
+      "creator": "Hans Christian Ørsted"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "En France",
+      "creator": "Marius-Ary Leblond"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Lo squadrone bianco",
+      "creator": "Augusto Genina"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the motion of the stretched string",
+      "creator": "Brook Taylor"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Bond",
+      "creator": "Jacques Borel"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "맛있는 밥을 먹을 수 있기를",
+      "creator": "다카세 준코"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Great War",
+      "creator": "Mario Monicelli"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "A Portrait of Shino",
+      "creator": "미우라 데쓰오"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "체스의 모든 것",
+      "creator": "김금희"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Nobuyo",
+      "creator": "다카하시 기이치로"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "A Crown of Feathers and Other Stories",
+      "creator": "Isaac Bashevis Singer"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Sermon on the Fall of Rome",
+      "creator": "Jérôme Ferrari"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Camouflage",
+      "creator": "Joe Haldeman"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "마지막 우상",
+      "creator": "홍성원"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "혈맥",
+      "creator": "김수용"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Blackout/All Clear",
+      "creator": "Connie Willis"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "배웅불",
+      "creator": "다카하시 히로키"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the Nature of Light and Colors",
+      "creator": "Thomas Young"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Steps",
+      "creator": "Jerzy Kosinski"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Remembrance of Things Past",
+      "creator": "Marcel Proust"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Faux passeports",
+      "creator": "Charles Plisnier"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Roving Shadows",
+      "creator": "Pascal Quignard"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Noriaibasha",
+      "creator": "나카자토 쓰네코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Mura no Namae",
+      "creator": "쓰지하라 노보루"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "풀 사이드 소경",
+      "creator": "쇼노 준조"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Flame That Is France",
+      "creator": "Henry Malherbe"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "바다에서 기다리다",
+      "creator": "이토야마 아키코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "산 자들의 밤",
+      "creator": "다키구치 유키"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "돌의 내력",
+      "creator": "오쿠이즈미 야스히로"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "도덕계보학",
+      "creator": "니이체"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Works of Zhuangzi",
+      "creator": "Zhuangzi"
     },
     {
       "list": "korea-publication-award",
@@ -277,9 +1624,219 @@
       "creator": "민주화운동기념사업회 기획, 권윤덕 총감독"
     },
     {
-      "list": "korea-publication-award",
-      "title": "세상 물정의 물리학",
-      "creator": "김범준"
+      "list": "st-johns-great-books",
+      "title": "On the Equilibrium of Planes",
+      "creator": "Archimedes"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The News from Paraguay",
+      "creator": "Lily Tuck"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Great King",
+      "creator": "Veit Harlan"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "갈매기 / 사망보류",
+      "creator": "이범선"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Augustus",
+      "creator": "John Williams"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Three Junes",
+      "creator": "Julia Glass"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "In the Pot",
+      "creator": "무라타 기요코"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Hair of Harold Roux",
+      "creator": "Thomas Williams"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Chimera",
+      "creator": "John Barth"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "태백산맥",
+      "creator": "임권택"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "서울의 봄",
+      "creator": "김성수"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Ihōjin",
+      "creator": "쓰지 류이치"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Moon and the Sun",
+      "creator": "Vonda N. McIntyre"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Four Lectures of Wave Mechanics—First Lecture",
+      "creator": "Erwin Schrödinger"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "정부론",
+      "creator": "로크"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Spartina",
+      "creator": "John Casey"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Mud of a Century",
+      "creator": "이시이 유카"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "시간이 스며드는 아침",
+      "creator": "양이"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "고역열차",
+      "creator": "니시무라 겐타"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "질 그릇",
+      "creator": "사카타 히로오"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "저 하늘에도 슬픔이",
+      "creator": "김수용"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "그랜드 피날레",
+      "creator": "아베 가즈시게"
+    },
+    {
+      "list": "edgar-best-novel",
+      "title": "Briar Patch",
+      "creator": "Ross Thomas"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "친구 / 보행규칙 위반자 외",
+      "creator": "송영"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kakushō",
+      "creator": "고타니 쓰요시"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Yume no Kabe",
+      "creator": "가토 유키코"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Paris Trout",
+      "creator": "Pete Dexter"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Buffalo Hunter Hunter",
+      "creator": "Stephen Graham Jones"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Touring the Land of the Dead",
+      "creator": "가시마다 마키"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "아테나이의 비명",
+      "creator": "정을병"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Terres lorraines",
+      "creator": "Émile Moselly"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Fields of Glory",
+      "creator": "Jean Rouaud"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Origin of Inequality",
+      "creator": "Jean-Jacques Rousseau"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les Bêtises",
+      "creator": "Jacques Laurent"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "낚시하는 소녀",
+      "creator": "전성태"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "우아한 세계",
+      "creator": "한재림"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Hath Not the Potter",
+      "creator": "Maxence Van Der Meersch"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "I'm Gone",
+      "creator": "Jean Echenoz"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Chromosomes and Mendel’s Two Laws",
+      "creator": "Thomas Morgan"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Under Fire",
+      "creator": "Henri Barbusse"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "베를린 필",
+      "creator": "김채원"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Atlanta Exposition Address",
+      "creator": "Booker T. Washington"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Black Box",
+      "creator": "스나카와 분지"
     },
     {
       "list": "korea-publication-award",
@@ -287,29 +1844,229 @@
       "creator": "홍순명"
     },
     {
-      "list": "korea-publication-award",
-      "title": "우주의 끝을 찾아서",
-      "creator": "이강환"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "초식",
+      "creator": "이제하"
     },
     {
-      "list": "korea-publication-award",
-      "title": "공안파와 조선후기 한문학",
-      "creator": "강명관"
+      "list": "akutagawa-prize",
+      "title": "반딧불강",
+      "creator": "미야모토 데루"
     },
     {
-      "list": "korea-publication-award",
-      "title": "토마토 기준",
-      "creator": "김준현"
+      "list": "dongin-literary-award",
+      "title": "너는 뭐냐",
+      "creator": "남정현"
     },
     {
-      "list": "korea-publication-award",
-      "title": "우주로 가는 계단",
-      "creator": "전수경 지음, 소윤경 그림"
+      "list": "venice-golden-lion",
+      "title": "The Southerner",
+      "creator": "Jean Renoir"
     },
     {
-      "list": "korea-publication-award",
-      "title": "카를 마르크스",
-      "creator": "개러스 존스 지음, 홍기빈 옮김"
+      "list": "venice-golden-lion",
+      "title": "Tomorrow Is My Turn",
+      "creator": "André Cayatte"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kita no Kawa",
+      "creator": "다카이 유이치"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "John l'enfer",
+      "creator": "Didier Decoin"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Margin",
+      "creator": "André Pieyre de Mandiargues"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "카인의 후예",
+      "creator": "유현목"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Vagabond",
+      "creator": "Agnès Varda"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Disappointment",
+      "creator": "Aphra Behn"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Rock of Tanios",
+      "creator": "Amin Maalouf"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Compass",
+      "creator": "Mathias Énard"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Iron Crown",
+      "creator": "Alessandro Blasetti"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "God Was Born in Exile",
+      "creator": "Vintilă Horia"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "모가디슈",
+      "creator": "류승완"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "사형 / 껍데기 벗기",
+      "creator": "전상국"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Nekobaba no Iru Machi de",
+      "creator": "다키자와 미에코"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Mandarins",
+      "creator": "Simone de Beauvoir"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Jōgai",
+      "creator": "오다 다케오"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Natsu no Yakusoku",
+      "creator": "후치노 지야"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "L'Etat sauvage",
+      "creator": "Georges Conchon"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "풀의 검",
+      "creator": "노로 구니노부"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Plains Song",
+      "creator": "Wright Morris"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "과학고전(Anthology)",
+      "creator": null
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les Filles de la pluie",
+      "creator": "André Savignon"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Devils",
+      "creator": "Fyodor Dostoevsky"
+    },
+    {
+      "list": "edgar-best-novel",
+      "title": "La Brava",
+      "creator": "Elmore Leonard"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "산행",
+      "creator": "김용운"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Tokuyama Dōsuke no Kikyō",
+      "creator": "가시와바라 효조"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Requiem",
+      "creator": "고 시즈코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "곰의 포석",
+      "creator": "호리에 도시유키"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Our New Citizen",
+      "creator": "Booker T. Washington"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "소원",
+      "creator": "이준익"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "213호 주택",
+      "creator": "김광식"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "A Crown of Sonnets Dedicated to Love",
+      "creator": "Lady Mary Wroth"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "혼자있기 좋은날",
+      "creator": "아오야마 나나에"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "요코",
+      "creator": "후루이 요시키치"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "미래의 조각",
+      "creator": "정영수"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Mon village à l'heure allemande",
+      "creator": "Jean-Louis Bory"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Man Plus",
+      "creator": "Frederik Pohl"
+    },
+    {
+      "list": "nyt-100-best-books-21st-century",
+      "title": "Septology",
+      "creator": "Jon Fosse; translated by Damion Searls"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Brazil Red",
+      "creator": "Jean-Christophe Rufin"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "시카노 섬",
+      "creator": "오카마쓰 가즈오"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Magdalene Sisters",
+      "creator": "Peter Mullan"
     },
     {
       "list": "korea-publication-award",
@@ -317,14 +2074,64 @@
       "creator": "신새벽 편집자"
     },
     {
-      "list": "korea-publication-award",
-      "title": "쓰레기 고서들의 반란",
-      "creator": "장유승 지음, 이은혜 편집"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "가주인산조",
+      "creator": "권태웅"
     },
     {
-      "list": "korea-publication-award",
-      "title": "외면하지 않을 권리",
-      "creator": "한다솜 등 지음, 설원민 편집"
+      "list": "prix-goncourt",
+      "title": "Le Chasseur Zéro",
+      "creator": "Pascale Roze"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Crabs",
+      "creator": "고노 다에코"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Le supplice de Phèdre",
+      "creator": "Henri Deberly"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Mercy of God",
+      "creator": "Jean Cau"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Not Everybody Lives the Same Way",
+      "creator": "Jean-Paul Dubois"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Kindly Ones",
+      "creator": "Jonathan Littell"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Letter to Professor S. De Luca",
+      "creator": "Stanislao Cannizzaro"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "임신 캘린더",
+      "creator": "오가와 요코"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Desire",
+      "creator": "Jean Fayard"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Victory Over Japan",
+      "creator": "Ellen Gilchrist"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Introduction to the Analytical Art",
+      "creator": "François Viète"
     },
     {
       "list": "korea-publication-award",
@@ -337,29 +2144,119 @@
       "creator": "우리학교"
     },
     {
-      "list": "korea-publication-award",
-      "title": "우리말 절대지식",
-      "creator": "김승용"
+      "list": "st-johns-great-books",
+      "title": "Excerpt from Essai de Statique Chimique",
+      "creator": "Claude Berthollet"
     },
     {
-      "list": "korea-publication-award",
-      "title": "포스트휴먼이 온다",
-      "creator": "이종관"
+      "list": "venice-golden-lion",
+      "title": "Lust, Caution",
+      "creator": "Ang Lee"
     },
     {
-      "list": "korea-publication-award",
-      "title": "정조와 불량선비 강이천",
-      "creator": "백승종"
+      "list": "akutagawa-prize",
+      "title": "저 석양",
+      "creator": "히노 게이조"
     },
     {
-      "list": "korea-publication-award",
-      "title": "밀양을 살다",
-      "creator": "밀양구술프로젝트"
+      "list": "akutagawa-prize",
+      "title": "Cannibals",
+      "creator": "다나카 신야"
     },
     {
-      "list": "korea-publication-award",
-      "title": "어메이징 그래비티",
-      "creator": "조진호"
+      "list": "blue-dragon-best-film",
+      "title": "산불",
+      "creator": "김수용"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "슈리의 말",
+      "creator": "다카야마 하네코"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Nêne",
+      "creator": "Ernest Pérochon"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Quantum Hypothesis",
+      "creator": "Max Planck"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Annihilation",
+      "creator": "Jeff VanderMeer"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Powers",
+      "creator": "Ursula K. Le Guin"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "깊은 숨을 쉴 때마다",
+      "creator": "신경숙"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Charming Billy",
+      "creator": "Alice McDermott"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "내 고운 벗님",
+      "creator": "성석제"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Mokkingubādo no Iru Machi",
+      "creator": "모리 레이코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kaya no Ki Matsuri",
+      "creator": "다카키 슈조"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Chichi ga Kieta",
+      "creator": "오쓰지 가쓰히코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Sōbō",
+      "creator": "이시카와 다쓰조"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "An Exotic Marriage",
+      "creator": "모토야 유키코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Kikotowa",
+      "creator": "아사부키 마리코"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the Expansion of Gases by Heat",
+      "creator": "Joseph-Louis Gay-Lussac"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "빛의 걸음걸이",
+      "creator": "윤대녕"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "괴테는 모든 것을 말했다",
+      "creator": "스즈키 유이"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Round House",
+      "creator": "Louise Erdrich"
     },
     {
       "list": "korea-publication-award",
@@ -367,14 +2264,194 @@
       "creator": "조선미"
     },
     {
-      "list": "korea-publication-award",
-      "title": "울기엔 좀 애매한",
-      "creator": "최규석"
+      "list": "akutagawa-prize",
+      "title": "사육",
+      "creator": "오에 겐자부로"
     },
     {
-      "list": "korea-publication-award",
-      "title": "나쁜 사마리아인들",
-      "creator": "장하준 지음, 이순희 옮김"
+      "list": "st-johns-great-books",
+      "title": "Selected movies",
+      "creator": "Alfred Hitchcock"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "얼룩",
+      "creator": "박성원"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "해협의 빛",
+      "creator": "쓰지 히토나리"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "나쁜 친구들",
+      "creator": "야스오카 쇼타로"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Missing Person",
+      "creator": "Patrick Modiano"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Hiraga Gen'nai",
+      "creator": "사쿠라다 쓰네히사"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "2312",
+      "creator": "Kim Stanley Robinson"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Der Postmeister",
+      "creator": "Gustav Ucicky"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Moving Mars",
+      "creator": "Greg Bear"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "하오의 순유 / 한춘무사",
+      "creator": "최상규"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "에게해에 바친다",
+      "creator": "이케다 마스오"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Falling Woman",
+      "creator": "Pat Murphy"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "페더랄리스트 페이퍼",
+      "creator": "헤밀튼 외"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "A Fine of Two Hundred Francs",
+      "creator": "Elsa Triolet"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "변신이영",
+      "creator": "왕몽"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Antigone, Philoctetes",
+      "creator": "Sophocles"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "내부자들",
+      "creator": "우민호"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Taimu Surippu Konbināto",
+      "creator": "쇼노 요리코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Tensoku no Koro",
+      "creator": "이시즈카 기쿠조"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Circle",
+      "creator": "Jafar Panahi"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "1R 1-Pun 34-Byō",
+      "creator": "마치야 료헤이"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "A Song for a New Day",
+      "creator": "Sarah Pinsker"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Man with the Golden Arm",
+      "creator": "Nelson Algren"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Long Holiday",
+      "creator": "Francis Ambrière"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Batouala",
+      "creator": "René Maran"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "모르그 디오라마",
+      "creator": "박민정"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Roots of Heaven",
+      "creator": "Romain Gary"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On the Movement of Bodies by Impact",
+      "creator": "Christiaan Huygens"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "폭력요법 / 폭력연구",
+      "creator": "이동하"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "아직 집에는 가지 않을래요",
+      "creator": "백수린"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "인정사정 볼 것 없다",
+      "creator": "이명세"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "잠시 눕는 풀 / 바라암",
+      "creator": "김원일"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Legend of the Holy Drinker",
+      "creator": "Ermanno Olmi"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Les enfants gâtés",
+      "creator": "Philippe Hériat"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "백의민족",
+      "creator": "송기숙"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Generation of Conic Sections",
+      "creator": "Blaise Pascal"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Most Secret Memory of Men",
+      "creator": "Mohamed Mbougar Sarr"
     },
     {
       "list": "korea-publication-award",
@@ -387,19 +2464,244 @@
       "creator": "도널드 서순 지음, 정영목·오숙은·한경희·이은진 옮김"
     },
     {
-      "list": "korea-publication-award",
-      "title": "앤디 워홀 일기",
-      "creator": "앤디 워홀 지음, 팻 해켓 엮음, 홍예빈 옮김"
+      "list": "prix-goncourt",
+      "title": "The Patience Stone",
+      "creator": "Atiq Rahimi"
     },
     {
-      "list": "korea-publication-award",
-      "title": "물질의 물리학",
-      "creator": "한정훈"
+      "list": "venice-golden-lion",
+      "title": "Olympia",
+      "creator": "Leni Riefenstahl"
     },
     {
-      "list": "korea-publication-award",
-      "title": "작지만 큰 한국사, 소금",
-      "creator": "유승훈"
+      "list": "akutagawa-prize",
+      "title": "그늘의 집",
+      "creator": "현월"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Way We Laughed",
+      "creator": "Gianni Amelio"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Green Ray",
+      "creator": "Éric Rohmer"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Alabama Song",
+      "creator": "Gilles Leroy"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Sang et Lumières",
+      "creator": "Joseph Peyre"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Does the Inertia of a Body Depend upon its Energy Content?",
+      "creator": "Albert Einstein"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Cronus' Children",
+      "creator": "Yves Navarre"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Niwatori Sōdō",
+      "creator": "한다 요시유키"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Babel",
+      "creator": "R. F. Kuang"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Battle",
+      "creator": "Patrick Rambaud"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Monsoon Wedding",
+      "creator": "Mira Nair"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Rickshaw Man",
+      "creator": "Hiroshi Inagaki"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Man's Fate",
+      "creator": "André Malraux"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "From Afar",
+      "creator": "Lorenzo Vigas"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Father Mother Sister Brother",
+      "creator": "Jim Jarmusch"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Extracts from System of Chemistry",
+      "creator": "J.J. Thomson"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Seitaka Awadachisō",
+      "creator": "후루카와 마코토"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "서편제",
+      "creator": "임권택"
+    },
+    {
+      "list": "nyt-100-best-books-21st-century",
+      "title": "The Copenhagen Trilogy",
+      "creator": "Tove Ditlevsen; translated by Tiina Nunnally and Michael Favala Goldman"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Memoir on the Combination of Gaseous Substances with Each Other",
+      "creator": "Joseph-Louis Gay-Lussac"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "두고 온 사람 / 호도나무골 전설",
+      "creator": "유재용"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Hon no Hanashi",
+      "creator": "유키 시게코"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Sandra",
+      "creator": "Luchino Visconti"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Anne-Marie",
+      "creator": "Lucien Bodard"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "어떤 파리",
+      "creator": "박순녀"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "유다 행전",
+      "creator": "유현종"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Le Vitriol de Lune",
+      "creator": "Henri Béraud"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Seeker",
+      "creator": "Jack McDevitt"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "안드로메다 남자",
+      "creator": "스와 데쓰시"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Nimuroddo",
+      "creator": "우에다 다카히로"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Untenshi",
+      "creator": "후지와라 도모미"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Dingley, l'illustre écrivain",
+      "creator": "Jean Tharaud, Jérôme Tharaud"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Red Mars",
+      "creator": "Kim Stanley Robinson"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "보라색 치마를 입은 여자",
+      "creator": "이마무라 나쓰코"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Field of Vision",
+      "creator": "Wright Morris"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Observations on Several New Electrical Phenomena",
+      "creator": "Jean-Antoine Nollet"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "취화선",
+      "creator": "임권택"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Little Lady",
+      "creator": "요시유키 리에"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Scattering of α & β Particles by Matter and the Structure of the Atom",
+      "creator": "Ernest Rutherford"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Critique of the Physical Concepts of the Particle Picture",
+      "creator": "Werner Karl Heisenberg"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Europe Central",
+      "creator": "William T. Vollmann"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "홉스봄 4부작: 혁명의 시대, 자본의 시대, 제국의 시대, 극단의 시대",
+      "creator": "홉스봄"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Spectator Bird",
+      "creator": "Wallace Stegner"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Complete Stories",
+      "creator": "Flannery O'Connor"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "젖과 알",
+      "creator": "가와카미 미에코"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "One-Way",
+      "creator": "Didier Van Cauwelaert"
     },
     {
       "list": "korea-publication-award",
@@ -407,14 +2709,139 @@
       "creator": "양철북"
     },
     {
-      "list": "korea-publication-award",
-      "title": "붓끝으로 부사산 바람을 가르다",
-      "creator": "남옥 지음, 김보경 옮김"
+      "list": "blue-dragon-best-film",
+      "title": "축제",
+      "creator": "임권택"
     },
     {
-      "list": "korea-publication-award",
-      "title": "지혜로 지은 집, 한국 건축",
-      "creator": "김도경"
+      "list": "nebula-best-novel",
+      "title": "The Saint of Bright Doors",
+      "creator": "Vajra Chandrasekera"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "양의 미래",
+      "creator": "황정은"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "발로 차 주고 싶은 등짝",
+      "creator": "와타야 리사"
+    },
+    {
+      "list": "yi-sang-literary-award",
+      "title": "붉은 방",
+      "creator": "임철우"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "바닷사람의 배",
+      "creator": "곤도 게이타로"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Brokeback Mountain",
+      "creator": "Ang Lee"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Jidō Kishō Sōchi",
+      "creator": "헨미 요"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "이역의 산장",
+      "creator": "오유권"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "8월의 길 위에 버리다",
+      "creator": "이토 다카미"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Aparajito",
+      "creator": "Satyajit Ray"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "And Their Children After Them",
+      "creator": "Nicolas Mathieu"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "상신",
+      "creator": "고미 야스스케"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "혈서 / 미해결의 장 / 인간동물원초",
+      "creator": "손창섭"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Karitachi",
+      "creator": "시미즈 모토요시"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Rabbit Hutch",
+      "creator": "Tess Gunty"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "율곡문선",
+      "creator": "이이"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Artists Under the Big Top: Perplexed",
+      "creator": "Alexander Kluge"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Linkage Groups and the Chromosomes",
+      "creator": "Thomas Morgan"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Fortune Smiles",
+      "creator": "Adam Johnson"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Raboliot",
+      "creator": "Maurice Genevoix"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Smoke in the Mountain Valley",
+      "creator": "시게카네 요시코"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "석화촌",
+      "creator": "정진우"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Blackouts",
+      "creator": "Justin Torres"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "구멍",
+      "creator": "오야마다 히로코"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Story of Qiu Ju",
+      "creator": "Zhang Yimou"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Priest",
+      "creator": "Béatrix Beck"
     },
     {
       "list": "korea-publication-award",
@@ -422,9 +2849,59 @@
       "creator": "필립 아리에스·조르주 뒤비 책임편집, 주명철·전수연 외 옮김"
     },
     {
-      "list": "korea-publication-award",
-      "title": "잘 헤어졌어",
-      "creator": "김양미"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "탁자의 위치 / 도박사",
+      "creator": "이광숙"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Waters of Kronos",
+      "creator": "Conrad Richter"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Mitsuryōsha",
+      "creator": "사무카와 소타로"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Two-Part Prelude of 1799",
+      "creator": "William Wordsworth"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Keynote",
+      "creator": "Alphonse de Châteaubriant"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "시인과 도둑",
+      "creator": "이문열"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Remarks on the Preceding Papers by Mr. Bernoulli",
+      "creator": "Leonhard Euler"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "감상 여행",
+      "creator": "다나베 세이코"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Casta Diva",
+      "creator": "Carmine Gallone"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Tazunebito no Jikan",
+      "creator": "아라이 만"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Lost Shore",
+      "creator": "Anna Langfus"
     },
     {
       "list": "korea-publication-award",
@@ -432,24 +2909,179 @@
       "creator": "도서출판 길"
     },
     {
-      "list": "korea-publication-award",
-      "title": "오늘의 할 일",
-      "creator": "김동수"
+      "list": "akutagawa-prize",
+      "title": "파국",
+      "creator": "도노 하루카"
     },
     {
-      "list": "korea-publication-award",
-      "title": "할머니의 여름휴가",
-      "creator": "안녕달"
+      "list": "venice-golden-lion",
+      "title": "Ohm Krüger",
+      "creator": "Hans Steinhoff"
     },
     {
-      "list": "korea-publication-award",
-      "title": "중력파, 아인슈타인의 마지막 선물",
-      "creator": "오정근"
+      "list": "akutagawa-prize",
+      "title": "광장의 고독",
+      "creator": "홋타 요시에"
     },
     {
-      "list": "korea-publication-award",
-      "title": "가장 느린 정의",
-      "creator": "리아 락슈미 피엡즈나-사마라신하 지음, 전혜은·제이 옮김"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "강변마을",
+      "creator": "전경린"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Seisui",
+      "creator": "세이라이 유이치"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Bengasi",
+      "creator": "Augusto Genina"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Texaco",
+      "creator": "Patrick Chamoiseau"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Mr. Sammler's Planet",
+      "creator": "Saul Bellow"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Last of the Just",
+      "creator": "André Schwarz-Bart"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "소나기",
+      "creator": "요시유키 준노스케"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Word of Nietzsche: God is Dead",
+      "creator": "Martin Heidegger"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "DTOPIA",
+      "creator": "안도 호세"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Le Chèvrefeuille",
+      "creator": "Thierry Sandre"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Rabevel ou Le mal des ardents",
+      "creator": "Lucien Fabre"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "World's Fair",
+      "creator": "E. L. Doctorow"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "First Name: Carmen",
+      "creator": "Jean-Luc Godard"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Hell of a Book",
+      "creator": "Jason Mott"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Houris",
+      "creator": "Kamel Daoud"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Call of the Soil",
+      "creator": "Adrien Bertrand"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Letters",
+      "creator": "Madame de Sévigne"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Still Life",
+      "creator": "Jia Zhangke"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "검은 방울새",
+      "creator": "미키 다쿠"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "꿈꾸는 인큐베이터",
+      "creator": "박완서"
+    },
+    {
+      "list": "nyt-100-best-books-21st-century",
+      "title": "When We Cease to Understand the World",
+      "creator": "Benjamín Labatut; translated by Adrian Nathan West"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "A Frolic of His Own",
+      "creator": "William Gaddis"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Fruits of Winter",
+      "creator": "Bernard Clavel"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "불신시대 / 영주와 고양이",
+      "creator": "박경리"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "General Della Rovere",
+      "creator": "Roberto Rossellini"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Ivan's Childhood",
+      "creator": "Andrei Tarkovsky"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "The Healer's War",
+      "creator": "Elizabeth Ann Scarborough"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Luciano Serra, Pilot",
+      "creator": "Goffredo Alessandrini"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Rosy Glasses",
+      "creator": "오자키 가즈오"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "좁은 문",
+      "creator": "조경란"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "아메리칸 스쿨",
+      "creator": "고지마 노부오"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "별을 사랑하는 마음으로",
+      "creator": "윤후명"
     },
     {
       "list": "korea-publication-award",
@@ -457,39 +3089,134 @@
       "creator": "조우리"
     },
     {
-      "list": "korea-publication-award",
-      "title": "사당동 더하기 25",
-      "creator": "조은"
+      "list": "akutagawa-prize",
+      "title": "벽 S·카르마씨의 범죄",
+      "creator": "아베 코보"
     },
     {
-      "list": "korea-publication-award",
-      "title": "한국전쟁: 38선 충돌과 전쟁의 형성",
-      "creator": "정병준"
+      "list": "akutagawa-prize",
+      "title": "Gusha no Yoru",
+      "creator": "아오노 소"
     },
     {
-      "list": "korea-publication-award",
-      "title": "한국의 전통색",
-      "creator": "문은배"
+      "list": "venice-golden-lion",
+      "title": "The State of Things",
+      "creator": "Wim Wenders"
     },
     {
-      "list": "korea-publication-award",
-      "title": "한반도 바닷물고기 세밀화 대도감",
-      "creator": "명정구 글, 조광현 그림"
+      "list": "prix-goncourt",
+      "title": "Écrit sur de l'eau...",
+      "creator": "Francis de Miomandre"
     },
     {
-      "list": "korea-publication-award",
-      "title": "우리는 왜 공부할수록 가난해지는가",
-      "creator": "천주희"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "전기수 이야기",
+      "creator": "이승우"
     },
     {
-      "list": "korea-publication-award",
-      "title": "마을로 간 한국전쟁",
-      "creator": "박찬승"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "당신의 나무",
+      "creator": "김영하"
     },
     {
-      "list": "korea-publication-award",
-      "title": "나의 국토 나의 산하 (전3권)",
-      "creator": "박태순"
+      "list": "akutagawa-prize",
+      "title": "Hyōsō Seikatsu",
+      "creator": "오오카 아키라"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Going After Cacciato",
+      "creator": "Tim O'Brien"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "봄의 정원",
+      "creator": "시바사키 도모카"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Daiyamondo Dasuto",
+      "creator": "나기 게이시"
+    },
+    {
+      "list": "dongin-literary-award",
+      "title": "잔해",
+      "creator": "송병수"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Un grand pas vers le Bon Dieu",
+      "creator": "Jean Vautrin"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The Great Fire",
+      "creator": "Shirley Hazzard"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Hana Kutashi",
+      "creator": "마쓰우라 히사키"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "완장",
+      "creator": "윤흥길"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Savage Play",
+      "creator": "Paul Colin"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Sabbath's Theater",
+      "creator": "Philip Roth"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Dareka ga Sawatta",
+      "creator": "미야하라 아키오"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Morte d'Urban",
+      "creator": "J. F. Powers"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Strike",
+      "creator": "Karel Steklý"
+    },
+    {
+      "list": "snu-recommended-100",
+      "title": "정지용전집",
+      "creator": null
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Asakusa no Kodomo",
+      "creator": "하세 겐"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Order of the Day",
+      "creator": "Éric Vuillard"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "편의점 인간",
+      "creator": "무라타 사야카"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Brecht's Lover",
+      "creator": "Jacques-Pierre Amette"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Wrestler",
+      "creator": "Darren Aronofsky"
     },
     {
       "list": "korea-publication-award",
@@ -497,29 +3224,99 @@
       "creator": "강소영 편집자"
     },
     {
-      "list": "korea-publication-award",
-      "title": "3월 1일의 밤",
-      "creator": "권보드래"
+      "list": "prix-goncourt",
+      "title": "Within a Budding Grove",
+      "creator": "Marcel Proust"
     },
     {
-      "list": "korea-publication-award",
-      "title": "보리 국어사전",
-      "creator": "토박이 사전 편찬실 엮음"
+      "list": "prix-goncourt",
+      "title": "Three Strong Women",
+      "creator": "Marie NDiaye"
     },
     {
-      "list": "korea-publication-award",
-      "title": "조선의 생태환경사",
-      "creator": "김동진"
+      "list": "akutagawa-prize",
+      "title": "태양의 계절",
+      "creator": "이시하라 신타로"
     },
     {
-      "list": "korea-publication-award",
-      "title": "강이",
-      "creator": "이수지"
+      "list": "akutagawa-prize",
+      "title": "The Bullfight",
+      "creator": "이노우에 야스시"
     },
     {
-      "list": "korea-publication-award",
-      "title": "진인각, 최후의 20년",
-      "creator": "육건동 지음, 박한제·김형종 옮김"
+      "list": "akutagawa-prize",
+      "title": "The Three Crabs",
+      "creator": "오바 미나코"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "them",
+      "creator": "Joyce Carol Oates"
+    },
+    {
+      "list": "cannes-palme-dor",
+      "title": "Torment",
+      "creator": "Alf Sjöberg"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Cocktail Party",
+      "creator": "오시로 다쓰히로"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Good Country People, Revelation, The Displaced Person",
+      "creator": "Flannery O’Connor"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "La Maison vide",
+      "creator": "Laurent Mauvignier"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Excerpts from Coulomb’s Mémoires sur l’électricité et le magnétisme",
+      "creator": "Charles-Augustin de Coulomb"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Lord of Misrule",
+      "creator": "Jaimy Gordon"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Child of Okinawa",
+      "creator": "히가시 미네오"
+    },
+    {
+      "list": "newbery-medal",
+      "title": "The View from Saturday",
+      "creator": "E.L. Konigsburg"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "What is Metaphysics?",
+      "creator": "Martin Heidegger"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "L'Ordre",
+      "creator": "Marcel Arland"
+    },
+    {
+      "list": "edgar-best-novel",
+      "title": "The In Crowd",
+      "creator": "Charlotte Vassell"
+    },
+    {
+      "list": "dongin-literary-award",
+      "title": "어제 울린 총소리",
+      "creator": "유재용"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Place of Shells",
+      "creator": "이시자와 마이"
     },
     {
       "list": "korea-publication-award",
@@ -527,9 +3324,49 @@
       "creator": "정수복"
     },
     {
-      "list": "korea-publication-award",
-      "title": "공동체론",
-      "creator": "박호성"
+      "list": "akutagawa-prize",
+      "title": "가족시네마",
+      "creator": "유미리"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Sagawa-kun Kara no Tegami",
+      "creator": "가라 주로"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "한없이 투명에 가까운 블루",
+      "creator": "무라카미 류"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Cellular Pathology Lectures",
+      "creator": "Rudolf Virchow"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "흑맥",
+      "creator": "이문희"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Washi",
+      "creator": "도노베 가오루"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Vive L'Amour",
+      "creator": "Tsai Ming-liang"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "부당거래",
+      "creator": "류승완"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Higanbana ga saku shima",
+      "creator": "리 코토미"
     },
     {
       "list": "korea-publication-award",
@@ -537,9 +3374,44 @@
       "creator": "라울 힐베르크 지음, 김학이 옮김"
     },
     {
-      "list": "korea-publication-award",
-      "title": "중공업 가족의 유토피아",
-      "creator": "양승훈"
+      "list": "blue-dragon-best-film",
+      "title": "그들도 우리처럼",
+      "creator": "박광수"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Love and Empire",
+      "creator": "Érik Orsenna"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Cry, Mother Spain",
+      "creator": "Lydie Salvayre"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "간병입문",
+      "creator": "모부 노리오"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Art",
+      "creator": "Édouard Manet"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "삼일천하",
+      "creator": "신상옥"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Third Symphony",
+      "creator": "Ludwig van Beethoven"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Matter Waves",
+      "creator": "Louis de Broglie"
     },
     {
       "list": "korea-publication-award",
@@ -547,24 +3419,214 @@
       "creator": "김동광·김명진 옮김"
     },
     {
-      "list": "korea-publication-award",
-      "title": "멋지기 때문에 놀러왔지",
-      "creator": "설흔"
+      "list": "venice-golden-lion",
+      "title": "Close to Eden",
+      "creator": "Nikita Mikhalkov"
     },
     {
-      "list": "korea-publication-award",
-      "title": "실크로드 사전",
-      "creator": "정수일"
+      "list": "akutagawa-prize",
+      "title": "The Bodhisattva",
+      "creator": "이시카와 준"
     },
     {
-      "list": "korea-publication-award",
-      "title": "아름다움의 진화",
-      "creator": "리처드 프럼 지음, 양병찬 옮김"
+      "list": "national-book-award-fiction",
+      "title": "Redeployment",
+      "creator": "Phil Klay"
     },
     {
-      "list": "korea-publication-award",
-      "title": "휘말린 날들",
-      "creator": "서보경"
+      "list": "akutagawa-prize",
+      "title": "Shikō Seisho Apatōn",
+      "creator": "마쓰무라 에이코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Mumyōjōya",
+      "creator": "요시다 도모코"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "All the Birds in the Sky",
+      "creator": "Charlie Jane Anders"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Wedding",
+      "creator": "Yann Queffélec"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Periodic Law of the Chemical Elements",
+      "creator": "Dmitri Mendeleev"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Chōkō Deruta",
+      "creator": "다다 유케이"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "도쿄도 동정탑",
+      "creator": "구단 리에"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Rip It Up",
+      "creator": "마치다 고"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "유형의 땅",
+      "creator": "조정래"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "마더",
+      "creator": "봉준호"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "여기 우리 마주",
+      "creator": "최은미"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Darwin's Radio",
+      "creator": "Greg Bear"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Wolves",
+      "creator": "Guy Mazeline"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Lebanon",
+      "creator": "Samuel Maoz"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Ogre",
+      "creator": "Michel Tournier"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "베리에이션 루트",
+      "creator": "마쓰나가 K 산조"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Watching Over Her",
+      "creator": "Jean-Baptiste Andrea"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Creezy",
+      "creator": "Félicien Marceau"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Trading Secrets",
+      "creator": "Paule Constant"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Mendelian Proportions in a Mixed Population",
+      "creator": "G. H. Hardy"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Justice Is Done",
+      "creator": "André Cayatte"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "곰 이야기",
+      "creator": "양귀자"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Anomaly",
+      "creator": "Hervé Le Tellier"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Ingrid Caven",
+      "creator": "Jean-Jacques Schuhl"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "On Floating Bodies",
+      "creator": "Archimedes"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Sekiryō Kōya",
+      "creator": "요시메키 하루히코"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Jerome: or, The Latitude of Love",
+      "creator": "Maurice Bedel"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "어릿광대의 나비",
+      "creator": "엔조 도"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "판문점",
+      "creator": "이호철"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "사랑보다 조금 더 짙은 얼굴",
+      "creator": "임솔아"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Map and the Territory",
+      "creator": "Michel Houellebecq"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "사제와 제물",
+      "creator": "현길언"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "시장",
+      "creator": "이만희"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "유희",
+      "creator": "이양지"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Lost Ones",
+      "creator": "Frédérick Tristan"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "파크 라이프",
+      "creator": "요시다 슈이치"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "The Organizer-Effect in Embryonic Development (Nobel Lecture 1935)",
+      "creator": "Hans Spemann"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "도둑일기",
+      "creator": "김용성"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Princess of Clèves",
+      "creator": "Madame de La Fayette"
     },
     {
       "list": "korea-publication-award",
@@ -572,9 +3634,24 @@
       "creator": "고미숙·한경애 외"
     },
     {
-      "list": "korea-publication-award",
-      "title": "받침 구조대",
-      "creator": "곽미영 글, 이지은 그림"
+      "list": "hyundae-munhak-award-fiction",
+      "title": "타인의 얼굴",
+      "creator": "한수산"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Atsumonozaki",
+      "creator": "나카야마 기슈"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "The World According to Garp",
+      "creator": "John Irving"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "Mating",
+      "creator": "Norman Rush"
     },
     {
       "list": "korea-publication-award",
@@ -582,9 +3659,34 @@
       "creator": "보리"
     },
     {
-      "list": "korea-publication-award",
-      "title": "노동여지도",
-      "creator": "박점규"
+      "list": "akutagawa-prize",
+      "title": "Akazukin-chan Ki o Tsukete",
+      "creator": "쇼지 가오루"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Three Colours: Blue",
+      "creator": "Krzysztof Kieślowski"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Atlantic City",
+      "creator": "Louis Malle"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Poems 1 and 31",
+      "creator": "Sappho"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "좋아하는 마음 없이",
+      "creator": "김지연"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Pélagie: The Return to Acadie",
+      "creator": "Antonine Maillet"
     },
     {
       "list": "korea-publication-award",
@@ -592,9 +3694,124 @@
       "creator": null
     },
     {
+      "list": "venice-golden-lion",
+      "title": "A City of Sadness",
+      "creator": "Hou Hsiao-hsien"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "The Return",
+      "creator": "Andrey Zvyagintsev"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Lacemaker",
+      "creator": "Pascal Lainé"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "바다가 부르는 소리 / 밀랍인형들의 집",
+      "creator": "손영목"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "독짓는 늙은이",
+      "creator": "최하원"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Somewhere",
+      "creator": "Sofia Coppola"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Experiments with Plant Hybridization",
+      "creator": "Gregor Mendel"
+    },
+    {
+      "list": "venice-golden-lion",
+      "title": "Cyclo",
+      "creator": "Tran Anh Hung"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "Vent de Mars",
+      "creator": "Henri Pourrat"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "The Phoenix Tree",
+      "creator": "기자키 사토코"
+    },
+    {
+      "list": "nebula-best-novel",
+      "title": "Timescape",
+      "creator": "Gregory Benford"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "도롱뇽의 49재",
+      "creator": "아사히나 아키"
+    },
+    {
+      "list": "hyundae-munhak-award-fiction",
+      "title": "잉태기 / 오늘과 내일",
+      "creator": "서기원"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Seika no Ichi",
+      "creator": "시바키 요시코"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "중음의 꽃",
+      "creator": "겐유 소큐"
+    },
+    {
       "list": "korea-publication-award",
       "title": "아무튼 시리즈",
       "creator": "위고·제철소·코난북스"
+    },
+    {
+      "list": "blue-dragon-best-film",
+      "title": "밀수",
+      "creator": "류승완"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The French Art of War",
+      "creator": "Alexis Jenni"
+    },
+    {
+      "list": "st-johns-great-books",
+      "title": "Extracts from Lectures on the Elements of Chemistry",
+      "creator": "Joseph Black"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "Fukai Kawa",
+      "creator": "다쿠보 히데오"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The Forests of the Night",
+      "creator": "Jean-Louis Curtis"
+    },
+    {
+      "list": "national-book-award-fiction",
+      "title": "J R",
+      "creator": "William Gaddis"
+    },
+    {
+      "list": "akutagawa-prize",
+      "title": "헌치백",
+      "creator": "이치카와 사오"
+    },
+    {
+      "list": "prix-goncourt",
+      "title": "The House of Scorta",
+      "creator": "Laurent Gaudé"
     }
   ]
 }
