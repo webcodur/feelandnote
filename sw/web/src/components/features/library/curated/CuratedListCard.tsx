@@ -20,8 +20,9 @@ export default function CuratedListCard({ list }: { list: CuratedListSummary }) 
       href={`/library/curated/${list.curatorSlug}/${list.slug}`}
       className="group flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-[#161616]/80 p-4 hover:border-accent/40 hover:bg-[#1b1b1b]/80"
     >
-      {/* 담긴 작품 표지 — 목록 이름만으로는 무엇이 들었는지 알기 어렵다 */}
-      {list.covers.length > 0 && (
+      {/* 담긴 작품 표지 — 목록 이름만으로는 무엇이 들었는지 알기 어렵다.
+          한두 장만 뜨면 빈 칸이 눈에 띄어 오히려 허전하므로 세 장부터 보인다 */}
+      {list.covers.length >= 3 && (
         <div className="-mx-1 mb-0.5 flex gap-1">
           {list.covers.slice(0, 5).map((src, i) => (
             <div key={`${src}-${i}`} className="relative aspect-[3/4] flex-1 overflow-hidden rounded bg-neutral-900">

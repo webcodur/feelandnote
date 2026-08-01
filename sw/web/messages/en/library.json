@@ -409,7 +409,13 @@
         "philosophy": "Philosophy"
       },
       "moreLists": "See {count} more lists",
-      "showRemaining": "Show {count} more"
+      "showRemaining": "Show {count} more",
+      "mediaLabel": {
+        "BOOK": "Books",
+        "VIDEO": "Film & TV",
+        "GAME": "Games",
+        "MUSIC": "Music"
+      }
     }
   }
 }

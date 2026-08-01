@@ -33,7 +33,7 @@ export default async function CuratedPreview({ hub }: { hub: CuratedHub }) {
       for (const c of hub.curators) {
         const list = c.lists[round];
         if (!list) continue;
-        if (wantCovers !== list.covers.length > 0) continue;
+        if (wantCovers !== list.covers.length >= 3) continue;
         if (picked.some((p) => p.list.slug === list.slug)) continue;
         picked.push({ curatorName: c.name, curatorSlug: c.slug, kind: c.kind, list });
         added = true;
@@ -54,7 +54,7 @@ export default async function CuratedPreview({ hub }: { hub: CuratedHub }) {
           className="group overflow-hidden rounded-xl border border-white/[0.06] bg-[#161616]/80 hover:border-accent/40"
         >
           {/* 담긴 작품 표지 — 목록이 무엇인지 글자보다 빨리 알린다 */}
-          {list.covers.length > 0 && (
+          {list.covers.length >= 3 && (
             <div className="flex gap-px bg-black/40">
               {list.covers.slice(0, COVERS_SHOWN).map((src, i) => (
                 <div key={`${src}-${i}`} className="relative aspect-[3/4] flex-1 overflow-hidden bg-neutral-900">

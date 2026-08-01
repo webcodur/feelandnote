@@ -124,8 +124,11 @@ function toListSummary(
 
 /** 목록 앞머리에서 표지 몇 장을 골라온다. 「무엇이 담겼는지」를 글자보다 빨리 알린다 */
 const COVERS_PER_LIST = 5
-/** 앞머리 몇 번째까지 훑을지 — 표지 없는 작품이 섞여 있어 뽑을 수보다 넉넉히 본다 */
-const COVER_SCAN_DEPTH = 14
+/**
+ * 앞머리 몇 번째까지 훑을지 — 표지 없는 작품이 섞여 있어 뽑을 수보다 넉넉히 본다.
+ * 세인트존스처럼 앞이 고대 원전으로 시작하는 목록은 표지가 드물어 깊이 봐야 다섯 장이 찬다.
+ */
+const COVER_SCAN_DEPTH = 30
 
 async function fetchCoversByList(
   supabase: ReturnType<typeof createStaticClient>,
