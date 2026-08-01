@@ -1,6 +1,8 @@
 # 2. 콘텐츠 수집
 
 > **최종 실측 체크: 26.07.30** — 실제 양수 / 활성 미조사 0 / 비활성·조사 완료 0건 -1 규격 반영
+>
+> 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 이 문서의 BOOK 절차는 카카오 기준으로 갱신했다. `external_source`는 신규 등록 시 **`kakao_book`**이다(기존 `naver_book` 4,021건은 그대로 보존). 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 
 ## 핵심 원칙
 
@@ -52,7 +54,7 @@ source_url 없이 user_contents에 INSERT하는 것은 금지한다.
 - **불경**: 금강경, 법화경, 화엄경 등
 - **도덕경**, **논어**, **맹자** 등 동양 경전
 - **타입**: BOOK
-- **검색**: Naver API로 한국어 출판본 우선 (예: "마태오 복음서", "꾸란 한국어")
+- **검색**: 카카오 도서 API로 한국어 출판본 우선 (예: "마태오 복음서", "꾸란 한국어")
 - **ISBN**: 한국어 번역본 ISBN 사용
 - **인용 근거**: 서한, 연설, 저술에서 특정 구절 인용 시 해당 경전 등록
 
@@ -67,6 +69,11 @@ source_url 없이 user_contents에 INSERT하는 것은 금지한다.
 | **본인이 등장하는 작품** | 잔 다르크를 소재로 한 영화/소설/음악 |
 | **본인이 캐릭터로 나오는 작품** | 리처드 1세가 등장하는 게임(에이지 오브 엠파이어), 영화(로빈 후드) |
 | **본인에 관한 전기/다큐** | 인물 전기, 다큐멘터리 |
+
+**커버·연습곡 판정 (26.08.01 기준 확정)**: 가수가 남의 곡을 부른 사실만으로는 등록하지 않는다(그 곡을 "수행"한 것이지 감상한 증거가 아니다). **그 곡을 알게 된 경위나 애착이 함께 진술될 때만 원곡을 등록한다.**
+- ⭕ "연습생 때 일본어를 공부하다 알게 됐고, 옛 기억이 되살아나 직접 불렀다" → 원곡 등록 (김채원 / 우타다 히카루 〈First Love〉)
+- ❌ 팬 정리글에 커버 목록만 있고 본인 언급이 없음 → 기각 (배이 커버곡 3건)
+- 등록 대상은 언제나 **원곡**이지 본인이 부른 커버 영상이 아니다.
 
 ### 증거 수준 기준 (고대~근대 인물 필수)
 
@@ -147,42 +154,39 @@ BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 조사 장부�
 | **403/페이월 사이트** (gatesnotes.com 등) | ❌ 스킵 (차단됨) |
 | **검색 스니펫에 작품 목록 이미 표시** | ❌ 스킵 (중복 작업) |
 
-### Naver 도서 검색 효과적인 방법
+### 카카오 도서 검색 효과적인 방법
 
-- **한국어 제목으로 검색이 가장 효과적** (영어 제목 검색 성공률 ~3%)
-- 한국어 제목을 모르면: 웹 검색으로 한국어 출판명 먼저 파악 → Naver로 검증
-- 영어 제목만으로 Naver 검색 시 대부분 실패하므로, 영어로만 검색하지 말 것
+- **한국어 제목으로 검색이 가장 효과적**. 한국어 제목을 모르면 웹 검색으로 한국어 출판명을 먼저 파악한 뒤 카카오로 검증한다.
+- 카카오는 원서(영문) 판본도 함께 잡히므로 영어 제목 검색도 네이버 시절보다 쓸 만하다. 다만 한국어판이 있으면 한국어판을 우선한다.
+- 카카오는 `target`으로 항목을 지정할 수 있다: `title`·`isbn`·`publisher`·`person`. 래퍼(`kakao-books.ts`)는 검색어가 ISBN 하나뿐이면 자동으로 `target=isbn`으로 전환한다.
 
 **웹 검색으로 한국어 제목 파악**:
 - 온라인 서점(YES24, 교보문고, 알라딘 등) 검색 결과 활용
 - 검색 스니펫에서 한국어 제목 + 출판사 정보 확인
 - 예: "The Odyssey" 검색 → "오디세이아 | 호메로스 | 열린책들" 스니펫 발견
 
-**서점 상품 페이지 실재 게이트 (필수)**:
-- BOOK은 ISBN만 있다고 등록하지 않는다. **YES24·교보문고·알라딘 또는
-  동급의 국내외 대형 온라인 서점 중 최소 1곳에 정확한 ISBN의 상품 상세
-  페이지가 현재 열려야 한다.**
-- 검색엔진 스니펫, 네이버 도서 카탈로그, 출판사 소개, 도서관 소장 정보,
-  OpenLibrary 레코드만으로는 이 게이트를 통과하지 못한다.
-- 상품명·저자·ISBN을 상세 페이지에서 대조한다. 동명 해설서·일부 권·다른
-  번역판이면 실패다.
-- 상품 페이지가 한 곳도 확인되지 않으면 증거가 강해도 `contents`와
-  `user_contents`를 만들지 않고 해당 BOOK 후보를 기각한다. 그 인물의
-  `full` 승격과 Remotion 스캐폴딩에도 사용하지 않는다.
-- `품절`·`절판` 표시는 자동 실패가 아니다. 사용자가 말한 “서점에서 볼 수
-  있음”은 정확한 상품 상세 페이지가 남아 있음을 뜻한다. 상세 페이지 자체가
-  없거나 정확한 판본을 식별할 수 없으면 실패다.
+**판본 실재 게이트 (필수)**:
+- BOOK은 ISBN만 있다고 등록하지 않는다. **그 판본이 실제로 유통되는 물건임을 확인해야 한다.**
+- **카카오 응답의 `status`(→ `metadata.salesStatus`)가 1차 판정 수단이다.** `정상판매`면 통과다. 카카오 검색으로 해당 ISBN이 잡히고 제목·저자가 일치하면 별도 서점 페이지를 열 필요가 없다.
+- `품절`·`절판`은 자동 실패가 아니다. 판본이 식별되면 등록할 수 있다. 다만 이때는 YES24·교보문고·알라딘 중 한 곳에서 그 ISBN의 상품 상세 페이지가 실제로 열리는지 한 번 더 확인한다.
+- `status`가 빈 문자열이거나 카카오에서 해당 ISBN이 안 잡히면 서점 상품 상세 페이지 확인으로 대체한다. 검색엔진 스니펫, 출판사 소개, 도서관 소장 정보, OpenLibrary 레코드만으로는 통과하지 못한다.
+- 제목·저자·ISBN을 대조한다. 동명 해설서·일부 권·다른 번역판이면 실패다.
+- 어느 경로로도 판본이 확인되지 않으면 증거가 강해도 `contents`와 `user_contents`를 만들지 않고 해당 BOOK 후보를 기각한다. 그 인물의 `full` 승격과 Remotion 스캐폴딩에도 사용하지 않는다.
 
-**Naver API 검색 전략**:
+**카카오 검색 전략**:
 1. **1차**: 한국어 제목만으로 검색 (예: "오디세이아")
-2. **2차**: 결과 없거나 동명 다른 책 → 한국어 제목 + 저자명 (예: "오디세이아 호메로스")
-3. **3차**: 여전히 부정확 → 한국어 제목 + 출판사명 (예: "오디세이아 열린책들")
+2. **2차**: 결과가 없거나 동명 다른 책 → 제목 + 저자명 (예: "오디세이아 호메로스")
+3. **3차**: 여전히 부정확 → 제목 + 출판사명 (예: "오디세이아 열린책들")
    - 출판사명은 웹 검색에서 확인된 경우에만 사용
-   - 단순 제목보다 정확도 훨씬 높음 (엉뚱한 동명 책 필터링)
+4. ISBN을 이미 아는 경우 ISBN만으로 조회하면 단건이 정확히 잡힌다
+
+**응답 처리 주의 (네이버와 다른 점)**:
+- `isbn` 필드에 **10자리와 13자리가 한 칸에 붙어 온다**(`"8954655971 9788954655972"`). 13자리를 쓴다.
+- `thumbnail`은 가로 120px로 작고 크기를 키워 요청하면 403이다. `fname` 파라미터에 담긴 원본 주소(`t1.daumcdn.net`)를 꺼내 https로 승격해 쓴다. 래퍼가 이미 처리한다.
+- `authors`가 비고 `translators`만 있는 항목이 있다. 래퍼는 이때 `홍길동 (역)` 형태로 채운다.
 
 **절판 책 및 ISBN 없는 책**:
-- 절판된 책도 ISBN과 위의 **서점 상품 상세 페이지 실재 게이트**를 모두
-  통과하면 등록할 수 있다. Naver API 검색 가능 여부만으로는 부족하다.
+- 절판된 책도 ISBN과 위의 **판본 실재 게이트**를 통과하면 등록할 수 있다.
 - **ISBN이 없는 책은 등록하지 않는다** (고서적, 1970년대 이전 출판물 등)
 - ISBN을 확보할 수 없는 도서는 수집 대상에서 제외. slug ID 생성 금지
 
@@ -190,47 +194,64 @@ BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 조사 장부�
 
 ## 콘텐츠 검색 API
 
-**모든 API 호출은 `jq`로 필요한 필드만 추출한다.**
+### 이 환경(Windows + Git Bash)의 함정 — 착수 전 반드시 읽는다
 
-### BOOK - 네이버 도서 API
+26.08.01 배치에서 8개 작업자가 전원 같은 곳에 걸렸다. 모르고 시작하면 "결과 0건"을 진짜 0건으로 오인한다.
+
+| 함정 | 증상 | 대응 |
+|------|------|------|
+| **curl이 한글 쿼리를 깨뜨린다** | `curl -G --data-urlencode "query=여행의 이유"` → **에러 없이 0건**. 시스템 코드페이지(949)로 인코딩돼 나간다 | Python `urllib.parse.quote`로 미리 퍼센트 인코딩한 URL을 박거나, Python에서 직접 호출한다. **0건이 나오면 먼저 이걸 의심한다** |
+| `jq`가 없다 | `jq: command not found` | `node -e`로 JSON 파싱 |
+| `python3`가 Windows Store 스텁 | 인자를 무시하고 exit 49 | `python`을 쓰거나 `/c/Users/webco/AppData/Local/Programs/Python/Python312/python.exe` |
+| 한글 출력이 깨진다 | `UnicodeEncodeError: 'cp949'` | 모든 python 호출에 `PYTHONIOENCODING=utf-8` |
+| Windows python이 `/tmp`를 못 읽는다 | 파일 없음 오류 | 스크래치패드 절대경로(`C:/Users/...`) 사용 |
+| **스크래치패드를 다른 세션과 공유한다** | 같은 파일명이 덮어써진다 | 파일명에 작업자 접두어를 붙인다 |
+| **WebSearch 세션 한도 200회** | 배치 도중(때로는 시작 전부터) 소진 | `html.duckduckgo.com/html/?q=` 또는 `lite.duckduckgo.com`을 WebFetch로 열기, Bing 병행. 차단 URL은 `r.jina.ai/{URL}` 프록시나 `insane-search` 스킬 |
+| 유튜브 인터뷰 | 본문이 영상 안에만 있음 | `yt-dlp`로 자막 추출 — 실제로 여러 건이 이 경로로만 확인됐다 |
+
+**후보 탐색 캐시(등록 근거로는 쓰지 않는다)**: `favorbook.co.kr/share/{이름}.html`, `polarbooks.kr/bookshelf/{이름}` — 셀럽 독서 기록을 원본 링크와 함께 모아둔 곳이라 후보를 빠르게 훑기 좋다. **반드시 원본 인터뷰를 열어 재확인한 뒤 등록한다.**
+
+### BOOK - 카카오 도서 API
 
 ```bash
-export $(grep -E "^NAVER_" ./sw/web-bo/.env | xargs) && \
-curl -s "https://openapi.naver.com/v1/search/book.json?query={검색어}&display=3" \
-  -H "X-Naver-Client-Id: $NAVER_CLIENT_ID" \
-  -H "X-Naver-Client-Secret: $NAVER_CLIENT_SECRET" \
-| jq '[.items[] | {isbn, title, author, image}]'
+export $(grep -E "^KAKAO_REST_API_KEY" ./sw/web-bo/.env | xargs) && \
+curl -s -G "https://dapi.kakao.com/v3/search/book" \
+  --data-urlencode "query={검색어}" --data-urlencode "size=3" \
+  -H "Authorization: KakaoAK $KAKAO_REST_API_KEY" \
+| jq '[.documents[] | {isbn, title, authors, publisher, status, thumbnail}]'
 ```
+
+- ISBN 지정 조회: `--data-urlencode "target=isbn"` 추가
+- 코드에서는 `packages/content-search/src/kakao-books.ts`의 `searchBooks`·`getBookByIsbn`을 쓴다(ISBN 선택·표지 원본 추출·판매 상태 매핑이 들어 있다).
 
 **한국어 출판명 매칭 순서**: `{한국어 제목} {저자}` → `{영문 제목} 번역` → `{영문 제목} {저자}`
 
 **⚠️ 매칭 실패 시 폴백 규칙 (필수):**
-- Naver API에서 한국어 판본을 확인하지 못하면 **영어 원제 + 영문 저자를 그대로 유지**한다
+- 카카오에서 한국어 판본을 확인하지 못하면 **영어 원제 + 영문 저자를 그대로 유지**한다
 - 임의 번역 절대 금지: 영어 제목을 한국어로 번역하여 등록하는 행위는 금지
 - 저자명도 동일: 한국어 출판물에 표기된 저자명만 사용, 임의 음차 금지
-- 썸네일도 동일: Naver에서 한국어 판본 확인 시 Naver 이미지로 교체, 미확인 시 기존 유지
+- 썸네일도 동일: 한국어 판본 확인 시 그 표지로 교체, 미확인 시 기존 유지
 
-**⚠️ Naver 검색 false positive 패턴 (반드시 확인):**
+**⚠️ 도서 검색 false positive 패턴 (반드시 확인):**
 
 | 패턴 | 예시 | 대응 |
 |------|------|------|
 | 영문 원서의 한국 유통판 | "양장본", "반양장", "영문판" 표기 | 제목 첫 6자가 한국어인지 확인 |
 | 키워드 겹치는 다른 책 | "Orca" 검색 → 오르카 모의고사 | 저자명 일치 여부 교차 확인 |
-| 동명 다른 책 | Man's Search for Meaning → 내 삶의 의미는 무엇인가(이시형) | 원저자와 Naver 결과 저자 비교 필수 |
-| 번역자가 저자로 표시 | 프린키피아 by 송은영(번역자) | creator는 원저자로 등록 |
+| 동명 다른 책 | Man's Search for Meaning → 내 삶의 의미는 무엇인가(이시형) | 원저자와 검색 결과 저자 비교 필수 |
+| 번역자가 저자로 표시 | 프린키피아 by 송은영(번역자) | creator는 원저자로 등록. 카카오는 `authors`/`translators`가 분리돼 있어 판별이 쉽다 |
 | 학습서/필사본 | "따라쓰기", "필사", "모의고사" | 제목에 해당 키워드 포함 시 제외 |
 | 제목 접두어 오염 | "[그래제본소]", "논술세계대표문학 55" | 대괄호/시리즈명 제거 후 등록 |
-| **동명 해설서** | "사회적 행위의 구조"(정창수) vs 파슨스 원서 | creator가 원저자인지 반드시 확인. description에 "~를 분석", "~를 해설" 등이 있으면 해설서 |
-
-**현실적 매칭률**: 영어 도서의 ~20%만 Naver에서 한국어 판본 발견 가능. 나머지는 영어 유지가 정상이다.
+| **동명 해설서** | "사회적 행위의 구조"(정창수) vs 파슨스 원서 | creator가 원저자인지 반드시 확인. 소개문에 "~를 분석", "~를 해설" 등이 있으면 해설서 |
 
 ### VIDEO - TMDB API
 
+⚠️ **`.env`에 있는 변수는 `TMDB_API_KEY`(v3 키) 하나뿐이다.** 예전 룰북이 적어 둔 `TMDB_ACCESS_TOKEN`(Bearer 방식)은 이 프로젝트에 없어서 401이 난다. 쿼리 파라미터 방식을 쓴다.
+
 ```bash
-export $(grep -E "^TMDB_" ./sw/web/.env | xargs) && \
-curl -s "https://api.themoviedb.org/3/search/movie?query={검색어}&language=ko-KR" \
-  -H "Authorization: Bearer $TMDB_ACCESS_TOKEN" \
-| jq '[.results[:3] | .[] | {id, title, poster_path}]'
+export $(grep -E "^TMDB_API_KEY" ./sw/web/.env | xargs) && \
+curl -s "https://api.themoviedb.org/3/search/movie?api_key=$TMDB_API_KEY&query={검색어}&language=ko-KR" \
+| node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>console.log(JSON.stringify(JSON.parse(s).results.slice(0,3).map(({id,title,poster_path})=>({id,title,poster_path})),null,1)))"
 ```
 
 poster_path → `https://image.tmdb.org/t/p/w500` + path
@@ -246,7 +267,15 @@ curl -s "https://api.igdb.com/v4/games" \
 | jq '[.[] | {id, name, cover_url: .cover.url}]'
 ```
 
-### MUSIC - Spotify API
+### MUSIC - Spotify API 〔🔴 26.08.01 차단 — 신규 등록 불가〕
+
+**토큰 발급은 되지만 모든 조회가 거부된다.** `/v1/search`·`/v1/albums/{id}` 공히 `Active premium subscription required for the owner of the app`을 반환한다(26.08.01 실측). 앱 소유 계정에 Spotify 유료 구독이 없으면 client_credentials 방식 자체가 막히도록 정책이 바뀐 것으로 보인다.
+
+- **MUSIC 신규 등록은 현재 불가능하다.** 곡을 좋아한다는 A급 증거를 확보해도 메타를 잡을 수 없어 보류한다(실제로 이번 회차에서 박소담·김고은·이병헌 건이 이 사유로 등록되지 못했다).
+- 부분 우회: `https://open.spotify.com/oembed?url={트랙·앨범 URL}`은 인증 없이 제목·썸네일을 준다. 다만 트랙 URL을 이미 알고 있어야 하고 ISRC·앨범 메타는 못 얻는다.
+- 해소하려면 앱 소유 계정에 Spotify 유료 구독을 붙이거나 다른 음악 메타 출처를 도입해야 한다. 그 전까지 MUSIC 후보는 조사 장부에만 남긴다.
+
+### MUSIC - Spotify API (참고용 호출 규격)
 
 ```bash
 export $(grep -E "^SPOTIFY_" ./sw/web/.env | xargs) && \
@@ -273,9 +302,9 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 | 테이블.컬럼 | locale | 설명 | 확보 방법 |
 |-------------|--------|------|-----------|
-| `content_locales.isbn` | ko | 한국어 판본 ISBN | Naver 도서 API |
+| `content_locales.isbn` | ko | 한국어 판본 ISBN | 카카오 도서 API |
 | `content_locales.isbn` | en | 영어 판본 ISBN | OpenLibrary / Amazon / 출판사 직검색 (아래 분기) |
-| `content_locales.title` | ko | 한국어 제목 | Naver 검색 결과 |
+| `content_locales.title` | ko | 한국어 제목 | 카카오 검색 결과 |
 | `content_locales.title` | en | 영문 제목 | 원서 정보 (아래 분기) |
 | `content_locales.creator` | en | 영문 저자명 | 원서 정보 (아래 분기) |
 
@@ -307,7 +336,7 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 **3) 서양 원서** — 영문이 원전
 - 위 4단계 그대로 적용
-- Naver 검색 결과의 `description`/`pubdate`에서 원서 정보 보충 가능
+- 카카오 검색 결과의 `contents`(소개문)/`datetime`에서 원서 정보 보충 가능
 - OpenLibrary·Goodreads 모두 실패하면 영문 줄 등록 폐기 (아마존 스크래핑 금지 — 공식 API 부재·접근권 제한·실사용 0건)
 
 ### VIDEO/GAME/MUSIC i18n
@@ -348,7 +377,7 @@ RETURNING id, external_id;
 -- 2) content_locales (한국어) — 로케일 데이터의 유일한 저장소
 INSERT INTO content_locales (content_id, locale, title, creator, thumbnail_url, isbn, sources, verified)
 VALUES
-  ('{uuid}', 'ko', '{한국어제목}', '{한국어저자}', '{썸네일}', '{isbn_ko}', '{"primary":"naver_book"}', true),
+  ('{uuid}', 'ko', '{한국어제목}', '{한국어저자}', '{썸네일}', '{isbn_ko}', '{"primary":"kakao_book"}', true),
   ...
 ON CONFLICT (content_id, locale) DO NOTHING;
 
@@ -374,7 +403,8 @@ VALUES
 ```
 
 **external_source 값** (contents 테이블 — 책 1권의 1차 메타 출처. 그 책의 ISBN·표지를 어디서 잡았는가):
-- BOOK: `naver_book` (한국어판 있을 때 기본) / `openlibrary` (영문 원서만 있을 때)
+- BOOK: `kakao_book` (한국어판 있을 때 기본) / `openlibrary` (영문 원서만 있을 때) / `aladin` (카카오에 없어 서점 상품 페이지로 직접 잡은 경우)
+  - ~~`naver_book`~~ 은 26.07.31 API 종료로 신규 사용 금지. 기존 4,021건은 보존한다
 - VIDEO: `tmdb`
 - GAME: `igdb`
 - MUSIC: `spotify`
@@ -464,7 +494,7 @@ VALUES
 
 | 변수명 | 용도 | 타입 |
 |--------|------|------|
-| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 네이버 도서 API | BOOK (한국어판) |
+| `KAKAO_REST_API_KEY` | 카카오 도서 API | BOOK (한국어판). 앱 `feelandnote`(ID 1366184)의 REST API 키 |
 | ~~`GOOGLE_BOOKS_API_KEY`~~ | ~~구글 도서 API~~ | **사용 금지** (위 "영문판 매칭 분기" 참조) |
 | `TMDB_ACCESS_TOKEN` | TMDB API | VIDEO |
 | `IGDB_CLIENT_ID` / `IGDB_ACCESS_TOKEN` | IGDB API | GAME |

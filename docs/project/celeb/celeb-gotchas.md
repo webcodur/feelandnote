@@ -94,9 +94,11 @@ DB 함수 **시그니처 변경이 배포 시차 사고**를 만든다. 옛 시�
 
 ---
 
-## 6. 책 메타 출처 제한 — naver_book / openlibrary만
+## 6. 책 메타 출처 제한 — kakao_book / openlibrary만
 
-celeb-2-content-collector 파이프라인에서 `contents.external_source` 값은 BOOK일 때 **naver_book**(한국어판) 또는 **openlibrary**(영문 원서) 두 가지만 쓴다. 룰북: `docs/project/celeb/celeb-2-content-collector.md`의 "영문판 매칭 분기" / "external_source 값" 절.
+> 🔄 **26.08.01 한국어판 출처가 네이버 → 카카오로 바뀌었다.** 네이버가 검색 API 중 「쇼핑·책·전문자료」를 2026-07-31자로 종료했고([공지 32564](https://developers.naver.com/notice/article/32564)), 래퍼와 전용 스크립트는 전량 제거했다. **`naver_book`을 신규 등록에 쓰지 마라. `naver-books` 래퍼를 다시 만들지도 마라** — 되살릴 API가 없다. 기존 `naver_book` 4,021건은 데이터로 보존한다. 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
+
+celeb-2-content-collector 파이프라인에서 `contents.external_source` 값은 BOOK일 때 **kakao_book**(한국어판) 또는 **openlibrary**(영문 원서)를 쓴다. 카카오에 없어 서점 상품 페이지로 직접 잡은 경우만 **aladin**을 쓴다. 룰북: `docs/project/celeb/celeb-2-content-collector.md`의 "영문판 매칭 분기" / "external_source 값" 절.
 
 - **google_books 금지**: 키 만료가 잦고 동양 고전에서 한자 음차본·해설서 false positive가 많다. 기존 250건은 보존을 위해 enum에 남아 있으나 신규 사용 금지.
   - **서지 조회뿐 아니라 「책 본문에 이 문장이 있는지」 확인 용도로도 쓰지 마라.** 같은 일일 할당량을 공유해 금방 막힌다(26.07.27 실제로 소진). 본문 대조는 OpenLibrary로 아카이브 아이템 id를 찾는 데까지만 되고, 그 다음이 전부 막혀 있다(실측): 전문 텍스트 `_djvu.txt`는 대출 제한 도서면 401/403, 아카이브 본문 검색 `BookReader/BookReaderSearch.php`는 404로 폐기, `api.archivelab.org` 접속 거부, `ia-pub-fts-api.archive.org` DNS 부재, HathiTrust 전문 검색 403. **즉 저작권 있는 현대 서적의 본문 인용 확정은 온라인으로 불가하다** — 못 하는 일에 시간을 쓰지 말고 미확인으로 보고하라.
@@ -104,7 +106,7 @@ celeb-2-content-collector 파이프라인에서 `contents.external_source` 값�
 - **wikipedia 금지**: ISBN 없는 책은 독자가 그 책으로 도달할 수단이 없다. 영역본이 없는 동양 고전은 **영문 줄 등록 자체를 폐기**하고 ko 줄만 유지한다.
 
 **적용 분기**
-- 한국어판 있는 책: `external_source='naver_book'`, ko 줄 채움, en 줄은 OpenLibrary로 영문 메타를 잡아 채운다.
+- 한국어판 있는 책: `external_source='kakao_book'`, ko 줄 채움, en 줄은 OpenLibrary로 영문 메타를 잡아 채운다.
 - 영문 원서만 있는 책: `external_source='openlibrary'`, en 줄만 채운다(ko 줄 미등록 또는 음역).
 - 영역본도 OpenLibrary로 못 잡는 책: 영문 줄 등록 폐기. 무리해서 등록하지 않는다.
 

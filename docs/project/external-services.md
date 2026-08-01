@@ -196,6 +196,93 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - [ ] CelebDetailModal 같은 클라 모달에 SWR 도입 (client-swr-dedup)
 - [ ] Pro 업그레이드 검토 ($25/월, 250GB egress)
 
+## 외부 콘텐츠 검색 API
+
+콘텐츠(도서·영상·게임·음악) 메타 조회에 쓰는 외부 API. 래퍼는 `packages/content-search/`.
+
+| 유형 | 제공처 | 상태 (26.08.01 실측) |
+|------|--------|------|
+| BOOK (한국어판) | **카카오(다음) 도서 검색** | 정상 (`kakao-books.ts`). ~~네이버 도서 검색~~은 26.07.31 종료 |
+| BOOK (영문 원서) | OpenLibrary | 정상 |
+| VIDEO | TMDB | 정상 |
+| GAME | IGDB | 정상 |
+| MUSIC | Spotify | 정상 |
+| 뉴스·블로그·이미지 | 네이버 검색 | 정상 (`naver-news.ts`·`naver-blog.ts`·`naver-image.ts`) |
+
+### 네이버 도서 검색 API 종료 (2026-07-31)
+
+**네이버가 검색 API 중 「쇼핑·책·전문자료」 세 종을 2026년 7월 31일자로 종료했다.** 공지: [developers.naver.com/notice/article/32564](https://developers.naver.com/notice/article/32564). 문의처는 공지에 `dl_naver_search_api@navercorp.com`으로 안내돼 있다.
+
+**실측(26.08.01)**
+
+- `openapi.naver.com/v1/search/book.json`·`book.xml`·`book_adv.json` 전부 **HTTP 404 + `SE05 Invalid search api`**. 쇼핑·영화도 동일(영화는 이 공지 대상이 아니므로 그 이전에 종료된 것으로 보이나 미확인).
+- 같은 키로 뉴스·블로그·이미지·백과·지식iN은 **HTTP 200 정상**. 즉 키·앱 설정 문제가 아니다.
+- 개발자센터 앱(`feelandnote`)의 「사용 API」에는 검색이 그대로 남아 있고 서비스 URL도 등록돼 있다. **설정을 고쳐도 복구되지 않는다.** 신규 앱을 만들면 「사용 API」 드롭다운에 검색 자체가 없다(신규 발급 중단).
+- **API 문서 페이지는 아직 살아 있고 종료 문구가 없다**(하루 25,000회 한도 안내까지 그대로). 문서를 근거로 "되어야 한다"고 판단하지 마라 — 실제 호출이 진실이다.
+- 마지막 정상 동작 시점: **2026-07-30 11:10 KST**(그때 등록된 책들의 표지 URL이 네이버 쇼핑 이미지 서버로 남아 있다).
+
+**영향 범위 (전환 완료 — 26.08.01)**
+
+- 서비스 사용자 기능 3종은 카카오로 옮겨 복구했다: 통합 검색의 책(`sw/web/src/actions/search/searchContents.ts`), 기록 추가 시 책 찾기(`actions/contents/searchBooks.ts`), 콘텐츠 상세·메타 재조회(`getContentById.ts`·`fetchContentMetadata.ts`).
+- **네이버 도서 코드는 전량 제거했다**(26.08.01). 되살릴 API가 없어 폴백으로도 남기지 않았다.
+  - `packages/content-search/src/naver-books.ts`(래퍼)와 package.json의 `./naver-books` export
+  - 표지 정비 스크립트 4종 `scripts/naver-thumb-{verify,refresh,title-search,author-search}.mjs` — 네이버 ISBN 검색 전용이라 통째로 폐기. 표지 정비가 다시 필요하면 카카오 기준으로 새로 만든다
+  - fiction 원전 등록 스크립트 2종 `sw/web-bo/scripts/{search-naver-fiction-sources,sync-fiction-source-rosters}.ts` — 26.07.29 완료된 일회성 작업이고 결과는 DB와 `celeb-pipeline.md`「현행 연결 기준선」에 남아 있다. 회수하려면 `git show <삭제 직전 커밋>:<경로>`
+- 네이버 **뉴스·블로그·이미지** 래퍼는 그대로 쓴다(같은 키, 정상 동작).
+- 셀럽 콘텐츠 수집 파이프라인의 BOOK 트랙(`docs/project/celeb/celeb-2-content-collector.md`)도 카카오 기준으로 갱신했다.
+
+### 카카오(다음) 도서 검색 — 네이버 대체 (26.08.01 전환)
+
+- 래퍼: `packages/content-search/src/kakao-books.ts`. 반환 타입을 네이버와 같은 모양으로 맞춰 호출부는 import 경로만 바꿨다.
+- 키: `KAKAO_REST_API_KEY`(`sw/web/.env`·`sw/web-bo/.env`). 카카오 앱 `feelandnote`(ID 1366184)의 REST API 키이며, 책 검색은 별도 제품 설정·심사 없이 이 키만으로 호출된다.
+- `contents.external_source`에 **`kakao_book`을 추가**했다(마이그레이션 `add_kakao_book_external_source`). 기존 `naver_book` 4,021건은 그대로 보존한다. 같은 마이그레이션에서 `aladin`도 허용값에 넣었다(API 없이 상품 페이지로 잡은 건을 정직하게 표기하기 위함).
+
+**네이버와 다른 점 (구현 시 주의)**
+
+| 항목 | 카카오의 동작 |
+|------|---------------|
+| ISBN | `"8954655971 9788954655972"`처럼 10자리·13자리가 한 칸에 온다. `pickIsbn()`이 13자리를 우선 고른다 |
+| 표지 | 응답 `thumbnail`은 R120x174로 작고, 크기를 키워 요청하면 403이다. `fname` 파라미터에 담긴 다음 원본 주소(`t1.daumcdn.net`)를 꺼내 https로 승격해 쓴다 |
+| 판매 상태 | `status`(정상판매·품절·절판)가 응답에 들어온다 → `metadata.salesStatus`. **서점 상품 페이지 실재 확인을 이걸로 대신할 수 있다** |
+| 지정 검색 | `target=title\|isbn\|publisher\|person`. 검색어가 ISBN 하나면 자동으로 `target=isbn`으로 전환한다 |
+| 페이지 | `page` 1~50, `size` 1~50. `meta.is_end`로 다음 쪽 유무를 판단한다 |
+
+**실측 검증(26.08.01)**: 제목 검색 63건, ISBN 단건 조회, "제목 - 저자" 형식 383건, 결과 없음 0건 모두 정상. `sw/web`·`sw/web-bo` 타입 검사 통과.
+
+**카카오 커버리지 실측 (26.08.01, ISBN 지정 조회)**
+
+| 표본 | 적중 | 실패 내역 |
+|------|-----:|-----------|
+| 기존 등록 한국어판 65건(무작위) | **65 / 65 (100%)** | 없음 |
+| 기존 등록 원서(해외 ISBN) 55건 | 52 / 55 (94%) | 영문 워크북·강의록·고전 영역본 3건 — OpenLibrary 담당 영역 |
+| 26.08.01 서점 페이지로 우회 등록한 11건 | 9 / 11 (81%) | 절판 한국 만화 2건(《괴협전 1》·《아일랜드 1》) |
+
+**판정: 알라딘 API는 붙이지 않는다.** 한국어판을 100% 잡으므로 대체가 완결됐다. 카카오가 놓치는 것은 ① 영문 원서 일부(OpenLibrary가 맡는 몫)와 ② 절판된 한국 구간 도서 소수뿐이고, 후자는 룰북의 예외 경로(서점 상품 상세 페이지를 사람이 직접 확인)로 처리하면 된다. 알라딘 TTB는 키 신청·승인이 필요하고 일 호출 상한도 있어 이만한 이득으로 들일 비용이 아니다.
+
+- **`aladin` 출처값은 코드 연결 없이 표기 전용으로만 존재한다.** 카카오에 없어 사람이 서점 페이지를 열어 ISBN·표지를 확보한 건을 정직하게 적기 위한 값이며, 이를 조회하는 API 래퍼는 없다(의도된 상태). 26.08.01 기준 2건.
+- 알라딘을 실제로 붙여야 할 상황: 절판 구간 도서를 대량으로 다뤄야 할 때. 그때 TTB 키를 신청한다.
+
+### 기존 네이버 자산의 상태 (26.08.01 점검)
+
+검색 API 종료가 **이미 등록된 데이터에 미치는 영향은 없다.** 항목별 실측:
+
+| 자산 | 규모 | 상태 |
+|------|-----:|------|
+| 표지 이미지 `shopping-phinf.pstatic.net` | ko 3,428 · en 34 | **정상.** 무작위 20건 전부 HTTP 200. 이미지 서버는 검색 API와 별개 인프라다 |
+| 표지 이미지 `bookthumb-phinf.pstatic.net` | ko 4 | 옛 네이버 책 서비스 썸네일. 건수가 미미해 방치 |
+| `contents.metadata.link`(네이버 도서 상세) | 1,054 | **살아 있다.** 봇 차단(418·405)이라 일반 curl로는 판정이 안 되지만, insane-search 엔진으로 열어보니 정상 페이지였다(제목 "○○ : 네이버 도서", 교보·알라딘·영풍·예스24 판매처 표시). **검색 API만 끊겼고 도서 상세 페이지 서비스는 유지 중이다.** 다만 화면 어디에서도 이 값을 쓰지 않는다(전수 grep 확인) |
+| `external_source='naver_book'` | 4,021 | 값으로 계속 유효. 로케일 판정·품질 감사·표지 편집 화면 모두 인식하도록 유지했다 |
+| 메타 재조회 | — | 카카오가 같은 ISBN을 잡으므로 기존 건도 정상 갱신된다(한국어판 표본 100% 적중) |
+
+**남은 위험 하나**: 네이버가 검색 API를 걷는 흐름이라면 이미지 서버도 언젠가 정리될 수 있다. 그날이 오면 표지 3,466건이 한꺼번에 깨진다. 감시 수단으로 `scripts/naver-thumb-check.mjs`(저장된 표지 URL 전수 생존 검사)를 남겨 뒀다 — 다른 네이버 도서 스크립트는 삭제했지만 이것만은 이 용도로 유지한다. 실제로 깨지기 시작하면 카카오 표지로 교체하거나 R2로 옮긴다.
+
+**보류한 후보**
+
+| 후보 | 확인 결과 |
+|------|-----------|
+| 알라딘 TTB | 응답은 하나 "API출력이 금지된 회원"이라 정식 키 신청 필요. 위 실측으로 **현 시점 불필요 판정** |
+| 국립중앙도서관 서지 | HTTP 200. 서지는 정확하나 표지가 약해 단독으로는 부족 |
+
 ## Cloudflare R2 (이미지 저장소)
 셀럽 아바타 이미지를 Cloudflare R2에 저장한다. S3 호환 API 사용.
 - **버킷명**: `feelandnote`
