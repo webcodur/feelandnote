@@ -1,18 +1,18 @@
 // 통합 외부 API 검색 모듈
 
-import { searchBooks as searchNaverBooks, type BookSearchResult } from './naver-books'
+import { searchBooks as searchKakaoBooks, type KakaoBookSearchResult } from './kakao-books'
 import { searchGoogleBooks, type GoogleBookSearchResult } from './google-books'
 import { searchVideo, type VideoSearchResult } from './tmdb'
 import { searchGames, type GameSearchResult } from './igdb'
 import { searchMusic, type MusicSearchResult } from './spotify'
 import type { ContentType, SearchResponse } from './types'
 
-// 통합 도서 검색 결과 타입 (네이버 + Google Books)
-export type UnifiedBookSearchResult = BookSearchResult | GoogleBookSearchResult
+// 통합 도서 검색 결과 타입 (카카오 + Google Books)
+export type UnifiedBookSearchResult = KakaoBookSearchResult | GoogleBookSearchResult
 
 // 통합 검색 결과 타입
 export type ExternalSearchResult =
-  | BookSearchResult
+  | KakaoBookSearchResult
   | GoogleBookSearchResult
   | VideoSearchResult
   | GameSearchResult
@@ -30,25 +30,16 @@ function mergeBookResults(
   return [...primaryItems, ...uniqueSecondaryItems]
 }
 
-// 도서 검색 (네이버 우선 - 사용자용)
-async function searchBooksNaverFirst(query: string, page: number): Promise<SearchResponse<ExternalSearchResult>> {
-  const naverResult = await searchNaverBooks(query, page)
-
-  if (naverResult.items.length >= 10) {
-    return {
-      items: naverResult.items,
-      total: naverResult.total,
-      hasMore: naverResult.hasMore,
-    }
-  }
-
-  const googleResult = await searchGoogleBooks(query, page)
-  const mergedItems = mergeBookResults(naverResult.items, googleResult.items)
+// 도서 검색 (카카오 - 사용자용 기본)
+// 네이버 도서 API가 26.07.31 종료되어 카카오가 그 자리를 대신한다.
+// Google Books는 일일 한도 1,000건이라 폴백으로도 쓰지 않는다(AGENTS.md).
+async function searchBooksKakaoFirst(query: string, page: number): Promise<SearchResponse<ExternalSearchResult>> {
+  const kakaoResult = await searchKakaoBooks(query, page)
 
   return {
-    items: mergedItems,
-    total: Math.max(naverResult.total, googleResult.total),
-    hasMore: naverResult.hasMore || googleResult.hasMore,
+    items: kakaoResult.items,
+    total: kakaoResult.total,
+    hasMore: kakaoResult.hasMore,
   }
 }
 
@@ -64,19 +55,19 @@ async function searchBooksGoogleFirst(query: string, page: number): Promise<Sear
     }
   }
 
-  const naverResult = await searchNaverBooks(query, page)
-  const mergedItems = mergeBookResults(googleResult.items, naverResult.items)
+  const kakaoResult = await searchKakaoBooks(query, page)
+  const mergedItems = mergeBookResults(googleResult.items, kakaoResult.items)
 
   return {
     items: mergedItems,
-    total: Math.max(googleResult.total, naverResult.total),
-    hasMore: googleResult.hasMore || naverResult.hasMore,
+    total: Math.max(googleResult.total, kakaoResult.total),
+    hasMore: googleResult.hasMore || kakaoResult.hasMore,
   }
 }
 
 // 콘텐츠 타입별 검색 함수 매핑
 const searchFunctions: Record<ContentType, (query: string, page?: number) => Promise<SearchResponse<ExternalSearchResult>>> = {
-  BOOK: (query, page = 1) => searchBooksNaverFirst(query, page),
+  BOOK: (query, page = 1) => searchBooksKakaoFirst(query, page),
   VIDEO: async (query, page = 1) => {
     const result = await searchVideo(query, page)
     return {
@@ -118,7 +109,7 @@ export async function searchExternal(
   if (contentType === 'BOOK') {
     return options.preferGoogle
       ? searchBooksGoogleFirst(query, page)
-      : searchBooksNaverFirst(query, page)
+      : searchBooksKakaoFirst(query, page)
   }
 
   const searchFn = searchFunctions[contentType]
@@ -149,7 +140,7 @@ export function toContentRecord(result: ExternalSearchResult): {
 
 // Re-export types for convenience
 export type { ContentType, SearchResponse } from './types'
-export type { BookSearchResult } from './naver-books'
+export type { KakaoBookSearchResult } from './kakao-books'
 export type { GoogleBookSearchResult } from './google-books'
 export type { VideoSearchResult, VideoSubtype, VideoEnLocale } from './tmdb'
 export { getVideoEnLocale } from './tmdb'

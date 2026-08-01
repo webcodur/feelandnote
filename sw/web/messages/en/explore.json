@@ -406,7 +406,7 @@
       "music": "Music"
     },
     "apiSource": {
-      "book": "Naver Books API",
+      "book": "Kakao Book Search",
       "video": "TMDB",
       "game": "IGDB",
       "music": "Spotify"

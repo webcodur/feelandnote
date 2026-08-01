@@ -18,7 +18,7 @@ export const CATEGORY_SEARCH_GUIDE_KEYS: Partial<Record<CategoryId, string>> = {
 
 // 카테고리별 API 출처 URL
 export const API_SOURCE_URL: Record<Exclude<CategoryId, "all">, string> = {
-  book: "https://developers.naver.com/docs/serviceapi/search/book/book.md",
+  book: "https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-book",
   video: "https://www.themoviedb.org",
   game: "https://www.igdb.com",
   music: "https://developer.spotify.com",

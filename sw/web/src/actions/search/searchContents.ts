@@ -1,6 +1,6 @@
 'use server'
 
-import { searchBooks } from '@feelandnote/content-search/naver-books'
+import { searchBooks } from '@feelandnote/content-search/kakao-books'
 import { searchVideo } from '@feelandnote/content-search/tmdb'
 import { searchGames } from '@feelandnote/content-search/igdb'
 import { searchMusic } from '@feelandnote/content-search/spotify'

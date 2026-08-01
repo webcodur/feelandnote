@@ -87,7 +87,8 @@ export async function createContentFromExternal(
     }
 
     // content_locales에 로케일 데이터 저장
-    const locale = (['naver_book', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
+    // naver_book은 26.07.31 API 종료 전 등록분. 값 자체는 살아 있어 판정 대상에 남긴다
+    const locale = (['kakao_book', 'aladin', 'naver_book', 'tmdb'].includes(input.externalSource || '')) ? 'ko' : 'en'
     await supabase.from('content_locales').insert({
       content_id: newContent.id,
       locale,
