@@ -1,0 +1,202 @@
+[
+ {
+  "slug": "academie-goncourt",
+  "name": "공쿠르 아카데미",
+  "name_en": "Académie Goncourt",
+  "kind": "award",
+  "country": "FR",
+  "homepage_url": "https://www.academiegoncourt.com"
+ },
+ {
+  "slug": "academy-awards",
+  "name": "미국 영화예술과학아카데미",
+  "name_en": "Academy of Motion Picture Arts and Sciences",
+  "kind": "award",
+  "country": "US",
+  "homepage_url": "https://www.oscars.org"
+ },
+ {
+  "slug": "blue-dragon-film-awards",
+  "name": "청룡영화상",
+  "name_en": "Blue Dragon Film Awards",
+  "kind": "award",
+  "country": "KR",
+  "homepage_url": null
+ },
+ {
+  "slug": "booker-prize-foundation",
+  "name": "부커상 재단",
+  "name_en": "The Booker Prize Foundation",
+  "kind": "award",
+  "country": "GB",
+  "homepage_url": "https://thebookerprizes.com"
+ },
+ {
+  "slug": "hugo-awards",
+  "name": "휴고상",
+  "name_en": "The Hugo Awards",
+  "kind": "award",
+  "country": "US",
+  "homepage_url": "https://www.thehugoawards.org"
+ },
+ {
+  "slug": "munhaksasang",
+  "name": "문학사상사",
+  "name_en": "Munhaksasang",
+  "kind": "award",
+  "country": "KR",
+  "homepage_url": null
+ },
+ {
+  "slug": "mystery-writers-of-america",
+  "name": "미국추리작가협회",
+  "name_en": "Mystery Writers of America",
+  "kind": "award",
+  "country": "US",
+  "homepage_url": "https://mysterywriters.org"
+ },
+ {
+  "slug": "national-book-foundation",
+  "name": "전미도서재단",
+  "name_en": "National Book Foundation",
+  "kind": "award",
+  "country": "US",
+  "homepage_url": "https://www.nationalbook.org"
+ },
+ {
+  "slug": "nihon-bungaku-shinkokai",
+  "name": "일본문학진흥회",
+  "name_en": "Society for the Promotion of Japanese Literature",
+  "kind": "award",
+  "country": "JP",
+  "homepage_url": "https://bungakushinko.or.jp"
+ },
+ {
+  "slug": "pulitzer-prize",
+  "name": "퓰리처상",
+  "name_en": "The Pulitzer Prizes",
+  "kind": "award",
+  "country": "US",
+  "homepage_url": "https://www.pulitzer.org"
+ },
+ {
+  "slug": "sfwa",
+  "name": "미국 SF·판타지 작가협회",
+  "name_en": "Science Fiction and Fantasy Writers of America",
+  "kind": "award",
+  "country": "US",
+  "homepage_url": "https://www.sfwa.org"
+ },
+ {
+  "slug": "bbc",
+  "name": "BBC",
+  "name_en": "BBC",
+  "kind": "community",
+  "country": "GB",
+  "homepage_url": "https://www.bbc.co.uk"
+ },
+ {
+  "slug": "cannes-film-festival",
+  "name": "칸 영화제",
+  "name_en": "Festival de Cannes",
+  "kind": "festival",
+  "country": "FR",
+  "homepage_url": "https://www.festival-cannes.com"
+ },
+ {
+  "slug": "venice-film-festival",
+  "name": "베니스 국제영화제",
+  "name_en": "Venice International Film Festival",
+  "kind": "festival",
+  "country": "IT",
+  "homepage_url": "https://www.labiennale.org"
+ },
+ {
+  "slug": "american-library-association",
+  "name": "미국도서관협회",
+  "name_en": "American Library Association",
+  "kind": "library",
+  "country": "US",
+  "homepage_url": "https://www.ala.org"
+ },
+ {
+  "slug": "chosun-ilbo",
+  "name": "조선일보",
+  "name_en": "The Chosun Ilbo",
+  "kind": "media",
+  "country": "KR",
+  "homepage_url": "https://www.chosun.com"
+ },
+ {
+  "slug": "hankook-ilbo",
+  "name": "한국일보",
+  "name_en": "The Hankook Ilbo",
+  "kind": "media",
+  "country": "KR",
+  "homepage_url": "https://www.hankookilbo.com"
+ },
+ {
+  "slug": "hyundae-munhak",
+  "name": "현대문학",
+  "name_en": "Hyundae Munhak",
+  "kind": "media",
+  "country": "KR",
+  "homepage_url": "https://www.hdmh.co.kr/"
+ },
+ {
+  "slug": "new-york-times",
+  "name": "뉴욕타임스",
+  "name_en": "The New York Times",
+  "kind": "media",
+  "country": "US",
+  "homepage_url": "https://www.nytimes.com"
+ },
+ {
+  "slug": "sight-and-sound",
+  "name": "사이트 앤 사운드",
+  "name_en": "Sight and Sound (British Film Institute)",
+  "kind": "media",
+  "country": "GB",
+  "homepage_url": "https://www.bfi.org.uk/sight-and-sound"
+ },
+ {
+  "slug": "time-magazine",
+  "name": "타임",
+  "name_en": "TIME",
+  "kind": "media",
+  "country": "US",
+  "homepage_url": "https://time.com"
+ },
+ {
+  "slug": "american-film-institute",
+  "name": "미국영화연구소",
+  "name_en": "American Film Institute",
+  "kind": "organization",
+  "country": "US",
+  "homepage_url": "https://www.afi.com"
+ },
+ {
+  "slug": "modern-library",
+  "name": "모던 라이브러리",
+  "name_en": "Modern Library",
+  "kind": "organization",
+  "country": "US",
+  "homepage_url": null
+ },
+ {
+  "slug": "seoul-national-university",
+  "name": "서울대학교",
+  "name_en": "Seoul National University",
+  "kind": "university",
+  "country": "KR",
+  "homepage_url": "https://www.snu.ac.kr"
+ },
+ {
+  "slug": "st-johns-college",
+  "name": "세인트존스 칼리지",
+  "name_en": "St. John's College",
+  "kind": "university",
+  "country": "US",
+  "homepage_url": "https://www.sjc.edu"
+ }
+]
