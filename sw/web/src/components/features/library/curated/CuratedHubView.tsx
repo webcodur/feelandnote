@@ -7,12 +7,26 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { Landmark } from "lucide-react";
+import { GraduationCap, Newspaper, Award, Clapperboard, Users, Store, Library, Building2, Landmark } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import NationalityText from "@/components/ui/NationalityText";
 import type { CuratedHub } from "@/actions/library/types";
 import CuratedListCard from "./CuratedListCard";
 
 /** 성격 진열 순서. 여기 없는 성격은 뒤에 붙는다 */
 const KIND_ORDER = ["university", "media", "award", "festival", "community", "bookstore", "library", "organization"];
+
+/** 성격마다 다른 표식을 준다 — 같은 그림이면 훑을 때 구분이 안 된다 */
+const KIND_ICONS: Record<string, LucideIcon> = {
+  university: GraduationCap,
+  media: Newspaper,
+  award: Award,
+  festival: Clapperboard,
+  community: Users,
+  bookstore: Store,
+  library: Library,
+  organization: Building2,
+};
 
 /** 허브에서 한 기관이 펼치는 목록 수. 나머지는 기관 화면에서 본다 */
 const LISTS_PER_CURATOR = 2;
@@ -40,18 +54,21 @@ export default async function CuratedHubView({ hub }: { hub: CuratedHub }) {
     <div className="space-y-10">
       <p className="max-w-3xl text-[14px] leading-relaxed text-text-secondary">{t("intro")}</p>
 
-      {kinds.map((kind) => (
+      {kinds.map((kind) => {
+        const KindIcon = KIND_ICONS[kind] ?? Landmark;
+        return (
         <section key={kind} className="space-y-4">
           <h2 className="flex items-center gap-2 text-[17px] font-serif font-bold text-text-primary">
-            <Landmark size={16} className="text-accent" />
+            <KindIcon size={16} className="text-accent" />
             {t(`kind.${kind}`)}
           </h2>
 
-          <div className="space-y-4">
+          {/* 기관이 스물이 넘어 한 줄에 하나씩 쌓으면 스크롤이 끝없다. 넓은 화면은 두 줄로 나눈다 */}
+          <div className="grid gap-4 lg:grid-cols-2">
             {byKind.get(kind)!.map((curator) => (
               <div
                 key={curator.slug}
-                className="rounded-2xl border border-white/[0.06] bg-[#161616]/80 p-4 sm:p-5"
+                className="rounded-2xl border border-white/[0.06] bg-[#161616]/80 p-4 hover:border-white/[0.12] sm:p-5"
               >
                 <div className="flex items-start gap-3">
                   {curator.logoUrl ? (
@@ -72,7 +89,7 @@ export default async function CuratedHubView({ hub }: { hub: CuratedHub }) {
                       {curator.name}
                     </Link>
                     <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[11px] text-text-tertiary">
-                      {curator.country && <span>{curator.country}</span>}
+                      {curator.country && <NationalityText code={curator.country} />}
                       {curator.foundedYear && <span>{curator.foundedYear}</span>}
                       <span>{t("listCount", { count: curator.listCount })}</span>
                     </div>
@@ -86,7 +103,8 @@ export default async function CuratedHubView({ hub }: { hub: CuratedHub }) {
 
                 {curator.lists.length > 0 && (
                   <>
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {/* 기관 카드가 절반 폭이므로 목록은 한 줄에 하나씩 — 더 쪼개면 글자가 뭉갠다 */}
+                    <div className="mt-4 grid gap-3">
                       {curator.lists.slice(0, LISTS_PER_CURATOR).map((list) => (
                         <CuratedListCard key={list.slug} list={list} />
                       ))}
@@ -106,7 +124,8 @@ export default async function CuratedHubView({ hub }: { hub: CuratedHub }) {
             ))}
           </div>
         </section>
-      ))}
+        );
+      })}
     </div>
   );
 }
