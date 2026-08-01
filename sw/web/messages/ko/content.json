@@ -102,6 +102,9 @@
       "hoursAgo": "{hours}시간 전",
       "daysAgo": "{days}일 전"
     },
+    "itunes": {
+      "previewNotice": "30초 미리듣기입니다. 전곡은 애플 뮤직에서 들을 수 있습니다."
+    },
     "spotify": {
       "mobileNotice": "모바일 브라우저에서는 30초만 듣기가 가능합니다.",
       "pcPrefix": "PC에서는 ",
@@ -238,6 +241,8 @@
     }
   },
   "musicPlayer": {
+    "previewNotice": "30초 미리듣기",
+    "previewUnavailable": "이 곡은 미리듣기를 제공하지 않습니다",
     "title": "뮤직 플레이어",
     "gameBgm": "게임 배경음악",
     "close": "닫기",

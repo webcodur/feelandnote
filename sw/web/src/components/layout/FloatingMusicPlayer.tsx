@@ -259,9 +259,21 @@ export default function FloatingMusicPlayer() {
                 </div>
               )}
 
-              {/* Spotify 임베드 */}
+              {/* 재생기 — 아이튠즈로 옮긴 곡은 미리듣기 음원을 직접 재생하고, 남은 Spotify 곡은 기존 임베드 */}
               <div style={{ height: clamped }}>
-                {current && (
+                {current && current.source === 'itunes' && (
+                  current.previewUrl ? (
+                    <div className="flex flex-col items-center justify-center gap-2 h-full px-3">
+                      <audio key={current.id} src={current.previewUrl} controls autoPlay preload="none" className="w-full" />
+                      <span className="text-[11px] text-text-secondary">{t('previewNotice')}</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-full">
+                      <span className="text-[11px] text-text-secondary">{t('previewUnavailable')}</span>
+                    </div>
+                  )
+                )}
+                {current && current.source === 'spotify' && (
                   <iframe className="block" key={`${current.id}-${splitKey}`} src={spotifyEmbedUrl(extractSpotifyId(current.externalId), current.spotifyEntity)} width="100%" height={clamped} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />
                 )}
               </div>

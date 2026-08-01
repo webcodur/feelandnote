@@ -102,6 +102,9 @@
       "hoursAgo": "{hours}h ago",
       "daysAgo": "{days}d ago"
     },
+    "itunes": {
+      "previewNotice": "30-second preview. Full track available on Apple Music."
+    },
     "spotify": {
       "mobileNotice": "Only 30-second previews are available on mobile browsers.",
       "pcPrefix": "On PC, ",
@@ -238,6 +241,8 @@
     }
   },
   "musicPlayer": {
+    "previewNotice": "30-second preview",
+    "previewUnavailable": "No preview available for this track",
     "title": "Music Player",
     "gameBgm": "Game BGM",
     "close": "Close",

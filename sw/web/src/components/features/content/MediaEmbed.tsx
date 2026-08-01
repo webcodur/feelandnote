@@ -40,6 +40,17 @@ function SpotifyEmbed({ spotifyId, entity }: { spotifyId: string; entity: Spotif
   )
 }
 
+// 아이튠즈 30초 미리듣기 — 남의 창을 끼우지 않고 우리 플레이어로 직접 재생한다
+function ItunesPreview({ src }: { src: string }) {
+  const t = useTranslations('contentDetail.itunes')
+  return (
+    <div className="space-y-1.5">
+      <audio src={src} controls preload="none" className="w-full rounded-xl" />
+      <p className="text-[11px] text-text-secondary">{t('previewNotice')}</p>
+    </div>
+  )
+}
+
 export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
   const [embed, setEmbed] = useState<MediaEmbedResult | null>(null)
   const [loading, setLoading] = useState(false)
@@ -60,7 +71,11 @@ export default function MediaEmbed({ contentId, type }: MediaEmbedProps) {
     if (loading) {
       return <div className="w-full h-[152px] rounded-xl bg-white/5 animate-shimmer" />
     }
-    // embed 결과가 있으면 spotifyEntity 사용, 없으면 album으로 fallback (검색 결과는 대부분 album)
+    // 아이튠즈로 옮긴 곡은 미리듣기를 직접 재생한다
+    if (embed?.embedType === 'itunes') {
+      return embed.previewUrl ? <ItunesPreview src={embed.previewUrl} /> : null
+    }
+    // 아직 안 옮긴 Spotify 곡 (전환기 폴백)
     const entity = embed?.spotifyEntity ?? 'album'
     const spotifyId = embed?.embedId ?? ''
     if (!spotifyId) return null
