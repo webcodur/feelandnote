@@ -1,0 +1,263 @@
+{
+  "curator": {
+    "slug": "baillie-gifford-prize",
+    "name": "베일리 기퍼드상",
+    "name_en": "The Baillie Gifford Prize",
+    "kind": "award",
+    "country": "GB",
+    "founded_year": 1999,
+    "homepage_url": "https://thebailliegiffordprize.co.uk",
+    "description": "영국에서 논픽션 단행본에 주는 상 가운데 권위가 가장 높다. 출판인 스튜어트 프로핏과 홍보 전문가 도티 어빙이 1998년에 만들어 1999년 새뮤얼 존슨상이라는 이름으로 첫 시상을 했고, 후원사가 바뀔 때마다 BBC 포 새뮤얼 존슨상, BBC 새뮤얼 존슨상을 거쳐 2016년부터 에든버러의 투자운용사 베일리 기퍼드가 후원을 맡으며 지금 이름이 됐다. 수상자는 5만 파운드를 받는다.",
+    "description_en": "The Baillie Gifford Prize is the leading award for non-fiction books in the United Kingdom. It was created in 1998 by the publisher Stuart Proffitt and the PR executive Dotti Irving, who hoped it might one day match the Booker Prize in prestige, and was first awarded in 1999 as the Samuel Johnson Prize for Non-Fiction. After successive changes of backing it ran as the BBC Four Samuel Johnson Prize and then the BBC Samuel Johnson Prize for Non-Fiction, before the Edinburgh investment house Baillie Gifford took on the sponsorship in 2016 and gave the prize its current name. The winner receives £50,000."
+  },
+  "list": {
+    "slug": "baillie-gifford-nonfiction",
+    "title": "베일리 기퍼드상 논픽션",
+    "title_en": "The Baillie Gifford Prize for Non-Fiction",
+    "description": "1999년부터 해마다 그해 가장 뛰어난 논픽션 한 권을 뽑아 수여한다. 시사, 역사, 정치, 과학, 스포츠, 여행, 전기와 자서전, 예술까지 논픽션 전 분야를 대상으로 하며 작가 국적은 따지지 않는다. 새뮤얼 존슨상 시절부터 이어진 수상작 계보 전체를 담았다.",
+    "description_en": "Awarded each year since 1999 to the single best work of non-fiction published that year. It covers the whole field of non-fiction — current affairs, history, politics, science, sport, travel, biography, autobiography and the arts — and is open to authors of any nationality. This list covers the full line of winners, including the years when the award ran under the Samuel Johnson name.",
+    "published_year": null,
+    "edition": null,
+    "method": "해마다 새로 위촉하는 독립 심사위원단이 심사한다. 응모는 출판사가 하며, 영국에서 영어로 출간된 생존 작가의 책이 대상이고 저자가 출판사를 소유하거나 지배하는 자비출판물은 제외한다. 심사위원단은 수백 권의 응모작을 12권의 1차 후보와 6권의 최종 후보로 좁힌 뒤 11월에 수상작 한 권을 발표한다. 심사 기준은 독창성, 문장의 완성도, 독자에게 남기는 울림 세 가지다. 수상자는 5만 파운드를 받고, 번역서가 최종 후보에 오르거나 수상하면 상금의 75%를 저자가, 25%를 번역자가 나눠 받는다.",
+    "method_en": "The prize is decided by an independent panel of judges appointed afresh each year. Publishers submit the entries; books must be by living authors of any nationality and published in English in the UK, and self-published works where the author owns or controls the publisher are ineligible. The judges narrow several hundred submissions to a longlist of twelve and a shortlist of six, then announce a single winner in November. They assess the originality, quality of writing and impact on the reader of each book. The winner receives £50,000; where a translated work is shortlisted or wins, 75% of the prize money goes to the author and 25% to the translator(s).",
+    "source_url": "https://www.thebailliegiffordprize.co.uk/year-by-year",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Stalingrad",
+      "raw_creator": "Antony Beevor",
+      "rank": null,
+      "year": 1999,
+      "note": "새뮤얼 존슨상 첫 회 수상작. 1999년 6월 14일 런던 뱅퀴팅 하우스에서 시상."
+    },
+    {
+      "raw_title": "Berlioz: Servitude and Greatness",
+      "raw_creator": "David Cairns",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "The Third Reich: A New History",
+      "raw_creator": "Michael Burleigh",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Peacemakers: The Paris Conference of 1919 and Its Attempt to End War",
+      "raw_creator": "Margaret MacMillan",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Pushkin: A Biography",
+      "raw_creator": "T.J. Binyon",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Stasiland: Stories from Behind the Berlin Wall",
+      "raw_creator": "Anna Funder",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Like a Fiery Elephant: The Story of B.S. Johnson",
+      "raw_creator": "Jonathan Coe",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "1599: A Year in the Life of William Shakespeare",
+      "raw_creator": "James Shapiro",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Imperial Life in the Emerald City: Inside Iraq’s Green Zone",
+      "raw_creator": "Rajiv Chandrasekaran",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Suspicions of Mr Whicher: or The Murder at Road Hill House",
+      "raw_creator": "Kate Summerscale",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Leviathan, or the Whale",
+      "raw_creator": "Philip Hoare",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Nothing to Envy: Real Lives in North Korea",
+      "raw_creator": "Barbara Demick",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Mao’s Great Famine: The History of China’s Most Devastating Catastrophe",
+      "raw_creator": "Frank Dikötter",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Into the Silence: The Great War, Mallory and the Conquest of Everest",
+      "raw_creator": "Wade Davis",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Pike",
+      "raw_creator": "Lucy Hughes-Hallett",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "H is for Hawk",
+      "raw_creator": "Helen Macdonald",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Neurotribes: The Legacy of Autism and How to Think Smarter About People Who Think Differently",
+      "raw_creator": "Steve Silberman",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "East West Street: On the Origins of Genocide and Crimes Against Humanity",
+      "raw_creator": "Philippe Sands",
+      "rank": null,
+      "year": 2016,
+      "note": "베일리 기퍼드가 후원을 맡아 상 이름이 바뀐 첫 회."
+    },
+    {
+      "raw_title": "How to Survive a Plague",
+      "raw_creator": "David France",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Chernobyl: History of A Tragedy",
+      "raw_creator": "Serhii Plokhy",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "The Five: The Untold Lives of the Women Killed by Jack the Ripper",
+      "raw_creator": "Hallie Rubenhold",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "One Two Three Four: The Beatles in Time",
+      "raw_creator": "Craig Brown",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Empire of Pain: The Secret History of the Sackler Dynasty",
+      "raw_creator": "Patrick Radden Keefe",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Super-Infinite: The Transformations of John Donne",
+      "raw_creator": "Katherine Rundell",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Fire Weather: A True Story from a Hotter World",
+      "raw_creator": "John Vaillant",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Question 7",
+      "raw_creator": "Richard Flanagan",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "How to End a Story: Collected Diaries",
+      "raw_creator": "Helen Garner",
+      "rank": null,
+      "year": 2025,
+      "note": "일기가 이 상을 받은 첫 사례. 2025년 11월 4일 발표."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.thebailliegiffordprize.co.uk/year-by-year (공식 연도별 목록 허브 — 1999~2025 연도 페이지 링크 및 2026 회차 일정 확인)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/1999 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2000 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2001 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2002 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2003 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2004 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2005 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2006 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2007 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2008 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2009 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2010 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2011 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2012 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2013 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2014 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2015 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2016 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2017 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2018 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2019 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2020 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2021 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2022 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2023 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2024 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/year-by-year/2025 (공식 연도 페이지 — 수상작 제목·부제·저자·출판사)",
+      "https://www.thebailliegiffordprize.co.uk/about/history-of-the-baillie-gifford-prize-for-non-fiction (공식 연혁 — 창설 경위, 이름 변천, 심사 절차·기준)",
+      "https://www.thebailliegiffordprize.co.uk/about (공식 소개 페이지)",
+      "https://www.thebailliegiffordprize.co.uk/enter-the-prize (공식 응모 안내 — 상금 5만 파운드, 응모 자격, 번역서 상금 배분)",
+      "https://en.wikipedia.org/wiki/Baillie_Gifford_Prize (교차 대조 — 27개 연도 수상작 전건 일치, 후원사별 명칭 시기 구분과 역대 상금 변동 확인)"
+    ],
+    "item_count": 27,
+    "year_range": "1999-2025",
+    "name_changes": "1999~2001 Samuel Johnson Prize for Non-Fiction (익명 후원자 자금) → 2002~2008 BBC Four Samuel Johnson Prize (BBC Four 후원) → 2009~2015 BBC Samuel Johnson Prize for Non-Fiction (BBC Two로 이관) → 2016~현재 The Baillie Gifford Prize for Non-Fiction (에든버러 투자운용사 베일리 기퍼드 후원). 공식 연혁 페이지는 '새뮤얼 존슨상으로 출발해 익명 독지가들의 후원과 BBC와의 협업을 거쳐 2016년 베일리 기퍼드가 후원을 맡으며 개명했다'고만 서술하고, BBC 시기의 두 단계(BBC Four / BBC Two) 구분과 그 연도 경계는 명시하지 않는다. 해당 세분은 위키백과에서 확인했다.",
+    "gaps": "없음. 1999년부터 2025년까지 27개 연도가 빠짐없이 이어지고, 각 연도 공식 페이지에 수상작이 정확히 한 권씩 있다. 공동 수상이나 시상을 건너뛴 해는 없다. 2026년 회차는 공식 사이트 기준 응모가 2026년 4월 13일 열렸고 1차 후보 9월 3일, 최종 후보 10월 1일, 수상작 발표는 2026년 11월 4일 예정이라 아직 수상작이 없다. 따라서 최신 수상 연도는 2025년이다(2025년 11월 4일 발표, 헬렌 가너). 공식 연도별 목록에는 통상 회차 외에 '25주년(25th anniversary)' 특별 페이지가 따로 있으나 연간 최고상 회차가 아니므로 제외했다.",
+    "uncertainties": "제목 표기는 공식 연도 페이지를 우선했고, 위키백과와 어긋나는 대목은 다음과 같다. (1) 2000년 데이비드 케언스 책을 공식 페이지는 'BERLIOZ'로 전부 대문자 표기하고 부제를 'Servitude and Greatness'로 적었다. 대문자는 사이트 입력 방식으로 보여 'Berlioz'로 정리했다. 위키백과는 같은 책을 'Berlioz: Volume 2'로 적는다(원서가 2권 분책이다). (2) 2002년 부제를 공식은 'The Paris Conference of 1919 and Its Attempt to End War'(영국판), 위키백과는 'The Paris Peace Conference of 1919'로 적는다. 공식 표기를 따랐다. (3) 2010년 부제를 공식은 'Real Lives in North Korea'(영국판), 위키백과는 'Ordinary Lives in North Korea'(미국판)로 적는다. 공식 표기를 따랐다. (4) 2013년 루시 휴즈핼릿 책을 공식은 부제 없이 'The Pike'로만 적고, 위키백과는 'The Pike: Gabriele D'Annunzio…'로 부제를 붙인다. 공식 표기를 따랐다. (5) 2015년 'Neurotribes'는 공식 표기이고 위키백과는 'NeuroTribes'로 적는다. 공식 표기를 따랐다. 저자명은 공식 페이지 표기 그대로이며, 2006년 'James Shapiro'는 위키백과의 'James S. Shapiro'와 중간 이니셜 유무만 다르다. 역대 상금 변동액(1999~2008년 3만 파운드, 2009~2011년 2만 파운드, 2012~2015년 2만 5천 파운드, 2016~2018년 3만 파운드, 2019년 이후 5만 파운드)은 위키백과에서만 확인했고 공식 사이트에서는 대조하지 못했다. 현행 5만 파운드는 공식 응모 안내 페이지에서 직접 확인했다."
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "curator": {
+    "slug": "five-books",
+    "name": "파이브북스",
+    "name_en": "Five Books",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 2009,
+    "homepage_url": "https://fivebooks.com",
+    "description": "파이브북스는 각 분야 전문가에게 그 주제 최고의 책 다섯 권을 고르게 하고, 왜 그 책을 골랐는지 인터뷰로 풀어내는 영국의 도서 추천 매체다. 소개 문구에 따르면 지금까지 1,700건이 넘는 인터뷰에 약 8,000권의 추천이 쌓였고 매주 최소 두 건의 새 인터뷰를 낸다. 알고리즘 추천 대신 사람의 판단에 기대는 방식을 내세운다.",
+    "description_en": "Five Books asks experts to recommend the five best books in their subject and to explain their choices in an interview. Its archive holds over 1,700 interviews and roughly 8,000 book recommendations, with at least two new interviews published every week. The site's premise is that human expert judgement beats algorithmic recommendation."
+  },
+  "list": {
+    "slug": "fivebooks-ai",
+    "title": "전문가가 고른 AI·기술 책",
+    "title_en": "Best AI & Technology Books (Five Books)",
+    "description": "파이브북스의 인공지능·기술 분야 인터뷰 10건을 합친 목록이다. 철학자 폴라 보딩턴과 카리사 벨리스, 옥스퍼드 AI 윤리 연구자, 머신러닝 컨설턴트 에릭 시걸, 데이터과학자 해들리 위컴과 로저 펭, 로봇공학자 대니얼 윌슨 등 열 명의 추천을 모았다. 같은 책을 여러 명이 고른 경우는 한 번만 넣고 추천자를 함께 적었다.",
+    "description_en": "A merged list drawn from ten Five Books interviews in the artificial intelligence and technology categories, covering AI ethics, machine learning, computer science, data science, robotics, transhumanism and technology policy. Ten experts contributed, among them philosophers Paula Boddington and Carissa Véliz, machine learning consultant Eric Siegel, data scientists Hadley Wickham and Roger D. Peng, and roboticist Daniel H. Wilson. Books picked by more than one expert appear once, with all recommenders noted.",
+    "published_year": null,
+    "edition": null,
+    "method": "파이브북스는 한 분야의 전문가에게 그 주제의 책 다섯 권을 직접 고르게 하고 선정 이유를 인터뷰로 담는다(소개 문구: \"We ask experts to recommend the five best books in their subject and explain their selection in an interview\"). 순위는 매기지 않는다. 이 목록은 그렇게 공개된 인공지능·기술 분야 인터뷰 10건을 모아 합친 것이며, 사람이 아닌 ChatGPT가 고른 파이브북스 목록 3건은 제외했다.",
+    "method_en": "Five Books asks a subject expert to choose five books and explain each choice in an interview; the picks are not ranked. This list merges ten such interviews from the site's artificial intelligence and technology categories. Three Five Books lists compiled by ChatGPT rather than a human expert were deliberately excluded.",
+    "source_url": "https://fivebooks.com/category/technology/artificial-intelligence/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "ai",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The Singularity Is Near",
+      "raw_creator": "Ray Kurzweil",
+      "rank": null,
+      "year": 2005,
+      "note": "추천 2인 — 케일럼 체이스(작가, 『Surviving AI』·『Pandora's Brain』 저자), 마크 오코넬(저널리스트, 『To Be a Machine』으로 2018년 웰컴 도서상 수상). 국내 출간명(웹 미확인): 『특이점이 온다』"
+    },
+    {
+      "raw_title": "Superintelligence: Paths, Dangers, Strategies",
+      "raw_creator": "Nick Bostrom",
+      "rank": null,
+      "year": 2014,
+      "note": "추천: 케일럼 체이스(작가, 『Surviving AI』 저자). 국내 출간명(웹 미확인): 『슈퍼인텔리전스』"
+    },
+    {
+      "raw_title": "Rise of the Robots",
+      "raw_creator": "Martin Ford",
+      "rank": null,
+      "year": null,
+      "note": "추천: 케일럼 체이스(작가, 『Surviving AI』 저자). 국내 출간명(웹 미확인): 『로봇의 부상』"
+    },
+    {
+      "raw_title": "The Second Machine Age",
+      "raw_creator": "Erik Brynjolfsson, Andrew McAfee",
+      "rank": null,
+      "year": null,
+      "note": "추천: 케일럼 체이스(작가, 『Surviving AI』 저자). 국내 출간명(웹 미확인): 『제2의 기계 시대』"
+    },
+    {
+      "raw_title": "Permutation City",
+      "raw_creator": "Greg Egan",
+      "rank": null,
+      "year": null,
+      "note": "추천: 케일럼 체이스(작가, 『Surviving AI』 저자). 마음 업로드를 다룬 소설."
+    },
+    {
+      "raw_title": "Evil Robots, Killer Computers, and Other Myths: The Truth About AI and the Future of Humanity",
+      "raw_creator": "Steve Shwartz",
+      "rank": null,
+      "year": 2021,
+      "note": "추천: 에릭 시걸(전 컬럼비아대 교수, 기업 머신러닝 도입 자문)"
+    },
+    {
+      "raw_title": "Mining Your Own Business: A Primer for Executives on Understanding and Employing Data Mining and Predictive Analytics",
+      "raw_creator": "Jeff Deal, Gerhard Pilcher",
+      "rank": null,
+      "year": null,
+      "note": "추천: 에릭 시걸(전 컬럼비아대 교수, 머신러닝 컨설턴트)"
+    },
+    {
+      "raw_title": "Digital Decisioning: Using Decision Management to Deliver Business Impact from AI",
+      "raw_creator": "James Taylor",
+      "rank": null,
+      "year": null,
+      "note": "추천: 에릭 시걸(전 컬럼비아대 교수, 머신러닝 컨설턴트)"
+    },
+    {
+      "raw_title": "The Rise of Big Data Policing: Surveillance, Race, and the Future of Law Enforcement",
+      "raw_creator": "Andrew Guthrie Ferguson",
+      "rank": null,
+      "year": null,
+      "note": "추천: 에릭 시걸(전 컬럼비아대 교수, 머신러닝 컨설턴트)"
+    },
+    {
+      "raw_title": "Handbook of Statistical Analysis and Data Mining Applications",
+      "raw_creator": "Robert Nisbet, John Elder, Gary D. Miner",
+      "rank": null,
+      "year": null,
+      "note": "추천: 에릭 시걸(전 컬럼비아대 교수, 머신러닝 컨설턴트)"
+    },
+    {
+      "raw_title": "Atlas of AI: Power, Politics, and the Planetary Costs of Artificial Intelligence",
+      "raw_creator": "Kate Crawford",
+      "rank": null,
+      "year": 2021,
+      "note": "추천 2인 — 폴라 보딩턴(철학자, 웨스트런던대 철학·의료윤리 부교수, 전 옥스퍼드대 컴퓨터과학과 선임연구원), 아짐 아자르(기업가·투자자, 기술 분석 매체 Exponential View 운영). 국내 출간명(웹 미확인): 『AI 지도책』"
+    },
+    {
+      "raw_title": "The Ethical Algorithm: The Science of Socially Aware Algorithm Design",
+      "raw_creator": "Michael Kearns, Aaron Roth",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 폴라 보딩턴(철학자, 웨스트런던대 철학·의료윤리 부교수)"
+    },
+    {
+      "raw_title": "Human Compatible: Artificial Intelligence and the Problem of Control",
+      "raw_creator": "Stuart Russell",
+      "rank": null,
+      "year": 2019,
+      "note": "추천 2인 — 폴라 보딩턴(철학자, 웨스트런던대 철학·의료윤리 부교수), 톰 챗필드(기술철학자·작가, 『Wise Animals』 저자)"
+    },
+    {
+      "raw_title": "The Technological Singularity",
+      "raw_creator": "Murray Shanahan",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: 폴라 보딩턴(철학자, 웨스트런던대 철학·의료윤리 부교수)"
+    },
+    {
+      "raw_title": "Moral Machines: Teaching Robots Right From Wrong",
+      "raw_creator": "Wendell Wallach, Colin Allen",
+      "rank": null,
+      "year": 2008,
+      "note": "추천: 폴라 보딩턴(철학자, 웨스트런던대 철학·의료윤리 부교수)"
+    },
+    {
+      "raw_title": "2001: A Space Odyssey",
+      "raw_creator": "Arthur C. Clarke",
+      "rank": null,
+      "year": 1968,
+      "note": "추천: 폴라 보딩턴(철학자, 웨스트런던대 철학·의료윤리 부교수). 다섯 권 외에 소설로 덧붙여 추천한 여섯 번째 책. 국내 출간명(웹 미확인): 『2001 스페이스 오디세이』"
+    },
+    {
+      "raw_title": "Zed: A Novel",
+      "raw_creator": "Joanna Kavenna",
+      "rank": null,
+      "year": null,
+      "note": "추천: 카리사 벨리스(옥스퍼드대 AI윤리연구소 철학 교수)"
+    },
+    {
+      "raw_title": "Weapons of Math Destruction: How Big Data Increases Inequality and Threatens Democracy",
+      "raw_creator": "Cathy O'Neil",
+      "rank": null,
+      "year": null,
+      "note": "추천: 카리사 벨리스(옥스퍼드대 AI윤리연구소 철학 교수). 국내 출간명(웹 미확인): 『대량살상 수학무기』"
+    },
+    {
+      "raw_title": "Mindf*ck: Inside Cambridge Analytica's Plot to Break the World",
+      "raw_creator": "Christopher Wylie",
+      "rank": null,
+      "year": null,
+      "note": "추천: 카리사 벨리스(옥스퍼드대 AI윤리연구소 철학 교수)"
+    },
+    {
+      "raw_title": "Algorithms of Oppression: How Search Engines Reinforce Racism",
+      "raw_creator": "Safiya Umoja Noble",
+      "rank": null,
+      "year": null,
+      "note": "추천: 카리사 벨리스(옥스퍼드대 AI윤리연구소 철학 교수)"
+    },
+    {
+      "raw_title": "AI Ethics",
+      "raw_creator": "Mark Coeckelbergh",
+      "rank": null,
+      "year": null,
+      "note": "추천: 카리사 벨리스(옥스퍼드대 AI윤리연구소 철학 교수)"
+    },
+    {
+      "raw_title": "The Fourth Revolution: How the Infosphere is Reshaping Human Reality",
+      "raw_creator": "Luciano Floridi",
+      "rank": null,
+      "year": 2014,
+      "note": "추천: 톰 챗필드(영국의 기술철학자·작가, 『Wise Animals』 저자)"
+    },
+    {
+      "raw_title": "The Philosophical Baby: What Children's Minds Tell Us About Truth, Love, and the Meaning of Life",
+      "raw_creator": "Alison Gopnik",
+      "rank": null,
+      "year": 2009,
+      "note": "추천: 톰 챗필드(기술철학자·작가)"
+    },
+    {
+      "raw_title": "Privacy Is Power: Why and How You Should Take Back Control of Your Data",
+      "raw_creator": "Carissa Véliz",
+      "rank": null,
+      "year": 2020,
+      "note": "추천: 톰 챗필드(기술철학자·작가). 저자 본인도 파이브북스에서 디지털 윤리 책을 추천한 옥스퍼드대 철학 교수다."
+    },
+    {
+      "raw_title": "Transcendence: How Humans Evolved Through Fire, Language, Beauty, and Time",
+      "raw_creator": "Gaia Vince",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 톰 챗필드(기술철학자·작가)"
+    },
+    {
+      "raw_title": "The Planet Remade: How Geoengineering Could Change the World",
+      "raw_creator": "Oliver Morton",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: 아짐 아자르(기업가·투자자, Exponential View 운영, 세계경제포럼 글로벌미래위원회 위원)"
+    },
+    {
+      "raw_title": "Learning by Doing: The Real Connection between Innovation, Wages, and Wealth",
+      "raw_creator": "James Bessen",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: 아짐 아자르(기업가·투자자, Exponential View 운영)"
+    },
+    {
+      "raw_title": "The Ministry for the Future",
+      "raw_creator": "Kim Stanley Robinson",
+      "rank": null,
+      "year": 2020,
+      "note": "추천: 아짐 아자르(기업가·투자자, Exponential View 운영). 기후 위기 이후를 그린 소설."
+    },
+    {
+      "raw_title": "How Solar Energy Became Cheap: A Model for Low-Carbon Innovation",
+      "raw_creator": "Gregory F. Nemet",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 아짐 아자르(기업가·투자자, Exponential View 운영)"
+    },
+    {
+      "raw_title": "Structure and Interpretation of Computer Programs",
+      "raw_creator": "Harold Abelson, Gerald Jay Sussman, Julie Sussman",
+      "rank": null,
+      "year": 1985,
+      "note": "추천: 해들리 위컴(RStudio 수석과학자, 오클랜드대·스탠퍼드대·라이스대 통계학 겸임교수). 국내 출간명(웹 미확인): 『컴퓨터 프로그램의 구조와 해석』"
+    },
+    {
+      "raw_title": "The Algorithm Design Manual",
+      "raw_creator": "Steven S. Skiena",
+      "rank": null,
+      "year": 1997,
+      "note": "추천: 해들리 위컴(RStudio 수석과학자, 통계학 겸임교수). 국내 출간명(웹 미확인): 『알고리즘 설계 매뉴얼』"
+    },
+    {
+      "raw_title": "The Pragmatic Programmer: From Journeyman to Master",
+      "raw_creator": "Andrew Hunt, David Thomas",
+      "rank": null,
+      "year": 1999,
+      "note": "추천: 해들리 위컴(RStudio 수석과학자, 통계학 겸임교수). 국내 출간명(웹 미확인): 『실용주의 프로그래머』"
+    },
+    {
+      "raw_title": "The Art of Readable Code",
+      "raw_creator": "Dustin Boswell, Trevor Foucher",
+      "rank": null,
+      "year": 2011,
+      "note": "추천: 해들리 위컴(RStudio 수석과학자, 통계학 겸임교수)"
+    },
+    {
+      "raw_title": "Style: Lessons in Clarity and Grace",
+      "raw_creator": "Joseph M. Williams, Joseph Bizup",
+      "rank": null,
+      "year": 2011,
+      "note": "추천: 해들리 위컴(RStudio 수석과학자). 코드도 사람이 읽는 글이라는 취지로 고른 글쓰기 책."
+    },
+    {
+      "raw_title": "Statistical Evidence: A Likelihood Paradigm",
+      "raw_creator": "Richard Royall",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로저 D. 펭(존스홉킨스 블룸버그 보건대학원 생물통계학 교수, 코세라 데이터과학 과정 공동설립)"
+    },
+    {
+      "raw_title": "Visualize This: The FlowingData Guide to Design, Visualization, and Statistics",
+      "raw_creator": "Nathan Yau",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로저 D. 펭(존스홉킨스대 생물통계학 교수)"
+    },
+    {
+      "raw_title": "Storytelling with Data: A Data Visualization Guide for Business Professionals",
+      "raw_creator": "Cole Nussbaumer Knaflic",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로저 D. 펭(존스홉킨스대 생물통계학 교수)"
+    },
+    {
+      "raw_title": "An Introduction to Statistical Learning: with Applications in R",
+      "raw_creator": "Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로저 D. 펭(존스홉킨스대 생물통계학 교수)"
+    },
+    {
+      "raw_title": "Design Thinking: Understanding How Designers Think and Work",
+      "raw_creator": "Nigel Cross",
+      "rank": null,
+      "year": 2011,
+      "note": "추천: 로저 D. 펭(존스홉킨스대 생물통계학 교수)"
+    },
+    {
+      "raw_title": "Frankenstein; or, The Modern Prometheus",
+      "raw_creator": "Mary Shelley",
+      "rank": null,
+      "year": null,
+      "note": "추천: 마크 오코넬(저널리스트, 『To Be a Machine』으로 2018년 웰컴 도서상 수상). 국내 출간명(웹 미확인): 『프랑켄슈타인』"
+    },
+    {
+      "raw_title": "The Russian Cosmists: The Esoteric Futurism of Nikolai Fedorov and His Followers",
+      "raw_creator": "George M. Young",
+      "rank": null,
+      "year": null,
+      "note": "추천: 마크 오코넬(저널리스트, 트랜스휴머니즘 취재)"
+    },
+    {
+      "raw_title": "The Third Policeman",
+      "raw_creator": "Flann O'Brien",
+      "rank": null,
+      "year": null,
+      "note": "추천: 마크 오코넬(저널리스트, 트랜스휴머니즘 취재)"
+    },
+    {
+      "raw_title": "Zero K",
+      "raw_creator": "Don DeLillo",
+      "rank": null,
+      "year": null,
+      "note": "추천: 마크 오코넬(저널리스트, 트랜스휴머니즘 취재). 냉동보존을 다룬 소설."
+    },
+    {
+      "raw_title": "Second Variety",
+      "raw_creator": "Philip K. Dick",
+      "rank": null,
+      "year": 1953,
+      "note": "추천: 대니얼 H. 윌슨(로봇공학자·작가, 카네기멜런대 로봇공학 박사·머신러닝 석사)"
+    },
+    {
+      "raw_title": "Starship Troopers",
+      "raw_creator": "Robert Heinlein",
+      "rank": null,
+      "year": 1959,
+      "note": "추천: 대니얼 H. 윌슨(로봇공학자·작가, 카네기멜런대 로봇공학 박사). 국내 출간명(웹 미확인): 『스타십 트루퍼스』"
+    },
+    {
+      "raw_title": "Machine Learning",
+      "raw_creator": "Tom M. Mitchell",
+      "rank": null,
+      "year": 1997,
+      "note": "추천: 대니얼 H. 윌슨(로봇공학자·작가, 카네기멜런대 로봇공학 박사). 머신러닝 고전 교과서."
+    },
+    {
+      "raw_title": "Wired for War",
+      "raw_creator": "P. W. Singer",
+      "rank": null,
+      "year": null,
+      "note": "추천: 대니얼 H. 윌슨(로봇공학자·작가). 군용 로봇을 다룬 논픽션."
+    },
+    {
+      "raw_title": "For a Breath I Tarry",
+      "raw_creator": "Roger Zelazny",
+      "rank": null,
+      "year": 1966,
+      "note": "추천: 대니얼 H. 윌슨(로봇공학자·작가, 카네기멜런대 로봇공학 박사)"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://fivebooks.com/category/technology/",
+      "https://fivebooks.com/category/technology/page/2/",
+      "https://fivebooks.com/category/technology/artificial-intelligence/",
+      "https://fivebooks.com/category/technology/artificial-intelligence/page/2/",
+      "https://fivebooks.com/about/",
+      "https://fivebooks.com/best-books/artificial-intelligence-calum-chace/",
+      "https://fivebooks.com/best-books/machine-learning-eric-siegel/",
+      "https://fivebooks.com/best-books/ethics-artificial-intelligence/",
+      "https://fivebooks.com/best-books/digital-ethics-carissa-veliz/",
+      "https://fivebooks.com/best-books/tech-ethics-tom-chatfield-technology/",
+      "https://fivebooks.com/best-books/best-books-on-tech-azeem-azhar/",
+      "https://fivebooks.com/best-books/computer-science-data-science-hadley-wickham/",
+      "https://fivebooks.com/best-books/data-science-roger-peng/",
+      "https://fivebooks.com/best-books/transhumanism-mark-oconnell/",
+      "https://fivebooks.com/best-books/best-books-robotics-daniel-wilson/",
+      "https://fivebooks.com/best-books/tech-utopias-and-dystopias-mahlet-zimeta/",
+      "https://fivebooks.com/best-books/luciano-floridi-philosophy-information/",
+      "https://fivebooks.com/best-books/the-best-ai-books-in-2026-chatgpt/",
+      "https://fivebooks.com/best-books/the-best-ai-books-in-2025-chatgpt/",
+      "https://fivebooks.com/best-books/artificial-intelligence-gpt-3/"
+    ],
+    "item_count": 48,
+    "interviews_merged": "인터뷰 10건, 추천자 10인 — 케일럼 체이스(작가, 인공지능), 에릭 시걸(전 컬럼비아대 교수, 머신러닝), 폴라 보딩턴(철학자, AI 윤리, 5권 외 소설 1권 추가 추천), 카리사 벨리스(옥스퍼드대 AI윤리연구소 철학 교수, 디지털 윤리), 톰 챗필드(기술철학자, 기술 윤리), 아짐 아자르(Exponential View, 기술 전반), 해들리 위컴(RStudio 수석과학자, 데이터과학자를 위한 컴퓨터과학), 로저 D. 펭(존스홉킨스대 생물통계학 교수, 데이터 사이언스), 마크 오코넬(저널리스트, 트랜스휴머니즘), 대니얼 H. 윌슨(로봇공학자, 로보틱스). 원 추천 51권에서 중복 3권을 합쳐 48권.",
+    "duplicates": "세 권이 겹쳤다 — Atlas of AI(케이트 크로퍼드): 보딩턴·아자르 / Human Compatible(스튜어트 러셀): 보딩턴·챗필드 / The Singularity Is Near(레이 커즈와일): 체이스·오코넬. 각각 한 항목으로 합치고 note에 추천자 두 명을 모두 적었다.",
+    "gaps": "발행연도가 인터뷰 페이지에 표기되지 않은 책이 많아 year를 null로 뒀다(48권 중 27권 확인, 21권 미확인). Superintelligence의 2014년은 체이스 인터뷰가 아니라 같은 사이트의 다른 페이지(artificial-intelligence-gpt-3)에서 확인한 값이다. 파이브북스의 인공지능 관련 인터뷰 가운데 사람이 아닌 ChatGPT가 고른 목록 3건(2026·2025·초기판)은 '분야를 아는 사람의 선택'이라는 이 목록의 취지에 맞지 않아 열어서 확인만 하고 넣지 않았다. 열어봤으나 제외한 인터뷰가 둘 더 있다 — 루치아노 플로리디의 '정보 철학'(플라톤·데카르트·칸트 등 철학 고전 위주)과 말레트 지메타의 '기술 유토피아와 디스토피아'(니체·체르노빌 증언·시집 위주)로, 기술 분야 책 목록으로 쓰기엔 결이 달라 뺐다. 최신 AI 서적(Empire of AI, Nexus, Co-Intelligence 등)은 사람 전문가 인터뷰가 아니라 ChatGPT 목록에만 있어 빠졌다.",
+    "uncertainties": "① 파이브북스 소개 페이지에는 설립 연도가 적혀 있지 않다. founded_year 2009는 작업 지시서에 주어진 값을 그대로 옮긴 것이며 사이트에서 확인하지 못했다. ② 국내 출간명은 웹에서 대조하지 않은 참고 표기라 note에 '웹 미확인'을 붙였다. ③ 각 인터뷰의 게재 연도는 확인하지 않았다. 체이스·윌슨·베이커 인터뷰는 언급된 책의 발행 시점으로 보아 2010년대 초중반 자료로 보이나 확정하지 않았다. ④ 페이지 본문은 요약 도구를 거쳐 읽었으므로 부제나 저자 표기 순서가 원문과 다를 수 있다."
+  }
+}

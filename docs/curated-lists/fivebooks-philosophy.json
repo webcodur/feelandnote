@@ -1,0 +1,492 @@
+{
+  "curator": {
+    "slug": "five-books",
+    "name": "파이브북스",
+    "name_en": "Five Books",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 2009,
+    "homepage_url": "https://fivebooks.com",
+    "description": "각 분야 전문가에게 그 주제의 책 다섯 권을 고르게 하고 왜 골랐는지 인터뷰로 풀어내는 영국의 책 추천 매체다. 인터뷰 1,700편 이상, 추천 도서 8,000권가량이 쌓여 있고 매주 두 편 넘게 새 인터뷰가 올라온다. 철학 분야는 팟캐스트 Philosophy Bites를 진행하는 나이절 워버턴이 편집을 맡고 있다.",
+    "description_en": "Five Books is a British book recommendation site that asks experts to choose the five best books in their subject and explain the choice in an interview. Its archive holds more than one thousand seven hundred interviews, amounting to some eight thousand book recommendations, and at least two new interviews appear each week. Its philosophy section is edited by Nigel Warburton, host of the Philosophy Bites podcast."
+  },
+  "list": {
+    "slug": "fivebooks-philosophy",
+    "title": "전문가가 고른 철학 책",
+    "title_en": "Best Philosophy Books (Five Books)",
+    "description": "파이브북스가 철학자·윤리학자·정치철학 연구자 등 여러 전문가를 따로 인터뷰해 받은 추천 도서를 한 목록으로 합쳤다. 서양 정전과 중국 고전, 실존주의와 윤리학, 여성 철학자의 저작과 철학 소설까지 걸쳐 있다. 여러 전문가가 같은 책을 골랐으면 한 번만 싣고 누가 골랐는지 모두 적었다.",
+    "description_en": "A merged list of philosophy books recommended across separate Five Books interviews with philosophers, ethicists and political theorists. It spans the Western canon and the Chinese classics, existentialism and ethics, works by women philosophers and philosophical novels. Where several experts picked the same book it appears once, with every recommender recorded.",
+    "published_year": null,
+    "edition": null,
+    "method": "파이브북스는 한 주제의 전문가에게 그 주제의 책 다섯 권을 고르게 하고 왜 골랐는지 인터뷰로 묻는다. 이 목록은 철학 분야 인터뷰 11편에서 받은 추천과, 파이브북스 편집부가 「수백 명의 철학자를 인터뷰한 끝에 거듭 언급되는 책들」이라며 따로 묶은 '역대 최고의 철학책' 페이지를 합친 것이다. 순위는 매기지 않는다.",
+    "method_en": "Five Books asks an expert on a subject to choose the five best books in it and explain the choice in an interview. This list merges the picks from eleven philosophy interviews with the site's own 'Best Philosophy Books of All Time' page, which the editors compiled as the titles that came up again and again after interviewing hundreds of philosophers. The list is unranked.",
+    "source_url": "https://fivebooks.com/category/philosophy/best-philosophy-books-all-time/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "philosophy",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Republic",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "추천 3인: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자), Jonathan Glover(킹스칼리지런던 윤리학 교수, 옥스퍼드 뉴칼리지 펠로), Bryan Van Norden(배서칼리지 철학 교수, 우한대 석좌교수, 예일-NUS칼리지 교수). Five Books 「역대 최고의 철학책」 목록 첫머리에도 올랐다. 국내 출간명 『국가』. 원문 표기 연대는 기원전 380년경."
+    },
+    {
+      "raw_title": "Meditations on First Philosophy",
+      "raw_creator": "René Descartes",
+      "rank": null,
+      "year": 1641,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자). 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『성찰』."
+    },
+    {
+      "raw_title": "An Enquiry Concerning Human Understanding",
+      "raw_creator": "David Hume",
+      "rank": null,
+      "year": 1748,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자). 국내 출간명 『인간의 이해력에 관한 탐구』."
+    },
+    {
+      "raw_title": "On Liberty",
+      "raw_creator": "John Stuart Mill",
+      "rank": null,
+      "year": 1859,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자). 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『자유론』."
+    },
+    {
+      "raw_title": "Philosophical Investigations",
+      "raw_creator": "Ludwig Wittgenstein",
+      "rank": null,
+      "year": 1953,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자). 비트겐슈타인 사후 출간. 국내 출간명 『철학적 탐구』."
+    },
+    {
+      "raw_title": "What Does It All Mean?: A Very Short Introduction to Philosophy",
+      "raw_creator": "Thomas Nagel",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰)."
+    },
+    {
+      "raw_title": "The Life You Can Save",
+      "raw_creator": "Peter Singer",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰)."
+    },
+    {
+      "raw_title": "Justice: What's the Right Thing to Do?",
+      "raw_creator": "Michael Sandel",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰). 국내 출간명 『정의란 무엇인가』."
+    },
+    {
+      "raw_title": "Causing Death and Saving Lives",
+      "raw_creator": "Jonathan Glover",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰)."
+    },
+    {
+      "raw_title": "The Grasshopper: Games, Life and Utopia",
+      "raw_creator": "Bernard Suits",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰)."
+    },
+    {
+      "raw_title": "Plato's Republic: A Ladybird Expert Book",
+      "raw_creator": "Angie Hobbs",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰 2021년 보강분). 「역대 최고의 철학책」 목록에서도 플라톤 『국가』 입문용 보조 도서로 함께 소개됐다."
+    },
+    {
+      "raw_title": "The Philosopher Queens: The Lives and Legacies of Philosophy's Unsung Women",
+      "raw_creator": "Rebecca Buxton and Lisa Whiting (eds.)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「철학 입문서」 인터뷰 2021년 보강분)."
+    },
+    {
+      "raw_title": "Anna Karenina",
+      "raw_creator": "Leo Tolstoy (trans. Rosamund Bartlett)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jonathan Glover(킹스칼리지런던 윤리학 교수, 옥스퍼드 뉴칼리지 펠로). 글로버는 철학서가 아닌 책을 일부러 골랐다고 밝혔다. 국내 출간명 『안나 카레니나』."
+    },
+    {
+      "raw_title": "The Drowned and the Saved",
+      "raw_creator": "Primo Levi",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jonathan Glover(킹스칼리지런던 윤리학 교수, 옥스퍼드 뉴칼리지 펠로). 국내 출간명 『가라앉은 자와 구조된 자』."
+    },
+    {
+      "raw_title": "The Kennedy Tapes",
+      "raw_creator": "E. May",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jonathan Glover(킹스칼리지런던 윤리학 교수, 옥스퍼드 뉴칼리지 펠로). 저자 표기는 Five Books 페이지 표기 그대로다(전체 편자명 미확인)."
+    },
+    {
+      "raw_title": "An Unquiet Mind",
+      "raw_creator": "Kay Jamison",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jonathan Glover(킹스칼리지런던 윤리학 교수, 옥스퍼드 뉴칼리지 펠로). 저자 표기는 Five Books 페이지 표기 그대로다."
+    },
+    {
+      "raw_title": "Women, Race & Class",
+      "raw_creator": "Angela Davis",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lisa Whiting(정책·윤리 연구자, 런던대 버크벡칼리지) & Rebecca Buxton(옥스퍼드대 정치철학 박사과정). 국내 출간명 『여성, 인종, 계급』."
+    },
+    {
+      "raw_title": "Down Girl: The Logic of Misogyny",
+      "raw_creator": "Kate Manne",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lisa Whiting(정책·윤리 연구자, 런던대 버크벡칼리지) & Rebecca Buxton(옥스퍼드대 정치철학 박사과정). 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『다운 걸』."
+    },
+    {
+      "raw_title": "What Is Philosophy for?",
+      "raw_creator": "Mary Midgley",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lisa Whiting(정책·윤리 연구자, 런던대 버크벡칼리지) & Rebecca Buxton(옥스퍼드대 정치철학 박사과정)."
+    },
+    {
+      "raw_title": "American Citizenship: The Quest for Inclusion",
+      "raw_creator": "Judith Shklar",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lisa Whiting(정책·윤리 연구자, 런던대 버크벡칼리지) & Rebecca Buxton(옥스퍼드대 정치철학 박사과정)."
+    },
+    {
+      "raw_title": "The Rights of Others",
+      "raw_creator": "Seyla Benhabib",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lisa Whiting(정책·윤리 연구자, 런던대 버크벡칼리지) & Rebecca Buxton(옥스퍼드대 정치철학 박사과정)."
+    },
+    {
+      "raw_title": "Middlemarch",
+      "raw_creator": "George Eliot",
+      "rank": null,
+      "year": 1871,
+      "note": "추천: Rebecca Newberger Goldstein(철학자·소설가, 맥아더 펠로). 「역대 최고의 철학책」 목록에도 올랐다. 1871~72년 분책 연재. 국내 출간명 『미들마치』."
+    },
+    {
+      "raw_title": "Moby-Dick",
+      "raw_creator": "Herman Melville",
+      "rank": null,
+      "year": 1851,
+      "note": "추천: Rebecca Newberger Goldstein(철학자·소설가, 맥아더 펠로). 국내 출간명 『모비 딕』."
+    },
+    {
+      "raw_title": "Death in Venice",
+      "raw_creator": "Thomas Mann",
+      "rank": null,
+      "year": 1912,
+      "note": "추천: Rebecca Newberger Goldstein(철학자·소설가, 맥아더 펠로). 국내 출간명 『베네치아에서의 죽음』."
+    },
+    {
+      "raw_title": "The Black Prince",
+      "raw_creator": "Iris Murdoch",
+      "rank": null,
+      "year": 1973,
+      "note": "추천: Rebecca Newberger Goldstein(철학자·소설가, 맥아더 펠로)."
+    },
+    {
+      "raw_title": "Infinite Jest",
+      "raw_creator": "David Foster Wallace",
+      "rank": null,
+      "year": 1996,
+      "note": "추천: Rebecca Newberger Goldstein(철학자·소설가, 맥아더 펠로). 국내 출간명 『무한한 재미』."
+    },
+    {
+      "raw_title": "A Treatise of Human Nature",
+      "raw_creator": "David Hume",
+      "rank": null,
+      "year": 1738,
+      "note": "추천: Bryan Van Norden(배서칼리지 철학 교수, 우한대 석좌교수, 예일-NUS칼리지 교수). 1738~40년 분책 출간. 국내 출간명 『인간 본성에 관한 논고』."
+    },
+    {
+      "raw_title": "Mengzi: With Selections from Traditional Commentaries",
+      "raw_creator": "Mengzi (trans. Bryan W. Van Norden)",
+      "rank": null,
+      "year": null,
+      "note": "추천 3인: Bryan Van Norden(배서칼리지 철학 교수, 우한대 석좌교수, 예일-NUS칼리지 교수), Michael Puett(하버드대 중국사 교수, Walter C. Klein Professor), Andrew Copson(Five Books 「Humanism」 인터뷰 추천자, 직함 미확인). 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『맹자』."
+    },
+    {
+      "raw_title": "Zhuangzi",
+      "raw_creator": "Zhuangzi (Chuang Tzu)",
+      "rank": null,
+      "year": null,
+      "note": "추천 2인: Bryan Van Norden(배서칼리지 철학 교수, 우한대 석좌교수, 예일-NUS칼리지 교수), Michael Puett(하버드대 중국사 교수, Walter C. Klein Professor). 국내 출간명 『장자』."
+    },
+    {
+      "raw_title": "The Bodhicaryāvatāra",
+      "raw_creator": "Śāntideva",
+      "rank": null,
+      "year": null,
+      "note": "추천: Bryan Van Norden(배서칼리지 철학 교수, 우한대 석좌교수, 예일-NUS칼리지 교수). 8세기 저작. 국내 출간명 『입보리행론』."
+    },
+    {
+      "raw_title": "Analects",
+      "raw_creator": "Confucius (trans. Edward Slingerland)",
+      "rank": null,
+      "year": null,
+      "note": "추천 2인: Michael Puett(하버드대 중국사 교수, Walter C. Klein Professor), Daniel A. Bell(Five Books 「Confucius」 인터뷰 추천자, 직함 미확인). 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『논어』."
+    },
+    {
+      "raw_title": "Daodejing (Tao Te Ching)",
+      "raw_creator": "Laozi",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Puett(하버드대 중국사 교수, Walter C. Klein Professor). 국내 출간명 『도덕경』."
+    },
+    {
+      "raw_title": "Xunzi: The Complete Text",
+      "raw_creator": "Xunzi (trans. Eric L. Hutton)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Puett(하버드대 중국사 교수, Walter C. Klein Professor). 국내 출간명 『순자』."
+    },
+    {
+      "raw_title": "Thinking, Fast and Slow",
+      "raw_creator": "Daniel Kahneman",
+      "rank": null,
+      "year": 2011,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「비판적 사고」 인터뷰). 국내 출간명 『생각에 관한 생각』."
+    },
+    {
+      "raw_title": "Factfulness: Ten Reasons We're Wrong About The World — And Why Things Are Better Than You Think",
+      "raw_creator": "Hans Rosling",
+      "rank": null,
+      "year": 2018,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「비판적 사고」 인터뷰). 국내 출간명 『팩트풀니스』."
+    },
+    {
+      "raw_title": "Black Box Thinking: The Surprising Truth About Success",
+      "raw_creator": "Matthew Syed",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「비판적 사고」 인터뷰)."
+    },
+    {
+      "raw_title": "The Art of Thinking Clearly",
+      "raw_creator": "Rolf Dobelli",
+      "rank": null,
+      "year": 2013,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「비판적 사고」 인터뷰). 국내 출간명 『스마트한 생각들』."
+    },
+    {
+      "raw_title": "Critical Thinking: Your Guide to Effective Argument, Successful Analysis and Independent Study",
+      "raw_creator": "Tom Chatfield",
+      "rank": null,
+      "year": 2017,
+      "note": "추천: Nigel Warburton(Five Books 철학 편집자, 팟캐스트 Philosophy Bites 진행자)(「비판적 사고」 인터뷰)."
+    },
+    {
+      "raw_title": "Existentialism: A Reconstruction",
+      "raw_creator": "David E. Cooper",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sarah Bakewell(작가, 『At the Existentialist Café』 저자)."
+    },
+    {
+      "raw_title": "Nausea",
+      "raw_creator": "Jean-Paul Sartre",
+      "rank": null,
+      "year": 1938,
+      "note": "추천: Sarah Bakewell(작가, 『At the Existentialist Café』 저자). 국내 출간명 『구토』."
+    },
+    {
+      "raw_title": "Man's Search for Meaning",
+      "raw_creator": "Viktor Frankl",
+      "rank": null,
+      "year": 1946,
+      "note": "추천: Sarah Bakewell(작가, 『At the Existentialist Café』 저자). 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『죽음의 수용소에서』."
+    },
+    {
+      "raw_title": "The Existentialist Reader",
+      "raw_creator": "Paul S. MacDonald (ed.)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sarah Bakewell(작가, 『At the Existentialist Café』 저자)."
+    },
+    {
+      "raw_title": "Heidegger: An Introduction",
+      "raw_creator": "Richard Polt",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sarah Bakewell(작가, 『At the Existentialist Café』 저자)."
+    },
+    {
+      "raw_title": "Dialogues and Natural History of Religion",
+      "raw_creator": "David Hume",
+      "rank": null,
+      "year": null,
+      "note": "추천: Mary Warnock(도덕철학자, 케임브리지 거튼칼리지 전 학장, 1924~2019). 「역대 최고의 철학책」 목록에도 올랐다."
+    },
+    {
+      "raw_title": "The Good Man Jesus and the Scoundrel Christ",
+      "raw_creator": "Philip Pullman",
+      "rank": null,
+      "year": 2010,
+      "note": "추천: Mary Warnock(도덕철학자, 케임브리지 거튼칼리지 전 학장, 1924~2019)."
+    },
+    {
+      "raw_title": "Godless Morality",
+      "raw_creator": "Richard Holloway",
+      "rank": null,
+      "year": 1999,
+      "note": "추천: Mary Warnock(도덕철학자, 케임브리지 거튼칼리지 전 학장, 1924~2019)."
+    },
+    {
+      "raw_title": "The Collected Philosophical Papers",
+      "raw_creator": "G.E.M. Anscombe",
+      "rank": null,
+      "year": 1981,
+      "note": "추천: Mary Warnock(도덕철학자, 케임브리지 거튼칼리지 전 학장, 1924~2019)."
+    },
+    {
+      "raw_title": "Mansfield Park",
+      "raw_creator": "Jane Austen",
+      "rank": null,
+      "year": 1814,
+      "note": "추천: Mary Warnock(도덕철학자, 케임브리지 거튼칼리지 전 학장, 1924~2019). 국내 출간명 『맨스필드 파크』."
+    },
+    {
+      "raw_title": "The Character Gap: How Good Are We?",
+      "raw_creator": "Christian B. Miller",
+      "rank": null,
+      "year": null,
+      "note": "추천: Massimo Pigliucci(뉴욕시립대 시티칼리지 철학 교수, K.D. Irani Professor)."
+    },
+    {
+      "raw_title": "Growing Moral: A Confucian Guide to Life",
+      "raw_creator": "Stephen C. Angle",
+      "rank": null,
+      "year": null,
+      "note": "추천: Massimo Pigliucci(뉴욕시립대 시티칼리지 철학 교수, K.D. Irani Professor)."
+    },
+    {
+      "raw_title": "Meditations",
+      "raw_creator": "Marcus Aurelius (trans. Robin Waterfield)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Massimo Pigliucci(뉴욕시립대 시티칼리지 철학 교수, K.D. Irani Professor). 국내 출간명 『명상록』."
+    },
+    {
+      "raw_title": "Pharsalia",
+      "raw_creator": "Marcus Annaeus Lucanus (trans. Jane Wilson Joyce)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Massimo Pigliucci(뉴욕시립대 시티칼리지 철학 교수, K.D. Irani Professor). 국내 출간명 『파르살리아』(내전기)."
+    },
+    {
+      "raw_title": "How Are We to Live?: Ethics in an Age of Self-Interest",
+      "raw_creator": "Peter Singer",
+      "rank": null,
+      "year": null,
+      "note": "추천: Massimo Pigliucci(뉴욕시립대 시티칼리지 철학 교수, K.D. Irani Professor)."
+    },
+    {
+      "raw_title": "The Nicomachean Ethics",
+      "raw_creator": "Aristotle",
+      "rank": null,
+      "year": null,
+      "note": "추천: A.C. Grayling(Five Books 「Ideas that Matter」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『니코마코스 윤리학』."
+    },
+    {
+      "raw_title": "Leviathan",
+      "raw_creator": "Thomas Hobbes",
+      "rank": null,
+      "year": null,
+      "note": "추천: Arash Abizadeh(Five Books 「The Best Thomas Hobbes Books」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『리바이어던』."
+    },
+    {
+      "raw_title": "Walden",
+      "raw_creator": "Henry David Thoreau",
+      "rank": null,
+      "year": null,
+      "note": "추천: John Kaag(Five Books 「American Philosophy」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『월든』."
+    },
+    {
+      "raw_title": "Critique of Pure Reason",
+      "raw_creator": "Immanuel Kant",
+      "rank": null,
+      "year": null,
+      "note": "추천: Adrian Moore(Five Books 「The Best Immanuel Kant Books」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『순수이성비판』."
+    },
+    {
+      "raw_title": "Consciousness Explained",
+      "raw_creator": "Daniel Dennett",
+      "rank": null,
+      "year": null,
+      "note": "추천: Anil Seth(Five Books 「The Neuroscience of Consciousness」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『의식의 수수께끼를 풀다』."
+    },
+    {
+      "raw_title": "The Plague",
+      "raw_creator": "Albert Camus",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jamie Lombardi(Five Books 「The Best Albert Camus Books」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『페스트』."
+    },
+    {
+      "raw_title": "The Confessions",
+      "raw_creator": "Augustine (trans. Maria Boulding)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Richard Harries(Five Books 「Christianity」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『고백록』."
+    },
+    {
+      "raw_title": "The Prince",
+      "raw_creator": "Niccolò Machiavelli",
+      "rank": null,
+      "year": null,
+      "note": "추천: Kenneth Bartlett(Five Books 「Italian Renaissance Books」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『군주론』."
+    },
+    {
+      "raw_title": "Tractatus Theologico-Politicus",
+      "raw_creator": "Baruch Spinoza (trans. Samuel Shirley)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Anthony Gottlieb(Five Books 「God」 인터뷰 추천자, 직함 미확인). Five Books 편집부가 뽑은 「역대 최고의 철학책」 목록에도 올랐다. 국내 출간명 『신학정치론』."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://fivebooks.com/category/philosophy/ (철학 카테고리 인덱스 — 인터뷰 목록과 매체 소개 문구 확인)",
+      "https://fivebooks.com/category/philosophy/best-philosophy-books-all-time/ (편집부 '역대 최고의 철학책' — 19권과 각 추천자 확인)",
+      "https://fivebooks.com/best-books/key-philosophical-texts-western-nigel-warburton/ (Nigel Warburton, 서양 정전 핵심 텍스트)",
+      "https://fivebooks.com/best-books/introductions-to-philosophy-warburton/ (Nigel Warburton, 철학 입문서)",
+      "https://fivebooks.com/best-books/critical-thinking-nigel-warburton/ (Nigel Warburton, 비판적 사고)",
+      "https://fivebooks.com/best-books/moral-philosophy-jonathan-glover/ (Jonathan Glover, 도덕철학)",
+      "https://fivebooks.com/best-books/philosophy-women-lisa-whiting-rebecca-buxton/ (Lisa Whiting & Rebecca Buxton, 여성 철학자의 책)",
+      "https://fivebooks.com/best-books/philosophical-novels-rebecca-goldstein/ (Rebecca Goldstein, 철학 소설)",
+      "https://fivebooks.com/best-books/world-philosophy-bryan-van-norden/ (Bryan Van Norden, 세계 철학)",
+      "https://fivebooks.com/best-books/chinese-philosophy-michael-puett/ (Michael Puett, 중국 철학)",
+      "https://fivebooks.com/best-books/existentialism-sarah-bakewell/ (Sarah Bakewell, 실존주의)",
+      "https://fivebooks.com/best-books/mary-warnock-godless-morality/ (Mary Warnock, 신 없는 도덕)",
+      "https://fivebooks.com/best-books/how-to-be-good-massimo-pigliucci/ (Massimo Pigliucci, 좋은 사람이 되는 법)",
+      "https://fivebooks.com/category/philosophy/ethics-moral-philosophy/ (윤리·도덕철학 하위 카테고리 — 인터뷰 URL 수집)",
+      "https://fivebooks.com/about/ (매체 소개 문구와 아카이브 규모 확인)"
+    ],
+    "item_count": 62,
+    "interviews_merged": "철학 분야 인터뷰 11편(Nigel Warburton 3편, Jonathan Glover, Lisa Whiting & Rebecca Buxton, Rebecca Goldstein, Bryan Van Norden, Michael Puett, Sarah Bakewell, Mary Warnock, Massimo Pigliucci)에 파이브북스 편집부의 '역대 최고의 철학책' 페이지를 더해 합쳤다. 편집부 페이지에서만 확인된 9권은 원 인터뷰 페이지를 직접 열지 않았고 추천자 이름과 인터뷰 제목만 그 페이지에서 확인했다.",
+    "duplicates": "중복 추천 4권을 한 항목으로 합쳤다. Plato 『Republic』 3인(Warburton, Glover, Van Norden), Mengzi 3인(Van Norden, Puett, Andrew Copson), Zhuangzi 2인(Van Norden, Puett), Confucius 『Analects』 2인(Puett, Daniel A. Bell). 그 밖에 편집부 '역대 최고의 철학책' 목록과 개별 인터뷰에 함께 등장한 책(Meditations on First Philosophy, On Liberty, Middlemarch, Down Girl, Man's Search for Meaning, Dialogues and Natural History of Religion, Plato's Republic Ladybird판)은 같은 추천자가 겹친 경우라 추천자 수를 늘리지 않고 note에 목록 등재 사실만 적었다.",
+    "gaps": "철학 카테고리에는 인터뷰가 훨씬 많다(윤리·도덕철학 하위 카테고리에서만 David Edmonds, Paula Boddington, Paul Bloom, Christian B. Miller, Kenan Malik, Carissa Véliz, Dennis Rasmussen 등 미개봉 인터뷰를 확인했다). 정치철학 하위 카테고리 URL(https://fivebooks.com/category/philosophy/political-philosophy/)은 404였고 대체 경로를 찾지 못해 정치철학 전용 인터뷰는 목록에 반영하지 못했다. 논리학·심리철학 전용 인터뷰도 검색으로 찾지 못해 빠졌다(의식 관련은 편집부 목록의 Anil Seth 추천 1권만 들어갔다). 발주 목표는 25~50권이었으나 인터뷰 11편과 편집부 목록을 합치니 중복 제거 후 62권이 나왔다. 임의로 덜어내면 어느 인터뷰를 통째로 빼는 셈이라 열어본 출처를 모두 온전히 반영하는 쪽을 택했다.",
+    "uncertainties": "① 편집부 '역대 최고의 철학책' 페이지에서만 확인한 9권의 추천자는 이름과 인터뷰 제목만 확인했고 직함은 그 페이지에 없어 '직함 미확인'으로 적었다. ② 『The Kennedy Tapes』 저자는 파이브북스 페이지에 'E. May'로만 표기돼 있어 그대로 옮겼다(공동 편자 여부 미확인). 『An Unquiet Mind』 저자도 페이지 표기 'Kay Jamison' 그대로다. ③ Mengzi·Xunzi 항목의 번역자명은 파이브북스 서지 표기가 아니라 해당 판본의 통상 번역자를 보충한 것이라 미확인분이다. ④ note에 병기한 국내 출간명은 웹에서 확인한 것이 아니라 일반 지식으로 덧붙인 참고 표기다. 정확한 국내 판본 확인이 필요하면 별도 대조가 필요하다. ⑤ curator.founded_year 2009는 발주 지침대로 그대로 넣었고 fivebooks.com/about 페이지에서는 설립 연도·설립자 표기를 찾지 못했다. ⑥ 출간 연도는 파이브북스 페이지에 표기된 경우에만 채웠고 나머지는 null로 두었다."
+  }
+}

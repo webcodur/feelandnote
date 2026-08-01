@@ -1,0 +1,394 @@
+{
+  "curator": {
+    "slug": "five-books",
+    "name": "파이브북스",
+    "name_en": "Five Books",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 2009,
+    "homepage_url": "https://fivebooks.com",
+    "description": "파이브북스는 각 분야 전문가를 인터뷰해 그 주제에서 가장 좋은 책 다섯 권을 고르게 하고, 왜 그 책인지를 본인 입으로 설명하게 하는 영국의 책 추천 매체다. 알고리즘 추천의 대안으로 사람의 안목을 내세우며 2009년 소피 로엘이 시작했다. 현재 1,700건이 넘는 인터뷰와 8,000권가량의 추천이 쌓여 있고 매주 두 건 이상 새 인터뷰가 올라온다.",
+    "description_en": "Five Books is a British book-recommendation site that interviews experts in each field and asks them to choose the five best books on their subject, explaining each choice in their own words. Founded in 2009 by Sophie Roell as a human-curated alternative to algorithmic recommendation, it now holds an archive of more than 1,700 interviews, or some 8,000 book recommendations, with at least two new interviews published each week."
+  },
+  "list": {
+    "slug": "fivebooks-psychology",
+    "title": "전문가가 고른 심리학 책",
+    "title_en": "Best Psychology Books (Five Books)",
+    "description": "파이브북스의 심리학 분야 인터뷰 10건을 합쳐 만든 목록이다. 조너선 하이트, 캐럴 드웩, 대니얼 골먼, 리사 펠드먼 배럿, 수전 블랙모어 등 심리학자·임상가·저술가 10명이 각자 다섯 권씩 고른 결과이며, 겹치는 책은 한 번만 실었다. 행복·감성지능·마인드셋·감정·의식·진화심리학·과잉사고·죽음에 대한 공포·아동심리·인간 행동의 심리학 주제를 아우른다.",
+    "description_en": "A merged list drawn from ten psychology interviews on Five Books. Ten psychologists, clinicians and authors — among them Jonathan Haidt, Carol Dweck, Daniel Goleman, Lisa Feldman Barrett and Susan Blackmore — each picked five books; overlapping picks appear once. The subjects span happiness, emotional intelligence, mindset, emotions, consciousness, evolutionary psychology, overthinking, fear of death, child psychology and the psychology of human behaviour.",
+    "published_year": null,
+    "edition": null,
+    "method": "파이브북스 소개 페이지에 적힌 방식 그대로다. 편집진이 해당 분야 전문가에게 '당신 주제에서 가장 좋은 책 다섯 권'을 추천받고 인터뷰로 선정 이유를 듣는다. 편집자 소피 로엘과 칼 플린을 비롯한 분야별 필진이 학자·작가·전문가를 상대로 대담을 진행한다. 투표나 심사가 아니라 한 사람의 안목으로 다섯 권을 고르는 방식이므로, 이 목록은 그런 인터뷰 열 건을 모아 합친 것이다.",
+    "method_en": "As stated on the Five Books about page: editors ask an expert to recommend the five best books in their subject and to explain the selection in an interview. Editors Sophie Roell and Cal Flyn, along with specialist contributors, conduct these conversations with academics, writers and practitioners. There is no panel vote or jury — each list is one person's judgement — so this compilation merges ten such interviews.",
+    "source_url": "https://fivebooks.com/category/psychology/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "psychology",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Chatter: The Voice in Our Head, Why It Matters, and How to Harness It",
+      "raw_creator": "Ethan Kross",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Hallsworth(행동과학자, 『Behavioral Insights』 공저자) — '인간 행동의 심리학' 편 / 국내 출간명 『채터, 당신 안의 훼방꾼』"
+    },
+    {
+      "raw_title": "Wiser: Getting Beyond Groupthink to Make Groups Smarter",
+      "raw_creator": "Cass Sunstein, Reid Hastie",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Hallsworth(행동과학자, 『Behavioral Insights』 공저자) — '인간 행동의 심리학' 편 / 국내 출간명 『와이저』"
+    },
+    {
+      "raw_title": "Obliquity: Why Our Goals Are Best Achieved Indirectly",
+      "raw_creator": "John Kay",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Hallsworth(행동과학자, 『Behavioral Insights』 공저자) — '인간 행동의 심리학' 편"
+    },
+    {
+      "raw_title": "Critical Mass",
+      "raw_creator": "Philip Ball",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Hallsworth(행동과학자, 『Behavioral Insights』 공저자) — '인간 행동의 심리학' 편"
+    },
+    {
+      "raw_title": "On the Genealogy of Morality",
+      "raw_creator": "Friedrich Nietzsche",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michael Hallsworth(행동과학자, 『Behavioral Insights』 공저자) — '인간 행동의 심리학' 편 / 국내 출간명 『도덕의 계보』. 페이지에는 Maudemarie Clark·Alan Swensen 해설본으로 표기"
+    },
+    {
+      "raw_title": "Dhammapada",
+      "raw_creator": "Buddha (trans. Thomas Byrom)",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jonathan Haidt(뉴욕대 스턴경영대학원 윤리적리더십 석좌교수) — '행복' 편 / 국내 출간명 『법구경』. 헤이트는 이 책을 '역사상 가장 위대한 심리학 저작 중 하나'로 평함"
+    },
+    {
+      "raw_title": "Ambition: How We Manage Success and Failure Throughout Our Lives",
+      "raw_creator": "Gilbert Brim",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jonathan Haidt(뉴욕대 스턴경영대학원 윤리적리더십 석좌교수) — '행복' 편"
+    },
+    {
+      "raw_title": "Stumbling on Happiness",
+      "raw_creator": "Daniel Gilbert",
+      "rank": null,
+      "year": 2006,
+      "note": "추천: Jonathan Haidt(뉴욕대 스턴경영대학원 윤리적리더십 석좌교수) — '행복' 편 · 추천: Lisa Feldman Barrett(노스이스턴대 학제간 정서과학 연구소장) — '감정' 편 / 두 전문가가 함께 고른 책. 국내 출간명 『행복에 걸려 비틀거리다』"
+    },
+    {
+      "raw_title": "The How of Happiness",
+      "raw_creator": "Sonja Lyubomirsky",
+      "rank": null,
+      "year": 2005,
+      "note": "추천: Jonathan Haidt(뉴욕대 스턴경영대학원 윤리적리더십 석좌교수) — '행복' 편"
+    },
+    {
+      "raw_title": "Dancing in the Streets: A History of Collective Joy",
+      "raw_creator": "Barbara Ehrenreich",
+      "rank": null,
+      "year": 2006,
+      "note": "추천: Jonathan Haidt(뉴욕대 스턴경영대학원 윤리적리더십 석좌교수) — '행복' 편"
+    },
+    {
+      "raw_title": "The Triple Focus: A New Approach to Education",
+      "raw_creator": "Daniel Goleman, Peter Senge",
+      "rank": null,
+      "year": 2014,
+      "note": "추천: Daniel Goleman(심리학자, 전 뉴욕타임스 과학 저널리스트) — '감성지능' 편"
+    },
+    {
+      "raw_title": "Handbook of Social and Emotional Learning: Research and Practice",
+      "raw_creator": "Joseph Durlak et al.",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: Daniel Goleman(심리학자, 전 뉴욕타임스 과학 저널리스트) — '감성지능' 편"
+    },
+    {
+      "raw_title": "The Oxford Handbook of Compassion Science",
+      "raw_creator": "Seppala et al.",
+      "rank": null,
+      "year": 2017,
+      "note": "추천: Daniel Goleman(심리학자, 전 뉴욕타임스 과학 저널리스트) — '감성지능' 편"
+    },
+    {
+      "raw_title": "Emotional Alchemy: How the Mind Can Heal the Heart",
+      "raw_creator": "Tara Bennett-Goleman",
+      "rank": null,
+      "year": 2001,
+      "note": "추천: Daniel Goleman(심리학자, 전 뉴욕타임스 과학 저널리스트) — '감성지능' 편"
+    },
+    {
+      "raw_title": "Marrow: Love, Loss, and What Matters Most",
+      "raw_creator": "Elizabeth Lesser",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: Daniel Goleman(심리학자, 전 뉴욕타임스 과학 저널리스트) — '감성지능' 편"
+    },
+    {
+      "raw_title": "How Children Fail",
+      "raw_creator": "John Holt",
+      "rank": null,
+      "year": 1963,
+      "note": "추천: Carol Dweck(스탠퍼드대 심리학 석좌교수) — '마인드셋과 성공' 편 / 국내 출간명 『아이들은 왜 실패하는가』"
+    },
+    {
+      "raw_title": "The Mismeasure of Man",
+      "raw_creator": "Stephen Jay Gould",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carol Dweck(스탠퍼드대 심리학 석좌교수) — '마인드셋과 성공' 편 / 국내 출간명 『인간에 대한 오해』"
+    },
+    {
+      "raw_title": "Developing Talent in Young People",
+      "raw_creator": "Benjamin Bloom",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carol Dweck(스탠퍼드대 심리학 석좌교수) — '마인드셋과 성공' 편"
+    },
+    {
+      "raw_title": "Moneyball",
+      "raw_creator": "Michael Lewis",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carol Dweck(스탠퍼드대 심리학 석좌교수) — '마인드셋과 성공' 편 / 국내 출간명 『머니볼』"
+    },
+    {
+      "raw_title": "The Brain That Changes Itself",
+      "raw_creator": "Norman Doidge",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carol Dweck(스탠퍼드대 심리학 석좌교수) — '마인드셋과 성공' 편 / 국내 출간명 『기적을 부르는 뇌』"
+    },
+    {
+      "raw_title": "The Book of Human Emotions: An Encyclopedia of Feeling from Anger to Wanderlust",
+      "raw_creator": "Tiffany Watt Smith",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: Lisa Feldman Barrett(노스이스턴대 학제간 정서과학 연구소장) — '감정' 편"
+    },
+    {
+      "raw_title": "Middlesex",
+      "raw_creator": "Jeffrey Eugenides",
+      "rank": null,
+      "year": 2002,
+      "note": "추천: Lisa Feldman Barrett(노스이스턴대 학제간 정서과학 연구소장) — '감정' 편 / 국내 출간명 『미들섹스』"
+    },
+    {
+      "raw_title": "Principles of Psychology",
+      "raw_creator": "William James",
+      "rank": null,
+      "year": 1890,
+      "note": "추천: Lisa Feldman Barrett(노스이스턴대 학제간 정서과학 연구소장) — '감정' 편 · 추천: Susan Blackmore(플리머스대 초빙교수, 심리학자) — '의식' 편 / 두 전문가가 함께 고른 책. 국내 출간명 『심리학의 원리』"
+    },
+    {
+      "raw_title": "Emotional Success: The Power of Gratitude, Compassion and Pride",
+      "raw_creator": "David DeSteno",
+      "rank": null,
+      "year": 2018,
+      "note": "추천: Lisa Feldman Barrett(노스이스턴대 학제간 정서과학 연구소장) — '감정' 편"
+    },
+    {
+      "raw_title": "Consciousness Explained",
+      "raw_creator": "Daniel Dennett",
+      "rank": null,
+      "year": 1991,
+      "note": "추천: Susan Blackmore(플리머스대 초빙교수, 심리학자) — '의식' 편 / 국내 출간명 『의식의 수수께끼를 풀다』"
+    },
+    {
+      "raw_title": "The Origin of Consciousness in the Breakdown of the Bicameral Mind",
+      "raw_creator": "Julian Jaynes",
+      "rank": null,
+      "year": 1976,
+      "note": "추천: Susan Blackmore(플리머스대 초빙교수, 심리학자) — '의식' 편 / 국내 출간명 『의식의 기원』"
+    },
+    {
+      "raw_title": "The Mind's I: Fantasies and Reflections on Self & Soul",
+      "raw_creator": "Daniel Dennett, Douglas Hofstadter",
+      "rank": null,
+      "year": 1981,
+      "note": "추천: Susan Blackmore(플리머스대 초빙교수, 심리학자) — '의식' 편 / 국내 출간명 『이런, 이게 바로 나야!』"
+    },
+    {
+      "raw_title": "Other Minds: The Octopus and the Evolution of Intelligent Life",
+      "raw_creator": "Peter Godfrey-Smith",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: Susan Blackmore(플리머스대 초빙교수, 심리학자) — '의식' 편 / 국내 출간명 『아더 마인즈』"
+    },
+    {
+      "raw_title": "Evolutionary Psychology: The New Science of the Mind",
+      "raw_creator": "David M Buss",
+      "rank": null,
+      "year": 1998,
+      "note": "추천: Chris Paley(『Unthink』·『Beyond Bad』 저자) — '진화심리학' 편 / 국내 출간명 『진화심리학』. 페일리는 이 주제 최고의 교과서로 꼽음"
+    },
+    {
+      "raw_title": "Homicide",
+      "raw_creator": "Martin Daly, Margo Wilson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Chris Paley(『Unthink』·『Beyond Bad』 저자) — '진화심리학' 편"
+    },
+    {
+      "raw_title": "The Language Instinct",
+      "raw_creator": "Steven Pinker",
+      "rank": null,
+      "year": 1994,
+      "note": "추천: Chris Paley(『Unthink』·『Beyond Bad』 저자) — '진화심리학' 편 / 국내 출간명 『언어본능』"
+    },
+    {
+      "raw_title": "Death from a Distance and the Birth of a Humane Universe",
+      "raw_creator": "Paul M. Bingham, Joanne Souza",
+      "rank": null,
+      "year": null,
+      "note": "추천: Chris Paley(『Unthink』·『Beyond Bad』 저자) — '진화심리학' 편"
+    },
+    {
+      "raw_title": "The Illusion of Conscious Will",
+      "raw_creator": "Daniel M. Wegner",
+      "rank": null,
+      "year": null,
+      "note": "추천: Chris Paley(『Unthink』·『Beyond Bad』 저자) — '진화심리학' 편"
+    },
+    {
+      "raw_title": "Women Who Think Too Much",
+      "raw_creator": "Susan Nolen-Hoeksema",
+      "rank": null,
+      "year": 2003,
+      "note": "추천: Jessamy Hibberd(공인 임상심리학자, 임상 경력 20년 이상) — '과잉사고' 편"
+    },
+    {
+      "raw_title": "The Worry Cure: Seven Steps to Stop Worry from Stopping You",
+      "raw_creator": "Robert Leahy",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jessamy Hibberd(공인 임상심리학자, 임상 경력 20년 이상) — '과잉사고' 편"
+    },
+    {
+      "raw_title": "The Compassionate Mind",
+      "raw_creator": "Paul Gilbert",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jessamy Hibberd(공인 임상심리학자, 임상 경력 20년 이상) — '과잉사고' 편"
+    },
+    {
+      "raw_title": "Mindfulness: An Eight-Week Plan for Finding Peace in a Frantic World",
+      "raw_creator": "Danny Penman, Mark Williams",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jessamy Hibberd(공인 임상심리학자, 임상 경력 20년 이상) — '과잉사고' 편"
+    },
+    {
+      "raw_title": "The Things You Can See Only When You Slow Down",
+      "raw_creator": "Haemin Sunim",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jessamy Hibberd(공인 임상심리학자, 임상 경력 20년 이상) — '과잉사고' 편 / 혜민 스님의 한국어 원저 『멈추면, 비로소 보이는 것들』의 영역본"
+    },
+    {
+      "raw_title": "The Denial of Death",
+      "raw_creator": "Ernest Becker",
+      "rank": null,
+      "year": 1974,
+      "note": "추천: Sheldon Solomon(스키드모어대 심리학 교수) — '죽음에 대한 공포' 편 / 국내 출간명 『죽음의 부정』"
+    },
+    {
+      "raw_title": "Escape From Evil",
+      "raw_creator": "Ernest Becker",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sheldon Solomon(스키드모어대 심리학 교수) — '죽음에 대한 공포' 편 / 베커 사후 출간"
+    },
+    {
+      "raw_title": "Frankenstein; or The Modern Prometheus",
+      "raw_creator": "Mary Shelley",
+      "rank": null,
+      "year": 1818,
+      "note": "추천: Sheldon Solomon(스키드모어대 심리학 교수) — '죽음에 대한 공포' 편 / 국내 출간명 『프랑켄슈타인』"
+    },
+    {
+      "raw_title": "Existential Psychotherapy",
+      "raw_creator": "Irvin D Yalom",
+      "rank": null,
+      "year": 1980,
+      "note": "추천: Sheldon Solomon(스키드모어대 심리학 교수) — '죽음에 대한 공포' 편 / 국내 출간명 『실존주의 심리치료』"
+    },
+    {
+      "raw_title": "Clock Without Hands",
+      "raw_creator": "Carson McCullers",
+      "rank": null,
+      "year": 1953,
+      "note": "추천: Sheldon Solomon(스키드모어대 심리학 교수) — '죽음에 대한 공포' 편"
+    },
+    {
+      "raw_title": "Dibs in Search of Self",
+      "raw_creator": "Virginia M Axline",
+      "rank": null,
+      "year": null,
+      "note": "추천: Tanya Byron(공인 임상심리학자, 교수) — '아동심리와 정신건강' 편 / 국내 출간명 『딥스』"
+    },
+    {
+      "raw_title": "The Unquiet Mind: A Memoir of Moods and Madness",
+      "raw_creator": "Kay Redfield Jamison",
+      "rank": null,
+      "year": null,
+      "note": "추천: Tanya Byron(공인 임상심리학자, 교수) — '아동심리와 정신건강' 편 / 페이지 표기 그대로 옮김. 국내 출간명 『조울병, 나는 이렇게 극복했다』"
+    },
+    {
+      "raw_title": "Portraits of the Mind: Visualizing the Brain from Antiquity to the 21st Century",
+      "raw_creator": "Carl Schoonover",
+      "rank": null,
+      "year": null,
+      "note": "추천: Tanya Byron(공인 임상심리학자, 교수) — '아동심리와 정신건강' 편"
+    },
+    {
+      "raw_title": "The Man Who Mistook His Wife for a Hat and Other Clinical Tales",
+      "raw_creator": "Oliver Sacks",
+      "rank": null,
+      "year": null,
+      "note": "추천: Tanya Byron(공인 임상심리학자, 교수) — '아동심리와 정신건강' 편 / 국내 출간명 『아내를 모자로 착각한 남자』"
+    },
+    {
+      "raw_title": "No Fear: Growing Up in a Risk Averse Society",
+      "raw_creator": "Tim Gill",
+      "rank": null,
+      "year": null,
+      "note": "추천: Tanya Byron(공인 임상심리학자, 교수) — '아동심리와 정신건강' 편"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://fivebooks.com/subject/psychology/",
+      "https://fivebooks.com/category/psychology/",
+      "https://fivebooks.com/category/psychology/psychology-research/",
+      "https://fivebooks.com/category/psychology/social-psychology/",
+      "https://fivebooks.com/about/",
+      "https://fivebooks.com/best-books/psychology-human-behaviour-michael-hallsworth/",
+      "https://fivebooks.com/best-books/happiness-jonathan-haidt/",
+      "https://fivebooks.com/best-books/emotional-intelligence-daniel-goleman/",
+      "https://fivebooks.com/best-books/mindset-carol-dweck/",
+      "https://fivebooks.com/best-books/emotions-lisa-feldman-barrett/",
+      "https://fivebooks.com/best-books/consciousness-susan-blackmore/",
+      "https://fivebooks.com/best-books/evolutionary-psychology-chris-paley/",
+      "https://fivebooks.com/best-books/overthinking-jessamy-hibberd/",
+      "https://fivebooks.com/best-books/fear-of-death-sheldon-solomon/",
+      "https://fivebooks.com/interview/tanya-byron-on-child-psychology-and-mental-health/"
+    ],
+    "item_count": 48,
+    "interviews_merged": "인터뷰 10건. Michael Hallsworth(인간 행동의 심리학), Jonathan Haidt(행복), Daniel Goleman(감성지능), Carol Dweck(마인드셋과 성공), Lisa Feldman Barrett(감정), Susan Blackmore(의식), Chris Paley(진화심리학), Jessamy Hibberd(과잉사고), Sheldon Solomon(죽음에 대한 공포), Tanya Byron(아동심리와 정신건강). 인터뷰당 5권이므로 원 추천 수는 50건이고, 중복 2건을 합쳐 48권이 되었다.",
+    "duplicates": "두 권이 겹쳤다. Stumbling on Happiness(Daniel Gilbert)는 Jonathan Haidt와 Lisa Feldman Barrett이 함께 골랐고, Principles of Psychology(William James)는 Lisa Feldman Barrett과 Susan Blackmore가 함께 골랐다. 각각 한 항목으로만 넣고 note에 추천자 두 명을 모두 적었다.",
+    "gaps": "심리학 하위 주제 중 사회심리학·응용심리학·신경과학·정신분석·자폐 카테고리는 목록 페이지만 열어 인터뷰 제목과 추천자를 확인했고, 개별 인터뷰 본문은 열지 않아 책을 담지 않았다. 목표 상한 50권에 이미 근접해 추가 병합을 멈췄다. 더 넓히려면 Nicholas Epley(행동과학), Paul Bloom(잔혹함과 악), Steven Pinker(폭력의 감소), Rose McDermott(전쟁의 심리학) 인터뷰를 추가로 열면 된다.",
+    "uncertainties": "① 각 인터뷰 본문은 웹으로 실제 열어 읽었으나, 제목·저자 표기는 페이지 요약을 통해 받은 것이라 부제 표기의 미세한 차이가 남아 있을 수 있다. 특히 Kay Redfield Jamison의 책은 페이지에 'The Unquiet Mind'로 적혀 있어 그대로 옮겼는데, 통용 원제는 'An Unquiet Mind'다(두 번 확인해 둘 다 'The'로 나왔다). ② 출간연도는 페이지에 표기된 것만 넣었고 없으면 null로 두었다. ③ note의 국내 출간명은 사이트에서 확인한 정보가 아니라 별도 지식으로 덧붙인 참고 표기이므로 실제 국내 판권 제목과 다를 수 있다. ④ 설립연도 2009년과 창립자 소피 로엘은 소개 페이지 본문에 연도가 명시돼 있지 않아 웹 검색 결과로 보완했다. ⑤ Sheldon Solomon의 목록에는 Frankenstein·Clock Without Hands 같은 소설이, Lisa Feldman Barrett의 목록에는 Middlesex가 들어 있다. 심리학 학술서가 아니지만 추천자가 심리학 논의의 일부로 고른 것이라 그대로 실었다."
+  }
+}

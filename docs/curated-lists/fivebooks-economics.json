@@ -1,0 +1,454 @@
+{
+  "curator": {
+    "slug": "five-books",
+    "name": "파이브북스",
+    "name_en": "Five Books",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 2009,
+    "homepage_url": "https://fivebooks.com",
+    "description": "파이브북스는 각 분야 전문가를 인터뷰해 그 주제 최고의 책 다섯 권을 고르게 하는 영국의 책 추천 사이트다. 고른 이유를 인터뷰 형식으로 길게 풀어 싣는 것이 특징이며, 사이트 소개에 따르면 1,700건이 넘는 인터뷰와 8,000권 가까운 추천을 쌓았다. 매주 두 건 이상 새 인터뷰를 낸다.",
+    "description_en": "Five Books is a British book recommendation site that asks experts to choose the five best books on their subject and explain the selection in an interview. Its own description cites an archive of more than 1,700 interviews, or roughly 8,000 book recommendations, with at least two new interviews published each week. The extended interview format, rather than a bare ranking, is the site's distinguishing feature."
+  },
+  "list": {
+    "slug": "fivebooks-economics",
+    "title": "전문가가 고른 경제학 책",
+    "title_en": "Best Economics Books (Five Books)",
+    "description": "파이브북스의 경제학 분야 인터뷰 12건에 실린 추천을 하나로 합친 목록이다. 다이앤 코일, 제이슨 퍼먼, 팀 하포드, 존 케이, 피터 테민, 아리엘 루빈스타인, 댄 애리얼리, 마틴 울프, 로버트 스키델스키 등 아홉 명의 경제학자·경제 저널리스트가 고른 책을 담았다. 일반 경제학뿐 아니라 게임이론, 행동경제학, 경제사, 금융·세계경제, 케인스 연구까지 포함한다.",
+    "description_en": "A merged list drawn from twelve Five Books interviews on economics. It combines the picks of nine economists and economics journalists including Diane Coyle, Jason Furman, Tim Harford, John Kay, Peter Temin, Ariel Rubinstein, Dan Ariely, Martin Wolf and Robert Skidelsky. Coverage spans general economics plus game theory, behavioural economics, economic history, finance and the world economy, and Keynes scholarship.",
+    "published_year": null,
+    "edition": null,
+    "method": "파이브북스는 주제마다 그 분야 전문가 한 명을 인터뷰해 최고의 책 다섯 권을 고르게 하고, 각 권을 왜 골랐는지 인터뷰 본문에서 설명하게 한다(사이트 표기: \"We ask experts to recommend the five best books in their subject and explain their selection in an interview\"). 순위는 매기지 않는다. 이 목록은 그렇게 나온 경제학 분야 인터뷰 여러 건을 모아 합친 것이며, 합치는 작업 자체는 파이브북스가 한 것이 아니다.",
+    "method_en": "Five Books interviews one expert per topic, asking them to name the five best books on that subject and to explain each choice in the body of the interview (the site's own wording: \"We ask experts to recommend the five best books in their subject and explain their selection in an interview\"). The picks are unranked. This list aggregates several such economics interviews; the aggregation itself was not performed by Five Books.",
+    "source_url": "https://fivebooks.com/category/economics/",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": ["economics", "nonfiction"]
+  },
+  "items": [
+    {
+      "raw_title": "The Technology Trap: Capital, Labor, and Power in the Age of Automation",
+      "raw_creator": "Carl Benedikt Frey",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수, 베넷 공공정책연구소 공동소장) — 「2019년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Human Compatible: Artificial Intelligence and the Problem of Control",
+      "raw_creator": "Stuart Russell",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2019년 최고의 경제학 책」. 국내 출간명 『어떻게 인간과 공존하는 인공지능을 만들 것인가』"
+    },
+    {
+      "raw_title": "Globalists: The End of Empire and the Birth of Neoliberalism",
+      "raw_creator": "Quinn Slobodian",
+      "rank": null,
+      "year": 2018,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2019년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Extreme Economies",
+      "raw_creator": "Richard Davies",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2019년 최고의 경제학 책」. 국내 출간명 『국가는 어떻게 부유해지는가』 계열로 알려져 있으나 미확인"
+    },
+    {
+      "raw_title": "Palaces for the People: How Social Infrastructure Can Help Fight Inequality, Polarization, and the Decline of Civic Life",
+      "raw_creator": "Eric Klinenberg",
+      "rank": null,
+      "year": 2018,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2019년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "The Rise and Fall of American Growth: The U.S. Standard of Living since the Civil War",
+      "raw_creator": "Robert J. Gordon",
+      "rank": null,
+      "year": 2016,
+      "note": "추천 2인 — 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수, 「2016년 최고의 경제학 책」), 마틴 울프(파이낸셜타임스 수석 경제 논설위원, 「세계경제가 직면한 과제」). 국내 출간명 『미국의 성장은 끝났는가』"
+    },
+    {
+      "raw_title": "The Moral Economy: Why Good Incentives Are No Substitute for Good Citizens",
+      "raw_creator": "Samuel Bowles",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2016년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Capital without Borders: Wealth Managers and the One Percent",
+      "raw_creator": "Brooke Harrington",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2016년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "The Inner Lives of Markets: How People Shape Them—And They Shape Us",
+      "raw_creator": "Ray Fisman & Tim Sullivan",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2016년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Matchmakers: The New Economics of Multisided Platforms",
+      "raw_creator": "David S. Evans & Richard Schmalensee",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: 다이앤 코일(케임브리지대 베넷 공공정책 석좌교수) — 「2016년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Our Dollar, Your Problem: An Insider's View of Seven Turbulent Decades of Global Finance, and the Road Ahead",
+      "raw_creator": "Kenneth Rogoff",
+      "rank": null,
+      "year": null,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 오바마 행정부 백악관 경제자문위원회 위원장 역임) — 「2025년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Breakneck: China's Quest to Engineer the Future",
+      "raw_creator": "Dan Wang",
+      "rank": null,
+      "year": null,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2025년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "After the Spike: Population, Progress, and the Case for People",
+      "raw_creator": "Dean Spears & Michael Geruso",
+      "rank": null,
+      "year": null,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2025년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Fixed: Why Personal Finance Is Broken and How to Make It Work for Everyone",
+      "raw_creator": "John Y. Campbell & Tarun Ramadorai",
+      "rank": null,
+      "year": null,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2025년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "The Wealth of Nations",
+      "raw_creator": "Adam Smith",
+      "rank": null,
+      "year": null,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2025년 최고의 경제학 책」. 국내 출간명 『국부론』"
+    },
+    {
+      "raw_title": "Shock Values: Prices and Inflation in American Democracy",
+      "raw_creator": "Carola Binder",
+      "rank": null,
+      "year": 2024,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2024년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "One from the Many: The Global Economy Since 1850",
+      "raw_creator": "Christopher Meissner",
+      "rank": null,
+      "year": 2024,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2024년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Behind the Curve: Can Manufacturing Still Provide Inclusive Growth?",
+      "raw_creator": "Robert Lawrence",
+      "rank": null,
+      "year": 2024,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2024년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "Breaking the Mold: India's Untraveled Path to Prosperity",
+      "raw_creator": "Raghuram G. Rajan & Rohit Lamba",
+      "rank": null,
+      "year": 2024,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2024년 최고의 경제학 책」"
+    },
+    {
+      "raw_title": "How Economics Explains the World (미국판) / The Shortest History of Economics (영국판)",
+      "raw_creator": "Andrew Leigh",
+      "rank": null,
+      "year": 2024,
+      "note": "추천: 제이슨 퍼먼(하버드 케네디스쿨 교수, 전 백악관 경제자문위원회 위원장) — 「2024년 최고의 경제학 책」. 미국판·영국판 제목이 다르다"
+    },
+    {
+      "raw_title": "Thinking Strategically: The Competitive Edge in Business, Politics, and Everyday Life",
+      "raw_creator": "Avinash Dixit & Barry Nalebuff",
+      "rank": null,
+      "year": 1991,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「경제학 최고의 입문서」. 국내 출간명 『전략의 탄생』 계열로 알려져 있으나 미확인"
+    },
+    {
+      "raw_title": "Money Changes Everything: How Finance Made Civilization Possible",
+      "raw_creator": "William Goetzmann",
+      "rank": null,
+      "year": 2016,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「경제학 최고의 입문서」"
+    },
+    {
+      "raw_title": "Hidden Order: The Economics of Everyday Life",
+      "raw_creator": "David Friedman",
+      "rank": null,
+      "year": 1996,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「경제학 최고의 입문서」"
+    },
+    {
+      "raw_title": "The Truth About Markets: Why Some Nations are Rich But Most Remain Poor",
+      "raw_creator": "John Kay",
+      "rank": null,
+      "year": 2003,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「경제학 최고의 입문서」"
+    },
+    {
+      "raw_title": "Grand Pursuit: The Story of the People Who Made Modern Economics",
+      "raw_creator": "Sylvia Nasar",
+      "rank": null,
+      "year": 2011,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「경제학 최고의 입문서」"
+    },
+    {
+      "raw_title": "Normal Accidents",
+      "raw_creator": "Charles Perrow",
+      "rank": null,
+      "year": null,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「뜻밖의 경제학 책」"
+    },
+    {
+      "raw_title": "For The Win",
+      "raw_creator": "Cory Doctorow",
+      "rank": null,
+      "year": null,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「뜻밖의 경제학 책」. 소설"
+    },
+    {
+      "raw_title": "The Cartoon Introduction to Economics: Microeconomics",
+      "raw_creator": "Yoram Bauman & Grady Klein",
+      "rank": null,
+      "year": null,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「뜻밖의 경제학 책」"
+    },
+    {
+      "raw_title": "The Big Short: Inside the Doomsday Machine",
+      "raw_creator": "Michael Lewis",
+      "rank": null,
+      "year": null,
+      "note": "추천 2인 — 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트, 「뜻밖의 경제학 책」), 존 케이(영국 경제학자, 옥스퍼드 세인트존스칼리지 펠로, 「현실 세계의 경제학」). 국내 출간명 『빅 숏』"
+    },
+    {
+      "raw_title": "Bad Science: Quacks, Hacks, and Big Pharma Flacks",
+      "raw_creator": "Ben Goldacre",
+      "rank": null,
+      "year": null,
+      "note": "추천: 팀 하포드(경제학자, 파이낸셜타임스 칼럼니스트) — 「뜻밖의 경제학 책」"
+    },
+    {
+      "raw_title": "The Origin of Wealth: Evolution, Complexity, and the Radical Remaking of Economics",
+      "raw_creator": "Eric D. Beinhocker",
+      "rank": null,
+      "year": null,
+      "note": "추천: 존 케이(영국 경제학자, 옥스퍼드 세인트존스칼리지 펠로) — 「현실 세계의 경제학」. 국내 출간명 『부의 기원』"
+    },
+    {
+      "raw_title": "Good Strategy Bad Strategy: The Difference and Why It Matters",
+      "raw_creator": "Richard Rumelt",
+      "rank": null,
+      "year": null,
+      "note": "추천: 존 케이(영국 경제학자, 옥스퍼드 세인트존스칼리지 펠로) — 「현실 세계의 경제학」. 국내 출간명 『전략의 적은 전략이다』"
+    },
+    {
+      "raw_title": "Guns, Germs and Steel",
+      "raw_creator": "Jared Diamond",
+      "rank": null,
+      "year": null,
+      "note": "추천: 존 케이(영국 경제학자, 옥스퍼드 세인트존스칼리지 펠로) — 「현실 세계의 경제학」. 국내 출간명 『총, 균, 쇠』"
+    },
+    {
+      "raw_title": "The Wealth and Poverty of Nations",
+      "raw_creator": "David S. Landes",
+      "rank": null,
+      "year": null,
+      "note": "추천: 존 케이(영국 경제학자, 옥스퍼드 세인트존스칼리지 펠로) — 「현실 세계의 경제학」. 국내 출간명 『국가의 부와 빈곤』"
+    },
+    {
+      "raw_title": "Capital in the Twenty-First Century",
+      "raw_creator": "Thomas Piketty",
+      "rank": null,
+      "year": 2013,
+      "note": "추천: 피터 테민(MIT 경제학 명예교수) — 「경제사학자가 아끼는 책」. 국내 출간명 『21세기 자본』"
+    },
+    {
+      "raw_title": "The New Jim Crow: Mass Incarceration in the Age of Colorblindness",
+      "raw_creator": "Michelle Alexander",
+      "rank": null,
+      "year": 2010,
+      "note": "추천: 피터 테민(MIT 경제학 명예교수) — 「경제사학자가 아끼는 책」. 국내 출간명 『새로운 흑인 차별 철폐 운동』 계열로 알려져 있으나 미확인"
+    },
+    {
+      "raw_title": "The Strange Career of Jim Crow",
+      "raw_creator": "C. Vann Woodward",
+      "rank": null,
+      "year": 1955,
+      "note": "추천: 피터 테민(MIT 경제학 명예교수) — 「경제사학자가 아끼는 책」"
+    },
+    {
+      "raw_title": "A Theory of Economic History",
+      "raw_creator": "John Hicks",
+      "rank": null,
+      "year": 1969,
+      "note": "추천: 피터 테민(MIT 경제학 명예교수) — 「경제사학자가 아끼는 책」"
+    },
+    {
+      "raw_title": "Feudal Society",
+      "raw_creator": "Marc Bloch",
+      "rank": null,
+      "year": 1939,
+      "note": "추천: 피터 테민(MIT 경제학 명예교수) — 「경제사학자가 아끼는 책」. 국내 출간명 『봉건사회』"
+    },
+    {
+      "raw_title": "Theory of Games and Economic Behavior",
+      "raw_creator": "John von Neumann & Oskar Morgenstern",
+      "rank": null,
+      "year": 1944,
+      "note": "추천: 아리엘 루빈스타인(텔아비브대·뉴욕대 경제학 교수) — 「게임이론」. 루빈스타인은 게임이론 개념을 체계적으로 묶은 최초의 시도로 평가했다"
+    },
+    {
+      "raw_title": "Games and Decisions",
+      "raw_creator": "R. Duncan Luce & Howard Raiffa",
+      "rank": null,
+      "year": 1957,
+      "note": "추천: 아리엘 루빈스타인(텔아비브대·뉴욕대 경제학 교수) — 「게임이론」"
+    },
+    {
+      "raw_title": "Collected Papers",
+      "raw_creator": "Robert J. Aumann",
+      "rank": null,
+      "year": null,
+      "note": "추천: 아리엘 루빈스타인(텔아비브대·뉴욕대 경제학 교수) — 「게임이론」. 저자는 2005년 노벨경제학상 수상자"
+    },
+    {
+      "raw_title": "A Beautiful Mind",
+      "raw_creator": "Sylvia Nasar",
+      "rank": null,
+      "year": 1998,
+      "note": "추천: 아리엘 루빈스타인(텔아비브대·뉴욕대 경제학 교수) — 「게임이론」. 국내 출간명 『뷰티풀 마인드』"
+    },
+    {
+      "raw_title": "The Invisible Gorilla: How Our Intuitions Deceive Us",
+      "raw_creator": "Christopher Chabris & Daniel Simons",
+      "rank": null,
+      "year": null,
+      "note": "추천: 댄 애리얼리(듀크대 심리학·행동경제학 교수) — 「행동경제학」. 국내 출간명 『보이지 않는 고릴라』"
+    },
+    {
+      "raw_title": "Influence: The Psychology of Persuasion",
+      "raw_creator": "Robert B. Cialdini",
+      "rank": null,
+      "year": null,
+      "note": "추천: 댄 애리얼리(듀크대 심리학·행동경제학 교수) — 「행동경제학」. 국내 출간명 『설득의 심리학』"
+    },
+    {
+      "raw_title": "Nudge: Improving Decisions About Health, Wealth, and Happiness",
+      "raw_creator": "Cass Sunstein & Richard Thaler",
+      "rank": null,
+      "year": null,
+      "note": "추천: 댄 애리얼리(듀크대 심리학·행동경제학 교수) — 「행동경제학」. 국내 출간명 『넛지』"
+    },
+    {
+      "raw_title": "Mindless Eating",
+      "raw_creator": "Brian Wansink",
+      "rank": null,
+      "year": null,
+      "note": "추천: 댄 애리얼리(듀크대 심리학·행동경제학 교수) — 「행동경제학」"
+    },
+    {
+      "raw_title": "The Person and the Situation",
+      "raw_creator": "Lee Ross & Richard E. Nisbett",
+      "rank": null,
+      "year": null,
+      "note": "추천: 댄 애리얼리(듀크대 심리학·행동경제학 교수) — 「행동경제학」"
+    },
+    {
+      "raw_title": "Between Debt and the Devil: Money, Credit, and Fixing Global Finance",
+      "raw_creator": "Adair Turner",
+      "rank": null,
+      "year": 2015,
+      "note": "추천: 마틴 울프(파이낸셜타임스 수석 경제 논설위원) — 「세계경제가 직면한 과제」"
+    },
+    {
+      "raw_title": "Crashed: How a Decade of Financial Crises Changed the World",
+      "raw_creator": "Adam Tooze",
+      "rank": null,
+      "year": 2018,
+      "note": "추천: 마틴 울프(파이낸셜타임스 수석 경제 논설위원) — 「세계경제가 직면한 과제」. 국내 출간명 『붕괴』"
+    },
+    {
+      "raw_title": "The Narrow Corridor: States, Societies, and the Fate of Liberty",
+      "raw_creator": "Daron Acemoglu & James Robinson",
+      "rank": null,
+      "year": 2019,
+      "note": "추천: 마틴 울프(파이낸셜타임스 수석 경제 논설위원) — 「세계경제가 직면한 과제」. 국내 출간명 『좁은 회랑』"
+    },
+    {
+      "raw_title": "Slouching Towards Utopia: An Economic History of the Twentieth Century",
+      "raw_creator": "Brad DeLong",
+      "rank": null,
+      "year": 2022,
+      "note": "추천: 마틴 울프(파이낸셜타임스 수석 경제 논설위원) — 「세계경제가 직면한 과제」"
+    },
+    {
+      "raw_title": "The Life of John Maynard Keynes",
+      "raw_creator": "Roy Harrod",
+      "rank": null,
+      "year": 1951,
+      "note": "추천: 로버트 스키델스키(워릭대 정치경제학 명예교수, 케인스 3부작 전기 저자) — 「존 메이너드 케인스」. 최초의 공식 전기"
+    },
+    {
+      "raw_title": "John Maynard Keynes",
+      "raw_creator": "Paul Davidson",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로버트 스키델스키(워릭대 정치경제학 명예교수) — 「존 메이너드 케인스」. 불확실성을 케인스 이론의 중심에 놓은 해설서"
+    },
+    {
+      "raw_title": "John Maynard Keynes",
+      "raw_creator": "Hyman Minsky",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로버트 스키델스키(워릭대 정치경제학 명예교수) — 「존 메이너드 케인스」. 위 데이비슨 책과 제목이 같으나 다른 저자의 별개 책이다"
+    },
+    {
+      "raw_title": "Keynes and The Market",
+      "raw_creator": "Justyn Walsh",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로버트 스키델스키(워릭대 정치경제학 명예교수) — 「존 메이너드 케인스」. 케인스의 투자 경험과 경제 이론의 관계를 다룬다"
+    },
+    {
+      "raw_title": "The Unexplored Keynes and Other Essays",
+      "raw_creator": "Anand Chandavarkar",
+      "rank": null,
+      "year": null,
+      "note": "추천: 로버트 스키델스키(워릭대 정치경제학 명예교수) — 「존 메이너드 케인스」"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://fivebooks.com/subject/economics/",
+      "https://fivebooks.com/category/economics/",
+      "https://fivebooks.com/category/economics/popular-economics-books/",
+      "https://fivebooks.com/best-books/economics-2019-diane-coyle/",
+      "https://fivebooks.com/interview/best-economics-books-2016/",
+      "https://fivebooks.com/best-books/the-best-economics-books-of-2025-jason-furman/",
+      "https://fivebooks.com/best-books/best-economics-books-2024-jason-furman/",
+      "https://fivebooks.com/best-books/introductions-economics-tim-harford/",
+      "https://fivebooks.com/best-books/best-books-unexpected-economics-tim-harford/",
+      "https://fivebooks.com/best-books/john-kay-on-economics-in-the-real-world/",
+      "https://fivebooks.com/best-books/peter-temin-favourite-books/",
+      "https://fivebooks.com/best-books/ariel-rubinstein-on-game-theory/",
+      "https://fivebooks.com/best-books/behavioural-economics-dan-ariely/",
+      "https://fivebooks.com/best-books/world-economy-martin-wolf/",
+      "https://fivebooks.com/best-books/robert-skidelsky-keynes/"
+    ],
+    "item_count": 57,
+    "interviews_merged": "인터뷰 12건, 추천자 9인. 다이앤 코일(2019년 최고의 경제학 책 / 2016년 최고의 경제학 책, 2건), 제이슨 퍼먼(2025년 / 2024년 최고의 경제학 책, 2건), 팀 하포드(경제학 최고의 입문서 / 뜻밖의 경제학 책, 2건), 존 케이(현실 세계의 경제학), 피터 테민(경제사학자가 아끼는 책), 아리엘 루빈스타인(게임이론), 댄 애리얼리(행동경제학), 마틴 울프(세계경제가 직면한 과제), 로버트 스키델스키(존 메이너드 케인스).",
+    "duplicates": "2건. ① The Big Short (Michael Lewis) — 팀 하포드, 존 케이 두 사람이 골랐다. ② The Rise and Fall of American Growth (Robert J. Gordon) — 다이앤 코일, 마틴 울프 두 사람이 골랐다. 두 책 모두 항목은 하나로 두고 note에 추천자 두 명을 함께 적었다. 서로 다른 저자가 쓴 동명의 책 John Maynard Keynes 두 권(폴 데이비드슨 / 하이먼 민스키)은 중복이 아니므로 별개 항목으로 유지했다.",
+    "gaps": "① 아리엘 루빈스타인의 게임이론 인터뷰는 다섯 번째 자리를 '아직 쓰이지 않은, 게임이론을 비판하는 책'으로 남겨두었다. 실재하는 책이 아니므로 항목에서 제외해 이 인터뷰만 4권이다. ② 파이브북스 경제학 분야에는 이 밖에도 인플레이션(페데리카 로메이), 관세·무역(드미트리 그로주빈스키), 기본소득(매튜 존슨), 하이에크(필립 미로프스키), 국가부도·채무재조정(그레고리 마코프), 학습 경제학(존 퀴긴), 경제학은 즐겁다(대니얼 해머메시) 등 다수의 인터뷰가 더 있으나 이번에는 열지 않았다. 더 늘리려면 이 페이지들을 추가로 열면 된다. ③ 출간연도는 각 인터뷰 페이지에 표기된 경우에만 채웠고 나머지는 null이다.",
+    "uncertainties": "① 각 책의 국내 출간명은 fivebooks.com에서 확인한 정보가 아니다. 널리 알려진 것만 적었고, 확신이 덜한 세 건(Extreme Economies, Thinking Strategically, The New Jim Crow)은 note에 '미확인'이라고 명시했다. 서비스에 노출하려면 국내 서지 정보로 따로 대조해야 한다. ② Andrew Leigh의 책은 미국판(How Economics Explains the World)과 영국판(The Shortest History of Economics) 제목이 다르며, 인터뷰 페이지에 두 제목이 함께 실려 있어 raw_title에 병기했다. ③ 각 페이지 본문은 요약 형태로 받아 읽었다. 제목·저자·추천자·직함은 그대로 옮겼으나, 추천 이유의 세부 표현까지 원문 그대로 옮긴 것은 아니다."
+  }
+}

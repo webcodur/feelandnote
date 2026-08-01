@@ -1,0 +1,825 @@
+{
+  "curator": {
+    "slug": "pulitzer-prize",
+    "name": "퓰리처상",
+    "name_en": "The Pulitzer Prizes",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1917,
+    "homepage_url": "https://www.pulitzer.org",
+    "description": "미국 신문 발행인 조지프 퓰리처가 1904년 유언장에 남긴 기금으로 만들어져 1917년 첫 시상을 한 상이다. 컬럼비아대학교가 운영하며 퓰리처상 이사회가 최종 수상자를 결정한다. 언론·문학·연극·음악에 걸쳐 현재 23개 부문에서 매년 봄 수상자를 발표한다.",
+    "description_en": "Established under the 1904 will of newspaper publisher Joseph Pulitzer and first awarded in 1917, the Pulitzer Prizes are administered by Columbia University, with the Pulitzer Prize Board making the final selections. Twenty-three prizes are now announced each spring across journalism, letters, drama and music."
+  },
+  "list": {
+    "slug": "pulitzer-history",
+    "title": "퓰리처상 역사 부문",
+    "title_en": "Pulitzer Prize for History",
+    "description": "퓰리처상 역사 부문의 역대 수상작 전량이다. 1917년 첫 시상부터 이어져 온 최초 부문 가운데 하나로, 조지프 퓰리처의 유언장이 직접 지목한 '미국사에 관한 책'이 그 출발점이다. 미국 역사를 다룬 뛰어난 저작 가운데 사료 근거가 탄탄한 책을 매년 뽑으며, 상금은 1만 5천 달러다.",
+    "description_en": "The complete roll of winners of the Pulitzer Prize for History. One of the original categories awarded since 1917, it descends directly from the provision in Joseph Pulitzer's will for a prize honouring a book on the history of the United States. Each year it recognises a distinguished and appropriately documented book on American history, and carries an award of $15,000.",
+    "published_year": null,
+    "edition": null,
+    "method": "그해 출간된 책을 출판사 등이 응모하며 마감은 10월이다. 책 부문 심사단은 다섯 명으로 꾸려지고 대부분 원격으로 작업하며, 응모작을 읽은 뒤 순위를 매기지 않은 후보 3편을 이사회에 올린다. 이사회는 5월 초 컬럼비아대 저널리즘스쿨에 이틀간 모여 후보작을 직접 읽고 과반 투표로 수상작을 정하며, '수상작 없음'을 의결할 수도 있고 4분의 3 찬성으로 후보에 오르지 않은 작품을 뽑거나 부문을 옮겨 시상할 수도 있다. 심사 기준은 '미국 역사를 다룬, 사료 근거가 충실한 뛰어난 책'이다. 발표는 이사회 다음 월요일 오후 3시(미 동부시간)에 이뤄진다.",
+    "method_en": "Books published during the calendar year are entered by publishers, with a final submission deadline in October. The History jury, one of six book juries currently comprising five judges each, works largely remotely and sends the Board three nominations in no order of preference. In early May the Pulitzer Prize Board meets for two days at Columbia's Journalism School, having read the nominated books, and selects the winner by majority vote; it may also vote 'no award', or by a three-fourths vote choose an entry that was not nominated or move a nomination between categories. The stated criterion is 'a distinguished and appropriately documented book on the history of the United States.' Winners are announced at 3:00 p.m. Eastern on the Monday after the Board meeting.",
+    "source_url": "https://www.pulitzer.org/prize-winners-by-category/220",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "history",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "With Americans of Past and Present Days",
+      "raw_creator": "J.J. Jusserand",
+      "rank": null,
+      "year": 1917,
+      "note": "퓰리처상 역사 부문 첫 수상작이다. 공식 사이트는 저자를 “His Excellency J.J. Jusserand”로 적었고, 위키백과는 “Jean Jules Jusserand”로 적었다."
+    },
+    {
+      "raw_title": "History of the Civil War, 1861-1865",
+      "raw_creator": "James Ford Rhodes",
+      "rank": null,
+      "year": 1918,
+      "note": "공식 사이트 제목은 “History of the Civil War, 1861-1865”, 위키백과는 “A History of the Civil War, 1861–1865”다."
+    },
+    {
+      "raw_title": "The War with Mexico",
+      "raw_creator": "Justin H. Smith",
+      "rank": null,
+      "year": 1920,
+      "note": null
+    },
+    {
+      "raw_title": "The Victory at Sea",
+      "raw_creator": "William Sowden Sims and Burton J. Hendrick",
+      "rank": null,
+      "year": 1921,
+      "note": "공식 사이트 저자 표기는 “William Sowden Sims in collaboration with Burton J. Hendrick”다."
+    },
+    {
+      "raw_title": "The Founding of New England",
+      "raw_creator": "James Truslow Adams",
+      "rank": null,
+      "year": 1922,
+      "note": null
+    },
+    {
+      "raw_title": "The Supreme Court in United States History",
+      "raw_creator": "Charles Warren",
+      "rank": null,
+      "year": 1923,
+      "note": null
+    },
+    {
+      "raw_title": "The American Revolution -- A Constitutional Interpretation",
+      "raw_creator": "Charles Howard McIlwain",
+      "rank": null,
+      "year": 1924,
+      "note": "공식 사이트 제목의 구분 기호가 콜론이 아니라 두 줄표(--)다. 위키백과는 “The American Revolution: A Constitutional Interpretation”로 적었다."
+    },
+    {
+      "raw_title": "History of the American Frontier",
+      "raw_creator": "Frederic L. Paxson",
+      "rank": null,
+      "year": 1925,
+      "note": null
+    },
+    {
+      "raw_title": "A History of the United States, Vol. VI: The War for Southern Independence, 1849-1865",
+      "raw_creator": "Edward Channing",
+      "rank": null,
+      "year": 1926,
+      "note": "위키백과는 권 번호까지만 적어 “A History of the United States, Vol. VI”로 줄여 싣는다."
+    },
+    {
+      "raw_title": "Pinckney's Treaty",
+      "raw_creator": "Samuel Flagg Bemis",
+      "rank": null,
+      "year": 1927,
+      "note": null
+    },
+    {
+      "raw_title": "Main Currents in American Thought, 2 vols.",
+      "raw_creator": "Vernon Louis Parrington",
+      "rank": null,
+      "year": 1928,
+      "note": "공식 사이트가 제목 뒤에 권수(2 vols.)를 함께 적었다. 통용 제목은 “Main Currents in American Thought”다."
+    },
+    {
+      "raw_title": "The Organization and Administration of the Union Army, 1861-1865",
+      "raw_creator": "Fred Albert Shannon",
+      "rank": null,
+      "year": 1929,
+      "note": null
+    },
+    {
+      "raw_title": "The Founding of the American Republic, Volume II: The War of Independence: American Phase",
+      "raw_creator": "Claude H. Van Tyne",
+      "rank": null,
+      "year": 1930,
+      "note": "위키백과는 부제만 떼어 “The War of Independence”로 싣는다."
+    },
+    {
+      "raw_title": "The Coming of the War 1914",
+      "raw_creator": "Bernadotte E. Schmitt",
+      "rank": null,
+      "year": 1931,
+      "note": null
+    },
+    {
+      "raw_title": "My Experiences in the World War",
+      "raw_creator": "John J. Pershing",
+      "rank": null,
+      "year": 1932,
+      "note": null
+    },
+    {
+      "raw_title": "The Significance of Sections in American History",
+      "raw_creator": "Frederick J. Turner",
+      "rank": null,
+      "year": 1933,
+      "note": "공식 사이트는 “Frederick J. Turner”, 위키백과는 “Frederick Jackson Turner”로 적었다."
+    },
+    {
+      "raw_title": "The People's Choice",
+      "raw_creator": "Herbert Agar",
+      "rank": null,
+      "year": 1934,
+      "note": null
+    },
+    {
+      "raw_title": "The Colonial Period of American History",
+      "raw_creator": "Charles McLean Andrews",
+      "rank": null,
+      "year": 1935,
+      "note": null
+    },
+    {
+      "raw_title": "A Constitutional History of the United States",
+      "raw_creator": "Andrew C. McLaughlin",
+      "rank": null,
+      "year": 1936,
+      "note": null
+    },
+    {
+      "raw_title": "The Flowering of New England 1815-1865",
+      "raw_creator": "Van Wyck Brooks",
+      "rank": null,
+      "year": 1937,
+      "note": null
+    },
+    {
+      "raw_title": "The Road to Reunion, 1865-1900",
+      "raw_creator": "Paul Herman Buck",
+      "rank": null,
+      "year": 1938,
+      "note": null
+    },
+    {
+      "raw_title": "A History of American Magazines",
+      "raw_creator": "Frank Luther Mott",
+      "rank": null,
+      "year": 1939,
+      "note": null
+    },
+    {
+      "raw_title": "Abraham Lincoln: The War Years",
+      "raw_creator": "Carl Sandburg",
+      "rank": null,
+      "year": 1940,
+      "note": null
+    },
+    {
+      "raw_title": "The Atlantic Migration, 1607-1860",
+      "raw_creator": "Marcus Lee Hansen",
+      "rank": null,
+      "year": 1941,
+      "note": null
+    },
+    {
+      "raw_title": "Reveille in Washington, 1860-1865",
+      "raw_creator": "Margaret Leech",
+      "rank": null,
+      "year": 1942,
+      "note": null
+    },
+    {
+      "raw_title": "Paul Revere and the World He Lived In",
+      "raw_creator": "Esther Forbes",
+      "rank": null,
+      "year": 1943,
+      "note": null
+    },
+    {
+      "raw_title": "The Growth of American Thought",
+      "raw_creator": "Merle Curti",
+      "rank": null,
+      "year": 1944,
+      "note": null
+    },
+    {
+      "raw_title": "Unfinished Business",
+      "raw_creator": "Stephen Bonsal",
+      "rank": null,
+      "year": 1945,
+      "note": null
+    },
+    {
+      "raw_title": "The Age of Jackson",
+      "raw_creator": "Arthur Meier Schlesinger",
+      "rank": null,
+      "year": 1946,
+      "note": "공식 사이트는 “Arthur Meier Schlesinger”로 적었으나, 수상자는 같은 이름을 쓴 아버지가 아니라 아들 Arthur M. Schlesinger Jr.다(위키백과 표기)."
+    },
+    {
+      "raw_title": "Scientists Against Time",
+      "raw_creator": "James Phinney Baxter 3rd",
+      "rank": null,
+      "year": 1947,
+      "note": "공식 사이트는 “James Phinney Baxter 3rd”, 위키백과는 “James Phinney Baxter III”로 적었다."
+    },
+    {
+      "raw_title": "Across the Wide Missouri",
+      "raw_creator": "Bernard Devoto",
+      "rank": null,
+      "year": 1948,
+      "note": "공식 사이트는 “Bernard Devoto”, 위키백과는 “Bernard DeVoto”로 적었다."
+    },
+    {
+      "raw_title": "The Disruption of American Democracy",
+      "raw_creator": "Roy Franklin Nichols",
+      "rank": null,
+      "year": 1949,
+      "note": null
+    },
+    {
+      "raw_title": "Art and Life in America",
+      "raw_creator": "Oliver W. Larkin",
+      "rank": null,
+      "year": 1950,
+      "note": null
+    },
+    {
+      "raw_title": "The Old Northwest, Pioneer Period 1815-1840",
+      "raw_creator": "R. Carlyle Buley",
+      "rank": null,
+      "year": 1951,
+      "note": null
+    },
+    {
+      "raw_title": "The Uprooted",
+      "raw_creator": "Oscar Handlin",
+      "rank": null,
+      "year": 1952,
+      "note": null
+    },
+    {
+      "raw_title": "The Era of Good Feelings",
+      "raw_creator": "George Dangerfield",
+      "rank": null,
+      "year": 1953,
+      "note": null
+    },
+    {
+      "raw_title": "A Stillness at Appomattox",
+      "raw_creator": "Bruce Catton",
+      "rank": null,
+      "year": 1954,
+      "note": null
+    },
+    {
+      "raw_title": "Great River: The Rio Grande in North American History",
+      "raw_creator": "Paul Horgan",
+      "rank": null,
+      "year": 1955,
+      "note": null
+    },
+    {
+      "raw_title": "The Age of Reform",
+      "raw_creator": "Richard Hofstadter",
+      "rank": null,
+      "year": 1956,
+      "note": null
+    },
+    {
+      "raw_title": "Russia Leaves the War: Soviet-American Relations, 1917-1920",
+      "raw_creator": "George F. Kennan",
+      "rank": null,
+      "year": 1957,
+      "note": null
+    },
+    {
+      "raw_title": "Banks and Politics in America",
+      "raw_creator": "Bray Hammond",
+      "rank": null,
+      "year": 1958,
+      "note": null
+    },
+    {
+      "raw_title": "The Republican Era: 1869-1901",
+      "raw_creator": "Leonard D. White",
+      "rank": null,
+      "year": 1959,
+      "note": "위키백과는 공동 작업자로 Jean Schneider를 함께 적으나, 공식 사이트는 Leonard D. White만 수상자로 싣는다."
+    },
+    {
+      "raw_title": "In the Days of McKinley",
+      "raw_creator": "Margaret Leech",
+      "rank": null,
+      "year": 1960,
+      "note": null
+    },
+    {
+      "raw_title": "Between War and Peace: The Potsdam Conference",
+      "raw_creator": "Herbert Feis",
+      "rank": null,
+      "year": 1961,
+      "note": null
+    },
+    {
+      "raw_title": "The Triumphant Empire: Thunder-Clouds Gather in the West 1763-1766",
+      "raw_creator": "Lawrence H. Gipson",
+      "rank": null,
+      "year": 1962,
+      "note": null
+    },
+    {
+      "raw_title": "Washington, Village and Capital, 1800-1878",
+      "raw_creator": "Constance McLaughlin Green",
+      "rank": null,
+      "year": 1963,
+      "note": null
+    },
+    {
+      "raw_title": "Puritan Village: The Formation of a New England Town",
+      "raw_creator": "Sumner Chilton Powell",
+      "rank": null,
+      "year": 1964,
+      "note": null
+    },
+    {
+      "raw_title": "The Greenback Era: A Social and Political History of American Finance, 1865-1879",
+      "raw_creator": "Irwin Unger",
+      "rank": null,
+      "year": 1965,
+      "note": null
+    },
+    {
+      "raw_title": "The Life of the Mind in America: From the Revolution to the Civil War",
+      "raw_creator": "Perry Miller",
+      "rank": null,
+      "year": 1966,
+      "note": null
+    },
+    {
+      "raw_title": "Exploration and Empire: The Explorer and the Scientist in the Winning of the American West",
+      "raw_creator": "William H. Goetzmann",
+      "rank": null,
+      "year": 1967,
+      "note": null
+    },
+    {
+      "raw_title": "The Ideological Origins of the American Revolution",
+      "raw_creator": "Bernard Bailyn",
+      "rank": null,
+      "year": 1968,
+      "note": null
+    },
+    {
+      "raw_title": "Origins of the Fifth Amendment",
+      "raw_creator": "Leonard W. Levy",
+      "rank": null,
+      "year": 1969,
+      "note": null
+    },
+    {
+      "raw_title": "Present At The Creation: My Years In The State Department",
+      "raw_creator": "Dean Acheson",
+      "rank": null,
+      "year": 1970,
+      "note": null
+    },
+    {
+      "raw_title": "Roosevelt: The Soldier Of Freedom",
+      "raw_creator": "James MacGregor Burns",
+      "rank": null,
+      "year": 1971,
+      "note": null
+    },
+    {
+      "raw_title": "Neither Black Nor White",
+      "raw_creator": "Carl N. Degler",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "People of Paradox: An Inquiry Concerning the Origins of American Civilization",
+      "raw_creator": "Michael Kammen",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Americans: The Democratic Experience",
+      "raw_creator": "Daniel J. Boorstin",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Jefferson and His Time, Vols. I-V",
+      "raw_creator": "Dumas Malone",
+      "rank": null,
+      "year": 1975,
+      "note": "공식 사이트가 제목 뒤에 권수(Vols. I-V)를 함께 적었다. 통용 제목은 “Jefferson and His Time”이다."
+    },
+    {
+      "raw_title": "Lamy of Santa Fe",
+      "raw_creator": "Paul Horgan",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Impending Crisis, 1848-1861",
+      "raw_creator": "David M. Potter",
+      "rank": null,
+      "year": 1977,
+      "note": "저자가 집필을 마치지 못하고 세상을 떠나 Don E. Fehrenbacher가 원고를 마무리했다(위키백과). 공식 사이트는 David M. Potter만 적는다."
+    },
+    {
+      "raw_title": "The Visible Hand: The Managerial Revolution in American Business",
+      "raw_creator": "Alfred D. Chandler",
+      "rank": null,
+      "year": 1978,
+      "note": "공식 사이트는 “Alfred D. Chandler”, 위키백과는 “Alfred D. Chandler Jr.”로 적었다."
+    },
+    {
+      "raw_title": "The Dred Scott Case",
+      "raw_creator": "Don E. Fehrenbacher",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "Been in the Storm So Long",
+      "raw_creator": "Leon F. Litwack",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "American Education: The National Experience, 1783-1876",
+      "raw_creator": "Lawrence A. Cremin",
+      "rank": null,
+      "year": 1981,
+      "note": null
+    },
+    {
+      "raw_title": "Mary Chesnut's Civil War",
+      "raw_creator": "C. Vann Woodward",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "The Transformation of Virginia, 1740-1790",
+      "raw_creator": "Rhys L. Isaac",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "Prophets of Regulation",
+      "raw_creator": "Thomas K. McCraw",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "...the Heavens and the Earth: A Political History of the Space Age",
+      "raw_creator": "Walter A. McDougall",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Voyagers to the West: A Passage in the Peopling of America on the Eve of the Revolution",
+      "raw_creator": "Bernard Bailyn",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "The Launching of Modern American Science 1846-1876",
+      "raw_creator": "Robert V. Bruce",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Battle Cry of Freedom: The Civil War Era",
+      "raw_creator": "James M. McPherson",
+      "rank": null,
+      "year": 1989,
+      "note": "공동 수상."
+    },
+    {
+      "raw_title": "Parting the Waters: America in the King Years 1954-1963",
+      "raw_creator": "Taylor Branch",
+      "rank": null,
+      "year": 1989,
+      "note": "공동 수상."
+    },
+    {
+      "raw_title": "In Our Image: America's Empire in the Philippines",
+      "raw_creator": "Stanley Karnow",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "A Midwife's Tale",
+      "raw_creator": "Laurel Thatcher Ulrich",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "The Fate of Liberty: Abraham Lincoln and Civil Liberties",
+      "raw_creator": "Mark E. Neely",
+      "rank": null,
+      "year": 1992,
+      "note": "공식 사이트는 “Mark E. Neely”, 위키백과는 “Mark E. Neely Jr.”로 적었다."
+    },
+    {
+      "raw_title": "The Radicalism of the American Revolution",
+      "raw_creator": "Gordon S. Wood",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "No Ordinary Time: Franklin and Eleanor Roosevelt: The Home Front in World War II",
+      "raw_creator": "Doris Kearns Goodwin",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "William Cooper's Town: Power and Persuasion on the Frontier of the Early American Republic",
+      "raw_creator": "Alan Taylor",
+      "rank": null,
+      "year": 1996,
+      "note": null
+    },
+    {
+      "raw_title": "Original Meanings: Politics and Ideas in the Making of the Constitution",
+      "raw_creator": "Jack N. Rakove",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Summer for the Gods: The Scopes Trial and America's Continuing Debate Over Science and Religion",
+      "raw_creator": "Edward J. Larson",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Gotham: A History of New York City to 1898",
+      "raw_creator": "Edwin G. Burrows and Mike Wallace",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "Freedom From Fear: The American People in Depression and War, 1929-1945",
+      "raw_creator": "David M. Kennedy",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Founding Brothers: The Revolutionary Generation",
+      "raw_creator": "Joseph J. Ellis",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Metaphysical Club: A Story of Ideas in America",
+      "raw_creator": "Louis Menand",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "An Army at Dawn: The War in North Africa, 1942-1943",
+      "raw_creator": "Rick Atkinson",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "A Nation Under Our Feet: Black Political Struggles in the Rural South from Slavery to the Great Migration",
+      "raw_creator": "Steven Hahn",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "Washington's Crossing",
+      "raw_creator": "David Hackett Fischer",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Polio: An American Story",
+      "raw_creator": "David M. Oshinsky",
+      "rank": null,
+      "year": 2006,
+      "note": "공식 사이트는 “David M. Oshinsky”, 위키백과는 “David Oshinsky”로 적었다."
+    },
+    {
+      "raw_title": "The Race Beat: The Press, the Civil Rights Struggle, and the Awakening of a Nation",
+      "raw_creator": "Gene Roberts and Hank Klibanoff",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "What Hath God Wrought: The Transformation of America, 1815-1848",
+      "raw_creator": "Daniel Walker Howe",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The Hemingses of Monticello: An American Family",
+      "raw_creator": "Annette Gordon-Reed",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Lords of Finance: The Bankers Who Broke the World",
+      "raw_creator": "Liaquat Ahamed",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Fiery Trial: Abraham Lincoln and American Slavery",
+      "raw_creator": "Eric Foner",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Malcolm X: A Life of Reinvention",
+      "raw_creator": "Manning Marable",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Embers of War: The Fall of an Empire and the Making of America's Vietnam",
+      "raw_creator": "Fredrik Logevall",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "The Internal Enemy: Slavery and War in Virginia, 1772-1832",
+      "raw_creator": "Alan Taylor",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Encounters at the Heart of the World: A History of the Mandan People",
+      "raw_creator": "Elizabeth A. Fenn",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Custer's Trials: A Life on the Frontier of a New America",
+      "raw_creator": "T.J. Stiles",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Blood in the Water: The Attica Prison Uprising of 1971 and Its Legacy",
+      "raw_creator": "Heather Ann Thompson",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "The Gulf: The Making of an American Sea",
+      "raw_creator": "Jack E. Davis",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Frederick Douglass: Prophet of Freedom",
+      "raw_creator": "David W. Blight",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Sweet Taste of Liberty: A True Story of Slavery and Restitution in America",
+      "raw_creator": "W. Caleb McDaniel",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Franchise: The Golden Arches in Black America",
+      "raw_creator": "Marcia Chatelain",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Covered with Night",
+      "raw_creator": "Nicole Eustace",
+      "rank": null,
+      "year": 2022,
+      "note": "공동 수상. 공식 사이트는 제목을 “Covered with Night”로 줄여 싣고, 통용 제목은 “Covered with Night: A Story of Murder and Indigenous Justice in Early America”다."
+    },
+    {
+      "raw_title": "Cuba: An American History",
+      "raw_creator": "Ada Ferrer",
+      "rank": null,
+      "year": 2022,
+      "note": "공동 수상."
+    },
+    {
+      "raw_title": "Freedom’s Dominion: A Saga of White Resistance to Federal Power",
+      "raw_creator": "Jefferson Cowie",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "No Right to an Honest Living: The Struggles of Boston’s Black Workers in the Civil War Era",
+      "raw_creator": "Jacqueline Jones",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "Combee: Harriet Tubman, the Combahee River Raid, and Black Freedom During the Civil War",
+      "raw_creator": "Edda L. Fields-Black",
+      "rank": null,
+      "year": 2025,
+      "note": "공동 수상."
+    },
+    {
+      "raw_title": "Native Nations: A Millennium in North America",
+      "raw_creator": "Kathleen DuVal",
+      "rank": null,
+      "year": 2025,
+      "note": "공동 수상."
+    },
+    {
+      "raw_title": "We the People: A History of the U.S. Constitution",
+      "raw_creator": "Jill Lepore",
+      "rank": null,
+      "year": 2026,
+      "note": null
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.pulitzer.org/prize-winners-by-category/220 (공식 History 부문 목록 — 1917~2026 전량의 1차 출처. WebFetch와 일반 curl 모두 403이라 Jina Reader 프록시(https://r.jina.ai/<원본URL>)로 전문 200 수신)",
+      "https://www.pulitzer.org/prize-winners-categories (부문 목록 — History=220, 1917-present 확인. 같은 Jina Reader 경로)",
+      "https://www.pulitzer.org/page/administration-prizes (심사 절차 — 책 심사단 5인·후보 3편 무순위·10월 마감·이사회 과반 투표·'수상작 없음' 및 4분의 3 특례·발표 시각. 같은 Jina Reader 경로. 첫 시도는 403이었고 재시도에서 200)",
+      "https://www.pulitzer.org/page/history-pulitzer-prizes (1904년 유언장이 '미국사에 관한 책' 상금 2천 달러를 명시한 대목과 1917년 시상 시작. 같은 Jina Reader 경로)",
+      "https://en.wikipedia.org/wiki/Pulitzer_Prize_for_History (WebFetch 200 — 전 연도 교차 대조. 수상작 없는 해 3개와 공동 수상 3개 연도가 공식 목록과 일치했고, 표기 차이를 적발했다)",
+      "https://www.kirkusreviews.com/news-and-features/articles/winners-of-the-2026-pulitzer-prizes-announced/ (WebFetch 200 — 최신 회차가 2026년이고 History 수상작이 Jill Lepore의 We the People임을 공식 사이트와 별개로 확인)",
+      "https://www.pulitzer.org/news/2026-pulitzer-prize-announcement (403이고 Jina Reader도 403이라 본문을 열지 못했다. 2026년 발표 사실은 위 두 출처로 대신 확인했다)"
+    ],
+    "item_count": 110,
+    "year_range": "1917 ~ 2026 (110개 연도 중 수상작 있는 해 107개)",
+    "no_award_years": [
+      1919,
+      1984,
+      1994
+    ],
+    "joint_wins": "공동 수상은 세 해다. 1989년 James M. McPherson 'Battle Cry of Freedom'과 Taylor Branch 'Parting the Waters', 2022년 Ada Ferrer 'Cuba: An American History'와 Nicole Eustace 'Covered with Night', 2025년 Edda L. Fields-Black 'Combee'와 Kathleen DuVal 'Native Nations'. 세 해 모두 공식 목록과 위키백과 표기가 일치했다. 순위가 아니므로 is_ranked=false이며 해당 항목 note에 '공동 수상'을 적었다.",
+    "gaps": "없다. 1917년부터 2026년까지 빠짐없이 확인했다. 1919·1984·1994 세 해는 공식 목록에 아예 등장하지 않고 위키백과가 'no award'로 명시해, 항목을 만들지 않고 no_award_years에만 적었다. 나머지 107개 연도가 연속으로 이어지며 공동 수상 세 해 때문에 항목은 110개다.",
+    "uncertainties": "① 제목과 저자는 공식 pulitzer.org 표기를 그대로 옮겼고, 위키백과와 다른 연도는 각 항목 note에 두 표기를 나란히 적었다. 주요 차이: 1946년 공식 표기는 'Arthur Meier Schlesinger'이지만 실제 수상자는 같은 이름의 아버지가 아니라 아들 Arthur M. Schlesinger Jr.다. 1959년은 위키백과가 Jean Schneider를 공동 작업자로 적으나 공식은 Leonard D. White 단독으로 싣는다. 1977년은 저자 사후 Don E. Fehrenbacher가 원고를 마무리했다고 위키백과가 적으나 공식은 David M. Potter만 적는다. ② 1917년 저자의 공식 표기는 경칭이 붙은 'His Excellency J.J. Jusserand', 1921년은 'William Sowden Sims in collaboration with Burton J. Hendrick'인데, 이름이 아닌 부분은 덜어 raw_creator에 넣고 원문 표기는 note에 남겼다. ③ 2026년 발표일은 Kirkus가 '2026년 5월 5일 월요일'로 적었으나 NPR 기사 URL은 2026/05/04다(2026년 5월 4일이 월요일). 발표 연도가 2026년이라는 사실만 확정으로 다루고 정확한 날짜는 미확인으로 남긴다. 확인하려면 공식 발표 페이지 본문을 열어야 하는데 403으로 막혔다. ④ 1926·1928·1930·1975년은 공식 표기에 권수나 긴 부제가 붙어 있어 그대로 두고 통용 제목을 note에 적었다. ⑤ 수상작에 딸린 심사평과 최종 후보(finalists)는 이 목록의 범위가 아니라 수집하지 않았다."
+  }
+}

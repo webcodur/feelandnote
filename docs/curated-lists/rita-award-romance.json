@@ -1,0 +1,249 @@
+{
+  "curator": {
+    "slug": "romance-writers-of-america",
+    "name": "미국로맨스작가협회",
+    "name_en": "Romance Writers of America",
+    "kind": "award",
+    "country": "US",
+    "founded_year": 1980,
+    "homepage_url": "https://www.rwa.org/",
+    "description": "미국로맨스작가협회(RWA)는 1980년 텍사스주 휴스턴에서 편집자 비비안 스티븐스와 작가 37명이 세운 로맨스 소설 작가 단체다. 1982년부터 영어권 로맨스 소설에 주는 RITA상을 운영했으나, 협회 내부의 인종차별 논란으로 2019년 수상을 끝으로 상을 폐지했다. 2020년은 심사위원과 출품자가 대거 철회해 시상식 자체가 취소됐고, 협회를 세운 흑인 편집자 비비안 스티븐스의 이름을 딴 비비안상이 그 자리를 대신했다.",
+    "description_en": "Romance Writers of America (RWA) is a trade association for romance novelists, founded in 1980 in Houston, Texas by editor Vivian Stephens together with 37 authors. From 1982 it presented the RITA Award for English-language romance fiction, but discontinued the prize after the 2019 edition amid a long-running controversy over racial exclusion within the organization and its awards. The 2020 ceremony was cancelled after judges and entrants withdrew, and the RITA was replaced by the Vivian Award, named for RWA's Black founder Vivian Stephens."
+  },
+  "list": {
+    "slug": "rita-award-romance",
+    "title": "RITA상 로맨스 수상작",
+    "title_en": "RITA Award for Romance",
+    "description": "미국로맨스작가협회가 1982년부터 2019년까지 시상한 RITA상은 영어권 로맨스 소설을 대표하는 상이었다. 이 목록은 연작 묶음이 아닌 단행본 현대물 장편을 가리는 대표 부문 하나만을 모은 것이다. 협회 내부의 인종차별 논란으로 2019년을 끝으로 상이 폐지되면서 이 부문도 함께 사라졌다.",
+    "description_en": "Presented by Romance Writers of America from 1982 to 2019, the RITA Award was the leading prize for English-language romance fiction. This list gathers a single flagship category: the full-length, standalone (non-series) contemporary romance award. The category ended along with the RITA itself, which RWA discontinued after 2019 following a controversy over racial exclusion within the organization.",
+    "published_year": null,
+    "edition": null,
+    "method": "가을에 출품을 받았고, 출품자는 인쇄된 책 다섯 권을 기한 내에 보내야 했다. 예선에서 한 작품당 심사위원 다섯 명이 읽고 점수를 매겼으며, 최종 후보작은 3월 중순에 발표하고 수상작은 보통 7월에 열리는 협회 전국 컨퍼런스 마지막 날 시상식에서 발표했다. 수상 작가는 황금 조각상을, 담당 편집자는 기념패를 받았다.",
+    "method_en": "Entries opened in the fall, and entrants had to supply five printed copies of the book by the deadline. Each title was read and scored by five judges in the preliminary round; finalists were announced in mid-March and winners were revealed at the awards ceremony on the final day of RWA's National Conference, normally held in July. Winning authors received a gold statuette and their editors received a plaque.",
+    "source_url": "https://en.wikipedia.org/wiki/RITA_Award",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "romance"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Private Relations",
+      "raw_creator": "Diane Chamberlain",
+      "rank": null,
+      "year": 1990,
+      "note": "당시 부문명: Single Title Contemporary Romance"
+    },
+    {
+      "raw_title": "A Man to Die For",
+      "raw_creator": "Eileen Dreyer",
+      "rank": null,
+      "year": 1992,
+      "note": "당시 부문명: Single Title Contemporary Romance"
+    },
+    {
+      "raw_title": "This Time Forever",
+      "raw_creator": "Kathleen Eagle",
+      "rank": null,
+      "year": 1993,
+      "note": "당시 부문명: Single Title Contemporary Romance"
+    },
+    {
+      "raw_title": "Private Scandals",
+      "raw_creator": "Nora Roberts",
+      "rank": null,
+      "year": 1994,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Again",
+      "raw_creator": "Kathleen Gilles Seidel",
+      "rank": null,
+      "year": 1995,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Born in Ice",
+      "raw_creator": "Nora Roberts",
+      "rank": null,
+      "year": 1996,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Daniel's Gift",
+      "raw_creator": "Barbara Freethy",
+      "rank": null,
+      "year": 1997,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Nobody's Baby but Mine",
+      "raw_creator": "Susan Elizabeth Phillips",
+      "rank": null,
+      "year": 1998,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Dream a Little Dream",
+      "raw_creator": "Susan Elizabeth Phillips",
+      "rank": null,
+      "year": 1999,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Body Guard",
+      "raw_creator": "Suzanne Brockmann",
+      "rank": null,
+      "year": 2000,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "First Lady",
+      "raw_creator": "Susan Elizabeth Phillips",
+      "rank": null,
+      "year": 2001,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "True Confessions",
+      "raw_creator": "Rachel Gibson",
+      "rank": null,
+      "year": 2002,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "No Place Like Home",
+      "raw_creator": "Barbara Samuel",
+      "rank": null,
+      "year": 2003,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Birthright",
+      "raw_creator": "Nora Roberts",
+      "rank": null,
+      "year": 2004,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Bet Me",
+      "raw_creator": "Jennifer Crusie",
+      "rank": null,
+      "year": 2005,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Lakeside Cottage",
+      "raw_creator": "Susan Wiggs",
+      "rank": null,
+      "year": 2006,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Adiós to My Old Life",
+      "raw_creator": "Caridad Ferrer",
+      "rank": null,
+      "year": 2007,
+      "note": "당시 부문명: Contemporary Single Title"
+    },
+    {
+      "raw_title": "Catch of the Day",
+      "raw_creator": "Kristan Higgins",
+      "rank": null,
+      "year": 2008,
+      "note": "당시 부문명: Contemporary Single Title Romance"
+    },
+    {
+      "raw_title": "Not Another Bad Date",
+      "raw_creator": "Rachel Gibson",
+      "rank": null,
+      "year": 2009,
+      "note": "당시 부문명: Contemporary Single Title Romance / RWA 공식 수상자 페이지의 2009년 항목에는 이 부문이 빠져 있다. 위키백과 RITA 문서와 Romance Wiki 2009 수상자 문서에서 확인했다."
+    },
+    {
+      "raw_title": "Too Good to Be True",
+      "raw_creator": "Kristan Higgins",
+      "rank": null,
+      "year": 2010,
+      "note": "당시 부문명: Contemporary Single Title Romance"
+    },
+    {
+      "raw_title": "Simply Irresistible",
+      "raw_creator": "Jill Shalvis",
+      "rank": null,
+      "year": 2011,
+      "note": "당시 부문명: Contemporary Single Title Romance"
+    },
+    {
+      "raw_title": "Boomerang Bride",
+      "raw_creator": "Fiona Lowe",
+      "rank": null,
+      "year": 2012,
+      "note": "당시 부문명: Contemporary Single Title Romance"
+    },
+    {
+      "raw_title": "The Way Back Home",
+      "raw_creator": "Barbara Freethy",
+      "rank": null,
+      "year": 2013,
+      "note": "당시 부문명: Contemporary Single Title Romance"
+    },
+    {
+      "raw_title": "Crazy Thing Called Love",
+      "raw_creator": "Molly O'Keefe",
+      "rank": null,
+      "year": 2014,
+      "note": "당시 부문명: Contemporary Romance"
+    },
+    {
+      "raw_title": "Baby, It's You",
+      "raw_creator": "Jane Graves",
+      "rank": null,
+      "year": 2015,
+      "note": "당시 부문명: Contemporary Romance: Long"
+    },
+    {
+      "raw_title": "Brokedown Cowboy",
+      "raw_creator": "Maisey Yates",
+      "rank": null,
+      "year": 2016,
+      "note": "당시 부문명: Contemporary Romance: Long"
+    },
+    {
+      "raw_title": "Miracle on 5th Avenue",
+      "raw_creator": "Sarah Morgan",
+      "rank": null,
+      "year": 2017,
+      "note": "당시 부문명: Contemporary Romance: Long"
+    },
+    {
+      "raw_title": "Falling Hard",
+      "raw_creator": "Lexi Ryan",
+      "rank": null,
+      "year": 2018,
+      "note": "당시 부문명: Contemporary Romance: Long"
+    },
+    {
+      "raw_title": "Long Shot",
+      "raw_creator": "Kennedy Ryan",
+      "rank": null,
+      "year": 2019,
+      "note": "당시 부문명: Contemporary Romance: Long / RITA상 마지막 해의 수상작이다. 케네디 라이언은 RITA상을 받은 최초의 흑인 여성 작가다."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://en.wikipedia.org/wiki/RITA_Award (위키텍스트 원본을 action=raw로 내려 전체 수상자 표 413행을 직접 파싱. 주 출처)",
+      "https://www.rwa.org/past-rita-winners (RWA 공식 역대 수상자 페이지. HTTP 200으로 받아 본문을 추출해 전수 대조)",
+      "https://en.wikipedia.org/wiki/Romance_Writers_of_America (협회 창립 연도·창립자·홈페이지 확인)",
+      "https://romancewiki.bham.ac.uk/index.php/2009_RITA%C2%AE_Winners_&_Finalists (RWA 페이지가 빠뜨린 2009년 부문을 교차 확인)"
+    ],
+    "item_count": 29,
+    "year_range": "1990–2019 (1991년 수상 없음)",
+    "category_chosen": "단행본 현대물 장편 로맨스 부문 하나만 담았다. 이 부문은 같은 자리를 지키면서 이름만 네 번 바뀌었다 — Single Title Contemporary Romance(1990–1993) → Contemporary Single Title(1994–2007) → Contemporary Single Title Romance(2008–2013) → Contemporary Romance(2014) → Contemporary Romance: Long(2015–2019). 각 항목의 note에 그해의 실제 부문명을 그대로 적어 두었다. 이 계보를 고른 이유는 세 가지다. 첫째, 매년 딱 한 작품씩만 나와 수상작이 중복되지 않는다. 둘째, 잡지 연재물·단편이 아닌 단행본 장편을 가리므로 장편 대표 부문이라는 조건에 맞는다. 셋째, 30년 가까이 이어져 단일 계보로는 가장 길다. 같은 해에 나란히 존재했던 다른 현대물 부문(연재물·중편·단편·서스펜스)은 하나도 섞지 않았다.",
+    "gaps": "1991년은 이 부문 수상이 없다. 위키백과 표와 RWA 공식 페이지 둘 다 1991년 항목에 해당 부문이 없으며, 그해는 장편 연재물·단편 연재물·전통 로맨스만 시상됐다. 1982–1989년은 담지 않았다. 그 시기에는 부문명이 해마다 뒤바뀌어(Mainstream Contemporary Romance, Contemporary Mainstream Romance, 단어 수 기준 3분할, Mainstream Romance, Single Title Romance 등) 지금 고른 부문과 이어진다고 단정할 근거가 없었고, 1986–1989년의 Single Title Romance는 현대물로 국한되지도 않았다. 부문을 섞지 않기 위해 제외했다.",
+    "uncertainties": "(1) 2009년: RWA 공식 수상자 페이지의 2009년 목록에는 이 부문이 통째로 빠져 있다(연재물 두 부문 다음 바로 역사물로 넘어간다). 위키백과와 Romance Wiki의 2009년 수상자 문서가 둘 다 Rachel Gibson의 Not Another Bad Date를 적고 있어 그대로 넣었다. RWA 쪽 누락으로 본다. (2) 제목 대소문자: 위키백과와 RWA 페이지가 다섯 군데에서 기능어 표기만 다르다(but/a/to/be). 수여 주체인 RWA 표기를 따랐다 — Nobody's Baby but Mine, Dream a Little Dream, Adiós to My Old Life, Too Good to Be True. (3) 작품명의 둥근 아포스트로피(’)는 일반 아포스트로피(')로 통일했다. 철자 자체를 바꾼 곳은 없다. (4) 2007년 수상작 Adiós to My Old Life는 청소년 소설로도 분류되지만, 두 출처 모두 이 부문 수상작으로 적고 있어 그대로 둔다. (5) 협회 창립 연도 1980과 홈페이지는 위키백과 Romance Writers of America 문서에서 확인했고, rwa.org는 실제로 응답하는 주소다."
+  }
+}
