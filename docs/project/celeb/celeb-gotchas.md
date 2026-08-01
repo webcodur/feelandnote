@@ -96,6 +96,8 @@ DB 함수 **시그니처 변경이 배포 시차 사고**를 만든다. 옛 시�
 
 ## 6. 책 메타 출처 제한 — kakao_book / openlibrary만
 
+> ✅ **26.08.01 네이버 흔적을 전량 제거했다.** `naver_book`은 허용값 목록에서 빠졌고 DB·코드에 0건이다(표지 97장은 대체재가 없어 빈칸으로 뒀다). 아래는 그 전환 기록이다.
+>
 > 🔄 **26.08.01 한국어판 출처가 네이버 → 카카오로 바뀌었다.** 네이버가 검색 API 중 「쇼핑·책·전문자료」를 2026-07-31자로 종료했고([공지 32564](https://developers.naver.com/notice/article/32564)), 래퍼와 전용 스크립트는 전량 제거했다. **`naver_book`을 신규 등록에 쓰지 마라. `naver-books` 래퍼를 다시 만들지도 마라** — 되살릴 API가 없다. 기존 `naver_book` 4,021건은 데이터로 보존한다. 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 
 celeb-2-content-collector 파이프라인에서 `contents.external_source` 값은 BOOK일 때 **kakao_book**(한국어판) 또는 **openlibrary**(영문 원서)를 쓴다. 카카오에 없어 서점 상품 페이지로 직접 잡은 경우만 **aladin**을 쓴다. 룰북: `docs/project/celeb/celeb-2-content-collector.md`의 "영문판 매칭 분기" / "external_source 값" 절.

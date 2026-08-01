@@ -16,7 +16,7 @@ export interface ContentSearchResult {
   description?: string
   releaseDate?: string
   externalId?: string
-  externalSource?: string // 외부 API 출처 (naver_book, tmdb, igdb 등)
+  externalSource?: string // 외부 API 출처 (kakao_book, tmdb, igdb 등)
   metadata?: Record<string, unknown> // 원본 metadata (콘텐츠 추가용)
 }
 

@@ -314,14 +314,23 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 **메타데이터(title/creator/ISBN)와 표지(thumbnail)를 별도 출처로 분리한다.** 자가출판본·번역본은 메타데이터 보유 사이트에 표지가 비어있는 경우가 많아 단일 출처 강제는 비효율이다. `sources` JSONB로 출처를 분리 표기한다.
 
-#### 표준 4단계 파이프라인
+#### 표준 파이프라인 (26.08.01 개정)
 
 1. **소넷 에이전트 판단**: ko_title + ko_creator → en_title + en_creator 변환
-2. **OpenLibrary**: 실존 확인 + ISBN 확보 — `https://openlibrary.org/search.json?title={en_title}&author={en_creator}` 또는 `/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data`
-3. **Goodreads BookCover API**: 표지 1순위 — `https://bookcover.longitood.com/bookcover?book_title={title}&author_name={author}` (author 필수, 요청 간 500ms+ 간격)
-4. **Fallback**: OpenLibrary 표지 (`https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false`) — 응답 < 1KB는 placeholder로 간주하여 폐기. 둘 다 실패 시 `thumbnail_url = null`, `sources.thumbnail = "confirmed_unavailable"`
+2. **카카오 도서**: 표지·메타 1순위. 해외 원서도 한국 유통본이면 잡힌다(해외 ISBN 표본 55건 중 52건 적중, 26.08.01 실측)
+3. **OpenLibrary**: 카카오가 못 잡을 때 실존 확인 + ISBN 확보 — `https://openlibrary.org/search.json?title={en_title}&author={en_creator}` 또는 `/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data`
+4. **OpenLibrary 표지**: `https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false` — 응답 < 1KB는 placeholder로 간주해 폐기
+5. **모두 실패**: `thumbnail_url = null`, `sources.thumbnail = "confirmed_unavailable"`. 표지 없이 등록한다
 
-**sources 표기**: `{"primary": "openlibrary", "thumbnail": "goodreads"}` 형태로 메타데이터·표지 출처 분리.
+> ⛔ **~~Goodreads BookCover API~~는 폐기 경로다. 호출하지 마라.**
+> `bookcover.longitood.com`은 Goodreads 공식 API가 아니라 개인이 운영하던 중개 서비스이고,
+> **26.08.01 실측에서 522(원 서버 응답 없음)로 죽어 있다.** 유명 도서로 물어도 응답이 없다.
+> Goodreads는 2020년에 공개 API를 닫았으므로 대체 통로도 없다.
+> 다만 **이미 확보한 `i.gr-assets.com` 표지 1,794장은 정상이다** — 이미지 서버는 살아 있으니 교체할 필요 없다.
+
+**카카오·OpenLibrary 모두 없는 책**: 한국 유통 이력이 없는 희귀 리프린트·자가출판·비영어권 원서다. 표지를 구할 길이 없으니 표지 없이 두거나, 등록 자격(ISBN으로 독자가 도달 가능한가)을 다시 본다.
+
+**sources 표기**: `{"primary": "kakao_book", "thumbnail": "kakao_book"}` 형태로 메타데이터·표지 출처 분리. 표지를 못 구하면 `"thumbnail": "confirmed_unavailable"`.
 
 #### 분기별 특칙
 
