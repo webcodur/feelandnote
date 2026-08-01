@@ -28,8 +28,9 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
       <header className="flex items-start gap-4">
         {curator.logoUrl ? (
           // 로고는 흰 종이를 전제로 만들어진 것이 많아 어두운 화면에 그대로 얹으면 묻힌다
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white p-1.5">
-            <Image src={curator.logoUrl} alt={curator.name} fill className="object-contain p-1.5" sizes="64px" />
+          // 여백은 로고 파일에 이미 들어 있다. 여기서 또 주면 그림이 작아진다
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-white">
+            <Image src={curator.logoUrl} alt={curator.name} fill className="object-contain" sizes="64px" />
           </div>
         ) : (
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border border-white/[0.06] bg-neutral-900 text-[22px] font-serif font-bold text-text-tertiary">
