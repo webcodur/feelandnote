@@ -13,6 +13,7 @@ import { usePathname, Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import TreeBanner from "@/components/lab/TreeBanner";
 import { ChevronRight } from "lucide-react";
+import { useExtraCrumbs } from "./LibraryCrumbs";
 
 /** 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키 */
 const SUBPAGE_KEY: Record<string, string> = {
@@ -34,6 +35,7 @@ export default function LibraryBanner() {
   const tNav = useTranslations("nav");
   const tHome = useTranslations("home");
   const tAcademy = useTranslations("library.academy");
+  const extraCrumbs = useExtraCrumbs();
 
   const hubTitle = tNav("library");
   const hubEnglish = tHome("library.englishTitle");
@@ -66,6 +68,10 @@ export default function LibraryBanner() {
         // 번역 키 없으면 무시
       }
     }
+
+    // 2단+: 이름이 자료에 있는 화면(기관·목록)은 그 화면이 직접 알려준다.
+    // 주소에는 식별자만 있어 경로만으로는 사람이 읽을 이름을 만들 수 없다
+    crumbs.push(...extraCrumbs);
   }
 
   const isSubpage = crumbs.length > 0;

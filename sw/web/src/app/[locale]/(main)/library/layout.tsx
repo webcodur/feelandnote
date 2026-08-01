@@ -7,6 +7,7 @@
 import { ReactNode } from "react";
 import PageContainer from "@/components/layout/PageContainer";
 import LibraryBanner from "@/components/features/library/hub/LibraryBanner";
+import { LibraryCrumbProvider } from "@/components/features/library/hub/LibraryCrumbs";
 
 interface Props {
   children: ReactNode;
@@ -14,9 +15,10 @@ interface Props {
 
 export default function LibraryLayout({ children }: Props) {
   return (
-    <>
+    // 기관·목록처럼 이름이 자료에 있는 화면이 배너에 자기 이름을 알릴 수 있게 감싼다
+    <LibraryCrumbProvider>
       <LibraryBanner />
       <PageContainer>{children}</PageContainer>
-    </>
+    </LibraryCrumbProvider>
   );
 }
