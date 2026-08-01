@@ -80,11 +80,37 @@ function CuratorCard({ curator }: { curator: Curator }) {
   );
 }
 
-export default function CuratedHubView({ hub, selected }: { hub: CuratedHub; selected: string | null }) {
+/** 매체 진열 순서 */
+const MEDIA_ORDER = ["BOOK", "VIDEO", "GAME", "MUSIC"];
+
+export default function CuratedHubView({
+  hub,
+  selectedKind,
+  selectedMedia,
+}: {
+  hub: CuratedHub;
+  selectedKind: string | null;
+  selectedMedia: string | null;
+}) {
   const t = useTranslations("library.curated");
 
+  // 매체는 목록의 성질이라 기관이 아니라 목록을 기준으로 센다
+  const mediaCounts = new Map<string, number>();
+  for (const c of hub.curators) for (const l of c.lists) mediaCounts.set(l.contentType, (mediaCounts.get(l.contentType) ?? 0) + 1);
+  const medias = [...mediaCounts.keys()].sort((a, b) => MEDIA_ORDER.indexOf(a) - MEDIA_ORDER.indexOf(b));
+
+  const [media, setMedia] = useState(() =>
+    selectedMedia && mediaCounts.has(selectedMedia) ? selectedMedia : (medias[0] ?? "BOOK")
+  );
+  const [kind, setKind] = useState<string | null>(selectedKind);
+
+  // 고른 매체의 목록만 남기고, 그 매체를 하나도 안 낸 기관은 뺀다
+  const inMedia = hub.curators
+    .map((c) => ({ ...c, lists: c.lists.filter((l) => l.contentType === media) }))
+    .filter((c) => c.lists.length > 0);
+
   const byKind = new Map<string, Curator[]>();
-  for (const c of hub.curators) {
+  for (const c of inMedia) {
     const arr = byKind.get(c.kind);
     if (arr) arr.push(c);
     else byKind.set(c.kind, [c]);
@@ -95,8 +121,8 @@ export default function CuratedHubView({ hub, selected }: { hub: CuratedHub; sel
     return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
   });
 
-  // 탭이므로 늘 한 갈래가 켜져 있다. 주소에 없으면 첫 갈래로 연다
-  const [active, setActive] = useState(() => (selected && byKind.has(selected) ? selected : kinds[0]));
+  // 매체를 갈아타면 갈래 구성이 통째로 바뀐다. 지금 매체에 없는 갈래는 첫 갈래로 흘려보낸다
+  const activeKind = kind && byKind.has(kind) ? kind : kinds[0];
 
   if (hub.curators.length === 0) {
     return <p className="py-16 text-center text-[14px] text-text-tertiary">{t("empty")}</p>;
@@ -106,26 +132,58 @@ export default function CuratedHubView({ hub, selected }: { hub: CuratedHub; sel
    * 탭을 갈아도 서버를 다시 다녀오지 않는다 — 기관 자료는 이미 전부 받아 두었다.
    * 주소만 바꿔 링크 공유와 새로고침이 듣게 한다(라우터로 밀면 왕복이 생겨 반응이 늦다).
    */
-  const handleSelect = (kind: string) => {
-    setActive(kind);
-    const url = `${window.location.pathname}?kind=${kind}`;
-    window.history.replaceState(null, "", url);
+  const syncUrl = (nextMedia: string, nextKind: string | undefined) => {
+    const q = new URLSearchParams({ media: nextMedia });
+    if (nextKind) q.set("kind", nextKind);
+    window.history.replaceState(null, "", `${window.location.pathname}?${q}`);
   };
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       <p className="max-w-3xl text-[14px] leading-relaxed text-text-secondary">{t("intro")}</p>
 
+      {/* 무엇을 뽑았나 — 책과 영상은 오가며 보는 것이 아니라 갈라서는 축이다 */}
+      {medias.length > 1 && (
+        <div className="flex gap-2">
+          {medias.map((m) => {
+            const on = m === media;
+            return (
+              <button
+                key={m}
+                type="button"
+                onClick={() => {
+                  setMedia(m);
+                  setKind(null);
+                  syncUrl(m, undefined);
+                }}
+                className={
+                  on
+                    ? "rounded-lg border border-accent/50 bg-accent/15 px-4 py-2 text-[14px] font-bold text-accent"
+                    : "rounded-lg border border-white/[0.08] px-4 py-2 text-[14px] text-text-secondary hover:border-accent/40 hover:text-accent"
+                }
+              >
+                {t.has(`mediaLabel.${m}`) ? t(`mediaLabel.${m}`) : m}
+                <span className="ml-1.5 text-[11px] opacity-60">{mediaCounts.get(m)}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* 누가 뽑았나 */}
       <FilterTabs
         items={kinds.map((k) => ({ value: k, label: t(`kind.${k}`) }))}
-        activeValue={active}
+        activeValue={activeKind}
         counts={Object.fromEntries(kinds.map((k) => [k, byKind.get(k)!.length]))}
-        onSelect={handleSelect}
+        onSelect={(k) => {
+          setKind(k);
+          syncUrl(media, k);
+        }}
       />
 
       {/* 기관이 스물이 넘어 한 줄에 하나씩 쌓으면 스크롤이 끝없다. 넓은 화면은 두 줄로 나눈다 */}
       <div className="grid gap-4 lg:grid-cols-2">
-        {(byKind.get(active) ?? []).map((curator) => (
+        {(byKind.get(activeKind) ?? []).map((curator) => (
           <CuratorCard key={curator.slug} curator={curator} />
         ))}
       </div>

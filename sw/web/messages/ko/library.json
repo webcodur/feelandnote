@@ -409,7 +409,13 @@
         "philosophy": "철학"
       },
       "moreLists": "목록 {count}개 더 보기",
-      "showRemaining": "나머지 {count}편 더 보기"
+      "showRemaining": "나머지 {count}편 더 보기",
+      "mediaLabel": {
+        "BOOK": "책",
+        "VIDEO": "영상",
+        "GAME": "게임",
+        "MUSIC": "음악"
+      }
     }
   }
 }
