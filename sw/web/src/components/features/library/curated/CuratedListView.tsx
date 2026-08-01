@@ -10,16 +10,20 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowLeft, ExternalLink, BookOpen, Film } from "lucide-react";
 import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/GenerativeBookCover";
+import NationalityText from "@/components/ui/NationalityText";
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
 
 function ItemCard({
   item,
   showRank,
+  rankLabel,
   notRegisteredLabel,
   isVideo,
 }: {
   item: CuratedListItem;
   showRank: boolean;
+  /** 「3위」처럼 단위가 붙은 표기. 오른쪽 연도 배지와 헷갈리지 않게 한다 */
+  rankLabel: string | null;
   notRegisteredLabel: string;
   isVideo: boolean;
 }) {
@@ -46,7 +50,7 @@ function ItemCard({
 
         {showRank && item.rank != null && (
           <span className="absolute left-1.5 top-1.5 rounded bg-black/75 px-1.5 py-0.5 text-[11px] font-bold text-white">
-            {item.rank}
+            {rankLabel}
           </span>
         )}
         {item.year != null && (
@@ -57,15 +61,19 @@ function ItemCard({
       </div>
 
       <div className="mt-1.5 space-y-0.5">
-        <p className="line-clamp-2 text-[12px] font-medium leading-snug text-text-primary">{item.title}</p>
+        {/* 손을 올린 즉시 바뀌는 축은 글자색이다 — 표지 확대는 곁들이는 연출이라 여기에 transition을 얹지 않는다 */}
+        <p className="line-clamp-2 text-[12px] font-medium leading-snug text-text-primary group-hover:text-accent">
+          {item.title}
+        </p>
         {item.creator && <p className="line-clamp-1 text-[11px] text-text-tertiary">{item.creator}</p>}
       </div>
     </>
   );
 
   if (!item.contentId) {
-    // 아직 우리에게 없는 작품 — 누를 곳이 없으므로 링크로 감싸지 않는다
-    return <div className="opacity-60">{inner}</div>;
+    // 아직 우리에게 없는 작품 — 누를 곳이 없으므로 링크로 감싸지 않는다.
+    // 표지에 이미 안내 문구가 얹히므로 글자까지 흐리게 하지 않는다(제목·저자는 읽을 수 있어야 한다)
+    return <div>{inner}</div>;
   }
 
   return (
@@ -95,6 +103,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
             {t(`kind.${list.curator.kind}`)}
           </span>
+          {list.curator.country && <NationalityText code={list.curator.country} />}
           {list.publishedYear && <span>{t("published", { year: list.publishedYear })}</span>}
           {list.edition && <span>{list.edition}</span>}
           <span>{t("itemCount", { count: list.itemCount })}</span>
@@ -158,6 +167,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
             key={item.id}
             item={item}
             showRank={list.isRanked}
+            rankLabel={item.rank != null ? t("rankLabel", { rank: item.rank }) : null}
             notRegisteredLabel={t("notRegistered")}
             isVideo={list.contentType === "VIDEO"}
           />

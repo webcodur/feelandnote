@@ -8,6 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ArrowLeft, ExternalLink } from "lucide-react";
+import NationalityText from "@/components/ui/NationalityText";
 import type { CuratorDetail } from "@/actions/library/types";
 import CuratedListCard from "./CuratedListCard";
 
@@ -41,7 +42,7 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
             <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
               {t(`kind.${curator.kind}`)}
             </span>
-            {curator.country && <span>{curator.country}</span>}
+            {curator.country && <NationalityText code={curator.country} />}
             {curator.foundedYear && <span>{curator.foundedYear}</span>}
             <span>{t("listCount", { count: curator.listCount })}</span>
           </div>
