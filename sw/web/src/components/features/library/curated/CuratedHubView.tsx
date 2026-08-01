@@ -11,6 +11,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import NationalityText from "@/components/ui/NationalityText";
 import FilterTabs from "@/components/ui/FilterTabs";
 import type { CuratedHub } from "@/actions/library/types";
@@ -166,6 +167,15 @@ export default function CuratedHubView({
 
   return (
     <div className="space-y-6">
+      {/* 서가에서 들어온 화면이므로 되돌아갈 길을 항상 둔다 */}
+      <Link
+        href="/library"
+        className="inline-flex items-center gap-1.5 text-[13px] text-text-tertiary hover:text-accent"
+      >
+        <ArrowLeft size={14} />
+        {t("backToLibrary")}
+      </Link>
+
       <p className="max-w-3xl text-[14px] leading-relaxed text-text-secondary">{t("intro")}</p>
 
       {/* 무엇을 뽑았나 — 책과 영상은 오가며 보는 것이 아니라 갈라서는 축이다 */}

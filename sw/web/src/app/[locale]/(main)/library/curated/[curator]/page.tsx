@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { getCuratorBySlug } from "@/actions/library";
 import { getLocalizedAlternates } from "@/lib/seo";
 import CuratorView from "@/components/features/library/curated/CuratorView";
+import SetLibraryCrumbs from "@/components/features/library/hub/LibraryCrumbs";
 
 export async function generateMetadata({ params }: { params: Promise<{ curator: string }> }) {
   const { curator: slug } = await params;
@@ -27,6 +28,8 @@ export default async function CuratorPage({ params }: { params: Promise<{ curato
 
   return (
     <div className="pb-20">
+      {/* 배너 breadcrumb에 「서가 > 기관 선정 > 기관명」을 만들어 준다 */}
+      <SetLibraryCrumbs crumbs={[{ label: curator.name, href: `/library/curated/${slug}` }]} />
       <CuratorView curator={curator} />
     </div>
   );

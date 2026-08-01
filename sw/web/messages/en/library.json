@@ -420,7 +420,8 @@
         "MUSIC": "Music"
       },
       "viewByKind": "By institution",
-      "viewByTopic": "By topic"
+      "viewByTopic": "By topic",
+      "backToLibrary": "Back to Library"
     }
   }
 }

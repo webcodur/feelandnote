@@ -420,7 +420,8 @@
         "MUSIC": "음악"
       },
       "viewByKind": "기관별",
-      "viewByTopic": "주제별"
+      "viewByTopic": "주제별",
+      "backToLibrary": "서가로"
     }
   }
 }
