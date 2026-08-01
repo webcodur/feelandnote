@@ -6,6 +6,7 @@
 
 import { getTranslations } from "next-intl/server";
 import { getCuratedHub } from "@/actions/library";
+// getTranslations는 generateMetadata에서만 쓴다
 import { getLocalizedAlternates } from "@/lib/seo";
 import CuratedHubView from "@/components/features/library/curated/CuratedHubView";
 
@@ -18,14 +19,14 @@ export async function generateMetadata() {
   };
 }
 
-export default async function CuratedPage() {
-  const t = await getTranslations("library.curated");
+export default async function CuratedPage({ searchParams }: { searchParams: Promise<{ c?: string }> }) {
+  const { c } = await searchParams;
   const hub = await getCuratedHub();
 
+  // 제목은 배너 breadcrumb(서가 > 기관 선정)이 맡는다. 여기서 또 쓰면 같은 말이 두 번 나온다
   return (
-    <div className="space-y-6 pb-20">
-      <h1 className="text-[22px] font-serif font-bold text-text-primary">{t("title")}</h1>
-      <CuratedHubView hub={hub} />
+    <div className="pb-20">
+      <CuratedHubView hub={hub} selected={c ?? null} />
     </div>
   );
 }

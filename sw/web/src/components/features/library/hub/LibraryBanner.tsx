@@ -18,6 +18,7 @@ import { ChevronRight } from "lucide-react";
 const SUBPAGE_KEY: Record<string, string> = {
   era: "era",
   profession: "profession",
+  curated: "curated",
   museum: "museum",
   academy: "academy",
 };
