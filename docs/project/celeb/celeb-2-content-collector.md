@@ -31,6 +31,26 @@
 - [ ] "N권 추천" 명시 시 수집 개수 대조
 - [ ] 구체적 작품명 필수 (포괄적 언급은 대표작으로 대체)
 - [ ] 동일 작품 중복 시 가장 상세한 출처 하나만
+- [ ] **MUSIC은 등록하지 않고 후보 표에만 넣는다** (아래)
+
+### 유형별 등록 경로 — MUSIC만 다르다
+
+| 유형 | 조사 중에 할 일 |
+|------|------------------|
+| BOOK · VIDEO · GAME | 평소대로 `contents` + `content_locales` + `user_contents` 등록 |
+| **MUSIC** | **등록하지 않는다.** `celeb_music_candidates`에 한 줄만 넣고 넘어간다 |
+
+```sql
+INSERT INTO celeb_music_candidates (celeb_id, title, artist, source_url, evidence)
+VALUES ('{셀럽 id}', '{곡명}', '{아티스트}', '{인터뷰·기사 URL}', '{언급 정황 한 줄}')
+ON CONFLICT DO NOTHING;   -- 같은 인물+같은 곡은 한 번만
+```
+
+**왜 음악만 뒤로 미루나**: 음악 메타는 아이튠즈에서 잡는데 IP 속도 제한이 빡빡하다(26.08.01 실측 **232곡에서 차단**, 해제까지 3시간). 음악인 270명을 조사하면 200곡 안팎이 등록 대상이라 차단 지점과 같은 규모다. 조사 중에 등록하면 **조사 도중 음악이 통째로 실패**한다.
+
+등록은 `/celeb-music-collect`(하루 200곡 상한)가 후보 표를 읽어 처리하며, 성공하면 `status='registered'`와 `content_id`가, 실패하면 `rejected`와 사유가 채워진다. 조사 쪽에서 확보한 근거는 사라지지 않는다.
+
+증거 기준(A·B급, source_url 필수)은 MUSIC도 똑같이 적용한다 — **후보 표에 넣을 때 이미 그 기준을 통과해야 한다.** 근거가 약한 것을 일단 넣어두면 나중에 걸러낼 사람이 없다.
 
 ### source_url 필수 (핵심)
 
@@ -396,6 +416,10 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 ## 배치 DB 등록
 
 **개별 INSERT 금지. 반드시 배치로 한 번에 등록한다.**
+
+> ⛔ **MUSIC은 여기서 등록하지 않는다.** 아래 절차는 BOOK·VIDEO·GAME 전용이다.
+> 음악은 `celeb_music_candidates`에 한 줄 넣고 넘어간다(「유형별 등록 경로」 참조).
+> 등록은 `/celeb-music-collect`가 하루치씩 처리한다.
 
 ### contents 배치 INSERT
 
