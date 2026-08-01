@@ -1,6 +1,6 @@
 'use server'
 
-import { searchBooks as searchNaverBooks } from '@feelandnote/content-search/naver-books'
+import { searchBooks as searchKakaoBooks } from '@feelandnote/content-search/kakao-books'
 
 interface SearchBooksParams {
   query: string
@@ -12,5 +12,5 @@ export async function searchBooks({ query, page = 1 }: SearchBooksParams) {
     return { items: [], total: 0, hasMore: false }
   }
 
-  return searchNaverBooks(query, page)
+  return searchKakaoBooks(query, page)
 }

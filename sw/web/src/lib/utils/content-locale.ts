@@ -54,7 +54,8 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
 /** external_source → 기본 locale */
 export function sourceToLocale(source: string | null | undefined): string {
   switch (source) {
-    case 'naver_book': case 'tmdb': return 'ko'
+    // naver_book은 26.07.31 API 종료 전 등록분(4,021건). 값은 살아 있으므로 계속 판정한다
+    case 'kakao_book': case 'aladin': case 'naver_book': case 'tmdb': return 'ko'
     case 'google_books': case 'igdb': case 'spotify': return 'en'
     default: return 'ko'
   }

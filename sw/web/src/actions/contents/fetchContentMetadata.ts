@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { searchBooks as searchNaverBooks } from '@feelandnote/content-search/naver-books'
+import { getBookByIsbn as getKakaoBookByIsbn } from '@feelandnote/content-search/kakao-books'
 import { getGoogleBookByIsbn } from '@feelandnote/content-search/google-books'
 import { getVideoById } from '@feelandnote/content-search/tmdb'
 import { getGameById } from '@feelandnote/content-search/igdb'
@@ -24,27 +24,23 @@ async function fetchMetadataFromApi(
 ): Promise<ContentMetadata> {
   switch (type) {
     case 'BOOK': {
+      // 네이버 도서 API는 26.07.31 종료. 기존 naver_book 소스 콘텐츠도 카카오로 재조회한다
+      // (ISBN이 같으면 같은 책이므로 소스 표기와 무관하게 메타를 얻을 수 있다)
       if (externalSource === 'google_books') {
         // Google Books 소스 → Google Books 우선
         const googleBook = await getGoogleBookByIsbn(externalId)
         if (googleBook) {
           return { id: externalId, metadata: googleBook.metadata }
         }
-        const naverResult = await searchNaverBooks(externalId, 1)
-        const naverBook = naverResult.items.find(
-          b => b.externalId === externalId || b.metadata.isbn === externalId
-        )
-        if (naverBook) {
-          return { id: externalId, metadata: naverBook.metadata }
+        const kakaoBook = await getKakaoBookByIsbn(externalId)
+        if (kakaoBook) {
+          return { id: externalId, metadata: kakaoBook.metadata }
         }
       } else {
-        // 네이버 소스(기본) → 네이버 우선
-        const naverResult = await searchNaverBooks(externalId, 1)
-        const naverBook = naverResult.items.find(
-          b => b.externalId === externalId || b.metadata.isbn === externalId
-        )
-        if (naverBook) {
-          return { id: externalId, metadata: naverBook.metadata }
+        // 그 외(kakao_book·naver_book·openlibrary) → 카카오 우선
+        const kakaoBook = await getKakaoBookByIsbn(externalId)
+        if (kakaoBook) {
+          return { id: externalId, metadata: kakaoBook.metadata }
         }
         const googleBook = await getGoogleBookByIsbn(externalId)
         if (googleBook) {

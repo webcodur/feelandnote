@@ -1,7 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { searchBooks } from '@feelandnote/content-search/naver-books'
+import { searchBooks } from '@feelandnote/content-search/kakao-books'
 import { getVideoById } from '@feelandnote/content-search/tmdb'
 import { getGameById } from '@feelandnote/content-search/igdb'
 import { getAlbumById } from '@feelandnote/content-search/spotify'

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "exports": {
-    "./naver-books": "./src/naver-books.ts",
+    "./kakao-books": "./src/kakao-books.ts",
     "./google-books": "./src/google-books.ts",
     "./tmdb": "./src/tmdb.ts",
     "./igdb": "./src/igdb.ts",
