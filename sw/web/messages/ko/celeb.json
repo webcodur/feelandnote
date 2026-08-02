@@ -237,6 +237,8 @@
     "dialogue_battle_lose": "패배",
     "dialogue_clash_attack": "기합",
     "creativeSearch": "검색",
-    "notFound": "셀럽을 찾을 수 없습니다"
+    "notFound": "셀럽을 찾을 수 없습니다",
+    "enlargePhoto": "초상화 크게 보기",
+    "playGreetingVoice": "인사말 듣기"
   }
 }

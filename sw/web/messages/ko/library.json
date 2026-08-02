@@ -1,6 +1,6 @@
 {
   "library": {
-    "section": "지혜의 서가",
+    "section": "서가",
     "tabs": {
       "era": {
         "label": "불후의 명작",
@@ -22,17 +22,13 @@
     "hub": {
       "quickNav": "바로가기",
       "figure": "매일 새로운 정신과의 만남으로 하루를 엽니다.",
-      "era": "시간의 흐름을 따라 인류가 남긴 불후의 발자취를 돌아봅니다.",
-      "profession": "철학, 문화, 과학… 각자의 자리에서 정점을 찍은 이들의 궤적을 탐구합니다.",
       "museum": "수많은 사상과 창작물들이 어떻게 얽혀있는지 거대한 연대기 속에서 확인하세요.",
       "academy": "AI의 원리, 영상 제작, 음악 이론 등 체계적인 교육 콘텐츠를 체화하는 수련의 공간입니다.",
       "figureLabel": "오늘의 인물",
-      "eraLabel": "불후의 명작",
-      "professionLabel": "길의 갈래",
       "museumLabel": "박물관",
       "academyLabel": "학당",
-      "museumTitle": "콘텐츠의 연대기",
-      "academyTitle": "지혜의 학당",
+      "museumTitle": "박물관",
+      "academyTitle": "학당",
       "academyReading": "독서법 비교",
       "academyVideo": "영상 제작",
       "academyMusic": "화성학 레슨",
@@ -45,7 +41,9 @@
       "enterAcademy": "학당 입장",
       "curatedLabel": "기관 선정",
       "curated": "대학과 언론사, 시상 기관이 직접 골라낸 목록으로 작품을 만납니다.",
-      "exploreCurated": "선정 목록 보기"
+      "exploreCurated": "선정 목록 보기",
+      "popularLabel": "인기 작품",
+      "popular": "인물들이 가장 많이 감상한 작품을 시대별·직군별로 봅니다."
     },
     "meta": {
       "title": "서가 - 셀럽 추천 도서·영화 아카이브",
@@ -60,9 +58,9 @@
       "metaDescription": "고대부터 현대까지 시대별 필독서와 명작 영화 목록. 셀럽이 추천한 시대의 대표작을 만나보세요."
     },
     "museum": {
-      "metaTitle": "박물관 | 지혜의 서가",
+      "metaTitle": "박물관 | 서가",
       "metaDescription": "인류 지식 매체와 콘텐츠 형태의 변천사를 살펴봅니다.",
-      "pageTitle": "콘텐츠의 연대기",
+      "pageTitle": "박물관",
       "defaultDescription": "인류가 이야기를 담아온 매체의 변천사를 살펴봅니다.",
       "keyContents": "주요 콘텐츠",
       "present": "현재",
@@ -151,7 +149,7 @@
     "academy": {
       "metaTitle": "학당 - AI·영상 제작·화성학 강좌 | 서가",
       "metaDescription": "AI 원리와 활용법, 영상 제작 기초, 화성학 레슨 등 체계적인 무료 교육 콘텐츠. 전문가가 추천하는 학습 자료를 만나보세요.",
-      "pageTitle": "지혜의 학당",
+      "pageTitle": "학당",
       "defaultDescription": "AI의 원리부터 영상 제작과 화성학까지, 체계적인 교육 콘텐츠를 만나보세요.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "학당 카테고리 선택",
@@ -282,32 +280,6 @@
       "metaDescription": "지도자, 과학자, 예술가 등 직업별 셀럽이 추천한 필독서와 영화 목록. 분야별 추천 작품을 확인하세요."
     },
     "page": {
-      "section": {
-        "sage": {
-          "label": "오늘의 인물",
-          "description": "매일 자정, 한 명의 인물이 새롭게 선정됩니다"
-        },
-        "chosen": {
-          "label": "공통 서가",
-          "description": "가장 많은 인물들이 감상한 작품"
-        },
-        "profession": {
-          "label": "갈림길",
-          "description": "분야별 인물들의 필독서"
-        },
-        "era": {
-          "label": "시대의 작품",
-          "description": "시대별 인물들의 선택"
-        },
-        "museum": {
-          "label": "박물관",
-          "description": "인류 지식 매체와 콘텐츠의 연대기"
-        },
-        "academy": {
-          "label": "학당",
-          "description": "AI 원리, 영상 제작, 화성학 레슨 등 교육 콘텐츠"
-        }
-      },
       "toc": "목차",
       "openToc": "목차 열기",
       "close": "닫기",
@@ -330,7 +302,7 @@
       },
       "defaultBio": "이 시대를 살아가는 인물입니다.",
       "eraPage": {
-        "title": "불후의 명작",
+        "title": "시대별 인기 작품",
         "description": "전 시대의 대표작과 시대별 명저.",
         "descriptionSub": "가장 많은 인물들의 선택을 받은 작품들을 만나보세요.",
         "allEras": "전체 시대",
@@ -350,7 +322,7 @@
         }
       },
       "professionPage": {
-        "title": "길의 갈래",
+        "title": "직업별 인기 작품",
         "description": "분야별 인물들의 필독서.",
         "descriptionSub": "여러분이 가고자 하는 길의 선배들은 무엇을 읽었을까요?",
         "selectProfession": "직군 선택",
@@ -409,7 +381,15 @@
         "philosophy": "철학",
         "fantasy": "판타지",
         "comedy": "코미디",
-        "korean-film": "한국영화"
+        "korean-film": "한국영화",
+        "psychology": "심리학",
+        "economics": "경제학",
+        "nonfiction": "논픽션",
+        "science": "과학",
+        "picture-book": "그림책",
+        "thriller": "스릴러",
+        "romance": "로맨스",
+        "business": "경제경영"
       },
       "moreLists": "목록 {count}개 더 보기",
       "showRemaining": "나머지 {count}편 더 보기",
@@ -422,6 +402,16 @@
       "viewByKind": "기관별",
       "viewByTopic": "주제별",
       "backToLibrary": "서가로"
+    },
+    "popular": {
+      "metaTitle": "인기 작품 - 인물들이 많이 고른 책·영화 | 서가",
+      "metaDescription": "등록된 인물들이 가장 많이 감상한 작품을 시대별·직군별로 봅니다.",
+      "title": "인기 작품",
+      "description": "인물들이 가장 많이 감상한 작품입니다.",
+      "basisAll": "전체",
+      "basisEra": "시대별",
+      "basisProfession": "직군별",
+      "empty": "아직 작품이 없습니다."
     }
   }
 }

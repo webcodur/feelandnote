@@ -237,6 +237,8 @@
     "dialogue_battle_lose": "Defeat",
     "dialogue_clash_attack": "Strike",
     "creativeSearch": "Search",
-    "notFound": "Celebrity not found"
+    "notFound": "Celebrity not found",
+    "enlargePhoto": "View larger portrait",
+    "playGreetingVoice": "Play greeting"
   }
 }
