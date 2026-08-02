@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { Check, UserPlus } from "lucide-react";
 import styles from "./styles.module.css";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { NeoCelebCardProps } from "./types";
 import { getVariantStyles } from "./variantConfig";
 import { toggleFollow } from "@/actions/user";
@@ -206,11 +207,13 @@ export default function NeoCelebCard({
           <div className={`relative ${config.image} flex-shrink-0 shadow-2xl ${styles.imageFrame} ${imageFrame}`}>
               <div className={`absolute ${config.imageBorder} overflow-hidden bg-black shadow-inner`}>
                 {celeb.avatar_url ? (
-                  <img
-                    src={celeb.avatar_url}
-                    alt={celeb.nickname}
-                    className={`w-full h-full object-cover ${styles.celebImage}`}
-                  />
+                  <BlurDissolve className="w-full h-full">
+                    <img
+                      src={celeb.avatar_url}
+                      alt={celeb.nickname}
+                      className={`w-full h-full object-cover ${styles.celebImage}`}
+                    />
+                  </BlurDissolve>
                 ) : (
                   <div className={`w-full h-full flex items-center justify-center bg-neutral-800 ${styles.celebImage}`}>
                     <span className={`${config.fallbackText} text-white/50`}>{celeb.nickname[0]}</span>

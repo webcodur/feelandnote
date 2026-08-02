@@ -2,6 +2,7 @@
 
 import type { PersonaPersonSummary } from "@/actions/persona/getPersonaPeople";
 import type { PersonaVector } from "@/lib/persona/utils";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 import { useTranslations } from "next-intl";
 
@@ -29,7 +30,10 @@ export default function PersonaInfoPanel({ person, persona, loading }: Props) {
         <div className="flex items-center gap-3 border-b border-white/10 bg-black/30 p-3">
           <div className="h-14 w-14 overflow-hidden rounded-sm border border-white/20 bg-bg-secondary">
             {person.avatar_url ? (
-              <img src={person.avatar_url} alt={person.nickname} className="h-full w-full object-cover" />
+              // 인물 선택이 바뀔 때마다 등장 효과가 다시 재생되도록 key로 구분한다
+              <BlurDissolve key={person.id} className="h-full w-full">
+                <img src={person.avatar_url} alt={person.nickname} className="h-full w-full object-cover" />
+              </BlurDissolve>
             ) : (
               <div className="flex h-full w-full items-center justify-center text-xl font-serif text-text-secondary">
                 {person.nickname.charAt(0)}

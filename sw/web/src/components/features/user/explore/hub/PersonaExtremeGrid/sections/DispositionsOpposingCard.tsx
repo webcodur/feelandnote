@@ -7,6 +7,7 @@
 "use client";
 
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
 
 export default function DispositionsOpposingCard({ entry, locale, color, onCardClick }: { entry: PersonaExtremeEntry; locale: string; color: string; onCardClick: (entry: PersonaExtremeEntry, isOpposing: boolean, color: string) => void }) {
@@ -51,7 +52,9 @@ export default function DispositionsOpposingCard({ entry, locale, color, onCardC
                 <div className="absolute inset-0 rounded-full border border-white/10 group-hover:border-white/50 transition-colors z-20" />
                 <div className="absolute inset-[2px] rounded-full overflow-hidden z-10 bg-[#161616]">
                   {entry.celeb.avatar_url ? (
-                     <Image src={entry.celeb.avatar_url} alt={highName} fill sizes="80px" className="object-cover" />
+                     <BlurDissolve className="absolute inset-0">
+                       <Image src={entry.celeb.avatar_url} alt={highName} fill sizes="80px" className="object-cover" />
+                     </BlurDissolve>
                    ) : (
                      <div className="w-full h-full flex items-center justify-center text-2xl font-serif">
                        {highName.charAt(0)}
@@ -106,7 +109,9 @@ export default function DispositionsOpposingCard({ entry, locale, color, onCardC
                 <div className="absolute inset-0 rounded-full border border-white/10 group-hover:border-white/50 transition-colors z-20" />
                 <div className="absolute inset-[2px] rounded-full overflow-hidden z-10 bg-[#161616]">
                   {entry.opposing.celeb.avatar_url ? (
-                     <Image src={entry.opposing.celeb.avatar_url} alt={lowName} fill sizes="80px" className="object-cover" />
+                     <BlurDissolve className="absolute inset-0">
+                       <Image src={entry.opposing.celeb.avatar_url} alt={lowName} fill sizes="80px" className="object-cover" />
+                     </BlurDissolve>
                    ) : (
                      <div className="w-full h-full flex items-center justify-center text-2xl font-serif">
                        {lowName.charAt(0)}

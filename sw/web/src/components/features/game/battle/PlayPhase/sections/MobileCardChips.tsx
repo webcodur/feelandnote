@@ -8,6 +8,7 @@ import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
 import { getBattlePlaqueLabel, getBattleSealLabel } from "../../i18n";
 import { CMD_ICON, CMD_STYLE } from "../types";
 import type { BattleText } from "../types";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 
 interface Props {
   playerHand: BattleCardType[];
@@ -304,16 +305,18 @@ export default function MobileCardChips({
 
               {selectedCard ? (
                 <div className="absolute inset-1 rounded-[1px] overflow-hidden bg-black">
-                  <img
-                    src={selectedCard.avatarUrl || `/images/cards/${selectedCard.id}.png`}
-                    alt={selectedCard.nickname}
-                    className="w-full h-full object-cover object-top opacity-90 transition-opacity duration-300"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.onerror = null;
-                      target.style.display = 'none';
-                    }}
-                  />
+                  <BlurDissolve className="w-full h-full">
+                    <img
+                      src={selectedCard.avatarUrl || `/images/cards/${selectedCard.id}.png`}
+                      alt={selectedCard.nickname}
+                      className="w-full h-full object-cover object-top opacity-90 transition-opacity duration-300"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.style.display = 'none';
+                      }}
+                    />
+                  </BlurDissolve>
                   {/* 초상화 내부 그라데이션 및 이름 표기 */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute bottom-1 left-0 right-0 text-center">

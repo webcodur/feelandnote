@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { Inbox, User } from "lucide-react";
 import { ContentCard } from "@/components/ui/cards";
-import { Avatar, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
+import { Avatar, BlurDissolve, TitleBadge, Modal, ModalBody, ModalFooter, LoadMoreButton, FilterTabs } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { getCelebFeed } from "@/actions/home";
 import { CONTENT_TYPE_FILTERS, type ContentTypeFilterValue } from "@/constants/categories";
@@ -42,7 +42,9 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         className="flex-shrink-0 cursor-pointer"
         onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
       >
-        <Avatar url={review.celeb.avatar_url} name={review.celeb.nickname} size="sm" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+        <BlurDissolve>
+          <Avatar url={review.celeb.avatar_url} name={review.celeb.nickname} size="sm" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+        </BlurDissolve>
       </button>
       <div className="flex flex-col gap-0.5">
         <div className="flex items-center gap-1.5">

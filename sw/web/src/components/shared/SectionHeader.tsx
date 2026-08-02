@@ -10,8 +10,8 @@ import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  title: ReactNode;       // 한글 메인 타이틀 (예: 공통 서가)
-  label?: string;         // 영문 서브 라벨 (예: CHOSEN ONES) - 선택사항
+  title: ReactNode;       // 한글 메인 타이틀 (예: 인기 작품)
+  label?: string;         // 영문 서브 라벨 (예: POPULAR) - 선택사항
   description: ReactNode; // 설명 문구 (줄바꿈 가능)
   className?: string;
   descriptionClassName?: string;

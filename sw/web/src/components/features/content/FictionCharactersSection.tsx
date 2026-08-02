@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { BookOpenText, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import CelebImage from "@/components/ui/CelebImage";
 import type { FictionSourceCharacter } from "@/actions/fiction/getFictionSources";
 
 interface FictionCharactersSectionProps {
@@ -33,13 +33,11 @@ export default function FictionCharactersSection({
           >
             <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-white/10 bg-bg-secondary">
               {character.avatarUrl ? (
-                <Image
+                <CelebImage
                   src={character.avatarUrl}
                   alt=""
-                  fill
+                  shape="circle"
                   sizes="48px"
-                  className="object-cover"
-                  unoptimized
                 />
               ) : (
                 <span className="flex h-full w-full items-center justify-center text-text-tertiary">

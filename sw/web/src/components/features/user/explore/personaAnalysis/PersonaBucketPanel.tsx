@@ -74,7 +74,7 @@ export default function PersonaBucketPanel({ items, label, labelColor, negLabel,
                 className="size-9 shrink-0 overflow-hidden rounded-full border-2 bg-bg-card"
                 style={{ borderColor: lerpColor(colors.neg, colors.pos, (v + 50) / 100) }}
               >
-                <FadeAvatar src={p.avatar_url} name={p.nickname} />
+                <FadeAvatar src={p.avatar_url} name={p.nickname} blurDissolve />
               </div>
               <span className="min-w-0 flex-1 truncate text-sm font-semibold text-text-primary">
                 {locale === "en" ? (p.nickname_en || p.nickname) : p.nickname}

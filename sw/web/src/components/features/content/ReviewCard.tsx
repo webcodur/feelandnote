@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Eye, EyeOff, Star } from "lucide-react";
-import { FormattedText } from "@/components/ui";
+import { BlurDissolve, FormattedText } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import UserAvatarWithPopover from "@/components/shared/UserAvatarWithPopover";
 import { BLUR_DATA_URL } from "@/constants/image";
@@ -50,8 +50,15 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
           profileType={item.user.profile_type}
           trigger={
             <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden hover:ring-2 hover:ring-accent/50 cursor-pointer transition-all">
+              {/* 셀럽 아바타에만 블러 디졸브 등장 효과 — 일반 사용자 아바타는 그대로 */}
               {item.user.avatar_url ? (
-                <Image src={item.user.avatar_url} alt={nickname} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+                item.user.profile_type === 'CELEB' ? (
+                  <BlurDissolve className="absolute inset-0">
+                    <Image src={item.user.avatar_url} alt={nickname} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+                  </BlurDissolve>
+                ) : (
+                  <Image src={item.user.avatar_url} alt={nickname} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
+                )
               ) : (
                 "⭐"
               )}

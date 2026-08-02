@@ -73,10 +73,10 @@ export const PAGE_CARD_MAP: PageCardInfo[] = [
   },
   {
     url: "/library",
-    pageName: "작품 (지혜의 서가)",
+    pageName: "작품 (서가)",
     sections: [
       {
-        name: "공통 서가",
+        name: "인기 작품",
         card: "ContentCard",
         description: "전체 셀럽의 추천 콘텐츠. index/celebCount/userCount/avgRating 슬롯 사용.",
       },

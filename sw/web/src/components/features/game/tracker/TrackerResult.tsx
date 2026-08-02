@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { CelebProfile } from "@/types/home";
 
 const TYPE_ICONS: Record<string, typeof Book> = {
@@ -127,7 +128,9 @@ export default function TrackerResult({
           />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] rounded-full bg-accent/20 blur-[25px] opacity-60 pointer-events-none mix-blend-screen animate-pulse" />
           {avatarUrl ? (
-            <Image src={avatarUrl} alt={nickname} fill sizes="128px" className="object-cover relative z-10 drop-shadow-[0_15px_20px_rgba(0,0,0,0.9)]" />
+            <BlurDissolve className="absolute inset-0 z-10">
+              <Image src={avatarUrl} alt={nickname} fill sizes="128px" className="object-cover drop-shadow-[0_15px_20px_rgba(0,0,0,0.9)]" />
+            </BlurDissolve>
           ) : (
             <div className="relative z-10 flex h-full w-full items-center justify-center text-4xl font-serif text-text-secondary">
               {nickname.charAt(0)}

@@ -94,7 +94,9 @@ export default function HubSection({
               </button>
             )
           )}
-          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+          {/* 최소 폭 = 가장 긴 제목(오늘의 인물) 기준. 짧은 제목도 같은 폭을 차지해
+              좌우 화살표가 모든 구획에서 동일한 자리에 선다 (em이라 글자 크기에 비례) */}
+          <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight text-center min-w-[5.5em]">
             {title}
           </h2>
           {hasNav && (

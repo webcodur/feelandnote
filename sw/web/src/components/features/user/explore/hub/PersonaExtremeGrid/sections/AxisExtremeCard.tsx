@@ -7,6 +7,7 @@
 "use client";
 
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
 import { AXIS_SHORT_LABELS } from "../../../personaAxis";
 
@@ -58,13 +59,15 @@ export default function AxisExtremeCard({
       {/* 인물 이미지 */}
       <div className="relative z-10 w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-xl overflow-hidden bg-black border border-white/5 shadow-lg mb-3">
         {entry.celeb.avatar_url ? (
-          <Image
-            src={entry.celeb.avatar_url}
-            alt={name}
-            fill
-            sizes="120px"
-            className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-          />
+          <BlurDissolve className="absolute inset-0">
+            <Image
+              src={entry.celeb.avatar_url}
+              alt={name}
+              fill
+              sizes="120px"
+              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          </BlurDissolve>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-3xl font-serif bg-white/5">
             {name.charAt(0)}
@@ -132,13 +135,15 @@ export default function AxisExtremeCard({
               >
                 <div className="relative w-6 h-6 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 shadow-sm group-hover/runner:ring-white/20 transition-all">
                   {r.avatar_url ? (
-                    <Image
-                      src={r.avatar_url}
-                      alt=""
-                      fill
-                      sizes="24px"
-                      className="object-cover"
-                    />
+                    <BlurDissolve className="absolute inset-0">
+                      <Image
+                        src={r.avatar_url}
+                        alt=""
+                        fill
+                        sizes="24px"
+                        className="object-cover"
+                      />
+                    </BlurDissolve>
                   ) : (
                     <div className="w-full h-full bg-white/10" />
                   )}

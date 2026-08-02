@@ -9,6 +9,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { BlurDissolve } from "@/components/ui";
 import { initials } from "./constants";
 
 // 이 시간까지는 원래 동작 그대로. 넘기면 지연 로딩으로 간주해 페이드 커버 발동
@@ -20,9 +21,11 @@ type LoadState = "eager" | "waiting" | "fade" | "done";
 interface FadeAvatarProps {
   src: string | null;
   name: string;
+  /** 화면에 들어설 때 블러 디졸브(뿌옇게 뭉갰다 또렷하게)로 등장 */
+  blurDissolve?: boolean;
 }
 
-export default function FadeAvatar({ src, name }: FadeAvatarProps) {
+export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvatarProps) {
   const [state, setState] = useState<LoadState>("eager");
 
   // 캐시에서 이미 완료된 이미지는 onLoad가 안 불릴 수 있어 마운트 시점에 확인
@@ -55,7 +58,15 @@ export default function FadeAvatar({ src, name }: FadeAvatarProps) {
       {loadingCover && (
         <div className="size-full animate-pulse bg-gradient-to-br from-border/50 to-border/15" />
       )}
-      {src && (
+      {src && blurDissolve && (
+        // 블러 디졸브 — 로드가 늦은 이미지만 도착 순간 뿌옇게 뭉갰다 또렷해진다(로드 감지는 래퍼가 직접).
+        // 나타나는 연출은 래퍼가 전담하므로 img 자체 페이드는 걸지 않는다.
+        <BlurDissolve className="absolute inset-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img ref={ref} src={src} alt={name} decoding="async" onLoad={markLoaded} className="size-full object-cover" />
+        </BlurDissolve>
+      )}
+      {src && !blurDissolve && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           ref={ref}
