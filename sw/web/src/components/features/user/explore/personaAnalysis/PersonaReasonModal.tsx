@@ -6,7 +6,9 @@
 
 "use client";
 
+import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
+import { Z_INDEX } from "@/constants/zIndex";
 import { ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { TENDENCY_LABELS, type TendencyKey } from "@/lib/persona/constants";
@@ -32,8 +34,10 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
   const sideLabel = v >= 0 ? pos : neg;
   const reasonText = reason ? (locale === "en" ? reason.en : reason.ko) : "";
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+  if (typeof window === "undefined") return null;
+  // 페이지 본문 래퍼(z-10) 안에서는 하단 네비(z-100)를 못 덮는다 — body로 포털해서 띄운다
+  return createPortal(
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 p-4" style={{ zIndex: Z_INDEX.modal }} onClick={onClose}>
       <div className="w-full max-w-sm rounded-2xl border border-border/60 bg-bg-card p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
         {/* 헤더 */}
         <div className="flex items-center gap-4">
@@ -78,6 +82,7 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

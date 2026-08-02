@@ -1,7 +1,8 @@
 /*
   파일명: /components/features/user/explore/hub/TopByTypeGrid.tsx
   기능: 분야별 최다 기록가 그리드
-  책임: 4컬럼(모바일 2x2) 균등 배치, 각 카드에 타입 라벨 표시
+  책임: 분야당 상위 3명(책→영화→게임→음악 순)을 다른 탭과 동일한 단일 격자로 배치.
+        분야 구분은 카드 우상단 색 뱃지(아이콘·기록 수)가 맡는다.
 */ // ------------------------------
 
 "use client";
@@ -32,23 +33,23 @@ export default function TopByTypeGrid({ entries }: TopByTypeGridProps) {
   if (entries.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-4 max-w-3xl mx-auto">
-      {entries.map((entry) => {
+    /* HubCelebGrid와 같은 격자 규격 — 탭을 오가도 카드 크기·간격이 흔들리지 않게 한다 */
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4">
+      {entries.flatMap((entry) => {
         const config = TYPE_CONFIG[entry.type];
         const Icon = config.icon;
         const label = locale === "en" ? entry.label.en : entry.label.ko;
-        const typeCount = entry.celeb.content_count ?? 0;
 
-        return (
-          <div key={entry.type} className="flex flex-col items-center gap-2">
-            {/* 셀럽 카드 (기본 뱃지 숨김) + 타입별 커스텀 뱃지 */}
-            <div className="relative w-full group/topcard">
+        return entry.celebs.map((celeb) => {
+          const typeCount = celeb.content_count ?? 0;
+          return (
+            <div key={`${entry.type}-${celeb.id}`} className="relative w-full group/topcard">
               <CelebCard
-                id={entry.celeb.id}
-                nickname={entry.celeb.nickname}
-                avatar_url={entry.celeb.avatar_url}
-                title={entry.celeb.title}
-                celebProfile={entry.celeb}
+                id={celeb.id}
+                nickname={celeb.nickname}
+                avatar_url={celeb.avatar_url}
+                title={celeb.title}
+                celebProfile={celeb}
                 variant="card"
                 shape="square"
                 onSubtitle={handleSubtitle}
@@ -67,7 +68,7 @@ export default function TopByTypeGrid({ entries }: TopByTypeGridProps) {
                   <div
                     className={`absolute inset-0 rounded-full opacity-30 ${config.badgeBg} blur-md`}
                   />
-                  
+
                   {/* 분야 이름은 적지 않는다 — 아이콘이 이미 분야를 말한다.
                       대신 읽어주는 도구를 위해 뱃지 전체에 분야명을 붙여 둔다. */}
                   <div className="relative flex items-center gap-1.5">
@@ -88,8 +89,8 @@ export default function TopByTypeGrid({ entries }: TopByTypeGridProps) {
                 </div>
               )}
             </div>
-          </div>
-        );
+          );
+        });
       })}
     </div>
   );

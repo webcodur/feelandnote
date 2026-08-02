@@ -14,11 +14,12 @@ const CONTENT_TYPE_LABELS: Record<string, { ko: string; en: string }> = {
 export interface TopByTypeEntry {
   type: string
   label: { ko: string; en: string }
-  celeb: CelebProfile
+  /** 타입별 content_count 상위 3명 (1위부터) */
+  celebs: CelebProfile[]
 }
 
 /**
- * BOOK, VIDEO, GAME, MUSIC 각 타입별 content_count 1위 셀럽 조회
+ * BOOK, VIDEO, GAME, MUSIC 각 타입별 content_count 상위 3명 조회
  * RPC ORDER BY가 전체 count 기준이므로, 다수 조회 후 타입별 count(SELECT)로 재정렬
  */
 export async function getTopByContentType(): Promise<TopByTypeEntry[]> {
@@ -39,7 +40,7 @@ export async function getTopByContentType(): Promise<TopByTypeEntry[]> {
       entries.push({
         type,
         label: CONTENT_TYPE_LABELS[type],
-        celeb: sorted[0],
+        celebs: sorted.slice(0, 3),
       })
     }
   })

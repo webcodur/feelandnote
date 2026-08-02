@@ -11,6 +11,10 @@ export const AXIS_BOTTOM = 34; // 축선까지 바닥 여백(px)
 export const MAX_STACK = 10; // 한 칸에 쌓는 점 최대 수 (초과분은 +N)
 export const SEARCH_LIMIT = 8; // 검색 결과 최대 표시 수
 
+// 모바일(폭 640px 미만) — 아바타 수백 개를 좁은 폭에 못 그리므로 구간 막대로 전환
+export const BAR_STEP = 5; // 막대 하나가 덮는 값 폭 (-50~50 → 최대 21개)
+export const BAR_AREA = 150; // 막대 최대 높이(px)
+
 // 성향 4지표 × 양극 = 8색. 축마다 좌(neg)·우(pos) 끝 색
 export const AXIS_POLE_COLORS: Record<string, { neg: string; pos: string }> = {
   pessimism_optimism: { neg: "#64748b", pos: "#fbbf24" }, // 비관(회청) ↔ 낙관(노랑)

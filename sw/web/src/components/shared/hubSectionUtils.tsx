@@ -53,7 +53,6 @@ export const EXPLORE_SECTIONS = [
   { key: "ranking",         moreHref: "/explore/ranking",           titleKey: "ranking",         subtitleKey: "rankingSub",         moreKey: "viewAll" },
   { key: "personaAnalysis", moreHref: "/explore/persona",           titleKey: "personaAnalysis", subtitleKey: "personaAnalysisSub", moreKey: "viewAll" },
   { key: "faction",         moreHref: "/explore/faction",           titleKey: "faction",         subtitleKey: "factionSub",         moreKey: "viewAll" },
-  { key: "allCelebs",       moreHref: "/explore/figures?tier=full", titleKey: "allCelebs",       subtitleKey: "allCelebsSub",       moreKey: "viewAll" },
 ] as const;
 
 export type ExploreSectionKey = (typeof EXPLORE_SECTIONS)[number]["key"];
