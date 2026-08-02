@@ -1,0 +1,717 @@
+{
+  "curator": {
+    "slug": "wolfson-foundation",
+    "name": "울프슨 재단",
+    "name_en": "The Wolfson Foundation",
+    "kind": "organization",
+    "country": "GB",
+    "founded_year": 1955,
+    "homepage_url": "https://www.wolfson.org.uk",
+    "description": "영국의 독립 자선재단으로, 과학·의학·보건·예술·인문학·교육 분야의 연구와 시설에 자금을 지원한다. 사업가이자 자선가인 레너드 울프슨(1927-2010)이 주도해 1972년 울프슨 역사상을 만들었다. 처음에는 노벨상처럼 여러 분야에 상을 두려 했으나, 결국 '가장 넓은 의미의 역사' 한 분야로 좁혔다.",
+    "description_en": "An independent British charitable foundation that funds research and infrastructure in science, medicine, health, the arts, humanities and education. The Wolfson History Prize was established in 1972 at the initiative of the businessman and philanthropist Leonard Wolfson (1927-2010). He had first envisaged Nobel-style awards across several fields of scholarship and artistic achievement, but the scheme was ultimately confined to history in its widest sense."
+  },
+  "list": {
+    "slug": "wolfson-history",
+    "title": "울프슨 역사상",
+    "title_en": "Wolfson History Prize",
+    "description": "1972년부터 매년 영국에서 출간된 역사서에 주는 상이다. 꼼꼼한 연구와 잘 쓴 문장, 그리고 전공자가 아닌 독자도 읽어낼 수 있는 접근성을 함께 요구하는 것이 이 상의 성격이다. 학술적 엄정성과 대중적 가독성 중 어느 한쪽만 갖춘 책은 뽑히지 않으며, 주제는 역사 전 영역과 역사 인물 전기까지 아우른다. 수상작은 5만 파운드, 후보작은 각 5천 파운드를 받는다.",
+    "description_en": "Awarded annually since 1972 to history books published in the United Kingdom. Its defining requirement is that a book be at once carefully researched, well written and accessible to the non-specialist reader - scholarly rigour and general readability are demanded together, not traded off against each other. Any aspect of history qualifies, including historical biography. The winner receives 50,000 pounds and each shortlisted author 5,000 pounds.",
+    "published_year": null,
+    "edition": null,
+    "method": "출판사가 출품한 책을 역사학자로 구성된 심사위원단이 심사한다. 심사 기준은 세 가지로, 꼼꼼한 연구와 좋은 문장, 그리고 비전공 독자가 읽을 수 있는 접근성이다. 응모 자격은 해당 출간 연도에 영국에 주로 거주한 저자로 국적은 묻지 않으며, 책은 그해 1월 1일부터 12월 31일 사이에 영국에서 영어로 출간되어야 한다. 이전 수상자는 다시 응모할 수 없고(후보에만 올랐던 저자는 가능), 사후 수상은 없다. 공저서·편저서·재판·개정판·번역서·자비출판·소설은 대상에서 제외한다. 심사는 6권의 후보 명단을 거쳐 이듬해에 수상작을 발표한다.",
+    "method_en": "Books submitted by publishers are assessed by a panel of historians. The three judging criteria are careful research, quality of writing and accessibility to the non-specialist reader. Authors may be of any nationality but must be normally resident in the UK during the year of publication, and the book must be published in English in the UK between 1 January and 31 December of that year. Previous winners may not enter again (previously shortlisted authors may), and awards are not made posthumously. Multi-authored works, edited volumes, reprints and revised editions, translations, self-published books and fiction are excluded. A shortlist of six books precedes the announcement of the winner in the following year.",
+    "source_url": "https://www.wolfsonhistoryprize.org.uk/past-winners/all-winners/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "history",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Grand Strategy, vol. IV: August 1942 - September 1943",
+      "raw_creator": "Michael Howard",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Religion and the Decline of Magic: Studies in Popular Beliefs in Sixteenth and Seventeenth-Century England",
+      "raw_creator": "Keith Thomas",
+      "rank": null,
+      "year": 1972,
+      "note": null
+    },
+    {
+      "raw_title": "Henry II",
+      "raw_creator": "WL Warren",
+      "rank": null,
+      "year": 1973,
+      "note": "공식 사이트 표기 'WL Warren'. 위키백과는 'W. L. Warren'."
+    },
+    {
+      "raw_title": "The Rosicrucian Enlightenment",
+      "raw_creator": "Frances Yates",
+      "rank": null,
+      "year": 1973,
+      "note": null
+    },
+    {
+      "raw_title": "The Ancient Economy",
+      "raw_creator": "Moses Finley",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "France, 1848-1945: Ambition, Love & Politics",
+      "raw_creator": "Theodore Zeldin",
+      "rank": null,
+      "year": 1974,
+      "note": null
+    },
+    {
+      "raw_title": "Edward VIII",
+      "raw_creator": "Frances Donaldson",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "The Poor of Eighteenth-Century France, 1750-1789",
+      "raw_creator": "Olwen Hufton",
+      "rank": null,
+      "year": 1975,
+      "note": null
+    },
+    {
+      "raw_title": "A History of Building Types",
+      "raw_creator": "Nikolaus Pevsner",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "The Eastern Front 1914-17",
+      "raw_creator": "Norman Stone",
+      "rank": null,
+      "year": 1976,
+      "note": null
+    },
+    {
+      "raw_title": "Patriots and Liberators: Revolution in the Netherlands, 1780-1813",
+      "raw_creator": "Simon Schama",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "Mussolini's Roman Empire",
+      "raw_creator": "Denis Mack Smith",
+      "rank": null,
+      "year": 1977,
+      "note": null
+    },
+    {
+      "raw_title": "A Savage War of Peace: Algeria, 1954-1962",
+      "raw_creator": "Alistair Horne",
+      "rank": null,
+      "year": 1978,
+      "note": null
+    },
+    {
+      "raw_title": "Death in Paris, 1795-1801",
+      "raw_creator": "Richard Cobb",
+      "rank": null,
+      "year": 1979,
+      "note": "위키백과 전체 부제: 'Death in Paris: The Records of the Basse-Geole de la Seine, October 1795 - September 1801'."
+    },
+    {
+      "raw_title": "Clementine Churchill",
+      "raw_creator": "Mary Soames",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Foundations of Modern Political Thought, vol. 1: The Renaissance",
+      "raw_creator": "Quentin Skinner",
+      "rank": null,
+      "year": 1979,
+      "note": null
+    },
+    {
+      "raw_title": "The Making of the Habsburg Monarchy, 1550-1700: An Interpretation",
+      "raw_creator": "Robert Evans",
+      "rank": null,
+      "year": 1980,
+      "note": null
+    },
+    {
+      "raw_title": "Culture and Anarchy in Ireland, 1890-1939",
+      "raw_creator": "FSL Lyons",
+      "rank": null,
+      "year": 1980,
+      "note": "공식 사이트 표기 'FSL Lyons'. 위키백과는 'F. S. L. Lyons'."
+    },
+    {
+      "raw_title": "A Liberal Descent: Victorian Historians and the English Past",
+      "raw_creator": "John Burrow",
+      "rank": null,
+      "year": 1981,
+      "note": "위키백과는 'John Wyon Burrow'."
+    },
+    {
+      "raw_title": "Death and the Enlightenment: Changing Attitudes to Death Among Christians and Unbelievers in Eighteenth-century France",
+      "raw_creator": "John McManners",
+      "rank": null,
+      "year": 1982,
+      "note": null
+    },
+    {
+      "raw_title": "Winston S. Churchill, vol. VI: Finest Hour",
+      "raw_creator": "Martin Gilbert",
+      "rank": null,
+      "year": 1983,
+      "note": null
+    },
+    {
+      "raw_title": "King George V",
+      "raw_creator": "Kenneth Rose",
+      "rank": null,
+      "year": 1983,
+      "note": "위키백과는 'George V'."
+    },
+    {
+      "raw_title": "The Weaker Vessel: Woman's Lot in Seventeenth-Century England",
+      "raw_creator": "Antonia Fraser",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Chivalry",
+      "raw_creator": "Maurice Keen",
+      "rank": null,
+      "year": 1984,
+      "note": null
+    },
+    {
+      "raw_title": "Dudley Docker: The Life and Times of a Trade Warrior",
+      "raw_creator": "Richard Davenport-Hines",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "Lloyd George: From Peace to War, 1912-1916",
+      "raw_creator": "John Grigg",
+      "rank": null,
+      "year": 1985,
+      "note": null
+    },
+    {
+      "raw_title": "The Count-Duke of Olivares: The Statesman in an Age of Decline",
+      "raw_creator": "John Elliott",
+      "rank": null,
+      "year": 1986,
+      "note": "위키백과는 'J. H. Elliott'."
+    },
+    {
+      "raw_title": "European Jewry in the Age of Mercantilism 1550-1750",
+      "raw_creator": "Jonathan Israel",
+      "rank": null,
+      "year": 1986,
+      "note": null
+    },
+    {
+      "raw_title": "Conquest, Coexistence, and Change: Wales 1063-1415",
+      "raw_creator": "Rees Davies",
+      "rank": null,
+      "year": 1987,
+      "note": "위키백과는 'R. R. Davies'."
+    },
+    {
+      "raw_title": "The Mediterranean Passion: Victorians and Edwardians in the South",
+      "raw_creator": "John Pemble",
+      "rank": null,
+      "year": 1987,
+      "note": null
+    },
+    {
+      "raw_title": "Death in Hamburg: Society and Politics in the Cholera Years, 1830-1910",
+      "raw_creator": "Richard Evans",
+      "rank": null,
+      "year": 1989,
+      "note": "위키백과는 'Richard J. Evans'."
+    },
+    {
+      "raw_title": "The Rise and Fall of the Great Powers: Economic Change and Military Conflict from 1500-2000",
+      "raw_creator": "Paul Kennedy",
+      "rank": null,
+      "year": 1989,
+      "note": "공식 사이트에는 부제가 'Military Control'로 적혀 있으나 실제 원서 부제는 'Military Conflict'다(웹 검색으로 별도 확인). 확인된 표기를 채택했다."
+    },
+    {
+      "raw_title": "The Quest for El Cid",
+      "raw_creator": "Richard Fletcher",
+      "rank": null,
+      "year": 1990,
+      "note": "위키백과는 'Richard A. Fletcher'."
+    },
+    {
+      "raw_title": "How War Came",
+      "raw_creator": "Donald Cameron Watt",
+      "rank": null,
+      "year": 1990,
+      "note": "위키백과 전체 부제: 'How War Came: The Immediate Origins of the Second World War, 1938-1939'."
+    },
+    {
+      "raw_title": "The Architecture of Medieval Britain: A Social History",
+      "raw_creator": "Colin Platt",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "Giordano Bruno and the Embassy Affair",
+      "raw_creator": "John Bossy",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Hitler and Stalin: Parallel Lives",
+      "raw_creator": "Alan Bullock",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "Britons: Forging the Nation 1707-1837",
+      "raw_creator": "Linda Colley",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "John Maynard Keynes, vol. 2: the Economist as Saviour 1920-1937",
+      "raw_creator": "Robert Skidelsky",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Making of Europe: Conquest, Colonization and Cultural Change 950-1350",
+      "raw_creator": "Robert Bartlett",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "Living and Dying in England 1100-1540: The Monastic Experience",
+      "raw_creator": "Barbara Harvey",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "William Morris: A Life for Our Time",
+      "raw_creator": "Fiona MacCarthy",
+      "rank": null,
+      "year": 1995,
+      "note": null
+    },
+    {
+      "raw_title": "The Kaiser and his Court: Wilhelm II and the Government of Germany",
+      "raw_creator": "John Rohl",
+      "rank": null,
+      "year": 1995,
+      "note": "공식 사이트 표기 'John Rohl'(Röhl). 위키백과는 'John C. G. Rohl'."
+    },
+    {
+      "raw_title": "Gladstone, 1875-1898",
+      "raw_creator": "HCG Matthew",
+      "rank": null,
+      "year": 1996,
+      "note": "공식 사이트 표기 'HCG Matthew'. 위키백과는 'H. C. G. Matthew'."
+    },
+    {
+      "raw_title": "A People's Tragedy: The Russian Revolution 1891-1924",
+      "raw_creator": "Orlando Figes",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "The Pleasures of the Imagination: English Culture in the Eighteenth Century",
+      "raw_creator": "John Brewer",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Jennie Lee: A Life",
+      "raw_creator": "Patricia Hollis",
+      "rank": null,
+      "year": 1998,
+      "note": null
+    },
+    {
+      "raw_title": "Stalingrad",
+      "raw_creator": "Antony Beevor",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Gentleman's Daughter: Women's Lives in Georgian England",
+      "raw_creator": "Amanda Vickery",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "An Intimate History of Killing: Face-To-Face Killing In Twentieth-Century Warfare",
+      "raw_creator": "Joanna Bourke",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Salisbury: Victorian Titan",
+      "raw_creator": "Andrew Roberts",
+      "rank": null,
+      "year": 2000,
+      "note": null
+    },
+    {
+      "raw_title": "Hitler 1936-1945: Nemesis",
+      "raw_creator": "Ian Kershaw",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Balkans: From the End of Byzantium to the Present Day",
+      "raw_creator": "Mark Mazower",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Enlightenment: Britain and the Creation of the Modern World",
+      "raw_creator": "Roy Porter",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "Facing the Ocean: The Atlantic and its Peoples 8000BC-AD1500",
+      "raw_creator": "Barry Cunliffe",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "London in the Twentieth Century: A City and its People",
+      "raw_creator": "Jerry White",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "White Mughals: Love and Betrayal in Eighteenth-Century India",
+      "raw_creator": "William Dalrymple",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Marianne in Chains: In search of the German Occupation 1940-1945",
+      "raw_creator": "Robert Gildea",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "Transformations of Love: The Friendship of John Evelyn and Margaret Godolphin",
+      "raw_creator": "Frances Harris",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "The Fall of France: The Nazi Invasion of 1940",
+      "raw_creator": "Julian Jackson",
+      "rank": null,
+      "year": 2004,
+      "note": "위키백과는 'Julian T. Jackson'."
+    },
+    {
+      "raw_title": "Reformation: Europe's House Divided 1490-1700",
+      "raw_creator": "Diarmaid MacCulloch",
+      "rank": null,
+      "year": 2004,
+      "note": null
+    },
+    {
+      "raw_title": "The Dictators: Hitler's Germany and Stalin's Russia",
+      "raw_creator": "Richard Overy",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "In Command of History: Churchill Fighting and Writing the Second World War",
+      "raw_creator": "David Reynolds",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Shopping in the Renaissance: Consumer Cultures in Italy 1400-1600",
+      "raw_creator": "Evelyn Welch",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Framing the Early Middle Ages: Europe and the Mediterranean 400-800",
+      "raw_creator": "Christopher Wickham",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Iron Kingdom: The Rise and Downfall of Prussia 1600-1947",
+      "raw_creator": "Christopher Clark",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "City of Laughter: Sex and Satire in Eighteenth-Century London",
+      "raw_creator": "Vic Gatrell",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "The Wages of Destruction: The Making and Breaking of the Nazi Economy",
+      "raw_creator": "Adam Tooze",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "After Tamerlane: The Global History of Empire since 1405",
+      "raw_creator": "John Darwin",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "God's Architect: Pugin & the Building of Romantic Britain",
+      "raw_creator": "Rosemary Hill",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Pompeii: The Life of a Roman Town",
+      "raw_creator": "Mary Beard",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Dance in the Renaissance: European Fashion, French Obsession",
+      "raw_creator": "Margaret McGowan",
+      "rank": null,
+      "year": 2009,
+      "note": "위키백과는 'Margaret M. McGowan'."
+    },
+    {
+      "raw_title": "Russia against Napoleon: The Battle for Europe 1807 to 1814",
+      "raw_creator": "Dominic Lieven",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Hundred Years War, vol. III: Divided Houses",
+      "raw_creator": "Jonathan Sumption",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Man on Devil's Island: Alfred Dreyfus and the Affair that Divided France",
+      "raw_creator": "Ruth Harris",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Islanders: The Pacific in the Age of Empire",
+      "raw_creator": "Nicholas Thomas",
+      "rank": null,
+      "year": 2011,
+      "note": null
+    },
+    {
+      "raw_title": "Nikolaus Pevsner: The Life",
+      "raw_creator": "Susie Harries",
+      "rank": null,
+      "year": 2012,
+      "note": "1976년 수상자 Nikolaus Pevsner의 전기다."
+    },
+    {
+      "raw_title": "The Reformation of the Landscape: Religion, Identity & Memory in Early Modern Britain & Ireland",
+      "raw_creator": "Alexandra Walsham",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "Thomas Wyatt: The Heart's Forest",
+      "raw_creator": "Susan Brigden",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "Fascist Voices: An Intimate History of Mussolini's Italy",
+      "raw_creator": "Christopher Duggan",
+      "rank": null,
+      "year": 2013,
+      "note": null
+    },
+    {
+      "raw_title": "The Making of the Middle Sea: A History of the Mediterranean from the Beginning to the Emergence of the Classical World",
+      "raw_creator": "Cyprian Broodbank",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Red Fortress: The Secret Heart of Russia's History",
+      "raw_creator": "Catherine Merridale",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "National Service: Conscription in Britain, 1945-1963",
+      "raw_creator": "Richard Vinen",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Ring of Steel: Germany and Austria-Hungary at War, 1914-1918",
+      "raw_creator": "Alexander Watson",
+      "rank": null,
+      "year": 2015,
+      "note": null
+    },
+    {
+      "raw_title": "Augustine: Conversions and Confessions",
+      "raw_creator": "Robin Lane Fox",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "KL: A History of the Nazi Concentration Camps",
+      "raw_creator": "Nikolaus Wachsmann",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Meetings with Remarkable Manuscripts",
+      "raw_creator": "Christopher de Hamel",
+      "rank": null,
+      "year": 2017,
+      "note": "위키백과 전체 부제: 'Meetings with Remarkable Manuscripts: Twelve Journeys into the Medieval World'. 2017년부터 단독 수상 체제로 굳어졌다."
+    },
+    {
+      "raw_title": "Heretics and Believers: A History of the English Reformation",
+      "raw_creator": "Peter Marshall",
+      "rank": null,
+      "year": 2018,
+      "note": null
+    },
+    {
+      "raw_title": "Reckonings: Legacies of Nazi Persecution and the Quest for Justice",
+      "raw_creator": "Mary Fulbrook",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "The Boundless Sea: A Human History of the Oceans",
+      "raw_creator": "David Abulafia",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Black Spartacus: The Epic Life of Toussaint Louverture",
+      "raw_creator": "Sudhir Hazareesingh",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "Devil-Land: England Under Siege, 1588-1688",
+      "raw_creator": "Clare Jackson",
+      "rank": null,
+      "year": 2022,
+      "note": null
+    },
+    {
+      "raw_title": "Resistance: The Underground War in Europe, 1939-45",
+      "raw_creator": "Halik Kochanski",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "Shadows at Noon: The South Asian Twentieth Century",
+      "raw_creator": "Joya Chatterji",
+      "rank": null,
+      "year": 2024,
+      "note": null
+    },
+    {
+      "raw_title": "Survivors: The Lost Stories of the Last Captives of the Atlantic Slave Trade",
+      "raw_creator": "Hannah Durkin",
+      "rank": null,
+      "year": 2025,
+      "note": "2026년 8월 1일 기준 최신 수상작. 2026년 수상작은 2026년 12월 1일 발표 예정이며 후보 명단은 2026년 9월 17일 공개 예정이다."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.wolfsonhistoryprize.org.uk/past-winners/all-winners/ (r.jina.ai 프록시 경유) - 1972~2025 전체 수상작 목록. 저자·원제 1차 출처",
+      "https://www.wolfsonhistoryprize.org.uk/about/ (r.jina.ai 프록시 경유) - 심사 기준 문구, 상금(5만/5천 파운드), 54년간 140명 이상에게 160만 파운드 이상 수여",
+      "https://www.wolfsonhistoryprize.org.uk/about/history/ (r.jina.ai 프록시 경유) - 상의 기원, 레너드 울프슨(1927-2010), 최초 명칭 'Wolfson Literary Awards for History'",
+      "https://www.wolfsonhistoryprize.org.uk/submissions/ (r.jina.ai 프록시 경유) - 응모 자격, 제외 대상, 심사 기준 3항목",
+      "https://www.wolfsonhistoryprize.org.uk/past-winners/1978-winners/ (r.jina.ai 프록시 경유) - 개인 공로 부문 실재 확인. 1978년 Howard Colvin이 'For distinguished contribution to the writing of history' 사유로 수상",
+      "https://en.wikipedia.org/wiki/Wolfson_History_Prize (r.jina.ai 프록시 경유) - 연도·저자·원제 교차 대조, 1988년 미시상 사유, 개인 공로 부문 수상자 명단",
+      "WebSearch 'Wolfson History Prize 2026 winner announced' - 2026년 수상작 미발표 확인(2026년 12월 1일 발표 예정, 후보 명단 2026년 9월 17일 공개 예정)",
+      "WebSearch 'Paul Kennedy The Rise and Fall of the Great Powers subtitle' - 공식 사이트의 부제 오기('Military Control') 확인 및 정정"
+    ],
+    "item_count": 95,
+    "year_range": "1972-2025",
+    "multi_winner_years": "한 해에 두 편 이상이 수상한 해: 1972-1977, 1979-1980, 1983-1987, 1989-1990, 1992-1995, 1998-2016. 이 중 세 편이 수상한 해는 1979, 2001, 2004, 2007년이다. 나머지는 모두 두 편이다. 초기부터 2016년까지는 복수 수상이 통상적이었고, 2017년부터 2025년까지는 매년 단독 수상 한 편으로 굳어졌다. 단독 수상 해는 1978, 1981, 1982, 1991, 1996, 1997, 2017-2025년이다.",
+    "excluded_awards": "개인 공로 부문(공식 사이트 1978년 페이지 기준 'For distinguished contribution to the writing of history', 위키백과 표기로는 Oeuvre Prize)은 작품이 아니라 사람에게 주는 상이므로 items에서 전부 제외했다. 위키백과 기준 제외 대상은 1978년 Howard Colvin, 1981년 Owen Chadwick, 1982년 Steven Runciman, 1997년 Eric Hobsbawm, 2000년 Asa Briggs, 2002년 Roy Jenkins, 2005년 Christopher Bayly 총 7명이다. 이 중 1978년 Howard Colvin 건만 공식 사이트 연도별 페이지에서 직접 확인했고 나머지 6명은 위키백과 표에서만 확인했다.",
+    "gaps": "1988년은 수상작이 없다. 위키백과는 시상 시기를 연말에서 이듬해 여름으로 옮기는 과도기였기 때문이라고 적고 있으며, 공식 전체 목록에도 1988년 항목 자체가 없다. 2026년 수상작은 이 조사 시점(2026년 8월 1일)에 아직 발표되지 않았으므로 목록은 2025년에서 끝난다.",
+    "uncertainties": "① 공식 사이트는 WebFetch 직접 접근 시 401을 반환해 r.jina.ai 리더 프록시로 열었다. 프록시가 옮긴 텍스트를 위키백과 표와 전 항목 대조해 연도·저자 조합이 완전히 일치함을 확인했다. ② 원제 표기는 공식 사이트 문구를 채택했다. 두 출처의 부제 길이가 다른 항목(1979 Richard Cobb, 1990 Donald Cameron Watt, 2017 Christopher de Hamel 등)은 note에 위키백과 표기를 함께 적었다. ③ 1989년 Paul Kennedy 항목은 공식 사이트가 부제를 'Military Control'로 잘못 적어, 별도 웹 검색으로 원서 부제가 'Military Conflict'임을 확인하고 정정했다. ④ 저자명 이니셜 표기(WL Warren, FSL Lyons, HCG Matthew 등)는 공식 사이트가 마침표 없이 붙여 쓰는 방식을 따랐고 위키백과 표기를 note에 병기했다. 1995년 John Rohl은 원표기가 Röhl(움라우트)이나 프록시 텍스트에서 확인한 형태를 그대로 두었다. ⑤ 국내 출간명은 이번 조사에서 한 건도 확인하지 않았으므로 note에 적지 않았다. 확인하려면 각 원서를 국내 서지 데이터베이스에서 개별 조회해야 한다. ⑥ 심사위원단 구성은 연도별 페이지에 실려 있으나(1978년 예: Asa Briggs, Alan Bullock, John Plumb, Michael Ratcliffe, Keith Thomas) 전 연도를 열어보지는 않았다."
+  }
+}

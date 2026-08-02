@@ -1,0 +1,332 @@
+{
+  "curator": {
+    "slug": "royal-society",
+    "name": "왕립학회",
+    "name_en": "The Royal Society",
+    "kind": "organization",
+    "country": "GB",
+    "founded_year": 1660,
+    "homepage_url": "https://royalsociety.org",
+    "description": "1660년 런던에서 세워진 영국의 과학 학술원으로, 오늘까지 끊이지 않고 이어져 온 과학 학회 가운데 세계에서 가장 오래됐다. 아이작 뉴턴을 비롯한 회원들이 근대 과학의 틀을 세웠고, 지금도 과학 연구 지원과 과학 정책 자문, 과학의 대중화를 맡고 있다. 1988년부터 일반 독자를 위한 과학책에 상을 주고 있다.",
+    "description_en": "Founded in London in 1660, the Royal Society is the United Kingdom's national academy of sciences and the oldest scientific academy in continuous existence anywhere in the world. Its fellows, Isaac Newton among them, shaped modern science, and the Society still funds research, advises on science policy and works to bring science to the wider public. Since 1988 it has run an annual prize for popular science books."
+  },
+  "list": {
+    "slug": "royal-society-science-book",
+    "title": "왕립학회 과학도서상",
+    "title_en": "Royal Society Science Book Prize",
+    "description": "왕립학회가 1988년부터 해마다 한 권씩 뽑는 과학책 상이다. 전공자를 위한 학술서나 교과서, 사전 같은 참고서는 아예 응모 대상에서 빠지고, 과학을 전공하지 않은 성인 독자가 읽고 이해할 수 있는 책만 겨룬다. 그래서 수상작은 어렵기로 이름난 주제를 다루더라도 처음 읽는 사람이 따라갈 수 있게 쓰인 책들이다. 스티븐 호킹, 재레드 다이아몬드, 스티븐 제이 굴드, 빌 브라이슨이 이 상을 받았고, 언론은 이 상을 두고 '과학 글쓰기의 부커상'이라 부른다. 왕립학회가 따로 운영하는 어린이책 부문은 이 목록에 넣지 않았다.",
+    "description_en": "An annual prize the Royal Society has awarded since 1988 to a single popular science book. Works written for scientific, professional or specialist readers are excluded outright, as are textbooks and reference works: only books an adult non-specialist can pick up and follow are eligible. Winners have included Stephen Hawking, Jared Diamond, Stephen Jay Gould and Bill Bryson, and the press has taken to calling it the Booker Prize of science writing. This list covers the general prize only; the Royal Society's separate Young People's Book Prize is not included.",
+    "published_year": null,
+    "edition": null,
+    "method": "해마다 새로 꾸리는 심사위원단이 최종 후보와 수상작을 정한다. 심사위원장은 왕립학회 회원이 맡고, 여기에 작가와 과학자, 방송인, 서점 관계자 등이 함께 들어간다. 응모는 저자가 아니라 출판사가 하며 응모료는 없다. 과학과 기술의 어느 분야든 다룰 수 있고 과학자 전기나 과학사도 받아주지만, 전문가용 도서와 교과서, 백과사전 같은 참고서, 어린이책, 여러 저자의 글을 모은 선집, 대필 도서는 응모할 수 없다. 영어로 처음 출간된 책이어야 하고 해당 회차의 정해진 1년 기간 안에 나와야 하며(2026년 회차는 2025년 10월 1일부터 2026년 9월 30일까지), 영국에서 살 수 있는 종이책이어야 한다. 수상자는 2만 5천 파운드를, 나머지 최종 후보 다섯 명은 각각 2천 5백 파운드를 받는다. 수상작은 가을에 열리는 시상식에서 발표한다.",
+    "method_en": "A judging panel, newly appointed each year and chaired by a Fellow of the Royal Society, selects the shortlist and the winner; the panel also draws in authors, scientists, broadcasters and booksellers. Entries are submitted by publishers rather than authors, and there is no entry fee. Any aspect of popular science and technology qualifies, including biographies of scientists and histories of science, but books published primarily for scientific, professional or specialist audiences are excluded, as are textbooks, encyclopaedias and other pure reference works, children's books, anthologies of multiple writers and ghostwritten books. Entries must be first published in the English language within the round's twelve-month window (1 October 2025 to 30 September 2026 for the 2026 prize) and must be paper-based, bound and available to buy in the UK. The winner receives £25,000 and each of the five other shortlisted authors receives £2,500. The winner is announced at an award ceremony in the autumn.",
+    "source_url": "https://royalsociety.org/medals-and-prizes/science-book-prize/",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "science",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Living with Risk",
+      "raw_creator": "British Medical Association Board of Science",
+      "rank": null,
+      "year": 1988,
+      "note": null
+    },
+    {
+      "raw_title": "Bones of Contention: Controversies in the Search for Human Origins",
+      "raw_creator": "Roger Lewin",
+      "rank": null,
+      "year": 1989,
+      "note": null
+    },
+    {
+      "raw_title": "The Emperor's New Mind",
+      "raw_creator": "Roger Penrose",
+      "rank": null,
+      "year": 1990,
+      "note": null
+    },
+    {
+      "raw_title": "Wonderful Life: The Burgess Shale and the Nature of History",
+      "raw_creator": "Stephen Jay Gould",
+      "rank": null,
+      "year": 1991,
+      "note": null
+    },
+    {
+      "raw_title": "The Rise and Fall of the Third Chimpanzee",
+      "raw_creator": "Jared Diamond",
+      "rank": null,
+      "year": 1992,
+      "note": null
+    },
+    {
+      "raw_title": "The Making of Memory",
+      "raw_creator": "Steven Rose",
+      "rank": null,
+      "year": 1993,
+      "note": null
+    },
+    {
+      "raw_title": "The Language of the Genes",
+      "raw_creator": "Steve Jones",
+      "rank": null,
+      "year": 1994,
+      "note": null
+    },
+    {
+      "raw_title": "The Consumer's Good Chemical Guide",
+      "raw_creator": "John Emsley",
+      "rank": null,
+      "year": 1995,
+      "note": "확인: 1995년 론풀랑상 수상. 판본에 따라 부제가 'A Jargon-free Guide to the Chemicals of Everyday Life' 또는 'Separating Facts from Fiction About Everyday Products'로 달라진다."
+    },
+    {
+      "raw_title": "Plague's Progress",
+      "raw_creator": "Arno Karlen",
+      "rank": null,
+      "year": 1996,
+      "note": "확인: 미국판 제목은 'Man and Microbes'."
+    },
+    {
+      "raw_title": "The Wisdom of Bones",
+      "raw_creator": "Alan Walker and Pat Shipman",
+      "rank": null,
+      "year": 1997,
+      "note": null
+    },
+    {
+      "raw_title": "Guns, Germs, and Steel",
+      "raw_creator": "Jared Diamond",
+      "rank": null,
+      "year": 1998,
+      "note": "국내 출간명 '총 균 쇠'(문학사상) — 확인함(교보문고·알라딘 판매 페이지 검색 결과)."
+    },
+    {
+      "raw_title": "The Man Who Loved Only Numbers",
+      "raw_creator": "Paul Hoffman",
+      "rank": null,
+      "year": 1999,
+      "note": null
+    },
+    {
+      "raw_title": "The Elegant Universe",
+      "raw_creator": "Brian Greene",
+      "rank": null,
+      "year": 2000,
+      "note": "국내 출간명 '엘러건트 유니버스'(승산) — 확인함(교보문고·알라딘 판매 페이지 검색 결과)."
+    },
+    {
+      "raw_title": "Mapping the Deep",
+      "raw_creator": "Robert Kunzig",
+      "rank": null,
+      "year": 2001,
+      "note": null
+    },
+    {
+      "raw_title": "The Universe in a Nutshell",
+      "raw_creator": "Stephen Hawking",
+      "rank": null,
+      "year": 2002,
+      "note": null
+    },
+    {
+      "raw_title": "Right Hand, Left Hand",
+      "raw_creator": "Chris McManus",
+      "rank": null,
+      "year": 2003,
+      "note": null
+    },
+    {
+      "raw_title": "A Short History of Nearly Everything",
+      "raw_creator": "Bill Bryson",
+      "rank": null,
+      "year": 2004,
+      "note": "국내 출간명 '거의 모든 것의 역사'(까치) — 확인함(교보문고 판매 페이지 검색 결과)."
+    },
+    {
+      "raw_title": "Critical Mass: How One Thing Leads to Another",
+      "raw_creator": "Philip Ball",
+      "rank": null,
+      "year": 2005,
+      "note": null
+    },
+    {
+      "raw_title": "Electric Universe: How Electricity Switched on the Modern World",
+      "raw_creator": "David Bodanis",
+      "rank": null,
+      "year": 2006,
+      "note": null
+    },
+    {
+      "raw_title": "Stumbling on Happiness",
+      "raw_creator": "Daniel Gilbert",
+      "rank": null,
+      "year": 2007,
+      "note": "확인: 왕립학회가 후원사 없이 직접 시상한 첫 해."
+    },
+    {
+      "raw_title": "Six Degrees: Our Future on a Hotter Planet",
+      "raw_creator": "Mark Lynas",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "The Age of Wonder",
+      "raw_creator": "Richard Holmes",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Life Ascending",
+      "raw_creator": "Nick Lane",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "The Wavewatcher's Companion",
+      "raw_creator": "Gavin Pretor-Pinney",
+      "rank": null,
+      "year": 2011,
+      "note": "확인: 왕립학회 보관 페이지에 'Winner, General Prize 2011'로 표기."
+    },
+    {
+      "raw_title": "The Information",
+      "raw_creator": "James Gleick",
+      "rank": null,
+      "year": 2012,
+      "note": "확인: 왕립학회 보관 페이지에 'Winner, General Prize 2012'로 표기."
+    },
+    {
+      "raw_title": "The Particle at the End of the Universe",
+      "raw_creator": "Sean Carroll",
+      "rank": null,
+      "year": 2013,
+      "note": "확인: 상금이 2013년에 2만 5천 파운드로 두 배 이상 올랐다(왕립학회 발표문)."
+    },
+    {
+      "raw_title": "Stuff Matters: The Strange Stories of the Marvellous Materials that Shape Our Man-made World",
+      "raw_creator": "Mark Miodownik",
+      "rank": null,
+      "year": 2014,
+      "note": null
+    },
+    {
+      "raw_title": "Adventures in the Anthropocene: A Journey to the Heart of the Planet We Made",
+      "raw_creator": "Gaia Vince",
+      "rank": null,
+      "year": 2015,
+      "note": "확인: 단독 저자 여성으로는 첫 수상(왕립학회 발표문)."
+    },
+    {
+      "raw_title": "The Invention of Nature: The Adventures of Alexander von Humboldt, the Lost Hero of Science",
+      "raw_creator": "Andrea Wulf",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Testosterone Rex: Unmaking the Myths of Our Gendered Minds",
+      "raw_creator": "Cordelia Fine",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Inventing Ourselves: The Secret Life of the Teenage Brain",
+      "raw_creator": "Sarah-Jayne Blakemore",
+      "rank": null,
+      "year": 2018,
+      "note": "확인: 왕립학회 당시 페이지에는 저자명이 'Sarah-Jane Blakemore'로 적혀 있으나 실제 표기는 Sarah-Jayne Blakemore다."
+    },
+    {
+      "raw_title": "Invisible Women: Exposing Data Bias in a World Designed for Men",
+      "raw_creator": "Caroline Criado Perez",
+      "rank": null,
+      "year": 2019,
+      "note": null
+    },
+    {
+      "raw_title": "Explaining Humans",
+      "raw_creator": "Camilla Pang",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "Entangled Life: How Fungi Make Our Worlds, Change Our Minds and Shape Our Futures",
+      "raw_creator": "Merlin Sheldrake",
+      "rank": null,
+      "year": 2021,
+      "note": null
+    },
+    {
+      "raw_title": "A (Very) Short History of Life on Earth: 4.6 Billion Years in 12 Chapters",
+      "raw_creator": "Henry Gee",
+      "rank": null,
+      "year": 2022,
+      "note": "확인: 왕립학회 표기는 '12 Chapters', 위키백과 표기는 '12 Pithy Chapters'로 갈린다(판본 차이로 추정, 미확인)."
+    },
+    {
+      "raw_title": "An Immense World: How Animal Senses Reveal the Hidden Realms Around Us",
+      "raw_creator": "Ed Yong",
+      "rank": null,
+      "year": 2023,
+      "note": null
+    },
+    {
+      "raw_title": "A City on Mars: Can We Settle Space, Should We Settle Space, and Have We Really Thought This Through?",
+      "raw_creator": "Kelly Weinersmith and Zach Weinersmith",
+      "rank": null,
+      "year": 2024,
+      "note": "확인: 왕립학회 발표문은 부제에서 'Should We Settle Space,'를 빼고 적었다. 여기에는 책의 전체 부제를 실었다."
+    },
+    {
+      "raw_title": "Our Brains, Our Selves: What a Neurologist's Patients Taught Him About the Brain",
+      "raw_creator": "Masud Husain",
+      "rank": null,
+      "year": 2025,
+      "note": "확인: 2025년 10월 1일 발표."
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://royalsociety.org/medals-and-prizes/science-book-prize/ — 공식 상 소개 페이지. 1988년 창설, 최근 수상자(2025년 마수드 후사인) 확인.",
+      "https://royalsociety.org/medals-and-prizes/science-book-prize/about/ — 상금(수상 2만 5천 파운드, 최종 후보 2천 5백 파운드)과 역대 후원사 명칭 변천 확인.",
+      "https://royalsociety.org/medals-and-prizes/science-book-prize/publishers/ — 응모 자격(비전문가 성인 독자 대상, 영어 초간, 출간 기간, 제외 도서 종류, 출판사 응모) 확인.",
+      "https://royalsociety.org/medals-and-prizes/science-book-prize/books/bookprize/ — 2014~2026년 최종 후보작 목록(공식). 수상 여부 표시는 없음.",
+      "https://royalsociety.org/news/2025/10/science-book-prize-winner-announced/ — 2025년 수상작 공식 발표문.",
+      "https://royalsociety.org/news/2024/10/science-book-prize-winner-2024/ — 2024년 수상작 공식 발표문.",
+      "https://royalsociety.org/news/2015/09/winton-prize-winner-2015/ — 2015년 수상작 공식 발표문.",
+      "https://royalsociety.org/news/2014/stuff-matters-wins-winton-prize/ — 2014년 수상작 공식 발표문.",
+      "https://royalsociety.org/news/2026/06/shortlist-unveiled-for-royal-society-trivedi-science-book-prize-2026/ — 2026년 최종 후보 6종과 수상작 발표 예정일(2026년 9월 29일) 확인.",
+      "https://web.archive.org/web/20111012065413/http://royalsociety.org/awards/science-books/all-shortlisted — 왕립학회 구 페이지 보관본. 1988년 창설과 1990~2010년 후원사별 명칭 변천을 공식 문구로 확인.",
+      "https://web.archive.org/web/20120213231704/http://royalsociety.org/awards/science-books/gavin-pretor-pinney/ — 'Winner, General Prize 2011' 표기 확인.",
+      "https://web.archive.org/web/20121215121145/http://royalsociety.org/awards/science-books/James-Gleick/ — 'Winner, General Prize 2012' 표기 확인.",
+      "https://web.archive.org/web/20171027215535/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2016년 수상작 확인.",
+      "https://web.archive.org/web/20181217014921/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2017년 수상작 확인.",
+      "https://web.archive.org/web/20190403080420/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2018년 수상작 확인.",
+      "https://web.archive.org/web/20200318204551/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2019년 수상작 확인.",
+      "https://web.archive.org/web/20211027222337/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2020년 수상작 확인.",
+      "https://web.archive.org/web/20221203023019/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2021년 수상작 확인.",
+      "https://web.archive.org/web/20230623065257/https://royalsociety.org/grants-schemes-awards/book-prizes/science-book-prize/past-winners/ — 2022년 수상작 확인.",
+      "https://en.wikipedia.org/wiki/Royal_Society_Science_Book_Prize — 원문(위키텍스트)을 내려받아 1988~2025년 수상작 표 전체를 읽었다. 1988~2000년 구간의 유일한 목록형 근거이며, 이 표는 왕립학회 공식 역대 수상 페이지를 출처로 달고 있다.",
+      "https://royalsociety.org/news/2013/books-prize-winner-2013/ — 2013년 수상작(검색 결과 발췌로 확인).",
+      "https://royalsociety.org/news/2023/11/book-prize-winner-announced/ — 2023년 수상작(검색 결과 발췌로 확인)."
+    ],
+    "item_count": 38,
+    "year_range": "1988–2025",
+    "name_changes": "1988~1989년에는 'Science Books Prize'라는 이름으로 왕립학회가 시작했다. 이후 후원사가 바뀔 때마다 이름이 함께 바뀌었다. 1990~2000년 Rhône-Poulenc Prize for Science Books(론풀랑), 2001~2006년 Aventis Prize for Science Books(아벤티스), 2007~2010년 Royal Society Prize for Science Books(후원사 없이 왕립학회가 직접 시상), 2011~2015년 Royal Society Winton Prize for Science Books(윈턴 그룹), 2016~2022년 Royal Society Insight Investment Science Book Prize(인사이트 인베스트먼트), 2023년부터 Royal Society Trivedi Science Book Prize(트리베디 가족 재단). 1990~2010년 구간 명칭은 왕립학회 구 페이지 보관본에서, 2011년 이후는 왕립학회 현행 페이지와 발표문에서 확인했다.",
+    "no_award_years": [],
+    "gaps": "1988년부터 2025년까지 38회가 한 해도 거르지 않고 이어졌고 목록에도 빠진 해가 없다. 2026년 회차는 2026년 6월에 최종 후보 6종이 발표됐고 수상작은 2026년 9월 29일에 발표될 예정이라 아직 수상작이 없다. 그래서 이 목록은 2025년에서 끝난다.",
+    "uncertainties": "① 1988~2000년 21개 항목은 왕립학회 현행 사이트가 더 이상 싣지 않는다. 공식 역대 수상 페이지를 출처로 단 위키백과 표를 근거로 삼았고, 그중 1988년(BMA, Living with Risk)·1995년(엠슬리)·1996년(칼렌)은 별도 검색으로 겹쳐 확인했다. 나머지 연도는 단일 계통 근거다. ② 2001~2010년은 왕립학회 구 사이트에 수상자별 페이지가 남아 있어(kunzig, hawking, mcmanus, bryson, ball, bodanis, gilbert, lynas, holmes, lane) 위키백과 표와 인물이 정확히 일치함을 확인했다. ③ 제목은 출처가 표기한 대로 적었고, 짧게 적힌 제목의 전체 부제까지 일일이 대조하지는 않았다(예: 2020년 Explaining Humans의 부제 미확인). ④ 국내 출간명은 세 권(총 균 쇠, 거의 모든 것의 역사, 엘러건트 유니버스)만 국내 서점 판매 페이지 검색으로 확인해 적었고, 나머지는 조사하지 않았다. ⑤ 어린이 부문(Young People's Book Prize)은 왕립학회가 따로 운영하는 별개 상이라 이 목록에서 전부 제외했다."
+  }
+}

@@ -1,0 +1,894 @@
+{
+  "curator": {
+    "slug": "british-psychological-society",
+    "name": "영국심리학회",
+    "name_en": "The British Psychological Society",
+    "kind": "organization",
+    "country": "GB",
+    "founded_year": 1901,
+    "homepage_url": "https://www.bps.org.uk",
+    "description": "1901년에 세워진 영국 심리학계의 대표 학회이자 자선단체다. 영국에서 심리학과 심리학자를 대표하는 공인 학술·전문 단체로서 연구와 교육, 현장 실무 전반의 윤리 기준을 세우고 자격을 인정한다. 회원지 『The Psychologist』와 연구 다이제스트를 직접 펴내며 심리학을 대중에게 알리는 일도 함께 한다.",
+    "description_en": "Founded in 1901, the British Psychological Society is the representative body and learned society for psychology and psychologists in the United Kingdom, registered as a charity. It sets and upholds professional and ethical standards across research, education and applied practice, and accredits training in the discipline. It also publishes its own membership magazine, The Psychologist, alongside its Research Digest."
+  },
+  "list": {
+    "slug": "bps-psychology-books",
+    "title": "심리학자 117인이 고른 책",
+    "title_en": "The Ultimate Psychology Reading List (The Psychologist)",
+    "description": "영국심리학회 회원지 『The Psychologist』가 2008년 1월부터 이어 온 인터뷰 지면 「One on One」에서 모은 목록이다. 이름난 심리학자와 임상가에게 「모든 심리학자가 읽어야 할 책이나 논문 한 편」을 물어 받은 답을 학회가 한 페이지에 모아 두고 수시로 갱신한다. 2008년부터 2022년까지 117명이 책이나 논문을 지목했고, 우타 프리스·스티븐 핑커·엘리자베스 로프터스·앨런 배들리·대니얼 길버트·사이먼 배런코언 등이 추천자로 이름을 올렸다. 심리학 고전과 논문뿐 아니라 소설·아동문학·철학서까지 폭이 넓은 것이 특징이다.",
+    "description_en": "A list gathered from 'One on One', the interview page that The Psychologist, the membership magazine of the British Psychological Society, has run since January 2008. Each interviewee is asked to name one book or journal article, contemporary or historical, that all psychologists should read, and the Society collects the answers on a single page that it updates from time to time. Between 2008 and 2022, 117 psychologists and practitioners named a book or article, among them Uta Frith, Steven Pinker, Elizabeth Loftus, Alan Baddeley, Daniel Gilbert and Simon Baron-Cohen. The choices range well beyond psychology classics and journal papers into novels, children's books and philosophy.",
+    "published_year": null,
+    "edition": null,
+    "method": "학회 회원지 『The Psychologist』의 「One on One」 인터뷰에서 매달 한 사람에게 「현대의 것이든 역사적인 것이든, 모든 심리학자가 읽어야 할 책이나 논문 한 편」을 묻고 그 답을 그대로 모은다. 편집부가 순위를 매기거나 걸러내지 않으며, 답한 사람의 이름과 답한 달이 항목마다 붙는다. 인터뷰 참여자가 모두 이 물음에 답하지는 않아 답한 사람만 실린다.",
+    "method_en": "Each month, one interviewee in The Psychologist's 'One on One' page is asked to name one book or journal article, either contemporary or historical, that all psychologists should read. The Society simply collects the answers as given, without ranking or editorial filtering, and each entry carries the respondent's name and the month of the interview. Not every interviewee answers this particular question, so only those who did appear on the list.",
+    "source_url": "https://www.bps.org.uk/psychologist/ultimate-psychology-reading-list",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": [
+      "psychology",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "Making Up the Mind: How the Brain Creates Our Mental World",
+      "raw_creator": "Chris Frith",
+      "rank": null,
+      "year": null,
+      "note": "추천: Uta Frith(2008.01) — 남편이 막 낸 책이라고 밝히며 골랐다 / Dorothy Rowe(2009.06)"
+    },
+    {
+      "raw_title": "Vision",
+      "raw_creator": "David Marr",
+      "rank": null,
+      "year": null,
+      "note": "추천: Steven Pinker(2008.02) — 25년이 지나도 숨 막히는 종합이라고 평했다"
+    },
+    {
+      "raw_title": "Developmental Cognitive Neuroscience",
+      "raw_creator": "Mark Johnson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Annette Karmiloff-Smith(2008.03) — 성인을 연구하는 사람도 읽어야 사고가 역동적으로 바뀐다고 했다. 저자가 남편임을 밝혔다"
+    },
+    {
+      "raw_title": "Mental Models",
+      "raw_creator": "Philip Johnson-Laird",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ruth Byrne(2008.04) — 마음과 추론을 보는 한 분야 전체의 방식을 바꾼 촉매였다고 했다 ※ 1983, Cambridge University Press"
+    },
+    {
+      "raw_title": "The Principles of Psychology",
+      "raw_creator": "William James",
+      "rank": null,
+      "year": null,
+      "note": "추천: Richard Gregory(2008.06) — 생각과 물음을 독자와 함께 나눠 저자의 머릿속에 들어가 친구처럼 지내게 된다고 했다 / Daniel Gilbert(2008.07) — 뛰어나고 앞서갔을 뿐 아니라 글의 품질이 겸손해지게 만든다고 했다 / Carol Tavris(2009.03) — 문체와 선견, 통찰을 이유로 들었다 / Martin Conway(2012.03) — 두 권짜리 전집을 꼽았다 / Shivani Sharma(2013.03) — 좋은 심리학자가 좁은 사고의 틀 밖에서 어떻게 일하는지 보여준다고 했다 / Telmo Baptista(2018.01) — 기여가 엄청날 뿐 아니라 지금은 사라진 문체로 심리학을 읽는 즐거움이 있다고 했다 ※ 1890년 초판. 목록에서 가장 많이 추천된 책이다"
+    },
+    {
+      "raw_title": "Norman Triplett's original 1898 paper",
+      "raw_creator": "Norman Triplett",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sandy Wolfson(2008.08) — 사회적 촉진의 근거로 오래 인용해 왔으나 원문을 읽고 나서 심리학자들이 방법·결과·결론을 잘못 옮겨 왔음을 알게 됐다고 했다 ※ 논문. 원문 링크는 psychclassics.yorku.ca/Triplett/"
+    },
+    {
+      "raw_title": "Working Memory, Thought and Action",
+      "raw_creator": "Alan Baddeley",
+      "rank": null,
+      "year": null,
+      "note": "추천: Alan Baddeley(2008.09) — 자신이 막 펴낸 책이라고 밝혔다"
+    },
+    {
+      "raw_title": "Mistakes Were Made (But Not by Me)",
+      "raw_creator": "Carol Tavris and Elliot Aronson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Elizabeth Loftus(2008.10) — 위선자가 왜 자기 위선을 못 보는지, 부부가 왜 함께한 과거를 서로 다르게 기억하는지 알게 된다고 했다"
+    },
+    {
+      "raw_title": "Life in Classrooms",
+      "raw_creator": "Philip Jackson",
+      "rank": null,
+      "year": null,
+      "note": "추천: James Hartley(2008.11) — 저자가 2년 넘게 초등 교실 뒤에 앉아 관찰한 끝에 '숨은 교육과정' 개념을 세웠다고 소개했다 ※ 1968년"
+    },
+    {
+      "raw_title": "Chase and Ericsson's studies on digit memory span",
+      "raw_creator": "William Chase and K. Anders Ericsson",
+      "rank": null,
+      "year": null,
+      "note": "추천: John Sloboda(2008.12) — 평범한 기억폭(7)이 세계 최고(80)로 커지는 과정을 장기 기록한 연구로, 정적 단기 과정 연구가 지배하던 인지심리학에 돌파구였다고 평했다 ※ 논문. 원문에는 책 제목 없이 '연구들'로만 적혀 있고 Science 208권 링크가 걸려 있다"
+    },
+    {
+      "raw_title": "Sexuality, Intimacy, Power",
+      "raw_creator": "Muriel Dimen",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lynne Segal(2009.01) — 이원론에서 다원성으로 옮겨 간 한 페미니스트의 여정을 담았다고 했다"
+    },
+    {
+      "raw_title": "The Social Animal",
+      "raw_creator": "Elliot Aronson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carol Tavris(2009.03) — 열정적이고 개인적인 문장으로 사회심리학의 주요 관심사를 안내한다고 했다"
+    },
+    {
+      "raw_title": "The Nurture Assumption",
+      "raw_creator": "Judith Rich Harris",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carol Tavris(2009.03) — 발달심리학의 기본이지만 틀린 전제를 창의적으로 다시 따진 책이며, 증거가 요구할 때 방향을 바꾸는 본보기라고 했다"
+    },
+    {
+      "raw_title": "The Origin of Consciousness in the Breakdown of the Bicameral Mind",
+      "raw_creator": "Julian Jaynes",
+      "rank": null,
+      "year": null,
+      "note": "추천: Paul Broks(2009.04) — 고대사·심리학·신경과학을 잇겠다는 선구적 시도이자 훌륭한 상상의 성취라고 했다. 역사·고전 학식과 신경심리학 서술에는 의문을 달았다 ※ 1976년"
+    },
+    {
+      "raw_title": "The Perception of People and Events",
+      "raw_creator": "Peter Warr and Christopher Knapper",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ray Bull(2009.05) — 사물 지각 연구에서 나온 엄밀한 개념을 훨씬 어려운 대인·사건 지각에 적용할 수 있음을 보였다고 했다 ※ 1968년"
+    },
+    {
+      "raw_title": "Organization of Behavior",
+      "raw_creator": "Donald Hebb",
+      "rank": null,
+      "year": null,
+      "note": "추천: Bill McKeachie(2009.07) ※ 1949년"
+    },
+    {
+      "raw_title": "Attachment",
+      "raw_creator": "John Bowlby",
+      "rank": null,
+      "year": null,
+      "note": "추천: Susan Golombok(2009.08) — 우리는 원저보다 볼비 비판을 읽기 쉬운데, 영아와 어머니의 상호작용을 아름답고 설득력 있게 쓴 대목이 애착 연구자 밖에서는 잊혔다고 했다"
+    },
+    {
+      "raw_title": "Alice Through the Looking Glass",
+      "raw_creator": "Lewis Carroll",
+      "rank": null,
+      "year": null,
+      "note": "추천: Helen Haste(2009.09) — 아동서가 아니라 의미·지각·의식·논리·언어의 역설이 가득한 책이며, 근본 물음으로 들어가는 즐거운 통로라 4학년 강의의 주교재로 썼다고 했다"
+    },
+    {
+      "raw_title": "Arguing and Thinking",
+      "raw_creator": "Michael Billig",
+      "rank": null,
+      "year": null,
+      "note": "추천: Helen Haste(2009.09) — 언어와 사고의 사회적 본성을 보여주고 현대 개념이 사상사에 뿌리내린 방식을 드러낸다며 학생 전원에게 필독으로 지정했다고 했다"
+    },
+    {
+      "raw_title": "The Extended Phenotype",
+      "raw_creator": "Richard Dawkins",
+      "rank": null,
+      "year": null,
+      "note": "추천: David Buss(2009.11)"
+    },
+    {
+      "raw_title": "How Musical is Man",
+      "raw_creator": "John Blacking",
+      "rank": null,
+      "year": null,
+      "note": "추천: Raymond MacDonald(2009.12) — 음악적 소통 능력이 타고난 것이라는 주장과 서구식 음악 재능관의 억압을 시대보다 앞서 짚었고, 저자에게 없던 증거를 이제 우리가 갖고 있다고 했다"
+    },
+    {
+      "raw_title": "Children's Minds",
+      "raw_creator": "Margaret Donaldson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jennie Lindon(2010.02) — 아이의 관점을 존중하는 책이며, 아이가 실제로 무엇을 하고 무엇을 말하려는지 지켜보게 만든 열정의 근원이었다고 했다"
+    },
+    {
+      "raw_title": "The Fall and Rise of Reginald Perrin",
+      "raw_creator": "David Nobbs",
+      "rank": null,
+      "year": null,
+      "note": "추천: George Sik(2010.03) — 직장 심리에 빠지게 만든 책이라고 했다"
+    },
+    {
+      "raw_title": "Change: Principles of Problem Formation and Problem Resolution",
+      "raw_creator": "Watzlawick, Weakland and Fisch",
+      "rank": null,
+      "year": null,
+      "note": "추천: James Bray(2010.04) ※ New York: Norton, 1974"
+    },
+    {
+      "raw_title": "A Good Death: Conversations with East Londoners",
+      "raw_creator": "Young and Cullen",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sheila Payne(2010.05) — 죽음 앞에서 우리는 평등하지 않으며, 어떻게 어디서 살았는지가 죽음을 크게 좌우하고 임종 의례와 애도 행동은 사회적으로 구성된다는 것을 보여준다고 했다 ※ 1996년"
+    },
+    {
+      "raw_title": "Semrad: The Heart of a Therapist",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "추천: David Lavallee(2010.06) — 수련생의 첫 과제는 환자 곁에 앉아 듣고, 혼자 견딜 수 없던 고통을 함께 견디는 일임을 일깨운다고 했다 ※ 미국 정신과 의사 Elvin Semrad의 어록·일화 모음"
+    },
+    {
+      "raw_title": "Beyond Counselling and Therapy",
+      "raw_creator": "Carkhuff and Berenson",
+      "rank": null,
+      "year": null,
+      "note": "추천: David Lane(2010.07) — 여러 전통을 끌어와 내담자를 만날 수 있음을 보여줬고 개별 사례 정식화 접근으로 이어졌다고 했다 ※ 1969년"
+    },
+    {
+      "raw_title": "Beyond Happiness: Deepening the Dialogue between Buddhism, Psychotherapy and the Mind Sciences",
+      "raw_creator": "Gay Watson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Gill Aitken(2010.08) — 심리학·심리치료 이론을 2,500년 전 불교 심리학의 변주로 거슬러 볼 수 있다는 점이 경이롭다고 했다 ※ 2008년"
+    },
+    {
+      "raw_title": "Something Happened",
+      "raw_creator": "Joseph Heller",
+      "rank": null,
+      "year": null,
+      "note": "추천: Cary Cooper(2010.09) — 소설이지만 직장에서 사람이 어떻게 행동하는지를 유머와 함께 심리적으로 정밀하게 그려, 조직심리학이 말하는 바에 소름 끼치도록 가깝다고 했다"
+    },
+    {
+      "raw_title": "The Racism of Psychology: Time for a Change",
+      "raw_creator": "Howitt and Owusu-Bempah",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jeune Guishard-Pine(2010.10) ※ 1994년"
+    },
+    {
+      "raw_title": "How the Mind Works",
+      "raw_creator": "Steven Pinker",
+      "rank": null,
+      "year": null,
+      "note": "추천: Anne Treisman(2010.11) ※ 원문에는 저자명이 'Stephen Pinker'로 적혀 있다"
+    },
+    {
+      "raw_title": "Naming the Mind",
+      "raw_creator": "Kurt Danziger",
+      "rank": null,
+      "year": null,
+      "note": "추천: Christopher Green(2010.12) — 지능·행동·태도·동기 같은 심리학의 기본 어휘가 영원한 자연종이 아니라 특정 시기의 목적에 맞춰 만들어진 범주임을 보여준다고 했다"
+    },
+    {
+      "raw_title": "The Visual Brain in Action",
+      "raw_creator": "Milner and Goodale",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jon Driver(2011.01) — 신경심리학이 인지신경과학·신경해부학·동물 연구라는 넓은 맥락에 놓일 때 얼마나 빨리 나아가는지 보여준다고 했다"
+    },
+    {
+      "raw_title": "The Republic",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "추천: Margaret McAllister(2011.02) — 사회 조직의 여러 측면을 다루며 근본 물음은 이미 다뤄졌고 우리는 계속 그것을 다루고 있음을 일깨운다고 했다"
+    },
+    {
+      "raw_title": "The SPSS Survival Manual",
+      "raw_creator": "Julie Pallant",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ruth Mann(2011.03) — 데이터 분석 설명의 천재이며 그 조언만 따라도 출판 가능한 연구가 된다는 산증인이라고 했다"
+    },
+    {
+      "raw_title": "The operational analysis of psychological terms",
+      "raw_creator": "B.F. Skinner",
+      "rank": null,
+      "year": null,
+      "note": "추천: Richard Bentall(2011.04) — 스키너는 생각이나 감정 같은 내적 상태를 기술할 수 있다는 것을 의심한 적이 없고 어떻게 그것이 가능한지를 물었으며, 그 답이 심리치료 실무에 닿아 있다고 했다 ※ 논문. Psychological Review 52, 270–277, 1945"
+    },
+    {
+      "raw_title": "New Scientist",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "추천: Sam Cartwright-Hatton(2011.05) — 매주 처음부터 끝까지 읽으며 달리 만날 수 없는 엉뚱한 아이디어를 계속 얻는다고 했다 ※ 책이 아니라 주간 과학 잡지다"
+    },
+    {
+      "raw_title": "Affective Neuroscience",
+      "raw_creator": "Jaak Panksepp",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jaak Panksepp(2011.06) — 인간과 동물 마음의 정서적 토대를 이해하려면 읽으라며 자신의 책을 꼽았다 ※ 원문 표기는 'My Affective Neuroscience'이며 본인 저서를 가리킨다"
+    },
+    {
+      "raw_title": "Flatland",
+      "raw_creator": "A.E. Abbott",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ben (C) Fletcher(2011.07) — 다른 세계를 그린 이야기라고 소개했다 ※ 원문 표기는 'A.E. Abbott'이나 실제 저자는 Edwin A. Abbott이다"
+    },
+    {
+      "raw_title": "Facing the Storm",
+      "raw_creator": "Ray Owen",
+      "rank": null,
+      "year": null,
+      "note": "추천: Julie Stokes(2011.08) — 완화의료 심리학자의 기술이 다른 힘든 삶의 국면에도 옮겨 쓰일 수 있음을 보여준다고 했다"
+    },
+    {
+      "raw_title": "Genes and Behaviour",
+      "raw_creator": "Michael Rutter",
+      "rank": null,
+      "year": null,
+      "note": "추천: Essi Viding(2011.09) — 행동유전학 전반을 힘들이지 않고 설득력 있게 훑는다고 했다"
+    },
+    {
+      "raw_title": "Jensen's 1995 article in the American Psychologist",
+      "raw_creator": "Jensen",
+      "rank": null,
+      "year": null,
+      "note": "추천: Gail Coleman(2011.10) — 지능과 성행동을 인종으로 가르자는 주장을 담은 글이라 모두에게 권하고 싶지는 않지만 자신에게 깊은 영향을 남겼고, 앞으로 나아가려면 이 직업의 인종주의적 뿌리를 인정해야 한다고 했다 ※ 논문. 원문에는 제목 없이 저자와 게재지만 적혀 있다"
+    },
+    {
+      "raw_title": "The Selfish Gene",
+      "raw_creator": "Richard Dawkins",
+      "rank": null,
+      "year": null,
+      "note": "추천: Bruce Hood(2012.01) — 학생 시절 읽은 책 가운데 심리학자로서도 인간으로서도 사고를 가장 크게 빚은 책이라고 했다"
+    },
+    {
+      "raw_title": "The Man with a Shattered World",
+      "raw_creator": "A.R. Luria",
+      "rank": null,
+      "year": null,
+      "note": "추천: Barbara Wilson(2012.02) — 2차 대전에서 중증 뇌 손상을 입은 러시아 병사의 노력과 희망, 헌신이 큰 충격을 줬다고 했다"
+    },
+    {
+      "raw_title": "Alcoholism: a comparison of treatment and advice, with a study of the influence of marriage",
+      "raw_creator": "Jim Orford and Griffith Edwards",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carole Allan(2012.04) — 알코올·약물 분야에서 일할 때 연구가 실무자를 어떻게 돕는지 처음 깨닫게 해 준 논문집이라고 했다. Nick Heather의 조기 개입 연구도 함께 꼽았다 ※ 1977년 단행논문(monograph)"
+    },
+    {
+      "raw_title": "The maxims of the Duc de la Rochefoucauld",
+      "raw_creator": "Duc de La Rochefoucauld",
+      "rank": null,
+      "year": null,
+      "note": "추천: Richard Hallam(2012.06) — 그때그때 호기심이 이끄는 것을 읽는 편이 낫겠지만 나중에는 지루해질 수도 있다고 덧붙였다"
+    },
+    {
+      "raw_title": "Good to Great",
+      "raw_creator": "Jim Collins",
+      "rank": null,
+      "year": null,
+      "note": "추천: Dan Gould(2012.07)"
+    },
+    {
+      "raw_title": "What Works: Reducing Re-offending: Guidelines from Research and Practice",
+      "raw_creator": "James McGuire",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ruby Bell(2012.08) — 이 모음집과 뒤이은 작업이 우리가 하는 모든 일의 중심에 있으며, 근거기반 실무를 실제로 하게 만든 계기였다고 했다 ※ 1995년"
+    },
+    {
+      "raw_title": "Advice for a Young Investigator",
+      "raw_creator": "Santiago Ramon y Cajal",
+      "rank": null,
+      "year": null,
+      "note": "추천: Hugo Spiers(2012.09)"
+    },
+    {
+      "raw_title": "The Righteous Mind",
+      "raw_creator": "Jonathan Haidt",
+      "rank": null,
+      "year": null,
+      "note": "추천: Guy Claxton(2012.10) — 정말 중요한 주제를 우아하면서도 정밀하게 다루는 법을 보여준다고 했다"
+    },
+    {
+      "raw_title": "Daughters of Egalia",
+      "raw_creator": "Gert Brantenberg",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jane Ogden(2012.11) — 성별 관념과 생물학적 환원주의에 도전하는 책이라 학생들에게 읽혔더니 제대로 정치화됐다고 했다"
+    },
+    {
+      "raw_title": "Madness and Civilisation: A History of Insanity in the Age of Reason",
+      "raw_creator": "Michel Foucault",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jane Ussher(2012.12) ※ 1967, Tavistock"
+    },
+    {
+      "raw_title": "The Interpretation of Dreams",
+      "raw_creator": "Sigmund Freud",
+      "rank": null,
+      "year": null,
+      "note": "추천: Dame Glynis Breakwell(2013.01) — 열다섯에 도서관에서 빌려 읽은 첫 심리학 책이며, 다 읽고 나서 꿈이 무의식에 이르는 왕도이고 심리학이 자기 길이라고 확신했다고 했다"
+    },
+    {
+      "raw_title": "The Red Tree",
+      "raw_creator": "Shaun Tan",
+      "rank": null,
+      "year": null,
+      "note": "추천: Anita Rose(2013.02) — 말로 다 담기지 않는 감정에 관한 책이며 희망과 회복의 힘을 이야기한다고 했다. 환자와 함께 걷는 길이지만 정작 자신은 자주 잊는 길이라고 덧붙였다"
+    },
+    {
+      "raw_title": "Families and How to Survive Them",
+      "raw_creator": "Robin Skynner and John Cleese",
+      "rank": null,
+      "year": null,
+      "note": "추천: Almuth McDowall(2013.05) — 치료자와 내담자의 대화 형식으로 쓰였고 '가족 생활이 딱 이렇지' 싶은 장면이 수없이 나온다고 했다"
+    },
+    {
+      "raw_title": "The Intellectuals",
+      "raw_creator": "Paul Johnson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Stephen Murgatroyd(2013.06) — 마르크스·루소·입센·러셀 등 위대한 사상가가 한 말과 실제로 한 일의 차이를 살핀 책이며 좋은 역사 연구의 본보기라고 했다 ※ 1998년"
+    },
+    {
+      "raw_title": "Mind in Society",
+      "raw_creator": "Lev Vygotsky",
+      "rank": null,
+      "year": null,
+      "note": "추천: Jacqueline Akhurst(2013.07) — 문화·역사적 영향과 개인의 상호작용을 강조한 점이 결정적으로 중요하다고 했다. 1978년 번역본을 지목했다"
+    },
+    {
+      "raw_title": "Man's Search for Meaning",
+      "raw_creator": "Viktor E. Frankl",
+      "rank": null,
+      "year": null,
+      "note": "추천: Frank Tallis(2013.09) — 정답은 아닐지 몰라도 어떻게 살 것인가라는 물음에 하나의 답은 분명히 준다고 했다 / Kristina Xavier(2021.04) — 내담자가 정말 중요하게 여기는 가치에 닿게 하는 데 큰 힘이 되고 인지행동치료·스키마치료·수용전념치료와 잘 맞물린다고 했다 / Kanthi Hettigoda(2022.02) — 수용소에서 살아남을 가능성이 높았던 사람들에게는 풍부한 내면, 미래를 향한 목표, 고통에서 의미를 찾는 방식이 있었다는 관찰을 짚으며 시대를 타지 않는 글이라고 했다 ※ 세 명이 추천해 이 목록에서 두 번째로 많이 꼽혔다"
+    },
+    {
+      "raw_title": "Applied Behaviour Analysis",
+      "raw_creator": "Cooper, Heron and Heward",
+      "rank": null,
+      "year": null,
+      "note": "추천: Terry Dovey(2014.02) — 이 분야의 '백서'라고 불렀다"
+    },
+    {
+      "raw_title": "Thinking, Fast and Slow",
+      "raw_creator": "Daniel Kahneman",
+      "rank": null,
+      "year": null,
+      "note": "추천: Shira Elqayam(2014.03) — 노벨상 수상자가 쓴 이중처리 의사결정론이며 읽기 쉽고 지식이 가득한 데다 정말 재미있다고 했다"
+    },
+    {
+      "raw_title": "Philosophical Investigations",
+      "raw_creator": "Ludwig Wittgenstein",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lois Holzman(2014.05) — 현대 심리학의 바탕이 되는 개념을 거의 모두 해체하며, 인과나 본질 같은 큰 전제를 다시 보게 하는 도구라고 했다. 그런 자기성찰이 대부분의 심리학 과정에 빠져 있다고 지적했다"
+    },
+    {
+      "raw_title": "Out of Time: The Pleasure and Perils of Ageing",
+      "raw_creator": "Lynne Segal",
+      "rank": null,
+      "year": null,
+      "note": "추천: Elizabeth Peel(2014.06) — 노화를 둘러싼 해로운 상투구에 맞서려면 '독립'에 대한 문화적 집착부터 따져 묻고 평생에 걸친 상호 의존의 가치를 인정하는 데서 시작하자는 대목을 인용했다 ※ 2013년"
+    },
+    {
+      "raw_title": "The Explanation of Social Behaviour",
+      "raw_creator": "Rom Harre and Paul Secord",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ian Parker(2014.07) — 1970년대 초 심리학 방법론 '위기'의 불씨 가운데 하나였고, 연구에서 사람을 인간으로 다뤄야 하는 과학적 이유를 밝힌다고 했다"
+    },
+    {
+      "raw_title": "Politics and the English Language",
+      "raw_creator": "George Orwell",
+      "rank": null,
+      "year": null,
+      "note": "추천: Valerie Curran(2014.09) — 정치가 그렇듯 심리학도 제 전문용어와 개념 혼란의 희생양이 되곤 하는데, 이 글이 잘 쓰는 법을 알려준다고 했다 ※ 1946년 에세이"
+    },
+    {
+      "raw_title": "The Language Instinct",
+      "raw_creator": "Steven Pinker",
+      "rank": null,
+      "year": null,
+      "note": "추천: Simon Baron-Cohen(2014.10) — 마음의 과학을 수준을 낮추지 않고 널리 전하는 데 대가이며, 분야를 자유롭게 넘나들며 심리학이 그 교차점에 있음을 보여준다고 했다 ※ Harper Perennial Modern Classics, 2004"
+    },
+    {
+      "raw_title": "Pollyanna",
+      "raw_creator": "E.H. Porter",
+      "rank": null,
+      "year": null,
+      "note": "추천: Catherine Loveday(2014.11) — 가장 좋아하는 책은 아니지만 삶을 보는 눈을 바꿨다고 했다. 일곱 살에 읽고 힘들 때마다 '기쁨 찾기 놀이'를 해 봤던 기억이 선명하며 낙관적인 태도의 뿌리일지 모른다고 했다"
+    },
+    {
+      "raw_title": "Wonderful Life",
+      "raw_creator": "Stephen J. Gould",
+      "rank": null,
+      "year": null,
+      "note": "추천: Rita Jordan(2014.12) — 심리학이 아니라 연구 문화에 관한 책이며, 제대로 된 과학자로 인정받으려는 욕구가 무작위대조시험 같은 형식을 상세한 관찰보다 떠받들게 만든 과정을 짚는다고 했다"
+    },
+    {
+      "raw_title": "The Superstition of the Pigeon",
+      "raw_creator": "B.F. Skinner",
+      "rank": null,
+      "year": null,
+      "note": "추천: Aleks Krotoski(2015.01) — 고전을 유쾌하게 풀어낸 글이라고 했다 ※ 논문"
+    },
+    {
+      "raw_title": "Civilisation and Its Discontents",
+      "raw_creator": "Sigmund Freud",
+      "rank": null,
+      "year": null,
+      "note": "추천: Migel Jayasinghe(2015.02) — 정치철학으로 분류되지만 응용심리학의 중요한 저작이라고 봤다. 실론에서 고등학생 때 처음 읽었고 불교적 배경이라 에로스와 타나토스라는 세계관이 낯설지 않았다고 했다"
+    },
+    {
+      "raw_title": "Alice in Wonderland",
+      "raw_creator": "Lewis Carroll",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sonia Livingstone(2015.05) — 아버지가 읽어 준 책이며 그 경구들과 그 안의 철학적 의미가 늘 머릿속에 있어 논문에도 스며든다고 했다 ※ Martin Gardner의 'The Annotated Alice'도 함께 언급했다"
+    },
+    {
+      "raw_title": "The Mentality of Apes",
+      "raw_creator": "Wolfgang Kohler",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lydia Hopper(2015.06) — 1925년 책인데도 실험이 놀랍도록 현대적이며, 한 침팬지의 행동이 다른 개체의 행동에 미치는 영향을 중요하게 본 점이 지금 자신의 영장류 사회학습 연구로 이어진다고 했다 ※ 1925년"
+    },
+    {
+      "raw_title": "Changing the Subject",
+      "raw_creator": "Julian Henriques and colleagues",
+      "rank": null,
+      "year": null,
+      "note": "추천: Victoria Clarke(2015.08) — 학생 때 읽고 또 읽으며 무지개색으로 밑줄을 그은 책이고 심리학이 무엇일 수 있고 무엇이어야 하는지에 대한 생각을 근본적으로 바꿨다고 했다"
+    },
+    {
+      "raw_title": "Hard-Boiled Wonderland and the End of the World",
+      "raw_creator": "Haruki Murakami",
+      "rank": null,
+      "year": null,
+      "note": "추천: Pete Olusoga(2015.09) — 당장 가서 읽으라고 했다"
+    },
+    {
+      "raw_title": "One Flew Over the Cuckoo's Nest",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "추천: Jo Silvester(2015.10) — '전문가'의 권력이 얼마나 쉽게 남용되는지 일깨운다고 했다 ※ 원문에는 저자 표기가 없다"
+    },
+    {
+      "raw_title": "Heinrich Mann's historical biography of Henry IV of France",
+      "raw_creator": "Heinrich Mann",
+      "rank": null,
+      "year": null,
+      "note": "추천: Peter Fonagy(2015.11) — 역사를 즐겨 읽게 만든 책 중 하나이며 지난 30년간 업무상 읽어야 할 것 말고는 역사책만 읽었다고 했다 ※ 원문에 정확한 서명 없이 이렇게만 적혀 있다"
+    },
+    {
+      "raw_title": "Set Phasers on Stun",
+      "raw_creator": "Steven Casey",
+      "rank": null,
+      "year": null,
+      "note": "추천: Roxanne Gervais(2016.03) — 치밀하게 계획하고 설계해도 기술이 어떻게 잘못될 수 있는지 보여주는 사례이며 인간-기계 인터페이스에 관심을 갖게 했다고 했다"
+    },
+    {
+      "raw_title": "Nineteen Eighty-Four",
+      "raw_creator": "George Orwell",
+      "rank": null,
+      "year": null,
+      "note": "추천: Andrew Dunn(2016.04) — 모든 것을 바꿔 놓았다고 했다"
+    },
+    {
+      "raw_title": "We",
+      "raw_creator": "Yevgeny Zamyatin",
+      "rank": null,
+      "year": null,
+      "note": "추천: Andrew Dunn(2016.04) — 함께 읽어 보라고 권했다"
+    },
+    {
+      "raw_title": "Britten and Brulightly",
+      "raw_creator": "Hannah Berry",
+      "rank": null,
+      "year": null,
+      "note": "추천: Andrew Dunn(2016.04) — 잉크 선이 아름답고 영리하게 쓰인 만화라고 했다"
+    },
+    {
+      "raw_title": "The Plague",
+      "raw_creator": "Albert Camus",
+      "rank": null,
+      "year": null,
+      "note": "추천: Peter Kinderman(2016.05) — 개인의 삶의 철학을 바꿔 놓은 책이라고 했다. 불공정하고 부조리한 우주에서 우리가 하는 선택을 다루며, 유전자도 유년기도 지난 일도 고를 수 없지만 어떻게 응답할지는 여전히 고를 수 있다고 읽었다 ※ 추천 당시 그는 학회 차기 회장이었다"
+    },
+    {
+      "raw_title": "The Sculptor's Daughter",
+      "raw_creator": "Tove Jansson",
+      "rank": null,
+      "year": null,
+      "note": "추천: Victoria Simms(2016.06) — 무민 작가가 핀란드에서 예술가 부모와 보낸 유년을 여섯 살 자신의 시점으로 썼다는 점이 발달심리학자로서 특히 흥미로웠다고 했다"
+    },
+    {
+      "raw_title": "Emma",
+      "raw_creator": "Jane Austen",
+      "rank": null,
+      "year": null,
+      "note": "추천: Lucy Johnstone(2016.09) — 완벽한 소설에 가장 가까우며 오스틴이 얼마나 예리한 심리학자였는지 보여준다고 했다"
+    },
+    {
+      "raw_title": "The Road",
+      "raw_creator": "Cormac McCarthy",
+      "rank": null,
+      "year": null,
+      "note": "추천: Carl Senior(2016.10) — 저자가 아들에게 보내는 '연애편지'라 불렀고, 첫 몇 줄만 읽어도 아들과 아버지 관계에 대한 법의학적 검토임을 알게 된다고 했다"
+    },
+    {
+      "raw_title": "Cat's Eye",
+      "raw_creator": "Margaret Atwood",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sian Jones(2016.12) — 따돌림의 심리를 보려는 사람이라면 반드시 읽어야 하며, 그 단어를 한 번도 쓰지 않으면서 여자아이들의 우정에 깃든 공포를 잡아낸다고 했다"
+    },
+    {
+      "raw_title": "The Woman Destroyed",
+      "raw_creator": "Simone de Beauvoir",
+      "rank": null,
+      "year": null,
+      "note": "추천: Joanna Griffin(2017.06) — 여성이 어떻게 처신해야 하는지에 관한 은근한 메시지를 우리가 알아채지도 못한 채 받아들이는 과정을 섬세하게 그려, 여성·어머니·아내·한 인간으로서 자기 자리를 다시 생각하게 했다고 했다"
+    },
+    {
+      "raw_title": "Everyone Lies: Big Data, New Data, and What the Internet Can Tell Us about Who We Really Are",
+      "raw_creator": "Seth Stevens-Davidowitz",
+      "rank": null,
+      "year": null,
+      "note": "추천: Theresa Marteau(2017.10) — 숨겨진 관심사를 드러낼 뿐 아니라 그 데이터로 프로이트적 실언을 포함한 여러 가설을 세우고 검증하는 창의성이 이 책의 즐거움이라고 했다 ※ 원문 저자 표기는 'Seth Stevens-Davidowitz'이나 실제 표기는 Seth Stephens-Davidowitz다"
+    },
+    {
+      "raw_title": "Psychology Mental Health and Distress",
+      "raw_creator": "John Cromby, Dave Harper and Paula Reavey",
+      "rank": null,
+      "year": null,
+      "note": "추천: Anne Cooke(2017.12) — 괴롭고 혼란스러운 생각과 감정을 심리학적으로 이해하려 하지 않고 여전히 알 수 없는 '정신질환' 탓으로 돌리는 이유를 묻는다고 했다"
+    },
+    {
+      "raw_title": "Aging with Grace: The Nun Study and the Science of Old Age",
+      "raw_creator": "David Snowdon",
+      "rank": null,
+      "year": null,
+      "note": "추천: Kate Bullen(2018.09) — 특수한 참여자 집단을 대상으로 한 흥미로운 역학 연구이며 배운 것이 아주 많다고 했다"
+    },
+    {
+      "raw_title": "Love's Executioner",
+      "raw_creator": "Irvin Yalom",
+      "rank": null,
+      "year": null,
+      "note": "추천: William Davies(2018.09) — 환자 이야기를 담은 얄롬의 글을 즐겨 읽으며 그중 최고일지 모른다고 했다. 저자의 진료실이 샌프란시스코 러시안힐에 있음을 알고 메일을 보내 실제로 상담을 한 번 받았다고 덧붙였다"
+    },
+    {
+      "raw_title": "Fatherless Sons",
+      "raw_creator": "Jonathan Diamond",
+      "rank": null,
+      "year": null,
+      "note": "추천: Simon Proudlock(2019.02) — 많이 다뤄지지 않은 주제를 이야기치료로 풀어낸 좋은 책이라고 했다"
+    },
+    {
+      "raw_title": "The Body Keeps the Score",
+      "raw_creator": "Bessel van der Kolk",
+      "rank": null,
+      "year": null,
+      "note": "추천: Simon Proudlock(2019.02) — 트라우마 기반 접근을 이어 간다며 1970년대 논문과 최근 단행본 모두 필독이라고 했다"
+    },
+    {
+      "raw_title": "The Heritage of World Civilizations",
+      "raw_creator": "Albert Craig",
+      "rank": null,
+      "year": null,
+      "note": "추천: Alma Au(2019.03) — 점점 이어지는 세계를 빚어 온 사건과 과정을 전 지구적 시각으로 보여주며, 예컨대 '이원론' 개념의 뿌리가 페르시아 문명에 있을 수 있다는 점이 놀랍다고 했다"
+    },
+    {
+      "raw_title": "The Milkman",
+      "raw_creator": "Anna Burns",
+      "rank": null,
+      "year": null,
+      "note": "추천: Elizabeth Bird(2019.04) — 사회문화적 역학이 개인의 정체성과 열망을 어떻게 눌러 놓는지 아주 섬세하게 파고든다고 했다 ※ 원문 표기는 'The Milkman'이나 실제 서명은 'Milkman'이다"
+    },
+    {
+      "raw_title": "Stoner",
+      "raw_creator": "John Williams",
+      "rank": null,
+      "year": null,
+      "note": "추천: Peter Cummins(2019.05) — 한 사람의 생을 그린 가장 아름다운 묘사이며, 그가 변하기를 계속 바라다가 결국 그가 그저 그인 채임을 받아들이게 된다고 했다"
+    },
+    {
+      "raw_title": "The psychology of everyday life",
+      "raw_creator": "Sigmund Freud",
+      "rank": null,
+      "year": null,
+      "note": "추천: Constantina Demosthenous(2019.06) — 심리학에 대한 자기 관심이 어떻게 변해 왔는지 보여주는 고전 셋 중 하나로 꼽았다 ※ 원문 표기는 'The psychology of everyday life'이나 실제 서명은 'The Psychopathology of Everyday Life'로 보인다"
+    },
+    {
+      "raw_title": "The situation is hopeless, but not serious: The pursuit of unhappiness",
+      "raw_creator": "Paul Watzlawick",
+      "rank": null,
+      "year": null,
+      "note": "추천: Constantina Demosthenous(2019.06) — 심리학에 대한 자기 관심의 변화를 보여주는 고전 셋 중 하나로 꼽았다"
+    },
+    {
+      "raw_title": "The man who mistook his wife for a hat",
+      "raw_creator": "Oliver Sacks",
+      "rank": null,
+      "year": null,
+      "note": "추천: Constantina Demosthenous(2019.06) — 심리학에 대한 자기 관심의 변화를 보여주는 고전 셋 중 하나로 꼽았다"
+    },
+    {
+      "raw_title": "The Wisdom of Birds",
+      "raw_creator": "Tim Birkhead",
+      "rank": null,
+      "year": null,
+      "note": "추천: Mike Eslea(2019.07) — 조류학의 역사라 지루할 것 같지만 심리학자든 과학철학자든 흥미로울 내용이 가득하며, 영리한 실험이 철새 이동과 새 노래의 비밀을 어떻게 풀었는지 보여준다고 했다"
+    },
+    {
+      "raw_title": "Small Great Things",
+      "raw_creator": "Jodi Picoult",
+      "rank": null,
+      "year": null,
+      "note": "추천: Caroline Foster(2019.08) — 권력과 편견이 인종주의와 어떻게 얽히는지 사회심리학적으로 밝히는 소설이며, 모르는 것에 호기심을 갖자는 일깨움이자 인간의 가장 추한 면과 가장 훌륭한 면을 함께 말한다고 했다"
+    },
+    {
+      "raw_title": "My Brilliant Best Friend",
+      "raw_creator": "Elena Ferrante",
+      "rank": null,
+      "year": null,
+      "note": "추천: Martina Gerada(2019.09) — 나폴리 4부작의 시작이며, 전후 지중해에서 살아 본 사람이라면 알아볼 침묵의 강압과 순응의 세계를 영리한 두 소녀의 목소리로 풀어낸다고 했다. 강한 여성들의 유대 안에 있는 경쟁을 정직하게 그린 점을 높이 샀다 ※ 원문 표기는 'My Brilliant Best Friend'이나 실제 서명은 'My Brilliant Friend'다"
+    },
+    {
+      "raw_title": "Gift of Therapy",
+      "raw_creator": "Irvin D. Yalom",
+      "rank": null,
+      "year": null,
+      "note": "추천: Michelle Hamill(2019.10) — 글이 쉽고 인간적이며 지혜로워 틈틈이 펼쳐 보는데 좋은 수퍼비전을 받는 느낌이라고 했다"
+    },
+    {
+      "raw_title": "Shogun",
+      "raw_creator": "James Cavell",
+      "rank": null,
+      "year": null,
+      "note": "추천: James Lewis(2020.02) ※ 원문 저자 표기는 'James Cavell'이나 실제 표기는 James Clavell이다"
+    },
+    {
+      "raw_title": "The New Laws of Psychology",
+      "raw_creator": "Peter Kinderman",
+      "rank": null,
+      "year": null,
+      "note": "추천: Saida Melgar(2020.03) — 학부 시작 전에 권유받아 읽었고 정신질환에 대해 배운 것을 전부 흔들어 더 열린 시각으로 공부를 시작하게 했다고 했다 ※ 2014년"
+    },
+    {
+      "raw_title": "Damaged",
+      "raw_creator": "Cathy Glass",
+      "rank": null,
+      "year": null,
+      "note": "추천: Edward Ong(2020.05) — 아동학대·방임 분야에서 일하도록 이끈 첫 책이며, 위탁모의 고투와 더딘 사회복지 절차, 아이가 입을 열기까지 필요한 인내를 담았다고 했다"
+    },
+    {
+      "raw_title": "Self comes to mind: Constructing the conscious brain",
+      "raw_creator": "Antonio Damasio",
+      "rank": null,
+      "year": null,
+      "note": "추천: Raffaele Presti(2020.06) — 생물학과 철학을 좋아하는 심리학자로서 원초적 감각과 말 없는 이미지에서 복잡한 정서와 이성적 사고에 이르는 의식의 진화와 그 신경 상관물을 설득력 있게 본 책이라고 했다"
+    },
+    {
+      "raw_title": "The Master's Tools Will Never Dismantle the Master's House",
+      "raw_creator": "Audre Lorde",
+      "rank": null,
+      "year": null,
+      "note": "추천: Maria Quereshi(2020.09) — 한자리에서 읽을 수 있는 짧은 에세이 모음이며 위로와 인정, 격려와 동기를 줬다고 했다. '분열시켜 정복하라'가 '정의하고 힘을 주라'가 되어야 한다는 구절을 인용했다"
+    },
+    {
+      "raw_title": "The Slap",
+      "raw_creator": "Christos Tsiolkas",
+      "rank": null,
+      "year": null,
+      "note": "추천: Sheila Ufot(2021.01) — 모임에서 한 남자가 친구의 아들을 때린 사건을 여덟 인물의 시점으로 풀어내며, 한 사건이 당사자 밖으로 퍼지는 파장과 각자의 경험·문화·신념에 따라 반응이 갈리는 모습이 흥미로웠다고 했다"
+    },
+    {
+      "raw_title": "Originals",
+      "raw_creator": "Adam Grant",
+      "rank": null,
+      "year": null,
+      "note": "추천: Tendayi Viki(2021.02) — 리더는 첫날에 이길 아이디어를 고를 수 없고 좋은 아이디어를 얻는 최선은 아이디어를 많이 갖는 것이라는 주장을 소개했다. 셰익스피어와 모차르트도 수백 편을 썼다는 예를 들었다"
+    },
+    {
+      "raw_title": "Children of the Dust",
+      "raw_creator": "Louise Lawrence",
+      "rank": null,
+      "year": null,
+      "note": "추천: Cerith Waters(2021.03) — 열 살에 읽은 핵전쟁 이후의 이야기로 상실과 부서진 가족 관계, 그리고 생존을 다룬다고 했다. 무섭기도 했지만 지구와 인류의 취약함, 적응하고 살아남으려는 본능에 눈뜨게 했다고 회고했다"
+    },
+    {
+      "raw_title": "Open",
+      "raw_creator": "Andre Agassi",
+      "rank": null,
+      "year": null,
+      "note": "추천: Kristina Xavier(2021.04) — 최근에 읽었는데 흥미롭고 영감을 준다고 했다 ※ 자서전"
+    },
+    {
+      "raw_title": "The Mindful Self-Compassion Workbook",
+      "raw_creator": "Kristin Neff and Christopher Germer",
+      "rank": null,
+      "year": null,
+      "note": "추천: Mohammadrasool Yadegarfard(2021.05) — 상담심리사로 일한 10년 동안 자신에게 연민을 갖기 어려웠던 때가 있었다며, 자기비판과 불가능한 기준에서 벗어나 정서적 안녕을 기르는 단계별 접근을 담았다고 했다"
+    },
+    {
+      "raw_title": "When the Air Hits Your Brain: Tales from Neurosurgery",
+      "raw_creator": "Frank Vertosick",
+      "rank": null,
+      "year": null,
+      "note": "추천: Katherine Carpenter(2021.09) — 다소 별나고 오래된 책이지만 영향을 받았다고 했다. 뇌전증 수술, 지주막하출혈, 신경종양 분야에서 신경외과의와 일해 온 자기 관심사와 맞닿아 있다고 했다"
+    },
+    {
+      "raw_title": "The Web of Group Affiliations",
+      "raw_creator": "Georg Simmel",
+      "rank": null,
+      "year": null,
+      "note": "추천: Dominic Abrams(2021.11) — 아주 잘 읽히며 집단 내부의 관계와 집단 간 관계라는 두 축으로 집단이 실제 어떻게 작동하는지 밑그림을 그린다고 했다. 대부분의 독자에게 현대 심리학처럼 보이지 않겠지만 심리학이 맞다고 했다 ※ 1955년"
+    },
+    {
+      "raw_title": "The Psychology of Behaviour at Work",
+      "raw_creator": "Adrian Furnham",
+      "rank": null,
+      "year": null,
+      "note": "추천: Kelly Dunn(2021.12) — 개인·팀·조직을 함께 보는 과제를 다룰 때 늘 먼저 펴는 책이라고 했다"
+    },
+    {
+      "raw_title": "The Five People You Meet in Heaven",
+      "raw_creator": "Mitch Albom",
+      "rank": null,
+      "year": null,
+      "note": "추천: Kelly Dunn(2021.12) — 소설 중 최고로 꼽으며, 우리가 남에게 주는 영향과 우리가 걷는 길에 미치는 영향을 결코 가볍게 보지 말라는 일깨움이라고 했다"
+    },
+    {
+      "raw_title": "Brave New World",
+      "raw_creator": "Aldous Huxley",
+      "rank": null,
+      "year": null,
+      "note": "추천: Judith Eberhardt(2022.01) — 십대에 처음 읽고 여러 번 다시 읽었다고 했다. 유전공학과 조건형성, 소비주의, 기분을 바꾸는 약으로 순응을 이뤄 낸 디스토피아가 매혹적이면서 무서웠고 읽을 때마다 새로운 것을 발견한다고 했다"
+    },
+    {
+      "raw_title": "Anthropology and Child Development: A Cross-Cultural Reader",
+      "raw_creator": "LeVine and New",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ibayo Fatimilehi(2022.04) — 아동·가족과 하는 일이 인류학 연구와 저술에 크게 기대고 있다며 강력히 권했다"
+    },
+    {
+      "raw_title": "The Cultural Nature of Attachment: Contextualising Relationships and Development",
+      "raw_creator": "Keller and Bard",
+      "rank": null,
+      "year": null,
+      "note": "추천: Ibayo Fatimilehi(2022.04) — Heidi Keller의 작업을 좋아한다며 여기서 시작하라고 했다"
+    },
+    {
+      "raw_title": "Thinking in Pictures",
+      "raw_creator": "Temple Grandin",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nandini Jayachandran(2022.06) — 임상 초기에 자폐를 다루기 어려웠고 제한된 행동과 관심이 그들에게 어떤 의미인지 알기 힘들었는데, 과학자이자 자폐 옹호자인 저자의 책이 시각적 세계를 열어 보여 주며 치료 방식을 크게 바꿨다고 했다"
+    },
+    {
+      "raw_title": "Fractured Minds: A case study approach to clinical neuropsychology",
+      "raw_creator": "Jenni A. Ogden",
+      "rank": null,
+      "year": null,
+      "note": "추천: Nandini Jayachandran(2022.06) — 여러 상태의 신경학적 기반과 신경심리 검사·해석을 쉽고 명료한 언어로 배우게 해 줬다고 했다"
+    },
+    {
+      "raw_title": "Attachment in Psychotherapy",
+      "raw_creator": "David Wallin",
+      "rank": null,
+      "year": null,
+      "note": "추천: Panagiotis Parpottas(2022.12) — 전문 용어를 쓰지만 잘 쓰였고 따라가기 쉬우며, 연구와 임상 관찰과 이론을 정신분석·신경과학·마음챙김·정신화 개념과 함께 엮었다고 했다. 비전문가도 접근할 수 있고 자기 임상과 개인 치료까지 풍부하게 해 줬다고 했다"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.bps.org.uk/psychologist/ultimate-psychology-reading-list (본 목록 원문. 일반 요청은 403이라 브라우저 지문을 흉내 내는 우회 수집으로 열었고 HTML 319,928자를 받아 파싱했다)",
+      "https://www.bps.org.uk/psychologist (『The Psychologist』 허브. 이 잡지가 학회 자체 발간물이며 Research Digest와 별개 매체임을 확인)",
+      "https://www.bps.org.uk/about-us (학회 성격 확인 — 영국 심리학의 대표 단체이자 자선단체)",
+      "http://psychclassics.yorku.ca/Triplett/ · http://www.sciencemag.org/content/208/4448/1181.short (원문에 제목 없이 걸린 논문 링크의 주소만 확인. 페이지를 열지는 않았다)"
+    ],
+    "item_count": 121,
+    "list_identity": "학회 공식 활동이다. 산하 블로그가 아니라 영국심리학회가 직접 펴내는 회원지 『The Psychologist』의 「One on One」 지면에서 모은 것이며, 학회 공식 도메인(bps.org.uk)의 /psychologist 경로에 학회 이름으로 게시돼 있다. 페이지 분류도 'BPS updates, Teaching and learning'이다. 다만 학회가 심사·의결로 정한 '공식 권장도서'는 아니고, 학회 지면에서 개별 심리학자에게 물어 받은 답을 학회가 모아 놓은 형태다. 사전 조사에서 짐작했던 Research Digest 기획이 아니다 — Research Digest는 같은 학회가 함께 운영하는 별개 매체이고, 이 목록은 회원지 쪽 지면이다.",
+    "recommenders": "책·논문을 실제로 지목한 사람은 117명이다(2008년 1월~2022년 12월, 중복 인물 없음). 이 가운데 여러 권을 든 사람이 있어 항목 수가 추천자 수보다 많다. 학회 회장(Peter Kinderman, 추천 당시 차기 회장)과 학회 사무총장(Sarb Bajwa)도 답했다. 원문 하단에는 이 물음에 답하지 않은 인터뷰 참여자 37명의 이름이 따로 나열돼 있는데, 추천이 없으므로 목록에 담지 않았다.",
+    "gaps": "원문에서 날짜가 붙은 답변 덩어리는 119개이고, 그중 두 개는 책 제목이 없어 항목으로 담지 않았다. ① Dean Burnett(2013.04)은 '내가 저자로 이름을 올린 논문 아무거나'라고 농담으로 답했다. ② Sarb Bajwa(2018.05)는 케루악·불가코프·도스토옙스키·돈 드릴로·존 업다이크·솔 벨로·치누아 아체베라는 작가 이름만 들고 서명을 대지 않았다. 나머지 117개 답변에서 책·논문 121건을 뽑았다. 한 사람이 여러 권을 든 경우(Carol Tavris 3권, Helen Haste 2권, Andrew Dunn 3권, Constantina Demosthenous 3권 등)를 모두 개별 항목으로 폈고, 같은 책을 여러 사람이 든 경우는 한 항목으로 합쳤다. 합쳐진 것은 세 건이다 — 『The Principles of Psychology』(6명), 『Man's Search for Meaning』(3명), 『Making Up the Mind』(2명).",
+    "uncertainties": "① 추천자의 소속은 이 페이지에 적혀 있지 않다. 각 이름은 개별 인터뷰 기사로 연결될 뿐이라 note에는 이름과 인터뷰가 실린 달만 적었다. 소속까지 채우려면 118개 인터뷰 기사를 따로 열어야 한다. ② 원문이 서명을 정확히 적지 않은 항목이 넷이다 — Triplett의 1898년 논문, Chase·Ericsson의 연구, Jensen의 1995년 American Psychologist 기고, Heinrich Mann의 앙리 4세 전기. 원문 표기를 그대로 담고 각 항목 note에 사정을 적었다. ③ 원문의 표기 오류로 보이는 것 다섯 건(『The Milkman』→Milkman, 『My Brilliant Best Friend』→My Brilliant Friend, James Cavell→James Clavell, Seth Stevens-Davidowitz→Seth Stephens-Davidowitz, 『The psychology of everyday life』→The Psychopathology of Everyday Life)은 규칙대로 원문 표기를 raw_title·raw_creator에 그대로 두고 note에 정정을 달았다. ④ 책이 아닌 항목이 섞여 있다 — 논문 다섯 편 남짓과 주간지 『New Scientist』, 오웰의 에세이 한 편. 원문이 '책 또는 논문'을 물었기 때문이며 임의로 빼지 않았다. ⑤ 출간 연도(year)는 원문이 일부에만 적어 두어 전 항목을 채울 수 없으므로 모두 null로 두고, 원문에 연도가 적힌 것은 note에 남겼다."
+  }
+}

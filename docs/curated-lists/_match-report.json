@@ -1,16 +1,7 @@
 {
   "generatedFor": "all",
-  "matched": 23,
+  "matched": 15,
   "ambiguous": [
-    {
-      "list": "caldecott-medal",
-      "title": "Fables",
-      "creator": "Arnold Lobel",
-      "candidates": [
-        "0c57b16d-08b5-4eba-b26d-c0ea7010c71a(저자불일치: Jean de La Fontaine)",
-        "6755315d-7d93-4798-8649-c1849655efb0(저자불일치: Thomas Bulfinch)"
-      ]
-    },
     {
       "list": "prix-goncourt",
       "title": "The Opposing Shore",
@@ -51,14 +42,6 @@
       "candidates": [
         "897f1093-818e-457c-a344-8fd3b6c08da2(저자불일치: Francis Bacon)",
         "e2d27639-4837-4799-9a32-055ad395ebe1(저자불일치: Albert Camus)"
-      ]
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Unfinished Business",
-      "creator": "Stephen Bonsal",
-      "candidates": [
-        "0ec6ace9-3be5-4988-8559-ddc8e18e85c5(저자불일치: Anne-Marie Slaughter)"
       ]
     },
     {
@@ -141,14 +124,6 @@
       ]
     },
     {
-      "list": "pulitzer-history",
-      "title": "Abraham Lincoln: The War Years",
-      "creator": "Carl Sandburg",
-      "candidates": [
-        "a9269c1d-5aca-4a7b-bf13-6e48a28de47c(저자불일치: Kim Myeong-hui)"
-      ]
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Poems",
       "creator": "Anne Locke",
@@ -162,22 +137,6 @@
         "7e991012-c625-49c2-b141-5ef0743cad16(저자불일치: William Butler Yeats)",
         "a6194ec4-d7f1-4e6f-ae4d-f06c3d58a377(저자불일치: John Donne)",
         "d5243364-080e-4c17-a789-a5a72675fd0c(저자불일치: Arthur Rimbaud)"
-      ]
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Abraham Lincoln",
-      "creator": "Ingri & Edgar Parin d'Aulaire",
-      "candidates": [
-        "a9269c1d-5aca-4a7b-bf13-6e48a28de47c(저자불일치: Kim Myeong-hui)"
-      ]
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Book of Secrets",
-      "creator": "Anna Mazzola",
-      "candidates": [
-        "0f126c66-d4bf-4cb2-8994-c5b287097b3e(저자불일치: Osho)"
       ]
     },
     {
@@ -231,22 +190,6 @@
       ]
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Uprooted",
-      "creator": "Oscar Handlin",
-      "candidates": [
-        "7d9fe33a-c20b-411b-91cd-ffab048d42d0(저자불일치: Naomi Novik)"
-      ]
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Sunset Limited",
-      "creator": "James Lee Burke",
-      "candidates": [
-        "4d5249db-7b9d-4ec9-a2d2-15589ee6372e(저자불일치: Cormac McCarthy)"
-      ]
-    },
-    {
       "list": "baillie-gifford-nonfiction",
       "title": "Pushkin: A Biography",
       "creator": "T.J. Binyon",
@@ -268,39 +211,19 @@
       "creator": "모리 아쓰시"
     },
     {
-      "list": "rita-award-romance",
-      "title": "First Lady",
-      "creator": "Susan Elizabeth Phillips"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Yoru to Kiri no Sumi de",
       "creator": "기타 모리오"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Good Girl, Bad Girl",
-      "creator": "Michael Robotham"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Boomerang Bride",
-      "creator": "Fiona Lowe"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Young Man I Think You're Dying",
-      "creator": "Joan Fleming"
+      "list": "wolfson-history",
+      "title": "Russia against Napoleon: The Battle for Europe 1807 to 1814",
+      "creator": "Dominic Lieven"
     },
     {
       "list": "akutagawa-prize",
       "title": "Kyūnenmae no Inori",
       "creator": "오노 마사쓰구"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Ratking",
-      "creator": "Michael Dibdin"
     },
     {
       "list": "national-book-award-fiction",
@@ -313,24 +236,24 @@
       "creator": "Amedeo Avogadro"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Great River: The Rio Grande in North American History",
-      "creator": "Paul Horgan"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "백색인",
       "creator": "엔도 슈사쿠"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Leviathan, or the Whale",
-      "creator": "Philip Hoare"
+      "list": "wolfson-history",
+      "title": "Mussolini's Roman Empire",
+      "creator": "Denis Mack Smith"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Origins of the Fifth Amendment",
-      "creator": "Leonard W. Levy"
+      "list": "wolfson-history",
+      "title": "William Morris: A Life for Our Time",
+      "creator": "Fiona MacCarthy"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Reformation: Europe's House Divided 1490-1700",
+      "creator": "Diarmaid MacCulloch"
     },
     {
       "list": "snu-recommended-100",
@@ -338,24 +261,14 @@
       "creator": null
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Skin Deep",
-      "creator": "Peter Dickinson"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Owl Moon",
-      "creator": "John Schoenherr"
+      "list": "royal-society-science-book",
+      "title": "Six Degrees: Our Future on a Hotter Planet",
+      "creator": "Mark Lynas"
     },
     {
       "list": "akutagawa-prize",
       "title": "Kono Hito no Iki",
       "creator": "호사카 가즈시"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Night of Wenceslas",
-      "creator": "Lionel Davidson"
     },
     {
       "list": "akutagawa-prize",
@@ -364,18 +277,8 @@
     },
     {
       "list": "pulitzer-history",
-      "title": "Gotham: A History of New York City to 1898",
-      "creator": "Edwin G. Burrows and Mike Wallace"
-    },
-    {
-      "list": "pulitzer-history",
       "title": "A History of the United States, Vol. VI: The War for Southern Independence, 1849-1865",
       "creator": "Edward Channing"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Joseph Had a Little Overcoat",
-      "creator": "Simms Taback"
     },
     {
       "list": "akutagawa-prize",
@@ -383,9 +286,9 @@
       "creator": "구라미쓰 도시오"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Mao’s Great Famine: The History of China’s Most Devastating Catastrophe",
-      "creator": "Frank Dikötter"
+      "list": "wolfson-history",
+      "title": "The Quest for El Cid",
+      "creator": "Richard Fletcher"
     },
     {
       "list": "akutagawa-prize",
@@ -398,6 +301,11 @@
       "creator": "시바 시로"
     },
     {
+      "list": "royal-society-science-book",
+      "title": "Adventures in the Anthropocene: A Journey to the Heart of the Planet We Made",
+      "creator": "Gaia Vince"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Odorudeku",
       "creator": "무로이 미쓰히로"
@@ -408,9 +316,14 @@
       "creator": "오기노 안나"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Super-Infinite: The Transformations of John Donne",
-      "creator": "Katherine Rundell"
+      "list": "royal-society-science-book",
+      "title": "Mapping the Deep",
+      "creator": "Robert Kunzig"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "The Reformation of the Landscape: Religion, Identity & Memory in Early Modern Britain & Ireland",
+      "creator": "Alexandra Walsham"
     },
     {
       "list": "npr-top-100-sf-fantasy",
@@ -423,9 +336,19 @@
       "creator": "김향숙"
     },
     {
-      "list": "caldecott-medal",
-      "title": "A Ball for Daisy",
-      "creator": "Chris Raschka"
+      "list": "wolfson-history",
+      "title": "Culture and Anarchy in Ireland, 1890-1939",
+      "creator": "FSL Lyons"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "The Foundations of Modern Political Thought, vol. 1: The Renaissance",
+      "creator": "Quentin Skinner"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "White Mughals: Love and Betrayal in Eighteenth-Century India",
+      "creator": "William Dalrymple"
     },
     {
       "list": "st-johns-great-books",
@@ -448,14 +371,14 @@
       "creator": "소명출판"
     },
     {
+      "list": "royal-society-science-book",
+      "title": "The Wisdom of Bones",
+      "creator": "Alan Walker and Pat Shipman"
+    },
+    {
       "list": "npr-top-100-sf-fantasy",
       "title": "The Vorkosigan Saga",
       "creator": "Lois McMaster Bujold"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "The Lacuna",
-      "creator": "Barbara Kingsolver"
     },
     {
       "list": "pulitzer-history",
@@ -463,14 +386,9 @@
       "creator": "David M. Potter"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Little Walls",
-      "creator": "Winston Graham"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Lon Po Po: A Red-Riding Hood Story from China",
-      "creator": "Ed Young"
+      "list": "wolfson-history",
+      "title": "Winston S. Churchill, vol. VI: Finest Hour",
+      "creator": "Martin Gilbert"
     },
     {
       "list": "st-johns-great-books",
@@ -488,16 +406,6 @@
       "creator": "하타야마 히로시"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Song of the Swallows",
-      "creator": "Leo Politi"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Americans: The Democratic Experience",
-      "creator": "Daniel J. Boorstin"
-    },
-    {
       "list": "prix-goncourt",
       "title": "Enemy Force",
       "creator": "John Antoine Nau"
@@ -508,9 +416,9 @@
       "creator": "Gottfried Wilhelm Leibniz"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Ox-Cart Man",
-      "creator": "Barbara Cooney"
+      "list": "ft-business-book",
+      "title": "Supremacy: AI, ChatGPT, and the Race That Will Change the World",
+      "creator": "Parmy Olson"
     },
     {
       "list": "akutagawa-prize",
@@ -523,14 +431,19 @@
       "creator": "후루야마 고마오"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Native Nations: A Millennium in North America",
-      "creator": "Kathleen DuVal"
-    },
-    {
       "list": "korea-publication-award",
       "title": "요리는 감이여",
       "creator": "창비교육"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "After Tamerlane: The Global History of Empire since 1405",
+      "creator": "John Darwin"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Reckonings: Legacies of Nazi Persecution and the Quest for Justice",
+      "creator": "Mary Fulbrook"
     },
     {
       "list": "pulitzer-history",
@@ -538,39 +451,24 @@
       "creator": "Esther Forbes"
     },
     {
+      "list": "wolfson-history",
+      "title": "The Pleasures of the Imagination: English Culture in the Eighteenth Century",
+      "creator": "John Brewer"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Toshi no Nokori",
       "creator": "마루야 사이이치"
     },
     {
-      "list": "rita-award-romance",
-      "title": "This Time Forever",
-      "creator": "Kathleen Eagle"
+      "list": "royal-society-science-book",
+      "title": "Testosterone Rex: Unmaking the Myths of Our Gendered Minds",
+      "creator": "Cordelia Fine"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Dodgers",
-      "creator": "Bill Beverly"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Present At The Creation: My Years In The State Department",
-      "creator": "Dean Acheson"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "The Idea of Perfection",
-      "creator": "Kate Grenville"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "The Suspicions of Mr Whicher: or The Murder at Road Hill House",
-      "creator": "Kate Summerscale"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "William Cooper's Town: Power and Persuasion on the Frontier of the Early American Republic",
-      "creator": "Alan Taylor"
+      "list": "ft-business-book",
+      "title": "The Man Who Knew: The Life and Times of Alan Greenspan",
+      "creator": "Sebastian Mallaby"
     },
     {
       "list": "akutagawa-prize",
@@ -583,19 +481,9 @@
       "creator": "이황"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Cinderella, or the Little Glass Slipper",
-      "creator": "Marcia Brown"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "May I Bring a Friend?",
-      "creator": "Beni Montresor"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Other Paths to Glory",
-      "creator": "Anthony Price"
+      "list": "royal-society-science-book",
+      "title": "Electric Universe: How Electricity Switched on the Modern World",
+      "creator": "David Bodanis"
     },
     {
       "list": "hugo-best-novel",
@@ -608,11 +496,6 @@
       "creator": "Daniel Bernoulli"
     },
     {
-      "list": "pulitzer-history",
-      "title": "History of the American Frontier",
-      "creator": "Frederic L. Paxson"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Arithmetic",
       "creator": "Nicomachus"
@@ -621,16 +504,6 @@
       "list": "st-johns-great-books",
       "title": "Sonnets from Children of the Poor",
       "creator": "Gwendolyn Brooks"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Bones and Silence",
-      "creator": "Reginald Hill"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "When I Lived in Modern Times",
-      "creator": "Linda Grant"
     },
     {
       "list": "akutagawa-prize",
@@ -648,9 +521,9 @@
       "creator": null
     },
     {
-      "list": "pulitzer-history",
-      "title": "Covered with Night",
-      "creator": "Nicole Eustace"
+      "list": "wolfson-history",
+      "title": "Lloyd George: From Peace to War, 1912-1916",
+      "creator": "John Grigg"
     },
     {
       "list": "akutagawa-prize",
@@ -673,9 +546,29 @@
       "creator": "Blair Lent"
     },
     {
+      "list": "wolfson-history",
+      "title": "London in the Twentieth Century: A City and its People",
+      "creator": "Jerry White"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "The Count-Duke of Olivares: The Statesman in an Age of Decline",
+      "creator": "John Elliott"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "Plague's Progress",
+      "creator": "Arno Karlen"
+    },
+    {
       "list": "dongin-literary-award",
       "title": "이 성숙한 밤의 포옹",
       "creator": "서기원"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "God's Architect: Pugin & the Building of Romantic Britain",
+      "creator": "Rosemary Hill"
     },
     {
       "list": "st-johns-great-books",
@@ -693,19 +586,9 @@
       "creator": "Nicolas Sidjakov"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Falling Hard",
-      "creator": "Lexi Ryan"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Adiós to My Old Life",
-      "creator": "Caridad Ferrer"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "The Glorious Heresies",
-      "creator": "Lisa McInerney"
+      "list": "royal-society-science-book",
+      "title": "Wonderful Life: The Burgess Shale and the Nature of History",
+      "creator": "Stephen Jay Gould"
     },
     {
       "list": "akutagawa-prize",
@@ -713,9 +596,9 @@
       "creator": "가와무라 아키라"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Between War and Peace: The Potsdam Conference",
-      "creator": "Herbert Feis"
+      "list": "wolfson-history",
+      "title": "City of Laughter: Sex and Satire in Eighteenth-Century London",
+      "creator": "Vic Gatrell"
     },
     {
       "list": "akutagawa-prize",
@@ -723,19 +606,14 @@
       "creator": "고토 기이치"
     },
     {
-      "list": "caldecott-medal",
-      "title": "A Story A Story",
-      "creator": "Gail E. Haley"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Playthings",
       "creator": "쓰무라 세쓰코"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Athenian Murders",
-      "creator": "José Carlos Somoza"
+      "list": "ft-business-book",
+      "title": "Janesville: An American Story",
+      "creator": "Amy Goldstein"
     },
     {
       "list": "akutagawa-prize",
@@ -748,44 +626,14 @@
       "creator": "송상옥"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Snowflake Bentley",
-      "creator": "Mary Azarian"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Ryū Kanfū",
       "creator": "야기 요시노리"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Flowering of New England 1815-1865",
-      "creator": "Van Wyck Brooks"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Sylvester and the Magic Pebble",
-      "creator": "William Steig"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Rooster Crows",
-      "creator": "Maud & Miska Petersham"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "King Solomon's Carpet",
-      "creator": "Barbara Vine"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "이오지마",
       "creator": "기쿠무라 이타루"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "A Pride of Heroes",
-      "creator": "Peter Dickinson"
     },
     {
       "list": "akutagawa-prize",
@@ -803,9 +651,9 @@
       "creator": "오상원"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Radicalism of the American Revolution",
-      "creator": "Gordon S. Wood"
+      "list": "wolfson-history",
+      "title": "The Dictators: Hitler's Germany and Stalin's Russia",
+      "creator": "Richard Overy"
     },
     {
       "list": "akutagawa-prize",
@@ -818,34 +666,9 @@
       "creator": "고메타니 후미코"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Radiant Child: The Story of Young Artist Jean-Michel Basquiat",
-      "creator": "Javaka Steptoe"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Prophets of Regulation",
-      "creator": "Thomas K. McCraw"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Frog Went A-Courtin'",
-      "creator": "Feodor Rojankovsky"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Freedom’s Dominion: A Saga of White Resistance to Federal Power",
-      "creator": "Jefferson Cowie"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "성흔",
       "creator": "김문수"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The American Revolution -- A Constitutional Interpretation",
-      "creator": "Charles Howard McIlwain"
     },
     {
       "list": "akutagawa-prize",
@@ -858,9 +681,9 @@
       "creator": "Madame de Sévigné"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Fox Evil",
-      "creator": "Minette Walters"
+      "list": "royal-society-science-book",
+      "title": "Invisible Women: Exposing Data Bias in a World Designed for Men",
+      "creator": "Caroline Criado Perez"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -868,29 +691,29 @@
       "creator": "한말숙"
     },
     {
+      "list": "royal-society-science-book",
+      "title": "Explaining Humans",
+      "creator": "Camilla Pang"
+    },
+    {
+      "list": "ft-business-book",
+      "title": "The Last Tycoons: The Secret History of Lazard Frères & Co.",
+      "creator": "William D. Cohan"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "축제 마당",
       "creator": "하야시 교코"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Organization and Administration of the Union Army, 1861-1865",
-      "creator": "Fred Albert Shannon"
+      "list": "wolfson-history",
+      "title": "Salisbury: Victorian Titan",
+      "creator": "Andrew Roberts"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Defection of A. J. Lewinter",
-      "creator": "Robert Littell"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "A Demon in My View",
-      "creator": "Ruth Rendell"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "A Crime in the Neighborhood",
-      "creator": "Suzanne Berne"
+      "list": "wolfson-history",
+      "title": "Heretics and Believers: A History of the English Reformation",
+      "creator": "Peter Marshall"
     },
     {
       "list": "npr-top-100-sf-fantasy",
@@ -898,29 +721,19 @@
       "creator": "Stephen King"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Big Snow",
-      "creator": "Berta & Elmer Hader"
+      "list": "wolfson-history",
+      "title": "The Balkans: From the End of Byzantium to the Present Day",
+      "creator": "Mark Mazower"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Sam, Bangs & Moonshine",
-      "creator": "Evaline Ness"
+      "list": "wolfson-history",
+      "title": "Dance in the Renaissance: European Fashion, French Obsession",
+      "creator": "Margaret McGowan"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "A Spell of Winter",
-      "creator": "Helen Dunmore"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Peacemakers: The Paris Conference of 1919 and Its Attempt to End War",
-      "creator": "Margaret MacMillan"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "The Pike",
-      "creator": "Lucy Hughes-Hallett"
+      "list": "ft-business-book",
+      "title": "Private Empire: ExxonMobil and American Power",
+      "creator": "Steve Coll"
     },
     {
       "list": "st-johns-great-books",
@@ -938,34 +751,19 @@
       "creator": "김국태"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Simply Irresistible",
-      "creator": "Jill Shalvis"
-    },
-    {
       "list": "npr-top-100-sf-fantasy",
       "title": "The Wheel Of Time Series",
       "creator": "Robert Jordan"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Summer for the Gods: The Scopes Trial and America's Continuing Debate Over Science and Religion",
-      "creator": "Edward J. Larson"
+      "list": "wolfson-history",
+      "title": "Augustine: Conversions and Confessions",
+      "creator": "Robin Lane Fox"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Motherless Brooklyn",
-      "creator": "Jonathan Lethem"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Little Island",
-      "creator": "Leonard Weisgard"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Nine Days to Christmas",
-      "creator": "Marie Hall Ets"
+      "list": "wolfson-history",
+      "title": "Giordano Bruno and the Embassy Affair",
+      "creator": "John Bossy"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -973,14 +771,9 @@
       "creator": "최인호"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Franchise: The Golden Arches in Black America",
-      "creator": "Marcia Chatelain"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "A Man to Die For",
-      "creator": "Eileen Dreyer"
+      "list": "wolfson-history",
+      "title": "A Savage War of Peace: Algeria, 1954-1962",
+      "creator": "Alistair Horne"
     },
     {
       "list": "yi-sang-literary-award",
@@ -988,19 +781,9 @@
       "creator": "유재용"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Far Side of the Dollar",
-      "creator": "Ross Macdonald"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Kugatsu no Sora",
       "creator": "다카하시 미치쓰나"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "The Way Back Home",
-      "creator": "Barbara Freethy"
     },
     {
       "list": "akutagawa-prize",
@@ -1008,24 +791,9 @@
       "creator": "이도가와 이코"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Again",
-      "creator": "Kathleen Gilles Seidel"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Not Another Bad Date",
-      "creator": "Rachel Gibson"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Nothing to Envy: Real Lives in North Korea",
-      "creator": "Barbara Demick"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Make Way for Ducklings",
-      "creator": "Robert McCloskey"
+      "list": "wolfson-history",
+      "title": "Enlightenment: Britain and the Creation of the Modern World",
+      "creator": "Roy Porter"
     },
     {
       "list": "akutagawa-prize",
@@ -1048,24 +816,9 @@
       "creator": "Dorothy P. Lathrop"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Lakeside Cottage",
-      "creator": "Susan Wiggs"
-    },
-    {
       "list": "pulitzer-history",
       "title": "Jefferson and His Time, Vols. I-V",
       "creator": "Dumas Malone"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "Brotherless Night",
-      "creator": "V. V. Ganeshananthan"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Founding Brothers: The Revolutionary Generation",
-      "creator": "Joseph J. Ellis"
     },
     {
       "list": "st-johns-great-books",
@@ -1073,14 +826,14 @@
       "creator": "Albert Einstein"
     },
     {
+      "list": "wolfson-history",
+      "title": "A Liberal Descent: Victorian Historians and the English Past",
+      "creator": "John Burrow"
+    },
+    {
       "list": "npr-top-100-sf-fantasy",
       "title": "The Mars Trilogy",
       "creator": "Kim Stanley Robinson"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Many Moons",
-      "creator": "Louis Slobodkin"
     },
     {
       "list": "akutagawa-prize",
@@ -1103,29 +856,14 @@
       "creator": "James Baldwin"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "A Girl Is a Half-formed Thing",
-      "creator": "Eimear McBride"
+      "list": "wolfson-history",
+      "title": "The Gentleman's Daughter: Women's Lives in Georgian England",
+      "creator": "Amanda Vickery"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Significance of Sections in American History",
-      "creator": "Frederick J. Turner"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Dred Scott Case",
-      "creator": "Don E. Fehrenbacher"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Murder of the Maharajah",
-      "creator": "H. R. F. Keating"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Where the Wild Things Are",
-      "creator": "Maurice Sendak"
+      "list": "wolfson-history",
+      "title": "The Mediterranean Passion: Victorians and Edwardians in the South",
+      "creator": "John Pemble"
     },
     {
       "list": "pulitzer-history",
@@ -1148,9 +886,9 @@
       "creator": "가사하라 준"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Snowy Day",
-      "creator": "Ezra Jack Keats"
+      "list": "wolfson-history",
+      "title": "Hitler and Stalin: Parallel Lives",
+      "creator": "Alan Bullock"
     },
     {
       "list": "akutagawa-prize",
@@ -1164,11 +902,6 @@
     },
     {
       "list": "pulitzer-history",
-      "title": "Washington's Crossing",
-      "creator": "David Hackett Fischer"
-    },
-    {
-      "list": "pulitzer-history",
       "title": "A Nation Under Our Feet: Black Political Struggles in the Rural South from Slavery to the Great Migration",
       "creator": "Steven Hahn"
     },
@@ -1178,9 +911,9 @@
       "creator": "사계절"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Chelsea Murders",
-      "creator": "Lionel Davidson"
+      "list": "wolfson-history",
+      "title": "The Making of Europe: Conquest, Colonization and Cultural Change 950-1350",
+      "creator": "Robert Bartlett"
     },
     {
       "list": "akutagawa-prize",
@@ -1193,14 +926,14 @@
       "creator": "Diana Gabaldon"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Popcorn",
-      "creator": "Ben Elton"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "The Rise and Decline of the Roman Republic",
       "creator": null
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "Our Brains, Our Selves: What a Neurologist's Patients Taught Him About the Brain",
+      "creator": "Masud Husain"
     },
     {
       "list": "hugo-best-novel",
@@ -1208,34 +941,24 @@
       "creator": "Mark Clifton and Frank Riley"
     },
     {
+      "list": "wolfson-history",
+      "title": "A People's Tragedy: The Russian Revolution 1891-1924",
+      "creator": "Orlando Figes"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Sukurappu Ando Birudo",
       "creator": "하다 게이스케"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Banks and Politics in America",
-      "creator": "Bray Hammond"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Dream a Little Dream",
-      "creator": "Susan Elizabeth Phillips"
+      "list": "royal-society-science-book",
+      "title": "A City on Mars: Can We Settle Space, Should We Settle Space, and Have We Really Thought This Through?",
+      "creator": "Kelly Weinersmith and Zach Weinersmith"
     },
     {
       "list": "caldecott-medal",
       "title": "The Glorious Flight: Across the Channel with Louis Blériot",
       "creator": "Alice & Martin Provensen"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Mary Chesnut's Civil War",
-      "creator": "C. Vann Woodward"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Mirette on the High Wire",
-      "creator": "Emily Arnold McCully"
     },
     {
       "list": "akutagawa-prize",
@@ -1253,11 +976,6 @@
       "creator": "Jacqueline Carey"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Empire of Pain: The Secret History of the Sackler Dynasty",
-      "creator": "Patrick Radden Keefe"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "The Sunan",
       "creator": "Ibn Mājah"
@@ -1273,9 +991,29 @@
       "creator": "Claude H. Van Tyne"
     },
     {
+      "list": "wolfson-history",
+      "title": "National Service: Conscription in Britain, 1945-1963",
+      "creator": "Richard Vinen"
+    },
+    {
+      "list": "ft-business-book",
+      "title": "Right Kind of Wrong: Why Learning to Fail Can Teach Us to Thrive",
+      "creator": "Amy Edmondson"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Shinsekai",
       "creator": "야마시타 스미토"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "Critical Mass: How One Thing Leads to Another",
+      "creator": "Philip Ball"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "The Making of Memory",
+      "creator": "Steven Rose"
     },
     {
       "list": "st-johns-great-books",
@@ -1283,29 +1021,9 @@
       "creator": "Virginia Woolf"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Little House",
-      "creator": "Virginia Lee Burton"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Shadow",
-      "creator": "Marcia Brown"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Duffy and the Devil",
-      "creator": "Margot Zemach"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Greenback Era: A Social and Political History of American Finance, 1865-1879",
-      "creator": "Irwin Unger"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Hello, Goodbye Window",
-      "creator": "Chris Raschka"
+      "list": "wolfson-history",
+      "title": "KL: A History of the Nazi Concentration Camps",
+      "creator": "Nikolaus Wachsmann"
     },
     {
       "list": "akutagawa-prize",
@@ -1313,14 +1031,14 @@
       "creator": "도미자와 우이오"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Finders Keepers",
-      "creator": "Nicolas Mordvinoff"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Music",
       "creator": "Igor Stravinsky"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "Inventing Ourselves: The Secret Life of the Teenage Brain",
+      "creator": "Sarah-Jayne Blakemore"
     },
     {
       "list": "akutagawa-prize",
@@ -1338,14 +1056,9 @@
       "creator": "Michael Faraday"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Chanticleer and the Fox",
-      "creator": "Barbara Cooney"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "When I Grow Rich",
-      "creator": "Joan Fleming"
+      "list": "wolfson-history",
+      "title": "Resistance: The Underground War in Europe, 1939-45",
+      "creator": "Halik Kochanski"
     },
     {
       "list": "akutagawa-prize",
@@ -1373,39 +1086,14 @@
       "creator": "Hermann Minkowski"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Arrow to the Sun",
-      "creator": "Gerald McDermott"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Jumanji",
-      "creator": "Chris Van Allsburg"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Black and White",
-      "creator": "David Macaulay"
-    },
-    {
       "list": "nebula-best-novel",
       "title": "Tehanu: The Last Book of Earthsea",
       "creator": "Ursula K. Le Guin"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Song and Dance Man",
-      "creator": "Stephen Gammell"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Colour of Murder",
-      "creator": "Julian Symons"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Private Scandals",
-      "creator": "Nora Roberts"
+      "list": "wolfson-history",
+      "title": "Living and Dying in England 1100-1540: The Monastic Experience",
+      "creator": "Barbara Harvey"
     },
     {
       "list": "st-johns-great-books",
@@ -1418,11 +1106,6 @@
       "creator": "George F. Kennan"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Flotsam",
-      "creator": "David Wiesner"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "On the motion of the stretched string",
       "creator": "Brook Taylor"
@@ -1431,6 +1114,11 @@
       "list": "pulitzer-history",
       "title": "Scientists Against Time",
       "creator": "James Phinney Baxter 3rd"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Chivalry",
+      "creator": "Maurice Keen"
     },
     {
       "list": "akutagawa-prize",
@@ -1448,9 +1136,9 @@
       "creator": "다카하시 기이치로"
     },
     {
-      "list": "caldecott-medal",
-      "title": "One Fine Day",
-      "creator": "Nonny Hogrogian"
+      "list": "royal-society-science-book",
+      "title": "A (Very) Short History of Life on Earth: 4.6 Billion Years in 12 Chapters",
+      "creator": "Henry Gee"
     },
     {
       "list": "bram-stoker-novel",
@@ -1458,34 +1146,14 @@
       "creator": "Gwendolyn Kiste"
     },
     {
-      "list": "pulitzer-history",
-      "title": "A Constitutional History of the United States",
-      "creator": "Andrew C. McLaughlin"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Like a Fiery Elephant: The Story of B.S. Johnson",
-      "creator": "Jonathan Coe"
-    },
-    {
       "list": "nebula-best-novel",
       "title": "Blackout/All Clear",
       "creator": "Connie Willis"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Life of the Mind in America: From the Revolution to the Civil War",
-      "creator": "Perry Miller"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Silence of the Grave",
-      "creator": "Arnaldur Indriðason"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Catch of the Day",
-      "creator": "Kristan Higgins"
+      "list": "wolfson-history",
+      "title": "Death in Paris, 1795-1801",
+      "creator": "Richard Cobb"
     },
     {
       "list": "st-johns-great-books",
@@ -1493,29 +1161,14 @@
       "creator": "Thomas Young"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Blacklist",
-      "creator": "Sara Paretsky"
+      "list": "ft-business-book",
+      "title": "This Is How They Tell Me the World Ends: The Cyberweapons Arms Race",
+      "creator": "Nicole Perlroth"
     },
     {
       "list": "caldecott-medal",
       "title": "A Tree is Nice",
       "creator": "Marc Simont"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Fiery Trial: Abraham Lincoln and American Slavery",
-      "creator": "Eric Foner"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "Small Island",
-      "creator": "Andrea Levy"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Crooked Letter, Crooked Letter",
-      "creator": "Tom Franklin"
     },
     {
       "list": "akutagawa-prize",
@@ -1528,9 +1181,24 @@
       "creator": "쓰지하라 노보루"
     },
     {
+      "list": "wolfson-history",
+      "title": "Red Fortress: The Secret Heart of Russia's History",
+      "creator": "Catherine Merridale"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "풀 사이드 소경",
       "creator": "쇼노 준조"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Facing the Ocean: The Atlantic and its Peoples 8000BC-AD1500",
+      "creator": "Barry Cunliffe"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "The Information",
+      "creator": "James Gleick"
     },
     {
       "list": "akutagawa-prize",
@@ -1568,16 +1236,6 @@
       "creator": "Archimedes"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Growth of American Thought",
-      "creator": "Merle Curti"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Saint George and the Dragon",
-      "creator": "Trina Schart Hyman"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "갈매기 / 사망보류",
       "creator": "이범선"
@@ -1588,11 +1246,6 @@
       "creator": "무라타 기요코"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Life or Death",
-      "creator": "Michael Robotham"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Ihōjin",
       "creator": "쓰지 류이치"
@@ -1601,11 +1254,6 @@
       "list": "st-johns-great-books",
       "title": "Four Lectures of Wave Mechanics—First Lecture",
       "creator": "Erwin Schrödinger"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Lion & the Mouse",
-      "creator": "Jerry Pinkney"
     },
     {
       "list": "snu-recommended-100",
@@ -1623,24 +1271,19 @@
       "creator": "이시이 유카"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Big",
-      "creator": "Vashti Harrison"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "질 그릇",
       "creator": "사카타 히로오"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Drummer Hoff",
-      "creator": "Ed Emberley"
+      "list": "wolfson-history",
+      "title": "Framing the Early Middle Ages: Europe and the Mediterranean 400-800",
+      "creator": "Christopher Wickham"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "May We Be Forgiven",
-      "creator": "A. M. Homes"
+      "list": "royal-society-science-book",
+      "title": "The Particle at the End of the Universe",
+      "creator": "Sean Carroll"
     },
     {
       "list": "edgar-best-novel",
@@ -1651,16 +1294,6 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "친구 / 보행규칙 위반자 외",
       "creator": "송영"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Sweet Taste of Liberty: A True Story of Slavery and Restitution in America",
-      "creator": "W. Caleb McDaniel"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Reveille in Washington, 1860-1865",
-      "creator": "Margaret Leech"
     },
     {
       "list": "akutagawa-prize",
@@ -1678,6 +1311,16 @@
       "creator": "가시마다 마키"
     },
     {
+      "list": "royal-society-science-book",
+      "title": "The Consumer's Good Chemical Guide",
+      "creator": "John Emsley"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "Living with Risk",
+      "creator": "British Medical Association Board of Science"
+    },
+    {
       "list": "pulitzer-history",
       "title": "Combee: Harriet Tubman, the Combahee River Raid, and Black Freedom During the Civil War",
       "creator": "Edda L. Fields-Black"
@@ -1688,34 +1331,19 @@
       "creator": "Jean-Jacques Rousseau"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Body Guard",
-      "creator": "Suzanne Brockmann"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "In Our Image: America's Empire in the Philippines",
-      "creator": "Stanley Karnow"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Rage",
-      "creator": "Gene Kerrigan"
-    },
-    {
       "list": "npr-top-100-sf-fantasy",
       "title": "The Mote In God's Eye",
       "creator": "Larry Niven and Jerry Pournelle"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Puppet Show",
-      "creator": "M. W. Craven"
+      "list": "wolfson-history",
+      "title": "Meetings with Remarkable Manuscripts",
+      "creator": "Christopher de Hamel"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Born in Ice",
-      "creator": "Nora Roberts"
+      "list": "wolfson-history",
+      "title": "The Boundless Sea: A Human History of the Oceans",
+      "creator": "David Abulafia"
     },
     {
       "list": "npr-top-100-sf-fantasy",
@@ -1728,9 +1356,9 @@
       "creator": "Thomas Morgan"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Steam Pig",
-      "creator": "James McClure"
+      "list": "wolfson-history",
+      "title": "A History of Building Types",
+      "creator": "Nikolaus Pevsner"
     },
     {
       "list": "st-johns-great-books",
@@ -1743,24 +1371,14 @@
       "creator": "스나카와 분지"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Live Flesh",
-      "creator": "Ruth Rendell"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Spoilt Kill",
-      "creator": "Mary Kelly"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Dead Lions",
-      "creator": "Mick Herron"
-    },
-    {
       "list": "korea-publication-award",
       "title": "들풀들이 들려주는 위대한 백성이야기 (1~3권)",
       "creator": "홍순명"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "Entangled Life: How Fungi Make Our Worlds, Change Our Minds and Shape Our Futures",
+      "creator": "Merlin Sheldrake"
     },
     {
       "list": "pulitzer-history",
@@ -1773,19 +1391,24 @@
       "creator": "남정현"
     },
     {
+      "list": "ft-business-book",
+      "title": "The Rise of the Robots: Technology and the Threat of Mass Unemployment",
+      "creator": "Martin Ford"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "The Poor of Eighteenth-Century France, 1750-1789",
+      "creator": "Olwen Hufton"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Ring of Steel: Germany and Austria-Hungary at War, 1914-1918",
+      "creator": "Alexander Watson"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Kita no Kawa",
       "creator": "다카이 유이치"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Republican Era: 1869-1901",
-      "creator": "Leonard D. White"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Too Good to Be True",
-      "creator": "Kristan Higgins"
     },
     {
       "list": "npr-top-100-sf-fantasy",
@@ -1798,19 +1421,9 @@
       "creator": "Aphra Behn"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The War with Mexico",
-      "creator": "Justin H. Smith"
-    },
-    {
       "list": "prix-goncourt",
       "title": "The Rock of Tanios",
       "creator": "Amin Maalouf"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Noah's Ark",
-      "creator": "Peter Spier"
     },
     {
       "list": "pulitzer-history",
@@ -1818,19 +1431,14 @@
       "creator": "Bernard Bailyn"
     },
     {
+      "list": "wolfson-history",
+      "title": "The Kaiser and his Court: Wilhelm II and the Government of Germany",
+      "creator": "John Rohl"
+    },
+    {
       "list": "hyundae-munhak-award-fiction",
       "title": "사형 / 껍데기 벗기",
       "creator": "전상국"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "White Snow, Bright Snow",
-      "creator": "Roger Duvoisin"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Hey, Al",
-      "creator": "Richard Egielski"
     },
     {
       "list": "akutagawa-prize",
@@ -1853,6 +1461,16 @@
       "creator": "노로 구니노부"
     },
     {
+      "list": "wolfson-history",
+      "title": "Survivors: The Lost Stories of the Last Captives of the Atlantic Slave Trade",
+      "creator": "Hannah Durkin"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "The Man Who Loved Only Numbers",
+      "creator": "Paul Hoffman"
+    },
+    {
       "list": "snu-recommended-100",
       "title": "과학고전(Anthology)",
       "creator": null
@@ -1861,6 +1479,11 @@
       "list": "prix-goncourt",
       "title": "Les Filles de la pluie",
       "creator": "André Savignon"
+    },
+    {
+      "list": "ft-business-book",
+      "title": "Invisible Women: Exposing Data Bias in a World Designed for Men",
+      "creator": "Caroline Criado-Perez"
     },
     {
       "list": "st-johns-great-books",
@@ -1881,11 +1504,6 @@
       "list": "akutagawa-prize",
       "title": "Tokuyama Dōsuke no Kikyō",
       "creator": "가시와바라 효조"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Imperial Life in the Emerald City: Inside Iraq’s Green Zone",
-      "creator": "Rajiv Chandrasekaran"
     },
     {
       "list": "akutagawa-prize",
@@ -1913,14 +1531,19 @@
       "creator": "Lady Mary Wroth"
     },
     {
+      "list": "ft-business-book",
+      "title": "China Shakes the World",
+      "creator": "James Kynge"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "요코",
       "creator": "후루이 요시키치"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "The Five: The Untold Lives of the Women Killed by Jack the Ripper",
-      "creator": "Hallie Rubenhold"
+      "list": "wolfson-history",
+      "title": "Death in Hamburg: Society and Politics in the Cholera Years, 1830-1910",
+      "creator": "Richard Evans"
     },
     {
       "list": "akutagawa-prize",
@@ -1931,6 +1554,11 @@
       "list": "korea-publication-award",
       "title": "한편",
       "creator": "신새벽 편집자"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "An Immense World: How Animal Senses Reveal the Hidden Realms Around Us",
+      "creator": "Ed Yong"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -1948,14 +1576,9 @@
       "creator": "고노 다에코"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Fool of the World and the Flying Ship",
-      "creator": "Uri Shulevitz"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Bet Me",
-      "creator": "Jennifer Crusie"
+      "list": "wolfson-history",
+      "title": "Gladstone, 1875-1898",
+      "creator": "HCG Matthew"
     },
     {
       "list": "st-johns-great-books",
@@ -1968,11 +1591,6 @@
       "creator": "François Viète"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Age of Reform",
-      "creator": "Richard Hofstadter"
-    },
-    {
       "list": "korea-publication-award",
       "title": "역사평설 병자호란",
       "creator": "한명기"
@@ -1981,11 +1599,6 @@
       "list": "korea-publication-award",
       "title": "청소년을 위한 토론학교 시리즈",
       "creator": "우리학교"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Nobody's Baby but Mine",
-      "creator": "Susan Elizabeth Phillips"
     },
     {
       "list": "st-johns-great-books",
@@ -2013,14 +1626,9 @@
       "creator": "Max Planck"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Perfect Murder",
-      "creator": "H. R. F. Keating"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Pinckney's Treaty",
-      "creator": "Samuel Flagg Bemis"
+      "list": "wolfson-history",
+      "title": "Hitler 1936-1945: Nemesis",
+      "creator": "Ian Kershaw"
     },
     {
       "list": "akutagawa-prize",
@@ -2033,9 +1641,9 @@
       "creator": "Vernon Louis Parrington"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Levanter",
-      "creator": "Eric Ambler"
+      "list": "wolfson-history",
+      "title": "Jennie Lee: A Life",
+      "creator": "Patricia Hollis"
     },
     {
       "list": "akutagawa-prize",
@@ -2048,9 +1656,19 @@
       "creator": "Piers Anthony"
     },
     {
+      "list": "ft-business-book",
+      "title": "No Filter: The Inside Story of Instagram",
+      "creator": "Sarah Frier"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Chichi ga Kieta",
       "creator": "오쓰지 가쓰히코"
+    },
+    {
+      "list": "ft-business-book",
+      "title": "The Everything Store: Jeff Bezos and the Age of Amazon",
+      "creator": "Brad Stone"
     },
     {
       "list": "akutagawa-prize",
@@ -2061,21 +1679,6 @@
       "list": "akutagawa-prize",
       "title": "An Exotic Marriage",
       "creator": "모토야 유키코"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "Fugitive Pieces",
-      "creator": "Anne Michaels"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "A Whispered Name",
-      "creator": "William Brodrick"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "Property",
-      "creator": "Valerie Martin"
     },
     {
       "list": "akutagawa-prize",
@@ -2093,9 +1696,9 @@
       "creator": "조선미"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Private Relations",
-      "creator": "Diane Chamberlain"
+      "list": "wolfson-history",
+      "title": "Patriots and Liberators: Revolution in the Netherlands, 1780-1813",
+      "creator": "Simon Schama"
     },
     {
       "list": "cwa-gold-dagger",
@@ -2103,19 +1706,9 @@
       "creator": "George Dawes Green"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The House in the Night",
-      "creator": "Beth Krommes"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Selected movies",
       "creator": "Alfred Hitchcock"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Encounters at the Heart of the World: A History of the Mandan People",
-      "creator": "Elizabeth A. Fenn"
     },
     {
       "list": "akutagawa-prize",
@@ -2128,29 +1721,9 @@
       "creator": "사쿠라다 쓰네히사"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Art and Life in America",
-      "creator": "Oliver W. Larkin"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Lamy of Santa Fe",
-      "creator": "Paul Horgan"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "They Were Strong and Good",
-      "creator": "Robert Lawson"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "하오의 순유 / 한춘무사",
       "creator": "최상규"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "A Sick Day for Amos McGee",
-      "creator": "Erin E. Stead"
     },
     {
       "list": "locus-fantasy-novel",
@@ -2168,24 +1741,9 @@
       "creator": "헤밀튼 외"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Tell Me What I Am",
-      "creator": "Una Mannion"
-    },
-    {
       "list": "snu-recommended-100",
       "title": "변신이영",
       "creator": "왕몽"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Someone from the Past",
-      "creator": "Margot Bennett"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "People of Paradox: An Inquiry Concerning the Origins of American Civilization",
-      "creator": "Michael Kammen"
     },
     {
       "list": "st-johns-great-books",
@@ -2193,14 +1751,34 @@
       "creator": "Sophocles"
     },
     {
+      "list": "wolfson-history",
+      "title": "Black Spartacus: The Epic Life of Toussaint Louverture",
+      "creator": "Sudhir Hazareesingh"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Taimu Surippu Konbināto",
       "creator": "쇼노 요리코"
     },
     {
+      "list": "wolfson-history",
+      "title": "Iron Kingdom: The Rise and Downfall of Prussia 1600-1947",
+      "creator": "Christopher Clark"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Tensoku no Koro",
       "creator": "이시즈카 기쿠조"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "France, 1848-1945: Ambition, Love & Politics",
+      "creator": "Theodore Zeldin"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "The Language of the Genes",
+      "creator": "Steve Jones"
     },
     {
       "list": "akutagawa-prize",
@@ -2213,44 +1791,14 @@
       "creator": "David M. Oshinsky"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "A Long Way to Shiloh",
-      "creator": "Lionel Davidson"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Way Through the Woods",
-      "creator": "Colin Dexter"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Coming of the War 1914",
-      "creator": "Bernadotte E. Schmitt"
-    },
-    {
       "list": "caldecott-medal",
       "title": "Fireworks",
       "creator": "Cátia Chien"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Man Who Walked Between the Towers",
-      "creator": "Mordicai Gerstein"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "This Is Not My Hat",
-      "creator": "Jon Klassen"
-    },
-    {
       "list": "npr-top-100-sf-fantasy",
       "title": "The Culture Series",
       "creator": "Iain Banks"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Grandfather's Journey",
-      "creator": "Allen Say"
     },
     {
       "list": "st-johns-great-books",
@@ -2263,34 +1811,24 @@
       "creator": "이동하"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "How to Survive a Plague",
-      "creator": "David France"
+      "list": "wolfson-history",
+      "title": "Transformations of Love: The Friendship of John Evelyn and Margaret Godolphin",
+      "creator": "Frances Harris"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Prayer for a Child",
-      "creator": "Elizabeth Orton Jones"
+      "list": "wolfson-history",
+      "title": "Henry II",
+      "creator": "WL Warren"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "East West Street: On the Origins of Genocide and Crimes Against Humanity",
-      "creator": "Philippe Sands"
+      "list": "ft-business-book",
+      "title": "Chip War: The Fight for the World's Most Critical Technology",
+      "creator": "Chris Miller"
     },
     {
-      "list": "pulitzer-history",
-      "title": "What Hath God Wrought: The Transformation of America, 1815-1848",
-      "creator": "Daniel Walker Howe"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Question 7",
-      "creator": "Richard Flanagan"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Locomotive",
-      "creator": "Brian Floca"
+      "list": "royal-society-science-book",
+      "title": "The Wavewatcher's Companion",
+      "creator": "Gavin Pretor-Pinney"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2306,11 +1844,6 @@
       "list": "pulitzer-history",
       "title": "The Triumphant Empire: Thunder-Clouds Gather in the West 1763-1766",
       "creator": "Lawrence H. Gipson"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Long Shot",
-      "creator": "Kennedy Ryan"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2343,16 +1876,6 @@
       "creator": "한다 요시유키"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Mei Li",
-      "creator": "Thomas Handforth"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "With Americans of Past and Present Days",
-      "creator": "J.J. Jusserand"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Extracts from System of Chemistry",
       "creator": "J.J. Thomson"
@@ -2363,14 +1886,24 @@
       "creator": "후루카와 마코토"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Seven-Per-Cent Solution",
-      "creator": "Nicholas Meyer"
+      "list": "wolfson-history",
+      "title": "Grand Strategy, vol. IV: August 1942 - September 1943",
+      "creator": "Michael Howard"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Hello Lighthouse",
-      "creator": "Sophie Blackall"
+      "list": "wolfson-history",
+      "title": "The Ancient Economy",
+      "creator": "Moses Finley"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Britons: Forging the Nation 1707-1837",
+      "creator": "Linda Colley"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Death and the Enlightenment: Changing Attitudes to Death Among Christians and Unbelievers in Eighteenth-century France",
+      "creator": "John McManners"
     },
     {
       "list": "st-johns-great-books",
@@ -2378,9 +1911,19 @@
       "creator": "Joseph-Louis Gay-Lussac"
     },
     {
+      "list": "wolfson-history",
+      "title": "Thomas Wyatt: The Heart's Forest",
+      "creator": "Susan Brigden"
+    },
+    {
       "list": "hyundae-munhak-award-fiction",
       "title": "두고 온 사람 / 호도나무골 전설",
       "creator": "유재용"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "How War Came",
+      "creator": "Donald Cameron Watt"
     },
     {
       "list": "pulitzer-history",
@@ -2388,19 +1931,14 @@
       "creator": "William H. Goetzmann"
     },
     {
+      "list": "wolfson-history",
+      "title": "Shopping in the Renaissance: Consumer Cultures in Italy 1400-1600",
+      "creator": "Evelyn Welch"
+    },
+    {
       "list": "akutagawa-prize",
       "title": "Hon no Hanashi",
       "creator": "유키 시게코"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "A Fatal Inversion",
-      "creator": "Barbara Vine"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Madeline's Rescue",
-      "creator": "Ludwig Bemelmans"
     },
     {
       "list": "hyundae-munhak-award-fiction",
@@ -2411,11 +1949,6 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "유다 행전",
       "creator": "유현종"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "My Experiences in the World War",
-      "creator": "John J. Pershing"
     },
     {
       "list": "akutagawa-prize",
@@ -2433,24 +1966,9 @@
       "creator": "Jean Tharaud, Jérôme Tharaud"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Baby, It's You",
-      "creator": "Jane Graves"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Wolf in the Snow",
-      "creator": "Matthew Cordell"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Observations on Several New Electrical Phenomena",
       "creator": "Jean-Antoine Nollet"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Kitten's First Full Moon",
-      "creator": "Kevin Henkes"
     },
     {
       "list": "akutagawa-prize",
@@ -2458,24 +1976,9 @@
       "creator": "요시유키 리에"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Girl Who Loved Wild Horses",
-      "creator": "Paul Goble"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "The Scattering of α & β Particles by Matter and the Structure of the Atom",
       "creator": "Ernest Rutherford"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Tuesday",
-      "creator": "David Wiesner"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Neither Black Nor White",
-      "creator": "Carl N. Degler"
     },
     {
       "list": "st-johns-great-books",
@@ -2488,24 +1991,19 @@
       "creator": "홉스봄"
     },
     {
+      "list": "wolfson-history",
+      "title": "The Architecture of Medieval Britain: A Social History",
+      "creator": "Colin Platt"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Islanders: The Pacific in the Age of Empire",
+      "creator": "Nicholas Thomas"
+    },
+    {
       "list": "prix-goncourt",
       "title": "One-Way",
       "creator": "Didier Van Cauwelaert"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Polar Express",
-      "creator": "Chris Van Allsburg"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Washington, Village and Capital, 1800-1878",
-      "creator": "Constance McLaughlin Green"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Atlantic Migration, 1607-1860",
-      "creator": "Marcus Lee Hansen"
     },
     {
       "list": "korea-publication-award",
@@ -2513,19 +2011,9 @@
       "creator": "양철북"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Scold's Bridle",
-      "creator": "Minette Walters"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "A Midwife's Tale",
-      "creator": "Laurel Thatcher Ulrich"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Launching of Modern American Science 1846-1876",
-      "creator": "Robert V. Bruce"
+      "list": "wolfson-history",
+      "title": "The Man on Devil's Island: Alfred Dreyfus and the Affair that Divided France",
+      "creator": "Ruth Harris"
     },
     {
       "list": "yi-sang-literary-award",
@@ -2548,6 +2036,11 @@
       "creator": "헨미 요"
     },
     {
+      "list": "wolfson-history",
+      "title": "Devil-Land: England Under Siege, 1588-1688",
+      "creator": "Clare Jackson"
+    },
+    {
       "list": "hyundae-munhak-award-fiction",
       "title": "이역의 산장",
       "creator": "오유권"
@@ -2558,24 +2051,9 @@
       "creator": "Sophie Blackall"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Across the Wide Missouri",
-      "creator": "Bernard Devoto"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Been in the Storm So Long",
-      "creator": "Leon F. Litwack"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Watercress",
-      "creator": "Jason Chin"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Undefeated",
-      "creator": "Kadir Nelson"
+      "list": "wolfson-history",
+      "title": "Fascist Voices: An Intimate History of Mussolini's Italy",
+      "creator": "Christopher Duggan"
     },
     {
       "list": "akutagawa-prize",
@@ -2593,16 +2071,6 @@
       "creator": "시미즈 모토요시"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Chernobyl: History of A Tragedy",
-      "creator": "Serhii Plokhy"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Gulf: The Making of an American Sea",
-      "creator": "Jack E. Davis"
-    },
-    {
       "list": "snu-recommended-100",
       "title": "율곡문선",
       "creator": "이이"
@@ -2613,14 +2081,19 @@
       "creator": "Thomas Morgan"
     },
     {
+      "list": "wolfson-history",
+      "title": "Religion and the Decline of Magic: Studies in Popular Beliefs in Sixteenth and Seventeenth-Century England",
+      "creator": "Keith Thomas"
+    },
+    {
+      "list": "ft-business-book",
+      "title": "When Markets Collide",
+      "creator": "Mohamed El-Erian"
+    },
+    {
       "list": "npr-top-100-sf-fantasy",
       "title": "The Amber Chronicles",
       "creator": "Roger Zelazny"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "True Confessions",
-      "creator": "Rachel Gibson"
     },
     {
       "list": "akutagawa-prize",
@@ -2633,21 +2106,6 @@
       "creator": "Abigail Dean"
     },
     {
-      "list": "pulitzer-history",
-      "title": "History of the Civil War, 1861-1865",
-      "creator": "James Ford Rhodes"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Internal Enemy: Slavery and War in Virginia, 1772-1832",
-      "creator": "Alan Taylor"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "So You Want to Be President?",
-      "creator": "David Small"
-    },
-    {
       "list": "korea-publication-award",
       "title": "사생활의 역사 (전5권)",
       "creator": "필립 아리에스·조르주 뒤비 책임편집, 주명철·전수연 외 옮김"
@@ -2656,11 +2114,6 @@
       "list": "hyundae-munhak-award-fiction",
       "title": "탁자의 위치 / 도박사",
       "creator": "이광숙"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Berlioz: Servitude and Greatness",
-      "creator": "David Cairns"
     },
     {
       "list": "locus-fantasy-novel",
@@ -2678,11 +2131,6 @@
       "creator": "William Wordsworth"
     },
     {
-      "list": "rita-award-romance",
-      "title": "No Place Like Home",
-      "creator": "Barbara Samuel"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Remarks on the Preceding Papers by Mr. Bernoulli",
       "creator": "Leonhard Euler"
@@ -2698,26 +2146,6 @@
       "creator": "도서출판 길"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "This Dark Road to Mercy",
-      "creator": "Wiley Cash"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "The Tiger's Wife",
-      "creator": "Téa Obreht"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "The Book of Form and Emptiness",
-      "creator": "Ruth Ozeki"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "Home",
-      "creator": "Marilynne Robinson"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Seisui",
       "creator": "세이라이 유이치"
@@ -2726,11 +2154,6 @@
       "list": "akutagawa-prize",
       "title": "소나기",
       "creator": "요시유키 준노스케"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Egg Tree",
-      "creator": "Katherine Milhous"
     },
     {
       "list": "st-johns-great-books",
@@ -2743,29 +2166,19 @@
       "creator": "안도 호세"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Liar",
-      "creator": "Steve Cavanagh"
+      "list": "wolfson-history",
+      "title": "Marianne in Chains: In search of the German Occupation 1940-1945",
+      "creator": "Robert Gildea"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Roosevelt: The Soldier Of Freedom",
-      "creator": "James MacGregor Burns"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Raven Black",
-      "creator": "Ann Cleeves"
+      "list": "wolfson-history",
+      "title": "The Eastern Front 1914-17",
+      "creator": "Norman Stone"
     },
     {
       "list": "st-johns-great-books",
       "title": "Letters",
       "creator": "Madame de Sévigne"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Blacklands",
-      "creator": "Belinda Bauer"
     },
     {
       "list": "pulitzer-history",
@@ -2778,14 +2191,14 @@
       "creator": "미키 다쿠"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Era of Good Feelings",
-      "creator": "George Dangerfield"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "불신시대 / 영주와 고양이",
       "creator": "박경리"
+    },
+    {
+      "list": "royal-society-science-book",
+      "title": "The Rise and Fall of the Third Chimpanzee",
+      "creator": "Jared Diamond"
     },
     {
       "list": "akutagawa-prize",
@@ -2803,16 +2216,6 @@
       "creator": "고지마 노부오"
     },
     {
-      "list": "caldecott-medal",
-      "title": "My Friend Rabbit",
-      "creator": "Eric Rohmann"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Monkey Puzzle",
-      "creator": "Paula Gosling"
-    },
-    {
       "list": "korea-publication-award",
       "title": "4x4의 세계",
       "creator": "조우리"
@@ -2821,6 +2224,11 @@
       "list": "baillie-gifford-nonfiction",
       "title": "The Third Reich: A New History",
       "creator": "Michael Burleigh"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "King George V",
+      "creator": "Kenneth Rose"
     },
     {
       "list": "akutagawa-prize",
@@ -2833,24 +2241,9 @@
       "creator": "아오노 소"
     },
     {
-      "list": "pulitzer-history",
-      "title": "No Right to an Honest Living: The Struggles of Boston’s Black Workers in the Civil War Era",
-      "creator": "Jacqueline Jones"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Visible Hand: The Managerial Revolution in American Business",
-      "creator": "Alfred D. Chandler"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Hyōsō Seikatsu",
       "creator": "오오카 아키라"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Smoky Night",
-      "creator": "David Diaz"
     },
     {
       "list": "akutagawa-prize",
@@ -2863,29 +2256,34 @@
       "creator": "송병수"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Black and Blue",
-      "creator": "Ian Rankin"
+      "list": "royal-society-science-book",
+      "title": "The Invention of Nature: The Adventures of Alexander von Humboldt, the Lost Hero of Science",
+      "creator": "Andrea Wulf"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Mermaids Singing",
-      "creator": "Val McDermid"
+      "list": "wolfson-history",
+      "title": "Pompeii: The Life of a Roman Town",
+      "creator": "Mary Beard"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "The Road Home",
-      "creator": "Rose Tremain"
+      "list": "wolfson-history",
+      "title": "An Intimate History of Killing: Face-To-Face Killing In Twentieth-Century Warfare",
+      "creator": "Joanna Bourke"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Into the Silence: The Great War, Mallory and the Conquest of Everest",
-      "creator": "Wade Davis"
+      "list": "wolfson-history",
+      "title": "European Jewry in the Age of Mercantilism 1550-1750",
+      "creator": "Jonathan Israel"
     },
     {
       "list": "baillie-gifford-nonfiction",
       "title": "How to End a Story: Collected Diaries",
       "creator": "Helen Garner"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Conquest, Coexistence, and Change: Wales 1063-1415",
+      "creator": "Rees Davies"
     },
     {
       "list": "akutagawa-prize",
@@ -2898,14 +2296,9 @@
       "creator": "미야하라 아키오"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Embers of War: The Fall of an Empire and the Making of America's Vietnam",
-      "creator": "Fredrik Logevall"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The People's Choice",
-      "creator": "Herbert Agar"
+      "list": "wolfson-history",
+      "title": "The Making of the Middle Sea: A History of the Mediterranean from the Beginning to the Emergence of the Classical World",
+      "creator": "Cyprian Broodbank"
     },
     {
       "list": "snu-recommended-100",
@@ -2916,41 +2309,6 @@
       "list": "akutagawa-prize",
       "title": "Asakusa no Kodomo",
       "creator": "하세 겐"
-    },
-    {
-      "list": "rita-award-romance",
-      "title": "Daniel's Gift",
-      "creator": "Barbara Freethy"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Biggest Bear",
-      "creator": "Lynd Ward"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Once a Mouse",
-      "creator": "Marcia Brown"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Accidental Crimes",
-      "creator": "John Hutton"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Cuba: An American History",
-      "creator": "Ada Ferrer"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "The Three Pigs",
-      "creator": "David Wiesner"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Disruption of American Democracy",
-      "creator": "Roy Franklin Nichols"
     },
     {
       "list": "pulitzer-history",
@@ -2968,34 +2326,9 @@
       "creator": "이노우에 야스시"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "Home Fire",
-      "creator": "Kamila Shamsie"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Three Crabs",
       "creator": "오바 미나코"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Murder Against the Grain",
-      "creator": "Emma Lathen"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The False Inspector Dew",
-      "creator": "Peter Lovesey"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Hot Dog",
-      "creator": "Doug Salati"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Cruel and Unusual",
-      "creator": "Patricia Cornwell"
     },
     {
       "list": "cannes-palme-dor",
@@ -3003,14 +2336,14 @@
       "creator": "Alf Sjöberg"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Wench Is Dead",
-      "creator": "Colin Dexter"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Cocktail Party",
       "creator": "오시로 다쓰히로"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Nikolaus Pevsner: The Life",
+      "creator": "Susie Harries"
     },
     {
       "list": "st-johns-great-books",
@@ -3023,19 +2356,24 @@
       "creator": "Charles-Augustin de Coulomb"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Crazy Thing Called Love",
-      "creator": "Molly O'Keefe"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Always Room for One More",
-      "creator": "Nonny Hogrogian"
+      "list": "wolfson-history",
+      "title": "John Maynard Keynes, vol. 2: the Economist as Saviour 1920-1937",
+      "creator": "Robert Skidelsky"
     },
     {
       "list": "akutagawa-prize",
       "title": "Child of Okinawa",
       "creator": "히가시 미네오"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "The Making of the Habsburg Monarchy, 1550-1700: An Interpretation",
+      "creator": "Robert Evans"
+    },
+    {
+      "list": "wolfson-history",
+      "title": "Edward VIII",
+      "creator": "Frances Donaldson"
     },
     {
       "list": "st-johns-great-books",
@@ -3058,19 +2396,9 @@
       "creator": "이시자와 마이"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Time of Wonder",
-      "creator": "Robert McCloskey"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "Freedom From Fear: The American People in Depression and War, 1929-1945",
-      "creator": "David M. Kennedy"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "One Two Three Four: The Beatles in Time",
-      "creator": "Craig Brown"
+      "list": "wolfson-history",
+      "title": "Shadows at Noon: The South Asian Twentieth Century",
+      "creator": "Joya Chatterji"
     },
     {
       "list": "korea-publication-award",
@@ -3093,14 +2421,9 @@
       "creator": "도노베 가오루"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Adventures of Beekle: The Unimaginary Friend",
-      "creator": "Dan Santat"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Ideological Origins of the American Revolution",
-      "creator": "Bernard Bailyn"
+      "list": "royal-society-science-book",
+      "title": "Right Hand, Left Hand",
+      "creator": "Chris McManus"
     },
     {
       "list": "akutagawa-prize",
@@ -3118,9 +2441,14 @@
       "creator": "C.S. Lewis"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Twelfth Juror",
-      "creator": "B. M. Gill"
+      "list": "royal-society-science-book",
+      "title": "The Age of Wonder",
+      "creator": "Richard Holmes"
+    },
+    {
+      "list": "ft-business-book",
+      "title": "The Thinking Machine: Jensen Huang, Nvidia, and the World's Most Coveted Microchip",
+      "creator": "Stephen Witt"
     },
     {
       "list": "st-johns-great-books",
@@ -3128,34 +2456,14 @@
       "creator": "Édouard Manet"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Colonial Period of American History",
-      "creator": "Charles McLean Andrews"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Founding of New England",
-      "creator": "James Truslow Adams"
-    },
-    {
       "list": "caldecott-medal",
       "title": "Ashanti to Zulu: African Traditions",
       "creator": "Leo & Diane Dillon"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Brokedown Cowboy",
-      "creator": "Maisey Yates"
-    },
-    {
       "list": "st-johns-great-books",
       "title": "Third Symphony",
       "creator": "Ludwig van Beethoven"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Sunset Swing",
-      "creator": "Ray Celestin"
     },
     {
       "list": "st-johns-great-books",
@@ -3168,24 +2476,9 @@
       "creator": "김동광·김명진 옮김"
     },
     {
-      "list": "pulitzer-history",
-      "title": "Malcolm X: A Life of Reinvention",
-      "creator": "Manning Marable"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Bodhisattva",
       "creator": "이시카와 준"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Dry",
-      "creator": "Jane Harper"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Sidetracked",
-      "creator": "Henning Mankell"
     },
     {
       "list": "akutagawa-prize",
@@ -3198,9 +2491,9 @@
       "creator": "요시다 도모코"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Old Northwest, Pioneer Period 1815-1840",
-      "creator": "R. Carlyle Buley"
+      "list": "ft-business-book",
+      "title": "Fault Lines: How Hidden Fractures Still Threaten the World Economy",
+      "creator": "Raghuram G. Rajan"
     },
     {
       "list": "st-johns-great-books",
@@ -3218,19 +2511,9 @@
       "creator": "마치다 고"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Birthright",
-      "creator": "Nora Roberts"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "Larry's Party",
-      "creator": "Carol Shields"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "We Begin at the End",
-      "creator": "Chris Whitaker"
+      "list": "wolfson-history",
+      "title": "In Command of History: Churchill Fighting and Writing the Second World War",
+      "creator": "David Reynolds"
     },
     {
       "list": "npr-top-100-sf-fantasy",
@@ -3241,16 +2524,6 @@
       "list": "st-johns-great-books",
       "title": "Mendelian Proportions in a Mixed Population",
       "creator": "G. H. Hardy"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "A Stillness at Appomattox",
-      "creator": "Bruce Catton"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Why Mosquitoes Buzz in People's Ears",
-      "creator": "Leo & Diane Dillon"
     },
     {
       "list": "st-johns-great-books",
@@ -3273,29 +2546,24 @@
       "creator": "Jack N. Rakove"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "The Correspondent",
-      "creator": "Virginia Evans"
+      "list": "wolfson-history",
+      "title": "The Wages of Destruction: The Making and Breaking of the Nazi Economy",
+      "creator": "Adam Tooze"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Golem",
-      "creator": "David Wisniewski"
+      "list": "wolfson-history",
+      "title": "The Rosicrucian Enlightenment",
+      "creator": "Frances Yates"
     },
     {
-      "list": "pulitzer-history",
-      "title": "The Supreme Court in United States History",
-      "creator": "Charles Warren"
+      "list": "wolfson-history",
+      "title": "The Hundred Years War, vol. III: Divided Houses",
+      "creator": "Jonathan Sumption"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Neurotribes: The Legacy of Autism and How to Think Smarter About People Who Think Differently",
-      "creator": "Steve Silberman"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "In the Days of McKinley",
-      "creator": "Margaret Leech"
+      "list": "wolfson-history",
+      "title": "The Weaker Vessel: Woman's Lot in Seventeenth-Century England",
+      "creator": "Antonia Fraser"
     },
     {
       "list": "st-johns-great-books",
@@ -3303,14 +2571,9 @@
       "creator": "Hans Spemann"
     },
     {
-      "list": "rita-award-romance",
-      "title": "Miracle on 5th Avenue",
-      "creator": "Sarah Morgan"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Chooch Helped",
-      "creator": "Rebecca Lee Kunz"
+      "list": "royal-society-science-book",
+      "title": "Bones of Contention: Controversies in the Search for Human Origins",
+      "creator": "Roger Lewin"
     },
     {
       "list": "st-johns-great-books",
@@ -3323,21 +2586,6 @@
       "creator": "고미숙·한경애 외"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "The Broken Shore",
-      "creator": "Peter Temple"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "Passage of Arms",
-      "creator": "Eric Ambler"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "We the People: A History of the U.S. Constitution",
-      "creator": "Jill Lepore"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Atsumonozaki",
       "creator": "나카야마 기슈"
@@ -3348,34 +2596,19 @@
       "creator": "보리"
     },
     {
-      "list": "caldecott-medal",
-      "title": "The Invention of Hugo Cabret",
-      "creator": "Brian Selznick"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "Akazukin-chan Ki o Tsukete",
       "creator": "쇼지 가오루"
     },
     {
-      "list": "caldecott-medal",
-      "title": "Rapunzel",
-      "creator": "Paul O. Zelinsky"
+      "list": "wolfson-history",
+      "title": "Dudley Docker: The Life and Times of a Trade Warrior",
+      "creator": "Richard Davenport-Hines"
     },
     {
-      "list": "cwa-gold-dagger",
-      "title": "Blood from Stone",
-      "creator": "Frances Fyfield"
-    },
-    {
-      "list": "womens-prize-fiction",
-      "title": "The Safekeep",
-      "creator": "Yael van der Wouden"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "American Education: The National Experience, 1783-1876",
-      "creator": "Lawrence A. Cremin"
+      "list": "wolfson-history",
+      "title": "Clementine Churchill",
+      "creator": "Mary Soames"
     },
     {
       "list": "st-johns-great-books",
@@ -3391,6 +2624,11 @@
       "list": "korea-publication-award",
       "title": "소성(所聲)",
       "creator": null
+    },
+    {
+      "list": "wolfson-history",
+      "title": "The Fall of France: The Nazi Invasion of 1940",
+      "creator": "Julian Jackson"
     },
     {
       "list": "prix-goncourt",
@@ -3413,29 +2651,14 @@
       "creator": "Gregor Mendel"
     },
     {
-      "list": "womens-prize-fiction",
-      "title": "Piranesi",
-      "creator": "Susanna Clarke"
-    },
-    {
       "list": "akutagawa-prize",
       "title": "The Phoenix Tree",
       "creator": "기자키 사토코"
     },
     {
-      "list": "baillie-gifford-nonfiction",
-      "title": "1599: A Year in the Life of William Shakespeare",
-      "creator": "James Shapiro"
-    },
-    {
       "list": "hyundae-munhak-award-fiction",
       "title": "잉태기 / 오늘과 내일",
       "creator": "서기원"
-    },
-    {
-      "list": "cwa-gold-dagger",
-      "title": "The Second Man",
-      "creator": "Edward Grierson"
     },
     {
       "list": "akutagawa-prize",
@@ -3446,16 +2669,6 @@
       "list": "korea-publication-award",
       "title": "아무튼 시리즈",
       "creator": "위고·제철소·코난북스"
-    },
-    {
-      "list": "baillie-gifford-nonfiction",
-      "title": "Fire Weather: A True Story from a Hotter World",
-      "creator": "John Vaillant"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "A History of American Magazines",
-      "creator": "Frank Luther Mott"
     },
     {
       "list": "prix-goncourt",
@@ -3471,21 +2684,6 @@
       "list": "akutagawa-prize",
       "title": "Fukai Kawa",
       "creator": "다쿠보 히데오"
-    },
-    {
-      "list": "caldecott-medal",
-      "title": "Officer Buckle and Gloria",
-      "creator": "Peggy Rathmann"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Road to Reunion, 1865-1900",
-      "creator": "Paul Herman Buck"
-    },
-    {
-      "list": "pulitzer-history",
-      "title": "The Age of Jackson",
-      "creator": "Arthur Meier Schlesinger"
     }
   ]
 }
