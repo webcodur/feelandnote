@@ -12,6 +12,7 @@ import { Info } from "lucide-react";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 
 const TAP_THRESHOLD = 10; // px — 이 이내면 탭으로 판정
 
@@ -94,13 +95,15 @@ export default function DawnBoardCard({
       {/* 이미지 — 모바일: 정사각형 / 데스크탑: 3:4 */}
       <div className="relative aspect-square md:aspect-[3/4] w-full overflow-hidden">
         {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={name}
-            fill
-            sizes="(max-width: 768px) 96px, 160px"
-            className="object-cover object-top"
-          />
+          <BlurDissolve className="absolute inset-0">
+            <Image
+              src={imageUrl}
+              alt={name}
+              fill
+              sizes="(max-width: 768px) 96px, 160px"
+              className="object-cover object-top"
+            />
+          </BlurDissolve>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-bg-secondary">
             <span className="text-lg md:text-2xl font-serif text-border font-bold opacity-30">

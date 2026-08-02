@@ -20,6 +20,10 @@ interface ShareButtonsProps {
   path: string;
   className?: string;
   comfortable?: boolean;
+  /** 가로 정렬. 카드 본문 안에 넣을 때는 start·center를 쓴다 */
+  align?: "start" | "center" | "end";
+  /** '공유' 글자 노출 여부. 끄면 아이콘만 남는다 */
+  showLabel?: boolean;
 }
 
 const iconBtnStyle =
@@ -37,6 +41,8 @@ export default function ShareButtons({
   path,
   className = "",
   comfortable = false,
+  align = "end",
+  showLabel = true,
 }: ShareButtonsProps) {
   const t = useTranslations("share");
   const locale = useLocale();
@@ -82,17 +88,26 @@ export default function ShareButtons({
     window.setTimeout(() => setCopied(false), 2000);
   };
 
+  const alignClass =
+    align === "start"
+      ? "justify-start"
+      : align === "center"
+        ? "justify-center"
+        : "justify-end";
+
   return (
-    <div className={`flex flex-wrap items-center justify-end gap-2 ${className}`}>
-      <span
-        className={
-          comfortable
-            ? "text-base font-medium  sm:text-lg"
-            : "text-xs font-medium "
-        }
-      >
-        {t("label")}
-      </span>
+    <div className={`flex flex-wrap items-center ${alignClass} gap-2 ${className}`}>
+      {showLabel && (
+        <span
+          className={
+            comfortable
+              ? "text-base font-medium  sm:text-lg"
+              : "text-xs font-medium "
+          }
+        >
+          {t("label")}
+        </span>
+      )}
 
       {linkChannels.map(({ key, label, Icon, href }) => (
         <a

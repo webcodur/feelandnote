@@ -11,7 +11,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeOff, GripVertical, RotateCcw } from "lucide-react";
-import { VoiceBadge } from "@/components/ui";
+import { BlurDissolve, VoiceBadge } from "@/components/ui";
 import { useLocale, useTranslations } from "next-intl";
 import type { DialogueSubtitleData, DialogueLabel } from "./hooks/useDialogue";
 import { DEFAULT_DIALOGUE_COORDS, type DialogueCoords } from "@/hooks/useDialoguePosition";
@@ -288,12 +288,14 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                 <div className="relative shrink-0">
                   <div className="w-9 h-9 md:w-16 md:h-16 rounded-full overflow-hidden bg-stone-700 border border-stone-600 shadow-inner">
                     {current.avatarUrl ? (
-                      <img
-                        src={current.avatarUrl}
-                        alt={current.nickname ?? ""}
-                        className="w-full h-full object-cover pointer-events-none"
-                        draggable={false}
-                      />
+                      <BlurDissolve className="w-full h-full">
+                        <img
+                          src={current.avatarUrl}
+                          alt={current.nickname ?? ""}
+                          className="w-full h-full object-cover pointer-events-none"
+                          draggable={false}
+                        />
+                      </BlurDissolve>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-text-secondary text-xs md:text-sm">
                         {current.nickname?.[0] ?? "?"}

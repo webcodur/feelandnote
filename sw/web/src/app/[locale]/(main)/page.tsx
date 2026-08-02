@@ -15,6 +15,7 @@ export async function generateMetadata() {
 }
 import { getUserContents } from "@/actions/contents/getUserContents";
 import { getRecentContents } from "@/actions/contents/getRecentContents";
+import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import HomeRecordSection from "@/components/features/quickRecord/HomeRecordSection";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
 import HomeFreeBoardSection from "@/components/features/home/HomeFreeBoardSection";
@@ -113,23 +114,26 @@ export default async function MainPage() {
   );
 
   return (
-    <div className="pb-20">
-      <HomeTabSection
-        recordSection={RecordSection}
-        figureSection={FigureSectionContent}
-        freeSection={<HomeFreeBoardSection />}
-        introDismissed={introDismissed}
-        aboutPanel={aboutPanel}
-        labels={{
-          todayFigure: t("todayFigure"),
-          quickRecord: t("quickRecord"),
-          freeBoard: t("freeBoard"),
-          introClose: t("introClose"),
-          introReopen: t("introReopen"),
-        }}
-      />
-      {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
-      {/* {locale === 'ko' && <PopularBooks />} */}
-    </div>
+    // 비동기 서버 페이지가 클라이언트 구획(HomeTabSection 등)을 그리므로 intl 컨텍스트를 재공급한다(code-rules.md)
+    <AsyncIntlProvider>
+      <div className="pb-20">
+        <HomeTabSection
+          recordSection={RecordSection}
+          figureSection={FigureSectionContent}
+          freeSection={<HomeFreeBoardSection />}
+          introDismissed={introDismissed}
+          aboutPanel={aboutPanel}
+          labels={{
+            todayFigure: t("todayFigure"),
+            quickRecord: t("quickRecord"),
+            freeBoard: t("freeBoard"),
+            introClose: t("introClose"),
+            introReopen: t("introReopen"),
+          }}
+        />
+        {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
+        {/* {locale === 'ko' && <PopularBooks />} */}
+      </div>
+    </AsyncIntlProvider>
   );
 }

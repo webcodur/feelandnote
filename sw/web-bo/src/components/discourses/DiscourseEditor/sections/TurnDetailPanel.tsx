@@ -55,7 +55,7 @@ const TRANSITION_OPTIONS: { value: DiscourseTransition; label: string }[] = [
   { value: 'crt', label: '옛 TV 켜지듯' },
   { value: 'whip', label: '빠르게 스쳐 지나기' },
   { value: 'filmburn', label: '필름 타들어가듯' },
-  { value: 'pixelate', label: '모자이크로 흩어지기' },
+  { value: 'pixelate', label: '뿌옇게 뭉갰다 또렷해지기' },
   { value: 'shutter', label: '블라인드 열리기' },
 ]
 

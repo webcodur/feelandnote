@@ -8,6 +8,7 @@
 
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { VB, CX, CY, type DuelFighterProps } from "./types";
 import { SlashEffect } from "./sections/SlashEffect";
 import { DebateEffect } from "./sections/DebateEffect";
@@ -291,14 +292,16 @@ export default function DuelFighter({
           }}
         >
           {avatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt={nickname}
-              width={avatarSize}
-              height={avatarSize}
-              className="w-full h-full object-cover"
-              style={{ transform: `scaleX(${mirrorX})` }}
-            />
+            <BlurDissolve className="w-full h-full">
+              <Image
+                src={avatarUrl}
+                alt={nickname}
+                width={avatarSize}
+                height={avatarSize}
+                className="w-full h-full object-cover"
+                style={{ transform: `scaleX(${mirrorX})` }}
+              />
+            </BlurDissolve>
           ) : (
             <div
               className="w-full h-full flex items-center justify-center bg-white/[0.06] text-white/30 text-sm font-bold"

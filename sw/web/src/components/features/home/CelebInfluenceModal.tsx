@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { getCelebInfluence, type CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { Avatar } from "@/components/ui";
+import { Avatar, BlurDissolve } from "@/components/ui";
 import { Z_INDEX } from "@/constants/zIndex";
 import { getAuraByScore, getMaterialConfigByScore, type Aura } from "@/constants/materials";
 import {
@@ -102,7 +102,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
           {/* 아바타 + 등급 */}
           <div className="relative shrink-0">
             <div className={`absolute -inset-1 ${levelStyle.bg} ${levelStyle.glow} rounded-lg opacity-50`} />
-            <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
+            <BlurDissolve className="relative">
+              <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
+            </BlurDissolve>
             {/* 등급 뱃지 (아바타 우하단) */}
             <div className={`
               absolute -bottom-1 -right-1 w-6 h-6
@@ -167,7 +169,9 @@ export default function CelebInfluenceModal({ celebId, isOpen, onClose, zIndex }
         <div className="flex items-center gap-3">
           <div className="relative shrink-0">
             <div className={`absolute -inset-1 ${levelStyle.bg} ${levelStyle.glow} rounded-lg opacity-50`} />
-            <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
+            <BlurDissolve className="relative">
+              <Avatar url={data!.avatar_url} name={data!.nickname} size="lg" className="relative ring-0 rounded-lg" />
+            </BlurDissolve>
           </div>
           <div className="flex-1 min-w-0">
             <h2 className="text-lg font-bold text-text-primary truncate">{data!.nickname}</h2>

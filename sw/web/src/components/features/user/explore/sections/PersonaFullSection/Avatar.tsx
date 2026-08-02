@@ -7,6 +7,7 @@
 "use client";
 
 import Image from "next/image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { cn } from "@/lib/utils";
 
 export default function Avatar({ src, alt, size = 20 }: { src: string | null; alt: string; size?: number }) {
@@ -16,7 +17,10 @@ export default function Avatar({ src, alt, size = 20 }: { src: string | null; al
   return (
     <div className={cn("relative rounded-full overflow-hidden bg-[#161616] shrink-0", sizeClass)}>
       {src ? (
-        <Image src={src} alt={alt} fill sizes="128px" className="object-cover" />
+        // 로드가 늦은 이미지만 도착 순간 블러 디졸브로 등장(로드 감지는 래퍼가 직접)
+        <BlurDissolve className="absolute inset-0">
+          <Image src={src} alt={alt} fill sizes="128px" className="object-cover" />
+        </BlurDissolve>
       ) : (
         <div className={cn("w-full h-full flex items-center justify-center font-serif ", textClass)}>
           {alt.charAt(0)}

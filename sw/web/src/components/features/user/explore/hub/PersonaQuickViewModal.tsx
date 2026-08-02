@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Modal, { ModalBody } from "@/components/ui/Modal";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { ArrowRight, Activity } from "lucide-react";
 import PersonaStatPanel from "@/components/shared/PersonaStatPanel";
 import { getPersonaQuickViewData, type PersonaQuickViewData } from "@/actions/home/getPersonaQuickViewData";
@@ -97,7 +98,10 @@ export default function PersonaQuickViewModal({ isOpen, onClose, entry, isOpposi
                 <div className="relative shrink-0 w-24 h-24 sm:w-28 sm:h-28 rounded-2xl shadow-2xl overflow-hidden bg-bg-card border border-white/10 group">
                   <div className="absolute inset-0 z-20 border border-white/20 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   {celeb.avatar_url ? (
-                    <Image src={celeb.avatar_url} alt={name} fill sizes="120px" className="object-cover" />
+                    // 보던 인물이 바뀌면 등장 효과가 다시 재생되도록 key로 구분한다
+                    <BlurDissolve key={celeb.id} className="absolute inset-0">
+                      <Image src={celeb.avatar_url} alt={name} fill sizes="120px" className="object-cover" />
+                    </BlurDissolve>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-4xl font-serif">
                       {name.charAt(0)}

@@ -13,6 +13,7 @@ export { default as TitleBadge, type TitleInfo } from "./TitleBadge";
 export { default as FormattedText } from "./FormattedText";
 export { default as Popover } from "./Popover";
 export { default as CelebImage } from "./CelebImage";
+export { default as BlurDissolve } from "./BlurDissolve";
 export { default as VoiceBadge } from "./VoiceBadge";
 export { default as ScoreBar, getScoreTier, type ScoreTier } from "./ScoreBar";
 export { default as DetailToggle } from "./DetailToggle";

@@ -2,6 +2,7 @@
 
 import { ArrowDown, ArrowRight } from "lucide-react";
 import Avatar from "@/components/ui/Avatar";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { renderHighlighted } from "./IntroFrame";
 
 interface ProfileInfo {
@@ -39,7 +40,9 @@ export default function InspirationChainGraphic({ chains, conclusion }: Inspirat
                       <div className="flex items-center gap-1.5 sm:gap-2 bg-black/20 px-3 py-1.5 rounded-full border border-white/5">
                         {step.reader && (
                           <div className="flex items-center gap-1.5">
-                            <Avatar url={step.reader.avatar_url} name={step.reader.name} size="sm" />
+                            <BlurDissolve>
+                              <Avatar url={step.reader.avatar_url} name={step.reader.name} size="sm" />
+                            </BlurDissolve>
                           </div>
                         )}
                         
@@ -49,7 +52,9 @@ export default function InspirationChainGraphic({ chains, conclusion }: Inspirat
 
                         {step.author && (
                           <div className="flex items-center gap-1.5">
-                            <Avatar url={step.author.avatar_url} name={step.author.name} size="sm" />
+                            <BlurDissolve>
+                              <Avatar url={step.author.avatar_url} name={step.author.name} size="sm" />
+                            </BlurDissolve>
                           </div>
                         )}
                       </div>

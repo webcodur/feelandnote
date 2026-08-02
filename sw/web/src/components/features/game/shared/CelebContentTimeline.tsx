@@ -8,6 +8,7 @@
 import Image from "next/image";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { cn } from "@/lib/utils";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import GameContentItem from "./GameContentItem";
 
 export interface TimelineCeleb {
@@ -87,13 +88,15 @@ export default function CelebContentTimeline({
             <div className="flex items-center gap-2.5 mb-2.5">
               <div className="relative w-11 h-11 rounded-full overflow-hidden border border-white/20 bg-bg-secondary shrink-0">
                 {celeb.avatar_url ? (
-                  <Image
-                    src={celeb.avatar_url}
-                    alt={displayNickname}
-                    fill
-                    sizes="44px"
-                    className="object-cover"
-                  />
+                  <BlurDissolve className="absolute inset-0">
+                    <Image
+                      src={celeb.avatar_url}
+                      alt={displayNickname}
+                      fill
+                      sizes="44px"
+                      className="object-cover"
+                    />
+                  </BlurDissolve>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-sm font-serif text-text-secondary">
                     {displayNickname.charAt(0)}

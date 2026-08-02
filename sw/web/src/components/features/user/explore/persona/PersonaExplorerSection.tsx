@@ -6,6 +6,7 @@ import { getPersonaByCelebId } from "@/actions/persona/getPersonaByCelebId";
 import type { PersonaPersonSummary } from "@/actions/persona/getPersonaPeople";
 import { PROFESSION_LABELS } from "@/lib/persona/constants";
 import type { PersonaVector } from "@/lib/persona/utils";
+import CelebImage from "@/components/ui/CelebImage";
 import PersonaInfoPanel from "./PersonaInfoPanel";
 import { useTranslations } from "next-intl";
 
@@ -80,7 +81,7 @@ export default function PersonaExplorerSection({
                 <div className="flex items-center gap-2">
                   <div className="h-8 w-8 overflow-hidden rounded-full border border-white/15 bg-bg-secondary">
                     {person.avatar_url ? (
-                      <img src={person.avatar_url} alt={person.nickname} className="h-full w-full object-cover" />
+                      <CelebImage src={person.avatar_url} alt={person.nickname} shape="circle" sizes="32px" />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-xs font-serif">
                         {person.nickname.charAt(0)}

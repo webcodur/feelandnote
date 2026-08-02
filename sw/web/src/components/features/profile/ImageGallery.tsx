@@ -1,14 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { ImageOff } from "lucide-react";
 import { searchCelebImages } from "@/actions/celebs";
 import type { ImageSearchResult } from "@feelandnote/content-search/naver-image";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 
 // #region 스켈레톤
 function ImageSkeleton() {
   return <div className="aspect-square rounded-sm bg-stone-800/40 animate-shimmer" />;
+}
+// #endregion
+
+// #region 갤러리 사진 한 장 — 로드가 늦은 이미지만 도착 순간 블러 디졸브로 등장(로드 감지는 래퍼가 직접)
+function GalleryImage({
+  src,
+  alt,
+  onError,
+}: {
+  src: string;
+  alt: string;
+  onError: () => void;
+}) {
+  return (
+    <BlurDissolve className="size-full">
+      <img src={src} alt={alt} className="size-full object-cover" loading="lazy" onError={onError} />
+    </BlurDissolve>
+  );
 }
 // #endregion
 
@@ -57,11 +76,9 @@ export default function ImageGallery({ nickname }: ImageGalleryProps) {
             key={`${item.imageUrl}-${i}`}
             className="relative aspect-square overflow-hidden rounded-sm bg-stone-900/60 border border-stone-800/30"
           >
-            <img
+            <GalleryImage
               src={item.imageUrl}
               alt={item.title}
-              className="size-full object-cover"
-              loading="lazy"
               onError={() =>
                 setFailedUrls((prev) => new Set(prev).add(item.imageUrl))
               }

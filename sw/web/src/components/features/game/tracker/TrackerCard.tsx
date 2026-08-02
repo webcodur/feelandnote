@@ -8,6 +8,7 @@
 import Image from "next/image";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 
 interface TrackerCardProps {
   imageUrl?: string | null;
@@ -63,13 +64,15 @@ export default function TrackerCard({
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] rounded-full bg-accent/20 blur-[20px] opacity-40 transition-all duration-700 pointer-events-none mix-blend-screen z-0 group-hover:opacity-100 group-hover:scale-125 group-hover:bg-accent/40" />
 
           {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={name}
-              fill
-              sizes="(max-width: 768px) 25vw, 240px"
-              className="object-cover object-top relative z-10 drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:scale-105"
-            />
+            <BlurDissolve className="absolute inset-0 z-10">
+              <Image
+                src={imageUrl}
+                alt={name}
+                fill
+                sizes="(max-width: 768px) 25vw, 240px"
+                className="object-cover object-top drop-shadow-[0_10px_15px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:scale-105"
+              />
+            </BlurDissolve>
           ) : (
             <div className="relative z-10 w-full h-full flex items-center justify-center">
               <span className="text-2xl md:text-4xl font-serif text-border font-bold opacity-30">

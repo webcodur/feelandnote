@@ -12,6 +12,7 @@ import { Swords, ScrollText, Landmark } from "lucide-react";
 import type { BattleCard, Command } from "@/lib/game/types";
 import { Z_INDEX } from "@/constants/zIndex";
 import { useTranslations } from "next-intl";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import DuelArena from "./DuelArena";
 import RhythmArena from "./RhythmArena/index";
 import SimonArena from "./SimonArena";
@@ -34,7 +35,9 @@ function Avatar({ card, side }: { card: BattleCard; side: "left" | "right" }) {
         style={{ borderColor: side === "left" ? "rgba(212,175,55,0.4)" : "rgba(220,80,80,0.4)" }}
       >
         {card.avatarUrl ? (
-          <img src={card.avatarUrl} alt={card.nickname} className="w-full h-full object-cover" />
+          <BlurDissolve className="w-full h-full">
+            <img src={card.avatarUrl} alt={card.nickname} className="w-full h-full object-cover" />
+          </BlurDissolve>
         ) : (
           <div className="w-full h-full bg-[#2a2720] flex items-center justify-center text-white/30 text-lg font-bold">
             {card.nickname[0]}

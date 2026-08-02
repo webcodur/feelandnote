@@ -6,10 +6,10 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import Image from "next/image";
 import { useRouter } from "@/i18n/navigation";
 import { BarChart3, List, ChevronLeft, ChevronRight } from "lucide-react";
 import { Modal, ModalBody } from "@/components/ui";
+import CelebImage from "@/components/ui/CelebImage";
 import { getInfluenceDistribution } from "@/actions/home";
 import type { InfluenceDistribution, RankedCeleb } from "@/actions/home";
 import {
@@ -101,11 +101,10 @@ function AuraListItem({
               title={celeb.nickname}
             >
               {celeb.avatar_url ? (
-                <Image
+                <CelebImage
                   src={celeb.avatar_url}
                   alt={celeb.nickname}
-                  fill
-                  className="object-cover"
+                  shape="circle"
                   sizes="28px"
                 />
               ) : (
@@ -157,11 +156,10 @@ function RankingTable({ ranking, onCelebClick, t }: { ranking: RankedCeleb[]; on
                 
                 <div className="relative w-9 h-9 rounded-full overflow-hidden bg-bg-card flex-shrink-0 border border-border/50">
                   {celeb.avatar_url ? (
-                    <Image
+                    <CelebImage
                       src={celeb.avatar_url}
                       alt={celeb.nickname}
-                      fill
-                      className="object-cover"
+                      shape="circle"
                       sizes="36px"
                     />
                   ) : (

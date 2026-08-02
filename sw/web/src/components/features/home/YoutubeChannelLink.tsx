@@ -4,13 +4,22 @@
   책임: 필앤노트 오리지널 영상 시리즈를 소개하고 내부 영상관으로 연결한다.
 */
 
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import {
+  getYoutubeChannel,
+  getYoutubeSeriesPlaylists,
+} from "@/constants/youtube";
+import YoutubeHeroOverlay from "./YoutubeHeroOverlay";
 
 export default async function YoutubeChannelLink() {
   const t = await getTranslations("home.youtube");
+  const ts = await getTranslations("explore.youtube");
+  const locale = await getLocale();
+  const channel = getYoutubeChannel(locale);
+  const playlists = getYoutubeSeriesPlaylists(locale);
 
   return (
     <section>
@@ -24,29 +33,36 @@ export default async function YoutubeChannelLink() {
             className="object-cover"
           />
 
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-4 left-4 drop-shadow-[0_2px_8px_rgba(0,0,0,1)] sm:bottom-6 sm:left-6"
-          >
-            <p className="font-cinzel text-[8px] font-semibold tracking-[0.2em] text-accent sm:text-[10px]">
-              SERIES 01
-            </p>
-            <p className="mt-1 font-serif text-base font-semibold text-white sm:text-xl">
-              {t("libraryTour")}
-            </p>
-          </div>
-
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute bottom-4 right-4 text-right drop-shadow-[0_2px_8px_rgba(0,0,0,1)] sm:bottom-6 sm:right-6"
-          >
-            <p className="font-cinzel text-[8px] font-semibold tracking-[0.2em] text-accent sm:text-[10px]">
-              SERIES 02
-            </p>
-            <p className="mt-1 font-serif text-base font-semibold text-white sm:text-xl">
-              {t("faction")}
-            </p>
-          </div>
+          <YoutubeHeroOverlay
+            channelUrl={channel.url}
+            playLabel={t("playChannel")}
+            openSeriesLabel={t("openSeries")}
+            fullPlaylistLabel={ts("fullPlaylist")}
+            shortsPlaylistLabel={ts("shortsPlaylist")}
+            library={{
+              key: "library",
+              index: ts("series.library.index"),
+              title: t("libraryTour"),
+              tagline: ts("series.library.tagline"),
+              description: ts("series.library.description"),
+              fullPlaylistUrl: playlists.libraryTour.full,
+              shortsPlaylistUrl: playlists.libraryTour.shorts,
+              siteHref: "/explore/figures",
+              siteLabel: ts("series.library.siteLink"),
+            }}
+            faction={{
+              key: "faction",
+              index: ts("series.faction.index"),
+              title: t("faction"),
+              tagline: ts("series.faction.tagline"),
+              description: ts("series.faction.description"),
+              fullPlaylistUrl: playlists.faction.full,
+              shortsPlaylistUrl: playlists.faction.shorts,
+              siteHref: "/explore/faction",
+              siteLabel: ts("series.faction.siteLink"),
+              languageNote: locale === "en" ? ts("koreanPlaylist") : undefined,
+            }}
+          />
 
           <span
             aria-hidden="true"

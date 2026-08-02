@@ -11,6 +11,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
 import { ExternalLink } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { TENDENCY_LABELS, type TendencyKey } from "@/lib/persona/constants";
 import { AXIS_POLE_COLORS, initials } from "./constants";
 import type { PersonaPerson } from "@/actions/persona/getPersonaDistribution";
@@ -43,8 +44,10 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
         <div className="flex items-center gap-4">
           <div className="size-16 shrink-0 overflow-hidden rounded-full border-2 bg-bg-card" style={{ borderColor: sideColor }}>
             {person.avatar_url ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={person.avatar_url} alt={person.nickname} className="size-full object-cover" />
+              <BlurDissolve className="size-full">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={person.avatar_url} alt={person.nickname} className="size-full object-cover" />
+              </BlurDissolve>
             ) : (
               <div className="flex size-full items-center justify-center text-sm font-bold text-text-secondary">{initials(person.nickname)}</div>
             )}
