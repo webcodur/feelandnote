@@ -1,102 +1,67 @@
+/*
+  1:1 화보 전제 레이아웃 — 모든 칸이 같은 크기 정사각이라 이미지가 잘리지 않는다.
+  4열 격자 × 2줄(8장)이 한 페이지다.
+*/
 .atlasGrid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-auto-rows: minmax(10rem, auto);
-  gap: 0.8rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .atlasCard {
-  min-height: 14rem;
-}
-
-.atlasLead {
-  grid-column: span 7;
-  grid-row: span 2;
-  min-height: 29rem;
+  min-height: 0;
+  border-radius: 1rem;
 }
 
 .atlasSide {
-  grid-column: span 5;
+  aspect-ratio: 1;
 }
 
-.atlasThird {
-  grid-column: span 4;
-}
-
+/* 상자 없이 카드 하단을 어두운 그러데이션으로 눌러 제목을 얹는다 */
 .atlasCardCopy {
   position: absolute;
-  inset-inline: 1.15rem;
-  inset-block-end: 1.1rem;
+  inset-inline: 0;
+  inset-block-end: 0;
   z-index: 3;
+  padding: 2.8rem 1.05rem 0.95rem;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 82%) 28%,
+    rgb(0 0 0 / 42%) 64%,
+    transparent
+  );
 }
 
-.cardNumber,
-.galleryIndex {
+/* 번호는 알약 상자 없이 맨글자로 얹는다 — 그림자만으로 사진 위 가독을 확보 */
+.cardNumber {
   position: absolute;
-  inset-block-start: 1rem;
+  inset-block-start: 0.85rem;
   inset-inline-start: 1rem;
   z-index: 3;
   font-family: var(--font-cinzel);
-  border: 1px solid color-mix(in srgb, var(--faction-color, var(--color-accent)) 55%, white);
-  border-radius: 999px;
-  background: color-mix(in srgb, black 78%, var(--faction-color, transparent));
-  box-shadow: 0 0.45rem 1.4rem rgb(0 0 0 / 45%);
-  padding: 0.32rem 0.58rem;
-  font-size: 0.8rem;
+  font-size: 1.05rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  color: white;
-  text-shadow: 0 1px 3px rgb(0 0 0 / 90%);
-  backdrop-filter: blur(8px);
+  letter-spacing: 0.06em;
+  color: rgb(255 255 255 / 92%);
+  text-shadow:
+    0 1px 4px rgb(0 0 0 / 90%),
+    0 0 14px rgb(0 0 0 / 60%);
 }
 
 .figureBadge {
   position: absolute;
-  inset-block-start: 1rem;
-  inset-inline-end: 1rem;
+  inset-block-start: 0.85rem;
+  inset-inline-end: 0.9rem;
   z-index: 3;
-  border: 1px solid rgb(255 255 255 / 22%);
+  border: 1px solid rgb(255 255 255 / 14%);
   border-radius: 999px;
-  background: rgb(0 0 0 / 68%);
-  box-shadow: 0 0.45rem 1.4rem rgb(0 0 0 / 38%);
-  padding: 0.32rem 0.58rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: white;
+  background: rgb(0 0 0 / 55%);
+  padding: 0.26rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgb(255 255 255 / 88%);
   text-shadow: 0 1px 3px rgb(0 0 0 / 90%);
   backdrop-filter: blur(8px);
-}
-
-.galleryHeader {
-  justify-content: space-between;
-}
-
-.galleryTrack {
-  display: grid;
-  grid-auto-columns: minmax(17rem, 31%);
-  grid-auto-flow: column;
-  gap: 0.8rem;
-  overflow-x: auto;
-  padding-bottom: 0.85rem;
-  scroll-snap-type: inline mandatory;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: none;
-}
-
-.galleryTrack::-webkit-scrollbar {
-  display: none;
-}
-
-.galleryCard {
-  min-height: 29rem;
-  scroll-snap-align: start;
-}
-
-.galleryCopy {
-  position: absolute;
-  inset-inline: 1.25rem;
-  inset-block-end: 1.25rem;
-  z-index: 3;
 }
 
 .registrySection {
@@ -122,7 +87,7 @@
   align-items: center;
   gap: 1rem;
   border-width: 0 0 1px;
-  padding: 1rem 3.75rem 1rem 0.75rem;
+  padding: 1rem 0.75rem;
 }
 
 .registryNumber {
@@ -141,11 +106,12 @@
 }
 
 @media (max-width: 767px) {
+  /* 좁은 화면은 정사각 카드를 가로로 넘겨 본다 */
   .atlasGrid {
     grid-template-columns: none;
-    grid-auto-columns: minmax(16rem, 86%);
+    grid-auto-columns: minmax(16rem, 80%);
     grid-auto-flow: column;
-    grid-auto-rows: 18rem;
+    grid-auto-rows: auto;
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     padding-bottom: 0.75rem;
@@ -157,21 +123,11 @@
     display: none;
   }
 
-  .atlasLead,
-  .atlasSide,
-  .atlasThird {
+  .atlasSide {
     grid-column: auto;
     grid-row: auto;
-    min-height: 18rem;
+    aspect-ratio: 1;
     scroll-snap-align: center;
-  }
-
-  .galleryTrack {
-    grid-auto-columns: minmax(16rem, 84%);
-  }
-
-  .galleryCard {
-    min-height: 23rem;
   }
 
   .registrySection {

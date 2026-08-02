@@ -3,10 +3,11 @@
 import { useCallback, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import FactionPreviewModal from "./FactionPreviewModal";
 import { useCelebPreview } from "./useCelebPreview";
@@ -26,6 +27,8 @@ export default function FactionSection({
   const t = useTranslations("celebPage");
   const isEn = locale === "en";
   const [selectedTag, setSelectedTag] = useState<FactionTagItem | null>(null);
+  /* 세력도감이 여럿인 인물은 전부 늘어놓지 않고 한 장씩 넘겨 본다 */
+  const [pageIdx, setPageIdx] = useState(0);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const {
     celeb: previewCeleb,
@@ -58,10 +61,45 @@ export default function FactionSection({
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, [closeCelebPreview]);
 
+  const hasPager = tags.length > 1;
+  const safePageIdx = Math.min(pageIdx, tags.length - 1);
+  const visibleTags = hasPager ? [tags[safePageIdx]] : tags;
+  const stepPage = (delta: number) =>
+    setPageIdx((safePageIdx + delta + tags.length) % tags.length);
+
   return (
     <>
       <div className="space-y-4">
-        {tags.map((tag) => {
+        {hasPager && (
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs text-text-secondary">
+              {t("factionPagerCount", { total: tags.length })}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => stepPage(-1)}
+                aria-label={t("factionPagerPrev")}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <span className="font-mono text-xs tabular-nums text-text-secondary">
+                {safePageIdx + 1} / {tags.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => stepPage(1)}
+                aria-label={t("factionPagerNext")}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {visibleTags.map((tag) => {
           const name = resolveName(tag);
           const description = resolve(tag.description_en, tag.description);
           const roleShort = resolve(tag.roleShortEn, tag.roleShort);
@@ -83,23 +121,25 @@ export default function FactionSection({
             >
               {tag.factionImageUrl && (
                 <div className="relative aspect-[3/4] w-full flex-shrink-0 overflow-hidden rounded-[2px] bg-bg-secondary ring-1 ring-accent/10 sm:w-[168px]">
-                  <Image
-                    src={tag.factionImageUrl}
-                    alt=""
-                    fill
-                    unoptimized
-                    aria-hidden
-                    className="object-cover scale-110 blur-xl opacity-40"
-                  />
-                  <div className="absolute inset-0 bg-black/20" />
-                  <Image
-                    src={tag.factionImageUrl}
-                    alt={name}
-                    fill
-                    unoptimized
-                    sizes="168px"
-                    className="object-contain transition-transform duration-500 group-hover:scale-105"
-                  />
+                  <BlurDissolve className="absolute inset-0">
+                    <Image
+                      src={tag.factionImageUrl}
+                      alt=""
+                      fill
+                      unoptimized
+                      aria-hidden
+                      className="object-cover scale-110 blur-xl opacity-40"
+                    />
+                    <div className="absolute inset-0 bg-black/20" />
+                    <Image
+                      src={tag.factionImageUrl}
+                      alt={name}
+                      fill
+                      unoptimized
+                      sizes="168px"
+                      className="object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </BlurDissolve>
                 </div>
               )}
 
@@ -137,14 +177,16 @@ export default function FactionSection({
                             className="relative h-7 w-7 overflow-hidden rounded-full border-2 border-bg-main bg-bg-secondary"
                           >
                             {member.avatarUrl ? (
-                              <Image
-                                src={member.avatarUrl}
-                                alt=""
-                                fill
-                                unoptimized
-                                sizes="28px"
-                                className="object-cover"
-                              />
+                              <BlurDissolve className="absolute inset-0">
+                                <Image
+                                  src={member.avatarUrl}
+                                  alt=""
+                                  fill
+                                  unoptimized
+                                  sizes="28px"
+                                  className="object-cover"
+                                />
+                              </BlurDissolve>
                             ) : (
                               <span className="flex h-full w-full items-center justify-center font-serif text-[9px]">
                                 {(isEn && member.nicknameEn ? member.nicknameEn : member.nickname).charAt(0)}

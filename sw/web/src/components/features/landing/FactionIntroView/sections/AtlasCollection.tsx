@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
-import { Maximize2 } from "lucide-react";
 import FaceStack from "../FaceStack";
 import Pager from "../Pager";
 import SectionCarousel from "../SectionCarousel";
@@ -12,27 +11,18 @@ import ThemeVisual from "./ThemeVisual";
 import collectionStyles from "../FactionCollection.module.css";
 import viewStyles from "../FactionViews.module.css";
 
-const ATLAS_CARD_SIZES = [
-  viewStyles.atlasLead,
-  viewStyles.atlasSide,
-  viewStyles.atlasSide,
-  viewStyles.atlasThird,
-  viewStyles.atlasThird,
-  viewStyles.atlasThird,
-];
-const ATLAS_PAGE_SIZE = 6;
+const ATLAS_PAGE_SIZE = 8;
 
 function AtlasSection({
   section,
   ordinal,
-  onPreview,
 }: {
   section: CollectionSection;
   ordinal: number;
-  onPreview: CollectionViewProps["onPreview"];
 }) {
   const t = useTranslations("explore.faction.intro");
   const sectionStyle = { "--faction-color": section.color } as CSSProperties;
+  const articleRef = useRef<HTMLElement>(null);
   const [page, setPage] = useState(0);
   const pages = Math.ceil(section.themes.length / ATLAS_PAGE_SIZE);
   const visibleThemes = section.themes.slice(
@@ -40,8 +30,14 @@ function AtlasSection({
     (page + 1) * ATLAS_PAGE_SIZE,
   );
 
+  /* 하단 넘김 버튼은 화면 맨 아래에 있다 — 페이지를 바꾼 뒤 구획 제목부터 다시 보이게 올린다 */
+  const changePage = (next: number) => {
+    setPage(next);
+    articleRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <article className={collectionStyles.section} style={sectionStyle}>
+    <article ref={articleRef} className={collectionStyles.section} style={sectionStyle}>
       <header className={collectionStyles.sectionHeader}>
         <div>
           <p className="font-cinzel text-sm tracking-[0.2em] text-accent">
@@ -70,47 +66,32 @@ function AtlasSection({
           <ThemeAction
             key={theme.tag.id}
             theme={theme}
-            onPreview={onPreview}
-            className={`${collectionStyles.themeAction} ${viewStyles.atlasCard} ${
-              ATLAS_CARD_SIZES[index % ATLAS_CARD_SIZES.length]
-            }`}
+            className={`${collectionStyles.themeAction} ${viewStyles.atlasCard} ${viewStyles.atlasSide}`}
             style={{ "--faction-color": theme.tag.color } as CSSProperties}
-            previewLabel={t("carousel.previewImage")}
-            pageLabel={t("carousel.openPage")}
-            shortcutClassName="right-4 top-[3.65rem]"
+            openLabel={t("carousel.openPage")}
           >
             <ThemeVisual theme={theme} />
             <span className={viewStyles.cardNumber}>
-              {String(page * ATLAS_PAGE_SIZE + index + 1).padStart(2, "0")}
+              #{page * ATLAS_PAGE_SIZE + index + 1}
             </span>
             <span className={viewStyles.figureBadge}>
-              {t("figureCount", { count: theme.tag.celebs.length })}
+              {theme.tag.is_featured
+                ? t("figureCount", { count: theme.tag.celebs.length })
+                : t("upcomingBadge")}
             </span>
             <div className={viewStyles.atlasCardCopy}>
               <h3 className={collectionStyles.themeTitle}>{theme.name}</h3>
-              {theme.description && (
-                <p className="mt-2 line-clamp-2 text-sm leading-6 text-text-secondary">
-                  {theme.description}
-                </p>
-              )}
-              <div className="mt-5 flex items-center justify-between gap-3">
-                <span className="text-sm font-semibold text-text-primary">
-                  {t("carousel.previewImage")}
-                </span>
-                <Maximize2 size={17} className="text-accent" />
-              </div>
             </div>
           </ThemeAction>
         ))}
       </div>
-      <Pager page={page} pages={pages} onChange={setPage} />
+      <Pager page={page} pages={pages} onChange={changePage} />
     </article>
   );
 }
 
 export default function AtlasCollection({
   data,
-  onPreview,
   sectionIndex,
   onSectionChange,
 }: CollectionViewProps) {
@@ -125,7 +106,6 @@ export default function AtlasCollection({
           <AtlasSection
             section={section}
             ordinal={index}
-            onPreview={onPreview}
           />
         )}
       </SectionCarousel>

@@ -3,7 +3,7 @@
 import { useState, lazy, Suspense } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight, Users, Volume2, Images, Quote, LoaderCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users, UserRound, Volume2, Images, Quote, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
@@ -32,7 +32,22 @@ interface FactionShowcaseProps {
 
 type ShowcaseItem =
   | { type: "team"; imageIdx: number }
-  | { type: "celeb"; celeb: FeaturedCeleb; celebIdx: number; nested: boolean };
+  | { type: "celeb"; celeb: FeaturedCeleb; celebIdx: number; nested: boolean }
+  /*
+    세력(그룹) 머리글 — 목록에선 가로선+라벨 한 줄이지만, 고르면 좌측 큰 화면에
+    소속 인물 얼굴 격자와 세력 소개(이름·부제·인원·명단)가 뜨는 정식 항목이다.
+    memberItemIdxs 는 소속 인물 항목의 자리 번호 — 명단에서 이름을 눌러 건너뛰는 데 쓴다.
+  */
+  | {
+      type: "group";
+      label: string;
+      labelEn: string | null;
+      subtitle: string | null;
+      subtitleEn: string | null;
+      color: string | null;
+      logoUrl: string | null;
+      memberItemIdxs: number[];
+    };
 
 export default function FactionShowcase({ activeTag, locale, onSubtitle }: FactionShowcaseProps) {
   const t = useTranslations("landing");
@@ -55,11 +70,18 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
     사람들" 3명). 그래서 사진을 위에 따로 얹고 명단을 그 아래 통으로 늘어놓으면, 사진과 사람이
     서로 남남으로 보인다. 사진 아래에 그 사진의 사람만 매달아 소속이 눈에 보이게 한다.
 
-    어느 사진에도 안 걸린 사람은 맨 아래 따로 모은다 — 옛 사진(누가 나오는지 없는 것)만 있는
-    테마는 자연히 예전 모습(사진 하나 + 전체 명단) 그대로가 된다.
+    어느 사진에도 안 걸린 사람은 맨 아래 모으되, 세력(그룹) 이름이 있으면 세력 머리글 항목으로
+    묶어 보여준다. 머리글도 고를 수 있는 항목이라 자리 번호를 갖는다. 사진이 한 장도 없는 테마도
+    같은 방식으로 세력별로 묶는다 — 세력이 하나뿐이거나 세력 정보가 아예 없으면 예전 모습(평면
+    명단) 그대로다. 단체샷이 있는 세력은 사진 항목이 그 역할을 하므로 머리글을 이중으로 세우지
+    않는다(머리글은 사진에 안 매달린 잔여 인물 묶음에만 선다).
   */
   const items: ShowcaseItem[] = [];
   const placed = new Set<string>();
+
+  const pushCeleb = (celeb: FeaturedCeleb, celebIdx: number, nested: boolean) => {
+    items.push({ type: "celeb", celeb, celebIdx, nested });
+  };
 
   teamImages.forEach((img, imageIdx) => {
     items.push({ type: "team", imageIdx });
@@ -68,14 +90,73 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
       const celebIdx = celebs.findIndex(c => c.id === id);
       if (celebIdx < 0) continue;
       placed.add(id);
-      items.push({ type: "celeb", celeb: celebs[celebIdx], celebIdx, nested: true });
+      pushCeleb(celebs[celebIdx], celebIdx, true);
     }
   });
 
-  celebs.forEach((celeb, celebIdx) => {
-    if (placed.has(celeb.id)) return;
-    items.push({ type: "celeb", celeb, celebIdx, nested: false });
-  });
+  // 어느 사진에도 안 걸린 나머지 인물들
+  const rest = celebs
+    .map((celeb, celebIdx) => ({ celeb, celebIdx }))
+    .filter(({ celeb }) => !placed.has(celeb.id));
+
+  // 세력 머리글을 쓸지 — 사진이 있으면 세력 하나만 있어도 묶고,
+  // 사진이 없으면 세력이 둘 이상일 때만 묶는다(하나뿐이면 머리글이 소음이다)
+  const restGroupKeys = new Set(rest.map(({ celeb }) => celeb.group_label).filter(Boolean));
+  const useGroupHeaders = restGroupKeys.size >= (hasTeam ? 1 : 2);
+
+  if (!useGroupHeaders) {
+    rest.forEach(({ celeb, celebIdx }) => pushCeleb(celeb, celebIdx, false));
+  } else {
+    interface GroupBucket {
+      labelEn: string | null;
+      subtitle: string | null;
+      subtitleEn: string | null;
+      color: string | null;
+      logoUrl: string | null;
+      position: number;
+      members: { celeb: FeaturedCeleb; celebIdx: number }[];
+    }
+    const buckets = new Map<string, GroupBucket>();
+    const unlabeled: { celeb: FeaturedCeleb; celebIdx: number }[] = [];
+
+    for (const entry of rest) {
+      const key = entry.celeb.group_label;
+      if (!key) {
+        unlabeled.push(entry);
+        continue;
+      }
+      const bucket = buckets.get(key) ?? { labelEn: entry.celeb.group_label_en, subtitle: null, subtitleEn: null, color: null, logoUrl: null, position: Number.MAX_SAFE_INTEGER, members: [] };
+      bucket.position = Math.min(bucket.position, entry.celeb.group_position ?? Number.MAX_SAFE_INTEGER);
+      bucket.subtitle ??= entry.celeb.group_subtitle;
+      bucket.subtitleEn ??= entry.celeb.group_subtitle_en;
+      bucket.color ??= entry.celeb.group_color;
+      bucket.logoUrl ??= entry.celeb.group_logo_url;
+      bucket.members.push(entry);
+      buckets.set(key, bucket);
+    }
+
+    // 세력 순번 순으로 머리글 항목 + 소속 인물. 순번이 같으면 등장 순서를 지킨다(sort는 안정 정렬)
+    const orderedGroups = [...buckets.entries()].sort((a, b) => a[1].position - b[1].position);
+    for (const [key, bucket] of orderedGroups) {
+      const memberItemIdxs: number[] = [];
+      items.push({
+        type: "group",
+        label: key,
+        labelEn: bucket.labelEn,
+        subtitle: bucket.subtitle,
+        subtitleEn: bucket.subtitleEn,
+        color: bucket.color,
+        logoUrl: bucket.logoUrl,
+        memberItemIdxs,
+      });
+      bucket.members.forEach(({ celeb, celebIdx }) => {
+        memberItemIdxs.push(items.length);
+        pushCeleb(celeb, celebIdx, false);
+      });
+    }
+    // 세력 정보가 없는 인물(수동 배정)은 맨 뒤에 머리글 없이
+    unlabeled.forEach(({ celeb, celebIdx }) => pushCeleb(celeb, celebIdx, false));
+  }
 
   /** 사진 항목의 자리 번호 — 좌우 화살표가 사진에서 사진으로 건너뛰는 데 쓴다 */
   const teamItemIdxs = items.flatMap((it, i) => (it.type === "team" ? [i] : []));
@@ -138,8 +219,33 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
     .map(itemIdx => ({ celeb: (items[itemIdx] as { celeb: FeaturedCeleb }).celeb, itemIdx }));
   const celebSrc = current.type === "celeb" ? current.celeb.faction_image_url ?? current.celeb.avatar_url : null;
   const photoSrc = current.type === "team" ? teamSrc : celebSrc;
-  const fallbackInitial = current.type === "team" ? teamName[0] : current.celeb.nickname[0];
-  const photoAlt = current.type === "team" ? teamName : current.celeb.nickname;
+
+  // ── 세력(그룹) 항목 ──
+  // 소속 인물을 자리 번호와 함께 푼다 — 명단 칩을 눌러 그 사람으로 건너뛰기 위해서다
+  const groupMembers: { celeb: FeaturedCeleb; itemIdx: number }[] =
+    current.type === "group"
+      ? current.memberItemIdxs.flatMap((itemIdx) => {
+          const it = items[itemIdx];
+          return it?.type === "celeb" ? [{ celeb: it.celeb, itemIdx }] : [];
+        })
+      : [];
+  const groupLabel =
+    current.type === "group"
+      ? (locale === "en" ? current.labelEn ?? current.label : current.label).trim() || current.label
+      : null;
+  const groupSubtitle =
+    current.type === "group"
+      ? (locale === "en" ? current.subtitleEn ?? current.subtitle : current.subtitle)?.trim() || null
+      : null;
+  // 세력 고유 색·로고(제작 브랜드 자산) — 없으면 테마 색으로
+  const groupColor = current.type === "group" ? current.color ?? activeTag.color : activeTag.color;
+  const groupLogo = current.type === "group" ? current.logoUrl : null;
+  // 인물이 속한 세력 색 — 대사 마커 등 인물 화보의 강조는 테마 색이 아니라 제 세력 색을 쓴다
+  const celebGroupColor =
+    current.type === "celeb" ? current.celeb.group_color ?? activeTag.color : activeTag.color;
+  const fallbackInitial =
+    current.type === "team" ? teamName[0] : current.type === "group" ? (groupLabel ?? teamName)[0] : current.celeb.nickname[0];
+  const photoAlt = current.type === "celeb" ? current.celeb.nickname : current.type === "group" ? groupLabel ?? teamName : teamName;
 
   // 이 인물이 세력도감 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
   const factionQuote =
@@ -152,16 +258,102 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
           ? current.celeb.long_desc_en ?? current.celeb.long_desc
           : current.celeb.long_desc)
       : null;
+  // 직함 — 팩션 직함(배정 한 줄 소개, 제작 lines[0]에서 옴)이 있으면 우선, 없으면 프로필 수식어
+  const celebTitle =
+    current.type === "celeb"
+      ? ((locale === "en"
+          ? current.celeb.short_desc_en ?? current.celeb.short_desc
+          : current.celeb.short_desc) ??
+          (locale === "en" ? current.celeb.title_en ?? current.celeb.title : current.celeb.title))?.trim() || null
+      : null;
 
   const photo = (
     <div className="relative w-full aspect-square overflow-hidden rounded-xl bg-[#0a0a0a] ring-1 ring-white/10">
-      {photoSrc ? (
+      {current.type === "group" ? (
+        /* 세력 배경 — 인물 사진 없이 인포그래픽으로: 세력 색 광원 + 머리글자 워터마크 + 큰 인원 수치 */
+        <div
+          aria-hidden
+          className="absolute inset-0 animate-fade-in"
+          style={{
+            background: `radial-gradient(circle at 28% 20%, ${groupColor}4d, transparent 58%), radial-gradient(circle at 80% 88%, ${groupColor}26, #0a0a0a 72%)`,
+          }}
+        >
+          <span
+            aria-hidden
+            className="absolute -right-4 -top-12 select-none font-serif text-[15rem] font-black leading-none text-white/[0.06]"
+          >
+            {(groupLabel ?? teamName)[0]}
+          </span>
+
+          {/* 세력 로고 — 1:1 크롭본을 우상단에 큼직하게 */}
+          {groupLogo && (
+            <div className="absolute right-6 top-6 z-10 aspect-square w-24 overflow-hidden rounded-2xl ring-1 ring-white/15 md:right-8 md:top-8 md:w-32">
+              <Image src={groupLogo} alt="" fill unoptimized sizes="128px" className="object-cover" />
+            </div>
+          )}
+
+          <div className="absolute inset-0 flex flex-col p-6 md:p-8">
+            {/* 머리 — 테마·세력명·부제 */}
+            <span
+              className="inline-flex items-center gap-1.5 font-serif text-[11px] font-bold tracking-[0.15em] md:text-xs"
+              style={{ color: groupColor }}
+            >
+              <Users size={13} aria-hidden />
+              {teamName}
+            </span>
+            <h3 className="mt-2 font-serif text-3xl font-black leading-tight text-white md:text-4xl">
+              {groupLabel}
+            </h3>
+            {groupSubtitle && (
+              <p className="mt-1.5 break-keep text-sm font-semibold tracking-wide text-white/70">
+                {groupSubtitle}
+              </p>
+            )}
+            <span className="mt-4 block h-px w-16" style={{ backgroundColor: groupColor }} />
+
+            {/* 몸통 — 구성원 명단표. 줄을 누르면 그 인물로 넘어간다 */}
+            <div className="scrollbar-hidden mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
+              {groupMembers.map(({ celeb, itemIdx }, i) => {
+                const role =
+                  ((locale === "en" ? celeb.short_desc_en ?? celeb.short_desc : celeb.short_desc) ??
+                    (locale === "en" ? celeb.title_en ?? celeb.title : celeb.title))?.trim() || null;
+                return (
+                  <button
+                    key={celeb.id}
+                    type="button"
+                    onClick={() => selectItem(itemIdx)}
+                    className="group/row flex w-full cursor-pointer items-baseline gap-3 border-b border-white/[0.07] py-2.5 text-left"
+                  >
+                    <span className="w-7 shrink-0 font-serif text-xs font-bold tabular-nums text-white/40 group-hover/row:text-accent">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="shrink-0 text-[15px] font-bold text-white/90 group-hover/row:text-accent">
+                      {locale === "en" ? celeb.nickname_en ?? celeb.nickname : celeb.nickname}
+                    </span>
+                    {role && (
+                      <span className="min-w-0 truncate text-xs font-medium text-white/45">{role}</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 발치 — 큰 인원 수치 */}
+            <p className="mt-3 self-end font-serif text-4xl font-black tabular-nums text-white/85 md:text-5xl">
+              {groupMembers.length}
+              <span className="ms-1.5 align-baseline text-sm font-bold text-white/50">
+                {locale === "en" ? "FIGURES" : "명"}
+              </span>
+            </p>
+          </div>
+        </div>
+      ) : photoSrc ? (
         <>
           {/* 흐린 배경으로 여백을 메우고, 전경은 잘림 없이 노출 */}
           <Image src={photoSrc} alt="" fill unoptimized aria-hidden className="object-cover scale-110 blur-2xl opacity-40" />
           <div className="absolute inset-0 bg-black/20" />
           <Image
-            key={`${current.type === "team" ? "team-" + teamSlide : current.celeb.id}`}
+            key={current.type === "celeb" ? current.celeb.id : `team-${teamSlide}`}
             src={photoSrc}
             alt={photoAlt}
             fill
@@ -248,12 +440,37 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
         </div>
       )}
 
+      {/* 세력 선택 시 정보·명단은 캔버스 인포그래픽이 전부 담는다 — 하단 오버레이 없음 */}
+
       {/* 인물 선택의 정보와 행동은 화보 한 장 안에서 끝낸다. */}
       {current.type === "celeb" && (
         <div className="absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32">
-          <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">
-            {current.celeb.nickname}
-          </h3>
+          <div className="flex items-center gap-2.5">
+            <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">
+              {current.celeb.nickname}
+            </h3>
+            {/* 인물 상세 열기 — 이름 옆 프로필 아이콘 하나로 */}
+            <button
+              type="button"
+              onClick={openModal}
+              disabled={isModalLoading}
+              aria-busy={isModalLoading}
+              aria-label={t("viewDetail")}
+              title={t("viewDetail")}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/25 bg-black/55 text-white/90 hover:border-accent hover:bg-accent hover:text-black disabled:cursor-wait disabled:opacity-60"
+            >
+              {isModalLoading ? (
+                <LoaderCircle size={16} className="animate-spin" aria-hidden />
+              ) : (
+                <UserRound size={16} aria-hidden />
+              )}
+            </button>
+          </div>
+          {celebTitle && (
+            <p className="mt-1 text-[13px] font-semibold tracking-wide text-white/75">
+              {celebTitle}
+            </p>
+          )}
           {longDesc && (
             <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/78 break-keep md:text-[15px]">
               {longDesc}
@@ -262,13 +479,13 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
           {factionQuote && (
             <blockquote
               className="mt-3 border-l-2 pl-3"
-              style={{ borderColor: activeTag.color }}
+              style={{ borderColor: celebGroupColor }}
             >
               <div className="flex items-start gap-2">
                 <Quote
                   size={14}
                   className="mt-1 shrink-0"
-                  style={{ color: activeTag.color }}
+                  style={{ color: celebGroupColor }}
                   aria-hidden
                 />
                 <p className="line-clamp-3 font-serif text-sm leading-6 text-white/95 md:line-clamp-4 md:text-[15px]">
@@ -277,25 +494,6 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
               </div>
             </blockquote>
           )}
-          <button
-            type="button"
-            onClick={openModal}
-            disabled={isModalLoading}
-            aria-busy={isModalLoading}
-            className="mt-4 inline-flex min-h-11 items-center gap-2 border border-white/25 bg-black/55 px-3.5 py-2 text-sm font-semibold text-white hover:border-accent hover:bg-accent hover:text-black disabled:cursor-wait disabled:opacity-60"
-          >
-            {isModalLoading ? (
-              <>
-                <LoaderCircle size={15} className="animate-spin" aria-hidden />
-                {t("loadingDetail")}
-              </>
-            ) : (
-              <>
-                {t("viewDetail")}
-                <ChevronRight size={15} aria-hidden />
-              </>
-            )}
-          </button>
           {modalError && (
             <p role="alert" className="mt-2 text-xs leading-5 text-red-200">
               {t("detailUnavailable")}
@@ -324,6 +522,38 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
     <div className="flex flex-col gap-2 md:max-h-[600px] md:overflow-y-auto md:pr-1 scrollbar-hidden">
       {items.map((item, idx) => {
         const isSel = idx === selectedIdx;
+
+        // 세력 머리글 — 가로선+라벨 모양은 그대로 두되, 누르면 좌측에 그 세력이 뜬다.
+        if (item.type === "group") {
+          const headerLabel = (locale === "en" ? item.labelEn ?? item.label : item.label).trim() || item.label;
+          return (
+            <button
+              key={`group-${item.label}`}
+              type="button"
+              onClick={() => selectItem(idx)}
+              className={cn(
+                "group mt-2 flex w-full cursor-pointer items-baseline gap-2 rounded-lg border px-1 py-1 text-left first:mt-0",
+                isSel ? "border-accent/40 bg-accent/10" : "border-transparent hover:border-white/15"
+              )}
+            >
+              <span aria-hidden className="h-3 w-0.5 shrink-0 self-center rounded-full" style={{ backgroundColor: item.color ?? activeTag.color }} />
+              {item.logoUrl && (
+                <Image src={item.logoUrl} alt="" width={18} height={18} unoptimized className="h-[18px] w-[18px] shrink-0 self-center rounded object-cover" />
+              )}
+              <span
+                className={cn(
+                  "font-cinzel text-[10px] font-bold uppercase tracking-widest",
+                  isSel ? "text-white" : "text-white/60 group-hover:text-white/90"
+                )}
+              >
+                {headerLabel}
+              </span>
+              <span className="text-[10px] font-semibold tabular-nums text-white/35">
+                {t("figureCount", { count: item.memberItemIdxs.length })}
+              </span>
+            </button>
+          );
+        }
         const isTeam = item.type === "team";
         const img = isTeam ? teamImages[item.imageIdx] : null;
         // 사진에 무리 이름이 있으면 그것이 제목이다. 없는 옛 사진은 테마 이름으로 대신한다
@@ -332,9 +562,12 @@ export default function FactionShowcase({ activeTag, locale, onSubtitle }: Facti
           ? (img?.celebIds ?? []).filter(id => celebs.some(c => c.id === id)).length
           : 0;
         const label = isTeam ? imgLabel ?? teamName : item.celeb.nickname;
+        // 인물 부제 — 팩션 직함(배정 한 줄 소개) 우선, 없으면 프로필 수식어
         const sub = isTeam
           ? t("figureCount", { count: memberCount || celebs.length })
-          : item.celeb.title;
+          : (locale === "en"
+              ? item.celeb.short_desc_en ?? item.celeb.short_desc
+              : item.celeb.short_desc) ?? item.celeb.title;
         const thumb = isTeam ? img?.url ?? null : item.celeb.avatar_url;
         // 사진에 매달린 사람은 한 칸 들여쓰고 세로줄로 소속을 보인다
         const nested = item.type === "celeb" && item.nested;

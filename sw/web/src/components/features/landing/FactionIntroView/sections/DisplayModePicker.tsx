@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Images, ListTree, Map } from "lucide-react";
+import { ListTree, Map } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { FactionDisplayMode } from "../types";
 import styles from "../FactionIntroView.module.css";
@@ -13,47 +13,30 @@ interface DisplayModePickerProps {
 
 const MODE_OPTIONS = [
   { value: "atlas", icon: Map },
-  { value: "gallery", icon: Images },
   { value: "registry", icon: ListTree },
 ] as const;
 
+/* 보기 전환 — 제목·설명 없이 작은 알약 두 개로만 */
 export default function DisplayModePicker({ mode, onChange }: DisplayModePickerProps) {
   const t = useTranslations("explore.faction.intro");
 
   return (
-    <section className={styles.modeSection} aria-labelledby="faction-view-heading">
-      <div>
-        <p className="font-cinzel text-sm font-bold tracking-[0.18em] text-accent">
-          VIEW
-        </p>
-        <h2 id="faction-view-heading" className={styles.sectionTitle}>
-          {t("viewTitle")}
-        </h2>
-      </div>
-      <div className={styles.modeGrid} role="group" aria-label={t("viewTitle")}>
-        {MODE_OPTIONS.map(({ value, icon: Icon }) => {
-          const active = mode === value;
-          return (
-            <button
-              key={value}
-              type="button"
-              aria-pressed={active}
-              onClick={() => onChange(value)}
-              className={cn(styles.modeButton, active && styles.modeButtonActive)}
-            >
-              <Icon size={20} />
-              <span>
-                <strong className="block text-base text-text-primary">
-                  {t(`modes.${value}.label`)}
-                </strong>
-                <span className={`${styles.modeDescription} mt-1 text-sm font-normal text-text-secondary`}>
-                  {t(`modes.${value}.description`)}
-                </span>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </section>
+    <div className={styles.modeBar} role="group" aria-label={t("viewTitle")}>
+      {MODE_OPTIONS.map(({ value, icon: Icon }) => {
+        const active = mode === value;
+        return (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={active}
+            onClick={() => onChange(value)}
+            className={cn(styles.modeChip, active && styles.modeChipActive)}
+          >
+            <Icon size={15} />
+            {t(`modes.${value}.label`)}
+          </button>
+        );
+      })}
+    </div>
   );
 }

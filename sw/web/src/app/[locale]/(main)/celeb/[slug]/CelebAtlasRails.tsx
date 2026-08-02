@@ -5,9 +5,17 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
 import { SacredFlameIcon } from "@/components/ui/icons/neo-pantheon";
+
+import {
+  formatSectionNumber,
+  WORLD_SERIF_FONT,
+  type WorldNumerals,
+  type WorldTitleFont,
+} from "@/lib/celeb/worldStyle";
 
 import type { ServiceItem, ServiceTarget } from "./celebServiceItems";
 import styles from "./CelebAtlasRails.module.css";
@@ -23,10 +31,14 @@ interface NavigationProps extends SharedProps {
   nickname: string;
   title: string | null;
   professionLabel: string | null;
+  /** 인물이 산 세계의 장 번호 표기. 없으면 아라비아 숫자 */
+  numerals?: WorldNumerals;
+  /** 세계의 서체 결. 전근대면 구획명·직군명을 명조로 그린다(인물명은 제외) */
+  titleFont?: WorldTitleFont;
 }
 
 const NAV_ITEM_HEIGHT = 46;
-/** 목록 밖에 있는 맨 위 초상 자리. 목록 항목은 0부터 센다. */
+/** 목록 밖에 있는 맨 위 아바타 자리. 목록 항목은 0부터 센다. */
 const PROFILE_SPOT = -1;
 const NAV_GROUP_START_KEYS = new Set([
   "connections",
@@ -43,8 +55,11 @@ export function CelebAtlasNavigation({
   nickname,
   title,
   professionLabel,
+  numerals = "arabic",
+  titleFont = "sans",
 }: NavigationProps) {
   const t = useTranslations("celebPage");
+  const serifStyle = titleFont === "serif" ? { fontFamily: WORLD_SERIF_FONT } : undefined;
   const navigationItems = items.filter((item) => item.key !== "introduction");
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const railRef = useRef<HTMLDivElement>(null);
@@ -57,7 +72,7 @@ export function CelebAtlasNavigation({
   )?.target;
 
   /* 포커스 박스는 마우스를 우선 따르고, 손을 떼면 지금 보고 있는 장으로 돌아온다.
-     맨 위 초상도 같은 자리 취급이라 박스가 초상 칸까지 흘러간다. */
+     맨 위 아바타도 같은 자리 취급이라 박스가 아바타 칸까지 흘러간다. */
   const activeIndex = activeSectionId === "introduction"
     ? PROFILE_SPOT
     : navigationItems.findIndex(
@@ -66,7 +81,7 @@ export function CelebAtlasNavigation({
   const spotIndex = hoveredIndex ?? activeIndex;
   const [spotRect, setSpotRect] = useState<{ top: number; height: number } | null>(null);
 
-  /* 초상 칸은 이름 줄 수에 따라 높이가 달라져 값으로 못 박을 수 없다. 실제 크기를 재되
+  /* 아바타 칸은 이름 줄 수에 따라 높이가 달라져 값으로 못 박을 수 없다. 실제 크기를 재되
      ResizeObserver가 관찰 직후 스스로 한 번 불러 주므로 첫 측정도 그 콜백에서 이뤄진다. */
   useEffect(() => {
     const scope = scopeRef.current;
@@ -161,16 +176,18 @@ export function CelebAtlasNavigation({
                 <span className={styles.portraitStage}>
                   <span className={styles.portraitHalo} aria-hidden />
                   <span className={styles.portraitFrame}>
-                    <span className={styles.portraitImage}>
+                    <span className={cn(styles.portraitImage, "bg-portrait-stage")}>
                       {avatarUrl ? (
-                        <Image
-                          src={avatarUrl}
-                          alt={nickname}
-                          width={112}
-                          height={112}
-                          className="h-full w-full object-cover"
-                          unoptimized
-                        />
+                        <BlurDissolve className="h-full w-full">
+                          <Image
+                            src={avatarUrl}
+                            alt={nickname}
+                            width={112}
+                            height={112}
+                            className="h-full w-full object-cover"
+                            unoptimized
+                          />
+                        </BlurDissolve>
                       ) : (
                         <span className={styles.portraitFallback}>
                           {nickname.charAt(0)}
@@ -178,7 +195,8 @@ export function CelebAtlasNavigation({
                       )}
                     </span>
                   </span>
-                  <span className={styles.celebSeal} aria-hidden>
+                  {/* 공인 인물 표식. 눌리는 것이 아니라 도장이다 — 뜻은 툴팁으로 밝힌다 */}
+                  <span className={styles.celebSeal} title={t("celebSealTooltip")}>
                     <SacredFlameIcon size={16} />
                   </span>
                 </span>
@@ -187,7 +205,9 @@ export function CelebAtlasNavigation({
                   <span className={styles.profileName}>{nickname}</span>
                   {title && <span className={styles.profileTitle}>{title}</span>}
                   {professionLabel && (
-                    <span className={styles.profileProfession}>{professionLabel}</span>
+                    <span className={styles.profileProfession} style={serifStyle}>
+                      {professionLabel}
+                    </span>
                   )}
                 </span>
               </button>
@@ -232,10 +252,24 @@ export function CelebAtlasNavigation({
                     style={{ height: NAV_ITEM_HEIGHT }}
                   >
                     <Icon size={24} strokeWidth={1.8} aria-hidden />
-                    <span className={styles.profileNavLabel}>{item.label}</span>
+                    <span className={styles.profileNavLabel} style={serifStyle}>
+                      {item.label}
+                    </span>
                     {isReady ? (
-                      <span className={styles.profileNavChapter} aria-hidden>
-                        {item.chapter}
+                      <span
+                        className={styles.profileNavChapter}
+                        style={
+                          numerals === "hanja"
+                            ? {
+                                fontFamily: '"Noto Serif KR", "Nanum Myeongjo", Batang, "Songti SC", serif',
+                                fontSize: "22px",
+                                fontWeight: 900,
+                              }
+                            : undefined
+                        }
+                        aria-hidden
+                      >
+                        {formatSectionNumber(Number(item.chapter), numerals)}
                       </span>
                     ) : (
                       <span className={styles.profileNavState}>

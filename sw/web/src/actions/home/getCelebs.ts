@@ -69,7 +69,19 @@ interface CelebRow {
   window_end?: string | null
 }
 
-// 태그 조인 select 결과 행
+// 세력도감 인물 행 — 단일 원천은 제작 테이블(faction_people)이고, DB 뷰 faction_atlas_members가
+// 웹 전용 배정과 합쳐 준다. 뷰는 자동생성 타입에 없어 로컬로 정의한다.
+interface AtlasMemberRow {
+  celeb_id: string
+  tag_id: string
+  short_desc: string | null
+  short_desc_en: string | null
+  long_desc: string | null
+  long_desc_en: string | null
+  sort_order: number | null
+}
+
+// 인물 행 + 태그 정보 합성 행 (뷰 → celeb_tags 두 단계 조회 결과)
 interface TagAssignmentJoinRow {
   celeb_id: string
   short_desc: string | null
@@ -147,10 +159,35 @@ async function fetchCelebsPublic(
   }
 
   // 병렬 조회: 태그, 대사, 음성, 콘텐츠 조사 상태, 영향력
-  const [tagResult, dialogueResult, voiceResult, researchStatusResult, influenceRows] = await Promise.all([
-    supabase.from('celeb_tag_assignments')
-      .select('celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, tag:celeb_tags(id, name, name_en, color)')
-      .in('celeb_id', celebIds),
+  const [tagJoinRows, dialogueResult, voiceResult, researchStatusResult, influenceRows] = await Promise.all([
+    // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
+    (async (): Promise<TagAssignmentJoinRow[]> => {
+      const { data: memberRows } = await supabase
+        .from('faction_atlas_members')
+        .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
+        .in('celeb_id', celebIds)
+        .eq('hidden', false)
+        .overrideTypes<AtlasMemberRow[], { merge: false }>()
+      if (!memberRows?.length) return []
+
+      const memberTagIds = [...new Set(memberRows.map((r) => r.tag_id))]
+      const { data: tagRows } = await supabase
+        .from('celeb_tags')
+        .select('id, name, name_en, color')
+        .in('id', memberTagIds)
+        .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
+      const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
+
+      return memberRows.map((r) => ({
+        celeb_id: r.celeb_id,
+        short_desc: r.short_desc,
+        short_desc_en: r.short_desc_en,
+        long_desc: r.long_desc,
+        long_desc_en: r.long_desc_en,
+        sort_order: r.sort_order,
+        tag: tagById.get(r.tag_id) ?? null,
+      }))
+    })(),
     supabase.from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in('celeb_id', celebIds),
@@ -177,8 +214,7 @@ async function fetchCelebsPublic(
   // 태그 맵
   const tagMap: Record<string, CelebTagInfo[]> = {}
   const tagSortOrderMap: Record<string, number> = {}
-  // 다대일 조인(tag)을 supabase가 배열로 잘못 추론하므로 unknown 경유 캐스트
-  ;((tagResult.data ?? []) as unknown as TagAssignmentJoinRow[]).forEach(item => {
+  tagJoinRows.forEach(item => {
     if (!item.tag) return
     const existing = tagMap[item.celeb_id] ?? []
     existing.push({ ...item.tag, name_en: item.tag.name_en ?? null, short_desc: item.short_desc, short_desc_en: item.short_desc_en, long_desc: item.long_desc, long_desc_en: item.long_desc_en })
@@ -231,7 +267,7 @@ async function fetchCelebsPublic(
 const getCelebsCached = unstable_cache(
   fetchCelebsPublic,
   ['celebs-public'],
-  // profiles·celeb_influence(정렬/랭킹) + celeb_tag_assignments·celeb_tags + celeb_dialogues +
+  // profiles·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
   // 서고 수 필터·정렬(user_contents)까지 한 응답에 담는다
   {
     revalidate: STATIC_REVALIDATE,

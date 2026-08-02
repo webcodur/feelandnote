@@ -9,17 +9,16 @@ import type {
 } from "./types";
 
 const HERO_THEME_LIMIT = 3;
-const PREVIEW_PEOPLE_LIMIT = 8;
+// 격자샷 최대 규모(3×3)까지 채울 수 있게 9명을 담는다
+const PREVIEW_PEOPLE_LIMIT = 9;
 
 function localized(value: string | null, fallback: string, locale: Locale) {
   return locale === "en" ? value ?? fallback : fallback;
 }
 
+/* 카드 얼굴은 단체샷만 쓴다 — 없으면 개인 한 명 대신 구성원 격자샷을 띄운다 */
 function themeCover(tag: FeaturedTag) {
-  const teamImage = toTeamImages(tag.team_images)[0]?.url;
-  const factionImage = tag.celebs.find((celeb) => celeb.faction_image_url)?.faction_image_url;
-  const avatar = tag.celebs.find((celeb) => celeb.avatar_url)?.avatar_url;
-  return teamImage ?? factionImage ?? avatar ?? null;
+  return toTeamImages(tag.team_images)[0]?.url ?? null;
 }
 
 function toTheme(entry: IndexedTag, locale: Locale): CollectionTheme {
@@ -67,25 +66,65 @@ function toSection(entry: IndexedTag, tags: FeaturedTag[], locale: Locale): Coll
   };
 }
 
+const UPCOMING_SECTION_COLOR = "#8a8378";
+
 export function buildFactionCollection(
   tags: FeaturedTag[],
-  locale: Locale
+  locale: Locale,
+  labels?: { upcoming: string }
 ): FactionCollectionData {
-  const split = splitByFiction(tags);
-  const real = split.real.map((entry) => toSection(entry, tags, locale));
-  const fiction = split.fiction.map((entry) => toSection(entry, tags, locale));
+  /*
+    섹션(선택대)은 출간된 최상위 태그만 세운다 — 미출간 태그가 저마다 빈 섹션이 되면
+    골라도 아무것도 없는 화면만 나온다.
+    미출간 태그는 감추는 대신 「준비 중」으로 보여준다:
+    - 그룹에 속한 것은 제 섹션 안에서 준비 중 카드로 (childTags가 전체 tags를 받아 포함)
+    - 소속 없는 것은 맨 뒤 「준비 중」 섹션 하나에 모아서
+  */
+  const featuredTop = tags.filter((tag) => tag.is_featured);
+  const split = splitByFiction(featuredTop);
+  const toFullSection = (entry: IndexedTag) => toSection(entry, tags, locale);
+  const real = split.real.map(toFullSection).filter((s) => s.themes.length > 0);
+  const fiction = split.fiction.map(toFullSection).filter((s) => s.themes.length > 0);
+
+  const upcomingTop = tags
+    .map((tag, idx) => ({ tag, idx }))
+    .filter(({ tag }) => !tag.is_featured && !tag.parentSlug);
+  if (upcomingTop.length > 0 && labels?.upcoming) {
+    const themes = upcomingTop.map((entry) => toTheme(entry, locale));
+    fiction.push({
+      /* 진짜 태그가 아닌 묶음용 껍데기 — id만 고유하면 된다 */
+      tag: {
+        ...upcomingTop[0].tag,
+        id: "__upcoming__",
+        slug: null,
+        color: UPCOMING_SECTION_COLOR,
+        is_fiction: true,
+        isGroup: true,
+      },
+      name: labels.upcoming,
+      description: null,
+      color: UPCOMING_SECTION_COLOR,
+      themes,
+      people: [],
+      coverImages: [],
+      totalCelebs: 0,
+    });
+  }
+
   const sections = [...real, ...fiction];
   const themes = sections.flatMap((section) => section.themes);
+  /* 대표 화보·통계는 열람 가능한(출간된) 테마만 센다 */
+  const featuredThemes = themes.filter((theme) => theme.tag.is_featured);
   const heroThemes = [
-    ...themes.filter((theme) => theme.coverImage),
-    ...themes.filter((theme) => !theme.coverImage),
+    ...featuredThemes.filter((theme) => theme.coverImage),
+    ...featuredThemes.filter((theme) => !theme.coverImage),
   ].slice(0, HERO_THEME_LIMIT);
 
   return {
     real,
     fiction,
     heroThemes,
-    totalThemes: themes.length,
+    totalThemes: featuredThemes.length,
     totalCelebs: sections.reduce((sum, section) => sum + section.totalCelebs, 0),
   };
 }

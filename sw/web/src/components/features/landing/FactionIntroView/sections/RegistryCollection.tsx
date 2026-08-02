@@ -14,10 +14,8 @@ const REGISTRY_PAGE_SIZE = 7;
 
 function RegistrySection({
   section,
-  onPreview,
 }: {
   section: CollectionSection;
-  onPreview: CollectionViewProps["onPreview"];
 }) {
   const t = useTranslations("explore.faction.intro");
   const sectionStyle = { "--faction-color": section.color } as CSSProperties;
@@ -50,12 +48,9 @@ function RegistrySection({
           <ThemeAction
             key={theme.tag.id}
             theme={theme}
-            onPreview={onPreview}
             className={`${collectionStyles.themeAction} ${viewStyles.registryRow}`}
             style={{ "--faction-color": theme.tag.color } as CSSProperties}
-            previewLabel={t("carousel.previewImage")}
-            pageLabel={t("carousel.openPage")}
-            shortcutClassName="right-3 top-1/2 -translate-y-1/2"
+            openLabel={t("carousel.openPage")}
           >
             <span className={viewStyles.registryNumber}>
               {String(page * REGISTRY_PAGE_SIZE + index + 1).padStart(2, "0")}
@@ -74,7 +69,9 @@ function RegistrySection({
               </p>
             </div>
             <span className={`${viewStyles.registryCount} whitespace-nowrap text-sm text-text-secondary`}>
-              {t("figureCount", { count: theme.tag.celebs.length })}
+              {theme.tag.is_featured
+                ? t("figureCount", { count: theme.tag.celebs.length })
+                : t("upcomingBadge")}
             </span>
           </ThemeAction>
         ))}
@@ -86,7 +83,6 @@ function RegistrySection({
 
 export default function RegistryCollection({
   data,
-  onPreview,
   sectionIndex,
   onSectionChange,
 }: CollectionViewProps) {
@@ -98,7 +94,7 @@ export default function RegistryCollection({
         onChange={onSectionChange}
       >
         {(section) => (
-          <RegistrySection section={section} onPreview={onPreview} />
+          <RegistrySection section={section} />
         )}
       </SectionCarousel>
     </div>

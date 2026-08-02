@@ -325,6 +325,10 @@
         "select": "Select Theme",
         "openInNewTab": "Open in new tab",
         "heroPreview": "Featured faction portraits",
+        "hideIntro": "Hide intro",
+        "showIntro": "Show intro",
+        "upcomingSection": "Coming Soon",
+        "upcomingBadge": "Coming soon",
         "viewTitle": "Choose How to Explore",
         "stats": {
           "themes": "Themes",
@@ -333,11 +337,7 @@
         "modes": {
           "atlas": {
             "label": "Faction Atlas",
-            "description": "See the scale and relationships between circles."
-          },
-          "gallery": {
-            "label": "Portrait Gallery",
-            "description": "Give group portraits and figures the full frame."
+            "description": "See the portraits and scale of each circle at a glance."
           },
           "registry": {
             "label": "Complete Index",
@@ -357,9 +357,8 @@
           "themePages": "Theme pages",
           "previousThemes": "Previous themes",
           "nextThemes": "Next themes",
-          "previewImage": "Enlarge image",
-          "imagePreview": "Portrait preview",
-          "closePreview": "Close image preview",
+          "viewing": "Portrait Viewing",
+          "closeViewing": "Close viewing",
           "previousPortrait": "Previous portrait",
           "nextPortrait": "Next portrait",
           "openPage": "Open dedicated page"

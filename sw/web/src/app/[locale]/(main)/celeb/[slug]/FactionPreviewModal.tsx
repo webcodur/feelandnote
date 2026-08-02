@@ -10,6 +10,7 @@ import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
 import typography from "./CelebDetailTypography.module.css";
 
@@ -146,25 +147,27 @@ export default function FactionPreviewModal({
               {t("factionGroupShots")}
             </h3>
             <div className="relative aspect-[16/9] overflow-hidden rounded-[2px] bg-[#090909] ring-1 ring-white/10">
-              <Image
-                key={`blur-${teamImageSrc}`}
-                src={teamImageSrc}
-                alt=""
-                fill
-                unoptimized
-                aria-hidden
-                className="object-cover scale-110 blur-3xl opacity-45"
-              />
-              <div className="absolute inset-0 bg-black/25" />
-              <Image
-                key={teamImageSrc}
-                src={teamImageSrc}
-                alt={`${name} ${t("factionGroupShots")}`}
-                fill
-                unoptimized
-                sizes="(max-width: 768px) 100vw, 850px"
-                className="object-contain animate-fade-in"
-              />
+              <BlurDissolve className="absolute inset-0">
+                <Image
+                  key={`blur-${teamImageSrc}`}
+                  src={teamImageSrc}
+                  alt=""
+                  fill
+                  unoptimized
+                  aria-hidden
+                  className="object-cover scale-110 blur-3xl opacity-45"
+                />
+                <div className="absolute inset-0 bg-black/25" />
+                <Image
+                  key={teamImageSrc}
+                  src={teamImageSrc}
+                  alt={`${name} ${t("factionGroupShots")}`}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 768px) 100vw, 850px"
+                  className="object-contain animate-fade-in"
+                />
+              </BlurDissolve>
 
               {teamImages.length > 1 && (
                 <>
@@ -308,14 +311,16 @@ export default function FactionPreviewModal({
                             <LoaderCircle size={19} className="animate-spin" aria-hidden />
                           </span>
                         ) : member.avatarUrl ? (
-                          <Image
-                            src={member.avatarUrl}
-                            alt={memberName}
-                            fill
-                            unoptimized
-                            sizes="80px"
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
+                          <BlurDissolve className="absolute inset-0">
+                            <Image
+                              src={member.avatarUrl}
+                              alt={memberName}
+                              fill
+                              unoptimized
+                              sizes="80px"
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                          </BlurDissolve>
                         ) : (
                           <span className="flex h-full w-full items-center justify-center font-serif text-sm">
                             {memberName.charAt(0)}

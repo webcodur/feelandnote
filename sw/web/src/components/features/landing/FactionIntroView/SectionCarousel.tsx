@@ -34,12 +34,26 @@ export default function SectionCarousel({
   const activeButtonRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
+  /*
+    활성 단추를 레일 가운데로 데려온다.
+    - 마운트 직후에는 움직이지 않는다 — 페이지가 열리자마자 저절로 스크롤되면
+      그 사이 누른 클릭이 전부 유실된다.
+    - scrollIntoView는 조상(페이지)까지 세로로 끌어내리므로 레일의 가로 스크롤만 직접 만진다.
+  */
+  const didMountRef = useRef(false);
   useEffect(() => {
-    activeButtonRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "center",
-    });
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    const rail = railRef.current;
+    const button = activeButtonRef.current;
+    if (!rail || !button) return;
+    const railBox = rail.getBoundingClientRect();
+    const buttonBox = button.getBoundingClientRect();
+    const left =
+      rail.scrollLeft + (buttonBox.left - railBox.left) - (railBox.width - buttonBox.width) / 2;
+    rail.scrollTo({ left, behavior: "smooth" });
   }, [safeIndex]);
 
   if (!activeSection) return null;
@@ -98,6 +112,14 @@ export default function SectionCarousel({
                 type="button"
                 className={`${styles.chapterButton} ${active ? styles.chapterButtonActive : ""}`}
                 aria-current={active ? "true" : undefined}
+                /* 마우스는 누르는 순간 활성화한다 — 클릭 완료(누름+뗌)를 기다리면 레일 자동 스크롤·스냅으로
+                   단추가 커서 밑에서 이동해 클릭 판정이 유실된다. preventDefault로 포커스 스크롤도 막는다.
+                   터치는 레일을 긁어 넘기는 동작과 겹치므로 기존 클릭(탭) 경로를 유지한다. */
+                onPointerDown={(event) => {
+                  if (event.pointerType !== "mouse") return;
+                  event.preventDefault();
+                  onChange(index);
+                }}
                 onClick={() => onChange(index)}
               >
                 <span className={styles.chapterNumber}>
