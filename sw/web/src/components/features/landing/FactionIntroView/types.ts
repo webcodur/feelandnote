@@ -1,7 +1,7 @@
 import type { FeaturedCeleb, FeaturedTag } from "@/actions/home";
 import type { Locale } from "@/types/locale";
 
-export type FactionDisplayMode = "atlas" | "gallery" | "registry";
+export type FactionDisplayMode = "atlas" | "registry";
 
 export interface CollectionTheme {
   tag: FeaturedTag;
@@ -34,7 +34,6 @@ export interface FactionCollectionData {
 export interface CollectionViewProps {
   data: FactionCollectionData;
   locale: Locale;
-  onPreview: (theme: CollectionTheme) => void;
   sectionIndex: number;
   onSectionChange: (index: number) => void;
 }

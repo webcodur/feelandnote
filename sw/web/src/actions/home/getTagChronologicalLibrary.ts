@@ -46,11 +46,12 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 }> {
   const supabase = createStaticClient();
 
-  // 1. 태그에 속한 셀럽 ID 조회
+  // 1. 태그에 속한 셀럽 ID 조회 — 단일 원천은 제작 테이블, 뷰가 웹 전용 배정과 합쳐 준다
   const { data: assignments } = await supabase
-    .from("celeb_tag_assignments")
+    .from("faction_atlas_members")
     .select("celeb_id")
-    .eq("tag_id", tagId);
+    .eq("tag_id", tagId)
+    .eq("hidden", false);
 
   if (!assignments?.length) return { celebs: [], contentsMap: {} };
 
@@ -125,7 +126,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 const getTagChronologicalLibraryCached = unstable_cache(
   fetchTagChronologicalLibrary,
   ['tag-chronological-library'],
-  // celeb_tag_assignments(편성) + profiles + user_contents
+  // faction_atlas_members(편성) + profiles + user_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 

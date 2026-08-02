@@ -7,6 +7,8 @@
 .section {
   content-visibility: auto;
   contain-intrinsic-size: auto 42rem;
+  /* 하단 넘김 버튼으로 페이지를 바꾸면 여기로 스크롤한다 — 상단 고정 요소에 가리지 않을 여유 */
+  scroll-margin-top: 13rem;
 }
 
 .sectionHeader {
@@ -65,7 +67,7 @@
 }
 
 .themeTitle {
-  font-size: clamp(1.25rem, 2.3vw, 2rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.55rem);
   font-weight: 600;
   line-height: 1.25;
   color: var(--color-text-primary);
@@ -88,44 +90,32 @@
 
 .visualImage {
   object-fit: cover;
-  filter: saturate(0.82) contrast(1.05);
   transition: transform 700ms ease-out;
 }
 
 .previewImage {
   object-fit: contain;
-  filter: saturate(0.96) contrast(1.02);
 }
 
-.visualWash,
-.visualGrid {
-  position: absolute;
-  inset: 0;
+/* 카드 전경 — 원본 비율 그대로, 잘리지 않게 */
+.containImage {
+  object-fit: contain;
 }
 
-.visualWash {
-  z-index: 1;
-  background: linear-gradient(to top, var(--color-bg-secondary) 3%, color-mix(in srgb, var(--color-bg-secondary) 72%, transparent) 45%, transparent 84%);
+/* 전경 뒤 여백을 메우는 흐린 배경 */
+.visualBackdrop {
+  transform: scale(1.15);
+  filter: blur(26px) saturate(0.75);
+  object-fit: cover;
+  opacity: 0.5;
 }
 
-.visualGrid {
-  z-index: 2;
-  inset-block-start: 58%;
-  opacity: 0.08;
-  background-image:
-    linear-gradient(to right, var(--color-text-secondary) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-text-secondary) 1px, transparent 1px);
-  background-size: 3.5rem 3.5rem;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 75%);
-}
-
+/* 단체샷 없는 세력의 구성원 격자샷 — 열 수는 인원에 맞춰 인라인으로 정한다 */
 .portraitCollage {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
-  filter: saturate(0.72);
 }
 
 .fictionHeading {
@@ -138,6 +128,11 @@
 @media (min-width: 768px) {
   .collectionBody {
     padding-inline: 2.5rem;
+  }
+
+  /* 넓은 화면은 구획 목차가 위에 고정되지 않으므로 본 화면 상단 바 높이만 비운다 */
+  .section {
+    scroll-margin-top: 5rem;
   }
 
   .sectionHeader {

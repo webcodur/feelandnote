@@ -325,6 +325,10 @@
         "select": "테마 선택",
         "openInNewTab": "새 탭에서 열기",
         "heroPreview": "대표 세력도감 화보",
+        "hideIntro": "소개 접기",
+        "showIntro": "소개 열기",
+        "upcomingSection": "준비 중",
+        "upcomingBadge": "준비 중",
         "viewTitle": "도감을 보는 방식",
         "stats": {
           "themes": "전체 테마",
@@ -333,11 +337,7 @@
         "modes": {
           "atlas": {
             "label": "세력지도",
-            "description": "진영의 규모와 관계를 한눈에 봅니다."
-          },
-          "gallery": {
-            "label": "화보전",
-            "description": "단체 화보와 인물 사진을 크게 봅니다."
+            "description": "진영의 화보와 규모를 한눈에 봅니다."
           },
           "registry": {
             "label": "총람",
@@ -357,9 +357,8 @@
           "themePages": "테마 페이지",
           "previousThemes": "이전 테마",
           "nextThemes": "다음 테마",
-          "previewImage": "이미지 확대 보기",
-          "imagePreview": "화보 미리보기",
-          "closePreview": "확대 보기 닫기",
+          "viewing": "화보 관람",
+          "closeViewing": "관람 닫기",
           "previousPortrait": "이전 화보",
           "nextPortrait": "다음 화보",
           "openPage": "전용 페이지로 이동"

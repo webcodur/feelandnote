@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import CelebImage from "@/components/ui/CelebImage";
 import { getCategoryByDbType } from "@/constants/categories";
 import {
   getTagSharedLibrary,
@@ -172,12 +173,11 @@ function SharedContentRow({
                   className="relative w-5 h-5 rounded-full overflow-hidden border border-bg-primary bg-bg-secondary"
                 >
                   {celeb.avatar_url ? (
-                    <Image
+                    <CelebImage
                       src={celeb.avatar_url}
                       alt={celebName}
-                      fill
+                      shape="circle"
                       sizes="20px"
-                      className="object-cover"
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center text-[8px] text-text-secondary">

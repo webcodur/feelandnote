@@ -1,5 +1,4 @@
 import type { CSSProperties, ReactNode } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { factionThemeHref } from "./utils";
@@ -7,24 +6,20 @@ import type { CollectionTheme } from "./types";
 
 interface ThemeActionProps {
   theme: CollectionTheme;
-  onPreview: (theme: CollectionTheme) => void;
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
-  previewLabel: string;
-  pageLabel: string;
-  shortcutClassName?: string;
+  /** 카드가 여는 대상 설명 — 접근성 라벨 */
+  openLabel: string;
 }
 
+/* 카드 전체가 그 테마 전용 페이지로 가는 링크다 — 중간 겹창 없이 직행한다 */
 export default function ThemeAction({
   theme,
-  onPreview,
   className,
   style,
   children,
-  previewLabel,
-  pageLabel,
-  shortcutClassName,
+  openLabel,
 }: ThemeActionProps) {
   const baseClassName = cn("group text-start", className);
 
@@ -41,27 +36,13 @@ export default function ThemeAction({
   }
 
   return (
-    <div
-      className={baseClassName}
-      style={style}
-    >
+    <div className={baseClassName} style={style}>
       {children}
-      <button
-        type="button"
-        className="absolute inset-0 z-10 cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-accent"
-        aria-label={`${theme.name}: ${previewLabel}`}
-        onClick={() => onPreview(theme)}
-      />
       <Link
         href={factionThemeHref(theme)}
-        className={cn(
-          "absolute z-20 inline-flex size-9 items-center justify-center rounded-full border border-white/25 bg-black/70 text-white shadow-lg backdrop-blur-md hover:border-accent hover:bg-accent hover:text-black",
-          shortcutClassName,
-        )}
-        aria-label={`${theme.name}: ${pageLabel}`}
-      >
-        <ArrowUpRight size={16} />
-      </Link>
+        className="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-accent"
+        aria-label={`${theme.name}: ${openLabel}`}
+      />
     </div>
   );
 }

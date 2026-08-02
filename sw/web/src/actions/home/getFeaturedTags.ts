@@ -5,7 +5,6 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
-import type { Tables } from '@/types/supabase'
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
 import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
@@ -37,6 +36,21 @@ export interface FeaturedCeleb {
    */
   faction_quote: string | null
   faction_quote_en: string | null
+  /**
+   * 이 인물이 속한 세력(그룹) 이름 — 제작 유래 인물만 값이 있고 수동 배정 인물은 null이다.
+   * 목록에서 인물을 세력별로 묶어 보여주는 데 쓴다.
+   */
+  group_label: string | null
+  group_label_en: string | null
+  /** 세력 이름 둘째 줄(부제) — 없으면 null */
+  group_subtitle: string | null
+  group_subtitle_en: string | null
+  /** 세력 순번 — 같은 테마 안에서 세력이 등장하는 순서 */
+  group_position: number | null
+  /** 세력 색(제작 브랜드 색) — 도감이 세력 단위 강조에 쓴다 */
+  group_color: string | null
+  /** 세력 로고 R2 주소 — 출간 사진 공정이 올린다. 없으면 null */
+  group_logo_url: string | null
 }
 
 export interface FeaturedTag {
@@ -99,7 +113,28 @@ interface FactionPreviewProfileRow {
   avatar_url: string | null
 }
 
-type TagAssignmentRow = Tables<'celeb_tag_assignments'>
+// 세력도감 인물 행 — 단일 원천은 제작 테이블(faction_people)이고, DB 뷰 faction_atlas_members가
+// 웹 전용 배정과 합쳐 준다. 뷰는 자동생성 타입에 없어 로컬로 정의한다.
+interface AtlasMemberRow {
+  tag_id: string
+  celeb_id: string
+  short_desc: string | null
+  short_desc_en: string | null
+  long_desc: string | null
+  long_desc_en: string | null
+  quote: string | null
+  quote_en: string | null
+  faction_image_url: string | null
+  sort_order: number | null
+  group_label: string | null
+  group_label_en: string | null
+  group_subtitle: string | null
+  group_subtitle_en: string | null
+  group_position: number | null
+  group_color: string | null
+  group_logo_url: string | null
+}
+
 interface FeaturedTagRow {
   id: string
   name: string
@@ -181,20 +216,21 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
   const tagIds = activeTags.map(t => t.id)
 
-  // 2. 모든 태그의 assignments 한 번에 조회 — 감춘 배정은 DB 에서 걸러 16자리를 차지하지 않게 한다
+  // 2. 모든 태그의 인물을 한 번에 조회 — 감춘 배정은 DB 에서 걸러 자리를 차지하지 않게 한다
   const { data: allAssignments, error: assignmentsError } = await supabase
-    .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order')
+    .from('faction_atlas_members')
+    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url')
     .in('tag_id', tagIds)
     .eq('hidden', false)
     .order('sort_order', { ascending: true })
+    .overrideTypes<AtlasMemberRow[], { merge: false }>()
 
   if (assignmentsError) throw new Error(assignmentsError.message)
-  const assignmentsByTag: Record<string, TagAssignmentRow[]> = {}
+  const assignmentsByTag: Record<string, AtlasMemberRow[]> = {}
   const allCelebIds = new Set<string>()
 
   activeTags.forEach(tag => {
-    const tagAssignments = ((allAssignments ?? []) as TagAssignmentRow[])
+    const tagAssignments = (allAssignments ?? [])
       .filter(a => a.tag_id === tag.id)
       .slice(0, MAX_CELEBS_PER_TAG)
     assignmentsByTag[tag.id] = tagAssignments
@@ -298,6 +334,13 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           faction_quote: a.quote ?? null,
           faction_quote_en: a.quote_en ?? null,
           faction_image_url: a.faction_image_url ?? null,
+          group_label: a.group_label ?? null,
+          group_label_en: a.group_label_en ?? null,
+          group_subtitle: a.group_subtitle ?? null,
+          group_subtitle_en: a.group_subtitle_en ?? null,
+          group_position: a.group_position ?? null,
+          group_color: a.group_color ?? null,
+          group_logo_url: a.group_logo_url ?? null,
         }
       })
       .filter((c): c is FeaturedCeleb => c !== null)
@@ -349,7 +392,8 @@ async function fetchFactionTagPreviews(tagIds: string[]): Promise<FactionTagPrev
       .select('id, team_images')
       .in('id', tagIds),
     supabase
-      .from('celeb_tag_assignments')
+      // 단일 원천은 제작 테이블 — 뷰가 웹 전용 배정과 합쳐 준다
+      .from('faction_atlas_members')
       .select('tag_id, celeb_id, short_desc, short_desc_en')
       .in('tag_id', tagIds)
       .eq('hidden', false)

@@ -9,7 +9,6 @@ import type { FeaturedTag } from "@/actions/home";
 import { getTagChronologicalLibrary } from "@/actions/home/getTagChronologicalLibrary";
 import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
-import { Link } from "@/i18n/navigation";
 import { ArrowLeft } from "lucide-react";
 import FactionShowcase from "./FactionShowcase";
 import SharedLibraryView from "./SharedLibraryView";
@@ -35,7 +34,6 @@ interface FeaturedFactionProps {
 export default function FeaturedFaction({ tags, location = "main", initialTagId }: FeaturedFactionProps) {
   const t = useTranslations("explore.faction");
   const tLanding = useTranslations("landing");
-  const tNav = useTranslations("nav");
   const locale = useLocale() as Locale;
 
   const isExplore = location === "explore-pc" || location === "explore-mb";
@@ -55,15 +53,18 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
   const pathname = usePathname();
   const tagParam = searchParams.get('tag');
 
-  useEffect(() => {
+  // 주소의 ?tag= 가 바뀌면 그 테마로 맞춘다 — 효과 대신 렌더 중 조정(마운트 시점은 startIdx가 처리)
+  const [prevTagParam, setPrevTagParam] = useState(tagParam);
+  if (prevTagParam !== tagParam) {
+    setPrevTagParam(tagParam);
     if (tagParam) {
-      const idx = tags.findIndex((t) => t.id === tagParam);
+      const idx = tags.findIndex((tag) => tag.id === tagParam);
       if (idx !== -1) setActiveTagIndex(tags[idx]?.isGroup ? -1 : idx);
     } else if (isExplore && !initialTagId) {
       // slug로 들어온 경우(initialTagId 존재)는 해당 테마를 유지. 쿼리·slug 없을 때만 컬렉션 화면으로.
       setActiveTagIndex(-1);
     }
-  }, [tagParam, isExplore, tags, initialTagId]);
+  }
 
   const handleTagChange = (idx: number) => {
     setActiveTagIndex(idx);
@@ -88,29 +89,19 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
 
   return (
     <div className="w-full relative">
-      {/* Custom Back Navigation for Explore Faction */}
-      {isExplore && (
+      {/* 컬렉션으로 돌아가기 — 컬렉션 화면 자체에서는 상단 이동 경로(탐색 > 세력도감)가 있으므로 겹치는 「탐색」 링크를 두지 않는다 */}
+      {isExplore && activeTagIndex !== -1 && (
         <div className="mb-4 relative z-50">
-          {activeTagIndex === -1 ? (
-            <Link
-              href="/explore"
-              className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors"
-            >
-              <ArrowLeft size={14} />
-              {tNav("explore")}
-            </Link>
-          ) : (
-            <button
-              onClick={() => {
-                setActiveTagIndex(-1);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors cursor-pointer"
-            >
-              <ArrowLeft size={14} />
-              {t("collection")}
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setActiveTagIndex(-1);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="inline-flex items-center gap-1.5 text-sm hover:text-accent transition-colors cursor-pointer"
+          >
+            <ArrowLeft size={14} />
+            {t("collection")}
+          </button>
         </div>
       )}
 
@@ -251,22 +242,31 @@ function TimelineSection({
   t: ReturnType<typeof useTranslations>;
   locale: string;
 }) {
-  const [celebs, setCelebs] = useState<TimelineCeleb[]>([]);
-  const [contentsMap, setContentsMap] = useState<Record<string, TimelineContent[]>>({});
-  const [isLoading, setIsLoading] = useState(true);
+  /* 어느 테마의 결과인지 키로 함께 쥔다 — 로딩 여부는 "지금 테마의 결과가 왔는가"로 파생된다 */
+  const [loaded, setLoaded] = useState<{
+    tagId: string;
+    celebs: TimelineCeleb[];
+    contentsMap: Record<string, TimelineContent[]>;
+  } | null>(null);
   const [reviewContent, setReviewContent] = useState<{
     content: TimelineContent;
     ownerNickname: string;
   } | null>(null);
 
   useEffect(() => {
-    setIsLoading(true);
+    let active = true;
     getTagChronologicalLibrary(tagId).then((data) => {
-      setCelebs(data.celebs);
-      setContentsMap(data.contentsMap);
-      setIsLoading(false);
+      if (!active) return;
+      setLoaded({ tagId, celebs: data.celebs, contentsMap: data.contentsMap });
     });
+    return () => {
+      active = false;
+    };
   }, [tagId]);
+
+  const isLoading = loaded?.tagId !== tagId;
+  const celebs = isLoading ? [] : loaded!.celebs;
+  const contentsMap = isLoading ? {} : loaded!.contentsMap;
 
   return (
     <div>
