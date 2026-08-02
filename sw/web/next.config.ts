@@ -99,6 +99,27 @@ const nextConfig: NextConfig = {
         destination: '/:locale/explore/faction/:path*',
         permanent: true,
       },
+      // 시대별·직업별 목록을 「인기 작품」 한 화면으로 합쳤다 (2026-08-02)
+      {
+        source: '/library/era',
+        destination: '/library/popular',
+        permanent: true,
+      },
+      {
+        source: '/:locale(ko|en)/library/era',
+        destination: '/:locale/library/popular',
+        permanent: true,
+      },
+      {
+        source: '/library/profession',
+        destination: '/library/popular?view=profession',
+        permanent: true,
+      },
+      {
+        source: '/:locale(ko|en)/library/profession',
+        destination: '/:locale/library/popular?view=profession',
+        permanent: true,
+      },
     ];
   },
 };
