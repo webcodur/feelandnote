@@ -1,13 +1,20 @@
 "use client";
 
 import Image from "next/image";
+import { Volume2 } from "lucide-react";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 
 interface CelebHeroPhotoProps {
   /** 대표 화보(1:1). 없으면 얼굴 사진으로 돌아간다 */
   photoUrl: string | null;
   avatarUrl: string | null;
   nickname: string;
-  onClick: () => void;
+  /** 그림을 누르면 전체 화면으로 크게 본다 */
+  onZoom: () => void;
+  zoomLabel: string;
+  /** 인사말 재생. 넘기지 않으면 인사 배지를 그리지 않는다 */
+  onGreet?: () => void;
+  greetLabel?: string;
   /** 화보가 있을 때의 크기 */
   photoSize: string;
   /** 얼굴 사진으로 돌아갔을 때의 크기 */
@@ -19,13 +26,16 @@ interface CelebHeroPhotoProps {
 /**
  * 인물 상세 첫 구획의 대표 이미지.
  * 화보가 있으면 정사각으로 크게 걸고, 없으면 기존 원형 얼굴 사진을 그대로 쓴다.
- * 어느 쪽이든 누르면 인사 음성이 재생된다.
+ * 그림을 누르면 크게 보기가 열리고, 인사말은 오른쪽 아래 배지로 따로 듣는다.
  */
 export default function CelebHeroPhoto({
   photoUrl,
   avatarUrl,
   nickname,
-  onClick,
+  onZoom,
+  zoomLabel,
+  onGreet,
+  greetLabel,
   photoSize,
   avatarSize,
   initialSize,
@@ -34,59 +44,83 @@ export default function CelebHeroPhoto({
   const ringClass =
     "ring-1 ring-accent/20 hover:ring-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
 
+  const greetBadge = onGreet ? (
+    <button
+      type="button"
+      onClick={onGreet}
+      aria-label={greetLabel}
+      className="absolute bottom-1.5 end-1.5 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white/70 backdrop-blur-sm hover:border-accent/50 hover:text-accent active:scale-95"
+    >
+      <Volume2 size={16} />
+    </button>
+  ) : null;
+
   if (photoUrl) {
     return (
-      <button
-        type="button"
-        onClick={onClick}
-        aria-label={nickname}
-        className={`group relative flex-shrink-0 self-start overflow-hidden rounded-sm bg-bg-secondary ${ringClass} ${photoSize} cursor-pointer active:scale-95`}
-      >
-        {/* 비율이 안 맞는 화보가 들어와도 잘리지 않도록 뒤를 흐린 사진으로 메운다 */}
-        <Image
-          src={photoUrl}
-          alt=""
-          fill
-          unoptimized
-          aria-hidden
-          className="object-cover scale-110 blur-2xl opacity-40"
-        />
-        <div className="absolute inset-0 bg-black/20" />
-        <Image
-          src={photoUrl}
-          alt={nickname}
-          fill
-          unoptimized
-          sizes="(max-width: 768px) 224px, 240px"
-          className="object-contain transition-transform duration-500 group-hover:scale-105"
-        />
-      </button>
+      <div className={`relative flex-shrink-0 self-start ${photoSize}`}>
+        <button
+          type="button"
+          onClick={onZoom}
+          aria-label={zoomLabel}
+          className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} cursor-zoom-in active:scale-95`}
+        >
+          {/* 비율이 안 맞는 화보가 들어와도 잘리지 않도록 뒤를 흐린 사진으로 메운다 */}
+          <BlurDissolve className="absolute inset-0">
+            <Image
+              src={photoUrl}
+              alt=""
+              fill
+              unoptimized
+              aria-hidden
+              className="object-cover scale-110 blur-2xl opacity-40"
+            />
+            <div className="absolute inset-0 bg-black/20" />
+            <Image
+              src={photoUrl}
+              alt={nickname}
+              fill
+              unoptimized
+              sizes="(max-width: 768px) 224px, 240px"
+              className="object-contain transition-transform duration-500 group-hover:scale-105"
+            />
+          </BlurDissolve>
+        </button>
+        {greetBadge}
+      </div>
     );
   }
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={nickname}
-      className={`flex-shrink-0 self-start overflow-hidden rounded-full bg-bg-secondary ${ringClass} ${avatarSize} cursor-pointer active:scale-95`}
-    >
-      {avatarUrl ? (
-        <Image
-          src={avatarUrl}
-          alt={nickname}
-          width={224}
-          height={224}
-          className="w-full h-full object-cover"
-          unoptimized
-        />
-      ) : (
-        <div
-          className={`w-full h-full flex items-center justify-center font-serif text-accent/30 ${initialSize}`}
-        >
-          {nickname.charAt(0)}
-        </div>
-      )}
-    </button>
+    <div className={`relative flex-shrink-0 self-start ${avatarSize}`}>
+      <button
+        type="button"
+        onClick={onZoom}
+        aria-label={zoomLabel}
+        disabled={!avatarUrl}
+        className={`block h-full w-full overflow-hidden rounded-full bg-portrait-stage ${ringClass} ${
+          avatarUrl ? "cursor-zoom-in active:scale-95" : "cursor-default"
+        }`}
+      >
+        {avatarUrl ? (
+          <BlurDissolve className="h-full w-full">
+            <Image
+              src={avatarUrl}
+              alt={nickname}
+              width={224}
+              height={224}
+              className="w-full h-full object-cover"
+              unoptimized
+            />
+          </BlurDissolve>
+        ) : (
+          <div
+            className={`w-full h-full flex items-center justify-center font-serif text-accent/30 ${initialSize}`}
+          >
+            {nickname.charAt(0)}
+          </div>
+        )}
+      </button>
+      {greetBadge}
+    </div>
   );
 }

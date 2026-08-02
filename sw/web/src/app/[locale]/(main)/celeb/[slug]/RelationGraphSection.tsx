@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Baby, ExternalLink, Handshake, Heart, LoaderCircle, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import { useCountries } from "@/hooks/useCountries";
 import { getCountryNameByLocale } from "@/lib/countries";
 
@@ -414,7 +415,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <LoaderCircle size={19} className="animate-spin" aria-hidden />
             </div>
           ) : p.avatar_url ? (
-            <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="h-full w-full object-cover" unoptimized />
+            <BlurDissolve className="h-full w-full">
+              <Image src={p.avatar_url} alt={p.name} width={56} height={56} className="h-full w-full object-cover" unoptimized />
+            </BlurDissolve>
           ) : p.slug ? (
             <div className="w-full h-full flex items-center justify-center text-sm font-serif">{p.name.charAt(0)}</div>
           ) : (
@@ -508,7 +511,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     <div ref={ref} className="relative z-10 flex flex-col items-center gap-1 shrink-0" aria-label={centerName}>
       <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden ring-2 ring-accent/50 bg-bg-secondary shadow-lg">
         {centerAvatarUrl ? (
-          <Image src={centerAvatarUrl} alt={centerName} width={80} height={80} className="w-full h-full object-cover" unoptimized />
+          <BlurDissolve className="h-full w-full">
+            <Image src={centerAvatarUrl} alt={centerName} width={80} height={80} className="w-full h-full object-cover" unoptimized />
+          </BlurDissolve>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-xl font-serif text-accent/40">{centerName.charAt(0)}</div>
         )}
@@ -726,7 +731,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                   <>
                     <div className="w-7 h-7 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
                       {p.avatar_url ? (
-                        <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
+                        <BlurDissolve className="h-full w-full">
+                          <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
+                        </BlurDissolve>
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-xs font-serif">{p.name.charAt(0)}</div>
                       )}
@@ -789,7 +796,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               <div className="flex items-center gap-4 min-w-0">
                 <div className="w-20 h-20 rounded-full overflow-hidden bg-black/40 flex-shrink-0 ring-2 ring-accent/40 shadow-lg">
                   {selected.avatar_url ? (
-                    <Image src={selected.avatar_url} alt={selected.name} width={80} height={80} className="object-cover w-full h-full" unoptimized />
+                    <BlurDissolve className="h-full w-full">
+                      <Image src={selected.avatar_url} alt={selected.name} width={80} height={80} className="object-cover w-full h-full" unoptimized />
+                    </BlurDissolve>
                   ) : (
                     (() => {
                       const v = typeVisual(selected.types);

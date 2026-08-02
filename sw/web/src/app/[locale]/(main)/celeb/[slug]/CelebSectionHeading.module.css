@@ -1,8 +1,9 @@
+/* 화살표는 제목 상자 양옆에 붙는다. 화면 폭이 아니라 제목 폭이 기준이다 */
 .heading {
-  display: grid;
+  display: flex;
   min-width: 0;
-  grid-template-columns: 36px minmax(0, 1fr) 36px;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding-block: 2px 4px;
 }
@@ -11,16 +12,18 @@
   display: inline-flex;
   width: 36px;
   height: 36px;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  /* 원형 윤곽선은 항상 보인다 */
+  border: 1px solid color-mix(in srgb, var(--color-accent) 36%, transparent);
   border-radius: 999px;
   color: var(--color-accent-dim);
 }
 
 .navButton:hover:not(:disabled),
 .navButton:focus-visible:not(:disabled) {
-  border-color: color-mix(in srgb, var(--color-accent) 36%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent) 70%, transparent);
   color: var(--color-accent);
   background: color-mix(in srgb, var(--color-accent) 7%, transparent);
 }
@@ -65,7 +68,6 @@
 
 @media (min-width: 640px) {
   .heading {
-    grid-template-columns: 48px minmax(0, 1fr) 48px;
     gap: 10px;
   }
 

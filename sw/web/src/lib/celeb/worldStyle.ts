@@ -15,10 +15,18 @@ export type WorldFrame =
 /** 구획 번호를 어떻게 쓰나 */
 export type WorldNumerals = "hanja" | "roman" | "arabic";
 
+/** 좌측 상자·구획 제목의 서체 결. 전근대는 명조, 근현대는 고딕 */
+export type WorldTitleFont = "serif" | "sans";
+
 export interface WorldStyle {
   frame: WorldFrame;
   numerals: WorldNumerals;
+  titleFont: WorldTitleFont;
 }
+
+/* 기기에 깔린 명조를 쓴다 — 내려받는 파일 없음. 기기별 편차가 거슬리면
+   구획명·라벨은 전부 열거 가능하므로 서브셋 웹폰트로 통일할 수 있다 */
+export const WORLD_SERIF_FONT = '"Noto Serif KR", "Nanum Myeongjo", Batang, "Songti SC", serif';
 
 const HANJA_WORLDS = [
   "three-kingdoms-korea", "goryeo", "joseon",
@@ -37,6 +45,12 @@ const GILT_WORLDS = [
   "renaissance", "age-of-sail", "ottoman-persia", "mughal",
   "imperial-russia", "colonial-america", "industrial-europe",
 ];
+/* 고딕(현행 서체)으로 남는 세계 — 근현대와 중립. 나머지는 전부 명조 */
+const SANS_WORLDS = [
+  "modern-korea", "modern-china", "modern-japan", "modern-india",
+  "modern-middle-east", "soviet-east-europe", "modern-america", "modern-west",
+  "world-wars", "neutral",
+];
 
 export function getWorldStyle(worldId: string): WorldStyle {
   const frame: WorldFrame = HANJA_WORLDS.includes(worldId)
@@ -53,7 +67,9 @@ export function getWorldStyle(worldId: string): WorldStyle {
       ? "roman"
       : "arabic";
 
-  return { frame, numerals };
+  const titleFont: WorldTitleFont = SANS_WORLDS.includes(worldId) ? "sans" : "serif";
+
+  return { frame, numerals, titleFont };
 }
 
 const HANJA = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];

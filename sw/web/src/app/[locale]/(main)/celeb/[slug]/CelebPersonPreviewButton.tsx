@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 
 interface CelebPersonPreviewButtonProps {
   name: string;
@@ -57,14 +58,16 @@ export default function CelebPersonPreviewButton({
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             </span>
           ) : avatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt={name}
-              width={avatarPixels[size]}
-              height={avatarPixels[size]}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              unoptimized
-            />
+            <BlurDissolve className="h-full w-full">
+              <Image
+                src={avatarUrl}
+                alt={name}
+                width={avatarPixels[size]}
+                height={avatarPixels[size]}
+                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                unoptimized
+              />
+            </BlurDissolve>
           ) : (
             <span className="flex h-full w-full items-center justify-center font-serif text-base">
               {name.charAt(0)}

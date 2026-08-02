@@ -15,7 +15,7 @@ import type { CelebProfile } from "@/types/home";
 import { getCelebProfileUrl } from "@/lib/url";
 import { getAuraByScore, type Aura } from "@/constants/materials";
 import { FormattedText } from "@/components/ui";
-import { Avatar } from "@/components/ui";
+import { Avatar, BlurDissolve } from "@/components/ui";
 import { useTranslations, useLocale } from "next-intl";
 
 const AURA_GRADIENTS: Record<Aura, string> = {
@@ -92,12 +92,14 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     <div className="flex flex-col w-full h-full overflow-y-auto custom-scrollbar">
       {/* Avatar + 이름 + 메타 */}
       <div className="flex flex-col items-center px-6 pt-8 pb-4 shrink-0">
-        <Avatar
-          url={celeb.avatar_url}
-          name={displayNickname}
-          size="2xl"
-          className="ring-2 ring-accent/30 rounded-full shadow-2xl mb-4"
-        />
+        <BlurDissolve>
+          <Avatar
+            url={celeb.avatar_url}
+            name={displayNickname}
+            size="2xl"
+            className="ring-2 ring-accent/30 rounded-full shadow-2xl mb-4"
+          />
+        </BlurDissolve>
 
         {displayTitle && (
           <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
