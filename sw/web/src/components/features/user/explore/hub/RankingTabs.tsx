@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/user/explore/hub/RankingTabs.tsx
   기능: 허브 랭킹 섹션 탭 묶음
-  책임: 인기 프로필 · 기록 수집가 · 분야별 챔피언을 한 칸 안 탭으로 전환. 탭별 더보기 링크.
+  책임: 인기 프로필 · 챔피언 · 오늘의 추천을 한 칸 안 탭으로 전환. 탭별 더보기 링크.
         비어 있는 탭은 애초에 만들지 않는다 — 눌러도 빈 화면이 나오는 탭을 남기지 않기 위함.
 */ // ------------------------------
 
@@ -18,11 +18,12 @@ import type { TopByTypeEntry } from "@/actions/home/getTopByContentType";
 
 interface RankingTabsProps {
   trending: CelebProfile[];
-  deepReaders: CelebProfile[];
   topByType: TopByTypeEntry[];
+  /** 오늘의 추천 — 매일 새로 뽑는 인물들 */
+  dailyPicks: CelebProfile[];
 }
 
-export default function RankingTabs({ trending, deepReaders, topByType }: RankingTabsProps) {
+export default function RankingTabs({ trending, topByType, dailyPicks }: RankingTabsProps) {
   const t = useTranslations("explore.hub");
   const [tab, setTab] = useState(0);
 
@@ -30,11 +31,11 @@ export default function RankingTabs({ trending, deepReaders, topByType }: Rankin
   if (trending.length > 0) {
     tabs.push({ key: "trending", moreHref: "/explore/figures?tier=full", body: <HubCelebGrid celebs={trending} /> });
   }
-  if (deepReaders.length > 0) {
-    tabs.push({ key: "deepReaders", moreHref: "/explore/figures?sortBy=content_count", body: <HubCelebGrid celebs={deepReaders} /> });
-  }
   if (topByType.length > 0) {
     tabs.push({ key: "topByType", moreHref: "/explore/ranking", body: <TopByTypeGrid entries={topByType} /> });
+  }
+  if (dailyPicks.length > 0) {
+    tabs.push({ key: "allCelebs", moreHref: "/explore/figures?tier=full", body: <HubCelebGrid celebs={dailyPicks} /> });
   }
 
   if (tabs.length === 0) return null;
