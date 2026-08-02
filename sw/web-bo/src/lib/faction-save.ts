@@ -53,6 +53,7 @@ export async function replaceFactionEpisode(
 
   const episodeId = epRow.id as string
   const durations = await loadExistingDurations(db, episodeId)
+  const webLookup = await loadExistingWebOverrides(db, episodeId)
   const parts = await loadExistingParts(db, episodeId)
 
   const slugs = collectSlugs(script)
@@ -69,6 +70,19 @@ export async function replaceFactionEpisode(
     sortOrder: (epRow.sort_order as number) ?? 0,
     parts,
   })
+
+  // 도감 손질(web_*)은 도감 편집이 소유한다 — 대본 저장이 인물 행을 전량 갈아끼우므로
+  // 여기서 기존 값을 사람 신원 기준으로 되실어 보존한다(음성 길이와 같은 원리).
+  // web_hidden 은 NOT NULL 이라 값이 없으면 저장 자체가 거부된다(실측 26.08.03).
+  for (const p of payload.people) {
+    const kept = webLookup(p)
+    p.web_hidden = kept?.web_hidden ?? false
+    p.web_short_desc = kept?.web_short_desc ?? null
+    p.web_long_desc = kept?.web_long_desc ?? null
+    p.web_short_desc_en = kept?.web_short_desc_en ?? null
+    p.web_long_desc_en = kept?.web_long_desc_en ?? null
+    p.web_image_url = kept?.web_image_url ?? null
+  }
 
   const { data: res, error } = await db.rpc('faction_replace_episode', {
     p_folder: folder,
@@ -204,6 +218,72 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
       quoteDuration: hit.quoteDuration ?? undefined,
       epithetDuration: hit.epithetDuration ?? undefined,
     }
+  }
+}
+
+/**
+ * 도감 손질(web_*) 칸 — 대본 저장이 인물 행을 전량 갈아끼우므로, 기존 값을 **사람 신원 기준으로**
+ * 모아 새 행에 되싣는다. 신원·순서 짝짓기 규칙은 음성 길이(loadExistingDurations)와 동일하다.
+ * 반환 함수는 새 인물 행(slug·name 컬럼 보유)을 받아 짝지어진 기존 손질을 돌려준다.
+ */
+type WebOverride = {
+  web_short_desc: string | null
+  web_long_desc: string | null
+  web_short_desc_en: string | null
+  web_long_desc_en: string | null
+  web_image_url: string | null
+  web_hidden: boolean
+}
+
+async function loadExistingWebOverrides(
+  db: SupabaseClient, episodeId: string,
+): Promise<(personRow: Row) => WebOverride | undefined> {
+  const { data: groups, error: gErr } = await db
+    .from('faction_groups').select('id,position').eq('episode_id', episodeId)
+  if (gErr) throw new Error(`세력 조회 실패: ${gErr.message}`)
+  const groupRows = (groups ?? []) as Row[]
+  if (!groupRows.length) return () => undefined
+
+  const clusterRows = await inChunks(db, 'faction_clusters', 'group_id',
+    groupRows.map(g => g.id as string), 'id,group_id,position')
+  const personRows = clusterRows.length
+    ? await inChunks(db, 'faction_people', 'cluster_id',
+        clusterRows.map(c => c.id as string),
+        'cluster_id,position,slug,name,web_short_desc,web_long_desc,web_short_desc_en,web_long_desc_en,web_image_url,web_hidden')
+    : []
+
+  // 신원별로 자리 순서대로 줄을 세운다 — durations 와 같은 짝짓기 규칙
+  const gPos = new Map(groupRows.map(g => [g.id as string, g.position as number]))
+  const cOrder = new Map<string, number>()
+  for (const c of clusterRows) {
+    const gi = gPos.get(c.group_id as string) ?? 0
+    cOrder.set(c.id as string, gi * 1000 + (c.position as number))
+  }
+  const sorted = [...personRows].sort((a, b) =>
+    (cOrder.get(a.cluster_id as string) ?? 0) - (cOrder.get(b.cluster_id as string) ?? 0)
+    || (a.position as number) - (b.position as number))
+
+  const byIdentity = new Map<string, WebOverride[]>()
+  for (const p of sorted) {
+    const k = identityOf(p)
+    if (!byIdentity.has(k)) byIdentity.set(k, [])
+    byIdentity.get(k)!.push({
+      web_short_desc: (p.web_short_desc as string | null) ?? null,
+      web_long_desc: (p.web_long_desc as string | null) ?? null,
+      web_short_desc_en: (p.web_short_desc_en as string | null) ?? null,
+      web_long_desc_en: (p.web_long_desc_en as string | null) ?? null,
+      web_image_url: (p.web_image_url as string | null) ?? null,
+      web_hidden: p.web_hidden === true,
+    })
+  }
+
+  const seen = new Map<string, number>()
+  return (personRow: Row) => {
+    const k = identityOf(personRow as { slug?: unknown; name?: unknown })
+    const list = byIdentity.get(k)
+    const n = seen.get(k) ?? 0
+    seen.set(k, n + 1)
+    return list?.[n]
   }
 }
 

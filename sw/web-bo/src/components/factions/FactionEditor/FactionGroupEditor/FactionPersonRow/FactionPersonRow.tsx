@@ -46,6 +46,7 @@ import { QuoteEditor, adjustImageChanges } from '@feelandnote/shared/bo/quote-ed
 
 
 import { PersonBasicInfo } from './sections/PersonBasicInfo'
+import { PersonAtlasPanel } from './sections/PersonAtlasPanel'
 import { ChevronLeft, ChevronRight } from '@feelandnote/shared/bo/icons'
 import { folderToParam } from '@/lib/faction-edit-route'
 
@@ -370,6 +371,14 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
       {!collapsed && (
       <div className="flex min-w-0 flex-col gap-2 border-t border-border p-2">
         <PersonBasicInfo person={person} onChange={onChange} editLang={editLang} />
+        {/* 도감 표기 — 영상 원문 바로 아래에서 도감 손질(web_*)을 나란히 보고 고친다 */}
+        <PersonAtlasPanel
+          person={person}
+          groupIndex={groupIndex}
+          clusterIndex={clusterIndex}
+          personIndex={personIndex}
+          editLang={editLang}
+        />
         {/* BookRecommend 스타일 시나리오 행 (한마디 대사 + 비주얼 트랙 통폐합) */}
         <div className="mb-2 rounded-lg border border-slate-400 bg-bg-card shadow-sm overflow-hidden">
           <div 

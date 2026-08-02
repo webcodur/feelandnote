@@ -1,41 +1,45 @@
 /**
  * 출간 진단 — 제작 데이터를 서비스 도감·이미지 저장소 기록과 대조한다. 서버 전용, 읽기만 한다.
  *
- * **텍스트 대조는 없다.** 제작과 서비스가 같은 DB 안에 있어 견줄 상대가 없기 때문이다(문서 §4).
- * 남는 항목은 여섯이다.
+ * **인물 텍스트 대조는 없다.** 제작과 서비스가 같은 DB 안에 있어 견줄 상대가 없기 때문이다(문서 §4).
+ * 남는 항목은 일곱이다.
  *   ① 셀럽이 해소되지 않은 인물 — 출간이 막힌다
  *   ② 태그가 지정되지 않은 세력 — 출간이 막힌다
  *   ③ 개인샷·그룹샷의 저장소 동기 상태 — 매니페스트 해시 대조
  *   ④ 얼굴 사진(아바타) 유무 — 도감 목록이 얼굴을 쓴다
  *   ⑤ 신화 표시 ↔ 셀럽 등급(fiction) 어긋남
  *   ⑥ 대사 목소리 ↔ 셀럽 목소리 대조 — 국문·영문 각각. 어긋남을 알리기만 한다
+ *   ⑦ 테마 간판 ↔ 제작 표기 대조 — 테마 이름은 세력·테마 양쪽에 각각 있어(매체별 표기)
+ *      소속 재편으로 간판이 낡아도 시스템이 모른다. 영문(name_en) 기준으로 견줘 알리기만 한다
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import {
-  collectEpisode, hashOfFile, soloShotKey, tagKeyOf, teamShotKey,
-  type PublishEpisode, type PublishPerson,
+  collectEpisode, hashOfFile, logoKey, soloShotKey, tagKeyOf, teamShotKey,
+  type PublishEpisode, type PublishGroup, type PublishPerson,
 } from './collect'
 import { readManifest, type FactionSyncManifest } from './manifest'
 import {
-  ASSIGNMENT_COLUMNS, PROFILE_COLUMNS, TAG_COLUMNS, toImageArray,
-  type CelebAssignmentRow, type CelebProfileRow, type CelebTagRow,
+  PROFILE_COLUMNS, TAG_COLUMNS, toImageArray,
+  type CelebProfileRow, type CelebTagRow,
 } from './supabase'
 import type {
-  FactionSyncGroup, FactionSyncLinkState, FactionSyncPerson,
-  FactionSyncSoloShotState, FactionSyncStatus, FactionSyncVoiceState, FactionSyncVoicePair,
-  FactionVoiceLocale,
+  FactionImageSyncSummary, FactionSyncGroup, FactionSyncLinkState, FactionSyncPerson,
+  FactionSyncSignboardMismatch, FactionSyncSoloShotState, FactionSyncStatus,
+  FactionSyncVoiceState, FactionSyncVoicePair, FactionVoiceLocale,
 } from './types'
 
-/** 서비스 쪽 현재 상태 한 벌 — 태그·배정·프로필. 인물마다 조회하지 않고 편 단위로 묶어 긁는다 */
+/**
+ * 서비스 쪽 현재 상태 한 벌 — 태그·프로필. 인물마다 조회하지 않고 편 단위로 묶어 긁는다.
+ * 배정 테이블은 보지 않는다 — 인물 텍스트·개인샷의 집이 faction_people(web_* 칸)로 옮겨져(26.08.03)
+ * 출간·진단이 배정에서 읽을 것이 없다.
+ */
 export interface ServiceSnapshot {
   /** celeb_tags.id → 행 */
   tagsById: Map<string, CelebTagRow>
   /** celeb_tags.slug → 행 (태그 미연결 세력의 연결 키 해소용) */
   tagsBySlug: Map<string, CelebTagRow>
-  /** `${tagId}:${celebId}` → 배정 행 */
-  assignments: Map<string, CelebAssignmentRow>
   /** profiles.id → 프로필 */
   profilesById: Map<string, CelebProfileRow>
 }
@@ -52,9 +56,12 @@ async function inChunks(
   return out
 }
 
-/** 서비스 현황 조회 — 태그 2회(id·slug), 배정 1회, 프로필 1회 */
+/**
+ * 서비스 현황 조회 — 태그 2회(id·slug), 프로필 1회.
+ * `profiles: false` 면 프로필 조회를 뺀다 — 사진 동기 집계처럼 태그 해소만 필요한 자리용.
+ */
 export async function loadServiceSnapshot(
-  db: SupabaseClient, episode: PublishEpisode,
+  db: SupabaseClient, episode: PublishEpisode, opts?: { profiles?: boolean },
 ): Promise<ServiceSnapshot> {
   const tagIds = [...new Set(episode.groups.map(g => g.tagId).filter((v): v is string => !!v))]
   const tagSlugs = [...new Set(episode.groups.map(g => g.tagSlug).filter((v): v is string => !!v))]
@@ -71,22 +78,13 @@ export async function loadServiceSnapshot(
   if (tagIds.length) remember(await inChunks(db, 'celeb_tags', 'id', tagIds, TAG_COLUMNS) as unknown as CelebTagRow[])
   if (tagSlugs.length) remember(await inChunks(db, 'celeb_tags', 'slug', tagSlugs, TAG_COLUMNS) as unknown as CelebTagRow[])
 
-  const assignments = new Map<string, CelebAssignmentRow>()
-  const knownTagIds = [...tagsById.keys()]
-  if (knownTagIds.length) {
-    const rows = await inChunks(db, 'celeb_tag_assignments', 'tag_id', knownTagIds, ASSIGNMENT_COLUMNS)
-    for (const row of rows as unknown as CelebAssignmentRow[]) {
-      assignments.set(`${row.tag_id}:${row.celeb_id}`, row)
-    }
-  }
-
   const profilesById = new Map<string, CelebProfileRow>()
-  if (celebIds.length) {
+  if (opts?.profiles !== false && celebIds.length) {
     const rows = await inChunks(db, 'profiles', 'id', celebIds, PROFILE_COLUMNS)
     for (const row of rows as unknown as CelebProfileRow[]) profilesById.set(row.id, row)
   }
 
-  return { tagsById, tagsBySlug, assignments, profilesById }
+  return { tagsById, tagsBySlug, profilesById }
 }
 
 /**
@@ -174,6 +172,66 @@ function countByLocale(
   }
 }
 
+/* ── 진단 ⑦ — 테마 간판 대조 ── */
+
+/**
+ * 간판 정규화 — 표기 잡음을 걷어낸 뒤 견준다: 공백, 대소문자, 구분 부호(하이픈·마침표·쉼표·
+ * 가운뎃점·따옴표·괄호·앰퍼샌드·빗금), 전각·합자(NFKC). "Open AI"="OpenAI", "X.com"="X-Com" 처럼
+ * 매체별 띄어쓰기·부호 차이는 어긋남이 아니다. 걷어내는 건 여기까지다 — 낱말 자체가 다르면 알린다.
+ */
+export function normalizeSignboard(v: string | null | undefined): string {
+  return (v ?? '')
+    .normalize('NFKC')
+    .toLowerCase()
+    .replace(/[\s\-_.,·:;'’"“”()&/]+/g, '')
+}
+
+/**
+ * 테마 간판 어긋남 수집 — 이 편의 각 연결 태그에 대해 제작 쪽 표기와 견준다.
+ *
+ * - 태그에 연결된 세력이 이 편에서 하나뿐이면: 그 세력 명칭(영문 1행)과 견준다.
+ * - 여러 세력이 한 태그를 나눠 쓰면: 세력명 어느 하나와 같기를 기대할 수 없으므로 편 제목(영문)과 견준다.
+ * - **영문(name_en)끼리만 견준다** — 한글은 도감용 의역 등 매체별 표기 차이가 정상이라 오탐이 된다.
+ *   어느 한쪽이라도 영문 표기가 없으면 판정을 보류한다(억지 대조는 오탐만 낳는다).
+ *
+ * 오류가 아니라 확인 요망이다 — 소속 재편으로 간판이 낡은 경우(뉴럴링크 사건)를 잡는 것이 목적이고,
+ * 단순 표기 다듬기면 사람이 무시하면 된다. 출간을 막지 않는다.
+ */
+export function collectSignboardMismatches(
+  episode: PublishEpisode, snap: ServiceSnapshot,
+): FactionSyncSignboardMismatch[] {
+  // 같은 태그를 나눠 쓰는 세력을 한 자리에 모은다 — 해소된 태그 행(id)이 묶음 기준이다
+  const byTag = new Map<string, { tag: CelebTagRow; groups: PublishGroup[] }>()
+  for (const g of episode.groups) {
+    const tag = resolveTag(g, snap)
+    if (!tag) continue
+    const entry = byTag.get(tag.id)
+    if (entry) entry.groups.push(g)
+    else byTag.set(tag.id, { tag, groups: [g] })
+  }
+
+  const out: FactionSyncSignboardMismatch[] = []
+  for (const { tag, groups } of byTag.values()) {
+    const tagNameEn = tag.name_en?.trim()
+    if (!tagNameEn) continue
+    const single = groups.length === 1
+    const sourceName = single ? groups[0].name : (episode.title ?? episode.folder)
+    const sourceNameEn = (single ? groups[0].nameEn : episode.titleEn)?.trim()
+    if (!sourceNameEn) continue
+    if (normalizeSignboard(tagNameEn) === normalizeSignboard(sourceNameEn)) continue
+    out.push({
+      tagId: tag.id,
+      tagName: tag.name,
+      tagNameEn,
+      source: single ? 'group' : 'episode',
+      sourceName,
+      sourceNameEn,
+      groupNames: groups.map(g => g.name),
+    })
+  }
+  return out
+}
+
 /** 에피소드 진단 — 읽기 전용 보고 */
 export async function buildStatus(db: SupabaseClient, folder: string): Promise<FactionSyncStatus> {
   const episode = await collectEpisode(db, folder)
@@ -187,7 +245,6 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
     const people: FactionSyncPerson[] = []
     for (const p of g.people) {
       const profile = p.celebId ? snap.profilesById.get(p.celebId) : undefined
-      const assignment = tagId && p.celebId ? snap.assignments.get(`${tagId}:${p.celebId}`) : undefined
       const hash = p.image && !p.image.external ? await hashOfFile(p.image.abs) : null
       const tier = profile?.celeb_tier ?? undefined
       people.push({
@@ -197,10 +254,10 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
         celebId: p.celebId,
         mythical: p.mythical,
         link: linkStateOf(p),
-        assigned: !!assignment,
+        // 도감에 실린 개인샷 주소의 집은 faction_people.web_image_url 이다(단일 원천)
         soloShot: soloShotStateOf(
           hash,
-          assignment?.faction_image_url,
+          p.webImageUrl,
           tagId && p.celebId ? soloShotKey(tagId, p.celebId) : null,
           tagId,
           manifest,
@@ -258,22 +315,82 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
   })
 
   const allPeople = groups.flatMap(g => g.people)
+  const signboardMismatches = collectSignboardMismatches(episode, snap)
   return {
     folder,
     groups,
+    signboardMismatches,
     summary: {
       groups: groups.length,
       groupsUnlinked: groups.filter(g => !g.tagId && !g.tag.exists).length,
       people: allPeople.length,
       publishable: allPeople.filter(p => p.link === 'linked').length,
       blocked: allPeople.filter(p => p.link !== 'linked').length,
-      unassigned: allPeople.filter(p => p.link === 'linked' && !p.assigned).length,
       soloShotPending: allPeople.filter(p => p.soloShot === 'stale' || p.soloShot === 'local-only').length,
       teamShotPending: groups.reduce((s, g) => s + Math.max(0, g.teamShots.local - g.teamShots.synced), 0),
       avatarMissing: allPeople.filter(p => p.link === 'linked' && !p.avatar).length,
       tierMismatch: allPeople.filter(p => p.tierMismatch).length,
+      signboardMismatch: signboardMismatches.length,
       voiceDifferent: countByLocale(allPeople, 'different'),
       voiceFillable: countByLocale(allPeople, 'profile-only'),
     },
   }
+}
+
+/**
+ * 사진 동기 집계 — 편 편집기 헤더 배지용. 진단 ③(저장소 동기)만 떼어 **같은 판정 규칙**으로 센다.
+ *
+ * 전체 진단(`buildStatus`)보다 싸게 간다: 프로필 조회를 빼고(태그 해소만 필요),
+ * 목소리·등급·간판 대조를 하지 않는다. DB 조회는 편 수집 + 태그 두 번이 전부다.
+ *
+ *   개인샷 — `soloShotStateOf` 그대로: 매니페스트 해시·키·태그 + 도감 주소(web_image_url) 대조
+ *   그룹샷 — `buildStatus` 의 세력별 대조와 동일: 매니페스트 해시 + (태그가 해소됐으면) R2 키
+ *   로고   — 출간(publishGroupLogo)과 같은 재료: 매니페스트 + web_logo_url, 키는 `logoKey`
+ *
+ * 파일이 없는 항목(file-missing)은 미반영이 아니라 별도 수다 — 출간이 해소하지 못하므로
+ * 미반영에 섞으면 배지가 영영 안 꺼진다.
+ */
+export async function buildImageSyncSummary(
+  db: SupabaseClient, folder: string,
+): Promise<FactionImageSyncSummary> {
+  const episode = await collectEpisode(db, folder)
+  const [snap, manifest] = await Promise.all([
+    loadServiceSnapshot(db, episode, { profiles: false }),
+    readManifest(folder),
+  ])
+
+  const out: FactionImageSyncSummary = { solo: 0, team: 0, logo: 0, fileMissing: 0 }
+  const pending = (s: FactionSyncSoloShotState) => s === 'stale' || s === 'local-only'
+
+  for (const g of episode.groups) {
+    const tagId = resolveTag(g, snap)?.id ?? null
+
+    for (const p of g.people) {
+      if (!p.image || p.image.external) continue
+      const hash = await hashOfFile(p.image.abs)
+      if (!hash) { out.fileMissing += 1; continue }
+      const key = tagId && p.celebId ? soloShotKey(tagId, p.celebId) : null
+      if (pending(soloShotStateOf(hash, p.webImageUrl, key, tagId, manifest, p.image.rel))) out.solo += 1
+    }
+
+    for (const shot of g.teamShots) {
+      if (shot.image.external) continue
+      const hash = await hashOfFile(shot.image.abs)
+      if (!hash) { out.fileMissing += 1; continue }
+      const entry = manifest[shot.image.rel]
+      const expected = tagId ? teamShotKey(tagId, g.position, shot.num, hash) : null
+      const same = !!entry && entry.hash === hash && (!expected || entry.r2Key === expected)
+      if (!same) out.team += 1
+    }
+
+    if (g.logo && !g.logo.external) {
+      const hash = await hashOfFile(g.logo.abs)
+      if (!hash) out.fileMissing += 1
+      else {
+        const key = tagId ? logoKey(tagId, g.position, hash) : null
+        if (pending(soloShotStateOf(hash, g.webLogoUrl, key, tagId, manifest, g.logo.rel))) out.logo += 1
+      }
+    }
+  }
+  return out
 }

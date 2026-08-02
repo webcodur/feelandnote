@@ -13,7 +13,9 @@
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { createClient } from '@/lib/supabase/server'
 import { factionAdminClient, requireFactionAdmin } from '@/lib/faction-db'
-import { getTags, type CelebTag } from '@/actions/admin/tags'
+import {
+  getTag, getTagCelebs, getTags, type CelebTag, type CelebTagAssignment,
+} from '@/actions/admin/tags'
 
 /** 테마를 쓰고 있는 영상 편 한 건 */
 export interface ThemeEpisodeLink {
@@ -68,11 +70,14 @@ export async function getThemeEpisodeLinks(): Promise<Record<string, ThemeEpisod
   return links
 }
 
-/** 테마별 개인샷 보유 인물 수 */
+/**
+ * 테마별 개인샷 보유 인물 수 — 단일 원천 뷰(faction_atlas_members) 기준.
+ * 제작 유래(web_image_url 손질 포함)와 웹 전용 배정을 합친 수라 도감 화면과 같은 값이 나온다.
+ */
 async function getSoloImageCounts(): Promise<Map<string, number>> {
   const supabase = await createClient()
   const rows = await selectAllPages<{ tag_id: string; celeb_id: string }>((from, to) =>
-    supabase.from('celeb_tag_assignments')
+    supabase.from('faction_atlas_members')
       .select('tag_id,celeb_id')
       .not('faction_image_url', 'is', null)
       .order('tag_id').order('celeb_id').range(from, to))
@@ -130,4 +135,70 @@ export async function getThemeParentOptions(
     .map(t => ({ id: t.id, name: t.name, color: t.color, childCount: childCounts.get(t.id) ?? 0 }))
 
   return { options, ownChildCount: childCounts.get(tagId) ?? 0 }
+}
+
+/**
+ * 테마 편집에 필요한 데이터 한 벌 — 편 편집기의 도감 구획(상세 설정)과 웹 전용 테마 화면이
+ * 같은 묶음을 쓴다. 기존 조회를 조합만 하고 새 쿼리를 만들지 않는다.
+ */
+export interface ThemeEditorData {
+  tag: CelebTag
+  celebs: CelebTagAssignment[]
+  /** 이 테마를 세력으로 쓰는 영상 편 — 비어 있으면 웹 전용 테마 */
+  episodes: ThemeEpisodeLink[]
+  parentOptions: ThemeParentOption[]
+  ownChildCount: number
+}
+
+export async function getThemeEditorData(tagId: string): Promise<ThemeEditorData | null> {
+  const [tag, celebs, links, parents] = await Promise.all([
+    getTag(tagId), getTagCelebs(tagId), getThemeEpisodeLinks(), getThemeParentOptions(tagId),
+  ])
+  if (!tag) return null
+  return {
+    tag,
+    celebs,
+    episodes: links[tagId] ?? [],
+    parentOptions: parents.options,
+    ownChildCount: parents.ownChildCount,
+  }
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/** `/factions/<토막>` 이 가리키는 편집 대상 — 편 폴더거나 테마(slug 또는 id)다 */
+export type FactionEditTarget =
+  | { kind: 'episode'; folder: string }
+  | { kind: 'theme'; data: ThemeEditorData }
+
+/**
+ * 주소 한 토막을 편집 대상으로 해석한다. 편 폴더 → 테마 slug → 테마 id 순서로 찾는다.
+ *
+ * 제작 편에 연결된 테마는 편 편집기가 편집의 집이므로(26.08.03 단일화) 그 편으로 보내고,
+ * 영상 없는 웹 전용 테마만 테마 화면 대상으로 돌려준다.
+ */
+export async function resolveFactionEditTarget(param: string): Promise<FactionEditTarget | null> {
+  await requireFactionAdmin()
+  const key = (param ?? '').trim()
+  if (!key) return null
+
+  const db = factionAdminClient()
+  const { data: ep } = await db.from('faction_episodes').select('folder').eq('folder', key).maybeSingle()
+  if (ep) return { kind: 'episode', folder: ep.folder as string }
+
+  const supabase = await createClient()
+  let tagId: string | null = null
+  const { data: bySlug } = await supabase.from('celeb_tags').select('id').eq('slug', key).maybeSingle()
+  if (bySlug) {
+    tagId = bySlug.id
+  } else if (UUID_RE.test(key)) {
+    const { data: byId } = await supabase.from('celeb_tags').select('id').eq('id', key).maybeSingle()
+    if (byId) tagId = byId.id
+  }
+  if (!tagId) return null
+
+  const data = await getThemeEditorData(tagId)
+  if (!data) return null
+  if (data.episodes.length > 0) return { kind: 'episode', folder: data.episodes[0].folder }
+  return { kind: 'theme', data }
 }

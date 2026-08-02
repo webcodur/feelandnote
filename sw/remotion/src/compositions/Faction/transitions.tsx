@@ -212,8 +212,8 @@ const FilmBurnEnter: React.FC<{ progress: number; children: React.ReactNode }> =
   )
 }
 
-/* ── 픽셀 디졸브 — 모자이크로 뭉갰다 또렷하게(블러+대비 단계로 흉내) ── */
-const PixelateEnter: React.FC<{ progress: number; children: React.ReactNode }> = ({ progress, children }) => {
+/* ── 블러 디졸브 — 뿌옇게 뭉갰다 서서히 또렷하게. 데이터 값 'pixelate'는 호환용 옛 이름 ── */
+const BlurDissolveEnter: React.FC<{ progress: number; children: React.ReactNode }> = ({ progress, children }) => {
   const blur = interpolate(progress, [0, 0.8, 1], [16, 4, 0], clamp)
   const op = interpolate(progress, [0, 0.35], [0, 1], clamp)
   const contrast = interpolate(progress, [0, 1], [1.5, 1], clamp)
@@ -251,7 +251,7 @@ export const CutEnter: React.FC<{ kind: string; progress: number; frame: number;
     case 'zoompunch': return <ZoomPunchEnter progress={progress}>{children}</ZoomPunchEnter>
     case 'whip': return <WhipEnter progress={progress}>{children}</WhipEnter>
     case 'filmburn': return <FilmBurnEnter progress={progress}>{children}</FilmBurnEnter>
-    case 'pixelate': return <PixelateEnter progress={progress}>{children}</PixelateEnter>
+    case 'pixelate': return <BlurDissolveEnter progress={progress}>{children}</BlurDissolveEnter>
     case 'shutter': return <ShutterEnter progress={progress}>{children}</ShutterEnter>
     default: return <>{children}</> // 슬라이드류 등은 CueLayer가 처리
   }

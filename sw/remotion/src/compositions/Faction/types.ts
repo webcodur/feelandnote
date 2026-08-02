@@ -416,7 +416,7 @@ export interface FactionTrack {
  *   - zoompunch: 다음 인물이 확 다가오며(과확대→정지) 모션블러로 꽂힘
  *   - whip: 빠른 좌우 쓸기 + 방향 모션블러
  *   - filmburn: 필름 타들어가듯 가장자리 불자국과 함께 드러남
- *   - pixelate: 모자이크로 뭉갰다 또렷하게 재조립
+ *   - pixelate: 블러 디졸브 — 뿌옇게 뭉갰다 서서히 또렷해짐 (모자이크 아님. 값 이름만 옛것)
  *   - shutter: 가로 블라인드 띠가 열리며 교체
  */
 export type FactionTransition =

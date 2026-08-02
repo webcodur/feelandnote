@@ -244,6 +244,7 @@ async function getContentCounts(celebIds: string[]): Promise<Map<string, number>
   return counts
 }
 
+// 세력도감 연결 여부 — 단일 원천 뷰(faction_atlas_members) 기준. 제작 유래 ∪ 웹 전용 배정.
 async function getFactionLinkedIds(celebIds: string[]): Promise<Set<string>> {
   const admin = createAdminClient()
   const linkedIds = new Set<string>()
@@ -252,11 +253,13 @@ async function getFactionLinkedIds(celebIds: string[]): Promise<Set<string>> {
     const ids = celebIds.slice(chunkStart, chunkStart + IN_FILTER_CHUNK)
 
     for (let from = 0; ; from += PAGE_SIZE) {
+      // 뷰에는 단일 id 가 없어 (tag_id, celeb_id) 짝을 정렬키로 쓴다
       const { data, error } = await admin
-        .from('celeb_tag_assignments')
-        .select('id, celeb_id')
+        .from('faction_atlas_members')
+        .select('tag_id, celeb_id')
         .in('celeb_id', ids)
-        .order('id', { ascending: true })
+        .order('tag_id', { ascending: true })
+        .order('celeb_id', { ascending: true })
         .range(from, from + PAGE_SIZE - 1)
 
       if (error) throw error

@@ -1,21 +1,19 @@
 /**
- * 출간 — 제작 데이터(faction_*)를 서비스 세력도감(celeb_tags·celeb_tag_assignments)과 이미지 저장소에 반영한다.
- * 서버 전용.
+ * 출간 — 제작 데이터(faction_*)의 사진·영상·음악·태그를 서비스 세력도감(celeb_tags)과
+ * 이미지 저장소에 반영한다. 서버 전용.
  *
- * 순서: 태그 → 배정(순번 재기록) → 개인샷 → 그룹샷 → 웹 캐시 비우기.
- * 지키는 규칙(문서 §4 「투영은 단방향·채움 전용」):
- *   ① 텍스트는 채움 전용 — 도감이 비어 있을 때만 넣는다. force 를 켜면 덮어쓴다.
- *      (사람이 도감에서 다듬은 소개문을 제작 데이터로 되돌리지 않기 위함이다)
- *      **예외: 인물 대사(quote·quote_en)는 항상 되쓴다.** 도감에서 다듬는 값이 아니라
- *      제작 데이터가 유일한 출처이기 때문이다 — 제작 쪽에서 지우면 도감 쪽도 비운다.
+ * **인물 텍스트(대사·직함·소개)는 다루지 않는다(26.08.03 단일화).** 웹·BO 모두 DB 뷰
+ * `faction_atlas_members` 로 faction_people 을 직접 읽으므로 복사할 것이 없다.
+ * 도감 손질은 같은 행의 web_*(web_short_desc 등) 칸에서 한다.
+ *
+ * 순서: 태그 → 개인샷 → 세력 로고 → 그룹샷 → 영상 → 음악 → 웹 캐시 비우기.
+ * 지키는 규칙:
+ *   ① 태그 이름·색은 채움 전용 — 도감이 비어 있을 때만 넣는다. force 를 켜면 덮어쓴다.
  *   ② 셀럽이 해소되지 않은 인물은 건드리지 않고 명단으로 보고한다.
  *   ③ 미리보기(dryRun)는 쓰기 직전까지 똑같이 계산하고 아무것도 쓰지 않는다(매니페스트도).
- *   ④ 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인** 배치만 채택한다(§4 배치 충돌 규칙).
+ *   ④ 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인** 배치에만 개인샷 주소를
+ *      기록한다 — 뷰가 앞자리 행을 채택하기 때문이다(§4 배치 충돌 규칙).
  * 항목 하나가 실패해도 전체를 멈추지 않고 그 항목만 blocked 로 담는다.
- *
- * 텍스트 투영이 DB→DB 인데도 SQL 한 번이 아닌 이유: 채움 전용·force·배치 충돌·순번 재기록이
- * 항목마다 결과(created/updated/skipped/blocked)를 사람에게 보여야 하는 규칙이기 때문이다.
- * 한 문장으로 밀어 넣으면 무엇이 왜 건너뛰어졌는지가 사라진다.
  */
 
 import { readFile } from 'fs/promises'
@@ -26,42 +24,46 @@ import {
 } from '@feelandnote/shared/lib/faction-team-image'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import {
-  collectEpisode, groupsOfSameTag, hashOfFile, soloShotKey, tagKeyOf, teamShotKey, winningPlacements,
-  type PublishEpisode, type PublishGroup, type PublishPerson,
+  collectEpisode, groupsOfSameTag, hashOfFile, logoKey, soloShotKey, tagKeyOf, teamShotKey, winningPlacements,
+  type PublishEpisode, type PublishGroup,
 } from './collect'
 import { linkStateOf, loadServiceSnapshot, resolveTag, type ServiceSnapshot } from './diagnose'
 import { fileHash, isUnchanged, readManifest, writeManifest, type FactionSyncManifest } from './manifest'
-import { OUTPUT_CONTENT_TYPE, toSoloShot, toTeamShot } from './image'
+import { OUTPUT_CONTENT_TYPE, toLogo, toSoloShot, toTeamShot } from './image'
 import { missingR2Env, publicUrl, uploadToR2 } from './r2'
 import { buildTagVideos, loadEpisodeVideoSource, videosChanged, type EpisodeVideoSource } from './videos'
 import {
   ensureMusicUploaded, loadEpisodeMusicSource, musicChanged, pickTagMusic,
   type EpisodeMusicSource, type TagMusic,
 } from './music'
-import { ASSIGNMENT_COLUMNS, TAG_COLUMNS, toImageArray, type CelebAssignmentRow, type CelebTagRow } from './supabase'
+import { TAG_COLUMNS, type CelebTagRow } from './supabase'
 import type {
   FactionPublishAction, FactionPublishItem, FactionPublishRequest,
   FactionPublishResult, FactionPublishScope,
 } from './types'
 
-const ALL_SCOPE: Required<FactionPublishScope> = {
+/** 실제로 실행되는 범위 — deprecated no-op 키(assignments·descs)를 걸러낸 여섯 항목 */
+type ActiveScope = Required<Pick<FactionPublishScope, 'tag' | 'personImages' | 'logos' | 'teamImages' | 'videos' | 'music'>>
+
+const ALL_SCOPE: ActiveScope = {
   tag: true,
-  assignments: true,
-  descs: true,
   personImages: true,
+  logos: true,
   teamImages: true,
   videos: true,
   music: true,
 }
 
-/** 범위 정규화 — 아무것도 켜지 않았으면 전 항목 실행 */
-function normalizeScope(scope?: FactionPublishScope): Required<FactionPublishScope> {
+/**
+ * 범위 정규화 — 아무것도 켜지 않았으면 전 항목 실행.
+ * no-op 키만 켠 요청(옛 스크립트의 텍스트 전용 범위)은 전 항목으로 승격하지 않고 아무것도 안 한다.
+ */
+function normalizeScope(scope?: FactionPublishScope): ActiveScope {
   if (!scope || !Object.values(scope).some(v => v === true)) return ALL_SCOPE
   return {
     tag: !!scope.tag,
-    assignments: !!scope.assignments,
-    descs: !!scope.descs,
     personImages: !!scope.personImages,
+    logos: !!scope.logos,
     teamImages: !!scope.teamImages,
     videos: !!scope.videos,
     music: !!scope.music,
@@ -69,7 +71,7 @@ function normalizeScope(scope?: FactionPublishScope): Required<FactionPublishSco
 }
 
 /**
- * 채움 전용 판정 — 넣을 값이 있으면 반환, 손대지 않아야 하면 undefined.
+ * 채움 전용 판정(태그 이름·색) — 넣을 값이 있으면 반환, 손대지 않아야 하면 undefined.
  * 도감에 사람이 다듬어 넣은 값이 있으면 force 없이는 절대 덮지 않는다.
  */
 function fillValue(dbValue: string | null | undefined, localValue: string | undefined, force: boolean): string | undefined {
@@ -78,19 +80,6 @@ function fillValue(dbValue: string | null | undefined, localValue: string | unde
   if (current.trim() && !force) return undefined
   if (current === localValue) return undefined
   return localValue
-}
-
-/**
- * 되쓰기 판정(대사 전용) — 제작 데이터 값을 그대로 반영해야 하면 반환, 이미 같으면 undefined.
- *
- * 소개문의 `fillValue` 와 **일부러 다르다.** 소개문은 도감에서 사람이 다듬는 값이라 채움 전용이지만,
- * 대사는 제작 데이터가 유일한 출처라 도감 쪽에서 손볼 일이 없다. 그래서 force 와 무관하게 항상 되쓰고,
- * 제작 쪽에서 대사를 지우면 도감 쪽도 비운다(null 로 되쓴다).
- */
-function mirrorValue(dbValue: string | null | undefined, localValue: string | undefined): string | null | undefined {
-  const next = localValue ?? null
-  const current = dbValue ?? null
-  return current === next ? undefined : next
 }
 
 function errText(e: unknown): string {
@@ -145,101 +134,25 @@ export async function publishEpisode(
     const tagId = tag.id
     const tagKey = tagKeyOf(g)
 
-    /* ── 2. 배정 + 소개문 ── */
-    /** 이 세력에서 실제로 다룰 수 있는 인물 — 개인샷 단계가 그대로 이어 쓴다 */
-    const usable: { person: PublishPerson; celebId: string; assignment?: CelebAssignmentRow; ready: boolean }[] = []
-    // 배정·소개문을 둘 다 끈 범위(예: 그룹샷만)에서는 인물 해석만 하고 배정 결과는 보고하지 않는다
-    const reportAssign = scope.assignments || scope.descs
-
-    for (const p of g.people) {
-      const label = { kind: 'assignment' as const, group: g.name, person: p.name }
-      if (!p.celebId) {
-        const state = linkStateOf(p)
-        add({ ...label, action: 'blocked', reason: state === 'unkeyed' ? 'unkeyed' : 'celeb-unresolved' })
-        continue
-      }
-      const celebId = p.celebId
-
-      // §4 배치 충돌 — 배정 행은 (셀럽, 태그) 하나뿐이라 자리가 가장 앞인 배치만 채택한다.
-      // 판정은 편 전체를 보고 하므로, 세력을 하나씩 출간해도 결과가 같다.
-      const winnerId = winners.get(`${tagKey}:${celebId}`)
-      if (winnerId && winnerId !== p.id) {
-        add({ ...label, action: 'skipped', reason: 'duplicate-in-tag (앞 자리 배치 채택)' })
-        continue
-      }
-
-      const assignment = snap.assignments.get(`${tagId}:${celebId}`)
-      const entry = { person: p, celebId, assignment, ready: !!assignment }
-      usable.push(entry)
-
-      if (!assignment) {
-        if (!scope.assignments) {
-          if (reportAssign) add({ ...label, action: 'skipped', reason: 'not-assigned' })
+    /* ── 2. 개인샷 — R2 업로드 후 주소를 faction_people.web_image_url 에 기록 ── */
+    if (scope.personImages) {
+      for (const p of g.people) {
+        const label = { kind: 'soloShot' as const, group: g.name, person: p.name }
+        if (!p.celebId) {
+          const state = linkStateOf(p)
+          add({ ...label, action: 'blocked', reason: state === 'unkeyed' ? 'unkeyed' : 'celeb-unresolved' })
           continue
         }
-        const insert: Record<string, string | number | null> = { tag_id: tagId, celeb_id: celebId, sort_order: p.order }
-        if (scope.descs) {
-          insert.short_desc = p.shortDesc ?? null
-          insert.long_desc = p.longDesc ?? null
-          insert.short_desc_en = p.shortDescEn ?? null
-          insert.long_desc_en = p.longDescEn ?? null
-          insert.quote = p.quote ?? null
-          insert.quote_en = p.quoteEn ?? null
+        const celebId = p.celebId
+
+        // §4 배치 충돌 — 뷰가 태그 안 같은 셀럽의 앞자리 행을 채택하므로 주소도 그 행에만 기록한다.
+        // 판정은 편 전체를 보고 하므로, 세력을 하나씩 출간해도 결과가 같다.
+        const winnerId = winners.get(`${tagKey}:${celebId}`)
+        if (winnerId && winnerId !== p.id) {
+          add({ ...label, action: 'skipped', reason: 'duplicate-in-tag (앞 자리 배치 채택)' })
+          continue
         }
-        if (dryRun) {
-          entry.ready = true
-          add({ ...label, action: 'created' })
-        } else {
-          const { data, error } = await db
-            .from('celeb_tag_assignments').insert(insert).select(ASSIGNMENT_COLUMNS).single()
-          if (error || !data) {
-            add({ ...label, action: 'blocked', reason: `assignment-insert: ${error?.message ?? '결과 없음'}` })
-            continue
-          }
-          const row = data as unknown as CelebAssignmentRow
-          snap.assignments.set(`${tagId}:${celebId}`, row)
-          entry.assignment = row
-          entry.ready = true
-          add({ ...label, action: 'created' })
-        }
-        continue
-      }
 
-      // 기존 배정 — 순번은 항상 재기록, 소개문은 채움 전용, 대사는 항상 되쓰기
-      const patch: Record<string, string | number | null> = {}
-      if (scope.assignments && assignment.sort_order !== p.order) patch.sort_order = p.order
-      if (scope.descs) {
-        const short = fillValue(assignment.short_desc, p.shortDesc, force)
-        const long = fillValue(assignment.long_desc, p.longDesc, force)
-        const shortEn = fillValue(assignment.short_desc_en, p.shortDescEn, force)
-        const longEn = fillValue(assignment.long_desc_en, p.longDescEn, force)
-        if (short !== undefined) patch.short_desc = short
-        if (long !== undefined) patch.long_desc = long
-        if (shortEn !== undefined) patch.short_desc_en = shortEn
-        if (longEn !== undefined) patch.long_desc_en = longEn
-        // 대사만 mirrorValue 를 쓴다 — 도감에서 다듬는 값이 아니므로 채움 전용이 아니다
-        const quote = mirrorValue(assignment.quote, p.quote)
-        const quoteEn = mirrorValue(assignment.quote_en, p.quoteEn)
-        if (quote !== undefined) patch.quote = quote
-        if (quoteEn !== undefined) patch.quote_en = quoteEn
-      }
-
-      if (!Object.keys(patch).length) {
-        if (reportAssign) add({ ...label, action: 'skipped', reason: 'unchanged' })
-      } else if (dryRun) {
-        add({ ...label, action: 'updated', reason: Object.keys(patch).join(',') })
-      } else {
-        const { error } = await db.from('celeb_tag_assignments').update(patch).eq('id', assignment.id)
-        if (error) add({ ...label, action: 'blocked', reason: `assignment-update: ${error.message}` })
-        else add({ ...label, action: 'updated', reason: Object.keys(patch).join(',') })
-      }
-    }
-
-    /* ── 3. 개인샷 ── */
-    if (scope.personImages) {
-      for (const { person: p, celebId, assignment, ready } of usable) {
-        const label = { kind: 'soloShot' as const, group: g.name, person: p.name }
-        if (!ready) { add({ ...label, action: 'skipped', reason: 'not-assigned' }); continue }
         if (!p.image) { add({ ...label, action: 'skipped', reason: 'no-image' }); continue }
         if (p.image.external) { add({ ...label, action: 'skipped', reason: 'external-url' }); continue }
 
@@ -247,7 +160,7 @@ export async function publishEpisode(
         const hash = await hashOfFile(p.image.abs)
         if (!hash) { add({ ...label, action: 'blocked', reason: `file-missing: ${p.image.rel}` }); continue }
 
-        const dbUrl = assignment?.faction_image_url ?? null
+        const dbUrl = p.webImageUrl
         if (isUnchanged(manifest[p.image.rel], hash, key, tagId) && dbUrl?.includes(key)) {
           add({ ...label, action: 'skipped', reason: 'unchanged' })
           continue
@@ -261,17 +174,24 @@ export async function publishEpisode(
           await uploadToR2(key, webp, OUTPUT_CONTENT_TYPE)
           const url = publicUrl(key)
           const { error } = await db
-            .from('celeb_tag_assignments').update({ faction_image_url: url })
-            .eq('tag_id', tagId).eq('celeb_id', celebId)
-          if (error) { add({ ...label, action: 'blocked', reason: `faction-image-update: ${error.message}` }); continue }
+            .from('faction_people').update({ web_image_url: url }).eq('id', p.id)
+          if (error) { add({ ...label, action: 'blocked', reason: `web-image-update: ${error.message}` }); continue }
           manifest[p.image.rel] = { hash, r2Key: key, uploadedAt: new Date().toISOString(), tagId }
           manifestDirty = true
-          if (assignment) assignment.faction_image_url = url
+          p.webImageUrl = url
           add({ ...label, action, reason: key })
         } catch (e) {
           add({ ...label, action: 'blocked', reason: `upload: ${errText(e)}` })
         }
       }
+    }
+
+    /* ── 3. 세력 로고 — R2 업로드 후 주소를 faction_groups.web_logo_url 에 기록 ── */
+    if (scope.logos) {
+      await publishGroupLogo({
+        group: g, tagId, db, manifest, dryRun, canUpload, add,
+        markDirty: () => { manifestDirty = true },
+      })
     }
   }
 
@@ -334,6 +254,61 @@ export async function publishEpisode(
     },
     ...(newTagSlugs.length ? { constantHint: newTagSlugs } : {}),
     ...(warnings.length ? { warnings } : {}),
+  }
+}
+
+/* ────────────────────────── 세력 로고 ────────────────────────── */
+
+/**
+ * 세력 로고를 올린다 — 로고(data.logoImg)가 지정된 세력만 항목을 낸다(대부분의 세력엔 로고가 없다).
+ *
+ * 그룹샷과 같은 규칙이다: 원본 해시가 키에 들어가 로고가 바뀌면 키가 갈리고,
+ * 매니페스트 해시가 같으면(이미 도감 주소도 그 키면) 건너뛴다. 다른 점은 변환뿐 —
+ * 세로형 로고가 실재해 정사각 크롭 없이 비율을 유지한다(`toLogo`).
+ * 성공하면 주소를 faction_groups.web_logo_url 에 기록한다(뷰 group_logo_url 의 원천).
+ * 태그 미지정 세력은 이 함수까지 오지 못한다 — 태그 단계가 이미 blocked 로 보고하고 편을 건너뛴다.
+ */
+async function publishGroupLogo(ctx: {
+  group: PublishGroup
+  tagId: string
+  db: SupabaseClient
+  manifest: FactionSyncManifest
+  dryRun: boolean
+  canUpload: boolean
+  add: (item: FactionPublishItem) => void
+  markDirty: () => void
+}): Promise<void> {
+  const { group: g, tagId, db, manifest, dryRun, canUpload, add, markDirty } = ctx
+  if (!g.logo) return
+  const label = { kind: 'logo' as const, group: g.name }
+
+  if (g.logo.external) { add({ ...label, action: 'skipped', reason: 'external-url' }); return }
+
+  const hash = await hashOfFile(g.logo.abs)
+  if (!hash) { add({ ...label, action: 'blocked', reason: `file-missing: ${g.logo.rel}` }); return }
+
+  const key = logoKey(tagId, g.position, hash)
+  if (isUnchanged(manifest[g.logo.rel], hash, key, tagId) && g.webLogoUrl?.includes(key)) {
+    add({ ...label, action: 'skipped', reason: 'unchanged' })
+    return
+  }
+  const action: FactionPublishAction = g.webLogoUrl ? 'updated' : 'created'
+  if (dryRun) { add({ ...label, action, reason: key }); return }
+  if (!canUpload) { add({ ...label, action: 'blocked', reason: 'r2-env-missing' }); return }
+
+  try {
+    const webp = await toLogo(await readFile(g.logo.abs))
+    await uploadToR2(key, webp, OUTPUT_CONTENT_TYPE)
+    // 키에 해시가 들어가 저절로 갈리므로 캐시 무력화(?v=)는 붙이지 않는다(그룹샷과 동일)
+    const url = publicUrl(key, false)
+    const { error } = await db.from('faction_groups').update({ web_logo_url: url }).eq('id', g.id)
+    if (error) { add({ ...label, action: 'blocked', reason: `web-logo-update: ${error.message}` }); return }
+    manifest[g.logo.rel] = { hash, r2Key: key, uploadedAt: new Date().toISOString(), tagId }
+    markDirty()
+    g.webLogoUrl = url
+    add({ ...label, action, reason: key })
+  } catch (e) {
+    add({ ...label, action: 'blocked', reason: `upload: ${errText(e)}` })
   }
 }
 
@@ -528,7 +503,7 @@ async function resolveOrCreateTag(ctx: {
   snap: ServiceSnapshot
   createdTags: Map<string, CelebTagRow>
   db: SupabaseClient
-  scope: Required<FactionPublishScope>
+  scope: ActiveScope
   dryRun: boolean
   force: boolean
   add: (item: FactionPublishItem) => void

@@ -18,15 +18,15 @@ import type {
 } from '@/lib/faction-sync/types'
 
 /**
- * 세력도감 출간 패널 — 제작 데이터를 서비스 도감으로 내보낸다.
+ * 세력도감 출간 패널 — 제작 데이터의 사진·영상·음악·태그를 서비스 도감으로 내보낸다.
+ *
+ * **인물 텍스트(대사·직함·소개)는 출간 대상이 아니다(26.08.03 단일화).** 도감이 제작 데이터를
+ * 직접 읽으므로 저장 즉시 반영된다. 이 패널의 출간 버튼이 나르는 것은 개인샷·세력 로고·
+ * 단체사진·테마 영상·테마 음악, 그리고 태그 행 자체다.
  *
  * 진단은 읽기만 하고, 미리보기(dry-run)는 쓰기 직전까지 똑같이 계산한 뒤 아무것도 쓰지 않는다.
  * 실제 반영은 세력 단위로 확인을 받고 하나씩 순서대로 한다 — 한꺼번에 밀어 넣으면 어디서 막혔는지
  * 알 수 없고, 도감 단체사진은 태그 단위 배열이라 겹치기 쉽다.
- *
- * 웹 소개는 **채움 전용**이다. 영상 대표 직함은 웹 한줄 소개 초안으로,
- * 영상 소개문은 웹 상세 설명 초안으로 보낸다. 도감에서 사람이 세력 맥락에 맞게 다듬은 글은
- * 덮지 않는다(덮으려면 force).
  */
 
 // #region 결과 로그 항목 — 세력 1회 호출(미리보기 또는 출간)의 응답 기록
@@ -92,9 +92,8 @@ const VOICE_CHIP: Partial<Record<FactionSyncVoiceState, { label: string; cls: st
 /** 출간 범위 — 이번 패널은 항상 전 범위를 켠 채 호출한다(부분 범위 선택 UI는 범위 밖) */
 const FULL_SCOPE: FactionPublishRequest['scope'] = {
   tag: true,
-  assignments: true,
-  descs: true,
   personImages: true,
+  logos: true,
   teamImages: true,
   videos: true,
   music: true,
@@ -105,12 +104,11 @@ function isLinked(p: FactionSyncPerson): boolean {
   return p.link === 'linked'
 }
 
-/** 세력 한 행의 인물 집계 — 연결 / 미해소 / 미배정(연결됐지만 이 태그에 아직 안 묶임) */
+/** 세력 한 행의 인물 집계 — 연결 / 미해소 */
 function peopleCounts(people: FactionSyncPerson[]) {
   const linked = people.filter(isLinked).length
   const unlinked = people.length - linked
-  const unassigned = people.filter(p => isLinked(p) && !p.assigned).length
-  return { linked, unlinked, unassigned }
+  return { linked, unlinked }
 }
 
 /** 개인샷 진행도 — 저장소와 일치하는 인원 / 전체 인원 */
@@ -123,6 +121,7 @@ function soloShotProgress(people: FactionSyncPerson[]) {
 function itemLabel(it: FactionPublishItem): string {
   if (it.person) return it.person
   if (it.kind === 'tag') return '세력 태그'
+  if (it.kind === 'logo') return '세력 로고'
   if (it.kind === 'teamShots') return '단체사진'
   if (it.kind === 'videos') return '테마 영상'
   if (it.kind === 'music') return '테마 음악'
@@ -169,7 +168,6 @@ export function FactionPublishPanel({
   const [status, setStatus] = useState<FactionSyncStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
-  const [force, setForce] = useState(false)
   const [busyGroup, setBusyGroup] = useState<number | null>(null)
   const [allProgress, setAllProgress] = useState<{ done: number; total: number } | null>(null)
   const [logs, setLogs] = useState<LogEntry[]>([])
@@ -208,7 +206,6 @@ export function FactionPublishPanel({
         groupIndex,
         scope: FULL_SCOPE,
         dryRun,
-        force,
       })
       ok = true
       setLogs(prev => [{
@@ -235,7 +232,7 @@ export function FactionPublishPanel({
       setBusyGroup(null)
     }
     return ok
-  }, [name, force, ensureSaved, fetchStatus])
+  }, [name, ensureSaved, fetchStatus])
 
   /**
    * 대사 목소리 물려받기 — 셀럽에 등록된 목소리를 **그 언어 칸이 비어 있는 인물만** 채운다(국문·영문 각각).
@@ -338,17 +335,7 @@ export function FactionPublishPanel({
           출간 가능 인물 <span className="font-bold text-accent">{summary.publishable}</span>
           {' · '}
           미해소 인물 <span className="font-bold text-danger-text">{summary.blocked}</span>
-          {' · '}
-          미배정 <span className="font-bold text-warning-text">{summary.unassigned}</span>
         </span>
-
-        <label
-          className="ml-2 flex items-center gap-1.5 text-xs text-text-dim"
-          title="도감 한줄 소개는 영상 대표 직함으로, 상세 설명은 영상 소개문으로 덮어씀"
-        >
-          <input type="checkbox" checked={force} onChange={e => setForce(e.target.checked)} className="accent-accent" />
-          웹 소개 강제 덮어쓰기
-        </label>
 
         <div className="ml-auto flex items-center gap-2">
           {allProgress && (
@@ -367,6 +354,12 @@ export function FactionPublishPanel({
         </div>
       </div>
 
+      {/* 단일 원천 안내 — 인물 글은 출간 없이 곧장 도감에 뜬다 */}
+      <p className="text-[11px] text-text-dim">
+        인물의 대사·직함·소개 글은 저장 즉시 도감에 자동 반영됩니다(단일 원천).
+        출간 버튼이 내보내는 것은 개인샷·세력 로고·단체사진·테마 영상·테마 음악, 그리고 태그입니다.
+      </p>
+
       {/* 진단 요약 두 번째 줄 — 사진·얼굴·등급 */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-text-secondary">
         <span title="아직 저장소에 올리지 않은 개인샷 수">
@@ -380,6 +373,9 @@ export function FactionPublishPanel({
         </span>
         <span title="제작 데이터의 신화 표시와 셀럽 등급(fiction)이 어긋난 인물 — 어느 쪽이 맞는지는 사람이 정한다">
           신화 표시 어긋남 <span className="font-semibold text-warning-text">{summary.tierMismatch}</span>
+        </span>
+        <span title="도감 테마의 영문 이름이 제작 쪽 표기(세력명 또는 편 제목)와 다른 테마 — 소속 재편으로 간판이 낡았는지 확인한다">
+          간판 확인 요망 <span className="font-semibold text-warning-text">{summary.signboardMismatch}</span>
         </span>
         <span title="태그가 지정되지 않아 출간할 수 없는 세력">
           태그 미지정 세력 <span className="font-semibold text-danger-text">{summary.groupsUnlinked}</span>
@@ -460,13 +456,6 @@ export function FactionPublishPanel({
         </div>
       )}
 
-      {force && (
-        <div className="rounded-md border border-danger/40 bg-danger/20 px-3 py-2 text-xs text-danger-text">
-          강제 덮어쓰기 켬 — 도감 한줄 소개는 영상 대표 직함으로, 상세 설명은 영상 소개문으로
-          덮어씁니다. 세력별로 사람이 다듬은 기존 문구도 바뀝니다.
-        </div>
-      )}
-
       {/* 셀럽 미해소 인물 전체 명단 */}
       {allUnlinked.length > 0 && (
         <div className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
@@ -493,6 +482,30 @@ export function FactionPublishPanel({
             {tierMismatched.map(({ groupName, person }, idx) => (
               <li key={idx}>
                 {person.name} <span className="text-text-dim">({groupName} · 제작 {person.mythical ? '신화' : '실존'} / 셀럽 {person.tier ?? '미지정'})</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* 테마 간판 어긋남 — 테마 이름과 제작 표기가 다르다. 출간을 막지 않고 알리기만 한다 */}
+      {status.signboardMismatches.length > 0 && (
+        <div className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
+          <p className="text-xs font-semibold text-warning-text">
+            테마 간판 확인 요망 {status.signboardMismatches.length}건 — 도감 테마의 영문 이름이 제작 쪽 표기와 다릅니다. 소속 재편으로 간판이 낡았는지 확인하세요. 매체별 표기 다듬기면 무시해도 됩니다.
+          </p>
+          <ul className="mt-1 space-y-0.5 text-[11px] text-text-secondary">
+            {status.signboardMismatches.map(m => (
+              <li key={m.tagId}>
+                테마 <span className="font-semibold text-text-primary">{m.tagName}</span>
+                <span className="font-mono text-text-dim"> ({m.tagNameEn})</span>
+                {' ↔ '}
+                {m.source === 'group' ? '세력 ' : '편 제목 '}
+                <span className="font-semibold text-text-primary">{m.sourceName}</span>
+                <span className="font-mono text-text-dim"> ({m.sourceNameEn})</span>
+                {m.source === 'episode' && (
+                  <span className="text-text-dim"> — 여러 세력이 이 테마를 나눠 씀: {m.groupNames.join('·')}</span>
+                )}
               </li>
             ))}
           </ul>
@@ -552,7 +565,7 @@ function GroupRow({
 }) {
   const [showPeople, setShowPeople] = useState(false)
   const g = groupStatus
-  const { linked, unlinked, unassigned } = peopleCounts(g.people ?? [])
+  const { linked, unlinked } = peopleCounts(g.people ?? [])
   const solo = soloShotProgress(g.people ?? [])
   const currentSlug = localGroup?.tagSlug ?? ''
   // 태그가 이미 이어져 있거나 연결 키가 적혀 있어야 출간할 수 있다. 제안값만으로는 안 된다 —
@@ -599,8 +612,8 @@ function GroupRow({
       )}
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-text-secondary">
-        <span title="서비스 셀럽과 이어진 인물 / 셀럽이 없어 제외되는 인물 / 이어졌으나 이 태그에 아직 안 묶인 인물">
-          인물 연결 <span className="font-semibold text-text-primary">{linked}</span> · 미해소 <span className="font-semibold text-danger-text">{unlinked}</span> · 미배정 <span className="font-semibold text-warning-text">{unassigned}</span>
+        <span title="서비스 셀럽과 이어진 인물 / 셀럽이 없어 제외되는 인물">
+          인물 연결 <span className="font-semibold text-text-primary">{linked}</span> · 미해소 <span className="font-semibold text-danger-text">{unlinked}</span>
         </span>
         <span title="개인샷이 저장소 기록과 이미 일치하는 인원 / 전체 인원">
           개인샷 <span className="font-semibold text-text-primary">{solo.synced}/{solo.total}</span>
@@ -761,10 +774,14 @@ function LogRow({ log }: { log: LogEntry }) {
     (acc[item.action] ??= []).push(item)
     return acc
   }, {})
-  // 셀럽이 없어 제외된 인물 — 배정 단계에서 막힌 항목이 그 명단이다
+  // 셀럽이 없어 제외된 인물 — 개인샷 단계에서 막힌 항목이 그 명단이다
   const unresolved = (r?.items ?? []).filter(
-    it => it.kind === 'assignment' && it.action === 'blocked' && (it.reason === 'celeb-unresolved' || it.reason === 'unkeyed'),
+    it => it.kind === 'soloShot' && it.action === 'blocked' && (it.reason === 'celeb-unresolved' || it.reason === 'unkeyed'),
   )
+  // 세력 로고 — 올렸거나 올릴 예정인 건수 한 줄
+  const logoUploads = (r?.items ?? []).filter(
+    it => it.kind === 'logo' && (it.action === 'created' || it.action === 'updated'),
+  ).length
 
   return (
     <div className="space-y-1.5 rounded-md border border-border bg-bg-card/40 p-2.5">
@@ -798,9 +815,15 @@ function LogRow({ log }: { log: LogEntry }) {
             )
           })}
 
+          {logoUploads > 0 && (
+            <p className="text-[11px] text-text-secondary">
+              세력 로고 {logoUploads}건 {log.dryRun ? '올릴 예정' : '올림'}
+            </p>
+          )}
+
           {!!r.constantHint?.length && (
             <p className="text-[11px] text-warning-text">
-              새 테마가 만들어졌습니다 — 상위 묶음에 넣으려면 테마 편집(도감 테마 → 해당 테마 → 상위 묶음)에서 지정하세요: {r.constantHint.join(', ')}
+              새 테마가 만들어졌습니다 — 상위 묶음에 넣으려면 세력 카드의 도감 구획(상세 설정 → 상위 묶음)에서 지정하세요: {r.constantHint.join(', ')}
             </p>
           )}
 
