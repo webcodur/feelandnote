@@ -1,15 +1,13 @@
 /*
   파일명: /app/(main)/about/AboutBody.tsx
   기능: 서비스 소개 본문(지향점·등록 현황·제작 방식)
-  책임: /about 페이지와 홈 환영판이 같은 본문을 공유한다.
-        운영·문의 구획은 상설 페이지(/about) 전용이라 여기 없다.
+  책임: /about 페이지 본문을 그린다. 첫인사 액자는 홈(HomeIntroPanel)이 맡으므로 여기 없다.
+        운영·문의 구획도 상설 페이지(/about) 쪽 파일에 따로 있다.
 */
 
 import Image from "next/image";
 import { getTranslations, getLocale } from "next-intl/server";
 import type { AboutShowcase } from "@/actions/policy/getAboutShowcase";
-import { getProfilesBySlugs } from "@/actions/celebs/getProfilesBySlugs";
-import IntroFrame from "@/components/features/home/IntroFrame";
 import { Link } from "@/i18n/navigation";
 import { ChevronRight } from "lucide-react";
 import VisionShowcase from "./VisionShowcase";
@@ -49,42 +47,6 @@ function SectionClose() {
   return <div aria-hidden className="h-px w-full bg-border mt-2" />;
 }
 
-/** 첫인사 액자에 들어갈 자료 — 사례 본문과 영감의 연쇄 인물 얼굴 */
-async function buildIntroLabels(locale: string) {
-  const t = await getTranslations("home.ui.tabs");
-  const rawChains = t.raw("inspirationChains") as { reader: string; author: string; text: string }[][];
-  const slugSet = new Set<string>();
-  rawChains.forEach((chain) =>
-    chain.forEach((step) => {
-      slugSet.add(step.reader);
-      slugSet.add(step.author);
-    })
-  );
-  // 캐시 키 안정화 — 명단 순서가 흔들려도 같은 캐시를 쓴다
-  const profileMap = await getProfilesBySlugs(Array.from(slugSet).sort());
-  const isEn = locale === "en";
-  const inspirationChains = rawChains.map((chain) =>
-    chain.map((step) => {
-      const r = profileMap[step.reader];
-      const a = profileMap[step.author];
-      return {
-        text: step.text,
-        reader: r ? { avatar_url: r.avatar_url, name: (isEn ? r.nickname_en || r.nickname : r.nickname) ?? step.reader } : null,
-        author: a ? { avatar_url: a.avatar_url, name: (isEn ? a.nickname_en || a.nickname : a.nickname) ?? step.author } : null,
-      };
-    })
-  );
-  return {
-    introSub: t("introSub"),
-    labels: {
-    intro: t("intro"),
-    inspirationChainTitle: t("inspirationChainTitle"),
-    inspirationChains,
-    inspirationConclusion: t("inspirationConclusion"),
-    },
-  };
-}
-
 /** 지향점 각 갈래가 실제로 사는 화면. 이야기가 끝난 자리의 문이 여기로 열린다 */
 const VISION_DOORS: Record<1 | 2 | 3 | 4, string> = {
   1: "/explore/figures",
@@ -96,20 +58,18 @@ const VISION_DOORS: Record<1 | 2 | 3 | 4, string> = {
 export default async function AboutBody({ showcase }: { showcase: AboutShowcase }) {
   const t = await getTranslations("policy");
   const locale = await getLocale();
+  const tNav = await getTranslations("shared.hubSection");
   const showcaseLabels = {
     facesNote: t("aboutVisionFacesNote"),
     yourSlot: t("aboutVisionYourSlot"),
+    prev: tNav("previous"),
+    next: tNav("next"),
   };
-  const { labels: introLabels, introSub } = await buildIntroLabels(locale);
+  // 첫인사 액자는 홈(HomeIntroPanel)이 맡는다. 여기서는 표어만 받아 페이지 끝에 찍는다
+  const introSub = (await getTranslations("home.ui.tabs"))("introSub");
 
   return (
     <div className="space-y-20 md:space-y-28 text-text-primary">
-      {/* 첫인사 액자 — 홈 환영판과 /about이 같은 한 본문이다. 표어는 페이지 끝이 받는다 */}
-      <section className="space-y-8">
-        <SectionHead title={t("aboutStoryTitle")} />
-        <IntroFrame labels={introLabels} />
-      </section>
-
       {/* 지향점 — 네 갈래를 한 장씩 세운다 */}
       <section className="space-y-8">
         <SectionHead title={t("aboutVisionTitle")} />
@@ -132,15 +92,18 @@ export default async function AboutBody({ showcase }: { showcase: AboutShowcase 
                 {t(`aboutVision${n}Body`)}
               </p>
               <VisionShowcase index={n} data={showcase} labels={showcaseLabels} />
-              <div className="pt-2 text-right">
-                <Link
-                  href={VISION_DOORS[n]}
-                  className="group inline-flex items-center gap-1 text-sm text-accent hover:text-accent-hover font-medium"
-                >
-                  {t(`aboutVision${n}Link`)}
-                  <ChevronRight size={15} strokeWidth={2} aria-hidden />
-                </Link>
-              </div>
+              {/* 03은 문 없이 이야기로만 둔다 */}
+              {n !== 3 && (
+                <div className="pt-2 text-right">
+                  <Link
+                    href={VISION_DOORS[n]}
+                    className="group inline-flex items-center gap-1 text-sm text-accent hover:text-accent-hover font-medium"
+                  >
+                    {t(`aboutVision${n}Link`)}
+                    <ChevronRight size={15} strokeWidth={2} aria-hidden />
+                  </Link>
+                </div>
+              )}
             </li>
           ))}
         </ol>

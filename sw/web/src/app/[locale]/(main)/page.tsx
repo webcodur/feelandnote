@@ -1,9 +1,7 @@
-import { getLocale, getTranslations } from "next-intl/server";
-import { cookies } from "next/headers";
+import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import { getAboutShowcase } from "@/actions/policy/getAboutShowcase";
-import AboutBody from "./about/AboutBody";
+import HomeIntroPanel from "./about/HomeIntroPanel";
 
 export async function generateMetadata() {
   const t = await getTranslations("site");
@@ -54,14 +52,9 @@ function HomeSectionSkeleton() {
 
 export default async function MainPage() {
   const supabase = await createClient();
-  const locale = await getLocale();
   const t = await getTranslations("home.ui.tabs");
-  // 환영판을 닫은 적이 있으면 다음 방문부터는 바로 콘텐츠로 들어간다.
-  // 환영판에는 서비스 소개 본문을 통째로 실어 첫 방문 한 번에 다 보여 준다(상설본은 /about)
-  const introDismissed = (await cookies()).get("fn_intro_seen")?.value === "1";
-  const aboutPanel = introDismissed ? null : (
-    <AboutBody showcase={await getAboutShowcase(locale)} />
-  );
+  // 환영판은 첫인사 액자만 세운다. 맺음 문장이 서비스 소개(/about)로 가는 문이다
+  const aboutPanel = <HomeIntroPanel />;
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -121,14 +114,11 @@ export default async function MainPage() {
           recordSection={RecordSection}
           figureSection={FigureSectionContent}
           freeSection={<HomeFreeBoardSection />}
-          introDismissed={introDismissed}
           aboutPanel={aboutPanel}
           labels={{
             todayFigure: t("todayFigure"),
             quickRecord: t("quickRecord"),
             freeBoard: t("freeBoard"),
-            introClose: t("introClose"),
-            introReopen: t("introReopen"),
           }}
         />
         {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}

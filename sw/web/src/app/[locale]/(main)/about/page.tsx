@@ -45,7 +45,8 @@ export default async function AboutPage() {
         </Link>
       </div>
 
-      {/* 들머리 — 명패와 첫인사 액자가 한 몸이다. 설명 문장은 검색용 메타로만 남긴다 */}
+      {/* 들머리 — 명패 하나로 연다. 첫인사 액자는 홈이 맡으므로 여기 없다.
+          설명 문장은 검색용 메타로만 남긴다 */}
       <header className="pt-4 mb-8 md:mb-12 text-center space-y-5">
         <div aria-hidden className="flex items-center justify-center gap-3">
           <span className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent to-accent-dim" />

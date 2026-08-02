@@ -88,20 +88,31 @@ export interface AboutShowcase {
 /**
  * 첫 항목에 세우는 얼굴.
  *
- * 자동으로 뽑으면 조회수·기록 수가 손대는 대로 흔들려 낯선 인물이 앞에 선다.
- * 사진술 이전에 살았고 이름이 널리 알려진 사람을 한국·영미에서 반씩 고정한다.
+ * "얼굴과 목소리를 되살립니다"라고 말한 자리이므로, 실제로 목소리까지 만들어 둔
+ * 사람만 세운다(영상 인물별 음성 파일 보유 실측, 26.08.03). 자동으로 뽑으면
+ * 조회수·기록 수가 손대는 대로 흔들려 낯선 인물이 앞에 선다.
+ * 앞의 넷이 이 항목에, 뒤의 넷이 마지막 항목("당신의 자리")에 선다.
  * 인물이 지워지거나 얼굴이 빠지면 그 자리는 자동으로 비고 나머지가 그대로 선다.
  */
 const FACE_SLUGS = [
-  'sejong-the-great',
-  'william-shakespeare',
   'yi-sun-sin',
-  'isaac-newton',
-  'gwanggaeto-the-great',
-  'benjamin-franklin',
-  'jeong-yak-yong',
-  'thomas-jefferson',
+  'abraham-lincoln',
+  'alexander-the-great',
+  'elon-musk',
+  'vincent-van-gogh',
+  'leonardo-da-vinci',
+  'napoleon-bonaparte',
+  'mark-zuckerberg',
 ] as const
+
+/**
+ * 두 번째 항목에서 한 장씩 넘겨 보여 줄 세력.
+ *
+ * 자동으로 고르면 사진이 있는 아무 묶음이나 앞에 서서 무엇을 대표하는지 읽히지 않는다.
+ * 널리 알려진 셋을 못박고 이 순서대로 세운다. 신화 묶음도 함께 세우므로 실존 여부는 가리지 않는다.
+ * 사진이 빠진 묶음은 자동으로 건너뛴다.
+ */
+const TEAM_TAG_SLUGS = ['ai-pioneers', 'paypal-mafia', 'greek-roman-myth'] as const
 
 /** 세 번째 항목의 장면에 세울 인물 후보. 앞에서부터 자료가 갖춰진 사람을 쓴다 */
 const JOURNEY_SLUGS = ['elon-musk', 'bill-gates', 'park-chan-wook', 'quentin-tarantino'] as const
@@ -365,11 +376,8 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
     fetchFaces(supabase, isEn),
     supabase
       .from('celeb_tags')
-      .select('name, name_en, slug, team_images, is_featured, parent_id, description, description_en')
-      .not('team_images', 'is', null)
-      .eq('is_fiction', false)
-      .order('is_featured', { ascending: false, nullsFirst: false })
-      .limit(40),
+      .select('name, name_en, slug, team_images, description, description_en')
+      .in('slug', TEAM_TAG_SLUGS as unknown as string[]),
     fetchJourney(supabase, locale, isEn),
     fetchEvidence(supabase, locale, isEn),
     supabase
@@ -391,16 +399,14 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
       .eq('is_fiction', false),
   ])
 
-  // 같은 계열이 나란히 뜨면 "여러 분야를 묶는다"는 말과 어긋나므로 상위 묶음이 겹치지 않게 고른다
+  // 못박아 둔 순서대로 한 묶음에 한 장씩 세운다
   const teamShots: AboutTeamShot[] = []
-  const seenParent = new Set<string>()
-  for (const tag of tagsRes.data ?? []) {
-    if (teamShots.length >= 2) break
-    const parentKey = tag.parent_id ?? tag.slug ?? tag.name
-    if (seenParent.has(parentKey)) continue
+  const tagBySlug = new Map((tagsRes.data ?? []).map((tag) => [tag.slug, tag]))
+  for (const slug of TEAM_TAG_SLUGS) {
+    const tag = tagBySlug.get(slug)
+    if (!tag) continue
     const shot = toTeamImages(tag.team_images)[0]
     if (!shot) continue
-    seenParent.add(parentKey)
     const tagName = (isEn ? tag.name_en : tag.name) || tag.name
     const label = (isEn ? shot.labelEn : shot.label) ?? shot.label ?? null
     teamShots.push({
