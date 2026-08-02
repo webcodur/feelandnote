@@ -11,24 +11,45 @@ import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { ListOrdered, CalendarClock } from "lucide-react";
 import type { CuratedListSummary } from "@/actions/library/types";
+import FilmHoles from "./FilmHoles";
 
 export default function CuratedListCard({ list }: { list: CuratedListSummary }) {
   const t = useTranslations("library.curated");
 
+  // 영화 포스터도 책 표지와 같은 세로 비율이라 그림만으로는 둘이 구별되지 않는다.
+  // 영상 목록은 카드를 필름처럼 꾸며 한눈에 갈라 보이게 한다
+  const isVideo = list.contentType === "VIDEO";
+
   return (
     <Link
       href={`/library/curated/${list.curatorSlug}/${list.slug}`}
-      className="group flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-[#161616]/80 p-4 hover:border-accent/40 hover:bg-[#1b1b1b]/80"
+      className={
+        isVideo
+          ? "group flex flex-col gap-2 rounded-xl border border-white/[0.10] bg-black p-4 hover:border-accent/40"
+          : "group flex flex-col gap-2 rounded-xl border border-white/[0.06] bg-[#161616]/80 p-4 hover:border-accent/40 hover:bg-[#1b1b1b]/80"
+      }
     >
       {/* 담긴 작품 표지 — 목록 이름만으로는 무엇이 들었는지 알기 어렵다.
-          한두 장만 뜨면 빈 칸이 눈에 띄어 오히려 허전하므로 세 장부터 보인다 */}
+          한두 장만 뜨면 빈 칸이 눈에 띄어 오히려 허전하므로 세 장부터 보인다.
+          영상은 낱장으로 떼어 놓지 않고 필름처럼 이어 붙인다 */}
       {list.covers.length >= 3 && (
-        <div className="-mx-1 mb-0.5 flex gap-1">
-          {list.covers.slice(0, 5).map((src, i) => (
-            <div key={`${src}-${i}`} className="relative aspect-[3/4] flex-1 overflow-hidden rounded bg-neutral-900">
-              <Image src={src} alt="" fill className="object-cover" sizes="70px" />
-            </div>
-          ))}
+        <div className={isVideo ? "-mx-1 mb-0.5 overflow-hidden rounded bg-black" : "-mx-1 mb-0.5"}>
+          {isVideo && <FilmHoles />}
+          <div className={isVideo ? "flex gap-px" : "flex gap-1"}>
+            {list.covers.slice(0, 5).map((src, i) => (
+              <div
+                key={`${src}-${i}`}
+                className={
+                  isVideo
+                    ? "relative aspect-[3/4] flex-1 overflow-hidden bg-neutral-900"
+                    : "relative aspect-[3/4] flex-1 overflow-hidden rounded bg-neutral-900"
+                }
+              >
+                <Image src={src} alt="" fill className="object-cover" sizes="70px" />
+              </div>
+            ))}
+          </div>
+          {isVideo && <FilmHoles />}
         </div>
       )}
 

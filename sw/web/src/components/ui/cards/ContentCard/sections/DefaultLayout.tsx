@@ -127,6 +127,9 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
           <div className="absolute inset-x-0 bottom-0 h-16 md:h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
         )}
 
+        {props.overlayTopLeft && <div className="absolute left-1.5 top-1.5 z-10">{props.overlayTopLeft}</div>}
+        {props.overlayTopRight && <div className="absolute right-1.5 top-1.5 z-10">{props.overlayTopRight}</div>}
+
         {renderBottomLeft()}
         {renderSelectOverlay()}
         {renderBottomRight()}

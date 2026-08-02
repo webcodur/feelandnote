@@ -115,6 +115,12 @@ export interface CuratedListItem {
   creator: string | null
   thumbnailUrl: string | null
   contentType: string | null
+  /** 한국어판·영문판 전환에 쓰는 짝. 서비스 공통 작품 카드가 이 값으로 판을 갈아 끼운다 */
+  titleKo: string | null
+  titleEn: string | null
+  creatorEn: string | null
+  thumbnailEn: string | null
+  hasEnEdition: boolean
 }
 
 export interface CuratedListSibling {
