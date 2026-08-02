@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { factionAdminClient, requireFactionAdmin } from '@/lib/faction-db'
 import {
   toTeamImages, serializeTeamImages, type FactionTeamImage,
 } from '@feelandnote/shared/lib/faction-team-image'
@@ -41,12 +42,42 @@ export interface CelebTagAssignment {
   sort_order: number
   /** 도감에서 이 테마의 이 인물을 감출지. 셀럽 전역 상태와 무관한 웹 전용 스위치다 */
   hidden: boolean
+  /**
+   * 이 행의 유래 — 'production'은 영상 제작 인물(faction_people)에서 온 행이라
+   * 편집이 그 테이블의 web_* 칸에 쓰이고 삭제 대신 숨김만 된다.
+   * 'manual'은 웹 전용 배정(celeb_tag_assignments)이라 기존처럼 다룬다.
+   */
+  source: 'production' | 'manual'
+  /** source='production'일 때 제작 행(faction_people)의 id */
+  person_id: string | null
+  /** source='manual'일 때 배정 행(celeb_tag_assignments)의 id */
+  assignment_id: string | null
   celeb?: {
     id: string
     nickname: string
     avatar_url: string | null
     title: string | null
   }
+}
+
+/**
+ * DB 뷰 `faction_atlas_members` 한 행 — 세력도감 인물의 단일 읽기 창구.
+ * 제작 유래(faction_people, web_* 손질 우선) ∪ 웹 전용 배정을 합쳐 준다.
+ * 뷰는 자동생성 타입에 없어 로컬로 정의한다(sw/web getFeaturedTags 의 AtlasMemberRow 와 같은 패턴).
+ */
+interface AtlasMemberRow {
+  tag_id: string
+  celeb_id: string
+  short_desc: string | null
+  short_desc_en: string | null
+  long_desc: string | null
+  long_desc_en: string | null
+  faction_image_url: string | null
+  sort_order: number | null
+  hidden: boolean | null
+  source: 'production' | 'manual'
+  person_id: string | null
+  assignment_id: string | null
 }
 
 interface CreateTagInput {
@@ -94,12 +125,13 @@ export interface TagsResponse {
 // #endregion
 
 /**
- * 도감 테마 화면 갱신 — 목록(세력도감)과 테마 편집 화면 두 곳.
- * 옛 태그 관리 주소(`/celebs/tags`)는 26.07.25 에 세력도감로 흡수됐다.
+ * 도감 테마 화면 갱신 — 통합 목록(세력도감)과 통합 편집 진입점(웹 전용 테마 화면) 두 곳.
+ * 옛 태그 관리 주소(`/celebs/tags`)는 26.07.25 에, 테마 편집기(`/factions/themes/[tagId]`)는
+ * 26.08.03 편집 화면 통합에 흡수됐다.
  */
 function revalidateThemeScreens() {
   revalidatePath('/factions')
-  revalidatePath('/factions/themes/[tagId]', 'page')
+  revalidatePath('/factions/[episode]', 'page')
 }
 
 // #region getTags
@@ -339,6 +371,11 @@ export interface CelebTagWithDesc extends CelebTag {
   long_desc_en: string | null
 }
 
+/**
+ * [단일화 전환 주의] 배정 테이블만 읽는 수동 명단 전용 도구다. 제작 유래로 도감에 실리는
+ * 태그는 여기 안 잡히거나(사본 삭제 후) 옛 사본 값이 보일 수 있다 — 도감 화면의 정본은
+ * faction_atlas_members 뷰다.
+ */
 export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]> {
   const supabase = await createClient()
 
@@ -364,22 +401,76 @@ export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]>
 }
 // #endregion
 
+// #region 뷰 행 판별 - 편집 대상이 제작 유래인지 웹 전용 배정인지
+/**
+ * (태그, 셀럽) 한 짝의 뷰 행을 찾는다. 뷰가 같은 짝을 두 번 싣지 않으므로(제작 유래가 있으면
+ * 웹 전용 배정은 뷰에서 빠진다) 단건 조회로 충분하다. 쓰기 액션들이 분기 근거로 쓴다.
+ */
+async function findAtlasRow(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  tagId: string,
+  celebId: string,
+): Promise<{ row: AtlasMemberRow | null; error: string | null }> {
+  const { data, error } = await supabase
+    .from('faction_atlas_members')
+    .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, hidden, source, person_id, assignment_id')
+    .eq('tag_id', tagId)
+    .eq('celeb_id', celebId)
+    .maybeSingle()
+    .overrideTypes<AtlasMemberRow, { merge: false }>()
+
+  if (error) {
+    console.error('도감 인물 행 조회 에러:', error)
+    return { row: null, error: error.message }
+  }
+  return { row: data ?? null, error: null }
+}
+// #endregion
+
 // #region getTagCelebs - 특정 태그에 소속된 셀럽 목록 (설명 포함, 순서대로)
+/**
+ * 단일 원천 뷰(faction_atlas_members)에서 읽는다 — 제작 유래(web_* 손질 반영) ∪ 웹 전용 배정.
+ * 뷰에는 profiles 조인이 없으므로 셀럽 정보는 celeb_id 로 2단계 조회한다.
+ */
 export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('celeb_tag_assignments')
-    .select('celeb_id, tag_id, short_desc, long_desc, short_desc_en, long_desc_en, faction_image_url, sort_order, hidden, celeb:profiles!celeb_tag_assignments_celeb_id_fkey(id, nickname, avatar_url, title)')
+    .from('faction_atlas_members')
+    .select('tag_id, celeb_id, short_desc, short_desc_en, long_desc, long_desc_en, faction_image_url, sort_order, hidden, source, person_id, assignment_id')
     .eq('tag_id', tagId)
     .order('sort_order', { ascending: true })
+    .overrideTypes<AtlasMemberRow[], { merge: false }>()
 
   if (error) {
     console.error('태그 셀럽 조회 에러:', error)
     return []
   }
 
-  return (data ?? []).map(item => ({
+  const rows = data ?? []
+  const celebIds = [...new Set(rows.map(r => r.celeb_id))]
+  const profileMap = new Map<string, NonNullable<CelebTagAssignment['celeb']>>()
+
+  if (celebIds.length > 0) {
+    const { data: profiles, error: profilesError } = await supabase
+      .from('profiles')
+      .select('id, nickname, avatar_url, title')
+      .in('id', celebIds)
+
+    if (profilesError) {
+      console.error('태그 셀럽 프로필 조회 에러:', profilesError)
+    }
+    for (const p of profiles ?? []) {
+      profileMap.set(p.id, {
+        id: p.id,
+        nickname: p.nickname ?? '',
+        avatar_url: p.avatar_url ?? null,
+        title: p.title ?? null,
+      })
+    }
+  }
+
+  return rows.map(item => ({
     celeb_id: item.celeb_id,
     tag_id: item.tag_id,
     short_desc: item.short_desc,
@@ -389,7 +480,10 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
     faction_image_url: item.faction_image_url ?? null,
     hidden: item.hidden === true,
     sort_order: item.sort_order ?? 0,
-    celeb: (Array.isArray(item.celeb) ? item.celeb[0] : item.celeb) as CelebTagAssignment['celeb'],
+    source: item.source,
+    person_id: item.person_id ?? null,
+    assignment_id: item.assignment_id ?? null,
+    celeb: profileMap.get(item.celeb_id),
   }))
 }
 // #endregion
@@ -401,6 +495,11 @@ export interface CelebTagInput {
   long_desc?: string | null
 }
 
+/**
+ * [단일화 전환 주의] 배정 테이블 전면 교체 — 수동 명단 전용 도구다. 제작 유래로 커버되는
+ * (태그, 셀럽) 짝은 뷰가 제작 행을 앞세우므로 여기서 insert/delete 해도 도감 화면에는
+ * 반영되지 않는다. 그 짝의 노출·소개는 편 편집기의 도감 구획(web_* 칸)에서 다룬다.
+ */
 export async function updateCelebTags(
   celebId: string,
   tags: CelebTagInput[]
@@ -444,6 +543,12 @@ export async function updateCelebTags(
 // #endregion
 
 // #region updateTagAssignmentDesc - 단일 태그 설명 수정
+/**
+ * 소개문 저장 — 유래에 따라 쓰는 곳이 갈린다.
+ * - production: faction_people 의 web_short_desc/web_long_desc(±en) 손질 칸에 쓴다.
+ *   null 을 쓰면 손질 해제라 제작 원문이 다시 보인다(빈 칸으로 지울 수 없다).
+ * - manual: 기존처럼 celeb_tag_assignments 에 쓴다.
+ */
 export async function updateTagAssignmentDesc(
   celebId: string,
   tagId: string,
@@ -454,30 +559,59 @@ export async function updateTagAssignmentDesc(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  const updatePayload: Record<string, string | null> = { short_desc, long_desc }
-  if (short_desc_en !== undefined) updatePayload.short_desc_en = short_desc_en
-  if (long_desc_en !== undefined) updatePayload.long_desc_en = long_desc_en
-
-  const { data, error } = await supabase
-    .from('celeb_tag_assignments')
-    .update(updatePayload)
-    .eq('celeb_id', celebId)
-    .eq('tag_id', tagId)
-    .select()
-
-  if (error) {
-    console.error('태그 설명 수정 에러:', error)
-    return { success: false, error: error.message }
-  }
-
-  if (!data || data.length === 0) {
+  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  if (findError) return { success: false, error: findError }
+  if (!row) {
     console.error('태그 설명 수정 실패: 해당 레코드 없음')
     return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
   }
 
+  if (row.source === 'production') {
+    // 값이 그대로인 저장(포커스만 스친 blur)은 건너뛴다 — 안 그러면 제작 원문이
+    // web_* 사본으로 얼어붙어 이후 제작 쪽 수정이 도감에 반영되지 않는다
+    const unchanged =
+      short_desc === row.short_desc &&
+      long_desc === row.long_desc &&
+      (short_desc_en === undefined || short_desc_en === row.short_desc_en) &&
+      (long_desc_en === undefined || long_desc_en === row.long_desc_en)
+    if (unchanged) return { success: true }
+
+    await requireFactionAdmin()
+    const updatePayload: Record<string, string | null> = {
+      web_short_desc: short_desc,
+      web_long_desc: long_desc,
+    }
+    if (short_desc_en !== undefined) updatePayload.web_short_desc_en = short_desc_en
+    if (long_desc_en !== undefined) updatePayload.web_long_desc_en = long_desc_en
+
+    const { error } = await factionAdminClient()
+      .from('faction_people')
+      .update(updatePayload)
+      .eq('id', row.person_id)
+
+    if (error) {
+      console.error('제작 인물 소개 손질 저장 에러:', error)
+      return { success: false, error: error.message }
+    }
+  } else {
+    const updatePayload: Record<string, string | null> = { short_desc, long_desc }
+    if (short_desc_en !== undefined) updatePayload.short_desc_en = short_desc_en
+    if (long_desc_en !== undefined) updatePayload.long_desc_en = long_desc_en
+
+    const { error } = await supabase
+      .from('celeb_tag_assignments')
+      .update(updatePayload)
+      .eq('id', row.assignment_id)
+
+    if (error) {
+      console.error('태그 설명 수정 에러:', error)
+      return { success: false, error: error.message }
+    }
+  }
+
   revalidatePath('/celebs/[slug]', 'page')
   revalidateThemeScreens()
-  // celeb_tag_assignments 설명문 — 세력도감 소개글이 셀럽 캐시에도 실린다
+  // 소개문 — 세력도감 소개글이 셀럽 캐시에도 실린다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }
@@ -518,6 +652,8 @@ export async function searchCelebsForTag(
   }
 
   // 이미 해당 태그에 속한 셀럽 제외
+  // [단일화 전환 주의] 배정 테이블 기준이라 제작 유래 사본이 삭제되면(P4) 제작 유래 인물이
+  // 검색에 다시 뜬다 — 그 경우 addCelebToTag 가 insert 대신 숨김 해제로 받아낸다.
   if (excludeTagId && data && data.length > 0) {
     const { data: assigned } = await supabase
       .from('celeb_tag_assignments')
@@ -547,13 +683,41 @@ export async function searchCelebsForTag(
 // #endregion
 
 // #region addCelebToTag - 태그에 셀럽 추가 (가장 뒤 순서로)
+/**
+ * 웹 전용 배정 추가. 단, 그 (태그, 셀럽) 짝이 이미 제작 유래로 존재하면 새 배정을 만들지 않고
+ * 숨김(web_hidden)을 풀어 되살린다 — 같은 인물이 두 갈래로 실리는 것을 막는다.
+ */
 export async function addCelebToTag(
   celebId: string,
   tagId: string,
   short_desc?: string | null,
   long_desc?: string | null
-): Promise<{ success: boolean; error?: string; sort_order?: number }> {
+): Promise<{ success: boolean; error?: string; sort_order?: number; revived?: boolean }> {
   const supabase = await createClient()
+
+  const { row: existing, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  if (findError) return { success: false, error: findError }
+
+  if (existing?.source === 'production') {
+    if (existing.hidden !== true) {
+      return { success: false, error: '이미 해당 태그에 등록된 셀럽이다. (제작 유래)' }
+    }
+    await requireFactionAdmin()
+    const { error } = await factionAdminClient()
+      .from('faction_people')
+      .update({ web_hidden: false })
+      .eq('id', existing.person_id)
+
+    if (error) {
+      console.error('제작 유래 인물 숨김 해제 에러:', error)
+      return { success: false, error: error.message }
+    }
+
+    revalidateThemeScreens()
+    revalidatePath('/celebs/[slug]', 'page')
+    await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+    return { success: true, revived: true }
+  }
 
   // 현재 태그의 최대 sort_order 조회
   const { data: maxData } = await supabase
@@ -593,17 +757,44 @@ export async function addCelebToTag(
 // #endregion
 
 // #region removeCelebFromTag - 태그에서 셀럽 제거
+/**
+ * 제거 — 유래에 따라 실체가 다르다.
+ * - manual: 배정 행을 지운다(기존 동작).
+ * - production: 지울 실체가 배정이 아니라 제작 인물이라 삭제할 수 없다.
+ *   대신 web_hidden=true 로 숨기고 `hiddenInstead` 로 알린다.
+ */
 export async function removeCelebFromTag(
   celebId: string,
   tagId: string
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; error?: string; hiddenInstead?: boolean }> {
   const supabase = await createClient()
+
+  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  if (findError) return { success: false, error: findError }
+  if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
+
+  if (row.source === 'production') {
+    await requireFactionAdmin()
+    const { error } = await factionAdminClient()
+      .from('faction_people')
+      .update({ web_hidden: true })
+      .eq('id', row.person_id)
+
+    if (error) {
+      console.error('제작 유래 인물 숨김 처리 에러:', error)
+      return { success: false, error: error.message }
+    }
+
+    revalidateThemeScreens()
+    revalidatePath('/celebs/[slug]', 'page')
+    await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+    return { success: true, hiddenInstead: true }
+  }
 
   const { error } = await supabase
     .from('celeb_tag_assignments')
     .delete()
-    .eq('celeb_id', celebId)
-    .eq('tag_id', tagId)
+    .eq('id', row.assignment_id)
 
   if (error) {
     console.error('태그에서 셀럽 제거 에러:', error)
@@ -619,33 +810,55 @@ export async function removeCelebFromTag(
 // #endregion
 
 // #region updateTagCelebOrder - 태그 내 셀럽 순서 업데이트
+/**
+ * 순서 저장 — **웹 전용 배정에만** 먹는다. 제작 유래 행의 순서는 제작 편집기 소관이라
+ * 건너뛰고, 건너뛴 수를 `skippedProduction` 으로 알린다. 뷰가 제작 순번을 앞에,
+ * 웹 전용을 뒤에 두므로 여기서는 웹 전용끼리의 상대 순서만 기록한다.
+ */
 export async function updateTagCelebOrder(
   tagId: string,
   celebIds: string[]
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; error?: string; skippedProduction?: number }> {
   const supabase = await createClient()
 
-  // 순서대로 sort_order 업데이트
-  const updates = celebIds.map((celebId, index) =>
-    supabase
-      .from('celeb_tag_assignments')
-      .update({ sort_order: index })
-      .eq('tag_id', tagId)
-      .eq('celeb_id', celebId)
-  )
+  const { data: viewRows, error: viewError } = await supabase
+    .from('faction_atlas_members')
+    .select('celeb_id, source')
+    .eq('tag_id', tagId)
+    .overrideTypes<Pick<AtlasMemberRow, 'celeb_id' | 'source'>[], { merge: false }>()
 
-  const results = await Promise.all(updates)
-  const hasError = results.some(r => r.error)
-
-  if (hasError) {
-    console.error('태그 셀럽 순서 변경 에러:', results.find(r => r.error)?.error)
+  if (viewError) {
+    console.error('태그 셀럽 순서 변경 에러(뷰 조회):', viewError)
     return { success: false, error: '셀럽 순서 변경에 실패했다.' }
+  }
+
+  const manualIds = new Set((viewRows ?? []).filter(r => r.source === 'manual').map(r => r.celeb_id))
+  const manualOrder = celebIds.filter(id => manualIds.has(id))
+  const skippedProduction = celebIds.length - manualOrder.length
+
+  if (manualOrder.length > 0) {
+    // 웹 전용끼리의 상대 순서대로 sort_order 업데이트
+    const updates = manualOrder.map((celebId, index) =>
+      supabase
+        .from('celeb_tag_assignments')
+        .update({ sort_order: index })
+        .eq('tag_id', tagId)
+        .eq('celeb_id', celebId)
+    )
+
+    const results = await Promise.all(updates)
+    const hasError = results.some(r => r.error)
+
+    if (hasError) {
+      console.error('태그 셀럽 순서 변경 에러:', results.find(r => r.error)?.error)
+      return { success: false, error: '셀럽 순서 변경에 실패했다.' }
+    }
   }
 
   revalidateThemeScreens()
   // celeb_tag_assignments.sort_order — 셀럽 목록 카드 노출 순서에도 반영된다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
-  return { success: true }
+  return { success: true, skippedProduction }
 }
 // #endregion
 
@@ -688,15 +901,31 @@ export async function setTagCelebHidden(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  const { error } = await supabase
-    .from('celeb_tag_assignments')
-    .update({ hidden })
-    .eq('tag_id', tagId)
-    .eq('celeb_id', celebId)
+  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  if (findError) return { success: false, error: findError }
+  if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
 
-  if (error) {
-    console.error('도감 노출 전환 에러:', error)
-    return { success: false, error: error.message }
+  if (row.source === 'production') {
+    await requireFactionAdmin()
+    const { error } = await factionAdminClient()
+      .from('faction_people')
+      .update({ web_hidden: hidden })
+      .eq('id', row.person_id)
+
+    if (error) {
+      console.error('도감 노출 전환 에러(제작 유래):', error)
+      return { success: false, error: error.message }
+    }
+  } else {
+    const { error } = await supabase
+      .from('celeb_tag_assignments')
+      .update({ hidden })
+      .eq('id', row.assignment_id)
+
+    if (error) {
+      console.error('도감 노출 전환 에러:', error)
+      return { success: false, error: error.message }
+    }
   }
 
   revalidateThemeScreens()
@@ -713,19 +942,35 @@ export async function setTagCelebImage(
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
 
-  const { error } = await supabase
-    .from('celeb_tag_assignments')
-    .update({ faction_image_url: url })
-    .eq('tag_id', tagId)
-    .eq('celeb_id', celebId)
+  const { row, error: findError } = await findAtlasRow(supabase, tagId, celebId)
+  if (findError) return { success: false, error: findError }
+  if (!row) return { success: false, error: '해당 태그 할당을 찾을 수 없다.' }
 
-  if (error) {
-    console.error('전용 화보 저장 에러:', error)
-    return { success: false, error: error.message }
+  if (row.source === 'production') {
+    await requireFactionAdmin()
+    const { error } = await factionAdminClient()
+      .from('faction_people')
+      .update({ web_image_url: url })
+      .eq('id', row.person_id)
+
+    if (error) {
+      console.error('전용 화보 저장 에러(제작 유래):', error)
+      return { success: false, error: error.message }
+    }
+  } else {
+    const { error } = await supabase
+      .from('celeb_tag_assignments')
+      .update({ faction_image_url: url })
+      .eq('id', row.assignment_id)
+
+    if (error) {
+      console.error('전용 화보 저장 에러:', error)
+      return { success: false, error: error.message }
+    }
   }
 
   revalidateThemeScreens()
-  // celeb_tag_assignments.faction_image_url — 셀럽 카드 이미지에도 반영된다
+  // faction_image_url — 셀럽 카드 이미지에도 반영된다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }
 }

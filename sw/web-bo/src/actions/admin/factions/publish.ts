@@ -1,29 +1,32 @@
 'use server'
 
 /**
- * 세력도감 출간 — 제작 데이터를 서비스(세력도감)로 투영한다.
+ * 세력도감 출간 — 제작 데이터의 사진·영상·음악·태그를 서비스(세력도감)에 반영한다.
  *
- * 방향은 제작 → 서비스 **단방향·채움 전용**이다(문서 §4). 되돌아오는 길은 없다.
- *   faction_groups.tag_id   → celeb_tags
- *   faction_people.celeb_id → celeb_tag_assignments (같은 셀럽이 여러 자리에 있으면
- *                             세력·묶음·인물 순번이 가장 앞인 자리를 채택 — 문서 §4 배치 충돌 규칙)
- *   개인샷·그룹샷 → 이미지 저장소(불변 캐시 + ?v= 정책)
+ * **인물 텍스트(대사·직함·소개)는 출간 대상이 아니다(26.08.03 단일화).** 웹·BO 모두 DB 뷰
+ * `faction_atlas_members` 로 faction_people 을 직접 읽으므로 저장 즉시 도감에 반영된다.
+ * 출간이 나르는 것은 파일과 기록뿐이다.
+ *   faction_groups.tag_id → celeb_tags (행 생성·이름·색 채움)
+ *   개인샷 → 이미지 저장소 업로드 + faction_people.web_image_url (같은 셀럽이 여러 자리에
+ *            있으면 앞자리 행에만 기록 — 뷰가 앞자리를 채택한다. 문서 §4 배치 충돌 규칙)
+ *   그룹샷 → 이미지 저장소 업로드 + celeb_tags.team_images
+ *   유튜브 영상·테마 음악 → celeb_tags.youtube_videos·theme_music
  *
  * 이 파일은 **사람 확인과 환경 점검만** 한다. 진단은 `lib/faction-sync/diagnose`,
- * 실제 투영은 `lib/faction-sync/publish` 소유다 — 액션 안에 로직을 두면 Next 밖에서 부를 수 없어
+ * 실제 반영은 `lib/faction-sync/publish` 소유다 — 액션 안에 로직을 두면 Next 밖에서 부를 수 없어
  * 검증이 불가능하다(대본 저장이 `lib/faction-save` 로 빠져 있는 것과 같은 이유다).
  *
  * 사진은 렌더 저장소(sw/remotion/public/factions/)의 로컬 파일이라 `FACTION_LOCAL=1` 이 필요하다.
- * 텍스트만 투영하는 범위는 그 없이도 돈다.
+ * 태그만 다루는 범위는 그 없이도 돈다.
  */
 
 import { requireFactionAdmin, factionAdminClient } from '@/lib/faction-db'
 import { FACTION_LOCAL } from '@/lib/faction-local'
-import { buildStatus } from '@/lib/faction-sync/diagnose'
+import { buildImageSyncSummary, buildStatus } from '@/lib/faction-sync/diagnose'
 import { publishEpisode } from '@/lib/faction-sync/publish'
 import { missingSupabaseEnv } from '@/lib/faction-sync/supabase'
 import type {
-  FactionPublishRequest, FactionPublishResult, FactionSyncStatus,
+  FactionImageSyncSummary, FactionPublishRequest, FactionPublishResult, FactionSyncStatus,
 } from '@/lib/faction-sync/types'
 
 /** 사람 확인 + 환경 점검. 조용한 폴백 금지 — 키가 없으면 사유를 들고 던진다 */
@@ -46,7 +49,21 @@ export async function diagnoseFactionPublish(folder: string): Promise<FactionSyn
 }
 
 /**
- * 출간 — 태그·배정·소개문·사진을 서비스로 채운다.
+ * 사진 동기 집계 — 편 편집기 헤더 배지용. 전체 진단(`diagnoseFactionPublish`)의 사진 항목만
+ * 같은 판정으로 가볍게 센다(읽기 전용).
+ *
+ * 렌더 저장소가 이 컴퓨터에 없으면(FACTION_LOCAL 미설정) 로컬 원본과 견줄 수 없다 —
+ * 판정 불가는 `null` 로 알리고 배지는 뜨지 않는다(0으로 위장하지 않는다).
+ */
+export async function summarizeFactionImageSync(folder: string): Promise<FactionImageSyncSummary | null> {
+  await guard()
+  if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
+  if (!FACTION_LOCAL) return null
+  return buildImageSyncSummary(factionAdminClient(), folder)
+}
+
+/**
+ * 출간 — 태그·사진·영상·음악을 서비스로 채운다. 인물 텍스트는 뷰가 직접 읽으므로 다루지 않는다.
  *
  * `dryRun` 이면 쓰기 직전까지 똑같이 계산하고 변경 예정 목록만 돌려준다.
  * 사진 범위를 켰는데 렌더 저장소가 연결돼 있지 않으면(FACTION_LOCAL 미설정) 그 사실을 알린다 —
@@ -61,6 +78,7 @@ export async function publishFactionEpisode(req: FactionPublishRequest): Promise
   const wantsLocalFiles = !scope
     || !Object.values(scope).some(v => v === true)   // 아무것도 안 켜면 전 범위 실행이다
     || scope.personImages === true
+    || scope.logos === true
     || scope.teamImages === true
     || scope.videos === true
     || scope.music === true

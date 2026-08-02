@@ -55,22 +55,11 @@ export interface PublishPerson {
   quoteVoiceIds: Partial<Record<FactionVoiceLocale, string>>
   place: Placement
   /**
-   * 태그 안 등장 순번 — assignments.sort_order 로 그대로 들어간다.
-   * 한 태그를 여러 세력이 나눠 쓰는 편(페이팔 마피아 4세력 → 태그 1개)이 있으므로
-   * 세력별 0부터가 아니라 태그를 관통하는 전역 일련번호다(세력 → 묶음 → 인물 순).
+   * 도감에 실린 개인샷 주소(faction_people.web_image_url) — 개인샷 출간의 기록처이자
+   * 이미 올라갔는지(unchanged) 판정의 근거다. 인물 텍스트(대사·직함·소개)는 뷰가
+   * faction_people 을 직접 읽으므로 여기서 나르지 않는다.
    */
-  order: number
-  shortDesc?: string
-  longDesc?: string
-  shortDescEn?: string
-  longDescEn?: string
-  /**
-   * 인물 대사 — 도감 개인 화보에서 말풍선으로 뜬다.
-   * 소개문과 달리 **제작 데이터가 유일한 출처**라 출간이 항상 그대로 되쓴다(publish.ts 참조).
-   * 비었으면 undefined — 도감 쪽 값도 비워야 하므로 출간이 null 로 되쓴다.
-   */
-  quote?: string
-  quoteEn?: string
+  webImageUrl: string | null
   image?: LocalImageRef
 }
 
@@ -101,6 +90,13 @@ export interface PublishGroup {
   disabled: boolean
   /** 가로 롱폼 전용 — 지금 나가는 영상은 전부 세로라 어느 편에도 안 나온다 */
   longformOnly: boolean
+  /** 세력 로고(data.logoImg) — 영상 타이틀 카드에 쓰는 이미지. 없는 세력이 많다 */
+  logo?: LocalImageRef
+  /**
+   * 도감에 실린 로고 주소(faction_groups.web_logo_url) — 로고 출간의 기록처이자
+   * 이미 올라갔는지(unchanged) 판정의 근거다.
+   */
+  webLogoUrl: string | null
   people: PublishPerson[]
   /**
    * 그룹샷 — num 은 묶음 번호(1부터). R2 키에 세력 번호와 함께 g01c01 로 들어간다.
@@ -121,6 +117,10 @@ export interface PublishGroup {
 export interface PublishEpisode {
   folder: string
   episodeId: string
+  /** 편 제목 첫 줄 — 여러 세력이 한 태그를 나눠 쓸 때 테마 간판과 견주는 상대(진단 ⑦) */
+  title?: string
+  /** 편 제목 영문 첫 줄 — 간판 대조는 영문 기준이다(한글 표기 차이는 오탐) */
+  titleEn?: string
   groups: PublishGroup[]
   /**
    * 롱폼 배치 — DB 는 세력을 uuid 로 가리키지만 여기서는 **세력 인덱스**로 되돌려 담는다
@@ -207,40 +207,6 @@ export function quoteVoiceIdsOf(data: unknown): Partial<Record<FactionVoiceLocal
   return out
 }
 
-/** 문자열 배열 컬럼(lines·lines_en) 정리 */
-function textArray(v: unknown): string[] {
-  if (!Array.isArray(v)) return []
-  return v.map(x => (typeof x === 'string' ? x.trim() : '')).filter(Boolean)
-}
-
-/**
- * 제작 문구를 서비스 도감의 태그-인물 소개 초안으로 투영한다.
- *
- * 두 필드는 같은 '수식어'가 아니다.
- * - lines[0]: 영상에서 이름 곁에 붙는 짧은 대표 직함 → 웹 한줄 소개
- * - epithet: 영상에서 보여 주거나 읽는 한 문장 소개 → 웹 상세 설명
- *
- * 출간은 이 초안을 빈 칸에만 채운다. 이미 도감에서 세력 맥락에 맞게 다듬은 글은 보존한다.
- */
-export function descsOf(p: Row) {
-  const lines = textArray(p.lines)
-  const linesEn = textArray(p.lines_en)
-  const epithet = typeof p.epithet === 'string' ? p.epithet.trim() : ''
-  const epithetEn = typeof p.epithet_en === 'string' ? p.epithet_en.trim() : ''
-  return {
-    shortDesc: lines[0] || undefined,
-    longDesc: epithet || lines.slice(1, 3).join(', ') || undefined,
-    shortDescEn: linesEn[0] || undefined,
-    longDescEn: epithetEn || linesEn.slice(1, 3).join(', ') || undefined,
-  }
-}
-
-/** 인물 대사 — 공백만 있는 값은 없는 것으로 본다 */
-function quotesOf(p: Row) {
-  const pick = (v: unknown) => (typeof v === 'string' && v.trim() ? v.trim() : undefined)
-  return { quote: pick(p.quote), quoteEn: pick(p.quote_en) }
-}
-
 /* ── DB 읽기 ── */
 
 /** `.in()` 청크 조회 — 462개를 단일 in() 에 실어 실패한 실측 이력이 있어 200 으로 끊는다 */
@@ -256,11 +222,13 @@ async function inChunks(
   return out
 }
 
-const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, part, disabled, longform_only, data'
+const GROUP_SELECT = 'id, position, name, name_en, color, tag_id, part, disabled, longform_only, web_logo_url, data'
 const CLUSTER_SELECT = 'id, group_id, position, label, label_en, image'
 // `data` 는 대사 목소리 대조(진단 ⑥) 때문에 함께 받는다. 큰 덩어리인 채굴 어록은 별도 컬럼(mined)이라
 // 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
-const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, epithet, epithet_en, lines, lines_en, quote, quote_en, image, data'
+// 인물 텍스트(epithet·lines·quote)는 받지 않는다 — 뷰(faction_atlas_members)가 직접 읽는 단일 원천이라
+// 출간이 나를 것이 없다. web_image_url 은 개인샷 출간의 기록처라 함께 받는다.
+const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, web_image_url, image, data'
 
 const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as number)
 
@@ -272,7 +240,7 @@ const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as n
  */
 export async function collectEpisode(db: SupabaseClient, folder: string): Promise<PublishEpisode> {
   const { data: epRow, error: epErr } = await db
-    .from('faction_episodes').select('id, longform_layout').eq('folder', folder).maybeSingle()
+    .from('faction_episodes').select('id, title, title_en, longform_layout').eq('folder', folder).maybeSingle()
   if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)
   if (!epRow) throw new Error(`에피소드를 찾을 수 없습니다: ${folder}`)
   const episodeId = epRow.id as string
@@ -320,9 +288,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
           mythical: p.mythical === true,
           quoteVoiceIds: quoteVoiceIdsOf(p.data),
           place: [index, ci, pi] as const,
-          order: 0, // assignTagOrder 가 태그 관통 번호로 다시 매긴다
-          ...descsOf(p),
-          ...quotesOf(p),
+          webImageUrl: typeof p.web_image_url === 'string' && p.web_image_url.trim() ? p.web_image_url : null,
           image: resolveImageRef(folder, p.image),
         })
       }
@@ -356,6 +322,8 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
       }))
       .filter((t): t is PublishGroup['teamShots'][number] => !!t.image)
 
+    const logo = resolveImageRef(folder, data.logoImg)
+
     const imgFolder = folderOfGroup([...people.map(p => p.image), ...teamShots.map(t => t.image)])
     const nameEn = firstLine(g.name_en)
     const suggestedSlug = (imgFolder && slugFromFolder(imgFolder)) || slugify(nameEn) || slugify(firstLine(g.name))
@@ -374,14 +342,24 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
       part: typeof g.part === 'number' && g.part > 0 ? g.part : undefined,
       disabled: g.disabled === true,
       longformOnly: g.longform_only === true,
+      ...(logo ? { logo } : {}),
+      webLogoUrl: typeof g.web_logo_url === 'string' && g.web_logo_url.trim() ? g.web_logo_url : null,
       people,
       teamShots,
     }
   })
 
-  assignTagOrder(groups)
   const longformLayout = toLayoutByIndex(epRow.longform_layout, groupRows)
-  return { folder, episodeId, groups, ...(longformLayout ? { longformLayout } : {}) }
+  const title = firstLine(epRow.title)
+  const titleEn = firstLine(epRow.title_en)
+  return {
+    folder,
+    episodeId,
+    ...(title ? { title } : {}),
+    ...(titleEn ? { titleEn } : {}),
+    groups,
+    ...(longformLayout ? { longformLayout } : {}),
+  }
 }
 
 /**
@@ -414,22 +392,6 @@ function toLayoutByIndex(raw: unknown, groupRows: Row[]): FactionLongformLayoutI
 }
 
 /**
- * 순번(sort_order)을 태그 단위 전역 일련번호로 매긴다 — 세력 → 묶음 → 인물 순.
- * 세력별 0부터 매기면 한 태그를 나눠 쓰는 뒤 세력이 앞 세력의 순번을 그대로 덮어써
- * 도감 인물 순서가 뒤엉킨다(페이팔 마피아 4세력 → 태그 1개).
- * 태그가 없는 세력은 서로 섞이지 않게 세력별로 따로 센다.
- */
-export function assignTagOrder(groups: PublishGroup[]): void {
-  const seq = new Map<string, number>()
-  for (const g of groups) {
-    const key = tagKeyOf(g)
-    let n = seq.get(key) ?? 0
-    for (const p of g.people) { p.order = n; n += 1 }
-    seq.set(key, n)
-  }
-}
-
-/**
  * 태그 묶음 열쇠 — 같은 태그를 나눠 쓰는 세력끼리 한 묶음으로 묶는 기준.
  *
  * **연결 키(tagSlug)를 먼저 본다.** `tag_id` 는 연결 키에서 파생된 값이라, 한쪽 세력만 이어져 있고
@@ -450,7 +412,8 @@ export function groupsOfSameTag(episode: PublishEpisode, target: PublishGroup): 
 
 /**
  * 배치 충돌 규칙(§4) — 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인** 배치만 채택한다.
- * `celeb_tag_assignments` 는 (셀럽, 태그) 하나뿐이라 뒤 배치가 앞 배치를 덮어쓰기 때문이다.
+ * 뷰(faction_atlas_members)가 태그당 같은 셀럽의 앞자리 행을 채택하므로, 개인샷 주소도
+ * 그 행(faction_people.web_image_url)에만 기록해야 화면과 어긋나지 않는다.
  *
  * 세력을 하나씩 출간해도 결과가 같아야 하므로 판정은 **편 전체**를 보고 한다.
  * @returns `${tagKey}:${celebId}` → 채택된 인물의 faction_people.id
@@ -477,7 +440,7 @@ function comparePlace(a: Placement, b: Placement): number {
 
 /** 개인샷 R2 키 — 고정 키(덮어쓰기) */
 export function soloShotKey(tagId: string, celebId: string): string {
-  return `spotlight/${tagId}/celeb-${celebId}.webp`
+  return `faction/${tagId}/celeb-${celebId}.webp`
 }
 
 /**
@@ -488,7 +451,16 @@ export function soloShotKey(tagId: string, celebId: string): string {
 export function teamShotKey(tagId: string, groupNum: number, clusterNum: number, hash: string): string {
   const g = String(groupNum).padStart(2, '0')
   const c = String(clusterNum).padStart(2, '0')
-  return `spotlight/${tagId}/team/g${g}c${c}-${hash}.webp`
+  return `faction/${tagId}/team/g${g}c${c}-${hash}.webp`
+}
+
+/**
+ * 세력 로고 R2 키 — 세력 번호(2자리) + 원본 해시 8자. 그룹샷과 같은 규칙으로,
+ * 로고가 바뀌면 키가 갈리고 한 태그를 여러 세력이 나눠 써도 서로 덮지 않는다.
+ * `sq`는 변환 세대 표식 — 1:1 중앙 크롭(26.08.03)으로 바뀌며 옛 비율 유지본과 키를 가른다.
+ */
+export function logoKey(tagId: string, groupNum: number, hash: string): string {
+  return `faction/${tagId}/logo-sq-g${String(groupNum).padStart(2, '0')}-${hash}.webp`
 }
 
 /** 로컬 파일 해시 — 파일이 없으면 null */

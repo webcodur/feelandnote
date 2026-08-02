@@ -31,5 +31,16 @@ export async function toTeamShot(src: Buffer): Promise<Buffer> {
     .toBuffer()
 }
 
-/** 업로드 콘텐츠 타입 — 두 변환 모두 webp 로 낸다 */
+/**
+ * 세력 로고 — 도감이 정사각 칸으로 쓰므로 **1:1 중앙 크롭**한다(26.08.03 결정).
+ * 세로형 로고(스트리밍 제국 768×1376 등)는 가운데 부분만 살린다.
+ */
+export async function toLogo(src: Buffer): Promise<Buffer> {
+  return sharp(src)
+    .resize(720, 720, { fit: 'cover', position: 'centre' })
+    .webp({ quality: 85 })
+    .toBuffer()
+}
+
+/** 업로드 콘텐츠 타입 — 세 변환 모두 webp 로 낸다 */
 export const OUTPUT_CONTENT_TYPE = 'image/webp'

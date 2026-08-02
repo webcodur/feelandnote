@@ -1,10 +1,10 @@
 'use client'
 
 /**
- * 새 도감 테마 만들기 — 이름·설명·색·주소·노출만 받는다.
+ * 새 웹 전용 테마 만들기 — 이름·설명·색·주소·노출만 받는다.
  *
- * 영상 편 없이 글만으로 테마를 세우는 창구다. 인물 배정과 사진은 만든 뒤
- * 테마 편집 화면에서 채운다(여기서 다 받으면 화면이 두 벌이 된다).
+ * 영상 편 없이 글만으로 테마를 세우는 창구다. 인물 명단과 사진은 만든 뒤
+ * 그 테마의 화면(`/factions/<테마>`)에서 채운다(여기서 다 받으면 화면이 두 벌이 된다).
  */
 
 import { useState } from 'react'
@@ -12,7 +12,7 @@ import { X, Sparkles } from 'lucide-react'
 import { type CelebTag, createTag } from '@/actions/admin/tags'
 
 interface Props {
-  /** 지금은 만들기 전용이라 항상 null 이다 — 수정은 테마 편집 화면이 맡는다 */
+  /** 지금은 만들기 전용이라 항상 null 이다 — 수정은 테마 화면(통합 편집 진입점)이 맡는다 */
   tag: CelebTag | null
   onClose: (newTag?: CelebTag) => void
 }
@@ -90,7 +90,7 @@ export default function ThemeFormModal({ tag, onClose }: Props) {
       <div className="bg-bg-card border border-border rounded-2xl w-full max-w-md mx-4 overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border shrink-0">
-          <h2 className="text-lg font-semibold text-text-primary">새 도감 테마</h2>
+          <h2 className="text-lg font-semibold text-text-primary">새 웹 전용 테마</h2>
           <button
             onClick={() => onClose()}
             className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-secondary"

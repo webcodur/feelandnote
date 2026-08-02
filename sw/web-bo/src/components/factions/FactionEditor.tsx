@@ -32,7 +32,7 @@ function measureDuration(url: string): Promise<number> {
     a.src = url
   })
 }
-import { Plus, Eye, Upload, Save, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp, FolderOpen } from '@feelandnote/shared/bo/icons'
+import { Plus, Eye, Upload, Search, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp, FolderOpen } from '@feelandnote/shared/bo/icons'
 import { FactionGroupEditor } from './FactionEditor/FactionGroupEditor/FactionGroupEditor'
 import { FactionCopyButton } from './shared/FactionCopyButton'
 import { FactionNameCopyButton } from './shared/FactionNameCopyButton'
@@ -43,11 +43,13 @@ import FactionEpisodeActions from './FactionEpisodeActions'
 import { collectUsedImages, remapFactionImages } from './shared/usedImages'
 import { TaskPanel } from '@/components/TaskPanel'
 import { FactionVoiceProvider, type FactionVoiceMeta } from './shared/FactionVoiceContext'
+import { FactionAtlasProvider } from './shared/FactionAtlasContext'
 import { FactionVoiceModal, type FactionVoiceOptions } from './FactionEditor/FactionVoiceModal'
 import { FactionQuoteModeModal } from './FactionEditor/FactionQuoteModeModal'
 import { FactionHeroPicker, type HeroCandidate } from './FactionEditor/FactionHeroPicker'
 import { FactionYouTubePanel } from './FactionEditor/FactionYouTubePanel'
 import { FactionPublishPanel } from './FactionPublishPanel'
+import { FactionImageSyncBadge } from './FactionImageSyncBadge'
 import { FactionNarratorPanel } from './FactionEditor/FactionNarratorPanel'
 import { FactionCommentPanel } from './FactionEditor/FactionCommentPanel'
 import { FactionEffectsSheet } from './FactionEditor/FactionEffectsSheet'
@@ -159,6 +161,19 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
   const appliedCardTargetOpen = useRef(false)
   
   const [crossMoveTarget, setCrossMoveTarget] = useState<{ fromGi: number; fromCi: number; fromPi: number } | null>(null)
+  // 도감 상태 재조회 신호 — 대본 저장이 인물 행(자리·id)을 갈아끼우므로 저장마다 올린다
+  const [atlasReloadKey, setAtlasReloadKey] = useState(0)
+  // 사진 동기 배지 재집계 신호 — 출간 패널을 닫을 때 올린다(패널 안 출간이 반영 기록을 바꿨을 수 있다)
+  const [imageSyncReloadKey, setImageSyncReloadKey] = useState(0)
+  // 저장 완료 알림 — 저장에 이어 돈 자동 사진 공정의 결과 한 줄. 잠시 떴다 사라진다
+  const [saveNote, setSaveNote] = useState<{ text: string; warn: boolean } | null>(null)
+
+  // 저장 알림 자동 소멸 — 경고는 읽을 시간을 더 준다
+  useEffect(() => {
+    if (!saveNote) return
+    const t = setTimeout(() => setSaveNote(null), saveNote.warn ? 12000 : 5000)
+    return () => clearTimeout(t)
+  }, [saveNote])
 
   useEffect(() => {
     if (appliedCardTargetOpen.current) return
@@ -198,13 +213,28 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
 
   /**
    * 대본 저장 — 이 앱은 DB가 원본이라 창구가 아니라 서버 액션으로 저장한다(문서 §8).
-   * 저장이 끝나면 파일(faction-data.json)도 자동으로 다시 만들어진다 — 렌더·음성이 그 파일을 읽는다.
+   * 저장이 끝나면 렌더용 파일(faction-data.json)과 도감 반영(태그·사진·영상·음악)도
+   * 자동으로 따라온다 — 저장 버튼 하나가 전부다.
    */
   const persistScript = useCallback(async (next: FactionScript) => {
     const base = updatedAtRef.current
     if (!base) throw new Error('대본을 아직 다 불러오지 못했습니다 — 잠시 후 다시 저장하세요')
     const res = await saveFactionScript(name, next as unknown as Record<string, unknown>, base)
     updatedAtRef.current = res.updatedAt
+    // 저장이 인물 행을 전량 갈아끼웠다 — 도감 구획·사진 배지가 새 상태를 다시 읽게 한다
+    setAtlasReloadKey(k => k + 1)
+    // 저장에 이어 돈 자동 반영 결과 — 실패해도 저장은 성공이라 알림으로만 보인다
+    const pub = res.published
+    if (!pub) {
+      setSaveNote(null)
+    } else if (!pub.ran) {
+      setSaveNote({ text: pub.reason, warn: pub.reason.includes('실패') })
+    } else {
+      const parts = [`반영 ${pub.uploaded}건`]
+      if (pub.blocked > 0) parts.push(`막힘 ${pub.blocked}`)
+      if (pub.warnings?.length) parts.push(pub.warnings[0])
+      setSaveNote({ text: `저장 완료 · ${parts.join(' · ')}`, warn: pub.blocked > 0 || !!pub.warnings?.length })
+    }
     if (res.exported && !res.exported.written) {
       // 저장은 됐지만 렌더용 파일을 못 갈았다 — 그대로 두면 옛 내용으로 영상이 나간다
       alert(`저장은 됐지만 렌더용 파일을 새로 쓰지 못했습니다.
@@ -740,6 +770,7 @@ ${res.exported.reason}`)
   }
 
   return (
+    <FactionAtlasProvider folder={name} reloadKey={atlasReloadKey}>
     <FactionVoiceProvider value={{
       byFile: voiceByFile,
       voiceUrl,
@@ -859,7 +890,7 @@ ${res.exported.reason}`)
               <option value="zoompunch">확 다가오기</option>
               <option value="whip">빠르게 스쳐 지나기</option>
               <option value="filmburn">필름 타들어가듯</option>
-              <option value="pixelate">모자이크로 흩어지기</option>
+              <option value="pixelate">뿌옇게 뭉갰다 또렷해지기</option>
               <option value="shutter">블라인드 열리기</option>
             </select>
             <span className="text-xs text-text-dim">세로 쇼츠 인물 사진 움직임</span>
@@ -1011,16 +1042,27 @@ ${res.exported.reason}`)
             >
               <Upload size={15} /> 유튜브
             </button>
+            {/* 사진 경고 배지 — 반영이 막혔거나 원본이 없는 사진이 있을 때만 뜬다(평상시 비표시).
+                대본 저장(atlasReloadKey)마다 다시 센다. FACTION_LOCAL 없으면 판정 불가라 안 뜬다. */}
+            <FactionImageSyncBadge
+              folder={name}
+              reloadKey={atlasReloadKey + imageSyncReloadKey}
+              onOpenPublish={() => setShowPublish(true)}
+            />
             <button
-              onClick={() => setShowPublish(v => !v)}
+              onClick={() => {
+                // 닫히는 순간 배지를 다시 센다 — 패널 안에서 수동 반영을 돌렸을 수 있다
+                if (showPublish) setImageSyncReloadKey(k => k + 1)
+                setShowPublish(v => !v)
+              }}
               className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
                 showPublish
                   ? 'border-accent bg-accent/10 text-accent'
                   : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
               }`}
-              title="세력도감(본서비스) DB 출간 — 진단·미리보기·반영"
+              title="세력도감(본서비스) 반영 진단 — 저장이 자동 반영하므로 평소엔 필요 없다. 무엇이 어긋났는지 확인·미리보기·수동 재실행"
             >
-              <Save size={15} /> 출간
+              <Search size={15} /> 진단
             </button>
             <button
               onClick={toggleCards}
@@ -1031,6 +1073,18 @@ ${res.exported.reason}`)
               카드/도감
             </button>
             <FloatingSaveButton dirty={dirty} saving={saving} onSave={save} />
+            {/* 저장 완료 알림 — 저장에 딸려 돈 사진 공정 결과(「사진 N장 반영」). 저장 단추 위에 잠시 뜬다 */}
+            {saveNote && (
+              <div
+                className={`fixed bottom-20 right-6 z-50 max-w-sm rounded-md border px-3 py-2 text-xs shadow-lg ${
+                  saveNote.warn
+                    ? 'border-amber-500 bg-amber-500/15 text-amber-500'
+                    : 'border-border bg-bg-card text-text-secondary'
+                }`}
+              >
+                {saveNote.text}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1677,6 +1731,7 @@ ${res.exported.reason}`)
       )}
     </div>
     </FactionVoiceProvider>
+    </FactionAtlasProvider>
   )
 }
 

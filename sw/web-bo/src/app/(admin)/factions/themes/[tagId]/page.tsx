@@ -1,41 +1,16 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { getTag, getTagCelebs } from '@/actions/admin/tags'
-import { getThemeEpisodeLinks, getThemeParentOptions } from '@/actions/admin/factions/themes'
-import ThemeEditor from './ThemeEditor'
-
-export const metadata: Metadata = {
-  title: '도감 테마',
-}
+import { redirect } from 'next/navigation'
 
 /**
- * 도감 테마 편집 — 테마 하나가 화면 한 장.
+ * 옛 테마 편집기 주소 — 26.08.03 편집 화면 통합으로 폐기됐다.
  *
- * 영상 편이 없어도 열린다. 세력도감은 글과 사진만으로도 성립하기 때문이다.
+ * 통합 진입점(`/factions/{토막}`)이 테마 id 도 해석한다. 웹 전용 테마는 그 자리에서
+ * 도감 구획만으로 열리고, 제작 편에 연결된 테마는 그 편의 편집기로 이어진다.
  */
-export default async function FactionThemePage({
+export default async function LegacyThemeEditorPage({
   params,
 }: {
   params: Promise<{ tagId: string }>
 }) {
   const { tagId } = await params
-
-  const [tag, celebs, links, parents] = await Promise.all([
-    getTag(tagId),
-    getTagCelebs(tagId),
-    getThemeEpisodeLinks(),
-    getThemeParentOptions(tagId),
-  ])
-
-  if (!tag) notFound()
-
-  return (
-    <ThemeEditor
-      tag={tag}
-      initialCelebs={celebs}
-      episodes={links[tagId] ?? []}
-      parentOptions={parents.options}
-      ownChildCount={parents.ownChildCount}
-    />
-  )
+  redirect(`/factions/${encodeURIComponent(tagId)}`)
 }

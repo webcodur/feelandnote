@@ -3,16 +3,19 @@
  *
  * 설계 단일원천: docs/project/remotion/faction-unification.md §4(경계)·§9(개조 방향)
  *
- * 제작 데이터(faction_* 5테이블)를 서비스 세력도감(celeb_tags·celeb_tag_assignments + R2 이미지)으로
- * **단방향·채움 전용** 투영할 때 주고받는 형태만 담는다. fs·supabase 를 부르지 않아
- * 클라이언트(출간 패널)에서도 그대로 읽는다.
+ * 제작 데이터(faction_* 5테이블)의 **사진·영상·음악·태그**를 서비스 세력도감(celeb_tags + R2 이미지)에
+ * 반영할 때 주고받는 형태만 담는다. fs·supabase 를 부르지 않아 클라이언트(출간 패널)에서도 그대로 읽는다.
  *
  * ## 옛 계약과 달라진 점
  *
- * 제작과 서비스가 **같은 DB 안에** 있게 되면서 텍스트 대조 진단이 사라졌다. 예전에는 로컬 JSON 과
- * DB 를 견주어 "소개문을 채울 수 있는가"를 세었지만, 지금은 한 집이라 견줄 상대가 없다.
- * 남는 진단은 여섯이다 — ① 셀럽 미해소 인물 ② 태그 미지정 세력 ③ 사진 저장소 동기 상태
- * ④ 아바타 유무 ⑤ 신화 표시와 셀럽 등급(fiction) 어긋남 ⑥ 대사 목소리 ↔ 셀럽 국문 목소리 대조.
+ * 인물 텍스트(대사·직함·소개)의 배정 복사가 사라졌다(26.08.03 단일화). 웹·BO 모두 DB 뷰
+ * `faction_atlas_members` 로 faction_people 을 직접 읽으므로 복사할 것이 없고, 도감 손질은
+ * 같은 행의 web_*(web_short_desc 등) 칸에서 한다. 개인샷 주소도 배정이 아니라
+ * faction_people.web_image_url 에 기록한다.
+ *
+ * 진단은 일곱이다 — ① 셀럽 미해소 인물 ② 태그 미지정 세력 ③ 사진 저장소 동기 상태
+ * ④ 아바타 유무 ⑤ 신화 표시와 셀럽 등급(fiction) 어긋남 ⑥ 대사 목소리 ↔ 셀럽 국문 목소리 대조
+ * ⑦ 테마 간판(이름) ↔ 제작 표기 어긋남.
  */
 
 /* ── 진단 ── */
@@ -75,8 +78,6 @@ export interface FactionSyncPerson {
   /** 신화·전설·허구 인물 표시 */
   mythical: boolean
   link: FactionSyncLinkState
-  /** 이 태그에 배정된 행이 이미 있는지 */
-  assigned: boolean
   soloShot: FactionSyncSoloShotState
   /** profiles.avatar_url 존재 여부 */
   avatar: boolean
@@ -120,10 +121,42 @@ export interface FactionSyncGroup {
   people: FactionSyncPerson[]
 }
 
+/**
+ * 테마 간판 어긋남 — 테마(celeb_tags) 이름과 제작 쪽 표기가 다르다는 알림.
+ *
+ * 테마 이름·색은 매체별 표기라 세력과 테마에 각각 존재하는데, 소속 재편 등으로 간판이
+ * 낡아도 시스템이 모른다(뉴럴링크 사건). 그래서 진단이 상설 감시한다.
+ *
+ * 판정은 **영문(name_en) 기준**이다 — 한글은 매체별 표기 차이(도감용 의역 등)가 잦아
+ * 오탐이 되므로 견주지 않는다. 정규화(공백·대소문자·구분 부호 무시) 후에도 다를 때만 싣는다.
+ * 어느 쪽이 맞는지는 사람이 정한다 — **오류가 아니라 확인 요망(warning)이고 출간을 막지 않는다.**
+ */
+export interface FactionSyncSignboardMismatch {
+  /** celeb_tags.id */
+  tagId: string
+  /** 테마 이름(국문) — 화면에서 태그명 ↔ 세력명을 나란히 보이는 재료 */
+  tagName: string
+  /** 테마 영문 이름 — 판정에 쓴 값 */
+  tagNameEn: string
+  /**
+   * 견준 상대 — 이 편에서 태그에 연결된 세력이 하나면 그 세력명(group),
+   * 여러 세력이 한 태그를 나눠 쓰면 편 제목(episode)과 견준다.
+   */
+  source: 'group' | 'episode'
+  /** 상대의 국문 표기(세력명 또는 편 제목) */
+  sourceName: string
+  /** 상대의 영문 표기 — 판정에 쓴 값 */
+  sourceNameEn: string
+  /** 이 편에서 태그에 연결된 세력 이름들 — 공유 태그일 때 어느 세력들인지 보이는 용도 */
+  groupNames: string[]
+}
+
 export interface FactionSyncStatus {
   /** 에피소드 폴더명 */
   folder: string
   groups: FactionSyncGroup[]
+  /** 테마 간판 어긋남 목록 — 확인 요망(출간을 막지 않는다) */
+  signboardMismatches: FactionSyncSignboardMismatch[]
   summary: {
     groups: number
     /** 태그가 해소되지 않은 세력 수 */
@@ -133,8 +166,6 @@ export interface FactionSyncStatus {
     publishable: number
     /** 셀럽 미해소로 출간 불가인 인물 수 */
     blocked: number
-    /** 연결됐으나 아직 배정되지 않은 인물 수 */
-    unassigned: number
     /** 올릴 개인샷 수(stale·local-only) */
     soloShotPending: number
     /** 올릴 그룹샷 수 */
@@ -143,6 +174,8 @@ export interface FactionSyncStatus {
     avatarMissing: number
     /** 신화 표시와 셀럽 등급이 어긋난 인물 수 */
     tierMismatch: number
+    /** 테마 간판(영문 이름)이 제작 표기와 어긋난 태그 수 — 확인 요망 */
+    signboardMismatch: number
     /** 대사 목소리가 셀럽 목소리와 다른 인물 수 — 언어별 */
     voiceDifferent: Record<FactionVoiceLocale, number>
     /** 대사 목소리가 비었고 셀럽 목소리는 있는 인물 수 — 언어별. 일괄 상속으로 채울 수 있는 인원 */
@@ -150,23 +183,44 @@ export interface FactionSyncStatus {
   }
 }
 
+/**
+ * 사진 동기 집계 — 편 편집기 헤더의 상시 배지가 쓰는 가벼운 요약.
+ *
+ * 전체 진단(`FactionSyncStatus`)에서 **사진 저장소 동기(진단 ③)만** 떼어 센 것이다.
+ * 판정 규칙은 같다(매니페스트 해시 대조) — 셀럽·아바타·목소리·간판 대조는 하지 않는다.
+ * 미반영 수는 **로컬 파일이 실재하는 것 기준**이고, 데이터에 적혔는데 파일이 없는 것은
+ * 따로 센다(올릴 수 없는 것을 미반영으로 섞으면 출간해도 배지가 안 꺼진다).
+ */
+export interface FactionImageSyncSummary {
+  /** 올릴 개인샷 수 — 로컬 파일이 바뀌었거나 아직 안 올라간 것(stale·local-only) */
+  solo: number
+  /** 올릴 그룹샷 수 */
+  team: number
+  /** 올릴 세력 로고 수 */
+  logo: number
+  /** 데이터에 적혔는데 로컬 파일이 없는 수 — 별도 집계(출간으로 해소되지 않는다) */
+  fileMissing: number
+}
+
 /* ── 출간 ── */
 
-/** 출간 범위 — 켠 항목만 실행한다. 전부 미지정이면 전 항목 실행 */
+/**
+ * 출간 범위 — 켠 항목만 실행한다. 전부 미지정이면 전 항목 실행.
+ *
+ * 인물 텍스트(대사·직함·소개)는 범위에 없다 — 뷰(faction_atlas_members)가 faction_people 을
+ * 직접 읽는 단일 원천이라 출간이 복사할 것이 없다.
+ */
 export interface FactionPublishScope {
   /** celeb_tags 행 생성·채움 + faction_groups.tag_id 연결 */
   tag?: boolean
-  /** celeb_tag_assignments 행 생성 + sort_order 재기록 */
+  /** @deprecated no-op(26.08.03 단일화) — 배정 복사가 사라졌다. 받은 값은 무시된다(옛 스크립트 호환용) */
   assignments?: boolean
-  /**
-   * 배정에 딸린 글 — 소개문(short/long_desc·en)은 채움 전용이다.
-   * 제작의 대표 직함(lines[0])은 웹 한줄 소개, 영상 소개문(epithet)은 웹 상세 설명의 초안이며,
-   * 같은 문구를 두 필드에 복제하는 동기화가 아니다.
-   * 인물 대사(quote·quote_en)는 제작 데이터가 유일한 출처라 항상 되쓴다.
-   */
+  /** @deprecated no-op(26.08.03 단일화) — 소개·대사 복사가 사라졌다. 받은 값은 무시된다(옛 스크립트 호환용) */
   descs?: boolean
-  /** 개인샷 업로드 + faction_image_url 갱신 */
+  /** 개인샷 업로드 + faction_people.web_image_url 갱신 */
   personImages?: boolean
+  /** 세력 로고(data.logoImg) 업로드 + faction_groups.web_logo_url 갱신 */
+  logos?: boolean
   /** 그룹샷 업로드 + team_images 재구성 */
   teamImages?: boolean
   /**
@@ -189,11 +243,11 @@ export interface FactionPublishRequest {
   scope?: FactionPublishScope
   /** true면 쓰기 직전까지 동일 계산 후 변경 예정 목록만 반환 */
   dryRun?: boolean
-  /** true면 채움 전용 텍스트도 덮어쓴다 */
+  /** true면 채움 전용인 태그 이름·색도 덮어쓴다 (인물 텍스트는 출간 범위 밖) */
   force?: boolean
 }
 
-export type FactionPublishKind = 'tag' | 'assignment' | 'soloShot' | 'teamShots' | 'videos' | 'music' | 'revalidate'
+export type FactionPublishKind = 'tag' | 'soloShot' | 'logo' | 'teamShots' | 'videos' | 'music' | 'revalidate'
 
 export type FactionPublishAction = 'created' | 'updated' | 'skipped' | 'blocked'
 

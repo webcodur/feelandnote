@@ -3,7 +3,10 @@
  *
  * 클라이언트 생성은 `lib/faction-db.ts` 의 `factionAdminClient()`(service_role)를 그대로 쓴다.
  * 이 파일은 ① 환경변수 누락을 조용히 넘기지 않도록 미리 점검하는 함수와
- * ② 출간이 읽고 쓰는 세 테이블의 행 형태만 못박는다(제네릭 Database 타입 미도입 저장소).
+ * ② 출간이 읽고 쓰는 테이블의 행 형태만 못박는다(제네릭 Database 타입 미도입 저장소).
+ *
+ * celeb_tag_assignments 는 다루지 않는다 — 인물 텍스트·개인샷은 faction_people(web_* 칸)이
+ * 단일 원천이고(26.08.03), 배정 테이블에는 웹 전용(제작에 없는) 명단만 남는다.
  */
 
 import { toTeamImageUrls } from '@feelandnote/shared/lib/faction-team-image'
@@ -33,22 +36,6 @@ export interface CelebTagRow {
   sort_order: number | null
 }
 
-/** celeb_tag_assignments — 태그↔셀럽 배정 1행 */
-export interface CelebAssignmentRow {
-  id: string
-  tag_id: string
-  celeb_id: string
-  short_desc: string | null
-  long_desc: string | null
-  short_desc_en: string | null
-  long_desc_en: string | null
-  /** 인물 대사 — 제작 데이터(faction_people.quote)가 유일한 출처라 출간이 항상 되쓴다 */
-  quote: string | null
-  quote_en: string | null
-  faction_image_url: string | null
-  sort_order: number | null
-}
-
 /** profiles — 셀럽 프로필(읽기 전용. 출간은 이 테이블에 쓰지 않는다) */
 export interface CelebProfileRow {
   id: string
@@ -63,8 +50,6 @@ export interface CelebProfileRow {
 }
 
 export const TAG_COLUMNS = 'id, slug, name, name_en, color, team_images, youtube_videos, theme_music, is_featured, is_fiction, sort_order'
-export const ASSIGNMENT_COLUMNS =
-  'id, tag_id, celeb_id, short_desc, long_desc, short_desc_en, long_desc_en, quote, quote_en, faction_image_url, sort_order'
 export const PROFILE_COLUMNS = 'id, slug, nickname, avatar_url, celeb_tier, voice_id_ko, voice_id_en'
 
 /** 출간에 필요한 Supabase 환경변수 중 빈 것들 */

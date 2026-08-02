@@ -11,6 +11,7 @@ import { ImagePicker, MediaThumb, useImageDrop, FACTION_IMAGE_DND } from '@feela
 import { FactionCelebSearchModal, type CelebResult } from './FactionCelebSearchModal'
 import { PersonList } from './PersonList/PersonList'
 import { CoverPickerButton } from './CoverPickerButton/CoverPickerButton'
+import { GroupThemePanel, GroupThemeBadge } from './GroupThemePanel'
 
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { folderToParam } from '@/lib/faction-edit-route'
@@ -298,6 +299,8 @@ export function FactionGroupEditor({
             </label>
           )}
         </div>
+        {/* 연결 도감 테마 배지 — 이름·노출 상태만. 편집은 펼침 영역의 도감 구획에서 */}
+        <GroupThemeBadge groupIndex={groupIndex} />
         {disabled && (
           <span className="shrink-0 self-center rounded border border-danger/40 bg-danger/20 px-2 py-0.5 text-xs font-semibold text-danger-text">
             영상 제외
@@ -337,6 +340,8 @@ export function FactionGroupEditor({
 
       {expanded && (
         <div className={`space-y-3 border-t border-border p-3 ${disabled ? 'opacity-40 saturate-50' : ''}`}>
+          {/* 도감 구획 — 연결 테마의 간판(이름·색)과 노출 스위치를 이 자리에서 고친다 */}
+          <GroupThemePanel groupIndex={groupIndex} />
           {/* 움직임 효과(전환·지속·지지직·줌 속도·줌 목표점)는 상단 「효과 관리」 시트에서 전 대상 일괄 설정 */}
           {/* 세력 설정 패널: 필드명-필드값 정렬 구조 */}
           <div className="space-y-3 rounded-md border border-border bg-bg-card p-3">

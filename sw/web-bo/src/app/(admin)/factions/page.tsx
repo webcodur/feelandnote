@@ -9,11 +9,10 @@ export const metadata: Metadata = {
 }
 
 /**
- * 세력도감 — 영상 편과 도감 테마를 두 작업 관점으로 나눈다.
+ * 세력도감 — 영상 편과 웹 전용 테마를 한 목록으로 관리한다(26.08.03 목록 통합).
  *
- * 같은 DB를 읽되 영상 모드에서는 모든 제작 편이 한 행씩, 테마 모드에서는 서비스 도감에
- * 진열되는 테마가 한 행씩 보인다. 목록은 폴더가 아니라 DB에서 세어 파일이 없는 편도
- * 관리 화면에서 사라지지 않게 한다.
+ * 영상 편은 한 행씩, 제작 연결이 없는 웹 전용 테마도 같은 형식의 한 행으로 함께 선다.
+ * 목록은 폴더가 아니라 DB에서 세어 파일이 없는 편도 관리 화면에서 사라지지 않게 한다.
  */
 export default async function FactionsPage() {
   const [episodes, themes] = await Promise.all([listFactionEpisodes(), listFactionThemes()])
@@ -23,11 +22,11 @@ export default async function FactionsPage() {
       <div>
         <h1 className="text-2xl font-bold text-text-primary">세력도감</h1>
         <p className="mt-1 text-sm text-text-secondary">
-          영상 제작 편과 서비스 도감 테마를 작업 기준에 따라 나눠 관리합니다.
+          영상 편과 웹 전용 테마를 한 목록에서 관리합니다. 영상 없는 테마에는 「영상 없음」 표찰이 붙습니다.
         </p>
       </div>
 
-      <FactionBoard initialThemes={themes} episodes={episodes} factionLocal={FACTION_LOCAL} />
+      <FactionBoard themes={themes} episodes={episodes} factionLocal={FACTION_LOCAL} />
     </div>
   )
 }
