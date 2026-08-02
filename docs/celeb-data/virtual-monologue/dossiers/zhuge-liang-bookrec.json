@@ -1,0 +1,295 @@
+{
+  "schemaVersion": 1,
+  "slug": "zhuge-liang",
+  "nickname": "제갈량",
+  "route": "new",
+  "routeReason": "사용자 지시로 서재 탐방 에피소드(팩트체크·편집국 검증 완료) 재료 기반 전면 재작성. 이 재료는 여섯 권의 책이 각각 삶의 전환점(유기 구명, 동오 설득, 익주 법치, 유선 보좌, 가정 참패, 북벌 살림)과 검증된 전거로 엮여 있어, 독서가 곧 통치이자 결단이었던 인물의 독백을 사실 기반으로 세울 수 있다.",
+  "dossier": {
+    "identity": {
+      "name": "제갈량",
+      "birth": "대본 미기재 (대본 기준 스물여섯에 초야에서 나와 출사)",
+      "death": "대본 미기재 (대본은 5차 북벌 오장원까지 서술하며, 마지막 북벌에 모든 것을 바친 승상으로 그린다)",
+      "profession": "삼국시대 촉나라의 총리대신(승상)이자 그 시대를 대표하는 전략가",
+      "disambiguation": "삼국시대 촉한의 승상 제갈량으로, 공명이라는 이름과 와룡이라는 별호로 불리며 유비를 도와 천하삼분 전략을 설계한 인물이다."
+    },
+    "sources": [
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json",
+        "title": "제갈량 서재 탐방 에피소드 메타 (인물 소개, 감상철학, 대표 발언, 아웃트로)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "인물 소개: 스물여섯에 초야에서 나와 유비를 만나 천하를 셋으로 나누는 전략을 설계했고, 적벽에서 손권을 움직여 조조의 함대를 불태웠으며, 유비 사후 어린 황제를 떠받들며 촉의 모든 결정을 손에 쥐었다",
+          "대표 발언(featuredQuote): 한실과 역적은 같은 하늘을 이고 살 수 없으며, 앉아서 멸망을 기다리느니 나아가 적을 베겠다는 북벌 결의",
+          "1인칭 감상철학(philosophy): 서생들이 경전에 매달릴 때 책을 덮고 뜰을 거닐었다는 독서법, 어린 주군에게 고서를 일러주고 남은 명운을 걸고 험로에 오른 삶, 선제의 대업을 안고 숨이 멎는 날까지 전장으로 나아가는 것이 나의 독서이자 삶이었다는 선언",
+          "말투(speech_tone): composed(침착), 아웃트로: 말로 사람을 살리고 법으로 나라를 세우고 예로 황제를 만들고 그 모든 것을 마지막 북벌에 바친 승상의 독서"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/01-춘추좌씨전/book.ko.json",
+        "title": "춘추좌씨전 편 (유기 구명과 강하 포석)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "전거는 삼국지 촉서 제갈량전. 삼고초려로 막 세상에 나온 제갈량이 계모 채씨 일가의 모함으로 위태롭던 유표의 큰아들 유기에게, 사다리를 치운 누각 위에서 춘추좌씨전의 신생과 중이 고사를 들려주어 밖으로 떠나 훗날을 도모하는 제3의 길을 깨닫게 했다",
+          "유기는 사흘 뒤 강하 태수를 자청해 위기를 벗어났고, 이 강하가 조조에게 쫓긴 유비의 피난처가 되어 손권 동맹과 적벽대전의 발판이 됐다",
+          "책 소개: 말 한 마디가 전쟁을 일으키고 비유 하나가 목숨을 구하는, 말의 힘이 칼보다 날카로울 수 있음을 250년치 역사로 증명하는 책"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/02-손자병법/book.ko.json",
+        "title": "손자병법 편 (208년 동오 설득과 적벽)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "전거는 삼국지 촉서 제갈량전. 건안 13년(208년) 조조 대군 남하로 동오 조정이 항복론으로 들끓을 때, 제갈량이 홀로 동오로 가 손권을 독대하고 자존심을 자극하는 화법으로 설득했다",
+          "손자병법 군쟁편의 통찰(무리한 강행군은 정예군마저 쓰러뜨린다, 강한 화살도 끝에 가서는 얇은 비단조차 뚫지 못한다)을 들어 삼백 리를 내달린 조조군의 허실을 꿰뚫었고, 손권이 책상을 베며 항전을 결의해 그해 겨울 적벽에서 조조군이 무너졌다",
+          "손권과의 문답 장면은 quoteSource가 제갈량, 손권 등 발화자 이름으로 표기된 극화 재현 대사다"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/03-한비자/book.ko.json",
+        "title": "한비자 편 (촉과 반포와 답법정서)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "전거는 한비자 이병편, 삼국지 촉서 제갈량전 배송지 주가 인용한 촉기의 답법정서, 촉서 법정전, 촉서 제갈량전 진수 평어",
+          "유비가 익주의 주인이 되던 시절 제갈량은 깊이 탐독한 한비자에 바탕을 두고 엄격한 법전 촉과를 반포했고, 개국공신 법정이 한 고조의 관용 고사를 들어 형벌 완화를 청하자 답서(답법정서)로 시대의 다름을 들어 정면 반박했다",
+          "유장의 분별없는 온정이 법도를 무너뜨렸으니 법을 엄히 해 관용이 무엇인지 깨닫게 하겠다는 원칙이 촉한의 통치 철학이 됐고, 제갈량 자신부터 스스로 세운 법 아래 섰다",
+          "진수 평어: 법도가 서릿발 같았으되 원망하는 자가 없었으니 마음 쓰는 바가 공정하고 잣대가 한결같은 까닭이었다"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/04-예기/book.ko.json",
+        "title": "예기 편 (감황후 추숭 상소와 출사표)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "전거는 삼국지 촉서 이주비자전 감황후 조에 수록된 제갈량 상소와 촉서 제갈량전의 출사표",
+          "이릉 대전 참패와 유비의 죽음 뒤 열일곱 유선이 즉위한 위기에서, 제갈량은 병법이 아닌 예를 먼저 꺼내 유선의 생모를 소열황후로 추존하고 선황과 합장하자는 상소를 올렸으며, 그 상소에 예기 제의편 구절(사랑을 세우는 것은 어버이를 모시는 데서, 가르침을 세우는 것은 어른을 공경하는 데서 시작한다)을 직접 인용했다",
+          "출사표에서는 궁중과 승상부가 하나 되어 상벌에 차이가 없어야 한다고 청했고, 최고 권력자가 스스로 황제 앞에 가장 깊이 엎드려 예를 다함으로써 어린 황제의 권위를 세웠다"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/05-순자/book.ko.json",
+        "title": "순자 편 (가려짐과 읍참마속)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "전거는 삼국지 촉서 제갈량전의 마속 일화와, 제갈량이 직접 쓴 논제자가 순자 해폐편 형식을 차용한 사실",
+          "덕과 법을 함께 써야 한다는 순자의 통치론이 촉의 통치 기조와 깊이 공명했다",
+          "228년 첫 북벌에서 가정을 맡은 마속이 식수를 무시하고 산 위에 진을 쳐 참패했고, 제갈량 역시 유비가 임종 전 경계한 인물에게 남만 정벌의 공 하나만 보고 요충지를 맡겼다. 순자가 경고한 폐, 곧 한쪽에 치우쳐 전체를 못 보는 가려짐에 스승과 제자가 동시에 걸렸다",
+          "마속은 스스로 형장으로 걸어갔고 제갈량은 아끼던 제자를 베며 눈물을 흘렸으며(읍참마속), 처형 직후 황제에게 표문을 올려 스스로를 세 등급 강등해 달라 청했다"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/06-관자/book.ko.json",
+        "title": "관자 편 (북벌을 지탱한 살림)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": "2026-08-02",
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "전거는 삼국지 촉서 제갈량전 본전과 촉서 선주전 배송지 주가 인용한 제갈량집. 비단 관련 발언(적과 결판 낼 자금은 오직 비단에 달렸다)은 태평어람이 인용한 제갈량집 일문",
+          "제갈량은 청년 시절부터 관중에 견줄 만하다 자처했고, 승상이 되어서는 한중 둔전, 도강언에 천이백 명 상시 배치, 소금과 철과 비단의 국가 관리로 촉의 곳간을 채웠으며, 천하제일 촉금을 적국 위와 오에 팔아 군자금을 댔다. 평생 모은 유일한 재산도 양잠 연구용 뽕나무숲이었다",
+          "인구가 다섯 배인 위를 상대로 다섯 번 북벌했고, 5차 북벌 오장원에서 부녀자의 머리띠를 보내 도발했으나 사마의는 끝내 응하지 않았다. 북벌은 관중 땅을 얻지 못했지만 다섯 번을 나가고도 촉의 곳간은 비지 않았다",
+          "유비가 영안에서 임종하던 자리에서 제갈량이 어린 황제에게 필사하여 헌정하려던 책 네 권 가운데 하나가 관자였다. 진수는 마땅히 관중에 버금가는 인물이라는 평어를 남겼다"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "삼고초려로 스물여섯에 초야에서 나온 직후, 사다리 치운 누각에서 유표의 아들 유기에게 춘추좌씨전의 신생과 중이 고사를 들려주어 강하로 몸을 피하게 했다.",
+        "significance": "옛이야기 한 토막이 사람 하나를 살리는 데 그치지 않고, 조조에게 쫓긴 유비를 거둘 피난처 강하를 미리 확보해 손권 동맹과 적벽대전, 나아가 천하삼분의 첫 주춧돌이 됐다. 책에서 읽은 말의 힘이 전략이 된 첫 장면이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/01-춘추좌씨전/book.ko.json",
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json"
+        ]
+      },
+      {
+        "point": "208년 조조 대군 남하로 동오가 항복론에 기울었을 때 홀로 동오로 건너가 손권을 독대했고, 손자병법 군쟁편의 통찰로 조조군의 허실을 짚어 항전 결의를 끌어냈다.",
+        "significance": "강한 화살도 끝에 가서는 비단 한 겹을 못 뚫는다는 병법의 이치로 부풀려진 80만이라는 숫자를 해체했다. 그해 겨울 적벽에서 조조의 함대가 불탔고, 세 치 혀가 천하를 셋으로 갈라내기 시작했다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/02-손자병법/book.ko.json",
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json"
+        ]
+      },
+      {
+        "point": "유비가 익주를 차지한 뒤 한비자에 바탕을 둔 엄격한 법전 촉과를 반포했고, 개국공신 법정이 관용을 청하자 답서로 시대의 다름을 들어 정면 반박했다.",
+        "significance": "인의로 천하의 마음을 얻었다는 촉한의 실제 기틀을 법가로 세운 결단이다. 특권층도 예외 없는 서릿발 집행에 익주가 안정을 찾았고, 진수는 법도가 서릿발 같았으되 원망하는 자가 없었다고 기록했다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/03-한비자/book.ko.json"
+        ]
+      },
+      {
+        "point": "이릉 참패와 유비의 죽음으로 열일곱 유선이 즉위하자, 병법이 아닌 예를 먼저 꺼냈다. 유선의 생모를 소열황후로 추존해 합장하자는 첫 상소에 예기 제의편을 직접 인용했고, 북벌 직전에는 출사표를 올렸다.",
+        "significance": "사사로운 의리로 뭉친 신하들을 국가 의례로 묶어 굳건한 질서로 승화시켰고, 수만 대군을 부리는 승상이 스스로 황제 앞에 가장 깊이 엎드려 어린 황제의 권위를 세웠다. 예기의 가르침을 몸으로 증명한 시기다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/04-예기/book.ko.json"
+        ]
+      },
+      {
+        "point": "228년 첫 북벌에서 가정을 맡긴 마속이 식수를 무시하고 산 위에 진을 쳐 참패했다. 마속을 군법으로 베며 눈물을 흘렸고, 직후 스스로를 세 등급 강등해 달라는 표문을 올렸다.",
+        "significance": "순자가 경고한 가려짐에 스승과 제자가 동시에 걸린 사건이다. 지형이 식수를 가렸고 정이 사람을 가렸다. 제자에게 책임을 물었을지언정 자신의 책임도 피하지 않은 태도가 그의 법치가 자기 자신에게도 적용됐음을 보여준다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/05-순자/book.ko.json"
+        ]
+      },
+      {
+        "point": "인구 다섯 배의 위를 상대로 다섯 차례 북벌하면서, 한중 둔전과 도강언 관리, 소금과 철의 국가 운영, 촉금 수출로 곳간을 채워 전쟁을 지탱했다. 5차 북벌 오장원에서 사마의는 끝내 결전에 응하지 않았다.",
+        "significance": "청년 시절부터 견주었던 관중의 살림을 실전에 옮긴 것이다. 북벌은 관중 땅을 얻지 못했으나 다섯 번을 나가고도 촉은 무너지지 않았으니, 군사의 결판이 아니라 살림의 결판에서는 작은 나라가 큰 나라를 눌렀다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/06-관자/book.ko.json",
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "말은 칼보다 날카롭다. 말 한 마디가 전쟁을 일으키고 비유 하나가 목숨을 구한다는 춘추좌씨전의 증명을 실전에서 그대로 썼다. 유기를 살린 것도, 손권을 움직인 것도 무력이 아니라 말이었다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/01-춘추좌씨전/book.ko.json",
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/02-손자병법/book.ko.json"
+        ]
+      },
+      {
+        "point": "다스림은 시대에 맞아야 한다. 온정이 법도를 무너뜨린 익주에서는 관용이 아니라 엄정한 법이 답이다. 작위를 아껴 영광이 무엇인지 알게 하고, 법을 엄히 해 관용이 무엇인지 깨닫게 한다. 위가 위답고 아래가 아래다운 것이 난세를 평정하는 참된 다스림이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/03-한비자/book.ko.json"
+        ]
+      },
+      {
+        "point": "예는 의식 절차가 아니라 국가를 지탱하는 질서의 뼈대다. 윗자리에 선 자가 먼저 어버이를 받들고 예를 다할 때 정통성이 서고, 윗사람이 예를 다하면 아랫사람은 자연히 따른다. 명분과 질서 없는 권력은 유종과 유장처럼 쉽게 무너진다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/04-예기/book.ko.json"
+        ]
+      },
+      {
+        "point": "덕과 법은 함께 써야 한다. 착한 마음만으로는 다스릴 수 없고 엄한 법만으로는 마음을 얻을 수 없다. 직접 쓴 글 논제자는 순자 해폐편의 형식을 따랐고, 이 병용의 통치론이 촉의 기조가 됐다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/05-순자/book.ko.json"
+        ]
+      },
+      {
+        "point": "도덕보다 살림이 먼저다. 곳간이 차야 백성이 예절을 알고, 먹을 것이 족해야 영예와 치욕을 안다. 적과 결판 낼 자금은 오직 비단에 달렸다고 했고, 어린 황제가 읽어야 할 제왕의 학문으로 관자를 꼽았다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/06-관자/book.ko.json"
+        ]
+      },
+      {
+        "point": "앉아서 멸망을 기다리느니 나아가 적을 벤다. 한실과 역적은 같은 하늘을 이고 살 수 없고, 천하의 대업은 좁은 변방에 안주할 수 없다. 선제의 대업을 안고 숨이 멎는 날까지 전장으로 나아가는 것이 나의 독서이자 삶이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "북벌의 좌절. 다섯 번을 북으로 밀어 올라갔으나 끝내 관중 땅을 손에 넣지 못했고, 오장원에서 부녀자의 머리띠까지 보내 도발했으나 사마의는 결전을 거부했다. 살림의 결판에서는 이겼으나 군사의 결판은 끝내 나지 않았다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/06-관자/book.ko.json",
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json"
+        ]
+      },
+      {
+        "point": "가려짐의 자각. 남을 꿰뚫어 보던 사람이 정 때문에 사람을 잘못 봤다. 유비가 경계한 마속에게 요충지를 맡겨 가정에서 참패했고, 아끼던 제자를 제 손으로 베며 울었으며, 자신도 세 등급 강등을 자청했다. 통찰의 대가라는 명성과 치우침이라는 인간적 한계가 한 사건에서 부딪친다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/05-순자/book.ko.json"
+        ]
+      },
+      {
+        "point": "인의의 나라를 떠받친 것이 냉혹한 법가였다는 역설. 인의로 천하의 마음을 얻었다는 촉한의 실제 기틀은 한비자에 바탕을 둔 엄격한 법전이었다. 다만 그 서릿발 같은 법 아래 자신부터 섰기에 원망하는 자가 없었다는 것이 진수의 기록이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/03-한비자/book.ko.json"
+        ]
+      },
+      {
+        "point": "홀로 모든 것을 짊어진 무게. 어린 황제를 떠받들며 촉의 모든 결정을 손에 쥐었고, 어린 주군에게 냉혹한 이치가 될 고서를 일러준 뒤 남은 명운을 걸고 험로에 올랐다. 재가 되어 사직을 지키겠다는 결의는 곧 자기 소진의 선언이기도 하다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/meta.ko.json"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "중간 길이를 기본으로 하되 대구와 병렬로 리듬을 만들고, 결단을 담은 짧은 문장으로 맺는다. 예: 작위를 아낌으로써 영광이 무엇인지 알게 하고, 법을 엄히 함으로써 관용이 무엇인지 깨닫게 할 것이오.",
+      "directness": "정면 돌파형. 상대의 명분을 먼저 짚은 뒤(그대는 시대의 다름을 모르오) 근거를 들어 반박하고 결론을 단호하게 못박는다. 돌려 말하지 않으나 어조는 침착하다(speech_tone: composed).",
+      "moves": [
+        "고사와 책의 구절을 먼저 꺼내 논지를 세운다(춘추좌씨전 고사로 유기를 깨우치고, 병법 구절로 손권을 설득하고, 예기 구절을 상소에 직접 인용)",
+        "숫자와 실무 근거로 말한다(인구 다섯 배, 삼백 리 강행군, 도강언의 천이백 명, 다섯 번의 북벌)",
+        "대구로 원칙을 세운다(위가 위답고 아래가 아래다운 것, 도덕이 아니라 회계였고 묘책이 아니라 살림이었다)",
+        "자기 책임을 회피하지 않는다(스스로 세운 법 아래 서고, 세 등급 강등을 자청한다)",
+        "독백은 정중체(저는, 하였습니다)를 기본으로 하되, 대본 속 발언을 재현할 때만 예스러운 어투(하오체) 견본을 따른다"
+      ],
+      "avoid": [
+        "연의식 신격화. 대본이 부정하는 신기묘산의 책사 프레임(바람을 부르는 도사, 만능 예언가)으로 말하지 않는다. 대본의 결론은 지독한 살림꾼이다",
+        "에피소드 인용문에 없는 발언을 실제 한 말처럼 창작하는 것",
+        "창작 말버릇(허허, 이 몸이 등)과 현대 유행어, 가벼운 감탄사",
+        "한자 병기와 문장 부호 남용. 한자와 긴 줄표를 쓰지 않는다",
+        "설교조 마무리와 과장된 비장미. 사실과 결단을 담담하게 서술한다"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "촉과",
+        "guide": "제갈량이 익주 평정 후 기강을 다잡기 위해 반포한 엄격한 법전. 한비자에 바탕을 뒀다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/03-한비자/book.ko.json"
+        ]
+      },
+      {
+        "term": "답법정서",
+        "guide": "관용을 청한 법정에게 제갈량이 보낸 답장. 시대가 다르면 다스림도 달라야 한다며 엄법의 이유를 밝힌 글이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/03-한비자/book.ko.json"
+        ]
+      },
+      {
+        "term": "출사표",
+        "guide": "북벌 직전 어린 황제 유선에게 올린 글. 충절의 상징이자, 수도를 비운 사이 조정이 움직일 질서를 일러둔 지침이기도 했다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/04-예기/book.ko.json"
+        ]
+      },
+      {
+        "term": "읍참마속",
+        "guide": "가정 참패의 책임을 물어 아끼던 제자 마속을 군법으로 베며 눈물을 흘린 일에서 나온 고사.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/05-순자/book.ko.json"
+        ]
+      },
+      {
+        "term": "촉금",
+        "guide": "촉에서 짠 비단. 천하제일로 꼽혀 적국 위와 오에 수출됐고, 북벌 군자금의 원천이었다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/06-관자/book.ko.json"
+        ]
+      },
+      {
+        "term": "가려짐(폐)",
+        "guide": "순자 해폐편의 개념으로, 한쪽에 치우쳐 전체를 못 보는 상태. 가정 참패에서 지형이 식수를 가렸고 정이 사람을 가렸다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/three-kingdoms/zhuge-liang/books/05-순자/book.ko.json"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "재료가 독서와 감상 중심의 서재 탐방 에피소드라 생애 전반(출생 연도, 가문, 남만 정벌 상세, 임종 장면 등)은 다루지 않는다. 생몰 연도가 대본에 명시되지 않아 identity에 미기재로 남겼다.",
+      "대본은 정사 전거(삼국지 촉서 제갈량전, 배송지 주 인용 촉기와 제갈량집, 진수 평어, 예기 제의편 등)를 명시한다. 삼국지연의의 허구 일화(동남풍, 공성계 등)는 대본에 없으므로 독백에 쓰지 않는다. 대본 스스로도 신기묘산 책사상을 부정하고 살림꾼상을 결론으로 삼는다.",
+      "손자병법 편의 손권 설득 문답은 발화자 이름만 quoteSource로 표기된 극화 재현 장면이다. 사건의 골격(단신 도오, 자존심 자극 화법, 항전 결의)은 쓰되 해당 대사를 축자적 실제 발언으로 단정하지 않는다.",
+      "에피소드에 수록된 인용문(답법정서, 추숭 상소, 출사표 구절, 비단 발언, 진수 평어) 외의 발언을 실제 어록처럼 창작하지 않는다. 새 문장은 어디까지나 가상 독백임이 전제다.",
+      "책 여섯 권과 그 감상 경위는 에피소드가 확정한 목록이며, 이 밖의 독서 이력을 추가하지 않는다."
+    ]
+  }
+}

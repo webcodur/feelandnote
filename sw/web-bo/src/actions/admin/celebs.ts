@@ -1328,6 +1328,45 @@ export async function updateCelebJourney(celebId: string, journey: string | null
 }
 // #endregion
 
+// #region setCelebMonologueLock - 가상 독백 확정 잠금 토글
+/**
+ * profiles.virtual_monologue_locked_at 을 채우거나 비운다.
+ * 잠긴 인물의 독백은 DB 트리거(guard_virtual_monologue_lock)가 모든 경로의 UPDATE를 차단한다.
+ */
+export async function setCelebMonologueLock(
+  celebId: string,
+  locked: boolean
+): Promise<{ locked_at: string | null }> {
+  const supabase = await createClient()
+
+  if (locked) {
+    const { data: row, error: readError } = await supabase
+      .from('profiles')
+      .select('virtual_monologue')
+      .eq('id', celebId)
+      .eq('profile_type', 'CELEB')
+      .single()
+
+    if (readError) throw readError
+    if (!row?.virtual_monologue?.trim()) {
+      throw new Error('독백이 비어 있어 잠글 수 없다')
+    }
+  }
+
+  const lockedAt = locked ? new Date().toISOString() : null
+  const { error } = await supabase
+    .from('profiles')
+    .update({ virtual_monologue_locked_at: lockedAt })
+    .eq('id', celebId)
+    .eq('profile_type', 'CELEB')
+
+  if (error) throw error
+
+  revalidatePath('/celebs/[slug]', 'page')
+  return { locked_at: lockedAt }
+}
+// #endregion
+
 // #region getCelebStats - 셀럽 통계 조회
 export interface CelebStats {
   totalCelebs: number
