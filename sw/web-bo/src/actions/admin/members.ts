@@ -111,6 +111,8 @@ export interface Member {
   cultural_journey?: string | null
   cultural_journey_en?: string | null
   virtual_monologue?: string | null
+  /** 가상 독백 확정 잠금 시각. 값이 있으면 DB 트리거가 독백 수정을 차단한다 */
+  virtual_monologue_locked_at?: string | null
   celeb_tier?: string | null
   claimed_by?: string | null
   speech_tone?: string | null
@@ -384,6 +386,7 @@ export async function getMember(id: string): Promise<Member | null> {
     cultural_journey: data.cultural_journey,
     cultural_journey_en: data.cultural_journey_en ?? null,
     virtual_monologue: data.virtual_monologue ?? null,
+    virtual_monologue_locked_at: data.virtual_monologue_locked_at ?? null,
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',
@@ -486,6 +489,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     cultural_journey: data.cultural_journey,
     cultural_journey_en: data.cultural_journey_en ?? null,
     virtual_monologue: data.virtual_monologue ?? null,
+    virtual_monologue_locked_at: data.virtual_monologue_locked_at ?? null,
     speech_tone: data.speech_tone ?? null,
     has_voice: data.has_voice ?? false,
     celeb_tier: data.celeb_tier ?? 'full',

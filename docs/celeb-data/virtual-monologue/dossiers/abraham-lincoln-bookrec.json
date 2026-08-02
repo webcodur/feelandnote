@@ -1,0 +1,330 @@
+{
+  "schemaVersion": 1,
+  "slug": "abraham-lincoln",
+  "nickname": "에이브러햄 링컨",
+  "route": "new",
+  "routeReason": "사용자 지시로 서재 탐방 에피소드(팩트체크·편집국 검증 완료) 재료 기반 전면 재작성. 이 재료는 상실의 순간마다 붙든 책이 훗날의 연설과 결단으로 이어지는 검증된 독서 서사를 갖춰, 독백에 삶과 책이 엮인 구체적 장면과 실제 발언 견본을 준다.",
+  "dossier": {
+    "identity": {
+      "name": "에이브러햄 링컨",
+      "birth": "1809년경(에피소드 기준: 1818년 가을에 아홉 살)",
+      "death": "1865년(포드 극장에서 암살)",
+      "profession": "politician",
+      "disambiguation": "통나무집에서 태어난 변경의 독학자로 미국 제16대 대통령이 되어 남북전쟁에서 연방을 승리로 이끌고 노예해방선언과 수정헌법 13조로 노예제를 종식시킨 인물이며, 게티즈버그 연설과 제2차 취임 연설로 민주주의와 통합의 상징이 되었다."
+    },
+    "sources": [
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/meta.ko.json",
+        "title": "에이브러햄 링컨 서재 탐방 에피소드 메타(인물 소개, 감상철학, 대표 인용, 아웃트로)",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "제16대 대통령으로 남북전쟁에서 연방을 승리로 이끌고 노예해방선언과 수정헌법 13조로 미국 내 노예제를 종식시켰으며 1865년 포드 극장에서 암살당한 생애 개요",
+          "게티즈버그 연설과 재선 취임 연설로 민주주의와 통합의 상징이 된 점",
+          "통나무집 출생, 학교 문턱만 바라본 변경의 독학자라는 자기규정과 사람이 사람의 주인이 되지 않는 나라를 남기고 싶었다는 소망(host.philosophy)",
+          "가족을 묻고 청년들을 전장으로 보내며 밤마다 절망에 빠졌고 그때마다 책이 자신을 건져 올렸다는 1인칭 고백(host.philosophy)",
+          "대표 인용 '저는 천천히 걷지만, 결코 뒤로 걷지는 않습니다.'(featuredQuote)와 겸손한 정중체 말투(speech_tone: humble)"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/01-천로역정/book.ko.json",
+        "title": "천로역정(존 번연) 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "1818년 가을 아홉 살에 인디애나 리틀 피전 크리크에서 어머니 낸시를 잃었고, 곁에 남은 한두 권 중 천로역정을 외울 때까지 읽었다는 경위(원 전거: 데이비드 허버트 도널드 Lincoln 1995, 미시간대학교 링컨 아카이브)",
+          "45년 뒤 게티즈버그 연설이 272개 단어였고, '국민의, 국민에 의한, 국민을 위한'이라는 세 번 반복 리듬이 어린 시절 외운 천로역정의 성서적 호흡과 닿아 있다는 해설(인용 전거: 게티즈버그 연설 클로징, 1863.11.19)"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/02-이솝 우화/book.ko.json",
+        "title": "이솝 우화 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "어머니를 잃은 이듬해 겨울 새어머니 사라 부시가 쥐여준 책으로, 외울 때까지 읽었고 동물의 입을 빌리는 화법이 연단의 무기가 되었다는 경위(원 전거: Lincoln 핸드빌 1846.7.31, Mr. Lincoln and Friends, 미국 전쟁터 보존재단)",
+          "1864년 4월 18일 볼티모어 시민 박람회 연설에서 늑대와 양치기 우화로 두 가지 자유를 갈라 말한 사실과 인용 본문(인용 전거: 볼티모어 시민 박람회 연설, 1864.4.18)",
+          "그해 10월 메릴랜드가 남부 경계주 최초로 노예제 폐지를 결단했다는 후일담"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/03-로빈슨 크루소/book.ko.json",
+        "title": "로빈슨 크루소(대니얼 디포) 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "소년기 인디애나 오두막에서 되풀이 읽은 몇 안 되는 책 중 하나라는 경위(원 전거: 알렌 젠트리 증언, 헌던 Herndon's Lincoln, 미국 전쟁터 보존재단)",
+          "1831년 스물둘에 빌린 도끼 한 자루로 일리노이 뉴살렘에 정착해 뱃사공, 우체국장, 측량사를 전전하며 혼자 힘으로 길을 연 사실",
+          "'도끼날을 가는 데 네 시간을 쓰겠다'는 격언은 링컨의 말로 전해질 뿐 실제 문헌 기록이 없다는 판정(quoteSource에 명기)"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/04-이성의 시대/book.ko.json",
+        "title": "이성의 시대(토마스 페인) 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "1834년 무렵 뉴살렘에서 페인에 깊이 빠져 기독교 교리를 비판하는 소책자를 직접 썼고, 동료 상인 새뮤얼 힐이 원고를 빼앗아 화덕에 태워 버린 일화(원 전거: 미시간대학교 링컨 아카이브, 헌던 증언록)",
+          "법률 동업자 윌리엄 헌던이 그 원고를 '기독교의 신성에 관한 모든 전제를 정면으로 공격하는 글'이었다고 기록한 사실",
+          "이후 평생 어떤 교파에도 소속되지 않았지만 성경 인용은 놓지 않았고 제2차 취임 연설의 뼈대 역시 성경이었다는 점"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/05-벤저민 프랭클린 자서전/book.ko.json",
+        "title": "벤저민 프랭클린 자서전 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "소년기부터 손에 들었던 몇 권 안 되는 책 중 하나로 전해지며, 학교에 앉아본 시간이 평생 1년을 넘지 않은 독학생에게 자기 수양의 교본이 되었다는 경위(원 전거: 스크립스 자서전 1860, 미국 전쟁터 보존재단)",
+          "13가지 덕목 표 같은 프랭클린식 자기관리법을 직접 모방했다는 사료는 없다는 유보와, 근면·절약·정직의 이미지가 프랭클린식 자기완성 서사의 직계 후손에 가깝다는 해석"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/06-바이런 시선/book.ko.json",
+        "title": "바이런 시선 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "스물여섯에 첫 약혼녀 앤 러틀리지를 장티푸스로 잃었고, 슬프고 힘든 순간마다 바이런의 시를 입으로 읊었으며 특히 「꿈」을 좋아했다는 경위(원 전거: 미국 시 재단 poetryfoundation.org, 헌던 증언, Joshua Speed 회고록)",
+          "「꿈」의 장면 전환이 아홉 번 되풀이되며 같은 얼굴을 다시 불러내는 구조라는 해설(인용 전거: 바이런 「꿈(The Dream)」, 1816)"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/07-유클리드 원론/book.ko.json",
+        "title": "유클리드 원론 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "'증명하다'의 뜻도 모르면서 변호사라 할 수 없어 유클리드 여섯 권을 어떤 명제든 한눈에 풀 수 있을 때까지 공부했다는 본인 회고(인용 전거: 스크립스 자서전 1860, 편 전체 전거: 스미스소니언 매거진)",
+          "1849년 일리노이 순회 재판을 돌던 시절 낡은 여관방에서 동료들이 잠든 뒤 컴퍼스와 자를 들고 유클리드를 펼친 장면",
+          "1854년 노예제에 관한 단편에서 피부색과 지능을 기준 삼는 논리가 자기 자신을 노예로 만든다는 증명을 청중 없이 써서 서랍에 넣었다는 사실(인용 전거: 노예제에 관한 단편 1854, Collected Works of Abraham Lincoln Vol. II)",
+          "1860년 2월 27일 쿠퍼 유니언 연설에서 헌법 서명자 39인 중 21인의 노예제 제한 찬성 기록을 쌓아 '옳기에 강한 것'이라는 결론에 이르렀고, 세 달 뒤 공화당 대통령 후보가 되었다는 경위(인용 전거: 쿠퍼 유니언 연설, 1860.2.27)"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/08-까마귀/book.ko.json",
+        "title": "까마귀(에드거 앨런 포) 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "언제나 들고 다녔다고 알려졌고 손에 쥐자마자 전체를 외워 버렸다고 전해지는 시라는 경위(원 전거: 포 박물관 poemuseum.org, Nettie Colburn 회고록, Mr. Lincoln's White House)",
+          "1862년 2월 열한 살 아들 윌리를 장티푸스로 잃은 뒤 비서와 기자들 앞에서 「까마귀」를 구슬프고 단조로운 음조로 낭송하곤 했다는 사실",
+          "까마귀는 떠나지 않고 그림자는 걷히지 않는 시의 결말을 되풀이해 낭송했다는 해설(인용 전거: 에드거 앨런 포 「까마귀」 마지막 연, 1845)"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/09-성경/book.ko.json",
+        "title": "성경 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "문맹이었던 아버지의 오두막에서 학교 교육을 평생 1년도 받지 못했지만, 죽어가는 여인의 머리맡에서 시편 23편을 끝까지 읊고 논쟁 상대에게 잠언 30장 10절을 장과 절까지 짚어 말문을 막을 만큼 성경에 깊이 들어갔다는 사실(원 전거: 미국 의회도서관 전시)",
+          "1865년 3월 4일 제2차 취임 연설에서 승자의 응보 선언 대신 '심판하지 말라'(마태복음 7장 1절)를 꺼내, 남부를 정죄하는 대신 함께 죄진 자들이 같이 대가를 치렀다고 선언한 경위(인용 전거: 제2차 취임연설 1865, 클로징 1865.3.4)",
+          "같은 무렵 북부 시민들이 남부 대통령을 목매달라는 편지를 백악관에 쏟아 보내고 교수대를 짓겠다고 자원하던 여론 속에서 이 연설이 나왔다는 맥락",
+          "증오를 버리고 자비를 베풀며 용사를 보듬고 유족을 살피자는 클로징 문장"
+        ]
+      },
+      {
+        "url": "repo:sw/remotion/public/episodes/abraham-lincoln/books/10-셰익스피어 전집/book.ko.json",
+        "title": "셰익스피어 전집 편",
+        "publisher": "feelandnote 서재 탐방 에피소드(팩트체크·편집국 검증 완료)",
+        "kind": "primary",
+        "publishedAt": null,
+        "accessedAt": "2026-08-02",
+        "supports": [
+          "1863년 8월 내전의 정점에서 비서 존 헤이가, 대통령이 비서들에게 리처드 3세와 맥베스의 대사를 홀린 듯 소리 내어 읽어 주었다고 기록한 사실(원 전거: 폴저 셰익스피어 도서관, 존 헤이 일기)",
+          "암살 닷새 전인 1865년 4월 9일 증기선 리버 퀸호에서 맥베스 3막 2장, 살해된 왕 던컨의 안식 구절을 두 번 큰 소리로 읽고 '셰익스피어는 그 누구보다도 살인자의 마음을 잘 알고 있었습니다'라고 덧붙인 일화(인용 전거: 맥베스 3막 2장 링컨 낭독 1865.4.9, 마르키 드 샹브룅 회고록 1865)",
+          "가족을 잃은 슬픔은 면도칼과 함께 숨겨 두었지만 전쟁은 죽은 청년들의 이름으로 매일 책임을 물었고, 비극이 자신을 돌아보는 거울이 되었다는 해설",
+          "암살범 존 윌크스 부스가 자신을 브루투스에 투영했으나, 같은 비극이 링컨에게는 거울, 부스에게는 가면이었다는 대조"
+        ]
+      }
+    ],
+    "turningPoints": [
+      {
+        "point": "1818년 가을 아홉 살에 어머니 낸시를 잃고, 인디애나 통나무집에 남은 한두 권 중 천로역정을 외울 때까지 읽었다. 45년 뒤 게티즈버그에서 그 성서적 호흡을 272개 단어에 눌러 담아 '국민의, 국민에 의한, 국민을 위한'이라는 세 번 반복의 리듬을 만들었다.",
+        "significance": "가장 이른 상실이 가장 유명한 연설의 운율로 이어지는, 이 인물의 독서와 삶이 엮이는 원형이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/01-천로역정/book.ko.json"
+        ]
+      },
+      {
+        "point": "어머니를 잃은 이듬해 겨울 새어머니 사라 부시가 이솝 우화를 손에 쥐여줬다. 외울 때까지 읽은 이 우화집의 화법은 1864년 볼티모어 연설에서 늑대와 양치기의 비유로 되살아났고, 그해 10월 메릴랜드는 남부 경계주 최초로 노예제 폐지를 결단했다.",
+        "significance": "소년기의 책 한 권이 대통령의 설득 무기가 되고 실제 정치적 결과까지 이어진 검증된 연결이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/02-이솝 우화/book.ko.json"
+        ]
+      },
+      {
+        "point": "스물여섯에 첫 약혼녀 앤 러틀리지를 장티푸스로 잃었다. 슬프고 힘든 순간마다 바이런의 시, 특히 잃은 사랑을 꿈속에서 아홉 번 되불러내는 「꿈」을 입으로 읊었다.",
+        "significance": "슬픔을 감추는 대신 시를 낭송해 견디는, 이 인물이 상실을 다루는 고유한 방식이 여기서 자리 잡는다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/06-바이런 시선/book.ko.json"
+        ]
+      },
+      {
+        "point": "1849년, '증명하다'의 뜻도 모른 채 변호사일 수는 없다며 순회 재판의 낡은 여관방에서 유클리드 여섯 권을 파고들었다. 그 증명의 눈으로 1854년 노예제의 논리적 모순을 청중 없이 서랍 속 단편에 적었고, 1860년 쿠퍼 유니언 연설에서 헌법 서명자 39인 중 21인의 기록을 쌓아 올려 세 달 뒤 공화당 대통령 후보가 되었다.",
+        "significance": "감정이 아니라 기록과 증명으로 노예제에 맞서는 방법론이 만들어진 과정이며, 변호사에서 대통령 후보로 가는 결정적 전환이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/07-유클리드 원론/book.ko.json"
+        ]
+      },
+      {
+        "point": "1862년 2월 열한 살 아들 윌리를 장티푸스로 잃었다. 대통령은 비서와 기자들 앞에서, 전체를 외우고 있던 포의 「까마귀」를 구슬프고 단조로운 음조로 낭송하곤 했다.",
+        "significance": "전쟁의 한가운데에서 겪은 가장 깊은 개인적 상실과, 그것을 시의 반복 구조로 견딘 장면이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/08-까마귀/book.ko.json"
+        ]
+      },
+      {
+        "point": "1865년 3월 4일 두 번째 취임 선서. 북부가 응보의 선언을 기다렸지만 그의 입에서 나온 것은 '심판하지 말라'였다. 승자인 북부에게 거울을 들이밀며, 함께 죄진 자들이 같이 대가를 치렀다고 선언하고 증오 대신 자비와 치유를 청했다.",
+        "significance": "청년 시절 불태우려 했던 책이 마지막에 그의 손에 돌아와, 이긴 자가 가장 먼저 내려놓아야 할 한 줄을 가르친 귀결이다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/09-성경/book.ko.json",
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/04-이성의 시대/book.ko.json"
+        ]
+      },
+      {
+        "point": "암살 닷새 전인 1865년 4월 9일, 증기선 리버 퀸호에서 친구들에게 맥베스 3막 2장, 살해된 왕이 편안히 잠들어 있다는 구절을 두 번 큰 소리로 읽고 '셰익스피어는 그 누구보다도 살인자의 마음을 잘 알고 있었습니다'라고 덧붙였다.",
+        "significance": "생애 마지막까지 책이 곁에 있었고, 비극을 자신을 돌아보는 거울로 쓴 태도가 죽음 직전까지 이어졌음을 보여 준다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/10-셰익스피어 전집/book.ko.json"
+        ]
+      }
+    ],
+    "positions": [
+      {
+        "point": "자유라는 같은 말이 두 가지 뜻으로 쓰인다고 보았다. 어떤 이의 자유는 나의 결실을 지킬 권리지만 어떤 이의 자유는 남의 결실을 뺏을 권리이며, 늑대가 양치기를 자유의 파괴자라 부르는 '늑대의 사전'을 거부해야 한다고 볼티모어 연설에서 말했다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/02-이솝 우화/book.ko.json"
+        ]
+      },
+      {
+        "point": "노예제 반대를 감정이 아니라 증명으로 세웠다. 피부색이 기준이면 더 하얀 사람의 노예가 되고 지능이 기준이면 더 똑똑한 사람의 노예가 된다는 자기귀결 논증을 썼고, 쿠퍼 유니언에서는 헌법 서명자들의 투표 기록으로 건국 이념이 노예제의 억제와 소멸 쪽에 있음을 논증하며 '강해서 옳은 게 아니라 옳기에 강한 것'이라고 결론지었다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/07-유클리드 원론/book.ko.json"
+        ]
+      },
+      {
+        "point": "승자가 패자를 심판해서는 안 된다고 믿었다. 제2차 취임 연설에서 양측이 같은 성경을 읽고 같은 신에게 기도했음을 짚고, 노예제를 함께 죄진 모두가 전쟁으로 대가를 치렀다고 선언하며, 증오를 버리고 상처를 치유하자고 청했다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/09-성경/book.ko.json"
+        ]
+      },
+      {
+        "point": "사람이 사람의 주인이 되지 않고 형제가 서로의 심장을 겨누지 않는 나라를 남기고 싶다는 것을 자기 일의 전부로 요약했으며, '저는 천천히 걷지만, 결코 뒤로 걷지는 않습니다'라는 말대로 느리더라도 물러서지 않는 전진을 자기 태도로 삼았다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/meta.ko.json"
+        ]
+      },
+      {
+        "point": "빈손에서 스스로 세계를 세우는 자수성가를 실제로 살았다. 1831년 스물둘에 빌린 도끼 한 자루로 뉴살렘에 정착해 뱃사공, 우체국장, 측량사를 전전하며 혼자 힘으로 길을 열었고, 학교 교육 1년 미만의 결핍을 평생 독학으로 메웠다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/03-로빈슨 크루소/book.ko.json",
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/05-벤저민 프랭클린 자서전/book.ko.json"
+        ]
+      }
+    ],
+    "tensions": [
+      {
+        "point": "성경을 가장 깊이 읽은 사람이 성경을 가장 깊이 의심했다. 스물여섯 무렵 페인을 따라 기독교 교리를 공격하는 소책자를 썼다가 동료가 원고를 화덕에 태웠고, 이후 평생 어떤 교파에도 속하지 않았지만 연설과 편지와 일상에서 성경 인용을 놓지 않았다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/04-이성의 시대/book.ko.json",
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/09-성경/book.ko.json"
+        ]
+      },
+      {
+        "point": "상실이 반복된 삶이었다. 아홉 살에 어머니를, 스물여섯에 약혼녀를, 대통령 재임 중에 열한 살 아들을 잃었고, 스스로 밤마다 깊고 검은 절망의 수렁에 빠져들곤 했다고 고백했다. 대본은 가족을 잃은 슬픔을 면도칼과 함께 숨겨 두었다고 표현할 만큼 그 우울을 무겁게 그린다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/meta.ko.json",
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/08-까마귀/book.ko.json",
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/10-셰익스피어 전집/book.ko.json"
+        ]
+      },
+      {
+        "point": "노예제를 끝내려는 전쟁이 그 자신에게는 매일 청년들을 포탄 속으로 밀어 넣는 일이었다. 최고사령관은 피 묻은 왕관을 쓴 맥베스와 리처드 3세의 대사를 홀린 듯 낭독했고, 왕을 죽인 자가 죽은 왕의 안식을 부러워하는 구절에 유독 집착했다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/10-셰익스피어 전집/book.ko.json",
+          "repo:sw/remotion/public/episodes/abraham-lincoln/meta.ko.json"
+        ]
+      }
+    ],
+    "voice": {
+      "sentenceLength": "짧고 고른 문장을 기본으로 하되, 결정적 대목에서 '국민의, 국민에 의한, 국민을 위한'처럼 같은 어구를 세 번 쌓는 반복 리듬과 성서적 호흡을 쓴다. 클로징은 '합시다' 청유형으로 여운을 남긴다.",
+      "directness": "정중체('저는', '~습니다')의 겸손한 말투다. 정면 단정 대신 늑대와 양치기 같은 우화나 비유로 우회해 들어간 뒤, 결론은 기록과 숫자(서명자 39인 중 21인, 272개의 단어)로 명확하게 박는다. 자신을 '변경의 독학자'로 낮추고 공은 자기에게 돌리지 않는다.",
+      "moves": [
+        "우화와 비유로 상대의 언어를 해부하기(늑대의 사전을 들춰내는 방식)",
+        "감정이 아니라 기록을 한 줄씩 쌓아 증명에 이르기(쿠퍼 유니언의 방식)",
+        "성경 구절이나 시의 한 줄로 매듭짓기(심판하지 말라, 까마귀의 되풀이)",
+        "통나무집과 독학의 결핍을 감추지 않고 자기소개의 출발점으로 삼기",
+        "상실과 절망을 책과 함께 견딘 경험으로 풀어내기(외울 때까지 읽었다는 화법)"
+      ],
+      "avoid": [
+        "대본에 없는 인용문이나 발언을 창작하는 것(재료에 실린 인용만 쓴다)",
+        "스스로를 해방자나 영웅으로 부르는 영웅화(대본의 링컨은 자기를 낮추는 humble 톤이다)",
+        "반말, 명령조, 웅변조 과장(정중체와 청유형이 기본이다)",
+        "도끼날을 가는 데 네 시간을 쓰겠다는 격언을 본인 말로 인용하기(대본이 실제 문헌 기록 없음을 명기했다)",
+        "상실과 우울을 극복 서사로 미화하거나 설교조 교훈으로 마무리하기",
+        "현대어 유행어나 창작 말버릇"
+      ]
+    },
+    "hardTerms": [
+      {
+        "term": "게티즈버그 연설",
+        "guide": "1863년 11월 19일, 5만 명이 쓰러진 게티즈버그 들판에서 한 272개 단어의 연설. '국민의, 국민에 의한, 국민을 위한 정부'로 닫힌다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/01-천로역정/book.ko.json"
+        ]
+      },
+      {
+        "term": "쿠퍼 유니언 연설",
+        "guide": "1860년 2월 27일 뉴욕에서 헌법 서명자 39인의 투표 기록을 쌓아 노예제 억제가 건국 이념임을 논증한 연설. 세 달 뒤 공화당 대통령 후보가 되는 계기였다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/07-유클리드 원론/book.ko.json"
+        ]
+      },
+      {
+        "term": "제2차 취임 연설",
+        "guide": "1865년 3월 4일, 승전 직전의 두 번째 취임식에서 응보 대신 '심판하지 말라'를 꺼내 남북 공동의 죄와 치유를 말한 연설.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/09-성경/book.ko.json"
+        ]
+      },
+      {
+        "term": "늑대의 사전",
+        "guide": "1864년 볼티모어 연설의 비유. 양을 잡아먹을 자유를 자유라 부르는 자들의 언어를 가리키며, 같은 단어를 착취의 뜻으로 쓰는 왜곡을 뜻한다.",
+        "sourceUrls": [
+          "repo:sw/remotion/public/episodes/abraham-lincoln/books/02-이솝 우화/book.ko.json"
+        ]
+      }
+    ],
+    "researchLimits": [
+      "이 dossier는 서재 탐방 에피소드(독서·감상 중심 재료)만을 원천으로 하므로 노예해방선언의 성립 경위, 전쟁 수행, 재건 정책 같은 정치사 전반을 망라하지 않는다.",
+      "인용문은 에피소드에 실린 것만 쓴다. 그 외의 발언, 편지, 일화를 창작하거나 기억으로 보태지 않는다.",
+      "에피소드의 인용문은 영상용 한국어 번역·압축본이므로 원문 축어 인용으로 취급하지 않는다.",
+      "도끼날 격언은 링컨의 말로 전해질 뿐 실제 문헌 기록이 없다고 에피소드가 명기했다. 본인 발언으로 쓰지 않는다.",
+      "프랭클린식 13가지 덕목 표를 직접 모방했다는 사료는 없다고 에피소드가 명기했다. 영향은 이미지와 서사 차원으로만 말한다.",
+      "정확한 출생 일자는 재료에 없다. 1818년 가을에 아홉 살이었다는 대본 기술에서 출생 연도를 산출했고, 사망은 1865년 포드 극장 암살이라는 대본 기술만 쓴다.",
+      "까마귀를 언제나 들고 다녔다는 것과 전체를 외웠다는 것은 에피소드도 '알려졌다', '전해진다'로 유보해 적었으므로 단정하지 않는다."
+    ]
+  }
+}

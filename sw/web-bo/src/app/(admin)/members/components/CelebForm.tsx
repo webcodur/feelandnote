@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
+import { createCeleb, updateCeleb, deleteCeleb, setCelebMonologueLock } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
 import { getCelebTags, updateCelebTags, type CelebTagInput } from '@/actions/admin/tags'
 import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
-import { Loader2, Trash2, Star, X, Upload, ChevronDown, ChevronUp } from 'lucide-react'
+import { Loader2, Trash2, Star, X, Upload, ChevronDown, ChevronUp, Lock, LockOpen } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useToast } from '@/contexts/ToastContext'
 import { resizeSingleImage, resizePortraitImage, createPreviewUrl } from '@/lib/image'
@@ -197,6 +197,24 @@ export default function CelebForm({ mode, celeb }: Props) {
     setOpenSections(prev => ({ ...prev, [key]: !prev[key] }))
   }
 
+  // 가상 독백 확정 잠금 — 잠기면 DB 트리거가 모든 경로의 독백 수정을 차단한다
+  const [monologueLockedAt, setMonologueLockedAt] = useState<string | null>(celeb?.virtual_monologue_locked_at ?? null)
+  const [monologueLockLoading, setMonologueLockLoading] = useState(false)
+
+  async function toggleMonologueLock() {
+    if (!celeb) return
+    setMonologueLockLoading(true)
+    try {
+      const { locked_at } = await setCelebMonologueLock(celeb.id, !monologueLockedAt)
+      setMonologueLockedAt(locked_at)
+      showToast('success', locked_at ? '가상 독백을 확정했습니다. 잠금 해제 전까지 수정되지 않습니다.' : '잠금을 해제했습니다.')
+    } catch (e) {
+      showToast('error', e instanceof Error ? e.message : '잠금 변경에 실패했습니다.')
+    } finally {
+      setMonologueLockLoading(false)
+    }
+  }
+
   // 파일명 → 인물명 자동 입력 토글 (localStorage 연동)
   const [autoNameFromFile, setAutoNameFromFile] = useState(() => {
     if (typeof window === 'undefined') return true
@@ -305,10 +323,10 @@ export default function CelebForm({ mode, celeb }: Props) {
   async function handleCropComplete(croppedDataUrl: string) {
     setCropModalOpen(false)
 
-    // dataURL을 File로 변환
+    // dataURL을 File로 변환. 자른 결과는 무손실 PNG이며 webp 압축은 저장 직전에 한 번만 한다
     const response = await fetch(croppedDataUrl)
     const blob = await response.blob()
-    const file = new File([blob], 'avatar.webp', { type: 'image/webp' })
+    const file = new File([blob], 'avatar.png', { type: 'image/png' })
 
     setAvatarFile(file)
     setAvatarPreview(croppedDataUrl)
@@ -833,6 +851,9 @@ export default function CelebForm({ mode, celeb }: Props) {
         <button type="button" onClick={() => toggleSection('monologue')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
           <h2 className="text-base font-semibold text-text-primary">가상 독백</h2>
           <div className="flex items-center gap-3">
+            {monologueLockedAt && (
+              <span className="flex items-center gap-1 text-xs text-amber-400"><Lock className="w-3.5 h-3.5" />확정</span>
+            )}
             {!openSections.monologue && celeb?.virtual_monologue && (
               <span className="text-xs text-text-secondary">{celeb.virtual_monologue.length}자</span>
             )}
@@ -840,7 +861,26 @@ export default function CelebForm({ mode, celeb }: Props) {
           </div>
         </button>
         {openSections.monologue && (
-          <div className="px-4 pb-4">
+          <div className="px-4 pb-4 space-y-3">
+            {mode === 'edit' && celeb?.virtual_monologue && (
+              <div className="flex items-center justify-between gap-3 p-3 bg-bg-secondary/50 border border-border rounded-lg">
+                <p className="text-xs text-text-secondary">
+                  {monologueLockedAt
+                    ? `${new Date(monologueLockedAt).toLocaleString('ko-KR')}에 확정되었습니다. 잠금을 해제하기 전까지 어떤 도구로도 수정되지 않습니다.`
+                    : '확정하면 생성 스크립트·게시 도구를 포함한 모든 경로의 수정이 차단됩니다.'}
+                </p>
+                <Button type="button" variant="secondary" onClick={toggleMonologueLock} disabled={monologueLockLoading}>
+                  {monologueLockLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : monologueLockedAt ? (
+                    <LockOpen className="w-4 h-4" />
+                  ) : (
+                    <Lock className="w-4 h-4" />
+                  )}
+                  {monologueLockedAt ? '잠금 해제' : '확정 잠금'}
+                </Button>
+              </div>
+            )}
             {celeb?.virtual_monologue ? (
               <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
                 {celeb.virtual_monologue.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}

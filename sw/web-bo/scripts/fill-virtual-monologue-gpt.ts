@@ -11,9 +11,16 @@
  *   이 스크립트는 DB를 읽기만 한다. 생성 결과는 .tmp-gpt-mono/candidates.jsonl에 후보로 저장한다.
  *   검토·승인·원문 해시 대조를 거치지 않은 생성 결과를 profiles.virtual_monologue에 바로 쓰지 않는다.
  *
+ * [생성 루트 — 3단계, 2026-08-02 개편]
+ *   인물마다 GPT를 세 번 부른다. 한 번에 쓰게 하면 틀에 박힌 골격이 나와서 단계를 갈랐다.
+ *   ① 주제 정리(buildOutlinePrompt): 이 인물의 독백이 다뤄야 할 주제·이야기·감정의 매듭을 먼저 정리
+ *   ② 본문 쓰기(buildWritePrompt): ①의 정리를 재료로 삼아 독백 작성 (문장 규격은 여기가 쥔다)
+ *   ③ 비판적 검토·1회 수정(buildCritiquePrompt): 초안을 스스로 비판하고 고친 최종본만 출력
+ *   중간 산출물(개요·초안)은 candidates.jsonl 레코드에 함께 남겨 검토 때 대조한다.
+ *
  * [말투]  정중체('저는'/'~습니다') 기본. 지휘관 직군 + 아래 PLAIN_EXTRA 4명만 평어체('나는'/'~다'). isPlain 참조.
  * [분량]  영향력 등급별 목표만 준다(하한 없음). 자료가 얇으면 짧게 맺는다. lengthTarget 참조.
- * [형식·금지]  두괄식 도입·억지 역설 금지·한국어 호흡·구어 어휘·em dash 금지·한자 금지 등 → buildPrompt.
+ * [형식·금지]  두괄식 도입·억지 역설 금지·한국어 호흡·구어 어휘·em dash 금지·한자 금지 등 → buildWritePrompt.
  *
  * [실행 방식]
  *   - codex(Codex 구독 인증)로 생성 → 종량제 비용 없음. rate limit 존재(누적 500~560건, 5시간 주기 회복).
@@ -73,7 +80,7 @@ const SLUGS = (() => {
 })()
 
 const MODEL = 'gpt-5.6-sol'
-const PROMPT_VERSION = 'vm-ko-2026-07-29-candidate-v1'
+const PROMPT_VERSION = 'vm-ko-2026-08-02-3stage-v5' // v5: 실발언 조사 기반 + 한 줄 정의 + AI 티 소거(튜링 테스트 기준)
 const TMP = resolve(process.cwd(), '.tmp-gpt-mono')
 if (!existsSync(TMP)) mkdirSync(TMP, { recursive: true })
 /** rate limit 으로 끊겨도 --resume 으로 이어붙이기 위한 처리 완료 기록. */
@@ -118,65 +125,56 @@ type Material = {
 }
 
 /**
- * 옛 규격은 이름·bio 만 주고 규칙 9개 중 6개가 금지였다. 감점을 피하는 최단 경로가 무색무취라
- * 1,691편이 같은 목소리로 말했다(물음표 3편·인용부호 0편·감정 동사 20편, 81%가 명제 오프닝).
- * 지금은 원본을 주고 고치게 하며, 금지 대신 무엇을 해야 하는지를 준다.
+ * 1단계 — 실제 발언 조사. 인물이 실제로 한 말(인터뷰·팟캐스트·방송·연설·저술·기록)을
+ * 찾아 재료로 삼는다. 현대인은 인터뷰·팟캐스트가 몸통이고, 역사 인물은 기록된 발언이다.
+ * 재료가 실발언이면 어투가 사람을 따라가고, 재료가 요약문이면 어투가 AI를 따라간다.
  */
-function buildPrompt(m: Material): string {
-  return `${m.origin
-    ? `아래는 지금 서비스에 실려 있는 ${m.name}의 1인칭 독백이다. 이 글을 고쳐 더 나은 독백으로 만들어라.
+function buildOutlinePrompt(m: Material): string {
+  return `실존 인물 ${m.name}${m.era ? `(${m.era})` : ''}의 가상독백을 쓰기 위한 재료를 조사하라. (${m.bio})
 
-[지금 글]
-${m.origin}
+이 사람이 실제로 한 말을 찾아라 — 인터뷰, 팟캐스트, 방송, 연설, 저술, 기록에 남은 발언.
 
-[지금 글의 문제]
-사실 관계와 인물 정보는 대체로 정확하다. 그러나 1,691명의 독백이 전부 같은 목소리로 말한다. 명제 한 줄로 열고, 자기를 소개하고, 업적을 늘어놓고, 신념을 요약하며 닫는 틀이 똑같다. 사람이 자기 인생을 두고 하는 말인데 감정이 없고, 남이 자기를 어떻게 말하는지 되받는 대목도 없다. 조용히 정보만 전달하다 끝난다.
+정리할 것:
+- 실제 발언 인용 (한국어 번역, 최대한 그 사람이 말한 그대로)
+- 그 발언들에서 드러나는 이 사람 특유의 어투·말버릇·화법
+- 본인이 직접 언급한 자기 삶의 사건들
 
-[고치는 법]
-살릴 것은 살려라. 사실, 인물의 정체가 또렷이 잡히는 대목, 이해를 돕는 설명은 그대로 두거나 다듬는 선에서 지킨다.
-바꿀 것은 이 사람이 실제로 내는 소리로 바꿔라. 감정이 실릴 자리에 실리게 하고, 틀에 박힌 골격을 이 인물에게 맞는 흐름으로 다시 짠다. 다만 원문이 이미 잘하고 있는 것을 굳이 뒤집지 마라.
+확인 안 되는 것은 싣지 마라. 정리 목록만 출력하라.`
+}
 
-`
-    : ''}실존 인물 ${m.name}이(가) 자기 삶과 신념을 1인칭으로 말하는 독백을 한국어로 ${m.origin ? '완성하라' : '써라'}.
+/**
+ * 2단계 — 본문 쓰기. 옛 규격은 이름·bio 만 주고 규칙 9개 중 6개가 금지였다. 감점을 피하는
+ * 최단 경로가 무색무취라 1,691편이 같은 목소리로 말했다(물음표 3편·인용부호 0편·감정 동사
+ * 20편, 81%가 명제 오프닝). 지금은 개요를 먼저 확정해 재료로 주고, 금지 대신 무엇을 해야
+ * 하는지를 준다.
+ */
+function buildWritePrompt(m: Material, outline: string): string {
+  return `가상독백은 실존 인물이 자기 삶과 신념을 1인칭으로 말하는 글이다. ${m.name}의 가상독백을 한국어로 써라. ${m.plain ? `말투는 평어체('~다'·'나는')` : `말투는 정중체('~습니다'·'저는')`}, 분량 ${m.target}. 본문만 출력한다.
 
-[이 글의 목적]
-이 인물을 처음 보는 사람이 읽는다. 다 읽고 나면 이 사람이 무엇을 믿었고 왜 그렇게 살았는지 또렷이 이해하고 오래 기억해야 한다. 이해가 목적이고, 감정과 말투는 그 목적에 봉사하는 수단이다.
-
-[이 말의 자리]
-이것은 혼잣말이다. 청중 앞에 선 연설도, 독자를 향한 강연도 아니다. 자기 삶을 혼자 되짚는 사람의 말이다. 그러니 듣는 사람을 불러 세우거나(여러분, 당신들), 무엇을 하라고 권하고 요구하며 끝내지 않는다. 마지막 문장은 교훈이나 당부가 아니라 자기 이야기로 맺는다. 무엇을 느낄지는 읽는 사람이 정한다.
-
-[인물 자료]
+[인물]
 이름: ${m.name}
 ${m.era ? `생몰: ${m.era}\n` : ''}소개: ${m.bio}
 
-[쓰는 법]
-사람이 실제로 내는 소리로 써라. 사상을 정리해 알려주는 해설이 아니라, 살아 있는 사람이 자기 인생을 두고 하는 말이다. 감정이 실릴 자리에는 실어라. 억울했으면 억울하다고 말한다. 후회할 것은 후회하고, 굽히지 않을 것은 끝내 굽히지 않는다.
+[조사 자료 — 이 사람의 실제 발언과 어투]
+${outline}`
+}
 
-첫 문단 안에서 이 사람이 누구이고 무엇을 한 사람인지 드러나야 한다. 유명한 사건 한복판에서 시작해 읽는 사람이 화자를 추리하게 만들지 마라. 다만 모두를 '저는 ○○입니다'로 똑같이 시작시키지는 않는다. 이름과 한 일이 첫머리에서 자연스럽게 잡히면 그 방식은 자유다.
+/**
+ * 3단계 — AI 티 소거. 목표는 명문이 아니라 튜링 테스트다: AI가 짜낸 글임을 알아볼 수
+ * 없어야 한다. 번역투와 AI 특유의 톤(대구 수사, 부정 구문 쌓기, 매끈한 요약체, 총정리
+ * 마무리)을 걷어내고 조사된 실제 어투 쪽으로 끌고 간다. 표기류(대시·한자 등) 기계 검사는
+ * 프롬프트가 아니라 코드 후보정이 맡는다.
+ */
+function buildCritiquePrompt(m: Material, outline: string, draft: string): string {
+  return `아래는 ${m.name}의 가상독백 초안이다. 문제는 이 글에서 AI가 쓴 티가 난다는 것이다.
 
-뒤집어 말해서 깊어 보이려 하지 마라. 'A가 아니라 B였습니다', '~라고 생각하지 않았습니다' 같은 구문이 그렇다. 아무도 그렇게 여긴 적 없는 것을 부정해 놓고 대단한 통찰인 척하는 문장이 된다. 무대는 숨는 곳이 아니었다, 빈손은 수치가 아니었다, 큰 항아리는 궁핍의 상징이 아니었다 같은 문장은 지우고 나면 아무것도 잃지 않는다. 4군 6진을 두고 '따로 떨어진 치적이라고 생각하지 않았습니다'라고 쓰지 말고, 4군 6진을 꾸려 무엇을 했는지 그대로 적어라. 대비는 두 쪽이 실제로 부딪쳐 뜻이 갈릴 때만 쓴다. 나머지는 하려던 말을 그냥 사실대로 적으면 된다.
+읽는 사람이 AI가 짜낸 글임을 알아볼 수 없어야 한다. 명문일 필요 없다. 번역투, AI 특유의 매끈한 수사(대구 반복, 부정 구문 쌓기, 깔끔한 총정리 마무리)를 걷어내고, 조사 자료에 담긴 이 사람의 실제 어투에 가깝게 다시 써라. 말투는 ${m.plain ? `평어체('~다'·'나는')` : `정중체('~습니다'·'저는')`} 유지. 본문만 출력한다.
 
-한국어는 호흡이 생명이다. 문장의 길이, 끊고 잇는 자리, 쉬어 가는 대목이 그 인물과 함께 살아 숨 쉬어야 한다. 급하게 밀어붙인 사람은 문장도 짧게 치고 나가고, 오래 눌러 생각한 사람은 길게 감아 놓는다. 말이 무거운 사람은 쉼이 길고, 거침없는 사람은 쉼 없이 이어 간다. 말투를 갈라 놓아도 호흡이 같으면 결국 같은 사람이 말하는 소리가 된다. 다만 호흡을 의식해 일부러 끊어 치지는 마라. 어설프게 토막 내면 읽기만 어려워진다.
+[초안]
+${draft}
 
-화법은 차분하고 또렷한 것이 기본이다. 남이 붙인 딱지를 끌어와 되받기, 스스로에게 묻기, 비꼼, 짧게 끊어 치기 같은 장치는 이 인물이 실제로 그렇게 말한 사람일 때만 꺼내라. 아무에게나 쓰면 글마다 같은 재주가 반복되고, 재주가 인물을 집어삼킨다. 읽는 사람이 인물을 이해하는 것이 언제나 먼저다.
-
-낱말도 말로 쓰는 낱말을 골라라. 문장 구조만 말이고 어휘가 논문이면 사람이 아니라 학자가 읽는 소리가 된다. 사람이 혼자 중얼거리며 '허무주의자'라고는 하지 않는다. 개념을 꼭 짚어야 하면 입으로 말하듯 풀어라(삶이 헛되다고 떠드는 자들). 학술 용어, 문어체 한자어, 글에서만 보는 표현은 그 인물의 전문 분야에서 그 말을 실제로 입에 올렸을 때만 쓴다.
-
-다만 감정을 쏟는 일기가 아니다. 한 문장이 나갈 때마다 읽는 사람의 이해가 한 걸음 나아가야 한다. 인물이 자기 세계에서만 통하는 말을 하면 처음 읽는 사람은 떨어져 나간다. 배경 지식 없이 따라올 수 있게 하되, 설명하려고 목소리를 죽이지는 마라. 무엇을 한 사람인지는 이력서처럼 소개하지 말고 말 속에서 저절로 드러나게 한다.
-
-분량은 ${m.target}로 한다. 다만 이 인물에 대해 확인된 사실이 얼마 없다면 억지로 채우지 마라. 지어내거나 같은 말을 되풀이하거나 이력을 나열해 늘리느니 짧게 끝내는 편이 낫다.
-
-[말투]
-${m.plain
-  ? `평어체로 쓴다. 모든 문장을 '~다'로 끝맺고 자기 자신은 '나는'·'내가'로만 가리킨다. '~습니다'와 '저는'을 한 번도 쓰지 않는다.`
-  : `정중체로 쓴다. 모든 문장을 '~습니다'로 끝맺고 자기 자신은 '저는'·'제가'로만 가리킨다. 반말 종결과 '나는'을 한 번도 쓰지 않는다.`}
-글 전체에서 이 말투를 흔들림 없이 지킨다. 마지막 문단까지 같아야 한다. 다만 매 문장을 자기 지칭으로 시작하지는 않는다.
-
-[표기]
-- 확인되지 않은 사실은 지어내지 않는다. 불확실한 고유명사는 언급하지 않는다.
-- 한자를 쓰지 않고 한글로 적는다. 단 널리 쓰이는 로마자 약칭·고유명사(RSS, JSTOR, AI 등)는 원래 표기 그대로 둔다.
-- em dash(—)를 쓰지 않는다.
-- 독백 본문만 출력한다. 설명·머리말·따옴표 없이 본문 텍스트만.`
+[조사 자료 — 이 사람의 실제 발언과 어투]
+${outline}`
 }
 
 // codex 실행파일 절대경로 해석(.cmd 우선). PATH 의존 시 동시 실행에서 산발적으로
@@ -199,7 +197,9 @@ function codexBin(): string {
 function runCodex(prompt: string, outFile: string): Promise<void> {
   return new Promise((res, rej) => {
     const ch = spawn(codexBin(), ['exec', '-', '-m', MODEL, '--output-last-message', outFile, '--color', 'never'],
-      { shell: true, timeout: 240000 })
+      // v5의 1단계(실발언 조사)는 웹 검색이 겹쳐 4분을 넘기기 일쑤다. 4분 타임아웃으로는
+      // 전원이 타임아웃→재시도 루프에 갇힌다(26-08-02 실측: 완료 0명). 10분으로 상향.
+      { shell: true, timeout: 600000 })
     let err = ''
     ch.stderr.on('data', (d) => { err += d.toString() })
     ch.on('error', rej)
@@ -209,19 +209,37 @@ function runCodex(prompt: string, outFile: string): Promise<void> {
   })
 }
 
-async function generate(slug: string, m: Material): Promise<string> {
-  const outFile = resolve(TMP, `mono-${slug.replace(/[^a-z0-9-]/gi, '_')}.txt`)
-  writeFileSync(outFile, '') // 이전 잔재 제거
-  await runCodex(buildPrompt(m), outFile)
-  const text = readFileSync(outFile, 'utf-8').trim()
-  if (!text) throw new Error('빈 응답')
-  if (hasHanzi(text)) throw new Error('한자 혼입')
-  return text
+/** 산발 실패(spawn·타임아웃) 흡수용 1회 재시도. rate limit 계열은 재시도해도 소용없어 즉시 던진다. */
+async function callStage(prompt: string, outFile: string): Promise<string> {
+  for (let attempt = 1; ; attempt++) {
+    writeFileSync(outFile, '') // 이전 잔재 제거
+    try {
+      await runCodex(prompt, outFile)
+      const text = readFileSync(outFile, 'utf-8').trim()
+      if (!text) throw new Error('빈 응답')
+      return text
+    } catch (e) {
+      const msg = (e as Error).message || ''
+      if (attempt >= 2 || /rate|limit|quota|429|usage/i.test(msg)) throw e
+    }
+  }
+}
+
+type Generated = { outline: string; draft: string; final: string }
+
+async function generate(slug: string, m: Material): Promise<Generated> {
+  const safe = slug.replace(/[^a-z0-9-]/gi, '_')
+  const outline = await callStage(buildOutlinePrompt(m), resolve(TMP, `outline-${safe}.txt`))
+  const draft = await callStage(buildWritePrompt(m, outline), resolve(TMP, `draft-${safe}.txt`))
+  const final = await callStage(buildCritiquePrompt(m, outline, draft), resolve(TMP, `mono-${safe}.txt`))
+  if (hasHanzi(final)) throw new Error('한자 혼입')
+  if (/https?:\/\/|\]\(/.test(final)) throw new Error('링크 혼입') // codex가 웹 근거를 본문에 인라인 인용하는 사고 차단
+  return { outline, draft, final }
 }
 
 type Row = {
   slug: string; nickname: string; bio: string | null; profession: string | null
-  birth_date: string | null; death_date: string | null
+  birth_date: string | null; death_date: string | null; celeb_tier: string | null
   virtual_monologue: string | null
   celeb_influence: { total_score: number | null }[] | { total_score: number | null } | null
 }
@@ -231,7 +249,7 @@ async function loadAll(): Promise<Row[]> {
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
       .from('profiles')
-      .select('slug, nickname, bio, profession, birth_date, death_date, virtual_monologue, celeb_influence(total_score)')
+      .select('slug, nickname, bio, profession, birth_date, death_date, celeb_tier, virtual_monologue, celeb_influence(total_score)')
       .eq('profile_type', 'CELEB')
       .order('slug')
       .range(from, from + 999)
@@ -266,6 +284,10 @@ async function run() {
   const all = await loadAll()
   let targets = all.filter((r) =>
     r.bio
+    // fiction은 전용 트랙(fiction-profile-monologue 스킬: 원전 근거·반복 비판)이 있고,
+    // relation은 독백 트랙 자체가 없다. 이 스크립트는 실존 light/full만 다룬다.
+    // (2026-08-02: 필터 없이 돌려 fiction 47명·relation 1명 후보가 오발된 사고의 재발 방지)
+    && (r.celeb_tier === 'light' || r.celeb_tier === 'full')
     && (!NO_FORCE || !r.virtual_monologue)
     && (!SLUGS || SLUGS.has(r.slug)),
   )
@@ -290,15 +312,20 @@ async function run() {
   console.log(`셀럽 ${all.length} | 대상 ${targets.length} | 모델 ${MODEL} | 모드 ${MODE} | 동시 ${CONCURRENCY}${NO_FORCE ? ' | 독백 없는 인물만' : ''} | DB 쓰기 0건`)
 
   let done = 0, ok = 0, fail = 0, rateHit = 0
-  for (let i = 0; i < targets.length; i += CONCURRENCY) {
-    const batch = targets.slice(i, i + CONCURRENCY)
-    await Promise.all(batch.map(async (r) => {
+  // 작업자 풀: 묶음 단위 대기(Promise.all 배리어)를 쓰면 가장 느린 한 명이 나머지 슬롯을
+  // 전부 놀린다. 슬롯이 비는 즉시 다음 인물을 집도록 인덱스를 공유한다.
+  let next = 0
+  async function worker() {
+    while (true) {
+      const i = next++
+      if (i >= targets.length) return
+      const r = targets[i]
       const t0 = Date.now()
       try {
         const before = r.virtual_monologue?.length ?? 0
-        const mono = await generate(r.slug, materialOf(r))
+        const g = await generate(r.slug, materialOf(r))
         appendFileSync(CANDIDATES_LOG, `${JSON.stringify({
-          schemaVersion: 1,
+          schemaVersion: 2,
           generatedAt: new Date().toISOString(),
           promptVersion: PROMPT_VERSION,
           model: MODEL,
@@ -307,13 +334,15 @@ async function run() {
           nickname: r.nickname,
           currentText: r.virtual_monologue ?? '',
           currentHash: sha256(r.virtual_monologue ?? ''),
-          candidateText: mono,
-          candidateHash: sha256(mono),
+          outline: g.outline,
+          draftText: g.draft,
+          candidateText: g.final,
+          candidateHash: sha256(g.final),
           status: 'draft',
         })}\n`)
         appendFileSync(DONE_LOG, `${r.slug}\n`)
         ok++
-        console.log(`✓ ${r.nickname} (${before ? `${before}→` : ''}${mono.length}자, ${isPlain(r.slug, r.profession) ? '반말' : '정중'}, ${Math.round((Date.now() - t0) / 1000)}s)`)
+        console.log(`✓ ${r.nickname} (${before ? `${before}→` : ''}초안 ${g.draft.length}→최종 ${g.final.length}자, ${isPlain(r.slug, r.profession) ? '반말' : '정중'}, ${Math.round((Date.now() - t0) / 1000)}s)`)
       } catch (e) {
         fail++
         const msg = (e as Error).message || ''
@@ -321,10 +350,13 @@ async function run() {
         else console.error(`✗ ${r.nickname}: ${msg.slice(0, 200)}`)
       } finally {
         done++
+        if (done % 10 === 0 || done === targets.length) {
+          console.log(`  진행 ${done}/${targets.length} (성공 ${ok} / 실패 ${fail}${rateHit ? ` / rate ${rateHit}` : ''})`)
+        }
       }
-    }))
-    console.log(`  진행 ${done}/${targets.length} (성공 ${ok} / 실패 ${fail}${rateHit ? ` / rate ${rateHit}` : ''})`)
+    }
   }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, targets.length) }, () => worker()))
 
   console.log(`\n완료. 후보 ${ok} / 실패 ${fail}${rateHit ? ` / rate limit 의심 ${rateHit}` : ''}`)
   console.log(`후보 파일: ${CANDIDATES_LOG}`)
