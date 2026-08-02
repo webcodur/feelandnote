@@ -2492,11 +2492,11 @@ metadata:
 
 faction 인물은 DB(profiles)에 등록돼도 프로필 아바타(avatar_url)가 비어 스포트라이트 카드에 이미지가 안 뜨는 경우가 있다. faction 영상용 이미지(`sw/remotion/public/factions/<ep>/<vanity>/*.png`, 정사각 상반신/전신 실사)를 아바타로 재활용하면 된다.
 
-**기존 스크립트 재사용**(코드 수정 불필요): `sw/web-bo/scripts/upload-celeb-image-from-wikimedia.ts` 의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 **얼굴 자동 검출→얼굴 중심 정사각 크롭→800×800 webp→R2 `celebs/{profiles.id}/avatar.webp` PUT→profiles.avatar_url UPDATE**까지 자동. 필요 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY(모두 존재).
+**기존 스크립트 재사용**(코드 수정 불필요): `sw/web-bo/scripts/upload-celeb-avatar.ts` 의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 **얼굴 자동 검출→얼굴 중심 정사각 크롭→800×800 webp→R2 `celebs/{profiles.id}/avatar.webp` PUT→profiles.avatar_url UPDATE**까지 자동. 필요 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY(모두 존재).
 
 실행(sw/web-bo에서):
 ```
-npx tsx scripts/upload-celeb-image-from-wikimedia.ts --celeb-id <profiles.id UUID> --image-file "C:/abs/path.png" --slug <slug> --source-note "faction local"
+npx tsx scripts/upload-celeb-avatar.ts --celeb-id <profiles.id UUID> --image-file "C:/abs/path.png" --slug <slug> --source-note "faction local"
 ```
 celeb-id는 slug 아니라 profiles.id(UUID). 검출 score 0.8대여도 크롭 양호. 얼굴 자동크롭 싫으면 `--face-detect false --crop-gravity center`.
 
@@ -2511,7 +2511,7 @@ avatar_url 최종값은 상대경로 아닌 전체 URL: `https://pub-048f29057fc
 ```
 py -3.12 -c "from rembg import remove,new_session; from PIL import Image; \
   Image.open(SRC); ..."   # rembg 2.0.72 설치돼 있음, u2net, CPU로 1장 ~0.3s
-npx tsx scripts/upload-celeb-image-from-wikimedia.ts --celeb-id <uuid> --slug <s> --image-file <누끼.png>
+npx tsx scripts/upload-celeb-avatar.ts --celeb-id <uuid> --slug <s> --image-file <누끼.png>
 ```
 - `removeAlpha()`는 얼굴검출 텐서 변환에만 쓰이고 출력(extract→resize→webp)은 **알파 유지** → 투명 webp 그대로 나온다.
 - 누끼 이미지에서도 face detection 정상(0.55~0.997). `--face-detect false` 불필요.

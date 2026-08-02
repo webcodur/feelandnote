@@ -181,6 +181,7 @@ pnpm build:audio-bo
 | `docs/todo/virtual-monologue-quality-overhaul.md` | **전수 정비 SSoT.** 유지·개선·신규·보류 판정, 인물별 근거 묶음, 반복 비판 검토, 후보 배치, SHA-256 조건부 게시, 체크리스트와 재개 지점 |
 | `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts` | **실존 인물 후보 작성 규격.** `buildPrompt`가 문장 규격을 쥔다. GPT-5.6으로 `--mode improve|new` 후보를 만들며 **DB에는 쓰지 않고** `.tmp-gpt-mono/candidates.jsonl`에 저장한다. `--slugs` 또는 유한한 `--limit` 없이는 실행을 차단한다. bio+생몰만으로는 최종 근거가 부족하므로 정식 전수 작업에서는 독백 정비 문서의 근거 묶음·독립 검토·별도 게시 절차를 반드시 거친다. |
 | `sw/web-bo/scripts/translate-virtual-monologue.ts` | **영문본(`virtual_monologue_en`)의 SSoT.** 번역이 아니라 같은 사람이 영어로 다시 쓴 독백이다. 지키는 것은 사실·이름·연대·주장과 감정의 무게뿐, **문장 경계·문단 구분·서술 순서는 영어 산문이 원하는 대로 다시 짠다**(문단 수가 원문과 달라도 됨. 프로젝트 번역 원칙 1:1 매핑 금지=`remo-write-7-translation` 기둥 2). 사극체·고전 register는 같은 무게의 영문 register로 옮긴다(기둥 3). 정중/평어 구분은 영어에 없으므로 어휘·리듬으로 대체, 본인이 실제 영어로 남긴 표현은 원문 복원, em dash 금지. "남들이 나를 이렇게 부른다"로 여는 틀이 반복되지 않게 오프닝은 인물마다 새로 잡는다. Claude Sonnet을 `claude -p` headless로 호출(구독 인증, 종량 비용 없음). `--no-force`(빈 인물만)·`--resume`(중단분)·`--slugs a,b`(지정 인물만) |
+| `sw/web-bo/scripts/lock-virtual-monologue.ts` | **확정 잠금 CLI.** `virtual_monologue_locked_at`을 채우면 DB 트리거가 모든 경로의 독백 UPDATE를 차단한다(해제는 별도 문장으로만). 사용자가 확정한 독백을 배치·스크립트가 덮지 못하게 하는 장치 |
 | `sw/web-bo/docs/todo/korean-writing-quality.md` | 모델별 한국어 작문 실력 실측(GPT-5.6 60 / GLM-5.2 40 / Claude Opus 15). **이 작업을 Claude가 직접 쓰지 않고 GPT에 발주하는 근거** |
 | `.agents/skills/fiction-profile-monologue/` | 신화·허구(`fiction` 티어) 인물 전용 트랙 — 원전 근거·반복 비판 검토·manifest 반영 |
 
@@ -195,17 +196,17 @@ pnpm build:audio-bo
 
 | 문서 | 내용 · 상태 |
 |------|------|
-| `celeb-avatar-defects.md` | **26.07.29 등록 아바타 1,844명 전수 육안 재검수. 최초 확정 376명 + 후속 신원 감사 14명 중 2026-07-30까지 228명 교체·역검증 완료, 현재 잔여 162명.** probable 148명은 신원·원본 대조 전이라 확정 명단에 넣지 않았다. 완료된 인물은 R2 재다운로드·800×800 RGBA WebP·업로드본 해시 일치까지 확인한 뒤 문서에서 제거한다 |
+| `celeb-avatar-defects.md` | **26.08.02 품질 결함 41명 일괄 재생성 교체·3중 검증 완료. 현재 잔여 10명** — 신원 근거 부재로 재등록이 막힌 8명(제베·방연·왕충·해서·공융·자무카·이샤크 파샤·파르메니온) + 히틀러(생성 정책 거절, 우회 안 함) + 라이스트뤼고네스족(집단 계정). probable 148명은 신원·원본 대조 전이라 확정 명단에 넣지 않았다. 완료된 인물은 R2 재다운로드·800×800 RGBA WebP·업로드본 해시 일치까지 확인한 뒤 문서에서 제거한다 |
 | `celeb-avatar-missing.md` | 2026-07-31 01:24 KST 비fiction CELEB DB 실측 — 미등록 11명은 활성 4명(`hai-rui`·`kong-rong`·`pang-juan`·`wang-chong`)과 비활성 7명이다. 이번 삼국지 생성 52명은 아바타 등록 52·비활성 보류 0·활성 미등록 0으로 완료했다. `fiction` 티어 미등록 209명은 별도 트랙이라 제외 |
 | `celeb-avatar-local-assets.md` | R2 검증 후 로컬 재료 전량 정리. `D:\image\서비스_재료\인물`은 비어 있고 R2 검색기·다운로드 폴더만 유지 |
 | `celeb-avatar-modern-targets.md` | `ahmed-sherif`의 Neuralink CEO 설명 불일치와 이미지 등록 보류 근거 |
 
 **아바타 신원 소스 가드** — `D:\image\_재료`를 비롯한 출처 불명 로컬 얼굴을 특정 인물의 신원 REF로 사용하지 않는다. 기존 서비스 아바타도 단독 신원 근거가 될 수 없다. 현대 실존 인물은 본인·소속기관·공식/권위 매체의 실제 사진으로 독립 대조하고, 역사 인물은 인물명이 확인되는 초상·도상이나 명시적 시대 재구성 근거를 남긴다. 특정 인물 근거 없이 준비된 임의 얼굴을 가져다 붙인 후보는 생성 품질과 무관하게 폐기하며 업로드하지 않는다.
-업로드 진입점 `upload-celeb-image-from-wikimedia.ts`도 이를 강제한다. Commons·로컬·임의 URL 모든 모드는 외부 `--identity-evidence`와 구체적인 `--source-note`가 필수이고, `_재료`·`서비스_재료`·`_refs` 입력과 기존 서비스 아바타 단독 근거를 거부한다. 팩션 개인샷 자동 승격은 `fiction` 프로필에만 허용한다.
+업로드 진입점 `upload-celeb-avatar.ts`도 이를 강제한다. Commons·로컬·임의 URL 모든 모드는 외부 `--identity-evidence`와 구체적인 `--source-note`가 필수이고, `_재료`·`서비스_재료`·`_refs` 입력과 기존 서비스 아바타 단독 근거를 거부한다. 팩션 개인샷 자동 승격은 `fiction` 프로필에만 허용한다.
 신원 불일치·근거 부재로 이미지를 제거한 14명은 같은 스크립트의 `PROVENANCE_QUARANTINED_SLUGS`로 추가 격리한다. 임시 폴더로 복사하거나 파일명을 바꿔도 업로드할 수 없으며, 인물 고유 근거를 재검토한 뒤 검역 목록을 명시적으로 해제해야 한다.
-임의 검색 결과를 자동 채택하던 `upload-celeb-image-from-url.ts`와 실존 인물에게 팩션 REF를 직접 승격하던 `fill-faction-avatars.ts`는 실행 차단했다. `batch-celeb-wikimedia-avatars.ts`도 DB의 UUID–slug–CELEB 일치를 확인하지 않으면 처리하지 않으며, 검증된 `wikidata_qid`가 없는 대상은 live 자동 검색·QID 채택·업로드를 금지하고 dry-run 후보 조사만 허용한다.
+임의 검색 결과를 자동 채택하던 `upload-celeb-image-from-url.ts`와 실존 인물에게 팩션 REF를 직접 승격하던 `fill-faction-avatars.ts`는 실행 차단했다. `batch-celeb-avatars.ts`도 DB의 UUID–slug–CELEB 일치를 확인하지 않으면 처리하지 않으며, 검증된 `wikidata_qid`가 없는 대상은 live 자동 검색·QID 채택·업로드를 금지하고 dry-run 후보 조사만 허용한다.
 
-남은 작업: `ahmed-sherif` 프로필의 근거 확보·교정 또는 삭제 결정. 임의 얼굴 등록은 금지한다. 등록 자동화는 `.agents/skills/celeb-avatar-wikimedia/SKILL.md`, 파일 규격은 `docs/project/db-celeb.md`(800×800 WebP), **구도·프레이밍·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`**가 SSoT다.
+남은 작업: `ahmed-sherif` 프로필의 근거 확보·교정 또는 삭제 결정. 임의 얼굴 등록은 금지한다. 등록 자동화는 `.agents/skills/celeb-avatar-register/SKILL.md`, 파일 규격은 `docs/project/db-celeb.md`(800×800 WebP), **구도·프레이밍·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`**가 SSoT다.
 
 **셀럽 자료 디렉토리**
 
@@ -251,7 +252,7 @@ pnpm build:audio-bo
 | `docs/project/remotion/gotchas.md` | **영상·음성 제작 함정 모음** — 음성 합성 엔진별 한계·키 로테이션, 정렬과 자막 타이밍(**폐기된 접근 3종** 재제안 금지), 렌더와 미리보기, 데이터 구조 함정, 환경, 작업 규칙 |
 | `docs/project/remotion/book-recommend/` | 서재 탐방 — 롱폼·쇼츠·음성·편성·규칙·렌더 |
 | `docs/project/remotion/faction.md` | 세력도감 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
-| `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 |
+| `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 · **26.08.03 단일화(§4-3)** — 웹은 뷰 `faction_atlas_members` 직독, 출간 텍스트 복사 폐기(패널은 사진·영상·음악 전용) |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
 | `faction-video-clips.md` (저장소 루트) | **팩션 화면 영상화 검토(Higgsfield)** — 인물 화면을 정지 이미지에서 AI 생성 영상으로. 수단 넷(립싱크·배경 원소 연출·정지 유지·구도를 바꾼 새 연출)을 **위계 없이 화면 조건에 따라 골라 쓴다**(선택 기준표 §4.1). 립싱크는 Higgsfield Speak / Lipsync Studio — 그림 1장 + 기존 대사 wav 업로드, 한국어 포함 40개 언어(시드댄스는 오디오를 구조 참조로만 써서 부적합). 배경 원소는 번개·화염 있는 인물에만 통한다. 우리 쪽 구조 실측(`imageChanges`는 발화 시각 기준 교체, 영상 재생·줌 정지 이미 지원, **인물 대사 음성은 실제 재생됨 — faction-rules.md §3.1 기록 정정**), 에피소드별 규모, 발주 원칙(컷은 AI에 맡기지 않음·카메라 고정·어중간한 입모양 금지), 미결정 두 갈래, 미확인 항목과 확인 방법. **26.08.01 조사, MCP 인증 전·생성 미착수** |
 | `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`profiles.virtual_monologue`(사료 — 런타임 의존 아님). **편집은 web-bo `/discourses`** |

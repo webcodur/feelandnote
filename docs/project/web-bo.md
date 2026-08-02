@@ -126,12 +126,12 @@ pnpm dev:bo
 
 > 26.07.25 신설 — 팩션(세력도감) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md)다.
+영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(`faction_people`, `web_*` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md) §4-3다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/factions` | 세력도감 | **표 하나.** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 표 아래 영상 편은 DB `status`에 따라 「옮길 수 있는 편」(`ready`)과 「못 옮기는 편」(`blocked`)으로만 나뉜다. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
-| `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물 배정(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다** | `celeb_tags`, `celeb_tag_assignments` |
+| `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다.** 인물 목록은 뷰 `faction_atlas_members`에서 읽고 **행마다 제작/수동 출처 배지**가 붙는다(26.08.03) — 제작 행의 소개문·개인샷·숨김 편집은 `faction_people`의 `web_*` 칸에 기록되고, 제거는 숨김(`web_hidden`)으로 동작하며, 끌어 정렬은 수동 행 전용이다 | `celeb_tags`, `celeb_tag_assignments`, `faction_people`(web_* 칸) |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
 | `/factions/[episode]/[lang]/[tab]/card/…` | (편 이름) 카드 | 카드뉴스 편성·미리보기·출고. 정비 탭 아래에만 있어 다른 탭으로 들어오면 `info`로 보낸다 | — |
@@ -168,6 +168,8 @@ pnpm dev:bo
 
 #### 출간 (세력도감 반영)
 
+> **26.08.03 단일화 — 텍스트 복사는 폐기됐다.** 인물 텍스트(대사·직함·소개)의 유일 원천은 `faction_people`이고 웹은 뷰 `faction_atlas_members`를 직독하므로, 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹에 반영된다. 출간 패널은 **사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상·음악 업로드 도구**로 축소됐다. 노출 결정은 `celeb_tags.is_featured` 스위치 하나다.
+
 편집기 헤더 「출간」 버튼이 `src/components/factions/FactionPublishPanel.tsx`를 펼친다. 배관은 `src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`)이고, 창구는 API 라우트가 아니라 위 서버 액션 2개다 — **`curl`로 찌를 수 없다.**
 
 제작과 서비스가 같은 DB 안에 있어 **텍스트 대조는 사라졌다.** 진단 항목은 5종이다.
@@ -180,15 +182,13 @@ pnpm dev:bo
 | 얼굴 사진(아바타) 유무 | `profiles.avatar_url` |
 | 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
 
-투영 규칙:
+남은 규칙(사진·영상·음악):
 
-- `faction_groups.tag_id` → `celeb_tags`, `faction_people.celeb_id` → `celeb_tag_assignments`.
-- 소개문은 **채움 전용** — 도감에서 사람이 다듬은 글은 덮지 않는다(`force`로만 덮음).
-- `sort_order`는 태그를 관통하는 전역 순번으로 항상 다시 쓴다.
-- 같은 셀럽이 한 태그 안 여러 자리에 있으면 **자리가 가장 앞인 배치만** 채택하고 나머지는 건너뛴다. 판정은 편 전체를 보므로 세력을 하나씩 출간해도 결과가 같다.
-- 이미지는 개인샷 `faction/{tagId}/celeb-{celebId}.webp`(고정 키 + `?v=`), 그룹샷 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp`. 그룹샷 배열(`team_images`)은 **태그 단위로 다시 만든다** — 그 태그를 나눠 쓰는 편 전체 세력의 사진을 세력→묶음 순으로 모으며, 한 장이라도 실패하면 배열 교체를 보류한다.
+- 이미지는 개인샷 `faction/{tagId}/celeb-{celebId}.webp`(고정 키 + `?v=`), 그룹샷 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp`. 개인샷 주소는 **`faction_people.web_image_url`에 기록한다**(26.08.03 이전에는 배정 행의 `faction_image_url`). 그룹샷 배열(`team_images`)은 **태그 단위로 다시 만든다** — 그 태그를 나눠 쓰는 편 전체 세력의 사진을 세력→묶음 순으로 모으며, 한 장이라도 실패하면 배열 교체를 보류한다.
 - 태그가 없으면 출간이 만들 수 있다(항상 숨김 `is_featured=false`). 만든 뒤 `faction_groups.tag_id`를 되쓴다. 연결 키(`tagSlug`)조차 없으면 `tag-slug-missing`으로 막힌다.
 - 사진 범위를 켰는데 `FACTION_LOCAL`이 없으면 조용히 건너뛰지 않고 사유를 들고 실패한다.
+
+폐기된 옛 투영 규칙(26.08.03) — 배정 upsert·소개문 채움 전용 보호·`sort_order` 전역 재기록·같은 셀럽 앞자리 채택은 배정 사본이 사라지면서 대상이 없어졌다. 앞자리 채택·정렬(제작 순번 우선, 웹 전용 10000+)·숨김은 이제 뷰 `faction_atlas_members`의 조회 규칙이다.
 
 캐시 무효화는 **출간할 때만** 돈다 — `faction-sync/publish.ts`가 앱 공용 `revalidateWebCache([TAGS, CELEBS])`를 부른다(`src/lib/revalidate-web.ts` — 내부적으로 web `/api/revalidate`를 `CRON_SECRET`으로 호출하고, 값이 없는 로컬에서는 건너뛴다). 제작 데이터는 서비스에 나오지 않으므로 그 밖의 태그는 건드리지 않는다. faction-sync가 `WEB_BASE_URL`을 직접 읽어 부르던 remotion-bo 시절 배선은 폐기했다.
 

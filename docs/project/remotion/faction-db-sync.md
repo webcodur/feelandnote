@@ -1,6 +1,8 @@
 # 팩션 ↔ 본서비스 동기화 (faction-db-sync)
 
 > ⚠️ **대체됨(26.07.25)** — 이 문서의 "다리(양방향 동기화)" 방식은 당일 폐기됐다. 코드도 옮겨졌다: 아래 「파일 배치」의 remotion-bo 경로 전부가 26.07.25 Phase 5 에서 삭제되고 `sw/web-bo/src/lib/faction-sync/`(진단·투영은 DB→DB 로 개조, 창구는 서버 액션 `actions/admin/factions/publish.ts`)로 대체됐다. 여기 적힌 진단 항목·`GET/POST /api/faction/db-sync` 규격은 무효다 — 현행은 `faction-unification.md` §4·§9 와 진행 로그. 현행 SSoT는 `faction-unification.md`(집 하나: DB 단일 원천 + web-bo 단일 편집기). 이 문서는 faction-sync 코드(이미지 배관·매핑 규칙)의 유래 기록으로만 남긴다. "스키마 변경 불필요" 서술도 무효 — faction_* 5테이블이 신설됐다.
+>
+> ⚠️ **재차 대체됨(26.08.03 단일화)** — 남아 있던 텍스트 투영(제작→배정 복사)마저 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`(도감 손질은 같은 행의 `web_*` 칸)이고, 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다. `celeb_tag_assignments`는 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용으로 축소됐고 제작 유래 사본 650행은 삭제됐다(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`). 출간 패널은 사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상·음악 업로드 도구로만 남았다. **아래 「데이터 매핑 (SSoT)」 표의 텍스트 행(epithet/lines → short_desc/long_desc, sort_order, 개인샷→assignments)은 역사 기록이다.** 현행은 `faction-unification.md` §4-3.
 
 > 실측 대조: 26.07.25 — remotion-bo·web-bo·web 코드 전수 정찰 + Supabase DB 실측(celeb_tags 40종) + 로컬 팩션 재고(에피소드 22·인물 524·slug 연결 99.4%) 기반 설계.
 
@@ -136,7 +138,7 @@ CRON_SECRET=<sw/web/.env와 동일값>
 ## 한계·후속 과제
 
 - **상위 그룹 계층** — **DB 이관 완료(26.07.26, `celeb_tags.parent_id`).** 지정은 web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 사람이 한다. 출간은 여전히 안내만 하고 계층을 건드리지 않는다. **후속**: 출간 결과의 `constantHint` 문구가 아직 삭제된 `factionGroups.ts`를 가리키므로 「상위 묶음에서 지정하세요」로 바꿔야 한다(`sw/web-bo/src/lib/faction-sync/publish.ts`·`types.ts`·`FactionPublishPanel.tsx`).
-- **아바타** — 출간 범위 밖(celeb-avatar-wikimedia 스킬 소관). 진단에 유무만 표시.
+- **아바타** — 출간 범위 밖(celeb-avatar-register 스킬 소관). 진단에 유무만 표시.
 - **X-Empire slug 결손 3명**(제임스/앤드루 머스크·로스 노딘) — 진단이 unkeyed로 잡아준다. 데이터 보완은 콘텐츠 작업.
 - **북리커맨드·가상독백** — 같은 골격(진단→출간→역수입)으로 후속 통합. 이번 범위 밖.
 - **R2 고아 파일 청소** — team 옛 uuid 파일 등. 후속.

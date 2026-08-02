@@ -45,7 +45,7 @@ description: 이미지 배경 제거(누끼)를 할 때 항상 적용한다. 전
 ## 셀럽 아바타 파이프라인에서의 자리
 
 ```
-개인샷 → crop-faces(얼굴 정사각) → codex 고해상도 재생성 → [여기서 누끼] → upload-celeb-image-from-wikimedia.ts
+개인샷 → crop-faces(얼굴 정사각) → codex 고해상도 재생성 → [여기서 누끼] → upload-celeb-avatar.ts
 ```
 
 - 크롭 → 재생성 → 누끼 순서로 해도 된다. 재생성본은 인물 형태가 온전해 목 단면을 배경으로 오인하지 않는다.

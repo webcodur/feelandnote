@@ -4,6 +4,7 @@
 >
 > **26.07.27 — 영상에서 도감으로 넘기는 작업을 대대적으로 진행했다.** 도감 테마 40→76개, 대분류 10개로 재편, 인물 소개문 300여 건 신규. 편 상태는 두 값(`ready`/`blocked`)으로 축소. 도감 쪽 변경(노출 스위치·단체 사진 구조·인원 상한)은 **`docs/project/celeb/celeb-tag-system.md` 의 「26.07.27 개편」 절이 정본**이다.
 > **이 문서가 `faction-db-sync.md`(다리 방식)를 대체한다.** 다리(양방향 동기화)는 폐기 개념이고, 목표는 집 하나다. faction-sync 코드는 이관·이미지 배관 도구로 개조되어 살아남는다.
+> **26.08.03 — 단일화(§4-3).** 텍스트 투영(출간의 복사)마저 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`(도감 손질은 `web_*` 칸)이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다.
 
 ## 확정 방향 (유저 지시 — 재론 금지)
 
@@ -64,6 +65,8 @@ RLS: 5테이블 전부 admin(role admin|super_admin) 전용 4정책. 서비스(w
 
 ## 4. celeb_tags와의 경계
 
+> ⚠ **이 절의 텍스트 투영(제작→배정 복사)은 26.08.03 단일화로 대체됨** — §4-3 참조. 다이어그램·규칙 서술은 역사 기록으로 보존한다. 영상(§4-1)·음악(§4-2) 투영은 현행이다.
+
 ```
 제작(비공개)                                   서비스(공개)
 faction_episodes                               celeb_tags (40행, slug unique 인덱스 26.07.25)
@@ -116,6 +119,19 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - **출간 범위**: `scope.music`. 선곡 도구와 mp3 를 읽으므로 `REMOTION_LOCAL=1` 필요. **선곡 조회가 실패하면 아무것도 바꾸지 않는다**(한 번의 실행 실패로 전 테마 음악이 지워지는 사고 방지).
 - **반증 시험(26.07.26 실측)**: 6편 전량에서 CLI 판정이 엔진 `collectBgmFiles` 의 같은 변형 결과 안에 있는지 대조 — 불일치 0. 편별 결과: PayPal-Mafia 4세력 전부 `Velvet_Side_Door`(렌더 창고 실측값과 일치) · Digital-Resistance 3+3(`Black_Rain_Protocol`/`Cipher_in_Ashes`) · Gods-Greek 2+2+2 · Homer-Iliad 3+2 · korea-football-best11 4세력 + 가로 전용 1세력 제외 · **AI-Supremacy 는 곡 자체가 없어 전 테마 null**.
 - ⚠ `sw/remotion/scripts/` 는 `tsconfig.json` include 밖이다 — 이 CLI 는 `npx tsc -p tsconfig.scripts.json --noEmit` 으로 따로 검사한다(기존 오류 1건 `scripts/voice/faction/engine.ts` 의 `wav` 타입 부재는 종전 상태).
+
+### 4-3. 단일화 (26.08.03) — 텍스트 복사 폐기, 뷰 직독
+
+투영(제작→배정 복사) 자체를 폐기하고 데이터를 한 벌로 줄였다. 작업 기록은 `docs/todo/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
+
+- **인물 텍스트(대사 quote·직함 lines[1]·소개 epithet/lines)의 유일 원천 = `faction_people`.** 도감 손질은 같은 행의 `web_*` 칸에 쓴다 — `web_short_desc`/`web_long_desc`(±en)·`web_image_url`·`web_hidden`.
+- **웹·BO는 DB 뷰 `faction_atlas_members`를 읽는다** — 제작 유래(`web_*` 손질 우선) ∪ 웹 전용 배정. 태그당 셀럽 중복은 제작 앞자리 채택, `disabled` 제외. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번.
+- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용으로 축소.** 제작 유래 사본 650행은 26.08.03 삭제(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+- **「출간」의 텍스트 복사는 폐기.** 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹 반영. 출간 패널은 사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상(§4-1)·음악(§4-2) 업로드 도구로 축소.
+- **노출 결정은 `celeb_tags.is_featured` 스위치 하나.**
+- **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행 편집은 `web_*` 칸에 기록, 제거는 숨김으로 동작, 순서 편집은 수동 행 전용.
+
+§4의 배치 충돌 규칙(앞자리 채택)과 되쓰기 예외 ①(대사 mirrorValue)은 뷰의 조회 규칙으로 흡수됐다. `lines[0]→short_desc`·`epithet→long_desc` 투영과 채움 전용 보호는 사본이 사라지면서 대상 자체가 없어졌다.
 
 ## 5. 이관·왕복 검증 — **완료(26.07.25)**
 

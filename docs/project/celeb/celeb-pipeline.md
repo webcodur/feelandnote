@@ -6,12 +6,14 @@
 
 `profiles.celeb_tier`: `'full'` (기본값) / `'light'` / `'relation'` / `'fiction'`
 
-| 티어 | 콘텐츠 수집 | 감상 여정 | 프로필 페이지 | 홈·검색·탐색 노출 | 실존 |
-|------|------------|----------|-------------|------------------|------|
-| **full** | O | 필수 (DB review 기반) | 콘텐츠 탭 표시 | O | O |
-| **light** | 후보 기반 | 필수 (웹 리서치 기반) | 콘텐츠가 생기면 실측 개수 표시 | O | O |
-| **relation** | X | 생략 | 최소 (기본 정보만) | X — 연결로만 도달 | O |
-| **fiction** | X (`user_contents` 미사용) | 생략 | 기본 정보 + 원전·등장 작품 | 검색 O / 홈·탐색 X | X (신화·전설·허구) |
+> ⛔ **감상 여정(`consumption_philosophy`)은 폐기 예정 항목이다. 어느 티어에서도 신규 작성하지 않는다.** 기존 데이터는 보존하되 새 인물에게 채우지 말고, 조사·발주 대상에서 제외한다. 상세 근거는 아래 「콘텐츠 개수 상태」 절 마지막 항목. 이 방침이 이 문서의 다른 서술보다 우선한다.
+
+| 티어 | 콘텐츠 수집 | 프로필 페이지 | 홈·검색·탐색 노출 | 실존 |
+|------|------------|-------------|------------------|------|
+| **full** | O | 콘텐츠 탭 표시 | O | O |
+| **light** | 후보 기반 | 콘텐츠가 생기면 실측 개수 표시 | O | O |
+| **relation** | X | 최소 (기본 정보만) | X — 연결로만 도달 | O |
+| **fiction** | X (`user_contents` 미사용) | 기본 정보 + 원전·등장 작품 | 검색 O / 홈·탐색 X | X (신화·전설·허구) |
 
 **relation** = 본인의 감상 기록이 목적이 아니라 **다른 셀럽·영상·에피소드와의 관계 때문에 등록되는 실존 인물**(팩션 출연자, 에피소드 조연 등). basic 최소 항목(국·영문 이름, 직군, 생몰, 국적, 한 줄 소개)과 아바타만 채우고 나머지 트랙(콘텐츠·감상 여정·영향력·페르소나·speech·i18n)은 전부 생략한다.
 
@@ -137,7 +139,7 @@ END $$;
 basic 완료 후 4개 트랙이 **병렬** 실행된다.
 
 ```
-basic ─┬─ content ── cultural journey   (full 전용)
+basic ─┬─ content
        ├─ influence
        ├─ persona
        └─ speech (tone → quotes → dialogue)
@@ -151,11 +153,12 @@ basic ─┬─ content ── cultural journey   (full 전용)
 |------|------|------|------|
 | — | 기본 정보 | `celeb-1-basic-profile.md` | 없음 |
 | A | 콘텐츠 수집 | `celeb-2-content-collector.md` | basic |
-| A | 감상 여정 | `celeb-3-cultural-journey.md` | content |
 | B | 영향력 평가 | `celeb-4-influence.md` | basic |
 | C | 페르소나 | `celeb-5-persona.md` | basic |
 | D | Speech 트랙 | `celeb-speech.md` | basic |
 | — | 영문 번역 | `celeb-i18n.md` | 모든 트랙 완료 |
+
+> 감상 여정(`celeb-3-cultural-journey.md`)은 **폐기 예정이라 파이프라인에서 제외했다.** 룰북 파일은 기존 데이터 참조용으로 남겨 두었을 뿐이며, 신규 인물 작업에서 호출하지 않는다.
 
 ### light 파이프라인
 
