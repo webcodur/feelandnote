@@ -328,6 +328,12 @@ async function fetchCuratedList(listSlug: string, locale: string, showAll: boole
       creator: flat?.creator || it.raw_creator,
       thumbnailUrl: flat?.thumbnail_url ?? null,
       contentType: content?.type ?? null,
+      // 두 판을 함께 실어 보낸다 — 공통 작품 카드가 이걸로 한국어판·영문판 전환을 그린다
+      titleKo: flat?.title_ko ?? null,
+      titleEn: flat?.title_en ?? null,
+      creatorEn: flat?.creator_en ?? null,
+      thumbnailEn: flat?.thumbnail_en ?? null,
+      hasEnEdition: flat?.has_en_edition ?? false,
     }
   })
 

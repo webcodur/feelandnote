@@ -40,6 +40,11 @@ export interface ContentCardProps {
   addable?: boolean;
   onAdd?: (e: React.MouseEvent) => void;
 
+  // 표지 위 상단 슬롯. 기관 선정 목록의 순위·발표 연도처럼
+  // 그 화면에서만 쓰는 표시를 표지 위에 얹을 때 쓴다
+  overlayTopLeft?: React.ReactNode;
+  overlayTopRight?: React.ReactNode;
+
   // 좌하단 슬롯: 인원 구성 뱃지 (셀럽 | 일반인)
   // celebCount가 전달되면 그 값을 사용, 없으면 contentId 기반 자동 조회
   celebCount?: number;
