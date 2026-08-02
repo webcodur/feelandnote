@@ -90,8 +90,8 @@ export default async function CuratedPreview({ hub }: { hub: CuratedHub }) {
           href={`/library/curated/${curatorSlug}/${list.slug}`}
           className={
             isVideo
-              ? "group overflow-hidden rounded-xl border border-white/[0.10] bg-black hover:border-accent/40"
-              : "group overflow-hidden rounded-xl border border-white/[0.06] bg-[#161616]/80 hover:border-accent/40"
+              ? "group overflow-hidden rounded-2xl border border-white/10 bg-black hover:border-accent/60 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transition-all duration-500 transform hover:-translate-y-1"
+              : "group overflow-hidden rounded-2xl border border-white/[0.08] bg-[#161616]/90 hover:border-accent/60 hover:shadow-[0_0_30px_rgba(212,175,55,0.15)] transition-all duration-500 transform hover:-translate-y-1"
           }
         >
           {/* 담긴 작품 표지 — 목록이 무엇인지 글자보다 빨리 알린다 */}

@@ -6,7 +6,7 @@ import { useState, useMemo } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
-import { Avatar } from "@/components/ui";
+import { Avatar, BlurDissolve } from "@/components/ui";
 import SectionHeader from "@/components/shared/SectionHeader";
 import { ContentCard } from "@/components/ui/cards";
 import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
@@ -129,12 +129,14 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl transition-all duration-500 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
                 >
                     <div className="relative">
-                        <Avatar
-                            url={figure.avatar_url}
-                            name={displayName}
-                            size="2xl"
-                            className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500"
-                        />
+                        <BlurDissolve className="inline-block">
+                            <Avatar
+                                url={figure.avatar_url}
+                                name={displayName}
+                                size="2xl"
+                                className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500"
+                            />
+                        </BlurDissolve>
                         {/* 콘텐츠 개수 뱃지 */}
                         <div className="absolute -top-1 -right-1 z-20 min-w-[24px] h-[24px] px-1.5 flex items-center justify-center bg-accent text-black text-[10px] font-bold rounded-full border-2 border-[#121212] shadow-lg">
                             {contents.length}

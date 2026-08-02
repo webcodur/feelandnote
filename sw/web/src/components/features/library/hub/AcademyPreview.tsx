@@ -2,65 +2,90 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { GraduationCap, Film, Music, Cpu, ChevronRight } from "lucide-react";
+import { ACADEMY_CATEGORY_IDS } from "@/constants/libraryMuseum";
+import { BookOpen, Film, Music, Cpu, ChevronRight } from "lucide-react";
 
 interface AcademyPreviewProps {
   isSignedIn?: boolean;
 }
 
+const CATEGORY_ICONS = {
+  book: BookOpen,
+  video: Film,
+  music: Music,
+  ai: Cpu,
+} as const;
+
+/*
+  학당 미리보기 — 학당 허브(/library/academy)의 카테고리 카드 문법을 그대로 축약한다.
+  다른 구획(박물관·기관 선정)처럼 "내용물 격자"로 보여 주고, 배너식 홍보 블록을 쓰지 않는다.
+  상호작용 규약: 즉각 반응(테두리·아이콘·제목), 곁들이는 연출(하단 금선)만 transition.
+*/
 export default function AcademyPreview({ isSignedIn }: AcademyPreviewProps) {
-  const t = useTranslations("library.hub");
+  const t = useTranslations("library.academy");
+  const tHub = useTranslations("library.hub");
 
   return (
-    <Link href="/library/academy" className="block w-full group">
-      <div className="relative overflow-hidden rounded-3xl bg-neutral-900 border border-white/10 hover:border-blue-500/40 transition-all duration-700 shadow-2xl">
-        {/* 배경 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/80 via-neutral-900 to-[#0a1128] z-0 pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_60%)] opacity-50 group-hover:opacity-100 transition-opacity duration-1000 z-0 pointer-events-none" />
-        <div className="absolute left-0 top-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10" />
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('/noise.png')] mix-blend-overlay z-0 pointer-events-none" />
+    <div className="space-y-6">
+      {/* 카테고리 카드 격자 — 학당 본 화면과 동일 문법 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        {ACADEMY_CATEGORY_IDS.map((cat) => {
+          const Icon = CATEGORY_ICONS[cat.id as keyof typeof CATEGORY_ICONS];
+          const firstSub = cat.courses[0].id;
+          return (
+            <Link
+              key={cat.id}
+              href={`/library/academy/${cat.id}/${firstSub}`}
+              className="group relative flex flex-col items-center p-6 rounded-2xl border border-white/[0.08] bg-[#161616]/90 hover:border-accent/40 hover:bg-white/[0.04]"
+            >
+              {/* 아이콘 */}
+              <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center mb-4 group-hover:bg-accent/20 group-hover:border-accent/50">
+                <Icon className="w-6 h-6 text-accent" />
+              </div>
 
-        <div className="relative z-10 p-8 sm:p-12 flex flex-col items-center text-center space-y-6">
-          {/* 아이콘 */}
-          <div className="p-5 rounded-2xl bg-blue-500/10 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-700 shadow-[0_0_40px_rgba(59,130,246,0.2)] group-hover:shadow-[0_0_60px_rgba(59,130,246,0.4)] backdrop-blur-sm border border-blue-500/20">
-            <GraduationCap size={36} strokeWidth={1.5} />
-          </div>
+              {/* 카테고리명 — 즉각 반응 축 */}
+              <h3 className="text-lg font-serif font-bold text-white mb-1.5 group-hover:text-accent">
+                {t(`category.${cat.id}.label`)}
+              </h3>
+              <p className="text-white/50 text-xs text-center mb-4 group-hover:text-white/70 leading-relaxed break-keep">
+                {t(`category.${cat.id}.description`)}
+              </p>
 
-          {/* 제목 + 설명 */}
-          <div className="space-y-3 max-w-xl">
-            <h3 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-blue-100 group-hover:to-blue-200 transition-colors duration-700 tracking-tight">
-              {t("academyTitle")}
-            </h3>
-            <p className="text-text-secondary/90 text-sm sm:text-base leading-relaxed break-keep font-medium">
-              {t("academy")}
-            </p>
-          </div>
+              {/* 과목 태그 */}
+              <div className="flex flex-wrap justify-center gap-1.5">
+                {cat.courses.map((sub) => (
+                  <span
+                    key={sub.id}
+                    className="px-2.5 py-1 rounded-md text-[11px] font-medium text-white/40 bg-white/[0.04] border border-white/[0.06] group-hover:text-white/70 group-hover:border-white/15 group-hover:bg-white/[0.08]"
+                  >
+                    {t(`course.${cat.id}.${sub.id}.label`)}
+                  </span>
+                ))}
+              </div>
 
-          {/* 커리큘럼 태그 */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 group-hover:border-emerald-500/20 group-hover:bg-emerald-500/5 transition-all duration-500">
-              <Cpu size={16} className="text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
-              <span className="text-sm font-bold text-white/90">{t("academyAi")}</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 group-hover:border-blue-500/20 group-hover:bg-blue-500/5 transition-all duration-500">
-              <Film size={16} className="text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-              <span className="text-sm font-bold text-white/90">{t("academyVideo")}</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 group-hover:border-amber-500/20 group-hover:bg-amber-500/5 transition-all duration-500">
-              <Music size={16} className="text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" />
-              <span className="text-sm font-bold text-white/90">{t("academyMusic")}</span>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="pt-2">
-            <button className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold shadow-[0_0_20px_rgba(37,99,235,0.4)] group-hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] transition-all duration-300 transform group-hover:scale-105">
-              {isSignedIn ? t("continueLearning") : t("exploreAcademy")}
-              <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </div>
+              {/* 하단 장식 — 금선이 좌에서 우로 차오른다 */}
+              <div className="mt-auto pt-5 w-full">
+                <div className="relative h-[1px] w-full bg-gradient-to-r from-transparent via-white/10 to-transparent">
+                  <div className="absolute inset-y-0 left-0 w-0 bg-gradient-to-r from-accent/70 to-transparent transition-[width] duration-500 ease-out group-hover:w-full" />
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
-    </Link>
+
+      {/* 로그인 상태에서만: 이어보기 지름길 — 다른 구획의 보조 버튼과 같은 결 */}
+      {isSignedIn && (
+        <div className="flex justify-center">
+          <Link
+            href="/library/academy"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/25 text-accent text-xs font-semibold hover:bg-accent hover:text-[#121212] transition-colors duration-300"
+          >
+            {tHub("continueLearning")}
+            <ChevronRight size={14} />
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }

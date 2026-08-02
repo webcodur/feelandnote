@@ -16,7 +16,7 @@ export default function PopularPreview({ contents }: { contents: LibraryContent[
 
   // 안내 문구는 구획 부제가 이미 말한다 — 여기서 되풀이하지 않는다
   return (
-    <ContentGrid>
+    <ContentGrid minWidth={160} gap={16}>
         {contents.map((content) => (
           <ContentCard
             key={content.id}

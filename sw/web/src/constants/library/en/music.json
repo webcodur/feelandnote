@@ -15,7 +15,7 @@
       "imageUrl": "/images/library/music/instrument/01_bone_drum.png",
       "essay": {
         "title": "Bone Flutes and Percussion",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In 2008, a flute carved from vulture bone was unearthed in the Hohle Fels cave in Germany. It dates to roughly 35,000 years ago — one of the oldest known pieces of evidence that human beings shaped tools for purposes beyond survival. We cannot know what melodies this five-holed bone flute produced, but the very fact that someone blew breath across it beside a cave painting carries its own profound meaning.\n\nMusicians playing angular harps appear frequently in the murals of Egypt's Old Kingdom period. The royal tombs of Ur in Mesopotamia yielded lyres adorned in gold. In this era, instruments were fashioned from what nature provided directly: bone, hide, reed, and animal gut. Making an instrument was the act of converting the by-products of the hunt into sound. Performance was either ritual offering to the gods or signal on the field of battle."
       }
@@ -35,7 +35,7 @@
       "imageUrl": "/images/library/music/instrument/02_eastern_western.png",
       "essay": {
         "title": "The Exchange of Eastern and Western Instruments",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "Around the 6th century BCE, the bianzhong bell chime and bianqing stone chime were established as central instruments of Chinese court ritual, while the pipa travelled westward from Central Asia along the Silk Road to become a mainstay of Tang dynasty orchestras. On the Korean peninsula, Wang Sannak of Goguryeo adapted the Chinese seven-stringed qin to create the geomungo, and the gayageum emerged from the Gaya confederacy. East Asian organology was systematised according to the 'eight sounds' — a classification by material: metal, stone, silk, bamboo, and others.\n\nIn Europe during the same era, the church was the axis around which instrument development turned. Early pipe organs installed in monasteries from around the 9th century forced air through hundreds of metal and wooden pipes to fill the stone space of a cathedral with a magnificent sound. In secular music, the lute was the beloved accompanying instrument of the troubadour. Eastern and Western instruments each developed independently on the foundations of their own pitch systems and aesthetics, yet they cross-pollinated ceaselessly through the Silk Road and the Crusades."
       }
@@ -55,7 +55,7 @@
       "imageUrl": "/images/library/music/instrument/03_luthier.png",
       "essay": {
         "title": "Violin and Woodwind Instruments",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In 16th-century northern Italy, in Cremona, a golden age of stringed-instrument making began. Andrea Amati established the prototype of the violin, and in time Antonio Stradivari and Giuseppe Guarneri — carving Alpine spruce and maple — produced resonance that even modern technology struggles to replicate. Their instruments remain the finest solo instruments in use, three centuries on.\n\nWind instruments evolved rapidly during the same period. The Renaissance shawm was refined into the Baroque oboe, and the flute was redesigned from a cylindrical to a conical bore, expanding its range and tonal palette. Instrument-making became the finest guild craft, where scientific proportion and the craftsman's intuition met. Upon the instrumental standards established in this era, composers began to erect the great sonic architecture known as the orchestra."
       }
@@ -75,7 +75,7 @@
       "imageUrl": "/images/library/music/instrument/04_piano.png",
       "essay": {
         "title": "Piano",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "Around 1700, Florentine instrument-maker Bartolomeo Cristofori broke through the limitations of the harpsichord. Instead of plucking the strings with a quill, he devised an escapement mechanism in which a leather-covered hammer struck the string and immediately returned to rest. The volume of sound now varied according to the force applied to the key, and he named the instrument 'piano e forte' — soft and loud.\n\nIn the 19th century, the Industrial Revolution replaced wooden frames with cast iron, dramatically increasing string tension and volume. The piano was elevated from a salon instrument for the drawing room to a concert instrument capable of filling a large hall. Chopin explored the lyrical sonorities unique to the piano to their furthest limit; Liszt dazzled audiences with transcendental technique. The piano became the only solo instrument that spans the full range of the orchestra, and for composers it became both a thinking tool and a musical laboratory."
       }
@@ -95,7 +95,7 @@
       "imageUrl": "/images/library/music/instrument/05_brass_wind.png",
       "essay": {
         "title": "Brass Instruments",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "Before the 19th century, brass instruments were limited to the natural harmonic series. Horn players inserted a hand into the bell to adjust pitch, and trumpet players had to swap crooks to change keys. Around 1815, the rotary valve was invented in Germany and the piston valve in France, eliminating these constraints. Brass instruments became fully chromatic melodic instruments for the first time.\n\nIn 1846, Belgian inventor Adolphe Sax patented the saxophone — combining the dynamism of brass with the flexibility of woodwind. Designed for military bands, it was transformed in the 20th century into the defining instrument of jazz. Late Romantic composers from Berlioz through Wagner to Mahler exploited the explosive power and vivid colour of the valved brass to construct large-scale orchestras of a hundred players or more. The orchestra in this period assumed the complete four-section instrumentation it retains today."
       }
@@ -115,7 +115,7 @@
       "imageUrl": "/images/library/music/instrument/06_electric.png",
       "essay": {
         "title": "Electric Guitar",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In the big-band jazz of the 1930s, the guitar was buried beneath the horns and the piano — a victim of the physical limits of acoustic resonance. The invention of a pickup that converted string vibration into an electrical signal through electromagnetic induction allowed the guitar, through an amplifier, to project more volume than any other instrument.\n\nIn the 1950s, Fender and Gibson mass-produced solid-body electric guitars, and the instrument's own distinct tonal character began to create genres. The distortion produced by overdriving a vacuum-tube amplifier was not 'broken noise' but the controlled aesthetic of rock music. When Jimi Hendrix played the American national anthem on guitar at Woodstock in 1969, it was a proclamation: the electric instrument had become the sharpest tool available for expressing the anger and freedom of an era."
       }
@@ -135,7 +135,7 @@
       "imageUrl": "/images/library/music/instrument/07_synthesizer.png",
       "essay": {
         "title": "Synthesizer and DAW",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "The synthesizer commercialised by Robert Moog in 1964 conjured sounds that did not exist in nature — built from the rise and fall of voltage. Generating sine waves and sawtooth waves, then carving out harmonics with a filter, was less a performance than a programming of sound. When the Yamaha DX7 popularised digital FM synthesis in 1983, and Roland's TR-808 brought the electronic drum beat to the masses, the sounds of synth-pop and hip-hop were born.\n\nIn 1996, Steinberg's VST technology replaced hardware synthesizers costing tens of thousands of dollars with laptop plug-ins. The combination of DAWs such as Ableton Live and sample libraries hundreds of gigabytes in size opened the era of the bedroom producer. The history of instruments — which began with a bone flute — had arrived at the point of designing sound waves through algorithm, without any physical vibration at all."
       }
@@ -157,7 +157,7 @@
       ],
       "essay": {
         "title": "Ritual and the Public Square",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In an era before recording technology, the only way to hear music was to be present where it was being performed. Egyptian priests shook the sistrum in prayer to Isis, and in the temples of Mesopotamia hymns were sung to the accompaniment of lyres. Music was the ritual instrument that bound gods to humankind.\n\nYet music was never confined within temple walls. At the Greek Festival of Dionysus, thousands gathered in the amphitheatre to hear choral performances; in the marketplace, wandering musicians sold their songs. The West African griot transmitted oral history in song; across East Asia, folk songs were sung alongside agricultural rites. They left no written record, but music was always present in the people's public square."
       },
@@ -178,7 +178,7 @@
       ],
       "essay": {
         "title": "Cathedral, Marketplace, and Court",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In medieval Europe, the spaces of musical listening fell into three broad categories. The first was the cathedral. Gregorian chant reverberating beneath stone arches was a distinctive acoustic experience shaped by long reverberation times, and musical notation was invented precisely in order to transmit these chants accurately. In East Asia, Jongmyo Jeryeak (Royal Ancestral Shrine music) played the equivalent role; in the Islamic world, the sama ceremony of the Sufi orders served the same function.\n\nThe second was the marketplace and the tavern. European troubadours toured villages singing tales of heroes; on the Korean peninsula, gwangdae performed pansori at market fairs. West African griots carried tribal history in melodic oral transmission. These musics left no written record — yet song was always present in the daily life of ordinary people.\n\nThe third was the court. From the Renaissance onward, kings and nobles employed their own ensembles to provide chamber music at banquets and ceremonies; Bach and Haydn served as court Kapellmeisters. Most of what survives in the written record is the music of court and church, but musical listening itself observed no distinction of class."
       },
@@ -199,7 +199,7 @@
       ],
       "essay": {
         "title": "Concert Hall",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In the late 18th century, public concerts appeared where anyone who paid admission could attend. Mozart and Beethoven — instead of serving noble patrons — gave subscription concerts, selling tickets directly to the general public. Large concert halls opened in the major cities of Europe throughout the 19th century, and the Großer Musikvereinssaal in Vienna, inaugurated in 1870, delivered the grandeur of the orchestra to its citizens through superb acoustic design.\n\nThe emergence of a ticket-buying mass audience drove the symphony towards ever greater scale and drama. At the same time, the spread of the piano in middle-class homes exploded demand for sheet music, forming a new axis of domestic performance. It was an era in which the oral folk music of the marketplace and tavern coexisted with the score-reading civic music of the concert hall."
       },
@@ -220,7 +220,7 @@
       ],
       "essay": {
         "title": "Jazz Club",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In the early 20th century, musical listening spilled out of the concert hall and into the streets. The cabarets of 1920s Berlin were night theatres where satire and music mingled; at the Cotton Club in Harlem, New York, the Duke Ellington Orchestra swung every evening. Music was no longer something you sat still to hear reverently — it was something to be consumed while your body moved and conversation flowed around you.\n\nFrom the 1930s and '40s, jukeboxes spread to diners and bars across America, allowing anyone to select and hear a song of their choosing for a single coin. This was the first experience in which individuals could choose what they listened to. The jazz clubs of 52nd Street in New York in the 1950s were the scene of the bebop revolution of Charlie Parker and Miles Davis. In the narrow, smoke-filled underground spaces, the distance between performer and audience was no more than an arm's length."
       },
@@ -241,7 +241,7 @@
       ],
       "essay": {
         "title": "Festival",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In August 1969, 400,000 people descended on a farm in Bethel, New York. It was Woodstock. Jimi Hendrix, Janis Joplin, and Santana performed in the mud, and the audience ate, slept, and steeped themselves in music for three days. Seat numbers and dress codes vanished entirely. Musical listening had become a collective experience and a declaration of a generation.\n\nThe Beatles' concert at Shea Stadium in 1965 was an event in which the music was swallowed by the screaming of 55,000 fans — and that limitation catalysed the revolution in mega-PA systems. The call-and-response between Queen and 70,000 audience members at Live Aid in Wembley in 1985 was the apex of collective communion that the stadium concert could achieve."
       },
@@ -262,7 +262,7 @@
       ],
       "essay": {
         "title": "Club and DJ",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "Studio 54 opened in New York in 1977. Beneath the mirror ball, the DJ mixed records all night, weaving an unbroken current of music. It was the first moment that the designer of the listening experience was neither composer nor band, but the DJ. After the disco era subsided, the Warehouse club in Chicago in the 1980s gave birth to house music, and Detroit's underground clubs produced techno.\n\nIn 1988, acid house and rave culture exploded across Britain. Thousands gathered in abandoned warehouses or open fields to dance until dawn. The listening experience of the club was fundamentally different from the concert. There was no division between stage and audience; the music was not something to appreciate but something to inhabit physically. Turntablism transformed the record into an instrument, and the DJ became the priest of the ritual that the club had become."
       },
@@ -283,7 +283,7 @@
       ],
       "essay": {
         "title": "Walkman and iPod",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "The Sony Walkman, launched in 1979, transformed the act of listening to music from something done sitting still to something done while walking. The combination of headphones and a pocket-sized player transported the listener into a state of acoustic isolation even in the midst of a noisy subway. The eyes faced the crowded city, but the ears were sealed inside a perfect private chamber.\n\nIn 2001, the iPod pushed thousands of songs into that chamber. Users came to live surrounded by their own personal soundtrack as they walked. The centre of gravity in music consumption shifted from the living-room speaker to personal listening through earphones, and music was no longer tethered to any place."
       },
@@ -303,7 +303,7 @@
       ],
       "essay": {
         "title": "Streaming",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "The active noise cancellation built into wireless earbuds — epitomised by the AirPod — cancels external sound with inverse-phase audio waves. The murmur of a café, the roar of an aircraft engine: both are erased, and a physical vacuum is created inside the ear canal.\n\nWhat fills that silence is delegated to the algorithm. Spotify's Discover Weekly analyses listening patterns and generates a new playlist every week: what you replayed on a melancholy night, which BPM you preferred on the morning commute — all of it is learned. We consume far more music than any audience in an 18th-century concert hall, yet we may be consuming it less as an act of immersed attention and more as a lubricant for daily life."
       },
@@ -326,7 +326,7 @@
       ],
       "essay": {
         "title": "The Vanishing Instant: Music as Presence",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 4,
         "contentMarkdown": "Human music likely preceded human language. Prehistoric bone flutes and percussion instruments suggest as much. But sound is, by its nature, a medium that vanishes in the instant. For tens of thousands of years, the only way to hear music was for someone to be singing or playing an instrument right beside you. When the performance ended, the music ended.\n\nIn the 9th century, European monasteries developed neume notation; in the 11th century, Guido d'Arezzo established the prototype of the five-line staff, making it possible to 'record' a melody. When printing was applied to musical scores in the 15th century, a composer's intentions could circulate across the whole of Europe. But notation was not the sound itself — it was a 'blueprint' for constructing the sound. Even with the score of Beethoven's symphony in hand, without an orchestra you could not hear a single note.\n\nThis constraint determined the social structure of music. Music was bound to place. The choir stalls of the church, the banquet hall of the palace, the salon of the aristocrat, and from the 18th century onward the concert hall for the urban citizenry. To hear music, you had to 'go there.' Haydn lived in residence at the Esterházy palace, composing for his patron's pleasure; Mozart was an employee of the Archbishop of Salzburg. To be a musician was to exist close to the table of a patron.\n\nIn the mid-19th century, with the spread of the piano to middle-class homes, a subtle shift began. Schubert's songs and Chopin's nocturnes were sold as printed sheet music, and the family drawing room became a small concert venue. But the essence was unchanged. Someone still had to press the keys, and when the playing stopped, the music stopped. This fateful constraint would not be broken until 1877, when Edison inscribed sound onto a strip of tinfoil."
       },
@@ -348,7 +348,7 @@
       "imageUrl": "/images/library/music/media/02_phonograph.png",
       "essay": {
         "title": "Capturing Sound: Vibration in the Groove",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In December 1877, Thomas Edison completed a device that inscribed the vibrations of sound onto a tinfoil-wrapped cylinder with a needle, then played the recording back. For his first recording he chose the nursery rhyme 'Mary Had a Little Lamb.' At the moment his own voice flowed back from the needle tracing the groove, sound was separated from time for the first time in human history.\n\nEdison's cylinder format was superseded in 1887 by Émile Berliner's flat disc — the gramophone. Discs were easier to mass-produce than cylinders, could be used on both sides, and were more practical for storage and distribution. This structure became the standard for analogue records: LP, EP, and all the formats that followed.\n\nThe cultural impact of the phonograph was profound. Music no longer required a performer to be physically present. Italian tenor Enrico Caruso's 1902 recording was the first instance of opera being delivered to a mass audience outside the theatre. Music was transformed from 'an experience' to 'an ownable commodity,' and an entirely new economic ecosystem — the recording industry — was born."
       }
@@ -368,7 +368,7 @@
       "imageUrl": "/images/library/music/media/03_radio.png",
       "essay": {
         "title": "Everyone's Music, Carried on the Airwaves",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "In November 1920, Pittsburgh's KDKA station broadcast the results of the US presidential election, inaugurating the era of commercial radio. Music became the core content of radio programming, and by the 1930s radio was in more than 90 per cent of American homes.\n\nRadio's effect on the music industry was double-edged. There were fears that free listening would cannibalise record sales, but in practice radio exposure functioned as a promotional channel that drove record buying. The Billboard chart (from 1940) quantified 'popularity' by combining radio airplay with record sales, generating the central concept of popular music: the 'hit song.'\n\nThe radio DJ became a cultural gatekeeper introducing listeners to new music. In the 1950s, Alan Freed's radio programme introduced rhythm and blues — Black American music — to white audiences, popularising the term 'rock and roll.' Radio was not merely a playback device; it was an active medium that shaped musical taste and set trends."
       }
@@ -388,7 +388,7 @@
       "imageUrl": "/images/library/music/media/04_lp_vinyl.png",
       "essay": {
         "title": "Art Breathing Through the Groove the Needle Traces",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 4,
         "contentMarkdown": "In 1948, Columbia Records engineer Peter Goldmark developed the LP (Long Playing) record, overcoming the limitations of the 78rpm SP (Standard Playing) record. Microgroove technology increased the density of the grooves and reduced the speed to 33⅓ rpm, allowing approximately 22 minutes of music to fit on a single side of a 12-inch disc.\n\nThe cultural change this physical expansion brought was revolutionary. In the SP era, a single side was limited to three to four minutes, so music was consumed in 'single' units by nature. The LP made possible an art form called the 'album' — arranging multiple tracks in a single continuous arc. Track order, the composition of each side, and the total running time became elements of the creative act.\n\nThe Beatles' Sgt. Pepper's Lonely Hearts Club Band (1967) is the landmark that elevated the LP from 'a collection of songs' to 'a unified work of art.' The cover became an icon of pop art, and listening to the album from start to finish in sequence became a ritual. Pink Floyd's The Dark Side of the Moon (1973) — in which both sides of the record flow together without interruption — sold more than 45 million copies, and stands as the pinnacle of the LP era.\n\nThe physical character of the LP — the faint crackle of a needle tracing a groove, the ritual of flipping the record when a side ends, the artwork packed into a 12-inch sleeve — has been reappraised in the digital age as 'analogue warmth,' generating the counter-trend of the vinyl revival in the 21st century."
       }
@@ -409,7 +409,7 @@
       "imageUrl": "/images/library/music/media/05_cassette.png",
       "essay": {
         "title": "A Soundtrack in Your Pocket: Music on the Move",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "When Philips unveiled the compact cassette in 1963, nobody expected this small plastic case to reshape music culture. In its early days, audio quality was far below the LP, and it was used mainly for dictation and language learning. The turning point came with the Sony Walkman in 1979.\n\nThe Walkman — a miniature, playback-only cassette device — was a revolutionary product that transformed the act of listening to music from something done sitting to something done in motion. With headphones on, the listener could carry their own personal soundtrack into the noise of the city. This 'personalised listening experience' is the direct ancestor of the mobile music that followed with the iPod and the smartphone.\n\nThe cassette's other cultural legacy lies in its recordability. Copying an LP to cassette, recording a radio broadcast, or editing a selection of tracks into a hand-crafted 'mixtape' were the first instances of consumers shifting from passive listener to active curator. The mixtape passed between friends and lovers was the most characteristic form of emotional communication in the 1980s and '90s."
       }
@@ -429,7 +429,7 @@
       "imageUrl": "/images/library/music/media/06_cd.png",
       "essay": {
         "title": "Perfect Sound Read by Laser",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 3,
         "contentMarkdown": "The CD (Compact Disc), born of a joint venture between Philips and Sony in 1982, marks the analogue-to-digital transition of music media. The method of using a laser to read microscopic pits on a polycarbonate disc and convert them to a digital signal (44.1kHz, 16-bit PCM) was fundamentally different from all previous media, which depended on the physical contact of needle and groove.\n\nThe advantages of the CD were clear: clean playback free of needle noise and surface hiss; durability that never degraded with repeated playing; a generous 74-minute capacity (reportedly set to accommodate a full performance of Beethoven's Ninth Symphony); and the convenience of instant random access to any track.\n\nThe 1990s were the golden age of the CD. The recording industry earned enormous revenue simply by reissuing existing LP catalogues on the new format, and the global recorded music market reached an all-time high of roughly $40 billion in 1999. Yet the very innovation that converted music into digital data — that same revolution — would, ironically, lay the foundation for the next disruptive force: MP3 and peer-to-peer file sharing."
       }
@@ -449,7 +449,7 @@
       "imageUrl": "/images/library/music/media/07_music_streaming.png",
       "essay": {
         "title": "The Seismic Shift of an Industry Contained in a Single File",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 4,
         "contentMarkdown": "The MP3 codec (MPEG-1 Audio Layer 3), standardised by Germany's Fraunhofer Institute in 1995, could compress CD-quality music to roughly one-tenth of its original size. The technology itself arrived quietly, but its explosive potential was unleashed the moment it met the spreading internet.\n\nNapster, created in 1999 by college student Shawn Fanning, was a peer-to-peer service that allowed users to share MP3 files directly. Within a year of launch it had 80 million users. The recording industry responded with mass litigation; Napster was shut down in 2001. But the Pandora's box of digital copying and free sharing was already open.\n\nApple's Steve Jobs launched the iPod in 2001, and in 2003 opened the iTunes Music Store, establishing the model of selling songs legally at $0.99 per track. The iPod's tagline — 'A thousand songs in your pocket' — was the fulfilment of the mobile music era that the Walkman had begun.\n\nThe most profound cultural change of the MP3 era was 'the dissolution of the album.' Once individual track purchases became possible, the concept of the 'album as unified artwork' — carried forward from the LP era — was destabilised. Consumers began cherry-picking only the hits, and this affected both the unit of music creation and the strategy behind it."
       }
@@ -469,7 +469,7 @@
       "imageUrl": "/images/library/music/media/08_music_streaming.png",
       "essay": {
         "title": "From Ownership to Access: The Age of Infinite Replay",
-        "author": "Curator of the Library of Wisdom",
+        "author": "Library Curator",
         "readTime": 4,
         "contentMarkdown": "Spotify, launched in Sweden in 2008, popularised the paradigm of 'accessing music rather than owning it.' A monthly subscription of $9.99 providing unlimited access to a library of tens of millions of songs fundamentally transformed the concept of 'owning music' — whether physically on LP and CD, or digitally as an MP3 file.\n\nWhat streaming changed was not merely the business model. Algorithm-driven recommendation systems altered the path to music discovery. Spotify's Discover Weekly and Daily Mix curations guide listeners beyond the boundaries of their existing tastes. Playlists — whether user-created or platform-generated — have become the new unit of music consumption, supplanting the album.\n\nFor musicians and the industry, streaming is a double-edged sword. It has effectively suppressed piracy and restored total revenue to the recorded music industry — the global market surpassed $28.6 billion in 2023, exceeding the 1999 peak — yet the payout of roughly $0.003 to $0.005 per stream is persistently criticised as a structure that makes survival impossible for independent artists.\n\nFrom the phonograph to streaming, the history of music media describes a consistent trajectory: the expansion of access. From Edison's tinfoil strip — which first fixed a sound in place — to an era in which tens of millions of songs float in the cloud: what does not change is the human instinct to make melody endure in an immortal form."
       }

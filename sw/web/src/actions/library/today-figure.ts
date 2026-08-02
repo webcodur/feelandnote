@@ -20,6 +20,7 @@ interface TodayFigure {
   nickname_en: string | null
   avatar_url: string | null
   profession: string | null
+  title: string | null
   bio: string | null
   bio_en: string | null
   contentCount: number
@@ -97,7 +98,7 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
 // 오늘의 인물 profiles 조회 행
 type FigureProfileRow = Pick<
   Tables<'profiles'>,
-  'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession' | 'bio' | 'bio_en' | 'speech_tone' | 'voice_v'
+  'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession' | 'title' | 'bio' | 'bio_en' | 'speech_tone' | 'voice_v'
 >
 
 // 오늘의 인물 user_contents 조회 행
@@ -122,7 +123,7 @@ async function fetchFigureContents(
   const [{ data: profile }, { data: userContents }, { data: dialogue }, userCountMap] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, slug, nickname, nickname_en, avatar_url, profession, bio, bio_en, speech_tone, voice_v')
+      .select('id, slug, nickname, nickname_en, avatar_url, profession, title, bio, bio_en, speech_tone, voice_v')
       .eq('id', celebId)
       .single(),
     supabase
@@ -190,6 +191,7 @@ async function fetchFigureContents(
       nickname_en: nicknameEn,
       avatar_url: profileRow.avatar_url,
       profession: profileRow.profession,
+      title: profileRow.title ?? null,
       bio: (locale === 'en' ? bioEn || profileRow.bio : profileRow.bio) ?? null,
       bio_en: bioEn,
       contentCount: contents.length,
