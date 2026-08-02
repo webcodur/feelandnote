@@ -11,11 +11,12 @@
 import Image from "next/image";
 import type { AboutInfo, AboutShowcase } from "@/actions/policy/getAboutShowcase";
 import InfoPeek from "./InfoPeek";
+import FactionCarousel from "./FactionCarousel";
 
 interface Props {
   index: 1 | 2 | 3 | 4;
   data: AboutShowcase;
-  labels: { facesNote: string; yourSlot: string };
+  labels: { facesNote: string; yourSlot: string; prev: string; next: string };
 }
 
 function Face({
@@ -71,32 +72,10 @@ export default function VisionShowcase({ index, data, labels }: Props) {
     );
   }
 
+  // 02 — 대표 세력을 한 장씩 크게 넘겨 본다. 여러 장을 줄여 늘어놓으면 누가 누구인지 안 읽힌다
   if (index === 2) {
     if (!data.teamShots.length) return null;
-    // 좁은 화면에서 위아래로 쌓으면 한 장씩만 보이고 화면이 길어진다. 옆으로 밀어 본다
-    return (
-      <div className="pt-3 flex gap-4 overflow-x-auto pb-2">
-        {data.teamShots.map((shot) => (
-          <InfoPeek key={shot.url} info={shot.info} className="block w-64 sm:w-auto sm:flex-1 shrink-0">
-            <span className="flex flex-col gap-2">
-              <span className="relative block aspect-[4/3] w-full overflow-hidden rounded-md border border-accent-dim hover:border-accent">
-                <Image
-                  src={shot.url}
-                  alt={shot.label ?? shot.tagName}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 360px"
-                  className="object-cover"
-                />
-              </span>
-              <span className="text-sm text-text-secondary">
-                {shot.tagName}
-                {shot.label ? ` · ${shot.label}` : ""}
-              </span>
-            </span>
-          </InfoPeek>
-        ))}
-      </div>
-    );
+    return <FactionCarousel shots={data.teamShots} labels={{ prev: labels.prev, next: labels.next }} />;
   }
 
   // 03 — 한 사람이 작품마다 무슨 말을 남겼는지, 작품과 말을 한 줄에 붙여 보여 준다

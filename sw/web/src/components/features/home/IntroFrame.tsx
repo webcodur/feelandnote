@@ -8,7 +8,8 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Info } from "lucide-react";
+import { ChevronRight, Info } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import Modal, { ModalBody } from "@/components/ui/Modal";
 import InspirationChainGraphic from "./InspirationChainGraphic";
 
@@ -59,8 +60,16 @@ export interface IntroFrameLabels {
   inspirationConclusion: string;
 }
 
-export default function IntroFrame({ labels }: { labels: IntroFrameLabels }) {
+export default function IntroFrame({
+  labels,
+  closingHref,
+}: {
+  labels: IntroFrameLabels;
+  /** 주면 맺음 문장을 가운데 세우고, 눌렀을 때 그 화면으로 가는 문으로 만든다 */
+  closingHref?: string;
+}) {
   const [showRelayInfo, setShowRelayInfo] = useState(false);
+  const paragraphs = labels.intro.split("\n\n");
 
   return (
     <div className="w-full max-w-2xl mx-auto px-2 md:px-6">
@@ -82,9 +91,28 @@ export default function IntroFrame({ labels }: { labels: IntroFrameLabels }) {
 
         {/* Prose */}
         <div className="relative z-10 space-y-6 md:space-y-8 text-[14.5px] md:text-[16.5px] text-text-primary/80 leading-[2] md:leading-[2.1] break-keep font-light tracking-wide">
-          {labels.intro.split("\n\n").map((para, i) => (
-            <p key={i} className="whitespace-pre-line">{renderHighlighted(para)}</p>
-          ))}
+          {paragraphs.map((para, i) => {
+            // 맺음 문장은 가운데 세우고, 누르면 서비스 소개로 가는 문으로 쓴다
+            if (closingHref && i === paragraphs.length - 1) {
+              return (
+                <Link
+                  key={i}
+                  href={closingHref}
+                  className="group flex w-full flex-wrap items-center justify-center gap-1.5 text-center hover:text-accent"
+                >
+                  <span className="whitespace-pre-line">{renderHighlighted(para)}</span>
+                  <ChevronRight
+                    size={18}
+                    aria-hidden
+                    className="shrink-0 text-accent transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+              );
+            }
+            return (
+              <p key={i} className="whitespace-pre-line">{renderHighlighted(para)}</p>
+            );
+          })}
         </div>
 
       </div>
