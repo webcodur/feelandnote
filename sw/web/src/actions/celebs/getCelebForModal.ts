@@ -59,30 +59,46 @@ async function fetchCelebModalPublic(
   if (error || !profile) return null
 
   // 병렬 조회
-  const [contentResult, followerResult, influenceResult, tagsResult, dialogueResult] = await Promise.all([
+  const [contentResult, followerResult, influenceResult, tags, dialogueResult] = await Promise.all([
     supabase.from('user_contents').select('*', { count: 'exact', head: true }).eq('user_id', celebId),
     supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', celebId),
     supabase.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
-    supabase
-      .from('celeb_tag_assignments')
-      .select('short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, color)')
-      .eq('celeb_id', celebId),
+    // 세력도감 소속 — 단일 원천은 제작 테이블이고 DB 뷰 faction_atlas_members가 웹 전용 배정과
+    // 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
+    (async (): Promise<CelebTagInfo[]> => {
+      const { data: memberRows } = await supabase
+        .from('faction_atlas_members')
+        .select('tag_id, short_desc, short_desc_en, long_desc, long_desc_en')
+        .eq('celeb_id', celebId)
+        .eq('hidden', false)
+        .overrideTypes<{ tag_id: string; short_desc: string | null; short_desc_en: string | null; long_desc: string | null; long_desc_en: string | null }[], { merge: false }>()
+      if (!memberRows?.length) return []
+
+      const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
+      const { data: tagRows } = await supabase
+        .from('celeb_tags')
+        .select('id, name, name_en, color')
+        .in('id', tagIds)
+        .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
+      const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
+
+      return memberRows.flatMap((r) => {
+        const tag = tagById.get(r.tag_id)
+        if (!tag) return []
+        return [{
+          id: tag.id,
+          name: tag.name,
+          name_en: tag.name_en ?? null,
+          color: tag.color,
+          short_desc: r.short_desc,
+          short_desc_en: r.short_desc_en,
+          long_desc: r.long_desc,
+          long_desc_en: r.long_desc_en,
+        }]
+      })
+    })(),
     supabase.from('celeb_dialogues').select(DIALOGUE_BRIEF_SELECT).eq('celeb_id', celebId).maybeSingle(),
   ])
-
-  // 태그 정보 변환
-  const tags: CelebTagInfo[] = (tagsResult.data || [])
-    .filter((t): t is typeof t & { tag: { id: string; name: string; name_en: string | null; color: string } } => t.tag !== null)
-    .map((t) => ({
-      id: (t.tag as { id: string }).id,
-      name: (t.tag as { name: string }).name,
-      name_en: (t.tag as { name_en: string | null }).name_en ?? null,
-      color: (t.tag as { color: string }).color,
-      short_desc: t.short_desc,
-      short_desc_en: t.short_desc_en,
-      long_desc: t.long_desc,
-      long_desc_en: t.long_desc_en,
-    }))
 
   return {
     profile,
@@ -93,7 +109,6 @@ async function fetchCelebModalPublic(
     ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,
-    // JSON path 추출 컬럼은 Json으로 추론되므로 실제 형태로 교정
     tags,
     dialogue: dialogueResult.data as DialogueBrief | null,
   }
@@ -102,7 +117,7 @@ async function fetchCelebModalPublic(
 const getCelebModalCached = unstable_cache(
   (celebId: string) => fetchCelebModalPublic(celebId, true),
   ['celeb-modal'],
-  // profiles·celeb_influence + user_contents(서고 수) + celeb_tag_assignments + celeb_dialogues
+  // profiles·celeb_influence + user_contents(서고 수) + faction_atlas_members + celeb_dialogues
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
@@ -116,8 +131,9 @@ const getCelebModalCached = unstable_cache(
 const getFactionCelebModalCached = unstable_cache(
   async (celebId: string, factionTagId: string) => {
     const supabase = createStaticClient()
+    // 단일 원천은 제작 테이블 — 뷰(faction_atlas_members)가 웹 전용 배정과 합쳐 준다
     const { data: assignment, error } = await supabase
-      .from('celeb_tag_assignments')
+      .from('faction_atlas_members')
       .select('celeb_id')
       .eq('celeb_id', celebId)
       .eq('tag_id', factionTagId)

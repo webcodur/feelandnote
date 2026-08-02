@@ -5,7 +5,7 @@ import { User } from "lucide-react";
 import type { CelebProfile } from "@/types/home";
 import type { CelebReview } from "@/types/home";
 import { ContentCard } from "@/components/ui/cards";
-import { Avatar, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
+import { Avatar, BlurDissolve, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { updateUserContentRating } from "@/actions/contents/updateRating";
 import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
@@ -42,7 +42,9 @@ export function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: 
         className="flex-shrink-0 cursor-pointer"
         onClick={(e) => { e.stopPropagation(); setShowUserModal(true); }}
       >
-        <Avatar url={celeb.avatar_url} name={reviewDisplayName} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+        <BlurDissolve>
+          <Avatar url={celeb.avatar_url} name={reviewDisplayName} size="md" className="ring-1 ring-accent/30 rounded-full shadow-lg" />
+        </BlurDissolve>
       </button>
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">

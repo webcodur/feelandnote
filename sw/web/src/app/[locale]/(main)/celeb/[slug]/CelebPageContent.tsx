@@ -24,6 +24,10 @@ import ClassicalBox from "@/components/ui/ClassicalBox";
 import ImageViewerModal from "@/components/ui/ImageViewerModal";
 import ShareButtons from "@/components/ui/ShareButtons";
 import CelebHeroPhoto from "./CelebHeroPhoto";
+import CelebProfessionMark from "@/components/features/celeb/CelebProfessionMark";
+import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
+import { resolveCelebWorld } from "@/lib/celeb/world";
+import { formatSectionNumber, getWorldStyle, type WorldFrame } from "@/lib/celeb/worldStyle";
 import NationalityText from "@/components/ui/NationalityText";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 
@@ -45,6 +49,20 @@ import PeopleAndEraTabs from "./PeopleAndEraTabs";
 import UnavailableSectionGuide from "./UnavailableSectionGuide";
 import FictionSourceWorksSection from "./FictionSourceWorksSection";
 import { getCelebAge } from "./celebAge";
+
+/** 화보가 있을 때만 세계 액자를 두른다. 원형 얼굴 사진에 사각 틀은 어색하다 */
+function MaybeWorldFrame({
+  frame,
+  framed,
+  children,
+}: {
+  frame: WorldFrame;
+  framed: boolean;
+  children: React.ReactNode;
+}) {
+  if (!framed) return <>{children}</>;
+  return <CelebWorldFrame frame={frame}>{children}</CelebWorldFrame>;
+}
 
 interface CelebPageContentProps {
   profile: CelebBySlugProfile;
@@ -155,6 +173,15 @@ export default function CelebPageContent({
   const wikidataQid = profile.wikidata_qid ?? null;
   const celebTier = profile.celeb_tier ?? 'full';
   const isFiction = celebTier === 'fiction';
+
+  // 인물이 산 세계 — 액자 재질과 장 번호 표기가 여기서 갈린다
+  const worldId = resolveCelebWorld({
+    nationality: profile.nationality,
+    birthDate: profile.birth_date,
+    deathDate: profile.death_date,
+    tier: profile.celeb_tier,
+  });
+  const worldStyle = getWorldStyle(worldId);
   // full 등급만 감상·창작 기록물을 제공한다.
   const showLibrary = celebTier === 'full';
 
@@ -314,6 +341,12 @@ export default function CelebPageContent({
     });
   }, []);
 
+  // 구획 제목 자리의 고정 폭 기준 — 이 페이지 구획명 중 가장 긴 것
+  const widestSectionLabel = serviceItems.reduce(
+    (widest, item) => (item.label.length > widest.length ? item.label : widest),
+    "",
+  );
+
   const renderSectionHeading = (key: string) => {
     const index = serviceItemIndexByKey.get(key);
     if (index === undefined) return null;
@@ -324,6 +357,10 @@ export default function CelebPageContent({
         previousItem={serviceItems[index - 1]}
         nextItem={serviceItems[index + 1]}
         onNavigate={handleServiceNavigate}
+        chapterLabel={formatSectionNumber(Number(serviceItems[index].chapter), worldStyle.numerals)}
+        numerals={worldStyle.numerals}
+        widestLabel={widestSectionLabel}
+        titleFont={worldStyle.titleFont}
       />
     );
   };
@@ -341,6 +378,8 @@ export default function CelebPageContent({
         nickname={nickname}
         title={profile.title ?? null}
         professionLabel={professionLabel}
+        numerals={worldStyle.numerals}
+        titleFont={worldStyle.titleFont}
       />
 
       <div className="min-w-0 space-y-14 md:space-y-16">
@@ -355,18 +394,20 @@ export default function CelebPageContent({
         {/* 모바일: 세로 스택 */}
         <div className="rounded-sm border border-accent-dim/40 bg-bg-card/40 px-2 py-5 md:hidden">
           <div className="flex flex-col items-center gap-4">
-            <CelebHeroPhoto
-              photoUrl={profile.photo_url}
-              avatarUrl={profile.avatar_url}
-              nickname={nickname}
-              onZoom={handleZoom}
-              zoomLabel={t("enlargePhoto")}
-              onGreet={canGreet ? handleGreetingPlay : undefined}
-              greetLabel={t("playGreetingVoice")}
-              photoSize="w-56 h-56"
-              avatarSize="w-28 h-28"
-              initialSize="text-2xl"
-            />
+            <MaybeWorldFrame frame={worldStyle.frame} framed={Boolean(profile.photo_url)}>
+              <CelebHeroPhoto
+                photoUrl={profile.photo_url}
+                avatarUrl={profile.avatar_url}
+                nickname={nickname}
+                onZoom={handleZoom}
+                zoomLabel={t("enlargePhoto")}
+                onGreet={canGreet ? handleGreetingPlay : undefined}
+                greetLabel={t("playGreetingVoice")}
+                photoSize="w-56 h-56"
+                avatarSize="w-28 h-28"
+                initialSize="text-2xl"
+              />
+            </MaybeWorldFrame>
 
             <div className="space-y-2 w-full text-center">
               <p className="font-serif text-xl text-text-primary tracking-tight">
@@ -375,7 +416,10 @@ export default function CelebPageContent({
               </p>
               <div className="flex items-center justify-center gap-2 text-sm flex-wrap">
                 {professionLabel && (
-                  <span className="text-accent font-medium">{professionLabel}</span>
+                  <span className="inline-flex items-center gap-1 text-accent font-medium">
+                    <CelebProfessionMark profession={profile.profession} size={15} />
+                    {professionLabel}
+                  </span>
                 )}
                 {profile.nationality && (
                   <span className="grayscale">
@@ -437,18 +481,20 @@ export default function CelebPageContent({
         {/* PC: 기존 2열 레이아웃 */}
         <ClassicalBox hover={false} className="px-5 py-5 hidden md:block">
           <div className="grid grid-cols-[auto_1fr] gap-6">
-            <CelebHeroPhoto
-              photoUrl={profile.photo_url}
-              avatarUrl={profile.avatar_url}
-              nickname={nickname}
-              onZoom={handleZoom}
-              zoomLabel={t("enlargePhoto")}
-              onGreet={canGreet ? handleGreetingPlay : undefined}
-              greetLabel={t("playGreetingVoice")}
-              photoSize="w-60 h-60"
-              avatarSize="w-44 h-44"
-              initialSize="text-3xl"
-            />
+            <MaybeWorldFrame frame={worldStyle.frame} framed={Boolean(profile.photo_url)}>
+              <CelebHeroPhoto
+                photoUrl={profile.photo_url}
+                avatarUrl={profile.avatar_url}
+                nickname={nickname}
+                onZoom={handleZoom}
+                zoomLabel={t("enlargePhoto")}
+                onGreet={canGreet ? handleGreetingPlay : undefined}
+                greetLabel={t("playGreetingVoice")}
+                photoSize="w-60 h-60"
+                avatarSize="w-44 h-44"
+                initialSize="text-3xl"
+              />
+            </MaybeWorldFrame>
 
             <div className="space-y-2 min-w-0">
               <p className="font-serif text-2xl text-text-primary tracking-tight">
@@ -457,7 +503,10 @@ export default function CelebPageContent({
               </p>
               <div className="flex items-center gap-2 text-sm flex-wrap">
                 {professionLabel && (
-                  <span className="text-accent font-medium">{professionLabel}</span>
+                  <span className="inline-flex items-center gap-1 text-accent font-medium">
+                    <CelebProfessionMark profession={profile.profession} size={15} />
+                    {professionLabel}
+                  </span>
                 )}
                 {profile.nationality && (
                   <span className="grayscale">
@@ -517,7 +566,7 @@ export default function CelebPageContent({
         </ClassicalBox>
       </section>
 
-      {/* 초상화 크게 보기 */}
+      {/* 대표 사진 크게 보기 — 없으면 아바타를 띄운다 */}
       {zoomImageUrl && (
         <ImageViewerModal
           src={zoomImageUrl}

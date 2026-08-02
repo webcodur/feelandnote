@@ -24,21 +24,47 @@ export default function CelebWorldBanner({ worldId, tintRgb, compact = false }: 
   const images = getWorldBannerImages(worldId);
   const heightClass = compact
     ? "h-[110px] md:h-[150px]"
-    : "h-[160px] md:h-[260px]";
+    : "h-[200px] md:h-[340px]";
 
   return (
     <div className={`relative w-full overflow-hidden bg-bg-secondary ${heightClass}`}>
       {images ? (
-        <picture>
-          <source media="(min-width: 768px)" srcSet={images.pc} />
-          <img
-            src={images.mb}
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover"
-            draggable={false}
-          />
-        </picture>
+        <>
+          {/* 본문 최대 폭보다 넓은 화면에서 좌우 여백을 같은 그림의 흐린 확대본으로 채운다.
+              같은 파일이라 내려받기는 한 번이다 */}
+          {/* 좌우 옆자리를 같은 그림의 흐린 확대본으로 위에서 아래까지 채운다.
+              가운데는 아래의 또렷한 원본이 덮으므로 실제로는 옆에만 보인다 */}
+          <picture>
+            <source media="(min-width: 768px)" srcSet={images.pc} />
+            <img
+              src={images.mb}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
+              draggable={false}
+            />
+          </picture>
+          {/* 또렷한 원본은 세로를 다 보여준다(위아래 잘림 없음). 좌우 남는 자리는 위 블러가 채우고,
+              경계는 마스크로 서서히 녹인다 */}
+          <div
+            className="absolute inset-y-0 left-1/2 -translate-x-1/2"
+            style={{
+              maskImage: "linear-gradient(90deg, transparent, black 7%, black 93%, transparent)",
+              WebkitMaskImage: "linear-gradient(90deg, transparent, black 7%, black 93%, transparent)",
+            }}
+          >
+            <picture>
+              <source media="(min-width: 768px)" srcSet={images.pc} />
+              <img
+                src={images.mb}
+                alt=""
+                aria-hidden
+                className="h-full w-auto max-w-none"
+                draggable={false}
+              />
+            </picture>
+          </div>
+        </>
       ) : (
         <PlaceholderPattern worldId={worldId} />
       )}
@@ -51,8 +77,7 @@ export default function CelebWorldBanner({ worldId, tintRgb, compact = false }: 
         />
       )}
 
-      {/* 아래쪽을 본문 배경색으로 떨어뜨려 경계선이 생기지 않게 한다 */}
-      <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-b from-transparent to-bg-main" />
+      {/* 아래 경계는 그림이 그대로 끊긴다. 흐림·가라앉힘·장식선을 두지 않는다 */}
     </div>
   );
 }

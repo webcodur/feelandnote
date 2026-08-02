@@ -182,7 +182,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookResult,
     dialogueResult,
     typeCountsResult,
-    factionTagsResult,
+    factionTagRows,
     relationsResult,
     externalRelationsResult,
   ] = await Promise.all([
@@ -204,11 +204,28 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .eq('celeb_id', userId)
       .maybeSingle(),
     supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
-    supabase
-      .from('celeb_tag_assignments')
-      .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en, tag:celeb_tags(id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music)')
-      .eq('celeb_id', userId)
-      .order('sort_order', { ascending: true }),
+    // 세력도감 소속 — 단일 원천은 제작 테이블(faction_people)이고 DB 뷰 faction_atlas_members가
+    // 웹 전용 배정과 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
+    (async (): Promise<FactionTagAssignmentRow[]> => {
+      const { data: memberRows } = await supabase
+        .from('faction_atlas_members')
+        .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
+        .eq('celeb_id', userId)
+        .eq('hidden', false)
+        .order('sort_order', { ascending: true })
+        .overrideTypes<Omit<FactionTagAssignmentRow, 'tag'>[], { merge: false }>()
+      if (!memberRows?.length) return []
+
+      const tagIds = [...new Set(memberRows.map((r) => r.tag_id))]
+      const { data: tagRows } = await supabase
+        .from('celeb_tags')
+        .select('id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music')
+        .in('id', tagIds)
+        .overrideTypes<NonNullable<FactionTagAssignmentRow['tag']>[], { merge: false }>()
+      const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
+
+      return memberRows.map((r) => ({ ...r, tag: tagById.get(r.tag_id) ?? null }))
+    })(),
     supabase
       .from('celeb_relations')
       .select('rel_type, rel_group, note, note_en, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, status, wikidata_qid)')
@@ -226,7 +243,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   }
 
   // 슬러그 없는 태그는 세력도감 딥링크로 이동할 수 없어 제외한다
-  const factionTags: FactionTagItem[] = ((factionTagsResult.data ?? []) as unknown as FactionTagAssignmentRow[])
+  const factionTags: FactionTagItem[] = factionTagRows
     .filter((a): a is FactionTagAssignmentRow & { tag: NonNullable<FactionTagAssignmentRow['tag']> } => !!a.tag?.slug)
     .map((a) => ({
       id: a.tag.id,
@@ -318,7 +335,7 @@ const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
   // v3: 상단 대표 화보(photoUrl) 추가 — 전용 화보 없으면 세력도감 화보로 대체한다.
   ['celeb-by-slug-v3'],
-  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + celeb_tag_assignments(소속 세력도감)
+  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
 )
 
