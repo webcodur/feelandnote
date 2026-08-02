@@ -277,9 +277,10 @@ function AvatarCell({ celebId, avatarUrl }: { celebId: string; avatarUrl: string
     setUploading(true)
 
     try {
+      // 자른 결과는 무손실 PNG다. webp 압축은 resizeSingleImage에서 한 번만 한다
       const response = await fetch(croppedDataUrl)
       const blob = await response.blob()
-      const file = new File([blob], 'avatar.webp', { type: 'image/webp' })
+      const file = new File([blob], 'avatar.png', { type: 'image/png' })
       const resized = await resizeSingleImage(file, 'avatar')
       const uploadResult = await uploadCelebImage({ celebId, image: resized, type: 'avatar' })
 

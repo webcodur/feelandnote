@@ -1,5 +1,12 @@
 import * as faceapi from 'face-api.js';
 
+import {
+  computeCropFromBox,
+  computeCropFromLandmarks,
+  type CropResult,
+  type FaceAnchors,
+} from '@/lib/avatar-geometry';
+
 let modelsLoaded = false;
 
 async function loadModels() {
@@ -35,42 +42,53 @@ export async function detectFaceLandmarks(
   }
 }
 
-// 얼굴이 1:1 프레임에서 차지할 비율
-const FACE_FRAME_RATIO = 0.55;
+/**
+ * 랜드마크에서 눈 평균 좌표와 턱끝을 뽑는다.
+ * 눈은 좌우 눈 점 전체의 평균, 턱끝은 턱선 배열의 가운데 점(landmark 8)이다.
+ * scripts/measure-avatar-geometry.ts의 실측 코드와 같은 방식이다.
+ */
+function extractAnchors(landmarks: faceapi.FaceLandmarks68): FaceAnchors | null {
+  const leftEye = landmarks.getLeftEye();
+  const rightEye = landmarks.getRightEye();
+  const jaw = landmarks.getJawOutline();
+  if (!leftEye.length || !rightEye.length || !jaw.length) return null;
+
+  const eyePoints = [...leftEye, ...rightEye];
+  const eyeX = eyePoints.reduce((sum, p) => sum + p.x, 0) / eyePoints.length;
+  const eyeY = eyePoints.reduce((sum, p) => sum + p.y, 0) / eyePoints.length;
+  const chin = jaw[Math.floor(jaw.length / 2)];
+
+  // 턱이 눈보다 위면 랜드마크가 어긋난 것 — 상자 폴백으로 넘긴다
+  if (!(chin.y > eyeY)) return null;
+
+  return { eyeX, eyeY, chinY: chin.y };
+}
+
+export interface FaceCropSuggestion {
+  /** react-easy-crop의 initialCroppedAreaPixels에 그대로 넣는 원본 픽셀 좌표 */
+  area: { x: number; y: number; width: number; height: number };
+  /** 비어 있지 않으면 결과가 규격을 벗어난다. 호출부는 반드시 사용자에게 보여준다. */
+  warnings: string[];
+  basis: CropResult['basis'];
+}
 
 /**
- * 원본 이미지 픽셀 좌표로 최적 크롭 영역을 반환한다.
- * react-easy-crop의 initialCroppedAreaPixels에 직접 사용 가능.
+ * 규격대로 자를 정사각 영역을 구한다.
+ * 계산은 lib/avatar-geometry.ts 한 곳에서만 한다 — 서버 스크립트와 같은 구현이다.
  */
 export function calculateFaceCropArea(
   result: FaceDetectionResult,
   imageWidth: number,
   imageHeight: number
-): { x: number; y: number; width: number; height: number } {
-  const { landmarks, box } = result;
-
-  // landmark 27 (콧대 상단) = 양눈 사이 정중앙, 모든 얼굴에서 일관된 기준점
-  const nose = landmarks.getNose();
-  const noseBridgeTop = nose[0]; // landmark 27
-
-  const faceCenterX = noseBridgeTop.x;
-  const faceCenterY = noseBridgeTop.y;
-
-  // 1:1 크롭 영역 크기: 바운딩 박스의 큰 축 / FACE_FRAME_RATIO
-  const faceSize = Math.max(box.width, box.height);
-  const cropSize = faceSize / FACE_FRAME_RATIO;
-
-  // 이미지 경계를 넘지 않도록 클램프
-  const clampedSize = Math.min(cropSize, imageWidth, imageHeight);
-  const halfSize = clampedSize / 2;
-
-  const cx = Math.max(halfSize, Math.min(imageWidth - halfSize, faceCenterX));
-  const cy = Math.max(halfSize, Math.min(imageHeight - halfSize, faceCenterY));
+): FaceCropSuggestion {
+  const anchors = extractAnchors(result.landmarks);
+  const crop = anchors
+    ? computeCropFromLandmarks(anchors, imageWidth, imageHeight)
+    : computeCropFromBox(result.box, imageWidth, imageHeight);
 
   return {
-    x: cx - halfSize,
-    y: cy - halfSize,
-    width: clampedSize,
-    height: clampedSize,
+    area: { x: crop.left, y: crop.top, width: crop.size, height: crop.size },
+    warnings: crop.warnings,
+    basis: crop.basis,
   };
 }

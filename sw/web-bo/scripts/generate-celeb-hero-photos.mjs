@@ -1,5 +1,5 @@
 /**
- * 인물 대표 화보 생성 → 검증 → 등록 → 로컬 정리 (한 건씩 완결)
+ * 인물 대표 사진 생성 → 검증 → 등록 → 로컬 정리 (한 건씩 완결)
  *
  * 각 건: 얼굴 REF 내려받기 → codex image_gen 발주 → 산출물 회수 → 진위검사
  *        → 1080 webp 변환 → R2 celebs/{id}/photo.webp → profiles.portrait_url → 로컬 삭제
@@ -85,7 +85,7 @@ A vehicle or machine in the frame must be a whole working object, not a few of i
 Weapons and tools obey the same law. A blade is held by its grip with the whole hand closed around it, and its weight pulls the wrist and shoulder the way that weight really would. A sheathed weapon hangs from a belt or baldric that visibly carries it. A spear, staff or standard either rests its butt on the ground or is carried at a balance point the arm could actually hold. Straps, buckles and scabbards connect to something. A weapon never floats beside the body, and the hand never grips air.`
 
 // 이 지시가 없으면 인물이 원경으로 작게 박힌다(다리우스 1세 실측, 26.07.31).
-// 대문은 정사각 240px로 뜨므로 얼굴이 일정 크기 이상 잡혀야 한다.
+// 대표 사진은 정사각 240px로 뜨므로 얼굴이 일정 크기 이상 잡혀야 한다.
 const FRAMING = `FRAMING — FIXED CROP, NON-NEGOTIABLE
 This is a portrait of a person, not a landscape that happens to contain a person.
 

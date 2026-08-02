@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from 'react'
 import Cropper, { Area } from 'react-easy-crop'
-import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2 } from 'lucide-react'
+import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2, AlertTriangle } from 'lucide-react'
 
 import Button from './Button'
 import { detectFaceLandmarks, calculateFaceCropArea } from '@/utils/faceDetection'
@@ -10,6 +10,7 @@ import { detectFaceLandmarks, calculateFaceCropArea } from '@/utils/faceDetectio
 interface Props {
   imageSrc: string
   aspectRatio?: number
+  /** 자른 그림을 무손실 PNG 데이터 URL로 넘긴다. 최종 압축은 받는 쪽(lib/image.ts)에서 한 번만 한다. */
   onComplete: (croppedImage: string) => void
   onCancel: () => void
 }
@@ -44,6 +45,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
 
   // AI 분석 상태
   const [analyzing, setAnalyzing] = useState(false)
+  const [notice, setNotice] = useState<{ tone: 'warn' | 'error'; lines: string[] } | null>(null)
   const imageSize = useRef<{ width: number; height: number } | null>(null)
 
   // initialCroppedAreaPixels + key remount 방식
@@ -66,6 +68,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
   const handleAutoCrop = async () => {
     if (!imageSize.current) return
     setAnalyzing(true)
+    setNotice(null)
 
     try {
       const img = new Image()
@@ -74,18 +77,25 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
       await img.decode()
 
       const result = await detectFaceLandmarks(img)
-      if (result) {
-        const area = calculateFaceCropArea(result, img.naturalWidth, img.naturalHeight)
-
-        // react-easy-crop에게 "이 영역을 보여줘"라고 지시 → 내부에서 crop+zoom 자동 계산
-        setInitialArea(area)
-        setCropperKey(k => k + 1)
-      } else {
-        alert('얼굴을 찾을 수 없습니다.')
+      if (!result) {
+        setNotice({ tone: 'error', lines: ['얼굴을 찾지 못했습니다. 아래 조절 막대로 직접 맞춰 주세요.'] })
+        return
       }
+
+      const { area, warnings } = calculateFaceCropArea(result, img.naturalWidth, img.naturalHeight)
+
+      // react-easy-crop에게 "이 영역을 보여줘"라고 지시 → 내부에서 crop+zoom 자동 계산
+      setInitialArea(area)
+      setCropperKey(k => k + 1)
+
+      // 규격을 벗어난 채로 잘렸으면 조용히 넘기지 않는다
+      if (warnings.length > 0) setNotice({ tone: 'warn', lines: warnings })
     } catch (e) {
       console.error(e)
-      alert(`이미지 분석 중 오류가 발생했습니다: ${e instanceof Error ? e.message : String(e)}`)
+      setNotice({
+        tone: 'error',
+        lines: [`이미지를 분석하지 못했습니다: ${e instanceof Error ? e.message : String(e)}`],
+      })
     } finally {
       setAnalyzing(false)
     }
@@ -107,6 +117,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
     setZoom(1)
     setInitialArea(undefined)
     setCropperKey(k => k + 1)
+    setNotice(null)
   }
 
   return (
@@ -157,6 +168,27 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
 
         {/* 컨트롤 */}
         <div className="p-4 space-y-4">
+          {/* 자동 맞춤 안내 — 규격을 벗어났거나 얼굴을 못 찾았을 때 */}
+          {notice && (
+            <div
+              className={`flex gap-2 p-3 rounded-lg text-xs leading-relaxed ${
+                notice.tone === 'error'
+                  ? 'bg-red-500/10 text-red-400 border border-red-500/30'
+                  : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+              }`}
+            >
+              <AlertTriangle className="w-4 h-4 shrink-0 mt-px" />
+              <div className="flex-1 space-y-1">
+                {notice.lines.map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+              </div>
+              <button onClick={() => setNotice(null)} className="shrink-0 opacity-70 hover:opacity-100">
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
+
           {/* 줌 슬라이더 */}
           <div className="flex items-center gap-3">
             <ZoomOut className="w-4 h-4 text-text-secondary shrink-0" />
@@ -216,6 +248,10 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
 }
 
 // #region getCroppedImage
+/**
+ * 자른 결과를 무손실 PNG로 돌려준다.
+ * 여기서 webp로 줄이면 뒤이은 축소(lib/image.ts)와 합쳐 손실이 두 겹 쌓인다 — 압축은 마지막 한 번만 한다.
+ */
 async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<string> {
   const image = await createImage(imageSrc)
   const canvas = document.createElement('canvas')
@@ -244,7 +280,7 @@ async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<strin
     ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh)
   }
 
-  return canvas.toDataURL('image/webp', 0.9)
+  return canvas.toDataURL('image/png')
 }
 
 function createImage(url: string): Promise<HTMLImageElement> {

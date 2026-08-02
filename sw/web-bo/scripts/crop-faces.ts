@@ -3,21 +3,24 @@
  *
  * 전신 크롭(단독 화보 REF 재료)은 crop-body.ts를 쓴다. 용도가 다르다.
  *
+ * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb-avatar-spec.md §1·§6이고,
+ * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 등록 스크립트와 같은 구현을 쓴다.
+ * 눈과 턱을 랜드마크로 직접 재서 규격 자리에 놓는다. 수치는 avatar-geometry.ts 의 AVATAR_SPEC 에만 있다.
+ * 자를 크기·위치를 옵션으로 흔들 수 없다 — 그래야 인물마다 결과가 같아진다.
+ *
  * 사용법:
  *   cd sw/web-bo
  *   pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [옵션]
  *
  * 옵션:
- *   --frame-ratio <n>   정사각 변 대비 얼굴 비율. 기본 0.55 = 정수리 위 여백~쇄골
- *                       (작을수록 아래로 더 내려간다. 0.45면 겨드랑이까지 들어온다)
- *   --headroom <n>      얼굴 높이 대비 위쪽 여백. 기본 0.5. 높은 왕관·깃털은 0.8~1.2
  *   --size <n>          출력 한 변 픽셀. 기본 800
  *   --all-faces         한 장에서 검출된 얼굴을 전부 뽑는다(기본: 가장 큰 얼굴 1개)
+ *   폐기된 옵션: --frame-ratio, --headroom (넘기면 경고 후 무시)
  *
  * 산출물: <원본명>_face.png (--all-faces면 <원본명>_face_<번호>.png)
  *
  * 배경 제거(누끼)는 이 스크립트가 하지 않는다. nobg 프로젝트를 쓴다(nobg-cutout 스킬 참조).
- * 산출물을 그대로 upload-celeb-image-from-wikimedia.ts --image-file 에 넘겨 등록한다
+ * 산출물을 그대로 upload-celeb-avatar.ts --image-file 에 넘겨 등록한다
  * (그 스크립트는 알파를 보존하며, 이미 얼굴 크롭된 이미지도 그대로 통과한다).
  */
 import sharp from 'sharp'
@@ -26,6 +29,13 @@ import { resolve, dirname, basename, extname, join } from 'path'
 import { fileURLToPath } from 'url'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
+import {
+  computeCropFromBox,
+  computeCropFromLandmarks,
+  judgeGeometry,
+  type CropResult,
+  type FaceAnchors,
+} from '../src/lib/avatar-geometry'
 import { createRequire } from 'module'
 
 const _require = createRequire(import.meta.url)
@@ -43,6 +53,8 @@ async function ensureFaceModels() {
     throw new Error(`face-api 모델 디렉토리 없음: ${modelDir}`)
   }
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelDir)
+  // 눈·턱 좌표를 직접 재려면 랜드마크 모델이 필요하다. 규격 기하의 기준점이다.
+  await faceapi.nets.faceLandmark68Net.loadFromDisk(modelDir)
   modelsLoaded = true
 }
 
@@ -65,6 +77,8 @@ interface DetectedFace {
   width: number
   height: number
   score: number
+  /** 눈·턱끝 좌표(원본 픽셀 기준). 랜드마크를 못 얻으면 null이고 상자 폴백으로 넘어간다 */
+  anchors: FaceAnchors | null
 }
 
 async function detectFaces(imgBuf: Buffer): Promise<DetectedFace[]> {
@@ -88,11 +102,44 @@ async function detectFaces(imgBuf: Buffer): Promise<DetectedFace[]> {
   ) as unknown as Parameters<typeof faceapi.detectAllFaces>[0]
 
   try {
-    const detections = await faceapi.detectAllFaces(
-      tensor,
-      new faceapi.SsdMobilenetv1Options({ minConfidence: 0.4, maxResults: 20 })
-    )
+    const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.4, maxResults: 20 })
     const inv = 1 / scale
+
+    // 눈·턱을 직접 재는 기본 경로. 랜드마크 단계가 터지면 상자만으로 후퇴한다.
+    const withLandmarks = await faceapi
+      .detectAllFaces(tensor, options)
+      .withFaceLandmarks()
+      .run()
+      .catch((e: unknown) => {
+        console.warn(
+          `  [경고] 랜드마크 검출 실패 → 상자 기준으로 후퇴: ${e instanceof Error ? e.message : String(e)}`
+        )
+        return null
+      })
+
+    if (withLandmarks) {
+      return withLandmarks
+        .map(d => {
+          const lm = d.landmarks
+          const eyePoints = [...lm.getLeftEye(), ...lm.getRightEye()]
+          const eyeX = eyePoints.reduce((s, p) => s + p.x, 0) / eyePoints.length
+          const eyeY = eyePoints.reduce((s, p) => s + p.y, 0) / eyePoints.length
+          // 턱끝 = 턱 윤곽선의 가운데 점(68점 규약의 8번)
+          const jaw = lm.getJawOutline()
+          const chin = jaw[Math.floor(jaw.length / 2)]
+          return {
+            x: d.detection.box.x * inv,
+            y: d.detection.box.y * inv,
+            width: d.detection.box.width * inv,
+            height: d.detection.box.height * inv,
+            score: d.detection.score,
+            anchors: { eyeX: eyeX * inv, eyeY: eyeY * inv, chinY: chin.y * inv },
+          }
+        })
+        .sort((a, b) => b.width * b.height - a.width * a.height)
+    }
+
+    const detections = await faceapi.detectAllFaces(tensor, options)
     return detections
       .map(d => ({
         x: d.box.x * inv,
@@ -100,6 +147,7 @@ async function detectFaces(imgBuf: Buffer): Promise<DetectedFace[]> {
         width: d.box.width * inv,
         height: d.box.height * inv,
         score: d.score,
+        anchors: null,
       }))
       .sort((a, b) => b.width * b.height - a.width * a.height)
   } finally {
@@ -107,39 +155,36 @@ async function detectFaces(imgBuf: Buffer): Promise<DetectedFace[]> {
   }
 }
 
-/**
- * 검출 상자 위로 확보하는 여백. 얼굴 높이 기준 배수.
- * face-api 상자는 눈썹~턱이라 정수리가 빠진다. 0.5면 정수리가 들어오고 위로 약간 남는다.
- */
-const DEFAULT_HEADROOM = 0.5
+// ─── 규격 좌표 산출 (계산은 avatar-geometry가 한다) ─────────────
 
-/**
- * 얼굴을 감싸는 정사각 영역. 위는 headroom으로 정하고 frameRatio가 아래 경계를 정한다.
- * frameRatio = 정사각 변 대비 얼굴 크기 — 작을수록 정사각이 커져 아래로 더 내려간다.
- *
- * 기본 0.55에서 아래 경계는 턱 밑 얼굴 높이의 약 0.3배, 곧 쇄골 언저리다.
- * (0.45로 두면 0.56배까지 내려가 겨드랑이가 들어온다)
- */
-function computeSquareCrop(
-  face: DetectedFace,
+function resolveCrop(face: DetectedFace, imgW: number, imgH: number): CropResult {
+  const box = { x: face.x, y: face.y, width: face.width, height: face.height }
+  if (!face.anchors) return computeCropFromBox(box, imgW, imgH)
+  try {
+    const crop = computeCropFromLandmarks(face.anchors, imgW, imgH)
+    const verdict = judgeGeometry(face.anchors, crop)
+    if (!verdict.pass) crop.warnings.push(`규격 이탈: ${verdict.faults.join(' / ')}`)
+    return crop
+  } catch (e) {
+    console.warn(
+      `  [경고] 랜드마크 좌표가 이상해 상자 기준으로 후퇴: ${e instanceof Error ? e.message : String(e)}`
+    )
+    return computeCropFromBox(box, imgW, imgH)
+  }
+}
+
+/** 반올림 뒤에도 잘라낼 영역이 원본 안에 있도록 마지막으로 조인다. */
+function toExtractArea(
+  crop: CropResult,
   imgW: number,
-  imgH: number,
-  frameRatio: number,
-  headroom: number,
+  imgH: number
 ): { left: number; top: number; size: number } {
-  const faceSize = Math.max(face.width, face.height)
-  let size = Math.round(faceSize / frameRatio)
-  size = Math.min(size, imgW, imgH)
-
-  const cx = face.x + face.width / 2
-  let left = Math.round(cx - size / 2)
-  // 정수리 여백을 먼저 확정한다. 아래 경계는 남는 만큼 따라온다
-  let top = Math.round(face.y - faceSize * headroom)
-
-  left = Math.max(0, Math.min(left, imgW - size))
-  top = Math.max(0, Math.min(top, imgH - size))
-
-  return { left, top, size }
+  const size = Math.min(crop.size, imgW, imgH)
+  return {
+    left: Math.max(0, Math.min(imgW - size, crop.left)),
+    top: Math.max(0, Math.min(imgH - size, crop.top)),
+    size,
+  }
 }
 
 // ─── 인자 ──────────────────────────────────────────────────
@@ -163,25 +208,25 @@ function parseArgs() {
     }
   }
 
-  const frameRatio = Number(flags.get('frame-ratio') ?? '0.55')
-  const headroom = Number(flags.get('headroom') ?? String(DEFAULT_HEADROOM))
-  const size = Number(flags.get('size') ?? '800')
-  if (!(frameRatio > 0 && frameRatio <= 1)) {
-    throw new Error(`--frame-ratio 는 0~1 사이여야 한다: ${flags.get('frame-ratio')}`)
+  // 폐기된 옵션 — 규격이 코드로 고정됐다. 기존 호출이 깨지지 않게 받아만 주고 무시한다.
+  for (const dead of ['frame-ratio', 'headroom']) {
+    if (flags.has(dead)) {
+      console.warn(
+        `[경고] --${dead} 는 이제 쓰지 않는다. `
+        + '규격은 docs/project/celeb-avatar-spec.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
+      )
+    }
   }
+
+  const size = Number(flags.get('size') ?? '800')
   if (!Number.isFinite(size) || size < 64) {
     throw new Error(`--size 값이 부적절하다: ${flags.get('size')}`)
-  }
-  if (!Number.isFinite(headroom) || headroom < 0 || headroom > 3) {
-    throw new Error(`--headroom 은 0~3 사이여야 한다: ${flags.get('headroom')}`)
   }
 
   return {
     input: positional[0],
     outDir: positional[1],
     allFaces: flags.has('all-faces'),
-    frameRatio,
-    headroom,
     size,
   }
 }
@@ -191,7 +236,7 @@ function parseArgs() {
 async function processOne(
   imagePath: string,
   outDir: string,
-  opts: { allFaces: boolean; frameRatio: number; headroom: number; size: number }
+  opts: { allFaces: boolean; size: number }
 ): Promise<{ done: number; skipped: boolean }> {
   const name = basename(imagePath, extname(imagePath))
   const rotated = await sharp(readFileSync(imagePath)).rotate().toBuffer()
@@ -210,7 +255,8 @@ async function processOne(
 
   for (let i = 0; i < targets.length; i++) {
     const face = targets[i]
-    const box = computeSquareCrop(face, W, H, opts.frameRatio, opts.headroom)
+    const crop = resolveCrop(face, W, H)
+    const box = toExtractArea(crop, W, H)
     const outPath = resolve(
       outDir,
       opts.allFaces ? `${name}_face_${i + 1}.png` : `${name}_face.png`
@@ -222,7 +268,11 @@ async function processOne(
       .png() // 누끼 투명도를 보존하려면 png. webp 변환은 업로드 스크립트가 한다
       .toFile(outPath)
 
-    console.log(`  face score=${face.score.toFixed(3)} -> ${basename(outPath)}`)
+    console.log(
+      `  face score=${face.score.toFixed(3)} 기준=${crop.basis === 'landmarks' ? '눈·턱' : '상자(폴백)'} -> ${basename(outPath)}`
+    )
+    // 규격 이탈은 조용히 넘기지 않는다.
+    for (const w of crop.warnings) console.warn(`    [규격 경고] ${w}`)
     done++
   }
 
@@ -233,7 +283,7 @@ async function main() {
   const args = parseArgs()
 
   if (!args.input) {
-    console.error('사용법: pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [--frame-ratio 0.55] [--headroom 0.5] [--size 800] [--all-faces]')
+    console.error('사용법: pnpm exec tsx scripts/crop-faces.ts <이미지경로|폴더> [출력폴더] [--size 800] [--all-faces]')
     process.exit(1)
   }
   if (!existsSync(args.input)) {

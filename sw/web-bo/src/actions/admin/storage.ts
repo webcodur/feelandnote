@@ -64,8 +64,8 @@ export async function deleteCelebPortrait(celebId: string): Promise<void> {
 }
 
 // #region 세력도감(faction) 이미지
-// 물리 R2 경로는 옛 명칭 spotlight 유지 — 기존 이미지 URL 보존
-const FACTION_FOLDER = 'spotlight'
+// R2 폴더. 2026-08-01 spotlight → faction 이전 완료(migrate-spotlight-to-faction-r2.mjs)
+const FACTION_FOLDER = 'faction'
 
 interface UploadResult {
   success: boolean

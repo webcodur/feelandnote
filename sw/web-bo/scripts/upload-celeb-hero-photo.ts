@@ -85,7 +85,7 @@ async function main() {
     console.log(`  ${r.nickname} (${r.slug}) <- ${r.image.split('/').pop()} (${(webp.length / 1024).toFixed(0)}KB)`)
   }
 
-  console.log(`=== 대문 화보 ${done.length}/${rows.length}명 완료 ===`)
+  console.log(`=== 대표 사진 ${done.length}/${rows.length}명 완료 ===`)
 }
 
 main().catch((e) => { console.error(e); process.exit(1) })
