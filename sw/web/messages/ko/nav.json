@@ -13,8 +13,6 @@
       "feed": "인물 피드",
       "persona": "인물 분석",
       "people": "소셜",
-      "masterpieces": "불후의 명작",
-      "crossroads": "갈림길",
       "friendFeed": "친구 피드",
       "notice": "공지사항",
       "feedback": "피드백",
@@ -29,11 +27,10 @@
       "directory": "디렉토리",
       "social": "소셜",
       "socialFeed": "소셜 피드",
-      "era": "불후의 명작",
-      "profession": "갈림길",
       "museum": "박물관",
       "academy": "학당",
-      "curated": "기관 선정"
+      "curated": "기관 선정",
+      "popular": "인기 작품"
     },
     "footer": {
       "about": "서비스 소개",
@@ -52,7 +49,7 @@
     "home": "홈",
     "playlists": "재생목록",
     "explore": "탐색",
-    "library": "지혜의 서가",
+    "library": "서가",
     "board": "게시판",
     "notice": "공지사항",
     "feedback": "피드백"

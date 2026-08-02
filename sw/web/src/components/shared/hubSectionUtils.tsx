@@ -74,8 +74,7 @@ export const LIBRARY_GROUP_ID = "library";
 
 export const LIBRARY_SECTIONS = [
   { key: "figure",     moreHref: "/explore/today",      titleKey: "figureLabel",     subtitleKey: "figure",     moreKey: "moreDetail" },
-  { key: "era",        moreHref: "/library/era",        titleKey: "eraLabel",        subtitleKey: "era",        moreKey: "moreDetail" },
-  { key: "profession", moreHref: "/library/profession", titleKey: "professionLabel", subtitleKey: "profession", moreKey: "moreDetail" },
+  { key: "popular",    moreHref: "/library/popular",    titleKey: "popularLabel",    subtitleKey: "popular",    moreKey: "moreDetail" },
   { key: "curated",    moreHref: "/library/curated",    titleKey: "curatedLabel",    subtitleKey: "curated",    moreKey: "exploreCurated" },
   { key: "museum",     moreHref: "/library/museum",     titleKey: "museumLabel",     subtitleKey: "museum",     moreKey: "exploreMuseum" },
   { key: "academy",    moreHref: "/library/academy",    titleKey: "academyLabel",    subtitleKey: "academy",    moreKey: "enterAcademy" },

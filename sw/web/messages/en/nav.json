@@ -13,8 +13,6 @@
       "feed": "Feed",
       "persona": "Persona",
       "people": "Social",
-      "masterpieces": "Masterpieces",
-      "crossroads": "Crossroads",
       "friendFeed": "Friend Feed",
       "notice": "Announcements",
       "feedback": "Feedback",
@@ -29,11 +27,10 @@
       "directory": "Directory",
       "social": "Social",
       "socialFeed": "Social Feed",
-      "era": "Masterpieces",
-      "profession": "Crossroads",
       "museum": "Museum",
       "academy": "Academy",
-      "curated": "Curated Lists"
+      "curated": "Curated Lists",
+      "popular": "Popular Works"
     },
     "footer": {
       "about": "About",

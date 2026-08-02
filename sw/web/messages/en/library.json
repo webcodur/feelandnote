@@ -22,17 +22,13 @@
     "hub": {
       "quickNav": "Quick Navigation",
       "figure": "Begin your day with a new mind's echo.",
-      "era": "Trace the timeless footprints left by humanity across the flow of time.",
-      "profession": "Explore the diverse trajectories of those who reached the pinnacle in their respective fields.",
       "museum": "See how countless ideas and creations intertwine within a grand chronicle.",
       "academy": "A space to internalize how AI works, filmmaking, and music theory through structured lessons.",
       "figureLabel": "Today's Figure",
-      "eraLabel": "Masterpieces",
-      "professionLabel": "Crossroads",
       "museumLabel": "Museum",
       "academyLabel": "Academy",
-      "museumTitle": "Chronicle of Content",
-      "academyTitle": "Academy of Wisdom",
+      "museumTitle": "Museum",
+      "academyTitle": "Academy",
       "academyReading": "Reading Methods",
       "academyVideo": "Filmmaking",
       "academyMusic": "Harmony Lessons",
@@ -45,7 +41,9 @@
       "enterAcademy": "Enter Academy",
       "curatedLabel": "Curated by Institutions",
       "curated": "Discover works through lists chosen by universities, newspapers, and award bodies.",
-      "exploreCurated": "Browse the lists"
+      "exploreCurated": "Browse the lists",
+      "popularLabel": "Popular Works",
+      "popular": "Works the most figures have finished, by era or by profession."
     },
     "meta": {
       "title": "Library - Celebrity Reading Lists & Movie Picks",
@@ -62,7 +60,7 @@
     "museum": {
       "metaTitle": "Museum | Library",
       "metaDescription": "Trace the evolution of human knowledge media and content formats.",
-      "pageTitle": "Chronicle of Content",
+      "pageTitle": "Museum",
       "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
       "keyContents": "Key Contents",
       "present": "Present",
@@ -151,7 +149,7 @@
     "academy": {
       "metaTitle": "Academy - AI, Filmmaking & Music Theory Courses | Library",
       "metaDescription": "Free courses on how AI works and how to use it, plus filmmaking tutorials, music theory lessons, and curated educational content recommended by industry professionals.",
-      "pageTitle": "Academy of Wisdom",
+      "pageTitle": "Academy",
       "defaultDescription": "From how AI works to filmmaking and harmony, explore systematic educational content.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "Select academy category",
@@ -282,32 +280,6 @@
       "metaDescription": "Discover must-read books and movie recommendations by profession. See what leaders, scientists, artists, and entrepreneurs read and watch."
     },
     "page": {
-      "section": {
-        "sage": {
-          "label": "Today's Figure",
-          "description": "A new figure is featured every day at midnight"
-        },
-        "chosen": {
-          "label": "Common Shelf",
-          "description": "Works appreciated by the most figures"
-        },
-        "profession": {
-          "label": "Crossroads",
-          "description": "Must-reads by profession"
-        },
-        "era": {
-          "label": "Works of the Era",
-          "description": "Curated picks from each era"
-        },
-        "museum": {
-          "label": "Museum",
-          "description": "A chronicle of human knowledge media and content"
-        },
-        "academy": {
-          "label": "Academy",
-          "description": "How AI works, filmmaking, harmony lessons, and more"
-        }
-      },
       "toc": "Table of Contents",
       "openToc": "Open table of contents",
       "close": "Close",
@@ -330,7 +302,7 @@
       },
       "defaultBio": "A figure of our time.",
       "eraPage": {
-        "title": "Timeless Works",
+        "title": "Popular by Era",
         "description": "Masterpieces and must-reads across all eras.",
         "descriptionSub": "Discover the works chosen by the greatest figures in history.",
         "allEras": "All Eras",
@@ -350,7 +322,7 @@
         }
       },
       "professionPage": {
-        "title": "Crossroads",
+        "title": "Popular by Profession",
         "description": "Must-reads by profession.",
         "descriptionSub": "What did the predecessors on your path read?",
         "selectProfession": "Select Profession",
@@ -409,7 +381,15 @@
         "philosophy": "Philosophy",
         "fantasy": "Fantasy",
         "comedy": "Comedy",
-        "korean-film": "Korean Film"
+        "korean-film": "Korean Film",
+        "psychology": "Psychology",
+        "economics": "Economics",
+        "nonfiction": "Nonfiction",
+        "science": "Science",
+        "picture-book": "Picture Books",
+        "thriller": "Thriller",
+        "romance": "Romance",
+        "business": "Business"
       },
       "moreLists": "See {count} more lists",
       "showRemaining": "Show {count} more",
@@ -422,6 +402,16 @@
       "viewByKind": "By institution",
       "viewByTopic": "By topic",
       "backToLibrary": "Back to Library"
+    },
+    "popular": {
+      "metaTitle": "Popular Works - Most Chosen by Figures | Library",
+      "metaDescription": "Works the most figures have finished, viewed by era or by profession.",
+      "title": "Popular Works",
+      "description": "Works the most figures have finished.",
+      "basisAll": "All",
+      "basisEra": "By era",
+      "basisProfession": "By profession",
+      "empty": "No works yet."
     }
   }
 }

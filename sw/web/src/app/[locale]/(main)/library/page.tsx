@@ -8,14 +8,13 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import HubNav from "@/components/shared/HubNav";
 import HubSection from "@/components/shared/HubSection";
-import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, librarySection } from "@/components/shared/hubSectionUtils";
+import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, hubSection } from "@/components/shared/hubSectionUtils";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
-import { getTodayFigure, getLibraryByEra, getProfessionContentCounts, getContentSamplesByProfession, getCuratedHub } from "@/actions/library";
+import { getTodayFigure, getChosenLibrary, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
 import FigurePreview from "@/components/features/library/hub/FigurePreview";
-import EraPreview from "@/components/features/library/hub/EraPreview";
-import ProfessionPreview from "@/components/features/library/hub/ProfessionPreview";
+import PopularPreview from "@/components/features/library/hub/PopularPreview";
 import CuratedPreview from "@/components/features/library/hub/CuratedPreview";
 import MuseumPreview from "@/components/features/library/hub/MuseumPreview";
 import AcademyPreview from "@/components/features/library/hub/AcademyPreview";
@@ -28,86 +27,71 @@ export async function generateMetadata() {
 async function ScripturesHubContent() {
   const tHub = await getTranslations("library.hub");
 
-  const [todayFigureRes, eraData, professionCounts, curatedHub, academyState] = await Promise.all([
+  const [todayFigureRes, popular, curatedHub, academyState] = await Promise.all([
     getTodayFigure(),
-    getLibraryByEra(),
-    getProfessionContentCounts(),
+    getChosenLibrary({ page: 1, limit: 6 }),
     getCuratedHub(),
     getAcademyLessonProgressState(),
   ]);
 
   const { figure, contents } = todayFigureRes;
 
-  const allProfessions = professionCounts.map(p => p.profession);
-  const professionContentSamples = await getContentSamplesByProfession(allProfessions, 3);
+  // 자료가 없어 접히는 구획이 있다. 목차와 번호는 "실제로 그려지는 것"만 세야
+  // 눌렀을 때 갈 곳이 있다(HubNav 계약).
+  const shown = new Set<string>([
+    ...(figure && contents ? ["figure"] : []),
+    ...(popular.contents.length ? ["popular"] : []),
+    ...(curatedHub.curators.length > 0 ? ["curated"] : []),
+    "museum",
+    "academy",
+  ]);
+  const sections = LIBRARY_SECTIONS.filter(s => shown.has(s.key));
+  const section = (key: string) => hubSection(sections, LIBRARY_GROUP_ID, key, tHub);
 
   return (
-    <div className="space-y-12 md:space-y-16 mt-4">
-      {/* 1/6 오늘의 인물 */}
+    <div className="space-y-8 pb-20">
+      {/* 목차 줄 — 화면 맨 위. 그려지는 구획만 넘긴다(없는 구획을 가리키면 눌러도 안 굴러간다) */}
+      <HubNav hubItems={hubNavItems(sections, tHub)} groupId={LIBRARY_GROUP_ID} />
+
+      <div className="space-y-12 md:space-y-16 mt-4">
+      {/* 1/5 오늘의 인물 */}
       {figure && contents && (
-        <HubSection {...librarySection("figure", tHub)}>
+        <HubSection {...section("figure")}>
           <FigurePreview figure={figure} contents={contents} />
         </HubSection>
       )}
 
-      {/* 2/6 불후의 명작 */}
-      {eraData && eraData.length > 0 && (
-        <HubSection {...librarySection("era", tHub)}>
-          <EraPreview eras={eraData.map(e => ({
-            era: e.era,
-            label: e.label,
-            period: e.period,
-            description: e.description,
-            celebCount: e.celebCount,
-            contentCount: e.contentCount,
-            topCelebs: e.topCelebs,
-            topContents: e.contents.slice(0, 3).map(c => ({ id: c.id, title: c.title, thumbnail_url: c.thumbnail_url, type: c.type })),
-          }))} />
+      {/* 2/5 인기 작품 — 인물들이 많이 고른 작품 여섯 개를 그대로 보여준다 */}
+      {popular.contents.length > 0 && (
+        <HubSection {...section("popular")}>
+          <PopularPreview contents={popular.contents} />
         </HubSection>
       )}
 
-      {/* 3/6 길의 갈래 */}
-      {professionCounts && professionCounts.length > 0 && (
-        <HubSection {...librarySection("profession", tHub)}>
-          <ProfessionPreview professionCounts={professionCounts} contentSamples={professionContentSamples} />
-        </HubSection>
-      )}
-
-      {/* 4/6 기관 선정 */}
+      {/* 3/5 기관 선정 */}
       {curatedHub.curators.length > 0 && (
-        <HubSection {...librarySection("curated", tHub)}>
+        <HubSection {...section("curated")}>
           <CuratedPreview hub={curatedHub} />
         </HubSection>
       )}
 
-      {/* 5/6 박물관 */}
-      <HubSection {...librarySection("museum", tHub)}>
+      {/* 4/5 박물관 */}
+      <HubSection {...section("museum")}>
         <MuseumPreview />
       </HubSection>
 
-      {/* 6/6 학당 */}
-      <HubSection {...librarySection("academy", tHub)}>
+      {/* 5/5 학당 */}
+      <HubSection {...section("academy")}>
         <AcademyPreview isSignedIn={academyState.isSignedIn} />
       </HubSection>
-    </div>
-  );
-}
-
-export default async function ScripturesPage() {
-  const tHub = await getTranslations("library.hub");
-
-  return (
-    <div className="space-y-8 pb-20">
-      {/* 목차 줄 — SSoT config에서 라벨·순서·번호 동기화 */}
-      <HubNav
-        hubItems={hubNavItems(LIBRARY_SECTIONS, tHub)}
-        groupId={LIBRARY_GROUP_ID}
-      />
-
-      <ScripturesHubContent />
+      </div>
 
       {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
       {/* <PopularBooks /> */}
     </div>
   );
+}
+
+export default function ScripturesPage() {
+  return <ScripturesHubContent />;
 }

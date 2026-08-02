@@ -1,6 +1,6 @@
 /*
   파일명: /app/(main)/library/academy/page.tsx
-  기능: 지혜의 서가 - 학당 카테고리 허브
+  기능: 서가 - 학당 카테고리 허브
   책임: 공개 카테고리 4종(도서/영상/음악/AI) 카드를 표시한다.
 
   상호작용 규약 (docs/project/code-rules.md "상호작용" 절):

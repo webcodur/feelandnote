@@ -75,8 +75,8 @@
   }
 
   /*
-    인물 사진 선명화 — 800px 초상을 50~200px로 줄여 쓰는 자리가 전부라, 그 배율에서
-    잔 디테일이 사라져 뿌옇게 보인다. AI로 다시 그린 초상은 미세 질감이 균질해
+    인물 사진 선명화 — 800px 아바타를 50~200px로 줄여 쓰는 자리가 전부라, 그 배율에서
+    잔 디테일이 사라져 뿌옇게 보인다. AI로 다시 그린 아바타는 미세 질감이 균질해
     더 심하게 뭉갠다(2026-07-28 실측: 실사 394 대 재생성본 346).
 
     필터 정의는 PortraitSharpenFilter가 문서에 한 번 넣는다. base 레이어라
@@ -193,6 +193,19 @@
   .bg-bg-card { background-color: var(--color-bg-card); }
   .bg-accent { background-color: var(--color-accent); }
   .bg-accent-hover { background-color: var(--color-accent-hover); }
+
+  /* 인물 얼굴 사진 뒤에 까는 바탕.
+     아바타는 배경을 지운 그림이라 그냥 두면 뒤가 새까맣게 뚫려 보인다.
+     위에서 은은한 금빛이 내려오는 무대 조명처럼 깔아 카드 색과 잇는다. */
+  .bg-portrait-stage {
+    background:
+      radial-gradient(
+        118% 96% at 50% 8%,
+        color-mix(in srgb, var(--color-accent) 15%, var(--color-bg-card)) 0%,
+        color-mix(in srgb, var(--color-accent) 7%, var(--color-bg-card)) 46%,
+        var(--color-bg-card) 100%
+      );
+  }
 
   /* Text utilities */
   .text-text-primary { color: var(--color-text-primary); }
@@ -526,6 +539,22 @@
   }
 }
 
+/* 홈 영상관 배너 재생 버튼 파문 */
+@keyframes heroPlayRipple {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(1.45);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
 /* Modal Animation utilities */
 .animate-modal-overlay {
   animation: modalOverlayIn 0.15s ease-out;
@@ -552,12 +581,13 @@
   }
 }
 
+/* 열리는 맛은 남기되 기다리는 느낌은 없앤다 — 0.2/0.25초는 손끝에 늦게 붙었다 */
 .animate-bottomsheet-overlay {
-  animation: bottomSheetOverlayIn 0.2s ease-out;
+  animation: bottomSheetOverlayIn 0.12s ease-out;
 }
 
 .animate-bottomsheet-content {
-  animation: bottomSheetContentIn 0.25s ease-out;
+  animation: bottomSheetContentIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Slow Spin Animation (for cosmic effects) */

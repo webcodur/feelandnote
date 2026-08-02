@@ -178,10 +178,9 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/explore/feed', 'daily', 0.7],
   // 서가
   ['/library', 'daily', 0.8],
-  ['/library/era', 'weekly', 0.8],
+  ['/library/popular', 'weekly', 0.8],
   ['/library/museum', 'monthly', 0.7],
   ['/library/academy', 'monthly', 0.7],
-  ['/library/profession', 'weekly', 0.7],
   ['/library/curated', 'weekly', 0.8],
   // 기타
   ['/rest', 'monthly', 0.5],
