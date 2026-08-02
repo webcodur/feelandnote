@@ -1,6 +1,17 @@
 # 부록 A. 세력도감 태그
 
-> **최종 실측 체크: 26.07.27** — 아래 「26.07.27 개편」 절이 그날 바뀐 것 전부다. 그 이전 실측은 26.07.16(DB 스키마 전수, 서버 액션 4종, `components/features/landing/` 컴포넌트 7종, 타입, 라우트, 백오피스 경로).
+> **최종 실측 체크: 26.08.03** — 아래 「26.08.03 단일화」 절이 최신 구조다. 그 이전 실측은 26.07.27(개편 절)·26.07.16(DB 스키마 전수, 서버 액션 4종, `components/features/landing/` 컴포넌트 7종, 타입, 라우트, 백오피스 경로).
+
+## 26.08.03 단일화 — 가장 먼저 읽을 것
+
+복사 구조를 폐기하고 데이터를 한 벌로 줄였다. 이 문서의 나머지 절은 이 변경을 얹어 읽어야 한다. 작업 기록은 `docs/todo/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
+
+- **인물 텍스트(대사 quote·직함 lines[1]·소개 epithet/lines)의 유일 원천은 제작 테이블 `faction_people`이다.** 도감에서 손질하는 값은 같은 행의 `web_*` 칸에 쓴다 — `web_short_desc`/`web_long_desc`(±en)·`web_image_url`·`web_hidden`.
+- **웹·BO 읽기는 DB 뷰 `faction_atlas_members` 하나다.** 제작 유래(`web_*` 손질 우선) ∪ 웹 전용 배정. 태그당 같은 셀럽 중복은 제작 앞자리 배치를 채택하고, `disabled` 인물은 제외한다. 정렬은 제작 순번 우선이고 웹 전용 배정은 10000+ 순번으로 뒤에 선다.
+- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용으로 축소됐다.** 제작 유래 사본 650행은 26.08.03 삭제했다(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+- **「출간」의 텍스트 복사는 폐기됐다.** 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹에 반영된다. 출간 패널은 사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상·음악 업로드 도구로 축소됐다.
+- **노출 결정은 `celeb_tags.is_featured` 스위치 하나다.**
+- **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행 편집은 `web_*` 칸에 기록되고, 제거는 숨김(`web_hidden`)으로 동작하며, 순서 편집은 수동 행 전용이다.
 
 ## 26.07.27 개편 — 먼저 읽을 것
 
@@ -14,10 +25,11 @@
 - 등급 게이트(`LISTING_DEFAULT_TIERS`)는 그대로다 — 신화·관계 등급은 여전히 목록에 안 뜬다
 - BO 편집 화면 인물 줄의 「도감 노출 / 숨김」 단추가 이 값을 바꾼다(`setTagCelebHidden`)
 - 감춘 배정은 DB 조회 단계에서 걸러지므로 인원 상한 자리를 차지하지 않는다
+- **26.08.03부터 이 컬럼은 수동 행 전용이다.** 제작 유래 인물의 숨김은 `faction_people.web_hidden`이 맡고, 뷰 `faction_atlas_members`가 둘을 합쳐 `hidden` 하나로 내놓는다. BO 단추는 출처에 따라 알맞은 칸에 쓴다
 
-### ② 인원 상한 16 → 24
+### ② 인원 상한 16 → 24 (→ 26.07.29에 40)
 
-`getFeaturedTags` 의 `MAX_CELEBS_PER_TAG`. 한 사람이 여러 테마에 겹쳐 드는 일이 정상이 되면서 상한에 걸려 멀쩡한 인물이 조용히 잘려 나갔다(소셜 네트워크의 싸이월드 창업자). 감추는 일은 `hidden` 이 맡고 이 값은 사고 방지용 천장이다.
+`getFeaturedTags` 의 `MAX_CELEBS_PER_TAG`. 한 사람이 여러 테마에 겹쳐 드는 일이 정상이 되면서 상한에 걸려 멀쩡한 인물이 조용히 잘려 나갔다(소셜 네트워크의 싸이월드 창업자). 감추는 일은 `hidden` 이 맡고 이 값은 사고 방지용 천장이다. 26.07.29 신화 팩션 전량 연결 때 **40**으로 재상향했다(북유럽 신화 29명 수용).
 
 ### ③ `team_images` 는 주소 배열이 아니라 「사진 + 담긴 인물」 목록이다
 
@@ -66,6 +78,8 @@
 
 ### celeb_tag_assignments (셀럽-태그 매핑)
 
+> **26.08.03부터 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용이다.** 제작(영상) 유래 인물은 이 테이블에 없다 — 원천은 `faction_people`이고 뷰 `faction_atlas_members`가 두 갈래를 합쳐 준다. 제작 유래 사본 650행은 26.08.03 삭제(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+
 | 컬럼 | 타입 | 필수 | 기본값 | 설명 |
 |------|------|:----:|--------|------|
 | `id` | uuid | ✅ | `gen_random_uuid()` | PK |
@@ -75,9 +89,9 @@
 | `short_desc_en` | text | - | - | 한줄 소개 (영문) |
 | `long_desc` | text | - | - | 이 태그에서 이 인물의 상세 설명 (한국어, 1~2문장) |
 | `long_desc_en` | text | - | - | 상세 설명 (영문) |
-| `faction_image_url` | text | - | - | 이 태그 전용 인물 화보 1장 URL. 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `faction/{tagId}/celeb-{celebId}.webp` |
-| `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저) |
-| `hidden` | boolean | ✅ | `false` | **이 테마에서 이 인물을 감출지**(26.07.27 신설, 위 개편 ①). 셀럽 전역 상태와 무관하다 |
+| `faction_image_url` | text | - | - | 이 태그에서 이 인물의 화보 1장 URL(수동 행 몫. **제작 유래 인물의 개인샷은 `faction_people.web_image_url`**). 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `faction/{tagId}/celeb-{celebId}.webp` |
+| `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저). 뷰에서 웹 전용 배정은 10000+ 순번으로 제작 유래 뒤에 선다 |
+| `hidden` | boolean | ✅ | `false` | **이 테마에서 이 인물을 감출지**(26.07.27 신설, 위 개편 ①). 셀럽 전역 상태와 무관하다. 제작 유래 인물의 숨김은 `faction_people.web_hidden` |
 | `assigned_at` | timestamptz | - | `now()` | 배정 시각 |
 
 ### 관계
@@ -89,6 +103,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 - 1개 태그에 여러 셀럽 배정 가능
 - 1개 셀럽이 여러 태그에 소속 가능
 - `short_desc`/`long_desc`는 **태그-셀럽 관계별**로 다름 (같은 인물이라도 태그마다 다른 설명)
+- **화면·액션이 실제로 읽는 것은 이 테이블이 아니라 뷰 `faction_atlas_members`다**(26.08.03) — 제작 유래(`faction_people`, `web_*` 손질 우선) ∪ 웹 전용 배정을 한 창구로 합쳐, `source`(production/manual)·`person_id`·`assignment_id` 행 식별자까지 실어 준다
 - `celeb_tags`는 **완전 평면**이다. `parent_id` 등 계층 컬럼이 **없다**(2026-07-16 실측). 상위 그룹은 코드 상수로 관리한다 — 아래 "상위 그룹 (코드 상수)" 참조
 
 ---
@@ -108,11 +123,13 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 ### 배정 (celeb_tag_assignments)
 
+> ⚠ 이 절의 직접 배정은 **영상 없는 태그의 수동 명단에만** 해당한다(26.08.03). 영상(제작) 유래 인물은 `faction_people`이 원천이라 배정 행을 만들지 않는다 — 뷰가 자동으로 싣는다. 제작 유래 인물의 소개 손질은 `faction_people.web_short_desc`/`web_long_desc`에 한다.
+
 - `short_desc`: 10자 내외 한줄 수식어. 태그 내에서 이 인물의 역할/정체성
   - 예: "공화정을 끝낸 독재관", "원자폭탄의 아버지"
 - `long_desc`: 1~2문장 상세 설명. 이 인물이 왜 이 태그에 속하는지
 - `sort_order`: 시간순(출생순), 중요도순, 또는 서사 흐름순 중 태그 성격에 맞게 결정
-- 태그당 권장 인원: **5~8명**. 최소 3명. 화면 상한은 **24명**(`getFeaturedTags`의 `MAX_CELEBS_PER_TAG`, 26.07.27에 16에서 상향) — 초과 배정분은 세력도감에 안 뜬다. 감추려면 상한이 아니라 `hidden` 을 쓴다
+- 태그당 권장 인원: **5~8명**. 최소 3명. 화면 상한은 **40명**(`getFeaturedTags`의 `MAX_CELEBS_PER_TAG`, 16→24→40으로 상향) — 초과분은 세력도감에 안 뜬다. 감추려면 상한이 아니라 숨김(수동 행 `hidden` / 제작 행 `web_hidden`)을 쓴다
 - **한 인물이 여러 테마에 드는 것은 정상이다.** 실측 두 테마 13명·세 테마 2명이 이미 그렇게 진열 중이고, 일론 머스크는 다섯 테마에 선다. 겹침을 피하려 인물을 빼지 마라
 
 ---
@@ -129,7 +146,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 | 액션 | 파일 | 역할 |
 |------|------|------|
-| `getFeaturedTags()` | `actions/home/getFeaturedTags.ts` | 태그 + 배정 셀럽(태그당 최대 16명) + 프로필·팔로워·영향력·콘텐츠 수·대사 병렬 조회. 각 태그에 `isGroup`/`parentSlug`를 붙여 반환. `unstable_cache`(태그: TAGS·CELEBS·CONTENTS·DIALOGUES) |
+| `getFeaturedTags()` | `actions/home/getFeaturedTags.ts` | 태그 + 인물(**뷰 `faction_atlas_members` 직독**, 태그당 최대 40명, `hidden=false`만) + 프로필·대사 병렬 조회. 각 태그에 `isGroup`/`parentSlug`를 붙여 반환. `unstable_cache`(태그: TAGS·CELEBS·DIALOGUES) |
 | `getFactionTagName()` | `actions/home/getFactionTagName.ts` | slug → 테마명 단건 조회(상단 배너 breadcrumb용) |
 | `getTagSharedLibrary()` | `actions/home/getTagSharedLibrary.ts` | 태그 내 셀럽 공유 콘텐츠 (2명 이상 겹침, celebCount 내림차순) |
 | `getTagChronologicalLibrary()` | `actions/home/getTagChronologicalLibrary.ts` | 태그 내 셀럽 콘텐츠를 출생 연도순 타임라인으로 (셀럽당 최대 4개, `birth_date` 없는 인물은 제외) |
@@ -238,19 +255,22 @@ export interface FeaturedTag {
   color: string
   slug: string | null
   team_images: FactionTeamImage[]  // 사진마다 {url, label?, labelEn?, celebIds?}
-  celebs: FeaturedCeleb[]          // 태그당 최대 24명(MAX_CELEBS_PER_TAG)
+  celebs: FeaturedCeleb[]          // 태그당 최대 40명(MAX_CELEBS_PER_TAG)
   is_featured: boolean
   parentSlug?: string | null  // 속한 상위 그룹 slug (최상위면 null)
   isGroup?: boolean           // 그룹 헤더 여부
 }
 
-// CelebProfile 확장 — 배정 행(celeb_tag_assignments)에서 온 필드가 붙는다
-export type FeaturedCeleb = CelebProfile & {
+// 독립 인터페이스(CelebProfile 확장 아님). 아래 인물별 필드는 뷰 faction_atlas_members에서 온다(26.08.03 단일화)
+export interface FeaturedCeleb {
+  // …프로필·대사 필드 생략…
   short_desc: string | null
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   faction_image_url: string | null
+  faction_quote: string | null     // 세력도감 영상에서 이 인물이 하는 말 — 원천은 faction_people.quote
+  faction_quote_en: string | null
 }
 ```
 
@@ -293,6 +313,8 @@ ORDER BY nickname;
 
 ### 3단계: 인물 배정
 
+> ⚠ 이 INSERT는 **영상 없는 태그의 수동 명단에만** 쓴다(26.08.03). 영상(제작) 유래 인물은 배정을 만들지 않는다 — `faction_people`이 원천이고 뷰가 자동으로 싣는다.
+
 ```sql
 INSERT INTO celeb_tag_assignments (tag_id, celeb_id, short_desc, long_desc, sort_order)
 VALUES
@@ -310,9 +332,9 @@ RETURNING celeb_id, short_desc;
 ### 4단계: 검증
 
 ```sql
--- 태그별 배정 현황 확인
-SELECT t.name, p.nickname, a.short_desc, a.long_desc
-FROM celeb_tag_assignments a
+-- 태그별 인물 현황 확인 — 조회는 뷰로 한다(제작 유래 + 수동 배정 합산)
+SELECT t.name, p.nickname, a.short_desc, a.long_desc, a.source
+FROM faction_atlas_members a
 JOIN celeb_tags t ON t.id = a.tag_id
 JOIN profiles p ON p.id = a.celeb_id
 WHERE t.id = '태그ID'
@@ -330,6 +352,7 @@ UPDATE celeb_tags SET is_featured = true WHERE id = '태그ID';
 ### 6단계: 영문 번역 (선택)
 
 ```sql
+-- 수동 행 전용. 제작 유래 인물은 faction_people.web_short_desc_en/web_long_desc_en에 쓴다
 UPDATE celeb_tag_assignments SET
   short_desc_en = 'English short desc',
   long_desc_en = 'English long desc'
@@ -344,7 +367,7 @@ WHERE tag_id = '태그ID' AND celeb_id = '셀럽ID';
 
 - [ ] `celeb_tags` INSERT 완료 (name, name_en, description, description_en, color)
 - [ ] 후보 인물 전원 `profiles` 테이블에 등록 확인
-- [ ] `celeb_tag_assignments` INSERT 완료 (전원 short_desc, long_desc 작성)
+- [ ] 인물 채움 확인 — 영상 유래는 제작(`faction_people`)에서 자동, 수동 명단만 `celeb_tag_assignments` INSERT (전원 short_desc, long_desc 작성)
 - [ ] sort_order 정렬 기준 결정 및 적용
 - [ ] 기존 태그 색상과 중복되지 않는 color 확인
 - [ ] 인원 5~8명 범위 확인

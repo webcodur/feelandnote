@@ -295,7 +295,7 @@
 ### 넣는 법
 
 ```
-node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-image-from-wikimedia.ts \
+node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-avatar.ts \
   --celeb-id <uuid> --slug <slug> --image-url "https://..." \
   --source-note "<신원·편집 설명>" --identity-evidence "https://공식·기관·본인 페이지"
 ```

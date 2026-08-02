@@ -13,9 +13,10 @@
 - 현대 인물 특수 보류: `celeb-avatar-modern-targets.md`
 - 로컬 자산 정책: `celeb-avatar-local-assets.md`
 - 기계 판독 큐: `.tmp/celeb-avatar-audit-queue.json`
+- **초상 구도 규격(SSoT)**: `docs/project/celeb-avatar-spec.md`
 - 이미지 규격: `docs/project/db-celeb.md`
 - 배경 제거: `.agents/skills/nobg-cutout/SKILL.md`
-- 자동 등록 규칙: `.agents/skills/celeb-avatar-wikimedia/SKILL.md`
+- 자동 등록 규칙: `.agents/skills/celeb-avatar-register/SKILL.md`
 
 2026-07-30 현재 문서·큐 실측:
 
@@ -42,29 +43,6 @@
 6. R2 파일 재다운로드 후 로컬 업로드 사본과 SHA-256 일치 확인
 7. `celebs` 캐시 무효화
 8. 원본·REF·생성본·누끼본·최종본·업로드 미리보기 즉시 삭제
-
-### 류현진 — 완료
-
-- slug: `hyun-jin-ryu`
-- profile id: `bd04ee3a-3965-4123-b4af-9fe99d8150f5`
-- 결함: KBO 공식 원본이 94×118뿐인데 800으로 확대된 극저화질
-- 신원 근거: `https://www.mlb.com/player/hyun-jin-ryu-547943`
-- 사용 원본: MLB 공식 선수 ID 547943의 1600×2404 컬러 로스터 사진
-- 최종 URL: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/bd04ee3a-3965-4123-b4af-9fe99d8150f5/avatar.webp?v=1785398728858`
-- 역검증 SHA-256: `5b3755598eaca3814d55d14f381764110a2e36032cdff296b89fc12bbc7aef2c`
-- 판정: 정면, 모자 포함, 양쪽 어깨, 높은 유니폼 목선, 손·소품·쇄골 노출 없음
-
-### 조니 뎁 — 완료
-
-- slug: `johnny-depp`
-- profile id: `fab95183-992a-4771-b7ee-8c9d4c37bee1`
-- 결함: 실제 본인이지만 저해상도·거친 누끼 때문에 가상 합성 인물처럼 보였음
-- 신원 근거: `https://www.sansebastianfestival.com/fototeca/?year=2021`
-- 사용 원본: 산세바스티안국제영화제 2021 공식 사진관의 Premio Donostia 수상자 Johnny Depp 사진 `img_36604.jpg`(1000×666)
-- 최종 URL: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/fab95183-992a-4771-b7ee-8c9d4c37bee1/avatar.webp?v=1785399476131`
-- 역검증 SHA-256: `d7bc9bc0a915b2c17e7aac1ca45fb0022ae4d75d42f274828dc8eaaf571b07d1`
-- 판정: 실제 본인 정면, 검은 셔츠·넥타이로 쇄골 완전 차폐, 양쪽 어깨, 안경·머리카락 누끼 양호
-- 참고: 처음 올린 품질 95 버전은 즉시 같은 R2 키의 품질 100 버전으로 덮어썼다. 위 URL만 최종본이다.
 
 ### 카밀로 호세 셀라 — 완료
 
@@ -295,16 +273,19 @@
 
 ### 서비스 초상 규격
 
+- **프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`가 단일원천이다.** 아래는 요약이며, 충돌하면 그 문서를 따른다.
+- 화면을 100단위로 볼 때 눈높이 46 · 턱끝 81 · 콧대 가로 50(목표값. 판정 허용은 SSoT §1).
+- **머리 위는 자유다.** 머리카락·모자·투구·관모가 화면 위로 잘려도 무방하다. 다만 이마·눈썹·귀 등 얼굴 자체가 잘리면 불합격이다.
+- **턱 아래도 자유다.** 맨 목·옷깃·러프·관복 깃·투구 목가리개·갑옷 어깨보호구·긴 머리카락 무엇이 채워도 되고, 어깨가 아예 안 보여도 된다. 어깨를 담으려고 카메라를 빼지 않는다. 턱 아래가 텅 비어 원형 안에 머리만 떠 보이는 것만 불합격이다.
 - 고대인까지 모두 21세기 고급 카메라로 촬영한 듯한 컬러 하이퍼리얼리스틱 결과가 목표다.
 - 흑백사진·회화·조각·동전을 그대로 최종 서비스 이미지로 쓰지 않는다.
 - 한 사람 계정은 한 명, 형제·듀오·집단 계정은 실제 구성원을 모두 표시한다.
-- 정면 또는 아주 약한 3/4, 카메라 응시를 기본으로 한다.
-- 머리 전체와 양쪽 **상부 어깨**는 보이되 프레임은 어깨선에서 끝낸다.
+- 정면~3/4 15도 이내, 카메라 응시를 기본으로 한다.
 - 쇄골·가슴·긴 몸통은 보이지 않게 하고 높은 닫힌 목선으로 가린다.
 - 손, 마이크, 헤드셋, 책, 공, 휴대전화, 무기 등 불필요한 소품을 넣지 않는다.
 - 너무 멀거나 얼굴만 과도하게 확대된 구도 모두 탈락이다.
 - 최종본: 800×800 RGBA WebP.
-- 문서 기본값은 품질 95지만 사용자가 저장 품질을 특별히 강조했으므로, 이번 재개 작업은 파일 크기가 비정상적이지 않으면 **품질 100**을 우선한다.
+- 저장 품질은 **95**다(SSoT §6). 2026-08-01 기준 모든 등록 경로가 95로 통일됐으므로, 아래 §5 절차의 업로드 명령도 100에서 95로 고쳤다. 이전 회차 기록에 남은 품질 100은 그 세션 한정 판단이었고 기본값이 아니다.
 
 ## 5. 인물 한 명 처리 절차
 
@@ -327,11 +308,11 @@ uv run --with "rembg[cpu]>=2.0" --with "pillow>=10.0" python batch_nobg.py rembg
    - 밝은 배경
    - 서비스에 가까운 어두운 배경 `#0a0a0a`
    - 원형 크롭
-8. `upload-celeb-image-from-wikimedia.ts`의 로컬 파일 모드로만 업로드한다.
+8. `upload-celeb-avatar.ts`의 로컬 파일 모드로만 업로드한다.
 
 ```powershell
 cd C:\project\feelandnote\sw\web-bo
-pnpm.cmd exec tsx scripts/upload-celeb-image-from-wikimedia.ts `
+pnpm.cmd exec tsx scripts/upload-celeb-avatar.ts `
   --celeb-id '<UUID>' `
   --slug '<slug>' `
   --image-file '<최종 webp 절대경로>' `
@@ -339,7 +320,7 @@ pnpm.cmd exec tsx scripts/upload-celeb-image-from-wikimedia.ts `
   --source-note '<신원 근거, 원본, 편집·재구성 방식의 구체적 설명>' `
   --face-detect false `
   --size 800 `
-  --quality 100 `
+  --quality 95 `
   --preview-path '<업로드 사본 절대경로>'
 ```
 
