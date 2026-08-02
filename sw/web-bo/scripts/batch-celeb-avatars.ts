@@ -2,24 +2,27 @@
  * 셀럽 아바타 일괄 등록 — Wikidata QID → P18 → Commons → 얼굴감지 크롭 → R2 → profiles.avatar_url
  *
  * 사용법 (sw/web-bo 디렉토리에서):
- *   pnpm tsx scripts/batch-celeb-wikimedia-avatars.ts \
+ *   pnpm tsx scripts/batch-celeb-avatars.ts \
  *     [--targets-file path/to/targets.tsv] \
  *     [--only slug1,slug2,...] \
  *     [--dry-run]
  *
  * targets는 "slug<TAB>profile_id" 형식. --targets-file 미지정 시 스크립트 내 DEFAULT_TARGETS 사용.
  *
+ * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb-avatar-spec.md §1·§6이고,
+ * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 단건 등록기와 같은 구현을 쓴다.
+ *
  * 흐름:
  *   1) DB에서 영문명·기존 QID 조회
  *   2) QID 없으면 wbsearchentities로 검색 후 채택
  *   3) wbgetentities로 P18(image) 가져옴
  *   4) Commons imageinfo로 원본 URL + 라이선스 조회. 부적합 라이선스면 스킵
- *   5) 원본 다운로드 → face-api SSD MobileNet으로 얼굴 박스 검출
- *   6) 가장 큰 얼굴 기준 정사각형 영역 산출 → sharp.extract 좌표 크롭 → 800×800 webp
+ *   5) 원본 다운로드 → face-api SSD MobileNet 검출 + 68점 랜드마크로 눈·턱 좌표 추출
+ *   6) avatar-geometry가 눈·턱 거리로 정사각 좌표 산출 → sharp.extract 좌표 크롭 → 800×800 webp(q=95)
  *   7) R2 PUT celebs/{profile_id}/avatar.webp → profiles.avatar_url 갱신 + wikidata_qid 보강
- *   8) credits.log 누적
+ *   8) credits.log 누적 — 규격 이탈 경고도 함께 적는다
  *
- * 얼굴 미감지 → entropy fallback 크롭 + 보고에 face_not_detected 표기.
+ * 얼굴 미검출 → 그 인물만 실패로 집계하고 건너뛴다(대체 크롭으로 올리지 않는다). 전체는 계속 돈다.
  */
 
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
@@ -30,6 +33,13 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
+import {
+  computeCropFromBox,
+  computeCropFromLandmarks,
+  judgeGeometry,
+  type CropResult,
+  type FaceAnchors,
+} from '../src/lib/avatar-geometry'
 // vladmandic의 기본 entry는 tfjs-node를 require하므로 node-wasm 빌드로 직접 import.
 import type { TNetInput } from '@vladmandic/face-api'
 import { createRequire } from 'module'
@@ -341,7 +351,7 @@ async function downloadImage(url: string): Promise<Buffer> {
   return Buffer.from(await res.arrayBuffer())
 }
 
-// ─── face-api 모델 로드 ───────────────────────────────────────
+// ─── face-api 모델 로드 (SSD MobileNet + 68점 랜드마크) ────────
 let modelsLoaded = false
 async function ensureFaceModels() {
   if (modelsLoaded) return
@@ -357,16 +367,20 @@ async function ensureFaceModels() {
     throw new Error(`face-api 모델 디렉토리 없음: ${modelDir}`)
   }
   await faceapi.nets.ssdMobilenetv1.loadFromDisk(modelDir)
+  // 눈·턱 좌표를 직접 재려면 랜드마크 모델이 필요하다. 규격 기하의 기준점이다.
+  await faceapi.nets.faceLandmark68Net.loadFromDisk(modelDir)
   modelsLoaded = true
 }
 
-// ─── 얼굴 박스 검출 (가장 큰 얼굴) ─────────────────────────────
+// ─── 얼굴 검출 + 랜드마크 (가장 큰 얼굴) ───────────────────────
 interface DetectedFace {
   x: number
   y: number
   width: number
   height: number
   score: number
+  /** 눈·턱끝 좌표(원본 픽셀 기준). 랜드마크를 못 얻으면 null이고 상자 폴백으로 넘어간다 */
+  anchors: FaceAnchors | null
 }
 
 async function detectLargestFace(
@@ -395,52 +409,115 @@ async function detectLargestFace(
       minConfidence: 0.4,
       maxResults: 10,
     })
+    // 디텍션은 다운스케일 좌표. 원본 비율로 환원.
+    const inv = 1 / scale
+
+    // 눈·턱을 직접 재는 기본 경로. 랜드마크 단계가 터지면 상자만으로 후퇴한다.
+    const withLandmarks = await faceapi
+      .detectAllFaces(tensor, options)
+      .withFaceLandmarks()
+      .run()
+      .catch((e: unknown) => {
+        console.warn(
+          `     [경고] 랜드마크 검출 실패 → 상자 기준으로 후퇴: ${e instanceof Error ? e.message : String(e)}`
+        )
+        return null
+      })
+
+    if (withLandmarks) {
+      if (withLandmarks.length === 0) return null
+      const sorted = [...withLandmarks].sort(
+        (a, b) => b.detection.box.area - a.detection.box.area
+      )
+      const best = sorted[0]
+      const box = best.detection.box
+      const lm = best.landmarks
+      const eyePoints = [...lm.getLeftEye(), ...lm.getRightEye()]
+      const eyeX = eyePoints.reduce((s, p) => s + p.x, 0) / eyePoints.length
+      const eyeY = eyePoints.reduce((s, p) => s + p.y, 0) / eyePoints.length
+      // 턱끝 = 턱 윤곽선의 가운데 점(68점 규약의 8번)
+      const jaw = lm.getJawOutline()
+      const chin = jaw[Math.floor(jaw.length / 2)]
+      return {
+        x: box.x * inv,
+        y: box.y * inv,
+        width: box.width * inv,
+        height: box.height * inv,
+        score: best.detection.score,
+        anchors: { eyeX: eyeX * inv, eyeY: eyeY * inv, chinY: chin.y * inv },
+      }
+    }
+
     const detections = await faceapi.detectAllFaces(tensor, options)
     if (detections.length === 0) return null
     detections.sort((a, b) => b.box.area - a.box.area)
     const best = detections[0]
-    // 디텍션은 다운스케일 좌표. 원본 비율로 환원.
-    const inv = 1 / scale
     return {
       x: best.box.x * inv,
       y: best.box.y * inv,
       width: best.box.width * inv,
       height: best.box.height * inv,
       score: best.score,
+      anchors: null,
     }
   } finally {
     ;(tensor as unknown as { dispose?: () => void }).dispose?.()
   }
 }
 
-// ─── 얼굴 박스 기준 정사각형 영역 계산 ──────────────────────────
-function computeSquareCrop(
-  face: DetectedFace,
-  imgWidth: number,
-  imgHeight: number
-): { left: number; top: number; size: number } {
-  // 얼굴 중심
-  const cx = face.x + face.width / 2
-  // 얼굴 중심을 약간 위쪽으로 보정(이마/머리카락 포함). 박스가 통상 눈썹~턱이라 중심이 코 근처.
-  const cy = face.y + face.height * 0.5
-  // 정사각형 크기는 얼굴 박스의 큰 변의 2.2배 (얼굴이 가운데 55% 정도 차지)
-  const baseSize = Math.max(face.width, face.height)
-  const target = baseSize * 2.2
-  // 이미지 경계 안에 들도록 크기 축소 가능
-  const maxSize = Math.min(imgWidth, imgHeight)
-  const size = Math.min(target, maxSize)
-  const half = size / 2
-  const left = Math.max(0, Math.min(imgWidth - size, cx - half))
-  const top = Math.max(0, Math.min(imgHeight - size, cy - half))
-  return { left: Math.round(left), top: Math.round(top), size: Math.round(size) }
+// ─── 규격 좌표 산출 (계산은 avatar-geometry가 한다) ─────────────
+function resolveCrop(face: DetectedFace, imgW: number, imgH: number): CropResult {
+  const box = { x: face.x, y: face.y, width: face.width, height: face.height }
+  if (!face.anchors) return computeCropFromBox(box, imgW, imgH)
+  try {
+    const crop = computeCropFromLandmarks(face.anchors, imgW, imgH)
+    const verdict = judgeGeometry(face.anchors, crop)
+    if (!verdict.pass) crop.warnings.push(`규격 이탈: ${verdict.faults.join(' / ')}`)
+    return crop
+  } catch (e) {
+    console.warn(
+      `     [경고] 랜드마크 좌표가 이상해 상자 기준으로 후퇴: ${e instanceof Error ? e.message : String(e)}`
+    )
+    return computeCropFromBox(box, imgW, imgH)
+  }
 }
 
-// ─── 800×800 webp 변환 (얼굴 우선 / fallback entropy) ──────────
+/** 반올림 뒤에도 잘라낼 영역이 원본 안에 있도록 마지막으로 조인다. */
+function toExtractArea(
+  crop: CropResult,
+  imgW: number,
+  imgH: number
+): { left: number; top: number; size: number } {
+  const size = Math.min(crop.size, imgW, imgH)
+  return {
+    left: Math.max(0, Math.min(imgW - size, crop.left)),
+    top: Math.max(0, Math.min(imgH - size, crop.top)),
+    size,
+  }
+}
+
+/** 얼굴을 못 찾으면 던진다 — 호출부가 그 인물만 실패로 집계한다. */
+class FaceNotDetectedError extends Error {
+  constructor() {
+    super(
+      '얼굴을 찾지 못했다 (SSD MobileNet, minConfidence 0.4). '
+      + '얼굴 위치를 보장할 수 없어 대체 크롭으로 올리지 않고 건너뛴다.'
+    )
+    this.name = 'FaceNotDetectedError'
+  }
+}
+
+// ─── 800×800 webp 변환 (얼굴 못 찾으면 실패) ───────────────────
 async function toAvatarWebp(
   input: Buffer,
   meta: CommonsMeta,
   commonsFile: string
-): Promise<{ buf: Buffer; faceDetected: boolean; faceScore: number | null }> {
+): Promise<{
+  buf: Buffer
+  faceScore: number
+  cropBasis: CropResult['basis']
+  warnings: string[]
+}> {
   const rotated = await sharp(input, { limitInputPixels: false }).rotate().toBuffer()
   const metaInfo = await sharp(rotated, { limitInputPixels: false }).metadata()
   const W = metaInfo.width ?? 0
@@ -450,6 +527,8 @@ async function toAvatarWebp(
   }
 
   const face = await detectLargestFace(rotated)
+  if (!face) throw new FaceNotDetectedError()
+
   const description = `Source: ${meta.descriptionUrl} | License: ${meta.licenseShortName} | Artist: ${meta.artist} | File: ${commonsFile}`
   const exifBlock = {
     exif: {
@@ -461,29 +540,29 @@ async function toAvatarWebp(
     },
   } as const
 
-  if (face) {
-    const { left, top, size } = computeSquareCrop(face, W, H)
-    const buf = await sharp(rotated, { limitInputPixels: false })
-      .extract({ left, top, width: size, height: size })
-      .resize(800, 800, { fit: 'cover' })
-      .withMetadata(exifBlock)
-      .webp({ quality: 85 })
-      .toBuffer()
-    return { buf, faceDetected: true, faceScore: face.score }
-  }
-
-  // fallback: entropy 크롭
+  const crop = resolveCrop(face, W, H)
+  const { left, top, size } = toExtractArea(crop, W, H)
   const buf = await sharp(rotated, { limitInputPixels: false })
-    .resize(800, 800, { fit: 'cover', position: sharp.strategy.entropy })
+    .extract({ left, top, width: size, height: size })
+    .resize(800, 800, { fit: 'cover' })
     .withMetadata(exifBlock)
-    .webp({ quality: 85 })
+    .webp({ quality: 95 })
     .toBuffer()
-  return { buf, faceDetected: false, faceScore: null }
+  return { buf, faceScore: face.score, cropBasis: crop.basis, warnings: crop.warnings }
 }
 
 // ─── 인물 1명 처리 ─────────────────────────────────────────────
 type Outcome =
-  | { kind: 'uploaded'; url: string; license: string; faceScore: number | null; faceFallback: boolean }
+  | {
+      kind: 'uploaded'
+      url: string
+      license: string
+      faceScore: number
+      /** 눈·턱으로 쟀는지, 상자로 후퇴했는지 */
+      cropBasis: CropResult['basis']
+      /** 규격을 벗어난 지점. 비어 있지 않으면 결과 로그에 남긴다 */
+      warnings: string[]
+    }
   | { kind: 'skipped'; reason: string; detail?: string }
 
 interface ProfileRow {
@@ -609,9 +688,25 @@ async function processOne(
     }
   }
 
-  // 4. 다운로드 + 얼굴 감지 크롭
+  // 4. 다운로드 + 규격 크롭. 얼굴을 못 찾으면 이 인물만 실패로 떨어뜨린다.
   const original = await downloadImage(meta.url)
-  const { buf, faceDetected, faceScore } = await toAvatarWebp(original, meta, detail.commonsFile)
+  let cropped: Awaited<ReturnType<typeof toAvatarWebp>>
+  try {
+    cropped = await toAvatarWebp(original, meta, detail.commonsFile)
+  } catch (e) {
+    if (e instanceof FaceNotDetectedError) {
+      return {
+        kind: 'skipped',
+        reason: 'face_not_detected',
+        detail: `${e.message} | ${meta.descriptionUrl}`,
+      }
+    }
+    throw e
+  }
+  const { buf, faceScore, cropBasis, warnings } = cropped
+  for (const w of warnings) {
+    console.warn(`     [규격 경고] ${w}`)
+  }
 
   if (dryRun) {
     // 미리보기 저장 (스크립트 옆 /tmp/celeb-preview/<slug>.webp)
@@ -629,7 +724,8 @@ async function processOne(
       url: `[dry-run] ${meta.descriptionUrl}`,
       license: meta.licenseShortName,
       faceScore,
-      faceFallback: !faceDetected,
+      cropBasis,
+      warnings,
     }
   }
 
@@ -654,7 +750,8 @@ async function processOne(
 
   // 7. 로그
   const ts = new Date().toISOString()
-  const line = `${ts} | ${slug} | ${meta.descriptionUrl} | ${meta.licenseShortName} | ${meta.artist} | face=${faceDetected ? `score=${faceScore?.toFixed(3)}` : 'NOT_DETECTED'}\n`
+  const warnTag = warnings.length > 0 ? ` | warn=${warnings.join(' ; ')}` : ''
+  const line = `${ts} | ${slug} | ${meta.descriptionUrl} | ${meta.licenseShortName} | ${meta.artist} | face=score=${faceScore.toFixed(3)}_basis=${cropBasis}${warnTag}\n`
   appendFileSync(resolve(__dirname, 'celeb-image-credits.log'), line, 'utf-8')
 
   return {
@@ -662,7 +759,8 @@ async function processOne(
     url: publicUrl,
     license: meta.licenseShortName,
     faceScore,
-    faceFallback: !faceDetected,
+    cropBasis,
+    warnings,
   }
 }
 
@@ -820,9 +918,8 @@ async function main() {
       rows.push({ slug, profileId, outcome })
       const tag =
         outcome.kind === 'uploaded'
-          ? outcome.faceFallback
-            ? `WARN face_not_detected → entropy fallback`
-            : `OK face score=${outcome.faceScore?.toFixed(3)}`
+          ? `OK face score=${outcome.faceScore.toFixed(3)} 기준=${outcome.cropBasis === 'landmarks' ? '눈·턱' : '상자(폴백)'}`
+            + (outcome.warnings.length > 0 ? ` | 규격 경고 ${outcome.warnings.length}건` : '')
           : `SKIP ${outcome.reason}`
       console.log(`     ${tag}`)
     } catch (e) {
@@ -845,14 +942,16 @@ async function main() {
     let status: string
     let detail: string
     if (r.outcome.kind === 'uploaded') {
-      if (r.outcome.faceFallback) {
-        status = 'WARN face_not_detected'
+      if (r.outcome.warnings.length > 0) {
+        status = 'WARN 규격 이탈'
         warnCount++
       } else {
         status = 'OK uploaded'
       }
       okCount++
-      detail = r.outcome.url
+      detail = r.outcome.warnings.length > 0
+        ? `${r.outcome.url} | ${r.outcome.warnings.join(' ; ')}`
+        : r.outcome.url
     } else if (r.outcome.kind === 'skipped') {
       status = `FAIL ${r.outcome.reason}`
       detail = r.outcome.detail ?? ''
@@ -864,7 +963,7 @@ async function main() {
     }
     console.log(`| ${r.slug} | ${status} | ${detail} |`)
   }
-  console.log(`\n성공: ${okCount} / 경고(얼굴 미검출): ${warnCount} / 실패: ${failures.length}`)
+  console.log(`\n성공: ${okCount} / 경고(규격 이탈): ${warnCount} / 실패: ${failures.length}`)
   if (failures.length) {
     console.log('\n실패 명단:')
     for (const f of failures) console.log('  -', f)
@@ -872,12 +971,12 @@ async function main() {
 
   // ─── 분류별 명단 요약 ────────────────────────────────────────
   const successSlugs: string[] = []
-  const fallbackSlugs: string[] = []
+  const warnedSlugs: string[] = []
   const byReason: Record<string, string[]> = {}
   for (const r of rows) {
     if (r.outcome.kind === 'uploaded') {
       successSlugs.push(r.slug)
-      if (r.outcome.faceFallback) fallbackSlugs.push(r.slug)
+      if (r.outcome.warnings.length > 0) warnedSlugs.push(r.slug)
     } else if (r.outcome.kind === 'skipped') {
       ;(byReason[r.outcome.reason] ||= []).push(r.slug)
     } else {
@@ -886,7 +985,7 @@ async function main() {
   }
   console.log('\n===== 분류별 요약 =====')
   console.log(`성공 (${successSlugs.length}): ${successSlugs.join(', ')}`)
-  console.log(`얼굴 미검출 폴백 (${fallbackSlugs.length}): ${fallbackSlugs.join(', ')}`)
+  console.log(`규격 경고 동반 (${warnedSlugs.length}): ${warnedSlugs.join(', ')}`)
   for (const k of Object.keys(byReason)) {
     console.log(`실패[${k}] (${byReason[k].length}): ${byReason[k].join(', ')}`)
   }
@@ -901,10 +1000,10 @@ async function main() {
         {
           total: rows.length,
           success: successSlugs.length,
-          faceFallback: fallbackSlugs.length,
+          warned: warnedSlugs.length,
           failures: failures.length,
           successSlugs,
-          fallbackSlugs,
+          warnedSlugs,
           byReason,
           details: rows.map((r) => ({ slug: r.slug, profileId: r.profileId, outcome: r.outcome })),
         },

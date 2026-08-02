@@ -7,7 +7,7 @@
  * ## 왜 함수를 옮겨오지 않고 기존 스크립트를 그대로 돌리나
  *
  * 얼굴 찾기·정사각 크롭·webp 변환·저장소 올리기·프로필 갱신 절차는 이미
- * `scripts/upload-celeb-image-from-wikimedia.ts` 의 `--image-file` 갈래가 전부 갖고 있다.
+ * `scripts/upload-celeb-avatar.ts` 의 `--image-file` 갈래가 전부 갖고 있다.
  * 그 스크립트는 **명령줄 전제**다 — 인자를 `process.argv` 로 읽고 실패에 `process.exit` 하며,
  * 불러오는 순간 `main()` 이 돌고, 설정값을 `process.env` 가 아니라 `.env` 파일에서 직접 읽는다.
  * 게다가 얼굴 찾기가 tfjs wasm 백엔드를 `node_modules` 경로로 직접 잡고
@@ -159,7 +159,7 @@ export async function promoteSoloShotToAvatar(
   }
 
   const { code, log } = await runScript([
-    path.join('scripts', 'upload-celeb-image-from-wikimedia.ts'),
+    path.join('scripts', 'upload-celeb-avatar.ts'),
     '--celeb-id', celebId,
     '--slug', (profile.slug as string) || (person.slug as string) || celebId,
     '--image-file', image.abs,
