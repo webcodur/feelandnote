@@ -1,0 +1,338 @@
+{
+  "curator": {
+    "slug": "cambridge-philosophy",
+    "name": "케임브리지대 철학과",
+    "name_en": "University of Cambridge, Faculty of Philosophy",
+    "kind": "university",
+    "country": "GB",
+    "founded_year": null,
+    "homepage_url": "https://www.phil.cam.ac.uk",
+    "description": "케임브리지대학교 철학과는 학부 과정인 철학 트라이포스(Philosophy Tripos)와 대학원 과정을 운영하는 학과다. 형이상학·인식론·논리학·윤리학·정치철학·과학철학·심리철학을 두루 가르친다. 학과 홈페이지를 통해 재학생용 과목별 참고문헌과 별도로 예비 학생용 사전 독서 목록을 공개한다.",
+    "description_en": "The Faculty of Philosophy at the University of Cambridge teaches the undergraduate Philosophy Tripos alongside its graduate programmes. Its coverage spans metaphysics, epistemology, logic, ethics, political philosophy, philosophy of science and philosophy of mind. Besides course reading lists for enrolled students, the Faculty publishes a suggested preliminary reading list on its website for prospective students."
+  },
+  "list": {
+    "slug": "cambridge-philosophy-reading",
+    "title": "케임브리지대 철학과 추천도서",
+    "title_en": "University of Cambridge Philosophy Reading List",
+    "description": "케임브리지대 철학과가 「Philosophy Reading List」라는 제목으로 공개한 사전 독서 목록이다. 학과는 이 목록을 \"대학에서 철학을 공부할 계획이 있는 사람이라면 누구나 읽어볼 만한 책과 팟캐스트 목록\"이라고 밝혀, 케임브리지 지원자에 한정하지 않고 철학 전공을 준비하는 일반 독자까지 대상으로 삼는다. 다만 케임브리지에 입학하는 학생은 소속 칼리지의 학업지도교수(Director of Studies)에게 개별 조언을 받을 수 있으며 그 조언이 이 목록보다 우선한다고 명시했다.",
+    "description_en": "This is the preliminary reading list published by the Cambridge Faculty of Philosophy under the title \"Philosophy Reading List\". The Faculty describes it as \"a list of books and podcasts that anyone planning to study philosophy at university should find worthwhile\", so it is aimed at anyone preparing to study the subject rather than at Cambridge applicants alone. The Faculty adds that those coming to Cambridge may receive individual advice on preparatory reading from their college Director of Studies, and that such advice should take precedence.",
+    "published_year": 2023,
+    "edition": "Last updated July 2023",
+    "method": "학과가 예비 학생·일반 독자를 위해 직접 고른 비순위 목록이다. 출처에 적힌 선정 기준은 \"대학에서 철학을 공부할 계획이 있는 사람이라면 누구나 읽어볼 만한 것\"이라는 한 줄뿐이며, 투표·심사 같은 절차 설명은 없다. 항목은 철학 입문, 팟캐스트, 형이상학·심리철학·인식론, 논리학·언어철학, 윤리학·정치철학, 과학철학, 철학 고전의 7개 항목으로 묶여 있고, 고전 항목에는 \"아무 판본이나 써도 되며 일부는 인터넷에서 무료로 구할 수 있다\"는 안내가 붙어 있다.",
+    "method_en": "An unranked list selected by the Faculty itself for prospective students and general readers. The only selection criterion stated in the source is that the items are ones \"anyone planning to study philosophy at university should find worthwhile\"; no voting or judging process is described. Entries are grouped under seven headings: Introductions to Philosophy, Podcasts, Metaphysics/Philosophy of Mind and Epistemology, Logic and Language, Ethics and Political Philosophy, Philosophy of Science, and Some Philosophy Classics. The classics section notes that readers may \"use any edition available\" and that some are freely available on the internet.",
+    "source_url": "https://www.phil.cam.ac.uk/system/files/suggested_preliminary_readings_updated_july_2023.pdf",
+    "is_ranked": false,
+    "is_annual": false,
+    "content_type": "BOOK",
+    "topics": ["philosophy"]
+  },
+  "items": [
+    {
+      "raw_title": "Ancient Philosophy: A very short introduction",
+      "raw_creator": "Julia Annas",
+      "rank": null,
+      "year": 2000,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Oxford University Press"
+    },
+    {
+      "raw_title": "Think",
+      "raw_creator": "Simon Blackburn",
+      "rank": null,
+      "year": 2001,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Oxford University Press"
+    },
+    {
+      "raw_title": "The Philosopher Queens: The lives and legacies of philosophy's unsung women",
+      "raw_creator": "Rebecca Buxton and Lisa Whiting (editors)",
+      "rank": null,
+      "year": 2020,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Unbound"
+    },
+    {
+      "raw_title": "The Stone Reader: Modern philosophy in 133 arguments",
+      "raw_creator": "Peter Catapano and Simon Critchley",
+      "rank": null,
+      "year": 2016,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Liveright"
+    },
+    {
+      "raw_title": "Philosophy: A very short introduction",
+      "raw_creator": "Edward Craig",
+      "rank": null,
+      "year": 2002,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Oxford University Press"
+    },
+    {
+      "raw_title": "The Philosophy Bites series",
+      "raw_creator": "David Edmonds and Nigel Warburton; Suki Finn",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Oxford University Press. 출처는 시리즈 단위로 적었다 — Philosophy Bites, Philosophy Bites Back, Philosophy Bites Again (David Edmonds and Nigel Warburton), Women of Ideas (Suki Finn). 같은 이름의 팟캐스트와 별개인 도서 시리즈 항목이다."
+    },
+    {
+      "raw_title": "What is Philosophy for?",
+      "raw_creator": "Mary Midgley",
+      "rank": null,
+      "year": 2018,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Bloomsbury Academic"
+    },
+    {
+      "raw_title": "What Does It All Mean?",
+      "raw_creator": "Thomas Nagel",
+      "rank": null,
+      "year": 1987,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Oxford University Press"
+    },
+    {
+      "raw_title": "The Norton Introduction to Philosophy",
+      "raw_creator": "Gideon Rosen et al.",
+      "rank": null,
+      "year": 2018,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / W. W. Norton & Co., Second edition"
+    },
+    {
+      "raw_title": "The Problems of Philosophy",
+      "raw_creator": "Bertrand Russell",
+      "rank": null,
+      "year": 2001,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Oxford University Press, Second edition"
+    },
+    {
+      "raw_title": "A History of Women Philosophers",
+      "raw_creator": "Mary Ellen Waithe (editor)",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 입문 (Introductions to Philosophy) / Springer, 1987-1994"
+    },
+    {
+      "raw_title": "Free Will: An introduction",
+      "raw_creator": "Helen Beebee",
+      "rank": null,
+      "year": 2013,
+      "note": "분류: 형이상학·심리철학·인식론 (Metaphysics, Philosophy of Mind and Epistemology) / Palgrave Macmillian"
+    },
+    {
+      "raw_title": "Riddles of Existence",
+      "raw_creator": "Earl Conee and Theodore Sider",
+      "rank": null,
+      "year": 2014,
+      "note": "분류: 형이상학·심리철학·인식론 (Metaphysics, Philosophy of Mind and Epistemology) / Clarendon Press, New edition"
+    },
+    {
+      "raw_title": "The Mechanical Mind",
+      "raw_creator": "Tim Crane",
+      "rank": null,
+      "year": 2015,
+      "note": "분류: 형이상학·심리철학·인식론 (Metaphysics, Philosophy of Mind and Epistemology) / Routledge, Third edition"
+    },
+    {
+      "raw_title": "Persons and Personal Identity",
+      "raw_creator": "Amy Kind",
+      "rank": null,
+      "year": 2015,
+      "note": "분류: 형이상학·심리철학·인식론 (Metaphysics, Philosophy of Mind and Epistemology) / Polity Press"
+    },
+    {
+      "raw_title": "What is Philosophy of Mind?",
+      "raw_creator": "Tom McClelland",
+      "rank": null,
+      "year": 2021,
+      "note": "분류: 형이상학·심리철학·인식론 (Metaphysics, Philosophy of Mind and Epistemology) / Polity Press"
+    },
+    {
+      "raw_title": "Knowledge: A very short introduction",
+      "raw_creator": "Jennifer Nagel",
+      "rank": null,
+      "year": 2014,
+      "note": "분류: 형이상학·심리철학·인식론 (Metaphysics, Philosophy of Mind and Epistemology) / Oxford University Press"
+    },
+    {
+      "raw_title": "Logic",
+      "raw_creator": "Wilfrid Hodges",
+      "rank": null,
+      "year": 2001,
+      "note": "분류: 논리학·언어철학 (Logic and Language) / Penguin, Second edition. 출처는 1-8장과 12-19장을 지정했다."
+    },
+    {
+      "raw_title": "forallx: Cambridge",
+      "raw_creator": "P.D. Magnus and Tim Button",
+      "rank": null,
+      "year": null,
+      "note": "분류: 논리학·언어철학 (Logic and Language) / 온라인 무료 교재. 출처 설명: 철학 트라이포스 1학년에서 쓰는 논리학 교과서다."
+    },
+    {
+      "raw_title": "An Introduction to the Philosophy of Language",
+      "raw_creator": "Michael Morris",
+      "rank": null,
+      "year": 2007,
+      "note": "분류: 논리학·언어철학 (Logic and Language) / Cambridge University Press"
+    },
+    {
+      "raw_title": "Logic: A very short introduction",
+      "raw_creator": "Graham Priest",
+      "rank": null,
+      "year": 2017,
+      "note": "분류: 논리학·언어철학 (Logic and Language) / Oxford University Press, Second Edition"
+    },
+    {
+      "raw_title": "Paradoxes",
+      "raw_creator": "R M Sainsbury",
+      "rank": null,
+      "year": 2009,
+      "note": "분류: 논리학·언어철학 (Logic and Language) / Cambridge University Press, Third edition"
+    },
+    {
+      "raw_title": "Being Good: A short introduction to ethics",
+      "raw_creator": "Simon Blackburn",
+      "rank": null,
+      "year": 2002,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Oxford University Press"
+    },
+    {
+      "raw_title": "Ethics: The fundamentals",
+      "raw_creator": "Julia Driver",
+      "rank": null,
+      "year": 2006,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Blackwell"
+    },
+    {
+      "raw_title": "Goodness and Advice",
+      "raw_creator": "Judith Jarvis Thompson",
+      "rank": null,
+      "year": 2001,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Oxford University Press. 저자명은 출처 표기 그대로다(통용 표기는 Judith Jarvis Thomson)."
+    },
+    {
+      "raw_title": "Can't We Make Moral Judgements?",
+      "raw_creator": "Mary Midgley",
+      "rank": null,
+      "year": 2017,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Bloomsbury Academic"
+    },
+    {
+      "raw_title": "Teach Yourself Political Philosophy: A complete introduction",
+      "raw_creator": "Phil Parvin and Clare Chambers",
+      "rank": null,
+      "year": 2012,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Hodder & Stoughton"
+    },
+    {
+      "raw_title": "Feminism: Issues & arguments",
+      "raw_creator": "Jennifer Mather Saul",
+      "rank": null,
+      "year": 2003,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Oxford University Press"
+    },
+    {
+      "raw_title": "An Introduction to Political Philosophy",
+      "raw_creator": "Jonathan Wolff",
+      "rank": null,
+      "year": 2016,
+      "note": "분류: 윤리학·정치철학 (Ethics and Political Philosophy) / Oxford University Press, Third edition"
+    },
+    {
+      "raw_title": "Philosophy of Science",
+      "raw_creator": "Alexander Bird",
+      "rank": null,
+      "year": 2003,
+      "note": "분류: 과학철학 (Philosophy of Science) / Routledge"
+    },
+    {
+      "raw_title": "What Is This Thing Called Science?",
+      "raw_creator": "Alan Chalmers",
+      "rank": null,
+      "year": 2013,
+      "note": "분류: 과학철학 (Philosophy of Science) / Maidenhead, Berks: Open University Press, Fourth edition"
+    },
+    {
+      "raw_title": "The Meaning of Science",
+      "raw_creator": "Tim Lewens",
+      "rank": null,
+      "year": 2015,
+      "note": "분류: 과학철학 (Philosophy of Science) / Pelican"
+    },
+    {
+      "raw_title": "Meno and Euthyphro",
+      "raw_creator": "Plato",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics). 출처 안내: 아무 판본이나 써도 되며 일부는 인터넷에서 무료로 구할 수 있다."
+    },
+    {
+      "raw_title": "Milinda-pañho (Questions of King Milinda)",
+      "raw_creator": null,
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics). 출처에 저자 표기가 없다."
+    },
+    {
+      "raw_title": "Hayy Ibn Yaqzan (Alive, Son of Awake)",
+      "raw_creator": "Ibn Tufayl",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics). 출처 병기: The Self-Taught Philosopher라는 제목으로도 알려져 있다."
+    },
+    {
+      "raw_title": "Three Dialogues Between Hylas and Philonous",
+      "raw_creator": "Berkeley",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics)"
+    },
+    {
+      "raw_title": "Meditations",
+      "raw_creator": "Descartes",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics)"
+    },
+    {
+      "raw_title": "Enquiry Concerning Human Understanding, Dialogues on Natural Religion and 'Of the Standard of Taste'",
+      "raw_creator": "Hume",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics). 출처가 세 편을 한 항목으로 묶었다."
+    },
+    {
+      "raw_title": "A Vindication of the Rights of Woman",
+      "raw_creator": "Mary Wollstonecraft",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics)"
+    },
+    {
+      "raw_title": "Utilitarianism and On Liberty",
+      "raw_creator": "J S Mill",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics). 출처가 두 편을 한 항목으로 묶었다."
+    },
+    {
+      "raw_title": "The Communist Manifesto",
+      "raw_creator": "Karl Marx and Friedrich Engels",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics)"
+    },
+    {
+      "raw_title": "How to Do Things With Words: The William James lectures delivered at Harvard University in 1955",
+      "raw_creator": "J. L. Austin",
+      "rank": null,
+      "year": null,
+      "note": "분류: 철학 고전 (Some Philosophy Classics)"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://www.phil.cam.ac.uk/prosp-students/Reading_list_for_prospective_students — 목록 배포 페이지. 본문에 목록은 없고 2023년 7월 갱신본 PDF·DOCX 링크만 제공한다.",
+      "https://www.phil.cam.ac.uk/system/files/suggested_preliminary_readings_updated_july_2023.pdf — 실제 목록 원문(3쪽, 각 쪽 하단 'Last updated July 2023'). 전문을 텍스트로 추출해 항목을 옮겼다.",
+      "https://www.phil.cam.ac.uk/prosp-students/prosp-ugrad-readlinglist — 같은 학과의 예비 학부생 독서목록 페이지(구버전 PDF 링크). 본문에 목록 없음."
+    ],
+    "item_count": 42,
+    "categories": "6개 도서 분류. 철학 입문(Introductions to Philosophy) 11권, 형이상학·심리철학·인식론(Metaphysics, Philosophy of Mind and Epistemology) 6권, 논리학·언어철학(Logic and Language) 5권, 윤리학·정치철학(Ethics and Political Philosophy) 7권, 과학철학(Philosophy of Science) 3권, 철학 고전(Some Philosophy Classics) 10권. 합계 42권. 이 밖에 도서가 아닌 팟캐스트 분류가 별도로 하나 더 있다.",
+    "excluded": "팟캐스트 6건을 제외했다 — History of Philosophy: Without any gaps (Peter Adamson), The UnMute Podcast (Myisha Cherry), Philosophy Bites (David Edmonds and Nigel Warburton), Five Questions (Kieran Setiya), The Philosophers' Arms (Matthew Sweet), The Philosopher's Zone (David Rutledge). 영상 항목은 원문에 없었다. 다만 도서 분류에 있는 'The Philosophy Bites series'(Oxford University Press 출간 도서 시리즈)는 같은 이름의 팟캐스트와 별개 항목이므로 도서로 포함했다.",
+    "list_purpose": "원문 첫 문장 그대로 '대학에서 철학을 공부할 계획이 있는 사람이라면 누구나 읽어볼 만한 책과 팟캐스트 목록'이다. 케임브리지 지원자 전용이 아니라 철학 전공을 준비하는 사람 일반이 대상이며, 페이지 위치상 예비 학부생을 주 독자로 둔다. 케임브리지 입학생은 칼리지 학업지도교수의 개별 조언이 이 목록보다 우선한다고 원문에 명시돼 있다.",
+    "gaps": "원문이 판본·출판사만 적고 초판 연도를 적지 않은 항목이 있어 year는 출처에 적힌 연도만 넣었다. 철학 고전 분류는 원문이 '아무 판본이나 쓰라'며 연도·출판사를 전혀 적지 않아 year를 모두 null로 두었다. Mary Ellen Waithe, A History of Women Philosophers는 출처가 '1987-1994'로 적어 단일 연도가 없어 null로 두고 note에 남겼다. Milinda-pañho는 출처에 저자 표기가 없어 raw_creator를 null로 두었다.",
+    "uncertainties": "① 'The Philosophy Bites series'는 여러 권을 한 항목으로 묶은 출처 표기를 그대로 살렸다. 개별 도서로 쪼개면 항목 수가 42에서 늘어난다. ② Hume 항목과 J S Mill 항목도 출처가 여러 저작을 한 줄로 묶은 형태를 유지했다. ③ 'Judith Jarvis Thompson'과 'Palgrave Macmillian'은 원문 철자를 그대로 옮긴 것으로, 통용 표기는 각각 Judith Jarvis Thomson, Palgrave Macmillan이다. 임의로 고치지 않고 note에 표시했다. ④ 학과가 이 목록의 갱신본을 이후 다시 냈는지는 확인하지 않았다 — 배포 페이지가 현재 제공하는 파일은 2023년 7월판 하나뿐이다."
+  }
+}

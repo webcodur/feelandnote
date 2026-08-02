@@ -1,0 +1,200 @@
+{
+  "curator": {
+    "slug": "financial-times",
+    "name": "파이낸셜타임스",
+    "name_en": "Financial Times",
+    "kind": "media",
+    "country": "GB",
+    "founded_year": 1888,
+    "homepage_url": "https://www.ft.com",
+    "description": "영국 런던에서 발행하는 국제 경제지다. 연어살빛 종이에 찍는 지면으로 널리 알려져 있고 금융시장과 기업, 국제 정치경제를 주로 다룬다. 2005년부터 해마다 그해 가장 뛰어난 경제경영서를 뽑는 상을 운영한다.",
+    "description_en": "The Financial Times is a London-based international business newspaper, instantly recognisable for the salmon-pink paper it is printed on. Its reporting centres on financial markets, companies and the global political economy. Since 2005 it has run an annual award for the best business book of the year."
+  },
+  "list": {
+    "slug": "ft-business-book",
+    "title": "FT 올해의 경제경영서",
+    "title_en": "Financial Times Business Book of the Year",
+    "description": "그해 나온 책 가운데 지금의 경제와 기업을 가장 설득력 있고 재미있게 짚어낸 한 권에 준다. 학술서를 가리는 상이 아니라 전문 지식 없는 일반 독자가 읽어낼 수 있는 경제·경영·비즈니스 교양서를 대상으로 하며, 경영과 기술부터 금융, 경제, 기후변화까지 폭넓게 다룬다. 반도체 패권 다툼, 실리콘밸리 사기극, 인공지능 경쟁처럼 그해 세상을 움직인 화두가 수상작 목록에 그대로 남는다.",
+    "description_en": "The award goes each year to the book judged to give the most compelling and enjoyable insight into modern business issues. It is not an academic prize: it looks for business writing that a general reader can pick up and finish, ranging across management, technology, finance, economics and climate change. The roll of winners doubles as a record of what preoccupied the business world each year, from the semiconductor race to fraud in Silicon Valley to the contest over artificial intelligence.",
+    "published_year": null,
+    "edition": null,
+    "method": "파이낸셜타임스 기자들이 그해 나온 책을 훑어 응모작을 추리고, 신문사 편집장이 이끄는 심사위원단이 1차 후보와 최종 후보를 거쳐 한 권을 고른다. 2022년에는 룰라 칼라프 편집장이 좌장을 맡고 기업인·학자 등 일곱 명이 심사에 참여했다. 2024년에는 640권이 넘는 응모작에서 1차 후보 16권을 추렸다. 수상자는 3만 파운드를 받고, 최종 후보에 오른 다섯 명은 2010년부터 각각 1만 파운드를 받는다(그전에는 5천 파운드였다). 1차 후보는 여름에, 최종 후보는 초가을에 발표하며 수상작은 12월 시상식에서 공개한다. 2014년부터는 젊은 저술가에게 주는 브래큰 바워상을 같은 자리에서 함께 시상한다.",
+    "method_en": "Financial Times journalists sift the year's business titles to assemble the entries, and a panel chaired by the newspaper's editor works through a longlist and a shortlist to a single winner. In 2022 the panel was chaired by editor Roula Khalaf and included seven judges drawn from business and academia. In 2024 more than 640 submissions were cut to a longlist of sixteen. The winner receives £30,000, and since 2010 each of the five shortlisted authors receives £10,000, up from £5,000 previously. The longlist appears in summer, the shortlist in early autumn, and the winner is revealed at a ceremony in December. Since 2014 the award has been presented alongside the Bracken Bower Prize for young business writers.",
+    "source_url": "https://en.wikipedia.org/wiki/Financial_Times_Business_Book_of_the_Year_Award",
+    "is_ranked": false,
+    "is_annual": true,
+    "content_type": "BOOK",
+    "topics": [
+      "economics",
+      "business",
+      "nonfiction"
+    ]
+  },
+  "items": [
+    {
+      "raw_title": "The World Is Flat: A Brief History of the Twenty-First Century",
+      "raw_creator": "Thomas Friedman",
+      "rank": null,
+      "year": 2005,
+      "note": "국내 출간명 「세계는 평평하다」(확인: 미확인 — 한국어판 서지를 웹으로 대조하지 않았다)"
+    },
+    {
+      "raw_title": "China Shakes the World",
+      "raw_creator": "James Kynge",
+      "rank": null,
+      "year": 2006,
+      "note": "위키백과 수상작 표는 부제 없이 'China Shakes The World'로 적었다. 영국판과 미국판 부제가 다른 것으로 알려져 있으나 이번 조사에서 대조하지 않았다"
+    },
+    {
+      "raw_title": "The Last Tycoons: The Secret History of Lazard Frères & Co.",
+      "raw_creator": "William D. Cohan",
+      "rank": null,
+      "year": 2007,
+      "note": null
+    },
+    {
+      "raw_title": "When Markets Collide",
+      "raw_creator": "Mohamed El-Erian",
+      "rank": null,
+      "year": 2008,
+      "note": null
+    },
+    {
+      "raw_title": "Lords of Finance: The Bankers Who Broke the World",
+      "raw_creator": "Liaquat Ahamed",
+      "rank": null,
+      "year": 2009,
+      "note": null
+    },
+    {
+      "raw_title": "Fault Lines: How Hidden Fractures Still Threaten the World Economy",
+      "raw_creator": "Raghuram G. Rajan",
+      "rank": null,
+      "year": 2010,
+      "note": null
+    },
+    {
+      "raw_title": "Poor Economics",
+      "raw_creator": "Abhijit V. Banerjee & Esther Duflo",
+      "rank": null,
+      "year": 2011,
+      "note": "두 사람이 함께 받았다"
+    },
+    {
+      "raw_title": "Private Empire: ExxonMobil and American Power",
+      "raw_creator": "Steve Coll",
+      "rank": null,
+      "year": 2012,
+      "note": null
+    },
+    {
+      "raw_title": "The Everything Store: Jeff Bezos and the Age of Amazon",
+      "raw_creator": "Brad Stone",
+      "rank": null,
+      "year": 2013,
+      "note": "국내 출간명 「아마존, 세상의 모든 것을 팝니다」(확인: 교보문고·알라딘·구글플레이 도서 서지로 확인)"
+    },
+    {
+      "raw_title": "Capital in the Twenty-First Century",
+      "raw_creator": "Thomas Piketty",
+      "rank": null,
+      "year": 2014,
+      "note": "국내 출간명 「21세기 자본」, 글항아리(확인: 한국어 위키백과·교보문고·알라딘 서지로 확인)"
+    },
+    {
+      "raw_title": "The Rise of the Robots: Technology and the Threat of Mass Unemployment",
+      "raw_creator": "Martin Ford",
+      "rank": null,
+      "year": 2015,
+      "note": "국내 출간명 「로봇의 부상」, 세종서적(확인: 교보문고·알라딘 서지로 확인)"
+    },
+    {
+      "raw_title": "The Man Who Knew: The Life and Times of Alan Greenspan",
+      "raw_creator": "Sebastian Mallaby",
+      "rank": null,
+      "year": 2016,
+      "note": null
+    },
+    {
+      "raw_title": "Janesville: An American Story",
+      "raw_creator": "Amy Goldstein",
+      "rank": null,
+      "year": 2017,
+      "note": null
+    },
+    {
+      "raw_title": "Bad Blood: Secrets and Lies in a Silicon Valley Startup",
+      "raw_creator": "John Carreyrou",
+      "rank": null,
+      "year": 2018,
+      "note": "국내 출간명 「배드 블러드」, 와이즈베리(확인: 교보문고·알라딘 서지로 확인)"
+    },
+    {
+      "raw_title": "Invisible Women: Exposing Data Bias in a World Designed for Men",
+      "raw_creator": "Caroline Criado-Perez",
+      "rank": null,
+      "year": 2019,
+      "note": "국내 출간명 「보이지 않는 여자들」(확인: 교보문고·알라딘·구글플레이 도서 서지로 확인)"
+    },
+    {
+      "raw_title": "No Filter: The Inside Story of Instagram",
+      "raw_creator": "Sarah Frier",
+      "rank": null,
+      "year": 2020,
+      "note": null
+    },
+    {
+      "raw_title": "This Is How They Tell Me the World Ends: The Cyberweapons Arms Race",
+      "raw_creator": "Nicole Perlroth",
+      "rank": null,
+      "year": 2021,
+      "note": "맥킨지가 후원사로 이름을 올린 마지막 회차다"
+    },
+    {
+      "raw_title": "Chip War: The Fight for the World's Most Critical Technology",
+      "raw_creator": "Chris Miller",
+      "rank": null,
+      "year": 2022,
+      "note": "후원사 이름 없이 'FT 올해의 경제경영서'로만 치른 회차다. 국내 출간명 「칩 워, 누가 반도체 전쟁의 최후 승자가 될 것인가」, 부키(확인: 교보문고·알라딘 서지로 확인)"
+    },
+    {
+      "raw_title": "Right Kind of Wrong: Why Learning to Fail Can Teach Us to Thrive",
+      "raw_creator": "Amy Edmondson",
+      "rank": null,
+      "year": 2023,
+      "note": "슈로더스가 후원사로 붙은 첫 회차다"
+    },
+    {
+      "raw_title": "Supremacy: AI, ChatGPT, and the Race That Will Change the World",
+      "raw_creator": "Parmy Olson",
+      "rank": null,
+      "year": 2024,
+      "note": "슈로더스 안내 페이지가 2024년을 상 제정 20주년으로 표기했다"
+    },
+    {
+      "raw_title": "The Thinking Machine: Jensen Huang, Nvidia, and the World's Most Coveted Microchip",
+      "raw_creator": "Stephen Witt",
+      "rank": null,
+      "year": 2025,
+      "note": "2025년 12월 4일 발표. 출판사는 The Bodley Head(확인: 더 북셀러 기사)"
+    }
+  ],
+  "collection_report": {
+    "sources_opened": [
+      "https://en.wikipedia.org/wiki/Financial_Times_Business_Book_of_the_Year_Award — 수상작 전체 목록, 상금, 후원사 변천의 주 출처",
+      "https://en.wikipedia.org/wiki/Special:Export/Financial_Times_Business_Book_of_the_Year_Award — 같은 문서의 원본 위키텍스트를 따로 열어 요약 과정의 오류가 없는지 교차 확인",
+      "https://www.thebookseller.com/news/the-2025-financial-times-and-schroders-business-book-of-the-year-award-winner-revealed — 2025년 수상작·출판사·발표일(2025-12-04) 확인",
+      "https://www.schroders.com/en/global/individual/ft-schroders-business-book-of-the-year-2025/ — 후원사 공식 페이지. 2025년 수상작, 일반 독자 대상이라는 성격, 1차/최종 후보 발표 일정 확인",
+      "https://publishingperspectives.com/2022/12/chris-millers-chip-war-wins-the-2022-ft-book-of-the-year-award/ — 상금(수상 3만·최종후보 1만 파운드), 심사위원단 구성과 좌장, 심사 기준 문구 확인",
+      "https://www.schroders.com/en-us/us/individual/financial-times-and-schroders-business-book-of-the-year/ — 응모 640권 이상에서 1차 후보 16권으로 압축, 2024년을 20주년으로 표기한 대목 확인",
+      "https://fivebooks.com/books/ft-schroders-business-book-year/ — 학자가 아니라 일반 독자를 겨냥한다는 성격 서술과 2025년 최종 후보 명단 확인",
+      "https://www.waterstones.com/booklist/370473/financial-times-business-book-of-the-year-previous-winners — 열지 못했다(HTTP 403 반환). 이 목록으로는 교차 확인하지 못했다",
+      "웹 검색 결과에 노출된 교보문고·알라딘·한국어 위키백과·구글플레이 도서 서지 — 한국어판 제목 6권 확인. 각 상세 페이지까지 직접 열지는 않고 검색 결과에 실린 서지 정보를 근거로 삼았다"
+    ],
+    "item_count": 21,
+    "year_range": "2005-2025",
+    "name_changes": "제정 때부터 2013년까지는 골드만삭스가 후원사로 붙어 'Financial Times and Goldman Sachs Business Book of the Year Award'였다. 2014년부터 2021년까지는 맥킨지앤드컴퍼니가 맡아 'Financial Times and McKinsey Business Book of the Year Award'로 불렸다. 2022년 한 해는 후원사 이름이 빠진 채 'FT Business Book of the Year Award'로 치렀고, 2023년부터 영국 자산운용사 슈로더스가 들어와 'Financial Times and Schroders Business Book of the Year Award'가 됐다.",
+    "gaps": "대상 수상작만 담았다. 1차 후보·최종 후보 명단, 같은 자리에서 시상하는 브래큰 바워상 수상자, 심사위원 명단(2022년 제외)은 수집 대상에서 뺐다. 2026년 수상작은 아직 없다 — 이 상은 매년 12월 시상식에서 발표하는데, 2026년 8월 1일 기준으로 2026년 1차 후보가 발표됐다는 근거조차 찾지 못했다. 따라서 2025년 스티븐 위트가 현재 최신 수상자다.",
+    "uncertainties": "① 책 제목의 부제는 위키백과 수상작 표의 표기를 그대로 옮겼다. 같은 책이라도 영국판과 미국판 부제가 다른 경우가 있는데(2006년 'China Shakes the World'가 대표적) 판본별 대조는 하지 않았다. ② 위키백과 표에 부제 없이 제목만 적힌 항목(2008년 'When Markets Collide', 2011년 'Poor Economics', 2014년 'Capital in the Twenty-First Century' 등)은 실제 책에 부제가 있을 수 있으나 확인하지 않고 표기 그대로 두었다. ③ 한국어판 제목은 6권만 확인했고 나머지는 조사하지 않았다. 2005년 'The World Is Flat'만 미확인 상태임을 note에 적어두었다. ④ 상금 3만 파운드는 2022년 시점 기사와 위키백과에서 확인한 값이며 2025년에도 같은 액수인지는 확인하지 않았다. ⑤ 저자명 표기(예: 'Caroline Criado-Perez'는 하이픈 없이 'Caroline Criado Perez'로도 쓰인다)는 위키백과 표기를 따랐다."
+  }
+}

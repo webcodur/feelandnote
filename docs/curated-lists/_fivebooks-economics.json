@@ -7,7 +7,7 @@
     "country": "GB",
     "founded_year": 2009,
     "homepage_url": "https://fivebooks.com",
-    "description": "파이브북스는 각 분야 전문가를 인터뷰해 그 주제 최고의 책 다섯 권을 고르게 하는 영국의 책 추천 사이트다. 고른 이유를 인터뷰 형식으로 길게 풀어 싣는 것이 특징이며, 사이트 소개에 따르면 1,700건이 넘는 인터뷰와 8,000권 가까운 추천을 쌓았다. 매주 두 건 이상 새 인터뷰를 낸다.",
+    "description": "파이브북스는 각 분야 전문가를 인터뷰해 그 주제에서 가장 좋은 책 다섯 권을 고르게 하고, 왜 그 책인지를 본인 입으로 설명하게 하는 영국의 책 추천 매체다. 알고리즘 추천의 대안으로 사람의 안목을 내세우며 2009년 소피 로엘이 시작했다. 현재 1,700건이 넘는 인터뷰와 8,000권가량의 추천이 쌓여 있고 매주 두 건 이상 새 인터뷰가 올라온다.",
     "description_en": "Five Books is a British book recommendation site that asks experts to choose the five best books on their subject and explain the selection in an interview. Its own description cites an archive of more than 1,700 interviews, or roughly 8,000 book recommendations, with at least two new interviews published each week. The extended interview format, rather than a bare ranking, is the site's distinguishing feature."
   },
   "list": {
@@ -24,7 +24,10 @@
     "is_ranked": false,
     "is_annual": false,
     "content_type": "BOOK",
-    "topics": ["economics", "nonfiction"]
+    "topics": [
+      "economics",
+      "nonfiction"
+    ]
   },
   "items": [
     {
