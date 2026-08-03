@@ -59,6 +59,7 @@ export async function replaceFactionEpisode(
   const slugs = collectSlugs(script)
   const { slugMap, unpublishedSlugs } = await resolveSlugs(db, slugs)
   const tagMap = await resolveTags(db)
+  const keptTags = await loadExistingGroupTags(db, episodeId)
 
   const payload = buildFactionRows(script, {
     slugMap,
@@ -70,6 +71,21 @@ export async function replaceFactionEpisode(
     sortOrder: (epRow.sort_order as number) ?? 0,
     parts,
   })
+
+  /*
+    세력이 어느 도감 테마에 걸렸는지(tag_id)도 되실어 보존한다.
+
+    대본에는 테마 지정이 실려 오지 않는 세력이 많다(편집기에서 테마를 따로 지정하지 않고
+    편 단위로 상속받은 경우). 그대로 저장하면 테마가 빈 채로 들어가고, 자동 배정 장치가
+    편 이름으로 **다른 테마를 새로 만들어** 붙인다. 그러면 도감에 실려 있던 인물이 통째로
+    엉뚱한 테마로 옮겨 간다(26.08.03 실측 — 인간형 로봇 6명이 「기계 인간의 시대」로 이탈).
+    그래서 세력 이름을 신원 삼아 기존 테마를 되살린다. 음성 길이·도감 손질과 같은 원리다.
+  */
+  for (const g of payload.groups) {
+    if (g.tag_id) continue
+    const kept = keptTags(g)
+    if (kept) g.tag_id = kept
+  }
 
   // 도감 손질(web_*)은 도감 편집이 소유한다 — 대본 저장이 인물 행을 전량 갈아끼우므로
   // 여기서 기존 값을 사람 신원 기준으로 되실어 보존한다(음성 길이와 같은 원리).
@@ -299,6 +315,43 @@ async function loadExistingWebOverrides(
   return (personRow: Row) => {
     const k = identityOf(personRow as { slug?: unknown; name?: unknown })
     const list = byIdentity.get(k)
+    const n = seen.get(k) ?? 0
+    seen.set(k, n + 1)
+    return list?.[n]
+  }
+}
+
+/**
+ * 세력이 걸려 있던 도감 테마를 **세력 이름 기준으로** 모은다.
+ *
+ * 자리(순번) 기준이면 세력 순서를 바꿨을 때 테마가 엉뚱한 세력을 따라간다. 이름이 같은 세력이
+ * 한 편에 둘 있는 경우(도감용으로 따로 세운 자리 등)에는 나온 순서대로 짝지어 준다 —
+ * 음성 길이·도감 손질과 같은 짝짓기 규칙이다.
+ */
+async function loadExistingGroupTags(
+  db: SupabaseClient, episodeId: string,
+): Promise<(groupRow: Row) => string | undefined> {
+  const { data, error } = await db
+    .from('faction_groups').select('name,position,tag_id').eq('episode_id', episodeId)
+  if (error) throw new Error(`세력 테마 조회 실패: ${error.message}`)
+  const rows = ((data ?? []) as Row[])
+    .filter(r => !!r.tag_id)
+    .sort((a, b) => (a.position as number) - (b.position as number))
+
+  const nameOf = (r: { name?: unknown }) =>
+    typeof r.name === 'string' ? r.name.split('\n')[0].trim() : ''
+
+  const byName = new Map<string, string[]>()
+  for (const r of rows) {
+    const k = nameOf(r)
+    if (!byName.has(k)) byName.set(k, [])
+    byName.get(k)!.push(r.tag_id as string)
+  }
+
+  const seen = new Map<string, number>()
+  return (groupRow: Row) => {
+    const k = nameOf(groupRow)
+    const list = byName.get(k)
     const n = seen.get(k) ?? 0
     seen.set(k, n + 1)
     return list?.[n]
