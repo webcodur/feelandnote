@@ -12,7 +12,6 @@ interface Props {
   globe: ReactNode;
   event: CelebTimelineEvent | undefined;
   yearLabel: string | null;
-  markerOrder?: number;
   current: number;
   total: number;
   pageLabel: string;
@@ -31,7 +30,6 @@ export default function JourneyGlobeModal({
   globe,
   event,
   yearLabel,
-  markerOrder,
   current,
   total,
   pageLabel,
@@ -175,11 +173,6 @@ export default function JourneyGlobeModal({
               <p className="mt-2.5 flex items-center gap-1.5 text-sm text-text-secondary">
                 <MapPin size={14} className="shrink-0 text-accent/75" aria-hidden />
                 <span>{event.placeName}</span>
-                {markerOrder != null && (
-                  <span className="font-mono text-[11px] text-accent/65">
-                    #{markerOrder}
-                  </span>
-                )}
               </p>
             )}
 

@@ -1,0 +1,101 @@
+.scope {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background-color: var(--material-canvas);
+  color: var(--material-text);
+  --classical-background-image: var(--world-panel-texture);
+  --classical-background-position: var(--world-panel-texture-position);
+  --classical-background-repeat: var(--world-panel-texture-repeat);
+  --classical-background-size: var(--world-panel-texture-size);
+}
+
+.scope::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-color: var(--material-canvas);
+  background-image: var(--world-outer-texture, var(--pattern-noise));
+  background-position: var(--world-outer-position, center);
+  background-repeat: var(--world-outer-repeat, repeat);
+  background-size: var(--world-outer-size, auto);
+  content: "";
+  opacity: var(--world-outer-opacity, 0.7);
+  pointer-events: none;
+}
+
+.scope > * {
+  position: relative;
+  z-index: 1;
+}
+
+.scope[data-world-material="hanji-wood"] {
+  --world-outer-texture:
+    repeating-linear-gradient(87deg, transparent 0 53px, rgba(218, 207, 178, 0.016) 54px 55px),
+    repeating-linear-gradient(3deg, transparent 0 71px, rgba(218, 207, 178, 0.012) 72px 73px),
+    var(--pattern-noise);
+  --world-panel-texture:
+    repeating-linear-gradient(91deg, transparent 0 43px, rgba(197, 162, 99, 0.018) 44px 45px),
+    repeating-linear-gradient(2deg, transparent 0 67px, rgba(255, 255, 255, 0.01) 68px 69px);
+  --world-panel-texture-size: auto;
+  --world-panel-texture-position: center;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.42;
+}
+
+.scope[data-world-material="stone-bronze"] {
+  --world-outer-texture:
+    radial-gradient(circle, rgba(230, 224, 207, 0.032) 0 0.7px, transparent 1px),
+    radial-gradient(circle, rgba(0, 0, 0, 0.16) 0 0.8px, transparent 1.2px),
+    var(--pattern-noise);
+  --world-outer-size: 29px 31px, 37px 41px, auto;
+  --world-outer-position: 0 0, 11px 17px, center;
+  --world-panel-texture:
+    radial-gradient(circle, rgba(236, 232, 216, 0.024) 0 0.7px, transparent 1px),
+    radial-gradient(circle, rgba(0, 0, 0, 0.08) 0 0.8px, transparent 1.2px);
+  --world-panel-texture-size: 31px 29px, 43px 47px;
+  --world-panel-texture-position: 0 0, 13px 19px;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.4;
+}
+
+.scope[data-world-material="plaster-iron"] {
+  --world-outer-texture:
+    repeating-linear-gradient(97deg, transparent 0 89px, rgba(202, 182, 154, 0.014) 90px 91px),
+    repeating-linear-gradient(4deg, transparent 0 117px, rgba(0, 0, 0, 0.045) 118px 119px),
+    var(--pattern-noise);
+  --world-panel-texture:
+    repeating-linear-gradient(88deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 53px),
+    repeating-linear-gradient(1deg, transparent 0 83px, rgba(174, 138, 90, 0.012) 84px 85px);
+  --world-panel-texture-size: auto;
+  --world-panel-texture-position: center;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.36;
+}
+
+.scope[data-world-material="concrete-steel"] {
+  --world-outer-texture:
+    radial-gradient(circle, rgba(255, 255, 255, 0.026) 0 0.65px, transparent 1px),
+    radial-gradient(circle, rgba(0, 0, 0, 0.14) 0 0.8px, transparent 1.2px),
+    var(--pattern-noise);
+  --world-outer-size: 31px 37px, 47px 43px, auto;
+  --world-outer-position: 0 0, 17px 13px, center;
+  --world-panel-texture: repeating-linear-gradient(0deg, transparent 0 9px, rgba(220, 227, 226, 0.012) 10px);
+  --world-panel-texture-size: auto;
+  --world-panel-texture-position: center;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.38;
+}
+
+.scope[data-world-material="glass-paper"] {
+  --world-outer-texture:
+    repeating-linear-gradient(117deg, transparent 0 179px, rgba(121, 169, 191, 0.016) 180px 181px),
+    var(--pattern-noise);
+  --world-outer-size: auto;
+  --world-panel-texture:
+    repeating-linear-gradient(2deg, transparent 0 89px, rgba(165, 199, 214, 0.012) 90px 91px);
+  --world-panel-texture-size: auto;
+  --world-panel-texture-position: center;
+  --world-panel-texture-repeat: repeat;
+  --world-outer-opacity: 0.34;
+}

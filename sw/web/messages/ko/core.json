@@ -775,9 +775,9 @@
   },
   "share": {
     "label": "공유",
+    "chooseChannel": "공유할 곳 선택",
     "copyLink": "링크 복사",
-    "copied": "복사됨",
-    "kakaoTalk": "카카오톡"
+    "copied": "복사됨"
   },
   "factionMedia": {
     "watchLongform": "영상으로 보기",

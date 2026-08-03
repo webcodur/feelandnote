@@ -16,6 +16,8 @@ import { getAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
+import { resolveCelebWorld } from "@/lib/celeb/world";
+import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
 import {
@@ -99,6 +101,13 @@ export default async function CelebPage({ params }: PageProps) {
   }
   const profile = result.data;
   const userId = profile.id;
+  const worldId = resolveCelebWorld({
+    nationality: profile.nationality,
+    birthDate: profile.birth_date,
+    deathDate: profile.death_date,
+    tier: profile.celeb_tier,
+  });
+  const worldBannerImages = getWorldBannerImages(worldId);
   const titleInput: CelebMetaInput = {
     nickname: profile.nickname, title: profile.title, counts: profile.contentTypeCounts,
   };
@@ -226,6 +235,8 @@ export default async function CelebPage({ params }: PageProps) {
         factionPreviews={factionPreviews}
         initialContents={initialContents}
         fictionSources={fictionSources}
+        worldId={worldId}
+        worldBannerImages={worldBannerImages}
       />
     </>
   );

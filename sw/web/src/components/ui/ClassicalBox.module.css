@@ -1,13 +1,16 @@
 .classicalBox {
   position: relative;
   background-origin: border-box;
-  background-repeat: no-repeat;
+  background-image: var(--world-panel-texture, none);
+  background-position: var(--world-panel-texture-position, center);
+  background-repeat: var(--world-panel-texture-repeat, no-repeat);
+  background-size: var(--world-panel-texture-size, auto);
   transition: all 0.3s ease;
 }
 
 @media (min-width: 768px) {
   .classicalBox {
-    background-image:
+    background-image: var(--classical-background-image,
       /* Top Left */
       linear-gradient(to right, var(--color-accent), var(--color-accent)),
       linear-gradient(to bottom, var(--color-accent), var(--color-accent)),
@@ -21,21 +24,23 @@
       linear-gradient(to right, var(--color-accent), var(--color-accent)),
       linear-gradient(to top, var(--color-accent), var(--color-accent)),
       /* Vignette */
-      radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+      radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%));
 
-    background-position:
+    background-position: var(--classical-background-position,
       0 0, 0 0,
       100% 0, 100% 0,
       100% 100%, 100% 100%,
       0 100%, 0 100%,
-      center;
+      center);
 
-    background-size:
+    background-repeat: var(--classical-background-repeat, no-repeat);
+
+    background-size: var(--classical-background-size,
       16px 4px, 4px 16px,
       16px 4px, 4px 16px,
       16px 4px, 4px 16px,
       16px 4px, 4px 16px,
-      100% 100%;
+      100% 100%);
   }
 }
 
@@ -101,6 +106,19 @@
       linear-gradient(to right, var(--cb-color), var(--cb-color)),
       linear-gradient(to top, var(--cb-color), var(--cb-color)),
       radial-gradient(circle at center, transparent 30%, rgba(0,0,0, 0.4) 100%);
+    background-position:
+      0 0, 0 0,
+      100% 0, 100% 0,
+      100% 100%, 100% 100%,
+      0 100%, 0 100%,
+      center;
+    background-repeat: no-repeat;
+    background-size:
+      16px 4px, 4px 16px,
+      16px 4px, 4px 16px,
+      16px 4px, 4px 16px,
+      16px 4px, 4px 16px,
+      100% 100%;
   }
 
   .danger::before,

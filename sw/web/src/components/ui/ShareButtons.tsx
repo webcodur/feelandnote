@@ -1,14 +1,15 @@
 /*
   파일명: /components/ui/ShareButtons.tsx
   기능: SNS 공유 버튼
-  책임: 현재 페이지의 정규 URL과 제목을 X·페이스북·링크 복사로 공유한다.
+  책임: 단일 공유 버튼을 열고, 모달에서 정규 URL의 공유 채널을 선택하게 한다.
 */ // ------------------------------
 
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Facebook, Link2, Check, MessageCircle, Linkedin, Mail } from "lucide-react";
+import { Facebook, Link2, Check, Linkedin, Mail, Share2 } from "lucide-react";
+import Modal, { ModalBody } from "./Modal";
 
 // #region 상수·타입
 const BASE_URL = "https://feelandnote.com";
@@ -22,12 +23,9 @@ interface ShareButtonsProps {
   comfortable?: boolean;
   /** 가로 정렬. 카드 본문 안에 넣을 때는 start·center를 쓴다 */
   align?: "start" | "center" | "end";
-  /** '공유' 글자 노출 여부. 끄면 아이콘만 남는다 */
+  /** 단일 공유 버튼의 '공유' 글자 노출 여부 */
   showLabel?: boolean;
 }
-
-const iconBtnStyle =
-  "inline-flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-text-secondary hover:text-accent hover:border-accent/30";
 
 const XIcon = ({ size = 14 }: { size?: number | string }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -47,13 +45,13 @@ export default function ShareButtons({
   const t = useTranslations("share");
   const locale = useLocale();
   const [copied, setCopied] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   // 로케일 포함 정규 URL (ko는 prefix 없음, en은 /en)
   const shareUrl = `${BASE_URL}${locale === "en" ? "/en" : ""}${path}`;
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedText = encodeURIComponent(title);
-  const iconSize = comfortable ? 18 : 14;
-  const iconButtonSize = comfortable ? "h-11 w-11" : "p-1.5";
+  const iconSize = comfortable ? 16 : 14;
 
   const linkChannels = [
     {
@@ -88,6 +86,8 @@ export default function ShareButtons({
     window.setTimeout(() => setCopied(false), 2000);
   };
 
+  const closeModal = useCallback(() => setIsOpen(false), []);
+
   const alignClass =
     align === "start"
       ? "justify-start"
@@ -95,59 +95,65 @@ export default function ShareButtons({
         ? "justify-center"
         : "justify-end";
 
+  const optionStyle =
+    "flex min-h-12 items-center gap-3 rounded-md border border-white/10 bg-white/[0.025] px-3 text-sm text-text-secondary hover:border-accent/45 hover:bg-white/[0.06] hover:text-accent active:bg-white/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60";
+
   return (
-    <div className={`flex flex-wrap items-center ${alignClass} gap-2 ${className}`}>
-      {showLabel && (
-        <span
-          className={
+    <>
+      <div className={`flex items-center ${alignClass} ${className}`}>
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={isOpen}
+          aria-label={t("label")}
+          className={`inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-transparent text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
             comfortable
-              ? "text-base font-medium  sm:text-lg"
-              : "text-xs font-medium "
-          }
+              ? showLabel
+                ? "h-10 px-3.5 text-sm font-semibold"
+                : "h-10 w-10"
+              : showLabel
+                ? "h-8 px-3 text-xs font-medium"
+                : "h-8 w-8"
+          }`}
         >
-          {t("label")}
-        </span>
-      )}
+          <Share2 size={iconSize} />
+          {showLabel ? <span>{t("label")}</span> : null}
+        </button>
+      </div>
 
-      {linkChannels.map(({ key, label, Icon, href }) => (
-        <a
-          key={key}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={label}
-          className={`${iconBtnStyle} ${iconButtonSize}`}
-        >
-          <Icon size={iconSize} />
-        </a>
-      ))}
-
-      {/* TODO: 카카오 공유 - JS SDK 앱키 필요 */}
-      <button
-        type="button"
-        disabled
-        aria-label={t("kakaoTalk")}
-        className={`${iconBtnStyle} ${iconButtonSize} opacity-50 cursor-not-allowed`}
+      <Modal
+        isOpen={isOpen}
+        onClose={closeModal}
+        title={t("chooseChannel")}
+        icon={Share2}
+        size="sm"
       >
-        <MessageCircle size={iconSize} />
-      </button>
+        <ModalBody className="grid grid-cols-2 gap-2 p-4">
+          {linkChannels.map(({ key, label, Icon, href }) => (
+            <a
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeModal}
+              className={optionStyle}
+            >
+              <Icon size={18} />
+              <span>{label}</span>
+            </a>
+          ))}
 
-      <button
-        type="button"
-        onClick={() => void handleCopy()}
-        className={`inline-flex items-center gap-1.5 rounded-full bg-white/5 border ${
-          comfortable
-            ? "min-h-11 px-3 py-2 text-base sm:text-lg"
-            : "px-2.5 py-1.5 text-xs"
-        } ${
-          copied
-            ? "text-accent border-accent/30"
-            : "text-text-secondary border-white/10 hover:text-accent hover:border-accent/30"
-        }`}
-      >
-        {copied ? <Check size={iconSize} /> : <Link2 size={iconSize} />}
-        <span>{copied ? t("copied") : t("copyLink")}</span>
-      </button>
-    </div>
+          <button
+            type="button"
+            onClick={() => void handleCopy()}
+            className={`${optionStyle} col-span-2`}
+          >
+            {copied ? <Check size={18} /> : <Link2 size={18} />}
+            <span>{copied ? t("copied") : t("copyLink")}</span>
+          </button>
+        </ModalBody>
+      </Modal>
+    </>
   );
 }

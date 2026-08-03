@@ -1,223 +1,155 @@
-/* 화면 세로가 내용보다 짧을 때만 상자 안 스크롤로 전환하는 안전장치.
-   막대는 그리지 않는다 — 짧은 화면에서도 휠·터치로는 여전히 움직인다. */
-.profileRail {
-  max-height: calc(100dvh - 7.5rem);
-  overflow-y: auto;
-  overflow-anchor: none;
-  padding: 4px 4px 0;
-  scrollbar-width: none;
-}
-
-.profileRail::-webkit-scrollbar {
+.profileAside {
   display: none;
 }
 
-.profileCard {
-  padding: 16px 16px 0;
-}
-
-.profileEyebrow {
-  margin-bottom: 12px;
-}
-
-.profileEyebrow > span {
-  font-size: 16px;
-}
-
-.profileRegion {
-  display: flex;
-  width: 100%;
-  margin-top: -16px;
-  padding-top: 16px;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 아바타 칸과 목록 사이에 빈틈이나 가로선을 두지 않는다. 포커스 박스가 두 칸을
-   건너뛰지 않고 이어서 흐르려면 칸끼리 맞붙어 있어야 한다. */
-.profileButton {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  flex-direction: column;
-  align-items: center;
-  padding-block: 12px;
-  color: inherit;
-  cursor: pointer;
-}
-
-.profileButton:focus-visible {
-  border-radius: 3px;
-  outline: 2px solid var(--color-accent);
-  outline-offset: 5px;
-}
-
-.portraitStage {
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
-  margin-bottom: 14px;
-}
-
-.portraitHalo {
-  position: absolute;
-  inset: 0;
-  border: 2px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
-  border-radius: 999px;
-  transform: scale(1.25);
-}
-
-/* 아바타 호버의 즉각 축은 테두리와 이름색이다. 움직임 없이 바로 반응한다. */
-.profileButton:hover .portraitHalo,
-.profileButtonActive .portraitHalo {
-  border-color: color-mix(in srgb, var(--color-accent) 52%, transparent);
-}
-
-.portraitFrame {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  width: 112px;
-  height: 112px;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  border: 2px solid var(--color-accent);
-  border-radius: 999px;
-  background: var(--color-bg-card);
-  box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 15%, transparent);
-}
-
-.profileButton:hover .portraitFrame,
-.profileButtonActive .portraitFrame {
-  box-shadow: 0 0 30px color-mix(in srgb, var(--color-accent) 30%, transparent);
-}
-
-.portraitImage {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--color-accent-dim) 40%, transparent);
-  border-radius: 999px;
-  /* 바탕색은 전역 유틸 .bg-portrait-stage가 쥔다(배경 지운 얼굴 그림 뒤가 뚫려 보이지 않게) */
-}
-
-.portraitFallback {
-  color: var(--color-accent);
-  font-family: var(--font-serif);
-  font-size: 36px;
-  font-weight: 900;
-}
-
-.celebSeal {
-  position: absolute;
-  z-index: 2;
-  right: -3px;
-  bottom: -4px;
-  display: inline-flex;
-  width: 36px;
-  height: 36px;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--color-bg-card);
-  border-radius: 999px;
-  color: var(--color-bg-main);
-  background: var(--color-accent);
-  box-shadow: 0 5px 12px color-mix(in srgb, black 42%, transparent);
-}
-
-.profileCopy {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.profileName {
-  color: var(--color-text-primary);
-  font-family: var(--font-serif);
-  font-size: 32px;
-  font-weight: 900;
-  line-height: 1.18;
-  letter-spacing: -0.025em;
-  word-break: keep-all;
-  filter: drop-shadow(0 2px 3px color-mix(in srgb, black 36%, transparent));
-}
-
-/* 현재 장과 호버 모두 같은 금색으로 즉시 읽힌다. */
-.profileButtonActive .profileName {
-  color: var(--color-accent);
-}
-
-.profileButton:hover .profileName {
-  color: var(--color-accent);
-}
-
-.profileTitle {
-  margin-top: 6px;
-  color: var(--color-accent);
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-  word-break: keep-all;
-}
-
-.profileProfession {
-  margin-top: 4px;
-  color: color-mix(in srgb, var(--color-text-secondary) 78%, transparent);
-  font-size: 18px;
-  line-height: 1.4;
-  letter-spacing: 0.1em;
-  word-break: keep-all;
-}
-
-
-/* 기준 좌표계는 focusScope 하나다. 여기에 relative를 두면 목록 항목의 세로 위치가
-   포커스 박스 기준과 어긋나 박스가 엉뚱한 곳에 그려진다. */
+.profileRail,
 .profileNav {
   width: 100%;
 }
 
-/* 아바타와 목록을 한 좌표계에 묶는다. 포커스 박스가 둘 사이를 오가려면 기준이 하나여야 한다.
-   카드 안쪽 여백만큼 좌우로 넓혀, 포커스 박스가 카드 폭을 그대로 채우게 한다. */
-.focusScope {
+.profileRail {
+  box-sizing: border-box;
+  padding: 9px 8px 8px;
+  border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 62%, transparent);
+  border-radius: 2px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-accent) 6%, transparent),
+      transparent 22%
+    ),
+    color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 88%, transparent);
+  box-shadow:
+    inset 0 0 0 3px color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent) 13%, transparent),
+    0 16px 34px color-mix(in srgb, black 28%, transparent);
+}
+
+.profileTitle {
+  display: flex;
+  margin: 0 3px 8px;
+  padding: 2px 0 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: color-mix(in srgb, var(--color-accent) 76%, var(--color-text-primary));
+}
+
+.profileTitle::before,
+.profileTitle::after {
+  flex: 1;
+  border-top: 1px solid color-mix(in srgb, var(--color-accent-dim) 30%, transparent);
+  content: "";
+}
+
+.profileEmblem {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 46%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 92%, black 8%);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 80%, transparent),
+    0 0 16px color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.profileNav {
   position: relative;
   display: flex;
-  width: calc(100% + 32px);
-  min-width: 0;
-  margin-inline: -16px;
   flex-direction: column;
-  align-items: center;
 }
 
-.profileNavList {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  overflow-anchor: none;
-}
-
-/* 마우스를 따라 흘러가는 포커스 박스. 손을 떼면 지금 보고 있는 장으로 돌아온다. */
 .profileNavSpot {
   position: absolute;
   z-index: 0;
   top: 0;
-  inset-inline: 0;
-  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
-  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
-  box-shadow: inset 0 0 20px color-mix(in srgb, var(--color-accent) 9%, transparent);
+  inset-inline: 2px;
+  border-block: 1px solid color-mix(in srgb, var(--color-accent) 34%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-accent) 9%, transparent) 18%,
+    color-mix(in srgb, var(--color-accent) 9%, transparent) 82%,
+    transparent
+  );
+  box-shadow: inset 0 0 16px color-mix(in srgb, var(--color-accent) 7%, transparent);
   pointer-events: none;
   transition:
     transform 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
     height 150ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.profileNavSpot::before,
+.profileNavSpot::after {
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 72%, transparent);
+  background: var(--material-panel, var(--color-bg-card));
+  content: "";
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.profileNavSpot::before {
+  inset-inline-start: -3px;
+}
+
+.profileNavSpot::after {
+  inset-inline-end: -3px;
+}
+
+.profileNavItem {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 40px;
+  padding-inline: 10px;
+  border: 1px solid transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  word-break: keep-all;
+  cursor: pointer;
+}
+
+.profileNavItemGroupStart {
+  margin-top: 7px;
+}
+
+.profileNavItemGroupStart::before {
+  position: absolute;
+  top: -5px;
+  inset-inline: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--color-accent-dim) 22%, transparent);
+  content: "";
+}
+
+.profileNavItem:hover,
+.profileNavItemActive {
+  color: var(--color-accent);
+}
+
+.profileNavItemActive {
+  font-weight: 900;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.profileNavItemPending {
+  color: color-mix(in srgb, var(--color-text-secondary) 48%, transparent);
+}
+
+.profileNavItem:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -226,114 +158,27 @@
   }
 }
 
-.profileNavItem {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  width: 100%;
-  min-width: 0;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 14px;
-  padding-inline: 18px 14px;
-  border: 1px solid transparent;
-  color: var(--color-text-secondary);
-  font-family: var(--font-serif);
-  text-align: start;
-  cursor: pointer;
-}
+@media (min-width: 1340px) {
+  .profileAside {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-end: calc(100% + 24px);
+    display: block;
+    width: max-content;
+    max-width: calc((100vw - 1024px) / 2 - 30px);
+  }
 
-/* 묶음이 바뀌는 자리는 여백 없이 선 하나로만 가른다. */
-.profileNavItemGroupStart {
-  border-top-color: color-mix(in srgb, var(--color-accent-dim) 20%, transparent);
-}
+  .profileRail {
+    position: sticky;
+    top: 7rem;
+    max-height: calc(100dvh - 8rem);
+    overflow-y: auto;
+    overflow-anchor: none;
+    scrollbar-width: none;
+  }
 
-.profileNavItem:focus-visible {
-  border-radius: 2px;
-  outline: 2px solid var(--color-accent);
-  outline-offset: -2px;
-}
-
-/* 글자·아이콘 색은 마우스가 아니라 지금 화면에 떠 있는 장을 따른다. */
-.profileNavItemActive {
-  color: var(--color-accent);
-  font-weight: 900;
-  text-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 28%, transparent);
-}
-
-.profileNavItem:hover {
-  color: var(--color-accent);
-}
-
-.profileNavItemPending {
-  color: color-mix(in srgb, var(--color-text-secondary) 52%, transparent);
-  cursor: pointer;
-}
-
-.profileNavItem svg {
-  opacity: 0.62;
-}
-
-.profileNavItemActive svg {
-  opacity: 0.9;
-  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--color-accent) 52%, transparent));
-}
-
-.profileNavItemPending svg {
-  opacity: 0.32;
-  filter: none;
-}
-
-.profileNavItemPending.profileNavItemActive svg {
-  opacity: 0.68;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--color-accent) 34%, transparent));
-}
-
-.profileNavLabel {
-  overflow: hidden;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.profileNavChapter {
-  color: color-mix(in srgb, currentColor 64%, transparent);
-  font-family: var(--font-cinzel);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-/* 아직 못 채운 항목의 안내 글자. 오른쪽 장 번호와 같은 자리·같은 무게로 두어
-   테두리 딱지가 오히려 눈에 띄던 것을 없앤다. */
-.profileNavState {
-  color: color-mix(in srgb, var(--color-text-secondary) 45%, transparent);
-  font-family: var(--font-sans);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
-  white-space: nowrap;
-}
-
-.profileNavStatePreparing {
-  display: none;
-}
-
-.profileNavItemPending:hover .profileNavStateLocked,
-.profileNavItemPending:focus .profileNavStateLocked {
-  display: none;
-}
-
-.profileNavItemPending:hover .profileNavStatePreparing,
-.profileNavItemPending:focus .profileNavStatePreparing {
-  display: inline;
-}
-
-.profileNavItemPending:hover .profileNavState,
-.profileNavItemPending:focus .profileNavState {
-  color: color-mix(in srgb, var(--color-accent) 70%, transparent);
+  .profileRail::-webkit-scrollbar {
+    display: none;
+  }
 }
