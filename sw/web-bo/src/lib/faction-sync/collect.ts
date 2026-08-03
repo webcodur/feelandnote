@@ -295,20 +295,25 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
     })
 
     // 묶음이 없는 세력은 세력 화보(data.image)가 유일한 그룹샷이다 — 1번 묶음으로 취급하고,
-    // 그 한 장에는 세력 전원이 나온 것으로 본다
+    // 그 한 장에는 세력 전원이 나온 것으로 본다.
+    //
+    // 묶음에 이름을 안 붙인 편이 있다(회사 하나가 곧 한 묶음인 산업편). 그때는 세력 이름을
+    // 사진 이름표로 쓴다 — 이름이 없으면 도감이 사진마다 테마 이름을 적어 같은 줄이 반복된다.
+    const groupLabel = firstLine(g.name)
+    const groupLabelEn = firstLine(g.name_en)
     const teamSources = clusters.length
       ? clusters.map(c => ({
           raw: c.image,
-          label: firstLine(c.label),
-          labelEn: firstLine(c.label_en),
+          label: firstLine(c.label) ?? groupLabel,
+          labelEn: firstLine(c.label_en) ?? groupLabelEn,
           celebIds: (peopleByCluster.get(c.id as string) ?? [])
             .map(p => p.celeb_id as string | null)
             .filter((id): id is string => !!id),
         }))
       : [{
           raw: data.image,
-          label: undefined,
-          labelEn: undefined,
+          label: groupLabel,
+          labelEn: groupLabelEn,
           celebIds: people.map(p => p.celebId).filter((id): id is string => !!id),
         }]
 
@@ -325,15 +330,15 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
     const logo = resolveImageRef(folder, data.logoImg)
 
     const imgFolder = folderOfGroup([...people.map(p => p.image), ...teamShots.map(t => t.image)])
-    const nameEn = firstLine(g.name_en)
-    const suggestedSlug = (imgFolder && slugFromFolder(imgFolder)) || slugify(nameEn) || slugify(firstLine(g.name))
+    const nameEn = groupLabelEn
+    const suggestedSlug = (imgFolder && slugFromFolder(imgFolder)) || slugify(nameEn) || slugify(groupLabel)
     const tagSlug = typeof data.tagSlug === 'string' && data.tagSlug.trim() ? data.tagSlug.trim() : null
 
     return {
       id: g.id as string,
       position: g.position as number,
       index,
-      name: firstLine(g.name) ?? `세력 ${index + 1}`,
+      name: groupLabel ?? `세력 ${index + 1}`,
       nameEn,
       color: typeof g.color === 'string' && g.color.trim() ? g.color.trim() : undefined,
       tagId: (g.tag_id as string | null) ?? null,
