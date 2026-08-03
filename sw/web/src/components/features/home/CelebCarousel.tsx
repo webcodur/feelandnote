@@ -87,10 +87,10 @@ export default function CelebCarousel({
   return (
     <div>
       {/* 셀럽 컨트롤 (PC) */}
-      <div className="hidden md:block mb-6">
+      <div className="hidden md:flex mb-6 flex-col items-center">
         {/* 1행: 검색 + 액션 버튼 */}
-        <div className="flex items-center gap-2 mb-3">
-          <div className="relative flex-1 max-w-sm min-w-0 group/search">
+        <div className="flex w-full max-w-xl items-center justify-center gap-2 mb-3">
+          <div className="relative flex-1 min-w-0 group/search">
             <Search size={16} className="absolute start-3 top-1/2 -translate-y-1/2 pointer-events-none z-20" />
             <input
               type="text"
@@ -120,9 +120,9 @@ export default function CelebCarousel({
           </button>
         </div>
 
-        {/* 2행: 필터 칩들 */}
+        {/* 2~4행: 필터 2개 · 필터 2개 · 정렬 */}
         <CelebFiltersDesktop
-          wrapperClassName="flex flex-wrap items-center gap-2"
+          wrapperClassName="grid w-full max-w-xl grid-cols-2 gap-2 [&>div]:w-full [&>div>button]:w-full [&>div:last-child]:col-span-2"
           profession={filters.profession}
           nationality={filters.nationality}
           contentType={filters.contentType}

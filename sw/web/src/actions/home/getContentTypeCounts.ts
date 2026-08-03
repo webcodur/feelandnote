@@ -18,20 +18,30 @@ const DEFAULT_COUNTS: ContentTypeCounts = {
 async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {
   const supabase = createStaticClient()
 
-  // DB 함수로 한 번에 카운트 조회
+  // Supabase RPC(Remote Procedure Call): 웹에서 여러 테이블을 직접 조합하지 않고,
+  // PostgreSQL에 저장된 함수 get_celeb_feed_type_counts()를 원격 호출해 타입별 집계를 한 번에 받는다.
   const { data, error } = await supabase.rpc('get_celeb_feed_type_counts')
 
   if (error || !data) {
-    console.error('getContentTypeCounts error:', error)
-    return DEFAULT_COUNTS
+    throw new Error(`getContentTypeCounts RPC failed: ${error?.message ?? 'empty response'}`)
   }
 
   return data as ContentTypeCounts
 }
 
-export const getContentTypeCounts = unstable_cache(
+const getCachedContentTypeCounts = unstable_cache(
   fetchContentTypeCounts,
-  ['content-type-counts'],
+  ['content-type-counts-v2'],
   // get_celeb_feed_type_counts: 셀럽(profiles) 서고(user_contents)의 타입별 집계
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
+
+/** RPC 실패값은 캐시에 넣지 않는다. 다음 요청에서 즉시 다시 시도할 수 있어야 한다. */
+export async function getContentTypeCounts(): Promise<ContentTypeCounts> {
+  try {
+    return await getCachedContentTypeCounts()
+  } catch (error) {
+    console.error('getContentTypeCounts error:', error)
+    return DEFAULT_COUNTS
+  }
+}

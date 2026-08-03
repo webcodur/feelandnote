@@ -106,17 +106,20 @@ export default function CelebFiltersDesktop({
       icon: value !== "all" ? <span className="text-sm">{getCountryFlag(value)}</span> : undefined,
     })), [nationalityCounts, getNatLabel]);
 
-  const contentTypeOptions: FilterOption[] = useMemo(() =>
-    CONTENT_TYPE_FILTERS.map(({ value }) => {
+  const contentTypeOptions: FilterOption[] = useMemo(() => {
+    // 집계 RPC 전체가 0으로 실패해도 핵심 필터 기능까지 잠그지 않는다.
+    const hasUsableCounts = CONTENT_TYPE_FILTERS.some(({ value }) => (contentTypeCounts[value] ?? 0) > 0);
+    return CONTENT_TYPE_FILTERS.map(({ value }) => {
       const cat = CATEGORIES.find((c) => c.dbType === value);
       const LucideIcon = cat?.lucideIcon;
       return {
         value,
         label: getCtLabel(value),
-        count: contentTypeCounts[value] ?? 0,
+        count: hasUsableCounts ? (contentTypeCounts[value] ?? 0) : undefined,
         icon: LucideIcon ? <LucideIcon size={14} /> : undefined,
       };
-    }), [contentTypeCounts, getCtLabel]);
+    });
+  }, [contentTypeCounts, getCtLabel]);
 
   const genderOptions: FilterOption[] = useMemo(() =>
     genderCounts.map(({ value, count }) => ({
