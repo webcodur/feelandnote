@@ -1,7 +1,7 @@
 /*
   파일명: /components/features/user/explore/hub/RankingTabs.tsx
-  기능: 허브 랭킹 섹션 탭 묶음
-  책임: 인기 프로필 · 챔피언 · 오늘의 추천을 한 칸 안 탭으로 전환. 탭별 더보기 링크.
+  기능: 허브 프로필 섹션 탭 묶음
+  책임: 인기 · 기록왕 · 랜덤을 한 칸 안 탭으로 전환. 전체 인물 목록 링크 제공.
         비어 있는 탭은 애초에 만들지 않는다 — 눌러도 빈 화면이 나오는 탭을 남기지 않기 위함.
 */ // ------------------------------
 
@@ -19,7 +19,7 @@ import type { TopByTypeEntry } from "@/actions/home/getTopByContentType";
 interface RankingTabsProps {
   trending: CelebProfile[];
   topByType: TopByTypeEntry[];
-  /** 오늘의 추천 — 매일 새로 뽑는 인물들 */
+  /** 랜덤 — 매일 새로 뽑는 인물들 */
   dailyPicks: CelebProfile[];
 }
 
@@ -27,15 +27,15 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
   const t = useTranslations("explore.hub");
   const [tab, setTab] = useState(0);
 
-  const tabs: { key: string; moreHref: string; body: React.ReactNode }[] = [];
+  const tabs: { key: string; body: React.ReactNode }[] = [];
   if (trending.length > 0) {
-    tabs.push({ key: "trending", moreHref: "/explore/figures?tier=full", body: <HubCelebGrid celebs={trending} /> });
+    tabs.push({ key: "trending", body: <HubCelebGrid celebs={trending} /> });
   }
   if (topByType.length > 0) {
-    tabs.push({ key: "topByType", moreHref: "/explore/ranking", body: <TopByTypeGrid entries={topByType} /> });
+    tabs.push({ key: "topByType", body: <TopByTypeGrid entries={topByType} /> });
   }
   if (dailyPicks.length > 0) {
-    tabs.push({ key: "allCelebs", moreHref: "/explore/figures?tier=full", body: <HubCelebGrid celebs={dailyPicks} /> });
+    tabs.push({ key: "allCelebs", body: <HubCelebGrid celebs={dailyPicks} /> });
   }
 
   if (tabs.length === 0) return null;
@@ -74,13 +74,13 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
       {/* 콘텐츠 */}
       {current.body}
 
-      {/* 탭별 더보기 */}
+      {/* 전체 프로필 — 기업가 + 종합점수로 최초 진입 */}
       <div className="flex justify-center">
         <Link
-          href={current.moreHref}
+          href="/explore/figures?profession=entrepreneur&sortBy=composite&tier=full"
           className="flex items-center gap-1.5 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-xs font-medium text-white/50 hover:border-white/10 hover:bg-white/10 hover:text-[#d4af37]"
         >
-          {t("viewAll")}
+          {t("viewAllProfiles")}
           <ArrowRight size={14} className="text-[#d4af37]/70" />
         </Link>
       </div>

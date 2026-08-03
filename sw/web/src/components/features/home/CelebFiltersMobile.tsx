@@ -112,17 +112,20 @@ export default function CelebFiltersMobile({
       icon: value !== "all" ? <span className="text-sm">{getCountryFlag(value)}</span> : undefined,
     })), [nationalityCounts, getNatLabel]);
 
-  const contentTypeOptions: FilterOption[] = useMemo(() =>
-    CONTENT_TYPE_FILTERS.map(({ value }) => {
+  const contentTypeOptions: FilterOption[] = useMemo(() => {
+    // 집계 RPC 전체가 0으로 실패해도 핵심 필터 기능까지 잠그지 않는다.
+    const hasUsableCounts = CONTENT_TYPE_FILTERS.some(({ value }) => (contentTypeCounts[value] ?? 0) > 0);
+    return CONTENT_TYPE_FILTERS.map(({ value }) => {
       const cat = CATEGORIES.find((c) => c.dbType === value);
       const LucideIcon = cat?.lucideIcon;
       return {
         value,
         label: getCtLabel(value),
-        count: contentTypeCounts[value] ?? 0,
+        count: hasUsableCounts ? (contentTypeCounts[value] ?? 0) : undefined,
         icon: LucideIcon ? <LucideIcon size={14} /> : undefined,
       };
-    }), [contentTypeCounts, getCtLabel]);
+    });
+  }, [contentTypeCounts, getCtLabel]);
 
   const genderOptions: FilterOption[] = useMemo(() =>
     genderCounts.map(({ value, count }) => ({
@@ -141,7 +144,7 @@ export default function CelebFiltersMobile({
   return (
     <>
       {/* 셀럽 컨트롤 (Mobile) */}
-      <div className="md:hidden mb-10">
+      <div className="mx-auto mb-10 max-w-xl md:hidden">
         <ControlPanel
           title={t("controlTitle")}
           icon={<SlidersHorizontal size={16} className="text-accent/70" />}
@@ -149,15 +152,7 @@ export default function CelebFiltersMobile({
           onToggleExpand={onToggleExpand ?? (() => {})}
           lineWidth="w-8"
         >
-          {/* 1행: 필터 칩들 */}
-          <div className="grid grid-cols-2 gap-2 p-3">
-            <FilterChip label={t("filterProfession")} value={getProfLabel(profession)} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" icon={<Briefcase size={12} />} />
-            <FilterChip label={t("filterNationality")} value={getNatLabel(nationality)} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" icon={<Globe size={12} />} />
-            <FilterChip label={t("filterContent")} value={getCtLabel(contentType)} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" icon={<Layers size={12} />} />
-            <FilterChip label={t("filterGender")} value={getGenderLabel(gender)} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" icon={<Users size={12} />} />
-            <FilterChip label={t("filterSort")} value={t(`sort.${sortBy}`)} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="w-full col-span-2" icon={<ArrowUpDown size={12} />} />
-          </div>
-          {/* 2행: 검색 */}
+          {/* 1행: 인물 검색 */}
           <div className="flex gap-2 p-3">
             <div className="relative flex-1 group/search">
               <div className="absolute inset-0 bg-accent/5 blur-sm opacity-0 group-focus-within/search:opacity-100 transition-opacity rounded-md pointer-events-none" />
@@ -187,6 +182,14 @@ export default function CelebFiltersMobile({
             >
               <Search size={16} />
             </button>
+          </div>
+          {/* 2~4행: 필터 2개 · 필터 2개 · 정렬 */}
+          <div className="grid grid-cols-2 gap-2 p-3 pt-0">
+            <FilterChip label={t("filterProfession")} value={getProfLabel(profession)} isActive={profession !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("profession")} className="w-full" icon={<Briefcase size={12} />} />
+            <FilterChip label={t("filterNationality")} value={getNatLabel(nationality)} isActive={nationality !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("nationality")} className="w-full" icon={<Globe size={12} />} />
+            <FilterChip label={t("filterContent")} value={getCtLabel(contentType)} isActive={contentType !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("contentType")} className="w-full" icon={<Layers size={12} />} />
+            <FilterChip label={t("filterGender")} value={getGenderLabel(gender)} isActive={gender !== "all"} isLoading={isLoading} onClick={() => onFilterOpen("gender")} className="w-full" icon={<Users size={12} />} />
+            <FilterChip label={t("filterSort")} value={t(`sort.${sortBy}`)} isActive={sortBy !== "content_count"} isLoading={isLoading} onClick={() => onFilterOpen("sort")} className="col-span-2 w-full" icon={<ArrowUpDown size={12} />} />
           </div>
         </ControlPanel>
       </div>

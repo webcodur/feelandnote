@@ -49,7 +49,7 @@ async function HubContent() {
   /* 데이터가 비어 접히는 구획이 있다. 목차와 구획 번호는 반드시 "실제로 그려지는 것"에서만 뽑는다 —
      정적 목록에서 뽑으면 접힌 구획이 목차에 남아 눌러도 아무 일이 없고 번호도 어긋난다. */
   const shown: Record<string, boolean> = {
-    // 인기 프로필·챔피언·오늘의 추천은 전부 랭킹 구획 안의 탭이다 — 별도 구획이 아니다
+    // 인기·기록왕·랜덤은 전부 프로필 구획 안의 탭이다 — 별도 구획이 아니다
     ranking: trendingCelebs.length > 0 || topByType.length > 0 || allCelebs.length > 0,
     personaAnalysis: personaPeople.length > 0,
     faction: true,
@@ -66,8 +66,8 @@ async function HubContent() {
         groupId={EXPLORE_GROUP_ID}
       />
 
-      {/* 랭킹 — 인기 프로필 · 챔피언 · 오늘의 추천 탭. 더보기는 탭마다 달라 래퍼에서 뗀다.
-          인기 프로필은 영향력(고정값)과 달리 최근 30일 조회로 매겨 순위가 흐른다 */}
+      {/* 프로필 — 인기 · 기록왕 · 랜덤 탭. 전체 링크는 기업가·종합점수 목록으로 고정해 래퍼에서 뗀다.
+          인기는 영향력(고정값)과 달리 최근 30일 조회로 매겨 순위가 흐른다 */}
       {shown.ranking && (
         <HubSection {...withoutMore(sec("ranking"))}>
           <RankingTabs trending={trendingCelebs} topByType={topByType} dailyPicks={allCelebs} />
