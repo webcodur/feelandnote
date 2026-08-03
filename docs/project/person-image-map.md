@@ -31,10 +31,10 @@
 
 | 무엇 | 저장 위치 | 상태 |
 |------|-----------|------|
-| 가상 독백 (1인칭 글) | `profiles.virtual_monologue` · `_en` | 정비 절차는 `docs/todo/virtual-monologue-quality-overhaul.md` |
+| 가상 독백 (1인칭 글) | `profiles.virtual_monologue` · `_en` | 규칙은 `docs/project/celeb/virtual-monologue.md` |
 | 담화 영상 인물 그림 | `discourse_speakers.image` · `discourse_turns.image` | **구도 규격 문서 없음** |
 | 관계 인물 사진 (명단 밖 인물) | `celeb_relations_external.image_url` | 위키데이터에서 받아온 것. **규격 없음** |
-| 인물이 산 세계의 배경 사진 | 아직 없음 | 발주서만 있고 생성 미착수(`celeb-world-banners.md`) |
+| 인물이 산 세계의 배경 사진 | `sw/web-bo/output/worlds-raw/` 원본 · `sw/web/public/images/worlds/` 운영본 | **39세계 완료.** 규격·발주·검수·초점 예외는 `celeb-world-banners.md` |
 | 인사 음성 | `profiles.has_voice` · `voice_id_ko` · `voice_id_en` | 그림이 아니라 소리. 인물 페이지의 대표 사진을 누르면 재생된다 |
 
 ---
