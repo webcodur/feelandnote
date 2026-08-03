@@ -8,6 +8,8 @@ import { notifyIndexNow } from '@/lib/indexnow'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
+import { requireAdmin } from '@/lib/admin-auth'
+import { assertRouteSafeCelebSlug, previewGeneratedCelebSlug } from '@/lib/celeb-slug'
 
 // #region Types
 export interface Celeb {
@@ -66,7 +68,7 @@ interface CreateCelebInput {
   avatar_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive' | 'suspended'
-  celeb_tier?: 'full' | 'light'
+  /** 등급은 받지 않는다 — 신규는 항상 light다(NEW_CELEB_TIER 주석 참조) */
   influence?: GeneratedInfluence
 }
 
@@ -671,21 +673,55 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
 // #endregion
 
 // #region createCeleb
-export async function createCeleb(input: CreateCelebInput): Promise<{ id: string }> {
+/**
+ * 새로 만드는 인물의 등급은 언제나 light다.
+ *
+ * DB 트리거 `trg_celeb_full_requires_content`가 감상 기록이 한 건도 없는 인물의
+ * full 등급을 막는다(2026-06-22 설치). 방금 만든 인물은 기록이 있을 수 없으므로
+ * 등록 시점에 full을 고를 여지 자체가 없다. 기록을 채운 뒤 목록에서 올린다.
+ */
+const NEW_CELEB_TIER = 'light' as const
+
+export async function createCeleb(input: CreateCelebInput): Promise<{ id: string; slug: string }> {
+  await requireAdmin()
   // Admin 클라이언트 사용 (RLS 우회 필요)
   const adminClient = createAdminClient()
 
-  // 닉네임 중복 체크
-  const { data: existing } = await adminClient
-    .from('profiles')
-    .select('id')
-    .eq('profile_type', 'CELEB')
-    .eq('nickname', input.nickname.trim())
-    .neq('status', 'deleted')
-    .maybeSingle()
+  const nickname = input.nickname.trim()
+  if (!nickname) throw new Error('닉네임을 입력해주세요.')
+  const nicknameEn = input.nickname_en?.trim() ?? ''
+  if (!nicknameEn) throw new Error('신규 CELEB의 slug 생성을 위해 영문 이름이 필요합니다.')
+  const baseSlug = previewGeneratedCelebSlug(nicknameEn)
+  if (!baseSlug) throw new Error('영문 이름으로 slug를 생성할 수 없습니다.')
 
-  if (existing) {
+  // 이름 중복을 막고, generated slug 충돌은 slug_suffix로 해소한다.
+  const [
+    { data: existingName, error: nameError },
+    { data: existingNameEn, error: nameEnError },
+    { data: slugRows, error: slugError },
+  ] = await Promise.all([
+    adminClient.from('profiles').select('id')
+      .eq('profile_type', 'CELEB').eq('nickname', nickname).neq('status', 'deleted').limit(1),
+    adminClient.from('profiles').select('id')
+      .eq('profile_type', 'CELEB').eq('nickname_en', nicknameEn).neq('status', 'deleted').limit(1),
+    adminClient.from('profiles').select('slug').like('slug', `${baseSlug}%`),
+  ])
+  if (nameError) throw nameError
+  if (nameEnError) throw nameEnError
+  if (slugError) throw slugError
+
+  if (existingName?.length || existingNameEn?.length) {
     throw new Error('이미 동일한 이름의 셀럽이 존재합니다.')
+  }
+  const occupied = new Set((slugRows ?? []).flatMap(row => row.slug ? [row.slug as string] : []))
+  let slugSuffix: string | null = null
+  if (occupied.has(baseSlug)) {
+    for (let suffix = 2; ; suffix++) {
+      if (!occupied.has(`${baseSlug}-${suffix}`)) {
+        slugSuffix = String(suffix)
+        break
+      }
+    }
   }
 
   // 더미 이메일 생성 (auth.users FK 제약 때문에 필요)
@@ -704,82 +740,98 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 
   const userId = authData.user.id
 
-  // profiles 테이블에 셀럽 정보 업데이트
-  const { error: profileError } = await adminClient
-    .from('profiles')
-    .update({
-      nickname: input.nickname,
-      nickname_en: input.nickname_en || null,
-      profession: input.profession || null,
-      title: input.title || null,
-      nationality: input.nationality || null,
-      gender: input.gender ?? null,
-      birth_date: input.birth_date || null,
-      death_date: input.death_date || null,
-      bio: input.bio || null,
-      consumption_philosophy: input.cultural_journey || null,
-      avatar_url: input.avatar_url || null,
-      is_verified: input.is_verified || false,
-      profile_type: 'CELEB',
-      status: input.status || 'suspended',
-      celeb_tier: input.celeb_tier || 'full',
+  try {
+    // profiles 테이블에 셀럽 정보 업데이트
+    const { data: updatedProfile, error: profileError } = await adminClient
+      .from('profiles')
+      .update({
+        nickname,
+        nickname_en: nicknameEn,
+        slug_suffix: slugSuffix,
+        profession: input.profession || null,
+        title: input.title || null,
+        nationality: input.nationality || null,
+        gender: input.gender ?? null,
+        birth_date: input.birth_date || null,
+        death_date: input.death_date || null,
+        bio: input.bio || null,
+        consumption_philosophy: input.cultural_journey || null,
+        avatar_url: input.avatar_url || null,
+        is_verified: input.is_verified || false,
+        profile_type: 'CELEB',
+        status: input.status || 'suspended',
+        celeb_tier: NEW_CELEB_TIER,
+      })
+      .eq('id', userId)
+      .select('slug')
+      .single()
+
+    if (profileError) throw profileError
+    if (!updatedProfile?.slug) throw new Error('프로필 generated slug가 생성되지 않았습니다.')
+    assertRouteSafeCelebSlug(updatedProfile.slug as string)
+
+    // user_social 초기화
+    const { error: socialError } = await adminClient.from('user_social').upsert({
+      user_id: userId,
+      follower_count: 0,
+      following_count: 0,
+      friend_count: 0,
+      influence: 0,
     })
-    .eq('id', userId)
 
-  if (profileError) throw profileError
+    if (socialError) throw socialError
 
-  // user_social 초기화
-  const { error: socialError } = await adminClient.from('user_social').upsert({
-    user_id: userId,
-    follower_count: 0,
-    following_count: 0,
-    friend_count: 0,
-    influence: 0,
-  })
+    // user_scores 초기화
+    const { error: scoresError } = await adminClient.from('user_scores').upsert({
+      user_id: userId,
+      activity_score: 0,
+      title_bonus: 0,
+      total_score: 0,
+    })
 
-  if (socialError) throw socialError
+    if (scoresError) throw scoresError
 
-  // user_scores 초기화
-  const { error: scoresError } = await adminClient.from('user_scores').upsert({
-    user_id: userId,
-    activity_score: 0,
-    title_bonus: 0,
-    total_score: 0,
-  })
+    // 영향력 저장 (AI 생성된 경우)
+    if (input.influence) {
+      const inf = input.influence
+      const { error: influenceError } = await adminClient.from('celeb_influence').upsert({
+        celeb_id: userId,
+        political: inf.political.score,
+        political_exp: inf.political.exp,
+        strategic: inf.strategic.score,
+        strategic_exp: inf.strategic.exp,
+        tech: inf.tech.score,
+        tech_exp: inf.tech.exp,
+        social: inf.social.score,
+        social_exp: inf.social.exp,
+        economic: inf.economic.score,
+        economic_exp: inf.economic.exp,
+        cultural: inf.cultural.score,
+        cultural_exp: inf.cultural.exp,
+        transhistoricity: inf.transhistoricity.score,
+        transhistoricity_exp: inf.transhistoricity.exp,
+        total_score: inf.totalScore,
+      }, { onConflict: 'celeb_id' })
 
-  if (scoresError) throw scoresError
+      if (influenceError) throw influenceError
+    }
 
-  // 영향력 저장 (AI 생성된 경우)
-  if (input.influence) {
-    const inf = input.influence
-    const { error: influenceError } = await adminClient.from('celeb_influence').upsert({
-      celeb_id: userId,
-      political: inf.political.score,
-      political_exp: inf.political.exp,
-      strategic: inf.strategic.score,
-      strategic_exp: inf.strategic.exp,
-      tech: inf.tech.score,
-      tech_exp: inf.tech.exp,
-      social: inf.social.score,
-      social_exp: inf.social.exp,
-      economic: inf.economic.score,
-      economic_exp: inf.economic.exp,
-      cultural: inf.cultural.score,
-      cultural_exp: inf.cultural.exp,
-      transhistoricity: inf.transhistoricity.score,
-      transhistoricity_exp: inf.transhistoricity.exp,
-      total_score: inf.totalScore,
-    }, { onConflict: 'celeb_id' })
+    revalidatePath('/celebs')
+    // profiles + user_social + user_scores + celeb_influence 신규
+    await revalidateWebCache(CACHE_TAGS.CELEBS)
 
-    if (influenceError) throw influenceError
+    const { data: createdProfile, error: createdProfileError } = await adminClient
+      .from('profiles').select('slug').eq('id', userId).single()
+    if (createdProfileError) throw createdProfileError
+    if (!createdProfile.slug) throw new Error('생성된 CELEB의 slug가 없습니다.')
+    return { id: userId, slug: createdProfile.slug as string }
+  } catch (err) {
+    // 어느 단계에서 막히든 껍데기 계정만 남지 않도록 되돌린다
+    await adminClient.auth.admin.deleteUser(userId)
+    throw err
   }
-
-  revalidatePath('/celebs')
-  // profiles + user_social + user_scores + celeb_influence 신규
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
-
-  return { id: userId }
 }
+
 // #endregion
 
 // #region updateCeleb

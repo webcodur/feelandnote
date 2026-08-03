@@ -10,13 +10,23 @@ import { detectFaceLandmarks, calculateFaceCropArea } from '@/utils/faceDetectio
 interface Props {
   imageSrc: string
   aspectRatio?: number
+  title?: string
+  description?: string
+  cropShape?: 'round' | 'rect'
+  enableAutoCrop?: boolean
+  restrictPosition?: boolean
+  /**
+   * 이미지가 크롭 프레임보다 작아질 때 생기는 바깥 영역을 투명 여백으로 보존한다.
+   * 누끼 아바타처럼 피사체를 원 안에 억지로 맞추지 않고 자유롭게 배치할 때 사용한다.
+   */
+  allowTransparentPadding?: boolean
   /** 자른 그림을 무손실 PNG 데이터 URL로 넘긴다. 최종 압축은 받는 쪽(lib/image.ts)에서 한 번만 한다. */
   onComplete: (croppedImage: string) => void
   onCancel: () => void
 }
 
 // 격자 오버레이 컴포넌트 (중앙선 + 보조선)
-function GridOverlay({ showGrid }: { showGrid: boolean }) {
+function GridOverlay({ showGrid, faceGuides }: { showGrid: boolean; faceGuides: boolean }) {
   if (!showGrid) return null
 
   return (
@@ -30,14 +40,26 @@ function GridOverlay({ showGrid }: { showGrid: boolean }) {
       <div className="absolute top-0 bottom-0 left-1/3 w-px bg-white/30" />
       <div className="absolute top-0 bottom-0 left-2/3 w-px bg-white/30" />
 
-      {/* 3등분 가로선 (미간/턱 가이드) */}
-      <div className="absolute left-0 right-0 top-1/3 h-px bg-red-400/60 border-t border-red-500 shadow-[0_0_4px_rgba(248,113,113,0.8)]" />
-      <div className="absolute left-0 right-0 top-2/3 h-px bg-blue-400/60 border-t border-blue-500 shadow-[0_0_4px_rgba(96,165,250,0.8)]" />
+      {/* 아바타에서는 미간/턱 가이드, 일반 사진에서는 중립적인 3등분선 */}
+      <div className={`absolute left-0 right-0 top-1/3 h-px ${faceGuides ? 'border-t border-red-500 bg-red-400/60 shadow-[0_0_4px_rgba(248,113,113,0.8)]' : 'bg-white/30'}`} />
+      <div className={`absolute left-0 right-0 top-2/3 h-px ${faceGuides ? 'border-t border-blue-500 bg-blue-400/60 shadow-[0_0_4px_rgba(96,165,250,0.8)]' : 'bg-white/30'}`} />
     </div>
   )
 }
 
-export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, onCancel }: Props) {
+export default function ImageCropModal({
+  imageSrc,
+  aspectRatio = 1,
+  title = '이미지 편집',
+  description,
+  cropShape,
+  enableAutoCrop = true,
+  restrictPosition = false,
+  allowTransparentPadding = false,
+  onComplete,
+  onCancel,
+}: Props) {
+  const minimumZoom = allowTransparentPadding ? 0.1 : 1
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null)
@@ -52,20 +74,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
   const [initialArea, setInitialArea] = useState<Area | undefined>(undefined)
   const [cropperKey, setCropperKey] = useState(0)
 
-  // 이미지 크기 저장 + 1:1이면 자동 AI 맞춤
-  useEffect(() => {
-    const img = new Image()
-    img.onload = () => {
-      imageSize.current = { width: img.width, height: img.height }
-
-      if (Math.abs(aspectRatio - 1) < 0.01) {
-        handleAutoCrop()
-      }
-    }
-    img.src = imageSrc
-  }, [imageSrc, aspectRatio])
-
-  const handleAutoCrop = async () => {
+  const handleAutoCrop = useCallback(async () => {
     if (!imageSize.current) return
     setAnalyzing(true)
     setNotice(null)
@@ -99,7 +108,20 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
     } finally {
       setAnalyzing(false)
     }
-  }
+  }, [imageSrc])
+
+  // 이미지 크기 저장 + 1:1이면 자동 AI 맞춤
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => {
+      imageSize.current = { width: img.width, height: img.height }
+
+      if (enableAutoCrop && Math.abs(aspectRatio - 1) < 0.01) {
+        handleAutoCrop()
+      }
+    }
+    img.src = imageSrc
+  }, [imageSrc, aspectRatio, enableAutoCrop, handleAutoCrop])
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -126,11 +148,19 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
       <div className="absolute inset-0 bg-black/80" onClick={onCancel} />
 
       {/* 모달 */}
-      <div className="relative bg-bg-card border border-border rounded-2xl w-full max-w-lg mx-4 overflow-hidden">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className="relative bg-bg-card border border-border rounded-2xl w-full max-w-lg mx-4 overflow-hidden"
+      >
         {/* 헤더 */}
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h3 className="text-lg font-semibold text-text-primary">이미지 편집</h3>
-          <button onClick={onCancel} className="p-1 text-text-secondary hover:text-text-primary">
+          <div>
+            <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
+            {description && <p className="mt-0.5 text-xs text-text-secondary">{description}</p>}
+          </div>
+          <button type="button" onClick={onCancel} aria-label="이미지 편집 닫기" className="p-1 text-text-secondary hover:text-text-primary">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -142,13 +172,14 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
             image={imageSrc}
             crop={crop}
             zoom={zoom}
+            minZoom={minimumZoom}
             aspect={aspectRatio}
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
-            cropShape={aspectRatio === 1 ? 'round' : 'rect'}
+            cropShape={cropShape ?? (aspectRatio === 1 ? 'round' : 'rect')}
             showGrid={false}
-            restrictPosition={false}
+            restrictPosition={restrictPosition}
             initialCroppedAreaPixels={initialArea}
           />
           {/* 커스텀 격자 오버레이 (react-easy-crop crop area와 동일 크기) */}
@@ -161,7 +192,7 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
                 maxWidth: '100%',
               }}
             >
-              <GridOverlay showGrid={showGrid} />
+              <GridOverlay showGrid={showGrid} faceGuides={enableAutoCrop} />
             </div>
           </div>
         </div>
@@ -189,51 +220,66 @@ export default function ImageCropModal({ imageSrc, aspectRatio = 1, onComplete, 
             </div>
           )}
 
+          {allowTransparentPadding && (
+            <p className="rounded-lg border border-border bg-bg-secondary/60 px-3 py-2 text-xs leading-relaxed text-text-secondary">
+              누끼 아바타 모드: 0.1배까지 축소하고 인물을 원 밖으로 자유롭게 옮길 수 있습니다. 이미지가 없는 부분은 투명하게 저장됩니다.
+            </p>
+          )}
+
           {/* 줌 슬라이더 */}
           <div className="flex items-center gap-3">
             <ZoomOut className="w-4 h-4 text-text-secondary shrink-0" />
             <input
               type="range"
-              min={1}
+              min={minimumZoom}
               max={3}
-              step={0.1}
+              step={allowTransparentPadding ? 0.05 : 0.1}
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
               className="flex-1 h-1 bg-bg-secondary rounded-full appearance-none cursor-pointer accent-accent"
             />
+            <span className="w-10 text-right text-[11px] tabular-nums text-text-secondary">
+              {zoom.toFixed(zoom < 1 ? 2 : 1)}×
+            </span>
             <ZoomIn className="w-4 h-4 text-text-secondary shrink-0" />
-            <button onClick={handleReset} className="p-1.5 text-text-secondary hover:text-text-primary" title="초기화">
+            <button type="button" onClick={handleReset} className="p-1.5 text-text-secondary hover:text-text-primary" title="초기화">
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
               onClick={() => setShowGrid(!showGrid)}
+              type="button"
               className={`p-1.5 rounded ${showGrid ? 'text-accent bg-accent/10' : 'text-text-secondary hover:text-text-primary'}`}
               title="격자 가이드"
             >
               <Grid3X3 className="w-4 h-4" />
             </button>
-            <div className="w-px h-4 bg-border mx-1" />
-            <button
-              onClick={handleAutoCrop}
-              disabled={analyzing}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                analyzing
-                  ? 'bg-accent/10 text-accent cursor-wait'
-                  : 'bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20'
-              }`}
-            >
-              {analyzing ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  분석 중...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-3.5 h-3.5" />
-                  AI 자동 맞춤
-                </>
-              )}
-            </button>
+            {enableAutoCrop && (
+              <>
+                <div className="w-px h-4 bg-border mx-1" />
+                <button
+                  type="button"
+                  onClick={handleAutoCrop}
+                  disabled={analyzing}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
+                    analyzing
+                      ? 'bg-accent/10 text-accent cursor-wait'
+                      : 'bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20'
+                  }`}
+                >
+                  {analyzing ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      분석 중...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      AI 자동 맞춤
+                    </>
+                  )}
+                </button>
+              </>
+            )}
           </div>
 
           {/* 버튼 */}
@@ -257,8 +303,16 @@ async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<strin
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
 
-  canvas.width = pixelCrop.width
-  canvas.height = pixelCrop.height
+  // 1배 미만으로 축소하면 원본 좌표계의 크롭 영역은 이미지보다 몇 배 커진다.
+  // 그 크기로 캔버스를 만들면 대형 원본에서 브라우저 한도를 넘으므로, 최종 800/1080 리사이즈에
+  // 충분한 2400px까지만 무손실 중간 결과를 만든다.
+  const maxOutputEdge = 2400
+  const outputScale = Math.min(1, maxOutputEdge / Math.max(pixelCrop.width, pixelCrop.height))
+
+  canvas.width = Math.max(1, Math.round(pixelCrop.width * outputScale))
+  canvas.height = Math.max(1, Math.round(pixelCrop.height * outputScale))
+  ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
 
   // restrictPosition=false 시 크롭 영역이 이미지 밖으로 나갈 수 있음
   // 이미지 밖 영역은 투명 유지 (누끼 보존)
@@ -273,11 +327,11 @@ async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<strin
   const sh = sBottom - sy
 
   // 캔버스 대상 위치 (음수 오프셋 보정)
-  const dx = sx - pixelCrop.x
-  const dy = sy - pixelCrop.y
+  const dx = (sx - pixelCrop.x) * outputScale
+  const dy = (sy - pixelCrop.y) * outputScale
 
   if (sw > 0 && sh > 0) {
-    ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw, sh)
+    ctx.drawImage(image, sx, sy, sw, sh, dx, dy, sw * outputScale, sh * outputScale)
   }
 
   return canvas.toDataURL('image/png')
