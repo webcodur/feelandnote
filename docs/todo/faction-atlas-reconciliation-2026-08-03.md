@@ -39,7 +39,7 @@ argonauts · arthur-round-table · heracles · house-of-atreus · virgil-aeneid 
 - 전부 web_no_quote 0. 태그 비노출이라 현재 「준비 중」 섹션에 뜸.
 
 ### E. 제작만 있고 웹 흔적 없음 — 신규 출간 대상(태그 생성부터). 우선순위 낮음
-Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred-schools · space-race · digital-gold-rush 외 40여 편(대부분 미해소 인물 다수 = 셀럽 미등록).
+Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred-schools · space-race · digital-gold-rush 외 40여 편. 당시에는 미해소 인물이 많았으나 26.08.03 DB 인물 연결 강제 작업에서 전량 해소했다.
 
 ## 단계 계획
 
@@ -47,7 +47,7 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 2. **C군 연결 키 지정 + 출간** — 편집기에서 세력별 tagSlug 지정(이름 1:1 대응이 명백한 것부터), dry-run으로 배정 충돌 확인 후 출간.
 3. **C군 대응 미확인분 조사** — 웹 태그 ↔ 제작 편 대응표 완성, 대응 없는 웹 태그는 유지/폐기 결정(사람).
 4. **D군 노출 결정** — 신화 9종 등 준비 중 → 노출 전환 여부(사람 결정).
-5. **미해소 인물 정리** — B·C군의 celeb_id null 인물: 셀럽 등록(celeb 파이프라인) 또는 도감 제외 확정.
+5. ✅ **미해소 인물·비인물 주체 정리 완료(26.08.03)** — 1,502행/미연결 390행 초판 처리 뒤 의미 감사에서 회사·조직·제품·기계·집단 계정화를 발견해 철회했다. 현대 비인물 65행 제거·묶음 2행 실제 발화자 재연결·실제 인물 14행 보강, 과거 fiction 집단 5행 제거까지 마쳐 최종 1,446행이다. 에너지 편은 원래 기획 백업의 회사별 실제 담당자 8명을 복원했다. null·잘못된 링크·명백한 비인물 행은 0이며 DB 트리거까지 재발을 거부한다.
 
 주의: 출간 패널은 화면 전용이지만, 이번 정합화는 유저 지시로 **데이터단(SQL) 직접 처리**로 전환했다.
 백필 규칙은 출간 코드와 동일하게 맞췄다 — 대사(quote·en) 갱신, 한줄 소개(lines[0])·상세 설명(epithet 또는 lines[1..2]) 빈 칸만 채움, 같은 셀럽 중복 배치는 앞자리 채택, disabled 인물 제외. 배정 신규 생성(INSERT)은 하지 않았다(노출 확대는 별도 결정).
@@ -82,7 +82,7 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 | hundred-schools | hundred-schools-of-thought | 4 | 같은 편 유가·도가가 이미 이 태그에 연결(형제 선례) + 편명=태그명. 묵가·법가·병가·종횡가 추가 |
 | global-franchise | franchise-empires | 3 | 태그 배정 3명(크록·캄프라드·슐츠) = 편 셀럽 3명과 정확히 일치. IKEA 캄프라드 포함이 fast-food-empire 아닌 이 편임을 증명. 겹침 3명 |
 
-주의: 산업편 다수(자율주행·항공·방산·무인기·에너지·휴머노이드·정보기관·특수부대 등)는 제작 인물이 기업·장비명(celeb_id 없음)이라 겹침이 구조적으로 0 — 이름·태그 배정 인물 대조로 판정했고, 이 편들은 백필이 흐르지 않는다(도감 인물은 수동 시절 배정 유지).
+주의: 산업편 다수(자율주행·항공·방산·무인기·에너지·휴머노이드·정보기관·특수부대 등)의 옛 제작 배치는 기업·장비·조직명이었다. 이름·태그 배정 대조에는 썼지만, 이 이름 자체를 인물이나 CELEB로 승격하면 안 된다. 26.08.03 최종 정비 뒤 회사·장비·기관은 세력/미디어에만 남고 `faction_people`에는 그 아래의 실제 사람만 있다.
 
 ### 보류 — 사유별
 
@@ -115,13 +115,13 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 | 데이터 | 집 |
 |---|---|
 | 인물 대사·직함·소개 원문 | faction_people (제작 행이 유일 원천) |
-| 도감 손질본(소개 교정·개인샷 R2 주소·감춤) | faction_people의 `web_*` 칸 (web_short_desc/web_long_desc/±en·web_image_url·web_hidden) |
+| 도감 손질본(상세 소개 교정·개인샷 R2 주소·감춤) | faction_people의 `web_long_desc`(±en)·`web_image_url`·`web_hidden`. 한줄은 직함 첫 항목 고정, 옛 `web_short_desc`(±en)는 폐기 |
 | 영상 없는 웹 전용 태그의 인물 명단 | celeb_tag_assignments **잔류** (제작 유래 사본만 삭제 예정) |
 | 태그 마스터(색·설명·계층·노출·단체샷·유튜브·음악) | celeb_tags 유지 |
 | 이미지 실물 | R2 (현행 경로), DB엔 주소만 |
 | 출간 | 복사 파이프라인 폐기, 노출 = celeb_tags.is_featured 스위치 |
 
-읽기 규칙(예정): 태그 인물 = 제작 유래(coalesce(web_*, 제작값), 태그당 셀럽 중복은 앞자리) ∪ 웹 전용 배정. 정렬은 제작 순번 우선, 웹 전용은 뒤에 sort_order 순.
+읽기 규칙(현행): 태그 인물 = 제작 유래(한줄은 직함 첫 항목, 상세만 coalesce(web_long_desc, 제작값), 태그당 셀럽 중복은 앞자리) ∪ 웹 전용 배정. 정렬은 제작 순번 우선, 웹 전용은 뒤에 sort_order 순.
 
 ### 진행 상태
 - ✅ P1 스키마 확장 — faction_people에 web_* 6칸 추가(마이그레이션 `faction_people_web_override_columns`)
@@ -136,6 +136,7 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 - ✅ P4-1 사본 삭제 — 제작 유래 배정 650건 삭제. 삭제 전후 뷰 906행 동일(화면 무변 증명). 잔여 배정 = 웹 전용 214행. 백업 `_backup/celeb-tag-assignments-full-2026-08-03.json`
 - ✅ P4-2 출간 파이프라인 슬림화 — 텍스트 투영 통삭제(faction-sync 안 배정 참조 0), 개인샷 URL은 faction_people.web_image_url 기록, 패널 문구 갱신. tsc·eslint 통과
 - ✅ P4-3 문서·스킬 갱신 — celeb-tag-system·faction-unification(§4-3 신설)·web-bo·db-celeb·person-image-map·faction-db-sync·faction-celeb-sync 스킬·AGENTS.md 반영
+- ✅ P15 웹 전용 한줄 손질 폐기 — 제작 행의 `short_desc`는 직함 첫 항목만 읽고, BO 한줄 입력·저장·대본 저장 보존 경로에서 `web_short_desc`(±en)를 제거. 상세 손질·수동 명단의 한줄은 유지
 
 ## P5 태그 체계 재편 (26.08.03 — "제작 세력 = 도감 테마" 관철)
 
@@ -145,7 +146,7 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 - ✅ X 제국 잔여 2세력 → 세력별 태그 신설: 「황제」(x-emperor)·「The Boring Company」(boring-company)
 - ✅ 혼종 잔재 흡수 — 태그의 연결 편에 제작 인물로 존재하는 수동 잔재 7행 삭제(머스크·데이비스 등). 변경의 실험실은 뉴럴링크 순수(2명)가 됐고 머스크→황제, 데이비스→보링으로 정리
 - 제외(의도): draft 편들, 본편 중복 편 3(social-media·music-streaming·space-industry) — 잔여 미연결 세력 16개는 전부 이 부류
-- 실측: 뷰 총 924명, 수동 명단 207명(순수 웹 큐레이션), 비노출 태그 45개(준비 중 섹션 후보), 미연결 세력 16(의도 제외)
+- 당시 실측(P5 시점): 뷰 총 924명, 수동 명단 207명으로 보였으나 P14에서 영상 연결 수동 행이 섞였음이 드러났다. P14 정비 후 현재값은 영상 없는 16테마·123명이다. 비노출 태그 45개(준비 중 섹션 후보), 미연결 세력 16(의도 제외)
 - 후속(사람 결정): 신설 태그의 이름·색·설명·상위 그룹·노출 여부 다듬기, 게임 주제 3편(console-wars·game-empire·game-industry) 병합 여부, 중복 편 3의 폐기 여부
 
 ## P6 연결 개념 소거 (26.08.03 — 자동 테마 장치)
@@ -201,19 +202,21 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 증상: `/explore/faction/humanoid-robotics`에서 「단체 · 인간형 로봇 · 8인」 줄이 사진만 바뀐 채 다섯 번 반복.
 
 원인 두 겹.
-1. 제작 편 `humanoids`는 등장이 사람이 아니라 **로봇 기종**(옵티머스·아틀라스·스팟·피겨03·NEO·유니트리 G1)이라 `celeb_id`가 없다 → 사진에 실을 인물 명단이 빈다.
+1. 제작 편 `humanoids`의 옛 등장 행은 사람이 아니라 **로봇 기종**(옵티머스·아틀라스·스팟·피겨03·NEO·유니트리 G1)이었다. 이 행들에 `celeb_id`를 만들어 붙이는 것은 금지다. 회사 세력은 유지하고 그 아래 실제 개발자·경영자를 인물로 둔다.
 2. 그 편은 묶음(cluster) 이름도 비어 있었다 → 사진 이름표가 안 붙어 도감이 테마 이름으로 대신 적었다. 명단 8명은 수동 시절 넣은 **사람들**이라 사진과 층이 달랐다.
 
 - ✅ `faction-sync/collect.ts` — 묶음 이름이 비면 **세력 이름**을 사진 이름표로 쓴다(회사 하나가 곧 한 묶음인 산업편 대응). 같은 자리에서 중복 계산하던 `nameEn`·`name`도 이 값으로 통일
 - ✅ `faction-sync/publish.ts` — 제작에서 뽑은 사진 인물 명단이 비면 **도감에 이미 매달아 둔 명단을 지우지 않는다**(제작에 사람이 있으면 종전대로 제작이 이긴다). 이게 없으면 아래 수동 배정이 다음 출간에 날아간다
 - ✅ 데이터 — `humanoid-robotics` 사진 5장에 회사 이름표(Tesla·Boston Dynamics·Figure AI·1X Technologies·중국 굴기)와 소속 인물 6명 배정. 캐시 갱신 후 실화면 확인
-- 남은 상태: 혼다(히로세 마사토)·어질리티(조너선 허스트)는 제작 편에 그 회사가 없어 명단 맨 아래에 남는다. 인물 대사는 여전히 0(제작 등장이 사람이 아니라 뽑아 올 대사가 없다)
+- 최종 상태: 로봇 기종은 인물 행에서 제거했다. 회사 그룹과 사진·영상 문맥은 유지하고 실제 인물만 남긴다. 혼다(히로세 마사토)·어질리티(조너선 허스트)는 비활성 회사 세력의 인물로 보존한다.
 
-## P14 영상에 사람이 안 나오는 편의 도감 명단 (26.08.03 — 진행 중)
+## P14 영상에 사람이 안 나오는 편의 도감 명단 (26.08.03 — 제작 연결분 정비 완료)
 
 유저 지적("SSoT 처리 안 했나")에서 드러난 실측. 26.08.03 단일화가 지운 것은 **제작에 짝이 있는 사본 650건**이고, 짝 없는 214명은 「영상 없는 도감 전용 테마」용 통로로 남겼다. 그런데 그 통로가 **영상 편에 연결된 테마에도 열려 있어** 16개 테마·84명이 수동 명단으로 서 있다.
 
-### 부류 A — 구조적(8테마 63명): 영상 등장이 회사·장비·기종이라 끌어올 사람이 0
+정비 후 실측(26.08.03): 영상 편에 연결된 수동 명단 **0건**, 영상 없는 16테마·123명만 남았다.
+
+### 부류 A — 구조적(8테마 63명): 옛 영상 등장 행이 회사·장비·기종이라 실제 사람 명단을 별도로 이관
 `special-forces`(9) · `aircraft-makers`(9) · `spymasters`(8) · `humanoid-robotics`(8) · `ev-and-battery`(8) · `autonomous-driving`(8) · `drone-makers`(7) · `masked-hackers`(6, 원래 비노출)
 
 ### 부류 B — 잔재(8테마 21명): 영상에 없지만 도감에는 넣고 싶어 손으로 넣은 사람
@@ -230,13 +233,18 @@ Path-of-Kings(-East/-West) · three-kingdoms · world-football-best11 · hundred
 
 도구: `sw/web-bo/scripts/migrate-atlas-manual-to-production.ts --folder=<편> [--dry]`. 회사별 배치는 스크립트 안 `GROUP_BY_PERSON`에 편마다 사람이 적는다(없으면 「도감 명단」 한 세력에 몰아넣는다). 이름·연결 키·한 줄 소개(lines[0])·상세 소개(epithet)·대사·개인 사진·감춤 여부를 옮기고, 원본은 `_backup/`에 남긴 뒤 지운다.
 
+기존 제작 자리가 있는데 slug만 낡은 경우는 `link-atlas-manual-to-existing-production.ts`, 수동 행 삭제 뒤 전체 백업에서 되살려야 하는 경우는 `adopt-atlas-backup-into-production.ts`를 쓴다. 한글 JSON UPDATE를 PowerShell `Invoke-RestMethod` 본문으로 보내지 않는다 — Hugging Face 첫 시도에서 `?`로 깨졌고, 즉시 전체 백업과 Supabase JS 복구 도구로 2명 전부 원문 일치 복구했다.
+
 ### 진행
 - ✅ 임시 차단(26.08.03) — 부류 A 중 노출 중이던 6개 테마를 「준비 중」으로 내렸다(`is_featured=false`): 특수부대·하늘의 제조사·정보기관·전기차와 배터리·자율주행·무인기. 스위치만 되돌리면 복구된다
-- ✅ **인간형 로봇 이관 완료(26.08.03)** — 사람을 **기존 회사 세력 안에** 넣는다(유저 지시: 세력을 새로 세우지 말 것). 테슬라·보스턴다이내믹스·피겨AI·1X·중국 굴기 다섯 세력에 로봇과 사람이 함께 서고, 그 편에 회사가 없는 둘(혼다 히로세 마사토·어질리티 조너선 허스트)만 「영상 제외」 세력으로 남는다. 합치기 도구 `scripts/merge-atlas-groups-into-companies.ts`. 초판은 회사별 세력을 따로 세웠다가 편집기가 같은 이름 두 줄로 보여 되돌렸다. 저장 후 실측: 도감 8명 전원 `source=production`, 회사 이름표·소개·대사·감춤 여부 그대로. 편집기에 「영상 제외」 배지로 표시된다. 손 명단 8건 삭제, 백업 `_backup/celeb-tag-assignments-humanoids-migrated.json`
-- ⬜ 부류 A 잔여 5편(특수부대·하늘의 제조사·정보기관·전기차와 배터리·자율주행·무인기·가면 쓴 해커) — 같은 스크립트로 이관 후 노출 스위치 복구
-- ⬜ 부류 B 21명 — 테마가 여러 편에 걸치거나 대응 편이 없어 자동 이관이 막힌다. 편 지정 후 개별 처리
-- ⬜ 영상이 아예 없는 큐레이션 테마 207명 — 담을 편이 없다. 테마마다 비활성 편을 만들지 결정
-- ⬜ 편집기 「직접 추가」 처리 — 셀럽 계정 없이 인물을 만들 수 있어 도감에 못 가는 인물이 생긴다. 표현을 없애든지, 등록하는 순간 셀럽 계정이 생기게 하든지 (유저 제기)
+- ✅ **인간형 로봇 이관 완료(26.08.03)** — 사람을 **기존 회사 세력 안에** 넣는다(유저 지시: 세력을 새로 세우지 말 것). 테슬라·보스턴다이내믹스·피겨AI·1X·중국 굴기 다섯 세력에는 실제 개발자·경영자만 인물 행으로 두고, 로봇 기종은 회사 그룹의 사진·영상 문맥으로만 남긴다. 그 편에 회사가 없는 둘(혼다 히로세 마사토·어질리티 조너선 허스트)만 「영상 제외」 세력으로 남는다. 초판의 로봇 기종 CELEB 6개는 삭제했다. 도감 8명 전원 `source=production`, 손 명단 8건 삭제, 백업 `_backup/celeb-tag-assignments-humanoids-migrated.json`.
+- ✅ **정보기관 이관 완료(26.08.03)** — 손 명단 8명을 기존 CIA·MI6·모사드 세력 안으로 합쳤다. 저장 후 실측: 도감 8명 전원 `source=production`, 수동 배정 0건, 소개·영문·개인샷·감춤 필드 불일치 0건, 세력 3개 유지. `spymasters` 노출 복구 및 tags·celebs 캐시 갱신, 운영 주소 200 확인. 백업 `_backup/celeb-tag-assignments-intelligence-agencies-migrated.json`
+- ✅ **부류 A 8테마·63명 완료** — 인간형 로봇 8명 + 정보기관 8명 + 나머지 6편 47명. 기존 세력과 일치하는 인물은 합치고, 편에 없는 조직은 비활성 세력으로 보존했다. 임시 차단했던 6테마 노출 복구, 원래 비노출인 `masked-hackers`는 그대로 유지
+- ✅ **부류 B 21명 완료** — 15명은 각 제작 편으로 이관. 오스만 3명(두 편 6자리)·라파엘로 1명은 옛 제작 slug를 프로필 정본으로 고쳐 기존 자리에 연결. 허깅페이스 2명은 꺼진 제작 자리를 켜고 수동 소개를 `web_*`로 흡수했다
+- ✅ **DB↔Remotion 동기 검증** — 영향 16편 `faction:export` 완료, `faction:verify --drift` 16/16 동일. 대상 15테마 수동 행 0, 영상 연결 수동 배정 전수 0, 운영 주소 15개 모두 200, tags·celebs 캐시 갱신
+- ⬜ 영상이 아예 없는 큐레이션 **16테마·123명** — 담을 편이 없다. 테마마다 비활성 편을 만들지 결정
+- ✅ **편집기 「직접 추가」 폐기 + 개별 인물 가드(26.08.03)** — `실제 인물 DB 추가`만 남겼다. 검색 결과가 없으면 개별 인물 확인 체크 뒤 최소 DB CELEB를 만들고 UUID로 추가한다. 전수 자동 백필 스크립트는 실행 차단했다. 공용 조립기·저장·CLI·RPC·DB 컬럼/FK/주체 트리거까지 같은 규칙을 강제한다.
+- ✅ **비인물 계정 사고 정리(26.08.03)** — 현대 회사·조직·제품·기계·부대 65행 제거, 묶음 2행 실제 발화자 재연결, 빈 산업 세력 실제 인물 14행 보강, 과거 집단형 fiction 5행 제거. 에너지 편의 임시 4행은 원래 기획 백업의 회사별 실제 담당자 8행으로 교체했다. 잘못된 Auth/CELEB 70개 삭제. 최종 `faction_people` 1,446행.
 
 ## P8 편집 화면 통합 (26.08.03 — 진행 중)
 

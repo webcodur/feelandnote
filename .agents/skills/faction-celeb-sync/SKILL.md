@@ -7,6 +7,8 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 세력도감(`/explore/faction`)은 셀럽을 테마(태그)로 묶어 보여준다. **26.08.03 단일화 이후 표준 경로는 셋으로 갈린다.**
 
+> **주체 경계(26.08.03 재확정)** — `faction_people`에는 자연인 또는 하나의 이름·행위 주체를 가진 **개별 허구 인물만** 둔다. 회사·조직·제품·기계·기체·로봇 모델·부대·종족·듀오/형제 묶음은 CELEB로 만들지 않는다. 그런 주체는 `faction_groups`의 세력명과 사진·영상 문맥으로 보존하고, 그 아래에는 실제 사람을 배치한다. 공개적으로 특정할 개인이 없으면 비인물 계정을 만드는 대신 그 세력을 비활성 보존한다.
+
 1. **텍스트(대사·직함·소개)** — web-bo(포트 3001) `/factions/<편>` 편집기에서 제작 데이터(`faction_people`)를 고치면 끝이다. 별도 출간 없이 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹에 반영된다.
 2. **사진·영상·음악** — 편집기 헤더의 「출간」 패널로 올린다(진단→dry-run→출간).
 3. **영상 없는 태그의 수동 명단** — 배정 테이블(`celeb_tag_assignments`)을 web-bo `/factions/themes/[tagId]` 테마 편집기에서 관리한다.
@@ -18,33 +20,33 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 ## 표준 절차
 
-1. **연결 키 확인** — 편집기에서 세력마다 연결 키(`tagSlug` = `celeb_tags.slug`)를 지정한다. 여러 세력이 태그 하나를 공유할 수 있다(예: PayPal-Mafia 4세력 → `paypal-mafia`). 인물은 셀럽 검색으로 추가하면 `celeb_id`가 자동으로 맺힌다. **연결 키가 없으면 `tag-slug-missing`으로 막히고 쓰기가 0건이 된다**(태그 자체가 없는 것은 출간이 만들 수 있지만, 연결 키조차 없으면 만들 근거가 없다).
-2. **텍스트는 제작 편집으로 끝낸다** — 대사·직함·소개는 `faction_people`이 유일 원천이라 편집기에서 고치면 자동 반영된다. 도감용 손질(소개 교정·개인샷 교체·숨김)은 테마 편집기에서 하면 같은 행의 `web_*` 칸(`web_short_desc`/`web_long_desc` ±en·`web_image_url`·`web_hidden`)에 기록된다 — 행마다 제작/수동 출처 배지가 붙고, 제작 행의 제거는 숨김으로 동작하며, 순서 편집은 수동 행 전용이다.
+1. **연결 키와 주체 확인** — 편집기에서 세력마다 연결 키(`tagSlug` = `celeb_tags.slug`)를 지정한다. 여러 세력이 태그 하나를 공유할 수 있다(예: PayPal-Mafia 4세력 → `paypal-mafia`). `faction_people`에 넣을 대상이 개별 인물인지 먼저 확인하고 **이미 등록된 셀럽만** 검색으로 추가하면 `celeb_id`가 자동으로 맺힌다. 팩션 검색창은 프로필을 즉석 생성하지 않는다. 검색 결과가 없으면 web-bo `/celebs/new`에서 정식 등록을 먼저 마친다. **연결 키가 없으면 `tag-slug-missing`으로 막히고 쓰기가 0건이 된다**(태그 자체가 없는 것은 출간이 만들 수 있지만, 연결 키조차 없으면 만들 근거가 없다).
+2. **텍스트는 제작 편집으로 끝낸다** — 대사·직함·소개는 `faction_people`이 유일 원천이라 편집기에서 고치면 자동 반영된다. 제작 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정하고 별도 웹 한줄 수식어는 두지 않는다. 도감용 상세 소개·개인화보 표지·대사 재생 묶음·숨김 손질은 같은 행의 `web_long_desc`(±en)·`web_image_url`·`web_quote_media`·`web_hidden`에 기록된다 — 행마다 제작/수동 출처 배지가 붙고, 제작 행의 제거는 숨김으로 동작하며, 순서 편집은 수동 행 전용이다.
 3. **진단** — 「출간」 버튼으로 패널을 펼치면 세력·인물 전수의 DB 대조 결과가 뜬다. 제작과 서비스가 같은 DB 안에 있어 **텍스트 대조는 사라졌다**(옛 `desc: db|fillable|none` 항목 폐기). 남는 항목은 5종이다.
 
    | 진단 | 판정 기준 |
    |---|---|
-   | 셀럽 미해소 인물 | `faction_people.celeb_id`가 null — 연결 키가 없거나, 있어도 그 셀럽이 DB에 없다 |
+   | DB 인물 연결 무결성 | `celeb_id NOT NULL` + 삭제되지 않은 CELEB + slug 미러. 한 건이라도 어긋나면 정상 상태가 아니며 저장·출간 중단 |
    | 태그 미지정 세력 | `faction_groups.tag_id`가 null |
-   | 개인샷·그룹샷 저장소 동기 상태 | 로컬 파일 해시 ↔ 매니페스트(`_db-sync.json`) 대조 |
+   | 개인 화보+대사 음성·그룹샷 저장소 동기 상태 | 로컬 파일 해시·전환 시각 ↔ 매니페스트(`_db-sync.json`)·`web_quote_media` 대조 |
    | 얼굴 사진(아바타) 유무 | `profiles.avatar_url` |
    | 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
 
 4. **미리보기(dry-run)** — 변경 예정 목록(created/updated/skipped/blocked)을 확인한다.
-5. **출간(사진·영상·음악)** — 태그 upsert → 개인샷 R2 업로드(주소는 `faction_people.web_image_url`에 기록) → 그룹샷 R2 업로드(`celeb_tags.team_images` 재구성) → 영상·음악 → 운영 웹 캐시 무효화(`[TAGS, CELEBS]`)까지 한 번에 돈다. 멱등(해시 매니페스트 `_db-sync.json`) — 재실행하면 skipped 전량이 정상. **텍스트(배정 upsert·소개문 복사)는 26.08.03에 폐기돼 돌지 않는다.**
+5. **출간(사진·음성·영상·음악)** — 태그 upsert → 개인 화보 전량(`image`+`quoteImage`+`imageChanges`)과 위치 기반 팩션 대사 wav R2 업로드(`web_image_url` 표지 + `web_quote_media` 재생 타임라인) → 그룹샷 R2 업로드(`celeb_tags.team_images` 재구성) → 영상·음악 → 운영 웹 캐시 무효화(`[TAGS, CELEBS]`)까지 한 번에 돈다. 전환 초는 `data.timing.p*.ko.json`의 `subTimings`와 `quoteChunks`를 렌더와 같은 규칙으로 맞춘다. 멱등(해시 매니페스트 `_db-sync.json`) — 재실행하면 skipped 전량이 정상. **텍스트(배정 upsert·소개문 복사)는 26.08.03에 폐기돼 돌지 않는다.**
 
 **⚠ 매니페스트가 없는 편은 첫 회에 이미지 기록이 발생한다.** 옛 일회성 스크립트로 사진을 올린 편은 주소 키가 이미 같아도 `_db-sync.json`이 없어 다시 올린다. 실측(PayPal-Mafia): 미리보기 updated 25 = 영문 소개문 10명분 채움 + 개인샷 14장 + 단체사진 4장(도감이 옛 `team/0.webp` 식 키를 쥐고 있어 해시 키로 갈린다). **전부 실제 어긋남이고 결함이 아니다** — "변경 0"을 기대하지 않는다.
 
 **사진 범위를 켰는데 `FACTION_LOCAL`이 없으면** 조용히 건너뛰지 않고 사유를 들고 실패한다(`sw/web-bo/.env`).
 
-**보호·조회 규칙**: 셀럽 미해소 인물은 blocked 명단으로 보고. 그룹샷 배열은 태그 단위로 재구성해 공유 태그의 다른 세력 몫을 보존하고, 한 장이라도 실패하면 배열 교체를 보류한다. 같은 셀럽이 한 태그 안 여러 자리에 있으면 제작 앞자리 배치를 채택하고, 정렬은 제작 순번 우선(웹 전용 배정은 10000+ 순번), 숨김·`disabled` 제외 — **이 셋은 출간이 아니라 뷰 `faction_atlas_members`의 조회 규칙이다**(26.08.03). 옛 채움 전용 보호·`sort_order` 전역 재기록은 배정 사본이 사라지면서 대상이 없어졌다.
+**보호·조회 규칙**: 인물 연결 누락은 등록 대기 상태가 아니라 DB 무결성 오류로 보고 저장·출간을 중단한다. 그룹샷 배열은 태그 단위로 재구성해 공유 태그의 다른 세력 몫을 보존하고, 한 장이라도 실패하면 배열 교체를 보류한다. 같은 셀럽이 한 태그 안 여러 자리에 있으면 제작 앞자리 배치를 채택하고, 정렬은 제작 순번 우선(웹 전용 배정은 10000+ 순번), 숨김·`disabled` 제외 — **이 셋은 출간이 아니라 뷰 `faction_atlas_members`의 조회 규칙이다**(26.08.03). 옛 채움 전용 보호·`sort_order` 전역 재기록은 배정 사본이 사라지면서 대상이 없어졌다.
 
 ## 데이터 구조
 
-- **제작(유일 원천)** — `faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts` 5테이블. **인물 텍스트(대사 quote·직함·소개 epithet/lines)는 `faction_people`이 유일 원천이다(26.08.03).** 도감 손질은 같은 행의 `web_*` 칸 — `web_short_desc`/`web_long_desc`(±en)·`web_image_url`(개인샷)·`web_hidden`(숨김). 태그 연결은 `faction_groups.tag_id` → `celeb_tags`, 셀럽 연결은 `faction_people.celeb_id`.
+- **제작(유일 원천)** — `faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts` 5테이블. **인물 텍스트(대사 quote·직함·소개 epithet/lines)는 `faction_people`이 유일 원천이며, 이 테이블은 개별 인물 전용이다(26.08.03).** 회사·기관·기계·집단은 `faction_groups`와 미디어가 소유한다. 도감 한줄은 직함 첫 항목 고정이고, 손질은 `web_long_desc`(±en, 상세)·`web_image_url`(정지 표지)·`web_quote_media`(팩션 대사 음성+화보 전환)·`web_hidden`(숨김)만 쓴다. 태그 연결은 `faction_groups.tag_id` → `celeb_tags`, 셀럽 연결은 `faction_people.celeb_id`.
 - **읽기 창구 = DB 뷰 `faction_atlas_members`** — 제작 유래(`web_*` 손질 우선, 태그당 셀럽 중복은 제작 앞자리 채택, disabled 제외) ∪ 웹 전용 배정. 정렬은 제작 순번 우선, 웹 전용은 10000+. 행 식별자 `source`(production/manual)·`person_id`·`assignment_id` 포함. 웹·BO 모두 이 뷰를 읽는다.
 - `celeb_tags` — 태그 마스터(테마). 그룹 헤더도 여기 일반 태그 1행으로 존재. **노출 결정은 `is_featured` 스위치 하나다.**
-- `celeb_tag_assignments` — **웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용**(26.08.03 축소. 제작 유래 사본 650행 삭제, 백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`). 수동 행의 소개(`short_desc`/`long_desc`)·개인샷(`faction_image_url`)·숨김(`hidden`)이 여기 붙는다.
+- `celeb_tag_assignments` — **웹 전용 명단(영상 없는 16태그의 수동 배정) 123행 전용**(26.08.03 P14 정비 후. 최초 단일화 때 남은 214행 중 영상 연결분을 제작으로 흡수. 백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`). 수동 행의 소개(`short_desc`/`long_desc`)·개인샷(`faction_image_url`)·숨김(`hidden`)이 여기 붙는다.
 - `profiles.avatar_url` — 인물 공통 아바타(태그 무관).
 
 ## 이미지 3종 — 절대 혼동 금지
@@ -54,7 +56,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 | 종류 | 컬럼/필드 | 성격 | R2 경로 | 채우는 경로 |
 |------|-----------|------|---------|------|
 | **아바타** | `profiles.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-register` 스킬 또는 `web-bo/scripts/upload-celeb-avatar.ts --image-file` |
-| **개인샷** | `faction_people.web_image_url`(제작 유래, 26.08.03~) · 수동 행은 `assignments.faction_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) | `faction/{tagId}/celeb-{celebId}.webp` | 출간 패널(person.image → 원본 비율 유지, **얼굴 크롭 금지**) 또는 테마 편집기 업로드 |
+| **개인 화보·대사** | `faction_people.web_image_url`(표지) + `web_quote_media`(제작 유래) · 수동 행은 `assignments.faction_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) + 팩션 wav | 표지 `faction/{tagId}/celeb-{celebId}.webp`, 추가 화보·음성은 인물 하위 해시 키 | 출간 패널(person.image·quoteImage·imageChanges + voice → 원본 비율 유지, **얼굴 크롭 금지**) 또는 테마 편집기 업로드 |
 | **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(캐러셀) | `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 출간 패널(clusters[].image 전체, 태그 단위 재구성) |
 
 **함정**: 개인샷을 안 채우면 Hero가 아바타(얼굴 크롭)로 폴백돼 "얼굴이 Hero에 뜬다". 아바타=얼굴, 개인샷=원본 전신 — 반드시 다른 이미지.
@@ -63,7 +65,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 ## 파이프라인이 못 하는 것 (예외 작업)
 
-- **신규 인물 등록** — 프로필 없는 인물(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`celeb-creation-rulebook`)으로 먼저 등록. 신화·허구는 `fiction` 티어 + 인물 데이터 `mythical: true`.
+- **신규 인물 등록** — 프로필 없는 **개별 인물**(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`celeb-creation-rulebook`)으로 먼저 등록. 신화·허구도 하나의 개별 인물일 때만 `fiction` 티어 + 인물 데이터 `mythical: true`로 등록한다. 종족·형제 묶음·신화 집단은 등록하지 않는다.
 - **상위 그룹 계층** — `celeb_tags.parent_id`가 SSoT다(26.07.26 코드 상수에서 승격, `constants/factionGroups.ts`는 삭제됨). 신규 태그를 그룹에 넣으려면 web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 고른다. ⚠️ 출간 결과의 `constantHint` 안내 문구는 아직 옛 상수 파일을 가리킨다(후속 교정 대상).
 - **태그 노출 결정** — 신규 태그는 `is_featured=false`로 생성된다. 노출 전환·설명문(`description`)·색은 web-bo 태그 화면에서 사람이 다듬는다.
 - **아바타** — 위 표 참조.
@@ -82,7 +84,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
    보존하며 얼굴을 보정하거나 드러내지 않는다.
 3. **배경 제거** — 반드시 `nobg-cutout` 스킬과 `C:\project\nobg` 전용 도구를 쓴다. 서비스 배경
    `#0a0a0a`, 밝은 배경, 원형 썸네일에서 경계·잔상·타인 신체가 없는지 직접 본다. 실패 후보는 업로드하지 않는다.
-4. **등록·업로드** — 셀럽이 없으면 실존 인물 프로필을 먼저 생성하고 `faction_people.celeb_id`를 연결한다.
+4. **등록·업로드** — 셀럽이 없으면 실존하는 **개별 인물** 프로필을 먼저 생성하고 `faction_people.celeb_id`를 연결한다. 회사·조직·기계 이름으로 프로필을 대신 만들지 않는다.
    최종 800×800 RGBA WebP를 `upload-celeb-avatar.ts --image-file`로
    `celebs/{celebId}/avatar.webp`에 올린다. 완전 은폐 인물은 `--face-detect false`를 명시한다.
 5. **검증·출간** — R2 재다운로드본과 업로드 미리보기의 해시·크기·알파를 대조하고 운영 페이지가 새

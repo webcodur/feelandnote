@@ -9,11 +9,11 @@
  * ## 옛 계약과 달라진 점
  *
  * 인물 텍스트(대사·직함·소개)의 배정 복사가 사라졌다(26.08.03 단일화). 웹·BO 모두 DB 뷰
- * `faction_atlas_members` 로 faction_people 을 직접 읽으므로 복사할 것이 없고, 도감 손질은
- * 같은 행의 web_*(web_short_desc 등) 칸에서 한다. 개인샷 주소도 배정이 아니라
+ * `faction_atlas_members` 로 faction_people 을 직접 읽으므로 복사할 것이 없다. 도감 한줄 직함은
+ * lines[0]을 그대로 쓰고, 상세 소개·개인샷·숨김만 같은 행의 web_* 칸에서 손질한다. 개인샷 주소도 배정이 아니라
  * faction_people.web_image_url 에 기록한다.
  *
- * 진단은 일곱이다 — ① 셀럽 미해소 인물 ② 태그 미지정 세력 ③ 사진 저장소 동기 상태
+ * 진단은 일곱이다 — ① DB 인물 연결 무결성 ② 태그 미지정 세력 ③ 사진 저장소 동기 상태
  * ④ 아바타 유무 ⑤ 신화 표시와 셀럽 등급(fiction) 어긋남 ⑥ 대사 목소리 ↔ 셀럽 국문 목소리 대조
  * ⑦ 테마 간판(이름) ↔ 제작 표기 어긋남.
  */
@@ -22,16 +22,15 @@
 
 /**
  * 인물의 셀럽 연결 상태.
- * - linked: `faction_people.celeb_id` 가 채워져 있다(출간 가능)
- * - unresolved: 연결 키(slug)는 있는데 그 셀럽이 DB 에 없다 → celeb 파이프라인으로 먼저 등록
- * - unkeyed: 연결 키조차 없다 → 데이터 보완 필요
+ * - linked: `faction_people.celeb_id` 가 유효한 DB CELEB를 가리킨다(정상)
+ * - unresolved/unkeyed: 26.08.03 이후 DB 제약상 생길 수 없는 무결성 오류. 옛 데이터 진단 방어값으로만 남긴다.
  */
 export type FactionSyncLinkState = 'linked' | 'unresolved' | 'unkeyed'
 
 /**
  * 개인샷 저장소 동기 상태.
- * - synced: 로컬 파일 해시가 매니페스트 기록과 같고 서비스에도 주소가 있다
- * - stale: 로컬 파일이 바뀌었다(또는 아직 올린 기록이 없다)
+ * - synced: 기본·전환 화보와 팩션 대사 음성 해시가 매니페스트와 같고 웹 타임라인도 일치한다
+ * - stale: 화보·음성·전환 시각 중 하나가 바뀌었다(또는 아직 올린 기록이 없다)
  * - local-only: 로컬 파일만 있고 서비스에 주소가 없다
  * - db-only: 서비스에 주소만 있고 올릴 로컬 파일이 없다(외부 주소 지정분 포함)
  * - none: 양쪽 다 없다
@@ -73,7 +72,7 @@ export interface FactionSyncPerson {
   name: string
   /** 연결 키 */
   slug?: string
-  /** 해소된 셀럽 id — null 이면 미해소 */
+  /** 해소된 셀럽 id — null이면 저장 제약을 우회한 무결성 오류 */
   celebId: string | null
   /** 신화·전설·허구 인물 표시 */
   mythical: boolean
@@ -88,7 +87,7 @@ export interface FactionSyncPerson {
    * 어느 쪽이 맞는지는 사람이 판단한다(출간을 막지는 않는다).
    */
   tierMismatch: boolean
-  /** 대사 목소리 대조(국문·영문 각각) — 셀럽이 이어진 인물만 값이 있다(미해소 인물은 견줄 상대가 없다) */
+  /** 대사 목소리 대조(국문·영문 각각) — 무결성 오류 행은 견줄 상대가 없어 값이 없다 */
   voice?: FactionSyncVoicePair
 }
 
@@ -166,7 +165,7 @@ export interface FactionSyncStatus {
     publishable: number
     /** 셀럽 미해소로 출간 불가인 인물 수 */
     blocked: number
-    /** 올릴 개인샷 수(stale·local-only) */
+    /** 올릴 개인 화보·대사 음성 묶음 수(stale·local-only) */
     soloShotPending: number
     /** 올릴 그룹샷 수 */
     teamShotPending: number
@@ -192,7 +191,7 @@ export interface FactionSyncStatus {
  * 따로 센다(올릴 수 없는 것을 미반영으로 섞으면 출간해도 배지가 안 꺼진다).
  */
 export interface FactionImageSyncSummary {
-  /** 올릴 개인샷 수 — 로컬 파일이 바뀌었거나 아직 안 올라간 것(stale·local-only) */
+  /** 올릴 개인 화보·대사 음성 묶음 수 — 로컬 파일·타임라인이 바뀌었거나 아직 안 올라간 것 */
   solo: number
   /** 올릴 그룹샷 수 */
   team: number
@@ -217,7 +216,7 @@ export interface FactionPublishScope {
   assignments?: boolean
   /** @deprecated no-op(26.08.03 단일화) — 소개·대사 복사가 사라졌다. 받은 값은 무시된다(옛 스크립트 호환용) */
   descs?: boolean
-  /** 개인샷 업로드 + faction_people.web_image_url 갱신 */
+  /** 개인 화보 전체·팩션 대사 음성 업로드 + faction_people.web_image_url/web_quote_media 갱신 */
   personImages?: boolean
   /** 세력 로고(data.logoImg) 업로드 + faction_groups.web_logo_url 갱신 */
   logos?: boolean
@@ -257,7 +256,7 @@ export interface FactionPublishItem {
   group: string
   person?: string
   action: FactionPublishAction
-  /** skipped·blocked 사유 (예 'celeb-unresolved', 'external-url', 'unchanged') */
+  /** skipped·blocked 사유 (예 'celeb-unresolved'(무결성 오류), 'external-url', 'unchanged') */
   reason?: string
 }
 

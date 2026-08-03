@@ -3,11 +3,12 @@
 /**
  * 편 편집기의 도감 구획 데이터 — 한 편의 세력별 연결 테마와 인물별 도감 손질(web_*) 상태.
  *
- * 26.08.03 단일화 이후 도감 인물의 원천은 faction_people 이고 손질은 같은 행의 web_* 칸이다.
+ * 26.08.03 단일화 이후 도감 인물의 원천은 faction_people 이다. 한줄 직함은 lines[0] 고정이고,
+ * 상세 소개·개인샷·숨김만 같은 행의 web_* 칸에서 손질한다.
  * 편 편집기가 "영상 원문과 도감 표기를 나란히" 보여주려면 이 상태를 읽어야 하는데,
  * 편집기의 대본(JSON)에는 web_* 가 실리지 않으므로(도감 편집 소유) 여기서 따로 조회한다.
  *
- * 쓰기는 이 파일에 없다 — 소개 손질·숨김·개인샷은 `actions/admin/tags.ts` 의 기존 액션
+ * 쓰기는 이 파일에 없다 — 상세 소개 손질·숨김·개인샷은 `actions/admin/tags.ts` 의 기존 액션
  * (updateTagAssignmentDesc·setTagCelebHidden·setTagCelebImage), 테마 간판은 updateTag 를 재사용한다.
  */
 
@@ -44,9 +45,7 @@ export interface AtlasPersonState {
   personPos: number
   slug: string | null
   name: string
-  webShortDesc: string | null
   webLongDesc: string | null
-  webShortDescEn: string | null
   webLongDescEn: string | null
   webImageUrl: string | null
   webHidden: boolean
@@ -130,8 +129,12 @@ export async function getEpisodeAtlas(folder: string): Promise<EpisodeAtlas> {
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
         clusterRows.map(c => c.id as string),
-        'id,cluster_id,position,celeb_id,slug,name,web_short_desc,web_long_desc,web_short_desc_en,web_long_desc_en,web_image_url,web_hidden')
+        'id,cluster_id,position,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_hidden')
     : []
+  const brokenPerson = personRows.find(p => typeof p.celeb_id !== 'string' || !p.celeb_id)
+  if (brokenPerson) {
+    throw new Error(`팩션 DB 인물 연결 무결성 오류: ${String(brokenPerson.name ?? brokenPerson.id)}`)
+  }
 
   const groupPosById = new Map(groupRows.map(g => [g.id as string, g.position as number]))
   const clusterById = new Map(clusterRows.map(c => [c.id as string, c]))
@@ -140,15 +143,13 @@ export async function getEpisodeAtlas(folder: string): Promise<EpisodeAtlas> {
     const cluster = clusterById.get(p.cluster_id as string)
     return {
       personId: p.id as string,
-      celebId: (p.celeb_id as string | null) ?? null,
+      celebId: p.celeb_id as string,
       groupPos: cluster ? groupPosById.get(cluster.group_id as string) ?? 0 : 0,
       clusterPos: (cluster?.position as number) ?? 0,
       personPos: p.position as number,
       slug: (p.slug as string | null) ?? null,
       name: (p.name as string) ?? '',
-      webShortDesc: (p.web_short_desc as string | null) ?? null,
       webLongDesc: (p.web_long_desc as string | null) ?? null,
-      webShortDescEn: (p.web_short_desc_en as string | null) ?? null,
       webLongDescEn: (p.web_long_desc_en as string | null) ?? null,
       webImageUrl: (p.web_image_url as string | null) ?? null,
       webHidden: p.web_hidden === true,

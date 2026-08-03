@@ -4,7 +4,7 @@
  *
  * **인물 텍스트(대사·직함·소개)는 다루지 않는다(26.08.03 단일화).** 웹·BO 모두 DB 뷰
  * `faction_atlas_members` 로 faction_people 을 직접 읽으므로 복사할 것이 없다.
- * 도감 손질은 같은 행의 web_*(web_short_desc 등) 칸에서 한다.
+ * 도감 한줄 직함은 lines[0]을 그대로 쓰고, 상세 소개·개인샷·숨김만 같은 행의 web_* 칸에서 손질한다.
  *
  * 순서: 태그 → 개인샷 → 세력 로고 → 그룹샷 → 영상 → 음악 → 웹 캐시 비우기.
  * 지키는 규칙:
@@ -19,13 +19,15 @@
 import { readFile } from 'fs/promises'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import type { FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
 import {
   serializeTeamImages, toTeamImages, type FactionTeamImage,
 } from '@feelandnote/shared/lib/faction-team-image'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import {
-  collectEpisode, groupsOfSameTag, hashOfFile, logoKey, soloShotKey, tagKeyOf, teamShotKey, winningPlacements,
-  type PublishEpisode, type PublishGroup,
+  collectEpisode, groupsOfSameTag, hashOfFile, logoKey, personPortraitKey, personVoiceKey,
+  soloShotKey, tagKeyOf, teamShotKey, winningPlacements,
+  type PublishEpisode, type PublishGroup, type PublishPerson,
 } from './collect'
 import { linkStateOf, loadServiceSnapshot, resolveTag, type ServiceSnapshot } from './diagnose'
 import { fileHash, isUnchanged, readManifest, writeManifest, type FactionSyncManifest } from './manifest'
@@ -112,7 +114,7 @@ export async function publishEpisode(
 
   const r2Missing = missingR2Env()
   if ((scope.personImages || scope.teamImages) && r2Missing.length) {
-    warnings.push(`이미지 저장소 환경변수 누락으로 사진을 올릴 수 없습니다: ${r2Missing.join(', ')}`)
+    warnings.push(`미디어 저장소 환경변수 누락으로 사진·음성을 올릴 수 없습니다: ${r2Missing.join(', ')}`)
   }
   const canUpload = r2Missing.length === 0
 
@@ -153,36 +155,17 @@ export async function publishEpisode(
           continue
         }
 
-        if (!p.image) { add({ ...label, action: 'skipped', reason: 'no-image' }); continue }
-        if (p.image.external) { add({ ...label, action: 'skipped', reason: 'external-url' }); continue }
-
-        const key = soloShotKey(tagId, celebId)
-        const hash = await hashOfFile(p.image.abs)
-        if (!hash) { add({ ...label, action: 'blocked', reason: `file-missing: ${p.image.rel}` }); continue }
-
-        const dbUrl = p.webImageUrl
-        if (isUnchanged(manifest[p.image.rel], hash, key, tagId) && dbUrl?.includes(key)) {
-          add({ ...label, action: 'skipped', reason: 'unchanged' })
-          continue
-        }
-        const action: FactionPublishAction = dbUrl ? 'updated' : 'created'
-        if (dryRun) { add({ ...label, action, reason: key }); continue }
-        if (!canUpload) { add({ ...label, action: 'blocked', reason: 'r2-env-missing' }); continue }
-
-        try {
-          const webp = await toSoloShot(await readFile(p.image.abs))
-          await uploadToR2(key, webp, OUTPUT_CONTENT_TYPE)
-          const url = publicUrl(key)
-          const { error } = await db
-            .from('faction_people').update({ web_image_url: url }).eq('id', p.id)
-          if (error) { add({ ...label, action: 'blocked', reason: `web-image-update: ${error.message}` }); continue }
-          manifest[p.image.rel] = { hash, r2Key: key, uploadedAt: new Date().toISOString(), tagId }
-          manifestDirty = true
-          p.webImageUrl = url
-          add({ ...label, action, reason: key })
-        } catch (e) {
-          add({ ...label, action: 'blocked', reason: `upload: ${errText(e)}` })
-        }
+        await publishPersonMedia({
+          person: p,
+          group: g,
+          tagId,
+          db,
+          manifest,
+          dryRun,
+          canUpload,
+          add,
+          markDirty: () => { manifestDirty = true },
+        })
       }
     }
 
@@ -254,6 +237,131 @@ export async function publishEpisode(
     },
     ...(newTagSlugs.length ? { constantHint: newTagSlugs } : {}),
     ...(warnings.length ? { warnings } : {}),
+  }
+}
+
+/* ────────────────────────── 개인 화보 + 팩션 대사 ────────────────────────── */
+
+const VOICE_CONTENT_TYPE = 'audio/wav'
+
+/** JSONB 비교용 — 출간 시각 같은 휘발값이 없으므로 구조 비교면 충분하다. */
+function sameQuoteMedia(a: FactionQuoteMedia | null, b: FactionQuoteMedia): boolean {
+  return JSON.stringify(a) === JSON.stringify(b)
+}
+
+/**
+ * 개인샷 범위는 대표 한 장이 아니라 한 인물의 **재생 한 벌**이다.
+ * 기본 화보·quoteImage·imageChanges 전량과 위치 기반 대사 wav를 올린 뒤, 모두 성공했을 때만
+ * web_image_url(호환 표지)과 web_quote_media(웹 재생 계약)를 한 UPDATE로 기록한다.
+ */
+async function publishPersonMedia(ctx: {
+  person: PublishPerson
+  group: PublishGroup
+  tagId: string
+  db: SupabaseClient
+  manifest: FactionSyncManifest
+  dryRun: boolean
+  canUpload: boolean
+  add: (item: FactionPublishItem) => void
+  markDirty: () => void
+}): Promise<void> {
+  const { person: p, group: g, tagId, db, manifest, dryRun, canUpload, add, markDirty } = ctx
+  const label = { kind: 'soloShot' as const, group: g.name, person: p.name }
+  if (!p.celebId) { add({ ...label, action: 'blocked', reason: 'celeb-unresolved' }); return }
+  if (!p.portraits.length) { add({ ...label, action: 'skipped', reason: 'no-image' }); return }
+
+  type PreparedImage = {
+    ref: PublishPerson['portraits'][number]['image']
+    at: number
+    focus: PublishPerson['portraits'][number]['focus']
+    key: string | null
+    hash: string | null
+    url: string
+    unchanged: boolean
+  }
+  const images: PreparedImage[] = []
+  for (const [index, portrait] of p.portraits.entries()) {
+    const ref = portrait.image
+    if (ref.external) {
+      images.push({ ref, at: portrait.at, focus: portrait.focus, key: null, hash: null, url: ref.raw, unchanged: true })
+      continue
+    }
+    const hash = await hashOfFile(ref.abs)
+    if (!hash) { add({ ...label, action: 'blocked', reason: `file-missing: ${ref.rel}` }); return }
+    const key = index === 0
+      ? soloShotKey(tagId, p.celebId)
+      : personPortraitKey(tagId, p.celebId, index + 1, hash)
+    const unchanged = isUnchanged(manifest[ref.rel], hash, key, tagId)
+    const url = index === 0 && p.webImageUrl?.includes(key)
+      ? p.webImageUrl
+      : publicUrl(key, false)
+    images.push({ ref, at: portrait.at, focus: portrait.focus, key, hash, url, unchanged })
+  }
+
+  const voiceHash = await hashOfFile(p.voice.abs)
+  const voiceKey = voiceHash ? personVoiceKey(tagId, p.celebId, voiceHash) : null
+  const voiceUnchanged = !!voiceHash && !!voiceKey
+    && isUnchanged(manifest[p.voice.rel], voiceHash, voiceKey, tagId)
+  const audioUrl = voiceKey ? publicUrl(voiceKey, false) : null
+
+  const buildMedia = (coverImages: PreparedImage[]): FactionQuoteMedia => ({
+    version: 1,
+    locale: 'ko',
+    audioUrl,
+    playbackRate: p.quotePlaybackRate,
+    duration: audioUrl ? p.quoteDuration : null,
+    images: coverImages.map(image => ({
+      url: image.url,
+      at: image.at,
+      ...(image.focus ? { focus: image.focus } : {}),
+    })),
+    captions: p.captions,
+  })
+  const predicted = buildMedia(images)
+  const coverUrl = images[0].url
+  const mediaSame = p.webImageUrl === coverUrl && sameQuoteMedia(p.webQuoteMedia, predicted)
+  const localImagesSame = images.every(image => image.unchanged)
+  const voiceSame = !voiceKey || voiceUnchanged
+  if (mediaSame && localImagesSame && voiceSame) {
+    add({ ...label, action: 'skipped', reason: `unchanged (${images.length}장${audioUrl ? ' + 음성' : ''})` })
+    return
+  }
+
+  const action: FactionPublishAction = p.webImageUrl || p.webQuoteMedia ? 'updated' : 'created'
+  const reason = `${images.length}장${audioUrl ? ' + 팩션 음성' : ' · 음성 없음'}`
+  if (dryRun) { add({ ...label, action, reason }); return }
+  const needsUpload = images.some(image => image.key && !image.unchanged) || (!!voiceKey && !voiceUnchanged)
+  if (needsUpload && !canUpload) { add({ ...label, action: 'blocked', reason: 'r2-env-missing' }); return }
+
+  try {
+    const now = new Date().toISOString()
+    for (const [index, image] of images.entries()) {
+      if (!image.key || !image.hash || image.unchanged) continue
+      const webp = await toSoloShot(await readFile(image.ref.abs))
+      await uploadToR2(image.key, webp, OUTPUT_CONTENT_TYPE)
+      // 첫 장만 고정 키다. 교체 직후 브라우저 캐시를 끊고, 이후 DB 값은 그대로 재사용한다.
+      image.url = publicUrl(image.key, index === 0)
+      manifest[image.ref.rel] = { hash: image.hash, r2Key: image.key, uploadedAt: now, tagId }
+      markDirty()
+    }
+    if (voiceKey && voiceHash && !voiceUnchanged) {
+      await uploadToR2(voiceKey, await readFile(p.voice.abs), VOICE_CONTENT_TYPE)
+      manifest[p.voice.rel] = { hash: voiceHash, r2Key: voiceKey, uploadedAt: now, tagId }
+      markDirty()
+    }
+
+    const media = buildMedia(images)
+    const finalCoverUrl = images[0].url
+    const { error } = await db.from('faction_people').update({
+      web_image_url: finalCoverUrl,
+      web_quote_media: media,
+    }).eq('id', p.id)
+    if (error) { add({ ...label, action: 'blocked', reason: `web-media-update: ${error.message}` }); return }
+    p.webImageUrl = finalCoverUrl
+    p.webQuoteMedia = media
+    add({ ...label, action, reason })
+  } catch (e) {
+    add({ ...label, action: 'blocked', reason: `upload: ${errText(e)}` })
   }
 }
 

@@ -20,6 +20,7 @@ import {
   joinEpisode, joinGroup, joinCluster, joinPerson,
   splitEpisode, splitGroup, splitCluster, splitPerson,
 } from './faction-schema'
+import { assertIndividualFactionSubject } from './faction-person-subject'
 
 export type Row = Record<string, unknown>
 
@@ -121,6 +122,7 @@ export async function assembleFactionEpisode(
   const groups = groupRows.map((g, gi) => {
     const clusters = (clustersByGroup.get(g.id as string) ?? []).map((c, ci) => {
       const people = (peopleByCluster.get(c.id as string) ?? []).map((p, pi) => {
+        assertIndividualFactionSubject(p.name, p.name_en, `${folder} 세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}`)
         const person = joinPerson(p)
         // §7 ① — DB 에 음성 길이가 없으면 원본 JSON 값을 살린다
         const orig = origPersonAt(gi, ci, pi)
@@ -186,7 +188,7 @@ export type DurationLookup = (
 ) => { quoteDuration?: number | null; epithetDuration?: number | null } | undefined
 
 export interface BuildRowsOptions {
-  /** slug → profiles.id. 미해소는 celeb_id null + slug 문자열 보존 */
+  /** 레거시 파일을 처음 가져올 때만 쓰는 slug → profiles.id 해소표 */
   slugMap?: Map<string, string>
   /** tagSlug → celeb_tags.id. tagSlug 원문은 data 에 남는다 */
   tagMap?: Map<string, string>
@@ -251,7 +253,23 @@ export function buildFactionRows(
       ;((c.people ?? []) as Row[]).forEach((p, pi) => {
         const { cols: pCols, data: pData, mined } = splitPerson(p)
         if (!pCols.name) throw new Error(`세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}의 이름이 비었다 — 저장할 수 없다`)
+        assertIndividualFactionSubject(
+          pCols.name,
+          pCols.name_en,
+          `세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}`,
+        )
         const slug = p.slug as string | undefined
+        const explicitCelebId = typeof pCols.celeb_id === 'string' && pCols.celeb_id
+          ? pCols.celeb_id
+          : undefined
+        const resolvedCelebId = slug ? slugMap?.get(slug) : undefined
+        if (explicitCelebId && resolvedCelebId && explicitCelebId !== resolvedCelebId) {
+          throw new Error(`세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}의 celebId와 slug가 서로 다른 DB 인물을 가리킨다`)
+        }
+        const celebId = explicitCelebId ?? resolvedCelebId
+        if (!celebId) {
+          throw new Error(`세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}(${String(pCols.name)})이 DB CELEB에 연결되지 않았다`)
+        }
         // §7 — 음성 길이는 파이프라인 소유. DB 값이 있으면 그것을 신뢰한다.
         const kept = durations?.(gi, ci, pi, p)
         const quoteDuration = kept?.quoteDuration ?? (pCols.quote_duration as number | null) ?? null
@@ -263,7 +281,7 @@ export function buildFactionRows(
           ...pCols,
           quote_duration: quoteDuration,
           epithet_duration: epithetDuration,
-          celeb_id: (slug && slugMap?.get(slug)) ?? null,
+          celeb_id: celebId,
           mined,
           data: pData,
         })

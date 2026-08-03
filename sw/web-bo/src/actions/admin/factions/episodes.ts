@@ -180,6 +180,33 @@ export async function getFactionEpisodeMeta(folder: string): Promise<FactionEpis
   }
 }
 
+/**
+ * 목록에서 영상 편 표시 제목만 바로 고친다.
+ *
+ * 폴더명은 사진·음성 경로의 고유키라 건드리지 않는다. 제목 전체(줄바꿈 포함)는 DB 한 칸에
+ * 그대로 보존되며, 목록 입력칸은 그중 첫 줄만 바꿔 이 함수에 완성된 제목을 넘긴다.
+ */
+export async function updateFactionEpisodeTitle(
+  folder: string,
+  title: string,
+): Promise<{ ok: true }> {
+  await requireFactionAdmin()
+  const nextTitle = (title ?? '').trim()
+  if (!nextTitle) throw new Error('영상 편 제목은 비워 둘 수 없습니다')
+
+  const db = factionAdminClient()
+  const { data, error } = await db.from('faction_episodes')
+    .update({ title: nextTitle, updated_at: new Date().toISOString() })
+    .eq('folder', assertFolder(folder))
+    .select('id')
+    .maybeSingle()
+  if (error) throw new Error(error.message)
+  if (!data) throw new Error('수정할 영상 편을 찾을 수 없습니다')
+
+  revalidatePath('/factions')
+  return { ok: true }
+}
+
 /* ────────────────────────── 만들기·복제 ────────────────────────── */
 
 /** 빈 세력도감 만들기 — 미등록·todo 로 시작한다 */

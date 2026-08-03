@@ -53,7 +53,10 @@ async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<st
   const uniq = [...new Set(slugs)]
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
     const chunk = uniq.slice(i, i + IN_CHUNK)
-    const { data, error } = await db.from('profiles').select('id,slug').in('slug', chunk)
+    const { data, error } = await db.from('profiles').select('id,slug')
+      .eq('profile_type', 'CELEB')
+      .in('status', ['active', 'inactive', 'suspended'])
+      .in('slug', chunk)
     if (error) throw new Error(`profiles slug 조회 실패: ${error.message}`)
     for (const r of data ?? []) {
       if (r.slug) map.set(r.slug as string, r.id as string)
@@ -69,7 +72,6 @@ async function importEpisode(
   ep: EpisodeFolder,
   slugMap: Map<string, string>,
   dryRun: boolean,
-  unresolvedSlugs: Set<string>,
 ): Promise<EpisodeStats> {
   const script = readDiscourseData(ep)
   const cast = (script.cast ?? []) as Row[]
@@ -83,7 +85,6 @@ async function importEpisode(
     if (!slug) continue
     stats.slugTotal++
     if (slugMap.has(slug)) stats.slugResolved++
-    else unresolvedSlugs.add(`${ep.folder}/${String(s.name)} (${slug})`)
   }
 
   // 분해는 저장 전에 한다 — 여기서 던지면 DB 를 건드리기 전에 멈춘다
@@ -127,19 +128,32 @@ async function main() {
   console.log(`대상 에피소드 ${eps.length}편${args.dryRun ? ' (dry-run — 쓰기 없음)' : ''}`)
 
   // 전 에피소드의 slug 를 모아 한 번에 해소한다(인물마다 조회하지 않는다).
-  const allSlugs: string[] = []
+  const people: { episode: string; name: string; slug: string }[] = []
   for (const ep of eps) {
     for (const s of (readDiscourseData(ep).cast ?? []) as Row[]) {
-      if (s.slug) allSlugs.push(s.slug as string)
+      people.push({
+        episode: ep.folder,
+        name: String(s.name ?? '(이름 없음)'),
+        slug: typeof s.slug === 'string' ? s.slug.trim() : '',
+      })
     }
   }
+  const allSlugs = people.map(p => p.slug).filter(Boolean)
   const slugMap = await resolveSlugs(db, allSlugs)
   console.log(`셀럽 slug 해소 ${slugMap.size}/${new Set(allSlugs).size}`)
 
-  const unresolvedSlugs = new Set<string>()
+  const unresolvedPeople = people.filter(p => !p.slug || !slugMap.has(p.slug))
+  if (unresolvedPeople.length) {
+    const sample = unresolvedPeople.slice(0, 20)
+      .map(p => `${p.episode}/${p.name}${p.slug ? ` (${p.slug})` : ' (slug 없음)'}`)
+      .join('\n  · ')
+    const more = unresolvedPeople.length > 20 ? `\n  … 외 ${unresolvedPeople.length - 20}명` : ''
+    throw new Error(`DB CELEB 미연결 담화 인물 ${unresolvedPeople.length}명 — 가져오기를 시작하지 않았다\n  · ${sample}${more}`)
+  }
+
   const all: EpisodeStats[] = []
   for (const ep of eps) {
-    const s = await importEpisode(db, ep, slugMap, args.dryRun, unresolvedSlugs)
+    const s = await importEpisode(db, ep, slugMap, args.dryRun)
     all.push(s)
     if (s.skipped) console.log(`  ✗ ${pad(ep.folder, 24)} ${s.skipped}`)
     else console.log(`  ✓ ${pad(ep.folder, 24)} 인물 ${pad(String(s.speakers), 3)} 발언 ${pad(String(s.turns), 3)} 상태 ${pad(ep.status, 6)}${ep.registered ? '[등록]' : ''}`)
@@ -150,10 +164,6 @@ async function main() {
   console.log(`에피소드 ${all.filter(s => !s.skipped).length}/${all.length} · 인물 ${sum('speakers')} · 발언 ${sum('turns')}`)
   console.log(`셀럽 연결 ${sum('slugResolved')}/${sum('slugTotal')}`)
 
-  if (unresolvedSlugs.size) {
-    console.log(`\n── slug 미해소 ${unresolvedSlugs.size}명 (DB 프로필 없음) ──`)
-    for (const s of [...unresolvedSlugs].sort()) console.log(`  · ${s}`)
-  }
   const skipped = all.filter(s => s.skipped)
   if (skipped.length) {
     console.log(`\n⚠ 중단된 에피소드 ${skipped.length}편 — 위 사유 참조`)

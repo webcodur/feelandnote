@@ -4,7 +4,7 @@ import type { FactionPerson } from '@/lib/faction-types'
 import { FactionPersonRow } from '../FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { buildPersonSwapRenames, reorderFactionVoice } from '@/lib/faction-voice'
-import { Search, UserPlus } from '@feelandnote/shared/bo/icons'
+import { Search } from '@feelandnote/shared/bo/icons'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 
 type Props = {
@@ -57,8 +57,6 @@ export function PersonList({
     // 디스크 음원이 swap 됐으니 음원 캐시(byFile)도 다시 읽어 패널 표시 길이를 새 위치에 맞춘다.
     voiceCtx?.reload?.()
   }
-  const addBlank = () => onPeopleChange([...people, { name: '', role: '', org: '' }])
-
   return (
     <div className="space-y-2">
       {people.map((p, i) => (
@@ -87,13 +85,7 @@ export function PersonList({
           onClick={onAddCeleb}
           className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
         >
-          <Search size={15} /> 셀럽에서 추가
-        </button>
-        <button
-          onClick={addBlank}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
-        >
-          <UserPlus size={15} /> 직접 추가
+          <Search size={15} /> 실제 인물 DB 추가
         </button>
       </div>
     </div>

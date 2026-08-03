@@ -124,7 +124,16 @@ async function main() {
   // ── ② 저장 왕복 ──
   const before = viaTree.script
   const baseUpdatedAt = viaTree.row.updated_at as string
+  const { data: linkedSpeakers, error: linkedError } = await db
+    .from('discourse_speakers').select('slug,celeb_id').eq('episode_id', viaTree.row.id as string)
+  if (linkedError) throw new Error(`DB 인물 연결 조회 실패: ${linkedError.message}`)
+  const slugMap = new Map<string, string>()
+  for (const speaker of linkedSpeakers ?? []) {
+    if (!speaker.slug || !speaker.celeb_id) throw new Error(`DB 인물 연결이 없는 발언자가 있습니다: ${FOLDER}`)
+    slugMap.set(speaker.slug as string, speaker.celeb_id as string)
+  }
   const payload = buildDiscourseRows(before, {
+    slugMap,
     newId: randomUUID, status: 'todo', registered: true,
     sortOrder: (viaTree.row.sort_order as number) ?? 0,
   })

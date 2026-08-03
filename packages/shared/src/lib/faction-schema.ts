@@ -29,7 +29,8 @@
  *
  * - `tagSlug`(세력)는 컬럼이 아니라 `data` 에 남긴다. `tag_id` 는 이 값을 celeb_tags 로 해소한
  *   **파생 컬럼**이라, 해소 실패(태그 미존재) 시에도 원본 문자열이 보존된다.
- * - `slug`(인물)는 컬럼이고 `celeb_id` 가 그 파생 컬럼이다(반대 방향).
+ * - `celebId`(인물)는 `celeb_id` 컬럼과 1:1인 불변 식별자다. `slug`는 사람이 읽는
+ *   미러 값이며, 레거시 파일을 처음 가져올 때만 UUID 해소 힌트로 쓴다.
  * - 나머지 공통 규칙(키 부재 ↔ null, boolean false 생략, numeric 문자열 복원)은 series-schema 참조.
  */
 
@@ -95,6 +96,7 @@ export const CLUSTER_CHILDREN = ['people'] as const
 export const PERSON_HOT: HotMap = {
   name: 'name',
   nameEn: 'name_en',
+  celebId: 'celeb_id',
   slug: 'slug',
   org: 'org',
   mythical: 'mythical',

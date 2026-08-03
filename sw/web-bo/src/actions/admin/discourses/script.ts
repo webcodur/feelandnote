@@ -53,8 +53,6 @@ export interface SaveDiscourseScriptResult {
   counts: { speakers: number; turns: number }
   /** 자동 내보내기 결과(껐거나 렌더 저장소가 연결되지 않았으면 없음) */
   exported?: DiscourseExportResult
-  /** 셀럽 프로필을 못 찾은 slug — celeb_id 는 null 로 두고 slug 문자열은 보존된다 */
-  unresolvedSlugs: string[]
 }
 
 export interface SaveDiscourseScriptOptions {
