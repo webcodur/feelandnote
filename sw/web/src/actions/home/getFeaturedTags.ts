@@ -5,8 +5,8 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
-import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from '@/lib/utils/celeb-dialogues'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
+import { toFactionQuoteMedia, type FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
 import { toTeamImages, type FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 
 export interface FeaturedCeleb {
@@ -17,22 +17,17 @@ export interface FeaturedCeleb {
   title: string | null
   title_en: string | null
   profession: string | null
-  quotes: string | null
-  quotes_en: string | null
   speech_tone: string | null
-  greeting: string[] | null
-  greeting_en: string[] | null
-  has_voice: boolean
-  voice_v: number
-  voice_speed: number
   short_desc: string | null
   short_desc_en: string | null
   long_desc: string | null
   long_desc_en: string | null
   faction_image_url: string | null
+  /** 출간된 팩션 대사 음성 + 개인 화보 전환 타임라인 */
+  faction_quote_media: FactionQuoteMedia | null
   /**
    * 세력도감 영상에서 이 인물이 하는 말 — 개인 화보에서 말풍선으로 띄운다.
-   * `CelebProfile.quotes`(셀럽 명언)와 다른 값이다. 원천은 제작 데이터이고 출간이 실어 나른다.
+   * 게임용 `celeb_dialogues`와 다른 값이다. 원천은 제작 데이터이며 도감 뷰가 직접 내놓는다.
    */
   faction_quote: string | null
   faction_quote_en: string | null
@@ -125,6 +120,7 @@ interface AtlasMemberRow {
   quote: string | null
   quote_en: string | null
   faction_image_url: string | null
+  faction_quote_media: unknown
   sort_order: number | null
   group_label: string | null
   group_label_en: string | null
@@ -176,9 +172,6 @@ interface FeaturedProfileRow {
   title_en: string | null
   profession: string | null
   speech_tone: string | null
-  has_voice: boolean
-  voice_v: number
-  voice_speed: number
 }
 
 // --- 공개 데이터 캐싱 (1시간) ---
@@ -219,7 +212,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   // 2. 모든 태그의 인물을 한 번에 조회 — 감춘 배정은 DB 에서 걸러 자리를 차지하지 않게 한다
   const { data: allAssignments, error: assignmentsError } = await supabase
     .from('faction_atlas_members')
-    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url')
+    .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, quote, quote_en, faction_image_url, sort_order, group_label, group_label_en, group_subtitle, group_subtitle_en, group_position, group_color, group_logo_url, faction_quote_media')
     .in('tag_id', tagIds)
     .eq('hidden', false)
     .order('sort_order', { ascending: true })
@@ -257,45 +250,28 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   }
 
   // 3. 팩션 화면에 실제로 표시하는 프로필·발화 데이터만 조회한다.
-  const [profiles, dialogues] = await Promise.all([
-    /*
-      배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
+  /*
+    배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
 
-      ① **셀럽 전역 상태(status)로 거르지 않는다** — 그 값은 영상 제작 쪽 사정으로 정해지는 것이라
-         진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
-         있었다(26.07.27 실측).
-      ② **등급(celeb_tier)으로도 거르지 않는다** — 목록·검색은 신화·허구 등급을 빼는 게 맞지만
-         (실존 인물 목록에 제우스가 섞이면 곤란하다), 도감은 테마별 진열이라 맥락이 분명하다.
-         뒤섞이지 않게 컬렉션 화면에서 「이야기 속 인물」 구획(`is_fiction`)으로 갈라 놓는다.
-         이 게이트 때문에 일리아스 19명·오디세이아 22명을 다 채워 넣고도 0명으로 떴었다.
-    */
-    selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
-      supabase.from('profiles').select(`
-        id, nickname, nickname_en, avatar_url, title, title_en, profession,
-        speech_tone, has_voice, voice_v, voice_speed
-      `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
-    ),
-    selectInChunks<DialogueBriefWithId>(celebIdArray, (chunk) =>
-      supabase.from('celeb_dialogues')
-        .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
-        .in('celeb_id', chunk)
-        .overrideTypes<DialogueBriefWithId[], { merge: false }>()
-    ),
-  ])
+    ① **셀럽 전역 상태(status)로 거르지 않는다** — 그 값은 영상 제작 쪽 사정으로 정해지는 것이라
+       진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
+       있었다(26.07.27 실측).
+    ② **등급(celeb_tier)으로도 거르지 않는다** — 목록·검색은 신화·허구 등급을 빼는 게 맞지만
+       (실존 인물 목록에 제우스가 섞이면 곤란하다), 도감은 테마별 진열이라 맥락이 분명하다.
+       뒤섞이지 않게 컬렉션 화면에서 「이야기 속 인물」 구획(`is_fiction`)으로 갈라 놓는다.
+       이 게이트 때문에 일리아스 19명·오디세이아 22명을 다 채워 넣고도 0명으로 떴었다.
+
+    게임용 celeb_dialogues는 읽지 않는다. 도감 버튼의 대사는 뷰의 faction quote만 사용한다.
+  */
+  const profiles = await selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
+    supabase.from('profiles').select(`
+      id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
+    `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
+  )
 
   // 맵 구성
   const profileMap = new Map<string, FeaturedProfileRow>()
   profiles.forEach(p => profileMap.set(p.id, p))
-
-  const dialogueMap = new Map<string, { greeting?: string[] | null; greeting_en?: string[] | null; quote?: string | null; quote_en?: string | null }>()
-  dialogues.forEach(d => {
-    dialogueMap.set(d.celeb_id, {
-      greeting: d.greeting ?? null,
-      greeting_en: d.greeting_en ?? null,
-      quote: d.quote ?? null,
-      quote_en: d.quote_en ?? null,
-    })
-  })
 
   // 결과 조합
   const result: FeaturedTag[] = []
@@ -319,14 +295,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           title: c.title,
           title_en: c.title_en ?? null,
           profession: c.profession,
-          quotes: dialogueMap.get(c.id)?.quote ?? null,
-          quotes_en: dialogueMap.get(c.id)?.quote_en ?? null,
           speech_tone: c.speech_tone ?? null,
-          greeting: dialogueMap.get(c.id)?.greeting ?? null,
-          greeting_en: dialogueMap.get(c.id)?.greeting_en ?? null,
-          has_voice: c.has_voice ?? false,
-          voice_v: c.voice_v ?? 0,
-          voice_speed: c.voice_speed ?? 1.0,
           short_desc: a.short_desc,
           short_desc_en: a.short_desc_en,
           long_desc: a.long_desc,
@@ -334,6 +303,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
           faction_quote: a.quote ?? null,
           faction_quote_en: a.quote_en ?? null,
           faction_image_url: a.faction_image_url ?? null,
+          faction_quote_media: toFactionQuoteMedia(a.faction_quote_media),
           group_label: a.group_label ?? null,
           group_label_en: a.group_label_en ?? null,
           group_subtitle: a.group_subtitle ?? null,
@@ -376,11 +346,11 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
 const getCachedFeaturedTags = unstable_cache(
   fetchFeaturedTagsPublic,
-  ['featured-tags-light-v2'],
-  // 팩션 구성·표시용 프로필·발화만 읽는다. 콘텐츠 수정은 이 캐시를 무효화하지 않는다.
+  ['featured-tags-light-v4'],
+  // 팩션 구성·표시용 프로필과 제작 대사만 읽는다. 게임 대사·콘텐츠 수정은 이 캐시를 무효화하지 않는다.
   {
     revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES],
+    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
   }
 )
 

@@ -48,6 +48,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const rafRef = useRef<number | null>(null);
+  const playbackTimeRef = useRef<((currentTime: number) => void) | null>(null);
+  const playbackEndRef = useRef<(() => void) | null>(null);
 
   // 드래그 상태 — DOM 직접 조작으로 즉시 추적
   const [dragging, setDragging] = useState(false);
@@ -70,6 +72,9 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
       const a = audioRef.current;
       if (a && a.duration && !a.paused) {
         setAudioProgress(a.currentTime / a.duration);
+        // HTMLAudioElement.currentTime은 원본 음원 좌표다. 팩션 화보 at은 렌더와 같이
+        // 재생 배속을 반영한 화면 초이므로 wall-clock 좌표로 환산해 넘긴다.
+        playbackTimeRef.current?.(a.currentTime / Math.max(a.playbackRate, 0.01));
         if (!fadingStarted && a.duration - a.currentTime <= 1) {
           fadingStarted = true;
           setFading(true);
@@ -80,6 +85,13 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     rafRef.current = requestAnimationFrame(tick);
   }, [stopProgressLoop]);
 
+  const finishExternalPlayback = useCallback(() => {
+    const onEnd = playbackEndRef.current;
+    playbackTimeRef.current = null;
+    playbackEndRef.current = null;
+    onEnd?.();
+  }, []);
+
   const stopAudio = useCallback(() => {
     stopProgressLoop();
     if (audioRef.current) {
@@ -89,7 +101,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
     setAudioPlaying(false);
     setAudioProgress(0);
     setFading(false);
-  }, [stopProgressLoop]);
+    finishExternalPlayback();
+  }, [stopProgressLoop, finishExternalPlayback]);
 
   const clearFadeTimer = useCallback(() => {
     if (fadeTimerRef.current) { clearTimeout(fadeTimerRef.current); fadeTimerRef.current = null; }
@@ -111,7 +124,14 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   };
 
   useEffect(() => {
-    if (!subtitle) return;
+    if (!subtitle) {
+      // prop가 null이 되는 순간 외부 Audio와 그에 종속된 표시 상태를 원자적으로 닫는다.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      stopAudio();
+      setVisible(false);
+      setCurrent(null);
+      return;
+    }
 
     stopAudio();
     setIsRepeat(subtitle.text === prevTextRef.current);
@@ -134,16 +154,26 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
         setAudioPlaying(false);
         audioRef.current = null;
         setVisible(false);
+        finishExternalPlayback();
       }, { once: true });
       audio.addEventListener("error", () => {
         stopProgressLoop();
         setAudioPlaying(false);
         audioRef.current = null;
+        finishExternalPlayback();
       }, { once: true });
-      audio.play().catch(() => {});
       audioRef.current = audio;
-      setAudioPlaying(true);
-      startProgressLoop();
+      playbackTimeRef.current = subtitle.onAudioTimeUpdate ?? null;
+      playbackEndRef.current = subtitle.onAudioEnd ?? null;
+      audio.play().then(() => {
+        if (audioRef.current !== audio) return;
+        setAudioPlaying(true);
+        subtitle.onAudioStart?.();
+        playbackTimeRef.current?.(audio.currentTime / Math.max(audio.playbackRate, 0.01));
+        startProgressLoop();
+      }).catch(() => {
+        if (audioRef.current === audio) stopAudio();
+      });
     } else {
       const duration = calcDuration(subtitle.text);
       startTimer(duration);
@@ -157,6 +187,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
 
   useEffect(() => {
     if (voiceMuted && audioRef.current) {
+      // 뮤트 전환은 재생 중인 외부 Audio를 즉시 멈춰야 하므로 효과 안에서 플레이어 상태도 닫는다.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       stopAudio();
       if (current) {
         const duration = calcDuration(current.text);
@@ -240,7 +272,7 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
   }, [visible, current, handleClose]);
 
   const duration = current ? calcDuration(current.text) : BASE_DURATION;
-  const hasAudio = !!(current?.audioUrl);
+  const hasAudio = !!(current?.audioUrl) && !voiceMuted;
 
   const closeLabel = t("closeEsc");
 
@@ -389,8 +421,8 @@ export default function DialogueSubtitle({ subtitle, voiceMuted, onToggleMute, c
                   key={current.key + (visible ? '-visible' : '')}
                   className="w-full bg-amber-500/50 rounded-full origin-top"
                   style={{
-                    animation: timerRef.current ? `dialogTimerVertical ${duration}ms linear forwards` : 'none',
-                    height: timerRef.current ? "100%" : "0%"
+                    animation: `dialogTimerVertical ${duration}ms linear forwards`,
+                    height: "100%"
                   }}
                 />
               )}

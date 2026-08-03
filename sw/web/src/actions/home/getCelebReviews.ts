@@ -43,50 +43,79 @@ interface ReviewRow {
   celeb: ReviewCelebRow | ReviewCelebRow[] | null
 }
 
-async function fetchCelebReviews(celebId: string, locale: string): Promise<CelebReview[]> {
+interface CelebModalContent {
+  reviews: CelebReview[]
+  virtualMonologue: string | null
+}
+
+const REPRESENTATIVE_REVIEW_LIMIT = 2
+
+async function fetchCelebModalContent(celebId: string, locale: string): Promise<CelebModalContent> {
   const supabase = createStaticClient()
 
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
-  const { data, error } = await supabase
-    .from('user_contents')
-    .select(`
-      id,
-      rating,
-      review,
-      ${reviewEnSelect}
-      is_spoiler,
-      source_url,
-      updated_at,
-      content_id,
-      content:contents!user_contents_content_id_fkey(
-        id, type, user_count,
-        content_locales(${CL_SELECT_LIST})
-      ),
-      celeb:profiles!user_contents_user_id_fkey(
+  const [reviewsResult, profileResult] = await Promise.all([
+    supabase
+      .from('user_contents')
+      .select(`
         id,
-        slug,
-        nickname,
-        avatar_url,
-        profession,
-        is_verified,
-        claimed_by
-      )
-    `)
-    .eq('user_id', celebId)
-    .not('review', 'is', null)
-    .eq('visibility', 'public')
-    .order('updated_at', { ascending: false })
-    .limit(100)
+        rating,
+        review,
+        ${reviewEnSelect}
+        is_spoiler,
+        source_url,
+        updated_at,
+        content_id,
+        content:contents!user_contents_content_id_fkey(
+          id, type, user_count,
+          content_locales(${CL_SELECT_LIST})
+        ),
+        celeb:profiles!user_contents_user_id_fkey(
+          id,
+          slug,
+          nickname,
+          avatar_url,
+          profession,
+          is_verified,
+          claimed_by
+        )
+      `)
+      .eq('user_id', celebId)
+      .not('review', 'is', null)
+      .neq('review', '')
+      .eq('visibility', 'public')
+      .order('is_pinned', { ascending: false, nullsFirst: false })
+      .order('is_recommended', { ascending: false, nullsFirst: false })
+      .order('rating', { ascending: false, nullsFirst: false })
+      .order('updated_at', { ascending: false })
+      .limit(REPRESENTATIVE_REVIEW_LIMIT),
+    supabase
+      .from('profiles')
+      .select('virtual_monologue, virtual_monologue_en')
+      .eq('id', celebId)
+      .maybeSingle(),
+  ])
+
+  const { data, error } = reviewsResult
+  if (profileResult.error) {
+    console.error('셀럽 가상 독백 조회 에러:', profileResult.error)
+  }
 
   if (error) {
     console.error('셀럽 리뷰 조회 에러:', error)
-    return []
+    return {
+      reviews: [],
+      virtualMonologue: resolveVirtualMonologue(profileResult.data, locale),
+    }
   }
 
   if (!data || data.length === 0) {
-    return []
+    return {
+      reviews: [],
+      virtualMonologue: resolveVirtualMonologue(profileResult.data, locale),
+    }
   }
 
   const rows = data as unknown as ReviewRow[]
@@ -136,7 +165,20 @@ async function fetchCelebReviews(celebId: string, locale: string): Promise<Celeb
       }
     })
 
-  return reviews
+  return {
+    reviews,
+    virtualMonologue: resolveVirtualMonologue(profileResult.data, locale),
+  }
+}
+
+function resolveVirtualMonologue(
+  profile: { virtual_monologue: string | null; virtual_monologue_en: string | null } | null,
+  locale: string,
+): string | null {
+  if (!profile) return null
+  return locale === 'en'
+    ? profile.virtual_monologue_en || profile.virtual_monologue
+    : profile.virtual_monologue
 }
 
 interface ContentCounts {
@@ -166,14 +208,14 @@ async function getContentCountsForContents(
   return counts
 }
 
-const getCelebReviewsCached = unstable_cache(
-  fetchCelebReviews,
-  ['celeb-reviews'],
-  // 셀럽 감상문(user_contents)·콘텐츠 메타(contents·content_locales)
-  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
+const getCelebModalContentCached = unstable_cache(
+  fetchCelebModalContent,
+  ['celeb-modal-content'],
+  // 셀럽 감상문(user_contents)·콘텐츠 메타(contents·content_locales) + 가상 독백(profiles)
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS] }
 )
 
-export async function getCelebReviews(celebId: string): Promise<CelebReview[]> {
+export async function getCelebModalContent(celebId: string): Promise<CelebModalContent> {
   const locale = await getLocale()
-  return getCelebReviewsCached(celebId, locale)
+  return getCelebModalContentCached(celebId, locale)
 }
