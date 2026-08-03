@@ -68,7 +68,6 @@ type Person = {
   dossier: unknown
   candidateText: string | null
   candidateHash: string | null
-  targetChars?: number
   reviews?: Array<{
     lens: 'evidence' | 'editorial'
     verdict: 'pass' | 'revise' | 'hold'
@@ -180,9 +179,6 @@ function validateApprovedPerson(person: Person): string[] {
   if (LEAKED_INSTRUCTION.test(candidate)) errors.push('작업 지시·응답 문구 누출')
   if (candidate && !FIRST_PERSON.test(candidate)) errors.push('1인칭 자기 지칭 없음')
   if (candidate === person.currentText.trim()) errors.push('후보와 현재 본문 동일')
-  if (person.targetChars && candidate.length > Math.ceil(person.targetChars * 1.35)) {
-    errors.push(`분량 상한 초과(${candidate.length}/${Math.ceil(person.targetChars * 1.35)}자)`)
-  }
   return errors
 }
 

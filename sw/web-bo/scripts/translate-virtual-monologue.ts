@@ -1,30 +1,13 @@
 /**
- * profiles.virtual_monologue_en 생성기 (Claude Sonnet, claude CLI headless)
- * ── 가상 독백 영문본 작성 규격의 단일원천(SSoT). 규격 상세는 buildPrompt 가 전부 쥔다. ──
+ * 승인된 한국어 가상 독백의 영문 후보 생성기.
+ * 규칙 SSoT: docs/project/celeb/virtual-monologue.md
  *
- * [무엇을 만드는가]
- *   한국어 가상 독백(profiles.virtual_monologue)의 영문본. 번역이 아니라 같은 사람이 영어로 다시 쓴 독백.
- *   지키는 것은 사실·이름·연대·주장과 그 감정의 무게뿐이다. 문장 경계·문단 구분·서술 순서는
- *   영어 산문이 원하는 대로 다시 짠다(문단 수가 원문과 달라도 된다). 한국어 문장의 골격이
- *   남아 있으면 낱말이 맞아도 실패로 본다. 프로젝트 번역 원칙 '1:1 매핑 금지'(remo-write-7-translation
- *   기둥 2)와 '문체 등가성'(기둥 3)을 독백에 적용한 것이다.
- *
- * [저장]
- *   DB: profiles.virtual_monologue_en (text) · Supabase project wouqtpvfctednlffross · 인물 식별은 slug.
- *   이 스크립트가 응답을 받아 UPDATE 까지 자동 수행한다.
- *
- * [실행 방식]
- *   - claude CLI headless(구독 인증) → 종량제 비용 없음.
- *   - claude -p --model sonnet, 프롬프트는 stdin 전달(shell 이스케이프 회피).
- *   - 대상: profile_type='CELEB' + virtual_monologue 보유 인물.
- *
- * [명령]  sw/web-bo 에서
- *   node --env-file=.env --import tsx scripts/translate-virtual-monologue.ts --limit 5   # 시험(5명)
- *   node --env-file=.env --import tsx scripts/translate-virtual-monologue.ts --no-force  # 영문 없는 인물만
- *   node --env-file=.env --import tsx scripts/translate-virtual-monologue.ts             # 전량 재생성
- *   node --env-file=.env --import tsx scripts/translate-virtual-monologue.ts --resume    # 중단분 이어서
+ * 생성 결과는 .tmp-mono-en/candidates.jsonl에만 저장한다.
+ * 승인한 JSONL은 --apply-file로 원문 해시를 대조한 뒤 반영한다.
+ * 생성에는 --slugs 또는 유한한 --limit이 필수다.
  */
 
+import { createHash } from 'crypto'
 import { createClient } from '@supabase/supabase-js'
 import { spawn, execSync } from 'child_process'
 import { readFileSync, writeFileSync, appendFileSync, existsSync, mkdirSync } from 'fs'
@@ -49,6 +32,10 @@ const LIMIT = arg('--limit', Infinity)
 const CONCURRENCY = arg('--conc', 6)
 const NO_FORCE = process.argv.includes('--no-force')
 const RESUME = process.argv.includes('--resume')
+const APPLY_FILE = (() => {
+  const i = process.argv.indexOf('--apply-file')
+  return i >= 0 ? process.argv[i + 1] : null
+})()
 /** 특정 인물만 골라 다시 뽑는다. 예: --slugs yi-sun-sin,abraham-lincoln */
 const SLUGS = (() => {
   const i = process.argv.indexOf('--slugs')
@@ -59,6 +46,7 @@ const MODEL = 'sonnet'
 const TMP = resolve(process.cwd(), '.tmp-mono-en')
 if (!existsSync(TMP)) mkdirSync(TMP, { recursive: true })
 const DONE_LOG = resolve(TMP, 'done.log')
+const CANDIDATES_LOG = resolve(TMP, 'candidates.jsonl')
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -67,11 +55,12 @@ const supabase = createClient(
 
 const hasHangul = (s: string) => /[가-힣]/.test(s)
 const hasHanzi = (s: string) => /[一-鿿]/.test(s)
+const sha256 = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex')
 
-type Material = { name: string; era: string; ko: string }
+type Material = { name: string; era: string; ko: string; fiction: boolean }
 
 function buildPrompt(m: Material): string {
-  return `Below is a first-person monologue written in Korean. The speaker is ${m.name}${m.era ? ` (${m.era})` : ''}, a real historical or public figure reflecting alone on their own life and beliefs.
+  return `Below is a first-person monologue written in Korean. The speaker is ${m.name}${m.era ? ` (${m.era})` : ''}, ${m.fiction ? 'a figure from myth, legend or fiction' : 'a real historical or public figure'} reflecting alone on their own life and beliefs.
 
 Rewrite it as an English monologue.
 
@@ -155,14 +144,24 @@ async function translate(m: Material): Promise<string> {
   if (SPEAKER_TAG.test(text.split('\n')[0])) throw new Error(`화자 표기: ${text.slice(0, 60)}`)
   if (hasHangul(text)) throw new Error('한글 잔존')
   if (hasHanzi(text)) throw new Error('한자 혼입')
-  if (text.length < m.ko.length * 0.5) throw new Error(`분량 미달(${text.length}자)`)
   return text.replace(/—/g, ', ')
 }
 
 type Row = {
   slug: string; nickname: string; nickname_en: string | null
   birth_date: string | null; death_date: string | null
+  status: string | null; celeb_tier: string | null
   virtual_monologue: string | null; virtual_monologue_en: string | null
+}
+
+type Candidate = {
+  slug: string
+  nickname: string
+  currentKoHash: string
+  currentEnHash: string
+  candidateText: string
+  candidateHash: string
+  status: 'draft' | 'approved'
 }
 
 async function loadAll(): Promise<Row[]> {
@@ -170,7 +169,7 @@ async function loadAll(): Promise<Row[]> {
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
       .from('profiles')
-      .select('slug, nickname, nickname_en, birth_date, death_date, virtual_monologue, virtual_monologue_en')
+      .select('slug, nickname, nickname_en, birth_date, death_date, status, celeb_tier, virtual_monologue, virtual_monologue_en')
       .eq('profile_type', 'CELEB')
       .order('slug')
       .range(from, from + 999)
@@ -185,11 +184,68 @@ const materialOf = (r: Row): Material => ({
   name: r.nickname_en || r.nickname,
   era: [r.birth_date, r.death_date].filter(Boolean).join(' ~ '),
   ko: r.virtual_monologue!,
+  fiction: r.celeb_tier === 'fiction',
 })
 
+async function applyCandidates(file: string) {
+  const records = readFileSync(resolve(process.cwd(), file), 'utf8')
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => JSON.parse(line) as Candidate)
+    .filter(record => !SLUGS || SLUGS.has(record.slug))
+  if (!records.length) throw new Error('적용할 후보가 없습니다.')
+
+  let updated = 0
+  let skipped = 0
+  for (const record of records) {
+    if (record.status !== 'approved') throw new Error(`${record.slug}: status=approved가 아닙니다.`)
+    if (!record.candidateText?.trim() || sha256(record.candidateText) !== record.candidateHash) {
+      throw new Error(`${record.slug}: 후보 본문 해시가 맞지 않습니다.`)
+    }
+    if (hasHangul(record.candidateText) || hasHanzi(record.candidateText)
+      || record.candidateText.includes('—')) {
+      throw new Error(`${record.slug}: 후보 본문이 영문 형식 규칙을 통과하지 못했습니다.`)
+    }
+    const { data: row, error: readError } = await supabase
+      .from('profiles')
+      .select('virtual_monologue,virtual_monologue_en')
+      .eq('slug', record.slug)
+      .eq('profile_type', 'CELEB')
+      .single()
+    if (readError) throw readError
+    if (sha256(row.virtual_monologue ?? '') !== record.currentKoHash
+      || sha256(row.virtual_monologue_en ?? '') !== record.currentEnHash) {
+      throw new Error(`${record.slug}: 후보 생성 뒤 DB 원문이 바뀌었습니다.`)
+    }
+    if ((row.virtual_monologue_en ?? '') === record.candidateText) {
+      skipped++
+      console.log(`SKIP ${record.slug}`)
+      continue
+    }
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update({ virtual_monologue_en: record.candidateText })
+      .eq('slug', record.slug)
+      .eq('profile_type', 'CELEB')
+    if (updateError) throw updateError
+    updated++
+    console.log(`UPDATED ${record.slug}`)
+  }
+  console.log(JSON.stringify({ total: records.length, updated, skipped }))
+}
+
 async function run() {
+  if (APPLY_FILE) {
+    await applyCandidates(APPLY_FILE)
+    return
+  }
+  if (!SLUGS && LIMIT === Infinity) {
+    throw new Error('안전 중단: --slugs 또는 유한한 --limit을 지정해야 합니다.')
+  }
   const all = await loadAll()
   let targets = all.filter((r) => r.virtual_monologue?.trim()
+    && (!!SLUGS || (r.status === 'active' && r.celeb_tier !== 'relation'))
     && (!SLUGS || SLUGS.has(r.slug))
     && (!NO_FORCE || !r.virtual_monologue_en))
 
@@ -200,6 +256,7 @@ async function run() {
     console.log(`이어서 처리: 이미 끝낸 ${before - targets.length}명 건너뜀`)
   } else if (!RESUME) {
     writeFileSync(DONE_LOG, '')
+    writeFileSync(CANDIDATES_LOG, '')
   }
   if (LIMIT !== Infinity) targets = targets.slice(0, LIMIT)
 
@@ -212,11 +269,19 @@ async function run() {
       const t0 = Date.now()
       try {
         const en = await translate(materialOf(r))
-        const { error } = await supabase.from('profiles').update({ virtual_monologue_en: en }).eq('slug', r.slug)
-        if (error) throw error
+        const record: Candidate = {
+          slug: r.slug,
+          nickname: r.nickname,
+          currentKoHash: sha256(r.virtual_monologue ?? ''),
+          currentEnHash: sha256(r.virtual_monologue_en ?? ''),
+          candidateText: en,
+          candidateHash: sha256(en),
+          status: 'draft',
+        }
+        appendFileSync(CANDIDATES_LOG, `${JSON.stringify(record)}\n`)
         appendFileSync(DONE_LOG, `${r.slug}\n`)
         ok++
-        console.log(`✓ ${r.nickname} (${r.virtual_monologue!.length}→${en.length}자, ${Math.round((Date.now() - t0) / 1000)}s)`)
+        console.log(`✓ ${r.nickname} 후보 (${r.virtual_monologue!.length}→${en.length}자, ${Math.round((Date.now() - t0) / 1000)}s)`)
       } catch (e) {
         fail++
         console.error(`✗ ${r.nickname}: ${((e as Error).message || '').slice(0, 200)}`)
@@ -228,6 +293,7 @@ async function run() {
   }
 
   console.log(`\n완료. 성공 ${ok} / 실패 ${fail}`)
+  console.log(`후보 파일: ${CANDIDATES_LOG} | DB 쓰기 0건`)
   if (fail > 0) console.log('※ --resume 으로 재실행하면 못 끝낸 인물만 이어서 처리한다.')
 }
 

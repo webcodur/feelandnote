@@ -35,16 +35,20 @@ for (const person of manifest.people) {
   if (person.speech_tone && !allowedTones.has(person.speech_tone)) throw new Error(`${person.slug}: 잘못된 speech_tone`);
   if (!person.bio || person.bio.length > 100) throw new Error(`${person.slug}: bio는 1~100자여야 합니다.`);
   if (!person.bio_en || person.bio_en.length > 180) throw new Error(`${person.slug}: bio_en은 1~180자여야 합니다.`);
-  if (!person.virtual_monologue || person.virtual_monologue.length < 400) throw new Error(`${person.slug}: 가상 독백이 400자 미만입니다.`);
+  if (!Array.isArray(person.source_urls) || person.source_urls.length === 0
+    || person.source_urls.some((url) => typeof url !== 'string' || !/^https?:\/\//.test(url))) {
+    throw new Error(`${person.slug}: 원전 URL이 하나 이상 필요합니다.`);
+  }
+  if (!person.virtual_monologue?.trim()) throw new Error(`${person.slug}: 가상 독백이 비어 있습니다.`);
   if (!firstPerson.test(person.virtual_monologue)) throw new Error(`${person.slug}: 1인칭 자기 지칭이 없습니다.`);
-  if (!person.virtual_monologue_en || person.virtual_monologue_en.length < 400) throw new Error(`${person.slug}: 영문 가상 독백이 400자 미만입니다.`);
+  if (!person.virtual_monologue_en?.trim()) throw new Error(`${person.slug}: 영문 가상 독백이 비어 있습니다.`);
   if (!firstPersonEn.test(person.virtual_monologue_en)) throw new Error(`${person.slug}: 영문 독백에 1인칭 자기 지칭이 없습니다.`);
   if (forbiddenHanzi.test(person.virtual_monologue)) throw new Error(`${person.slug}: 한자가 섞였습니다.`);
   if (person.virtual_monologue.includes('—') || person.virtual_monologue_en.includes('—')) {
     throw new Error(`${person.slug}: em dash가 섞였습니다.`);
   }
-  if (!person.review || !['candidate', 'approved'].includes(person.review.status) || person.review.cycles < 2 || person.review.blocking !== 0) {
-    throw new Error(`${person.slug}: 검토 2회·blocking 0·candidate 이상이 필요합니다.`);
+  if (person.review_passed !== true) {
+    throw new Error(`${person.slug}: 검토하며 수정한 최종본만 반영할 수 있습니다.`);
   }
 }
 

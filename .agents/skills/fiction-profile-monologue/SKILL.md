@@ -1,137 +1,43 @@
 ---
 name: fiction-profile-monologue
-description: 본 서비스에 신화·전설·허구 인물을 `fiction`형 셀럽으로 등록하거나 기존 정보를 보강하고, `profiles.virtual_monologue`를 원전 근거로 작성해 DB에 반영한다. "신화 인물 등록", "fiction 셀럽", "가상 독백 작성/개선", "팩션 신화 인물 DB 연결", "독백에서 대사 뽑기" 등에 적용한다.
+description: 신화·전설·허구 인물을 `fiction` 셀럽으로 등록하거나, 대표 원전을 근거로 `profiles.virtual_monologue`과 영문본을 작성·검증·반영할 때 사용한다. "fiction 셀럽", "신화 인물 등록", "허구 인물 가상 독백", "원전 인물 독백" 요청에 적용한다.
 ---
 
 # fiction 인물과 가상 독백
 
-`profiles.virtual_monologue`를 인물 사상의 단일원천으로 만든다. 팩션 대사는 이 긴 독백에서 압축해 만들며, 팩션 대사를 거꾸로 독백의 근거로 삼지 않는다.
+작업 전에 `docs/project/celeb/virtual-monologue.md`를 전부 읽고 따른다. 독백 규칙은 그 문서 하나만 두며, 이 스킬은 fiction 전용 실행 절차만 정한다.
 
-## 시작 전
+## 절차
 
-1. 사용자가 지정한 에피소드만 범위에 넣고 보류한 에피소드는 명단 조회부터 제외한다.
-2. `docs/project/db-celeb.md`, `docs/project/celeb/celeb-pipeline.md`의 현행 규칙을 확인한다. 실존 인물 독백의 작성 규격은 `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts`(`buildPrompt`)가 SSoT다 — fiction 인물에도 문체·금지 규칙은 그대로 준용한다.
-3. 아래 명령으로 에피소드 명단과 DB를 대조한다.
+1. 사용자가 지정한 에피소드만 범위에 넣고 보류 에피소드는 제외한다.
+2. 명단과 DB를 대조한다.
 
 ```bash
 node .agents/skills/fiction-profile-monologue/scripts/audit-fiction-episode.mjs <episode>
 ```
 
-## 프로필 규칙
-
-- 신규 프로필은 `profile_type='CELEB'`, `celeb_tier='fiction'`,
-  `status='inactive'`, `is_verified=false`로 만든다. 이미 원전·팩션 연결을 검수해
-  공개 중인 기존 fiction 프로필은 보강 작업 때문에 inactive로 되돌리지 않는다.
-- `nickname_en`은 필수다. 생성된 `slug`가 팩션의 인물 `slug`와 같아야 한다.
-- 기본 정보만 채운다: 국·영문명, 직군, 짧은 수식어, 성별, 가능한 경우 지역·생몰, 100자 이내 소개.
-- 이 단계에서는 감상 여정·영향력·페르소나·콘텐츠·고유 대사를 만들지 않는다.
-  원전 검토와 독백이 끝난 뒤의 보강 배치는 아래 절을 따른다.
-- 얼굴은 없어도 된다. 기존 얼굴이 있으면 지우지 않는다.
-- 집단·괴물·동물도 서사의 독립된 행위자라면 등록할 수 있다. 성별이 부적절하면 `null`로 둔다.
-
-기존 인물은 먼저 새 자료로 백지 작성한 뒤 기존값과 비교한다. 기존 문장을 조금씩 윤문해 오류까지 보존하지 않는다.
-
-## 가상 독백 작성
-
-### 원전 범위
-
-- 프로필 독백은 한 장면의 재연이 아니라 현재까지 검토한 원전 범위에서 그 인물을 관통하는 자기 이해를 담는다.
-- 처음 읽는 사람은 첫 문단 안에서 화자의 이름·역할·핵심 관계를 알아야 한다. 중요한 사건의 한가운데로 들어가 독자가 화자를 추리하게 만들지 않는다.
-- 신·영웅을 현대의 미덕으로 매끈하게 세탁하지 않는다. 실패·폭력·모순·권력의 비용을 함께 남긴다.
-- 같은 인물을 다른 에피소드에서 다시 다루면 새 원전 범위를 더해 독백을 개선한다. 앞선 판을 영구 완성본으로 취급하지 않는다.
-- 실제 인용이 아니라 재구성한 1인칭 독백임을 전제로 쓴다.
-
-### 내용
-
-다음 질문에 답하는 하나의 사고 흐름을 만든다.
-
-- 나는 무엇을 했는가?
-- 왜 그렇게 했는가?
-- 그 선택에서 무엇을 믿었는가?
-- 내가 원한 질서·삶·귀향은 무엇이었는가?
-- 내 신념이 만든 피해나 실패를 나는 어떻게 설명하거나 외면하는가?
-
-질문을 항목별로 답하지 말고 구체적 사건과 사상이 서로 밀어 올리는 독백으로 쓴다. 처음 읽는 사람도 인물과 갈등을 알아야 하지만 생애 요약문이 되어서는 안 된다.
-
-### 문체
-
-- 현대 한국어 1인칭. 개인은 `나는/내가` 또는 `저는/제가`, 집단은 `우리는/우리가`를 자연스럽게 쓴다.
-- 인물의 권력·계급·욕망·말버릇에 따라 호흡을 달리한다.
-- 첫 문장을 보편 격언으로 시작하지 않는다. 이름과 역할을 별도 자기소개 문장으로 붙이는 데 그치지 말고, 가능하면 정체와 이 인물만 가질 수 있는 판단·갈등이 같은 도입에서 서로를 설명하게 한다.
-- 여러 인물을 함께 쓸 때 `나는 ○○다`, `내가 원하는 것은` 같은 도입·결론 골격을 복제하지 않는다. 왕·종·동물·괴물·집단·가해자의 자기 이해 수준과 문법을 구분한다.
-- 사극투, 번역투, 평론가 해설, 자기소개서식 경력 나열, 교훈조 결말을 피한다.
-- 한자 혼입, em dash, 괄호식 개념 설명을 쓰지 않는다.
-- 분량은 사상이 다 설 때까지 쓴다. 파생 대사를 뽑을 수 있도록 최소 두 개의 독립된 사상 축을 확보하되 반복으로 늘리지 않는다.
-
-## 작성 확인
-
-원전의 반례·폭력·실패를 지우지 않았는지, 다른 인물에게도 붙는 문장인지, 여러 인물의 도입과 결말이 복제됐는지만 확인하고 필요한 문장을 고친 뒤 끝낸다.
-
-- `_docs/virtual-monologue-review/`를 만들지 않는다.
-- 인물별 검토 Markdown, `순환`, `판`, `candidate`, `revision` 상태를 기록하지 않는다.
-- 원전 출처와 아직 보지 않은 범위는 작업용 manifest에만 남긴다.
-- 팩션 기존 대사를 독백의 근거로 삼지 않는다.
-
-## DB 반영
-
-작성한 사람을 작업용 manifest에 넣는다. `assets/manifest-template.json`을 복사해 사용하고 기본 점검 뒤 적용한다.
+3. SSoT의 네 단계(재료 조사 → 말투·표현 설계 → 작성 → 검토하며 수정)로 독백을 완성한다.
+   빈 인물을 에피소드 단위로 생성할 때는 `sw/web-bo`에서 아래 생성기를 실행한다. 게시 방식은 SSoT의 빈 값 조건부 규칙을 따른다.
 
 ```bash
-# 쓰지 않고 변경 예정만 확인
-node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-manifest.mjs <manifest.json>
+node --env-file=.env --import tsx scripts/fill-virtual-monologue-gpt.ts --fiction-episode <episode> --mode new
+```
 
-# 사용자 요청 범위 안에서 실제 반영
+4. `assets/manifest-template.json`에 기본 정보, 출처, 최종 국문·영문 독백과 검토 완료 여부를 기록한다.
+5. dry-run 뒤 사용자가 요청한 범위만 적용한다.
+
+```bash
+node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-manifest.mjs <manifest.json>
 node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-manifest.mjs <manifest.json> --apply
 ```
 
-적용 후 DB를 다시 조회해 `slug`, `fiction` 티어, 기본 정보, 독백 전문 일치, 얼굴 보존을 확인한다. 작업용 manifest는 검증 뒤 삭제한다. DB가 독백의 단일원천이다.
+6. DB를 다시 조회해 `slug`, `celeb_tier='fiction'`, 독백 전문, 기존 얼굴 보존을 확인한다. 같은 명령을 다시 실행했을 때 전원 `SKIP`이어야 한다. 검증 뒤 작업용 manifest를 삭제한다.
 
-## 독백 이후 보강 배치
+## 프로필 가드
 
-원전 확인과 독백 작성을 끝낸 인물만 고유 대사·서사 연표·관계를 만든다.
-이 데이터는 빈칸을 빠르게 메우는 부록이 아니라, 독백에서 확인한 행동과 갈등을
-상황별로 다시 검증하는 별도 산출물이다.
+- 신규는 `profile_type='CELEB'`, `celeb_tier='fiction'`, `status='inactive'`, `is_verified=false`로 만든다. 기존 활성 프로필은 비활성으로 되돌리지 않는다.
+- `nickname_en`과 팩션 인물과 같은 `slug`가 필수다.
+- 소개는 국문 100자, 영문 180자 이내다. 얼굴은 없어도 되며 기존 얼굴은 지우지 않는다.
+- 감상 여정·영향력·페르소나·콘텐츠·고유 대사는 이 작업에서 만들지 않는다.
 
-### 고유 대사
-
-- 규격은 `docs/project/celeb/celeb-speech.md`를 따른다.
-- 7상황 × 3변형을 한국어와 영어로 각각 쓴다. 영어는 한국어 문장 구조를
-  복제하지 않고 같은 인물이 영어로 말하는 문장으로 다시 쓴다.
-- 상황 적합성, 이름을 가린 뒤의 고유성, 글자·단어 수와 낭독 호흡을
-  확인한다. 새 철학이나 원전에 없는 동기를 추가하지 않는다.
-- 실제 인용문 한 쌍과 확인한 원전 URL을 함께 넣는다.
-- 프로필에 `speech_tone`이 비어 있으면 대사 적재기가 manifest의 톤을 함께
-  기록한다. 이미 다른 톤이 있으면 자동으로 덮어쓰지 않고 중단한다.
-
-```bash
-node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-dialogue-manifest.mjs <manifest.json>
-node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-dialogue-manifest.mjs <manifest.json> --apply
-```
-
-### 서사 연표와 관계
-
-- fiction에는 실제 연도를 만들지 않는다. 대표 원전 안의 사건 순서를
-  `sequence_label(_en)`과 `sort_order`로 저장한다.
-- 인물당 6~12개의 굵직한 전환점을 고르고, 각 사건에 국·영문 제목·서술과
-  확인한 원전 URL을 넣는다.
-- 장소는 원전의 무대명으로 적을 수 있지만, 역사적 활동으로 오해할 현실 좌표는
-  자동으로 만들지 않는다.
-- 관계는 양방향을 함께 쓰고, 방향마다 상대가 이 인물에게 무엇인지와 구체적
-  사건을 `note(_en)`에 남긴다.
-
-```bash
-node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-story-manifest.mjs <manifest.json>
-node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-story-manifest.mjs <manifest.json> --apply
-```
-
-두 적재기는 기본 dry-run이다. 적용 뒤 같은 명령을 다시 실행했을 때 전원
-`SKIP`이어야 한다.
-
-## 팩션으로 되돌리기
-
-1. 관리 화면의 셀럽 조회에서 `virtual_monologue`를 읽는다.
-2. 팩션 대사는 독백의 핵심 갈등 하나를 고른 압축본으로 쓴다. 독백 전체를 요약하지 않는다.
-3. 새 사실이나 새 철학을 팩션에서 추가하지 않는다. 더 좋은 해석이 생기면 원전 검토 후 프로필 독백을 먼저 갱신한다.
-4. 파생 대사는 `faction-dialogue-review`로 작성·반영한다.
-
-긴 독백이 튼튼하면 팩션에서는 선택·압축·발화 호흡만 다룬다.
+팩션 대사가 필요하면 독백에서 갈등 하나만 골라 `faction-dialogue-review`로 작성한다. 새 사실이나 철학을 팩션에서 추가하지 않는다.

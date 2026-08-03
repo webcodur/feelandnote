@@ -1,7 +1,8 @@
 # 가상 독백 전수 정비 완료 기록
 
 > 완료: 2026-07-30 KST
-> 작업 단일원천: `docs/todo/virtual-monologue-quality-overhaul.md`
+> 현행 규칙: `docs/project/celeb/virtual-monologue.md`
+> 이 문서는 2026-07-30 전수 작업의 완료 이력이다.
 > 완료 범위: 활성 실존 `full`·`light` 프로필의 한국어 `profiles.virtual_monologue`
 > 제외 범위: `fiction` 전용 원전 트랙, `virtual_monologue_en`
 
@@ -46,7 +47,7 @@
 
 - DB에 게시된 한국어 독백
 - 이 완료 기록
-- `docs/todo/virtual-monologue-quality-overhaul.md`의 최종 수치와 운영 판단
+- `docs/archive/virtual-monologue-quality-overhaul-2026-07.md`의 최종 수치와 운영 판단
 - 기존 저장소가 이미 추적하던 파일럿·정밀 배치 기록
 
 ## 별도 후속

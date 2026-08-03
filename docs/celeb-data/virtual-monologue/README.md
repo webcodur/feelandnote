@@ -1,8 +1,8 @@
 # 가상 독백 작업 데이터
 
-`profiles.virtual_monologue` 전수 품질 정비의 근거 묶음·후보·검토·게시 기록을 배치 단위 JSON으로 보존한다.
+`profiles.virtual_monologue`의 2026-07 전수 품질 정비 기록을 배치 단위 JSON으로 보존한다.
 
-운영 규격과 진행 체크리스트는 `docs/todo/virtual-monologue-quality-overhaul.md`가 단일원천이다.
+현행 규칙은 `docs/project/celeb/virtual-monologue.md` 하나만 따른다. 아래 내용은 보존된 옛 배치 파일과 도구의 형식 설명이다.
 
 ## 파일 규칙
 
