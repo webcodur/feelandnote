@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { createCeleb, updateCeleb, deleteCeleb, setCelebMonologueLock } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
 import { getCelebTags, updateCelebTags, type CelebTagInput } from '@/actions/admin/tags'
@@ -10,11 +9,12 @@ import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
-import { Loader2, Trash2, Star, X, Upload, ChevronDown, ChevronUp, Lock, LockOpen } from 'lucide-react'
+import { Loader2, Trash2, Star, ChevronDown, ChevronUp, Lock, LockOpen } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useToast } from '@/contexts/ToastContext'
-import { resizeSingleImage, resizePortraitImage, createPreviewUrl } from '@/lib/image'
-import ImageCropModal from '@/components/ui/ImageCropModal'
+import { resizeSingleImage, resizePortraitImage } from '@/lib/image'
+import CelebAvatarEditor, { AvatarUploadEmpty } from '@/components/celeb/avatar/CelebAvatarEditor'
+import CelebPortraitEditor from '@/components/celeb/portrait/CelebPortraitEditor'
 import CelebTagSelector from './CelebTagSelector'
 import FormattedText from '@/components/ui/FormattedText'
 import { useLangMode, type LangMode } from '@/contexts/LangModeContext'
@@ -103,7 +103,8 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     portrait_url: celeb?.portrait_url || '',
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'suspended') || 'suspended',
-    celeb_tier: (celeb?.celeb_tier as 'full' | 'light') || 'full',
+    // 새로 만드는 인물은 감상 기록이 있을 수 없어 full로 저장되지 않는다(DB가 막는다)
+    celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
     cultural_journey: celeb?.cultural_journey || '',
     cultural_journey_en: celeb?.cultural_journey_en || '',
   }
@@ -166,23 +167,13 @@ export default function CelebForm({ mode, celeb }: Props) {
   // 이미지 업로드 상태
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
-  const avatarInputRef = useRef<HTMLInputElement>(null)
 
-  // 대표 화보(profiles.portrait_url) — 얼굴을 자르지 않고 원본 비율 그대로 쓰므로 크롭 단계를 거치지 않는다
+  // 대표 화보(profiles.portrait_url) — 업로드 직후 1:1 위치·확대 편집을 거친다
   const [portraitFile, setPortraitFile] = useState<File | null>(null)
   const [portraitPreview, setPortraitPreview] = useState<string | null>(null)
-  const portraitInputRef = useRef<HTMLInputElement>(null)
-  const [portraitDragging, setPortraitDragging] = useState(false)
-
-  // 크롭 모달 상태
-  const [cropModalOpen, setCropModalOpen] = useState(false)
-  const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
 
   // 감상 여정 textarea ref (자동 높이 조절용)
   const journeyTextareaRef = useRef<HTMLTextAreaElement>(null)
-
-  // DND 상태
-  const [avatarDragging, setAvatarDragging] = useState(false)
 
   // 섹션 접힘 상태
   const [openSections, setOpenSections] = useState({
@@ -301,69 +292,20 @@ export default function CelebForm({ mode, celeb }: Props) {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  async function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    if (!file.type.startsWith('image/')) {
-      setError('이미지 파일만 업로드 가능합니다.')
-      return
-    }
-
-    applyFileNameAsNickname(file)
-
-    const preview = await createPreviewUrl(file)
-    setCropImageSrc(preview)
-    setCropModalOpen(true)
-
-    // input 초기화 (같은 파일 재선택 가능하도록)
-    e.target.value = ''
+  function handleImageRemove() {
+    setAvatarFile(null)
+    setAvatarPreview(null)
   }
 
-  async function handleCropComplete(croppedDataUrl: string) {
-    setCropModalOpen(false)
-
-    // dataURL을 File로 변환. 자른 결과는 무손실 PNG이며 webp 압축은 저장 직전에 한 번만 한다
-    const response = await fetch(croppedDataUrl)
-    const blob = await response.blob()
-    const file = new File([blob], 'avatar.png', { type: 'image/png' })
-
+  function handleAvatarCrop(file: File, croppedDataUrl: string) {
     setAvatarFile(file)
     setAvatarPreview(croppedDataUrl)
   }
 
-  function handleCropCancel() {
-    setCropModalOpen(false)
-    setCropImageSrc(null)
-  }
-
-  function handleImageRemove() {
-    setAvatarFile(null)
-    setAvatarPreview(null)
-    if (avatarInputRef.current) avatarInputRef.current.value = ''
-  }
-
   // #region 대표 화보
-  async function acceptPortraitFile(file: File | undefined | null) {
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      setError('이미지 파일만 업로드 가능합니다.')
-      return
-    }
+  function handlePortraitCrop(file: File, croppedDataUrl: string) {
     setPortraitFile(file)
-    setPortraitPreview(await createPreviewUrl(file))
-  }
-
-  async function handlePortraitSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    await acceptPortraitFile(e.target.files?.[0])
-    e.target.value = ''
-  }
-
-  async function handlePortraitDrop(e: React.DragEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-    setPortraitDragging(false)
-    await acceptPortraitFile(e.dataTransfer.files?.[0])
+    setPortraitPreview(croppedDataUrl)
   }
 
   // 저장하면 DB에서도 비워진다(빈 문자열 → null)
@@ -371,41 +313,9 @@ export default function CelebForm({ mode, celeb }: Props) {
     setPortraitFile(null)
     setPortraitPreview(null)
     setFormData((prev) => ({ ...prev, portrait_url: '' }))
-    if (portraitInputRef.current) portraitInputRef.current.value = ''
   }
   // #endregion
 
-  // #region DND 핸들러
-  function handleDragOver(e: React.DragEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-    setAvatarDragging(true)
-  }
-
-  function handleDragLeave(e: React.DragEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-    setAvatarDragging(false)
-  }
-
-  async function handleDrop(e: React.DragEvent) {
-    e.preventDefault()
-    e.stopPropagation()
-    setAvatarDragging(false)
-
-    const file = e.dataTransfer.files?.[0]
-    if (!file || !file.type.startsWith('image/')) {
-      setError('이미지 파일만 업로드 가능합니다.')
-      return
-    }
-
-    applyFileNameAsNickname(file)
-
-    const preview = await createPreviewUrl(file)
-    setCropImageSrc(preview)
-    setCropModalOpen(true)
-  }
-  // #endregion
 
   function handleInfluenceChange(field: string, type: 'score' | 'exp', value: number | string) {
     setInfluence((prev) => {
@@ -438,6 +348,11 @@ export default function CelebForm({ mode, celeb }: Props) {
       setLoading(false)
       return
     }
+    if (mode === 'create' && !formData.nickname_en.trim()) {
+      setError('slug 생성을 위해 영문 이름을 입력해주세요.')
+      setLoading(false)
+      return
+    }
 
     try {
       let avatarUrl = formData.avatar_url || undefined
@@ -458,7 +373,6 @@ export default function CelebForm({ mode, celeb }: Props) {
           avatar_url: avatarUrl,
           is_verified: formData.is_verified,
           status: formData.status,
-          celeb_tier: formData.celeb_tier,
           cultural_journey: formData.cultural_journey || undefined,
           influence: hasInfluence ? influence : undefined,
         })
@@ -635,28 +549,18 @@ export default function CelebForm({ mode, celeb }: Props) {
 
             <label className="text-xs font-medium text-text-secondary self-start pt-1">아바타</label>
             <div className="flex items-start gap-3">
-              <div
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => avatarInputRef.current?.click()}
-                className={`relative flex flex-col items-center justify-center gap-1 w-[160px] h-[160px] shrink-0 border-2 border-dashed rounded-xl cursor-pointer hover:border-accent/50 hover:bg-accent/5 ${avatarDragging ? 'border-accent bg-accent/10' : 'border-border'}`}
-              >
-                <input ref={avatarInputRef} type="file" accept="image/*" onChange={handleImageSelect} className="hidden" />
-                {(avatarPreview || formData.avatar_url) ? (
-                  <div className="relative w-full h-full rounded-lg overflow-hidden">
-                    <Image src={avatarPreview || formData.avatar_url || ''} alt="아바타" fill unoptimized className="object-cover" />
-                    <button type="button" onClick={(e) => { e.stopPropagation(); handleImageRemove() }} className="absolute top-1 right-1 p-0.5 bg-black/60 rounded-full hover:bg-black/80">
-                      <X className="w-3 h-3 text-white" />
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <Upload className="w-4 h-4 text-text-secondary" />
-                    <span className="text-[10px] text-text-secondary">800×800</span>
-                  </>
-                )}
-              </div>
+              <CelebAvatarEditor
+                value={avatarPreview || formData.avatar_url}
+                alt={formData.nickname || '인물'}
+                className="h-[160px] w-[160px] shrink-0 rounded-xl"
+                previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
+                empty={<AvatarUploadEmpty />}
+                removable
+                onFileAccepted={applyFileNameAsNickname}
+                onCroppedFile={handleAvatarCrop}
+                onRemove={handleImageRemove}
+                onError={(avatarError) => setError(avatarError.message)}
+              />
               <div className="flex-1 space-y-1.5 min-w-0">
                 <input
                   type="url"
@@ -674,29 +578,14 @@ export default function CelebForm({ mode, celeb }: Props) {
 
             <label className="text-xs font-medium text-text-secondary self-start pt-1">대표 화보</label>
             <div className="flex items-start gap-3">
-              <div
-                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setPortraitDragging(true) }}
-                onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); setPortraitDragging(false) }}
-                onDrop={handlePortraitDrop}
-                onClick={() => portraitInputRef.current?.click()}
-                className={`relative flex flex-col items-center justify-center gap-1 w-[260px] h-[300px] shrink-0 border-2 border-dashed rounded-xl cursor-pointer hover:border-accent/50 hover:bg-accent/5 ${portraitDragging ? 'border-accent bg-accent/10' : 'border-border'}`}
-              >
-                <input ref={portraitInputRef} type="file" accept="image/*" onChange={handlePortraitSelect} className="hidden" />
-                {(portraitPreview || formData.portrait_url) ? (
-                  <div className="relative w-full h-full rounded-lg overflow-hidden bg-bg-secondary">
-                    {/* 자르지 않고 원본 비율 그대로 보여준다 */}
-                    <Image src={portraitPreview || formData.portrait_url || ''} alt="대표 화보" fill unoptimized className="object-contain" />
-                    <button type="button" onClick={(e) => { e.stopPropagation(); handlePortraitRemove() }} className="absolute top-1 right-1 p-0.5 bg-black/60 rounded-full hover:bg-black/80">
-                      <X className="w-3 h-3 text-white" />
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <Upload className="w-4 h-4 text-text-secondary" />
-                    <span className="text-[10px] text-text-secondary">1:1 권장</span>
-                  </>
-                )}
-              </div>
+              <CelebPortraitEditor
+                value={portraitPreview || formData.portrait_url}
+                alt={`${formData.nickname || '인물'} 대표 화보`}
+                onFileAccepted={() => setError(null)}
+                onCroppedFile={handlePortraitCrop}
+                onRemove={handlePortraitRemove}
+                onError={(cropError) => setError(cropError.message)}
+              />
               <div className="flex-1 space-y-1.5 min-w-0">
                 <input
                   type="url"
@@ -706,8 +595,8 @@ export default function CelebForm({ mode, celeb }: Props) {
                   className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
                 />
                 <p className="text-[10px] text-text-secondary">
-                  인물 상세 맨 위에 크게 걸린다. 복식·배경이 있는 상반신~무릎 인물사진(1:1)이며,
-                  얼굴을 자르지 않고 긴 변 1080까지만 줄인다. 비우면 세력도감 화보 → 아바타 순으로 물러난다
+                  인물 상세 맨 위에 크게 걸린다. 파일을 놓으면 1:1 편집기가 열리고, 사진을 끌어 이동하거나
+                  최대 3배까지 확대할 수 있다. 비우면 세력도감 화보 → 아바타 순으로 물러난다
                 </p>
               </div>
             </div>
@@ -729,14 +618,24 @@ export default function CelebForm({ mode, celeb }: Props) {
                 </label>
               </div>
               <div className="flex items-center gap-2 border-l border-border pl-4">
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="celeb_tier" value="full" checked={formData.celeb_tier === 'full'} onChange={() => handleChange('celeb_tier', 'full')} className="w-3 h-3" />
-                  <span className="text-xs text-text-primary">full</span>
-                </label>
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="celeb_tier" value="light" checked={formData.celeb_tier === 'light'} onChange={() => handleChange('celeb_tier', 'light')} className="w-3 h-3" />
-                  <span className="text-xs font-mono text-orange-400">light</span>
-                </label>
+                {mode === 'create' ? (
+                  // 새 인물은 감상 기록이 없어 light뿐이다. 등급은 기록을 채운 뒤 올린다
+                  <>
+                    <span className="text-xs font-mono text-orange-400">light</span>
+                    <span className="text-[10px] text-text-secondary">감상 기록을 채운 뒤 올린다</span>
+                  </>
+                ) : (
+                  <>
+                    <label className="flex items-center gap-1 cursor-pointer">
+                      <input type="radio" name="celeb_tier" value="full" checked={formData.celeb_tier === 'full'} onChange={() => handleChange('celeb_tier', 'full')} className="w-3 h-3" />
+                      <span className="text-xs text-text-primary">full</span>
+                    </label>
+                    <label className="flex items-center gap-1 cursor-pointer">
+                      <input type="radio" name="celeb_tier" value="light" checked={formData.celeb_tier === 'light'} onChange={() => handleChange('celeb_tier', 'light')} className="w-3 h-3" />
+                      <span className="text-xs font-mono text-orange-400">light</span>
+                    </label>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -933,15 +832,6 @@ export default function CelebForm({ mode, celeb }: Props) {
       </Button>
     </div>
 
-    {/* 이미지 크롭 모달 */}
-    {cropModalOpen && cropImageSrc && (
-      <ImageCropModal
-        imageSrc={cropImageSrc}
-        aspectRatio={1}
-        onComplete={handleCropComplete}
-        onCancel={handleCropCancel}
-      />
-    )}
     </>
   )
 }

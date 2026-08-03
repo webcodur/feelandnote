@@ -50,12 +50,12 @@ export function createPreviewUrl(file: File): Promise<string> {
   })
 }
 
-// 대표 화보(profiles.portrait_url) 긴 변 상한. 얼굴 크롭이 아니라 원본을 그대로 쓴다
+// 대표 화보(profiles.portrait_url) 긴 변 상한. 편집기에서 정한 1:1 구도를 추가 크롭 없이 줄인다
 const PORTRAIT_MAX_EDGE = 1080
 
 /**
- * 대표 화보용 축소. 자르지 않고 원본 비율을 유지하며, 원본이 작으면 확대하지 않는다.
- * 일괄 등록 스크립트(scripts/upload-celeb-hero-photo.ts)의 sharp fit:inside 처리와 같은 규격이다.
+ * 대표 화보용 축소. 편집 결과의 비율을 유지하며, 원본이 작으면 확대하지 않는다.
+ * 실제 구도 선택은 CelebPortraitEditor에서 끝내고 여기서는 압축만 한 번 수행한다.
  * (아바타는 얼굴 중앙 크롭 800×800 — resizeSingleImage 쪽)
  */
 export async function resizePortraitImage(file: File): Promise<string> {

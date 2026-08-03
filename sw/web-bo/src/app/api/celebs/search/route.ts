@@ -17,7 +17,7 @@ import { NextRequest, NextResponse } from 'next/server'
 /** 세력도감 편집기가 부제·배지에 쓰는 값까지 포함한다 */
 const SELECT = `
   id, slug, nickname, nickname_en, title, profession, nationality,
-  bio, avatar_url, speech_tone, has_voice, voice_id_ko, voice_id_en,
+  bio, avatar_url, portrait_url, speech_tone, has_voice, voice_id_ko, voice_id_en,
   birth_date, death_date, celeb_tier, status
 `
 
@@ -60,13 +60,13 @@ export async function GET(request: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   const rows = (data ?? []) as unknown as Record<string, unknown>[]
-  const episodeBySlug = withEpisode ? await factionEpisodeBySlug(rows) : new Map<string, string>()
+  const episodeByCelebId = withEpisode ? await factionEpisodeByCelebId(rows) : new Map<string, string>()
 
   return NextResponse.json({
     celebs: rows.map(c => ({
       ...c,
       // 이 인물이 이미 등장하는 세력도감 편(없으면 null)
-      existingEpisode: c.slug ? episodeBySlug.get(c.slug as string) ?? null : null,
+      existingEpisode: episodeByCelebId.get(c.id as string) ?? null,
     })),
   })
 }
@@ -77,19 +77,19 @@ export async function GET(request: NextRequest) {
  * 예전에는 에피소드 폴더를 통째로 훑어 만들었다. 이제 등장 인물이 DB 에 있으므로 조회로 끝난다.
  * 여러 편에 나오는 인물은 그중 한 편을 대표로 보여준다 — 화면은 "이미 쓰인 인물"임만 알리면 된다.
  */
-async function factionEpisodeBySlug(
+async function factionEpisodeByCelebId(
   rows: Record<string, unknown>[],
 ): Promise<Map<string, string>> {
-  const slugs = [...new Set(
-    rows.map(r => r.slug).filter((s): s is string => typeof s === 'string' && !!s),
+  const celebIds = [...new Set(
+    rows.map(r => r.id).filter((id): id is string => typeof id === 'string' && !!id),
   )]
   const out = new Map<string, string>()
-  if (!slugs.length) return out
+  if (!celebIds.length) return out
 
   // 팩션 5테이블은 admin 전용이라 service role 로 읽는다. 이 창구는 관리 화면 전용이다.
   const db = createAdminClient()
   const { data: people } = await db
-    .from('faction_people').select('slug,cluster_id').in('slug', slugs)
+    .from('faction_people').select('celeb_id,cluster_id').in('celeb_id', celebIds)
   if (!people?.length) return out
 
   const clusterIds = [...new Set(people.map(p => p.cluster_id as string))]
@@ -107,7 +107,8 @@ async function factionEpisodeBySlug(
   const episodeByCluster = new Map((clusters ?? []).map(c => [c.id as string, episodeByGroup.get(c.group_id as string)]))
   for (const p of people) {
     const folder = episodeByCluster.get(p.cluster_id as string)
-    if (folder && !out.has(p.slug as string)) out.set(p.slug as string, folder)
+    const celebId = p.celeb_id as string
+    if (folder && celebId && !out.has(celebId)) out.set(celebId, folder)
   }
   return out
 }
