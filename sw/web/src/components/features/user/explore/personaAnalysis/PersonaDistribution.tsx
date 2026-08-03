@@ -21,7 +21,7 @@ import { useTranslations } from "next-intl";
 
 interface PersonaDistributionProps {
   people: PersonaPerson[];
-  /** 분포에 표시할 최소 영향력 (검색은 이 값과 무관하게 전체) */
+  /** 분포에 표시할 최소 영향력. 전체 인물 검색은 필요할 때 서버에서 별도로 수행한다. */
   minInfluence?: number;
 }
 
@@ -126,7 +126,7 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
 
   return (
     <div className="space-y-6">
-      <PersonaSearch people={people} onSelect={select} />
+      <PersonaSearch onSelect={select} />
 
       {/* 성향 항목 탭 — 모바일 2×2 격자, 넓은 화면 한 줄 */}
       <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center">
