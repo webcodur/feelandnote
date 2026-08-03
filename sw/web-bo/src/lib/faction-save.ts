@@ -57,7 +57,7 @@ export async function replaceFactionEpisode(
   const parts = await loadExistingParts(db, episodeId)
 
   const slugs = collectSlugs(script)
-  const slugMap = await resolveSlugs(db, slugs)
+  const { slugMap, unpublishedSlugs } = await resolveSlugs(db, slugs)
   const tagMap = await resolveTags(db)
 
   const payload = buildFactionRows(script, {
@@ -74,9 +74,14 @@ export async function replaceFactionEpisode(
   // 도감 손질(web_*)은 도감 편집이 소유한다 — 대본 저장이 인물 행을 전량 갈아끼우므로
   // 여기서 기존 값을 사람 신원 기준으로 되실어 보존한다(음성 길이와 같은 원리).
   // web_hidden 은 NOT NULL 이라 값이 없으면 저장 자체가 거부된다(실측 26.08.03).
+  //
+  // 처음 실리는 인물은 그 사람이 서비스에 떠 있는지로 도감 노출을 정한다 — 아직 안 뜨는 인물은
+  // 도감에 이름만 뜨고 눌러도 화면이 안 열리므로 감춘 채로 넣는다. 사람이 도감 구획에서 직접
+  // 보이기로 바꾸면 그 값이 기존 값으로 보존돼 다음 저장에 되살아나지 않는다.
   for (const p of payload.people) {
     const kept = webLookup(p)
-    p.web_hidden = kept?.web_hidden ?? false
+    p.web_hidden = kept?.web_hidden
+      ?? (typeof p.slug === 'string' && unpublishedSlugs.has(p.slug))
     p.web_short_desc = kept?.web_short_desc ?? null
     p.web_long_desc = kept?.web_long_desc ?? null
     p.web_short_desc_en = kept?.web_short_desc_en ?? null
@@ -124,15 +129,28 @@ function collectSlugs(script: Record<string, unknown>): string[] {
   return [...out]
 }
 
-async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<string, string>> {
-  const map = new Map<string, string>()
+/**
+ * 인물 연결 키를 셀럽 계정에 맺는다.
+ *
+ * 서비스에 아직 안 뜨는 인물(status ≠ active)도 함께 돌려준다 — 처음 실리는 그런 인물은
+ * 도감에서 감춘 채로 저장한다(위 web_hidden 결정).
+ */
+async function resolveSlugs(
+  db: SupabaseClient, slugs: string[],
+): Promise<{ slugMap: Map<string, string>; unpublishedSlugs: Set<string> }> {
+  const slugMap = new Map<string, string>()
+  const unpublishedSlugs = new Set<string>()
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
     const { data, error } = await db
-      .from('profiles').select('id,slug').in('slug', slugs.slice(i, i + IN_CHUNK))
+      .from('profiles').select('id,slug,status').in('slug', slugs.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 조회 실패: ${error.message}`)
-    for (const r of data ?? []) if (r.slug) map.set(r.slug as string, r.id as string)
+    for (const r of data ?? []) {
+      if (!r.slug) continue
+      slugMap.set(r.slug as string, r.id as string)
+      if (r.status !== 'active') unpublishedSlugs.add(r.slug as string)
+    }
   }
-  return map
+  return { slugMap, unpublishedSlugs }
 }
 
 /** 태그는 수십 종뿐이라 전량 조회한다 */

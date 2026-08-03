@@ -652,13 +652,25 @@ async function publishTagTeamShots(ctx: {
     return
   }
 
-  /** 사진마다 「어느 묶음이고 누가 나오는지」를 함께 싣는다 — 도감이 그대로 보여준다 */
-  const meta = (shot: (typeof shots)[number], url: string): FactionTeamImage => ({
-    url,
-    ...(shot.label ? { label: shot.label } : {}),
-    ...(shot.labelEn ? { labelEn: shot.labelEn } : {}),
-    ...(shot.celebIds.length ? { celebIds: shot.celebIds } : {}),
-  })
+  /*
+    사진마다 「어느 묶음이고 누가 나오는지」를 함께 싣는다 — 도감이 그대로 보여준다.
+
+    사진에 나오는 사람은 제작 데이터가 정하지만, 등장이 사람이 아니라 기계·제품인 편이 있다
+    (인간형 로봇 — 옵티머스·아틀라스). 그런 편은 제작에서 뽑을 사람이 없으므로, 도감에서 사람이
+    직접 매달아 둔 명단을 지우지 않고 그대로 둔다. 제작에 사람이 있으면 종전대로 그 값이 이긴다.
+  */
+  const keptPeople = new Map(
+    toTeamImages(tag.team_images).map(img => [img.url, img.celebIds ?? []]),
+  )
+  const meta = (shot: (typeof shots)[number], url: string): FactionTeamImage => {
+    const people = shot.celebIds.length ? shot.celebIds : keptPeople.get(url) ?? []
+    return {
+      url,
+      ...(shot.label ? { label: shot.label } : {}),
+      ...(shot.labelEn ? { labelEn: shot.labelEn } : {}),
+      ...(people.length ? { celebIds: people } : {}),
+    }
+  }
 
   const images: FactionTeamImage[] = []
   let uploaded = 0

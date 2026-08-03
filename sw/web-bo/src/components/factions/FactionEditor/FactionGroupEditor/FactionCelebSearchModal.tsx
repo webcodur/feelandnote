@@ -15,6 +15,8 @@ export type CelebResult = {
   celeb_tier: string | null
   voice_id_ko: string | null
   existingEpisode: string | null
+  /** 서비스 노출 상태 — active 가 아니면 인물 화면이 아직 안 열린다 */
+  status: string | null
 }
 
 type Props = {
@@ -110,6 +112,14 @@ export function FactionCelebSearchModal({ open, onClose, onSelect }: Props) {
                   <span className="truncate font-semibold text-text-primary">{c.nickname}</span>
                   {c.existingEpisode && (
                     <span className="shrink-0 rounded bg-info/15 px-1.5 py-px text-[11px] text-info-text">등록됨</span>
+                  )}
+                  {c.status !== 'active' && (
+                    <span
+                      className="shrink-0 rounded bg-warning/15 px-1.5 py-px text-[11px] text-warning-text"
+                      title="아직 서비스에 안 뜨는 인물입니다. 영상에는 넣을 수 있고, 세력도감에는 감춘 채로 들어갑니다"
+                    >
+                      서비스 비공개
+                    </span>
                   )}
                 </span>
                 <span className="block truncate text-xs text-text-secondary">

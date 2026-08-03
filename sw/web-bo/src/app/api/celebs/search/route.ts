@@ -18,7 +18,7 @@ import { NextRequest, NextResponse } from 'next/server'
 const SELECT = `
   id, slug, nickname, nickname_en, title, profession, nationality,
   bio, avatar_url, speech_tone, has_voice, voice_id_ko, voice_id_en,
-  birth_date, death_date, celeb_tier
+  birth_date, death_date, celeb_tier, status
 `
 
 export async function GET(request: NextRequest) {
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   const q = sp.get('q')?.trim() ?? ''
   const profession = sp.get('profession')
   const hasVoice = sp.get('hasVoice')
-  /** 신화·전설 속 인물(fiction 등급)까지 포함 — 세력도감엔 실존이 아닌 인물이 있다 */
+  /** 세력도감 편집기에서 부르는 경우 — 이미 나온 편 배지를 함께 돌려준다 */
   const includeFiction = sp.get('includeFiction') === '1'
   /** 이미 세력도감에 나온 인물인지 함께 표시. 조회가 늘어나므로 요청할 때만 한다 */
   const withEpisode = includeFiction || sp.get('withEpisode') === '1'
@@ -41,10 +41,13 @@ export async function GET(request: NextRequest) {
     .order('nickname')
     .limit(limit)
 
-  query = includeFiction
-    // 신화 인물은 상태가 active 가 아닐 수 있어 등급으로도 건진다
-    ? query.or('status.eq.active,celeb_tier.eq.fiction')
-    : query.in('status', ['active', 'inactive', 'suspended'])
+  /*
+    서비스에 떠 있는 인물(active)만 고르게 하지 않는다. 세력도감 제작 명단은 서비스 진열보다
+    범위가 넓어, 아직 서비스에 안 뜨는 인물도 영상에는 나온다. 그래서 검색은 지워진 계정만 빼고
+    다 보여주고, 서비스에 안 뜨는 인물을 새로 붙이면 저장할 때 도감에서 감춘 채로 들어간다
+    (`lib/faction-save.ts`). 삭제(deleted)만 여기서 걸러낸다.
+  */
+  query = query.in('status', ['active', 'inactive', 'suspended'])
 
   if (q) {
     // 연결 키(slug)로도 찾게 한다 — 세력도감는 이름보다 키를 먼저 아는 경우가 많다
