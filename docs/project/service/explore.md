@@ -60,9 +60,11 @@
 | `navDirectory` | `/explore/directory` |
 | `navOthers` | `/explore/figures?tier=light` |
 
-허브 데이터는 다섯 갈래를 병렬로 읽는다 — **최근 30일 조회 상위 12명(`trending` 정렬)**, 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 4개, 태그마다 인물 4명까지만 추려 넘긴다.
+허브 데이터는 다섯 갈래를 병렬로 읽는다 — **최근 30일 조회 상위 12명(`trending` 정렬)**, 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 4개만 추려 넘기며, 카드에서 인물 얼굴을 노출하지 않으므로 프로필은 조회하지 않는다.
 
 **세력도감 4장 편성**(`getFactionHubPreviews`) — 사람이 고른 고정 명단 `HUB_PINNED_SLUGS`가 먼저 자리를 잡고, 빈 자리만 자동 규칙(대분류 하나씩 · 단체샷 있는 테마 우선 · `sort_order` 순)이 채운다. 26.08.03 유저 선정: `ai-pioneers` · `paypal-mafia` · `greek-roman-myth` · `digital-resistance`. 자동 규칙만 돌 때는 앞 순번이 이겨 인간형 로봇·마케도니아 제국이 잡혔다(실측). 명단의 태그가 사라지거나 인물이 0이면 그 자리는 자동 선정으로 넘어간다.
+
+세력도감 미리보기는 PC·모바일 모두 1:1 단체샷 표지를 사용한다. PC에서는 2×2 그리드, 모바일에서는 다음 카드가 일부 보이는 가로 스냅 캐러셀로 노출한다. 카드에는 제목과 설명만 얹고, 인물 얼굴 묶음과 별도 탐색 문구는 두지 않는다.
 
 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다.
 
@@ -115,6 +117,7 @@
 
 - `/explore/faction`: 검색 파라미터 `?tag=`의 값을 `initialTagId`로 넘긴다.
 - `/explore/faction/[slug]`: `slug`로 태그를 찾아 그 `id`를 `initialTagId`로 넘긴다. 못 찾으면 `notFound()`다.
+- 인물 화보의 대사 버튼은 해당 팩션 배치의 `faction_atlas_members.quote/quote_en`만 자막으로 보낸다. 게임용 `celeb_dialogues`의 greeting·quote로 폴백하지 않는다.
 
 **태그·그룹 체계는 여기서 다루지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`, 26.07.26 코드 상수에서 승격), 그룹 헤더가 일반 태그 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
 

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { useSearchParams } from "next/navigation";
-import { useRouter, usePathname } from "@/i18n/navigation";
 import type { FeaturedTag } from "@/actions/home";
 import { getTagChronologicalLibrary } from "@/actions/home/getTagChronologicalLibrary";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -14,11 +13,9 @@ import FactionShowcase from "./FactionShowcase";
 import SharedLibraryView from "./SharedLibraryView";
 import FactionTagDrawerDesktop from "./FactionTagDrawerDesktop";
 import FactionTagSheetMobile from "./FactionTagSheetMobile";
-import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
 import CelebContentTimeline from "@/components/features/game/shared/CelebContentTimeline";
 import ContentReviewModal from "@/components/features/game/shared/ContentReviewModal";
 import type { TimelineCeleb, TimelineContent } from "@/components/features/game/shared/CelebContentTimeline";
-import type { DialogueSubtitleData } from "@/components/features/game/shared/hooks/useDialogue";
 
 import FactionIntroView from "./FactionIntroView";
 
@@ -45,12 +42,9 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
 
   const startIdx = (isExplore && !initialTagId) || initialIsGroup ? -1 : initialIndex;
   const [activeTagIndex, setActiveTagIndex] = useState(startIdx);
-  const { handleSubtitle: setSubtitleData } = useDialogueSubtitle();
   const [viewMode, setViewMode] = useState<ViewMode>("faction");
 
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const tagParam = searchParams.get('tag');
 
   // 주소의 ?tag= 가 바뀌면 그 테마로 맞춘다 — 효과 대신 렌더 중 조정(마운트 시점은 startIdx가 처리)
@@ -178,7 +172,6 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
                 key={activeTag.id}
                 activeTag={activeTag}
                 locale={locale}
-                onSubtitle={setSubtitleData}
               />
             </div>
           )}

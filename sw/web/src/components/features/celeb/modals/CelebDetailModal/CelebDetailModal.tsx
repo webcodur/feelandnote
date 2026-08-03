@@ -7,7 +7,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "@/i18n/navigation";
-import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User, Feather } from "lucide-react";
+import { X, Check, UserPlus, ExternalLink, Calendar, MapPin, Briefcase, User } from "lucide-react";
 import { Z_INDEX } from "@/constants/zIndex";
 import { toggleFollow } from "@/actions/user";
 import { getCelebProfileUrl } from "@/lib/url";
@@ -15,16 +15,16 @@ import { trackEvent } from "@/lib/analytics/track";
 import { getAuraByScore, type Aura } from "@/constants/materials";
 import CelebTagsModal from "../CelebTagsModal";
 import { FormattedText } from "@/components/ui";
-import { getCelebReviews } from "@/actions/home/getCelebReviews";
+import { getCelebModalContent } from "@/actions/home/getCelebReviews";
 import type { CelebReview } from "@/types/home";
 import { Avatar, BlurDissolve } from "@/components/ui";
-import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
 import { useTranslations, useLocale } from "next-intl";
 import { AURA_GRADIENTS, type CelebDetailModalProps } from "./types";
 import { CelebReviewCard } from "./sections/CelebReviewCard";
 
 export default function CelebDetailModal({ celeb, isOpen, onClose, context, hideBirthDate = false, hideQuotes = false, onNavigate, hasPrev = false, hasNext = false, zIndex }: CelebDetailModalProps) {
   const t = useTranslations("home.ui");
+  const tCeleb = useTranslations("celebPage");
   const tProf = useTranslations("profession");
   const locale = useLocale();
   const isEn = locale === "en";
@@ -39,9 +39,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
-  const [loadingReviews, setLoadingReviews] = useState(true);
-  const [displayCount, setDisplayCount] = useState(20);
-  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [virtualMonologue, setVirtualMonologue] = useState<string | null>(null);
 
   const fetchedForRef = useRef<string | null>(null);
 
@@ -50,11 +48,9 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   if (renderedCelebId !== celeb.id) {
     setRenderedCelebId(celeb.id);
     setReviews([]);
-    setDisplayCount(20);
-    setCategoryFilter(null);
+    setVirtualMonologue(null);
     setIsFollowing(celeb.is_following);
     setIsTagsModalOpen(false);
-    setLoadingReviews(true);
   }
 
   // 모달 열릴 때 body 스크롤 잠금
@@ -65,19 +61,25 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
     return () => { document.body.style.overflow = prev; };
   }, [isOpen]);
 
-  // 감상 기록 로딩 (Strict Mode 중복 fetch는 ref로 방지)
+  // 대표 감상 기록과 가상 독백 로딩 (Strict Mode 중복 fetch는 ref로 방지)
   useEffect(() => {
+    if (!isOpen) return;
     if (fetchedForRef.current === celeb.id) return;
     fetchedForRef.current = celeb.id;
-    getCelebReviews(celeb.id)
-      .then(data => setReviews(data))
+    getCelebModalContent(celeb.id)
+      .then(data => {
+        if (fetchedForRef.current !== celeb.id) return;
+        setReviews(data.reviews);
+        setVirtualMonologue(data.virtualMonologue);
+      })
       .catch(err => {
         if (err?.name === 'AbortError') return;
-        console.error('[CelebDetailModal] 리뷰 로딩 실패:', err);
+        console.error('[CelebDetailModal] 모달 콘텐츠 로딩 실패:', err);
+        if (fetchedForRef.current !== celeb.id) return;
         setReviews([]);
-      })
-      .finally(() => setLoadingReviews(false));
-  }, [celeb.id]);
+        setVirtualMonologue(null);
+      });
+  }, [celeb.id, isOpen]);
 
   // 오라 시스템: score 기반으로 오라 결정 (SSOT: materials.ts/getAuraByScore)
   const aura: Aura = celeb.influence?.total_score != null
@@ -234,10 +236,6 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   );
   // #endregion
 
-  const filteredReviews = categoryFilter
-    ? reviews.filter(r => r.content.type === categoryFilter)
-    : reviews;
-
   const modalBody = (
     <div className="flex flex-col w-full h-full min-h-0 overflow-y-auto overscroll-contain custom-scrollbar bg-bg-main animate-fade-in">
       {contextBanner}
@@ -282,57 +280,55 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         </div>
       )}
 
+      {/* 가상 독백이 있는 인물에게만 노출 */}
+      {virtualMonologue ? (
+        <section className="mx-6 md:mx-8 mt-4 border-y border-accent/20 py-5">
+          <h3 className="mb-2 text-center text-base font-serif font-bold text-accent">
+            {tCeleb("virtualMonologue")}
+          </h3>
+          <p className="mb-4 text-center text-[11px] leading-relaxed text-text-secondary">
+            {tCeleb("virtualMonologueNote")}
+          </p>
+          <div className="space-y-3 font-serif text-sm leading-loose text-text-secondary break-keep">
+            {virtualMonologue.split(/\n\n+/).map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       {/* 액션: 팔로우 + 프로필 진입 */}
       <div className="flex gap-3 px-6 md:px-8 py-5 shrink-0">
         {followButton}
         {profileLink}
       </div>
 
-      {/* 감상 기록 */}
-      <div className="border-t border-border/50">
-        <h3 className="text-center text-lg font-serif font-bold text-accent px-4 pt-6">
-          {t("reviewCount", { name: displayNickname, count: celeb.content_count || 0 })}
-        </h3>
-
-        {/* 타입별 개수 요약 (클릭 시 필터) */}
-        <ContentTypeSummary
-          items={reviews.map(r => r.content)}
-          value={categoryFilter}
-          onChange={(type) => { setCategoryFilter(type); setDisplayCount(20); }}
-          className="shrink-0 px-4 pt-4 pb-2"
-        />
-
-        <div className="p-4 md:px-8 pb-8">
-          {loadingReviews ? (
-            <div className="flex flex-col items-center justify-center py-20 gap-4">
-              <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-              <p className="text-sm animate-pulse">{t("loadingRecords")}</p>
-            </div>
-          ) : filteredReviews.length > 0 ? (
-            <div className="max-w-4xl mx-auto space-y-4">
-              <div className="grid grid-cols-1 gap-4">
-                {filteredReviews.slice(0, displayCount).map((reviewItem) => (
-                  <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} modalZIndex={zIndex ? zIndex + 1 : undefined} />
-                ))}
-              </div>
-              {displayCount < filteredReviews.length && (
-                <button
-                  onClick={() => setDisplayCount((prev) => prev + 20)}
-                  className="w-full py-3 text-sm font-medium text-accent border border-accent/30 rounded-lg hover:bg-accent/5 active:scale-[0.98]"
-                >
-                  {t("loadMore", { count: filteredReviews.length - displayCount })}
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <Feather size={48} className="mb-4" />
-              <p className="text-text-secondary font-medium mb-1">{t("empty.noPublicReviews")}</p>
-              <p className="text-xs">{t("empty.pleaseWait")}</p>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* 공개 감상문이 있을 때만 대표작 2개를 미리보기로 노출 */}
+      {reviews.length > 0 ? (
+        <section className="border-t border-border/50 px-4 pb-8 pt-6 md:px-8">
+          <h3 className="text-center text-lg font-serif font-bold text-accent">
+            {t("featuredWorks", { name: displayNickname })}
+          </h3>
+          <div className="mx-auto mt-4 grid max-w-4xl grid-cols-1 gap-4">
+            {reviews.map((reviewItem) => (
+              <CelebReviewCard key={reviewItem.id} review={reviewItem} celeb={celeb} modalZIndex={zIndex ? zIndex + 1 : undefined} />
+            ))}
+          </div>
+          <div className="mt-5 text-center">
+            <p className="mb-3 text-xs text-text-secondary">
+              {t("viewAllRecordsOnProfile")}
+            </p>
+            <Link
+              href={getCelebProfileUrl(celeb)}
+              onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
+              className="inline-flex items-center gap-1.5 border border-accent/40 px-4 py-2 text-xs font-bold text-accent hover:border-accent hover:bg-accent/5 active:scale-[0.98]"
+            >
+              <ExternalLink size={13} strokeWidth={2} />
+              {t("viewAllRecords")}
+            </Link>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 

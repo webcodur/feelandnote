@@ -1084,3 +1084,27 @@
 .animate-slide-down {
   animation: slideDown 0.2s ease-out;
 }
+
+/* 세력도감 개인 대사 재생: 현재 화보를 초점 방향으로 천천히 밀어 넣는다. */
+@keyframes factionPortraitPushIn {
+  from { transform: scale(1); }
+  to {
+    transform: scale(1.04) translate(
+      var(--faction-portrait-shift-x, 0%),
+      var(--faction-portrait-shift-y, 0%)
+    );
+  }
+}
+
+.animate-faction-portrait-push-in {
+  animation-name: factionPortraitPushIn;
+  animation-timing-function: cubic-bezier(0.22, 0.72, 0.22, 1);
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-faction-portrait-push-in {
+    animation: none;
+  }
+}

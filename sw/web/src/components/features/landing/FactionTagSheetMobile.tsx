@@ -64,7 +64,7 @@ export default function FactionTagSheetMobile({
   }
 
   return (
-    <div className="w-full relative px-4 pb-4 border-b border-white/5 mb-4">
+    <div className="relative mb-4 w-full border-b border-white/5 pb-4">
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(true)}

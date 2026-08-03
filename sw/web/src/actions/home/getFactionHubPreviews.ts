@@ -8,7 +8,6 @@ import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
 const HUB_TAG_LIMIT = 4
-const HUB_MEMBER_LIMIT = 4
 
 /**
  * 허브 4장 편성 — 사람이 고른 자리다(26.08.03).
@@ -33,14 +32,6 @@ interface HubTagRow {
 
 interface HubAssignmentRow {
   tag_id: string
-  celeb_id: string
-}
-
-interface HubProfileRow {
-  id: string
-  avatar_url: string | null
-  nickname: string
-  nickname_en: string | null
 }
 
 export interface FactionHubPreview {
@@ -52,7 +43,6 @@ export interface FactionHubPreview {
   color: string
   /** 단체샷 표지 — 없으면 색 카드로 폴백 */
   cover: string | null
-  celebs: HubProfileRow[]
 }
 
 async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
@@ -76,27 +66,20 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
       supabase
         // 단일 원천은 제작 테이블(faction_people) — 뷰가 웹 전용 배정과 합쳐 준다
         .from('faction_atlas_members')
-        .select('tag_id, celeb_id')
+        .select('tag_id')
         .in('tag_id', chunk)
         .eq('hidden', false)
-        .order('sort_order', { ascending: true })
-        .order('celeb_id', { ascending: true })
         .overrideTypes<HubAssignmentRow[], { merge: false }>(),
   )
 
-  const assignmentsByTag = new Map<string, HubAssignmentRow[]>()
-  for (const assignment of assignments) {
-    const current = assignmentsByTag.get(assignment.tag_id) ?? []
-    current.push(assignment)
-    assignmentsByTag.set(assignment.tag_id, current)
-  }
+  const tagIdsWithPeople = new Set(assignments.map((assignment) => assignment.tag_id))
 
   /*
     허브 4장은 종류를 섞는다 — 앞 순번만 뽑으면 인공지능 테마만 나온다.
     사람이 고른 편성(HUB_PINNED_SLUGS)이 먼저고, 남은 자리는 자동 규칙이 채운다.
     자동 규칙: 대분류(상위 묶음)가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
   */
-  const hasPeople = (tag: HubTagRow) => (assignmentsByTag.get(tag.id)?.length ?? 0) > 0
+  const hasPeople = (tag: HubTagRow) => tagIdsWithPeople.has(tag.id)
   const coverOf = (tag: HubTagRow) => toTeamImages(tag.team_images)[0]?.url ?? null
 
   const selectedTags: HubTagRow[] = []
@@ -128,25 +111,6 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
     if (!selectedTags.includes(tag) && hasPeople(tag)) selectedTags.push(tag)
   }
 
-  const selectedCelebIds = [...new Set(
-    selectedTags.flatMap((tag) =>
-      (assignmentsByTag.get(tag.id) ?? [])
-        .slice(0, HUB_MEMBER_LIMIT)
-        .map((assignment) => assignment.celeb_id),
-    ),
-  )]
-
-  const profiles = await selectInChunks<HubProfileRow>(
-    selectedCelebIds,
-    (chunk) =>
-      supabase
-        .from('profiles')
-        .select('id, avatar_url, nickname, nickname_en')
-        .in('id', chunk)
-        .overrideTypes<HubProfileRow[], { merge: false }>(),
-  )
-  const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
-
   return selectedTags.map((tag) => ({
     id: tag.id,
     name: tag.name,
@@ -155,12 +119,6 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
     description_en: tag.description_en,
     color: tag.color,
     cover: coverOf(tag),
-    celebs: (assignmentsByTag.get(tag.id) ?? [])
-      .slice(0, HUB_MEMBER_LIMIT)
-      .flatMap((assignment) => {
-        const profile = profileById.get(assignment.celeb_id)
-        return profile ? [profile] : []
-      }),
   }))
 }
 

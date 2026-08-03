@@ -5,7 +5,7 @@
 */
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 import type { SpeechTone, DialogueType, DialogueLines } from "@/lib/game/voice/types";
@@ -33,6 +33,10 @@ export interface DialogueSubtitleData {
   label?: DialogueLabel;
   /** 음성 재생 속도 (기본 1.0) */
   voiceSpeed?: number;
+  /** 팩션 화보처럼 같은 음원 시각에 다른 UI를 동기화할 때만 사용한다. */
+  onAudioStart?: () => void;
+  onAudioTimeUpdate?: (currentTime: number) => void;
+  onAudioEnd?: () => void;
 }
 
 /** showDialogue 호출 시 자막에 표시할 캐릭터 정보 */
