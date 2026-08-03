@@ -124,6 +124,18 @@ sw/인물-*.txt
 
 # 자산 백업 (git 추적 밖 자산의 원본 보관 — 절대 지우지 않는다)
 /_backup-*
+/_backup/
+
+# web-bo 이미지 생성·조사 산출물 (원본은 로컬 보존, 서비스용 파일만 별도 경로에서 추적)
+/sw/web-bo/output/
+
+# 로컬 조사 세션·다운로드 임시파일
+/sw/web-bo/.kci_cookies.txt
+/sw/web-bo/*.ru-orig.vtt
+/sw/web-bo/scripts/_debug-*
+
+# Supabase CLI가 현재 연결 상태를 기록하는 로컬 캐시
+**/supabase/.temp/
 
 # 외부 AI 에이전트 설정
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
