@@ -21,7 +21,7 @@ import type {
  * 세력도감 출간 패널 — 제작 데이터의 사진·영상·음악·태그를 서비스 도감으로 내보낸다.
  *
  * **인물 텍스트(대사·직함·소개)는 출간 대상이 아니다(26.08.03 단일화).** 도감이 제작 데이터를
- * 직접 읽으므로 저장 즉시 반영된다. 이 패널의 출간 버튼이 나르는 것은 개인샷·세력 로고·
+ * 직접 읽으므로 저장 즉시 반영된다. 이 패널의 출간 버튼이 나르는 것은 개인 화보+대사 음성·세력 로고·
  * 단체사진·테마 영상·테마 음악, 그리고 태그 행 자체다.
  *
  * 진단은 읽기만 하고, 미리보기(dry-run)는 쓰기 직전까지 똑같이 계산한 뒤 아무것도 쓰지 않는다.
@@ -111,7 +111,7 @@ function peopleCounts(people: FactionSyncPerson[]) {
   return { linked, unlinked }
 }
 
-/** 개인샷 진행도 — 저장소와 일치하는 인원 / 전체 인원 */
+/** 개인 화보·대사 음성 묶음 진행도 — 저장소와 일치하는 인원 / 전체 인원 */
 function soloShotProgress(people: FactionSyncPerson[]) {
   const synced = people.filter(p => p.soloShot === 'synced').length
   return { synced, total: people.length }
@@ -129,9 +129,9 @@ function itemLabel(it: FactionPublishItem): string {
   return it.group
 }
 
-/** 미해소 사유를 사람 말로 */
+/** DB 인물 연결 무결성 오류를 사람 말로 */
 function linkReason(p: FactionSyncPerson): string {
-  return p.link === 'unkeyed' ? '연결 키 없음' : '셀럽 미등록'
+  return p.link === 'unkeyed' ? 'DB 인물 키 누락' : 'DB 인물 연결 파손'
 }
 
 function formatAt(ts: number): string {
@@ -334,7 +334,7 @@ export function FactionPublishPanel({
         <span className="text-sm text-text-secondary">
           출간 가능 인물 <span className="font-bold text-accent">{summary.publishable}</span>
           {' · '}
-          미해소 인물 <span className="font-bold text-danger-text">{summary.blocked}</span>
+          DB 연결 오류 <span className="font-bold text-danger-text">{summary.blocked}</span>
         </span>
 
         <div className="ml-auto flex items-center gap-2">
@@ -357,13 +357,13 @@ export function FactionPublishPanel({
       {/* 단일 원천 안내 — 인물 글은 출간 없이 곧장 도감에 뜬다 */}
       <p className="text-[11px] text-text-dim">
         인물의 대사·직함·소개 글은 저장 즉시 도감에 자동 반영됩니다(단일 원천).
-        출간 버튼이 내보내는 것은 개인샷·세력 로고·단체사진·테마 영상·테마 음악, 그리고 태그입니다.
+        출간 버튼이 내보내는 것은 개인 화보 전체와 팩션 대사 음성·세력 로고·단체사진·테마 영상·테마 음악, 그리고 태그입니다.
       </p>
 
       {/* 진단 요약 두 번째 줄 — 사진·얼굴·등급 */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-text-secondary">
-        <span title="아직 저장소에 올리지 않은 개인샷 수">
-          올릴 개인샷 <span className="font-semibold text-text-primary">{summary.soloShotPending}</span>
+        <span title="개인 화보 전체·팩션 대사 음성·전환 시각 중 아직 출간되지 않은 인물 수">
+          올릴 개인 재생 묶음 <span className="font-semibold text-text-primary">{summary.soloShotPending}</span>
         </span>
         <span title="아직 저장소에 올리지 않은 단체사진 수">
           올릴 단체사진 <span className="font-semibold text-text-primary">{summary.teamShotPending}</span>
@@ -456,11 +456,11 @@ export function FactionPublishPanel({
         </div>
       )}
 
-      {/* 셀럽 미해소 인물 전체 명단 */}
+      {/* DB 인물 연결 무결성 오류 전체 명단 — 정상 저장 경로에서는 0이어야 한다 */}
       {allUnlinked.length > 0 && (
         <div className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
           <p className="text-xs font-semibold text-warning-text">
-            미해소 인물 {allUnlinked.length}명 — 서비스에 셀럽이 없어 이번 출간에서 제외됩니다. <span className="font-mono">/celebs/new</span>에서 먼저 등록하세요.
+            DB 인물 연결 무결성 오류 {allUnlinked.length}명 — 정상 저장 경로에서는 생길 수 없습니다. 저장·출간을 중단하고 DB 연결을 점검하세요.
           </p>
           <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-text-secondary">
             {allUnlinked.map(({ groupName, person }, idx) => (
@@ -615,8 +615,8 @@ function GroupRow({
         <span title="서비스 셀럽과 이어진 인물 / 셀럽이 없어 제외되는 인물">
           인물 연결 <span className="font-semibold text-text-primary">{linked}</span> · 미해소 <span className="font-semibold text-danger-text">{unlinked}</span>
         </span>
-        <span title="개인샷이 저장소 기록과 이미 일치하는 인원 / 전체 인원">
-          개인샷 <span className="font-semibold text-text-primary">{solo.synced}/{solo.total}</span>
+        <span title="개인 화보 전체와 팩션 대사 음성이 저장소·웹 재생 기록과 일치하는 인원 / 전체 인원">
+          개인 재생 묶음 <span className="font-semibold text-text-primary">{solo.synced}/{solo.total}</span>
         </span>
         <span title="이 세력의 단체사진 중 저장소 기록과 일치하는 장수">
           단체사진 <span className="font-semibold text-text-primary">{g.teamShots?.synced ?? 0}/{g.teamShots?.local ?? 0}</span>
@@ -774,7 +774,7 @@ function LogRow({ log }: { log: LogEntry }) {
     (acc[item.action] ??= []).push(item)
     return acc
   }, {})
-  // 셀럽이 없어 제외된 인물 — 개인샷 단계에서 막힌 항목이 그 명단이다
+  // DB 제약을 우회한 무결성 오류 — 개인샷 단계에서 막힌 항목이 그 명단이다
   const unresolved = (r?.items ?? []).filter(
     it => it.kind === 'soloShot' && it.action === 'blocked' && (it.reason === 'celeb-unresolved' || it.reason === 'unkeyed'),
   )
@@ -829,7 +829,7 @@ function LogRow({ log }: { log: LogEntry }) {
 
           {unresolved.length > 0 && (
             <p className="text-[11px] text-danger-text">
-              미해소 인물 {unresolved.length}명 — /celebs/new에서 등록: {unresolved.map(it => it.person).join(', ')}
+              DB 인물 연결 무결성 오류 {unresolved.length}명 — 저장·출간을 중단하고 데이터 점검 필요: {unresolved.map(it => it.person).join(', ')}
             </p>
           )}
 

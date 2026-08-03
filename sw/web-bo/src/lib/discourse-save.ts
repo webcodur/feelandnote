@@ -27,8 +27,6 @@ export interface ReplaceDiscourseEpisodeResult {
   /** 다음 저장에 쓸 새 잠금 기준 */
   updatedAt: string
   counts: { speakers: number; turns: number }
-  /** 셀럽 프로필을 못 찾은 slug — celeb_id 는 null 로 두고 slug 문자열은 보존된다 */
-  unresolvedSlugs: string[]
 }
 
 /**
@@ -57,6 +55,10 @@ export async function replaceDiscourseEpisode(
 
   const slugs = collectSlugs(script)
   const slugMap = await resolveSlugs(db, slugs)
+  const missing = slugs.filter(s => !slugMap.has(s))
+  if (missing.length) {
+    throw new Error(`DB CELEB 미연결 담화 인물 ${missing.length}명 — 저장하지 않았다: ${missing.join(', ')}`)
+  }
 
   const payload = buildDiscourseRows(script, {
     slugMap,
@@ -82,7 +84,6 @@ export async function replaceDiscourseEpisode(
     episodeId: out.episode_id,
     updatedAt: out.updated_at,
     counts: { speakers: payload.speakers.length, turns: payload.turns.length },
-    unresolvedSlugs: slugs.filter(s => !slugMap.has(s)),
   }
 }
 
@@ -101,7 +102,10 @@ async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<st
   const map = new Map<string, string>()
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
     const { data, error } = await db
-      .from('profiles').select('id,slug').in('slug', slugs.slice(i, i + IN_CHUNK))
+      .from('profiles').select('id,slug')
+      .eq('profile_type', 'CELEB')
+      .in('status', ['active', 'inactive', 'suspended'])
+      .in('slug', slugs.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 조회 실패: ${error.message}`)
     for (const r of data ?? []) if (r.slug) map.set(r.slug as string, r.id as string)
   }

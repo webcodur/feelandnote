@@ -43,6 +43,118 @@ const GROUP_BY_PERSON: Record<string, Record<string, string>> = {
     '히로세 마사토': 'Honda',
     '조너선 허스트': 'Agility Robotics',
   },
+  'special-forces': {
+    '데이비드 스털링': '영국 SAS',
+    '찰리 벡위드': '미국 델타포스',
+    '리처드 마신코': '미국 Navy SEALs',
+    '윌리엄 맥레이븐': '미국 Navy SEALs',
+    '울리히 베게너': '독일 GSG 9',
+    '크리스티앙 프루토': '프랑스 GIGN',
+    '백문오': '한국 제1공수특전단',
+    '장인표': '한국 UDT/SEAL',
+    '조영주': '청해부대',
+  },
+  'aviation-industry': {
+    '윌리엄 보잉': '미국 보잉',
+    '조 서터': '미국 보잉',
+    '로제 베테유': '유럽 에어버스',
+    '기욤 포리': '유럽 에어버스',
+    '켈리 오트버그': '미국 보잉',
+    '래리 컬프': 'GE Aerospace',
+    '우광후이': '중국 COMAC',
+    '허둥펑': '중국 COMAC',
+    '프란시스쿠 고미스 네투': 'Embraer',
+  },
+  'intelligence-agencies': {
+    '윌리엄 도너번': '미국 CIA',
+    '맨스필드 스미스커밍': '영국 MI6',
+    '스튜어트 멘지스': '영국 MI6',
+    '레우벤 실로아흐': '이스라엘 모사드',
+    '이세르 하렐': '이스라엘 모사드',
+    '엘리 코헨': '이스라엘 모사드',
+    '메이르 다간': '이스라엘 모사드',
+    '토니 멘데즈': '미국 CIA',
+  },
+  'ev-wars': {
+    '왕촨푸': '글로벌 완성차',
+    '쩡위췬': '배터리 셀 (Big 3)',
+    '피터 롤린슨': '프리미엄 & 신흥',
+    'RJ 스캐린지': '프리미엄 & 신흥',
+    '슈테판 베크바흐': '프리미엄 & 신흥',
+    '이상엽': '글로벌 완성차',
+    '김동명': '배터리 셀 (Big 3)',
+    '다다노부 가즈오': '배터리 셀 (Big 3)',
+  },
+  'autonomous-driving': {
+    '세바스찬 스런': '알파벳의 아이들',
+    '드미트리 돌고프': '알파벳의 아이들',
+    '테케드라 마와카나': '알파벳의 아이들',
+    '크리스 엄슨': 'Aurora Innovation',
+    '암논 샤슈아': 'Mobileye',
+    '카일 보그트': '전통 거인의 자존심',
+    '알렉스 켄달': 'Wayve',
+    '제임스 펑': 'Pony.ai',
+  },
+  'drone-industry': {
+    '에이브러햄 카렘': '군사용 무인기',
+    '왕타오': '민수용 제왕',
+    '린든 블루': '군사용 무인기',
+    '셀추크 바이락타르': '군사용 무인기',
+    '애덤 브라이': 'AI 자율 비행',
+    '캐시 워든': '군사용 무인기',
+    '켈러 리나우도': 'Zipline',
+  },
+  'great-hackers-masked': {
+    '피터 잣코': '해커티비스트',
+    '베토 오로크': '해커티비스트',
+    '엑토르 몬세구르': '해커티비스트',
+    '제이크 데이비스': '해커티비스트',
+    '무스타파 알바삼': '해커티비스트',
+    '제러미 해먼드': '해커티비스트',
+  },
+  'defense-industry': {
+    '짐 타이클렛': '미국 거대 군산',
+    '피비 노바코비치': '미국 거대 군산',
+    '브랜던 쳉': '실리콘밸리 방산',
+    '아르민 파퍼거': '유럽 방산 자존심',
+    '에릭 트라피에': '유럽 방산 자존심',
+    '손재일': '한국 신흥 군산',
+    '김동수': '한국 신흥 군산',
+  },
+  'renaissance-artists': {
+    '로렌초 데 메디치': '피렌체 메디치 가문',
+    '니콜로 마키아벨리': '피렌체 공화국',
+    '갈릴레오 갈릴레이': '과학혁명',
+  },
+  'great-hackers-state': {
+    '키스 알렉산더': '미국 국가안보국',
+    '길 슈베드': '이스라엘 8200부대',
+  },
+  'chu-han-contention': {
+    '한비자': '진(秦)의 법가',
+  },
+  'peter-thiel-universe': {
+    '피터 틸': '자본과 권력',
+  },
+  'three-kingdoms': {
+    '채염': '위 (Cao Wei)',
+  },
+}
+
+/** 기존 세력에 합쳐지지 않고 남는 비활성 세력의 영문 이름 */
+const GROUP_NAME_EN: Record<string, string> = {
+  '미국 델타포스': 'U.S. Delta Force',
+  '독일 GSG 9': "Germany's GSG 9",
+  '프랑스 GIGN': "France's GIGN",
+  '한국 제1공수특전단': "South Korea's 1st Airborne Special Forces Group",
+  '한국 UDT/SEAL': "South Korea's UDT/SEAL",
+  '청해부대': 'Cheonghae Unit',
+  '피렌체 메디치 가문': 'The Medici of Florence',
+  '피렌체 공화국': 'Florentine Republic',
+  '과학혁명': 'Scientific Revolution',
+  '미국 국가안보국': 'U.S. National Security Agency',
+  '이스라엘 8200부대': "Israel's Unit 8200",
+  '진(秦)의 법가': 'Legalism of Qin',
 }
 
 /** 매핑에 없는 사람을 담을 세력 이름 */
@@ -165,7 +277,7 @@ async function main() {
   )
 
   const members = (await loadManualMembers(db, folder, tagIds))
-    .filter(m => !producedPairs.has(`${tagIds.find(t => true)}:${m.celebId}`))
+    .filter(m => !producedPairs.has(`${tagIds[0]}:${m.celebId}`))
 
   if (!members.length) {
     console.log(`${folder}: 옮길 손 명단이 없다`)
@@ -189,7 +301,7 @@ async function main() {
 
   const newGroups: Row[] = [...byGroup.entries()].map(([name, list]) => ({
     name,
-    nameEn: name,
+    nameEn: GROUP_NAME_EN[name] ?? name,
     disabled: true,
     tagSlug,
     clusters: [{ people: list.map(toScriptPerson) }],
@@ -213,9 +325,6 @@ async function main() {
 
   const result = await replaceFactionEpisode(db, folder, nextScript, expectedUpdatedAt)
   console.log(`저장 완료 — 세력 ${result.counts.groups} · 인물 ${result.counts.people}`)
-  if (result.unresolvedSlugs.length) {
-    console.log(`⚠ 셀럽을 못 찾은 연결 키: ${result.unresolvedSlugs.join(', ')}`)
-  }
 
   // 저장 뒤 도감 손질값 교정 — 개인 사진과 감춤 여부는 대본에 없는 값이라 여기서 넣는다.
   // (새로 실린 인물은 저장 규칙상 서비스 비공개면 감춤으로 들어가므로 원래 상태로 되돌린다)

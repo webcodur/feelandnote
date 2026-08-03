@@ -82,8 +82,6 @@ export interface SaveFactionScriptResult {
   exported?: FactionExportResult
   /** 자동 반영 공정 요약 — 저장 성공 뒤 이어 돈 결과(건너뛰었으면 그 사유) */
   published: SaveFactionScriptPublishResult
-  /** 셀럽 프로필을 못 찾은 slug — celeb_id 는 null 로 두고 slug 문자열은 보존된다 */
-  unresolvedSlugs: string[]
 }
 
 export interface SaveFactionScriptOptions {

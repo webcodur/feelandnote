@@ -16,7 +16,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
 import {
-  collectEpisode, hashOfFile, logoKey, soloShotKey, tagKeyOf, teamShotKey,
+  collectEpisode, hashOfFile, logoKey, personPortraitKey, personVoiceKey, soloShotKey, tagKeyOf, teamShotKey,
   type PublishEpisode, type PublishGroup, type PublishPerson,
 } from './collect'
 import { readManifest, type FactionSyncManifest } from './manifest'
@@ -127,6 +127,67 @@ function soloShotStateOf(
     && (!expectedKey || entry.r2Key === expectedKey)
     && (!tagId || entry.tagId === tagId)
   return same ? 'synced' : 'stale'
+}
+
+/** 대표 한 장뿐 아니라 imageChanges 전량·대사 wav·DB 타임라인까지 한 벌로 대조한다. */
+async function personMediaStateOf(
+  p: PublishPerson,
+  tagId: string | null,
+  manifest: FactionSyncManifest,
+): Promise<{ state: FactionSyncSoloShotState; fileMissing: number }> {
+  const hasDb = !!p.webImageUrl?.trim()
+  if (!p.portraits.length) return { state: hasDb ? 'db-only' : 'none', fileMissing: 0 }
+  if (!tagId || !p.celebId) return { state: hasDb ? 'stale' : 'local-only', fileMissing: 0 }
+
+  let filesMissing = 0
+  let filesSynced = true
+  const expectedImages: Array<{ at: number; matchUrl: (url: string) => boolean }> = []
+
+  for (const [index, portrait] of p.portraits.entries()) {
+    if (portrait.image.external) {
+      expectedImages.push({ at: portrait.at, matchUrl: url => url === portrait.image.raw })
+      continue
+    }
+    const hash = await hashOfFile(portrait.image.abs)
+    if (!hash) {
+      filesMissing += 1
+      filesSynced = false
+      expectedImages.push({ at: portrait.at, matchUrl: () => false })
+      continue
+    }
+    const key = index === 0
+      ? soloShotKey(tagId, p.celebId)
+      : personPortraitKey(tagId, p.celebId, index + 1, hash)
+    const entry = manifest[portrait.image.rel]
+    if (!entry || entry.hash !== hash || entry.r2Key !== key || entry.tagId !== tagId) filesSynced = false
+    expectedImages.push({ at: portrait.at, matchUrl: url => url.includes(key) })
+  }
+
+  const voiceHash = await hashOfFile(p.voice.abs)
+  if (!voiceHash && p.quoteDuration) filesMissing += 1
+  let voiceMatches = true
+  if (voiceHash) {
+    const key = personVoiceKey(tagId, p.celebId, voiceHash)
+    const entry = manifest[p.voice.rel]
+    voiceMatches = !!entry && entry.hash === voiceHash && entry.r2Key === key && entry.tagId === tagId
+      && !!p.webQuoteMedia?.audioUrl?.includes(key)
+  } else if (p.webQuoteMedia?.audioUrl) {
+    voiceMatches = false
+  }
+
+  const media = p.webQuoteMedia
+  const imagesMatch = !!media
+    && media.images.length === expectedImages.length
+    && expectedImages.every((expected, i) => {
+      const actual = media.images[i]
+      return !!actual && Math.abs(actual.at - expected.at) < 0.001 && expected.matchUrl(actual.url)
+    })
+  const coverMatches = !!p.webImageUrl && expectedImages[0]?.matchUrl(p.webImageUrl)
+  if (!hasDb) return { state: 'local-only', fileMissing: filesMissing }
+  return {
+    state: filesSynced && voiceMatches && imagesMatch && coverMatches ? 'synced' : 'stale',
+    fileMissing: filesMissing,
+  }
 }
 
 /**
@@ -245,7 +306,7 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
     const people: FactionSyncPerson[] = []
     for (const p of g.people) {
       const profile = p.celebId ? snap.profilesById.get(p.celebId) : undefined
-      const hash = p.image && !p.image.external ? await hashOfFile(p.image.abs) : null
+      const personMedia = await personMediaStateOf(p, tagId, manifest)
       const tier = profile?.celeb_tier ?? undefined
       people.push({
         id: p.id,
@@ -255,18 +316,11 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
         mythical: p.mythical,
         link: linkStateOf(p),
         // 도감에 실린 개인샷 주소의 집은 faction_people.web_image_url 이다(단일 원천)
-        soloShot: soloShotStateOf(
-          hash,
-          p.webImageUrl,
-          tagId && p.celebId ? soloShotKey(tagId, p.celebId) : null,
-          tagId,
-          manifest,
-          p.image?.rel ?? '',
-        ),
+        soloShot: personMedia.state,
         avatar: !!profile?.avatar_url,
         tier,
         tierMismatch: tierMismatchOf(p.mythical, tier),
-        // 셀럽이 이어져야 견줄 상대가 있다 — 미해소 인물은 아예 값을 두지 않는다
+        // 정상 DB 행은 항상 프로필이 있다. 값이 없으면 무결성 오류라 대조 결과도 두지 않는다.
         ...(profile ? { voice: voicePairOf(p, profile) } : {}),
       })
     }
@@ -366,11 +420,9 @@ export async function buildImageSyncSummary(
     const tagId = resolveTag(g, snap)?.id ?? null
 
     for (const p of g.people) {
-      if (!p.image || p.image.external) continue
-      const hash = await hashOfFile(p.image.abs)
-      if (!hash) { out.fileMissing += 1; continue }
-      const key = tagId && p.celebId ? soloShotKey(tagId, p.celebId) : null
-      if (pending(soloShotStateOf(hash, p.webImageUrl, key, tagId, manifest, p.image.rel))) out.solo += 1
+      const media = await personMediaStateOf(p, tagId, manifest)
+      out.fileMissing += media.fileMissing
+      if (pending(media.state)) out.solo += 1
     }
 
     for (const shot of g.teamShots) {

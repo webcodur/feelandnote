@@ -3,44 +3,37 @@
 /**
  * 세력도감 통합 목록 — 영상 편과 웹 전용 테마를 한 표에 세운다(26.08.03 목록 통합).
  *
- * 한 줄 = 편집 화면 하나다. 영상 편은 편 편집기로, 영상 없는 웹 전용 테마는 같은 자리의
- * 테마 화면(`/factions/<테마>`)으로 이어진다. 제작 편에 연결된 테마는 따로 줄을 갖지 않고
- * 그 편 줄의 배지로만 보인다 — 편집의 집이 편 편집기 하나이기 때문이다.
+ * 26.08.03 상위분류 도입: 편·테마를 낱개로 늘어놓지 않고 서비스 도감과 같은 갈래
+ * (인공지능·권력과 전쟁·신화와 이야기 …)로 묶어 접었다 폈다 한다. 갈래의 정본은
+ * `celeb_tags.parent_id` 하나이고, 갈래 자체인 테마는 제 줄 대신 묶음 머리로 올라선다.
+ * 어느 갈래에도 안 걸린 편은 맨 아래 「분류 없음」에 모여, 갈래를 붙여야 할 대상이 드러난다.
  *
  * 웹 전용 테마 줄에는 「영상 없음」 표찰이 붙고, 렌더·이관 대신 도감 노출 상태와
  * 단체샷·개인샷 수를 보인다. 검색·필터는 두 갈래 모두에 걸린다.
  */
 
-import { useMemo, useState, useTransition } from 'react'
+import { Fragment, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, Layers, Layers3, ListVideo, Sparkles, Users, Video, VideoOff, Image as ImageIcon, UserSquare2 } from 'lucide-react'
+import { ArrowRight, ChevronsDownUp, ChevronsUpDown, Sparkles } from 'lucide-react'
 import type { FactionThemeSummary } from '@/actions/admin/factions/themes'
 import type { FactionEpisodeSummary } from '@/actions/admin/factions/episodes'
 import { regenerateFactionRegistry } from '@/actions/admin/factions/export'
-import FactionEpisodeActions from '@/components/factions/FactionEpisodeActions'
 import {
   FactionTable,
   FactionTableBadge,
-  FactionTableCell,
-  FactionTableCount,
   FactionTableEmpty,
-  FactionTableRow,
+  FactionTableSection,
   type FactionTableColumn,
 } from '@/components/factions/FactionTable'
 import { useToast } from '@/contexts/ToastContext'
-import { folderToParam } from '@/lib/faction-edit-route'
 import FactionSearchField from '../FactionSearchField'
 import { getFactionSearchTokens, matchesFactionSearch } from '../factionSearch'
+import { EpisodeAtlasRow, OPEN_BUTTON, ThemeAtlasRow, themeEditPath } from './AtlasRows'
+import { buildAtlasSections, buildThemesByFolder, groupTagIds } from './atlasGrouping'
+import InlineThemeName from './InlineThemeName'
 
 type AtlasFilter = 'all' | 'registered' | 'unregistered' | 'unlinked' | 'webonly'
-
-interface EpisodeThemeLink {
-  id: string
-  name: string
-  nameEn: string | null
-  color: string
-}
 
 const COLUMNS: FactionTableColumn[] = [
   { key: 'item', header: '영상 편 · 테마' },
@@ -51,24 +44,6 @@ const COLUMNS: FactionTableColumn[] = [
   { key: 'updated', header: '수정', width: '6.5rem', align: 'center' },
   { key: 'open', header: '', width: '8rem', align: 'center' },
 ]
-
-const OPEN_BUTTON = 'inline-flex items-center gap-1.5 rounded-lg border border-border bg-bg-card px-3 py-2 text-sm font-medium text-text-secondary hover:border-accent hover:text-accent'
-
-const DATE_FORMATTER = new Intl.DateTimeFormat('ko-KR', {
-  timeZone: 'Asia/Seoul',
-  month: '2-digit',
-  day: '2-digit',
-})
-
-function formatUpdatedAt(value: string): string {
-  const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? '—' : DATE_FORMATTER.format(date)
-}
-
-/** 웹 전용 테마의 편집 주소 — 통합 진입점이 id 를 해석한다(slug 는 편 폴더와 겹칠 수 있어 id 로 간다) */
-function themeEditPath(theme: FactionThemeSummary): string {
-  return `/factions/${theme.id}`
-}
 
 export default function FactionAtlasTable({
   episodes,
@@ -87,28 +62,19 @@ export default function FactionAtlasTable({
   const { showToast } = useToast()
   const [pending, startTransition] = useTransition()
   const [filter, setFilter] = useState<AtlasFilter>('all')
+  /** 펼친 상위분류 — 기본값을 비워 처음에는 모든 세력이 접혀 있게 한다 */
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
 
-  const themesByFolder = useMemo(() => {
-    const result = new Map<string, EpisodeThemeLink[]>()
-    for (const theme of themes) {
-      for (const episode of theme.episodes) {
-        const list = result.get(episode.folder) ?? []
-        list.push({
-          id: theme.id,
-          name: theme.name,
-          nameEn: theme.name_en,
-          color: theme.color,
-        })
-        result.set(episode.folder, list)
-      }
-    }
-    return result
-  }, [themes])
+  const themesByFolder = useMemo(() => buildThemesByFolder(themes), [themes])
+  const groupIds = useMemo(() => groupTagIds(themes), [themes])
 
-  /** 영상 편이 하나도 없는 테마 — 통합 목록에 제 줄을 갖는 유일한 테마다 */
+  /**
+   * 영상 편이 하나도 없는 테마 — 통합 목록에 제 줄을 갖는 유일한 테마다.
+   * 상위분류 테마는 묶음 머리로 올라서므로 줄 수에서 뺀다.
+   */
   const webOnlyThemes = useMemo(
-    () => themes.filter(theme => theme.episodes.length === 0),
-    [themes],
+    () => themes.filter(theme => theme.episodes.length === 0 && !groupIds.has(theme.id)),
+    [themes, groupIds],
   )
 
   const counts = useMemo(() => {
@@ -162,7 +128,33 @@ export default function FactionAtlasTable({
     ]))
   }, [webOnlyThemes, filter, searchTokens])
 
+  const sections = useMemo(
+    () => buildAtlasSections({
+      episodes: visibleEpisodes,
+      themes: visibleThemes,
+      allThemes: themes,
+      themesByFolder,
+    }),
+    [visibleEpisodes, visibleThemes, themes, themesByFolder],
+  )
+
   const visibleCount = visibleEpisodes.length + visibleThemes.length
+  /** 찾는 중에는 접힘을 무시한다 — 찾은 것이 접힌 묶음 안에 숨으면 못 찾은 것과 같다 */
+  const searching = searchTokens.length > 0
+  const allCollapsed = sections.length > 0 && sections.every(section => !expanded.has(section.key))
+
+  const toggleSection = (key: string) => {
+    setExpanded(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
+
+  const toggleAll = () => {
+    setExpanded(allCollapsed ? new Set(sections.map(section => section.key)) : new Set())
+  }
 
   const filters: { value: AtlasFilter; label: string; count: number }[] = [
     { value: 'all', label: '전체', count: counts.all },
@@ -209,16 +201,27 @@ export default function FactionAtlasTable({
           })}
         </div>
 
-        <FactionSearchField
-          value={query}
-          onChange={onQueryChange}
-          label="세력도감 검색"
-          placeholder="제목·폴더·테마·설명 검색"
-          resultText={searchTokens.length > 0
-            ? `${visibleCount}/${counts[filter]}건`
-            : `${counts[filter]}건`}
-          className="w-full sm:w-[28rem]"
-        />
+        <div className="flex flex-1 flex-wrap items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={toggleAll}
+            disabled={sections.length === 0}
+            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-bg-card px-3 py-2 text-sm font-medium text-text-secondary hover:border-accent hover:text-accent disabled:opacity-50"
+            title="상위분류를 한꺼번에 접거나 폅니다"
+          >
+            {allCollapsed ? <ChevronsUpDown className="h-4 w-4" /> : <ChevronsDownUp className="h-4 w-4" />}
+            {allCollapsed ? '모두 펼치기' : '모두 접기'}
+          </button>
+
+          <FactionSearchField
+            value={query}
+            onChange={onQueryChange}
+            label="세력도감 검색"
+            placeholder="제목·폴더·테마·설명 검색"
+            resultText={searching ? `${visibleCount}/${counts[filter]}건` : `${counts[filter]}건`}
+            className="w-full sm:w-[28rem]"
+          />
+        </div>
       </div>
 
       <FactionTable columns={COLUMNS}>
@@ -227,214 +230,81 @@ export default function FactionAtlasTable({
             조건에 맞는 영상 편·테마가 없습니다.
           </FactionTableEmpty>
         ) : (
-          <>
-            {visibleEpisodes.map(episode => {
-              const linkedThemes = themesByFolder.get(episode.folder) ?? []
-              return (
-                <FactionTableRow
-                  key={episode.id}
-                  onOpen={() => router.push(`/factions/${folderToParam(episode.folder)}`)}
-                >
-                  <FactionTableCell isFirst>
-                    <span className="flex min-w-0 items-start gap-3">
-                      <span className="mt-0.5 rounded-md bg-accent/10 p-2 text-accent">
-                        <Video className="h-4 w-4" />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block truncate font-semibold text-text-primary group-hover:text-accent">
-                          {episode.title.split('\n')[0]}
-                        </span>
-                        <span className="mt-0.5 block truncate font-mono text-xs text-text-secondary">
-                          {episode.folder}
-                        </span>
-                      </span>
-                    </span>
-                  </FactionTableCell>
+          sections.map(section => {
+            const open = searching || expanded.has(section.key)
+            const rowCount = section.episodes.length + section.themes.length
+            const groupTheme = section.tagId ? themes.find(t => t.id === section.tagId) : undefined
 
-                  <FactionTableCell>
-                    {episode.registered ? (
-                      <FactionTableBadge
-                        className="bg-accent/15 text-accent"
-                        icon={<ListVideo className="h-3.5 w-3.5" />}
-                        title="렌더·음성·출간 대상"
-                      >
-                        편성 {episode.sortOrder}
-                      </FactionTableBadge>
-                    ) : (
-                      <FactionTableBadge title="렌더 편성에서 제외됨">미편성</FactionTableBadge>
-                    )}
-                  </FactionTableCell>
-
-                  <FactionTableCell>
-                    <span className="flex min-w-0 flex-col items-start gap-1">
-                      <FactionTableBadge
-                        className={episode.status === 'ready'
-                          ? 'bg-green-500/10 text-green-400'
-                          : 'bg-amber-500/10 text-amber-400'}
-                        title="영상 제작 진척도가 아니라 도감 테마로 옮길 수 있는지 나타냅니다"
-                      >
-                        {episode.status === 'ready' ? '이관 가능' : '이관 보류'}
-                      </FactionTableBadge>
-                      {episode.blockNote && (
+            return (
+              <Fragment key={section.key}>
+                <FactionTableSection
+                  colSpan={COLUMNS.length}
+                  open={open}
+                  onToggle={searching ? undefined : () => toggleSection(section.key)}
+                  title={
+                    <span className="flex items-center gap-2">
+                      {section.color && (
                         <span
-                          title={episode.blockNote}
-                          className="block max-w-40 truncate text-xs text-amber-400/80"
-                        >
-                          {episode.blockNote}
-                        </span>
+                          aria-hidden
+                          className="h-2.5 w-2.5 rounded-full"
+                          style={{ backgroundColor: section.color }}
+                        />
                       )}
+                      {groupTheme ? (
+                        <InlineThemeName
+                          key={`${groupTheme.id}:${groupTheme.name}`}
+                          themeId={groupTheme.id}
+                          name={groupTheme.name}
+                          className="group-hover/section:text-accent"
+                        />
+                      ) : section.name}
                     </span>
-                  </FactionTableCell>
-
-                  <FactionTableCell align="center">
-                    <span className="inline-flex items-center gap-4">
-                      <FactionTableCount
-                        value={episode.groupCount}
-                        icon={<Layers className="h-4 w-4" />}
-                        title="세력 수"
-                      />
-                      <FactionTableCount
-                        value={episode.personCount}
-                        icon={<Users className="h-4 w-4" />}
-                        title="인물 수"
-                      />
-                    </span>
-                  </FactionTableCell>
-
-                  <FactionTableCell>
-                    {linkedThemes.length === 0 ? (
-                      <FactionTableBadge className="bg-amber-500/10 text-amber-400">
-                        미연결
-                      </FactionTableBadge>
-                    ) : (
-                      <span className="flex flex-wrap gap-1">
-                        {linkedThemes.map(theme => (
-                          <FactionTableBadge
-                            key={theme.id}
-                            color={theme.color}
-                            icon={<Layers className="h-3 w-3" />}
-                            title={`${theme.name} — 이 편의 편집기 도감 구획에서 편집합니다`}
-                          >
-                            {theme.name}
-                          </FactionTableBadge>
-                        ))}
-                      </span>
-                    )}
-                  </FactionTableCell>
-
-                  <FactionTableCell align="center">
-                    <span className="text-sm tabular-nums text-text-secondary" title={episode.updatedAt}>
-                      {formatUpdatedAt(episode.updatedAt)}
-                    </span>
-                  </FactionTableCell>
-
-                  <FactionTableCell align="center">
-                    <span className="flex items-center justify-center gap-1">
-                      <Link
-                        href={`/factions/${folderToParam(episode.folder)}`}
-                        title={`${episode.title.split('\n')[0]} 영상 편집기로`}
-                        className={OPEN_BUTTON}
-                      >
-                        편집
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                      <FactionEpisodeActions
-                        folder={episode.folder}
-                        variant="menu"
-                        factionLocal={factionLocal}
-                      />
-                    </span>
-                  </FactionTableCell>
-                </FactionTableRow>
-              )
-            })}
-
-            {visibleThemes.map(theme => (
-              <FactionTableRow
-                key={theme.id}
-                onOpen={() => router.push(themeEditPath(theme))}
-              >
-                <FactionTableCell isFirst>
-                  <span className="flex min-w-0 items-start gap-3">
-                    <span className="mt-0.5 rounded-md p-2" style={{ backgroundColor: `${theme.color}20`, color: theme.color }}>
-                      <Layers3 className="h-4 w-4" />
-                    </span>
-                    <span className="min-w-0">
+                  }
+                  note={`${rowCount}건`}
+                  action={
+                    groupTheme ? (
                       <span className="flex items-center gap-2">
-                        <span className="truncate font-semibold text-text-primary group-hover:text-accent">
-                          {theme.name}
-                        </span>
+                        <FactionTableBadge
+                          className={groupTheme.is_featured
+                            ? 'bg-accent/15 text-accent'
+                            : 'bg-amber-500/10 text-amber-400'}
+                          icon={<Sparkles className="h-3.5 w-3.5" />}
+                          title={groupTheme.is_featured ? '서비스 도감에 노출 중' : '비노출 — 준비 중 상태'}
+                        >
+                          {groupTheme.is_featured ? '도감 노출 중' : '준비 중'}
+                        </FactionTableBadge>
+                        <Link
+                          href={themeEditPath(groupTheme)}
+                          title={`${groupTheme.name} 상위분류 화면으로`}
+                          className={OPEN_BUTTON}
+                        >
+                          분류 편집
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
                       </span>
-                      <span className="mt-0.5 block truncate text-xs text-text-secondary">
-                        {theme.description || theme.name_en || (theme.slug ? `/explore/faction/${theme.slug}` : '설명 없음')}
+                    ) : (
+                      <span className="text-xs text-text-secondary">
+                        상위분류가 없는 편·테마입니다
                       </span>
-                    </span>
-                  </span>
-                </FactionTableCell>
+                    )
+                  }
+                />
 
-                <FactionTableCell>
-                  <FactionTableBadge
-                    icon={<VideoOff className="h-3.5 w-3.5" />}
-                    title="영상 제작 없이 글과 사진만으로 도감에 실리는 테마"
-                  >
-                    영상 없음
-                  </FactionTableBadge>
-                </FactionTableCell>
-
-                <FactionTableCell>
-                  <FactionTableBadge
-                    className={theme.is_featured
-                      ? 'bg-accent/15 text-accent'
-                      : 'bg-amber-500/10 text-amber-400'}
-                    icon={<Sparkles className="h-3.5 w-3.5" />}
-                    title={theme.is_featured ? '서비스 도감에 노출 중' : '비노출 — 준비 중 상태'}
-                  >
-                    {theme.is_featured ? '도감 노출 중' : '준비 중'}
-                  </FactionTableBadge>
-                </FactionTableCell>
-
-                <FactionTableCell align="center">
-                  <FactionTableCount
-                    value={theme.celeb_count ?? 0}
-                    icon={<Users className="h-4 w-4" />}
-                    title="소속 인물 수"
+                {open && section.episodes.map(episode => (
+                  <EpisodeAtlasRow
+                    key={episode.id}
+                    episode={episode}
+                    linkedThemes={themesByFolder.get(episode.folder) ?? []}
+                    factionLocal={factionLocal}
                   />
-                </FactionTableCell>
+                ))}
 
-                <FactionTableCell>
-                  <span className="inline-flex items-center gap-4">
-                    <FactionTableCount
-                      value={theme.teamImageCount}
-                      icon={<ImageIcon className="h-4 w-4" />}
-                      title="단체샷 장수"
-                    />
-                    <FactionTableCount
-                      value={theme.soloImageCount}
-                      icon={<UserSquare2 className="h-4 w-4" />}
-                      title="개인샷을 가진 인물 수"
-                    />
-                  </span>
-                </FactionTableCell>
-
-                <FactionTableCell align="center">
-                  <span className="text-sm tabular-nums text-text-secondary" title={theme.updated_at}>
-                    {formatUpdatedAt(theme.updated_at)}
-                  </span>
-                </FactionTableCell>
-
-                <FactionTableCell align="center">
-                  <Link
-                    href={themeEditPath(theme)}
-                    title={`${theme.name} 테마 화면으로`}
-                    className={OPEN_BUTTON}
-                  >
-                    편집
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </FactionTableCell>
-              </FactionTableRow>
-            ))}
-          </>
+                {open && section.themes.map(theme => (
+                  <ThemeAtlasRow key={theme.id} theme={theme} />
+                ))}
+              </Fragment>
+            )
+          })
         )}
       </FactionTable>
 

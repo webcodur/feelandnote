@@ -1,10 +1,10 @@
 'use client'
 
 /**
- * 인물 행의 도감 구획 — 영상 원문(직함·영상 소개문) 바로 아래에서 도감 표기를 나란히 보고 고친다.
+ * 인물 행의 도감 구획 — 영상 원문(직함·영상 소개문) 바로 아래에서 도감 표기를 나란히 본다.
  *
- * 도감 표기의 원천은 영상 원문이고, 여기 입력은 그 위에 얹는 손질이다(faction_people.web_* 칸).
- * 칸을 비우면 손질이 풀려 원문이 그대로 실린다 — placeholder 가 그 원문을 보여준다.
+ * 도감 한줄 직함은 영상 원문의 첫 직함(lines[0])으로 고정한다. 이 구획에서는 상세 소개만
+ * faction_people.web_long_desc(±en)로 손질하며, 칸을 비우면 영상 소개문이 그대로 실린다.
  * 저장은 기존 도감 액션(updateTagAssignmentDesc·setTagCelebHidden·setTagCelebImage)을 재사용해
  * 저장 즉시 서비스에 반영된다.
  */
@@ -39,21 +39,17 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
     })
     : null
 
-  // 손질 편집 로컬 상태 — 빈 칸 = 손질 없음(원문 그대로)
-  const [shortDesc, setShortDesc] = useState('')
+  // 상세 소개 손질 로컬 상태 — 빈 칸 = 손질 없음(원문 그대로)
   const [longDesc, setLongDesc] = useState('')
-  const [shortDescEn, setShortDescEn] = useState('')
   const [longDescEn, setLongDescEn] = useState('')
   const [imgBusy, setImgBusy] = useState(false)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
 
   useEffect(() => {
     if (!state) return
-    setShortDesc(state.webShortDesc ?? '')
     setLongDesc(state.webLongDesc ?? '')
-    setShortDescEn(state.webShortDescEn ?? '')
     setLongDescEn(state.webLongDescEn ?? '')
-  }, [state?.personId, state?.webShortDesc, state?.webLongDesc, state?.webShortDescEn, state?.webLongDescEn]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [state?.personId, state?.webLongDesc, state?.webLongDescEn]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!atlas?.loaded || !theme) return null
 
@@ -77,7 +73,7 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
   const celebId = state.celebId
   const personId = state.personId
 
-  // 원문(폴백) — 도감이 손질 없을 때 그대로 싣는 값. placeholder 로 보여준다.
+  // 한줄 직함은 첫 직함 고정, 상세 소개만 손질 없을 때 원문으로 물러난다.
   const originShort = person.lines?.[0]?.trim() || ''
   const originLong = person.epithet?.trim()
     || (person.lines ?? []).slice(1, 3).filter(Boolean).join(', ')
@@ -86,29 +82,26 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
     || (person.linesEn ?? []).slice(1, 3).filter(Boolean).join(', ')
 
   const savedDesc = {
-    short: state.webShortDesc ?? '', long: state.webLongDesc ?? '',
-    shortEn: state.webShortDescEn ?? '', longEn: state.webLongDescEn ?? '',
+    long: state.webLongDesc ?? '',
+    longEn: state.webLongDescEn ?? '',
   }
 
-  /** 소개 손질 저장 — 네 칸을 한 번에 보낸다(액션 규격). 값이 그대로면 부르지 않는다 */
+  /** 상세 소개 손질 저장. 한줄 인자는 수동 명단용 액션 규격이라 null로 보내며 제작 행에서는 무시된다. */
   const saveDesc = async () => {
     const next = {
-      short: shortDesc.trim(), long: longDesc.trim(),
-      shortEn: shortDescEn.trim(), longEn: longDescEn.trim(),
+      long: longDesc.trim(),
+      longEn: longDescEn.trim(),
     }
-    if (next.short === savedDesc.short && next.long === savedDesc.long
-      && next.shortEn === savedDesc.shortEn && next.longEn === savedDesc.longEn) return
+    if (next.long === savedDesc.long && next.longEn === savedDesc.longEn) return
 
     const res = await updateTagAssignmentDesc(
       celebId, theme.id,
-      next.short || null, next.long || null,
-      next.shortEn || null, next.longEn || null,
+      null, next.long || null,
+      undefined, next.longEn || null,
     )
     if (res.success) {
       atlas.patchPerson(personId, {
-        webShortDesc: next.short || null,
         webLongDesc: next.long || null,
-        webShortDescEn: next.shortEn || null,
         webLongDescEn: next.longEn || null,
       })
     } else {
@@ -166,7 +159,7 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
     }
   }
 
-  const untouched = !savedDesc.short && !savedDesc.long && !savedDesc.shortEn && !savedDesc.longEn
+  const untouched = !savedDesc.long && !savedDesc.longEn
 
   return (
     <AtlasFrame theme={theme}>
@@ -174,7 +167,7 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
         <div className="flex flex-wrap items-center gap-1.5">
           {untouched && (
             <span className="rounded border border-border bg-bg-main px-1.5 py-0.5 text-[10px] text-text-dim" title="손질한 도감 소개가 없어 영상 원문이 그대로 실립니다">
-              원문 그대로
+              상세 원문 그대로
             </span>
           )}
           <button
@@ -221,15 +214,13 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
 
         {editLang !== 'en' && (
           <div className="flex flex-col gap-1">
-            <input
-              type="text"
-              value={shortDesc}
-              onChange={e => setShortDesc(e.target.value)}
-              onBlur={() => void saveDesc()}
-              placeholder={originShort ? `원문 그대로: ${originShort}` : '다듬은 한줄 소개 (비우면 영상 직함 그대로)'}
-              className="w-full rounded-md border border-border bg-bg-main px-2 py-1 text-sm focus:border-accent focus:outline-none"
-              title="도감의 한줄 소개 — 비우면 영상 첫 직함이 그대로 실립니다"
-            />
+            <div className="flex min-h-8 items-center gap-2 rounded-md border border-border/70 bg-bg-main/60 px-2 py-1">
+              <span className="shrink-0 text-[10px] font-semibold text-text-dim">웹 한줄</span>
+              <strong className="min-w-0 flex-1 truncate text-sm text-text-primary">
+                {originShort || '직함 1행 없음'}
+              </strong>
+              <span className="shrink-0 text-[10px] text-text-dim">직함 1행 고정</span>
+            </div>
             <AutoResizeTextarea
               value={longDesc}
               onChange={e => setLongDesc(e.target.value)}
@@ -243,14 +234,13 @@ export function PersonAtlasPanel({ person, groupIndex, clusterIndex, personIndex
         )}
         {editLang !== 'ko' && (
           <div className="flex flex-col gap-1">
-            <input
-              type="text"
-              value={shortDescEn}
-              onChange={e => setShortDescEn(e.target.value)}
-              onBlur={() => void saveDesc()}
-              placeholder={originShortEn ? `EN 원문 그대로: ${originShortEn}` : 'EN short desc (optional)'}
-              className="w-full rounded-md border border-border/60 bg-bg-main/50 px-2 py-1 text-xs text-text-secondary focus:border-accent focus:outline-none"
-            />
+            <div className="flex min-h-8 items-center gap-2 rounded-md border border-border/60 bg-bg-main/50 px-2 py-1">
+              <span className="shrink-0 text-[10px] font-semibold text-text-dim">EN one-line</span>
+              <strong className="min-w-0 flex-1 truncate text-xs text-text-secondary">
+                {originShortEn || 'No title line 1'}
+              </strong>
+              <span className="shrink-0 text-[10px] text-text-dim">title line 1</span>
+            </div>
             <AutoResizeTextarea
               value={longDescEn}
               onChange={e => setLongDescEn(e.target.value)}

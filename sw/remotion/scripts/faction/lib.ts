@@ -27,7 +27,6 @@ export const FACTIONS_DIR = path.join(ROOT, 'public', 'factions')
 export const NON_EPISODE_DIRS = new Set([
   '_docs',
   '_voice-casting',
-  'world-best-2026',
 ])
 
 /* ────────────────────────── 에피소드 스캔 ────────────────────────── */

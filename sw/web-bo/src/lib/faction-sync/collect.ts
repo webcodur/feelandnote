@@ -9,13 +9,20 @@
  * `tag_id`·`celeb_id`(해소된 열쇠)를 결과에 담지 않는다. 출간은 바로 그 두 열쇠가 본체다.
  */
 
-import { readFile } from 'fs/promises'
+import { readFile, readdir } from 'fs/promises'
 import path from 'path'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { IN_CHUNK } from '@feelandnote/shared/lib/faction-assemble'
+import {
+  toFactionQuoteMedia,
+  type FactionQuoteMedia,
+  type FactionQuoteMediaCaption,
+  type FactionQuoteMediaFocus,
+} from '@feelandnote/shared/lib/faction-quote-media'
 import type { FactionLongformLayoutItem } from '@feelandnote/shared/lib/youtube-faction-meta'
 import { safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 import { factionEpisodeDir } from '@/lib/faction-paths'
+import { vnPersonQuote } from '@/lib/faction-voice'
 import { FACTION_VOICE_FIELDS, type FactionVoiceLocale } from './types'
 import { fileHash } from './manifest'
 
@@ -33,6 +40,21 @@ export interface LocalImageRef {
   rel: string
   /** 파일 절대경로 (external 이면 빈 문자열) */
   abs: string
+}
+
+/** 위치 기반 팩션 대사 음원. 현재 제작 규격은 에피소드 voice/ 아래 wav 한 벌이다. */
+export interface LocalVoiceRef {
+  rel: string
+  abs: string
+  file: string
+  stem: string
+}
+
+/** 웹 재생 순서가 붙은 개인 화보 원본. at은 배속을 반영한 음성 시작 기준 초다. */
+export interface PublishPortrait {
+  image: LocalImageRef
+  at: number
+  focus?: FactionQuoteMediaFocus
 }
 
 /** 인물의 자리 — (세력, 묶음, 인물) 순번. 배치 충돌 규칙(§4)의 비교 키다 */
@@ -60,7 +82,16 @@ export interface PublishPerson {
    * faction_people 을 직접 읽으므로 여기서 나르지 않는다.
    */
   webImageUrl: string | null
+  /** 마지막으로 출간된 음성·화보 타임라인 */
+  webQuoteMedia: FactionQuoteMedia | null
   image?: LocalImageRef
+  /** 기본 화보 + quoteImage + imageChanges 전체 */
+  portraits: PublishPortrait[]
+  /** quoteChunks를 실제 발화 시각에 맞춘 웹 중앙 자막 */
+  captions: FactionQuoteMediaCaption[]
+  voice: LocalVoiceRef
+  quoteDuration: number | null
+  quotePlaybackRate: number
 }
 
 export interface PublishGroup {
@@ -207,6 +238,178 @@ export function quoteVoiceIdsOf(data: unknown): Partial<Record<FactionVoiceLocal
   return out
 }
 
+type VoiceTimingSegment = {
+  start?: number
+  end?: number
+  text?: string
+  sub?: string[]
+  subTimings?: number[]
+}
+type VoiceTimingMap = Record<string, VoiceTimingSegment[]>
+
+const clampPlaybackRate = (value: unknown): number => {
+  const n = typeof value === 'number' && Number.isFinite(value) ? value : 1
+  return Math.min(2, Math.max(0.5, n))
+}
+
+function focusOf(value: unknown): FactionQuoteMediaFocus | undefined {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined
+  const focus = value as Row
+  if (typeof focus.x !== 'number' || !Number.isFinite(focus.x)) return undefined
+  if (typeof focus.y !== 'number' || !Number.isFinite(focus.y)) return undefined
+  const clamp = (n: number) => Math.min(100, Math.max(0, Math.round(n * 100) / 100))
+  return { x: clamp(focus.x), y: clamp(focus.y) }
+}
+
+function sameFocus(a: FactionQuoteMediaFocus | undefined, b: FactionQuoteMediaFocus | undefined): boolean {
+  return a?.x === b?.x && a?.y === b?.y
+}
+
+/** Remotion 공용 expandSubTimings와 같은 규칙. 웹 출간 시각도 렌더와 같은 발화 경계를 쓴다. */
+function expandSubTimings(timings: VoiceTimingSegment[]): VoiceTimingSegment[] {
+  const out: VoiceTimingSegment[] = []
+  for (const timing of timings) {
+    if (!timing.sub || timing.sub.length <= 1) { out.push(timing); continue }
+    if (timing.subTimings?.length === timing.sub.length - 1) {
+      let cursor = timing.start ?? 0
+      timing.sub.forEach((text, i) => {
+        const end = i < timing.subTimings!.length ? timing.subTimings![i] : (timing.end ?? cursor)
+        out.push({ start: cursor, end, text })
+        cursor = end
+      })
+      continue
+    }
+    const totalChars = timing.sub.reduce((sum, text) => sum + text.length, 0) || 1
+    const duration = (timing.end ?? 0) - (timing.start ?? 0)
+    let cursor = timing.start ?? 0
+    for (const text of timing.sub) {
+      const end = cursor + duration * text.length / totalChars
+      out.push({ start: cursor, end, text })
+      cursor = end
+    }
+  }
+  return out
+}
+
+/** 편별·통합 KO 발화시각을 모두 합친다. 같은 stem은 뒤 파일(편별)이 최신 원천이다. */
+async function loadKoVoiceTimings(folder: string): Promise<VoiceTimingMap> {
+  const dir = factionEpisodeDir(folder)
+  let files: string[]
+  try {
+    files = (await readdir(dir))
+      .filter(file => /^data\.timing(?:\.p\d+)?\.ko\.json$/i.test(file))
+      .sort()
+  } catch {
+    return {}
+  }
+
+  const out: VoiceTimingMap = {}
+  for (const file of files) {
+    try {
+      const parsed = JSON.parse(await readFile(path.join(dir, file), 'utf8')) as Record<string, unknown>
+      for (const [stem, value] of Object.entries(parsed)) {
+        if (Array.isArray(value)) out[stem] = value as VoiceTimingSegment[]
+      }
+    } catch {
+      // 깨진 타이밍 한 파일 때문에 사진·음성 출간 전체를 막지 않는다. 아래 글자수 비례 폴백이 맡는다.
+    }
+  }
+  return out
+}
+
+/** 렌더 PersonCard와 같은 규칙으로 기본 화보·대사용 화보·덩어리별 화보를 재생 초에 배치한다. */
+function portraitsOf(
+  folder: string,
+  person: Row,
+  timing: VoiceTimingSegment[] | undefined,
+): {
+  portraits: PublishPortrait[]
+  captions: FactionQuoteMediaCaption[]
+  rate: number
+  duration: number | null
+} {
+  const data = person.data && typeof person.data === 'object' ? person.data as Row : {}
+  const rate = clampPlaybackRate(data.quotePlaybackRate)
+  const parsedDuration = typeof person.quote_duration === 'number' || typeof person.quote_duration === 'string'
+    ? Number(person.quote_duration)
+    : Number.NaN
+  const rawDuration = Number.isFinite(parsedDuration) ? parsedDuration : null
+  const duration = rawDuration && rawDuration > 0
+    ? Math.round(rawDuration / rate * 1000) / 1000
+    : null
+  const quoteChunks = Array.isArray(person.quote_chunks)
+    ? person.quote_chunks.filter((v): v is string => typeof v === 'string')
+    : []
+  const realChunks = quoteChunks.filter(chunk => chunk.trim())
+  const expanded = timing ? expandSubTimings(timing) : undefined
+  const useTiming = !!expanded
+    && expanded.length === realChunks.length
+    && expanded.every(item => typeof item.start === 'number' && Number.isFinite(item.start))
+  const totalChars = realChunks.join(' ').length || 1
+  const fallbackDuration = duration ?? Math.max(3, totalChars / 6.5)
+
+  const captionAt = (realIndex: number): number => {
+    if (useTiming) {
+      const start = expanded![realIndex]?.start ?? 0
+      return Math.max(0, start / rate)
+    }
+    const before = realChunks.slice(0, realIndex).join(' ').length
+    return Math.max(0, fallbackDuration * before / totalChars)
+  }
+
+  const captions = realChunks.map((text, realIndex) => ({
+    text: text.trim(),
+    at: Math.round(captionAt(realIndex) * 1000) / 1000,
+  }))
+
+  const realIndexOf = (chunkIndex: number): number => {
+    let real = 0
+    for (let i = 0; i < chunkIndex && i < quoteChunks.length; i += 1) {
+      if (quoteChunks[i]?.trim()) real += 1
+    }
+    return real
+  }
+  const atForChunk = (chunkIndex: number): number => {
+    const realIndex = realIndexOf(chunkIndex)
+    if (realIndex <= 0) return 0
+    if (useTiming) {
+      const start = expanded![Math.min(realIndex, expanded!.length - 1)].start ?? 0
+      return Math.max(0, start / rate)
+    }
+    const before = realChunks.slice(0, realIndex).join(' ').length
+    return Math.max(0, (duration ?? 0) * before / totalChars)
+  }
+
+  const personFocus = focusOf(data.zoomFocus)
+  const raw: Array<{ value: unknown; at: number; focus?: FactionQuoteMediaFocus }> = [
+    { value: person.image, at: 0, focus: personFocus },
+  ]
+  if (data.quoteImage) {
+    raw.push({ value: data.quoteImage, at: 0, focus: focusOf(data.quoteZoomFocus) ?? personFocus })
+  }
+  const changes = Array.isArray(data.imageChanges)
+    ? data.imageChanges.flatMap(item => {
+        if (!item || typeof item !== 'object') return []
+        const change = item as Row
+        return typeof change.chunk === 'number'
+          ? [{ value: change.image, chunk: change.chunk, focus: focusOf(change.zoomFocus) ?? personFocus }]
+          : []
+      }).sort((a, b) => a.chunk - b.chunk)
+    : []
+  changes.forEach(change => raw.push({ value: change.value, at: atForChunk(change.chunk), focus: change.focus }))
+
+  const portraits: PublishPortrait[] = []
+  for (const item of raw) {
+    const image = resolveImageRef(folder, item.value)
+    if (!image) continue
+    const previous = portraits[portraits.length - 1]
+    // 같은 사진을 연속해서 다시 지정한 것은 실제 화면 변화가 아니므로 출간 벌 수에서 뺀다.
+    if (previous?.image.raw === image.raw && sameFocus(previous.focus, item.focus)) continue
+    portraits.push({ image, at: Math.round(item.at * 1000) / 1000, ...(item.focus ? { focus: item.focus } : {}) })
+  }
+  return { portraits, captions, rate, duration }
+}
+
 /* ── DB 읽기 ── */
 
 /** `.in()` 청크 조회 — 462개를 단일 in() 에 실어 실패한 실측 이력이 있어 200 으로 끊는다 */
@@ -228,7 +431,7 @@ const CLUSTER_SELECT = 'id, group_id, position, label, label_en, image'
 // 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
 // 인물 텍스트(epithet·lines·quote)는 받지 않는다 — 뷰(faction_atlas_members)가 직접 읽는 단일 원천이라
 // 출간이 나를 것이 없다. web_image_url 은 개인샷 출간의 기록처라 함께 받는다.
-const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, web_image_url, image, data'
+const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, web_image_url, web_quote_media, image, quote_chunks, quote_duration, data'
 
 const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as number)
 
@@ -244,6 +447,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
   if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)
   if (!epRow) throw new Error(`에피소드를 찾을 수 없습니다: ${folder}`)
   const episodeId = epRow.id as string
+  const voiceTimings = await loadKoVoiceTimings(folder)
 
   const { data: gData, error: gErr } = await db
     .from('faction_groups').select(GROUP_SELECT).eq('episode_id', episodeId)
@@ -256,6 +460,10 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id', clusterRows.map(c => c.id as string), PERSON_SELECT)
     : []
+  const brokenPerson = personRows.find(p => typeof p.celeb_id !== 'string' || !p.celeb_id)
+  if (brokenPerson) {
+    throw new Error(`팩션 DB 인물 연결 무결성 오류(${folder}): ${String(brokenPerson.name ?? brokenPerson.id)}`)
+  }
 
   const clustersByGroup = new Map<string, Row[]>()
   for (const c of clusterRows) {
@@ -280,16 +488,30 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
     const people: PublishPerson[] = []
     clusters.forEach((c, ci) => {
       for (const [pi, p] of (peopleByCluster.get(c.id as string) ?? []).entries()) {
+        const voiceFile = vnPersonQuote(index, pi, ci)
+        const stem = voiceFile.replace(/\.wav$/i, '')
+        const media = portraitsOf(folder, p, voiceTimings[stem])
         people.push({
           id: p.id as string,
           name: (p.name as string) ?? '',
           slug: typeof p.slug === 'string' && p.slug.trim() ? p.slug.trim() : undefined,
-          celebId: (p.celeb_id as string | null) ?? null,
+          celebId: p.celeb_id as string,
           mythical: p.mythical === true,
           quoteVoiceIds: quoteVoiceIdsOf(p.data),
           place: [index, ci, pi] as const,
           webImageUrl: typeof p.web_image_url === 'string' && p.web_image_url.trim() ? p.web_image_url : null,
+          webQuoteMedia: toFactionQuoteMedia(p.web_quote_media),
           image: resolveImageRef(folder, p.image),
+          portraits: media.portraits,
+          captions: media.captions,
+          voice: {
+            file: voiceFile,
+            stem,
+            rel: `voice/${voiceFile}`,
+            abs: path.join(factionEpisodeDir(folder), 'voice', voiceFile),
+          },
+          quoteDuration: media.duration,
+          quotePlaybackRate: media.rate,
         })
       }
     })
@@ -307,8 +529,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
           label: firstLine(c.label) ?? groupLabel,
           labelEn: firstLine(c.label_en) ?? groupLabelEn,
           celebIds: (peopleByCluster.get(c.id as string) ?? [])
-            .map(p => p.celeb_id as string | null)
-            .filter((id): id is string => !!id),
+            .map(p => p.celeb_id as string),
         }))
       : [{
           raw: data.image,
@@ -446,6 +667,18 @@ function comparePlace(a: Placement, b: Placement): number {
 /** 개인샷 R2 키 — 고정 키(덮어쓰기) */
 export function soloShotKey(tagId: string, celebId: string): string {
   return `faction/${tagId}/celeb-${celebId}.webp`
+}
+
+/** 두 번째 이후 개인 화보 — 내용 해시가 키에 들어가 바뀐 사진만 새 객체가 된다. */
+export function personPortraitKey(
+  tagId: string, celebId: string, shotNumber: number, hash: string,
+): string {
+  return `faction/${tagId}/celeb-${celebId}/shot-${String(shotNumber).padStart(2, '0')}-${hash}.webp`
+}
+
+/** 팩션 대사 wav — 내용 해시 키라 교체 시 CDN 불변 캐시와 충돌하지 않는다. */
+export function personVoiceKey(tagId: string, celebId: string, hash: string): string {
+  return `faction/${tagId}/celeb-${celebId}/quote-${hash}.wav`
 }
 
 /**

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import Link from 'next/link'
 
 // 셀럽 검색 결과 — /api/celebs/search 응답 형태
 export type CelebResult = {
@@ -58,7 +59,11 @@ export function FactionCelebSearchModal({ open, onClose, onSelect }: Props) {
 
   // 열릴 때 입력창 포커스
   useEffect(() => {
-    if (open) inputRef.current?.focus()
+    if (open) {
+      inputRef.current?.focus()
+      return
+    }
+    setQuery('')
   }, [open])
 
   if (!open) return null
@@ -92,7 +97,24 @@ export function FactionCelebSearchModal({ open, onClose, onSelect }: Props) {
         <div className="max-h-[60vh] overflow-y-auto p-2">
           {loading && <p className="p-4 text-sm text-text-dim">검색 중...</p>}
           {!loading && results.length === 0 && (
-            <p className="p-4 text-sm text-text-dim">검색 결과가 없습니다.</p>
+            <div className="space-y-3 p-4">
+              <p className="text-sm text-text-dim">검색 결과가 없습니다.</p>
+              {query.trim() && (
+                <div className="rounded-md border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-warning-text">
+                  팩션에서는 이미 등록된 셀럽만 추가할 수 있습니다. 신규 인물은 셀럽 관리에서 먼저 정식 등록하세요.
+                </div>
+              )}
+              {query.trim() && (
+                <Link
+                  href="/celebs/new"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex rounded-md border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
+                >
+                  셀럽 등록 화면 열기
+                </Link>
+              )}
+            </div>
           )}
           {results.map(c => (
             <button
@@ -116,9 +138,9 @@ export function FactionCelebSearchModal({ open, onClose, onSelect }: Props) {
                   {c.status !== 'active' && (
                     <span
                       className="shrink-0 rounded bg-warning/15 px-1.5 py-px text-[11px] text-warning-text"
-                      title="아직 서비스에 안 뜨는 인물입니다. 영상에는 넣을 수 있고, 세력도감에는 감춘 채로 들어갑니다"
+                      title="DB CELEB 등록은 완료됐지만 status가 active가 아니라 운영 서비스에는 노출되지 않습니다"
                     >
-                      서비스 비공개
+                      등록됨·비공개
                     </span>
                   )}
                 </span>

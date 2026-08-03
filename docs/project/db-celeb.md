@@ -23,8 +23,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
   - `slug`: `nickname_en` 기반 generated column (아래 참조)
-  - `virtual_monologue` (text): 가상 독백 (2026-07-14 `add_virtual_monologue_column`)
-  - `virtual_monologue_en` (text): 가상 독백 영문본 (2026-07-21 `add_virtual_monologue_en_column`). 생성기 `sw/web-bo/scripts/translate-virtual-monologue.ts`
+  - `virtual_monologue` (text): 가상 독백 (2026-07-14 `add_virtual_monologue_column`). 작성·검토·반영 규칙은 `docs/project/celeb/virtual-monologue.md`가 유일 SSoT
+  - `virtual_monologue_en` (text): 가상 독백 영문본 (2026-07-21 `add_virtual_monologue_en_column`)
     - fiction 데이터 연결 단계에서는 둘 다 null이어도 active·검색 노출을 허용한다.
       원전 검토를 거치지 않은 대량 독백으로 빈칸을 메우지 않는다
   - `virtual_monologue_locked_at` (timestamptz): **가상 독백 확정 잠금** (2026-08-02 `add_virtual_monologue_lock`). 값이 있으면 트리거 `guard_virtual_monologue_lock`이 어떤 경로(관리자 폼·게시 RPC·스크립트)로 오든 `virtual_monologue` UPDATE를 거부한다. 해제(null 세팅)와 본문 수정은 반드시 별도 문장 — 한 문장에 섞어도 차단된다. 잠금·해제·목록 CLI: `sw/web-bo/scripts/lock-virtual-monologue.ts`
@@ -179,8 +179,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`celeb_tag_assignments`**: id, celeb_id, tag_id, assigned_at, short_desc, short_desc_en, long_desc, long_desc_en, sort_order, `faction_image_url`, hidden
   - UNIQUE(celeb_id, tag_id)
   - **26.08.03 단일화로 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용이 됐다.** 제작 유래 사본 650행은 26.08.03 삭제(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`)
-- **인물 텍스트(대사·직함·소개)의 유일 원천은 `faction_people`이다(26.08.03).** 도감 손질은 같은 행의 `web_*` 칸 — `web_short_desc`/`web_long_desc`(±en)·`web_image_url`(개인샷)·`web_hidden`(숨김)
-- **읽기 창구는 DB 뷰 `faction_atlas_members`다** — 제작 유래(`web_*` 손질 우선, 태그당 셀럽 중복은 제작 앞자리 채택, disabled 제외) ∪ 웹 전용 배정. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번. 행 식별자 `source`(production/manual)·`person_id`·`assignment_id` 포함. 노출 결정은 `celeb_tags.is_featured` 스위치 하나다
+- **인물 텍스트(대사·직함·소개)의 유일 원천은 `faction_people`이다(26.08.03).** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 도감 손질은 `web_long_desc`(±en, 상세 소개)·`web_image_url`(개인샷)·`web_hidden`(숨김)만 허용한다. 옛 `web_short_desc`(±en)는 26.08.03 폐기해 조회·편집·저장에 쓰지 않는다
+- **읽기 창구는 DB 뷰 `faction_atlas_members`다** — 제작 유래(한줄=`lines[1]`, 상세=`web_long_desc` 우선, 태그당 셀럽 중복은 제작 앞자리 채택, disabled 제외) ∪ 웹 전용 배정. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번. 행 식별자 `source`(production/manual)·`person_id`·`assignment_id` 포함. 노출 결정은 `celeb_tags.is_featured` 스위치 하나다
 
 ---
 

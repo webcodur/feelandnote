@@ -16,6 +16,7 @@
 import {
   splitEpisode, splitGroup, splitCluster, splitPerson,
 } from '@feelandnote/shared/lib/faction-schema'
+import { assertIndividualFactionSubject } from '@feelandnote/shared/lib/faction-person-subject'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   adminClient, readEpisodeParts, readFactionData, parseArgs, selectEpisodes, pad,
@@ -50,19 +51,36 @@ interface EpisodeStats {
 
 /* ────────────────────────── 키 해소 ────────────────────────── */
 
-/** slug → profiles.id. 청크로 끊어 조회한 뒤 한 맵으로 합친다. */
-async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<string, string>> {
-  const map = new Map<string, string>()
+/** 레거시 slug와 현재 UUID가 실제 CELEB 프로필을 가리키는지 함께 해소한다. */
+async function resolvePeople(
+  db: SupabaseClient, slugs: string[], ids: string[],
+): Promise<{ slugMap: Map<string, string>; idSet: Set<string> }> {
+  const slugMap = new Map<string, string>()
+  const idSet = new Set<string>()
   const uniq = [...new Set(slugs)]
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
     const chunk = uniq.slice(i, i + IN_CHUNK)
-    const { data, error } = await db.from('profiles').select('id,slug').in('slug', chunk)
+    const { data, error } = await db.from('profiles').select('id,slug,nickname,nickname_en')
+      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended']).in('slug', chunk)
     if (error) throw new Error(`profiles slug 조회 실패: ${error.message}`)
     for (const r of data ?? []) {
-      if (r.slug) map.set(r.slug as string, r.id as string)
+      assertIndividualFactionSubject(r.nickname, r.nickname_en, `DB CELEB ${String(r.id)}`)
+      if (r.slug) slugMap.set(r.slug as string, r.id as string)
+      idSet.add(r.id as string)
     }
   }
-  return map
+  const uniqIds = [...new Set(ids)]
+  for (let i = 0; i < uniqIds.length; i += IN_CHUNK) {
+    const { data, error } = await db.from('profiles').select('id,nickname,nickname_en')
+      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended'])
+      .in('id', uniqIds.slice(i, i + IN_CHUNK))
+    if (error) throw new Error(`profiles UUID 조회 실패: ${error.message}`)
+    for (const r of data ?? []) {
+      assertIndividualFactionSubject(r.nickname, r.nickname_en, `DB CELEB ${String(r.id)}`)
+      idSet.add(r.id as string)
+    }
+  }
+  return { slugMap, idSet }
 }
 
 /** tagSlug → celeb_tags.id (태그는 40종뿐이라 전량 조회) */
@@ -99,9 +117,9 @@ async function importEpisode(
   db: SupabaseClient,
   ep: EpisodeFolder,
   slugMap: Map<string, string>,
+  validCelebIds: Set<string>,
   tagMap: Map<string, string>,
   dryRun: boolean,
-  unresolvedSlugs: Set<string>,
   unresolvedTags: Set<string>,
 ): Promise<EpisodeStats> {
   const script = readFactionData(ep.dataPath)
@@ -141,11 +159,9 @@ async function importEpisode(
         for (const p of (c.people ?? []) as Row[]) {
           stats.people++
           const slug = p.slug as string | undefined
-          if (slug) {
-            stats.slugTotal++
-            if (slugMap.has(slug)) stats.slugResolved++
-            else unresolvedSlugs.add(`${ep.folder}/${p.name as string} (${slug})`)
-          }
+          const explicitId = typeof p.celebId === 'string' ? p.celebId : undefined
+          stats.slugTotal++
+          if ((explicitId && validCelebIds.has(explicitId)) || (slug && slugMap.has(slug))) stats.slugResolved++
         }
       }
     }
@@ -233,13 +249,13 @@ async function importEpisode(
       ;((c.people ?? []) as Row[]).forEach((p, pi) => {
         const { cols, data, mined } = splitPerson(p)
         const slug = p.slug as string | undefined
-        let celebId: string | null = null
-        if (slug) {
-          stats.slugTotal++
-          celebId = slugMap.get(slug) ?? null
-          if (celebId) stats.slugResolved++
-          else unresolvedSlugs.add(`${ep.folder}/${p.name as string} (${slug})`)
-        }
+        const explicitId = typeof p.celebId === 'string' && validCelebIds.has(p.celebId)
+          ? p.celebId
+          : undefined
+        const celebId = explicitId ?? (slug ? slugMap.get(slug) : undefined)
+        if (!celebId) throw new Error(`DB CELEB 미연결 인물: ${ep.folder}/${String(p.name ?? '')}`)
+        stats.slugTotal++
+        stats.slugResolved++
         personRows.push({
           cluster_id: clusterId, position: pi + 1, ...cols, celeb_id: celebId, mined, data,
         })
@@ -295,25 +311,46 @@ async function main() {
 
   // 전 에피소드의 slug 를 모아 한 번에 해소한다(인물마다 조회하지 않는다).
   const allSlugs: string[] = []
+  const allCelebIds: string[] = []
+  const personRefs: { folder: string; name: string; slug?: string; celebId?: string }[] = []
   for (const ep of eps) {
     const script = readFactionData(ep.dataPath)
     for (const g of (script.groups ?? []) as Row[]) {
       for (const c of (g.clusters ?? []) as Row[]) {
         for (const p of (c.people ?? []) as Row[]) {
           if (p.slug) allSlugs.push(p.slug as string)
+          if (p.celebId) allCelebIds.push(p.celebId as string)
+          personRefs.push({
+            folder: ep.folder,
+            name: String(p.name ?? ''),
+            ...(typeof p.slug === 'string' && p.slug ? { slug: p.slug } : {}),
+            ...(typeof p.celebId === 'string' && p.celebId ? { celebId: p.celebId } : {}),
+          })
+          assertIndividualFactionSubject(p.name, p.nameEn, `${ep.folder} 팩션 인물`)
         }
       }
     }
   }
-  const slugMap = await resolveSlugs(db, allSlugs)
+  const { slugMap, idSet } = await resolvePeople(db, allSlugs, allCelebIds)
   const tagMap = await resolveTags(db)
-  console.log(`셀럽 slug 해소 ${slugMap.size}/${new Set(allSlugs).size} · 태그 ${tagMap.size}종 조회`)
+  const unresolvedPeople = personRefs.filter(ref => {
+    const slugId = ref.slug ? slugMap.get(ref.slug) : undefined
+    if (ref.celebId) {
+      return !idSet.has(ref.celebId) || (!!slugId && slugId !== ref.celebId)
+    }
+    return !slugId
+  })
+  if (unresolvedPeople.length) {
+    const sample = unresolvedPeople.slice(0, 20)
+      .map(ref => `${ref.folder}/${ref.name}${ref.slug ? ` (${ref.slug})` : ''}`).join('\n  · ')
+    throw new Error(`DB CELEB 미연결 인물 ${unresolvedPeople.length}명 — 가져오기를 시작하지 않았다\n  · ${sample}`)
+  }
+  console.log(`DB CELEB 해소 ${personRefs.length}/${personRefs.length} · 태그 ${tagMap.size}종 조회`)
 
-  const unresolvedSlugs = new Set<string>()
   const unresolvedTags = new Set<string>()
   const all: EpisodeStats[] = []
   for (const ep of eps) {
-    const s = await importEpisode(db, ep, slugMap, tagMap, args.dryRun, unresolvedSlugs, unresolvedTags)
+    const s = await importEpisode(db, ep, slugMap, idSet, tagMap, args.dryRun, unresolvedTags)
     all.push(s)
     if (s.skipped) console.log(`  ✗ ${pad(ep.folder, 24)} ${s.skipped}`)
     else console.log(`  ✓ ${pad(ep.folder, 24)} 세력 ${pad(String(s.groups), 3)} 묶음 ${pad(String(s.clusters), 3)} 인물 ${pad(String(s.people), 4)} 편댓글 ${s.parts}`)
@@ -324,10 +361,6 @@ async function main() {
   console.log(`에피소드 ${all.filter(s => !s.skipped).length}/${all.length} · 세력 ${sum('groups')} · 묶음 ${sum('clusters')} · 인물 ${sum('people')} · 편댓글 ${sum('parts')}`)
   console.log(`셀럽 연결 ${sum('slugResolved')}/${sum('slugTotal')} · 태그 연결 ${sum('tagResolved')}/${sum('tagTotal')}`)
 
-  if (unresolvedSlugs.size) {
-    console.log(`\n── slug 미해소 ${unresolvedSlugs.size}명 (DB 프로필 없음) ──`)
-    for (const s of [...unresolvedSlugs].sort()) console.log(`  · ${s}`)
-  }
   if (unresolvedTags.size) {
     console.log(`\n── tagSlug 미해소 ${unresolvedTags.size}종 (celeb_tags 없음) ──`)
     for (const s of [...unresolvedTags].sort()) console.log(`  · ${s}`)

@@ -4,20 +4,22 @@
 >
 > **26.07.27 — 영상에서 도감으로 넘기는 작업을 대대적으로 진행했다.** 도감 테마 40→76개, 대분류 10개로 재편, 인물 소개문 300여 건 신규. 편 상태는 두 값(`ready`/`blocked`)으로 축소. 도감 쪽 변경(노출 스위치·단체 사진 구조·인원 상한)은 **`docs/project/celeb/celeb-tag-system.md` 의 「26.07.27 개편」 절이 정본**이다.
 > **이 문서가 `faction-db-sync.md`(다리 방식)를 대체한다.** 다리(양방향 동기화)는 폐기 개념이고, 목표는 집 하나다. faction-sync 코드는 이관·이미지 배관 도구로 개조되어 살아남는다.
-> **26.08.03 — 단일화(§4-3).** 텍스트 투영(출간의 복사)마저 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`(도감 손질은 `web_*` 칸)이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다.
+> **26.08.03 — 단일화(§4-3).** 텍스트 투영(출간의 복사)마저 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다. 제작 인물의 도감 한줄은 직함 첫 항목으로 고정하며 별도 웹 한줄 손질은 폐기했다.
+> **26.08.03 — 인물 연결·주체 경계 강제.** `faction_people.celeb_id`는 필수 DB CELEB UUID이며, 행 자체도 자연인 또는 하나의 개별 허구 인물만 허용한다. 회사·조직·제품·기계·기체·부대·종족·듀오는 세력과 미디어 문맥으로 관리한다. 미연결 390행을 무차별 계정화했던 초판은 같은 날 철회했다. 비인물 행 70개와 그 계정 70개를 제거하고, 묶음 2행은 실제 발화자에게 재연결했으며, 비어 버리는 산업 세력에는 DB 실제 인물 14행을 넣었다. 에너지 편은 임시 인물 4명이 아니라 원래 기획 백업의 회사별 담당자 8명을 복원했다. 현재 1,446행 전부가 개별 DB 인물이며 UI·서버·CLI·DB 트리거가 함께 막는다.
 
 ## 확정 방향 (유저 지시 — 재론 금지)
 
 - **텍스트·구성 데이터의 단일 원천 = Supabase DB.** 로컬 `faction-data.json`은 렌더용 빌드 산출물로 강등(수정 금지).
 - **편집 화면 = web-bo 하나.** 팩션에 관해 remotion-bo는 **렌더·유튜브 버튼까지 포함해 전체 폐기**(26.07.25 결정 — "출고만 remotion-bo 잔류" 절충안은 기각, 플랫폼 소거가 목적). 담화·북리커맨드는 후속 단계에서 같은 길을 밟아 remotion-bo를 최종 소멸시킨다.
 - **후속 완료(26.07.29):** 담화와 북리커맨드도 같은 길을 밟아 remotion-bo 앱 전체가 폐기됐다.
+- **인물과 세력을 섞지 않는다.** `faction_people`는 개별 인물 전용이다. 회사·기관·제품·기계·집단은 `faction_groups`와 미디어에 남기고, 그 아래 실제 사람을 둔다. 이름이 없는 개인을 억지로 만들지 말고 세력을 비활성 보존한다.
 - Remotion(렌더 엔진)은 플랫폼이 아니라 빌드 도구. 대용량 미디어(wav 443개 297MB·이미지 2,245장)는 로컬 유지.
 - 미등록 9개 에피소드도 `registered=false`로 이관. 사문 필드는 보존. 구버전 중복 에피소드(Path-of-Kings·Iliad-Odyssey 등)도 이관하되 미등록 유지.
 
 ## 0. 실측이 뒤집은 전제 3개
 
-1. **인물은 배치(placement) 단위다** — 고유 slug 374 중 147개가 2곳 이상 배치, 60개는 배치마다 quote가 다르다(elon-musk 5곳, odysseus는 한 에피소드 안 2회). `faction_people`은 `(cluster_id, position)` 배치 행이고 `celeb_id`는 nullable 링크. `celeb_tag_assignments`는 `unique(celeb_id, tag_id)`라 N배치→1배정 투영 필수.
-2. **`celebId`는 데이터에 0건** — 연결 키는 `slug`(534/537)뿐. 이관 시 `slug→profiles.id` 해소, 실패분 null+진단.
+1. **인물은 배치(placement) 단위다** — 고유 slug 374 중 147개가 2곳 이상 배치, 60개는 배치마다 quote가 다르다(elon-musk 5곳, odysseus는 한 에피소드 안 2회). `faction_people`은 `(cluster_id, position)` 배치 행이고 `celeb_id`는 필수 DB CELEB UUID다. `celeb_tag_assignments`는 `unique(celeb_id, tag_id)`라 N배치→1배정 투영 필수.
+2. **초기 파일에는 `celebId`가 0건이었다** — 연결 키는 `slug`(534/537)뿐이었다. 이관 당시 미해소를 허용했지만 26.08.03 정비 뒤 폐기했다. 현재 저장·가져오기는 UUID/slug와 **개별 인물 여부**를 전수 선검증하고 한 명이라도 실패하면 쓰기 전에 중단한다. CELEB UUID가 있다는 사실만으로 사람이라는 뜻은 아니다.
 3. **타입 선언이 데이터를 못 따라간다** — 선언에 없는 실데이터 필드 12종+(`outroTitle` 23/23, `group.musicLongform`은 선언 없이 `FactionBgm.tsx:17`이 사용). 렌더/BO 타입 두 벌도 서로 어긋남(79 vs 71+9 필드). → **롱테일은 jsonb 통째 보존**(블랙리스트 방식)이 왕복 동일성을 구조적으로 보장한다.
 
 ## 1. faction-data.json 읽기/쓰기 주체 전수 (통합의 급소)
@@ -51,7 +53,7 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
   - **활성 여부의 단일 원천은 `registered`다(26.07.29).** `registered=true`만 `_episodes.json`에 실리고 렌더·음성·출간 대상이 된다. `status=ready|blocked`는 도감 테마로 옮길 수 있는지의 판단일 뿐 활성 여부가 아니다.
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
-- `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug·celeb_id(profiles, nullable)·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
+- `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug(프로필 미러)·**celeb_id(profiles, NOT NULL, ON DELETE RESTRICT)**·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
   - `mythical=true` 인물은 `profiles.celeb_tier='fiction'` 프로필에 연결한다.
     얼굴이 없어도 `avatar_url=null`인 active 데이터형 프로필을 만들 수 있으며,
     아바타 부재는 출간·검색 연결을 막지 않는다
@@ -124,12 +126,12 @@ faction_episodes                               celeb_tags (40행, slug unique �
 
 투영(제작→배정 복사) 자체를 폐기하고 데이터를 한 벌로 줄였다. 작업 기록은 `docs/todo/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
 
-- **인물 텍스트(대사 quote·직함 lines[1]·소개 epithet/lines)의 유일 원천 = `faction_people`.** 도감 손질은 같은 행의 `web_*` 칸에 쓴다 — `web_short_desc`/`web_long_desc`(±en)·`web_image_url`·`web_hidden`.
-- **웹·BO는 DB 뷰 `faction_atlas_members`를 읽는다** — 제작 유래(`web_*` 손질 우선) ∪ 웹 전용 배정. 태그당 셀럽 중복은 제작 앞자리 채택, `disabled` 제외. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번.
-- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용으로 축소.** 제작 유래 사본 650행은 26.08.03 삭제(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
-- **「출간」의 텍스트 복사는 폐기.** 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹 반영. 출간 패널은 사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상(§4-1)·음악(§4-2) 업로드 도구로 축소.
+- **인물 텍스트(대사 quote·직함·소개 epithet/lines)의 유일 원천 = `faction_people`.** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 손질은 `web_long_desc`(±en, 상세)·`web_image_url`(표지)·`web_quote_media`(출간 음성+화보 타임라인)·`web_hidden`만 허용하며 옛 `web_short_desc`(±en)는 폐기했다.
+- **웹·BO는 DB 뷰 `faction_atlas_members`를 읽는다** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정. 태그당 셀럽 중복은 제작 앞자리 채택, `disabled` 제외. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번.
+- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 16태그의 수동 배정) 123행 전용.** 최초 단일화 때 남은 214행 중 영상 연결분은 P14에서 제작으로 흡수했고, 제작 유래 사본 650행은 26.08.03 삭제했다(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+- **「출간」의 텍스트 복사는 폐기.** 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹 반영. 출간 패널은 개인 화보 전량+팩션 대사 음성(`web_image_url` 표지, `web_quote_media` 재생 묶음)·그룹샷(`celeb_tags.team_images`)·영상(§4-1)·음악(§4-2) 업로드 도구다. 화보 전환 초는 렌더의 `quoteChunks`·`subTimings`·배속 규칙을 그대로 쓴다.
 - **노출 결정은 `celeb_tags.is_featured` 스위치 하나.**
-- **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행 편집은 `web_*` 칸에 기록, 제거는 숨김으로 동작, 순서 편집은 수동 행 전용.
+- **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행은 상세 소개·개인샷·숨김만 편집하고 한줄은 직함 1행을 읽기 전용으로 표시한다. 제거는 숨김으로 동작, 순서 편집은 수동 행 전용.
 
 §4의 배치 충돌 규칙(앞자리 채택)과 되쓰기 예외 ①(대사 mirrorValue)은 뷰의 조회 규칙으로 흡수됐다. `lines[0]→short_desc`·`epithet→long_desc` 투영과 채움 전용 보호는 사본이 사라지면서 대상 자체가 없어졌다.
 
@@ -139,7 +141,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - 이관 실적: 에피소드 23(등록 14)·세력 123(태그 연결 21)·클러스터 184·인물 537(셀럽 연결 435)·편 댓글 6·quoteDuration 301·longformLayout 6. 멱등(2회차 동일 행수·에러 0).
 - **왕복 검증 6종 — 23/23편 전부 통과**: ① 정규화 JSON 비교(키순 무시·undefined≡부재·빈배열≡부재·duration 2자리, 불일치 JSON Pointer 전량) ② `factionVariants` fileSuffix 집합 ③ `analyzeTiming` totalFrames 전 편 ④ `buildVoiceJobs` file·text·chunks ⑤ SRT 바이트 ⑥ 한글 U+FFFD. 검증기 자체를 10종 변조 주입으로 반증 시험(오탐 0·미탐 0).
 - 이관 구현 규칙: NOT NULL boolean의 false ≡ 키 부재 · numeric은 Number() 복원(PostgREST 문자열 함정) · `.in()` 200개 청크(462개 실패 실측 이력) · tagSlug 원문은 data에 보존(tag_id는 파생) · sort_order=_episodes.json 순번.
-- **미해소 명단(당시 실측)**: 프로필 없는 slug 99명 — `celeb_id=null`로 두고 slug 문자열을 보존했다. 현재 등록 큐는 셀럽 파이프라인 장부를 따른다.
+- **미해소 명단 정비(26.08.03 최종)**: 초판은 프로필 없는 slug 99명을 `celeb_id=null`로 보존했다. 전체 1,502행 재감사에서 미연결 390행을 처리했으나, 첫 백필이 회사·조직·제품·기계까지 CELEB로 만든 오류가 있어 즉시 재감사했다. 현대 비인물 65행을 제거하고 묶음 2행을 스티브 잡스·카메론 윙클보스로 재연결, 빈 산업 세력에 기존 DB 인물 14행을 보강했다. 에너지 편은 임시 배치 4행을 원래 기획 백업의 회사별 담당자 8행으로 교체했다. 이어 과거 fiction 집단 계정 5행도 제거했다. 최종 `faction_people` 1,446행이며 null·삭제 프로필·slug 불일치·명백한 비인물 행은 0건이다. 잘못 생성된 계정은 현대 65개 + 과거 집단 5개를 Auth부터 삭제했다.
 
 ## 6. 렌더 경로 — 내보내기(export) 방식 확정
 
@@ -220,7 +222,7 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
 - 26.07.25 **Phase 5 완료 — 출간 개조 + remotion-bo 팩션 구역 폐기 + 문서 동기화.** 팩션 통합 종료.
   - **출간 배관을 옮기며 진단을 다시 정의했다.** `sw/web-bo/src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`). `image`·`manifest` 는 규격 그대로, 업로드는 이 앱에 이미 있던 `lib/r2.ts` 를 재사용하고 출간에만 필요한 `missingR2Env`·`publicUrl` 만 새로 뒀다.
   - **입력이 파일에서 DB 로 바뀌었다** — `collect.ts` 가 `faction_{episodes,groups,clusters,people}` 을 읽어 출간 모형을 만든다. **대본 조립기(`assembleFactionEpisode`)를 쓰지 않는 이유**: 조립기는 `faction-data.json` 모양을 내므로 해소된 열쇠(`tag_id`·`celeb_id`)를 결과에 담지 않는데, 출간은 바로 그 두 열쇠가 본체다. 사진은 여전히 로컬 파일이라 경로 해석·해시는 그대로 남았다.
-  - **텍스트 대조 진단을 소거했다**(제작·서비스가 한 DB). 옛 `desc: db|fillable|none` 폐기. 남는 항목 5종 — ① 셀럽 미해소 ② 태그 미지정 ③ 개인샷·그룹샷 저장소 동기(매니페스트 해시) ④ 얼굴 사진 유무 ⑤ 신화 표시 ↔ 셀럽 등급(`fiction`) 어긋남. ④⑤ 는 출간을 막지 않고 알리기만 한다.
+  - **텍스트 대조 진단을 소거했다**(제작·서비스가 한 DB). 옛 `desc: db|fillable|none` 폐기. 남는 항목 5종 — ① 셀럽 미해소 ② 태그 미지정 ③ 개인 화보+대사 음성·그룹샷 저장소 동기(매니페스트 해시·`web_quote_media`) ④ 얼굴 사진 유무 ⑤ 신화 표시 ↔ 셀럽 등급(`fiction`) 어긋남. ④⑤ 는 출간을 막지 않고 알리기만 한다.
   - **§4 배치 충돌 규칙을 실제 규칙으로 승격했다.** 옛 코드는 "이번 호출에서 먼저 만난 배치"를 채택해 세력을 하나씩 출간하면 결과가 갈릴 수 있었다. 이제 자리(세력·묶음·인물 순번) 최소 배치를 **편 전체를 보고** 미리 정한다(`winningPlacements`) — 세력별 순차 출간과 전체 출간의 결과가 같다.
   - **태그 묶음 열쇠는 `tag_id` 가 아니라 연결 키(`data.tagSlug`)를 먼저 본다.** `tag_id` 는 연결 키의 파생값이라 한쪽 세력만 이어져 있는 상태가 실재하는데, `tag_id` 로 묶으면 태그를 나눠 쓰는 세력이 남남이 되어 **도감 단체사진 배열을 한쪽 몫만으로 갈아끼우는 사고**가 난다(페이팔 마피아 4장이 그 위험이었다).
   - **태그 연결을 그 자리에서 되쓴다** — 연결 키로 태그를 찾았거나 새로 만들었으면 `faction_groups.tag_id` 를 채운다. 안 그러면 다음 저장까지 진단이 계속 「태그 미지정」이라 알린다. 팩션 5테이블에 **트리거가 없음을 실측 확인**(`information_schema.triggers` 0건)했으므로 열려 있는 편집 화면의 저장 잠금(에피소드 갱신 시각)을 방해하지 않는다.
@@ -257,7 +259,7 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
   - ⚠ **못 한 검증**: 브라우저 자동화 도구가 이 환경에 없어 **로그인한 화면에서의 하이드레이션·콘솔 오류 확인을 못 했다.** 로그인 게이트를 우회하지 않기로 해서(진입 검사를 약화시키지 않는다) 화면 단 검증은 컴파일·주소 응답까지만이다. 편집 화면 3탭·사진 풀·음성 재생·카드 화면은 **사람이 로그인해 한 번 열어봐야 한다.**
   - 남은 것(5단계): 출간 배관(`faction-sync`) 이동·개조, `series-registry` 스위치, remotion-bo 팩션 87파일 삭제, 문서 갱신. 그때 이 단계에서 둔 검사 규칙 예외와 출간 스위치를 함께 걷어낸다.
 - 26.07.25 **Phase 4a 완료 — web-bo 서버 기반**(편집기 UI 본체는 4b).
-  - **원자 저장 RPC** `faction_replace_episode(p_folder, p_episode, p_groups, p_clusters, p_people, p_parts, p_expected_updated_at)` 적용(마이그레이션 `faction_replace_episode_rpc`). security definer, 실행 권한 `service_role` 만(실측 acl `postgres=X | service_role=X`). **행 분해는 TS 담당, RPC 는 꽂기만** — `jsonb_populate_recordset(null::faction_groups, …)` 로 테이블 행 모양에 그대로 채워 컬럼이 늘어도 SQL 무수정. 하위 FK 는 TS 가 uuid 를 미리 만들어 맺고, 알 수 없는 `episode_id` 만 RPC 가 채운다.
+  - **원자 저장 RPC** `faction_replace_episode(p_folder, p_episode, p_groups, p_clusters, p_people, p_parts, p_expected_updated_at)` 적용(마이그레이션 `faction_replace_episode_rpc`). security definer, 실행 권한 `service_role` 만(실측 acl `postgres=X | service_role=X`). **행 분해는 TS 담당, RPC 는 꽂기만** — `jsonb_populate_recordset(null::faction_groups, …)` 로 테이블 행 모양에 그대로 채워 컬럼이 늘어도 SQL 무수정. 하위 FK 는 TS 가 uuid 를 미리 만들어 맺고, 알 수 없는 `episode_id` 만 RPC 가 채운다. 26.08.03 `enforce_faction_people_celeb_link`에서 인물 전수 검증을 삭제·잠금보다 앞으로 옮기고, `celeb_id NOT NULL`·CELEB 트리거·역참조 가드·slug 자동 동기화를 추가했다.
   - **조립·기록 코어 shared 화** — `packages/shared/src/lib/faction-assemble.ts`(DB→FactionScript 조립 + FactionScript→행 분해) · `packages/shared/src/bo/faction-export.ts`(마커·손 편집 가드·백업·등록 목록). CLI `scripts/faction/export.ts` 는 얇은 래퍼로 축소. **동작 불변을 바이트로 증명** — 옛 코드와 새 코드의 조립 결과를 23편 전량 대조해 전부 동일(`85224 vs 85224` 식). `faction:verify --all` 은 22/23(실패 1편은 아래 참조).
   - **shared 추가 승격** — `bo/voice-age`·`bo/voice-normalize`(remotion-bo 에서 git mv, 팩션·서재 탐방 4곳 import 교체). 팩션 음성 저장/연령 창구가 web-bo 로 오면서 두 앱이 같은 부품을 봐야 했다.
   - **web-bo 액션** `src/actions/admin/factions/{episodes,script,export,publish}.ts`. 저장 절차는 `src/lib/faction-save.ts` 로 빼 인증 밖에 뒀다 — 액션 안에 두면 Next 밖에서 부를 수 없어 검증이 불가능하다.

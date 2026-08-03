@@ -126,12 +126,12 @@ pnpm dev:bo
 
 > 26.07.25 신설 — 팩션(세력도감) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(`faction_people`, `web_*` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md) §4-3다.
+영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [faction.md](./remotion/faction.md), 통합 설계는 [faction-unification.md](./remotion/faction-unification.md) §4-3다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/factions` | 세력도감 | **표 하나.** 기준은 도감 테마: 테마명(위계)·인물 수·도감 노출·단체샷/개인샷·**영상**(그 테마를 쓰는 편 배지, 복수 가능·없으면 「글 전용」)·순서(끌어 옮기기). 표 아래 영상 편은 DB `status`에 따라 「옮길 수 있는 편」(`ready`)과 「못 옮기는 편」(`blocked`)으로만 나뉜다. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
-| `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물(검색 추가·제거·끌어 정렬·한줄/상세 소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다.** 인물 목록은 뷰 `faction_atlas_members`에서 읽고 **행마다 제작/수동 출처 배지**가 붙는다(26.08.03) — 제작 행의 소개문·개인샷·숨김 편집은 `faction_people`의 `web_*` 칸에 기록되고, 제거는 숨김(`web_hidden`)으로 동작하며, 끌어 정렬은 수동 행 전용이다 | `celeb_tags`, `celeb_tag_assignments`, `faction_people`(web_* 칸) |
+| `/factions` | 세력도감 | **표 하나(26.08.03 목록 통합).** 한 줄 = 편집 화면 하나다. 영상 편은 편 편집기로, 영상 없는 웹 전용 테마는 「영상 없음」 표찰을 달고 테마 화면으로 간다. 제작 편에 연결된 테마는 제 줄 없이 그 편 줄의 배지로만 보인다. 칸은 이름·렌더 편성·도감(이관 가능/보류, 노출)·세력/인물 수·연결 테마·수정일. 필터 5종(전체·렌더 편성·미편성·테마 미연결·영상 없음)과 검색이 있다. **`faction_people`는 개별 인물 전용** — 회사·조직·제품·기계·기체·부대·집단은 세력과 미디어에 두고 그 아래 실제 사람만 추가한다. 신규 등록은 확인 체크·서버 가드·DB 트리거를 모두 지난다. **줄은 상위분류로 묶인다(26.08.03)** — 갈래의 정본은 서비스 도감과 같은 `celeb_tags.parent_id`이고, 아래에 테마를 거느린 테마가 곧 상위분류라 제 줄 대신 묶음 머리로 올라선다(머리에 노출 배지·「분류 편집」). 영상 편은 그 편의 세력이 가리키는 테마를 따라 갈래에 들고, 어디에도 안 걸리면 맨 아래 「분류 없음」에 모인다. 묶음은 접었다 펼 수 있고(「모두 접기」), 검색 중에는 접힘을 무시한다. 묶기는 `FactionBoard/sections/atlasGrouping.ts` 소유. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 웹 전용 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
+| `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물(검색 추가·제거·끌어 정렬·소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다.** 인물 목록은 뷰 `faction_atlas_members`에서 읽고 **행마다 제작/수동 출처 배지**가 붙는다(26.08.03) — 제작 행의 한줄은 직함 1행 고정이고 상세 소개·개인샷·숨김만 `faction_people`의 `web_*` 칸에 기록된다. 제거는 숨김(`web_hidden`)으로 동작하며, 끌어 정렬은 수동 행 전용이다. 수동 행은 영상 원문이 없으므로 한줄·상세를 모두 직접 편집한다 | `celeb_tags`, `celeb_tag_assignments`, `faction_people`(web_* 칸) |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
 | `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼) | 위 5테이블 |
 | `/factions/[episode]/[lang]/[tab]/card/…` | (편 이름) 카드 | 카드뉴스 편성·미리보기·출고. 정비 탭 아래에만 있어 다른 탭으로 들어오면 `info`로 보낸다 | — |
@@ -170,13 +170,15 @@ pnpm dev:bo
 
 > **26.08.03 단일화 — 텍스트 복사는 폐기됐다.** 인물 텍스트(대사·직함·소개)의 유일 원천은 `faction_people`이고 웹은 뷰 `faction_atlas_members`를 직독하므로, 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹에 반영된다. 출간 패널은 **사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상·음악 업로드 도구**로 축소됐다. 노출 결정은 `celeb_tags.is_featured` 스위치 하나다.
 
+팩션 인물 검색창은 **기존 DB CELEB를 고르는 기능만** 가진다. 검색 결과가 없다고 팩션 편집 흐름에서 임시·최소 프로필을 즉석 생성하지 않는다. 신규 인물은 `/celebs/new`의 정식 셀럽 등록을 먼저 마친 뒤 검색해서 추가한다. 저장 코어·가져오기 CLI·DB 트리거도 미연결 인물을 각각 거부한다.
+
 편집기 헤더 「출간」 버튼이 `src/components/factions/FactionPublishPanel.tsx`를 펼친다. 배관은 `src/lib/faction-sync/` 8파일(`types`·`supabase`·`r2`·`image`·`manifest`·`collect`·`diagnose`·`publish`)이고, 창구는 API 라우트가 아니라 위 서버 액션 2개다 — **`curl`로 찌를 수 없다.**
 
 제작과 서비스가 같은 DB 안에 있어 **텍스트 대조는 사라졌다.** 진단 항목은 5종이다.
 
 | 진단 | 판정 기준 |
 | --- | --- |
-| 셀럽 미해소 인물 | `faction_people.celeb_id`가 null (연결 키가 없거나, 있어도 그 셀럽이 DB에 없다) |
+| DB 인물 연결 무결성 | `faction_people.celeb_id NOT NULL` + 삭제되지 않은 `CELEB` + 프로필 slug 미러. 한 건이라도 어긋나면 정상 운영 상태가 아니며 저장·출간을 중단한다 |
 | 태그 미지정 세력 | `faction_groups.tag_id`가 null |
 | 개인샷·그룹샷 저장소 동기 상태 | 로컬 파일 해시 ↔ 매니페스트(`_db-sync.json`) 대조 |
 | 얼굴 사진(아바타) 유무 | `profiles.avatar_url` |

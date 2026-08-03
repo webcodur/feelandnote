@@ -167,8 +167,8 @@ export type SpeakerDurationLookup = (
 ) => { epithetDuration?: number | null } | undefined
 
 export interface BuildRowsOptions {
-  /** slug → profiles.id. 미해소는 celeb_id null + slug 문자열 보존 */
-  slugMap?: Map<string, string>
+  /** slug → profiles.id. 모든 발언자는 저장 전에 DB CELEB 로 해소되어야 한다. */
+  slugMap: Map<string, string>
   /** uuid 생성기 — 호출 측이 주입(shared 는 node:crypto 에 의존하지 않는다) */
   newId: () => string
   /**
@@ -209,14 +209,19 @@ export function buildDiscourseRows(
     if (!cols.name) throw new Error(`인물 ${i + 1}번의 이름이 비었다 — 저장할 수 없다`)
     const id = newId()
     speakerIds.push(id)
-    const slug = s.slug as string | undefined
+    const slug = typeof s.slug === 'string' ? s.slug.trim() : ''
+    if (!slug) throw new Error(`인물 ${i + 1}번(${String(cols.name)})의 DB 연결 slug가 비었다 — 저장할 수 없다`)
+    const celebId = slugMap.get(slug)
+    if (!celebId) {
+      throw new Error(`인물 ${i + 1}번(${String(cols.name)})을 DB CELEB에서 찾지 못했다: ${slug}`)
+    }
     const kept = speakerDurations?.(i, slug, s)
     return {
       id,
       position: i + 1,
       ...cols,
       epithet_duration: kept?.epithetDuration ?? (cols.epithet_duration as number | null) ?? null,
-      celeb_id: (slug && slugMap?.get(slug)) ?? null,
+      celeb_id: celebId,
       data,
     }
   })

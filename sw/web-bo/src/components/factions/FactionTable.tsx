@@ -150,6 +150,7 @@ export function FactionTableSection({
   level = 1,
   open,
   onToggle,
+  action,
 }: {
   colSpan: number
   title: ReactNode
@@ -159,11 +160,16 @@ export function FactionTableSection({
   /** 접혔나 펼쳤나. `onToggle` 과 함께 줄 때만 화살표가 뜬다 */
   open?: boolean
   onToggle?: () => void
+  /** 머리줄 오른쪽 끝에 붙는 조작 — 접기 단추 밖에 둔다(단추 안에 링크를 넣을 수 없다) */
+  action?: ReactNode
 }) {
   const body = (
     <span className="flex flex-wrap items-baseline gap-2">
       {onToggle && (
-        <ChevronDown className={`h-5 w-5 self-center text-text-secondary ${open ? '' : '-rotate-90'}`} />
+        <ChevronDown
+          aria-hidden
+          className={`h-5 w-5 self-center text-text-secondary ${open ? '' : '-rotate-90'}`}
+        />
       )}
       <span className={level === 1 ? 'text-base font-semibold text-text-primary' : 'text-sm font-semibold text-text-secondary'}>
         {title}
@@ -173,13 +179,24 @@ export function FactionTableSection({
   )
 
   return (
-    <tr className={level === 1 ? 'bg-bg-secondary/50' : 'bg-bg-secondary/25'}>
-      <td colSpan={colSpan} className={level === 1 ? 'px-5 py-3' : 'px-5 py-2 pl-10'}>
-        {onToggle ? (
-          <button type="button" onClick={onToggle} className="flex w-full text-left hover:text-accent">
-            {body}
-          </button>
-        ) : body}
+    <tr className={`group/section ${onToggle ? 'hover:bg-white/5' : ''} ${level === 1 ? 'bg-bg-secondary/50' : 'bg-bg-secondary/25'}`}>
+      <td
+        colSpan={colSpan}
+        className={`relative ${level === 1 ? 'px-5 py-3' : 'px-5 py-2 pl-10'}`}
+      >
+        {onToggle && (
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-label={open ? '테마 묶음 접기' : '테마 묶음 펼치기'}
+            onClick={onToggle}
+            className="absolute inset-0 z-0 w-full cursor-pointer hover:bg-white/5 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+          />
+        )}
+        <span className={`relative z-10 flex items-center justify-between gap-3 ${onToggle ? 'pointer-events-none' : ''}`}>
+          {body}
+          {action}
+        </span>
       </td>
     </tr>
   )

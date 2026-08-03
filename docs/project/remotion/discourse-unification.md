@@ -4,13 +4,14 @@
 > 골격은 팩션과 동일: DB 단일 원천 + web-bo 단일 편집기 + export 산출물 강등 + remotion-bo 담화 구역 폐기.
 >
 > **후속 완료(26.07.29):** 북리커맨드도 web-bo로 이관되어 remotion-bo 앱 전체가 폐기됐다.
+> **후속 보강(26.08.03):** 팩션 인물 연결 강제와 같은 원칙을 담화에도 적용했다. 9/9 발언자 연결을 확인한 뒤 `celeb_id NOT NULL`·`ON DELETE RESTRICT`·CELEB/slug 트리거·RPC 선검증으로 미연결 저장 경로를 폐기했다.
 
 ## 0. 실측이 뒤집은 전제 4개
 
 1. **담화는 기획 단계가 아니라 실재하지만, 팩션보다 한 자릿수 작다** — 편집기 21파일 3,027줄(팩션 56/11,912), BO lib 3종 546줄, 전용 API 2개(팩션 16), 데이터 5편·9인물·66발언·67.9KB, **wav 0개·발화시각 파일 0개·렌더 CLI·SRT·유튜브 전무**.
 2. **음성 파이프라인이 아직 없다 → 팩션 최상위 위험 R1·R2가 담화엔 아직 존재하지 않는다.** `voice:discourse` 스크립트 부재, `duration` 필드 사용 0건. **음성 착수 전에 통합을 끝내면 그 위험 자체가 발생하지 않는다 — 이것이 최대 이득이자 착수 시점의 근거다.**
 3. **타입 드리프트가 없고 셀럽 연결이 100%다** — 렌더/BO 타입 diff는 목록 카드 6필드뿐, 선언 외 필드 0건(팩션의 사문 12종+와 대조). cast slug 8종 전부 profiles 실재 + virtual_monologue(ko·en) 보유. `Turn.cast`·`to` 인덱스 이탈 0건.
-4. **원천 `profiles.virtual_monologue`는 런타임 의존이 아니다** — 코드에서 읽는 곳 0곳(주석 2곳뿐). 사람이 읽고 재작문하는 사료. → `discourse_speakers.celeb_id` FK만 세우면 되고, web-bo 이식 때 「원천 독백 보기」 패널을 덤으로 붙일 수 있다(같은 DB — 조인 한 번).
+4. **원천 `profiles.virtual_monologue`는 런타임 의존이 아니다** — 코드에서 읽는 곳 0곳(주석 2곳뿐). 사람이 읽고 재작문하는 사료. `discourse_speakers.celeb_id`가 발언자 정체성의 단일 원천이며, web-bo의 「원천 독백 보기」도 같은 DB 프로필을 읽는다.
 
 **discourse.md 실효 항목**: "3편"→실제 5편(peter-thiel·qin-shi-huang-court 추가, 전부 등록·todo) · musk-altman 발언 14→13 · 이미지 "미착수"→71장 실재(musk-altman 30·peter-thiel 25·jensen-huang 16, qin 계열 2편은 0장) · remotion-bo 팩션 서술은 Phase 5 소멸로 무효(`SeriesDataModel = 'book'|'discourse'`, middleware.ts 삭제됨).
 
@@ -48,8 +49,8 @@ create table public.discourse_speakers (
   episode_id uuid not null references public.discourse_episodes(id) on delete cascade,
   position integer not null,           -- C{pos:02d}
   name text not null, name_en text,
-  slug text,
-  celeb_id uuid references public.profiles(id) on delete set null,
+  slug text,                            -- profiles.slug 읽기용 미러
+  celeb_id uuid not null references public.profiles(id) on delete restrict,
   lines text[], lines_en text[], epithet text, epithet_en text,
   epithet_duration numeric,            -- 파이프라인 소유
   era text, color text, image text,
@@ -81,13 +82,13 @@ create index discourse_speakers_celeb_idx on public.discourse_speakers(celeb_id)
 
 **판단 4건**: ① position UUID화 금지 — `Discourse/voice-names.ts:35 vnTurn`(`T{n:02d}-{slug}.wav`)·`:44 vnCastEpithet`·`:57 vnTimingKey`가 위치 기반. wav 0개라 지금 바꿔도 무비용이지만 팩션과 규칙 통일이 시리즈 공용 음성 스크립트의 전제라 유지. ② `Turn.cast`(정수) → `speaker_id`(FK) 승격 — 팩션 `{group:index}`→`{groupId:uuid}`와 같은 안전망(FK 위반 = 전체 롤백). `to_speaker_id`는 set null(범위 밖 to가 정상 경로). ③ `longform_layout`의 `{turn:n}`은 **정수 유지** — 행 참조가 아니라 경계 위치이고 n=turns.length(맨 끝)가 실사용, UUID로 표현 불가. 현행과 동일하므로 회귀 아님. ④ 크기 격리 컬럼 불요.
 
-**원자 저장 RPC**: `discourse_replace_episode(p_folder, p_episode, p_speakers, p_turns, p_expected_updated_at)` — 팩션 RPC 규칙 그대로(security definer·service_role 전용·jsonb_populate_recordset·TS가 uuid 선생성·낙관적 잠금).
+**원자 저장 RPC**: `discourse_replace_episode(p_folder, p_episode, p_speakers, p_turns, p_expected_updated_at)` — 팩션 RPC 규칙 그대로(security definer·service_role 전용·jsonb_populate_recordset·TS가 uuid 선생성·낙관적 잠금). 26.08.03부터 발언자 전원을 삭제·잠금 전에 DB CELEB로 선검증한다.
 
 ## 4. 이관·왕복 검증
 
 도구 대칭: `packages/shared/src/lib/discourse-schema.ts`(HOT 맵만 신설 — **faction-schema의 범용부(splitBy/joinBy·checksum·withGenerated/stripGenerated·diffPointers·U+FFFD)를 series-agnostic 모듈로 승격해 공유, 복제 금지**) · `discourse-assemble.ts`(cast↔speaker_id 환원 + 세 파일 분해) · `bo/discourse-export.ts` · `scripts/discourse/{lib,import,export,verify}.ts`(`pnpm discourse:import|export|verify`).
 
-split 규칙: 팩션 §5 그대로(false≡키 부재 · Number() 복원 · .in() 200청크 · slug 컬럼 보존+celeb_id 파생 · `_generated` strip 필수).
+split 규칙: 팩션 §5 그대로(false≡키 부재 · Number() 복원 · .in() 200청크 · slug 컬럼 보존+celeb_id 파생 · `_generated` strip 필수). slug가 없거나 삭제되지 않은 CELEB로 해소되지 않으면 저장·가져오기 전체를 쓰기 전에 중단한다.
 
 **왕복 검증 게이트 7종**(렌더 함수 직접 import, 복제 없음): ① 정규화 JSON(병합 DiscourseScript, JSON Pointer 전량) ② **세 파일 분해 재현**(cast·turns가 메타에 안 새는 불변식 — `discourse-utils.ts:95`) ③ 컴포지션 ID 집합(`Root.tsx:51 discourseCompBase`+`timing.ts:107,114` — **이 검증을 위해 `discourseVariants()`를 `packages/shared/src/lib/youtube-discourse-meta.ts`로 승격**, discourse.md §9 미착수 해소) ④ `calcTotalFrames` 전 종류 일치 ⑤ `buildCues` 완전 일치 ⑥ 음원 파일명·합성 텍스트(vnTurn/vnCastEpithet/turnText — **wav 0개인 지금 계약을 고정**) ⑦ SRT 바이트(`subs.ts:28`)+U+FFFD. **검증기 반증 시험 10종**(to 삭제·chunks 제거·part 변경·turn±1·originRef 삭제·color·voice.style(jsonb 생존)·living·speaker 순서·imageChanges) 재현. 멱등 2회차 확인.
 

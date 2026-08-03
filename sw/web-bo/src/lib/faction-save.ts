@@ -7,7 +7,7 @@
  * 하는 일은 셋이다.
  *   1. **보존해야 할 값을 DB 에서 읽는다** — 진행 상태·편성·순번·편별 댓글·음성 길이.
  *      편집기는 이 값들을 모르거나(댓글) 소유하지 않는다(음성 길이 — 문서 §7).
- *   2. 키 해소 — 인물 slug → 셀럽 id, 세력 태그 이름 → 태그 id.
+ *   2. 인물 UUID 검증(레거시 파일만 slug → UUID 해소), 세력 태그 이름 → 태그 id.
  *   3. 분해(`buildFactionRows`) 후 원자 저장 함수 한 번 호출.
  *
  * 분해 규칙 자체는 `@feelandnote/shared/lib/faction-assemble` 소유다 — 여기에 복제하지 않는다.
@@ -18,6 +18,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   buildFactionRows, IN_CHUNK, type DurationLookup,
 } from '@feelandnote/shared/lib/faction-assemble'
+import { assertIndividualFactionSubject } from '@feelandnote/shared/lib/faction-person-subject'
 
 type Row = Record<string, unknown>
 
@@ -26,8 +27,6 @@ export interface ReplaceEpisodeResult {
   /** 다음 저장에 쓸 새 잠금 기준 */
   updatedAt: string
   counts: { groups: number; clusters: number; people: number; parts: number }
-  /** 셀럽 프로필을 못 찾은 slug — celeb_id 는 null 로 두고 slug 문자열은 보존된다 */
-  unresolvedSlugs: string[]
 }
 
 /**
@@ -56,8 +55,7 @@ export async function replaceFactionEpisode(
   const webLookup = await loadExistingWebOverrides(db, episodeId)
   const parts = await loadExistingParts(db, episodeId)
 
-  const slugs = collectSlugs(script)
-  const { slugMap, unpublishedSlugs } = await resolveSlugs(db, slugs)
+  const { slugMap, profilesById, unpublishedIds } = await resolvePeople(db, script)
   const tagMap = await resolveTags(db)
   const keptTags = await loadExistingGroupTags(db, episodeId)
 
@@ -71,6 +69,14 @@ export async function replaceFactionEpisode(
     sortOrder: (epRow.sort_order as number) ?? 0,
     parts,
   })
+
+  // UUID가 정체성의 원천이다. slug는 현재 프로필 값을 미러링해 이름 변경·레거시 파일의
+  // 오래된 키가 새 행에 남지 않게 한다.
+  for (const p of payload.people) {
+    const profile = profilesById.get(p.celeb_id as string)
+    if (!profile) throw new Error(`팩션 인물의 DB CELEB 검증 결과가 사라졌다: ${String(p.name ?? p.celeb_id)}`)
+    p.slug = profile.slug
+  }
 
   /*
     세력이 어느 도감 테마에 걸렸는지(tag_id)도 되실어 보존한다.
@@ -87,7 +93,7 @@ export async function replaceFactionEpisode(
     if (kept) g.tag_id = kept
   }
 
-  // 도감 손질(web_*)은 도감 편집이 소유한다 — 대본 저장이 인물 행을 전량 갈아끼우므로
+  // 도감 상세 손질·개인샷·숨김(web_*)은 도감 편집이 소유한다 — 대본 저장이 인물 행을 전량 갈아끼우므로
   // 여기서 기존 값을 사람 신원 기준으로 되실어 보존한다(음성 길이와 같은 원리).
   // web_hidden 은 NOT NULL 이라 값이 없으면 저장 자체가 거부된다(실측 26.08.03).
   //
@@ -97,12 +103,11 @@ export async function replaceFactionEpisode(
   for (const p of payload.people) {
     const kept = webLookup(p)
     p.web_hidden = kept?.web_hidden
-      ?? (typeof p.slug === 'string' && unpublishedSlugs.has(p.slug))
-    p.web_short_desc = kept?.web_short_desc ?? null
+      ?? unpublishedIds.has(p.celeb_id as string)
     p.web_long_desc = kept?.web_long_desc ?? null
-    p.web_short_desc_en = kept?.web_short_desc_en ?? null
     p.web_long_desc_en = kept?.web_long_desc_en ?? null
     p.web_image_url = kept?.web_image_url ?? null
+    p.web_quote_media = kept?.web_quote_media ?? null
   }
 
   const { data: res, error } = await db.rpc('faction_replace_episode', {
@@ -126,47 +131,93 @@ export async function replaceFactionEpisode(
       people: payload.people.length,
       parts: payload.parts.length,
     },
-    unresolvedSlugs: slugs.filter(s => !slugMap.has(s)),
   }
 }
 
 /* ────────────────────────── 내부 ────────────────────────── */
 
-/** 대본에 실린 인물 slug 전량(중복 제거) */
-function collectSlugs(script: Record<string, unknown>): string[] {
-  const out = new Set<string>()
-  for (const g of (script.groups ?? []) as Row[]) {
-    for (const c of (g.clusters ?? []) as Row[]) {
-      for (const p of (c.people ?? []) as Row[]) {
-        if (typeof p.slug === 'string' && p.slug) out.add(p.slug)
+type PersonRef = { path: string; name: string; celebId?: string; slug?: string }
+type ProfileRef = { id: string; slug: string; status: string; nickname: string; nicknameEn: string }
+
+function collectPeople(script: Record<string, unknown>): PersonRef[] {
+  const refs: PersonRef[] = []
+  for (const [gi, g] of ((script.groups ?? []) as Row[]).entries()) {
+    for (const [ci, c] of (((g.clusters ?? []) as Row[]).entries())) {
+      for (const [pi, p] of (((c.people ?? []) as Row[]).entries())) {
+        refs.push({
+          path: `세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}`,
+          name: String(p.name ?? ''),
+          ...(typeof p.celebId === 'string' && p.celebId ? { celebId: p.celebId } : {}),
+          ...(typeof p.slug === 'string' && p.slug ? { slug: p.slug } : {}),
+        })
       }
     }
   }
-  return [...out]
+  return refs
 }
 
 /**
- * 인물 연결 키를 셀럽 계정에 맺는다.
- *
- * 서비스에 아직 안 뜨는 인물(status ≠ active)도 함께 돌려준다 — 처음 실리는 그런 인물은
- * 도감에서 감춘 채로 저장한다(위 web_hidden 결정).
+ * 모든 인물이 실제 CELEB 프로필을 가리키는지 저장 전에 전량 검증한다.
+ * UUID가 있는 편집 데이터는 UUID로 확인하고, 옛 렌더 파일처럼 slug만 있는 입력만 해소한다.
  */
-async function resolveSlugs(
-  db: SupabaseClient, slugs: string[],
-): Promise<{ slugMap: Map<string, string>; unpublishedSlugs: Set<string> }> {
-  const slugMap = new Map<string, string>()
-  const unpublishedSlugs = new Set<string>()
-  for (let i = 0; i < slugs.length; i += IN_CHUNK) {
-    const { data, error } = await db
-      .from('profiles').select('id,slug,status').in('slug', slugs.slice(i, i + IN_CHUNK))
-    if (error) throw new Error(`셀럽 조회 실패: ${error.message}`)
-    for (const r of data ?? []) {
-      if (!r.slug) continue
-      slugMap.set(r.slug as string, r.id as string)
-      if (r.status !== 'active') unpublishedSlugs.add(r.slug as string)
-    }
+async function resolvePeople(
+  db: SupabaseClient, script: Record<string, unknown>,
+): Promise<{
+  slugMap: Map<string, string>
+  profilesById: Map<string, ProfileRef>
+  unpublishedIds: Set<string>
+}> {
+  const refs = collectPeople(script)
+  for (const ref of refs) assertIndividualFactionSubject(ref.name, undefined, ref.path)
+  const ids = [...new Set(refs.flatMap(r => r.celebId ? [r.celebId] : []))]
+  const slugs = [...new Set(refs.flatMap(r => r.slug ? [r.slug] : []))]
+  const rows: Row[] = []
+
+  for (let i = 0; i < ids.length; i += IN_CHUNK) {
+    const { data, error } = await db.from('profiles').select('id,slug,status,nickname,nickname_en')
+      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended'])
+      .in('id', ids.slice(i, i + IN_CHUNK))
+    if (error) throw new Error(`셀럽 UUID 조회 실패: ${error.message}`)
+    rows.push(...((data ?? []) as Row[]))
   }
-  return { slugMap, unpublishedSlugs }
+  for (let i = 0; i < slugs.length; i += IN_CHUNK) {
+    const { data, error } = await db.from('profiles').select('id,slug,status,nickname,nickname_en')
+      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended'])
+      .in('slug', slugs.slice(i, i + IN_CHUNK))
+    if (error) throw new Error(`셀럽 slug 조회 실패: ${error.message}`)
+    rows.push(...((data ?? []) as Row[]))
+  }
+
+  const profilesById = new Map<string, ProfileRef>()
+  const profilesBySlug = new Map<string, ProfileRef>()
+  for (const row of rows) {
+    const id = row.id as string
+    const slug = typeof row.slug === 'string' ? row.slug : ''
+    if (!slug) throw new Error(`DB CELEB에 slug가 없습니다: ${id}`)
+    const nickname = String(row.nickname ?? '')
+    const nicknameEn = String(row.nickname_en ?? '')
+    assertIndividualFactionSubject(nickname, nicknameEn, `DB CELEB ${id}`)
+    const profile = { id, slug, status: String(row.status ?? ''), nickname, nicknameEn }
+    profilesById.set(id, profile)
+    profilesBySlug.set(slug, profile)
+  }
+
+  const slugMap = new Map<string, string>()
+  const unpublishedIds = new Set<string>()
+  for (const ref of refs) {
+    const byId = ref.celebId ? profilesById.get(ref.celebId) : undefined
+    const bySlug = ref.slug ? profilesBySlug.get(ref.slug) : undefined
+    const profile = byId ?? bySlug
+    if (!profile) {
+      throw new Error(`${ref.path}(${ref.name})이 DB CELEB에 등록되어 있지 않습니다. 셀럽 관리에서 먼저 정식 등록한 뒤 다시 검색하세요.`)
+    }
+    if (byId && bySlug && byId.id !== bySlug.id) {
+      throw new Error(`${ref.path}(${ref.name})의 celebId와 slug가 서로 다른 DB 인물을 가리킵니다.`)
+    }
+    if (ref.slug) slugMap.set(ref.slug, profile.id)
+    if (profile.status !== 'active') unpublishedIds.add(profile.id)
+  }
+  return { slugMap, profilesById, unpublishedIds }
 }
 
 /** 태그는 수십 종뿐이라 전량 조회한다 */
@@ -196,9 +247,14 @@ async function resolveTags(db: SupabaseClient): Promise<Map<string, string>> {
  */
 type Durations = { quoteDuration: number | null; epithetDuration: number | null }
 
-/** 인물의 신원 — 연결 키가 있으면 그것, 없으면 이름 */
-const identityOf = (p: { slug?: unknown; name?: unknown }): string =>
-  (typeof p.slug === 'string' && p.slug) ? `s:${p.slug}` : `n:${String(p.name ?? '')}`
+/** 인물의 신원 — 불변 UUID 우선, 옛 행만 slug·이름으로 보조한다. */
+const identityOf = (p: { celebId?: unknown; celeb_id?: unknown; slug?: unknown; name?: unknown }): string => {
+  const id = typeof p.celebId === 'string' && p.celebId
+    ? p.celebId
+    : typeof p.celeb_id === 'string' ? p.celeb_id : ''
+  if (id) return `i:${id}`
+  return (typeof p.slug === 'string' && p.slug) ? `s:${p.slug}` : `n:${String(p.name ?? '')}`
+}
 
 async function loadExistingDurations(db: SupabaseClient, episodeId: string): Promise<DurationLookup> {
   const { data: groups, error: gErr } = await db
@@ -212,7 +268,7 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
         clusterRows.map(c => c.id as string),
-        'cluster_id,position,slug,name,quote_duration,epithet_duration')
+        'cluster_id,position,celeb_id,slug,name,quote_duration,epithet_duration')
     : []
 
   const num = (v: unknown): number | null =>
@@ -242,7 +298,7 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
   // 들어오는 대본에서도 같은 신원이 몇 번째로 나왔는지 세어 순서대로 짝짓는다
   const seen = new Map<string, number>()
   return (_gi, _ci, _pi, person) => {
-    const k = identityOf(person as { slug?: unknown; name?: unknown })
+    const k = identityOf(person)
     const list = byIdentity.get(k)
     const n = seen.get(k) ?? 0
     seen.set(k, n + 1)
@@ -261,11 +317,10 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
  * 반환 함수는 새 인물 행(slug·name 컬럼 보유)을 받아 짝지어진 기존 손질을 돌려준다.
  */
 type WebOverride = {
-  web_short_desc: string | null
   web_long_desc: string | null
-  web_short_desc_en: string | null
   web_long_desc_en: string | null
   web_image_url: string | null
+  web_quote_media: unknown
   web_hidden: boolean
 }
 
@@ -283,7 +338,7 @@ async function loadExistingWebOverrides(
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
         clusterRows.map(c => c.id as string),
-        'cluster_id,position,slug,name,web_short_desc,web_long_desc,web_short_desc_en,web_long_desc_en,web_image_url,web_hidden')
+         'cluster_id,position,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_quote_media,web_hidden')
     : []
 
   // 신원별로 자리 순서대로 줄을 세운다 — durations 와 같은 짝짓기 규칙
@@ -302,18 +357,17 @@ async function loadExistingWebOverrides(
     const k = identityOf(p)
     if (!byIdentity.has(k)) byIdentity.set(k, [])
     byIdentity.get(k)!.push({
-      web_short_desc: (p.web_short_desc as string | null) ?? null,
       web_long_desc: (p.web_long_desc as string | null) ?? null,
-      web_short_desc_en: (p.web_short_desc_en as string | null) ?? null,
       web_long_desc_en: (p.web_long_desc_en as string | null) ?? null,
       web_image_url: (p.web_image_url as string | null) ?? null,
+      web_quote_media: p.web_quote_media ?? null,
       web_hidden: p.web_hidden === true,
     })
   }
 
   const seen = new Map<string, number>()
   return (personRow: Row) => {
-    const k = identityOf(personRow as { slug?: unknown; name?: unknown })
+    const k = identityOf(personRow)
     const list = byIdentity.get(k)
     const n = seen.get(k) ?? 0
     seen.set(k, n + 1)

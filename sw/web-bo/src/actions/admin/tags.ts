@@ -545,9 +545,9 @@ export async function updateCelebTags(
 // #region updateTagAssignmentDesc - 단일 태그 설명 수정
 /**
  * 소개문 저장 — 유래에 따라 쓰는 곳이 갈린다.
- * - production: faction_people 의 web_short_desc/web_long_desc(±en) 손질 칸에 쓴다.
- *   null 을 쓰면 손질 해제라 제작 원문이 다시 보인다(빈 칸으로 지울 수 없다).
- * - manual: 기존처럼 celeb_tag_assignments 에 쓴다.
+ * - production: 한줄 직함은 faction_people.lines[0] 고정이다. 이 액션은
+ *   web_long_desc(±en) 상세 손질만 저장하며 short_desc 인자는 무시한다.
+ * - manual: 영상 원문이 없으므로 기존처럼 celeb_tag_assignments 의 한줄·상세를 모두 저장한다.
  */
 export async function updateTagAssignmentDesc(
   celebId: string,
@@ -570,18 +570,14 @@ export async function updateTagAssignmentDesc(
     // 값이 그대로인 저장(포커스만 스친 blur)은 건너뛴다 — 안 그러면 제작 원문이
     // web_* 사본으로 얼어붙어 이후 제작 쪽 수정이 도감에 반영되지 않는다
     const unchanged =
-      short_desc === row.short_desc &&
       long_desc === row.long_desc &&
-      (short_desc_en === undefined || short_desc_en === row.short_desc_en) &&
       (long_desc_en === undefined || long_desc_en === row.long_desc_en)
     if (unchanged) return { success: true }
 
     await requireFactionAdmin()
     const updatePayload: Record<string, string | null> = {
-      web_short_desc: short_desc,
       web_long_desc: long_desc,
     }
-    if (short_desc_en !== undefined) updatePayload.web_short_desc_en = short_desc_en
     if (long_desc_en !== undefined) updatePayload.web_long_desc_en = long_desc_en
 
     const { error } = await factionAdminClient()

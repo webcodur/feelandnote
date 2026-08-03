@@ -6,12 +6,12 @@
 
 복사 구조를 폐기하고 데이터를 한 벌로 줄였다. 이 문서의 나머지 절은 이 변경을 얹어 읽어야 한다. 작업 기록은 `docs/todo/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
 
-- **인물 텍스트(대사 quote·직함 lines[1]·소개 epithet/lines)의 유일 원천은 제작 테이블 `faction_people`이다.** 도감에서 손질하는 값은 같은 행의 `web_*` 칸에 쓴다 — `web_short_desc`/`web_long_desc`(±en)·`web_image_url`·`web_hidden`.
-- **웹·BO 읽기는 DB 뷰 `faction_atlas_members` 하나다.** 제작 유래(`web_*` 손질 우선) ∪ 웹 전용 배정. 태그당 같은 셀럽 중복은 제작 앞자리 배치를 채택하고, `disabled` 인물은 제외한다. 정렬은 제작 순번 우선이고 웹 전용 배정은 10000+ 순번으로 뒤에 선다.
-- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용으로 축소됐다.** 제작 유래 사본 650행은 26.08.03 삭제했다(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+- **인물 텍스트(대사 quote·직함·소개 epithet/lines)의 유일 원천은 제작 테이블 `faction_people`이다.** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 별도 손질은 `web_long_desc`(±en, 상세 소개)·`web_image_url`·`web_hidden`만 허용한다. 옛 `web_short_desc`(±en)는 폐기했다.
+- **웹·BO 읽기는 DB 뷰 `faction_atlas_members` 하나다.** 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정. 태그당 같은 셀럽 중복은 제작 앞자리 배치를 채택하고, `disabled` 인물은 제외한다. 정렬은 제작 순번 우선이고 웹 전용 배정은 10000+ 순번으로 뒤에 선다.
+- **`celeb_tag_assignments`는 웹 전용 명단(영상 없는 16태그의 수동 배정) 123행 전용이다.** 최초 단일화 때 남은 214행 중 영상 연결분은 P14에서 제작으로 흡수했고, 제작 유래 사본 650행은 26.08.03 삭제했다(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
 - **「출간」의 텍스트 복사는 폐기됐다.** 제작에서 고치면 캐시 주기(또는 `/api/revalidate` tags·celebs) 안에 웹에 반영된다. 출간 패널은 사진(개인샷→`faction_people.web_image_url`, 그룹샷→`celeb_tags.team_images`)·영상·음악 업로드 도구로 축소됐다.
 - **노출 결정은 `celeb_tags.is_featured` 스위치 하나다.**
-- **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행 편집은 `web_*` 칸에 기록되고, 제거는 숨김(`web_hidden`)으로 동작하며, 순서 편집은 수동 행 전용이다.
+- **BO 테마 편집기는 행마다 제작/수동 출처 배지를 단다.** 제작 행은 상세 소개·개인샷·숨김만 `web_*` 칸에 기록하고 한줄은 직함 1행을 읽기 전용으로 보여준다. 제거는 숨김(`web_hidden`)으로 동작하며, 순서 편집은 수동 행 전용이다.
 
 ## 26.07.27 개편 — 먼저 읽을 것
 
@@ -42,9 +42,12 @@
 - 도감 화면은 사진마다 무리 이름을 제목으로 띄우고, 그 사진의 인물을 목록에서 사진 아래 들여쓰기로 매단다
 - ⚠️ 화면 저장분(캐시)에 옛 형태가 남을 수 있어 **화면 세 곳에서 한 번 더 정규화**한다(`FactionShowcase`·`FactionIntroView`·`FactionPreviewModal`)
 
-### ④ 대분류 10개 · 테마 76개
+### ④ 대분류 13개 · 태그 139개 (26.08.03 실측)
 
-축이 뒤섞여 있던 묶음을 분야 기준으로 다시 세웠다. **인공지능 · 기술과 과학 · 경제와 산업 · 권력과 전쟁 · 사상과 신념 · 예술과 문화 · 스포츠 · 삶의 궤적 · 특집 · 신화와 이야기.**
+축이 뒤섞여 있던 묶음을 분야 기준으로 다시 세웠다. **인공지능 · 기술과 과학 · 경제와 산업 · 권력과 전쟁 · 사상과 신념 · 미술 · 음악 · 문학과 영화 · 스포츠 · 이면 세계 · 삶의 궤적 · 특집 · 신화와 이야기.**
+
+- 26.08.03에 옛 「예술과 문화」를 **미술 · 음악 · 문학과 영화**로 분리했다. 미술은 르네상스·빈의 세기말·현대 건축, 음악은 브리티시 인베이전·록 밴드·지휘자·K-POP·아이돌 4분류, 문학과 영화는 잃어버린 세대·영화 감독을 직접 자식으로 둔다.
+- 위계는 두 단계까지만 허용하므로 「한국 아이돌」 중간 그룹은 두지 않는다. 아이돌 현직/전직·남성/여성 4태그가 `music`의 직접 자식이다.
 
 - 「삶의 궤적」은 분야가 아니라 살아온 방식(자수성가·독학가·결핍·망명자)이라 따로 뒀다
 - 「특집」은 한 사람이나 한 사건을 통째로 파는 자리다(머스크 계열 5 + 틸 유니버스)
@@ -78,7 +81,7 @@
 
 ### celeb_tag_assignments (셀럽-태그 매핑)
 
-> **26.08.03부터 웹 전용 명단(영상 없는 태그의 수동 배정) 214행 전용이다.** 제작(영상) 유래 인물은 이 테이블에 없다 — 원천은 `faction_people`이고 뷰 `faction_atlas_members`가 두 갈래를 합쳐 준다. 제작 유래 사본 650행은 26.08.03 삭제(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
+> **26.08.03 P14 정비 후 웹 전용 명단(영상 없는 16태그의 수동 배정) 123행 전용이다.** 제작(영상) 유래 인물은 이 테이블에 없다 — 원천은 `faction_people`이고 뷰 `faction_atlas_members`가 두 갈래를 합쳐 준다. 제작 유래 사본 650행은 26.08.03 삭제(백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`).
 
 | 컬럼 | 타입 | 필수 | 기본값 | 설명 |
 |------|------|:----:|--------|------|
@@ -123,7 +126,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 ### 배정 (celeb_tag_assignments)
 
-> ⚠ 이 절의 직접 배정은 **영상 없는 태그의 수동 명단에만** 해당한다(26.08.03). 영상(제작) 유래 인물은 `faction_people`이 원천이라 배정 행을 만들지 않는다 — 뷰가 자동으로 싣는다. 제작 유래 인물의 소개 손질은 `faction_people.web_short_desc`/`web_long_desc`에 한다.
+> ⚠ 이 절의 직접 배정은 **영상 없는 태그의 수동 명단에만** 해당한다(26.08.03). 영상(제작) 유래 인물은 `faction_people`이 원천이라 배정 행을 만들지 않는다 — 뷰가 자동으로 싣는다. 제작 유래 인물의 한줄은 직함 첫 항목 고정이며 상세 소개만 `faction_people.web_long_desc`에서 손질한다.
 
 - `short_desc`: 10자 내외 한줄 수식어. 태그 내에서 이 인물의 역할/정체성
   - 예: "공화정을 끝낸 독재관", "원자폭탄의 아버지"
@@ -146,7 +149,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 
 | 액션 | 파일 | 역할 |
 |------|------|------|
-| `getFeaturedTags()` | `actions/home/getFeaturedTags.ts` | 태그 + 인물(**뷰 `faction_atlas_members` 직독**, 태그당 최대 40명, `hidden=false`만) + 프로필·대사 병렬 조회. 각 태그에 `isGroup`/`parentSlug`를 붙여 반환. `unstable_cache`(태그: TAGS·CELEBS·DIALOGUES) |
+| `getFeaturedTags()` | `actions/home/getFeaturedTags.ts` | 태그 + 인물(**뷰 `faction_atlas_members` 직독**, 태그당 최대 40명, `hidden=false`만) + 표시용 프로필 조회. 팩션 대사는 뷰의 `quote/quote_en`만 쓰며 게임용 `celeb_dialogues`는 읽지 않는다. 각 태그에 `isGroup`/`parentSlug`를 붙여 반환. `unstable_cache`(태그: TAGS·CELEBS) |
 | `getFactionTagName()` | `actions/home/getFactionTagName.ts` | slug → 테마명 단건 조회(상단 배너 breadcrumb용) |
 | `getTagSharedLibrary()` | `actions/home/getTagSharedLibrary.ts` | 태그 내 셀럽 공유 콘텐츠 (2명 이상 겹침, celebCount 내림차순) |
 | `getTagChronologicalLibrary()` | `actions/home/getTagChronologicalLibrary.ts` | 태그 내 셀럽 콘텐츠를 출생 연도순 타임라인으로 (셀럽당 최대 4개, `birth_date` 없는 인물은 제외) |
@@ -165,7 +168,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 |----------|------|------|
 | `FeaturedFaction` | `FeaturedFaction.tsx` | 메인 컨테이너. `activeTagIndex` 인덱스 선택 모델(-1 = 컬렉션 화면), 뷰 모드 탭, slug `history.replaceState` 갱신 |
 | `FactionIntroView` | `FactionIntroView.tsx` | 컬렉션 화면(테마 미선택). 그룹 섹션 헤더 + 펼치면 자식 카드 그리드, 무소속 테마 카드 그리드 |
-| `FactionShowcase` | `FactionShowcase.tsx` | Faction 뷰. **좌측 큰 사진(단체샷 또는 개인샷) + 설명, 우측 단체·인물 리스트**. 단체샷 여러 장이면 좌측에서 캐러셀. 인물 스피커 버튼으로 인사 대사 재생 |
+| `FactionShowcase` | `FactionShowcase.tsx` | Faction 뷰. **좌측 큰 사진(단체샷 또는 개인샷) + 설명, 우측 세력 장·소속 인물 트리**. 목록은 최대 400px 폭의 스크롤 패널이며 번호·이미지·정보를 분리한다. 단체샷은 큰 장 번호·96px 장표·강조 패널로 하나의 세력 장을 열고, 개인샷은 들여쓰기·연결선·74px 초상으로 그 아래 매달린다. 번호도 `단체 3 → 3-1 → 3-2`처럼 부모를 이어받으며 인원 배지는 단체 행 우측에 둔다. 큰 뷰어의 `현재/전체`는 실제 감상 순서를 나타낸다. PC는 단체샷 캐러셀, 모바일은 높이를 제한한 목록과 `단체샷 → 소속 인물 한 명씩 → 다음 단체샷` 순서의 좌우 이동을 쓴다. 인물 스피커 버튼으로 인사 대사 재생 |
 | `SharedLibraryView` | `SharedLibraryView.tsx` | 공유 서재 뷰. 콘텐츠 타입 필터(ALL 기본) |
 | `FactionTagDrawerDesktop` | `FactionTagDrawerDesktop.tsx` | 데스크탑 테마 전환 드로어(그룹 헤더 + 자식) |
 | `FactionTagSheetMobile` | `FactionTagSheetMobile.tsx` | 모바일 테마 전환 시트 |
@@ -189,7 +192,7 @@ celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
 - SSoT: `celeb_tags.parent_id`(자기참조 FK, `on delete set null`, 인덱스 `idx_celeb_tags_parent_id`). null이면 무소속
 - **그룹 헤더는 별도 표식이 아니라 판정 결과다** — 자식을 하나라도 가진 태그가 곧 그룹이다. `getFeaturedTags`가 태그 전량의 `parent_id`를 세어 `isGroup`(자식 보유)·`parentSlug`(부모의 slug)를 붙인다
 - 그룹 헤더도 `celeb_tags`의 **일반 태그 1행**이다(배정 0). `getFeaturedTags`는 배정이 없어도 그룹 헤더를 목록에 포함한다
-- 현재 그룹 8개: `ai`(자식 11) / `rulers-and-empires`(4) / `heroes-of-turbulent-times`(2) / `the-thinkers`(2) / `revolutions-and-founding`(3) / `art-movements`(4) / `self-made-innovators`(3) / `against-adversity`(2). 무소속은 `manhattan-project` 하나
+- 26.08.03 DB 실측 그룹 13개: `ai`(11) / `technology-and-science`(9) / `business-and-industry`(11) / `power-and-war`(18) / `thought-and-conviction`(4) / `visual-arts`(3) / `music`(8) / `literature-and-film`(2) / `sports-legends`(3) / `shadow-world`(4) / `special-features`(6) / `myth-and-fiction`(3) / `paths-of-a-life`(4)
 - 자식 표시 순서는 `sort_order`다(별도 순서 컬럼 없음). 백필 때 `sort_order`를 그룹 → 그 자식 차례로 0~39 재부여해 옛 상수의 표시 순서를 그대로 옮겼다
 - 위계는 **두 단계까지**다. 이미 자식을 가진 태그는 다른 그룹에 들어갈 수 없고, 이미 어딘가에 속한 태그는 부모가 될 수 없다(`updateTag`가 막는다)
 - 컬렉션 최상위에는 그룹 헤더와 무소속 태그만 노출한다. 자식은 그룹을 펼쳐야 보인다
@@ -343,7 +346,7 @@ ORDER BY a.sort_order;
 
 ### 5단계: 활성화
 
-모든 인물의 short_desc, long_desc가 채워졌으면 태그를 활성화한다.
+수동 명단이라면 모든 인물의 short_desc, long_desc를 채운 뒤 태그를 활성화한다. 제작 명단의 short_desc는 직함 첫 항목에서 자동으로 온다.
 
 ```sql
 UPDATE celeb_tags SET is_featured = true WHERE id = '태그ID';
@@ -352,7 +355,7 @@ UPDATE celeb_tags SET is_featured = true WHERE id = '태그ID';
 ### 6단계: 영문 번역 (선택)
 
 ```sql
--- 수동 행 전용. 제작 유래 인물은 faction_people.web_short_desc_en/web_long_desc_en에 쓴다
+-- 수동 행 전용. 제작 유래 인물은 직함 첫 영문 항목 + faction_people.web_long_desc_en을 쓴다
 UPDATE celeb_tag_assignments SET
   short_desc_en = 'English short desc',
   long_desc_en = 'English long desc'

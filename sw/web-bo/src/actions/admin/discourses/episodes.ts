@@ -204,8 +204,19 @@ export async function duplicateDiscourseEpisode(
   const { data: dup } = await db.from('discourse_episodes').select('id').eq('folder', to).maybeSingle()
   if (dup) throw new Error(`이미 있는 폴더명입니다: ${to}`)
 
-  const { script } = await assembleDiscourseEpisode(await discourseTreeSource(db, from), from)
+  const { script, row: sourceRow } = await assembleDiscourseEpisode(await discourseTreeSource(db, from), from)
+  const { data: linkedSpeakers, error: linkedError } = await db
+    .from('discourse_speakers')
+    .select('slug,celeb_id')
+    .eq('episode_id', sourceRow.id as string)
+  if (linkedError) throw new Error(`원본 담화 DB 인물 연결 조회 실패: ${linkedError.message}`)
+  const slugMap = new Map<string, string>()
+  for (const speaker of linkedSpeakers ?? []) {
+    if (!speaker.slug || !speaker.celeb_id) throw new Error(`원본 담화에 DB 인물 연결이 없는 발언자가 있습니다: ${from}`)
+    slugMap.set(speaker.slug as string, speaker.celeb_id as string)
+  }
   const payload = buildDiscourseRows(script, {
+    slugMap,
     newId: randomUUID,
     status: 'todo', registered: false, sortOrder: 0,
   })

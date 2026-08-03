@@ -23,7 +23,7 @@
  * - `longformLayout` 의 `{ turn: n }` 은 **정수 그대로** 둔다. 행 참조가 아니라 경계 위치이고
  *   n = turns.length(맨 끝)가 실사용이라 UUID 로 표현할 수 없다. 따라서 값 변환이 없어
  *   일반 핫 컬럼으로 다룬다(팩션 longform_layout 과 다른 점).
- * - `slug`(인물)는 컬럼이고 `celeb_id` 가 그 파생 컬럼이다. 해소 실패해도 slug 원문이 남는다.
+ * - `slug`(인물)는 컬럼이고 `celeb_id` 가 그 파생 컬럼이다. DB CELEB 해소 실패는 저장 전 오류다.
  */
 
 import {
