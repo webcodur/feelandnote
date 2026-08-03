@@ -15,13 +15,12 @@
       "bio": "허구 작품 속 인물. 핵심 역할과 갈등을 100자 안에 설명한다.",
       "bio_en": "A fictional figure. Summarize the role and conflict in 180 characters or fewer.",
       "speech_tone": "composed",
+      "source_urls": [
+        "https://example.com/primary-source"
+      ],
       "virtual_monologue": "검토를 통과한 1인칭 가상 독백 전문",
       "virtual_monologue_en": "A separately rewritten English monologue that passed review.",
-      "review": {
-        "status": "candidate",
-        "cycles": 2,
-        "blocking": 0
-      }
+      "review_passed": true
     }
   ]
 }

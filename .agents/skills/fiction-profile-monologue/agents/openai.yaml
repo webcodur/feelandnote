@@ -1,4 +1,4 @@
 interface:
   display_name: "fiction 인물 가상 독백"
-  short_description: "신화·전설 인물과 가상 독백을 원전 근거로 작성합니다"
-  default_prompt: "Use $fiction-profile-monologue to register a fiction-tier character and write a sourced virtual monologue without creating review logs."
+  short_description: "낯선 독자도 이해할 fiction 인물 독백을 작성합니다"
+  default_prompt: "Use $fiction-profile-monologue to write and verify a sourced virtual monologue that helps a reader with no prior knowledge understand the character's life and philosophy."

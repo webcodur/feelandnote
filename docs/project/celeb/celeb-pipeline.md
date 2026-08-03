@@ -25,8 +25,8 @@ fiction은 두 단계로 운영한다.
   `virtual_monologue`는 비워도 되며 `is_verified=false`로 둔다. 이 단계도 상단 검색,
   팩션, 대표 원전 관계는 정상 동작한다.
 - **서사 발행 단계**: 독백을 노출·활용하려면 `profiles.virtual_monologue`를 원전 근거와
-  반복 비판 검토를 거쳐 작성한다. 팩션 영상 대사는 이 독백에서 핵심 갈등을 압축한다.
-  작성 절차는 스킬 `fiction-profile-monologue`를 따른다.
+  검토를 거쳐 작성한다. 규칙은 `virtual-monologue.md`, fiction 실행은
+  `fiction-profile-monologue` 스킬을 따른다. 팩션 대사는 이 독백에서 핵심 갈등을 압축한다.
 
 얼굴이나 독백이 없다는 이유로 이미 연결된 인물을 삭제·비활성화하지 않는다.
 
