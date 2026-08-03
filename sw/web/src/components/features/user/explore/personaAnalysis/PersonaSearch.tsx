@@ -1,42 +1,76 @@
 /*
   파일명: /components/features/user/explore/personaAnalysis/PersonaSearch.tsx
   기능: 성향 분석 인물 검색
-  책임: 영향력과 무관하게 전체 인물에서 이름 매칭, 결과 선택 시 콜백.
+  책임: 입력이 생겼을 때만 서버의 전체 인물 캐시를 검색하고, 결과 선택 시 콜백.
 */ // ------------------------------
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
-import { SEARCH_LIMIT } from "./constants";
 import FadeAvatar from "./FadeAvatar";
-import type { PersonaPerson } from "@/actions/persona/getPersonaDistribution";
+import { searchPersonaPeople, type PersonaPerson } from "@/actions/persona/getPersonaDistribution";
 import { useLocale, useTranslations } from "next-intl";
 
 interface PersonaSearchProps {
-  people: PersonaPerson[];
   onSelect: (person: PersonaPerson) => void;
 }
 
-export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) {
+export default function PersonaSearch({ onSelect }: PersonaSearchProps) {
   const locale = useLocale();
   const t = useTranslations("explore.ui.personaDistribution");
   const [query, setQuery] = useState("");
+  const [matches, setMatches] = useState<PersonaPerson[]>([]);
+  const [loading, setLoading] = useState(false);
+  const requestIdRef = useRef(0);
+  const timeoutRef = useRef<number | null>(null);
 
-  const q = query.trim().toLowerCase();
-  const matches = q
-    ? people
-        .filter(
-          (p) =>
-            p.nickname.toLowerCase().includes(q) ||
-            (p.nickname_en?.toLowerCase().includes(q) ?? false),
-        )
-        .slice(0, SEARCH_LIMIT)
-    : [];
+  const q = query.trim();
+
+  useEffect(() => {
+    return () => {
+      requestIdRef.current += 1;
+      if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    const normalized = value.trim();
+    const requestId = ++requestIdRef.current;
+    if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
+
+    if (!normalized) {
+      setMatches([]);
+      setLoading(false);
+      return;
+    }
+
+    setMatches([]);
+    setLoading(true);
+    timeoutRef.current = window.setTimeout(() => {
+      timeoutRef.current = null;
+      searchPersonaPeople(normalized)
+        .then((result) => {
+          if (requestId === requestIdRef.current) setMatches(result);
+        })
+        .catch((error) => {
+          console.error("[PersonaSearch] 검색 실패:", error);
+          if (requestId === requestIdRef.current) setMatches([]);
+        })
+        .finally(() => {
+          if (requestId === requestIdRef.current) setLoading(false);
+        });
+    }, 250);
+  };
 
   const handleSelect = (person: PersonaPerson) => {
+    requestIdRef.current += 1;
+    if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
     onSelect(person);
     setQuery("");
+    setMatches([]);
+    setLoading(false);
   };
 
   return (
@@ -45,14 +79,15 @@ export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) 
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => handleQueryChange(e.target.value)}
         placeholder={t("searchPlaceholder")}
+        aria-busy={loading}
         className="w-full rounded-full border border-border/50 bg-bg-card/40 py-2.5 pl-9 pr-9 text-sm text-text-primary placeholder:text-text-secondary/50 focus:border-accent/40 focus:outline-none"
       />
       {query && (
         <button
           type="button"
-          onClick={() => setQuery("")}
+          onClick={() => handleQueryChange("")}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary/60 hover:text-text-primary"
         >
           <X size={16} />
@@ -78,7 +113,7 @@ export default function PersonaSearch({ people, onSelect }: PersonaSearchProps) 
           ))}
         </ul>
       )}
-      {q && matches.length === 0 && (
+      {q && !loading && matches.length === 0 && (
         <div className="absolute z-40 mt-2 w-full rounded-xl border border-border/50 bg-bg-card px-4 py-3 text-sm text-text-secondary shadow-2xl">
           {t("noResults")}
         </div>

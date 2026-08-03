@@ -17,6 +17,17 @@ import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import PersonaDistribution from "@/components/features/user/explore/personaAnalysis/PersonaDistribution";
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
 
+const HUB_PERSONA_MIN_INFLUENCE = 40;
+
+async function recoverHubData<T>(label: string, query: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await query();
+  } catch (error) {
+    console.error(`[ExplorePage] ${label} 조회 실패:`, error);
+    return fallback;
+  }
+}
+
 export async function generateMetadata() {
   const t = await getTranslations("explore.meta");
   return {
@@ -35,24 +46,22 @@ async function HubContent() {
   const t = await getTranslations("explore.hub");
 
   // 병렬 데이터 페칭
-  const [trendingResult, topByType, personaPeople, allResult, factionTagNames] = await Promise.all([
+  const [trendingCelebs, topByType, personaPeople, allCelebs, factionTagNames] = await Promise.all([
     // 최근 30일 조회수 순 — 누적으로 뽑으면 앞자리가 영원히 고정된다
-    getCelebs({ sortBy: "trending", limit: 12 }),
-    getTopByContentType(),
-    getPersonaDistribution(),
-    getCelebs({ sortBy: "daily_recommend", limit: 12, tiers: ["full"] }),
-    getFactionHubPreviews(),
+    recoverHubData("인기 인물", async () => (await getCelebs({ sortBy: "trending", limit: 12 })).celebs, []),
+    recoverHubData("분야별 기록왕", getTopByContentType, []),
+    recoverHubData("성향 분포", () => getPersonaDistribution({ minInfluence: HUB_PERSONA_MIN_INFLUENCE }), []),
+    recoverHubData("랜덤 인물", async () => (await getCelebs({ sortBy: "daily_recommend", limit: 12, tiers: ["full"] })).celebs, []),
+    recoverHubData("세력도감", getFactionHubPreviews, []),
   ]);
 
-  const trendingCelebs = trendingResult.celebs;
-  const allCelebs = allResult.celebs;
   /* 데이터가 비어 접히는 구획이 있다. 목차와 구획 번호는 반드시 "실제로 그려지는 것"에서만 뽑는다 —
      정적 목록에서 뽑으면 접힌 구획이 목차에 남아 눌러도 아무 일이 없고 번호도 어긋난다. */
   const shown: Record<string, boolean> = {
     // 인기·기록왕·랜덤은 전부 프로필 구획 안의 탭이다 — 별도 구획이 아니다
     ranking: trendingCelebs.length > 0 || topByType.length > 0 || allCelebs.length > 0,
     personaAnalysis: personaPeople.length > 0,
-    faction: true,
+    faction: factionTagNames.length > 0,
   };
   const sections = EXPLORE_SECTIONS.filter((s) => shown[s.key]);
   const sec = (key: string) => hubSection(sections, EXPLORE_GROUP_ID, key, t);
@@ -82,9 +91,11 @@ async function HubContent() {
       )}
 
       {/* 세력도감 */}
-      <HubSection {...sec("faction")}>
-        <FactionCard locale={locale} tags={factionTagNames} />
-      </HubSection>
+      {shown.faction && (
+        <HubSection {...sec("faction")}>
+          <FactionCard locale={locale} tags={factionTagNames} />
+        </HubSection>
+      )}
     </div>
   );
 }
