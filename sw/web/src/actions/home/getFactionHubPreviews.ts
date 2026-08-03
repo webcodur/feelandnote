@@ -10,8 +10,18 @@ import { createStaticClient } from '@/lib/supabase/static'
 const HUB_TAG_LIMIT = 4
 const HUB_MEMBER_LIMIT = 4
 
+/**
+ * 허브 4장 편성 — 사람이 고른 자리다(26.08.03).
+ *
+ * 자동 규칙(대분류 하나씩·단체샷 우선)에만 맡기면 앞 순번이 이겨서 인간형 로봇·마케도니아
+ * 제국이 잡혔다. 여기 적은 순서대로 먼저 앉히고, 빠진 자리만 아래 자동 규칙이 채운다.
+ * 이름이 바뀌거나 인물이 비면 그 자리는 조용히 자동 선정으로 넘어간다.
+ */
+const HUB_PINNED_SLUGS = ['ai-pioneers', 'paypal-mafia', 'greek-roman-myth', 'digital-resistance']
+
 interface HubTagRow {
   id: string
+  slug: string | null
   name: string
   name_en: string | null
   description: string | null
@@ -49,7 +59,7 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
   const supabase = createStaticClient()
   const { data: tags, error: tagsError } = await supabase
     .from('celeb_tags')
-    .select('id, name, name_en, description, description_en, color, parent_id, team_images')
+    .select('id, slug, name, name_en, description, description_en, color, parent_id, team_images')
     .eq('is_featured', true)
     .order('sort_order', { ascending: true })
 
@@ -83,14 +93,24 @@ async function fetchFactionHubPreviews(): Promise<FactionHubPreview[]> {
 
   /*
     허브 4장은 종류를 섞는다 — 앞 순번만 뽑으면 인공지능 테마만 나온다.
-    규칙: 대분류(상위 묶음)가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
-    (예: AI 선구자들 · 페이팔 마피아 · 디지털 레지스탕스 · 그리스 로마 신화)
+    사람이 고른 편성(HUB_PINNED_SLUGS)이 먼저고, 남은 자리는 자동 규칙이 채운다.
+    자동 규칙: 대분류(상위 묶음)가 겹치지 않게 하나씩, 단체샷 있는 테마 우선.
   */
   const hasPeople = (tag: HubTagRow) => (assignmentsByTag.get(tag.id)?.length ?? 0) > 0
   const coverOf = (tag: HubTagRow) => toTeamImages(tag.team_images)[0]?.url ?? null
 
   const selectedTags: HubTagRow[] = []
   const usedParents = new Set<string>()
+
+  const tagBySlug = new Map(tagRows.flatMap((tag) => (tag.slug ? [[tag.slug, tag] as const] : [])))
+  for (const slug of HUB_PINNED_SLUGS) {
+    if (selectedTags.length >= HUB_TAG_LIMIT) break
+    const tag = tagBySlug.get(slug)
+    if (!tag || selectedTags.includes(tag) || !hasPeople(tag)) continue
+    usedParents.add(tag.parent_id ?? tag.id)
+    selectedTags.push(tag)
+  }
+
   for (const requireCover of [true, false]) {
     for (const tag of tagRows) {
       if (selectedTags.length >= HUB_TAG_LIMIT) break

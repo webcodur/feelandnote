@@ -60,7 +60,9 @@
 | `navDirectory` | `/explore/directory` |
 | `navOthers` | `/explore/figures?tier=light` |
 
-허브 데이터는 다섯 갈래를 병렬로 읽는다 — **최근 30일 조회 상위 12명(`trending` 정렬)**, 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 중 앞 4개, 태그마다 인물 4명까지만 추려 넘긴다.
+허브 데이터는 다섯 갈래를 병렬로 읽는다 — **최근 30일 조회 상위 12명(`trending` 정렬)**, 타입별 최고, 성향 분포, 일일 추천 12명(`tier: "full"`), 세력도감 태그. 세력도감 카드는 `is_featured`이고 인물이 붙은 태그 4개, 태그마다 인물 4명까지만 추려 넘긴다.
+
+**세력도감 4장 편성**(`getFactionHubPreviews`) — 사람이 고른 고정 명단 `HUB_PINNED_SLUGS`가 먼저 자리를 잡고, 빈 자리만 자동 규칙(대분류 하나씩 · 단체샷 있는 테마 우선 · `sort_order` 순)이 채운다. 26.08.03 유저 선정: `ai-pioneers` · `paypal-mafia` · `greek-roman-myth` · `digital-resistance`. 자동 규칙만 돌 때는 앞 순번이 이겨 인간형 로봇·마케도니아 제국이 잡혔다(실측). 명단의 태그가 사라지거나 인물이 0이면 그 자리는 자동 선정으로 넘어간다.
 
 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다.
 
