@@ -56,11 +56,13 @@ function PhotoStand({ name }: { name: string }) {
 
 export default function CelebWorldsPreview() {
   const drawnCount = CELEB_WORLDS.filter((world) => getWorldBannerImages(world.id)).length;
+  const missingCount = CELEB_WORLDS.length - drawnCount;
 
   return (
     <div className="space-y-12">
       <p className="text-center text-sm text-text-secondary">
-        세계 {CELEB_WORLDS.length}개 · 그림 있는 세계 {drawnCount}개 · 나머지는 임시 무늬로 대신 그린다
+        세계 {CELEB_WORLDS.length}개 · 운영 배너 {drawnCount}개
+        {missingCount > 0 ? ` · 파일 없는 ${missingCount}개만 임시 무늬` : " · 전 세계 준비 완료"}
       </p>
 
       {/* 한 인물의 화면이 통째로 얼마나 갈리나 */}

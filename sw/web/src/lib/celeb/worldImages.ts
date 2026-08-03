@@ -1,45 +1,26 @@
 /*
   파일명: /lib/celeb/worldImages.ts
   기능: 세계 배너 그림 경로 조회
-  책임: public/images/worlds/ 에서 <세계>-pc.* · <세계>-mb.* 를 찾아 돌려준다.
-        그림이 아직 없는 세계는 null을 돌려 배너가 무늬로 대신 그리게 한다.
+  책임: 등록된 세계를 public/images/worlds/<세계>-pc.webp · <세계>-mb.webp 경로로 바꾼다.
+        등록되지 않은 세계는 null을 돌려 배너가 무늬로 대신 그리게 한다.
 
-  주의: 서버에서만 부른다(파일 목록을 읽는다). 게임 배경 조회와 같은 방식이다.
+  주의: 인물 상세가 클라이언트 컴포넌트에서도 쓰므로 Node 전용 fs/path를 가져오지 않는다.
 */
 
-import fs from "fs";
-import path from "path";
+import { CELEB_WORLDS } from "@/lib/celeb/world";
 
 export interface WorldBannerImages {
   pc: string;
   mb: string;
 }
 
-const DIR = "public/images/worlds";
-
-/* 운영에서는 한 번만 읽는다. 개발 중에는 그림을 추가할 때마다 서버를 다시 띄우지 않도록 매번 읽는다 */
-let cachedFiles: string[] | null = null;
-
-function listFiles(): string[] {
-  if (cachedFiles && process.env.NODE_ENV === "production") return cachedFiles;
-  try {
-    cachedFiles = fs.readdirSync(path.join(process.cwd(), DIR));
-  } catch {
-    cachedFiles = [];
-  }
-  return cachedFiles;
-}
+const WORLD_IDS_WITH_BANNERS = new Set(CELEB_WORLDS.map((world) => world.id));
 
 export function getWorldBannerImages(worldId: string): WorldBannerImages | null {
-  const files = listFiles();
-  // 용량이 작은 webp를 먼저 찾는다
-  const find = (role: string) =>
-    files.find((file) => file.startsWith(`${worldId}-${role}.`) && file.endsWith(".webp"))
-    ?? files.find((file) => file.startsWith(`${worldId}-${role}.`));
+  if (!WORLD_IDS_WITH_BANNERS.has(worldId)) return null;
 
-  const pc = find("pc");
-  const mb = find("mb");
-  if (!pc || !mb) return null;
-
-  return { pc: `/images/worlds/${pc}`, mb: `/images/worlds/${mb}` };
+  return {
+    pc: `/images/worlds/${worldId}-pc.webp`,
+    mb: `/images/worlds/${worldId}-mb.webp`,
+  };
 }

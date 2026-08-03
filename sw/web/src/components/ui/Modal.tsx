@@ -9,7 +9,6 @@
 import { useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X, type LucideIcon } from "lucide-react";
-import Button from "./Button";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -77,14 +76,20 @@ export default function Modal({
       onClick={handleOverlayClick}
     >
       <ClassicalBox
+        hover={false}
         className={`w-full ${SIZE_CLASSES[size]} max-h-[calc(100dvh-4rem)] rounded-lg animate-modal-content`}
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
       >
         {/* 우상단 플로팅 닫기 버튼 — 스크롤 영역 밖 */}
         {showCloseButton && (
           <button
+            type="button"
             onClick={onClose}
-            className="absolute right-2 top-2 z-[70] w-8 h-8 rounded-full flex items-center justify-center hover:text-text-primary hover:bg-white/10 transition-colors bg-bg-card/50 backdrop-blur-sm sm:right-4 sm:top-4"
+            aria-label="Close"
+            className="absolute right-2 top-2 z-[70] w-8 h-8 rounded-full flex items-center justify-center hover:text-text-primary hover:bg-white/10 bg-bg-card/50 backdrop-blur-sm sm:right-4 sm:top-4"
           >
             <X size={20} />
           </button>

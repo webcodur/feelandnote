@@ -64,17 +64,7 @@ export default function CelebHeroPhoto({
           aria-label={zoomLabel}
           className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} cursor-zoom-in active:scale-95`}
         >
-          {/* 비율이 안 맞는 화보가 들어와도 잘리지 않도록 뒤를 흐린 사진으로 메운다 */}
           <BlurDissolve className="absolute inset-0">
-            <Image
-              src={photoUrl}
-              alt=""
-              fill
-              unoptimized
-              aria-hidden
-              className="object-cover scale-110 blur-2xl opacity-40"
-            />
-            <div className="absolute inset-0 bg-black/20" />
             <Image
               src={photoUrl}
               alt={nickname}

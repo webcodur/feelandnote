@@ -26,11 +26,11 @@ export const LAB_ITEMS: LabItem[] = [
   },
   {
     value: "celeb-themes",
-    label: "인물 테마",
+    label: "세계 재질",
     icon: Palette,
     href: "/lab/celeb-themes",
-    title: "Figure Theme System",
-    subtitle: "인물별 상세 분위기 · 자동 배정 · 색상 대비 비교",
+    title: "World Material Study",
+    subtitle: "개별 재질 15종 · 세계별 조합 5종 · UI 표면 비교",
   },
   {
     value: "content-cards",

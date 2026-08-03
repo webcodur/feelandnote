@@ -774,9 +774,9 @@
   },
   "share": {
     "label": "Share",
+    "chooseChannel": "Choose where to share",
     "copyLink": "Copy link",
-    "copied": "Copied",
-    "kakaoTalk": "KakaoTalk"
+    "copied": "Copied"
   },
   "factionMedia": {
     "watchLongform": "Watch the film",
