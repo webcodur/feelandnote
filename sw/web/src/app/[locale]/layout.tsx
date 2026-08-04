@@ -15,6 +15,7 @@ import { GlobalDialogueProvider } from "@/components/features/game/shared/provid
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
+import UiXray from "@/components/shared/ui-xray/UiXray";
 import "../globals.css";
 
 const cinzel = Cinzel({
@@ -183,6 +184,7 @@ export default async function LocaleLayout({
               />
               <PortraitSharpenFilter />
               <ServiceWorkerRegistrar />
+              <UiXray />
               {children}
               <Footer />
               {process.env.NODE_ENV === "production" && (
