@@ -129,7 +129,7 @@ export function SpeakerCard({
             <CelebBadge speaker={speaker} existing={celebExisting} loaded={celebLoaded} />
           </div>
           <p className="ps-22 text-[11px] text-text-dim">
-            본서비스 인물과 잇는 열쇠입니다. 이 값으로 가상 독백 원천·인물 사진이 연결되고, 음원 파일 이름에도 들어갑니다.
+            본서비스 인물과 잇는 열쇠입니다. 이 값으로 담화 원천·인물 사진이 연결되고, 음원 파일 이름에도 들어갑니다.
           </p>
 
           {/* 직함 3줄 — 첫 줄은 짧은 대표 직함 */}

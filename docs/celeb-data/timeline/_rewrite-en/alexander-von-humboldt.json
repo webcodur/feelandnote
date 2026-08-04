@@ -1,0 +1,195 @@
+{
+  "slug": "alexander-von-humboldt",
+  "nickname": "알렉산더 폰 훔볼트",
+  "events": [
+    {
+      "id": "d7fc05eb-e11b-409a-93ed-2b00e5dbb613",
+      "year": 1769,
+      "title": "베를린에서 태어나다",
+      "before": "훔볼트는 프로이센 왕국 베를린에서 알렉산더 게오르크 폰 훔볼트와 마리아 엘리자베트 폰 콜롱의 둘째 아들로 태어났다. 그는 형 빌헬름과 함께 가정교사들에게 계몽주의 교육을 받으며 성장했다.",
+      "after": "Humboldt is born in Berlin, Prussia, the second son of Alexander Georg von Humboldt and Maria Elisabeth von Colomb. He grows up with his brother Wilhelm, taught at home by tutors shaped by the Enlightenment."
+    },
+    {
+      "id": "5b969092-c8b8-4a1d-8abf-af2e54ac3513",
+      "year": 1787,
+      "title": "프랑크푸르트 안 데어 오더 대학교에 들어가다",
+      "before": "훔볼트는 형 빌헬름과 함께 프랑크푸르트 안 데어 오더 대학교에 들어가 정치경제와 행정 회계를 공부했다. 그는 약 1년 뒤 학교를 떠났지만 이때 광업 행정과 국가 경제를 다룰 기초를 익혔다.",
+      "after": "Humboldt enters the University of Frankfurt an der Oder with Wilhelm. He studies political economy and government accounting, then leaves after about a year with training useful for work in mining administration and state finance."
+    },
+    {
+      "id": "f3afddbb-8403-473c-9089-00ddb5253099",
+      "year": 1789,
+      "title": "괴팅겐 대학교에서 자연과학을 공부하다",
+      "before": "훔볼트는 괴팅겐 대학교로 옮겨 게오르크 크리스토프 리히텐베르크와 요한 프리드리히 블루멘바흐의 강의와 연구를 접했다. 그는 이곳에서 자연 현상을 관찰하고 측정하는 방법을 본격적으로 익혔다.",
+      "after": "Humboldt transfers to the University of Göttingen, where he encounters the teaching and research of Georg Christoph Lichtenberg and Johann Friedrich Blumenbach. He begins to study natural phenomena through careful observation and measurement."
+    },
+    {
+      "id": "50b7864f-950e-4ff8-8cba-2542e1d89ede",
+      "year": 1790,
+      "title": "게오르크 포르스터와 서유럽을 여행하다",
+      "before": "훔볼트는 박물학자 게오르크 포르스터와 네덜란드, 영국, 프랑스를 여행했다. 그는 런던에서 조지프 뱅크스의 식물 표본을 살펴보고 이후 연구를 지원할 국제적인 과학 인맥을 얻었다.",
+      "after": "Humboldt travels through the Netherlands, England, and France with the naturalist Georg Forster. In London, he examines Joseph Banks's botanical collections and makes scientific contacts who later support his research."
+    },
+    {
+      "id": "d7803388-3d65-49b0-91d2-70fb29f044f1",
+      "year": 1791,
+      "title": "프라이베르크 광산학교에서 광물학을 배우다",
+      "before": "훔볼트는 프라이베르크 광산학교에서 아브라함 고틀로프 베르너에게 광물학과 지질학을 배웠다. 그는 1792년에 과정을 마치고 현장 조사와 광산 행정에 필요한 전문 자격을 갖췄다.",
+      "after": "At the Freiberg School of Mines, Humboldt studies mineralogy and geology under Abraham Gottlob Werner. He completes the course in 1792, trained for field surveys and mining administration."
+    },
+    {
+      "id": "5c760f85-456f-4069-91c6-eb9791ee0969",
+      "year": 1792,
+      "title": "프로이센 광산 관리로 일하다",
+      "before": "훔볼트는 프로이센 광산부 관리로 임명되어 바이로이트와 피히텔 산지의 광산을 감독했다. 그는 광산 생산을 개선하고 노동자 교육을 지원하는 한편 식물학과 생리학 연구를 계속했다.",
+      "after": "Humboldt becomes an official in the Prussian Department of Mines and oversees mines around Bayreuth and the Fichtel region. He works to raise production and educate miners while continuing his research in botany and physiology."
+    },
+    {
+      "id": "2c67bed5-41c4-4015-a8b7-9c28e620cd92",
+      "year": 1798,
+      "title": "에메 봉플랑을 만나 탐사 동료가 되다",
+      "before": "훔볼트는 파리에서 프랑스의 의사이자 식물학자인 에메 봉플랑을 만났다. 두 사람은 여러 차례 좌절된 원정 계획을 함께 추진했고 이후 아메리카 탐사의 공동 연구자가 되었다.",
+      "after": "In Paris, Humboldt meets the French physician and botanist Aimé Bonpland. After several expedition plans fall through, they continue planning together and become partners in the exploration of the Americas."
+    },
+    {
+      "id": "334c21c6-5297-44a0-8b47-7fd3c22fbc3b",
+      "year": 1799,
+      "title": "스페인령 아메리카 탐사 허가를 받다",
+      "before": "훔볼트는 마드리드에서 카를로스 4세에게 자신의 탐사 계획을 제시하고 스페인령 아메리카를 여행할 허가를 받았다. 이 허가로 그는 식민지 행정 문서와 광산에 접근하고 현지 관리들의 지원을 받을 수 있었다.",
+      "after": "Humboldt presents his expedition plan in Madrid and receives permission from King Charles IV to travel through Spanish America. The authorization opens colonial records and mines to him and directs local officials to help with his work."
+    },
+    {
+      "id": "1b6586da-98d4-4bea-9774-3abad8bd59b0",
+      "year": 1799,
+      "title": "아메리카 과학 탐사를 시작하다",
+      "before": "훔볼트는 봉플랑과 함께 라코루냐에서 피사로호를 타고 출항했다. 그는 측량과 천문 관측에 필요한 정밀 기구를 싣고 약 5년에 걸친 아메리카 탐사를 시작했다.",
+      "after": "Humboldt and Bonpland sail from A Coruña aboard the Pizarro. With precision instruments for surveys and astronomical observations, they begin an expedition through the Americas that will last nearly five years."
+    },
+    {
+      "id": "d69c1c53-816c-409e-bed0-d12e4810196c",
+      "year": 1799,
+      "title": "쿠마나에 도착해 열대 조사를 시작하다",
+      "before": "훔볼트는 베네수엘라의 쿠마나에 도착해 열대 기후, 생물, 지질을 현장에서 조사하기 시작했다. 그는 정량 측정과 표본 수집을 함께 수행하며 이후 탐사의 기본 방식을 확립했다.",
+      "after": "On reaching Cumaná in present-day Venezuela, Humboldt begins fieldwork on the tropical climate, wildlife, plants, and geology. He combines precise measurements with specimen collecting, a method he follows throughout the expedition."
+    },
+    {
+      "id": "a37dbd88-a8c4-4017-b974-7d6e0747b0c5",
+      "year": 1800,
+      "title": "오리노코와 카시콰레 수계를 조사하다",
+      "before": "훔볼트는 봉플랑과 함께 약 넉 달 동안 오리노코 상류와 지류를 이동하며 카시콰레 수로를 조사했다. 그는 오리노코 수계와 아마존 수계가 이어지는 분기점의 위치를 측정하고 지도화했다.",
+      "after": "Humboldt and Bonpland spend about four months traveling along the upper Orinoco and its tributaries to survey the Casiquiare waterway. Humboldt measures and maps the natural link between the Orinoco and Amazon river systems."
+    },
+    {
+      "id": "69017f03-1c20-47d2-b57b-8bf4b2779875",
+      "year": 1800,
+      "title": "아바나의 자연과 식민지 경제를 조사하다",
+      "before": "훔볼트는 아바나에 도착해 도시와 주변 지역을 측량하고 인구, 농업, 무역 자료를 수집했다. 그는 사탕수수 경제와 노예제의 관계를 조사했고 이 자료를 훗날 쿠바에 관한 정치경제 저술에 사용했다.",
+      "after": "In Havana, Humboldt surveys the city and nearby country and gathers figures on population, farming, and trade. He studies how the sugar economy depends on slavery, then uses the material in his later political study of Cuba."
+    },
+    {
+      "id": "c0594498-ddd8-4ec8-a0a5-e8b0b5e22214",
+      "year": 1801,
+      "title": "보고타에서 호세 셀레스티노 무티스를 만나다",
+      "before": "훔볼트는 보고타에서 누에바그라나다 왕립 식물 탐사단을 이끌던 호세 셀레스티노 무티스를 만났다. 그는 무티스가 축적한 방대한 식물 표본과 세밀화를 검토하며 안데스 식물 연구의 자료와 방법을 넓혔다.",
+      "after": "Humboldt meets José Celestino Mutis in Bogotá, where Mutis directs the Royal Botanical Expedition of New Granada. He studies Mutis's large collection of plant specimens and detailed illustrations, adding new evidence and methods to his work on Andean plants."
+    },
+    {
+      "id": "7f6f3c94-4b70-4991-b4c5-14f50b96e2c5",
+      "year": 1802,
+      "title": "키토에 도착해 안데스 조사를 시작하다",
+      "before": "훔볼트는 보고타에서 안데스를 넘어 키토에 도착했다. 그는 키토와 주변 화산에서 고도, 기압, 기온, 식생을 비교하며 산악 환경을 통합적으로 조사했다.",
+      "after": "After crossing the Andes from Bogotá, Humboldt reaches Quito. He compares elevation, air pressure, temperature, and vegetation in the city and on nearby volcanoes, examining how the parts of a mountain environment relate to one another."
+    },
+    {
+      "id": "0c9489dc-ec49-49a9-9b1d-f97aa2c6e2d7",
+      "year": 1802,
+      "title": "침보라소 고지대까지 오르다",
+      "before": "훔볼트는 봉플랑, 카를로스 몬투파르와 함께 침보라소 등정을 시도해 해발 약 5,600미터 지점까지 올랐다. 그는 정상에는 이르지 못했지만 당시 유럽인이 측정한 최고 고도 기록을 세우고 고도에 따른 환경 변화를 관찰했다.",
+      "after": "Humboldt attempts to climb Chimborazo with Bonpland and Carlos Montúfar and reaches roughly 5,600 meters above sea level. They do not reach the summit, but the climb marks the highest measured altitude then attained by a European and lets Humboldt record how the environment changes with elevation."
+    },
+    {
+      "id": "0890d064-f77b-4f9c-8a90-e3f247d47294",
+      "year": 1802,
+      "title": "카야오에서 태평양을 관측하다",
+      "before": "훔볼트는 카야오에서 수성의 태양면 통과를 관측하고 페루 연안의 해수와 기후를 조사했다. 그는 구아노 표본과 해류 측정 자료를 유럽에 전달해 페루 연안 환경에 대한 연구를 확장했다.",
+      "after": "At Callao, Humboldt observes a transit of Mercury and studies the sea and climate along the Peruvian coast. He sends guano samples and measurements of the coastal current to Europe for further study."
+    },
+    {
+      "id": "a872c060-5b2e-4477-98d7-c86633cee59c",
+      "year": 1803,
+      "title": "누에바에스파냐를 조사하다",
+      "before": "훔볼트는 아카풀코에 상륙한 뒤 멕시코시티와 주요 광산 지역을 여행하며 지형, 인구, 경제 자료를 수집했다. 그는 식민 정부의 기록과 직접 측정한 수치를 결합해 누에바에스파냐를 분석하는 대규모 연구의 기반을 마련했다.",
+      "after": "Humboldt lands at Acapulco, then travels through Mexico City and the main mining districts of New Spain. He gathers geographical, population, and economic data, combining colonial records with his own measurements for a large study of the territory."
+    },
+    {
+      "id": "1c467ee2-ea51-4ca4-965c-630aee86e434",
+      "year": 1804,
+      "title": "워싱턴에서 토머스 제퍼슨을 만나다",
+      "before": "훔볼트는 워싱턴에서 토머스 제퍼슨 대통령과 만나 자연과학과 누에바에스파냐의 지리, 인구, 무역을 논의했다. 그는 미국 정부가 충분히 확보하지 못했던 스페인령 북아메리카의 자료를 제퍼슨과 각료들에게 제공했다.",
+      "after": "In Washington, Humboldt meets President Thomas Jefferson to discuss natural science and the geography, population, and trade of New Spain. He gives Jefferson and his cabinet information about Spanish North America that the United States government does not readily have."
+    },
+    {
+      "id": "9b7be790-cf81-4845-99af-35ed7c68effe",
+      "year": 1804,
+      "title": "보르도에 도착해 아메리카 탐사를 마치다",
+      "before": "훔볼트는 보르도에 도착해 약 5년에 걸친 아메리카 탐사를 마쳤다. 그는 수많은 표본과 측정 기록을 유럽으로 가져와 이후 수십 년간 이어진 분석과 출판 작업을 시작했다.",
+      "after": "Humboldt lands at Bordeaux, ending nearly five years of exploration in the Americas. He brings back a large collection of specimens and measurements and begins the work of studying and publishing them, which continues for decades."
+    },
+    {
+      "id": "fe1d508f-065e-4306-bb28-80d237d21831",
+      "year": 1805,
+      "title": "프로이센 학술원 회원과 왕실 시종이 되다",
+      "before": "훔볼트는 프로이센 학술원의 정회원으로 선출되고 같은 해 프로이센 왕실 시종으로 임명되었다. 그는 학술 제도와 왕실에 공식적인 기반을 얻었고 이후 연구와 출판을 계속할 수 있는 연금을 받았다.",
+      "after": "Humboldt is elected a full member of the Prussian Academy of Sciences and later that year becomes a royal chamberlain. The appointments give him a formal place in the academy and royal court, along with a pension that supports his research and publishing."
+    },
+    {
+      "id": "1be5979f-f305-4e10-a6a6-1f7e0c7ea6b0",
+      "year": 1807,
+      "title": "식물지리학 논문을 출판하다",
+      "before": "훔볼트는 봉플랑과 함께 아메리카 조사 결과를 정리한 식물지리학 논문을 출판했다. 그는 기후, 고도, 토양과 식생의 분포를 함께 보여 주는 침보라소 단면도를 제시해 생물지리학 연구의 방향을 바꾸었다.",
+      "after": "Humboldt and Bonpland publish the Essay on the Geography of Plants from their work in the Americas. Its cross-section of Chimborazo shows climate, elevation, soil, and vegetation together and changes how researchers approach biogeography."
+    },
+    {
+      "id": "e4447405-02d1-4974-835e-4f8d62b12a58",
+      "year": 1827,
+      "title": "베를린에 영구 귀환하다",
+      "before": "훔볼트는 오랜 파리 생활을 마치고 프로이센 국왕의 요청에 따라 베를린에 정착했다. 그는 이곳에서 지구 자기 관측망을 추진하고 자신의 연구를 대중 강연으로 정리하기 시작했다.",
+      "after": "After many years in Paris, Humboldt settles permanently in Berlin at the request of the Prussian king. He promotes a coordinated network for observing Earth's magnetism and begins turning his research into public lectures."
+    },
+    {
+      "id": "08ba67a3-3ff9-4f65-9872-d5c2b8e19fc5",
+      "year": 1827,
+      "title": "베를린에서 코스모스 강연을 열다",
+      "before": "훔볼트는 베를린 대학교와 징아카데미에서 자연과 우주의 물리적 구조를 설명하는 연속 강연을 열었다. 그는 여러 과학 분야를 하나의 체계로 묶었고 이 강연을 훗날 《코스모스》의 구상으로 발전시켰다.",
+      "after": "Humboldt gives a series of lectures at the University of Berlin and the Sing-Akademie on the physical structure of nature and the universe. He brings several branches of science into one account, which later grows into Cosmos."
+    },
+    {
+      "id": "21d21b21-0315-4208-9417-2a5812cac399",
+      "year": 1829,
+      "title": "러시아와 중앙아시아를 탐사하다",
+      "before": "훔볼트는 러시아 황제 니콜라이 1세의 지원을 받아 상트페테르부르크에서 우랄과 서시베리아, 알타이 방면으로 출발했다. 그는 약 6개월 동안 광물, 기후, 지구 자기 자료를 측정해 아메리카 조사 결과와 비교할 새로운 자료를 확보했다.",
+      "after": "With support from Emperor Nicholas I, Humboldt leaves Saint Petersburg for the Urals, western Siberia, and the Altai region. During an expedition of about six months, he measures minerals, climate, and Earth's magnetism, gathering results to compare with his observations in the Americas."
+    },
+    {
+      "id": "8009238b-4082-4047-91c5-5eb7455e9c13",
+      "year": 1834,
+      "title": "《코스모스》 집필을 시작하다",
+      "before": "훔볼트는 베를린에서 자연과 우주에 관한 평생의 연구를 종합하는 《코스모스》 집필을 본격적으로 시작했다. 그는 천문학, 지질학, 생물지리학과 과학사를 하나의 물리적 세계 설명 안에 배치했다.",
+      "after": "In Berlin, Humboldt begins sustained work on Cosmos, drawing together his lifelong study of nature and the universe. He places astronomy, geology, biogeography, and the history of science within one physical account of the world."
+    },
+    {
+      "id": "9a681df0-692f-4176-b891-6e78efb30fb8",
+      "year": 1845,
+      "title": "《코스모스》 제1권을 출판하다",
+      "before": "훔볼트는 슈투트가르트의 코타 출판사를 통해 《코스모스》 제1권을 출판했다. 그는 오랜 탐사와 강연에서 축적한 자료를 종합해 자연 현상을 서로 연결된 전체로 설명했다.",
+      "after": "Humboldt publishes the first volume of Cosmos through the Cotta publishing house in Stuttgart. Using material gathered through decades of travel and lectures, he explains natural phenomena as parts of a connected whole."
+    },
+    {
+      "id": "cb99607b-9d5c-4f03-b32e-7ead6a5afb56",
+      "year": 1859,
+      "title": "베를린에서 사망하다",
+      "before": "훔볼트는 베를린에서 89세로 사망했다. 그는 사망할 때까지 《코스모스》를 집필했으며 미완성 제5권은 그의 원고를 바탕으로 사후 출판되었다.",
+      "after": "Humboldt dies in Berlin at the age of eighty-nine. He works on Cosmos until his death, and its unfinished fifth volume is later published from his notes."
+    }
+  ]
+}

@@ -93,7 +93,6 @@ async function main() {
   const batchesDir = resolve(process.cwd(), requiredArg('--batches-dir'))
   const limit = positiveIntArg('--limit', 25)
   const includeFiction = process.argv.includes('--include-fiction')
-  const includeRelation = process.argv.includes('--include-relation')
 
   const audit = readJson<AuditFile>(auditFile)
   if (!Array.isArray(audit.people)) throw new Error('구조 감사 파일에 people 배열이 없다.')
@@ -102,7 +101,6 @@ async function main() {
   const candidates = audit.people
     .filter(person => !excluded.has(person.slug))
     .filter(person => includeFiction || person.tier !== 'fiction')
-    .filter(person => includeRelation || person.tier !== 'relation')
     .sort((left, right) => (
       PRIORITY_ORDER[left.structuralPriority] - PRIORITY_ORDER[right.structuralPriority]
       || (right.influenceScore ?? -1) - (left.influenceScore ?? -1)

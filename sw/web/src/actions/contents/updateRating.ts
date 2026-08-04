@@ -43,6 +43,8 @@ export async function updateUserContentRating({
   }
 
   revalidatePath(`/${data.user_id}/reading`)
+  revalidatePath(`/content/${data.content_id}`)
+  revalidatePath(`/en/content/${data.content_id}`)
 
   return { success: true }
 }

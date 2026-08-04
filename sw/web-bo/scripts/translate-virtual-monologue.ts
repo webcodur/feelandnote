@@ -245,7 +245,7 @@ async function run() {
   }
   const all = await loadAll()
   let targets = all.filter((r) => r.virtual_monologue?.trim()
-    && (!!SLUGS || (r.status === 'active' && r.celeb_tier !== 'relation'))
+    && (!!SLUGS || r.status === 'active')
     && (!SLUGS || SLUGS.has(r.slug))
     && (!NO_FORCE || !r.virtual_monologue_en))
 

@@ -24,6 +24,7 @@
  *
  * [실행]  sw/web-bo 에서
  *   node --env-file=.env scripts/timeline-rewrite-gpt.mjs --slugs=a,b   # 시범
+ *   node --env-file=.env scripts/timeline-rewrite-gpt.mjs --file=../../docs/celeb-data/timeline/_batches/deceased-active-2026-08-04.json
  *   node --env-file=.env scripts/timeline-rewrite-gpt.mjs               # 남은 전원
  *   node --env-file=.env scripts/timeline-rewrite-gpt.mjs --apply       # DB 반영
  */
@@ -34,12 +35,29 @@ import { resolve, join } from 'path'
 import { codexCall } from '../../../.claude/skills/codex-gpt/scripts/codex-call.mjs'
 
 const APPLY = process.argv.includes('--apply')
+const FORCE = process.argv.includes('--force')
 /** 영문 모드 — 한국어 최종본을 재료로 영문 서술을 다시 쓴다(번역이 아니라 재작문) */
 const EN = process.argv.includes('--en')
 const slugArg = process.argv.find((a) => a.startsWith('--slugs='))
-const ONLY = slugArg ? slugArg.slice('--slugs='.length).split(',').map((s) => s.trim()) : null
+const fileArg = process.argv.find((a) => a.startsWith('--file='))
+const limitArg = process.argv.find((a) => a.startsWith('--limit='))
+const concurrencyArg = process.argv.find((a) => a.startsWith('--concurrency='))
+let onlySlugs = null
+if (slugArg) {
+  onlySlugs = slugArg.slice('--slugs='.length).split(',').map((s) => s.trim())
+} else if (fileArg) {
+  const parsed = JSON.parse(readFileSync(resolve(process.cwd(), fileArg.slice('--file='.length)), 'utf-8'))
+  const listed = Array.isArray(parsed) ? parsed : (parsed.targets ?? [])
+  onlySlugs = listed.filter((target) => target.needsResearch !== false).map((target) => target.slug)
+}
+if (FORCE && !slugArg) throw new Error('--force는 --slugs와 함께 특정 인물에만 쓸 수 있다')
+const ONLY = onlySlugs ? new Set(onlySlugs) : null
+const LIMIT = limitArg ? Number(limitArg.slice('--limit='.length)) : null
 // 동시 6 — 3으로는 205건이 세 줄로만 흘러 너무 느렸다. 실패는 재시도로 흡수된다
-const CONCURRENCY = 6
+const CONCURRENCY = Number(concurrencyArg?.slice('--concurrency='.length) ?? 6)
+
+if (!Number.isInteger(CONCURRENCY) || CONCURRENCY < 1 || CONCURRENCY > 6) throw new Error('--concurrency는 1~6 정수여야 한다')
+if (LIMIT != null && (!Number.isInteger(LIMIT) || LIMIT < 1)) throw new Error('--limit는 양의 정수여야 한다')
 
 const OUT_DIR = resolve(
   process.cwd(),
@@ -72,10 +90,10 @@ Four things:
 
 1. It is a timeline. Let each entry read as something happening, not as a summary of something that happened.
 2. Write plain, concrete English. Avoid abstract nouns doing the work of verbs, and avoid the encyclopedia register.
-3. Vary length and rhythm between entries. Fifteen entries stacked in a column must not sound alike, and they must not all open the same way.
+3. Write two or three sentences for each entry. Vary their rhythm, and do not open every entry the same way.
 4. No flourishes. No closing moral. Say what happened.
 
-One sentence or four, whatever the event is worth.
+Use only facts contained in the supplied Korean and English text. Preserve uncertainty markers and disputed points. Do not add biographical details from memory.
 
 ## Output
 
@@ -95,18 +113,16 @@ function buildPrompt(nickname, rows) {
 
 ${items}
 
-각 항목의 "재료"는 다듬을 문장이 아니라 사실을 담아 둔 메모다. 거기서 사실만 가져오고 표현은 새로 고른다. ${nickname}에 대해 이미 알고 있는 것을 함께 써도 좋다. 다만 재료에 없는 연도·이름·지명·숫자를 지어내지는 마라.
+각 항목의 "재료"는 사실을 담아 둔 메모다. 거기서 확인된 사실만 가져오고 표현은 새로 고른다. 재료에 없는 사실은 추가하지 마라. 불확실하거나 논쟁이 있다고 적힌 대목도 지우지 않는다.
 
 네 가지만 지키면 된다.
 
 1. 연표다. 사건이 눈앞에서 벌어지는 것처럼 읽혀야 한다. 시제는 읽어서 자연스러운 쪽으로 고르되 억지로 한 형태에 맞추지 마라.
-2. 좋은 한국어로 써라. 번역투와 한자어 추상명사를 피하고 사람과 나라가 주어로 서게 한다.
-3. 항목마다 길이와 리듬을 달리하라. 열대여섯 줄이 세로로 늘어섰을 때 같은 가락이 반복되면 안 된다. 문장 첫머리도 마찬가지다 — 누가 한 일인지 뻔하면 이름을 굳이 세우지 않아도 된다.
+2. 좋은 한국어로 써라. 번역투와 한자어 추상명사를 피하고 사람을 주어로 세운다. "이 사건은", "이 경험은", "그의 연구는" 같은 사물·추상 주어로 시작하지 마라.
+3. 항목마다 두세 문장을 쓴다. 열대여섯 줄이 세로로 늘어섰을 때 같은 가락이 반복되지 않게 문장 첫머리와 호흡을 바꾼다. 누가 한 일인지 뻔하면 이름을 매번 반복하지 않아도 된다.
 4. 미사여구를 넣지 마라. 교훈으로 맺지 마라. 무슨 일이 있었는지만 적는다.
 
-항목당 한 문장이든 네 문장이든 사건 무게에 맞추면 된다.
-
-한자를 노출하지 마라. 책 이름·관직·지명도 한글로 적는다(태극도설, 통서, 사리참군). 로마자 약자는 그대로 둔다.
+한자를 노출하지 마라. 책 이름·관직·지명도 한글로 적는다(태극도설, 통서, 사리참군). 로마자 약자는 그대로 둔다. em dash와 en dash도 쓰지 않는다.
 
 ## 출력 형식
 
@@ -125,6 +141,13 @@ function parseArray(text) {
   return JSON.parse(text.slice(start, end + 1))
 }
 
+function sentenceCount(text) {
+  const normalized = String(text ?? '')
+    .replace(/\b(?:[A-Za-z]\.\s*){2,}/g, 'ABBR')
+    .replace(/\b(?:Mr|Mrs|Ms|Dr|Prof|St|No|Nos|Op|Opp|Vol|Pt|Chap|Fig|pp|p)\./gi, '$1')
+  return normalized.split(/[.!?。]\s*(?=\S|$)/).filter((part) => part.trim()).length
+}
+
 async function rewriteOne(person) {
   const { slug, nickname, nicknameEn, rows } = person
   const prompt = EN ? buildPromptEn(nickname, nicknameEn, rows) : buildPrompt(nickname, rows)
@@ -139,7 +162,12 @@ async function rewriteOne(person) {
     if (!text) throw new Error(`${i + 1}번 항목이 빠졌다`)
     if (/[一-鿿]/.test(text)) throw new Error(`${i + 1}번에 한자가 섞였다`)
     if (EN && /[가-힣]/.test(text)) throw new Error(`${i + 1}번 영문에 한글이 남았다`)
+    if (!EN && /[—–]/.test(text)) throw new Error(`${i + 1}번 국문에 dash 문자가 남았다`)
     if (text.length < 15) throw new Error(`${i + 1}번이 너무 짧다`)
+    const sentences = sentenceCount(text)
+    if (sentences < 2 || sentences > 3) {
+      throw new Error(`${i + 1}번이 ${sentences}문장이다(2~3 필요): ${text.slice(0, 240)}`)
+    }
     out.push({ id: rows[i].id, year: rows[i].year, title: rows[i].title, before: rows[i].description, after: text })
   }
   writeFileSync(join(OUT_DIR, `${slug}.json`), JSON.stringify({ slug, nickname, events: out }, null, 2) + '\n', 'utf-8')
@@ -153,7 +181,9 @@ async function rewriteOne(person) {
    (실측: 3,507건 중 2,382건이 반영 안 된 채 "성공"으로 보고됐다).
    그래서 인물·연도·제목으로 찾고, 못 찾으면 실패로 알린다. */
 if (APPLY) {
-  const files = readdirSync(OUT_DIR).filter((f) => f.endsWith('.json'))
+  const files = readdirSync(OUT_DIR)
+    .filter((f) => f.endsWith('.json'))
+    .filter((f) => !ONLY || ONLY.has(f.replace(/\.json$/, '')))
   let ok = 0
   const misses = []
 
@@ -176,12 +206,13 @@ if (APPLY) {
         .eq('celeb_id', prof.id)
         .eq('year', e.year)
         .eq('title', e.title)
+        .eq('source', 'research')
         .select('id')
       if (error) {
         misses.push(`${slug} ${e.year} ${e.title}: ${error.message}`)
         process.exitCode = 1
-      } else if (!data || data.length === 0) {
-        misses.push(`${slug} ${e.year} ${e.title}: 해당 행이 없다`)
+      } else if (!data || data.length !== 1) {
+        misses.push(`${slug} ${e.year} ${e.title}: 해당 행이 ${data?.length ?? 0}건이다`)
         process.exitCode = 1
       } else {
         n += data.length
@@ -209,6 +240,8 @@ for (let from = 0; ; from += PAGE) {
   const { data, error } = await supabase
     .from('celeb_timeline_events')
     .select('id, celeb_id, year, title, title_en, description, description_en, sort_order, profiles!inner(slug, nickname, nickname_en)')
+    .eq('source', 'research')
+    .not('year', 'is', null)
     .order('id')
     .range(from, from + PAGE - 1)
   if (error) throw new Error(`조회 실패: ${error.message}`)
@@ -221,32 +254,36 @@ console.log(`행적 ${rows.length}건 조회`)
 const people = new Map()
 for (const r of rows) {
   const slug = r.profiles.slug
-  if (ONLY && !ONLY.includes(slug)) continue
+  if (ONLY && !ONLY.has(slug)) continue
   if (!people.has(slug)) people.set(slug, { slug, nickname: r.profiles.nickname, nicknameEn: r.profiles.nickname_en, rows: [] })
   people.get(slug).rows.push({ id: r.id, year: r.year, title: r.title, title_en: r.title_en, description: r.description, description_en: r.description_en })
 }
 
-const targets = [...people.values()].filter((p) => !existsSync(join(OUT_DIR, `${p.slug}.json`)))
-console.log(`대상 ${targets.length}명 (전체 ${people.size}, 이미 처리 ${people.size - targets.length})`)
+const pending = [...people.values()].filter((p) => FORCE || !existsSync(join(OUT_DIR, `${p.slug}.json`)))
+const targets = pending.slice(0, LIMIT ?? undefined)
+console.log(`이번 실행 ${targets.length}명 (미처리 ${pending.length}, 전체 ${people.size}, 이미 처리 ${people.size - pending.length})`)
 
 let ok = 0
 const failed = []
-for (let i = 0; i < targets.length; i += CONCURRENCY) {
-  const chunk = targets.slice(i, i + CONCURRENCY)
-  await Promise.all(
-    chunk.map(async (p) => {
-      try {
-        const n = await rewriteOne(p)
-        ok++
-        console.log(`✓ ${p.slug} ${n}건 (${ok}/${targets.length})`)
-      } catch (e) {
-        const msg = String(e?.message ?? e).slice(0, 300)
-        failed.push(`${p.slug}: ${msg}`)
-        console.log(`✗ ${p.slug} — ${msg}`)
-      }
-    }),
-  )
+let nextTarget = 0
+async function runLane(lane) {
+  while (nextTarget < targets.length) {
+    const p = targets[nextTarget++]
+    try {
+      const n = await rewriteOne(p)
+      ok++
+      console.log(`✓ [lane ${lane}] ${p.slug} ${n}건 (${ok}/${targets.length})`)
+    } catch (e) {
+      const msg = String(e?.message ?? e).slice(0, 300)
+      failed.push(`${p.slug}: ${msg}`)
+      console.log(`✗ [lane ${lane}] ${p.slug} — ${msg}`)
+    }
+  }
 }
+
+await Promise.all(
+  Array.from({ length: Math.min(CONCURRENCY, targets.length) }, (_, lane) => runLane(lane + 1)),
+)
 
 console.log(`\n완료 ${ok} / 실패 ${failed.length}`)
 if (failed.length) {

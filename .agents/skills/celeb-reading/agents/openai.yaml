@@ -1,0 +1,4 @@
+interface:
+  display_name: "인물 읽어보기"
+  short_description: "기존 글을 선검수하고 필요한 인물만 한영 재작성"
+  default_prompt: "Use $celeb-reading to pre-review existing person-reading entries, skip good ones, and research and rewrite only failures in Korean and English."

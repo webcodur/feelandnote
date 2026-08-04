@@ -45,7 +45,7 @@ interface ReviewRow {
 
 interface CelebModalContent {
   reviews: CelebReview[]
-  virtualMonologue: string | null
+  personGuide: string | null
 }
 
 const REPRESENTATIVE_REVIEW_LIMIT = 2
@@ -56,7 +56,7 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
-  const [reviewsResult, profileResult] = await Promise.all([
+  const [reviewsResult, explanationResult] = await Promise.all([
     supabase
       .from('user_contents')
       .select(`
@@ -92,29 +92,29 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
       .order('updated_at', { ascending: false })
       .limit(REPRESENTATIVE_REVIEW_LIMIT),
     supabase
-      .from('profiles')
-      .select('virtual_monologue, virtual_monologue_en')
-      .eq('id', celebId)
+      .from('celeb_explanations')
+      .select('plain_text, plain_text_en')
+      .eq('profile_id', celebId)
       .maybeSingle(),
   ])
 
   const { data, error } = reviewsResult
-  if (profileResult.error) {
-    console.error('셀럽 가상 독백 조회 에러:', profileResult.error)
+  if (explanationResult.error) {
+    console.error('인물 안내 조회 에러:', explanationResult.error)
   }
 
   if (error) {
     console.error('셀럽 리뷰 조회 에러:', error)
     return {
       reviews: [],
-      virtualMonologue: resolveVirtualMonologue(profileResult.data, locale),
+      personGuide: resolvePersonGuide(explanationResult.data, locale),
     }
   }
 
   if (!data || data.length === 0) {
     return {
       reviews: [],
-      virtualMonologue: resolveVirtualMonologue(profileResult.data, locale),
+      personGuide: resolvePersonGuide(explanationResult.data, locale),
     }
   }
 
@@ -167,18 +167,18 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
 
   return {
     reviews,
-    virtualMonologue: resolveVirtualMonologue(profileResult.data, locale),
+    personGuide: resolvePersonGuide(explanationResult.data, locale),
   }
 }
 
-function resolveVirtualMonologue(
-  profile: { virtual_monologue: string | null; virtual_monologue_en: string | null } | null,
+function resolvePersonGuide(
+  explanation: { plain_text: string; plain_text_en: string | null } | null,
   locale: string,
 ): string | null {
-  if (!profile) return null
+  if (!explanation) return null
   return locale === 'en'
-    ? profile.virtual_monologue_en || profile.virtual_monologue
-    : profile.virtual_monologue
+    ? explanation.plain_text_en || explanation.plain_text
+    : explanation.plain_text
 }
 
 interface ContentCounts {
@@ -210,8 +210,8 @@ async function getContentCountsForContents(
 
 const getCelebModalContentCached = unstable_cache(
   fetchCelebModalContent,
-  ['celeb-modal-content'],
-  // 셀럽 감상문(user_contents)·콘텐츠 메타(contents·content_locales) + 가상 독백(profiles)
+  ['celeb-modal-content-v2'],
+  // 셀럽 감상문(user_contents)·콘텐츠 메타(contents·content_locales) + 공개 인물 안내(celeb_explanations)
   { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS] }
 )
 

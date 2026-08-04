@@ -3,13 +3,16 @@
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { NoticeWithAuthor } from '@/types/database'
+import type { Locale } from '@/types/locale'
+import { localizeNotice } from '@/lib/board/localizeNotice'
 
 interface GetNoticesParams {
+  locale: Locale
   limit?: number
   offset?: number
 }
 
-async function fetchNotices(limit: number, offset: number) {
+async function fetchNotices(locale: Locale, limit: number, offset: number) {
   const supabase = createStaticClient()
 
   const { data, error, count } = await supabase
@@ -27,7 +30,7 @@ async function fetchNotices(limit: number, offset: number) {
     throw new Error('공지사항을 불러오는데 실패했습니다')
   }
 
-  const notices = data as NoticeWithAuthor[]
+  const notices = (data as NoticeWithAuthor[]).map((notice) => localizeNotice(notice, locale))
 
   if (notices.length > 0) {
     const ids = notices.map(n => n.id)
@@ -35,6 +38,7 @@ async function fetchNotices(limit: number, offset: number) {
       .from('board_comments')
       .select('post_id')
       .eq('board_type', 'NOTICE')
+      .eq('locale', locale)
       .in('post_id', ids)
 
     if (counts) {
@@ -56,11 +60,10 @@ async function fetchNotices(limit: number, offset: number) {
 const getNoticesCached = unstable_cache(
   fetchNotices,
   ['notices'],
-  // 공지(notices)는 web 관리자 화면에서 직접 쓰며 BO에 수정 액션이 없다. 태그를 두지 않는다.
-  { revalidate: 3600 }
+  { revalidate: 3600, tags: ['notices', 'board-comments'] }
 )
 
-export async function getNotices(params: GetNoticesParams = {}) {
-  const { limit = 20, offset = 0 } = params
-  return getNoticesCached(limit, offset)
+export async function getNotices(params: GetNoticesParams) {
+  const { locale, limit = 20, offset = 0 } = params
+  return getNoticesCached(locale, limit, offset)
 }

@@ -4,8 +4,9 @@ import { unstable_cache } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithDetails } from '@/types/database'
+import type { Locale } from '@/types/locale'
 
-async function fetchFeedbackData(id: string): Promise<FeedbackWithDetails | null> {
+async function fetchFeedbackData(id: string, locale: Locale): Promise<FeedbackWithDetails | null> {
   const supabase = createStaticClient()
 
   const { data, error } = await supabase
@@ -16,6 +17,7 @@ async function fetchFeedbackData(id: string): Promise<FeedbackWithDetails | null
       resolver:profiles!resolved_by(id, nickname, avatar_url)
     `)
     .eq('id', id)
+    .eq('locale', locale)
     .single()
 
   if (error) {
@@ -31,14 +33,15 @@ async function fetchFeedbackData(id: string): Promise<FeedbackWithDetails | null
 const getFeedbackDataCached = unstable_cache(
   fetchFeedbackData,
   ['feedback-data'],
-  // 사용자 의견(feedbacks)이다. BO에 수정 액션이 없어 태그를 두지 않는다.
-  { revalidate: 3600 }
+  { revalidate: 3600, tags: ['feedbacks'] }
 )
 
-export async function getFeedback(id: string) {
+export async function getFeedback(id: string, locale: Locale, incrementView = true) {
   // 조회수 증가는 캐시 외부에서 처리
-  const supabase = await createClient()
-  await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
+  if (incrementView) {
+    const supabase = await createClient()
+    await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
+  }
 
-  return getFeedbackDataCached(id)
+  return getFeedbackDataCached(id, locale)
 }

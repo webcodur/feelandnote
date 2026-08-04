@@ -9,6 +9,7 @@ import { canMutateFree } from '@/lib/board/freeAuth'
 import { FREE_COMMENT_COLS, FREE_AUTHOR_JOIN, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { FreePostComment } from '@/types/database'
+import { isLocale, type Locale } from '@/types/locale'
 
 export async function getFreeComments(postId: string): Promise<FreePostComment[]> {
   const supabase = createAdminClient()
@@ -32,6 +33,7 @@ export async function getFreeComments(postId: string): Promise<FreePostComment[]
 
 interface CreateFreeCommentParams {
   postId: string
+  locale: Locale
   content: string
   nickname?: string
   password?: string
@@ -39,8 +41,9 @@ interface CreateFreeCommentParams {
 }
 
 export async function createFreeComment(params: CreateFreeCommentParams): Promise<ActionResult<FreePostComment>> {
-  const { postId, content, nickname, password, anonymous } = params
+  const { postId, locale, content, nickname, password, anonymous } = params
 
+  if (!isLocale(locale)) return failure('VALIDATION_ERROR')
   if (content.trim().length === 0) return failure('VALIDATION_ERROR', '내용을 입력해달라.')
   if (content.length > 1000) return failure('LIMIT_EXCEEDED', '댓글은 1000자까지 쓸 수 있다.')
   if ((nickname ?? '').length > 20) return failure('LIMIT_EXCEEDED', '닉네임은 20자까지 쓸 수 있다.')
@@ -52,10 +55,11 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
   // 게시글 존재 확인
   const { data: post } = await supabase
     .from('free_posts')
-    .select('id, is_deleted')
+    .select('id, is_deleted, locale')
     .eq('id', postId)
     .single()
-  if (!post || (post as { is_deleted: boolean }).is_deleted) return failure('NOT_FOUND')
+  const targetPost = post as { is_deleted: boolean; locale: string } | null
+  if (!targetPost || targetPost.is_deleted || targetPost.locale !== locale) return failure('NOT_FOUND')
 
   let authorId: string | null = null
   let passwordHash: string | null = null
@@ -96,6 +100,7 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 작성]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
+  revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
   return success(data as unknown as FreePostComment)
 }
 
@@ -155,6 +160,7 @@ export async function updateFreeComment(params: UpdateFreeCommentParams): Promis
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 수정]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
+  revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
   return success(data as unknown as FreePostComment)
 }
 
@@ -183,5 +189,6 @@ export async function deleteFreeComment(params: DeleteFreeCommentParams): Promis
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 삭제]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
+  revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
   return success(null)
 }

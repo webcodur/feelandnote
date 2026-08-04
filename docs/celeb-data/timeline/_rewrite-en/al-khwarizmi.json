@@ -1,0 +1,55 @@
+{
+  "slug": "al-khwarizmi",
+  "nickname": "알 콰리즈미",
+  "events": [
+    {
+      "id": "b212c9a3-e717-4813-91f7-1cd9390089cf",
+      "year": 780,
+      "title": "히바 일대에서 태어나다",
+      "before": "알 콰리즈미는 약 780년에 태어났다. 출생지는 확정되지 않았으며, 그의 이름이 화라즘 출신 또는 화라즘계 가문을 뜻할 수 있어 오늘날 우즈베키스탄의 히바를 통설상의 출생지로 표시한다.",
+      "after": "Al-Khwarizmi is born around 780, though his birthplace is uncertain. His name may point to personal or family roots in Khwarazm, so Khiva in present-day Uzbekistan is conventionally listed as his birthplace."
+    },
+    {
+      "id": "c37dc13e-95c1-4b4c-9d18-4238b450baf8",
+      "year": 820,
+      "title": "바그다드 지혜의 집에서 활동하다",
+      "before": "알 콰리즈미는 820년 무렵 칼리프 알마문의 후원을 받으며 바그다드의 지혜의 집에서 활동했다. 그는 이곳에서 수학과 천문학을 연구하고 그리스어와 산스크리트어 학술 자료를 접했다.",
+      "after": "Around 820, Al-Khwarizmi works at the House of Wisdom in Baghdad under the patronage of Caliph al-Ma'mun. He studies mathematics and astronomy there and consults scholarly works translated from Greek and Sanskrit."
+    },
+    {
+      "id": "52808a22-6964-4a2e-84dc-4f5d0deef9c1",
+      "year": 820,
+      "title": "대수학 논문을 집필하다",
+      "before": "알 콰리즈미는 820년 무렵 바그다드에서 방정식의 복원과 균형을 체계적으로 설명한 대수학 논문을 집필했다. 이 책은 일차방정식과 이차방정식의 풀이를 독립된 연구 대상으로 정리했으며, 제목에 쓰인 말에서 오늘날의 대수학이라는 명칭이 나왔다.",
+      "after": "In Baghdad around 820, Al-Khwarizmi writes a treatise that sets out methods for restoring and balancing equations. He treats linear and quadratic equations as subjects in their own right, and a word in the book's title later gives rise to the term algebra."
+    },
+    {
+      "id": "02b8d798-5cd5-4632-901f-8843e3118535",
+      "year": 820,
+      "title": "천문표를 편찬하다",
+      "before": "알 콰리즈미는 820년 무렵 인도 천문학의 계산법을 활용해 천체의 위치와 달력을 계산하는 천문표를 편찬했다. 후대 문헌은 그가 만든 두 판본의 천문표가 이전과 이후의 관측자들에게 이용되었다고 기록한다.",
+      "after": "Around 820, Al-Khwarizmi draws on Indian methods of calculation to compile tables for finding celestial positions and calendar dates. Later records say that observers use two versions of these tables."
+    },
+    {
+      "id": "b32ab9a5-3114-4439-9425-126322cc766b",
+      "year": 825,
+      "title": "인도식 수 계산법을 정리하다",
+      "before": "알 콰리즈미는 825년 무렵 인도식 십진 위치값 숫자로 계산하는 방법을 정리한 책을 썼다. 아랍어 원본은 소실되었지만 라틴어 번역본을 통해 이 계산법이 유럽에 전해졌고, 그의 이름을 라틴어로 옮긴 표현에서 알고리즘이라는 말이 생겼다.",
+      "after": "Around 825, Al-Khwarizmi writes a book explaining how to calculate with the Hindu decimal place-value numeral system. The Arabic original is lost, but Latin adaptations carry its methods to Europe. The Latinized form of his name later gives rise to the word algorithm."
+    },
+    {
+      "id": "b97ef7bd-7500-44e8-851d-ddc335812c7b",
+      "year": 833,
+      "title": "지리서를 완성하다",
+      "before": "알 콰리즈미는 833년에 프톨레마이오스의 지리 자료를 수정하고 확장한 지리서를 완성했다. 그는 도시와 지형 2천여 곳의 좌표를 정리하고 지중해와 아시아, 아프리카에 관한 일부 수치를 고쳤다.",
+      "after": "In 833, Al-Khwarizmi completes a geographical work that revises and expands Ptolemy's data. He lists coordinates for more than two thousand cities and geographical features and corrects some figures for the Mediterranean, Asia, and Africa."
+    },
+    {
+      "id": "f91cbe4c-db5a-4ff4-99e5-870bb592454a",
+      "year": 850,
+      "title": "바그다드에서 사망하다",
+      "before": "알 콰리즈미는 약 850년에 사망한 것으로 전해진다. 정확한 날짜와 장소는 확인되지 않으며, 생애 대부분의 학술 활동이 이루어진 바그다드가 통상적인 사망 장소로 제시된다.",
+      "after": "Al-Khwarizmi is believed to die around 850, but the exact date and place remain unknown. Baghdad is conventionally named as the place because most or all of his scholarly work took place there."
+    }
+  ]
+}

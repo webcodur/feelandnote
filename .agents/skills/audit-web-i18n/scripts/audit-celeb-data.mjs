@@ -341,6 +341,33 @@ const ids = profiles.map((profile) => profile.id);
 const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
 
 if (ids.length > 0) {
+  const explanationRows = await selectByCelebIds(
+    "celeb_explanations",
+    "profile_id,plain_text,plain_text_en,interpretive_title,interpretive_title_en,interpretive_text,interpretive_text_en",
+    ids,
+    "profile_id",
+  );
+  for (const row of explanationRows) {
+    const context = slugContext(profileById, row.profile_id);
+    for (const [ko, en, code, label] of [
+      ["plain_text", "plain_text_en", "EXPLANATION_GUIDE_EN_MISSING", "Read More guide"],
+      [
+        "interpretive_title",
+        "interpretive_title_en",
+        "EXPLANATION_TITLE_EN_MISSING",
+        "Read More exploration title",
+      ],
+      [
+        "interpretive_text",
+        "interpretive_text_en",
+        "EXPLANATION_TEXT_EN_MISSING",
+        "Read More exploration text",
+      ],
+    ]) {
+      checkPair({ row, ko, en, code, label, context });
+    }
+  }
+
   const influenceColumns = [
     "celeb_id",
     "political_exp",
@@ -543,7 +570,7 @@ const coverageSummary = Object.fromEntries(
 add(
   "info",
   "CELEB_DATA_AUDIT_SUMMARY",
-  `Checked ${profiles.length} profile(s) across profile, influence, persona, dialogue, timeline, relation, faction, and review data.`,
+  `Checked ${profiles.length} profile(s) across profile, explanation, influence, persona, dialogue, timeline, relation, faction, and review data.`,
 );
 
 const summary = {

@@ -7,7 +7,16 @@ import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import type { PersonaJsonb, PersonaProfile, PersonaStats } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
-import { calcDistance, type SimilarCeleb } from '@/lib/persona/utils'
+import {
+  calcPersonaMatchDistances,
+  getPersonaMatchComparison,
+  getPersonaMatchEvidence,
+  groupedDistanceToMatchPercent,
+  type PersonaMatch,
+  type PersonaMatchCategory,
+  type PersonaMatchGroups,
+  type SimilarCeleb,
+} from '@/lib/persona/utils'
 import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
@@ -19,6 +28,31 @@ export interface SimilarByCelebResult {
   targetPersona: PersonaProfile | null
   targetPersonaJsonb: PersonaJsonb | null
   similarCelebs: SimilarCeleb[]
+  matchesByCategory: PersonaMatchGroups
+}
+
+const EMPTY_MATCH_GROUPS: PersonaMatchGroups = {
+  overall: [],
+  disposition: [],
+  virtue: [],
+  ability: [],
+  opposite: [],
+}
+
+const MATCH_CATEGORIES: PersonaMatchCategory[] = [
+  'overall',
+  'disposition',
+  'virtue',
+  'ability',
+  'opposite',
+]
+
+const MATCH_DIMENSIONS: Record<PersonaMatchCategory, number> = {
+  overall: 16,
+  disposition: 4,
+  virtue: 8,
+  ability: 4,
+  opposite: 4,
 }
 
 // celeb_persona + profiles 조인 행
@@ -50,6 +84,12 @@ interface PersonaVectorRow {
   profession: string | null
   avatar_url: string | null
 }
+
+interface RankedPersonaMatch extends Omit<PersonaMatch, 'evidence' | 'comparison'> {
+  candidate: PersonaProfile
+}
+
+type RankedPersonaMatchGroups = Record<PersonaMatchCategory, RankedPersonaMatch[]>
 
 function pickProfile(
   profiles: PersonaJoinProfile | PersonaJoinProfile[] | null
@@ -190,6 +230,44 @@ function vectorToProfile(row: PersonaVectorRow, isEn: boolean): PersonaProfile {
   }
 }
 
+function insertTopMatch<T extends { celeb_id: string; distance: number }>(
+  ranking: T[],
+  candidate: T,
+  limit: number,
+): void {
+  if (limit <= 0) return
+
+  const insertAt = ranking.findIndex(
+    (current) =>
+      candidate.distance < current.distance ||
+      (candidate.distance === current.distance &&
+        candidate.celeb_id.localeCompare(current.celeb_id) < 0),
+  )
+
+  if (insertAt === -1) {
+    if (ranking.length < limit) ranking.push(candidate)
+    return
+  }
+
+  ranking.splice(insertAt, 0, candidate)
+  if (ranking.length > limit) ranking.pop()
+}
+
+function toPersonaMatch(
+  candidate: PersonaProfile,
+  distance: number,
+  dimensions: number,
+): RankedPersonaMatch {
+  return {
+    celeb_id: candidate.celeb_id,
+    nickname: candidate.nickname,
+    avatar_url: candidate.avatar_url,
+    distance,
+    matchPercent: groupedDistanceToMatchPercent(distance, dimensions),
+    candidate,
+  }
+}
+
 export async function getSimilarByCelebId(
   celebId: string,
   limit: number = 5,
@@ -202,20 +280,71 @@ export async function getSimilarByCelebId(
   ])
 
   if (!targetRow) {
-    return { targetPersona: null, targetPersonaJsonb: null, similarCelebs: [] }
+    return {
+      targetPersona: null,
+      targetPersonaJsonb: null,
+      similarCelebs: [],
+      matchesByCategory: EMPTY_MATCH_GROUPS,
+    }
   }
 
   const targetPersona = targetToProfile(targetRow, isEn)
   const targetPersonaJsonb = targetRow.persona
 
-  const similarCelebs: SimilarCeleb[] = allVectors
-    .filter((r) => r.celeb_id !== celebId)
-    .map((row) => {
-      const vec = vectorToProfile(row, isEn)
-      return { ...vec, distance: calcDistance(targetPersona, vec) }
-    })
-    .sort((a, b) => a.distance - b.distance)
-    .slice(0, limit)
+  const categoryLimit = Math.min(limit, 3)
+  const rankedMatchesByCategory: RankedPersonaMatchGroups = {
+    overall: [],
+    disposition: [],
+    virtue: [],
+    ability: [],
+    opposite: [],
+  }
+  const similarCelebs: SimilarCeleb[] = []
 
-  return { targetPersona, targetPersonaJsonb, similarCelebs }
+  for (const row of allVectors) {
+    if (row.celeb_id === celebId) continue
+
+    const candidate = vectorToProfile(row, isEn)
+    const distances = calcPersonaMatchDistances(targetPersona, candidate)
+
+    insertTopMatch(
+      similarCelebs,
+      { ...candidate, distance: distances.overall },
+      limit,
+    )
+
+    for (const category of MATCH_CATEGORIES) {
+      insertTopMatch(
+        rankedMatchesByCategory[category],
+        toPersonaMatch(
+          candidate,
+          distances[category],
+          MATCH_DIMENSIONS[category],
+        ),
+        categoryLimit,
+      )
+    }
+  }
+
+  const matchesByCategory = Object.fromEntries(
+    MATCH_CATEGORIES.map((category) => [
+      category,
+      rankedMatchesByCategory[category].map(({ candidate, ...match }) => ({
+        ...match,
+        evidence: getPersonaMatchEvidence(
+          targetPersona,
+          candidate,
+          category,
+          category === 'overall' ? 3 : 2,
+        ),
+        comparison: getPersonaMatchComparison(
+          targetPersona,
+          candidate,
+          category,
+        ),
+      })),
+    ]),
+  ) as PersonaMatchGroups
+
+  return { targetPersona, targetPersonaJsonb, similarCelebs, matchesByCategory }
 }

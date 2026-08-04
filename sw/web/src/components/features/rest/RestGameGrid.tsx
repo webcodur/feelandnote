@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { Clock, Crosshair, Footprints, Swords, Crown } from "lucide-react";
 import HubCard from "@/components/shared/HubCard";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -38,10 +39,10 @@ const GAME_SECTIONS = [
   { valueKey: "labyrinth" as const, label: "LABYRINTH", icon: Crosshair, image: "/images/games/labyrinth-card.webp", dev: false },
   { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp", dev: false },
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp", dev: false },
-  { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: "/images/games/wander-card.webp", dev: true },
-  { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp", dev: true },
+  { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: "/images/games/wander-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
+  { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
   // 시대의 초상은 기억궁 카드 그림을 함께 쓴다 (docs/project/game-card-images.md §5)
-  { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp", dev: true },
+  { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
 ] as const;
 
 interface GameLabel {
@@ -75,6 +76,7 @@ export default function RestGameGrid({
   gameLabels,
   devMode,
 }: Props) {
+  const t = useTranslations("rest.arena");
   const [activeGame, setActiveGame] = useState<GameId | null>(null);
   const visibleSections = GAME_SECTIONS.filter((game) => devMode || !game.dev);
 
@@ -115,7 +117,7 @@ export default function RestGameGrid({
               onClick={() => openGame(game.valueKey)}
               title={labels.title}
               description={labels.description}
-              label={game.dev ? `${game.label} · 개발 중` : game.label}
+              label={game.dev ? `${game.label} · ${t("inDevelopment")}` : game.label}
               icon={<Icon className="h-5 w-5" />}
               backgroundImage={game.image}
             />

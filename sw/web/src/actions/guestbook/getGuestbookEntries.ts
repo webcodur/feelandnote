@@ -47,6 +47,15 @@ const getGuestbookEntriesCached = unstable_cache(
   { revalidate: 3600 }
 )
 
+// 셀럽 공개 문서의 ISR 첫 화면용. viewer의 차단 목록은 공유 캐시에 넣지 않고,
+// 로그인 사용자만 클라이언트에서 getGuestbookEntries로 다시 필터링한다.
+export async function getPublicGuestbookEntries(params: GetGuestbookEntriesParams) {
+  const { profileId, limit = 20, offset = 0 } = params
+  // 바깥의 셀럽 ISR 문서가 이 결과를 보관한다. 여기서 1시간 Data Cache를
+  // 중첩하면 페이지 전체의 7일 재검증 주기를 1시간으로 낮출 수 있어 직접 읽는다.
+  return fetchGuestbookEntries(profileId, limit, offset)
+}
+
 export async function getGuestbookEntries(params: GetGuestbookEntriesParams) {
   const { profileId, limit = 20, offset = 0 } = params
   const cached = await getGuestbookEntriesCached(profileId, limit, offset)

@@ -17,6 +17,7 @@ export interface Celeb {
   slug: string | null
   nickname: string | null
   avatar_url: string | null
+  portrait_url: string | null
   profession: string | null
   title: string | null
   nationality: string | null
@@ -103,6 +104,7 @@ type CelebListRow = {
   slug: string | null
   nickname: string | null
   avatar_url: string | null
+  portrait_url: string | null
   profession: string | null
   title: string | null
   nationality: string | null
@@ -137,6 +139,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     slug: row.slug || null,
     nickname: row.nickname,
     avatar_url: row.avatar_url,
+    portrait_url: row.portrait_url,
     profession: row.profession,
     title: row.title,
     nationality: row.nationality,
@@ -316,7 +319,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const offset = (page - 1) * limit
   const filters = { search, status, profession, tier }
   const selectFields = `
-    id, slug, nickname, avatar_url, profession, title, nationality, gender,
+    id, slug, nickname, avatar_url, portrait_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey,
     content_research_status, content_research_updated_at,
     content_research_confirmed_empty_at,
@@ -454,13 +457,14 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     status: string
     updatedAt: string | null
     confirmedEmptyAt: string | null
+    portraitUrl: string | null
   }>()
 
   if (rpcCelebIds.length > 0) {
     const { data: researchRows, error: researchError } = await supabase
       .from('profiles')
       .select(`
-        id, content_research_status, content_research_updated_at,
+        id, portrait_url, content_research_status, content_research_updated_at,
         content_research_confirmed_empty_at
       `)
       .in('id', rpcCelebIds)
@@ -471,6 +475,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
         status: row.content_research_status || 'open',
         updatedAt: row.content_research_updated_at,
         confirmedEmptyAt: row.content_research_confirmed_empty_at,
+        portraitUrl: row.portrait_url,
       })
     }
   }
@@ -482,6 +487,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       slug: celeb.slug || null,
       nickname: celeb.nickname,
       avatar_url: celeb.avatar_url,
+      portrait_url: research?.portraitUrl || null,
       profession: celeb.profession,
       title: celeb.title,
       nationality: celeb.nationality,
@@ -584,6 +590,7 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
       slug: row.slug || null,
       nickname: row.nickname,
       avatar_url: row.avatar_url,
+      portrait_url: row.portrait_url,
       profession: row.profession,
       title: row.title,
       nationality: row.nationality,
@@ -644,6 +651,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     slug: data.slug || null,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
+    portrait_url: data.portrait_url,
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,

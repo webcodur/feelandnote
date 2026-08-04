@@ -1,5 +1,7 @@
 // 날짜 및 시간 관련 유틸리티 함수
 
+import type { Locale } from '@/types/locale'
+
 /**
  * 상대 시간 포맷 (ex: "방금 전", "3분 전", "2일 전")
  */
@@ -31,9 +33,11 @@ export function formatKST(
     minute: '2-digit',
     hour12: false,
     timeZone: 'Asia/Seoul'
-  }
+  },
+  locale: Locale = 'ko'
 ): string {
   const d = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
-  return new Intl.DateTimeFormat('ko-KR', options).format(d);
+  const languageTag = locale === 'en' ? 'en-US' : 'ko-KR'
+  return new Intl.DateTimeFormat(languageTag, { timeZone: 'Asia/Seoul', ...options }).format(d);
 }
 

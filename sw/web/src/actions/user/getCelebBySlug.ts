@@ -5,7 +5,6 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
@@ -126,8 +125,6 @@ interface PublicCelebBySlugData {
     profession: string | null
     title: string | null
     title_en: string | null
-    virtual_monologue: string | null
-    virtual_monologue_en: string | null
     nationality: string | null
     birth_date: string | null
     death_date: string | null
@@ -151,6 +148,14 @@ interface PublicCelebBySlugData {
   guestbookCount: number
   contentTypeCounts: ContentTypeCounts
   dialogue: DialogueProfile | null
+  explanation: {
+    plain_text: string
+    plain_text_en: string | null
+    interpretive_title: string
+    interpretive_title_en: string | null
+    interpretive_text: string
+    interpretive_text_en: string | null
+  } | null
   factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
   /** 상단 대표 화보(1:1). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
@@ -165,7 +170,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, virtual_monologue, virtual_monologue_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
@@ -185,6 +190,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     factionTagRows,
     relationsResult,
     externalRelationsResult,
+    explanationResult,
   ] = await Promise.all([
     supabase
       .from('user_contents')
@@ -234,7 +240,16 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .from('celeb_relations_external')
       .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
       .eq('from_id', userId),
+    supabase
+      .from('celeb_explanations')
+      .select('plain_text, plain_text_en, interpretive_title, interpretive_title_en, interpretive_text, interpretive_text_en')
+      .eq('profile_id', userId)
+      .maybeSingle(),
   ])
+
+  if (explanationResult.error) {
+    console.error('공개 인물 읽어보기 조회 실패:', explanationResult.error)
+  }
 
   const contentTypeCounts: ContentTypeCounts = { BOOK: 0, VIDEO: 0, GAME: 0, MUSIC: 0 }
   for (const row of typeCountsResult.data ?? []) {
@@ -321,6 +336,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     guestbookCount: guestbookResult.count || 0,
     contentTypeCounts,
     dialogue: (dialogueResult.data as unknown as DialogueProfile | null) ?? null,
+    explanation: explanationResult.data ?? null,
     factionTags,
     relations,
     // 전용 화보 → 세력도감 화보(정렬 첫 장) 순. 둘 다 없으면 화면이 얼굴 사진으로 돌아간다
@@ -333,8 +349,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
 const getCelebBySlugCached = unstable_cache(
   fetchCelebBySlugPublic,
-  // v3: 상단 대표 화보(photoUrl) 추가 — 전용 화보 없으면 세력도감 화보로 대체한다.
-  ['celeb-by-slug-v3'],
+  // v4: 공개된 인물 안내·인물 탐구를 읽어보기 구획에 추가한다.
+  ['celeb-by-slug-v4'],
   // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
 )
@@ -351,6 +367,11 @@ export type CelebBySlugProfile = PublicUserProfile & {
   /** 그 화보가 그린 순간 한 줄. 비면 크게 보기에 아무것도 뜨지 않는다. 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다 */
   photo_caption: string | null
   photo_caption_en: string | null
+  reading: {
+    guide: string
+    explorationTitle: string
+    explorationText: string
+  } | null
   /** 영문 화면에서 영문본이 없어 한국어 원문을 대신 보여주는 필드 */
   translationFallbacks: string[]
 }
@@ -363,32 +384,6 @@ async function getCelebBySlugInner(
 
   if (!pub) {
     return failure('NOT_FOUND', '셀럽을 찾을 수 없다.')
-  }
-
-  // 동적 데이터 — 인증 사용자 의존이라 캐시 불가
-  let isFollowing = false
-  let isFollower = false
-  let isBlocked = false
-
-  try {
-    const supabase = await createClient()
-    const { data: { user: currentUser } } = await supabase.auth.getUser()
-
-    if (currentUser && currentUser.id !== pub.profile.id) {
-      const [followingData, followerData, blockData] = await Promise.all([
-        supabase.from('follows').select('id').eq('follower_id', currentUser.id).eq('following_id', pub.profile.id).maybeSingle(),
-        supabase.from('follows').select('id').eq('follower_id', pub.profile.id).eq('following_id', currentUser.id).maybeSingle(),
-        supabase.from('blocks').select('id')
-          .or(`blocker_id.eq.${currentUser.id},blocked_id.eq.${currentUser.id}`)
-          .or(`blocker_id.eq.${pub.profile.id},blocked_id.eq.${pub.profile.id}`)
-          .maybeSingle(),
-      ])
-      isFollowing = !!followingData.data
-      isFollower = !!followerData.data
-      isBlocked = !!blockData.data
-    }
-  } catch {
-    // 캐시 컨텍스트 외 호출 실패 시 무시
   }
 
   const profile = pub.profile
@@ -427,11 +422,6 @@ async function getCelebBySlugInner(
       title: resolve('title', profile.title_en, profile.title),
       title_en: profile.title_en,
       title_ko: profile.title,
-      virtual_monologue: resolve(
-        'virtualMonologue',
-        profile.virtual_monologue_en,
-        profile.virtual_monologue,
-      ),
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,
@@ -446,9 +436,11 @@ async function getCelebBySlugInner(
         friend_count: 0,
         guestbook_count: pub.guestbookCount,
       },
-      is_following: isFollowing,
-      is_follower: isFollower,
-      is_blocked: isBlocked,
+      // 이 공개 프로필 조회는 정적/ISR 렌더에서도 쓴다. viewer 관계는 모달·팔로우
+      // 전용 액션이 클라이언트에서 조회하며, 공개 문서에는 섞지 않는다.
+      is_following: false,
+      is_follower: false,
+      is_blocked: false,
       has_voice: profile.has_voice ?? false,
       voice_v: profile.voice_v ?? 0,
       voice_speed: profile.voice_speed ?? 1.0,
@@ -463,6 +455,21 @@ async function getCelebBySlugInner(
       photo_url: pub.photoUrl ?? null,
       photo_caption: pub.photoCaption ?? null,
       photo_caption_en: pub.photoCaptionEn ?? null,
+      reading: pub.explanation
+        ? {
+            guide: resolve('personGuide', pub.explanation.plain_text_en, pub.explanation.plain_text),
+            explorationTitle: resolve(
+              'personExploreTitle',
+              pub.explanation.interpretive_title_en,
+              pub.explanation.interpretive_title,
+            ),
+            explorationText: resolve(
+              'personExplore',
+              pub.explanation.interpretive_text_en,
+              pub.explanation.interpretive_text,
+            ),
+          }
+        : null,
       translationFallbacks,
     },
   }

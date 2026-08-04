@@ -160,7 +160,7 @@ background(-10) < base(0) < sticky(10) < cardBadge(20) < cardMenu(30) < fab(50)
 |----------|----------|----------|----------|
 | 셀럽 | 인물 목록 | Celebs | Figures |
 | 분야별 기록가 | 분야별 랭킹 | Top by Type | Ranking |
-| 비범한 기록가 | 인물 분석 | Extraordinary | Persona |
+| 비범한 기록가 | 스펙트럼 | Extraordinary | Spectrum |
 | 셀럽 피드 | 인물 피드 | Celeb Feed | Feed |
 | 왕성한 기록가들 | 왕성한 감상가 | Prolific Chroniclers | Prolific Connoisseurs |
 | 전체 기록가 | 전체 감상가 | All Chroniclers | All Connoisseurs |

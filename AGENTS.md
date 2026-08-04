@@ -23,6 +23,8 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악) 소비 기록 및 관�
 
 ## AI 작업 완료·검수 보고 원칙
 
+- 작업 중에는 명령어만 연속으로 나열하지 말고, 실행 전 목적과 실행 후 발견 사항·다음 판단을 짧게 설명한다.
+- 긴 작업은 중간 진행 상황을 주기적으로 공유하며, 계획 변경이나 예상 밖의 문제는 즉시 알린다.
 - 이미지·코드·문서 작업은 **실행 → 자체 검수 → 작업보고**를 한 덩어리로 완료한다.
 - 자체 검수에서는 형식 충족만 보지 말고, 결과물의 개연성·맥락·구도·실사용 가능성을 직접 판단한다. 실패 후보를 성공한 결과처럼 넘기지 않는다.
 - 작업보고에는 산출물과 저장 경로, 변경 내용, 자체 피드백, 현재 사용 가능 여부를 함께 적는다.
@@ -174,8 +176,11 @@ pnpm build:audio-bo
 | V | `../celeb-avatar-spec.md` | **셀럽 아바타 규격 SSoT**(26.08.01 신설) — 프레임 기하는 **눈높이 46·턱끝 81·콧대 가로 50** 셋뿐이며 **소개 화면(`/about`) 8인 실측에서 뽑았다**(이상적 수치로 잡았다가 그 8인이 전원 불합격이라 뒤집은 이력이 문서에 있다). **머리 위도 턱 아래도 자유** — 머리카락·모자·투구가 잘려도, 어깨가 안 보여도 무방하고, 얼굴이 잘리거나 쇄골이 드러나는 것만 막는다. 그 밖에 원형 마스크·세로 직사각 잘림 안전 영역, 고정할 것과 인물마다 달리할 것, 발주 프롬프트 확정본, 판정 기준, 자르는 규칙(눈·턱 랜드마크 기준, 구현은 `sw/web-bo/src/lib/avatar-geometry.ts` 하나), 판정 도구 2종(`measure-avatar-geometry.ts` 수치·`build-avatar-contact-sheet.ts` 눈 검수용 격자). **소급 교체 없음 — 신규분부터 적용** |
 | H | `hero-photo-status.md` | **인물 상세 대표 화보 현황과 미진분** — 목표 크롭 규격, 출처별 채움 현황, 크롭 규격이 통일 안 된 구간(표본 실측), 다시 손볼 때의 절차, 남은 인물. 규격·도구 자체는 `db-celeb.md` |
 | M | `virtual-monologue.md` | **가상 독백 유일 SSoT** — 실존·fiction, 국문·영문의 작성·검토·반영 규칙 |
+| R | `person-reading.md` | **인물 읽어보기 유일 SSoT** — 인물 안내·인물 탐구의 작성, 2회 개선, 검수, 배치·게시 규칙 |
 
-**가상 독백 (`profiles.virtual_monologue`)** — 규칙은 `docs/project/celeb/virtual-monologue.md`만 따른다. `fiction-profile-monologue` 스킬과 `fill`·`translate`·`lock` 스크립트는 실행 도구이며 별도 규칙 원천이 아니다. 과거 전수 정비 문서는 완료 이력으로만 남긴다.
+**가상 독백 (`profiles.virtual_monologue`)** — 서비스 화면 노출은 폐기했다. 값은 담화·인물 읽어보기 제작 재료로만 보존하며, 신규 독백 작성은 중단한다. 남은 규칙과 이력은 `docs/project/celeb/virtual-monologue.md`를 따른다.
+
+**인물 읽어보기 (`celeb_explanations`)** — 서비스 라벨은 `읽어보기 > 인물 안내 | 인물 탐구`다. 작성·검토·배치·게시 규칙은 `docs/project/celeb/person-reading.md`만 따른다.
 
 **셀럽 아바타 정비 (진행 중, 26.08.01 기준)** — 작업 문서는 **저장소 루트**에 흩어져 있고 실제로는 아래 표의 4종 외에 `celeb-avatar-visual-audit-handoff.md`(육안 감사 인수인계)·`three-kingdoms-avatar-handoff-2026-07-31.md`(삼국지 회차 인수인계)·`todo_celeb_avatar_overhaul.md`(전면 재작업 절차)·`육안검사.txt`(인물별 증상 메모)까지 **8종**이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
 
@@ -211,9 +216,9 @@ pnpm build:audio-bo
 | 문서 | 내용 |
 |------|------|
 | `docs/project/env-vars.md` | **환경변수·비밀값 SSoT** — 옮겨야 할 파일 6종, 앱별 배치, 키 이름별 용도·발급처, 컴퓨터마다 달라지는 로컬 경로, 유출 시 처리 순서 |
-| `docs/project/external-services.md` | Supabase, R2, GA, 음성 경로, 크론잡, egress 사고 이력 |
+| `docs/project/external-services.md` | Supabase, Vercel, R2, GA, 음성 경로, 크론잡, 전송비용 사고 요약 |
 | `docs/project/openai-usage.md` | OpenAI/GPT API — 모델 선택, 이미지 생성 해상도·품질·비용 기준 |
-| `docs/project/web-egress-audit-2026-06-29.md` | web egress 전수 재점검 보고서(2026-06-29) — 원인 정정·적용 조치·복구 후 과제 |
+| `docs/project/web-egress-audit-2026-06-29.md` | **웹 전송비용 SSoT** — Supabase egress + Vercel Fast Origin/Fluid CPU 사고, 원인·개선·배포 검증 |
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
 | `docs/project/traffic-audit-2026-07-25.md` | **유입·행동 실측 감사(26.07.25)** — 규모는 하루 26명(밑바닥), 그 유입의 91%가 네이버·구글 1.6%. 자체 블로그 경유 가설은 랜딩 480~516종 분포로 기각(블로그 경유 16세션). 인물 화면 체류 78초·재방문 5.3%·로그인 도달 90일 7명. 🔴 **페이지/세션(1.22장)을 참여도로 읽지 마라** — 인물 화면은 한 장에 다 담은 설계이고 겹창(26.07.24 도입)이 화면 전환을 의도적으로 줄인다. 초판의 "홈 4.76장 대비 최악" 판정은 철회됐다. 행동 계측 부재와 그 해소(이벤트 5종). GSC·GA4 조회 수단(서비스계정 JWT)과 재현법 포함. **검색·유입 판단의 기준선** |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
@@ -293,7 +298,7 @@ TODO 작업자는 작업 후 이 파일을 업데이트 하여 아래 QUEUE를 �
 | 안드로이드 앱(TWA) 출시 | `docs/project/android-app-feasibility-review-2026-07-29.md` §14 | **코드 구현 완료·실기기/Play 미착수(26.07.30)** | PWA + TWA 방식. 코드로 가능한 범위는 끝냈다 — UGC 신고·차단(서버 계층·화면 부품·게시판/댓글/방명록/프로필 연결·차단 콘텐츠 숨김·차단 관리), PWA(아이콘 4종·manifest 보강·서비스 워커·오프라인 화면), Play 창구(`/account-deletion`·`/.well-known/assetlinks.json`·약관 7·8조), 백오피스 신고 처리 보강, 안드로이드 셸 `sw/android`. 실측: `tsc` 0 · 관련 파일 `eslint` 0 · `next build` 성공 · 신규 경로 전부 200.<br>🔴 **조사 시점 판정 정정** — 계획서가 부재로 본 `blocks` 테이블과 web-bo `/reports` 화면은 **이미 있었다**. 없던 것은 `reports.target_user_id` 하나뿐이었다.<br>**미검증**: 안드로이드 빌드(SDK·Gradle·bubblewrap 미설치. 설치는 승인 사항), 로그인 상태의 신고·차단 실동작(`reports`·`blocks` 0건), 실기기 QA 전부, 서비스 워커의 실제 등록(배포 후 동작).<br>**유저 확정 필요**: 앱 식별자 `com.feelandnote.app`, 계정 삭제 처리 기간(임의값), 약관 개정일 표기, Gradle·AGP·androidbrowserhelper 버전, `www` 하위 도메인 사용 여부.<br>**제약**: 차단은 단방향(RLS상 "나를 차단한 사람"은 읽을 수 없다), 게시 전 동의는 안내 표시 방식. |
 | 가상 독백 전수 품질 정비 | `docs/archive/virtual-monologue-quality-overhaul-2026-07.md` · `docs/todo/virtual-monologue-handoff-2026-07-30.md` | **실존 full·light 한국어 전수 완료(26.07.30)** | 활성 실존 1,476명을 전원 판정해 유지 624·게시 139·보류 713으로 마감했다. 누락·중복·해시·상태 불일치와 `unreviewed`·`draft`·`approved` 잔존은 모두 0이다. 게시분은 원문 SHA-256 조건부 UPDATE·캐시 HTTP 200·재실행 `SKIP`·공개 한국어 HTML 문단 완전 일치를 통과했다. 전원 dossier 방식의 병목을 없애고 100명 텍스트 판정→결함자만 재작성·두 독립 검토→사람 통독 구조로 바꿨다. 다음 별도 범위는 `fiction-profile-monologue` 원전 트랙과 `virtual_monologue_en`이다. |
 | 북리커맨드 완전 통합 | `docs/project/remotion-bo-plan.md` 「최종 이관」 · `docs/project/remotion/book-recommend/unification-phase1.md` | **완료(26.07.29)** | web-bo `/book-recommend`에 제작 현황·리소스를 통합하고 Scenario·Voice·Render·YouTube·Cards 전 화면과 42개 로컬 제작 API를 이관했다. 데이터 원천은 계속 `sw/remotion/public/episodes`, 렌더 엔진은 `sw/remotion`이다. `sw/remotion-bo` 앱·워크스페이스·실행 명령은 폐기했다. Deep 감상배경과 본 서비스 노출 형식은 별도 후속 기획이며 이번 이관 범위가 아니다. |
-| web egress 재점검·잠금 | `docs/project/web-egress-audit-2026-06-29.md` | **진행 중** | Pro 결제 복구(26.07.03). 실측 PostgREST 100%. 페이로드 다이어트(persona 7MB→560KB·review_en·게임)·정적화 머지 완료. **CRON_SECRET(④)·태그 국소화(⑤) 완료(26.07.15)** — BO 저장 1회가 캐시 74곳을 전멸시키던 구조 해소. **tracker RPC 교정 완료(26.07.15)** — `get_tracker_candidates`가 부재 컬럼(`quotes`) 참조로 100% 실패 → 매번 fallback → fallback은 462개 id를 단일 `in()`에 실어 URL 한도 초과(실측 300 OK / 462 fail)로 후보 0 → 미궁 게임 진입 불가였다. RPC 재정의(cultural_journey 기준·본문 제외·전체 후보 반환) + `selectInChunks`(200개 단위) 적용. **잔여 (26.07.16 실측 재조사)**: ① ~~all-persona-vectors 경량화~~ → **완료(26.07.16).** RPC화는 불필요했다 — `celeb_persona`에 이미 flat smallint 16컬럼이 있고 트리거 `trg_sync_persona_columns`가 동기화한다(16축 × 1577행 전수 대조 불일치 0). `getSimilarByCelebId.ts`의 select만 교체. **실측 gzip 2.0MB→0.11MB(18.7배)**, 셀럽 1,000명 top-5 전원 동일·거리값 불일치 0으로 결과 동일성 확인. 조용한 실패(에러 미수신)도 함께 해소. ② **`[locale]` 정적 렌더 — 착수 금지.** ⚠️ 전역 차단자는 셀럽 페이지가 아니라 **루트 `app/layout.tsx`의 `await getLocale()`**이다(locale param이 없어 `setRequestLocale` 불가 → headers 폴백 → 전 라우트 동적 확정). 그 결과 셀럽 page의 `revalidate=3600`은 **죽은 코드**이고(prerender-manifest의 dynamicRoutes 0건, `[locale]` 하위 .html 0건) 그 옆 "쿠키를 읽지 않는다" 주석은 거짓이다(`getCelebBySlug`가 `auth.getUser()` 호출). 게다가 체인에 Suspense 경계가 없어 정적화 시 CSR 이탈이 아니라 빌드 실패/라우트 통째 이탈이다. 착수하려면 루트 레이아웃 구조 변경 + Suspense 신설 + 5개소 연쇄 수정이 선행돼야 하고, 색인 회복 관측 중인 지금은 위험 대비 이득이 안 맞는다 |
+| web egress·Vercel Origin 재점검 | `docs/project/web-egress-audit-2026-06-29.md` | **로컬 검증 완료·배포 검증 대기(26.08.04)** | Supabase 사고는 Pro 복구·PostgREST 100% 실측·태그 국소화·페이로드 다이어트까지 완료. 신규 Vercel 사고는 Fast Origin 10.12/10GB·CPU 7시간35분/4시간이며 Fast Data는 9.96/100GB라 트래픽 총량 문제가 아니다. `[locale]` root layout 승격, 셀럽·콘텐츠 공개 ISR/개인화 분리, 셀럽 서가 `useSearchParams` 제거, 익명 Middleware auth 생략을 반영했다. **로컬 build에서 두 상세 경로 `● SSG`, next start 실측 MISS→HIT·7일 s-maxage, ko/en 서가 HTML 보존까지 통과. 배포 전에는 해소로 판정하지 않는다** — Vercel `X-Vercel-Cache`, 로그인 개인화, Usage 기울기 확인 후 TODO를 제거한다 |
 | AdSense 승인 | `docs/project/adsense-audit-2026-07-15.md` | **재신청 대기·콘텐츠 기준 재검토** | **과거 거절의 가장 강한 설명은 색인·접근 붕괴지만 유일 원인으로 확정하지 않는다.** AdSense 화면의 정확한 거절 문구가 보존되지 않았고, 색인만 회복되면 승인된다는 보장도 없다. 조치 8종 배포·라이브 잔존 확인(26.07.15~22, `2c1aa1ad`).<br>**26.07.22 GSC 실측 — 회복 신호 없음.** 사이트맵 15,884·오류 0·07-17 재다운로드, `/celeb/elon-musk` `lastCrawlTime`은 05-19 그대로, `/about`은 06-30의 404 기록(라이브 200), 신규 콘텐츠 상세 표본 3건은 Google 미발견. 04-15~07-20 검색 노출 고유 페이지 44·노출 183·클릭 10.<br>**신규 위험 전수 집계**: 콘텐츠 6,665건 중 감상문 1건 5,140건(77.1%), 한국어 감상문 중앙값 158자. MUSIC은 1건 비율 88.6%·중앙값 108자. 이는 “얇은 페이지 확정 비율”이 아니라 콘텐츠 가치 위험 지표다.<br>**재신청 게이트**: ① 실제 AdSense 거절 문구·문제 코드 확보 ② 대표 URL `lastCrawlTime` 07-15 이후 이동 + 검색 노출 페이지 44~45 기준선에서 유의미 상승 ③ 감상문 1건·짧은 외부 요약 상세의 색인/출판 기준 결정. 세 조건 충족 전에는 재신청하지 않는다.<br>**26.07.25 GA4 실측 — 전제 재검토 필요.** 90일 유입 2,627세션 중 네이버 2,394(**91%**)·구글 43(**1.6%**)이다. 즉 색인 회복은 **광고 심사 요건이지 트래픽 대책이 아니다** — 두 목적을 섞어 우선순위를 정하지 마라. `/celeb/jensen-huang` 마지막 크롤도 05-18로 07-22 관측과 동일. 상세는 `docs/project/traffic-audit-2026-07-25.md` |
 | BOOK en 데이터 전량 재검증 | `docs/archive/en-book-data-quality.md` | **완료** | naver_book 2,364건 전량 verified. 한글/CJK 잔존 0건 |
 | VIDEO 영문 썸네일 수집 (1,340건) | `docs/archive/video-en-thumbnails.md` | **완료** | 1,326건 수집, 14건 unavailable |

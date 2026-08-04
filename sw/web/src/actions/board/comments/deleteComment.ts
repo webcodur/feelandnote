@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import type { BoardType } from '@/types/database'
@@ -47,6 +47,8 @@ export async function deleteComment(params: DeleteCommentParams): Promise<Action
 
   const basePath = boardType === 'NOTICE' ? '/agora/board/notice' : '/agora/board/feedback'
   revalidatePath(`${basePath}/${postId}`)
+  revalidatePath(`/en${basePath}/${postId}`)
+  revalidateTag('board-comments', { expire: 0 })
 
   return success(null)
 }

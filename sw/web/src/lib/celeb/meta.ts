@@ -132,8 +132,8 @@ export function buildCelebDescriptionKo(input: CelebMetaInput): string {
   const records = recordPhraseKo(counts);
   // 화면이 실제로 제공하는 것을 적는다. 독백·연대기까지 늘어놓으면 문장이 무너진다.
   const tail = records
-    ? `${records}에 영향력 평가와 성향 분석을 함께 담았다.`
-    : '영향력 평가와 성향 분석, 인물 관계를 함께 담았다.';
+    ? `${records}에 영향력 평가와 16축 스펙트럼을 함께 담았다.`
+    : '영향력 평가와 16축 스펙트럼, 인물 관계를 함께 담았다.';
 
   const clean = sanitizeQuote(quote, 'ko');
   if (clean) {
@@ -147,7 +147,7 @@ export function buildCelebDescriptionKo(input: CelebMetaInput): string {
   }
 
   return clamp(
-    `${prefix} ${nickname}${subjectParticle(nickname)} 남긴 감상 기록과 영향력 평가, 성향 분석을 모았다.`,
+    `${prefix} ${nickname}${subjectParticle(nickname)} 남긴 감상 기록과 영향력 평가, 16축 스펙트럼을 모았다.`,
   );
 }
 
@@ -177,8 +177,8 @@ export function buildCelebDescriptionEn(input: CelebMetaInput): string {
   const prefix = title ?? '';
   const parts = countPartsEn(counts, totalCount(counts) > COUNT_HIDE_THRESHOLD).slice(0, 2);
   const tail = parts.length
-    ? `Browse ${parts.join(' and ')}, with influence scores and personality analysis.`
-    : 'Influence scores, personality analysis, and connections to other figures.';
+    ? `Browse ${parts.join(' and ')}, with influence scores and a 16-axis spectrum.`
+    : 'Influence scores, a 16-axis spectrum, and connections to other figures.';
 
   const clean = sanitizeQuote(quote, 'en');
   if (clean) {
@@ -191,6 +191,6 @@ export function buildCelebDescriptionEn(input: CelebMetaInput): string {
   }
 
   return clamp(
-    `Explore ${prefix} ${nickname}'s cultural record, influence scores, and personality analysis on Feel&Note.`,
+    `Explore ${prefix} ${nickname}'s cultural record, influence scores, and 16-axis spectrum on Feel&Note.`,
   );
 }

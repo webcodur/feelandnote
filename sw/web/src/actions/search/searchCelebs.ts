@@ -49,7 +49,7 @@ async function fetchSearchCelebs(
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
     .eq('profile_type', 'CELEB')
     .eq('status', 'active')
-    // 픽션 인물은 검색하되 relation 등급은 계속 제외
+    // 기본 목록 등급에 픽션 인물을 더해 검색한다.
     .in('celeb_tier', [...SEARCHABLE_CELEB_TIERS])
     .or(`nickname.ilike.%${safeQuery}%,nickname_en.ilike.%${safeQuery}%`)
     .range(offset, offset + limit - 1)

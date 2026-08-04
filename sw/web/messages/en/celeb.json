@@ -14,6 +14,9 @@
     "ageAtDeathApprox": "Died at about {age}",
     "serviceGuideTitle": "Navigation",
     "serviceIntroduction": "Profile",
+    "reading": "Read",
+    "personGuide": "Figure Guide",
+    "personExplore": "Figure Exploration",
     "serviceDialogueVoice": "Voice",
     "serviceMonologueVoice": "Narration",
     "serviceAvailable": "Available",
@@ -21,8 +24,7 @@
     "serviceContentPreparing": "Content coming soon",
     "serviceFaction": "Faction",
     "connections": "People & Their Times",
-    "profileAxes": "16 Axes",
-    "mediaMonologue": "Monologue",
+    "profileAxes": "Spectrum",
     "mediaDialogues": "Lines",
     "mediaVideos": "Video",
     "atlasProfile": "Profile",
@@ -39,6 +41,15 @@
     "atlasGuides": {
       "connections": {
         "about": "Three records that place this figure among other people, their era, and their camps."
+      },
+      "reading": {
+        "about": "A clear introduction to the figure, followed by a closer exploration."
+      },
+      "personGuide": {
+        "about": "An accessible account of who this figure was and what they did."
+      },
+      "personExplore": {
+        "about": "A focused reading of the figure's choices and tensions, grounded in established facts."
       },
       "library": {
         "about": "The works this figure experienced and the works they created, kept together as records."
@@ -65,7 +76,7 @@
         "about": "The camps and rivalries surrounding a shared era, ideology, organization, or work."
       },
       "analysis": {
-        "about": "Two sets of metrics: sixteen profile axes and public influence."
+        "about": "A 16-axis spectrum and an assessment of public influence."
       },
       "media": {
         "about": "Writing, voice, and video that bring this figure's thought and character into view."
@@ -74,10 +85,7 @@
         "about": "An assessment of influence across politics, strategy, technology, society, economics, and culture."
       },
       "persona": {
-        "about": "An analysis of thought and behavior across sixteen ability, virtue, and temperament axes."
-      },
-      "virtualMonologue": {
-        "about": "A source-grounded first-person monologue in which the figure looks back on their life."
+        "about": "A 16-axis spectrum of ability, virtue, and disposition."
       },
       "dialogues": {
         "about": "A collection of responses written for this figure in different situations across the service."
@@ -88,8 +96,6 @@
     },
     "influence": "Influence",
     "tierFictionBadge": "Mythic figure",
-    "tierRelationBadge": "Featured through others",
-    "tierRelationNotice": "This figure appears alongside other people and films on the site. Only a basic introduction is kept here, with no viewing records.",
     "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
     "sourceWorks": "Source Works",
@@ -100,7 +106,7 @@
       "origin": "First appears",
       "adaptation": "Adaptation"
     },
-    "analysis": "Figure Metrics",
+    "analysis": "Figure Analysis",
     "media": "Media",
     "guestbook": "Guestbook",
     "fictionGuestbook": "Reader Notes",
@@ -112,14 +118,6 @@
     "showDetail": "Detailed Analysis",
     "hideDetail": "Hide Details",
     "monologue": "Monologue",
-    "virtualMonologue": "In Their Own Words",
-    "virtualMonologueNote": "A reconstruction of this figure's ideas and beliefs, drawn from their writings and public remarks. Not an actual quotation.",
-    "virtualMonologueKoNotice": "This passage is written in Korean.",
-    "virtualMonologueTranslate": "Translate to English",
-    "virtualMonologueShowOriginal": "Show Korean original",
-    "virtualMonologueTranslating": "Translating...",
-    "virtualMonologueTranslateError": "Translation failed. Showing the original text.",
-    "virtualMonologueMachineNote": "Machine-translated in your browser.",
     "faction": "Faction",
     "factionPreview": "Faction preview",
     "factionPreviewAria": "Open a preview of {name}",
@@ -167,6 +165,9 @@
     "relBandSideR": "Rivals & Opponents",
     "relBandDown": "People influenced by {name}",
     "relShowMore": "Show {count} more connections",
+    "relViewAll": "All {count} connections",
+    "relAllTitle": "All connections of {name}",
+    "relAllCount": "{count} connected people",
     "relationGraphNote": "Kinship, mentorship, and influence links are drawn from facts recorded in Wikidata.",
     "relFilter_all": "All",
     "relFilter_family": "Kinship",
@@ -197,7 +198,53 @@
     "videosShortsAside": "SHORT FRAGMENT",
     "videosEmpty": "No videos published yet.",
     "similarFigures": "Similar Figures",
-    "similarFormula": "Match percentage based on Euclidean distance across a 16-dimensional persona vector (4 abilities + 8 virtues + 4 dispositions).",
+    "personaMatches": "Spectrum Matches",
+    "personaMatchesIntro": "Compare the full 16-axis spectrum, then isolate disposition, virtue, and ability.",
+    "personaMatch_overall": "Similar Figures",
+    "personaMatch_overallDesc": "Figures with a similar full 16-axis spectrum",
+    "personaMatch_overallInsight": "The closest matches across the full spectrum",
+    "personaMatch_disposition": "Similar Disposition",
+    "personaMatch_dispositionDesc": "Figures pointing the same way on the four disposition axes",
+    "personaMatch_dispositionInsight": "Likely to make similar choices",
+    "personaMatch_virtue": "Similar Virtues",
+    "personaMatch_virtueDesc": "Figures with similar levels across all eight virtues",
+    "personaMatch_virtueInsight": "Likely to uphold similar standards",
+    "personaMatch_ability": "Similar Abilities",
+    "personaMatch_abilityDesc": "Figures with similar levels across all four abilities",
+    "personaMatch_abilityInsight": "Figures equipped for the same role as {name}",
+    "personaMatch_opposite": "Opposing Disposition",
+    "personaMatch_oppositeDesc": "Figures pointing the other way on the four disposition axes",
+    "personaMatch_oppositeInsight": "Likely to notice risks the other side misses",
+    "personaMatchPercent": "{percent}% match",
+    "personaClashPercent": "{percent}% clash",
+    "personaClashLegend": "Left: subject · Right: match",
+    "personaMatchModalTitle": "Why They Resemble Each Other",
+    "personaMatchModalOppositeTitle": "Where Their Dispositions Diverge",
+    "personaMatchModalIntro": "Where the spectra of {subject} and {candidate} overlap and diverge",
+    "personaMatchModalSubject": "Subject",
+    "personaMatchModalCandidate": "Compared figure",
+    "personaMatchModalMatch": "match",
+    "personaMatchModalClash": "clash",
+    "personaMatchModalNeutral": "Neutral",
+    "personaMatchModalGap": "Gap {value}",
+    "personaMatchModalMirrorGap": "Mirror gap {value}",
+    "personaMatchModalClose": "Close",
+    "personaMatchModalLoading": "Loading",
+    "personaMatchModalViewPerson": "View person card",
+    "personaMatchPrevious": "Previous category",
+    "personaMatchNext": "Next category",
+    "personaMatchGraphicHint": "Select an axis to reveal its values",
+    "personaMatchGraphicOverallRadar": "Ability & Virtue Spectrum",
+    "personaMatchGraphicVirtueRadar": "Virtue Spectrum",
+    "personaMatchGraphicAbilityRadar": "Ability Spectrum",
+    "personaMatchGraphicCompass": "Disposition Compass",
+    "personaMatchGraphicInsightLabel": "IN ONE LINE",
+    "personaMatchGraphicOverallInsight": "Their overall profiles are closest in {axes}, giving them a similar outline of judgment and role.",
+    "personaMatchGraphicDispositionInsight": "Both lean toward {axes}, making similar choices more likely.",
+    "personaMatchGraphicVirtueInsight": "They uphold notably similar standards in {axes}.",
+    "personaMatchGraphicAbilityInsight": "In a role requiring {axes}, {candidate} is the closest substitute for {subject}.",
+    "personaMatchGraphicOppositeInsight": "When {subject} judges from {subjectAxes}, {candidate} looks from {candidateAxes} and may notice the risks the other misses.",
+    "similarFormula": "The candidate pool includes every active public figure with values for all 16 axes. Similar Figures compares the full spectrum; disposition, virtue, and ability matches compare only the named axes and convert distance to a 0–100% match. Opposing Disposition excludes abilities and virtues, reverses only the subject’s four disposition axes, and converts that distance to a 0–100% clash score.",
     "archiveSuffix": "'s Archives",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "Leave your thoughts in the guestbook.",

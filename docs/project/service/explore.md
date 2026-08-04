@@ -11,7 +11,7 @@
 | `/explore` | 허브. 4개 미리보기 + 네비게이터 | `getCelebs`, `getTopByContentType`, `getPersonaDistribution`, `getFeaturedTags` |
 | `/explore/figures` | 인물 목록. 파라미터 유무로 두 모드 | `getCelebs` 또는 `getCelebsByProfession` + 4종 집계 |
 | `/explore/ranking` | 분야별 랭킹. 콘텐츠 타입별 Top 10 | `getTopByContentTypeFull`, `getSharedContents` |
-| `/explore/persona` | 인물 분석. 16축 극단 인물 + 차순위 10명 | `getPersonaExtremes` |
+| `/explore/persona` | 스펙트럼. 16축 극단 인물 + 차순위 10명 | `getPersonaExtremes` |
 | `/explore/today` | 오늘의 인물 | `getTodayFigure` |
 | `/explore/faction` | 세력도감 | `getFeaturedTags` |
 | `/explore/faction/[slug]` | 테마별 고유 주소 세력도감 | `getFeaturedTags` |
@@ -99,9 +99,9 @@
 
 메타·i18n 네임스페이스는 옛 이름 `explore.topByType`을 그대로 쓴다. `revalidate = 3600`.
 
-## 인물 분석 (`/explore/persona`)
+## 스펙트럼 (`/explore/persona`)
 
-`getPersonaExtremes({ runnersUpLimit: 10 })`로 16축 각각의 극단 인물과 차순위 10명을 받아 `PersonaFullSection`에 넘긴다. 파일 주석은 이 화면을 "비범한 기록가"라 부르지만 네비게이션 라벨은 "인물 분석"이다. `revalidate = 3600`.
+`getPersonaExtremes({ runnersUpLimit: 10 })`로 16축 각각의 극단 인물과 차순위 10명을 받아 `PersonaFullSection`에 넘긴다. 사용자 노출 명칭은 "스펙트럼"이며, 라우트·컴포넌트·DB의 `persona` 명칭은 호환성을 위해 유지한다. `revalidate = 3600`.
 
 허브의 성향 분포(`PersonaDistribution`)는 `getPersonaDistribution()`이라는 다른 액션을 쓴다.
 

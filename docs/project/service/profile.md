@@ -8,7 +8,7 @@
 
 `[userId]` 라우트는 일반 사용자와 셀럽을 함께 받지만, 셀럽에게는 정본 주소가 따로 있다. `layout.tsx`와 `page.tsx` 양쪽에서 `profile.profile_type === 'CELEB'`이고 `slug`가 있으면 `/celeb/{slug}`로 리다이렉트한다. 프로필이 없으면 `notFound()`다.
 
-슬러그가 없는 셀럽은 리다이렉트되지 않고 `[userId]` 화면에 그대로 남는다. 이때 소개 화면은 영향력(`getCelebInfluence`)과 인물 분석·유사 인물(`getSimilarByCelebId`) 데이터를 추가로 싣는다.
+슬러그가 없는 셀럽은 리다이렉트되지 않고 `[userId]` 화면에 그대로 남는다. 이때 소개 화면은 영향력(`getCelebInfluence`)과 16축 스펙트럼·유사 인물(`getSimilarByCelebId`) 데이터를 추가로 싣는다.
 
 ## 화면 목록
 
@@ -44,7 +44,7 @@
 
 ## 소개 (`/[userId]`)
 
-`ProfileContent`가 받는 것은 프로필, 본인 여부, 방명록 항목·총계·작성자 정보, 그리고 셀럽일 때만 채워지는 영향력·인물 분석이다.
+`ProfileContent`가 받는 것은 프로필, 본인 여부, 방명록 항목·총계·작성자 정보, 그리고 셀럽일 때만 채워지는 영향력·16축 스펙트럼이다.
 
 **신고·차단(26.07.30)** — 방명록 항목마다 「방명록 신고 / 작성자 신고 / 작성자 차단」 메뉴가 붙는다(자기 글·내용이 가려진 비밀글 제외). 일반 사용자 프로필 상단에는 「사용자 신고 / 사용자 차단」이 붙는다. 인물(셀럽) 프로필은 운영이 만든 자료라 대상이 아니다.
 
@@ -115,4 +115,4 @@
 - 화면 지도: [README.md](README.md)
 - 광장(팔로우·친구): [agora.md](agora.md)
 - 셀럽 상세·영향력: `docs/project/db-celeb.md`, `docs/project/celeb/celeb-4-influence.md`
-- 인물 분석(페르소나): `docs/project/celeb/celeb-5-persona.md`
+- 16축 스펙트럼(내부명 persona): `docs/project/celeb/celeb-5-persona.md`

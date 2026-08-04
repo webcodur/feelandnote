@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { Link, useRouter } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ArrowLeft, Eye, Edit3, Trash2 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ko } from 'date-fns/locale'
 import { Button } from '@/components/ui'
 import type { FreePost, FreePostComment } from '@/types/database'
 import { deleteFreePost, incrementFreePostView } from '@/actions/board/free'
@@ -16,6 +14,8 @@ import FreeCommentSection from './FreeCommentSection'
 import FreeAvatar from './FreeAvatar'
 import { ModerationMenu } from '@/components/features/moderation'
 import { ENUM_REPORT_TARGET_TYPE } from '@/constants/moderation'
+import { formatBoardDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface FreePostDetailProps {
   post: FreePost
@@ -35,6 +35,7 @@ export default function FreePostDetail({
   const router = useRouter()
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState<string | null>(null)
@@ -135,7 +136,7 @@ export default function FreePostDetail({
             <span className="font-serif text-text-secondary">{freeDisplayName(post, t('free.anonymous'))}</span>
           </div>
           <span className="text-accent-dim/50">·</span>
-          <span>{format(new Date(post.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}</span>
+          <span>{formatBoardDateTime(post.created_at, locale)}</span>
           <span className="text-accent-dim/50">·</span>
           <span className="flex items-center gap-1">
             <Eye size={14} className="text-accent-dim" />

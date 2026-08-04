@@ -38,5 +38,6 @@ export async function deleteFreePost(params: DeleteFreePostParams): Promise<Acti
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 삭제]' })
 
   revalidatePath(FREE_BOARD_PATH)
+  revalidatePath(`/en${FREE_BOARD_PATH}`)
   return success(null)
 }

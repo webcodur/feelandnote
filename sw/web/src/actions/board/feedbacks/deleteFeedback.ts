@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 
 export async function deleteFeedback(id: string): Promise<ActionResult<null>> {
@@ -41,6 +41,8 @@ export async function deleteFeedback(id: string): Promise<ActionResult<null>> {
   }
 
   revalidatePath('/agora/board/feedback')
+  revalidatePath('/en/agora/board/feedback')
+  revalidateTag('feedbacks', { expire: 0 })
 
   return success(null)
 }

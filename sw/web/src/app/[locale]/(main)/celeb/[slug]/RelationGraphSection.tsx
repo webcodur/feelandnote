@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { Baby, ExternalLink, Handshake, Heart, LoaderCircle, Swords, User, Users, X, type LucideIcon } from "lucide-react";
+import { Baby, ExternalLink, Handshake, Heart, LoaderCircle, Network, Swords, User, Users, X, type LucideIcon } from "lucide-react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import BlurDissolve from "@/components/ui/BlurDissolve";
@@ -63,8 +63,12 @@ const SOCIAL_BAND_OF: Record<string, SocialBand> = {
 };
 const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "friendship", "rivalry"];
 
-/** 사회 관계 한 띠에 펼치는 최대 인원. 넘치면 접이식 목록으로 뺀다(혈연은 적용하지 않는다). */
-const ROW_CAP = 8;
+/**
+ * 본문은 관계의 구조만 파악할 수 있을 만큼만 보여준다.
+ * 전체 명단은 별도 패널에 남겨 페이지 높이가 관계 수에 비례해 늘어나지 않게 한다.
+ */
+const FEATURED_FAMILY_CAP = 5;
+const FEATURED_SOCIAL_CAP = 6;
 
 /** 요소의 컨테이너 기준 좌표 */
 interface Geo {
@@ -109,6 +113,23 @@ interface PersonNode {
   qid: string | null;
 }
 
+/** 각 세대·방향에서 한 명씩 번갈아 뽑아 특정 관계만 화면을 독점하지 않게 한다. */
+const pickBalancedIds = (buckets: PersonNode[][], cap: number) => {
+  const picked = new Set<string>();
+  for (let index = 0; picked.size < cap; index += 1) {
+    let added = false;
+    for (const bucket of buckets) {
+      const person = bucket[index];
+      if (!person || picked.has(person.id)) continue;
+      picked.add(person.id);
+      added = true;
+      if (picked.size === cap) break;
+    }
+    if (!added) break;
+  }
+  return picked;
+};
+
 interface Connector { d: string; color: string; dashed: boolean; opacity: number }
 
 interface Props {
@@ -123,7 +144,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   const tp = useTranslations("profession");
   useCountries();
   const [filter, setFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
-  const [expanded, setExpanded] = useState(false);
+  const [showAllRelations, setShowAllRelations] = useState(false);
+  const [allRelationsFilter, setAllRelationsFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
   const [connectors, setConnectors] = useState<Connector[]>([]);
   const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
   const {
@@ -166,15 +188,26 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   const view = useMemo(() => {
     // ── 가계도: 세대별 줄 ──
-    const kinRows: Record<KinRank, PersonNode[]> = { parents: [], siblings: [], spouses: [], children: [] };
+    const allKinRows: Record<KinRank, PersonNode[]> = { parents: [], siblings: [], spouses: [], children: [] };
     const social: PersonNode[] = [];
     for (const p of people) {
       const rank = KIN_RANK_OF[p.types[0]];
-      if (p.group === "family" && rank) kinRows[rank].push(p);
+      if (p.group === "family" && rank) allKinRows[rank].push(p);
       else social.push(p);
     }
-    // 혈연은 세대 자리가 곧 정보다. 자식 수십이어도 접이식으로 빼지 않고 가계도에 전부 세운다.
-    const overflowAll: PersonNode[] = [];
+
+    const featuredKinIds = pickBalancedIds([
+      allKinRows.parents,
+      allKinRows.siblings,
+      allKinRows.spouses,
+      allKinRows.children,
+    ], FEATURED_FAMILY_CAP);
+    const kinRows: Record<KinRank, PersonNode[]> = {
+      parents: allKinRows.parents.filter((person) => featuredKinIds.has(person.id)),
+      siblings: allKinRows.siblings.filter((person) => featuredKinIds.has(person.id)),
+      spouses: allKinRows.spouses.filter((person) => featuredKinIds.has(person.id)),
+      children: allKinRows.children.filter((person) => featuredKinIds.has(person.id)),
+    };
 
     // ── 사회 관계: 그룹 필터 + 띠 배치 ──
     // 맞수는 흡수되지 않는다 — 공동 창업이자 맞수인 인물(머스크-틸)은 맞수 쪽에 세운다.
@@ -184,15 +217,25 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     const socialCounts = new Map<string, number>();
     for (const p of socialResolved) socialCounts.set(p.group, (socialCounts.get(p.group) ?? 0) + 1);
     const filtered = filter === "all" ? socialResolved : socialResolved.filter((p) => p.group === filter);
-    const bands: Record<SocialBand, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
+    const allBands: Record<SocialBand, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
     for (const p of filtered) {
       const band = p.types.includes("rival") ? "sideR" : (SOCIAL_BAND_OF[p.types[0]] ?? "sideR");
-      bands[band].push(p);
+      allBands[band].push(p);
     }
+    const featuredSocialIds = pickBalancedIds([
+      allBands.up,
+      allBands.sideL,
+      allBands.sideR,
+      allBands.down,
+    ], FEATURED_SOCIAL_CAP);
+    const bands: Record<SocialBand, PersonNode[]> = {
+      up: allBands.up.filter((person) => featuredSocialIds.has(person.id)),
+      sideL: allBands.sideL.filter((person) => featuredSocialIds.has(person.id)),
+      sideR: allBands.sideR.filter((person) => featuredSocialIds.has(person.id)),
+      down: allBands.down.filter((person) => featuredSocialIds.has(person.id)),
+    };
     const socialMeta = new Map<string, { group: CelebRelationItem["relGroup"]; band: SocialBand }>();
     for (const b of Object.keys(bands) as SocialBand[]) {
-      overflowAll.push(...bands[b].slice(ROW_CAP));
-      bands[b] = bands[b].slice(0, ROW_CAP);
       for (const p of bands[b]) socialMeta.set(p.id, { group: p.group, band: b });
     }
     const kinIds: Record<KinRank, string[]> = {
@@ -203,8 +246,50 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     };
     const hasKin = Object.values(kinRows).some((r) => r.length > 0);
     const hasSocial = Object.values(bands).some((r) => r.length > 0) || social.length > 0;
-    return { kinRows, kinIds, hasKin, bands, socialMeta, socialCounts, hasSocial, overflow: overflowAll };
+    const allPeople = [
+      ...allKinRows.parents,
+      ...allKinRows.siblings,
+      ...allKinRows.spouses,
+      ...allKinRows.children,
+      ...socialResolved,
+    ];
+    const groupCounts = new Map<CelebRelationItem["relGroup"], number>();
+    for (const person of allPeople) {
+      groupCounts.set(person.group, (groupCounts.get(person.group) ?? 0) + 1);
+    }
+    const visibleIds = new Set([
+      ...Object.values(kinRows).flat().map((person) => person.id),
+      ...Object.values(bands).flat().map((person) => person.id),
+    ]);
+    return {
+      kinRows,
+      kinIds,
+      hasKin,
+      bands,
+      socialMeta,
+      socialCounts,
+      hasSocial,
+      allPeople,
+      groupCounts,
+      familyCount: Object.values(allKinRows).flat().length,
+      socialCount: socialResolved.length,
+      hiddenCount: Math.max(0, allPeople.length - visibleIds.size),
+    };
   }, [people, filter]);
+
+  useEffect(() => {
+    if (!showAllRelations) return;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShowAllRelations(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [showAllRelations]);
 
   // 짧은 근거(공동 창업 조직명)는 딱지에 직접 쓴다 — "공동 창업"이 아니라 "페이팔 공동 창업".
   // 긴 근거(맞수의 사건 한 줄)는 딱지를 유지하고 호버 설명으로 남긴다.
@@ -467,23 +552,23 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     );
   };
 
-  const mobilePersonRow = (p: PersonNode) => (
+  const compactPersonCard = (p: PersonNode) => (
     <button
       key={p.id}
       type="button"
       onClick={() => handlePersonSelect(p)}
       disabled={loadingId === p.id}
       aria-busy={loadingId === p.id}
-      className="group flex w-full items-center gap-3 rounded-lg border bg-white/[0.018] px-3 py-2.5 text-start hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="group flex min-w-0 items-center gap-2 rounded-lg border bg-white/[0.018] p-2 text-start hover:border-accent/45 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       style={{ borderColor: `${GROUP_COLOR[p.group]}66` }}
     >
-      {avatarCircle(p, "h-12 w-12 shrink-0", 18)}
+      {avatarCircle(p, "h-10 w-10 shrink-0", 16)}
       <span className="min-w-0 flex-1">
-        <span className="block font-serif text-[15px] font-bold leading-tight text-text-primary group-hover:text-accent">
+        <span className="line-clamp-2 font-serif text-[13px] font-bold leading-tight text-text-primary group-hover:text-accent">
           {p.name}
         </span>
         <span
-          className="mt-1 block text-xs font-semibold leading-tight"
+          className="mt-1 block truncate text-[11px] font-semibold leading-tight"
           style={{ color: GROUP_COLOR[p.group] }}
         >
           {relationLabel(p)}
@@ -499,8 +584,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         <p className="text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
           {heading}
         </p>
-        <div className="space-y-2">
-          {peopleInBand.map(mobilePersonRow)}
+        <div className="grid grid-cols-2 gap-2">
+          {peopleInBand.map(compactPersonCard)}
         </div>
       </div>
     );
@@ -522,10 +607,15 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     </div>
   );
 
-  const subHeading = (text: string) => (
+  const subHeading = (text: string, count?: number) => (
     <div className="relative z-10 flex items-center gap-3">
-      <p className="shrink-0 font-serif text-base font-bold tracking-[0.14em] text-text-primary">
+      <p className="flex shrink-0 items-baseline gap-2 font-serif text-base font-bold tracking-[0.14em] text-text-primary">
         {text}
+        {typeof count === "number" && (
+          <span className="font-mono text-[11px] font-normal tracking-normal text-text-secondary">
+            {count}
+          </span>
+        )}
       </p>
       <span
         aria-hidden
@@ -543,6 +633,35 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     : selected?.slug
       ? `https://www.wikidata.org/w/index.php?search=${encodeURIComponent(selected.name)}`
       : null;
+  const allRelationGroups: CelebRelationItem["relGroup"][] = [
+    "family",
+    "thought",
+    "career",
+    "friendship",
+    "rivalry",
+  ];
+  const allRelationFilters: ("all" | CelebRelationItem["relGroup"])[] = [
+    "all",
+    ...allRelationGroups.filter((group) => view.groupCounts.has(group)),
+  ];
+  const panelGroups = (allRelationsFilter === "all"
+    ? allRelationGroups
+    : [allRelationsFilter]
+  ).map((group) => ({
+    group,
+    people: view.allPeople.filter((person) => person.group === group),
+  })).filter(({ people: groupPeople }) => groupPeople.length > 0);
+
+  const openAllRelations = () => {
+    setAllRelationsFilter("all");
+    setShowAllRelations(true);
+  };
+
+  const handlePanelPersonSelect = (person: PersonNode) => {
+    setShowAllRelations(false);
+    setSelected(person);
+  };
+
   const socialFilterBar = () => view.socialCounts.size > 0 ? (
     <div className="flex flex-wrap justify-start gap-2">
       {socialFilters.map((f) => (
@@ -586,21 +705,21 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       <div className="space-y-8 md:hidden">
         {view.hasKin && (
           <div className="space-y-4">
-            {subHeading(t("relSubFamily"))}
-            <div className="space-y-2">
+            {subHeading(t("relSubFamily"), view.familyCount)}
+            <div className="grid grid-cols-2 gap-2">
               {([
                 ...view.kinRows.parents,
                 ...view.kinRows.siblings,
                 ...view.kinRows.spouses,
                 ...view.kinRows.children,
-              ]).map(mobilePersonRow)}
+              ]).map(compactPersonCard)}
             </div>
           </div>
         )}
 
         {view.hasSocial && (
           <div className="space-y-4">
-            {subHeading(t("relSubSocial"))}
+            {subHeading(t("relSubSocial"), view.socialCount)}
             {socialFilterBar()}
             <div className="space-y-5">
               {mobileBand(t("relBandUp", { name: centerName }), view.bands.up)}
@@ -631,7 +750,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         {/* ── 가계도 ── */}
         {view.hasKin && (
           <div className="space-y-0">
-            {subHeading(t("relSubFamily"))}
+            {subHeading(t("relSubFamily"), view.familyCount)}
             {view.kinRows.parents.length > 0 && (
               <div className="relative flex flex-wrap justify-center gap-x-3 gap-y-3 mt-4">
                 {view.kinRows.parents.map((p) => nodeCard(p))}
@@ -663,7 +782,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         {/* ── 사회 관계 (사상·동료·대립) ── */}
         {view.hasSocial && (
           <div className="space-y-4">
-            {subHeading(t("relSubSocial"))}
+            {subHeading(t("relSubSocial"), view.socialCount)}
             {socialFilterBar()}
             {view.bands.up.length > 0 && (
               <div className="relative mb-10 space-y-3">
@@ -712,51 +831,19 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         )}
       </div>
 
-      {/* 줄에 못 올린 인원 — 접이식 목록 */}
-      {view.overflow.length > 0 && (
-        <div className="space-y-3">
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={() => setExpanded((v) => !v)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-1.5 text-[13px] text-text-secondary hover:border-accent/30 hover:text-accent"
-            >
-              {expanded ? t("hideDetail") : t("relShowMore", { count: view.overflow.length })}
-            </button>
-          </div>
-          {expanded && (
-            <div className="flex gap-3 flex-wrap justify-center animate-fade-in">
-              {view.overflow.map((p) => {
-                const chip = (
-                  <>
-                    <div className="w-7 h-7 rounded-full overflow-hidden bg-bg-secondary flex-shrink-0">
-                      {p.avatar_url ? (
-                        <BlurDissolve className="h-full w-full">
-                          <Image src={p.avatar_url} alt={p.name} width={28} height={28} className="object-cover w-full h-full" unoptimized />
-                        </BlurDissolve>
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs font-serif">{p.name.charAt(0)}</div>
-                      )}
-                    </div>
-                    <span className={`text-[13px] font-serif ${p.slug ? "text-text-primary group-hover:text-accent" : "text-text-secondary"}`}>{p.name}</span>
-                    <span className="text-[11px]" style={{ color: GROUP_COLOR[p.group] }}>{label(p)}</span>
-                  </>
-                );
-                return (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClick={() => handlePersonSelect(p)}
-                    disabled={loadingId === p.id}
-                    aria-busy={loadingId === p.id}
-                    className={`group flex items-center gap-2 rounded-full border px-2.5 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${p.slug ? "border-white/10 hover:border-accent/40 hover:bg-white/[0.025]" : "border-dashed border-white/10 opacity-80 hover:border-accent/30"}`}
-                  >
-                    {chip}
-                  </button>
-                );
-              })}
-            </div>
-          )}
+      {view.hiddenCount > 0 && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={openAllRelations}
+            className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.025] px-4 py-2 text-[13px] font-medium text-text-secondary hover:border-accent/45 hover:bg-white/[0.055] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <Network size={15} aria-hidden />
+            {t("relViewAll", { count: view.allPeople.length })}
+            <span className="rounded-full bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-text-secondary group-hover:text-accent">
+              +{view.hiddenCount}
+            </span>
+          </button>
         </div>
       )}
 
@@ -764,6 +851,116 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       <p className="text-xs text-center leading-relaxed break-keep">
         {t("relationGraphNote")}
       </p>
+
+      {showAllRelations && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 sm:items-center sm:p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t("relAllTitle", { name: centerName })}
+          onClick={() => setShowAllRelations(false)}
+        >
+          <div
+            className="flex max-h-[88dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl border border-accent/25 bg-bg-secondary shadow-[0_24px_80px_rgba(0,0,0,0.9)] animate-fade-in sm:max-h-[82dvh] sm:rounded-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-white/10 px-4 py-4 sm:px-5">
+              <div className="min-w-0">
+                <p className="font-serif text-lg font-bold text-text-primary">
+                  {t("relAllTitle", { name: centerName })}
+                </p>
+                <p className="mt-1 text-xs text-text-secondary">
+                  {t("relAllCount", { count: view.allPeople.length })}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowAllRelations(false)}
+                className="shrink-0 rounded-full p-2 text-text-secondary hover:bg-white/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                aria-label={t("hideDetail")}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="flex flex-wrap gap-2 border-b border-white/10 px-4 py-3 sm:px-5">
+              {allRelationFilters.map((group) => {
+                const color = group === "all" ? GROUP_COLOR.family : GROUP_COLOR[group];
+                const count = group === "all"
+                  ? view.allPeople.length
+                  : view.groupCounts.get(group) ?? 0;
+                return (
+                  <button
+                    key={group}
+                    type="button"
+                    onClick={() => setAllRelationsFilter(group)}
+                    aria-pressed={allRelationsFilter === group}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs hover:text-text-primary ${
+                      allRelationsFilter === group
+                        ? "font-semibold text-text-primary"
+                        : "text-text-secondary hover:bg-white/[0.035]"
+                    }`}
+                    style={{
+                      borderColor: `${color}${allRelationsFilter === group ? "b3" : "55"}`,
+                      backgroundColor: allRelationsFilter === group ? `${color}1f` : undefined,
+                    }}
+                  >
+                    {t(`relFilter_${group}`)}
+                    <span className="font-mono text-[10px] opacity-70">{count}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="overflow-y-auto overscroll-contain px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-5">
+              <div className="space-y-6">
+                {panelGroups.map(({ group, people: groupPeople }) => (
+                  <section key={group} className="space-y-2.5">
+                    <div className="flex items-center gap-2">
+                      <span
+                        aria-hidden
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: GROUP_COLOR[group] }}
+                      />
+                      <h4 className="font-serif text-sm font-bold text-text-primary">
+                        {t(`relFilter_${group}`)}
+                      </h4>
+                      <span className="font-mono text-[10px] text-text-secondary">
+                        {groupPeople.length}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                      {groupPeople.map((person) => (
+                        <button
+                          key={person.id}
+                          type="button"
+                          onClick={() => handlePanelPersonSelect(person)}
+                          disabled={loadingId === person.id}
+                          aria-busy={loadingId === person.id}
+                          className="group flex min-w-0 items-center gap-3 rounded-lg border border-white/10 bg-white/[0.018] px-3 py-2.5 text-start hover:border-accent/40 hover:bg-white/[0.045] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        >
+                          {avatarCircle(person, "h-11 w-11 shrink-0", 17)}
+                          <span className="min-w-0 flex-1">
+                            <span className="block truncate font-serif text-sm font-bold text-text-primary group-hover:text-accent">
+                              {person.name}
+                            </span>
+                            <span
+                              className="mt-0.5 block truncate text-[11px] font-semibold"
+                              style={{ color: GROUP_COLOR[person.group] }}
+                            >
+                              {relationLabel(person)}
+                            </span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {previewCeleb && previewRelation && (
         <CelebDetailModal

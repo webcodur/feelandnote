@@ -32,15 +32,14 @@ export interface ServiceItem {
 }
 
 export interface CelebServiceAvailability {
+  reading: boolean;
   relations: boolean;
   timeline: boolean;
   contemporaries: boolean;
   faction: boolean;
   videos: boolean;
-  virtualMonologue: boolean;
   dialogues: boolean;
   dialogueVoice: boolean;
-  virtualMonologueVoice: boolean;
   influence: boolean;
   persona: boolean;
   sourceWorks: boolean;
@@ -68,6 +67,41 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.introduction,
         ready: true,
         target: { sectionId: "introduction" },
+      },
+      {
+        key: "reading",
+        chapter: CELEB_SERVICE_CHAPTERS.reading,
+        label: t("reading"),
+        icon: CELEB_SERVICE_ICONS.reading,
+        ready: availability.reading,
+        target: { sectionId: "reading" },
+        unavailableGuide: {
+          about: t("atlasGuides.reading.about"),
+        },
+        children: [
+          {
+            key: "person-guide",
+            chapter: "02-A",
+            label: t("personGuide"),
+            icon: CELEB_SERVICE_ICONS.personGuide,
+            ready: availability.reading,
+            target: { sectionId: "reading" },
+            unavailableGuide: {
+              about: t("atlasGuides.personGuide.about"),
+            },
+          },
+          {
+            key: "person-explore",
+            chapter: "02-B",
+            label: t("personExplore"),
+            icon: CELEB_SERVICE_ICONS.personExplore,
+            ready: availability.reading,
+            target: { sectionId: "reading" },
+            unavailableGuide: {
+              about: t("atlasGuides.personExplore.about"),
+            },
+          },
+        ],
       },
       {
         key: tier === "fiction" ? "sourceWorks" : "library",
@@ -113,7 +147,7 @@ export function useCelebServiceItems({
         children: [
           {
             key: "relations",
-            chapter: "04-A",
+            chapter: "05-A",
             label: t("relationGraph"),
             icon: CELEB_SERVICE_ICONS.relations,
             ready: availability.relations,
@@ -124,7 +158,7 @@ export function useCelebServiceItems({
           },
           {
             key: "contemporaries",
-            chapter: "04-B",
+            chapter: "05-B",
             label: t("contemporaries"),
             icon: CELEB_SERVICE_ICONS.contemporaries,
             ready: availability.contemporaries,
@@ -135,7 +169,7 @@ export function useCelebServiceItems({
           },
           {
             key: "faction",
-            chapter: "04-C",
+            chapter: "05-C",
             label: t("serviceFaction"),
             icon: CELEB_SERVICE_ICONS.faction,
             ready: availability.faction,
@@ -153,8 +187,7 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.analysis,
         ready:
           (availability.persona || availability.influence)
-          && tier !== "fiction"
-          && tier !== "relation",
+          && tier !== "fiction",
         target: { sectionId: "analysis" },
         unavailableGuide: {
           about: t("atlasGuides.analysis.about"),
@@ -162,13 +195,12 @@ export function useCelebServiceItems({
         children: [
           {
             key: "persona",
-            chapter: "05-A",
+            chapter: "06-A",
             label: t("profileAxes"),
             icon: CELEB_SERVICE_ICONS.persona,
             ready:
               availability.persona
-              && tier !== "fiction"
-              && tier !== "relation",
+              && tier !== "fiction",
             target: { sectionId: "analysis" },
             unavailableGuide: {
               about: t("atlasGuides.persona.about"),
@@ -176,13 +208,12 @@ export function useCelebServiceItems({
           },
           {
             key: "influence",
-            chapter: "05-B",
+            chapter: "06-B",
             label: t("influence"),
             icon: CELEB_SERVICE_ICONS.influence,
             ready:
               availability.influence
-              && tier !== "fiction"
-              && tier !== "relation",
+              && tier !== "fiction",
             target: { sectionId: "analysis" },
             unavailableGuide: {
               about: t("atlasGuides.influence.about"),
@@ -197,35 +228,19 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.media,
         ready:
           availability.videos
-          || ((availability.virtualMonologue || availability.dialogues)
-            && tier !== "relation"),
+          || availability.dialogues,
         target: { sectionId: "media" },
         unavailableGuide: {
           about: t("atlasGuides.media.about"),
         },
         children: [
-          {
-            key: "virtual-monologue",
-            chapter: "06-A",
-            label: t("mediaMonologue"),
-            icon: CELEB_SERVICE_ICONS.virtualMonologue,
-            ready: availability.virtualMonologue && tier !== "relation",
-            target: { sectionId: "media" },
-            unavailableGuide: {
-              about: t("atlasGuides.virtualMonologue.about"),
-            },
-            companion: {
-              label: t("serviceMonologueVoice"),
-              icon: CELEB_SERVICE_ICONS.virtualMonologueVoice,
-              ready: availability.virtualMonologueVoice,
-            },
-          },
+          // 가상 독백 탭은 서비스 노출에서 폐기했다. DB 원문은 제작 재료로만 보존한다.
           {
             key: "dialogues",
-            chapter: "06-B",
+            chapter: "07-A",
             label: t("mediaDialogues"),
             icon: CELEB_SERVICE_ICONS.dialogues,
-            ready: availability.dialogues && tier !== "relation",
+            ready: availability.dialogues,
             target: { sectionId: "media" },
             unavailableGuide: {
               about: t("atlasGuides.dialogues.about"),
@@ -238,7 +253,7 @@ export function useCelebServiceItems({
           },
           {
             key: "videos",
-            chapter: "06-C",
+            chapter: "07-B",
             label: t("mediaVideos"),
             icon: CELEB_SERVICE_ICONS.videos,
             ready: availability.videos,
@@ -271,11 +286,10 @@ export function useCelebServiceItems({
       availability.influence,
       availability.persona,
       availability.relations,
+      availability.reading,
       availability.sourceWorks,
       availability.timeline,
       availability.videos,
-      availability.virtualMonologue,
-      availability.virtualMonologueVoice,
       showLibrary,
       t,
       tier,

@@ -1,0 +1,132 @@
+{
+  "slug": "alcibiades",
+  "nickname": "알키비아데스",
+  "events": [
+    {
+      "id": "a9e52d42-e7e9-4f49-b09b-e5a701bd14a5",
+      "year": -450,
+      "title": "아테네에서 태어나다",
+      "before": "알키비아데스는 아테네의 유력한 귀족 가문에서 태어났다. 정확한 출생 연도는 확정되지 않아 일반적으로 기원전 450년 무렵으로 본다.",
+      "after": "Alcibiades is born into a prominent aristocratic family in Athens. His exact birth year is uncertain, but it is usually placed around 450 BCE."
+    },
+    {
+      "id": "5e538310-3174-4c74-8e92-ee91e0ddf949",
+      "year": -432,
+      "title": "포티다이아 전투에 참전하다",
+      "before": "알키비아데스는 아테네군 중장보병으로 포티다이아 전투에 참전해 부상을 입었다. 이 전투는 기록으로 확인되는 그의 초기 군사 경력에 해당한다.",
+      "after": "Alcibiades fights as an Athenian hoplite at Potidaea and is wounded. This is the earliest recorded event in his military career."
+    },
+    {
+      "id": "2a32c100-283a-4e80-8a75-e947b690f9a0",
+      "year": -424,
+      "title": "델리온 전투에서 퇴각하다",
+      "before": "알키비아데스는 보이오티아군에 패한 아테네군과 함께 델리온에서 퇴각했다. 플라톤은 그가 기병으로 복무하며 소크라테스의 안전한 퇴각을 도왔다고 기록했다.",
+      "after": "The Athenian army loses at Delium, and Alcibiades retreats with it. Plato says that he serves in the cavalry and helps Socrates withdraw safely."
+    },
+    {
+      "id": "e1bebff4-3cde-479d-9dc5-4ad8e2de6404",
+      "year": -420,
+      "title": "장군으로 선출되어 아르고스 동맹을 성사시키다",
+      "before": "알키비아데스는 처음으로 장군에 선출되고 아테네가 아르고스, 엘리스, 만티네이아와 동맹을 맺도록 이끌었다. 이 동맹으로 그는 니키아스의 대스파르타 화해 노선에 맞서는 핵심 정치인으로 떠올랐다.",
+      "after": "Athens elects Alcibiades as a general for the first time. He leads the city into an alliance with Argos, Elis, and Mantinea, emerging as a leading opponent of Nicias's policy of reconciliation with Sparta."
+    },
+    {
+      "id": "593bb57c-dd5c-41c9-96a9-fc951f1c6940",
+      "year": -418,
+      "title": "추진한 동맹이 만티네이아에서 패하다",
+      "before": "알키비아데스가 추진한 아르고스 중심의 연합군은 만티네이아에서 스파르타군에 패했다. 패전으로 펠로폰네소스에서 스파르타의 세력을 약화하려던 그의 정책은 큰 타격을 입었다.",
+      "after": "The Argive coalition backed by Alcibiades meets the Spartans at Mantinea and loses. The defeat deals a serious blow to his effort to weaken Spartan power in the Peloponnese."
+    },
+    {
+      "id": "89cac610-2eda-43c0-bffb-927dd2083e6e",
+      "year": -415,
+      "title": "시칠리아 원정을 설득하고 공동 지휘관으로 출항하다",
+      "before": "알키비아데스는 아테네 민회를 설득해 대규모 시칠리아 원정을 승인받았다. 그는 니키아스, 라마코스와 함께 공동 지휘관으로 임명되어 피레아스에서 함대를 이끌고 출항했다.",
+      "after": "Alcibiades persuades the Athenian Assembly to approve a large expedition to Sicily. Appointed joint commander with Nicias and Lamachus, he sails from Piraeus with the fleet."
+    },
+    {
+      "id": "b5fefa0c-5716-4446-88ba-20d8aea2d97d",
+      "year": -415,
+      "title": "소환 도중 달아나 스파르타로 망명하다",
+      "before": "알키비아데스는 종교 모독 혐의로 아테네에 소환되자 투리이에서 호송을 벗어났다. 그는 스파르타로 망명했고 아테네에서는 궐석재판으로 사형을 선고받아 재산을 몰수당했다.",
+      "after": "Athens recalls Alcibiades to face charges of sacrilege, but he escapes his escort at Thurii. He defects to Sparta, while an Athenian court condemns him to death in his absence and confiscates his property."
+    },
+    {
+      "id": "f702a32a-34e2-4450-b2b1-41fbedcec71d",
+      "year": -413,
+      "title": "스파르타에 데켈레이아 요새화를 권하다",
+      "before": "알키비아데스는 스파르타에 아테네 북쪽의 데켈레이아를 상설 군사기지로 만들라고 조언했다. 스파르타군이 그곳을 점령하면서 아테네는 농지와 육상 보급로를 계속 위협받게 되었다.",
+      "after": "Alcibiades urges Sparta to establish a permanent military base at Decelea, north of Athens. Once Spartan forces occupy it, they keep Athenian farmland and overland supply routes under constant threat."
+    },
+    {
+      "id": "c8f42815-de6d-4a00-af06-7ad32982b668",
+      "year": -412,
+      "title": "이오니아 도시들의 아테네 이탈을 이끌다",
+      "before": "알키비아데스는 스파르타 함대와 이오니아로 이동해 키오스를 비롯한 아테네 동맹 도시들의 이탈을 설득했다. 이 반란으로 아테네는 시칠리아 패전 직후 에게해 동부의 지배권까지 위협받았다.",
+      "after": "Alcibiades travels to Ionia with a Spartan fleet and urges Chios and other Athenian allies to revolt. Coming soon after the disaster in Sicily, these defections threaten Athens's control of the eastern Aegean."
+    },
+    {
+      "id": "5622a98b-44ed-465a-9411-a5b77b288847",
+      "year": -412,
+      "title": "스파르타를 떠나 티사페르네스에게 망명하다",
+      "before": "알키비아데스는 스파르타에서 살해 명령이 내려졌다는 경고를 받고 페르시아 태수 티사페르네스에게 피신했다. 첫 접촉 장소는 분명하지 않지만 두 사람이 마그네시아에서 함께 활동한 기록이 남아 있다.",
+      "after": "Warned that the Spartan authorities have ordered his death, Alcibiades takes refuge with the Persian satrap Tissaphernes. Their first meeting place is unclear, but later records place them together at Magnesia."
+    },
+    {
+      "id": "26ea18e7-2514-416b-b5d9-f78ada984a61",
+      "year": -411,
+      "title": "사모스의 아테네 함대에서 장군으로 복귀하다",
+      "before": "사모스의 아테네 병사들은 알키비아데스를 소환하고 다시 장군으로 선출했다. 그는 함대가 아테네로 진격해 내전을 일으키려는 움직임을 막고 다시 아테네 편에서 전쟁을 지휘했다.",
+      "after": "The Athenian forces on Samos recall Alcibiades and elect him as a general once more. He stops the fleet from sailing against Athens and resumes command in the war on the Athenian side."
+    },
+    {
+      "id": "a27c5257-2e2a-49e2-83c8-1a515e993d9c",
+      "year": -411,
+      "title": "아비도스 해전의 승리를 이끌다",
+      "before": "알키비아데스는 트리에레스 18척을 이끌고 아비도스 해전에 합류해 팽팽하던 전세를 아테네 쪽으로 돌렸다. 아테네군은 스파르타 함선 30척을 노획하며 헬레스폰토스에서 주도권을 확보했다.",
+      "after": "Alcibiades reaches the fighting at Abydos with eighteen triremes and turns a close battle in Athens's favor. The Athenians capture thirty Spartan ships and strengthen their hold on the Hellespont."
+    },
+    {
+      "id": "34ca208f-acfc-45ba-885d-cffdf5ba1386",
+      "year": -410,
+      "title": "키지코스에서 스파르타 함대를 격파하다",
+      "before": "알키비아데스는 소규모 함대로 적을 유인한 뒤 트라시불로스와 테라메네스의 함대와 함께 스파르타군을 포위했다. 아테네군은 적 함대 대부분을 빼앗거나 파괴하고 헬레스폰토스의 해상권을 회복했다.",
+      "after": "At Cyzicus, Alcibiades uses a small force to draw out the enemy. He then joins the fleets of Thrasybulus and Theramenes to surround the Spartans, and the Athenians capture or destroy most of the opposing fleet. Athens regains control of the Hellespont."
+    },
+    {
+      "id": "ffecc4ef-fd9e-4f28-9766-b483c2c0479d",
+      "year": -409,
+      "title": "칼케돈과 비잔티온을 아테네의 통제 아래 되돌리다",
+      "before": "알키비아데스는 칼케돈을 압박한 뒤 셀림브리아를 항복시키고 비잔티온 공략에 합류했다. 이 작전으로 아테네는 흑해 곡물 수송로의 핵심 거점들을 다시 통제하게 되었다.",
+      "after": "Alcibiades puts pressure on Chalcedon, secures Selymbria's surrender, and joins the operation that retakes Byzantium. Athens regains control of key points along the Black Sea grain route."
+    },
+    {
+      "id": "b07344cd-e790-4832-93e0-15f0e49bae28",
+      "year": -407,
+      "title": "아테네로 귀환해 최고 지휘권을 받다",
+      "before": "알키비아데스는 피레아스로 귀환해 기존의 유죄판결과 종교 모독 혐의를 취소받았다. 아테네 민회는 그의 재산을 돌려주고 육군과 해군의 최고 지휘권을 맡겼으며, 귀환 연도는 일부 연대기에서 기원전 408년으로 보기도 한다.",
+      "after": "Alcibiades returns to Athens through Piraeus, where the city clears his conviction and the charges of sacrilege. The Assembly restores his property and gives him supreme command of the army and navy. Some chronologies date his return to 408 rather than 407 BCE."
+    },
+    {
+      "id": "96bdb3ba-3ffa-40ac-873f-e39448b0df39",
+      "year": -406,
+      "title": "노티온 패전으로 지휘권을 잃고 다시 망명하다",
+      "before": "알키비아데스가 포카이아로 떠난 사이 부관 안티오코스가 명령을 어기고 교전해 노티온에서 패했다. 알키비아데스는 책임을 지고 해임된 뒤 트라키아 케르소네소스의 요새로 물러났으며, 전투 연도는 일부 옛 연대기에서 기원전 407년으로 제시된다.",
+      "after": "While Alcibiades is away at Phocaea, his subordinate Antiochus disobeys orders and loses a battle at Notium. Athens removes Alcibiades from command, and he withdraws to his fortresses in the Thracian Chersonese. Some older chronologies date the battle to 407 rather than 406 BCE."
+    },
+    {
+      "id": "27bc19c7-9cb6-45b7-840d-aeeb6e0334fb",
+      "year": -405,
+      "title": "아이 고스포타모이의 아테네 함대에 진지를 옮기라고 권하다",
+      "before": "크세노폰에 따르면 알키비아데스는 항구가 없는 해안에 주둔한 아테네 장군들에게 세스토스로 진지를 옮기라고 권했다. 장군들은 제안을 거절했지만 디오도로스는 그가 지휘권을 조건으로 트라키아군 지원을 제안했다고 달리 기록한다.",
+      "after": "According to Xenophon, Alcibiades urges the Athenian generals at Aegospotami to leave their exposed, harborless beach and move to Sestos. They reject his advice. Diodorus gives a different account, saying that Alcibiades offers support from Thracian forces in return for a share of the command."
+    },
+    {
+      "id": "dd3da581-8a03-49cf-9e11-e6a0e234c0fa",
+      "year": -404,
+      "title": "프리기아에서 살해되다",
+      "before": "알키비아데스는 페르시아의 지원을 구하려고 이동하던 중 프리기아의 멜리사에서 살해된 것으로 전한다. 기원전 404년 사망은 널리 받아들여지지만 정확한 장소와 살해를 지시한 인물을 두고 고대 기록이 엇갈린다.",
+      "after": "Alcibiades is reportedly killed at Melissa in Phrygia while traveling to seek Persian support. His death in 404 BCE is widely accepted, but ancient accounts disagree about the exact place and who ordered the assassination."
+    }
+  ]
+}

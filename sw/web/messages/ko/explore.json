@@ -101,8 +101,8 @@
       "explore": "탐색하기",
       "noCountryFigures": "해당 국가의 인물이 없습니다.",
       "personaQuickView": {
-        "loading": "인물 지표를 분석하는 중...",
-        "analysis": "분석 총평",
+        "loading": "스펙트럼을 분석하는 중...",
+        "analysis": "스펙트럼 해설",
         "visitLibrary": "{name}의 기록물 보기",
         "exploreJourney": "감상 여정과 취향 탐색"
       },
@@ -136,6 +136,8 @@
         "influence": "영향력 {score}",
         "noResults": "검색 결과가 없습니다.",
         "bucketCount": "{count}명",
+        "previousBucket": "이전 구간",
+        "nextBucket": "다음 구간",
         "topPercent": "상위 {percentile}%",
         "runnersUp": "차순위",
         "assessment": "기록",
@@ -154,8 +156,8 @@
       "personaList": "사람 목록",
       "professionUnknown": "직군 미상",
       "personaLoading": "정보 불러오는 중...",
-      "personaTitle": "인간정보 분석 창",
-      "personaNoPersona": "인간정보 데이터 없음",
+      "personaTitle": "16축 스펙트럼",
+      "personaNoPersona": "스펙트럼 데이터 없음",
       "personaNoSelection": "선택 가능한 사람이 없습니다.",
       "personaFigure": "인물",
       "auraTitle": {
@@ -208,7 +210,7 @@
       "quickNav": "바로가기",
       "navCelebs": "인물 목록",
       "navTopByType": "분야별 챔피언",
-      "navPersona": "인물 분석",
+      "navPersona": "스펙트럼",
       "navFeed": "인물 피드",
       "navFaction": "세력도감",
       "navDirectory": "디렉토리",
@@ -289,8 +291,8 @@
       "sharedBy": "감상한 인물"
     },
     "persona": {
-      "metaTitle": "비범한 인물 | 인물",
-      "metaDescription": "독서량, 다양성, 몰입도 등 16개 축에서 극단적 성향을 보이는 인물들을 만나보세요."
+      "metaTitle": "16축 스펙트럼 | 인물",
+      "metaDescription": "역량·덕목·성향 16개 축에서 두드러지는 인물을 살펴보세요."
     },
     "timelinePage": {
       "metaTitle": "국가별 셀럽 연대기 | 인물",

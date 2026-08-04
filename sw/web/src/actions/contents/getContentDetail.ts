@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getContentById } from './getContentById'
 import { fetchContentMetadata } from './fetchContentMetadata'
-import { getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
+import { getPublicReviewFeed, getReviewFeed, type ReviewFeedItem } from './getReviewFeed'
 import { getProfile } from '@/actions/user'
 import {
   getFictionCharactersForContent,
@@ -229,6 +229,46 @@ async function fetchUserRecord(
   }
 }
 // #endregion
+
+// 공개 상세 본문 — 쿠키와 viewer 정보를 읽지 않는다. 콘텐츠 URL 수가 많아 빌드 때
+// 전부 만들지 않고, 첫 요청에 생성한 결과를 ISR 캐시로 공유한다.
+export const getPublicContentDetail = cache(getPublicContentDetailInner)
+
+async function getPublicContentDetailInner(
+  contentId: string,
+  locale: string,
+): Promise<ContentDetailData | null> {
+  const content = await fetchContentDataPublicCached(contentId, null, locale)
+  if (!content) return null
+
+  const [initialReviews, fictionCharacters, curatedEntries] = await Promise.all([
+    getPublicReviewFeed({ contentId: content.id, limit: 10 }, locale),
+    getFictionCharactersForContent(content.id, locale),
+    getCuratedEntriesForContent(content.id, locale),
+  ])
+
+  return {
+    content,
+    userRecord: null,
+    isLoggedIn: false,
+    initialReviews,
+    fictionCharacters,
+    curatedEntries,
+  }
+}
+
+// 정적 본문이 hydration된 뒤 로그인 사용자에게만 개인 기록을 보강한다.
+export async function getContentViewerState(
+  contentId: string,
+): Promise<Pick<ContentDetailData, 'userRecord' | 'isLoggedIn'>> {
+  const profile = await getProfile()
+  if (!profile) return { userRecord: null, isLoggedIn: false }
+
+  return {
+    userRecord: await fetchUserRecord(profile.id, contentId),
+    isLoggedIn: true,
+  }
+}
 
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
 export const getContentDetail = cache(getContentDetailInner)

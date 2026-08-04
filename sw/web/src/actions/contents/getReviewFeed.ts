@@ -116,6 +116,24 @@ const getReviewFeedCached = unstable_cache(
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
+// 콘텐츠 상세의 ISR 본문용. viewer별 제외 규칙을 섞지 않아 모든 방문자가
+// 같은 공개 리뷰 HTML을 CDN에서 공유할 수 있다.
+export async function getPublicReviewFeed(
+  params: GetReviewFeedParams,
+  locale: string,
+): Promise<ReviewFeedItem[]> {
+  // 바깥의 콘텐츠 ISR 문서가 결과를 보관한다. 1시간 Data Cache를 중첩하면
+  // 페이지 전체의 재검증 주기가 짧아질 수 있으므로 공개 첫 화면은 직접 읽는다.
+  return fetchReviewFeed(
+    params.contentId,
+    params.limit ?? 20,
+    params.offset ?? 0,
+    params.excludeUserId ?? null,
+    null,
+    locale,
+  )
+}
+
 export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

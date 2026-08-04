@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import type { FreePost } from '@/types/database'
 import { createFreePost, updateFreePost } from '@/actions/board/free'
+import { resolveLocale } from '@/types/locale'
 
 // 익명 필명은 고정하지 않는다(고정하면 익명이 아니라 부계정이 된다).
 // 대신 직전에 쓴 필명을 이 기기에 기억해 기본값으로 채워준다 — 매번 치는 번거로움만 덜어낸다.
@@ -40,6 +41,7 @@ interface UseFreePostDraftParams {
 export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword = false, onSuccess }: UseFreePostDraftParams) {
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [nickname, setNickname] = useState(initialData?.nickname ?? '')
   const [title, setTitle] = useState(initialData?.title ?? '')
   const [content, setContent] = useState(initialData?.content ?? '')
@@ -54,7 +56,6 @@ export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword 
   useEffect(() => {
     if (mode !== 'create') return
     const remembered = loadRememberedNickname()
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- 외부 저장소(localStorage) 동기화. 초기값으로 옮기면 SSR과 값이 갈린다
     if (remembered) setNickname(remembered)
   }, [mode])
 
@@ -95,8 +96,8 @@ export function useFreePostDraft({ mode, isLoggedIn, initialData, needsPassword 
         mode === 'create'
           ? await createFreePost(
               isLoggedIn
-                ? { title, content, anonymous, nickname: anonymous ? trimmedNickname : undefined }
-                : { title, content, nickname: trimmedNickname, password },
+                ? { locale, title, content, anonymous, nickname: anonymous ? trimmedNickname : undefined }
+                : { locale, title, content, nickname: trimmedNickname, password },
             )
           : await updateFreePost(
               needsPassword

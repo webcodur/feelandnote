@@ -171,4 +171,4 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 - **별도 위험**: 사이트맵의 83.9%인 콘텐츠 상세 페이지 13,330개는 고유 콘텐츠 6,665건의 ko/en 쌍이다. DB 전수 집계상 5,140건(77.1%)이 감상문 1건뿐이고 한국어 감상문 중앙값은 158자다. 이는 정책상 불합격률이 아니라 콘텐츠 가치 위험 지표이며, 색인 회복과 별도로 출판 기준을 검토한다.
 - **교훈 1**: 표면 SEO(메타·canonical·JSON-LD·ads.txt) 전부 정상이어도, 크롤러가 따라갈 링크가 없고 본문이 JS 뒤에 있으면 색인은 0이다. **`loading.tsx` 제거만으로 스켈레톤 문제가 끝나지 않는다 — 컴포넌트의 `useEffect` 클라이언트 fetch도 동일 결과다.**
 - **교훈 2**: 사이트맵 등재 기준과 noindex 기준은 반드시 일치시킨다(등재 후 색인 거부 = 모순 신호). 다만 “감상문 1건 이상”이 곧 “색인할 가치가 충분함”을 뜻하지는 않는다.
-- **⚠️ 정적 렌더 전환 시 재파손 주의**: `ContentLibrary`가 `useSearchParams()`를 쓴다. 현재는 `getCelebBySlug`의 쿠키 접근으로 셀럽 라우트가 동적 렌더(ƒ)라 SSR이 유지되지만, egress 감사의 `[locale]` 정적 렌더 전환 과제를 수행하면 Suspense 경계에서 이 서브트리가 CSR로 빠져 **책 목록이 HTML에서 다시 사라진다.** 정적화 시 `q` 검색어를 서버 prop으로 내리는 조치를 함께 해야 한다.
+- **정적 렌더 재파손 가드 — 해소(2026-08-04)**: `ContentLibrary`의 `useSearchParams()`를 제거했다. 서가 초기 데이터는 ISR HTML에 두고 `?q=`만 hydration 후 적용한다. `[locale]` root layout·셀럽 ISR 전환은 `web-egress-audit-2026-06-29.md` 11절이 SSoT다. 배포 검증에서는 셀럽 HTML 원문에 책 제목·감상문이 남는지 반드시 확인한다.

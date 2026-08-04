@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import { Link, useRouter } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui'
 import type { FeedbackCategory, FeedbackWithAuthor } from '@/types/database'
 import { createFeedback, updateFeedback } from '@/actions/board/feedbacks'
 import { FEEDBACK_CATEGORIES } from '@/constants/board'
+import { resolveLocale } from '@/types/locale'
 
 interface FeedbackFormProps {
   mode: 'create' | 'edit'
@@ -18,6 +19,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
   const router = useRouter()
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [category, setCategory] = useState<FeedbackCategory>(initialData?.category ?? 'FEATURE_SUGGESTION')
   const [title, setTitle] = useState(initialData?.title ?? '')
   const [content, setContent] = useState(initialData?.content ?? '')
@@ -30,7 +32,7 @@ export default function FeedbackForm({ mode, initialData }: FeedbackFormProps) {
     setIsSubmitting(true)
 
     const result = mode === 'create'
-      ? await createFeedback({ category, title, content })
+      ? await createFeedback({ locale, category, title, content })
       : await updateFeedback({ id: initialData!.id, title, content })
 
     if (result.success) {

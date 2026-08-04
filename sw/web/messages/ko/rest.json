@@ -2,6 +2,7 @@
   "rest": {
     "section": "쉼터",
     "arena": {
+      "inDevelopment": "개발 중",
       "portrait": {
         "label": "시대의 초상",
         "description": "흐릿한 초상 속 인물을 빠르게 알아보세요",

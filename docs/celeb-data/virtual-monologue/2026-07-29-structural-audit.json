@@ -24551,7 +24551,7 @@
     {
       "slug": "park-soo-man",
       "nickname": "박수만",
-      "tier": "relation",
+      "tier": "light",
       "profession": "entrepreneur",
       "birthDate": null,
       "deathDate": null,
@@ -27363,7 +27363,7 @@
     {
       "slug": "cleitus-the-black",
       "nickname": "클레이토스",
-      "tier": "relation",
+      "tier": "light",
       "profession": "commander",
       "birthDate": "-375",
       "deathDate": "-328",
@@ -39646,7 +39646,7 @@
     {
       "slug": "clowwindy",
       "nickname": "클로윈디",
-      "tier": "relation",
+      "tier": "light",
       "profession": "other",
       "birthDate": null,
       "deathDate": null,

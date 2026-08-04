@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "scope": "active-deceased",
+  "slug": "archimedes",
+  "identity": {
+    "name": "아르키메데스",
+    "nameEn": "Archimedes",
+    "profession": "scientist",
+    "nationality": "GR",
+    "birthDate": "-287",
+    "deathDate": "-212",
+    "wikidataQid": "Q8739"
+  },
+  "events": [
+    {
+      "year": -287,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "시라쿠사에서 태어나다",
+      "titleEn": "Is born in Syracuse",
+      "description": "아르키메데스는 시칠리아의 그리스 도시 시라쿠사에서 태어난 것으로 전해진다. 출생 연도는 그가 기원전 212년에 75세로 죽었다는 후대 기록에서 역산한 통설이므로 확정된 날짜는 아니다.",
+      "descriptionEn": "Archimedes is traditionally said to have been born in the Greek city of Syracuse in Sicily. The year is an estimate derived from a later report that he was seventy-five when he died in 212 BC, so the date is not certain.",
+      "kind": "birth",
+      "placeName": "시라쿠사",
+      "placeNameEn": "Syracuse",
+      "lat": 37.069166666,
+      "lng": 15.2875,
+      "placeQid": "Q13670",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Archimedes"
+    },
+    {
+      "year": -213,
+      "yearEnd": -212,
+      "month": null,
+      "day": null,
+      "title": "로마군의 시라쿠사 공격을 막아내다",
+      "titleEn": "Repels the Roman assault on Syracuse",
+      "description": "아르키메데스는 로마군이 시라쿠사를 육지와 바다에서 공격하자 투석 장치와 함선을 들어 올리는 기계 등 방어 장비를 운용했다. 그의 장비가 초기 공격을 저지하면서 로마군은 직접 공략을 중단하고 장기 포위로 전략을 바꾸었다.",
+      "descriptionEn": "When Roman forces attacked Syracuse by land and sea, Archimedes deployed defensive equipment including projectile engines and mechanisms that lifted ships. His machines helped defeat the initial assaults, leading the Romans to abandon a direct attack and continue with a prolonged siege.",
+      "kind": "battle",
+      "placeName": "시라쿠사 성벽",
+      "placeNameEn": "Walls of Syracuse",
+      "lat": 37.069166666,
+      "lng": 15.2875,
+      "placeQid": "Q13670",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Siege_of_Syracuse_(213%E2%80%93212_BC)"
+    },
+    {
+      "year": -212,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "시라쿠사 함락 때 살해되다",
+      "titleEn": "Is killed during the capture of Syracuse",
+      "description": "아르키메데스는 로마군이 시라쿠사를 점령하고 약탈하던 때 로마 병사에게 살해되었다. 고대 기록들은 살해 당시의 상황을 서로 다르게 전하지만, 그가 도시 함락 과정에서 죽었다는 점에는 대체로 일치한다.",
+      "descriptionEn": "Archimedes was killed by a Roman soldier as Roman forces captured and looted Syracuse. Ancient accounts differ about the circumstances of the encounter, but broadly agree that he died during the fall of the city.",
+      "kind": "death",
+      "placeName": "시라쿠사",
+      "placeNameEn": "Syracuse",
+      "lat": 37.069166666,
+      "lng": 15.2875,
+      "placeQid": "Q13670",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Siege_of_Syracuse_(213%E2%80%93212_BC)"
+    }
+  ]
+}

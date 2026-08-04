@@ -2,13 +2,15 @@ import type { Metadata } from 'next'
 import { getMemberBySlug } from '@/actions/admin/members'
 import { getCelebDialogues } from '@/actions/admin/dialogues'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, CheckCircle, Ban, Clock, Copy } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Ban, Clock } from 'lucide-react'
 import Link from 'next/link'
 import CelebForm from '../../members/components/CelebForm'
 import ExtraSections from './ExtraSections'
 import { LangModeProvider } from '@/contexts/LangModeContext'
 import CopyButton from './CopyButton'
 import CelebSearchBar from '@/components/celeb/CelebSearchBar'
+import CelebExplanationSection from './CelebExplanationSection'
+import { getCelebExplanation } from '@/lib/admin/celeb-explanations'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
@@ -28,7 +30,10 @@ export default async function CelebDetailPage({ params }: PageProps) {
 
   if (!celeb || celeb.profile_type !== 'CELEB') notFound()
 
-  const dialogueLines = await getCelebDialogues(celeb.id)
+  const [dialogueLines, explanation] = await Promise.all([
+    getCelebDialogues(celeb.id),
+    getCelebExplanation(celeb.id),
+  ])
 
   return (
     <div className="space-y-4">
@@ -70,6 +75,8 @@ export default async function CelebDetailPage({ params }: PageProps) {
           </div>
         </div>
       </div>
+
+      <CelebExplanationSection explanation={explanation} />
 
       <LangModeProvider>
         {/* CelebForm 내부: 기본정보 / 영향력 / 감상철학 / 태그 아코디언 */}

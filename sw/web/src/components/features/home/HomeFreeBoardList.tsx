@@ -2,13 +2,12 @@
 
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Eye, MessageSquare, ChevronDown, Edit3, Trash2, FileText, Loader2 } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
-import { formatKST } from '@/lib/utils/date'
 import type { FreePost, FreePostComment } from '@/types/database'
+import { resolveLocale } from '@/types/locale'
 import { getFreePosts, getFreeComments, deleteFreePost, incrementFreePostView } from '@/actions/board/free'
+import { formatBoardRelativeTime, formatBoardShortDateTime } from '@/lib/board/boardDate'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import { shouldCountView } from '@/lib/board/viewDedup'
 import FreeAvatar from '@/components/features/board/free/FreeAvatar'
@@ -38,6 +37,7 @@ export default function HomeFreeBoardList({
 }: HomeFreeBoardListProps) {
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [posts, setPosts] = useState(initialPosts)
   const [hasMore, setHasMore] = useState(initialHasMore)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
@@ -59,6 +59,7 @@ export default function HomeFreeBoardList({
     setIsLoadingMore(true)
     try {
       const { posts: newPosts, hasMore: newHasMore } = await getFreePosts({
+        locale,
         limit: ITEMS_PER_PAGE,
         offset: posts.length,
       })
@@ -225,9 +226,9 @@ export default function HomeFreeBoardList({
                       </div>
                       <span className="text-accent-dim/30 hidden sm:inline">·</span>
                       <div className="flex items-center gap-1.5">
-                        <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
+                        <span>{formatBoardRelativeTime(post.created_at, locale)}</span>
                         <span className="">
-                          ({formatKST(post.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
+                          ({formatBoardShortDateTime(post.created_at, locale)})
                         </span>
                       </div>
                       <span className="text-accent-dim/30 hidden sm:inline">·</span>

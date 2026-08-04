@@ -8,7 +8,7 @@ import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
-import { getGuestbookEntries } from "@/actions/guestbook";
+import { getPublicGuestbookEntries } from "@/actions/guestbook";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getFactionTagPreviews } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
@@ -34,7 +34,13 @@ interface PageProps {
 
 // 정적/ISR 렌더링: 로그인 의존 요소(방명록 본인 판정)를 클라이언트로 분리해
 // 페이지 본문은 쿠키를 읽지 않는다. 봇 크롤이 HTML 캐시에 적중해 DB 조회가 발생하지 않는다.
-export const revalidate = 3600;
+// Next segment config는 import 상수가 아니라 정적 분석 가능한 숫자 리터럴이어야 한다.
+export const revalidate = 604800;
+
+// 수천 개 slug를 빌드 때 한꺼번에 생성하지 않고 첫 요청에 ISR로 만든다.
+export function generateStaticParams() {
+  return [];
+}
 
 // 서버에서 미리 그릴 서가 첫 화면 항목 수. 서재 훅의 기본 페이지 크기와 같아야
 // 초기 HTML과 클라이언트 첫 페이지가 어긋나지 않는다.
@@ -66,7 +72,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   );
   const canonicalUrl = alternates.canonical;
 
-  // full 등급만 색인 대상이다. light/relation/fiction은 연결용 최소 등록이라
+  // full 등급만 색인 대상이다. light/fiction은 연결용 최소 등록이라
   // 본문이 얇아 색인되면 저품질 페이지로 잡힌다. 링크는 따라가도록 follow는 유지한다.
   // (사이트맵도 full 등급만 등재한다 — 같은 기준)
   const isIndexable = (INDEXABLE_TIERS as readonly string[]).includes(result.data.celeb_tier ?? 'full');
@@ -114,7 +120,7 @@ export default async function CelebPage({ params }: PageProps) {
   const pageTitle = locale === 'en' ? buildCelebTitleEn(titleInput) : buildCelebTitleKo(titleInput);
 
   const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionPreviews, initialContents, fictionSources] = await Promise.all([
-    getGuestbookEntries({ profileId: userId }),
+    getPublicGuestbookEntries({ profileId: userId }),
     getCelebInfluence(userId, locale),
     getSimilarByCelebId(userId, 3, locale),
     getCelebJsonLdContents(userId),
@@ -132,7 +138,7 @@ export default async function CelebPage({ params }: PageProps) {
           page: 1,
           limit: LIBRARY_FIRST_PAGE_SIZE,
           sortBy: 'recent',
-        })
+        }, locale)
       : Promise.resolve({
           items: [],
           total: 0,

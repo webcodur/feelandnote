@@ -178,8 +178,8 @@
       "empty": "아직 새겨진 소개가 없습니다."
     },
     "persona": {
-      "label": "인물 분석",
-      "description": "{nickname}의 덕목, 능력, 성향을 분석한 결과입니다.",
+      "label": "16축 스펙트럼",
+      "description": "{nickname}의 덕목·능력·성향을 16개 축으로 정리한 스펙트럼입니다.",
       "neutral": "중립",
       "strong": "강한 {direction}",
       "innerVirtue": "내적 덕목",
@@ -187,7 +187,7 @@
       "ability": "능력",
       "disposition": "성향",
       "similarLabel": "유사 인물",
-      "similarDesc": "위 분석과 가장 유사한 인물입니다.",
+      "similarDesc": "이 스펙트럼과 가장 가까운 인물들입니다.",
       "matchPercent": "{percent}% 일치"
     },
     "stats": {

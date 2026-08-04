@@ -76,8 +76,8 @@ export default function CelebPersonPreviewButton({
         </span>
       </span>
 
-      <span className="space-y-0.5 text-center">
-        <span className="block font-serif text-xs font-bold leading-tight text-text-primary group-hover:text-accent">
+      <span className="w-full space-y-0.5 text-center">
+        <span className="block text-balance break-keep font-serif text-xs font-bold leading-tight text-text-primary group-hover:text-accent">
           {name}
         </span>
         {children}

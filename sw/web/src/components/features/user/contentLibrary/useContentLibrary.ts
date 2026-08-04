@@ -129,6 +129,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     setSearchQuery("");
     setAppliedSearchQuery("");
   }, []);
+
+  const applySearchQuery = useCallback((query: string) => {
+    setSearchQuery(query);
+    setAppliedSearchQuery(query);
+  }, []);
   // #endregion
 
   // #region 데이터 로딩
@@ -367,7 +372,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     viewMode, setViewMode,
     searchQuery, setSearchQuery,
     appliedSearchQuery,
-    executeSearch, clearSearch,
+    executeSearch, clearSearch, applySearchQuery,
     formatMonthLabel,
     // 파생 상태
     filteredAndSortedContents,

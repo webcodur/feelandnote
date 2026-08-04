@@ -229,8 +229,7 @@ sw/remotion/public/music/  # 배경음악
 
 1. **기획·명단** — *어디서: 조사·웹 검색, 셀럽 파이프라인(web-bo `/celebs`).*
    진영별로 인물을 추리고 현직 여부를 웹으로 교차 확인한다(편성 원칙 1). 미등록 인물은 티어를 나눠 먼저 등록한다. 동명이인 주의. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
-   - 감상 기록이 있을 만한 실존 인물 → `light`(콘텐츠 확보 시 `full` 승격)
-   - 관계 때문에 나오는 단순 실존 인물 → `relation`(basic 최소)
+   - 실존 인물 → `light`(콘텐츠 확보 시 `full` 승격). 관계 때문에 나오는 조연도 같은 기준을 쓴다.
    - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 스킬 `fiction-profile-monologue`로 기본 정보와 `profiles.virtual_monologue`를 먼저 완성한다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
 
    등록 여부·티어는 편집기 인물 행 배지로 확인한다: **✓ DB**(실존 등록·연결) / **⚠ 없음**(키는 있는데 DB 부재) / **미연결**(키 없음) / **신화**(fiction, `mythical` 플래그 — DB 연결 시 초록).

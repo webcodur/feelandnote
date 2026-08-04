@@ -14,8 +14,7 @@ interface SelectedTitle {
 }
 
 /**
- * 셀럽 등급. full만 색인·전면 노출 대상이고, 나머지는 연결용 최소 등록이다.
- * relation = 관계 실존 인물, fiction = 신화·허구 속 존재.
+ * 셀럽 등급. full만 색인 대상이며, fiction은 신화·허구 속 존재다.
  * 정의는 @feelandnote/shared/constants/celeb-tiers가 단일원천이다.
  * ('use server' 파일이라 재export(export type { ... })는 번들러가 런타임 export로 보고 깨진다. 별칭 선언으로 둔다)
  */

@@ -9,6 +9,7 @@
 import { useEffect, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { X, type LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import AnimatedHeight from "./AnimatedHeight";
 import { Z_INDEX } from "@/constants/zIndex";
 
@@ -46,6 +47,8 @@ export default function Modal({
   closeOnOverlayClick = true,
   zIndex,
 }: ModalProps) {
+  const t = useTranslations("shared.accessibility");
+
   // ESC 키로 닫기
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -88,7 +91,7 @@ export default function Modal({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={t("close")}
             className="absolute right-2 top-2 z-[70] w-8 h-8 rounded-full flex items-center justify-center hover:text-text-primary hover:bg-white/10 bg-bg-card/50 backdrop-blur-sm sm:right-4 sm:top-4"
           >
             <X size={20} />

@@ -5,23 +5,73 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
+import { Cinzel, Inter, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
-import { setRequestLocale, getMessages, getTranslations, getLocale } from "next-intl/server";
-import { routing } from "@/i18n/routing";
+import { setRequestLocale, getMessages, getTranslations } from "next-intl/server";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
 import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
+import "../globals.css";
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const notoSansKr = Noto_Sans_KR({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-sans",
+  display: "swap",
+});
+
+const castoro = Castoro_Titling({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-castoro",
+  display: "swap",
+});
+
+const maruburi = localFont({
+  src: [
+    { path: "../../fonts/MaruBuriOTF/MaruBuri-Regular.otf", weight: "400" },
+    { path: "../../fonts/MaruBuriOTF/MaruBuri-SemiBold.otf", weight: "600" },
+  ],
+  variable: "--font-maruburi",
+  display: "swap",
+});
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  // locale 아래 모든 공개 화면을 빌드 때 한꺼번에 그리면 DB·외부 API 조회가
+  // 폭증한다. 각 URL은 첫 요청에 생성하고 이후 CDN/ISR에서 공유한다.
+  return [];
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("site");
-  const locale = await getLocale();
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "site" });
   const ogLocale = locale === "ko" ? "ko_KR" : "en_US";
 
   return {
@@ -116,22 +166,38 @@ export default async function LocaleLayout({
   ];
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <GameAudioProvider>
-        <GlobalDialogueProvider>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
-          />
-          <PortraitSharpenFilter />
-          <ServiceWorkerRegistrar />
-          {children}
-          <Footer />
-          {process.env.NODE_ENV === "production" && (
-            <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
-          )}
-        </GlobalDialogueProvider>
-      </GameAudioProvider>
-    </NextIntlClientProvider>
+    <html
+      lang={locale}
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${cinzel.variable} ${cormorant.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}
+    >
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3751045783335791"
+          crossOrigin="anonymous"
+        />
+        <meta name="google-adsense-account" content="ca-pub-3751045783335791" />
+      </head>
+      <body>
+        <NextIntlClientProvider messages={messages}>
+          <GameAudioProvider>
+            <GlobalDialogueProvider>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+              />
+              <PortraitSharpenFilter />
+              <ServiceWorkerRegistrar />
+              {children}
+              <Footer />
+              {process.env.NODE_ENV === "production" && (
+                <GoogleAnalytics gaId="G-LMVY8KTJ7T" />
+              )}
+            </GlobalDialogueProvider>
+          </GameAudioProvider>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

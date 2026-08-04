@@ -40,7 +40,7 @@ export default function PersonaBucketPanel({ items, label, labelColor, negLabel,
           onClick={onPrev}
           disabled={!hasPrev}
           className="p-2 text-text-secondary hover:text-text-primary disabled:opacity-25"
-          aria-label="prev"
+          aria-label={t("previousBucket")}
         >
           <ChevronLeft size={18} />
         </button>
@@ -55,7 +55,7 @@ export default function PersonaBucketPanel({ items, label, labelColor, negLabel,
           onClick={onNext}
           disabled={!hasNext}
           className="p-2 text-text-secondary hover:text-text-primary disabled:opacity-25"
-          aria-label="next"
+          aria-label={t("nextBucket")}
         >
           <ChevronRight size={18} />
         </button>

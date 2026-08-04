@@ -38,6 +38,7 @@ interface ContentInfoSectionProps {
   content: ContentDetailData["content"];
   userRecord: ContentDetailData["userRecord"];
   isLoggedIn: boolean;
+  isAuthResolved: boolean;
   onRecordChange: (record: ContentDetailData["userRecord"]) => void;
 }
 
@@ -45,6 +46,7 @@ export default function ContentInfoSection({
   content,
   userRecord,
   isLoggedIn,
+  isAuthResolved,
   onRecordChange,
 }: ContentInfoSectionProps) {
   const t = useTranslations("contentDetail");
@@ -359,7 +361,7 @@ export default function ContentInfoSection({
         </div>
       )}
 
-      {!isLoggedIn && (
+      {!isLoggedIn && isAuthResolved && (
         <p className="text-center text-sm py-4">{t("loginPrompt")}</p>
       )}
     </div>

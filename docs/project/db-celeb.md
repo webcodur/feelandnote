@@ -1,16 +1,16 @@
 # DB 스키마 - 셀럽
 
-> **최종 실측 체크: 26.07.29** — 콘텐츠 조사 상태 + fiction 팩션 18편 전량 연결 반영. 26.08.03 세력도감 단일화(`celeb_tag_assignments` 축소·뷰 `faction_atlas_members` 신설)는 아래 「celeb_tags / celeb_tag_assignments 컬럼」 절 참조
+> **최종 실측 체크: 26.08.04** — 실존 인물 최소 등급을 `light`로 단일화한 3티어 체계 반영. 26.08.03 세력도감 단일화(`celeb_tag_assignments` 축소·뷰 `faction_atlas_members` 신설)는 아래 「celeb_tags / celeb_tag_assignments 컬럼」 절 참조
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 ## 셀럽 테이블
 
 - **`profiles`**: 셀럽 기본 프로필. `profile_type = 'CELEB'`
-  - `celeb_tier` (text, 기본값 `'full'`): `'full'` / `'light'` / `'relation'` / `'fiction'` — 파이프라인·노출 차이는 `celeb-pipeline.md` 참조
-    - **DB CHECK 제약은 없다.** 4종은 코드·운영 규약이며 DB가 값을 강제하지 않는다
-    - 실측 분포(2026-07-29): full 1,325 / light 469 / fiction 257 / relation 3
-    - `relation` = 관계 실존 인물(2026-07 신설). 다른 셀럽·영상(팩션 등)과의 관계 때문에 등록. basic 최소 + 아바타만, 홈·검색·탐색 비노출(연결로만)
+  - `celeb_tier` (text, 기본값 `'full'`): `'full'` / `'light'` / `'fiction'` — 파이프라인·노출 차이는 `celeb-pipeline.md` 참조
+    - **DB CHECK 제약은 없다.** 3종은 코드·운영 규약이며 DB가 값을 강제하지 않는다
+    - 실측 분포(2026-08-04): 전체 full 1,461 / light 954 / fiction 255, 그중 active full 1,362 / light 118 / fiction 252
+    - 정상적인 실존 인물은 등록 목적과 무관하게 최소 `light`로 둔다
     - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 상단 인물 검색과 대표 원전 연결로 노출하며 승격 대상은 아님
   - `content_research_status` (text, 기본값 `'open'`): `open` / `researching` / `confirmed_empty`
     - 실제 `user_contents`가 양수면 활성 여부나 조사 상태와 무관하게 그 개수를 표시한다
@@ -31,6 +31,12 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨. **2026-07-31 값 전량 비움(817건 → 0)** — 815건이 옛 Supabase Storage(`avatars` 버킷)를 가리켰으나 그 버킷에 portrait 파일은 0개였다(실측: `storage.objects` 852건 중 이름에 portrait 포함 0, 샘플 URL HTTP 400). 되살릴 원본이 없으므로 재도입은 신규 생성이다
+- **`celeb_explanations`**: 인물당 한 행으로 `인물 안내`와 `인물 탐구`를 보관한다. `profile_id`가 `profiles.id`를 참조하는 PK라 1:1이다
+  - `plain_text`는 처음 보는 독자를 위한 인물 안내, `interpretive_title`·`interpretive_text`는 그 사실을 반복하지 않고 선택과 긴장을 읽는 인물 탐구다. 영문 필드는 각각 `_en`
+  - `review_status`는 `null`(미검수) / `ai_reviewed` / `human_reviewed` 셋이다. CHECK 제약에는 두 문자열만 두고 미검수는 실제 SQL `NULL`로 표현한다
+  - `published_at`은 게시 여부와 시각의 SSoT다. `null`이면 미게시다. RLS는 게시된 행만 공개하고 작성·수정은 `service_role`에만 허용한다
+  - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 5인 시범 이력은 `docs/todo/celeb-explainer-pilot.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
+  - `celeb_explanation_sources`는 2026-08-04 폐기했다. 사실 조사는 계속 수행하지만 URL은 집필 캐시에만 임시 보관하고 서비스 DB에는 적재하지 않는다
 - **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
   - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT
   - `rel_group`: family(혈연)/thought(사상)/career(공동 창업)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
@@ -133,7 +139,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 #### 2026-07-26 일괄 조사 — 201명 중 181명 확보
 
-빈 자리가 201명이었다(full 107 · light 41 · fiction 48 · relation 5). GPT(codex, 종량 비용 없음)에 배치로 조사시키고 **채택 판정은 발주자가 쥐는** 방식으로 채웠다.
+빈 자리가 201명이었다(full 107 · 실존 최소 프로필 46 · fiction 48). GPT(codex, 종량 비용 없음)에 배치로 조사시키고 **채택 판정은 발주자가 쥐는** 방식으로 채웠다.
 
 | 구분 | 대상 | 확보 | 실패 |
 |------|------|------|------|

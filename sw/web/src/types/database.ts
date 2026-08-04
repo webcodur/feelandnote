@@ -2,6 +2,7 @@
 
 // ===== Enums (공유 패키지에서 import 후 re-export) =====
 import type { ContentType, ContentStatus } from '@feelandnote/shared/types'
+import type { Locale } from './locale'
 export type { ContentType, ContentStatus }
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
@@ -144,7 +145,9 @@ interface Notice {
   id: string
   author_id: string
   title: string
+  title_en: string
   content: string
+  content_en: string
   is_pinned: boolean
   view_count: number
   created_at: string
@@ -166,6 +169,7 @@ interface Feedback {
   category: FeedbackCategory
   title: string
   content: string
+  locale: Locale
   status: FeedbackStatus
   admin_comment: string | null
   resolved_by: string | null
@@ -193,6 +197,7 @@ interface BoardComment {
   post_id: string
   author_id: string
   content: string
+  locale: Locale
   created_at: string
   updated_at: string
 }
@@ -208,6 +213,7 @@ export interface FreePost {
   id: string
   title: string
   content: string
+  locale: Locale
   nickname: string | null
   author_id: string | null
   is_anonymous: boolean

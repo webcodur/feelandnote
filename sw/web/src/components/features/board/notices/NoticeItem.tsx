@@ -1,10 +1,12 @@
+'use client'
+
 import { Link } from "@/i18n/navigation"
+import { useLocale } from 'next-intl'
 import { Eye, MessageSquare } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
-import { formatKST } from '@/lib/utils/date'
 import type { NoticeWithAuthor } from '@/types/database'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
+import { formatBoardRelativeTime, formatBoardShortDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface NoticeItemProps {
   notice: NoticeWithAuthor
@@ -14,6 +16,8 @@ const isNew = (dateStr: string) =>
   Date.now() - new Date(dateStr).getTime() < 24 * 60 * 60 * 1000
 
 export default function NoticeItem({ notice }: NoticeItemProps) {
+  const locale = resolveLocale(useLocale())
+
   return (
     <Link
       href={`/agora/board/notice/${notice.id}`}
@@ -51,10 +55,10 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
             <span className="font-serif">{notice.author.nickname}</span>
             <span className="text-accent-dim/50">·</span>
             <span>
-              {formatDistanceToNow(new Date(notice.created_at), { addSuffix: true, locale: ko })}
+              {formatBoardRelativeTime(notice.created_at, locale)}
             </span>
             <span className="text-accent-dim/30">
-              ({formatKST(notice.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
+              ({formatBoardShortDateTime(notice.created_at, locale)})
             </span>
 
             <span className="text-accent-dim/50">·</span>

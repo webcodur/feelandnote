@@ -271,9 +271,12 @@ export async function getPublicViewerContents(params: GetUserContentsParams): Pr
 
 // 셀럽 상세 SSR용 — 대상이 항상 타인(셀럽)이므로 쿠키·인증을 읽지 않는다.
 // 페이지 서버 렌더에서 직접 호출해 초기 HTML에 서가 목록·감상문을 싣는다(크롤러 노출).
-export async function getPublicUserContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
+export async function getPublicUserContents(
+  params: GetUserContentsParams,
+  requestLocale?: string,
+): Promise<GetUserContentsResponse> {
   const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
-  const locale = await getLocale()
+  const locale = requestLocale ?? (await getLocale())
 
   return getCachedCelebLibraryContents(userId, type, page, limit, search, hasReview, sortBy, locale)
 }

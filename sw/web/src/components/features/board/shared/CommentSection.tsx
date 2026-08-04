@@ -1,15 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Trash2 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ko } from 'date-fns/locale'
 import { Link } from '@/i18n/navigation'
 import { Button, FormattedText } from '@/components/ui'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import { createComment, deleteComment } from '@/actions/board/comments'
 import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTabletIcon'
+import { formatBoardDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface CommentSectionProps {
   boardType: BoardType
@@ -28,6 +28,7 @@ export default function CommentSection({
 }: CommentSectionProps) {
   const t = useTranslations('board.comment')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [comments, setComments] = useState(initialComments)
   const [newComment, setNewComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,7 +41,8 @@ export default function CommentSection({
     const result = await createComment({
       boardType,
       postId,
-      content: newComment
+      content: newComment,
+      locale
     })
 
     if (result.success) {
@@ -91,7 +93,7 @@ export default function CommentSection({
                     {comment.author.nickname}
                   </span>
                   <span className="text-xs">
-                    {format(new Date(comment.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
+                    {formatBoardDateTime(comment.created_at, locale)}
                   </span>
                 </div>
                 <p className="text-sm text-text-secondary whitespace-pre-wrap font-serif leading-relaxed">

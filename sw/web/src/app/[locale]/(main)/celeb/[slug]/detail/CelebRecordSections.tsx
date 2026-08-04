@@ -25,6 +25,7 @@ import CelebSectionHeading from "../CelebSectionHeading";
 import FictionSourceWorksSection from "../FictionSourceWorksSection";
 import FigureAnalysisTabs from "../FigureAnalysisTabs";
 import FigureMediaTabs from "../FigureMediaTabs";
+import FigureReadingTabs from "../FigureReadingTabs";
 import JourneySection from "../JourneySection";
 import LibraryTabs from "../LibraryTabs";
 import PeopleAndEraTabs from "../PeopleAndEraTabs";
@@ -97,16 +98,14 @@ export default function CelebRecordSections({
     [locale, profile.youtube_videos],
   );
   const availability: CelebServiceAvailability = {
+    reading: Boolean(profile.reading),
     relations: profile.relations.length > 0,
     timeline: timelineEvents.length > 0,
     contemporaries: contemporaries.length > 0,
     faction: profile.factionTags.length > 0,
     videos: longform.length > 0 || shorts.length > 0,
-    virtualMonologue: Boolean(profile.virtual_monologue),
     dialogues: hasDialogues,
     dialogueVoice: hasDialogues && hasVoice,
-    // monologue.mp3는 고유 대사의 짧은 독백이며 가상 독백 전문 낭독이 아니다.
-    virtualMonologueVoice: false,
     influence: Boolean(influenceData),
     persona: Boolean(personaData?.targetPersona),
     sourceWorks: fictionSources.length > 0,
@@ -169,6 +168,16 @@ export default function CelebRecordSections({
       />
 
       <div className={styles.sectionStack}>
+        <section id="reading" tabIndex={-1} className={SECTION_CLASS_NAME}>
+          {renderSectionHeading("reading")}
+          <SectionSurface className={TAB_BOX_CLASS_NAME}>
+            <FigureReadingTabs
+              item={serviceItemsByKey.get("reading")!}
+              reading={profile.reading}
+            />
+          </SectionSurface>
+        </section>
+
         <section
           id={isFiction ? "source-works" : "library"}
           tabIndex={-1}
@@ -253,8 +262,6 @@ export default function CelebRecordSections({
           <SectionSurface className={TAB_BOX_CLASS_NAME}>
             <FigureMediaTabs
               item={serviceItemsByKey.get("media")!}
-              monologueText={profile.virtual_monologue}
-              showTranslate={locale === "en"}
               dialogueLines={dialogueLines}
               nickname={profile.nickname}
               avatarUrl={profile.avatar_url}

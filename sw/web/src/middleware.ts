@@ -29,20 +29,29 @@ export async function middleware(request: NextRequest) {
   // 1) next-intl locale 처리
   const intlResponse = intlMiddleware(request);
 
-  // 2) Supabase 세션 갱신
-  const { supabaseResponse, user } = await updateSession(request);
+  // 2) Supabase 세션 갱신. 익명 크롤러/방문자는 인증 쿠키가 없으므로
+  // auth.getUser() 왕복을 만들지 않는다. 로그인 쿠키가 있을 때만 기존 갱신을 수행한다.
+  const hasSupabaseAuthCookie = request.cookies.getAll().some(({ name }) =>
+    name.startsWith('sb-') && name.includes('-auth-token')
+  );
+  let user: Awaited<ReturnType<typeof updateSession>>['user'] = null;
 
-  // Supabase 쿠키를 intl response에 복사
-  supabaseResponse.cookies.getAll().forEach((cookie) => {
-    intlResponse.cookies.set(cookie.name, cookie.value, {
-      path: cookie.path,
-      domain: cookie.domain,
-      maxAge: cookie.maxAge,
-      httpOnly: cookie.httpOnly,
-      secure: cookie.secure,
-      sameSite: cookie.sameSite as 'lax' | 'strict' | 'none' | undefined,
+  if (hasSupabaseAuthCookie) {
+    const session = await updateSession(request);
+    user = session.user;
+
+    // Supabase가 갱신한 쿠키를 intl response에 복사
+    session.supabaseResponse.cookies.getAll().forEach((cookie) => {
+      intlResponse.cookies.set(cookie.name, cookie.value, {
+        path: cookie.path,
+        domain: cookie.domain,
+        maxAge: cookie.maxAge,
+        httpOnly: cookie.httpOnly,
+        secure: cookie.secure,
+        sameSite: cookie.sameSite as 'lax' | 'strict' | 'none' | undefined,
+      });
     });
-  });
+  }
 
   // 3) Auth redirect — locale prefix 제거 후 경로 비교
   const pathname = request.nextUrl.pathname;

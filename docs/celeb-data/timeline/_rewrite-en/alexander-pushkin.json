@@ -1,0 +1,139 @@
+{
+  "slug": "alexander-pushkin",
+  "nickname": "알렉산드르 푸시킨",
+  "events": [
+    {
+      "id": "877cff20-5491-4f0d-b6cc-cc68f873d356",
+      "year": 1799,
+      "title": "모스크바에서 태어나다",
+      "before": "알렉산드르 푸시킨은 모스크바의 러시아 귀족 가문에서 태어났다. 그는 어머니를 통해 표트르 대제에게 봉사한 아브람 간니발의 후손이었다.",
+      "after": "Alexander Pushkin was born into a Russian noble family in Moscow. Through his mother, he descended from Abram Gannibal, who had served Peter the Great."
+    },
+    {
+      "id": "ec5c8537-155c-4642-ab18-92ae3820b622",
+      "year": 1811,
+      "title": "차르스코예 셀로 학당에서 공부하다",
+      "before": "푸시킨은 새로 설립된 차르스코예 셀로 학당의 첫 입학생이 되었다. 그는 이곳에서 시를 쓰고 훗날까지 이어진 문학적 교우 관계를 형성했다.",
+      "after": "Pushkin joined the first class at the newly founded Tsarskoye Selo Lyceum. He wrote poetry there and formed literary friendships that lasted throughout his life."
+    },
+    {
+      "id": "696fbed3-972e-469c-aa3e-e450418c3028",
+      "year": 1817,
+      "title": "학당을 졸업하고 외무부에서 일하다",
+      "before": "푸시킨은 학당을 졸업한 뒤 상트페테르부르크의 외무부에 임용되었다. 그는 관직에 있으면서 문학 모임에 참여하고 전제정과 농노제를 비판한 시를 유통시켰다.",
+      "after": "After graduating from the Lyceum, Pushkin took a post at the Foreign Ministry in Saint Petersburg. He joined literary circles and circulated poems that attacked autocracy and serfdom."
+    },
+    {
+      "id": "7329860f-ec82-4d1f-bab4-550581515320",
+      "year": 1820,
+      "title": "『루슬란과 류드밀라』를 발표하다",
+      "before": "푸시킨은 장편 서사시 『루슬란과 류드밀라』를 출간해 대중과 비평계의 주목을 받았다. 이 성공으로 그는 러시아 문단의 주요 신인 작가로 자리 잡았다.",
+      "after": "Pushkin published the long narrative poem Ruslan and Ludmila. Readers and critics took notice, and he emerged as a major young writer in Russian literature."
+    },
+    {
+      "id": "8e948639-30f1-44f3-b2ad-206a5f1d01ad",
+      "year": 1820,
+      "title": "키시너우로 유배되다",
+      "before": "알렉산드르 1세 정부는 정치적인 시들을 문제 삼아 푸시킨을 남부로 내보냈고, 그는 1820년 가을부터 키시너우에 머물렀다. 그는 수도의 문학계에서 떨어져 지내며 남부 지역을 소재로 한 작품을 쓰기 시작했다.",
+      "after": "The government of Alexander I sent Pushkin south because of his political poems. From the autumn of 1820, he lived in Chișinău, away from the capital's literary circles, and began writing about the south."
+    },
+    {
+      "id": "91834717-f0a9-478e-b212-4857b89254a5",
+      "year": 1823,
+      "title": "오데사로 옮겨 『예브게니 오네긴』을 쓰기 시작하다",
+      "before": "푸시킨은 키시너우를 떠나 오데사에서 근무하며 남부 유배 생활을 이어갔다. 그는 이 시기에 운문소설 『예브게니 오네긴』의 집필을 본격적으로 시작했다.",
+      "after": "Pushkin left Chișinău to serve in Odesa, where his southern exile continued. There he began sustained work on his verse novel Eugene Onegin."
+    },
+    {
+      "id": "59179941-8840-4883-8bf7-b7b3f155caa4",
+      "year": 1824,
+      "title": "미하일롭스코예 영지에 갇히다",
+      "before": "당국은 푸시킨을 관직에서 해임하고 어머니의 미하일롭스코예 영지에서 지내도록 명령했다. 그는 경찰의 감시와 이동 제한을 받았지만 집필에 집중할 시간을 얻었다.",
+      "after": "The authorities dismissed Pushkin from government service and ordered him to stay at his mother's estate in Mikhailovskoye. Police watched him and restricted his travel, but the confinement gave him time to write."
+    },
+    {
+      "id": "f2a1965c-4d7e-43ee-9538-5aee542ddb45",
+      "year": 1825,
+      "title": "희곡 『보리스 고두노프』를 완성하다",
+      "before": "푸시킨은 미하일롭스코예에서 역사극 『보리스 고두노프』를 완성했다. 황제의 검열 때문에 작품은 곧바로 출간되지 못했지만, 그의 창작 영역은 서정시와 서사시에서 역사극으로 넓어졌다.",
+      "after": "At Mikhailovskoye, Pushkin completed the historical drama Boris Godunov. Imperial censorship kept it from appearing at once, but the play took his work beyond lyric and narrative poetry into historical drama."
+    },
+    {
+      "id": "888bf9b8-6bbc-4d95-a628-a0a199b43d5f",
+      "year": 1826,
+      "title": "유배에서 풀려나 황제의 직접 검열을 받다",
+      "before": "니콜라이 1세는 푸시킨을 모스크바로 불러 유배를 끝내 주었다. 그러나 황제가 직접 그의 검열을 맡겠다고 선언하면서 푸시킨은 출판과 행동에 지속적인 제약을 받았다.",
+      "after": "Nicholas I summoned Pushkin to Moscow and ended his exile. The tsar then declared that he would personally censor Pushkin, continuing to restrict what he could publish and where he could go."
+    },
+    {
+      "id": "e07b14d3-c928-4f69-b091-086a664d4e18",
+      "year": 1829,
+      "title": "캅카스를 거쳐 에르주룸까지 여행하다",
+      "before": "푸시킨은 러시아군이 오스만 제국과 전쟁 중이던 캅카스를 지나 허가 없이 국경을 넘어 에르주룸까지 갔다. 그는 이 경험을 바탕으로 여행기 『아르즈룸 여행』을 집필했다.",
+      "after": "During the Russo-Turkish War, Pushkin travelled through the Caucasus and crossed the frontier without permission to reach Erzurum. He later drew on the journey to write A Journey to Arzrum."
+    },
+    {
+      "id": "3660a09e-1a4e-4ef4-ab61-1ccef6adc8a1",
+      "year": 1830,
+      "title": "볼디노에서 주요 작품들을 집필하다",
+      "before": "푸시킨은 혼인 준비를 위해 볼디노 영지를 찾았다가 콜레라 검역으로 약 석 달 동안 머물렀다. 그는 이곳에서 『벨킨 이야기』와 소희극들을 쓰고 『예브게니 오네긴』의 마지막 장을 완성했다.",
+      "after": "Pushkin went to the Boldino estate to make arrangements for his marriage, but a cholera quarantine kept him there for about three months. During that stay, he wrote The Belkin Tales and the Little Tragedies and finished the final chapter of Eugene Onegin."
+    },
+    {
+      "id": "bdf87d23-0ba9-48f9-94b3-6e9a975c350a",
+      "year": 1831,
+      "title": "나탈리야 곤차로바와 결혼하다",
+      "before": "푸시킨은 모스크바의 대승천 교회에서 나탈리야 곤차로바와 결혼했다. 부부는 같은 해 상트페테르부르크로 옮겨 궁정 사교계와 가까운 생활을 시작했다.",
+      "after": "At the Great Ascension Church in Moscow, Pushkin married Natalia Goncharova. Later that year, they moved to Saint Petersburg and began taking part in court society."
+    },
+    {
+      "id": "85a39d50-919d-4e5d-84a0-3b7af7d091e2",
+      "year": 1831,
+      "title": "국가기록원 연구 권한을 얻다",
+      "before": "니콜라이 1세는 푸시킨을 외무부의 명목상 직책에 복귀시키고 국가기록원에서 역사 자료를 조사하도록 허가했다. 푸시킨은 이 권한을 이용해 러시아사의 인물과 반란을 본격적으로 연구했다.",
+      "after": "Nicholas I returned Pushkin to a nominal post at the Foreign Ministry and allowed him to work in the state archives. With that access, Pushkin began a systematic study of Russian rulers and rebellions."
+    },
+    {
+      "id": "60269ace-6cda-47a2-805d-dbcc123d1a1c",
+      "year": 1833,
+      "title": "『예브게니 오네긴』 완전판을 출간하다",
+      "before": "푸시킨은 여러 해 동안 연재한 『예브게니 오네긴』을 한 권의 완전판으로 출간했다. 이 작품은 그의 장기 집필 작업을 마무리하고 러시아 운문소설의 대표작으로 자리 잡았다.",
+      "after": "After publishing Eugene Onegin in installments for several years, Pushkin issued it as a complete volume. The book brought his long work on the poem to an end and became a central work of the Russian verse novel."
+    },
+    {
+      "id": "daef13ef-23d8-488e-a301-9f1f7af3884e",
+      "year": 1833,
+      "title": "푸가초프 반란 현장을 조사하다",
+      "before": "푸시킨은 기록 조사에 이어 카잔과 오렌부르크 일대를 여행하며 푸가초프 반란의 현장과 증언을 조사했다. 이 조사는 역사서 『푸가초프 반란사』와 소설 『대위의 딸』의 자료가 되었다.",
+      "after": "After working through archival records, Pushkin travelled across the Kazan and Orenburg regions to examine sites and gather testimony about the Pugachev Rebellion. The research fed into History of the Pugachev Rebellion and his novel The Captain's Daughter."
+    },
+    {
+      "id": "fe2cd50c-f079-40a5-8b51-e78188255e46",
+      "year": 1834,
+      "title": "궁정 시종보에 임명되다",
+      "before": "니콜라이 1세는 푸시킨을 하급 궁정 직위인 시종보에 임명했다. 이 임명으로 푸시킨과 아내는 궁정 행사에 더 자주 참석하게 되었고 그의 사생활과 재정 부담도 궁정에 더욱 얽혔다.",
+      "after": "Nicholas I appointed Pushkin Junior Gentleman of the Chamber, a minor court rank. The post required Pushkin and his wife to attend court functions more often and tied his private life and finances more closely to the court."
+    },
+    {
+      "id": "1da596f0-315f-4373-9f28-f60bfc1068e6",
+      "year": 1836,
+      "title": "잡지 『동시대인』을 창간하고 『대위의 딸』을 발표하다",
+      "before": "푸시킨은 상트페테르부르크에서 문예지 『동시대인』을 창간하고 편집을 맡았다. 그는 그해 마지막 호에 푸가초프 반란 연구를 바탕으로 완성한 소설 『대위의 딸』을 발표했다.",
+      "after": "In Saint Petersburg, Pushkin founded the literary journal Sovremennik and served as its editor. In the year's final issue, he published The Captain's Daughter, a novel based on his research into the Pugachev Rebellion."
+    },
+    {
+      "id": "c0e216ec-eab3-4279-bf2a-766226963770",
+      "year": 1837,
+      "title": "조르주 당테스와 결투해 치명상을 입다",
+      "before": "푸시킨은 상트페테르부르크 외곽의 초르나야 레치카에서 조르주 당테스와 권총 결투를 벌였다. 당테스가 쏜 총탄이 푸시킨의 복부를 관통했고 그는 치명상을 입은 채 집으로 옮겨졌다.",
+      "after": "Pushkin fought Georges d'Anthès in a pistol duel at Chernaya Rechka, outside Saint Petersburg. D'Anthès shot him through the abdomen, and Pushkin was taken home with a fatal wound."
+    },
+    {
+      "id": "98e2e9c0-b351-4aaf-a5bb-45637f8ce847",
+      "year": 1837,
+      "title": "상트페테르부르크에서 사망하다",
+      "before": "푸시킨은 결투에서 입은 총상으로 복막염이 생겨 모이카 강변의 자택에서 사망했다. 그의 죽음으로 『동시대인』을 중심으로 추진하던 편집 활동과 역사소설 작업도 중단되었다.",
+      "after": "Pushkin died at his home on the Moika Embankment after his gunshot wound caused peritonitis. His death stopped his editorial work on Sovremennik and the historical fiction he was still writing."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "scope": "active-deceased",
+  "slug": "leonidas-i",
+  "identity": {
+    "name": "레오니다스 1세",
+    "nameEn": "Leonidas I",
+    "profession": "commander",
+    "nationality": "GR",
+    "birthDate": "-540",
+    "deathDate": "-480-08",
+    "wikidataQid": "Q44228"
+  },
+  "events": [
+    {
+      "year": -540,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "스파르타 왕가에서 태어나다",
+      "titleEn": "Is born into the Spartan royal house",
+      "description": "레오니다스는 스파르타 아기아다이 왕가의 아낙산드리다스 2세에게서 태어났다. 정확한 출생 연도는 전하지 않으며 기원전 540년 무렵으로 추정된다.",
+      "descriptionEn": "Leonidas was born to Anaxandridas II of Sparta's Agiad royal house. His exact birth year is not recorded and is conventionally placed around 540 BC.",
+      "kind": "birth",
+      "placeName": "스파르타",
+      "placeNameEn": "Sparta",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Leonidas_I"
+    },
+    {
+      "year": -489,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "스파르타의 왕위에 오르다",
+      "titleEn": "Becomes king of Sparta",
+      "description": "레오니다스는 이복형 클레오메네스 1세가 남성 후계자 없이 죽은 뒤 아기아다이 왕위를 이어받았다. 왕위 계승 시점은 사료에 명확히 남아 있지 않아 기원전 489년 또는 488년 무렵으로 본다.",
+      "descriptionEn": "Leonidas succeeded to the Agiad throne after his half-brother Cleomenes I died without a male heir. The precise date of his accession is uncertain and is usually placed around 489 or 488 BC.",
+      "kind": "office",
+      "placeName": "스파르타",
+      "placeNameEn": "Sparta",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Leonidas_I"
+    },
+    {
+      "year": -480,
+      "yearEnd": null,
+      "month": 8,
+      "day": null,
+      "title": "테르모필레에서 전사하다",
+      "titleEn": "Dies at the Battle of Thermopylae",
+      "description": "레오니다스는 페르시아 왕 크세르크세스 1세의 침공을 막기 위해 그리스 연합군을 이끌고 테르모필레를 방어했다. 페르시아군이 우회로로 진지를 포위하자 그는 남은 병력과 싸우다가 전사했으며, 전투의 정확한 날짜는 학설마다 다르다.",
+      "descriptionEn": "Leonidas commanded a Greek allied force defending Thermopylae against the invasion led by the Persian king Xerxes I. After Persian troops used a bypass to envelop the position, he remained with the final defenders and was killed, although the battle's exact date remains disputed.",
+      "kind": "death",
+      "placeName": "테르모필레",
+      "placeNameEn": "Thermopylae",
+      "lat": 38.795555555,
+      "lng": 22.536666666,
+      "placeQid": "Q194450",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Battle_of_Thermopylae"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { FeedbackWithAuthor } from '@/types/database'
 
@@ -75,7 +75,10 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
   }
 
   revalidatePath('/agora/board/feedback')
-  revalidatePath(`/board/feedback/${id}`)
+  revalidatePath('/en/agora/board/feedback')
+  revalidatePath(`/agora/board/feedback/${id}`)
+  revalidatePath(`/en/agora/board/feedback/${id}`)
+  revalidateTag('feedbacks', { expire: 0 })
 
   return success(data as FeedbackWithAuthor)
 }

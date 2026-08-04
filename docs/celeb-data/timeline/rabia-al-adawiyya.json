@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "scope": "active-deceased",
+  "slug": "rabia-al-adawiyya",
+  "identity": {
+    "name": "라비아 알 아다위야",
+    "nameEn": "Rabia al-Adawiyya",
+    "profession": "leader",
+    "nationality": "IQ",
+    "birthDate": "717",
+    "deathDate": "801",
+    "wikidataQid": "Q256506"
+  },
+  "events": [
+    {
+      "year": 717,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "바스라에서 태어나다",
+      "titleEn": "Is born in Basra",
+      "description": "라비아 알 아다위야는 오늘날 이라크의 바스라에서 태어났다. 출생 연도는 자료에 따라 714년, 717년, 718년으로 갈리며 정확한 날짜는 알려지지 않았다.",
+      "descriptionEn": "Rabia al-Adawiyya was born in Basra, in present-day Iraq. Sources variously date her birth to 714, 717, or 718, and the exact date is unknown.",
+      "kind": "birth",
+      "placeName": "바스라",
+      "placeNameEn": "Basra",
+      "lat": 30.515,
+      "lng": 47.81,
+      "placeQid": "Q48195",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Rabia_Basri"
+    },
+    {
+      "year": 778,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "수피안 알사우리와 가르침을 나누다",
+      "titleEn": "Exchanges teachings with Sufyan al-Thawri",
+      "description": "초기 전기 자료는 라비아가 바스라에서 법학자이자 금욕 수행자인 수피안 알사우리와 교류하며 그에게 가르침을 전했다고 기록한다. 수피안이 778년에 사망했으므로 교류는 그보다 앞서 이루어졌지만 정확한 시기는 확인되지 않는다.",
+      "descriptionEn": "Early biographical sources associate Rabia in Basra with the jurist and ascetic Sufyan al-Thawri and describe him as receiving instruction from her. Their exchanges must have occurred before Sufyan's death in 778, but their exact date is unknown.",
+      "kind": "meeting",
+      "placeName": "바스라",
+      "placeNameEn": "Basra",
+      "lat": 30.515,
+      "lng": 47.81,
+      "placeQid": "Q48195",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Rabia_Basri"
+    },
+    {
+      "year": 801,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "바스라에서 숨지다",
+      "titleEn": "Dies in Basra",
+      "description": "라비아는 통설에 따르면 801년에 바스라에서 사망했다. 예루살렘에서 사망해 올리브산에 묻혔다는 후대 전승도 있으나, 현대의 주요 참고 문헌은 바스라 사망설을 채택한다.",
+      "descriptionEn": "According to the prevailing account, Rabia died in Basra in 801. A later tradition places her death and burial on the Mount of Olives in Jerusalem, but major modern reference works favor Basra.",
+      "kind": "death",
+      "placeName": "바스라",
+      "placeNameEn": "Basra",
+      "lat": 30.515,
+      "lng": 47.81,
+      "placeQid": "Q48195",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Rabia_Basri"
+    }
+  ]
+}

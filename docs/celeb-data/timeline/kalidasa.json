@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "scope": "active-deceased",
+  "slug": "kalidasa",
+  "identity": {
+    "name": "칼리다사",
+    "nameEn": "Kalidasa",
+    "profession": "author",
+    "nationality": "IN",
+    "birthDate": "350",
+    "deathDate": "450",
+    "wikidataQid": "Q7011"
+  },
+  "events": [
+    {
+      "year": 350,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "태어나다",
+      "titleEn": "Is born",
+      "description": "칼리다사는 약 350년경 태어난 것으로 추정된다. 그의 정확한 출생 연도와 출생지는 기록이 없어 확정할 수 없다.",
+      "descriptionEn": "Kalidasa is conventionally estimated to have been born around 350 CE. Neither his exact birth year nor his birthplace can be established from surviving records.",
+      "kind": "birth",
+      "placeName": "",
+      "placeNameEn": "",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kalidasa"
+    },
+    {
+      "year": 380,
+      "yearEnd": 415,
+      "month": null,
+      "day": null,
+      "title": "굽타 시대에 주요 작품을 쓰다",
+      "titleEn": "Produces his major works during the Gupta era",
+      "description": "칼리다사는 찬드라굽타 2세의 재위기인 380년부터 415년 무렵 활동하며 주요 시와 희곡을 쓴 것으로 널리 추정된다. 그러나 작품별 집필 연도와 순서, 궁정 시인 재직 여부는 확인되지 않으므로 이 기간은 추정치다.",
+      "descriptionEn": "Kalidasa is widely thought to have produced his major poems and plays around the reign of Chandragupta II, from 380 to 415. The dates and sequence of individual works, as well as his supposed court appointment, cannot be established and remain conjectural.",
+      "kind": "work",
+      "placeName": "",
+      "placeNameEn": "",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kalidasa"
+    },
+    {
+      "year": 450,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "사망하다",
+      "titleEn": "Dies",
+      "description": "칼리다사는 약 450년경 사망한 것으로 추정된다. 사망 장소와 경위는 알려져 있지 않으며, 스리랑카에서 살해됐다는 후대 전승도 역사적 사실로 확인되지 않는다.",
+      "descriptionEn": "Kalidasa is conventionally estimated to have died around 450 CE. The place and circumstances of his death are unknown, and the later tradition that he was murdered in Sri Lanka is not historically verified.",
+      "kind": "death",
+      "placeName": "",
+      "placeNameEn": "",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Kalidasa"
+    }
+  ]
+}

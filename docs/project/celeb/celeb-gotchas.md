@@ -6,12 +6,12 @@
 
 ## 1. 목록 노출 기준 — celeb_tier
 
-셀럽 목록 노출 기준은 `status` 게이트가 아니라 **등급(`celeb_tier`) 필터**다(2026-07-16 전환). fiction 48명 + relation 5명 = 53명을 `status='active'`로 올렸고, 그 결과 **상세 페이지는 열리되 목록에는 안 뜨는** 상태가 정상이다.
+셀럽 목록 노출 기준은 `status` 게이트가 아니라 **등급(`celeb_tier`) 필터**다(2026-07-16 전환). 기본 목록은 `full`·`light`, 신화·허구 인물은 `fiction`으로 분리한다.
 
 - **SSoT**: `packages/shared/src/constants/celeb-tiers.ts` — `CelebTier`, `LISTING_DEFAULT_TIERS`(full·light), `INDEXABLE_TIERS`(full), `parseCelebTiers`. 등급 타입 정의는 이 파일 하나뿐이며 `getUserProfile`·`types/home`도 여기서 가져다 쓴다.
-- **RPC**: `get_celebs_sorted` / `count_celebs_filtered`의 인자는 `p_celeb_tier text`가 아니라 **`p_celeb_tiers text[]`**다. NULL은 "제한 없음"이라 **인자를 안 주면 신화(fiction)·관계(relation) 등급이 목록에 샌다.** `getCelebs`가 기본값을 넣어 막는다. web-bo는 의도적으로 null을 넘겨 전체를 노출한다.
-- **필터 UI**: `/explore/figures?tier=` — `fiction`·`relation`·`all`·쉼표 복수(`fiction,light`)를 지원한다. 미지정이면 기본 등급.
-- `get_top_celebs_across_eras`·`get_celeb_feed_type_counts`·타입별 수치는 손댈 필요가 없다. `user_contents` 기반이라 콘텐츠 0건인 fiction·relation은 구조상 낄 수 없다.
+- **RPC**: `get_celebs_sorted` / `count_celebs_filtered`의 인자는 `p_celeb_tier text`가 아니라 **`p_celeb_tiers text[]`**다. NULL은 "제한 없음"이라 **인자를 안 주면 fiction 등급이 목록에 샌다.** `getCelebs`가 기본값을 넣어 막는다. web-bo는 의도적으로 null을 넘겨 전체를 노출한다.
+- **필터 UI**: `/explore/figures?tier=` — `fiction`·`all`·쉼표 복수(`fiction,light`)를 지원한다. 미지정이면 기본 등급.
+- `get_top_celebs_across_eras`·`get_celeb_feed_type_counts`·타입별 수치는 손댈 필요가 없다. `user_contents` 기반이라 콘텐츠 0건인 fiction은 구조상 낄 수 없다.
 
 ### 목록이 조용히 비고 캐시에 박히는 사고
 

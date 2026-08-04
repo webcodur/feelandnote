@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { NoticeWithAuthor } from '@/types/database'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
@@ -9,11 +9,13 @@ import { checkAdmin } from '@/lib/auth/checkAdmin'
 interface CreateNoticeParams {
   title: string
   content: string
+  titleEn: string
+  contentEn: string
   is_pinned?: boolean
 }
 
 export async function createNotice(params: CreateNoticeParams): Promise<ActionResult<NoticeWithAuthor>> {
-  const { title, content, is_pinned = false } = params
+  const { title, content, titleEn, contentEn, is_pinned = false } = params
   const supabase = await createClient()
 
   const adminCheck = await checkAdmin(supabase)
@@ -28,6 +30,12 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
   if (content.trim().length === 0) {
     return failure('VALIDATION_ERROR', '내용을 입력해달라.')
   }
+  if (titleEn.trim().length === 0 || contentEn.trim().length === 0) {
+    return failure('VALIDATION_ERROR', '영문 제목과 내용을 입력해달라.')
+  }
+  if (titleEn.length > 100) {
+    return failure('LIMIT_EXCEEDED', '영문 제목은 100자까지 작성할 수 있다.')
+  }
 
   const { data, error } = await supabase
     .from('notices')
@@ -35,6 +43,8 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
       author_id: adminCheck.userId,
       title: title.trim(),
       content: content.trim(),
+      title_en: titleEn.trim(),
+      content_en: contentEn.trim(),
       is_pinned
     })
     .select(`*, author:profiles!author_id(id, nickname, avatar_url)`)
@@ -45,5 +55,7 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
   }
 
   revalidatePath('/agora/board/notice')
+  revalidatePath('/en/agora/board/notice')
+  revalidateTag('notices', { expire: 0 })
   return success(data as NoticeWithAuthor)
 }

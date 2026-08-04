@@ -1,15 +1,15 @@
 'use client'
 
 import { Link, useRouter } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ArrowLeft, Eye, Edit3, Trash2 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ko } from 'date-fns/locale'
 import { Button } from '@/components/ui'
 import type { NoticeWithAuthor, BoardCommentWithAuthor } from '@/types/database'
 import { deleteNotice } from '@/actions/board/notices'
 import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
 import CommentSection from '../shared/CommentSection'
+import { formatBoardDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface NoticeDetailProps {
   notice: NoticeWithAuthor
@@ -27,6 +27,7 @@ export default function NoticeDetail({
   const router = useRouter()
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
 
   const handleDelete = async () => {
     if (!confirm(t('notice.deleteConfirm'))) return
@@ -98,7 +99,7 @@ export default function NoticeDetail({
         <div className="flex items-center gap-3 text-sm pb-4 border-b border-accent-dim/20">
           <span className="font-serif text-text-secondary">{notice.author.nickname}</span>
           <span className="text-accent-dim/50">·</span>
-          <span>{format(new Date(notice.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}</span>
+          <span>{formatBoardDateTime(notice.created_at, locale)}</span>
           <span className="text-accent-dim/50">·</span>
           <span className="flex items-center gap-1">
             <Eye size={14} className="text-accent-dim" />
