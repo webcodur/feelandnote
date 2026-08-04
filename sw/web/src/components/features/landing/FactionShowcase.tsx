@@ -56,6 +56,8 @@ type ShowcaseItem =
 
 export default function FactionShowcase({ activeTag, locale }: FactionShowcaseProps) {
   const t = useTranslations("landing");
+  const localizedCelebName = (celeb: FeaturedCeleb) =>
+    locale === "en" ? celeb.nickname_en?.trim() || t("unknownFigure") : celeb.nickname;
 
   const celebs = activeTag.celebs;
   /*
@@ -64,8 +66,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   */
   const teamImages = toTeamImages(activeTag.team_images);
   const hasTeam = teamImages.length > 0;
-  const teamName = locale === "en" ? activeTag.name_en ?? activeTag.name : activeTag.name;
-  const teamDesc = locale === "en" ? activeTag.description_en ?? activeTag.description : activeTag.description;
+  const teamName = locale === "en" ? activeTag.name_en?.trim() || t("unnamedFaction") : activeTag.name;
+  const teamDesc = locale === "en" ? activeTag.description_en : activeTag.description;
 
   /*
     목록은 「단체 사진 한 장 + 그 사진에 나오는 사람들」을 한 덩어리로 세운다.
@@ -307,7 +309,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   const teamImage = hasTeam ? teamImages[teamSlide] ?? teamImages[0] : null;
   const teamSrc = teamImage?.url ?? null;
   const teamImageLabel =
-    (locale === "en" ? teamImage?.labelEn ?? teamImage?.label : teamImage?.label)?.trim() || null;
+    (locale === "en" ? teamImage?.labelEn : teamImage?.label)?.trim() || null;
   // 사진에 나오는 인물을 자리 번호로 바꾼다 — 이름을 눌러 그 사람으로 넘어가기 위해서다
   const teamImageMembers = (teamImage?.celebIds ?? [])
     .map(id => items.findIndex(it => it.type === "celeb" && it.celeb.id === id))
@@ -340,18 +342,19 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
       : [];
   const groupLabel =
     current.type === "group"
-      ? (locale === "en" ? current.labelEn ?? current.label : current.label).trim() || current.label
+      ? (locale === "en" ? current.labelEn : current.label)?.trim() || null
       : null;
   const groupSubtitle =
     current.type === "group"
-      ? (locale === "en" ? current.subtitleEn ?? current.subtitle : current.subtitle)?.trim() || null
+      ? (locale === "en" ? current.subtitleEn : current.subtitle)?.trim() || null
       : null;
   // 세력 고유 색·로고(제작 브랜드 자산) — 없으면 테마 색으로
   const groupColor = current.type === "group" ? current.color ?? activeTag.color : activeTag.color;
   const groupLogo = current.type === "group" ? current.logoUrl : null;
+  const currentCelebName = current.type === "celeb" ? localizedCelebName(current.celeb) : null;
   const fallbackInitial =
-    current.type === "team" ? teamName[0] : current.type === "group" ? (groupLabel ?? teamName)[0] : current.celeb.nickname[0];
-  const photoAlt = current.type === "celeb" ? current.celeb.nickname : current.type === "group" ? groupLabel ?? teamName : teamName;
+    current.type === "team" ? teamName[0] : current.type === "group" ? (groupLabel ?? teamName)[0] : currentCelebName?.[0];
+  const photoAlt = current.type === "celeb" ? currentCelebName ?? teamName : current.type === "group" ? groupLabel ?? teamName : teamName;
   const currentListOrdinalParts = listOrdinalLabels.get(selectedIdx)?.split("-") ?? [];
   const currentImageOrdinal = current.type === "celeb"
     ? `${currentListOrdinalParts[0] ?? current.celebIdx + 1}-${currentListOrdinalParts[1] ?? 1}-${Math.min(activePortraitIndex, Math.max(0, portraitImages.length - 1)) + 1}`
@@ -360,7 +363,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   // 이 인물이 세력도감 영상에서 하는 말. 없으면 아무 표시도 하지 않는다(빈 말풍선을 띄우지 않는다)
   const factionQuote =
     current.type === "celeb"
-      ? (locale === "en" ? current.celeb.faction_quote_en ?? current.celeb.faction_quote : current.celeb.faction_quote)?.trim() || null
+      ? (locale === "en" ? current.celeb.faction_quote_en : current.celeb.faction_quote)?.trim() || null
       : null;
 
   const setPortraitForTime = (seconds: number) => {
@@ -497,17 +500,15 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   };
   const longDesc =
     current.type === "celeb"
-      ? (locale === "en"
-          ? current.celeb.long_desc_en ?? current.celeb.long_desc
-          : current.celeb.long_desc)
+      ? (locale === "en" ? current.celeb.long_desc_en : current.celeb.long_desc)
       : null;
   // 직함 — 팩션 직함(배정 한 줄 소개, 제작 lines[0]에서 옴)이 있으면 우선, 없으면 프로필 수식어
   const celebTitle =
     current.type === "celeb"
       ? ((locale === "en"
-          ? current.celeb.short_desc_en ?? current.celeb.short_desc
+          ? current.celeb.short_desc_en
           : current.celeb.short_desc) ??
-          (locale === "en" ? current.celeb.title_en ?? current.celeb.title : current.celeb.title))?.trim() || null
+          (locale === "en" ? current.celeb.title_en : current.celeb.title))?.trim() || null
       : null;
 
   const photo = (
@@ -565,8 +566,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
             <div className="scrollbar-hidden mt-3 min-h-0 flex-1 overflow-y-auto pr-1">
               {groupMembers.map(({ celeb, itemIdx }, i) => {
                 const role =
-                  ((locale === "en" ? celeb.short_desc_en ?? celeb.short_desc : celeb.short_desc) ??
-                    (locale === "en" ? celeb.title_en ?? celeb.title : celeb.title))?.trim() || null;
+                  ((locale === "en" ? celeb.short_desc_en : celeb.short_desc) ??
+                    (locale === "en" ? celeb.title_en : celeb.title))?.trim() || null;
                 return (
                   <button
                     key={celeb.id}
@@ -578,7 +579,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="shrink-0 text-[15px] font-bold text-white/90 group-hover/row:text-accent">
-                      {locale === "en" ? celeb.nickname_en ?? celeb.nickname : celeb.nickname}
+                      {localizedCelebName(celeb)}
                     </span>
                     {role && (
                       <span className="min-w-0 truncate text-xs font-medium text-white/45">{role}</span>
@@ -592,7 +593,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
             <p className="mt-3 self-end font-serif text-4xl font-black tabular-nums text-white/85 md:text-5xl">
               {groupMembers.length}
               <span className="ms-1.5 align-baseline text-sm font-bold text-white/50">
-                {locale === "en" ? "FIGURES" : "명"}
+                {t("figureUnit")}
               </span>
             </p>
           </div>
@@ -680,8 +681,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
       {currentImageOrdinal && (
         <div
           className="absolute left-3 top-3 z-30 rounded-md border border-accent/50 bg-black/80 px-2.5 py-1.5 font-cinzel text-sm font-black tracking-[0.08em] text-accent shadow-[0_2px_10px_rgba(0,0,0,0.7)]"
-          aria-label={locale === "en" ? `Group, person, image ${currentImageOrdinal}` : `그룹, 개인, 이미지 순번 ${currentImageOrdinal}`}
-          title={locale === "en" ? "Group-Person-Image" : "그룹-개인-이미지"}
+          aria-label={t("imageOrdinal", { ordinal: currentImageOrdinal })}
+          title={t("imageOrdinalTitle")}
         >
           {currentImageOrdinal}
         </div>
@@ -701,7 +702,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
               <button
                 key={i}
                 type="button"
-                aria-label={`${i + 1}번째 사진`}
+                aria-label={t("photoNumber", { number: i + 1 })}
                 onClick={() => selectItem(teamItemIdxs[i])}
                 className={cn(
                   "h-2 rounded-full",
@@ -746,7 +747,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
         <div className="absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32">
           <div className="flex items-center gap-2.5">
             <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">
-              {current.celeb.nickname}
+              {currentCelebName}
             </h3>
             {/* 인물 상세 열기 — 이름 옆 프로필 아이콘 하나로 */}
             <button
@@ -822,7 +823,9 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
 
         // 세력 머리글 — 가로선+라벨 모양은 그대로 두되, 누르면 좌측에 그 세력이 뜬다.
         if (item.type === "group") {
-          const headerLabel = (locale === "en" ? item.labelEn ?? item.label : item.label).trim() || item.label;
+          const headerLabel =
+            (locale === "en" ? item.labelEn : item.label)?.trim() ||
+            (locale === "en" ? t("unnamedFaction") : item.label);
           return (
             <button
               key={`group-${item.label}`}
@@ -856,15 +859,15 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
         const isLastNested = isNested && !(nextItem?.type === "celeb" && nextItem.nested);
         const img = isTeam ? teamImages[item.imageIdx] : null;
         // 사진에 무리 이름이 있으면 그것이 제목이다. 없는 옛 사진은 테마 이름으로 대신한다
-        const imgLabel = (locale === "en" ? img?.labelEn ?? img?.label : img?.label)?.trim() || null;
+        const imgLabel = (locale === "en" ? img?.labelEn : img?.label)?.trim() || null;
         const label = isTeam
           ? imgLabel ?? teamName
-          : locale === "en" ? item.celeb.nickname_en ?? item.celeb.nickname : item.celeb.nickname;
+          : localizedCelebName(item.celeb);
         // 인물 부제 — 팩션 직함(배정 한 줄 소개) 우선, 없으면 프로필 수식어
         const sub = isTeam
           ? null
           : locale === "en"
-            ? item.celeb.short_desc_en ?? item.celeb.short_desc ?? item.celeb.title_en ?? item.celeb.title
+            ? item.celeb.short_desc_en ?? item.celeb.title_en
             : item.celeb.short_desc ?? item.celeb.title;
         const thumb = isTeam ? img?.url ?? null : item.celeb.avatar_url;
         const assetOrdinal = listOrdinalLabels.get(idx) ?? String(idx + 1);
@@ -1012,12 +1015,12 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
             <div
               role="group"
               className="flex h-12 items-center justify-center gap-1 rounded-xl border border-white/10 bg-[#111211] px-2 shadow-[0_10px_28px_rgba(0,0,0,0.24)]"
-              aria-label={locale === "en" ? "Image controls" : "이미지 작업대"}
+              aria-label={t("imageControls")}
             >
               <button
                 type="button"
-                aria-label={locale === "en" ? "Previous person or group" : "이전 인물 또는 단체"}
-                title={locale === "en" ? "Previous person or group" : "이전 인물 또는 단체"}
+                aria-label={t("previousFigureOrGroup")}
+                title={t("previousFigureOrGroup")}
                 disabled={slideItemIdxs.length <= 1}
                 onClick={() => selectAdjacentSlide(-1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
@@ -1026,8 +1029,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
               </button>
               <button
                 type="button"
-                aria-label={locale === "en" ? "Previous image" : "이전 이미지"}
-                title={locale === "en" ? "Previous image" : "이전 이미지"}
+                aria-label={t("previousPhoto")}
+                title={t("previousPhoto")}
                 disabled={portraitImages.length <= 1 && slideItemIdxs.length <= 1}
                 onClick={() => selectAdjacentPortrait(-1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
@@ -1050,8 +1053,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
               </button>
               <button
                 type="button"
-                aria-label={locale === "en" ? "Next image" : "다음 이미지"}
-                title={locale === "en" ? "Next image" : "다음 이미지"}
+                aria-label={t("nextPhoto")}
+                title={t("nextPhoto")}
                 disabled={portraitImages.length <= 1 && slideItemIdxs.length <= 1}
                 onClick={() => selectAdjacentPortrait(1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
@@ -1060,8 +1063,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
               </button>
               <button
                 type="button"
-                aria-label={locale === "en" ? "Next person or group" : "다음 인물 또는 단체"}
-                title={locale === "en" ? "Next person or group" : "다음 인물 또는 단체"}
+                aria-label={t("nextFigureOrGroup")}
+                title={t("nextFigureOrGroup")}
                 disabled={slideItemIdxs.length <= 1}
                 onClick={() => selectAdjacentSlide(1)}
                 className="flex h-10 w-10 items-center justify-center rounded-lg text-white/75 hover:bg-white/10 hover:text-accent active:bg-white/15 disabled:pointer-events-none disabled:text-white/20"
