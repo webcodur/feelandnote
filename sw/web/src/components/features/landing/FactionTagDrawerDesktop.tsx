@@ -152,7 +152,8 @@ function DrawerGroupButton({
   onToggle: () => void;
   locale: Locale;
 }) {
-  const tagName = locale === "en" ? tag.name_en ?? tag.name : tag.name;
+  const t = useTranslations("landing");
+  const tagName = locale === "en" ? tag.name_en?.trim() || t("unnamedFaction") : tag.name;
   const themeCount = childTags(tags, tag.slug ?? "").length;
   const totalCelebs = groupCelebCount(tags, tag.slug ?? "");
   return (
@@ -204,7 +205,7 @@ function DrawerTagButton({
   t: ReturnType<typeof useTranslations>;
 }) {
   const isUpcoming = !tag.is_featured;
-  const tagName = locale === "en" ? tag.name_en ?? tag.name : tag.name;
+  const tagName = locale === "en" ? tag.name_en?.trim() || t("unnamedFaction") : tag.name;
   const celebCount = tag.celebs?.length ?? 0;
   const professions = !isUpcoming
     ? [...new Set(tag.celebs?.map((c) => c.profession).filter((p): p is string => Boolean(p)) ?? [])]

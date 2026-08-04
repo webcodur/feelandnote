@@ -10,15 +10,19 @@ import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getFeaturedTags } from "@/actions/home";
 import FeaturedFaction from "@/components/features/landing/FeaturedFaction";
 import { getLocalizedAlternates } from "@/lib/seo";
+import type { Locale } from "@/types/locale";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const t = await getTranslations("explore.faction");
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale; slug: string }> }) {
+  const { locale, slug } = await params;
+  const t = await getTranslations({ locale, namespace: "explore.faction" });
   const tags = await getFeaturedTags();
   const tag = tags.find((tg) => tg.slug === slug);
+  const tagName = tag
+    ? (locale === "en" ? tag.name_en?.trim() : tag.name)
+    : null;
 
   return {
-    title: tag ? `${tag.name} · ${t("metaTitle")}` : t("metaTitle"),
+    title: tagName ? `${tagName} · ${t("metaTitle")}` : t("metaTitle"),
     alternates: await getLocalizedAlternates(`/explore/faction/${slug}`),
   };
 }

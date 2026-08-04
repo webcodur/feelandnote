@@ -45,7 +45,9 @@ export default function FactionTagSheetMobile({
     setIsOpen(false);
   }, [activeIndex]);
 
-  const activeTagName = locale === "en" ? activeTag?.name_en ?? activeTag?.name : activeTag?.name;
+  const activeTagName = locale === "en"
+    ? activeTag?.name_en?.trim() || t("unnamedFaction")
+    : activeTag?.name;
 
   // 최상위(그룹 헤더 + 무소속)만 나열하고, 펼친 그룹의 자식을 뒤에 잇는다.
   const topLevel = topLevelTags(tags);
@@ -155,7 +157,8 @@ function SheetGroupRow({
   onToggle: () => void;
   locale: Locale;
 }) {
-  const tagName = locale === "en" ? tag.name_en ?? tag.name : tag.name;
+  const t = useTranslations("landing");
+  const tagName = locale === "en" ? tag.name_en?.trim() || t("unnamedFaction") : tag.name;
   const themeCount = childTags(tags, tag.slug ?? "").length;
   const totalCelebs = groupCelebCount(tags, tag.slug ?? "");
   return (
@@ -200,8 +203,9 @@ function SheetTagRow({
   onChange: (idx: number) => void;
   locale: Locale;
 }) {
+  const t = useTranslations("landing");
   const isUpcoming = !tag.is_featured;
-  const tagName = locale === "en" ? tag.name_en ?? tag.name : tag.name;
+  const tagName = locale === "en" ? tag.name_en?.trim() || t("unnamedFaction") : tag.name;
   const professions = !isUpcoming
     ? [...new Set(tag.celebs?.map((c) => c.profession).filter((p): p is string => Boolean(p)) ?? [])]
     : [];

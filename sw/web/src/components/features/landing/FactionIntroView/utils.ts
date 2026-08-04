@@ -13,7 +13,7 @@ const HERO_THEME_LIMIT = 3;
 const PREVIEW_PEOPLE_LIMIT = 9;
 
 function localized(value: string | null, fallback: string, locale: Locale) {
-  return locale === "en" ? value ?? fallback : fallback;
+  return locale === "en" ? value?.trim() || "" : fallback;
 }
 
 /* 카드 얼굴은 단체샷만 쓴다 — 없으면 개인 한 명 대신 구성원 격자샷을 띄운다 */
