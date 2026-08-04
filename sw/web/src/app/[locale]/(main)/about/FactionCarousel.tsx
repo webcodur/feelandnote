@@ -45,15 +45,15 @@ export default function FactionCarousel({
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="relative overflow-hidden rounded-md border border-accent-dim">
-        <div className="relative aspect-[16/9] w-full bg-bg-main">
+      <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-md border border-accent-dim">
+        <div className="relative aspect-square w-full bg-bg-main">
           {shots.map((shot, i) => (
             <Image
               key={shot.url}
               src={shot.url}
               alt={shot.tagName}
               fill
-              sizes="(max-width: 768px) 100vw, 720px"
+              sizes="(max-width: 768px) calc(100vw - 2.5rem), 448px"
               // 넘어갈 때만 서서히 바뀐다 — 공간이 열리는 전환이라 애니메이션이 본질이다
               className={`object-cover transition-opacity duration-700 ${
                 i === index ? "opacity-100" : "opacity-0"
