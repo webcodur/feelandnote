@@ -8,9 +8,9 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { TIMELINE_KINDS } from '@/constants/timeline'
 
 /* 인물 생애 행적 편집 — 규격은 docs/project/celeb-journey.md 가 SSoT다.
-   조사 산출물(docs/celeb-data/timeline/<slug>.json)을 스크립트로 넣는 경로와 별개로,
-   화면에서 한 건씩 고치는 창구다. 스크립트 재적재는 source='research' 행만 갈아끼우므로
-   여기서 손댄 행은 source 를 'manual' 로 바꿔 두어야 덮이지 않는다. */
+   DB가 유일 원천이며 이 화면은 한 건씩 고치는 창구다. 조사기의 강제 재적재는
+   source='research' 행만 갈아끼우므로 여기서 손댄 행은 source를 'manual'로
+   바꿔 두어야 덮이지 않는다. */
 
 export interface TimelineEvent {
   id: string

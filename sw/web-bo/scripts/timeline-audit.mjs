@@ -1,177 +1,119 @@
 /**
- * 타임라인 조사 원본의 외부 근거와 좌표를 전수 검사한다.
+ * celeb_timeline_events DB 전수 감사.
+ * 로컬 산출물과 비교하지 않고 서비스의 유일 원천인 DB 자체를 검사한다.
  *
  * 실행 (sw/web-bo):
- *   node scripts/timeline-audit.mjs --slugs=ada-lovelace,aeschylus
- *   node scripts/timeline-audit.mjs --file=../../docs/celeb-data/timeline/_batches/deceased-active-2026-08-04.json
- *
- * 형식과 문체는 timeline-import.mjs의 dry-run이 담당한다. 이 도구는
- * sourceUrl 실존 여부, placeQid 좌표와 저장 좌표의 거리, 건수 분포를 담당한다.
+ *   node --env-file=.env scripts/timeline-audit.mjs
+ *   node --env-file=.env scripts/timeline-audit.mjs --slugs=ada-lovelace,aeschylus
  */
 
-import { existsSync, readFileSync, readdirSync } from 'fs'
-import { join, resolve } from 'path'
+import { createClient } from '@supabase/supabase-js'
 
-const DATA_DIR = resolve(process.cwd(), '../../docs/celeb-data/timeline')
 const slugArg = process.argv.find((arg) => arg.startsWith('--slugs='))
-const fileArg = process.argv.find((arg) => arg.startsWith('--file='))
-const concurrencyArg = process.argv.find((arg) => arg.startsWith('--concurrency='))
-const CONCURRENCY = Number(concurrencyArg?.slice('--concurrency='.length) ?? 8)
-const UA = { 'user-agent': 'feelandnote-timeline-audit/1.0 (webcodur@gmail.com)' }
+const requestedSlugs = slugArg
+  ? new Set(slugArg.slice('--slugs='.length).split(',').map((slug) => slug.trim()).filter(Boolean))
+  : null
+const KINDS = new Set([
+  'birth', 'death', 'education', 'work', 'publish',
+  'battle', 'travel', 'office', 'meeting', 'other',
+])
 
-if (!Number.isInteger(CONCURRENCY) || CONCURRENCY < 1 || CONCURRENCY > 20) {
-  throw new Error('--concurrency는 1~20 정수여야 한다')
-}
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+)
 
-function selectedSlugs() {
-  if (slugArg) {
-    return new Set(slugArg.slice('--slugs='.length).split(',').map((slug) => slug.trim()).filter(Boolean))
-  }
-  if (!fileArg) return null
-  const parsed = JSON.parse(readFileSync(resolve(process.cwd(), fileArg.slice('--file='.length)), 'utf-8'))
-  const targets = Array.isArray(parsed) ? parsed : (parsed.targets ?? [])
-  return new Set(targets.map((target) => target.slug))
-}
-
-function readSources() {
-  const only = selectedSlugs()
-  const files = readdirSync(DATA_DIR)
-    .filter((name) => name.endsWith('.json'))
-    .filter((name) => !only || only.has(name.slice(0, -5)))
-  if (only) {
-    const found = new Set(files.map((name) => name.slice(0, -5)))
-    const missing = [...only].filter((slug) => !found.has(slug))
-    if (missing.length) throw new Error(`조사 원본 없음: ${missing.join(', ')}`)
-  }
-  return files.map((name) => {
-    const path = join(DATA_DIR, name)
-    const data = JSON.parse(readFileSync(path, 'utf-8'))
-    return { slug: name.slice(0, -5), path, events: data.events ?? data }
-  })
-}
-
-async function mapLimit(items, limit, fn) {
-  const results = new Array(items.length)
-  let cursor = 0
-  async function worker() {
-    while (cursor < items.length) {
-      const index = cursor++
-      results[index] = await fn(items[index], index)
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker))
-  return results
-}
-
-function haversineKm(aLat, aLng, bLat, bLng) {
-  const rad = (degree) => degree * Math.PI / 180
-  const dLat = rad(bLat - aLat)
-  const dLng = rad(bLng - aLng)
-  const x = Math.sin(dLat / 2) ** 2
-    + Math.cos(rad(aLat)) * Math.cos(rad(bLat)) * Math.sin(dLng / 2) ** 2
-  return 6371 * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1 - x))
-}
-
-async function checkUrl(url) {
-  try {
-    const response = await fetch(url, { headers: UA, redirect: 'follow', signal: AbortSignal.timeout(20_000) })
-    return { url, ok: response.ok, status: response.status, finalUrl: response.url }
-  } catch (error) {
-    return { url, ok: false, status: 0, error: error.message }
+async function fetchAll(table, select, configure = (query) => query) {
+  const rows = []
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await configure(supabase.from(table).select(select)).range(from, from + 999)
+    if (error) throw error
+    rows.push(...data)
+    if (data.length < 1000) return rows
   }
 }
 
-function claimCoordinates(entity) {
-  return (entity?.claims?.P625 ?? [])
-    .map((claim) => claim.mainsnak?.datavalue?.value)
-    .filter((value) => Number.isFinite(value?.latitude) && Number.isFinite(value?.longitude))
-    .map((value) => ({ lat: value.latitude, lng: value.longitude }))
+function profileYear(value) {
+  const match = /^(-?\d{1,4})/.exec(String(value ?? '').trim())
+  return match ? Number(match[1]) : null
 }
 
-async function fetchWikidataBatch(qids) {
-  const params = new URLSearchParams({
-    action: 'wbgetentities',
-    ids: qids.join('|'),
-    props: 'claims',
-    format: 'json',
-    maxlag: '5',
-  })
-  const url = `https://www.wikidata.org/w/api.php?${params}`
-  let lastError = null
-  for (let attempt = 0; attempt < 5; attempt++) {
-    try {
-      const response = await fetch(url, { headers: UA, signal: AbortSignal.timeout(30_000) })
-      if (response.ok) {
-        const json = await response.json()
-        if (!json.error) return json.entities ?? {}
-        lastError = new Error(`${json.error.code}: ${json.error.info}`)
-      } else {
-        lastError = new Error(`HTTP ${response.status}`)
-      }
-      if (response.status !== 429 && response.status < 500) break
-    } catch (error) {
-      lastError = error
-    }
-    await new Promise((resolveWait) => setTimeout(resolveWait, 1500 * (attempt + 1)))
+function validateEvent(event, index) {
+  const errors = []
+  const at = `${index + 1}번`
+  if (!Number.isInteger(event.year)) errors.push(`${at}: year가 정수가 아니다`)
+  if (event.year_end != null && (!Number.isInteger(event.year_end) || event.year_end < event.year)) errors.push(`${at}: year_end가 잘못됐다`)
+  if (event.month != null && (!Number.isInteger(event.month) || event.month < 1 || event.month > 12)) errors.push(`${at}: month가 잘못됐다`)
+  if (event.day != null && (!Number.isInteger(event.day) || event.day < 1 || event.day > 31)) errors.push(`${at}: day가 잘못됐다`)
+  if (!KINDS.has(event.kind)) errors.push(`${at}: kind=${event.kind}`)
+  for (const field of ['title', 'title_en', 'description', 'description_en']) {
+    if (!event[field]?.trim()) errors.push(`${at}: ${field}가 비었다`)
   }
-  throw lastError ?? new Error('Wikidata batch request failed')
+  if ((event.lat == null) !== (event.lng == null)) errors.push(`${at}: 위도·경도 중 하나만 있다`)
+  if (event.lat != null && (event.lat < -90 || event.lat > 90 || event.lng < -180 || event.lng > 180)) errors.push(`${at}: 좌표 범위가 잘못됐다`)
+  if (event.lat != null && !event.place_qid) errors.push(`${at}: 좌표에 place_qid가 없다`)
+  if (event.place_qid && event.lat == null) errors.push(`${at}: place_qid에 좌표가 없다`)
+  return errors
 }
 
-const people = readSources()
-const counts = people.map((person) => person.events.length).sort((a, b) => a - b)
-const allEvents = people.flatMap((person) => person.events.map((event) => ({ ...event, slug: person.slug })))
-const urls = [...new Set(allEvents.map((event) => event.sourceUrl).filter(Boolean))]
-const qids = [...new Set(allEvents.map((event) => event.placeQid).filter(Boolean))]
+const [profiles, events] = await Promise.all([
+  fetchAll('profiles', 'id, slug, birth_date, death_date, profile_type, status, celeb_tier'),
+  fetchAll(
+    'celeb_timeline_events',
+    'celeb_id, year, year_end, month, day, title, title_en, description, description_en, kind, place_name, place_name_en, lat, lng, place_qid, source, source_url, sort_order',
+    (query) => query.eq('source', 'research'),
+  ),
+])
 
-console.log(`검사 대상 ${people.length}명 · 사건 ${allEvents.length}건 · 링크 ${urls.length}개 · 장소 QID ${qids.length}개`)
+const eligible = profiles
+  .filter((profile) => (
+    profile.profile_type === 'CELEB'
+    && profile.status === 'active'
+    && (profile.celeb_tier === 'full' || profile.celeb_tier === 'light')
+    && profile.birth_date?.trim()
+    && profile.death_date?.trim()
+    && (!requestedSlugs || requestedSlugs.has(profile.slug))
+  ))
+  .sort((a, b) => a.slug.localeCompare(b.slug))
 
-const linkResults = await mapLimit(urls, CONCURRENCY, checkUrl)
-const deadLinks = linkResults.filter((result) => !result.ok)
-
-const qidResults = new Map()
-for (let i = 0; i < qids.length; i += 50) {
-  const chunk = qids.slice(i, i + 50)
-  try {
-    const entities = await fetchWikidataBatch(chunk)
-    for (const qid of chunk) qidResults.set(qid, { coordinates: claimCoordinates(entities[qid]) })
-  } catch (error) {
-    for (const qid of chunk) qidResults.set(qid, { coordinates: [], error: error.message })
-  }
+if (requestedSlugs) {
+  const found = new Set(eligible.map((profile) => profile.slug))
+  const invalid = [...requestedSlugs].filter((slug) => !found.has(slug))
+  if (invalid.length) throw new Error(`대상 범위를 벗어나거나 없는 slug: ${invalid.join(', ')}`)
 }
 
-const coordinateFailures = []
-for (const event of allEvents) {
-  const hasCoordinates = Number.isFinite(event.lat) && Number.isFinite(event.lng)
-  if (!hasCoordinates && !event.placeQid) continue
-  if (!hasCoordinates || !event.placeQid) {
-    coordinateFailures.push({ slug: event.slug, year: event.year, title: event.title, reason: '좌표/QID 짝 불일치' })
-    continue
-  }
-  const result = qidResults.get(event.placeQid)
-  if (!result?.coordinates.length) {
-    coordinateFailures.push({ slug: event.slug, year: event.year, title: event.title, reason: `QID 좌표 없음${result?.error ? ` (${result.error})` : ''}` })
-    continue
-  }
-  const distance = Math.min(...result.coordinates.map((coord) => haversineKm(event.lat, event.lng, coord.lat, coord.lng)))
-  if (distance > 50) {
-    coordinateFailures.push({ slug: event.slug, year: event.year, title: event.title, reason: `${distance.toFixed(1)}km 차이` })
-  }
+const eventsByCeleb = new Map()
+for (const event of events) {
+  const rows = eventsByCeleb.get(event.celeb_id) ?? []
+  rows.push(event)
+  eventsByCeleb.set(event.celeb_id, rows)
 }
 
-const frequencies = new Map()
-for (const count of counts) frequencies.set(count, (frequencies.get(count) ?? 0) + 1)
-const mode = [...frequencies.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0] ?? [0, 0]
-const median = counts.length ? counts[Math.floor(counts.length / 2)] : 0
-const boundaryCount = counts.filter((count) => count === 3 || count === 30).length
-const countWarnings = []
-if (people.length >= 20 && mode[1] / people.length > 0.25) countWarnings.push(`최빈값 ${mode[0]}건에 ${(mode[1] / people.length * 100).toFixed(1)}% 집중`)
-if (people.length >= 20 && boundaryCount / people.length > 0.1) countWarnings.push(`3·30건 경계에 ${(boundaryCount / people.length * 100).toFixed(1)}% 집중`)
+const failures = []
+let covered = 0
+let rowCount = 0
+let coordCount = 0
+for (const profile of eligible) {
+  const rows = (eventsByCeleb.get(profile.id) ?? []).sort((a, b) => a.sort_order - b.sort_order)
+  if (!rows.length) continue
+  covered += 1
+  rowCount += rows.length
+  coordCount += rows.filter((row) => row.lat != null).length
 
-console.log(`건수 분포 최소 ${counts[0] ?? 0} · 중앙 ${median} · 최대 ${counts.at(-1) ?? 0} · 최빈 ${mode[0]}(${mode[1]}명)`)
-if (countWarnings.length) console.log(`건수 편향 경고: ${countWarnings.join(' / ')}`)
+  const errors = []
+  if (rows.length < 3 || rows.length > 30) errors.push(`항목 수 ${rows.length}개(3~30 필요)`)
+  if (rows.some((row, index) => row.sort_order !== index)) errors.push('sort_order가 0부터 연속되지 않는다')
+  if (rows.some((row, index) => index > 0 && row.year < rows[index - 1].year)) errors.push('연도가 오름차순이 아니다')
+  if (rows[0]?.kind !== 'birth' || rows.filter((row) => row.kind === 'birth').length !== 1) errors.push('출생 항목이 처음에 정확히 한 번 있지 않다')
+  if (rows.at(-1)?.kind !== 'death' || rows.filter((row) => row.kind === 'death').length !== 1) errors.push('사망 항목이 마지막에 정확히 한 번 있지 않다')
+  if (rows[0]?.year !== profileYear(profile.birth_date)) errors.push(`출생 연도가 프로필(${profileYear(profile.birth_date)})과 다르다`)
+  if (rows.at(-1)?.year !== profileYear(profile.death_date)) errors.push(`사망 연도가 프로필(${profileYear(profile.death_date)})과 다르다`)
+  for (const [index, event] of rows.entries()) errors.push(...validateEvent(event, index))
+  if (errors.length) failures.push({ slug: profile.slug, errors })
+}
 
-for (const failure of deadLinks) console.error(`링크 실패 ${failure.status || 'ERR'} ${failure.url}${failure.error ? ` — ${failure.error}` : ''}`)
-for (const failure of coordinateFailures) console.error(`좌표 실패 ${failure.slug} ${failure.year} ${failure.title} — ${failure.reason}`)
+console.log(`대상 ${eligible.length}명 · DB 완료 ${covered}명 · 미완료 ${eligible.length - covered}명`)
+console.log(`연구 행 ${rowCount}건 · 좌표 ${coordCount}건 · 구조 결함 인물 ${failures.length}명`)
+for (const failure of failures) console.log(`✗ ${failure.slug}: ${failure.errors.join(' / ')}`)
 
-console.log(`링크 ${urls.length - deadLinks.length}/${urls.length} 통과 · 좌표 ${allEvents.filter((event) => event.placeQid).length - coordinateFailures.length}/${allEvents.filter((event) => event.placeQid).length} 통과`)
-if (deadLinks.length || coordinateFailures.length || countWarnings.length) process.exitCode = 1
+if (failures.length || covered !== eligible.length) process.exitCode = 1
