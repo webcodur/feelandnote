@@ -1,0 +1,32 @@
+{
+  "gameGroups": {
+    "title": "넷씩 넷",
+    "description": "16명의 인물을 공통점에 따라 4명씩 4묶음으로 분류하세요. 실수는 4번까지 허용됩니다.",
+    "howToPlay": "게임 방법",
+    "rule1": "• 공통점이 있는 인물 4명을 골라 제출하세요.",
+    "rule2": "• 4묶음을 모두 맞히면 성공. 4번 틀리면 게임 오버.",
+    "rule3": "• 한 인물은 정확히 한 묶음에만 속합니다. 겹치는 듯해도 정답은 하나입니다.",
+    "todayPuzzle": "{date} 퍼즐",
+    "start": "시작",
+    "notEnoughData": "퍼즐을 만들 데이터가 부족합니다.",
+    "fixtureMode": "⚠ 체험 모드 — 표본 데이터로 실행 중입니다. 실제 서비스 데이터가 아닙니다.",
+    "submit": "제출",
+    "deselect": "선택 해제",
+    "mistakesRemaining": "남은 기회",
+    "mistakesLeft": "남은 실수 횟수",
+    "oneAway": "하나만 더!",
+    "breadcrumb": {
+      "playing": "진행 중",
+      "result": "결과"
+    },
+    "result": {
+      "win": "완벽합니다!",
+      "lose": "아쉽습니다",
+      "winDetail": "{mistakes}번 실수로 완주했습니다.",
+      "loseDetail": "기회를 모두 소진했습니다. 정답을 확인하세요.",
+      "solved": "맞힘",
+      "history": "추측 기록",
+      "playAgain": "다시 하기"
+    }
+  }
+}

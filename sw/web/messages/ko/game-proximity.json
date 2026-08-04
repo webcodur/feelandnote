@@ -1,0 +1,40 @@
+{
+  "gameProximity": {
+    "title": "근접도",
+    "intro": "오늘의 인물이 숨어 있습니다. 아무 인물이나 추측하면, 정답과 얼마나 가까운지 알려줍니다. 온도를 단서 삼아 좁혀가세요.",
+    "mobileRule": "인물을 검색해 추측하세요. 온도와 축별 힌트로 정답에 다가갑니다.",
+    "startGame": "시작하기",
+    "playing": "추측 중",
+    "searchPlaceholder": "인물 이름을 입력하세요",
+    "guessCounter": "{current} / {max}회",
+    "giveUp": "포기하기",
+    "correct": "정답",
+    "fixtureNotice": "체험 모드: 표본 데이터로 돌아가고 있습니다. 성향 점수 없이 시대·지역·직군만으로 거리를 계산합니다.",
+    "bestRecord": "최고 기록: {count}회만에 정답",
+    "axis": {
+      "era": "시대",
+      "region": "지역",
+      "profession": "직군",
+      "persona": "성향"
+    },
+    "rules": {
+      "guessTitle": "추측하기",
+      "guessBody": "아무 인물이나 추측하세요. 최대 15회까지 기회가 있습니다.",
+      "hintsTitle": "힌트 읽기",
+      "hintsBody": "매 추측마다 온도(0~100)와 시대·지역·직군·성향 축별 가까움을 알려줍니다.",
+      "narrowTitle": "좁혀가기",
+      "narrowBody": "힌트를 조합해 정답을 좁혀가세요. 지식 시험이 아니라 추론 게임입니다."
+    },
+    "result": {
+      "breadcrumb": "결과",
+      "wonTitle": "정답을 찾았습니다!",
+      "lostTitle": "아쉽습니다",
+      "guessCount": "추측 횟수",
+      "outcome": "결과",
+      "success": "성공",
+      "gaveUp": "포기",
+      "replay": "다시 하기",
+      "lobby": "돌아가기"
+    }
+  }
+}

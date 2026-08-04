@@ -1,0 +1,33 @@
+{
+  "gameGrid": {
+    "title": "Crossing Grid",
+    "intro": "A 3×3 grid has conditions on each row and column. Think of a person who satisfies both conditions at once and type their name. Fill all 9 cells to complete a round.",
+    "mobileRuleSummary": "Tap a cell → type a name → correct if both row and column conditions are met",
+    "startGame": "Start",
+    "notEnoughData": "Not enough data to generate a puzzle",
+    "fixtureMode": "⚠ Demo Mode — running on sample data",
+    "playing": "In Progress",
+    "progress": "{filled} / {total} cells filled",
+    "searchPlaceholder": "Type a name…",
+    "searchAriaLabel": "Search for a person",
+    "noResults": "No matching person found",
+    "cellAriaLabel": "Row {row}, Column {col}",
+    "correct": "Correct",
+    "wrong": "Wrong",
+    "resultTitle": "Results",
+    "resultPerfect": "Perfect!",
+    "resultScore": "{correct} of {total} cells correct",
+    "replay": "Play Again",
+    "toLobby": "Lobby",
+    "exit": "Exit",
+    "exitEsc": "Exit (ESC)",
+    "rules": {
+      "gridTitle": "3×3 Grid",
+      "gridBody": "Three rows and three columns, each with a condition. Nationality, profession, century, or faction — two axes cross.",
+      "recallTitle": "Recall",
+      "recallBody": "No choices given. Think of someone who fits both conditions and type their name.",
+      "scoreTitle": "Scoring",
+      "scoreBody": "Fill all 9 cells to finish. You cannot use the same person twice."
+    }
+  }
+}

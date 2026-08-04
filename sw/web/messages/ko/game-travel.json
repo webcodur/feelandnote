@@ -1,0 +1,43 @@
+{
+  "gameTravel": {
+    "title": "경로 잇기",
+    "intro": "출발 인물에서 도착 인물까지 관계를 밟아 이동합니다. 같은 책을 읽었거나 같은 세력에 속한 인물끼리 한 칸씩 전진할 수 있습니다. 정해진 이동 횟수 안에 도착하면 성공입니다.",
+    "mobileRuleSummary": "이웃 목록에서 인물을 선택해 한 칸 이동 → 도착 인물에 닿으면 성공",
+    "startGame": "시작하기",
+    "notEnoughData": "인물 데이터가 부족합니다",
+    "fixtureMode": "⚠ 체험 모드 — 표본 데이터로 동작 중",
+    "playing": "진행 중",
+    "resultTitle": "결과",
+    "exit": "나가기",
+    "exitEsc": "나가기 (ESC)",
+    "stepsUsed": "{used} / {budget} 이동",
+    "stepsRemaining": "남은 이동: {remaining}",
+    "start": "출발",
+    "current": "현재",
+    "destination": "도착",
+    "destinationBadge": "도착지",
+    "searchNeighbor": "이웃 인물 검색…",
+    "searchNeighborAria": "이웃 인물 이름 검색",
+    "neighborListAria": "이동 가능한 인물 목록",
+    "noNeighbors": "이동할 수 있는 이웃이 없습니다",
+    "neighborCount": "{total}명 중 {shown}명 표시",
+    "giveUp": "포기",
+    "resultSuccess": "도착!",
+    "resultOverBudget": "예산 초과 도착",
+    "resultGiveUp": "포기",
+    "resultScore": "점수: {score}",
+    "yourPath": "내 경로",
+    "optimalPath": "최적 경로",
+    "stepsCount": "{count}단계",
+    "replay": "다시 하기",
+    "toLobby": "처음으로",
+    "rules": {
+      "connectTitle": "관계로 잇기",
+      "connectBody": "두 인물 사이를 같은 책을 읽었거나 같은 세력에 속한 관계를 밟아 이동합니다. 이동할 때마다 왜 이어졌는지 보여줍니다.",
+      "budgetTitle": "이동 예산",
+      "budgetBody": "정해진 횟수 안에 도착하면 성공. 최단 경로를 찾을 필요는 없습니다. 예산을 넘겨도 계속 시도할 수 있지만 점수가 깎입니다.",
+      "scoreTitle": "채점",
+      "scoreBody": "예산 내 도착하면 높은 점수. 초과할수록 감점되고, 포기하면 0점입니다."
+    }
+  }
+}

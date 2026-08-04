@@ -1,0 +1,32 @@
+{
+  "gameGroups": {
+    "title": "Four by Four",
+    "description": "Sort 16 figures into 4 groups of 4 based on what they have in common. You get 4 mistakes before it's game over.",
+    "howToPlay": "How to Play",
+    "rule1": "• Select 4 figures that share a common trait and submit.",
+    "rule2": "• Find all 4 groups to win. 4 wrong guesses and you lose.",
+    "rule3": "• Each figure belongs to exactly one group. Even if they seem to fit multiple, there is only one correct answer.",
+    "todayPuzzle": "Puzzle for {date}",
+    "start": "Start",
+    "notEnoughData": "Not enough data to generate a puzzle.",
+    "fixtureMode": "⚠ Demo Mode — Running with sample data. This is not live service data.",
+    "submit": "Submit",
+    "deselect": "Deselect All",
+    "mistakesRemaining": "Remaining",
+    "mistakesLeft": "Mistakes remaining",
+    "oneAway": "One away!",
+    "breadcrumb": {
+      "playing": "Playing",
+      "result": "Result"
+    },
+    "result": {
+      "win": "Perfect!",
+      "lose": "Better luck next time",
+      "winDetail": "Completed with {mistakes} mistake(s).",
+      "loseDetail": "You used all your chances. Check the answers below.",
+      "solved": "Solved",
+      "history": "Guess History",
+      "playAgain": "Play Again"
+    }
+  }
+}

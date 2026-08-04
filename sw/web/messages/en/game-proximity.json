@@ -1,0 +1,40 @@
+{
+  "gameProximity": {
+    "title": "Proximity",
+    "intro": "A hidden figure awaits. Guess any person, and we'll tell you how close they are to the answer. Use the temperature to narrow it down.",
+    "mobileRule": "Search and guess a figure. Temperature and axis hints guide you closer.",
+    "startGame": "Start Game",
+    "playing": "Guessing",
+    "searchPlaceholder": "Type a name to guess",
+    "guessCounter": "{current} / {max} guesses",
+    "giveUp": "Give Up",
+    "correct": "Correct",
+    "fixtureNotice": "Demo mode: Running on sample data. Distance is calculated using era, region, and profession only (no persona scores).",
+    "bestRecord": "Best: solved in {count} guesses",
+    "axis": {
+      "era": "Era",
+      "region": "Region",
+      "profession": "Profession",
+      "persona": "Persona"
+    },
+    "rules": {
+      "guessTitle": "Guess",
+      "guessBody": "Guess any historical or notable figure. You have up to 15 attempts.",
+      "hintsTitle": "Read Hints",
+      "hintsBody": "Each guess reveals a temperature (0–100) plus axis hints for era, region, profession, and persona.",
+      "narrowTitle": "Narrow Down",
+      "narrowBody": "Combine the hints to close in. This is a deduction game, not a knowledge test."
+    },
+    "result": {
+      "breadcrumb": "Result",
+      "wonTitle": "You found them!",
+      "lostTitle": "Better luck next time",
+      "guessCount": "Guesses",
+      "outcome": "Outcome",
+      "success": "Success",
+      "gaveUp": "Gave up",
+      "replay": "Play Again",
+      "lobby": "Back to Lobby"
+    }
+  }
+}

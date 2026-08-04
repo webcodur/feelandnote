@@ -1,0 +1,32 @@
+{
+  "gameMoreless": {
+    "title": "어느 쪽",
+    "intro": "두 인물의 영향력 점수를 비교합니다. 더 높은 쪽을 고르세요. 맞히면 계속, 틀리면 끝. 연속 정답 기록에 도전하세요.",
+    "mobileRule": "두 인물 중 영향력이 더 높은 쪽을 터치하세요. 연속으로 맞히면 기록이 올라갑니다.",
+    "startGame": "시작",
+    "fixtureNotice": "표본 데이터로 돌아가는 체험 모드입니다. 실제 서비스에서는 1,500명 이상의 인물 풀로 플레이합니다.",
+    "playing": "진행 중",
+    "resultBreadcrumb": "결과",
+    "streak": "연속 정답",
+    "question": "누구의 영향력 점수가 더 높을까요?",
+    "hint": "영향력 점수는 정치·전략·기술·사회·경제·문화·통시성 7축의 종합 평가입니다",
+    "influenceScore": "영향력",
+    "cardAriaLabel": "{name} 선택",
+    "resultTitle": "게임 종료",
+    "finalStreak": "최종 연속 정답",
+    "newRecord": "신기록!",
+    "bestRecord": "최고 기록: {count}연속",
+    "lastRound": "마지막 문제",
+    "points": "점",
+    "replay": "다시 하기",
+    "toLobby": "처음으로",
+    "rules": {
+      "compareTitle": "비교하기",
+      "compareBody": "두 인물이 나란히 나옵니다. 영향력 점수가 더 높은 쪽을 고르세요.",
+      "streakTitle": "연속 도전",
+      "streakBody": "맞히면 다음 문제가 바로 옵니다. 틀리는 순간 게임이 끝납니다.",
+      "recordTitle": "기록 경신",
+      "recordBody": "연속 정답 수가 곧 점수입니다. 최고 기록에 도전하세요."
+    }
+  }
+}

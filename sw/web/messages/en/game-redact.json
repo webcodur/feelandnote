@@ -1,0 +1,39 @@
+{
+  "gameRedact": {
+    "title": "Uncover",
+    "playing": "Guessing",
+    "intro": "A person's biography is completely hidden. Guess words to reveal them throughout the text. Piece together the clues to identify who it is.",
+    "startGame": "Start",
+    "guessPlaceholder": "Enter a word (2+ characters)",
+    "identityPlaceholder": "Enter this person's name",
+    "identityGuessPrompt": "Who is this person? A wrong guess costs one attempt.",
+    "guessIdentity": "Guess Identity",
+    "backToWordGuess": "Back to word guessing",
+    "guessCounter": "{current} / {max} guesses",
+    "revealedRatio": "Revealed {percent}% · {hidden} words hidden",
+    "giveUp": "Give Up",
+    "guessHistory": "Guess History",
+    "hits": "{count} found",
+    "miss": "Miss",
+    "fixtureNotice": "Demo mode: Running on sample data. The pool of figures may differ from the live service.",
+    "ariaRedactedText": "Redacted text",
+    "hint": {
+      "profession": "Profession",
+      "era": "Era",
+      "nationality": "Nationality",
+      "useProfession": "Show Profession",
+      "useEra": "Show Era",
+      "useNationality": "Show Nationality"
+    },
+    "result": {
+      "breadcrumb": "Result",
+      "wonTitle": "Identity Uncovered!",
+      "lostTitle": "Not This Time",
+      "answerLabel": "The Answer",
+      "guessCount": "Guesses Used",
+      "revealedPercent": "Revealed",
+      "replay": "Play Again",
+      "lobby": "Back"
+    }
+  }
+}

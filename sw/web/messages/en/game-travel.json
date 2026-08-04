@@ -1,0 +1,43 @@
+{
+  "gameTravel": {
+    "title": "Trail",
+    "intro": "Travel from the start figure to the destination by stepping through connections. You can move to anyone who shares a book or belongs to the same group. Arrive within the move budget to succeed.",
+    "mobileRuleSummary": "Pick a neighbor to move one step → reach the destination to win",
+    "startGame": "Start",
+    "notEnoughData": "Not enough data to play",
+    "fixtureMode": "⚠ Demo Mode — running on sample data",
+    "playing": "In Progress",
+    "resultTitle": "Results",
+    "exit": "Exit",
+    "exitEsc": "Exit (ESC)",
+    "stepsUsed": "{used} / {budget} moves",
+    "stepsRemaining": "Remaining: {remaining}",
+    "start": "Start",
+    "current": "Current",
+    "destination": "Destination",
+    "destinationBadge": "Goal",
+    "searchNeighbor": "Search neighbors…",
+    "searchNeighborAria": "Search neighbor names",
+    "neighborListAria": "Available neighbors",
+    "noNeighbors": "No reachable neighbors",
+    "neighborCount": "Showing {shown} of {total}",
+    "giveUp": "Give Up",
+    "resultSuccess": "Arrived!",
+    "resultOverBudget": "Over Budget",
+    "resultGiveUp": "Gave Up",
+    "resultScore": "Score: {score}",
+    "yourPath": "Your Path",
+    "optimalPath": "Optimal Path",
+    "stepsCount": "{count} steps",
+    "replay": "Play Again",
+    "toLobby": "Lobby",
+    "rules": {
+      "connectTitle": "Follow Connections",
+      "connectBody": "Move between figures who share the same book or belong to the same group. Each step shows why they are connected.",
+      "budgetTitle": "Move Budget",
+      "budgetBody": "Arrive within the budget to succeed. You don't need to find the shortest path. You can keep going over budget, but your score drops.",
+      "scoreTitle": "Scoring",
+      "scoreBody": "Arrive within budget for a high score. Each extra step costs points. Giving up scores zero."
+    }
+  }
+}

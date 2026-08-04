@@ -1,0 +1,39 @@
+{
+  "gameRedact": {
+    "title": "가림 해제",
+    "playing": "추측 중",
+    "intro": "인물 소개글이 통째로 가려져 있습니다. 단어를 추측하면 본문 전체에서 해당 어절이 드러납니다. 드러난 조각으로 인물의 정체를 맞혀보세요.",
+    "startGame": "시작하기",
+    "guessPlaceholder": "단어를 입력하세요 (2글자 이상)",
+    "identityPlaceholder": "이 인물의 이름을 입력하세요",
+    "identityGuessPrompt": "이 인물이 누구인지 맞혀보세요. 틀리면 추측 1회를 소모합니다.",
+    "guessIdentity": "정체 맞히기",
+    "backToWordGuess": "단어 추측으로 돌아가기",
+    "guessCounter": "{current} / {max}회",
+    "revealedRatio": "공개 {percent}% · 남은 어절 {hidden}개",
+    "giveUp": "포기하기",
+    "guessHistory": "추측 이력",
+    "hits": "{count}곳 발견",
+    "miss": "빗나감",
+    "fixtureNotice": "체험 모드: 표본 데이터로 돌아가고 있습니다. 실제 서비스와 인물 풀이 다를 수 있습니다.",
+    "ariaRedactedText": "가려진 본문",
+    "hint": {
+      "profession": "직군",
+      "era": "활동 시기",
+      "nationality": "국적",
+      "useProfession": "직군 보기",
+      "useEra": "시대 보기",
+      "useNationality": "국적 보기"
+    },
+    "result": {
+      "breadcrumb": "결과",
+      "wonTitle": "정체를 밝혔습니다!",
+      "lostTitle": "밝혀내지 못했습니다",
+      "answerLabel": "정답 인물",
+      "guessCount": "추측 횟수",
+      "revealedPercent": "공개율",
+      "replay": "다시 하기",
+      "lobby": "돌아가기"
+    }
+  }
+}
