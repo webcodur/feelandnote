@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useLocale } from "next-intl";
 
 import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
@@ -64,6 +64,45 @@ export default function CelebPageContent({
   // 인물 화면이 한 장에서 끝나는 원인을 판별하기 위한 구획 열람 집계다.
   const contentRef = useRef<HTMLDivElement>(null);
   useSectionViewTracking(contentRef);
+
+  useEffect(() => {
+    const page = contentRef.current;
+    const mainRegion = page?.closest<HTMLElement>("[data-main-content-region]");
+    const middleColumn = page?.querySelector<HTMLElement>(
+      `.${styles.openingFrame}`,
+    );
+    if (!page || !mainRegion || !middleColumn) return;
+
+    const positionAtlas = () => {
+      const pageBox = page.getBoundingClientRect();
+      const regionBox = mainRegion.getBoundingClientRect();
+      const middleBox = middleColumn.getBoundingClientRect();
+      const leftRegionWidth = Math.max(0, middleBox.left - regionBox.left);
+      const centerFromPage =
+        regionBox.left + leftRegionWidth / 2 - pageBox.left;
+      const atlasWidth = Math.min(160, Math.max(96, leftRegionWidth - 32));
+
+      page.style.setProperty(
+        "--celeb-atlas-center-inline",
+        `${centerFromPage}px`,
+      );
+      page.style.setProperty("--celeb-atlas-width", `${atlasWidth}px`);
+    };
+
+    positionAtlas();
+    const observer = new ResizeObserver(positionAtlas);
+    observer.observe(page);
+    observer.observe(mainRegion);
+    observer.observe(middleColumn);
+    window.addEventListener("resize", positionAtlas);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", positionAtlas);
+      page.style.removeProperty("--celeb-atlas-center-inline");
+      page.style.removeProperty("--celeb-atlas-width");
+    };
+  }, []);
 
   return (
     <div ref={contentRef} className={styles.page}>

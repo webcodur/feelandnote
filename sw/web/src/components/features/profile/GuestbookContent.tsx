@@ -27,9 +27,11 @@ export default function GuestbookContent({
   initialTotal,
   hideEmptyState = false,
   isFiction = false,
+  variant = "default",
 }: GuestbookContentProps) {
   const t = useTranslations("profileSection.guestbook");
   const tFiction = useTranslations("profileSection.fictionGuestbook");
+  const isCeleb = variant === "celeb";
 
   // 서버가 사용자를 주입하지 않은 경우(정적 렌더 화면) 클라이언트에서 본인 id를 조회한다.
   const [selfUserId, setSelfUserId] = useState<CurrentUserId>(null);
@@ -133,11 +135,11 @@ export default function GuestbookContent({
   );
 
   return (
-    <>
+    <div className={isCeleb ? "px-2 py-4 sm:px-3 md:px-4 md:py-5" : ""}>
       {/* 로그인 확인 중에도 작성 영역의 자리가 보여 빈 박스로 오해되지 않게 한다. */}
       {!isAuthResolved ? (
         <div
-          className="mb-8 min-h-[118px] animate-pulse rounded-lg border border-white/[0.04] bg-white/[0.02] p-4"
+          className={`${isCeleb ? "min-h-[72px] rounded-md" : "mb-8 min-h-[118px] rounded-lg"} animate-pulse border border-white/[0.04] bg-white/[0.02] p-4`}
           aria-hidden
         >
           <div className="h-3 w-2/5 rounded bg-white/[0.05]" />
@@ -150,24 +152,50 @@ export default function GuestbookContent({
           onSubmit={handleAddEntry}
           entryCount={total}
           isFiction={isFiction}
+          variant={variant}
         />
       ) : (
         <Link
           href="/login"
-          className="group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
+          className={isCeleb
+            ? "group flex min-h-[72px] items-center gap-3 rounded-md border border-white/[0.07] bg-black/10 px-3 py-3 hover:border-accent/45 hover:bg-accent/[0.035] sm:px-4"
+            : "group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
+          }
         >
-          <div className="min-h-[76px] px-4 py-4 text-sm group-hover:text-text-secondary">
-            {isFiction ? tFiction("loginPrompt") : t("loginPrompt")}
-          </div>
-          <div className="flex items-center justify-between gap-3 border-t border-white/[0.05] px-4 py-3">
-            <span className="text-xs">
-              {isFiction ? tFiction("loginHint") : t("loginHint")}
-            </span>
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded bg-accent/90 px-3 py-1.5 text-[11px] font-bold text-bg-main group-hover:bg-accent">
-              <LogIn size={11} strokeWidth={2} aria-hidden />
-              {t("loginAction")}
-            </span>
-          </div>
+          {isCeleb ? (
+            <>
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/[0.06] text-accent">
+                <MessageSquare size={15} strokeWidth={1.7} aria-hidden />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[13px] leading-snug text-text-primary group-hover:text-accent">
+                  {isFiction ? tFiction("loginPrompt") : t("loginPrompt")}
+                </span>
+                <span className="mt-1 block text-[11px] leading-snug text-text-secondary/70">
+                  {isFiction ? tFiction("loginHint") : t("loginHint")}
+                </span>
+              </span>
+              <span className="inline-flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm bg-accent/90 px-3 text-[11px] font-bold text-bg-main group-hover:bg-accent">
+                <LogIn size={12} strokeWidth={2} aria-hidden />
+                {t("loginAction")}
+              </span>
+            </>
+          ) : (
+            <>
+              <div className="min-h-[76px] px-4 py-4 text-sm group-hover:text-text-secondary">
+                {isFiction ? tFiction("loginPrompt") : t("loginPrompt")}
+              </div>
+              <div className="flex items-center justify-between gap-3 border-t border-white/[0.05] px-4 py-3">
+                <span className="text-xs">
+                  {isFiction ? tFiction("loginHint") : t("loginHint")}
+                </span>
+                <span className="inline-flex shrink-0 items-center gap-1.5 rounded bg-accent/90 px-3 py-1.5 text-[11px] font-bold text-bg-main group-hover:bg-accent">
+                  <LogIn size={11} strokeWidth={2} aria-hidden />
+                  {t("loginAction")}
+                </span>
+              </div>
+            </>
+          )}
         </Link>
       )}
 
@@ -175,8 +203,8 @@ export default function GuestbookContent({
       {!isEntriesResolved ? (
         <div className="min-h-24 animate-pulse rounded-lg border border-white/[0.04] bg-white/[0.02]" aria-hidden />
       ) : entries.length > 0 ? (
-        <div className={isLoading ? "opacity-50 pointer-events-none" : ""}>
-          <div className="divide-y divide-white/[0.04]">
+        <div className={isLoading ? "pointer-events-none opacity-50" : ""}>
+          <div className={isCeleb ? "space-y-2" : "divide-y divide-white/[0.04]"}>
             {entries.map((entry) => (
               <EntryItem
                 key={entry.id}
@@ -185,6 +213,7 @@ export default function GuestbookContent({
                 isOwner={isOwner}
                 onDelete={handleDeleteEntry}
                 onUpdate={handleUpdateEntry}
+                variant={variant}
               />
             ))}
           </div>
@@ -207,6 +236,6 @@ export default function GuestbookContent({
           </p>
         </div>
       )}
-    </>
+    </div>
   );
 }

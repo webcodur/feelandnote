@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { WORLD_SERIF_FONT, type WorldNumerals, type WorldTitleFont } from "@/lib/celeb/worldStyle";
@@ -60,7 +60,7 @@ export default function CelebSectionHeading({
         }
         className={styles.navButton}
       >
-        <ChevronLeft size={22} strokeWidth={1.7} aria-hidden />
+        <ArrowLeft size={22} strokeWidth={1.7} aria-hidden />
       </button>
 
       <div className={styles.identity}>
@@ -103,7 +103,7 @@ export default function CelebSectionHeading({
         }
         className={styles.navButton}
       >
-        <ChevronRight size={22} strokeWidth={1.7} aria-hidden />
+        <ArrowRight size={22} strokeWidth={1.7} aria-hidden />
       </button>
     </header>
   );

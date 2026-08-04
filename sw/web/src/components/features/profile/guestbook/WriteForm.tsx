@@ -19,6 +19,7 @@ export default function WriteForm({
   onSubmit,
   entryCount = 0,
   isFiction = false,
+  variant = "default",
 }: WriteFormProps) {
   const t = useTranslations("profileSection.guestbook");
   const tFiction = useTranslations("profileSection.fictionGuestbook");
@@ -57,31 +58,33 @@ export default function WriteForm({
   };
 
   const tScope = isFiction ? tFiction : t;
+  const isCeleb = variant === "celeb";
   const invite = entryCount > 0
     ? tScope("inviteCount", { count: entryCount })
     : tScope("inviteFirst");
 
   return (
-    <div className="mb-8 space-y-2">
-      <p className="flex items-center gap-1.5 text-xs text-accent">
+    <div className={`${isCeleb ? "mb-5" : "mb-8"} space-y-2`}>
+      <p className="flex items-center gap-1.5 text-[11px] text-accent">
         <Sparkles size={11} strokeWidth={2} aria-hidden />
         {invite}
       </p>
 
-      <div className="bg-white/[0.02] rounded-lg overflow-hidden">
+      <div className={`${isCeleb ? "rounded-md border border-white/[0.07] bg-black/10 focus-within:border-accent/45" : "rounded-lg bg-white/[0.02]"} overflow-hidden`}>
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={isFiction ? tFiction("placeholder") : t("placeholder")}
-        className="w-full bg-transparent border-none resize-none focus:ring-0 text-text-primary placeholder: min-h-[72px] font-sans text-sm leading-relaxed px-4 pt-4 pb-2"
+        className={`${isCeleb ? "min-h-[88px] px-3 pt-3 pb-2 sm:px-4 sm:pt-4" : "min-h-[72px] px-4 pt-4 pb-2"} w-full resize-none border-none bg-transparent font-sans text-sm leading-relaxed text-text-primary focus:ring-0`}
         rows={3}
         maxLength={500}
       />
 
-      <div className="flex items-center justify-between px-4 pb-3">
+      <div className={`${isCeleb ? "border-t border-white/[0.05] px-3 py-2 sm:px-4" : "px-4 pb-3"} flex items-center justify-between`}>
         <button
+          type="button"
           onClick={() => handleTogglePrivate(!isPrivate)}
-          className={`flex items-center gap-1 px-2 py-1 rounded text-[11px] transition-colors ${
+          className={`flex h-7 items-center gap-1 rounded-sm px-2 text-[11px] ${
             isPrivate
               ? "text-accent bg-accent/10"
               : " hover:text-text-secondary"
@@ -97,9 +100,10 @@ export default function WriteForm({
           </span>
           <Button
             unstyled
+            type="button"
             onClick={handleSubmit}
             disabled={!content.trim() || isSubmitting}
-            className="px-4 py-1.5 bg-accent/90 text-bg-main text-[11px] font-bold rounded transition-all hover:bg-accent disabled:opacity-20 disabled:hover:bg-accent/90"
+            className="h-8 rounded-sm bg-accent/90 px-4 text-[11px] font-bold text-bg-main hover:bg-accent disabled:opacity-20 disabled:hover:bg-accent/90"
           >
             <span className="flex items-center gap-1.5">
               <Send size={10} />

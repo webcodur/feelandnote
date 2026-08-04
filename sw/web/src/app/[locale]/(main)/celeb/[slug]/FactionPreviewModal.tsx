@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight, ChevronLeft, ChevronRight, Images, LoaderCircle, Users, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Images, LoaderCircle, Users, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
@@ -177,7 +177,7 @@ export default function FactionPreviewModal({
                     className="absolute left-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/65 text-white/80 hover:border-white/30 hover:bg-black/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:left-3"
                     aria-label={t("factionPreviousPortrait")}
                   >
-                    <ChevronLeft size={19} />
+                    <ArrowLeft size={19} />
                   </button>
                   <button
                     type="button"
@@ -185,7 +185,7 @@ export default function FactionPreviewModal({
                     className="absolute right-2 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/65 text-white/80 hover:border-white/30 hover:bg-black/90 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:right-3"
                     aria-label={t("factionNextPortrait")}
                   >
-                    <ChevronRight size={19} />
+                    <ArrowRight size={19} />
                   </button>
                 </>
               )}

@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
 
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
-import CelebProfessionMark from "@/components/features/celeb/CelebProfessionMark";
+import ProfessionInfoButton from "@/components/features/celeb/ProfessionInfoButton";
 import CelebWorldBannerView from "@/components/features/celeb/CelebWorldBannerView";
 import CelebWorldFrame from "@/components/features/celeb/CelebWorldFrame";
 import { useDialogueSubtitle } from "@/components/features/game/shared/hooks/useDialogue";
@@ -125,23 +125,40 @@ export default function CelebHeroSection({
                 profile.photo_url ? "" : styles.avatarHeroColumn
               }`}
             >
-              <MaybeWorldFrame
-                frame={worldStyle.frame}
-                framed={Boolean(profile.photo_url)}
-              >
+              <div className={styles.desktopHeroPhoto}>
+                <MaybeWorldFrame
+                  frame={worldStyle.frame}
+                  framed={Boolean(profile.photo_url)}
+                >
+                  <CelebHeroPhoto
+                    photoUrl={profile.photo_url}
+                    avatarUrl={profile.avatar_url}
+                    nickname={nickname}
+                    onZoom={handleZoom}
+                    zoomLabel={t("enlargePhoto")}
+                    onGreet={canGreet ? handleGreetingPlay : undefined}
+                    greetLabel={t("playGreetingVoice")}
+                    photoSize="h-36 w-36 sm:h-44 sm:w-44 md:h-60 md:w-60"
+                    avatarSize="h-36 w-36 md:h-44 md:w-44"
+                    initialSize="text-2xl md:text-3xl"
+                  />
+                </MaybeWorldFrame>
+              </div>
+
+              <div className={styles.mobileHeroAvatar}>
                 <CelebHeroPhoto
-                  photoUrl={profile.photo_url}
+                  photoUrl={null}
                   avatarUrl={profile.avatar_url}
                   nickname={nickname}
                   onZoom={handleZoom}
                   zoomLabel={t("enlargePhoto")}
                   onGreet={canGreet ? handleGreetingPlay : undefined}
                   greetLabel={t("playGreetingVoice")}
-                  photoSize="h-36 w-36 sm:h-44 sm:w-44 md:h-60 md:w-60"
-                  avatarSize="h-36 w-36 md:h-44 md:w-44"
-                  initialSize="text-2xl md:text-3xl"
+                  photoSize="h-36 w-36"
+                  avatarSize="h-28 w-28"
+                  initialSize="text-2xl"
                 />
-              </MaybeWorldFrame>
+              </div>
             </div>
 
             <div className={styles.identityCopy}>
@@ -177,11 +194,10 @@ export default function CelebHeroSection({
                 <div className={styles.meta}>
                   {professionLabel ? (
                     <span className={styles.profession}>
-                      <CelebProfessionMark
-                        profession={profile.profession}
-                        size={16}
+                      <ProfessionInfoButton
+                        profession={profile.profession!}
+                        label={professionLabel}
                       />
-                      {professionLabel}
                     </span>
                   ) : null}
                   {profile.nationality ? (
@@ -196,11 +212,6 @@ export default function CelebHeroSection({
                     </span>
                   ) : null}
                   <CelebTierBadge tier={celebTier} />
-                  <CelebViewCounter
-                    celebId={profile.id}
-                    nickname={nickname}
-                    initialCount={profile.view_count ?? 0}
-                  />
                 </div>
 
                 {locale === "en" && profile.translationFallbacks.length > 0 ? (
@@ -233,12 +244,18 @@ export default function CelebHeroSection({
                 ) : null}
 
                 <div className={styles.actions}>
+                  <CelebViewCounter
+                    celebId={profile.id}
+                    nickname={nickname}
+                    initialCount={profile.view_count ?? 0}
+                  />
                   <ShareButtons
                     title={shareTitle}
                     path={`/celeb/${slug}`}
                     align="center"
                     comfortable
-                    showLabel
+                    iconOnly
+                    showLabel={false}
                   />
                 </div>
               </div>

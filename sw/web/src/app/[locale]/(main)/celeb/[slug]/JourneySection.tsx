@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, ChevronRight, Columns2, Globe, List, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, Columns2, Globe, List, MapPin } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
@@ -219,7 +219,7 @@ export default function JourneySection({ events }: Props) {
             aria-label={t("timelinePrev")}
             className="flex min-h-44 items-center justify-center rounded border border-accent-dim/25 bg-bg-secondary/40 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-20 md:min-h-[300px]"
           >
-            <ChevronLeft size={20} strokeWidth={1.6} aria-hidden />
+            <ArrowLeft size={20} strokeWidth={1.6} aria-hidden />
           </button>
 
           {/* 사건을 옆으로 나란히 깔고 띠를 밀어 보여준다 — 손을 따라오다 놓으면 제자리에 붙는다.
@@ -307,7 +307,7 @@ export default function JourneySection({ events }: Props) {
             aria-label={t("timelineNext")}
             className="flex min-h-44 items-center justify-center rounded border border-accent-dim/25 bg-bg-secondary/40 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-20 md:min-h-[300px]"
           >
-            <ChevronRight size={20} strokeWidth={1.6} aria-hidden />
+            <ArrowRight size={20} strokeWidth={1.6} aria-hidden />
           </button>
         </div>
 

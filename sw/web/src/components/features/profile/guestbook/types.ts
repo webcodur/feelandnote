@@ -18,6 +18,8 @@ export interface GuestbookContentProps {
   hideEmptyState?: boolean;
   /** 저장 구조는 같지만 fiction 상세에서는 방명록을 감상록 문맥으로 표시한다. */
   isFiction?: boolean;
+  /** 셀럽 상세에서는 공용 섹션 프레임에 맞춘 조밀한 참여 패널로 표시한다. */
+  variant?: "default" | "celeb";
 }
 
 export interface EntryItemProps {
@@ -26,6 +28,7 @@ export interface EntryItemProps {
   isOwner: boolean;
   onDelete: (id: string) => void;
   onUpdate: (id: string, content: string, isPrivate: boolean) => void;
+  variant?: "default" | "celeb";
 }
 
 export interface WriteFormProps {
@@ -34,4 +37,5 @@ export interface WriteFormProps {
   /** 이미 남겨진 글 수. 0이면 첫 글을 권하고, 1건 이상이면 참여 규모를 보여준다. */
   entryCount?: number;
   isFiction?: boolean;
+  variant?: "default" | "celeb";
 }

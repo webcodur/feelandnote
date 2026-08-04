@@ -35,7 +35,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <div className="absolute top-0 left-[-4px] w-[4px] h-full bg-gradient-to-r from-black/20 to-transparent hidden md:block"></div>
           <div className="absolute top-0 right-[-4px] w-[4px] h-full bg-gradient-to-l from-black/20 to-transparent hidden md:block"></div>
 
-          <div className="relative z-10 py-6 md:py-8">
+          <div data-main-content-region className="relative z-10 py-6 md:py-8">
             {children}
           </div>
         </div>

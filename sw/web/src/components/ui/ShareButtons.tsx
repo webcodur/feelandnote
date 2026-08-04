@@ -25,6 +25,7 @@ interface ShareButtonsProps {
   align?: "start" | "center" | "end";
   /** 단일 공유 버튼의 '공유' 글자 노출 여부 */
   showLabel?: boolean;
+  iconOnly?: boolean;
 }
 
 const XIcon = ({ size = 14 }: { size?: number | string }) => (
@@ -41,6 +42,7 @@ export default function ShareButtons({
   comfortable = false,
   align = "end",
   showLabel = true,
+  iconOnly = false,
 }: ShareButtonsProps) {
   const t = useTranslations("share");
   const locale = useLocale();
@@ -107,8 +109,10 @@ export default function ShareButtons({
           aria-haspopup="dialog"
           aria-expanded={isOpen}
           aria-label={t("label")}
-          className={`inline-flex items-center justify-center gap-2 rounded-full border border-white/12 bg-transparent text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
-            comfortable
+          className={`inline-flex items-center justify-center gap-2 rounded-md border border-white/12 bg-transparent text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+            iconOnly
+              ? "h-8 w-8 p-0"
+              : comfortable
               ? showLabel
                 ? "h-10 px-3.5 text-sm font-semibold"
                 : "h-10 w-10"
