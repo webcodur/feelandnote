@@ -11,6 +11,7 @@
  *   node --env-file=.env scripts/timeline-import.mjs            # 검증만(DB 미반영)
  *   node --env-file=.env scripts/timeline-import.mjs --apply    # 적재까지
  *   node --env-file=.env scripts/timeline-import.mjs --apply --slugs a,b
+ *   node --env-file=.env scripts/timeline-import.mjs --v2-only --only-empty --apply
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -18,6 +19,8 @@ import { readFileSync, readdirSync, existsSync } from 'fs'
 import { resolve, join } from 'path'
 
 const APPLY = process.argv.includes('--apply')
+const V2_ONLY = process.argv.includes('--v2-only')
+const ONLY_EMPTY = process.argv.includes('--only-empty')
 const slugArg = process.argv.find((a) => a.startsWith('--slugs='))
 const ONLY = slugArg ? slugArg.slice('--slugs='.length).split(',').map((s) => s.trim()) : null
 
@@ -145,6 +148,7 @@ for (const file of files) {
     failed++
     continue
   }
+  if (V2_ONLY && Number(parsed.schemaVersion ?? 1) < 2) continue
 
   const events = parsed.events ?? parsed
   const problems = validate(slug, parsed, events)
@@ -259,6 +263,10 @@ for (const { slug, document, events } of loaded) {
   if (oldError) {
     console.error(`✗ ${slug}: 기존 조사분 조회 실패 — ${oldError.message}`)
     process.exitCode = 1
+    continue
+  }
+  if (ONLY_EMPTY && oldRows.length > 0) {
+    console.log(`  건너뜀 ${slug}: 기존 조사분 ${oldRows.length}건`)
     continue
   }
 
