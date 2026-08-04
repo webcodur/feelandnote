@@ -53,11 +53,14 @@ function Face({
 
 export default function VisionShowcase({ index, data, labels }: Props) {
   if (index === 1) {
-    if (!data.faces.length) return null;
+    const faces = data.faces.filter(
+      (face) => face.slug !== "elon-musk" && face.slug !== "mark-zuckerberg",
+    );
+    if (!faces.length) return null;
     return (
       <div className="pt-3 space-y-3">
         <div className="flex gap-4 overflow-x-auto pb-2">
-          {data.faces.map((f) => (
+          {faces.map((f) => (
             <Face
               key={f.slug ?? f.name}
               name={f.name}
