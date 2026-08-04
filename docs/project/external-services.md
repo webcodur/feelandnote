@@ -200,7 +200,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 - **사고**: Hobby 최근 30일 Fast Origin Transfer 10.12/10GB, Fluid Active CPU 7시간 35분/4시간. Fast Data Transfer는 9.96/100GB라 일반 대역폭 한도 문제가 아니다.
 - **뜻**: Fast Origin은 Function·Middleware·ISR 등 compute와 CDN 사이의 입력·출력 바이트다. Supabase PostgREST egress와 별도이며, Supabase 캐시가 적중해도 동적 SSR HTML 응답은 Vercel Origin 사용량이 된다.
-- **원인·조치 SSoT**: [`web-egress-audit-2026-06-29.md` 11절](./web-egress-audit-2026-06-29.md#11-vercel-fast-origin-transfer-한도-초과-2026-08-04). `[locale]` root layout 정적화, 셀럽·콘텐츠 공개 ISR/개인화 분리, 익명 Middleware auth 생략, web-bo 한도 문구 교정.
+- **원인·조치 SSoT**: [`web-egress-audit-2026-06-29.md` 11절](./web-egress-audit-2026-06-29.md#11-vercel-fast-origin-transfer-한도-초과-2026-08-04). `[locale]` root layout의 요청 header 의존 제거(루트 전체 정적 강제 금지), 셀럽·콘텐츠 공개 ISR/개인화 분리, 익명 Middleware auth 생략, web-bo 한도 문구 교정.
 - **운영 주의**: 로컬 수정·재배포가 이미 누적된 최근 30일 사용량을 초기화하지 않는다. Hobby 프로젝트 중지 위험은 기간 만료 또는 플랜 전환 전까지 남는다. 배포 후 route별 `X-Vercel-Cache`와 Usage 기울기를 확인해야 해소 판정한다.
 - **공식 문서**: [CDN usage](https://vercel.com/docs/manage-cdn-usage), [Fluid compute](https://vercel.com/docs/functions/usage-and-pricing), [ISR usage](https://vercel.com/docs/incremental-static-regeneration/limits-and-pricing).
 

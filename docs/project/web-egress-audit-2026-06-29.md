@@ -198,8 +198,8 @@ web 캐시 72곳이 전부 `tags: ['celebs']` 단일 태그였다. ④가 켜진
 
 | 영역 | 변경 |
 |---|---|
-| locale 루트 | 최상위 `app/layout.tsx`를 제거하고 `[locale]/layout.tsx`를 실제 root layout으로 승격. `params.locale` + `setRequestLocale()`로 요청 header 의존 제거 |
-| 빌드·재검증 비용 | locale·셀럽 slug·콘텐츠 id의 `generateStaticParams()`는 빈 배열을 반환. 수만 URL을 배포 때 만들지 않고 첫 요청에 ISR 생성. 자동 재검증은 7일 안전망으로 두고 BO 태그·콘텐츠 기록 변경의 정확한 경로 무효화를 우선 사용 |
+| locale 루트 | 최상위 `app/layout.tsx`를 제거하고 `[locale]/layout.tsx`를 실제 root layout으로 승격. `params.locale` + `setRequestLocale()` + `getMessages({locale})`로 요청 header 의존을 제거하되, 루트에서 빈 `generateStaticParams()`를 반환해 하위 전부를 정적 강제하지 않는다 |
+| 빌드·재검증 비용 | 셀럽 slug·콘텐츠 id의 개별 `generateStaticParams()`만 빈 배열을 반환. 수만 상세 URL을 배포 때 만들지 않고 첫 요청에 ISR 생성한다. 자동 재검증은 7일 안전망으로 두고 BO 태그·콘텐츠 기록 변경의 정확한 경로 무효화를 우선 사용 |
 | 셀럽 상세 | 프로필·방명록·서가를 공개 캐시 경로로 분리. 팔로우·차단 상태는 공개 문서에서 제거. 로그인 방명록만 hydration 후 차단 필터 재조회 |
 | 셀럽 서가 SEO | `useSearchParams()` 제거. 초기 책·감상문 HTML은 보존하고 `?q=`는 hydration 후 적용 |
 | 콘텐츠 상세 | DB 작품의 공개 메타·리뷰·fiction·기관 선정을 ISR 본문으로 분리. 개인 기록은 브라우저 세션이 실제로 있을 때만 Server Action으로 보강. 리뷰·별점·기록 삭제 시 ko/en 해당 작품 경로만 즉시 무효화 |
@@ -226,5 +226,11 @@ web 캐시 72곳이 전부 `tags: ['celebs']` 단일 태그였다. ④가 켜진
 - ko 셀럽 HTML/RSC에 첫 서가 4건(`content_id` 4개), 실제 제목 `슈퍼 괴짜경제학`, 저자, `public_record`·출처가 남았다. `/en/celeb/bill-gates`도 `<html lang="en">`, `Bill Gates`, 서가 4건을 확인했다. AdSense SSR 교정을 보존한다.
 - 소스 `tsc --noEmit`, 변경 파일 ESLint, web-bo 설정 ESLint 통과. `lint:egress`는 기존 WARN/INFO 10건을 보고하고 exit 0(이번 변경 신규 critical 없음).
 - 빌드 경고는 기존 `middleware` → `proxy` convention deprecation과 일부 route의 `metadataBase` 경고 두 종류다. 이번 ISR 전환의 실패 조건은 아니며 별도 코드 현대화 과제로 둔다.
+
+### 첫 배포 500 회귀와 교정 (2026-08-04)
+
+- 첫 배포에서는 `[locale]/layout.tsx`의 `generateStaticParams()`가 빈 배열을 반환해 locale 하위 **모든** 화면을 첫 요청 정적 생성 대상으로 강제했다. `setRequestLocale()`를 자체 호출하지 않는 정책·게시판·인증·탐색 화면은 next-intl이 요청 header를 읽으면서 `DYNAMIC_SERVER_USAGE`로 실패했고, 홈을 포함한 다수 URL이 500을 반환했다.
+- root layout의 빈 `generateStaticParams()`를 제거하고 메시지 로드에 locale을 명시했다. 인물·콘텐츠 상세의 개별 빈 `generateStaticParams()`는 유지해 고비용 공개 상세만 on-demand ISR로 남겼다. 나머지 화면은 별도 정적화가 완료되기 전까지 `ƒ Dynamic`으로 안전하게 동작한다.
+- 교정 후 깨끗한 production build와 `next start`에서 ko/en 홈·소개·정책·공지·자유게시판·탐색·서가·인증·쉼터 20개 URL이 모두 200이었다. 인물·콘텐츠 상세는 각각 첫 요청 `MISS`, 둘째 `HIT`, 7일 `s-maxage`를 유지했다. stderr에는 `DYNAMIC_SERVER_USAGE`가 남지 않았다.
 
 남은 검증은 Vercel 배포 후 `X-Vercel-Cache`와 Usage 기울기, 로그인 실화면뿐이다. 로컬 HIT를 프로덕션 해소로 대신 기록하지 않는다.

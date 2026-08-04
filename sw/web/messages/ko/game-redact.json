@@ -7,6 +7,7 @@
     "guessPlaceholder": "단어를 입력하세요 (2글자 이상)",
     "identityPlaceholder": "이 인물의 이름을 입력하세요",
     "identityGuessPrompt": "이 인물이 누구인지 맞혀보세요. 틀리면 추측 1회를 소모합니다.",
+    "submitGuess": "추측 제출",
     "guessIdentity": "정체 맞히기",
     "backToWordGuess": "단어 추측으로 돌아가기",
     "guessCounter": "{current} / {max}회",

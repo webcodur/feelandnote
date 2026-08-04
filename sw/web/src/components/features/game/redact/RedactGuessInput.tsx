@@ -6,11 +6,18 @@ import { Send, User } from 'lucide-react';
 interface Props {
   onSubmit: (word: string) => void;
   placeholder: string;
+  submitLabel: string;
   disabled?: boolean;
   isIdentityMode?: boolean;
 }
 
-export default function RedactGuessInput({ onSubmit, placeholder, disabled, isIdentityMode }: Props) {
+export default function RedactGuessInput({
+  onSubmit,
+  placeholder,
+  submitLabel,
+  disabled,
+  isIdentityMode,
+}: Props) {
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,7 +59,7 @@ export default function RedactGuessInput({ onSubmit, placeholder, disabled, isId
         type="submit"
         disabled={disabled || !value.trim()}
         className="flex items-center justify-center rounded-lg border border-white/15 bg-white/10 px-4 py-2.5 text-text-primary hover:border-white/30 hover:bg-white/15 disabled:opacity-30 active:scale-[0.97]"
-        aria-label="Submit guess"
+        aria-label={submitLabel}
       >
         <Send className="h-4 w-4" aria-hidden />
       </button>

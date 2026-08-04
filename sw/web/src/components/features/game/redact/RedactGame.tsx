@@ -208,6 +208,7 @@ export default function RedactGame({ roundData, isFixtureMode, onNewRound }: Pro
                 <RedactGuessInput
                   onSubmit={handleIdentityGuess}
                   placeholder={t('identityPlaceholder')}
+                  submitLabel={t('submitGuess')}
                   disabled={state.phase !== 'playing'}
                   isIdentityMode
                 />
@@ -223,6 +224,7 @@ export default function RedactGame({ roundData, isFixtureMode, onNewRound }: Pro
               <RedactGuessInput
                 onSubmit={handleGuess}
                 placeholder={t('guessPlaceholder')}
+                submitLabel={t('submitGuess')}
                 disabled={state.phase !== 'playing'}
               />
             )}

@@ -59,12 +59,6 @@ const maruburi = localFont({
   display: "swap",
 });
 
-export function generateStaticParams() {
-  // locale 아래 모든 공개 화면을 빌드 때 한꺼번에 그리면 DB·외부 API 조회가
-  // 폭증한다. 각 URL은 첫 요청에 생성하고 이후 CDN/ISR에서 공유한다.
-  return [];
-}
-
 export async function generateMetadata({
   params,
 }: {
@@ -141,7 +135,7 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
   const t = await getTranslations({ locale, namespace: "site" });
   const siteJsonLd = [
     {

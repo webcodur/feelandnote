@@ -7,6 +7,7 @@
     "guessPlaceholder": "Enter a word (2+ characters)",
     "identityPlaceholder": "Enter this person's name",
     "identityGuessPrompt": "Who is this person? A wrong guess costs one attempt.",
+    "submitGuess": "Submit guess",
     "guessIdentity": "Guess Identity",
     "backToWordGuess": "Back to word guessing",
     "guessCounter": "{current} / {max} guesses",
