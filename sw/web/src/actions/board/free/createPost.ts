@@ -7,8 +7,10 @@ import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/
 import { isValidAnonPassword, hashPassword, hashIp } from '@/lib/board/anonPassword'
 import { FREE_POST_COLS, FREE_AUTHOR_JOIN, FREE_RATE_LIMIT_SECONDS, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
 import type { FreePost } from '@/types/database'
+import { isLocale, type Locale } from '@/types/locale'
 
 interface CreateFreePostParams {
+  locale: Locale
   title: string
   content: string
   nickname?: string
@@ -17,8 +19,9 @@ interface CreateFreePostParams {
 }
 
 export async function createFreePost(params: CreateFreePostParams): Promise<ActionResult<FreePost>> {
-  const { title, content, nickname, password, anonymous } = params
+  const { locale, title, content, nickname, password, anonymous } = params
 
+  if (!isLocale(locale)) return failure('VALIDATION_ERROR')
   if (title.trim().length === 0) return failure('VALIDATION_ERROR', '제목을 입력해달라.')
   if (title.length > 100) return failure('LIMIT_EXCEEDED', '제목은 100자까지 작성할 수 있다.')
   if (content.trim().length === 0) return failure('VALIDATION_ERROR', '내용을 입력해달라.')
@@ -72,6 +75,7 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
     .insert({
       title: title.trim(),
       content: content.trim(),
+      locale,
       nickname: nicknameToSave,
       author_id: authorId,
       is_anonymous: isAnon,
@@ -86,5 +90,6 @@ export async function createFreePost(params: CreateFreePostParams): Promise<Acti
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 작성]' })
 
   revalidatePath(FREE_BOARD_PATH)
+  revalidatePath(`/en${FREE_BOARD_PATH}`)
   return success(data as unknown as FreePost)
 }

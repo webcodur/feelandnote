@@ -33,7 +33,7 @@ function resolveCodex() {
 
 /**
  * @param {string} prompt  프롬프트 전문
- * @param {{model?: string, timeoutMs?: number}} opts
+ * @param {{model?: string, timeoutMs?: number, effort?: 'low'|'medium'|'high'|'xhigh'}} opts
  * @returns {Promise<string>} 생성된 텍스트
  */
 export async function codexCall(prompt, opts = {}) {

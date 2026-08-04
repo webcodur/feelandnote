@@ -117,6 +117,8 @@
       "emptySubtitle": "새로운 소식을 기다려주세요",
       "createTitle": "공지사항 작성",
       "editTitle": "공지사항 수정",
+      "koreanVersion": "한국어",
+      "englishVersion": "영어",
       "pinLabel": "상단에 고정",
       "deleteConfirm": "공지사항을 삭제하시겠습니까?"
     },

@@ -3,9 +3,10 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { FREE_POST_COLS, FREE_AUTHOR_JOIN } from '@/lib/board/freeBoard'
 import type { FreePost } from '@/types/database'
+import type { Locale } from '@/types/locale'
 
 // 상세 조회 (순수 조회 — 조회수는 건드리지 않음)
-export async function getFreePost(id: string): Promise<FreePost | null> {
+export async function getFreePost(id: string, locale: Locale): Promise<FreePost | null> {
   const supabase = createAdminClient()
 
   const { data, error } = await supabase
@@ -13,6 +14,7 @@ export async function getFreePost(id: string): Promise<FreePost | null> {
     .select(`${FREE_POST_COLS}, ${FREE_AUTHOR_JOIN}`)
     .eq('id', id)
     .eq('is_deleted', false)
+    .eq('locale', locale)
     .single()
 
   if (error || !data) return null

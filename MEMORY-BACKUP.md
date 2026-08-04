@@ -2207,7 +2207,7 @@ elon-musk 「서재 탐방」에서 "롱폼"은 **10권짜리 본편**(타이밍
 ```markdown
 ---
 name: project_faction_celeb_sync
-description: "팩션 인물 전원 DB 동기화 작전(2026-07-03) — relation·fiction 티어 신설, 전 에피소드 인물 100% DB 연결(신화 포함). BO 인물행 DB 배지 구현"
+description: "팩션 인물 전원 DB 동기화 작전(2026-07-03) — 보조 실존·fiction 티어 신설, 전 에피소드 인물 100% DB 연결(신화 포함). BO 인물행 DB 배지 구현"
 metadata: 
   node_type: memory
   type: project
@@ -2216,13 +2216,13 @@ metadata:
 
 리모션 팩션(세력도) 전 에피소드 인물을 본서비스 셀럽 DB에 100% 연결한 작전. 기준 페이지 `/faction/<ep>/both/info`.
 
-**티어 방침** (celeb_tier, celeb-pipeline.md에 문서화). 4종: 감상기록 있을 만한 인물=full 후보(일단 light로 등록 후 콘텐츠 수집 시 승격), 문화적 영향력만=light, 관계 때문에 나오는 단순 **실존** 인물=**relation**(신설), 신화·전설·허구 존재=**fiction**(신설, 실존 아님. 일리아스 신·영웅 30명 등록). relation·fiction=basic 최소만, 감상여정·영향력·페르소나·발화 전부 생략, 홈·검색·탐색 비노출(연결로만). fiction은 승격 대상 아님. celeb_tier CHECK 제약 없음(값 자유). 신화 인물은 faction-data.json에 `mythical: true`도 박음.
+**당시 티어 방침** (celeb_tier, celeb-pipeline.md에 문서화). 감상 기록 후보는 light로 등록 후 콘텐츠 수집 시 full로 승격하고, 관계 때문에 나오는 단순 실존 인물은 별도 보조 등급, 신화·전설·허구 존재는 fiction으로 분류했다. 보조 실존·fiction은 basic 최소만 채우고 fiction은 승격 대상에서 제외했다. 이후 실존 인물 최소 등급은 light로 단일화됐다. 신화 인물은 faction-data.json에 `mythical: true`도 박음.
 
 **BO 편집기 인물행 DB 배지 구현**: `/api/celebs/exists`(POST slugs→existing), `FactionCelebContext`. 배지 4종: ✓DB(실존 등록)/⚠없음(키 있는데 DB 부재=유령)/미연결(키 없음)/신화(mythical 플래그 — DB 연결 시 초록 '✓ 신화', 아니면 회색 '신화'). status 무관(신규는 inactive). FactionPerson에 `mythical?: boolean` 추가(remotion·bo types 양쪽).
 
 **데이터 위치**: `sw/remotion/public/factions/<ep>/faction-data.json` (2026-07 폴더명 한글→영문·파일명 data.json→faction-data.json 변경됨, gitignore 자산). 등록 slug는 라틴 풀네임·악센트로 유령과 어긋날 수 있어 **인물 이름 기준 DB 재조회로 재연결**(reconnect-slugs.mjs). 동명이인 주의(김영삼=대통령 kim-young-sam ↔ 아이러브스쿨 young-sam-kim).
 
-등록 통로·컬럼 함정은 [[reference_celeb_bulk_register_workaround]]. 완료 현황: 전 8에피소드(AI-Supremacy·X-Empire·Digital-Resistance·Social-Network·Streaming-Empire·Path-of-Kings·PayPal-Mafia·Iliad-Odyssey) 인물 268명 유령 0, 100% DB 연결(실존 237 light/relation + 신화 30 fiction, 오디세우스 slug 1개 공유). 신규 등록분 status=inactive라 검수 후 수동 active 전환 필요.
+등록 통로·컬럼 함정은 [[reference_celeb_bulk_register_workaround]]. 완료 현황: 전 8에피소드(AI-Supremacy·X-Empire·Digital-Resistance·Social-Network·Streaming-Empire·Path-of-Kings·PayPal-Mafia·Iliad-Odyssey) 인물 268명 유령 0, 100% DB 연결(실존 237 + 신화 30 fiction, 오디세우스 slug 1개 공유). 신규 등록분 status=inactive라 검수 후 수동 active 전환 필요.
 ```
 
 ## project_faction_iliad_dialogue_rewrite
@@ -2415,19 +2415,19 @@ metadata:
   originSessionId: 65522cf0-fae5-4140-9942-4f019b2d29f7
 ---
 
-셀럽 목록 노출 기준을 `status` 게이트에서 **등급(celeb_tier) 필터**로 전환했다(2026-07-16). fiction 48 + relation 5 = 53명 status='active' 전환 완료 — **상세는 열리고 목록엔 안 뜬다.**
+셀럽 목록 노출 기준을 `status` 게이트에서 **등급(celeb_tier) 필터**로 전환했다(2026-07-16). fiction 48 + 당시 보조 실존 5 = 53명 status='active' 전환 완료 — **상세는 열리고 목록엔 안 뜬다.**
 
 **SSoT**: `packages/shared/src/constants/celeb-tiers.ts` — `CelebTier`·`LISTING_DEFAULT_TIERS`(full·light)·`INDEXABLE_TIERS`(full)·`parseCelebTiers`. 등급 타입 정의는 여기 하나뿐(getUserProfile·types/home은 여기서 가져다 쓴다).
 
 **RPC**: `get_celebs_sorted`/`count_celebs_filtered`의 인자가 `p_celeb_tier text` → **`p_celeb_tiers text[]`**. NULL=제한 없음이라 **인자를 안 주면 신화·관계가 샌다** — getCelebs가 기본값을 넣어 막는다. web-bo는 의도적으로 null(전체 노출).
 
-**필터 UI**: `/explore/figures?tier=` — `fiction`·`relation`·`all`·쉼표 복수(`fiction,light`) 지원. 미지정이면 기본 등급.
+**필터 UI**: `/explore/figures?tier=` — 당시 fiction·보조 티어·all·쉼표 복수를 지원했다. 현행 값은 `full`·`light`·`fiction`이다.
 
 **함정 (실측으로 확인한 것)**
 - **DB 함수 시그니처 변경 = 배포 시차 사고.** 옛 이름을 지우면 배포 전 코드가 함수를 못 찾는데, `getCelebs`는 rpc error를 검사하지 않아 **조용히 빈 목록**이 되고 그게 unstable_cache(1시간)에 박힌다. 복구는 `/api/revalidate`(tag=celebs, CRON_SECRET). 시그니처 바꿀 땐 구 시그니처 shim을 함께 두고 배포 후 DROP.
 - **로컬 `pnpm build`는 워킹트리를 쓴다.** 미커밋 신규 파일을 참조하는 파일만 커밋하면 로컬은 통과하고 **Vercel만 실패**한다. 커밋 상태 검증은 `git worktree add /tmp/x HEAD` → install → build.
 - **`export type { X }`는 'use server' 파일에서 빌드 실패**(번들러가 런타임 export로 봄). `export type X = Shared` 별칭 선언으로 둘 것. tsc는 통과하므로 빌드까지 돌려야 잡힌다.
-- `get_top_celebs_across_eras`·`get_celeb_feed_type_counts`·타입별 수치는 **손댈 필요 없다** — user_contents 기반이라 콘텐츠 0건인 fiction·relation은 구조상 못 낀다.
+- `get_top_celebs_across_eras`·`get_celeb_feed_type_counts`·타입별 수치는 **손댈 필요 없다** — user_contents 기반이라 콘텐츠 0건인 fiction은 구조상 못 낀다.
 
 관련: [[project_faction_celeb_sync]] [[reference_faction_image_to_celeb_avatar]] [[feedback_no_silent_fallback]]
 ```
@@ -2871,4 +2871,3 @@ metadata:
 
 관련: [[reference_voice_api_key]] (TTS 키), 파이프라인 스킬 [[remo-voice-sync]].
 ```
-

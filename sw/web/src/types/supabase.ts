@@ -322,6 +322,7 @@ export type Database = {
           content: string
           created_at: string | null
           id: string
+          locale: string
           post_id: string
           updated_at: string | null
         }
@@ -331,6 +332,7 @@ export type Database = {
           content: string
           created_at?: string | null
           id?: string
+          locale?: string
           post_id: string
           updated_at?: string | null
         }
@@ -340,6 +342,7 @@ export type Database = {
           content?: string
           created_at?: string | null
           id?: string
+          locale?: string
           post_id?: string
           updated_at?: string | null
         }
@@ -2192,6 +2195,7 @@ export type Database = {
           content: string
           created_at: string | null
           id: string
+          locale: string
           resolved_at: string | null
           resolved_by: string | null
           status: Database["public"]["Enums"]["feedback_status"] | null
@@ -2206,6 +2210,7 @@ export type Database = {
           content: string
           created_at?: string | null
           id?: string
+          locale?: string
           resolved_at?: string | null
           resolved_by?: string | null
           status?: Database["public"]["Enums"]["feedback_status"] | null
@@ -2220,6 +2225,7 @@ export type Database = {
           content?: string
           created_at?: string | null
           id?: string
+          locale?: string
           resolved_at?: string | null
           resolved_by?: string | null
           status?: Database["public"]["Enums"]["feedback_status"] | null
@@ -2689,6 +2695,7 @@ export type Database = {
           ip_hash: string | null
           is_anonymous: boolean
           is_deleted: boolean
+          locale: string
           nickname: string | null
           password_hash: string | null
           title: string
@@ -2703,6 +2710,7 @@ export type Database = {
           ip_hash?: string | null
           is_anonymous?: boolean
           is_deleted?: boolean
+          locale?: string
           nickname?: string | null
           password_hash?: string | null
           title: string
@@ -2717,6 +2725,7 @@ export type Database = {
           ip_hash?: string | null
           is_anonymous?: boolean
           is_deleted?: boolean
+          locale?: string
           nickname?: string | null
           password_hash?: string | null
           title?: string
@@ -2899,30 +2908,36 @@ export type Database = {
         Row: {
           author_id: string
           content: string
+          content_en: string
           created_at: string | null
           id: string
           is_pinned: boolean | null
           title: string
+          title_en: string
           updated_at: string | null
           view_count: number | null
         }
         Insert: {
           author_id: string
           content: string
+          content_en: string
           created_at?: string | null
           id?: string
           is_pinned?: boolean | null
           title: string
+          title_en: string
           updated_at?: string | null
           view_count?: number | null
         }
         Update: {
           author_id?: string
           content?: string
+          content_en?: string
           created_at?: string | null
           id?: string
           is_pinned?: boolean | null
           title?: string
+          title_en?: string
           updated_at?: string | null
           view_count?: number | null
         }

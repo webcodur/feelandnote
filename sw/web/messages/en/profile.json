@@ -178,8 +178,8 @@
       "empty": "No bio has been inscribed yet."
     },
     "persona": {
-      "label": "Persona Analysis",
-      "description": "Analysis of {nickname}'s virtues, abilities, and dispositions.",
+      "label": "16-Axis Spectrum",
+      "description": "A 16-axis spectrum of {nickname}'s virtues, abilities, and dispositions.",
       "neutral": "Neutral",
       "strong": "Strong {direction}",
       "innerVirtue": "Inner Virtues",
@@ -187,7 +187,7 @@
       "ability": "Abilities",
       "disposition": "Disposition",
       "similarLabel": "Similar Figures",
-      "similarDesc": "Figures with the most similar analysis.",
+      "similarDesc": "Figures closest to this spectrum.",
       "matchPercent": "{percent}% match"
     },
     "stats": {

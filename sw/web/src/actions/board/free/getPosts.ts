@@ -4,20 +4,23 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { FREE_POST_COLS, FREE_AUTHOR_JOIN } from '@/lib/board/freeBoard'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { FreePost } from '@/types/database'
+import type { Locale } from '@/types/locale'
 
 interface GetFreePostsParams {
+  locale: Locale
   limit?: number
   offset?: number
 }
 
-export async function getFreePosts(params: GetFreePostsParams = {}) {
-  const { limit = 20, offset = 0 } = params
+export async function getFreePosts(params: GetFreePostsParams) {
+  const { locale, limit = 20, offset = 0 } = params
   const supabase = createAdminClient()
 
   const { data, error, count } = await supabase
     .from('free_posts')
     .select(`${FREE_POST_COLS}, ${FREE_AUTHOR_JOIN}`, { count: 'exact' })
     .eq('is_deleted', false)
+    .eq('locale', locale)
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
 

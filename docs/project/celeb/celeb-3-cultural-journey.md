@@ -24,10 +24,9 @@
 |------|------|--------|
 | **full** | 필수 | DB `user_contents.review` 기반. 콘텐츠 수집(트랙 A) 선행 필수 |
 | **light** | 필수 | 웹 리서치 기반 |
-| **relation** | 생략 | — |
 | **fiction** | 생략 | — |
 
-relation·fiction은 basic 최소 항목만 채우는 티어다. 감상 여정을 쓰지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
+fiction은 감상 여정을 쓰지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
 
 ---
 

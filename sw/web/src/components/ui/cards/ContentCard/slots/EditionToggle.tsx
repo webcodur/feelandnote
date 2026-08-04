@@ -9,6 +9,11 @@ interface EditionToggleProps {
   onToggle: (edition: "ko" | "en") => void;
 }
 
+const EDITION_LABELS: { key: "ko" | "en"; label: string }[] = [
+  { key: "ko", label: "KO" },
+  { key: "en", label: "EN" },
+];
+
 export function EditionToggle({ editions, activeEdition, onToggle }: EditionToggleProps) {
   const t = useTranslations("content.edition");
 
@@ -18,17 +23,12 @@ export function EditionToggle({ editions, activeEdition, onToggle }: EditionTogg
 
   if (!hasKo && !hasEn && !confirmedNoEn) return null;
 
-  const labels: { key: "ko" | "en"; label: string }[] = [
-    { key: "ko", label: "가" },
-    { key: "en", label: "A" },
-  ];
-
   return (
     <div
       className="inline-flex items-center rounded-md overflow-hidden border border-white/[0.06]"
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
     >
-      {labels.map(({ key, label }, idx) => {
+      {EDITION_LABELS.map(({ key, label }, idx) => {
         const isActive = activeEdition === key;
         const isAvailable = key === "ko" ? hasKo : hasEn;
         const isConfirmedNo = key === "en" && confirmedNoEn && !hasEn;

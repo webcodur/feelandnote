@@ -8,10 +8,9 @@
 |------|------|
 | **full** | 필수 |
 | **light** | 필수 |
-| **relation** | 생략 |
 | **fiction** | 생략 |
 
-relation·fiction은 `celeb_influence` 행을 만들지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
+fiction은 `celeb_influence` 행을 만들지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
 
 담당 에이전트는 `celeb-4-influence`. 의존 트랙은 basic뿐이다.
 

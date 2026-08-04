@@ -1,6 +1,8 @@
 # 5. 페르소나
 
 > **최종 실측 체크: 26.07.16** — persona jsonb 구조·점수 범위 실측 대조
+>
+> **용어 경계:** 사용자 화면에서는 이 16개 축을 **16축 스펙트럼**(짧게 **스펙트럼**)이라 부른다. `persona`와 `celeb_persona`는 코드·DB의 안정된 내부명으로만 유지하며, 사용자 노출 문구에는 쓰지 않는다.
 
 ## 적용 대상
 
@@ -8,10 +10,9 @@
 |------|------|
 | **full** | 필수 |
 | **light** | 필수 |
-| **relation** | 생략 |
 | **fiction** | 생략 |
 
-relation·fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
+fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-pipeline.md` §티어를 따른다.
 
 담당 에이전트는 `celeb-5-persona`. 의존 트랙은 basic뿐이다.
 

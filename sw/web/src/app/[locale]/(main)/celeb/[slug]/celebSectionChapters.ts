@@ -1,9 +1,10 @@
 export const CELEB_SERVICE_CHAPTERS = {
   introduction: "01",
-  library: "02",
-  timeline: "03",
-  connections: "04",
-  analysis: "05",
-  media: "06",
-  guestbook: "07",
+  reading: "02",
+  library: "03",
+  timeline: "04",
+  connections: "05",
+  analysis: "06",
+  media: "07",
+  guestbook: "08",
 } as const;

@@ -7,6 +7,7 @@ import { type Member } from '@/actions/admin/members'
 import { toggleCelebTier, toggleCelebStatus } from '@/actions/admin/celebs'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
+import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
 import StatusToggle from '../../members/components/StatusToggle'
 import NationalityBadge from '../../members/components/NationalityBadge'
 import SortableTableHeader from '@/components/ui/SortableTableHeader'
@@ -17,7 +18,10 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       <thead className="bg-bg-secondary border-b border-border">
         <tr>
           <SortableTableHeader column="avatar_url" label="img" className="w-12" align="center" />
-          <SortableTableHeader column="title" label="title" />
+          <th className="w-14 px-3 py-3 text-center text-xs font-medium text-text-secondary md:px-4 md:text-sm">
+            portrait
+          </th>
+          <SortableTableHeader column="title" label="title" className="min-w-36" />
           <SortableTableHeader column="nickname" label="nickname" />
           <SortableTableHeader column="profession" label="profession" />
           <SortableTableHeader column="nationality" label="nationality" align="center" />
@@ -33,12 +37,19 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={13} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={14} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
               <td className="px-3 md:px-4 py-3">
                 <AvatarCell celebId={celeb.id} avatarUrl={celeb.avatar_url} name={celeb.nickname} />
+              </td>
+              <td className="px-3 py-3 md:px-4">
+                <PortraitCell
+                  celebId={celeb.id}
+                  portraitUrl={celeb.portrait_url}
+                  name={celeb.nickname}
+                />
               </td>
               <td className="px-3 md:px-4 py-3">
                 {celeb.title && (
@@ -235,6 +246,27 @@ function AvatarCell({ celebId, avatarUrl, name }: { celebId: string; avatarUrl: 
       className="h-8 w-8 shrink-0 md:h-9 md:w-9"
       previewClassName="h-full w-full rounded-lg border border-transparent hover:border-accent"
       empty={<span className="text-[10px] text-text-tertiary">N/A</span>}
+    />
+  )
+}
+
+function PortraitCell({
+  celebId,
+  portraitUrl,
+  name,
+}: {
+  celebId: string
+  portraitUrl?: string | null
+  name: string | null
+}) {
+  return (
+    <PersistedCelebPortraitEditor
+      celebId={celebId}
+      portraitUrl={portraitUrl}
+      name={name}
+      compact
+      className="group/portrait relative h-8 w-8 shrink-0 overflow-hidden rounded-md border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30 md:h-9 md:w-9"
+      empty={<span className="text-[9px] font-medium text-text-tertiary">N/A</span>}
     />
   )
 }

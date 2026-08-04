@@ -3,13 +3,15 @@
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
+import type { Locale } from '@/types/locale'
 
 interface GetCommentsParams {
   boardType: BoardType
   postId: string
+  locale: Locale
 }
 
-async function fetchComments(boardType: BoardType, postId: string): Promise<BoardCommentWithAuthor[]> {
+async function fetchComments(boardType: BoardType, postId: string, locale: Locale): Promise<BoardCommentWithAuthor[]> {
   const supabase = createStaticClient()
 
   const { data, error } = await supabase
@@ -17,6 +19,7 @@ async function fetchComments(boardType: BoardType, postId: string): Promise<Boar
     .select(`*, author:profiles!author_id(id, nickname, avatar_url)`)
     .eq('board_type', boardType)
     .eq('post_id', postId)
+    .eq('locale', locale)
     .order('created_at', { ascending: true })
 
   if (error) {
@@ -30,10 +33,9 @@ async function fetchComments(boardType: BoardType, postId: string): Promise<Boar
 const getCommentsCached = unstable_cache(
   fetchComments,
   ['board-comments'],
-  // 게시판 댓글(board_comments)이다. BO에 수정 액션이 없어 태그를 두지 않는다.
-  { revalidate: 3600 }
+  { revalidate: 3600, tags: ['board-comments'] }
 )
 
-export async function getComments({ boardType, postId }: GetCommentsParams): Promise<BoardCommentWithAuthor[]> {
-  return getCommentsCached(boardType, postId)
+export async function getComments({ boardType, postId, locale }: GetCommentsParams): Promise<BoardCommentWithAuthor[]> {
+  return getCommentsCached(boardType, postId, locale)
 }

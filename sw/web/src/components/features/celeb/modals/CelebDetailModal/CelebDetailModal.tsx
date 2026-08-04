@@ -39,7 +39,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const [isFollowing, setIsFollowing] = useState(celeb.is_following);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState<CelebReview[]>([]);
-  const [virtualMonologue, setVirtualMonologue] = useState<string | null>(null);
+  const [personGuide, setPersonGuide] = useState<string | null>(null);
 
   const fetchedForRef = useRef<string | null>(null);
 
@@ -48,7 +48,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   if (renderedCelebId !== celeb.id) {
     setRenderedCelebId(celeb.id);
     setReviews([]);
-    setVirtualMonologue(null);
+    setPersonGuide(null);
     setIsFollowing(celeb.is_following);
     setIsTagsModalOpen(false);
   }
@@ -61,7 +61,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
     return () => { document.body.style.overflow = prev; };
   }, [isOpen]);
 
-  // 대표 감상 기록과 가상 독백 로딩 (Strict Mode 중복 fetch는 ref로 방지)
+  // 대표 감상 기록과 인물 안내 로딩 (Strict Mode 중복 fetch는 ref로 방지)
   useEffect(() => {
     if (!isOpen) return;
     if (fetchedForRef.current === celeb.id) return;
@@ -70,14 +70,14 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       .then(data => {
         if (fetchedForRef.current !== celeb.id) return;
         setReviews(data.reviews);
-        setVirtualMonologue(data.virtualMonologue);
+        setPersonGuide(data.personGuide);
       })
       .catch(err => {
         if (err?.name === 'AbortError') return;
         console.error('[CelebDetailModal] 모달 콘텐츠 로딩 실패:', err);
         if (fetchedForRef.current !== celeb.id) return;
         setReviews([]);
-        setVirtualMonologue(null);
+        setPersonGuide(null);
       });
   }, [celeb.id, isOpen]);
 
@@ -134,6 +134,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
   const profileLink = (
     <Link
       href={getCelebProfileUrl(celeb)}
+      locale={isEn ? "en" : undefined}
       onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
       className="
         flex-1 py-3 rounded-2xl md:rounded-sm
@@ -280,17 +281,14 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         </div>
       )}
 
-      {/* 가상 독백이 있는 인물에게만 노출 */}
-      {virtualMonologue ? (
+      {/* 가상 독백 노출은 폐기했다. profiles.virtual_monologue 값은 제작 재료로만 보존한다. */}
+      {personGuide ? (
         <section className="mx-6 md:mx-8 mt-4 border-y border-accent/20 py-5">
           <h3 className="mb-2 text-center text-base font-serif font-bold text-accent">
-            {tCeleb("virtualMonologue")}
+            {tCeleb("personGuide")}
           </h3>
-          <p className="mb-4 text-center text-[11px] leading-relaxed text-text-secondary">
-            {tCeleb("virtualMonologueNote")}
-          </p>
           <div className="space-y-3 font-serif text-sm leading-loose text-text-secondary break-keep">
-            {virtualMonologue.split(/\n\n+/).map((paragraph, index) => (
+            {personGuide.split(/\n\n+/).map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
           </div>
@@ -320,6 +318,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
             </p>
             <Link
               href={getCelebProfileUrl(celeb)}
+              locale={isEn ? "en" : undefined}
               onClick={() => trackEvent("celeb_person_go", { to: celeb.slug ?? celeb.id })}
               className="inline-flex items-center gap-1.5 border border-accent/40 px-4 py-2 text-xs font-bold text-accent hover:border-accent hover:bg-accent/5 active:scale-[0.98]"
             >

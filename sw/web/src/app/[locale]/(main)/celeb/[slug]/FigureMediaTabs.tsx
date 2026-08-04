@@ -8,14 +8,11 @@ import type { ServiceItem } from "./celebServiceItems";
 import DialogueSection from "./DialogueSection";
 import UnavailableSectionGuide from "./UnavailableSectionGuide";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
-import VirtualMonologueSection from "./VirtualMonologueSection";
 
-type MediaTab = "virtual-monologue" | "dialogues" | "videos";
+type MediaTab = "dialogues" | "videos";
 
 interface Props {
   item: ServiceItem;
-  monologueText?: string | null;
-  showTranslate: boolean;
   dialogueLines?: Record<string, string[]> | null;
   nickname: string;
   avatarUrl: string | null;
@@ -28,15 +25,12 @@ interface Props {
 }
 
 const TAB_KEYS: readonly MediaTab[] = [
-  "virtual-monologue",
   "dialogues",
   "videos",
 ];
 
 export default function FigureMediaTabs({
   item,
-  monologueText,
-  showTranslate,
   dialogueLines,
   nickname,
   avatarUrl,
@@ -53,7 +47,7 @@ export default function FigureMediaTabs({
     childItems.map((child) => [child.key, child]),
   ) as Partial<Record<MediaTab, ServiceItem>>;
   const [tab, setTab] = useState<MediaTab>(() => {
-    return TAB_KEYS.find((key) => tabItems[key]?.ready) ?? "virtual-monologue";
+    return TAB_KEYS.find((key) => tabItems[key]?.ready) ?? "dialogues";
   });
 
   if (!TAB_KEYS.every((key) => tabItems[key])) return null;
@@ -70,7 +64,7 @@ export default function FigureMediaTabs({
         tabs={tabs}
         activeKey={tab}
         onChange={setTab}
-        columnsClassName="grid-cols-3"
+        columnsClassName="grid-cols-2"
         ariaLabel={t("media")}
       />
 
@@ -79,17 +73,7 @@ export default function FigureMediaTabs({
         role="tabpanel"
         aria-labelledby={`archive-tab-${tab}`}
       >
-        {tab === "virtual-monologue" && (
-          tabItems["virtual-monologue"]!.ready && monologueText ? (
-            <VirtualMonologueSection
-              text={monologueText}
-              showTranslate={showTranslate}
-            />
-          ) : (
-            <UnavailableSectionGuide item={tabItems["virtual-monologue"]!} />
-          )
-        )}
-
+        {/* 가상 독백은 화면에서 폐기하고 DB에 제작 재료로만 남긴다. */}
         {tab === "dialogues" && (
           tabItems.dialogues!.ready && dialogueLines ? (
             <DialogueSection

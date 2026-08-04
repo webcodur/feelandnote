@@ -37,6 +37,15 @@ export default function GuestbookContent({
     currentUserIdProp !== undefined,
   );
   const currentUserId: CurrentUserId = currentUserIdProp !== undefined ? currentUserIdProp : selfUserId;
+  const [entries, setEntries] = useState(initialEntries.slice(0, PAGE_SIZE));
+  const [total, setTotal] = useState(initialTotal);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  // 정적 셀럽 화면은 공개 목록을 seed로 받는다. 로그인 사용자는 차단 필터를
+  // 다시 적용하기 전까지 목록을 감춰 차단한 작성자가 잠깐 노출되는 일을 막는다.
+  const [isEntriesResolved, setIsEntriesResolved] = useState(
+    currentUserIdProp !== undefined,
+  );
 
   useEffect(() => {
     if (currentUserIdProp !== undefined) return;
@@ -59,14 +68,9 @@ export default function GuestbookContent({
       isActive = false;
     };
   }, [currentUserIdProp]);
-  const [entries, setEntries] = useState(initialEntries.slice(0, PAGE_SIZE));
-  const [total, setTotal] = useState(initialTotal);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
-  const fetchPage = async (page: number) => {
+  const fetchPage = useCallback(async (page: number) => {
     setIsLoading(true);
     try {
       const offset = (page - 1) * PAGE_SIZE;
@@ -79,7 +83,19 @@ export default function GuestbookContent({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [profileId]);
+
+  useEffect(() => {
+    if (currentUserIdProp !== undefined || !isAuthResolved) return;
+
+    if (!currentUserId) {
+      setIsEntriesResolved(true);
+      return;
+    }
+
+    setIsEntriesResolved(false);
+    void fetchPage(1).finally(() => setIsEntriesResolved(true));
+  }, [currentUserId, currentUserIdProp, fetchPage, isAuthResolved]);
 
   const handleAddEntry = useCallback((entry: GuestbookEntryWithAuthor) => {
     // 새 글 작성 시 1페이지로 이동하여 최신 목록 표시
@@ -156,7 +172,9 @@ export default function GuestbookContent({
       )}
 
       {/* 방명록 목록 */}
-      {entries.length > 0 ? (
+      {!isEntriesResolved ? (
+        <div className="min-h-24 animate-pulse rounded-lg border border-white/[0.04] bg-white/[0.02]" aria-hidden />
+      ) : entries.length > 0 ? (
         <div className={isLoading ? "opacity-50 pointer-events-none" : ""}>
           <div className="divide-y divide-white/[0.04]">
             {entries.map((entry) => (

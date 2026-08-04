@@ -3,6 +3,7 @@ import { getNotices } from '@/actions/board/notices'
 import { createClient } from '@/lib/supabase/server'
 import { isAdmin } from '@/lib/auth/checkAdmin'
 import NoticeList from '@/components/features/board/notices/NoticeList'
+import { resolveLocale } from '@/types/locale'
 
 export async function generateMetadata() {
   const t = await getTranslations('agora.notice')
@@ -12,17 +13,19 @@ export async function generateMetadata() {
 const ITEMS_PER_PAGE = 10
 
 interface NoticePageProps {
+  params: Promise<{ locale: string }>
   searchParams: Promise<{ page?: string }>
 }
 
-export default async function NoticePage({ searchParams }: NoticePageProps) {
-  const { page } = await searchParams
+export default async function NoticePage({ params, searchParams }: NoticePageProps) {
+  const [{ locale: rawLocale }, { page }] = await Promise.all([params, searchParams])
+  const locale = resolveLocale(rawLocale)
   const currentPage = Math.max(1, parseInt(page || '1', 10))
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
   const supabase = await createClient()
   const [{ notices, total }, admin] = await Promise.all([
-    getNotices({ limit: ITEMS_PER_PAGE, offset }),
+    getNotices({ locale, limit: ITEMS_PER_PAGE, offset }),
     isAdmin(supabase)
   ])
 

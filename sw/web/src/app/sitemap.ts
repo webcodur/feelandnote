@@ -28,7 +28,7 @@ async function fetchCelebs(): Promise<{ slug: string; created_at: string | null 
       select: 'slug,created_at',
       profile_type: 'eq.CELEB',
       status: 'eq.active',
-      // 색인 등급(full)만 등재한다 — 얇은 등급(light/relation/fiction)은 콘텐츠가 없어
+      // 색인 등급(full)만 등재한다 — 얇은 등급(light/fiction)은 콘텐츠가 없어
       // noindex 처리되므로 사이트맵 등재가 모순 신호(등재↔색인거부)를 만든다
       celeb_tier: INDEXABLE_TIER_FILTER,
       slug: 'not.is.null',

@@ -1,14 +1,13 @@
 'use client'
 
 import { Link } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Eye, MessageSquare } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
-import { formatKST } from '@/lib/utils/date'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import FreeAvatar from './FreeAvatar'
 import type { FreePost } from '@/types/database'
+import { formatBoardRelativeTime, formatBoardShortDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface FreePostItemProps {
   post: FreePost
@@ -23,6 +22,7 @@ const isNew = (dateStr: string) =>
 
 export default function FreePostItem({ post, unread = true, onOpen }: FreePostItemProps) {
   const t = useTranslations('board')
+  const locale = resolveLocale(useLocale())
 
   return (
     <div className="group/card relative rounded-lg bg-bg-card border border-white/5 transition-[border-color] duration-200">
@@ -50,9 +50,9 @@ export default function FreePostItem({ post, unread = true, onOpen }: FreePostIt
             </div>
             <span className="text-accent-dim/30 hidden sm:inline">·</span>
             <div className="flex items-center gap-1.5">
-              <span>{formatDistanceToNow(new Date(post.created_at), { addSuffix: true, locale: ko })}</span>
+              <span>{formatBoardRelativeTime(post.created_at, locale)}</span>
               <span className="">
-                ({formatKST(post.created_at, { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })})
+                ({formatBoardShortDateTime(post.created_at, locale)})
               </span>
             </div>
             <span className="text-accent-dim/30 hidden sm:inline">·</span>

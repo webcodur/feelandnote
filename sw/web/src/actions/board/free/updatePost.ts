@@ -52,6 +52,8 @@ export async function updateFreePost(params: UpdateFreePostParams): Promise<Acti
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 수정]' })
 
   revalidatePath(FREE_BOARD_PATH)
+  revalidatePath(`/en${FREE_BOARD_PATH}`)
   revalidatePath(`${FREE_BOARD_PATH}/${id}`)
+  revalidatePath(`/en${FREE_BOARD_PATH}/${id}`)
   return success(data as unknown as FreePost)
 }

@@ -244,6 +244,7 @@ function celebToMember(c: Celeb): Member {
     email: null,
     nickname: c.nickname,
     avatar_url: c.avatar_url,
+    portrait_url: c.portrait_url,
     bio: c.bio,
     profile_type: 'CELEB',
     status: c.status,

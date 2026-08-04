@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "scope": "active-deceased",
+  "slug": "diogenes",
+  "identity": {
+    "name": "디오게네스",
+    "nameEn": "Diogenes",
+    "profession": "humanities_scholar",
+    "nationality": "GR",
+    "birthDate": "-412",
+    "deathDate": "-323",
+    "wikidataQid": "Q59180"
+  },
+  "events": [
+    {
+      "year": -412,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "시노페에서 태어나다",
+      "titleEn": "Is born in Sinope",
+      "description": "디오게네스는 흑해 남쪽의 그리스 도시 시노페에서 태어났다. 출생 연도는 기원전 412년 또는 404년 등으로 전해져 정확하지 않다.",
+      "descriptionEn": "Diogenes was born in Sinope, a Greek city on the southern coast of the Black Sea. His exact birth year is uncertain, with ancient and modern accounts placing it around 412 or 404 BCE.",
+      "kind": "birth",
+      "placeName": "시노페",
+      "placeNameEn": "Sinope",
+      "lat": 42.026666666,
+      "lng": 35.151111111,
+      "placeQid": "Q599416",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Diogenes"
+    },
+    {
+      "year": -362,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "시노페를 떠나 아테네에서 활동하다",
+      "titleEn": "Leaves Sinope and becomes active in Athens",
+      "description": "디오게네스는 주화 훼손 문제로 시노페에서 추방되거나 스스로 떠난 뒤 아테네에서 활동했다. 정확한 이동 시점과 주화 사건에서 그와 아버지가 맡은 역할은 불분명하지만, 일부 연구자는 추방이 기원전 362년 이후에 일어났다고 본다.",
+      "descriptionEn": "Diogenes left Sinope, whether by banishment or flight, following a controversy over the defacement of its coinage and subsequently became active in Athens. The date and the respective roles of Diogenes and his father remain disputed, although some scholars place the exile after 362 BCE.",
+      "kind": "travel",
+      "placeName": "아테네",
+      "placeNameEn": "Athens",
+      "lat": 37.984166666,
+      "lng": 23.728055555,
+      "placeQid": "Q1524",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Diogenes"
+    },
+    {
+      "year": -323,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "코린토스에서 사망하다",
+      "titleEn": "Dies in Corinth",
+      "description": "디오게네스는 통설에 따르면 기원전 323년 코린토스에서 사망했다. 고대 자료들은 사망 원인을 서로 다르게 전하며, 정확한 날짜와 사망 경위는 확인되지 않는다.",
+      "descriptionEn": "According to the conventional chronology, Diogenes died at Corinth in 323 BCE. Ancient sources give conflicting accounts of his death, leaving its exact date and circumstances uncertain.",
+      "kind": "death",
+      "placeName": "코린토스 크라네이온",
+      "placeNameEn": "Craneion, Corinth",
+      "lat": 37.938611111,
+      "lng": 22.927222222,
+      "placeQid": "Q103011",
+      "sourceUrl": "https://en.wikipedia.org/wiki/Diogenes"
+    }
+  ]
+}

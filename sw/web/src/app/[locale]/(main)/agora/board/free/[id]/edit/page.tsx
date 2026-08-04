@@ -3,9 +3,10 @@ import { getTranslations } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { getFreePost } from '@/actions/board/free'
 import FreePostForm from '@/components/features/board/free/FreePostForm'
+import { resolveLocale } from '@/types/locale'
 
 interface FreeEditPageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string; locale: string }>
 }
 
 export async function generateMetadata() {
@@ -15,12 +16,13 @@ export async function generateMetadata() {
 
 // 익명 게시판 — 저장 시 검증(계정 글=본인/관리자, 익명 글=비밀번호)
 export default async function FreeEditPage({ params }: FreeEditPageProps) {
-  const { id } = await params
+  const { id, locale: rawLocale } = await params
+  const locale = resolveLocale(rawLocale)
   const supabase = await createClient()
 
   const [{ data: { user } }, post] = await Promise.all([
     supabase.auth.getUser(),
-    getFreePost(id),
+    getFreePost(id, locale),
   ])
 
   if (!post) {

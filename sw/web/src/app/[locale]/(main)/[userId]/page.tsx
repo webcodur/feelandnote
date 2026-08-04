@@ -82,7 +82,7 @@ export default async function OverviewPage({ params }: PageProps) {
     ? await getCelebInfluence(userId, locale)
     : null;
 
-  // 셀럽 인물 분석 + 유사 인물
+  // 셀럽 16축 스펙트럼 + 유사 인물
   const personaData = profile.profile_type === "CELEB"
     ? await getSimilarByCelebId(userId, 5)
     : null;

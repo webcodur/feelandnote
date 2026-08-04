@@ -23,7 +23,7 @@ import type { Locale } from "@/types/locale";
 import { getCelebAge } from "../celebAge";
 import CelebHeroPhoto from "../CelebHeroPhoto";
 import styles from "../CelebPageContent.module.css";
-import { CelebTierBadge, CelebTierNotice } from "../CelebTierNotice";
+import { CelebTierBadge } from "../CelebTierBadge";
 import CelebViewCounter from "../CelebViewCounter";
 import { formatCelebPeriod } from "./celebDetailData";
 
@@ -212,8 +212,6 @@ export default function CelebHeroSection({
 
               <div className={styles.identityNarrative}>
                 {profile.bio ? <p className={styles.bio}>{profile.bio}</p> : null}
-                <CelebTierNotice tier={celebTier} />
-
                 {profile.quotes ? (
                   <div className={styles.quote}>
                     <p>

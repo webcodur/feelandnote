@@ -14,6 +14,9 @@
     "ageAtDeathApprox": "사망 당시 약 {age}세",
     "serviceGuideTitle": "네비게이션",
     "serviceIntroduction": "프로필",
+    "reading": "읽어보기",
+    "personGuide": "인물 안내",
+    "personExplore": "인물 탐구",
     "serviceDialogueVoice": "음성",
     "serviceMonologueVoice": "낭독",
     "serviceAvailable": "제공",
@@ -21,8 +24,7 @@
     "serviceContentPreparing": "콘텐츠 준비 중",
     "serviceFaction": "세력도감",
     "connections": "인물과 시대",
-    "profileAxes": "역량·덕목·성향",
-    "mediaMonologue": "가상 독백",
+    "profileAxes": "스펙트럼",
     "mediaDialogues": "고유 대사",
     "mediaVideos": "영상",
     "atlasProfile": "프로필",
@@ -39,6 +41,15 @@
     "atlasGuides": {
       "connections": {
         "about": "이 인물을 둘러싼 사람과 시대, 진영을 세 갈래 기록으로 묶어 보여줍니다."
+      },
+      "reading": {
+        "about": "인물을 처음 이해하는 안내와 한 걸음 더 들어가는 탐구를 함께 제공합니다."
+      },
+      "personGuide": {
+        "about": "이 인물이 누구이고 무엇을 했는지 처음 보는 독자도 이해할 수 있게 설명합니다."
+      },
+      "personExplore": {
+        "about": "확인된 사실을 바탕으로 이 인물의 선택과 긴장을 한 가지 관점에서 살펴봅니다."
       },
       "library": {
         "about": "이 인물이 감상한 콘텐츠와 직접 남긴 창작물을 함께 모읍니다."
@@ -65,7 +76,7 @@
         "about": "하나의 시대·사상·조직·작품을 둘러싼 진영과 대립 구도를 보여줍니다."
       },
       "analysis": {
-        "about": "이 인물의 16축 지표와 영향력을 두 갈래로 나누어 살펴봅니다."
+        "about": "이 인물의 16축 스펙트럼과 영향력을 살펴봅니다."
       },
       "media": {
         "about": "이 인물의 생각과 목소리를 글·음성·영상으로 만납니다."
@@ -74,10 +85,7 @@
         "about": "정치·전략·기술·사회·경제·문화 여섯 영역의 영향력을 평가합니다."
       },
       "persona": {
-        "about": "역량·덕목·성향 16축으로 인물의 사고와 행동 경향을 분석합니다."
-      },
-      "virtualMonologue": {
-        "about": "사료에 근거해 이 인물이 자신의 생애를 1인칭으로 돌아보는 독백입니다."
+        "about": "역량·덕목·성향을 16축 스펙트럼으로 분석합니다."
       },
       "dialogues": {
         "about": "화면 상황에 따라 이 인물다운 반응과 말을 들려주는 대사 모음입니다."
@@ -88,8 +96,6 @@
     },
     "influence": "영향력",
     "tierFictionBadge": "신화 속 인물",
-    "tierRelationBadge": "관계로 만나는 인물",
-    "tierRelationNotice": "다른 인물이나 영상에 함께 등장해 소개하는 인물입니다. 감상 기록 대신 기본 소개만 담았습니다.",
     "library": "기록물",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
     "sourceWorks": "원전·등장 작품",
@@ -100,7 +106,7 @@
       "origin": "첫 등장 원전",
       "adaptation": "각색 작품"
     },
-    "analysis": "인물 지표",
+    "analysis": "인물 분석",
     "media": "미디어",
     "guestbook": "방명록",
     "fictionGuestbook": "감상록",
@@ -112,14 +118,6 @@
     "showDetail": "상세 분석 결과",
     "hideDetail": "상세 분석 닫기",
     "monologue": "독백",
-    "virtualMonologue": "가상 독백",
-    "virtualMonologueNote": "인물의 저서와 공개된 발언을 바탕으로 사상과 신념을 재구성한 글입니다.",
-    "virtualMonologueKoNotice": "이 글은 한국어 원문입니다.",
-    "virtualMonologueTranslate": "영어로 번역",
-    "virtualMonologueShowOriginal": "원문 보기",
-    "virtualMonologueTranslating": "번역 중...",
-    "virtualMonologueTranslateError": "번역에 실패했습니다. 원문을 표시합니다.",
-    "virtualMonologueMachineNote": "브라우저에서 자동 번역한 글입니다.",
     "faction": "소속 세력도감",
     "factionPreview": "세력도감 미리보기",
     "factionPreviewAria": "{name} 세력도감 미리보기 열기",
@@ -167,6 +165,9 @@
     "relBandSideR": "맞수·대립",
     "relBandDown": "{name}의 영향을 받은 인물",
     "relShowMore": "관계 인물 {count}명 더 보기",
+    "relViewAll": "전체 관계 {count}명",
+    "relAllTitle": "{name}의 전체 관계",
+    "relAllCount": "관계 인물 {count}명",
     "relationGraphNote": "혈연·사제·영향 관계는 위키데이터에 기록된 사실을 기준으로 합니다.",
     "relFilter_all": "전체",
     "relFilter_family": "혈연",
@@ -197,7 +198,53 @@
     "videosShortsAside": "VIGNETTE",
     "videosEmpty": "아직 공개된 영상이 없습니다.",
     "similarFigures": "닮은꼴 인물",
-    "similarFormula": "16차원 페르소나 벡터(능력 4 + 덕목 8 + 성향 4)의 유클리드 거리를 기반으로 산출한 일치도입니다.",
+    "personaMatches": "스펙트럼이 닮은 인물",
+    "personaMatchesIntro": "16개 축 전체와 성향·덕목·능력치별 유사도를 나누어 봅니다.",
+    "personaMatch_overall": "유사 인물",
+    "personaMatch_overallDesc": "16축 스펙트럼이 전반적으로 닮은 인물",
+    "personaMatch_overallInsight": "전체 스펙트럼에서 가장 가까운 인물들",
+    "personaMatch_disposition": "유사 성향",
+    "personaMatch_dispositionDesc": "네 성향축의 방향이 비슷한 인물",
+    "personaMatch_dispositionInsight": "비슷한 선택을 내릴 가능성이 큰 인물들",
+    "personaMatch_virtue": "유사 덕목",
+    "personaMatch_virtueDesc": "여덟 덕목의 높낮이가 비슷한 인물",
+    "personaMatch_virtueInsight": "중요하게 여기는 기준이 비슷한 인물들",
+    "personaMatch_ability": "유사 능력치",
+    "personaMatch_abilityDesc": "네 능력치의 높낮이가 비슷한 인물",
+    "personaMatch_abilityInsight": "{name}의 역할을 대신할 능력을 갖춘 인물들",
+    "personaMatch_opposite": "반대 성향",
+    "personaMatch_oppositeDesc": "네 성향축이 반대 방향을 가리키는 인물",
+    "personaMatch_oppositeInsight": "한쪽이 놓친 위험을 먼저 감지할 인물들",
+    "personaMatchPercent": "{percent}% 일치",
+    "personaClashPercent": "{percent}% 충돌",
+    "personaClashLegend": "왼쪽 기준 · 오른쪽 비교",
+    "personaMatchModalTitle": "닮음의 근거",
+    "personaMatchModalOppositeTitle": "성향이 갈리는 지점",
+    "personaMatchModalIntro": "{subject}와 {candidate}의 스펙트럼이 겹치고 갈라지는 지점",
+    "personaMatchModalSubject": "기준 인물",
+    "personaMatchModalCandidate": "비교 인물",
+    "personaMatchModalMatch": "일치",
+    "personaMatchModalClash": "충돌",
+    "personaMatchModalNeutral": "중립",
+    "personaMatchModalGap": "차이 {value}",
+    "personaMatchModalMirrorGap": "반대값 차이 {value}",
+    "personaMatchModalClose": "닫기",
+    "personaMatchModalLoading": "불러오는 중",
+    "personaMatchModalViewPerson": "인물 카드 보기",
+    "personaMatchPrevious": "이전 분류",
+    "personaMatchNext": "다음 분류",
+    "personaMatchGraphicHint": "축을 누르면 실제 값이 바뀝니다",
+    "personaMatchGraphicOverallRadar": "능력·덕목 스펙트럼",
+    "personaMatchGraphicVirtueRadar": "덕목 스펙트럼",
+    "personaMatchGraphicAbilityRadar": "능력 스펙트럼",
+    "personaMatchGraphicCompass": "성향 나침반",
+    "personaMatchGraphicInsightLabel": "한줄 해석",
+    "personaMatchGraphicOverallInsight": "두 인물은 특히 {axes}에서 닮아 역할과 판단의 전체 윤곽이 가깝습니다.",
+    "personaMatchGraphicDispositionInsight": "두 인물은 {axes} 쪽으로 기울어 비슷한 선택을 내릴 가능성이 큽니다.",
+    "personaMatchGraphicVirtueInsight": "두 인물은 {axes}에서 중요하게 여기는 기준이 닮았습니다.",
+    "personaMatchGraphicAbilityInsight": "{candidate}는 {axes}이 필요한 자리에서 {subject}를 가장 가깝게 대신할 수 있습니다.",
+    "personaMatchGraphicOppositeInsight": "{subject}가 {subjectAxes} 쪽에서 판단할 때, {candidate}는 {candidateAxes} 쪽에서 놓친 위험을 먼저 살핍니다.",
+    "similarFormula": "서비스에 공개된 활성 인물 중 16개 축 값이 모두 등록된 인물을 후보로 삼습니다. 유사 인물은 전체 스펙트럼을, 유사 성향·덕목·능력치는 해당 축만 비교해 0~100% 일치도로 환산합니다. 반대 성향은 능력과 덕목을 제외하고 기준 인물의 성향 4축 부호만 반전해 0~100% 충돌도로 환산합니다.",
     "archiveSuffix": "의 기록관",
     "archiveEnglish": "Official Sacred Record",
     "guestbookCta": "방명록에 여러분의 생각을 남겨보세요.",

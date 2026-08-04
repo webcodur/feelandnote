@@ -1,0 +1,83 @@
+{
+  "slug": "aeschylus",
+  "nickname": "아이스킬로스",
+  "events": [
+    {
+      "id": "ad720a8d-c671-473d-9dd1-f7ca34e14219",
+      "year": -525,
+      "title": "엘레우시스에서 태어나다",
+      "before": "아이스킬로스는 아테네령 엘레우시스에서 에우포리온의 아들로 태어난 것으로 전한다. 고대 연대기는 출생을 기원전 525년 또는 524년 무렵으로 잡아 정확한 해에는 불확실성이 있다.",
+      "after": "Aeschylus is born at Eleusis, in Athenian territory, to Euphorion. Ancient chronologies date his birth to around 525 or 524 BCE, so the exact year is uncertain."
+    },
+    {
+      "id": "7854dd13-974d-40ac-a48a-f4743e07f631",
+      "year": -499,
+      "title": "아테네 비극 경연에 처음 참가하다",
+      "before": "아이스킬로스는 기원전 499년 무렵 아테네의 비극 경연에 처음 작품을 출품한 것으로 전한다. 그는 이때 우승하지 못했지만 이후 수십 년 동안 아테네 비극을 이끄는 작가로 활동했다.",
+      "after": "Around 499 BCE, Aeschylus enters an Athenian tragic competition for the first time. He does not win, but he goes on to write for the Athenian stage for several decades."
+    },
+    {
+      "id": "988f8fd0-9810-44fd-9f0f-72480b008c9a",
+      "year": -490,
+      "title": "마라톤 전투에 참전하다",
+      "before": "아이스킬로스는 아테네 중장보병으로 마라톤 전투에 참가해 페르시아군과 싸웠다. 그의 형제 키네게이로스는 이 전투에서 전사했으며, 후대에 전해진 아이스킬로스의 묘비명도 그의 마라톤 참전을 기록했다.",
+      "after": "Aeschylus fights against the Persian army at Marathon as an Athenian hoplite. His brother Cynegeirus dies in the battle, and Aeschylus's later epitaph records his own service there."
+    },
+    {
+      "id": "7a8acd72-6b59-4152-b5c0-b446e679e91a",
+      "year": -484,
+      "title": "비극 경연에서 처음 우승하다",
+      "before": "아이스킬로스는 아테네의 디오니소스 축제 비극 경연에서 처음 우승했다. 이 우승을 계기로 그는 아테네에서 가장 성공적인 비극 작가 가운데 한 사람으로 자리 잡았다.",
+      "after": "At the Athenian festival of Dionysus, Aeschylus wins a tragic competition for the first time. The victory places him among the leading tragedians in Athens."
+    },
+    {
+      "id": "8921d8b5-95ee-48da-a2e3-8a8fdf9f29a5",
+      "year": -480,
+      "title": "살라미스 해전에 참전한 것으로 전해지다",
+      "before": "고대 기록은 아이스킬로스가 살라미스 해전에도 참가했다고 전하지만, 마라톤 참전보다 근거가 약해 확정하기 어렵다. 그는 훗날 이 해전을 직접 다룬 비극 페르시아인을 발표했다.",
+      "after": "Ancient accounts say that Aeschylus fights at the Battle of Salamis, though the evidence is weaker than it is for his service at Marathon. He later makes the naval battle the central event of The Persians."
+    },
+    {
+      "id": "dd53a509-1fb2-44a4-9f76-1450c48cde9e",
+      "year": -476,
+      "title": "시칠리아로 가서 아이트나의 여인들을 공연하다",
+      "before": "후대 전기에 따르면 아이스킬로스는 시라쿠사의 통치자 히에론 1세의 초청으로 시칠리아를 방문해 새 도시 아이트나를 기념하는 비극 아이트나의 여인들을 공연했다. 이 방문은 그의 작품 활동이 아테네 밖의 그리스 도시들로 확대되었음을 보여주지만, 공연 연도는 기원전 476년 또는 475년으로 엇갈린다.",
+      "after": "According to later biographies, Aeschylus travels to Sicily at the invitation of Hieron I of Syracuse. He stages Women of Aetna to mark the founding of the new city of Aetna, though sources date the production to either 476 or 475 BCE."
+    },
+    {
+      "id": "b59d238b-76fe-4725-a7e1-cbc36bce9f74",
+      "year": -472,
+      "title": "페르시아인을 발표하다",
+      "before": "아이스킬로스는 아테네 디오니소스 축제에서 페르시아인을 포함한 작품군을 공연해 우승했다. 젊은 페리클레스가 공연 비용을 맡았으며, 작품은 살라미스에서 패한 페르시아 왕실의 시각으로 최근 전쟁을 다루었다.",
+      "after": "Aeschylus stages a group of plays that includes The Persians at the City Dionysia and wins first prize. The young Pericles pays for the production, and The Persians shows the recent war from the viewpoint of the defeated Persian court."
+    },
+    {
+      "id": "393c3b13-0396-4ea9-80b7-39838f02355a",
+      "year": -467,
+      "title": "테바이를 공격한 일곱 장수를 발표하다",
+      "before": "아이스킬로스는 오이디푸스 가문을 다룬 삼부작의 마지막 작품으로 테바이를 공격한 일곱 장수를 공연했다. 이 작품이 포함된 작품군은 비극 경연에서 우승했으며, 그의 연결된 삼부작 구성이 확인되는 대표 사례가 되었다.",
+      "after": "Aeschylus stages Seven Against Thebes as the final play in a trilogy about the family of Oedipus. The group of plays wins the tragic competition and provides a major surviving example of his connected trilogies."
+    },
+    {
+      "id": "fcc814d2-2854-4d13-b677-a7a9485f78e3",
+      "year": -463,
+      "title": "탄원하는 여인들을 발표한 것으로 추정되다",
+      "before": "아이스킬로스는 다나오스의 딸들을 다룬 작품군에 탄원하는 여인들을 포함해 비극 경연에서 우승한 것으로 보인다. 파피루스 자료를 근거로 기원전 463년이 유력하게 제시되지만 정확한 공연 연도는 확정되지 않았다.",
+      "after": "Aeschylus probably wins a tragic competition with a group of plays that includes The Suppliants, about the daughters of Danaus. Papyrus evidence points to 463 BCE, but the year of the first performance remains uncertain."
+    },
+    {
+      "id": "0ec4cef8-13cc-4add-9759-ecdbc3faa82e",
+      "year": -458,
+      "title": "오레스테이아 삼부작을 발표하다",
+      "before": "아이스킬로스는 아가멤논, 제주를 바치는 여인들, 자비로운 여신들로 이루어진 오레스테이아 삼부작을 공연해 비극 경연에서 우승했다. 이 공연은 그가 생전에 아테네에서 발표한 마지막 작품군으로 알려져 있으며, 삼부작 전체가 현존하는 유일한 고대 그리스 비극 사례가 되었다.",
+      "after": "Aeschylus stages the Oresteia—Agamemnon, The Libation Bearers, and The Eumenides—and wins first prize. This is his last known production in Athens during his lifetime, and it is the only complete trilogy of ancient Greek tragedies to survive."
+    },
+    {
+      "id": "3c07b1fe-5710-4692-954e-8bfbb3762775",
+      "year": -456,
+      "title": "시칠리아의 겔라에서 사망하다",
+      "before": "아이스킬로스는 시칠리아 남부의 그리스 도시 겔라에서 사망했다. 고대 연대기는 사망 시점을 기원전 456년 또는 455년으로 전하므로 정확한 해에는 불확실성이 있다.",
+      "after": "Aeschylus dies at Gela, a Greek city on the southern coast of Sicily. Ancient chronologies place his death in 456 or 455 BCE, so the exact year is uncertain."
+    }
+  ]
+}

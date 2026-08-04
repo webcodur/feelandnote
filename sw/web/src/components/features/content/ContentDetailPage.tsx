@@ -20,7 +20,8 @@ import RecentContentsSection from "./RecentContentsSection";
 import FictionCharactersSection from "./FictionCharactersSection";
 import CuratedEntriesSection from "./CuratedEntriesSection";
 import { useRecentContents } from "@/hooks/useRecentContents";
-import type { ContentDetailData } from "@/actions/contents/getContentDetail";
+import { getContentViewerState, type ContentDetailData } from "@/actions/contents/getContentDetail";
+import { createClient } from "@/lib/supabase/client";
 import { useTranslations } from "next-intl";
 
 interface ContentDetailPageProps {
@@ -32,6 +33,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
   const t = useTranslations("contentDetail");
   const tCurated = useTranslations("library.curated");
   const [data, setData] = useState(initialData);
+  const [isAuthResolved, setIsAuthResolved] = useState(false);
 
   const { content, userRecord, isLoggedIn, initialReviews, fictionCharacters, curatedEntries } = data;
 
@@ -47,6 +49,32 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
       thumbnail: content.thumbnail ?? null,
     });
   }, [content.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    let isActive = true;
+    const supabase = createClient();
+
+    const hydrateViewer = async () => {
+      try {
+        // getSession은 브라우저 저장소만 확인한다. 익명 방문자는 여기서 끝나므로
+        // 정적 페이지를 다시 Vercel Function으로 요청하지 않는다.
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) return;
+
+        const viewer = await getContentViewerState(content.id);
+        if (isActive) setData((prev) => ({ ...prev, ...viewer }));
+      } catch (error) {
+        console.error("[ContentDetailPage:viewer]", error);
+      } finally {
+        if (isActive) setIsAuthResolved(true);
+      }
+    };
+
+    void hydrateViewer();
+    return () => {
+      isActive = false;
+    };
+  }, [content.id]);
 
   const handleRecordChange = (newRecord: ContentDetailData["userRecord"]) => {
     setData((prev) => ({ ...prev, userRecord: newRecord }));
@@ -77,6 +105,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
             content={content}
             userRecord={userRecord}
             isLoggedIn={isLoggedIn}
+            isAuthResolved={isAuthResolved}
             onRecordChange={handleRecordChange}
           />
         </AccordionSection>

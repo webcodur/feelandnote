@@ -2,6 +2,7 @@
   "rest": {
     "section": "Rest",
     "arena": {
+      "inDevelopment": "In development",
       "portrait": {
         "label": "Portraits in Time",
         "description": "Identify each figure before the portrait comes into focus",

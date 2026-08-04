@@ -41,7 +41,7 @@ const { data: people, error: e1 } = await sb
   .limit(5000)
 if (e1) throw e1
 
-const usable = people.filter(p => !['fiction', 'relation'].includes(p.celeb_tier || 'full'))
+const usable = people.filter(p => p.celeb_tier !== 'fiction')
 
 const { data: infl } = await sb.from('celeb_influence').select('celeb_id, total_score').limit(5000)
 const scoreOf = new Map((infl || []).map(r => [r.celeb_id, r.total_score || 0]))

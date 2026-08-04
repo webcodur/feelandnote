@@ -1,0 +1,160 @@
+{
+  "slug": "alfred-hitchcock",
+  "nickname": "알프레드 히치콕",
+  "events": [
+    {
+      "id": "b1638709-9198-4e00-a015-58169e7caae2",
+      "year": 1899,
+      "title": "런던 레이턴스톤에서 태어나다",
+      "before": "알프레드 조지프 히치콕은 런던 동부 레이턴스톤에서 윌리엄 히치콕과 에마 제인 히치콕의 셋째 아이로 태어났다. 그는 식료품상을 운영하는 가톨릭 가정에서 성장했다.",
+      "after": "Alfred Joseph Hitchcock is born in Leytonstone, East London, the third child of William and Emma Jane Hitchcock. He grows up in a Catholic family that runs a greengrocery business."
+    },
+    {
+      "id": "0d2f8602-9ca5-46e7-b260-408a77203805",
+      "year": 1913,
+      "title": "공학과 항해술을 배우기 시작하다",
+      "before": "히치콕은 세인트 이그나티우스 칼리지를 떠나 포플러의 런던 카운티 의회 공학·항해학교 야간 과정에 등록했다. 그는 기계학, 전기, 음향, 항해술을 배우며 훗날 영화 제작에 활용할 기술적 기초를 쌓았다.",
+      "after": "Hitchcock leaves St Ignatius College and takes evening classes at the London County Council School of Engineering and Navigation in Poplar. He studies mechanics, electricity, acoustics, and navigation, building technical skills that he later uses in filmmaking."
+    },
+    {
+      "id": "16b476a8-4b5c-474e-8e72-38d6878665eb",
+      "year": 1920,
+      "title": "영화 산업에 들어가다",
+      "before": "히치콕은 런던 이즐링턴의 페이머스 플레이어스 래스키 스튜디오에서 무성영화 자막 카드를 만드는 일을 시작했다. 그는 이후 각본, 미술, 편집, 조감독 업무를 익히며 연출자로 나아갔다.",
+      "after": "Hitchcock starts work at the Famous Players-Lasky studio in Islington, London, designing intertitle cards for silent films. He then learns screenwriting, art direction, editing, and assistant directing as he works toward becoming a director."
+    },
+    {
+      "id": "dede76ee-c58e-4b93-b17b-81bd3ff3cea8",
+      "year": 1925,
+      "title": "첫 장편영화를 연출하다",
+      "before": "히치콕은 뮌헨의 에멜카 스튜디오를 중심으로 영국과 독일의 합작 영화 《쾌락의 정원》을 연출했다. 이 작품은 완성되어 공개된 그의 첫 장편 연출작이 되었고 유럽 영화의 시각적 기법을 익히는 계기가 되었다.",
+      "after": "Working mainly at Emelka Studios in Munich, Hitchcock directs the British-German production The Pleasure Garden. It becomes his first completed and released feature as a director and gives him direct experience of European filmmaking techniques."
+    },
+    {
+      "id": "e59d286b-1c52-4208-95ab-aa7f866e13b2",
+      "year": 1926,
+      "title": "앨마 리빌과 결혼하다",
+      "before": "히치콕은 런던 브롬프턴 오라토리에서 편집자이자 각본가인 앨마 리빌과 결혼했다. 리빌은 이후 여러 작품의 각본과 편집 과정에 참여하며 그의 가장 지속적인 창작 협력자가 되었다.",
+      "after": "Hitchcock marries editor and screenwriter Alma Reville at the Brompton Oratory in London. She goes on to work on the writing and editing of many of his films and remains his closest creative collaborator."
+    },
+    {
+      "id": "41d9d1d6-fbaa-4172-b771-48862dfc7c01",
+      "year": 1927,
+      "title": "《하숙인》으로 감독 경력을 확립하다",
+      "before": "히치콕의 무성 스릴러 《하숙인: 런던 안개의 이야기》가 영국에서 개봉해 상업적·비평적 성공을 거두었다. 누명을 쓴 남자, 금발 여성, 도시의 불안이라는 소재가 결합된 이 작품은 그의 독자적인 스릴러 연출이 본격적으로 드러난 첫 성공작이 되었다.",
+      "after": "The Lodger: A Story of the London Fog opens in Britain and succeeds with critics and audiences. The silent thriller brings together a wrongly accused man, a blonde woman, and an anxious city, establishing patterns that return throughout Hitchcock's work."
+    },
+    {
+      "id": "9eda65fe-9f3f-4a9b-a107-2ecec2a7e56e",
+      "year": 1929,
+      "title": "《협박》으로 유성영화 시대에 들어서다",
+      "before": "히치콕은 제작 도중 일부를 유성영화로 전환한 《협박》을 완성했고 작품은 런던 캐피톨 시네마에서 초연되었다. 이 영화는 영국 초기 유성영화의 대표적 성공작이 되면서 그가 새로운 촬영 기술과 음향 표현에 적응했음을 보여주었다.",
+      "after": "Hitchcock completes Blackmail after converting part of the production to sound. The film premieres at the Capitol Cinema in London and becomes a leading success of early British sound cinema, using dialogue, background noise, and silence to build tension."
+    },
+    {
+      "id": "1e8ce367-3e21-4071-a8fd-d74b361297f8",
+      "year": 1934,
+      "title": "스릴러 감독으로 재기하다",
+      "before": "히치콕은 마이클 밸컨의 제안으로 고몽 브리티시에 합류하고 《너무 많이 안 남자》를 연출했다. 몇 년간의 부진 뒤 이 작품이 성공하면서 그는 다시 영국의 주요 감독으로 자리 잡고 첩보 스릴러 제작에 집중했다.",
+      "after": "At Michael Balcon's invitation, Hitchcock joins Gaumont-British and directs The Man Who Knew Too Much. Its success ends several difficult years and restores him as a major British director, leading to a run of espionage thrillers that attracts international attention."
+    },
+    {
+      "id": "794e44f5-59ba-4be3-bd46-e3db14e869b5",
+      "year": 1939,
+      "title": "할리우드로 이주하다",
+      "before": "히치콕은 제작자 데이비드 O. 셀즈닉과 계약하고 가족과 함께 영국에서 할리우드로 옮겼다. 이주 이후 그는 미국 스튜디오 체계 안에서 활동하며 경력의 중심을 영국 영화계에서 미국 영화계로 바꾸었다.",
+      "after": "Hitchcock begins a contract with producer David O. Selznick and moves from Britain to Hollywood with his family. He leaves the British film industry behind and begins working within the American studio system."
+    },
+    {
+      "id": "ce38d222-fac9-42ce-89e0-ebf9fabd0a19",
+      "year": 1940,
+      "title": "《레베카》로 할리우드에 자리 잡다",
+      "before": "히치콕은 셀즈닉 인터내셔널 픽처스에서 미국 첫 장편영화 《레베카》를 연출했다. 작품은 흥행과 비평에서 성공하고 이듬해 아카데미 작품상을 받아 그의 할리우드 경력을 확립했다.",
+      "after": "Hitchcock directs Rebecca, his first American feature, for Selznick International Pictures. Audiences and critics respond strongly, and the film wins the Academy Award for Best Picture the following year, securing his place in Hollywood."
+    },
+    {
+      "id": "31ef0937-4d73-472b-9998-10901d5ceef1",
+      "year": 1944,
+      "title": "연합국의 전시 영화를 만들다",
+      "before": "히치콕은 영국으로 돌아가 정보부를 위해 프랑스어 단편 선전영화 《본 보야지》와 《마다가스카르 모험》을 연출했다. 그는 두 작품에서 프랑스 레지스탕스와 전시 협력 문제를 다루며 상업영화 밖의 전쟁 관련 제작에 참여했다.",
+      "after": "Hitchcock returns to Britain to direct two French-language shorts for the Ministry of Information, Bon Voyage and Aventure Malgache. Through stories about the French Resistance and wartime collaboration, he takes a direct part in Allied wartime filmmaking."
+    },
+    {
+      "id": "b6bbaad3-bac4-4860-92e2-d181962385b7",
+      "year": 1948,
+      "title": "독립 제작과 컬러 영화에 도전하다",
+      "before": "히치콕은 시드니 번스타인과 세운 트랜스애틀랜틱 픽처스의 첫 작품으로 《로프》를 제작하고 연출했다. 그는 자신의 첫 컬러 장편에서 긴 촬영 구간을 연결해 영화 전체가 거의 연속된 장면처럼 보이게 만들었다.",
+      "after": "Hitchcock produces and directs Rope as the first film released by Transatlantic Pictures, the independent company he formed with Sidney Bernstein. For his first color feature, he joins unusually long takes so that the film appears almost continuous."
+    },
+    {
+      "id": "460618d5-0428-449d-ab95-a356b5f3bd28",
+      "year": 1954,
+      "title": "《이창》으로 전성기를 열다",
+      "before": "히치콕의 《이창》이 뉴욕 리볼리 극장에서 세계 최초로 상영되었다. 제한된 공간과 관찰자의 시점을 활용한 이 영화의 성공은 1950년대 중후반에 이어진 그의 대표작 시기를 여는 계기가 되었다.",
+      "after": "Rear Window has its world premiere at the Rivoli Theatre in New York City. Set largely within a confined space and seen through an observer's eyes, the film succeeds and begins a sustained run of major works in Hitchcock's American career."
+    },
+    {
+      "id": "36947777-9481-4624-a5f3-3ab754a12812",
+      "year": 1955,
+      "title": "텔레비전 진행자로 대중 앞에 서다",
+      "before": "히치콕은 단편 선집극 《앨프리드 히치콕 프리젠츠》의 제작자이자 진행자로 텔레비전에 등장했다. 10년 동안 이어진 방송은 그의 말투와 실루엣을 널리 알리며 그를 영화감독을 넘어 대중문화의 유명 인물로 만들었다.",
+      "after": "Hitchcock appears on television as the producer and host of the anthology series Alfred Hitchcock Presents. Over its ten-year run, his voice, silhouette, and dry manner become widely recognizable, making him famous beyond his work as a film director."
+    },
+    {
+      "id": "dac2ea6d-b44b-46c1-979f-0a30910b7972",
+      "year": 1960,
+      "title": "《사이코》로 최대 흥행 성공을 거두다",
+      "before": "히치콕이 직접 자금을 조달하고 제작한 저예산 영화 《사이코》가 뉴욕 드밀 극장과 배로넷 극장에서 개봉했다. 작품은 그의 경력에서 가장 큰 상업적 성공을 거두고 주류 영화가 공포와 폭력을 표현하는 방식에 변화를 일으켰다.",
+      "after": "Psycho opens at the DeMille and Baronet theatres in New York City. Hitchcock finances and produces the comparatively low-budget film himself, and it becomes the biggest commercial success of his career while pushing mainstream cinema toward more explicit horror and violence."
+    },
+    {
+      "id": "6eeb5690-c8be-497e-969a-59834b06e3c2",
+      "year": 1962,
+      "title": "프랑수아 트뤼포와 작품 세계를 논하다",
+      "before": "히치콕은 유니버설 스튜디오의 사무실에서 프랑수아 트뤼포와 여드레 동안 자신의 영화 경력을 다룬 인터뷰를 진행했다. 이 대화는 1966년 출간된 책의 토대가 되었고 히치콕을 장르 영화의 기술자뿐 아니라 작가적 감독으로 평가하는 데 영향을 주었다.",
+      "after": "In his office at Universal Studios, Hitchcock spends eight days discussing his films with François Truffaut. Their interviews form the basis of a book published in 1966 and help critics see Hitchcock as an auteur, not simply a skilled maker of genre films."
+    },
+    {
+      "id": "acc28112-55ee-4bbf-8bd3-b7be6e7b3852",
+      "year": 1968,
+      "title": "어빙 G. 솔버그 기념상을 받다",
+      "before": "히치콕은 산타모니카 시빅 오디토리엄에서 열린 제40회 아카데미 시상식에서 어빙 G. 솔버그 기념상을 받았다. 그는 감독상 후보에 다섯 번 올랐지만 수상하지 못했으며, 이 특별상으로 제작자로서의 경력과 업적을 인정받았다.",
+      "after": "Hitchcock receives the Irving G. Thalberg Memorial Award at the 40th Academy Awards in the Santa Monica Civic Auditorium. He has been nominated five times for Best Director without winning, but this special award honors his career and achievements as a producer."
+    },
+    {
+      "id": "e03e6c1c-6b05-4c05-8f1e-4f3ac1e4e2d2",
+      "year": 1972,
+      "title": "《프렌지》로 런던 영화 제작에 돌아오다",
+      "before": "히치콕은 런던 코번트가든 일대에서 연쇄살인 사건을 다룬 《프렌지》를 제작했다. 이 작품은 그가 오랜 할리우드 활동 뒤 영국에서 본격적으로 만든 후기 영화로, 영국 시절부터 반복해 온 누명과 추적의 소재를 다시 다루었다.",
+      "after": "Hitchcock makes Frenzy in and around Covent Garden, setting its serial-murder story in contemporary London. The film brings him back to substantial production in Britain after many years in Hollywood and returns to his familiar subjects of wrongful accusation and pursuit."
+    },
+    {
+      "id": "ec28be54-fc88-4e52-8b75-23fca926d6cc",
+      "year": 1976,
+      "title": "마지막 영화 《가족 음모》를 공개하다",
+      "before": "히치콕의 《가족 음모》가 로스앤젤레스 필름엑스에서 세계 최초로 상영되었다. 건강이 악화된 그는 이후 다른 작품을 준비했지만 촬영에 들어가지 못해 이 영화가 마지막 장편 연출작이 되었다.",
+      "after": "Family Plot has its world premiere at Filmex in Los Angeles. Hitchcock begins developing another project, but his declining health keeps it from entering production, making Family Plot his final completed feature."
+    },
+    {
+      "id": "25bab62a-861b-4cc6-9039-65a1adb794c2",
+      "year": 1979,
+      "title": "미국영화연구소 평생공로상을 받다",
+      "before": "히치콕은 미국영화연구소가 수여하는 일곱 번째 평생공로상을 받았다. 동료 영화인들은 무성영화 시대부터 텔레비전과 현대 스릴러에 이른 그의 경력 전체를 기렸다.",
+      "after": "Hitchcock becomes the seventh person to receive the American Film Institute's Life Achievement Award. Fellow filmmakers honor work that stretches from silent cinema through television and the modern psychological thriller."
+    },
+    {
+      "id": "59b6e941-ef77-4189-a547-84e16437b866",
+      "year": 1980,
+      "title": "대영제국 훈장 기사 작위를 받다",
+      "before": "히치콕은 1980년 신년 서훈에서 대영제국 훈장 2등급 기사로 임명되었다. 건강 문제로 런던에 가지 못한 그는 유니버설 스튜디오에서 영국 총영사에게 임명 서류를 전달받았다.",
+      "after": "Hitchcock is appointed a Knight Commander of the Order of the British Empire in the 1980 New Year Honours. Too ill to travel to London, he receives the official papers from the British consul general at Universal Studios."
+    },
+    {
+      "id": "c7ac3ac0-df04-4cb1-a187-6e98a18c5abe",
+      "year": 1980,
+      "title": "로스앤젤레스 자택에서 사망하다",
+      "before": "히치콕은 로스앤젤레스 벨에어의 자택에서 80세로 사망했다. 그는 무성영화 시기부터 1970년대까지 50편이 넘는 장편영화를 연출한 경력을 남겼다.",
+      "after": "Hitchcock dies at his home in Bel Air, Los Angeles, at the age of 80. He leaves a career that runs from the silent era into the 1970s and includes more than fifty feature films as director."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # web Egress 전수 재점검 보고서 (2026-06-29)
 
-`sw/web`의 Supabase egress 매월 초과(프로젝트 `restricted: exceed_egress_quota`) 재발에 대한 코드 전수 점검 기록. 누적 사고 이력은 `external-services.md`의 "Egress 초과" 절을 참조한다.
+`sw/web`의 전송비용 사고 SSoT. 2026-06-29의 Supabase egress 재발 조사에서 시작했으며, 2026-08-04부터 Vercel Fast Origin Transfer·Fluid CPU 사고도 같은 문서에서 추적한다. 서비스별 요약은 `external-services.md`를 참조한다.
 
 ## 1. 배경·증상
 
@@ -154,6 +154,77 @@ web 캐시 72곳이 전부 `tags: ['celebs']` 단일 태그였다. ④가 켜진
 
 - **셀럽 서고·감상문(`celeb-library-contents`·`celeb-jsonld-contents`·`celeb-reviews`)은 `user_contents`만 읽으므로 `CONTENTS`다.** BO `admin/celebs.ts`의 서고 저장은 `[CELEBS, CONTENTS]` 둘 다 보내도록 매핑했다. 여기가 누락되면 가장 눈에 띄는 반영 누락이 된다.
 - **`admin/tags.ts`가 `[TAGS, CELEBS]`를 보낸다.** web 재분류 결과 태그 관련 캐시(`getCelebs`·`getFeaturedTags`·`getTagChronologicalLibrary`·`getTagSharedLibrary`·`getCelebForModal`)에 전부 `TAGS`가 포함됐으므로 `CELEBS`는 잉여일 수 있다. 태그 편집은 드물어 당장 손해가 작지만, 잦아지면 `CELEBS`를 걷어낼 것.
-- **방명록**: BO에 신고 삭제 화면이 있으나 `CACHE_TAGS`에 도메인이 없어 태그를 뺐다. 삭제 반영이 최대 1시간 지연된다. 문제가 되면 `GUESTBOOK` 태그를 추가할 것.
+- **방명록**: BO에 신고 삭제 화면이 있으나 `CACHE_TAGS`에 도메인이 없어 태그를 뺐다. 당시 동적 조회 캐시는 최대 1시간 지연이었다. **2026-08-04 공개 셀럽 문서를 7일 ISR로 바꾼 뒤에는 익명 첫 화면의 최악 지연도 7일**이다(작성·수정한 로그인 사용자의 현재 화면은 로컬 상태/재조회로 즉시 반영). 운영상 더 빨라야 하면 전역 `CONTENTS`를 비우지 말고 `GUESTBOOK` 태그 또는 셀럽 slug별 경로 무효화를 추가할 것.
 - `updateCeleb`은 명언 전달 여부와 무관하게 `DIALOGUES`를 항상 퍼지한다(조건 분기 대신 누락 위험 회피).
 - 새 태그 추가 시 `CACHE_TAGS`에만 넣으면 `/api/revalidate` 허용 목록에 자동 반영된다.
+
+## 11. Vercel Fast Origin Transfer 한도 초과 (2026-08-04)
+
+### 지표를 먼저 분리한다
+
+이번 경고는 Supabase egress가 아니라 **Vercel compute ↔ CDN 전송량**이다. Vercel의 정의상 Fast Origin Transfer는 Function·Middleware·ISR 등이 처리한 요청의 입력과 응답 출력 바이트이며, 브라우저로 내려가는 전체 전송량인 Fast Data Transfer와 별도다. Hobby 포함량은 Fast Origin 10GB, Fluid Active CPU 4시간, Function Invocations 100만 회, Edge Requests 100만 회다.
+
+- 공식 산정 기준: [CDN pricing and usage](https://vercel.com/docs/manage-cdn-usage)
+- Fluid Compute 한도: [Fluid compute pricing](https://vercel.com/docs/functions/usage-and-pricing)
+- ISR의 Function·Origin 비용: [ISR pricing and limits](https://vercel.com/docs/incremental-static-regeneration/limits-and-pricing)
+
+따라서 이 문서 9절의 “캐시 히트는 0바이트”는 **Supabase PostgREST egress에 한정한 문장**이다. Vercel에서는 동적 HTML이 Function을 통과하면 Supabase 데이터 캐시가 적중해도 Function 응답 전체가 Fast Origin Transfer로 잡힌다.
+
+### 대시보드·실화면 실측
+
+사용자가 제공한 Vercel Usage 캡처(최근 30일, 2026-07-05~08-04):
+
+| 지표 | 사용량 / 포함량 | 판정 |
+|---|---:|---|
+| Fast Origin Transfer | **10.12GB / 10GB** | 한도 초과, 프로젝트 일시 중지 위험 |
+| Fluid Active CPU | **7시간 35분 / 4시간** | 한도 초과 |
+| Fast Data Transfer | 9.96GB / 100GB | 여유. 브라우저 전송량 자체가 병목이 아님 |
+| Function Invocations | 299K / 1M | 호출 수보다 호출당 작업·응답 크기가 문제 |
+| Edge Requests | 239K / 1M | 요청 수 한도는 여유 |
+| ISR Writes | 64K / 200K | 여유 |
+
+라이브 대표 URL 5종을 비로그인으로 조회한 결과 모두 `X-Vercel-Cache: MISS`, `Cache-Control: private, no-cache, no-store`였다. 압축 HTML은 홈 88.6KB, 셀럽 상세 125.2KB, 콘텐츠 상세 77.3KB, 인기 작품 80.2KB, 인물 목록 224.0KB였다. 사이트맵은 16,808 URL(콘텐츠 13,886, 셀럽 2,724)이며, 한 번 전수 순회 응답량을 약 1.4GB로 추정할 수 있다. **약 7회 전수 순회면 10GB**라 실제 사용자 수가 적어도 검색·수집 봇 반복으로 한도가 찰 수 있다. 이 계산은 URL별 대표 압축 크기를 적용한 추정치이며 Vercel Usage의 route별 분해가 최종 판정 수단이다.
+
+### 확정 원인
+
+`pnpm build:web`의 기존 route summary에서 `[locale]` 하위가 전부 `ƒ Dynamic`이었다. 전역 차단자는 루트 `app/layout.tsx`의 `await getLocale()`였다. locale param이 없는 곳에서 next-intl이 요청 header로 폴백해 전체 트리를 동적으로 만들었다. 여기에 고비용 URL 두 종류가 viewer 데이터를 서버 첫 렌더에 섞었다.
+
+- 셀럽 상세: `getCelebBySlug()`의 `auth.getUser()`·팔로우/차단 조회, `getGuestbookEntries()`의 viewer 차단 필터, 서가의 `getLocale()` 요청 컨텍스트 의존.
+- 콘텐츠 상세: `searchParams.category`, `getProfile()`·본인 기록, viewer별 리뷰 제외가 공개 본문과 한 함수에 결합.
+- 공통 Middleware: 인증 쿠키가 없는 익명 요청에도 `auth.getUser()` 경로를 실행.
+- `ContentLibrary`: `useSearchParams()`가 셀럽 서가 SSR을 정적 전환할 때 CSR 경계로 밀어낼 위험. 2026-07-15 AdSense 감사에서 이미 경고했으나 미해소 상태였다.
+
+### 2026-08-04 로컬 개선
+
+| 영역 | 변경 |
+|---|---|
+| locale 루트 | 최상위 `app/layout.tsx`를 제거하고 `[locale]/layout.tsx`를 실제 root layout으로 승격. `params.locale` + `setRequestLocale()`로 요청 header 의존 제거 |
+| 빌드·재검증 비용 | locale·셀럽 slug·콘텐츠 id의 `generateStaticParams()`는 빈 배열을 반환. 수만 URL을 배포 때 만들지 않고 첫 요청에 ISR 생성. 자동 재검증은 7일 안전망으로 두고 BO 태그·콘텐츠 기록 변경의 정확한 경로 무효화를 우선 사용 |
+| 셀럽 상세 | 프로필·방명록·서가를 공개 캐시 경로로 분리. 팔로우·차단 상태는 공개 문서에서 제거. 로그인 방명록만 hydration 후 차단 필터 재조회 |
+| 셀럽 서가 SEO | `useSearchParams()` 제거. 초기 책·감상문 HTML은 보존하고 `?q=`는 hydration 후 적용 |
+| 콘텐츠 상세 | DB 작품의 공개 메타·리뷰·fiction·기관 선정을 ISR 본문으로 분리. 개인 기록은 브라우저 세션이 실제로 있을 때만 Server Action으로 보강. 리뷰·별점·기록 삭제 시 ko/en 해당 작품 경로만 즉시 무효화 |
+| 외부 검색 호환 | DB 미적재 외부 작품의 `?category=` 진입은 작은 Suspense 클라이언트 폴백으로 유지. 색인 대상 DB 작품은 이 경로를 타지 않음 |
+| Middleware | `sb-*-auth-token` 쿠키가 없으면 Supabase `auth.getUser()` 생략. 로그인 세션 갱신·리다이렉트는 기존대로 유지 |
+| 운영 화면 | web-bo `/settings`의 폐기된 15만 함수/100GB 단일 대역폭 설명을 현행 Fast Data·Fast Origin·CPU·호출·Edge 5지표로 교체 |
+
+### 배포 판정과 운영 가드
+
+로컬 변경만으로 이미 소비된 최근 30일 사용량은 사라지지 않는다. Hobby는 초과분을 구매할 수 없으므로 Usage 기간 만료 또는 Pro 전환 전까지 일시 중지 위험이 남는다. 배포 후 다음을 모두 확인해야 완료다.
+
+1. Vercel build summary에서 `/[locale]/celeb/[slug]`, `/[locale]/content/[contentId]`가 `ƒ Dynamic`이 아니라 on-demand ISR로 분류된다.
+2. 대표 ko/en URL의 최초 응답은 `MISS`, 재요청은 `HIT` 또는 `STALE`이며 `private, no-store`가 사라진다.
+3. 셀럽 HTML 원문에 첫 서가의 책 제목·감상문이 남아 있어 AdSense/검색 색인 교정을 되돌리지 않는다.
+4. 로그인 상태에서 콘텐츠 내 기록·방명록 차단 필터·세션 갱신이 정상이다.
+5. Vercel Usage에서 route별 Fast Origin·Active CPU 기울기가 배포 전보다 꺾인다. **Fast Data Transfer는 같은 정적 HTML을 브라우저에 보내므로 함께 0이 되는 지표가 아니다.**
+
+배포 전 상태는 “개선 구현·로컬 검증”, 배포 후 2~5번 실측까지는 “운영 해소”로 기록하지 않는다.
+
+### 로컬 검증 결과 (2026-08-04)
+
+- `pnpm build:web` 성공(Next.js 16.1.1, 독립 `NEXT_DIST_DIR` 사용). route summary에서 `/[locale]/celeb/[slug]`와 `/[locale]/content/[contentId]` 모두 기존 `ƒ Dynamic` → **`● SSG`**로 전환됐다. 빌드 시 생성은 16면뿐이라 수만 상세 URL 선생성도 발생하지 않았다.
+- 빌드 산출물을 `next start`로 띄워 `/celeb/bill-gates`와 실제 DB 콘텐츠 `b57eec31-c3b4-4d04-be90-52dcb8487c63`를 각각 두 번 요청했다. 두 경로 모두 첫 응답 `x-nextjs-cache: MISS`, 둘째 `HIT`, `Cache-Control: s-maxage=604800, stale-while-revalidate=30931200`을 반환했다.
+- ko 셀럽 HTML/RSC에 첫 서가 4건(`content_id` 4개), 실제 제목 `슈퍼 괴짜경제학`, 저자, `public_record`·출처가 남았다. `/en/celeb/bill-gates`도 `<html lang="en">`, `Bill Gates`, 서가 4건을 확인했다. AdSense SSR 교정을 보존한다.
+- 소스 `tsc --noEmit`, 변경 파일 ESLint, web-bo 설정 ESLint 통과. `lint:egress`는 기존 WARN/INFO 10건을 보고하고 exit 0(이번 변경 신규 critical 없음).
+- 빌드 경고는 기존 `middleware` → `proxy` convention deprecation과 일부 route의 `metadataBase` 경고 두 종류다. 이번 ISR 전환의 실패 조건은 아니며 별도 코드 현대화 과제로 둔다.
+
+남은 검증은 Vercel 배포 후 `X-Vercel-Cache`와 Usage 기울기, 로그인 실화면뿐이다. 로컬 HIT를 프로덕션 해소로 대신 기록하지 않는다.

@@ -17,11 +17,13 @@ export async function updateVisibility({ userContentId, visibility }: UpdateVisi
     throw new Error('로그인이 필요합니다')
   }
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('user_contents')
     .update({ visibility })
     .eq('id', userContentId)
     .eq('user_id', user.id)
+    .select('content_id')
+    .single()
 
   if (error) {
     console.error('공개 설정 변경 에러:', error)
@@ -29,6 +31,8 @@ export async function updateVisibility({ userContentId, visibility }: UpdateVisi
   }
 
   revalidatePath(`/${user.id}/reading`)
+  revalidatePath(`/content/${data.content_id}`)
+  revalidatePath(`/en/content/${data.content_id}`)
 
   return { success: true }
 }

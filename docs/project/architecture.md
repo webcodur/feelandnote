@@ -118,7 +118,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 
 | 상위 | 하위 링크 |
 |---|---|
-| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(인물 분석), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(영상관), `/explore/directory`(디렉토리) |
+| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(스펙트럼), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(영상관), `/explore/directory`(디렉토리) |
 | scriptures | `/library/era`(불후의 명작), `/library/profession`(갈림길), `/library/museum`(박물관), `/library/academy`(학당) |
 | rest | `/rest#dawn`(여명), `/rest#labyrinth`(미궁), `/rest#hegemony`(패권), `/rest#suikoden`(천도) — 앵커 |
 

@@ -69,7 +69,7 @@ export default function ProfileContent({
         </section>
       )}
 
-      {/* 3. 인물 분석 + 유사 인물 (셀럽 전용) */}
+      {/* 3. 16축 스펙트럼 + 유사 인물 (셀럽 전용) */}
       {profile.profile_type === "CELEB" && personaData?.targetPersona && (
         <section className="animate-fade-in" style={{ animationDelay: "0.088s" }}>
           <ProfilePersonaSection

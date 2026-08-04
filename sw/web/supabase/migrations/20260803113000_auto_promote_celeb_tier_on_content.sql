@@ -5,7 +5,7 @@
 -- 실측(2026-08-03)상 full 1,456명은 전원 기록 보유, light 707명은 전원 기록 0건이라
 -- "기록 유무 = 등급"이 이미 사실상의 규칙이다. 이 트리거가 그 규칙을 스스로 유지한다.
 --
--- 범위: light 만 올린다. fiction·relation 은 성격이 다른 등급이라 건드리지 않는다.
+-- 범위: light 만 올린다. fiction은 성격이 다른 등급이라 건드리지 않는다.
 -- 강등(마지막 기록 삭제 시 full → light)은 넣지 않았다. 사람이 판단할 일로 남긴다.
 --
 -- 순서 주의: AFTER INSERT 라 같은 트랜잭션에서 user_contents 행이 이미 보이므로
@@ -29,7 +29,7 @@ end;
 $$;
 
 comment on function public.promote_celeb_tier_on_first_content() is
-  '감상 기록이 생기면 light 인물을 full 로 올린다. fiction·relation 등급은 제외.';
+  '감상 기록이 생기면 light 인물을 full 로 올린다. fiction 등급은 제외.';
 
 -- SECURITY DEFINER 트리거 함수는 직접 호출할 이유가 없다. PUBLIC 기본 EXECUTE를 회수해
 -- Data API 역할이 함수 엔드포인트로 실행하지 못하게 한다.

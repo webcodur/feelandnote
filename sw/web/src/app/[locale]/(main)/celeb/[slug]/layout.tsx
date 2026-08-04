@@ -1,6 +1,6 @@
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
 import CelebWorldMaterialScope from "@/components/features/celeb/CelebWorldMaterialScope";
 import { resolveCelebWorld } from "@/lib/celeb/world";
@@ -9,12 +9,12 @@ import styles from "./CelebDetailTypography.module.css";
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }
 
 export default async function CelebLayout({ children, params }: LayoutProps) {
-  const { slug } = await params;
-  const locale = await getLocale();
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const result = await getCelebBySlug(slug, locale);
 
   if (!result.success || !result.data) {

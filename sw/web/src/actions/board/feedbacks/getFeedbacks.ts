@@ -3,8 +3,10 @@
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithAuthor, FeedbackCategory, FeedbackStatus } from '@/types/database'
+import type { Locale } from '@/types/locale'
 
 interface GetFeedbacksParams {
+  locale: Locale
   category?: FeedbackCategory
   status?: FeedbackStatus
   limit?: number
@@ -12,6 +14,7 @@ interface GetFeedbacksParams {
 }
 
 async function fetchFeedbacks(
+  locale: Locale,
   category: FeedbackCategory | null,
   status: FeedbackStatus | null,
   limit: number,
@@ -25,6 +28,7 @@ async function fetchFeedbacks(
       *,
       author:profiles!author_id(id, nickname, avatar_url)
     `, { count: 'exact' })
+    .eq('locale', locale)
 
   if (category) {
     query = query.eq('category', category)
@@ -51,6 +55,7 @@ async function fetchFeedbacks(
       .from('board_comments')
       .select('post_id')
       .eq('board_type', 'FEEDBACK')
+      .eq('locale', locale)
       .in('post_id', ids)
 
     if (counts) {
@@ -72,11 +77,10 @@ async function fetchFeedbacks(
 const getFeedbacksCached = unstable_cache(
   fetchFeedbacks,
   ['feedbacks'],
-  // 사용자 의견(feedbacks)이다. BO에 수정 액션이 없어 태그를 두지 않는다.
-  { revalidate: 3600 }
+  { revalidate: 3600, tags: ['feedbacks', 'board-comments'] }
 )
 
-export async function getFeedbacks(params: GetFeedbacksParams = {}) {
-  const { category, status, limit = 20, offset = 0 } = params
-  return getFeedbacksCached(category ?? null, status ?? null, limit, offset)
+export async function getFeedbacks(params: GetFeedbacksParams) {
+  const { locale, category, status, limit = 20, offset = 0 } = params
+  return getFeedbacksCached(locale, category ?? null, status ?? null, limit, offset)
 }

@@ -331,7 +331,7 @@ async function run() {
     if (FICTION_EPISODE) {
       return r.celeb_tier === 'fiction' && fictionRoster.has(r.slug) && !r.virtual_monologue
     }
-    // relation과 fiction은 기본 실존 배치에 섞지 않는다. fiction은 반드시 에피소드로 진입한다.
+    // fiction은 기본 실존 배치에 섞지 않고 반드시 에피소드로 진입한다.
     return (r.celeb_tier === 'light' || r.celeb_tier === 'full')
       && (!NO_FORCE || !r.virtual_monologue)
   })

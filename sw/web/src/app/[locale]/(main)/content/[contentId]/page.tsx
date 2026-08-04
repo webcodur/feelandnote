@@ -1,72 +1,73 @@
 /*
   파일명: /app/(main)/content/[contentId]/page.tsx
   기능: 콘텐츠 상세 페이지
-  책임: 서버에서 데이터를 프리페치하여 ContentDetailPage에 전달한다.
+  책임: 공개 본문을 ISR로 제공하고 로그인 개인화는 hydration 뒤에 보강한다.
 */ // ------------------------------
 
-import { cache } from "react";
-import { notFound } from "next/navigation";
-import ContentDetailPage from "@/components/features/content/ContentDetailPage";
-import { getContentDetail } from "@/actions/contents/getContentDetail";
-import type { CategoryId } from "@/constants/categories";
+import { cache, Suspense } from "react";
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
-import { getLocalizedAlternates } from "@/lib/seo";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import ContentDetailPage from "@/components/features/content/ContentDetailPage";
+import { getPublicContentDetail } from "@/actions/contents/getContentDetail";
+import { getAlternates } from "@/lib/seo";
+import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
 
-const getContentDetailCached = cache(getContentDetail);
+const getPublicContentDetailCached = cache(getPublicContentDetail);
 
 interface PageProps {
-  params: Promise<{ contentId: string }>;
-  searchParams: Promise<{ category?: string }>;
+  params: Promise<{ locale: string; contentId: string }>;
 }
 
-export async function generateMetadata(
-  { params, searchParams }: PageProps
-): Promise<Metadata> {
-  const { contentId } = await params;
-  const { category } = await searchParams;
+// Next segment config는 import 상수가 아니라 정적 분석 가능한 숫자 리터럴이어야 한다.
+export const revalidate = 604800;
 
-  try {
-    const data = await getContentDetailCached(contentId, category as CategoryId | undefined);
-    const t = await getTranslations("contentDetail");
-    const { title, description, thumbnail } = data.content;
-    const desc = description || t("metaFallback", { title });
+// 사이트맵의 수천 개 작품을 빌드 때 전부 만들지 않고 첫 요청에 ISR로 생성한다.
+export function generateStaticParams() {
+  return [];
+}
 
-    const canonicalUrl = `https://feelandnote.com/content/${contentId}`;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale, contentId } = await params;
+  setRequestLocale(locale);
 
-    // 감상문이 하나도 없는 콘텐츠는 외부에서 가져온 소개문만 남아 독창성이 없다 → 색인 제외.
-    // 링크는 따라가게 두어(follow) 감상문이 달린 다른 콘텐츠로 크롤러가 이동할 수 있게 한다.
-    // 현재 감상문은 전량 셀럽이 작성한 것이라 "감상문 유무 = 셀럽 감상문 유무"다.
-    // 셀럽 여부를 따로 가리지 않는 이유: 여기 실린 목록은 최근 10건까지만이라
-    // 일반 사용자 감상문이 앞을 채우면 셀럽 감상문이 밀려 사이트맵 등재 페이지를
-    // 색인 거부하는 모순이 생긴다. 감상문 존재 여부로 판별하면 그 모순이 원천 차단된다.
-    const hasReview = data.initialReviews.length > 0;
+  const data = await getPublicContentDetailCached(contentId, locale);
+  const t = await getTranslations({ locale, namespace: "contentDetail" });
+  const alternates = getAlternates(
+    `/content/${contentId}`,
+    locale === "en" ? "en" : "ko",
+  );
 
-    return {
-      title,
-      description: desc,
-      ...(!hasReview && { robots: { index: false, follow: true } }),
-      alternates: await getLocalizedAlternates(`/content/${contentId}`),
-      openGraph: {
-        title,
-        description: desc,
-        url: canonicalUrl,
-        images: thumbnail ? [thumbnail] : [],
-      },
-      twitter: {
-        card: "summary_large_image",
-        title,
-        description: desc,
-        images: thumbnail ? [thumbnail] : [],
-      },
-    };
-  } catch {
-    const t = await getTranslations("contentDetail");
+  if (!data) {
     return {
       title: t("notFoundTitle"),
       description: t("notFoundDescription"),
+      robots: { index: false, follow: true },
+      alternates,
     };
   }
+
+  const { title, description, thumbnail } = data.content;
+  const desc = description || t("metaFallback", { title });
+  const hasReview = data.initialReviews.length > 0;
+
+  return {
+    title,
+    description: desc,
+    ...(!hasReview && { robots: { index: false, follow: true } }),
+    alternates,
+    openGraph: {
+      title,
+      description: desc,
+      url: alternates.canonical,
+      images: thumbnail ? [thumbnail] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: desc,
+      images: thumbnail ? [thumbnail] : [],
+    },
+  };
 }
 
 /** 콘텐츠 타입 → schema.org 타입 매핑 */
@@ -80,35 +81,40 @@ function getSchemaType(type: string): string {
   }
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const { contentId } = await params;
-  const { category } = await searchParams;
+export default async function Page({ params }: PageProps) {
+  const { locale, contentId } = await params;
+  setRequestLocale(locale);
 
-  try {
-    const data = await getContentDetailCached(contentId, category as CategoryId | undefined);
-    const { content } = data;
+  const data = await getPublicContentDetailCached(contentId, locale);
 
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": getSchemaType(content.type),
-      name: content.title,
-      ...(content.creator && { author: { "@type": "Person", name: content.creator } }),
-      ...(content.description && { description: content.description }),
-      ...(content.thumbnail && { image: content.thumbnail }),
-      ...(content.releaseDate && { datePublished: content.releaseDate }),
-    };
-
+  // 검색 API에서 아직 DB에 적재되지 않은 작품으로 들어온 경우에는 category 쿼리를
+  // 클라이언트 폴백이 읽는다. 사이트맵의 DB 작품은 아래 정적 본문 경로만 탄다.
+  if (!data) {
     return (
-      <>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <ContentDetailPage initialData={data} />
-      </>
+      <Suspense fallback={<div className="mx-auto min-h-80 max-w-3xl animate-pulse rounded-xl bg-white/[0.02]" />}>
+        <ExternalContentDetailFallback contentId={contentId} />
+      </Suspense>
     );
-  } catch (err) {
-    console.error("[content/page] 콘텐츠 상세 로드 실패:", contentId, err);
-    notFound();
   }
+
+  const { content } = data;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": getSchemaType(content.type),
+    name: content.title,
+    ...(content.creator && { author: { "@type": "Person", name: content.creator } }),
+    ...(content.description && { description: content.description }),
+    ...(content.thumbnail && { image: content.thumbnail }),
+    ...(content.releaseDate && { datePublished: content.releaseDate }),
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ContentDetailPage initialData={data} />
+    </>
+  );
 }

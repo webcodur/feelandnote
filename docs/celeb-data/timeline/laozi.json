@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "scope": "active-deceased",
+  "slug": "laozi",
+  "identity": {
+    "name": "노자",
+    "nameEn": "Laozi",
+    "profession": "humanities_scholar",
+    "nationality": "CN",
+    "birthDate": "-571",
+    "deathDate": "-471",
+    "wikidataQid": "Q9333"
+  },
+  "events": [
+    {
+      "year": -571,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "초나라 쿠현에서 태어나다",
+      "titleEn": "Is born in Ku County in the state of Chu",
+      "description": "전통 연대는 노자가 기원전 571년에 초나라 쿠현 취런리에서 태어났다고 본다. 사마천은 그를 이곳 출신이라고 기록했지만, 정확한 출생 연도와 출생지의 현대 지명 비정은 학계에서 확정되지 않았다.",
+      "descriptionEn": "Traditional chronology places Laozi's birth in 571 BCE at Qurenli in Ku County, then part of the state of Chu. Sima Qian identifies him with this area, but modern scholarship has not established either the exact year or the modern location with certainty.",
+      "kind": "birth",
+      "placeName": "쿠현 취런리, 현재 허난성 루이현",
+      "placeNameEn": "Qurenli in Ku County, modern Luyi County, Henan",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Laozi"
+    },
+    {
+      "year": -501,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "공자와 만나 예와 도를 논하다",
+      "titleEn": "Meets Confucius and discusses ritual and the Way",
+      "description": "장자와 사마천의 기록은 공자가 노자를 만나 예에 관해 물었다고 전한다. 기원전 501년은 장자의 서술을 바탕으로 제안된 연도이며, 만남의 사실과 장소를 다르게 전하는 기록도 있다.",
+      "descriptionEn": "The Zhuangzi and Sima Qian's account relate that Confucius met Laozi and consulted him about ritual. The year 501 BCE is one proposed date derived from the Zhuangzi tradition, while other accounts disagree about both the meeting and its location.",
+      "kind": "meeting",
+      "placeName": "패, 현재 장쑤성 페이현 부근",
+      "placeNameEn": "Pei, near modern Pei County, Jiangsu",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Laozi"
+    },
+    {
+      "year": -471,
+      "yearEnd": null,
+      "month": null,
+      "day": null,
+      "title": "사망하다",
+      "titleEn": "Dies",
+      "description": "전통 연대는 노자가 기원전 471년에 사망했다고 본다. 장자에는 노자의 죽음과 조문을 다룬 이야기가 있지만 정확한 사망 연도와 장소를 확인할 독립적인 기록은 없다.",
+      "descriptionEn": "Traditional chronology places Laozi's death in 471 BCE. The Zhuangzi contains an account of his death and mourning, but no independent evidence establishes the precise year or place.",
+      "kind": "death",
+      "placeName": "",
+      "placeNameEn": "",
+      "lat": null,
+      "lng": null,
+      "placeQid": null,
+      "sourceUrl": "https://en.wikipedia.org/wiki/Laozi"
+    }
+  ]
+}

@@ -7,6 +7,7 @@
 | 화면 영역 | 테이블·필드 |
 |---|---|
 | 프로필 | `profiles.nickname/bio/title/virtual_monologue/cultural_journey/consumption_philosophy`와 각 `_en` |
+| 읽어보기 | `celeb_explanations.plain_text/interpretive_title/interpretive_text`와 각 `_en` |
 | 정량 지표 | `celeb_influence.{axis}_exp/_en` |
 | 인물 자질 | `celeb_persona.persona`의 `rationale_ko/en`, 각 `reason_ko/en` |
 | 한마디·대사 | `celeb_dialogues.lines/lines_en`, key·값 shape |
@@ -28,6 +29,7 @@
 ## 수정할 때
 
 - 감사 스크립트에 쓰기 기능을 추가하지 않는다.
+- 읽어보기 번역·조건부 반영은 `sw/web-bo/scripts/translate-celeb-readings.ts`를 따른다.
 - 프로필 독백은 `sw/web-bo/scripts/translate-virtual-monologue.ts`를 따른다.
 - 페르소나는 평면 컬럼이 아니라 `persona` JSONB가 원본이다.
 - 한마디는 `set_celeb_quote` RPC만 사용한다. `lines` 전체를 덮지 않는다.

@@ -1,16 +1,21 @@
+'use client'
+
 import { Link } from "@/i18n/navigation"
+import { useLocale } from 'next-intl'
 import { Eye, MessageSquare } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
-import { ko } from 'date-fns/locale'
 import type { FeedbackWithAuthor } from '@/types/database'
 import FeedbackCategoryBadge from './FeedbackCategoryBadge'
 import FeedbackStatusBadge from './FeedbackStatusBadge'
+import { formatBoardRelativeTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface FeedbackItemProps {
   feedback: FeedbackWithAuthor
 }
 
 export default function FeedbackItem({ feedback }: FeedbackItemProps) {
+  const locale = resolveLocale(useLocale())
+
   return (
     <Link
       href={`/agora/board/feedback/${feedback.id}`}
@@ -41,7 +46,7 @@ export default function FeedbackItem({ feedback }: FeedbackItemProps) {
             <span className="font-serif">{feedback.author.nickname}</span>
             <span className="text-accent-dim/50">·</span>
             <span>
-              {formatDistanceToNow(new Date(feedback.created_at), { addSuffix: true, locale: ko })}
+              {formatBoardRelativeTime(feedback.created_at, locale)}
             </span>
             <span className="text-accent-dim/50">·</span>
             <span className="flex items-center gap-1">

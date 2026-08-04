@@ -1,8 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
-import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { type ActionResult, success, handleSupabaseError } from '@/lib/errors'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
 
 export async function deleteNotice(id: string): Promise<ActionResult<null>> {
@@ -21,6 +21,8 @@ export async function deleteNotice(id: string): Promise<ActionResult<null>> {
   }
 
   revalidatePath('/agora/board/notice')
+  revalidatePath('/en/agora/board/notice')
+  revalidateTag('notices', { expire: 0 })
 
   return success(null)
 }

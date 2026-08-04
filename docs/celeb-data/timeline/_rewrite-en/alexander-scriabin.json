@@ -1,0 +1,132 @@
+{
+  "slug": "alexander-scriabin",
+  "nickname": "알렉산드르 스크랴빈",
+  "events": [
+    {
+      "id": "a25d687f-7ade-432c-bcc8-d34cd25c8c64",
+      "year": 1872,
+      "title": "모스크바에서 태어나다",
+      "before": "알렉산드르 니콜라예비치 스크랴빈은 모스크바의 러시아 귀족 가정에서 태어났다. 어머니 류보프 페트로브나는 피아니스트였으나 이듬해 사망했고, 친척들이 스크랴빈을 길렀다.",
+      "after": "Alexander Nikolayevich Scriabin is born into a Russian noble family in Moscow. His mother, the pianist Lyubov Petrovna, dies the following year, and his relatives raise him."
+    },
+    {
+      "id": "a7780de7-c210-4d08-8f01-a1860bedce73",
+      "year": 1888,
+      "title": "모스크바 음악원에서 공부하다",
+      "before": "스크랴빈은 모스크바 음악원에 입학해 바실리 사포노프에게 피아노를 배우고 세르게이 타네예프와 안톤 아렌스키에게 음악 이론과 작곡을 배웠다. 그는 피아노 연주 과정에 집중하면서 전문 음악가로 성장했다.",
+      "after": "Scriabin enters the Moscow Conservatory, where he studies piano with Vasily Safonov and theory and composition with Sergei Taneyev and Anton Arensky. He focuses on piano performance as he trains for a professional career."
+    },
+    {
+      "id": "04d99abb-d6df-400c-bb87-c6670223f2df",
+      "year": 1892,
+      "title": "피아노 부문 금메달을 받고 졸업하다",
+      "before": "스크랴빈은 사포노프의 피아노 과정에서 소금메달을 받고 모스크바 음악원을 졸업했다. 아렌스키와의 견해 차이로 작곡 과정은 마치지 않았지만, 같은 해 작품 1의 왈츠가 출판되며 작곡가 경력도 시작되었다.",
+      "after": "Scriabin graduates from the Moscow Conservatory with the Small Gold Medal in Safonov's piano class. Disagreements with Arensky keep him from completing the composition course, but the publication of his Waltz, Op. 1, begins his career as a composer that same year."
+    },
+    {
+      "id": "d77e4e24-e3eb-4e42-af3d-64de34d3e218",
+      "year": 1894,
+      "title": "첫 자작곡 연주회를 열다",
+      "before": "스크랴빈은 상트페테르부르크 음악원 소강당에서 자신의 작품을 연주하는 첫 공개 연주회를 열었다. 이 자리에 참석한 출판업자 미트로판 벨랴예프는 이후 그의 작품을 출판하고 활동을 지원하는 후원자가 되었다.",
+      "after": "At the Small Hall of the Saint Petersburg Conservatory, Scriabin gives his first public recital devoted to his own music. Publisher Mitrofan Belyayev attends, then becomes a patron and publishes his works."
+    },
+    {
+      "id": "93f8c4a1-ef72-40f1-9733-11ca5915b43c",
+      "year": 1896,
+      "title": "유럽에서 첫 해외 연주회를 열다",
+      "before": "스크랴빈은 파리를 시작으로 브뤼셀, 베를린, 헤이그, 암스테르담, 쾰른에서 자작곡 연주회를 열었다. 이 순회공연은 그의 활동 무대를 러시아 밖으로 넓히고 유럽 연주계에 이름을 알리는 계기가 되었다.",
+      "after": "Scriabin opens his first foreign concert tour in Paris, then performs his own music in Brussels, Berlin, The Hague, Amsterdam, and Cologne. The tour takes his career beyond Russia and brings his music to European audiences."
+    },
+    {
+      "id": "953d1b54-99b9-48e6-98ac-a4d53477c6a5",
+      "year": 1897,
+      "title": "피아노 협주곡을 초연하다",
+      "before": "스크랴빈은 오데사에서 사포노프가 지휘한 자신의 피아노 협주곡 작품 20 초연에서 독주를 맡았다. 이 작품은 그가 완성한 유일한 피아노 협주곡이며, 피아니스트와 관현악 작곡가로서의 활동을 연결했다.",
+      "after": "In Odessa, Scriabin plays the solo part in the premiere of his Piano Concerto, Op. 20, with Safonov conducting. It is the only piano concerto he completes and brings together his work as a pianist and an orchestral composer."
+    },
+    {
+      "id": "25c05cc5-6670-4c7a-93de-9ac6e4541c27",
+      "year": 1898,
+      "title": "모스크바 음악원 교수가 되다",
+      "before": "스크랴빈은 모스크바 음악원 피아노과 교수로 임용되어 학생들을 가르치기 시작했다. 안정된 직책을 얻은 그는 이 시기에 초기 피아노 작품에서 교향곡과 대규모 관현악 작품으로 활동 범위를 넓혔다.",
+      "after": "The Moscow Conservatory appoints Scriabin professor of piano, and he begins teaching there. The steady position allows him to move beyond his early piano pieces and write symphonies and other large orchestral works."
+    },
+    {
+      "id": "39e18a4a-4bea-498e-a786-d804b2bcf924",
+      "year": 1900,
+      "title": "교향곡 1번을 초연하다",
+      "before": "아나톨리 랴도프는 상트페테르부르크에서 스크랴빈의 교향곡 1번을 처음 지휘했으며, 합창이 포함된 마지막 악장은 제외되었다. 이 작품은 스크랴빈이 피아노곡 중심의 작곡가에서 대규모 관현악 작곡가로 나아갔음을 보여주었다.",
+      "after": "Anatoly Lyadov conducts the first performance of Scriabin's Symphony No. 1 in Saint Petersburg, without the choral finale. With this work, Scriabin moves beyond the piano music for which he is known and takes on large-scale orchestral writing."
+    },
+    {
+      "id": "63f96dd0-fd26-4265-bab3-7187d8af43a6",
+      "year": 1904,
+      "title": "스위스로 이주해 창작에 전념하다",
+      "before": "스크랴빈은 음악원 교수직을 떠난 뒤 가족과 함께 제네바 인근 베즈나로 이주했다. 그는 이곳에서 교향곡 3번의 관현악 편곡을 진행했고, 아내 베라와 별거한 뒤 타티야나 슐뢰처와 새로운 동반 관계를 시작했다.",
+      "after": "After leaving the Moscow Conservatory, Scriabin moves with his family to Vésenaz near Geneva. He orchestrates his Third Symphony there, separates from his wife Vera, and begins a new partnership with Tatiana Schloezer."
+    },
+    {
+      "id": "f1f2df08-e3bb-4a4d-90de-16beebadb8d6",
+      "year": 1905,
+      "title": "교향곡 3번을 파리에서 초연하다",
+      "before": "아르투르 니키시는 파리의 샤틀레 극장에서 스크랴빈의 교향곡 3번인 신성한 시를 초연했다. 이 작품은 철학적 구상을 관현악으로 전개한 중기 작품으로, 이후 환희의 시와 프로메테우스로 이어지는 방향을 분명히 했다.",
+      "after": "Arthur Nikisch conducts the premiere of Scriabin's Third Symphony, The Divine Poem, at the Théâtre du Châtelet in Paris. Scriabin sets his philosophical ideas in orchestral form, pointing toward The Poem of Ecstasy and Prometheus."
+    },
+    {
+      "id": "96d913fc-152b-489c-b676-edaa5567c8b1",
+      "year": 1906,
+      "title": "미국 순회공연에 나서다",
+      "before": "스크랴빈은 뉴욕에 도착한 뒤 신시내티, 시카고, 디트로이트 등에서 연주회를 열었다. 타티야나 슐뢰처와의 혼인 외 관계가 공개적으로 논란이 되면서 순회공연은 1907년 3월 조기에 끝났다.",
+      "after": "Scriabin arrives in New York and performs in cities including Cincinnati, Chicago, and Detroit. Public controversy over his relationship with Tatiana Schloezer, whom he has not married, brings the tour to an early end in March 1907."
+    },
+    {
+      "id": "b61d45ea-a4f4-47d8-b957-925264b96777",
+      "year": 1907,
+      "title": "환희의 시와 피아노 소나타 5번을 완성하다",
+      "before": "스크랴빈은 로잔에서 환희의 시의 총보를 완성해 출판사로 보냈다. 이어 피아노 소나타 5번을 짧은 기간에 완성하면서 전통적인 조성과 다악장 형식에서 더 멀어진 새로운 작곡 언어를 확립했다.",
+      "after": "In Lausanne, Scriabin finishes the score of The Poem of Ecstasy and sends it to his publisher. He then writes Piano Sonata No. 5 in a short period, moving further from conventional tonality and the multi-movement form."
+    },
+    {
+      "id": "619d4e71-fcb9-4716-b053-84b7dbf49576",
+      "year": 1908,
+      "title": "환희의 시를 뉴욕에서 초연하다",
+      "before": "모데스트 알트슐레르는 뉴욕에서 러시아 교향악단을 지휘해 환희의 시를 초연했다. 이 작품은 짧은 동기와 변화하는 화성을 중심으로 구성되어 스크랴빈의 후기 관현악 양식을 국제 무대에 제시했다.",
+      "after": "Modest Altschuler leads the Russian Symphony Orchestra in the New York premiere of The Poem of Ecstasy. Short motifs and shifting harmonies drive the work, presenting Scriabin's mature orchestral style to an international audience."
+    },
+    {
+      "id": "c11750dd-1905-4e5a-b9ff-7ad162093bc3",
+      "year": 1910,
+      "title": "모스크바로 돌아와 정착하다",
+      "before": "스크랴빈은 여러 해 동안 서유럽을 오가며 생활한 뒤 타티야나와 자녀들을 데리고 모스크바로 돌아왔다. 그는 러시아를 다시 활동의 중심으로 삼고 프로메테우스를 완성하며 후기 작품 창작과 연주 활동을 이어갔다.",
+      "after": "After several years of moving around Western Europe, Scriabin returns to Moscow with Tatiana and their children. He makes Russia the center of his work again, completes Prometheus, and continues to compose and perform his late music."
+    },
+    {
+      "id": "53ef13dd-0a5d-4cd9-bad5-2311180659ee",
+      "year": 1911,
+      "title": "프로메테우스를 초연하다",
+      "before": "세르게이 쿠세비츠키는 모스크바에서 스크랴빈이 피아노 독주를 맡은 프로메테우스를 초연했다. 초연에서는 빛 건반의 색채 연출이 구현되지 않았지만, 작품은 음악과 빛을 결합하려는 그의 구상을 악보에 포함했다.",
+      "after": "Serge Koussevitzky conducts the Moscow premiere of Prometheus, with Scriabin at the piano. The planned color-light effects are not used at the premiere, though the score includes his design for combining music and light."
+    },
+    {
+      "id": "53e2b515-274c-4cb6-acf9-1bac92b5783b",
+      "year": 1913,
+      "title": "후기 피아노 소나타들을 완성하다",
+      "before": "스크랴빈은 카시라 인근 페트롭스코예 영지에서 피아노 소나타 8번, 9번, 10번을 포함한 작품 66부터 70까지를 완성했다. 그는 같은 시기에 미완성 종합예술 계획인 예비 행위의 시적 원고도 쓰기 시작했다.",
+      "after": "At the Petrovskoye estate near Kashira, Scriabin completes Opp. 66 through 70, including Piano Sonatas Nos. 8, 9, and 10. He also begins the poetic text for the Prefatory Action, part of a multimedia project he never realizes."
+    },
+    {
+      "id": "e87e3551-8991-4fa5-8cfb-a7820095a5c5",
+      "year": 1914,
+      "title": "마지막 피아노 작품들을 완성하다",
+      "before": "스크랴빈은 포돌스크 인근 그리브노에서 불꽃을 향하여와 작품 73의 두 춤곡, 작품 74의 다섯 전주곡 등 마지막 피아노 작품들을 완성했다. 그는 이와 함께 예비 행위의 글과 음악을 계속 작업했으나 완성하지 못했다.",
+      "after": "At Grivno near Podolsk, Scriabin finishes his last piano works. They include Vers la flamme, the two dances of Op. 73, and the five preludes of Op. 74. He continues writing the text and music for the Prefatory Action but does not finish it."
+    },
+    {
+      "id": "25dc7dcf-7c14-4f71-b49a-4e8a8df90798",
+      "year": 1915,
+      "title": "모스크바에서 사망하다",
+      "before": "스크랴빈은 윗입술에 생긴 감염이 패혈증으로 악화된 뒤 모스크바의 자택에서 사망했다. 그는 예비 행위를 비롯한 대규모 종합예술 계획을 완성하지 못한 채 43세로 생을 마쳤다.",
+      "after": "An infection on Scriabin's upper lip develops into septicemia, and he dies at his home in Moscow. He is 43 and leaves the Prefatory Action and his larger multimedia project unfinished."
+    }
+  ]
+}

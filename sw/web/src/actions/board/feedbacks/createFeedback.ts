@@ -1,19 +1,25 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { FeedbackCategory, FeedbackWithAuthor } from '@/types/database'
+import { isLocale, type Locale } from '@/types/locale'
 
 interface CreateFeedbackParams {
+  locale: Locale
   category: FeedbackCategory
   title: string
   content: string
 }
 
 export async function createFeedback(params: CreateFeedbackParams): Promise<ActionResult<FeedbackWithAuthor>> {
-  const { category, title, content } = params
+  const { locale, category, title, content } = params
   const supabase = await createClient()
+
+  if (!isLocale(locale)) {
+    return failure('VALIDATION_ERROR')
+  }
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {
@@ -42,7 +48,8 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
       author_id: user.id,
       category,
       title: title.trim(),
-      content: content.trim()
+      content: content.trim(),
+      locale
     })
     .select(`
       *,
@@ -55,6 +62,8 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
   }
 
   revalidatePath('/agora/board/feedback')
+  revalidatePath('/en/agora/board/feedback')
+  revalidateTag('feedbacks', { expire: 0 })
 
   return success(data as FeedbackWithAuthor)
 }

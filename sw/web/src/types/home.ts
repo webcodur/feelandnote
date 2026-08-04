@@ -58,7 +58,7 @@ export interface CelebProfile {
   has_voice?: boolean  // R2 음성 파일 보유 여부
   voice_v?: number  // 음성 버전 (CDN 캐시 키)
   voice_speed?: number  // 음성 재생 속도 (기본 1.0)
-  celeb_tier?: CelebTier  // full: 감상 기록 보유, 나머지 등급은 연결용 최소 인물
+  celeb_tier?: CelebTier  // full: 감상 기록 보유, light: 실존 인물, fiction: 허구 인물
   /* 아래 4종은 trending 정렬로 받은 목록에만 담긴다 (조회수 안내 모달용) */
   /** 최근 기간(기본 30일) 조회수 */
   recent_views?: number | null

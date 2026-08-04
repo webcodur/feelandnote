@@ -5,8 +5,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { SlidersHorizontal } from "lucide-react";
 import { useContentLibrary } from "./useContentLibrary";
@@ -34,15 +33,21 @@ export default function ContentLibrary({
   hideControlWrapper = false,
   initialContents,
 }: ContentLibraryProps) {
-  const searchParams = useSearchParams();
   const locale = useLocale();
-  const initialSearchQuery = searchParams.get("q") || "";
-  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, initialSearchQuery, defaultViewMode, defaultPageSize, initialContents });
+  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, defaultViewMode, defaultPageSize, initialContents });
   const isViewer = lib.isViewer;
   const t = useTranslations("celebPage");
   const tArchive = useTranslations("archiveSearch");
   const resolvedEmptyMessage = emptyMessage ?? tArchive("empty");
   const [isControlsExpanded, setIsControlsExpanded] = useState(false);
+  const applySearchQuery = lib.applySearchQuery;
+
+  // URL 검색어는 hydration 뒤에만 반영한다. useSearchParams를 서버 렌더 경로에서
+  // 제거해 셀럽 서가의 초기 목록·감상문이 정적 HTML에 그대로 남게 한다.
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search).get("q") ?? "";
+    if (query) applySearchQuery(query);
+  }, [applySearchQuery]);
 
   const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
 

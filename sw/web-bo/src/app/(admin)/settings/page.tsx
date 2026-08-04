@@ -273,22 +273,33 @@ export default async function SettingsPage() {
 
           {/* Vercel 제한 안내 */}
           <div className="p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-            <h4 className="text-sm font-semibold text-text-primary mb-2">⚡ Vercel 무료 플랜 제한 (현재 사용 중)</h4>
+            <h4 className="text-sm font-semibold text-text-primary mb-2">⚡ Vercel Hobby 운영 한도</h4>
             <div className="space-y-1.5 text-xs text-text-secondary">
-              <p>• <strong>대역폭</strong>: 월 100GB (약 10만 방문자)</p>
-              <p>• <strong>서버리스 함수</strong>: 월 15만 회 호출, 1,000시간 실행</p>
-              <p>• <strong>실행 제한</strong>: 함수당 10초, 최대 50MB</p>
-              <p className="pt-1 text-orange-400">
-                ⚠️ 트래픽 증가 시 Vercel Pro (월 $20) 업그레이드 필요할 수 있음
-              </p>
-              <p className="pt-1">
+              <p>• <strong>Fast Data Transfer</strong>: 100 GB / 최근 30일</p>
+              <p>• <strong>Fast Origin Transfer</strong>: 10 GB / 최근 30일</p>
+              <p>• <strong>Fluid Active CPU</strong>: 4시간 / 최근 30일</p>
+              <p>• <strong>Function Invocations</strong>: 1,000,000회 / 최근 30일</p>
+              <p>• <strong>Edge Requests</strong>: 1,000,000회 / 최근 30일</p>
+              <div className="mt-2 rounded border border-red-400/25 bg-red-500/[0.06] p-2 text-[11px] text-red-300">
+                2026-08-04 실측: Origin 10.12/10 GB, CPU 7시간 35분/4시간. 방문자 증가가 아니라
+                공개 HTML의 동적 SSR·크롤러 반복 요청이 주원인이며, Hobby는 초과 시 프로젝트가 일시 중지될 수 있다.
+              </div>
+              <p className="pt-1 flex flex-wrap gap-x-3 gap-y-1">
                 <a
-                  href="https://vercel.com/pricing"
+                  href="https://vercel.com/dashboard/usage"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-400 hover:underline"
                 >
-                  Vercel 요금제 보기 →
+                  Usage 확인 →
+                </a>
+                <a
+                  href="https://vercel.com/docs/manage-cdn-usage"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:underline"
+                >
+                  산정 기준 →
                 </a>
               </p>
             </div>

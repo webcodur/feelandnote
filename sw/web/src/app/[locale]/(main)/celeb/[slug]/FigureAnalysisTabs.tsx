@@ -70,7 +70,7 @@ export default function FigureAnalysisTabs({
             <PersonaSection
               persona={personaData.targetPersona}
               personaJsonb={personaData.targetPersonaJsonb}
-              similarCelebs={personaData.similarCelebs}
+              matchesByCategory={personaData.matchesByCategory}
             />
           ) : (
             <UnavailableSectionGuide item={personaItem} />

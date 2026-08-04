@@ -101,8 +101,8 @@
       "explore": "Explore",
       "noCountryFigures": "No figures are registered for this country.",
       "personaQuickView": {
-        "loading": "Analyzing figure metrics...",
-        "analysis": "Analysis",
+        "loading": "Analyzing the spectrum...",
+        "analysis": "Spectrum Overview",
         "visitLibrary": "View {name}'s records",
         "exploreJourney": "Explore their cultural journey and tastes"
       },
@@ -136,6 +136,8 @@
         "influence": "Influence {score}",
         "noResults": "No results found.",
         "bucketCount": "{count} figures",
+        "previousBucket": "Previous range",
+        "nextBucket": "Next range",
         "topPercent": "Top {percentile}%",
         "runnersUp": "Runners-up",
         "assessment": "Assessment",
@@ -154,8 +156,8 @@
       "personaList": "People",
       "professionUnknown": "Unknown",
       "personaLoading": "Loading info...",
-      "personaTitle": "Persona Analysis",
-      "personaNoPersona": "No persona data",
+      "personaTitle": "16-Axis Spectrum",
+      "personaNoPersona": "No spectrum data",
       "personaNoSelection": "No person available to select.",
       "personaFigure": "Figure",
       "auraTitle": {
@@ -208,7 +210,7 @@
       "quickNav": "Quick Navigation",
       "navCelebs": "Figures",
       "navTopByType": "Category Champions",
-      "navPersona": "Persona",
+      "navPersona": "Spectrum",
       "navFeed": "Feed",
       "navFaction": "Faction",
       "navDirectory": "Directory",
@@ -289,8 +291,8 @@
       "sharedBy": "Appreciated by"
     },
     "persona": {
-      "metaTitle": "Extraordinary Figures | Explore",
-      "metaDescription": "Meet figures with extreme tendencies across 16 axes — reading volume, diversity, depth, and more."
+      "metaTitle": "16-Axis Spectrum | Explore",
+      "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition."
     },
     "timelinePage": {
       "metaTitle": "Celebrity Timeline by Country | Explore",

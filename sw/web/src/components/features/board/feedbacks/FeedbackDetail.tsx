@@ -2,10 +2,8 @@
 
 import { useState } from 'react'
 import { Link, useRouter } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ArrowLeft, Trash2, Edit3 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ko } from 'date-fns/locale'
 import { Button } from '@/components/ui'
 import type { FeedbackWithDetails, BoardCommentWithAuthor } from '@/types/database'
 import { deleteFeedback } from '@/actions/board/feedbacks'
@@ -13,6 +11,8 @@ import { LaurelIcon } from '@/components/ui/icons/neo-pantheon/LaurelIcon'
 import FeedbackCategoryBadge from './FeedbackCategoryBadge'
 import FeedbackStatusBadge from './FeedbackStatusBadge'
 import CommentSection from '../shared/CommentSection'
+import { formatBoardDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 
 interface FeedbackDetailProps {
   feedback: FeedbackWithDetails
@@ -32,6 +32,7 @@ export default function FeedbackDetail({
   const router = useRouter()
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [isDeleting, setIsDeleting] = useState(false)
 
   const canEdit = isAuthor && feedback.status === 'PENDING'
@@ -107,7 +108,7 @@ export default function FeedbackDetail({
         <div className="flex items-center gap-3 text-sm pb-4 border-b border-accent-dim/20">
           <span className="font-serif text-text-secondary">{feedback.author.nickname}</span>
           <span className="text-accent-dim/50">·</span>
-          <span>{format(new Date(feedback.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}</span>
+          <span>{formatBoardDateTime(feedback.created_at, locale)}</span>
         </div>
       </div>
 
@@ -135,7 +136,7 @@ export default function FeedbackDetail({
             <span className="text-xs font-cinzel tracking-wider text-accent">OFFICIAL RESPONSE</span>
             {feedback.resolved_at && (
               <span className="text-xs ml-2">
-                {format(new Date(feedback.resolved_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
+                {formatBoardDateTime(feedback.resolved_at, locale)}
               </span>
             )}
           </div>

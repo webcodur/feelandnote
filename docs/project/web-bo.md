@@ -265,7 +265,7 @@ pnpm dev:bo
 | --- | --- | --- | --- |
 | `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `profiles` |
 | `/api-usage` | API 사용량 | 외부 API 키 호출 로그(50건 단위), 키·성공여부 필터, 성공률·키별·동작별 통계 | `api_keys`, `api_key_usage` |
-| `/settings` | 설정 | Supabase 프로젝트·DB·스토리지 사용량, Egress·Vercel 한도 안내와 외부 대시보드 링크 | Supabase 시스템 통계(RPC) |
+| `/settings` | 설정 | Supabase DB·스토리지·egress와 Vercel Fast Data/Fast Origin·Fluid CPU·호출 한도, 외부 Usage 링크 | Supabase 시스템 통계(RPC) + 운영 기준값 |
 
 ## API 라우트
 

@@ -1,15 +1,15 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Pencil, Trash2 } from 'lucide-react'
-import { format } from 'date-fns'
-import { ko } from 'date-fns/locale'
 import { Button, FormattedText } from '@/components/ui'
 import type { FreePostComment } from '@/types/database'
 import { createFreeComment, deleteFreeComment, updateFreeComment } from '@/actions/board/free'
 import { freeDisplayName } from '@/lib/board/freeDisplay'
 import { MessageTabletIcon } from '@/components/ui/icons/neo-pantheon/MessageTabletIcon'
+import { formatBoardDateTime } from '@/lib/board/boardDate'
+import { resolveLocale } from '@/types/locale'
 import { loadRememberedNickname, rememberNickname } from './useFreePostDraft'
 import PasswordPromptModal from './PasswordPromptModal'
 import FreeAvatar from './FreeAvatar'
@@ -39,6 +39,7 @@ export default function FreeCommentSection({
 }: FreeCommentSectionProps) {
   const t = useTranslations('board')
   const tError = useTranslations('actionErrors')
+  const locale = resolveLocale(useLocale())
   const [comments, setComments] = useState(initialComments)
   const [nickname, setNickname] = useState('')
   const [newComment, setNewComment] = useState('')
@@ -94,8 +95,8 @@ export default function FreeCommentSection({
     try {
       const result = await createFreeComment(
         isLoggedIn
-          ? { postId, content: newComment, anonymous, nickname: anonymous ? nickname.trim() || undefined : undefined }
-          : { postId, content: newComment, nickname: nickname.trim() || undefined, password },
+          ? { postId, locale, content: newComment, anonymous, nickname: anonymous ? nickname.trim() || undefined : undefined }
+          : { postId, locale, content: newComment, nickname: nickname.trim() || undefined, password },
       )
 
       if (result.success) {
@@ -225,7 +226,7 @@ export default function FreeCommentSection({
                     {freeDisplayName(comment, t('free.anonymous'))}
                   </span>
                   <span className="text-xs">
-                    {format(new Date(comment.created_at), 'yyyy.MM.dd HH:mm', { locale: ko })}
+                    {formatBoardDateTime(comment.created_at, locale)}
                   </span>
                 </div>
                 {editingId === comment.id ? (
