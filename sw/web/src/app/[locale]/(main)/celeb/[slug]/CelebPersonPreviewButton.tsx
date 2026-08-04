@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
@@ -14,6 +14,8 @@ interface CelebPersonPreviewButtonProps {
   size?: "compact" | "large";
   children?: ReactNode;
   className?: string;
+  avatarFrameClassName?: string;
+  avatarFrameStyle?: CSSProperties;
 }
 
 const avatarSizeClass = {
@@ -34,6 +36,8 @@ export default function CelebPersonPreviewButton({
   size = "compact",
   children,
   className,
+  avatarFrameClassName,
+  avatarFrameStyle,
 }: CelebPersonPreviewButtonProps) {
   return (
     <button
@@ -42,7 +46,7 @@ export default function CelebPersonPreviewButton({
       disabled={loading}
       aria-busy={loading}
       className={cn(
-        "group flex w-20 cursor-pointer flex-col items-center gap-1.5 rounded-[2px] border border-transparent px-1 py-1 text-center hover:border-accent/30 hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait md:w-24",
+        "group flex w-20 cursor-pointer flex-col items-center gap-1.5 rounded-md border border-transparent px-1 py-1 text-center hover:border-accent/30 hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait md:w-24",
         className,
       )}
     >
@@ -50,7 +54,9 @@ export default function CelebPersonPreviewButton({
         className={cn(
           "relative overflow-hidden rounded-full bg-gradient-to-b from-accent/25 to-transparent p-[2px] shadow-lg group-hover:from-accent/70 group-hover:to-accent/35",
           avatarSizeClass[size],
+          avatarFrameClassName,
         )}
+        style={avatarFrameStyle}
       >
         <span className="relative block h-full w-full overflow-hidden rounded-full border border-white/10 bg-bg-secondary group-hover:border-accent/35">
           {loading ? (
@@ -77,8 +83,10 @@ export default function CelebPersonPreviewButton({
       </span>
 
       <span className="w-full space-y-0.5 text-center">
-        <span className="block text-balance break-keep font-serif text-xs font-bold leading-tight text-text-primary group-hover:text-accent">
-          {name}
+        <span className="flex h-10 w-full items-center justify-center text-center">
+          <span className="line-clamp-2 text-balance break-keep font-serif text-xs font-bold leading-tight text-text-primary group-hover:text-accent">
+            {name}
+          </span>
         </span>
         {children}
       </span>

@@ -285,6 +285,7 @@ export default function CelebRecordSections({
               initialTotal={guestbookTotal}
               hideEmptyState
               isFiction={isFiction}
+              variant="celeb"
             />
           </SectionSurface>
         </section>

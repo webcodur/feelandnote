@@ -111,7 +111,10 @@ export function FigureLegend({
           className="mt-[3px] h-2 w-2 shrink-0 rounded-full border border-black/30"
           style={{ backgroundColor: SUBJECT_COLOR }}
         />
-        <span className="text-balance break-keep text-center leading-4">
+        <span
+          className="rounded-[3px] border px-1.5 py-0.5 text-center leading-4"
+          style={{ borderColor: `${SUBJECT_COLOR}66` }}
+        >
           {subjectName}
         </span>
       </span>
@@ -120,7 +123,10 @@ export function FigureLegend({
           className="mt-[3px] h-2 w-2 shrink-0 rotate-45 border border-black/30"
           style={{ backgroundColor: CANDIDATE_COLOR }}
         />
-        <span className="text-balance break-keep text-center leading-4">
+        <span
+          className="rounded-[3px] border px-1.5 py-0.5 text-center leading-4"
+          style={{ borderColor: `${CANDIDATE_COLOR}66` }}
+        >
           {candidateName}
         </span>
       </span>
@@ -161,7 +167,8 @@ export function AxisReadout({
     <div className="mx-auto grid w-full max-w-[390px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-t border-white/[0.07] px-2 pb-1 pt-2.5">
       <div className="min-w-0 text-left">
         <span
-          className="block truncate text-[8px] font-medium text-text-secondary/60"
+          className="inline-block max-w-full truncate rounded-[3px] border px-1.5 py-0.5 text-[8px] font-medium text-text-secondary/70"
+          style={{ borderColor: `${SUBJECT_COLOR}66` }}
           title={subjectName}
         >
           {subjectName}
@@ -178,7 +185,8 @@ export function AxisReadout({
       </span>
       <div className="min-w-0 text-right">
         <span
-          className="block truncate text-[8px] font-medium text-text-secondary/60"
+          className="inline-block max-w-full truncate rounded-[3px] border px-1.5 py-0.5 text-[8px] font-medium text-text-secondary/70"
+          style={{ borderColor: `${CANDIDATE_COLOR}66` }}
           title={candidateName}
         >
           {candidateName}

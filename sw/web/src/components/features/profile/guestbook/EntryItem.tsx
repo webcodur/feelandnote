@@ -25,7 +25,7 @@ function cn(...classes: (string | undefined | null | false)[]) {
 
 const DATE_LOCALES = { ko, en: enUS } as const;
 
-export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onUpdate }: EntryItemProps) {
+export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onUpdate, variant = "default" }: EntryItemProps) {
   const t = useTranslations("profileSection.guestbook");
   const locale = useLocale();
   const [showMenu, setShowMenu] = useState(false);
@@ -38,6 +38,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
   const isAuthor = !!currentUserId && currentUserId === entry.author_id;
   const canDelete = isOwner || isAuthor;
   const canEdit = isAuthor;
+  const isCeleb = variant === "celeb";
 
   // 비밀글이고 주인/작성자가 아니면 내용 숨김
   const isHiddenPrivate = entry.is_private && !isOwner && !isAuthor;
@@ -52,10 +53,15 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
   };
 
   return (
-    <div className="relative group py-3 first:pt-0 last:pb-0">
+    <div className={cn(
+      "group relative",
+      isCeleb
+        ? "rounded-md border border-white/[0.06] bg-black/10 p-3 sm:p-4"
+        : "py-3 first:pt-0 last:pb-0",
+    )}>
       <div className="flex items-start gap-3 relative z-10">
         {/* 아바타 */}
-        <div className="relative w-7 h-7 flex-shrink-0 mt-0.5">
+        <div className={cn("relative mt-0.5 flex-shrink-0", isCeleb ? "h-8 w-8" : "h-7 w-7")}>
           <div className="relative w-full h-full rounded-full border border-white/10 bg-bg-secondary overflow-hidden">
             {entry.author.avatar_url ? (
               <Image
@@ -123,7 +129,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
               </div>
             </div>
           ) : (
-            <p className={`whitespace-pre-wrap leading-relaxed text-[13px] font-sans ${isHiddenPrivate ? "" : "text-text-secondary/80"}`}>
+            <p className={`whitespace-pre-wrap font-sans text-[13px] leading-relaxed ${isHiddenPrivate ? "" : "text-text-secondary/85"}`}>
               {isHiddenPrivate ? t("privateMessage") : entry.content}
             </p>
           )}
@@ -144,7 +150,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
 
         {/* 메뉴 - 우측 상단 배치 */}
         {(canDelete || canEdit) && !isEditing && (
-          <div className="relative ml-1 opacity-0 group-hover:opacity-100 transition-opacity" ref={moreButtonRef}>
+          <div className={cn("relative ml-1", isCeleb ? "opacity-60 hover:opacity-100" : "opacity-0 group-hover:opacity-100")} ref={moreButtonRef}>
             <Button
               unstyled
               onClick={() => {
@@ -154,7 +160,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 }
                 setShowMenu(!showMenu);
               }}
-              className="p-1 hover:text-accent hover:bg-white/5 rounded transition-all"
+              className="rounded p-1 hover:bg-white/5 hover:text-accent"
             >
               <MoreVertical size={14} />
             </Button>
@@ -175,7 +181,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                         setIsEditing(true);
                         setShowMenu(false);
                       }}
-                      className="w-full px-4 py-2 text-start text-xs font-bold text-text-secondary hover:bg-white/5 hover:text-accent flex items-center gap-3 transition-colors"
+                      className="flex w-full items-center gap-3 px-4 py-2 text-start text-xs font-bold text-text-secondary hover:bg-white/5 hover:text-accent"
                     >
                       <Edit3 size={12} className="opacity-60" />
                       {t("edit")}
@@ -188,7 +194,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                         onDelete(entry.id);
                         setShowMenu(false);
                       }}
-                      className="w-full px-4 py-2 text-start text-xs font-bold text-red-500/70 hover:bg-red-500/5 hover:text-red-500 flex items-center gap-3 transition-colors"
+                      className="flex w-full items-center gap-3 px-4 py-2 text-start text-xs font-bold text-red-500/70 hover:bg-red-500/5 hover:text-red-500"
                     >
                       <Trash2 size={12} className="opacity-60" />
                       {t("delete")}

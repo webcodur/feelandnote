@@ -96,9 +96,7 @@ export default function YoutubeHeroOverlay({
       >
         {active ? (
           <div className="space-y-4 p-5 sm:p-6">
-            <p className="font-cinzel text-[10px] font-semibold tracking-[0.24em] text-accent">
-              {active.index}
-            </p>
+
             <p className="font-serif text-lg leading-snug text-text-primary">
               {active.tagline}
             </p>
@@ -198,9 +196,7 @@ function SeriesZone({ series, openSeriesLabel, onOpen, side }: SeriesZoneProps) 
 
       {/* 면 한가운데 — 재생 버튼과 같은 높이에 나란히 선다 */}
       <span className="absolute left-1/2 top-[46%] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-        <span className="font-cinzel text-[8px] font-semibold tracking-[0.2em] text-accent sm:text-[10px]">
-          {series.index}
-        </span>
+
         <span className="mt-1 font-serif text-base font-semibold text-white group-hover:text-accent sm:text-xl">
           {series.title}
         </span>

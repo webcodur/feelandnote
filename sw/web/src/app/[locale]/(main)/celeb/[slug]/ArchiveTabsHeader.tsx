@@ -17,6 +17,8 @@ interface Props<T extends string> {
   onChange: (key: T) => void;
   columnsClassName: string;
   ariaLabel: string;
+  hideIconsOnMobile?: boolean;
+  mobileTextClassName?: string;
 }
 
 export default function ArchiveTabsHeader<T extends string>({
@@ -25,6 +27,8 @@ export default function ArchiveTabsHeader<T extends string>({
   onChange,
   columnsClassName,
   ariaLabel,
+  hideIconsOnMobile = false,
+  mobileTextClassName,
 }: Props<T>) {
   const isDense = tabs.length >= 3;
 
@@ -72,17 +76,18 @@ export default function ArchiveTabsHeader<T extends string>({
             onFocus={() => setHoveredIndex(index)}
             onBlur={() => setHoveredIndex(null)}
             className={cn(
-              "relative flex items-center justify-center px-1 text-center text-xl font-medium leading-none sm:h-16 sm:flex-row sm:gap-2.5 sm:px-2 sm:text-[22px]",
+              "relative flex items-center justify-center px-1 text-center text-base font-medium leading-none sm:h-16 sm:flex-row sm:gap-2.5 sm:px-2 sm:text-[22px]",
+              mobileTextClassName,
               isDense
-                ? "h-16 flex-col gap-1"
-                : "h-14 flex-row gap-1.5",
+                ? "h-12 flex-col gap-1"
+                : "h-12 flex-row gap-1.5",
               isActive ? "text-accent" : "",
             )}
           >
             <Icon
               size={20}
               strokeWidth={1.8}
-              className="shrink-0"
+              className={cn("shrink-0", hideIconsOnMobile && "hidden sm:block")}
               aria-hidden
             />
             <span className="min-w-0 truncate leading-none">{item.label}</span>

@@ -58,6 +58,8 @@ export default function FigureAnalysisTabs({
         onChange={setTab}
         columnsClassName="grid-cols-2"
         ariaLabel={t("analysis")}
+        hideIconsOnMobile
+        mobileTextClassName="text-lg"
       />
 
       <div

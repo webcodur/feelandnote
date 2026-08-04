@@ -26,20 +26,59 @@
 }
 
 .profileTitle {
+  --atlas-ruler-color: color-mix(in srgb, var(--color-accent-dim) 48%, transparent);
+  --atlas-ruler-accent: color-mix(in srgb, var(--color-accent) 72%, transparent);
+
   display: flex;
-  margin: 0 3px 8px;
-  padding: 2px 0 8px;
+  margin: 0 3px 10px;
+  padding: 2px 0 10px;
   align-items: center;
   justify-content: center;
   gap: 7px;
+  border-bottom: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 34%, transparent);
   color: color-mix(in srgb, var(--color-accent) 76%, var(--color-text-primary));
 }
 
 .profileTitle::before,
 .profileTitle::after {
   flex: 1;
-  border-top: 1px solid color-mix(in srgb, var(--color-accent-dim) 30%, transparent);
+  height: 11px;
   content: "";
+  opacity: 0.78;
+}
+
+.profileTitle::before {
+  background:
+    linear-gradient(
+      45deg,
+      transparent 37%,
+      var(--atlas-ruler-accent) 38% 62%,
+      transparent 63%
+    ) left center / 6px 6px no-repeat,
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 6px,
+      var(--atlas-ruler-color) 6px 7px,
+      transparent 7px 12px
+    ) right center / calc(100% - 8px) 7px no-repeat,
+    linear-gradient(var(--atlas-ruler-color), var(--atlas-ruler-color)) right center / calc(100% - 4px) 1px no-repeat;
+}
+
+.profileTitle::after {
+  background:
+    linear-gradient(
+      45deg,
+      transparent 37%,
+      var(--atlas-ruler-accent) 38% 62%,
+      transparent 63%
+    ) right center / 6px 6px no-repeat,
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 6px,
+      var(--atlas-ruler-color) 6px 7px,
+      transparent 7px 12px
+    ) left center / calc(100% - 8px) 7px no-repeat,
+    linear-gradient(var(--atlas-ruler-color), var(--atlas-ruler-color)) left center / calc(100% - 4px) 1px no-repeat;
 }
 
 .profileEmblem {
@@ -60,14 +99,29 @@
 .profileNav {
   position: relative;
   display: flex;
+  padding: 5px 4px;
   flex-direction: column;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--material-edge, var(--color-accent-dim)) 46%, transparent);
+  border-radius: 1px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-accent) 4%, transparent),
+      transparent 24%
+    ),
+    color-mix(in srgb, var(--material-panel, var(--color-bg-card)) 76%, black 24%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, black 30%, transparent),
+    inset 0 12px 28px color-mix(in srgb, black 18%, transparent),
+    0 1px 0 color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 
 .profileNavSpot {
   position: absolute;
   z-index: 0;
   top: 0;
-  inset-inline: 2px;
+  inset-inline: 4px;
   border-block: 1px solid color-mix(in srgb, var(--color-accent) 34%, transparent);
   background: linear-gradient(
     90deg,
@@ -138,6 +192,10 @@
   color: var(--color-accent);
 }
 
+.profileNavItem:hover {
+  background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+}
+
 .profileNavItemActive {
   font-weight: 900;
   text-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 20%, transparent);
@@ -163,19 +221,24 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    inset-inline-end: calc(100% + 24px);
+    inset-inline-start: var(
+      --celeb-atlas-center-inline,
+      calc((100% - min(calc(100% - 32px), 1024px)) / 4)
+    );
     display: block;
-    width: max-content;
-    max-width: calc((100vw - 1024px) / 2 - 30px);
+    width: var(--celeb-atlas-width, 160px);
+    transform: translateX(-50%);
   }
 
   .profileRail {
     position: sticky;
-    top: 7rem;
-    max-height: calc(100dvh - 8rem);
+    top: calc(50dvh + 2rem);
+    width: 100%;
+    max-height: calc(100dvh - 5rem);
     overflow-y: auto;
     overflow-anchor: none;
     scrollbar-width: none;
+    transform: translateY(-50%);
   }
 
   .profileRail::-webkit-scrollbar {

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { ChevronLeft, ChevronRight, MapPin, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, MapPin, X } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import { Z_INDEX } from "@/constants/zIndex";
@@ -138,7 +138,7 @@ export default function JourneyGlobeModal({
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/5 hover:text-accent disabled:pointer-events-none disabled:opacity-20 cursor-pointer"
             aria-label={previousLabel}
           >
-            <ChevronLeft size={18} aria-hidden />
+            <ArrowLeft size={18} aria-hidden />
           </button>
 
           <span className="min-w-0 flex-1 truncate text-center font-mono text-[11px] tracking-wide text-text-secondary/75">
@@ -152,7 +152,7 @@ export default function JourneyGlobeModal({
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded text-text-secondary hover:bg-white/5 hover:text-accent disabled:pointer-events-none disabled:opacity-20 cursor-pointer"
             aria-label={nextLabel}
           >
-            <ChevronRight size={18} aria-hidden />
+            <ArrowRight size={18} aria-hidden />
           </button>
         </div>
 

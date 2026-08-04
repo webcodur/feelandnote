@@ -14,7 +14,7 @@ export default function CelebWorldBannerView({
 }: CelebWorldBannerViewProps) {
   const heightClass = compact
     ? "h-[110px] md:h-[150px]"
-    : "h-[200px] md:h-[340px]";
+    : "h-[168px] md:h-[340px]";
 
   return (
     <div className={`relative w-full overflow-hidden bg-bg-secondary ${heightClass}`}>

@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
@@ -82,7 +82,7 @@ export default function FactionSection({
                 aria-label={t("factionPagerPrev")}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <ChevronLeft size={16} />
+                <ArrowLeft size={16} />
               </button>
               <span className="font-mono text-xs tabular-nums text-text-secondary">
                 {safePageIdx + 1} / {tags.length}
@@ -93,7 +93,7 @@ export default function FactionSection({
                 aria-label={t("factionPagerNext")}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <ChevronRight size={16} />
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>

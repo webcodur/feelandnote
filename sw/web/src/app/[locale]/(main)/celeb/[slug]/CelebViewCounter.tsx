@@ -54,12 +54,12 @@ export default function CelebViewCounter({ celebId, nickname, initialCount }: Ce
       <button
         type="button"
         onClick={handleOpen}
-        className="-mx-1 inline-flex min-h-11 items-center gap-1.5 rounded px-2 font-mono text-base hover:text-accent sm:text-lg"
+        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/12 bg-transparent p-0 text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
         title={t("viewCount")}
+        aria-label={`${t("viewCount")}: ${count.toLocaleString()}`}
       >
         <Eye size={18} aria-hidden />
-        <span className="sr-only">{t("viewCount")}</span>
-        {count.toLocaleString()}
+        <span className="sr-only">{t("viewCount")}: {count.toLocaleString()}</span>
       </button>
 
       {isOpen && (
