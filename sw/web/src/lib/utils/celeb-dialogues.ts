@@ -34,13 +34,15 @@ export interface DialogueProfile {
 }
 
 /**
- * DB에는 검증된 직접 발화가 없는 인물도 대사 행의 구조를 유지하기 위해
- * `[확인된 어록이 없습니다]` 같은 대괄호 표지를 저장한다.
- * 이 표지는 운영 데이터이지 사용자에게 보여 줄 인용문이 아니므로 표시 직전에 제거한다.
+ * quote 필드에서 화면 표시용 문자열을 추출한다.
+ * JSON 문자열의 이중 따옴표를 벗기고, 운영용 대괄호 표지는 숨긴다.
  */
 export function getDisplayDialogueQuote(value: string | null | undefined): string | null {
   if (typeof value !== 'string') return null
-  const quote = value.trim()
+  const raw = value.trim()
+  const quote = raw.startsWith('"') && raw.endsWith('"')
+    ? raw.slice(1, -1).trim()
+    : raw
   if (!quote || /^\[[\s\S]*\]$/.test(quote)) return null
   return quote
 }

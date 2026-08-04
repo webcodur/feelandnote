@@ -1,0 +1,32 @@
+{
+  "gameMoreless": {
+    "title": "Which One",
+    "intro": "Compare the influence scores of two historical figures. Pick the higher one. Keep going until you get it wrong. How long can your streak last?",
+    "mobileRule": "Tap the figure with the higher influence score. Keep your streak alive!",
+    "startGame": "Start",
+    "fixtureNotice": "Running in demo mode with sample data. The live version uses a pool of 1,500+ figures.",
+    "playing": "Playing",
+    "resultBreadcrumb": "Result",
+    "streak": "Streak",
+    "question": "Who has the higher influence score?",
+    "hint": "Influence score combines 7 axes: political, strategic, technological, social, economic, cultural, and transhistorical impact",
+    "influenceScore": "Influence",
+    "cardAriaLabel": "Choose {name}",
+    "resultTitle": "Game Over",
+    "finalStreak": "Final streak",
+    "newRecord": "New record!",
+    "bestRecord": "Best: {count} in a row",
+    "lastRound": "Last round",
+    "points": "pts",
+    "replay": "Play again",
+    "toLobby": "Back to lobby",
+    "rules": {
+      "compareTitle": "Compare",
+      "compareBody": "Two figures appear side by side. Pick the one with the higher influence score.",
+      "streakTitle": "Keep going",
+      "streakBody": "Get it right and the next pair appears instantly. One wrong answer ends the game.",
+      "recordTitle": "Beat your record",
+      "recordBody": "Your streak is your score. Challenge yourself to go further each time."
+    }
+  }
+}

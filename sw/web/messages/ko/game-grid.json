@@ -1,0 +1,33 @@
+{
+  "gameGrid": {
+    "title": "교차 격자",
+    "intro": "3×3 격자의 행과 열에 각각 조건이 붙습니다. 두 조건을 동시에 만족하는 인물을 떠올려 이름을 입력하세요. 9칸을 모두 채우면 한 판이 끝납니다.",
+    "mobileRuleSummary": "칸을 눌러 선택 → 인물 이름을 입력 → 행·열 조건을 동시에 만족하면 정답",
+    "startGame": "시작하기",
+    "notEnoughData": "인물 데이터가 부족합니다",
+    "fixtureMode": "⚠ 체험 모드 — 표본 데이터로 동작 중",
+    "playing": "진행 중",
+    "progress": "{filled} / {total} 칸 완료",
+    "searchPlaceholder": "인물 이름을 입력하세요…",
+    "searchAriaLabel": "인물 이름 검색",
+    "noResults": "일치하는 인물이 없습니다",
+    "cellAriaLabel": "{row}행 {col}열 칸",
+    "correct": "정답",
+    "wrong": "오답",
+    "resultTitle": "결과",
+    "resultPerfect": "완벽!",
+    "resultScore": "{total}칸 중 {correct}칸 정답",
+    "replay": "다시 하기",
+    "toLobby": "처음으로",
+    "exit": "나가기",
+    "exitEsc": "나가기 (ESC)",
+    "rules": {
+      "gridTitle": "3×3 격자",
+      "gridBody": "행 3개, 열 3개에 각각 조건이 붙습니다. 국적·직군·세기·세력 중 두 축이 교차합니다.",
+      "recallTitle": "기억에서 꺼내기",
+      "recallBody": "보기가 없습니다. 조건을 동시에 만족하는 인물을 직접 떠올려 이름을 입력하세요.",
+      "scoreTitle": "채점",
+      "scoreBody": "9칸을 모두 채우면 한 판 종료. 같은 인물을 두 칸에 쓸 수 없습니다."
+    }
+  }
+}

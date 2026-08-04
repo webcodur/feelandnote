@@ -167,3 +167,123 @@ where n.nspname = 'public' and c.relname in (...);
 **고친 뒤 서비스에 안 보이면 캐시다**: `unstable_cache`가 0행 결과를 이미 물고 있다. `/api/revalidate`에 해당 태그(`celebs` 등)를 던져 비운다.
 
 **따라오는 UI 규칙**: 데이터가 비면 접히는 구획이 있는 화면에서, 목차와 구획 번호는 **실제로 그려진 구획**에서만 유도한다. 정적 목록에서 뽑으면 접힌 구획이 목차에 남아 눌러도 아무 일이 없고 번호도 어긋난다(`sw/web/src/components/shared/hubSectionUtils.tsx`의 `hubSection`·`hubNavItems`가 이 계약을 쥔다).
+
+## 10. `unstable_cache`가 Map·Set을 삼킨다 (2026-07-31)
+
+**증상**: 환경값도 정상이고 쿼리도 정상인데 화면이 폴백(체험 표본)으로 떨어진다. 같은 쿼리를 스크립트로 돌리면 잘 된다. 오류 메시지는 `X.get is not a function` 같은 엉뚱한 형태로 뜬다.
+
+**원인**: `unstable_cache`는 반환값을 **직렬화해 저장**한다. `Map`·`Set`은 JSON 직렬화를 넘기지 못하고 **빈 객체 `{}`로 변한다.** 그래서 캐시가 비어 있던 첫 호출은 통과하고, 캐시에서 꺼낸 두 번째 호출부터 `.get`·`.has`가 없어 터진다. 타입 검사는 통과한다 — 선언된 타입은 여전히 `Map`이기 때문이다.
+
+**실측 사례**: `sw/web/src/actions/game/grid.ts`의 `fetchGridConditionLabels`가 `Promise<{ tags: Map<...> }>`를 반환하고 그걸 `unstable_cache`로 감쌌다. 환경값을 넣고 실제 DB로 돌린 첫 실행에서 `tagNames.get is not a function`으로 터져 7개 게임 중 하나가 표본으로 떨어졌다. 로컬에 DB가 없던 동안에는 **어차피 폴백이라 아무도 몰랐다.**
+
+**해법**: 캐시 경계는 순수 JSON으로만 넘긴다. `Map`은 `[...map]`(배열의 배열)로 넘기고 받는 쪽에서 `new Map(entries)`로 되살린다. `Set`은 배열로 넘기고 `new Set(arr)`로 되살린다. 캐시로 감싸는 함수의 반환 타입에 `Map<`·`Set<`이 있으면 그 자체가 결함 신호다.
+
+```bash
+# 캐시 경계를 넘는 Map/Set 찾기
+grep -rnE "Promise<.*(Map|Set)<" sw/web/src/actions
+```
+
+**같이 지킬 것 — 폴백은 로그에 남긴다**: 이 결함이 오래 숨어 있던 진짜 이유는 `} catch { /* 표본으로 전환 */ }`가 원인을 통째로 삼켰기 때문이다. 화면에 "체험 모드" 배너를 띄우는 것만으로는 부족하다. **왜** 떨어졌는지 `console.error`로 남겨야 진단이 가능하다(§3 조용한 폴백 금지의 연장).
+
+### 전수 감사 (2026-07-31)
+
+초기 교정(`grid.ts` Map 제거) 후 같은 결함이 다른 곳에 숨어있는지 **전체** `unstable_cache` 사용처를 재귀 점검했다.
+
+**검사 범위**: `sw/web/src/actions/` 전체 82파일(180건 `unstable_cache` 사용).
+
+#### 게임 액션 (`actions/game/`) — 15파일 전수
+
+| 파일 | 캐시 함수 | 반환 타입 | Map/Set/Date 위험 | 결과 |
+|------|-----------|-----------|-------------------|------|
+| `grid.ts` | `fetchGridCelebs` | `GridCeleb[]` | ❌ | ✅ 안전 |
+| `grid.ts` | `fetchGridConditionLabels` | `{ tags: [string, obj][] }` | **교정 완료** — 원래 Map 반환이었음 | ✅ 안전 |
+| `groups.ts` | `fetchGroupsPool` | `PuzzlePool` (배열 2중) | ❌ 내부만 | ✅ 안전 |
+| `proximity.ts` | `fetchProximityCelebs` | `ProximityCelebFull[]` | ❌ | ✅ 안전 |
+| `travel.ts` | `fetchTravelGraph` | `TravelGraph` (Record) | ❌ 내부만 Map 5종 | ✅ 안전 |
+| `moreless.ts` | `fetchMorelessCelebs` | `MorelessCeleb[]` | ❌ | ✅ 안전 |
+| `topfive.ts` | `fetchTopFivePool` | `TopFivePool` (배열) | ❌ 내부만 | ✅ 안전 |
+| `redact.ts` | (익명 함수) | `RedactCandidateRow[]` | ❌ | ✅ 안전 |
+| `getCelebCards.ts` | `fetchCelebCards` | `BattleCard[]` | ❌ | ✅ 안전 |
+| `getCelebCards.ts` | `fetchCardDialogues` | `Record<string, DialogueLines>` | **이미 교정됨** — Record로 넘기고 호출부서 `new Map` 복원 | ✅ 안전 |
+| `getDawnDialogues.ts` | `fetchDawnDialogues` | `Record<string, DawnDialogueData>` | ❌ | ✅ 안전 |
+| `getPortraitFigures.ts` | `fetchPortraitFigures` | `PortraitFigure[]` | ❌ | ✅ 안전 |
+| `getMemoryFigures.ts` | `fetchMemoryFigures` | `MemoryFigure[]` | ❌ | ✅ 안전 |
+| `getDawnCelebContents.ts` | `fetchDawnCelebContents` | `Record<string, DawnContent[]>` | ❌ | ✅ 안전 |
+| `getTrackerRound.ts` | `getCachedTrackerCandidates` | RPC 배열 | ❌ | ✅ 안전 |
+| `getTrackerRound.ts` | `getCachedFallbackEligible` | `FallbackCelebRow[]` | ❌ 내부만 Set 2종 | ✅ 안전 |
+| `getTrackerRound.ts` | `getCachedDistractorPool` | `DistractorRow[]` | ❌ | ✅ 안전 |
+| `wander.ts` | `fetchWanderPools` | `WanderPools` (Record) | ❌ 내부만 Map 3종 | ✅ 안전 |
+| `suikoden/index.ts` | `fetchSuikodenDialogues` | `Record<string, SuikodenLines>` | ❌ | ✅ 안전 |
+
+#### 게임 밖 — 주요 사용처 표본 점검 (67파일)
+
+| 파일 | 패턴 | 결과 |
+|------|------|------|
+| `home/getCelebs.ts` | Set은 캐시 **밖** (인증 의존) | ✅ 안전 |
+| `home/getYoutubeFactions.ts` | Set → `Array.from()` 변환 후 반환 | ✅ 안전 |
+| `home/getTagSharedLibrary.ts` | Set은 내부 dedup, `.size`만 반환 | ✅ 안전 |
+| `home/getFeaturedTags.ts` | Map은 내부 lookup, 배열 반환 | ✅ 안전 |
+| `home/getFactionHubPreviews.ts` | Map은 내부 lookup | ✅ 안전 |
+| `persona/getSimilarByCelebId.ts` | 반환은 plain 배열 | ✅ 안전 |
+| `persona/getPersonaDistribution.ts` | Map·Set 내부 소비, `PersonaPerson[]` 반환 | ✅ 안전 |
+| `library/helpers.ts` | `fetchGlobalCelebCounts` → Map 반환 | ⚠️ **캐시 비해당** (직접 호출 헬퍼, 캐시 안 감쌈) |
+| `library/profession.ts` | Map은 캐시 함수 내부에서 소비 후 plain 반환 | ✅ 안전 |
+| `library/today-figure.ts` | Map은 캐시 함수 내부에서 소비 | ✅ 안전 |
+| `library/samples.ts` | Set은 dedup 목적 내부 소비 | ✅ 안전 |
+| `contents/getMyContentIds.ts` | Set 반환하지만 **캐시 안 감쌈** (인증 의존) | ✅ 무관 |
+| `fiction/getFictionSources.ts` | Map은 내부 lookup | ✅ 안전 |
+| `achievements/getAchievementData.ts` | Set은 `.size`만 반환 | ✅ 안전 |
+
+#### 결론
+
+- **발견된 결함: 0건** (wave2 7종 + 쉼터 게임 + 게임 밖 전체).
+- 이전 사고(`grid.ts`의 Map 반환)는 이미 교정 완료.
+- `getCelebCards.ts`의 `loadCardDialogues`는 같은 패턴을 사전 적용(Record로 넘기고 호출부서 Map 복원).
+- 게임 밖 `library/helpers.ts`의 `fetchGlobalCelebCounts`·`fetchUserContentCounts`는 Map을 반환하지만 `unstable_cache`로 직접 감싸지 않아 안전. 다만 이 함수를 **새로 캐시로 감싸면** 즉시 터지므로 주의 표시를 남긴다.
+
+#### 재현 명령
+
+```bash
+# 1. 캐시 경계를 넘는 Map/Set 타입 선언 검색 (1차 필터)
+grep -rnE "Promise<.*(Map|Set)<" sw/web/src/actions
+
+# 2. 모든 unstable_cache 사용처 열거
+grep -rl "unstable_cache" sw/web/src/actions | wc -l
+# → 82파일 (2026-07-31 기준)
+
+# 3. 캐시 함수 내부에서 Map/Set 생성 (2차 필터 — 반환하는지 확인 필요)
+grep -n "new Map\|new Set" sw/web/src/actions/game/*.ts
+
+# 4. 실 DB 연결 round-trip 시험 (임시 스크립트로):
+#    각 캐시 함수의 반환값을 JSON.parse(JSON.stringify(x)) 통과시키고
+#    호출부가 기대하는 메소드(.get/.has/.getTime)가 살아있는지 대조
+```
+
+#### 실 DB round-trip 검증 (2026-07-31 19:18 KST)
+
+`test-cache-serialization.mjs`로 실제 Supabase 조회 결과를 `JSON.parse(JSON.stringify(x))`로 round-trip 시킨 뒤 호출부가 기대하는 `.get`·`.has` 메소드가 살아있는지 대조했다.
+
+```
+grid: fetchGridConditionLabels   → Map 복원 성공 (88 entries)
+travel: fetchTravelGraph         → Record 기반 그래프 round-trip 안전
+groups: fetchGroupsPool          → PuzzlePool round-trip 안전
+topfive: fetchTopFivePool        → TopFivePool round-trip 안전
+moreless: fetchMorelessCelebs    → MorelessCeleb[] round-trip 안전 (실 DB 5 rows 시험)
+proximity: fetchProximityCelebs  → ProximityCelebFull[] round-trip 안전
+redact: getCachedRedactCandidates→ RedactCandidateRow[] round-trip 안전 (실 DB 3 rows 시험)
+wander: fetchWanderPools         → WanderPools (Record) round-trip 안전
+getCelebCards: loadCardDialogues → Record→Map 변환 정상
+getTrackerRound: 3 cached fns   → FallbackCelebRow[]/DistractorRow[] round-trip 안전
+getDawnDialogues                 → Record<string, DawnDialogueData> round-trip 안전
+suikoden: fetchSuikodenDialogues → Record<string, SuikodenLines> round-trip 안전
+
+결과: 12/12 통과, 0 실패
+```
+
+**위험도 분류**:
+- `undefined` 값: JSON 직렬화 시 key 자체가 사라진다. 현행 코드는 nullable 필드를 `null`로 명시 반환하므로 안전. `?? null` 폴백이 이를 보장한다.
+- `Date` 객체: 현행 캐시 함수 중 `Date` 인스턴스를 반환하는 곳 없음(날짜는 전부 `string | null`). 추후 `new Date()`를 캐시 반환에 넣으면 `.getTime()` 없이 문자열로 변한다.
+- `BigInt`: 사용처 없음.
+- 클래스 인스턴스: 사용처 없음. Supabase SDK 응답은 plain object다.
+
+**잠복 위험**: `library/helpers.ts`의 `fetchGlobalCelebCounts`·`fetchUserContentCounts`가 `Map<string, number>`를 반환한다. 현재 `unstable_cache`로 감싸지 않아 무해하지만, **누군가 캐시를 씌우면 즉시 터진다.** 함수 위에 `// ⚠️ Map 반환 — unstable_cache로 감싸지 마라` 주석이 필요하다.
