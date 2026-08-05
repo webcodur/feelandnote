@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { Volume2 } from "lucide-react";
+import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 import BlurDissolve from "@/components/ui/BlurDissolve";
 
 interface CelebHeroPhotoProps {
-  /** 대표 화보(1:1). 없으면 얼굴 사진으로 돌아간다 */
+  /** 대표 화보(PC 세로형). 없으면 얼굴 사진으로 돌아간다 */
   photoUrl: string | null;
   avatarUrl: string | null;
   nickname: string;
@@ -15,8 +16,6 @@ interface CelebHeroPhotoProps {
   /** 인사말 재생. 넘기지 않으면 인사 배지를 그리지 않는다 */
   onGreet?: () => void;
   greetLabel?: string;
-  /** 화보가 있을 때의 크기 */
-  photoSize: string;
   /** 얼굴 사진으로 돌아갔을 때의 크기 */
   avatarSize: string;
   /** 얼굴 사진 자리의 첫 글자 크기 */
@@ -25,7 +24,7 @@ interface CelebHeroPhotoProps {
 
 /**
  * 인물 상세 첫 구획의 대표 이미지.
- * 화보가 있으면 정사각으로 크게 걸고, 없으면 기존 원형 얼굴 사진을 그대로 쓴다.
+ * 화보가 있으면 PC에서 공용 상수의 세로 비율로 크게 걸고, 없으면 기존 원형 얼굴 사진을 그대로 쓴다.
  * 그림을 누르면 크게 보기가 열리고, 인사말은 오른쪽 아래 배지로 따로 듣는다.
  */
 export default function CelebHeroPhoto({
@@ -36,7 +35,6 @@ export default function CelebHeroPhoto({
   zoomLabel,
   onGreet,
   greetLabel,
-  photoSize,
   avatarSize,
   initialSize,
 }: CelebHeroPhotoProps) {
@@ -57,7 +55,13 @@ export default function CelebHeroPhoto({
 
   if (photoUrl) {
     return (
-      <div className={`relative flex-shrink-0 self-start ${photoSize}`}>
+      <div
+        className="relative flex-shrink-0 self-start"
+        style={{
+          width: CELEB_HERO_PHOTO_SPEC.desktopWidthPx,
+          aspectRatio: CELEB_HERO_PHOTO_SPEC.aspectRatio,
+        }}
+      >
         <button
           type="button"
           onClick={onZoom}
@@ -70,8 +74,8 @@ export default function CelebHeroPhoto({
               alt={nickname}
               fill
               unoptimized
-              sizes="(max-width: 768px) 224px, 240px"
-              className="object-contain transition-transform duration-500 group-hover:scale-105"
+              sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </BlurDissolve>
         </button>

@@ -158,7 +158,7 @@ interface PublicCelebBySlugData {
   } | null
   factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
-  /** 상단 대표 화보(1:1). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
+  /** 상단 대표 화보(PC 세로형). 전용 화보가 없으면 세력도감 화보를 끌어다 쓴다 */
   photoUrl: string | null
   /** 그 화보가 그린 순간을 적은 한 줄. 비어 있으면 화면에 아무것도 뜨지 않는다 */
   photoCaption: string | null
@@ -362,7 +362,7 @@ export type CelebBySlugProfile = PublicUserProfile & {
   contentTypeCounts: ContentTypeCounts
   factionTags: FactionTagItem[]
   relations: CelebRelationItem[]
-  /** 상단 대표 화보(1:1). 없으면 null이라 화면이 얼굴 사진으로 돌아간다 */
+  /** 상단 대표 화보(PC 세로형). 없으면 null이라 화면이 얼굴 사진으로 돌아간다 */
   photo_url: string | null
   /** 그 화보가 그린 순간 한 줄. 비면 크게 보기에 아무것도 뜨지 않는다. 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다 */
   photo_caption: string | null

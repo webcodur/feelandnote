@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState, type ReactNode } from "react";
+import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Volume2 } from "lucide-react";
+import { CELEB_HERO_PHOTO_SPEC } from "@feelandnote/shared/constants/celeb-hero-photo";
 
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import ProfessionInfoButton from "@/components/features/celeb/ProfessionInfoButton";
@@ -119,7 +120,12 @@ export default function CelebHeroSection({
             <CelebWorldBannerView worldId={worldId} images={worldBannerImages} />
           </div>
 
-          <div className={styles.identityPanel}>
+          <div
+            className={styles.identityPanel}
+            style={{
+              "--celeb-hero-photo-width": `${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`,
+            } as CSSProperties}
+          >
             <div
               className={`${styles.heroColumn} ${
                 profile.photo_url ? "" : styles.avatarHeroColumn
@@ -138,7 +144,6 @@ export default function CelebHeroSection({
                     zoomLabel={t("enlargePhoto")}
                     onGreet={canGreet ? handleGreetingPlay : undefined}
                     greetLabel={t("playGreetingVoice")}
-                    photoSize="h-36 w-36 sm:h-44 sm:w-44 md:h-60 md:w-60"
                     avatarSize="h-36 w-36 md:h-44 md:w-44"
                     initialSize="text-2xl md:text-3xl"
                   />
@@ -154,7 +159,6 @@ export default function CelebHeroSection({
                   zoomLabel={t("enlargePhoto")}
                   onGreet={canGreet ? handleGreetingPlay : undefined}
                   greetLabel={t("playGreetingVoice")}
-                  photoSize="h-36 w-36"
                   avatarSize="h-28 w-28"
                   initialSize="text-2xl"
                 />
