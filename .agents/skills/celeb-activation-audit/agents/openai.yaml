@@ -1,0 +1,4 @@
+interface:
+  display_name: "셀럽 활성화 감사"
+  short_description: "아바타와 전 트랙을 검증해 안전하게 활성화합니다"
+  default_prompt: "Use $celeb-activation-audit to audit inactive celebrities and activate only those that pass every required check."
