@@ -13,6 +13,7 @@ interface Props extends Omit<EditorProps, 'value' | 'alt' | 'onCroppedFile' | 'o
   portraitUrl?: string | null
   name?: string | null
   onSaved?: (url: string) => void
+  refreshAfterSave?: boolean
 }
 
 export default function PersistedCelebPortraitEditor({
@@ -20,6 +21,7 @@ export default function PersistedCelebPortraitEditor({
   portraitUrl,
   name,
   onSaved,
+  refreshAfterSave = true,
   ...editorProps
 }: Props) {
   const router = useRouter()
@@ -29,11 +31,11 @@ export default function PersistedCelebPortraitEditor({
   const currentUrl = localPortrait.source === portraitUrl ? localPortrait.value : portraitUrl
 
   async function persist(file: File) {
-    const url = await saveCelebPortrait(celebId, file)
+    const url = await saveCelebPortrait(celebId, file, refreshAfterSave)
     setLocalPortrait({ source: portraitUrl, value: url })
     onSaved?.(url)
     showToast('success', `${label} 대표사진을 저장했습니다.`)
-    router.refresh()
+    if (refreshAfterSave) router.refresh()
   }
 
   return (

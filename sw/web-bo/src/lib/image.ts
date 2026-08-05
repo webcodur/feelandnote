@@ -1,5 +1,7 @@
 // 이미지 리사이징 유틸리티 (클라이언트용)
 
+import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
+
 // quality — 이 프로그램에서 그림을 압축하는 마지막 지점이다. 앞 단계(크롭)는 무손실로 넘어온다.
 // 아바타 0.95는 규격 SSoT(docs/project/celeb-avatar-spec.md §6)가 정한 값이며 서버 등록 경로와 같다.
 const IMAGE_SIZES = {
@@ -50,11 +52,23 @@ export function createPreviewUrl(file: File): Promise<string> {
   })
 }
 
-// 대표 화보(profiles.portrait_url) 긴 변 상한. 편집기에서 정한 1:1 구도를 추가 크롭 없이 줄인다
-const PORTRAIT_MAX_EDGE = 1080
+/** Return the first image file from a paste event without consuming text pastes. */
+export function getClipboardImageFile(event: ClipboardEvent): File | null {
+  for (const item of Array.from(event.clipboardData?.items ?? [])) {
+    if (item.kind !== 'file' || !item.type.startsWith('image/')) continue
+    const file = item.getAsFile()
+    if (file) return file
+  }
+
+  return Array.from(event.clipboardData?.files ?? [])
+    .find((file) => file.type.startsWith('image/')) ?? null
+}
+
+// 대표 화보(profiles.portrait_url) 긴 변 상한. 편집기에서 정한 공용 비율 구도를 추가 크롭 없이 줄인다.
+const PORTRAIT_MAX_EDGE = CELEB_HERO_PHOTO_SPEC.storageHeightPx
 
 /**
- * 대표 화보용 축소. 편집 결과의 비율을 유지하며, 원본이 작으면 확대하지 않는다.
+ * 대표 화보용 축소. 공용 상수 비율의 편집 결과를 유지하며, 원본이 작으면 확대하지 않는다.
  * 실제 구도 선택은 CelebPortraitEditor에서 끝내고 여기서는 압축만 한 번 수행한다.
  * (아바타는 얼굴 중앙 크롭 800×800 — resizeSingleImage 쪽)
  */

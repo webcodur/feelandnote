@@ -2,7 +2,7 @@
  * 인물 대표 사진 생성 → 검증 → 등록 → 로컬 정리 (한 건씩 완결)
  *
  * 각 건: 얼굴 REF 내려받기 → codex image_gen 발주 → 산출물 회수 → 진위검사
- *        → 1080 webp 변환 → R2 celebs/{id}/photo.webp → profiles.portrait_url → 로컬 삭제
+ *        → 공용 비율 중앙 크롭 webp 변환 → R2 celebs/{id}/photo.webp → profiles.portrait_url → 로컬 삭제
  *
  * 진위검사가 핵심이다. codex는 생성에 실패해도 세션 로그에 남은 "입력 REF"를 그대로
  * 돌려주는 일이 있어(26.07.28: 1,141건 중 292건만 진짜), 크기만 보면 실패가 성공으로 잡힌다.
@@ -17,6 +17,7 @@
  */
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
+import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import sharp from 'sharp'
 import { spawn, execSync } from 'child_process'
 import { readFileSync, writeFileSync, existsSync, rmSync, mkdirSync, readdirSync, statSync } from 'fs'
@@ -27,8 +28,11 @@ import crypto from 'crypto'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const WORK = join(tmpdir(), 'celeb-hero-photo')
-const SIZE = 1024          // 생성 규격 (16의 배수, 픽셀 하한 655,360 충족)
-const STORE = 1080         // 저장 상한. 1024 산출물은 확대하지 않으므로 그대로 저장된다
+const SIZE = 1024          // 생성 작업 원본 규격 (16의 배수, 픽셀 하한 655,360 충족)
+const STORE_WIDTH = CELEB_HERO_PHOTO_SPEC.storageWidthPx
+const STORE_HEIGHT = CELEB_HERO_PHOTO_SPEC.storageHeightPx
+const FINAL_ASPECT_LABEL = CELEB_HERO_PHOTO_SPEC.aspectLabel
+const SAFE_WIDTH_PERCENT = Math.round(CELEB_HERO_PHOTO_SPEC.aspectRatio * 100)
 
 function loadEnv(p) {
   const t = readFileSync(p, 'utf-8')
@@ -85,14 +89,16 @@ A vehicle or machine in the frame must be a whole working object, not a few of i
 Weapons and tools obey the same law. A blade is held by its grip with the whole hand closed around it, and its weight pulls the wrist and shoulder the way that weight really would. A sheathed weapon hangs from a belt or baldric that visibly carries it. A spear, staff or standard either rests its butt on the ground or is carried at a balance point the arm could actually hold. Straps, buckles and scabbards connect to something. A weapon never floats beside the body, and the hand never grips air.`
 
 // 이 지시가 없으면 인물이 원경으로 작게 박힌다(다리우스 1세 실측, 26.07.31).
-// 대표 사진은 정사각 240px로 뜨므로 얼굴이 일정 크기 이상 잡혀야 한다.
+// 표시 비율과 폭은 공용 상수가 쥔다. 얼굴과 핵심 소품은 최종 중앙 세로 영역에 들어와야 한다.
 const FRAMING = `FRAMING — FIXED CROP, NON-NEGOTIABLE
 This is a portrait of a person, not a landscape that happens to contain a person.
+
+The final service image is a centered vertical ${FINAL_ASPECT_LABEL} crop of this working canvas. Keep the face, torso, both hands and every essential prop inside the CENTRAL ${SAFE_WIDTH_PERCENT} PERCENT of the canvas width. The outer left and right edges are expendable background and will be removed.
 
 The crop is exactly this and nothing else:
 - BOTTOM EDGE of the frame cuts the person just ABOVE THE KNEES.
 - TOP EDGE of the frame sits just above the top of the head, with only a small margin of headroom.
-- The person therefore spans almost the entire height of the square frame, from top to bottom.
+- The person therefore spans almost the entire height of the final vertical frame, from top to bottom.
 
 Do not crop tighter than this (no waist-up, no chest-up, no head-and-shoulders close-up). Do not crop wider than this (no full body with feet, no distant figure).
 
@@ -117,7 +123,7 @@ ${FRAMING}
 
 ${RENDERING}
 
-Output size: exactly ${SIZE} x ${SIZE} pixels, square 1:1.
+Output a ${SIZE} x ${SIZE} working image. Compose its central ${FINAL_ASPECT_LABEL} safe area as the finished portrait; the pipeline crops away both sides.
 
 Generate the image with the image_gen tool, then save the resulting PNG to this exact path using python:
 ${outPath.replace(/\\/g, '/')}
@@ -129,6 +135,24 @@ Report only the saved path as your final message.
 async function fingerprint(buf) {
   const raw = await sharp(buf).resize(64, 64, { fit: 'fill' }).removeAlpha().raw().toBuffer()
   return crypto.createHash('md5').update(raw).digest('hex')
+}
+
+async function toPortraitWebp(src) {
+  const oriented = await sharp(src).rotate().toBuffer({ resolveWithObject: true })
+  const sourceWidth = oriented.info.width
+  const sourceHeight = oriented.info.height
+  const targetRatio = STORE_WIDTH / STORE_HEIGHT
+  const sourceRatio = sourceWidth / sourceHeight
+  const cropWidth = sourceRatio > targetRatio ? Math.round(sourceHeight * targetRatio) : sourceWidth
+  const cropHeight = sourceRatio > targetRatio ? sourceHeight : Math.round(sourceWidth / targetRatio)
+  const left = Math.max(0, Math.floor((sourceWidth - cropWidth) / 2))
+  const top = Math.max(0, Math.floor((sourceHeight - cropHeight) / 2))
+
+  return sharp(oriented.data)
+    .extract({ left, top, width: cropWidth, height: cropHeight })
+    .resize(STORE_WIDTH, STORE_HEIGHT, { fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: 88 })
+    .toBuffer({ resolveWithObject: true })
 }
 
 /** codex가 파일을 안 떨군 경우 세션 로그에서 회수 (TASK-ID 로 세션 특정) */
@@ -222,7 +246,8 @@ async function processOne(ctx, row) {
     if (await fingerprint(outBuf) === refPrint) throw new Error('REF 원본이 그대로 돌아옴')
 
     // 5. 등록
-    const webp = await sharp(outBuf).resize(STORE, STORE, { fit: 'inside', withoutEnlargement: true }).webp({ quality: 88 }).toBuffer()
+    const portrait = await toPortraitWebp(outBuf)
+    const webp = portrait.data
     const key = `celebs/${row.celeb_id}/photo.webp`
     await s3.send(new PutObjectCommand({
       Bucket: bucket, Key: key, Body: webp,
@@ -232,7 +257,7 @@ async function processOne(ctx, row) {
     const { error } = await sb.from('profiles').update({ portrait_url: url }).eq('id', row.celeb_id)
     if (error) throw new Error(`DB 갱신 실패 ${error.message}`)
 
-    return { ok: true, slug: row.slug, nickname: row.nickname, kb: Math.round(webp.length / 1024), size: `${meta.width}x${meta.height}` }
+    return { ok: true, slug: row.slug, nickname: row.nickname, kb: Math.round(webp.length / 1024), size: `${portrait.info.width}x${portrait.info.height}` }
   } finally {
     // 6. 로컬은 성공·실패 무관하게 즉시 비운다
     try { rmSync(dir, { recursive: true, force: true }) } catch { /* 무시 */ }

@@ -6,6 +6,7 @@ import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
 import { getCelebTags, updateCelebTags, type CelebTagInput } from '@/actions/admin/tags'
 import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
+import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
@@ -14,6 +15,7 @@ import Button from '@/components/ui/Button'
 import { useToast } from '@/contexts/ToastContext'
 import { resizeSingleImage, resizePortraitImage } from '@/lib/image'
 import CelebAvatarEditor, { AvatarUploadEmpty } from '@/components/celeb/avatar/CelebAvatarEditor'
+import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
 import CelebPortraitEditor from '@/components/celeb/portrait/CelebPortraitEditor'
 import CelebTagSelector from './CelebTagSelector'
 import FormattedText from '@/components/ui/FormattedText'
@@ -168,7 +170,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 
-  // 대표 화보(profiles.portrait_url) — 업로드 직후 1:1 위치·확대 편집을 거친다
+  // 대표 화보(profiles.portrait_url) — 업로드 직후 공용 상수 비율로 위치·확대 편집을 거친다
   const [portraitFile, setPortraitFile] = useState<File | null>(null)
   const [portraitPreview, setPortraitPreview] = useState<string | null>(null)
 
@@ -281,6 +283,13 @@ export default function CelebForm({ mode, celeb }: Props) {
   function handleAvatarCrop(file: File, croppedDataUrl: string) {
     setAvatarFile(file)
     setAvatarPreview(croppedDataUrl)
+  }
+
+  function handleAvatarNobgCompleted(url: string) {
+    setAvatarFile(null)
+    setAvatarPreview(null)
+    initialFormData.current = { ...initialFormData.current, avatar_url: url }
+    setFormData((prev) => ({ ...prev, avatar_url: url }))
   }
 
   // #region 대표 화보
@@ -530,18 +539,32 @@ export default function CelebForm({ mode, celeb }: Props) {
 
             <label className="text-xs font-medium text-text-secondary self-start pt-1">아바타</label>
             <div className="flex items-start gap-3">
-              <CelebAvatarEditor
-                value={avatarPreview || formData.avatar_url}
-                alt={formData.nickname || '인물'}
-                className="h-[160px] w-[160px] shrink-0 rounded-xl"
-                previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
-                empty={<AvatarUploadEmpty />}
-                removable
-                onFileAccepted={applyFileNameAsNickname}
-                onCroppedFile={handleAvatarCrop}
-                onRemove={handleImageRemove}
-                onError={(avatarError) => setError(avatarError.message)}
-              />
+              <div className="w-[160px] shrink-0">
+                <CelebAvatarEditor
+                  value={avatarPreview || formData.avatar_url}
+                  alt={formData.nickname || '인물'}
+                  className="h-[160px] w-[160px] rounded-xl"
+                  previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
+                  empty={<AvatarUploadEmpty />}
+                  removable
+                  loadImmediately
+                  highPriority
+                  onFileAccepted={applyFileNameAsNickname}
+                  onCroppedFile={handleAvatarCrop}
+                  onRemove={handleImageRemove}
+                  onError={(avatarError) => setError(avatarError.message)}
+                />
+                {mode === 'edit' && celeb && (
+                  <CelebAvatarNobgButton
+                    celebId={celeb.id}
+                    name={formData.nickname}
+                    avatarUrl={formData.avatar_url}
+                    disabled={avatarFile !== null || formData.avatar_url !== initialFormData.current.avatar_url}
+                    onCompleted={handleAvatarNobgCompleted}
+                    className="mt-2 w-full"
+                  />
+                )}
+              </div>
               <div className="flex-1 space-y-1.5 min-w-0">
                 <input
                   type="url"
@@ -562,6 +585,8 @@ export default function CelebForm({ mode, celeb }: Props) {
               <CelebPortraitEditor
                 value={portraitPreview || formData.portrait_url}
                 alt={`${formData.nickname || '인물'} 대표 화보`}
+                loadImmediately
+                highPriority
                 onFileAccepted={() => setError(null)}
                 onCroppedFile={handlePortraitCrop}
                 onRemove={handlePortraitRemove}
@@ -576,7 +601,7 @@ export default function CelebForm({ mode, celeb }: Props) {
                   className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
                 />
                 <p className="text-[10px] text-text-secondary">
-                  인물 상세 맨 위에 크게 걸린다. 파일을 놓으면 1:1 편집기가 열리고, 사진을 끌어 이동하거나
+                  인물 상세 PC 화면 맨 위에 {CELEB_HERO_PHOTO_SPEC.aspectLabel}으로 크게 걸린다. 파일을 놓으면 같은 비율 편집기가 열리고, 사진을 끌어 이동하거나
                   최대 3배까지 확대할 수 있다. 비우면 세력도감 화보 → 아바타 순으로 물러난다
                 </p>
               </div>

@@ -42,6 +42,7 @@ import {
   SearchCheck,
   Database,
   BookMarked,
+  Images,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -61,6 +62,7 @@ const menuGroups: MenuGroup[] = [
     key: 'celebs', label: '셀럽', icon: Star,
     children: [
       { href: '/celebs', label: '목록', icon: Star },
+      { href: '/celebs/images', label: '이미지 작업', icon: Images },
       { href: '/celebs/titles', label: '수식어', icon: Sparkles },
       { href: '/celebs/professions', label: '직군', icon: Target },
       { href: '/celebs/journeys', label: '감상 여정', icon: Brain },
@@ -143,6 +145,16 @@ function isGroupActive(group: MenuGroup, pathname: string): boolean {
   ) ?? false
 }
 
+function getActiveChildHref(children: MenuItem[], pathname: string): string | null {
+  const matches = children.filter((item) =>
+    pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'))
+  )
+  if (matches.length === 0) return null
+  return matches.reduce((longest, item) =>
+    item.href.length > longest.href.length ? item : longest
+  ).href
+}
+
 function getInitialOpen(pathname: string): Set<string> {
   const open = new Set<string>()
   for (const group of menuGroups) {
@@ -156,19 +168,6 @@ function getInitialOpen(pathname: string): Set<string> {
 function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: () => void; collapsed?: boolean; onToggle?: () => void }) {
   const pathname = usePathname()
   const [openGroups, setOpenGroups] = useState<Set<string>>(() => getInitialOpen(pathname))
-
-  // 페이지 이동 시 해당 그룹 자동 펼침
-  useEffect(() => {
-    setOpenGroups(prev => {
-      const next = new Set(prev)
-      for (const group of menuGroups) {
-        if (group.children && isGroupActive(group, pathname)) {
-          next.add(group.key)
-        }
-      }
-      return next.size !== prev.size ? next : prev
-    })
-  }, [pathname])
 
   const toggleGroup = useCallback((key: string) => {
     setOpenGroups(prev => {
@@ -232,8 +231,11 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
             }
 
             // 그룹 항목
-            const isOpen = openGroups.has(group.key)
             const groupActive = isGroupActive(group, pathname)
+            const isOpen = openGroups.has(group.key) || groupActive
+            const activeChildHref = group.children
+              ? getActiveChildHref(group.children, pathname)
+              : null
 
             return (
               <li key={group.key}>
@@ -262,8 +264,7 @@ function SidebarContent({ onItemClick, collapsed, onToggle }: { onItemClick?: ()
                 {!collapsed && isOpen && group.children && (
                   <ul className="mt-0.5 ml-4 pl-3 border-l border-border/50 space-y-0.5">
                     {group.children.map((item) => {
-                      const isActive = pathname === item.href ||
-                        (item.href !== '/' && pathname.startsWith(item.href + '/'))
+                      const isActive = item.href === activeChildHref
                       return (
                         <li key={item.href}>
                           <Link

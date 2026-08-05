@@ -2,7 +2,8 @@
  * 셀럽 전 트랙 결손 전수 감사. 읽기 전용.
  *
  * 룰북(`docs/project/celeb/celeb-pipeline.md`) 티어 규칙에 따라 트랙별 필수 여부를 판정한다.
- * 가상독백(virtual_monologue)은 전용 트랙이 따로 있어 이 감사의 결손 판정에서 제외한다.
+ * 가상독백(virtual_monologue)과 폐기 예정 감상 여정은 결손 판정에서 제외한다.
+ * active 전환에는 전 티어 공통으로 avatar_url이 필수다.
  *
  * 실행:
  *   pnpm exec tsx scripts/audit-celeb-track-gaps.ts
@@ -53,7 +54,7 @@ type Profile = Record<string, any>
 async function main() {
   const profiles = await allRows<Profile>(
     'profiles',
-    'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, status, celeb_tier, speech_tone, consumption_philosophy, consumption_philosophy_en, cultural_journey, cultural_journey_en, avatar_url',
+    'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, status, celeb_tier, speech_tone, avatar_url',
     'id',
     (q) => q.eq('profile_type', 'CELEB'),
   )
@@ -79,6 +80,7 @@ async function main() {
     if (blank(p.profession)) gaps.push('basic:profession')
     if (blank(p.title)) gaps.push('basic:title')
     if (blank(p.bio)) gaps.push('basic:bio')
+    if (blank(p.avatar_url)) gaps.push('basic:avatar_url')
     // 생몰·국적은 fiction 에서 특정 불가가 정상이라 결손으로 세지 않는다
     if (tier !== 'fiction') {
       if (blank(p.nationality)) gaps.push('basic:nationality')
@@ -94,10 +96,6 @@ async function main() {
 
       // ── speech tone
       if (blank(p.speech_tone)) gaps.push('speech:tone')
-
-      // ── 감상 여정 원천
-      if (blank(p.consumption_philosophy)) gaps.push('journey:consumption_philosophy')
-      if (blank(p.consumption_philosophy_en)) gaps.push('i18n:consumption_philosophy_en')
 
       // ── 영향력
       const inf = infById.get(p.id)
