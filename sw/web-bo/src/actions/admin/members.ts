@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { getUsers, type User } from './users'
-import { getCelebs, type Celeb } from './celebs'
+import { getCelebs, type Celeb, type CelebImageFilter } from './celebs'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 
 /**
@@ -144,6 +144,7 @@ export interface GetMembersParams {
   role?: string
   profession?: string
   tier?: string
+  imageFilter?: CelebImageFilter
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -151,7 +152,7 @@ export interface GetMembersParams {
 
 // #region getMembers
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, sort, sortOrder } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, imageFilter, sort, sortOrder } = params
 
   // 타입이 지정되면 기존 로직 사용
   if (profileType === 'CELEB') {
@@ -162,6 +163,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
         status: status as 'active' | 'inactive' | 'suspended' | 'all',
       profession,
       tier: tier as 'full' | 'light' | 'all' | undefined,
+      imageFilter,
       sort,
       sortOrder,
     })

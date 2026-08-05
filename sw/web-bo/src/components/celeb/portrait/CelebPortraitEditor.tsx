@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef, useState, type DragEvent, type ReactNode } from 'react'
-import { ImagePlus, Loader2, Move, Upload, X } from 'lucide-react'
-import { createPreviewUrl } from '@/lib/image'
+import { useCallback, useEffect, useState, type DragEvent, type ReactNode } from 'react'
+import { Loader2, Move, Upload, X } from 'lucide-react'
+import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
+import { createPreviewUrl, getClipboardImageFile } from '@/lib/image'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 
 interface Props {
@@ -12,6 +13,11 @@ interface Props {
   className?: string
   empty?: ReactNode
   compact?: boolean
+  openOnClick?: boolean
+  loadImmediately?: boolean
+  highPriority?: boolean
+  pasteActive?: boolean
+  onActivate?: () => void
   onCroppedFile: (file: File, previewUrl: string) => void | Promise<void>
   onRemove?: () => void
   onFileAccepted?: () => void
@@ -23,20 +29,26 @@ const IMAGE_ONLY_ERROR = new Error('이미지 파일만 업로드 가능합니�
 export default function CelebPortraitEditor({
   value,
   alt,
-  className = 'group/portrait relative aspect-square w-[260px] shrink-0 overflow-hidden rounded-xl border-2 border-dashed border-border bg-bg-secondary hover:border-accent hover:bg-accent/5 data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30',
+  className,
   empty,
   compact = false,
+  openOnClick = false,
+  loadImmediately = false,
+  highPriority = false,
+  pasteActive = false,
+  onActivate,
   onCroppedFile,
   onRemove,
   onFileAccepted,
   onError,
 }: Props) {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const usesDefaultFrame = className === undefined
+  const frameClassName = className ?? 'group/portrait relative shrink-0 overflow-hidden rounded-xl border-2 border-dashed border-border bg-bg-secondary hover:border-accent hover:bg-accent/5 data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30'
   const [dragging, setDragging] = useState(false)
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [processing, setProcessing] = useState(false)
 
-  async function acceptFile(file?: File) {
+  const acceptFile = useCallback(async (file?: File) => {
     if (!file) return
     if (!file.type.startsWith('image/')) {
       onError?.(IMAGE_ONLY_ERROR)
@@ -45,7 +57,24 @@ export default function CelebPortraitEditor({
 
     onFileAccepted?.()
     setCropImageSrc(await createPreviewUrl(file))
-  }
+  }, [onError, onFileAccepted])
+
+  useEffect(() => {
+    if (!pasteActive) return
+
+    function handlePaste(event: ClipboardEvent) {
+      const target = event.target as HTMLElement | null
+      if (target?.closest('input, textarea, [contenteditable="true"]')) return
+
+      const file = getClipboardImageFile(event)
+      if (!file) return
+      event.preventDefault()
+      void acceptFile(file)
+    }
+
+    window.addEventListener('paste', handlePaste)
+    return () => window.removeEventListener('paste', handlePaste)
+  }, [acceptFile, pasteActive])
 
   function handleDragLeave(event: DragEvent<HTMLDivElement>) {
     event.preventDefault()
@@ -81,6 +110,16 @@ export default function CelebPortraitEditor({
     <>
       <div
         data-dragging={dragging || undefined}
+        role={onActivate ? 'button' : undefined}
+        tabIndex={onActivate ? 0 : undefined}
+        aria-pressed={onActivate ? pasteActive : undefined}
+        aria-label={onActivate ? `${alt} 붙여넣기 대상 선택` : undefined}
+        onClick={onActivate}
+        onKeyDown={onActivate ? (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return
+          event.preventDefault()
+          onActivate()
+        } : undefined}
         onDragEnter={(event) => {
           event.preventDefault()
           event.stopPropagation()
@@ -92,28 +131,42 @@ export default function CelebPortraitEditor({
         }}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={className}
+        className={`${frameClassName} ${pasteActive ? 'border-accent ring-2 ring-accent ring-offset-2 ring-offset-bg-card' : ''} ${onActivate ? 'cursor-pointer' : ''}`}
+        style={usesDefaultFrame ? {
+          width: CELEB_HERO_PHOTO_SPEC.desktopWidthPx,
+          aspectRatio: CELEB_HERO_PHOTO_SPEC.aspectRatio,
+        } : undefined}
       >
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          onChange={async (event) => {
-            await acceptFile(event.target.files?.[0])
-            event.target.value = ''
-          }}
-          className="hidden"
-        />
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          aria-label={`${alt} 선택`}
-          title="클릭하거나 이미지를 끌어다 놓아 대표 화보 편집"
-          className="absolute inset-0 z-10 cursor-pointer rounded-[inherit]"
-        />
-
-        {value ? (
-          <Image src={value} alt={alt} fill unoptimized className="object-cover" />
+        {value ? openOnClick ? (
+          <a
+            href={value}
+            target="_blank"
+            rel="noreferrer"
+            onClick={onActivate ? (event) => event.preventDefault() : undefined}
+            aria-label={`${alt} 원본 이미지 새 탭에서 열기`}
+            className="absolute inset-0 z-10 cursor-pointer"
+          >
+            <Image
+              src={`${value}${value.includes('?') ? '&' : '?'}cors=1`}
+              alt={alt}
+              fill
+              unoptimized
+              crossOrigin="anonymous"
+              loading={loadImmediately ? 'eager' : 'lazy'}
+              fetchPriority={highPriority ? 'high' : 'auto'}
+              className="object-cover"
+            />
+          </a>
+        ) : (
+          <Image
+            src={value}
+            alt={alt}
+            fill
+            unoptimized
+            loading={loadImmediately ? 'eager' : 'lazy'}
+            fetchPriority={highPriority ? 'high' : 'auto'}
+            className="object-cover"
+          />
         ) : empty ? (
           <div className="flex h-full w-full items-center justify-center">{empty}</div>
         ) : (
@@ -122,14 +175,14 @@ export default function CelebPortraitEditor({
               <Upload className="h-5 w-5" />
             </div>
             <span className="text-xs font-medium text-text-primary">대표 화보 놓기</span>
-            <span className="text-[10px]">1:1 · 위치와 확대 조정</span>
+            <span className="text-[10px]">{CELEB_HERO_PHOTO_SPEC.aspectLabel} · 위치와 확대 조정</span>
           </div>
         )}
 
-        {value && (
-          <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-black/55 text-white opacity-0 transition-opacity duration-150 group-hover/portrait:opacity-100">
-            <ImagePlus className="h-5 w-5" />
-            {!compact && <span className="text-xs font-medium">교체하고 위치 조정</span>}
+        {value && !openOnClick && (
+          <div className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-black/55 text-white opacity-0 group-hover/portrait:opacity-100">
+            <Move className="h-5 w-5" />
+            {!compact && <span className="text-xs font-medium">드래그해서 교체</span>}
           </div>
         )}
 
@@ -141,8 +194,14 @@ export default function CelebPortraitEditor({
         )}
 
         {processing && (
-          <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center bg-black/70">
-            <Loader2 className="h-6 w-6 animate-spin text-accent" />
+            <div className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center bg-black/70">
+              <Loader2 className="h-6 w-6 animate-spin text-accent" />
+            </div>
+        )}
+
+        {pasteActive && !processing && (
+          <div className="pointer-events-none absolute bottom-2 left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded-full bg-accent px-3 py-1 text-xs font-bold text-white shadow-lg">
+            선택됨 · Ctrl+V
           </div>
         )}
 
@@ -164,7 +223,7 @@ export default function CelebPortraitEditor({
       {cropImageSrc && (
         <ImageCropModal
           imageSrc={cropImageSrc}
-          aspectRatio={1}
+          aspectRatio={CELEB_HERO_PHOTO_SPEC.aspectRatio}
           cropShape="rect"
           enableAutoCrop={false}
           restrictPosition

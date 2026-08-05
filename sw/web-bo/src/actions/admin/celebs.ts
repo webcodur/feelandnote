@@ -44,6 +44,8 @@ export interface CelebsResponse {
   total: number
 }
 
+export type CelebImageFilter = 'all' | 'missing-avatar' | 'missing-portrait'
+
 interface GetCelebsParams {
   page?: number
   limit?: number
@@ -51,6 +53,7 @@ interface GetCelebsParams {
   status?: 'active' | 'inactive' | 'suspended' | 'all'
   profession?: string
   tier?: 'full' | 'light' | 'all'
+  imageFilter?: CelebImageFilter
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -97,6 +100,10 @@ interface UpdateCelebInput {
   status?: 'active' | 'inactive' | 'suspended'
   celeb_tier?: 'full' | 'light'
   influence?: GeneratedInfluence
+}
+
+interface UpdateCelebOptions {
+  revalidateAdminRoutes?: boolean
 }
 
 type CelebListRow = {
@@ -279,11 +286,11 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
 
 function buildCelebListQuery(
   supabase: ReturnType<typeof createAdminClient>,
-  params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier'>,
+  params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier' | 'imageFilter'>,
   select: string,
   options?: { count?: 'exact'; head?: boolean }
 ) {
-  const { search, status, profession, tier } = params
+  const { search, status, profession, tier, imageFilter } = params
 
   let query = supabase
     .from('profiles')
@@ -310,14 +317,20 @@ function buildCelebListQuery(
     query = query.eq('celeb_tier', tier)
   }
 
+  if (imageFilter === 'missing-avatar') {
+    query = query.is('avatar_url', null)
+  } else if (imageFilter === 'missing-portrait') {
+    query = query.is('portrait_url', null)
+  }
+
   return query
 }
 
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, sort = 'created_at', sortOrder = 'desc' } = params
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
-  const filters = { search, status, profession, tier }
+  const filters = { search, status, profession, tier, imageFilter }
   const selectFields = `
     id, slug, nickname, avatar_url, portrait_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey,
@@ -371,17 +384,18 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, sort = 'created_at', sortOrder = 'desc' } = params
   const rpcUnsupportedSorts = ['avatar_url', 'title', 'gender', 'celeb_tier']
   const needsExactFiltering =
     rpcUnsupportedSorts.includes(sort) ||
     sort === 'content_count' ||
     status === 'inactive' ||
     status === 'suspended' ||
-    (tier && tier !== 'all')
+    (tier && tier !== 'all') ||
+    (imageFilter && imageFilter !== 'all')
 
   if (needsExactFiltering) {
-    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, sort, sortOrder })
+    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, imageFilter, sort, sortOrder })
   }
 
   const supabase = createAdminClient()
@@ -843,7 +857,10 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 // #endregion
 
 // #region updateCeleb
-export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
+export async function updateCeleb(
+  input: UpdateCelebInput,
+  { revalidateAdminRoutes = true }: UpdateCelebOptions = {}
+): Promise<void> {
   const adminClient = createAdminClient()
 
   const updateData: Record<string, unknown> = {}
@@ -919,9 +936,9 @@ export async function updateCeleb(input: UpdateCelebInput): Promise<void> {
     if (influenceError) throw influenceError
   }
 
-  revalidatePath('/celebs')
+  if (revalidateAdminRoutes) revalidatePath('/celebs')
   // 상세는 slug로 주소가 잡힌다(/celebs/[slug]). id로 짚으면 빗나가므로 라우트 패턴으로 지정
-  revalidatePath('/celebs/[slug]', 'page')
+  if (revalidateAdminRoutes) revalidatePath('/celebs/[slug]', 'page')
   // profiles·celeb_influence 수정 + 명언(quotes)이 오면 celeb_dialogues까지 건드린다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 
@@ -965,6 +982,20 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
     suspended: 'active',
   }
   const newStatus = cycle[currentStatus] || 'active'
+
+  if (newStatus === 'active') {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('avatar_url')
+      .eq('id', celebId)
+      .eq('profile_type', 'CELEB')
+      .single()
+
+    if (profileError) throw profileError
+    if (!profile.avatar_url?.trim()) {
+      throw new Error('아바타가 없는 인물은 활성화할 수 없습니다.')
+    }
+  }
 
   const { error } = await supabase
     .from('profiles')

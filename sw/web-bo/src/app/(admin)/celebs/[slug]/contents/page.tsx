@@ -56,7 +56,15 @@ export default async function CelebContentsPage({ params, searchParams }: PagePr
           <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center overflow-hidden">
               {celeb.avatar_url ? (
-                <Image src={celeb.avatar_url} alt="" fill unoptimized className="object-cover" />
+                <Image
+                  src={celeb.avatar_url}
+                  alt=""
+                  fill
+                  unoptimized
+                  loading="eager"
+                  fetchPriority="high"
+                  className="object-cover"
+                />
               ) : (
                 <Star className="w-5 h-5 text-yellow-400" />
               )}

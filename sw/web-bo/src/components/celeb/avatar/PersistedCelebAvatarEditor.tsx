@@ -13,6 +13,7 @@ interface Props extends Omit<EditorProps, 'value' | 'alt' | 'onCroppedFile' | 'o
   avatarUrl?: string | null
   name?: string | null
   onSaved?: (url: string) => void
+  refreshAfterSave?: boolean
 }
 
 export default function PersistedCelebAvatarEditor({
@@ -20,6 +21,7 @@ export default function PersistedCelebAvatarEditor({
   avatarUrl,
   name,
   onSaved,
+  refreshAfterSave = true,
   ...editorProps
 }: Props) {
   const router = useRouter()
@@ -29,11 +31,11 @@ export default function PersistedCelebAvatarEditor({
   const currentUrl = localAvatar.source === avatarUrl ? localAvatar.value : avatarUrl
 
   async function persist(file: File) {
-    const url = await saveCelebAvatar(celebId, file)
+    const url = await saveCelebAvatar(celebId, file, refreshAfterSave)
     setLocalAvatar({ source: avatarUrl, value: url })
     onSaved?.(url)
     showToast('success', `${label} 아바타를 저장했습니다.`)
-    router.refresh()
+    if (refreshAfterSave) router.refresh()
   }
 
   return (
