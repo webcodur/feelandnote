@@ -55,8 +55,8 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug(프로필 미러)·**celeb_id(profiles, NOT NULL, ON DELETE RESTRICT)**·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
   - `mythical=true` 인물은 `profiles.celeb_tier='fiction'` 프로필에 연결한다.
-    얼굴이 없어도 `avatar_url=null`인 active 데이터형 프로필을 만들 수 있으며,
-    아바타 부재는 출간·검색 연결을 막지 않는다
+    2026-08-05 이후 신규 active 전환에는 fiction도 아바타가 필수다. 기존
+    `avatar_url=null` active 데이터형 프로필은 소급 비활성화하지 않는다
   - 2026-07-29 전수 기준: 신화·서사 18편, 285배치, 정규 fiction 257명.
     `celeb_id` 미해소 0, 태그 배정 누락 0, 원전 연결 255명(20작품·285관계)
 - `faction_episode_parts` — (episode_id, part) PK·comment(現 comment.p<N>.txt)

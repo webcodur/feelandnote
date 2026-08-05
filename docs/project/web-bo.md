@@ -37,7 +37,7 @@ pnpm dev:bo
 아래 표와 실제 `app/` 라우트를 기준으로 본다.
 
 왼쪽 메뉴는 `src/components/layout/Sidebar.tsx`의 `menuGroups` 배열이 단일원천이며
-2026-07-29 기준 10개 묶음 30개 라우트다. 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러
+2026-07-29 기준 10개 묶음 31개 라우트다. 상세 화면(`[id]`·`[slug]`)은 목록에서 눌러
 들어가므로 메뉴에 없고, `/celebs/new`도 셀럽 목록 안의 버튼으로만 들어간다.
 
 ### 대시보드
@@ -53,8 +53,9 @@ pnpm dev:bo
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
 | `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `profiles` (`profile_type='CELEB'`) |
+| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 화보를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사·CPU nobg 대기열 처리를 수행 | `profiles` (`avatar_url`, `portrait_url`) |
 | `/celebs/new` | 셀럽 계정 생성 | 신규 셀럽 생성 폼 | `profiles` |
-| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·영향력·감상철학·태그 + 페르소나·고유대사·계정정보 | `profiles`, `celeb_dialogues`, `celeb_influence`, `celeb_tag_assignments` |
+| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학·태그 + 페르소나·고유대사·계정정보 | `profiles`, `celeb_dialogues`, `celeb_influence`, `celeb_tag_assignments` |
 | `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `user_contents`, `contents`, `content_locales` |
 | `/celebs/[slug]/contents/collect` | (수집) | 콘텐츠 수집 전용 화면. 구현은 `members/[id]/contents/collect/CollectView`에 있다 | `user_contents` |
 | `/celebs/titles` | 셀럽 수식어 편집 | 전체 셀럽 수식어 일괄 편집 | `profiles` |

@@ -17,7 +17,7 @@
 | 자리 | 저장 위치 | 무엇을 넣나 | 파일 | 규격 SSoT | 채움 (26.08.01) |
 |------|-----------|-------------|------|-----------|------|
 | **아바타** | `profiles.avatar_url` | 얼굴이 화면을 채우는 정사각 헤드숏. 원형으로 잘려 나간다 | R2 `celebs/{id}/avatar.webp` 800×800 | `celeb-avatar-spec.md` | 1,957 / 2,426 |
-| **대표 사진** | `profiles.portrait_url` | 인물 상세 맨 위 정사각 사진. 복식·배경·소품이 있는 환경 사진 | R2 `celebs/{id}/photo.webp` 1024~1080 | `db-celeb.md` 「셀럽 이미지 규격」 + `celeb/hero-photo-status.md` | 390 / 2,426 |
+| **대표 사진** | `profiles.portrait_url` | 인물 상세 PC 상단의 세로 환경 사진. 복식·배경·소품을 함께 담는다 | R2 `celebs/{id}/photo.webp` | `packages/shared/src/constants/celeb-hero-photo.ts`(비율·픽셀) + `db-celeb.md` 「셀럽 이미지 규격」 + `celeb/hero-photo-status.md` | 390 / 2,426 |
 | **개인화보** | `faction_people.web_image_url`(제작 유래) · `celeb_tag_assignments.faction_image_url`(웹 전용 배정) — 화면은 뷰 `faction_atlas_members`로 읽는다(26.08.03 단일화) | 태그별 인물 대표 화보. 원본 비율 그대로, **얼굴로 자르지 않는다** | R2 `faction/{tagId}/celeb-{celebId}.webp` | `.agents/skills/faction-celeb-sync/SKILL.md` | 102 / 864 (26.08.01, 단일화 이전 배정 기준 집계) |
 | **단체화보** | `celeb_tags.team_images[]` | 단체 화보 여러 장 | R2 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 같은 문서 | — |
 | **개인화보(영상 원본)** | `faction_people.image` | 세력도감 영상에서 인물이 등장하는 화면 | 저장소 `factions/<편>/<그룹>/<slug>.png` | `.agents/skills/faction-image/SKILL.md` | 986 / 1,220 |
@@ -51,7 +51,7 @@
 - **얼굴을 잘라 쓰는 것은 아바타뿐이다.** 나머지 다섯은 전부 원본 화보다. 개인화보에 얼굴 크롭을 넣으면 세력도감 큰 자리가 증명사진이 된다.
 - **아바타 규격을 다른 자리에 적용하지 않는다.** 눈높이 46·턱끝 81 같은 프레임 기하는 아바타 전용이다.
 - **영상 원본과 도감의 개인화보는 같은 그림이다.** 영상 쪽에서 만든 그림이 출간 패널을 거쳐 도감으로 올라간다. 도감에서 직접 올리는 별도 그림이 아니다.
-- **정사각이 기본이다.** 세로(9:16) 대표 사진은 2026-07-31에 폐기됐고 되살릴 원본도 없다. 다시 하려면 신규 생성이다.
+- **대표 사진의 숫자 규격은 공용 상수만 바꾼다.** `CELEB_HERO_PHOTO_SPEC`이 화면·백오피스 크롭·저장 도구의 단일원천이다. 2026-08-05 이전 정사각 파일은 R2에서 덮어쓰지 않고 PC 화면에서 현행 세로 비율로 중앙 크롭한다.
 
 ---
 

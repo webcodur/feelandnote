@@ -30,7 +30,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `virtual_monologue_locked_at` (timestamptz): **가상 독백 확정 잠금** (2026-08-02 `add_virtual_monologue_lock`). 값이 있으면 트리거 `guard_virtual_monologue_lock`이 어떤 경로(관리자 폼·게시 RPC·스크립트)로 오든 `virtual_monologue` UPDATE를 거부한다. 해제(null 세팅)와 본문 수정은 반드시 별도 문장 — 한 문장에 섞어도 차단된다. 잠금·해제·목록 CLI: `sw/web-bo/scripts/lock-virtual-monologue.ts`
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
-  - `portrait_url` (text): 잔류 컬럼. Portrait(9:16) 기능은 전면 제거됨. **2026-07-31 값 전량 비움(817건 → 0)** — 815건이 옛 Supabase Storage(`avatars` 버킷)를 가리켰으나 그 버킷에 portrait 파일은 0개였다(실측: `storage.objects` 852건 중 이름에 portrait 포함 0, 샘플 URL HTTP 400). 되살릴 원본이 없으므로 재도입은 신규 생성이다
+  - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 Supabase Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
 - **`celeb_explanations`**: 인물당 한 행으로 `인물 안내`와 `인물 탐구`를 보관한다. `profile_id`가 `profiles.id`를 참조하는 PK라 1:1이다
   - `plain_text`는 처음 보는 독자를 위한 인물 안내, `interpretive_title`·`interpretive_text`는 그 사실을 반복하지 않고 선택과 긴장을 읽는 인물 탐구다. 영문 필드는 각각 `_en`
   - `review_status`는 `null`(미검수) / `ai_reviewed` / `human_reviewed` 셋이다. CHECK 제약에는 두 문자열만 두고 미검수는 실제 SQL `NULL`로 표현한다
@@ -194,10 +194,12 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
+> **비율·표시 크기·저장 크기의 코드 SSoT는 `packages/shared/src/constants/celeb-hero-photo.ts`의 `CELEB_HERO_PHOTO_SPEC`이다.** 웹, 백오피스, 일괄 스크립트에서 숫자를 다시 선언하지 않는다. 이 문서는 용도·구도·운영 정책을 설명한다.
+
 | 파일명 | 크기 | 비율 | 용도 |
 |--------|------|------|------|
 | `avatar.webp` | 800×800 | 1:1 | 원형 아바타, 카드 썸네일, 모든 이미지 표시 (레티나 3x 대응) |
-| `photo.webp` | 1024~1080 | 1:1 | **인물 상세 상단 대표 화보**(2026-07-31 신설). 얼굴 크롭이 아니라 복식·배경이 있는 환경 인물사진 |
+| `photo.webp` | 공용 상수 참조 | 세로 | **인물 상세 PC 상단 대표 화보**(2026-07-31 신설, 2026-08-05 세로 전환). 얼굴 크롭이 아니라 복식·배경이 있는 환경 인물사진 |
 
 **아바타 구도 규격**
 
@@ -215,10 +217,11 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 **대표 화보 규격 (`photo.webp` → `profiles.portrait_url`)**
 
-- 얼굴만 담는 아바타와 정반대다. **복식·배경·소품이 있는 정사각 환경 인물사진**이고, 상반신~무릎이 들어간다.
-- 화면 표시는 PC 240·모바일 224이라 1024면 레티나 3배를 덮는다. 생성은 1024×1024, 저장은 1080 상한(1024 산출물은 확대하지 않아 그대로 남는다).
+- 얼굴만 담는 아바타와 정반대다. **복식·배경·소품이 있는 세로 환경 인물사진**이고, 상반신~무릎이 들어간다.
+- PC 상세 상단에서만 세로 대표사진을 직접 노출한다. 모바일 상단은 원형 아바타를 유지하되, 아바타를 누른 확대 모달은 `portrait_url`을 우선 연다.
+- 기존 정사각 `photo.webp`는 원본을 덮어쓰지 않고 화면의 `object-cover`로 중앙 크롭한다. 신규 업로드는 백오피스 편집기에서 공용 상수의 비율로 자르고, 저장 크기 상한도 같은 상수에서 읽는다.
 - **대표 사진이 비면 화면이 세력도감 개인화보(제작 유래는 `faction_people.web_image_url`, 수동 배정은 `celeb_tag_assignments.faction_image_url` — 조회는 뷰 `faction_atlas_members`) → 얼굴 아바타 순으로 물러난다.** 그래서 전량을 채우지 않아도 화면이 깨지지 않는다(`getCelebBySlug`의 `photoUrl`).
-- 옛 Portrait(9:16)은 전면 제거됐고, 그 컬럼을 이 용도로 재사용한다(물리 명칭 유지).
+- 2026-07-31 제거한 옛 Portrait 파일을 복구한 것이 아니다. 비어 있던 물리 컬럼만 현재 대표사진 용도로 재사용한다.
 
 **대표 화보 채우는 세 경로**
 
