@@ -34,7 +34,7 @@
   width: 100%;
   margin: -56px 0 0;
   padding: 0 32px 32px;
-  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-columns: var(--celeb-hero-photo-width) minmax(0, 1fr);
   gap: 32px;
   border-top: 1px solid color-mix(in srgb, var(--color-accent) 48%, transparent);
   background: var(--material-panel, var(--color-bg-card));
@@ -44,7 +44,7 @@
   position: relative;
   z-index: 1;
   display: flex;
-  width: 240px;
+  width: var(--celeb-hero-photo-width);
   margin-top: -28px;
   justify-content: center;
   align-self: start;
