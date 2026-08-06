@@ -7,7 +7,7 @@ const NAMESPACES = [
   'core', 'nav', 'home', 'auth', 'explore', 'agora',
   'library', 'content', 'profile', 'celeb', 'rest', 'flow', 'reading',
   'moderation',
-  // 신작 게임 2차 물결 — 게임마다 자기 문구 파일을 갖는다 (docs/todo/game-wave2-contract.md)
+  // 신작 게임 2차 물결 — 게임마다 자기 문구 파일을 갖는다 (docs/todo/games/game-wave2-contract.md)
   'game-grid', 'game-groups', 'game-proximity', 'game-travel',
   'game-moreless', 'game-topfive', 'game-redact',
 ] as const;

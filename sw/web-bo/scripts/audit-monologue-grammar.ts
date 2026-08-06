@@ -16,7 +16,7 @@
  * [안 잡는 것] 사물 주어 · 번역투 · 종결 어미 편중 · 상투 표현 · 문단 구성 · 도입부 틀 ·
  *            어휘 취향 · 분량. 전부 문체 영역이라 손대면 형식이 흔들린다.
  *
- * [엔진]  국문은 codex(gpt-5.6-sol) — 한국어 작문·교정은 GPT가 낫다는 실측(docs/todo/korean-writing-quality.md).
+ * [엔진]  국문은 codex(gpt-5.6-sol) — 한국어 작문·교정은 GPT가 낫다는 실측.
  *         영문은 claude(sonnet).
  *
  * [안전장치]
@@ -68,7 +68,7 @@ const SLUGS = (() => {
 })()
 
 /**
- * 국문 기본 엔진은 codex(gpt-5.6-sol)다 — 한국어는 GPT가 낫다는 실측(docs/todo/korean-writing-quality.md).
+ * 국문 기본 엔진은 codex(gpt-5.6-sol)다 — 한국어는 GPT가 낫다는 실측.
  * 다만 그 실측은 **작문** 기준이고 이 작업은 비문 탐지라 성격이 다르다.
  * codex 사용량이 소진되면 `--engine claude` 로 갈아탄다.
  */

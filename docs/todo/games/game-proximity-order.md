@@ -83,7 +83,7 @@
 | `sw/web/src/app/[locale]/lab/games/proximity/page.tsx` | 단독 시험 화면 |
 | `sw/web/messages/ko/game-proximity.json` | 한국어 문구 (30키) |
 | `sw/web/messages/en/game-proximity.json` | 영어 문구 (30키) |
-| `docs/todo/game-proximity-order.md` | 이 발주서 |
+| `docs/todo/games/game-proximity-order.md` | 이 발주서 |
 
 ---
 

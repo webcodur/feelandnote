@@ -35,7 +35,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `plain_text`는 처음 보는 독자를 위한 인물 안내, `interpretive_title`·`interpretive_text`는 그 사실을 반복하지 않고 선택과 긴장을 읽는 인물 탐구다. 영문 필드는 각각 `_en`
   - `review_status`는 `null`(미검수) / `ai_reviewed` / `human_reviewed` 셋이다. CHECK 제약에는 두 문자열만 두고 미검수는 실제 SQL `NULL`로 표현한다
   - `published_at`은 게시 여부와 시각의 SSoT다. `null`이면 미게시다. RLS는 게시된 행만 공개하고 작성·수정은 `service_role`에만 허용한다
-  - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 5인 시범 이력은 `docs/todo/celeb-explainer-pilot.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
+  - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
   - `celeb_explanation_sources`는 2026-08-04 폐기했다. 사실 조사는 계속 수행하지만 URL은 집필 캐시에만 임시 보관하고 서비스 DB에는 적재하지 않는다
 - **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
   - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT

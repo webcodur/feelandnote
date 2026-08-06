@@ -1,6 +1,6 @@
 # 상위 다섯 (Top Five) 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `sw/web/src/actions/game/grid.ts`, `sw/web/src/components/features/game/grid/`, `sw/web/src/components/features/game/groups/`, `sw/web/src/components/shared/GameFullScreen.tsx`, `docs/project/db-core.md`, `docs/project/celeb/celeb-4-influence.md`, `sw/web/messages/{ko,en}/game-topfive.json`, `sw/web/src/lib/cache.ts`, `docs/todo/game-wave2-contract.md`. DB 실측 없음(환경값 부재).
+> **최종 실측 체크: 26.07.31** — 부분 대조: `sw/web/src/actions/game/grid.ts`, `sw/web/src/components/features/game/grid/`, `sw/web/src/components/features/game/groups/`, `sw/web/src/components/shared/GameFullScreen.tsx`, `docs/project/db-core.md`, `docs/project/celeb/celeb-4-influence.md`, `sw/web/messages/{ko,en}/game-topfive.json`, `sw/web/src/lib/cache.ts`, `docs/todo/games/game-wave2-contract.md`. DB 실측 없음(환경값 부재).
 
 ## 무엇을 하는 게임인가
 
