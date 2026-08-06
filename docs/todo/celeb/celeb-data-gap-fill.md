@@ -9,7 +9,7 @@ basic(이름·수식어·소개·직군·국적·생몰) · 감상철학 · 영�
 speech(톤·명언·대사 21개) · 영문(i18n)이다.
 
 **범위 밖**: 가상독백(`virtual_monologue`). 전용 트랙이 따로 있고 한국어 전수는 이미 완료됐다
-(`docs/todo/virtual-monologue-quality-overhaul.md`).
+(`docs/archive/virtual-monologue-quality-overhaul-2026-07.md`).
 
 **결손으로 세지 않는 것**: `fiction` 티어의 생몰·국적(특정 불가가 정상), `fiction`·`relation`
 티어의 영문 필드(번역 대상 아님), `death_date`(생존자는 비어 있는 게 정상).

@@ -124,7 +124,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
 
 ### 4-3. 단일화 (26.08.03) — 텍스트 복사 폐기, 뷰 직독
 
-투영(제작→배정 복사) 자체를 폐기하고 데이터를 한 벌로 줄였다. 작업 기록은 `docs/todo/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
+투영(제작→배정 복사) 자체를 폐기하고 데이터를 한 벌로 줄였다. 작업 기록은 `docs/todo/faction/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
 
 - **인물 텍스트(대사 quote·직함·소개 epithet/lines)의 유일 원천 = `faction_people`.** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 손질은 `web_long_desc`(±en, 상세)·`web_image_url`(표지)·`web_quote_media`(출간 음성+화보 타임라인)·`web_hidden`만 허용하며 옛 `web_short_desc`(±en)는 폐기했다.
 - **웹·BO는 DB 뷰 `faction_atlas_members`를 읽는다** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정. 태그당 셀럽 중복은 제작 앞자리 채택, `disabled` 제외. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번.

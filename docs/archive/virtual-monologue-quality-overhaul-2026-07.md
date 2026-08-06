@@ -6,7 +6,7 @@
 > 시작: 2026-07-29 · 상태: **실존 full·light 한국어 전수 완료 — 활성 1,476명 / 유지 624명 / 게시 139명 / 보류 713명**
 > 한국어 원천: `profiles.virtual_monologue`  
 > 실존 인물 작성 모델: GPT-5.6 · 신화·허구 인물: `fiction-profile-monologue` 별도 트랙
-> 2026-07-30 완료 기록: `docs/todo/virtual-monologue-handoff-2026-07-30.md`
+> 2026-07-30 완료 이력은 폐기됨.
 
 ## 완료 상태와 후속
 

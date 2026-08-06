@@ -37,7 +37,7 @@
 
 | 산출물 | 경로 |
 |---|---|
-| 발주서 | `docs/todo/game-<key>-order.md` |
+| 발주서 | `docs/todo/games/game-<key>-order.md` |
 | 화면·규칙 | `sw/web/src/components/features/game/<key>/` 하위 전부 |
 | 서버 조회 | `sw/web/src/actions/game/<key>.ts` (또는 `<key>/` 폴더) |
 | 체험용 표본 | `sw/web/src/components/features/game/<key>/fixture.ts` |

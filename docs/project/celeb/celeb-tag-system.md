@@ -4,7 +4,7 @@
 
 ## 26.08.03 단일화 — 가장 먼저 읽을 것
 
-복사 구조를 폐기하고 데이터를 한 벌로 줄였다. 이 문서의 나머지 절은 이 변경을 얹어 읽어야 한다. 작업 기록은 `docs/todo/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
+복사 구조를 폐기하고 데이터를 한 벌로 줄였다. 이 문서의 나머지 절은 이 변경을 얹어 읽어야 한다. 작업 기록은 `docs/todo/faction/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
 
 - **인물 텍스트(대사 quote·직함·소개 epithet/lines)의 유일 원천은 제작 테이블 `faction_people`이다.** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 별도 손질은 `web_long_desc`(±en, 상세 소개)·`web_image_url`·`web_hidden`만 허용한다. 옛 `web_short_desc`(±en)는 폐기했다.
 - **웹·BO 읽기는 DB 뷰 `faction_atlas_members` 하나다.** 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정. 태그당 같은 셀럽 중복은 제작 앞자리 배치를 채택하고, `disabled` 인물은 제외한다. 정렬은 제작 순번 우선이고 웹 전용 배정은 10000+ 순번으로 뒤에 선다.
@@ -382,7 +382,7 @@ WHERE tag_id = '태그ID' AND celeb_id = '셀럽ID';
 ## 참고
 
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
-- **태그 아이디어 후보**: `docs/todo/tag-ideas.md`
+- **태그 아이디어 후보**: `docs/todo/faction/tag-ideas.md`
 - **세력도감 페이지**: `sw/web/src/app/[locale]/(main)/explore/faction/page.tsx`, 테마별 주소는 `.../faction/[slug]/page.tsx`(미등록 slug는 `notFound()`)
 - **getFeaturedTags 액션**: `sw/web/src/actions/home/getFeaturedTags.ts` (`FeaturedTag`·`FeaturedCeleb` 타입도 여기)
 - **상위 그룹 SSoT**: `celeb_tags.parent_id` (DB). 편집 화면은 web-bo `/factions/themes/[tagId]`
