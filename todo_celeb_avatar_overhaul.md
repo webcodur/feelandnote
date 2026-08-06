@@ -170,78 +170,10 @@
 - 판정 한계: 유일 생전 회화의 확실한 비례·노년 특징·단순 복식만 복원한 `iconography-based historical reconstruction`이며, 정확한 사진 likeness·피부색·눈동자색·미세 주름·관등을 주장하지 않음
 - 크레딧 로그: `sw/web-bo/scripts/celeb-image-credits.log`의 `2026-07-30T10:52:55.212Z` 기록에 생전 초상 근거·배제 자료·생성 횟수·생성 해시·복원 한계·누끼·QA를 보존함
 
-### 토리야마 아키라 — 완료
-
-- slug: `akira-toriyama`
-- profile id: `88047ccc-7bec-4d96-9385-00122350066e`
-- 결함: 기존 아바타가 1982년 흑백 사료 사진을 그대로 확대·누끼 처리해 서비스의 컬러 실사 규격에 미달했음
-- QID 교정: DB의 `Q299931`은 칠레 오픈 테니스 대회였고 올바른 인물 항목은 `Q208582`임을 Wikidata 두 항목과 슈에이샤 공식 추모문 `https://mangaplus.shueisha.co.jp/web_pages/1345/`으로 교차 확인했다. UUID·slug·`CELEB`·기존 QID가 모두 일치할 때만 `Q299931`→`Q208582`로 조건부 갱신했으며 재조회로 확인함
-- 신원·형상 주 REF: WBUR/NPR가 토리야마 아키라로 직접 캡션한 1982년 5월 Jiji Press/AFP 흑백 사진 `https://www.wbur.org/npr/1237072321/akira-toriyama-dragon-ball-creator-dies-manga-anime`. 2309×1732, 실제 1채널 흑백, 원본 SHA-256 `BC93DDA308E272E3662BF42F2F1F89A328AA665A2CD55D1FC8E8C0C6FACE005D`. Nippon.com·TIME·PBS도 같은 사진의 인물과 연도를 독립 캡션함
-- 색상 전용 REF: SBS가 토리야마와 아들로 직접 캡션한 1988년 AFP 컬러 사진 `https://www.sbs.com.au/news/article/who-was-akira-toriyama-the-story-of-the-legendary-creator-of-dragon-ball/977rlaszg`. 2919×1933 RGB, SHA-256 `E85CCCB827D943E40BC6BFFA49A83055044C4F6F8F68C26B3A7B6BA5A5F1F5CA`. 토리야마 본인의 피부·거의 검은 머리·얇은 금빛 안경테·파우더블루/차콜 색조만 참고하고 아들·손·컨트롤러·TV·블라인드·가구·자세·표정·의복 형태·글자는 전이하지 않음
-- 재구성: 조사 보고서의 단일 발주안으로 built-in imagegen을 정확히 1회 실행했다. 1982 사진의 얼굴 폭·턱선·눈·코·웃는 입과 노출 치아·귀·헤어라인·가르마·안경·3/4 각도·구도를 보존하고 1988 사진에서는 저채도 색상만 읽은 후보가 8개 합격 기준을 모두 통과해 표적 교정은 사용하지 않음. 생성 원본은 1254×1254 RGB PNG, SHA-256 `7BC9A5FD46E3867F5345F1C99C5B9C81342732E2FC5CB5FB17390ECB688B4EDD`
-- 누끼·최종 QA: `C:\project\nobg`의 `birefnet-general`을 CPU 단일 프로세스로 실행하고 800×800 RGBA WebP 품질 100으로 변환했다. 밝은 배경·`#0a0a0a`·원형에서 머리 전체, 양쪽 안경테, 얼굴, 상부 어깨와 머리카락·안경 경계를 확인함
-- 최종 URL: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/88047ccc-7bec-4d96-9385-00122350066e/avatar.webp?v=1785409625084`
-- 역검증: HTTP 200, `image/webp`, 800×800, RGBA, 113,280 bytes. 업로드 미리보기와 R2 재다운로드본 SHA-256이 `09D361BED1ABD517EB1542CB56530EB3C76979B10E215F24FF3CDE98580BAC84`로 일치
-- DB·서비스 반영: DB 재조회에서 UUID·slug·`CELEB`·`Q208582`·새 URL이 모두 일치했고 `celebs` 캐시 무효화가 성공했다. 공개 `/ko/celeb/akira-toriyama` 리다이렉트와 `/celeb/akira-toriyama` HTML이 모두 위 최종 URL을 참조함
-- provenance·권리: `AI-assisted color reconstruction from 1982 Jiji/AFP identity reference and 1988 AFP color reference`. 직접 1982년 컬러 사진이 아니며, 두 출처 사진의 편집·저작권 상태와 재사용 권한은 신원·품질 통과와 별도임
-- 크레딧 로그: `sw/web-bo/scripts/celeb-image-credits.log`의 `2026-07-30T11:07:05.204Z` 기록에 두 REF의 역할 분리, 전이 금지 요소, 생성·누끼·최종 해시, QID 교정 근거와 provenance를 보존함
-
-### 이문열 — 완료
-
-- slug: `yi-mun-yol`
-- profile id: `8beb674d-cf49-4d51-bfa5-391ac2caa10e`
-- 결함: 기존 아바타가 긴 몸통이 포함된 저해상도 행사 사진이라 얼굴이 작고 누끼 윤곽이 거칠었음
-- 신원 근거: 조선일보 2021년 부악문원 인터뷰 `https://www.chosun.com/culture-life/2021/01/09/CR54VO4JXVFIJM7AMTXENGA7VM/?outputType=amp`가 작가 이문열과 촬영자 이태경 기자를 직접 명시한다. 한국문학번역원 KLWAVE 작가 페이지와 2015년 공식 해외 행사 기록으로 이름·직업·얼굴을 독립 대조함
-- 사용 원본: 조선일보 리사이저의 4712×3357 RGB JPEG. 원본 SHA-256 `281DDCFD18E427B7190F980B0BEB20A442F18141615082527621ED1231AAC184`
-- 크롭: 보고서 시작점 `x=250, y=120, 1750×1750`과 더 타이트한 두 안을 나란히 렌더했다. 긴 가슴 비중을 줄이면서 머리 전체·두 귀·셔츠 칼라·양쪽 상부 어깨를 보존한 `x=350, y=100, 1550×1550`을 육안 채택했다. 책 더미·손·긴 몸통은 제외했으며 생성·피부 보정은 전혀 하지 않음
-- 누끼·최종 QA: `C:\project\nobg`의 `birefnet-general`을 CPU 단일 프로세스로 정확히 1건 실행하고 800×800 RGBA WebP 품질 100으로 변환했다. 밝은 배경·`#0a0a0a`·원형에서 회색 머리카락·두 귀·얼굴·상부 어깨·셔츠 칼라 경계를 확인함
-- 최종 URL: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/8beb674d-cf49-4d51-bfa5-391ac2caa10e/avatar.webp?v=1785410161080`
-- 역검증: HTTP 200, `image/webp`, 800×800, RGBA, 104,352 bytes. 업로드 미리보기와 R2 재다운로드본 SHA-256이 `215FC3345D65F68F9C243F87783D4B9DD8F4DF6B20D30ABADCF29E27C8CC9595`로 일치
-- DB·서비스 반영: DB 재조회에서 UUID·slug·`CELEB`·`Q116288`·새 URL이 모두 일치했고 `celebs` 캐시 무효화가 성공했다. 공개 `/ko/celeb/yi-mun-yol` 리다이렉트와 `/celeb/yi-mun-yol` HTML이 모두 위 최종 URL을 참조함
-- 권리 메모: 조선일보가 인물·촬영자를 직접 명명한 보도 사진이지만 오픈 라이선스 자산은 아니며, 공개·상업 재사용 권한은 신원·품질 통과와 별도임
-- 크레딧 로그: `sw/web-bo/scripts/celeb-image-credits.log`의 `2026-07-30T11:16:01.266Z` 기록에 조선일보 원본·독립 신원 대조·원본 및 단계별 해시·수동 크롭 좌표·imagegen 미사용·CPU 누끼·QA와 권리 메모를 보존함
-
-### 이노우에 다케히코 — 완료
-
-- slug: `takehiko-inoue`
-- profile id: `8ac4448c-b7cb-460a-996b-67123093dc44`
-- 결함: 기존 아바타가 작은 저해상도 사진을 확대해 얼굴·안경·누끼 윤곽이 뭉개졌음
-- 신원 근거: 사진가 Laurent Koffel의 공식 포트폴리오 `https://laurentkoffel.com/portfolio/takehiko-inoue/`가 인물을 직접 명명한다. Tatler Asia가 같은 2013년 3월 22일 파리 촬영 세션과 사진가를 독립 캡션했고, 문부과학성 2024년 예술선장 수여식과 집영사 2023년 대담 사진으로 두개 윤곽·눈·코·귀·수염선을 교차 대조함
-- 사용 원본: Laurent Koffel `TIpetit.jpg`, 677×700 RGB JPEG, 4:4:4. 원본 SHA-256 `F70B881266831868F70383C192588051131B991B6DB86DAE20EAFEA57074D457`
-- 확대 품질 판정: `x=0, y=0, 677×677` 수동 크롭을 800×800 Lanczos로 1.1817배 확대해 원본과 나란히 검수했다. 모공·눈썹·속눈썹·귀 주름·수염 끝이 뭉개지지 않았고 JPEG 블록·과도한 선명화·생성 보정 흔적도 없어 서비스 품질을 통과함. 원본 자체가 정수리에 타이트한 클로즈업이라는 한계는 남지만 원형 UI에서 눈·코·입·턱과 신원 특징은 안전함
-- 생성·누끼: imagegen·얼굴 복원·안경 합성·미용 보정·배경 생성은 0건이다. `C:\project\nobg`의 `birefnet-general`을 CPU 단일 프로세스로 정확히 1건 실행하고 800×800 RGBA WebP 품질 100으로 변환함
-- 최종 QA: 밝은 배경·`#0a0a0a`에서 귀·두피·수염·검은 상의 경계가 깨끗했고, 원형에서 얼굴 핵심부가 안전하며 유효 디테일이 유지됨
-- 최종 URL: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev/celebs/8ac4448c-b7cb-460a-996b-67123093dc44/avatar.webp?v=1785410607344`
-- 역검증: HTTP 200, `image/webp`, 800×800, RGBA, 198,986 bytes. 업로드 미리보기와 R2 재다운로드본 SHA-256이 `F1FD06C9239C1B19A6C301FAC840F6183939BA3092384B14666D18C5A864C7F9`로 일치
-- DB·서비스 반영: DB 재조회에서 UUID·slug·`CELEB`·`Q459911`·새 URL이 모두 일치했고 `celebs` 캐시 무효화가 성공했다. 공개 `/ko/celeb/takehiko-inoue` 리다이렉트와 `/celeb/takehiko-inoue` HTML이 모두 위 최종 URL을 참조함
-- 권리 메모: Laurent Koffel 저작권 사진이며, 공개·상업 재사용 권한은 신원·품질 통과와 별도임
-- 크레딧 로그: `sw/web-bo/scripts/celeb-image-credits.log`의 `2026-07-30T11:23:27.542Z` 기록에 공식·기관 교차 근거, 원본 및 단계별 해시, 1.18배 확대 품질 판정, imagegen 미사용, CPU 누끼·QA와 권리 메모를 보존함
 
 앞선 6명은 원래 171명 큐에 들어 있지 않았던 후속 발견 결함이다. 김지하는 `confirmed_unresolved`와 미등록 명단에서, 루카 돈치치·매직 존슨·포송령·토리야마 아키라·이문열·이노우에 다케히코는 `confirmed_unresolved`에서 해결되어 제거했다. 따라서 현재 큐는 164/148이다.
 
 ## 2A. 이번 회차 HOLD
-
-### 스티브 데이비스
-
-- slug: `steve-davis`
-- profile id: `8d53cf85-4436-4718-af8c-f71ff058f3e2`
-- 신원 교정: 기존 `wikidata_qid=Q7612354`는 1965년생 영국 축구 선수·감독 Steven Peter Davis 항목이었다. Clark County 서명 계약서의 `Steve Davis / President`, The Boring Company 공식 발표, NASA의 2008년 SpaceX 엔지니어 이력, Wikidata의 The Boring Company 고용주·`Steve Davis (executive)` sitelink를 교차 대조해 올바른 항목 `Q96481977`을 확정함
-- DB 적용: UUID·slug·`profile_type=CELEB`·기존 `Q7612354`가 모두 일치할 때만 `Q96481977`로 바꾸는 조건부 UPDATE를 실행했다. 영향 행은 정확히 1개였고, 재조회에서 `Q96481977`과 기존 아바타 URL 불변을 확인함
-- 검토 후보: Los Angeles Times/Bloomberg 기사와 Getty asset 1157177120이 Steve Davis를 직접 명명하는 Mark Ralston/AFP의 2019-07-21 원본. 4782×3399 RGB JPEG, SHA-256 `8D4CFA72E63DCB6E7B36A038218E071CBF1CAA7FBE85DCC96F397931734B8B8F`
-- 육안 판정: 보고서 권장 `x=1450, y=300, 2050×2050` 크롭은 얼굴·머리 여백·양쪽 어깨·해상도가 모두 좋았다. 그러나 800×800 서비스 크롭에서 흰 Adidas 세 줄 심볼과 `adidas` 글자가 이마 중앙에 즉시 읽힐 정도로 크고, 얼굴과 함께 가장 먼저 보이는 시각 요소가 됨
-- 최종 판정: **IMAGE HOLD**. 모자·브랜드 표시를 생성·삭제·변형하지 않았고 imagegen, CPU 누끼, R2 업로드, `avatar_url` 변경은 모두 0건이다. `celebs` 캐시는 QID 교정 후 무효화했으며, 결함 문서와 `confirmed_unresolved` 큐는 제거하지 않고 164/148을 유지함
-- 재개 조건: 권위 출처가 인물을 직접 명명하는 고해상도 무브랜드 또는 로고 비지배 사진을 새로 확보할 때만 다시 검토한다. 현재 후보를 임의 보정하거나 로고를 지운 파생본으로 승격하지 않는다
-
-### 매니 파퀴아오
-
-- slug: `manny-pacquiao`
-- profile id: `91b86146-b610-4176-8205-52c8fea52fff`
-- 신원·QID: 본인 공식 사이트와 필리핀 상원 공식 자료로 Emmanuel Dapidran Pacquiao를 독립 대조했다. DB `Q486359`의 생년월일·필리핀 국적·복서·정치인 경력·BoxRec 6129와 모두 일치하므로 QID 변경은 필요 없음
-- 검토 후보: Wikimedia Commons `Manny Pacquiao at 87th NCAA cropped.jpg`, 2011-07-02 촬영, `inboundpass`, CC BY 2.0. 810×1054 RGB JPEG, SHA-256 `64E9242B7D91BA5371ECB309423E59F58C75895A57A1B0C956C6414E3DA5C0EC`
-- dry-run: 짧은 변 전체를 쓰는 `x=0, y=0, 810×810` 정사각형을 800×800 WebP 품질 100으로 변환해 육안 검수했다. dry-run SHA-256은 `5127F2F3EAE46976A2B3575FEED3F5A19A0120E399C1FFA542F852ADE229002D`
-- 육안 판정: 얼굴·머리 여백·해상도는 좋지만 마이크 헤드가 턱 바로 아래에 붙고 스탠드가 목과 상체를 대각선으로 가른다. 좌우 배경 인물도 800px에서 식별 가능하게 남는다. 마이크를 제외하려면 턱과 양쪽 상부 어깨를 함께 잘라야 하므로 수동 크롭으로 해결할 수 없음
-- 최종 판정: **IMAGE HOLD**. imagegen, 생성형 확대, CPU 누끼, R2 업로드, DB·`avatar_url`·캐시 변경은 모두 0건이다. 결함 문서와 `confirmed_unresolved` 큐는 제거하지 않고 164/148을 유지함
-- 재개 조건: 권위 출처가 직접 명명하고 마이크·동석자·군중이 없는 고해상도 단독 상반신 사진을 확보할 때만 다시 검토한다. 현재 후보에서 마이크를 지우거나 얼굴·어깨를 생성해 보충하지 않는다
 
 ### 벤지 테일러
 
