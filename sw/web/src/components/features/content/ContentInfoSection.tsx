@@ -6,8 +6,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
+import { useTranslations, useLocale } from "next-intl";
+import ContentImage from "@/components/ui/ContentImage";
 import { Book, Film, Gamepad2, Music, User, Calendar, Bookmark, Check, Loader2, Trash2, ExternalLink, ShoppingCart } from "lucide-react";
 import { AFFILIATE_PLATFORMS, type AffiliatePlatformKey } from "@/constants/affiliatePlatforms";
 import Button from "@/components/ui/Button";
@@ -51,11 +51,19 @@ export default function ContentInfoSection({
 }: ContentInfoSectionProps) {
   const t = useTranslations("contentDetail");
   const tError = useTranslations("actionErrors");
+  const locale = useLocale();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   const Icon = TYPE_ICONS[content.type];
   const categoryLabel = t(`category.${content.category}`);
+
+  /* 제휴 판매처는 나라마다 다르다. 쿠팡·알라딘 같은 국내 판매처는 국문 화면에서만,
+     아마존 같은 해외 판매처는 영문 화면에서만 내보낸다. */
+  const affiliateLinks = (content.affiliateLinks ?? []).filter((link) => {
+    const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey];
+    return platform?.locale === locale;
+  });
 
   // #region 핸들러
   // 콘텐츠 기록 추가 (상태 파라미터 제거 - 리뷰 기반으로 전환)
@@ -135,7 +143,7 @@ export default function ContentInfoSection({
         {/* 썸네일 */}
         <div className="relative w-24 h-36 md:w-28 md:h-42 rounded-lg shadow-lg shrink-0 overflow-hidden border border-white/10">
           {content.thumbnail ? (
-            <Image src={content.thumbnail} alt={content.title} fill unoptimized className="object-cover" />
+            <ContentImage src={content.thumbnail} alt={content.title} sizes="(max-width: 768px) 96px, 112px" />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
               <Icon size={32} className="text-text-secondary" />
@@ -274,11 +282,11 @@ export default function ContentInfoSection({
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {metadata.screenshots?.map((url, i) => (
                       <div key={i} className="relative aspect-video rounded-lg overflow-hidden border border-white/10 group">
-                          <Image 
-                            src={url} 
-                            alt={`Screenshot ${i + 1}`} 
-                            fill 
-                            className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                          <ContentImage
+                            src={url}
+                            alt={`Screenshot ${i + 1}`}
+                            sizes="(max-width: 768px) 50vw, 33vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
                           />
                       </div>
                   ))}
@@ -289,11 +297,11 @@ export default function ContentInfoSection({
       {/* 미디어 임베드 */}
       <MediaEmbed contentId={content.id} type={content.type} />
 
-      {/* 제휴 링크: AdSense 승인 전까지 비활성 */}
-      {/* {content.affiliateLinks && content.affiliateLinks.length > 0 && (
+      {/* 제휴 링크 — 링크가 채워졌고 화면 언어와 판매처 나라가 맞을 때만 뜬다 */}
+      {affiliateLinks.length > 0 && (
         <div className="space-y-2">
           <div className="flex flex-col gap-2">
-            {content.affiliateLinks.map((link) => {
+            {affiliateLinks.map((link) => {
               const platform = AFFILIATE_PLATFORMS[link.platform as AffiliatePlatformKey]
               if (!platform) return null
               return (
@@ -301,7 +309,7 @@ export default function ContentInfoSection({
                   key={link.platform}
                   href={link.url}
                   target="_blank"
-                  rel="noopener noreferrer nofollow"
+                  rel="noopener noreferrer nofollow sponsored"
                   className="flex items-center justify-center gap-2 w-full py-3 px-4 text-white text-sm font-semibold rounded-lg transition-opacity hover:opacity-85"
                   style={{ backgroundColor: platform.color }}
                 >
@@ -312,13 +320,13 @@ export default function ContentInfoSection({
               )
             })}
           </div>
-          {content.affiliateLinks.some(l => l.platform === 'coupang') && (
+          {affiliateLinks.some(l => l.platform === 'coupang') && (
             <p className="text-[10px] text-center">
               {AFFILIATE_PLATFORMS.coupang.notice}
             </p>
           )}
         </div>
-      )} */}
+      )}
 
       {/* 외부 플랫폼 링크 - 추후 활성화 예정 */}
       {/* <ExternalPlatformLinks

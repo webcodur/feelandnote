@@ -74,8 +74,8 @@ async function ScripturesHubContent() {
       </HubSection>
       </div>
 
-      {/* 쿠팡 제휴: AdSense 승인 전까지 비활성 */}
-      {/* <PopularBooks /> */}
+      {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다 */}
+      <PopularBooks />
     </div>
   );
 }
