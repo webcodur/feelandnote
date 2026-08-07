@@ -2,36 +2,15 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { ChevronDown, ChevronUp, Loader2, Check } from 'lucide-react'
-import {
-  updateSpeechTone,
-  saveCelebDialogues,
-  type DialogueLines,
-} from '@/actions/admin/dialogues'
 import { saveCelebPersona, type StatKey, type TendencyKey } from '@/actions/admin/persona'
 import type { MemberPersona, PersonaJsonb } from '@/actions/admin/members'
+import type { VoiceGenCeleb } from '@/actions/admin/voice-gen'
 import { useToast } from '@/contexts/ToastContext'
-import VoiceSection from './VoiceSection'
+import CelebDialogueStudio from '@/components/celeb/dialogue-studio/CelebDialogueStudio'
+import { DIALOGUE_TYPES } from '@/lib/voice-path'
 import DeepProfileSection from './DeepProfileSection'
 
 // #region Constants
-const SPEECH_TONES = ['loyal', 'composed', 'bold', 'humble', 'gentle', 'free'] as const
-const TONE_LABELS: Record<string, string> = {
-  loyal: '충의', composed: '침착', bold: '당돌',
-  humble: '겸양', gentle: '온화', free: '호방',
-}
-
-const DIALOGUE_TYPES = ['greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack'] as const
-const TYPE_LABELS: Record<string, string> = {
-  greeting: '인사', roll_call: '호명', deploy: '출전 시',
-  battle_win: '승리', battle_draw: '무승부', battle_lose: '패배', clash_attack: '공격',
-}
-
-const EMPTY_LINES: DialogueLines = {
-  greeting: ['', '', ''], roll_call: ['', '', ''], deploy: ['', '', ''],
-  battle_win: ['', '', ''], battle_draw: ['', '', ''], battle_lose: ['', '', ''],
-  clash_attack: ['', '', ''],
-}
-
 const STAT_LABELS: Record<string, string> = {
   temperance: '절제', diligence: '근면', reflection: '성찰', courage: '용기',
   loyalty: '충의', benevolence: '인애', fairness: '공정', humility: '겸양',
@@ -90,27 +69,15 @@ function CardAccordion({ title, defaultOpen = false, summary, children }: {
 // #endregion
 
 // #region Helpers
-function countDialogueLines(data: DialogueLines | null) {
-  if (!data) return 0
-  return Object.values(data).flat().filter((l) => l?.trim()).length
-}
-
-function mergeLines(raw: DialogueLines | null | undefined): DialogueLines {
-  const base = structuredClone(EMPTY_LINES)
-  if (!raw) return base
-  for (const type of DIALOGUE_TYPES) {
-    const arr = (raw as unknown as Record<string, unknown>)[type]
-    if (Array.isArray(arr)) {
-      base[type] = [
-        typeof arr[0] === 'string' ? arr[0] : '',
-        typeof arr[1] === 'string' ? arr[1] : '',
-        typeof arr[2] === 'string' ? arr[2] : '',
-      ]
-    }
-  }
-  if (typeof raw.quote === 'string') base.quote = raw.quote
-  if (typeof raw.monologue === 'string') base.monologue = raw.monologue
-  return base
+/**
+ * 한국어 대사 중 채워진 칸 수 (접힌 상태 요약용).
+ * 명언·독백은 21칸에 들어가지 않으므로 대사 7종만 센다.
+ */
+function countDialogueLines(lines: Record<string, string[]> | null): number {
+  if (!lines) return 0
+  return DIALOGUE_TYPES
+    .flatMap((type) => lines[type] ?? [])
+    .filter((l) => typeof l === 'string' && l.trim()).length
 }
 
 function initPersonaStats(raw: MemberPersona | null): Record<string, number> {
@@ -157,25 +124,13 @@ interface ExtraSectionsProps {
   celebId: string
   celebSlug: string
   personaRaw: MemberPersona | null
-  dialogueLines: { lines: DialogueLines | null; lines_en: DialogueLines | null }
-  speechTone?: string | null
-  hasVoice?: boolean
+  /** 대사·음성 편집기에 넘길 인물 데이터. 없으면 그 구획을 열지 않는다 */
+  voiceCeleb: VoiceGenCeleb | null
 }
 // #endregion
 
-export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogueLines, speechTone, hasVoice = false }: ExtraSectionsProps) {
+export default function ExtraSections({ celebId, celebSlug, personaRaw, voiceCeleb }: ExtraSectionsProps) {
   const { showToast } = useToast()
-
-  // --- Dialogue state ---
-  const [activeLang, setActiveLang] = useState<'ko' | 'en'>('ko')
-  const [linesKo, setLinesKo] = useState<DialogueLines>(() => mergeLines(dialogueLines.lines))
-  const [linesEn, setLinesEn] = useState<DialogueLines>(() => mergeLines(dialogueLines.lines_en))
-  const [tone, setTone] = useState(speechTone || 'free')
-  const [quoteKo, setQuoteKo] = useState(() => dialogueLines.lines?.quote || '')
-  const [quoteEn, setQuoteEn] = useState(() => dialogueLines.lines_en?.quote || '')
-  const [monologueKo, setMonologueKo] = useState(() => dialogueLines.lines?.monologue || '')
-  const [monologueEn, setMonologueEn] = useState(() => dialogueLines.lines_en?.monologue || '')
-  const [savingDialogue, setSavingDialogue] = useState(false)
 
   // --- Persona state ---
   const [personaStats, setPersonaStats] = useState<Record<string, number>>(() => initPersonaStats(personaRaw))
@@ -183,19 +138,7 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
   const [rationale, setRationale] = useState(() => personaRaw?.persona?.rationale_ko || '')
   const [savingPersona, setSavingPersona] = useState(false)
 
-  // dirty tracking
-  const initialDialogue = useRef({ lines: mergeLines(dialogueLines.lines), lines_en: mergeLines(dialogueLines.lines_en), tone: speechTone || 'free', quoteKo: dialogueLines.lines?.quote || '', quoteEn: dialogueLines.lines_en?.quote || '', monologueKo: dialogueLines.lines?.monologue || '', monologueEn: dialogueLines.lines_en?.monologue || '' })
   const initialPersona = useRef({ stats: initPersonaStats(personaRaw), reasons: initReasons(personaRaw?.persona), rationale: personaRaw?.persona?.rationale_ko || '' })
-
-  const isDialogueDirty = useCallback(() => {
-    return tone !== initialDialogue.current.tone
-      || quoteKo !== initialDialogue.current.quoteKo
-      || quoteEn !== initialDialogue.current.quoteEn
-      || monologueKo !== initialDialogue.current.monologueKo
-      || monologueEn !== initialDialogue.current.monologueEn
-      || JSON.stringify(linesKo) !== JSON.stringify(initialDialogue.current.lines)
-      || JSON.stringify(linesEn) !== JSON.stringify(initialDialogue.current.lines_en)
-  }, [tone, linesKo, linesEn, quoteKo, quoteEn, monologueKo, monologueEn])
 
   const isPersonaDirty = useCallback(() => {
     return JSON.stringify(personaStats) !== JSON.stringify(initialPersona.current.stats)
@@ -203,45 +146,14 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
       || rationale !== initialPersona.current.rationale
   }, [personaStats, reasons, rationale])
 
-  // beforeunload
+  // 저장 안 한 페르소나 값이 있으면 떠날 때 붙잡는다
   useEffect(() => {
     function handler(e: BeforeUnloadEvent) {
-      if (isDialogueDirty() || isPersonaDirty()) { e.preventDefault(); return '' }
+      if (isPersonaDirty()) { e.preventDefault(); return '' }
     }
     window.addEventListener('beforeunload', handler)
     return () => window.removeEventListener('beforeunload', handler)
-  }, [isDialogueDirty, isPersonaDirty])
-
-  const activeLines = activeLang === 'ko' ? linesKo : linesEn
-  const setActiveLines = activeLang === 'ko' ? setLinesKo : setLinesEn
-
-  type DialogueType = Exclude<keyof DialogueLines, 'quote' | 'monologue'>
-
-  function updateLine(type: string, index: number, value: string) {
-    setActiveLines((prev) => {
-      const next = { ...prev }
-      const arr = [...next[type as DialogueType]] as [string, string, string]
-      arr[index] = value
-      next[type as DialogueType] = arr
-      return next
-    })
-  }
-
-  async function saveDialogue() {
-    setSavingDialogue(true)
-    try {
-      if (tone !== initialDialogue.current.tone) await updateSpeechTone(celebId, tone)
-      const koWithExtra = { ...linesKo, quote: quoteKo || undefined, monologue: monologueKo || undefined }
-      const enWithExtra = { ...linesEn, quote: quoteEn || undefined, monologue: monologueEn || undefined }
-      await saveCelebDialogues(celebId, koWithExtra, enWithExtra)
-      initialDialogue.current = { lines: structuredClone(koWithExtra), lines_en: structuredClone(enWithExtra), tone, quoteKo, quoteEn, monologueKo, monologueEn }
-      showToast('success', '대사가 저장되었습니다.')
-    } catch {
-      showToast('error', '대사 저장에 실패했습니다.')
-    } finally {
-      setSavingDialogue(false)
-    }
-  }
+  }, [isPersonaDirty])
 
   async function savePersona() {
     setSavingPersona(true)
@@ -275,7 +187,7 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
     }
   }
 
-  const dialogueCount = countDialogueLines(linesKo)
+  const dialogueCount = countDialogueLines(voiceCeleb?.dialogue_lines ?? null)
 
   return (
     <>
@@ -357,118 +269,22 @@ export default function ExtraSections({ celebId, celebSlug, personaRaw, dialogue
         </div>
       </CardAccordion>
 
-      {/* Dialogue Lines */}
-      <CardAccordion
-        title="고유 대사"
-        summary={<span className="text-xs text-text-secondary">{dialogueCount}/21</span>}
-      >
-        <div className="space-y-4">
-          {/* Speech tone */}
-          <div className="flex items-center gap-3">
-            <label className="text-xs font-medium text-text-secondary">말투</label>
-            <select
-              value={tone}
-              onChange={(e) => setTone(e.target.value)}
-              className="bg-bg-secondary border border-border rounded-lg px-2 py-1 text-sm text-text-primary"
-            >
-              {SPEECH_TONES.map((t) => (
-                <option key={t} value={t}>{TONE_LABELS[t]} ({t})</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Quote (명언) */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-text-secondary">명언 (quote)</label>
-            <input
-              type="text"
-              value={quoteKo}
-              onChange={(e) => setQuoteKo(e.target.value)}
-              placeholder="한국어 명언"
-              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"
-            />
-            <input
-              type="text"
-              value={quoteEn}
-              onChange={(e) => setQuoteEn(e.target.value)}
-              placeholder="English quote"
-              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"
-            />
-          </div>
-
-          {/* Monologue (독백) */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-text-secondary">독백 (monologue)</label>
-            <textarea
-              value={monologueKo}
-              onChange={(e) => setMonologueKo(e.target.value)}
-              placeholder="한국어 독백"
-              rows={3}
-              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent resize-none"
-            />
-            <textarea
-              value={monologueEn}
-              onChange={(e) => setMonologueEn(e.target.value)}
-              placeholder="English monologue"
-              rows={3}
-              className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent resize-none"
-            />
-          </div>
-
-          {/* Language toggle */}
-          <div className="inline-flex rounded-lg border border-border overflow-hidden">
-            <button
-              type="button" onClick={() => setActiveLang('ko')}
-              className={`px-4 py-1.5 text-sm font-medium transition-colors ${activeLang === 'ko' ? 'bg-accent/20 text-accent' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-            >
-              한국어
-            </button>
-            <button
-              type="button" onClick={() => setActiveLang('en')}
-              className={`px-4 py-1.5 text-sm font-medium transition-colors ${activeLang === 'en' ? 'bg-accent/20 text-accent' : 'bg-bg-secondary text-text-secondary hover:text-text-primary'}`}
-            >
-              English
-            </button>
-          </div>
-
-          {/* Dialogue inputs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {DIALOGUE_TYPES.map((type) => (
-              <div key={type}>
-                <h3 className="text-xs font-medium text-text-secondary uppercase tracking-wide mb-1.5">{TYPE_LABELS[type]}</h3>
-                <div className="space-y-1">
-                  {[0, 1, 2].map((i) => (
-                    <input
-                      key={i} type="text"
-                      value={activeLines[type][i]}
-                      onChange={(e) => updateLine(type, i, e.target.value)}
-                      placeholder={`${TYPE_LABELS[type]} ${i + 1}`}
-                      className="w-full bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary placeholder-text-secondary focus:outline-none focus:border-accent"
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {isDialogueDirty() && (
-            <div className="flex justify-end pt-2 border-t border-border">
-              <button type="button" onClick={saveDialogue} disabled={savingDialogue} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-accent/10 text-accent border border-accent/30 hover:bg-accent/20 disabled:opacity-50">
-                {savingDialogue ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
-                저장
-              </button>
+      {/* 대사 · 음성 — 작업실(/celebs/voice-gen)과 같은 편집기를 그대로 쓴다 */}
+      {voiceCeleb && (
+        <CardAccordion
+          title="대사 · 음성"
+          summary={
+            <div className="flex items-center gap-2">
+              {voiceCeleb.has_voice && (
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">ON</span>
+              )}
+              <span className="text-xs text-text-secondary">{dialogueCount}/21</span>
             </div>
-          )}
-        </div>
-      </CardAccordion>
-
-      {/* Voice Files */}
-      <CardAccordion
-        title="음성 파일"
-        summary={hasVoice ? <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400">ON</span> : undefined}
-      >
-        <VoiceSection celebId={celebId} initialHasVoice={hasVoice} />
-      </CardAccordion>
+          }
+        >
+          <CelebDialogueStudio celeb={voiceCeleb} />
+        </CardAccordion>
+      )}
 
       {/* Deep Profile */}
       <CardAccordion title="심화 열전">

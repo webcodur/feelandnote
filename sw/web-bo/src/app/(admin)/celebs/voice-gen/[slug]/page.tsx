@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { getCelebsForVoiceGen } from '@/actions/admin/voice-gen'
+import { getCelebVoiceDetail } from '@/actions/admin/voice-gen'
 import VoiceGenWorkspace from '../VoiceGenWorkspace'
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ interface PageProps {
 
 export default async function VoiceGenSlugPage({ params }: PageProps) {
   const { slug } = await params
-  const celebs = await getCelebsForVoiceGen()
+  const celeb = await getCelebVoiceDetail(slug)
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -27,11 +27,13 @@ export default async function VoiceGenSlugPage({ params }: PageProps) {
         </Link>
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-text-primary">대사/음성 워크스페이스</h1>
-          <p className="text-sm text-text-secondary mt-1">ElevenLabs TTS · {celebs.length}명</p>
+          <p className="text-sm text-text-secondary mt-1">
+            ElevenLabs TTS{celeb ? ` · ${celeb.nickname ?? slug}` : ''}
+          </p>
         </div>
       </div>
 
-      <VoiceGenWorkspace celebs={celebs} initialSlug={slug} />
+      <VoiceGenWorkspace initialCeleb={celeb} />
     </div>
   )
 }

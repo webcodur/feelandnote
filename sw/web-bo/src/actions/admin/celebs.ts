@@ -1341,8 +1341,8 @@ export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 
 // #endregion
 
 // 명언 편집(getCelebsForQuotesEdit / updateCelebQuotes)은 제거했다.
-// 명언은 /celebs/voice-gen에서 대사와 함께 편집한다 — 목록은 getCelebsForVoiceGen,
-// 저장은 voice-gen.ts의 saveQuote(ko·en 둘 다)가 맡는다. 여기 있던 짝은 ko만 저장했다.
+// 명언은 대사 편집기에서 대사와 함께 저장한다 — dialogues.ts의 saveCelebDialogues가
+// lines.quote·lines_en.quote를 한 번에 쓴다. 여기 있던 짝은 ko만 저장했다.
 
 // #region updateCelebTitle - 수식어만 업데이트
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {

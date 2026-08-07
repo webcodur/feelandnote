@@ -1,7 +1,6 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCache } from '@/lib/revalidate-web'
@@ -40,51 +39,52 @@ interface VoiceGenQueryRow {
     | null
 }
 
-/** 음성 생성 대상 셀럽 목록 (대사 보유자만) */
-export async function getCelebsForVoiceGen(): Promise<VoiceGenCeleb[]> {
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/**
+ * 편집 대상 셀럽 한 명의 대사·음성 데이터.
+ *
+ * 전에는 셀럽 전량(2,742명)을 대사까지 통째로 실어 보냈다. 대사 본문만 6MB가 넘어
+ * 첫 화면이 20초 넘게 걸렸고, 그 데이터의 대부분은 검색 상자를 채우는 데조차 쓰이지 않았다.
+ * 검색은 `/api/celebs/search`가 질의마다 처리하므로, 여기서는 고른 한 명만 읽는다.
+ */
+export async function getCelebVoiceDetail(idOrSlug: string): Promise<VoiceGenCeleb | null> {
   const supabase = await createClient()
 
-  // 전량 페이징: 정렬 단독으로는 1,000행에서 잘려 셀럽 다수가 음성 생성 목록에서 빠진다.
-  // nickname은 동명·null이 겹칠 수 있어 고유키 id를 2차 정렬키로 고정한다.
-  const data = await selectAllPages<VoiceGenQueryRow>((from, to) =>
-    supabase
-      .from('profiles')
-      .select(`
-        id, nickname, avatar_url, slug, speech_tone, has_voice,
-        voice_id_ko, voice_id_en, voice_v, voice_speed,
-        celeb_dialogues(lines, lines_en)
-      `)
-      .eq('profile_type', 'CELEB')
-      .order('nickname', { ascending: true })
-      .order('id', { ascending: true })
-      .range(from, to) as unknown as PromiseLike<{
-        data: VoiceGenQueryRow[] | null
-        error: { message: string } | null
-      }>
-  )
+  const query = supabase
+    .from('profiles')
+    .select(`
+      id, nickname, avatar_url, slug, speech_tone, has_voice,
+      voice_id_ko, voice_id_en, voice_v, voice_speed,
+      celeb_dialogues(lines, lines_en)
+    `)
+    .eq('profile_type', 'CELEB')
 
-  return data
-    .map((row) => {
-      const dlg = Array.isArray(row.celeb_dialogues)
-        ? row.celeb_dialogues[0]
-        : row.celeb_dialogues
-      const lines = dlg?.lines as Record<string, string[]> | null
-      const linesEn = dlg?.lines_en as Record<string, string[]> | null
-      return {
-        id: row.id,
-        nickname: row.nickname,
-        avatar_url: row.avatar_url,
-        slug: row.slug,
-        speech_tone: row.speech_tone,
-        has_voice: row.has_voice ?? false,
-        voice_id_ko: row.voice_id_ko,
-        voice_id_en: row.voice_id_en,
-        dialogue_lines: lines && Object.keys(lines).length > 0 ? lines : null,
-        dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
-        voice_v: row.voice_v ?? 0,
-        voice_speed: row.voice_speed ?? 1.0,
-      }
-    })
+  const { data } = await (UUID_RE.test(idOrSlug)
+    ? query.eq('id', idOrSlug)
+    : query.eq('slug', idOrSlug)
+  ).maybeSingle() as unknown as { data: VoiceGenQueryRow | null }
+
+  if (!data) return null
+
+  const dlg = Array.isArray(data.celeb_dialogues) ? data.celeb_dialogues[0] : data.celeb_dialogues
+  const lines = dlg?.lines as Record<string, string[]> | null
+  const linesEn = dlg?.lines_en as Record<string, string[]> | null
+
+  return {
+    id: data.id,
+    nickname: data.nickname,
+    avatar_url: data.avatar_url,
+    slug: data.slug,
+    speech_tone: data.speech_tone,
+    has_voice: data.has_voice ?? false,
+    voice_id_ko: data.voice_id_ko,
+    voice_id_en: data.voice_id_en,
+    dialogue_lines: lines && Object.keys(lines).length > 0 ? lines : null,
+    dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
+    voice_v: data.voice_v ?? 0,
+    voice_speed: data.voice_speed ?? 1.0,
+  }
 }
 
 export interface VoiceGenSettings {
@@ -207,34 +207,6 @@ export async function fetchVoiceFile(params: {
   } catch (err) {
     return { success: false, error: String(err) }
   }
-}
-
-/** 명언 저장 (celeb_dialogues.lines.quote) */
-export async function saveQuote(
-  celebId: string,
-  locale: 'ko' | 'en',
-  quote: string,
-): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
-
-  const linesCol = locale === 'ko' ? 'lines' : 'lines_en'
-  const { data: existing } = await supabase
-    .from('celeb_dialogues')
-    .select(`${linesCol}`)
-    .eq('celeb_id', celebId)
-    .maybeSingle()
-
-  const currentLines =
-    ((existing as Record<string, unknown> | null)?.[linesCol] as Record<string, unknown>) ?? {}
-  const updatedLines = { ...currentLines, quote: quote || '' }
-  const { error } = await supabase
-    .from('celeb_dialogues')
-    .upsert({ celeb_id: celebId, [linesCol]: updatedLines }, { onConflict: 'celeb_id' })
-  if (error) return { success: false, error: error.message }
-
-  // celeb_dialogues.lines.quote — 명언은 대사 테이블에 저장된다
-  await revalidateWebCache(CACHE_TAGS.DIALOGUES)
-  return { success: true }
 }
 
 /** has_voice 활성화 */
