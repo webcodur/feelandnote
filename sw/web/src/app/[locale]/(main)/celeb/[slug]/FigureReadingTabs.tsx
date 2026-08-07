@@ -20,7 +20,8 @@ const TAB_KEYS: readonly ReadingTab[] = ["person-guide", "person-explore"];
 
 function Paragraphs({ text }: { text: string }) {
   return (
-    <div className="mx-auto max-w-3xl space-y-4 px-3 pb-2 font-serif text-[15px] leading-loose text-text-secondary break-keep sm:px-5 md:text-base">
+    // 좌우 여백은 구획 상자가 이미 쥔다. 여기서 더 주면 글 시작선이 다른 구획과 어긋난다
+    <div className="mx-auto max-w-3xl space-y-4 pb-2 font-serif text-[15px] leading-loose text-text-secondary break-keep md:text-base">
       {text.split(/\n\n+/).map((paragraph, index) => (
         <p key={index}>{paragraph}</p>
       ))}
@@ -68,7 +69,7 @@ export default function FigureReadingTabs({ item, reading }: Props) {
 
         {tab === "person-explore" && (
           reading ? (
-            <article className="mx-auto max-w-3xl px-3 pb-2 sm:px-5">
+            <article className="mx-auto max-w-3xl pb-2">
               <h3 className="mb-5 text-center font-serif text-xl font-semibold leading-snug text-text-primary md:text-2xl">
                 {reading.explorationTitle}
               </h3>
