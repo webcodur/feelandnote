@@ -15,12 +15,12 @@
     "explore": {
       "englishTitle": "Notable Figures",
       "description": "Follow the trails of appreciation left by great minds.",
-      "link": "Go to Explore"
+      "link": "Go to Figures"
     },
     "library": {
-      "englishTitle": "Curated Reads",
+      "englishTitle": "Curated Works",
       "description": "Works that echoed through centuries, waiting on the shelves.",
-      "link": "Go to Library"
+      "link": "Go to Works"
     },
     "agora": {
       "englishTitle": "The Agora",

@@ -9,7 +9,7 @@
       "metaDescription": "Browse 1,000+ celebrities and their recommended books, favorite movies, and music. Find what your favorite figure reads, watches, and listens to."
     },
     "people": {
-      "metaTitle": "People | Explore",
+      "metaTitle": "People | Agora",
       "friends": "Friends",
       "following": "Following",
       "followers": "Followers",
@@ -270,16 +270,16 @@
       "viewShelf": "View Library"
     },
     "directory": {
-      "metaTitle": "Celebrity Directory - 1,000+ Figures | Explore",
+      "metaTitle": "Celebrity Directory - 1,000+ Figures",
       "metaDescription": "Browse the complete directory of 1,000+ celebrities with their book recommendations, movie picks, and reading lists.",
       "totalCount": "{count} figures in total"
     },
     "celebFeed": {
-      "metaTitle": "Celebrity Feed - Latest Recommendations | Explore",
+      "metaTitle": "Celebrity Feed - Latest Recommendations | Figures",
       "metaDescription": "Real-time feed of celebrity book recommendations, movie reviews, and music picks. See what notable figures are reading now."
     },
     "topByType": {
-      "metaTitle": "Category Champions | Explore",
+      "metaTitle": "Category Champions | Figures",
       "metaDescription": "Top 10 rankings by books, movies, games, and music — discover who engages the most in each category.",
       "rank": "#{rank}",
       "count": "{count} items",
@@ -291,19 +291,19 @@
       "sharedBy": "Appreciated by"
     },
     "persona": {
-      "metaTitle": "16-Axis Spectrum | Explore",
+      "metaTitle": "16-Axis Spectrum | Figures",
       "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition."
     },
     "timelinePage": {
-      "metaTitle": "Celebrity Timeline by Country | Explore",
+      "metaTitle": "Celebrity Timeline by Country | Figures",
       "metaDescription": "Explore celebrities by country and era. Discover their recommended books, movies, and music in chronological order."
     },
     "today": {
-      "metaTitle": "Today's Figure | Explore",
+      "metaTitle": "Today's Figure",
       "metaDescription": "Discover a new celebrity's recommended books, movies, and music every day. See what today's featured figure reads and watches."
     },
     "faction": {
-      "metaTitle": "Faction | Explore",
+      "metaTitle": "Faction | Figures",
       "collection": "Faction Collection",
       "tabs": {
         "faction": "Faction",

@@ -16,6 +16,10 @@ export interface NavSubLink {
 export interface NavItem {
   key: string;
   href: string;
+  /**
+   * 개발용 참고 라벨. **화면에 뜨는 글자가 아니다** — 헤더·바텀탭은 `nav.<key>` 번역을 읽는다.
+   * 그래서 이 값만 고치면 화면은 그대로다. 이름을 바꿀 땐 `messages/<locale>/nav.json`을 함께 고친다.
+   */
   label: string;
   mobileLabel?: string; // 모바일 바텀탭용 라벨 (없으면 label 사용)
   icon: LucideIcon;
@@ -48,7 +52,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "explore",
     href: "/explore",
-    label: "탐색",
+    label: "인물",
     icon: Compass,
     showInHeader: true,
     showInBottomNav: true,
@@ -68,7 +72,7 @@ export const NAV_ITEMS: NavItem[] = [
   {
     key: "library",
     href: "/library",
-    label: "서가",
+    label: "작품",
     icon: BookOpen,
     showInHeader: true,
     showInBottomNav: true,

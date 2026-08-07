@@ -10,10 +10,10 @@
 
 | 문서 | 영역 | 경로 |
 |---|---|---|
-| [library.md](library.md) | 서가 | `(main)/library/*` |
+| [library.md](library.md) | 작품 | `(main)/library/*` |
 | [agora.md](agora.md) | 광장 | `(main)/agora/*` |
 | [profile.md](profile.md) | 프로필·기록관 | `(main)/[userId]/*` |
-| [explore.md](explore.md) | 탐색 | `(main)/explore/*` |
+| [explore.md](explore.md) | 인물 | `(main)/explore/*` |
 
 쉼터(`(main)/rest/*`)는 게임 영역이라 이 묶음에서 제외한다.
 
@@ -21,7 +21,7 @@
 
 | 그룹 | 레이아웃 | 구성 |
 |---|---|---|
-| `(main)` | `LayoutMain` + `QuickRecordProvider` | 홈, 탐색, 서가, 광장, 프로필·기록관, 쉼터, 셀럽 상세, 콘텐츠 상세, 알림 |
+| `(main)` | `LayoutMain` + `QuickRecordProvider` | 홈, 인물, 작품, 광장, 프로필·기록관, 쉼터, 셀럽 상세, 콘텐츠 상세, 알림 |
 | `(standalone)` | `(main)`과 동일(`LayoutMain` + `QuickRecordProvider`) | 검색(`/search`) |
 | `(policy)` | 자체 레이아웃(로고 헤더 + 3xl 본문) | 서비스 소개, 문의, 이용약관, 개인정보처리방침 |
 
@@ -34,8 +34,8 @@
 ```
 (main)/
   page.tsx                  # 홈 — 오늘의 인물, 기록 섹션, 자유게시판 미리보기, 탭 섹션, 영상관 통합 히어로
-  explore/                  # 탐색 → explore.md
-  library/                  # 서가 → library.md
+  explore/                  # 인물 → explore.md
+  library/                  # 작품 → library.md
   agora/                    # 광장 → agora.md
   [userId]/                 # 프로필·기록관 → profile.md
   rest/                     # 쉼터 (범위 밖)
@@ -58,22 +58,35 @@
 | key | 라벨 | href | 헤더 | 바텀탭 | 홈 섹션 |
 |---|---|---|---|---|---|
 | `home` | 홈 | `/` | — | O | — |
-| `explore` | 탐색 | `/explore` | O | O | O |
-| `scriptures` | 서가 | `/library` | O | O | O |
+| `explore` | 인물 | `/explore` | O | O | O |
+| `library` | 작품 | `/library` | O | O | O |
 | `rest` | 쉼터 | `/rest` | O | O | — |
 | `archive` | 내 기록 | `/{userId}` | — | O | O |
 
 광장(`/agora`)은 `NAV_ITEMS`에 없다. 풋터의 `FOOTER_MISC_LINKS`(소셜·공지사항·피드백)로만 노출된다.
 
-`FOOTER_NAV_ITEMS`는 `subLinks`가 있고 `rest`가 아닌 항목만 추린다. 결과적으로 풋터에는 탐색·서가 두 항목의 하위 링크가 나열된다. 브랜드 링크(`FOOTER_BRAND_LINKS`)는 서비스 소개·검색·이용약관·개인정보처리방침·문의하기다.
+`FOOTER_NAV_ITEMS`는 `subLinks`가 있고 `rest`가 아닌 항목만 추린다. 결과적으로 풋터에는 인물·작품 두 항목의 하위 링크가 나열된다. 브랜드 링크(`FOOTER_BRAND_LINKS`)는 서비스 소개·검색·이용약관·개인정보처리방침·문의하기다.
 
 ## 허브 구성 단일원천
 
-탐색·서가는 허브 페이지 하나에 미리보기 섹션을 쌓고, 각 섹션에서 하위 화면으로 보낸다. 섹션 순서·라벨키·더보기 주소는 `sw/web/src/components/shared/hubSectionUtils.tsx`가 단일원천이다(`EXPLORE_SECTIONS`, `EXPLORE_STANDALONE`, `SCRIPTURES_SECTIONS`). 허브 네비게이터(`HubNav`)와 각 섹션(`HubSection`)이 이 설정에서 라벨·순서·번호를 함께 읽는다.
+인물·작품은 허브 페이지 하나에 미리보기 섹션을 쌓고, 각 섹션에서 하위 화면으로 보낸다. 섹션 순서·라벨키·더보기 주소는 `sw/web/src/components/shared/hubSectionUtils.tsx`가 단일원천이다(`EXPLORE_SECTIONS`, `EXPLORE_STANDALONE`, `LIBRARY_SECTIONS`). 허브 네비게이터(`HubNav`)와 각 섹션(`HubSection`)이 이 설정에서 라벨·순서·번호를 함께 읽는다.
+
+## 화면 이름 변경 이력
+
+**26.08.07 — 「탐색」을 「인물」로, 「서가」를 「작품」으로 바꿨다.** 두 메뉴가 사람 축과 작품 축으로 짝을 이루게 하려는 것이다. 「서가」는 도서관 용어라 일상어가 아니라는 지적이 있었고, 책만 담는 어감인데 실제로는 영상·음악·게임도 담고 있었다. 주소(`/explore`·`/library`)와 코드 키는 바꾸지 않았다.
+
+- 화면에 뜨는 글자: `messages/<locale>/nav.json`의 `nav.explore`·`nav.library`
+- `navigation.tsx`의 `label`은 **개발용 참고값이라 화면에 안 뜬다.** 이름을 바꿀 때 둘을 함께 고친다
+- 화면 제목 접미도 함께 정리했다 — 상위 이름을 접미로 쓰되, 제목에 같은 말이 이미 있으면 접미를 뺀다("오늘의 인물 | 인물"이 되지 않도록)
+- 배너 영문 부제는 `home.<key>.englishTitle`에 있다. 인물 `Notable Figures` / 작품 `Curated Works`
+
+**26.08.07 실제 화면 확인** — 개발 서버에서 두 허브·학당·인기 작품을 열어 배너 제목, 헤더 메뉴, 하단 탭, 빵부스러기, 화면 제목이 모두 새 이름으로 바뀐 것을 눈으로 확인했다. 하단 탭은 글자 수가 이전과 같아(두 글자) 좁은 화면에서도 줄바꿈이 없다.
+
+> **확인 중 걸린 것 — 인기 작품 구역이 통째로 사라져 있었다.** 처음에는 "개발 환경의 캐시가 굳은 것이라 코드 결함이 아니다"로 판단했으나 **틀렸다.** 조회가 실패해도 빈 목록을 정상 결과처럼 돌려주고 있었고, 그 빈 값이 7일짜리 캐시에 박히는 구조였다. 같은 사고가 셀럽 목록에서 이미 났던 것이라(`docs/project/celeb/celeb-gotchas.md` §1) 재발 방지까지 적혀 있었는데 이 조회에는 적용되지 않았다. 26.08.07에 조회 실패를 캐시하지 않도록 고치고 캐시를 비워 복구했다. 자세한 내용과 남은 위험 지점은 `docs/project/tooling-gotchas.md` §3.
 
 ## 코드 명칭과 화면 명칭의 불일치
 
-서가는 2026-03-26에 `/scriptures`에서 `/library`로 주소가 바뀌었다. 주소만 바뀌었고 내부 명칭은 `scriptures`가 그대로 남아 있다. 자세한 내용은 [library.md](library.md)의 "리네이밍 잔재" 절을 본다.
+작품 영역은 2026-03-26에 `/scriptures`에서 `/library`로 주소가 바뀌었다. 당시엔 "주소만 바꾸고 내부 명칭은 그대로 둔다"고 정했으나 **그 뒤 코드가 전부 개명됐고, 지금 옛 이름은 DB 함수 두 개뿐이다**(26.08.06 실측). 자세한 내용은 [library.md](library.md)의 "리네이밍 잔재" 절을 본다.
 
 기록관 쪽도 비슷하다. 컬렉션 상세 티어 화면(`[userId]/reading/collections/[id]/tiers/page.tsx`)의 파일 주석은 옛 경로 `/app/(main)/archive/playlists/[id]/tiers/page.tsx`를 가리킨다. 코드 내부에서 컬렉션은 `flow`(플로우)로 불린다.
 

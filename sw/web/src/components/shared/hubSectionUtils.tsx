@@ -71,8 +71,11 @@ export const EXPLORE_STANDALONE = [
 // #region Library(서가) 허브 config
 export const LIBRARY_GROUP_ID = "library";
 
+/**
+ * 서가는 매체의 이야기를 시간 순으로 쌓는다 — 남은 작품(인기·기관 선정) → 걸어온 길(박물관) → 다루는 법과 다음(학당).
+ * 오늘의 인물은 26.08.07에 뺐다. 인물은 탐색·홈이 이미 맡고 있고, 더보기가 탐색으로 나가 사용자를 밖으로 내보냈다.
+ */
 export const LIBRARY_SECTIONS = [
-  { key: "figure",     moreHref: "/explore/today",      titleKey: "figureLabel",     subtitleKey: "figure",     moreKey: "moreDetail" },
   { key: "popular",    moreHref: "/library/popular",    titleKey: "popularLabel",    subtitleKey: "popular",    moreKey: "moreDetail" },
   { key: "curated",    moreHref: "/library/curated",    titleKey: "curatedLabel",    subtitleKey: "curated",    moreKey: "exploreCurated" },
   { key: "museum",     moreHref: "/library/museum",     titleKey: "museumLabel",     subtitleKey: "museum",     moreKey: "exploreMuseum" },

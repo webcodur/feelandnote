@@ -245,7 +245,7 @@ export function getLibraryData(locale: string) {
 
 export const MUSEUM_CATEGORY_IDS = [
   {
-    id: "book", available: true,
+    id: "book",
     subCategories: [
       { id: "media" },
       { id: "writing_tool" },
@@ -253,7 +253,7 @@ export const MUSEUM_CATEGORY_IDS = [
     ],
   },
   {
-    id: "video", available: true,
+    id: "video",
     subCategories: [
       { id: "media" },
       { id: "technique" },
@@ -261,7 +261,7 @@ export const MUSEUM_CATEGORY_IDS = [
     ],
   },
   {
-    id: "music", available: true,
+    id: "music",
     subCategories: [
       { id: "media" },
       { id: "instrument" },
@@ -269,7 +269,7 @@ export const MUSEUM_CATEGORY_IDS = [
     ],
   },
   {
-    id: "game", available: true,
+    id: "game",
     subCategories: [
       { id: "platform" },
       { id: "interface" },
@@ -282,13 +282,13 @@ export const MUSEUM_CATEGORY_IDS = [
 
 export const ACADEMY_CATEGORY_IDS = [
   {
-    id: "book", available: true,
+    id: "book",
     courses: [
       { id: "system" },
     ],
   },
   {
-    id: "video", available: true,
+    id: "video",
     courses: [
       { id: "light_and_camera" },
       { id: "composition" },
@@ -297,18 +297,31 @@ export const ACADEMY_CATEGORY_IDS = [
     ],
   },
   {
-    id: "music", available: true,
+    id: "music",
     courses: [
       { id: "harmony" },
     ],
   },
   {
-    id: "ai", available: true,
+    id: "ai",
     courses: [
       { id: "foundations" },
       { id: "prompting" },
       { id: "creation" },
     ],
   },
+] as const;
+
+/**
+ * 학당에 아직 코스가 없는 매체. 카드만 "개발중"으로 세우고 진입은 막는다.
+ *
+ * `ACADEMY_CATEGORY_IDS`에 넣지 않는 이유 — 그 목록은 `courses[0]`이 있다고 전제하는
+ * 곳이 다섯 군데다(카드·탭·리다이렉트 2곳·미리보기). 코스가 빈 항목을 섞으면 전부 깨진다.
+ *
+ * 박물관에는 게임이 있는데 학당에는 없어서, "인류가 다뤄온 모든 매체"라는 흐름이
+ * 중간에 끊겨 보였다. 코스를 채우면 이 목록에서 빼고 위로 옮긴다.
+ */
+export const ACADEMY_UPCOMING_CATEGORY_IDS = [
+  { id: "game" },
 ] as const;
 

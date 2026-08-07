@@ -1,6 +1,6 @@
 {
   "library": {
-    "section": "Library",
+    "section": "Works",
     "tabs": {
       "era": {
         "label": "Masterpieces",
@@ -21,10 +21,8 @@
     },
     "hub": {
       "quickNav": "Quick Navigation",
-      "figure": "Begin your day with a new mind's echo.",
-      "museum": "See how countless ideas and creations intertwine within a grand chronicle.",
-      "academy": "A space to internalize how AI works, filmmaking, and music theory through structured lessons.",
-      "figureLabel": "Today's Figure",
+      "museum": "See the road books, film, music, and games traveled to get here.",
+      "academy": "Learn to work in each medium — and now, to create with AI.",
       "museumLabel": "Museum",
       "academyLabel": "Academy",
       "museumTitle": "Museum",
@@ -40,25 +38,17 @@
       "exploreMuseum": "Explore",
       "enterAcademy": "Enter Academy",
       "curatedLabel": "Curated by Institutions",
-      "curated": "Discover works through lists chosen by universities, newspapers, and award bodies.",
+      "curated": "Lists chosen by universities, the press, and award bodies.",
       "exploreCurated": "Browse the lists",
       "popularLabel": "Popular Works",
       "popular": "Works the most figures have finished, by era or by profession."
     },
     "meta": {
-      "title": "Library - Celebrity Reading Lists & Movie Picks",
+      "title": "Works - Celebrity Reading Lists & Movie Picks",
       "description": "Curated archive of celebrity book recommendations and movie picks, organized by era and profession. Explore must-reads chosen by history's greatest minds."
     },
-    "figure": {
-      "metaTitle": "Today's Celebrity Recommendations | Library",
-      "metaDescription": "Discover a new celebrity's recommended books, movies, and music every day. See what today's featured figure reads and watches."
-    },
-    "era": {
-      "metaTitle": "Must-Read Books & Classic Movies by Era | Library",
-      "metaDescription": "Explore must-read books and iconic movies from every era, recommended by notable figures throughout history."
-    },
     "museum": {
-      "metaTitle": "Museum | Library",
+      "metaTitle": "Museum | Works",
       "metaDescription": "Trace the evolution of human knowledge media and content formats.",
       "pageTitle": "Museum",
       "defaultDescription": "Explore the evolution of the media through which humanity has told its stories.",
@@ -147,10 +137,10 @@
       }
     },
     "academy": {
-      "metaTitle": "Academy - AI, Filmmaking & Music Theory Courses | Library",
+      "metaTitle": "Academy - AI, Filmmaking & Music Theory Courses | Works",
       "metaDescription": "Free courses on how AI works and how to use it, plus filmmaking tutorials, music theory lessons, and curated educational content recommended by industry professionals.",
       "pageTitle": "Academy",
-      "defaultDescription": "From how AI works to filmmaking and harmony, explore systematic educational content.",
+      "defaultDescription": "Learn to work with books, film, and music.",
       "eyebrow": "Academy",
       "categoryTabsLabel": "Select academy category",
       "courseTabsLabel": "Select course",
@@ -226,6 +216,10 @@
         "ai": {
           "label": "AI",
           "description": "How AI works and how to use it"
+        },
+        "game": {
+          "label": "Games",
+          "description": "Lessons on games"
         }
       },
       "course": {
@@ -273,11 +267,11 @@
             "description": "How images, voices, and music are generated, and where copyright, bias, and human judgment come in"
           }
         }
-      }
-    },
-    "profession": {
-      "metaTitle": "Books by Profession - What Leaders & Scientists Read | Library",
-      "metaDescription": "Discover must-read books and movie recommendations by profession. See what leaders, scientists, artists, and entrepreneurs read and watch."
+      },
+      "upcomingBadge": "In progress",
+      "upcomingNote": "Coming soon",
+      "bridgeTitle": "Now we create with AI",
+      "bridgeDesc": "People made books, film, music, and games. AI has entered every one of them."
     },
     "page": {
       "toc": "Table of Contents",
@@ -401,10 +395,10 @@
       },
       "viewByKind": "By institution",
       "viewByTopic": "By topic",
-      "backToLibrary": "Back to Library"
+      "backToLibrary": "Back to Works"
     },
     "popular": {
-      "metaTitle": "Popular Works - Most Chosen by Figures | Library",
+      "metaTitle": "Popular Works - Most Chosen by Figures",
       "metaDescription": "Works the most figures have finished, viewed by era or by profession.",
       "title": "Popular Works",
       "description": "Works the most figures have finished.",

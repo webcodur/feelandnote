@@ -165,7 +165,7 @@ function entry(
 // 등재하지 않는다 — 사이트맵의 리다이렉트 URL은 GSC "알 수 없는 URL" 판정만 만든다(2026-07-14 제거)
 const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], number][] = [
   ['/', 'daily', 1],
-  // 탐색
+  // 인물(옛 이름 탐색)
   ['/explore', 'daily', 0.8],
   ['/explore/figures', 'daily', 0.8],
   ['/explore/ranking', 'daily', 0.7],
@@ -176,7 +176,7 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],
   ['/explore/feed', 'daily', 0.7],
-  // 서가
+  // 작품(옛 이름 서가)
   ['/library', 'daily', 0.8],
   ['/library/popular', 'weekly', 0.8],
   ['/library/museum', 'monthly', 0.7],

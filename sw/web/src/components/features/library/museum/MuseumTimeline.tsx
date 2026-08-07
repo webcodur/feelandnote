@@ -108,10 +108,14 @@ export default function MuseumTimeline({
     ? activeSubId
     : subIds?.[0]?.id ?? "";
 
-  useEffect(() => {
-    const subs = MUSEUM_CATEGORY_IDS.find((c) => c.id === activeCategoryId)?.subCategories;
-    setActiveSubId(subs?.[0]?.id ?? "");
-  }, [activeCategoryId]);
+  // 갈래를 바꾸면 곁가지 선택을 그 갈래의 첫 항목으로 되돌린다.
+  // 이펙트가 아니라 렌더 도중에 맞춘다(리액트 권장 패턴) — 이펙트로 하면 옛 곁가지가
+  // 한 번 그려진 뒤에야 바뀌어 화면이 깜빡이고, 그리는 횟수도 늘어난다.
+  const [lastCategoryId, setLastCategoryId] = useState(activeCategoryId);
+  if (activeCategoryId !== lastCategoryId) {
+    setLastCategoryId(activeCategoryId);
+    setActiveSubId(subIds?.[0]?.id ?? "");
+  }
 
   const timelineKey = subIds ? `${activeCategoryId}/${validSubId}` : activeCategoryId;
   const viewType = SUB_CATEGORY_VIEW_TYPE[timelineKey] ?? 'timeline';
@@ -123,9 +127,12 @@ export default function MuseumTimeline({
     ? t(`sub.${activeCategoryId}.${validSubId}.description`)
     : t(`category.${activeCategoryId}.description`);
 
-  useEffect(() => {
+  // 보고 있는 연표가 바뀌면 펼친 시대도 첫 시대로 되돌린다(위와 같은 이유로 렌더 중 조정).
+  const [lastTimelineKey, setLastTimelineKey] = useState(timelineKey);
+  if (timelineKey !== lastTimelineKey) {
+    setLastTimelineKey(timelineKey);
     setActiveEraId(eras[0]?.id ?? "");
-  }, [activeCategoryId, validSubId]);
+  }
 
   useEffect(() => {
     let ticking = false;
