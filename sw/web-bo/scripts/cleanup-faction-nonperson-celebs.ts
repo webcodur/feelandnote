@@ -235,16 +235,11 @@ async function ensureCameronWinklevoss(db: SupabaseClient): Promise<{ id: string
     }
   }
 
-  const token = randomUUID()
-  const { data: authData, error: authError } = await db.auth.admin.createUser({
-    email: `celeb_${token}@feelandnote.local`,
-    password: randomUUID() + randomUUID(),
-    email_confirm: true,
-  })
-  if (authError) throw authError
-  const id = authData.user.id
+  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
+  const id = randomUUID()
   try {
-    const { data: profile, error: updateError } = await db.from('profiles').update({
+    const { data: profile, error: updateError } = await db.from('profiles').insert({
+      id,
       nickname: '카메론 윙클보스',
       nickname_en: 'Cameron Winklevoss',
       slug_suffix: slugSuffix,
@@ -254,7 +249,7 @@ async function ensureCameronWinklevoss(db: SupabaseClient): Promise<{ id: string
       status: 'suspended',
       celeb_tier: 'light',
       is_verified: false,
-    }).eq('id', id).select('slug').single()
+    }).select('slug').single()
     if (updateError) throw updateError
     if (!profile?.slug) throw new Error('카메론 윙클보스 slug 생성 실패')
     const { error: socialError } = await db.from('user_social').upsert({
@@ -267,7 +262,8 @@ async function ensureCameronWinklevoss(db: SupabaseClient): Promise<{ id: string
     if (scoreError) throw scoreError
     return { id, slug: profile.slug as string }
   } catch (error) {
-    await db.auth.admin.deleteUser(id)
+    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
+    await db.rpc('delete_auth_user', { target_user_id: id })
     throw error
   }
 }
@@ -290,8 +286,8 @@ async function finalize(db: SupabaseClient): Promise<void> {
   let alreadyGone = 0
   for (const id of backup.deleteProfileIds) {
     if (!authById.has(id)) { alreadyGone++; continue }
-    const { error } = await db.auth.admin.deleteUser(id)
-    if (error) throw new Error(`Auth 삭제 실패 ${id}: ${error.message}`)
+    const { error } = await db.rpc('delete_auth_user', { target_user_id: id })
+    if (error) throw new Error(`인물 삭제 실패 ${id}: ${error.message}`)
     deleted++
   }
   console.log(`잘못 생성된 Auth/CELEB 계정 삭제: ${deleted}개, 이미 없음: ${alreadyGone}개`)

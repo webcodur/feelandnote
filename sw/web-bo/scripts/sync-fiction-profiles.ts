@@ -202,30 +202,15 @@ function changedKeys(existing: ExistingProfile, person: FictionProfileInput) {
 }
 
 async function createFictionProfile(client: SupabaseClient, person: FictionProfileInput) {
-  const dummyId = crypto.randomUUID()
-  const email = `celeb_${dummyId}@feelandnote.local`
-  const password = crypto.randomUUID() + crypto.randomUUID()
-  const { data: authData, error: authError } = await client.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-  })
-  if (authError) throw authError
-
-  const userId = authData.user.id
+  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
+  const userId = crypto.randomUUID()
   try {
-    const { error: profileError } = await client
+    const { data: createdProfile, error: profileError } = await client
       .from('profiles')
-      .update({ ...desiredProfile(person), status: 'inactive', is_verified: false })
-      .eq('id', userId)
-    if (profileError) throw profileError
-
-    const { data: createdProfile, error: createdProfileError } = await client
-      .from('profiles')
+      .insert({ id: userId, ...desiredProfile(person), status: 'inactive', is_verified: false })
       .select('slug')
-      .eq('id', userId)
       .single()
-    if (createdProfileError) throw createdProfileError
+    if (profileError) throw profileError
     if (createdProfile.slug !== person.slug) {
       throw new Error(
         `${person.nickname_en}: 생성된 slug ${createdProfile.slug}가 명세 ${person.slug}와 다릅니다.`,
@@ -250,7 +235,8 @@ async function createFictionProfile(client: SupabaseClient, person: FictionProfi
     if (social.error) throw social.error
     if (scores.error) throw scores.error
   } catch (error) {
-    await client.auth.admin.deleteUser(userId)
+    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
+    await client.rpc('delete_auth_user', { target_user_id: userId })
     throw error
   }
 }
