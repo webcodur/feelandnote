@@ -20,8 +20,12 @@ const CAPTION_TRANSITION_SEC = 0.42;
 // 전환을 발화 시점에 시작하면 fade-in만큼 늦게 읽힌다. 새 문장이 거의 완성된 상태로 발화에 닿게 앞당긴다.
 const CAPTION_TRANSITION_LEAD_SEC = 0.2;
 const PORTRAIT_TRANSITION_LEAD_SEC = 0.4;
-// 화면 클릭 음성 재생을 먼저 검증하는 동안 기존 대사 자막 오버레이는 코드만 보존하고 숨긴다.
-const SHOW_FACTION_QUOTE_OVERLAY = false;
+/*
+  대사가 화면에 뜨지 않으면 재생 단추가 아무 일도 안 한 것처럼 보인다.
+  음성이 붙은 인물은 13명뿐이고 나머지 1,037명은 글자밖에 없다(26.08.08 실측) —
+  자막을 끄면 그 1,037명은 눌러도 화면이 그대로다. 그래서 자막은 항상 띄우고,
+  음성이 있으면 발화에 맞춰, 없으면 대사 전문을 잠시 띄운다.
+*/
 
 /*
   세력도감 쇼케이스.
@@ -743,7 +747,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
       {/* 세력 선택 시 정보·명단은 캔버스 인포그래픽이 전부 담는다 — 하단 오버레이 없음 */}
 
       {/* 인물 선택의 정보와 행동은 화보 한 장 안에서 끝낸다. */}
-      {current.type === "celeb" && (!SHOW_FACTION_QUOTE_OVERLAY || !isFactionQuoteVisible) && (
+      {current.type === "celeb" && !isFactionQuoteVisible && (
         <div className="absolute inset-x-0 bottom-0 z-10 cursor-text select-text bg-gradient-to-t from-black via-black/90 to-transparent px-5 pb-5 pt-24 selection:bg-accent/45 selection:text-white md:px-6 md:pb-6 md:pt-32">
           <div className="flex items-center gap-2.5">
             <h3 className="font-serif text-2xl font-black leading-tight text-white md:text-3xl">
@@ -784,7 +788,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
         </div>
       )}
 
-      {SHOW_FACTION_QUOTE_OVERLAY && current.type === "celeb" && factionQuote && isFactionQuoteVisible && (
+      {current.type === "celeb" && factionQuote && isFactionQuoteVisible && (
         <div
           role="status"
           aria-live="polite"
