@@ -290,7 +290,7 @@ export default function JourneySection({ events }: Props) {
                     </div>
 
                     <div className="flex-1 px-4 py-4 md:px-5 md:py-5">
-                      <p className="text-[15px] leading-[1.8] text-text-secondary break-keep md:text-base">
+                      <p className="text-[15px] leading-[1.8] text-text-secondary break-keep break-words md:text-base">
                         {item.description ?? "—"}
                       </p>
                     </div>

@@ -564,7 +564,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     >
       {avatarCircle(p, "h-10 w-10 shrink-0", 16)}
       <span className="min-w-0 flex-1">
-        <span className="line-clamp-2 font-serif text-[13px] font-bold leading-tight text-text-primary group-hover:text-accent">
+        <span className="line-clamp-2 break-words font-serif text-[13px] font-bold leading-tight text-text-primary group-hover:text-accent">
           {p.name}
         </span>
         <span
