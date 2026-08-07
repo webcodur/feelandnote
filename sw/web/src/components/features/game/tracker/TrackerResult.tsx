@@ -7,6 +7,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Book, Film, Gamepad2, Music, MessageSquare } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import type { TrackerContent, TrackerOption } from "@/actions/game/getTrackerRound";
@@ -171,7 +172,7 @@ export default function TrackerResult({
                   <div className="flex items-center gap-3 w-full sm:w-auto flex-1 min-w-0">
                     <div className="relative w-9 h-12 shrink-0 rounded overflow-hidden bg-black/40 border border-white/5 group-hover:border-accent/20 transition-colors">
                       {c.thumbnailUrl ? (
-                        <Image src={c.thumbnailUrl} alt={c.title} fill sizes="36px" className="object-cover" />
+                        <ContentImage src={c.thumbnailUrl} alt={c.title} sizes="36px" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center">
                           <Icon size={14} className="text-text-secondary group-hover:text-accent transition-colors" />

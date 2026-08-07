@@ -7,6 +7,7 @@
 
 import { User, BookOpen, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useCelebAvatarSrc } from "@/hooks/useCelebAvatarSrc";
 
 interface PersonInfo {
   id: string;
@@ -24,6 +25,9 @@ interface Props {
 
 export default function PersonNameplate({ person, onClick, rank }: Props) {
   const t = useTranslations("explore.ui");
+  // 얼굴이 48px로 나오는 자리라 작은 판을 받는다
+  const { src: avatarSrc, onError: onAvatarError } = useCelebAvatarSrc(person.avatar_url, "48px");
+
   return (
     <button
       onClick={onClick}
@@ -64,9 +68,11 @@ export default function PersonNameplate({ person, onClick, rank }: Props) {
               <div className="w-12 h-12 rounded-full p-[2px] bg-gradient-to-br from-white/20 to-transparent">
                 <div className="w-full h-full rounded-full overflow-hidden bg-black/50">
                    {person.avatar_url ? (
-                    <img 
-                      src={person.avatar_url} 
-                      alt={person.nickname} 
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={avatarSrc ?? person.avatar_url}
+                      alt={person.nickname}
+                      onError={onAvatarError}
                       className="w-full h-full object-cover"
                     />
                   ) : (

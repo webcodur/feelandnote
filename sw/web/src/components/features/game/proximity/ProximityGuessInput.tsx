@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useMemo, useRef, useState } from 'react';
-import Image from 'next/image';
 import { Search } from 'lucide-react';
+import CelebAvatarImage from '@/components/ui/CelebAvatarImage';
 import { useTranslations } from 'next-intl';
 import type { ProximityCeleb } from './types';
 
@@ -112,11 +112,10 @@ export default function ProximityGuessInput({ celebs, guessedIds, onSelect, disa
               }}
             >
               {celeb.avatar_url ? (
-                <Image
+                <CelebAvatarImage
                   src={celeb.avatar_url}
                   alt=""
-                  width={28}
-                  height={28}
+                  boxPx={28}
                   className="h-7 w-7 rounded-full object-cover"
                 />
               ) : (

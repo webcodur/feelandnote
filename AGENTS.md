@@ -131,7 +131,7 @@ pnpm build:audio-bo
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | **인물**(옛 이름 탐색) — 인물·랭킹·페르소나·세력도감·타임라인 외 |
-| `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 7종 |
+| `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구와 함정 모음. **대상은 등록된 인물 전원이다(26.08.07 전환) — 생존 여부는 조건이 아니며, 사망 시 사망 사건을 더해 한 번 더 갱신한다.** 도구 두 종은 아직 옛 「사망자만」 조건을 강제한다 |
 | `docs/project/celeb-detail-themes.md` | **인물 상세 세계 표현 SSoT** — 국적·연대 기반 39개 세계의 배너·화보 액자·구획 번호·서체와 5개 세계 재질 계열을 함께 쥔다. 직군 기반 8색 테마는 26.08.03 폐기했고 직군은 아이콘·명칭에만 쓴다. 세계 재질은 39/39 운영 적용됐으며 `/lab/celeb-themes`에서 개별 재질 15종과 대표 조합 5종을 같은 토큰으로 검증한다. |
 | `docs/project/celeb-world-banners.md` | **인물 세계 배너 SSoT** — 인물이 산 세계 39종의 배경 사진 규격·장면·검수·모바일 초점 예외·교정 함정. 판정 규칙은 `sw/web/src/lib/celeb/world.ts`가 쥔다. **26.08.03 기준 4판 네이티브 3:1 규격으로 39/39종 서비스 반영 완료**(원본 39·PC/모바일 78) |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
@@ -284,16 +284,82 @@ pnpm build:audio-bo
 
 | 영역 | 문서 (`docs/todo/` 기준) |
 |------|------|
-| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 |
+| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-timeline-backfill-handoff-2026-08-08.md` 인물 행적 811명 채우기(조사기 모델 교체가 선행 조건) |
 | 세력도감 | `faction/faction-atlas-reconciliation-2026-08-03.md` 제작↔도감 정합화 실측·계획 · `faction/세력도감-단일화-할일.md` 다음 착수 지점 · `faction/tag-ideas.md` 태그 후보 풀 |
 | 게임 | `games/game-wave2-contract.md` 실험 게임 7종 SSoT + 개별 규격 `games/game-<키>-order.md` 7종 |
 | 외부 API | `external-api-migration-2026-08-01.md` 네이버·구글 이탈 대응 미결 항목 |
+
+**26.08.07 문서 정비에서 드러난 미결.** 문서가 "있다"고 적었으나 실물이 없거나, 손대다 만 것들이다. 상세는 각 문서에 적어 뒀고 여기는 **무엇이 비어 있는지**만 모은다.
+
+| 무엇 | 지금 상태 | 적힌 곳 |
+|------|------|------|
+| 네이버 표지 생존 감시 도구 | **없다.** 표지 3,466건이 한꺼번에 깨져도 알아챌 방법이 없다 | `external-services.md` |
+| 인물 식별자(QID) 1·2차 검증 도구 | **없다.** 문서가 "필수"라 적은 절차를 실행할 수단이 없어 사람이 직접 대조해야 한다 | `db-celeb.md` |
+| 단체 사진 구도 아이디어 풀 | **없다.** 구도가 찍어낸 듯 반복되는 것을 막을 수단이 없다 | `image-generation.md` |
+| 학당 게임 강좌 | 자리만 「개발중」으로 세웠고 내용이 없다 | `service/library.md` |
+| 박물관 독서법 비교 화면 | 설정만 있고 그리는 코드가 없어 어느 메뉴로도 갈 수 없다 | `service/library.md` |
+| 쓰지 않는 조회 두 개 | `getTopCelebsAcrossAllEras`·`getLibraryByEra` — 없어진 시대별 화면의 잔재. 지울지 미정 | `tooling-gotchas.md` §3.1 |
+| 문서 실측 점검 | 67종 미점검. 그중 절반이 영상 문서이고 **착수를 막던 사유는 해소됐다** | 「문서 점검 상태」 절 |
 
 **아래 둘은 할 일이 아니라 함정 기록이다.** 같은 사고를 되풀이하지 않기 위해 둔다.
 
 > **팩션 대사 운영 정정(2026-07-31):** 필수값은 한국어 `quote`와 `quoteChunks`뿐이다. `quoteOrigin`은 자유 메모칸이라 비어 있어도 결손이 아니다. 팩션 영문 대사·영문 청크는 현재 제작하지 않으며 기존 값만 보존한다.
 
 > **명언 유실 사고 원인(26.06.02)**: 일괄 작업이 `dialogue-bulk-update.mjs`의 `lines = EXCLUDED.lines`(통째 교체)로 579행의 `lines`를 덮어 `quote` 키만 소멸시켰다. PITR 28일 < 사고 44일 전이라 복구 불가. 병합(`|| EXCLUDED.lines`)으로 교정해 재발 차단. 명언 집계 시 **빈 문자열 제외**(포함하면 부풀려짐).
+
+## 규약과 수치의 단일원천
+
+**돌아가는 규약의 원천은 코드다.** 판정 조건·모집단 범위·임계값처럼 프로그램이 실제로
+쓰는 값은 상수 파일 하나에 두고, 화면·서버 액션·스크립트가 **import해서** 쓴다.
+문서는 그 파일을 가리키고 배경만 설명한다.
+
+문서를 원천으로 삼으면 반드시 갈라진다. 사람이 문서를 고쳐도 코드가 안 따라오고,
+코드를 고쳐도 문서가 남는다. 「문서 점검 상태」 절의 결함 유형 「수치가 낡음」이
+그것이다.
+
+**같은 값을 두 군데 이상에 적지 마라.** 값이 코드에 있으면 문서는 숫자를 옮겨 적지
+말고 파일 경로를 적는다. 같은 규약을 문서 서너 곳이 제각기 서술하면, 그중 하나만
+고쳐졌을 때 나머지가 낡은 채로 남아 다음 사람이 그걸 보고 코드를 짠다.
+
+**숫자를 꼭 문서에 적어야 하면 실측 날짜를 붙인다.** 그 숫자는 규약이 아니라 그날의
+스냅샷이라는 표시다. 날짜 없는 숫자는 규약처럼 읽혀 사고가 난다.
+
+```
+✅ 26.08.07 실측: 표시값 0이 1,146명, 그중 조사 모집단은 667명
+❌ 조사 대상은 667명이다
+```
+
+**적용 예 — 셀럽 콘텐츠 조사(26.08.07).** 표시값 계산과 조사 모집단 조건을
+`packages/shared/src/constants/celeb-content-research.ts` 하나로 모으고 회귀 시험을
+붙였다. 조사 목록 쿼리는 그 상수를 import한다(전에는 `celeb_tier='light'`가 쿼리에
+박혀 있었고 문서 네 곳이 그 조건을 제각기 베껴 적었다). 문서는 전부 참조로 바꿨다.
+
+**현재 원천 (26.08.07 전수 정리 완료)**
+
+| 규약 | 코드 원천 | 문서가 쥐는 것 |
+|------|-----------|----------------|
+| 콘텐츠 조사 표시값·모집단 | `packages/shared/src/constants/celeb-content-research.ts` | 배경 설명(`celeb-pipeline.md`), 조사 절차(`celeb-2-content-collector.md`) |
+| 아바타 프레임 기하 | `sw/web-bo/src/lib/avatar-geometry.ts`의 `AVATAR_SPEC` | 수치의 출처(어느 표본에서 나왔나), 안전 영역, 발주 프롬프트, 사람 눈 판정 절차 |
+| 셀럽 등급·노출 게이트 | `packages/shared/src/constants/celeb-tiers.ts` | 등급별 파이프라인 차이 |
+| 인물 16축 채점 척도·기준점 | `packages/shared/src/constants/celeb-persona-scale.ts` | 배경과 절차(`celeb/celeb-5-persona.md`) |
+| 대표 화보 규격 | `packages/shared/src/constants/celeb-hero-photo.ts` | 채움 현황, 크롭 판정 절차 |
+| 아바타 작은 판 규격·주소 규칙 | `packages/shared/src/constants/celeb-avatar-small.ts` | 왜 두는지, 만드는 네 경로(`db-celeb.md`) |
+| 캐시 무효화 태그 | `packages/shared/src/constants/cache-tags.ts` | — |
+
+**글쓰기 규칙도 같은 원칙을 따른다.** 코드가 아니라 문서가 원천이지만, 원천은 하나여야 한다.
+
+| 규약 | 원천 | 나머지 문서가 할 일 |
+|------|------|---------------------|
+| 한국어 작문 전반(번역투·어순·종결·어휘·구조·인용) | `docs/project/writing-rules.md` | 판정 기준을 다시 적지 말고 이 문서를 가리킨다 |
+| 문장 단위 번역투 진단표 | `.claude/skills/ko-detranslate/SKILL.md` | |
+| 금지 어휘·톤 목록 | `.claude/skills/no-trash-prose/SKILL.md` | |
+
+26.08.07에 팩션 룰북·문장 다듬기·편집국·번역 문서에서 번역투 규칙 서술을 걷어내고 포인터로 바꿨다. 각 문서는 **자기 단계에서 특히 자주 걸리는 것**만 짧게 적고, 판정 기준은 원천에 둔다.
+
+**수치를 문서에 옮겨 적은 곳은 26.08.07에 전부 걷어냈다.** 아바타 기하가 `db-celeb.md`·
+`person-image-map.md`에, 콘텐츠 조사 규약이 문서 네 곳에 복제돼 있었다. 새로 적지 마라.
+
+---
 
 ## 문서 점검 상태
 
@@ -335,7 +401,7 @@ grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/cel
 | `audio-bo.md`·`audio-bo-tts-engine-research.md`·`image-generation.md`·`person-image-map.md` | 착수 가능 |
 | `docs/todo/` 13종 | 진행 중 작업이라 문서가 계속 바뀐다. **작업이 끝날 때 함께 갱신한다** |
 | `celeb-data/dialogue/` 11종 | **점검 대상 아님.** 인물별 대사 원고(창작물)라 대조할 코드가 없다. 손대지 마라 |
-| `remotion/faction.md` | 알려진 오류 하나: `faction/timing.ts` → 실제는 `faction/shared/timing.ts` |
+| `remotion/faction.md` | **26.08.07 대조 완료.** 26.07.16 점검이 "`faction/timing.ts`는 오류이고 실제는 `faction/shared/timing.ts`"라고 적어 뒀으나 **그 지적이 틀렸다** — `sw/remotion/src/compositions/Faction/timing.ts`가 실재하고 `Faction/shared/timing.ts`는 없다. `shared/timing.ts`는 다른 앱(web-bo 미리보기)의 파일이고 문서가 이미 따로 적고 있다. 문서 쪽은 고칠 것이 없었다 |
 | `suikoden-dev.md`·`suikoden-sim/` | 26.07.30 대조 완료 |
 
 **반복 확인된 결함 유형** (26.07.16 점검 44종에서 실제로 나온 것들. 같은 걸 찾아라)

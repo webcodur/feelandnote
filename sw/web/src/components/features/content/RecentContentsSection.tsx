@@ -6,12 +6,11 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useHorizontalScroll } from "@/hooks/useHorizontalScroll";
 import { getCategoryByDbType } from "@/constants/categories";
-import { BLUR_DATA_URL } from "@/constants/image";
 import type { RecentContentItem } from "@/hooks/useRecentContents";
 import type { ContentType } from "@/types/database";
 
@@ -54,16 +53,10 @@ export default function RecentContentsSection({ items }: RecentContentsSectionPr
             >
               <div className="relative w-[72px] h-[100px] rounded-lg overflow-hidden border border-white/10 group-hover:border-accent/40 transition-colors bg-bg-secondary">
                 {item.thumbnail ? (
-                  <Image
+                  <ContentImage
                     src={item.thumbnail}
                     alt={item.title}
-                    fill
                     sizes="72px"
-                    className="object-cover"
-                    placeholder="blur"
-                    blurDataURL={BLUR_DATA_URL}
-                    unoptimized
-                    loading="lazy"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-white/5">

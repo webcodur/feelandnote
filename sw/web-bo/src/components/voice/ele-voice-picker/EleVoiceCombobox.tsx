@@ -14,7 +14,7 @@ import {
 } from '@feelandnote/shared/bo/voice-utils'
 import { ELE_VOICE_STATUS_LABEL, ELE_VOICE_GAIN_MIN, ELE_VOICE_GAIN_MAX, type EleVoiceNote, type EleVoiceNoteStatus } from '@/lib/ele-voice-notes'
 import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-history'
-import type { FactionEleVoiceRecommendation } from './faction-voice-recommendations'
+import type { EleVoiceRecommendation } from './types'
 
 /**
  * ElevenLabs 보이스 콤보박스 — 드롭다운(전체 목록 + 이름 검색 + 거르기·정렬)과 직접 입력을 한 위젯에 합친다.
@@ -55,7 +55,7 @@ export function EleVoiceCombobox({
   onChange: (voiceId: string) => void
   loading: boolean
   error: string | null
-  recommendations?: FactionEleVoiceRecommendation[]
+  recommendations?: EleVoiceRecommendation[]
   voiceNotes?: Record<string, EleVoiceNote>
   notesLoading?: boolean
   notesError?: string | null
@@ -138,7 +138,7 @@ export function EleVoiceCombobox({
   const topRecommendations = useMemo(
     () => recommendations
       .map((rec, index) => ({ rec, rank: index + 1, voice: voiceById.get(rec.voiceId) }))
-      .filter((item): item is { rec: FactionEleVoiceRecommendation; rank: number; voice: Voice } => !!item.voice)
+      .filter((item): item is { rec: EleVoiceRecommendation; rank: number; voice: Voice } => !!item.voice)
       .slice(0, 3),
     [recommendations, voiceById],
   )

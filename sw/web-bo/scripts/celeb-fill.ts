@@ -48,10 +48,13 @@ const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSess
 
 const PROFILE_FIELDS = [
   'nickname', 'nickname_en', 'title', 'title_en', 'bio', 'bio_en', 'profession',
-  'nationality', 'birth_date', 'death_date', 'speech_tone',
+  'nationality', 'birth_date', 'death_date', 'gender', 'speech_tone',
   'consumption_philosophy', 'consumption_philosophy_en',
   'cultural_journey', 'cultural_journey_en',
 ] as const
+
+/** profiles 의 boolean 전용 필드 (json → boolean 변환 필요) */
+const BOOL_PROFILE_FIELDS = ['gender'] as const
 
 const AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity'] as const
 const PERSONA_GROUPS = {
@@ -145,7 +148,7 @@ async function dump() {
 
 type Patch = {
   slug: string
-  profiles?: Record<string, string>
+  profiles?: Record<string, string | boolean | null>
   influence?: Record<string, string | number>
   persona?: Record<string, Record<string, { score: number; reason_ko: string; reason_en: string }> | string>
   dialogues?: { lines?: Record<string, any>; lines_en?: Record<string, any> }
@@ -203,10 +206,17 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       if (moved.length) preserved.push(`※ influence 로 이동: ${moved.join(',')}`)
 
       // ── profiles: 빈칸만
-      const profPayload: Record<string, string> = {}
+      const profPayload: Record<string, string | boolean> = {}
       for (const [k, v] of Object.entries(patch.profiles ?? {})) {
         if (!(PROFILE_FIELDS as readonly string[]).includes(k)) throw new Error(`허용되지 않은 profiles 필드 ${k}`)
-        if (blank(v)) { preserved.push(`${k}(신규값 공란)`); continue }
+        const isBool = (BOOL_PROFILE_FIELDS as readonly string[]).includes(k)
+        if (!isBool && blank(v)) { preserved.push(`${k}(신규값 공란)`); continue }
+        if (isBool) {
+          if (v !== true && v !== false) throw new Error(`profiles.${k} 는 true/false 여야 한다: ${v}`)
+          if (!nil(c.profile[k])) { preserved.push(`${k}(기존값 보존)`); continue }
+          profPayload[k] = v
+          continue
+        }
         if (!blank(c.profile[k])) { preserved.push(`${k}(기존값 보존)`); continue }
         if (k === 'speech_tone' && !SPEECH_TONES.includes(String(v))) {
           preserved.push(`speech_tone(코드 아님: ${v} — 제외)`)
@@ -229,13 +239,27 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
         if (isScore) {
           if (nil(v)) { preserved.push(`inf.${k}(신규값 없음)`); continue }
           const n = Number(v)
-          if (!Number.isInteger(n) || n < 0 || n > 10) throw new Error(`influence ${k} 는 0~10 정수: ${v}`)
+          const max = k === 'transhistoricity' ? 40 : 10
+          if (!Number.isInteger(n) || n < 0 || n > max) throw new Error(`influence ${k} 는 0~${max} 정수: ${v}`)
           if (!nil(before)) { preserved.push(`inf.${k}(기존값 보존)`); continue }
           infPayload[k] = n
         } else {
           if (blank(v)) { preserved.push(`inf.${k}(신규값 공란)`); continue }
           if (!blank(before)) { preserved.push(`inf.${k}(기존값 보존)`); continue }
           infPayload[k] = String(v)
+        }
+      }
+      // ── total_score: 기존값 없을 때만 7축 합으로 계산(랭킹·출고 필수)
+      {
+        const existingTotal = c.influence?.total_score
+        if (nil(existingTotal)) {
+          const allScores = (AXES as readonly string[]).every((a) =>
+            Number.isInteger(infPayload[a] ?? c.influence?.[a] ?? null))
+          if (allScores) {
+            const total = (AXES as readonly string[]).reduce(
+              (s, a) => s + Number(infPayload[a] ?? c.influence?.[a] ?? 0), 0)
+            infPayload.total_score = total
+          }
         }
       }
 
@@ -262,7 +286,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
             preserved.push(`per.${group}.${k}(score·reason_ko·reason_en 중 결손)`); continue
           }
           const n = Number(val.score)
-          const range = group === 'dispositions' ? [-100, 100] : [0, 100]
+          const range = group === 'dispositions' ? [-50, 50] : [0, 100]
           if (!Number.isInteger(n) || n < range[0] || n > range[1]) {
             throw new Error(`persona ${group}.${k} score 범위 ${range.join('~')}: ${val.score}`)
           }
@@ -359,7 +383,12 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       const after = await loadCtx(patch.slug)
       const bad: string[] = []
       for (const [k, v] of Object.entries(profPayload)) {
-        if (String(after.profile[k] ?? '') !== String(v)) bad.push(`profiles.${k}`)
+        const got = after.profile[k]
+        if (typeof v === 'boolean') {
+          if (got !== v) bad.push(`profiles.${k}`)
+        } else if (String(got ?? '') !== String(v)) {
+          bad.push(`profiles.${k}`)
+        }
       }
       for (const [k, v] of Object.entries(infPayload)) {
         if (String(after.influence?.[k] ?? '') !== String(v)) bad.push(`influence.${k}`)

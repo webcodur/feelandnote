@@ -7,7 +7,7 @@
 
 "use client";
 
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Book, Film, Gamepad2, Music, Trophy, TrendingUp, Users, Sparkles, Star } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import CelebCard from "@/components/shared/CelebCard";
@@ -252,12 +252,10 @@ function SharedContentInsight({
               {/* 썸네일 */}
               <div className="w-9 h-12 rounded overflow-hidden bg-bg-card shrink-0 relative">
                 {item.thumbnail_url ? (
-                  <Image
+                  <ContentImage
                     src={item.thumbnail_url}
                     alt={item.title ?? ""}
-                    fill
                     sizes="36px"
-                    className="object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">

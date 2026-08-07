@@ -1,6 +1,6 @@
 # 2. 콘텐츠 수집
 
-> **최종 실측 체크: 26.07.30** — 실제 양수 / 활성 미조사 0 / 비활성·조사 완료 0건 -1 규격 반영
+> **최종 실측 체크: 26.08.07** — 표시값 규약을 조사 상태 단독 기준으로 교정(`resolveCelebContentCount` 실코드 대조)
 >
 > 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 이 문서의 BOOK 절차는 카카오 기준으로 갱신했다. `external_source`는 신규 등록 시 **`kakao_book`**이다(기존 `naver_book` 4,021건은 그대로 보존). 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 
@@ -12,15 +12,55 @@
 
 ### 조사 상태와 0건 처리
 
-- 실제 `user_contents`가 1건 이상이면 그 개수를 그대로 표시한다.
-- 실제 콘텐츠가 0건인 활성 프로필은 미조사·조사 중이면 `0`이다.
-- 실제 콘텐츠가 0건인 비활성 프로필은 `-1`이다.
-- 활성 프로필을 BOOK·VIDEO·GAME·MUSIC 전 유형으로 조사했지만 유효한
-  콘텐츠가 없으면 조사 장부가 `confirmed_empty`를 확정하며 표시값은 `-1`이다.
-- 활성 프로필은 빠른 선별이나 검색 1회 실패만으로 `-1`을 확정하지 않는다.
+**표시값 규약과 조사 대상 범위의 SSoT는 코드다** —
+`packages/shared/src/constants/celeb-content-research.ts`(배경 설명은
+`celeb-pipeline.md`「콘텐츠 수 표시」). 여기서 다시 서술하지 않는다.
+이 문서는 조사를 *어떻게* 하는지만 다룬다.
+
+이 문서가 쥐는 것은 하나다 — **`confirmed_empty`를 확정할 자격.**
+
+- BOOK·VIDEO·GAME·MUSIC **네 유형 전부**의 출처와 후보 판정을 조사 장부에 남겨야 한다.
+- 유효한 콘텐츠가 0건일 때만 완료 함수가 `confirmed_empty`를 확정한다.
+- 빠른 선별이나 검색 1회 실패만으로 확정하지 않는다.
+- 장부 없이 상태만 바꾸는 경로는 DB 가드가 거부한다.
+
+> 26.07.29~30에 장부 없이 상태만 박은 302명이 있었고 26.08.07에 전원 `open`으로
+> 되돌렸다. **장부가 뒷받침하지 않는 `confirmed_empty`는 만들지 마라.**
 
 감상여정은 **후보를 찾는 캐시**이지 등록 증거가 아니다. 작품명은 반드시 이
 문서의 source_url·증거 수준 규칙으로 다시 검증한다.
+
+### 조사 장부 쓰는 법
+
+장부는 네 테이블이다 — `celeb_content_research_runs`(실행) ·
+`_scopes`(유형별 진행) · `_findings`(후보 판정) · `_sources`(확인한 출처).
+화면(web-bo `/celebs/content-research/<celebId>`)으로도, SQL로도 쓸 수 있다.
+스키마·가드 원문은 `sw/web/supabase/migrations/20260729144835_create_celeb_content_research_history.sql`.
+
+**인물 1명당 순서**
+
+1. **실행 개설** — `celeb_content_research_runs` 에 INSERT.
+   `celeb_id` · `batch_key`(회차 식별자) · `researcher_label`(작업조) ·
+   `name_variants`(실제 검색에 쓴 표기 배열, 비면 거부) · `homonym_notes`.
+   INSERT하면 BOOK·VIDEO·GAME·MUSIC 네 범위가 트리거로 자동 생성된다.
+   인물당 진행 중 실행은 하나만 허용된다.
+2. **출처 기록** — `_sources`. `finding_id`가 NULL이면 "그 유형 전체를 이것으로 훑었다"는 뜻이며,
+   **유형마다 이런 줄이 최소 하나** 있어야 완료된다.
+   `source_tier`는 `primary`(본인 발언·서한·1차 사료)/`secondary`,
+   `source_kind`는 `direct_statement` `interview` `official_profile` `social_post`
+   `transcript` `archive` `article` `other`,
+   `access_status`는 `accessible` `bot_blocked` `archived` `unavailable`.
+   같은 실행 안에서 (url, finding_id) 조합은 중복 불가.
+3. **후보 판정** — `_findings`. `candidate`로 남기면 완료가 거부된다.
+   `accepted`는 `content_id`(등록을 먼저 끝내고 그 값)와 근거 요약이,
+   `rejected`는 근거 요약과 기각 사유가 필수다.
+   **판정마다 `finding_id`를 채운 출처를 한 줄 더 넣고, 채택 건은 그중 하나가 `primary`여야 한다.**
+4. **유형별 완료** — `_scopes`를 `status='completed'`, `completed_at=now()`로. 네 유형 모두.
+5. **실행 완료** — `SELECT * FROM complete_celeb_content_research_run('{run_id}')`.
+   네 유형 완료·유형별 출처·미판정 후보 없음·채택 건의 1차 출처·채택 건의 `user_contents` 연결·
+   유형 일치를 이 함수가 전부 검사하고, 통과하면 `content_research_status`를 확정한다.
+
+⛔ **`profiles.content_research_status`를 직접 UPDATE하지 마라.** 완료 함수만이 확정 자격을 가진다.
 
 ---
 
@@ -160,10 +200,8 @@ source_url 없이 user_contents에 INSERT하는 것은 금지한다.
 - [ ] 여러 검색 결과가 동일한 5~7개 작품만 반복 언급
 - [ ] 총 수집량이 20개 이상 (충분)
 
-검색 종료와 활성 프로필의 `confirmed_empty` 확정은 같은 말이 아니다.
-BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 조사 장부에 남기고,
-유효한 콘텐츠가 0건일 때만 완료 함수가 `confirmed_empty`를 확정한다.
-비활성 프로필은 실제 콘텐츠가 0건이면 별도 선별 단계 없이 `-1`이다.
+**검색 종료와 `confirmed_empty` 확정은 같은 말이 아니다.** 확정 자격은 이 문서
+「조사 상태와 0건 처리」 절이 정한다 — 네 유형 전부의 장부가 있어야 한다.
 
 ### WebFetch 활용 전략
 

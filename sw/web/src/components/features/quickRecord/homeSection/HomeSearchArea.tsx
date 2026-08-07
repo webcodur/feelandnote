@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Search, Loader2, BookOpen } from "lucide-react";
+import ContentImage from "@/components/ui/ContentImage";
 import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
 import { CATEGORIES, type CategoryId } from "@/constants/categories";
 import type { SearchResult } from "@/components/shared/search/SearchResultsDropdown";
@@ -118,9 +119,9 @@ export function HomeSearchArea({
                                         onClick={() => handleItemClick(result)}
                                         className="w-full flex items-center gap-4 p-4 hover:bg-white/5 transition-colors border-b border-white/5 last:border-none"
                                     >
-                                        <div className="w-10 h-14 bg-white/5 rounded overflow-hidden shrink-0">
+                                        <div className="relative w-10 h-14 bg-white/5 rounded overflow-hidden shrink-0">
                                             {result.thumbnail ? (
-                                                <img src={result.thumbnail} alt={result.title} className="w-full h-full object-cover" />
+                                                <ContentImage src={result.thumbnail} alt={result.title} sizes="40px" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
                                                     <BookOpen size={16} />

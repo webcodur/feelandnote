@@ -8,6 +8,7 @@ import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
 import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import BlurDissolve from "@/components/ui/BlurDissolve";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import FactionPreviewModal from "./FactionPreviewModal";
 import { useCelebPreview } from "./useCelebPreview";
@@ -178,14 +179,7 @@ export default function FactionSection({
                           >
                             {member.avatarUrl ? (
                               <BlurDissolve className="absolute inset-0">
-                                <Image
-                                  src={member.avatarUrl}
-                                  alt=""
-                                  fill
-                                  unoptimized
-                                  sizes="28px"
-                                  className="object-cover"
-                                />
+                                <CelebAvatarImage src={member.avatarUrl} alt="" sizes="28px" />
                               </BlurDissolve>
                             ) : (
                               <span className="flex h-full w-full items-center justify-center font-serif text-[9px]">

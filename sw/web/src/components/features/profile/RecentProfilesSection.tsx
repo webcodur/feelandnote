@@ -8,6 +8,7 @@ import { GripVertical, User } from "lucide-react";
 import { useRecentProfiles } from "@/hooks/useRecentProfiles";
 import { BLUR_DATA_URL } from "@/constants/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 
 export default function RecentProfilesSection() {
   const t = useTranslations("profileSection");
@@ -45,16 +46,11 @@ export default function RecentProfilesSection() {
                   {item.avatarUrl && item.profileType === "CELEB" ? (
                     // 셀럽 얼굴만 등장 효과 — 사용자 아바타는 그대로 둔다
                     <BlurDissolve className="absolute inset-0">
-                      <Image
+                      <CelebAvatarImage
                         src={item.avatarUrl}
                         alt={item.nickname}
-                        fill
                         sizes="30px"
-                        className="object-cover"
-                        placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
-                        unoptimized
-                        loading="lazy"
                       />
                     </BlurDissolve>
                   ) : item.avatarUrl ? (

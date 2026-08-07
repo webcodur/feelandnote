@@ -28,7 +28,7 @@ function LoginForm() {
 
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') || '/users'
+  const redirect = searchParams.get('redirect') || '/celebs'
   const unauthorizedError = searchParams.get('error') === 'unauthorized'
 
   // 저장된 설정 불러오기

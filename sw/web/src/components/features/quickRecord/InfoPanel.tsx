@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Link } from "@/i18n/navigation";
 import { Info, BookOpen, ExternalLink, Loader2, MessageSquare, User, Calendar, Award, Building2, Film, Users } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
@@ -133,10 +134,9 @@ export default function InfoPanel({
                     {/* 1열: 썸네일 */}
                     <div className="w-full max-w-[240px] mx-auto aspect-[2/3] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] shrink-0 bg-black/20 border border-white/10 relative group ring-1 ring-white/5">
                         {content.thumbnailUrl ? (
-                            <Image 
-                                src={content.thumbnailUrl} 
+                            <ContentImage
+                                src={content.thumbnailUrl}
                                 alt={content.title}
-                                fill
                                 sizes="(max-width: 768px) 50vw, 240px"
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                                 priority

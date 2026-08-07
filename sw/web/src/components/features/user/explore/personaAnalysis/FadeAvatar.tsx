@@ -9,8 +9,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { celebAvatarSmallUrl } from "@feelandnote/shared/constants/celeb-avatar-small";
 import { BlurDissolve } from "@/components/ui";
+import { useCelebAvatarSrc } from "@/hooks/useCelebAvatarSrc";
 import { initials } from "./constants";
 
 // 이 시간까지는 원래 동작 그대로. 넘기면 지연 로딩으로 간주해 페이드 커버 발동
@@ -28,11 +28,8 @@ interface FadeAvatarProps {
 
 export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvatarProps) {
   const [state, setState] = useState<LoadState>("eager");
-  /* 여기 얼굴은 지름 40px 안팎으로 나온다. 800px 원본을 수백 장 받으면 브라우저가 그림 준비를
-     감당하지 못해 자리가 빈 채로 남으므로 작은 판을 쓴다. 아직 작은 판이 없는 인물만 원본으로 돌린다. */
-  const [fellBack, setFellBack] = useState(false);
-  const shownSrc = fellBack ? src : celebAvatarSmallUrl(src);
-  const fallBackToOriginal = useCallback(() => setFellBack(true), []);
+  // 여기 얼굴은 지름 40px 안팎으로 나오고 한 화면에 수백 장이 깔린다 — 작은 판을 쓴다
+  const { src: shownSrc, onError: fallBackToOriginal } = useCelebAvatarSrc(src, "40px");
 
   // 캐시에서 이미 완료된 이미지는 onLoad가 안 불릴 수 있어 마운트 시점에 확인
   const ref = useCallback((img: HTMLImageElement | null) => {

@@ -11,9 +11,14 @@ const SIZE_PX = 96
 const ORIGINAL_FILE = 'avatar.webp'
 const SMALL_FILE = 'avatar-sm.webp'
 
+/** 이 크기 이하로 보이는 자리는 작은 판을 쓴다. 96 ÷ 48 이라 고해상도 화면 2배까지 또렷하다. */
+const MAX_DISPLAY_PX = 48
+
 export const CELEB_AVATAR_SMALL = {
   /** 저장 한 변(px). 표시 크기 40px 안팎을 고해상도 화면 2~3배까지 감당한다 */
   sizePx: SIZE_PX,
+  /** 작은 판을 쓸 표시 크기 상한(px) */
+  maxDisplayPx: MAX_DISPLAY_PX,
   originalFile: ORIGINAL_FILE,
   smallFile: SMALL_FILE,
 } as const
@@ -29,4 +34,18 @@ const AVATAR_PATH = /(\/celebs\/[^/]+\/)avatar\.webp/
 export function celebAvatarSmallUrl(url: string | null | undefined): string | null {
   if (!url) return null
   return url.replace(AVATAR_PATH, `$1${SMALL_FILE}`)
+}
+
+/** `sizes`가 `"40px"`처럼 고정 한 값일 때만 숫자를 뽑는다. 화면 폭에 따라 달라지는 표기는 판단하지 않는다. */
+const FIXED_PX = /^\s*(\d+(?:\.\d+)?)px\s*$/
+
+export function fixedDisplayPx(sizes: string | null | undefined): number | null {
+  const matched = sizes?.match(FIXED_PX)
+  return matched ? Number(matched[1]) : null
+}
+
+/** 표시 크기를 알 수 없으면 원본을 쓴다 — 큰 자리에 작은 판을 넣어 흐려지는 쪽이 더 나쁘다. */
+export function usesSmallAvatar(sizes: string | null | undefined): boolean {
+  const px = fixedDisplayPx(sizes)
+  return px !== null && px <= MAX_DISPLAY_PX
 }

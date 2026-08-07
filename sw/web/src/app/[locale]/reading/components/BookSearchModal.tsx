@@ -9,6 +9,7 @@
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Search, X, Book } from "lucide-react";
+import ContentImage from "@/components/ui/ContentImage";
 import { searchBooks } from "@/actions/contents/searchBooks";
 import type { SelectedBook } from "../types";
 
@@ -152,11 +153,9 @@ export default function BookSearchModal({ isOpen, onClose, onSelect }: Props) {
                     className="flex w-full items-center gap-3 p-3 text-start hover:bg-white/5"
                   >
                     {result.thumbnail ? (
-                      <img
-                        src={result.thumbnail}
-                        alt={result.title}
-                        className="h-16 w-12 rounded object-cover"
-                      />
+                      <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded">
+                        <ContentImage src={result.thumbnail} alt={result.title} sizes="48px" />
+                      </div>
                     ) : (
                       <div className="flex h-16 w-12 items-center justify-center rounded bg-white/10">
                         <Book className="size-5 text-text-secondary" />

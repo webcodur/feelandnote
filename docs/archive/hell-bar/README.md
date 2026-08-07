@@ -5,7 +5,7 @@
 > 살아서 결판 못 본 한 수를, 죽은 두 사람이 영원의 시간에 끝까지 두는 토크쇼.
 > **회당 한 페어 한 사안 풀깊이.** 6~8분 분량. 고정 세트 + 고정 진행자(바텐더) + 매회 페어.
 
-> 등장 인물 명단·슬러그 표기·유튜브 메타 시그널 규약은 [`docs/project/remotion/three-kingdoms.md`](../three-kingdoms.md)가 단일원천이다. 신규 인물 등록은 `/three-kingdoms` 스킬로 처리한다.
+> 등장 인물 명단·슬러그 표기·유튜브 메타 시그널 규약은 [`docs/project/remotion/three-kingdoms.md`](../../project/remotion/three-kingdoms.md)가 단일원천이다. 신규 인물 등록은 `/three-kingdoms` 스킬로 처리한다.
 
 ---
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import {
   Clock,
   BookOpen,
@@ -90,16 +91,18 @@ export default function WorkDetailModal({
               className="relative w-full bg-black/30 flex items-center justify-center cursor-zoom-in group overflow-hidden"
               style={{ maxHeight: "320px" }}
             >
-              <img
-                src={item.thumbnail}
-                alt={item.title}
-                className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                style={{ maxHeight: "320px" }}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).parentElement!.style.display =
-                    "none";
-                }}
-              />
+              <BlurDissolve className="w-full h-full">
+                <img
+                  src={item.thumbnail}
+                  alt={item.title}
+                  className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  style={{ maxHeight: "320px" }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).parentElement!.style.display =
+                      "none";
+                  }}
+                />
+              </BlurDissolve>
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </button>
           )}

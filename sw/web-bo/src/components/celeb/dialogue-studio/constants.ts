@@ -89,4 +89,5 @@ export const LABELS = {
   bulkUpload: '묶음 올리기',
   bulkUploadNoMatch: '매칭되는 파일이 없다. (g1~3, r1~3, d1~3, bw1~3, bd1~3, bl1~3, c1~3, quote)',
   playbackRate: '재생 배속',
+  openEditor: '음성 편집 창 열기 (목소리 고르기 · 감정 표식 · 파형 · 들숨 제거)',
 } as const

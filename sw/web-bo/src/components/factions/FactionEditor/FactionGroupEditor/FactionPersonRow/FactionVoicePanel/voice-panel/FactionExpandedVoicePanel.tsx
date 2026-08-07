@@ -19,10 +19,10 @@ import { voiceGainDbOf } from '@/lib/ele-voice-notes'
 import { applyFactionVoiceGain } from '@/actions/admin/factions/voice-gain'
 import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
-import { EleVoiceCombobox } from './EleVoiceCombobox'
 import { buildFactionEleVoiceRecommendations } from './faction-voice-recommendations'
-import { useEleVoiceNotes } from './useEleVoiceNotes'
-import { useEleVoiceHistory } from './useEleVoiceHistory'
+import {
+  EleVoiceCombobox, useEleVoiceNotes, useEleVoiceHistory,
+} from '@/components/voice/ele-voice-picker'
 import { folderToParam } from '@/lib/faction-edit-route'
 
 /**

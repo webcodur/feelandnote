@@ -12,6 +12,7 @@
     "./constants/cache-tags": "./src/constants/cache-tags.ts",
     "./constants/celeb-hero-photo": "./src/constants/celeb-hero-photo.ts",
     "./constants/celeb-avatar-small": "./src/constants/celeb-avatar-small.ts",
+    "./constants/celeb-persona-scale": "./src/constants/celeb-persona-scale.ts",
     "./lib/countries": "./src/lib/countries.ts",
     "./lib/paginate": "./src/lib/paginate.ts",
     "./lib/voice-policy": "./src/lib/voice-policy.ts",
