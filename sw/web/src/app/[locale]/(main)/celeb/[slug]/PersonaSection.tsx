@@ -112,65 +112,36 @@ function useSnapCarousel(count: number) {
   return { ref, activeIndex, scrollTo, syncIndex };
 }
 
-/** 넘겨보는 묶음의 이름표 줄. 이름 좌우에 이동 화살표를 둔다 */
-function CarouselControls({
+/** 넘겨보는 묶음의 이름표 줄. 이름을 누르면 그 장으로 간다 */
+function CarouselTabs({
   activeIndex,
   labels,
   onSelect,
-  previousLabel,
-  nextLabel,
   className,
 }: {
   activeIndex: number;
   labels: string[];
   onSelect: (index: number) => void;
-  previousLabel: string;
-  nextLabel: string;
   className?: string;
 }) {
-  const arrowClass =
-    "flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-accent-dim/25 text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.12] disabled:pointer-events-none disabled:border-white/[0.06] disabled:text-white/15";
-
   return (
-    <div className={cn("flex items-center justify-center gap-1.5", className)}>
-      <button
-        type="button"
-        onClick={() => onSelect(activeIndex - 1)}
-        disabled={activeIndex === 0}
-        aria-label={previousLabel}
-        className={arrowClass}
-      >
-        <ArrowLeft size={16} aria-hidden />
-      </button>
-
-      <div className="flex min-w-0 items-center gap-0.5">
-        {labels.map((label, index) => (
-          <button
-            key={label}
-            type="button"
-            onClick={() => onSelect(index)}
-            aria-current={index === activeIndex}
-            className={cn(
-              "truncate rounded-md px-2.5 py-1.5 font-serif text-sm",
-              index === activeIndex
-                ? "bg-accent/[0.1] font-bold text-accent"
-                : "text-text-secondary hover:bg-white/[0.04] hover:text-text-primary",
-            )}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      <button
-        type="button"
-        onClick={() => onSelect(activeIndex + 1)}
-        disabled={activeIndex === labels.length - 1}
-        aria-label={nextLabel}
-        className={arrowClass}
-      >
-        <ArrowRight size={16} aria-hidden />
-      </button>
+    <div className={cn("flex items-stretch gap-1", className)}>
+      {labels.map((label, index) => (
+        <button
+          key={label}
+          type="button"
+          onClick={() => onSelect(index)}
+          aria-current={index === activeIndex}
+          className={cn(
+            "min-w-0 flex-1 truncate rounded-md px-1 py-1.5 font-serif text-xs sm:text-sm",
+            index === activeIndex
+              ? "bg-accent/[0.1] font-bold text-accent"
+              : "text-text-secondary hover:bg-white/[0.04] hover:text-text-primary",
+          )}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }
@@ -644,15 +615,13 @@ function PersonaMatchGroupsModal({
         </header>
 
         {categories.length > 1 ? (
-          <CarouselControls
+          <CarouselTabs
             activeIndex={activeIndex}
             labels={categories.map((category) =>
               t(MATCH_CATEGORY_TITLE_KEYS[category]),
             )}
             onSelect={scrollToCategory}
-            previousLabel={isEn ? "Previous comparison" : "이전 비교"}
-            nextLabel={isEn ? "Next comparison" : "다음 비교"}
-            className="border-b border-white/[0.06] py-1.5"
+            className="border-b border-white/[0.06] px-3 py-1.5"
           />
         ) : null}
 
@@ -1066,12 +1035,10 @@ export default function PersonaSection({
 
       {/* 좁은 화면 — 능력·성향·덕목을 옆으로 넘겨본다 */}
       <div className="md:hidden">
-        <CarouselControls
+        <CarouselTabs
           activeIndex={metricIndex}
           labels={metricPanels.map((panel) => panel.label)}
           onSelect={scrollToMetric}
-          previousLabel={isEn ? "Previous metric" : "이전 지표"}
-          nextLabel={isEn ? "Next metric" : "다음 지표"}
           className="mb-3"
         />
         <div
