@@ -564,7 +564,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     >
       {avatarCircle(p, "h-10 w-10 shrink-0", 16)}
       <span className="min-w-0 flex-1">
-        <span className="line-clamp-2 break-words font-serif text-[13px] font-bold leading-tight text-text-primary group-hover:text-accent">
+        {/* 사람 이름은 잘리면 누구인지 알 수 없다 — 긴 서양 이름은 석 줄까지 받는다 */}
+        <span className="line-clamp-3 break-words font-serif text-[13px] font-bold leading-tight text-text-primary group-hover:text-accent">
           {p.name}
         </span>
         <span
