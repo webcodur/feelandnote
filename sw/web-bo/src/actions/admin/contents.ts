@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCache, revalidateWebItem } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { validateExternalImageUrl } from '@/lib/external-image'
@@ -180,7 +180,8 @@ export async function updateContentCover(input: {
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${input.contentId}`)
-  await revalidateWebCache(CACHE_TAGS.CONTENTS)
+  // 이 작품 한 건만 비운다 — 나머지 작품 화면은 창고에 그대로 둔다
+  await revalidateWebItem(CACHE_TAGS.CONTENTS, input.contentId)
 }
 
 export async function updateContent(
@@ -233,7 +234,8 @@ export async function updateContent(
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
   // contents.release_date + content_locales(제목·저자·설명)
-  await revalidateWebCache(CACHE_TAGS.CONTENTS)
+  // 이 작품 한 건만 비운다 — 나머지 작품 화면은 창고에 그대로 둔다
+  await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId)
 }
 
 export async function updateAffiliateLinks(
@@ -256,7 +258,8 @@ export async function updateAffiliateLinks(
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
   // content_locales.affiliate_url
-  await revalidateWebCache(CACHE_TAGS.CONTENTS)
+  // 이 작품 한 건만 비운다 — 나머지 작품 화면은 창고에 그대로 둔다
+  await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId)
 }
 
 /** 단일 플랫폼 링크를 upsert(추가/수정)하거나 삭제한다. url이 빈 문자열이면 해당 플랫폼 제거. */
@@ -332,5 +335,6 @@ export async function deleteContent(contentId: string): Promise<void> {
 
   revalidatePath('/contents')
   // contents + user_contents + records 연쇄 삭제 — 셀럽 서고에서도 사라져야 한다
-  await revalidateWebCache([CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS])
+  // 삭제는 목록 구성까지 바꾸므로 도메인도 함께 비운다
+  await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId, [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS])
 }

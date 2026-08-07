@@ -1,9 +1,12 @@
 /*
   파일명: /lib/cache.ts
-  기능: 캐시 만료 시간 상수 + 조회 실패가 캐시에 박히지 않게 하는 두 도우미
-  책임: 셀럽 정적 데이터 캐시 만료 주기를 단일 지점에서 관리하고,
-        캐시되는 조회가 실패를 "정상 빈 결과"로 굳히지 않도록 강제한다.
+  기능: 캐시 만료 시간 상수 + 조회를 감싸는 두 도우미 + 실패가 캐시에 박히지 않게 하는 두 도우미
+  책임: 캐시 만료 주기를 단일 지점에서 관리하고, 상세/목록 조회가 각각 알맞은 태그와
+        수명을 자동으로 갖게 하며, 캐시되는 조회가 실패를 "정상 빈 결과"로 굳히지 않도록 강제한다.
 */ // ------------------------------
+
+import { unstable_cache } from 'next/cache'
+import { itemTag, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
 
 /**
  * 셀럽 정적 데이터 캐시 만료 (초). 7일.
@@ -16,6 +19,81 @@
  * 각 캐시의 태그는 그 캐시가 실제로 읽는 테이블을 기준으로 붙인다.
  */
 export const STATIC_REVALIDATE = 604800
+
+/**
+ * 목록·집계 캐시 만료 (초). 1시간.
+ *
+ * 목록은 항목 하나가 바뀌어도 구성이 달라지므로 개별 무효화로 잡히지 않는다.
+ * (인기순이 바뀌면 목록에 들고 나는 항목 자체가 달라진다.) 그래서 짧은 수명으로
+ * 저절로 갱신되게 둔다. 목록 화면은 수십 개뿐이라 자주 다시 만들어도 부담이 없다.
+ */
+export const LIST_REVALIDATE = 3600
+
+/* ────────────────────────────────────────────────────────────────
+   조회를 감싸는 두 도우미
+
+   상세는 한 건짜리, 목록은 여러 건을 모은 것이다. 둘은 무효화 방식이 달라야 한다.
+
+   - 상세: 「도메인:식별자」 항목 태그 + 도메인 태그. 한 건을 고치면 그 한 건만 비운다
+   - 목록: 도메인 태그만. 대신 수명을 짧게 잡아 저절로 갱신되게 한다
+
+   도메인 태그만 쓰던 때는 인물 한 명을 고쳐도 인물 화면 전부가, 책 한 권을 고쳐도
+   책 화면 전부가 낡은 것으로 처리됐다. 그 뒤 방문·크롤링마다 재생성이 쌓여
+   ISR 쓰기가 무료 한도의 5.5배까지 올라갔다(26.08.08 실측).
+
+   태그를 손으로 적지 말고 이 도우미를 거쳐라. 적는 자리가 70곳이면 오타와 누락이 난다.
+   ──────────────────────────────────────────────────────────────── */
+
+interface CacheOptions {
+  /** 만료 시간(초). 기본값은 상세 7일 · 목록 1시간 */
+  revalidate?: number
+  /** 이 조회가 함께 읽는 다른 도메인의 태그 */
+  extraTags?: readonly string[]
+}
+
+/**
+ * 한 건짜리 상세 조회를 캐시한다.
+ *
+ * `keyParts`에는 결과를 가르는 인자를 **빠짐없이** 넣는다. 식별자만 넣고 locale을
+ * 빠뜨리면 한국어 결과가 영문 화면에 나간다.
+ *
+ * ```ts
+ * const data = await cachedDetail(CACHE_TAGS.CONTENTS, contentId, ['content-detail', contentId, locale],
+ *   () => fetchContentDetail(contentId, locale))
+ * ```
+ */
+export function cachedDetail<R>(
+  domain: CacheTag,
+  id: string,
+  keyParts: readonly string[],
+  fn: () => Promise<R>,
+  options: CacheOptions = {},
+): Promise<R> {
+  return unstable_cache(fn, [...keyParts], {
+    revalidate: options.revalidate ?? STATIC_REVALIDATE,
+    tags: [itemTag(domain, id), domain, ...(options.extraTags ?? [])],
+  })()
+}
+
+/**
+ * 여러 건을 모은 목록·집계 조회를 캐시한다.
+ *
+ * ```ts
+ * const rows = await cachedList(CACHE_TAGS.CONTENTS, ['popular-books', locale],
+ *   () => fetchPopularBooks(locale))
+ * ```
+ */
+export function cachedList<R>(
+  domain: CacheTag,
+  keyParts: readonly string[],
+  fn: () => Promise<R>,
+  options: CacheOptions = {},
+): Promise<R> {
+  return unstable_cache(fn, [...keyParts], {
+    revalidate: options.revalidate ?? LIST_REVALIDATE,
+    tags: [domain, ...(options.extraTags ?? [])],
+  })()
+}
 
 /* ────────────────────────────────────────────────────────────────
    조회 실패를 캐시에 박지 않기 위한 두 도우미

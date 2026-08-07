@@ -28,14 +28,22 @@ Supabase MCP·관리 API가 401 Unauthorized(`SUPABASE_ACCESS_TOKEN` 무효)로 
 
 **왜**: Supabase Free 플랜의 5.5GB egress 한도가 매우 작아 한도 초과 차단 사고가 2026-03-18, 2026-05-09 두 번 재발했다. 두 번 모두 새로 추가된 action이 캐시·JSON path·페이지네이션 규칙을 무시한 게 원인이었다. 일반 코드 리뷰로는 매번 같은 함정에 빠진다.
 
-1. 공개 read action은 반드시 `unstable_cache(fn, ['key'], { revalidate: 3600, tags: ['celebs'] })` + `createStaticClient()`(`sw/web/src/lib/supabase/static.ts`) 패턴을 쓴다. cookie 기반 `createClient()`는 인증 의존 부분에만 쓴다.
+1. 공개 read action은 `createStaticClient()`(`sw/web/src/lib/supabase/static.ts`)로 읽고, **`unstable_cache`를 직접 부르지 말고 `sw/web/src/lib/cache.ts`의 `cachedDetail`/`cachedList`를 쓴다.** 태그와 수명이 자동으로 붙는다. cookie 기반 `createClient()`는 인증 의존 부분에만 쓴다.
+
+   - **한 건짜리(인물 1명·작품 1건) → `cachedDetail(도메인, 식별자, 키, 조회)`** — 「도메인:식별자」 항목 태그가 붙어 그 한 건만 비울 수 있다
+   - **여러 건을 모은 목록·집계 → `cachedList(도메인, 키, 조회)`** — 도메인 태그 + 1시간 수명. 목록은 항목 하나가 바뀌어도 구성 자체가 달라져(인기순 변동) 항목 태그로는 잡히지 않는다
+   - `keyParts`에는 결과를 가르는 인자를 **빠짐없이** 넣는다. 식별자만 넣고 locale을 빠뜨리면 한국어 결과가 영문 화면에 나간다
+
+   🔴 **도메인 태그만 쓰면 한 건을 고쳐도 그 종류 전부가 낡은 것으로 처리된다.** 인물 1,929 · 콘텐츠 10,640 규모라(26.08.08 실측) 그 뒤 방문·크롤링마다 재생성이 쌓여 ISR 쓰기가 무료 한도 20만의 5.5배인 110만까지 올라갔다. 26.07.15에 태그를 하나에서 도메인 일곱으로 쪼갠 것이 1단계였고, 26.08.08에 도메인에서 항목으로 쪼갠 것이 2단계다.
+
+   ⚠️ **`'use server'` 파일에서 내보내는 것은 반드시 `async function`이다.** 캐시 도우미로 옮기며 `export const x = (id) => cachedDetail(...)` 꼴로 바꾸면 타입 검사는 통과하고 **빌드에서만** "Server Actions must be async functions"로 터진다. 내보내는 자리는 `export async function`을 쓴다.
 2. 인증 사용자 의존 데이터(현재 user.id 기반 follow/block/private)는 캐시 inner 밖으로 분리한다. inner는 primitive 인자만 받아 캐시 키를 안정화한다. locale은 항상 외부에서 `getLocale()`로 받아 인자로 넘긴다.
 3. `celeb_dialogues.lines`/`lines_en` 통째 select 금지. greeting/quote만 필요하면 `DIALOGUE_BRIEF_SELECT` 또는 `DIALOGUE_BRIEF_SELECT_WITH_ID`, quote/monologue가 필요하면 `DIALOGUE_PROFILE_SELECT`를 쓴다. JSON path는 `celeb-dialogues.ts`에 정의돼 있다.
 4. 카운트만 필요하면 `select('*', { count: 'exact', head: true })` 또는 SQL RPC를 쓴다. row를 페이지네이션으로 끝까지 받는 패턴(`while hasMore` + `range(from, from+PAGE_SIZE-1)` + `chunkArray` BATCH_SIZE 50)은 금지다.
 5. RSC 페이지(`app/**/page.tsx`)에서 `supabase.from(...)`을 직접 호출하지 않는다. 캐시가 우회돼 SEO 크롤러에 직격당한다. 캐시된 action으로 분리한다.
 6. JSON 컬럼(`cultural_journey`·`bio`·`youtube_videos` 등)을 결과셋과 함께 풀 셀렉트할 때는 캐시를 적용하고 슬러그·ID 단위로 키를 분리해 hit ratio를 확보한다.
 7. 변경 시 `docs/project/external-services.md`의 캐싱 적용 함수 목록과 잔여 작업을 갱신한다. 그 문서가 SSoT다.
-8. mutation의 `revalidatePath`/`revalidateTag` 호출 빈도를 점검한다. 한 mutation이 3중 path를 무효화하면 캐시 hit ratio가 무력화된다. tag 단위 통합을 권장한다.
+8. mutation의 `revalidatePath`/`revalidateTag` 호출 빈도를 점검한다. 한 mutation이 3중 path를 무효화하면 캐시 hit ratio가 무력화된다. **web-bo에서 web 캐시를 비울 때는 `revalidateWebItem(도메인, 식별자)`를 쓴다** — 한 건만 비운다. `revalidateWebCache(도메인)`은 그 종류 전부를 비우므로 대량 작업이나 구조 변경에만 쓴다. 신규 등록·삭제처럼 목록 구성까지 바뀌는 저장은 `revalidateWebItem(도메인, 식별자, [도메인])`으로 둘 다 비운다.
 9. **전체 테이블 풀스캔 + 행별 캐시 키 = egress 폭탄.** `unstable_cache` 키에 `celebId`/`page`/`slug` 같은 행별 식별자를 넣으면서 내부에서 전체 테이블을 풀스캔하면(예: `.neq('celeb_id', id)`로 전체 persona, page별 전체 user_contents) 식별자 수만큼 캐시가 갈라져 각 키의 첫 미스가 전체 테이블을 통째로 전송한다. 크롤러가 셀럽 ko/en 페이지를 순회하면 수천 회 × 전체 테이블 = 수 GB다. **해법: 전체 조회는 인자 없는(또는 locale만 받는) 단일 캐시 키로 1회만 받고, 행별 필터·계산·페이지 분할은 그 공유 캐시 위에서 JS로 한다.** 2026-06-22 셀럽 페이지(`getSimilarByCelebId` 전체 persona 4.25MB, `getContemporaries` 전체 profiles)와 라이브러리(`getScripturesByProfession` page별 전체 user_contents)가 이 패턴으로 5.5GB 초과의 주범이었다. 캐시 원본 mutate를 막기 위해 slice 후 `.map(c => ({...c}))` 얕은 복사가 필수다.
 10. **봇 트래픽이 egress 증폭원이다.** 실사용자가 적어도 검색엔진 봇이 sitemap에 등록된 동적 경로(셀럽 slug × ko/en)를 순회하며 캐시 미스를 유발한다. `robots.ts`에 `/*?`(필터·검색 쿼리스트링)를 차단해 캐시 키 폭발(`getCelebs` 12인자 등)을 줄인다. 이미지는 R2(`pub-*.r2.dev`) 서빙이라 Supabase egress와 무관하다. egress는 거의 전부 DB 행 전송이다.
 

@@ -1,11 +1,10 @@
 'use server'
 
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedList, cachedDetail } from '@/lib/cache'
 import type { ContentType, ContentStatus, VisibilityType } from '@/types/database'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
@@ -244,21 +243,24 @@ const queryPublicUserContents = (...args: PublicContentsArgs) => {
 
 // 타인 서재 — 공개 테이블(user_contents, contents, content_locales)만 읽으므로 캐시.
 // 일반 사용자 서재를 남이 열람하는 경로. 본인이 책을 추가하면 곧 반영돼야 하므로 1시간.
-const getCachedPublicUserContents = unstable_cache(
-  queryPublicUserContents,
-  ['public-user-contents'],
-  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
-)
+const getCachedPublicUserContents = (...args: Parameters<typeof queryPublicUserContents>) =>
+  cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents', ...args.map((a) => String(a ?? ''))], () =>
+    queryPublicUserContents(...args),
+  )
 
 // 셀럽 서재 SSR 전용 캐시 — 위와 키를 분리하고 수명을 7일로 둔다.
 // 셀럽 서재는 BO에서 편집할 때만 바뀌며, 같은 페이지의 다른 조회(프로필·JSON-LD·대사·동시대 인물)가
 // 전부 STATIC_REVALIDATE다. 이것만 1시간이면 크롤러가 셀럽 2,514면을 훑을 때마다 콜드 미스가 나
 // 페이지당 8~10KB가 반복 전송된다(egress 사고 재발 경로). 이웃과 수명을 맞춘다.
-const getCachedCelebLibraryContents = unstable_cache(
-  queryPublicUserContents,
-  ['celeb-library-contents'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
-)
+// 인물 한 명의 서재라 그 인물 항목 태그를 단다 — 한 명을 고쳐도 나머지 서재는 그대로 둔다
+const getCachedCelebLibraryContents = (...args: Parameters<typeof queryPublicUserContents>) =>
+  cachedDetail(
+    CACHE_TAGS.CELEBS,
+    args[0],
+    ['celeb-library-contents', ...args.map((a) => String(a ?? ''))],
+    () => queryPublicUserContents(...args),
+    { extraTags: [CACHE_TAGS.CONTENTS] },
+  )
 
 // 공개 프로필의 클라이언트 재조회용. viewer 모드는 이미 타인 화면으로 확정됐으므로
 // auth.getUser()를 다시 거치지 않고 1시간 공개 캐시를 바로 읽는다.

@@ -1,9 +1,8 @@
 'use server'
 
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail } from '@/lib/cache'
 import { CL_SELECT_LIST, type ContentLocaleRow } from '@/lib/utils/content-locale'
 
 export interface JsonLdContentRow {
@@ -32,11 +31,13 @@ async function fetchJsonLdContents(celebId: string): Promise<JsonLdContentRow[]>
   }).filter(Boolean)
 }
 
-export const getCelebJsonLdContents = unstable_cache(
-  fetchJsonLdContents,
-  ['celeb-jsonld-contents'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
-)
+/* 인물 한 명이 읽은 콘텐츠 — 그 인물 화면에서만 쓰므로 인물 항목 태그를 단다.
+   콘텐츠 자료를 읽으니 콘텐츠 도메인 태그도 함께 달아 대량 작업에서 쓸려 나가게 둔다. */
+export async function getCelebJsonLdContents(celebId: string): Promise<JsonLdContentRow[]> {
+  return cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-jsonld-contents', celebId], () => fetchJsonLdContents(celebId), {
+    extraTags: [CACHE_TAGS.CONTENTS],
+  })
+}
 
 export interface CelebDialogueFull {
   lines: Record<string, string[] | string> | null
@@ -59,8 +60,9 @@ async function fetchCelebDialogueFull(celebId: string): Promise<CelebDialogueFul
   }
 }
 
-export const getCelebDialogueFull = unstable_cache(
-  fetchCelebDialogueFull,
-  ['celeb-dialogue-full'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.DIALOGUES] }
-)
+/* 인물 한 명의 대사 — 대사 도메인도 함께 달아 대사 일괄 작업에서 쓸려 나가게 둔다 */
+export async function getCelebDialogueFull(celebId: string): Promise<CelebDialogueFull | null> {
+  return cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-dialogue-full', celebId], () => fetchCelebDialogueFull(celebId), {
+    extraTags: [CACHE_TAGS.DIALOGUES],
+  })
+}

@@ -1,10 +1,9 @@
 "use server";
 
 import { cache } from "react";
-import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { createStaticClient } from "@/lib/supabase/static";
-import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
+import { NO_ROWS_CODE, throwOnQueryError, cachedDetail } from '@/lib/cache';
 import { type CelebLevel, getCelebLevelByRanking, calculatePercentile } from "@/constants/materials";
 import { resolveLocale, type Locale } from "@/types/locale";
 
@@ -153,11 +152,11 @@ async function fetchCelebInfluence(
   };
 }
 
-const getCelebInfluenceCached = unstable_cache(
-  fetchCelebInfluence,
-  ["celeb-influence-detail"],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
-);
+/* 인물 한 명짜리 조회 — 항목 태그를 달아 그 한 명만 비울 수 있게 한다 */
+const getCelebInfluenceCached = (...args: Parameters<typeof fetchCelebInfluence>) =>
+  cachedDetail(CACHE_TAGS.CELEBS, args[0], ["celeb-influence-detail", ...args.map((a) => String(a ?? ''))], () =>
+    fetchCelebInfluence(...args),
+  );
 
 // React.cache로 같은 RSC 요청 안의 중복 호출 dedup + unstable_cache로 cross-request 캐시
 export const getCelebInfluence = cache(async (

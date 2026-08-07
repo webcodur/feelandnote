@@ -1,10 +1,9 @@
 'use server'
 
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedList } from '@/lib/cache'
 
 export interface ContemporaryCeleb {
   id: string
@@ -62,11 +61,10 @@ async function fetchAllCelebsWithDates(): Promise<CelebDateRow[]> {
   )
 }
 
-const getAllCelebsWithDatesCached = unstable_cache(
-  fetchAllCelebsWithDates,
-  ['celebs-with-dates'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
-)
+/* 인물 전체를 훑어 생몰년만 모은다 — 한 명이 바뀌어도 목록 구성이 달라지므로
+   항목 태그로는 잡히지 않는다. 짧은 수명으로 저절로 갱신되게 둔다. */
+const getAllCelebsWithDatesCached = () =>
+  cachedList(CACHE_TAGS.CELEBS, ['celebs-with-dates'], fetchAllCelebsWithDates)
 
 export async function getContemporaries(
   celebId: string,
