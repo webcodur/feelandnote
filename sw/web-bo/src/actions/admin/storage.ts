@@ -1,6 +1,8 @@
 'use server'
 
 import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
+import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
+import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
 
 // avatar = 얼굴 크롭 800×800(목록·관계도), portrait = 인물 상세 상단 대표 화보(원본 비율)
 // 화보 파일명 photo.webp는 일괄 등록 스크립트(scripts/upload-celeb-hero-photo.ts)와 같은 자리다
@@ -43,6 +45,10 @@ export async function uploadCelebImage(
 
   try {
     await uploadToR2(key, buffer, 'image/webp')
+    // 얼굴이 작게 나오는 화면이 쓸 작은 판을 같이 올린다(아바타에만 해당)
+    if (type === 'avatar') {
+      await uploadToR2(smallAvatarKey(celebId), await buildSmallAvatar(buffer), 'image/webp')
+    }
     return { success: true, url: buildPublicUrl(key) }
   } catch (err) {
     return {
@@ -56,6 +62,7 @@ export async function deleteCelebImages(celebId: string): Promise<void> {
   for (const filename of Object.values(CELEB_IMAGE_FILENAMES)) {
     await deleteFromR2(buildKey(celebId, filename))
   }
+  await deleteFromR2(buildKey(celebId, CELEB_AVATAR_SMALL.smallFile))
 }
 
 // 대표 화보만 내린다(아바타는 그대로 둔다)

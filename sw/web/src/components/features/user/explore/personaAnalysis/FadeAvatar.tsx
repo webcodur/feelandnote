@@ -9,6 +9,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { celebAvatarSmallUrl } from "@feelandnote/shared/constants/celeb-avatar-small";
 import { BlurDissolve } from "@/components/ui";
 import { initials } from "./constants";
 
@@ -27,6 +28,11 @@ interface FadeAvatarProps {
 
 export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvatarProps) {
   const [state, setState] = useState<LoadState>("eager");
+  /* 여기 얼굴은 지름 40px 안팎으로 나온다. 800px 원본을 수백 장 받으면 브라우저가 그림 준비를
+     감당하지 못해 자리가 빈 채로 남으므로 작은 판을 쓴다. 아직 작은 판이 없는 인물만 원본으로 돌린다. */
+  const [fellBack, setFellBack] = useState(false);
+  const shownSrc = fellBack ? src : celebAvatarSmallUrl(src);
+  const fallBackToOriginal = useCallback(() => setFellBack(true), []);
 
   // 캐시에서 이미 완료된 이미지는 onLoad가 안 불릴 수 있어 마운트 시점에 확인
   const ref = useCallback((img: HTMLImageElement | null) => {
@@ -63,17 +69,26 @@ export default function FadeAvatar({ src, name, blurDissolve = false }: FadeAvat
         // 나타나는 연출은 래퍼가 전담하므로 img 자체 페이드는 걸지 않는다.
         <BlurDissolve className="absolute inset-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img ref={ref} src={src} alt={name} decoding="async" onLoad={markLoaded} className="size-full object-cover" />
+          <img
+            ref={ref}
+            src={shownSrc ?? undefined}
+            alt={name}
+            decoding="async"
+            onLoad={markLoaded}
+            onError={fallBackToOriginal}
+            className="size-full object-cover"
+          />
         </BlurDissolve>
       )}
       {src && !blurDissolve && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           ref={ref}
-          src={src}
+          src={shownSrc ?? undefined}
           alt={name}
           decoding="async"
           onLoad={markLoaded}
+          onError={fallBackToOriginal}
           className={
             "absolute inset-0 size-full object-cover " +
             (state === "waiting"

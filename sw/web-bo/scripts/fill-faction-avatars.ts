@@ -13,6 +13,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
+import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import { existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -123,6 +124,16 @@ async function main() {
     const key = `celebs/${tgt.id}/avatar.webp`
     await r2.send(new PutObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME!, Key: key, Body: out,
+      ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
+    }))
+    // 얼굴이 작게 나오는 화면(성향 분포 등)이 쓸 작은 판. 규격은 shared가 쥔다.
+    await r2.send(new PutObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME!,
+      Key: `celebs/${tgt.id}/${CELEB_AVATAR_SMALL.smallFile}`,
+      Body: await sharp(out)
+        .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, { fit: 'cover' })
+        .webp({ quality: 82 })
+        .toBuffer(),
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
