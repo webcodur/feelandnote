@@ -57,13 +57,14 @@ export default function MonthSection({
         </div>
 
         <div className="relative flex items-baseline gap-2 leading-none">
+          {/* 달 표시는 목록 안의 칸막이다. 구획 제목보다 크면 시선을 먼저 채간다 */}
           <span className={cn(
-            "text-4xl sm:text-5xl font-serif font-black text-accent tracking-tighter",
+            "text-xl sm:text-2xl font-serif font-black text-accent tracking-tighter",
             "group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]"
           )}>
             {month.padStart(2, '0')}
           </span>
-          <span className="text-xl sm:text-2xl font-serif font-black text-text-secondary/40 group-hover:text-text-secondary/60 tracking-tight">
+          <span className="text-sm sm:text-base font-serif font-black text-text-secondary/40 group-hover:text-text-secondary/60 tracking-tight">
             {year}
           </span>
           <ChevronIcon
@@ -74,7 +75,7 @@ export default function MonthSection({
             )}
           />
         </div>
-        <span className="relative text-[10px] font-serif font-bold text-text-secondary uppercase tracking-[0.2em] mt-1">
+        <span className="relative text-[11px] font-serif font-bold text-text-secondary uppercase tracking-[0.2em] mt-1">
           {t("recordsInscribed", { count: itemCount })}
         </span>
       </button>

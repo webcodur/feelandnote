@@ -1,17 +1,66 @@
+/*
+  인물 상세 — 넓은 화면에서의 글자 크기와 조작 영역.
+
+  좁은 화면 기준으로 짠 작은 글씨를 넓은 화면에서 한 단계씩 올린다.
+  단계를 지켜 올리므로 제목·본문·보조설명의 위아래 관계가 그대로 남는다.
+
+  전에는 8~15px을 가리지 않고 전부 18px로 눌렀다. 그래서 제목(16px)이
+  바로 아래 설명(14px→18px)보다 작아지는 뒤집힘이 페이지 곳곳에서 났다.
+
+  스스로 화면 크기별 글자를 지정한 요소(sm:text-*, md:text-*, lg:text-*)는
+  그 지정이 정답이므로 건드리지 않는다.
+*/
+
 @media (min-width: 640px) {
-  .detailTypography :is(
-    [class~="text-xs"],
-    [class~="text-sm"],
-    [class~="text-[8px]"],
-    [class~="text-[9px]"],
-    [class~="text-[10px]"],
-    [class~="text-[11px]"],
-    [class~="text-[12px]"],
-    [class~="text-[13px]"],
-    [class~="text-[14px]"],
-    [class~="text-[15px]"]
-  ) {
+  .detailTypography
+    :is(
+      [class~="text-[8px]"],
+      [class~="text-[9px]"],
+      [class~="text-[10px]"],
+      [class~="text-[11px]"]
+    ):not([class*="sm:text-"]):not([class*="md:text-"]):not(
+      [class*="lg:text-"]
+    ) {
+    font-size: 0.8125rem !important;
+  }
+
+  .detailTypography
+    :is(
+      [class~="text-xs"],
+      [class~="text-[12px]"],
+      [class~="text-[13px]"]
+    ):not([class*="sm:text-"]):not([class*="md:text-"]):not(
+      [class*="lg:text-"]
+    ) {
+    font-size: 0.875rem !important;
+  }
+
+  .detailTypography
+    :is(
+      [class~="text-sm"],
+      [class~="text-[14px]"],
+      [class~="text-[15px]"]
+    ):not([class*="sm:text-"]):not([class*="md:text-"]):not(
+      [class*="lg:text-"]
+    ) {
+    font-size: 1rem !important;
+  }
+
+  .detailTypography
+    :is(
+      [class~="text-base"],
+      [class~="text-[16px]"],
+      [class~="text-[17px]"]
+    ):not([class*="sm:text-"]):not([class*="md:text-"]):not(
+      [class*="lg:text-"]
+    ) {
     font-size: 1.125rem !important;
+  }
+
+  .detailTypography [class~="text-lg"]:not([class*="sm:text-"]):not(
+      [class*="md:text-"]
+    ):not([class*="lg:text-"]) {
+    font-size: 1.25rem !important;
   }
 
   .detailTypography button,
@@ -22,5 +71,18 @@
 
   .detailTypography button:has(> svg:only-child) {
     min-width: 44px;
+  }
+}
+
+/*
+  좁은 화면 — 손가락으로 누르는 쪽이라 오히려 여기에 최소 크기가 필요하다.
+  넓은 화면에만 44px을 걸어 두고 좁은 화면은 비워 둔 탓에, 기호만 든 단추가
+  24px까지 작아져 있었다. 글자가 든 단추는 폭이 레이아웃을 밀어내므로
+  기호 단추부터 잡는다.
+*/
+@media (max-width: 639px) {
+  .detailTypography button:has(> svg:only-child) {
+    min-width: 36px;
+    min-height: 36px;
   }
 }
