@@ -174,8 +174,8 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
                 activeTag={activeTag}
                 locale={locale}
               />
-              {/* 이 진영의 원전 — 링크가 걸린 작품이 없거나 영문 화면이면 그리지 않는다 */}
-              <TagOriginBooks tagId={activeTag.id} />
+              {/* 이 진영이 다루는 분야의 책. 걸린 책이 없거나 영문 화면이면 그리지 않는다 */}
+              <TagOriginBooks tagId={activeTag.id} tagName={activeTag.name} variant="topic" />
             </div>
           )}
 
@@ -185,6 +185,8 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
               <SharedLibraryView tagId={activeTag.id} embedded heading={t("library.sharedTitle")} />
               {/* 인물별 서재 (항상) */}
               <TimelineSection tagId={activeTag.id} t={t} locale={locale} />
+              {/* 이 진영 인물들에 얽힌 책 — 읽은 것을 보는 자리이므로 여기에 둔다 */}
+              <TagOriginBooks tagId={activeTag.id} tagName={activeTag.name} variant="people" />
             </div>
           )}
         </>

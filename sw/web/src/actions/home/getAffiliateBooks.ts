@@ -5,6 +5,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
 import type { AffiliateLink, AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
+import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
 
 export interface AffiliateBook {
   contentId: string
@@ -17,8 +18,17 @@ export interface AffiliateBook {
 /** 인물 화면에서 이 목록을 무엇으로 골랐는지 — 안내 문구를 갈아끼우는 데 쓴다. */
 export type AffiliateBookSource = 'origin' | 'read' | 'profession' | 'popular'
 
-/** 진영 화면에서 무엇을 근거로 골랐는지 — 원전 · 그 진영을 다룬 책 · 그들이 읽은 책 */
-export type FactionBookSource = 'origin' | 'about' | 'read'
+/** 진영 화면의 인물 묶음을 무엇으로 골랐는지 — 인물에 얽힌 책 · 그들이 읽은 책 */
+export type FactionBookSource = 'about' | 'read'
+
+/** 진영 화면에 내보내는 두 묶음. 분야의 책과 인물에 얽힌 책을 따로 낸다. */
+export interface FactionBooks {
+  /** 그 진영이 다루는 분야의 책 (신화는 원전, 나머지는 분야 낱말로 찾은 것) */
+  topic: AffiliateBook[]
+  /** 그 진영 인물이 쓴 책·다룬 책, 없으면 그들이 읽은 책 */
+  people: AffiliateBook[]
+  peopleSource: FactionBookSource
+}
 
 interface LocaleRow {
   content_id: string
@@ -251,10 +261,12 @@ function nameHits(name: string | null, title: string, creator?: string): boolean
  */
 async function fetchBooksForTag(
   tagId: string,
+  tagName: string,
   platform: AffiliatePlatformKey,
   limit: number,
-): Promise<{ books: AffiliateBook[]; source: FactionBookSource }> {
+): Promise<FactionBooks> {
   const supabase = createStaticClient()
+  const empty: FactionBooks = { topic: [], people: [], peopleSource: 'read' }
 
   const { data: members, error } = await supabase
     .from('faction_atlas_members')
@@ -264,12 +276,12 @@ async function fetchBooksForTag(
 
   if (error || !members?.length) {
     if (error) console.error('[getAffiliateBooks] 진영 인물 조회 실패:', error)
-    return { books: [], source: 'read' }
+    return empty
   }
 
   const celebIds = Array.from(new Set(members.map((m) => m.celeb_id as string)))
   const pool = await fetchAffiliatePoolCached(platform)
-  if (pool.length === 0) return { books: [], source: 'read' }
+  if (pool.length === 0) return empty
 
   const pick = (weight: Map<string, number>) =>
     pool
@@ -278,18 +290,37 @@ async function fetchBooksForTag(
       .slice(0, limit)
       .map((v) => v.book)
 
-  // 1순위 — 신화·전설 진영이면 그 인물들이 나오는 원전
-  const origins = pick(await tallyByCelebs('fiction_source_characters', celebIds))
-  if (origins.length > 0) return { books: origins, source: 'origin' }
+  // ── 첫째 묶음: 그 진영이 다루는 분야의 책 ──
+  // 신화 진영은 인물들이 나오는 원전이 곧 분야다. 나머지는 정해 둔 분야 낱말로 찾는다.
+  const originWeight = await tallyByCelebs('fiction_source_characters', celebIds)
+  let topic = pick(originWeight)
 
-  // 2순위 — 그 진영 인물이 쓴 책이나 그를 다룬 책
-  const { data: people } = await supabase.from('profiles').select('nickname').in('id', celebIds.slice(0, 60))
-  const names = (people ?? []).map((p) => p.nickname as string | null)
-  const about = pool.filter((p) => names.some((n) => nameHits(n, p.book.title, p.book.creator)))
-  if (about.length > 0) return { books: about.slice(0, limit).map((v) => v.book), source: 'about' }
+  const keywords = FACTION_BOOK_TOPICS[tagName]
+  if (keywords?.length) {
+    const byKeyword = pool
+      .filter((p) => keywords.some((k) => p.book.title.includes(k) || (p.book.creator?.includes(k) ?? false)))
+      .map((v) => v.book)
+    // 원전이 이미 있으면 뒤에 덧붙이고, 없으면 이쪽이 분야 묶음이 된다
+    const merged = [...topic, ...byKeyword.filter((b) => !topic.some((t) => t.contentId === b.contentId))]
+    topic = merged.slice(0, limit)
+  }
 
-  // 3순위 — 그 인물들이 실제로 읽은 책
-  return { books: pick(await tallyByCelebs('user_contents', celebIds)), source: 'read' }
+  // ── 둘째 묶음: 그 인물들에 얽힌 책 ──
+  // 인물이 쓴 책이나 그를 다룬 책이 먼저, 없으면 그들이 실제로 읽은 책.
+  const { data: profiles } = await supabase.from('profiles').select('nickname').in('id', celebIds.slice(0, 60))
+  const names = (profiles ?? []).map((p) => p.nickname as string | null)
+  const about = pool
+    .filter((p) => names.some((n) => nameHits(n, p.book.title, p.book.creator)))
+    .filter((p) => !topic.some((t) => t.contentId === p.book.contentId))
+    .slice(0, limit)
+    .map((v) => v.book)
+
+  if (about.length > 0) return { topic, people: about, peopleSource: 'about' }
+
+  const read = pick(await tallyByCelebs('user_contents', celebIds)).filter(
+    (b) => !topic.some((t) => t.contentId === b.contentId),
+  )
+  return { topic, people: read, peopleSource: 'read' }
 }
 
 const fetchBooksForTagCached = unstable_cache(fetchBooksForTag, ['affiliate-books-tag'], {
@@ -299,10 +330,11 @@ const fetchBooksForTagCached = unstable_cache(fetchBooksForTag, ['affiliate-book
 
 export async function getAffiliateBooksForTag(
   tagId: string,
+  tagName: string,
   platform: AffiliatePlatformKey = 'coupang',
   limit = 6,
-): Promise<{ books: AffiliateBook[]; source: FactionBookSource }> {
-  if (!tagId) return { books: [], source: 'read' }
-  return fetchBooksForTagCached(tagId, platform, limit)
+): Promise<FactionBooks> {
+  if (!tagId) return { topic: [], people: [], peopleSource: 'read' }
+  return fetchBooksForTagCached(tagId, tagName, platform, limit)
 }
 

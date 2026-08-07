@@ -765,7 +765,8 @@
     "headingOrigin": "Source works featuring this figure",
     "headingFactionOrigin": "Source works of myth and legend",
     "headingFactionRead": "Books this circle read",
-    "headingFactionAbout": "Books about this circle"
+    "headingFactionAbout": "Books about this circle",
+    "headingFactionTopic": "Books on this circle’s field"
   },
   "share": {
     "label": "Share",
