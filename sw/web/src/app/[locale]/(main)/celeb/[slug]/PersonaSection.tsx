@@ -172,7 +172,7 @@ function MetricPanel({
   return (
     <section
       className={cn(
-        "h-full overflow-hidden rounded-[2px] border border-white/[0.08] border-t bg-white/[0.018] px-3 py-4 md:px-5 md:py-5",
+        "flex h-full flex-col overflow-hidden rounded-[2px] border border-white/[0.08] border-t bg-white/[0.018] px-3 py-4 md:px-5 md:py-5",
         tone,
       )}
     >
@@ -185,7 +185,8 @@ function MetricPanel({
           {description}
         </p>
       </header>
-      <div className="mt-4">{children}</div>
+      {/* 넘길 때 아래 단추가 들썩이지 않도록 남는 높이를 본문이 먹는다 */}
+      <div className="mt-4 flex flex-1 flex-col">{children}</div>
     </section>
   );
 }
@@ -504,12 +505,10 @@ function PersonaMatchGroup({
 
 function MobileMatchButton({
   label,
-  description,
   onClick,
   className,
 }: {
   label: string;
-  description?: string;
   onClick: () => void;
   className?: string;
 }) {
@@ -518,19 +517,12 @@ function MobileMatchButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "mt-3 flex w-full items-center justify-between gap-3 rounded-md border border-accent-dim/25 bg-accent/[0.025] px-3 py-2 text-start text-xs font-bold text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.1] md:hidden",
+        "mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border border-accent/45 bg-accent/[0.1] px-3 py-2.5 text-center text-xs font-bold text-accent hover:border-accent hover:bg-accent/[0.18] active:bg-accent/[0.24] md:hidden",
         className,
       )}
     >
-      <span className="min-w-0">
-        <span className="block">{label}</span>
-        {description ? (
-          <span className="mt-0.5 block break-keep text-[11px] font-normal text-text-secondary">
-            {description}
-          </span>
-        ) : null}
-      </span>
-      <ArrowRight size={15} aria-hidden className="shrink-0" />
+      <span className="min-w-0 truncate">{label}</span>
+      <ArrowRight size={14} aria-hidden className="shrink-0 opacity-70" />
     </button>
   );
 }
@@ -903,7 +895,7 @@ export default function PersonaSection({
       description={t("abilityDesc")}
       tone="border-t-emerald-300/35"
     >
-      <div className="space-y-2">
+      <div className="flex flex-1 flex-col gap-2">
         {ABILITY_KEYS.map((key) => (
           <VirtueBar
             key={key}
@@ -918,10 +910,12 @@ export default function PersonaSection({
           />
         ))}
         {matchesByCategory.ability.length > 0 ? (
-          <MobileMatchButton
-            label={t("personaMatch_ability")}
-            onClick={() => setMobileMatchCategories(["ability"])}
-          />
+          <div className="mt-auto">
+            <MobileMatchButton
+              label={t("personaMatchButton_ability")}
+              onClick={() => setMobileMatchCategories(["ability"])}
+            />
+          </div>
         ) : null}
       </div>
     </MetricPanel>
@@ -933,7 +927,7 @@ export default function PersonaSection({
       description={t("coreDispositionDesc")}
       tone="border-t-blue-400/35"
     >
-      <div className="space-y-2">
+      <div className="flex flex-1 flex-col gap-2">
         {TENDENCY_KEYS.map((key) => (
           <TendencyBar
             key={key}
@@ -949,12 +943,14 @@ export default function PersonaSection({
           />
         ))}
         {dispositionCompareCategories.length > 0 ? (
-          <MobileMatchButton
-            label={t("personaMatches")}
-            onClick={() =>
-              setMobileMatchCategories(dispositionCompareCategories)
-            }
-          />
+          <div className="mt-auto">
+            <MobileMatchButton
+              label={t("personaMatchButton_disposition")}
+              onClick={() =>
+                setMobileMatchCategories(dispositionCompareCategories)
+              }
+            />
+          </div>
         ) : null}
       </div>
     </MetricPanel>
@@ -997,10 +993,12 @@ export default function PersonaSection({
         </div>
       </div>
       {matchesByCategory.virtue.length > 0 ? (
-        <MobileMatchButton
-          label={t("personaMatch_virtue")}
-          onClick={() => setMobileMatchCategories(["virtue"])}
-        />
+        <div className="mt-auto">
+          <MobileMatchButton
+            label={t("personaMatchButton_virtue")}
+            onClick={() => setMobileMatchCategories(["virtue"])}
+          />
+        </div>
       ) : null}
     </MetricPanel>
   );
@@ -1052,6 +1050,16 @@ export default function PersonaSection({
             </div>
           ))}
         </div>
+
+        {/* 어느 지표를 보고 있든 함께 뜬다 */}
+        {matchesByCategory.overall.length > 0 ? (
+          <div className="px-3">
+            <MobileMatchButton
+              label={t("personaMatchButton_overall")}
+              onClick={() => setMobileMatchCategories(["overall"])}
+            />
+          </div>
+        ) : null}
       </div>
 
       {/* 넓은 화면 — 지표와 비교 인물을 나란히 */}
@@ -1152,25 +1160,15 @@ export default function PersonaSection({
         </div>
       </div>
 
-      {/* 전체 스펙트럼 유사 인물 — 좁은 화면에서는 단추로만 두고 모달에서 본다 */}
+      {/* 전체 스펙트럼 유사 인물 — 좁은 화면에서는 위 단추로 대신한다 */}
       {matchesByCategory.overall.length > 0 ? (
-        <div className="border-t border-white/5 pt-7">
-          <MobileMatchButton
-            label={t("personaMatch_overall")}
-            description={t("personaMatch_overallDesc")}
-            onClick={() => setMobileMatchCategories(["overall"])}
-            className="mt-0"
+        <div className="hidden border-t border-white/5 pt-7 md:block">
+          <PersonaMatchGroup
+            category="overall"
+            subjectName={persona.nickname}
+            matches={matchesByCategory.overall}
+            onOpen={(match) => setSelectedMatch({ category: "overall", match })}
           />
-          <div className="hidden md:block">
-            <PersonaMatchGroup
-              category="overall"
-              subjectName={persona.nickname}
-              matches={matchesByCategory.overall}
-              onOpen={(match) =>
-                setSelectedMatch({ category: "overall", match })
-              }
-            />
-          </div>
         </div>
       ) : null}
 
