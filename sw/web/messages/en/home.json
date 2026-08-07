@@ -231,7 +231,11 @@
     "nextFigureOrGroup": "Next figure or group",
     "factionCollection": "Faction Collection",
     "fictionTitle": "Figures from Myth & Story",
-    "fictionNote": "These are figures from myth, epic, and literature rather than people who actually lived. Find them through search and the works in which they appear."
+    "fictionNote": "These are figures from myth, epic, and literature rather than people who actually lived. Find them through search and the works in which they appear.",
+    "tapForNextLine": "Tap for the next line",
+    "tapToCloseQuote": "Tap to close",
+    "expandIntro": "Read full intro",
+    "collapseIntro": "Show less"
   },
   "quickRecord": {
     "section": {
