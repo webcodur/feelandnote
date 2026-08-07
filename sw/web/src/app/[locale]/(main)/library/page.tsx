@@ -11,9 +11,8 @@ import HubSection from "@/components/shared/HubSection";
 import { LIBRARY_GROUP_ID, LIBRARY_SECTIONS, hubNavItems, hubSection } from "@/components/shared/hubSectionUtils";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
-import { getTodayFigure, getChosenLibrary, getCuratedHub } from "@/actions/library";
+import { getChosenLibrary, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
-import FigurePreview from "@/components/features/library/hub/FigurePreview";
 import PopularPreview from "@/components/features/library/hub/PopularPreview";
 import CuratedPreview from "@/components/features/library/hub/CuratedPreview";
 import MuseumPreview from "@/components/features/library/hub/MuseumPreview";
@@ -27,19 +26,15 @@ export async function generateMetadata() {
 async function ScripturesHubContent() {
   const tHub = await getTranslations("library.hub");
 
-  const [todayFigureRes, popular, curatedHub, academyState] = await Promise.all([
-    getTodayFigure(),
+  const [popular, curatedHub, academyState] = await Promise.all([
     getChosenLibrary({ page: 1, limit: 6 }),
     getCuratedHub(),
     getAcademyLessonProgressState(),
   ]);
 
-  const { figure, contents } = todayFigureRes;
-
   // 자료가 없어 접히는 구획이 있다. 목차와 번호는 "실제로 그려지는 것"만 세야
   // 눌렀을 때 갈 곳이 있다(HubNav 계약).
   const shown = new Set<string>([
-    ...(figure && contents ? ["figure"] : []),
     ...(popular.contents.length ? ["popular"] : []),
     ...(curatedHub.curators.length > 0 ? ["curated"] : []),
     "museum",
@@ -54,33 +49,26 @@ async function ScripturesHubContent() {
       <HubNav hubItems={hubNavItems(sections, tHub)} groupId={LIBRARY_GROUP_ID} />
 
       <div className="space-y-12 md:space-y-16 mt-4">
-      {/* 1/5 오늘의 인물 */}
-      {figure && contents && (
-        <HubSection {...section("figure")}>
-          <FigurePreview figure={figure} contents={contents} />
-        </HubSection>
-      )}
-
-      {/* 2/5 인기 작품 — 인물들이 많이 고른 작품 여섯 개를 그대로 보여준다 */}
+      {/* 1/4 인기 작품 — 인물들이 많이 고른 작품 여섯 개를 그대로 보여준다 */}
       {popular.contents.length > 0 && (
         <HubSection {...section("popular")}>
           <PopularPreview contents={popular.contents} />
         </HubSection>
       )}
 
-      {/* 3/5 기관 선정 */}
+      {/* 2/4 기관 선정 */}
       {curatedHub.curators.length > 0 && (
         <HubSection {...section("curated")}>
           <CuratedPreview hub={curatedHub} />
         </HubSection>
       )}
 
-      {/* 4/5 박물관 */}
+      {/* 3/4 박물관 — 매체가 걸어온 길 */}
       <HubSection {...section("museum")}>
         <MuseumPreview />
       </HubSection>
 
-      {/* 5/5 학당 */}
+      {/* 4/4 학당 — 다루는 법, 그리고 AI로 이어지는 다음 */}
       <HubSection {...section("academy")}>
         <AcademyPreview isSignedIn={academyState.isSignedIn} />
       </HubSection>

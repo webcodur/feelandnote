@@ -15,10 +15,14 @@ import TreeBanner from "@/components/lab/TreeBanner";
 import { ChevronRight } from "lucide-react";
 import { useExtraCrumbs } from "./LibraryCrumbs";
 
-/** 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키 */
+/**
+ * 1단 서브페이지: 경로 세그먼트 → nav.sub 번역 키
+ *
+ * 26.08.07 교정 — 없어진 `era`·`profession`이 남아 있고 정작 `popular`가 빠져 있었다.
+ * 빠진 경로는 빵부스러기에 이름 없이 뜬다. **하위 화면을 늘리면 여기에도 넣는다.**
+ */
 const SUBPAGE_KEY: Record<string, string> = {
-  era: "era",
-  profession: "profession",
+  popular: "popular",
   curated: "curated",
   museum: "museum",
   academy: "academy",

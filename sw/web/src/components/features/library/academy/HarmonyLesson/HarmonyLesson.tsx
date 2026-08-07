@@ -4,13 +4,20 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, CheckCircle2, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { SheetExample } from "@/constants/libraryMuseum";
+import type { LessonSection, SheetExample } from "@/constants/libraryMuseum";
 import { setAcademyLessonCompletion, touchAcademyLessonProgress } from "@/actions/library/academyProgress";
 import SheetMusic from "../SheetMusic";
 import type { HarmonyLessonProps } from "./types";
 import ArrowNavigator from "./sections/ArrowNavigator";
 import StepContent from "./sections/StepContent";
 import { StepQuizQuestion, distributeQuiz } from "./sections/StepQuiz";
+
+/**
+ * 과가 없을 때 쓰는 고정 빈 배열.
+ * 매 렌더 새 `[]`를 만들면 아래 useMemo의 의존값이 계속 바뀌어 캐시가 무의미해진다.
+ */
+const EMPTY_STEPS: LessonSection["steps"] = [];
+const EMPTY_QUIZ: NonNullable<LessonSection["quiz"]> = [];
 
 const DIFFICULTY_STYLES = {
   beginner: { bg: "bg-emerald-500/10", border: "border-emerald-500/20", text: "text-emerald-400/80" },
@@ -111,14 +118,9 @@ export default function HarmonyLesson({
     });
   }, [categoryId, courseId, isSignedIn, progressByLessonId, onProgressChange, startProgressTransition]);
 
-  if (!activeLesson) return null;
-
-  const isCompleted = progressByLessonId[activeLesson.id]?.isCompleted ?? false;
-  const isRecentLesson = recentLessonId === activeLesson.id;
-
   const exampleMap = useMemo(
-    () => new Map((activeLesson.sheetExamples ?? []).map((ex) => [ex.id, ex])),
-    [activeLesson.sheetExamples],
+    () => new Map((activeLesson?.sheetExamples ?? []).map((ex) => [ex.id, ex])),
+    [activeLesson?.sheetExamples],
   );
 
   const [activeStepIndex, setActiveStepIndex] = useState(0);
@@ -129,20 +131,23 @@ export default function HarmonyLesson({
   const [stepChecked, setStepChecked] = useState<Record<number, boolean>>({});
   const [lessonCompleted, setLessonCompleted] = useState(false);
 
-  // 레슨 전환 시 스텝·퀴즈 리셋
-  useEffect(() => {
+  // 과를 넘길 때 스텝·퀴즈를 처음으로 되돌린다.
+  // 이펙트가 아니라 렌더 도중에 맞춘다(리액트 권장 패턴) — 이펙트로 하면 앞 과의 스텝이
+  // 한 번 그려진 뒤에야 초기화돼 화면이 깜빡이고, 그 사이 클릭이 옛 상태에 꽂힌다.
+  const [lastLessonId, setLastLessonId] = useState(activeLesson?.id);
+  if (activeLesson?.id !== lastLessonId) {
+    setLastLessonId(activeLesson?.id);
     setActiveStepIndex(0);
     setQuizSelected({});
     setQuizRevealed({});
     setStepChecked({});
     setLessonCompleted(false);
-  }, [activeLesson.id]);
+  }
 
-  const steps = activeLesson.steps;
-  const currentStep = steps[activeStepIndex] ?? steps[0];
+  const steps = activeLesson?.steps ?? EMPTY_STEPS;
   const stepTitles = useMemo(() => steps.map((s) => s.title), [steps]);
 
-  const quiz = activeLesson.quiz ?? [];
+  const quiz = activeLesson?.quiz ?? EMPTY_QUIZ;
   const quizByStep = useMemo(() => distributeQuiz(quiz, steps.length), [quiz, steps.length]);
   const currentStepQuiz = quizByStep[activeStepIndex] ?? [];
   // 퀴즈 없는 스텝 인덱스
@@ -158,7 +163,7 @@ export default function HarmonyLesson({
     nextSelected: Record<number, number>,
     nextStepChecked: Record<number, boolean>,
   ) => {
-    if (lessonCompleted) return;
+    if (lessonCompleted || !activeLesson) return;
     // 퀴즈 전문 정답?
     const allQuizOk = quiz.length === 0 || (
       quiz.every((_, i) => nextRevealed[i]) &&
@@ -170,7 +175,7 @@ export default function HarmonyLesson({
       setLessonCompleted(true);
       handleQuizComplete(activeLesson.id);
     }
-  }, [quiz, noQuizStepIndices, lessonCompleted, activeLesson.id, handleQuizComplete]);
+  }, [quiz, noQuizStepIndices, lessonCompleted, activeLesson, handleQuizComplete]);
 
   const handleQuizSelect = useCallback((globalIndex: number, choiceIndex: number) => {
     if (quizRevealed[globalIndex]) return;
@@ -205,6 +210,14 @@ export default function HarmonyLesson({
       return next;
     });
   }, [quizRevealed, quizSelected, checkCompletion]);
+
+  // 훅을 전부 호출한 뒤에 반환한다. 이 줄을 위로 올리면 렌더마다 훅 호출 수가 달라져
+  // 리액트가 상태를 엉뚱한 훅에 물린다(26.08.07 교정 — 그전까지 훅 15개가 이 줄 아래 있었다).
+  if (!activeLesson || steps.length === 0) return null;
+
+  const isCompleted = progressByLessonId[activeLesson.id]?.isCompleted ?? false;
+  const isRecentLesson = recentLessonId === activeLesson.id;
+  const currentStep = steps[activeStepIndex] ?? steps[0];
 
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6">

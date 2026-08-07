@@ -9,7 +9,7 @@
       "metaDescription": "역사 속 위인부터 현대 셀럽까지 1,000명 이상의 추천 책, 추천 영화, 추천 음악 목록. 좋아하는 인물의 추천 작품을 확인하세요."
     },
     "people": {
-      "metaTitle": "사람 | 탐색",
+      "metaTitle": "사람 | 광장",
       "friends": "친구",
       "following": "팔로잉",
       "followers": "팔로워",
@@ -299,7 +299,7 @@
       "metaDescription": "국가별 셀럽 연대기. 각 인물이 추천한 책, 영화, 음악을 시대순으로 탐색하세요."
     },
     "today": {
-      "metaTitle": "오늘의 인물 | 탐색",
+      "metaTitle": "오늘의 인물",
       "metaDescription": "매일 새로운 셀럽의 추천 책, 영화, 음악을 소개합니다. 오늘의 인물이 읽고, 보고, 들은 작품을 확인하세요."
     },
     "faction": {

@@ -1,14 +1,14 @@
-# 탐색 (`(main)/explore/*`)
+# 인물 (`(main)/explore/*`)
 
-> **최종 실측 체크: 26.07.16** — 탐색 화면 실측(실화면 10 + 레거시 5 확정)
+> **최종 실측 체크: 26.08.07** — 화면 목록·허브 구역 수·제목 접미를 코드와 재대조. 라벨을 「탐색」에서 **「인물」**로 바꿨다(26.08.07, 주소·코드 키는 `explore` 유지)
 
-인물을 여러 축으로 훑는 영역이다. 허브 하나에 실제 화면 10개, 레거시 리다이렉트 5개로 이뤄진다.
+인물을 여러 축으로 훑는 영역이다. 짝이 되는 축은 작품(`/library`)이다 — **사람과, 그 사람이 남긴 것.** 허브 하나에 실제 화면 10개, 레거시 리다이렉트 5개로 이뤄진다.
 
 ## 화면 목록
 
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
-| `/explore` | 허브. 4개 미리보기 + 네비게이터 | `getCelebs`, `getTopByContentType`, `getPersonaDistribution`, `getFeaturedTags` |
+| `/explore` | 허브. 3개 미리보기 + 네비게이터 (본문 §허브 절과 일치. 26.08.07 실측) | `getCelebs`, `getTopByContentType`, `getPersonaDistribution`, `getFeaturedTags` |
 | `/explore/figures` | 인물 목록. 파라미터 유무로 두 모드 | `getCelebs` 또는 `getCelebsByProfession` + 4종 집계 |
 | `/explore/ranking` | 분야별 랭킹. 콘텐츠 타입별 Top 10 | `getTopByContentTypeFull`, `getSharedContents` |
 | `/explore/persona` | 스펙트럼. 16축 극단 인물 + 차순위 10명 | `getPersonaExtremes` |
@@ -68,7 +68,7 @@
 
 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다.
 
-`navigation.tsx`의 탐색 하위 링크는 9개(figures·ranking·persona·today·faction·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
+`navigation.tsx`의 하위 링크는 9개(figures·ranking·persona·today·faction·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
 
 ## 인물 목록 (`/explore/figures`)
 
@@ -109,7 +109,7 @@
 
 `getTodayFigure()`가 인물·콘텐츠와 함께 `source`를 내주고 셋 다 `TodayFigureSection`에 넘어간다. 인물이 없으면 아무것도 그리지 않는다(`null`).
 
-이 액션은 `actions/scriptures`에 있다. 서가 허브의 첫 섹션과 홈 화면도 같은 액션을 쓴다. 서가의 `/library/figure`와 탐색의 `/explore/figure`가 모두 이 주소로 리다이렉트한다.
+이 액션은 `actions/library`에 있다. 홈 화면도 같은 액션을 쓴다(작품 허브의 첫 구역이던 자리는 26.08.07에 없앴다). `/library/figure`와 `/explore/figure`가 모두 이 주소로 리다이렉트한다.
 
 ## 세력도감 (`/explore/faction`, `/explore/faction/[slug]`)
 
@@ -128,7 +128,7 @@
 
 `getCelebFeed({ limit: 10 })`로 첫 10건과 커서·다음 여부를 받아 `CelebFeedSection`에 초기값으로 넘긴다. 이후는 클라이언트가 커서로 이어 붙인다.
 
-광장의 `/agora/feed`와 `/agora/celeb-feed`, 탐색의 `/explore/celeb-feed`가 모두 이 주소로 리다이렉트한다.
+광장의 `/agora/feed`와 `/agora/celeb-feed`, 인물의 `/explore/celeb-feed`가 모두 이 주소로 리다이렉트한다.
 
 ## 국가별 연대기 (`/explore/timeline`)
 

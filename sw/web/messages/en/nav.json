@@ -1,8 +1,8 @@
 {
   "nav": {
     "home": "Home",
-    "explore": "Explore",
-    "library": "Library",
+    "explore": "Figures",
+    "library": "Works",
     "rest": "Rest",
     "agora": "Agora",
     "archive": "My Archives",
@@ -48,8 +48,8 @@
     "shortcuts": "Shortcuts",
     "home": "Home",
     "playlists": "Playlists",
-    "explore": "Explore",
-    "library": "Hall of Wisdom",
+    "explore": "Figures",
+    "library": "Works",
     "board": "Board",
     "notice": "Announcements",
     "feedback": "Feedback"

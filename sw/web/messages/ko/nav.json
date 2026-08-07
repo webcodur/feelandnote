@@ -1,8 +1,8 @@
 {
   "nav": {
     "home": "홈",
-    "explore": "탐색",
-    "library": "서가",
+    "explore": "인물",
+    "library": "작품",
     "rest": "쉼터",
     "agora": "광장",
     "archive": "내 기록",
@@ -48,8 +48,8 @@
     "shortcuts": "바로가기",
     "home": "홈",
     "playlists": "재생목록",
-    "explore": "탐색",
-    "library": "서가",
+    "explore": "인물",
+    "library": "작품",
     "board": "게시판",
     "notice": "공지사항",
     "feedback": "피드백"
