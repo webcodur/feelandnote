@@ -20,6 +20,11 @@ export interface VoiceGenCeleb {
   dialogue_lines_en: Record<string, string[]> | null
   voice_v: number
   voice_speed: number
+  // 아래 넷은 목소리 추천에만 쓴다 — 어떤 목소리가 어울리는지 가릴 재료다
+  profession: string | null
+  title: string | null
+  nationality: string | null
+  gender: boolean | null
 }
 
 interface VoiceGenQueryRow {
@@ -33,6 +38,10 @@ interface VoiceGenQueryRow {
   voice_id_en: string | null
   voice_v: number | null
   voice_speed: number | null
+  profession: string | null
+  title: string | null
+  nationality: string | null
+  gender: boolean | null
   celeb_dialogues:
     | { lines: unknown; lines_en: unknown }
     | { lines: unknown; lines_en: unknown }[]
@@ -56,6 +65,7 @@ export async function getCelebVoiceDetail(idOrSlug: string): Promise<VoiceGenCel
     .select(`
       id, nickname, avatar_url, slug, speech_tone, has_voice,
       voice_id_ko, voice_id_en, voice_v, voice_speed,
+      profession, title, nationality, gender,
       celeb_dialogues(lines, lines_en)
     `)
     .eq('profile_type', 'CELEB')
@@ -84,6 +94,10 @@ export async function getCelebVoiceDetail(idOrSlug: string): Promise<VoiceGenCel
     dialogue_lines_en: linesEn && Object.keys(linesEn).length > 0 ? linesEn : null,
     voice_v: data.voice_v ?? 0,
     voice_speed: data.voice_speed ?? 1.0,
+    profession: data.profession,
+    title: data.title,
+    nationality: data.nationality,
+    gender: data.gender,
   }
 }
 

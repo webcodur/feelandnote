@@ -5,8 +5,8 @@
         운영·문의 구획도 상설 페이지(/about) 쪽 파일에 따로 있다.
 */
 
-import Image from "next/image";
 import { getTranslations, getLocale } from "next-intl/server";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import type { AboutShowcase } from "@/actions/policy/getAboutShowcase";
 import { Link } from "@/i18n/navigation";
 import { ChevronRight } from "lucide-react";
@@ -156,12 +156,10 @@ export default async function AboutBody({ showcase }: { showcase: AboutShowcase 
           <figure className="card-sarcophagus p-5 md:p-7 space-y-4">
             <div className="flex items-center gap-3">
               <span className="relative block w-12 h-12 rounded-full overflow-hidden border border-accent-dim shrink-0">
-                <Image
+                <CelebAvatarImage
                   src={showcase.evidence.avatarUrl}
                   alt={showcase.evidence.celebName}
-                  fill
                   sizes="48px"
-                  className="object-cover"
                 />
               </span>
               <span className="text-base text-text-primary font-medium">

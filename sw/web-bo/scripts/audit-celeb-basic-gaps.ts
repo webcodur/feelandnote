@@ -73,6 +73,7 @@ function gapsOf(p: ProfileRow): string[] {
   if (blank(p.bio)) g.push('bio')
   if (blank(p.bio_en)) g.push('bio_en')
   if (blank(p.nationality)) g.push('nationality')
+  if (p.gender === null || p.gender === undefined) g.push('gender')
   if (blank(p.birth_date)) g.push('birth_date')
   return g
 }

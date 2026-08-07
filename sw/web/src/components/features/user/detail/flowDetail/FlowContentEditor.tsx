@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { X, Search, Loader2 } from "lucide-react";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
@@ -51,12 +51,10 @@ function DraggableContentItem({ item }: { item: UserContentWithContent }) {
       {/* 썸네일 */}
       <div className="w-9 h-12 bg-[#222] rounded overflow-hidden relative shrink-0 pointer-events-none">
         {item.content.thumbnail_url ? (
-          <Image
+          <ContentImage
             src={item.content.thumbnail_url}
             alt={item.content.title}
-            fill
-            unoptimized
-            className="object-cover"
+            sizes="36px"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[8px] text-white/20">

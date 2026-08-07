@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { GripVertical, Layers, Trash2 } from "lucide-react";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
@@ -81,12 +81,10 @@ export default function TimelineNode({
         {/* 썸네일 */}
         <div className="relative w-10 h-14 md:w-12 md:h-16 bg-[#0a0a0a] rounded-lg overflow-hidden shrink-0">
           {node.content.thumbnail_url ? (
-            <Image
+            <ContentImage
               src={node.content.thumbnail_url}
               alt={node.content.title}
-              fill
-              unoptimized
-              className="object-cover"
+              sizes="48px"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

@@ -9,6 +9,7 @@
 */ // ------------------------------
 
 import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import type { AboutInfo, AboutShowcase } from "@/actions/policy/getAboutShowcase";
 import InfoPeek from "./InfoPeek";
 import FactionCarousel from "./FactionCarousel";
@@ -100,12 +101,10 @@ export default function VisionShowcase({ index, data, labels }: Props) {
               <InfoPeek info={it.info} className="flex-1 min-w-0">
                 <span className="flex items-center gap-3">
                   <span className="relative block w-12 aspect-[2/3] shrink-0 overflow-hidden rounded-sm border border-accent-dim hover:border-accent">
-                    <Image
+                    <ContentImage
                       src={it.thumbnailUrl}
                       alt={it.title}
-                      fill
                       sizes="48px"
-                      className="object-cover"
                     />
                   </span>
                   <span className="min-w-0 engraved-plate rounded-lg px-3 py-2">

@@ -8,6 +8,7 @@
 
 import Image from "next/image";
 import BlurDissolve from "@/components/ui/BlurDissolve";
+import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
 import type { PersonaExtremeEntry } from "@/actions/home/getPersonaExtremes";
 import { AXIS_SHORT_LABELS } from "../../../personaAxis";
 
@@ -136,13 +137,7 @@ export default function AxisExtremeCard({
                 <div className="relative w-6 h-6 rounded-full overflow-hidden ring-1 ring-white/10 shrink-0 shadow-sm group-hover/runner:ring-white/20 transition-all">
                   {r.avatar_url ? (
                     <BlurDissolve className="absolute inset-0">
-                      <Image
-                        src={r.avatar_url}
-                        alt=""
-                        fill
-                        sizes="24px"
-                        className="object-cover"
-                      />
+                      <CelebAvatarImage src={r.avatar_url} alt="" sizes="24px" />
                     </BlurDissolve>
                   ) : (
                     <div className="w-full h-full bg-white/10" />

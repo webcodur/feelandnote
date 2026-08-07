@@ -5,7 +5,7 @@
 */
 "use client";
 
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { useTranslations } from "next-intl";
 import type { TrackerContent } from "@/actions/game/getTrackerRound";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
@@ -31,12 +31,10 @@ export default function ContentReveal({ content }: ContentRevealProps) {
         {/* 썸네일 */}
         <div className="relative h-28 w-20 sm:h-32 sm:w-24 shrink-0 rounded-md overflow-hidden bg-bg-secondary border border-white/10 shadow-lg">
           {content.thumbnailUrl ? (
-            <Image
+            <ContentImage
               src={content.thumbnailUrl}
               alt={content.title}
-              fill
               sizes="(max-width: 640px) 80px, 96px"
-              className="object-cover"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center opacity-50">

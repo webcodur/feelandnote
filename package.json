@@ -17,7 +17,8 @@
     "voice:list": "pnpm --filter @feelandnote/remotion voice:list"
   },
   "devDependencies": {
-    "puppeteer": "^24.2.1"
+    "puppeteer": "^24.2.1",
+    "tsx": "^4.21.0"
   },
   "dependencies": {
     "dotenv": "^17.3.1",

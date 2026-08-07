@@ -145,7 +145,12 @@ export interface FactionPerson extends FactionCardFields {
   quote?: string
   /** 대사 점등 덩어리 (선택) — 순차 하이라이팅 단위. 없으면 quote를 통째로 처리 */
   quoteChunks?: string[]
-  /** 대사 근거 — 원전의 핵심 내용과 가상 독백으로 재구성한 방향. 한국어판 대사 아래 보조로 띄운다 */
+  /**
+   * 제작 메모칸(자유 입력) — 이름이 origin이지만 출처 필드가 아니다.
+   * 화면 라벨도 「대사 메모」이고 렌더에 노출되지 않는다(script.ts가 ko 렌더에서 제외).
+   * 출처를 의무 저장하지 않으며 빈칸도 결손이 아니다(AGENTS.md 26.07.31 운영 정정).
+   * 대사 작업을 발주할 때 이 칸을 필수 출처로 요구하지 마라.
+   */
   quoteOrigin?: string
   /** 어록 채굴 뱅크 { ref, en, ko }[] — 조사 md 이관. 영상 quote와 별개 */
   minedQuotes?: { ref: string; en: string; ko: string }[]

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { ArrowUpRight, BookOpenText } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -33,13 +33,10 @@ export default function FictionSourceWorksSection({
           >
             <span className="relative h-28 w-[76px] overflow-hidden rounded-md border border-white/10 bg-bg-secondary shadow-lg">
               {source.thumbnailUrl ? (
-                <Image
+                <ContentImage
                   src={source.thumbnailUrl}
                   alt=""
-                  fill
                   sizes="76px"
-                  className="object-cover"
-                  unoptimized
                 />
               ) : (
                 <span className="flex h-full w-full items-center justify-center text-accent/35">

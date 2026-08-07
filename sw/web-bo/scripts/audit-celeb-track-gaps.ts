@@ -35,16 +35,27 @@ const DIALOGUE_KEYS = [
 
 const blank = (v: unknown) => v === null || v === undefined || String(v).trim().length === 0
 
-async function allRows<T>(table: string, select: string, orderKey: string, filter?: (q: any) => any): Promise<T[]> {
+/**
+ * 큰 jsonb 를 담은 테이블은 한 번에 1000행을 읽으면 조회 제한 시간에 걸린다.
+ * `celeb_persona.persona`(인물당 16축 + 해설)와 `celeb_dialogues.lines`(대사 21개 × 2언어)가 그렇다.
+ * 여러 레인이 동시에 감사를 돌릴 때 특히 잘 터지므로 그 두 테이블만 작은 단위로 나눠 읽는다.
+ */
+async function allRows<T>(
+  table: string,
+  select: string,
+  orderKey: string,
+  filter?: (q: any) => any,
+  pageSize: number = PAGE,
+): Promise<T[]> {
   const out: T[] = []
-  for (let from = 0; ; from += PAGE) {
-    let q = db.from(table).select(select).order(orderKey, { ascending: true }).range(from, from + PAGE - 1)
+  for (let from = 0; ; from += pageSize) {
+    let q = db.from(table).select(select).order(orderKey, { ascending: true }).range(from, from + pageSize - 1)
     if (filter) q = filter(q)
     const { data, error } = await q
     if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
     const rows = (data ?? []) as T[]
     out.push(...rows)
-    if (rows.length < PAGE) break
+    if (rows.length < pageSize) break
   }
   return out
 }
@@ -59,8 +70,10 @@ async function main() {
     (q) => q.eq('profile_type', 'CELEB'),
   )
   const influence = await allRows<Record<string, any>>('celeb_influence', '*', 'celeb_id')
-  const persona = await allRows<Record<string, any>>('celeb_persona', '*', 'celeb_id')
-  const dialogues = await allRows<Record<string, any>>('celeb_dialogues', 'celeb_id, lines, lines_en', 'celeb_id')
+  const persona = await allRows<Record<string, any>>('celeb_persona', '*', 'celeb_id', undefined, 200)
+  const dialogues = await allRows<Record<string, any>>(
+    'celeb_dialogues', 'celeb_id, lines, lines_en', 'celeb_id', undefined, 200,
+  )
 
   const infById = new Map(influence.map((r) => [r.celeb_id, r]))
   const perById = new Map(persona.map((r) => [r.celeb_id, r]))
@@ -81,9 +94,11 @@ async function main() {
     if (blank(p.title)) gaps.push('basic:title')
     if (blank(p.bio)) gaps.push('basic:bio')
     if (blank(p.avatar_url)) gaps.push('basic:avatar_url')
-    // 생몰·국적은 fiction 에서 특정 불가가 정상이라 결손으로 세지 않는다
+    // 직군·국적·성별은 전 티어 공통 결손이다. fiction 도 원전 근거로 채운다(집단·비인격만 예외).
+    if (blank(p.nationality)) gaps.push('basic:nationality')
+    if (p.gender === null || p.gender === undefined) gaps.push('basic:gender')
+    // 생몰만 fiction 에서 특정 불가가 정상이라 결손으로 세지 않는다
     if (tier !== 'fiction') {
-      if (blank(p.nationality)) gaps.push('basic:nationality')
       if (blank(p.birth_date)) gaps.push('basic:birth_date')
     }
 
@@ -132,7 +147,9 @@ async function main() {
         const lines = (dia.lines ?? {}) as Record<string, any>
         const linesEn = (dia.lines_en ?? {}) as Record<string, any>
         if (blank(lines.quote)) gaps.push('speech:quote')
-        if (blank(linesEn.quote)) gaps.push('i18n:quote_en')
+        // 명언은 확인된 실제 발언이 없으면 비워 두는 것이 규격이다. 한국어 원문이 없는데
+        // 영문만 결손으로 세면 번역 담당이 채울 수 없는 항목을 영원히 물고 늘어진다.
+        if (!blank(lines.quote) && blank(linesEn.quote)) gaps.push('i18n:quote_en')
         let missKo = 0
         let missEn = 0
         for (const k of DIALOGUE_KEYS) {
@@ -140,7 +157,8 @@ async function main() {
           const en = Array.isArray(linesEn[k]) ? linesEn[k] : []
           for (let i = 0; i < 3; i++) {
             if (blank(ko[i])) missKo++
-            if (blank(en[i])) missEn++
+            // 대사도 마찬가지 — 한국어가 있는 자리만 번역 대상이다
+            if (!blank(ko[i]) && blank(en[i])) missEn++
           }
         }
         if (missKo > 0) gaps.push(`speech:lines_ko(${missKo})`)

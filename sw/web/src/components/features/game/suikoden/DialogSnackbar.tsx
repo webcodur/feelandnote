@@ -3,6 +3,7 @@
 import { useEffect, useCallback } from 'react'
 import { useLocale } from 'next-intl'
 import type { DialogEntry, GameSettings } from '@/lib/game/suikoden/types'
+import { useCelebAvatarSrc } from '@/hooks/useCelebAvatarSrc'
 import { getSuikodenText } from './i18n'
 
 interface Props {
@@ -15,6 +16,8 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
   const locale = useLocale()
   const text = getSuikodenText(locale)
   const current = queue[0]
+  // 얼굴이 40px로 나오는 자리라 작은 판을 받는다
+  const { src: avatarSrc, onError: onAvatarError } = useCelebAvatarSrc(current?.avatarUrl, '40px')
 
   // auto 모드: 3초 후 자동 소멸
   useEffect(() => {
@@ -45,9 +48,11 @@ export default function DialogSnackbar({ queue, settings, onDismiss }: Props) {
           {/* 아바타 */}
           <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700 shrink-0 border border-stone-600">
             {current.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={current.avatarUrl}
+                src={avatarSrc ?? current.avatarUrl}
                 alt={current.characterName}
+                onError={onAvatarError}
                 className="w-full h-full object-cover"
               />
             ) : (

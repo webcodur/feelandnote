@@ -9,6 +9,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { X, Maximize2, Minimize2, Book } from "lucide-react";
+import BlurDissolve from "@/components/ui/BlurDissolve";
 import type { SelectedBook } from "../types";
 
 interface Props {
@@ -178,7 +179,9 @@ export default function BookInfoWindow({ book, onClose }: Props) {
         <div className="flex-1 overflow-y-auto p-4">
           <div className="mb-4 flex justify-center">
             {book.thumbnail ? (
-              <img src={book.thumbnail} alt={book.title} className="h-48 rounded-lg shadow-lg" />
+              <BlurDissolve key={book.thumbnail}>
+                <img src={book.thumbnail} alt={book.title} className="h-48 rounded-lg shadow-lg" />
+              </BlurDissolve>
             ) : (
               <div className="flex h-48 w-32 items-center justify-center rounded-lg bg-white/10">
                 <Book className="size-12 text-text-secondary" />

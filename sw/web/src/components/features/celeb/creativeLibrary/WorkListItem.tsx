@@ -1,6 +1,7 @@
 "use client";
 
 import { Clock, BookOpen, Building2, MapPin, Palette } from "lucide-react";
+import ContentImage from "@/components/ui/ContentImage";
 import { WORK_TYPE_EMOJI } from "./constants";
 import type { LiveWorkItem, ResolvedWorkItem } from "./types";
 
@@ -22,14 +23,8 @@ export default function WorkListItem({ item, resolved: r, roleLabel, typeLabel, 
       <div className="flex gap-3 p-3 rounded-xl border border-border/30 bg-surface/30 hover:bg-surface-hover/50 transition-colors">
         {/* 썸네일 */}
         {r.thumbnail ? (
-          <div className="shrink-0 w-16 h-22 rounded-lg overflow-hidden bg-surface-hover">
-            <img
-              src={r.thumbnail}
-              alt={r.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-            />
+          <div className="relative shrink-0 w-16 h-22 rounded-lg overflow-hidden bg-surface-hover">
+            <ContentImage src={r.thumbnail} alt={r.title} sizes="64px" />
           </div>
         ) : (
           <div className="shrink-0 w-16 h-22 rounded-lg bg-surface-hover/50 flex items-center justify-center">

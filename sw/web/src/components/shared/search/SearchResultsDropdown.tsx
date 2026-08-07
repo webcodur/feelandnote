@@ -5,7 +5,8 @@
 */ // ------------------------------
 "use client";
 
-import Image from "next/image";
+import CelebImage from "@/components/ui/CelebImage";
+import ContentImage from "@/components/ui/ContentImage";
 import { Search, Clock, Hash, Book, Film, Tv, Gamepad2, Music, ExternalLink, Loader2, User } from "lucide-react";
 import Button from "@/components/ui/Button";
 import AddContentPopover from "@/components/shared/content/AddContentPopover";
@@ -135,7 +136,7 @@ export default function SearchResultsDropdown({
                 >
                   <div className="relative w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
                     {result.thumbnail ? (
-                      <Image src={result.thumbnail} alt={result.title} fill unoptimized className="object-cover" />
+                      <CelebImage src={result.thumbnail} alt={result.title} shape="circle" sizes="40px" />
                     ) : (
                       <User size={16} className="text-text-secondary" />
                     )}
@@ -170,12 +171,10 @@ export default function SearchResultsDropdown({
                   {result.type === "content" && (
                     <div className="relative w-10 h-14 rounded-md bg-white/5 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
                       {result.thumbnail ? (
-                        <Image
+                        <ContentImage
                           src={result.thumbnail}
                           alt={result.title}
-                          fill
-                          unoptimized
-                          className="object-cover"
+                          sizes="40px"
                         />
                       ) : CategoryIcon ? (
                         <CategoryIcon size={16} className="text-text-secondary" />

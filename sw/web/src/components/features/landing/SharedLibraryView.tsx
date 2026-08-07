@@ -6,7 +6,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
@@ -140,12 +140,10 @@ function SharedContentRow({
       {/* 썸네일 */}
       <div className="relative h-12 w-9 shrink-0 rounded overflow-hidden bg-bg-secondary">
         {item.thumbnailUrl ? (
-          <Image
+          <ContentImage
             src={item.thumbnailUrl}
             alt={displayTitle}
-            fill
             sizes="36px"
-            className="object-cover"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">

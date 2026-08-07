@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import {
   Play, Pause, Loader2, Check, Upload, Scissors, FolderUp, Trash2,
-  ChevronDown, ChevronRight, Save, Zap, X, Download,
+  ChevronDown, ChevronRight, Save, Zap, X, Download, SlidersHorizontal,
 } from 'lucide-react'
 import {
   generateVoicePreview,
@@ -22,6 +22,8 @@ import {
 } from '@/actions/admin/dialogues'
 import { useToast } from '@/contexts/ToastContext'
 import { DIALOGUE_TYPES, TYPE_LABELS, allVoiceSlots } from '@/lib/voice-path'
+import { buildEleText } from '@/components/scenario-voice/types'
+import CelebVoiceEditorModal, { type CelebVoiceEditorTarget } from './voice-editor/CelebVoiceEditorModal'
 import { Waveform, SliderField } from './Waveform'
 import { applyGain, encodeWAV, abToBase64, base64ToBytes, boostToBase64 } from './audio'
 import {
@@ -90,6 +92,23 @@ export default function CelebDialogueStudio({ celeb }: Props) {
 
   // 합성 설정
   const [settings, setSettings] = useState<VoiceSettings>({ ...DEFAULT_SETTINGS })
+
+  /**
+   * 감정 표식과 끝 여백 — 언어별로 따로 쥔다.
+   * 화면을 떠나면 사라진다(안정성·스타일 슬라이더와 같은 취급). 저장할 자리가 아직 없다.
+   */
+  const [emotions, setEmotions] = useState<Record<Locale, string[]>>({ ko: [], en: [] })
+  const [trail, setTrail] = useState(true)
+
+  // 음성 편집 창 — 대사 한 자리를 크게 펼쳐 만들기·들숨 제거를 한다
+  const [editorTarget, setEditorTarget] = useState<CelebVoiceEditorTarget | null>(null)
+
+  /** 합성에 실제로 보내는 문장 — 감정 표식과 끝 여백을 붙인다 */
+  const composeText = useCallback((loc: Locale, raw: string) => buildEleText(raw, {
+    emotionEnabled: emotions[loc].length > 0,
+    emotions: emotions[loc],
+    trailEnabled: trail,
+  }), [emotions, trail])
 
   // 진행 상태 (키는 모두 "{언어}/{항목}")
   const [generating, setGenerating] = useState<string | null>(null)
@@ -314,7 +333,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     if (!text.trim()) return showToast('error', LABELS.emptyTtsText)
 
     setGenerating(fullKey)
-    const result = await generateVoicePreview({ voiceId: vid.trim(), text, settings })
+    const result = await generateVoicePreview({ voiceId: vid.trim(), text: composeText(loc, text), settings })
 
     if (result.success && result.base64) {
       clearPreview(fullKey)
@@ -348,7 +367,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       showToast('error', result.error || LABELS.generateFail)
     }
     setGenerating(null)
-  }, [voiceIdKo, voiceIdEn, settings, ttsTexts, showToast])
+  }, [voiceIdKo, voiceIdEn, settings, ttsTexts, composeText, showToast])
 
   const handleUpload = useCallback(async (loc: Locale, type: string, variant?: number) => {
     const key = type === 'quote' ? 'quote' : `${type}-${variant}`
@@ -469,7 +488,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       if (!text.trim()) return null
 
       setGenerating(fullKey)
-      const gen = await generateVoicePreview({ voiceId: vid, text, settings })
+      const gen = await generateVoicePreview({ voiceId: vid, text: composeText(loc, text), settings })
       if (!gen.success || !gen.base64) return false
 
       const { base64, contentType } = await boostToBase64(gen.base64, settings.volumeBoost)
@@ -508,7 +527,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     setGenerating(null)
     setBatchRunning(false)
     showToast(fail === 0 ? 'success' : 'error', `생성 완료: 성공 ${ok}개, 실패 ${fail}개`)
-  }, [celeb.id, activeLocales, voiceIdKo, voiceIdEn, settings, ttsTexts, hasVoice, showToast])
+  }, [celeb.id, activeLocales, voiceIdKo, voiceIdEn, settings, ttsTexts, composeText, hasVoice, showToast])
   // #endregion
 
   // #region 음성 파일 전반 (켜기 · 묶음 올리기 · 전체 삭제)
@@ -710,6 +729,14 @@ export default function CelebDialogueStudio({ celeb }: Props) {
               className="p-1 rounded hover:bg-accent/10 text-text-tertiary hover:text-accent disabled:opacity-30 disabled:cursor-not-allowed transition-colors shrink-0"
               title={LABELS.generatePreview}>
               {isGen ? <Loader2 className="w-3.5 h-3.5 animate-spin text-accent" /> : <Zap className="w-3.5 h-3.5" />}
+            </button>
+            {/* 크게 펼쳐 편집 — 목소리 고르기·감정 표식·파형·들숨 제거 */}
+            <button type="button"
+              onClick={() => setEditorTarget({ locale: loc, type, variant, text: ttsValue })}
+              disabled={!ttsValue?.trim()}
+              className="p-1 rounded hover:bg-purple-500/10 text-text-tertiary hover:text-purple-400 disabled:opacity-30 disabled:cursor-not-allowed transition-colors shrink-0"
+              title={LABELS.openEditor}>
+              <SlidersHorizontal className="w-3.5 h-3.5" />
             </button>
           </div>
         )}
@@ -931,6 +958,37 @@ export default function CelebDialogueStudio({ celeb }: Props) {
           </div>
         </div>
       </div>
+
+      {/* 음성 편집 창 */}
+      {editorTarget && (
+        <CelebVoiceEditorModal
+          celeb={celeb}
+          target={editorTarget}
+          voiceId={editorTarget.locale === 'ko' ? voiceIdKo : voiceIdEn}
+          onVoiceIdChange={(v) => {
+            // 창에서 고른 목소리는 그 언어의 목소리 번호 칸에 그대로 들어간다.
+            // 인물에 영구히 남기려면 목소리 번호 칸 옆 저장을 누른다.
+            if (editorTarget.locale === 'ko') setVoiceIdKo(v)
+            else setVoiceIdEn(v)
+          }}
+          hasFile={!!voiceFiles[
+            `${editorTarget.locale}/${editorTarget.type === 'quote' ? 'quote' : `${editorTarget.type}-${editorTarget.variant}`}`
+          ]}
+          settings={settings}
+          onSettingsChange={setSettings}
+          emotions={emotions[editorTarget.locale]}
+          onEmotionsChange={(next) => setEmotions((prev) => ({ ...prev, [editorTarget.locale]: next }))}
+          trail={trail}
+          onTrailChange={setTrail}
+          playbackRate={voiceSpeed}
+          onSaved={() => {
+            const key = `${editorTarget.locale}/${editorTarget.type === 'quote' ? 'quote' : `${editorTarget.type}-${editorTarget.variant}`}`
+            setVoiceFiles((prev) => ({ ...prev, [key]: true }))
+            setHasVoice(true)
+          }}
+          onClose={() => setEditorTarget(null)}
+        />
+      )}
     </div>
   )
 }

@@ -211,6 +211,7 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 **작은 판(`avatar-sm.webp`)을 왜 두나.** 원본이 800×800 한 장뿐이라 성향 분포(`/explore`)처럼 얼굴을 한 화면에 200장 넘게 까는 곳도 800px을 그대로 받았다. 합계 1억 4천만 화소가 되어 브라우저가 그림 준비를 감당하지 못했고, 자리가 빈 채로 남아 **마우스가 지나간 자리만 뒤늦게 나타났다**(26.08.08 실측: 사진은 222장 전부 도착 완료였는데 화면에는 없었다). 규격·주소 규칙의 코드 원천은 `packages/shared/src/constants/celeb-avatar-small.ts`다.
 
 - 주소는 원본에서 파일명만 바꿔 얻는다(`celebAvatarSmallUrl`). DB에 별도 컬럼을 두지 않는다 — 26.08.08 실측으로 아바타 보유 2,483명 전원이 예외 없이 `celebs/{id}/avatar.webp` 규칙을 따랐다.
+- **어느 자리가 작은 판을 쓰는지는 화면이 아니라 표시 크기가 정한다.** 상한(`maxDisplayPx`)은 위 상수 파일에 있고, 웹은 세 갈래로 그 판정을 공유한다 — 훅 `sw/web/src/hooks/useCelebAvatarSrc.ts`, 그 훅을 쓰는 공용 부품 `components/ui/CelebImage.tsx`·`CelebAvatarImage.tsx`. 새 화면은 표시 크기(`sizes`)만 정확히 넘기면 되고, 판정을 다시 적지 않는다.
 - 작은 판이 없는 인물은 화면이 원본으로 되돌린다. 그래서 생성이 밀려도 얼굴이 사라지지는 않는다.
 - 만드는 곳은 넷이다 — 일괄 생성 `sw/web-bo/scripts/generate-celeb-avatar-sm.ts`, 그리고 아바타를 올리는 세 경로(백오피스 화면 `actions/admin/storage.ts`, 등록 스크립트 `scripts/upload-celeb-avatar.ts`, 배경 지우기 `lib/image-processing/nobg-avatar.ts`)가 모두 원본과 함께 만든다.
 

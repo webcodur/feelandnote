@@ -1,8 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
-import { BLUR_DATA_URL } from "@/constants/image";
+import ContentImage from "@/components/ui/ContentImage";
 
 import {
   SelectOverlay,
@@ -44,8 +43,6 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     displayThumbnail,
     displayTitle,
     displayCreator,
-    displayReview,
-    imageError,
     setImageError,
     handleImageLoad,
     handleClick,
@@ -58,7 +55,6 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
     setIsBadgeHovered,
     setShowStatsModal,
     selectableClass,
-    forcePoster,
   } = state;
 
   const renderSelectOverlay = () => {
@@ -95,18 +91,13 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
       <CardHeader props={props} state={state} />
       <div className={`relative ${aspectClass} overflow-hidden bg-bg-secondary`}>
         {showImage ? (
-          <Image
-            src={displayThumbnail!}
+          <ContentImage
+            src={displayThumbnail}
             alt={title}
-            fill
             sizes="(max-width: 768px) 50vw, 25vw"
             className={`object-cover transition-transform duration-300 delay-150 ${selectable && isSelected ? "brightness-90" : !isBadgeHovered ? "scale-105" : ""}`}
-            placeholder="blur"
-            blurDataURL={BLUR_DATA_URL}
             onError={() => setImageError(true)}
             onLoad={handleImageLoad}
-            unoptimized
-            loading="lazy"
           />
         ) : (
           <GenerativeBookCover

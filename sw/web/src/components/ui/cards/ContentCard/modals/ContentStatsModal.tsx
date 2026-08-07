@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Users, Crown, User } from "lucide-react";
 import Modal, { ModalBody, ModalFooter } from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
@@ -90,14 +91,9 @@ export default function ContentStatsModal({
             <div className="sm:w-[160px] shrink-0 p-5 bg-gradient-to-b from-stone-900 to-stone-950 border-b sm:border-b-0 sm:border-r border-border/40 flex flex-col items-center">
               {/* 썸네일 */}
               {contentThumbnail ? (
-                <Image
-                  src={contentThumbnail}
-                  alt={contentTitle}
-                  width={80}
-                  height={112}
-                  unoptimized
-                  className="w-[80px] h-[112px] object-cover rounded-lg border border-accent/30 shadow-lg"
-                />
+                <div className="relative w-[80px] h-[112px] overflow-hidden rounded-lg border border-accent/30 shadow-lg">
+                  <ContentImage src={contentThumbnail} alt={contentTitle} sizes="80px" />
+                </div>
               ) : (
                 <div className="w-[80px] h-[112px] bg-bg-card rounded-lg border border-accent/30 flex items-center justify-center">
                   <Crown size={24} className="text-accent/50" />

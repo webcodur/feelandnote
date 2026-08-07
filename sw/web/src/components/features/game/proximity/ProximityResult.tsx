@@ -1,7 +1,7 @@
 'use client';
 
 import { Target, Trophy } from 'lucide-react';
-import Image from 'next/image';
+import CelebAvatarImage from '@/components/ui/CelebAvatarImage';
 import { useTranslations } from 'next-intl';
 import type { ProximityCeleb, ProximityGuessResult } from './types';
 
@@ -47,7 +47,7 @@ export default function ProximityResult({
       {/* 정답 공개 */}
       <div className="mx-auto mt-4 inline-flex items-center gap-3 rounded-xl border border-accent/25 bg-bg-main/70 px-5 py-3">
         {target.avatar_url ? (
-          <Image src={target.avatar_url} alt="" width={40} height={40} className="h-10 w-10 rounded-full object-cover" />
+          <CelebAvatarImage src={target.avatar_url} alt="" boxPx={40} className="h-10 w-10 rounded-full object-cover" />
         ) : (
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/15 text-sm font-bold text-accent">
             {target.nickname.charAt(0)}

@@ -14,7 +14,7 @@ import {
   closestCenter
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useFlowDetail } from "./flowDetail/useFlowDetail";
@@ -35,7 +35,7 @@ function DragOverlayContent({ content }: { content: Content }) {
     <div className="flex items-center gap-2 px-3 py-2 bg-[#1a1a1a] border border-accent/50 rounded-lg shadow-xl shadow-accent/20 cursor-grabbing">
       <div className="w-8 h-11 bg-[#222] rounded overflow-hidden shrink-0 relative">
         {content.thumbnail_url ? (
-          <Image src={content.thumbnail_url} alt="" fill unoptimized className="object-cover" />
+          <ContentImage src={content.thumbnail_url} alt="" sizes="32px" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[7px] text-white/20">
             {content.title.slice(0, 4)}

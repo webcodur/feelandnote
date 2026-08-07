@@ -11,6 +11,7 @@ import { X } from "lucide-react";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import Button from "./Button";
+import BlurDissolve from "./BlurDissolve";
 import { Z_INDEX } from "@/constants/zIndex";
 
 interface ImageViewerModalProps {
@@ -62,14 +63,16 @@ export default function ImageViewerModal({
       
       {/* 그림을 다시 눌러도 닫힌다 — 바깥 배경 클릭과 같은 취급 */}
       <div className="relative max-w-[90vw] max-h-[90vh] flex flex-col items-center justify-center gap-3 p-4 outline-none cursor-zoom-out">
-        <Image
-          src={src}
-          alt={alt}
-          width={1200}
-          height={800}
-          unoptimized
-          className="max-w-full max-h-[78vh] object-contain rounded-lg shadow-2xl"
-        />
+        <BlurDissolve key={src} className="flex items-center justify-center">
+          <Image
+            src={src}
+            alt={alt}
+            width={1200}
+            height={800}
+            unoptimized
+            className="max-w-full max-h-[78vh] object-contain rounded-lg shadow-2xl"
+          />
+        </BlurDissolve>
         {/* 설명이 있는 그림에만 붙는다. 없으면 자리도 차지하지 않는다 */}
         {caption ? (
           <p className="max-w-[46rem] text-center text-sm leading-relaxed text-white/70">

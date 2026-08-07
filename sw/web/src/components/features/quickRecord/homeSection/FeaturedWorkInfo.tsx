@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Link } from "@/i18n/navigation";
 import { BookOpen, MessageSquare, Award, Search, ExternalLink, Loader2, List } from "lucide-react";
 import { getContentDetail, type ContentDetailData } from "@/actions/contents/getContentDetail";
@@ -83,10 +83,10 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                             className="w-48 aspect-[2/3] relative rounded-lg overflow-hidden shadow-2xl ring-1 ring-white/10 group cursor-pointer block"
                         >
                             {targetContent.thumbnailUrl ? (
-                                <Image
+                                <ContentImage
                                     src={targetContent.thumbnailUrl}
                                     alt={targetContent.title}
-                                    fill
+                                    sizes="192px"
                                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
                             ) : (

@@ -7,7 +7,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "@/i18n/navigation";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { ArrowLeft, Save, RotateCcw, Trophy, GripVertical } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { getFlow } from "@/actions/flows/getFlow";
@@ -279,7 +279,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                         className={`relative group w-20 aspect-[2/3] md:w-24 bg-[#151515] rounded border border-white/10 hover:border-accent/50 cursor-grab active:cursor-grabbing shadow-lg transition-all hover:-translate-y-1 ${draggedId === contentId ? "opacity-50" : ""}`}
                       >
                         {item.content.thumbnail_url ? (
-                          <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                          <ContentImage src={item.content.thumbnail_url} alt={item.content.title} sizes="96px" className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-xs text-white/20 p-2 text-center break-words">{item.content.title}</div>
                         )}
@@ -327,7 +327,7 @@ export default function TierEditView({ flowId }: TierEditViewProps) {
                       className={`relative w-16 aspect-square rounded overflow-hidden cursor-grab active:cursor-grabbing border border-white/5 hover:border-white/20 transition-all ${draggedId === contentId ? "opacity-50 scale-90" : ""}`}
                     >
                       {item.content.thumbnail_url ? (
-                        <Image src={item.content.thumbnail_url} alt={item.content.title} fill unoptimized className="object-cover opacity-60 hover:opacity-100 transition-opacity" />
+                        <ContentImage src={item.content.thumbnail_url} alt={item.content.title} sizes="64px" className="object-cover opacity-60 hover:opacity-100 transition-opacity" />
                       ) : (
                         <div className="w-full h-full bg-[#111] flex items-center justify-center text-[10px] text-white/20 p-1 text-center">{item.content.title.slice(0, 4)}</div>
                       )}

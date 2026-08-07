@@ -6,7 +6,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import ContentImage from "@/components/ui/ContentImage";
 import { Link } from "@/i18n/navigation";
 import { Book, Film, Gamepad2, Music } from "lucide-react";
 import { getCategoryByDbType } from "@/constants/categories";
@@ -79,12 +79,10 @@ export default function GameContentItem({
         className={`relative ${cfg.thumb} shrink-0 rounded overflow-hidden bg-bg-secondary`}
       >
         {thumbnailUrl ? (
-          <Image
+          <ContentImage
             src={thumbnailUrl}
             alt={title}
-            fill
             sizes={cfg.thumbSizes}
-            className="object-cover"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
