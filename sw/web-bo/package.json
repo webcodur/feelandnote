@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start -p 3001",
     "lint": "eslint",
-    "book-recommend:resources": "tsx scripts/book-recommend-resources.ts"
+    "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
+    "faction:publish": "tsx scripts/publish-faction-voice.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",
