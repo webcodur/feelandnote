@@ -324,12 +324,15 @@ function PersonaMatchGroup({
   subjectName,
   matches,
   onOpen,
+  bare = false,
   className,
 }: {
   category: PersonaMatchCategory;
   subjectName: string;
   matches: PersonaMatch[];
   onOpen: (match: PersonaMatch) => void;
+  /** 겹창 안에 놓일 때 — 상자와 제목은 겹창이 이미 쥐고 있다 */
+  bare?: boolean;
   className?: string;
 }) {
   const t = useTranslations("celebPage");
@@ -395,19 +398,38 @@ function PersonaMatchGroup({
   return (
     <article
       className={cn(
-        "relative overflow-hidden rounded-[2px] border border-white/[0.08] border-t bg-white/[0.018] px-3 py-4 md:px-5 md:py-5",
-        style.border,
-        category === "overall" &&
-          "bg-[linear-gradient(105deg,rgba(255,255,255,0.025),transparent_65%)]",
-        category === "opposite" && "!border-t-red-300/35",
+        "relative overflow-hidden",
+        bare
+          ? "px-1"
+          : [
+              "rounded-[2px] border border-white/[0.08] border-t bg-white/[0.018] px-3 py-4 md:px-5 md:py-5",
+              style.border,
+              category === "overall" &&
+                "bg-[linear-gradient(105deg,rgba(255,255,255,0.025),transparent_65%)]",
+              category === "opposite" && "!border-t-red-300/35",
+            ],
         className,
       )}
     >
-      <header className="relative min-h-20 border-b border-white/[0.06] pb-3 text-center">
-        <h3 className="font-serif text-base font-bold text-text-primary">
-          {copy.title}
-        </h3>
-        <p className="mt-1 text-balance break-keep text-xs leading-relaxed text-text-secondary">
+      <header
+        className={cn(
+          "relative text-center",
+          bare
+            ? "pb-1"
+            : "min-h-20 border-b border-white/[0.06] pb-3",
+        )}
+      >
+        {bare ? null : (
+          <h3 className="font-serif text-base font-bold text-text-primary">
+            {copy.title}
+          </h3>
+        )}
+        <p
+          className={cn(
+            "text-balance break-keep text-xs leading-relaxed text-text-secondary",
+            !bare && "mt-1",
+          )}
+        >
           {copy.description}
         </p>
       </header>
@@ -630,6 +652,7 @@ function PersonaMatchGroupsModal({
                 subjectName={subjectName}
                 matches={matchesByCategory[category]}
                 onOpen={(match) => onOpenMatch(category, match)}
+                bare
                 className="w-full shrink-0 snap-start"
               />
             ))}
