@@ -325,6 +325,24 @@ function buildCelebListQuery(
   return query
 }
 
+/**
+ * 정렬 기준이 profiles 자신의 열이면 DB에 맡긴다 — 그러면 한 화면치만 받아오면 된다.
+ *
+ * 여기 없는 세 기준은 profiles 밖에 있다. 감상 기록 수는 세어봐야 알고,
+ * 영향력·팔로워는 다른 표에 있어 정렬 대상이 되면 후보 전체를 훑을 수밖에 없다.
+ */
+const CELEB_SORT_COLUMNS: Record<string, string> = {
+  created_at: 'created_at',
+  nickname: 'nickname',
+  title: 'title',
+  profession: 'profession',
+  nationality: 'nationality',
+  status: 'status',
+  gender: 'gender',
+  celeb_tier: 'celeb_tier',
+  avatar_url: 'avatar_url',
+}
+
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
   const { page = 1, limit = 20, search, status, profession, tier, imageFilter, sort = 'created_at', sortOrder = 'desc' } = params
   const supabase = createAdminClient()
@@ -351,6 +369,33 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     return { celebs: [], total: 0 }
   }
 
+  const sortColumn = CELEB_SORT_COLUMNS[sort]
+
+  if (sortColumn) {
+    const ascending = sortOrder === 'asc'
+    // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
+    // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
+    let query = buildCelebListQuery(supabase, filters, selectFields)
+      .order(sortColumn, { ascending, nullsFirst: ascending })
+    if (sortColumn !== 'created_at') query = query.order('created_at', { ascending: false })
+    query = query.order('nickname', { ascending: true, nullsFirst: true })
+
+    const { data, error } = await query.range(offset, offset + limit - 1)
+
+    if (error) {
+      console.error('[getCelebsByDirectQuery] 목록 조회 실패:', error)
+      throw error
+    }
+
+    const pageRows = (data || []) as unknown as CelebListRow[]
+    const contentCounts = await getCelebContentCounts(supabase, pageRows.map((row) => row.id))
+
+    return {
+      celebs: pageRows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0)),
+      total: count,
+    }
+  }
+
   const rows: CelebListRow[] = []
   const batchSize = 1000
 
@@ -368,14 +413,24 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     rows.push(...((batch || []) as unknown as CelebListRow[]))
   }
 
-  const contentCounts = await getCelebContentCounts(supabase, rows.map((row) => row.id))
-  const celebs = rows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0))
+  // 감상 기록 수로 줄을 세울 때만 후보 전원의 기록을 센다.
+  if (sort === 'content_count') {
+    const contentCounts = await getCelebContentCounts(supabase, rows.map((row) => row.id))
+    const celebs = rows.map((row) => mapCelebListRow(row, contentCounts.get(row.id) || 0))
+    sortCelebs(celebs, sort, sortOrder)
+    return { celebs: celebs.slice(offset, offset + limit), total: count }
+  }
 
-  sortCelebs(celebs, sort, sortOrder)
+  // 영향력·팔로워 정렬은 기록 수와 무관하므로, 줄을 먼저 세우고 화면에 실릴 몫만 센다.
+  const ordered = rows.map((row) => mapCelebListRow(row, 0))
+  sortCelebs(ordered, sort, sortOrder)
+  const pageSlice = ordered.slice(offset, offset + limit)
+  const rowById = new Map(rows.map((row) => [row.id, row]))
+  const contentCounts = await getCelebContentCounts(supabase, pageSlice.map((celeb) => celeb.id))
 
   return {
-    celebs: celebs.slice(offset, offset + limit),
-    total: count || 0,
+    celebs: pageSlice.map((celeb) => mapCelebListRow(rowById.get(celeb.id)!, contentCounts.get(celeb.id) || 0)),
+    total: count,
   }
 }
 
@@ -399,11 +454,6 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
-
-  // avatar_url 정렬: RPC 미지원 → 직접 쿼리
-  if (sort === 'avatar_url') {
-    return getCelebsByAvatarSort({ page, limit, search, status, profession, tier, sortOrder })
-  }
 
   // RPC 함수 사용 (프로덕션과 동일한 방식)
   const sortByMap: Record<string, string> = {
@@ -548,90 +598,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 }
 // #endregion
 
-// #region getCelebsByAvatarSort
-async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, sortOrder = 'desc' } = params
-  const supabase = createAdminClient()
-  const offset = (page - 1) * limit
-
-  let query = supabase
-    .from('profiles')
-    .select(
-      '*, user_social(follower_count), celeb_influence(total_score)',
-      { count: 'exact' }
-    )
-    .eq('profile_type', 'CELEB')
-
-  if (status && status !== 'all') {
-    query = query.eq('status', status)
-  } else {
-    query = query.in('status', ['active', 'inactive', 'suspended'])
-  }
-
-  if (profession && profession !== 'all') {
-    query = query.eq('profession', profession)
-  }
-
-  if (search) {
-    query = query.or(`nickname.ilike.%${search}%,title.ilike.%${search}%`)
-  }
-
-  if (tier && tier !== 'all') {
-    query = query.eq('celeb_tier', tier)
-  }
-
-  // nullsFirst: true → null 먼저 (이미지 없는 것 먼저 = asc)
-  // nullsFirst: false → null 나중 (이미지 있는 것 먼저 = desc)
-  const { data, error, count } = await query
-    .order('avatar_url', { ascending: sortOrder === 'asc', nullsFirst: sortOrder === 'asc' })
-    .order('created_at', { ascending: false })
-    .range(offset, offset + limit - 1)
-
-  if (error) throw error
-
-  const avatarRows = data || []
-  const contentCounts = await getCelebContentCounts(
-    supabase,
-    avatarRows.map((row: any) => row.id)
-  )
-  const celebs: Celeb[] = avatarRows.map((row: any) => {
-    const social = Array.isArray(row.user_social) ? row.user_social[0] : row.user_social
-    const influence = Array.isArray(row.celeb_influence) ? row.celeb_influence[0] : row.celeb_influence
-    return {
-      id: row.id,
-      slug: row.slug || null,
-      nickname: row.nickname,
-      avatar_url: row.avatar_url,
-      portrait_url: row.portrait_url,
-      profession: row.profession,
-      title: row.title,
-      nationality: row.nationality,
-      gender: row.gender,
-      birth_date: row.birth_date,
-      death_date: row.death_date,
-      bio: row.bio,
-      cultural_journey: row.cultural_journey,
-      is_verified: row.is_verified,
-      status: row.status,
-      celeb_tier: row.celeb_tier || 'full',
-      claimed_by: row.claimed_by,
-      created_at: row.created_at || '',
-      content_count: resolveCelebContentCount(
-        contentCounts.get(row.id) || 0,
-      row.content_research_status
-      ),
-      content_research_status: row.content_research_status || 'open',
-      content_research_updated_at: row.content_research_updated_at || null,
-      content_research_confirmed_empty_at:
-        row.content_research_confirmed_empty_at || null,
-      follower_count: social?.follower_count || 0,
-      influence_total: influence?.total_score || 0,
-    }
-  })
-
-  return { celebs, total: count || 0 }
-}
-// #endregion
+// 아바타 유무 정렬 전용 조회는 제거했다(26.08.08). 그 정렬은 언제나 위쪽
+// getCelebsByDirectQuery로 갈라져 이 함수까지 닿은 적이 없다.
 
 // #region getCeleb
 export async function getCeleb(celebId: string): Promise<Celeb | null> {
