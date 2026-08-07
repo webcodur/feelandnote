@@ -231,7 +231,11 @@
     "nextFigureOrGroup": "다음 인물 또는 그룹",
     "factionCollection": "세력도감",
     "fictionTitle": "이야기 속 인물",
-    "fictionNote": "실제로 살았던 사람이 아니라 신화와 서사시, 문학이 남긴 인물입니다. 검색과 작품 속 인물 연결을 통해 이들의 기록을 살펴볼 수 있습니다."
+    "fictionNote": "실제로 살았던 사람이 아니라 신화와 서사시, 문학이 남긴 인물입니다. 검색과 작품 속 인물 연결을 통해 이들의 기록을 살펴볼 수 있습니다.",
+    "tapForNextLine": "눌러서 다음",
+    "tapToCloseQuote": "눌러서 닫기",
+    "expandIntro": "소개 더 보기",
+    "collapseIntro": "소개 접기"
   },
   "quickRecord": {
     "section": {
