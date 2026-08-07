@@ -763,10 +763,9 @@
     "headingRead": "Books this figure read",
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",
-    "headingFactionOrigin": "Source works of myth and legend",
-    "headingFactionRead": "Books this circle read",
+    "headingFactionRead": "Books read by members of this circle",
     "headingFactionAbout": "Books about this circle",
-    "headingFactionTopic": "Books on this circle’s field"
+    "headingFactionTopic": "Books related to this circle"
   },
   "share": {
     "label": "Share",
