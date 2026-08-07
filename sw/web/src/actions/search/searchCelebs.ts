@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { SEARCHABLE_CELEB_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -55,10 +56,7 @@ async function fetchSearchCelebs(
     .range(offset, offset + limit - 1)
     .order(isEn ? 'nickname_en' : 'nickname', { ascending: true, nullsFirst: false })
 
-  if (error) {
-    console.error('셀럽 검색 에러:', error)
-    return { items: [], total: 0, hasMore: false }
-  }
+  throwOnQueryError('셀럽 검색', error)
 
   const total = count ?? 0
 
@@ -91,5 +89,5 @@ export async function searchCelebs({
     return { items: [], total: 0, hasMore: false }
   }
   const locale = await getLocale()
-  return searchCelebsCached(query.trim(), page, limit, locale)
+  return withQueryFallback('searchCelebs', () => searchCelebsCached(query.trim(), page, limit, locale), { items: [], total: 0, hasMore: false })
 }

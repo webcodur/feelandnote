@@ -1,5 +1,6 @@
 import { CategoryId } from '@/constants/categories'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
+import { throwOnQueryError } from '@/lib/cache'
 import type { LibraryContent, StaticSupabase, UserContentJoinRow } from './types'
 
 // #region 헬퍼 함수 - 콘텐츠 집계 (페이지네이션 지원)
@@ -129,10 +130,8 @@ export async function fetchAllUserContents(
 
       const { data, error } = await query
 
-      if (error) {
-        console.error('fetchAllUserContents error:', error.message, error.code, error.details)
-        break
-      }
+      // break 하면 목록이 조용히 잘린 채 캐시된다 — 통째로 사라지는 것보다 알아채기 어렵다.
+      throwOnQueryError('fetchAllUserContents', error)
 
       const rows: UserContentJoinRow[] = data || []
       const typedData = rows.map(item => {
@@ -180,10 +179,8 @@ export async function fetchGlobalCelebCounts(
     p_content_ids: contentIds,
   })
 
-  if (error) {
-    console.error('fetchGlobalCelebCounts error:', error.message, error.code)
-    return new Map()
-  }
+  // 빈 Map 을 돌려주면 인물 수가 전부 0 으로 굳는다.
+  throwOnQueryError('fetchGlobalCelebCounts', error)
 
   const countMap = new Map<string, number>()
   for (const row of data ?? []) {
@@ -205,10 +202,8 @@ export async function fetchUserContentCounts(
     p_category: category ?? undefined,
   })
 
-  if (error) {
-    console.error('fetchUserContentCounts error:', error.message, error.code)
-    return countMap
-  }
+  // 여기서 빈 값을 돌려주면 감상 인원 수가 전부 0 으로 굳는다.
+  throwOnQueryError('fetchUserContentCounts', error)
 
   for (const row of data ?? []) {
     countMap.set(row.content_id, Number(row.user_count))

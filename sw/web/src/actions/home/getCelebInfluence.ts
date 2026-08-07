@@ -4,7 +4,7 @@ import { cache } from "react";
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { createStaticClient } from "@/lib/supabase/static";
-import { STATIC_REVALIDATE } from "@/lib/cache";
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { type CelebLevel, getCelebLevelByRanking, calculatePercentile } from "@/constants/materials";
 import { resolveLocale, type Locale } from "@/types/locale";
 
@@ -80,7 +80,8 @@ async function fetchCelebInfluence(
     .eq("celeb_id", celebId)
     .single();
 
-  if (error || !data) return null;
+  throwOnQueryError('getCelebInfluence', error, { ignoreCodes: [NO_ROWS_CODE] });
+  if (!data) return null;
 
   // 두 count 쿼리 병렬화 (Promise.all)
   const totalScore = data.total_score ?? 0;

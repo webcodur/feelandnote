@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -107,10 +108,7 @@ async function fetchCelebFeed(
 
   const { data, error } = await query
 
-  if (error) {
-    console.error('셀럽 피드 조회 에러:', error)
-    return EMPTY_RESPONSE
-  }
+  throwOnQueryError('셀럽 피드 조회', error)
 
   if (!data || data.length === 0) {
     return EMPTY_RESPONSE
@@ -202,5 +200,9 @@ export async function getCelebFeed(
 ): Promise<CelebFeedResponse> {
   const { contentType = 'all', cursor, limit = 20 } = params
   const locale = await getLocale()
-  return getCelebFeedCached(contentType, cursor ?? null, limit, locale)
+  return withQueryFallback(
+    'getCelebFeed',
+    () => getCelebFeedCached(contentType, cursor ?? null, limit, locale),
+    EMPTY_RESPONSE,
+  )
 }

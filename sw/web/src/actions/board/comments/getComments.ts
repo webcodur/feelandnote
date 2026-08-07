@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import type { Locale } from '@/types/locale'
@@ -22,10 +23,7 @@ async function fetchComments(boardType: BoardType, postId: string, locale: Local
     .eq('locale', locale)
     .order('created_at', { ascending: true })
 
-  if (error) {
-    console.error('[댓글 목록] Error:', error)
-    return []
-  }
+  throwOnQueryError('[댓글 목록]', error)
 
   return data as BoardCommentWithAuthor[]
 }
@@ -37,5 +35,5 @@ const getCommentsCached = unstable_cache(
 )
 
 export async function getComments({ boardType, postId, locale }: GetCommentsParams): Promise<BoardCommentWithAuthor[]> {
-  return getCommentsCached(boardType, postId, locale)
+  return withQueryFallback('getComments', () => getCommentsCached(boardType, postId, locale), [])
 }

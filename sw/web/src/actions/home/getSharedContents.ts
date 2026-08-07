@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 
 export interface SharedContent {
   content_id: string
@@ -29,10 +29,7 @@ async function fetchSharedContents(
     p_limit: limit,
   })
 
-  if (error) {
-    console.error('getSharedContents error:', error.message)
-    return []
-  }
+  throwOnQueryError('getSharedContents', error)
 
   return (data ?? []) as SharedContent[]
 }
@@ -50,5 +47,9 @@ export async function getSharedContents(
   limit = 10
 ): Promise<SharedContent[]> {
   if (celebIds.length < 2) return []
-  return getCachedSharedContents(celebIds.join(','), contentType ?? '', limit)
+  return withQueryFallback(
+    'getSharedContents',
+    () => getCachedSharedContents(celebIds.join(','), contentType ?? '', limit),
+    [],
+  )
 }

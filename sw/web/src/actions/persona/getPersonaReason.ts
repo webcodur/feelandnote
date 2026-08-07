@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { parsePersonaJsonbWithReasons } from '@/lib/persona/types'
 import type { PersonaJsonb } from '@/lib/persona/types'
@@ -20,8 +20,10 @@ async function fetchPersonaReason(celebId: string, axis: string): Promise<Person
     .eq('celeb_id', celebId)
     .single()
 
-  if (error || !data) {
-    console.error('[getPersonaReason] failed:', error?.message ?? 'unknown error')
+  // 이 인물에게 페르소나 자료가 아직 없는 것은 실패가 아니다(.single()이 0행을 오류로 알린다).
+  throwOnQueryError('[getPersonaReason]', error, { ignoreCodes: [NO_ROWS_CODE] })
+
+  if (!data) {
     return null
   }
 
@@ -38,5 +40,5 @@ const getPersonaReasonCached = unstable_cache(fetchPersonaReason, ['persona-reas
 
 export async function getPersonaReason(celebId: string, axis: string): Promise<PersonaReason | null> {
   if (!celebId || !axis) return null
-  return getPersonaReasonCached(celebId, axis)
+  return withQueryFallback('getPersonaReason', () => getPersonaReasonCached(celebId, axis), null)
 }

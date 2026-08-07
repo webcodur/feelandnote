@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
@@ -56,7 +56,8 @@ async function fetchCelebModalPublic(
   const { data, error } = await profileQuery.single()
 
   const profile: ProfileModalRow | null = data
-  if (error || !profile) return null
+  throwOnQueryError('getCelebForModal 프로필', error, { ignoreCodes: [NO_ROWS_CODE] })
+  if (!profile) return null
 
   // 병렬 조회
   const [contentResult, followerResult, influenceResult, tags, dialogueResult] = await Promise.all([
@@ -104,8 +105,7 @@ async function fetchCelebModalPublic(
     profile,
     contentCount: resolveCelebContentCount(
       contentResult.count,
-      profile.content_research_status,
-      profile.status === 'active'
+      profile.content_research_status
     ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,

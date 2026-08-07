@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
@@ -36,10 +37,8 @@ async function countByType(
       }
 
       const { count, error } = await query
-      if (error) {
-        console.error('콘텐츠 개수 조회 에러:', error)
-        return
-      }
+      // 한 종류만 실패해도 그 값이 0인 채로 전체가 캐시된다. 던져서 캐시에 남기지 않는다.
+      throwOnQueryError(`콘텐츠 개수 조회(${type})`, error)
       counts[type] = count ?? 0
     })
   )
@@ -57,7 +56,7 @@ export async function getContentCounts(): Promise<ContentTypeCounts> {
   }
 
   // egress-allow: 본인 서재 카운트 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (head 카운트만 송출)
-  return countByType(supabase, user.id, false)
+  return withQueryFallback('getContentCounts', () => countByType(supabase, user.id, false), zeroCounts())
 }
 
 // 특정 사용자의 공개 콘텐츠 타입별 개수 (FINISHED) — 공개 테이블, 캐시
@@ -68,5 +67,5 @@ const getCachedUserContentCounts = unstable_cache(
 )
 
 export async function getUserContentCounts(userId: string): Promise<ContentTypeCounts> {
-  return getCachedUserContentCounts(userId)
+  return withQueryFallback('getUserContentCounts', () => getCachedUserContentCounts(userId), zeroCounts())
 }

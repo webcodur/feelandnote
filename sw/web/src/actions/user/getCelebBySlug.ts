@@ -329,8 +329,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     profile: profile as PublicCelebBySlugData['profile'],
     contentCount: resolveCelebContentCount(
       contentCountResult.count,
-      profile.content_research_status,
-      true
+      profile.content_research_status
     ),
     followerCount: followerResult.count || 0,
     guestbookCount: guestbookResult.count || 0,

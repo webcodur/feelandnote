@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { ContentType } from '@/types/database'
@@ -25,10 +26,7 @@ async function fetchRecentContents(limit: number, locale: string): Promise<Recen
     .order('created_at', { ascending: false })
     .limit(limit)
 
-  if (error) {
-    console.error('최신 콘텐츠 조회 실패:', error)
-    return []
-  }
+  throwOnQueryError('최신 콘텐츠 조회', error)
 
   return (data || []).map(item => {
     const locales = (item as Record<string, unknown>).content_locales as ContentLocaleRow[] | null
@@ -52,5 +50,5 @@ const getRecentContentsCached = unstable_cache(
 
 export async function getRecentContents(limit: number = 10): Promise<RecentContent[]> {
   const locale = await getLocale()
-  return getRecentContentsCached(limit, locale)
+  return withQueryFallback('getRecentContents', () => getRecentContentsCached(limit, locale), [])
 }

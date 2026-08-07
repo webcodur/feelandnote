@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 
@@ -18,7 +19,8 @@ async function fetchCelebCounts(idsKey: string): Promise<Record<string, ContentC
     p_content_ids: idsKey.split(','),
   })
 
-  if (error || !data) return {}
+  throwOnQueryError('getCelebCountsForContents', error)
+  if (!data) return {}
 
   const counts: Record<string, ContentCounts> = {}
   for (const row of data as { content_id: string; celeb_count: number; user_count: number }[]) {
@@ -41,5 +43,9 @@ export async function getCelebCountsForContents(
   contentIds: string[]
 ): Promise<Record<string, ContentCounts>> {
   if (!contentIds.length) return {}
-  return getCachedCelebCounts([...contentIds].sort().join(','))
+  return withQueryFallback(
+    'getCelebCountsForContents',
+    () => getCachedCelebCounts([...contentIds].sort().join(',')),
+    {},
+  )
 }

@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebReview } from '@/types/home'
@@ -103,13 +104,7 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
     console.error('인물 안내 조회 에러:', explanationResult.error)
   }
 
-  if (error) {
-    console.error('셀럽 리뷰 조회 에러:', error)
-    return {
-      reviews: [],
-      personGuide: resolvePersonGuide(explanationResult.data, locale),
-    }
-  }
+  throwOnQueryError('셀럽 리뷰 조회', error)
 
   if (!data || data.length === 0) {
     return {
@@ -196,7 +191,8 @@ async function getContentCountsForContents(
     p_content_ids: contentIds,
   })
 
-  if (error || !data) return {}
+  throwOnQueryError('콘텐츠 인원수 조회', error)
+  if (!data) return {}
 
   const counts: Record<string, ContentCounts> = {}
   for (const row of data as { content_id: string; celeb_count: number; user_count: number }[]) {
@@ -217,5 +213,5 @@ const getCelebModalContentCached = unstable_cache(
 
 export async function getCelebModalContent(celebId: string): Promise<CelebModalContent> {
   const locale = await getLocale()
-  return getCelebModalContentCached(celebId, locale)
+  return withQueryFallback('getCelebModalContent', () => getCelebModalContentCached(celebId, locale), { reviews: [], personGuide: null })
 }

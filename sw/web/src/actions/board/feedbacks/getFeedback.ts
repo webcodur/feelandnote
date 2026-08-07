@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { NO_ROWS_CODE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithDetails } from '@/types/database'
@@ -20,12 +21,10 @@ async function fetchFeedbackData(id: string, locale: Locale): Promise<FeedbackWi
     .eq('locale', locale)
     .single()
 
-  if (error) {
-    if (error.code !== 'PGRST116') {
-      console.error('[피드백 상세] Error:', error)
-    }
-    return null
-  }
+  // 그 밖의 오류는 던져 캐시에 남기지 않는다.
+  throwOnQueryError('[피드백 상세]', error, { ignoreCodes: [NO_ROWS_CODE] })
+  // 여기 오는 오류는 "글이 없다" 하나뿐이다.
+  if (error?.code === NO_ROWS_CODE) return null
 
   return data as FeedbackWithDetails
 }
@@ -43,5 +42,5 @@ export async function getFeedback(id: string, locale: Locale, incrementView = tr
     await supabase.rpc('increment_feedback_view_count', { feedback_id: id })
   }
 
-  return getFeedbackDataCached(id, locale)
+  return withQueryFallback('getFeedback', () => getFeedbackDataCached(id, locale), null)
 }

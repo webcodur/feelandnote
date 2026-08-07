@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
 export interface PersonaPersonSummary {
@@ -43,8 +43,9 @@ async function fetchPersonaPeople(limit: number): Promise<PersonaPersonSummary[]
     `)
     .limit(limit)
 
-  if (error || !data) {
-    console.error('[getPersonaPeople] failed:', error?.message ?? 'unknown error')
+  throwOnQueryError('[getPersonaPeople]', error)
+
+  if (!data) {
     return []
   }
 
@@ -70,5 +71,5 @@ const getPersonaPeopleCached = unstable_cache(
 )
 
 export async function getPersonaPeople(limit: number = 200): Promise<PersonaPersonSummary[]> {
-  return getPersonaPeopleCached(limit)
+  return withQueryFallback('getPersonaPeople', () => getPersonaPeopleCached(limit), [])
 }

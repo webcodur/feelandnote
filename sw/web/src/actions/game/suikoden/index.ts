@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from "next-intl/server";
@@ -47,7 +47,7 @@ interface SuikodenDialogueRow {
   lines_en: SuikodenLines | null
 }
 
-export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
+async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
   const supabase = await createClient()
   const currentYear = new Date().getFullYear()
   const maxDeathYear = currentYear - CUTOFF_YEARS
@@ -70,8 +70,9 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .not('profession', 'is', null)
     .in('id', SUIKODEN_CHARACTER_IDS)
 
-  if (error || !data) {
-    console.error("[loadSuikodenCharacters] 캐릭터 조회 실패:", error?.message);
+  throwOnQueryError('[loadSuikodenCharacters] 캐릭터 조회', error)
+
+  if (!data) {
     return [];
   }
 
@@ -114,6 +115,11 @@ export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
     .sort((a: GameCharacter, b: GameCharacter) => b.totalScore - a.totalScore)
 }
 
+export async function loadSuikodenCharacters(): Promise<GameCharacter[]> {
+  // 캐시를 거치지 않지만 폴백은 둔다 — 조회가 실패했다고 게임 화면 전체를 죽이지 않는다.
+  return withQueryFallback('loadSuikodenCharacters', fetchSuikodenCharacters, [])
+}
+
 /** celeb_dialogues 로딩 — characterId → lines 매핑 (1시간 캐시) */
 async function fetchSuikodenDialogues(locale: string): Promise<Record<string, SuikodenLines>> {
   const supabase = createStaticClient()
@@ -123,8 +129,9 @@ async function fetchSuikodenDialogues(locale: string): Promise<Record<string, Su
     .select('celeb_id, lines, lines_en')
     .in('celeb_id', SUIKODEN_CHARACTER_IDS);
 
-  if (error || !data) {
-    console.error("[loadSuikodenDialogues] 대사 조회 실패:", error?.message)
+  throwOnQueryError('[loadSuikodenDialogues] 대사 조회', error)
+
+  if (!data) {
     return {}
   }
 
@@ -144,5 +151,5 @@ const loadSuikodenDialoguesCached = unstable_cache(
 
 export async function loadSuikodenDialogues(): Promise<Record<string, SuikodenLines>> {
   const locale = await getLocale()
-  return loadSuikodenDialoguesCached(locale)
+  return withQueryFallback('loadSuikodenDialogues', () => loadSuikodenDialoguesCached(locale), {})
 }

@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaJsonb, PersonaProfile } from '@/lib/persona/types'
 import { parsePersonaJsonb } from '@/lib/persona/types'
@@ -29,8 +29,10 @@ async function fetchPersonaByCelebId(celebId: string): Promise<PersonaProfile | 
     .eq('celeb_id', celebId)
     .single()
 
-  if (error || !data) {
-    console.error('[getPersonaByCelebId] failed:', error?.message ?? 'unknown error')
+  // 이 인물에게 페르소나 자료가 아직 없는 것은 실패가 아니다(.single()이 0행을 오류로 알린다).
+  throwOnQueryError('[getPersonaByCelebId]', error, { ignoreCodes: [NO_ROWS_CODE] })
+
+  if (!data) {
     return null
   }
 
@@ -59,5 +61,5 @@ const getPersonaByCelebIdCached = unstable_cache(
 
 export async function getPersonaByCelebId(celebId: string): Promise<PersonaProfile | null> {
   if (!celebId) return null
-  return getPersonaByCelebIdCached(celebId)
+  return withQueryFallback('getPersonaByCelebId', () => getPersonaByCelebIdCached(celebId), null)
 }

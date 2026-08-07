@@ -8,7 +8,7 @@
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
 import { getLocale } from "next-intl/server";
-import { STATIC_REVALIDATE } from "@/lib/cache";
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 import type {
@@ -89,7 +89,8 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
     .in("user_id", celebIds)
     .eq("visibility", "public");
 
-  if (error || !data) return { celebs, contentsMap: {} };
+  throwOnQueryError('getTagChronologicalLibrary', error);
+  if (!data) return { celebs, contentsMap: {} };
 
   const contentsMap: Record<string, TimelineContent[]> = {};
 
@@ -132,5 +133,5 @@ const getTagChronologicalLibraryCached = unstable_cache(
 
 export async function getTagChronologicalLibrary(tagId: string) {
   const locale = await getLocale();
-  return getTagChronologicalLibraryCached(tagId, locale);
+  return withQueryFallback('getTagChronologicalLibrary', () => getTagChronologicalLibraryCached(tagId, locale), { celebs: [], contentsMap: {} });
 }

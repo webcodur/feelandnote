@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CategoryId } from '@/constants/categories'
 import { getLocale } from 'next-intl/server'
@@ -66,8 +66,9 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
   // 공개 감상 5개 이상 보유한 활성 셀럽만 RPC로 카운트 수신
   const { data: eligibleData, error: eligibleError } = await supabase.rpc('get_seed_eligible_celebs')
 
-  if (eligibleError || !eligibleData?.length) {
-    if (eligibleError) console.error('getTodayFigure seed error:', eligibleError.message)
+  throwOnQueryError('getTodayFigure 후보 조회', eligibleError)
+
+  if (!eligibleData?.length) {
     return { figure: null, contents: [], source: seedSource }
   }
 
@@ -92,7 +93,7 @@ const getTodayFigureCached = unstable_cache(
 export async function getTodayFigure(): Promise<TodayFigureResult> {
   const locale = await getLocale()
   const today = new Date().toISOString().slice(0, 10)
-  return getTodayFigureCached(today, locale)
+  return withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
 }
 
 // 오늘의 인물 profiles 조회 행

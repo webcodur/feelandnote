@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CELEB_PROFESSIONS } from '@/constants/celebProfessions'
 import { getLocale } from 'next-intl/server'
@@ -47,7 +47,8 @@ async function fetchProfessionAggregate(
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .eq('profession', profession)
 
-  if (profileError || !celebProfiles?.length) return null
+  throwOnQueryError('getLibraryByProfession 프로필 조회', profileError)
+  if (!celebProfiles?.length) return null
 
   const celebIds = celebProfiles.map(p => p.id)
 
@@ -106,7 +107,7 @@ export async function getLibraryByProfession(params?: {
   const page = params?.page || 1
   const limit = params?.limit || 12
 
-  const agg = await getProfessionAggregateCached(profession, locale)
+  const agg = await withQueryFallback('getLibraryByProfession', () => getProfessionAggregateCached(profession, locale), null)
   if (!agg) return null
 
   // 직군 전체 집계 캐시를 재사용하고, 요청 카테고리를 적용한 뒤 현재 페이지만 분리한다.

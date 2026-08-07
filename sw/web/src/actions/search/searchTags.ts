@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
 export interface TagSearchResult {
@@ -36,10 +37,7 @@ async function fetchSearchTags(
     .range(offset, offset + limit - 1)
     .order('post_count', { ascending: false })
 
-  if (error) {
-    console.error('태그 검색 에러:', error)
-    return { items: [], total: 0, hasMore: false }
-  }
+  throwOnQueryError('태그 검색', error)
 
   const items: TagSearchResult[] = (tags || []).map((tag) => ({
     id: tag.id,
@@ -71,5 +69,5 @@ export async function searchTags({
   if (!query.trim()) {
     return { items: [], total: 0, hasMore: false }
   }
-  return searchTagsCached(query.trim(), page, limit)
+  return withQueryFallback('searchTags', () => searchTagsCached(query.trim(), page, limit), { items: [], total: 0, hasMore: false })
 }
