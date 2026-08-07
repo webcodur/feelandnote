@@ -10,7 +10,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, ArrowRight, Info, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
 import { DetailToggle, ScoreBar } from "@/components/ui";
@@ -101,107 +101,13 @@ function MetricPanel({
   );
 }
 
-function SimilarFiguresHeader({
-  activeIndex,
-  total,
-  onPrevious,
-  onNext,
-}: {
-  activeIndex: number;
-  total: number;
-  onPrevious: () => void;
-  onNext: () => void;
-}) {
-  const t = useTranslations("celebPage");
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node))
-        setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
-
-  return (
-    <div className="flex w-full justify-center text-center">
-      <div ref={ref} className="relative w-full max-w-xl">
-        <div className="grid grid-cols-[2rem_minmax(0,1fr)_2rem] items-center gap-2 sm:block">
-          <button
-            type="button"
-            onClick={onPrevious}
-            disabled={activeIndex === 0}
-            className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/10 text-text-secondary hover:border-accent/40 hover:bg-accent/[0.08] hover:text-accent active:bg-accent/[0.15] disabled:pointer-events-none disabled:border-white/[0.04] disabled:text-white/15 sm:hidden"
-            aria-label={t("personaMatchPrevious")}
-          >
-            <ArrowLeft size={18} strokeWidth={1.8} />
-          </button>
-
-          <div className="min-w-0">
-            <div className="relative inline-block">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent md:text-sm font-cinzel">
-                {t("personaMatches")}
-              </p>
-              <button
-                type="button"
-                onClick={() => setOpen((v) => !v)}
-                className="absolute start-[calc(100%+6px)] top-1/2 -translate-y-1/2 text-text-secondary hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                aria-label={t("showSimilarityFormula")}
-                aria-expanded={open}
-              >
-                <Info size={14} />
-              </button>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={onNext}
-            disabled={activeIndex === total - 1}
-            className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/10 text-text-secondary hover:border-accent/40 hover:bg-accent/[0.08] hover:text-accent active:bg-accent/[0.15] disabled:pointer-events-none disabled:border-white/[0.04] disabled:text-white/15 sm:hidden"
-            aria-label={t("personaMatchNext")}
-          >
-            <ArrowRight size={18} strokeWidth={1.8} />
-          </button>
-        </div>
-
-        <div className="mt-3 flex items-center justify-center gap-1.5 sm:hidden" aria-hidden>
-          {Array.from({ length: total }, (_, index) => (
-            <span
-              key={index}
-              className={cn(
-                "h-0.5 w-5 rounded-full",
-                index === activeIndex ? "bg-accent" : "bg-white/10",
-              )}
-            />
-          ))}
-        </div>
-
-        {open && (
-          <div
-            role="tooltip"
-            className="absolute left-1/2 top-full z-50 mt-2 w-80 max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-lg border border-white/10 bg-bg-secondary px-4 py-3 shadow-xl animate-fade-in"
-          >
-            <p className="text-xs text-text-primary leading-relaxed break-keep text-left">
-              {t("similarFormula")}
-            </p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-const MATCH_CATEGORY_ORDER: PersonaMatchCategory[] = [
-  "overall",
-  "disposition",
-  "virtue",
-  "ability",
-  "opposite",
-];
+const MATCH_CATEGORY_TITLE_KEYS = {
+  overall: "personaMatch_overall",
+  disposition: "personaMatch_disposition",
+  virtue: "personaMatch_virtue",
+  ability: "personaMatch_ability",
+  opposite: "personaMatch_opposite",
+} as const;
 
 const MATCH_CATEGORY_STYLES: Record<
   PersonaMatchCategory,
@@ -509,19 +415,33 @@ function PersonaMatchGroup({
 
 function MobileMatchButton({
   label,
+  description,
   onClick,
+  className,
 }: {
   label: string;
+  description?: string;
   onClick: () => void;
+  className?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="mt-3 flex w-full items-center justify-between rounded-md border border-accent-dim/25 bg-accent/[0.025] px-3 py-2 text-xs font-bold text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.1] md:hidden"
+      className={cn(
+        "mt-3 flex w-full items-center justify-between gap-3 rounded-md border border-accent-dim/25 bg-accent/[0.025] px-3 py-2 text-start text-xs font-bold text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.1] md:hidden",
+        className,
+      )}
     >
-      <span>{label}</span>
-      <ArrowRight size={15} aria-hidden />
+      <span className="min-w-0">
+        <span className="block">{label}</span>
+        {description ? (
+          <span className="mt-0.5 block break-keep text-[11px] font-normal text-text-secondary">
+            {description}
+          </span>
+        ) : null}
+      </span>
+      <ArrowRight size={15} aria-hidden className="shrink-0" />
     </button>
   );
 }
@@ -531,6 +451,7 @@ function PersonaMatchGroupsModal({
   subjectName,
   matchesByCategory,
   isEn,
+  suspended,
   onClose,
   onOpenMatch,
 }: {
@@ -538,6 +459,8 @@ function PersonaMatchGroupsModal({
   subjectName: string;
   matchesByCategory: PersonaMatchGroups;
   isEn: boolean;
+  /** 비교 상세 모달이 위에 떠 있는 동안에는 닫기 조작을 받지 않는다 */
+  suspended: boolean;
   onClose: () => void;
   onOpenMatch: (category: PersonaMatchCategory, match: PersonaMatch) => void;
 }) {
@@ -549,15 +472,19 @@ function PersonaMatchGroupsModal({
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (suspended) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [onClose]);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose, suspended]);
 
   const scrollToCategory = (nextIndex: number) => {
     const boundedIndex = Math.max(0, Math.min(categories.length - 1, nextIndex));
@@ -596,11 +523,7 @@ function PersonaMatchGroupsModal({
   const title =
     categories.length > 1
       ? t("personaMatches")
-      : categories[0] === "ability"
-        ? t("personaMatch_ability")
-        : categories[0] === "virtue"
-          ? t("personaMatch_virtue")
-          : t("personaMatch_disposition");
+      : t(MATCH_CATEGORY_TITLE_KEYS[categories[0]]);
 
   if (typeof document === "undefined") return null;
 
@@ -609,7 +532,7 @@ function PersonaMatchGroupsModal({
       className="fixed inset-0 flex items-center justify-center bg-black/75 p-3 backdrop-blur-sm animate-fade-in sm:p-4"
       style={{ zIndex: Z_INDEX.modal }}
       onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
+        if (event.target === event.currentTarget && !suspended) onClose();
       }}
     >
       <section
@@ -1179,17 +1102,25 @@ export default function PersonaSection({
         </div>
       </div>
 
-      {/* 지표별 비교 인물 */}
+      {/* 전체 스펙트럼 유사 인물 — 좁은 화면에서는 단추로만 두고 모달에서 본다 */}
       {matchesByCategory.overall.length > 0 ? (
         <div className="border-t border-white/5 pt-7">
-          <PersonaMatchGroup
-            category="overall"
-            subjectName={persona.nickname}
-            matches={matchesByCategory.overall}
-            onOpen={(match) =>
-              setSelectedMatch({ category: "overall", match })
-            }
+          <MobileMatchButton
+            label={t("personaMatch_overall")}
+            description={t("personaMatch_overallDesc")}
+            onClick={() => setMobileMatchCategories(["overall"])}
+            className="mt-0"
           />
+          <div className="hidden md:block">
+            <PersonaMatchGroup
+              category="overall"
+              subjectName={persona.nickname}
+              matches={matchesByCategory.overall}
+              onOpen={(match) =>
+                setSelectedMatch({ category: "overall", match })
+              }
+            />
+          </div>
         </div>
       ) : null}
 
@@ -1199,11 +1130,11 @@ export default function PersonaSection({
           subjectName={persona.nickname}
           matchesByCategory={matchesByCategory}
           isEn={isEn}
+          suspended={selectedMatch !== null || previewCeleb !== null}
           onClose={() => setMobileMatchCategories(null)}
-          onOpenMatch={(category, match) => {
-            setMobileMatchCategories(null);
-            setSelectedMatch({ category, match });
-          }}
+          onOpenMatch={(category, match) =>
+            setSelectedMatch({ category, match })
+          }
         />
       ) : null}
 
