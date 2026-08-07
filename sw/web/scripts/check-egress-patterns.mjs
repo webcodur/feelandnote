@@ -8,7 +8,8 @@
  *
  * 검사 항목 (순서대로 위험도 높은 것부터):
  *   1) celeb_dialogues 의 lines/lines_en 통째 select   (DIALOGUE_BRIEF_SELECT 사용 권장)
- *   2) 'use server' 파일에서 supabase 읽기인데 unstable_cache·createStaticClient 패턴 부재
+ *   2) 'use server' 파일에서 supabase 읽기인데 캐시 부재
+ *      (next/cache 직접 호출과 @/lib/cache 도우미 둘 다 캐시로 인정한다)
  *   3) RSC 페이지(app 하위 page.tsx, layout.tsx)에서 supabase.from(...) 직접 호출
  *   4) 페이지네이션 풀스캔 + row 송출 (while + range PAGE_SIZE)
  *
@@ -20,6 +21,12 @@
 
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
+
+/* 캐시를 걸었다고 인정하는 표시.
+   next/cache 를 직접 부르는 것 말고도, 저장소 공용 도우미(@/lib/cache 의 cachedDetail·
+   cachedList)를 거치는 길이 있다. 그 도우미는 안에서 unstable_cache 를 부르므로
+   캐시는 실제로 걸린다. 직접 호출만 보면 도우미를 쓴 파일이 전부 미적용으로 잡힌다. */
+const CACHE_HELPER_RE = /from\s+['"]@\/lib\/cache['"]|cached(?:Detail|List)\s*\(/
 
 const SRC_ROOT = join(process.cwd(), 'src')
 const REPO_ROOT = process.cwd()
@@ -78,7 +85,10 @@ for (const file of walk(SRC_ROOT)) {
   if (ALLOW_COMMENT_RE.test(window)) continue
 
   const lineInfo = { line: matched + 1, text: lines[matched].trim() }
-  const hasCache = /from\s+['"]next\/cache['"]/.test(text) || /unstable_cache\s*\(/.test(text)
+  const hasCache =
+    /from\s+['"]next\/cache['"]/.test(text) ||
+    /unstable_cache\s*\(/.test(text) ||
+    CACHE_HELPER_RE.test(text)
   if (hasCache) {
     report(
       'lines-raw-select-cached',
@@ -117,7 +127,10 @@ if (statSync(ACTION_DIR).isDirectory()) {
     if (MUTATION_RE.test(text)) continue // mutation 액션은 캐시 안 함
     if (ALLOW_COMMENT_RE.test(text)) continue // RLS 본인 데이터 등 의도된 비캐시 — // egress-allow: <사유> 화이트리스트
 
-    const hasCache = UNSTABLE_CACHE_IMPORT_RE.test(text) || REACT_CACHE_IMPORT_RE.test(text)
+    const hasCache =
+      UNSTABLE_CACHE_IMPORT_RE.test(text) ||
+      REACT_CACHE_IMPORT_RE.test(text) ||
+      CACHE_HELPER_RE.test(text)
     if (hasCache) continue
 
     // 인증 의존이지만 inner 분리 안 된 액션도 캐시 가능 (외부 wrap 패턴 권장)
