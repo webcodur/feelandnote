@@ -27,15 +27,14 @@ const QUOTE_TEXT_STYLE: CSSProperties = {
 };
 
 /*
-  손으로 넘길 때 한 장에 담는 글자 수 기준과, 홀로 남기지 않을 꼬리 길이.
+  한 장은 문장 하나다. 다만 이 길이에 못 미치는 토막은 다음 문장과 함께 띄운다.
 
-  문장 하나를 한 장으로 삼으면 안 된다 — 말은 문장 평균 28자에 20자도 안 되는 것이
-  3분의 1이라(26.08.08 실측 1,050건), "여기? 아니야. 저기? 아니야."가 열 번을 눌러야 하는
-  말이 된다. 그래서 한 화면에 들어갈 만큼 담되 문장이 끝나는 자리에서만 끊는다.
-  이 기준이면 82%가 한 장에 끝나고 가장 긴 말도 다섯 장이다.
+  토막을 합치지 않으면 "빠르게 생각하고, 공간을 찾습니다. 하루 종일 찾습니다. 여기? 아니야.
+  저기? 아니야. 공간, 공간, 공간."이 열 번을 눌러야 하는 말이 된다. 말 1,050건을 재 보니
+  문장 평균이 28자인데 20자도 안 되는 것이 3분의 1이었다(26.08.08 실측).
+  이 기준이면 71%가 한 장에 끝나고 저 말은 세 장이 된다.
 */
-const QUOTE_PAGE_TARGET = 90;
-const QUOTE_PAGE_MIN_TAIL = 25;
+const QUOTE_PAGE_MIN = 25;
 /** 이 길이를 넘는 장은 글자를 한 단계 줄여야 세로 화면에서 잘리지 않는다 */
 const QUOTE_LONG_PAGE = 60;
 
@@ -49,10 +48,10 @@ function splitIntoSentences(text: string): string[] {
 }
 
 /**
- * 목소리가 없는 인물의 말을 손으로 넘길 장으로 나눈다.
+ * 목소리가 없는 인물의 말을 손으로 넘길 장으로 나눈다 — 문장 하나가 한 장이다.
  *
  * 빈 줄은 쓴 사람이 일부러 끊은 자리라 그대로 장을 가르고, 한 줄 바꿈은 이어 붙인다.
- * 그 안에서 문장을 차곡차곡 담다가 기준을 넘으면 다음 장으로 넘긴다.
+ * 문장이 기준 길이에 못 미치면 다음 문장까지 담아야 장이 넘어간다.
  */
 function buildQuotePages(quote: string): string[] {
   const blocks = quote.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
@@ -61,22 +60,17 @@ function buildQuotePages(quote: string): string[] {
   for (const block of blocks.length ? blocks : [quote]) {
     let buffer = '';
     for (const sentence of splitIntoSentences(block.replace(/\s*\n\s*/g, ' '))) {
-      if (!buffer) {
-        buffer = sentence;
-      } else if (buffer.length + 1 + sentence.length <= QUOTE_PAGE_TARGET) {
-        buffer += ' ' + sentence;
-      } else {
+      buffer = buffer ? buffer + ' ' + sentence : sentence;
+      if (buffer.length >= QUOTE_PAGE_MIN) {
         pages.push(buffer);
-        buffer = sentence;
+        buffer = '';
       }
     }
-    if (buffer) pages.push(buffer);
-  }
-
-  // 마지막이 한 토막만 남으면 앞 장에 붙인다 — 한 줄짜리 장을 위해 한 번 더 누르게 하지 않는다
-  if (pages.length > 1 && pages[pages.length - 1].length < QUOTE_PAGE_MIN_TAIL) {
-    const tail = pages.pop() as string;
-    pages[pages.length - 1] += ' ' + tail;
+    // 끝에 토막이 남으면 앞 장에 붙인다 — 한 줄짜리 장을 위해 한 번 더 누르게 하지 않는다
+    if (buffer) {
+      if (pages.length) pages[pages.length - 1] += ' ' + buffer;
+      else pages.push(buffer);
+    }
   }
   return pages.length ? pages : [quote];
 }
