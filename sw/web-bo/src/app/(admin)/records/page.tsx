@@ -45,7 +45,7 @@ export default async function RecordsPage({ searchParams }: PageProps) {
     .from('records')
     .select(`
       *,
-      profiles:user_id (nickname, email, avatar_url),
+      profiles:user_id (nickname, avatar_url, user_accounts(email)),
       contents:content_id (type, content_locales(locale, title, thumbnail_url))
     `, { count: 'exact' })
 
@@ -144,7 +144,15 @@ export default async function RecordsPage({ searchParams }: PageProps) {
                 </tr>
               ) : (
                 records.map((record) => {
-                  const profile = record.profiles as { nickname: string; email: string; avatar_url: string | null } | null
+                  // 이메일은 26.08.07에 계정 기록(user_accounts)으로 갈라졌다.
+                  const profile = record.profiles as {
+                    nickname: string
+                    avatar_url: string | null
+                    user_accounts: { email: string | null } | { email: string | null }[] | null
+                  } | null
+                  const account = Array.isArray(profile?.user_accounts)
+                    ? profile?.user_accounts[0] ?? null
+                    : profile?.user_accounts ?? null
                   const rawContent = record.contents as { type: string; content_locales: { locale: string; title: string; thumbnail_url: string | null }[] } | null
                   const ko = rawContent?.content_locales?.find((l) => l.locale === 'ko')
                   const en = rawContent?.content_locales?.find((l) => l.locale === 'en')
@@ -169,7 +177,7 @@ export default async function RecordsPage({ searchParams }: PageProps) {
                             <p className="text-xs md:text-sm font-medium text-text-primary truncate max-w-[80px] md:max-w-none">
                               {profile?.nickname || '알 수 없음'}
                             </p>
-                            <p className="text-xs text-text-secondary truncate max-w-[80px] md:max-w-none hidden md:block">{profile?.email || '-'}</p>
+                            <p className="text-xs text-text-secondary truncate max-w-[80px] md:max-w-none hidden md:block">{account?.email || '-'}</p>
                           </div>
                         </div>
                       </td>

@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import {
   CELEB_CONTENT_RESEARCH_STATUSES,
+  CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES,
+  CELEB_CONTENT_RESEARCH_TARGET_TIERS,
   resolveCelebContentCount,
   type CelebContentResearchStatus,
 } from '@feelandnote/shared/constants/celeb-content-research'
@@ -203,8 +205,9 @@ async function getAllLightProfiles(): Promise<ProfileRow[]> {
         celeb_influence(total_score)
       `)
       .eq('profile_type', 'CELEB')
-      .eq('celeb_tier', 'light')
-      .in('status', ['active', 'inactive'])
+      // 모집단 조건은 shared 규약이 정한다 — 여기서 값을 하드코딩하지 마라
+      .in('celeb_tier', [...CELEB_CONTENT_RESEARCH_TARGET_TIERS])
+      .in('status', [...CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES])
       .order('id', { ascending: true })
       .range(from, from + PAGE_SIZE - 1)
 
@@ -330,8 +333,7 @@ export async function getContentResearchWorkspace(
       actualContentCount,
       displayContentCount: resolveCelebContentCount(
         actualContentCount,
-        normalizedResearchStatus,
-        profileStatus === 'active'
+      normalizedResearchStatus
       ),
       researchStatus: normalizedResearchStatus,
       researchUpdatedAt: profile.content_research_updated_at,
@@ -395,7 +397,7 @@ async function assertAdmin(): Promise<{ id: string }> {
   if (!user) throw new Error('인증이 필요합니다.')
 
   const { data: profile, error } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .select('role')
     .eq('id', user.id)
     .single()

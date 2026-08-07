@@ -19,7 +19,7 @@ export async function checkAdmin(supabase: SupabaseClient): Promise<AdminCheckRe
   }
 
   const { data: profile } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .select('role')
     .eq('id', user.id)
     .single()

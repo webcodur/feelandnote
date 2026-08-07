@@ -36,15 +36,20 @@ export interface ReportDetail {
   snapshot: ReportTargetSnapshot
 }
 
+interface RawAccount {
+  email: string | null
+  account_status: string | null
+  suspended_at: string | null
+  suspended_reason: string | null
+}
+
 interface RawPerson {
   id: string
   nickname: string | null
-  email: string | null
   avatar_url: string | null
-  status: string | null
-  suspended_at: string | null
-  suspended_reason: string | null
   profile_type: string | null
+  // 계정 값은 26.08.07에 user_accounts로 갈라졌다. 인물에게는 이 행이 없다.
+  user_accounts: RawAccount | RawAccount[] | null
 }
 
 interface RawReport {
@@ -66,7 +71,7 @@ interface RawReport {
 // #endregion
 
 const PERSON_COLUMNS =
-  '(id, nickname, email, avatar_url, status, suspended_at, suspended_reason, profile_type)'
+  '(id, nickname, avatar_url, profile_type, user_accounts(email, account_status, suspended_at, suspended_reason))'
 
 const DETAIL_SELECT = `
   id, reporter_id, target_type, target_id, target_user_id, reason, description,
@@ -78,14 +83,15 @@ const DETAIL_SELECT = `
 
 function toPerson(raw: RawPerson | null): ReportPersonDetail | null {
   if (!raw) return null
+  const account = Array.isArray(raw.user_accounts) ? raw.user_accounts[0] ?? null : raw.user_accounts
   return {
     id: raw.id,
     nickname: raw.nickname,
-    email: raw.email,
+    email: account?.email ?? null,
     avatarUrl: raw.avatar_url,
-    status: raw.status,
-    suspendedAt: raw.suspended_at,
-    suspendedReason: raw.suspended_reason,
+    status: account?.account_status ?? null,
+    suspendedAt: account?.suspended_at ?? null,
+    suspendedReason: account?.suspended_reason ?? null,
     profileType: raw.profile_type,
   }
 }

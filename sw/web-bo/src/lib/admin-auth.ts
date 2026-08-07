@@ -7,7 +7,7 @@ export async function requireAdmin(): Promise<{ userId: string }> {
   if (!user) throw new Error('로그인이 필요합니다')
 
   const { data: profile } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .select('role')
     .eq('id', user.id)
     .single()

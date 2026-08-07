@@ -3,6 +3,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
+// 사람 기록(profiles)과 계정 기록(user_accounts)은 26.08.07에 갈라졌다.
+// 이 화면은 회원 계정을 다루므로 두 쪽을 함께 읽는다.
+// - 이름·소개·사진·인증 여부 → profiles
+// - 이메일·권한·계정 상태·정지·마지막 접속 → user_accounts
+// 계정 기록은 회원에게만 있으므로 !inner 로 묶으면 인물이 저절로 빠진다.
+
 export interface User {
   id: string
   email: string
@@ -29,6 +35,23 @@ export interface UsersResponse {
   total: number
 }
 
+interface AccountRow {
+  email: string | null
+  role: string | null
+  account_status: string | null
+  suspended_at: string | null
+  suspended_reason: string | null
+  last_seen_at: string | null
+}
+
+function firstRelation<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
+const ACCOUNT_COLUMNS =
+  'email, role, account_status, suspended_at, suspended_reason, last_seen_at'
+
 export async function getUsers(
   page: number = 1,
   limit: number = 20,
@@ -46,35 +69,47 @@ export async function getUsers(
     .from('profiles')
     .select(`
       *,
+      user_accounts!inner (${ACCOUNT_COLUMNS}),
       user_social (follower_count, following_count),
       user_scores (total_score)
     `, { count: 'exact' })
-    .or('profile_type.is.null,profile_type.eq.USER')
 
-  // 검색 필터
+  // 검색: 이름은 사람 기록에, 이메일은 계정 기록에 있어 한 번에 걸 수 없다.
+  // 이메일로 먼저 대상을 좁힌 뒤 이름과 함께 묶는다.
   if (search) {
-    query = query.or(`email.ilike.%${search}%,nickname.ilike.%${search}%`)
+    const { data: byEmail } = await supabase
+      .from('user_accounts')
+      .select('id')
+      .ilike('email', `%${search}%`)
+    const ids = (byEmail || []).map((row) => row.id)
+    query = ids.length
+      ? query.or(`nickname.ilike.%${search}%,id.in.(${ids.join(',')})`)
+      : query.ilike('nickname', `%${search}%`)
   }
 
-  // 상태 필터
+  // 계정 상태 필터
   if (status && status !== 'all') {
-    query = query.eq('status', status)
+    query = query.eq('user_accounts.account_status', status)
   }
 
-  // 역할 필터
+  // 권한 필터
   if (role && role !== 'all') {
-    query = query.eq('role', role)
+    query = query.eq('user_accounts.role', role)
   }
 
   // 정렬 적용
   const ascending = sortOrder === 'asc'
-  const validSortColumns = ['nickname', 'email', 'role', 'status', 'created_at']
+  const profileSortColumns = ['nickname', 'created_at']
+  const accountSortColumns = ['email', 'role', 'status']
   const relationSortColumns = ['follower_count', 'content_count']
 
   if (relationSortColumns.includes(sort)) {
     query = query.order(sort, { referencedTable: 'user_social', ascending })
+  } else if (accountSortColumns.includes(sort)) {
+    const column = sort === 'status' ? 'account_status' : sort
+    query = query.order(column, { referencedTable: 'user_accounts', ascending })
   } else {
-    const sortColumn = validSortColumns.includes(sort) ? sort : 'created_at'
+    const sortColumn = profileSortColumns.includes(sort) ? sort : 'created_at'
     query = query.order(sortColumn, { ascending })
   }
 
@@ -94,25 +129,28 @@ export async function getUsers(
     return acc
   }, {} as Record<string, number>)
 
-  const users: User[] = (data || []).map(user => ({
-    id: user.id,
-    email: user.email,
-    nickname: user.nickname,
-    avatar_url: user.avatar_url,
-    bio: user.bio,
-    role: user.role || 'user',
-    status: user.status || 'active',
-    created_at: user.created_at,
-    last_seen_at: user.last_seen_at,
-    suspended_at: user.suspended_at,
-    suspended_reason: user.suspended_reason,
-    profile_type: user.profile_type,
-    is_verified: user.is_verified,
-    content_count: contentCountMap[user.id] || 0,
-    follower_count: user.user_social?.follower_count || 0,
-    following_count: user.user_social?.following_count || 0,
-    total_score: user.user_scores?.total_score || 0,
-  }))
+  const users: User[] = (data || []).map(user => {
+    const account = firstRelation<AccountRow>(user.user_accounts)
+    return {
+      id: user.id,
+      email: account?.email ?? '',
+      nickname: user.nickname,
+      avatar_url: user.avatar_url,
+      bio: user.bio,
+      role: account?.role || 'user',
+      status: account?.account_status || 'active',
+      created_at: user.created_at,
+      last_seen_at: account?.last_seen_at ?? null,
+      suspended_at: account?.suspended_at ?? null,
+      suspended_reason: account?.suspended_reason ?? null,
+      profile_type: user.profile_type,
+      is_verified: user.is_verified,
+      content_count: contentCountMap[user.id] || 0,
+      follower_count: user.user_social?.follower_count || 0,
+      following_count: user.user_social?.following_count || 0,
+      total_score: user.user_scores?.total_score || 0,
+    }
+  })
 
   return {
     users,
@@ -125,22 +163,42 @@ export async function getUser(userId: string): Promise<User | null> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('*')
+    .select(`*, user_accounts (${ACCOUNT_COLUMNS})`)
     .eq('id', userId)
     .single()
 
-  if (error) return null
+  if (error || !data) return null
 
-  return data
+  const account = firstRelation<AccountRow>(data.user_accounts)
+
+  return {
+    id: data.id,
+    email: account?.email ?? '',
+    nickname: data.nickname,
+    avatar_url: data.avatar_url,
+    bio: data.bio,
+    role: account?.role || 'user',
+    status: account?.account_status || 'active',
+    created_at: data.created_at,
+    last_seen_at: account?.last_seen_at ?? null,
+    suspended_at: account?.suspended_at ?? null,
+    suspended_reason: account?.suspended_reason ?? null,
+    profile_type: data.profile_type,
+    is_verified: data.is_verified,
+    content_count: 0,
+    follower_count: 0,
+    following_count: 0,
+    total_score: 0,
+  }
 }
 
 export async function suspendUser(userId: string, reason: string): Promise<void> {
   const supabase = await createClient()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .update({
-      status: 'suspended',
+      account_status: 'suspended',
       suspended_at: new Date().toISOString(),
       suspended_reason: reason,
     })
@@ -155,9 +213,9 @@ export async function unsuspendUser(userId: string): Promise<void> {
   const supabase = await createClient()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .update({
-      status: 'active',
+      account_status: 'active',
       suspended_at: null,
       suspended_reason: null,
     })
@@ -176,7 +234,7 @@ export async function updateUserRole(userId: string, role: string): Promise<void
   }
 
   const { error } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .update({ role })
     .eq('id', userId)
 

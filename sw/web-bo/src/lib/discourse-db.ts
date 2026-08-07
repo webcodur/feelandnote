@@ -17,7 +17,7 @@ export async function requireDiscourseAdmin(): Promise<{ userId: string }> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
   const { data: profile } = await supabase
-    .from('profiles').select('role').eq('id', user.id).single()
+    .from('user_accounts').select('role').eq('id', user.id).single()
   if (!profile || !['admin', 'super_admin'].includes(profile.role ?? '')) {
     throw new Error('관리자 권한이 필요합니다')
   }
