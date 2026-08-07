@@ -19,7 +19,8 @@ export interface DialogueLines {
 }
 
 // 대사 편집 목록(getCelebsForDialogueEdit)은 제거했다. 호출부가 한 번도 없었고,
-// /celebs/voice-gen이 쓰는 getCelebsForVoiceGen이 같은 자리를 채운다.
+// 편집 대상은 검색 창구(/api/celebs/search)로 고른 뒤 그 한 명만 읽는다
+// (voice-gen.ts의 getCelebVoiceDetail).
 
 // #region updateSpeechTone
 export async function updateSpeechTone(
@@ -63,37 +64,8 @@ export async function updateVoiceSpeed(
 }
 // #endregion
 
-export interface CelebDialoguesResult {
-  lines: DialogueLines | null
-  lines_en: DialogueLines | null
-}
-
-// #region getCelebDialogues
-export async function getCelebDialogues(
-  celebId: string,
-): Promise<CelebDialoguesResult> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('celeb_dialogues')
-    .select('lines, lines_en')
-    .eq('celeb_id', celebId)
-    .maybeSingle()
-
-  if (error) throw error
-
-  return {
-    lines:
-      data?.lines && Object.keys(data.lines).length > 0
-        ? (data.lines as DialogueLines)
-        : null,
-    lines_en:
-      data?.lines_en && Object.keys(data.lines_en).length > 0
-        ? (data.lines_en as DialogueLines)
-        : null,
-  }
-}
-// #endregion
+// 대사 조회(getCelebDialogues)는 제거했다. 대사만 따로 읽는 화면이 없어졌고,
+// 편집기는 프로필 값까지 함께 필요해 voice-gen.ts의 getCelebVoiceDetail 하나로 읽는다.
 
 // #region saveCelebDialogues
 export async function saveCelebDialogues(
