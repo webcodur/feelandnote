@@ -112,54 +112,52 @@ function useSnapCarousel(count: number) {
   return { ref, activeIndex, scrollTo, syncIndex };
 }
 
-/** 넘겨보는 묶음의 좌우 이동 단추와 현재 위치 표시 */
+/** 넘겨보는 묶음의 이름표 줄. 이름 좌우에 이동 화살표를 둔다 */
 function CarouselControls({
   activeIndex,
-  total,
+  labels,
   onSelect,
   previousLabel,
   nextLabel,
   className,
 }: {
   activeIndex: number;
-  total: number;
+  labels: string[];
   onSelect: (index: number) => void;
   previousLabel: string;
   nextLabel: string;
   className?: string;
 }) {
-  const buttonClass =
-    "flex h-8 w-8 items-center justify-center rounded-md border border-accent-dim/25 text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.12] disabled:pointer-events-none disabled:border-white/[0.06] disabled:text-white/15";
+  const arrowClass =
+    "flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-accent-dim/25 text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.12] disabled:pointer-events-none disabled:border-white/[0.06] disabled:text-white/15";
 
   return (
-    <div className={cn("flex items-center justify-center gap-3", className)}>
+    <div className={cn("flex items-center justify-center gap-1.5", className)}>
       <button
         type="button"
         onClick={() => onSelect(activeIndex - 1)}
         disabled={activeIndex === 0}
         aria-label={previousLabel}
-        className={buttonClass}
+        className={arrowClass}
       >
         <ArrowLeft size={16} aria-hidden />
       </button>
 
-      <div className="flex items-center gap-1.5">
-        {Array.from({ length: total }, (_, index) => (
+      <div className="flex min-w-0 items-center gap-0.5">
+        {labels.map((label, index) => (
           <button
-            key={index}
+            key={label}
             type="button"
             onClick={() => onSelect(index)}
-            aria-label={`${index + 1} / ${total}`}
             aria-current={index === activeIndex}
-            className="p-1.5"
+            className={cn(
+              "truncate rounded-md px-2.5 py-1.5 font-serif text-sm",
+              index === activeIndex
+                ? "bg-accent/[0.1] font-bold text-accent"
+                : "text-text-secondary hover:bg-white/[0.04] hover:text-text-primary",
+            )}
           >
-            <span
-              aria-hidden
-              className={cn(
-                "block h-1 w-6 rounded-full",
-                index === activeIndex ? "bg-accent" : "bg-white/15",
-              )}
-            />
+            {label}
           </button>
         ))}
       </div>
@@ -167,9 +165,9 @@ function CarouselControls({
       <button
         type="button"
         onClick={() => onSelect(activeIndex + 1)}
-        disabled={activeIndex === total - 1}
+        disabled={activeIndex === labels.length - 1}
         aria-label={nextLabel}
-        className={buttonClass}
+        className={arrowClass}
       >
         <ArrowRight size={16} aria-hidden />
       </button>
@@ -191,10 +189,12 @@ function SectionHeader({ title }: { title: string }) {
 
 function MetricPanel({
   title,
+  description,
   tone,
   children,
 }: {
   title: string;
+  description: string;
   tone: string;
   children: ReactNode;
 }) {
@@ -205,10 +205,14 @@ function MetricPanel({
         tone,
       )}
     >
-      <header className="min-h-20 border-b border-white/[0.06] pb-3 text-center">
-        <h3 className="font-serif text-base font-bold text-text-primary">
+      {/* 좁은 화면에서는 제목이 넘김 단추 줄에 이미 있어 설명만 남긴다 */}
+      <header className="border-b border-white/[0.06] pb-3 text-center md:min-h-20">
+        <h3 className="hidden font-serif text-base font-bold text-text-primary md:block">
           {title}
         </h3>
+        <p className="text-balance break-keep text-xs leading-relaxed text-text-secondary md:mt-1">
+          {description}
+        </p>
       </header>
       <div className="mt-4">{children}</div>
     </section>
@@ -642,7 +646,9 @@ function PersonaMatchGroupsModal({
         {categories.length > 1 ? (
           <CarouselControls
             activeIndex={activeIndex}
-            total={categories.length}
+            labels={categories.map((category) =>
+              t(MATCH_CATEGORY_TITLE_KEYS[category]),
+            )}
             onSelect={scrollToCategory}
             previousLabel={isEn ? "Previous comparison" : "이전 비교"}
             nextLabel={isEn ? "Next comparison" : "다음 비교"}
@@ -923,7 +929,11 @@ export default function PersonaSection({
   } = useSnapCarousel(dispositionCompareCategories.length);
 
   const abilityPanel = (
-    <MetricPanel title={t("ability")} tone="border-t-emerald-300/35">
+    <MetricPanel
+      title={t("ability")}
+      description={t("abilityDesc")}
+      tone="border-t-emerald-300/35"
+    >
       <div className="space-y-2">
         {ABILITY_KEYS.map((key) => (
           <VirtueBar
@@ -949,7 +959,11 @@ export default function PersonaSection({
   );
 
   const dispositionPanel = (
-    <MetricPanel title={t("coreDisposition")} tone="border-t-blue-400/35">
+    <MetricPanel
+      title={t("coreDisposition")}
+      description={t("coreDispositionDesc")}
+      tone="border-t-blue-400/35"
+    >
       <div className="space-y-2">
         {TENDENCY_KEYS.map((key) => (
           <TendencyBar
@@ -978,7 +992,11 @@ export default function PersonaSection({
   );
 
   const virtuePanel = (
-    <MetricPanel title={t("virtue")} tone="border-t-amber-300/35">
+    <MetricPanel
+      title={t("virtue")}
+      description={t("virtueDesc")}
+      tone="border-t-amber-300/35"
+    >
       <div className="grid grid-cols-2 overflow-hidden rounded-sm border border-white/[0.08] bg-white/[0.012]">
         <VirtueSummaryGroup
           title={t("innerVirtue")}
@@ -1019,9 +1037,9 @@ export default function PersonaSection({
   );
 
   const metricPanels = [
-    { key: "ability", node: abilityPanel },
-    { key: "disposition", node: dispositionPanel },
-    { key: "virtue", node: virtuePanel },
+    { key: "ability", label: t("ability"), node: abilityPanel },
+    { key: "disposition", label: t("coreDisposition"), node: dispositionPanel },
+    { key: "virtue", label: t("virtue"), node: virtuePanel },
   ];
 
   const {
@@ -1048,6 +1066,14 @@ export default function PersonaSection({
 
       {/* 좁은 화면 — 능력·성향·덕목을 옆으로 넘겨본다 */}
       <div className="md:hidden">
+        <CarouselControls
+          activeIndex={metricIndex}
+          labels={metricPanels.map((panel) => panel.label)}
+          onSelect={scrollToMetric}
+          previousLabel={isEn ? "Previous metric" : "이전 지표"}
+          nextLabel={isEn ? "Next metric" : "다음 지표"}
+          className="mb-3"
+        />
         <div
           ref={metricCarouselRef}
           onScroll={syncMetricIndex}
@@ -1059,14 +1085,6 @@ export default function PersonaSection({
             </div>
           ))}
         </div>
-        <CarouselControls
-          activeIndex={metricIndex}
-          total={metricPanels.length}
-          onSelect={scrollToMetric}
-          previousLabel={isEn ? "Previous metric" : "이전 지표"}
-          nextLabel={isEn ? "Next metric" : "다음 지표"}
-          className="mt-3"
-        />
       </div>
 
       {/* 넓은 화면 — 지표와 비교 인물을 나란히 */}
