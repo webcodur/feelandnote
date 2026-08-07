@@ -168,10 +168,10 @@ export default function GuestbookContent({
                 <MessageSquare size={15} strokeWidth={1.7} aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[13px] leading-snug text-text-primary group-hover:text-accent">
+                <span className="block break-keep text-[13px] leading-snug text-text-primary group-hover:text-accent">
                   {isFiction ? tFiction("loginPrompt") : t("loginPrompt")}
                 </span>
-                <span className="mt-1 block text-[11px] leading-snug text-text-secondary/70">
+                <span className="mt-1 block break-keep text-[11px] leading-snug text-text-secondary/70">
                   {isFiction ? tFiction("loginHint") : t("loginHint")}
                 </span>
               </span>

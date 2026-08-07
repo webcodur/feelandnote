@@ -42,8 +42,8 @@ export default function FilterChip({
       `}
     >
       <div className="flex items-stretch justify-center w-full min-h-[2.1rem]">
-        {/* 타이틀 섹션 */}
-        <div className={`flex items-center justify-center border-r border-accent/10 bg-black/20 ${icon ? 'px-2' : 'flex-[0.35] px-1'}`}>
+        {/* 이름 칸은 고정 폭이다. 칩 폭에 비례시키면 넓은 칩만 이름 칸이 커져 줄이 어긋난다 */}
+        <div className={`flex items-center justify-center border-r border-accent/10 bg-black/20 ${icon ? 'px-2' : 'w-14 shrink-0 px-1'}`}>
           {icon ? (
             <span className={isActive ? 'text-accent opacity-90' : ' opacity-60'}>{icon}</span>
           ) : (
@@ -54,7 +54,7 @@ export default function FilterChip({
         </div>
 
         {/* 값 섹션 */}
-        <div className={`${icon ? 'flex-1' : 'flex-[0.65]'} flex items-center justify-center px-2.5 bg-white/[0.02]`}>
+        <div className="flex min-w-0 flex-1 items-center justify-center bg-white/[0.02] px-2.5">
           <span className={`text-[11px] font-sans font-bold truncate ${isActive ? 'text-accent' : 'text-text-primary'}`}>
             {value}
           </span>
