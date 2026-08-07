@@ -29,7 +29,7 @@
 - `toFrames()` = 배치용(+15 버퍼), `toAudioFrames()` = 자막/하이라이트용(버퍼 없음)
 - 라벨 duration: `narrator.labelSummaryDuration`, `narrator.labelContextDuration`
 - 컴포넌트는 `episodeName` prop으로 경로 분기. 모듈 레벨에서 EPISODE_NAME 직접 사용 금지.
-- 이미지 전환은 시간이 아닌 **대사(텍스트 앵커)**에 묶는다. 음성 재생성 시 `text` 앵커가 자동으로 voiceTimings에서 재매핑된다. `images` 배열 상세: `images.md`
+- 이미지 전환은 시간이 아닌 **대사(텍스트 앵커)**에 묶는다. 음성 재생성 시 `text` 앵커가 자동으로 voiceTimings에서 재매핑된다. `images` 배열 상세: `image-requirements.md`
 - **category 필드 규칙**: DB `contents.type`이 BOOK이 아닌 항목은 에피소드 JSON `books[]`에 `category` 필드 필수 (VIDEO, GAME, MUSIC). BOOK인 항목은 필드 생략 (기본값). 포스터 우상단 아이콘 뱃지 + 타이틀 카테고리 라벨은 BOOK 외 카테고리에만 표시된다.
 
 ## 1권 모드(SOLO) 음성
