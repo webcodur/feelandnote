@@ -235,7 +235,8 @@
     "tapForNextLine": "눌러서 다음",
     "tapToCloseQuote": "눌러서 닫기",
     "expandIntro": "소개 더 보기",
-    "collapseIntro": "소개 접기"
+    "collapseIntro": "소개 접기",
+    "hasVoice": "목소리 있음"
   },
   "quickRecord": {
     "section": {

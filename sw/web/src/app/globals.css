@@ -258,6 +258,16 @@
     animation: fadeIn 0.3s ease;
   }
 
+  /* 화면을 눌러 다음으로 넘기라는 손가락 표시 — 손끝이 닿았다 떨어지듯 */
+  .animate-tap-hint {
+    animation: tapHint 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-tap-hint {
+      animation: none;
+    }
+  }
+
 
   /* Scrollbar utilities */
   .scrollbar-stable {
@@ -286,6 +296,20 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* 손가락 표시가 화면을 톡 눌렀다 떨어지는 움직임 */
+@keyframes tapHint {
+  0%,
+  70%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  38% {
+    transform: scale(0.86);
+    opacity: 1;
   }
 }
 

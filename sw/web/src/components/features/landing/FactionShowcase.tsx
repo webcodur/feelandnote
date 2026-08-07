@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties, type M
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Play, Pause } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Play, Pause, Pointer, Volume2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
@@ -393,6 +393,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
       ?? current.celeb.avatar_url
     : null;
   const photoSrc = current.type === "team" ? teamSrc : celebSrc;
+  /** 팩션 화보가 하나도 없어 프로필 얼굴 사진으로 대신하는 인물인지 */
+  const usesAvatarFallback = current.type === "celeb" && !portraitImages.length && !!celebSrc;
 
   // ── 세력(그룹) 항목 ──
   // 소속 인물을 자리 번호와 함께 푼다 — 명단 칩을 눌러 그 사람으로 건너뛰기 위해서다
@@ -750,15 +752,23 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
           {/* 흐린 배경으로 여백을 메우고, 전경은 잘림 없이 노출 */}
           <Image src={photoSrc} alt="" fill unoptimized aria-hidden className="object-cover scale-110 blur-2xl opacity-40" />
           <div className="absolute inset-0 bg-black/20" />
-          <Image
-            src={photoSrc}
-            alt={photoAlt}
-            fill
-            unoptimized
-            priority
-            sizes="(max-width: 768px) 100vw, 600px"
-            className="object-contain"
-          />
+          {/*
+            팩션 화보가 없어 얼굴 사진으로 대신하는 인물은 사진이 정사각이라 액자를 꽉 채운다.
+            그러면 아래쪽 이름·소개 글이 턱과 입을 덮는다(좁은 화면에서 글이 사진의 42%를 차지한다).
+            그래서 얼굴만 글 위쪽에 앉히고, 여백은 뒤의 흐린 배경이 메운다.
+          */}
+          {/* 자리를 상태에 따라 옮기지 않는다 — 사진이 오르내리면 어지럽고, 전환이 어긋나면 어중간한 데 멈춘다 */}
+          <div className={cn("absolute inset-x-0 top-0", usesAvatarFallback ? "bottom-44" : "bottom-0")}>
+            <Image
+              src={photoSrc}
+              alt={photoAlt}
+              fill
+              unoptimized
+              priority
+              sizes="(max-width: 768px) 100vw, 600px"
+              className="object-contain"
+            />
+          </div>
         </>
       ) : (
         <div
@@ -945,16 +955,28 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
               눌러서 다음으로 간다는 안내를 함께 둔다. 마지막 문장에서는 닫힌다고 알린다.
             */}
             {isManualQuote && (
-              <figcaption className="mt-6 flex items-center justify-center gap-2 text-[11px] font-bold tracking-[0.12em] text-white/70 md:text-xs">
+              <figcaption
+                className="mt-6 flex items-center justify-center gap-2"
+                title={isLastManualStep ? t("tapToCloseQuote") : t("tapForNextLine")}
+              >
+                {/* 눈으로는 손가락 그림만 보이고, 화면 낭독기에는 말로 읽힌다 */}
+                <span className="sr-only">
+                  {isLastManualStep ? t("tapToCloseQuote") : t("tapForNextLine")}
+                </span>
+                <span
+                  aria-hidden
+                  className="animate-tap-hint flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-black/60 text-white/90 shadow-[0_2px_10px_rgba(0,0,0,0.7)] backdrop-blur-sm"
+                >
+                  {isLastManualStep ? <X size={16} aria-hidden /> : <Pointer size={16} aria-hidden />}
+                </span>
                 {quoteSteps.length > 1 && (
-                  <>
-                    <span className="tabular-nums">
-                      {manualStepIndex + 1} / {quoteSteps.length}
-                    </span>
-                    <span aria-hidden className="text-white/35">·</span>
-                  </>
+                  <span
+                    aria-hidden
+                    className="text-[11px] font-bold tabular-nums tracking-[0.12em] text-white/75 md:text-xs"
+                  >
+                    {manualStepIndex + 1} / {quoteSteps.length}
+                  </span>
                 )}
-                <span>{isLastManualStep ? t("tapToCloseQuote") : t("tapForNextLine")}</span>
               </figcaption>
             )}
           </figure>
@@ -1019,6 +1041,10 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
             ? item.celeb.short_desc_en ?? item.celeb.title_en
             : item.celeb.short_desc ?? item.celeb.title;
         const thumb = isTeam ? img?.url ?? null : item.celeb.avatar_url;
+        // 목소리가 실린 인물은 목록에서 미리 알아볼 수 있게 얼굴 귀퉁이에 표시를 단다
+        const hasVoice = !isTeam
+          && Boolean(item.celeb.faction_quote_media?.audioUrl)
+          && item.celeb.faction_quote_media?.locale === locale;
         const assetOrdinal = listOrdinalLabels.get(idx) ?? String(idx + 1);
         const assetTypeLabel = isTeam ? t("groupShot") : t("personShot");
         return (
@@ -1106,6 +1132,15 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
                   ) : (
                     <span className="font-serif text-xl font-black text-white/25">{label[0]}</span>
                   )}
+                </span>
+              )}
+              {hasVoice && (
+                <span
+                  title={t("hasVoice")}
+                  className="absolute bottom-0.5 right-0.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border border-accent/70 bg-black/85 text-accent shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
+                >
+                  <span className="sr-only">{t("hasVoice")}</span>
+                  <Volume2 size={11} aria-hidden />
                 </span>
               )}
             </span>

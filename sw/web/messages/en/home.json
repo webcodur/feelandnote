@@ -235,7 +235,8 @@
     "tapForNextLine": "Tap for the next line",
     "tapToCloseQuote": "Tap to close",
     "expandIntro": "Read full intro",
-    "collapseIntro": "Show less"
+    "collapseIntro": "Show less",
+    "hasVoice": "Has voice"
   },
   "quickRecord": {
     "section": {
