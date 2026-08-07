@@ -7,7 +7,7 @@
 
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { STATIC_REVALIDATE } from "@/lib/cache";
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from "@/lib/utils/content-locale";
@@ -54,7 +54,8 @@ async function fetchDawnCelebContents(
     .eq("visibility", "public")
     .overrideTypes<DawnContentRow[], { merge: false }>();
 
-  if (error || !data) return {};
+  throwOnQueryError('getDawnCelebContents', error);
+  if (!data) return {};
 
   const result: Record<string, DawnContent[]> = {};
 

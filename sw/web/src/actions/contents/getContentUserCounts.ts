@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 
@@ -15,10 +16,7 @@ async function fetchContentUserCounts(idsKey: string): Promise<Record<string, nu
     .select('id, user_count')
     .in('id', idsKey.split(','))
 
-  if (error) {
-    console.error('user_count 조회 에러:', error)
-    return {}
-  }
+  throwOnQueryError('user_count 조회', error)
 
   const result: Record<string, number> = {}
   for (const item of data || []) {
@@ -38,5 +36,9 @@ const getCachedContentUserCounts = unstable_cache(
 
 export async function getContentUserCounts(contentIds: string[]): Promise<Record<string, number>> {
   if (contentIds.length === 0) return {}
-  return getCachedContentUserCounts([...contentIds].sort().join(','))
+  return withQueryFallback(
+    'getContentUserCounts',
+    () => getCachedContentUserCounts([...contentIds].sort().join(',')),
+    {},
+  )
 }

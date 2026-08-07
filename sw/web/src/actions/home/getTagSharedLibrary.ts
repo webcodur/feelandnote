@@ -7,7 +7,7 @@
 
 import { unstable_cache } from "next/cache"
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { STATIC_REVALIDATE } from "@/lib/cache";
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { CL_SELECT_LIST, type ContentLocaleRow } from "@/lib/utils/content-locale";
 
@@ -69,7 +69,8 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
     .in("user_id", celebIds)
     .eq("visibility", "public");
 
-  if (error || !data) return [];
+  throwOnQueryError('getTagSharedLibrary', error);
+  if (!data) return [];
 
   // 4. content_id 기준 그룹화
   const contentMap = new Map<
@@ -139,9 +140,13 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   return result;
 }
 
-export const getTagSharedLibrary = unstable_cache(
+const getTagSharedLibraryCached = unstable_cache(
   fetchTagSharedLibrary,
   ['tag-shared-library'],
   // faction_atlas_members(편성) + profiles + user_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
+
+export async function getTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
+  return withQueryFallback('getTagSharedLibrary', () => getTagSharedLibraryCached(tagId), []);
+}

@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
@@ -36,7 +36,8 @@ async function fetchContentSamplesForCelebs(
     .eq('status', 'FINISHED')
     .overrideTypes<Array<{ user_id: string; contents: ContentJoinRow }>, { merge: false }>()
 
-  if (error || !data?.length) return {}
+  throwOnQueryError('콘텐츠 표본 조회', error)
+  if (!data?.length) return {}
 
   const result: Record<string, HubContentSample[]> = {}
   const seen: Record<string, Set<string>> = {}
@@ -102,7 +103,8 @@ async function fetchContentSamplesByProfession(
   const supabase = createStaticClient()
 
   const { data, error } = await supabase.rpc('get_profession_content_samples', { per_profession: perProfession })
-  if (error || !data?.length) return {}
+  throwOnQueryError('콘텐츠 표본 조회', error)
+  if (!data?.length) return {}
 
   const result: Record<string, HubContentSample[]> = {}
   const rows: ProfessionSampleRow[] = data
@@ -134,6 +136,6 @@ const getContentSamplesByProfessionCached = unstable_cache(
 
 export async function getContentSamplesByProfession(_professions: string[], perProfession = 3): Promise<Record<string, HubContentSample[]>> {
   const locale = await getLocale()
-  return getContentSamplesByProfessionCached(perProfession, locale)
+  return withQueryFallback('getContentSamplesByProfession', () => getContentSamplesByProfessionCached(perProfession, locale), {})
 }
 // #endregion

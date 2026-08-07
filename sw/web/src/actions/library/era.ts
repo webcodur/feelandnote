@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import type { LibraryContent, LibraryResult } from './types'
@@ -71,8 +71,9 @@ async function fetchLibraryByEra(locale: string): Promise<EraLibrary[]> {
     p_offset: 0,
   })
 
-  if (error || !data?.length) {
-    if (error) console.error('getLibraryByEra error:', error)
+  throwOnQueryError('getLibraryByEra', error)
+
+  if (!data?.length) {
     return []
   }
 
@@ -138,7 +139,7 @@ const getLibraryByEraCached = unstable_cache(
 
 export async function getLibraryByEra(): Promise<EraLibrary[]> {
   const locale = await getLocale()
-  return getLibraryByEraCached(locale)
+  return withQueryFallback('getLibraryByEra', () => getLibraryByEraCached(locale), [])
 }
 
 async function fetchEraContents(
@@ -162,8 +163,9 @@ async function fetchEraContents(
     p_offset: offset,
   })
 
-  if (error || !data?.length) {
-    if (error) console.error('getEraContents error:', error)
+  throwOnQueryError('get_scriptures_by_era', error)
+
+  if (!data?.length) {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
@@ -215,12 +217,11 @@ export async function getEraContents(params: {
   limit?: number
 }): Promise<LibraryResult> {
   const locale = await getLocale()
-  return getEraContentsCached(
-    params.era,
-    params.category || null,
-    params.page || 1,
-    params.limit || 12,
-    locale,
+  const page = params.page || 1
+  return withQueryFallback(
+    'getEraContents',
+    () => getEraContentsCached(params.era, params.category || null, page, params.limit || 12, locale),
+    { contents: [], total: 0, totalPages: 0, currentPage: page },
   )
 }
 // #endregion

@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import type { TopCeleb } from './types'
@@ -26,7 +26,8 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
     .eq('content_id', contentId)
     .eq('status', 'FINISHED')
 
-  if (ucError || !userContents?.length) return []
+  throwOnQueryError('getCelebsForContent 감상 조회', ucError)
+  if (!userContents?.length) return []
 
   const userIds = userContents.map(uc => uc.user_id)
 
@@ -39,10 +40,7 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
     // 신화·관계 인물은 목록에서 제외
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
-  if (profileError) {
-    console.error('getCelebsForContent error:', profileError)
-    return []
-  }
+  throwOnQueryError('getCelebsForContent 프로필 조회', profileError)
 
   return (profiles || []).map(p => ({
     id: p.id,
@@ -53,11 +51,15 @@ async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
   }))
 }
 
-export const getCelebsForContent = unstable_cache(
+const getCelebsForContentCached = unstable_cache(
   fetchCelebsForContent,
   ['celebs-for-content'],
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
+
+export async function getCelebsForContent(contentId: string): Promise<CelebInfo[]> {
+  return withQueryFallback('getCelebsForContent', () => getCelebsForContentCached(contentId), [])
+}
 // #endregion
 
 // #region 전 시대 통합 - 최고 영향력 셀럽 Top 3 (감상 기록 5개 이상)
@@ -68,8 +70,9 @@ async function fetchTopCelebsAcrossAllEras(locale: string): Promise<TopCeleb[]> 
     p_limit: 3,
   })
 
-  if (error || !data?.length) {
-    if (error) console.error('getTopCelebsAcrossAllEras error:', error)
+  throwOnQueryError('getTopCelebsAcrossAllEras', error)
+
+  if (!data?.length) {
     return []
   }
 
@@ -99,6 +102,6 @@ const getTopCelebsAcrossAllErasCached = unstable_cache(
 
 export async function getTopCelebsAcrossAllEras(): Promise<TopCeleb[]> {
   const locale = await getLocale()
-  return getTopCelebsAcrossAllErasCached(locale)
+  return withQueryFallback('getTopCelebsAcrossAllEras', () => getTopCelebsAcrossAllErasCached(locale), [])
 }
 // #endregion

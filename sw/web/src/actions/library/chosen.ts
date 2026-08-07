@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from 'next-intl/server'
 import type { LibraryContent, LibraryResult } from './types'
@@ -23,8 +23,10 @@ async function fetchChosenLibrary(
     p_offset: offset,
   })
 
-  if (error || !data?.length) {
-    if (error) console.error('getChosenLibrary error:', error)
+  throwOnQueryError('get_chosen_scriptures', error)
+
+  // 진짜로 결과가 없는 경우다. 이건 캐시해도 된다.
+  if (!data?.length) {
     return { contents: [], total: 0, totalPages: 0, currentPage: page }
   }
 
@@ -74,11 +76,11 @@ export async function getChosenLibrary(params?: {
   limit?: number
 }): Promise<LibraryResult> {
   const locale = await getLocale()
-  return getChosenLibraryCached(
-    params?.category || null,
-    params?.page || 1,
-    params?.limit || 12,
-    locale,
+  const page = params?.page || 1
+  return withQueryFallback(
+    'getChosenLibrary',
+    () => getChosenLibraryCached(params?.category || null, page, params?.limit || 12, locale),
+    { contents: [], total: 0, totalPages: 0, currentPage: page },
   )
 }
 

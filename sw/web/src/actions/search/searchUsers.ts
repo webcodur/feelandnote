@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -50,7 +51,9 @@ async function fetchSearchUsersPublic(
     .range(offset, offset + limit - 1)
     .order('created_at', { ascending: false })
 
-  if (error || !users || users.length === 0) {
+  throwOnQueryError('사용자 검색', error)
+
+  if (!users || users.length === 0) {
     return { users: [], total: count ?? 0, followerCountMap: {} }
   }
 
@@ -87,7 +90,7 @@ export async function searchUsers({
     return { items: [], total: 0, hasMore: false }
   }
 
-  const pub = await getSearchUsersPublicCached(query.trim(), page, limit)
+  const pub = await withQueryFallback('searchUsers', () => getSearchUsersPublicCached(query.trim(), page, limit), { users: [], total: 0, followerCountMap: {} })
   if (pub.users.length === 0) {
     return { items: [], total: pub.total, hasMore: false }
   }

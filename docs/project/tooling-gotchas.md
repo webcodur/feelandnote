@@ -55,6 +55,84 @@ Supabase MCP·관리 API가 401 Unauthorized(`SUPABASE_ACCESS_TOKEN` 무효)로 
 - 같은 텍스트를 여러 곳에서 split할 때 regex를 공유 상수로 추출한다.
 - 런타임 경로(어떤 분기를 탔는지)를 코드 분석보다 먼저 확인한다.
 
+### 3.1 실패를 캐시에 박지 마라 (26.08.07 재발)
+
+**같은 사고가 인기 작품 구역에서 또 났다.** 위 셀럽 목록 사고의 재발 방지("rpc error를 검사해 던진다")가 그 조회에는 적용되지 않은 채 남아 있었다.
+
+증상은 **구역이 통째로 사라지는 것**이다. 에러 화면도, 빈 목록 안내도 없다. 그 자리가 아예 없어지므로 원래 그런 화면인 줄 알게 된다. 실제로 처음엔 "개발 환경 캐시가 굳은 것이지 코드 결함은 아니다"로 잘못 판단했다.
+
+**구조가 이렇다.**
+
+```
+조회 실패 → 빈 목록을 정상 결과처럼 반환 → unstable_cache가 그 빈 값을 저장
+         → STATIC_REVALIDATE(604800초 = 7일) 동안 그대로
+         → 화면에서 구역이 접힘(자료 없으면 감추는 게 정상 동작이므로)
+```
+
+순간적인 DB 오류 한 번이 **7일짜리 장애**가 된다.
+
+**고치는 방법 — 도우미 두 개가 `sw/web/src/lib/cache.ts`에 있다.** 직접 try/catch를 쓰지 말고 이걸 쓴다.
+
+```ts
+import { NO_ROWS_CODE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
+
+// ① 캐시되는 fetch 안에서 — 던져야 실패가 캐시에 안 남는다
+throwOnQueryError('rpc 또는 조회 이름', error)
+if (!data?.length) return 빈값            // 진짜 빈 결과는 캐시해도 된다
+
+// ② 공개 함수에서 — 화면이 죽지 않게 받아주되 원인은 반드시 기록된다
+export async function getThing() {
+  return withQueryFallback('getThing', () => getThingCached(...), 빈값)
+}
+```
+
+이러면 ①실패가 캐시에 안 남고 ②다음 요청에서 다시 시도하며 ③화면은 안 죽고 ④로그에 원인이 남는다.
+
+**⚠️ `.single()`을 쓰는 조회는 예외를 지정한다.** `.single()`은 0행일 때도 오류를 주는데, "그 인물에게는 아직 자료가 없다" 같은 정상 상황이 여기 해당한다. 그대로 던지면 멀쩡한 화면에서 예외가 난다.
+
+```ts
+throwOnQueryError('[getPersonaReason]', error, { ignoreCodes: [NO_ROWS_CODE] })
+```
+
+**캐시를 안 거치는 조회에도 `withQueryFallback`은 쓴다.** 캐시 오염은 없지만, 조회 하나가 실패했다고 화면 전체를 죽일 이유는 없고 로그는 남아야 한다.
+
+**복구**: `POST /api/revalidate` (`{tag:["celebs","contents"], secret:<CRON_SECRET>}`). 태그 목록은 `packages/shared/src/constants/cache-tags.ts`.
+
+**정비 완료 (26.08.07)** — 캐시 조회 파일 82개를 전수 검사해 **액션 33개 파일**을 위 도우미로 정리했다.
+
+| 영역 | 파일 |
+|---|---|
+| 작품 | `chosen` · `era` · `celebs` · `helpers` · `profession` · `samples` · `today-figure` |
+| 홈·인물 | `getCelebFeed` · `getPersonaExtremes` · `getSharedContents` · `getCelebReviews` · `getCelebInfluence` · `getTagChronologicalLibrary` · `getTagSharedLibrary` |
+| 콘텐츠 | `getContentCounts` · `getRecentContents` · `getReviewFeed` · `getCelebCounts` · `getContentUserCounts` |
+| 스펙트럼 | `getPersonaByCelebId` · `getPersonaPeople` · `getPersonaReason` |
+| 검색 | `searchCelebs` · `searchTags` · `searchUsers` |
+| 게시판 | `getComments` · `getFeedback` · `getNotice` |
+| 게임 | `suikoden/index` · `getCelebCards` · `getDawnCelebContents` |
+| 인물 모달 | `celebs/getCelebForModal` |
+
+**검사기를 두 번 고쳤다. 처음 판정을 믿지 마라.**
+
+1. 정규식이 중괄호 중첩을 못 세어 `if (error) { … return }`의 절반을 놓쳤다 → 블록을 균형으로 잘라 다시 셌다.
+2. 오류 변수명이 `error`가 아닌 것(`personaError`·`ucError`·`profileError`·`eligibleError`)을 통째로 놓쳤다 → 이름 패턴을 넓혀 다시 셌다.
+
+두 번 다 "0곳, 전부 정리됨"이라는 잘못된 결론을 냈다가 표본을 직접 열어 보고 뒤집었다. **검사기 결과가 0이면 표본 몇 개를 눈으로 확인한다.**
+
+`library/helpers.ts`는 증상이 달랐다 — 페이지를 넘겨 가며 읽던 중 실패하면 `break`로 **부분 결과**를 반환했다. 목록이 통째로 사라지는 대신 **조용히 잘린 채** 캐시되므로 더 알아채기 어렵다. 같은 도우미로 막았다.
+
+**쓰기 작업(create·update·delete·login) 39곳은 대상이 아니다.** 오류를 `{ success: false }` 같은 결과로 돌려주는 것이 그쪽의 정상 패턴이고, 캐시되지 않아 굳지도 않는다.
+
+```bash
+# 재검사 — 캐시되면서 오류를 검사하는데 도우미를 안 쓰는 파일
+grep -rln "unstable_cache" sw/web/src/actions | xargs grep -lnE "if \(.*[eE]rror" | xargs grep -L "throwOnQueryError"
+```
+
+이 명령은 **이미 `throw`하는 곳까지 함께 잡는다**(오탐). 결과가 나오면 그 파일을 열어 오류 분기가 값을 돌려주는지 직접 본다.
+
+**지금 남아 있는 예외 둘** — `board/feedbacks/getFeedback.ts`·`board/notices/getNotice.ts`는 `if (error?.code === NO_ROWS_CODE) return null`이 남는다. 글이 없을 때만 도달하는 정상 분기이므로 고칠 것이 없다.
+
+> **남은 데드코드** — `library/celebs.ts`의 `getTopCelebsAcrossAllEras`, `library/era.ts`의 `getLibraryByEra`는 **외부 사용처가 0곳**이다(26.08.07 확인). 없어진 시대별 화면의 잔재다. 규칙을 어긴 채 남겨두지 않도록 도우미는 똑같이 적용해 뒀지만, **지울지는 아직 정하지 않았다.**
+
 ---
 
 ## 4. 권한 승인 팝업 최소화 — 툴별 전역 와일드카드

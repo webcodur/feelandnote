@@ -1,6 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
+import { NO_ROWS_CODE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { NoticeWithAuthor } from '@/types/database'
@@ -19,12 +20,10 @@ async function fetchNoticeData(id: string, locale: Locale): Promise<NoticeWithAu
     .eq('id', id)
     .single()
 
-  if (error) {
-    if (error.code !== 'PGRST116') {
-      console.error('[공지사항 상세] Error:', error)
-    }
-    return null
-  }
+  // 그 밖의 오류는 던져 캐시에 남기지 않는다.
+  throwOnQueryError('[공지사항 상세]', error, { ignoreCodes: [NO_ROWS_CODE] })
+  // 여기 오는 오류는 "글이 없다" 하나뿐이다.
+  if (error?.code === NO_ROWS_CODE) return null
 
   return localizeNotice(data as NoticeWithAuthor, locale)
 }
@@ -42,5 +41,5 @@ export async function getNotice(id: string, locale: Locale, incrementView = true
     await supabase.rpc('increment_notice_view_count', { notice_id: id })
   }
 
-  return getNoticeDataCached(id, locale)
+  return withQueryFallback('getNotice', () => getNoticeDataCached(id, locale), null)
 }

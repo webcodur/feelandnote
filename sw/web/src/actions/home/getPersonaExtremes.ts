@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { PersonaStatsWithReasons } from '@/lib/persona/types'
 
@@ -83,8 +83,9 @@ async function fetchPersonaExtremes(runnersUpLimit: number): Promise<PersonaExtr
     p_runners_up_limit: runnersUpLimit,
   })
 
-  if (error || !data) {
-    console.error('[getPersonaExtremes] RPC 호출 실패:', error?.message)
+  throwOnQueryError('[getPersonaExtremes] RPC 호출', error)
+
+  if (!data) {
     return []
   }
 
@@ -103,5 +104,9 @@ const getCachedPersonaExtremes = unstable_cache(
 )
 
 export async function getPersonaExtremes(options?: { runnersUpLimit?: number }): Promise<PersonaExtremeEntry[]> {
-  return getCachedPersonaExtremes(options?.runnersUpLimit ?? 2)
+  return withQueryFallback(
+    'getPersonaExtremes',
+    () => getCachedPersonaExtremes(options?.runnersUpLimit ?? 2),
+    [],
+  )
 }

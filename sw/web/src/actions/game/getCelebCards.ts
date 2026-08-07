@@ -7,7 +7,7 @@
 
 import { unstable_cache } from "next/cache";
 import { CACHE_TAGS } from "@feelandnote/shared/constants/cache-tags";
-import { STATIC_REVALIDATE } from "@/lib/cache";
+import { STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from "@/lib/cache";
 import { createStaticClient } from "@/lib/supabase/static";
 import { getLocale } from "next-intl/server";
 import type { BattleCard, Domain } from "@/lib/game/types";
@@ -67,10 +67,8 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
 
   const { data: personaData, error: personaError } = await query;
 
-  if (personaError || !personaData) {
-    console.error("[getCelebCards] 셀럽 카드 조회 실패:", personaError?.message);
-    return [];
-  }
+  throwOnQueryError('[getCelebCards] 셀럽 카드 조회', personaError);
+  if (!personaData) return [];
 
   const cardRows: CelebCardRow[] = personaData;
 
@@ -138,7 +136,7 @@ const getCelebCardsCached = unstable_cache(
 export async function getCelebCards(celebIds?: string[]): Promise<BattleCard[]> {
   const locale = await getLocale();
   const key = celebIds && celebIds.length > 0 ? [...celebIds].sort().join(",") : "";
-  return getCelebCardsCached(key, locale);
+  return withQueryFallback('getCelebCards', () => getCelebCardsCached(key, locale), []);
 }
 
 /** 드래프트 풀 확정 후, 선택된 카드의 대사만 조회 (1시간 캐시) — Map은 직렬화 불가라 Record로 캐시 후 변환 */
@@ -156,10 +154,7 @@ async function fetchCardDialogues(
     .select("celeb_id, lines, lines_en")
     .in("celeb_id", cardIds);
 
-  if (error) {
-    console.error("[loadCardDialogues] 대사 조회 실패:", error.message);
-    return {};
-  }
+  throwOnQueryError('[loadCardDialogues] 대사 조회', error);
 
   const out: Record<string, DialogueLines> = {};
   for (const d of data ?? []) {
@@ -180,6 +175,6 @@ export async function loadCardDialogues(cardIds: string[]): Promise<Map<string, 
   if (cardIds.length === 0) return new Map();
   const locale = await getLocale();
   const key = [...cardIds].sort().join(",");
-  const record = await getCardDialoguesCached(key, locale);
+  const record = await withQueryFallback('loadCardDialogues', () => getCardDialoguesCached(key, locale), {});
   return new Map(Object.entries(record));
 }
