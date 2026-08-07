@@ -268,8 +268,11 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   const [isFactionQuoteVisible, setIsFactionQuoteVisible] = useState(false);
   /** 목소리 없는 인물의 말을 몇 번째 문장까지 넘겼는지. -1 이면 넘기는 중이 아니다 */
   const [manualStepIndex, setManualStepIndex] = useState(-1);
-  /** 이름 아래 직함·소개를 다 펼쳐 놓았는지 — 잘린 글을 끝까지 읽는 자리다 */
+  /** 이름 아래 소개를 다 펼쳐 놓았는지 — 잘린 글을 끝까지 읽는 자리다 */
   const [isInfoExpanded, setIsInfoExpanded] = useState(false);
+  /** 소개가 실제로 잘렸는지. 다 보이는 글에까지 「더 보기」를 달면 눌러도 아무 일이 없다 */
+  const [isIntroClipped, setIsIntroClipped] = useState(false);
+  const introRef = useRef<HTMLParagraphElement | null>(null);
   const factionAudioRef = useRef<HTMLAudioElement | null>(null);
   const factionAudioRafRef = useRef<number | null>(null);
 
@@ -292,6 +295,22 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
     factionAudioRef.current?.pause();
     if (factionAudioRafRef.current !== null) cancelAnimationFrame(factionAudioRafRef.current);
   }, []);
+
+  /*
+    소개가 두 줄에서 잘렸는지 직접 재서 「더 보기」를 달지 정한다.
+    글이 짧아 다 보이는데도 단추가 있으면 눌러도 아무 변화가 없다.
+    창 폭이 바뀌면 줄 수가 달라지므로 그때도 다시 잰다.
+  */
+  useEffect(() => {
+    if (isInfoExpanded) return; // 펼친 동안은 접을 단추가 필요하니 다시 재지 않는다
+    const measure = () => {
+      const el = introRef.current;
+      setIsIntroClipped(el ? el.scrollHeight > el.clientHeight + 1 : false);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [selectedIdx, locale, isInfoExpanded, isFactionQuoteVisible]);
 
   // 테마 전환 시 상태 초기화는 부모가 key={activeTag.id}로 재마운트해 처리한다.
   const current = items[selectedIdx] ?? items[0];
@@ -874,6 +893,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
           )}
           {longDesc && (
             <p
+              ref={introRef}
               className={cn(
                 "mt-2 text-sm leading-6 text-white/78 break-keep md:text-[15px]",
                 // 펼치면 사진을 다 덮지 않도록 높이를 묶고 그 안에서 굴린다
@@ -884,10 +904,10 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
             </p>
           )}
           {/*
-            소개가 두 줄을 넘으면 뒷부분이 잘려 읽을 자리가 없었다.
-            여기서 펼쳐 끝까지 읽고 다시 접는다.
+            두 줄에서 잘린 소개만 여기서 펼쳐 끝까지 읽고 다시 접는다.
+            다 보이는 글에는 단추를 달지 않는다 — 눌러도 아무 일이 없어 고장으로 읽힌다.
           */}
-          {longDesc && (
+          {longDesc && (isIntroClipped || isInfoExpanded) && (
             <button
               type="button"
               onClick={() => setIsInfoExpanded((prev) => !prev)}
