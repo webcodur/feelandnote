@@ -22,7 +22,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - 26.08.07 이전에는 인물마다 로그인 계정이 딸려 있어 이 값이 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 계정을 전량 폐기(`profiles_id_fkey` 제거)하면서 겹침이 사라졌다 — 경위는 `docs/todo/profile-user-celeb-separation-2026-08-07.md`
     - 실측 분포(26.08.07): active 1,793 / inactive 725 / suspended 224
     - **목록 노출은 이 값이 아니라 `celeb_tier`가 가른다.** `status`를 조사 여부·관계·태그 배정 같은 다른 판단에 끌어 쓰지 마라 — 같은 사고가 세 번 났다. 판별법과 사고 이력은 `docs/project/celeb/celeb-gotchas.md` §9-1이 SSoT다
-    - 계정 전용 열은 인물에게 쓰지 않는다 — `email`·`suspended_at`·`suspended_reason`·`role`·`last_seen_at`. 26.08.07 인물 2,742명 전원 비웠고 실측 보유 0건이다(회원 17명의 `email`·`role`은 유지). `last_seen_at`은 회원에게도 기록되지 않는 죽은 열이다
+    - **계정 전용 열은 `profiles`에 없다.** `email`·`role`·`suspended_at`·`suspended_reason`·`last_seen_at`은 26.08.07에 `user_accounts`(회원 17행)로 옮기고 이 테이블에서 제거했다. 회원 계정 상태는 `user_accounts.account_status`이며 `profiles.status`와 다른 축이다. 관리자 판정은 `is_admin()` 하나가 쥔다(RLS 정책 59개가 이 함수를 부른다)
   - `speech_tone` (text): 말투 6종. **profiles 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
