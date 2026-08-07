@@ -51,15 +51,17 @@ export default function CelebViewCounter({ celebId, nickname, initialCount }: Ce
 
   return (
     <>
+      {/* 숫자를 숨기면 눈 기호만 남아 무엇을 뜻하는지 알 수 없다 — 값을 함께 보인다 */}
       <button
         type="button"
         onClick={handleOpen}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/12 bg-transparent p-0 text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-white/12 bg-transparent px-2.5 text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
         title={t("viewCount")}
         aria-label={`${t("viewCount")}: ${count.toLocaleString()}`}
       >
-        <Eye size={18} aria-hidden />
-        <span className="sr-only">{t("viewCount")}: {count.toLocaleString()}</span>
+        <Eye size={16} aria-hidden />
+        <span className="font-mono text-xs tabular-nums">{count.toLocaleString()}</span>
+        <span className="sr-only">{t("viewCount")}</span>
       </button>
 
       {isOpen && (
