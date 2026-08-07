@@ -149,9 +149,16 @@ function CarouselTabs({
 // ─── 섹션 헤더 ──────────────────────────────────────
 
 function SectionHeader({ title }: { title: string }) {
+  const locale = useLocale();
   return (
     <div className="flex justify-center text-center w-full mb-4">
-      <p className="text-xs md:text-sm text-accent font-cinzel tracking-[0.3em] uppercase font-bold">
+      {/* 영문 대문자에는 넓은 자간이 어울리지만 한글은 같은 값에서 글자가 하나씩 떨어져 보인다 */}
+      <p
+        className={cn(
+          "text-xs md:text-sm text-accent font-cinzel uppercase font-bold",
+          locale === "en" ? "tracking-[0.3em]" : "tracking-[0.06em]",
+        )}
+      >
         {title}
       </p>
     </div>

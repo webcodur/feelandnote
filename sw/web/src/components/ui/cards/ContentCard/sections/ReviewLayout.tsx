@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Star } from "lucide-react";
-import { BLUR_DATA_URL } from "@/constants/image";
+import ContentImage from "@/components/ui/ContentImage";
 import FormattedText from "@/components/ui/FormattedText";
 import { getPresetByKeyword, getSentimentColorClasses } from "@/constants/review-presets";
 
@@ -110,18 +109,14 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
         {/* 썸네일 영역 */}
         <div className={`relative ${isMobileReview ? "w-28 sm:w-40" : "w-40"} flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
           {showImage ? (
-            <Image
-              src={displayThumbnail!}
+            /* 표지 자리는 세로로 길어 잘라 채우면 좌우가 날아간다 — 제목이 읽히도록 전부 담는다 */
+            <ContentImage
+              src={displayThumbnail}
               alt={title}
-              fill
               sizes="160px"
-              className="object-cover transition-transform duration-300 delay-150 group-hover:scale-105"
-              placeholder="blur"
-              blurDataURL={BLUR_DATA_URL}
+              className="object-contain transition-transform duration-300 delay-150 group-hover:scale-105"
               onError={() => setImageError(true)}
               onLoad={handleImageLoad}
-              unoptimized
-              loading="lazy"
             />
           ) : (
             <GenerativeBookCover
@@ -259,18 +254,12 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
         >
           <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
             {showImage ? (
-              <Image
-                src={displayThumbnail!}
+              <ContentImage
+                src={displayThumbnail}
                 alt={title}
-                fill
                 sizes="(max-width: 768px) 100vw, 300px"
-                className="object-cover"
-                placeholder="blur"
-                blurDataURL={BLUR_DATA_URL}
                 onError={() => setImageError(true)}
                 onLoad={handleImageLoad}
-                unoptimized
-                loading="lazy"
               />
             ) : (
               <GenerativeBookCover

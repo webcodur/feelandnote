@@ -18,8 +18,10 @@ export function formatCelebPeriod(
   const birthYear = formatYear(birthDate);
   if (!birthYear) return "";
 
+  // 살아 있는 사람에게 줄표만 매달아 두면 뒤가 잘린 것처럼 보인다.
+  // 생존 여부는 옆의 나이 표시가 이미 알려 준다
   const deathYear = deathDate ? formatYear(deathDate) : "";
-  return deathYear ? `${birthYear} — ${deathYear}` : `${birthYear} —`;
+  return deathYear ? `${birthYear} — ${deathYear}` : birthYear;
 }
 
 export function getLocalizedCelebVideos(

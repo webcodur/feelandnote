@@ -54,15 +54,16 @@ export default function ProfessionInfoButton({ profession, label }: ProfessionIn
 
   return (
     <div ref={rootRef} className="relative inline-flex">
+      {/* 기호만 두면 무슨 직군인지 알 수 없다 — 이름을 함께 보인다 */}
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        aria-label={label}
         aria-expanded={isOpen}
         aria-haspopup="dialog"
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/12 bg-transparent p-0 text-accent hover:border-accent/60 hover:bg-white/[0.05] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-white/12 bg-transparent px-2.5 text-accent hover:border-accent/60 hover:bg-white/[0.05] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
       >
-        <CelebProfessionMark profession={profession} size={17} />
+        <CelebProfessionMark profession={profession} size={16} />
+        <span className="text-xs font-medium leading-none">{label}</span>
       </button>
 
       {isOpen ? (
