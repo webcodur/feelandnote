@@ -17,6 +17,22 @@ import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-co
  * 여기엔 slug가 없어 라우트 패턴으로 해당 상세 전체를 대상으로 삼는다.
  * 이 갱신은 백오피스 자체 캐시에만 닿는다 — 서비스(web) 캐시는 revalidateWebCache가 따로 맡는다.
  */
+// 계정 값은 26.08.07에 user_accounts로 갈라졌다. 인물에게는 이 행이 없으므로
+// 붙여 읽으면 null 이거나 배열 한 칸으로 온다.
+interface AccountRelation {
+  email: string | null
+  role: string | null
+  account_status: string | null
+  suspended_at: string | null
+  suspended_reason: string | null
+  last_seen_at: string | null
+}
+
+function getSingleRelation<T>(value: T | T[] | null | undefined): T | null {
+  if (Array.isArray(value)) return value[0] ?? null
+  return value ?? null
+}
+
 function revalidateMemberPaths(memberId: string): void {
   revalidatePath('/users')
   revalidatePath(`/users/${memberId}`)
@@ -181,18 +197,30 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
   const supabase = await createClient()
   const offset = (page - 1) * limit
 
+  // 계정 값(이메일·권한·정지)은 26.08.07에 user_accounts로 갈라졌다.
+  // 이 목록은 인물과 회원을 함께 담으므로 계정 기록은 있으면 붙이는 식으로 읽는다.
   let query = supabase
     .from('profiles')
-    .select('*, user_social(follower_count, following_count), user_scores(total_score)', { count: 'exact' })
+    .select('*, user_accounts(email, role, account_status, suspended_at, suspended_reason, last_seen_at), user_social(follower_count, following_count), user_scores(total_score)', { count: 'exact' })
 
   if (search) {
-    query = query.or(`nickname.ilike.%${search}%,email.ilike.%${search}%`)
+    // 이름은 사람 기록에, 이메일은 계정 기록에 있어 한 번에 걸 수 없다.
+    const { data: byEmail } = await supabase
+      .from('user_accounts')
+      .select('id')
+      .ilike('email', `%${search}%`)
+    const ids = (byEmail || []).map((row) => row.id)
+    query = ids.length
+      ? query.or(`nickname.ilike.%${search}%,id.in.(${ids.join(',')})`)
+      : query.ilike('nickname', `%${search}%`)
   }
+  // 이 걸개는 인물 공개 상태(profiles.status)를 본다. 회원 계정 정지는
+  // profileType='USER' 경로(getUsers)가 계정 상태로 따로 거른다.
   if (status && status !== 'all') {
     query = query.eq('status', status)
   }
   if (role && role !== 'all') {
-    query = query.eq('role', role)
+    query = query.eq('user_accounts.role', role)
   }
   if (profession && profession !== 'all') {
     query = query.eq('profession', profession)
@@ -208,21 +236,24 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
   const userIds = data?.map((p) => p.id) || []
   const contentCounts = await getContentCounts(supabase, userIds)
 
-  const members: Member[] = (data || []).map((p) => ({
+  const members: Member[] = (data || []).map((p) => {
+    const account = getSingleRelation(p.user_accounts)
+    return {
     id: p.id,
     slug: p.slug || null,
-    email: p.email,
+    email: account?.email ?? null,
     nickname: p.nickname,
     avatar_url: p.avatar_url,
     bio: p.bio,
     profile_type: (p.profile_type === 'CELEB' ? 'CELEB' : 'USER') as ProfileType,
-    status: p.status || 'active',
+    // 회원은 계정 상태가, 인물은 공개 상태가 그 사람의 상태다.
+    status: account?.account_status || p.status || 'active',
     is_verified: p.is_verified,
     created_at: p.created_at,
-    role: p.role,
-    last_seen_at: p.last_seen_at,
-    suspended_at: p.suspended_at,
-    suspended_reason: p.suspended_reason,
+    role: account?.role ?? null,
+    last_seen_at: account?.last_seen_at ?? null,
+    suspended_at: account?.suspended_at ?? null,
+    suspended_reason: account?.suspended_reason ?? null,
     profession: p.profession,
     title: p.title,
     nationality: p.nationality,
@@ -234,7 +265,8 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
     follower_count: p.user_social?.follower_count || 0,
     following_count: p.user_social?.following_count || 0,
     total_score: p.user_scores?.total_score || 0,
-  }))
+    }
+  })
 
   return { members, total: count || 0 }
 }
@@ -318,6 +350,7 @@ export async function getMember(id: string): Promise<Member | null> {
     .select(
       `
       *,
+      user_accounts (email, role, account_status, suspended_at, suspended_reason, last_seen_at),
       user_social (follower_count, following_count),
       user_scores (total_score),
       celeb_influence (
@@ -350,6 +383,7 @@ export async function getMember(id: string): Promise<Member | null> {
     .eq('user_id', id)
 
   const profileType = (data.profile_type === 'CELEB' ? 'CELEB' : 'USER') as ProfileType
+  const account = getSingleRelation(data.user_accounts)
 
   // celeb_influence 데이터 추출
   const influenceData = Array.isArray(data.celeb_influence)
@@ -364,19 +398,20 @@ export async function getMember(id: string): Promise<Member | null> {
   return {
     id: data.id,
     slug: data.slug || null,
-    email: data.email,
+    email: account?.email ?? null,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
     portrait_url: data.portrait_url ?? null,
     bio: data.bio,
     profile_type: profileType,
-    status: data.status,
+    // 회원은 계정 상태가, 인물은 공개 상태가 그 사람의 상태다.
+    status: account?.account_status || data.status,
     is_verified: data.is_verified,
     created_at: data.created_at,
-    role: data.role,
-    last_seen_at: data.last_seen_at,
-    suspended_at: data.suspended_at,
-    suspended_reason: data.suspended_reason,
+    role: account?.role ?? null,
+    last_seen_at: account?.last_seen_at ?? null,
+    suspended_at: account?.suspended_at ?? null,
+    suspended_reason: account?.suspended_reason ?? null,
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,
@@ -419,6 +454,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
 
   const selectQuery = `
       *,
+      user_accounts (email, role, account_status, suspended_at, suspended_reason, last_seen_at),
       user_social (follower_count, following_count),
       user_scores (total_score),
       celeb_influence (
@@ -454,6 +490,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
     .eq('user_id', data.id)
 
   const profileType = (data.profile_type === 'CELEB' ? 'CELEB' : 'USER') as ProfileType
+  const account = getSingleRelation(data.user_accounts)
 
   const influenceData = Array.isArray(data.celeb_influence)
     ? data.celeb_influence[0]
@@ -466,19 +503,20 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
   return {
     id: data.id,
     slug: data.slug || null,
-    email: data.email,
+    email: account?.email ?? null,
     nickname: data.nickname,
     avatar_url: data.avatar_url,
     portrait_url: data.portrait_url ?? null,
     bio: data.bio,
     profile_type: profileType,
-    status: data.status,
+    // 회원은 계정 상태가, 인물은 공개 상태가 그 사람의 상태다.
+    status: account?.account_status || data.status,
     is_verified: data.is_verified,
     created_at: data.created_at,
-    role: data.role,
-    last_seen_at: data.last_seen_at,
-    suspended_at: data.suspended_at,
-    suspended_reason: data.suspended_reason,
+    role: account?.role ?? null,
+    last_seen_at: account?.last_seen_at ?? null,
+    suspended_at: account?.suspended_at ?? null,
+    suspended_reason: account?.suspended_reason ?? null,
     profession: data.profession,
     title: data.title,
     nationality: data.nationality,

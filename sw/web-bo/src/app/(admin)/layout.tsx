@@ -19,13 +19,13 @@ export default async function AdminLayout({
     redirect('/login')
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('nickname, role')
-    .eq('id', user.id)
-    .single()
+  // 이름은 사람 기록에, 권한은 계정 기록에 있다(26.08.07 분리).
+  const [{ data: profile }, { data: account }] = await Promise.all([
+    supabase.from('profiles').select('nickname').eq('id', user.id).single(),
+    supabase.from('user_accounts').select('role').eq('id', user.id).single(),
+  ])
 
-  if (!profile || !['admin', 'super_admin'].includes(profile.role || '')) {
+  if (!profile || !account || !['admin', 'super_admin'].includes(account.role || '')) {
     redirect('/login')
   }
 
@@ -45,7 +45,7 @@ export default async function AdminLayout({
               user={{
                 email: user.email || '',
                 nickname: profile.nickname,
-                role: profile.role,
+                role: account.role,
               }}
             />
             {/* 맺음말은 본문과 함께 스크롤된다(창 아래에 상주하면 작업 공간을 잡아먹는다) */}

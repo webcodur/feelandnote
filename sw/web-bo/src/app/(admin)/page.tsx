@@ -26,7 +26,8 @@ export default async function DashboardPage() {
     supabase.from('contents').select('*', { count: 'exact', head: true }),
     supabase.from('records').select('*', { count: 'exact', head: true }),
     supabase.from('user_contents').select('*', { count: 'exact', head: true }),
-    supabase.from('profiles').select('id, nickname, email, avatar_url, created_at').order('created_at', { ascending: false }).limit(5),
+    // 최근 가입은 회원만 해당한다. 계정 기록이 있는 사람이 곧 회원이다(26.08.07 분리).
+    supabase.from('user_accounts').select('id, email, created_at, profiles(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
     // 유형별 수는 DB에서 센다. 행을 끌어와 세면 PostgREST 1,000행 상한에 걸려
     // 위 '총 콘텐츠'(head 카운트라 정확)와 합이 어긋난다(실측 7,568행).
     Promise.all(
@@ -157,22 +158,24 @@ export default async function DashboardPage() {
             </Link>
           </div>
           <div className="space-y-3">
-            {(recentUsers || []).map((user) => (
+            {(recentUsers || []).map((user) => {
+              const person = Array.isArray(user.profiles) ? user.profiles[0] : user.profiles
+              return (
               <Link
                 key={user.id}
                 href={`/users/${user.id}`}
                 className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary"
               >
                 <div className="relative w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
-                  {user.avatar_url ? (
-                    <Image src={user.avatar_url} alt="" fill unoptimized className="object-cover" />
+                  {person?.avatar_url ? (
+                    <Image src={person.avatar_url} alt="" fill unoptimized className="object-cover" />
                   ) : (
                     <Users className="w-5 h-5 text-accent" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-text-primary truncate">
-                    {user.nickname || '닉네임 없음'}
+                    {person?.nickname || '닉네임 없음'}
                   </p>
                   <p className="text-xs text-text-secondary truncate">{user.email}</p>
                 </div>
@@ -180,7 +183,8 @@ export default async function DashboardPage() {
                   {formatRelativeTime(user.created_at)}
                 </span>
               </Link>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

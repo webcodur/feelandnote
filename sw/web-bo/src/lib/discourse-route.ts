@@ -24,7 +24,7 @@ export async function guardDiscourseRoute(): Promise<NextResponse | null> {
   if (!user) return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 })
 
   const { data: profile } = await supabase
-    .from('profiles').select('role').eq('id', user.id).single()
+    .from('user_accounts').select('role').eq('id', user.id).single()
   if (!profile || !['admin', 'super_admin'].includes(profile.role ?? '')) {
     return NextResponse.json({ error: '관리자 권한이 필요합니다' }, { status: 403 })
   }

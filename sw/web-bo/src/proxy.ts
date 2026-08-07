@@ -6,9 +6,9 @@ const ALLOWED_ROLES = ['admin', 'super_admin']
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // 루트 경로는 /users로 리다이렉트
+  // 루트 경로는 /celebs로 리다이렉트
   if (pathname === '/') {
-    return NextResponse.redirect(new URL('/users', request.url))
+    return NextResponse.redirect(new URL('/celebs', request.url))
   }
 
   // 로그인 페이지와 public API는 체크 제외
@@ -63,7 +63,7 @@ export async function proxy(request: NextRequest) {
 
   // role 체크
   const { data: profile } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .select('role')
     .eq('id', user.id)
     .single()

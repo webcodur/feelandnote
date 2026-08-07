@@ -31,14 +31,36 @@ export interface Record {
   comment_count: number
 }
 
+interface RawRecordUser {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+  user_accounts: { email: string | null } | { email: string | null }[] | null
+}
+
+function toRecordUser(raw: unknown): Record['user'] {
+  const person = raw as RawRecordUser | null
+  if (!person) return null
+  const account = Array.isArray(person.user_accounts)
+    ? person.user_accounts[0] ?? null
+    : person.user_accounts
+  return {
+    id: person.id,
+    nickname: person.nickname,
+    email: account?.email ?? null,
+    avatar_url: person.avatar_url,
+  }
+}
+
 export async function getRecord(recordId: string): Promise<Record | null> {
   const supabase = await createClient()
 
+  // 이메일은 26.08.07에 계정 기록(user_accounts)으로 갈라졌다. 붙여 읽고 평평하게 편다.
   const { data: record, error } = await supabase
     .from('records')
     .select(`
       *,
-      profiles:user_id (id, nickname, email, avatar_url),
+      profiles:user_id (id, nickname, avatar_url, user_accounts(email)),
       contents:content_id (id, type, content_locales(locale, title, thumbnail_url))
     `)
     .eq('id', recordId)
@@ -80,7 +102,7 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     source_url: record.source_url,
     created_at: record.created_at,
     updated_at: record.updated_at,
-    user: record.profiles as Record['user'],
+    user: toRecordUser(record.profiles),
     content_info: contentInfo,
     like_count: likeCount || 0,
     comment_count: commentCount || 0,

@@ -143,10 +143,11 @@ export async function suspendReportedUser(
   if (trimmed.length === 0) throw new Error('정지 사유를 입력해달라')
 
   const supabase = createAdminClient()
+  // 계정 정지는 계정 기록에 적는다. profiles.status 는 인물 공개 상태라 다른 축이다(26.08.07 분리).
   const { error } = await supabase
-    .from('profiles')
+    .from('user_accounts')
     .update({
-      status: 'suspended',
+      account_status: 'suspended',
       suspended_at: new Date().toISOString(),
       suspended_reason: trimmed,
     })
@@ -164,8 +165,8 @@ export async function unsuspendReportedUser(reportId: string, userId: string): P
 
   const supabase = createAdminClient()
   const { error } = await supabase
-    .from('profiles')
-    .update({ status: 'active', suspended_at: null, suspended_reason: null })
+    .from('user_accounts')
+    .update({ account_status: 'active', suspended_at: null, suspended_reason: null })
     .eq('id', userId)
 
   if (error) throw new Error(`정지 해제 실패: ${error.message}`)
