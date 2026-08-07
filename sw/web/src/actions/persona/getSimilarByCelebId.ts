@@ -1,8 +1,7 @@
 'use server'
 
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedList, cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import type { PersonaJsonb, PersonaProfile, PersonaStats } from '@/lib/persona/types'
@@ -168,11 +167,9 @@ async function fetchAllPersonaVectors(): Promise<PersonaVectorRow[]> {
   })
 }
 
-const getAllPersonaVectorsCached = unstable_cache(
-  fetchAllPersonaVectors,
-  ['all-persona-vectors'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA] }
-)
+/* 성향 벡터 전량 — 한 명이 바뀌어도 비교 대상 전체가 달라지므로 목록으로 다룬다 */
+const getAllPersonaVectorsCached = () =>
+  cachedList(CACHE_TAGS.PERSONA, ['all-persona-vectors'], fetchAllPersonaVectors)
 
 // 대상 셀럽 1명분: 레이더 근거(rationale/reason) 표시를 위해 persona jsonb 원본과
 // 생몰일·title까지 포함해 단건 조회한다. 1행이라 캐시 한도와 무관하다.
@@ -190,11 +187,10 @@ async function fetchPersonaByCelebId(celebId: string): Promise<PersonaJoinRow | 
 }
 
 function getPersonaByCelebIdCached(celebId: string): Promise<PersonaJoinRow | null> {
-  return unstable_cache(
-    () => fetchPersonaByCelebId(celebId),
-    ['persona-by-id', celebId],
-    { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA] }
-  )()
+  // 인물 한 명의 성향 — 항목 태그를 단다. 인물 자료가 바뀔 때도 함께 비워지도록 인물 도메인을 곁들인다
+  return cachedDetail(CACHE_TAGS.PERSONA, celebId, ['persona-by-id', celebId], () => fetchPersonaByCelebId(celebId), {
+    extraTags: [CACHE_TAGS.CELEBS],
+  })
 }
 
 function targetToProfile(row: PersonaJoinRow, isEn: boolean): PersonaProfile {

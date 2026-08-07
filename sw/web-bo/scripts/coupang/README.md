@@ -75,14 +75,21 @@ node audit-linked.mjs
 
 ## 넣은 뒤
 
-자료를 직접 고친 경우 화면 캐시가 최대 7일간 옛 값을 붙든다. 백오피스를 거치지
-않았으므로 무효화가 자동으로 일어나지 않는다.
+자료를 직접 고친 경우 화면 캐시가 옛 값을 붙든다. 백오피스를 거치지 않았으므로
+무효화가 자동으로 일어나지 않는다.
+
+**고친 건수만큼만 비운다.** 한 건이면 그 한 건의 태그를 보낸다.
 
 ```bash
 curl -X POST https://feelandnote.com/api/revalidate \
   -H "Content-Type: application/json" \
-  -d '{"tag":"contents","secret":"<CRON_SECRET>"}'
+  -d '{"tag":"contents:<content_id>","secret":"<CRON_SECRET>"}'
+
+# 여러 건이면 배열로
+  -d '{"tag":["contents:<id1>","contents:<id2>"],"secret":"..."}'
 ```
 
-인물·진영 목록은 `celebs` 태그도 함께 비운다. **무효화를 남발하지 마라** — 비울
-때마다 화면이 다시 만들어져 Vercel ISR 쓰기를 소모한다.
+🔴 `{"tag":"contents"}`처럼 도메인만 보내지 마라. 작품 화면 10,640장이 전부 낡은
+것으로 처리되고 그 뒤 방문·크롤링마다 재생성이 쌓인다. 26.08.08에 이 작업을 하며
+도메인 비우기를 여러 번 부른 탓에 하루 만에 ISR 쓰기가 61만에서 110만으로 늘었다
+(무료 한도 20만). 목록 화면은 1시간 수명이라 따로 비울 필요가 없다.

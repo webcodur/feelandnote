@@ -1,7 +1,6 @@
 'use server'
 
 import { cache } from 'react'
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -20,7 +19,7 @@ import type { ContentType, ContentStatus } from '@/types/database'
 import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail } from '@/lib/cache'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -196,11 +195,15 @@ async function fetchContentDataPublic(
 // 셀럽 프로필과 같은 수명을 준다. 사이트맵에 콘텐츠 상세 13,330면을 등재(2026-07-15)한 뒤로는
 // 크롤러 스윕마다 이 조회가 콜드 미스를 내던 구간이라 1시간 수명이 그대로 egress가 됐다.
 // 감상문 피드(getReviewFeed)는 사용자 활동으로 변하므로 1시간을 유지한다.
-const fetchContentDataPublicCached = unstable_cache(
-  fetchContentDataPublic,
-  ['content-data-public'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CONTENTS] }
-)
+/* 작품 한 건짜리 조회 — 항목 태그를 달아 그 한 건만 비울 수 있게 한다.
+   여기서 받는 contentId는 UUID일 수도 external_id일 수도 있어 그대로 식별자로 쓴다. */
+const fetchContentDataPublicCached = (contentId: string, category: CategoryId | null, locale: string) =>
+  cachedDetail(
+    CACHE_TAGS.CONTENTS,
+    contentId,
+    ['content-data-public', contentId, category ?? '', locale],
+    () => fetchContentDataPublic(contentId, category, locale),
+  )
 // #endregion
 
 // #region 본인 기록 (인증 의존, 캐시 외부)

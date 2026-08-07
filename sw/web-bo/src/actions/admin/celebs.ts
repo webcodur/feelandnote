@@ -5,7 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
 import { notifyIndexNow } from '@/lib/indexnow'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCache, revalidateWebItem } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { requireAdmin } from '@/lib/admin-auth'
@@ -954,7 +954,7 @@ export async function toggleCelebTier(celebId: string, currentTier: string): Pro
 
   revalidatePath('/celebs')
   // profiles.celeb_tier
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
+  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
 
@@ -1285,7 +1285,7 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
 
   revalidatePath('/celebs/[slug]/contents', 'page')
   // user_contents 삭제 — 셀럽 서고와 콘텐츠 보유자 목록 양쪽에서 빠진다
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
+  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId, [CACHE_TAGS.CONTENTS])
 }
 // #endregion
 
@@ -1360,7 +1360,7 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
   revalidatePath('/celebs/titles')
   revalidatePath('/celebs/[slug]', 'page')
   // profiles.title
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
+  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
 
@@ -1380,7 +1380,7 @@ export async function updateCelebProfession(celebId: string, profession: string 
   revalidatePath('/celebs/professions')
   revalidatePath('/celebs/[slug]', 'page')
   // profiles.profession
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
+  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
 
@@ -1400,7 +1400,7 @@ export async function updateCelebJourney(celebId: string, journey: string | null
   revalidatePath('/celebs/journeys')
   revalidatePath('/celebs/[slug]', 'page')
   // profiles.cultural_journey
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
+  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
 

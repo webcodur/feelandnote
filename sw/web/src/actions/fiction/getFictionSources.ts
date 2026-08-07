@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import type { CategoryId } from '@/constants/categories'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import {
   CL_SELECT,
@@ -204,14 +204,14 @@ export async function getFictionSourcesForCeleb(
   celebId: string,
   locale: string = 'ko',
 ): Promise<FictionSourceContent[]> {
-  return unstable_cache(
-    () => fetchSourcesByCeleb(celebId, locale),
+  // 인물 한 명이 등장하는 원전 — 그 인물 항목 태그를 단다
+  return cachedDetail(
+    CACHE_TAGS.CELEBS,
+    celebId,
     ['fiction-sources-by-celeb', celebId, locale],
-    {
-      revalidate: STATIC_REVALIDATE,
-      tags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CONTENTS],
-    },
-  )()
+    () => fetchSourcesByCeleb(celebId, locale),
+    { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CONTENTS] },
+  )
 }
 
 export async function getFictionCharactersForContent(
@@ -223,12 +223,12 @@ export async function getFictionCharactersForContent(
     return []
   }
 
-  return unstable_cache(
-    () => fetchCharactersByContent(contentId, locale, assignments),
+  // 작품 한 건에 등장하는 인물 — 그 작품 항목 태그를 단다
+  return cachedDetail(
+    CACHE_TAGS.CONTENTS,
+    contentId,
     ['fiction-characters-by-content', contentId, locale],
-    {
-      revalidate: STATIC_REVALIDATE,
-      tags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS],
-    },
-  )()
+    () => fetchCharactersByContent(contentId, locale, assignments),
+    { extraTags: [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS] },
+  )
 }

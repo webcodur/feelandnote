@@ -1,10 +1,8 @@
 'use server'
-
 import { cache } from 'react'
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
@@ -346,13 +344,18 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
   }
 }
 
-const getCelebBySlugCached = unstable_cache(
-  fetchCelebBySlugPublic,
-  // v4: 공개된 인물 안내·인물 탐구를 읽어보기 구획에 추가한다.
-  ['celeb-by-slug-v4'],
-  // profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] }
-)
+/* 인물 한 명짜리 조회라 항목 태그를 단다 — 한 명을 고쳐도 나머지 인물 화면은 그대로 둔다.
+   profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)를 읽는다.
+   여기서는 slug가 곧 그 인물의 식별자다(id를 아직 모르는 시점의 조회다). */
+const getCelebBySlugCached = (slug: string) =>
+  cachedDetail(
+    CACHE_TAGS.CELEBS,
+    slug,
+    // v4: 공개된 인물 안내·인물 탐구를 읽어보기 구획에 추가한다.
+    ['celeb-by-slug-v4', slug],
+    () => fetchCelebBySlugPublic(slug),
+    { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
+  )
 
 // React.cache로 같은 RSC 요청(generateMetadata + default export 등) 안의 중복 호출 dedup
 export const getCelebBySlug = cache(getCelebBySlugInner);

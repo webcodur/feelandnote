@@ -1,9 +1,7 @@
 'use server'
-
-import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail } from '@/lib/cache'
 
 /* ── 인물 생애 행적 ──
    좌표를 가진 항목만 활동반경 지도에 뜬다. 좌표 없는 항목도 연표에는 남는다.
@@ -67,11 +65,10 @@ export async function getCelebTimelineEvents(
   locale: string = 'ko',
 ): Promise<CelebTimelineEvent[]> {
   const isEn = locale === 'en'
-  const rows = await unstable_cache(
-    () => fetchEvents(celebId),
-    ['celeb-timeline-events', celebId],
-    { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] },
-  )()
+  // 인물 한 명의 연표 — 항목 태그를 달아 그 한 명만 비울 수 있게 한다
+  const rows = await cachedDetail(CACHE_TAGS.CELEBS, celebId, ['celeb-timeline-events', celebId], () =>
+    fetchEvents(celebId),
+  )
 
   return rows.map((row) => ({
     id: row.id,
