@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import FactionShowcase from "./FactionShowcase";
 import SharedLibraryView from "./SharedLibraryView";
+import TagOriginBooks from "@/components/features/celeb/TagOriginBooks";
 import FactionTagDrawerDesktop from "./FactionTagDrawerDesktop";
 import FactionTagSheetMobile from "./FactionTagSheetMobile";
 import CelebContentTimeline from "@/components/features/game/shared/CelebContentTimeline";
@@ -173,6 +174,8 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
                 activeTag={activeTag}
                 locale={locale}
               />
+              {/* 이 진영의 원전 — 링크가 걸린 작품이 없거나 영문 화면이면 그리지 않는다 */}
+              <TagOriginBooks tagId={activeTag.id} />
             </div>
           )}
 

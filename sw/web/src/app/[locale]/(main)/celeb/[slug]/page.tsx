@@ -20,6 +20,7 @@ import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
+import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import {
   buildCelebTitleKo,
   buildCelebTitleEn,
@@ -244,6 +245,9 @@ export default async function CelebPage({ params }: PageProps) {
         worldId={worldId}
         worldBannerImages={worldBannerImages}
       />
+
+      {/* 제휴 도서 — 읽은 책·같은 직군·인기 순으로 물러나며 고른다. 영문 화면에서는 그리지 않는다 */}
+      <CelebAffiliateBooks userId={userId} />
     </>
   );
 }

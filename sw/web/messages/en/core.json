@@ -760,18 +760,12 @@
   "popularBooks": {
     "title": "Most Read Books",
     "buyOnCoupang": "View on Coupang",
-    "books": {
-      "odyssey": {
-        "title": "The Odyssey",
-        "subtitle": "A complete translation from Ancient Greek, illustrated with classic art",
-        "creator": "Homer"
-      },
-      "iliad": {
-        "title": "The Iliad",
-        "subtitle": "A complete translation from Ancient Greek, illustrated with classic art",
-        "creator": "Homer"
-      }
-    }
+    "headingRead": "Books this figure read",
+    "headingProfession": "Books read by peers in the same field",
+    "headingOrigin": "Source works featuring this figure",
+    "headingFactionOrigin": "Source works of myth and legend",
+    "headingFactionRead": "Books this circle read",
+    "headingFactionAbout": "Books about this circle"
   },
   "share": {
     "label": "Share",
