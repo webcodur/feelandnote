@@ -133,7 +133,7 @@ function CarouselTabs({
           onClick={() => onSelect(index)}
           aria-current={index === activeIndex}
           className={cn(
-            "min-w-0 flex-1 truncate rounded-md px-1 py-1.5 font-serif text-xs sm:text-sm",
+            "min-w-0 flex-1 truncate rounded-md px-1 py-2 font-serif text-base",
             index === activeIndex
               ? "bg-accent/[0.1] font-bold text-accent"
               : "text-text-secondary hover:bg-white/[0.04] hover:text-text-primary",
@@ -181,7 +181,7 @@ function MetricPanel({
         <h3 className="hidden font-serif text-base font-bold text-text-primary md:block">
           {title}
         </h3>
-        <p className="text-balance break-keep text-xs leading-relaxed text-text-secondary md:mt-1">
+        <p className="text-balance break-keep text-sm leading-relaxed text-text-secondary md:mt-1">
           {description}
         </p>
       </header>
@@ -539,7 +539,7 @@ function MobileMatchButton({
       type="button"
       onClick={onClick}
       className={cn(
-        "mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border border-accent/45 bg-accent/[0.1] px-3 py-2.5 text-center text-xs font-bold text-accent hover:border-accent hover:bg-accent/[0.18] active:bg-accent/[0.24] md:hidden",
+        "mt-3 flex w-full items-center justify-center gap-1.5 rounded-md border border-accent/45 bg-accent/[0.1] px-3 py-2.5 text-center text-sm font-bold text-accent hover:border-accent hover:bg-accent/[0.18] active:bg-accent/[0.24] md:hidden",
         className,
       )}
     >
@@ -712,7 +712,7 @@ function VirtueSummaryGroup({
   return (
     <div className="min-w-0">
       <div className="border-b border-white/[0.07] bg-white/[0.018] px-3 py-1.5">
-        <p className="text-center text-xs font-bold tracking-[0.12em] text-accent/75">
+        <p className="text-center text-sm font-bold tracking-[0.12em] text-accent/75">
           {title}
         </p>
       </div>
@@ -723,7 +723,7 @@ function VirtueSummaryGroup({
             key={item.key}
             className="flex min-w-0 items-center justify-between gap-2 bg-[color:var(--material-panel,var(--color-bg-card))] px-2 py-1.5"
           >
-            <span className="min-w-0 truncate text-xs text-text-secondary">
+            <span className="min-w-0 truncate text-sm text-text-secondary">
               {item.label}
             </span>
             <span className="relative flex h-6 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border border-white/10 bg-black/20">
@@ -741,7 +741,7 @@ function VirtueSummaryGroup({
               />
               <strong
                 className={cn(
-                  "relative z-10 font-serif text-xs tabular-nums",
+                  "relative z-10 font-serif text-sm tabular-nums",
                   item.value >= 80
                     ? "text-accent"
                     : item.value >= 60
@@ -803,7 +803,7 @@ function TendencyBar({
       <div className="flex items-center gap-3">
         <span
           className={cn(
-            "text-center text-xs tracking-tight shrink-0",
+            "text-center text-sm tracking-tight shrink-0",
             labelW,
             activeLabel === "neg"
               ? "text-blue-400 font-bold"
@@ -832,7 +832,7 @@ function TendencyBar({
         </div>
         <span
           className={cn(
-            "text-center text-xs tracking-tight shrink-0",
+            "text-center text-sm tracking-tight shrink-0",
             labelW,
             activeLabel === "pos"
               ? "text-orange-400 font-bold"
