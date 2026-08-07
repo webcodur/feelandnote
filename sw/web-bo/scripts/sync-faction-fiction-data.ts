@@ -349,22 +349,12 @@ async function createDataOnlyProfile(
   folder: string,
   slug: string,
 ): Promise<ProfileRow> {
-  const dummyId = crypto.randomUUID()
-  const email = `celeb_${dummyId}@feelandnote.local`
-  const password = crypto.randomUUID() + crypto.randomUUID()
-  const { data: authData, error: authError } = await client.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,
-  })
-  if (authError) throw authError
-
-  const userId = authData.user.id
+  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
+  const userId = crypto.randomUUID()
   try {
     const { error: profileError } = await client
       .from('profiles')
-      .update(desiredProfile(person, folder, slug))
-      .eq('id', userId)
+      .insert({ id: userId, ...desiredProfile(person, folder, slug) })
     if (profileError) throw profileError
 
     const [social, scores, created] = await Promise.all([
@@ -394,7 +384,8 @@ async function createDataOnlyProfile(
     }
     return created.data as ProfileRow
   } catch (error) {
-    await client.auth.admin.deleteUser(userId)
+    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
+    await client.rpc('delete_auth_user', { target_user_id: userId })
     throw error
   }
 }

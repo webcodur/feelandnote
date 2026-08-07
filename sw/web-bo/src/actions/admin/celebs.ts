@@ -162,8 +162,7 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     created_at: row.created_at || '',
     content_count: resolveCelebContentCount(
       contentCount,
-      row.content_research_status,
-      row.status === 'active'
+      row.content_research_status
     ),
     content_research_status: row.content_research_status || 'open',
     content_research_updated_at: row.content_research_updated_at,
@@ -517,8 +516,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       created_at: celeb.created_at || '',
       content_count: resolveCelebContentCount(
         celeb.content_count || 0,
-        research?.status,
-        celeb.status === 'active'
+      research?.status
       ),
       content_research_status: research?.status || 'open',
       content_research_updated_at: research?.updatedAt || null,
@@ -620,8 +618,7 @@ async function getCelebsByAvatarSort(params: Omit<GetCelebsParams, 'sort'>): Pro
       created_at: row.created_at || '',
       content_count: resolveCelebContentCount(
         contentCounts.get(row.id) || 0,
-        row.content_research_status,
-        row.status === 'active'
+      row.content_research_status
       ),
       content_research_status: row.content_research_status || 'open',
       content_research_updated_at: row.content_research_updated_at || null,
@@ -682,8 +679,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     influence_total: data.celeb_influence?.total_score || 0,
     content_count: resolveCelebContentCount(
       contentCount || 0,
-      data.content_research_status,
-      data.status === 'active'
+      data.content_research_status
     ),
     content_research_status: data.content_research_status || 'open',
     content_research_updated_at: data.content_research_updated_at || null,
@@ -746,27 +742,18 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     }
   }
 
-  // 더미 이메일 생성 (auth.users FK 제약 때문에 필요)
-  const dummyId = crypto.randomUUID()
-  const dummyEmail = `celeb_${dummyId}@feelandnote.local`
-  const dummyPassword = crypto.randomUUID() + crypto.randomUUID()
-
-  // Supabase Admin API로 더미 auth user 생성
-  const { data: authData, error: authError } = await adminClient.auth.admin.createUser({
-    email: dummyEmail,
-    password: dummyPassword,
-    email_confirm: true,
-  })
-
-  if (authError) throw authError
-
-  const userId = authData.user.id
+  // 인물은 로그인 계정을 갖지 않는다.
+  // 26.08.07 이전에는 profiles.id가 auth.users.id를 참조해서, 인물 한 명을 만들 때마다
+  // 가짜 이메일과 무작위 비밀번호로 계정을 하나씩 발급해야 했다. 그 제약(profiles_id_fkey)을
+  // 떼어냈으므로 이제 식별자만 직접 발급해 곧바로 등록한다.
+  const userId = crypto.randomUUID()
 
   try {
-    // profiles 테이블에 셀럽 정보 업데이트
-    const { data: updatedProfile, error: profileError } = await adminClient
+    // profiles에 인물을 등록한다. slug는 nickname_en·slug_suffix로 자동 계산되는 열이다.
+    const { data: insertedProfile, error: profileError } = await adminClient
       .from('profiles')
-      .update({
+      .insert({
+        id: userId,
         nickname,
         nickname_en: nicknameEn,
         slug_suffix: slugSuffix,
@@ -784,13 +771,13 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         status: input.status || 'suspended',
         celeb_tier: NEW_CELEB_TIER,
       })
-      .eq('id', userId)
       .select('slug')
       .single()
 
     if (profileError) throw profileError
-    if (!updatedProfile?.slug) throw new Error('프로필 generated slug가 생성되지 않았습니다.')
-    assertRouteSafeCelebSlug(updatedProfile.slug as string)
+    if (!insertedProfile?.slug) throw new Error('프로필 generated slug가 생성되지 않았습니다.')
+    const createdSlug = insertedProfile.slug as string
+    assertRouteSafeCelebSlug(createdSlug)
 
     // user_social 초기화
     const { error: socialError } = await adminClient.from('user_social').upsert({
@@ -842,14 +829,12 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     // profiles + user_social + user_scores + celeb_influence 신규
     await revalidateWebCache(CACHE_TAGS.CELEBS)
 
-    const { data: createdProfile, error: createdProfileError } = await adminClient
-      .from('profiles').select('slug').eq('id', userId).single()
-    if (createdProfileError) throw createdProfileError
-    if (!createdProfile.slug) throw new Error('생성된 CELEB의 slug가 없습니다.')
-    return { id: userId, slug: createdProfile.slug as string }
+    return { id: userId, slug: createdSlug }
   } catch (err) {
-    // 어느 단계에서 막히든 껍데기 계정만 남지 않도록 되돌린다
-    await adminClient.auth.admin.deleteUser(userId)
+    // 어느 단계에서 막히든 껍데기가 남지 않도록 되돌린다.
+    // 프로필과 계정을 한 트랜잭션에서 지우는 RPC를 쓴다(auth.admin.deleteUser는
+    // confirmation_token NULL 버그로 실패할 수 있고, 프로필도 남긴다).
+    await adminClient.rpc('delete_auth_user', { target_user_id: userId })
     throw err
   }
 }

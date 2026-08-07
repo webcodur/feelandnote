@@ -7,18 +7,22 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 ## 셀럽 테이블
 
 - **`profiles`**: 셀럽 기본 프로필. `profile_type = 'CELEB'`
-  - `celeb_tier` (text, 기본값 `'full'`): `'full'` / `'light'` / `'fiction'` — 파이프라인·노출 차이는 `celeb-pipeline.md` 참조
+  - `celeb_tier` (text, 기본값 `'full'`): `'full'` / `'light'` / `'fiction'` — **DB에 CHECK 제약이 없어 허용값·노출 게이트의 원천은 코드다**(`packages/shared/src/constants/celeb-tiers.ts`). 파이프라인·노출 차이 설명은 `celeb-pipeline.md`
     - **DB CHECK 제약은 없다.** 3종은 코드·운영 규약이며 DB가 값을 강제하지 않는다
     - 실측 분포(2026-08-04): 전체 full 1,461 / light 954 / fiction 255, 그중 active full 1,362 / light 118 / fiction 252
     - 정상적인 실존 인물은 등록 목적과 무관하게 최소 `light`로 둔다
     - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 상단 인물 검색과 대표 원전 연결로 노출하며 승격 대상은 아님
   - `content_research_status` (text, 기본값 `'open'`): `open` / `researching` / `confirmed_empty`
-    - 실제 `user_contents`가 양수면 활성 여부나 조사 상태와 무관하게 그 개수를 표시한다
-    - 실제 0건인 활성 프로필은 `open`·`researching`이면 `0`, `confirmed_empty`면 `-1`이다
-    - 실제 0건인 비활성 프로필은 조사 상태와 무관하게 `-1`이다
+    - 표시값 규약과 조사 대상 범위의 SSoT는 코드다 — `packages/shared/src/constants/celeb-content-research.ts`. 여기 다시 적지 않는다
+    - 요약만: 실제 개수가 양수면 그 값, 0건이면 `confirmed_empty`일 때 `-1`, 아니면 `0`. **노출 상태는 개입하지 않는다**(26.08.07 교정 — 그전에는 비활성이면 조사 여부와 무관하게 `-1`이었다)
     - `content_research_updated_at`, `content_research_confirmed_empty_at`이 변경·확정 시각을 보존
     - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부한다. 신규 `confirmed_empty`는 아래 조사 장부의 완료 함수만 기록할 수 있다
     - 확정 뒤 콘텐츠가 추가되면 트리거가 상태를 `open`으로 자동 복귀시킨다
+  - `status` (text, 기본값 `'active'`): CHECK `active`|`inactive`|`suspended`|`deleted`. **인물에게는 노출 상태 하나만 뜻한다.**
+    - 26.08.07 이전에는 인물마다 로그인 계정이 딸려 있어 이 값이 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 계정을 전량 폐기(`profiles_id_fkey` 제거)하면서 겹침이 사라졌다 — 경위는 `docs/todo/profile-user-celeb-separation-2026-08-07.md`
+    - 실측 분포(26.08.07): active 1,793 / inactive 725 / suspended 224
+    - **목록 노출은 이 값이 아니라 `celeb_tier`가 가른다.** `status`를 조사 여부·관계·태그 배정 같은 다른 판단에 끌어 쓰지 마라 — 같은 사고가 세 번 났다. 판별법과 사고 이력은 `docs/project/celeb/celeb-gotchas.md` §9-1이 SSoT다
+    - 계정 전용 열은 인물에게 쓰지 않는다 — `email`·`suspended_at`·`suspended_reason`·`role`·`last_seen_at`. 26.08.07 인물 2,742명 전원 비웠고 실측 보유 0건이다(회원 17명의 `email`·`role`은 유지). `last_seen_at`은 회원에게도 기록되지 않는 죽은 열이다
   - `speech_tone` (text): 말투 6종. **profiles 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
@@ -72,8 +76,10 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
       content FK·non-fiction 관계는 각각 0건
     - 미연결 2명은 펜테실레이아·멤논. 직접 원전인 소실 서사시
       《아이티오피스》를 후대 작품으로 대체하지 않고 보류
-    - 재현·감사: `sw/web-bo/scripts/sync-fiction-source-rosters.ts`,
-      `sw/web-bo/scripts/audit-fiction-faction-links.ts`
+    - 재현·감사: `sw/web-bo/scripts/audit-fiction-faction-links.ts`
+      (여기 함께 적혀 있던 `sync-fiction-source-rosters.ts`는 저장소에 없다 —
+      26.08.06 확인. 이름이 비슷한 `sync-fiction-profiles.ts`·
+      `sync-faction-fiction-data.ts`가 그 역할을 나눠 가졌는지는 **미확인**)
 - **`celeb_influence`**: 영향력 6축(political/strategic/tech/social/economic/cultural) + transhistoricity
   - 각 6축 CHECK 0~10, transhistoricity CHECK 0~40, total_score CHECK 0~100
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다
@@ -205,7 +211,7 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 > 프레임 기하(눈과 턱이 화면 어디에 오는가)·안전 영역·발주 프롬프트·판정 기준은 **`docs/project/celeb-avatar-spec.md`가 SSoT다.** 아래는 요약이다.
 
-- 얼굴이 화면 대부분을 채우는 타이트한 헤드숏이다. 화면을 100단위로 볼 때 **눈높이 46 · 턱끝 81 · 콧대 가로 50** 셋이 규격이다.
+- 얼굴이 화면 대부분을 채우는 타이트한 헤드숏이다. **눈·턱·콧대의 기준 좌표와 허용 범위는 여기 옮겨 적지 않는다** — 계산에 쓰이는 값은 `sw/web-bo/src/lib/avatar-geometry.ts`의 `AVATAR_SPEC`이 갖고 있고, 그 배경과 판정 절차는 `celeb-avatar-spec.md` §1이다.
 - **머리 위는 자유다.** 머리카락·모자·투구·왕관이 화면 위로 잘려도 무방하다. 다만 이마·눈썹·귀 등 얼굴 자체가 잘리면 불합격이다.
 - **턱 아래도 자유다.** 맨 목·옷깃·갑옷·머리카락 무엇이 채우든 되고 어깨가 안 보여도 된다. 어깨를 담으려고 카메라를 빼지 않는다. 쇄골·가슴이 드러나 상반신이 길어지는 것만 막는다.
 - **얼굴이 없는 인물은 규격 밖이다.** 사토시 나카모토·클로윈디처럼 신원이 공개되지 않은 인물은 눈·턱 기준이 면제되고 사람이 직접 등록한다.
@@ -311,8 +317,10 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 ### QID 배정 규칙
 
 1. **자동 배정 스크립트**: `sw/web/scripts/bulk-qid.mjs` — `wbsearchentities` API로 영문명 매칭
-2. **1차 검증 (필수)**: `sw/web/scripts/verify-qid.mjs` — P31=Q5(인간) 확인
-3. **2차 검증 (필수)**: `sw/web/scripts/verify-qid-birth.mjs` — DB birth_date와 Wikidata P569 생년 대조 (±3년 허용)
+2. **1차 검증 (필수)**: P31=Q5(인간) 확인
+3. **2차 검증 (필수)**: DB `birth_date`와 Wikidata P569 생년 대조 (±3년 허용)
+
+> ⚠️ **검증 도구가 없다** (26.08.06 전수 검색 확인). 이 자리에는 `verify-qid.mjs`·`verify-qid-birth.mjs`가 있다고 적혀 있었으나 저장소에 존재하지 않는다. 실재하는 QID 도구는 배정용 `bulk-qid.mjs` 하나뿐이다. **두 검증을 "필수"로 두려면 도구부터 만들어야 한다** — 그 전까지는 사람이 Wikidata 항목을 직접 열어 확인한다. 검증 없는 자동 배정이 실제로 사고를 냈다 — 라오서에게 미국 여성 소설가(`Q204168`, Lorrie Moore)의 QID가 붙어 있었고 생몰년이 비슷해 이름·설명을 봐야 잡혔다(`docs/project/celeb-avatar-spec.md`에 경위 기록).
 4. **수동 확인**: 2차 검증 미해결 건은 수동 QID 조회. 특히:
    - **BC 인물**: Wikidata 연도 절삭(-384 → -38)으로 거짓 양성 다수. QID 자체는 정상
    - **듀오/그룹**: Coen Brothers, Daft Punk 등 P31≠Q5. description 확인 필요

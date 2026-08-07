@@ -400,8 +400,7 @@ export async function getMember(id: string): Promise<Member | null> {
       profileType === 'CELEB'
         ? resolveCelebContentCount(
             count,
-            data.content_research_status,
-            data.status === 'active'
+      data.content_research_status
           )
         : count || 0,
     content_research_status: data.content_research_status ?? 'open',
@@ -504,8 +503,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
       profileType === 'CELEB'
         ? resolveCelebContentCount(
             count,
-            data.content_research_status,
-            data.status === 'active'
+      data.content_research_status
           )
         : count || 0,
     content_research_status: data.content_research_status ?? 'open',
@@ -601,8 +599,9 @@ export async function hardDeleteMember(memberId: string): Promise<void> {
     await query
   }
 
-  // auth.users에서 삭제 (profiles는 CASCADE로 자동 삭제됨)
-  // auth.admin.deleteUser API는 confirmation_token NULL 버그로 실패할 수 있으므로 RPC 사용
+  // profiles와 auth.users를 한 트랜잭션에서 삭제한다.
+  // 26.08.07 profiles_id_fkey를 떼어냈으므로 계정만 지우면 프로필이 남는다.
+  // auth.admin.deleteUser API는 confirmation_token NULL 버그로 실패할 수 있어 쓰지 않는다.
   const { error } = await adminClient.rpc('delete_auth_user', { target_user_id: memberId })
 
   if (error) throw error

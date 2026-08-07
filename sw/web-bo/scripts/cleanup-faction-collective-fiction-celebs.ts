@@ -104,8 +104,10 @@ async function finalize(db: SupabaseClient): Promise<void> {
   if (factionRefs || discourseRefs) throw new Error(`집단 계정 참조가 남았습니다: faction=${factionRefs}, discourse=${discourseRefs}`)
   let deleted = 0
   for (const id of backup.profileIds) {
-    const { error } = await db.auth.admin.deleteUser(id)
-    if (error) throw new Error(`집단 Auth 삭제 실패 ${id}: ${error.message}`)
+    // profiles와 auth를 한 트랜잭션에서 지운다. 26.08.07 profiles_id_fkey를 떼어낸 뒤로
+    // 계정만 지우면 프로필이 그대로 남는다.
+    const { error } = await db.rpc('delete_auth_user', { target_user_id: id })
+    if (error) throw new Error(`집단 인물 삭제 실패 ${id}: ${error.message}`)
     deleted++
   }
   console.log(`집단형 fiction Auth/CELEB 계정 삭제: ${deleted}개`)

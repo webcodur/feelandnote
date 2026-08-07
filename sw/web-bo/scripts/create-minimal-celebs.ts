@@ -34,28 +34,19 @@ interface Person {
 }
 
 async function createOne(sb: SupabaseClient, person: Person) {
-  const email = `celeb_${crypto.randomUUID()}@feelandnote.local`
-  const password = crypto.randomUUID() + crypto.randomUUID()
+  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
+  const userId = crypto.randomUUID()
 
-  const { data: authData, error: authError } = await sb.auth.admin.createUser({
-    email, password, email_confirm: true,
-  })
-  if (authError) throw authError
-  const userId = authData.user.id
-
-  const { error: updErr } = await sb.from('profiles').update({
+  const { data: created, error: insErr } = await sb.from('profiles').insert({
+    id: userId,
     profile_type: 'CELEB',
     nickname: person.nickname,
     nickname_en: person.nickname_en,
     celeb_tier: 'light',
     status: 'inactive',
     is_verified: false,
-  }).eq('id', userId)
-  if (updErr) throw updErr
-
-  const { data: created, error: readErr } = await sb
-    .from('profiles').select('slug').eq('id', userId).single()
-  if (readErr) throw readErr
+  }).select('slug').single()
+  if (insErr) throw insErr
   if (created.slug !== person.expected_slug) {
     throw new Error(`${person.nickname}: 생성된 slug ${created.slug} != 예상 ${person.expected_slug}`)
   }

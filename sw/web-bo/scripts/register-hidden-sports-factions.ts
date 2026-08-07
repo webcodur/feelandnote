@@ -133,17 +133,11 @@ async function createMinimalCeleb(db: SupabaseClient, seed: ProfileSeed): Promis
     }
   }
 
-  const dummyId = randomUUID()
-  const { data: authData, error: authError } = await db.auth.admin.createUser({
-    email: `celeb_${dummyId}@feelandnote.local`,
-    password: randomUUID() + randomUUID(),
-    email_confirm: true,
-  })
-  if (authError) throw authError
-
-  const userId = authData.user.id
+  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
+  const userId = randomUUID()
   try {
-    const { data: profile, error: profileError } = await db.from('profiles').update({
+    const { data: profile, error: profileError } = await db.from('profiles').insert({
+      id: userId,
       nickname: seed.nickname,
       nickname_en: seed.nicknameEn,
       slug_suffix: slugSuffix,
@@ -155,7 +149,7 @@ async function createMinimalCeleb(db: SupabaseClient, seed: ProfileSeed): Promis
       bio: null,
       consumption_philosophy: null,
       is_verified: false,
-    }).eq('id', userId).select('id,slug,nickname,nickname_en,status').single()
+    }).select('id,slug,nickname,nickname_en,status').single()
     if (profileError) throw profileError
     assertRouteSafeCelebSlug(profile.slug as string)
 
@@ -171,7 +165,8 @@ async function createMinimalCeleb(db: SupabaseClient, seed: ProfileSeed): Promis
     if (scoreError) throw scoreError
     return profile as ProfileRow
   } catch (error) {
-    await db.auth.admin.deleteUser(userId)
+    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
+    await db.rpc('delete_auth_user', { target_user_id: userId })
     throw error
   }
 }

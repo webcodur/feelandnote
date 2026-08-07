@@ -5,12 +5,12 @@ import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 import { type ActionResult, failure } from '@/lib/errors'
 
-// #region 삭제 순서 주의사항
-// profiles.id와 auth.users.id가 외래키로 연결되어 있지 않음 (셀럽 프로필 때문)
-// 따라서 반드시 아래 순서를 지켜야 함:
-// 1. profiles 삭제 → CASCADE로 user_contents, records, playlists, follows 등 삭제
-// 2. auth.users 삭제 → CASCADE로 saved_playlists, categories 삭제
-// 순서를 바꾸면 profiles 및 연결 데이터가 고아 데이터로 남게 됨
+// #region 삭제 방식
+// delete_auth_user RPC가 profiles와 auth.users를 한 트랜잭션에서 지운다.
+// profiles가 지워지면 user_contents·records·follows 등 자식 행은 각자의 CASCADE로 정리된다.
+// 클라이언트에서 두 번에 나눠 지우면 뒤 단계가 실패했을 때 로그인은 되는데
+// 프로필이 없는 계정이 남는다(26.08.07 그렇게 생긴 고아 계정 18건을 정리했다).
+// auth.admin.deleteUser는 confirmation_token NULL 버그로 실패할 수 있어 쓰지 않는다.
 // #endregion
 
 export async function deleteAccount(): Promise<ActionResult<null>> {
@@ -30,24 +30,14 @@ export async function deleteAccount(): Promise<ActionResult<null>> {
     { auth: { autoRefreshToken: false, persistSession: false } }
   )
 
-  // 1. profiles 삭제 (CASCADE로 연결된 모든 데이터 자동 삭제)
-  // profiles → user_contents, records, playlists, follows, etc. 모두 CASCADE
-  const { error: profileError } = await supabaseAdmin
-    .from('profiles')
-    .delete()
-    .eq('id', user.id)
-
-  if (profileError) {
-    console.error('[회원탈퇴] 프로필 삭제 실패:', profileError)
-    return failure('DB_ERROR', '회원탈퇴에 실패했다. 잠시 후 다시 시도해달라.')
-  }
-
-  // 2. auth.users 삭제
-  const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
+  // auth.users 삭제 → CASCADE로 profiles 및 연결 데이터 전부 정리
+  const { error: deleteError } = await supabaseAdmin.rpc('delete_auth_user', {
+    target_user_id: user.id,
+  })
 
   if (deleteError) {
-    console.error('[회원탈퇴] auth 사용자 삭제 실패:', deleteError)
-    // profiles는 이미 삭제됨, auth만 남은 상태 (큰 문제는 아님)
+    console.error('[회원탈퇴] 계정 삭제 실패:', deleteError)
+    return failure('DB_ERROR', '회원탈퇴에 실패했다. 잠시 후 다시 시도해달라.')
   }
 
   // 현재 세션 로그아웃
