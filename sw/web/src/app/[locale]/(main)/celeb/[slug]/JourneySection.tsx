@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, ArrowRight, Columns2, Globe, List, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
@@ -163,9 +163,9 @@ export default function JourneySection({ events }: Props) {
   const sideBySide = view === "both";
 
   const tabs = [
-    { key: "both" as const, label: t("timelineViewBoth"), icon: Columns2 },
-    { key: "timeline" as const, label: t("timelineViewList"), icon: List },
-    { key: "atlas" as const, label: t("timelineViewMap"), icon: Globe },
+    { key: "both" as const, label: t("timelineViewBoth") },
+    { key: "timeline" as const, label: t("timelineViewList") },
+    { key: "atlas" as const, label: t("timelineViewMap") },
   ];
 
   return (
@@ -173,7 +173,6 @@ export default function JourneySection({ events }: Props) {
       {hasMap && (
         <div className="grid grid-cols-3 border-b border-accent-dim/25">
           {tabs.map((tab) => {
-            const Icon = tab.icon;
             const on = view === tab.key;
             return (
               <button
@@ -181,13 +180,12 @@ export default function JourneySection({ events }: Props) {
                 type="button"
                 onClick={() => setMode(tab.key)}
                 aria-pressed={on}
-                className={`flex items-center justify-center gap-1.5 truncate py-2 text-sm font-medium cursor-pointer ${
+                className={`flex items-center justify-center truncate py-2 text-sm font-medium cursor-pointer ${
                   on
                     ? "text-accent border-b-2 border-accent"
                     : " hover:text-text-primary"
                 }`}
               >
-                <Icon size={15} strokeWidth={1.8} aria-hidden />
                 <span className="truncate">{tab.label}</span>
               </button>
             );
