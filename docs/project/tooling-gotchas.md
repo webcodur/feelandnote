@@ -365,3 +365,21 @@ suikoden: fetchSuikodenDialogues → Record<string, SuikodenLines> round-trip �
 - 클래스 인스턴스: 사용처 없음. Supabase SDK 응답은 plain object다.
 
 **잠복 위험**: `library/helpers.ts`의 `fetchGlobalCelebCounts`·`fetchUserContentCounts`가 `Map<string, number>`를 반환한다. 현재 `unstable_cache`로 감싸지 않아 무해하지만, **누군가 캐시를 씌우면 즉시 터진다.** 함수 위에 `// ⚠️ Map 반환 — unstable_cache로 감싸지 마라` 주석이 필요하다.
+
+## 11. 화면 점검에 Claude in Chrome 확장을 쓰지 마라 (2026-08-08)
+
+로컬 개발 화면을 눈으로 확인할 때 `mcp__claude-in-chrome__*` 확장 도구를 쓰지 않는다. **유저가 쓰는 크롬에 얹혀 들어가는 방식**이라 다음이 실제로 벌어졌다.
+
+- 유저가 자기 창인 줄 알고 닫아 작업이 끊기고, 반대로 AI가 연 탭이 유저 화면을 차지한다.
+- 창이 최소화되거나 뒤에 가리면 **페이지 그리기가 멈춘다.** 이 상태에서 캡처는 실패하지 않고 **이전 장면을 그대로 돌려준다.** 스크롤 명령도 먹지 않는다(`scrollIntoView` 후 `scrollTop`이 0, `elementFromPoint`가 빈 값, `document.visibilityState === "hidden"`). 그걸 모르고 옛 화면을 보며 판단하면 엉뚱한 결론이 나온다.
+- 뷰포트 크기를 정할 수 없다. `resize_window`가 성공을 반환해도 `innerWidth`가 안 바뀐다(확장 패널이 자리를 차지해 창을 넓혀도 페이지는 좁게 뜬다).
+
+**대신 `/ui-shot` 스킬을 쓴다.** 저장소에 이미 있는 puppeteer로 화면 없는 별도 브라우저를 띄워 구획별로 캡처한다. 유저 브라우저와 완전히 무관하고, 뷰포트를 원하는 크기로 정할 수 있다.
+
+```bash
+node .claude/skills/ui-shot/shoot.mjs "http://localhost:3000/ko/celeb/bill-gates" mobile <출력폴더>
+```
+
+확장은 **로그인이 걸린 외부 사이트**를 다룰 때만 쓴다.
+
+> **캡처가 안 될 때 수치 측정으로 때우지 마라.** 글자 크기·여백·넘침은 재서 알 수 있지만, 사진이 잘렸는지·기호만 있고 뜻을 알 수 없는지·값이 없어 줄표가 허공에 떴는지는 **보아야 안다.** 2026-08-08 인물 상세 점검에서 측정만으로 한 바퀴 돈 뒤 캡처로 다시 보니 표지가 좌우 40% 잘려 제목을 못 읽는 상태였다.
