@@ -7,7 +7,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Search, X, ArrowUpDown, LayoutGrid, List, ChevronsDownUp, ChevronsUpDown } from "lucide-react";
+import { Search, X, LayoutGrid, List, ChevronsDownUp, ChevronsUpDown } from "lucide-react";
 import { FilterChipDropdown, FilterChip, FilterModal, type FilterOption } from "@/components/shared/filters";
 import type { SortOption, ReviewFilter, ViewMode } from "../contentLibraryTypes";
 import type { ContentTypeCounts } from "@/types/content";
@@ -130,7 +130,6 @@ export default function ArchiveControlBar({
             options={sortOptions}
             currentValue={sortOption}
             onSelect={(v) => onSortOptionChange(v as SortOption)}
-            icon={<ArrowUpDown size={14} />}
           />
         </div>
 
@@ -155,7 +154,6 @@ export default function ArchiveControlBar({
             value={currentSortLabel}
             isActive={sortOption !== "recent"}
             onClick={() => setActiveFilter("sort")}
-            icon={<ArrowUpDown size={12} />}
             className="min-w-0 basis-full"
           />
         </div>
