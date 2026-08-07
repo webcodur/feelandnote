@@ -67,7 +67,6 @@ export default function PeopleAndEraTabs({
   const tabs: ArchiveTabItem<PeopleAndEraTab>[] = TAB_KEYS.map((key) => ({
     key,
     label: tabItems[key].label,
-    icon: tabItems[key].icon,
   }));
 
   return (

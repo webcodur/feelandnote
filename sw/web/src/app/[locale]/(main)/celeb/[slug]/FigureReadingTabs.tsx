@@ -41,7 +41,6 @@ export default function FigureReadingTabs({ item, reading }: Props) {
   const tabs: ArchiveTabItem<ReadingTab>[] = TAB_KEYS.map((key) => ({
     key,
     label: tabItems[key]!.label,
-    icon: tabItems[key]!.icon,
   }));
 
   return (
