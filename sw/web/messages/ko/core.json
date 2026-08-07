@@ -764,10 +764,9 @@
     "headingRead": "이 인물이 읽은 책",
     "headingProfession": "같은 분야 인물들이 읽은 책",
     "headingOrigin": "이 인물이 등장하는 원전",
-    "headingFactionOrigin": "신화와 전설의 원전",
-    "headingFactionRead": "이 진영이 읽은 책",
+    "headingFactionRead": "이 진영의 인물들이 읽은 책",
     "headingFactionAbout": "이 진영을 다룬 책",
-    "headingFactionTopic": "이 진영이 다루는 분야의 책"
+    "headingFactionTopic": "이 진영과 관련된 책"
   },
   "share": {
     "label": "공유",
