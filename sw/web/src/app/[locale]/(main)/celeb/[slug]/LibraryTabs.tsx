@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
-import { CELEB_SERVICE_ICONS } from "./celebServiceIcons";
 
 type LibraryTab = "consume" | "create";
 
@@ -32,8 +31,8 @@ export default function LibraryTabs({
   const [tab, setTab] = useState<LibraryTab>("consume");
 
   const tabs: ArchiveTabItem<LibraryTab>[] = [
-    { key: "consume", label: t("tabConsume"), icon: CELEB_SERVICE_ICONS.library },
-    { key: "create", label: t("tabCreate"), icon: CELEB_SERVICE_ICONS.works },
+    { key: "consume", label: t("tabConsume") },
+    { key: "create", label: t("tabCreate") },
   ];
 
   return (

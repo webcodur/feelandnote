@@ -41,12 +41,10 @@ export default function FigureAnalysisTabs({
     {
       key: "persona",
       label: personaItem.label,
-      icon: personaItem.icon,
     },
     {
       key: "influence",
       label: influenceItem.label,
-      icon: influenceItem.icon,
     },
   ];
 
@@ -58,7 +56,6 @@ export default function FigureAnalysisTabs({
         onChange={setTab}
         columnsClassName="grid-cols-2"
         ariaLabel={t("analysis")}
-        hideIconsOnMobile
         mobileTextClassName="text-lg"
       />
 

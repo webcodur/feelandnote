@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import type { LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 export interface ArchiveTabItem<T extends string> {
   key: T;
   label: string;
-  icon: LucideIcon;
 }
 
 interface Props<T extends string> {
@@ -17,7 +15,6 @@ interface Props<T extends string> {
   onChange: (key: T) => void;
   columnsClassName: string;
   ariaLabel: string;
-  hideIconsOnMobile?: boolean;
   mobileTextClassName?: string;
 }
 
@@ -27,11 +24,8 @@ export default function ArchiveTabsHeader<T extends string>({
   onChange,
   columnsClassName,
   ariaLabel,
-  hideIconsOnMobile = false,
   mobileTextClassName,
 }: Props<T>) {
-  const isDense = tabs.length >= 3;
-
   /* 포커스 박스는 마우스를 우선 따르고, 손을 떼면 고른 탭으로 돌아온다.
      칸이 균등 분할이라 자기 폭의 배수만큼 밀면 정확히 각 칸에 얹힌다. */
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -60,7 +54,6 @@ export default function ArchiveTabsHeader<T extends string>({
       )}
 
       {tabs.map((item, index) => {
-        const Icon = item.icon;
         const isActive = activeKey === item.key;
 
         return (
@@ -76,20 +69,11 @@ export default function ArchiveTabsHeader<T extends string>({
             onFocus={() => setHoveredIndex(index)}
             onBlur={() => setHoveredIndex(null)}
             className={cn(
-              "relative flex items-center justify-center px-1 text-center text-base font-medium leading-none sm:h-16 sm:flex-row sm:gap-2.5 sm:px-2 sm:text-[22px]",
+              "relative flex h-12 items-center justify-center px-1 text-center text-base font-medium leading-none sm:h-16 sm:px-2 sm:text-[22px]",
               mobileTextClassName,
-              isDense
-                ? "h-12 flex-col gap-1"
-                : "h-12 flex-row gap-1.5",
               isActive ? "text-accent" : "",
             )}
           >
-            <Icon
-              size={20}
-              strokeWidth={1.8}
-              className={cn("shrink-0", hideIconsOnMobile && "hidden sm:block")}
-              aria-hidden
-            />
             <span className="min-w-0 truncate leading-none">{item.label}</span>
           </button>
         );
