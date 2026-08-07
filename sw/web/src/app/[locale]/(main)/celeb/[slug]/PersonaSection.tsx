@@ -63,6 +63,120 @@ function getRationale(
     : jsonb.rationale_ko;
 }
 
+// ─── 옆으로 넘겨보는 묶음 ───────────────────────────
+
+/** 가로 스냅 스크롤 묶음의 현재 위치를 추적하고 특정 장으로 보낸다 */
+function useSnapCarousel(count: number) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollTo = (nextIndex: number) => {
+    const boundedIndex = Math.max(0, Math.min(count - 1, nextIndex));
+    const container = ref.current;
+    const target = container?.children[boundedIndex] as HTMLElement | undefined;
+    if (!container || !target) return;
+
+    container.scrollTo({
+      left:
+        target.getBoundingClientRect().left -
+        container.getBoundingClientRect().left +
+        container.scrollLeft,
+      behavior: "smooth",
+    });
+    setActiveIndex(boundedIndex);
+  };
+
+  const syncIndex = () => {
+    const container = ref.current;
+    if (!container) return;
+
+    const containerLeft = container.getBoundingClientRect().left;
+    let closestIndex = 0;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    (Array.from(container.children) as HTMLElement[]).forEach((card, index) => {
+      const distance = Math.abs(
+        card.getBoundingClientRect().left - containerLeft,
+      );
+      if (distance < closestDistance) {
+        closestIndex = index;
+        closestDistance = distance;
+      }
+    });
+
+    setActiveIndex((current) =>
+      current === closestIndex ? current : closestIndex,
+    );
+  };
+
+  return { ref, activeIndex, scrollTo, syncIndex };
+}
+
+/** 넘겨보는 묶음의 좌우 이동 단추와 현재 위치 표시 */
+function CarouselControls({
+  activeIndex,
+  total,
+  onSelect,
+  previousLabel,
+  nextLabel,
+  className,
+}: {
+  activeIndex: number;
+  total: number;
+  onSelect: (index: number) => void;
+  previousLabel: string;
+  nextLabel: string;
+  className?: string;
+}) {
+  const buttonClass =
+    "flex h-8 w-8 items-center justify-center rounded-md border border-accent-dim/25 text-accent-dim hover:border-accent/60 hover:bg-accent/[0.07] hover:text-accent active:bg-accent/[0.12] disabled:pointer-events-none disabled:border-white/[0.06] disabled:text-white/15";
+
+  return (
+    <div className={cn("flex items-center justify-center gap-3", className)}>
+      <button
+        type="button"
+        onClick={() => onSelect(activeIndex - 1)}
+        disabled={activeIndex === 0}
+        aria-label={previousLabel}
+        className={buttonClass}
+      >
+        <ArrowLeft size={16} aria-hidden />
+      </button>
+
+      <div className="flex items-center gap-1.5">
+        {Array.from({ length: total }, (_, index) => (
+          <button
+            key={index}
+            type="button"
+            onClick={() => onSelect(index)}
+            aria-label={`${index + 1} / ${total}`}
+            aria-current={index === activeIndex}
+            className="p-1.5"
+          >
+            <span
+              aria-hidden
+              className={cn(
+                "block h-1 w-6 rounded-full",
+                index === activeIndex ? "bg-accent" : "bg-white/15",
+              )}
+            />
+          </button>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => onSelect(activeIndex + 1)}
+        disabled={activeIndex === total - 1}
+        aria-label={nextLabel}
+        className={buttonClass}
+      >
+        <ArrowRight size={16} aria-hidden />
+      </button>
+    </div>
+  );
+}
+
 // ─── 섹션 헤더 ──────────────────────────────────────
 
 function SectionHeader({ title }: { title: string }) {
@@ -466,8 +580,12 @@ function PersonaMatchGroupsModal({
 }) {
   const t = useTranslations("celebPage");
   const titleId = useId();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const {
+    ref: carouselRef,
+    activeIndex,
+    scrollTo: scrollToCategory,
+    syncIndex,
+  } = useSnapCarousel(categories.length);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -485,40 +603,6 @@ function PersonaMatchGroupsModal({
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose, suspended]);
-
-  const scrollToCategory = (nextIndex: number) => {
-    const boundedIndex = Math.max(0, Math.min(categories.length - 1, nextIndex));
-    const target = carouselRef.current?.children[boundedIndex] as
-      | HTMLElement
-      | undefined;
-    if (!target || !carouselRef.current) return;
-    const container = carouselRef.current;
-    const targetLeft =
-      target.getBoundingClientRect().left -
-      container.getBoundingClientRect().left +
-      container.scrollLeft;
-    container.scrollTo({ left: targetLeft, behavior: "smooth" });
-    setActiveIndex(boundedIndex);
-  };
-
-  const syncIndex = () => {
-    const container = carouselRef.current;
-    if (!container) return;
-    const cards = Array.from(container.children) as HTMLElement[];
-    const containerLeft = container.getBoundingClientRect().left;
-    let closestIndex = 0;
-    let closestDistance = Number.POSITIVE_INFINITY;
-    cards.forEach((card, index) => {
-      const distance = Math.abs(
-        card.getBoundingClientRect().left - containerLeft,
-      );
-      if (distance < closestDistance) {
-        closestIndex = index;
-        closestDistance = distance;
-      }
-    });
-    setActiveIndex(closestIndex);
-  };
 
   const title =
     categories.length > 1
@@ -556,29 +640,14 @@ function PersonaMatchGroupsModal({
         </header>
 
         {categories.length > 1 ? (
-          <div className="flex items-center justify-center gap-2 border-b border-white/[0.06] py-2">
-            <button
-              type="button"
-              onClick={() => scrollToCategory(activeIndex - 1)}
-              disabled={activeIndex === 0}
-              aria-label={isEn ? "Previous comparison" : "이전 비교"}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-accent-dim/25 text-accent-dim hover:border-accent/60 hover:bg-accent/[0.06] hover:text-accent disabled:opacity-20"
-            >
-              <ArrowLeft size={16} aria-hidden />
-            </button>
-            <span className="min-w-12 text-center font-mono text-xs text-text-secondary">
-              {activeIndex + 1} / {categories.length}
-            </span>
-            <button
-              type="button"
-              onClick={() => scrollToCategory(activeIndex + 1)}
-              disabled={activeIndex === categories.length - 1}
-              aria-label={isEn ? "Next comparison" : "다음 비교"}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-accent-dim/25 text-accent-dim hover:border-accent/60 hover:bg-accent/[0.06] hover:text-accent disabled:opacity-20"
-            >
-              <ArrowRight size={16} aria-hidden />
-            </button>
-          </div>
+          <CarouselControls
+            activeIndex={activeIndex}
+            total={categories.length}
+            onSelect={scrollToCategory}
+            previousLabel={isEn ? "Previous comparison" : "이전 비교"}
+            nextLabel={isEn ? "Next comparison" : "다음 비교"}
+            className="border-b border-white/[0.06] py-1.5"
+          />
         ) : null}
 
         <div className="overflow-y-auto overscroll-contain p-3 [overflow-anchor:none] custom-scrollbar">
@@ -816,8 +885,6 @@ export default function PersonaSection({
     closeCelebPreview,
   } = useCelebPreview("persona");
   const [showDetail, setShowDetail] = useState(false);
-  const [dispositionCompareIndex, setDispositionCompareIndex] = useState(0);
-  const dispositionCompareRef = useRef<HTMLDivElement>(null);
   const [mobileMatchCategories, setMobileMatchCategories] = useState<
     PersonaMatchCategory[] | null
   >(null);
@@ -848,47 +915,121 @@ export default function PersonaSection({
     ["disposition", "opposite"] as PersonaMatchCategory[]
   ).filter((category) => matchesByCategory[category].length > 0);
 
-  const scrollToDispositionComparison = (nextIndex: number) => {
-    const boundedIndex = Math.max(
-      0,
-      Math.min(dispositionCompareCategories.length - 1, nextIndex),
-    );
-    const container = dispositionCompareRef.current;
-    const target = container?.children[boundedIndex] as HTMLElement | undefined;
+  const {
+    ref: dispositionCompareRef,
+    activeIndex: dispositionCompareIndex,
+    scrollTo: scrollToDispositionComparison,
+    syncIndex: syncDispositionCompareIndex,
+  } = useSnapCarousel(dispositionCompareCategories.length);
 
-    if (container && target) {
-      const targetLeft =
-        target.getBoundingClientRect().left -
-        container.getBoundingClientRect().left +
-        container.scrollLeft;
-      container.scrollTo({ left: targetLeft, behavior: "smooth" });
-      setDispositionCompareIndex(boundedIndex);
-    }
-  };
+  const abilityPanel = (
+    <MetricPanel title={t("ability")} tone="border-t-emerald-300/35">
+      <div className="space-y-2">
+        {ABILITY_KEYS.map((key) => (
+          <VirtueBar
+            key={key}
+            label={ts(key)}
+            value={persona[key]}
+            reason={localizePersonaText(
+              getReasonFromJsonb(personaJsonb, "abilities", key, locale),
+              locale,
+            )}
+            isEn={isEn}
+            showReason={showDetail}
+          />
+        ))}
+        {matchesByCategory.ability.length > 0 ? (
+          <MobileMatchButton
+            label={t("personaMatch_ability")}
+            onClick={() => setMobileMatchCategories(["ability"])}
+          />
+        ) : null}
+      </div>
+    </MetricPanel>
+  );
 
-  const syncDispositionCompareIndex = () => {
-    const container = dispositionCompareRef.current;
-    if (!container) return;
+  const dispositionPanel = (
+    <MetricPanel title={t("coreDisposition")} tone="border-t-blue-400/35">
+      <div className="space-y-2">
+        {TENDENCY_KEYS.map((key) => (
+          <TendencyBar
+            key={key}
+            neg={tendencyLabels[key][0]}
+            pos={tendencyLabels[key][1]}
+            value={persona[key]}
+            reason={localizePersonaText(
+              getReasonFromJsonb(personaJsonb, "dispositions", key, locale),
+              locale,
+            )}
+            isEn={isEn}
+            showReason={showDetail}
+          />
+        ))}
+        {dispositionCompareCategories.length > 0 ? (
+          <MobileMatchButton
+            label={t("personaMatches")}
+            onClick={() =>
+              setMobileMatchCategories(dispositionCompareCategories)
+            }
+          />
+        ) : null}
+      </div>
+    </MetricPanel>
+  );
 
-    const cards = Array.from(container.children) as HTMLElement[];
-    const containerLeft = container.getBoundingClientRect().left;
-    let closestIndex = 0;
-    let closestDistance = Number.POSITIVE_INFINITY;
+  const virtuePanel = (
+    <MetricPanel title={t("virtue")} tone="border-t-amber-300/35">
+      <div className="grid grid-cols-2 overflow-hidden rounded-sm border border-white/[0.08] bg-white/[0.012]">
+        <VirtueSummaryGroup
+          title={t("innerVirtue")}
+          showReason={showDetail}
+          items={INNER_VIRTUE_KEYS.map((key) => ({
+            key,
+            label: ts(key),
+            value: persona[key],
+            reason: localizePersonaText(
+              getReasonFromJsonb(personaJsonb, "inner_virtues", key, locale),
+              locale,
+            ),
+          }))}
+        />
+        <div className="border-s border-white/[0.08]">
+          <VirtueSummaryGroup
+            title={t("outerVirtue")}
+            showReason={showDetail}
+            items={OUTER_VIRTUE_KEYS.map((key) => ({
+              key,
+              label: ts(key),
+              value: persona[key],
+              reason: localizePersonaText(
+                getReasonFromJsonb(personaJsonb, "outer_virtues", key, locale),
+                locale,
+              ),
+            }))}
+          />
+        </div>
+      </div>
+      {matchesByCategory.virtue.length > 0 ? (
+        <MobileMatchButton
+          label={t("personaMatch_virtue")}
+          onClick={() => setMobileMatchCategories(["virtue"])}
+        />
+      ) : null}
+    </MetricPanel>
+  );
 
-    cards.forEach((card, index) => {
-      const distance = Math.abs(
-        card.getBoundingClientRect().left - containerLeft,
-      );
-      if (distance < closestDistance) {
-        closestIndex = index;
-        closestDistance = distance;
-      }
-    });
+  const metricPanels = [
+    { key: "ability", node: abilityPanel },
+    { key: "disposition", node: dispositionPanel },
+    { key: "virtue", node: virtuePanel },
+  ];
 
-    setDispositionCompareIndex((current) =>
-      current === closestIndex ? current : closestIndex,
-    );
-  };
+  const {
+    ref: metricCarouselRef,
+    activeIndex: metricIndex,
+    scrollTo: scrollToMetric,
+    syncIndex: syncMetricIndex,
+  } = useSnapCarousel(metricPanels.length);
 
   return (
     <div className="space-y-6">
@@ -905,32 +1046,33 @@ export default function PersonaSection({
       {/* 상세 분석 토글 (영향력 탭과 같은 단추) */}
       <DetailToggle open={showDetail} onToggle={() => setShowDetail((v) => !v)} />
 
-      {/* 핵심 능력 | 핵심 성향 — 덕목 두 묶음과 같은 두 칸 세로 배치 */}
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch">
-          <MetricPanel title={t("ability")} tone="border-t-emerald-300/35">
-            <div className="space-y-2">
-              {ABILITY_KEYS.map((key) => (
-                <VirtueBar
-                  key={key}
-                  label={ts(key)}
-                  value={persona[key]}
-                  reason={localizePersonaText(
-                    getReasonFromJsonb(personaJsonb, "abilities", key, locale),
-                    locale,
-                  )}
-                  isEn={isEn}
-                  showReason={showDetail}
-                />
-              ))}
-              {matchesByCategory.ability.length > 0 ? (
-                <MobileMatchButton
-                  label={t("personaMatch_ability")}
-                  onClick={() => setMobileMatchCategories(["ability"])}
-                />
-              ) : null}
+      {/* 좁은 화면 — 능력·성향·덕목을 옆으로 넘겨본다 */}
+      <div className="md:hidden">
+        <div
+          ref={metricCarouselRef}
+          onScroll={syncMetricIndex}
+          className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth scrollbar-hide"
+        >
+          {metricPanels.map((panel) => (
+            <div key={panel.key} className="w-full shrink-0 snap-start">
+              {panel.node}
             </div>
-          </MetricPanel>
+          ))}
+        </div>
+        <CarouselControls
+          activeIndex={metricIndex}
+          total={metricPanels.length}
+          onSelect={scrollToMetric}
+          previousLabel={isEn ? "Previous metric" : "이전 지표"}
+          nextLabel={isEn ? "Next metric" : "다음 지표"}
+          className="mt-3"
+        />
+      </div>
+
+      {/* 넓은 화면 — 지표와 비교 인물을 나란히 */}
+      <div className="hidden space-y-6 md:block">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch">
+          {abilityPanel}
           {matchesByCategory.ability.length > 0 ? (
             <div className="hidden min-w-0 md:block">
               <PersonaMatchGroup
@@ -947,37 +1089,7 @@ export default function PersonaSection({
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch md:border-t md:border-white/5 md:pt-6">
-          <MetricPanel title={t("coreDisposition")} tone="border-t-blue-400/35">
-            <div className="space-y-2">
-              {TENDENCY_KEYS.map((key) => (
-                <TendencyBar
-                  key={key}
-                  neg={tendencyLabels[key][0]}
-                  pos={tendencyLabels[key][1]}
-                  value={persona[key]}
-                  reason={localizePersonaText(
-                    getReasonFromJsonb(
-                      personaJsonb,
-                      "dispositions",
-                      key,
-                      locale,
-                    ),
-                    locale,
-                  )}
-                  isEn={isEn}
-                  showReason={showDetail}
-                />
-              ))}
-              {dispositionCompareCategories.length > 0 ? (
-                <MobileMatchButton
-                  label={t("personaMatches")}
-                  onClick={() =>
-                    setMobileMatchCategories(dispositionCompareCategories)
-                  }
-                />
-              ) : null}
-            </div>
-          </MetricPanel>
+          {dispositionPanel}
           {dispositionCompareCategories.length > 0 ? (
             <div className="relative hidden min-w-0 md:block">
               <div className="absolute end-3 top-3 z-20 flex items-center gap-1.5">
@@ -1036,56 +1148,9 @@ export default function PersonaSection({
           ) : null}
         </div>
 
-      {/* 내면·외적 덕목 */}
+        {/* 내면·외적 덕목 */}
         <div className="grid grid-cols-1 gap-6 border-t border-white/5 pt-6 md:grid-cols-2 md:items-stretch">
-          <MetricPanel title={t("virtue")} tone="border-t-amber-300/35">
-            <div className="grid grid-cols-2 overflow-hidden rounded-sm border border-white/[0.08] bg-white/[0.012]">
-          <VirtueSummaryGroup
-            title={t("innerVirtue")}
-            showReason={showDetail}
-            items={INNER_VIRTUE_KEYS.map((key) => ({
-              key,
-              label: ts(key),
-              value: persona[key],
-              reason: localizePersonaText(
-                getReasonFromJsonb(
-                  personaJsonb,
-                  "inner_virtues",
-                  key,
-                  locale,
-                ),
-                locale,
-              ),
-            }))}
-          />
-          <div className="border-s border-white/[0.08]">
-            <VirtueSummaryGroup
-              title={t("outerVirtue")}
-              showReason={showDetail}
-              items={OUTER_VIRTUE_KEYS.map((key) => ({
-                key,
-                label: ts(key),
-                value: persona[key],
-                reason: localizePersonaText(
-                  getReasonFromJsonb(
-                    personaJsonb,
-                    "outer_virtues",
-                    key,
-                    locale,
-                  ),
-                  locale,
-                ),
-              }))}
-            />
-          </div>
-            </div>
-            {matchesByCategory.virtue.length > 0 ? (
-              <MobileMatchButton
-                label={t("personaMatch_virtue")}
-                onClick={() => setMobileMatchCategories(["virtue"])}
-              />
-            ) : null}
-          </MetricPanel>
+          {virtuePanel}
           {matchesByCategory.virtue.length > 0 ? (
             <div className="hidden min-w-0 md:block">
               <PersonaMatchGroup
