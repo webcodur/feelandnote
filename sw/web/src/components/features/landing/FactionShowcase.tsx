@@ -16,23 +16,69 @@ import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
 
-/** 화보 위에 뜨는 대사 한 줄의 생김새 — 저절로 흐르는 쪽과 손으로 넘기는 쪽이 함께 쓴다 */
+/** 화보 위에 뜨는 대사의 생김새 — 저절로 흐르는 쪽과 손으로 넘기는 쪽이 함께 쓴다 */
 const QUOTE_TEXT_CLASS =
-  "col-start-1 row-start-1 break-keep font-serif text-[clamp(1.35rem,4.8vw,1.75rem)] font-bold leading-[1.48] text-[#f2ebe0] md:text-[clamp(1.65rem,2.5vw,2.25rem)]";
+  "col-start-1 row-start-1 break-keep font-serif font-bold leading-[1.48] text-[#f2ebe0]";
+/** 짧은 장은 크게 박고, 긴 장은 한 단계 줄여 사진 밖으로 넘치지 않게 한다 */
+const QUOTE_SIZE_LARGE = "text-[clamp(1.35rem,4.8vw,1.75rem)] md:text-[clamp(1.65rem,2.5vw,2.25rem)]";
+const QUOTE_SIZE_SMALL = "text-[clamp(1.05rem,3.7vw,1.35rem)] md:text-[clamp(1.25rem,1.9vw,1.7rem)]";
 const QUOTE_TEXT_STYLE: CSSProperties = {
   textShadow: "0 2px 8px rgba(0,0,0,.98), 0 0 24px rgba(0,0,0,.9)",
 };
 
-/**
- * 목소리가 없는 인물의 말을 손으로 넘길 단위로 자른다.
- * 마침표·물음표·느낌표·말줄임에서 끊고, 끊을 자리가 없으면 통째로 한 장이다.
- */
-function splitQuoteIntoSteps(quote: string): string[] {
-  const parts = quote
+/*
+  손으로 넘길 때 한 장에 담는 글자 수 기준과, 홀로 남기지 않을 꼬리 길이.
+
+  문장 하나를 한 장으로 삼으면 안 된다 — 말은 문장 평균 28자에 20자도 안 되는 것이
+  3분의 1이라(26.08.08 실측 1,050건), "여기? 아니야. 저기? 아니야."가 열 번을 눌러야 하는
+  말이 된다. 그래서 한 화면에 들어갈 만큼 담되 문장이 끝나는 자리에서만 끊는다.
+  이 기준이면 82%가 한 장에 끝나고 가장 긴 말도 다섯 장이다.
+*/
+const QUOTE_PAGE_TARGET = 90;
+const QUOTE_PAGE_MIN_TAIL = 25;
+/** 이 길이를 넘는 장은 글자를 한 단계 줄여야 세로 화면에서 잘리지 않는다 */
+const QUOTE_LONG_PAGE = 60;
+
+/** 마침표·물음표·느낌표·말줄임에서 끊는다. 끊을 자리가 없으면 통째로 하나다. */
+function splitIntoSentences(text: string): string[] {
+  const parts = text
     .split(/(?<=[.!?…。？！])\s+/)
     .map((part) => part.trim())
     .filter(Boolean);
-  return parts.length ? parts : [quote];
+  return parts.length ? parts : [text];
+}
+
+/**
+ * 목소리가 없는 인물의 말을 손으로 넘길 장으로 나눈다.
+ *
+ * 빈 줄은 쓴 사람이 일부러 끊은 자리라 그대로 장을 가르고, 한 줄 바꿈은 이어 붙인다.
+ * 그 안에서 문장을 차곡차곡 담다가 기준을 넘으면 다음 장으로 넘긴다.
+ */
+function buildQuotePages(quote: string): string[] {
+  const blocks = quote.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
+  const pages: string[] = [];
+
+  for (const block of blocks.length ? blocks : [quote]) {
+    let buffer = '';
+    for (const sentence of splitIntoSentences(block.replace(/\s*\n\s*/g, ' '))) {
+      if (!buffer) {
+        buffer = sentence;
+      } else if (buffer.length + 1 + sentence.length <= QUOTE_PAGE_TARGET) {
+        buffer += ' ' + sentence;
+      } else {
+        pages.push(buffer);
+        buffer = sentence;
+      }
+    }
+    if (buffer) pages.push(buffer);
+  }
+
+  // 마지막이 한 토막만 남으면 앞 장에 붙인다 — 한 줄짜리 장을 위해 한 번 더 누르게 하지 않는다
+  if (pages.length > 1 && pages[pages.length - 1].length < QUOTE_PAGE_MIN_TAIL) {
+    const tail = pages.pop() as string;
+    pages[pages.length - 1] += ' ' + tail;
+  }
+  return pages.length ? pages : [quote];
 }
 
 const CAPTION_TRANSITION_SEC = 0.42;
@@ -439,14 +485,23 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   };
 
   /*
-    말을 넘겨 볼 단위. 목소리가 있으면 발화에 맞춰 잘라 둔 조각을 그대로 쓰고,
-    없으면 문장 단위로 잘라 사람이 눌러 넘긴다.
+    손으로 넘길 장. 영상 자막 조각은 절대 쓰지 않는다 — 그 조각은 말소리에 맞춰 자막을
+    넘기려고 자른 것이라("모델의 지능은" / "데이터의 양이 아니라" / "질에서 나온다")
+    소리가 없으면 토막글을 다섯 번 누르게 만든다. 읽으라고 내놓는 장은 말 전문에서 다시 나눈다.
+    화보 전환 시각은 그 장이 시작되는 자막 조각에서 빌려 온다.
   */
-  const quoteSteps: { text: string; at: number }[] = quoteCaptions.length
-    ? quoteCaptions
-    : factionQuote
-      ? splitQuoteIntoSteps(factionQuote).map((text) => ({ text, at: 0 }))
-      : [];
+  const quoteSteps: { text: string; at: number }[] = factionQuote
+    ? (() => {
+        let searchFrom = 0;
+        return buildQuotePages(factionQuote).map((text) => {
+          const hit = quoteCaptions.findIndex(
+            (caption, i) => i >= searchFrom && text.includes(caption.text.trim())
+          );
+          if (hit >= 0) searchFrom = hit + 1;
+          return { text, at: hit >= 0 ? quoteCaptions[hit].at : 0 };
+        });
+      })()
+    : [];
   const isManualQuote = manualStepIndex >= 0;
   const isLastManualStep = isManualQuote && manualStepIndex >= quoteSteps.length - 1;
 
@@ -863,7 +918,11 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
                 visibleFactionQuote && (
                   <blockquote
                     key={manualStepIndex}
-                    className={cn(QUOTE_TEXT_CLASS, "animate-fade-in")}
+                    className={cn(
+                      QUOTE_TEXT_CLASS,
+                      visibleFactionQuote.length > QUOTE_LONG_PAGE ? QUOTE_SIZE_SMALL : QUOTE_SIZE_LARGE,
+                      "animate-fade-in"
+                    )}
                     style={QUOTE_TEXT_STYLE}
                   >
                     {visibleFactionQuote}
@@ -878,7 +937,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                       exit={{ opacity: 0, y: -6, filter: "blur(2px)" }}
                       transition={{ duration: CAPTION_TRANSITION_SEC, ease: [0.22, 1, 0.36, 1] }}
-                      className={QUOTE_TEXT_CLASS}
+                      className={cn(QUOTE_TEXT_CLASS, QUOTE_SIZE_LARGE)}
                       style={QUOTE_TEXT_STYLE}
                     >
                       {visibleFactionQuote}
