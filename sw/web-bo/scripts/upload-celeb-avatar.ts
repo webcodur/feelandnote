@@ -43,6 +43,7 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import * as tf from '@tensorflow/tfjs'
 import { setWasmPaths } from '@tensorflow/tfjs-backend-wasm'
+import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
 import {
   computeCropFromBox,
   computeCropFromLandmarks,
@@ -818,6 +819,22 @@ async function main() {
   )
   const publicUrl = `${env.R2_PUBLIC_URL}/${key}?v=${Date.now()}`
   console.log(`     PUT ok: ${publicUrl}`)
+
+  // 얼굴이 작게 나오는 화면(성향 분포 등)이 쓸 작은 판. 규격은 shared가 쥔다.
+  const smallBuf = await sharp(conv.buf)
+    .resize(CELEB_AVATAR_SMALL.sizePx, CELEB_AVATAR_SMALL.sizePx, { fit: 'cover' })
+    .webp({ quality: 82 })
+    .toBuffer()
+  await r2.send(
+    new PutObjectCommand({
+      Bucket: env.R2_BUCKET_NAME,
+      Key: `celebs/${args.celebId}/${CELEB_AVATAR_SMALL.smallFile}`,
+      Body: smallBuf,
+      ContentType: 'image/webp',
+      CacheControl: 'public, max-age=31536000, immutable',
+    })
+  )
+  console.log(`     PUT ok: ${CELEB_AVATAR_SMALL.smallFile} (${smallBuf.length} bytes)`)
 
   console.log(`[5/6] Supabase profiles.avatar_url 갱신`)
   const { error } = await supabase

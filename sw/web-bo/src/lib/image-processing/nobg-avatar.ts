@@ -5,6 +5,7 @@ import path from 'node:path'
 import sharp from 'sharp'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
+import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/supabase/admin'
 
@@ -140,6 +141,8 @@ export async function processNobgAvatar(celebId: string): Promise<string> {
   const result = await removeBackgroundWithLocalCpu(source, celeb.id)
   const key = `celebs/${celeb.id}/avatar.webp`
   await uploadToR2(key, result, 'image/webp')
+  // 배경을 지운 새 얼굴로 작은 판도 다시 만든다 — 안 하면 그 인물만 옛 얼굴이 남는다
+  await uploadToR2(smallAvatarKey(celeb.id), await buildSmallAvatar(result), 'image/webp')
 
   const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
   const { error: updateError } = await admin
