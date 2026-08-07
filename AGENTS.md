@@ -16,7 +16,7 @@ Feelandnote는 콘텐츠(도서, 영상, 게임, 음악) 소비 기록 및 관�
 | 6 | android | `sw/android` | — | 안드로이드 앱 셸 (Gradle + TWA). `sw/web`을 감싸는 껍데기라 자체 화면·서버가 없다. Node 패키지가 아니므로 pnpm 워크스페이스에 넣지 않는다. 빌드는 Android Studio |
 
 **공유 패키지** (`packages/`):
-- `content-search` — 외부 콘텐츠 검색 API (Kakao, TMDB, IGDB, Spotify, Naver 뉴스·블로그·이미지). **BOOK 한국어 메타는 카카오 도서 검색(`kakao-books.ts`)이 유일 출처다.** 네이버 도서 검색은 26.07.31 종료([공지 32564](https://developers.naver.com/notice/article/32564))라 래퍼·전용 스크립트를 전량 제거했다 — 되살릴 API가 없으니 `naver-books`를 다시 만들지 마라. 전환 내역·카카오 응답 특성(ISBN 두 개 동시 반환, 표지 원본 추출, 판매 상태 제공)은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절. ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. 책 메타 출처는 네이버·OpenLibrary만
+- `content-search` — 외부 콘텐츠 검색 API (Kakao, TMDB, IGDB, Spotify, Naver 뉴스·블로그·이미지). **BOOK 한국어 메타는 카카오 도서 검색(`kakao-books.ts`)이 유일 출처다.** 네이버 도서 검색은 26.07.31 종료([공지 32564](https://developers.naver.com/notice/article/32564))라 래퍼·전용 스크립트를 전량 제거했다 — 되살릴 API가 없으니 `naver-books`를 다시 만들지 마라. 전환 내역·카카오 응답 특성(ISBN 두 개 동시 반환, 표지 원본 추출, 판매 상태 제공)은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절. ⚠️ **Google Books는 폐기** — 일일 한도 1,000건이라 대량 수집 불가(키 5개를 돌려써도 부족했다). 코드·`.env` 키·DB 249건은 레거시로 남아 있으나 **신규 사용 금지**. 무료라고 되살리지 마라 — 비용이 아니라 한도가 문제다. **책 메타 출처는 한국어판 카카오 · 영문 원서 OpenLibrary 둘뿐이다.**
 - `ai-services` — AI 서비스 (셀럽 프로필 타입, 영향력 분석)
 - `influence-constants` — 영향력 평가 상수
 - `shared` — 공유 상수, 타입, 훅
@@ -126,11 +126,11 @@ pnpm build:audio-bo
 |------|------|
 | `docs/project/architecture.md` | 앱 6종 디렉토리 구조, 네비게이션, 라우팅, `[locale]`·레거시 리다이렉트 |
 | `docs/project/service/README.md` | **사용자 대면 화면 허브** — 화면 그룹 구성·전체 지도 |
-| `docs/project/service/library.md` | 서가(`/library`) — 시대별·직군별·박물관·학당 |
+| `docs/project/service/library.md` | **작품**(`/library`, 옛 이름 서가) — 시대별·직군별·박물관·학당 |
 | `docs/project/service/curated-lists.md` | **기관 선정**(`/library/curated`) — 대학·언론·시상기관이 뽑은 작품 목록. 3층 구조(기관→목록→작품), 수집·적재·연결 도구 3종, 목록별 연결률과 그 한계. 🔴 네이버 책 API 종료·TMDB 영문 검색 필수 등 서지 조회 함정 포함 |
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
-| `docs/project/service/explore.md` | 탐색 — 인물·랭킹·페르소나·세력도감·타임라인 외 |
+| `docs/project/service/explore.md` | **인물**(옛 이름 탐색) — 인물·랭킹·페르소나·세력도감·타임라인 외 |
 | `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구 2종, 좌표·링크 함정 7종 |
 | `docs/project/celeb-detail-themes.md` | **인물 상세 세계 표현 SSoT** — 국적·연대 기반 39개 세계의 배너·화보 액자·구획 번호·서체와 5개 세계 재질 계열을 함께 쥔다. 직군 기반 8색 테마는 26.08.03 폐기했고 직군은 아이콘·명칭에만 쓴다. 세계 재질은 39/39 운영 적용됐으며 `/lab/celeb-themes`에서 개별 재질 15종과 대표 조합 5종을 같은 토큰으로 검증한다. |
 | `docs/project/celeb-world-banners.md` | **인물 세계 배너 SSoT** — 인물이 산 세계 39종의 배경 사진 규격·장면·검수·모바일 초점 예외·교정 함정. 판정 규칙은 `sw/web/src/lib/celeb/world.ts`가 쥔다. **26.08.03 기준 4판 네이티브 3:1 규격으로 39/39종 서비스 반영 완료**(원본 39·PC/모바일 78) |
@@ -171,7 +171,7 @@ pnpm build:audio-bo
 | B | `voice-generation-wave2.md` | 부록: 보이스 생성 Wave 2 (2026-03 회차 스냅샷) |
 | S | `../faction-ai-group-refactor.md` | 세력도감 AI 그룹 구조 (구현 완료. `faction-celeb-sync` 스킬이 참조) |
 | G | `celeb-gotchas.md` | **셀럽 데이터 함정 모음** — 목록 노출 기준, 페이지 안 뜰 때 증상별 원인, 대사 3대 결함, 등급 승격 조건, 선정 기준, 책 메타 출처 제한, 등록 우회 |
-| V | `../celeb-avatar-spec.md` | **셀럽 아바타 규격 SSoT**(26.08.01 신설) — 프레임 기하는 **눈높이 46·턱끝 81·콧대 가로 50** 셋뿐이며 **소개 화면(`/about`) 8인 실측에서 뽑았다**(이상적 수치로 잡았다가 그 8인이 전원 불합격이라 뒤집은 이력이 문서에 있다). **머리 위도 턱 아래도 자유** — 머리카락·모자·투구가 잘려도, 어깨가 안 보여도 무방하고, 얼굴이 잘리거나 쇄골이 드러나는 것만 막는다. 그 밖에 원형 마스크·세로 직사각 잘림 안전 영역, 고정할 것과 인물마다 달리할 것, 발주 프롬프트 확정본, 판정 기준, 자르는 규칙(눈·턱 랜드마크 기준, 구현은 `sw/web-bo/src/lib/avatar-geometry.ts` 하나), 판정 도구 2종(`measure-avatar-geometry.ts` 수치·`build-avatar-contact-sheet.ts` 눈 검수용 격자). **소급 교체 없음 — 신규분부터 적용** |
+| V | `../celeb-avatar-spec.md` | **셀럽 아바타 규격 SSoT** — 프레임 기하, 안전 영역, 발주 프롬프트 확정본, 판정 기준, 자르는 규칙과 판정 도구 2종. 수치는 원문에서 확인한다. **소급 교체 없음 — 신규분부터 적용** |
 | H | `hero-photo-status.md` | **인물 상세 대표 화보 현황과 미진분** — 목표 크롭 규격, 출처별 채움 현황, 크롭 규격이 통일 안 된 구간(표본 실측), 다시 손볼 때의 절차, 남은 인물. 규격·도구 자체는 `db-celeb.md` |
 | M | `virtual-monologue.md` | **가상 독백 유일 SSoT** — 실존·fiction, 국문·영문의 작성·검토·반영 규칙 |
 | R | `person-reading.md` | **인물 읽어보기 유일 SSoT** — 인물 안내·인물 탐구의 작성, 2회 개선, 검수, 배치·게시 규칙 |
@@ -180,25 +180,19 @@ pnpm build:audio-bo
 
 **인물 읽어보기 (`celeb_explanations`)** — 서비스 라벨은 `읽어보기 > 인물 안내 | 인물 탐구`다. 작성·검토·배치·게시 규칙은 `docs/project/celeb/person-reading.md`만 따른다.
 
-**셀럽 아바타 정비 (진행 중, 26.08.01 기준)** — 작업 문서는 **저장소 루트**에 흩어져 있고 실제로는 아래 표의 4종 외에 `celeb-avatar-visual-audit-handoff.md`(육안 감사 인수인계)·`three-kingdoms-avatar-handoff-2026-07-31.md`(삼국지 회차 인수인계)·`todo_celeb_avatar_overhaul.md`(전면 재작업 절차)·`육안검사.txt`(인물별 증상 메모)까지 **8종**이다. 성공한 인물은 문서에서 제거하고 실제 미해결 대상만 남긴다.
+**셀럽 아바타** — 어느 문서가 무엇을 쥐는지만 적는다. 규격 수치를 이 표에 옮겨 적지 마라.
 
-> 규격은 이 문서들이 아니라 `docs/project/celeb-avatar-spec.md`가 쥔다. 작업 문서에는 **명단과 이력만** 남기고 구도 규격을 다시 적지 않는다 — 26.08.01 이전에는 문서 5곳이 제각기 규격을 서술해 서로 어긋나 있었다.
->
-> 이 표(167행)의 수치 요약은 **무엇을 찾을지 알려주는 색인**이지 규격 자체가 아니다. 규격을 확인할 때는 반드시 원문을 연다.
-
-| 문서 | 내용 · 상태 |
+| 무엇 | 문서 |
 |------|------|
-| `celeb-avatar-defects.md` | **26.08.02 품질 결함 41명 일괄 재생성 교체·3중 검증 완료. 현재 잔여 10명** — 신원 근거 부재로 재등록이 막힌 8명(제베·방연·왕충·해서·공융·자무카·이샤크 파샤·파르메니온) + 히틀러(생성 정책 거절, 우회 안 함) + 라이스트뤼고네스족(집단 계정). probable 148명은 신원·원본 대조 전이라 확정 명단에 넣지 않았다. 완료된 인물은 R2 재다운로드·800×800 RGBA WebP·업로드본 해시 일치까지 확인한 뒤 문서에서 제거한다 |
-| `celeb-avatar-missing.md` | 2026-07-31 01:24 KST 비fiction CELEB DB 실측 — 미등록 11명은 활성 4명(`hai-rui`·`kong-rong`·`pang-juan`·`wang-chong`)과 비활성 7명이다. 이번 삼국지 생성 52명은 아바타 등록 52·비활성 보류 0·활성 미등록 0으로 완료했다. `fiction` 티어 미등록 209명은 별도 트랙이라 제외 |
-| `celeb-avatar-local-assets.md` | R2 검증 후 로컬 재료 전량 정리. `D:\image\서비스_재료\인물`은 비어 있고 R2 검색기·다운로드 폴더만 유지 |
-| `celeb-avatar-modern-targets.md` | `ahmed-sherif`의 Neuralink CEO 설명 불일치와 이미지 등록 보류 근거 |
+| 구도·프레이밍·발주 프롬프트·판정 기준 **(SSoT)** | `docs/project/celeb-avatar-spec.md` |
+| 파일 규격(800×800 RGBA WebP)·업로드 경로 | `docs/project/db-celeb.md` |
+| 등록 자동화와 신원 근거 강제 수단 | `.agents/skills/celeb-avatar-register/SKILL.md` |
+| 교체 대상 잔여 명단 (진행 중) | `docs/todo/celeb/celeb-avatar-defects.md` |
+| 배경 지우기 증분 재개 지점 | `docs/todo/celeb/celeb-avatar-nobg-handoff.md` |
 
-**아바타 신원 소스 가드** — `D:\image\_재료`를 비롯한 출처 불명 로컬 얼굴을 특정 인물의 신원 REF로 사용하지 않는다. 기존 서비스 아바타도 단독 신원 근거가 될 수 없다. 현대 실존 인물은 본인·소속기관·공식/권위 매체의 실제 사진으로 독립 대조하고, 역사 인물은 인물명이 확인되는 초상·도상이나 명시적 시대 재구성 근거를 남긴다. 특정 인물 근거 없이 준비된 임의 얼굴을 가져다 붙인 후보는 생성 품질과 무관하게 폐기하며 업로드하지 않는다.
-업로드 진입점 `upload-celeb-avatar.ts`도 이를 강제한다. Commons·로컬·임의 URL 모든 모드는 외부 `--identity-evidence`와 구체적인 `--source-note`가 필수이고, `_재료`·`서비스_재료`·`_refs` 입력과 기존 서비스 아바타 단독 근거를 거부한다. 팩션 개인샷 자동 승격은 `fiction` 프로필에만 허용한다.
-신원 불일치·근거 부재로 이미지를 제거한 14명은 같은 스크립트의 `PROVENANCE_QUARANTINED_SLUGS`로 추가 격리한다. 임시 폴더로 복사하거나 파일명을 바꿔도 업로드할 수 없으며, 인물 고유 근거를 재검토한 뒤 검역 목록을 명시적으로 해제해야 한다.
-임의 검색 결과를 자동 채택하던 `upload-celeb-image-from-url.ts`와 실존 인물에게 팩션 REF를 직접 승격하던 `fill-faction-avatars.ts`는 실행 차단했다. `batch-celeb-avatars.ts`도 DB의 UUID–slug–CELEB 일치를 확인하지 않으면 처리하지 않으며, 검증된 `wikidata_qid`가 없는 대상은 live 자동 검색·QID 채택·업로드를 금지하고 dry-run 후보 조사만 허용한다.
+**신원 근거 없는 얼굴은 등록하지 않는다.** 출처 불명 로컬 얼굴도, 기존 서비스 아바타도 단독 신원 근거가 못 된다. 현대 실존 인물은 본인·소속기관·공식 매체의 사진으로, 역사 인물은 인물명이 확인되는 초상·도상으로 독립 대조한다. 근거 없이 임의 얼굴을 붙인 후보는 생성 품질과 무관하게 폐기한다. 이를 강제하는 수단(업로드 인자 필수화·검역 목록·자동 검색 차단·팩션 REF 승격 제한)은 위 등록 스킬 문서가 전부 쥔다 — **여기에 다시 적지 않는다.**
 
-남은 작업: `ahmed-sherif` 프로필의 근거 확보·교정 또는 삭제 결정. 임의 얼굴 등록은 금지한다. 등록 자동화는 `.agents/skills/celeb-avatar-register/SKILL.md`, 파일 규격은 `docs/project/db-celeb.md`(800×800 WebP), **구도·프레이밍·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`**가 SSoT다.
+> **왜 이 절이 짧아졌나(26.08.06):** 26.08.01 이전엔 문서 5곳이 제각기 규격을 서술해 서로 어긋났다. 그 뒤엔 이 색인이 규격 수치를 옮겨 적고 "이건 색인이지 규격이 아니다"라는 단서까지 달아야 했다. 그러고도 작업 문서 4종이 지워진 뒤 20일 넘게 이 자리에 남아 있었다. **색인은 어디를 열지만 말한다.**
 
 **셀럽 자료 디렉토리**
 
@@ -218,7 +212,7 @@ pnpm build:audio-bo
 | `docs/project/openai-usage.md` | OpenAI/GPT API — 모델 선택, 이미지 생성 해상도·품질·비용 기준 |
 | `docs/project/web-egress-audit-2026-06-29.md` | **웹 전송비용 SSoT** — Supabase egress + Vercel Fast Origin/Fluid CPU 사고, 원인·개선·배포 검증 |
 | `docs/project/seo.md` | SEO — 사이트맵, robots, 검색엔진 등록, MCP |
-| `docs/project/traffic-audit-2026-07-25.md` | **유입·행동 실측 감사(26.07.25)** — 규모는 하루 26명(밑바닥), 그 유입의 91%가 네이버·구글 1.6%. 자체 블로그 경유 가설은 랜딩 480~516종 분포로 기각(블로그 경유 16세션). 인물 화면 체류 78초·재방문 5.3%·로그인 도달 90일 7명. 🔴 **페이지/세션(1.22장)을 참여도로 읽지 마라** — 인물 화면은 한 장에 다 담은 설계이고 겹창(26.07.24 도입)이 화면 전환을 의도적으로 줄인다. 초판의 "홈 4.76장 대비 최악" 판정은 철회됐다. 행동 계측 부재와 그 해소(이벤트 5종). GSC·GA4 조회 수단(서비스계정 JWT)과 재현법 포함. **검색·유입 판단의 기준선** |
+| `docs/project/traffic-audit-2026-07-25.md` | **유입·행동 실측 감사(26.07.25) — 검색·유입 판단의 기준선.** 규모·유입 경로·체류·재방문 실측, 행동 계측 부재와 그 해소, GSC·GA4 조회 수단과 재현법. 🔴 **페이지/세션 수를 참여도로 읽지 마라** — 인물 화면은 한 장에 다 담은 설계라 낮게 나오는 것이 정상이다(초판의 "최악" 판정은 철회됐다) |
 | `docs/project/monetization.md` | 수익화 방안 (AdSense 등) |
 | `docs/project/adsense-audit-2026-07-15.md` | **AdSense 반복 거절 감사·교정 보고서(26.07.15)** — 원인 규명(색인률 2%)·조치 8종·검증 실측·재신청 절차·남은 과제. AdSense 관련 작업의 SSoT |
 | `docs/project/sns-expansion.md` | **[세력확장]** SNS 멀티채널 확장 작전 — 플랫폼 보드·로드맵·결정 로그 (라이브). 트리거 키워드 `[세력확장]` 시 우선 참조 |
@@ -246,7 +240,7 @@ pnpm build:audio-bo
 | `docs/project/remotion/faction.md` | 세력도감 **엔진 SSoT** — 컨셉·데이터 모델·편성·제작 워크플로우 |
 | `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 · **26.08.03 단일화(§4-3)** — 웹은 뷰 `faction_atlas_members` 직독, 출간 텍스트 복사 폐기(패널은 사진·영상·음악 전용) |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
-| `faction-video-clips.md` (저장소 루트) | **팩션 화면 영상화 검토(Higgsfield)** — 인물 화면을 정지 이미지에서 AI 생성 영상으로. 수단 넷(립싱크·배경 원소 연출·정지 유지·구도를 바꾼 새 연출)을 **위계 없이 화면 조건에 따라 골라 쓴다**(선택 기준표 §4.1). 립싱크는 Higgsfield Speak / Lipsync Studio — 그림 1장 + 기존 대사 wav 업로드, 한국어 포함 40개 언어(시드댄스는 오디오를 구조 참조로만 써서 부적합). 배경 원소는 번개·화염 있는 인물에만 통한다. 우리 쪽 구조 실측(`imageChanges`는 발화 시각 기준 교체, 영상 재생·줌 정지 이미 지원, **인물 대사 음성은 실제 재생됨 — faction-rules.md §3.1 기록 정정**), 에피소드별 규모, 발주 원칙(컷은 AI에 맡기지 않음·카메라 고정·어중간한 입모양 금지), 미결정 두 갈래, 미확인 항목과 확인 방법. **26.08.01 조사, MCP 인증 전·생성 미착수** |
+| `docs/project/remotion/faction-video-clips.md` | **팩션 화면 영상화 검토(Higgsfield)** — 인물 화면을 정지 이미지에서 AI 생성 영상으로. 수단 넷을 화면 조건에 따라 골라 쓰는 선택 기준표, 우리 쪽 구조 실측, 발주 원칙, 미결정 갈래와 미확인 항목. **26.08.01 조사 · 생성 미착수** |
 | `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`profiles.virtual_monologue`(사료 — 런타임 의존 아님). **편집은 web-bo `/discourses`** |
 | `docs/project/remotion/discourse-unification.md` | **담화 완전 통합 SSoT** — DB 단일 원천(discourse_* 3테이블), 편집·출간은 web-bo `/discourses` 하나, 세 파일(discourse-data·cast·turns)은 렌더용 산출물(직접 편집 금지). 왕복 검증 7종·반증 시험 10종·export 발효·remotion-bo 담화 폐기. **26.07.26 Phase 5 완료** |
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
@@ -283,17 +277,23 @@ pnpm build:audio-bo
 | `docs/project/wander-game.md` | 유랑 게임 현역 규격 — 시대 선택, 실제 인물 8명과의 사건, 군세·책략·민심 성장, 결정적 귀환 |
 | `docs/project/portrait-game.md` | 시대의 초상 현역 규격 — 구현 보존·공개 진입 비공개. 사진 로드 후 타이머, 4단계 점수, 모바일 2열 선택, 사진 오류 성적 제외 |
 | `docs/todo/games/game-wave2-contract.md` | **실험 게임 7종 SSoT** — 교차 격자·넷씩 넷·근접도·경로 잇기·어느 쪽·상위 다섯·가림 해제. 검증된 실존 데일리게임 포맷을 이 서비스 데이터로 옮긴 것. 병렬 구현 경계 규정, 체험 표본 규칙, 마감 결정 기록(쉼터 미등록 근거·문구 전송량 실측). 개별 규격은 `docs/todo/games/game-<키>-order.md` 7종. **현재 `/lab/games`에서만 열린다 — 공개 쉼터에 붙이지 않았다** |
-| `game-idea-orders.md` (루트) | 게임 후보 발굴 기록 — 자체 착안 30종을 걸러낸 1차와, 실존 게임 900여 종을 조사해 검증된 포맷으로 갈아탄 2차의 판정 근거 |
 
 ## TODO
 
-미완료 작업 목록이자 산출물 이력. **각 항목의 상세는 `docs/todo/` 하위 영역별 폴더(`games/` · `faction/` · `celeb/`)가 쥔다.** 이 단락은 어느 곳을 열어야 하는지만 알려준다. 완료되면 해당 문서를 최신 상태로 만들고 todo 목록에서 정리한다.
+진행 중 작업의 상세는 `docs/todo/` 하위 영역 폴더가 쥔다. 여기는 **어디를 열지만** 적는다. 완료되면 해당 문서를 정리하고 이 표에서 뺀다.
+
+| 영역 | 문서 (`docs/todo/` 기준) |
+|------|------|
+| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 |
+| 세력도감 | `faction/faction-atlas-reconciliation-2026-08-03.md` 제작↔도감 정합화 실측·계획 · `faction/세력도감-단일화-할일.md` 다음 착수 지점 · `faction/tag-ideas.md` 태그 후보 풀 |
+| 게임 | `games/game-wave2-contract.md` 실험 게임 7종 SSoT + 개별 규격 `games/game-<키>-order.md` 7종 |
+| 외부 API | `external-api-migration-2026-08-01.md` 네이버·구글 이탈 대응 미결 항목 |
+
+**아래 둘은 할 일이 아니라 함정 기록이다.** 같은 사고를 되풀이하지 않기 위해 둔다.
 
 > **팩션 대사 운영 정정(2026-07-31):** 필수값은 한국어 `quote`와 `quoteChunks`뿐이다. `quoteOrigin`은 자유 메모칸이라 비어 있어도 결손이 아니다. 팩션 영문 대사·영문 청크는 현재 제작하지 않으며 기존 값만 보존한다.
 
 > **명언 유실 사고 원인(26.06.02)**: 일괄 작업이 `dialogue-bulk-update.mjs`의 `lines = EXCLUDED.lines`(통째 교체)로 579행의 `lines`를 덮어 `quote` 키만 소멸시켰다. PITR 28일 < 사고 44일 전이라 복구 불가. 병합(`|| EXCLUDED.lines`)으로 교정해 재발 차단. 명언 집계 시 **빈 문자열 제외**(포함하면 부풀려짐).
-
-* 마지막 작업 시각: 26.07.16
 
 ## 문서 점검 상태
 
@@ -317,26 +317,26 @@ pnpm build:audio-bo
 grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/celeb-data
 ```
 
-**26.07.16 점검 완료** (44종). 정확한 목록은 아래 명령으로 얻는다 — 이 문단보다 파일 자신의 표기가 정본이다.
+**현황 (26.08.06 실측)** — 점검 표기 있음 **66종** / 없음 **67종**. 아래 명령이 정본이다. 이 숫자도 문서가 늘면 곧 낡는다.
 
 ```bash
 grep -rl "최종 실측 체크" --include="*.md" docs   # 점검 완료
 grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/celeb-data   # 미점검(다음 대상)
 ```
 
-주요 영역: 아키텍처·서비스 화면 5종·백오피스·DB 2종·셀럽 파이프라인 9종·세력도감 2종·인프라 운영 6종(seo·adsense·monetization·openai·game-card·sns)·영상 4종·셀럽 데이터·태그 후보 풀.
+> 26.07.16 시점 이 자리에는 "완료 44종, 착수 가능한 미점검은 사실상 소진"이라 적혀 있었다. **둘 다 틀렸다** — 실측하니 완료는 66종이고 미점검이 67종 남아 있었다. 진행률을 손으로 적지 마라.
 
-**미점검 — 다음 재개 대상**. 아래는 이번에 **손대지 않았다.** 낡았는지 아닌지도 모르는 상태다.
+**다음 재개 대상**
 
-**26.07.16 기준 남은 것은 대부분 "지금 손댈 수 없는 것"이다.** 착수 가능한 미점검 문서는 사실상 소진됐다.
-
-| 영역 | 상태 | 비고 |
-|------|------|------|
-| **영상(book-recommend) 20여 종** + `remotion/faction.md`·`README.md`·`three-kingdoms.md`, `audio-bo.md`·`audio-bo-tts-engine-research.md`, `web-egress-audit` | ⏸ **유저 편집 중** | 워킹트리 수정 상태라 손대지 않았다. **유저가 손 뗀 뒤가 다음 대상이다.** 착수 전 `git status`로 재확인할 것 |
-| `celeb-data/dialogue/` 11종 | — **점검 대상 아님** | 인물별 대사 **원고(창작물)**다. 코드 경로를 인용하지 않아 대조할 것이 없다. 손대지 마라 |
-| `remotion/faction.md` | ⏸ 편집 중 | 냄새 조사상 건강하다 — 경로 15개 중 14개 정확. 유일한 오류: `faction/timing.ts` → 실제는 `faction/shared/timing.ts`. **편집 끝나면 이 한 줄만 고치면 된다** |
-| `suikoden-dev.md`·`suikoden-sim/` | **26.07.30 대조 완료** | 핵심 완주 흐름과 검증 한계를 현행 코드에 맞춰 갱신 |
-| `docs/vision.md` | — 대상 얕음 | 비전 선언문이라 코드 인용이 거의 없다 |
+| 영역 | 상태 |
+|------|------|
+| 영상 `remotion/` 28종 (book-recommend 20여 + 본체 8) | **착수 가능.** 26.07.16에는 "유저 편집 중"이라 미뤘으나 그 상태는 풀렸다(26.08.06 `git status` 확인). 미점검의 절반이 여기 몰려 있다 |
+| 셀럽 `celeb/` 6종 + 아바타 규격·세계 테마·세계 배너 | 착수 가능 |
+| `audio-bo.md`·`audio-bo-tts-engine-research.md`·`image-generation.md`·`person-image-map.md` | 착수 가능 |
+| `docs/todo/` 13종 | 진행 중 작업이라 문서가 계속 바뀐다. **작업이 끝날 때 함께 갱신한다** |
+| `celeb-data/dialogue/` 11종 | **점검 대상 아님.** 인물별 대사 원고(창작물)라 대조할 코드가 없다. 손대지 마라 |
+| `remotion/faction.md` | 알려진 오류 하나: `faction/timing.ts` → 실제는 `faction/shared/timing.ts` |
+| `suikoden-dev.md`·`suikoden-sim/` | 26.07.30 대조 완료 |
 
 **반복 확인된 결함 유형** (26.07.16 점검 44종에서 실제로 나온 것들. 같은 걸 찾아라)
 
@@ -345,7 +345,7 @@ grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/cel
 - **고친 뒤 문서를 안 고친 것** — tracker RPC를 교정하고도 "여전히 깨짐"으로 남아 있었다.
 - **수치가 낡음** — 사이트맵 URL 1,098→실제 15,884, 셀럽 1,073→1,472, 태그 13종/1,086명→40종/1,674명. **문서의 수치는 기본적으로 의심하라.**
 - **리네임/통합 후 옛 이름** — 서고 `/scriptures`→서가 `/library`, 세력도감(옛 스포트라이트) 컴포넌트 6개→`FactionShowcase`(당시 `SpotlightShowcase`) 통합. **1:1 리네임으로 추정하지 마라** — 실제로는 통합·소멸인 경우가 있다.
-- **규칙끼리 충돌** — `celeb-content-audit`이 Google Books를 권장했으나 프로젝트 규칙은 네이버·OpenLibrary만 허용. **규칙 쪽이 정본이다.**
+- **규칙끼리 충돌** — `celeb-content-audit`이 Google Books를 권장했으나 프로젝트 규칙은 허용하지 않았다. **규칙 쪽이 정본이다.** 그런데 그 규칙을 적은 문단 자신이 26.08.06까지 "네이버·OpenLibrary만"이라는 낡은 문구를 달고 있었다(네이버 책 조회는 26.07.31 종료). **충돌을 적어 둔 문장도 같이 낡는다.**
 - **완료 보고서 안에 현행 규칙 혼입** — 아카이브로 옮겼다가 회수한 적 있다(sources 스키마·verified 정의). 완료 표시만 믿고 격리하지 마라.
 - **집계 기준 함정** — 빈 문자열을 세면 명언 904, 제외하면 902. 문서에 수치를 쓸 땐 기준을 함께 적어라.
 
@@ -354,9 +354,13 @@ grep -rL "최종 실측 체크" --include="*.md" docs/project docs/todo docs/cel
 완료된 일회성 보고서·마이그레이션 기록·실행 지시서를 보관한다. **현역 규칙이 아니므로 작업 시 참조하지 않는다.** 이력 추적 목적으로만 남긴다.
 
 신규 문서를 쓸 때 이 원칙을 지킨다.
-- **완료 보고서·회차 스냅샷·1회성 실행 지시서** → 작업이 끝나면 `docs/archive/`로 옮기고 TODO 표 링크를 갱신한다.
+- **저장소 루트에 문서를 만들지 않는다.** 루트에 두는 것은 `AGENTS.md`·`CLAUDE.md`·`GEMINI.md`와 **유저가 직접 쓴 메모**뿐이다. AI가 만든 인수인계·할 일·조사·덤프는 전부 아래 세 자리 중 하나로 간다.
+- **완료 보고서·회차 스냅샷·1회성 실행 지시서·데이터 덤프** → 작업이 끝나면 `docs/archive/`로 옮기고 색인 링크를 갱신한다.
 - **현역 규격·규칙 문서** → `docs/project/` 해당 영역에 둔다. `docs/todo/`에 남기지 않는다.
+- **아직 안 끝난 작업·인수인계** → `docs/todo/<영역>/`에 둔다. 끝나면 아카이브로 옮기거나 지운다.
 - **에피소드별 조사·기획·어록** → `sw/remotion/public/factions/<에피소드>/` 하위(`_docs/`·`quotes/`)에 둔다. `docs/`에 쌓지 않는다.
+
+> **26.08.06 정비:** 루트에 AI 산출 문서 12종이 쌓여 있었고 색인이 아는 것은 3종뿐이었다. 전부 위 자리로 옮겼다. 문서를 만들기 전에 **어느 자리인지 먼저 정하라** — 루트는 자리가 아니다.
 
 ## 아이디어 응답 방식
 
