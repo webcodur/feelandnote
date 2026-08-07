@@ -134,21 +134,21 @@ export default function ArchiveControlBar({
           />
         </div>
 
-        {/* 모바일: 칩 → 모달 */}
+        {/* 모바일: 칩 → 모달. 분류와 감상평은 좁은 화면에서도 갈라지지 않게 반반씩 둔다 */}
         <div className="flex md:hidden w-full min-w-0 flex-wrap items-center gap-2">
           <FilterChip
             label={t("filter.category")}
             value={currentCategoryLabel}
             isActive
             onClick={() => setActiveFilter("category")}
-            className="min-w-36 flex-1 !shrink"
+            className="min-w-0 basis-[calc(50%-0.25rem)]"
           />
           <FilterChip
             label={t("filter.review")}
             value={currentReviewLabel}
             isActive={reviewFilter !== "all"}
             onClick={() => setActiveFilter("review")}
-            className="min-w-36 flex-1 !shrink"
+            className="min-w-0 basis-[calc(50%-0.25rem)]"
           />
           <FilterChip
             label={t("filter.sort")}
@@ -156,7 +156,7 @@ export default function ArchiveControlBar({
             isActive={sortOption !== "recent"}
             onClick={() => setActiveFilter("sort")}
             icon={<ArrowUpDown size={12} />}
-            className="min-w-36 flex-1 !shrink"
+            className="min-w-0 basis-full"
           />
         </div>
       </div>
