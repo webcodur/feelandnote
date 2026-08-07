@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
@@ -92,6 +92,11 @@ export default function JourneySection({ events }: Props) {
   );
   const closeExpandedMap = useCallback(() => setMapExpanded(false), []);
 
+  /* 사건마다 글 길이가 달라 카드를 나란히 늘려 두면 짧은 사건에서 아래가 크게 빈다.
+     지금 보고 있는 카드 높이에 띠를 맞춘다 */
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const [trackHeight, setTrackHeight] = useState<number | undefined>(undefined);
+
   const bc = t("timelineBc");
   const total = events.length;
   const at = Math.min(index, Math.max(0, total - 1));
@@ -157,6 +162,18 @@ export default function JourneySection({ events }: Props) {
     const threshold = width ? Math.min(SWIPE_MIN, width * 0.2) : SWIPE_MIN;
     if (Math.abs(shifted) >= threshold) go(shifted < 0 ? at + 1 : at - 1);
   }, [at, dragX, go]);
+  useEffect(() => {
+    const card = cardRefs.current[at];
+    if (!card) return;
+
+    const sync = () => setTrackHeight(card.offsetHeight);
+    sync();
+
+    const observer = new ResizeObserver(sync);
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [at, events]);
+
   const hasMap = markers.length > 0;
   // 지도에 찍을 곳이 하나도 없으면 고를 것이 없다 — 연표만 보여준다
   const view: ViewMode = hasMap ? mode : "timeline";
@@ -207,7 +224,7 @@ export default function JourneySection({ events }: Props) {
           className={
             view === "atlas"
               ? "hidden"
-              : "grid min-w-0 grid-cols-[36px_minmax(0,1fr)_36px] items-stretch gap-2 md:grid-cols-[42px_minmax(0,1fr)_42px] md:gap-3"
+              : "grid min-w-0 grid-cols-[28px_minmax(0,1fr)_28px] items-center gap-2 md:grid-cols-[42px_minmax(0,1fr)_42px] md:gap-3"
           }
         >
           <button
@@ -215,7 +232,7 @@ export default function JourneySection({ events }: Props) {
             onClick={() => go(at - 1)}
             disabled={at === 0}
             aria-label={t("timelinePrev")}
-            className="flex min-h-44 items-center justify-center rounded border border-accent-dim/25 bg-bg-secondary/40 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-20 md:min-h-[300px]"
+            className="flex h-11 items-center justify-center rounded border border-accent-dim/25 bg-bg-secondary/40 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-20"
           >
             <ArrowLeft size={20} strokeWidth={1.6} aria-hidden />
           </button>
@@ -225,6 +242,10 @@ export default function JourneySection({ events }: Props) {
           <div
             ref={trackRef}
             className="w-full min-w-0 overflow-hidden touch-pan-y"
+            style={{
+              height: trackHeight,
+              transition: dragX ? "none" : "height 300ms ease-out",
+            }}
             onPointerDown={handleDragStart}
             onPointerMove={handleDragMove}
             onPointerUp={handleDragEnd}
@@ -232,7 +253,7 @@ export default function JourneySection({ events }: Props) {
             onPointerLeave={handleDragEnd}
           >
             <div
-              className="flex h-full items-stretch"
+              className="flex items-start"
               style={{
                 transform: `translateX(calc(${-at * 100}% + ${dragX}px))`,
                 transition: dragX ? "none" : "transform 300ms ease-out",
@@ -244,7 +265,10 @@ export default function JourneySection({ events }: Props) {
                 return (
                   <article
                     key={item.id}
-                    className="flex min-h-44 w-full shrink-0 flex-col overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35 md:min-h-[300px]"
+                    ref={(el) => {
+                      cardRefs.current[itemIndex] = el;
+                    }}
+                    className="flex min-h-44 w-full shrink-0 flex-col overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35"
                   >
                     <div className="flex items-center justify-between gap-3 border-b border-accent-dim/20 px-4 py-3 md:px-5">
                       <p className="font-mono text-base font-semibold text-accent">
@@ -303,7 +327,7 @@ export default function JourneySection({ events }: Props) {
             onClick={() => go(at + 1)}
             disabled={at >= total - 1}
             aria-label={t("timelineNext")}
-            className="flex min-h-44 items-center justify-center rounded border border-accent-dim/25 bg-bg-secondary/40 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-20 md:min-h-[300px]"
+            className="flex h-11 items-center justify-center rounded border border-accent-dim/25 bg-bg-secondary/40 text-text-secondary hover:border-accent hover:bg-accent/10 hover:text-accent disabled:pointer-events-none disabled:opacity-20"
           >
             <ArrowRight size={20} strokeWidth={1.6} aria-hidden />
           </button>
