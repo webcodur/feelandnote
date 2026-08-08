@@ -178,7 +178,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
               }`}
             >
               {t(`dialogue_${type}`)}
-              <span className="font-mono text-[10px] opacity-65">{count}</span>
+              <span className="font-mono text-[11px] opacity-65">{count}</span>
             </button>
           );
         })}

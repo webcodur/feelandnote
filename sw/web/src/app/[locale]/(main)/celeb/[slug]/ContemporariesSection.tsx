@@ -79,17 +79,17 @@ export default function ContemporariesSection({
             className="w-full md:w-full"
           >
             {celeb.nationality && (
-              <span className="block text-[11px] leading-tight text-text-secondary">
+              <span className="block text-xs leading-tight text-text-secondary">
                 {getCountryNameByLocale(celeb.nationality, locale)}
               </span>
             )}
             {celeb.profession && (
-              <span className="block text-[11px] font-medium leading-tight text-accent/70">
+              <span className="block text-xs font-medium leading-tight text-accent/70">
                 {tp(celeb.profession)}
               </span>
             )}
             {period && (
-              <span className="block font-mono text-[10px] leading-tight tracking-wide">
+              <span className="block font-mono text-[11px] leading-tight tracking-wide">
                 {period}
               </span>
             )}

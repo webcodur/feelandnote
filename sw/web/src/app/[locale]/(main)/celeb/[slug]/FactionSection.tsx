@@ -182,7 +182,7 @@ export default function FactionSection({
                                 <CelebAvatarImage src={member.avatarUrl} alt="" sizes="28px" />
                               </BlurDissolve>
                             ) : (
-                              <span className="flex h-full w-full items-center justify-center font-serif text-[9px]">
+                              <span className="flex h-full w-full items-center justify-center font-serif text-[11px]">
                                 {(isEn && member.nicknameEn ? member.nicknameEn : member.nickname).charAt(0)}
                               </span>
                             )}
@@ -190,7 +190,7 @@ export default function FactionSection({
                         ))}
                       </div>
                     )}
-                    <span className="inline-flex items-center gap-1.5 text-[11px]">
+                    <span className="inline-flex items-center gap-1.5 text-xs">
                       {preview.members.length > 0 && t("factionMemberCount", { count: preview.members.length })}
                       {preview.members.length > 0 && preview.teamImages.length > 0 && <span aria-hidden>·</span>}
                       {preview.teamImages.length > 0 && t("factionPhotoCount", { count: preview.teamImages.length })}

@@ -314,7 +314,7 @@ function PersonaEvidenceChip({
     <span
       title={label}
       className={cn(
-        "inline-flex min-h-5 max-w-full items-center justify-center overflow-hidden whitespace-nowrap rounded-[4px] border px-1.5 py-1 font-sans text-[10px] font-medium leading-none tracking-[-0.01em] shadow-[0_1px_5px_rgba(0,0,0,0.12)] md:text-[11px]",
+        "inline-flex min-h-5 max-w-full items-center justify-center overflow-hidden whitespace-nowrap rounded-[4px] border px-1.5 py-1 font-sans text-[11px] font-medium leading-none tracking-[-0.01em] shadow-[0_1px_5px_rgba(0,0,0,0.12)] md:text-xs",
         color,
         borderClassName,
         className,
@@ -492,7 +492,7 @@ function PersonaMatchGroup({
                     />
                     <span
                       aria-hidden
-                      className="relative z-10 block w-full text-center text-[10px] text-rose-200/45"
+                      className="relative z-10 block w-full text-center text-[11px] text-rose-200/45"
                     >
                       ↔
                     </span>
@@ -1131,7 +1131,7 @@ export default function PersonaSection({
                 >
                   <ArrowLeft size={16} aria-hidden />
                 </button>
-                <span className="min-w-8 text-center font-mono text-[10px] text-text-secondary">
+                <span className="min-w-8 text-center font-mono text-[11px] text-text-secondary">
                   {dispositionCompareIndex + 1} / {dispositionCompareCategories.length}
                 </span>
                 <button

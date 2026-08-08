@@ -62,7 +62,7 @@ export default function CelebInfluenceSection({ data }: Props) {
             data.transhistoricity_exp && (
               <span className="block animate-fade-in">
                 {(data.translationFallbacks ?? []).includes("transhistoricity") && (
-                  <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-amber-200/65">
+                  <span className="mb-1 block text-[11px] font-semibold uppercase tracking-wide text-amber-200/65">
                     {t("originalKorean")}
                   </span>
                 )}

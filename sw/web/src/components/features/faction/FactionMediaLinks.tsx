@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Music, Pause, Play, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
+import { connectBgm } from "@/lib/audio-ducking";
 import type { FactionMusic, FactionVideo, FactionVideos } from "@/lib/faction-videos";
 
 /** 알약 단추 공통 모양 — 색 강조는 지연 없이 즉시 바뀐다(전 앱 상호작용 원칙 1) */
@@ -96,6 +97,8 @@ function FactionMusicPill({ music }: { music: FactionMusic }) {
   const t = useTranslations("factionMedia");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [on, setOn] = useState(false);
+  const bgmConnectedRef = useRef(false);
+  const bgmDisconnectRef = useRef<(() => void) | null>(null);
 
   // 다른 자리에서 재생을 시작하면 이 함수가 불려 여기 소리를 멈춘다
   const stop = useCallback(() => {
@@ -109,6 +112,7 @@ function FactionMusicPill({ music }: { music: FactionMusic }) {
     return () => {
       stoppers.delete(stop);
       audioRef.current?.pause();
+      bgmDisconnectRef.current?.();
     };
   }, [stop]);
 
@@ -123,6 +127,11 @@ function FactionMusicPill({ music }: { music: FactionMusic }) {
       return;
     }
     stopOthers(stop);
+    // <audio>를 GainNode 경유로 연결해 덕킹 제어 아래 둔다 (한 번만)
+    if (!bgmConnectedRef.current) {
+      bgmConnectedRef.current = true;
+      bgmDisconnectRef.current = connectBgm(el);
+    }
     // 재생은 브라우저가 거절할 수 있다(자동재생 정책) — 거절되면 켜진 상태로 두지 않는다
     void el.play().then(() => setOn(true)).catch(() => setOn(false));
   };

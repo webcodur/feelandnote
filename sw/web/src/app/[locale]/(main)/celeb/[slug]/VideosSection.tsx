@@ -124,7 +124,7 @@ function Marquee({
         {title}
       </h3>
       <span className="h-px flex-1 bg-gradient-to-r from-accent-dim/30 via-accent-dim/15 to-transparent" />
-      <span className="text-[9px] font-mono tracking-[0.25em] uppercase">
+      <span className="text-[11px] font-mono tracking-[0.25em] uppercase">
         {aside}
       </span>
     </div>
@@ -192,7 +192,7 @@ function VignetteCard({
     <div className="group relative flex-shrink-0 w-[140px] sm:w-[168px] snap-start">
       {/* 상단 번호 라벨 */}
       <div className="absolute top-2 left-2 z-20 flex items-center gap-1 px-1.5 py-0.5 rounded-sm bg-bg-main/80 backdrop-blur-sm border border-accent/30">
-        <span className="font-serif italic text-[11px] text-accent/90 leading-none">
+        <span className="font-serif italic text-xs text-accent/90 leading-none">
           {romanOf(index)}
         </span>
       </div>

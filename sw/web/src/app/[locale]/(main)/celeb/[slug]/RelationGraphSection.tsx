@@ -569,7 +569,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           {p.name}
         </span>
         <span
-          className="mt-1 block truncate text-[11px] font-semibold leading-tight"
+          className="mt-1 block truncate text-xs font-semibold leading-tight"
           style={{ color: GROUP_COLOR[p.group] }}
         >
           {relationLabel(p)}
@@ -582,7 +582,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     if (peopleInBand.length === 0) return null;
     return (
       <div className="space-y-2">
-        <p className="text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
+        <p className="text-xs font-semibold tracking-[0.08em] text-text-secondary">
           {heading}
         </p>
         <div className="grid grid-cols-2 gap-2">
@@ -613,7 +613,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       <p className="flex shrink-0 items-baseline gap-2 font-serif text-base font-bold tracking-[0.14em] text-text-primary">
         {text}
         {typeof count === "number" && (
-          <span className="font-mono text-[11px] font-normal tracking-normal text-text-secondary">
+          <span className="font-mono text-xs font-normal tracking-normal text-text-secondary">
             {count}
           </span>
         )}
@@ -691,7 +691,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             }}
           />
           {t(`relFilter_${f}`)}
-          <span className="ml-1 font-mono text-[11px] opacity-70">
+          <span className="ml-1 font-mono text-xs opacity-70">
             {f === "all"
               ? [...view.socialCounts.values()].reduce((a, b) => a + b, 0)
               : view.socialCounts.get(f)}
@@ -787,9 +787,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             {socialFilterBar()}
             {view.bands.up.length > 0 && (
               <div className="relative mb-10 space-y-3">
-                <p className="text-center text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
-                  {t("relBandUp", { name: centerName })}
-                </p>
+                <p className="text-center text-xs font-semibold tracking-[0.08em] text-text-secondary">
+                                {t("relBandUp", { name: centerName })}
+                              </p>
                 <div className="flex flex-wrap justify-center gap-x-2 gap-y-3">
                   {view.bands.up.map((p) => nodeCard(p))}
                 </div>
@@ -798,9 +798,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             <div className="relative flex items-center justify-center gap-4 md:gap-8 my-4">
               {view.bands.sideL.length > 0 && (
                 <div className="flex max-w-[38%] flex-1 flex-col items-end gap-3">
-                  <p className="text-end text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
-                    {t("relBandSideL")}
-                  </p>
+                  <p className="text-end text-xs font-semibold tracking-[0.08em] text-text-secondary">
+                                    {t("relBandSideL")}
+                                  </p>
                   <div className="flex flex-wrap justify-end gap-x-2 gap-y-3">
                     {view.bands.sideL.map((p) => nodeCard(p, "sm"))}
                   </div>
@@ -809,9 +809,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               {selfNode(hubRef)}
               {view.bands.sideR.length > 0 && (
                 <div className="flex max-w-[38%] flex-1 flex-col items-start gap-3">
-                  <p className="text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
-                    {t("relBandSideR")}
-                  </p>
+                  <p className="text-xs font-semibold tracking-[0.08em] text-text-secondary">
+                                    {t("relBandSideR")}
+                                  </p>
                   <div className="flex flex-wrap justify-start gap-x-2 gap-y-3">
                     {view.bands.sideR.map((p) => nodeCard(p, "sm"))}
                   </div>
@@ -820,9 +820,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
             </div>
             {view.bands.down.length > 0 && (
               <div className="relative mt-10 space-y-3">
-                <p className="text-center text-[11px] font-semibold tracking-[0.08em] text-text-secondary">
-                  {t("relBandDown", { name: centerName })}
-                </p>
+                <p className="text-center text-xs font-semibold tracking-[0.08em] text-text-secondary">
+                                {t("relBandDown", { name: centerName })}
+                              </p>
                 <div className="flex flex-wrap justify-center gap-x-2 gap-y-3">
                   {view.bands.down.map((p) => nodeCard(p))}
                 </div>
@@ -841,7 +841,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
           >
             <Network size={15} aria-hidden />
             {t("relViewAll", { count: view.allPeople.length })}
-            <span className="rounded-full bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] text-text-secondary group-hover:text-accent">
+            <span className="rounded-full bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-text-secondary group-hover:text-accent">
               +{view.hiddenCount}
             </span>
           </button>
@@ -907,7 +907,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                     }}
                   >
                     {t(`relFilter_${group}`)}
-                    <span className="font-mono text-[10px] opacity-70">{count}</span>
+                    <span className="font-mono text-[11px] opacity-70">{count}</span>
                   </button>
                 );
               })}
@@ -926,7 +926,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                       <h4 className="font-serif text-sm font-bold text-text-primary">
                         {t(`relFilter_${group}`)}
                       </h4>
-                      <span className="font-mono text-[10px] text-text-secondary">
+                      <span className="font-mono text-[11px] text-text-secondary">
                         {groupPeople.length}
                       </span>
                     </div>
@@ -946,7 +946,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                               {person.name}
                             </span>
                             <span
-                              className="mt-0.5 block truncate text-[11px] font-semibold"
+                              className="mt-0.5 block truncate text-xs font-semibold"
                               style={{ color: GROUP_COLOR[person.group] }}
                             >
                               {relationLabel(person)}
