@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, LIST_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -17,6 +17,43 @@ export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_
 
 /** 인기 순위 기간 창. 7일은 표본이 얇아 순위가 매일 뒤집힌다. */
 const TRENDING_DAYS = 30
+
+// ── 영향력 랭킹 공유 캐시 ────────────────────────────────────────────────
+// 같은 요청 안에서 getCelebs(6회 이상 호출)와 getPersonaDistribution이
+// selectAllPages(celeb_influence)를 각자 하지 않고 이 캐시 하나만 거치게 한다.
+// 1시간 수명: 목록이 갱신될 때 순위가 바뀌어야 하므로 7일이 아니라 한 시간으로 둔다.
+
+interface InfluenceRanking {
+  rankingMap: Record<string, number>
+  scoreMap: Record<string, number>
+  influenceTotal: number
+}
+
+async function fetchInfluenceRanking(): Promise<InfluenceRanking> {
+  const supabase = createStaticClient()
+  const rows = await selectAllPages<Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>>((from, to) =>
+    supabase.from('celeb_influence')
+      .select('celeb_id, total_score')
+      .gt('total_score', 0)
+      .order('total_score', { ascending: false })
+      .order('celeb_id', { ascending: true })
+      .range(from, to)
+  )
+  const rankingMap: Record<string, number> = {}
+  const scoreMap: Record<string, number> = {}
+  rows.forEach((item, index) => {
+    rankingMap[item.celeb_id] = index + 1
+    scoreMap[item.celeb_id] = item.total_score ?? 0
+  })
+  return { rankingMap, scoreMap, influenceTotal: rows.length }
+}
+
+// getPersonaDistribution도 이 캐시를 공유한다. export.
+export const getInfluenceRanking = unstable_cache(
+  fetchInfluenceRanking,
+  ['influence-ranking'],
+  { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
+)
 
 interface GetCelebsParams {
   page?: number
@@ -157,8 +194,8 @@ async function fetchCelebsPublic(
     return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchStatusMap: {}, rankingMap: {}, influenceTotal: 0 }
   }
 
-  // 병렬 조회: 태그, 대사, 음성, 콘텐츠 조사 상태, 영향력
-  const [tagJoinRows, dialogueResult, voiceResult, researchStatusResult, influenceRows] = await Promise.all([
+  // 병렬 조회: 태그, 대사, 음성, 콘텐츠 조사 상태 + 영향력 랭킹(공유 캐시)
+  const [tagJoinRows, dialogueResult, voiceResult, researchStatusResult, influenceRanking] = await Promise.all([
     // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
       const { data: memberRows } = await supabase
@@ -197,17 +234,7 @@ async function fetchCelebsPublic(
     supabase.from('profiles')
       .select('id, status, content_research_status')
       .in('id', celebIds),
-    // 전체 순위를 매기는 목록이라 전수가 필요하다. 1,000행 상한에 걸리므로 나눠 받는다 —
-    // 자르면 1,001위부터가 순위 없음으로 떨어지고 influenceTotal(분모)도 함께 축소된다.
-    // total_score는 동점이 많아 정렬키로 불충분 — celeb_id를 2차 키로 둬 페이지 경계를 고정한다.
-    selectAllPages<Pick<Tables<'celeb_influence'>, 'celeb_id' | 'total_score'>>((from, to) =>
-      supabase.from('celeb_influence')
-        .select('celeb_id, total_score')
-        .gt('total_score', 0)
-        .order('total_score', { ascending: false })
-        .order('celeb_id', { ascending: true })
-        .range(from, to)
-    ),
+    getInfluenceRanking(),
   ])
 
   // 태그 맵
@@ -246,17 +273,14 @@ async function fetchCelebsPublic(
     contentResearchStatusMap[row.id] = row.content_research_status
   })
 
-  // 영향력 랭킹 맵
-  const rankingMap: Record<string, number> = {}
-  influenceRows.forEach((item, index) => {
-    rankingMap[item.celeb_id] = index + 1
-  })
+  // 영향력 랭킹 — 공유 캐시에서 가져온다
+  const { rankingMap, influenceTotal } = influenceRanking
 
   return {
     rows, total, totalPages, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
     voiceMap, contentResearchStatusMap,
-    rankingMap, influenceTotal: influenceRows.length,
+    rankingMap, influenceTotal,
   }
 }
 
