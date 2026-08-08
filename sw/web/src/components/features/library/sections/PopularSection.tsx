@@ -10,14 +10,13 @@
 import { useState, useTransition } from "react";
 import { ContentCard } from "@/components/ui/cards";
 import ContentGrid from "@/components/ui/ContentGrid";
-import { CategoryTabFilter } from "@/components/ui/CategoryTabFilter";
+import { CategoryTabFilter, type CategoryTabOption } from "@/components/ui/CategoryTabFilter";
 import { Pagination } from "@/components/ui/Pagination";
 import { useTranslations } from "next-intl";
 import { getCategoryByDbType } from "@/constants/categories";
 import { getChosenLibrary, getEraContents, getLibraryByProfession } from "@/actions/library";
 import type { LibraryResult } from "@/actions/library";
 import type { ContentType } from "@/types/database";
-import FilterChips, { type ChipItem } from "./PopularFilterChips";
 
 const ITEMS_PER_PAGE = 12;
 const ERAS = ["ancient", "medieval", "modern", "contemporary"] as const;
@@ -70,22 +69,23 @@ export default function PopularSection({ initialData, professions }: Props) {
     });
   };
 
-  const basisChips: ChipItem[] = [
+  const basisChips: CategoryTabOption[] = [
     { value: "all", label: t("basisAll") },
     { value: "era", label: t("basisEra") },
     { value: "profession", label: t("basisProfession") },
   ];
-  const eraChips: ChipItem[] = ERAS.map(e => ({ value: e, label: te(e) }));
-  const categoryOptions: { value: Category; label: string }[] = [
+  const eraChips: CategoryTabOption[] = ERAS.map(e => ({ value: e, label: te(e) }));
+  const categoryOptions: CategoryTabOption<Category>[] = [
     { value: "ALL", label: tc("all") },
     ...(["BOOK", "VIDEO", "GAME", "MUSIC"] as const).map(v => ({
       value: v as Category,
       label: tc(getCategoryByDbType(v)?.id ?? "book"),
     })),
   ];
-  const professionChips: ChipItem[] = professions.map(p => ({
+  const professionChips: CategoryTabOption[] = professions.map(p => ({
     value: p.profession,
-    label: `${tp(p.profession)} ${p.count}`,
+    label: tp(p.profession),
+    count: p.count,
   }));
 
   return (
@@ -96,12 +96,12 @@ export default function PopularSection({ initialData, professions }: Props) {
       </header>
 
       <div className="space-y-3">
-        <FilterChips items={basisChips} value={basis} onChange={(v) => load({ basis: v as Basis })} />
+        <CategoryTabFilter options={basisChips} value={basis} onChange={(v) => load({ basis: v as Basis })} />
         {basis === "era" && (
-          <FilterChips items={eraChips} value={era} onChange={(v) => load({ era: v })} subtle />
+          <CategoryTabFilter options={eraChips} value={era} onChange={(v) => load({ era: v })} subtle />
         )}
         {basis === "profession" && professionChips.length > 0 && (
-          <FilterChips items={professionChips} value={profession} onChange={(v) => load({ profession: v })} subtle />
+          <CategoryTabFilter options={professionChips} value={profession} onChange={(v) => load({ profession: v })} subtle />
         )}
       </div>
 
