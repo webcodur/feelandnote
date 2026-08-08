@@ -17,7 +17,7 @@ import FadeAvatar from "./FadeAvatar";
 import PersonaSearch from "./PersonaSearch";
 import PersonaReasonModal from "./PersonaReasonModal";
 import PersonaBucketPanel from "./PersonaBucketPanel";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface PersonaDistributionProps {
   people: PersonaPerson[];
@@ -26,7 +26,9 @@ interface PersonaDistributionProps {
 }
 
 export default function PersonaDistribution({ people, minInfluence = 40 }: PersonaDistributionProps) {
+  const locale = useLocale();
   const t = useTranslations("explore.ui.personaDistribution");
+  const displayName = (p: PersonaPerson) => (locale === "en" ? (p.nickname_en || p.nickname) : p.nickname);
   const [tab, setTab] = useState(0);
   const [hovered, setHovered] = useState<string | null>(null);
   const [selected, setSelected] = useState<{ person: PersonaPerson; axis: (typeof TENDENCY_KEYS)[number] } | null>(null);
@@ -246,11 +248,11 @@ export default function PersonaDistribution({ people, minInfluence = 40 }: Perso
                   borderColor: lerpColor(colors.neg, colors.pos, (v + 50) / 100),
                 }}
               >
-                <FadeAvatar src={p.avatar_url} name={p.nickname} blurDissolve />
+                <FadeAvatar src={p.avatar_url} name={displayName(p)} blurDissolve />
               </div>
               {isHover && (
                 <div className="absolute bottom-full left-1/2 z-30 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-bg-card px-2 py-1 text-xs shadow-lg">
-                  <span className="font-bold text-text-primary">{p.nickname}</span>
+                  <span className="font-bold text-text-primary">{displayName(p)}</span>
                   <span className="ml-1.5 text-text-secondary">
                     {v >= 0 ? pos : neg} {Math.abs(Math.round(v))}
                   </span>
