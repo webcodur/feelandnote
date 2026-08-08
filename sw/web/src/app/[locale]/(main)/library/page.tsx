@@ -14,7 +14,7 @@ import PopularBooks from "@/components/features/home/PopularBooks";
 import { getChosenLibrary, getCuratedHub } from "@/actions/library";
 import { getAcademyLessonProgressState } from "@/actions/library/academyProgress";
 import PopularPreview from "@/components/features/library/hub/PopularPreview";
-import CuratedPreview from "@/components/features/library/hub/CuratedPreview";
+import CuratedHubBrowse from "@/components/features/library/hub/CuratedHubBrowse";
 import MuseumPreview from "@/components/features/library/hub/MuseumPreview";
 import AcademyPreview from "@/components/features/library/hub/AcademyPreview";
 
@@ -59,7 +59,7 @@ async function ScripturesHubContent() {
       {/* 2/4 기관 선정 */}
       {curatedHub.curators.length > 0 && (
         <HubSection {...section("curated")}>
-          <CuratedPreview hub={curatedHub} />
+          <CuratedHubBrowse hub={curatedHub} />
         </HubSection>
       )}
 

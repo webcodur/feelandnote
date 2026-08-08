@@ -13,7 +13,9 @@ import GenerativeBookCover from "@/components/ui/cards/ContentCard/sections/Gene
 import NationalityText from "@/components/ui/NationalityText";
 import { getCategoryByDbType } from "@/constants/categories";
 import type { ContentType } from "@/types/database";
+import { getCuratedHub } from "@/actions/library";
 import type { CuratedListDetail, CuratedListItem } from "@/actions/library/types";
+import CuratedListBrowseLinks from "./CuratedListBrowseLinks";
 
 /** 순위·발표 연도 표시. 표지 위 양쪽 위 모서리에 얹는다 */
 function CornerBadge({ children, bold }: { children: React.ReactNode; bold?: boolean }) {
@@ -93,6 +95,8 @@ function ItemCard({
 
 export default async function CuratedListView({ list }: { list: CuratedListDetail }) {
   const t = await getTranslations("library.curated");
+  // 탭은 화면 안 구성을 바꾸지 않고 허브 조합으로 이동만 한다 — 링크 전용
+  const hub = await getCuratedHub();
 
   return (
     <div className="space-y-7">
@@ -147,6 +151,9 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
           </span>
         </div>
       </header>
+
+      {/* 허브와 같은 조작대 — 여기서는 다른 갈래로의 이동 길을 잇는다 */}
+      <CuratedListBrowseLinks hub={hub} list={list} />
 
       {/* 같은 계열의 다른 해 — 대학 100선 개정판처럼 해마다 갈리는 목록에서 뜬다 */}
       {list.siblings.length > 1 && (

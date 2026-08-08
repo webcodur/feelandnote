@@ -2,6 +2,7 @@
   파일명: /components/features/library/curated/CuratorView.tsx
   기능: 선정 주체(대학·언론사·시상기관) 상세
   책임: 기관 소개와 그 기관이 발표한 목록 전부를 보여준다.
+        목록 영역은 허브와 같은 조작대(카테고리·기관별/주제별)를 쓴다 — 안에서도 같은 UI다.
 */ // ------------------------------
 
 import { getTranslations } from "next-intl/server";
@@ -10,7 +11,7 @@ import Image from "next/image";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import NationalityText from "@/components/ui/NationalityText";
 import type { CuratorDetail } from "@/actions/library/types";
-import CuratedListCard from "./CuratedListCard";
+import CuratorBrowse from "./CuratorBrowse";
 
 export default async function CuratorView({ curator }: { curator: CuratorDetail }) {
   const t = await getTranslations("library.curated");
@@ -67,15 +68,8 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
         </a>
       )}
 
-      {curator.lists.length > 0 ? (
-        <div className="grid gap-3 sm:grid-cols-2">
-          {curator.lists.map((list) => (
-            <CuratedListCard key={list.slug} list={list} />
-          ))}
-        </div>
-      ) : (
-        <p className="py-10 text-center text-[14px] text-text-tertiary">{t("emptyLists")}</p>
-      )}
+      {/* 목록 진열 — 허브와 같은 조작대로 훑는다. 데이터는 서버가 실어 보낸 것 안에서만 섞는다 */}
+      <CuratorBrowse curator={curator} />
     </div>
   );
 }
