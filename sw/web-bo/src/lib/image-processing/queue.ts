@@ -37,7 +37,6 @@ function cloneWithPosition(job: ImageProcessingJob): ImageProcessingJob {
 }
 
 async function persistQueue(): Promise<void> {
-  await mkdir(QUEUE_DIR, { recursive: true })
   pendingIds.forEach((id, index) => {
     const job = jobs.get(id)
     if (job?.status === 'queued') job.queuePosition = index + 1
@@ -54,16 +53,23 @@ async function persistQueue(): Promise<void> {
     jobs: [...jobs.values()],
     pendingIds: [...pendingIds],
   }
-  const tempFile = `${QUEUE_FILE}.${process.pid}.tmp`
-  await writeFile(tempFile, JSON.stringify(payload, null, 2), 'utf8')
-  await rename(tempFile, QUEUE_FILE)
+  try {
+    await mkdir(QUEUE_DIR, { recursive: true })
+    const tempFile = `${QUEUE_FILE}.${process.pid}.tmp`
+    await writeFile(tempFile, JSON.stringify(payload, null, 2), 'utf8')
+    await rename(tempFile, QUEUE_FILE)
+  } catch {
+    // Serverless 환경에서는 파일 시스템 쓰기가 불가하다.
+    // 인메모리 큐는 MVC 모델 안에서 살아있는 동안만 유지된다.
+    // 워커를 띄울 수 없으므로 여기서 persist가 실패해도 문제없다.
+  }
 }
 
 async function loadQueue(): Promise<void> {
   if (globalQueue.__imageProcessingLoaded) return globalQueue.__imageProcessingLoaded
   globalQueue.__imageProcessingLoaded = (async () => {
-    await mkdir(QUEUE_DIR, { recursive: true })
     try {
+      await mkdir(QUEUE_DIR, { recursive: true })
       const payload = JSON.parse(await readFile(QUEUE_FILE, 'utf8')) as PersistedQueue
       jobs.clear()
       pendingIds.length = 0
@@ -92,7 +98,11 @@ async function loadQueue(): Promise<void> {
       await persistQueue()
     } catch (error) {
       const code = (error as NodeJS.ErrnoException).code
-      if (code !== 'ENOENT') throw error
+      if (code !== 'ENOENT') {
+        // 서버리스 등 쓰기 불가 파일시스템 — 인메모리 빈 큐로 시작
+        console.warn('[image-processing] loadQueue 실패, 빈 큐로 시작:', code)
+        return
+      }
       await persistQueue()
     }
   })()
