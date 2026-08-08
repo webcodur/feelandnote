@@ -46,7 +46,7 @@ export default function FictionSourceWorksSection({
             </span>
 
             <span className="flex min-w-0 flex-col">
-              <span className="mb-2 w-fit rounded border border-accent/25 bg-accent/[0.07] px-1.5 py-0.5 text-[9px] font-semibold text-accent/80">
+              <span className="mb-2 w-fit rounded border border-accent/25 bg-accent/[0.07] px-1.5 py-0.5 text-[11px] font-semibold text-accent/80">
                 {t(`sourceRelation.${source.relationType}`)}
               </span>
               <span className="line-clamp-2 font-serif text-base font-semibold leading-snug text-text-primary group-hover:text-accent">
@@ -57,7 +57,7 @@ export default function FictionSourceWorksSection({
                   {source.creator}
                 </span>
               )}
-              <span className="mt-auto inline-flex items-center gap-1 pt-3 text-[11px] font-medium text-accent/80 group-hover:text-accent">
+              <span className="mt-auto inline-flex items-center gap-1 pt-3 text-xs font-medium text-accent/80 group-hover:text-accent">
                 {t("sourceWorkOpen")}
                 <ArrowUpRight size={12} />
               </span>

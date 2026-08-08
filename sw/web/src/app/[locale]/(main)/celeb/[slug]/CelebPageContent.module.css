@@ -203,7 +203,7 @@
 
 .comparisonMetric {
   display: block;
-  font-size: 10px !important;
+  font-size: 0.75rem !important;
   line-height: 1.15 !important;
   letter-spacing: 0.04em;
   color: color-mix(in srgb, var(--color-accent) 72%, transparent) !important;
@@ -211,7 +211,7 @@
 
 @media (min-width: 768px) {
   .comparisonMetric {
-    font-size: 11px !important;
+    font-size: 0.8125rem !important;
   }
 }
 

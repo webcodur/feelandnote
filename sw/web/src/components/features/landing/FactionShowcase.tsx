@@ -12,6 +12,7 @@ import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
 import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
 import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
+import { duckBgm } from "@/lib/audio-ducking";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 
 const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/CelebDetailModal"));
@@ -275,6 +276,7 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
   const introRef = useRef<HTMLParagraphElement | null>(null);
   const factionAudioRef = useRef<HTMLAudioElement | null>(null);
   const factionAudioRafRef = useRef<number | null>(null);
+  const duckRestoreRef = useRef<(() => void) | null>(null);
 
   const stopFactionQuote = () => {
     if (factionAudioRafRef.current !== null) {
@@ -289,6 +291,9 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
     setActiveCaptionIndex(-1);
     setManualStepIndex(-1);
     setIsFactionQuoteVisible(false);
+    // 대사 끝 — BGM 원음 복원
+    duckRestoreRef.current?.();
+    duckRestoreRef.current = null;
   };
 
   useEffect(() => () => {
@@ -558,6 +563,10 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
       return;
     }
 
+    // BGM 덕킹 — 대사 재생 직전 30%로 낮춘다
+    duckRestoreRef.current?.();
+    duckRestoreRef.current = duckBgm();
+
     const audio = new Audio(audioUrl);
     audio.volume = 0.7;
     audio.playbackRate = playableMedia.playbackRate || 1;
@@ -575,6 +584,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
     audio.addEventListener("error", () => {
       if (factionAudioRef.current !== audio) return;
       factionAudioRef.current = null;
+      duckRestoreRef.current?.();
+      duckRestoreRef.current = null;
       startManualPaging();
     }, { once: true });
     void audio.play().then(() => {
@@ -585,6 +596,8 @@ export default function FactionShowcase({ activeTag, locale }: FactionShowcasePr
     }).catch(() => {
       if (factionAudioRef.current !== audio) return;
       factionAudioRef.current = null;
+      duckRestoreRef.current?.();
+      duckRestoreRef.current = null;
       startManualPaging();
     });
   };

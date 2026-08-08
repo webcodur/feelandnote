@@ -122,7 +122,7 @@ function buildPrompt(person) {
 
 각 항목:
 - year 정수, 기원전은 음수. yearEnd/month/day는 모르면 null
-- title/titleEn은 사건 한 줄. 한국어 제목은 동사형이며 반드시 '~다'로 끝낸다
+- title/titleEn은 사건 한 줄. 종결 형태는 사건에 맞게 고른다
 - description/descriptionEn은 처음부터 서비스에 쓸 최종 문장으로 각각 2~3문장 쓴다. 사실만 구체적으로 쓰고 번역투·미사여구·교훈조 마무리를 피한다. 한국어는 사람을 주어로 세우고 한자 원문과 em dash를 쓰지 않는다
 - kind는 birth, death, education, work, publish, battle, travel, office, meeting, other 중 하나
 - placeName/placeNameEn은 화면에 표시할 실제 장소. placeQuery는 위키데이터 검색용 짧은 영문 지명, placeCountry는 오늘날 국가 영문명. 장소가 없으면 모두 null
@@ -165,7 +165,7 @@ function validateDraft(person, events) {
     if (event.month != null && (!Number.isInteger(event.month) || event.month < 1 || event.month > 12)) problems.push(`${at} 월이 잘못됐다`)
     if (event.day != null && (!Number.isInteger(event.day) || event.day < 1 || event.day > 31)) problems.push(`${at} 일이 잘못됐다`)
     if (!KINDS.has(event.kind)) problems.push(`${at} kind가 잘못됐다`)
-    if (!event.title?.trim().endsWith('다')) problems.push(`${at} 한국어 제목이 '~다'로 끝나지 않는다`)
+    if (!event.title?.trim()) problems.push(`${at} 한국어 제목이 비었다`)
     if (!event.titleEn?.trim()) problems.push(`${at} 영문 제목이 비었다`)
     if (sentenceCount(event.description) < 2 || sentenceCount(event.description) > 3) problems.push(`${at} 한국어 서술이 2~3문장이 아니다`)
     if (sentenceCount(event.descriptionEn) < 2 || sentenceCount(event.descriptionEn) > 3) problems.push(`${at} 영문 서술이 2~3문장이 아니다`)
