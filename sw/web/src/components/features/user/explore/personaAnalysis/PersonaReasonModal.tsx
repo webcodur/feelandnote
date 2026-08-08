@@ -34,6 +34,7 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
   const sideColor = v >= 0 ? colors.pos : colors.neg;
   const sideLabel = v >= 0 ? pos : neg;
   const reasonText = reason ? (locale === "en" ? reason.en : reason.ko) : "";
+  const shownName = locale === "en" ? (person.nickname_en || person.nickname) : person.nickname;
 
   if (typeof window === "undefined") return null;
   // 페이지 본문 래퍼(z-10) 안에서는 하단 네비(z-100)를 못 덮는다 — body로 포털해서 띄운다
@@ -46,14 +47,14 @@ export default function PersonaReasonModal({ person, axis, reason, loading, onCl
             {person.avatar_url ? (
               <BlurDissolve className="size-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={person.avatar_url} alt={person.nickname} className="size-full object-cover" />
+                <img src={person.avatar_url} alt={shownName} className="size-full object-cover" />
               </BlurDissolve>
             ) : (
-              <div className="flex size-full items-center justify-center text-sm font-bold text-text-secondary">{initials(person.nickname)}</div>
+              <div className="flex size-full items-center justify-center text-sm font-bold text-text-secondary">{initials(shownName)}</div>
             )}
           </div>
           <div className="min-w-0">
-            <h3 className="truncate text-lg font-bold text-text-primary">{person.nickname}</h3>
+            <h3 className="truncate text-lg font-bold text-text-primary">{shownName}</h3>
             <p className="mt-0.5 text-sm font-bold" style={{ color: sideColor }}>
               {neg} ↔ {pos} · {sideLabel} {Math.abs(Math.round(v))}
             </p>
