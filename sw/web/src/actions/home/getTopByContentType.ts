@@ -27,7 +27,7 @@ export async function getTopByContentType(): Promise<TopByTypeEntry[]> {
 
   const results = await Promise.all(
     types.map(type =>
-      getCelebs({ contentType: type, sortBy: 'content_count', limit: 10 })
+      getCelebs({ contentType: type, sortBy: 'content_count', limit: 3 })
     )
   )
 

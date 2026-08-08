@@ -6,6 +6,7 @@ import { STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { TENDENCY_KEYS, type TendencyKey } from '@/lib/persona/constants'
+import { getInfluenceRanking } from '@/actions/home/getCelebs'
 
 const DEFAULT_LIMIT = 3000
 const PERSONA_SEARCH_LIMIT = 8
@@ -41,14 +42,8 @@ type PersonaScoreRow = {
 async function fetchPersonaDistribution(minInfluence: number, limit: number): Promise<PersonaPerson[]> {
   const supabase = createStaticClient()
 
-  // 허브는 실제로 그리는 영향력 임계 이상만 읽는다. 검색은 0으로 호출해 전체 캐시를
-  // 서버 안에서만 만들고, 일치한 8명만 클라이언트에 돌려준다.
-  const inflData = await selectAllPages<{ celeb_id: string; total_score: number }>((from, to) => {
-    let query = supabase.from('celeb_influence').select('celeb_id, total_score')
-    if (minInfluence > 0) query = query.gte('total_score', minInfluence)
-    return query.order('celeb_id').range(from, to)
-  })
-  const inflMap = new Map(inflData.map((r) => [r.celeb_id, r.total_score]))
+  // 영향력 — getCelebs와 같은 캐시를 공유한다
+  const { scoreMap: inflMapRaw } = await getInfluenceRanking()
 
   // 감상 경위(review) 보유 셀럽만 성향 분석 대상에 넣는다.
   // 이 RPC도 1,000행에서 잘린다 — 1,281명 중 281명이 빠져 성향 점수가 멀쩡히 도착해도
@@ -58,9 +53,11 @@ async function fetchPersonaDistribution(minInfluence: number, limit: number): Pr
   )
   const reviewers = new Set(reviewIds.map((r) => r.celeb_id))
 
+  const inflMapItems = Object.entries(inflMapRaw)
+    .filter(([, score]) => minInfluence <= 0 || score >= minInfluence)
   const eligibleIds = (minInfluence > 0
-    ? inflData.map((row) => row.celeb_id).filter((id) => reviewers.has(id))
-    : reviewIds.map((row) => row.celeb_id)
+    ? inflMapItems.filter(([id]) => reviewers.has(id)).map(([id]) => id)
+    : reviewIds.map((r) => r.celeb_id)
   ).slice(0, limit)
 
   // 대상 UUID만 200개씩 묶어 조회한다. 허브 진입 때 1,000명 넘는 persona를 읽고
@@ -94,7 +91,7 @@ async function fetchPersonaDistribution(minInfluence: number, limit: number): Pr
         nickname: profile?.nickname ?? '',
         nickname_en: profile?.nickname_en ?? null,
         avatar_url: profile?.avatar_url ?? null,
-        influence: inflMap.get(row.celeb_id) ?? 0,
+        influence: inflMapRaw[row.celeb_id] ?? 0,
         stats,
       }
     })
