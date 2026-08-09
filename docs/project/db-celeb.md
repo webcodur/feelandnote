@@ -21,7 +21,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부한다. 신규 `confirmed_empty`는 아래 조사 장부의 완료 함수만 기록할 수 있다
     - 확정 뒤 콘텐츠가 추가되면 트리거가 상태를 `open`으로 자동 복귀시킨다
   - `publication_status` (text, 기본값 `'active'`): CHECK `active`|`inactive`|`suspended`|`deleted`. **인물에게는 노출 상태 하나만 뜻한다.**
-    - 26.08.07 이전 `profiles.status`는 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 가짜 Auth 계정을 폐기하고 `celebs.publication_status`로 옮겨 의미를 물리적으로 분리했다 — 경위는 `docs/todo/profile-user-celeb-separation-2026-08-07.md`
+    - 26.08.07 이전 `profiles.status`는 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 가짜 Auth 계정을 폐기하고 `celebs.publication_status`로 옮겨 의미를 물리적으로 분리했다 — 경위는 `docs/archive/profile-user-celeb-separation-2026-08-07.md`
     - 실측 분포(26.08.07): active 1,793 / inactive 725 / suspended 224
     - **목록 노출은 이 값이 아니라 `celeb_tier`가 가른다.** `publication_status`를 조사 여부·관계·태그 배정 같은 다른 판단에 끌어 쓰지 마라 — 같은 사고가 세 번 났다. 판별법과 사고 이력은 `docs/project/celeb/celeb-gotchas.md` §9-1이 SSoT다
     - **계정 전용 열은 `celebs`에 없다.** 회원 계정 상태는 `user_accounts.account_status`이며 셀럽 공개 상태와 다른 축이다. 관리자 판정은 `is_admin()` 하나가 쥔다
