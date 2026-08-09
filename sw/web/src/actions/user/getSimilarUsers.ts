@@ -82,7 +82,7 @@ async function getSimilarUsersInner(limit = 10): Promise<GetSimilarUsersResult> 
     .from("user_contents")
     .select(`
       user_id,
-      profiles!inner(id, nickname, avatar_url)
+      profiles!user_contents_user_id_fkey!inner(id, nickname, avatar_url)
     `)
     .neq("user_id", user.id)
     .not("user_id", "in", `(SELECT following_id FROM follows WHERE follower_id = '${user.id}')`)

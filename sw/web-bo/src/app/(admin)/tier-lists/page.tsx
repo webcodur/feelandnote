@@ -29,7 +29,7 @@ export default async function TierListsPage({
 
   let query = supabase
     .from('tier_lists')
-    .select('*, user:user_id (id, nickname, avatar_url)', { count: 'exact' })
+    .select('*, user:profiles!tier_lists_user_id_fkey (id, nickname, avatar_url)', { count: 'exact' })
     .order('updated_at', { ascending: false })
 
   if (typeFilter) query = query.eq('type', typeFilter)

@@ -71,7 +71,7 @@ export async function getUsers(
     .from('profiles')
     .select(`
       *,
-      user_accounts!inner (${ACCOUNT_COLUMNS}),
+      user_accounts!user_accounts_id_fkey!inner (${ACCOUNT_COLUMNS}),
       user_social (follower_count, following_count),
       user_scores (total_score)
     `, { count: 'exact' })
@@ -165,7 +165,7 @@ export async function getUser(userId: string): Promise<User | null> {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select(`*, user_accounts (${ACCOUNT_COLUMNS})`)
+    .select(`*, user_accounts!user_accounts_id_fkey (${ACCOUNT_COLUMNS})`)
     .eq('id', userId)
     .single()
 

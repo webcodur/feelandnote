@@ -71,14 +71,14 @@ interface RawReport {
 // #endregion
 
 const PERSON_COLUMNS =
-  '(id, nickname, avatar_url, profile_type, user_accounts(email, account_status, suspended_at, suspended_reason))'
+  '(id, nickname, avatar_url, profile_type, user_accounts!user_accounts_id_fkey(email, account_status, suspended_at, suspended_reason))'
 
 const DETAIL_SELECT = `
   id, reporter_id, target_type, target_id, target_user_id, reason, description,
   status, resolved_at, resolution_note, created_at,
-  reporter:reporter_id ${PERSON_COLUMNS},
-  targetUser:target_user_id ${PERSON_COLUMNS},
-  resolver:resolved_by (nickname)
+  reporter:profiles!reports_reporter_id_fkey ${PERSON_COLUMNS},
+  targetUser:profiles!reports_target_user_id_fkey ${PERSON_COLUMNS},
+  resolver:profiles!reports_resolved_by_fkey (nickname)
 `
 
 function toPerson(raw: RawPerson | null): ReportPersonDetail | null {

@@ -19,7 +19,7 @@ export default async function BlindGamePage({
 
   const { data: scores, count } = await supabase
     .from('blind_game_scores')
-    .select('*, user:user_id (id, nickname, avatar_url)', { count: 'exact' })
+    .select('*, user:profiles!blind_game_scores_user_id_fkey (id, nickname, avatar_url)', { count: 'exact' })
     .order('score', { ascending: false })
     .range((page - 1) * perPage, page * perPage - 1)
 
@@ -35,7 +35,7 @@ export default async function BlindGamePage({
   // 상위 플레이어
   const { data: topPlayersRaw } = await supabase
     .from('blind_game_scores')
-    .select('user_id, score, user:user_id (id, nickname, avatar_url)')
+    .select('user_id, score, user:profiles!blind_game_scores_user_id_fkey (id, nickname, avatar_url)')
     .order('score', { ascending: false })
     .limit(3)
 

@@ -94,7 +94,7 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
       type,
       content,
       created_at,
-      profiles:user_id (nickname)
+      profiles:profiles!records_user_id_fkey (nickname)
     `)
     .eq('content_id', contentId)
     .order('created_at', { ascending: false })
