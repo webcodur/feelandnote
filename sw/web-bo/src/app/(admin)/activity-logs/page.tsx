@@ -39,7 +39,7 @@ export default async function ActivityLogsPage({
   // 쿼리 빌드
   let query = supabase
     .from('activity_logs')
-    .select('*, profiles:user_id (id, nickname, avatar_url)', { count: 'exact' })
+    .select('*, profiles:profiles!activity_logs_user_id_fkey (id, nickname, avatar_url)', { count: 'exact' })
     .order('created_at', { ascending: false })
 
   if (actionFilter) {

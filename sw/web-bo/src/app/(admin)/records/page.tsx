@@ -45,7 +45,7 @@ export default async function RecordsPage({ searchParams }: PageProps) {
     .from('records')
     .select(`
       *,
-      profiles:user_id (nickname, avatar_url, user_accounts(email)),
+      profiles:profiles!records_user_id_fkey (nickname, avatar_url, user_accounts!user_accounts_id_fkey(email)),
       contents:content_id (type, content_locales(locale, title, thumbnail_url))
     `, { count: 'exact' })
 

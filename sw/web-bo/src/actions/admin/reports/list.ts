@@ -60,18 +60,36 @@ interface RawQueueRow {
   status: string
   created_at: string
   resolved_at: string | null
-  reporter: ReportPerson | null
-  targetUser: ReportPerson | null
+  reporter: RawReportPerson | null
+  targetUser: RawReportPerson | null
   resolver: { nickname: string | null } | null
+}
+
+interface RawReportPerson {
+  id: string
+  nickname: string | null
+  user_accounts: { email: string | null } | { email: string | null }[] | null
 }
 // #endregion
 
 const QUEUE_SELECT = `
   id, target_type, target_id, target_user_id, reason, status, created_at, resolved_at,
-  reporter:reporter_id (id, nickname, email),
-  targetUser:target_user_id (id, nickname, email),
-  resolver:resolved_by (nickname)
+  reporter:profiles!reports_reporter_id_fkey (id, nickname, user_accounts!user_accounts_id_fkey(email)),
+  targetUser:profiles!reports_target_user_id_fkey (id, nickname, user_accounts!user_accounts_id_fkey(email)),
+  resolver:profiles!reports_resolved_by_fkey (nickname)
 `
+
+function toReportPerson(person: RawReportPerson | null): ReportPerson | null {
+  if (!person) return null
+  const account = Array.isArray(person.user_accounts)
+    ? person.user_accounts[0] ?? null
+    : person.user_accounts
+  return {
+    id: person.id,
+    nickname: person.nickname,
+    email: account?.email ?? null,
+  }
+}
 
 async function loadStatusCounts(): Promise<Record<ReportStatus, number>> {
   const supabase = createAdminClient()
@@ -127,8 +145,8 @@ export async function getReportQueue(params: ReportQueueParams): Promise<ReportQ
     status: row.status,
     createdAt: row.created_at,
     resolvedAt: row.resolved_at,
-    reporter: row.reporter,
-    targetUser: row.targetUser,
+    reporter: toReportPerson(row.reporter),
+    targetUser: toReportPerson(row.targetUser),
     resolverNickname: row.resolver?.nickname ?? null,
   }))
 

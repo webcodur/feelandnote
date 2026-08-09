@@ -60,7 +60,7 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     .from('records')
     .select(`
       *,
-      profiles:user_id (id, nickname, avatar_url, user_accounts(email)),
+      profiles:profiles!records_user_id_fkey (id, nickname, avatar_url, user_accounts!user_accounts_id_fkey(email)),
       contents:content_id (id, type, content_locales(locale, title, thumbnail_url))
     `)
     .eq('id', recordId)
@@ -118,7 +118,7 @@ export async function getRecordComments(recordId: string) {
       id,
       content,
       created_at,
-      profiles:user_id (nickname, avatar_url)
+      profiles:profiles!record_comments_user_id_fkey (nickname, avatar_url)
     `)
     .eq('record_id', recordId)
     .order('created_at', { ascending: true })

@@ -46,7 +46,7 @@ export default async function FreeBoardAdminPage({ searchParams }: PageProps) {
   const supabase = createAdminClient()
   const table = tab === 'posts' ? 'free_posts' : 'free_post_comments'
 
-  let query = supabase.from(table).select('*, author:author_id(nickname)', { count: 'exact' })
+  let query = supabase.from(table).select('*, author:profiles!author_id(nickname)', { count: 'exact' })
   if (filter === 'visible') query = query.eq('is_deleted', false)
   if (filter === 'hidden') query = query.eq('is_deleted', true)
 

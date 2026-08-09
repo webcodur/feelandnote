@@ -202,7 +202,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
   // 이 목록은 인물과 회원을 함께 담으므로 계정 기록은 있으면 붙이는 식으로 읽는다.
   let query = supabase
     .from('profiles')
-    .select('*, user_accounts(email, role, account_status, suspended_at, suspended_reason, last_seen_at), user_social(follower_count, following_count), user_scores(total_score)', { count: 'exact' })
+    .select('*, user_accounts!user_accounts_id_fkey(email, role, account_status, suspended_at, suspended_reason, last_seen_at), user_social(follower_count, following_count), user_scores(total_score)', { count: 'exact' })
 
   if (search) {
     // 이름은 사람 기록에, 이메일은 계정 기록에 있어 한 번에 걸 수 없다.
@@ -351,7 +351,7 @@ export async function getMember(id: string): Promise<Member | null> {
     .select(
       `
       *,
-      user_accounts (email, role, account_status, suspended_at, suspended_reason, last_seen_at),
+      user_accounts!user_accounts_id_fkey (email, role, account_status, suspended_at, suspended_reason, last_seen_at),
       user_social (follower_count, following_count),
       user_scores (total_score),
       celeb_influence (
@@ -455,7 +455,7 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
 
   const selectQuery = `
       *,
-      user_accounts (email, role, account_status, suspended_at, suspended_reason, last_seen_at),
+      user_accounts!user_accounts_id_fkey (email, role, account_status, suspended_at, suspended_reason, last_seen_at),
       user_social (follower_count, following_count),
       user_scores (total_score),
       celeb_influence (

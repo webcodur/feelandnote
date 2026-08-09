@@ -24,7 +24,7 @@ export default async function GuestbooksPage({
       `
       *,
       profile:profile_id (id, nickname, avatar_url),
-      author:author_id (id, nickname, avatar_url)
+      author:profiles!guestbook_entries_author_id_fkey (id, nickname, avatar_url)
     `,
       { count: 'exact' }
     )

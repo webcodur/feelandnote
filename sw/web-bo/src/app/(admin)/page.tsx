@@ -27,7 +27,7 @@ export default async function DashboardPage() {
     supabase.from('records').select('*', { count: 'exact', head: true }),
     supabase.from('user_contents').select('*', { count: 'exact', head: true }),
     // 최근 가입은 회원만 해당한다. 계정 기록이 있는 사람이 곧 회원이다(26.08.07 분리).
-    supabase.from('user_accounts').select('id, email, created_at, profiles(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
+    supabase.from('user_accounts').select('id, email, created_at, profiles!user_accounts_id_fkey(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
     // 유형별 수는 DB에서 센다. 행을 끌어와 세면 PostgREST 1,000행 상한에 걸려
     // 위 '총 콘텐츠'(head 카운트라 정확)와 합이 어긋난다(실측 7,568행).
     Promise.all(
@@ -39,7 +39,7 @@ export default async function DashboardPage() {
         return [type, count ?? 0] as const
       })
     ),
-    supabase.from('activity_logs').select('*, profiles:user_id (nickname, avatar_url)').order('created_at', { ascending: false }).limit(10),
+    supabase.from('activity_logs').select('*, profiles:profiles!activity_logs_user_id_fkey (nickname, avatar_url)').order('created_at', { ascending: false }).limit(10),
   ])
 
   // 콘텐츠 유형별 통계

@@ -23,7 +23,7 @@ export default async function NotesPage({
     .select(
       `
       *,
-      user:user_id (id, nickname, avatar_url),
+      user:profiles!notes_user_id_fkey (id, nickname, avatar_url),
       content:content_id (id, title, type, thumbnail_url),
       sections:note_sections (id, title, is_completed)
     `,
