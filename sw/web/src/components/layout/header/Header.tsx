@@ -75,7 +75,7 @@ export default function Header({ isMobile }: HeaderProps) {
       <div className="absolute bottom-0 start-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
       <div className="relative z-10 flex items-center w-full gap-2 md:gap-4 min-w-0">
-        <div className="shrink-0">
+        <div className="shrink-0 md:translate-y-[2px]">
           <Logo size="md" />
         </div>
 

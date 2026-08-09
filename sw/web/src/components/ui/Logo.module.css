@@ -1,0 +1,159 @@
+.link {
+  display: inline-flex;
+  border-radius: 0.25rem;
+}
+
+.link:focus-visible {
+  outline: 1px solid rgba(249, 215, 110, 0.9);
+  outline-offset: 0.45rem;
+}
+
+.root {
+  --logo-size: 1.25rem;
+  --logo-cream: #f5f0e8;
+  --logo-gold: #d4a828;
+  --logo-gold-bright: #f9d76e;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--logo-cream);
+  line-height: 1;
+  user-select: none;
+}
+
+.sizeSm {
+  --logo-size: 1.125rem;
+}
+
+.sizeMd {
+  --logo-size: 1.25rem;
+}
+
+.sizeLg {
+  --logo-size: 1.875rem;
+}
+
+.sizeXl {
+  --logo-size: clamp(2.5rem, 10vw, 5.5rem);
+}
+
+.hero.sizeSm {
+  --logo-size: clamp(1rem, 8vw, 4rem);
+}
+
+.hero.sizeMd {
+  --logo-size: clamp(1.1rem, 10vw, 5rem);
+}
+
+.hero.sizeLg {
+  --logo-size: clamp(1.15rem, 12vw, 6rem);
+}
+
+.hero.sizeXl {
+  --logo-size: clamp(2.25rem, 11vw, 6rem);
+}
+
+.fullMark {
+  display: none;
+}
+
+.mobileMark {
+  display: inline-flex;
+}
+
+.hero .fullMark {
+  display: inline-flex;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--logo-cream);
+  font-family: var(--font-pretendard);
+  font-size: var(--logo-size);
+  font-kerning: normal;
+  line-height: 0.9;
+  white-space: nowrap;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.28));
+}
+
+.word {
+  color: var(--logo-cream);
+  font-weight: 800;
+  letter-spacing: 0.055em;
+}
+
+.ampersand {
+  margin: 0 0.18em;
+  color: var(--logo-gold);
+  font-size: 0.95em;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.compact .word {
+  letter-spacing: 0;
+}
+
+.compact .ampersand {
+  margin-inline: 0.1em;
+}
+
+.subtitleRule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 40, 0.72));
+}
+
+.subtitleRule:last-child {
+  background: linear-gradient(90deg, rgba(212, 168, 40, 0.72), transparent);
+}
+
+.subtitle {
+  display: grid;
+  grid-template-columns: minmax(1.25rem, 1fr) auto minmax(1.25rem, 1fr);
+  align-items: center;
+  width: min(100%, 29em);
+  gap: 0.8em;
+  margin-top: clamp(0.65rem, 1.7vw, 1.15rem);
+  color: rgba(224, 216, 204, 0.64);
+  font-size: clamp(0.58rem, calc(var(--logo-size) * 0.18), 0.82rem);
+  font-weight: 520;
+  letter-spacing: 0.38em;
+  line-height: 1.2;
+  text-align: center;
+  text-indent: 0.38em;
+  white-space: nowrap;
+}
+
+.link:hover .word {
+  color: #fffaf2;
+}
+
+.link:hover .ampersand {
+  color: var(--logo-gold-bright);
+}
+
+.link:hover .subtitleRule {
+  background: linear-gradient(90deg, transparent, rgba(249, 215, 110, 0.9));
+}
+
+.link:hover .subtitleRule:last-child {
+  background: linear-gradient(90deg, rgba(249, 215, 110, 0.9), transparent);
+}
+
+@media (min-width: 768px) {
+  .fullMark {
+    display: inline-flex;
+  }
+
+  .mobileMark {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark {
+    filter: none;
+  }
+}

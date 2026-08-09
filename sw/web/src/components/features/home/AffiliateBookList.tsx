@@ -26,9 +26,8 @@ export default function AffiliateBookList({ books, heading, buyLabel }: Affiliat
     <section className="w-full mt-12 md:mt-20 pt-6 md:pt-10 pb-6 md:pb-10 border-t border-white/5">
       <div className="flex flex-col items-center text-center mb-4 md:mb-7 gap-2">
         <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
-        <h2 className="text-base md:text-xl font-bold text-text-primary tracking-tight flex items-center gap-1.5">
-          <Logo size="sm" asLink={false} /> {heading}
-        </h2>
+        <Logo size="sm" asLink={false} />
+        <h2 className="text-base font-bold tracking-tight text-text-primary md:text-xl">{heading}</h2>
       </div>
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
