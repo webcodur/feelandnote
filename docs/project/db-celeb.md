@@ -1,6 +1,6 @@
 # DB 스키마 - 셀럽
 
-> **최종 실측 체크: 26.08.04** — 실존 인물 최소 등급을 `light`로 단일화한 3티어 체계 반영. 26.08.03 세력도감 단일화(`celeb_tag_assignments` 축소·뷰 `faction_atlas_members` 신설)는 아래 「celeb_tags / celeb_tag_assignments 컬럼」 절 참조
+> **최종 실측 체크: 26.08.09** — `profiles.updated_at` 추가와 기존 행 null 상태를 실 DB에서 확인. 실존 인물 최소 등급을 `light`로 단일화한 3티어 체계와 26.08.03 세력도감 단일화 내용은 유지
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
@@ -23,6 +23,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - 실측 분포(26.08.07): active 1,793 / inactive 725 / suspended 224
     - **목록 노출은 이 값이 아니라 `celeb_tier`가 가른다.** `status`를 조사 여부·관계·태그 배정 같은 다른 판단에 끌어 쓰지 마라 — 같은 사고가 세 번 났다. 판별법과 사고 이력은 `docs/project/celeb/celeb-gotchas.md` §9-1이 SSoT다
     - **계정 전용 열은 `profiles`에 없다.** `email`·`role`·`suspended_at`·`suspended_reason`·`last_seen_at`은 26.08.07에 `user_accounts`(회원 17행)로 옮기고 이 테이블에서 제거했다. 회원 계정 상태는 `user_accounts.account_status`이며 `profiles.status`와 다른 축이다. 관리자 판정은 `is_admin()` 하나가 쥔다(RLS 정책 59개가 이 함수를 부른다)
+  - `updated_at` (timestamptz, nullable): 프로필 내용이 실제로 변경된 시각. 2026-08-09 도입 이전 행은 다음 변경 전까지 null이다. 조회수와 마지막 접속 시각만 바뀐 경우에는 갱신하지 않는다
   - `speech_tone` (text): 말투 6종. **profiles 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용

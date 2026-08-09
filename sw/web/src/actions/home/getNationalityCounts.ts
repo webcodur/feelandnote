@@ -21,18 +21,16 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
 
   // 전체 셀럽 수 — 목록 노출 등급만 센다(목록과 수치 기준 일치)
   const { count: totalCount } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('*', { count: 'exact', head: true })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
   // 국적 정보 없는 셀럽 수
   const { count: noNationalityCount } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('*', { count: 'exact', head: true })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .is('nationality', null)
 
@@ -40,10 +38,9 @@ async function fetchNationalityCounts(): Promise<NationalityCounts> {
   // 자르면 국가별 합이 위 totalCount(head 카운트라 정확)와 어긋나 화면에서 바로 모순이 된다.
   const data = await selectAllPages<{ nationality: string | null }>((from, to) =>
     supabase
-      .from('profiles')
+      .from('celebs')
       .select('nationality')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .eq('publication_status', 'active')
       .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
       .not('nationality', 'is', null)
       .order('id')

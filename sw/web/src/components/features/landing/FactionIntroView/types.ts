@@ -36,4 +36,6 @@ export interface CollectionViewProps {
   locale: Locale;
   sectionIndex: number;
   onSectionChange: (index: number) => void;
+  canEditNames?: boolean;
+  onTagNameChange?: (tagId: string, patch: Pick<FeaturedTag, "name" | "name_en">) => void;
 }

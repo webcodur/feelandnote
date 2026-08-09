@@ -16,6 +16,14 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## 점검 안내 화면 로컬 미리보기
+
+개발 서버에서만 아래 주소로 점검 안내와 리다이렉트를 시험할 수 있다. 공개 환경에서는 아무 효과가 없다.
+
+- 켜기: [http://localhost:3000/?maintenance-preview=1](http://localhost:3000/?maintenance-preview=1)
+- 영어로 켜기: [http://localhost:3000/en?maintenance-preview=1](http://localhost:3000/en?maintenance-preview=1)
+- 끄기: 안내 화면의 `미리보기 종료`를 누른다.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

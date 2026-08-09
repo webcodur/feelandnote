@@ -18,9 +18,8 @@ export async function guardAdminRoute(): Promise<NextResponse | null> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: '로그인이 필요합니다' }, { status: 401 })
 
-  const { data: profile } = await supabase
-    .from('user_accounts').select('role').eq('id', user.id).single()
-  if (!profile || !['admin', 'super_admin'].includes(profile.role ?? '')) {
+  const { data: isAdmin, error } = await supabase.rpc('is_admin')
+  if (error || !isAdmin) {
     return NextResponse.json({ error: '관리자 권한이 필요합니다' }, { status: 403 })
   }
   return null

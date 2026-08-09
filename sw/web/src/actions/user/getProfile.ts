@@ -28,7 +28,7 @@ async function getProfileInner(): Promise<UserProfile | null> {
 
   // 이메일은 계정 기록(user_accounts)에 있다(26.08.07 분리). 로그인 세션의 값을 그대로 쓴다.
   const { data: profile, error } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .select('id, nickname, avatar_url, bio, birth_date, nationality, selected_title')
     .eq('id', user.id)
     .single()

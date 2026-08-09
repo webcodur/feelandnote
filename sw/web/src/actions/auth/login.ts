@@ -1,12 +1,14 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { getAccountAccessState } from '@/lib/auth/account-access'
 import { redirect } from 'next/navigation'
 
 export type LoginErrorCode =
   | 'missingCredentials'
   | 'invalidCredentials'
   | 'emailNotConfirmed'
+  | 'accountSuspended'
   | 'unknown'
 
 export type SignupErrorCode =
@@ -26,7 +28,7 @@ export async function loginWithEmail(formData: FormData) {
 
   const supabase = await createClient()
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password
   })
@@ -42,8 +44,15 @@ export async function loginWithEmail(formData: FormData) {
     return { error: 'unknown' as const }
   }
 
-  const { data: { user } } = await supabase.auth.getUser()
-  redirect(`/${user!.id}/reading`)
+  const accessState = await getAccountAccessState(supabase)
+  if (accessState !== 'active') {
+    await supabase.auth.signOut({ scope: 'local' })
+    return {
+      error: accessState === 'blocked' ? 'accountSuspended' as const : 'unknown' as const,
+    }
+  }
+
+  redirect(`/${data.user.id}/reading`)
 }
 
 export async function signupWithEmail(formData: FormData) {
@@ -83,20 +92,11 @@ export async function signupWithEmail(formData: FormData) {
   // 이메일 확인 활성화 상태: session이 null
   // 이메일 확인 비활성화 상태: session이 존재 (즉시 로그인됨)
   if (data.session) {
-    // 즉시 로그인됨 - 프로필 생성 후 리다이렉트
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('id', data.user!.id)
-      .single()
-
-    if (profileError && profileError.code === 'PGRST116') {
-      await supabase.from('profiles').insert({
-        id: data.user!.id,
-        email: data.user!.email,
-        nickname,
-        avatar_url: null
-      })
+    const accessState = await getAccountAccessState(supabase)
+    if (accessState !== 'active') {
+      console.error('[signupWithEmail] 회원가입 트리거가 계정 자료를 완성하지 못했습니다.')
+      await supabase.auth.signOut({ scope: 'local' })
+      return { error: 'unknown' as const }
     }
 
     redirect(`/${data.user!.id}/records`)

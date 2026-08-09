@@ -18,15 +18,13 @@ export async function checkAdmin(supabase: SupabaseClient): Promise<AdminCheckRe
     return failure('UNAUTHORIZED')
   }
 
-  const { data: profile } = await supabase
-    .from('user_accounts')
-    .select('role')
-    .eq('id', user.id)
-    .single()
+  const [{ data: isAdmin }, { data: account }] = await Promise.all([
+    supabase.rpc('is_admin'),
+    supabase.from('user_accounts').select('role').eq('id', user.id).single(),
+  ])
+  const role = account?.role as string | null
 
-  const role = profile?.role as string | null
-
-  if (!role || !['admin', 'super_admin'].includes(role)) {
+  if (!isAdmin || !role || !['admin', 'super_admin'].includes(role)) {
     return failure('FORBIDDEN', '관리자 권한이 필요하다.')
   }
 

@@ -7,6 +7,7 @@ import Pager from "../Pager";
 import SectionCarousel from "../SectionCarousel";
 import ThemeAction from "../ThemeAction";
 import type { CollectionSection, CollectionViewProps } from "../types";
+import FactionNameEditor from "../FactionNameEditor";
 import ThemeVisual from "./ThemeVisual";
 import collectionStyles from "../FactionCollection.module.css";
 import viewStyles from "../FactionViews.module.css";
@@ -16,9 +17,15 @@ const ATLAS_PAGE_SIZE = 8;
 function AtlasSection({
   section,
   ordinal,
+  locale,
+  canEditNames,
+  onTagNameChange,
 }: {
   section: CollectionSection;
   ordinal: number;
+  locale: CollectionViewProps["locale"];
+  canEditNames?: boolean;
+  onTagNameChange?: CollectionViewProps["onTagNameChange"];
 }) {
   const t = useTranslations("explore.faction.intro");
   const sectionStyle = { "--faction-color": section.color } as CSSProperties;
@@ -75,12 +82,19 @@ function AtlasSection({
               #{page * ATLAS_PAGE_SIZE + index + 1}
             </span>
             <span className={viewStyles.figureBadge}>
-              {theme.tag.is_featured
-                ? t("figureCount", { count: theme.tag.celebs.length })
-                : t("upcomingBadge")}
+              {t("figureCount", { count: theme.tag.celebs.length })}
             </span>
             <div className={viewStyles.atlasCardCopy}>
-              <h3 className={collectionStyles.themeTitle}>{theme.name}</h3>
+              {canEditNames ? (
+                <FactionNameEditor
+                  tag={theme.tag}
+                  locale={locale}
+                  titleClassName={collectionStyles.themeTitle}
+                  onSaved={(patch) => onTagNameChange?.(theme.tag.id, patch)}
+                />
+              ) : (
+                <h3 className={collectionStyles.themeTitle}>{theme.name}</h3>
+              )}
             </div>
           </ThemeAction>
         ))}
@@ -92,8 +106,11 @@ function AtlasSection({
 
 export default function AtlasCollection({
   data,
+  locale,
   sectionIndex,
   onSectionChange,
+  canEditNames,
+  onTagNameChange,
 }: CollectionViewProps) {
   return (
     <div className={collectionStyles.collectionBody}>
@@ -106,6 +123,9 @@ export default function AtlasCollection({
           <AtlasSection
             section={section}
             ordinal={index}
+            locale={locale}
+            canEditNames={canEditNames}
+            onTagNameChange={onTagNameChange}
           />
         )}
       </SectionCarousel>

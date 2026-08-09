@@ -50,6 +50,10 @@ const TEXT_FIELDS = [
 ] as const
 type TextField = (typeof TEXT_FIELDS)[number]
 
+// 등록용 원본 매니페스트가 기본정보 배치에 함께 보관할 수 있는 운영 메타데이터.
+// DB 컬럼으로 저장하지 않고, 이름·slug 대조용으로만 보존한다.
+const BATCH_METADATA_FIELDS = new Set(['expected_slug', 'slug', 'groups', 'primary_group'])
+
 const SELECT =
   'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, status, celeb_tier, profile_type'
 
@@ -175,6 +179,7 @@ async function apply() {
     const skippedFields: string[] = []
     for (const [k, v] of Object.entries(patch)) {
       if (k === 'slug') continue
+      if (BATCH_METADATA_FIELDS.has(k)) continue
       if (k === 'gender') {
         if (cur.gender === null && v !== undefined) payload.gender = v as boolean
         else if (cur.gender !== null) skippedFields.push('gender(기존값 보존)')

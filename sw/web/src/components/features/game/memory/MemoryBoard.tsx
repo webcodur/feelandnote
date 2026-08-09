@@ -6,6 +6,7 @@ import MemoryCard from "./MemoryCard";
 import type {
   MemoryCardData,
   MemoryDifficulty,
+  MemoryPairResult,
 } from "./types";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
   gridClassName: string;
   openIds: string[];
   matchedIds: Set<string>;
+  pairResult: MemoryPairResult;
   moves: number;
   elapsedSeconds: number;
   remainingPairs: number;
@@ -30,6 +32,7 @@ export default function MemoryBoard({
   gridClassName,
   openIds,
   matchedIds,
+  pairResult,
   moves,
   elapsedSeconds,
   remainingPairs,
@@ -89,6 +92,7 @@ export default function MemoryBoard({
             card={card}
             isFlipped={openIds.includes(card.instanceId)}
             isMatched={matchedIds.has(card.instanceId)}
+            pairResult={openIds.includes(card.instanceId) ? pairResult : null}
             isLocked={locked}
             backLabel={t("cardBack")}
             onSelect={onSelect}
@@ -96,7 +100,12 @@ export default function MemoryBoard({
         ))}
       </div>
 
-      <p className="mt-3 min-h-6 text-center font-serif text-sm font-bold text-accent" aria-live="polite">
+      <p
+        className={`mt-3 min-h-6 text-center font-serif text-sm font-bold ${
+          pairResult === "mismatch" ? "text-orange-300" : "text-accent"
+        }`}
+        aria-live="polite"
+      >
         {feedback}
       </p>
     </div>

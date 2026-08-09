@@ -8,11 +8,13 @@ import { createMemoryBoard } from "./engine";
 import MemoryBoard from "./MemoryBoard";
 import MemoryLobby from "./MemoryLobby";
 import MemoryResult from "./MemoryResult";
+import { MEMORY_SFX, useMemoryAudio } from "./useMemoryAudio";
 import {
   MEMORY_DIFFICULTIES,
   type MemoryCardData,
   type MemoryDifficulty,
   type MemoryFigure,
+  type MemoryPairResult,
 } from "./types";
 
 interface Props {
@@ -30,6 +32,7 @@ export default function MemoryGame({
 }: Props) {
   const t = useTranslations("rest.arena.memory");
   const tGame = useTranslations("shared.game");
+  const { playSfx, playMismatchSfx } = useMemoryAudio();
   const [phase, setPhase] = useState<GamePhase>("lobby");
   const [difficulty, setDifficulty] = useState<MemoryDifficulty>("easy");
   const [board, setBoard] = useState<MemoryCardData[]>([]);
@@ -38,6 +41,7 @@ export default function MemoryGame({
   const [moves, setMoves] = useState(0);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [locked, setLocked] = useState(false);
+  const [pairResult, setPairResult] = useState<MemoryPairResult>(null);
   const [feedback, setFeedback] = useState("");
   const timeoutIds = useRef<number[]>([]);
 
@@ -69,14 +73,40 @@ export default function MemoryGame({
     setMoves(0);
     setElapsedSeconds(0);
     setLocked(false);
+    setPairResult(null);
     setFeedback("");
     setPhase("playing");
-  }, [clearTimeouts, difficulty, figures]);
+    playSfx(MEMORY_SFX.start);
+  }, [clearTimeouts, difficulty, figures, playSfx]);
+
+  const handleDifficultyChange = useCallback((target: MemoryDifficulty) => {
+    setDifficulty(target);
+    playSfx(MEMORY_SFX.chooseDifficulty);
+  }, [playSfx]);
 
   const handleSelect = useCallback((card: MemoryCardData) => {
-    if (locked || matchedIds.has(card.instanceId) || openIds.includes(card.instanceId)) return;
+    if (locked || matchedIds.has(card.instanceId)) return;
+
+    if (openIds.includes(card.instanceId)) {
+      if (openIds.length === 1 && pairResult === null) {
+        setOpenIds([]);
+        playSfx(MEMORY_SFX.close);
+      }
+      return;
+    }
+
+    if (pairResult === "mismatch" && openIds.length === 2) {
+      clearTimeouts();
+      setOpenIds([card.instanceId]);
+      setPairResult(null);
+      setFeedback("");
+      playSfx(MEMORY_SFX.reveal);
+      return;
+    }
+
     if (openIds.length === 0) {
       setOpenIds([card.instanceId]);
+      playSfx(MEMORY_SFX.reveal);
       return;
     }
 
@@ -85,27 +115,37 @@ export default function MemoryGame({
 
     setOpenIds([firstCard.instanceId, card.instanceId]);
     setMoves((current) => current + 1);
-    setLocked(true);
 
     if (firstCard.figure.id === card.figure.id) {
-      const nextMatched = new Set(matchedIds);
-      nextMatched.add(firstCard.instanceId);
-      nextMatched.add(card.instanceId);
-      setMatchedIds(nextMatched);
-      setOpenIds([]);
-      setLocked(false);
+      setPairResult("match");
+      setLocked(true);
       setFeedback("");
-      if (nextMatched.size === board.length) setPhase("result");
+      playSfx(MEMORY_SFX.match);
+      queueTimeout(() => {
+        const nextMatched = new Set(matchedIds);
+        nextMatched.add(firstCard.instanceId);
+        nextMatched.add(card.instanceId);
+        setMatchedIds(nextMatched);
+        setOpenIds([]);
+        setPairResult(null);
+        setLocked(false);
+        if (nextMatched.size === board.length) {
+          setPhase("result");
+          playSfx(MEMORY_SFX.complete);
+        }
+      }, 550);
       return;
     }
 
+    setPairResult("mismatch");
     setFeedback(t("mismatch"));
+    playMismatchSfx();
     queueTimeout(() => {
       setOpenIds([]);
-      setLocked(false);
+      setPairResult(null);
       setFeedback("");
     }, 900);
-  }, [board, locked, matchedIds, openIds, queueTimeout, t]);
+  }, [board, clearTimeouts, locked, matchedIds, openIds, pairResult, playMismatchSfx, playSfx, queueTimeout, t]);
 
   useEffect(() => {
     if (phase !== "playing") return;
@@ -152,7 +192,7 @@ export default function MemoryGame({
         <MemoryLobby
           difficulty={difficulty}
           availableFigures={figures.length}
-          onDifficultyChange={setDifficulty}
+          onDifficultyChange={handleDifficultyChange}
           onStart={() => startGame()}
         />
       ) : phase === "result" ? (
@@ -172,6 +212,7 @@ export default function MemoryGame({
           gridClassName={config.gridClassName}
           openIds={openIds}
           matchedIds={matchedIds}
+          pairResult={pairResult}
           moves={moves}
           elapsedSeconds={elapsedSeconds}
           remainingPairs={remainingPairs}

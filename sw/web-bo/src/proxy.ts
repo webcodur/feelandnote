@@ -1,8 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const ALLOWED_ROLES = ['admin', 'super_admin']
-
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -61,14 +59,10 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  // role 체크
-  const { data: profile } = await supabase
-    .from('user_accounts')
-    .select('role')
-    .eq('id', user.id)
-    .single()
+  // 역할과 활성 계정 상태를 DB의 단일 관리자 판정으로 확인한다.
+  const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin')
 
-  if (!profile || !ALLOWED_ROLES.includes(profile.role)) {
+  if (adminError || !isAdmin) {
     // 권한 없음 → 로그인 페이지로 (에러 메시지 포함)
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('error', 'unauthorized')

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { suspendUser, unsuspendUser } from '@/actions/admin/users'
-import { softDeleteMember, hardDeleteMember, type Member } from '@/actions/admin/members'
+import { hardDeleteMember, type Member } from '@/actions/admin/members'
 import { Ban, CheckCircle, Loader2, Trash2 } from 'lucide-react'
 
 interface StatusToggleProps {
@@ -16,19 +16,6 @@ export default function StatusToggle({ member }: StatusToggleProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [reason, setReason] = useState('')
   const router = useRouter()
-
-  const handleSoftDelete = async () => {
-    if (!confirm('소프트 삭제하시겠습니까? (status를 deleted로 변경)')) return
-    setLoading(true)
-    try {
-      await softDeleteMember(member.id)
-      router.refresh()
-    } catch {
-      alert('소프트 삭제 실패')
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const handleHardDelete = async () => {
     setLoading(true)
@@ -93,17 +80,6 @@ export default function StatusToggle({ member }: StatusToggleProps) {
         </button>
       ) : null}
 
-      {/* 삭제 버튼 (드롭다운 대신 아이콘 버튼) */}
-      {member.status !== 'deleted' && (
-        <button
-          onClick={handleSoftDelete}
-          disabled={loading}
-          className="p-1.5 md:p-2 rounded-lg text-text-secondary hover:text-orange-400 hover:bg-orange-500/10 disabled:opacity-50"
-          title="소프트 삭제"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
-      )}
       <button
         onClick={() => setShowDeleteModal(true)}
         disabled={loading}

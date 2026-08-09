@@ -66,65 +66,28 @@ function toSection(entry: IndexedTag, tags: FeaturedTag[], locale: Locale): Coll
   };
 }
 
-const UPCOMING_SECTION_COLOR = "#8a8378";
-
 export function buildFactionCollection(
   tags: FeaturedTag[],
   locale: Locale,
-  labels?: { upcoming: string }
 ): FactionCollectionData {
-  /*
-    섹션(선택대)은 출간된 최상위 태그만 세운다 — 미출간 태그가 저마다 빈 섹션이 되면
-    골라도 아무것도 없는 화면만 나온다.
-    미출간 태그는 감추는 대신 「준비 중」으로 보여준다:
-    - 그룹에 속한 것은 제 섹션 안에서 준비 중 카드로 (childTags가 전체 tags를 받아 포함)
-    - 소속 없는 것은 맨 뒤 「준비 중」 섹션 하나에 모아서
-  */
-  const featuredTop = tags.filter((tag) => tag.is_featured);
-  const split = splitByFiction(featuredTop);
-  const toFullSection = (entry: IndexedTag) => toSection(entry, tags, locale);
+  const featuredTags = tags.filter((tag) => tag.is_featured);
+  const split = splitByFiction(featuredTags);
+  const toFullSection = (entry: IndexedTag) => toSection(entry, featuredTags, locale);
   const real = split.real.map(toFullSection).filter((s) => s.themes.length > 0);
   const fiction = split.fiction.map(toFullSection).filter((s) => s.themes.length > 0);
 
-  const upcomingTop = tags
-    .map((tag, idx) => ({ tag, idx }))
-    .filter(({ tag }) => !tag.is_featured && !tag.parentSlug);
-  if (upcomingTop.length > 0 && labels?.upcoming) {
-    const themes = upcomingTop.map((entry) => toTheme(entry, locale));
-    fiction.push({
-      /* 진짜 태그가 아닌 묶음용 껍데기 — id만 고유하면 된다 */
-      tag: {
-        ...upcomingTop[0].tag,
-        id: "__upcoming__",
-        slug: null,
-        color: UPCOMING_SECTION_COLOR,
-        is_fiction: true,
-        isGroup: true,
-      },
-      name: labels.upcoming,
-      description: null,
-      color: UPCOMING_SECTION_COLOR,
-      themes,
-      people: [],
-      coverImages: [],
-      totalCelebs: 0,
-    });
-  }
-
   const sections = [...real, ...fiction];
   const themes = sections.flatMap((section) => section.themes);
-  /* 대표 화보·통계는 열람 가능한(출간된) 테마만 센다 */
-  const featuredThemes = themes.filter((theme) => theme.tag.is_featured);
   const heroThemes = [
-    ...featuredThemes.filter((theme) => theme.coverImage),
-    ...featuredThemes.filter((theme) => !theme.coverImage),
+    ...themes.filter((theme) => theme.coverImage),
+    ...themes.filter((theme) => !theme.coverImage),
   ].slice(0, HERO_THEME_LIMIT);
 
   return {
     real,
     fiction,
     heroThemes,
-    totalThemes: featuredThemes.length,
+    totalThemes: themes.length,
     totalCelebs: sections.reduce((sum, section) => sum + section.totalCelebs, 0),
   };
 }

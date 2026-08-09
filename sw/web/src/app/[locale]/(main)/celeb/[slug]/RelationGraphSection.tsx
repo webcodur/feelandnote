@@ -68,7 +68,9 @@ const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "fr
  * 전체 명단은 별도 패널에 남겨 페이지 높이가 관계 수에 비례해 늘어나지 않게 한다.
  */
 const FEATURED_FAMILY_CAP = 5;
-const FEATURED_SOCIAL_CAP = 6;
+// Three populated bands receive at least two nodes each, with one extra slot
+// for the upward band where mentors and influences are shown.
+const FEATURED_SOCIAL_CAP = 7;
 
 /** 요소의 컨테이너 기준 좌표 */
 interface Geo {

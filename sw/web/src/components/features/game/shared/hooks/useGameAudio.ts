@@ -26,15 +26,16 @@ export interface GameAudioConfig {
 const sfxCacheByBase = new Map<string, Map<string, HTMLAudioElement>>();
 
 function preloadSfx(basePath: string, sfxFiles: string[]) {
-  if (sfxCacheByBase.has(basePath)) return;
-  const cache = new Map<string, HTMLAudioElement>();
+  const cache = sfxCacheByBase.get(basePath) ?? new Map<string, HTMLAudioElement>();
+  if (!sfxCacheByBase.has(basePath)) sfxCacheByBase.set(basePath, cache);
+
   for (const name of sfxFiles) {
+    if (cache.has(name)) continue;
     const audio = new Audio(`${basePath}/${name}`);
     audio.preload = "auto";
     audio.load();
     cache.set(name, audio);
   }
-  sfxCacheByBase.set(basePath, cache);
 }
 
 export function useGameAudio(config: GameAudioConfig) {

@@ -18,6 +18,7 @@ export interface AtlasThemeLink {
   name: string
   nameEn: string | null
   color: string
+  isFeatured: boolean
   /** 이 테마가 속한 상위분류 id. 없으면 무소속 */
   parentId: string | null
 }
@@ -57,6 +58,7 @@ export function buildThemesByFolder(themes: FactionThemeSummary[]): Map<string, 
         name: theme.name,
         nameEn: theme.name_en,
         color: theme.color,
+        isFeatured: theme.is_featured,
         parentId: theme.parent_id,
       })
       result.set(episode.folder, list)

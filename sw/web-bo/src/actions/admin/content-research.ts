@@ -396,13 +396,9 @@ async function assertAdmin(): Promise<{ id: string }> {
 
   if (!user) throw new Error('인증이 필요합니다.')
 
-  const { data: profile, error } = await supabase
-    .from('user_accounts')
-    .select('role')
-    .eq('id', user.id)
-    .single()
+  const { data: isAdmin, error } = await supabase.rpc('is_admin')
 
-  if (error || !profile || !['admin', 'super_admin'].includes(profile.role ?? '')) {
+  if (error || !isAdmin) {
     throw new Error('관리자 권한이 필요합니다.')
   }
 

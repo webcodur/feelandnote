@@ -3066,6 +3066,7 @@ export type Database = {
           suspended_reason: string | null
           title: string | null
           title_en: string | null
+          updated_at: string | null
           view_count: number
           virtual_monologue: string | null
           virtual_monologue_en: string | null
@@ -3115,6 +3116,7 @@ export type Database = {
           suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
+          updated_at?: string | null
           view_count?: number
           virtual_monologue?: string | null
           virtual_monologue_en?: string | null
@@ -3164,6 +3166,7 @@ export type Database = {
           suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
+          updated_at?: string | null
           view_count?: number
           virtual_monologue?: string | null
           virtual_monologue_en?: string | null

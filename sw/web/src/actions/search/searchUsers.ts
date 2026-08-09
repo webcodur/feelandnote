@@ -45,7 +45,7 @@ async function fetchSearchUsersPublic(
   const offset = (page - 1) * limit
 
   const { data: users, count, error } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .select('id, nickname, avatar_url, selected_title', { count: 'exact' })
     .ilike('nickname', `%${query}%`)
     .range(offset, offset + limit - 1)

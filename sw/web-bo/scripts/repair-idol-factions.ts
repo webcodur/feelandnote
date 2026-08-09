@@ -2,7 +2,9 @@
  * 한국 아이돌 그룹 팩션 4편을 DB SSoT에 편성한다.
  *
  * 기본은 dry-run이다. --apply에서만 태그와 팩션 4편을 갱신한다.
- * 현/전은 군복무·휴식·개인 활동 여부가 아니라 해당 그룹의 공식 멤버십을 기준으로 한다.
+ * 현직/과거는 개인의 탈퇴 여부가 아니라 그룹 자체의 최근 활동성을 기준으로 한다.
+ * 최근 앨범과 정기 팀 활동을 이어가는 그룹은 현직이다.
+ * 재결합·기념 공연·간헐적 팬콘만 있는 그룹은 과거로 둔다.
  * 기존 서비스 인물을 빠뜨리지 않도록 최근 생성분이 아니라 음악가 프로필 전량을 조회한다.
  *
  *   pnpm exec tsx scripts/repair-idol-factions.ts
@@ -10,7 +12,7 @@
  */
 
 import { randomUUID } from 'node:crypto'
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { config } from 'dotenv'
@@ -45,10 +47,10 @@ type ProfileRow = {
   created_at: string
 }
 
-type GroupDef = { ko: string; en: string; gender: Gender; disbanded?: boolean }
+type GroupDef = { ko: string; en: string; gender: Gender; past?: boolean }
 const GROUPS: GroupDef[] = [
   { ko: '방탄소년단', en: 'BTS', gender: 'male' },
-  { ko: '빅뱅', en: 'BIGBANG', gender: 'male' },
+  { ko: '빅뱅', en: 'BIGBANG', gender: 'male', past: true },
   { ko: '엑소', en: 'EXO', gender: 'male' },
   { ko: '세븐틴', en: 'SEVENTEEN', gender: 'male' },
   { ko: '스트레이 키즈', en: 'Stray Kids', gender: 'male' },
@@ -67,41 +69,56 @@ const GROUPS: GroupDef[] = [
   { ko: '보이넥스트도어', en: 'BOYNEXTDOOR', gender: 'male' },
   { ko: '블랙핑크', en: 'BLACKPINK', gender: 'female' },
   { ko: '트와이스', en: 'TWICE', gender: 'female' },
-  { ko: '뉴진스', en: 'NewJeans', gender: 'female' },
+  { ko: '뉴진스', en: 'NewJeans', gender: 'female', past: true },
   { ko: '에스파', en: 'aespa', gender: 'female' },
   { ko: '아이브', en: 'IVE', gender: 'female' },
   { ko: '르세라핌', en: 'LE SSERAFIM', gender: 'female' },
   { ko: '베이비몬스터', en: 'BABYMONSTER', gender: 'female' },
   { ko: '있지', en: 'ITZY', gender: 'female' },
   { ko: '엔믹스', en: 'NMIXX', gender: 'female' },
-  { ko: '소녀시대', en: "Girls' Generation", gender: 'female' },
-  { ko: '원더걸스', en: 'Wonder Girls', gender: 'female', disbanded: true },
-  { ko: '2NE1', en: '2NE1', gender: 'female' },
+  { ko: '소녀시대', en: "Girls' Generation", gender: 'female', past: true },
+  { ko: '원더걸스', en: 'Wonder Girls', gender: 'female', past: true },
+  { ko: '2NE1', en: '2NE1', gender: 'female', past: true },
+  { ko: 'H.O.T.', en: 'H.O.T.', gender: 'male', past: true },
+  { ko: 'god', en: 'g.o.d.', gender: 'male' },
+  { ko: '신화', en: 'Shinhwa', gender: 'male', past: true },
+  { ko: 'S.E.S.', en: 'S.E.S.', gender: 'female', past: true },
+  { ko: '에이핑크', en: 'Apink', gender: 'female' },
+  { ko: 'AOA', en: 'AOA', gender: 'female', past: true },
+  { ko: '달샤벳', en: 'Dal Shabet', gender: 'female', past: true },
+  { ko: '스텔라', en: 'Stellar', gender: 'female', past: true },
+  { ko: '포미닛', en: '4Minute', gender: 'female', past: true },
+  { ko: '티아라', en: 'T-ara', gender: 'female', past: true },
+  { ko: '브라운아이드걸스', en: 'Brown Eyed Girls', gender: 'female', past: true },
+  { ko: '헬로비너스', en: 'Hello Venus', gender: 'female', past: true },
+  { ko: '동방신기', en: 'TVXQ', gender: 'male' },
+  { ko: '2PM', en: '2PM', gender: 'male', past: true },
+  { ko: 'SS501', en: 'SS501', gender: 'male', past: true },
+  { ko: 'CNBLUE', en: 'CNBLUE', gender: 'male' },
+  { ko: 'FTISLAND', en: 'FTISLAND', gender: 'male' },
+  { ko: '인피니트', en: 'INFINITE', gender: 'male' },
+  { ko: 'BTOB', en: 'BTOB', gender: 'male' },
+  { ko: 'B1A4', en: 'B1A4', gender: 'male' },
+  { ko: '카라', en: 'KARA', gender: 'female', past: true },
+  { ko: '미쓰에이', en: 'miss A', gender: 'female', past: true },
+  { ko: '시크릿', en: 'Secret', gender: 'female', past: true },
+  { ko: '레인보우', en: 'Rainbow', gender: 'female', past: true },
+  { ko: '레드벨벳', en: 'Red Velvet', gender: 'female' },
+  { ko: '마마무', en: 'MAMAMOO', gender: 'female' },
+  { ko: '아이들', en: 'i-dle', gender: 'female' },
+  { ko: 'EXID', en: 'EXID', gender: 'female', past: true },
+  { ko: '씨스타', en: 'SISTAR', gender: 'female', past: true },
+  { ko: '에프엑스', en: 'f(x)', gender: 'female', past: true },
+  { ko: '걸스데이', en: "Girl's Day", gender: 'female', past: true },
+  { ko: '애프터스쿨', en: 'After School', gender: 'female', past: true },
+  { ko: '나인뮤지스', en: '9MUSES', gender: 'female', past: true },
+  { ko: '러블리즈', en: 'Lovelyz', gender: 'female', past: true },
 ]
 
 const GROUP_BY_KO = new Map(GROUPS.map(group => [group.ko, group]))
 const GROUP_ORDER = new Map(GROUPS.map((group, index) => [group.ko, index]))
 
-/** 공식 탈퇴·계약 종료가 확인된 멤버만 전직으로 보낸다. */
-const FORMER_BY_GROUP = new Map<string, Set<string>>([
-  ['빅뱅', new Set(['t.o.p'])],
-  ['NCT 127', new Set(['taeil', 'winwin', 'mark-lee'])],
-  ['NCT 드림', new Set(['mark-lee'])],
-  ['엔하이픈', new Set(['heeseung'])],
-  ['제로베이스원', new Set(['zhang-hao', 'ricky', 'kim-gyu-vin', 'han-yu-jin'])],
-  ['뉴진스', new Set(['danielle'])],
-  ['엔믹스', new Set(['jinni'])],
-  ['소녀시대', new Set(['jessica', 'jessica-jung'])],
-])
-
-/**
- * 전 멤버 팩션과 어긋난 원본 프로필의 현역 시제를 함께 바로잡는다.
- * 멤버십 근거:
- * - MARK: https://weverse.io/nct127/notice/34681
- * - WINWIN: https://weverse.io/nct127/notice/37262
- * - HEESEUNG: https://weverse.io/enhypen/notice/34159
- * - 나머지는 소속사 발표 및 2026-08-03 운영 감사에서 재확인했다.
- */
+/** 이전 개인별 현/전 분류 작업의 백업 대상. 새 그룹 단위 분류에서는 더 이상 적용하지 않는다. */
 const FORMER_PROFILE_PATCHES = [
   {
     slug: 't.o.p', title: '빅뱅 전 멤버', titleEn: 'Former BIGBANG Member',
@@ -171,6 +188,12 @@ const EXTRA_MEMBERSHIPS: { slug: string; group: string }[] = [
   { slug: 'han-yu-jin', group: '제로베이스원' },
   { slug: 'danielle', group: '뉴진스' },
   { slug: 'jinni', group: '엔믹스' },
+  ...JSON.parse(readFileSync(path.join(SCRIPT_DIR, 'data', 'legacy-idol-wave1.json'), 'utf8'))
+    .flatMap((person: { slug: string; groups: string[] }) => person.groups.map(group => ({ slug: person.slug, group }))),
+  ...JSON.parse(readFileSync(path.join(SCRIPT_DIR, 'data', 'legacy-idol-wave2.json'), 'utf8'))
+    .flatMap((person: { slug: string; groups: string[] }) => person.groups.map(group => ({ slug: person.slug, group }))),
+  ...JSON.parse(readFileSync(path.join(SCRIPT_DIR, 'data', 'legacy-idol-wave3.json'), 'utf8'))
+    .flatMap((person: { slug: string; groups: string[] }) => person.groups.map(group => ({ slug: person.slug, group }))),
 ]
 
 const CATEGORIES: Record<CategoryKey, {
@@ -184,39 +207,39 @@ const CATEGORIES: Record<CategoryKey, {
   loglineEn: string
   color: string
   gender: Gender
-  former: boolean
+  past: boolean
 }> = {
   'current-male': {
     folder: 'IDOL-MALE', tagSlug: 'idol-group-current-male',
-    tagName: '보이그룹 현 멤버', tagNameEn: 'Current Boy Group Members',
-    title: '보이그룹\n현 멤버', titleEn: 'Current Boy Group\nMembers',
-    logline: '지금도 각자의 그룹 이름으로 무대에 서는 남성 아이돌 멤버들',
-    loglineEn: 'Male idols who remain official members of their groups',
-    color: '#2563EB', gender: 'male', former: false,
+    tagName: '현직 K-pop 보이그룹', tagNameEn: 'Active K-pop Boy Groups',
+    title: '현직 보이그룹', titleEn: 'Active Boy Groups',
+    logline: '최근에도 앨범과 공식 공연으로 활동을 이어가는 남성 아이돌 그룹들',
+    loglineEn: 'Boy groups that continue releasing music and performing in recent years',
+    color: '#2563EB', gender: 'male', past: false,
   },
   'former-male': {
     folder: 'IDOL-MALE-FORMER', tagSlug: 'idol-group-former-male',
-    tagName: '보이그룹 전 멤버', tagNameEn: 'Former Boy Group Members',
-    title: '보이그룹\n전 멤버', titleEn: 'Former Boy Group\nMembers',
-    logline: '그룹을 떠난 뒤 다른 이름과 무대로 이동한 남성 아이돌 멤버들',
-    loglineEn: 'Male idols whose official membership in the listed group has ended',
-    color: '#64748B', gender: 'male', former: true,
+    tagName: '과거 K-pop 보이그룹', tagNameEn: 'Past K-pop Boy Groups',
+    title: '과거 보이그룹', titleEn: 'Past Boy Groups',
+    logline: '한 시대를 무대에 새겼지만 최근 팀 활동이 멈춘 남성 아이돌 그룹들',
+    loglineEn: 'Boy groups that shaped an era but have been quiet as teams in recent years',
+    color: '#64748B', gender: 'male', past: true,
   },
   'current-female': {
     folder: 'IDOL-FEMALE', tagSlug: 'idol-group-current-female',
-    tagName: '걸그룹 현 멤버', tagNameEn: 'Current Girl Group Members',
-    title: '걸그룹\n현 멤버', titleEn: 'Current Girl Group\nMembers',
-    logline: '지금도 각자의 그룹 이름으로 무대에 서는 여성 아이돌 멤버들',
-    loglineEn: 'Female idols who remain official members of their groups',
-    color: '#EC4899', gender: 'female', former: false,
+    tagName: '현직 K-pop 걸그룹', tagNameEn: 'Active K-pop Girl Groups',
+    title: '현직 걸그룹', titleEn: 'Active Girl Groups',
+    logline: '최근에도 앨범과 공식 공연으로 활동을 이어가는 여성 아이돌 그룹들',
+    loglineEn: 'Girl groups that continue releasing music and performing in recent years',
+    color: '#EC4899', gender: 'female', past: false,
   },
   'former-female': {
     folder: 'IDOL-FEMALE-FORMER', tagSlug: 'idol-group-former-female',
-    tagName: '걸그룹 전 멤버', tagNameEn: 'Former Girl Group Members',
-    title: '걸그룹\n전 멤버', titleEn: 'Former Girl Group\nMembers',
-    logline: '그룹을 떠난 뒤 새로운 활동을 시작한 여성 아이돌 멤버들',
-    loglineEn: 'Female idols whose official membership in the listed group has ended',
-    color: '#A855F7', gender: 'female', former: true,
+    tagName: '과거 K-pop 걸그룹', tagNameEn: 'Past K-pop Girl Groups',
+    title: '과거 걸그룹', titleEn: 'Past Girl Groups',
+    logline: '한 시대를 무대에 새겼지만 최근 팀 활동이 멈춘 여성 아이돌 그룹들',
+    loglineEn: 'Girl groups that shaped an era but have been quiet as teams in recent years',
+    color: '#A855F7', gender: 'female', past: true,
   },
 }
 
@@ -229,9 +252,8 @@ function requireEnv(name: string): string {
   return value
 }
 
-function categoryOf(group: GroupDef, slug: string): CategoryKey {
-  const former = group.disbanded || (FORMER_BY_GROUP.get(group.ko)?.has(slug) ?? false)
-  return `${former ? 'former' : 'current'}-${group.gender}` as CategoryKey
+function categoryOf(group: GroupDef): CategoryKey {
+  return `${group.past ? 'former' : 'current'}-${group.gender}` as CategoryKey
 }
 
 function asPosix(value: string): string {
@@ -309,7 +331,7 @@ function buildRoster(profiles: ProfileRow[]) {
         throw new Error(`성별 불일치: ${groupName} / ${profile.nickname}(${profile.slug})`)
       }
       if (!profile.nickname_en) throw new Error(`영문 닉네임 누락: ${profile.nickname}(${profile.slug})`)
-      const category = categoryOf(group, profile.slug)
+      const category = categoryOf(group)
       const bucket = roster.get(category)!
       const rows = bucket.get(groupName) ?? []
       rows.push(profile)
@@ -344,25 +366,21 @@ function buildEpisodeScript(key: CategoryKey, groups: Map<string, ProfileRow[]>)
         color: PALETTE[groupIndex % PALETTE.length],
         tagSlug: category.tagSlug,
         clusters: [{
-          label: category.former ? `${groupName} 전 멤버` : `${groupName} 현 멤버`,
-          labelEn: category.former ? `Former ${group.en} members` : `Current ${group.en} members`,
+          label: `${groupName} 그룹 인물`,
+          labelEn: `${group.en} group members`,
           ...(clusterImage ? { image: clusterImage } : {}),
           people: members.map(profile => {
             const image = findPersonImage(category.folder, groupName, profile.nickname, profile.slug)
-            const memberLabel = category.former ? `${groupName} 전 멤버` : `${groupName} 멤버`
-            const memberLabelEn = category.former ? `Former ${group.en} member` : `${group.en} member`
+            const memberLabel = `${groupName} 멤버`
+            const memberLabelEn = `${group.en} member`
             return {
               name: profile.nickname,
               nameEn: profile.nickname_en,
               slug: profile.slug,
               lines: [memberLabel],
               linesEn: [memberLabelEn],
-              epithet: category.former
-                ? `${groupName}에서 공식적으로 활동했던 전 멤버다.`
-                : `${groupName}의 공식 현 멤버다.`,
-              epithetEn: category.former
-                ? `A former official member of ${group.en}.`
-                : `A current official member of ${group.en}.`,
+              epithet: `${groupName}의 멤버로 활동했다.`,
+              epithetEn: `Performed as a member of ${group.en}.`,
               ...(image ? { image } : {}),
             }
           }),
@@ -388,8 +406,7 @@ function printPlan(roster: Map<CategoryKey, Map<string, ProfileRow[]>>) {
       console.log(`  - ${group} ${rows.length}명: ${rows.map(row => row.nickname).join(', ')}`)
     }
   }
-  console.log('\n알려진 프로필 결손: 라이즈 소희, 소녀시대 전 멤버 제시카, 원더걸스 역대 멤버는 DB 프로필이 없어 배치에서 제외')
-  console.log(`원본 프로필 현/전 시제 교정: ${FORMER_PROFILE_PATCHES.length}명`)
+  console.log('\n그룹 활동성 기준: 개인별 현/전 멤버 분리 없이 그룹 전체를 한 분류에 배치')
 }
 
 async function countReferences(db: SupabaseClient, tagId: string): Promise<number> {
@@ -415,6 +432,7 @@ async function ensureTag(
     parentId: string | null
     sortOrder: number
     isFeatured?: boolean
+    clearTeamImagesOnRepurpose?: boolean
   },
 ): Promise<string> {
   const fields = {
@@ -429,11 +447,19 @@ async function ensureTag(
     is_featured: input.isFeatured ?? false,
   }
   if (input.forcedId) {
+    const { data: forcedTag, error: forcedTagError } = await db
+      .from('celeb_tags').select('id,slug').eq('id', input.forcedId).maybeSingle()
+    if (forcedTagError) throw new Error(`기존 태그 조회 실패(${input.forcedId}): ${forcedTagError.message}`)
+    if (!forcedTag) throw new Error(`재사용할 태그가 없습니다: ${input.forcedId}`)
     const { data: occupied, error: occupiedError } = await db
       .from('celeb_tags').select('id').eq('slug', input.slug).neq('id', input.forcedId).maybeSingle()
     if (occupiedError) throw new Error(`태그 slug 점검 실패: ${occupiedError.message}`)
     if (occupied) throw new Error(`태그 slug가 다른 행에 이미 사용 중입니다: ${input.slug}`)
-    const { data, error } = await db.from('celeb_tags').update(fields).eq('id', input.forcedId).select('id').single()
+    const repurposing = forcedTag.slug !== input.slug
+    const nextFields = input.clearTeamImagesOnRepurpose && repurposing
+      ? { ...fields, team_images: [] }
+      : fields
+    const { data, error } = await db.from('celeb_tags').update(nextFields).eq('id', input.forcedId).select('id').single()
     if (error) throw new Error(`기존 태그 갱신 실패(${input.forcedId}): ${error.message}`)
     return data.id as string
   }
@@ -548,6 +574,7 @@ async function applyTags(db: SupabaseClient): Promise<Map<CategoryKey, string>> 
       color: category.color,
       parentId,
       sortOrder: 765 + index,
+      clearTeamImagesOnRepurpose: key === 'current-male',
     })
     ids.set(key, id)
   }
@@ -705,7 +732,6 @@ async function main() {
   }
   printPlan(roster)
   if (EXPORT_ONLY) {
-    await verifyFormerProfilePatches(db)
     await verifyDatabase(db, roster)
     await exportFiles(db)
     console.log('\n렌더 데이터 export 완료.')
@@ -719,9 +745,7 @@ async function main() {
   const backupPath = await snapshotBeforeApply(db)
   console.log(`\n사전 백업: ${backupPath}`)
   const tagIds = await applyTags(db)
-  await applyFormerProfilePatches(db)
   await applyEpisodes(db, roster)
-  await verifyFormerProfilePatches(db)
   await verifyDatabase(db, roster, tagIds)
   await exportFiles(db)
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])

@@ -22,7 +22,7 @@ async function fetchProfilesBySlugs(slugs: string[]): Promise<Record<string, Pro
 
   const supabase = createStaticClient()
   const { data, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('slug, nickname, nickname_en, avatar_url')
     .in('slug', slugs)
 
