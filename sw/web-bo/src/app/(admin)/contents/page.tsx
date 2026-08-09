@@ -36,10 +36,12 @@ export default async function ContentsPage({ searchParams }: PageProps) {
 
   if (search) {
     const searchTerm = `%${search}%`
-    const { data: matchIds } = await supabase
+    const { data: matchIds, error: searchError } = await supabase
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
+
+    if (searchError) throw new Error(`Failed to search contents: ${searchError.message}`)
 
     if (matchIds?.length) {
       const ids = [...new Set(matchIds.map((m: { content_id: string }) => m.content_id))]
@@ -60,32 +62,49 @@ export default async function ContentsPage({ searchParams }: PageProps) {
     query = query.eq('type', type)
   }
 
-  const { data: contents, count } = await query
+  const { data: contents, count, error: contentsError } = await query
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
+
+  if (contentsError) throw new Error(`Failed to load contents: ${contentsError.message}`)
 
   const total = count || 0
   const totalPages = Math.ceil(total / limit)
 
-  // 콘텐츠별 사용자 수 조회
+  // 콘텐츠별 회원·셀럽 감상 수 조회
   const contentIds = (contents || []).map(c => c.id)
-  const { data: userCounts } = await supabase
-    .from('user_contents')
-    .select('content_id')
-    .in('content_id', contentIds)
+  const [memberCountResult, celebCountResult] = contentIds.length > 0
+    ? await Promise.all([
+        supabase.from('member_contents').select('content_id').in('content_id', contentIds),
+        supabase.from('celeb_contents').select('content_id').in('content_id', contentIds),
+      ])
+    : [{ data: [], error: null }, { data: [], error: null }]
 
-  const userCountMap = (userCounts || []).reduce((acc, item) => {
+  if (memberCountResult.error || celebCountResult.error) {
+    throw new Error(
+      `Failed to load content subject counts: ${
+        memberCountResult.error?.message ?? celebCountResult.error?.message
+      }`
+    )
+  }
+
+  const subjectCountMap = [
+    ...(memberCountResult.data ?? []),
+    ...(celebCountResult.data ?? []),
+  ].reduce((acc, item) => {
     acc[item.content_id] = (acc[item.content_id] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
   // 로케일 조회 (전 타입)
-  const { data: editions } = contentIds.length > 0
+  const { data: editions, error: editionsError } = contentIds.length > 0
     ? await supabase
         .from('content_locales')
         .select('content_id, locale, title, creator, isbn, thumbnail_url, publisher')
         .in('content_id', contentIds)
-    : { data: [] }
+    : { data: [], error: null }
+
+  if (editionsError) throw new Error(`Failed to load content locales: ${editionsError.message}`)
 
   interface Edition {
     content_id: string
@@ -155,7 +174,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                 <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">type</th>
                 <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">publisher</th>
                 <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">release_date</th>
-                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">user_count</th>
+                <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">subject_count</th>
                 <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary whitespace-nowrap font-mono">created_at</th>
                 <th className="text-center px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm font-medium text-text-secondary">actions</th>
               </tr>
@@ -171,7 +190,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                 contents.map((content) => {
                   const typeConfig = CONTENT_TYPE_CONFIG[content.type as keyof typeof CONTENT_TYPE_CONFIG]
                   const TypeIcon = typeConfig?.icon || Library
-                  const userCount = userCountMap[content.id] || 0
+                  const subjectCount = subjectCountMap[content.id] || 0
 
                   return (
                     <tr key={content.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50 divide-x divide-border">
@@ -330,7 +349,7 @@ export default async function ContentsPage({ searchParams }: PageProps) {
                       <td className="px-3 md:px-6 py-3 md:py-4 text-center">
                         <div className="flex items-center justify-center gap-1 text-xs md:text-sm text-text-secondary">
                           <Users className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                          <span>{userCount}</span>
+                          <span>{subjectCount}</span>
                         </div>
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4 text-xs md:text-sm text-text-secondary whitespace-nowrap">

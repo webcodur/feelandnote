@@ -19,7 +19,7 @@ interface ReviewContentRow {
   content_locales: ContentLocaleRow[] | null
 }
 
-// profiles 조인 select 결과 행
+// celebs 조인 select 결과 행
 interface ReviewCelebRow {
   id: string
   slug: string | null
@@ -27,10 +27,10 @@ interface ReviewCelebRow {
   avatar_url: string | null
   profession: string | null
   is_verified: boolean | null
-  claimed_by: string | null
+  claimed_by_member_id: string | null
 }
 
-// user_contents select 결과 행
+// celeb_contents select 결과 행
 interface ReviewRow {
   id: string
   rating: number | null
@@ -59,7 +59,7 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
 
   const [reviewsResult, explanationResult] = await Promise.all([
     supabase
-      .from('user_contents')
+      .from('celeb_contents')
       .select(`
         id,
         rating,
@@ -69,21 +69,21 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
         source_url,
         updated_at,
         content_id,
-        content:contents!user_contents_content_id_fkey(
-          id, type, user_count,
+        content:contents!celeb_contents_content_id_fkey(
+          id, type, user_count:record_count,
           content_locales(${CL_SELECT_LIST})
         ),
-        celeb:profiles!user_contents_user_id_fkey(
+        celeb:celebs!celeb_contents_celeb_id_fkey(
           id,
           slug,
           nickname,
           avatar_url,
           profession,
           is_verified,
-          claimed_by
+          claimed_by_member_id
         )
       `)
-      .eq('user_id', celebId)
+      .eq('celeb_id', celebId)
       .not('review', 'is', null)
       .neq('review', '')
       .eq('visibility', 'public')
@@ -155,7 +155,7 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
           avatar_url: celeb.avatar_url,
           profession: celeb.profession ?? null,
           is_verified: celeb.is_verified ?? false,
-          is_platform_managed: celeb.claimed_by === null,
+          is_platform_managed: celeb.claimed_by_member_id === null,
         },
       }
     })
@@ -207,7 +207,7 @@ async function getContentCountsForContents(
 const getCelebModalContentCached = unstable_cache(
   fetchCelebModalContent,
   ['celeb-modal-content-v2'],
-  // 셀럽 감상문(user_contents)·콘텐츠 메타(contents·content_locales) + 공개 인물 안내(celeb_explanations)
+  // 셀럽 감상문(celeb_contents)·콘텐츠 메타(contents·content_locales) + 공개 인물 안내(celeb_explanations)
   { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS] }
 )
 

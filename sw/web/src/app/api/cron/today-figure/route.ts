@@ -24,10 +24,9 @@ export async function GET(request: Request) {
 
   // 1. 오늘 생일인 셀럽 조회 (birth_date LIKE '%-MM-DD')
   const { data: birthdayCelebs } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id, nickname')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .like('birth_date', `%-${monthDay}`)
@@ -40,16 +39,16 @@ export async function GET(request: Request) {
     const ids = birthdayCelebs.map((c) => c.id)
 
     const { data: ucData } = await supabase
-      .from('user_contents')
-      .select('user_id')
-      .in('user_id', ids)
+      .from('celeb_contents')
+      .select('celeb_id')
+      .in('celeb_id', ids)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public')
 
     const countMap = new Map<string, number>()
     if (ucData) {
       for (const item of ucData) {
-        countMap.set(item.user_id, (countMap.get(item.user_id) || 0) + 1)
+        countMap.set(item.celeb_id, (countMap.get(item.celeb_id) || 0) + 1)
       }
     }
 
@@ -64,10 +63,9 @@ export async function GET(request: Request) {
   } else {
     // 2. 생일 셀럽 없으면 seed fallback
     const { data: celebProfiles } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('id')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .eq('publication_status', 'active')
       // 신화·관계 인물은 목록에서 제외
       .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 

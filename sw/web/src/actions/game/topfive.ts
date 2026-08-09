@@ -25,7 +25,7 @@ import { getFixturePool, isFixtureMode } from "@/components/features/game/topfiv
 interface InfluenceRow {
   celeb_id: string;
   total_score: number;
-  profiles: {
+  celeb: {
     nickname: string;
     nickname_en: string | null;
     profession: string | null;
@@ -71,10 +71,11 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
     .select(`
       celeb_id,
       total_score,
-      profiles!celeb_influence_celeb_id_fkey (
+      celeb:celebs!celeb_influence_celebs_fkey!inner (
         nickname, nickname_en, profession
       )
     `)
+    .eq("celeb.publication_status", "active")
     .order("total_score", { ascending: false })
     .limit(2000)
     .overrideTypes<InfluenceRow[], { merge: false }>();
@@ -85,7 +86,7 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
   // ── 직군별 퍼즐 ──
   const byProfession = new Map<string, InfluenceRow[]>();
   for (const row of influences) {
-    const prof = row.profiles?.profession;
+    const prof = row.celeb?.profession;
     if (!prof) continue;
     const arr = byProfession.get(prof) ?? [];
     arr.push(row);
@@ -103,8 +104,8 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
     const candidates: TopFiveCandidate[] = topRows.map((row, i) => ({
       id: row.celeb_id,
       label: locale === "en"
-        ? (row.profiles?.nickname_en || row.profiles?.nickname || "")
-        : (row.profiles?.nickname || ""),
+        ? (row.celeb?.nickname_en || row.celeb?.nickname || "")
+        : (row.celeb?.nickname || ""),
       rank: i + 1,
       isAnswer: i < 5,
     }));
@@ -146,8 +147,8 @@ async function fetchTopFivePool(locale: string): Promise<TopFivePool> {
         r.celeb_id,
         {
           score: r.total_score,
-          nickname: r.profiles?.nickname ?? "",
-          nicknameEn: r.profiles?.nickname_en ?? r.profiles?.nickname ?? "",
+          nickname: r.celeb?.nickname ?? "",
+          nicknameEn: r.celeb?.nickname_en ?? r.celeb?.nickname ?? "",
         },
       ])
     );

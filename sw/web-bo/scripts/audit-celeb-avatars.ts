@@ -166,13 +166,12 @@ async function main() {
   const PAGE = 500
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await sb
-      .from('profiles')
+      .from('celebs')
       .select('id, slug, nickname, avatar_url, celeb_tier, birth_date, death_date')
-      .eq('profile_type', 'CELEB')
       .not('avatar_url', 'is', null)
       .order('id')
       .range(from, from + PAGE - 1)
-    if (error) throw new Error(`profiles 조회 실패: ${error.message}`)
+    if (error) throw new Error(`celebs 조회 실패: ${error.message}`)
     if (!data || data.length === 0) break
     rows.push(...(data as Row[]))
     if (data.length < PAGE) break

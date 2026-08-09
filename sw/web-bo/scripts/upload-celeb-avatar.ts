@@ -1,5 +1,5 @@
 /**
- * 셀럽 아바타 자동 등록 — 위키미디어 Commons 이미지 다운로드 → 얼굴 랜드마크 크롭 → R2 업로드 → Supabase profiles.avatar_url 갱신
+ * 셀럽 아바타 자동 등록 — 위키미디어 Commons 이미지 다운로드 → 얼굴 랜드마크 크롭 → R2 업로드 → Supabase celebs.avatar_url 갱신
  *
  * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb-avatar-spec.md §1·§6이고,
  * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 이 스크립트는 좌표를 직접 계산하지 않는다.
@@ -29,7 +29,7 @@
  *  5) 얼굴 미검출이면 업로드 전에 실패한다. --allow-no-face true 를 명시한 경우에만 중앙 크롭으로
  *     진행하되 얼굴 위치를 보장하지 않는다는 경고를 콘솔과 로그에 남긴다
  *  6) R2 PUT: celebs/{celebId}/avatar.webp
- *  7) Supabase profiles.avatar_url 갱신 (캐시 버스터 ?v={timestamp})
+ *  7) Supabase celebs.avatar_url 갱신 (캐시 버스터 ?v={timestamp})
  *  8) scripts/celeb-image-credits.log 에 1줄 누적 — 규격 이탈 경고도 함께 적는다
  *
  * 실패 시 즉시 종료. 규격을 벗어난 결과는 조용히 넘기지 않고 경고로 드러낸다.
@@ -704,15 +704,12 @@ async function main() {
     env.SUPABASE_SERVICE_ROLE_KEY
   )
   const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select('id, slug, nickname, profile_type, celeb_tier')
+    .from('celebs')
+    .select('id, slug, nickname, celeb_tier')
     .eq('id', args.celebId)
     .maybeSingle()
   if (profileError) throw new Error(`업로드 대상 프로필 조회 실패: ${profileError.message}`)
   if (!profile) throw new Error(`업로드 대상 프로필 없음: ${args.celebId}`)
-  if (profile.profile_type !== 'CELEB') {
-    throw new Error(`업로드 대상이 CELEB 프로필이 아니다: profile_type=${profile.profile_type}`)
-  }
   if (profile.slug !== args.slug) {
     throw new Error(
       `celeb-id와 slug가 서로 다른 인물을 가리킨다: DB=${profile.slug}, 입력=${args.slug}`
@@ -836,9 +833,9 @@ async function main() {
   )
   console.log(`     PUT ok: ${CELEB_AVATAR_SMALL.smallFile} (${smallBuf.length} bytes)`)
 
-  console.log(`[5/6] Supabase profiles.avatar_url 갱신`)
+  console.log(`[5/6] Supabase celebs.avatar_url 갱신`)
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ avatar_url: publicUrl })
     .eq('id', args.celebId)
   if (error) throw new Error(`Supabase update 실패: ${error.message}`)

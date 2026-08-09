@@ -174,15 +174,15 @@ async function resolvePeople(
   const rows: Row[] = []
 
   for (let i = 0; i < ids.length; i += IN_CHUNK) {
-    const { data, error } = await db.from('profiles').select('id,slug,status,nickname,nickname_en')
-      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended'])
+    const { data, error } = await db.from('celebs').select('id,slug,status:publication_status,nickname,nickname_en')
+      .in('publication_status', ['active', 'inactive', 'suspended'])
       .in('id', ids.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 UUID 조회 실패: ${error.message}`)
     rows.push(...((data ?? []) as Row[]))
   }
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
-    const { data, error } = await db.from('profiles').select('id,slug,status,nickname,nickname_en')
-      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended'])
+    const { data, error } = await db.from('celebs').select('id,slug,status:publication_status,nickname,nickname_en')
+      .in('publication_status', ['active', 'inactive', 'suspended'])
       .in('slug', slugs.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 slug 조회 실패: ${error.message}`)
     rows.push(...((data ?? []) as Row[]))

@@ -69,7 +69,7 @@ async function fetchCelebInfluence(
       transhistoricity_exp,
       transhistoricity_exp_en,
       total_score,
-      profiles!celeb_influence_celeb_id_fkey (
+      celeb:celebs!celeb_influence_celebs_fkey (
         nickname,
         nickname_en,
         avatar_url,
@@ -100,7 +100,7 @@ async function fetchCelebInfluence(
   const percentile = calculatePercentile(ranking, total);
   const level = getCelebLevelByRanking(ranking, total);
 
-  const profileData = data.profiles as unknown as {
+  const profileData = data.celeb as unknown as {
     nickname: string;
     nickname_en: string | null;
     avatar_url: string | null;

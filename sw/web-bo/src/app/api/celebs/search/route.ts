@@ -18,7 +18,7 @@ import { NextRequest, NextResponse } from 'next/server'
 const SELECT = `
   id, slug, nickname, nickname_en, title, profession, nationality,
   bio, avatar_url, portrait_url, speech_tone, has_voice, voice_id_ko, voice_id_en,
-  birth_date, death_date, celeb_tier, status
+  birth_date, death_date, celeb_tier, status:publication_status
 `
 
 export async function GET(request: NextRequest) {
@@ -35,9 +35,8 @@ export async function GET(request: NextRequest) {
   const supabase = await createClient()
 
   let query = supabase
-    .from('profiles')
+    .from('celebs')
     .select(SELECT)
-    .eq('profile_type', 'CELEB')
     .order('nickname')
     .limit(limit)
 
@@ -47,7 +46,7 @@ export async function GET(request: NextRequest) {
     다 보여주고, 서비스에 안 뜨는 인물을 새로 붙이면 저장할 때 도감에서 감춘 채로 들어간다
     (`lib/faction-save.ts`). 삭제(deleted)만 여기서 걸러낸다.
   */
-  query = query.in('status', ['active', 'inactive', 'suspended'])
+  query = query.in('publication_status', ['active', 'inactive', 'suspended'])
 
   if (q) {
     // 연결 키(slug)로도 찾게 한다 — 세력도감는 이름보다 키를 먼저 아는 경우가 많다
@@ -88,19 +87,23 @@ async function factionEpisodeByCelebId(
 
   // 팩션 5테이블은 admin 전용이라 service role 로 읽는다. 이 창구는 관리 화면 전용이다.
   const db = createAdminClient()
-  const { data: people } = await db
+  const { data: people, error: peopleError } = await db
     .from('faction_people').select('celeb_id,cluster_id').in('celeb_id', celebIds)
+  if (peopleError) throw new Error(`Failed to load faction people: ${peopleError.message}`)
   if (!people?.length) return out
 
   const clusterIds = [...new Set(people.map(p => p.cluster_id as string))]
-  const { data: clusters } = await db
+  const { data: clusters, error: clustersError } = await db
     .from('faction_clusters').select('id,group_id').in('id', clusterIds)
+  if (clustersError) throw new Error(`Failed to load faction clusters: ${clustersError.message}`)
   const groupIds = [...new Set((clusters ?? []).map(c => c.group_id as string))]
-  const { data: groups } = await db
+  const { data: groups, error: groupsError } = await db
     .from('faction_groups').select('id,episode_id').in('id', groupIds)
+  if (groupsError) throw new Error(`Failed to load faction groups: ${groupsError.message}`)
   const episodeIds = [...new Set((groups ?? []).map(g => g.episode_id as string))]
-  const { data: episodes } = await db
+  const { data: episodes, error: episodesError } = await db
     .from('faction_episodes').select('id,folder').in('id', episodeIds)
+  if (episodesError) throw new Error(`Failed to load faction episodes: ${episodesError.message}`)
 
   const folderById = new Map((episodes ?? []).map(e => [e.id as string, e.folder as string]))
   const episodeByGroup = new Map((groups ?? []).map(g => [g.id as string, folderById.get(g.episode_id as string)]))

@@ -9,11 +9,11 @@ const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 })
 
 async function main() {
-  const select = 'id,slug,nickname,nickname_en,profile_type,profession,gender,status,title,title_en,nationality,celeb_tier,bio,bio_en'
+  const select = 'id,slug,nickname,nickname_en,profession,gender,publication_status,title,title_en,nationality,celeb_tier,bio,bio_en'
   const [koResult, enResult, slugResult] = await Promise.all([
-    db.from('profiles').select(select).eq('profile_type', 'CELEB').in('nickname', batch.map((p) => p.nickname)),
-    db.from('profiles').select(select).eq('profile_type', 'CELEB').in('nickname_en', batch.map((p) => p.nickname_en)),
-    db.from('profiles').select(select).eq('profile_type', 'CELEB').in('slug', batch.map((p) => p.slug)),
+    db.from('celebs').select(select).in('nickname', batch.map((p) => p.nickname)),
+    db.from('celebs').select(select).in('nickname_en', batch.map((p) => p.nickname_en)),
+    db.from('celebs').select(select).in('slug', batch.map((p) => p.slug)),
   ])
   for (const result of [koResult, enResult, slugResult]) if (result.error) throw result.error
 
@@ -40,17 +40,13 @@ async function main() {
   }
 
   const exactIds = exact.map(({ row }) => row.id)
-  const [socialResult, scoreResult] = await Promise.all([
-    db.from('user_social').select('user_id').in('user_id', exactIds),
-    db.from('user_scores').select('user_id').in('user_id', exactIds),
-  ])
-  for (const result of [socialResult, scoreResult]) if (result.error) throw result.error
+  const metricsResult = await db.from('celeb_metrics').select('celeb_id').in('celeb_id', exactIds)
+  if (metricsResult.error) throw metricsResult.error
 
   const qualityIssues = exact.filter(({ person, row }) => (
-    row.profile_type !== 'CELEB'
-    || row.profession !== 'musician'
+    row.profession !== 'musician'
     || row.gender !== person.gender
-    || row.status !== 'inactive'
+    || row.publication_status !== 'inactive'
     || row.title !== person.title
     || row.title_en !== person.title_en
     || row.nationality !== person.nationality
@@ -59,10 +55,9 @@ async function main() {
   )).map(({ person, row }) => ({
     slug: row.slug,
     nickname: person.nickname,
-    profile_type: row.profile_type,
     profession: row.profession,
     gender: row.gender,
-    status: row.status,
+    publicationStatus: row.publication_status,
     title: row.title,
     title_en: row.title_en,
     nationality: row.nationality,
@@ -81,8 +76,7 @@ async function main() {
     conflicts,
     basicQualityIssueCount: qualityIssues.length,
     basicQualityIssues: qualityIssues,
-    socialRowCount: (socialResult.data || []).length,
-    scoreRowCount: (scoreResult.data || []).length,
+    metricsRowCount: (metricsResult.data || []).length,
   }, null, 2))
 }
 

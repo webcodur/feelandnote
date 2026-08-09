@@ -27,10 +27,10 @@ export async function updateStatus({ userContentId, status, clearReview }: Updat
 
   // 이전 상태 조회
   const { data: existing } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('status, content_id')
     .eq('id', userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
     .single()
 
   // WANT로 변경 시 리뷰 초기화 옵션
@@ -39,10 +39,10 @@ export async function updateStatus({ userContentId, status, clearReview }: Updat
     : { status }
 
   const { error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .update(updateData)
     .eq('id', userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
 
   if (error) {
     return handleSupabaseError(error, { context: 'content', logPrefix: '[상태 변경]' })

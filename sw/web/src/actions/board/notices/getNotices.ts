@@ -5,6 +5,7 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { NoticeWithAuthor } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { localizeNotice } from '@/lib/board/localizeNotice'
+import { attachMemberAuthors } from '@/lib/board/memberProfiles'
 
 interface GetNoticesParams {
   locale: Locale
@@ -17,10 +18,7 @@ async function fetchNotices(locale: Locale, limit: number, offset: number) {
 
   const { data, error, count } = await supabase
     .from('notices')
-    .select(`
-      *,
-      author:profiles!author_id(id, nickname, avatar_url)
-    `, { count: 'exact' })
+    .select('*', { count: 'exact' })
     .order('is_pinned', { ascending: false })
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
@@ -30,7 +28,9 @@ async function fetchNotices(locale: Locale, limit: number, offset: number) {
     throw new Error('공지사항을 불러오는데 실패했습니다')
   }
 
-  const notices = (data as NoticeWithAuthor[]).map((notice) => localizeNotice(notice, locale))
+  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const notices = (hydrated as NoticeWithAuthor[])
+    .map((notice) => localizeNotice(notice, locale))
 
   if (notices.length > 0) {
     const ids = notices.map(n => n.id)

@@ -93,7 +93,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
     const prevState = isFollowing;
     setIsFollowing(!isFollowing);
 
-    const result = await toggleFollow(celeb.id);
+    const result = await toggleFollow(celeb.id, "celeb");
     if (!result.success) setIsFollowing(prevState);
     setIsLoading(false);
   };

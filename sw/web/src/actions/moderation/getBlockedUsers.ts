@@ -34,7 +34,7 @@ type RawProfile = { id: string; nickname: string | null; avatar_url: string | nu
 interface RawBlockRow {
   id: string
   created_at: string | null
-  blocked: RawProfile | RawProfile[] | null
+  blocked_id: string
 }
 
 export async function getBlockedUsers(
@@ -53,14 +53,7 @@ export async function getBlockedUsers(
 
   const { data, error, count } = await supabase
     .from('blocks')
-    .select(
-      `
-      id,
-      created_at,
-      blocked:profiles!blocks_blocked_id_fkey(id, nickname, avatar_url)
-    `,
-      { count: 'exact' }
-    )
+    .select('id, blocked_id, created_at', { count: 'exact' })
     .eq('blocker_id', user.id)
     // 동점 정렬키 함정 회피 — created_at 은 중복될 수 있어 id 를 2차 키로 고정한다
     .order('created_at', { ascending: false })
@@ -72,9 +65,20 @@ export async function getBlockedUsers(
   }
 
   const rows = (data ?? []) as unknown as RawBlockRow[]
+  const { data: profiles, error: profilesError } = rows.length
+    ? await supabase
+        .from('member_profiles')
+        .select('id, nickname, avatar_url')
+        .in('id', rows.map(row => row.blocked_id))
+    : { data: [], error: null }
+
+  if (profilesError) {
+    return handleSupabaseError(profilesError, { logPrefix: '[차단 프로필 조회]' })
+  }
+  const profileMap = new Map((profiles || []).map(profile => [profile.id, profile as RawProfile]))
 
   const users: BlockedUser[] = rows.flatMap((row) => {
-    const profile = Array.isArray(row.blocked) ? row.blocked[0] : row.blocked
+    const profile = profileMap.get(row.blocked_id)
     if (!profile) return []
     return [
       {

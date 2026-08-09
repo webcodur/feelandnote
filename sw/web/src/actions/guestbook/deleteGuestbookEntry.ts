@@ -3,40 +3,62 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
-export async function deleteGuestbookEntry(entryId: string) {
+export async function deleteGuestbookEntry(entryId: string, subjectKind: 'member' | 'celeb') {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    throw new Error('로그인이 필요합니다')
-  }
+  if (!user) throw new Error('로그인이 필요합니다')
 
-  // 작성자 또는 방명록 주인만 삭제 가능
-  const { data: entry, error: fetchError } = await supabase
-    .from('guestbook_entries')
-    .select('author_id, profile_id')
-    .eq('id', entryId)
-    .single()
+  const entryResult = subjectKind === 'member'
+    ? await supabase
+      .from('member_guestbook_entries')
+      .select('author_member_id, owner_member_id')
+      .eq('id', entryId)
+      .maybeSingle()
+    : await supabase
+      .from('celeb_guestbook_entries')
+      .select('author_member_id, celeb_id')
+      .eq('id', entryId)
+      .maybeSingle()
 
-  if (fetchError || !entry) {
+  if (!entryResult.data) {
     throw new Error('방명록을 찾을 수 없습니다')
   }
 
-  if (entry.author_id !== user.id && entry.profile_id !== user.id) {
-    throw new Error('삭제 권한이 없습니다')
-  }
+  if (subjectKind === 'member' && 'owner_member_id' in entryResult.data) {
+    const entry = entryResult.data
+    if (entry.author_member_id !== user.id && entry.owner_member_id !== user.id) {
+      throw new Error('삭제 권한이 없습니다')
+    }
 
-  const { error } = await supabase
-    .from('guestbook_entries')
-    .delete()
-    .eq('id', entryId)
+    const { error } = await supabase
+      .from('member_guestbook_entries')
+      .delete()
+      .eq('id', entryId)
+    if (error) throw error
+    revalidatePath(`/${entry.owner_member_id}`)
+  } else if ('celeb_id' in entryResult.data) {
+    if (entryResult.data.author_member_id !== user.id) {
+      throw new Error('삭제 권한이 없습니다')
+    }
 
-  if (error) {
-    console.error('Delete guestbook entry error:', error)
-    throw new Error('방명록 삭제에 실패했습니다')
+    const { error } = await supabase
+      .from('celeb_guestbook_entries')
+      .delete()
+      .eq('id', entryId)
+    if (error) throw error
+
+    const { data: celeb } = await supabase
+      .from('celebs')
+      .select('slug')
+      .eq('id', entryResult.data.celeb_id)
+      .maybeSingle()
+    if (celeb?.slug) {
+      revalidatePath(`/celeb/${celeb.slug}`)
+      revalidatePath(`/en/celeb/${celeb.slug}`)
+    }
   }
 
   revalidatePath('/profile/guestbook')
-
   return { success: true }
 }

@@ -112,7 +112,7 @@ export async function getSourceMonologues(slugs: string[]): Promise<SourceMonolo
   if (!uniq.length) return []
   const db = discourseAdminClient()
   const { data, error } = await db
-    .from('profiles')
+    .from('celebs')
     .select('slug,nickname,virtual_monologue,virtual_monologue_en')
     .in('slug', uniq)
   if (error) throw new Error(`원천 독백 조회 실패: ${error.message}`)

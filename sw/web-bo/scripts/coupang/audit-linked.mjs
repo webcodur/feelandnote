@@ -36,7 +36,7 @@ for (const f of ['results.json', 'results-next.json', 'results-retry.json', 'res
 // 링크가 걸린 책 전량
 const { data, error } = await supabase
   .from('content_locales')
-  .select('content_id, title, creator, isbn, affiliate_url, contents!inner(user_count, type)')
+  .select('content_id, title, creator, isbn, affiliate_url, contents!inner(record_count, type)')
   .eq('locale', 'ko')
   .eq('contents.type', 'BOOK')
   .not('affiliate_url', 'is', null)
@@ -71,7 +71,7 @@ const rows = (data ?? [])
       title: r.title,
       creator: r.creator,
       isbn: r.isbn,
-      user_count: r.contents?.user_count ?? 0,
+      record_count: r.contents?.record_count ?? 0,
       url,
       product: byId.get(r.content_id) ?? (url ? (byUrl.get(url) ?? null) : null),
     }

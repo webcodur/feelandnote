@@ -243,7 +243,7 @@ async function loadRef(row, sb) {
   }
   let url = row.ref
   if (!url) {
-    const { data } = await sb.from('profiles').select('avatar_url').eq('id', row.celeb_id).maybeSingle()
+    const { data } = await sb.from('celebs').select('avatar_url').eq('id', row.celeb_id).maybeSingle()
     url = data?.avatar_url
   }
   if (!url) throw new Error('REF 없음(로컬 경로도 avatar_url도 비어 있음)')

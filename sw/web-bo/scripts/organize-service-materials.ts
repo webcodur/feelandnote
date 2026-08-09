@@ -218,12 +218,11 @@ async function fetchAllProfiles(
   for (let offset = 0; ; offset += pageSize) {
     const params = new URLSearchParams({
       select: 'id,nickname,nickname_en,slug,avatar_url',
-      profile_type: 'eq.CELEB',
       order: 'id.asc',
       limit: String(pageSize),
       offset: String(offset),
     })
-    const response = await fetch(`${config.supabaseUrl}/rest/v1/profiles?${params}`, {
+    const response = await fetch(`${config.supabaseUrl}/rest/v1/celebs?${params}`, {
       headers: {
         apikey: config.anonKey,
         Authorization: `Bearer ${config.anonKey}`,

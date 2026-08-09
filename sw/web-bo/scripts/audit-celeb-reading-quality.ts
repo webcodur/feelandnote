@@ -47,7 +47,7 @@ type ProfileRow = {
   id: string
   slug: string
   nickname: string
-  status: 'active' | 'inactive' | 'suspended'
+  publication_status: 'active' | 'inactive' | 'suspended'
   profession: string | null
   birth_date: string | null
 }
@@ -62,7 +62,7 @@ type ExplanationRow = {
 type Candidate = {
   slug: string
   name: string
-  status: ProfileRow['status']
+  publicationStatus: ProfileRow['publication_status']
   profession: string | null
   guideLength: number
   explorationLength: number
@@ -132,7 +132,7 @@ function assess(profile: ProfileRow, explanation: ExplanationRow): Candidate | n
   return {
     slug: profile.slug,
     name: profile.nickname,
-    status: profile.status,
+    publicationStatus: profile.publication_status,
     profession: profile.profession,
     guideLength: explanation.plain_text.length,
     explorationLength: explanation.interpretive_text.length,
@@ -146,8 +146,8 @@ function assess(profile: ProfileRow, explanation: ExplanationRow): Candidate | n
 
 async function main() {
   const [profiles, explanations] = await Promise.all([
-    fetchAll<ProfileRow>('profiles', 'id,slug,nickname,status,profession,birth_date', (query) =>
-      query.eq('profile_type', 'CELEB').not('slug', 'is', null).order('id')),
+    fetchAll<ProfileRow>('celebs', 'id,slug,nickname,publication_status,profession,birth_date', (query) =>
+      query.not('slug', 'is', null).order('id')),
     fetchAll<ExplanationRow>('celeb_explanations', 'profile_id,plain_text,interpretive_title,interpretive_text', (query) => query.order('profile_id')),
   ])
 
@@ -156,7 +156,7 @@ async function main() {
   const candidates = explanations
     .map((explanation) => {
       const profile = profileById.get(explanation.profile_id)
-      if (!profile || (ACTIVE_ONLY && profile.status !== 'active')) return null
+      if (!profile || (ACTIVE_ONLY && profile.publication_status !== 'active')) return null
       return assess(profile, explanation)
     })
     .filter((candidate): candidate is Candidate => Boolean(candidate))
@@ -174,7 +174,7 @@ async function main() {
 
   console.log(`ROLE-REPETITION CANDIDATES ${candidates.length}`)
   for (const candidate of candidates) {
-    console.log(`${candidate.score}\t${candidate.status}\t${candidate.slug}\t${candidate.name}\tguide=${candidate.guideLength}\texploration=${candidate.explorationLength}\t${candidate.reasons.join('; ')}`)
+    console.log(`${candidate.score}\t${candidate.publicationStatus}\t${candidate.slug}\t${candidate.name}\tguide=${candidate.guideLength}\texploration=${candidate.explorationLength}\t${candidate.reasons.join('; ')}`)
   }
 }
 

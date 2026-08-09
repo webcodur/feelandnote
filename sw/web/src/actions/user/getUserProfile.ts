@@ -4,9 +4,7 @@ import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import { type ActionResult, failure } from '@/lib/errors'
 import { getTitleInfo } from '@/constants/titles'
-import { getLocale } from 'next-intl/server'
 import type { CelebTier as SharedCelebTier } from '@feelandnote/shared/constants/celeb-tiers'
-import { getDisplayDialogueQuote } from '@/lib/utils/celeb-dialogues'
 
 interface SelectedTitle {
   name: string
@@ -36,7 +34,7 @@ export interface PublicUserProfile {
   nationality: string | null
   birth_date: string | null
   death_date: string | null
-  profile_type: 'USER' | 'CELEB'
+  subject_kind: 'member' | 'celeb'
   is_verified: boolean
   created_at: string
   selected_title: SelectedTitle | null
@@ -67,128 +65,95 @@ export const getUserProfile = cache(getUserProfileInner)
 
 async function getUserProfileInner(userId: string): Promise<ActionResult<PublicUserProfile>> {
   const supabase = await createClient()
-
-  const { data: { user: currentUser } } = await supabase.auth.getUser()
-
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, profile_type, is_verified, created_at, selected_title')
-    .eq('id', userId)
-    .single()
+  const [authResult, profileResult] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase
+      .from('member_profiles')
+      .select('id, nickname, avatar_url, bio, nationality, birth_date, is_verified, created_at, selected_title')
+      .eq('id', userId)
+      .single(),
+  ])
+  const currentUser = authResult.data.user
+  const { data: profile, error: profileError } = profileResult
 
   if (profileError || !profile) {
     return failure('NOT_FOUND', '사용자를 찾을 수 없다.')
   }
 
-  const { count: contentCount } = await supabase
-    .from('user_contents')
-    .select('*', { count: 'exact', head: true })
-    .eq('user_id', userId)
-
-  const [followerResult, followingResult] = await Promise.all([
-    supabase.from('follows').select('follower_id', { count: 'exact' }).eq('following_id', userId),
-    supabase.from('follows').select('following_id', { count: 'exact' }).eq('follower_id', userId),
+  const [socialResult, guestbookResult] = await Promise.all([
+    supabase
+      .from('member_social_stats')
+      .select('content_count, follower_count, following_count, friend_count')
+      .eq('member_id', userId)
+      .maybeSingle(),
+    supabase
+      .from('member_guestbook_entries')
+      .select('id', { count: 'exact', head: true })
+      .eq('owner_member_id', userId),
   ])
-
-  let friendCount = 0
-  if (followingResult.data && followingResult.data.length > 0) {
-    const targetFollowingIds = followingResult.data.map(f => f.following_id)
-    const { count } = await supabase
-      .from('follows')
-      .select('*', { count: 'exact', head: true })
-      .eq('following_id', userId)
-      .in('follower_id', targetFollowingIds)
-    friendCount = count || 0
-  }
-
-  const { count: guestbookCount } = await supabase
-    .from('guestbook_entries')
-    .select('*', { count: 'exact', head: true })
-    .eq('profile_id', userId)
 
   let isFollowing = false
   let isFollower = false
   let isBlocked = false
 
   if (currentUser && currentUser.id !== userId) {
-    const { data: followingData } = await supabase
-      .from('follows')
-      .select('id')
-      .eq('follower_id', currentUser.id)
-      .eq('following_id', userId)
-      .single()
-    isFollowing = !!followingData
-
-    const { data: followerData } = await supabase
-      .from('follows')
-      .select('id')
-      .eq('follower_id', userId)
-      .eq('following_id', currentUser.id)
-      .single()
-    isFollower = !!followerData
-
-    const { data: blockData } = await supabase
-      .from('blocks')
-      .select('id')
-      .or(`blocker_id.eq.${currentUser.id},blocked_id.eq.${currentUser.id}`)
-      .or(`blocker_id.eq.${userId},blocked_id.eq.${userId}`)
-      .single()
-    isBlocked = !!blockData
+    const [followingResult, followerResult, blockResult] = await Promise.all([
+      supabase
+        .from('member_member_follows')
+        .select('id')
+        .eq('follower_member_id', currentUser.id)
+        .eq('followed_member_id', userId)
+        .maybeSingle(),
+      supabase
+        .from('member_member_follows')
+        .select('id')
+        .eq('follower_member_id', userId)
+        .eq('followed_member_id', currentUser.id)
+        .maybeSingle(),
+      supabase
+        .from('blocks')
+        .select('id')
+        .in('blocker_id', [currentUser.id, userId])
+        .in('blocked_id', [currentUser.id, userId])
+        .limit(1)
+        .maybeSingle(),
+    ])
+    isFollowing = !!followingResult.data
+    isFollower = !!followerResult.data
+    isBlocked = !!blockResult.data
   }
 
   const selectedTitle = getTitleInfo(profile.selected_title)
-
-  // 셀럽인 경우 celeb_dialogues에서 quote 조회 (JSON path만)
-  let dialogueQuote: string | null = null
-  let dialogueQuoteEn: string | null = null
-  if (profile.profile_type === 'CELEB') {
-    const { data: dlg } = await supabase
-      .from('celeb_dialogues')
-      .select('quote:lines->quote, quote_en:lines_en->quote')
-      .eq('celeb_id', userId)
-      .maybeSingle()
-    dialogueQuote = (dlg as { quote?: string | null } | null)?.quote ?? null
-    dialogueQuoteEn = (dlg as { quote_en?: string | null } | null)?.quote_en ?? null
-  }
-
-  dialogueQuote = getDisplayDialogueQuote(dialogueQuote)
-  dialogueQuoteEn = getDisplayDialogueQuote(dialogueQuoteEn)
-
-  const locale = await getLocale()
-  const isEn = locale === 'en'
-  const resolve = <T,>(en: T | null | undefined, ko: T): T =>
-    isEn && en ? en : ko
+  const social = socialResult.data
 
   return {
     success: true,
     data: {
       id: profile.id,
-      slug: profile.slug ?? null,
-      nickname: resolve(profile.nickname_en, profile.nickname || 'User'),
-      nickname_en: profile.nickname_en,
+      slug: null,
+      nickname: profile.nickname || 'User',
+      nickname_en: null,
       nickname_ko: profile.nickname || 'User',
       avatar_url: profile.avatar_url,
-      bio: resolve(profile.bio_en, profile.bio),
-      quotes: profile.profile_type === 'CELEB'
-        ? resolve(dialogueQuoteEn, dialogueQuote)
-        : null,
-      profession: profile.profession,
-      title: resolve(profile.title_en, profile.title),
-      title_en: profile.title_en,
-      title_ko: profile.title,
+      bio: profile.bio,
+      quotes: null,
+      profession: null,
+      title: null,
+      title_en: null,
+      title_ko: null,
       nationality: profile.nationality,
       birth_date: profile.birth_date,
-      death_date: profile.death_date,
-      profile_type: (profile.profile_type as 'USER' | 'CELEB') || 'USER',
+      death_date: null,
+      subject_kind: 'member',
       is_verified: profile.is_verified || false,
       created_at: profile.created_at,
       selected_title: selectedTitle,
       stats: {
-        content_count: contentCount || 0,
-        follower_count: followerResult.count || 0,
-        following_count: followingResult.count || 0,
-        friend_count: friendCount,
-        guestbook_count: guestbookCount || 0,
+        content_count: social?.content_count || 0,
+        follower_count: social?.follower_count || 0,
+        following_count: social?.following_count || 0,
+        friend_count: social?.friend_count || 0,
+        guestbook_count: guestbookResult.count || 0,
       },
       is_following: isFollowing,
       is_follower: isFollower,

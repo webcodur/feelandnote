@@ -80,6 +80,21 @@ export async function createReport(
   }
   // #endregion
 
+  const reportTargetMemberId =
+    targetType === ENUM_REPORT_TARGET_TYPE.USER ? targetId.trim() : targetUserId
+  if (reportTargetMemberId) {
+    const { data: targetMember, error: targetMemberError } = await supabase
+      .from('member_profiles')
+      .select('id')
+      .eq('id', reportTargetMemberId)
+      .maybeSingle()
+
+    if (targetMemberError) {
+      return handleSupabaseError(targetMemberError, { logPrefix: '[신고 대상 회원 확인]' })
+    }
+    if (!targetMember) return failure('NOT_FOUND', '신고 대상 회원을 찾을 수 없다.')
+  }
+
   const { data, error } = await supabase
     .from('reports')
     .insert({
@@ -87,8 +102,7 @@ export async function createReport(
       target_type: targetType,
       target_id: targetId.trim(),
       // 사용자 신고는 대상 자체가 사용자다
-      target_user_id:
-        targetType === ENUM_REPORT_TARGET_TYPE.USER ? targetId.trim() : targetUserId,
+      target_user_id: reportTargetMemberId,
       reason,
       description: description.length > 0 ? description : null,
     })

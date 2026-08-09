@@ -192,7 +192,7 @@ export interface FactionPerson extends FactionCardFields {
   /** 신화·전설·허구 인물. 본서비스 fiction 프로필과 가상 독백 연결 대상으로 쓴다 */
   mythical?: boolean
   /**
-   * 셀럽 DB 인물 식별자(profiles.id, 불변 UUID) — 보이스·셀럽 정보 연동의 단일 열쇠.
+   * 셀럽 DB 인물 식별자(celebs.id, 불변 UUID) — 보이스·셀럽 정보 연동의 단일 열쇠.
    * slug·이름이 바뀌어도 안 끊긴다. 셀럽 검색으로 추가하면 자동으로 박힌다.
    */
   celebId?: string

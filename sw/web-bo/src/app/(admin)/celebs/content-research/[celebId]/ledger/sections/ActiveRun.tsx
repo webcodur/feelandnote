@@ -152,7 +152,7 @@ export default function ActiveRun({ run }: { run: ContentResearchRun }) {
             <ShieldCheck className="mt-0.5 h-4 w-4 text-emerald-300" />
             <p className="max-w-2xl text-xs leading-5 text-text-secondary">
               최종 확정은 네 유형 완료, 유형별 출처, 모든 후보 판정, 채택 작품의 1차
-              출처와 실제 user_contents 연결을 한 트랜잭션에서 검사합니다.
+              출처와 실제 celeb_contents 연결을 한 트랜잭션에서 검사합니다.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">

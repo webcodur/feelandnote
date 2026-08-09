@@ -11,7 +11,7 @@ export interface FictionSourceContentSummary {
   type: string
   externalId: string | null
   externalSource: string | null
-  userCount: number
+  recordCount: number
   title: string
   creator: string | null
   thumbnailUrl: string | null
@@ -43,7 +43,7 @@ interface ContentRow {
   type: string
   external_id: string | null
   external_source: string | null
-  user_count: number | null
+  record_count: number | null
 }
 
 interface LocaleRow {
@@ -119,9 +119,8 @@ async function loadAllFictionCharacters(): Promise<CharacterRow[]> {
   const rows: CharacterRow[] = []
   for (let from = 0; ; from += ADMIN_PAGE_SIZE) {
     const { data, error } = await admin
-      .from('profiles')
-      .select('id,slug,nickname,nickname_en,title,avatar_url,status')
-      .eq('profile_type', 'CELEB')
+      .from('celebs')
+      .select('id,slug,nickname,nickname_en,title,avatar_url,status:publication_status')
       .eq('celeb_tier', 'fiction')
       .order('nickname')
       .order('id')
@@ -156,7 +155,7 @@ function summarizeContents(
       type: content.type,
       externalId: content.external_id,
       externalSource: content.external_source,
-      userCount: content.user_count ?? 0,
+      recordCount: content.record_count ?? 0,
       title: primary?.title?.trim() || content.external_id || content.id,
       creator: primary?.creator?.trim() || null,
       thumbnailUrl: primary?.thumbnail_url || en?.thumbnail_url || null,
@@ -180,7 +179,7 @@ async function loadContentSummaries(
     const [contentResult, localeResult] = await Promise.all([
       admin
         .from('contents')
-        .select('id,type,external_id,external_source,user_count')
+        .select('id,type,external_id,external_source,record_count')
         .in('id', ids),
       admin
         .from('content_locales')
@@ -284,7 +283,7 @@ export async function searchFictionSourceCandidates(
 
   const summaries = await loadContentSummaries(contentIds)
   return summaries.sort((a, b) => (
-    b.userCount - a.userCount
+    b.recordCount - a.recordCount
     || a.title.localeCompare(b.title, 'ko')
   ))
 }

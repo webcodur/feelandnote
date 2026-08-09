@@ -36,23 +36,21 @@ type ProfileRow = {
   birth_date: string | null
   death_date: string | null
   gender: boolean | null
-  status: string | null
+  publication_status: string | null
   celeb_tier: string | null
-  profile_type: string | null
 }
 
 async function allProfiles(): Promise<ProfileRow[]> {
   const out: ProfileRow[] = []
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await db
-      .from('profiles')
+      .from('celebs')
       .select(
-        'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, status, celeb_tier, profile_type',
+        'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier',
       )
-      .eq('profile_type', 'CELEB')
       .order('id', { ascending: true })
       .range(from, from + PAGE - 1)
-    if (error) throw new Error(`profiles 조회 실패: ${error.message}`)
+    if (error) throw new Error(`celebs 조회 실패: ${error.message}`)
     const rows = (data ?? []) as ProfileRow[]
     out.push(...rows)
     if (rows.length < PAGE) break
@@ -87,7 +85,7 @@ async function main() {
 
   const bucketCount = new Map<string, number>()
   for (const { p } of withGaps) {
-    const k = `${p.celeb_tier ?? 'null'}/${p.status ?? 'null'}`
+    const k = `${p.celeb_tier ?? 'null'}/${p.publication_status ?? 'null'}`
     bucketCount.set(k, (bucketCount.get(k) ?? 0) + 1)
   }
 
@@ -104,7 +102,7 @@ async function main() {
             nickname: p.nickname,
             nickname_en: p.nickname_en,
             tier: p.celeb_tier,
-            status: p.status,
+            publicationStatus: p.publication_status,
             gaps,
           })),
         },

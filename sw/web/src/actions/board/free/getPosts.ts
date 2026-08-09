@@ -1,7 +1,8 @@
 'use server'
 
 import { createAdminClient } from '@/lib/supabase/admin'
-import { FREE_POST_COLS, FREE_AUTHOR_JOIN } from '@/lib/board/freeBoard'
+import { FREE_POST_COLS } from '@/lib/board/freeBoard'
+import { attachMemberAuthors } from '@/lib/board/memberProfiles'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { FreePost } from '@/types/database'
 import type { Locale } from '@/types/locale'
@@ -18,7 +19,7 @@ export async function getFreePosts(params: GetFreePostsParams) {
 
   const { data, error, count } = await supabase
     .from('free_posts')
-    .select(`${FREE_POST_COLS}, ${FREE_AUTHOR_JOIN}`, { count: 'exact' })
+    .select(FREE_POST_COLS, { count: 'exact' })
     .eq('is_deleted', false)
     .eq('locale', locale)
     .order('created_at', { ascending: false })
@@ -29,7 +30,8 @@ export async function getFreePosts(params: GetFreePostsParams) {
     throw new Error('자유게시판 목록을 불러오지 못했습니다')
   }
 
-  const allPosts = (data ?? []) as unknown as FreePost[]
+  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const allPosts = hydrated as unknown as FreePost[]
 
   // 차단한 사용자의 글을 걷어낸다. 이 조회는 캐시하지 않으므로 요청마다 보는 사람 기준으로 걸러진다.
   // total 은 걸러낸 만큼만 줄인다 — 뒷 페이지의 차단 글은 여기서 알 수 없어 정확한 값이 아니다.

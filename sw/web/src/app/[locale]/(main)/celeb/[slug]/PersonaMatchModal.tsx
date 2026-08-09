@@ -13,6 +13,10 @@ import type {
 } from "@/lib/persona/utils";
 import { cn } from "@/lib/utils";
 import PersonaComparisonGraphic from "./persona-comparison";
+import {
+  CANDIDATE_COLOR,
+  SUBJECT_COLOR,
+} from "./persona-comparison/shared";
 
 const CATEGORY_STYLES: Record<
   PersonaMatchCategory,
@@ -105,7 +109,7 @@ export default function PersonaMatchModal({
         aria-labelledby={titleId}
         className={cn(
           "relative flex max-h-[90vh] w-full flex-col overflow-hidden border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.55)] animate-modal-content",
-          category === "overall" ? "max-w-[760px]" : "max-w-[570px]",
+          category === "overall" ? "max-w-[920px]" : "max-w-[680px]",
         )}
       >
         <button
@@ -118,73 +122,102 @@ export default function PersonaMatchModal({
           <X size={16} />
         </button>
 
-        <header className="border-b border-white/[0.07] px-5 pb-5 pt-6 text-center md:px-7">
-          <p className={cn("text-[10px] font-bold tracking-[0.2em]", style.label)}>
-            {t(CATEGORY_TITLE_KEYS[category])}
-          </p>
-          <h2
-            id={titleId}
-            className="mt-1.5 font-serif text-xl font-bold text-text-primary"
-          >
+        <header className="border-b border-white/[0.07] px-12 py-4 text-center md:px-14">
+          <div className="flex flex-wrap items-baseline justify-center gap-x-4 gap-y-1">
+            <p
+              className={cn(
+                "text-[13px] font-bold tracking-[0.12em]",
+                style.label,
+              )}
+            >
+              {t(CATEGORY_TITLE_KEYS[category])}
+            </p>
+            <h2
+              id={titleId}
+              className="font-serif text-2xl font-bold text-text-primary md:text-[28px]"
+            >
+              {t(
+                category === "opposite"
+                  ? "personaMatchModalOppositeTitle"
+                  : "personaMatchModalTitle",
+              )}
+            </h2>
+          </div>
+          <p className="mt-1.5 text-balance break-keep text-sm font-medium leading-5 text-text-primary/80 md:text-[15px]">
             {t(
-              category === "opposite"
-                ? "personaMatchModalOppositeTitle"
-                : "personaMatchModalTitle",
+              category === "virtue"
+                ? "personaMatchModalVirtueIntro"
+                : "personaMatchModalIntro",
+              {
+                subject: subjectName,
+                candidate: match.nickname,
+              },
             )}
-          </h2>
-          <p className="mt-1 text-balance break-keep text-xs text-text-secondary">
-            {t("personaMatchModalIntro", {
-              subject: subjectName,
-              candidate: match.nickname,
-            })}
           </p>
         </header>
 
-        <div className="overflow-y-auto px-5 py-5 custom-scrollbar md:px-7">
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-            <div className="min-w-0 text-center">
-              <Avatar
-                url={subjectAvatarUrl}
-                name={subjectName}
-                size="xl"
-                className="mx-auto ring-white/15"
-              />
-              <p className="mt-2 text-balance break-keep text-xs font-bold text-text-primary">
+        <div className="overflow-y-auto px-4 py-4 custom-scrollbar md:px-6">
+          <div className="relative grid grid-cols-[1fr_88px_1fr] items-start gap-2 md:grid-cols-[1fr_96px_1fr]">
+            <div className="pointer-events-none absolute left-[20%] right-[20%] top-[42px] border-t border-dashed border-white/15" />
+
+            <div className="relative z-[1] min-w-0 text-center">
+              <div
+                className="mx-auto inline-flex rounded-full border-[3px] bg-bg-main p-[3px] shadow-[0_0_20px_rgba(216,186,104,0.16)]"
+                style={{ borderColor: SUBJECT_COLOR }}
+              >
+                <Avatar
+                  url={subjectAvatarUrl}
+                  name={subjectName}
+                  size="xl"
+                  className="ring-0 md:h-20 md:w-20"
+                />
+              </div>
+              <p className="mt-2 text-balance break-keep text-base font-bold text-text-primary md:text-lg">
                 {subjectName}
               </p>
-              <p className="mt-0.5 text-[9px] text-text-secondary/60">
+              <p className="mt-0.5 text-[13px] font-medium text-text-primary/65">
                 {t("personaMatchModalSubject")}
               </p>
             </div>
 
             <div
               className={cn(
-                "min-w-[72px] border px-2 py-2 text-center",
+                "relative z-[1] mt-5 border bg-bg-main px-2 py-2.5 text-center md:mt-6 md:py-3",
                 style.border,
                 style.surface,
               )}
             >
-              <strong className={cn("block font-mono text-lg", style.label)}>
+              <strong
+                className={cn(
+                  "block font-mono text-2xl font-bold md:text-[28px]",
+                  style.label,
+                )}
+              >
                 {match.matchPercent}%
               </strong>
-              <span className="text-[9px] text-text-secondary">
+              <span className="mt-0.5 block text-[13px] font-semibold text-text-primary/80">
                 {category === "opposite"
                   ? t("personaMatchModalClash")
                   : t("personaMatchModalMatch")}
               </span>
             </div>
 
-            <div className="min-w-0 text-center">
-              <Avatar
-                url={match.avatar_url}
-                name={match.nickname}
-                size="xl"
-                className="mx-auto ring-white/15"
-              />
-              <p className="mt-2 text-balance break-keep text-xs font-bold text-text-primary">
+            <div className="relative z-[1] min-w-0 text-center">
+              <div
+                className="mx-auto inline-flex rounded-full border-[3px] bg-bg-main p-[3px] shadow-[0_0_20px_rgba(131,201,220,0.14)]"
+                style={{ borderColor: CANDIDATE_COLOR }}
+              >
+                <Avatar
+                  url={match.avatar_url}
+                  name={match.nickname}
+                  size="xl"
+                  className="ring-0 md:h-20 md:w-20"
+                />
+              </div>
+              <p className="mt-2 text-balance break-keep text-base font-bold text-text-primary md:text-lg">
                 {match.nickname}
               </p>
-              <p className="mt-0.5 text-[9px] text-text-secondary/60">
+              <p className="mt-0.5 text-[13px] font-medium text-text-primary/65">
                 {t("personaMatchModalCandidate")}
               </p>
             </div>
@@ -197,12 +230,12 @@ export default function PersonaMatchModal({
           />
         </div>
 
-        <footer className="flex gap-2 border-t border-white/[0.07] bg-black/10 px-5 py-4 md:px-7">
+        <footer className="flex gap-2 border-t border-white/[0.07] bg-black/10 px-4 py-3 md:px-6">
           <button
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex-1 border border-white/10 px-3 py-2.5 text-xs font-semibold text-text-secondary hover:border-white/25 hover:bg-white/[0.04] hover:text-text-primary disabled:cursor-wait disabled:opacity-40"
+            className="flex-1 border border-white/10 px-3 py-2.5 text-sm font-semibold text-text-secondary hover:border-white/25 hover:bg-white/[0.04] hover:text-text-primary disabled:cursor-wait disabled:opacity-40"
           >
             {t("personaMatchModalClose")}
           </button>
@@ -210,7 +243,7 @@ export default function PersonaMatchModal({
             type="button"
             onClick={onViewPerson}
             disabled={loading}
-            className="flex flex-[1.4] items-center justify-center gap-1.5 border border-accent bg-accent px-3 py-2.5 text-xs font-bold text-bg-main hover:bg-accent-hover disabled:cursor-wait disabled:opacity-50"
+            className="flex flex-[1.4] items-center justify-center gap-1.5 border border-accent bg-accent px-3 py-2.5 text-sm font-bold text-bg-main hover:bg-accent-hover disabled:cursor-wait disabled:opacity-50"
           >
             {loading
               ? t("personaMatchModalLoading")

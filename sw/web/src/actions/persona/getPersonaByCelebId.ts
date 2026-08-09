@@ -10,7 +10,7 @@ import { parsePersonaJsonb } from '@/lib/persona/types'
 interface PersonaRow {
   celeb_id: string
   persona: PersonaJsonb
-  profiles:
+  celeb:
     | { nickname: string | null; profession: string | null; avatar_url: string | null; birth_date: string | null; death_date: string | null; title: string | null }
     | { nickname: string | null; profession: string | null; avatar_url: string | null; birth_date: string | null; death_date: string | null; title: string | null }[]
     | null
@@ -22,7 +22,7 @@ async function fetchPersonaByCelebId(celebId: string): Promise<PersonaProfile | 
     .from('celeb_persona')
     .select(`
       celeb_id, persona,
-      profiles!celeb_persona_celeb_id_fkey (
+      celeb:celebs!celeb_persona_celebs_fkey (
         nickname, profession, avatar_url, birth_date, death_date, title
       )
     `)
@@ -37,7 +37,7 @@ async function fetchPersonaByCelebId(celebId: string): Promise<PersonaProfile | 
   }
 
   const row = data as unknown as PersonaRow
-  const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
+  const profile = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
   const stats = parsePersonaJsonb(row.persona)
 
   return {

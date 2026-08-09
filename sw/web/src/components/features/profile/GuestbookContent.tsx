@@ -76,7 +76,12 @@ export default function GuestbookContent({
     setIsLoading(true);
     try {
       const offset = (page - 1) * PAGE_SIZE;
-      const result = await getGuestbookEntries({ profileId, limit: PAGE_SIZE, offset });
+      const result = await getGuestbookEntries({
+        profileId,
+        subjectKind: isCeleb ? "celeb" : "member",
+        limit: PAGE_SIZE,
+        offset,
+      });
       setEntries(result.entries);
       setTotal(result.total);
       setCurrentPage(page);
@@ -85,7 +90,7 @@ export default function GuestbookContent({
     } finally {
       setIsLoading(false);
     }
-  }, [profileId]);
+  }, [isCeleb, profileId]);
 
   useEffect(() => {
     if (currentUserIdProp !== undefined || !isAuthResolved) return;
@@ -110,19 +115,24 @@ export default function GuestbookContent({
     if (!confirm(t("deleteConfirm"))) return;
 
     try {
-      await deleteGuestbookEntry(id);
+      await deleteGuestbookEntry(id, isCeleb ? "celeb" : "member");
       setEntries((prev) => prev.filter((e) => e.id !== id));
       setTotal((prev) => prev - 1);
     } catch (error) {
       console.error("Delete guestbook entry error:", error);
       alert(t("deleteFailed"));
     }
-  }, [t]);
+  }, [isCeleb, t]);
 
   const handleUpdateEntry = useCallback(
     async (id: string, content: string, isPrivate: boolean) => {
       try {
-        await updateGuestbookEntry({ entryId: id, content, isPrivate });
+        await updateGuestbookEntry({
+          entryId: id,
+          subjectKind: isCeleb ? "celeb" : "member",
+          content,
+          isPrivate,
+        });
         setEntries((prev) =>
           prev.map((e) => (e.id === id ? { ...e, content, is_private: isPrivate } : e))
         );
@@ -131,15 +141,21 @@ export default function GuestbookContent({
         alert(t("updateFailed"));
       }
     },
-    [t]
+    [isCeleb, t]
   );
 
   return (
-    <div className={isCeleb ? "px-2 py-4 sm:px-3 md:px-4 md:py-5" : ""}>
+    <div
+      className={
+        isCeleb
+          ? "mx-auto w-full max-w-[800px] py-7 sm:px-6 sm:py-9 md:py-10"
+          : ""
+      }
+    >
       {/* 로그인 확인 중에도 작성 영역의 자리가 보여 빈 박스로 오해되지 않게 한다. */}
       {!isAuthResolved ? (
         <div
-          className={`${isCeleb ? "min-h-[72px] rounded-md" : "mb-8 min-h-[118px] rounded-lg"} animate-pulse border border-white/[0.04] bg-white/[0.02] p-4`}
+          className={`${isCeleb ? "min-h-[216px] rounded-md" : "mb-8 min-h-[118px] rounded-lg"} animate-pulse border border-white/[0.04] bg-white/[0.02] p-4`}
           aria-hidden
         >
           <div className="h-3 w-2/5 rounded bg-white/[0.05]" />
@@ -158,25 +174,25 @@ export default function GuestbookContent({
         <Link
           href="/login"
           className={isCeleb
-            ? "group flex min-h-[72px] items-center gap-3 rounded-md border border-white/[0.07] bg-black/10 px-3 py-3 hover:border-accent/45 hover:bg-accent/[0.035] sm:px-4"
+            ? "group flex min-h-[124px] flex-col items-stretch gap-4 rounded-md border border-white/[0.08] bg-black/[0.16] px-4 py-5 shadow-[0_18px_45px_rgba(0,0,0,0.16)] hover:border-accent/45 hover:bg-accent/[0.035] sm:flex-row sm:items-center sm:px-6"
             : "group mb-8 block overflow-hidden rounded-lg border border-accent-dim/20 bg-white/[0.02] hover:border-accent/50 hover:bg-accent/[0.025]"
           }
         >
           {isCeleb ? (
             <>
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/[0.06] text-accent">
-                <MessageSquare size={15} strokeWidth={1.7} aria-hidden />
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-accent/25 bg-accent/[0.07] text-accent">
+                <MessageSquare size={18} strokeWidth={1.6} aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block break-keep text-[13px] leading-snug text-text-primary group-hover:text-accent">
+                <span className="block break-keep text-sm font-medium leading-snug text-text-primary group-hover:text-accent">
                   {isFiction ? tFiction("loginPrompt") : t("loginPrompt")}
                 </span>
-                <span className="mt-1 block break-keep text-[11px] leading-snug text-text-secondary/70">
+                <span className="mt-1.5 block break-keep text-xs leading-snug text-text-secondary/70">
                   {isFiction ? tFiction("loginHint") : t("loginHint")}
                 </span>
               </span>
-              <span className="inline-flex h-8 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-sm bg-accent/90 px-3 text-[11px] font-bold text-bg-main group-hover:bg-accent">
-                <LogIn size={12} strokeWidth={2} aria-hidden />
+              <span className="inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-sm bg-accent/90 px-4 text-xs font-bold text-bg-main group-hover:bg-accent sm:min-w-[120px]">
+                <LogIn size={14} strokeWidth={2} aria-hidden />
                 {t("loginAction")}
               </span>
             </>
@@ -204,7 +220,13 @@ export default function GuestbookContent({
         <div className="min-h-24 animate-pulse rounded-lg border border-white/[0.04] bg-white/[0.02]" aria-hidden />
       ) : entries.length > 0 ? (
         <div className={isLoading ? "pointer-events-none opacity-50" : ""}>
-          <div className={isCeleb ? "space-y-2" : "divide-y divide-white/[0.04]"}>
+          <div
+            className={
+              isCeleb
+                ? "space-y-3 border-t border-white/[0.07] pt-6"
+                : "divide-y divide-white/[0.04]"
+            }
+          >
             {entries.map((entry) => (
               <EntryItem
                 key={entry.id}

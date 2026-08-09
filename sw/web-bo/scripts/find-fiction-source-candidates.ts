@@ -1,7 +1,7 @@
 /**
  * 픽션 대표 원전으로 쓸 기존 contents 후보를 제목·저자로 찾는다.
  *
- * 읽기 전용이며 같은 작품의 여러 판본은 user_count가 높은 순으로 보여 준다.
+ * 읽기 전용이며 같은 작품의 여러 판본은 record_count가 높은 순으로 보여 준다.
  *
  * 실행:
  *   node --env-file=.env --import tsx scripts/find-fiction-source-candidates.ts \
@@ -15,7 +15,7 @@ type ContentRow = {
   type: string
   external_id: string | null
   external_source: string | null
-  user_count: number | null
+  record_count: number | null
 }
 
 type LocaleRow = {
@@ -72,7 +72,7 @@ async function main() {
     const chunk = ids.slice(from, from + 200)
     const [contentResult, localeResult] = await Promise.all([
       db.from('contents')
-        .select('id,type,external_id,external_source,user_count')
+        .select('id,type,external_id,external_source,record_count')
         .in('id', chunk),
       db.from('content_locales')
         .select('content_id,locale,title,creator,thumbnail_url,isbn')
@@ -100,7 +100,7 @@ async function main() {
       return [{
         id,
         type: content.type,
-        userCount: content.user_count ?? 0,
+        recordCount: content.record_count ?? 0,
         externalSource: content.external_source,
         externalId: content.external_id,
         ko: ko ? {
@@ -117,7 +117,7 @@ async function main() {
         } : null,
       }]
     }).sort((a, b) => (
-      b.userCount - a.userCount
+      b.recordCount - a.recordCount
       || (a.ko?.title ?? a.en?.title ?? '').localeCompare(
         b.ko?.title ?? b.en?.title ?? '',
         'ko',

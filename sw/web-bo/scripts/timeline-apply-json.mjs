@@ -46,19 +46,20 @@ async function fetchAll(table, select, configure = (q) => q) {
   }
 }
 
-const [profiles, researchEvents] = await Promise.all([
-  fetchAll('profiles', 'id, slug, birth_date, death_date'),
+const [celebs, timelineEvents] = await Promise.all([
+  fetchAll('celebs', 'id, slug, birth_date, death_date'),
   fetchAll('celeb_timeline_events', 'celeb_id, source'),
 ])
-const profileById = new Map(profiles.map((p) => [p.id, p]))
-const profileBySlug = new Map(profiles.map((p) => [p.slug, p]))
-const hasResearch = new Set(researchEvents.filter((e) => e.source === 'research').map((e) => e.celeb_id))
+const celebBySlug = new Map(celebs.map((celeb) => [celeb.slug, celeb]))
+const hasTimeline = new Set(timelineEvents.map((event) => event.celeb_id))
 
 // 대상 검증
 for (const person of payload.people) {
-  const profile = profileBySlug.get(person.slug)
-  if (!profile) throw new Error(`없는 slug: ${person.slug}`)
-  if (hasResearch.has(profile.id)) console.log(`↷ ${person.slug}: 이미 research 적재 있음 — 건너뜀 (force 없음)`)
+  const celeb = celebBySlug.get(person.slug)
+  if (!celeb) throw new Error(`없는 slug: ${person.slug}`)
+  if (hasTimeline.has(celeb.id)) {
+    console.log(`↷ ${person.slug}: 기존 행적 있음 — 건너뜀`)
+  }
 }
 console.log(`JSON 인물 ${payload.people.length}명`)
 if (!APPLY) {
@@ -153,8 +154,8 @@ async function replaceTimeline(personId, rows) {
 
 let ok = 0
 for (const person of payload.people) {
-  const profile = profileBySlug.get(person.slug)
-  if (hasResearch.has(profile.id)) continue
+  const celeb = celebBySlug.get(person.slug)
+  if (hasTimeline.has(celeb.id)) continue
   try {
     const placeCache = new Map()
     const events = []
@@ -173,8 +174,8 @@ for (const person of payload.people) {
       })
     }
     events.sort((a, b) => a.year - b.year)
-    const rows = events.map((event, sort_order) => ({ ...event, celeb_id: profile.id, sort_order }))
-    await replaceTimeline(profile.id, rows)
+    const rows = events.map((event, sort_order) => ({ ...event, celeb_id: celeb.id, sort_order }))
+    await replaceTimeline(celeb.id, rows)
     ok++
     console.log(`✓ ${person.slug} ${rows.length}건 (좌표 ${rows.filter((r) => r.lat != null).length})`)
   } catch (error) {

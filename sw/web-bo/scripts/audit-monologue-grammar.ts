@@ -2,7 +2,7 @@
  * 가상 독백 문장 검수기 — 비문·호응 오류만 잡아 그 문장만 갈아 끼운다.
  *
  * [무엇을 하는가]
- *   profiles.virtual_monologue(국문) / virtual_monologue_en(영문)에서 **문법적으로 틀린 문장**만 찾아
+ *   celebs.virtual_monologue(국문) / virtual_monologue_en(영문)에서 **문법적으로 틀린 문장**만 찾아
  *   해당 문장 하나만 교체한다. 글의 구성·어조·어휘 선택·문단 배치는 건드리지 않는다.
  *
  * [왜 문장 단위 치환인가]
@@ -193,9 +193,8 @@ async function loadAll(): Promise<Row[]> {
   const rows: Row[] = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select(`slug, nickname, ${COL}`)
-      .eq('profile_type', 'CELEB')
       .order('slug')
       .range(from, from + 999)
     if (error) throw error
@@ -223,7 +222,7 @@ async function audit(r: Row): Promise<{ applied: Fix[]; skipped: (Fix & { why: s
   if (ratio < 0.8 || ratio > 1.25) throw new Error(`분량 ${Math.round(ratio * 100)}% — 거부`)
 
   if (!DRY) {
-    const { error } = await supabase.from('profiles').update({ [COL]: next }).eq('slug', r.slug)
+    const { error } = await supabase.from('celebs').update({ [COL]: next }).eq('slug', r.slug)
     if (error) throw error
   }
   return { applied, skipped, changed: true }

@@ -15,7 +15,7 @@
  * (이 상수를 그대로 import하므로 자동 반영된다).
  */
 export const CACHE_TAGS = {
-  /** 셀럽 프로필·목록·서고·타임라인·랭킹 등 profiles 기반 */
+  /** 셀럽 프로필·목록·서고·타임라인·랭킹 등 celebs 기반 */
   CELEBS: 'celebs',
   /** 콘텐츠(도서·영상·음악·게임) 메타·상세·감상문 */
   CONTENTS: 'contents',

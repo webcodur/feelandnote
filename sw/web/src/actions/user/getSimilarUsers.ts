@@ -77,35 +77,55 @@ async function getSimilarUsersInner(limit = 10): Promise<GetSimilarUsersResult> 
     };
   }
 
-  // 폴백: 최근 활동 유저 (내가 팔로우하지 않고, 차단하지 않은 유저)
-  const { data: recentUsers } = await supabase
-    .from("user_contents")
-    .select(`
-      user_id,
-      profiles!user_contents_user_id_fkey!inner(id, nickname, avatar_url)
-    `)
-    .neq("user_id", user.id)
-    .not("user_id", "in", `(SELECT following_id FROM follows WHERE follower_id = '${user.id}')`)
-    .not("user_id", "in", `(SELECT blocked_id FROM blocks WHERE blocker_id = '${user.id}')`)
+  // 폴백: 최근 활동 회원. 관계 FK와 공개 프로필 FK가 다르므로 ID를 먼저 모아 2단계로 읽는다.
+  const [followingResult, blocksResult, recentResult] = await Promise.all([
+    supabase
+      .from("member_member_follows")
+      .select("followed_member_id")
+      .eq("follower_member_id", user.id),
+    supabase
+      .from("blocks")
+      .select("blocker_id, blocked_id")
+      .or(`blocker_id.eq.${user.id},blocked_id.eq.${user.id}`),
+    supabase
+      .from("member_contents")
+      .select("member_id")
+      .neq("member_id", user.id)
     .order("updated_at", { ascending: false })
-    .limit(50);
+      .limit(100),
+  ]);
 
-  if (!recentUsers) return { users: [], algorithm: "recent_activity" };
+  const excludedIds = new Set<string>([user.id]);
+  followingResult.data?.forEach((row) => excludedIds.add(row.followed_member_id));
+  blocksResult.data?.forEach((row) => {
+    excludedIds.add(row.blocker_id);
+    excludedIds.add(row.blocked_id);
+  });
+
+  const recentUsers = (recentResult.data || []).filter((row) => !excludedIds.has(row.member_id));
+
+  if (recentUsers.length === 0) return { users: [], algorithm: "recent_activity" };
+
+  const recentIds = [...new Set(recentUsers.map((row) => row.member_id))];
+  const { data: profiles } = await supabase
+    .from("member_profiles")
+    .select("id, nickname, avatar_url")
+    .in("id", recentIds);
+  const profileMap = new Map((profiles || []).map((profile) => [profile.id, profile]));
 
   // 유저별로 그룹화하여 콘텐츠 수 계산
   type ProfileData = { id: string; nickname: string | null; avatar_url: string | null };
   const userMap = new Map<string, { nickname: string; avatar_url: string | null; count: number }>();
 
   for (const record of recentUsers) {
-    const profileData = record.profiles as ProfileData | ProfileData[];
-    const profile = Array.isArray(profileData) ? profileData[0] : profileData;
+    const profile = profileMap.get(record.member_id) as ProfileData | undefined;
     if (!profile) continue;
 
-    const existing = userMap.get(record.user_id);
+    const existing = userMap.get(record.member_id);
     if (existing) {
       existing.count++;
     } else {
-      userMap.set(record.user_id, {
+      userMap.set(record.member_id, {
         nickname: profile.nickname || "User",
         avatar_url: profile.avatar_url,
         count: 1,

@@ -29,31 +29,47 @@ export default async function TierListsPage({
 
   let query = supabase
     .from('tier_lists')
-    .select('*, user:profiles!tier_lists_user_id_fkey (id, nickname, avatar_url)', { count: 'exact' })
+    .select(
+      '*, account:user_accounts!tier_lists_accounts_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
+      { count: 'exact' }
+    )
     .order('updated_at', { ascending: false })
 
   if (typeFilter) query = query.eq('type', typeFilter)
   if (visibilityFilter === 'public') query = query.eq('is_public', true)
   else if (visibilityFilter === 'private') query = query.eq('is_public', false)
 
-  const { data: tierLists, count } = await query.range(
+  const { data: tierListRows, count, error: tierListsError } = await query.range(
     (page - 1) * perPage,
     page * perPage - 1
   )
 
+  if (tierListsError) throw new Error(`Failed to load tier lists: ${tierListsError.message}`)
+
+  const tierLists = (tierListRows ?? []).map((row) => {
+    const account = Array.isArray(row.account) ? row.account[0] : row.account
+    const member = Array.isArray(account?.member) ? account.member[0] : account?.member
+    return { ...row, user: member ?? null }
+  })
+
   const total = count || 0
   const totalPages = Math.ceil(total / perPage)
 
-  const { data: typeStats } = await supabase.from('tier_lists').select('type')
+  const { data: typeStats, error: typeStatsError } = await supabase.from('tier_lists').select('type')
+  if (typeStatsError) throw new Error(`Failed to load tier list statistics: ${typeStatsError.message}`)
   const typeCountMap = (typeStats || []).reduce((acc, item) => {
     acc[item.type] = (acc[item.type] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
-  const { count: publicCount } = await supabase
+  const { count: publicCount, error: publicCountError } = await supabase
     .from('tier_lists')
     .select('*', { count: 'exact', head: true })
     .eq('is_public', true)
+
+  if (publicCountError) {
+    throw new Error(`Failed to load public tier list count: ${publicCountError.message}`)
+  }
 
   const typeFilterOptions = [
     { value: '', label: '전체', count: total },
@@ -72,7 +88,7 @@ export default async function TierListsPage({
 
   return (
     <TierListsClient
-      tierLists={tierLists || []}
+      tierLists={tierLists}
       total={total}
       page={page}
       totalPages={totalPages}

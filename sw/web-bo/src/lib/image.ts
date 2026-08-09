@@ -64,7 +64,7 @@ export function getClipboardImageFile(event: ClipboardEvent): File | null {
     .find((file) => file.type.startsWith('image/')) ?? null
 }
 
-// 대표 화보(profiles.portrait_url) 긴 변 상한. 편집기에서 정한 공용 비율 구도를 추가 크롭 없이 줄인다.
+// 대표 화보(celebs.portrait_url) 긴 변 상한. 편집기에서 정한 공용 비율 구도를 추가 크롭 없이 줄인다.
 const PORTRAIT_MAX_EDGE = CELEB_HERO_PHOTO_SPEC.storageHeightPx
 
 /**

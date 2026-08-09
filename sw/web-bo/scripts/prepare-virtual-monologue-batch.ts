@@ -75,8 +75,7 @@ type Row = {
   death_date: string | null
   bio: string | null
   celeb_tier: string | null
-  profile_type: string
-  status: string | null
+  publication_status: string | null
   virtual_monologue: string | null
   celeb_influence:
     | { total_score: number | null }[]
@@ -119,11 +118,10 @@ function loadStructuralAudit(): Map<string, StructuralPerson> {
 
 async function main() {
   const { data, error } = await db
-    .from('profiles')
-    .select('id, slug, nickname, profession, birth_date, death_date, bio, celeb_tier, profile_type, status, virtual_monologue, celeb_influence(total_score)')
+    .from('celebs')
+    .select('id, slug, nickname, profession, birth_date, death_date, bio, celeb_tier, publication_status, virtual_monologue, celeb_influence!celeb_influence_celebs_fkey(total_score)')
     .in('slug', REQUESTED_SLUGS)
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
   if (error) throw error
 
   const bySlug = new Map(((data ?? []) as unknown as Row[]).map(row => [row.slug, row]))

@@ -29,7 +29,7 @@ export async function blockUser(targetUserId: string): Promise<ActionResult<Bloc
 
   // 대상 존재 확인 — 없는 id로 차단 행을 만들면 FK 위반이 되므로 미리 걸러 메시지를 명확히 한다
   const { data: targetUser, error: targetError } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .select('id')
     .eq('id', targetUserId)
     .maybeSingle()

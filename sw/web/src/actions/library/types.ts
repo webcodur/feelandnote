@@ -56,9 +56,9 @@ export interface ContentJoinRow {
   content_locales: ContentLocaleRow[] | null
 }
 
-// user_contents → contents 조인 조회 행
-export interface UserContentJoinRow {
-  user_id: string
+// celeb_contents → contents 조인 조회 행
+export interface CelebContentJoinRow {
+  celeb_id: string
   content_id: string
   rating: number | null
   contents: ContentJoinRow | ContentJoinRow[] | null

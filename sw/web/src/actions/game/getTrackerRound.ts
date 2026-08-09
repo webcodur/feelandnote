@@ -38,24 +38,24 @@ export interface TrackerOption {
   voiceSpeed?: number;
 }
 
-// fallback 경로 profiles 조회 행 — 본문(여정·소개)은 선정된 1명만 별도 수신
+// fallback 경로 celebs 조회 행 — 본문(여정·소개)은 선정된 1명만 별도 수신
 type FallbackCelebRow = Pick<
-  Tables<"profiles">,
+  Tables<"celebs">,
   | "id" | "slug" | "nickname" | "nickname_en" | "profession" | "avatar_url"
   | "death_date" | "nationality" | "birth_date"
 >;
 
-// 오답 보기 profiles 조회 행
+// 오답 보기 celebs 조회 행
 type DistractorRow = Pick<
-  Tables<"profiles">,
+  Tables<"celebs">,
   "id" | "nickname" | "nickname_en" | "avatar_url" | "profession" | "nationality" | "birth_date" | "death_date"
 >;
 
 // 옵션 인물 톤·음성 조회 행
-type ToneRow = Pick<Tables<"profiles">, "id" | "speech_tone" | "has_voice" | "voice_v" | "voice_speed">;
+type ToneRow = Pick<Tables<"celebs">, "id" | "speech_tone" | "has_voice" | "voice_v" | "voice_speed">;
 
-// 리뷰 콘텐츠 user_contents 조회 행
-type TrackerUcRow = Pick<Tables<"user_contents">, "content_id" | "review" | "review_en" | "source_url">;
+// 리뷰 콘텐츠 celeb_contents 조회 행
+type TrackerUcRow = Pick<Tables<"celeb_contents">, "content_id" | "review" | "review_en" | "source_url">;
 
 // contents(content_locales) 조회 행
 interface TrackerContentRow {
@@ -205,7 +205,7 @@ const getCachedTrackerCandidates = unstable_cache(
     return data ?? [];
   },
   ["tracker-candidates"],
-  // get_tracker_candidates: profiles + celeb_persona 보유 + 감상문 있는 user_contents 조건
+  // get_tracker_candidates: celebs + celeb_persona 보유 + 감상문 있는 celeb_contents 조건
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.PERSONA] }
 );
 
@@ -245,7 +245,7 @@ export async function getTrackerRound(
       .eq("celeb_id", chosen.id)
       .maybeSingle(),
     supabase
-      .from("profiles")
+      .from("celebs")
       .select("cultural_journey, cultural_journey_en, bio, bio_en")
       .eq("id", chosen.id)
       .maybeSingle(),
@@ -275,10 +275,9 @@ const getCachedFallbackEligible = unstable_cache(
     // 1,000행 상한에 걸리므로 나눠 받는다(실측 1,148행 — 자르면 후보 148명이 조용히 탈락).
     const celebRows = await selectAllPages<FallbackCelebRow>((from, to) =>
       supabase
-        .from("profiles")
+        .from("celebs")
         .select("id, slug, nickname, nickname_en, profession, avatar_url, death_date, nationality, birth_date")
-        .eq("profile_type", "CELEB")
-        .eq("status", "active")
+        .eq("publication_status", "active")
         .not("cultural_journey", "is", null)
         .neq("cultural_journey", "")
         .not("death_date", "is", null)
@@ -307,18 +306,18 @@ const getCachedFallbackEligible = unstable_cache(
     const personaSet = new Set(personas.map((p) => p.celeb_id));
 
     // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
-    const reviewRows = await selectInChunks<{ user_id: string }>(celebIds, (chunk) =>
+    const reviewRows = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
       supabase
-        .from("user_contents")
-        .select("user_id")
-        .in("user_id", chunk)
+        .from("celeb_contents")
+        .select("celeb_id")
+        .in("celeb_id", chunk)
         .not("review", "is", null)
         .neq("review", "")
     );
 
     const reviewCountMap = new Map<string, number>();
     for (const r of reviewRows) {
-      reviewCountMap.set(r.user_id, (reviewCountMap.get(r.user_id) ?? 0) + 1);
+      reviewCountMap.set(r.celeb_id, (reviewCountMap.get(r.celeb_id) ?? 0) + 1);
     }
     const reviewSet = new Set(
       [...reviewCountMap.entries()].filter(([, count]) => count >= 4).map(([id]) => id)
@@ -330,7 +329,7 @@ const getCachedFallbackEligible = unstable_cache(
     );
   },
   ["tracker-fallback-eligible"],
-  // profiles + celeb_persona + user_contents(감상문 수)
+  // celebs + celeb_persona + celeb_contents(감상문 수)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.PERSONA] }
 );
 
@@ -359,7 +358,7 @@ async function getTrackerRoundFallback(
       .eq("celeb_id", chosen.id)
       .maybeSingle(),
     supabase
-      .from("profiles")
+      .from("celebs")
       .select("cultural_journey, cultural_journey_en, bio, bio_en")
       .eq("id", chosen.id)
       .maybeSingle(),
@@ -384,16 +383,15 @@ const getCachedDistractorPool = unstable_cache(
   async (): Promise<DistractorRow[]> => {
     const supabase = createStaticClient();
     const { data } = await supabase
-      .from("profiles")
+      .from("celebs")
       .select("id, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date")
-      .eq("profile_type", "CELEB")
-      .eq("status", "active")
+      .eq("publication_status", "active")
       .not("death_date", "is", null)
       .limit(300);
     return (data ?? []) as DistractorRow[];
   },
   ["tracker-distractor-pool"],
-  // profiles만 읽는다
+  // celebs만 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 );
 
@@ -422,9 +420,9 @@ async function buildRound(
       .eq("celeb_id", celebId)
       .single(),
     supabase
-      .from("user_contents")
+      .from("celeb_contents")
       .select("content_id, review, review_en, source_url")
-      .eq("user_id", celebId)
+      .eq("celeb_id", celebId)
       .not("review", "is", null)
       .neq("review", "")
       .limit(8),
@@ -539,7 +537,7 @@ async function buildRound(
 
   const optionIds = rawOptions.map(o => o.id);
   const [{ data: tones }, { data: dialogues }] = await Promise.all([
-    supabase.from("profiles").select("id, speech_tone, has_voice, voice_v, voice_speed").in("id", optionIds),
+    supabase.from("celebs").select("id, speech_tone, has_voice, voice_v, voice_speed").in("id", optionIds),
     // egress-allow: 게임 라운드가 4명 옵션의 21상황 × 3변형 대사를 모두 사용 (clash_attack 등)
     supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", optionIds)
   ]);

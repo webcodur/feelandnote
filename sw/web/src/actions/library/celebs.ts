@@ -20,29 +20,28 @@ interface CelebInfo {
 async function fetchCelebsForContent(contentId: string): Promise<CelebInfo[]> {
   const supabase = createStaticClient()
 
-  const { data: userContents, error: ucError } = await supabase
-    .from('user_contents')
-    .select('user_id')
+  const { data: celebContents, error: ucError } = await supabase
+    .from('celeb_contents')
+    .select('celeb_id')
     .eq('content_id', contentId)
     .eq('status', 'FINISHED')
 
   throwOnQueryError('getCelebsForContent 감상 조회', ucError)
-  if (!userContents?.length) return []
+  if (!celebContents?.length) return []
 
-  const userIds = userContents.map(uc => uc.user_id)
+  const celebIds = celebContents.map(row => row.celeb_id)
 
-  const { data: profiles, error: profileError } = await supabase
-    .from('profiles')
+  const { data: celebs, error: profileError } = await supabase
+    .from('celebs')
     .select('id, nickname, nickname_en, avatar_url, profession')
-    .in('id', userIds)
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .in('id', celebIds)
+    .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
 
   throwOnQueryError('getCelebsForContent 프로필 조회', profileError)
 
-  return (profiles || []).map(p => ({
+  return (celebs || []).map(p => ({
     id: p.id,
     nickname: p.nickname,
     nickname_en: p.nickname_en,

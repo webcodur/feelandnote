@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getPublicContentDetail } from "@/actions/contents/getContentDetail";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, getSeoImageUrl, toSeoDescription } from "@/lib/seo";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
 
 const getPublicContentDetailCached = cache(getPublicContentDetail);
@@ -47,8 +47,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const { title, description, thumbnail } = data.content;
-  const desc = description || t("metaFallback", { title });
+  const reviewDescription = data.initialReviews.find((review) => !review.is_spoiler)?.review;
+  const desc = toSeoDescription(
+    description || reviewDescription || t("metaFallback", { title }),
+  );
   const hasReview = data.initialReviews.length > 0;
+  const seoLocale = locale === "en" ? "en" : "ko";
+  const seoImageUrl = getSeoImageUrl("content", contentId, seoLocale, thumbnail);
+  const seoImageAlt = locale === "en" ? `${title} cover` : `${title} 표지`;
 
   return {
     title,
@@ -59,13 +65,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description: desc,
       url: alternates.canonical,
-      images: thumbnail ? [thumbnail] : [],
+      images: [{
+        url: seoImageUrl,
+        width: 800,
+        height: 800,
+        type: "image/png",
+        alt: seoImageAlt,
+      }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title,
       description: desc,
-      images: thumbnail ? [thumbnail] : [],
+      images: [{ url: seoImageUrl, alt: seoImageAlt }],
     },
   };
 }
@@ -98,13 +110,19 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { content } = data;
+  const seoImageUrl = getSeoImageUrl(
+    "content",
+    contentId,
+    locale === "en" ? "en" : "ko",
+    content.thumbnail,
+  );
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": getSchemaType(content.type),
     name: content.title,
     ...(content.creator && { author: { "@type": "Person", name: content.creator } }),
     ...(content.description && { description: content.description }),
-    ...(content.thumbnail && { image: content.thumbnail }),
+    image: seoImageUrl,
     ...(content.releaseDate && { datePublished: content.releaseDate }),
   };
 

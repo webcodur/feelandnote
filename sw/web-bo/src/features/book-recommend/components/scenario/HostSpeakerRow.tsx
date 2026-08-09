@@ -20,7 +20,7 @@ import { EleVoiceExpandButton } from './EleVoiceExpandButton'
  * 데이터:
  *  - host.voiceEngine: 활성 엔진 (없으면 elevenlabsVoiceId 보유 여부로 추정)
  *  - host.elevenlabsVoiceId, host.geminiVoice: 엔진별 보이스 값
- *  - DB 미러: profiles.voice_id_ko / voice_id_en (ELE 한정)
+ *  - DB 미러: celebs.voice_id_ko / voice_id_en (ELE 한정)
  */
 
 const HOST_COLOR = '#c8a46e'  // accent gold — host 고정 색

@@ -7,16 +7,14 @@ import { createStaticClient } from '@/lib/supabase/static'
 import type { NoticeWithAuthor } from '@/types/database'
 import type { Locale } from '@/types/locale'
 import { localizeNotice } from '@/lib/board/localizeNotice'
+import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 
 async function fetchNoticeData(id: string, locale: Locale): Promise<NoticeWithAuthor | null> {
   const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('notices')
-    .select(`
-      *,
-      author:profiles!author_id(id, nickname, avatar_url)
-    `)
+    .select('*')
     .eq('id', id)
     .single()
 
@@ -25,7 +23,8 @@ async function fetchNoticeData(id: string, locale: Locale): Promise<NoticeWithAu
   // 여기 오는 오류는 "글이 없다" 하나뿐이다.
   if (error?.code === NO_ROWS_CODE) return null
 
-  return localizeNotice(data as NoticeWithAuthor, locale)
+  const notice = await attachMemberAuthor(supabase, data)
+  return localizeNotice(notice as NoticeWithAuthor, locale)
 }
 
 const getNoticeDataCached = unstable_cache(

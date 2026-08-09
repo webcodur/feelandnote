@@ -86,7 +86,7 @@ async function fetchTodayFigure(today: string, locale: string): Promise<TodayFig
 const getTodayFigureCached = unstable_cache(
   fetchTodayFigure,
   ['today-figure'],
-  // daily_figures(BO 오늘의 인물 편성) + profiles + user_contents + celeb_dialogues
+  // daily_figures(BO 오늘의 인물 편성) + celebs + celeb_contents + celeb_dialogues
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES] }
 )
 
@@ -96,13 +96,13 @@ export async function getTodayFigure(): Promise<TodayFigureResult> {
   return withQueryFallback('getTodayFigure', () => getTodayFigureCached(today, locale), { figure: null, contents: [], source: { type: 'seed', newsCount: 0 } })
 }
 
-// 오늘의 인물 profiles 조회 행
+// 오늘의 인물 celebs 조회 행
 type FigureProfileRow = Pick<
-  Tables<'profiles'>,
+  Tables<'celebs'>,
   'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession' | 'title' | 'bio' | 'bio_en' | 'speech_tone' | 'voice_v'
 >
 
-// 오늘의 인물 user_contents 조회 행
+// 오늘의 인물 celeb_contents 조회 행
 interface FigureUserContentRow {
   id: string
   content_id: string
@@ -121,17 +121,17 @@ async function fetchFigureContents(
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  const [{ data: profile }, { data: userContents }, { data: dialogue }, userCountMap] = await Promise.all([
+  const [{ data: profile }, { data: celebContents }, { data: dialogue }, userCountMap] = await Promise.all([
     supabase
-      .from('profiles')
+      .from('celebs')
       .select('id, slug, nickname, nickname_en, avatar_url, profession, title, bio, bio_en, speech_tone, voice_v')
       .eq('id', celebId)
       .single(),
     supabase
-      .from('user_contents')
+      .from('celeb_contents')
       // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
       .select(`id, content_id, rating, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
-      .eq('user_id', celebId)
+      .eq('celeb_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
     supabase
@@ -148,7 +148,7 @@ async function fetchFigureContents(
   }
 
   const profileRow: FigureProfileRow = profile
-  const ucRows = (userContents || []) as unknown as FigureUserContentRow[]
+  const ucRows = (celebContents || []) as unknown as FigureUserContentRow[]
 
   const contents: LibraryContent[] = ucRows.map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents

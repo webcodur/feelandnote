@@ -1,20 +1,23 @@
 # 프로필·기록관 (`(main)/[userId]/*`)
 
-> **최종 실측 체크: 26.07.30** — 부분 대조: 방명록·프로필 신고·차단과 차단 관리 카드만 실측. 그 밖은 26.07.16 대조분
+> **최종 실측 체크: 26.08.10** — `[userId]` 회원 전용 라우트, 회원 프로필·감상·방명록·
+> 점수의 물리 도메인 전환과 사용자 웹 프로덕션 빌드를 대조했다.
 
 한 사람의 기록을 모아 보여주는 영역이다. 네비게이션 라벨은 "내 기록", 코드 키는 `archive`다. `NAV_ITEMS`의 href는 `/{userId}` 자리표시자이며 실제 주소는 사용자 id로 채워진다.
 
-## 셀럽 우회
+## 회원 전용 경계
 
-`[userId]` 라우트는 일반 사용자와 셀럽을 함께 받지만, 셀럽에게는 정본 주소가 따로 있다. `layout.tsx`와 `page.tsx` 양쪽에서 `profile.profile_type === 'CELEB'`이고 `slug`가 있으면 `/celeb/{slug}`로 리다이렉트한다. 프로필이 없으면 `notFound()`다.
+`[userId]` 라우트는 `member_profiles`에 존재하는 로그인 회원만 받는다. 셀럽 ID를 넣어 두
+도메인을 추측하거나 유형 열로 분기하지 않는다. 회원 프로필이 없으면 `notFound()`다.
 
-슬러그가 없는 셀럽은 리다이렉트되지 않고 `[userId]` 화면에 그대로 남는다. 이때 소개 화면은 영향력(`getCelebInfluence`)과 16축 스펙트럼·유사 인물(`getSimilarByCelebId`) 데이터를 추가로 싣는다.
+셀럽의 정본 주소는 `/celeb/{slug}`이며 `celebs`에서 별도로 조회한다. 옛 `[userId]`→셀럽
+리다이렉트와 슬러그 없는 셀럽의 회원 화면 폴백은 26.08.10에 제거했다.
 
 ## 화면 목록
 
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
-| `/[userId]` | 소개. 프로필 + 방명록 | `getUserProfile`, `getGuestbookEntries`, (셀럽) `getCelebInfluence`, `getSimilarByCelebId` |
+| `/[userId]` | 소개. 회원 프로필 + 회원 방명록 | `getUserProfile`, `getGuestbookEntries(subjectKind='member')` |
 | `/[userId]/reading` | 서재. 기록한 콘텐츠 | `RecordsContent` (클라이언트 페칭) |
 | `/[userId]/reading/collections` | 묶음 목록 | `getFlows` (`Flows`가 클라이언트 페칭) |
 | `/[userId]/reading/collections/[id]` | 묶음 상세 | `getFlow` (`FlowDetail`이 클라이언트 페칭) |
@@ -26,7 +29,10 @@
 
 `[userId]/layout.tsx`가 배너(`PageBanner` + `PrismBanner`), 탭(`ArchiveTabs`), 섹션 헤더(`ArchiveSectionHeader`)를 씌우고 본문을 `max-w-3xl`로 잡는다. `RecentProfileTracker`가 방문한 프로필을 기록한다.
 
-탭 구성은 `sw/web/src/constants/archive.tsx`의 `ARCHIVE_TABS`가 단일원천이다. `buildArchiveTabs(userId, isOwner, isCeleb)`가 `ownerOnly`·`nonCeleb` 플래그로 거른 뒤 `/{userId}{href}` 형태의 전체 주소를 붙인다.
+탭 구성은 `sw/web/src/constants/archive.tsx`의 `ARCHIVE_TABS`가 단일원천이다.
+`buildArchiveTabs(userId, isOwner, false)`가 `ownerOnly`·`nonCeleb` 플래그로 거른 뒤
+`/{userId}{href}` 형태의 전체 주소를 붙인다. 세 번째 인자는 옛 공용 컴포넌트 계약의
+잔재이며 이 라우트에서는 항상 `false`다.
 
 | value | 라벨 | href | 제약 |
 |---|---|---|---|
@@ -44,17 +50,20 @@
 
 ## 소개 (`/[userId]`)
 
-`ProfileContent`가 받는 것은 프로필, 본인 여부, 방명록 항목·총계·작성자 정보, 그리고 셀럽일 때만 채워지는 영향력·16축 스펙트럼이다.
+`ProfileContent`가 받는 것은 회원 프로필, 본인 여부, 회원 방명록 항목·총계와 현재 로그인
+회원 ID다. 셀럽 영향력·16축 스펙트럼을 이 라우트에서 싣지 않는다.
 
-**신고·차단(26.07.30)** — 방명록 항목마다 「방명록 신고 / 작성자 신고 / 작성자 차단」 메뉴가 붙는다(자기 글·내용이 가려진 비밀글 제외). 일반 사용자 프로필 상단에는 「사용자 신고 / 사용자 차단」이 붙는다. 인물(셀럽) 프로필은 운영이 만든 자료라 대상이 아니다.
+**신고·차단(26.07.30)** — 방명록 항목마다 「방명록 신고 / 작성자 신고 / 작성자 차단」 메뉴가 붙는다(자기 글·내용이 가려진 비밀글 제외). 회원 프로필 상단에는 「사용자 신고 / 사용자 차단」이 붙는다. 인물(셀럽) 프로필은 운영이 만든 자료라 대상이 아니다.
 
 차단한 사람의 방명록은 목록에서 걷어낸다. 🔴 **방명록 조회(`getGuestbookEntries`)는 `unstable_cache`로 보는 사람과 무관하게 캐시된다.** 차단 필터는 반드시 캐시 밖 래퍼에서 적용한다 — 캐시 안에서 차단 목록을 읽으면 한 사람의 차단 결과가 전체 사용자에게 캐시된다.
 
-방명록은 본인이 볼 때 `markGuestbookAsRead()`로 읽음 처리한다. 방명록 작성용 사용자 정보(`guestbookCurrentUser`)는 로그인 사용자의 id에 **조회 대상 프로필의 닉네임·아바타**를 붙여 만든다 — 남의 기록관을 볼 때 작성자 표시가 그 기록관 주인의 것으로 잡히므로, 의도가 불명확하다.
+방명록은 본인이 볼 때 `markGuestbookAsRead()`로 `member_guestbook_entries`의 미확인 행을
+읽음 처리한다. 작성자 표시는 로그인 회원 ID로 조회하며, 대상 프로필의 닉네임·아바타를
+작성자 정보로 재사용하지 않는다.
 
 소개 화면의 구성 요소는 `[userId]/` 아래 평면 파일로 있다. `ProfileBioSection`, `ProfileInfluenceSection`, `ProfilePersonaSection`, `ProfileStatsSection`, `ProfileSettingsSection`, `ProfileAchievementsSection`, `UserBioSection`, `AvatarUploader`다.
 
-메타는 셀럽이고 `bio`가 있으면 그 앞 160자를, 아니면 기본 문구를 설명으로 쓴다. 오픈그래프 `type`은 `profile`이다.
+메타 설명은 회원 닉네임을 넣은 기본 문구를 쓴다. 오픈그래프 `type`은 `profile`이다.
 
 ## 업적 (`/[userId]/merits`)
 
@@ -66,7 +75,10 @@
 - **등급(`grade`)** 4종: `common`(6개), `uncommon`(6개), `rare`(4개), `epic`(1개).
 - **조건(`condition`)**: `{ type, value }` 꼴이다. `content_count`, `record_count`, `category_count`, `creator_count`, `avg_review_length`, `long_review_count`, `completed_count` 등이 쓰인다.
 
-`getAchievementData(userId)`가 사용자 통계를 모아 각 칭호의 `condition`을 검사하고 `unlocked` 플래그를 붙인다. 함께 내주는 것은 최근 점수 로그 20건(`score_logs`)과 점수 합계(`user_scores`의 `activity_score`·`title_bonus`·`total_score`)다. 이 조회는 `unstable_cache` + `createStaticClient` 패턴을 쓴다.
+`getAchievementData(userId)`가 사용자 통계를 모아 각 칭호의 `condition`을 검사하고
+`unlocked` 플래그를 붙인다. 점수 합계는 `member_scores`의 `activity_score`·`title_bonus`·
+`total_score`에서 읽고, 최근 `member_score_logs` 20건은 본인에게만 내준다. 공개 조회는
+`unstable_cache` + `createStaticClient`, 본인 조회는 세션 클라이언트를 쓴다.
 
 전시할 칭호는 `getProfileShowcase(userId)`가 코드 배열로 내주고, `updateShowcase`로 바꾼다. 본인일 때만 편집 동선이 열린다(`isOwner`).
 

@@ -18,6 +18,7 @@ const authPaths = ['/login', '/signup'];
 
 // 미들웨어를 건너뛸 SEO/메타데이터 경로
 const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml', '/opengraph-image']
+const SEO_PATH_PREFIXES = ['/seo-image/']
 
 // 미들웨어를 건너뛸 PWA 정적 파일
 // 아래 matcher는 .png·.webmanifest 등 확장자만 제외하고 .js·.html은 제외하지 않는다.
@@ -69,7 +70,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // 2) SEO·PWA 정적 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
-  if (SEO_PATHS.includes(rawPathname) || PWA_PATHS.includes(rawPathname)) {
+  if (
+    SEO_PATHS.includes(rawPathname)
+    || SEO_PATH_PREFIXES.some((prefix) => rawPathname.startsWith(prefix))
+    || PWA_PATHS.includes(rawPathname)
+  ) {
     return NextResponse.next()
   }
 

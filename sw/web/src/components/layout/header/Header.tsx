@@ -52,7 +52,7 @@ export default function Header({ isMobile }: HeaderProps) {
 
       setIsLoggedIn(true);
       const { data: profileData } = await supabase
-        .from("profiles")
+        .from("member_profiles")
         .select("id, nickname, avatar_url, selected_title")
         .eq("id", user.id)
         .single();

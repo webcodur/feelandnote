@@ -11,4 +11,5 @@ export interface ComparisonChartProps {
 
 export interface CompassChartProps extends ComparisonChartProps {
   opposite: boolean;
+  twoColumn?: boolean;
 }

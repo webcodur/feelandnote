@@ -1,5 +1,5 @@
 // 셀럽 등급(celeb_tier) 상수 — Single Source of Truth
-// profiles.celeb_tier에 CHECK 제약이 없으므로 이 파일이 유일한 규약이다.
+// celebs.celeb_tier에 CHECK 제약이 없으므로 이 파일이 유일한 규약이다.
 
 export type CelebTier = 'full' | 'light' | 'fiction'
 

@@ -1,44 +1,45 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import type { Json } from "@/types/supabase";
 
-type NotificationType =
-  | "like"
-  | "comment"
-  | "follow"
-  | "achievement"
-  | "system"
-  | "guestbook"
+type RecommendationNotificationType =
   | "recommendation"
   | "recommendation_accepted";
 
+interface RecommendationNotificationMetadata {
+  recommendation_id: string;
+  [key: string]: Json | undefined;
+}
+
 interface CreateNotificationParams {
-  userId: string;
-  actorId?: string;
-  type: NotificationType;
+  type: RecommendationNotificationType;
   title?: string;
   message: string;
   link?: string;
-  metadata?: Record<string, unknown>;
+  metadata: RecommendationNotificationMetadata;
 }
 
-// 알림 생성 (에러 발생해도 throw하지 않음)
+// 추천 참여관계와 수신자·행위자는 DB가 검증하고 파생한다.
+// 알림 생성 실패는 추천 본 작업을 되돌리지 않되 서버 로그에는 남긴다.
 export async function createNotification(
   params: CreateNotificationParams
 ): Promise<void> {
   try {
     const supabase = await createClient();
-
-    await supabase.from("notifications").insert({
-      user_id: params.userId,
-      actor_id: params.actorId ?? null,
-      type: params.type,
-      title: params.title ?? null,
-      message: params.message,
-      link: params.link ?? null,
-      metadata: params.metadata ?? null,
+    const { error } = await supabase.rpc("create_recommendation_notification", {
+      p_recommendation_id: params.metadata.recommendation_id,
+      p_type: params.type,
+      p_message: params.message,
+      p_title: params.title ?? null,
+      p_link: params.link ?? null,
+      p_metadata: params.metadata,
     });
-  } catch {
-    console.error("[createNotification] Failed to create notification");
+
+    if (error) {
+      console.error("[createNotification] Failed to create recommendation notification", error);
+    }
+  } catch (error) {
+    console.error("[createNotification] Failed to create recommendation notification", error);
   }
 }

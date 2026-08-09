@@ -30,11 +30,11 @@ export async function updateUserContentRating({
   }
 
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .update({ rating, updated_at: new Date().toISOString() })
     .eq('id', userContentId)
-    .eq('user_id', user.id)
-    .select('user_id, content_id')
+    .eq('member_id', user.id)
+    .select('user_id:member_id, content_id')
     .single()
 
   if (error) {

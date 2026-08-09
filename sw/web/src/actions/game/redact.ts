@@ -84,10 +84,9 @@ const getCachedRedactCandidates = unstable_cache(
     const supabase = createStaticClient();
     const rows = await selectAllPages<RedactCandidateRow>((from, to) =>
       supabase
-        .from('profiles')
+        .from('celebs')
         .select('id, nickname, nickname_en, profession, nationality, birth_date, death_date, avatar_url, bio, bio_en')
-        .eq('profile_type', 'CELEB')
-        .eq('status', 'active')
+        .eq('publication_status', 'active')
         .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
         .not('bio', 'is', null)
         .neq('bio', '')

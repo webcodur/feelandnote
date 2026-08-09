@@ -5,6 +5,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import { isLocale, type Locale } from '@/types/locale'
+import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 
 interface CreateCommentParams {
   boardType: BoardType
@@ -50,7 +51,7 @@ export async function createComment(params: CreateCommentParams): Promise<Action
       content: content.trim(),
       locale
     })
-    .select(`*, author:profiles!author_id(id, nickname, avatar_url)`)
+    .select('*')
     .single()
 
   if (error) {
@@ -62,5 +63,6 @@ export async function createComment(params: CreateCommentParams): Promise<Action
   revalidatePath(`/en${basePath}/${postId}`)
   revalidateTag('board-comments', { expire: 0 })
 
-  return success(data as BoardCommentWithAuthor)
+  const comment = await attachMemberAuthor(supabase, data)
+  return success(comment as BoardCommentWithAuthor)
 }

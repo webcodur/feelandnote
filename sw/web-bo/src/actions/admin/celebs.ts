@@ -128,7 +128,7 @@ type CelebListRow = {
   celeb_tier: string | null
   claimed_by: string | null
   created_at: string | null
-  user_social?: { follower_count?: number | null }[] | { follower_count?: number | null } | null
+  celeb_metrics?: { follower_count?: number | null }[] | { follower_count?: number | null } | null
   celeb_influence?: { total_score?: number | null }[] | { total_score?: number | null } | null
 }
 
@@ -138,7 +138,7 @@ function getSingleRelation<T>(value: T | T[] | null | undefined): T | null {
 }
 
 function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
-  const social = getSingleRelation(row.user_social)
+  const social = getSingleRelation(row.celeb_metrics)
   const influence = getSingleRelation(row.celeb_influence)
 
   return {
@@ -184,15 +184,15 @@ async function getCelebContentCounts(supabase: ReturnType<typeof createAdminClie
 
     for (let from = 0; ; from += pageSize) {
       const { data, error } = await supabase
-        .from('user_contents')
-        .select('id, user_id')
-        .in('user_id', idChunk)
+        .from('celeb_contents')
+        .select('id, celeb_id')
+        .in('celeb_id', idChunk)
         .order('id', { ascending: true })
         .range(from, from + pageSize - 1)
 
       if (error) throw error
       for (const row of data ?? []) {
-        counts.set(row.user_id, (counts.get(row.user_id) || 0) + 1)
+        counts.set(row.celeb_id, (counts.get(row.celeb_id) || 0) + 1)
       }
       if ((data?.length ?? 0) < pageSize) break
     }
@@ -292,14 +292,13 @@ function buildCelebListQuery(
   const { search, status, profession, tier, imageFilter } = params
 
   let query = supabase
-    .from('profiles')
+    .from('celebs')
     .select(select, options)
-    .eq('profile_type', 'CELEB')
 
   if (status && status !== 'all') {
-    query = query.eq('status', status)
+    query = query.eq('publication_status', status)
   } else {
-    query = query.in('status', ['active', 'inactive', 'suspended'])
+    query = query.in('publication_status', ['active', 'inactive', 'suspended'])
   }
 
   if (profession && profession !== 'all') {
@@ -326,9 +325,9 @@ function buildCelebListQuery(
 }
 
 /**
- * 정렬 기준이 profiles 자신의 열이면 DB에 맡긴다 — 그러면 한 화면치만 받아오면 된다.
+ * 정렬 기준이 celebs 자신의 열이면 DB에 맡긴다 — 그러면 한 화면치만 받아오면 된다.
  *
- * 여기 없는 세 기준은 profiles 밖에 있다. 감상 기록 수는 세어봐야 알고,
+ * 여기 없는 세 기준은 celebs 밖에 있다. 감상 기록 수는 세어봐야 알고,
  * 영향력·팔로워는 다른 표에 있어 정렬 대상이 되면 후보 전체를 훑을 수밖에 없다.
  */
 const CELEB_SORT_COLUMNS: Record<string, string> = {
@@ -337,7 +336,7 @@ const CELEB_SORT_COLUMNS: Record<string, string> = {
   title: 'title',
   profession: 'profession',
   nationality: 'nationality',
-  status: 'status',
+  status: 'publication_status',
   gender: 'gender',
   celeb_tier: 'celeb_tier',
   avatar_url: 'avatar_url',
@@ -350,12 +349,12 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const filters = { search, status, profession, tier, imageFilter }
   const selectFields = `
     id, slug, nickname, avatar_url, portrait_url, profession, title, nationality, gender,
-    birth_date, death_date, bio, cultural_journey,
+    birth_date, death_date, bio, cultural_journey:consumption_philosophy,
     content_research_status, content_research_updated_at,
     content_research_confirmed_empty_at,
-    is_verified, status, celeb_tier, claimed_by, created_at,
-    user_social (follower_count),
-    celeb_influence (total_score)
+    is_verified, status:publication_status, celeb_tier, claimed_by:claimed_by_member_id, created_at,
+    celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
+    celeb_influence!celeb_influence_celebs_fkey (total_score)
   `
 
   const { count, error: countError } = await buildCelebListQuery(supabase, filters, 'id', { count: 'exact', head: true })
@@ -473,7 +472,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   const includeInactive = status !== 'active'
 
   // 전체 개수 조회
-  const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+  const { data: countData, error: countError } = await supabase.rpc('count_celebs_filtered', {
     p_profession: profession && profession !== 'all' ? profession : null,
     p_nationality: null,
     p_content_type: null,
@@ -484,6 +483,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_include_inactive: includeInactive,
     p_celeb_tiers: null, // 관리자 목록은 등급 제한 없음
   })
+  if (countError) throw new Error(`Failed to count celebs: ${countError.message}`)
   const total = countData ?? 0
 
   // 숫자형 정렬(content_count, follower, influence)은 RPC가 항상 DESC → asc 시 오프셋 반전 필요
@@ -525,7 +525,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   if (rpcCelebIds.length > 0) {
     const { data: researchRows, error: researchError } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select(`
         id, portrait_url, content_research_status, content_research_updated_at,
         content_research_confirmed_empty_at
@@ -558,7 +558,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       birth_date: celeb.birth_date,
       death_date: celeb.death_date,
       bio: celeb.bio,
-      cultural_journey: celeb.cultural_journey,
+      cultural_journey: celeb.consumption_philosophy,
       is_verified: celeb.is_verified,
       status: celeb.status,
       celeb_tier: celeb.celeb_tier || 'full',
@@ -606,24 +606,32 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select(
       `
       *,
-      user_social (follower_count),
-      celeb_influence (total_score)
+      status:publication_status,
+      claimed_by:claimed_by_member_id,
+      cultural_journey:consumption_philosophy,
+      celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
+      celeb_influence!celeb_influence_celebs_fkey (total_score)
     `
     )
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
-    .single()
+    .maybeSingle()
 
-  if (error) return null
+  if (error) throw error
+  if (!data) return null
 
-  const { count: contentCount } = await supabase
-    .from('user_contents')
+  const { count: contentCount, error: contentCountError } = await supabase
+    .from('celeb_contents')
     .select('*', { count: 'exact', head: true })
-    .eq('user_id', celebId)
+    .eq('celeb_id', celebId)
+
+  if (contentCountError) throw contentCountError
+
+  const metrics = getSingleRelation(data.celeb_metrics)
+  const influence = getSingleRelation(data.celeb_influence)
 
   return {
     id: data.id,
@@ -644,7 +652,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     celeb_tier: data.celeb_tier || 'full',
     claimed_by: data.claimed_by,
     created_at: data.created_at,
-    influence_total: data.celeb_influence?.total_score || 0,
+    influence_total: influence?.total_score || 0,
     content_count: resolveCelebContentCount(
       contentCount || 0,
       data.content_research_status
@@ -653,7 +661,7 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     content_research_updated_at: data.content_research_updated_at || null,
     content_research_confirmed_empty_at:
       data.content_research_confirmed_empty_at || null,
-    follower_count: data.user_social?.follower_count || 0,
+    follower_count: metrics?.follower_count || 0,
   }
 }
 // #endregion
@@ -686,11 +694,11 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     { data: existingNameEn, error: nameEnError },
     { data: slugRows, error: slugError },
   ] = await Promise.all([
-    adminClient.from('profiles').select('id')
-      .eq('profile_type', 'CELEB').eq('nickname', nickname).neq('status', 'deleted').limit(1),
-    adminClient.from('profiles').select('id')
-      .eq('profile_type', 'CELEB').eq('nickname_en', nicknameEn).neq('status', 'deleted').limit(1),
-    adminClient.from('profiles').select('slug').like('slug', `${baseSlug}%`),
+    adminClient.from('celebs').select('id')
+      .eq('nickname', nickname).neq('publication_status', 'deleted').limit(1),
+    adminClient.from('celebs').select('id')
+      .eq('nickname_en', nicknameEn).neq('publication_status', 'deleted').limit(1),
+    adminClient.from('celebs').select('slug').like('slug', `${baseSlug}%`),
   ])
   if (nameError) throw nameError
   if (nameEnError) throw nameEnError
@@ -711,17 +719,15 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
   }
 
   // 인물은 로그인 계정을 갖지 않는다.
-  // 26.08.07 이전에는 profiles.id가 auth.users.id를 참조해서, 인물 한 명을 만들 때마다
-  // 가짜 이메일과 무작위 비밀번호로 계정을 하나씩 발급해야 했다. 그 제약(profiles_id_fkey)을
-  // 떼어냈으므로 이제 식별자만 직접 발급해 곧바로 등록한다.
-  const userId = crypto.randomUUID()
+  // 셀럽 UUID는 Auth 회원과 독립적으로 발급한다.
+  const celebId = crypto.randomUUID()
 
   try {
     // celebs에 인물을 등록한다. slug는 nickname_en·slug_suffix로 자동 계산되는 열이다.
     const { data: insertedProfile, error: profileError } = await adminClient
       .from('celebs')
       .insert({
-        id: userId,
+        id: celebId,
         nickname,
         nickname_en: nicknameEn,
         slug_suffix: slugSuffix,
@@ -746,32 +752,20 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     const createdSlug = insertedProfile.slug as string
     assertRouteSafeCelebSlug(createdSlug)
 
-    // user_social 초기화
-    const { error: socialError } = await adminClient.from('user_social').upsert({
-      user_id: userId,
+    // 셀럽 지표 초기화
+    const { error: metricsError } = await adminClient.from('celeb_metrics').upsert({
+      celeb_id: celebId,
       follower_count: 0,
-      following_count: 0,
-      friend_count: 0,
-      influence: 0,
+      content_count: 0,
     })
 
-    if (socialError) throw socialError
-
-    // user_scores 초기화
-    const { error: scoresError } = await adminClient.from('user_scores').upsert({
-      user_id: userId,
-      activity_score: 0,
-      title_bonus: 0,
-      total_score: 0,
-    })
-
-    if (scoresError) throw scoresError
+    if (metricsError) throw metricsError
 
     // 영향력 저장 (AI 생성된 경우)
     if (input.influence) {
       const inf = input.influence
       const { error: influenceError } = await adminClient.from('celeb_influence').upsert({
-        celeb_id: userId,
+        celeb_id: celebId,
         political: inf.political.score,
         political_exp: inf.political.exp,
         strategic: inf.strategic.score,
@@ -793,15 +787,16 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
     }
 
     revalidatePath('/celebs')
-    // profiles + user_social + user_scores + celeb_influence 신규
+    // celebs + celeb_metrics + celeb_influence 신규
     await revalidateWebCache(CACHE_TAGS.CELEBS)
 
-    return { id: userId, slug: createdSlug }
+    return { id: celebId, slug: createdSlug }
   } catch (err) {
-    // 어느 단계에서 막히든 껍데기가 남지 않도록 되돌린다.
-    // 프로필과 계정을 한 트랜잭션에서 지우는 RPC를 쓴다(auth.admin.deleteUser는
-    // confirmation_token NULL 버그로 실패할 수 있고, 프로필도 남긴다).
-    await adminClient.rpc('delete_auth_user', { target_user_id: userId })
+    // 어느 단계에서 막히든 셀럽 원본을 지워 CASCADE 관계까지 되돌린다.
+    const { error: cleanupError } = await adminClient.from('celebs').delete().eq('id', celebId)
+    if (cleanupError) {
+      throw new AggregateError([err, cleanupError], '셀럽 등록 실패 후 정리에도 실패했습니다.')
+    }
     throw err
   }
 }
@@ -846,11 +841,13 @@ export async function updateCeleb(
 
   // quotes → celeb_dialogues.lines.quote 저장 (SSoT)
   if (input.quotes !== undefined || input.quotes_en !== undefined) {
-    const { data: existing } = await adminClient
+    const { data: existing, error: dialogueReadError } = await adminClient
       .from('celeb_dialogues')
       .select('lines, lines_en')
       .eq('celeb_id', input.id)
       .maybeSingle()
+
+    if (dialogueReadError) throw dialogueReadError
 
     const updates: Record<string, any> = { celeb_id: input.id }
     if (input.quotes !== undefined) {
@@ -859,7 +856,10 @@ export async function updateCeleb(
     if (input.quotes_en !== undefined) {
       updates.lines_en = { ...((existing?.lines_en as Record<string, any>) ?? {}), quote: input.quotes_en ?? '' }
     }
-    await adminClient.from('celeb_dialogues').upsert(updates, { onConflict: 'celeb_id' })
+    const { error: dialogueWriteError } = await adminClient
+      .from('celeb_dialogues')
+      .upsert(updates, { onConflict: 'celeb_id' })
+    if (dialogueWriteError) throw dialogueWriteError
   }
 
   // 영향력 저장
@@ -891,15 +891,16 @@ export async function updateCeleb(
   if (revalidateAdminRoutes) revalidatePath('/celebs')
   // 상세는 slug로 주소가 잡힌다(/celebs/[slug]). id로 짚으면 빗나가므로 라우트 패턴으로 지정
   if (revalidateAdminRoutes) revalidatePath('/celebs/[slug]', 'page')
-  // profiles·celeb_influence 수정 + 명언(quotes)이 오면 celeb_dialogues까지 건드린다
+  // celebs·celeb_influence 수정 + 명언(quotes)이 오면 celeb_dialogues까지 건드린다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 
   // active 셀럽 정보 변경 시 IndexNow 색인 요청
-  const { data: profile } = await adminClient
+  const { data: profile, error: profileReadError } = await adminClient
     .from('celebs')
     .select('slug, publication_status')
     .eq('id', input.id)
     .single()
+  if (profileReadError) throw profileReadError
   if (profile?.publication_status === 'active' && profile?.slug) {
     notifyIndexNow([`/celeb/${profile.slug}`])
   }
@@ -920,7 +921,7 @@ export async function toggleCelebTier(celebId: string, currentTier: string): Pro
   if (error) throw error
 
   revalidatePath('/celebs')
-  // profiles.celeb_tier
+  // celebs.celeb_tier
   await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
@@ -958,19 +959,19 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
 
   // active 전환 시 IndexNow 색인 요청
   if (newStatus === 'active') {
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('celebs')
       .select('slug')
       .eq('id', celebId)
       .single()
+    if (profileError) throw profileError
     if (profile?.slug) {
       notifyIndexNow([`/celeb/${profile.slug}`])
     }
   }
 
   revalidatePath('/celebs')
-  // profiles.status — 인물의 노출 자체가 바뀐다. 대사·페르소나·세력도감 목록이
-  // 모두 status='active'로 걸러 담기므로 관련 도메인을 전부 갱신한다.
+  // celebs.publication_status — 인물의 노출 자체가 바뀐다. 관련 도메인을 전부 갱신한다.
   await revalidateWebCache([
     CACHE_TAGS.CELEBS,
     CACHE_TAGS.DIALOGUES,
@@ -986,7 +987,7 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   await requireAdmin()
   const supabase = createAdminClient()
 
-  // 소프트 삭제 (status를 'deleted'로 변경)
+  // 소프트 삭제 (publication_status를 'deleted'로 변경)
   const { error } = await supabase
     .from('celebs')
     .update({ publication_status: 'deleted' })
@@ -997,7 +998,7 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   revalidatePath('/celebs')
   revalidatePath('/celebs/titles')
   revalidatePath('/celebs/[slug]', 'page')
-  // profiles.status='deleted' 소프트 삭제 — 인물이 사이트 전역에서 사라져야 한다
+  // publication_status='deleted' 소프트 삭제 — 인물이 사이트 전역에서 사라져야 한다
   await revalidateWebCache([
     CACHE_TAGS.CELEBS,
     CACHE_TAGS.DIALOGUES,
@@ -1043,10 +1044,11 @@ export async function getCelebContents(
   let searchContentIds: string[] | null = null
   if (search) {
     const searchTerm = `%${search}%`
-    const { data: matchIds } = await supabase
+    const { data: matchIds, error: searchError } = await supabase
       .from('content_locales')
       .select('content_id')
       .or(`title.ilike.${searchTerm},creator.ilike.${searchTerm}`)
+    if (searchError) throw searchError
     searchContentIds = matchIds ? [...new Set(matchIds.map((m) => m.content_id))] : []
     if (searchContentIds.length === 0) {
       return { contents: [], total: 0 }
@@ -1059,9 +1061,9 @@ export async function getCelebContents(
     : `*, content:contents (id, type, external_source, content_locales(locale, title, creator, thumbnail_url))`
 
   let query = supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .select(selectQuery, { count: 'exact' })
-    .eq('user_id', celebId)
+    .eq('celeb_id', celebId)
 
   if (contentType) {
     query = query.eq('content.type', contentType)
@@ -1131,15 +1133,19 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
   // 현재 관리자 정보 가져오기
   const {
     data: { user },
+    error: authError,
   } = await supabase.auth.getUser()
+  if (authError) throw authError
 
   // 이미 등록된 콘텐츠인지 확인
-  const { data: existing } = await supabase
-    .from('user_contents')
+  const { data: existing, error: existingError } = await supabase
+    .from('celeb_contents')
     .select('id')
-    .eq('user_id', input.celeb_id)
+    .eq('celeb_id', input.celeb_id)
     .eq('content_id', input.content_id)
     .maybeSingle()
+
+  if (existingError) throw existingError
 
   if (existing) {
     throw new Error('이미 등록된 콘텐츠입니다.')
@@ -1147,16 +1153,16 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
 
   // 없으면 새로 추가
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .insert({
-      user_id: input.celeb_id,
+      celeb_id: input.celeb_id,
       content_id: input.content_id,
       status: input.status,
       rating: input.rating !== undefined ? input.rating : null,
       review: input.review || null,
       is_spoiler: input.is_spoiler || false,
       visibility: 'public',
-      contributor_id: user?.id || null,
+      contributor_member_id: user?.id || null,
       source_url: input.source_url || null,
     })
     .select('id')
@@ -1165,7 +1171,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
   if (error) throw error
 
   revalidatePath('/celebs/[slug]/contents', 'page')
-  // user_contents 신규 — 셀럽 서고에 책이 꽂히고 콘텐츠 쪽 보유자 목록도 바뀐다
+  // celeb_contents 신규 — 셀럽 서고에 책이 꽂히고 콘텐츠 쪽 보유자 목록도 바뀐다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
 
   return { id: data.id }
@@ -1195,7 +1201,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   // Admin 클라이언트 사용 (RLS 우회)
   const adminClient = createAdminClient()
 
-  // user_contents 테이블 업데이트
+  // celeb_contents 테이블 업데이트
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
 
   if (input.status !== undefined) updateData.status = input.status
@@ -1210,7 +1216,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
     updateData.content_id = input.new_content_id
   }
 
-  const { error } = await adminClient.from('user_contents').update(updateData).eq('id', input.id)
+  const { error } = await adminClient.from('celeb_contents').update(updateData).eq('id', input.id)
 
   if (error) throw error
 
@@ -1235,7 +1241,7 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   }
 
   revalidatePath('/celebs/[slug]/contents', 'page')
-  // user_contents(감상문·평점) + contents.type + content_locales(제목·저자)
+  // celeb_contents(감상문·평점) + contents.type + content_locales(제목·저자)
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
 }
 // #endregion
@@ -1245,12 +1251,12 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
   // Admin 클라이언트 사용 (RLS 우회)
   const adminClient = createAdminClient()
 
-  const { error } = await adminClient.from('user_contents').delete().eq('id', contentId)
+  const { error } = await adminClient.from('celeb_contents').delete().eq('id', contentId)
 
   if (error) throw error
 
   revalidatePath('/celebs/[slug]/contents', 'page')
-  // user_contents 삭제 — 셀럽 서고와 콘텐츠 보유자 목록 양쪽에서 빠진다
+  // celeb_contents 삭제 — 셀럽 서고와 콘텐츠 보유자 목록 양쪽에서 빠진다
   await revalidateWebItem(CACHE_TAGS.CELEBS, celebId, [CACHE_TAGS.CONTENTS])
 }
 // #endregion
@@ -1269,10 +1275,9 @@ export async function getCelebsForTitleEdit(): Promise<CelebTitleItem[]> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url, profession, title, cultural_journey')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .from('celebs')
+    .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy')
+    .eq('publication_status', 'active')
     .order('nickname', { ascending: true })
 
   if (error) throw error
@@ -1290,10 +1295,9 @@ export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 
   const offset = (page - 1) * limit
 
   const { data, error, count } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url, profession, title, cultural_journey', { count: 'exact' })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .from('celebs')
+    .select('id, nickname, avatar_url, profession, title, cultural_journey:consumption_philosophy', { count: 'exact' })
+    .eq('publication_status', 'active')
     .order('nickname', { ascending: true })
     .range(offset, offset + limit - 1)
 
@@ -1325,7 +1329,7 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
   revalidatePath('/celebs')
   revalidatePath('/celebs/titles')
   revalidatePath('/celebs/[slug]', 'page')
-  // profiles.title
+  // celebs.title
   await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
@@ -1345,7 +1349,7 @@ export async function updateCelebProfession(celebId: string, profession: string 
   revalidatePath('/celebs')
   revalidatePath('/celebs/professions')
   revalidatePath('/celebs/[slug]', 'page')
-  // profiles.profession
+  // celebs.profession
   await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
@@ -1365,14 +1369,14 @@ export async function updateCelebJourney(celebId: string, journey: string | null
   revalidatePath('/celebs')
   revalidatePath('/celebs/journeys')
   revalidatePath('/celebs/[slug]', 'page')
-  // profiles.cultural_journey
+  // celebs.consumption_philosophy
   await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
 }
 // #endregion
 
 // #region setCelebMonologueLock - 가상 독백 확정 잠금 토글
 /**
- * profiles.virtual_monologue_locked_at 을 채우거나 비운다.
+ * celebs.virtual_monologue_locked_at 을 채우거나 비운다.
  * 잠긴 인물의 독백은 DB 트리거(guard_virtual_monologue_lock)가 모든 경로의 UPDATE를 차단한다.
  */
 export async function setCelebMonologueLock(
@@ -1425,10 +1429,11 @@ export async function getCelebStats(): Promise<CelebStats> {
   const supabase = await createClient()
 
   // 기본 통계
-  const { data: basicStats } = await supabase
-    .from('profiles')
-    .select('id, status, profession, nationality')
-    .eq('profile_type', 'CELEB')
+  const { data: basicStats, error: basicStatsError } = await supabase
+    .from('celebs')
+    .select('id, status:publication_status, profession, nationality')
+
+  if (basicStatsError) throw basicStatsError
 
   const totalCelebs = basicStats?.length || 0
   const activeCelebs = basicStats?.filter((c) => c.status === 'active').length || 0
@@ -1449,16 +1454,17 @@ export async function getCelebStats(): Promise<CelebStats> {
     .sort((a, b) => b.count - a.count)
 
   // 상위 팔로워 셀럽
-  const { data: followerData } = await supabase
-    .from('profiles')
-    .select('id, slug, nickname, profession, user_social(follower_count)')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
-    .order('user_social(follower_count)', { ascending: false })
+  const { data: followerData, error: followerError } = await supabase
+    .from('celebs')
+    .select('id, slug, nickname, profession, celeb_metrics!celeb_metrics_celeb_id_fkey(follower_count)')
+    .eq('publication_status', 'active')
+    .order('follower_count', { referencedTable: 'celeb_metrics', ascending: false })
     .limit(10)
 
+  if (followerError) throw followerError
+
   const topFollowerCelebs = (followerData || []).map((c) => {
-    const social = Array.isArray(c.user_social) ? c.user_social[0] : c.user_social
+    const social = Array.isArray(c.celeb_metrics) ? c.celeb_metrics[0] : c.celeb_metrics
     return {
       id: c.id,
       slug: c.slug || null,
@@ -1470,13 +1476,15 @@ export async function getCelebStats(): Promise<CelebStats> {
 
   // 상위 콘텐츠 셀럽 (별도 쿼리)
   const activeCelebIds = basicStats?.filter((c) => c.status === 'active').map((c) => c.id) || []
-  const { data: contentData } = await supabase
-    .from('user_contents')
-    .select('user_id')
-    .in('user_id', activeCelebIds)
+  const { data: contentData, error: contentError } = await supabase
+    .from('celeb_contents')
+    .select('celeb_id')
+    .in('celeb_id', activeCelebIds)
+
+  if (contentError) throw contentError
 
   const contentCountMap = (contentData || []).reduce((acc, item) => {
-    acc[item.user_id] = (acc[item.user_id] || 0) + 1
+    acc[item.celeb_id] = (acc[item.celeb_id] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
@@ -1487,11 +1495,12 @@ export async function getCelebStats(): Promise<CelebStats> {
   celebContentList.sort((a, b) => b.count - a.count)
   const top10ContentIds = celebContentList.slice(0, 10).map((c) => c.id)
 
-  const { data: topContentProfiles } = await supabase
-    .from('profiles')
+  const { data: topContentProfiles, error: topContentError } = await supabase
+    .from('celebs')
     .select('id, slug, nickname, profession')
     .in('id', top10ContentIds)
 
+  if (topContentError) throw topContentError
   const profileMap = new Map((topContentProfiles || []).map((p) => [p.id, p]))
   const topContentCelebs = top10ContentIds.map((id) => {
     const profile = profileMap.get(id)
@@ -1505,14 +1514,14 @@ export async function getCelebStats(): Promise<CelebStats> {
   })
 
   // 최근 등록 셀럽
-  const { data: recentData } = await supabase
-    .from('profiles')
+  const { data: recentData, error: recentError } = await supabase
+    .from('celebs')
     .select('id, slug, nickname, profession, created_at')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .order('created_at', { ascending: false })
     .limit(10)
 
+  if (recentError) throw recentError
   const recentCelebs = (recentData || []).map((c) => ({
     id: c.id,
     slug: c.slug || null,
@@ -1548,7 +1557,7 @@ export async function exportCelebContents(
   const supabase = await createClient()
 
   let query = supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .select(`
       review,
       source_url,
@@ -1557,7 +1566,7 @@ export async function exportCelebContents(
         content_locales(locale, title, creator)
       )
     `)
-    .eq('user_id', celebId)
+    .eq('celeb_id', celebId)
     .order('updated_at', { ascending: false })
 
   if (contentType && contentType !== 'ALL') {

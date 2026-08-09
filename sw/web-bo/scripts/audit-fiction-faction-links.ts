@@ -63,9 +63,8 @@ type ProfileRow = {
   slug: string | null
   nickname: string | null
   nickname_en: string | null
-  profile_type: string | null
   celeb_tier: string | null
-  status: string | null
+  publication_status: string | null
   avatar_url: string | null
   virtual_monologue: string | null
 }
@@ -219,11 +218,10 @@ async function main() {
       .range(from, to)
     return { data: data as unknown as PersonRow[] | null, error }
   })
-  const profiles = await allRows<ProfileRow>('profiles', async (from, to) => {
+  const profiles = await allRows<ProfileRow>('celebs', async (from, to) => {
     const { data, error } = await db
-      .from('profiles')
-      .select('id,slug,nickname,nickname_en,profile_type,celeb_tier,status,avatar_url,virtual_monologue')
-      .eq('profile_type', 'CELEB')
+      .from('celebs')
+      .select('id,slug,nickname,nickname_en,celeb_tier,publication_status,avatar_url,virtual_monologue')
       .order('id')
       .range(from, to)
     return { data: data as unknown as ProfileRow[] | null, error }
@@ -383,7 +381,7 @@ async function main() {
         ? {
             id: slugProfile.id,
             tier: slugProfile.celeb_tier,
-            status: slugProfile.status,
+            publicationStatus: slugProfile.publication_status,
           }
         : null,
       profilesByName: nameProfiles.map((profile) => ({
@@ -392,7 +390,7 @@ async function main() {
         nickname: profile.nickname,
         nicknameEn: profile.nickname_en,
         tier: profile.celeb_tier,
-        status: profile.status,
+        publicationStatus: profile.publication_status,
       })),
     }]
   })
@@ -411,7 +409,7 @@ async function main() {
             slug: profile.slug,
             nickname: profile.nickname,
             tier: profile.celeb_tier,
-            status: profile.status,
+            publicationStatus: profile.publication_status,
           }
         : null,
     }]
@@ -442,7 +440,7 @@ async function main() {
       id: row.id,
       slug: row.slug,
       nickname: row.nickname,
-      status: row.status,
+      publicationStatus: row.publication_status,
       hasAvatar: Boolean(row.avatar_url),
       sourceCount: sourceCountByCeleb[row.id] ?? 0,
     }))
@@ -459,7 +457,7 @@ async function main() {
       id: row.id,
       slug: row.slug,
       nickname: row.nickname,
-      status: row.status,
+      publicationStatus: row.publication_status,
       hasMonologue: Boolean(row.virtual_monologue),
       sourceCount: sourceCountByCeleb[row.id] ?? 0,
     }))
@@ -469,7 +467,7 @@ async function main() {
       id: row.id,
       slug: row.slug,
       nickname: row.nickname,
-      status: row.status,
+      publicationStatus: row.publication_status,
       hasAvatar: Boolean(row.avatar_url),
     }))
 

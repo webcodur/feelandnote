@@ -24,28 +24,30 @@ interface PublicMiniProfileData {
   followerCount: number
 }
 
-// 공개 데이터(profiles·user_contents·follows)만 조회 — viewer 무관, 캐시 가능
+// 공개 회원 프로필과 파생 지표만 조회 — viewer 무관, 캐시 가능
 async function fetchMiniProfilePublic(userId: string): Promise<PublicMiniProfileData> {
   const supabase = createStaticClient()
 
-  const [profileResult, contentResult, followerResult] = await Promise.all([
-    supabase.from('profiles').select('id, nickname, avatar_url, selected_title').eq('id', userId).single(),
-    supabase.from('user_contents').select('*', { count: 'exact', head: true }).eq('user_id', userId),
-    supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', userId),
+  const [profileResult, socialResult] = await Promise.all([
+    supabase.from('member_profiles').select('id, nickname, avatar_url, selected_title').eq('id', userId).single(),
+    supabase
+      .from('member_social_stats')
+      .select('content_count, follower_count')
+      .eq('member_id', userId)
+      .maybeSingle(),
   ])
 
   return {
     profile: (profileResult.data as PublicMiniProfileData['profile']) ?? null,
-    contentCount: contentResult.count || 0,
-    followerCount: followerResult.count || 0,
+    contentCount: socialResult.data?.content_count || 0,
+    followerCount: socialResult.data?.follower_count || 0,
   }
 }
 
 const getMiniProfilePublicCached = unstable_cache(
   fetchMiniProfilePublic,
   ['mini-profile'],
-  // profiles(셀럽도 대상) + user_contents 수
-  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getMiniProfile(userId: string): Promise<ActionResult<MiniProfile>> {
@@ -62,11 +64,11 @@ export async function getMiniProfile(userId: string): Promise<ActionResult<MiniP
   let isFollowing = false
   if (currentUser && currentUser.id !== userId) {
     const { data: followData } = await supabase
-      .from('follows')
+      .from('member_member_follows')
       .select('id')
-      .eq('follower_id', currentUser.id)
-      .eq('following_id', userId)
-      .single()
+      .eq('follower_member_id', currentUser.id)
+      .eq('followed_member_id', userId)
+      .maybeSingle()
     isFollowing = !!followData
   }
 

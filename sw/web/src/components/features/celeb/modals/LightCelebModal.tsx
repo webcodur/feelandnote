@@ -75,7 +75,7 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
     setIsLoading(true);
     const prevState = isFollowing;
     setFollowingOverride({ celebId: celeb.id, value: !isFollowing });
-    const result = await toggleFollow(celeb.id);
+    const result = await toggleFollow(celeb.id, "celeb");
     if (!result.success) {
       setFollowingOverride({ celebId: celeb.id, value: prevState });
     }

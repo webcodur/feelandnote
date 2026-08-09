@@ -213,9 +213,9 @@ async function fetchUserRecord(
 ): Promise<ContentDetailData['userRecord']> {
   const supabase = await createClient()
   const { data } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('id, status, rating, review, is_spoiler, created_at, updated_at')
-    .eq('user_id', userId)
+    .eq('member_id', userId)
     .eq('content_id', contentId)
     .maybeSingle()
 

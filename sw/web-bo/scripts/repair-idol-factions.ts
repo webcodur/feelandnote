@@ -42,7 +42,7 @@ type ProfileRow = {
   nickname_en: string | null
   slug: string
   gender: boolean | null
-  status: string | null
+  publication_status: string | null
   title: string | null
   created_at: string
 }
@@ -285,12 +285,12 @@ function findClusterImage(folder: string, group: string): string | undefined {
 }
 
 async function loadProfiles(db: SupabaseClient): Promise<ProfileRow[]> {
-  const columns = 'id,nickname,nickname_en,slug,gender,status,title,created_at'
+  const columns = 'id,nickname,nickname_en,slug,gender,publication_status,title,created_at'
   const map = new Map<string, ProfileRow>()
   const pageSize = 500
   for (let from = 0; ; from += pageSize) {
-    const { data, error } = await db.from('profiles').select(columns)
-      .eq('profile_type', 'CELEB').eq('profession', 'musician')
+    const { data, error } = await db.from('celebs').select(columns)
+      .eq('profession', 'musician')
       .order('created_at', { ascending: true })
       .range(from, from + pageSize - 1)
     if (error) throw new Error(`음악가 프로필 전수 조회 실패: ${error.message}`)
@@ -398,7 +398,7 @@ function printPlan(roster: Map<CategoryKey, Map<string, ProfileRow[]>>) {
     const people = [...groups.values()].reduce((sum, rows) => sum + rows.length, 0)
     const unique = new Set([...groups.values()].flat().map(profile => profile.slug)).size
     const active = new Set([...groups.values()].flat()
-      .filter(profile => profile.status === 'active').map(profile => profile.slug)).size
+      .filter(profile => profile.publication_status === 'active').map(profile => profile.slug)).size
     console.log(`\n${category.folder} / ${category.tagName}: ${groups.size}그룹, ${people}배치, ${unique}명 (서비스 활성 ${active}명)`)
     for (const [group, rows] of [...groups.entries()].sort((a, b) =>
       (GROUP_ORDER.get(a[0]) ?? 999) - (GROUP_ORDER.get(b[0]) ?? 999),
@@ -497,7 +497,7 @@ async function snapshotBeforeApply(db: SupabaseClient): Promise<string> {
   const { data: tags, error: tagError } = await db.from('celeb_tags').select('*')
     .or(`id.eq.${CURRENT_FEMALE_TAG_ID},id.eq.${UNUSED_CURRENT_TAG_ID},slug.eq.music,slug.eq.korean-idol-groups,slug.like.idol-group-%`)
   if (tagError) throw new Error(`백업 태그 조회 실패: ${tagError.message}`)
-  const { data: profiles, error: profileError } = await db.from('profiles').select('*')
+  const { data: profiles, error: profileError } = await db.from('celebs').select('*')
     .in('slug', FORMER_PROFILE_PATCHES.map(patch => patch.slug))
   if (profileError) throw new Error(`백업 프로필 조회 실패: ${profileError.message}`)
 
@@ -511,7 +511,7 @@ async function snapshotBeforeApply(db: SupabaseClient): Promise<string> {
 
 async function applyFormerProfilePatches(db: SupabaseClient): Promise<void> {
   for (const patch of FORMER_PROFILE_PATCHES) {
-    const { data, error } = await db.from('profiles').update({
+    const { data, error } = await db.from('celebs').update({
       title: patch.title,
       title_en: patch.titleEn,
       bio: patch.bio,
@@ -524,7 +524,7 @@ async function applyFormerProfilePatches(db: SupabaseClient): Promise<void> {
 }
 
 async function verifyFormerProfilePatches(db: SupabaseClient): Promise<void> {
-  const { data, error } = await db.from('profiles')
+  const { data, error } = await db.from('celebs')
     .select('slug,title,title_en,bio,bio_en')
     .in('slug', FORMER_PROFILE_PATCHES.map(patch => patch.slug))
   if (error) throw new Error(`전 멤버 프로필 검증 실패: ${error.message}`)

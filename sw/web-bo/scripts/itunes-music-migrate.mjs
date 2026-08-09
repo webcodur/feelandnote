@@ -136,10 +136,11 @@ async function registerCandidates(budget) {
       })
     }
 
-    await sb.from('user_contents').insert({
-      user_id: c.celeb_id, content_id: content.id, status: 'FINISHED',
+    const { error: contentLinkError } = await sb.from('celeb_contents').insert({
+      celeb_id: c.celeb_id, content_id: content.id, status: 'FINISHED',
       review: c.evidence || null, source_url: c.source_url, visibility: 'public',
     })
+    if (contentLinkError) throw contentLinkError
     await sb.from('celeb_music_candidates')
       .update({ status: 'registered', content_id: content.id, updated_at: new Date().toISOString() })
       .eq('id', c.id)

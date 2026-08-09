@@ -22,7 +22,7 @@ export default async function UserDetailPage({ params }: PageProps) {
   const { id } = await params
   const user = await getMember(id)
 
-  if (!user || user.profile_type === 'CELEB') notFound()
+  if (!user || user.subject_kind !== 'member') notFound()
 
   return (
     <div className="space-y-6">

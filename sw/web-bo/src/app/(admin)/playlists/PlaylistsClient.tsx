@@ -11,10 +11,6 @@ import {
   EyeOff,
   Layers,
   Trash2,
-  Book,
-  Film,
-  Gamepad2,
-  Music,
 } from 'lucide-react'
 import {
   PageHeader,
@@ -29,20 +25,12 @@ import {
   Button,
 } from '@/components/ui'
 
-const CONTENT_TYPE_ICONS = {
-  BOOK: Book,
-  VIDEO: Film,
-  GAME: Gamepad2,
-  MUSIC: Music,
-}
-
 interface Playlist {
   id: string
   user_id: string
   name: string
   description: string | null
   cover_url: string | null
-  content_type: string | null
   is_public: boolean
   has_tiers: boolean
   tiers: Record<string, unknown> | null
@@ -57,11 +45,8 @@ interface Props {
   total: number
   page: number
   totalPages: number
-  typeFilter: string
   visibilityFilter: string
-  typeFilterOptions: { value: string; label: string; count?: number }[]
   visibilityFilterOptions: { value: string; label: string; count?: number }[]
-  contentTypeConfig: Record<string, { label: string; color: string }>
 }
 
 export default function PlaylistsClient({
@@ -69,11 +54,8 @@ export default function PlaylistsClient({
   total,
   page,
   totalPages,
-  typeFilter,
   visibilityFilter,
-  typeFilterOptions,
   visibilityFilterOptions,
-  contentTypeConfig,
 }: Props) {
   const router = useRouter()
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null)
@@ -89,10 +71,9 @@ export default function PlaylistsClient({
     router.refresh()
   }
 
-  const buildHref = (params: { page?: number; type?: string; visibility?: string }) => {
+  const buildHref = (params: { page?: number; visibility?: string }) => {
     const searchParams = new URLSearchParams()
     if (params.page && params.page > 1) searchParams.set('page', String(params.page))
-    if (params.type ?? typeFilter) searchParams.set('type', params.type ?? typeFilter)
     if (params.visibility ?? visibilityFilter)
       searchParams.set('visibility', params.visibility ?? visibilityFilter)
     const query = searchParams.toString()
@@ -109,14 +90,9 @@ export default function PlaylistsClient({
       {/* 필터 */}
       <div className="space-y-3">
         <FilterChips
-          options={typeFilterOptions}
-          value={typeFilter}
-          href={(value) => buildHref({ type: value, visibility: visibilityFilter })}
-        />
-        <FilterChips
           options={visibilityFilterOptions}
           value={visibilityFilter}
-          href={(value) => buildHref({ type: typeFilter, visibility: value })}
+          href={(value) => buildHref({ visibility: value })}
         />
       </div>
 
@@ -132,11 +108,6 @@ export default function PlaylistsClient({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           {playlists.map((playlist) => {
-            const typeConfig = contentTypeConfig[playlist.content_type || '']
-            const TypeIcon =
-              CONTENT_TYPE_ICONS[playlist.content_type as keyof typeof CONTENT_TYPE_ICONS] ||
-              ListMusic
-
             return (
               <div
                 key={playlist.id}
@@ -210,15 +181,6 @@ export default function PlaylistsClient({
                   )}
 
                   <div className="flex items-center gap-3 mb-3">
-                    {typeConfig && (
-                      <Badge
-                        variant={typeConfig.color as 'info' | 'danger' | 'success' | 'purple' | 'warning'}
-                        icon={<TypeIcon className="w-3 h-3" />}
-                        size="sm"
-                      >
-                        {typeConfig.label}
-                      </Badge>
-                    )}
                     <span className="text-xs text-text-secondary">
                       {playlist.items.length}개 항목
                     </span>
@@ -325,18 +287,6 @@ export default function PlaylistsClient({
               >
                 {selectedPlaylist.is_public ? '공개' : '비공개'}
               </Badge>
-              {selectedPlaylist.content_type &&
-                contentTypeConfig[selectedPlaylist.content_type] && (
-                  <Badge
-                    variant={
-                      contentTypeConfig[selectedPlaylist.content_type].color as
-                        | 'info'
-                        | 'danger'
-                    }
-                  >
-                    {contentTypeConfig[selectedPlaylist.content_type].label}
-                  </Badge>
-                )}
               {selectedPlaylist.has_tiers && (
                 <Badge variant="purple" icon={<Layers className="w-3 h-3" />}>
                   티어 기능

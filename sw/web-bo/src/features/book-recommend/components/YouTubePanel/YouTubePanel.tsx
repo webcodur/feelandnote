@@ -120,7 +120,7 @@ export function YouTubePanel({ series, name }: Props) {
         <button
           onClick={handleDbSync}
           disabled={!hasUploads}
-          title="lineup.json의 uploads를 profiles.youtube_videos(DB)에 반영"
+          title="lineup.json의 uploads를 celebs.youtube_videos(DB)에 반영"
           className={`${BTN_SECONDARY} ${!hasUploads ? 'opacity-30 cursor-default' : ''}`}
         >
           DB 투입

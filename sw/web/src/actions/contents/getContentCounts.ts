@@ -26,9 +26,9 @@ async function countByType(
   await Promise.all(
     CONTENT_TYPES.map(async (type) => {
       let query = supabase
-        .from('user_contents')
+        .from('member_contents')
         .select('content:contents!inner(type)', { count: 'exact', head: true })
-        .eq('user_id', userId)
+        .eq('member_id', userId)
         .eq('status', 'FINISHED')
         .eq('content.type', type)
 

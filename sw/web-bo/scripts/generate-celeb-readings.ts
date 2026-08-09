@@ -184,7 +184,7 @@ type ProfileRow = {
   nationality: string | null
   birth_date: string | null
   death_date: string | null
-  status: 'active' | 'inactive' | 'suspended'
+  publication_status: 'active' | 'inactive' | 'suspended'
   celeb_tier: string | null
   wikidata_qid: string | null
   virtual_monologue: string | null
@@ -1609,7 +1609,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
     && current.interpretive_title_en === reading.explorationTitleEn
     && current.interpretive_text_en === reading.explorationTextEn
     && current.review_status === 'ai_reviewed'
-    && Boolean(current.published_at) === (material.profile.status === 'active')) {
+    && Boolean(current.published_at) === (material.profile.publication_status === 'active')) {
     return 'existing'
   }
   if (reading.inputHash !== inputHash(material)) {
@@ -1634,7 +1634,7 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
     interpretive_title_en: reading.explorationTitleEn,
     interpretive_text_en: reading.explorationTextEn,
     review_status: 'ai_reviewed',
-    published_at: material.profile.status === 'active' ? new Date().toISOString() : null,
+    published_at: material.profile.publication_status === 'active' ? new Date().toISOString() : null,
   }
   let writeQuery
   if (REWRITE_EXISTING) {
@@ -1678,10 +1678,10 @@ async function applyReading(reading: SavedReading, material: Material): Promise<
   if (verified.review_status !== 'ai_reviewed') {
     throw new Error('DB 재조회 AI 검수 상태가 개선본과 다르다.')
   }
-  if (material.profile.status === 'active' && !verified.published_at) {
+  if (material.profile.publication_status === 'active' && !verified.published_at) {
     throw new Error('활성 프로필의 게시 시각이 비어 있다.')
   }
-  if (material.profile.status !== 'active' && verified.published_at) {
+  if (material.profile.publication_status !== 'active' && verified.published_at) {
     throw new Error('비활성·정지 프로필이 게시됐다.')
   }
   return 'written'
@@ -1778,9 +1778,9 @@ function batchesOf<T>(items: T[], size: number): T[][] {
 async function main() {
   const [profiles, explanations, timelineRows, factionRows, tagRows] = await Promise.all([
     fetchAll<ProfileRow>(
-      'profiles',
-      'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,status,celeb_tier,wikidata_qid,virtual_monologue',
-      (query) => query.eq('profile_type', 'CELEB').order('id'),
+      'celebs',
+      'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,publication_status,celeb_tier,wikidata_qid,virtual_monologue',
+      (query) => query.order('id'),
     ),
     fetchAll<ExplanationRow>('celeb_explanations', 'profile_id,review_status,published_at,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at', (query) => query.order('profile_id')),
     fetchAll<TimelineRow>(
@@ -1828,7 +1828,7 @@ async function main() {
   let targets = profiles
     .filter((profile) => INCLUDE_EXISTING || REWRITE_EXISTING || !existingIds.has(profile.id))
     .filter((profile) => !SLUGS || SLUGS.has(profile.slug))
-    .sort((a, b) => statusRank[a.status] - statusRank[b.status] || a.slug.localeCompare(b.slug))
+    .sort((a, b) => statusRank[a.publication_status] - statusRank[b.publication_status] || a.slug.localeCompare(b.slug))
 
   if (SLUGS) {
     const allSlugs = new Set(profiles.map((profile) => profile.slug))
@@ -1899,7 +1899,7 @@ async function main() {
   if (STATS) {
     const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
     const byStatus = Object.fromEntries(['active', 'inactive', 'suspended'].map((status) => {
-      const statusProfiles = profiles.filter((profile) => profile.status === status)
+      const statusProfiles = profiles.filter((profile) => profile.publication_status === status)
       const statusIds = new Set(statusProfiles.map((profile) => profile.id))
       const statusRows = explanations.filter((row) => statusIds.has(row.profile_id))
       return [status, {
@@ -1973,11 +1973,11 @@ async function main() {
     }
     const publishedMismatch = explanations.filter((row) => {
       const profile = profileById.get(row.profile_id)
-      return Boolean(row.published_at) !== (profile?.status === 'active')
+      return Boolean(row.published_at) !== (profile?.publication_status === 'active')
     }).length
     const missingByStatus = Object.fromEntries(['active', 'inactive', 'suspended'].map((status) => [
       status,
-      materials.filter((material) => material.profile.status === status).length,
+      materials.filter((material) => material.profile.publication_status === status).length,
     ]))
     let publicRls: { visible: number | null; inactiveVisible: number | null; error: string | null } | null = null
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -1985,7 +1985,7 @@ async function main() {
       const publicClient = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, anonKey, {
         auth: { autoRefreshToken: false, persistSession: false },
       })
-      const inactiveReading = explanations.find((row) => profileById.get(row.profile_id)?.status !== 'active')
+      const inactiveReading = explanations.find((row) => profileById.get(row.profile_id)?.publication_status !== 'active')
       const [{ count: visible, error: visibleError }, inactiveResult] = await Promise.all([
         publicClient.from('celeb_explanations').select('*', { count: 'exact', head: true }),
         inactiveReading
@@ -2039,7 +2039,7 @@ async function main() {
 
   if (PLAN) {
     for (const material of materials) {
-      console.log(`PLAN ${material.profile.status.padEnd(9)} ${material.profile.celeb_tier ?? '-'} ${material.profile.slug} ${material.profile.nickname} | en=${material.profile.nickname_en ?? '-'} qid=${material.profile.wikidata_qid ?? '-'} nation=${material.profile.nationality ?? '-'} life=${material.profile.birth_date ?? '-'}~${material.profile.death_date ?? '-'} bio=${material.profile.bio?.length ?? 0} events=${material.events.length} contexts=${material.contexts.length} research=${material.research?.matchedBy ?? '-'}`)
+      console.log(`PLAN ${material.profile.publication_status.padEnd(9)} ${material.profile.celeb_tier ?? '-'} ${material.profile.slug} ${material.profile.nickname} | en=${material.profile.nickname_en ?? '-'} qid=${material.profile.wikidata_qid ?? '-'} nation=${material.profile.nationality ?? '-'} life=${material.profile.birth_date ?? '-'}~${material.profile.death_date ?? '-'} bio=${material.profile.bio?.length ?? 0} events=${material.events.length} contexts=${material.contexts.length} research=${material.research?.matchedBy ?? '-'}`)
       if (VERBOSE) console.log(JSON.stringify({
         material: inputForModel(material),
         existingExplanation: explanations.find((row) => row.profile_id === material.profile.id) ?? null,

@@ -13,18 +13,30 @@ export default async function AdminLayout({
 }) {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user }, error: userError } = await supabase.auth.getUser()
 
-  if (!user) {
+  if (userError || !user) {
     redirect('/login')
   }
 
   // 이름은 사람 기록에, 권한은 계정 기록에 있다(26.08.07 분리).
-  const [{ data: profile }, { data: account }, { data: isAdmin }] = await Promise.all([
-    supabase.from('profiles').select('nickname').eq('id', user.id).single(),
-    supabase.from('user_accounts').select('role').eq('id', user.id).single(),
+  const [profileResult, accountResult, adminResult] = await Promise.all([
+    supabase.from('member_profiles').select('nickname').eq('id', user.id).maybeSingle(),
+    supabase.from('user_accounts').select('role').eq('id', user.id).maybeSingle(),
     supabase.rpc('is_admin'),
   ])
+
+  if (profileResult.error || accountResult.error || adminResult.error) {
+    throw new Error(
+      `Failed to load administrator identity: ${
+        profileResult.error?.message ?? accountResult.error?.message ?? adminResult.error?.message
+      }`
+    )
+  }
+
+  const profile = profileResult.data
+  const account = accountResult.data
+  const isAdmin = adminResult.data
 
   if (!profile || !account || !isAdmin) {
     redirect('/login')

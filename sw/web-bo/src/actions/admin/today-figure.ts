@@ -44,36 +44,43 @@ export async function getTodayFigureSchedule(
   }
 
   // 1. daily_figures에서 해당 날짜 범위 데이터 조회
-  const { data: dailyFigures } = await supabase
+  const { data: dailyFigures, error: dailyFiguresError } = await supabase
     .from('daily_figures')
     .select('date, celeb_id, source, news_count')
     .gte('date', dates[0])
     .lte('date', dates[dates.length - 1])
+
+  if (dailyFiguresError) {
+    throw new Error(`Failed to load daily figures: ${dailyFiguresError.message}`)
+  }
 
   const dailyMap = new Map(
     (dailyFigures || []).map(df => [df.date, df])
   )
 
   // 2. active CELEB 프로필 조회
-  const { data: celebProfiles } = await supabase
-    .from('profiles')
+  const { data: activeCelebs, error: activeCelebsError } = await supabase
+    .from('celebs')
     .select('id')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
 
-  if (!celebProfiles?.length) {
+  if (activeCelebsError) {
+    throw new Error(`Failed to load active celebs: ${activeCelebsError.message}`)
+  }
+
+  if (!activeCelebs?.length) {
     return dates.map(date => {
       const df = dailyMap.get(date)
       return { date, celeb: null, source: df?.source || 'seed_prediction', newsCount: df?.news_count || 0 }
     })
   }
 
-  const celebIds = celebProfiles.map(p => p.id)
+  const celebIds = activeCelebs.map(p => p.id)
 
   // 3. 콘텐츠 개수 집계 (배치 페이지네이션)
   const PAGE_SIZE = 1000
   const BATCH_SIZE = 50
-  const countsData: { user_id: string }[] = []
+  const countsData: { celeb_id: string }[] = []
 
   for (let b = 0; b < celebIds.length; b += BATCH_SIZE) {
     const batchIds = celebIds.slice(b, b + BATCH_SIZE)
@@ -82,14 +89,15 @@ export async function getTodayFigureSchedule(
 
     while (hasMore) {
       const { data, error } = await supabase
-        .from('user_contents')
-        .select('user_id')
-        .in('user_id', batchIds)
+        .from('celeb_contents')
+        .select('celeb_id')
+        .in('celeb_id', batchIds)
         .eq('status', 'FINISHED')
         .eq('visibility', 'public')
         .range(from, from + PAGE_SIZE - 1)
 
-      if (error || !data?.length) break
+      if (error) throw error
+      if (!data?.length) break
       countsData.push(...data)
       hasMore = data.length === PAGE_SIZE
       from += PAGE_SIZE
@@ -99,7 +107,7 @@ export async function getTodayFigureSchedule(
   // 셀럽별 콘텐츠 개수
   const countMap = new Map<string, number>()
   for (const item of countsData) {
-    countMap.set(item.user_id, (countMap.get(item.user_id) || 0) + 1)
+    countMap.set(item.celeb_id, (countMap.get(item.celeb_id) || 0) + 1)
   }
 
   // 5개 이상인 셀럽만 필터
@@ -148,17 +156,19 @@ export async function getTodayFigureSchedule(
   }
 
   // 5. 필요한 프로필만 일괄 조회
-  const { data: profiles } = await supabase
-    .from('profiles')
+  const { data: celebs, error: celebsError } = await supabase
+    .from('celebs')
     .select('id, slug, nickname, avatar_url, profession')
     .in('id', Array.from(selectedIds))
 
-  const profileMap = new Map(
-    (profiles || []).map(p => [p.id, p])
+  if (celebsError) throw new Error(`Failed to load scheduled celebs: ${celebsError.message}`)
+
+  const celebMap = new Map(
+    (celebs || []).map(p => [p.id, p])
   )
 
   return schedule.map(({ date, celebId, count, source, newsCount }) => {
-    const profile = profileMap.get(celebId)
+    const profile = celebMap.get(celebId)
     return {
       date,
       celeb: profile

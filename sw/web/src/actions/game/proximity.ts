@@ -2,7 +2,7 @@
  * 근접도(Proximity) 게임 서버 조회
  *
  * 역할:
- * 1. 자동완성용 후보 목록 조회 (celeb_persona + profiles 조인)
+ * 1. 자동완성용 후보 목록 조회 (celeb_persona + celebs 조인)
  * 2. 정답 뽑기 (일일 시드)
  *
  * 조회 실패 시 에러를 던진다 — 조용한 폴백 금지.
@@ -35,7 +35,7 @@ const PERSONA_STAT_KEYS = [
 
 interface ProximityColumnRow {
   celeb_id: string;
-  profiles: {
+  celeb: {
     id: string;
     nickname: string;
     nickname_en: string | null;
@@ -44,7 +44,7 @@ interface ProximityColumnRow {
     birth_date: string | null;
     death_date: string | null;
     avatar_url: string | null;
-    status: string | null;
+    publication_status: string | null;
   } | {
     id: string;
     nickname: string;
@@ -54,7 +54,7 @@ interface ProximityColumnRow {
     birth_date: string | null;
     death_date: string | null;
     avatar_url: string | null;
-    status: string | null;
+    publication_status: string | null;
   }[] | null;
   command?: number | null;
   martial?: number | null;
@@ -74,8 +74,8 @@ interface ProximityColumnRow {
   cautious_bold?: number | null;
 }
 
-function pickProfile(profiles: ProximityColumnRow['profiles']) {
-  return Array.isArray(profiles) ? (profiles[0] ?? null) : profiles;
+function pickProfile(celeb: ProximityColumnRow['celeb']) {
+  return Array.isArray(celeb) ? (celeb[0] ?? null) : celeb;
 }
 
 function columnsToStats(row: ProximityColumnRow): PersonaStats {
@@ -91,13 +91,13 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
       .from('celeb_persona')
       .select(`
         celeb_id, ${PERSONA_STAT_KEYS.join(', ')},
-        profiles!celeb_persona_celeb_id_fkey!inner (
+        celeb:celebs!celeb_persona_celebs_fkey!inner (
           id, nickname, nickname_en, profession, nationality,
-          birth_date, death_date, avatar_url, status
+          birth_date, death_date, avatar_url, publication_status
         )
       `)
-      .eq('profiles.status', 'active')
-      .in('profiles.celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .eq('celeb.publication_status', 'active')
+      .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
       .order('celeb_id')
       .range(from, to) as unknown as PromiseLike<{
       data: ProximityColumnRow[] | null;
@@ -106,8 +106,8 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
   );
 
   return rows.flatMap((row) => {
-    const profile = pickProfile(row.profiles);
-    if (!profile || profile.status !== 'active') return [];
+    const profile = pickProfile(row.celeb);
+    if (!profile || profile.publication_status !== 'active') return [];
     return [{
       id: profile.id,
       nickname: profile.nickname,

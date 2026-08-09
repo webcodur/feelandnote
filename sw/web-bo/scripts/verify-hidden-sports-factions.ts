@@ -96,8 +96,8 @@ async function main() {
 
   const profileIds = people.map((person) => person.celeb_id as string);
   const profilesResult = await db
-    .from("profiles")
-    .select("id,slug,status,celeb_tier,is_verified,avatar_url")
+    .from("celebs")
+    .select("id,slug,publication_status,celeb_tier,is_verified,avatar_url")
     .in("id", profileIds);
   if (profilesResult.error) throw profilesResult.error;
   const profiles = profilesResult.data ?? [];
@@ -107,7 +107,7 @@ async function main() {
   const newProfiles = profiles.filter((profile) => newProfileSlugs.includes(profile.slug));
   assert(newProfiles.length === 13, `신규 최소 프로필 수 불일치: ${newProfiles.length}`);
   assert(
-    newProfiles.every((profile) => profile.status === "suspended" && profile.celeb_tier === "light" && profile.is_verified === false),
+    newProfiles.every((profile) => profile.publication_status === "suspended" && profile.celeb_tier === "light" && profile.is_verified === false),
     "신규 최소 프로필의 suspended/light/unverified 상태가 바뀌었습니다.",
   );
 

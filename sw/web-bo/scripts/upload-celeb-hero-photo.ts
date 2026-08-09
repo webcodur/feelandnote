@@ -1,6 +1,6 @@
 /**
- * 인물 상세 상단 대표 화보(profiles.portrait_url) 일괄 등록
- * 로컬 화보(배경 포함 연출컷) → 공용 비율 중앙 크롭 webp → R2 celebs/{celebId}/photo.webp → profiles 갱신
+ * 인물 상세 상단 대표 화보(celebs.portrait_url) 일괄 등록
+ * 로컬 화보(배경 포함 연출컷) → 공용 비율 중앙 크롭 webp → R2 celebs/{celebId}/photo.webp → celebs 갱신
  *
  * ※ 아바타(avatar_url, 얼굴 크롭 800×800)와 별개다. 여기서는 인물 상세용 세로 화보를 만든다.
  * ※ 세력도감 개인화보(celeb_tag_assignments.faction_image_url)와도 별개다.
@@ -91,7 +91,7 @@ async function main() {
   for (const r of rows) {
     // 대상이 실제로 그 인물인지 확인한 뒤에만 쓴다(id-slug 불일치 방지)
     const { data: person, error: findErr } = await sb
-      .from('profiles').select('id, slug, nickname').eq('id', r.celeb_id).single()
+      .from('celebs').select('id, slug, nickname').eq('id', r.celeb_id).single()
     if (findErr || !person) { console.error(`[${r.slug}] 인물 조회 실패`); continue }
     if (person.slug !== r.slug) { console.error(`[${r.slug}] slug 불일치(DB: ${person.slug}) — 건너뜀`); continue }
 
@@ -107,7 +107,7 @@ async function main() {
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
 
-    const { error } = await sb.from('profiles').update({ portrait_url: url }).eq('id', r.celeb_id)
+    const { error } = await sb.from('celebs').update({ portrait_url: url }).eq('id', r.celeb_id)
     if (error) { console.error(`[${r.slug}] 갱신 실패`, error.message); continue }
 
     done.push({ slug: r.slug, url })

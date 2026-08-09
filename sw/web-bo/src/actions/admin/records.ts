@@ -33,22 +33,21 @@ export interface Record {
 
 interface RawRecordUser {
   id: string
-  nickname: string | null
-  avatar_url: string | null
-  user_accounts: { email: string | null } | { email: string | null }[] | null
+  email: string | null
+  member_profiles: { nickname: string | null; avatar_url: string | null } | { nickname: string | null; avatar_url: string | null }[] | null
 }
 
 function toRecordUser(raw: unknown): Record['user'] {
   const person = raw as RawRecordUser | null
   if (!person) return null
-  const account = Array.isArray(person.user_accounts)
-    ? person.user_accounts[0] ?? null
-    : person.user_accounts
+  const profile = Array.isArray(person.member_profiles)
+    ? person.member_profiles[0] ?? null
+    : person.member_profiles
   return {
     id: person.id,
-    nickname: person.nickname,
-    email: account?.email ?? null,
-    avatar_url: person.avatar_url,
+    nickname: profile?.nickname ?? null,
+    email: person.email,
+    avatar_url: profile?.avatar_url ?? null,
   }
 }
 
@@ -60,25 +59,22 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     .from('records')
     .select(`
       *,
-      profiles:profiles!records_user_id_fkey (id, nickname, avatar_url, user_accounts!user_accounts_id_fkey(email)),
+      user:user_accounts!records_user_accounts_fkey (id, email, member_profiles!member_profiles_id_fkey(nickname, avatar_url)),
       contents:content_id (id, type, content_locales(locale, title, thumbnail_url))
     `)
     .eq('id', recordId)
-    .single()
+    .maybeSingle()
 
-  if (error || !record) return null
+  if (error) throw new Error(`기록 조회 실패: ${error.message}`)
+  if (!record) return null
 
   // 좋아요 수
-  const { count: likeCount } = await supabase
-    .from('record_likes')
-    .select('*', { count: 'exact', head: true })
-    .eq('record_id', recordId)
-
-  // 댓글 수
-  const { count: commentCount } = await supabase
-    .from('record_comments')
-    .select('*', { count: 'exact', head: true })
-    .eq('record_id', recordId)
+  const [likeResult, commentResult] = await Promise.all([
+    supabase.from('record_likes').select('*', { count: 'exact', head: true }).eq('record_id', recordId),
+    supabase.from('record_comments').select('*', { count: 'exact', head: true }).eq('record_id', recordId),
+  ])
+  if (likeResult.error) throw new Error(`기록 좋아요 집계 실패: ${likeResult.error.message}`)
+  if (commentResult.error) throw new Error(`기록 댓글 집계 실패: ${commentResult.error.message}`)
 
   // content_locales에서 ko/en fallback
   const rawContent = record.contents as { id: string; type: string; content_locales: { locale: string; title: string; thumbnail_url: string | null }[] } | null
@@ -102,27 +98,28 @@ export async function getRecord(recordId: string): Promise<Record | null> {
     source_url: record.source_url,
     created_at: record.created_at,
     updated_at: record.updated_at,
-    user: toRecordUser(record.profiles),
+    user: toRecordUser(record.user),
     content_info: contentInfo,
-    like_count: likeCount || 0,
-    comment_count: commentCount || 0,
+    like_count: likeResult.count || 0,
+    comment_count: commentResult.count || 0,
   }
 }
 
 export async function getRecordComments(recordId: string) {
   const supabase = await createClient()
 
-  const { data: comments } = await supabase
+  const { data: comments, error } = await supabase
     .from('record_comments')
     .select(`
       id,
       content,
       created_at,
-      profiles:profiles!record_comments_user_id_fkey (nickname, avatar_url)
+      user:user_accounts!record_comments_accounts_fkey (member_profiles!member_profiles_id_fkey(nickname, avatar_url))
     `)
     .eq('record_id', recordId)
     .order('created_at', { ascending: true })
 
+  if (error) throw new Error(`기록 댓글 조회 실패: ${error.message}`)
   return comments || []
 }
 
@@ -130,8 +127,12 @@ export async function deleteRecord(recordId: string): Promise<void> {
   const admin = createAdminClient()
 
   // 관련 데이터 삭제 (RLS 우회 필요)
-  await admin.from('record_likes').delete().eq('record_id', recordId)
-  await admin.from('record_comments').delete().eq('record_id', recordId)
+  const [likesResult, commentsResult] = await Promise.all([
+    admin.from('record_likes').delete().eq('record_id', recordId),
+    admin.from('record_comments').delete().eq('record_id', recordId),
+  ])
+  if (likesResult.error) throw likesResult.error
+  if (commentsResult.error) throw commentsResult.error
 
   const { error } = await admin
     .from('records')

@@ -37,7 +37,7 @@ async function fetchDawnDialogues(
   const supabase = createStaticClient();
 
   const [tonesResult, dialoguesResult] = await Promise.all([
-    supabase.from("profiles").select("id, speech_tone").in("id", celebIds),
+    supabase.from("celebs").select("id, speech_tone").in("id", celebIds),
     supabase.from("celeb_dialogues").select("celeb_id, lines, lines_en").in("celeb_id", celebIds),
   ]);
 

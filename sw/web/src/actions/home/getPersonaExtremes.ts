@@ -99,7 +99,7 @@ async function fetchPersonaExtremes(runnersUpLimit: number): Promise<PersonaExtr
 const getCachedPersonaExtremes = unstable_cache(
   fetchPersonaExtremes,
   ['persona-extremes'],
-  // get_persona_extremes: celeb_persona 극단값 + 인물 표시 정보(profiles)
+  // get_persona_extremes: celeb_persona 극단값 + 인물 표시 정보(celebs)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA, CACHE_TAGS.CELEBS] }
 )
 

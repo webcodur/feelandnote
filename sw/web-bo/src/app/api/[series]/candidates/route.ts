@@ -12,12 +12,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
 
   const toSlug = (n: string) => n.replace(/-\d+$/, '')
   const slugs = [...new Set(names.map(toSlug))]
-  const { data: profiles } = await supabase
-    .from('profiles')
+  const { data: celebs, error: celebsError } = await supabase
+    .from('celebs')
     .select('slug, birth_date')
     .in('slug', slugs)
-    .eq('profile_type', 'CELEB')
-  const birthMap = new Map((profiles ?? []).map(p => [p.slug, p.birth_date]))
+  if (celebsError) return NextResponse.json({ error: celebsError.message }, { status: 500 })
+  const birthMap = new Map((celebs ?? []).map(p => [p.slug, p.birth_date]))
 
   const list = await Promise.all(names.map(async (name) => {
     try {

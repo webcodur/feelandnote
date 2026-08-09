@@ -314,7 +314,7 @@ function PersonaEvidenceChip({
     <span
       title={label}
       className={cn(
-        "inline-flex min-h-5 max-w-full items-center justify-center overflow-hidden whitespace-nowrap rounded-[4px] border px-1.5 py-1 font-sans text-[11px] font-medium leading-none tracking-[-0.01em] shadow-[0_1px_5px_rgba(0,0,0,0.12)] md:text-xs",
+        "inline-flex min-h-6 max-w-full items-center justify-center overflow-hidden whitespace-nowrap rounded-[4px] border px-2 py-1 font-sans text-xs font-semibold leading-none tracking-[-0.01em] shadow-[0_1px_5px_rgba(0,0,0,0.12)] md:text-[13px]",
         color,
         borderClassName,
         className,
@@ -407,7 +407,7 @@ function PersonaMatchGroup({
       className={cn(
         "relative overflow-hidden",
         bare
-          ? "px-1"
+          ? "px-0"
           : [
               "rounded-[2px] border border-white/[0.08] border-t bg-white/[0.018] px-3 py-4 md:px-5 md:py-5",
               style.border,
@@ -433,7 +433,7 @@ function PersonaMatchGroup({
         )}
         <p
           className={cn(
-            "text-balance break-keep text-xs leading-relaxed text-text-secondary",
+            "text-balance break-keep text-[13px] font-medium leading-relaxed text-text-primary/65 md:text-sm",
             !bare && "mt-1",
           )}
         >
@@ -443,7 +443,7 @@ function PersonaMatchGroup({
 
       <div
         className={cn(
-          "relative mt-4 grid grid-cols-3 justify-items-center gap-1 md:gap-2",
+          "relative mt-3 grid grid-cols-3 items-stretch gap-2 md:gap-3",
           category === "overall" && "mx-auto max-w-md",
         )}
       >
@@ -453,7 +453,8 @@ function PersonaMatchGroup({
             name={celeb.nickname}
             avatarUrl={celeb.avatar_url}
             onClick={() => onOpen(celeb)}
-            size="compact"
+            size="featured"
+            fullWidth
             avatarFrameClassName={
               category === "opposite" ? "ring-1 ring-red-300/55" : undefined
             }
@@ -462,9 +463,7 @@ function PersonaMatchGroup({
                 ? { border: "2px solid #ef4444" }
                 : undefined
             }
-            className={cn(
-              "w-full gap-2 md:w-full",
-            )}
+            className="h-full gap-2 border-white/[0.07] bg-white/[0.018] px-1.5 py-3 hover:border-accent/45 hover:bg-accent/[0.055] md:px-2 md:py-3.5"
           >
             <span className={`${styles.comparisonMetric} font-mono`}>
               {t(
@@ -511,7 +510,7 @@ function PersonaMatchGroup({
                 ))}
               </span>
             ) : (
-              <span className="mt-1.5 flex min-h-9 w-full flex-wrap content-start justify-center gap-1.5">
+              <span className="mt-1 flex min-h-9 w-full flex-wrap content-start justify-center gap-1.5">
                 {celeb.evidence.map((evidence) => (
                   <PersonaEvidenceChip
                     key={evidence.axis}
@@ -619,10 +618,10 @@ function PersonaMatchGroupsModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative flex max-h-[88dvh] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
+        className="relative flex max-h-[88dvh] w-full max-w-[540px] flex-col overflow-hidden rounded-lg border border-white/10 bg-bg-main shadow-[0_24px_80px_rgba(0,0,0,0.6)]"
       >
-        <header className="relative border-b border-white/[0.07] px-12 py-4 text-center">
-          <h2 id={titleId} className="font-serif text-base font-bold text-text-primary">
+        <header className="relative border-b border-white/[0.07] px-12 py-3.5 text-center">
+          <h2 id={titleId} className="font-serif text-lg font-bold text-text-primary">
             {title}
           </h2>
           <button
@@ -646,7 +645,7 @@ function PersonaMatchGroupsModal({
           />
         ) : null}
 
-        <div className="overflow-y-auto overscroll-contain p-3 [overflow-anchor:none] custom-scrollbar">
+        <div className="overflow-y-auto overscroll-contain p-2.5 [overflow-anchor:none] custom-scrollbar md:p-3">
           <div
             ref={carouselRef}
             onScroll={syncIndex}

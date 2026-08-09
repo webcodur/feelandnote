@@ -133,11 +133,11 @@ async function run() {
     if (!tag) { console.log('  태그 없음 — 건너뜀'); continue }
     const { data: assigns } = await supabase
       .from('celeb_tag_assignments')
-      .select('celeb_id, faction_image_url, profiles!celeb_tag_assignments_celeb_id_fkey(nickname)')
+      .select('celeb_id, faction_image_url, celeb:celebs!celeb_tags_celebs_fkey(nickname)')
       .eq('tag_id', tag.id)
     const people = (assigns ?? []).map((a) => ({
       celeb_id: a.celeb_id,
-      nickname: (a.profiles as unknown as { nickname: string }).nickname,
+      nickname: (a.celeb as unknown as { nickname: string }).nickname,
       hasImage: !!a.faction_image_url,
     }))
 

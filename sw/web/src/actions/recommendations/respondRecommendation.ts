@@ -33,7 +33,7 @@ export async function respondRecommendation(
       sender_id,
       receiver_id,
       status,
-      user_content:user_contents!content_recommendations_user_content_id_fkey(
+      member_content:member_contents!content_recommendations_member_content_id_fkey(
         content_id,
         content:contents(id, type, metadata)
       )
@@ -72,46 +72,45 @@ export async function respondRecommendation(
 
   let newUserContentId: string | undefined;
 
-  // 3. 수락 시: 수신자의 user_contents에 콘텐츠 추가
+  // 3. 수락 시: 수신자의 회원 서재에 콘텐츠 추가
   if (params.accept) {
     type RawContent = {
       id: string;
       type: string;
       metadata: Record<string, unknown> | null;
     };
-    type UserContentData = {
+    type MemberContentData = {
       content_id: string;
       content: RawContent | RawContent[];
     };
 
-    const userContent = (
-      Array.isArray(recommendation.user_content)
-        ? recommendation.user_content[0]
-        : recommendation.user_content
-    ) as UserContentData;
-    const rawContent = Array.isArray(userContent?.content)
-      ? userContent.content[0]
-      : userContent?.content;
+    const memberContent = (
+      Array.isArray(recommendation.member_content)
+        ? recommendation.member_content[0]
+        : recommendation.member_content
+    ) as MemberContentData;
+    const rawContent = Array.isArray(memberContent?.content)
+      ? memberContent.content[0]
+      : memberContent?.content;
     const content = rawContent ? { id: rawContent.id, type: rawContent.type, metadata: rawContent.metadata } : null;
 
     if (content) {
       // 이미 추가된 콘텐츠인지 확인
       const { data: existingContent } = await supabase
-        .from("user_contents")
+        .from("member_contents")
         .select("id")
-        .eq("user_id", user.id)
+        .eq("member_id", user.id)
         .eq("content_id", content.id)
         .limit(1);
 
       if (!existingContent || existingContent.length === 0) {
-        // 콘텐츠가 없으면 추가 (contributor_id로 추천자 기록)
+        // 콘텐츠가 없으면 회원 서재에 추가한다.
         const { data: newContent, error: insertError } = await supabase
-          .from("user_contents")
+          .from("member_contents")
           .insert({
-            user_id: user.id,
+            member_id: user.id,
             content_id: content.id,
             status: "WANT",
-            contributor_id: recommendation.sender_id,
           })
           .select("id")
           .single();
@@ -128,20 +127,16 @@ export async function respondRecommendation(
     const locale = await getLocale();
     const t = await getTranslations({ locale, namespace: "notificationMessages" });
     const { data: receiverProfile } = await supabase
-      .from("profiles")
-      .select("nickname, nickname_en")
+      .from("member_profiles")
+      .select("nickname")
       .eq("id", user.id)
       .single();
 
     const receiverName =
-      (locale === "en" ? receiverProfile?.nickname_en : receiverProfile?.nickname) ??
       receiverProfile?.nickname ??
-      receiverProfile?.nickname_en ??
       t("userFallback");
 
     await createNotification({
-      userId: recommendation.sender_id,
-      actorId: user.id,
       type: "recommendation_accepted",
       title: t("acceptedTitle"),
       message: t("acceptedMessage", { name: receiverName }),

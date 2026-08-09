@@ -17,12 +17,12 @@ import {
 
 // select 문자열과 동일한 필드 집합
 type ProfileModalRow = Pick<
-  Tables<'profiles'>,
+  Tables<'celebs'>,
   | 'id' | 'slug' | 'nickname' | 'nickname_en' | 'avatar_url' | 'profession'
   | 'title' | 'title_en'
   | 'nationality' | 'birth_date' | 'death_date' | 'bio' | 'bio_en'
-  | 'is_verified' | 'claimed_by' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
-  | 'status' | 'content_research_status'
+  | 'is_verified' | 'claimed_by_member_id' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
+  | 'publication_status' | 'content_research_status'
 >
 
 // 캐시되는 공개 데이터 묶음 (인증 비의존)
@@ -44,13 +44,12 @@ async function fetchCelebModalPublic(
 
   // 프로필 조회 (인물 미리보기에 필요한 필드만)
   let profileQuery = supabase
-    .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by, has_voice, voice_v, voice_speed, celeb_tier, status, content_research_status')
+    .from('celebs')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by_member_id, has_voice, voice_v, voice_speed, celeb_tier, publication_status, content_research_status')
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (requireActive) {
-    profileQuery = profileQuery.eq('status', 'active')
+    profileQuery = profileQuery.eq('publication_status', 'active')
   }
 
   const { data, error } = await profileQuery.single()
@@ -61,8 +60,8 @@ async function fetchCelebModalPublic(
 
   // 병렬 조회
   const [contentResult, followerResult, influenceResult, tags, dialogueResult] = await Promise.all([
-    supabase.from('user_contents').select('*', { count: 'exact', head: true }).eq('user_id', celebId),
-    supabase.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', celebId),
+    supabase.from('celeb_contents').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
+    supabase.from('member_celeb_follows').select('*', { count: 'exact', head: true }).eq('celeb_id', celebId),
     supabase.from('celeb_influence').select('total_score').eq('celeb_id', celebId).maybeSingle(),
     // 세력도감 소속 — 단일 원천은 제작 테이블이고 DB 뷰 faction_atlas_members가 웹 전용 배정과
     // 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다.
@@ -117,7 +116,7 @@ async function fetchCelebModalPublic(
 const getCelebModalCached = unstable_cache(
   (celebId: string) => fetchCelebModalPublic(celebId, true),
   ['celeb-modal'],
-  // profiles·celeb_influence + user_contents(서고 수) + faction_atlas_members + celeb_dialogues
+  // celebs·celeb_influence + celeb_contents(서고 수) + faction_atlas_members + celeb_dialogues
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
@@ -164,18 +163,18 @@ export async function getCelebForModal(
 
   // 인증 사용자 의존 — 캐시 밖에서 cookie 클라이언트로 조회
   let isFollowing = false
-  let isFollower = false
 
   const supabase = await createClient()
   const { data: { user: currentUser } } = await supabase.auth.getUser()
 
   if (currentUser) {
-    const [followResult, followerCheck] = await Promise.all([
-      supabase.from('follows').select('id').eq('follower_id', currentUser.id).eq('following_id', celebId).single(),
-      supabase.from('follows').select('id').eq('follower_id', celebId).eq('following_id', currentUser.id).single(),
-    ])
+    const followResult = await supabase
+      .from('member_celeb_follows')
+      .select('id')
+      .eq('member_id', currentUser.id)
+      .eq('celeb_id', celebId)
+      .maybeSingle()
     isFollowing = !!followResult.data
-    isFollower = !!followerCheck.data
   }
 
   const { profile, dialogue } = pub
@@ -207,11 +206,12 @@ export async function getCelebForModal(
     quotes: getDisplayDialogueQuote(dialogue?.quote),
     quotes_en: getDisplayDialogueQuote(dialogue?.quote_en),
     is_verified: profile.is_verified || false,
-    is_platform_managed: profile.claimed_by === null,
+    is_platform_managed: profile.claimed_by_member_id === null,
     follower_count: pub.followerCount,
     content_count: pub.contentCount,
     is_following: isFollowing,
-    is_follower: isFollower,
+    // 셀럽은 로그인 회원이 아니므로 회원을 역방향 팔로우할 수 없다.
+    is_follower: false,
     influence,
     tags: pub.tags,
     greeting: dialogue?.greeting ?? null,

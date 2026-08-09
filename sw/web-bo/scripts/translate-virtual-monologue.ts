@@ -150,7 +150,7 @@ async function translate(m: Material): Promise<string> {
 type Row = {
   slug: string; nickname: string; nickname_en: string | null
   birth_date: string | null; death_date: string | null
-  status: string | null; celeb_tier: string | null
+  publication_status: string | null; celeb_tier: string | null
   virtual_monologue: string | null; virtual_monologue_en: string | null
 }
 
@@ -168,9 +168,8 @@ async function loadAll(): Promise<Row[]> {
   const rows: Row[] = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
-      .from('profiles')
-      .select('slug, nickname, nickname_en, birth_date, death_date, status, celeb_tier, virtual_monologue, virtual_monologue_en')
-      .eq('profile_type', 'CELEB')
+      .from('celebs')
+      .select('slug, nickname, nickname_en, birth_date, death_date, publication_status, celeb_tier, virtual_monologue, virtual_monologue_en')
       .order('slug')
       .range(from, from + 999)
     if (error) throw error
@@ -208,10 +207,9 @@ async function applyCandidates(file: string) {
       throw new Error(`${record.slug}: 후보 본문이 영문 형식 규칙을 통과하지 못했습니다.`)
     }
     const { data: row, error: readError } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('virtual_monologue,virtual_monologue_en')
       .eq('slug', record.slug)
-      .eq('profile_type', 'CELEB')
       .single()
     if (readError) throw readError
     if (sha256(row.virtual_monologue ?? '') !== record.currentKoHash
@@ -224,10 +222,9 @@ async function applyCandidates(file: string) {
       continue
     }
     const { error: updateError } = await supabase
-      .from('profiles')
+      .from('celebs')
       .update({ virtual_monologue_en: record.candidateText })
       .eq('slug', record.slug)
-      .eq('profile_type', 'CELEB')
     if (updateError) throw updateError
     updated++
     console.log(`UPDATED ${record.slug}`)
@@ -245,7 +242,7 @@ async function run() {
   }
   const all = await loadAll()
   let targets = all.filter((r) => r.virtual_monologue?.trim()
-    && (!!SLUGS || r.status === 'active')
+    && (!!SLUGS || r.publication_status === 'active')
     && (!SLUGS || SLUGS.has(r.slug))
     && (!NO_FORCE || !r.virtual_monologue_en))
 

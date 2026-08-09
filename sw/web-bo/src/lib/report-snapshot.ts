@@ -122,11 +122,15 @@ export async function loadReportSnapshot(
     const snapshot = buildSnapshot(spec, data as TargetRow, targetId, searchedTables)
     if (!snapshot.authorId) return snapshot
 
-    const { data: author } = await supabase
-      .from('profiles')
+    const { data: author, error: authorError } = await supabase
+      .from('member_profiles')
       .select('nickname')
       .eq('id', snapshot.authorId)
       .maybeSingle()
+
+    if (authorError) {
+      return { ...snapshot, lookupError: `작성자 조회 실패: ${authorError.message}` }
+    }
 
     const nickname = (author as { nickname?: string | null } | null)?.nickname
     return { ...snapshot, authorNickname: typeof nickname === 'string' ? nickname : null }

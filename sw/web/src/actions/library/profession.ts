@@ -10,14 +10,14 @@ import { getLocale } from 'next-intl/server'
 import type { Tables } from '@/types/supabase'
 import type { ContentType } from '@/types/database'
 import type { LibraryContent, LibraryByProfession, TopCeleb } from './types'
-import { aggregateContents, fetchAllUserContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
+import { aggregateContents, fetchAllCelebContents, fetchGlobalCelebCounts, fetchUserContentCounts } from './helpers'
 
 const PROFESSION_MAP = CELEB_PROFESSIONS.map(p => ({ key: p.value, label: p.label }))
 
 // #region 길의 갈래 - 직업별 인기 콘텐츠
-// profiles + celeb_influence(total_score) 임베드 조회 행
+// celebs + celeb_influence(total_score) 임베드 조회 행
 type TopCelebRow = Pick<
-  Tables<'profiles'>,
+  Tables<'celebs'>,
   'id' | 'nickname' | 'nickname_en' | 'avatar_url' | 'title' | 'title_en'
 > & {
   celeb_influence: { total_score: number | null } | { total_score: number | null }[] | null
@@ -39,10 +39,9 @@ async function fetchProfessionAggregate(
   const supabase = createStaticClient()
 
   const { data: celebProfiles, error: profileError } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .eq('profession', profession)
@@ -53,10 +52,10 @@ async function fetchProfessionAggregate(
   const celebIds = celebProfiles.map(p => p.id)
 
   const [typedData, { data: topCelebsData }] = await Promise.all([
-    fetchAllUserContents(supabase, celebIds, locale),
+    fetchAllCelebContents(supabase, celebIds, locale),
     supabase
-      .from('profiles')
-      .select('id, nickname, nickname_en, avatar_url, title, title_en, celeb_influence(total_score)')
+      .from('celebs')
+      .select('id, nickname, nickname_en, avatar_url, title, title_en, celeb_influence!celeb_influence_celebs_fkey(total_score)')
       .in('id', celebIds)
       .not('celeb_influence', 'is', null)
       .order('celeb_influence(total_score)', { ascending: false })
@@ -66,7 +65,7 @@ async function fetchProfessionAggregate(
   const topCelebRows: TopCelebRow[] = topCelebsData || []
   const topCelebs: TopCeleb[] = topCelebRows.map(c => {
     const influence = Array.isArray(c.celeb_influence) ? c.celeb_influence[0] : c.celeb_influence
-    const contentCount = typedData.filter(item => item.user_id === c.id).length
+    const contentCount = typedData.filter(item => item.celeb_id === c.id).length
     const nicknameEn = c.nickname_en ?? null
     const titleEn = c.title_en ?? null
     return {
@@ -92,7 +91,7 @@ async function fetchProfessionAggregate(
 const getProfessionAggregateCached = unstable_cache(
   fetchProfessionAggregate,
   ['library-profession-agg'],
-  // profiles(직업별 셀럽)+user_contents(서고 집계)+celeb_influence를 함께 읽는다
+  // celebs(직업별 셀럽)+celeb_contents(서고 집계)+celeb_influence를 함께 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
@@ -141,10 +140,9 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
   const results = await Promise.all(
     PROFESSION_MAP.map(async ({ key, label }) => {
       const { count } = await supabase
-        .from('profiles')
+        .from('celebs')
         .select('id', { count: 'exact', head: true })
-        .eq('profile_type', 'CELEB')
-        .eq('status', 'active')
+        .eq('publication_status', 'active')
         // 신화·관계 인물은 목록에서 제외
         .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
         .eq('profession', key)
@@ -161,7 +159,7 @@ async function fetchProfessionContentCounts(): Promise<Array<{ profession: strin
 export const getProfessionContentCounts = unstable_cache(
   fetchProfessionContentCounts,
   ['profession-content-counts'],
-  // profiles만 센다
+  // celebs만 센다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
 )
 // #endregion

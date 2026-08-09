@@ -56,13 +56,13 @@ export async function GET(_req: Request, { params }: { params: Promise<{ series:
     return m ? m[1] : base
   }
   const slugs = [...new Set(items.map(i => toSlug(i.id)))]
-  const { data: profiles } = await supabase
-    .from('profiles')
+  const { data: celebs, error: celebsError } = await supabase
+    .from('celebs')
     .select('slug, nickname, birth_date')
     .in('slug', slugs)
-    .eq('profile_type', 'CELEB')
-  const birthMap = new Map((profiles ?? []).map(p => [p.slug, p.birth_date]))
-  const nicknameMap = new Map((profiles ?? []).map(p => [p.slug, p.nickname]))
+  if (celebsError) return NextResponse.json({ error: celebsError.message }, { status: 500 })
+  const birthMap = new Map((celebs ?? []).map(p => [p.slug, p.birth_date]))
+  const nicknameMap = new Map((celebs ?? []).map(p => [p.slug, p.nickname]))
 
   const list = await Promise.all(items.map(async ({ id: name, status, group }) => {
     // 작업 시작 안 한 인물 폴더(ko/en 본문 부재)는 loadEpisode 가 실패할 수 있다. 폴백으로 최소 정보만 반환.
@@ -123,20 +123,20 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
 
   // 프로필 조회
   const { data: profile, error: pErr } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select(`
       id, slug, nickname, nickname_en, title, bio, avatar_url,
       speech_tone, has_voice, voice_id_ko, voice_id_en, voice_speed
     `)
     .eq('slug', slug)
-    .eq('profile_type', 'CELEB')
-    .single()
+    .maybeSingle()
 
-  if (pErr || !profile) return NextResponse.json({ error: 'celeb not found' }, { status: 404 })
+  if (pErr) return NextResponse.json({ error: pErr.message }, { status: 500 })
+  if (!profile) return NextResponse.json({ error: 'celeb not found' }, { status: 404 })
 
   // 콘텐츠 목록 조회 — 서재 탐방은 비도서도 category를 붙여 다룬다.
-  const { data: userContents, error: contentsError } = await supabase
-    .from('user_contents')
+  const { data: celebContents, error: contentsError } = await supabase
+    .from('celeb_contents')
     .select(`
       id, content_id, review, source_url,
       contents!inner(
@@ -144,7 +144,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
         content_locales(title, creator, thumbnail_url, locale)
       )
     `)
-    .eq('user_id', profile.id)
+    .eq('celeb_id', profile.id)
     .eq('visibility', 'public')
     .in('contents.type', ['BOOK', 'VIDEO', 'GAME', 'MUSIC'])
   if (contentsError) {
@@ -152,7 +152,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   }
 
   // 콘텐츠 뼈대 생성. 외부 표지 URL은 원본 스냅샷으로만 두고 렌더 경로에는 넣지 않는다.
-  const books = (userContents ?? []).map((uc: Record<string, unknown>) => {
+  const books = (celebContents ?? []).map((uc: Record<string, unknown>) => {
     const content = uc.contents as Record<string, unknown>
     const locales = (content?.content_locales ?? []) as Array<{
       title: string

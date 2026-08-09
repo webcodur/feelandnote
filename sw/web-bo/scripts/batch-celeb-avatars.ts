@@ -1,5 +1,5 @@
 /**
- * 셀럽 아바타 일괄 등록 — Wikidata QID → P18 → Commons → 얼굴감지 크롭 → R2 → profiles.avatar_url
+ * 셀럽 아바타 일괄 등록 — Wikidata QID → P18 → Commons → 얼굴감지 크롭 → R2 → celebs.avatar_url
  *
  * 사용법 (sw/web-bo 디렉토리에서):
  *   pnpm tsx scripts/batch-celeb-avatars.ts \
@@ -19,7 +19,7 @@
  *   4) Commons imageinfo로 원본 URL + 라이선스 조회. 부적합 라이선스면 스킵
  *   5) 원본 다운로드 → face-api SSD MobileNet 검출 + 68점 랜드마크로 눈·턱 좌표 추출
  *   6) avatar-geometry가 눈·턱 거리로 정사각 좌표 산출 → sharp.extract 좌표 크롭 → 800×800 webp(q=95)
- *   7) R2 PUT celebs/{profile_id}/avatar.webp → profiles.avatar_url 갱신 + wikidata_qid 보강
+ *   7) R2 PUT celebs/{celeb_id}/avatar.webp → celebs.avatar_url 갱신 + wikidata_qid 보강
  *   8) credits.log 누적 — 규격 이탈 경고도 함께 적는다
  *
  * 얼굴 미검출 → 그 인물만 실패로 집계하고 건너뛴다(대체 크롭으로 올리지 않는다). 전체는 계속 돈다.
@@ -127,7 +127,7 @@ const ACCEPTABLE_LICENSE_PATTERNS: RegExp[] = [
 ]
 
 // ─── 직업 키워드 사전 ────────────────────────────────────────
-// DB profiles.profession 컬럼 값 → wikidata description 매칭 키워드.
+// DB celebs.profession 컬럼 값 → wikidata description 매칭 키워드.
 // 동명이인 차단용: 검색 hits 중 description이 이 키워드를 포함하는 후보를 우선 채택.
 const PROFESSION_KEYWORDS: Record<string, string[]> = {
   author: ['author', 'writer', 'novelist', 'poet', 'playwright', 'essayist', 'journalist', 'critic', 'screenwriter', 'translator'],
@@ -569,7 +569,6 @@ type Outcome =
 interface ProfileRow {
   id: string
   slug: string
-  profile_type: string
   nickname: string | null
   nickname_en: string | null
   wikidata_qid: string | null
@@ -760,8 +759,8 @@ async function processOne(
   // 6. DB
   const update: Record<string, string> = { avatar_url: publicUrl }
   if (qidReassigned || (!profile.wikidata_qid && qid)) update.wikidata_qid = qid
-  const { error } = await supabase.from('profiles').update(update).eq('id', profileId)
-  if (error) throw new Error(`profiles update 실패: ${error.message}`)
+  const { error } = await supabase.from('celebs').update(update).eq('id', profileId)
+  if (error) throw new Error(`celebs update 실패: ${error.message}`)
 
   // 7. 로그
   const ts = new Date().toISOString()
@@ -862,9 +861,8 @@ async function main() {
   // --scan-db 모드: DB에서 avatar_url 비어있는 셀럽 전체를 자동 조회
   if (scanDb) {
     const { data: rows, error: scanErr } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('id, slug, nickname, nickname_en, wikidata_qid, profession, avatar_url')
-      .eq('profile_type', 'CELEB')
       .or('avatar_url.is.null,avatar_url.eq.')
       .order('slug', { ascending: true })
     if (scanErr) throw new Error(`scan-db select 실패: ${scanErr.message}`)
@@ -885,10 +883,10 @@ async function main() {
   // 프로필 일괄 조회
   const ids = targets.map((t) => t[1])
   const { data: profiles, error: profErr } = await supabase
-    .from('profiles')
-    .select('id, slug, profile_type, nickname, nickname_en, wikidata_qid, profession')
+    .from('celebs')
+    .select('id, slug, nickname, nickname_en, wikidata_qid, profession')
     .in('id', ids)
-  if (profErr) throw new Error(`profiles select 실패: ${profErr.message}`)
+  if (profErr) throw new Error(`celebs select 실패: ${profErr.message}`)
   const profById = new Map<string, ProfileRow>(
     (profiles as ProfileRow[]).map((p) => [p.id, p])
   )
@@ -902,14 +900,6 @@ async function main() {
     const prof = profById.get(profileId)
     if (!prof) {
       rows.push({ slug, profileId, outcome: { kind: 'error', detail: 'profile not found' } })
-      continue
-    }
-    if (prof.profile_type !== 'CELEB') {
-      rows.push({
-        slug,
-        profileId,
-        outcome: { kind: 'error', detail: `target is not CELEB: ${prof.profile_type}` },
-      })
       continue
     }
     if (prof.slug !== slug) {

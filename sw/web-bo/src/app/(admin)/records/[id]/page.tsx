@@ -207,8 +207,9 @@ export default async function RecordDetailPage({ params }: PageProps) {
             ) : (
               <div className="space-y-4">
                 {comments.map((comment) => {
-                  const profiles = comment.profiles as { nickname: string | null; avatar_url: string | null }[] | { nickname: string | null; avatar_url: string | null } | null
-                  const profile = Array.isArray(profiles) ? profiles[0] : profiles
+                  const account = Array.isArray(comment.user) ? comment.user[0] : comment.user
+                  const memberProfiles = account?.member_profiles ?? null
+                  const profile = Array.isArray(memberProfiles) ? memberProfiles[0] : memberProfiles
                   return (
                     <div key={comment.id} className="flex gap-3">
                       <div className="relative w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden flex-shrink-0">

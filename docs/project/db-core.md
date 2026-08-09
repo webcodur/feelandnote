@@ -1,6 +1,8 @@
 # DB 스키마 - Core
 
-> **최종 실측 체크: 26.07.30** — 부분 대조: `blocks`·`reports`의 컬럼·제약·인덱스·RLS만 실 DB와 대조했다. 문서 전체 대조는 26.07.16(실 DB 스키마 전량, 아카이브에 격리됐던 sources·verified 정의 회수)
+> **최종 실측 체크: 26.08.10** — 회원·셀럽 물리 도메인, 감상·팔로우·방명록·소셜·
+> 점수·알림 테이블과 현역 RPC·트리거의 운영 적용을 대조했다. 레거시 테이블 제거는 새 앱
+> 배포 뒤의 마지막 게이트라 아직 적용하지 않았다.
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
@@ -8,48 +10,55 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 ## 사용자/인증
 
-- **`profiles`**: 사용자·셀럽 통합 테이블. `profile_type`('USER'|'CELEB')로 구분
-  - 주요 컬럼: nickname, nickname_en, email, avatar_url, bio, profession, title, nationality, birth_date, death_date, gender(bool), is_verified, claimed_by, role, status
-  - `role` CHECK: 'user'|'admin'|'super_admin'
-  - `status` CHECK: 'active'|'inactive'|'suspended'|'deleted'
-  - `profile_type` CHECK: 'USER'|'CELEB'
-  - `chk_celeb_profession`: `profile_type='CELEB'`이면 profession은 16종 중 하나 (leader, politician, commander, entrepreneur, investor, humanities_scholar, social_scientist, scientist, director, musician, visual_artist, author, actor, influencer, athlete, other)
-  - `birth_date` / `death_date`는 **text** (BC 표기 `-384` 등을 담기 위함. date 타입 아님)
-  - 셀럽 전용 컬럼은 `db-celeb.md` 참조
-- **`follows`**: 팔로우 관계(follower_id → following_id)
+- **`auth.users`**: Supabase 로그인 자격. 애플리케이션 공개 프로필 원천이 아니다
+- **`user_accounts`**: 로그인 회원의 계정·권한·제재 상태. `id → auth.users.id ON DELETE
+  RESTRICT`
+  - 관리자 판정은 `is_admin()`을 사용한다. 앱이나 RLS에서 역할 문자열을 따로 판정하지 않는다
+- **`member_profiles`**: 회원 공개 프로필. `id → user_accounts.id ON DELETE CASCADE`
+  - 주요 컬럼: `nickname`, `avatar_url`, `bio`, `birth_date`, `nationality`, `is_verified`,
+    `selected_title`, `showcase_titles`, `created_at`, `updated_at`
+- **`celebs`**: 로그인 계정과 독립된 셀럽 원본. 상세는 `db-celeb.md` 참조
+- **`member_member_follows`**: 회원→회원 팔로우. 두 열 모두 `user_accounts.id`를 참조한다
+- **`member_celeb_follows`**: 회원→셀럽 팔로우. `member_id → user_accounts.id`,
+  `celeb_id → celebs.id`
 - **`blocks`**: 차단 관계(blocker_id → blocked_id). `unique(blocker_id, blocked_id)`, 자기 차단 금지 CHECK, 양쪽 FK CASCADE
   - 🔴 **RLS가 `blocker_id = auth.uid()` 행만 select를 허용한다.** 즉 "내가 차단한 사람"은 읽지만 **"나를 차단한 사람"은 누구도 읽을 수 없다**(관리자 화면도 마찬가지). 목록 숨김이 단방향인 이유가 이것이다. 양방향이 필요하면 `SECURITY DEFINER` RPC 신설 또는 RLS 정책 추가가 선행돼야 한다 — 코드로 우회할 수 없다
-- **`user_social`**: 소셜 카운트 캐시 (follower/following/friend/content_count)
+- **`member_social_stats`**: 회원의 follower/following/friend/influence/content 카운트 캐시
+- **`celeb_metrics`**: 셀럽의 follower/content 카운트 캐시
 
-### profiles.quotes — 삭제됨
+### 배포 호환 구조 — 신규 참조 금지
 
-`profiles.quotes` / `profiles.quotes_en`은 **존재하지 않는다** (2026-03-23 마이그레이션 `drop_profiles_quotes_and_recreate_compat_view`로 DROP). 명언 SSoT는 `celeb_dialogues.lines.quote` → `db-celeb.md` 참조.
-
-### cultural_journey — 생성 컬럼
-
-- 실제 저장 컬럼은 **`consumption_philosophy`** / `consumption_philosophy_en`
-- `cultural_journey` / `cultural_journey_en`은 그 값을 그대로 노출하는 **generated column** (읽기 전용, 직접 UPDATE 불가)
-- **쓰기는 `consumption_philosophy`에** 한다
-
-### profiles_compat 뷰
-
-`profiles_compat` 뷰가 존재한다. profiles 전 컬럼에 `consumption_philosophy AS cultural_journey` 별칭을 얹은 하위호환용이며, quotes는 포함하지 않는다.
+옛 `profiles`와 저장형 `profile_type`, `profiles_compat`, `follows`, `user_social`은 새 앱
+배포 전의 호환 구조로만 남아 있다. 현역 코드와 새 DB 객체는 위 전용 테이블에서 시작한다.
+`20260809184517_retire_legacy_profile_domain.sql`은 새 앱 배포와 구버전 인스턴스 종료를
+확인한 뒤 이 호환 구조를 제거한다. 이 절은 현재 사용법이 아니라 제거 게이트를 설명한다.
 
 ## 콘텐츠
 
 - **`contents`**: 콘텐츠 마스터. 언어 중립 메타만 보유
-  - 컬럼: `id`(text, 기본값 `gen_random_uuid()::text`), `type`, `subtype`, `metadata`(jsonb), `release_date`(text), `external_source`, `external_id`, `user_count`, `created_at`
+  - 컬럼: `id`(text, 기본값 `gen_random_uuid()::text`), `type`, `subtype`, `metadata`(jsonb), `release_date`(text), `external_source`, `external_id`, `member_count`, `celeb_count`, `record_count`, `created_at`
+  - `member_count`와 `celeb_count`는 두 감상 관계의 전수 집계이고, `record_count`는 두 값을
+    합친 전체 기록 주체 수다. 옛 `user_count`는 배포 호환 열이며 신규 조회에서 사용하지 않는다
   - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC'
   - `external_source` CHECK: NULL 또는 'naver_book'|'google_books'|'openlibrary'|'tmdb'|'igdb'|'spotify' (DB가 허용하는 값. 운영 정책상 실제 사용 출처는 별도 규약을 따른다)
   - **title/creator/thumbnail_url/description/isbn/publisher/affiliate_url은 contents에 없다.** 전부 `content_locales`로 이관됨(2026-03-06 `drop_contents_legacy_locale_columns_v2`)
 - **`content_locales`**: 콘텐츠 언어별 메타 (아래 상세)
-- **`user_contents`**: 사용자↔콘텐츠 관계
-  - 컬럼: user_id, content_id, status, rating, review, review_en, review_presets(text[]), is_spoiler, is_pinned, pinned_at, visibility, source_url, contributor_id, completed_at, is_recommended
+- **`member_contents`**: 회원 감상 기록. `member_id → user_accounts.id`,
+  `content_id → contents.id`
+  - 컬럼: `member_id`, `content_id`, `status`, `rating`, `review`, `review_en`,
+    `review_presets`, `is_spoiler`, `is_pinned`, `pinned_at`, `visibility`, `source_url`,
+    `contributor_member_id`, 등록자 스냅샷, `completed_at`, `is_recommended`
+  - UNIQUE(`member_id`, `content_id`)
+  - 평점 또는 리뷰가 처음 생기는 전환은 DB 트리거가 활동 점수 5점을 정확히 한 번만 부여한다
+- **`celeb_contents`**: 셀럽 감상경위. `celeb_id → celebs.id`,
+  `content_id → contents.id`
+  - 감상 필드 모양은 회원 기록과 같지만 RLS·출처·점수 규칙은 공유하지 않는다
+  - `source_url` 필수 가드와 콘텐츠 조사 상태·셀럽 지표 갱신은 이 테이블의 트리거가 맡는다
+  - UNIQUE(`celeb_id`, `content_id`)
+- 두 감상 테이블 공통:
   - `status` CHECK: 'WANT'|'FINISHED'
   - `rating` CHECK: 0~5 (numeric)
   - `visibility`: `visibility_type` enum, 기본값 'public'
-  - UNIQUE(user_id, content_id)
-  - 트리거 `trg_celeb_source_url`: user_id가 CELEB 프로필이면 **INSERT 시 source_url 필수** (없으면 예외)
 - **`records`**: 기록. type CHECK 'NOTE'|'QUOTE', content, rating, location, visibility, source_url, contributor_id
 - **`notes`** / **`note_sections`**: 구조화된 감상 노트. notes(user_id, content_id, snapshot jsonb, memo) + note_sections(title, memo, is_completed, sort_order)
 - **`academy_lesson_progress`**: 학당 레슨별 학습 진행 (category_id/sub_category_id/lesson_id, is_completed, completed_at, last_studied_at)
@@ -234,23 +243,31 @@ ORDER BY c.created_at DESC;
 
 - **web / web-bo 구분 없이 단일 체계다.** 과거 "web은 외부 API ID를 id로 직접 사용" 서술은 폐기됨(2026-03-01 `convert_contents_id_to_uuid` + `set_contents_id_default_uuid`)
 - `addContent`의 `params.id`는 externalId 의미 → `external_id`로 중복 체크 후 UUID 자동 생성
-- `contents.id` 참조 FK: `user_contents`, `records`, `notes`, `flow_nodes`, `content_locales` (모두 ON DELETE CASCADE)
+- `contents.id` 참조 FK: `member_contents`, `celeb_contents`, `records`, `notes`, `flow_nodes`, `content_locales` (모두 ON DELETE CASCADE)
 - 프론트엔드: `ContentDetailData.content.externalId` 필드로 전달
 
 ## 커뮤니티/시스템
 
-- **`notifications`**, **`guestbook_entries`**, **`notices`**, **`feedbacks`**, **`board_comments`**
+- **`member_notifications`**: 로그인 회원 알림. 수신자는 `member_id`, 행위자는
+  `actor_member_id`로 `user_accounts.id`를 참조한다. 인증 사용자는 본인 행의 읽음 처리·삭제만
+  할 수 있고 임의 INSERT는 허용하지 않는다
+- **`member_guestbook_entries`** / **`celeb_guestbook_entries`**: 회원 방명록과 셀럽
+  방명록. 작성자는 항상 `author_member_id → user_accounts.id`다
+- **`notices`**, **`feedbacks`**, **`board_comments`**
 - **`free_posts`** / **`free_post_comments`**: 자유게시판 (author_id ON DELETE SET NULL)
 - **`record_likes`** / **`record_comments`**: 기록 반응
 - **`reports`**: 신고. target_type CHECK: user|record|content|comment|guestbook|**post|feedback**(26.07.30 2종 추가) / status CHECK: pending|resolved|rejected
-  - `target_user_id` — 신고 대상 글의 작성자(FK → `profiles` ON DELETE SET NULL). 운영 화면이 반복 신고·악용을 집계하는 축이다. 26.07.30 추가
+  - `target_user_id` — 신고 대상 글의 작성자(FK → `user_accounts` ON DELETE SET NULL). 운영 화면이 반복 신고·악용을 집계하는 축이다. 26.07.30 추가
   - `unique(reporter_id, target_type, target_id)` — 같은 사람이 같은 대상을 중복 신고하지 못한다. **접수 액션은 이 위반(23505)을 오류가 아니라 "이미 신고함"으로 돌려준다**
   - 인덱스: `(status, created_at desc)` · `(target_type, target_id)` · `(target_user_id)`
   - RLS: 본인 신고 insert·select, `admin`·`super_admin`은 ALL
-- **`user_scores`** / **`score_logs`**: 활동 점수 시스템
+- **`member_scores`** / **`member_score_logs`**: 회원 활동 점수와 로그. 셀럽의 옛 점수·
+  로그는 `private.celeb_score_archive`·`private.celeb_score_log_archive`에 비노출 보관한다
 - **`tier_lists`**, **`blind_game_scores`**: 경장(Arena) 게임
 - **`activity_logs`**: 활동 로그 (90일 보관)
-- **`content_recommendations`**: 콘텐츠 추천 (sender→receiver)
+- **`content_recommendations`**: 회원 콘텐츠 추천(sender→receiver).
+  `member_content_id → member_contents.id`; 알림은 참여자·상태를 검증하는
+  `create_recommendation_notification` RPC가 수신자와 행위자를 서버에서 결정한다
 - **`daily_figures`**: 오늘의 인물 (celeb_id FK)
 - **`api_keys`** / **`api_key_usage`**: API 키 발급·사용량
 - **`remotion_images`**: 리모션 영상용 이미지 카탈로그 (R2 저장, 에피소드 간 재활용). **RLS 비활성** 상태다
@@ -259,11 +276,13 @@ ORDER BY c.created_at DESC;
 
 | 테이블 | 트리거 | 동작 |
 |--------|--------|------|
-| `profiles` | `on_profile_created_scores` / `on_profile_created_social` | 프로필 생성 시 user_scores·user_social 행 생성 |
-| `user_contents` | `trg_celeb_source_url` | CELEB의 user_contents INSERT에 source_url 강제 |
-| `user_contents` | `trigger_update_content_count` | user_social.content_count 동기 |
-| `user_contents` | `trigger_update_content_user_count` | contents.user_count 동기 |
-| `follows` | `sync_follow_counts` / `handle_new_follow` / `handle_delete_follow` | 팔로우 카운트·알림 |
-| `records` | `on_record_insert` | 점수 반영 |
+| `member_profiles` | 회원 초기화 트리거 | `member_social_stats`·`member_scores` 초기 행 보장 |
+| `celebs` | 셀럽 초기화 트리거 | `celeb_metrics` 초기 행 보장 |
+| `member_contents` | 카운트·점수 트리거 | 회원 콘텐츠 수와 `contents.member_count` 갱신, 최초 감상 점수 1회 반영 |
+| `celeb_contents` | 출처·카운트·조사 트리거 | `source_url` 강제, 셀럽 지표와 `contents.celeb_count`·조사 상태 갱신 |
+| `member_member_follows` | 관계·알림 트리거 | 회원 follower/following/friend 카운트와 이벤트별 알림 동기 |
+| `member_celeb_follows` | 관계 트리거 | 회원 following과 셀럽 follower 카운트 동기 |
+| `member_guestbook_entries` | 방명록 알림 트리거 | 이벤트별 회원 알림 생성·삭제 |
+| `records` | 점수 트리거 | 회원 점수를 이벤트당 한 번 반영 |
 
 셀럽 관련 트리거는 `db-celeb.md` 참조.

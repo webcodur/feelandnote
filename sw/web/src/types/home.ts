@@ -45,7 +45,7 @@ export interface CelebProfile {
   quotes: string | null  // 명언/대사
   quotes_en: string | null
   is_verified: boolean
-  is_platform_managed: boolean  // claimed_by가 null이면 true (플랫폼에서 관리)
+  is_platform_managed: boolean  // claimed_by_member_id가 null이면 true (플랫폼에서 관리)
   follower_count: number
   content_count: number  // 보유 콘텐츠 수
   is_following: boolean  // 현재 유저가 팔로우 중인지

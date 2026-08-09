@@ -15,7 +15,7 @@ export default async function MemberDetailPage({ params }: PageProps) {
   }
 
   // 프로필 타입에 따라 적절한 경로로 리다이렉트
-  if (member.profile_type === 'CELEB') {
+  if (member.subject_kind === 'celeb') {
     redirect(`/celebs/${member.slug}`)
   } else {
     redirect(`/users/${id}`)

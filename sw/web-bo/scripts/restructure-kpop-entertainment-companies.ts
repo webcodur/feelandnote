@@ -229,7 +229,7 @@ function peopleOf(script: Row): Map<string, Row> {
 }
 
 async function unresolvedProfileSlugs(db: SupabaseClient, slugs: string[]): Promise<string[]> {
-  const { data, error } = await db.from('profiles').select('slug').in('slug', slugs)
+  const { data, error } = await db.from('celebs').select('slug').in('slug', slugs)
   if (error) throw new Error(`셀럽 프로필 연결 확인 실패: ${error.message}`)
   const resolved = new Set((data ?? []).map(row => row.slug as string))
   return slugs.filter(slug => !resolved.has(slug)).sort()

@@ -35,9 +35,8 @@ const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 const people = []
 for (let from = 0; ; from += 1000) {
   const { data, error } = await sb
-    .from('profiles')
-    .select('id, slug, nickname, nickname_en, celeb_tier, status, portrait_url')
-    .eq('profile_type', 'CELEB')
+    .from('celebs')
+    .select('id, slug, nickname, nickname_en, celeb_tier, publication_status, portrait_url')
     .is('portrait_url', null)
     .order('id')
     .range(from, from + 999)
@@ -97,7 +96,7 @@ for (const c of candidates) {
       celeb_id: c.person.id,
       nickname: c.person.nickname,
       celeb_tier: c.person.celeb_tier,
-      status: c.person.status,
+      publicationStatus: c.person.publication_status,
       image: c.file.replace(/\\/g, '/'),
       size: `${m.width}x${m.height}`,
     })
@@ -107,7 +106,7 @@ for (const c of candidates) {
 // 인물별로 묶어 저장 — 어느 장을 쓸지는 눈으로 고른다
 const grouped = new Map()
 for (const k of kept) {
-  if (!grouped.has(k.slug)) grouped.set(k.slug, { slug: k.slug, celeb_id: k.celeb_id, nickname: k.nickname, celeb_tier: k.celeb_tier, status: k.status, images: [] })
+  if (!grouped.has(k.slug)) grouped.set(k.slug, { slug: k.slug, celeb_id: k.celeb_id, nickname: k.nickname, celeb_tier: k.celeb_tier, publicationStatus: k.publicationStatus, images: [] })
   grouped.get(k.slug).images.push({ image: k.image, size: k.size })
 }
 
@@ -117,4 +116,4 @@ writeFileSync(out, JSON.stringify(result, null, 2), 'utf-8')
 console.log(`대문 빈 인물 ${people.length}명 중, 팩션 이미지가 있는 인물 ${result.length}명 / 후보 이미지 ${kept.length}장`)
 console.log(`이름을 못 맞춘 폴더 ${unmatched.size}개`)
 writeFileSync(out.replace(/\.json$/, '-unmatched.json'), JSON.stringify([...unmatched].sort(), null, 2), 'utf-8')
-console.log(result.slice(0, 10).map(r => `  ${r.nickname} (${r.celeb_tier}/${r.status}) ${r.images.length}장`).join('\n'))
+console.log(result.slice(0, 10).map(r => `  ${r.nickname} (${r.celeb_tier}/${r.publicationStatus}) ${r.images.length}장`).join('\n'))

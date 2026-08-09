@@ -170,7 +170,7 @@ export default function CelebForm({ mode, celeb }: Props) {
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
 
-  // 대표 화보(profiles.portrait_url) — 업로드 직후 공용 상수 비율로 위치·확대 편집을 거친다
+  // 대표 화보(celebs.portrait_url) — 업로드 직후 공용 상수 비율로 위치·확대 편집을 거친다
   const [portraitFile, setPortraitFile] = useState<File | null>(null)
   const [portraitPreview, setPortraitPreview] = useState<string | null>(null)
 
@@ -751,7 +751,7 @@ export default function CelebForm({ mode, celeb }: Props) {
         )}
       </div>
 
-      {/* 가상 독백 UI는 폐기했다. profiles 값과 잠금 API는 담화 제작 재료 보존용으로만 유지한다. */}
+      {/* 가상 독백 UI는 폐기했다. celebs 값과 잠금 API는 담화 제작 재료 보존용으로만 유지한다. */}
 
       {/* Tags */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">

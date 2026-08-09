@@ -53,7 +53,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
 
   const { data, error } = await supabase
     .from('content_locales')
-    .select('content_id, title, creator, thumbnail_url, affiliate_url, contents!inner(user_count, type)')
+    .select('content_id, title, creator, thumbnail_url, affiliate_url, contents!inner(user_count:record_count, type)')
     .eq('locale', 'ko')
     .eq('contents.type', 'BOOK')
     .not('affiliate_url', 'is', null)
@@ -99,12 +99,12 @@ export async function getAffiliateBooks(
 }
 
 /** 그 인물이 실제로 남긴 기록 중 링크가 걸린 것을 고른다. */
-async function fetchReadByCeleb(userId: string): Promise<Set<string>> {
+async function fetchReadByCeleb(celebId: string): Promise<Set<string>> {
   const supabase = createStaticClient()
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .select('content_id')
-    .eq('user_id', userId)
+    .eq('celeb_id', celebId)
     .limit(1000)
 
   if (error) {
@@ -115,19 +115,19 @@ async function fetchReadByCeleb(userId: string): Promise<Set<string>> {
 }
 
 /** 같은 직군 인물들이 남긴 기록. 이름난 인물부터 훑어 대표성이 있는 쪽으로 모은다. */
-async function fetchReadByProfession(userId: string): Promise<Set<string>> {
+async function fetchReadByProfession(celebId: string): Promise<Set<string>> {
   const supabase = createStaticClient()
 
-  const { data: me } = await supabase.from('profiles').select('profession').eq('id', userId).maybeSingle()
+  const { data: me } = await supabase.from('celebs').select('profession').eq('id', celebId).maybeSingle()
   const profession = me?.profession
   if (!profession) return new Set()
 
   const { data: peers } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id')
     .eq('profession', profession)
-    .eq('profile_type', 'celeb')
-    .neq('id', userId)
+    .eq('publication_status', 'active')
+    .neq('id', celebId)
     .order('view_count', { ascending: false })
     .limit(60)
 
@@ -135,9 +135,9 @@ async function fetchReadByProfession(userId: string): Promise<Set<string>> {
   if (peerIds.length === 0) return new Set()
 
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .select('content_id')
-    .in('user_id', peerIds)
+    .in('celeb_id', peerIds)
     .limit(1000)
 
   if (error) {
@@ -148,12 +148,12 @@ async function fetchReadByProfession(userId: string): Promise<Set<string>> {
 }
 
 /** 신화·서사 인물이 등장하는 원전. 이들은 책을 읽은 기록이 없고 대신 자기가 나오는 작품이 있다. */
-async function fetchOriginWorks(userId: string): Promise<Set<string>> {
+async function fetchOriginWorks(celebId: string): Promise<Set<string>> {
   const supabase = createStaticClient()
   const { data, error } = await supabase
     .from('fiction_source_characters')
     .select('content_id')
-    .eq('celeb_id', userId)
+    .eq('celeb_id', celebId)
     .limit(50)
 
   if (error) {
@@ -164,7 +164,7 @@ async function fetchOriginWorks(userId: string): Promise<Set<string>> {
 }
 
 async function fetchAffiliateBooksForCeleb(
-  userId: string,
+  celebId: string,
   platform: AffiliatePlatformKey,
   limit: number,
 ): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
@@ -172,7 +172,7 @@ async function fetchAffiliateBooksForCeleb(
   if (pool.length === 0) return { books: [], source: 'popular' }
 
   // 0순위 — 그 인물이 등장하는 원전(신화·전설 인물)
-  const origins = await fetchOriginWorks(userId)
+  const origins = await fetchOriginWorks(celebId)
   if (origins.size > 0) {
     const originBooks = pool.filter((p) => origins.has(p.book.contentId))
     if (originBooks.length > 0) {
@@ -181,12 +181,12 @@ async function fetchAffiliateBooksForCeleb(
   }
 
   // 1순위 — 그 인물이 읽은 책
-  const read = await fetchReadByCeleb(userId)
+  const read = await fetchReadByCeleb(celebId)
   const own = pool.filter((p) => read.has(p.book.contentId))
   if (own.length > 0) return { books: own.slice(0, limit).map((v) => v.book), source: 'read' }
 
   // 2순위 — 같은 직군 인물들이 읽은 책
-  const peers = await fetchReadByProfession(userId)
+  const peers = await fetchReadByProfession(celebId)
   const byProfession = pool.filter((p) => peers.has(p.book.contentId))
   if (byProfession.length > 0) {
     return { books: byProfession.slice(0, limit).map((v) => v.book), source: 'profession' }
@@ -202,20 +202,19 @@ const fetchForCelebCached = unstable_cache(fetchAffiliateBooksForCeleb, ['affili
 })
 
 export async function getAffiliateBooksForCeleb(
-  userId: string,
+  celebId: string,
   platform: AffiliatePlatformKey = 'coupang',
   limit = 6,
 ): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
-  return fetchForCelebCached(userId, platform, limit)
+  return fetchForCelebCached(celebId, platform, limit)
 }
 
 /** 여러 인물의 기록을 모아 작품별로 몇 명이 겹치는지 센다. 겹치는 인물이 많을수록 그 진영을 대표한다. */
 async function tallyByCelebs(
-  table: 'fiction_source_characters' | 'user_contents',
+  table: 'fiction_source_characters' | 'celeb_contents',
   celebIds: string[],
 ): Promise<Map<string, number>> {
   const supabase = createStaticClient()
-  const idColumn = table === 'fiction_source_characters' ? 'celeb_id' : 'user_id'
   const weight = new Map<string, number>()
 
   // 인물 수가 많으면 요청 주소가 길어져 거부당한다 — 나눠 묻는다
@@ -223,7 +222,7 @@ async function tallyByCelebs(
     const { data, error } = await supabase
       .from(table)
       .select('content_id')
-      .in(idColumn, celebIds.slice(i, i + 60))
+      .in('celeb_id', celebIds.slice(i, i + 60))
       .limit(1000)
     if (error) {
       console.error(`[getAffiliateBooks] ${table} 조회 실패:`, error)
@@ -307,8 +306,8 @@ async function fetchBooksForTag(
 
   // ── 둘째 묶음: 그 인물들에 얽힌 책 ──
   // 인물이 쓴 책이나 그를 다룬 책이 먼저, 없으면 그들이 실제로 읽은 책.
-  const { data: profiles } = await supabase.from('profiles').select('nickname').in('id', celebIds.slice(0, 60))
-  const names = (profiles ?? []).map((p) => p.nickname as string | null)
+  const { data: celebs } = await supabase.from('celebs').select('nickname').in('id', celebIds.slice(0, 60))
+  const names = (celebs ?? []).map((p) => p.nickname as string | null)
   const about = pool
     .filter((p) => names.some((n) => nameHits(n, p.book.title, p.book.creator)))
     .filter((p) => !topic.some((t) => t.contentId === p.book.contentId))
@@ -317,7 +316,7 @@ async function fetchBooksForTag(
 
   if (about.length > 0) return { topic, people: about, peopleSource: 'about' }
 
-  const read = pick(await tallyByCelebs('user_contents', celebIds)).filter(
+  const read = pick(await tallyByCelebs('celeb_contents', celebIds)).filter(
     (b) => !topic.some((t) => t.contentId === b.contentId),
   )
   return { topic, people: read, peopleSource: 'read' }
@@ -337,4 +336,3 @@ export async function getAffiliateBooksForTag(
   if (!tagId) return { topic: [], people: [], peopleSource: 'read' }
   return fetchBooksForTagCached(tagId, tagName, platform, limit)
 }
-

@@ -11,7 +11,8 @@ interface CelebPersonPreviewButtonProps {
   avatarUrl: string | null;
   onClick: () => void;
   loading?: boolean;
-  size?: "compact" | "large";
+  size?: "compact" | "large" | "featured";
+  fullWidth?: boolean;
   children?: ReactNode;
   className?: string;
   avatarFrameClassName?: string;
@@ -21,11 +22,13 @@ interface CelebPersonPreviewButtonProps {
 const avatarSizeClass = {
   compact: "h-14 w-14 md:h-18 md:w-18",
   large: "h-16 w-16 md:h-20 md:w-20",
+  featured: "h-20 w-20 md:h-24 md:w-24",
 } as const;
 
 const avatarPixels = {
   compact: 72,
   large: 80,
+  featured: 96,
 } as const;
 
 export default function CelebPersonPreviewButton({
@@ -34,6 +37,7 @@ export default function CelebPersonPreviewButton({
   onClick,
   loading = false,
   size = "compact",
+  fullWidth = false,
   children,
   className,
   avatarFrameClassName,
@@ -46,7 +50,8 @@ export default function CelebPersonPreviewButton({
       disabled={loading}
       aria-busy={loading}
       className={cn(
-        "group flex w-20 cursor-pointer flex-col items-center gap-1.5 rounded-md border border-transparent px-1 py-1 text-center hover:border-accent/30 hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait md:w-24",
+        "group flex cursor-pointer flex-col items-center gap-1.5 rounded-md border border-transparent px-1 py-1 text-center hover:border-accent/30 hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait",
+        fullWidth ? "w-full" : "w-20 md:w-24",
         className,
       )}
     >
@@ -83,8 +88,20 @@ export default function CelebPersonPreviewButton({
       </span>
 
       <span className="w-full space-y-0.5 text-center">
-        <span className="flex h-10 w-full items-center justify-center text-center">
-          <span className="line-clamp-2 text-balance break-keep font-serif text-xs font-bold leading-tight text-text-primary group-hover:text-accent">
+        <span
+          className={cn(
+            "flex w-full items-center justify-center text-center",
+            size === "featured" ? "h-11" : "h-10",
+          )}
+        >
+          <span
+            className={cn(
+              "line-clamp-2 text-balance break-keep font-serif font-bold leading-tight text-text-primary group-hover:text-accent",
+              size === "featured"
+                ? "text-sm md:text-[15px]"
+                : "text-xs",
+            )}
+          >
             {name}
           </span>
         </span>

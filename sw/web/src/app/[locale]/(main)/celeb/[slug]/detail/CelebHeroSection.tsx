@@ -18,15 +18,24 @@ import ShareButtons from "@/components/ui/ShareButtons";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { trackEvent } from "@/lib/analytics/track";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
-import { getWorldStyle, type WorldFrame } from "@/lib/celeb/worldStyle";
+import {
+  formatSectionNumber,
+  getWorldStyle,
+  type WorldFrame,
+} from "@/lib/celeb/worldStyle";
 import type { Locale } from "@/types/locale";
 
 import { getCelebAge } from "../celebAge";
+import { CELEB_SERVICE_ICONS } from "../celebServiceIcons";
+import { CELEB_SERVICE_CHAPTERS } from "../celebSectionChapters";
+import CelebSectionHeading from "../CelebSectionHeading";
 import CelebHeroPhoto from "../CelebHeroPhoto";
 import styles from "../CelebPageContent.module.css";
 import { CelebTierBadge } from "../CelebTierBadge";
 import CelebViewCounter from "../CelebViewCounter";
+import type { ServiceItem } from "../celebServiceItems";
 import { formatCelebPeriod } from "./celebDetailData";
+import { navigateToCelebSection } from "./useCelebSectionNavigation";
 
 interface MaybeWorldFrameProps {
   frame: WorldFrame;
@@ -97,6 +106,22 @@ export default function CelebHeroSection({
         : profile.photo_caption) ?? null
     : null;
   const canGreet = (greeting?.length ?? 0) > 0;
+  const introductionItem: ServiceItem = {
+    key: "introduction",
+    chapter: CELEB_SERVICE_CHAPTERS.introduction,
+    label: t("serviceIntroduction"),
+    icon: CELEB_SERVICE_ICONS.introduction,
+    ready: true,
+    target: { sectionId: "introduction" },
+  };
+  const readingItem: ServiceItem = {
+    key: "reading",
+    chapter: CELEB_SERVICE_CHAPTERS.reading,
+    label: t("reading"),
+    icon: CELEB_SERVICE_ICONS.reading,
+    ready: Boolean(profile.reading),
+    target: { sectionId: "reading" },
+  };
 
   const handleGreetingPlay = useCallback(() => {
     trackEvent("celeb_voice_play", { kind: "greeting" });
@@ -115,6 +140,17 @@ export default function CelebHeroSection({
   return (
     <>
       <section id="introduction" tabIndex={-1} className={styles.opening}>
+        <CelebSectionHeading
+          item={introductionItem}
+          nextItem={readingItem}
+          onNavigate={navigateToCelebSection}
+          chapterLabel={formatSectionNumber(
+            Number(introductionItem.chapter),
+            worldStyle.numerals,
+          )}
+          numerals={worldStyle.numerals}
+          widestLabel={introductionItem.label}
+        />
         <div className={styles.openingFrame}>
           <div className={styles.bannerStage}>
             <CelebWorldBannerView worldId={worldId} images={worldBannerImages} />

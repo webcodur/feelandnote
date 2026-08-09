@@ -17,7 +17,7 @@
  *
  * 안전 규칙
  *  - 빈칸 채우기 전용: 대상 필드가 이미 비어있지 않으면 그 필드는 건너뛴다(덮어쓰기 금지).
- *  - profile_type='CELEB' 이 아닌 행은 거부한다.
+ *  - `celebs`에서 조회된 인물만 대상으로 한다.
  *  - 기존값과 동일하면 SKIPPED (celeb-pipeline §업데이트 가드).
  *  - 반영 후 DB를 다시 읽어 왕복 검증한다.
  */
@@ -55,7 +55,7 @@ type TextField = (typeof TEXT_FIELDS)[number]
 const BATCH_METADATA_FIELDS = new Set(['expected_slug', 'slug', 'groups', 'primary_group'])
 
 const SELECT =
-  'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, status, celeb_tier, profile_type'
+  'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier'
 
 type Row = {
   id: string
@@ -71,9 +71,8 @@ type Row = {
   birth_date: string | null
   death_date: string | null
   gender: boolean | null
-  status: string | null
+  publication_status: string | null
   celeb_tier: string | null
-  profile_type: string | null
 }
 
 const blank = (v: unknown) => v === null || v === undefined || String(v).trim().length === 0
@@ -82,12 +81,11 @@ async function allCelebs(): Promise<Row[]> {
   const out: Row[] = []
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await db
-      .from('profiles')
+      .from('celebs')
       .select(SELECT)
-      .eq('profile_type', 'CELEB')
       .order('id', { ascending: true })
       .range(from, from + PAGE - 1)
-    if (error) throw new Error(`profiles 조회 실패: ${error.message}`)
+    if (error) throw new Error(`celebs 조회 실패: ${error.message}`)
     const rows = (data ?? []) as Row[]
     out.push(...rows)
     if (rows.length < PAGE) break
@@ -131,7 +129,7 @@ async function dump() {
           nickname: r.nickname,
           nickname_en: r.nickname_en,
           tier: r.celeb_tier,
-          status: r.status,
+          publicationStatus: r.publication_status,
           profession: r.profession,
           nationality: r.nationality,
           birth_date: r.birth_date,
@@ -215,14 +213,14 @@ async function apply() {
       continue
     }
 
-    const { error } = await db.from('profiles').update(payload).eq('id', cur.id).eq('profile_type', 'CELEB')
+    const { error } = await db.from('celebs').update(payload).eq('id', cur.id)
     if (error) {
       failed++
       report.push(`FAILED ${patch.slug} — ${error.message}`)
       continue
     }
 
-    const { data: after, error: reErr } = await db.from('profiles').select(SELECT).eq('id', cur.id).single()
+    const { data: after, error: reErr } = await db.from('celebs').select(SELECT).eq('id', cur.id).single()
     if (reErr || !after) {
       failed++
       report.push(`FAILED ${patch.slug} — 왕복 검증 조회 실패 ${reErr?.message ?? ''}`)

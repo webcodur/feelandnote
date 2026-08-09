@@ -62,10 +62,9 @@ async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
   // birth_date는 중복이 많아 정렬키로 불충분 — id를 2차 키로 둬 페이지 경계를 고정한다.
   const rows = await selectAllPages<TimelineRow>((from, to) =>
     supabase
-      .from('profiles')
+      .from('celebs')
       .select(`${TIMELINE_BASE_SELECT}${bioSelect}`)
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .eq('publication_status', 'active')
       // 신화·관계 인물은 타임라인에서 제외
       .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
       .not('nationality', 'is', null)
@@ -141,6 +140,6 @@ async function fetchCelebTimeline(locale: 'ko' | 'en'): Promise<TimelineData> {
 export const getCelebTimeline = unstable_cache(
   fetchCelebTimeline,
   ['celeb-timeline'],
-  // profiles + celeb_dialogues
+  // celebs + celeb_dialogues
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
 )

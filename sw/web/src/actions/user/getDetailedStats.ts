@@ -46,35 +46,44 @@ interface UserContentStatRow {
   created_at: string | null
   contents: { type: string } | { type: string }[] | null
 }
+type AnySupabase = Awaited<ReturnType<typeof createClient>> | ReturnType<typeof createStaticClient>
 // #endregion
 
-// 공개 데이터(user_contents·contents)만 조회 — viewer 무관, 캐시 가능
-async function fetchUserContentsStats(uid: string): Promise<UserContentStatRow[]> {
-  const supabase = createStaticClient()
-
+async function fetchUserContentsStats(
+  supabase: AnySupabase,
+  uid: string,
+): Promise<UserContentStatRow[]> {
   const { data } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('status, rating, created_at, contents(type)')
-    .eq('user_id', uid)
+    .eq('member_id', uid)
 
   return (data ?? []) as UserContentStatRow[]
 }
 
+async function fetchPublicUserContentsStats(uid: string): Promise<UserContentStatRow[]> {
+  return fetchUserContentsStats(createStaticClient(), uid)
+}
+
 const getUserContentsStatsCached = unstable_cache(
-  fetchUserContentsStats,
+  fetchPublicUserContentsStats,
   ['detailed-stats-contents'],
   { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
 )
 
 export async function getDetailedStats(targetUserId?: string): Promise<DetailedStats> {
   const supabase = await createClient()
-
-  const uid = targetUserId ?? (await supabase.auth.getUser()).data.user?.id
+  const currentUser = (await supabase.auth.getUser()).data.user
+  const uid = targetUserId ?? currentUser?.id
   if (!uid) return getEmptyStats()
 
-  // records는 visibility RLS로 viewer마다 결과가 다르다 — cookie 클라이언트 유지, 카운트만 수신
+  const contentRowsPromise = currentUser?.id === uid
+    ? fetchUserContentsStats(supabase, uid)
+    : getUserContentsStatsCached(uid)
+
+  // records와 회원 감상 기록 모두 visibility RLS에 따라 viewer 범위를 지킨다.
   const [rows, recordsResult] = await Promise.all([
-    getUserContentsStatsCached(uid),
+    contentRowsPromise,
     supabase
       .from('records')
       .select('id', { count: 'exact', head: true })

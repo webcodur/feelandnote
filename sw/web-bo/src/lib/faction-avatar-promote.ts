@@ -22,7 +22,7 @@
  * ⚠ 얼굴을 못 찾으면 `--require-face` 때문에 스크립트가 **올리기 전에** 실패한다. 대체 크롭으로
  *   조용히 올려 두면 사람은 성공으로 오해한다(전신·측면 사진이 많은 개인샷에서 실제로 벌어진다).
  *
- * 이 함수는 셀럽 본문(`profiles`)에 손대는 유일한 팩션 경로다. 문서 §4 「profiles 불가침」의 예외는
+ * 이 함수는 셀럽 본문(`celebs`)에 손대는 유일한 팩션 경로다. 문서 §4 「celebs 불가침」의 예외는
  * **사람이 버튼으로 명시 실행할 때만**이므로, 일괄 실행 경로는 두지 않았다(한 명씩만).
  */
 
@@ -41,7 +41,7 @@ export interface FactionAvatarPromoteResult {
   celebId: string
   /** 재료로 쓴 개인샷 — 에피소드 폴더 기준 상대경로 */
   imageRel: string
-  /** 갱신된 profiles.avatar_url */
+  /** 갱신된 celebs.avatar_url */
   avatarUrl: string
   /** 갈아치운 것인지(원래 얼굴 사진이 있었다) */
   replaced: boolean
@@ -143,7 +143,7 @@ export async function promoteSoloShotToAvatar(
   if (!existsSync(image.abs)) throw new Error(`${name} — 개인샷 파일이 없습니다: ${image.rel}`)
 
   const { data: profile, error: prErr } = await db
-    .from('profiles').select('id, slug, avatar_url, celeb_tier').eq('id', celebId).maybeSingle()
+    .from('celebs').select('id, slug, avatar_url, celeb_tier').eq('id', celebId).maybeSingle()
   if (prErr) throw new Error(`셀럽 프로필 조회 실패: ${prErr.message}`)
   if (!profile) throw new Error(`${name} — 셀럽 프로필(${celebId})이 없습니다`)
 
@@ -173,7 +173,7 @@ export async function promoteSoloShotToAvatar(
 
   // 스크립트가 올리고 프로필까지 갱신한다 — 결과 주소는 DB 에서 다시 읽어 확인한다(로그 파싱보다 확실하다)
   const { data: after, error: aErr } = await db
-    .from('profiles').select('avatar_url').eq('id', celebId).maybeSingle()
+    .from('celebs').select('avatar_url').eq('id', celebId).maybeSingle()
   if (aErr) throw new Error(`갱신 확인 실패: ${aErr.message}`)
   const avatarUrl = (after?.avatar_url as string | null)?.trim() ?? ''
   if (!avatarUrl) throw new Error(`${name} — 스크립트는 성공했다는데 프로필에 주소가 없습니다\n${tail(log)}`)

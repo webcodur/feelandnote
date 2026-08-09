@@ -14,10 +14,10 @@ export async function removeContent(userContentId: string) {
 
   // 삭제 전 content_id 조회
   const { data: existing } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('content_id')
     .eq('id', userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
     .single()
 
   if (!existing) {
@@ -39,12 +39,12 @@ export async function removeContent(userContentId: string) {
       .in('playlist_id', playlistIds)
   }
 
-  // user_contents 삭제
+  // 회원 감상 기록 삭제
   const { error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .delete()
     .eq('id', userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
 
   if (error) {
     console.error('콘텐츠 삭제 에러:', error)

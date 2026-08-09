@@ -1,6 +1,6 @@
 # 인물 행적 (생애 연표 · 서사 연표 · 활동 반경)
 
-> **최종 실측 체크: 26.08.07** — 대상 기준을 생존 여부와 무관하게 전환, DB 전량 재집계
+> **모집단 규칙 확정: 26.08.09** — `celebs`에 등록된 모든 인물. 공개 상태·등급·생년·사망 여부는 필터가 아니다
 
 인물 상세 화면의 행적 구획 SSoT다. 실존 인물은 연도형 「생애 연표」,
 `fiction` 인물은 원전 순서형 「서사 연표」로 같은 사건 테이블을 사용한다.
@@ -13,17 +13,19 @@
 
 ## 대상 — 등록된 인물 전원이다
 
-**생존 여부는 대상 조건이 아니다.** 서비스에 인물을 등록하면 그때 행적을 한 번
-만든다. 나중에 그 인물이 사망하면 사망 사건을 더해 한 번 더 갱신한다.
+모집단은 **`celebs` 테이블의 모든 행**이다. `publication_status`·`celeb_tier`·생년·사망년을
+비롯한 어떤 프로필 값도 대상 제외 조건으로 쓰지 않는다. 인물을 `celebs`에 등록하면
+행적 생성 대상이 되고, 행적이 한 건도 없는 인물이 이번 결손 수집 대상이다.
 
-대상은 `active` CELEB 중 `full`·`light` 등급이고 **생년이 있는** 인물이다.
-생년이 없으면 출생 사건을 만들 수 없으므로 대상에서 뺀다.
+- 생년을 알면 출생 사건을 맨 앞에 한 번 둔다. 생년을 모르면 출생 사건을 강제하지 않는다
+- 사망년을 알면 사망 사건을 맨 뒤에 한 번 둔다. 사망년을 모르거나 생존 중이면 사망 사건을
+  강제하지 않고 확인되는 가장 최근 활동으로 끝낸다
+- `fiction` 인물도 모집단에서 빼지 않는다. 다만 실존 인물의 연도형 생애 연표가 아니라
+  대표 원전 순서형 서사 연표로 작성한다
 
-생존 인물의 연표에는 **사망 사건이 없는 것이 정상**이다. 마지막 사건은 가장 최근
-활동이며, 억지로 끝맺음을 만들지 않는다.
-
-> **26.08.07 이전 기준은 「사망일이 있는 인물」이었다.** 그 조건은 폐기했다.
-> 아래 「도구」 절의 실행 조건도 함께 읽어라 — 도구 쪽 정리가 남아 있다.
+> **폐기한 구형 필터:** 사망일 보유 → `active` full·light + 생년 보유 순으로 조건을
+> 넓혀 왔으나, 26.08.09에 모두 폐기했다. 아래 26.08.08 수치와 아직 고치지 않은 조사·감사
+> 스크립트에는 이 구형 조건이 남아 있으므로 현재 모집단 판정에 쓰지 않는다.
 
 ## 현황 (26.08.08 DB 실측)
 
@@ -34,7 +36,7 @@
 | 좌표 보유 | 7,705건 |
 | 등장 장소 | 6,859곳 |
 
-**대상 커버리지 (26.08.08 실측)**
+**구형 필터 기준 대상 커버리지 (26.08.08 역사 스냅샷 · 현 모집단 아님)**
 
 | 구분 | 대상 | 완료 | 미완료 |
 |---|---|---|---|
@@ -46,8 +48,9 @@
 > fiction 서사 연표 131명 248건. 삭제 근거는 아래 함정 11에 있다. 백업은 만들지
 > 않았다(작업자 판단).
 >
-> **대상 자체도 1,541명에서 1,777명으로 늘었다.** 다른 경로로 CELEB이 계속 등록되므로
-> 「완료」라는 상태는 유지되지 않는다. 재개할 때는 이 표를 믿지 말고 감사부터 다시 돌려라.
+> **구형 대상 자체도 1,541명에서 1,777명으로 늘었다.** 다른 경로로 인물이 계속 등록되므로
+> 「완료」라는 상태는 유지되지 않는다. 현재 결손 수는 `celebs` 전원과 행적 테이블을 다시
+> 대조해 산출하며, 이 표의 1,050명을 작업량으로 재사용하지 않는다.
 
 신규 실존 인물은 조사 단계에서 한국어·영문 최종 문장을 함께 만들며, 별도 재작문 단계를 두지 않는다.
 
@@ -58,7 +61,7 @@
 | 컬럼 | 타입 | 설명 |
 |------|------|------|
 | `id` | uuid PK | |
-| `celeb_id` | uuid FK → profiles (ON DELETE CASCADE) | |
+| `celeb_id` | uuid FK → celebs (ON DELETE CASCADE) | |
 | `year` | int | 실존 인물의 시작 연도. **기원전은 음수**. fiction 서사 사건은 null |
 | `year_end` | int | 기간형 사건의 끝 연도. 단발이면 null. CHECK `>= year` |
 | `month`, `day` | smallint | 아는 경우만 |
@@ -84,7 +87,10 @@
 
 ### 실존 인물의 원천
 
-`celeb_timeline_events`가 유일 원천이다. 조사기 자체가 최종 국문·영문과 좌표를 만든 뒤 DB에 직접 적재하고, 저장한 모든 필드를 다시 읽어 일치할 때만 성공으로 처리한다. 로컬 조사 JSON·국문 재작문·영문 재작문은 만들지 않는다.
+서비스의 정본은 `celeb_timeline_events`다. 다만 26.08.09 결손 백필 회차는 사용자의 지시에
+따라 **DB에 바로 적재하지 않고 검수 전 JSON을 먼저 모은다.** 이 JSON은 적재 전 작업물이며
+서비스 정본이나 완료 판정 근거가 아니다. 별도 적재 회차에서 저장한 모든 필드를 다시 읽어
+일치할 때만 DB 반영 완료로 처리한다.
 
 교체가 필요할 때는 특정 slug에만 `--force`를 허용한다. 새 행을 먼저 넣고 기존 `source='research'` 행을 제거한 뒤 전수 대조하며, 중간 실패 시 새 행을 지우고 기존 행을 복구한다. `source='manual'` 행은 건드리지 않는다.
 
@@ -102,6 +108,11 @@ fiction 인물은 소실·판본 충돌이 많은 서사에 실제 연도를 억
 - 원전의 실제 무대명은 좌표 없이 적을 수 있다. 현실 좌표를 붙이려면 사건이
   역사적 활동이 아니라 서사 무대라는 점을 화면에서도 분명히 해야 하므로 현재
   파일럿에서는 좌표를 넣지 않는다
+
+> ⚠️ 위 manifest 도구는 현재 팩션 mythical 명단과 `active fiction` 조건을 강제하므로
+> `celebs` 전원 결손 수집기의 모집단 판정으로 쓸 수 없다. 이번 회차에는 JSON 형식 검토
+> 참고로만 사용하고 `--apply`는 실행하지 않는다. 일반 fiction 결손까지 검증하는 도구를
+> 별도로 마련해야 한다.
 
 ## 화면
 
@@ -192,16 +203,16 @@ fiction 인물은 소실·판본 충돌이 많은 서사에 실제 연도를 억
 **적재 전에 그 인물이 이미 서사 연표를 가졌는지 확인한다.**
 
 ```sql
-select p.slug, count(*) filter (where e.sequence_label is not null) as narrative
-from celeb_timeline_events e join profiles p on p.id = e.celeb_id
-where p.slug in ('...') group by 1 having count(*) filter (where e.sequence_label is not null) > 0;
+select c.slug, count(*) filter (where e.sequence_label is not null) as narrative
+from celeb_timeline_events e join celebs c on c.id = e.celeb_id
+where c.slug in ('...') group by 1 having count(*) filter (where e.sequence_label is not null) > 0;
 ```
 
 두 체계가 섞인 인물을 찾는 전수 점검은 아래로 한다. **결과가 0행이어야 정상이다.**
 
 ```sql
-select p.slug from celeb_timeline_events e join profiles p on p.id = e.celeb_id
-group by p.slug
+select c.slug from celeb_timeline_events e join celebs c on c.id = e.celeb_id
+group by c.slug
 having count(*) filter (where e.sequence_label is not null) > 0
    and count(*) filter (where e.year is not null) > 0;
 ```
@@ -225,7 +236,7 @@ having count(*) filter (where e.sequence_label is not null) > 0
 적재 전에 `''`·`d[A-Z]`·광역 지명을 훑고, 적재 뒤 아래로 다시 확인한다.
 
 ```sql
-select p.slug, e.title from celeb_timeline_events e join profiles p on p.id = e.celeb_id
+select c.slug, e.title from celeb_timeline_events e join celebs c on c.id = e.celeb_id
 where e.description like '%''''%' or e.description_en like '%''''%'
    or e.title like '%''''%' or e.title_en like '%''''%';
 ```
@@ -264,8 +275,9 @@ where e.description like '%''''%' or e.description_en like '%''''%'
 **26.08.08 삭제 기록.** 딥식 경량판이 만든 생애 연표 **188명 1,302건을 지웠다**(`source='research'`,
 26.08.06 14:00 UTC 이후). 서술이 GPT 산출물의 절반이었고(53자 대 102자), 영문 문장이
 뭉개졌으며(쉼표 밀도 3분의 1), 표본 검증에서 소속·연도를 지어낸 사례가 나왔다.
-같은 모델이 만든 **fiction 서사 연표 252명 1,211건은 남겼다** — 인물당 1.9건이라 붕괴
-구간에 닿지 않았고 표본 검사에서 원전 내용이 정확했다.
+삭제 전 fiction 산출물은 **252명 1,211건**이었다. 표본 검사에서 원전 내용은 정확했지만,
+그중 규격 미달인 131명 248건을 지워 **121명 963건**이 남았다. 252명 1,211건은 삭제 전
+역사 수치이며 현재 상태가 아니다.
 
 **구간을 가르는 지문은 영문 쉼표 밀도다.** 문장이 뭉개지면 이 값이 먼저 떨어진다.
 
@@ -286,40 +298,30 @@ from celeb_timeline_events where source = 'research' group by 1 order by 1 desc;
 | 파일 | 역할 |
 |------|------|
 | `timeline-geocode.mjs` | 지명 → 위키데이터 좌표 **후보 나열**. `node scripts/timeline-geocode.mjs "Pella" "Susa"` / 한국어는 `--ko` |
-| `timeline-research-gpt.mjs` | 대상 조회 → 한 번의 국·영문 조사 → 좌표 보강 → DB 직접 적재·재조회 대조. 로컬 파일을 만들지 않는다 |
-| `timeline-audit.mjs` | DB의 대상·완료·미완료 수와 연구 행의 구조를 전수 검사한다. `--slugs=a,b` 지원 |
+| `lib/timeline-target-population.mjs` | **모집단 코드 SSoT.** `celebs` 전원과 사건 소유자 ID를 받아 사건이 0건인 인물을 결정적으로 산출한다. 공개 상태·등급·생몰·fiction 조건은 판정에 쓰지 않는다 |
+| `timeline-export-missing-manifest.mjs` | `celebs`와 `celeb_timeline_events`를 1,000행씩 읽기 전용 조회해 결손 JSON manifest를 만든다. `--check-only` 또는 명시적인 `--output <파일.json>`만 허용한다 |
+| `timeline-research-gpt.mjs` | **은퇴 진입점.** 구형 공개·등급·생몰 필터와 DB 직행을 실행하지 않고 새 manifest·JSON 검증 도구를 안내하며 실패한다 |
+| `timeline-audit.mjs` | **은퇴 진입점.** 구형 모집단 감사를 실행하지 않고 `timeline-export-missing-manifest.mjs --check-only`와 `timeline-draft-validate.mjs`를 안내하며 실패한다 |
 | `timeline-apply-json.mjs` | 외부에서 만든 조사 JSON을 읽어 좌표를 보강하고 적재한다. `--apply` 없이는 대상 확인만. **아래 함정 9를 먼저 읽어라** |
+| `auto-seed-birth.mjs` | **폐기 대상·실행 금지.** 구형 공개·등급 필터 뒤 1건짜리 출생 사건을 DB에 바로 넣어 모집단과 최소 품질 규칙을 모두 어긴다 |
 
-모두 `sw/web-bo/scripts/` 아래 있다. 별도 대상 스냅샷을 만들지 않고 실행 시점의 DB에서 직접 조회한다.
+모두 `sw/web-bo/scripts/` 아래 있다. 모집단 판정의 코드 SSoT는
+`lib/timeline-target-population.mjs`다. 구형 조사기와 감사기는 은퇴했으며 새 manifest·검증
+도구만 이 공용 판정을 사용한다. 공용 판정의 조건은 오직 `celebs` 전원이며, 결손 수집 목록은 그중
+`celeb_timeline_events`가 0건인 인물이다. 공개 상태·등급·생년·사망년 조건을 덧붙이지 않는다.
 
-> ⚠️ **도구 두 종이 아직 옛 기준을 강제한다(26.08.07 코드 확인).** 조사기·감사기 모두
-> 대상 조건에 사망일 보유를 걸어 두었고(`timeline-research-gpt.mjs` 72행,
-> `timeline-audit.mjs` 74행), 검증에서도 「마지막 항목이 사망」을 필수로 본다
-> (조사기 156·158행, 감사기 108·110행). 그래서 **생존 인물은 지금 이 도구로
-> 조사할 수 없고, 이미 들어간 생존 인물은 감사에도 잡히지 않는다.** 위 「대상」 절이
-> 정본이며 코드가 따라가야 한다. 고치기 전까지 생존 인물은 아래 수동 적재기로만
-> 넣을 수 있다.
-
-```bash
-# 미완료 명단만 확인한다. 모델 호출·DB 쓰기 없음 (현재는 사망 인물만 나온다)
-node --env-file=.env scripts/timeline-research-gpt.mjs --all-deceased
-
-# 미완료 대상 조사·적재
-node --env-file=.env scripts/timeline-research-gpt.mjs --all-deceased --apply --concurrency=3
-
-# 특정 인물만 명시적으로 다시 조사해 교체
-node --env-file=.env scripts/timeline-research-gpt.mjs --slugs=ada-lovelace --force --apply
-
-# DB 전수 감사
-node --env-file=.env scripts/timeline-audit.mjs
-```
+> ⛔ 구형 `--all-deceased`·`--apply` DB 직행 경로와 `auto-seed-birth.mjs`는 제거했다.
+> 현재 회차는 `timeline-export-missing-manifest.mjs`로 결손 목록을 만들고
+> `timeline-draft-validate.mjs`로 JSON을 검증하는 데까지만 허용한다.
 
 조사기는 고정 수의 독립 LANE RELAY 워커를 쓴다. 한 레인이 인물 하나를 끝내면 다른 레인을 기다리지 않고 다음 인물을 받으며, 실패한 인물만 마지막에 보고한다. 좌표는 GPT가 준 숫자를 쓰지 않고 위키데이터에서 찾되, 국가·정확한 지명으로 후보를 하나로 좁힐 수 없으면 좌표를 비운다.
 
 ### 조사 형식
 
 - **건수를 먼저 정하지 않는다.** 확인되는 사건의 밀도에 따라 **3~30건** 안에서 고른다. 3~7건도 기록이 희소하면 정상이며, 보통 8~16건은 참고 범위일 뿐 목표치가 아니다. 활동·이동·작품 기록이 풍부하면 17~30건까지 허용한다
-- 출생을 맨 앞에 정확히 한 번 둔다. **사망 사건은 실제로 사망한 인물에게만** 맨 뒤에 정확히 한 번 둔다. 생존 인물은 사망 사건 없이 가장 최근 활동으로 끝낸다
+- 생년을 알면 출생을 맨 앞에 정확히 한 번 둔다. 생년을 모르면 출생 사건을 강제하지 않는다.
+  **사망년을 알면** 사망 사건을 맨 뒤에 정확히 한 번 두고, 사망년을 모르거나 생존 중이면
+  사망 사건을 강제하지 않은 채 확인되는 가장 최근 활동으로 끝낸다
 - 중간 사건은 그 항목을 빼면 생애의 방향·주요 성취·실패·활동 반경을 이해하는 데 실제 손실이 생길 때만 남긴다. 숫자를 채우려고 비슷한 사건을 쪼개거나 근거가 약한 일화를 넣지 않는다
 - **한 사람에 한 사건씩이다.** 형제·2인조처럼 한 프로필이 여러 사람을 담아도 출생을 두 번 넣지 않는다. 두 번째 사람의 출생은 별도 사건이 아니라 첫 사건의 서술에 넣는다
 - **상을 받은 해와 작품이 나온 해는 다르다.** 시상 사건의 연도는 시상식이 열린 해로 적는다(1996년 작품이 1997년에 받았으면 1997)
@@ -339,7 +341,13 @@ node --env-file=.env scripts/timeline-audit.mjs
 
 ### 검증 절차
 
-인물 하나마다 조사 결과를 적재하기 전에 3~30건, 연도순, 출생 위치, 국·영문 필수값, 좌표 짝과 범위를 검사한다. 사망 사건 검사는 **프로필에 사망일이 있을 때만** 적용한다 — 사망일이 있으면 마지막 사건이 사망이고 연도가 프로필과 같아야 하며, 사망일이 없으면 사망 사건이 하나도 없어야 한다. 적재 뒤에는 DB에서 다시 읽어 행 수와 모든 필드를 대조한다. 전체 작업 뒤 `timeline-audit.mjs`로 대상 커버리지와 DB 구조 결함을 확인한다. 실패한 인물만 재실행하며, 성공한 인물을 별도 재작성·링크 감사 단계로 다시 돌리지 않는다.
+인물 하나마다 JSON을 완료 처리하기 전에 3~30건, 연도순, 국·영문 필수값, 좌표 짝과 범위를
+검사한다. 출생 사건은 **생년을 아는 경우에만** 첫 사건·프로필 연도 일치를 검사하고, 생년을
+모르면 출생 사건의 존재를 요구하지 않는다. 사망 사건도 **사망년을 아는 경우에만** 마지막
+사건·프로필 연도 일치를 검사하고, 사망년을 모르면 사망 사건의 존재를 요구하지 않는다.
+이번 결손 백필은 검수를 통과한 JSON까지만 만들며 DB 적재·재조회 대조는 별도 회차에서 한다.
+코드 교정 뒤 전체 감사로 `celebs` 전원의 커버리지와 DB 구조 결함을 확인하고 실패한 인물만
+재실행한다.
 
 ## 화면 확인 이력
 

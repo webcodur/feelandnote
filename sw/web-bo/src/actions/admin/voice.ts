@@ -57,11 +57,13 @@ export async function getVoiceStatus(celebId: string): Promise<{
   files: Record<string, boolean>
 }> {
   const supabase = await createClient()
-  const { data } = await supabase
-    .from('profiles')
+  const { data, error } = await supabase
+    .from('celebs')
     .select('has_voice, voice_v')
     .eq('id', celebId)
     .single()
+
+  if (error) throw new Error(`Failed to load celeb voice status: ${error.message}`)
 
   const voiceV = (data as Record<string, unknown>)?.voice_v as number ?? 0
   const checks: Promise<[string, boolean]>[] = []

@@ -31,9 +31,9 @@ type CelebInfluenceJoin = Pick<
 // celeb_persona 임베드 조회 행
 type CelebPersonaJoin = Pick<Tables<"celeb_persona">, "command" | "martial" | "intellect" | "charm">;
 
-// 카드 풀 profiles 조회 행 (!inner 조인이라 임베드는 항상 존재)
+// 카드 풀 celebs 조회 행 (!inner 조인이라 임베드는 항상 존재)
 type CelebCardRow = Pick<
-  Tables<"profiles">,
+  Tables<"celebs">,
   | "id" | "nickname" | "nickname_en" | "profession" | "title" | "title_en" | "nationality"
   | "avatar_url" | "death_date" | "gender" | "speech_tone" | "has_voice" | "voice_v" | "voice_speed"
 > & {
@@ -48,16 +48,15 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   const isEn = locale === "en";
 
   let query = supabase
-    .from("profiles")
+    .from("celebs")
     .select(`
       id, nickname, nickname_en, profession, title, title_en, nationality, avatar_url, death_date, gender, speech_tone, has_voice, voice_v, voice_speed,
-      celeb_influence!inner(
+      celeb_influence!celeb_influence_celebs_fkey!inner(
         political, strategic, tech, social, economic, cultural, transhistoricity
       ),
-      celeb_persona!inner(command, martial, intellect, charm)
+      celeb_persona!celeb_persona_celebs_fkey!inner(command, martial, intellect, charm)
     `)
-    .eq("profile_type", "CELEB")
-    .eq("status", "active")
+    .eq("publication_status", "active")
     .not("death_date", "is", null)
     .gte("celeb_influence.transhistoricity", MIN_TRANSHISTORICITY);
 
@@ -129,7 +128,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
 const getCelebCardsCached = unstable_cache(
   fetchCelebCards,
   ["celeb-cards"],
-  // profiles + celeb_dialogues
+  // celebs + celeb_dialogues
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES] }
 );
 

@@ -1,5 +1,5 @@
 /**
- * profiles.slug generated column의 화면 미리보기.
+ * celebs.slug generated column의 화면 미리보기.
  * DB generation_expression의 translate → trim → lower → ASCII 공백 치환을 그대로 재현한다.
  */
 export function previewGeneratedCelebSlug(value: string): string {

@@ -74,26 +74,25 @@ async function generatePersonaForCeleb(nickname: string, title?: string, bio?: s
 async function migratePersonas() {
   console.log("Starting Persona Migration Process...");
 
-  // 1. Fetch all profiles where profile_type is 'CELEB'
-  const { data: profiles, error: fetchError } = await supabase
-    .from('profiles')
-    .select('id, nickname, title, bio')
-    .eq('profile_type', 'CELEB');
+  // 1. Fetch every celebrity from the dedicated domain table.
+  const { data: celebs, error: fetchError } = await supabase
+    .from('celebs')
+    .select('id, nickname, title, bio');
 
-  if (fetchError || !profiles) {
+  if (fetchError || !celebs) {
     console.error("Failed to fetch celebrities:", fetchError);
     return;
   }
 
-  console.log(`Found ${profiles.length} celebrities to process.`);
+  console.log(`Found ${celebs.length} celebrities to process.`);
 
   let successCount = 0;
   let failCount = 0;
 
   // Process sequentially to be safe with rate limits (or use Promise.all in small chunks if needed)
-  for (let i = 0; i < profiles.length; i++) {
-    const celeb = profiles[i];
-    console.log(`[${i + 1}/${profiles.length}] Processing ${celeb.nickname}...`);
+  for (let i = 0; i < celebs.length; i++) {
+    const celeb = celebs[i];
+    console.log(`[${i + 1}/${celebs.length}] Processing ${celeb.nickname}...`);
 
     const personaData = await generatePersonaForCeleb(celeb.nickname, celeb.title, celeb.bio);
 

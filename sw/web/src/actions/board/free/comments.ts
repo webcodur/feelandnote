@@ -6,7 +6,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { isValidAnonPassword, hashPassword, hashIp } from '@/lib/board/anonPassword'
 import { canMutateFree } from '@/lib/board/freeAuth'
-import { FREE_COMMENT_COLS, FREE_AUTHOR_JOIN, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
+import { FREE_COMMENT_COLS, FREE_BOARD_PATH, getClientIp } from '@/lib/board/freeBoard'
+import { attachMemberAuthor, attachMemberAuthors } from '@/lib/board/memberProfiles'
 import { getBlockedUserIds, filterBlocked } from '@/lib/moderation/blockFilter'
 import type { FreePostComment } from '@/types/database'
 import { isLocale, type Locale } from '@/types/locale'
@@ -15,7 +16,7 @@ export async function getFreeComments(postId: string): Promise<FreePostComment[]
   const supabase = createAdminClient()
   const { data, error } = await supabase
     .from('free_post_comments')
-    .select(`${FREE_COMMENT_COLS}, ${FREE_AUTHOR_JOIN}`)
+    .select(FREE_COMMENT_COLS)
     .eq('post_id', postId)
     .eq('is_deleted', false)
     .order('created_at', { ascending: true })
@@ -26,7 +27,8 @@ export async function getFreeComments(postId: string): Promise<FreePostComment[]
   }
 
   // 차단한 사용자의 댓글을 걷어낸다. 이 조회는 캐시하지 않아 보는 사람 기준으로 걸러진다.
-  const comments = (data ?? []) as unknown as FreePostComment[]
+  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const comments = hydrated as unknown as FreePostComment[]
   const blockedIds = await getBlockedUserIds()
   return filterBlocked(comments, (comment) => comment.author_id, blockedIds)
 }
@@ -94,14 +96,15 @@ export async function createFreeComment(params: CreateFreeCommentParams): Promis
       password_hash: passwordHash,
       ip_hash: ipHash,
     })
-    .select(`${FREE_COMMENT_COLS}, ${FREE_AUTHOR_JOIN}`)
+    .select(FREE_COMMENT_COLS)
     .single()
 
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 작성]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
   revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
-  return success(data as unknown as FreePostComment)
+  const comment = await attachMemberAuthor(supabase, data)
+  return success(comment as unknown as FreePostComment)
 }
 
 interface DeleteFreeCommentParams {
@@ -154,14 +157,15 @@ export async function updateFreeComment(params: UpdateFreeCommentParams): Promis
     .update({ content: trimmedContent, updated_at: new Date().toISOString() })
     .eq('id', id)
     .eq('post_id', postId)
-    .select(`${FREE_COMMENT_COLS}, ${FREE_AUTHOR_JOIN}`)
+    .select(FREE_COMMENT_COLS)
     .single()
 
   if (error) return handleSupabaseError(error, { logPrefix: '[자유게시판 댓글 수정]' })
 
   revalidatePath(`${FREE_BOARD_PATH}/${postId}`)
   revalidatePath(`/en${FREE_BOARD_PATH}/${postId}`)
-  return success(data as unknown as FreePostComment)
+  const comment = await attachMemberAuthor(supabase, data)
+  return success(comment as unknown as FreePostComment)
 }
 
 export async function deleteFreeComment(params: DeleteFreeCommentParams): Promise<ActionResult<null>> {

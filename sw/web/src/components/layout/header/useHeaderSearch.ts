@@ -317,7 +317,7 @@ export function useHeaderSearch() {
             
             // 빠른 기록 패널 열기
             openQuickRecord({
-                id: addResult.data.userContentId, // user_contents.id 사용
+                id: addResult.data.userContentId, // member_contents.id 사용
                 type: categoryToContentType(result.category || "book"),
                 title: result.title,
                 thumbnailUrl: result.thumbnail,

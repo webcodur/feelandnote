@@ -5,6 +5,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { NoticeWithAuthor } from '@/types/database'
 import { checkAdmin } from '@/lib/auth/checkAdmin'
+import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 
 interface CreateNoticeParams {
   title: string
@@ -47,7 +48,7 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
       content_en: contentEn.trim(),
       is_pinned
     })
-    .select(`*, author:profiles!author_id(id, nickname, avatar_url)`)
+    .select('*')
     .single()
 
   if (error) {
@@ -57,5 +58,6 @@ export async function createNotice(params: CreateNoticeParams): Promise<ActionRe
   revalidatePath('/agora/board/notice')
   revalidatePath('/en/agora/board/notice')
   revalidateTag('notices', { expire: 0 })
-  return success(data as NoticeWithAuthor)
+  const notice = await attachMemberAuthor(supabase, data)
+  return success(notice as NoticeWithAuthor)
 }

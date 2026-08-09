@@ -26,10 +26,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 
   const supabase = await createClient()
   const { data, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id, slug, nickname, gender, voice_id_ko, voice_id_en')
     .eq(keyColumn(slug), slug)
-    .eq('profile_type', 'CELEB')
     .maybeSingle()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   if (!data) return NextResponse.json({ error: 'celeb not found' }, { status: 404 })

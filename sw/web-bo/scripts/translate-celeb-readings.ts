@@ -159,7 +159,7 @@ type ProfileRow = {
   slug: string
   nickname: string
   nickname_en: string | null
-  status: 'active' | 'inactive' | 'suspended'
+  publication_status: 'active' | 'inactive' | 'suspended'
   celeb_tier: string | null
 }
 
@@ -627,9 +627,9 @@ function printStats(profiles: ProfileRow[], explanations: ExplanationRow[]) {
 async function main() {
   const [profiles, explanations] = await Promise.all([
     fetchAll<ProfileRow>(
-      'profiles',
-      'id,slug,nickname,nickname_en,status,celeb_tier',
-      (query) => query.eq('profile_type', 'CELEB').not('slug', 'is', null).order('id'),
+      'celebs',
+      'id,slug,nickname,nickname_en,publication_status,celeb_tier',
+      (query) => query.not('slug', 'is', null).order('id'),
     ),
     fetchAll<ExplanationRow>(
       'celeb_explanations',
@@ -649,7 +649,7 @@ async function main() {
     .map((explanation) => ({ profile: profileById.get(explanation.profile_id), explanation }))
     .filter((material): material is Material => Boolean(material.profile))
     .filter((material) => !SLUGS || SLUGS.has(material.profile.slug))
-    .sort((a, b) => statusRank[a.profile.status] - statusRank[b.profile.status]
+    .sort((a, b) => statusRank[a.profile.publication_status] - statusRank[b.profile.publication_status]
       || a.profile.slug.localeCompare(b.profile.slug))
 
   if (SLUGS) {
@@ -680,7 +680,7 @@ async function main() {
   if (PLAN) {
     for (const material of materials) {
       const row = material.explanation
-      console.log(`PLAN ${material.profile.status.padEnd(9)} ${material.profile.celeb_tier ?? '-'} ${material.profile.slug} ${material.profile.nickname} | guide=${hasValue(row.plain_text_en) ? 'en' : '-'} title=${hasValue(row.interpretive_title_en) ? 'en' : '-'} text=${hasValue(row.interpretive_text_en) ? 'en' : '-'}`)
+      console.log(`PLAN ${material.profile.publication_status.padEnd(9)} ${material.profile.celeb_tier ?? '-'} ${material.profile.slug} ${material.profile.nickname} | guide=${hasValue(row.plain_text_en) ? 'en' : '-'} title=${hasValue(row.interpretive_title_en) ? 'en' : '-'} text=${hasValue(row.interpretive_text_en) ? 'en' : '-'}`)
       if (VERBOSE) console.log(JSON.stringify(modelInput(material), null, 2))
     }
     return

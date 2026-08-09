@@ -10,14 +10,16 @@ export interface ContentCounts {
   userCount: number
 }
 
-// 콘텐츠별 셀럽/일반인 감상 수 배치 조회 (RPC 단일 호출)
+// 콘텐츠별 셀럽/회원 감상 수 배치 조회.
+// 파생 개수의 원천은 contents의 도메인별 count 열이다.
 // 캐시 inner: 정렬된 id 목록 문자열만 받아 캐시 키를 안정화한다
 async function fetchCelebCounts(idsKey: string): Promise<Record<string, ContentCounts>> {
   const supabase = createStaticClient()
 
-  const { data, error } = await supabase.rpc('get_content_celeb_user_counts', {
-    p_content_ids: idsKey.split(','),
-  })
+  const { data, error } = await supabase
+    .from('contents')
+    .select('content_id:id, celeb_count, user_count:member_count')
+    .in('id', idsKey.split(','))
 
   throwOnQueryError('getCelebCountsForContents', error)
   if (!data) return {}
@@ -35,7 +37,7 @@ async function fetchCelebCounts(idsKey: string): Promise<Record<string, ContentC
 const getCachedCelebCounts = unstable_cache(
   fetchCelebCounts,
   ['content-celeb-counts'],
-  // get_content_celeb_user_counts: 콘텐츠별 셀럽(profiles)·사용자 보유 수(user_contents)
+  // contents의 member_count·celeb_count를 읽는다.
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

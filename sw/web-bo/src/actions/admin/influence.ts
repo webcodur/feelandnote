@@ -43,7 +43,7 @@ interface InfluenceQueryRow {
   cultural: number | null; cultural_exp: string | null; cultural_exp_en: string | null
   transhistoricity: number | null; transhistoricity_exp: string | null; transhistoricity_exp_en: string | null
   total_score: number | null
-  profiles: { nickname: string | null; profession: string | null } | null
+  celeb: { nickname: string | null; profession: string | null } | null
 }
 
 export async function getInfluenceList(): Promise<InfluenceData[]> {
@@ -64,7 +64,7 @@ export async function getInfluenceList(): Promise<InfluenceData[]> {
         cultural, cultural_exp, cultural_exp_en,
         transhistoricity, transhistoricity_exp, transhistoricity_exp_en,
         total_score,
-        profiles!celeb_influence_celeb_id_fkey (nickname, profession)
+        celeb:celebs!celeb_influence_celebs_fkey (nickname, profession)
       `)
       .order('total_score', { ascending: false })
       .order('celeb_id', { ascending: true })
@@ -76,8 +76,8 @@ export async function getInfluenceList(): Promise<InfluenceData[]> {
 
   return data.map((row) => ({
     celeb_id: row.celeb_id,
-    nickname: row.profiles?.nickname ?? '',
-    profession: row.profiles?.profession ?? null,
+    nickname: row.celeb?.nickname ?? '',
+    profession: row.celeb?.profession ?? null,
     political: row.political ?? 0,
     strategic: row.strategic ?? 0,
     tech: row.tech ?? 0,

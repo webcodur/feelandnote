@@ -22,7 +22,7 @@ type InfoTab = 'BASIC' | 'DETAIL' | 'REVIEW_CELEB' | 'REVIEW_NORMAL';
 
 interface InfoPanelProps {
   content: {
-    id: string; // user_contents.id가 아님. 실제 content.id를 받아야 함 (또는 둘 다)
+    id: string; // member_contents.id가 아님. 실제 content.id를 받아야 함 (또는 둘 다)
     contentId: string; // items logic에서 contentId 분리 필요
     title: string;
     type: ContentType;
@@ -88,8 +88,8 @@ export default function InfoPanel({
   `;
 
   // 리뷰 필터링
-  const celebReviews = detailData?.initialReviews.filter(r => r.user.profile_type === 'CELEB') || [];
-  const normalReviews = detailData?.initialReviews.filter(r => r.user.profile_type === 'USER') || [];
+  const celebReviews = detailData?.initialReviews.filter(r => r.user.subject_kind === 'celeb') || [];
+  const normalReviews = detailData?.initialReviews.filter(r => r.user.subject_kind === 'member') || [];
 
   return (
     <div className="w-full h-full flex flex-col bg-bg-secondary/30">

@@ -60,9 +60,9 @@ async function resolvePeople(
   const uniq = [...new Set(slugs)]
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
     const chunk = uniq.slice(i, i + IN_CHUNK)
-    const { data, error } = await db.from('profiles').select('id,slug,nickname,nickname_en')
-      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended']).in('slug', chunk)
-    if (error) throw new Error(`profiles slug 조회 실패: ${error.message}`)
+    const { data, error } = await db.from('celebs').select('id,slug,nickname,nickname_en')
+      .in('publication_status', ['active', 'inactive', 'suspended']).in('slug', chunk)
+    if (error) throw new Error(`celebs slug 조회 실패: ${error.message}`)
     for (const r of data ?? []) {
       assertIndividualFactionSubject(r.nickname, r.nickname_en, `DB CELEB ${String(r.id)}`)
       if (r.slug) slugMap.set(r.slug as string, r.id as string)
@@ -71,10 +71,10 @@ async function resolvePeople(
   }
   const uniqIds = [...new Set(ids)]
   for (let i = 0; i < uniqIds.length; i += IN_CHUNK) {
-    const { data, error } = await db.from('profiles').select('id,nickname,nickname_en')
-      .eq('profile_type', 'CELEB').in('status', ['active', 'inactive', 'suspended'])
+    const { data, error } = await db.from('celebs').select('id,nickname,nickname_en')
+      .in('publication_status', ['active', 'inactive', 'suspended'])
       .in('id', uniqIds.slice(i, i + IN_CHUNK))
-    if (error) throw new Error(`profiles UUID 조회 실패: ${error.message}`)
+    if (error) throw new Error(`celebs UUID 조회 실패: ${error.message}`)
     for (const r of data ?? []) {
       assertIndividualFactionSubject(r.nickname, r.nickname_en, `DB CELEB ${String(r.id)}`)
       idSet.add(r.id as string)

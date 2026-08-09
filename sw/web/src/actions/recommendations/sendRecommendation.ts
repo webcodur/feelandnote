@@ -36,13 +36,13 @@ export async function sendRecommendation(
     return failure("FORBIDDEN", "추천할 수 없는 사용자입니다.");
   }
 
-  // 2. user_content 조회 (본인 소유인지 확인)
+  // 2. 회원 감상 기록 조회 (본인 소유인지 확인)
   const { data: userContent, error: contentError } = await supabase
-    .from("user_contents")
+    .from("member_contents")
     .select(
       `
       id,
-      user_id,
+      member_id,
       status,
       content:contents(id, type, content_locales(${CL_SELECT_LIST}))
     `
@@ -54,7 +54,7 @@ export async function sendRecommendation(
     return failure("NOT_FOUND", "콘텐츠를 찾을 수 없습니다.");
   }
 
-  if (userContent.user_id !== user.id) {
+  if (userContent.member_id !== user.id) {
     return failure("FORBIDDEN", "본인의 콘텐츠만 추천할 수 있습니다.");
   }
 
@@ -68,7 +68,7 @@ export async function sendRecommendation(
     .select("id")
     .eq("sender_id", user.id)
     .eq("receiver_id", params.receiverId)
-    .eq("user_content_id", params.userContentId)
+    .eq("member_content_id", params.userContentId)
     .limit(1);
 
   if (existingRecommendation && existingRecommendation.length > 0) {
@@ -81,7 +81,7 @@ export async function sendRecommendation(
     .insert({
       sender_id: user.id,
       receiver_id: params.receiverId,
-      user_content_id: params.userContentId,
+      member_content_id: params.userContentId,
       message: params.message?.slice(0, 200) ?? null,
     })
     .select("id")
@@ -94,8 +94,8 @@ export async function sendRecommendation(
 
   // 5. 발신자 프로필 조회
   const { data: senderProfile } = await supabase
-    .from("profiles")
-    .select("nickname, nickname_en")
+    .from("member_profiles")
+    .select("nickname")
     .eq("id", user.id)
     .single();
 
@@ -108,16 +108,12 @@ export async function sendRecommendation(
   const locale = await getLocale();
   const t = await getTranslations({ locale, namespace: "notificationMessages" });
   const senderName =
-    (locale === "en" ? senderProfile?.nickname_en : senderProfile?.nickname) ??
     senderProfile?.nickname ??
-    senderProfile?.nickname_en ??
     t("userFallback");
   const flat = flattenLocales(rawContent?.content_locales, locale);
   const content = rawContent ? { id: rawContent.id, type: rawContent.type, title: flat.title, thumbnail_url: flat.thumbnail_url } : null;
 
   await createNotification({
-    userId: params.receiverId,
-    actorId: user.id,
     type: "recommendation",
     title: t("recommendationTitle", { name: senderName }),
     message: t("recommendationMessage", {

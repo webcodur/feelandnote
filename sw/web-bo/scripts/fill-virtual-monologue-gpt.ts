@@ -220,11 +220,10 @@ async function generate(slug: string, m: Material): Promise<Generated> {
 
 async function publishIfStillMissing(slug: string, candidate: string): Promise<'written' | 'already-filled'> {
   const { data: updated, error: updateError } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ virtual_monologue: candidate })
     .eq('slug', slug)
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .is('virtual_monologue', null)
     .is('virtual_monologue_locked_at', null)
     .select('slug, virtual_monologue')
@@ -233,10 +232,9 @@ async function publishIfStillMissing(slug: string, candidate: string): Promise<'
 
   if (!updated) {
     const { data: current, error: readError } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('virtual_monologue')
       .eq('slug', slug)
-      .eq('profile_type', 'CELEB')
       .maybeSingle()
     if (readError) throw readError
     if (current?.virtual_monologue) return 'already-filled'
@@ -244,10 +242,9 @@ async function publishIfStillMissing(slug: string, candidate: string): Promise<'
   }
 
   const { data: verified, error: verifyError } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('virtual_monologue')
     .eq('slug', slug)
-    .eq('profile_type', 'CELEB')
     .single()
   if (verifyError) throw verifyError
   if (verified.virtual_monologue !== candidate) throw new Error('DB 재조회 결과가 생성 후보와 다름')
@@ -256,7 +253,7 @@ async function publishIfStillMissing(slug: string, candidate: string): Promise<'
 
 type Row = {
   slug: string; nickname: string; bio: string | null
-  birth_date: string | null; death_date: string | null; status: string | null; celeb_tier: string | null
+  birth_date: string | null; death_date: string | null; publication_status: string | null; celeb_tier: string | null
   virtual_monologue: string | null
 }
 
@@ -291,9 +288,8 @@ async function loadAll(): Promise<Row[]> {
   const rows: Row[] = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
-      .from('profiles')
-      .select('slug, nickname, bio, birth_date, death_date, status, celeb_tier, virtual_monologue')
-      .eq('profile_type', 'CELEB')
+      .from('celebs')
+      .select('slug, nickname, bio, birth_date, death_date, publication_status, celeb_tier, virtual_monologue')
       .order('slug')
       .range(from, from + 999)
     if (error) throw error
@@ -327,7 +323,7 @@ async function run() {
   const all = await loadAll()
   const fictionRoster = loadFictionRoster()
   let targets = all.filter((r) => {
-    if (!r.bio || r.status !== 'active' || (SLUGS && !SLUGS.has(r.slug))) return false
+    if (!r.bio || r.publication_status !== 'active' || (SLUGS && !SLUGS.has(r.slug))) return false
     if (FICTION_EPISODE) {
       return r.celeb_tier === 'fiction' && fictionRoster.has(r.slug) && !r.virtual_monologue
     }

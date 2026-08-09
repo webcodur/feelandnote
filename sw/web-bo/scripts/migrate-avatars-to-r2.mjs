@@ -50,7 +50,7 @@ const R2_PUBLIC_URL = boEnv.R2_PUBLIC_URL
 
 async function main() {
   const { data: profiles, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id, avatar_url')
     .like('avatar_url', '%supabase.co/storage%')
 
@@ -90,7 +90,7 @@ async function main() {
 
       const newUrl = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
       const { error: updateError } = await supabase
-        .from('profiles')
+        .from('celebs')
         .update({ avatar_url: newUrl })
         .eq('id', id)
 

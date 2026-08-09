@@ -74,7 +74,7 @@ async function main() {
   const backup = JSON.parse(backupText) as BackupAssignment[]
   const candidates = backup.filter(row => row.tag_id === tag.id)
   const { data: candidateProfiles, error: candidateProfileError } = await db
-    .from('profiles')
+    .from('celebs')
     .select('id, nickname, slug')
     .in('id', candidates.map(row => row.celeb_id))
   if (candidateProfileError) {

@@ -1,10 +1,11 @@
 # 0. 파이프라인
 
-> **최종 실측 체크: 26.08.05** — active 전환의 전 티어 공통 아바타 필수조건 반영
+> **최종 실측 체크: 26.08.10** — `celebs`·`celeb_contents`·`celeb_metrics` 물리 도메인과
+> 계정 없는 셀럽 직접 등록, 콘텐츠 조사·티어 트리거를 운영 DB와 백오피스 코드에 대조했다.
 
 ## 티어
 
-`profiles.celeb_tier`: `'full'` (기본값) / `'light'` / `'fiction'`
+`celebs.celeb_tier`: `'full'` (기본값) / `'light'` / `'fiction'`
 
 > 허용값과 노출 게이트(`LISTING_DEFAULT_TIERS`·`INDEXABLE_TIERS`·`SEARCHABLE_CELEB_TIERS`)의
 > 원천은 코드다 — `packages/shared/src/constants/celeb-tiers.ts`. 목록·검색·사이트맵에
@@ -16,18 +17,18 @@
 |------|------------|-------------|------------------|------|
 | **full** | O | 콘텐츠 탭 표시 | O | O |
 | **light** | 후보 기반 | 콘텐츠가 생기면 실측 개수 표시 | O | O |
-| **fiction** | X (`user_contents` 미사용) | 기본 정보 + 원전·등장 작품 | 검색 O / 홈·탐색 X | X (신화·전설·허구) |
+| **fiction** | X (`celeb_contents` 미사용) | 기본 정보 + 원전·등장 작품 | 검색 O / 홈·탐색 X | X (신화·전설·허구) |
 
 **light** = 콘텐츠 유무와 무관하게 서비스에 등록할 가치가 있는 실존 인물의 최소 등급이다. 팩션 출연자나 에피소드 조연처럼 다른 인물과의 연결 때문에 등록한 정상적인 실존 인물도 `light`로 둔다. 콘텐츠가 0건이면 `content_research_status='open'`으로 조사 가능 상태를 유지하고, 영향력·페르소나·speech·i18n 등 실존 인물 트랙은 동일하게 수행한다.
 
-**fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 생몰은 특정 불가하면 비운다. 직군·국적·성별은 원전 근거로 채운다(집단·비인격 존재만 null 유지 — 규칙은 `celeb-1-basic-profile.md`). 감상 여정·영향력·페르소나 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 대신 기존 `contents` 한 건을 대표 원전으로 지정해 인물과 연결하며, 상세 화면 02번 구획에 「원전·등장 작품」을 표시한다. 이 연결은 인물이 콘텐츠를 감상했다는 뜻이 아니므로 `user_contents`에 넣지 않는다.
+**fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 생몰은 특정 불가하면 비운다. 직군·국적·성별은 원전 근거로 채운다(집단·비인격 존재만 null 유지 — 규칙은 `celeb-1-basic-profile.md`). 감상 여정·영향력·페르소나 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 대신 기존 `contents` 한 건을 대표 원전으로 지정해 인물과 연결하며, 상세 화면 02번 구획에 「원전·등장 작품」을 표시한다. 이 연결은 인물이 콘텐츠를 감상했다는 뜻이 아니므로 `celeb_contents`에 넣지 않는다.
 
 fiction은 두 단계로 운영한다.
 
 - **데이터 연결 단계**: basic 최소 정보와 아바타를 갖춘 뒤 active 프로필을 만들 수 있다.
   `virtual_monologue`는 비워도 되며 `is_verified=false`로 둔다. 이 단계도 상단 검색,
   팩션, 대표 원전 관계는 정상 동작한다.
-- **서사 발행 단계**: 독백을 노출·활용하려면 `profiles.virtual_monologue`를 원전 근거와
+- **서사 발행 단계**: 독백을 노출·활용하려면 `celebs.virtual_monologue`를 원전 근거와
   검토를 거쳐 작성한다. 규칙은 `virtual-monologue.md`, fiction 실행은
   `fiction-profile-monologue` 스킬을 따른다. 팩션 대사는 이 독백에서 핵심 갈등을 압축한다.
 
@@ -82,12 +83,12 @@ fiction은 홈 캐러셀·탐색·타임라인에서는 제외하지만 **상단
   ([Proclus 요약](https://www.theoi.com/Text/EpicCycle.html#Aethiopis)), 해당 작품은
   소실됐다. 후대 작품을 원전으로 둔갑시키지 않고 미연결로 보존한다.
 
-light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'full'`. fiction은 실존이 아니므로 승격 대상이 아니다.
+light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'full'`. fiction은 실존이 아니므로 승격 대상이 아니다.
 
 ### 콘텐츠 개수 상태
 
-셀럽의 콘텐츠 개수는 실제 `user_contents` 개수와
-`profiles.content_research_status`를 합쳐 해석한다.
+셀럽의 콘텐츠 개수는 실제 `celeb_contents` 개수와
+`celebs.content_research_status`를 합쳐 해석한다.
 
 > **규약 SSoT는 코드다 — `packages/shared/src/constants/celeb-content-research.ts`.**
 > 표시값 계산(`resolveCelebContentCount`), 모집단 조건
@@ -120,7 +121,7 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'f
 정지 인물이 섞인다(26.08.07 실측: 표시값 `0` 1,146명 중 모집단은 667명). 규모를
 셀 때는 `isCelebContentResearchTarget`을 함께 건다.
 
-> ⚠️ **노출 상태(`profiles.status`)를 표시값 계산에 끌어 쓰지 마라(26.08.07 교정).**
+> ⚠️ **노출 상태(`celebs.publication_status`)를 표시값 계산에 끌어 쓰지 마라(26.08.07 교정).**
 > 26.07.30~26.08.07에는 비활성이면 조사 여부를 보지도 않고 `-1`을 돌려줬다. 그래서
 > 팩션용으로 비공개 등록한 신규 인물이 조사도 하기 전에 「조사 완료」로 표시돼 조사
 > 대상에서 빠졌다. 같은 계열 사고 3건과 판별법은 `celeb-gotchas.md` §9-1.
@@ -136,31 +137,31 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE profiles SET celeb_tier = 'f
 
 ---
 
-## 셀럽 계정 생성 규칙
+## 셀럽 등록 규칙
 
-basic 단계에서 `auth.users`와 `profiles` 행을 **같은 id**로 생성한다(`profiles.id`는 `auth.users.id`를 참조).
+셀럽은 로그인 계정이 아니다. basic 단계에서 `auth.users`·`user_accounts`·`member_profiles`를
+만들지 않고 `celebs`에 직접 등록한다. `celebs.id`는 Auth를 참조하지 않는다.
 
-> **id는 반드시 `gen_random_uuid()`로 DB가 생성한다. UUID 문자열을 직접 타이핑(하드코딩)하지 않는다.**
+정식 창구는 web-bo `/celebs/new`의 `createCeleb` 서버 액션이다. 이 액션은 다음 계약을
+한 번에 지킨다.
 
-- ❌ `id := 'c1e2f3a4-b5d6-7890-abcd-ef1234567890'`, `'a1b2c3d4-...-099'` 같은 예시형 값 직접 작성 — 충돌·중복 위험, 일반 셀럽과 식별자 패턴 불일치
-- ✅ `gen_random_uuid()`를 **한 번** 호출해 변수에 담고 `auth.users`·`profiles` 양쪽에 동일 적용
-- `email`은 `'celeb_' || <id> || '@feelandnote.local'` 형식으로 그 id에 맞춘다
+- `crypto.randomUUID()`로 셀럽 UUID를 발급하고 예시형 UUID 하드코딩을 거부한다
+- `nickname_en`을 필수로 받아 generated `slug`를 만들고 중복이면 `slug_suffix`를 배정한다
+- 신규 등급은 항상 `light`, 기본 공개 상태는 `suspended`다
+- 아바타 없는 `active`와 콘텐츠 없는 `full`은 DB 트리거가 거부한다
+- `celeb_metrics` 초기 행을 보장한다
 
-권장 패턴:
+운영 스크립트가 직접 등록해야 할 때도 같은 구조를 사용한다. SQL이면 `gen_random_uuid()`를
+한 번 호출해 `celebs.id`에 쓰고, `auth.users`나 가짜 이메일을 만들지 않는다. 실패 롤백은
+셀럽 행만 삭제하며 회원 삭제 RPC를 호출하지 않는다.
 
 ```sql
-DO $$
-DECLARE cid uuid := gen_random_uuid();
-BEGIN
-  INSERT INTO auth.users (id, email, /* 기타 필수 컬럼 */)
-  VALUES (cid, 'celeb_' || cid::text || '@feelandnote.local', /* ... */);
-
-  INSERT INTO public.profiles (id, nickname, nickname_en, /* ... */)
-  VALUES (cid, /* ... */);
-END $$;
+INSERT INTO public.celebs (
+  id, nickname, nickname_en, celeb_tier, publication_status
+) VALUES (
+  gen_random_uuid(), :nickname, :nickname_en, 'light', 'suspended'
+);
 ```
-
-식별자 교정이 필요해지면 `auth.users.id`와 이를 참조하는 모든 자식(`profiles` + `user_scores`·`user_social` 등 셀럽 생성 시 자동 생성되는 부수 행)을 한 트랜잭션에서 함께 바꿔야 한다. 처음부터 `gen_random_uuid()`를 쓰면 이 사후 교정이 불필요하다.
 
 ---
 
@@ -197,7 +198,7 @@ basic ─┬─ content
 1. 미조사 → `open`, 표시값 `0` (공개·비공개 무관)
 2. 조사 진행 → `researching`, 표시값 `0`
 3. 조사 장부에 BOOK·VIDEO·GAME·MUSIC 유형별 출처와 후보 판정을 기록
-4. 콘텐츠 1건 이상 확인 → `contents`·`user_contents` 연결, 실제 개수 표시, 감사 후 full 승격
+4. 콘텐츠 1건 이상 확인 → `contents`·`celeb_contents` 연결, 실제 개수 표시, 감사 후 full 승격
 5. 네 유형 완료 후 실제 콘텐츠 0건 → 장부 완료 함수가 `confirmed_empty`, 표시값 `-1`
 
 운영 목록은 web-bo `/celebs/content-research`, 인물별 장부는
@@ -254,7 +255,7 @@ SKIPPED가 배치의 30% 이상이면 경고. SKIPPED 건은 재시도하지 않
 
 복수 에이전트 동시 작업 시 DB 큐로 충돌 방지. **1명 선점 → 작성 → 저장 → 완료** 순서.
 
-`profiles.claimed_by`는 셀럽 계정 인수 상태다. 작업 락 용도로 재사용하지 않는다.
+`celebs.claimed_by_member_id`는 셀럽을 인수한 회원과의 관계다. 작업 락 용도로 재사용하지 않는다.
 
 ### 상태값
 
@@ -277,7 +278,7 @@ SELECT * FROM public.claim_next_celeb_philosophy_rewrite('agent-01', 60);
 -- 2. lease 연장 (장시간 작업 시)
 SELECT public.renew_celeb_philosophy_rewrite_lease('celeb-id', 'agent-01', 60);
 
--- 3. 완료 — 직접 UPDATE profiles 금지. 이 함수가 profiles + 큐 동시 처리
+-- 3. 완료 — 직접 UPDATE celebs 금지. 이 함수가 celebs + 큐를 한 트랜잭션에서 처리
 SELECT public.complete_celeb_philosophy_rewrite('celeb-id', 'agent-01', '한국어', 'English');
 
 -- 4. 실패 (true=pending 복귀, false=failed 유지)
@@ -297,7 +298,7 @@ WHERE task_type = 'philosophy_rewrite_v2' GROUP BY status;
 
 -- 현재 작업자
 SELECT q.claimed_by, q.lease_expires_at, p.slug
-FROM celeb_task_queue q JOIN profiles p ON p.id = q.celeb_id
+FROM celeb_task_queue q JOIN celebs p ON p.id = q.celeb_id
 WHERE task_type = 'philosophy_rewrite_v2' AND q.status = 'in_progress';
 
 -- 초기 동기화

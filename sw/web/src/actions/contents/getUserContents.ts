@@ -66,6 +66,7 @@ export interface GetUserContentsResponse {
 
 interface QueryUserContentsOptions {
   userId: string
+  ownerKind: 'member' | 'celeb'
   type?: ContentType
   page: number
   limit: number
@@ -76,16 +77,19 @@ interface QueryUserContentsOptions {
   isOwnProfile: boolean
 }
 
-// 서재 조회 공통 쿼리 — 클라이언트(cookie/static)와 viewer 의존 여부만 외부에서 주입
+// 회원·인물 감상 테이블의 화면 계약이 같아 읽기만 공통화한다.
+// 원본과 소유자 FK는 ownerKind로 분기하고 반환 형태는 기존 API를 유지한다.
 async function queryUserContents(
   supabase: SupabaseClient,
   opts: QueryUserContentsOptions,
 ): Promise<GetUserContentsResponse> {
-  const { userId, type, page, limit, search, hasReview, sortBy, locale, isOwnProfile } = opts
+  const { userId, ownerKind, type, page, limit, search, hasReview, sortBy, locale, isOwnProfile } = opts
   const offset = (page - 1) * limit
+  const archiveTable = ownerKind === 'celeb' ? 'celeb_contents' : 'member_contents'
+  const ownerColumn = ownerKind === 'celeb' ? 'celeb_id' : 'member_id'
 
   // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
-  const contentFields = `id, type, metadata, user_count, content_locales(${CL_SELECT_LIST}, isbn)`
+  const contentFields = `id, type, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST}, isbn)`
 
   // 검색 필터 - content_locales에서 2-step 검색 (.or() 보간 인젝션 차단)
   let searchContentIds: string[] | null = null
@@ -107,7 +111,7 @@ async function queryUserContents(
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
   let query = supabase
-    .from('user_contents')
+    .from(archiveTable)
     .select(`
       id,
       content_id,
@@ -123,7 +127,7 @@ async function queryUserContents(
       source_url,
       ${contentJoin}
     `, { count: 'exact' })
-    .eq('user_id', userId)
+    .eq(ownerColumn, userId)
 
   // 정렬
   if (sortBy === 'rating_desc') {
@@ -236,12 +240,12 @@ type PublicContentsArgs = [
 const queryPublicUserContents = (...args: PublicContentsArgs) => {
   const [userId, type, page, limit, search, hasReview, sortBy, locale] = args
   return queryUserContents(createStaticClient(), {
-    userId, type, page, limit, search, hasReview, sortBy, locale,
+    userId, ownerKind: 'member', type, page, limit, search, hasReview, sortBy, locale,
     isOwnProfile: false,
   })
 }
 
-// 타인 서재 — 공개 테이블(user_contents, contents, content_locales)만 읽으므로 캐시.
+// 타인 회원 서재 — 공개 테이블(member_contents, contents, content_locales)만 읽으므로 캐시.
 // 일반 사용자 서재를 남이 열람하는 경로. 본인이 책을 추가하면 곧 반영돼야 하므로 1시간.
 const getCachedPublicUserContents = (...args: Parameters<typeof queryPublicUserContents>) =>
   cachedList(CACHE_TAGS.CONTENTS, ['public-user-contents', ...args.map((a) => String(a ?? ''))], () =>
@@ -258,7 +262,21 @@ const getCachedCelebLibraryContents = (...args: Parameters<typeof queryPublicUse
     CACHE_TAGS.CELEBS,
     args[0],
     ['celeb-library-contents', ...args.map((a) => String(a ?? ''))],
-    () => queryPublicUserContents(...args),
+    () => {
+      const [userId, type, page, limit, search, hasReview, sortBy, locale] = args
+      return queryUserContents(createStaticClient(), {
+        userId,
+        ownerKind: 'celeb',
+        type,
+        page,
+        limit,
+        search,
+        hasReview,
+        sortBy,
+        locale,
+        isOwnProfile: false,
+      })
+    },
     { extraTags: [CACHE_TAGS.CONTENTS] },
   )
 
@@ -295,7 +313,7 @@ export async function getUserContents(params: GetUserContentsParams): Promise<Ge
   if (isOwnProfile) {
     // egress-allow: 본인 서재 — 추가/삭제 즉시 반영 필요, 캐시 부적합
     return queryUserContents(supabase, {
-      userId, type, page, limit, search, hasReview, sortBy, locale,
+      userId, ownerKind: 'member', type, page, limit, search, hasReview, sortBy, locale,
       isOwnProfile: true,
     })
   }

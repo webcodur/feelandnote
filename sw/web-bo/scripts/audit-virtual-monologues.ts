@@ -1,5 +1,5 @@
 /**
- * profiles.virtual_monologue 전수 구조 감사기.
+ * celebs.virtual_monologue 전수 구조 감사기.
  *
  * 이 스크립트는 DB를 읽기만 한다. 길이·정규식·반복 구절은 조사 우선순위를 잡는
  * 신호일 뿐, 유지/개선/신규/보류를 자동 판정하지 않는다.
@@ -55,7 +55,7 @@ type ProfileRow = {
   birth_date: string | null
   death_date: string | null
   bio: string | null
-  status: string | null
+  publication_status: string | null
   celeb_tier: string | null
   virtual_monologue: string | null
   celeb_influence: Influence[] | Influence | null
@@ -168,10 +168,9 @@ async function loadAll(): Promise<ProfileRow[]> {
   const rows: ProfileRow[] = []
   for (let from = 0; ; from += PAGE_SIZE) {
     const { data, error } = await db
-      .from('profiles')
-      .select('id, slug, nickname, profession, birth_date, death_date, bio, status, celeb_tier, virtual_monologue, celeb_influence(total_score)')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .from('celebs')
+      .select('id, slug, nickname, profession, birth_date, death_date, bio, publication_status, celeb_tier, virtual_monologue, celeb_influence!celeb_influence_celebs_fkey(total_score)')
+      .eq('publication_status', 'active')
       .order('id')
       .range(from, from + PAGE_SIZE - 1)
     if (error) throw error
@@ -313,7 +312,7 @@ async function main() {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     warning: '구조 신호는 조사 우선순위다. 유지/개선/신규/보류의 최종 판정이 아니다.',
-    scope: SLUGS ? { slugs: [...SLUGS] } : { status: 'active', profileType: 'CELEB' },
+    scope: SLUGS ? { slugs: [...SLUGS] } : { publicationStatus: 'active' },
     summary,
     topSharedFiveGrams: sharedPhrases.slice(0, 100),
     people,

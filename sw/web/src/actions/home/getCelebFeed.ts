@@ -26,7 +26,7 @@ interface FeedContentRow {
   content_locales: ContentLocaleRow[] | null
 }
 
-// profiles 조인 select 결과 행
+// celebs 조인 select 결과 행
 interface FeedCelebRow {
   id: string
   slug: string | null
@@ -34,12 +34,11 @@ interface FeedCelebRow {
   avatar_url: string | null
   profession: string | null
   is_verified: boolean | null
-  claimed_by: string | null
-  profile_type: string | null
-  status: string | null
+  claimed_by_member_id: string | null
+  publication_status: string | null
 }
 
-// user_contents select 결과 행
+// celeb_contents select 결과 행
 interface FeedRow {
   id: string
   rating: number | null
@@ -64,7 +63,7 @@ async function fetchCelebFeed(
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
   let query = supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .select(`
       id,
       rating,
@@ -73,26 +72,24 @@ async function fetchCelebFeed(
       is_spoiler,
       source_url,
       updated_at,
-      content:contents!user_contents_content_id_fkey!inner(
-        id, type, user_count,
+      content:contents!celeb_contents_content_id_fkey!inner(
+        id, type, user_count:record_count,
         content_locales(${CL_SELECT_LIST})
       ),
-      celeb:profiles!user_contents_user_id_fkey!inner(
+      celeb:celebs!celeb_contents_celeb_id_fkey!inner(
         id,
         slug,
         nickname,
         avatar_url,
         profession,
         is_verified,
-        claimed_by,
-        profile_type,
-        status
+        claimed_by_member_id,
+        publication_status
       )
     `)
     .not('review', 'is', null)
     .eq('visibility', 'public')
-    .eq('celeb.profile_type', 'CELEB')
-    .eq('celeb.status', 'active')
+    .eq('celeb.publication_status', 'active')
     // 신화·관계 인물은 피드에서 제외
     .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
     .order('updated_at', { ascending: false })
@@ -129,10 +126,9 @@ async function fetchCelebFeed(
   const celebCountMap = new Map<string, number>()
   if (contentIds.length > 0) {
     const { data: counts } = await supabase
-      .from('user_contents')
-      .select('content_id, profiles!user_contents_user_id_fkey!inner(profile_type)')
+      .from('celeb_contents')
+      .select('content_id')
       .in('content_id', contentIds)
-      .eq('profiles.profile_type', 'CELEB')
 
     if (counts) {
       for (const row of counts as { content_id: string }[]) {
@@ -176,7 +172,7 @@ async function fetchCelebFeed(
         avatar_url: celeb.avatar_url,
         profession: celeb.profession ?? null,
         is_verified: celeb.is_verified ?? false,
-        is_platform_managed: celeb.claimed_by === null,
+        is_platform_managed: celeb.claimed_by_member_id === null,
       },
     }
   })
@@ -191,7 +187,7 @@ async function fetchCelebFeed(
 const getCelebFeedCached = unstable_cache(
   fetchCelebFeed,
   ['celeb-feed'],
-  // user_contents·contents + profiles(셀럽 필터·표시 정보) 조인
+  // celeb_contents·contents + celebs(공개 필터·표시 정보) 조인
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

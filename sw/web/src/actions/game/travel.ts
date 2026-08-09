@@ -4,7 +4,7 @@
  * 경로 잇기 (Travel) 서버 조회
  *
  * 역할:
- * 1. 인접 리스트(그래프) 구축: celeb_tag_assignments + user_contents.
+ * 1. 인접 리스트(그래프) 구축: celeb_tag_assignments + celeb_contents.
  * 2. 인물 기본 정보 조회.
  * 3. 7일 단일 키 공유 캐시.
  *
@@ -44,8 +44,8 @@ interface TagRow {
   name_en: string | null;
 }
 
-interface UserContentRow {
-  user_id: string;
+interface CelebContentRow {
+  celeb_id: string;
   content_id: string;
 }
 
@@ -60,12 +60,11 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const supabase = createStaticClient();
 
   // 1) 활성 셀럽 프로필
-  const profiles = await selectAllPages<ProfileRow>((from, to) =>
+  const celebRows = await selectAllPages<ProfileRow>((from, to) =>
     supabase
-      .from("profiles")
+      .from("celebs")
       .select("id, nickname, nickname_en, slug, nationality, profession, avatar_url")
-      .eq("profile_type", "CELEB")
-      .eq("status", "active")
+      .eq("publication_status", "active")
       .in("celeb_tier", [...LISTING_DEFAULT_TIERS])
       .order("id", { ascending: true })
       .range(from, to) as unknown as PromiseLike<{
@@ -74,11 +73,11 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
     }>,
   );
 
-  if (profiles.length === 0) {
-    throw new Error("[fetchTravelGraph] No profiles loaded");
+  if (celebRows.length === 0) {
+    throw new Error("[fetchTravelGraph] No celebs loaded");
   }
 
-  const profileMap = new Map<string, ProfileRow>(profiles.map((p) => [p.id, p]));
+  const profileMap = new Map<string, ProfileRow>(celebRows.map((p) => [p.id, p]));
 
   // 2) 세력 태그 배정
   const tagAssignments = await selectAllPages<TagAssignmentRow>((from, to) =>
@@ -110,26 +109,26 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
     ]),
   );
 
-  // 4) user_contents (셀럽이 기록한 콘텐츠)
+  // 4) celeb_contents (셀럽이 기록한 콘텐츠)
   // 전량 조회: in()은 462개에서 실패한 실측 이력이 있으므로 selectInChunks(200개 단위)를 쓴다.
   // 각 chunk 안에서도 PostgREST 1,000행 상한을 넘을 수 있으므로 selectAllPages로 페이징한다.
   const celebIds = [...profileMap.keys()];
-  const userContents = await selectInChunks<UserContentRow>(celebIds, (chunk) =>
-    selectAllPages<UserContentRow>((from, to) =>
+  const celebContents = await selectInChunks<CelebContentRow>(celebIds, (chunk) =>
+    selectAllPages<CelebContentRow>((from, to) =>
       supabase
-        .from("user_contents")
-        .select("user_id, content_id")
-        .in("user_id", chunk)
+        .from("celeb_contents")
+        .select("celeb_id, content_id")
+        .in("celeb_id", chunk)
         .order("id", { ascending: true })
         .range(from, to) as unknown as PromiseLike<{
-        data: UserContentRow[] | null;
+        data: CelebContentRow[] | null;
         error: { message: string } | null;
       }>,
     ).then((data) => ({ data, error: null })),
   );
 
   // 5) 콘텐츠 제목 (간선 레이블용)
-  const contentIds = [...new Set(userContents.map((uc) => uc.content_id))];
+  const contentIds = [...new Set(celebContents.map((row) => row.content_id))];
   const contentTitleMap = new Map<string, string>();
   if (contentIds.length > 0) {
     // 제목은 content_locales에서. in()은 200개 단위로 나눠 조회한다.
@@ -154,7 +153,7 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
   const celebs: Record<string, TravelCeleb> = {};
 
   // 노드 초기화
-  for (const p of profiles) {
+  for (const p of celebRows) {
     adjacency[p.id] = [];
     celebs[p.id] = {
       id: p.id,
@@ -190,10 +189,10 @@ async function fetchTravelGraph(locale: string): Promise<TravelGraph> {
 
   // 콘텐츠 간선: 같은 콘텐츠를 기록한 셀럽끼리 연결
   const contentToCelebs = new Map<string, string[]>();
-  for (const row of userContents) {
-    if (!profileMap.has(row.user_id)) continue;
+  for (const row of celebContents) {
+    if (!profileMap.has(row.celeb_id)) continue;
     const arr = contentToCelebs.get(row.content_id) ?? [];
-    arr.push(row.user_id);
+    arr.push(row.celeb_id);
     contentToCelebs.set(row.content_id, arr);
   }
 

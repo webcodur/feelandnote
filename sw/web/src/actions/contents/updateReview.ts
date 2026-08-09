@@ -1,10 +1,9 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
+import { createClient } from '@/lib/supabase/server'
 
 interface UpdateReviewParams {
   userContentId: string
@@ -18,44 +17,45 @@ type UpdateReviewData = void
 
 export async function updateReview(params: UpdateReviewParams): Promise<ActionResult<UpdateReviewData>> {
   const supabase = await createClient()
-
   const { data: { user } } = await supabase.auth.getUser()
+
   if (!user) {
     return failure('UNAUTHORIZED')
   }
 
-  // rating 검증
   if (params.rating !== undefined && params.rating !== null) {
     if (params.rating < 0.5 || params.rating > 5) {
-      return failure('VALIDATION_ERROR', '별점은 0.5~5 사이여야 한다.')
+      return failure('VALIDATION_ERROR', '별점은 0.5~5 사이여야 합니다.')
     }
   }
 
-  // 기존 데이터 확인 (첫 리뷰 작성인지 확인)
   const { data: existing, error: existingError } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('id, rating, review, content_id')
     .eq('id', params.userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
     .single()
 
   if (existingError || !existing) {
-    return failure('NOT_FOUND', '콘텐츠를 찾을 수 없다.')
+    return failure('NOT_FOUND', '콘텐츠를 찾을 수 없습니다.')
   }
 
-  const isFirstReview = !existing.rating && !existing.review
-
-  const updateData: { rating?: number | null; review?: string | null; review_presets?: string[] | null; is_spoiler?: boolean } = {}
+  const updateData: {
+    rating?: number | null
+    review?: string | null
+    review_presets?: string[] | null
+    is_spoiler?: boolean
+  } = {}
   if (params.rating !== undefined) updateData.rating = params.rating
   if (params.review !== undefined) updateData.review = params.review
   if (params.reviewPresets !== undefined) updateData.review_presets = params.reviewPresets
   if (params.isSpoiler !== undefined) updateData.is_spoiler = params.isSpoiler
 
   const { error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .update(updateData)
     .eq('id', params.userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
 
   if (error) {
     return handleSupabaseError(error, { context: 'content', logPrefix: '[리뷰 저장]' })
@@ -67,7 +67,6 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
   revalidatePath(`/content/${existing.content_id}`)
   revalidatePath(`/en/content/${existing.content_id}`)
 
-  // 활동 로그
   await logActivity({
     actionType: 'REVIEW_UPDATE',
     targetType: 'content',
@@ -75,14 +74,9 @@ export async function updateReview(params: UpdateReviewParams): Promise<ActionRe
     contentId: existing.content_id,
     metadata: {
       rating: { from: existing.rating, to: params.rating },
-      hasReview: !!params.review
-    }
+      hasReview: !!params.review,
+    },
   })
-
-  // 첫 리뷰 작성 시 점수 추가
-  if (isFirstReview && (params.rating || params.review)) {
-    await addActivityScore('Review 작성', 5, params.userContentId)
-  }
 
   return success(undefined)
 }

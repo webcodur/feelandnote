@@ -32,7 +32,7 @@ async function fetchContentTypeCounts(): Promise<ContentTypeCounts> {
 const getCachedContentTypeCounts = unstable_cache(
   fetchContentTypeCounts,
   ['content-type-counts-v2'],
-  // get_celeb_feed_type_counts: 셀럽(profiles) 서고(user_contents)의 타입별 집계
+  // get_celeb_feed_type_counts: 셀럽(celebs) 서고(celeb_contents)의 타입별 집계
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

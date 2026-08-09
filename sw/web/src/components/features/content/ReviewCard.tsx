@@ -47,12 +47,12 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
       <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
         <UserAvatarWithPopover
           userId={item.user.id}
-          profileType={item.user.profile_type}
+          subjectKind={item.user.subject_kind}
           trigger={
             <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden hover:ring-2 hover:ring-accent/50 cursor-pointer transition-all">
               {/* 셀럽 아바타에만 블러 디졸브 등장 효과 — 일반 사용자 아바타는 그대로 */}
               {item.user.avatar_url ? (
-                item.user.profile_type === 'CELEB' ? (
+                item.user.subject_kind === 'celeb' ? (
                   <BlurDissolve className="absolute inset-0">
                     <Image src={item.user.avatar_url} alt={nickname} fill unoptimized className="object-cover" placeholder="blur" blurDataURL={BLUR_DATA_URL} />
                   </BlurDissolve>
@@ -68,7 +68,7 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
              <span className="font-medium text-xs text-text-primary truncate">{nickname}</span>
-             {item.user.profile_type === 'CELEB' && (
+             {item.user.subject_kind === 'celeb' && (
                  <span className="text-[10px] text-accent/80 border border-accent/20 px-1 rounded bg-accent/5">Celeb</span>
              )}
           </div>

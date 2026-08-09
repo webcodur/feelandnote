@@ -68,16 +68,15 @@ export default function CelebHeroPhoto({
           aria-label={zoomLabel}
           className={`group relative block h-full w-full overflow-hidden rounded-sm bg-bg-secondary ${ringClass} cursor-zoom-in active:scale-95`}
         >
-          <BlurDissolve className="absolute inset-0">
-            <Image
-              src={photoUrl}
-              alt={nickname}
-              fill
-              unoptimized
-              sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-          </BlurDissolve>
+          <Image
+            src={photoUrl}
+            alt={nickname}
+            fill
+            unoptimized
+            sizes={`${CELEB_HERO_PHOTO_SPEC.desktopWidthPx}px`}
+            className="object-cover"
+            style={{ filter: "none" }}
+          />
         </button>
         {greetBadge}
       </div>
@@ -103,6 +102,7 @@ export default function CelebHeroPhoto({
               width={224}
               height={224}
               className="w-full h-full object-cover"
+              style={{ filter: "none" }}
               unoptimized
             />
           </BlurDissolve>

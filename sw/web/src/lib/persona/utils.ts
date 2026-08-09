@@ -3,6 +3,7 @@ import {
   STAT_KEYS,
   TENDENCY_KEYS,
   VIRTUE_KEYS,
+  type VirtueKey,
 } from './constants'
 import type { PersonaProfile, PersonaStats } from './types'
 
@@ -34,6 +35,137 @@ export interface PersonaMatch {
 export type PersonaMatchGroups = Record<PersonaMatchCategory, PersonaMatch[]>
 
 export type PersonaMatchDistances = Record<PersonaMatchCategory, number>
+
+export interface VirtuePopulationStat {
+  mean: number
+  standardDeviation: number
+}
+
+export type VirtuePopulationStats = Record<VirtueKey, VirtuePopulationStat>
+export type EmphasizedVirtueVector = Record<VirtueKey, number>
+
+/** 중시 덕목은 한 인물에게 가장 두드러진 덕목까지만 비교한다. */
+export const EMPHASIZED_VIRTUE_LIMIT = 3
+
+/** 활성 인물 모집단에서 각 덕목의 평균과 표준편차를 구한다. */
+export function calcVirtuePopulationStats(
+  personas: readonly PersonaStats[],
+): VirtuePopulationStats {
+  const count = personas.length
+  const sums = Object.fromEntries(
+    VIRTUE_KEYS.map((axis) => [axis, 0]),
+  ) as Record<VirtueKey, number>
+
+  for (const persona of personas) {
+    for (const axis of VIRTUE_KEYS) sums[axis] += persona[axis]
+  }
+
+  const means = Object.fromEntries(
+    VIRTUE_KEYS.map((axis) => [axis, count > 0 ? sums[axis] / count : 0]),
+  ) as Record<VirtueKey, number>
+  const squaredDifferences = Object.fromEntries(
+    VIRTUE_KEYS.map((axis) => [axis, 0]),
+  ) as Record<VirtueKey, number>
+
+  for (const persona of personas) {
+    for (const axis of VIRTUE_KEYS) {
+      squaredDifferences[axis] += (persona[axis] - means[axis]) ** 2
+    }
+  }
+
+  return Object.fromEntries(
+    VIRTUE_KEYS.map((axis) => [
+      axis,
+      {
+        mean: means[axis],
+        standardDeviation:
+          count > 0 ? Math.sqrt(squaredDifferences[axis] / count) : 0,
+      },
+    ]),
+  ) as VirtuePopulationStats
+}
+
+/**
+ * 축별 점수 분포 차이를 보정한 뒤 평균보다 높은 덕목 중 상위 축만 남긴다.
+ * 예: 모집단 전체가 높은 근면 점수가 다른 덕목보다 무조건 강점으로 잡히는 일을 막는다.
+ */
+export function getEmphasizedVirtueVector(
+  persona: PersonaStats,
+  populationStats: VirtuePopulationStats,
+  limit: number = EMPHASIZED_VIRTUE_LIMIT,
+): EmphasizedVirtueVector {
+  const strengths = VIRTUE_KEYS.map((axis) => {
+    const { mean, standardDeviation } = populationStats[axis]
+    return {
+      axis,
+      value:
+        standardDeviation > 0
+          ? Math.max(0, (persona[axis] - mean) / standardDeviation)
+          : 0,
+    }
+  })
+    .filter(({ value }) => value > 0)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, Math.max(0, limit))
+
+  const vector = Object.fromEntries(
+    VIRTUE_KEYS.map((axis) => [axis, 0]),
+  ) as EmphasizedVirtueVector
+  for (const strength of strengths) vector[strength.axis] = strength.value
+  return vector
+}
+
+/**
+ * 두 인물에게 함께 두드러진 덕목만 비교하는 대칭형 가중 Jaccard 유사도.
+ * 함께 낮은 덕목은 두 벡터에서 모두 0이므로 중시 덕목 일치도에 기여하지 않는다.
+ */
+export function calcEmphasizedVirtueSimilarity(
+  target: EmphasizedVirtueVector,
+  candidate: EmphasizedVirtueVector,
+): number {
+  let sharedStrength = 0
+  let totalStrength = 0
+
+  for (const axis of VIRTUE_KEYS) {
+    sharedStrength += Math.min(target[axis], candidate[axis])
+    totalStrength += Math.max(target[axis], candidate[axis])
+  }
+
+  return totalStrength > 0 ? sharedStrength / totalStrength : 0
+}
+
+/** 카드와 상세 비교에 표시할 공통 중시 덕목. */
+export function getEmphasizedVirtueEvidence(
+  target: PersonaStats,
+  candidate: PersonaStats,
+  targetEmphasizedVirtues: EmphasizedVirtueVector,
+  candidateEmphasizedVirtues: EmphasizedVirtueVector,
+  limit: number,
+): PersonaMatchEvidence[] {
+  return VIRTUE_KEYS
+    .filter(
+      (axis) =>
+        targetEmphasizedVirtues[axis] > 0 &&
+        candidateEmphasizedVirtues[axis] > 0,
+    )
+    .sort(
+      (a, b) =>
+        Math.min(
+          targetEmphasizedVirtues[b],
+          candidateEmphasizedVirtues[b],
+        ) -
+        Math.min(
+          targetEmphasizedVirtues[a],
+          candidateEmphasizedVirtues[a],
+        ),
+    )
+    .slice(0, limit)
+    .map((axis) => ({
+      axis,
+      targetValue: target[axis],
+      candidateValue: candidate[axis],
+    }))
+}
 
 /**
  * 후보 한 명의 5가지 비교 거리를 한 번의 지표 순회로 계산한다.

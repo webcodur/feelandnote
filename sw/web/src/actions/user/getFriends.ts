@@ -31,47 +31,46 @@ async function getFriendsInner(): Promise<GetFriendsResult> {
 
   // 내가 팔로우하는 사람들
   const { data: myFollowing } = await supabase
-    .from('follows')
-    .select('following_id')
-    .eq('follower_id', user.id)
+    .from('member_member_follows')
+    .select('followed_member_id')
+    .eq('follower_member_id', user.id)
 
   if (!myFollowing || myFollowing.length === 0) {
     return { success: true, data: [] }
   }
 
-  const myFollowingIds = myFollowing.map(f => f.following_id)
+  const myFollowingIds = myFollowing.map(f => f.followed_member_id)
 
   // 그 중에서 나를 팔로우하는 사람들 (맞팔)
   const { data: mutualFollows } = await supabase
-    .from('follows')
-    .select('follower_id')
-    .eq('following_id', user.id)
-    .in('follower_id', myFollowingIds)
+    .from('member_member_follows')
+    .select('follower_member_id')
+    .eq('followed_member_id', user.id)
+    .in('follower_member_id', myFollowingIds)
 
   if (!mutualFollows || mutualFollows.length === 0) {
     return { success: true, data: [] }
   }
 
-  const friendIds = mutualFollows.map(f => f.follower_id)
+  const friendIds = mutualFollows.map(f => f.follower_member_id)
 
-  // 친구들의 프로필 조회
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('id, nickname, avatar_url')
-    .in('id', friendIds)
-
-  // 콘텐츠 수 조회
-  const { data: contentCounts } = await supabase
-    .from('user_contents')
-    .select('user_id')
-    .in('user_id', friendIds)
+  const [profilesResult, socialResult] = await Promise.all([
+    supabase
+      .from('member_profiles')
+      .select('id, nickname, avatar_url')
+      .in('id', friendIds),
+    supabase
+      .from('member_social_stats')
+      .select('member_id, content_count')
+      .in('member_id', friendIds),
+  ])
 
   const countMap: Record<string, number> = {}
-  contentCounts?.forEach(c => {
-    countMap[c.user_id] = (countMap[c.user_id] || 0) + 1
+  socialResult.data?.forEach(stat => {
+    countMap[stat.member_id] = stat.content_count || 0
   })
 
-  const friends: FriendInfo[] = (profiles || []).map(p => ({
+  const friends: FriendInfo[] = (profilesResult.data || []).map(p => ({
     id: p.id,
     nickname: p.nickname || 'User',
     avatar_url: p.avatar_url,

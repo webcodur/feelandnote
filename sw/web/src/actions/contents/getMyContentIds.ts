@@ -11,9 +11,9 @@ export async function getMyContentIds(): Promise<string[]> {
 
   // egress-allow: 본인 서재 ID 목록 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (content_id만 송출)
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('content_id')
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
 
   if (error) {
     console.error('콘텐츠 ID 조회 에러:', error)
@@ -35,9 +35,9 @@ export async function checkContentsSaved(contentIds: string[]): Promise<Set<stri
 
   // egress-allow: 본인 보유 여부 배치 확인 — 추가/삭제 즉시 반영 필요, 캐시 부적합 (content_id만 송출)
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .select('content_id')
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
     .in('content_id', contentIds)
 
   if (error || !data) return new Set()

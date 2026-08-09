@@ -47,10 +47,9 @@ type ProfileRow = {
   nationality: string | null
   birth_date: string | null
   death_date: string | null
-  status: string | null
+  publication_status: string | null
   celeb_tier: string | null
   speech_tone: string | null
-  profile_type: string | null
 }
 
 type DialogueRow = {
@@ -76,9 +75,8 @@ function splitTag(value: string): { tag: string; body: string } {
 
 async function main() {
   const { data: profiles, error: profileError } = await db
-    .from('profiles')
-    .select('id,slug,nickname,nickname_en,profession,title,bio,nationality,birth_date,death_date,status,celeb_tier,speech_tone,profile_type')
-    .eq('profile_type', 'CELEB')
+    .from('celebs')
+    .select('id,slug,nickname,nickname_en,profession,title,bio,nationality,birth_date,death_date,publication_status,celeb_tier,speech_tone')
     .eq('profession', 'actor')
     .order('nickname')
 

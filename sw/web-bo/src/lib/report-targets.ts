@@ -10,7 +10,13 @@ import {
 // #region 타입
 export type TargetTextKey = 'title' | 'nickname' | 'content' | 'bio' | 'review' | 'metadata'
 
-export type TargetAuthorKey = 'author_id' | 'user_id' | 'profile_id' | 'id'
+export type TargetAuthorKey =
+  | 'author_id'
+  | 'author_member_id'
+  | 'user_id'
+  | 'member_id'
+  | 'profile_id'
+  | 'id'
 
 // 숨김 수단. 'none' 은 그 표에 숨김 컬럼이 없다는 실측 결과다.
 export type TargetHideMode = 'is_deleted' | 'visibility' | 'is_private' | 'none'
@@ -24,7 +30,9 @@ export interface TargetRow {
   review?: string | null
   metadata?: { title?: string | null } | null
   author_id?: string | null
+  author_member_id?: string | null
   user_id?: string | null
+  member_id?: string | null
   profile_id?: string | null
   created_at?: string | null
   is_deleted?: boolean | null
@@ -56,10 +64,10 @@ export interface ReportTargetSpec {
 
 // #region 대상 종류별 규격
 const PROFILE_SPEC: ReportTargetSpec = {
-  table: 'profiles',
+  table: 'member_profiles',
   tableLabel: '사용자 프로필',
   idType: 'uuid',
-  selectColumns: 'id, nickname, bio, created_at, status, profile_type',
+  selectColumns: 'id, nickname, bio, created_at',
   titleKey: 'nickname',
   bodyKey: 'bio',
   authorKey: 'id',
@@ -126,13 +134,27 @@ const BOARD_COMMENT_SPEC: ReportTargetSpec = {
   deletable: true,
 }
 
-const GUESTBOOK_SPEC: ReportTargetSpec = {
-  table: 'guestbook_entries',
+const MEMBER_GUESTBOOK_SPEC: ReportTargetSpec = {
+  table: 'member_guestbook_entries',
   tableLabel: '방명록',
   idType: 'uuid',
-  selectColumns: 'id, content, author_id, profile_id, is_private, created_at',
+  selectColumns: 'id, content, author_member_id, owner_member_id, is_private, created_at',
   bodyKey: 'content',
-  authorKey: 'author_id',
+  authorKey: 'author_member_id',
+  hideMode: 'is_private',
+  hideLabel: '나에게만 보이게',
+  restoreLabel: '다시 공개',
+  deletable: true,
+  adminHref: () => '/guestbooks',
+}
+
+const CELEB_GUESTBOOK_SPEC: ReportTargetSpec = {
+  table: 'celeb_guestbook_entries',
+  tableLabel: '인물 방명록',
+  idType: 'uuid',
+  selectColumns: 'id, content, author_member_id, celeb_id, is_private, created_at',
+  bodyKey: 'content',
+  authorKey: 'author_member_id',
   hideMode: 'is_private',
   hideLabel: '남에게 안 보이게',
   restoreLabel: '다시 공개',
@@ -169,12 +191,12 @@ const RECORD_SPEC: ReportTargetSpec = {
 }
 
 const USER_CONTENT_SPEC: ReportTargetSpec = {
-  table: 'user_contents',
+  table: 'member_contents',
   tableLabel: '콘텐츠 감상문',
   idType: 'uuid',
-  selectColumns: 'id, review, user_id, visibility, status, created_at',
+  selectColumns: 'id, review, member_id, visibility, status, created_at',
   bodyKey: 'review',
-  authorKey: 'user_id',
+  authorKey: 'member_id',
   hideMode: 'visibility',
   hideLabel: '작성자만 보게',
   restoreLabel: '다시 공개',
@@ -200,7 +222,7 @@ export const REPORT_TARGET_SPECS: Record<ReportTargetType, readonly ReportTarget
   [ENUM_REPORT_TARGET_TYPE.USER]: [PROFILE_SPEC],
   [ENUM_REPORT_TARGET_TYPE.POST]: [FREE_POST_SPEC],
   [ENUM_REPORT_TARGET_TYPE.COMMENT]: [FREE_COMMENT_SPEC, RECORD_COMMENT_SPEC, BOARD_COMMENT_SPEC],
-  [ENUM_REPORT_TARGET_TYPE.GUESTBOOK]: [GUESTBOOK_SPEC],
+  [ENUM_REPORT_TARGET_TYPE.GUESTBOOK]: [MEMBER_GUESTBOOK_SPEC, CELEB_GUESTBOOK_SPEC],
   [ENUM_REPORT_TARGET_TYPE.FEEDBACK]: [FEEDBACK_SPEC],
   [ENUM_REPORT_TARGET_TYPE.RECORD]: [RECORD_SPEC, USER_CONTENT_SPEC],
   [ENUM_REPORT_TARGET_TYPE.CONTENT]: [CONTENT_SPEC],

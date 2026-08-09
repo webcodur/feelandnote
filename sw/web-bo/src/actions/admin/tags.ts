@@ -175,12 +175,10 @@ export async function getTag(tagId: string): Promise<CelebTag | null> {
     .from('celeb_tags')
     .select('*')
     .eq('id', tagId)
-    .single()
+    .maybeSingle()
 
-  if (error) {
-    console.error('태그 조회 에러:', error)
-    return null
-  }
+  if (error) throw new Error(`Failed to load celeb tag: ${error.message}`)
+  if (!data) return null
 
   return normalizeTag(data)
 }
@@ -430,7 +428,7 @@ async function findAtlasRow(
 // #region getTagCelebs - 특정 태그에 소속된 셀럽 목록 (설명 포함, 순서대로)
 /**
  * 단일 원천 뷰(faction_atlas_members)에서 읽는다 — 제작 유래(web_* 손질 반영) ∪ 웹 전용 배정.
- * 뷰에는 profiles 조인이 없으므로 셀럽 정보는 celeb_id 로 2단계 조회한다.
+ * 뷰에는 celebs 조인이 없으므로 셀럽 정보는 celeb_id 로 2단계 조회한다.
  */
 export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]> {
   const supabase = await createClient()
@@ -452,15 +450,15 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
   const profileMap = new Map<string, NonNullable<CelebTagAssignment['celeb']>>()
 
   if (celebIds.length > 0) {
-    const { data: profiles, error: profilesError } = await supabase
-      .from('profiles')
+    const { data: celebs, error: celebsError } = await supabase
+      .from('celebs')
       .select('id, nickname, avatar_url, title')
       .in('id', celebIds)
 
-    if (profilesError) {
-      console.error('태그 셀럽 프로필 조회 에러:', profilesError)
+    if (celebsError) {
+      console.error('태그 셀럽 조회 에러:', celebsError)
     }
-    for (const p of profiles ?? []) {
+    for (const p of celebs ?? []) {
       profileMap.set(p.id, {
         id: p.id,
         nickname: p.nickname ?? '',
@@ -629,10 +627,9 @@ export async function searchCelebsForTag(
   const supabase = await createClient()
 
   let query = supabase
-    .from('profiles')
+    .from('celebs')
     .select('id, nickname, avatar_url, title, profession')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .order('nickname', { ascending: true })
     .limit(20)
 
@@ -886,7 +883,7 @@ export async function setTagTeamImages(
 /**
  * 도감 노출 스위치 — 테마마다 따로 잡는다.
  *
- * 예전에는 셀럽 전역 상태(`profiles.status`)가 도감 노출까지 좌우했는데, 그 값은 영상 제작
+ * 예전에는 셀럽 전역 상태(`celebs.publication_status`)가 도감 노출까지 좌우했는데, 그 값은 영상 제작
  * 쪽 사정으로 정해지는 것이라 진열 판단과 맞지 않았다(팩션에서 등록한 42명이 13개 테마에서
  * 통째로 사라져 있었다). 이제 도감이 보는 것은 이 스위치 하나다.
  */

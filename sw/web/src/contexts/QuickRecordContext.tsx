@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import type { ContentType } from "@/types/database";
 
 export interface QuickRecordTarget {
-  id: string; // user_contents.id
+  id: string; // member_contents.id
   contentId?: string; // original content.id (for fetching details)
   type: ContentType;
   title: string;

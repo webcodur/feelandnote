@@ -6,9 +6,8 @@
 export function getCelebProfileUrl(target: {
   id: string;
   slug?: string | null;
-  profile_type?: string;
 }): string {
-  if (target.profile_type === 'CELEB' && target.slug) {
+  if (target.slug) {
     return `/celeb/${target.slug}`;
   }
   return `/${target.id}`;

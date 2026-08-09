@@ -20,7 +20,7 @@ export interface ReviewFeedItem {
     nickname: string
     nickname_en: string | null
     avatar_url: string | null
-    profile_type: 'USER' | 'CELEB'
+    subject_kind: 'member' | 'celeb'
   }
 }
 
@@ -31,7 +31,14 @@ interface GetReviewFeedParams {
   excludeUserId?: string
 }
 
-// select 문자열과 동일한 조회 행 (profiles 조인은 단건이지만 방어적으로 배열 허용)
+// 도메인별 원본 조인은 단건이지만 PostgREST 응답을 방어적으로 배열까지 허용한다.
+interface ReviewProfileRow {
+  id: string
+  nickname: string
+  nickname_en?: string | null
+  avatar_url: string | null
+}
+
 interface ReviewFeedRow {
   id: string
   rating: number | null
@@ -40,8 +47,36 @@ interface ReviewFeedRow {
   is_spoiler: boolean
   updated_at: string
   source_url: string | null
-  user_id: string
-  user: ReviewFeedItem['user'] | ReviewFeedItem['user'][]
+  user: ReviewProfileRow | ReviewProfileRow[]
+}
+
+interface MemberReviewFeedRow extends Omit<ReviewFeedRow, 'user'> {
+  member_id: string
+}
+
+function toReviewFeedItem(
+  record: ReviewFeedRow,
+  subjectKind: ReviewFeedItem['user']['subject_kind'],
+): ReviewFeedItem | null {
+  const profile = Array.isArray(record.user) ? record.user[0] : record.user
+  if (!profile) return null
+
+  return {
+    id: record.id,
+    rating: record.rating,
+    review: record.review as string,
+    review_en: record.review_en ?? null,
+    is_spoiler: record.is_spoiler,
+    updated_at: record.updated_at,
+    source_url: record.source_url,
+    user: {
+      id: profile.id,
+      nickname: profile.nickname,
+      nickname_en: profile.nickname_en ?? null,
+      avatar_url: profile.avatar_url,
+      subject_kind: subjectKind,
+    },
+  }
 }
 
 async function fetchReviewFeed(
@@ -57,60 +92,86 @@ async function fetchReviewFeed(
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
 
-  let query = supabase
-    .from('user_contents')
-    .select(`
+  const selectBase = `
       id,
       rating,
       review,
       ${reviewEnSelect}
       is_spoiler,
       updated_at,
-      source_url,
-      user_id,
-      user:profiles!user_contents_user_id_fkey(id, nickname, nickname_en, avatar_url, profile_type)
+      source_url
+    `
+
+  let memberQuery = supabase
+    .from('member_contents')
+    .select(`
+      ${selectBase},
+      member_id
     `)
     .eq('content_id', contentId)
     .eq('visibility', 'public')
     .not('review', 'is', null)
     .order('updated_at', { ascending: false })
 
-  if (currentUserId) {
-    query = query.neq('user_id', currentUserId)
-  }
+  let celebQuery = supabase
+    .from('celeb_contents')
+    .select(`
+      ${selectBase},
+      user:celebs!celeb_contents_celeb_id_fkey(id, nickname, nickname_en, avatar_url)
+    `)
+    .eq('content_id', contentId)
+    .eq('visibility', 'public')
+    .not('review', 'is', null)
+    .order('updated_at', { ascending: false })
+
+  if (currentUserId) memberQuery = memberQuery.neq('member_id', currentUserId)
 
   if (excludeUserId) {
-    query = query.neq('user_id', excludeUserId)
+    memberQuery = memberQuery.neq('member_id', excludeUserId)
+    celebQuery = celebQuery.neq('celeb_id', excludeUserId)
   }
 
-  if (limit) {
-    query = query.limit(limit)
-  }
+  // UNION 뷰에 권한을 주지 않고 두 원본을 병렬 조회한 뒤 최신순으로 합친다.
+  const fetchLimit = offset + (limit || 20)
+  memberQuery = memberQuery.limit(fetchLimit)
+  celebQuery = celebQuery.limit(fetchLimit)
 
-  if (offset) {
-    query = query.range(offset, offset + (limit || 20) - 1)
-  }
+  const [memberResult, celebResult] = await Promise.all([memberQuery, celebQuery])
+  throwOnQueryError('회원 리뷰 피드 조회', memberResult.error)
+  throwOnQueryError('인물 리뷰 피드 조회', celebResult.error)
 
-  const { data, error } = await query
+  const memberRows = (memberResult.data || []) as unknown as MemberReviewFeedRow[]
+  const memberIds = [...new Set(memberRows.map((record) => record.member_id))]
+  const { data: memberProfiles, error: memberProfilesError } = memberIds.length
+    ? await supabase
+        .from('member_profiles')
+        .select('id, nickname, avatar_url')
+        .in('id', memberIds)
+    : { data: [], error: null }
+  throwOnQueryError('회원 리뷰 작성자 조회', memberProfilesError)
 
-  throwOnQueryError('리뷰 피드 조회', error)
+  const memberProfileMap = new Map(
+    (memberProfiles ?? []).map((profile) => [profile.id, profile as ReviewProfileRow]),
+  )
+  const memberItems = memberRows
+    .map((record) => {
+      const profile = memberProfileMap.get(record.member_id)
+      return profile ? toReviewFeedItem({ ...record, user: profile }, 'member') : null
+    })
+    .filter((item): item is ReviewFeedItem => item !== null)
+  const celebItems = ((celebResult.data || []) as unknown as ReviewFeedRow[])
+    .map((record) => toReviewFeedItem(record, 'celeb'))
+    .filter((item): item is ReviewFeedItem => item !== null)
 
-  return ((data || []) as unknown as ReviewFeedRow[]).map((record): ReviewFeedItem => ({
-    id: record.id,
-    rating: record.rating,
-    review: record.review as string,
-    review_en: record.review_en ?? null,
-    is_spoiler: record.is_spoiler,
-    updated_at: record.updated_at,
-    source_url: record.source_url,
-    user: Array.isArray(record.user) ? record.user[0] : record.user,
-  }))
+  return [...memberItems, ...celebItems]
+    .sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
+    .slice(offset, offset + (limit || 20))
 }
 
 const getReviewFeedCached = unstable_cache(
   fetchReviewFeed,
   ['review-feed'],
-  // user_contents(감상문) + profiles(작성자 표시 정보) 조인
+  // member_contents·celeb_contents와 각 표시 원본 조인
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

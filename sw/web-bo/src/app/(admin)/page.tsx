@@ -14,33 +14,55 @@ export default async function DashboardPage() {
 
   // 통계 데이터 조회
   const [
-    { count: userCount },
-    { count: contentCount },
-    { count: recordCount },
-    { count: userContentCount },
-    { data: recentUsers },
+    userCountResult,
+    contentCountResult,
+    recordCountResult,
+    memberContentCountResult,
+    celebContentCountResult,
+    recentUsersResult,
     typeCounts,
-    { data: recentActivities },
+    recentActivitiesResult,
   ] = await Promise.all([
-    supabase.from('profiles').select('*', { count: 'exact', head: true }),
+    supabase.from('user_accounts').select('*', { count: 'exact', head: true }),
     supabase.from('contents').select('*', { count: 'exact', head: true }),
     supabase.from('records').select('*', { count: 'exact', head: true }),
-    supabase.from('user_contents').select('*', { count: 'exact', head: true }),
+    supabase.from('member_contents').select('*', { count: 'exact', head: true }),
+    supabase.from('celeb_contents').select('*', { count: 'exact', head: true }),
     // 최근 가입은 회원만 해당한다. 계정 기록이 있는 사람이 곧 회원이다(26.08.07 분리).
-    supabase.from('user_accounts').select('id, email, created_at, profiles!user_accounts_id_fkey(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
+    supabase.from('user_accounts').select('id, email, created_at, member_profile:member_profiles!member_profiles_id_fkey(nickname, avatar_url)').order('created_at', { ascending: false }).limit(5),
     // 유형별 수는 DB에서 센다. 행을 끌어와 세면 PostgREST 1,000행 상한에 걸려
     // 위 '총 콘텐츠'(head 카운트라 정확)와 합이 어긋난다(실측 7,568행).
     Promise.all(
       CONTENT_TYPES.map(async type => {
-        const { count } = await supabase
+        const { count, error } = await supabase
           .from('contents')
           .select('*', { count: 'exact', head: true })
           .eq('type', type)
+        if (error) throw new Error(`Failed to load ${type} content count: ${error.message}`)
         return [type, count ?? 0] as const
       })
     ),
-    supabase.from('activity_logs').select('*, profiles:profiles!activity_logs_user_id_fkey (nickname, avatar_url)').order('created_at', { ascending: false }).limit(10),
+    supabase.from('activity_logs').select('*, account:user_accounts!activity_logs_accounts_fkey(member_profile:member_profiles!member_profiles_id_fkey(nickname, avatar_url))').order('created_at', { ascending: false }).limit(10),
   ])
+
+  const queryError = [
+    userCountResult.error,
+    contentCountResult.error,
+    recordCountResult.error,
+    memberContentCountResult.error,
+    celebContentCountResult.error,
+    recentUsersResult.error,
+    recentActivitiesResult.error,
+  ].find(Boolean)
+  if (queryError) throw new Error(`Failed to load dashboard: ${queryError.message}`)
+
+  const userCount = userCountResult.count
+  const contentCount = contentCountResult.count
+  const recordCount = recordCountResult.count
+  const userContentCount =
+    (memberContentCountResult.count ?? 0) + (celebContentCountResult.count ?? 0)
+  const recentUsers = recentUsersResult.data
+  const recentActivities = recentActivitiesResult.data
 
   // 콘텐츠 유형별 통계
   const typeCountMap = Object.fromEntries(typeCounts) as Record<string, number>
@@ -159,7 +181,7 @@ export default async function DashboardPage() {
           </div>
           <div className="space-y-3">
             {(recentUsers || []).map((user) => {
-              const person = Array.isArray(user.profiles) ? user.profiles[0] : user.profiles
+              const person = Array.isArray(user.member_profile) ? user.member_profile[0] : user.member_profile
               return (
               <Link
                 key={user.id}
@@ -197,7 +219,10 @@ export default async function DashboardPage() {
             <p className="text-sm text-text-secondary text-center py-4">최근 활동이 없습니다</p>
           ) : (
             (recentActivities || []).map((activity) => {
-              const profile = activity.profiles as { nickname: string; avatar_url: string | null } | null
+              const account = Array.isArray(activity.account) ? activity.account[0] : activity.account
+              const profile = (Array.isArray(account?.member_profile)
+                ? account.member_profile[0]
+                : account?.member_profile) as { nickname: string; avatar_url: string | null } | null
 
               return (
                 <div key={activity.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-bg-secondary">
