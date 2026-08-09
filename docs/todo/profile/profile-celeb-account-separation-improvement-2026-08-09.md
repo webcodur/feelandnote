@@ -4,7 +4,7 @@
 > 함수 권한, 분리 테이블 동기화, 운영 배포 상태를 대조했다. 추가형 분리 마이그레이션과
 > 사용자 웹·백오피스 빌드도 확인했다.
 >
-> 상태: **보안 선처리·전용 테이블·새 부모 FK·쓰기 호환 단계 완료 · 새 앱 배포 후 옛 쓰기 권한 회수 대기**
+> 상태: **보안 선처리·전용 테이블·새 부모 FK·쓰기 원천 전환 완료 · `profiles` 읽기 전용 호환 유지**
 
 ## 최초 요구
 
@@ -108,6 +108,8 @@ member_celeb_follows      회원이 셀럽을 팔로우
 - 회원가입과 현행 DB 쓰기 함수 10개를 `user_accounts`·`member_profiles`·`celebs` 원천으로 전환
 - 회원 프로필과 백오피스 인물 관리의 실행 코드 쓰기를 전용 테이블로 전환
 - 구버전과 신버전 요청이 함께 들어오는 배포 구간용 재귀 방지 동기화 설치
+- API 역할의 `profiles` 변경 권한과 `user_accounts` 직접 삭제·초기화 권한 회수
+- `user_accounts.id → profiles.id` 옛 FK 제거, Auth FK와 전용 회원 생명주기만 유지
 
 적용한 전진 마이그레이션은 다음과 같다.
 
@@ -118,6 +120,11 @@ member_celeb_follows      회원이 셀럽을 팔로우
 - `20260809085119_make_member_deletion_atomic.sql`
 - `20260809090020_add_domain_parent_foreign_keys.sql`
 - `20260809114834_cutover_profile_writes_to_domains.sql`
+- `20260809140835_finalize_profile_domain_writes.sql`
+- `20260809144310_fix_delete_auth_user_argument_ambiguity.sql`
+- `20260809144537_remove_stale_member_deletion_relations.sql`
+- `20260809144916_drop_user_accounts_profile_parent.sql`
+- `20260809145217_make_profile_sync_nested_trigger_safe.sql`
 
 현재 앱과 DB 함수의 새 쓰기 원천은 `member_profiles`·`celebs`다. 배포 중 구버전 요청도
 유실하지 않도록 `profiles` 쓰기를 새 원천으로 보내는 트리거와 새 원천을 `profiles`에
@@ -125,13 +132,16 @@ member_celeb_follows      회원이 셀럽을 팔로우
 회원 17행과 셀럽 2,966행의 양방향 수정·신규 셀럽 생성·삭제를 운영 DB 트랜잭션에서
 실행한 뒤 되돌리는 시험을 통과했다.
 
-새 앱의 운영 배포가 끝나면 `20260809140835_finalize_profile_domain_writes.sql`로 API 역할의
-`profiles` 변경 권한과 `user_accounts` 직접 삭제 권한을 회수한다. 이 마이그레이션도 운영
-DB에서 전체 실행 후 되돌리는 시험을 통과했으나 아직 적용하지 않았다. 기존 53개 외래키와
-관계 조회를 위해 `profiles` 읽기와 안전 동기화는 당분간 유지한다. 옛 `profiles` 쓰기 기반
-운영 스크립트는 전환 전까지 실행하지 않는다. 사용하지 않는 주변 기능은 이번 구조 작업을
-늦추지 않고 진입을 닫은 뒤 해당 기능 개편 때 옮긴다. 원격 전체 스키마의 빈 DB 기준선
-정리는 별도 미완료다.
+커밋 `b2749bf1`의 두 앱 배포 뒤 API 역할의 `profiles` 변경 권한과 `user_accounts` 직접
+삭제 권한을 회수했다. 기존 관계 조회를 위해 `profiles` 읽기와 안전 동기화는 당분간
+유지한다. 옛 `profiles` 쓰기 기반 운영 스크립트는 권한 단계에서 실행되지 않으며, 다시 쓸
+도구만 해당 기능 개편 때 전용 테이블로 옮긴다. 사용하지 않는 주변 기능은 이번 구조 작업을
+늦추지 않고 진입을 닫는다.
+
+운영 DB에서 가짜 Auth 회원의 가입→계정·회원 정보·호환 행 생성→탈퇴를 한 트랜잭션으로
+완주한 뒤 되돌렸다. 회원·인물의 새 원천 수정, 옛 호환 수정, 신규 인물 생성·삭제 왕복
+시험도 통과했다. `public`·`private` 스키마 린트와 Supabase 보안·성능 어드바이저의 오류는
+0건이다. 원격 전체 스키마의 빈 DB 기준선 정리는 별도 미완료다.
 
 ### 배포 후 관찰
 
