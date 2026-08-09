@@ -6,6 +6,7 @@
 
 import { ImageResponse } from "next/og";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
+import { loadPretendardBold } from "@/lib/og-font";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -49,25 +50,6 @@ export function generateImageMetadata({
   }];
 }
 
-async function loadFont() {
-  const css = await fetch(
-    "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700",
-    {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1",
-      },
-    },
-  ).then((res) => res.text());
-
-  const urls = [...css.matchAll(/src: url\((.+?)\)/g)].map((m) => m[1]);
-  if (urls.length === 0) return null;
-
-  // 700(Bold) 우선, 없으면 첫 번째
-  const fontUrl = urls.length > 1 ? urls[1] : urls[0];
-  return fetch(fontUrl).then((res) => res.arrayBuffer());
-}
-
 export default async function Image({
   params,
 }: {
@@ -76,7 +58,7 @@ export default async function Image({
 }) {
   const { locale, slug } = await params;
   const result = await getCelebBySlug(slug, locale);
-  const fontData = await loadFont();
+  const fontData = await loadPretendardBold();
 
   if (!result.success || !result.data) {
     return new ImageResponse(
@@ -91,13 +73,18 @@ export default async function Image({
             background: "#0a0a0a",
             color: "#f8f4ed",
             fontSize: 48,
-            fontFamily: "Noto Sans KR",
+            fontFamily: "Pretendard",
           }}
         >
           Feel&Note
         </div>
       ),
-      { ...size },
+      {
+        ...size,
+        fonts: fontData
+          ? [{ name: "Pretendard", data: fontData, style: "normal", weight: 700 }]
+          : undefined,
+      },
     );
   }
 
@@ -126,7 +113,7 @@ export default async function Image({
           alignItems: "center",
           justifyContent: "center",
           background: "linear-gradient(145deg, #121212 0%, #050505 100%)",
-          fontFamily: "Noto Sans KR",
+          fontFamily: "Pretendard",
           position: "relative",
         }}
       >
@@ -198,7 +185,7 @@ export default async function Image({
       fonts: fontData
         ? [
             {
-              name: "Noto Sans KR",
+              name: "Pretendard",
               data: fontData,
               style: "normal" as const,
               weight: 700 as const,

@@ -75,39 +75,6 @@ export interface FeaturedTag {
   isGroup?: boolean
 }
 
-export interface FactionPreviewMember {
-  id: string
-  slug: string | null
-  nickname: string
-  nicknameEn: string | null
-  avatarUrl: string | null
-  roleShort: string | null
-  roleShortEn: string | null
-}
-
-export interface FactionTagPreview {
-  tagId: string
-  teamImages: FactionTeamImage[]
-  members: FactionPreviewMember[]
-}
-
-// --- 조회 행 타입 (select 문자열과 1:1 대응) ---
-
-interface FactionPreviewAssignmentRow {
-  tag_id: string
-  celeb_id: string
-  short_desc: string | null
-  short_desc_en: string | null
-}
-
-interface FactionPreviewProfileRow {
-  id: string
-  slug: string | null
-  nickname: string
-  nickname_en: string | null
-  avatar_url: string | null
-}
-
 // 세력도감 인물 행 — 단일 원천은 제작 테이블(faction_people)이고, DB 뷰 faction_atlas_members가
 // 웹 전용 배정과 합쳐 준다. 뷰는 자동생성 타입에 없어 로컬로 정의한다.
 interface AtlasMemberRow {
@@ -354,94 +321,17 @@ const getCachedFeaturedTags = unstable_cache(
   }
 )
 
-async function fetchFactionTagPreviews(tagIds: string[]): Promise<FactionTagPreview[]> {
-  const supabase = createStaticClient()
-  const [tagsResult, assignmentsResult] = await Promise.all([
-    supabase
-      .from('celeb_tags')
-      .select('id, team_images')
-      .in('id', tagIds),
-    supabase
-      // 단일 원천은 제작 테이블 — 뷰가 웹 전용 배정과 합쳐 준다
-      .from('faction_atlas_members')
-      .select('tag_id, celeb_id, short_desc, short_desc_en')
-      .in('tag_id', tagIds)
-      .eq('hidden', false)
-      .order('sort_order', { ascending: true })
-      .order('celeb_id', { ascending: true }),
-  ])
-
-  if (tagsResult.error) {
-    throw new Error(`Failed to load faction tags: ${tagsResult.error.message}`)
-  }
-  if (assignmentsResult.error) {
-    throw new Error(`Failed to load faction assignments: ${assignmentsResult.error.message}`)
-  }
-
-  const assignments = (assignmentsResult.data ?? []) as FactionPreviewAssignmentRow[]
-  const celebIds = [...new Set(assignments.map((assignment) => assignment.celeb_id))]
-  let profiles: FactionPreviewProfileRow[] = []
-
-  if (celebIds.length > 0) {
-    const profilesResult = await supabase
-      .from('profiles')
-      .select('id, slug, nickname, nickname_en, avatar_url')
-      .in('id', celebIds)
-      // 감추는 일은 배정의 hidden 이 맡는다 — 셀럽 전역 상태로 거르지 않는다(위 조회와 같은 기준)
-
-    if (profilesResult.error) {
-      throw new Error(`Failed to load faction members: ${profilesResult.error.message}`)
-    }
-    profiles = (profilesResult.data ?? []) as FactionPreviewProfileRow[]
-  }
-
-  const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
-  const assignmentsByTag = new Map<string, FactionPreviewAssignmentRow[]>()
-
-  for (const assignment of assignments) {
-    const current = assignmentsByTag.get(assignment.tag_id) ?? []
-    current.push(assignment)
-    assignmentsByTag.set(assignment.tag_id, current)
-  }
-
-  const teamImagesByTag = new Map(
-    (tagsResult.data ?? []).map((tag) => [tag.id, toImageArray(tag.team_images)]),
-  )
-
-  return tagIds.map((tagId) => ({
-    tagId,
-    teamImages: teamImagesByTag.get(tagId) ?? [],
-    members: (assignmentsByTag.get(tagId) ?? []).flatMap((assignment) => {
-      const profile = profileById.get(assignment.celeb_id)
-      if (!profile) return []
-
-      return [{
-        id: profile.id,
-        slug: profile.slug,
-        nickname: profile.nickname,
-        nicknameEn: profile.nickname_en,
-        avatarUrl: profile.avatar_url,
-        roleShort: assignment.short_desc,
-        roleShortEn: assignment.short_desc_en,
-      }]
-    }),
-  }))
-}
-
-const getCachedFactionTagPreviews = unstable_cache(
-  fetchFactionTagPreviews,
-  ['faction-tag-previews'],
-  {
-    revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
-  },
-)
-
-export async function getFactionTagPreviews(tagIds: string[]): Promise<FactionTagPreview[]> {
-  if (tagIds.length === 0) return []
-  return getCachedFactionTagPreviews([...new Set(tagIds)].sort())
-}
-
 export async function getFeaturedTags(): Promise<FeaturedTag[]> {
   return getCachedFeaturedTags()
+}
+
+export async function getFactionTagsByIds(tagIds: string[]): Promise<FeaturedTag[]> {
+  if (tagIds.length === 0) return []
+
+  const tags = await getCachedFeaturedTags()
+  const tagById = new Map(tags.map((tag) => [tag.id, tag]))
+
+  return tagIds
+    .map((tagId) => tagById.get(tagId))
+    .filter((tag): tag is FeaturedTag => tag?.is_featured === true && tag.isGroup !== true)
 }

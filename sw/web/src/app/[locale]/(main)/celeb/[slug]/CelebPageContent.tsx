@@ -8,7 +8,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
+import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
@@ -33,7 +33,7 @@ interface CelebPageContentProps {
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
   timelineEvents: CelebTimelineEvent[];
-  factionPreviews: FactionTagPreview[];
+  factionTags: FeaturedTag[];
   initialContents: GetUserContentsResponse;
   fictionSources: FictionSourceContent[];
   worldId: string;
@@ -53,7 +53,7 @@ export default function CelebPageContent({
   dialogueLines,
   contemporaries,
   timelineEvents,
-  factionPreviews,
+  factionTags,
   initialContents,
   fictionSources,
   worldId,
@@ -128,7 +128,7 @@ export default function CelebPageContent({
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
         timelineEvents={timelineEvents}
-        factionPreviews={factionPreviews}
+        factionTags={factionTags}
         initialContents={initialContents}
         fictionSources={fictionSources}
       />

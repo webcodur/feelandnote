@@ -65,8 +65,9 @@ export default function Page() {
 - "고급스러움 = 작고 흐린 텍스트"가 아니다. 선명하고 읽기 쉬운 것이 좋은 디자인이다
 
 ## 타이포그래피
-- 본문: Noto Sans KR (sans) / 제목·버튼: Noto Serif KR (serif)
-- 영문 장식: Cinzel (권위), Cormorant Garamond (로고)
+- 사용자 웹 런타임 서체는 **Pretendard 하나**다. 한글·영문·숫자와 본문·제목·버튼을 나누지 않는다.
+- `font-serif`·`font-cinzel`·`font-cormorant`·`font-maruburi`는 기존 클래스 호환용 이름일 뿐이며 모두 `--font-pretendard`를 가리킨다. 신규 코드에서는 `font-sans` 또는 상속을 쓴다.
+- 시대·페이지·콘텐츠 종류를 이유로 별도 명조나 영문 장식 서체를 추가하지 않는다. 위계는 크기·굵기·간격·색으로 만든다.
 
 ## 효과/텍스처
 - `bg-texture-noise/marble`, `effect-bevel/engraved`, `card-sarcophagus`

@@ -1,235 +1,97 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState, type CSSProperties } from "react";
-import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
-import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
-import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import BlurDissolve from "@/components/ui/BlurDissolve";
-import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
-import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
-import FactionPreviewModal from "./FactionPreviewModal";
-import { useCelebPreview } from "./useCelebPreview";
+import { useLocale, useTranslations } from "next-intl";
+
+import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
+import type { Locale } from "@/types/locale";
+
+const FactionShowcase = dynamic(
+  () => import("@/components/features/landing/FactionShowcase"),
+  {
+    loading: () => (
+      <div
+        className="h-[560px] w-full animate-pulse rounded-[2px] bg-white/[0.025]"
+        aria-hidden
+      />
+    ),
+  },
+);
 
 interface FactionSectionProps {
-  tags: FactionTagItem[];
-  previews: FactionTagPreview[];
+  factions: FeaturedTag[];
   currentCelebId: string;
 }
 
 export default function FactionSection({
-  tags,
-  previews,
+  factions,
   currentCelebId,
 }: FactionSectionProps) {
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const t = useTranslations("celebPage");
-  const isEn = locale === "en";
-  const [selectedTag, setSelectedTag] = useState<FactionTagItem | null>(null);
-  /* 세력도감이 여럿인 인물은 전부 늘어놓지 않고 한 장씩 넘겨 본다 */
-  const [pageIdx, setPageIdx] = useState(0);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const {
-    celeb: previewCeleb,
-    loadingId: loadingMemberId,
-    openCelebPreview,
-    closeCelebPreview,
-  } = useCelebPreview("faction");
-  const previewByTag = useMemo(
-    () => new Map(previews.map((preview) => [preview.tagId, preview])),
-    [previews],
-  );
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const resolveName = (tag: FactionTagItem) =>
-    isEn && tag.name_en ? tag.name_en : tag.name;
-  const resolve = (en: string | null, ko: string | null) => (isEn && en ? en : ko);
+  if (factions.length === 0) return null;
 
-  const closePreview = useCallback(() => {
-    closeCelebPreview();
-    setSelectedTag(null);
-    requestAnimationFrame(() => triggerRef.current?.focus());
-  }, [closeCelebPreview]);
-
-  const handleMemberSelect = useCallback(async (memberId: string) => {
-    const member = await openCelebPreview(memberId);
-    if (member) setSelectedTag(null);
-  }, [openCelebPreview]);
-
-  const closeMemberPreview = useCallback(() => {
-    closeCelebPreview();
-    requestAnimationFrame(() => triggerRef.current?.focus());
-  }, [closeCelebPreview]);
-
-  const hasPager = tags.length > 1;
-  const safePageIdx = Math.min(pageIdx, tags.length - 1);
-  const visibleTags = hasPager ? [tags[safePageIdx]] : tags;
-  const stepPage = (delta: number) =>
-    setPageIdx((safePageIdx + delta + tags.length) % tags.length);
+  const safeIndex = Math.min(activeIndex, factions.length - 1);
+  const activeFaction = factions[safeIndex];
+  const activeFactionName = locale === "en"
+    ? activeFaction.name_en?.trim() || activeFaction.name
+    : activeFaction.name;
+  const hasPager = factions.length > 1;
+  const stepPage = (delta: number) => {
+    setActiveIndex((safeIndex + delta + factions.length) % factions.length);
+  };
 
   return (
-    <>
-      <div className="space-y-4">
-        {hasPager && (
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-xs text-text-secondary">
-              {t("factionPagerCount", { total: tags.length })}
+    <div className="space-y-6">
+      <div className="border-b border-white/10 pb-4">
+        <div className="mx-auto flex w-full min-w-0 items-center justify-center gap-3 whitespace-nowrap">
+          <button
+            type="button"
+            onClick={() => stepPage(-1)}
+            disabled={!hasPager}
+            aria-label={t("factionPagerPrev")}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-30"
+          >
+            <ArrowLeft size={17} />
+          </button>
+          <div className="flex min-w-0 items-baseline justify-center gap-2.5">
+            <span className="shrink-0 text-[11px] font-black tabular-nums tracking-[0.08em] text-accent/80">
+              #{safeIndex + 1}
             </span>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => stepPage(-1)}
-                aria-label={t("factionPagerPrev")}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                <ArrowLeft size={16} />
-              </button>
-              <span className="font-mono text-xs tabular-nums text-text-secondary">
-                {safePageIdx + 1} / {tags.length}
-              </span>
-              <button
-                type="button"
-                onClick={() => stepPage(1)}
-                aria-label={t("factionPagerNext")}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                <ArrowRight size={16} />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {visibleTags.map((tag) => {
-          const name = resolveName(tag);
-          const description = resolve(tag.description_en, tag.description);
-          const roleShort = resolve(tag.roleShortEn, tag.roleShort);
-          const roleLong = resolve(tag.roleLongEn, tag.roleLong);
-          const preview = previewByTag.get(tag.id);
-
-          return (
-            // 영상·음악 단추는 카드(단추) 안에 넣을 수 없어(단추 겹침) 카드 아래 형제로 둔다
-            <div key={tag.id} className="space-y-2">
-            <button
-              type="button"
-              onClick={(event) => {
-                triggerRef.current = event.currentTarget;
-                setSelectedTag(tag);
-              }}
-              style={{ "--tag-color": tag.color } as CSSProperties}
-              className="group flex w-full flex-col gap-4 rounded-[2px] border border-white/10 p-4 text-left hover:border-[color:var(--tag-color)] hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tag-color)] sm:flex-row"
-              aria-label={t("factionPreviewAria", { name })}
+            <span
+              className="max-w-[min(42vw,14rem)] truncate font-serif text-sm font-bold text-text-primary"
+              title={activeFactionName}
             >
-              {tag.factionImageUrl && (
-                <div className="relative aspect-[3/4] w-full flex-shrink-0 overflow-hidden rounded-[2px] bg-bg-secondary ring-1 ring-accent/10 sm:w-[168px]">
-                  <BlurDissolve className="absolute inset-0">
-                    <Image
-                      src={tag.factionImageUrl}
-                      alt=""
-                      fill
-                      unoptimized
-                      aria-hidden
-                      className="object-cover scale-110 blur-xl opacity-40"
-                    />
-                    <div className="absolute inset-0 bg-black/20" />
-                    <Image
-                      src={tag.factionImageUrl}
-                      alt={name}
-                      fill
-                      unoptimized
-                      sizes="168px"
-                      className="object-contain transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </BlurDissolve>
-                </div>
-              )}
-
-              <div className="flex min-w-0 flex-1 flex-col space-y-1.5">
-                <div className="inline-flex items-center gap-1.5 text-text-primary group-hover:text-[color:var(--tag-color)]">
-                  <span
-                    className="h-2 w-2 flex-shrink-0 rounded-full"
-                    style={{ backgroundColor: tag.color }}
-                    aria-hidden
-                  />
-                  <span className="font-serif text-sm font-bold sm:text-base">{name}</span>
-                </div>
-
-                {description && (
-                  <p className="line-clamp-2 text-xs text-text-secondary">{description}</p>
-                )}
-                {roleShort && (
-                  <p className="pt-1 font-serif text-sm font-medium text-text-primary sm:text-base">
-                    {roleShort}
-                  </p>
-                )}
-                {roleLong && (
-                  <p className="text-xs leading-relaxed text-text-secondary sm:text-sm">
-                    {roleLong}
-                  </p>
-                )}
-
-                {preview && (preview.members.length > 0 || preview.teamImages.length > 0) && (
-                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-white/10 pt-3">
-                    {preview.members.length > 0 && (
-                      <div className="flex -space-x-2" aria-hidden>
-                        {preview.members.slice(0, 5).map((member) => (
-                          <div
-                            key={member.id}
-                            className="relative h-7 w-7 overflow-hidden rounded-full border-2 border-bg-main bg-bg-secondary"
-                          >
-                            {member.avatarUrl ? (
-                              <BlurDissolve className="absolute inset-0">
-                                <CelebAvatarImage src={member.avatarUrl} alt="" sizes="28px" />
-                              </BlurDissolve>
-                            ) : (
-                              <span className="flex h-full w-full items-center justify-center font-serif text-[11px]">
-                                {(isEn && member.nicknameEn ? member.nicknameEn : member.nickname).charAt(0)}
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    <span className="inline-flex items-center gap-1.5 text-xs">
-                      {preview.members.length > 0 && t("factionMemberCount", { count: preview.members.length })}
-                      {preview.members.length > 0 && preview.teamImages.length > 0 && <span aria-hidden>·</span>}
-                      {preview.teamImages.length > 0 && t("factionPhotoCount", { count: preview.teamImages.length })}
-                    </span>
-                  </div>
-                )}
-
-                <span className="mt-auto inline-flex items-center gap-1 self-start pt-2 text-xs font-medium group-hover:text-[color:var(--tag-color)]">
-                  {t("factionPreview")}
-                  <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
-
-            {/* 이 테마를 다룬 세력도감 영상과 배경음악. 없으면 아무것도 뜨지 않는다 */}
-            <FactionMediaLinks videos={tag.videos} music={tag.music} title={name} />
-            </div>
-          );
-        })}
+              {activeFactionName}
+            </span>
+            <span className="shrink-0 text-[11px] font-semibold tabular-nums text-text-secondary/70">
+              {t("factionPagerMemberCount", { count: activeFaction.celebs.length })}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => stepPage(1)}
+            disabled={!hasPager}
+            aria-label={t("factionPagerNext")}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-text-secondary hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-30"
+          >
+            <ArrowRight size={17} />
+          </button>
+        </div>
       </div>
 
-      {selectedTag && (
-        <FactionPreviewModal
-          tag={selectedTag}
-          preview={previewByTag.get(selectedTag.id)}
-          currentCelebId={currentCelebId}
-          loadingMemberId={loadingMemberId}
-          onMemberSelect={(memberId) => void handleMemberSelect(memberId)}
-          onClose={closePreview}
-        />
-      )}
-
-      {previewCeleb && (
-        <CelebDetailModal
-          celeb={previewCeleb}
-          isOpen
-          onClose={closeMemberPreview}
-        />
-      )}
-    </>
+      <FactionShowcase
+        key={activeFaction.id}
+        activeTag={activeFaction}
+        locale={locale}
+        initialCelebId={currentCelebId}
+        variant="embedded"
+        atlasLinkLabel={t("factionOpen")}
+      />
+    </div>
   );
 }

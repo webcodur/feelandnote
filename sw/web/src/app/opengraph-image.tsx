@@ -5,26 +5,14 @@
 */ // ------------------------------
 
 import { ImageResponse } from "next/og";
+import { loadPretendardBold } from "@/lib/og-font";
 
 export const alt = "Feel&Note";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-async function loadFont() {
-  // Google Fonts CSS에서 실제 폰트 URL 추출
-  const css = await fetch(
-    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600",
-    { headers: { "User-Agent": "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; de-at) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1" } }
-  ).then((res) => res.text());
-
-  const url = css.match(/src: url\((.+?)\)/)?.[1];
-  if (!url) return null;
-
-  return fetch(url).then((res) => res.arrayBuffer());
-}
-
 export default async function Image() {
-  const fontData = await loadFont();
+  const fontData = await loadPretendardBold();
 
   return new ImageResponse(
     (
@@ -37,7 +25,7 @@ export default async function Image() {
           alignItems: "center",
           justifyContent: "center",
           background: "linear-gradient(135deg, #121212 0%, #050505 100%)",
-          fontFamily: "Cormorant Garamond",
+          fontFamily: "Pretendard",
           position: "relative",
         }}
       >
@@ -96,10 +84,10 @@ export default async function Image() {
       fonts: fontData
         ? [
             {
-              name: "Cormorant Garamond",
+              name: "Pretendard",
               data: fontData,
               style: "normal" as const,
-              weight: 600 as const,
+              weight: 700 as const,
             },
           ]
         : undefined,

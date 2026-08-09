@@ -1,18 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 @import "tailwindcss";
-
-/* Pretendard: CJK(한글/한자/가나) + 특수문자만 담당, Latin은 Inter에게 위임 */
-@font-face {
-  font-family: "Pretendard CJK";
-  src: local("Pretendard Variable"), local("Pretendard");
-  unicode-range: U+AC00-D7AF, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF, /* 한글 */
-                 U+4E00-9FFF, U+3400-4DBF, U+F900-FAFF, /* CJK 한자 */
-                 U+3040-309F, U+30A0-30FF, U+31F0-31FF, /* 히라가나/카타카나 */
-                 U+2E80-2EFF, U+3000-303F, U+FF00-FFEF; /* CJK 기호, 전각 */
-  font-weight: 100 900;
-  font-display: swap;
-}
 @plugin "@tailwindcss/typography";
 
 @theme {
@@ -44,13 +31,14 @@
   --color-status-paused: #db4d4d;
   --color-status-wish: #d4af37;
 
-  /* Fonts — Latin: Inter, CJK: Pretendard (unicode-range fallback)
-     장식 서체(Cinzel·Cormorant)는 로마자·숫자만 담당한다. 한글 글리프가 없으므로
-     기기 기본 명조로 새지 않게 Pretendard를 대체 서체로 뒤에 붙인다. */
-  --font-cinzel: var(--font-cinzel), "Pretendard CJK", "Pretendard Variable", Pretendard, sans-serif;
-  --font-cormorant: var(--font-cormorant), "Pretendard CJK", "Pretendard Variable", Pretendard, sans-serif;
-  --font-serif: var(--font-inter), "Pretendard CJK", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
-  --font-sans: var(--font-inter), "Pretendard CJK", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
+  /* 런타임 서체 단일원천. 옛 utility 이름은 시각 회귀 없이 모두 Pretendard를 가리킨다. */
+  --font-pretendard: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Noto Sans KR", sans-serif;
+  --font-sans: var(--font-pretendard);
+  --font-serif: var(--font-pretendard);
+  --font-mono: var(--font-pretendard);
+  --font-cinzel: var(--font-pretendard);
+  --font-cormorant: var(--font-pretendard);
+  --font-maruburi: var(--font-pretendard);
   
   /* Typography Settings */
   --tracking-cinzel: 0.1em; /* Wide tracking for authority */

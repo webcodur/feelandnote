@@ -3,8 +3,7 @@
 import { useState } from "react";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
-import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
-import type { FactionTagItem } from "@/actions/user/getCelebBySlug";
+import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import { useTranslations } from "next-intl";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
@@ -22,8 +21,7 @@ interface Props {
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
   contemporaries: ContemporaryCeleb[];
-  factionTags: FactionTagItem[];
-  factionPreviews: FactionTagPreview[];
+  factions: FeaturedTag[];
   currentCelebId: string;
 }
 
@@ -39,8 +37,7 @@ export default function PeopleAndEraTabs({
   centerAvatarUrl,
   relations,
   contemporaries,
-  factionTags,
-  factionPreviews,
+  factions,
   currentCelebId,
 }: Props) {
   const t = useTranslations("celebPage");
@@ -107,8 +104,7 @@ export default function PeopleAndEraTabs({
         {tab === "faction" && (
           factionItem.ready ? (
             <FactionSection
-              tags={factionTags}
-              previews={factionPreviews}
+              factions={factions}
               currentCelebId={currentCelebId}
             />
           ) : (

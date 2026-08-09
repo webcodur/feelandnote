@@ -224,10 +224,10 @@ export default function NeoCelebCard({
 
           {/* B. Name & Info */}
           <div className="text-center w-full relative z-20 mt-2">
-            <div className={`${config.nameHeight} flex items-center justify-center ${nameSize} font-bold ${styles.fontFrank} tracking-wide leading-tight break-keep ${styles.nameText} ${finalText} ${engravedEffect || ""}`}>
+            <div className={`${config.nameHeight} flex items-center justify-center ${nameSize} font-bold ${styles.fontPretendard} tracking-wide leading-tight break-keep ${styles.nameText} ${finalText} ${engravedEffect || ""}`}>
                 {celeb.nickname}
             </div>
-            <div className={`font-semibold ${styles.fontFrank} ${styles.subInfoText} text-white/90 ${config.itemsText}`}>
+            <div className={`font-semibold ${styles.fontPretendard} ${styles.subInfoText} text-white/90 ${config.itemsText}`}>
                 {celeb.content_count || 0} ITEMS
             </div>
 

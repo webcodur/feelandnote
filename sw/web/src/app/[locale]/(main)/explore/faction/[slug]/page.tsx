@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
   const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: "explore.faction" });
   const tags = await getFeaturedTags();
-  const tag = tags.find((tg) => tg.slug === slug);
+  const tag = tags.find((tg) => tg.slug === slug && tg.is_featured);
   const tagName = tag
     ? (locale === "en" ? tag.name_en?.trim() : tag.name)
     : null;
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: L
 export default async function FactionSlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const featuredTags = await getFeaturedTags();
-  const tag = featuredTags.find((tg) => tg.slug === slug);
+  const tag = featuredTags.find((tg) => tg.slug === slug && tg.is_featured);
 
   if (!tag) notFound();
 
