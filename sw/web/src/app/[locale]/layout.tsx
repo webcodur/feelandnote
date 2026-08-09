@@ -5,8 +5,6 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
-import { Cinzel, Inter, Noto_Sans_KR, Cormorant_Garamond, Castoro_Titling } from "next/font/google";
-import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale, getMessages, getTranslations } from "next-intl/server";
 import Footer from "@/components/ui/Layout/Footer";
@@ -17,48 +15,6 @@ import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import UiXray from "@/components/shared/ui-xray/UiXray";
 import "../globals.css";
-
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  variable: "--font-cinzel",
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const notoSansKr = Noto_Sans_KR({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-noto-sans",
-  display: "swap",
-});
-
-const castoro = Castoro_Titling({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-castoro",
-  display: "swap",
-});
-
-const maruburi = localFont({
-  src: [
-    { path: "../../fonts/MaruBuriOTF/MaruBuri-Regular.otf", weight: "400" },
-    { path: "../../fonts/MaruBuriOTF/MaruBuri-SemiBold.otf", weight: "600" },
-  ],
-  variable: "--font-maruburi",
-  display: "swap",
-});
 
 export async function generateMetadata({
   params,
@@ -164,7 +120,6 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${cinzel.variable} ${cormorant.variable} ${notoSansKr.variable} ${maruburi.variable} ${castoro.variable}`}
     >
       <head>
         <script

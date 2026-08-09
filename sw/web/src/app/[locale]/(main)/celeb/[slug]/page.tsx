@@ -10,7 +10,7 @@ import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/g
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getPublicGuestbookEntries } from "@/actions/guestbook";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
-import { getFactionTagPreviews } from "@/actions/home/getFeaturedTags";
+import { getFactionTagsByIds } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getAlternates } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
@@ -120,7 +120,7 @@ export default async function CelebPage({ params }: PageProps) {
   };
   const pageTitle = locale === 'en' ? buildCelebTitleEn(titleInput) : buildCelebTitleKo(titleInput);
 
-  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionPreviews, initialContents, fictionSources] = await Promise.all([
+  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
     getPublicGuestbookEntries({ profileId: userId }),
     getCelebInfluence(userId, locale),
     getSimilarByCelebId(userId, 3, locale),
@@ -130,7 +130,7 @@ export default async function CelebPage({ params }: PageProps) {
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
     getCelebTimelineEvents(userId, locale),
-    getFactionTagPreviews(profile.factionTags.map((tag) => tag.id)),
+    getFactionTagsByIds(profile.factionTags.map((tag) => tag.id)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     profile.celeb_tier === 'full'
@@ -239,7 +239,7 @@ export default async function CelebPage({ params }: PageProps) {
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
         timelineEvents={timelineEvents}
-        factionPreviews={factionPreviews}
+        factionTags={factionTags}
         initialContents={initialContents}
         fictionSources={fictionSources}
         worldId={worldId}

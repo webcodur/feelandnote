@@ -99,7 +99,7 @@ export default function CommandPanel({
                       boxShadow: "inset 0 1px 2px rgba(140,100,60,0.3), inset 0 -1px 2px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.4)",
                     }} />
                     <span className="relative text-[8px] xl:text-[10px] font-bold select-none" style={{
-                      fontFamily: "'Noto Serif KR', serif",
+                      fontFamily: "var(--font-pretendard)",
                       color: "rgba(200,160,100,0.6)",
                       textShadow: "0 -1px 1px rgba(0,0,0,0.8)",
                     }}>
@@ -114,7 +114,7 @@ export default function CommandPanel({
                     <span key={i}
                       className="block text-xl xl:text-2xl font-bold leading-none transition-colors duration-300"
                       style={{
-                        fontFamily: "'Noto Serif KR', serif",
+                        fontFamily: "var(--font-pretendard)",
                         ...(isMandateCmd ? {
                           color: "#f0c850",
                           textShadow: "0 1px 2px rgba(0,0,0,0.8), 0 0 8px rgba(212,168,67,0.6)",
@@ -175,7 +175,7 @@ export default function CommandPanel({
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="flex flex-col items-center">
                 <span className="text-[18px] xl:text-[22px] font-bold tracking-[0.15em] ml-[0.15em] select-none text-blue-200/90" style={{
-                  fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
+                  fontFamily: "var(--font-pretendard)",
                   textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(100,180,255,0.3)",
                 }}>
                   {text.play.restButton}
@@ -249,7 +249,7 @@ export default function CommandPanel({
                  <span className={`block text-[22px] xl:text-[26px] font-bold tracking-[0.2em] ml-[0.2em] select-none leading-none ${
                   isReady && isSelecting ? "" : "text-white/40"
                 }`} style={{
-                  fontFamily: "'Noto Serif KR', 'Noto Serif TC', serif",
+                  fontFamily: "var(--font-pretendard)",
                   ...(isReady && isSelecting ? {
                     background: "linear-gradient(to bottom, #fcf6ea 0%, #e6c565 35%, #b47a20 50%, #d4a843 70%, #ffe8a1 100%)",
                     WebkitBackgroundClip: "text",

@@ -142,9 +142,14 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
             <span className="w-6 md:w-10 h-[1px] bg-gradient-to-l from-transparent to-accent/50" />
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4 tracking-wide relative z-10 drop-shadow-md">
-            {locale === 'en' ? (activeTag.name_en?.trim() || tLanding("unnamedFaction")) : activeTag.name}
-          </h2>
+          <div className="relative z-10 mb-4 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
+            <h2 className="font-serif text-3xl font-bold tracking-wide text-white drop-shadow-md md:text-4xl">
+              {locale === 'en' ? (activeTag.name_en?.trim() || tLanding("unnamedFaction")) : activeTag.name}
+            </h2>
+            <span className="text-xs font-bold tabular-nums text-accent/75 md:text-sm">
+              {tLanding("figureCount", { count: activeTag.celebs.length })}
+            </span>
+          </div>
           
           <p className="text-text-secondary text-sm md:text-[15px] max-w-xl leading-[1.8] opacity-90 text-pretty relative z-10">
             {locale === 'en' 

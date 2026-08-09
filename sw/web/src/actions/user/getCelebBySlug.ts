@@ -225,6 +225,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
         .from('celeb_tags')
         .select('id, name, name_en, slug, color, description, description_en, youtube_videos, theme_music')
         .in('id', tagIds)
+        .eq('is_featured', true)
         .overrideTypes<NonNullable<FactionTagAssignmentRow['tag']>[], { merge: false }>()
       const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
 
@@ -351,8 +352,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v4: 공개된 인물 안내·인물 탐구를 읽어보기 구획에 추가한다.
-    ['celeb-by-slug-v4', slug],
+    // v5: 비활성 세력 배정을 상세 페이지의 세력도감에서 제외한다.
+    ['celeb-by-slug-v5-active-factions', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )

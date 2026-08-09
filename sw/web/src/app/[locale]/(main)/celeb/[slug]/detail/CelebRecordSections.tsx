@@ -8,7 +8,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import type { FactionTagPreview } from "@/actions/home/getFeaturedTags";
+import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
@@ -64,7 +64,7 @@ interface CelebRecordSectionsProps {
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
   timelineEvents: CelebTimelineEvent[];
-  factionPreviews: FactionTagPreview[];
+  factionTags: FeaturedTag[];
   initialContents: GetUserContentsResponse;
   fictionSources: FictionSourceContent[];
 }
@@ -81,7 +81,7 @@ export default function CelebRecordSections({
   dialogueLines,
   contemporaries,
   timelineEvents,
-  factionPreviews,
+  factionTags,
   initialContents,
   fictionSources,
 }: CelebRecordSectionsProps) {
@@ -102,7 +102,7 @@ export default function CelebRecordSections({
     relations: profile.relations.length > 0,
     timeline: timelineEvents.length > 0,
     contemporaries: contemporaries.length > 0,
-    faction: profile.factionTags.length > 0,
+    faction: factionTags.length > 0,
     videos: longform.length > 0 || shorts.length > 0,
     dialogues: hasDialogues,
     dialogueVoice: hasDialogues && hasVoice,
@@ -120,7 +120,6 @@ export default function CelebRecordSections({
   );
   const worldStyle = getWorldStyle(worldId);
   const numerals = worldStyle.numerals;
-  const titleFont = worldStyle.titleFont;
   const { serviceItemsByKey, serviceItemIndexByKey, widestSectionLabel } =
     useMemo(
       () => ({
@@ -153,7 +152,6 @@ export default function CelebRecordSections({
         chapterLabel={formatSectionNumber(Number(item.chapter), numerals)}
         numerals={numerals}
         widestLabel={widestSectionLabel}
-        titleFont={titleFont}
       />
     );
   };
@@ -164,7 +162,6 @@ export default function CelebRecordSections({
         items={serviceItems}
         activeSectionId={activeSectionId}
         onNavigate={navigate}
-        titleFont={titleFont}
       />
 
       <div className={styles.sectionStack}>
@@ -239,8 +236,7 @@ export default function CelebRecordSections({
               centerAvatarUrl={profile.avatar_url}
               relations={profile.relations}
               contemporaries={contemporaries}
-              factionTags={profile.factionTags}
-              factionPreviews={factionPreviews}
+              factions={factionTags}
               currentCelebId={profile.id}
             />
           </SectionSurface>

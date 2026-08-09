@@ -341,7 +341,7 @@ export default function MobileCardChips({
 
               {/* 가이드 텍스트 */}
               <p className="w-full text-[12px] font-bold text-accent/80 tracking-[0.2em] text-center mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,1)] truncate"
-                 style={{ fontFamily: "'Noto Serif KR', serif" }}
+                 style={{ fontFamily: "var(--font-pretendard)" }}
               >
                 {guideText}
               </p>
@@ -419,7 +419,7 @@ export default function MobileCardChips({
                             <span key={i}
                               className="text-[13px] font-bold leading-none"
                               style={{
-                                fontFamily: "'Noto Serif KR', serif",
+                                fontFamily: "var(--font-pretendard)",
                                 ...(isMandateCmd ? {
                                   color: "#f0c850",
                                   textShadow: "0 1px 2px rgba(0,0,0,0.8), 0 0 4px rgba(212,168,67,0.6)",

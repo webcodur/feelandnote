@@ -130,6 +130,7 @@
     "factionGroupShots": "Group portraits",
     "factionMembers": "Featured together",
     "factionMemberCount": "{count} figures",
+    "factionPagerMemberCount": "({count} figures)",
     "factionPhotoCount": "{count} photos",
     "factionCurrentMember": "Current figure",
     "factionPagerPrev": "Previous faction",

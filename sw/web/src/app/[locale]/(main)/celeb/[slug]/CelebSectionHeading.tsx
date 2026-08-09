@@ -3,14 +3,10 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import { WORLD_SERIF_FONT, type WorldNumerals, type WorldTitleFont } from "@/lib/celeb/worldStyle";
+import type { WorldNumerals } from "@/lib/celeb/worldStyle";
 
 import type { ServiceItem, ServiceTarget } from "./celebServiceItems";
 import styles from "./CelebSectionHeading.module.css";
-
-/* 사이트 서체가 전부 고딕 계열이라(--font-serif도 실제로는 Pretendard) 한자 장 번호가 밋밋하다.
-   시스템 명조로 떨어뜨려 옛 맛을 살린다 */
-const HANJA_FONT = WORLD_SERIF_FONT;
 
 interface CelebSectionHeadingProps {
   item: ServiceItem;
@@ -23,8 +19,6 @@ interface CelebSectionHeadingProps {
   numerals?: WorldNumerals;
   /** 이 페이지 구획명 중 가장 긴 것. 제목 자리 폭을 여기에 맞춰 고정한다 */
   widestLabel?: string;
-  /** 세계의 서체 결. 전근대면 구획명을 명조로 그린다 */
-  titleFont?: WorldTitleFont;
 }
 
 export default function CelebSectionHeading({
@@ -35,7 +29,6 @@ export default function CelebSectionHeading({
   chapterLabel,
   numerals = "arabic",
   widestLabel,
-  titleFont = "sans",
 }: CelebSectionHeadingProps) {
   const t = useTranslations("celebPage");
 
@@ -44,9 +37,6 @@ export default function CelebSectionHeading({
       ? "text-[21px] font-black md:text-[25px]"
       : "font-mono text-[16px] font-bold md:text-[18px]"
   } leading-none text-accent/85`;
-  const numeralStyle = numerals === "hanja" ? { fontFamily: HANJA_FONT } : undefined;
-  const labelStyle = titleFont === "serif" ? { fontFamily: WORLD_SERIF_FONT } : undefined;
-
   return (
     <header className={styles.heading}>
       <button
@@ -74,19 +64,19 @@ export default function CelebSectionHeading({
           >
             <span aria-hidden className="invisible flex items-center gap-2.5 whitespace-nowrap">
               {chapterLabel && (
-                <span className={numeralClass} style={numeralStyle}>
+                <span className={numeralClass}>
                   {chapterLabel}
                 </span>
               )}
-              <span className={styles.label} style={labelStyle}>{widestLabel ?? item.label}</span>
+              <span className={styles.label}>{widestLabel ?? item.label}</span>
             </span>
             <span className="absolute inset-0 flex items-center justify-center gap-2.5 whitespace-nowrap">
               {chapterLabel && (
-                <span aria-hidden className={numeralClass} style={numeralStyle}>
+                <span aria-hidden className={numeralClass}>
                   {chapterLabel}
                 </span>
               )}
-              <span className={`${styles.label} group-hover:text-accent`} style={labelStyle}>{item.label}</span>
+              <span className={`${styles.label} group-hover:text-accent`}>{item.label}</span>
             </span>
           </button>
         </h2>

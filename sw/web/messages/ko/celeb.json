@@ -130,6 +130,7 @@
     "factionGroupShots": "단체 화보",
     "factionMembers": "함께 속한 인물",
     "factionMemberCount": "{count}인 구성",
+    "factionPagerMemberCount": "({count}인)",
     "factionPhotoCount": "{count}장",
     "factionCurrentMember": "현재 인물",
     "factionPagerPrev": "이전 세력도감",

@@ -365,7 +365,7 @@ export default function ParchmentScrollBanner({
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillStyle = "rgba(0,0,0,0.7)";
-          ctx.font = "bold 28px 'Cinzel', serif";
+          ctx.font = "bold 28px Pretendard, sans-serif";
           const colSpacing = 40;
           const startCol = centerX + colSpacing;
           lines.forEach((char, i) => {
@@ -415,7 +415,7 @@ export default function ParchmentScrollBanner({
         if (!compact) {
           ctx.textAlign = "center";
           ctx.fillStyle = "rgba(0,0,0,0.7)";
-          ctx.font = "italic 24px 'Cinzel'";
+          ctx.font = "italic 24px Pretendard, sans-serif";
           lines.forEach((line, i) => {
             const ty = topY + 100 + i * 50;
             ctx.fillText(line, centerX, ty);

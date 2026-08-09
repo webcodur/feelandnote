@@ -5,10 +5,6 @@ import { useTranslations } from "next-intl";
 import { Compass } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import {
-  WORLD_SERIF_FONT,
-  type WorldTitleFont,
-} from "@/lib/celeb/worldStyle";
 
 import type { ServiceItem, ServiceTarget } from "./celebServiceItems";
 import styles from "./CelebAtlasRails.module.css";
@@ -17,7 +13,6 @@ interface NavigationProps {
   items: ServiceItem[];
   activeSectionId: string;
   onNavigate: (target: ServiceTarget) => void;
-  titleFont?: WorldTitleFont;
 }
 
 const NAV_GROUP_START_KEYS = new Set([
@@ -31,11 +26,8 @@ export function CelebAtlasNavigation({
   items,
   activeSectionId,
   onNavigate,
-  titleFont = "sans",
 }: NavigationProps) {
   const t = useTranslations("celebPage");
-  const titleStyle =
-    titleFont === "serif" ? { fontFamily: WORLD_SERIF_FONT } : undefined;
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -150,7 +142,6 @@ export function CelebAtlasNavigation({
                   isActive && styles.profileNavItemActive,
                   !isReady && styles.profileNavItemPending,
                 )}
-                style={titleStyle}
               >
                 {item.label}
               </button>

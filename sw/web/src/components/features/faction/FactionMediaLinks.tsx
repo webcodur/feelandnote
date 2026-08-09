@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
-import { Music, Pause, Play, X } from "lucide-react";
+import { ArrowUpRight, Music, Pause, Play, X } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { Z_INDEX } from "@/constants/zIndex";
 import { connectBgm } from "@/lib/audio-ducking";
@@ -28,12 +29,14 @@ export default function FactionMediaLinks({
   videos,
   music,
   title,
+  atlasLink,
   className,
 }: {
   videos: FactionVideos | null | undefined;
   music?: FactionMusic | null;
   /** 재생 창 머리말에 쓸 이름(테마 이름) */
   title: string;
+  atlasLink?: { href: string; label: string };
   className?: string;
 }) {
   const t = useTranslations("factionMedia");
@@ -44,7 +47,7 @@ export default function FactionMediaLinks({
     ...(videos?.shorts ? [{ key: "shorts" as const, video: videos.shorts, label: t("watchShorts") }] : []),
   ];
 
-  if (choices.length === 0 && !music) return null;
+  if (choices.length === 0 && !music && !atlasLink) return null;
 
   return (
     <>
@@ -66,6 +69,13 @@ export default function FactionMediaLinks({
         ))}
 
         {music && <FactionMusicPill music={music} />}
+
+        {atlasLink ? (
+          <Link href={atlasLink.href} className={cn(PILL, PILL_IDLE)}>
+            {atlasLink.label}
+            <ArrowUpRight size={14} aria-hidden />
+          </Link>
+        ) : null}
       </div>
 
       {playing && (
