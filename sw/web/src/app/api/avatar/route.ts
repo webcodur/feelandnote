@@ -96,13 +96,13 @@ export async function POST(req: NextRequest) {
   // 지울 대상은 미리 알아두되, 삭제는 DB 갱신이 성공한 뒤에 한다.
   // 먼저 지우면 DB 갱신이 실패했을 때 옛 URL만 남고 파일은 사라져 프사가 깨진다.
   const { data: prev } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .select('avatar_url')
     .eq('id', user.id)
     .single()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .update({ avatar_url: url })
     .eq('id', user.id)
 

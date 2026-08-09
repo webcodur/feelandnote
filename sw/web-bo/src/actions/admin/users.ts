@@ -279,7 +279,7 @@ export async function unsuspendUser(userId: string): Promise<void> {
 export async function updateUserRole(userId: string, role: string): Promise<void> {
   const { admin } = await requireAccountManager(userId)
   if (admin.role !== 'super_admin') throw new Error('최고 관리자 권한이 필요합니다.')
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   if (!['user', 'admin', 'super_admin'].includes(role)) {
     throw new Error('Invalid role')
@@ -304,14 +304,17 @@ export interface UpdateProfileData {
 
 export async function updateUserProfile(userId: string, data: UpdateProfileData): Promise<void> {
   await requireAdmin()
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
-  const { error } = await supabase
-    .from('profiles')
+  const { data: updated, error } = await supabase
+    .from('member_profiles')
     .update(data)
     .eq('id', userId)
+    .select('id')
+    .maybeSingle()
 
   if (error) throw error
+  if (!updated) throw new Error('변경할 회원 프로필을 찾을 수 없습니다.')
 
   revalidatePath('/users')
   revalidatePath(`/users/${userId}`)

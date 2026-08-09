@@ -423,10 +423,9 @@ export async function updateContentResearchStatus(
 
   const admin = createAdminClient()
   const { data, error } = await admin
-    .from('profiles')
+    .from('celebs')
     .update({ content_research_status: nextStatus })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
     .select('id')
     .maybeSingle()
 

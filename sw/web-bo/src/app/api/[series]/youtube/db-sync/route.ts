@@ -5,17 +5,21 @@ import path from 'path'
 import { REMOTION_ROOT } from '@feelandnote/shared/bo/remotion-root'
 import { getSeriesById } from '@/features/book-recommend/lib/series-registry'
 import { createAdminClient } from '@/features/book-recommend/lib/supabase'
+import { guardAdminRoute } from '@/lib/admin-route'
 
 const LINEUP_PATH = path.join(REMOTION_ROOT, 'scripts', 'youtube', 'youtube-lineup.json')
 
 /**
- * lineup.json의 특정 에피소드 uploads를 profiles.youtube_videos에 UPSERT한다.
- * 에피소드명 = profiles.slug 규약 전제.
+ * lineup.json의 특정 에피소드 uploads를 celebs.youtube_videos에 UPSERT한다.
+ * 에피소드명 = celebs.slug 규약 전제.
  */
 export async function POST(
   req: Request,
   { params }: { params: Promise<{ series: string }> },
 ) {
+  const denied = await guardAdminRoute()
+  if (denied) return denied
+
   const { series } = await params
   if (!getSeriesById(series)) {
     return NextResponse.json({ error: 'invalid series' }, { status: 404 })
@@ -47,19 +51,18 @@ export async function POST(
 
   const admin = createAdminClient()
   const { data, error } = await admin
-    .from('profiles')
+    .from('celebs')
     .update({ youtube_videos: uploads })
     .eq('slug', episode)
-    .eq('profile_type', 'CELEB')
     .select('id, slug')
-    .single()
+    .maybeSingle()
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
   if (!data) {
     return NextResponse.json(
-      { error: `profile not found for slug "${episode}"` },
+      { error: `celeb not found for slug "${episode}"` },
       { status: 404 },
     )
   }

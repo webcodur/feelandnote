@@ -1,6 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdmin } from '@/lib/admin-auth'
 import { uploadToR2, deleteFromR2, R2_PUBLIC_URL } from '@/lib/r2'
 import {
   DIALOGUE_TYPES, TYPE_PREFIX, VARIANTS, LOCALES,
@@ -16,6 +18,7 @@ export async function uploadVoiceFile(
   fileName: string,
   formData: FormData,
 ): Promise<{ success: boolean; error?: string }> {
+  await requireAdmin()
   const file = formData.get('file') as File | null
   if (!file) return { success: false, error: '파일이 없다.' }
 
@@ -30,13 +33,17 @@ export async function toggleHasVoice(
   celebId: string,
   value: boolean,
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
-  const { error } = await supabase
-    .from('profiles')
+  await requireAdmin()
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from('celebs')
     .update({ has_voice: value })
     .eq('id', celebId)
+    .select('id')
+    .maybeSingle()
   if (error) return { success: false, error: error.message }
-  // profiles.has_voice — 대사 음성 재생 여부를 가르므로 대사 캐시도 함께
+  if (!data) return { success: false, error: '셀럽을 찾을 수 없습니다.' }
+  // celebs.has_voice — 대사 음성 재생 여부를 가르므로 대사 캐시도 함께
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }
@@ -90,6 +97,7 @@ export async function getVoiceStatus(celebId: string): Promise<{
 
 /** 전체 음성 삭제 */
 export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: boolean }> {
+  await requireAdmin()
   const keys: string[] = []
   for (const locale of LOCALES) {
     for (const type of DIALOGUE_TYPES) {
@@ -101,12 +109,23 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
     keys.push(voiceR2Key(celebId, locale, 'quote.mp3'))
   }
 
-  await Promise.allSettled(keys.map((k) => deleteFromR2(k)))
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from('celebs')
+    .update({ has_voice: false, voice_v: 0 })
+    .eq('id', celebId)
+    .select('id')
+    .maybeSingle()
+  if (error) throw error
+  if (!data) throw new Error('셀럽을 찾을 수 없습니다.')
 
-  const supabase = await createClient()
-  await supabase.from('profiles').update({ has_voice: false, voice_v: 0 }).eq('id', celebId)
+  const deletionResults = await Promise.allSettled(keys.map((key) => deleteFromR2(key)))
+  const failedDeletionCount = deletionResults.filter((result) => result.status === 'rejected').length
 
-  // profiles.has_voice/voice_v — 음성 전량 삭제, 대사 재생 경로도 무효
+  // celebs.has_voice/voice_v — 음성 전량 삭제, 대사 재생 경로도 무효
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  if (failedDeletionCount > 0) {
+    throw new Error(`음성 파일 ${failedDeletionCount}개를 삭제하지 못했습니다.`)
+  }
   return { success: true }
 }

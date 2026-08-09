@@ -717,9 +717,9 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
   const userId = crypto.randomUUID()
 
   try {
-    // profiles에 인물을 등록한다. slug는 nickname_en·slug_suffix로 자동 계산되는 열이다.
+    // celebs에 인물을 등록한다. slug는 nickname_en·slug_suffix로 자동 계산되는 열이다.
     const { data: insertedProfile, error: profileError } = await adminClient
-      .from('profiles')
+      .from('celebs')
       .insert({
         id: userId,
         nickname,
@@ -735,8 +735,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         consumption_philosophy: input.cultural_journey || null,
         avatar_url: input.avatar_url || null,
         is_verified: input.is_verified || false,
-        profile_type: 'CELEB',
-        status: input.status || 'suspended',
+        publication_status: input.status || 'suspended',
         celeb_tier: NEW_CELEB_TIER,
       })
       .select('slug')
@@ -814,6 +813,7 @@ export async function updateCeleb(
   input: UpdateCelebInput,
   { revalidateAdminRoutes = true }: UpdateCelebOptions = {}
 ): Promise<void> {
+  await requireAdmin()
   const adminClient = createAdminClient()
 
   const updateData: Record<string, unknown> = {}
@@ -834,14 +834,13 @@ export async function updateCeleb(
   if (input.avatar_url !== undefined) updateData.avatar_url = input.avatar_url
   if (input.portrait_url !== undefined) updateData.portrait_url = input.portrait_url || null
   if (input.is_verified !== undefined) updateData.is_verified = input.is_verified
-  if (input.status !== undefined) updateData.status = input.status
+  if (input.status !== undefined) updateData.publication_status = input.status
   if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier
 
   const { error } = await adminClient
-    .from('profiles')
+    .from('celebs')
     .update(updateData)
     .eq('id', input.id)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
@@ -897,11 +896,11 @@ export async function updateCeleb(
 
   // active 셀럽 정보 변경 시 IndexNow 색인 요청
   const { data: profile } = await adminClient
-    .from('profiles')
-    .select('slug, status')
+    .from('celebs')
+    .select('slug, publication_status')
     .eq('id', input.id)
     .single()
-  if (profile?.status === 'active' && profile?.slug) {
+  if (profile?.publication_status === 'active' && profile?.slug) {
     notifyIndexNow([`/celeb/${profile.slug}`])
   }
 }
@@ -909,14 +908,14 @@ export async function updateCeleb(
 
 // #region toggleCelebTier
 export async function toggleCelebTier(celebId: string, currentTier: string): Promise<void> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
   const newTier = currentTier === 'light' ? 'full' : 'light'
 
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ celeb_tier: newTier })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
@@ -928,7 +927,8 @@ export async function toggleCelebTier(celebId: string, currentTier: string): Pro
 
 // #region toggleCelebStatus
 export async function toggleCelebStatus(celebId: string, currentStatus: string): Promise<string> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
   const cycle: Record<string, string> = {
     active: 'inactive',
     inactive: 'active',
@@ -938,10 +938,9 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
 
   if (newStatus === 'active') {
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('avatar_url')
       .eq('id', celebId)
-      .eq('profile_type', 'CELEB')
       .single()
 
     if (profileError) throw profileError
@@ -951,17 +950,16 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
   }
 
   const { error } = await supabase
-    .from('profiles')
-    .update({ status: newStatus })
+    .from('celebs')
+    .update({ publication_status: newStatus })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
   // active 전환 시 IndexNow 색인 요청
   if (newStatus === 'active') {
     const { data: profile } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('slug')
       .eq('id', celebId)
       .single()
@@ -985,14 +983,14 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
 
 // #region deleteCeleb
 export async function deleteCeleb(celebId: string): Promise<void> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
 
   // 소프트 삭제 (status를 'deleted'로 변경)
   const { error } = await supabase
-    .from('profiles')
-    .update({ status: 'deleted' })
+    .from('celebs')
+    .update({ publication_status: 'deleted' })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
@@ -1314,13 +1312,13 @@ export async function getCelebsForJourneyEdit(page: number = 1, limit: number = 
 
 // #region updateCelebTitle - 수식어만 업데이트
 export async function updateCelebTitle(celebId: string, title: string | null): Promise<void> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ title })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
@@ -1334,13 +1332,13 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
 
 // #region updateCelebProfession - 직군만 업데이트
 export async function updateCelebProfession(celebId: string, profession: string | null): Promise<void> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ profession })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
@@ -1354,13 +1352,13 @@ export async function updateCelebProfession(celebId: string, profession: string 
 
 // #region updateCelebJourney - 감상 여정만 업데이트
 export async function updateCelebJourney(celebId: string, journey: string | null): Promise<void> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
 
   const { error } = await supabase
-    .from('profiles')
-    .update({ cultural_journey: journey })
+    .from('celebs')
+    .update({ consumption_philosophy: journey })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
@@ -1381,14 +1379,14 @@ export async function setCelebMonologueLock(
   celebId: string,
   locked: boolean
 ): Promise<{ locked_at: string | null }> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
 
   if (locked) {
     const { data: row, error: readError } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('virtual_monologue')
       .eq('id', celebId)
-      .eq('profile_type', 'CELEB')
       .single()
 
     if (readError) throw readError
@@ -1399,10 +1397,9 @@ export async function setCelebMonologueLock(
 
   const lockedAt = locked ? new Date().toISOString() : null
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ virtual_monologue_locked_at: lockedAt })
     .eq('id', celebId)
-    .eq('profile_type', 'CELEB')
 
   if (error) throw error
 
