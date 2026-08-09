@@ -14,6 +14,11 @@ import { GameAudioProvider } from "@/contexts/GameAudioContext";
 import PortraitSharpenFilter from "@/components/shared/PortraitSharpenFilter";
 import ServiceWorkerRegistrar from "@/components/pwa/ServiceWorkerRegistrar";
 import UiXray from "@/components/shared/ui-xray/UiXray";
+import {
+  getOrganizationJsonLd,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 import "../globals.css";
 
 export async function generateMetadata({
@@ -26,10 +31,10 @@ export async function generateMetadata({
   const ogLocale = locale === "ko" ? "ko_KR" : "en_US";
 
   return {
-    metadataBase: new URL("https://feelandnote.com"),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: t("title"),
-      template: "%s",
+      template: t("titleTemplate"),
     },
     description: t("description"),
     // canonical/languages는 레이아웃에서 선언하지 않는다 — 자체 alternates 없는 모든 하위 페이지가 canonical=홈을 상속하는 결함. 각 page.tsx가 자기 경로로 선언한다.
@@ -41,8 +46,8 @@ export async function generateMetadata({
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: "https://feelandnote.com",
-      siteName: "Feel&Note",
+      url: SITE_URL,
+      siteName: SITE_NAME,
       locale: ogLocale,
       alternateLocale: locale === "ko" ? "en_US" : "ko_KR",
       type: "website",
@@ -51,13 +56,13 @@ export async function generateMetadata({
           url: "/opengraph-image",
           width: 1200,
           height: 630,
-          alt: "Feel&Note",
+          alt: SITE_NAME,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Feel&Note",
+      title: t("title"),
       description: t("twitterDescription"),
       images: ["/opengraph-image"],
     },
@@ -94,27 +99,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages({ locale });
   const t = await getTranslations({ locale, namespace: "site" });
-  const siteJsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Feel&Note",
-      url: "https://feelandnote.com",
-      logo: "https://feelandnote.com/icon.png",
-      description: t("description"),
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      name: "Feel&Note",
-      url: "https://feelandnote.com",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://feelandnote.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string",
-      },
-    },
-  ];
+  const organizationJsonLd = getOrganizationJsonLd(t("description"));
 
   return (
     <html
@@ -135,7 +120,7 @@ export default async function LocaleLayout({
             <GlobalDialogueProvider>
               <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
               />
               <PortraitSharpenFilter />
               <ServiceWorkerRegistrar />

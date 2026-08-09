@@ -9,7 +9,12 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import ContentDetailPage from "@/components/features/content/ContentDetailPage";
 import { getPublicContentDetail } from "@/actions/contents/getContentDetail";
-import { getAlternates, getSeoImageUrl, toSeoDescription } from "@/lib/seo";
+import {
+  getAlternates,
+  getCreativeWorkCreatorJsonLd,
+  getSeoImageUrl,
+  toSeoDescription,
+} from "@/lib/seo";
 import ExternalContentDetailFallback from "./ExternalContentDetailFallback";
 
 const getPublicContentDetailCached = cache(getPublicContentDetail);
@@ -110,6 +115,10 @@ export default async function Page({ params }: PageProps) {
   }
 
   const { content } = data;
+  const canonicalUrl = getAlternates(
+    `/content/${contentId}`,
+    locale === "en" ? "en" : "ko",
+  ).canonical;
   const seoImageUrl = getSeoImageUrl(
     "content",
     contentId,
@@ -119,11 +128,14 @@ export default async function Page({ params }: PageProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": getSchemaType(content.type),
+    "@id": canonicalUrl,
     name: content.title,
-    ...(content.creator && { author: { "@type": "Person", name: content.creator } }),
+    ...getCreativeWorkCreatorJsonLd(content.type, content.creator),
     ...(content.description && { description: content.description }),
     image: seoImageUrl,
     ...(content.releaseDate && { datePublished: content.releaseDate }),
+    url: canonicalUrl,
+    mainEntityOfPage: canonicalUrl,
   };
 
   return (

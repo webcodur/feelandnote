@@ -1,14 +1,24 @@
 import type { MetadataRoute } from 'next'
 
-/**
- * 검색 노출과 무관한 AI 학습·수집용 크롤러.
- * 사람 트래픽이 거의 없는 사이트에서 이들의 전수 반복 크롤은 순수 데이터 전송 비용(egress)만
- * 발생시키고 검색 유입에는 기여하지 않으므로 전면 차단한다.
- */
-const AI_CRAWLERS = [
-  'GPTBot',
-  'ChatGPT-User',
+/** 검색·답변 노출과 사용자 요청에 쓰이는 봇. 학습용 봇과 분리해 공개 문서만 허용한다. */
+const ANSWER_CRAWLERS = [
   'OAI-SearchBot',
+  'ChatGPT-User',
+  'Claude-SearchBot',
+  'Claude-User',
+  'PerplexityBot',
+  'Perplexity-User',
+  'Amzn-SearchBot',
+  'Amzn-User',
+  'YouBot',
+]
+
+/**
+ * 검색 노출과 무관한 AI 모델 학습·대량 수집용 크롤러.
+ * 검색·답변용 봇은 ANSWER_CRAWLERS로 분리하고, 이 목록만 전면 차단한다.
+ */
+const MODEL_TRAINING_CRAWLERS = [
+  'GPTBot',
   'ClaudeBot',
   'anthropic-ai',
   'Claude-Web',
@@ -17,14 +27,12 @@ const AI_CRAWLERS = [
   'Applebot-Extended',
   'Bytespider',
   'Amazonbot',
-  'PerplexityBot',
   'meta-externalagent',
   'FacebookBot',
   'Diffbot',
   'ImagesiftBot',
   'Omgilibot',
   'cohere-ai',
-  'YouBot',
   'DataForSeoBot',
 ]
 
@@ -58,6 +66,14 @@ const COMMON_DISALLOW = [
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
+      // 답변 엔진도 일반 검색엔진과 같은 공개 범위만 읽는다.
+      // 각 회사의 검색용 UA를 학습용 UA와 분리해야 검색·인용 후보에서 빠지지 않는다.
+      {
+        userAgent: ANSWER_CRAWLERS,
+        allow: '/',
+        disallow: COMMON_DISALLOW,
+        crawlDelay: 1,
+      },
       // 일반 검색 크롤러: 콘텐츠는 열되 과도한 크롤 속도는 늦춘다(crawlDelay 준수 봇 한정)
       // 10은 2,996 URL 사이트의 Bing·네이버 색인을 지나치게 늦춰 1로 완화(2026-07-14)
       {
@@ -66,9 +82,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: COMMON_DISALLOW,
         crawlDelay: 1,
       },
-      // AI 학습·수집 크롤러: 전 경로 차단
+      // 모델 학습·대량 수집 크롤러: 전 경로 차단
       {
-        userAgent: AI_CRAWLERS,
+        userAgent: MODEL_TRAINING_CRAWLERS,
         disallow: '/',
       },
     ],

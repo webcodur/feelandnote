@@ -14,18 +14,26 @@ const INDEXABLE_TIER_FILTER =
     : `in.(${INDEXABLE_TIERS.join(',')})`
 
 /** Supabase REST API로 직접 fetch (supabase-js 의존 제거) */
-async function fetchCelebs(): Promise<{ slug: string; created_at: string | null }[]> {
+async function fetchCelebs(): Promise<{
+  slug: string
+  created_at: string | null
+  updated_at: string | null
+}[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) return []
 
-  const allCelebs: { slug: string; created_at: string | null }[] = []
+  const allCelebs: {
+    slug: string
+    created_at: string | null
+    updated_at: string | null
+  }[] = []
   const PAGE_SIZE = 1000
   let offset = 0
 
   while (true) {
     const params = new URLSearchParams({
-      select: 'slug,created_at',
+      select: 'slug,created_at,updated_at',
       publication_status: 'eq.active',
       // 색인 등급(full)만 등재한다 — 얇은 등급(light/fiction)은 콘텐츠가 없어
       // noindex 처리되므로 사이트맵 등재가 모순 신호(등재↔색인거부)를 만든다
@@ -66,18 +74,21 @@ async function fetchCelebs(): Promise<{ slug: string; created_at: string | null 
  * 콘텐츠 수(약 6,700)가 다르다. PostgREST에는 distinct가 없어 전량 받아 Set으로 중복을 없앤다.
  * 감상문이 0건인 콘텐츠는 출판사 소개문만 남아 상세 페이지에서 noindex 처리되므로 등재하지 않는다.
  */
-async function fetchReviewedContentIds(): Promise<string[]> {
+async function fetchReviewedContents(): Promise<{
+  id: string
+  lastModified: Date | undefined
+}[]> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!url || !key) return []
 
-  const contentIds = new Set<string>()
+  const contentUpdatedAt = new Map<string, string>()
   const PAGE_SIZE = 1000
   let offset = 0
 
   while (true) {
     const params = new URLSearchParams({
-      select: 'content_id',
+      select: 'content_id,updated_at',
       review: 'not.is.null',
       visibility: 'eq.public',
       // content_id는 중복되므로 PK로 정렬해야 페이지 경계에서 행이 밀리거나 겹치지 않는다
@@ -99,16 +110,25 @@ async function fetchReviewedContentIds(): Promise<string[]> {
       break
     }
 
-    const data: { content_id: string | null }[] = await res.json()
+    const data: { content_id: string | null; updated_at: string | null }[] = await res.json()
     for (const row of data) {
-      if (row.content_id) contentIds.add(row.content_id)
+      if (!row.content_id) continue
+      const previous = contentUpdatedAt.get(row.content_id)
+      if (row.updated_at && (!previous || row.updated_at > previous)) {
+        contentUpdatedAt.set(row.content_id, row.updated_at)
+      } else if (!previous) {
+        contentUpdatedAt.set(row.content_id, '')
+      }
     }
 
     if (data.length < PAGE_SIZE) break
     offset += PAGE_SIZE
   }
 
-  return [...contentIds]
+  return [...contentUpdatedAt].map(([id, updatedAt]) => ({
+    id,
+    lastModified: updatedAt ? new Date(updatedAt) : undefined,
+  }))
 }
 
 /**
@@ -189,18 +209,29 @@ const staticPaths: [string, MetadataRoute.Sitemap[number]['changeFrequency'], nu
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [celebs, reviewedContentIds, curatedPaths] = await Promise.all([
+  const [celebs, reviewedContents, curatedPaths] = await Promise.all([
     fetchCelebs(),
-    fetchReviewedContentIds(),
+    fetchReviewedContents(),
     fetchCuratedPaths(),
   ])
 
   const staticEntries = staticPaths.flatMap(([path, freq, priority]) => entry(path, freq, priority))
   const celebEntries = celebs.flatMap((celeb) =>
-    entry(`/celeb/${celeb.slug}`, 'weekly', 0.7, celeb.created_at ? new Date(celeb.created_at) : undefined),
+    entry(
+      `/celeb/${celeb.slug}`,
+      'weekly',
+      0.7,
+      celeb.updated_at
+        ? new Date(celeb.updated_at)
+        : celeb.created_at
+          ? new Date(celeb.created_at)
+          : undefined,
+    ),
   )
   // 쿼리스트링(?category=book)은 붙이지 않는다 — 상세 페이지는 id만으로 조회되므로 /content/{id}가 정본이다
-  const contentEntries = reviewedContentIds.flatMap((id) => entry(`/content/${id}`, 'monthly', 0.6))
+  const contentEntries = reviewedContents.flatMap(({ id, lastModified }) =>
+    entry(`/content/${id}`, 'monthly', 0.6, lastModified),
+  )
   const curatedEntries = curatedPaths.flatMap((path) => entry(path, 'monthly', 0.7))
 
   return [...staticEntries, ...celebEntries, ...contentEntries, ...curatedEntries]

@@ -12,6 +12,8 @@ interface HomeTabSectionProps {
   freeSection: React.ReactNode;
   /** 환영판 본문 — 서비스 소개 전체(첫인사 액자 포함). /about과 같은 것을 그린다 */
   aboutPanel?: ReactNode;
+  brandHeading: string;
+  brandAlias: string;
   labels: {
     todayFigure: string;
     quickRecord: string;
@@ -25,6 +27,8 @@ export default function HomeTabSection({
   freeSection,
   labels,
   aboutPanel,
+  brandHeading,
+  brandAlias,
 }: HomeTabSectionProps) {
   const tShared = useTranslations("shared");
   const [activeTab, setActiveTab] = useState<"record" | "figure" | "free">("figure");
@@ -38,7 +42,11 @@ export default function HomeTabSection({
     <div className="w-full flex flex-col items-center">
       {/* 1. Logo Space — 로고 아래로 환영판이 이어진다 */}
       <div className="flex flex-col items-center justify-center pt-16 pb-6 md:pt-28 md:pb-10 animate-in fade-in slide-in-from-top-4 duration-700 w-full">
+        <h1 className="sr-only">{brandHeading}</h1>
         <Logo size="xl" variant="hero" subtitle="YOUR CULTURAL LEGACY" />
+        <p className="mt-3 text-sm font-medium tracking-[0.08em] text-accent">
+          {brandAlias}
+        </p>
 
         {/* 환영판 — 서비스 소개 전체 */}
         {aboutPanel && (

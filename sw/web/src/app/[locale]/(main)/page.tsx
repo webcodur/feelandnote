@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
-import { getLocalizedAlternates } from "@/lib/seo";
+import { getLocalizedAlternates, getWebSiteJsonLd } from "@/lib/seo";
 import HomeIntroPanel from "./about/HomeIntroPanel";
 
 export async function generateMetadata() {
@@ -12,7 +12,6 @@ export async function generateMetadata() {
   };
 }
 import { getUserContents } from "@/actions/contents/getUserContents";
-import { getRecentContents } from "@/actions/contents/getRecentContents";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import HomeRecordSection from "@/components/features/quickRecord/HomeRecordSection";
 import TodayFigureSection from "@/components/features/figure/TodayFigureSection";
@@ -25,34 +24,13 @@ import { getTodayFigure, getQuickRecordSuggestions } from "@/actions/library";
 import PopularBooks from "@/components/features/home/PopularBooks";
 import YoutubeChannelLink from "@/components/features/home/YoutubeChannelLink";
 
-// #region 스켈레톤
-function HomeSectionSkeleton() {
-  return (
-    <div className="w-full flex flex-col gap-8 animate-pulse">
-      {/* 프로필 헤더 */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-full bg-white/5" />
-        <div className="h-5 w-32 bg-white/5 rounded" />
-      </div>
-      {/* 카테고리 탭 + 검색바 */}
-      <div className="space-y-4">
-        <div className="flex gap-3">
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-8 w-12 bg-white/5 rounded-full" />
-          ))}
-        </div>
-        <div className="h-10 w-full bg-white/5 rounded-lg" />
-      </div>
-      {/* 에디터 영역 */}
-      <div className="h-[200px] bg-white/5 rounded-xl" />
-    </div>
-  );
-}
-// #endregion
-
 export default async function MainPage() {
-  const supabase = await createClient();
-  const t = await getTranslations("home.ui.tabs");
+  const [supabase, t, siteT] = await Promise.all([
+    createClient(),
+    getTranslations("home.ui.tabs"),
+    getTranslations("site"),
+  ]);
+  const webSiteJsonLd = getWebSiteJsonLd(siteT("description"));
   // 환영판은 첫인사 액자만 세운다. 맺음 문장이 서비스 소개(/about)로 가는 문이다
   const aboutPanel = <HomeIntroPanel />;
   const {
@@ -107,23 +85,31 @@ export default async function MainPage() {
   );
 
   return (
-    // 비동기 서버 페이지가 클라이언트 구획(HomeTabSection 등)을 그리므로 intl 컨텍스트를 재공급한다(code-rules.md)
-    <AsyncIntlProvider>
-      <div className="pb-20">
-        <HomeTabSection
-          recordSection={RecordSection}
-          figureSection={FigureSectionContent}
-          freeSection={<HomeFreeBoardSection />}
-          aboutPanel={aboutPanel}
-          labels={{
-            todayFigure: t("todayFigure"),
-            quickRecord: t("quickRecord"),
-            freeBoard: t("freeBoard"),
-          }}
-        />
-        {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다 */}
-        <PopularBooks />
-      </div>
-    </AsyncIntlProvider>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+      />
+      {/* 비동기 서버 페이지가 클라이언트 구획(HomeTabSection 등)을 그리므로 intl 컨텍스트를 재공급한다(code-rules.md) */}
+      <AsyncIntlProvider>
+        <div className="pb-20">
+          <HomeTabSection
+            recordSection={RecordSection}
+            figureSection={FigureSectionContent}
+            freeSection={<HomeFreeBoardSection />}
+            aboutPanel={aboutPanel}
+            brandHeading={siteT("brandHeading")}
+            brandAlias={siteT("brandAlias")}
+            labels={{
+              todayFigure: t("todayFigure"),
+              quickRecord: t("quickRecord"),
+              freeBoard: t("freeBoard"),
+            }}
+          />
+          {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다 */}
+          <PopularBooks />
+        </div>
+      </AsyncIntlProvider>
+    </>
   );
 }

@@ -1,8 +1,8 @@
 {
   "explore": {
     "meta": {
-      "title": "Explore - Celebrity Book & Movie Recommendations",
-      "description": "Discover books, movies, and music recommended by 1,000+ celebrities. From historical figures to modern icons — explore their reading lists and cultural tastes."
+      "title": "Explore Figures - Books, Films & Music",
+      "description": "Explore the books, films, music, and viewing records of more than 1,000 historical and contemporary figures on Feel&Note."
     },
     "celebs": {
       "metaTitle": "Celebrity Recommendations | Books, Movies & Music",
@@ -220,7 +220,7 @@
       "navOthers": "Other Figures"
     },
     "youtube": {
-      "metaTitle": "Feel&Note Video Archive | Library Tour & Faction Atlas",
+      "metaTitle": "Video Archive | Library Tour & Faction Atlas",
       "metaDescription": "Explore Feel&Note original video series Library Tour and Faction Atlas, with full-episode and short-form playlists in one place.",
       "eyebrow": "FEEL&NOTE VIDEO ARCHIVE",
       "title": "The world of remarkable figures, unfolded on film",
