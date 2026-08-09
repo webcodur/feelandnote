@@ -22,7 +22,8 @@
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
-  z-index: 3;
+  z-index: 20;
+  pointer-events: none;
   padding: 2.8rem 1.05rem 0.95rem;
   background: linear-gradient(
     to top,

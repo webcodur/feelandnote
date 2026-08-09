@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { Brain } from "lucide-react";
-import type { MemoryCardData } from "./types";
+import type { MemoryCardData, MemoryPairResult } from "./types";
 
 interface Props {
   card: MemoryCardData;
   isFlipped: boolean;
   isMatched: boolean;
+  pairResult: MemoryPairResult;
   isLocked: boolean;
   backLabel: string;
   onSelect: (card: MemoryCardData) => void;
@@ -17,6 +18,7 @@ export default function MemoryCard({
   card,
   isFlipped,
   isMatched,
+  pairResult,
   isLocked,
   backLabel,
   onSelect,
@@ -26,15 +28,19 @@ export default function MemoryCard({
   return (
     <button
       type="button"
-      disabled={isMatched || isLocked}
+      disabled={isMatched || isLocked || (isFlipped && pairResult !== null)}
       aria-label={revealed ? card.figure.name : backLabel}
       aria-hidden={isMatched}
       onClick={() => onSelect(card)}
       className={[
         "group relative aspect-[4/5] min-w-0 rounded-lg border bg-bg-card text-left",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-        isFlipped
-          ? "border-accent shadow-[0_0_22px_-8px_rgba(212,175,55,0.8)]"
+        pairResult === "match"
+          ? "border-emerald-400/80 bg-emerald-950/20 shadow-[0_0_24px_-8px_rgba(52,211,153,0.8)]"
+          : pairResult === "mismatch"
+            ? "border-orange-400/80 bg-orange-950/20 shadow-[0_0_24px_-8px_rgba(251,146,60,0.7)]"
+            : isFlipped
+              ? "border-accent shadow-[0_0_22px_-8px_rgba(212,175,55,0.8)]"
           : "border-accent/20 hover:border-accent/70 hover:bg-white/[0.04]",
         isMatched
           ? "invisible pointer-events-none"
@@ -57,7 +63,16 @@ export default function MemoryCard({
             fill
             sizes="(max-width: 640px) 20vw, 140px"
             className="object-cover"
+            style={{ filter: "none" }}
           />
+          {pairResult && (
+            <span
+              className={`pointer-events-none absolute inset-0 ${
+                pairResult === "match" ? "bg-emerald-400/15" : "bg-orange-400/15"
+              }`}
+              aria-hidden
+            />
+          )}
           <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent px-1.5 pb-1.5 pt-6">
             <span className="block truncate text-center font-serif text-sm font-bold text-text-primary">
               {card.figure.name}

@@ -20,12 +20,13 @@ export default async function AdminLayout({
   }
 
   // 이름은 사람 기록에, 권한은 계정 기록에 있다(26.08.07 분리).
-  const [{ data: profile }, { data: account }] = await Promise.all([
+  const [{ data: profile }, { data: account }, { data: isAdmin }] = await Promise.all([
     supabase.from('profiles').select('nickname').eq('id', user.id).single(),
     supabase.from('user_accounts').select('role').eq('id', user.id).single(),
+    supabase.rpc('is_admin'),
   ])
 
-  if (!profile || !account || !['admin', 'super_admin'].includes(account.role || '')) {
+  if (!profile || !account || !isAdmin) {
     redirect('/login')
   }
 

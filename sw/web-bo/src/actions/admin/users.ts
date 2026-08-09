@@ -1,6 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAccountManager, requireAdmin } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
 // 사람 기록(profiles)과 계정 기록(user_accounts)은 26.08.07에 갈라졌다.
@@ -193,9 +195,19 @@ export async function getUser(userId: string): Promise<User | null> {
 }
 
 export async function suspendUser(userId: string, reason: string): Promise<void> {
-  const supabase = await createClient()
+  await requireAccountManager(userId)
 
-  const { error } = await supabase
+  const admin = createAdminClient()
+  const { data: previous, error: previousError } = await admin
+    .from('user_accounts')
+    .select('account_status, suspended_at, suspended_reason')
+    .eq('id', userId)
+    .maybeSingle()
+
+  if (previousError) throw previousError
+  if (!previous) throw new Error('정지할 회원을 찾을 수 없습니다.')
+
+  const { error } = await admin
     .from('user_accounts')
     .update({
       account_status: 'suspended',
@@ -206,13 +218,40 @@ export async function suspendUser(userId: string, reason: string): Promise<void>
 
   if (error) throw error
 
+  const { error: banError } = await admin.auth.admin.updateUserById(userId, {
+    ban_duration: '876000h',
+  })
+
+  if (banError) {
+    const { error: rollbackError } = await admin
+      .from('user_accounts')
+      .update(previous)
+      .eq('id', userId)
+
+    if (rollbackError) {
+      throw new Error(`Auth 정지 실패 후 계정 상태 복구도 실패했습니다: ${rollbackError.message}`)
+    }
+    throw banError
+  }
+
   revalidatePath('/users')
 }
 
 export async function unsuspendUser(userId: string): Promise<void> {
-  const supabase = await createClient()
+  const { target } = await requireAccountManager(userId)
+  if (target.account_status !== 'suspended') {
+    throw new Error('정지된 회원만 정지를 해제할 수 있습니다.')
+  }
 
-  const { error } = await supabase
+  const admin = createAdminClient()
+
+  const { error: unbanError } = await admin.auth.admin.updateUserById(userId, {
+    ban_duration: 'none',
+  })
+
+  if (unbanError) throw unbanError
+
+  const { error } = await admin
     .from('user_accounts')
     .update({
       account_status: 'active',
@@ -220,13 +259,26 @@ export async function unsuspendUser(userId: string): Promise<void> {
       suspended_reason: null,
     })
     .eq('id', userId)
+    .eq('account_status', 'suspended')
+    .select('id')
+    .single()
 
-  if (error) throw error
+  if (error) {
+    const { error: rebanError } = await admin.auth.admin.updateUserById(userId, {
+      ban_duration: '876000h',
+    })
+    if (rebanError) {
+      throw new Error(`계정 상태 갱신 실패 후 Auth 재정지도 실패했습니다: ${rebanError.message}`)
+    }
+    throw error
+  }
 
   revalidatePath('/users')
 }
 
 export async function updateUserRole(userId: string, role: string): Promise<void> {
+  const { admin } = await requireAccountManager(userId)
+  if (admin.role !== 'super_admin') throw new Error('최고 관리자 권한이 필요합니다.')
   const supabase = await createClient()
 
   if (!['user', 'admin', 'super_admin'].includes(role)) {
@@ -251,6 +303,7 @@ export interface UpdateProfileData {
 }
 
 export async function updateUserProfile(userId: string, data: UpdateProfileData): Promise<void> {
+  await requireAdmin()
   const supabase = await createClient()
 
   const { error } = await supabase

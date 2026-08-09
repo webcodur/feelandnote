@@ -23,10 +23,9 @@ async function fetchYoutubeCelebsPublic(): Promise<YoutubeCeleb[]> {
   const supabase = createStaticClient()
 
   const { data, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('slug, nickname, nickname_en, avatar_url, youtube_videos')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     // 신화·관계 인물은 목록에서 제외
     .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
     .not('youtube_videos', 'is', null)

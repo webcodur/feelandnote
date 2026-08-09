@@ -46,10 +46,9 @@ async function fetchSearchCelebs(
   }
 
   const { data, count, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en', { count: 'exact' })
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     // 기본 목록 등급에 픽션 인물을 더해 검색한다.
     .in('celeb_tier', [...SEARCHABLE_CELEB_TIERS])
     .or(`nickname.ilike.%${safeQuery}%,nickname_en.ilike.%${safeQuery}%`)

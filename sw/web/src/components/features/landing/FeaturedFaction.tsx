@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import type { Locale } from "@/types/locale";
 import { useSearchParams } from "next/navigation";
@@ -27,18 +27,29 @@ interface FeaturedFactionProps {
   tags: FeaturedTag[];
   location?: FactionLocation;
   initialTagId?: string;
+  canEditNames?: boolean;
 }
 
-export default function FeaturedFaction({ tags, location = "main", initialTagId }: FeaturedFactionProps) {
+export default function FeaturedFaction({
+  tags,
+  location = "main",
+  initialTagId,
+  canEditNames = false,
+}: FeaturedFactionProps) {
   const t = useTranslations("explore.faction");
   const tLanding = useTranslations("landing");
   const locale = useLocale() as Locale;
 
   const isExplore = location === "explore-pc" || location === "explore-mb";
+  const [displayTags, setDisplayTags] = useState(tags);
+
+  useEffect(() => {
+    setDisplayTags(tags);
+  }, [tags]);
   
-  const initialFound = initialTagId ? tags.findIndex(t => t.id === initialTagId) : -1;
+  const initialFound = initialTagId ? displayTags.findIndex(t => t.id === initialTagId) : -1;
   // 그룹 헤더 태그로 진입한 경우(예: /faction/ai)는 개별 테마가 아니므로 컬렉션 화면으로 연다.
-  const initialIsGroup = initialFound >= 0 && !!tags[initialFound]?.isGroup;
+  const initialIsGroup = initialFound >= 0 && !!displayTags[initialFound]?.isGroup;
   const initialIndex = initialFound >= 0 && !initialIsGroup ? initialFound : 0;
 
   const startIdx = (isExplore && !initialTagId) || initialIsGroup ? -1 : initialIndex;
@@ -53,8 +64,8 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
   if (prevTagParam !== tagParam) {
     setPrevTagParam(tagParam);
     if (tagParam) {
-      const idx = tags.findIndex((tag) => tag.id === tagParam);
-      if (idx !== -1) setActiveTagIndex(tags[idx]?.isGroup ? -1 : idx);
+      const idx = displayTags.findIndex((tag) => tag.id === tagParam);
+      if (idx !== -1) setActiveTagIndex(displayTags[idx]?.isGroup ? -1 : idx);
     } else if (isExplore && !initialTagId) {
       // slug로 들어온 경우(initialTagId 존재)는 해당 테마를 유지. 쿼리·slug 없을 때만 컬렉션 화면으로.
       setActiveTagIndex(-1);
@@ -66,7 +77,16 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const activeTag = activeTagIndex >= 0 && tags.length > 0 ? tags[activeTagIndex] : null;
+  const activeTag = activeTagIndex >= 0 && displayTags.length > 0 ? displayTags[activeTagIndex] : null;
+
+  const handleTagNameChange = useCallback(
+    (tagId: string, patch: Pick<FeaturedTag, "name" | "name_en">) => {
+      setDisplayTags((previous) => previous.map((tag) => (
+        tag.id === tagId ? { ...tag, ...patch } : tag
+      )));
+    },
+    [],
+  );
 
   // 선택된 테마를 주소창에 반영(공유 가능한 고유 주소). 페이지 이동 없이 주소만 갱신한다.
   useEffect(() => {
@@ -105,7 +125,7 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
       {activeTagIndex !== -1 && (
         <div className="block md:hidden relative z-50">
           <FactionTagSheetMobile
-            tags={tags}
+            tags={displayTags}
             activeIndex={activeTagIndex}
             onChange={handleTagChange}
             locale={locale}
@@ -116,7 +136,7 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
       {activeTagIndex !== -1 && (
         <div className="hidden md:block relative z-40 mb-2">
           <FactionTagDrawerDesktop
-            tags={tags}
+            tags={displayTags}
             activeIndex={activeTagIndex}
             onChange={handleTagChange}
             isExplore={isExplore}
@@ -167,8 +187,10 @@ export default function FeaturedFaction({ tags, location = "main", initialTagId 
       {/* ─── 콘텐츠 영역 ─── */}
       {activeTagIndex === -1 ? (
         <FactionIntroView
-          tags={tags}
+          tags={displayTags}
           locale={locale}
+          canEditNames={canEditNames}
+          onTagNameChange={handleTagNameChange}
         />
       ) : (
         <>

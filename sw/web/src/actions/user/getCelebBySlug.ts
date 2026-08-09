@@ -166,15 +166,16 @@ interface PublicCelebBySlugData {
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
   const supabase = createStaticClient()
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, is_verified, created_at, selected_title, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
+  const { data: celeb } = await supabase
+    .from('celebs')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .single()
 
-  if (!profile) return null
+  if (!celeb) return null
+
+  const profile = { ...celeb, selected_title: null }
 
   const userId = profile.id as string
 

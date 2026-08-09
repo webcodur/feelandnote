@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { getUsers, type User } from './users'
 import { getCelebs, type Celeb, type CelebImageFilter } from './celebs'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
+import { requireAccountManager } from '@/lib/admin-auth'
 
 /**
  * 상태 변경·삭제가 반영돼야 할 화면을 갱신한다.
@@ -555,92 +556,13 @@ export async function getMemberBySlug(rawSlug: string): Promise<Member | null> {
 }
 // #endregion
 
-// #region promoteToCeleb
-export async function promoteToCeleb(userId: string): Promise<void> {
-  const supabase = await createClient()
-
-  const { error } = await supabase
-    .from('profiles')
-    .update({ profile_type: 'CELEB' })
-    .eq('id', userId)
-    .eq('profile_type', 'USER')
-
-  if (error) throw error
-
-  // USER → CELEB 승격. 유저 목록·상세에서 빠지고 셀럽 목록에 나타난다
-  revalidatePath('/users')
-  revalidatePath(`/users/${userId}`)
-  revalidatePath('/celebs')
-}
-// #endregion
-
-// #region softDeleteMember
-export async function softDeleteMember(memberId: string): Promise<void> {
-  const supabase = await createClient()
-
-  const { error } = await supabase
-    .from('profiles')
-    .update({ status: 'deleted' })
-    .eq('id', memberId)
-
-  if (error) throw error
-
-  revalidateMemberPaths(memberId)
-}
-// #endregion
-
 // #region hardDeleteMember
 export async function hardDeleteMember(memberId: string): Promise<void> {
-  const { createAdminClient } = await import('@/lib/supabase/admin')
-  const adminClient = createAdminClient()
-
-  // note_id, playlist_id 먼저 조회
-  const { data: notes } = await adminClient.from('notes').select('id').eq('user_id', memberId)
-  const noteIds = notes?.map((n) => n.id) || []
-
-  const { data: playlists } = await adminClient.from('playlists').select('id').eq('user_id', memberId)
-  const playlistIds = playlists?.map((p) => p.id) || []
-
-  // NO ACTION FK 참조 해제 (contributor_id, resolved_by 등)
-  await adminClient.from('records').update({ contributor_id: null }).eq('contributor_id', memberId)
-  await adminClient.from('user_contents').update({ contributor_id: null }).eq('contributor_id', memberId)
-  await adminClient.from('reports').update({ resolved_by: null }).eq('resolved_by', memberId)
-
-  // 관련 데이터 순차 삭제 (외래키 의존성 순서)
-  const deleteQueries = [
-    adminClient.from('record_likes').delete().eq('user_id', memberId),
-    adminClient.from('record_comments').delete().eq('user_id', memberId),
-    ...(noteIds.length > 0 ? [adminClient.from('note_sections').delete().in('note_id', noteIds)] : []),
-    adminClient.from('notes').delete().eq('user_id', memberId),
-    ...(playlistIds.length > 0 ? [adminClient.from('playlist_items').delete().in('playlist_id', playlistIds)] : []),
-    adminClient.from('playlists').delete().eq('user_id', memberId),
-    adminClient.from('records').delete().eq('user_id', memberId),
-    adminClient.from('user_contents').delete().eq('user_id', memberId),
-    adminClient.from('follows').delete().or(`follower_id.eq.${memberId},following_id.eq.${memberId}`),
-    adminClient.from('blocks').delete().or(`blocker_id.eq.${memberId},blocked_id.eq.${memberId}`),
-    adminClient.from('guestbook_entries').delete().or(`profile_id.eq.${memberId},author_id.eq.${memberId}`),
-    adminClient.from('activity_logs').delete().eq('user_id', memberId),
-    adminClient.from('score_logs').delete().eq('user_id', memberId),
-    adminClient.from('user_titles').delete().eq('user_id', memberId),
-    adminClient.from('user_scores').delete().eq('user_id', memberId),
-    adminClient.from('user_social').delete().eq('user_id', memberId),
-    adminClient.from('tier_lists').delete().eq('user_id', memberId),
-    adminClient.from('blind_game_scores').delete().eq('user_id', memberId),
-    adminClient.from('celeb_influence').delete().eq('celeb_id', memberId),
-    adminClient.from('celeb_tag_assignments').delete().eq('celeb_id', memberId),
-    adminClient.from('ai_reviews').delete().eq('user_id', memberId),
-    adminClient.from('notifications').delete().eq('user_id', memberId),
-    adminClient.from('content_recommendations').delete().or(`sender_id.eq.${memberId},receiver_id.eq.${memberId}`),
-  ]
-
-  for (const query of deleteQueries) {
-    await query
-  }
-
-  // profiles와 auth.users를 한 트랜잭션에서 삭제한다.
-  // 26.08.07 profiles_id_fkey를 떼어냈으므로 계정만 지우면 프로필이 남는다.
-  // auth.admin.deleteUser API는 confirmation_token NULL 버그로 실패할 수 있어 쓰지 않는다.
-  const { error } = await adminClient.rpc('delete_auth_user', { target_user_id: memberId })
+  await requireAccountManager(memberId)
+  const supabase = await createClient()
+  const { error } = await supabase.rpc('admin_delete_auth_user', {
+    target_user_id: memberId,
+  })
 
   if (error) throw error
 

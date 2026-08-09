@@ -11,14 +11,13 @@ import { createClient as createSupabaseClient, type SupabaseClient } from '@supa
 import { createClient } from '@/lib/supabase/server'
 import type { DiscourseRowSource } from '@feelandnote/shared/lib/discourse-assemble'
 
-/** 관리자 확인 — 로그인 + role(admin|super_admin). 아니면 던진다 */
+/** 관리자 확인 — 로그인 + 활성 관리자 계정. 아니면 던진다 */
 export async function requireDiscourseAdmin(): Promise<{ userId: string }> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('로그인이 필요합니다')
-  const { data: profile } = await supabase
-    .from('user_accounts').select('role').eq('id', user.id).single()
-  if (!profile || !['admin', 'super_admin'].includes(profile.role ?? '')) {
+  const { data: isAdmin, error } = await supabase.rpc('is_admin')
+  if (error || !isAdmin) {
     throw new Error('관리자 권한이 필요합니다')
   }
   return { userId: user.id }

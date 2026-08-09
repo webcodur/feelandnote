@@ -21,10 +21,9 @@ async function fetchCelebDirectory(): Promise<CelebDirectoryRow[]> {
   // nickname은 중복 가능 — 페이지 경계에서 중복·누락이 나지 않도록 id를 2차 정렬키로 둔다.
   return await selectAllPages<CelebDirectoryRow>((from, to) =>
     supabase
-      .from('profiles')
+      .from('celebs')
       .select('slug, nickname, nickname_en, profession')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .eq('publication_status', 'active')
       // 신화·관계 인물은 목록에서 제외
       .in('celeb_tier', [...LISTING_DEFAULT_TIERS])
       .not('slug', 'is', null)

@@ -1,4 +1,5 @@
 export type MemoryDifficulty = "easy" | "normal" | "hard";
+export type MemoryPairResult = "match" | "mismatch" | null;
 
 export interface MemoryFigure {
   id: string;

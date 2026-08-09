@@ -7,6 +7,7 @@ import Pager from "../Pager";
 import SectionCarousel from "../SectionCarousel";
 import ThemeAction from "../ThemeAction";
 import type { CollectionSection, CollectionViewProps } from "../types";
+import FactionNameEditor from "../FactionNameEditor";
 import collectionStyles from "../FactionCollection.module.css";
 import viewStyles from "../FactionViews.module.css";
 
@@ -14,8 +15,14 @@ const REGISTRY_PAGE_SIZE = 7;
 
 function RegistrySection({
   section,
+  locale,
+  canEditNames,
+  onTagNameChange,
 }: {
   section: CollectionSection;
+  locale: CollectionViewProps["locale"];
+  canEditNames?: boolean;
+  onTagNameChange?: CollectionViewProps["onTagNameChange"];
 }) {
   const t = useTranslations("explore.faction.intro");
   const sectionStyle = { "--faction-color": section.color } as CSSProperties;
@@ -56,7 +63,16 @@ function RegistrySection({
               {String(page * REGISTRY_PAGE_SIZE + index + 1).padStart(2, "0")}
             </span>
             <div className="min-w-0">
-              <h3 className={collectionStyles.registryTitle}>{theme.name}</h3>
+              {canEditNames ? (
+                <FactionNameEditor
+                  tag={theme.tag}
+                  locale={locale}
+                  titleClassName={collectionStyles.registryTitle}
+                  onSaved={(patch) => onTagNameChange?.(theme.tag.id, patch)}
+                />
+              ) : (
+                <h3 className={collectionStyles.registryTitle}>{theme.name}</h3>
+              )}
               {theme.description && (
                 <p className="mt-1 line-clamp-1 text-sm text-text-secondary">
                   {theme.description}
@@ -69,9 +85,7 @@ function RegistrySection({
               </p>
             </div>
             <span className={`${viewStyles.registryCount} whitespace-nowrap text-sm text-text-secondary`}>
-              {theme.tag.is_featured
-                ? t("figureCount", { count: theme.tag.celebs.length })
-                : t("upcomingBadge")}
+              {t("figureCount", { count: theme.tag.celebs.length })}
             </span>
           </ThemeAction>
         ))}
@@ -83,8 +97,11 @@ function RegistrySection({
 
 export default function RegistryCollection({
   data,
+  locale,
   sectionIndex,
   onSectionChange,
+  canEditNames,
+  onTagNameChange,
 }: CollectionViewProps) {
   return (
     <div className={collectionStyles.collectionBody}>
@@ -93,9 +110,14 @@ export default function RegistryCollection({
         activeIndex={sectionIndex}
         onChange={onSectionChange}
       >
-        {(section) => (
-          <RegistrySection section={section} />
-        )}
+          {(section) => (
+            <RegistrySection
+              section={section}
+              locale={locale}
+              canEditNames={canEditNames}
+              onTagNameChange={onTagNameChange}
+            />
+          )}
       </SectionCarousel>
     </div>
   );

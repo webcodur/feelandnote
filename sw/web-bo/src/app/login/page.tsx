@@ -67,6 +67,14 @@ function LoginForm() {
       return
     }
 
+    const { data: isAdmin, error: adminError } = await supabase.rpc('is_admin')
+    if (adminError || !isAdmin) {
+      await supabase.auth.signOut({ scope: 'local' })
+      setError('활성 관리자 계정만 로그인할 수 있습니다.')
+      setLoading(false)
+      return
+    }
+
     router.push(redirect)
     router.refresh()
   }

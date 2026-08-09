@@ -195,7 +195,7 @@ export function FactionTableSection({
         )}
         <span className={`relative z-10 flex items-center justify-between gap-3 ${onToggle ? 'pointer-events-none' : ''}`}>
           {body}
-          {action}
+          {action && <span className={onToggle ? 'pointer-events-auto' : ''}>{action}</span>}
         </span>
       </td>
     </tr>

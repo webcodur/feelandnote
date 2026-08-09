@@ -9,6 +9,8 @@ import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getFeaturedTags } from "@/actions/home";
 import FeaturedFaction from "@/components/features/landing/FeaturedFaction";
 import { getLocalizedAlternates } from "@/lib/seo";
+import { isAdmin } from "@/lib/auth/checkAdmin";
+import { createClient } from "@/lib/supabase/server";
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.faction");
@@ -19,11 +21,17 @@ export async function generateMetadata() {
 }
 
 async function FactionServer({ initialTagId }: { initialTagId?: string }) {
-  const featuredTags = await getFeaturedTags();
+  const [featuredTags, supabase] = await Promise.all([getFeaturedTags(), createClient()]);
+  const canEditNames = await isAdmin(supabase);
 
   return (
     <AsyncIntlProvider>
-      <FeaturedFaction tags={featuredTags} location="explore-pc" initialTagId={initialTagId} />
+      <FeaturedFaction
+        tags={featuredTags}
+        location="explore-pc"
+        initialTagId={initialTagId}
+        canEditNames={canEditNames}
+      />
     </AsyncIntlProvider>
   );
 }

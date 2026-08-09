@@ -35,7 +35,7 @@ verification: {
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: Supabase REST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default
-- **lastModified**: 셀럽만 `profiles.created_at` 사용 (`updated_at` 컬럼 없음). 정적 경로·콘텐츠는 **기록하지 않는다** — `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 구글이 lastmod 신호를 무시하게 만든다
+- **lastModified**: 셀럽만 `profiles.created_at` 사용. `updated_at`은 2026-08-09 추가되어 기존 행이 null이므로 아직 사이트맵 기준으로 전환하지 않았다. 정적 경로·콘텐츠는 **기록하지 않는다** — `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 구글이 lastmod 신호를 무시하게 만든다
 
 ## RSS 피드
 

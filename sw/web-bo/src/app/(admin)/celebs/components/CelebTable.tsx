@@ -8,7 +8,6 @@ import { toggleCelebTier, toggleCelebStatus } from '@/actions/admin/celebs'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
-import StatusToggle from '../../members/components/StatusToggle'
 import NationalityBadge from '../../members/components/NationalityBadge'
 import SortableTableHeader from '@/components/ui/SortableTableHeader'
 
@@ -32,12 +31,11 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
           <SortableTableHeader column="content_count" label="content_count" align="center" />
           <SortableTableHeader column="follower_count" label="follower_count" align="center" />
           <SortableTableHeader column="created_at" label="created_at" align="center" />
-          <th className="text-center px-3 md:px-4 py-3 text-xs md:text-sm font-medium text-text-secondary w-24">actions</th>
         </tr>
       </thead>
       <tbody className="divide-y divide-border">
         {celebs.length === 0 ? (
-          <tr><td colSpan={14} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
+          <tr><td colSpan={13} className="px-4 py-12 text-center text-text-secondary text-sm">셀럽이 없습니다</td></tr>
         ) : (
           celebs.map((celeb) => (
             <tr key={celeb.id} className="odd:bg-white/[0.02] hover:bg-bg-secondary/50">
@@ -122,11 +120,6 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
               </td>
               <td className="px-3 md:px-4 py-3 text-center">
                 <DateTimeCell date={celeb.created_at} />
-              </td>
-              <td className="px-3 md:px-4 py-3">
-                <div className="flex items-center justify-center">
-                  <StatusToggle member={celeb} />
-                </div>
               </td>
             </tr>
           ))

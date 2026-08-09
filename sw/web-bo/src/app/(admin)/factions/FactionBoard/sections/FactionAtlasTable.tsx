@@ -15,13 +15,12 @@
 import { Fragment, useMemo, useState, useTransition } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronsDownUp, ChevronsUpDown, Sparkles } from 'lucide-react'
+import { ArrowRight, ChevronsDownUp, ChevronsUpDown } from 'lucide-react'
 import type { FactionThemeSummary } from '@/actions/admin/factions/themes'
 import type { FactionEpisodeSummary } from '@/actions/admin/factions/episodes'
 import { regenerateFactionRegistry } from '@/actions/admin/factions/export'
 import {
   FactionTable,
-  FactionTableBadge,
   FactionTableEmpty,
   FactionTableSection,
   type FactionTableColumn,
@@ -29,18 +28,19 @@ import {
 import { useToast } from '@/contexts/ToastContext'
 import FactionSearchField from '../FactionSearchField'
 import { getFactionSearchTokens, matchesFactionSearch } from '../factionSearch'
-import { EpisodeAtlasRow, OPEN_BUTTON, ThemeAtlasRow, themeEditPath } from './AtlasRows'
+import { EpisodeAtlasRow, OPEN_BUTTON, ThemeActiveToggle, ThemeAtlasRow, themeEditPath } from './AtlasRows'
 import { buildAtlasSections, buildThemesByFolder, groupTagIds } from './atlasGrouping'
 import InlineThemeName from './InlineThemeName'
 
 type AtlasFilter = 'all' | 'registered' | 'unregistered' | 'unlinked' | 'webonly'
 
 const COLUMNS: FactionTableColumn[] = [
-  { key: 'item', header: '영상 편 · 테마' },
+  { key: 'item', header: '영상 편 · 테마', width: '16rem' },
   { key: 'render', header: '렌더 편성', width: '8.5rem' },
   { key: 'catalog', header: '도감', width: '11rem' },
   { key: 'composition', header: '세력 / 인물', width: '9rem', align: 'center' },
-  { key: 'themes', header: '연결 테마 · 사진', width: '18rem' },
+  { key: 'factions', header: '세력', width: '15rem' },
+  { key: 'active', header: '활성화 여부', width: '9rem' },
   { key: 'updated', header: '수정', width: '6.5rem', align: 'center' },
   { key: 'open', header: '', width: '8rem', align: 'center' },
 ]
@@ -264,15 +264,11 @@ export default function FactionAtlasTable({
                   action={
                     groupTheme ? (
                       <span className="flex items-center gap-2">
-                        <FactionTableBadge
-                          className={groupTheme.is_featured
-                            ? 'bg-accent/15 text-accent'
-                            : 'bg-amber-500/10 text-amber-400'}
-                          icon={<Sparkles className="h-3.5 w-3.5" />}
-                          title={groupTheme.is_featured ? '서비스 도감에 노출 중' : '비노출 — 준비 중 상태'}
-                        >
-                          {groupTheme.is_featured ? '도감 노출 중' : '준비 중'}
-                        </FactionTableBadge>
+                        <ThemeActiveToggle
+                          themeId={groupTheme.id}
+                          themeName={groupTheme.name}
+                          initialActive={groupTheme.is_featured}
+                        />
                         <Link
                           href={themeEditPath(groupTheme)}
                           title={`${groupTheme.name} 상위분류 화면으로`}

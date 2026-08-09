@@ -20,9 +20,9 @@ async function fetchGenderCounts(): Promise<GenderCounts> {
   // 병렬 조회 — 목록 노출 등급만 센다(목록과 수치 기준 일치)
   const tiers = [...LISTING_DEFAULT_TIERS]
   const [totalResult, maleResult, femaleResult] = await Promise.all([
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('profile_type', 'CELEB').eq('status', 'active').in('celeb_tier', tiers),
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('profile_type', 'CELEB').eq('status', 'active').in('celeb_tier', tiers).eq('gender', true),
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('profile_type', 'CELEB').eq('status', 'active').in('celeb_tier', tiers).eq('gender', false),
+    supabase.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers),
+    supabase.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers).eq('gender', true),
+    supabase.from('celebs').select('*', { count: 'exact', head: true }).eq('publication_status', 'active').in('celeb_tier', tiers).eq('gender', false),
   ])
 
   return [

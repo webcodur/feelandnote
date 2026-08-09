@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getAccountAccessState } from '@/lib/auth/account-access'
 import type { EmailOtpType } from '@supabase/supabase-js'
 
 export async function GET(request: NextRequest) {
@@ -34,7 +35,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (data.user) {
-      await createProfileIfNotExists(supabase, data.user)
+      const accessRedirect = await getAccountAccessRedirect(supabase, origin)
+      if (accessRedirect) return accessRedirect
 
       // 비밀번호 리셋인 경우 리셋 페이지로 이동
       if (type === 'recovery') {
@@ -61,7 +63,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (data.user) {
-      await createProfileIfNotExists(supabase, data.user)
+      const accessRedirect = await getAccountAccessRedirect(supabase, origin)
+      if (accessRedirect) return accessRedirect
       const redirectPath = nextParam ?? `/${data.user.id}/reading`
       return NextResponse.redirect(`${origin}${redirectPath}`)
     }
@@ -72,7 +75,8 @@ export async function GET(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (user) {
-    await createProfileIfNotExists(supabase, user)
+    const accessRedirect = await getAccountAccessRedirect(supabase, origin)
+    if (accessRedirect) return accessRedirect
     const redirectPath = nextParam ?? `/${user.id}/reading`
     return NextResponse.redirect(`${origin}${redirectPath}`)
   }
@@ -81,38 +85,18 @@ export async function GET(request: NextRequest) {
   return NextResponse.redirect(`${origin}/login?error=no_session`)
 }
 
-// 프로필이 없으면 생성
-async function createProfileIfNotExists(
+async function getAccountAccessRedirect(
   supabase: Awaited<ReturnType<typeof createClient>>,
-  user: { id: string; email?: string; user_metadata: Record<string, unknown> }
-) {
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('id', user.id)
-    .single()
+  origin: string
+): Promise<NextResponse | null> {
+  const accessState = await getAccountAccessState(supabase)
+  if (accessState === 'active') return null
 
-  if (profileError && profileError.code === 'PGRST116') {
-    // 닉네임 우선순위: 이메일 가입 시 입력한 nickname > OAuth full_name > OAuth name > 이메일 앞부분
-    const nickname = (user.user_metadata.nickname as string)
-      || (user.user_metadata.full_name as string)
-      || (user.user_metadata.name as string)
-      || user.email?.split('@')[0]
-      || 'User'
-
-    const { error: insertError } = await supabase
-      .from('profiles')
-      .insert({
-        id: user.id,
-        email: user.email,
-        nickname,
-        avatar_url: (user.user_metadata.avatar_url as string)
-          || (user.user_metadata.picture as string)
-          || null
-      })
-
-    if (insertError) {
-      console.error('Insert profile error:', insertError)
-    }
-  }
+  await supabase.auth.signOut({ scope: 'local' })
+  const error = accessState === 'blocked'
+    ? 'account_suspended'
+    : accessState === 'incomplete'
+      ? 'account_incomplete'
+      : 'auth_unavailable'
+  return NextResponse.redirect(`${origin}/login?error=${error}`)
 }
