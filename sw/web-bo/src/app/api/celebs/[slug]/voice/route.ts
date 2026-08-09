@@ -39,7 +39,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 /**
  * PUT /api/celebs/[slug]/voice
  * body: { locale: 'ko'|'en', voiceId: string }
- * profiles.voice_id_ko / voice_id_en을 업데이트한다(인물 단위 영구 저장).
+ * celebs.voice_id_ko / voice_id_en을 업데이트한다(인물 단위 영구 저장).
  */
 export async function PUT(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const denied = await guardAdminRoute()
@@ -59,11 +59,13 @@ export async function PUT(req: Request, { params }: { params: Promise<{ slug: st
 
   const admin = createAdminClient()
   const col = locale === 'ko' ? 'voice_id_ko' : 'voice_id_en'
-  const { error } = await admin
-    .from('profiles')
+  const { data, error } = await admin
+    .from('celebs')
     .update({ [col]: voiceId || null })
     .eq(keyColumn(slug), slug)
-    .eq('profile_type', 'CELEB')
+    .select('id')
+    .maybeSingle()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!data) return NextResponse.json({ error: 'celeb not found' }, { status: 404 })
   return NextResponse.json({ ok: true, slug, locale, voiceId })
 }

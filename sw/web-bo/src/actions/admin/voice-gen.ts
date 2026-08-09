@@ -1,6 +1,8 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdmin } from '@/lib/admin-auth'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCache } from '@/lib/revalidate-web'
@@ -162,15 +164,26 @@ export async function generateVoicePreview(params: {
 
 /** voice_v를 1 증가 (캐시 버스터 갱신) 후 새 값 반환 */
 export async function bumpVoiceVersion(celebId: string): Promise<number> {
-  const supabase = await createClient()
-  const { data } = await supabase
-    .from('profiles')
+  await requireAdmin()
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from('celebs')
     .select('voice_v')
     .eq('id', celebId)
     .single()
+  if (error || !data) throw error ?? new Error('셀럽을 찾을 수 없습니다.')
+
   const newV = ((data as Record<string, unknown>)?.voice_v as number ?? 0) + 1
-  await supabase.from('profiles').update({ voice_v: newV }).eq('id', celebId)
-  // profiles.voice_v — 음성 파일 캐시 버스터, 대사 음성 URL에 붙는다
+  const { data: updated, error: updateError } = await supabase
+    .from('celebs')
+    .update({ voice_v: newV })
+    .eq('id', celebId)
+    .select('id')
+    .maybeSingle()
+  if (updateError) throw updateError
+  if (!updated) throw new Error('셀럽을 찾을 수 없습니다.')
+
+  // celebs.voice_v — 음성 파일 캐시 버스터, 대사 음성 URL에 붙는다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return newV
 }
@@ -184,6 +197,7 @@ export async function uploadVoiceFromPreview(params: {
   variant?: number
   contentType?: string
 }): Promise<{ success: boolean; url?: string; error?: string }> {
+  await requireAdmin()
   const { celebId, base64, locale, dialogueType, variant, contentType = 'audio/mpeg' } = params
 
   const name = voiceFileName(dialogueType, variant)
@@ -225,9 +239,18 @@ export async function fetchVoiceFile(params: {
 
 /** has_voice 활성화 */
 export async function enableHasVoice(celebId: string): Promise<void> {
-  const supabase = await createClient()
-  await supabase.from('profiles').update({ has_voice: true }).eq('id', celebId)
-  // profiles.has_voice — 대사 음성 재생 여부를 가른다
+  await requireAdmin()
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from('celebs')
+    .update({ has_voice: true })
+    .eq('id', celebId)
+    .select('id')
+    .maybeSingle()
+  if (error) throw error
+  if (!data) throw new Error('셀럽을 찾을 수 없습니다.')
+
+  // celebs.has_voice — 대사 음성 재생 여부를 가른다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 
@@ -237,14 +260,18 @@ export async function saveVoiceId(
   locale: 'ko' | 'en',
   voiceId: string,
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
+  await requireAdmin()
+  const supabase = createAdminClient()
   const col = locale === 'ko' ? 'voice_id_ko' : 'voice_id_en'
-  const { error } = await supabase
-    .from('profiles')
+  const { data, error } = await supabase
+    .from('celebs')
     .update({ [col]: voiceId })
     .eq('id', celebId)
+    .select('id')
+    .maybeSingle()
   if (error) return { success: false, error: error.message }
-  // profiles.voice_id_ko/en — 대사 음성 합성에 쓰이는 프로필 컬럼
+  if (!data) return { success: false, error: '셀럽을 찾을 수 없습니다.' }
+  // celebs.voice_id_ko/en — 대사 음성 합성에 쓰이는 셀럽 컬럼
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }

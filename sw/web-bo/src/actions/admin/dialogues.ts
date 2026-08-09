@@ -1,7 +1,7 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdmin } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
@@ -27,10 +27,11 @@ export async function updateSpeechTone(
   celebId: string,
   tone: string,
 ): Promise<void> {
+  await requireAdmin()
   const supabase = createAdminClient()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ speech_tone: tone })
     .eq('id', celebId)
 
@@ -38,7 +39,7 @@ export async function updateSpeechTone(
 
   revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
-  // profiles.speech_tone — 프로필 컬럼이지만 대사 재생에 쓰이므로 둘 다
+  // celebs.speech_tone — 셀럽 컬럼이지만 대사 재생에 쓰이므로 둘 다
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 // #endregion
@@ -48,10 +49,11 @@ export async function updateVoiceSpeed(
   celebId: string,
   speed: number,
 ): Promise<void> {
+  await requireAdmin()
   const supabase = createAdminClient()
 
   const { error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .update({ voice_speed: speed } as Record<string, unknown>)
     .eq('id', celebId)
 
@@ -59,7 +61,7 @@ export async function updateVoiceSpeed(
 
   revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
-  // profiles.voice_speed — 프로필 컬럼이자 대사 재생 속도
+  // celebs.voice_speed — 셀럽 컬럼이자 대사 재생 속도
   await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 // #endregion
@@ -73,6 +75,7 @@ export async function saveCelebDialogues(
   lines: DialogueLines | null,
   lines_en: DialogueLines | null,
 ): Promise<void> {
+  await requireAdmin()
   const supabase = createAdminClient()
 
   const payload: Record<string, unknown> = {

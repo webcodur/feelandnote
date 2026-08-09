@@ -128,13 +128,13 @@ async function removeBackgroundWithLocalCpu(source: Buffer, celebId: string): Pr
 export async function processNobgAvatar(celebId: string): Promise<string> {
   const admin = createAdminClient()
   const { data: celeb, error } = await admin
-    .from('profiles')
-    .select('id, avatar_url, profile_type')
+    .from('celebs')
+    .select('id, avatar_url')
     .eq('id', celebId)
     .maybeSingle()
 
   if (error) throw new Error(`셀럽 조회 실패: ${error.message}`)
-  if (!celeb || celeb.profile_type !== 'CELEB') throw new Error('셀럽을 찾을 수 없습니다.')
+  if (!celeb) throw new Error('셀럽을 찾을 수 없습니다.')
   if (!celeb.avatar_url) throw new Error('배경을 제거할 아바타가 없습니다.')
 
   const source = await downloadAvatar(celeb.avatar_url)
@@ -145,12 +145,14 @@ export async function processNobgAvatar(celebId: string): Promise<string> {
   await uploadToR2(smallAvatarKey(celeb.id), await buildSmallAvatar(result), 'image/webp')
 
   const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
-  const { error: updateError } = await admin
-    .from('profiles')
+  const { data: updated, error: updateError } = await admin
+    .from('celebs')
     .update({ avatar_url: url })
     .eq('id', celeb.id)
-    .eq('profile_type', 'CELEB')
+    .select('id')
+    .maybeSingle()
   if (updateError) throw new Error(`아바타 주소 갱신 실패: ${updateError.message}`)
+  if (!updated) throw new Error('아바타 주소를 갱신할 셀럽을 찾을 수 없습니다.')
 
   await revalidateWebCache(CACHE_TAGS.CELEBS)
   return url

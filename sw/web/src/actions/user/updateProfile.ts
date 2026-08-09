@@ -48,7 +48,7 @@ export async function updateProfile(input: UpdateProfileInput): Promise<ActionRe
   if (input.nationality !== undefined) updateData.nationality = input.nationality || null
 
   const { error } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .update(updateData)
     .eq('id', user.id)
 

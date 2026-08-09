@@ -34,7 +34,7 @@ export async function updateShowcaseTitles(titleCodes: string[]): Promise<Action
   const selectedTitle = titleCodes[0] || null
 
   const { error } = await supabase
-    .from('profiles')
+    .from('member_profiles')
     .update({ showcase_titles: titleCodes, selected_title: selectedTitle })
     .eq('id', user.id)
 
