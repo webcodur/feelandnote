@@ -174,17 +174,17 @@ async function main() {
   console.log('콘텐츠 사전 적재 중...')
   loadAliases(resolve(__dirname, '..', '..', '..', 'docs', 'curated-lists', '_author-aliases.json'))
   // 도서만이 아니라 영상까지 후보로 삼는다. 목록마다 대상 매체가 다르므로 판정할 때 갈라 쓴다
-  const works = await selectAll<{ id: string; type: string; user_count: number | null }>(
+  const works = await selectAll<{ id: string; type: string; record_count: number | null }>(
     sb,
     'contents',
-    'id, type, user_count',
+    'id, type, record_count',
     'id'
   )
   const books = works.filter((w) => w.type === 'BOOK' || w.type === 'VIDEO')
   const bookIds = new Set(books.map((b) => b.id))
   const typeById = new Map(books.map((b) => [b.id, b.type]))
   // 같은 책이 여러 건으로 등록된 경우가 있다. 실제로 쓰이는 쪽(감상 기록이 많은 쪽)을 정본으로 본다
-  const useCount = new Map(books.map((b) => [b.id, b.user_count ?? 0]))
+  const useCount = new Map(books.map((b) => [b.id, b.record_count ?? 0]))
   const pickBest = (ids: string[]) =>
     [...ids].sort((x, y) => (useCount.get(y) ?? 0) - (useCount.get(x) ?? 0) || x.localeCompare(y))[0]
   const locales = await selectAll<LocaleRow>(sb, 'content_locales', 'content_id, locale, title, creator', 'content_id')

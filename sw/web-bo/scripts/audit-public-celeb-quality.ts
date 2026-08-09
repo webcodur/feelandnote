@@ -55,7 +55,7 @@ type ProfileRow = {
   nationality: string | null
   birth_date: string | null
   death_date: string | null
-  status: string | null
+  publication_status: string | null
   celeb_tier: string | null
   speech_tone: string | null
   consumption_philosophy: string | null
@@ -80,9 +80,9 @@ type InfluenceRow = {
 
 type PersonaRow = { celeb_id: string; persona: Json | null }
 
-type UserContentRow = {
+type CelebContentRow = {
   id: string
-  user_id: string
+  celeb_id: string
   content_id: string
   review: string | null
   review_en: string | null
@@ -182,12 +182,11 @@ function percentile(values: number[], p: number): number {
 
 async function main() {
   // 전수 표를 동시에 당기면 운영 DB statement timeout을 만들 수 있다. 큰 표부터 순차 페이징한다.
-  const profiles = await allRows<ProfileRow>('profiles', async (from, to) => {
+  const profiles = await allRows<ProfileRow>('celebs', async (from, to) => {
     const { data, error } = await db
-      .from('profiles')
-      .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, status, celeb_tier, speech_tone, consumption_philosophy, consumption_philosophy_en, virtual_monologue, virtual_monologue_en')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .from('celebs')
+      .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, bio, bio_en, nationality, birth_date, death_date, publication_status, celeb_tier, speech_tone, consumption_philosophy, consumption_philosophy_en, virtual_monologue, virtual_monologue_en')
+      .eq('publication_status', 'active')
       .order('id')
       .range(from, to)
     return { data: data as unknown as ProfileRow[] | null, error }
@@ -209,13 +208,13 @@ async function main() {
     const { data, error } = await db.from('celeb_persona').select('celeb_id, persona').order('celeb_id').range(from, to)
     return { data: data as unknown as PersonaRow[] | null, error }
   })
-  const userContents = await allRows<UserContentRow>('user_contents', async (from, to) => {
+  const celebContents = await allRows<CelebContentRow>('celeb_contents', async (from, to) => {
     const { data, error } = await db
-      .from('user_contents')
-      .select('id, user_id, content_id, review, review_en, source_url')
+      .from('celeb_contents')
+      .select('id, celeb_id, content_id, review, review_en, source_url')
       .order('id')
       .range(from, to)
-    return { data: data as unknown as UserContentRow[] | null, error }
+    return { data: data as unknown as CelebContentRow[] | null, error }
   })
   const contents = await allRows<ContentRow>('contents', async (from, to) => {
     const { data, error } = await db.from('contents').select('id, type, external_source').order('id').range(from, to)
@@ -377,7 +376,7 @@ async function main() {
     .sort((a, b) => {
       return dialogueProblemScore(b) - dialogueProblemScore(a) || a.slug.localeCompare(b.slug)
     })
-  const scopeContents = userContents.filter(row => fullIds.has(row.user_id))
+  const scopeContents = celebContents.filter(row => fullIds.has(row.celeb_id))
   const contentById = new Map(contents.map(row => [row.id, row]))
   const profileById = new Map(profiles.map(row => [row.id, row]))
   const localesByContent = new Map<string, LocaleRow[]>()
@@ -386,7 +385,7 @@ async function main() {
     localesByContent.get(row.content_id)!.push(row)
   }
 
-  const contentIssuesByUser = new Map<string, {
+  const contentIssuesByCeleb = new Map<string, {
     contentCount: number
     reviewMissingKo: number
     reviewMissingEn: number
@@ -400,7 +399,7 @@ async function main() {
     legacyBookSource: number
   }>()
   for (const row of scopeContents) {
-    const issue = contentIssuesByUser.get(row.user_id) ?? {
+    const issue = contentIssuesByCeleb.get(row.celeb_id) ?? {
       contentCount: 0,
       reviewMissingKo: 0,
       reviewMissingEn: 0,
@@ -430,10 +429,10 @@ async function main() {
     issue.thumbnailMissingEn += Number(Boolean(en) && !text(en?.thumbnail_url))
     issue.legacyBookSource += Number(content?.type === 'BOOK'
       && !['kakao_book', 'aladin', 'openlibrary'].includes(content.external_source ?? ''))
-    contentIssuesByUser.set(row.user_id, issue)
+    contentIssuesByCeleb.set(row.celeb_id, issue)
   }
-  const contentAuditQueue = [...contentIssuesByUser.entries()]
-    .map(([userId, issue]) => {
+  const contentAuditQueue = [...contentIssuesByCeleb.entries()]
+    .map(([celebId, issue]) => {
       const hardDefects = issue.reviewMissingKo
         + issue.reviewMissingEn
         + issue.sourceMissing
@@ -443,11 +442,11 @@ async function main() {
         + issue.thumbnailMissingEn
         + issue.legacyBookSource
       const thinSignals = issue.reviewThinKo + issue.reviewThinEn
-      const profile = profileById.get(userId)
+      const profile = profileById.get(celebId)
       return {
-        userId,
+        celebId,
         slug: profile?.slug ?? '',
-        nickname: profile?.nickname ?? userId,
+        nickname: profile?.nickname ?? celebId,
         hardDefects,
         thinSignals,
         ...issue,
@@ -465,7 +464,7 @@ async function main() {
     rows: scopeContents.length,
     fullProfilesWithoutContent: profiles
       .filter(row => row.celeb_tier === 'full')
-      .filter(profile => !scopeContents.some(row => row.user_id === profile.id))
+      .filter(profile => !scopeContents.some(row => row.celeb_id === profile.id))
       .map(row => row.nickname ?? row.id),
     reviewMissingKo: scopeContents.filter(row => !text(row.review)).length,
     reviewMissingEn: scopeContents.filter(row => !text(row.review_en)).length,

@@ -55,9 +55,8 @@ type ProfileRow = {
   slug: string | null
   nickname: string | null
   nickname_en: string | null
-  profile_type: string | null
   celeb_tier: string | null
-  status: string | null
+  publication_status: string | null
 }
 
 type TagRow = {
@@ -275,7 +274,7 @@ function canonicalSlug(slug: string): string {
 }
 
 /**
- * profiles.slug generated column의 현행 규칙을 신규 데이터 검증에 필요한 범위로 재현한다.
+ * celebs.slug generated column의 현행 규칙을 신규 데이터 검증에 필요한 범위로 재현한다.
  * 이 대상의 영문명은 ASCII라 diacritic translate 단계가 결과를 바꾸지 않는다.
  */
 function expectedGeneratedSlug(nicknameEn: string, slugSuffix?: string): string {
@@ -333,9 +332,8 @@ function desiredProfile(person: PersonRow, folder: string, slug: string) {
     death_date: null,
     bio,
     bio_en: bioEn,
-    profile_type: 'CELEB',
     celeb_tier: 'fiction',
-    status: 'active',
+    publication_status: 'active',
     is_verified: false,
     // 근거 검토를 거치지 않은 장문을 채우지 않는다.
     virtual_monologue: null,
@@ -349,43 +347,36 @@ async function createDataOnlyProfile(
   folder: string,
   slug: string,
 ): Promise<ProfileRow> {
-  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
-  const userId = crypto.randomUUID()
+  // 인물은 로그인 계정을 갖지 않는다. 도메인 식별자만 직접 발급한다.
+  const celebId = crypto.randomUUID()
   try {
     const { error: profileError } = await client
-      .from('profiles')
-      .insert({ id: userId, ...desiredProfile(person, folder, slug) })
+      .from('celebs')
+      .insert({ id: celebId, ...desiredProfile(person, folder, slug) })
     if (profileError) throw profileError
 
-    const [social, scores, created] = await Promise.all([
-      client.from('user_social').upsert({
-        user_id: userId,
+    const [metrics, created] = await Promise.all([
+      client.from('celeb_metrics').upsert({
+        celeb_id: celebId,
         follower_count: 0,
-        following_count: 0,
-        friend_count: 0,
-        influence: 0,
+        content_count: 0,
       }),
-      client.from('user_scores').upsert({
-        user_id: userId,
-        activity_score: 0,
-        title_bonus: 0,
-        total_score: 0,
-      }),
-      client.from('profiles')
-        .select('id,slug,nickname,nickname_en,profile_type,celeb_tier,status')
-        .eq('id', userId)
+      client.from('celebs')
+        .select('id,slug,nickname,nickname_en,celeb_tier,publication_status')
+        .eq('id', celebId)
         .single(),
     ])
-    if (social.error) throw social.error
-    if (scores.error) throw scores.error
+    if (metrics.error) throw metrics.error
     if (created.error) throw created.error
     if (created.data.slug !== slug) {
       throw new Error(`${person.name_en}: 생성 slug ${created.data.slug} !== ${slug}`)
     }
     return created.data as ProfileRow
   } catch (error) {
-    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
-    await client.rpc('delete_auth_user', { target_user_id: userId })
+    const cleanup = await client.from('celebs').delete().eq('id', celebId)
+    if (cleanup.error) {
+      throw new AggregateError([error, cleanup.error], `${slug}: 생성 실패 뒤 celebs 정리도 실패`)
+    }
     throw error
   }
 }
@@ -412,9 +403,9 @@ async function main() {
       .order('id').range(from, to)
     return { data: data as unknown as PersonRow[] | null, error }
   })
-  const profiles = await allRows<ProfileRow>('profiles', async (from, to) => {
-    const { data, error } = await db.from('profiles')
-      .select('id,slug,nickname,nickname_en,profile_type,celeb_tier,status')
+  const profiles = await allRows<ProfileRow>('celebs', async (from, to) => {
+    const { data, error } = await db.from('celebs')
+      .select('id,slug,nickname,nickname_en,celeb_tier,publication_status')
       .order('id').range(from, to)
     return { data: data as unknown as ProfileRow[] | null, error }
   })
@@ -463,10 +454,10 @@ async function main() {
   for (const [slug, variants] of canonicalGroups) {
     const existing = profileBySlug.get(slug)
     if (existing) {
-      if (existing.profile_type !== 'CELEB' || existing.celeb_tier !== 'fiction') {
+      if (existing.celeb_tier !== 'fiction') {
         throw new Error(
           `${slug}: canonical slug가 fiction CELEB가 아닙니다. `
-          + `(${existing.profile_type}/${existing.celeb_tier}, ${existing.nickname_en})`,
+          + `(${existing.celeb_tier}, ${existing.nickname_en})`,
         )
       }
       profileForCanonical.set(slug, existing)

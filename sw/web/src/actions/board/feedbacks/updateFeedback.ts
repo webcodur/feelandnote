@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { FeedbackWithAuthor } from '@/types/database'
+import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 
 interface UpdateFeedbackParams {
   id: string
@@ -64,10 +65,7 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
     .from('feedbacks')
     .update(updates)
     .eq('id', id)
-    .select(`
-      *,
-      author:profiles!author_id(id, nickname, avatar_url)
-    `)
+    .select('*')
     .single()
 
   if (error) {
@@ -80,5 +78,6 @@ export async function updateFeedback(params: UpdateFeedbackParams): Promise<Acti
   revalidatePath(`/en/agora/board/feedback/${id}`)
   revalidateTag('feedbacks', { expire: 0 })
 
-  return success(data as FeedbackWithAuthor)
+  const feedback = await attachMemberAuthor(supabase, data)
+  return success(feedback as FeedbackWithAuthor)
 }

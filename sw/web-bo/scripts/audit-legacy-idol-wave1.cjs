@@ -10,11 +10,11 @@ const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABA
 
 async function main() {
   const names = [...new Set(batch.flatMap((p) => [p.nickname, p.nickname_en]))]
-  const select = 'id,slug,nickname,nickname_en,profile_type,profession,gender,status,title,celeb_tier'
+  const select = 'id,slug,nickname,nickname_en,profession,gender,publication_status,title,celeb_tier'
   const [koResult, enResult, slugResult] = await Promise.all([
-    db.from('profiles').select(select).eq('profile_type', 'CELEB').in('nickname', batch.map((p) => p.nickname)),
-    db.from('profiles').select(select).eq('profile_type', 'CELEB').in('nickname_en', batch.map((p) => p.nickname_en)),
-    db.from('profiles').select(select).eq('profile_type', 'CELEB').in('slug', batch.map((p) => p.slug)),
+    db.from('celebs').select(select).in('nickname', batch.map((p) => p.nickname)),
+    db.from('celebs').select(select).in('nickname_en', batch.map((p) => p.nickname_en)),
+    db.from('celebs').select(select).in('slug', batch.map((p) => p.slug)),
   ])
   for (const result of [koResult, enResult, slugResult]) if (result.error) throw result.error
 

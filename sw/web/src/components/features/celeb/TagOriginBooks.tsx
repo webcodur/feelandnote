@@ -51,6 +51,7 @@ export default function TagOriginBooks({ tagId, tagName, variant }: TagOriginBoo
         books={loaded.topic}
         heading={t("headingFactionTopic")}
         buyLabel={t("buyOnCoupang")}
+        detailLabel={t("viewBookDetails")}
       />
     );
   }
@@ -60,6 +61,7 @@ export default function TagOriginBooks({ tagId, tagName, variant }: TagOriginBoo
       books={loaded.people}
       heading={loaded.peopleSource === "about" ? t("headingFactionAbout") : t("headingFactionRead")}
       buyLabel={t("buyOnCoupang")}
+      detailLabel={t("viewBookDetails")}
     />
   );
 }

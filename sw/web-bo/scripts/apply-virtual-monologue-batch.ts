@@ -96,8 +96,7 @@ type ProfileRow = {
   id: string
   slug: string
   nickname: string
-  profile_type: string
-  status: string | null
+  publication_status: string | null
   virtual_monologue: string | null
 }
 type Result = {
@@ -185,8 +184,8 @@ function validateApprovedPerson(person: Person): string[] {
 async function loadProfiles(slugs: string[]): Promise<Map<string, ProfileRow>> {
   if (!slugs.length) return new Map()
   const { data, error } = await db
-    .from('profiles')
-    .select('id, slug, nickname, profile_type, status, virtual_monologue')
+    .from('celebs')
+    .select('id, slug, nickname, publication_status, virtual_monologue')
     .in('slug', slugs)
   if (error) throw error
   return new Map(((data ?? []) as unknown as ProfileRow[]).map(row => [row.slug, row]))
@@ -242,8 +241,9 @@ async function main() {
     const profile = profiles.get(person.slug)
     if (!profile) errors.push('DB에서 slug를 찾지 못함')
     else {
-      if (profile.profile_type !== 'CELEB') errors.push(`DB profile_type=${profile.profile_type}`)
-      if (profile.status !== 'active') errors.push(`DB status=${profile.status}`)
+      if (profile.publication_status !== 'active') {
+        errors.push(`DB publication_status=${profile.publication_status}`)
+      }
       if (profile.nickname !== person.nickname) errors.push(`동명이인 가드: DB nickname=${profile.nickname}`)
     }
 

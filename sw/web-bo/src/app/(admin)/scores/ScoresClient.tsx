@@ -27,16 +27,16 @@ const SCORE_ACTION_CONFIG: Record<string, { label: string; color: 'info' | 'succ
 }
 
 interface Ranking {
-  user_id: string
+  member_id: string
   activity_score: number
   title_bonus: number
   total_score: number
-  user: { id: string; nickname: string | null; avatar_url: string | null; profile_type: string | null } | null
+  user: { id: string; nickname: string | null; avatar_url: string | null } | null
 }
 
 interface ScoreLog {
   id: string
-  user_id: string
+  member_id: string
   type: string
   action: string
   amount: number
@@ -155,7 +155,7 @@ export default function ScoresClient({
 
                   return (
                     <tr
-                      key={ranking.user_id}
+                      key={ranking.member_id}
                       className="hover:bg-bg-secondary/50 cursor-pointer transition-colors"
                       onClick={() => setSelectedRanking(ranking)}
                     >
@@ -175,12 +175,9 @@ export default function ScoresClient({
                           onClick={(e) => e.stopPropagation()}
                         >
                           <Avatar src={ranking.user?.avatar_url} name={ranking.user?.nickname} size="sm" />
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-text-primary">{ranking.user?.nickname || '알 수 없음'}</span>
-                            {ranking.user?.profile_type === 'CELEB' && (
-                              <Badge variant="purple" size="sm">셀럽</Badge>
-                            )}
-                          </div>
+                          <span className="text-sm text-text-primary">
+                            {ranking.user?.nickname || '알 수 없음'}
+                          </span>
                         </Link>
                       </td>
                       <td className="py-3 px-4 text-right">
@@ -295,10 +292,9 @@ export default function ScoresClient({
             <div className="flex items-center gap-4 p-4 bg-bg-secondary rounded-xl">
               <Avatar src={selectedRanking.user?.avatar_url} name={selectedRanking.user?.nickname} size="lg" />
               <div>
-                <div className="flex items-center gap-2">
-                  <p className="font-medium text-text-primary">{selectedRanking.user?.nickname || '알 수 없음'}</p>
-                  {selectedRanking.user?.profile_type === 'CELEB' && <Badge variant="purple">셀럽</Badge>}
-                </div>
+                <p className="font-medium text-text-primary">
+                  {selectedRanking.user?.nickname || '알 수 없음'}
+                </p>
                 <Link href={`/members/${selectedRanking.user?.id}`} className="text-sm text-accent hover:underline">
                   프로필 보기
                 </Link>

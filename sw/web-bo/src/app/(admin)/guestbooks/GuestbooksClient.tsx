@@ -16,18 +16,26 @@ import {
   EmptyState,
   Button,
 } from '@/components/ui'
+import { deleteGuestbookEntry, markGuestbookRead } from '@/actions/admin/guestbooks'
 
 interface GuestbookEntry {
   id: string
-  profile_id: string
-  author_id: string
+  subject_id: string
+  subject_kind: 'member' | 'celeb'
+  author_member_id: string
   content: string
   is_private: boolean
   is_read: boolean
   created_at: string
   updated_at: string
-  profile: { id: string; nickname: string | null; avatar_url: string | null } | null
+  profile: { id: string; slug: string | null; nickname: string | null; avatar_url: string | null } | null
   author: { id: string; nickname: string | null; avatar_url: string | null } | null
+}
+
+function subjectHref(entry: GuestbookEntry): string {
+  return entry.subject_kind === 'celeb'
+    ? `/celebs/${entry.profile?.slug ?? entry.subject_id}`
+    : `/members/${entry.subject_id}`
 }
 
 interface Props {
@@ -55,14 +63,18 @@ export default function GuestbooksClient({
   const handleDelete = async () => {
     if (!deleteTarget) return
     setIsDeleting(true)
-    await new Promise((resolve) => setTimeout(resolve, 500))
-    setIsDeleting(false)
-    setDeleteTarget(null)
-    router.refresh()
+    try {
+      await deleteGuestbookEntry(deleteTarget.subject_kind, deleteTarget.id)
+      setDeleteTarget(null)
+      router.refresh()
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   const handleMarkRead = async (entry: GuestbookEntry) => {
-    // TODO: 읽음 처리 API
+    await markGuestbookRead(entry.subject_kind, entry.id)
+    setSelectedEntry(null)
     router.refresh()
   }
 
@@ -124,7 +136,7 @@ export default function GuestbooksClient({
                       </Link>
                       <ArrowRight className="w-3.5 h-3.5 text-text-secondary" />
                       <Link
-                        href={`/members/${entry.profile?.id}`}
+                        href={subjectHref(entry)}
                         className="font-medium text-text-primary hover:text-accent"
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -245,7 +257,7 @@ export default function GuestbooksClient({
                 <div>
                   <p className="text-sm text-text-secondary">대상</p>
                   <Link
-                    href={`/members/${selectedEntry.profile?.id}`}
+                    href={subjectHref(selectedEntry)}
                     className="font-medium text-text-primary hover:text-accent"
                   >
                     {selectedEntry.profile?.nickname || '알 수 없음'}

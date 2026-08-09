@@ -71,7 +71,7 @@ async function main() {
 
   for (const correction of corrections) {
     const { data: current, error: readError } = await db
-      .from('profiles')
+      .from('celebs')
       .select('id,slug,wikidata_qid,death_date')
       .eq('id', correction.id)
       .single()
@@ -102,7 +102,7 @@ async function main() {
     if (!apply) continue
 
     let update = db
-      .from('profiles')
+      .from('celebs')
       .update({ [correction.field]: correction.after })
       .eq('id', correction.id)
       .eq('slug', correction.slug)

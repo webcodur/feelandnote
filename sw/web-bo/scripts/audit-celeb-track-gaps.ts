@@ -64,10 +64,9 @@ type Profile = Record<string, any>
 
 async function main() {
   const profiles = await allRows<Profile>(
-    'profiles',
-    'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, status, celeb_tier, speech_tone, avatar_url',
+    'celebs',
+    'id, slug, nickname, nickname_en, title, title_en, bio, bio_en, profession, nationality, birth_date, death_date, gender, publication_status, celeb_tier, speech_tone, avatar_url',
     'id',
-    (q) => q.eq('profile_type', 'CELEB'),
   )
   const influence = await allRows<Record<string, any>>('celeb_influence', '*', 'celeb_id')
   const persona = await allRows<Record<string, any>>('celeb_persona', '*', 'celeb_id', undefined, 200)
@@ -79,7 +78,7 @@ async function main() {
   const perById = new Map(persona.map((r) => [r.celeb_id, r]))
   const diaById = new Map(dialogues.map((r) => [r.celeb_id, r]))
 
-  type Gap = { slug: string; nickname: string; tier: string; status: string; gaps: string[] }
+  type Gap = { slug: string; nickname: string; tier: string; publicationStatus: string; gaps: string[] }
   const result: Gap[] = []
 
   for (const p of profiles) {
@@ -167,7 +166,13 @@ async function main() {
     }
 
     if (gaps.length > 0) {
-      result.push({ slug: p.slug ?? '', nickname: p.nickname ?? '', tier, status: p.status ?? '', gaps })
+      result.push({
+        slug: p.slug ?? '',
+        nickname: p.nickname ?? '',
+        tier,
+        publicationStatus: p.publication_status ?? '',
+        gaps,
+      })
     }
   }
 
@@ -185,7 +190,7 @@ async function main() {
   }
   const bucket = new Map<string, number>()
   for (const r of result) {
-    const k = `${r.tier}/${r.status}`
+    const k = `${r.tier}/${r.publicationStatus}`
     bucket.set(k, (bucket.get(k) ?? 0) + 1)
   }
 

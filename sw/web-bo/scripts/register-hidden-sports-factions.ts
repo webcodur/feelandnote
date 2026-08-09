@@ -77,7 +77,7 @@ type ProfileRow = {
   slug: string
   nickname: string
   nickname_en: string
-  status: string
+  publication_status: string
 }
 
 function adminClient(): SupabaseClient {
@@ -88,10 +88,8 @@ function adminClient(): SupabaseClient {
 }
 
 async function rowsByEnglishName(db: SupabaseClient, names: readonly string[]): Promise<ProfileRow[]> {
-  const { data, error } = await db.from('profiles')
-    .select('id,slug,nickname,nickname_en,status')
-    .eq('profile_type', 'CELEB')
-    .neq('status', 'deleted')
+  const { data, error } = await db.from('celebs')
+    .select('id,slug,nickname,nickname_en,publication_status')
     .in('nickname_en', [...names])
   if (error) throw error
   return (data ?? []) as ProfileRow[]
@@ -99,10 +97,10 @@ async function rowsByEnglishName(db: SupabaseClient, names: readonly string[]): 
 
 async function createMinimalCeleb(db: SupabaseClient, seed: ProfileSeed): Promise<ProfileRow> {
   const [{ data: sameKo, error: koError }, { data: sameEn, error: enError }] = await Promise.all([
-    db.from('profiles').select('id,slug,nickname,nickname_en,status')
-      .eq('profile_type', 'CELEB').neq('status', 'deleted').eq('nickname', seed.nickname),
-    db.from('profiles').select('id,slug,nickname,nickname_en,status')
-      .eq('profile_type', 'CELEB').neq('status', 'deleted').eq('nickname_en', seed.nicknameEn),
+    db.from('celebs').select('id,slug,nickname,nickname_en,publication_status')
+      .eq('nickname', seed.nickname),
+    db.from('celebs').select('id,slug,nickname,nickname_en,publication_status')
+      .eq('nickname_en', seed.nicknameEn),
   ])
   if (koError) throw koError
   if (enError) throw enError
@@ -120,7 +118,7 @@ async function createMinimalCeleb(db: SupabaseClient, seed: ProfileSeed): Promis
 
   const baseSlug = previewGeneratedCelebSlug(seed.nicknameEn)
   if (!baseSlug) throw new Error(`${seed.nickname}의 slug를 만들 수 없습니다.`)
-  const { data: slugRows, error: slugError } = await db.from('profiles').select('slug').like('slug', `${baseSlug}%`)
+  const { data: slugRows, error: slugError } = await db.from('celebs').select('slug').like('slug', `${baseSlug}%`)
   if (slugError) throw slugError
   const occupied = new Set((slugRows ?? []).flatMap(row => row.slug ? [row.slug as string] : []))
   let slugSuffix: string | null = null
@@ -133,40 +131,36 @@ async function createMinimalCeleb(db: SupabaseClient, seed: ProfileSeed): Promis
     }
   }
 
-  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
-  const userId = randomUUID()
+  // 인물은 로그인 계정을 갖지 않는다. 도메인 식별자만 직접 발급한다.
+  const celebId = randomUUID()
   try {
-    const { data: profile, error: profileError } = await db.from('profiles').insert({
-      id: userId,
+    const { data: profile, error: profileError } = await db.from('celebs').insert({
+      id: celebId,
       nickname: seed.nickname,
       nickname_en: seed.nicknameEn,
       slug_suffix: slugSuffix,
       profession: 'athlete',
-      profile_type: 'CELEB',
-      status: 'suspended',
+      publication_status: 'suspended',
       celeb_tier: 'light',
       avatar_url: null,
       bio: null,
       consumption_philosophy: null,
       is_verified: false,
-    }).select('id,slug,nickname,nickname_en,status').single()
+    }).select('id,slug,nickname,nickname_en,publication_status').single()
     if (profileError) throw profileError
     assertRouteSafeCelebSlug(profile.slug as string)
 
-    const [{ error: socialError }, { error: scoreError }] = await Promise.all([
-      db.from('user_social').upsert({
-        user_id: userId, follower_count: 0, following_count: 0, friend_count: 0, influence: 0,
-      }),
-      db.from('user_scores').upsert({
-        user_id: userId, activity_score: 0, title_bonus: 0, total_score: 0,
-      }),
-    ])
-    if (socialError) throw socialError
-    if (scoreError) throw scoreError
+    const { error: metricsError } = await db.from('celeb_metrics').upsert({
+      celeb_id: celebId, follower_count: 0, content_count: 0,
+    })
+    if (metricsError) throw metricsError
     return profile as ProfileRow
   } catch (error) {
-    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
-    await db.rpc('delete_auth_user', { target_user_id: userId })
+    // 이 호출에서 만든 도메인 행만 보상 삭제한다.
+    const cleanup = await db.from('celebs').delete().eq('id', celebId)
+    if (cleanup.error) {
+      throw new AggregateError([error, cleanup.error], `${seed.nicknameEn}: 생성 실패 뒤 celebs 정리도 실패`)
+    }
     throw error
   }
 }

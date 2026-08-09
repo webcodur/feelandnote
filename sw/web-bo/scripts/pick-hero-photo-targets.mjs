@@ -32,10 +32,9 @@ const { data: rows, error } = await sb.rpc('exec_sql_readonly', {}).then(() => (
 
 // RPC가 없으므로 클라이언트 조인으로 처리한다
 const { data: people, error: e1 } = await sb
-  .from('profiles')
-  .select('id, slug, nickname, nickname_en, profession, nationality, birth_date, death_date, title, bio, avatar_url, view_count, celeb_tier, status, portrait_url, profile_type')
-  .eq('profile_type', 'CELEB')
-  .eq('status', 'active')
+  .from('celebs')
+  .select('id, slug, nickname, nickname_en, profession, nationality, birth_date, death_date, title, bio, avatar_url, view_count, celeb_tier, publication_status, portrait_url')
+  .eq('publication_status', 'active')
   .not('avatar_url', 'is', null)
   .is('portrait_url', null)
   .limit(5000)

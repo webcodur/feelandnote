@@ -36,7 +36,7 @@ interface SearchRecordsResponse {
   hasMore: boolean
 }
 
-// select 문자열(id, type, user_count, content_locales)과 동일한 필드 집합
+// select 문자열(id, type, record_count alias, content_locales)과 동일한 필드 집합
 interface ContentData {
   id: string
   type: string
@@ -80,18 +80,18 @@ export async function searchRecords({
   // 내 기록에서 검색 (rating 포함)
   // egress-allow: 본인 기록 검색 — 수정 즉시 반영 필요, 캐시 부적합 (경량 select 적용)
   let searchQuery = supabase
-    .from('user_contents')
+    .from('member_contents')
     .select(`
       id,
       content_id,
       status,
       rating,
       content:contents!inner(
-        id, type, user_count,
+        id, type, user_count:record_count,
         content_locales(${CL_SELECT_LIST})
       )
     `, { count: 'exact' })
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
     .in('content_id', searchContentIds)
     .range(offset, offset + limit - 1)
     .order('updated_at', { ascending: false })

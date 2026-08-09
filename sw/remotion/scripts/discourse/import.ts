@@ -47,17 +47,16 @@ interface EpisodeStats {
 
 /* ────────────────────────── 키 해소 ────────────────────────── */
 
-/** slug → profiles.id. 청크로 끊어 조회한 뒤 한 맵으로 합친다. */
+/** slug → celebs.id. 청크로 끊어 조회한 뒤 한 맵으로 합친다. */
 async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<string, string>> {
   const map = new Map<string, string>()
   const uniq = [...new Set(slugs)]
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
     const chunk = uniq.slice(i, i + IN_CHUNK)
-    const { data, error } = await db.from('profiles').select('id,slug')
-      .eq('profile_type', 'CELEB')
-      .in('status', ['active', 'inactive', 'suspended'])
+    const { data, error } = await db.from('celebs').select('id,slug')
+      .in('publication_status', ['active', 'inactive', 'suspended'])
       .in('slug', chunk)
-    if (error) throw new Error(`profiles slug 조회 실패: ${error.message}`)
+    if (error) throw new Error(`celebs slug 조회 실패: ${error.message}`)
     for (const r of data ?? []) {
       if (r.slug) map.set(r.slug as string, r.id as string)
     }

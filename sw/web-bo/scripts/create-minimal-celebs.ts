@@ -1,8 +1,8 @@
 /**
  * 이름만 있는 최소 셀럽 등록
- * auth 계정 생성 → profiles 갱신(비공개) → user_social·user_scores 초기화
+ * 별도 로그인 계정 없이 celebs 행을 만들고 celeb_metrics를 초기화한다.
  *
- * 정보가 이름뿐이므로 항상 status='inactive'로 만든다. 노출은 정보를 채운 뒤 따로 켠다.
+ * 정보가 이름뿐이므로 항상 publication_status='inactive'로 만든다. 노출은 정보를 채운 뒤 따로 켠다.
  *
  * 입력: JSON [{nickname, nickname_en, expected_slug}]
  * 사용법 (sw/web-bo 디렉토리에서): npx tsx scripts/create-minimal-celebs.ts <배치경로>
@@ -34,29 +34,35 @@ interface Person {
 }
 
 async function createOne(sb: SupabaseClient, person: Person) {
-  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
-  const userId = crypto.randomUUID()
+  // 인물은 로그인 계정을 갖지 않는다. 도메인 식별자만 직접 발급한다.
+  const celebId = crypto.randomUUID()
+  try {
+    const { data: created, error: insErr } = await sb.from('celebs').insert({
+      id: celebId,
+      nickname: person.nickname,
+      nickname_en: person.nickname_en,
+      celeb_tier: 'light',
+      publication_status: 'inactive',
+      is_verified: false,
+    }).select('slug').single()
+    if (insErr) throw insErr
+    if (created.slug !== person.expected_slug) {
+      throw new Error(`${person.nickname}: 생성된 slug ${created.slug} != 예상 ${person.expected_slug}`)
+    }
 
-  const { data: created, error: insErr } = await sb.from('profiles').insert({
-    id: userId,
-    profile_type: 'CELEB',
-    nickname: person.nickname,
-    nickname_en: person.nickname_en,
-    celeb_tier: 'light',
-    status: 'inactive',
-    is_verified: false,
-  }).select('slug').single()
-  if (insErr) throw insErr
-  if (created.slug !== person.expected_slug) {
-    throw new Error(`${person.nickname}: 생성된 slug ${created.slug} != 예상 ${person.expected_slug}`)
+    const { error: metricsError } = await sb
+      .from('celeb_metrics')
+      .upsert({ celeb_id: celebId, follower_count: 0, content_count: 0 })
+    if (metricsError) throw metricsError
+
+    return { id: celebId, slug: created.slug }
+  } catch (error) {
+    const cleanup = await sb.from('celebs').delete().eq('id', celebId)
+    if (cleanup.error) {
+      throw new AggregateError([error, cleanup.error], `${person.nickname_en}: 생성 실패 뒤 celebs 정리도 실패`)
+    }
+    throw error
   }
-
-  await Promise.all([
-    sb.from('user_social').upsert({ user_id: userId, follower_count: 0, following_count: 0, friend_count: 0, influence: 0 }),
-    sb.from('user_scores').upsert({ user_id: userId, activity_score: 0, title_bonus: 0, total_score: 0 }),
-  ])
-
-  return { id: userId, slug: created.slug }
 }
 
 async function main() {
@@ -72,8 +78,9 @@ async function main() {
 
   for (const p of people) {
     // 같은 이름이 이미 있으면 만들지 않는다
-    const { data: dup } = await sb.from('profiles')
-      .select('id, slug').eq('nickname_en', p.nickname_en).eq('profile_type', 'CELEB').maybeSingle()
+    const { data: dup, error: duplicateError } = await sb.from('celebs')
+      .select('id, slug').eq('nickname_en', p.nickname_en).maybeSingle()
+    if (duplicateError) throw duplicateError
     if (dup) { console.log(`  건너뜀(이미 있음) ${p.nickname} -> ${dup.slug}`); continue }
 
     try {

@@ -113,7 +113,7 @@ export default function NeoCelebCard({
     const prevState = isFollowing;
     setIsFollowing(!isFollowing); // Optimistic update
 
-    const result = await toggleFollow(celeb.id);
+    const result = await toggleFollow(celeb.id, "celeb");
 
     if (!result.success) {
       setIsFollowing(prevState); // Revert on error

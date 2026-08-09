@@ -191,7 +191,7 @@ async function loadManualMembers(
 
   const celebIds = [...new Set(rows.map(r => r.celeb_id as string))]
   const { data: profiles, error: pErr } = await db
-    .from('profiles').select('id, nickname, slug').in('id', celebIds)
+    .from('celebs').select('id, nickname, slug').in('id', celebIds)
   if (pErr) throw new Error(`인물 조회 실패: ${pErr.message}`)
   const byId = new Map((profiles ?? []).map(p => [p.id as string, p]))
 

@@ -3,7 +3,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import type { ContentType, ContentStatus } from '@/types/database'
-import { addActivityScore } from '@/actions/achievements'
 import { logActivity } from '@/actions/activity'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import { sourceToLocale, sourceToJsonb } from '@/lib/utils/content-locale'
@@ -106,15 +105,15 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     }
   }
 
-  // 2. user_contents 생성 (status 기본값: WANT)
+  // 2. 회원 감상 기록 생성 (status 기본값: WANT)
   const insertData: {
-    user_id: string
+    member_id: string
     content_id: string
     status: ContentStatus
     created_at?: string
     is_recommended?: boolean
   } = {
-    user_id: user.id,
+    member_id: user.id,
     content_id: contentId,
     // status는 deprecated - 레거시 호환을 위해 FINISHED로 고정
     status: 'FINISHED' as ContentStatus,
@@ -131,7 +130,7 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   }
 
   const { data: userContent, error: userContentError } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .insert(insertData)
     .select('id')
     .single()
@@ -140,9 +139,9 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     // 중복 에러(23505)인 경우 기존 레코드 조회
     if (userContentError.code === '23505') {
       const { data: existing, error: fetchError } = await supabase
-        .from('user_contents')
+        .from('member_contents')
         .select('id')
-        .eq('user_id', user.id)
+        .eq('member_id', user.id)
         .eq('content_id', contentId)
         .single()
 
@@ -170,9 +169,6 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
     targetId: userContent.id,
     contentId,
   })
-
-  // 점수 추가
-  await addActivityScore(`콘텐츠 추가 (${params.title})`, 1, userContent.id)
 
   return success({
     contentId,

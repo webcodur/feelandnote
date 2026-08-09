@@ -131,9 +131,8 @@ async function main() {
   const all: Array<{ id: string; slug: string; nickname: string | null; avatar_url: string }> = []
   for (let from = 0; ; from += 500) {
     const { data, error } = await sb
-      .from('profiles')
+      .from('celebs')
       .select('id, slug, nickname, avatar_url')
-      .eq('profile_type', 'CELEB')
       .not('avatar_url', 'is', null)
       .order('slug', { ascending: true })
       .range(from, from + 499)

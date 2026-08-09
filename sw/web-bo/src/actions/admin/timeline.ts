@@ -73,15 +73,15 @@ export async function getTimelineCelebs(): Promise<TimelineCeleb[]> {
   if (stat.size === 0) return []
 
   const ids = [...stat.keys()]
-  const profiles: { id: string; slug: string | null; nickname: string; avatar_url: string | null }[] = []
+  const celebs: { id: string; slug: string | null; nickname: string; avatar_url: string | null }[] = []
   // id 목록을 통째로 in() 에 실으면 URL 길이 한도에 걸린다(실측 462개에서 실패)
   for (let i = 0; i < ids.length; i += 200) {
     const { data, error } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('id, slug, nickname, avatar_url')
       .in('id', ids.slice(i, i + 200))
     if (error) throw error
-    profiles.push(...(data ?? []))
+    celebs.push(...(data ?? []))
   }
 
   const scores = new Map<string, number>()
@@ -93,7 +93,7 @@ export async function getTimelineCelebs(): Promise<TimelineCeleb[]> {
     for (const s of data ?? []) scores.set(s.celeb_id, s.total_score)
   }
 
-  return profiles
+  return celebs
     .map((p) => ({
       id: p.id,
       slug: p.slug,

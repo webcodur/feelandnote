@@ -21,7 +21,7 @@ type SuikodenInfluenceJoin = Pick<
   'political' | 'strategic' | 'tech' | 'social' | 'economic' | 'cultural' | 'transhistoricity' | 'total_score'
 >
 
-// profiles 조회 행 (death_date는 not-null 필터 적용됨)
+// celebs 조회 행 (death_date는 not-null 필터 적용됨)
 interface SuikodenProfileRow {
   id: string
   nickname: string | null
@@ -53,18 +53,18 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
   const maxDeathYear = currentYear - CUTOFF_YEARS
 
   const { data, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select(`
       id, nickname, title, profession, nationality, gender,
       birth_date, death_date, bio,
       avatar_url,
-      celeb_influence (
+      celeb_influence!celeb_influence_celebs_fkey (
         political, strategic, tech, social, economic, cultural,
         transhistoricity, total_score
       ),
-      celeb_persona ( persona )
+      celeb_persona!celeb_persona_celebs_fkey ( persona )
     `)
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .not('death_date', 'is', null)
     .not('death_date', 'eq', '')
     .not('profession', 'is', null)

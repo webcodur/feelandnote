@@ -187,12 +187,12 @@ async function fetchFaces(
   isEn: boolean
 ): Promise<AboutFace[]> {
   const { data } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select(
       'slug, nickname, nickname_en, avatar_url, death_date, birth_date, title, title_en, bio, bio_en, profession'
     )
     .in('slug', FACE_SLUGS as unknown as string[])
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
 
   const bySlug = new Map((data ?? []).map((row) => [row.slug, row]))
@@ -224,12 +224,12 @@ async function fetchJourney(
   isEn: boolean
 ): Promise<AboutJourney | null> {
   const { data: people } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select(
       'id, slug, nickname, nickname_en, avatar_url, title, title_en, bio, bio_en, profession, birth_date, death_date'
     )
     .in('slug', JOURNEY_SLUGS as unknown as string[])
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
 
   for (const slug of JOURNEY_SLUGS) {
@@ -239,12 +239,12 @@ async function fetchJourney(
     const pinned = JOURNEY_CONTENT_IDS[slug]
     if (!pinned?.length) continue
 
-    // user_contents와 content_locales는 contents를 거쳐 이어지므로 한 번에 조인하지 않고 나눠 읽는다
+    // celeb_contents와 content_locales는 contents를 거쳐 이어지므로 한 번에 조인하지 않고 나눠 읽는다
     const reviewField = isEn ? 'review_en' : 'review'
     const { data: rows } = await supabase
-      .from('user_contents')
+      .from('celeb_contents')
       .select(`content_id, ${reviewField}`)
-      .eq('user_id', person.id)
+      .eq('celeb_id', person.id)
       .in('content_id', pinned as unknown as string[])
       .not(reviewField, 'is', null)
 
@@ -314,10 +314,10 @@ async function fetchEvidence(
   isEn: boolean
 ): Promise<AboutEvidence | null> {
   const { data: people } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('id, slug, nickname, nickname_en, avatar_url')
     .in('slug', EVIDENCE_SLUGS as unknown as string[])
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
 
   for (const slug of EVIDENCE_SLUGS) {
@@ -326,9 +326,9 @@ async function fetchEvidence(
 
     const reviewField = isEn ? 'review_en' : 'review'
     const { data: rows } = await supabase
-      .from('user_contents')
+      .from('celeb_contents')
       .select(`content_id, source_url, ${reviewField}`)
-      .eq('user_id', matched.id)
+      .eq('celeb_id', matched.id)
       .not('source_url', 'is', null)
       .not(reviewField, 'is', null)
       .limit(20)
@@ -381,18 +381,16 @@ async function fetchAboutShowcase(locale: string): Promise<AboutShowcase> {
     fetchJourney(supabase, locale, isEn),
     fetchEvidence(supabase, locale, isEn),
     supabase
-      .from('profiles')
+      .from('celebs')
       .select('id', { count: 'exact', head: true })
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active'),
+      .eq('publication_status', 'active'),
     supabase
-      .from('user_contents')
-      .select('id, user:profiles!user_contents_user_id_fkey!inner(profile_type)', {
+      .from('celeb_contents')
+      .select('id', {
         count: 'exact',
         head: true,
       })
-      .not('review', 'is', null)
-      .eq('user.profile_type', 'CELEB'),
+      .not('review', 'is', null),
     supabase
       .from('celeb_tags')
       .select('id', { count: 'exact', head: true })

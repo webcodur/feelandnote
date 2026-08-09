@@ -50,10 +50,9 @@ async function fetchAllCelebsWithDates(): Promise<CelebDateRow[]> {
   // 모든 셀럽의 동시대 목록이 조용히 부실해진다.
   return await selectAllPages<CelebDateRow>((from, to) =>
     supabase
-      .from('profiles')
+      .from('celebs')
       .select('id, nickname, nickname_en, avatar_url, profession, birth_date, death_date, slug, nationality')
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'active')
+      .eq('publication_status', 'active')
       .not('birth_date', 'is', null)
       .order('id')
       .range(from, to)

@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 
 // 사이트맵이 1시간 단위로 신선할 이유가 없다. 재생성 1회가 Supabase에서 약 1MB를 끌어오므로
-// (셀럽 1,257행 + user_contents 11,230행 스캔) 주기를 하루로 둔다 — 이론 최대 750MB/월 → 30MB/월
+// (셀럽 1,257행 + celeb_contents 11,230행 스캔) 주기를 하루로 둔다 — 이론 최대 750MB/월 → 30MB/월
 export const revalidate = 86400
 
 const BASE_URL = 'https://feelandnote.com'
@@ -26,8 +26,7 @@ async function fetchCelebs(): Promise<{ slug: string; created_at: string | null 
   while (true) {
     const params = new URLSearchParams({
       select: 'slug,created_at',
-      profile_type: 'eq.CELEB',
-      status: 'eq.active',
+      publication_status: 'eq.active',
       // 색인 등급(full)만 등재한다 — 얇은 등급(light/fiction)은 콘텐츠가 없어
       // noindex 처리되므로 사이트맵 등재가 모순 신호(등재↔색인거부)를 만든다
       celeb_tier: INDEXABLE_TIER_FILTER,
@@ -37,7 +36,7 @@ async function fetchCelebs(): Promise<{ slug: string; created_at: string | null 
       limit: String(PAGE_SIZE),
     })
 
-    const res = await fetch(`${url}/rest/v1/profiles?${params}`, {
+    const res = await fetch(`${url}/rest/v1/celebs?${params}`, {
       headers: {
         apikey: key,
         Authorization: `Bearer ${key}`,
@@ -63,7 +62,7 @@ async function fetchCelebs(): Promise<{ slug: string; created_at: string | null 
 /**
  * 셀럽 감상문이 1건 이상 달린 콘텐츠의 id 목록.
  *
- * user_contents에는 같은 콘텐츠에 여러 셀럽의 감상문이 달리므로 행 수(약 11,000)와
+ * celeb_contents에는 같은 콘텐츠에 여러 셀럽의 감상문이 달리므로 행 수(약 11,000)와
  * 콘텐츠 수(약 6,700)가 다르다. PostgREST에는 distinct가 없어 전량 받아 Set으로 중복을 없앤다.
  * 감상문이 0건인 콘텐츠는 출판사 소개문만 남아 상세 페이지에서 noindex 처리되므로 등재하지 않는다.
  */
@@ -78,18 +77,16 @@ async function fetchReviewedContentIds(): Promise<string[]> {
 
   while (true) {
     const params = new URLSearchParams({
-      // profile_type 필터를 걸려면 조인 대상을 select에 넣어야 한다 — 최소 컬럼만 받는다
-      select: 'content_id,user:profiles!user_contents_user_id_fkey!inner(profile_type)',
+      select: 'content_id',
       review: 'not.is.null',
       visibility: 'eq.public',
-      'user.profile_type': 'eq.CELEB',
       // content_id는 중복되므로 PK로 정렬해야 페이지 경계에서 행이 밀리거나 겹치지 않는다
       order: 'id.asc',
       offset: String(offset),
       limit: String(PAGE_SIZE),
     })
 
-    const res = await fetch(`${url}/rest/v1/user_contents?${params}`, {
+    const res = await fetch(`${url}/rest/v1/celeb_contents?${params}`, {
       headers: {
         apikey: key,
         Authorization: `Bearer ${key}`,
@@ -98,7 +95,7 @@ async function fetchReviewedContentIds(): Promise<string[]> {
     })
 
     if (!res.ok) {
-      console.error(`[sitemap] user_contents REST failed: ${res.status} ${res.statusText}`)
+      console.error(`[sitemap] celeb_contents REST failed: ${res.status} ${res.statusText}`)
       break
     }
 

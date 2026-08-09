@@ -31,7 +31,7 @@ export default async function PersonaVectorDetailPage({ params }: PageProps) {
   const { slug } = await params
   const member = await getMemberBySlug(slug)
 
-  if (!member || member.profile_type !== 'CELEB') {
+  if (!member || member.subject_kind !== 'celeb') {
     notFound()
   }
 

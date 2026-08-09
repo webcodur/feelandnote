@@ -40,8 +40,8 @@ export interface ServiceSnapshot {
   tagsById: Map<string, CelebTagRow>
   /** celeb_tags.slug → 행 (태그 미연결 세력의 연결 키 해소용) */
   tagsBySlug: Map<string, CelebTagRow>
-  /** profiles.id → 프로필 */
-  profilesById: Map<string, CelebProfileRow>
+  /** celebs.id → 프로필 */
+  celebsById: Map<string, CelebProfileRow>
 }
 
 async function inChunks(
@@ -58,10 +58,10 @@ async function inChunks(
 
 /**
  * 서비스 현황 조회 — 태그 2회(id·slug), 프로필 1회.
- * `profiles: false` 면 프로필 조회를 뺀다 — 사진 동기 집계처럼 태그 해소만 필요한 자리용.
+ * `celebs: false` 면 인물 조회를 뺀다 — 사진 동기 집계처럼 태그 해소만 필요한 자리용.
  */
 export async function loadServiceSnapshot(
-  db: SupabaseClient, episode: PublishEpisode, opts?: { profiles?: boolean },
+  db: SupabaseClient, episode: PublishEpisode, opts?: { celebs?: boolean },
 ): Promise<ServiceSnapshot> {
   const tagIds = [...new Set(episode.groups.map(g => g.tagId).filter((v): v is string => !!v))]
   const tagSlugs = [...new Set(episode.groups.map(g => g.tagSlug).filter((v): v is string => !!v))]
@@ -78,13 +78,13 @@ export async function loadServiceSnapshot(
   if (tagIds.length) remember(await inChunks(db, 'celeb_tags', 'id', tagIds, TAG_COLUMNS) as unknown as CelebTagRow[])
   if (tagSlugs.length) remember(await inChunks(db, 'celeb_tags', 'slug', tagSlugs, TAG_COLUMNS) as unknown as CelebTagRow[])
 
-  const profilesById = new Map<string, CelebProfileRow>()
-  if (opts?.profiles !== false && celebIds.length) {
-    const rows = await inChunks(db, 'profiles', 'id', celebIds, PROFILE_COLUMNS)
-    for (const row of rows as unknown as CelebProfileRow[]) profilesById.set(row.id, row)
+  const celebsById = new Map<string, CelebProfileRow>()
+  if (opts?.celebs !== false && celebIds.length) {
+    const rows = await inChunks(db, 'celebs', 'id', celebIds, PROFILE_COLUMNS)
+    for (const row of rows as unknown as CelebProfileRow[]) celebsById.set(row.id, row)
   }
 
-  return { tagsById, tagsBySlug, profilesById }
+  return { tagsById, tagsBySlug, celebsById }
 }
 
 /**
@@ -305,7 +305,7 @@ export async function buildStatus(db: SupabaseClient, folder: string): Promise<F
 
     const people: FactionSyncPerson[] = []
     for (const p of g.people) {
-      const profile = p.celebId ? snap.profilesById.get(p.celebId) : undefined
+      const profile = p.celebId ? snap.celebsById.get(p.celebId) : undefined
       const personMedia = await personMediaStateOf(p, tagId, manifest)
       const tier = profile?.celeb_tier ?? undefined
       people.push({
@@ -409,7 +409,7 @@ export async function buildImageSyncSummary(
 ): Promise<FactionImageSyncSummary> {
   const episode = await collectEpisode(db, folder)
   const [snap, manifest] = await Promise.all([
-    loadServiceSnapshot(db, episode, { profiles: false }),
+    loadServiceSnapshot(db, episode, { celebs: false }),
     readManifest(folder),
   ])
 

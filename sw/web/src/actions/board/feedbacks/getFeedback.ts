@@ -6,17 +6,14 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithDetails } from '@/types/database'
 import type { Locale } from '@/types/locale'
+import { attachMemberAuthorAndResolver } from '@/lib/board/memberProfiles'
 
 async function fetchFeedbackData(id: string, locale: Locale): Promise<FeedbackWithDetails | null> {
   const supabase = createStaticClient()
 
   const { data, error } = await supabase
     .from('feedbacks')
-    .select(`
-      *,
-      author:profiles!author_id(id, nickname, avatar_url),
-      resolver:profiles!resolved_by(id, nickname, avatar_url)
-    `)
+    .select('*')
     .eq('id', id)
     .eq('locale', locale)
     .single()
@@ -26,7 +23,8 @@ async function fetchFeedbackData(id: string, locale: Locale): Promise<FeedbackWi
   // 여기 오는 오류는 "글이 없다" 하나뿐이다.
   if (error?.code === NO_ROWS_CODE) return null
 
-  return data as FeedbackWithDetails
+  const feedback = await attachMemberAuthorAndResolver(supabase, data)
+  return feedback as FeedbackWithDetails
 }
 
 const getFeedbackDataCached = unstable_cache(

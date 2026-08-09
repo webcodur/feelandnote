@@ -36,7 +36,7 @@ export interface CelebTagRow {
   sort_order: number | null
 }
 
-/** profiles — 셀럽 프로필(읽기 전용. 출간은 이 테이블에 쓰지 않는다) */
+/** celebs — 셀럽 프로필(읽기 전용. 출간은 이 테이블에 쓰지 않는다) */
 export interface CelebProfileRow {
   id: string
   slug: string | null

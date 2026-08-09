@@ -22,9 +22,9 @@ export interface DawnContent {
   sourceUrl: string | null;
 }
 
-// user_contents → contents(content_locales) 조인 조회 행
+// celeb_contents → contents(content_locales) 조인 조회 행
 interface DawnContentRow {
-  user_id: string;
+  celeb_id: string;
   content_id: string;
   review: string | null;
   source_url: string | null;
@@ -43,14 +43,14 @@ async function fetchDawnCelebContents(
   const supabase = createStaticClient();
   const celebIds = idsKey.split(",");
 
-  // 단일 쿼리: user_contents JOIN contents (셀럽당 최대 4개는 클라이언트에서 제한)
+  // 단일 쿼리: celeb_contents JOIN contents (셀럽당 최대 4개는 클라이언트에서 제한)
   // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
   const { data, error } = await supabase
-    .from("user_contents")
+    .from("celeb_contents")
     .select(
-      `user_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
+      `celeb_id, content_id, review, source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
-    .in("user_id", celebIds)
+    .in("celeb_id", celebIds)
     .eq("visibility", "public")
     .overrideTypes<DawnContentRow[], { merge: false }>();
 
@@ -63,14 +63,14 @@ async function fetchDawnCelebContents(
     const rawContent = row.contents;
     const flat = flattenLocales(rawContent.content_locales, locale);
 
-    if (!result[row.user_id]) {
-      result[row.user_id] = [];
+    if (!result[row.celeb_id]) {
+      result[row.celeb_id] = [];
     }
 
     // 셀럽당 최대 4개
-    if (result[row.user_id].length >= 4) continue;
+    if (result[row.celeb_id].length >= 4) continue;
 
-    result[row.user_id].push({
+    result[row.celeb_id].push({
       contentId: rawContent.id,
       title: flat.title,
       creator: flat.creator,

@@ -16,11 +16,7 @@ import type {
 import { cn } from "@/lib/utils";
 import DispositionCompass from "./sections/DispositionCompass";
 import RadarComparison from "./sections/RadarComparison";
-import {
-  FigureLegend,
-  TENDENCY_ENDPOINTS,
-  isTendencyAxis,
-} from "./shared";
+import { TENDENCY_ENDPOINTS, isTendencyAxis } from "./shared";
 
 interface PersonaComparisonGraphicProps {
   category: PersonaMatchCategory;
@@ -88,11 +84,11 @@ export default function PersonaComparisonGraphic({
   const subjectAxes = rankedEvidence
     .slice(0, 2)
     .map((evidence) => formatInsightAxis(evidence))
-    .join("·");
+    .join(" · ");
   const candidateAxes = rankedEvidence
     .slice(0, 2)
     .map((evidence) => formatInsightAxis(evidence, true))
-    .join("·");
+    .join(" · ");
 
   const insight = (() => {
     switch (category) {
@@ -121,12 +117,10 @@ export default function PersonaComparisonGraphic({
   })();
 
   return (
-    <div className="mt-5">
-      <FigureLegend subjectName={subjectName} candidateName={candidateName} />
-
+    <div className="mt-3">
       <div
         className={cn(
-          "mt-2.5 grid gap-2.5",
+          "grid gap-3",
           category === "overall" && "md:grid-cols-[1.16fr_0.84fr]",
         )}
       >
@@ -164,15 +158,16 @@ export default function PersonaComparisonGraphic({
             title={t("personaMatchGraphicCompass")}
             preferredAxis={preferredAxis}
             opposite={category === "opposite"}
+            twoColumn={category !== "overall"}
           />
         )}
       </div>
 
-      <div className="relative mt-3 overflow-hidden border-l-2 border-accent/45 bg-white/[0.022] px-3.5 py-3">
-        <span className="block text-[8px] font-bold tracking-[0.16em] text-accent/70">
+      <div className="relative mt-3 flex items-start gap-3 overflow-hidden border-l-2 border-accent/55 bg-white/[0.03] px-3.5 py-2.5">
+        <span className="mt-0.5 shrink-0 text-xs font-bold tracking-[0.1em] text-accent">
           {t("personaMatchGraphicInsightLabel")}
         </span>
-        <p className="mt-1 text-balance break-keep text-[11px] font-medium leading-[1.7] text-text-primary/88">
+        <p className="text-balance break-keep text-sm font-medium leading-5 text-text-primary md:text-[15px]">
           {insight}
         </p>
       </div>

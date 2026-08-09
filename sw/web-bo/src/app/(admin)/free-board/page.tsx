@@ -46,15 +46,24 @@ export default async function FreeBoardAdminPage({ searchParams }: PageProps) {
   const supabase = createAdminClient()
   const table = tab === 'posts' ? 'free_posts' : 'free_post_comments'
 
-  let query = supabase.from(table).select('*, author:profiles!author_id(nickname)', { count: 'exact' })
+  const authorJoin = tab === 'posts'
+    ? 'account:user_accounts!free_posts_accounts_fkey(member:member_profiles!member_profiles_id_fkey(nickname))'
+    : 'account:user_accounts!free_comments_accounts_fkey(member:member_profiles!member_profiles_id_fkey(nickname))'
+  let query = supabase.from(table).select(`*, ${authorJoin}`, { count: 'exact' })
   if (filter === 'visible') query = query.eq('is_deleted', false)
   if (filter === 'hidden') query = query.eq('is_deleted', true)
 
-  const { data, count } = await query
+  const { data, count, error } = await query
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
-  const rows = (data ?? []) as unknown as FreeRow[]
+  if (error) throw new Error(`Failed to load free board entries: ${error.message}`)
+
+  const rows = (data ?? []).map((row) => {
+    const account = Array.isArray(row.account) ? row.account[0] : row.account
+    const member = Array.isArray(account?.member) ? account.member[0] : account?.member
+    return { ...row, author: member ?? null }
+  }) as unknown as FreeRow[]
   const total = count || 0
   const totalPages = Math.ceil(total / limit)
 

@@ -63,19 +63,22 @@ export async function getCelebVoiceDetail(idOrSlug: string): Promise<VoiceGenCel
   const supabase = await createClient()
 
   const query = supabase
-    .from('profiles')
+    .from('celebs')
     .select(`
       id, nickname, avatar_url, slug, speech_tone, has_voice,
       voice_id_ko, voice_id_en, voice_v, voice_speed,
       profession, title, nationality, gender,
-      celeb_dialogues(lines, lines_en)
+      celeb_dialogues!celeb_dialogues_celebs_fkey(lines, lines_en)
     `)
-    .eq('profile_type', 'CELEB')
 
-  const { data } = await (UUID_RE.test(idOrSlug)
+  const result = await (UUID_RE.test(idOrSlug)
     ? query.eq('id', idOrSlug)
     : query.eq('slug', idOrSlug)
-  ).maybeSingle() as unknown as { data: VoiceGenQueryRow | null }
+  ).maybeSingle()
+
+  if (result.error) throw new Error(`Failed to load celeb voice detail: ${result.error.message}`)
+
+  const data = result.data as unknown as VoiceGenQueryRow | null
 
   if (!data) return null
 

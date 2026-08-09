@@ -19,14 +19,13 @@ async function fetchRecentCelebs(): Promise<CelebRow[]> {
 
   const params = new URLSearchParams({
     select: 'slug,nickname,nickname_en,bio,created_at',
-    profile_type: 'eq.CELEB',
-    status: 'eq.active',
+    publication_status: 'eq.active',
     slug: 'not.is.null',
     order: 'created_at.desc',
     limit: '100',
   })
 
-  const res = await fetch(`${url}/rest/v1/profiles?${params}`, {
+  const res = await fetch(`${url}/rest/v1/celebs?${params}`, {
     headers: {
       apikey: key,
       Authorization: `Bearer ${key}`,

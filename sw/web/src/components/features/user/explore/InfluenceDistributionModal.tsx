@@ -263,7 +263,7 @@ export default function InfluenceDistributionModal({ isOpen, onClose }: Influenc
 
   const handleCelebClick = (celeb: { id: string; slug: string | null }) => {
     onClose();
-    router.push(getCelebProfileUrl({ ...celeb, profile_type: 'CELEB' }));
+    router.push(getCelebProfileUrl(celeb));
   };
 
   // 필터링된 랭킹 리스트 (선택된 오라가 있으면 해당 오라만)

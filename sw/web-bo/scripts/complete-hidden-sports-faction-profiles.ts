@@ -168,8 +168,8 @@ function dbClient() {
 
 async function main() {
   const db = dbClient()
-  const { data, error } = await db.from('profiles')
-    .select('id,slug,nickname,nickname_en,status,celeb_tier,is_verified,nationality,gender,birth_date,death_date,bio,bio_en,wikidata_qid')
+  const { data, error } = await db.from('celebs')
+    .select('id,slug,nickname,nickname_en,publication_status,celeb_tier,is_verified,nationality,gender,birth_date,death_date,bio,bio_en,wikidata_qid')
     .in('slug', SEEDS.map(seed => seed.slug))
   if (error) throw error
 
@@ -183,7 +183,7 @@ async function main() {
     if (row.nickname !== seed.nickname || row.nickname_en !== seed.nicknameEn) {
       throw new Error(`이름 불일치: ${seed.slug}`)
     }
-    if (row.status !== 'suspended' || row.celeb_tier !== 'light' || row.is_verified !== false) {
+    if (row.publication_status !== 'suspended' || row.celeb_tier !== 'light' || row.is_verified !== false) {
       throw new Error(`비공개 최소 프로필 상태가 바뀌었습니다: ${seed.slug}`)
     }
 
@@ -208,7 +208,7 @@ async function main() {
     changed.push(seed.slug)
     if (!APPLY) continue
 
-    const { error: updateError } = await db.from('profiles').update(next).eq('id', row.id)
+    const { error: updateError } = await db.from('celebs').update(next).eq('id', row.id)
     if (updateError) throw updateError
   }
 

@@ -2,7 +2,7 @@
  * 인물 대표 사진 생성 → 검증 → 등록 → 로컬 정리 (한 건씩 완결)
  *
  * 각 건: 얼굴 REF 내려받기 → codex image_gen 발주 → 산출물 회수 → 진위검사
- *        → 공용 비율 중앙 크롭 webp 변환 → R2 celebs/{id}/photo.webp → profiles.portrait_url → 로컬 삭제
+ *        → 공용 비율 중앙 크롭 webp 변환 → R2 celebs/{id}/photo.webp → celebs.portrait_url → 로컬 삭제
  *
  * 진위검사가 핵심이다. codex는 생성에 실패해도 세션 로그에 남은 "입력 REF"를 그대로
  * 돌려주는 일이 있어(26.07.28: 1,141건 중 292건만 진짜), 크기만 보면 실패가 성공으로 잡힌다.
@@ -216,7 +216,7 @@ async function processOne(ctx, row) {
 
   try {
     // 0. 이미 채워진 인물은 건너뛴다(중단 후 재실행해도 다시 뽑지 않도록)
-    const { data: cur } = await sb.from('profiles').select('portrait_url').eq('id', row.celeb_id).maybeSingle()
+    const { data: cur } = await sb.from('celebs').select('portrait_url').eq('id', row.celeb_id).maybeSingle()
     if (cur?.portrait_url) return { skipped: true, slug: row.slug, nickname: row.nickname }
 
     // 1. 얼굴 REF 확보 (투명 배경이면 검정으로 깔아 codex가 읽기 좋게)
@@ -254,7 +254,7 @@ async function processOne(ctx, row) {
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${publicUrl}/${key}?v=${Date.now()}`
-    const { error } = await sb.from('profiles').update({ portrait_url: url }).eq('id', row.celeb_id)
+    const { error } = await sb.from('celebs').update({ portrait_url: url }).eq('id', row.celeb_id)
     if (error) throw new Error(`DB 갱신 실패 ${error.message}`)
 
     return { ok: true, slug: row.slug, nickname: row.nickname, kb: Math.round(webp.length / 1024), size: `${portrait.info.width}x${portrait.info.height}` }

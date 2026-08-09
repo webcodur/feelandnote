@@ -29,12 +29,12 @@ async function fetchContentSamplesForCelebs(
 
   // contents는 to-one 조인이라 객체로 반환 — 파서가 배열로 추론하므로 overrideTypes로 교정
   const { data, error } = await supabase
-    .from('user_contents')
-    .select(`user_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
-    .in('user_id', celebIds)
+    .from('celeb_contents')
+    .select(`celeb_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
+    .in('celeb_id', celebIds)
     .eq('visibility', 'public')
     .eq('status', 'FINISHED')
-    .overrideTypes<Array<{ user_id: string; contents: ContentJoinRow }>, { merge: false }>()
+    .overrideTypes<Array<{ celeb_id: string; contents: ContentJoinRow }>, { merge: false }>()
 
   throwOnQueryError('콘텐츠 표본 조회', error)
   if (!data?.length) return {}
@@ -43,7 +43,7 @@ async function fetchContentSamplesForCelebs(
   const seen: Record<string, Set<string>> = {}
 
   for (const row of data) {
-    const celebId = row.user_id
+    const celebId = row.celeb_id
     const content = row.contents
     const flat = flattenLocales(content.content_locales, locale)
     if (!flat.thumbnail_url) continue

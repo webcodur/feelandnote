@@ -3,7 +3,7 @@
  * ── 관계망 데이터의 단일원천(SSoT). 관계 종류·방향 규약은 이 파일의 PROPS 가 전부 쥔다. ──
  *
  * [무엇을 하는가]
- *   profiles.wikidata_qid 보유 셀럽(1,409명)에 대해 위키데이터의 인물 관계를 조회하고,
+ *   celebs.wikidata_qid 보유 셀럽에 대해 위키데이터의 인물 관계를 조회하고,
  *   **양끝이 모두 우리 셀럽인 관계만** celeb_relations 에 적재한다. 내용을 창작하지 않는다 —
  *   위키데이터가 보증하는 사실 관계만 옮긴다.
  *
@@ -122,9 +122,8 @@ async function loadCelebs(): Promise<Row[]> {
   const rows: Row[] = []
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('slug, id, nickname, wikidata_qid')
-      .eq('profile_type', 'CELEB')
       .order('slug')
       .range(from, from + 999)
     if (error) throw error
@@ -153,7 +152,7 @@ async function run() {
     else dups.push(`${qid} ← ${list.map((c) => c.slug).join(', ')}`)
   }
   if (dups.length) {
-    console.error(`\n⚠ 중복 wikidata_qid ${dups.length}건 — 해당 인물 전원 수집에서 제외했다. profiles를 교정하라:`)
+    console.error(`\n⚠ 중복 wikidata_qid ${dups.length}건 — 해당 인물 전원 수집에서 제외했다. celebs를 교정하라:`)
     for (const d of dups) console.error(`  ${d}`)
     console.error('')
   }

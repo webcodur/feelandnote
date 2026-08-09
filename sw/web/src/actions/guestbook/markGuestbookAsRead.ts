@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 
-// 모든 방명록을 읽음 처리
+// 회원 본인의 방명록만 읽음 처리한다. 인물 방명록에는 로그인 소유자가 없다.
 export async function markGuestbookAsRead(): Promise<void> {
   const supabase = await createClient()
 
@@ -10,12 +10,10 @@ export async function markGuestbookAsRead(): Promise<void> {
   if (!user) return
 
   const { error } = await supabase
-    .from('guestbook_entries')
+    .from('member_guestbook_entries')
     .update({ is_read: true })
-    .eq('profile_id', user.id)
+    .eq('owner_member_id', user.id)
     .eq('is_read', false)
 
-  if (error) {
-    console.error('Mark guestbook as read error:', error)
-  }
+  if (error) console.error('Mark guestbook as read error:', error)
 }

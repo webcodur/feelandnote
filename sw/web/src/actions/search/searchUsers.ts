@@ -2,7 +2,6 @@
 
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getTitleInfo } from '@/constants/titles'
@@ -58,13 +57,13 @@ async function fetchSearchUsersPublic(
   }
 
   const { data: followerCounts } = await supabase
-    .from('follows')
-    .select('following_id')
-    .in('following_id', users.map(u => u.id))
+    .from('member_social_stats')
+    .select('member_id, follower_count')
+    .in('member_id', users.map(u => u.id))
 
   const followerCountMap: Record<string, number> = {}
-  ;(followerCounts || []).forEach(f => {
-    followerCountMap[f.following_id] = (followerCountMap[f.following_id] || 0) + 1
+  ;(followerCounts || []).forEach(stat => {
+    followerCountMap[stat.member_id] = stat.follower_count || 0
   })
 
   return {
@@ -77,7 +76,7 @@ async function fetchSearchUsersPublic(
 const getSearchUsersPublicCached = unstable_cache(
   fetchSearchUsersPublic,
   ['search-users'],
-  { revalidate: 3600, tags: [CACHE_TAGS.CELEBS] }
+  { revalidate: 3600 }
 )
 
 export async function searchUsers({
@@ -102,12 +101,12 @@ export async function searchUsers({
   let followingIds: string[] = []
   if (currentUser) {
     const { data: follows } = await supabase
-      .from('follows')
-      .select('following_id')
-      .eq('follower_id', currentUser.id)
-      .in('following_id', pub.users.map(u => u.id))
+      .from('member_member_follows')
+      .select('followed_member_id')
+      .eq('follower_member_id', currentUser.id)
+      .in('followed_member_id', pub.users.map(u => u.id))
 
-    followingIds = (follows || []).map(f => f.following_id)
+    followingIds = (follows || []).map(f => f.followed_member_id)
   }
 
   let items: UserSearchResult[] = pub.users.map((user) => ({

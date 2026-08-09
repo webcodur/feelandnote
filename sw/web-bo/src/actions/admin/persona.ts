@@ -75,7 +75,7 @@ interface PersonaQueryRow {
   command: number; martial: number; intellect: number; charm: number
   pessimism_optimism: number; conservative_progressive: number
   individual_social: number; cautious_bold: number
-  profiles: { nickname: string | null; profession: string | null } | null
+  celeb: { nickname: string | null; profession: string | null } | null
 }
 
 export async function getPersonaVectors(): Promise<PersonaData[]> {
@@ -94,7 +94,7 @@ export async function getPersonaVectors(): Promise<PersonaData[]> {
         loyalty, benevolence, fairness, humility,
         command, martial, intellect, charm,
         pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
-        profiles!celeb_persona_celeb_id_fkey (nickname, profession)
+        celeb:celebs!celeb_persona_celebs_fkey (nickname, profession)
       `)
       .order('created_at', { ascending: false })
       .order('id', { ascending: true })
@@ -107,8 +107,8 @@ export async function getPersonaVectors(): Promise<PersonaData[]> {
   return data.map((row) => ({
     id: row.id,
     celeb_id: row.celeb_id,
-    nickname: row.profiles?.nickname ?? '',
-    profession: row.profiles?.profession ?? null,
+    nickname: row.celeb?.nickname ?? '',
+    profession: row.celeb?.profession ?? null,
     persona: row.persona ?? null,
     temperance: row.temperance,
     diligence: row.diligence,

@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Database } from "@/types/supabase";
 import { formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "@/i18n/navigation";
@@ -20,46 +19,58 @@ import { Card } from "@/components/ui";
 import Button from "@/components/ui/Button";
 import { respondRecommendation } from "@/actions/recommendations";
 
-type Notification = Database["public"]["Tables"]["notifications"]["Row"];
+interface Notification {
+  id: string;
+  type: string;
+  title: string | null;
+  message: string;
+  link: string | null;
+  metadata: unknown;
+  is_read: boolean;
+  created_at: string | null;
+}
 
 export default function NotificationsPage() {
   const t = useTranslations("notifications");
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "unread">("all");
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
 
   useEffect(() => {
-    fetchNotifications();
-    
-    // 알림 읽음 처리 시 실시간 반영을 위해 필요하다면 구독을 추가할 수 있음
-    // 여기서는 간단히 페이지 진입 시 로드로 처리
-  }, []);
+    let cancelled = false;
 
-  const fetchNotifications = async () => {
-    setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (user) {
-      const { data } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(100); // 최대 100개까지만 노출
+    const loadNotifications = async () => {
+      setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
 
-      if (data) {
-        setNotifications(data);
+      if (user) {
+        const { data } = await supabase
+          .from("member_notifications")
+          .select("*")
+          .eq("member_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(100);
+
+        if (!cancelled && data) {
+          setNotifications(data as Notification[]);
+        }
       }
-    }
-    setLoading(false);
-  };
+
+      if (!cancelled) setLoading(false);
+    };
+
+    void loadNotifications();
+    return () => {
+      cancelled = true;
+    };
+  }, [supabase]);
 
   const handleRead = async (notif: Notification) => {
     if (!notif.is_read) {
       const { error } = await supabase
-        .from("notifications")
+        .from("member_notifications")
         .update({ is_read: true })
         .eq("id", notif.id);
 
@@ -83,9 +94,9 @@ export default function NotificationsPage() {
     setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
 
     await supabase
-      .from("notifications")
+      .from("member_notifications")
       .update({ is_read: true })
-      .eq("user_id", user.id)
+      .eq("member_id", user.id)
       .eq("is_read", false);
   };
 
@@ -94,7 +105,7 @@ export default function NotificationsPage() {
     if (!confirm(t("deleteConfirm"))) return;
 
     const { error } = await supabase
-      .from("notifications")
+      .from("member_notifications")
       .delete()
       .eq("id", id);
 
@@ -113,9 +124,9 @@ export default function NotificationsPage() {
     setNotifications(prev => prev.filter(n => !n.is_read));
 
     await supabase
-      .from("notifications")
+      .from("member_notifications")
       .delete()
-      .eq("user_id", user.id)
+      .eq("member_id", user.id)
       .eq("is_read", true);
   };
 
@@ -157,7 +168,7 @@ export default function NotificationsPage() {
       };
 
       await supabase
-        .from("notifications")
+        .from("member_notifications")
         .update({ is_read: true, metadata: updatedMetadata })
         .eq("id", notif.id);
 

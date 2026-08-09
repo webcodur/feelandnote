@@ -77,9 +77,9 @@ export async function getContent(contentId: string): Promise<UserContentWithDeta
 
   // egress-allow: 본인 기록 단건 — 수정 즉시 반영 필요, 캐시 부적합
   const recordQuery = supabase
-    .from('user_contents')
-    .select('id, user_id, content_id, status, rating, review, is_spoiler, created_at, updated_at')
-    .eq('user_id', user.id)
+    .from('member_contents')
+    .select('id, user_id:member_id, content_id, status, rating, review, is_spoiler, created_at, updated_at')
+    .eq('member_id', user.id)
     .eq('content_id', contentId)
     .single()
 

@@ -135,10 +135,9 @@ async function findVerifiedQid(name, dbBirthYear) {
 // --- 메인 ---
 async function main() {
   const { data: celebs, error } = await sb
-    .from("profiles")
+    .from("celebs")
     .select("id, nickname, nickname_en, birth_date")
-    .eq("profile_type", "CELEB")
-    .eq("status", "active")
+    .eq("publication_status", "active")
     .is("wikidata_qid", null)
     .not("nickname_en", "is", null)
     .order("nickname_en");
@@ -162,7 +161,7 @@ async function main() {
 
     if (qid) {
       const { error: upErr } = await sb
-        .from("profiles")
+        .from("celebs")
         .update({ wikidata_qid: qid })
         .eq("id", c.id);
 

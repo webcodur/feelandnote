@@ -6,7 +6,7 @@ import { type ActionResult, failure } from '@/lib/errors'
 
 // #region 삭제 방식
 // delete_my_account RPC는 인자를 받지 않고 현재 로그인한 회원만 지운다.
-// profiles가 지워지면 user_contents·records·follows 등 자식 행은 각자의 CASCADE로 정리된다.
+// user_accounts가 지워지면 member_profiles·member_contents·회원 관계가 CASCADE로 정리된다.
 // 일반 회원 요청에서 service role 키나 삭제할 UUID를 전달하지 않는다.
 // #endregion
 

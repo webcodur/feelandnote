@@ -32,7 +32,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
 
   const handleNavigateToUser = () => {
     setShowUserModal(false);
-    router.push(getCelebProfileUrl({ ...review.celeb, profile_type: 'CELEB' }));
+    router.push(getCelebProfileUrl(review.celeb));
   };
 
   const headerNode = (

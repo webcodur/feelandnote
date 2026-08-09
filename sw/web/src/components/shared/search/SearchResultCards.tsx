@@ -109,7 +109,7 @@ function UserResultCard({ user, onItemClick }: { user: UserSearchResult; onItemC
   const handleFollowClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     startTransition(async () => {
-      const result = await toggleFollow(user.id);
+      const result = await toggleFollow(user.id, "member");
       if (result.success) {
         setIsFollowing(result.data.isFollowing);
       }

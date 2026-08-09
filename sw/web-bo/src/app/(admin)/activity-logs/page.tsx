@@ -39,23 +39,38 @@ export default async function ActivityLogsPage({
   // 쿼리 빌드
   let query = supabase
     .from('activity_logs')
-    .select('*, profiles:profiles!activity_logs_user_id_fkey (id, nickname, avatar_url)', { count: 'exact' })
+    .select(
+      '*, account:user_accounts!activity_logs_accounts_fkey(id, member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url))',
+      { count: 'exact' }
+    )
     .order('created_at', { ascending: false })
 
   if (actionFilter) {
     query = query.eq('action_type', actionFilter)
   }
 
-  const { data: logs, count } = await query
+  const { data: logRows, count, error: logsError } = await query
     .range((page - 1) * perPage, page * perPage - 1)
+
+  if (logsError) throw new Error(`Failed to load activity logs: ${logsError.message}`)
+
+  const logs = (logRows ?? []).map((row) => {
+    const account = Array.isArray(row.account) ? row.account[0] : row.account
+    const member = Array.isArray(account?.member) ? account.member[0] : account?.member
+    return { ...row, member: member ?? null }
+  })
 
   const total = count || 0
   const totalPages = Math.ceil(total / perPage)
 
   // 액션 타입별 통계
-  const { data: actionStats } = await supabase
+  const { data: actionStats, error: actionStatsError } = await supabase
     .from('activity_logs')
     .select('action_type')
+
+  if (actionStatsError) {
+    throw new Error(`Failed to load activity log statistics: ${actionStatsError.message}`)
+  }
 
   const actionCountMap = (actionStats || []).reduce((acc, item) => {
     acc[item.action_type] = (acc[item.action_type] || 0) + 1
@@ -74,7 +89,7 @@ export default async function ActivityLogsPage({
 
   return (
     <ActivityLogsClient
-      logs={logs || []}
+      logs={logs}
       total={total}
       page={page}
       totalPages={totalPages}

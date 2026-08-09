@@ -37,7 +37,7 @@ async function fetchSharedContents(
 const getCachedSharedContents = unstable_cache(
   fetchSharedContents,
   ['shared-contents'],
-  // get_shared_contents_by_celebs: 셀럽(profiles) 간 공유 콘텐츠(user_contents·contents)
+  // get_shared_contents_by_celebs: 셀럽(celebs) 간 공유 콘텐츠(celeb_contents·contents)
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

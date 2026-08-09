@@ -43,7 +43,7 @@ export default function UserMiniProfilePopover({ userId, trigger }: UserMiniProf
     if (!profile || profile.is_self) return;
 
     setIsFollowLoading(true);
-    const result = await toggleFollow(userId);
+    const result = await toggleFollow(userId, "member");
     if (result.success) {
       setProfile((prev) => prev ? { ...prev, is_following: result.data.isFollowing } : null);
     }

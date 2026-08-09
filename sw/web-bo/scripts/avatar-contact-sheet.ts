@@ -54,7 +54,7 @@ async function main() {
     env.SUPABASE_SERVICE_ROLE_KEY ?? env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   )
   const { data, error } = await sb
-    .from('profiles')
+    .from('celebs')
     .select('slug, avatar_url')
     .in('slug', SLUGS)
   if (error) throw new Error(error.message)

@@ -1,17 +1,25 @@
 # 셀럽 데이터 함정 모음
 
-셀럽(profiles·celeb_dialogues·celeb_influence·user_contents·content_locales) 데이터를 다루다 실제로 사고가 났던 지점과 그 진단·복구 절차를 모은 문서다. 셀럽 등록·승격·대사/명언 작업, 목록·상세 페이지가 안 뜨는 문제, 세력도감 태그 개편, 책 메타 출처 선택을 할 때 착수 전에 읽는다. 파이프라인 정의 자체는 `docs/project/celeb/celeb-pipeline.md`, 스키마는 `docs/project/db-celeb.md`가 SSoT이고 이 문서는 그 위의 "밟으면 터지는 곳" 목록이다.
+셀럽(`celebs`·`celeb_contents`·`celeb_dialogues`·`celeb_influence`·`content_locales`)
+데이터를 다루다 실제로 사고가 났던 지점과 그 진단·복구 절차를 모은 문서다. 셀럽
+등록·승격·대사/명언 작업, 목록·상세 페이지가 안 뜨는 문제, 세력도감 태그 개편, 책 메타
+출처 선택을 할 때 착수 전에 읽는다. 파이프라인 정의 자체는
+`docs/project/celeb/celeb-pipeline.md`, 스키마는 `docs/project/db-celeb.md`가 SSoT이고 이
+문서는 그 위의 "밟으면 터지는 곳" 목록이다.
 
 ---
 
 ## 1. 목록 노출 기준 — celeb_tier
 
-셀럽 목록 노출 기준은 `status` 게이트가 아니라 **등급(`celeb_tier`) 필터**다(2026-07-16 전환). 기본 목록은 `full`·`light`, 신화·허구 인물은 `fiction`으로 분리한다.
+셀럽 목록 노출 기준은 `publication_status` 하나가 아니라 **등급(`celeb_tier`) 필터**도
+함께 적용한다(2026-07-16 전환). 기본 목록은 `full`·`light`, 신화·허구 인물은
+`fiction`으로 분리한다.
 
 - **SSoT**: `packages/shared/src/constants/celeb-tiers.ts` — `CelebTier`, `LISTING_DEFAULT_TIERS`(full·light), `INDEXABLE_TIERS`(full), `parseCelebTiers`. 등급 타입 정의는 이 파일 하나뿐이며 `getUserProfile`·`types/home`도 여기서 가져다 쓴다.
 - **RPC**: `get_celebs_sorted` / `count_celebs_filtered`의 인자는 `p_celeb_tier text`가 아니라 **`p_celeb_tiers text[]`**다. NULL은 "제한 없음"이라 **인자를 안 주면 fiction 등급이 목록에 샌다.** `getCelebs`가 기본값을 넣어 막는다. web-bo는 의도적으로 null을 넘겨 전체를 노출한다.
 - **필터 UI**: `/explore/figures?tier=` — `fiction`·`all`·쉼표 복수(`fiction,light`)를 지원한다. 미지정이면 기본 등급.
-- `get_top_celebs_across_eras`·`get_celeb_feed_type_counts`·타입별 수치는 손댈 필요가 없다. `user_contents` 기반이라 콘텐츠 0건인 fiction은 구조상 낄 수 없다.
+- `get_top_celebs_across_eras`·`get_celeb_feed_type_counts`·타입별 수치는
+  `celeb_contents` 기반이라 콘텐츠 0건인 fiction은 구조상 낄 수 없다.
 
 ### 목록이 조용히 비고 캐시에 박히는 사고
 
@@ -26,12 +34,12 @@ DB 함수 **시그니처 변경이 배포 시차 사고**를 만든다. 옛 시�
 
 | 증상 | 원인 | 조치 |
 |---|---|---|
-| 404 "페이지를 찾을 수 없습니다" | `profiles.slug`에 비ASCII 문자(강세부호)가 박힘 | slug 생성 표현식의 문자 대치쌍 보강 |
+| 404 "페이지를 찾을 수 없습니다" | `celebs.slug`에 비ASCII 문자(강세부호)가 박힘 | slug 생성 표현식의 문자 대치쌍 보강 |
 | SSR 500 | `celeb_dialogues.lines` 원소가 문자열이 아니라 객체 `{text, quote}` | 문자열 배열로 정정 |
 
 ### 404 — slug 비ASCII
 
-`profiles.slug`는 `nickname_en` 기반 **generated column**이다(직접 UPDATE 불가, 이름을 고치면 자동 반영). 옛 표현식이 강세부호를 떼지 않아 `Camilo José Cela` → `camilo-josé-cela`처럼 URL에 비ASCII가 새어나가 404가 났다.
+`celebs.slug`는 `nickname_en` 기반 **generated column**이다(직접 UPDATE 불가, 이름을 고치면 자동 반영). 옛 표현식이 강세부호를 떼지 않아 `Camilo José Cela` → `camilo-josé-cela`처럼 URL에 비ASCII가 새어나가 404가 났다.
 
 - 2026-07-14 마이그레이션 `slug_strip_diacritics`가 표현식에 `translate()` 문자 대치를 넣어 ASCII로 자동 변환한다(José→jose, André→andre, Müller→muller, Shōwa→showa, Jokić→jokic 등 11명 일괄 교정).
 - `translate`는 IMMUTABLE이라 generated column에 쓸 수 있다. `unaccent` extension은 STABLE이라 못 쓴다.
@@ -69,16 +77,24 @@ DB 함수 **시그니처 변경이 배포 시차 사고**를 만든다. 옛 시�
 
 **세션2 최종 무결(실측)**: 영문 대사 미번역 0, `answer` 잔재 영·한 모두 0, ko↔en 대사 배열 길이 불일치 0, 명언 한·영 1,411쌍 완전 일치(한쪽만 0인 경우·역전 해소), ko 21개 완비 인물 중 en 완비 1,547명. 명언 정본은 `lines.quote` / `lines_en.quote`다. 인물 발언 조사 시 모국어 키워드 검색을 병행한다.
 
-**부수 함정**: `profiles`에는 `updated_at` 컬럼이 없다(`celeb_dialogues`에는 있다). 기존 감정 태그 표기는 영문이지만, 이는 AI가 문장 인상으로 배정하는 분류가 아니다. **ELE 보이스를 실제로 들은 사용자가 발화를 보완하는 합성 지시**이므로 AI 대사 작업자는 새 태그를 만들거나 기존 태그를 고치지 않는다. 기존 값은 보존하고 본문만 다룬다(`celeb-speech.md` 「발화 지시 태그 운영권」).
+**부수 함정**: `celebs.updated_at`은 26.08.09에 추가돼 그전 행은 다음 실제 변경 전까지
+null일 수 있다. 과거 문서의 「프로필에는 updated_at이 없다」를 현재 규칙으로 쓰지 않는다.
+기존 감정 태그 표기는 영문이지만, 이는 AI가 문장 인상으로 배정하는 분류가 아니다. **ELE
+보이스를 실제로 들은 사용자가 발화를 보완하는 합성 지시**이므로 AI 대사 작업자는 새 태그를
+만들거나 기존 태그를 고치지 않는다. 기존 값은 보존하고 본문만 다룬다(`celeb-speech.md`
+「발화 지시 태그 운영권」).
 
 ---
 
 ## 4. 등급 승격 조건 — full은 콘텐츠 필수
 
-`profiles.celeb_tier='full'`은 감상 콘텐츠(`user_contents`)가 1건 이상 있어야 유효하다. 콘텐츠 0개인데 full이면 프로필 콘텐츠 탭이 빈 채로 full로 표시되는 룰북 위반이다.
+`celebs.celeb_tier='full'`은 감상 콘텐츠(`celeb_contents`)가 1건 이상 있어야 유효하다. 콘텐츠 0개인데 full이면 프로필 콘텐츠 탭이 빈 채로 full로 표시되는 룰북 위반이다.
 
 - **왜 생기나**: `celeb_tier` 기본값이 `'full'`이고 제약이 없어 콘텐츠 없이 full이 쉽게 만들어진다(트리거 설치 전 full 1,286명 중 23명이 콘텐츠 0개였다).
-- **강제 장치**: 2026-06-22 트리거 `trg_celeb_full_requires_content`(함수 `public.enforce_celeb_full_requires_content`) 설치. `profile_type='CELEB'`이면서 **full로 새로 전환되는 시점**만 검증한다(INSERT, 또는 OLD가 full/CELEB이 아니던 행의 UPDATE). 콘텐츠 0건이면 `check_violation` 예외를 던진다. 이미 full인 행의 다른 필드 수정·일반 유저·강등(full→light)은 통과한다.
+- **강제 장치**: 2026-06-22 도입·26.08.10 새 도메인으로 이전한 트리거
+  `trg_celeb_full_requires_content`가 **full로 새로 전환되는 시점**만 검증한다(INSERT 또는
+  기존 티어가 full이 아니던 UPDATE). `celeb_contents` 0건이면 `check_violation` 예외를
+  던진다. 이미 full인 행의 다른 필드 수정과 강등(full→light)은 통과한다.
 - **적용**: full이 필요하면 콘텐츠 수집(celeb-2-content-collector)을 먼저 하고 승격한다. 콘텐츠 없이 프로필만 풍부하게 채울 거면 light로 둔다. light도 페르소나·발화·영향력·감상여정을 모두 가질 수 있고 콘텐츠 탭만 숨는다.
 
 ---
@@ -114,7 +130,8 @@ celeb-2-content-collector 파이프라인에서 `contents.external_source` 값�
 
 **자리 구분(혼동 방지)**
 - `contents.external_source`: 책 1권당 1개. **이 책의 ISBN·표지를 어느 외부 데이터 DB에서 잡았는가**. 인터뷰 출처가 아니다.
-- `user_contents.source_url`: 셀럽이 그 책을 추천한 **인터뷰·기사·블로그 URL**. 자유 입력, 제약 없음.
+- `celeb_contents.source_url`: 셀럽이 그 책을 추천한 **인터뷰·기사·블로그 URL**. DB가
+  비어 있는 값을 거부한다.
 - `content_locales.sources.primary`: 영문 줄·한국어 줄 각각의 메타 출처. 자유 형식, 제약 없음. OpenLibrary가 늘 자유롭게 들어와 왔다.
 
 ---
@@ -145,15 +162,15 @@ ko 관련 작업(콘텐츠 수집, DB 등록, ko.json 작성·수정, review 작
 
 ## 9. 인물 관계망(`celeb_relations` / `celeb_relations_external`)
 
-- **비공개(`status='inactive'`) 셀럽이 관계망에서 통째로 사라졌다(26.07.26 교정).** 관계 상대가 우리 명단에 있으면 `celeb_relations`에 들어가고 위키데이터 수집분(`celeb_relations_external`)에서는 빠진다. 그런데 화면이 `status='active'`만 통과시켜, 명단에 있으나 비공개인 상대는 **양쪽 어디에도 안 뜨는 사각지대**였다(엘론 머스크의 동생 킴벌, 관계 57건·인물 39명). 지금은 비공개 상대도 이름 노드로 세우고 이동만 막는다(`slug=null`, 위키데이터 링크는 `profiles.wikidata_qid`).
+- **비공개(`publication_status='inactive'`) 셀럽이 관계망에서 통째로 사라졌다(26.07.26 교정).** 관계 상대가 우리 명단에 있으면 `celeb_relations`에 들어가고 위키데이터 수집분(`celeb_relations_external`)에서는 빠진다. 그런데 화면이 공개 인물만 통과시켜, 명단에 있으나 비공개인 상대는 **양쪽 어디에도 안 뜨는 사각지대**였다(엘론 머스크의 동생 킴벌, 관계 57건·인물 39명). 지금은 비공개 상대도 이름 노드로 세우고 이동만 막는다(`slug=null`, 위키데이터 링크는 `celebs.wikidata_qid`).
 - **혈연에는 인원 상한을 적용하지 않는다.** 세대 자리가 곧 정보라 자식 44명·형제 43명인 인물도 가계도에 전부 세운다. 접이식 목록(ROW_CAP 8)은 사회 관계 전용. 화면 폭에 접혀 여러 줄이 되면 줄마다 모선을 놓고 세로 줄기로 잇는다.
 - **관계 근거 한 줄은 `note`(한국어) + `note_en` 짝이다.** 캐시가 언어를 안 타므로 둘 다 내리고 화면에서 고른다. `label_ko`/`label_en` 컬럼은 전량 비어 있고 아무도 안 읽는 죽은 칸이다 — 쓰지 마라.
 - **수집 스크립트(`sw/web-bo/scripts/sync-celeb-relations.ts`)는 `source='wikidata'` 행을 지우고 다시 쓴다.** 수동 수록분(`manual`)은 보존되지만 위키데이터 출처 행에 손으로 넣은 값은 재실행 때 날아간다. 공동 창업 근거는 스크립트가 ko/en 조직명으로 양쪽을 함께 생성한다.
 - **위키데이터 인물의 한국어 이름이 절반 넘게 없다(7,807건 중 4,178건).** 이름이 없으면 영문 표기로 대신 띄우므로 한국어 화면에 `Arcadia Musk` 같은 표기가 나온다. 영문 이름 결측은 36건뿐. 미해결.
 
-## 9-1. 노출 상태(`profiles.status`)를 다른 판단에 끌어 쓰지 마라 — 같은 사고가 세 번 났다
+## 9-1. 노출 상태(`celebs.publication_status`)를 다른 판단에 끌어 쓰지 마라 — 같은 사고가 세 번 났다
 
-`status='inactive'`는 **서비스에 안 띄운다**는 뜻 하나뿐이다. 그런데 이 값이 세 번이나 다른 판단으로 새어 들어가, 비공개 인물이 엉뚱한 곳에서 통째로 사라지거나 이미 처리된 것처럼 보였다.
+`publication_status='inactive'`는 **서비스에 안 띄운다**는 뜻 하나뿐이다. 그런데 이 값이 세 번이나 다른 판단으로 새어 들어가, 비공개 인물이 엉뚱한 곳에서 통째로 사라지거나 이미 처리된 것처럼 보였다.
 
 | 시점 | 새어 들어간 곳 | 증상 | 규모 |
 |------|----------------|------|------|
@@ -163,25 +180,33 @@ ko 관련 작업(콘텐츠 수집, DB 등록, ko.json 작성·수정, review 작
 
 **26.08.07 건의 경위.** `resolveCelebContentCount`가 `if (!isActive) return -1`로 조사 상태를 보기도 전에 잘라냈다. 26.07.30 「비활성 light 301명 일괄 `confirmed_empty` 처리」 작업 때 "비활성은 어차피 조사 대상이 아니다"라는 전제가 코드에 박힌 것이다. 그 전제는 팩션용 비공개 인물이 대량 등록되면서 깨졌다 — **이들은 나중에 공개할 인물이라 조사가 필요하다.** 교정 후 `-1`의 뜻은 하나다: 사람이 네 유형을 다 조사했고 0건이었다.
 
-**판별법.** 어떤 값이 `status`를 참조하려 할 때 이렇게 묻는다 — *"이 인물을 내일 공개로 돌리면 이 값이 저절로 맞아지는가?"* 아니라면 `status`를 보면 안 된다. 조사 여부·관계·태그 배정은 공개 여부와 독립된 사실이다.
+**판별법.** 어떤 값이 `publication_status`를 참조하려 할 때 이렇게 묻는다 — *"이 인물을 내일 공개로 돌리면 이 값이 저절로 맞아지는가?"* 아니라면 공개 상태를 보면 안 된다. 조사 여부·관계·태그 배정은 공개 여부와 독립된 사실이다.
 
 규약 SSoT는 `packages/shared/src/constants/celeb-content-research.ts`이고 회귀 시험이 붙어 있다(`celeb-content-research.test.ts`).
 
 ---
 
-## 10. Supabase MCP가 죽었을 때 셀럽 등록 우회
+## 10. 관리 도구 연결이 막혔을 때 셀럽 등록
 
-Supabase MCP(`mcp__supabase__*`)가 `Unauthorized. SUPABASE_ACCESS_TOKEN` 에러로 막힐 때 REST로 직접 등록하는 통로다. 토큰이 왜 반복해서 죽는지는 `docs/project/tooling-gotchas.md`를 본다.
+Supabase MCP가 인증 오류로 막혀도 가짜 Auth 계정을 만들지 않는다. 정식 창구는 web-bo
+`/celebs/new`이며, 일괄 작업은 현역 `sw/web-bo/scripts/create-minimal-celebs.ts` 패턴을
+따른다. 토큰이 왜 반복해서 죽는지는 `docs/project/tooling-gotchas.md`를 본다.
 
-- 서비스 키: `sw/web-bo/.env`의 `SUPABASE_SERVICE_ROLE_KEY`. 프로젝트 ref `wouqtpvfctednlffross`.
-- **계정 생성**: `POST /auth/v1/admin/users {email, email_confirm:true}`로 id 확보 → `PUT /auth/v1/admin/users/{id} {email:"celeb_{id}@feelandnote.local"}`. 트리거가 `profiles` 행을 `profile_type=USER`로 자동 생성하니 PATCH로 CELEB 전환한다. **`profiles.email`에도 임시 email이 잔존**하므로 PATCH 본문에 `email: celeb_{id}@feelandnote.local`을 포함해 정정한다.
-- **한글 저장은 `curl.exe` + `--data-binary @파일` 필수.** PowerShell `Invoke-RestMethod`와 node fetch(POST+body)는 한글 이중 인코딩·DNS 오류로 DB를 파손시킨다. body를 UTF-8 파일로 쓰고 curl로 보낸다. GET(읽기)은 `Invoke-RestMethod`로 무방하다.
-- 파일럿 검증을 마친 헬퍼: `create-celeb.mjs`(계정 + profiles + 중복 스킵).
+- 셀럽 UUID를 새로 발급해 `celebs`에 직접 INSERT한다. `auth.users`·`user_accounts`·
+  `member_profiles`에는 아무 행도 만들지 않는다
+- 신규 등급은 `light`, 기본 공개 상태는 `suspended`다. `active`에는 아바타,
+  `full`에는 `celeb_contents`가 필요하다
+- 서비스 역할 키를 사용하는 직접 REST는 관리자의 승인된 로컬 도구 안에서만 실행하고 키를
+  명령 출력·문서·커밋에 남기지 않는다
+- 한글 JSON을 `curl.exe`로 보낼 때는 UTF-8 파일과 `--data-binary @파일`을 사용한다.
+  저장 뒤 한국어 필드를 다시 읽어 인코딩을 검증한다
+- 실패 롤백은 생성한 `celebs` 행을 삭제한다. 회원 삭제 RPC를 호출하지 않는다
 
 ### 컬럼 함정
 
-1. `profiles`에 `quotes` 컬럼은 **없다**. 명언은 `celeb_dialogues.lines.quote`에 넣는다.
+1. `celebs`에 `quotes` 컬럼은 **없다**. 명언은 `celeb_dialogues.lines.quote`에 넣는다.
 2. 감상여정 저장 칸은 `consumption_philosophy`다(`cultural_journey`는 generated).
 3. `celeb_influence`는 평면 컬럼이다(`political`·`political_exp`·`..._exp_en`·`transhistoricity`, `total_score`는 트리거 자동).
 4. `celeb_dialogues`의 실제 컬럼은 `celeb_id`·`lines`·`lines_en` 셋뿐이다.
-5. `slug`는 `nickname_en` 기반 generated이므로 악센트를 넣으면 slug에 박힌다. ASCII로 쓴다(2절 참조).
+5. `slug`는 `nickname_en` 기반 generated다. 알려진 악센트는 ASCII로 정규화하지만 대치쌍에
+   없는 희귀 문자는 남을 수 있으므로 생성된 slug를 반드시 다시 읽어 확인한다(2절 참조).

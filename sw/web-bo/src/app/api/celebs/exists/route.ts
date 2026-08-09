@@ -8,7 +8,7 @@ import { guardAdminRoute } from '@/lib/admin-route'
 
 /**
  * 셀럽 slug 실존 대조 — 팩션 인물의 본서비스(DB) 등록 여부 판정용.
- * slug가 적혀 있어도 DB에 없는 「유령 연결」을 가려내기 위해 실제 profiles를 조회한다.
+ * slug가 적혀 있어도 DB에 없는 「유령 연결」을 가려내기 위해 실제 celebs를 조회한다.
  * POST { slugs: string[] } → { existing: string[] }
  */
 export async function POST(req: Request) {
@@ -26,9 +26,8 @@ export async function POST(req: Request) {
   const supabase = await createClient()
   // status 필터 없음 — 신규 셀럽은 검수 전 inactive로 생성되므로, 등록 여부 판정은 활성 여부와 무관하다
   const { data, error } = await supabase
-    .from('profiles')
+    .from('celebs')
     .select('slug')
-    .eq('profile_type', 'CELEB')
     .in('slug', unique)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 

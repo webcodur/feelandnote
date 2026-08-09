@@ -58,9 +58,9 @@ export async function getFeedActivities(
 
   // 내가 팔로우하는 사람들 ID 조회
   const { data: following } = await supabase
-    .from('follows')
-    .select('following_id')
-    .eq('follower_id', user.id)
+    .from('member_member_follows')
+    .select('followed_member_id')
+    .eq('follower_member_id', user.id)
 
   if (!following || following.length === 0) {
     return { activities: [], nextCursor: null }
@@ -70,7 +70,7 @@ export async function getFeedActivities(
   // 조회 전에 걸러야 걸러낸 만큼 빈자리가 생기지 않는다.
   const blockedIds = await getBlockedUserIds()
   const followingIds = filterBlocked(
-    following.map(f => f.following_id),
+    following.map(f => f.followed_member_id),
     (id) => id,
     blockedIds
   )
@@ -105,12 +105,7 @@ export async function getFeedActivities(
       target_type,
       target_id,
       content_id,
-      created_at,
-      user:profiles!user_id(
-        nickname,
-        avatar_url,
-        selected_title
-      )
+      created_at
     `)
     .in('user_id', followingIds)
     .in('action_type', ['CONTENT_ADD', 'REVIEW_UPDATE'])
@@ -135,6 +130,14 @@ export async function getFeedActivities(
 
   const hasMore = data.length > limit
   const sliced = hasMore ? data.slice(0, limit) : data
+  const activityMemberIds = [...new Set(sliced.map(item => item.user_id))]
+
+  const { data: memberProfiles } = activityMemberIds.length
+    ? await supabase
+        .from('member_profiles')
+        .select('id, nickname, avatar_url, selected_title')
+        .in('id', activityMemberIds)
+    : { data: [] }
 
   // content_id 목록 추출해서 별도 조회
   const contentIds = [...new Set(sliced.map(item => item.content_id).filter(Boolean))] as string[]
@@ -143,15 +146,16 @@ export async function getFeedActivities(
   let userContentsMap: Record<string, { review: string | null; rating: number | null; source_url: string | null }> = {}
 
   if (contentIds.length > 0) {
-    // contents + user_contents 병렬 조회
+    // 콘텐츠 메타와 회원 감상 기록을 병렬 조회
     const [{ data: contents }, { data: userContents }] = await Promise.all([
       supabase
         .from('contents')
         .select(`id, type, content_locales(${CL_SELECT_LIST})`)
         .in('id', contentIds),
       supabase
-        .from('user_contents')
-        .select('user_id, content_id, review, rating, source_url')
+        .from('member_contents')
+        .select('user_id:member_id, content_id, review, rating, source_url')
+        .in('member_id', activityMemberIds)
         .in('content_id', contentIds),
     ])
 
@@ -183,9 +187,10 @@ export async function getFeedActivities(
   }
 
   type RawUserProfile = { nickname: string; avatar_url: string | null; selected_title: string | null }
+  const profileMap = new Map((memberProfiles || []).map(profile => [profile.id, profile as RawUserProfile]))
 
   const activities: FeedActivity[] = sliced.map((item) => {
-    const rawProfile = (Array.isArray(item.user) ? item.user[0] : item.user) as RawUserProfile | null
+    const rawProfile = profileMap.get(item.user_id)
     const contentInfo = item.content_id ? contentsMap[item.content_id] : null
     const userContentKey = item.content_id ? `${item.user_id}:${item.content_id}` : null
     const userContentInfo = userContentKey ? userContentsMap[userContentKey] : null

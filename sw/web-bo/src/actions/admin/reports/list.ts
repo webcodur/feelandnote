@@ -62,32 +62,32 @@ interface RawQueueRow {
   resolved_at: string | null
   reporter: RawReportPerson | null
   targetUser: RawReportPerson | null
-  resolver: { nickname: string | null } | null
+  resolver: RawReportPerson | null
 }
 
 interface RawReportPerson {
   id: string
-  nickname: string | null
-  user_accounts: { email: string | null } | { email: string | null }[] | null
+  email: string | null
+  member_profiles: { nickname: string | null } | { nickname: string | null }[] | null
 }
 // #endregion
 
 const QUEUE_SELECT = `
   id, target_type, target_id, target_user_id, reason, status, created_at, resolved_at,
-  reporter:profiles!reports_reporter_id_fkey (id, nickname, user_accounts!user_accounts_id_fkey(email)),
-  targetUser:profiles!reports_target_user_id_fkey (id, nickname, user_accounts!user_accounts_id_fkey(email)),
-  resolver:profiles!reports_resolved_by_fkey (nickname)
+  reporter:user_accounts!reports_reporter_accounts_fkey (id, email, member_profiles!member_profiles_id_fkey(nickname)),
+  targetUser:user_accounts!reports_target_accounts_fkey (id, email, member_profiles!member_profiles_id_fkey(nickname)),
+  resolver:user_accounts!reports_resolver_accounts_fkey (id, email, member_profiles!member_profiles_id_fkey(nickname))
 `
 
 function toReportPerson(person: RawReportPerson | null): ReportPerson | null {
   if (!person) return null
-  const account = Array.isArray(person.user_accounts)
-    ? person.user_accounts[0] ?? null
-    : person.user_accounts
+  const profile = Array.isArray(person.member_profiles)
+    ? person.member_profiles[0] ?? null
+    : person.member_profiles
   return {
     id: person.id,
-    nickname: person.nickname,
-    email: account?.email ?? null,
+    nickname: profile?.nickname ?? null,
+    email: person.email,
   }
 }
 
@@ -97,10 +97,11 @@ async function loadStatusCounts(): Promise<Record<ReportStatus, number>> {
   // 카운트만 필요하므로 행을 끌어오지 않는다.
   const entries = await Promise.all(
     REPORT_STATUS_ORDER.map(async (status) => {
-      const { count } = await supabase
+      const { count, error } = await supabase
         .from('reports')
         .select('id', { count: 'exact', head: true })
         .eq('status', status)
+      if (error) throw new Error(`신고 상태 집계 실패(${status}): ${error.message}`)
       return [status, count ?? 0] as const
     })
   )
@@ -147,7 +148,11 @@ export async function getReportQueue(params: ReportQueueParams): Promise<ReportQ
     resolvedAt: row.resolved_at,
     reporter: toReportPerson(row.reporter),
     targetUser: toReportPerson(row.targetUser),
-    resolverNickname: row.resolver?.nickname ?? null,
+    resolverNickname: row.resolver
+      ? (Array.isArray(row.resolver.member_profiles)
+          ? row.resolver.member_profiles[0]?.nickname
+          : row.resolver.member_profiles?.nickname) ?? null
+      : null,
   }))
 
   const total = count ?? 0

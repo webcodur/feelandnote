@@ -48,7 +48,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
       setIsEditing(false);
       return;
     }
-    await onUpdate(entry.id, editContent, editIsPrivate);
+    await onUpdate(entry.id, editContent, isCeleb ? false : editIsPrivate);
     setIsEditing(false);
   };
 
@@ -56,12 +56,12 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
     <div className={cn(
       "group relative",
       isCeleb
-        ? "rounded-md border border-white/[0.06] bg-black/10 p-3 sm:p-4"
+        ? "rounded-md border border-white/[0.07] bg-black/[0.12] p-4 sm:p-5"
         : "py-3 first:pt-0 last:pb-0",
     )}>
-      <div className="flex items-start gap-3 relative z-10">
+      <div className="relative z-10 flex items-start gap-3.5 sm:gap-4">
         {/* 아바타 */}
-        <div className={cn("relative mt-0.5 flex-shrink-0", isCeleb ? "h-8 w-8" : "h-7 w-7")}>
+        <div className={cn("relative mt-0.5 flex-shrink-0", isCeleb ? "h-9 w-9" : "h-7 w-7")}>
           <div className="relative w-full h-full rounded-full border border-white/10 bg-bg-secondary overflow-hidden">
             {entry.author.avatar_url ? (
               <Image
@@ -81,11 +81,11 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
 
         {/* 내용 영역 */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-text-primary text-xs font-sans font-medium">
+          <div className={cn("flex items-center gap-2", isCeleb ? "mb-1" : "mb-0.5")}>
+            <span className={cn("font-sans font-medium text-text-primary", isCeleb ? "text-[13px]" : "text-xs")}>
               {entry.author.nickname ?? "Anonymous"}
             </span>
-            <span className="text-[10px] font-mono">
+            <span className={cn("font-mono text-text-secondary/60", isCeleb ? "text-[11px]" : "text-[10px]")}>
               {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true, locale: DATE_LOCALES[locale as keyof typeof DATE_LOCALES] ?? ko })}
             </span>
             {entry.is_private && (
@@ -103,15 +103,17 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
                 maxLength={500}
               />
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-1.5 text-[11px] cursor-pointer hover:text-accent">
-                  <input
-                    type="checkbox"
-                    checked={editIsPrivate}
-                    onChange={(e) => setEditIsPrivate(e.target.checked)}
-                    className="accent-accent"
-                  />
-                  {t("private")}
-                </label>
+                {!isCeleb ? (
+                  <label className="flex items-center gap-1.5 text-[11px] cursor-pointer hover:text-accent">
+                    <input
+                      type="checkbox"
+                      checked={editIsPrivate}
+                      onChange={(e) => setEditIsPrivate(e.target.checked)}
+                      className="accent-accent"
+                    />
+                    {t("private")}
+                  </label>
+                ) : <span />}
                 <div className="flex gap-3">
                   <button
                     onClick={() => setIsEditing(false)}
@@ -129,7 +131,7 @@ export default function EntryItem({ entry, currentUserId, isOwner, onDelete, onU
               </div>
             </div>
           ) : (
-            <p className={`whitespace-pre-wrap font-sans text-[13px] leading-relaxed ${isHiddenPrivate ? "" : "text-text-secondary/85"}`}>
+            <p className={`whitespace-pre-wrap font-sans ${isCeleb ? "text-sm leading-7" : "text-[13px] leading-relaxed"} ${isHiddenPrivate ? "" : "text-text-secondary/85"}`}>
               {isHiddenPrivate ? t("privateMessage") : entry.content}
             </p>
           )}

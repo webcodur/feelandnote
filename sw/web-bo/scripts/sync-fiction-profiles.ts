@@ -1,8 +1,8 @@
 /**
- * 신화·전설·허구 인물 명세를 profiles에 동기화한다.
+ * 신화·전설·허구 인물 명세를 celebs에 동기화한다.
  *
  * 기본은 dry-run이며 --apply를 붙여야 실제 DB를 변경한다.
- * 신규 인물은 auth.users와 profiles를 같은 id로 생성하고, 기존 fiction 인물은
+ * 신규 인물은 로그인 계정 없이 celebs에 생성하고, 기존 fiction 인물은
  * 명세와 다른 기본 정보·가상 독백만 갱신한다. avatar_url은 건드리지 않는다.
  *
  * 실행 예:
@@ -56,7 +56,6 @@ type ExistingProfile = {
   bio: string | null
   virtual_monologue: string | null
   celeb_tier: string | null
-  profile_type: string | null
 }
 
 const argValue = (name: string): string | null => {
@@ -149,12 +148,12 @@ async function fetchExisting(client: SupabaseClient, people: FictionProfileInput
   const columns = [
     'id', 'slug', 'nickname', 'nickname_en', 'profession', 'title', 'nationality',
     'gender', 'birth_date', 'death_date', 'bio', 'virtual_monologue',
-    'celeb_tier', 'profile_type',
+    'celeb_tier',
   ].join(',')
 
   const [bySlug, byEnglishName] = await Promise.all([
-    client.from('profiles').select(columns).in('slug', people.map((person) => person.slug)),
-    client.from('profiles').select(columns).in('nickname_en', people.map((person) => person.nickname_en)),
+    client.from('celebs').select(columns).in('slug', people.map((person) => person.slug)),
+    client.from('celebs').select(columns).in('nickname_en', people.map((person) => person.nickname_en)),
   ])
   if (bySlug.error) throw bySlug.error
   if (byEnglishName.error) throw byEnglishName.error
@@ -189,7 +188,6 @@ function desiredProfile(person: FictionProfileInput) {
     bio: person.bio,
     virtual_monologue: person.virtual_monologue,
     celeb_tier: 'fiction',
-    profile_type: 'CELEB',
   }
 }
 
@@ -202,12 +200,12 @@ function changedKeys(existing: ExistingProfile, person: FictionProfileInput) {
 }
 
 async function createFictionProfile(client: SupabaseClient, person: FictionProfileInput) {
-  // 인물은 로그인 계정을 갖지 않는다(26.08.07 profiles_id_fkey 제거). 식별자만 직접 발급한다.
-  const userId = crypto.randomUUID()
+  // 인물은 로그인 계정을 갖지 않는다. 도메인 식별자만 직접 발급한다.
+  const celebId = crypto.randomUUID()
   try {
     const { data: createdProfile, error: profileError } = await client
-      .from('profiles')
-      .insert({ id: userId, ...desiredProfile(person), status: 'inactive', is_verified: false })
+      .from('celebs')
+      .insert({ id: celebId, ...desiredProfile(person), publication_status: 'inactive', is_verified: false })
       .select('slug')
       .single()
     if (profileError) throw profileError
@@ -217,26 +215,17 @@ async function createFictionProfile(client: SupabaseClient, person: FictionProfi
       )
     }
 
-    const [social, scores] = await Promise.all([
-      client.from('user_social').upsert({
-        user_id: userId,
-        follower_count: 0,
-        following_count: 0,
-        friend_count: 0,
-        influence: 0,
-      }),
-      client.from('user_scores').upsert({
-        user_id: userId,
-        activity_score: 0,
-        title_bonus: 0,
-        total_score: 0,
-      }),
-    ])
-    if (social.error) throw social.error
-    if (scores.error) throw scores.error
+    const metrics = await client.from('celeb_metrics').upsert({
+      celeb_id: celebId,
+      follower_count: 0,
+      content_count: 0,
+    })
+    if (metrics.error) throw metrics.error
   } catch (error) {
-    // 계정만 지우면 프로필이 남는다(26.08.07 profiles_id_fkey 제거).
-    await client.rpc('delete_auth_user', { target_user_id: userId })
+    const cleanup = await client.from('celebs').delete().eq('id', celebId)
+    if (cleanup.error) {
+      throw new AggregateError([error, cleanup.error], `${person.slug}: 생성 실패 뒤 celebs 정리도 실패`)
+    }
     throw error
   }
 }
@@ -267,10 +256,9 @@ async function main() {
       created += 1
       continue
     }
-    if (existing.profile_type !== 'CELEB' || existing.celeb_tier !== 'fiction') {
+    if (existing.celeb_tier !== 'fiction') {
       throw new Error(
-        `${person.slug}: 기존 인물의 profile_type/celeb_tier가 CELEB/fiction이 아닙니다. ` +
-        `(${existing.profile_type}/${existing.celeb_tier})`,
+        `${person.slug}: 기존 인물의 celeb_tier가 fiction이 아닙니다. (${existing.celeb_tier})`,
       )
     }
     if (existing.slug !== person.slug) {
@@ -289,7 +277,7 @@ async function main() {
     console.log(`[UPDATE] ${person.slug}: ${fields.join(', ')}`)
     if (apply) {
       const { error } = await supabase
-        .from('profiles')
+        .from('celebs')
         .update(desiredProfile(person))
         .eq('id', existing.id)
       if (error) throw error

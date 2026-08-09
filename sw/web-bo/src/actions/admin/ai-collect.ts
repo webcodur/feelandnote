@@ -213,7 +213,7 @@ export async function saveCollectedContents(input: SaveCollectedInput): Promise<
         continue
       }
 
-      // 2. 셀럽-콘텐츠 연결 (user_contents 테이블)
+      // 2. 셀럽-콘텐츠 연결 (celeb_contents 테이블)
       // 개별 출처 URL이 있으면 사용, 없으면 전체 페이지 URL 사용
       await addCelebContent({
         celeb_id: input.celebId,

@@ -77,13 +77,12 @@ async function selectActiveProfiles() {
   for (let from = 0; ; from += 500) {
     const page = await expect(
       db
-        .from("profiles")
+        .from("celebs")
         .select(
-          "id,slug,status,celeb_tier,nickname,nickname_en,bio,bio_en,title,title_en,"
+          "id,slug,publication_status,celeb_tier,nickname,nickname_en,bio,bio_en,title,title_en,"
           + "cultural_journey,cultural_journey_en,consumption_philosophy,consumption_philosophy_en",
         )
-        .eq("profile_type", "CELEB")
-        .eq("status", "active")
+        .eq("publication_status", "active")
         .not("slug", "is", null)
         .order("id")
         .range(from, from + 499),
@@ -329,7 +328,7 @@ async function buildTargets() {
     ]) {
       if (hasText(profile[source]) && !hasText(profile[target])) {
         addText({
-          domain, table: "profiles", rowId: profile.id, column: target,
+          domain, table: "celebs", rowId: profile.id, column: target,
           ko: profile[source], context,
         });
       }
@@ -388,16 +387,16 @@ async function buildTargets() {
   }
 
   const reviewRows = await selectByIds(
-    "user_contents",
-    "id,user_id,content_id,review,review_en",
+    "celeb_contents",
+    "id,celeb_id,content_id,review,review_en",
     ids,
-    "user_id",
+    "celeb_id",
   );
   for (const row of reviewRows) {
     if (!hasText(row.review) || hasText(row.review_en)) continue;
-    const profile = profileById.get(row.user_id);
+    const profile = profileById.get(row.celeb_id);
     addText({
-      domain: "content_review", table: "user_contents", rowId: row.id,
+      domain: "content_review", table: "celeb_contents", rowId: row.id,
       column: "review_en", ko: row.review,
       context: {
         slug: profile?.slug,

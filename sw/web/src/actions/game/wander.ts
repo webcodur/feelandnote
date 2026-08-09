@@ -13,7 +13,7 @@ import type { WanderFigure, WanderPools } from "@/lib/game/wander/types";
 import { DIALOGUE_BRIEF_SELECT_WITH_ID, type DialogueBriefWithId } from "@/lib/utils/celeb-dialogues";
 import type { Tables } from "@/types/supabase";
 
-type ProfileRow = Pick<Tables<"profiles">, "id" | "nickname" | "nickname_en" | "title" | "title_en" | "nationality" | "avatar_url" | "birth_date" | "death_date">;
+type ProfileRow = Pick<Tables<"celebs">, "id" | "nickname" | "nickname_en" | "title" | "title_en" | "nationality" | "avatar_url" | "birth_date" | "death_date">;
 type InfluenceRow = Pick<Tables<"celeb_influence">, "celeb_id" | "total_score">;
 type PersonaRow = Pick<Tables<"celeb_persona">, "celeb_id" | "command" | "martial" | "intellect" | "charm">;
 type FigureBase = Omit<WanderFigure, "name" | "title" | "quote"> & ProfileRow;
@@ -49,10 +49,10 @@ function takeDiverse(figures: FigureBase[]): FigureBase[] {
 
 async function fetchWanderPools(locale: string): Promise<WanderPools> {
   const supabase = createStaticClient();
-  const [profiles, influences, personas] = await Promise.all([
-    selectAllPages<ProfileRow>((from, to) => supabase.from("profiles")
+  const [celebRows, influences, personas] = await Promise.all([
+    selectAllPages<ProfileRow>((from, to) => supabase.from("celebs")
       .select("id, nickname, nickname_en, title, title_en, nationality, avatar_url, birth_date, death_date")
-      .eq("profile_type", "CELEB").eq("status", "active")
+      .eq("publication_status", "active")
       .in("celeb_tier", [...LISTING_DEFAULT_TIERS]).not("birth_date", "is", null)
       .order("id").range(from, to).overrideTypes<ProfileRow[], { merge: false }>()),
     selectAllPages<InfluenceRow>((from, to) => supabase.from("celeb_influence")
@@ -63,7 +63,7 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
   const influenceMap = new Map(influences.map((row) => [row.celeb_id, row.total_score ?? 0]));
   const personaMap = new Map(personas.map((row) => [row.celeb_id, row]));
   const currentYear = new Date().getFullYear();
-  const bases = profiles.flatMap((profile): FigureBase[] => {
+  const bases = celebRows.flatMap((profile): FigureBase[] => {
     const persona = personaMap.get(profile.id);
     if (!persona || !profile.nickname) return [];
     return [{

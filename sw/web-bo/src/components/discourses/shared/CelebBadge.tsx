@@ -3,7 +3,7 @@
 /**
  * 셀럽 DB 연결 배지 — 대조 창구(/api/celebs/exists)와 판정 규칙(✓DB / ⚠없음 / 미연결 / 신화).
  *
- * 담화는 인물이 본서비스 가상 독백(profiles.virtual_monologue)의 원천과 이어져야 하므로
+ * 담화는 인물이 본서비스 가상 독백(celebs.virtual_monologue)의 원천과 이어져야 하므로
  * slug 연결이 특히 중요하다 — 유령 연결(slug 는 적혀 있는데 DB에 없음)을 화면에서 잡는다.
  */
 

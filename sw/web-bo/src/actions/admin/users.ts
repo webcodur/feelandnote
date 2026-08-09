@@ -5,11 +5,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAccountManager, requireAdmin } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
 
-// 사람 기록(profiles)과 계정 기록(user_accounts)은 26.08.07에 갈라졌다.
-// 이 화면은 회원 계정을 다루므로 두 쪽을 함께 읽는다.
-// - 이름·소개·사진·인증 여부 → profiles
+// 공개 회원 정보(member_profiles)와 계정 기록(user_accounts)을 함께 읽는다.
+// - 이름·소개·사진·인증 여부 → member_profiles
 // - 이메일·권한·계정 상태·정지·마지막 접속 → user_accounts
-// 계정 기록은 회원에게만 있으므로 !inner 로 묶으면 인물이 저절로 빠진다.
 
 export interface User {
   id: string
@@ -23,7 +21,7 @@ export interface User {
   last_seen_at: string | null
   suspended_at: string | null
   suspended_reason: string | null
-  profile_type: string | null
+  subject_kind: 'member'
   is_verified: boolean | null
   // 통계 정보
   content_count: number
@@ -44,6 +42,16 @@ interface AccountRow {
   suspended_at: string | null
   suspended_reason: string | null
   last_seen_at: string | null
+}
+
+interface MemberRow {
+  id: string
+  nickname: string | null
+  avatar_url: string | null
+  bio: string | null
+  is_verified: boolean | null
+  created_at: string
+  account: AccountRow | AccountRow[] | null
 }
 
 function firstRelation<T>(value: T | T[] | null | undefined): T | null {
@@ -68,21 +76,20 @@ export async function getUsers(
   const offset = (page - 1) * limit
 
   let query = supabase
-    .from('profiles')
+    .from('member_profiles')
     .select(`
       *,
-      user_accounts!user_accounts_id_fkey!inner (${ACCOUNT_COLUMNS}),
-      user_social (follower_count, following_count),
-      user_scores (total_score)
+      account:user_accounts!member_profiles_id_fkey!inner (${ACCOUNT_COLUMNS})
     `, { count: 'exact' })
 
   // 검색: 이름은 사람 기록에, 이메일은 계정 기록에 있어 한 번에 걸 수 없다.
   // 이메일로 먼저 대상을 좁힌 뒤 이름과 함께 묶는다.
   if (search) {
-    const { data: byEmail } = await supabase
+    const { data: byEmail, error: emailSearchError } = await supabase
       .from('user_accounts')
       .select('id')
       .ilike('email', `%${search}%`)
+    if (emailSearchError) throw emailSearchError
     const ids = (byEmail || []).map((row) => row.id)
     query = ids.length
       ? query.or(`nickname.ilike.%${search}%,id.in.(${ids.join(',')})`)
@@ -91,48 +98,61 @@ export async function getUsers(
 
   // 계정 상태 필터
   if (status && status !== 'all') {
-    query = query.eq('user_accounts.account_status', status)
+    query = query.eq('account.account_status', status)
   }
 
   // 권한 필터
   if (role && role !== 'all') {
-    query = query.eq('user_accounts.role', role)
+    query = query.eq('account.role', role)
   }
 
   // 정렬 적용
   const ascending = sortOrder === 'asc'
   const profileSortColumns = ['nickname', 'created_at']
   const accountSortColumns = ['email', 'role', 'status']
-  const relationSortColumns = ['follower_count', 'content_count']
+  const relationSortColumns = ['follower_count', 'content_count', 'following_count', 'total_score']
 
-  if (relationSortColumns.includes(sort)) {
-    query = query.order(sort, { referencedTable: 'user_social', ascending })
-  } else if (accountSortColumns.includes(sort)) {
+  if (accountSortColumns.includes(sort)) {
     const column = sort === 'status' ? 'account_status' : sort
-    query = query.order(column, { referencedTable: 'user_accounts', ascending })
+    query = query.order(column, { referencedTable: 'account', ascending })
   } else {
     const sortColumn = profileSortColumns.includes(sort) ? sort : 'created_at'
     query = query.order(sortColumn, { ascending })
   }
 
-  const { data, error, count } = await query.range(offset, offset + limit - 1)
+  const result = relationSortColumns.includes(sort)
+    ? await query
+    : await query.range(offset, offset + limit - 1)
+  const { data, error, count } = result
 
   if (error) throw error
 
   // 콘텐츠 수 조회
   const userIds = (data || []).map(u => u.id)
-  const { data: contentCounts } = await supabase
-    .from('user_contents')
-    .select('user_id')
-    .in('user_id', userIds)
+  const [contentResult, socialResult, scoreResult] = userIds.length
+    ? await Promise.all([
+        supabase.from('member_contents').select('member_id').in('member_id', userIds),
+        supabase.from('member_social_stats').select('member_id, follower_count, following_count').in('member_id', userIds),
+        supabase.from('member_scores').select('member_id, total_score').in('member_id', userIds),
+      ])
+    : [{ data: [], error: null }, { data: [], error: null }, { data: [], error: null }]
 
-  const contentCountMap = (contentCounts || []).reduce((acc, item) => {
-    acc[item.user_id] = (acc[item.user_id] || 0) + 1
+  if (contentResult.error) throw contentResult.error
+  if (socialResult.error) throw socialResult.error
+  if (scoreResult.error) throw scoreResult.error
+
+  const contentCountMap = (contentResult.data || []).reduce((acc, item) => {
+    acc[item.member_id] = (acc[item.member_id] || 0) + 1
     return acc
   }, {} as Record<string, number>)
 
-  const users: User[] = (data || []).map(user => {
-    const account = firstRelation<AccountRow>(user.user_accounts)
+  const socialMap = new Map((socialResult.data || []).map(row => [row.member_id, row]))
+  const scoreMap = new Map((scoreResult.data || []).map(row => [row.member_id, row]))
+
+  let users: User[] = ((data || []) as MemberRow[]).map(user => {
+    const account = firstRelation<AccountRow>(user.account)
+    const social = socialMap.get(user.id)
+    const score = scoreMap.get(user.id)
     return {
       id: user.id,
       email: account?.email ?? '',
@@ -145,14 +165,23 @@ export async function getUsers(
       last_seen_at: account?.last_seen_at ?? null,
       suspended_at: account?.suspended_at ?? null,
       suspended_reason: account?.suspended_reason ?? null,
-      profile_type: user.profile_type,
+      subject_kind: 'member',
       is_verified: user.is_verified,
       content_count: contentCountMap[user.id] || 0,
-      follower_count: user.user_social?.follower_count || 0,
-      following_count: user.user_social?.following_count || 0,
-      total_score: user.user_scores?.total_score || 0,
+      follower_count: social?.follower_count || 0,
+      following_count: social?.following_count || 0,
+      total_score: score?.total_score || 0,
     }
   })
+
+  if (relationSortColumns.includes(sort)) {
+    users.sort((a, b) => {
+      const difference = a[sort as keyof Pick<User, 'follower_count' | 'following_count' | 'content_count' | 'total_score'>]
+        - b[sort as keyof Pick<User, 'follower_count' | 'following_count' | 'content_count' | 'total_score'>]
+      return ascending ? difference : -difference
+    })
+    users = users.slice(offset, offset + limit)
+  }
 
   return {
     users,
@@ -164,14 +193,25 @@ export async function getUser(userId: string): Promise<User | null> {
   const supabase = await createClient()
 
   const { data, error } = await supabase
-    .from('profiles')
-    .select(`*, user_accounts!user_accounts_id_fkey (${ACCOUNT_COLUMNS})`)
+    .from('member_profiles')
+    .select(`*, account:user_accounts!member_profiles_id_fkey (${ACCOUNT_COLUMNS})`)
     .eq('id', userId)
-    .single()
+    .maybeSingle()
 
-  if (error || !data) return null
+  if (error) throw error
+  if (!data) return null
 
-  const account = firstRelation<AccountRow>(data.user_accounts)
+  const account = firstRelation<AccountRow>(data.account)
+
+  const [contentResult, socialResult, scoreResult] = await Promise.all([
+    supabase.from('member_contents').select('*', { count: 'exact', head: true }).eq('member_id', userId),
+    supabase.from('member_social_stats').select('follower_count, following_count').eq('member_id', userId).maybeSingle(),
+    supabase.from('member_scores').select('total_score').eq('member_id', userId).maybeSingle(),
+  ])
+
+  if (contentResult.error) throw contentResult.error
+  if (socialResult.error) throw socialResult.error
+  if (scoreResult.error) throw scoreResult.error
 
   return {
     id: data.id,
@@ -185,12 +225,12 @@ export async function getUser(userId: string): Promise<User | null> {
     last_seen_at: account?.last_seen_at ?? null,
     suspended_at: account?.suspended_at ?? null,
     suspended_reason: account?.suspended_reason ?? null,
-    profile_type: data.profile_type,
+    subject_kind: 'member',
     is_verified: data.is_verified,
-    content_count: 0,
-    follower_count: 0,
-    following_count: 0,
-    total_score: 0,
+    content_count: contentResult.count || 0,
+    follower_count: socialResult.data?.follower_count || 0,
+    following_count: socialResult.data?.following_count || 0,
+    total_score: scoreResult.data?.total_score || 0,
   }
 }
 

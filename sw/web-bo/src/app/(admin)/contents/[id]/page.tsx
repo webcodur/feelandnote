@@ -85,7 +85,7 @@ export default async function ContentDetailPage({ params }: PageProps) {
           {content.external_id && (
             <Field label="external_id" value={content.external_id} mono />
           )}
-          <Field label="user_count" value={`${content.user_count}명`} />
+          <Field label="record_count" value={`${content.record_count}개`} />
           {content.external_source && (
             <Field label="external_source" value={content.external_source} />
           )}

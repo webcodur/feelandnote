@@ -69,7 +69,7 @@ function SourceMeta({ source }: { source: FictionSourceContentSummary }) {
         {source.isbn && (
           <span className="rounded border border-border px-1.5 py-0.5">ISBN {source.isbn}</span>
         )}
-        <span className="rounded border border-border px-1.5 py-0.5">기록 {source.userCount}</span>
+        <span className="rounded border border-border px-1.5 py-0.5">기록 {source.recordCount}</span>
       </div>
     </div>
   )

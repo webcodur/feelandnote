@@ -1,7 +1,4 @@
-// Supabase 자동 생성 타입
-// MCP generate_typescript_types로 생성됨 (2026-08-01)
-
-export type Json =
+﻿export type Json =
   | string
   | number
   | boolean
@@ -111,6 +108,13 @@ export type Database = {
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "academy_progress_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
         ]
       }
       activity_logs: {
@@ -145,6 +149,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "activity_logs_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "activity_logs_user_id_fkey"
             columns: ["user_id"]
@@ -263,6 +274,13 @@ export type Database = {
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "blind_scores_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
         ]
       }
       blocks: {
@@ -286,6 +304,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "blocks_blocked_accounts_fkey"
+            columns: ["blocked_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "blocks_blocked_id_fkey"
             columns: ["blocked_id"]
             isOneToOne: false
@@ -297,6 +322,13 @@ export type Database = {
             columns: ["blocked_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blocks_blocker_accounts_fkey"
+            columns: ["blocker_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
             referencedColumns: ["id"]
           },
           {
@@ -347,6 +379,13 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "board_comments_accounts_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "board_comments_author_id_fkey"
             columns: ["author_id"]
@@ -468,6 +507,20 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "ccrr_celeb_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ccrr_researcher_accounts_fkey"
+            columns: ["researcher_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "celeb_content_research_runs_celeb_id_fkey"
             columns: ["celeb_id"]
             isOneToOne: false
@@ -584,6 +637,97 @@ export type Database = {
           },
         ]
       }
+      celeb_contents: {
+        Row: {
+          celeb_id: string
+          completed_at: string | null
+          content_id: string
+          contributor_id_snapshot: string | null
+          contributor_member_id: string | null
+          contributor_name_snapshot: string | null
+          created_at: string
+          id: string
+          is_pinned: boolean | null
+          is_recommended: boolean | null
+          is_spoiler: boolean | null
+          pinned_at: string | null
+          rating: number | null
+          review: string | null
+          review_en: string | null
+          review_presets: string[] | null
+          source_url: string | null
+          status: string
+          updated_at: string
+          visibility: Database["public"]["Enums"]["visibility_type"] | null
+        }
+        Insert: {
+          celeb_id: string
+          completed_at?: string | null
+          content_id: string
+          contributor_id_snapshot?: string | null
+          contributor_member_id?: string | null
+          contributor_name_snapshot?: string | null
+          created_at?: string
+          id?: string
+          is_pinned?: boolean | null
+          is_recommended?: boolean | null
+          is_spoiler?: boolean | null
+          pinned_at?: string | null
+          rating?: number | null
+          review?: string | null
+          review_en?: string | null
+          review_presets?: string[] | null
+          source_url?: string | null
+          status: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_type"] | null
+        }
+        Update: {
+          celeb_id?: string
+          completed_at?: string | null
+          content_id?: string
+          contributor_id_snapshot?: string | null
+          contributor_member_id?: string | null
+          contributor_name_snapshot?: string | null
+          created_at?: string
+          id?: string
+          is_pinned?: boolean | null
+          is_recommended?: boolean | null
+          is_spoiler?: boolean | null
+          pinned_at?: string | null
+          rating?: number | null
+          review?: string | null
+          review_en?: string | null
+          review_presets?: string[] | null
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_contents_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_contents_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_contents_contributor_member_id_fkey"
+            columns: ["contributor_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       celeb_dialogues: {
         Row: {
           celeb_id: string
@@ -619,6 +763,125 @@ export type Database = {
             columns: ["celeb_id"]
             isOneToOne: true
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_dialogues_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: true
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_explanations: {
+        Row: {
+          created_at: string
+          interpretive_text: string
+          interpretive_text_en: string | null
+          interpretive_title: string
+          interpretive_title_en: string | null
+          plain_text: string
+          plain_text_en: string | null
+          profile_id: string
+          published_at: string | null
+          review_status: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          interpretive_text: string
+          interpretive_text_en?: string | null
+          interpretive_title: string
+          interpretive_title_en?: string | null
+          plain_text: string
+          plain_text_en?: string | null
+          profile_id: string
+          published_at?: string | null
+          review_status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          interpretive_text?: string
+          interpretive_text_en?: string | null
+          interpretive_title?: string
+          interpretive_title_en?: string | null
+          plain_text?: string
+          plain_text_en?: string | null
+          profile_id?: string
+          published_at?: string | null
+          review_status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_explanations_celebs_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_explanations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_explanations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_guestbook_entries: {
+        Row: {
+          author_member_id: string
+          celeb_id: string
+          content: string
+          created_at: string | null
+          id: string
+          is_private: boolean | null
+          is_read: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          author_member_id: string
+          celeb_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          is_private?: boolean | null
+          is_read?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          author_member_id?: string
+          celeb_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_private?: boolean | null
+          is_read?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_guestbook_entries_author_member_id_fkey"
+            columns: ["author_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_guestbook_entries_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
             referencedColumns: ["id"]
           },
         ]
@@ -723,6 +986,113 @@ export type Database = {
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "celeb_influence_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: true
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_metrics: {
+        Row: {
+          celeb_id: string
+          content_count: number | null
+          follower_count: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          celeb_id: string
+          content_count?: number | null
+          follower_count?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          celeb_id?: string
+          content_count?: number | null
+          follower_count?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_metrics_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: true
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celeb_music_candidates: {
+        Row: {
+          artist: string | null
+          celeb_id: string
+          content_id: string | null
+          created_at: string
+          evidence: string | null
+          id: string
+          reject_reason: string | null
+          source_url: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artist?: string | null
+          celeb_id: string
+          content_id?: string | null
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          reject_reason?: string | null
+          source_url: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artist?: string | null
+          celeb_id?: string
+          content_id?: string | null
+          created_at?: string
+          evidence?: string | null
+          id?: string
+          reject_reason?: string | null
+          source_url?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celeb_music_candidates_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_music_candidates_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_music_candidates_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cmc_celeb_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
         ]
       }
       celeb_persona: {
@@ -810,6 +1180,13 @@ export type Database = {
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "celeb_persona_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: true
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
         ]
       }
       celeb_relations: {
@@ -854,6 +1231,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "celeb_relations_from_celebs_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "celeb_relations_from_id_fkey"
             columns: ["from_id"]
             isOneToOne: false
@@ -865,6 +1249,13 @@ export type Database = {
             columns: ["from_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_relations_to_celebs_fkey"
+            columns: ["to_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
             referencedColumns: ["id"]
           },
           {
@@ -928,6 +1319,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "celeb_rel_external_celebs_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "celeb_relations_external_from_id_fkey"
             columns: ["from_id"]
             isOneToOne: false
@@ -947,6 +1345,7 @@ export type Database = {
         Row: {
           assigned_at: string | null
           celeb_id: string
+          faction_image_url: string | null
           hidden: boolean
           id: string
           long_desc: string | null
@@ -956,12 +1355,13 @@ export type Database = {
           short_desc: string | null
           short_desc_en: string | null
           sort_order: number | null
-          faction_image_url: string | null
+          spotlight_image_url: string | null
           tag_id: string
         }
         Insert: {
           assigned_at?: string | null
           celeb_id: string
+          faction_image_url?: string | null
           hidden?: boolean
           id?: string
           long_desc?: string | null
@@ -971,12 +1371,13 @@ export type Database = {
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
-          faction_image_url?: string | null
+          spotlight_image_url?: string | null
           tag_id: string
         }
         Update: {
           assigned_at?: string | null
           celeb_id?: string
+          faction_image_url?: string | null
           hidden?: boolean
           id?: string
           long_desc?: string | null
@@ -986,7 +1387,7 @@ export type Database = {
           short_desc?: string | null
           short_desc_en?: string | null
           sort_order?: number | null
-          faction_image_url?: string | null
+          spotlight_image_url?: string | null
           tag_id?: string
         }
         Relationships: [
@@ -1009,6 +1410,13 @@ export type Database = {
             columns: ["tag_id"]
             isOneToOne: false
             referencedRelation: "celeb_tags"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "celeb_tags_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
             referencedColumns: ["id"]
           },
         ]
@@ -1145,6 +1553,13 @@ export type Database = {
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "celeb_task_queue_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
         ]
       }
       celeb_timeline_events: {
@@ -1225,6 +1640,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "celeb_timeline_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "celeb_timeline_events_celeb_id_fkey"
             columns: ["celeb_id"]
             isOneToOne: false
@@ -1258,6 +1680,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "celeb_views_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "celeb_views_daily_celeb_id_fkey"
             columns: ["celeb_id"]
             isOneToOne: false
@@ -1269,6 +1698,152 @@ export type Database = {
             columns: ["celeb_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      celebs: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          bio_en: string | null
+          birth_date: string | null
+          celeb_tier: string
+          claimed_by_member_id: string | null
+          consumption_philosophy: string | null
+          consumption_philosophy_en: string | null
+          content_research_confirmed_empty_at: string | null
+          content_research_status: string
+          content_research_updated_at: string | null
+          created_at: string
+          cultural_journey: string | null
+          cultural_journey_en: string | null
+          death_date: string | null
+          gender: boolean | null
+          has_voice: boolean
+          id: string
+          is_verified: boolean | null
+          nationality: string | null
+          nickname: string
+          nickname_en: string | null
+          portrait_caption: string | null
+          portrait_caption_en: string | null
+          portrait_url: string | null
+          profession: string | null
+          publication_status: string
+          slug: string | null
+          slug_suffix: string | null
+          speech_tone: string | null
+          title: string | null
+          title_en: string | null
+          updated_at: string | null
+          view_count: number
+          virtual_monologue: string | null
+          virtual_monologue_en: string | null
+          virtual_monologue_locked_at: string | null
+          voice_id_en: string | null
+          voice_id_ko: string | null
+          voice_speed: number
+          voice_v: number
+          wikidata_qid: string | null
+          youtube_videos: Json | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          bio_en?: string | null
+          birth_date?: string | null
+          celeb_tier?: string
+          claimed_by_member_id?: string | null
+          consumption_philosophy?: string | null
+          consumption_philosophy_en?: string | null
+          content_research_confirmed_empty_at?: string | null
+          content_research_status?: string
+          content_research_updated_at?: string | null
+          created_at?: string
+          cultural_journey?: string | null
+          cultural_journey_en?: string | null
+          death_date?: string | null
+          gender?: boolean | null
+          has_voice?: boolean
+          id: string
+          is_verified?: boolean | null
+          nationality?: string | null
+          nickname: string
+          nickname_en?: string | null
+          portrait_caption?: string | null
+          portrait_caption_en?: string | null
+          portrait_url?: string | null
+          profession?: string | null
+          publication_status?: string
+          slug?: string | null
+          slug_suffix?: string | null
+          speech_tone?: string | null
+          title?: string | null
+          title_en?: string | null
+          updated_at?: string | null
+          view_count?: number
+          virtual_monologue?: string | null
+          virtual_monologue_en?: string | null
+          virtual_monologue_locked_at?: string | null
+          voice_id_en?: string | null
+          voice_id_ko?: string | null
+          voice_speed?: number
+          voice_v?: number
+          wikidata_qid?: string | null
+          youtube_videos?: Json | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          bio_en?: string | null
+          birth_date?: string | null
+          celeb_tier?: string
+          claimed_by_member_id?: string | null
+          consumption_philosophy?: string | null
+          consumption_philosophy_en?: string | null
+          content_research_confirmed_empty_at?: string | null
+          content_research_status?: string
+          content_research_updated_at?: string | null
+          created_at?: string
+          cultural_journey?: string | null
+          cultural_journey_en?: string | null
+          death_date?: string | null
+          gender?: boolean | null
+          has_voice?: boolean
+          id?: string
+          is_verified?: boolean | null
+          nationality?: string | null
+          nickname?: string
+          nickname_en?: string | null
+          portrait_caption?: string | null
+          portrait_caption_en?: string | null
+          portrait_url?: string | null
+          profession?: string | null
+          publication_status?: string
+          slug?: string | null
+          slug_suffix?: string | null
+          speech_tone?: string | null
+          title?: string | null
+          title_en?: string | null
+          updated_at?: string | null
+          view_count?: number
+          virtual_monologue?: string | null
+          virtual_monologue_en?: string | null
+          virtual_monologue_locked_at?: string | null
+          voice_id_en?: string | null
+          voice_id_ko?: string | null
+          voice_speed?: number
+          voice_v?: number
+          wikidata_qid?: string | null
+          youtube_videos?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "celebs_claimed_by_member_id_fkey"
+            columns: ["claimed_by_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
             referencedColumns: ["id"]
           },
         ]
@@ -1333,6 +1908,7 @@ export type Database = {
         Row: {
           created_at: string | null
           id: string
+          member_content_id: string
           message: string | null
           receiver_id: string
           responded_at: string | null
@@ -1343,6 +1919,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           id?: string
+          member_content_id: string
           message?: string | null
           receiver_id: string
           responded_at?: string | null
@@ -1353,6 +1930,7 @@ export type Database = {
         Update: {
           created_at?: string | null
           id?: string
+          member_content_id?: string
           message?: string | null
           receiver_id?: string
           responded_at?: string | null
@@ -1361,6 +1939,13 @@ export type Database = {
           user_content_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "content_recommendations_member_content_id_fkey"
+            columns: ["member_content_id"]
+            isOneToOne: false
+            referencedRelation: "member_contents"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "content_recommendations_receiver_id_fkey"
             columns: ["receiver_id"]
@@ -1396,37 +1981,60 @@ export type Database = {
             referencedRelation: "user_contents"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "recommendations_receiver_accounts_fkey"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recommendations_sender_accounts_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
         ]
       }
       contents: {
         Row: {
+          celeb_count: number
           created_at: string
           external_id: string | null
           external_source: string | null
           id: string
+          member_count: number
           metadata: Json | null
+          record_count: number
           release_date: string | null
           subtype: string | null
           type: string
           user_count: number | null
         }
         Insert: {
+          celeb_count?: number
           created_at?: string
           external_id?: string | null
           external_source?: string | null
           id?: string
+          member_count?: number
           metadata?: Json | null
+          record_count?: number
           release_date?: string | null
           subtype?: string | null
           type: string
           user_count?: number | null
         }
         Update: {
+          celeb_count?: number
           created_at?: string
           external_id?: string | null
           external_source?: string | null
           id?: string
+          member_count?: number
           metadata?: Json | null
+          record_count?: number
           release_date?: string | null
           subtype?: string | null
           type?: string
@@ -1513,11 +2121,13 @@ export type Database = {
           method: string | null
           method_en: string | null
           published_year: number | null
+          series_key: string | null
           slug: string
           sort_order: number
           source_url: string
           title: string
           title_en: string | null
+          topics: string[]
           updated_at: string
         }
         Insert: {
@@ -1535,11 +2145,13 @@ export type Database = {
           method?: string | null
           method_en?: string | null
           published_year?: number | null
+          series_key?: string | null
           slug: string
           sort_order?: number
           source_url: string
           title: string
           title_en?: string | null
+          topics?: string[]
           updated_at?: string
         }
         Update: {
@@ -1557,11 +2169,13 @@ export type Database = {
           method?: string | null
           method_en?: string | null
           published_year?: number | null
+          series_key?: string | null
           slug?: string
           sort_order?: number
           source_url?: string
           title?: string
           title_en?: string | null
+          topics?: string[]
           updated_at?: string
         }
         Relationships: [
@@ -1665,6 +2279,13 @@ export type Database = {
             referencedRelation: "profiles_compat"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "daily_figures_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
         ]
       }
       discourse_episodes: {
@@ -1729,7 +2350,7 @@ export type Database = {
       }
       discourse_speakers: {
         Row: {
-          celeb_id: string | null
+          celeb_id: string
           color: string | null
           data: Json
           disabled: boolean
@@ -1750,7 +2371,7 @@ export type Database = {
           slug: string | null
         }
         Insert: {
-          celeb_id?: string | null
+          celeb_id: string
           color?: string | null
           data?: Json
           disabled?: boolean
@@ -1771,7 +2392,7 @@ export type Database = {
           slug?: string | null
         }
         Update: {
-          celeb_id?: string | null
+          celeb_id?: string
           color?: string | null
           data?: Json
           disabled?: boolean
@@ -1804,6 +2425,13 @@ export type Database = {
             columns: ["celeb_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discourse_speakers_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
             referencedColumns: ["id"]
           },
           {
@@ -2037,6 +2665,7 @@ export type Database = {
           part: number | null
           position: number
           tag_id: string | null
+          web_logo_url: string | null
         }
         Insert: {
           color?: string | null
@@ -2050,6 +2679,7 @@ export type Database = {
           part?: number | null
           position: number
           tag_id?: string | null
+          web_logo_url?: string | null
         }
         Update: {
           color?: string | null
@@ -2063,6 +2693,7 @@ export type Database = {
           part?: number | null
           position?: number
           tag_id?: string | null
+          web_logo_url?: string | null
         }
         Relationships: [
           {
@@ -2083,7 +2714,7 @@ export type Database = {
       }
       faction_people: {
         Row: {
-          celeb_id: string | null
+          celeb_id: string
           cluster_id: string
           data: Json
           disabled: boolean
@@ -2108,9 +2739,16 @@ export type Database = {
           quote_en_chunks: string[] | null
           quote_origin: string | null
           slug: string | null
+          web_hidden: boolean
+          web_image_url: string | null
+          web_long_desc: string | null
+          web_long_desc_en: string | null
+          web_quote_media: Json | null
+          web_short_desc: string | null
+          web_short_desc_en: string | null
         }
         Insert: {
-          celeb_id?: string | null
+          celeb_id: string
           cluster_id: string
           data?: Json
           disabled?: boolean
@@ -2135,9 +2773,16 @@ export type Database = {
           quote_en_chunks?: string[] | null
           quote_origin?: string | null
           slug?: string | null
+          web_hidden?: boolean
+          web_image_url?: string | null
+          web_long_desc?: string | null
+          web_long_desc_en?: string | null
+          web_quote_media?: Json | null
+          web_short_desc?: string | null
+          web_short_desc_en?: string | null
         }
         Update: {
-          celeb_id?: string | null
+          celeb_id?: string
           cluster_id?: string
           data?: Json
           disabled?: boolean
@@ -2162,6 +2807,13 @@ export type Database = {
           quote_en_chunks?: string[] | null
           quote_origin?: string | null
           slug?: string | null
+          web_hidden?: boolean
+          web_image_url?: string | null
+          web_long_desc?: string | null
+          web_long_desc_en?: string | null
+          web_quote_media?: Json | null
+          web_short_desc?: string | null
+          web_short_desc_en?: string | null
         }
         Relationships: [
           {
@@ -2176,6 +2828,13 @@ export type Database = {
             columns: ["celeb_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "faction_people_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
             referencedColumns: ["id"]
           },
           {
@@ -2235,6 +2894,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "feedbacks_author_accounts_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "feedbacks_author_id_fkey"
             columns: ["author_id"]
             isOneToOne: false
@@ -2260,6 +2926,13 @@ export type Database = {
             columns: ["resolved_by"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feedbacks_resolver_accounts_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
             referencedColumns: ["id"]
           },
         ]
@@ -2287,6 +2960,13 @@ export type Database = {
           sort_order?: number
         }
         Relationships: [
+          {
+            foreignKeyName: "fiction_characters_celebs_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "fiction_source_characters_celeb_id_fkey"
             columns: ["celeb_id"]
@@ -2433,6 +3113,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "flow_progress_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "flow_progress_current_stage_id_fkey"
             columns: ["current_stage_id"]
             isOneToOne: false
@@ -2557,6 +3244,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "flows_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "playlists_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -2592,6 +3286,13 @@ export type Database = {
           id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "follows_follower_accounts_fkey"
+            columns: ["follower_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "follows_follower_id_fkey"
             columns: ["follower_id"]
@@ -2664,6 +3365,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "free_comments_accounts_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "free_post_comments_author_id_fkey"
             columns: ["author_id"]
             isOneToOne: false
@@ -2734,6 +3442,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "free_posts_accounts_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "free_posts_author_id_fkey"
             columns: ["author_id"]
             isOneToOne: false
@@ -2782,6 +3497,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "guestbook_author_accounts_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "guestbook_entries_author_id_fkey"
             columns: ["author_id"]
             isOneToOne: false
@@ -2810,6 +3532,471 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      member_celeb_follows: {
+        Row: {
+          celeb_id: string
+          created_at: string | null
+          id: string
+          member_id: string
+        }
+        Insert: {
+          celeb_id: string
+          created_at?: string | null
+          id?: string
+          member_id: string
+        }
+        Update: {
+          celeb_id?: string
+          created_at?: string | null
+          id?: string
+          member_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_celeb_follows_celeb_id_fkey"
+            columns: ["celeb_id"]
+            isOneToOne: false
+            referencedRelation: "celebs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_celeb_follows_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_contents: {
+        Row: {
+          completed_at: string | null
+          content_id: string
+          contributor_id_snapshot: string | null
+          contributor_member_id: string | null
+          contributor_name_snapshot: string | null
+          created_at: string
+          id: string
+          is_pinned: boolean | null
+          is_recommended: boolean | null
+          is_spoiler: boolean | null
+          member_id: string
+          pinned_at: string | null
+          rating: number | null
+          review: string | null
+          review_en: string | null
+          review_presets: string[] | null
+          source_url: string | null
+          status: string
+          updated_at: string
+          visibility: Database["public"]["Enums"]["visibility_type"] | null
+        }
+        Insert: {
+          completed_at?: string | null
+          content_id: string
+          contributor_id_snapshot?: string | null
+          contributor_member_id?: string | null
+          contributor_name_snapshot?: string | null
+          created_at?: string
+          id?: string
+          is_pinned?: boolean | null
+          is_recommended?: boolean | null
+          is_spoiler?: boolean | null
+          member_id: string
+          pinned_at?: string | null
+          rating?: number | null
+          review?: string | null
+          review_en?: string | null
+          review_presets?: string[] | null
+          source_url?: string | null
+          status: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_type"] | null
+        }
+        Update: {
+          completed_at?: string | null
+          content_id?: string
+          contributor_id_snapshot?: string | null
+          contributor_member_id?: string | null
+          contributor_name_snapshot?: string | null
+          created_at?: string
+          id?: string
+          is_pinned?: boolean | null
+          is_recommended?: boolean | null
+          is_spoiler?: boolean | null
+          member_id?: string
+          pinned_at?: string | null
+          rating?: number | null
+          review?: string | null
+          review_en?: string | null
+          review_presets?: string[] | null
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_contents_content_id_fkey"
+            columns: ["content_id"]
+            isOneToOne: false
+            referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_contents_contributor_member_id_fkey"
+            columns: ["contributor_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_contents_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_guestbook_entries: {
+        Row: {
+          author_member_id: string
+          content: string
+          created_at: string | null
+          id: string
+          is_private: boolean | null
+          is_read: boolean | null
+          owner_member_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_member_id: string
+          content: string
+          created_at?: string | null
+          id?: string
+          is_private?: boolean | null
+          is_read?: boolean | null
+          owner_member_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_member_id?: string
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_private?: boolean | null
+          is_read?: boolean | null
+          owner_member_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_guestbook_entries_author_member_id_fkey"
+            columns: ["author_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_guestbook_entries_owner_member_id_fkey"
+            columns: ["owner_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_member_follows: {
+        Row: {
+          created_at: string | null
+          followed_member_id: string
+          follower_member_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          followed_member_id: string
+          follower_member_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string | null
+          followed_member_id?: string
+          follower_member_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_member_follows_followed_member_id_fkey"
+            columns: ["followed_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_member_follows_follower_member_id_fkey"
+            columns: ["follower_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_notifications: {
+        Row: {
+          actor_member_id: string | null
+          created_at: string
+          id: string
+          is_read: boolean
+          link: string | null
+          member_id: string
+          message: string
+          metadata: Json | null
+          title: string | null
+          type: string
+        }
+        Insert: {
+          actor_member_id?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          member_id: string
+          message: string
+          metadata?: Json | null
+          title?: string | null
+          type: string
+        }
+        Update: {
+          actor_member_id?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          link?: string | null
+          member_id?: string
+          message?: string
+          metadata?: Json | null
+          title?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_notifications_actor_member_id_fkey"
+            columns: ["actor_member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_notifications_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          birth_date: string | null
+          created_at: string
+          id: string
+          is_verified: boolean
+          nationality: string | null
+          nickname: string
+          selected_title: string | null
+          showcase_titles: string[]
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          birth_date?: string | null
+          created_at?: string
+          id: string
+          is_verified?: boolean
+          nationality?: string | null
+          nickname: string
+          selected_title?: string | null
+          showcase_titles?: string[]
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          birth_date?: string | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          nationality?: string | null
+          nickname?: string
+          selected_title?: string | null
+          showcase_titles?: string[]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_profiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_score_logs: {
+        Row: {
+          action: string
+          amount: number
+          created_at: string | null
+          id: string
+          member_id: string
+          reference_id: string | null
+          type: Database["public"]["Enums"]["score_type"]
+        }
+        Insert: {
+          action: string
+          amount: number
+          created_at?: string | null
+          id?: string
+          member_id: string
+          reference_id?: string | null
+          type: Database["public"]["Enums"]["score_type"]
+        }
+        Update: {
+          action?: string
+          amount?: number
+          created_at?: string | null
+          id?: string
+          member_id?: string
+          reference_id?: string | null
+          type?: Database["public"]["Enums"]["score_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_score_logs_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_scores: {
+        Row: {
+          activity_score: number | null
+          member_id: string
+          title_bonus: number | null
+          total_score: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          activity_score?: number | null
+          member_id: string
+          title_bonus?: number | null
+          total_score?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          activity_score?: number | null
+          member_id?: string
+          title_bonus?: number | null
+          total_score?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_scores_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_social_stats: {
+        Row: {
+          content_count: number | null
+          follower_count: number | null
+          following_count: number | null
+          friend_count: number | null
+          influence: number | null
+          member_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          content_count?: number | null
+          follower_count?: number | null
+          following_count?: number | null
+          friend_count?: number | null
+          influence?: number | null
+          member_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          content_count?: number | null
+          follower_count?: number | null
+          following_count?: number | null
+          friend_count?: number | null
+          influence?: number | null
+          member_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_social_stats_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meta_reharvest_backup_20260801: {
+        Row: {
+          backed_up_at: string | null
+          content_id: string | null
+          creator: string | null
+          external_id: string | null
+          external_source: string | null
+          isbn: string | null
+          locale: string | null
+          sources: Json | null
+          thumbnail_url: string | null
+          title: string | null
+          type: string | null
+        }
+        Insert: {
+          backed_up_at?: string | null
+          content_id?: string | null
+          creator?: string | null
+          external_id?: string | null
+          external_source?: string | null
+          isbn?: string | null
+          locale?: string | null
+          sources?: Json | null
+          thumbnail_url?: string | null
+          title?: string | null
+          type?: string | null
+        }
+        Update: {
+          backed_up_at?: string | null
+          content_id?: string | null
+          creator?: string | null
+          external_id?: string | null
+          external_source?: string | null
+          isbn?: string | null
+          locale?: string | null
+          sources?: Json | null
+          thumbnail_url?: string | null
+          title?: string | null
+          type?: string | null
+        }
+        Relationships: []
       }
       note_sections: {
         Row: {
@@ -2882,6 +4069,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "notes_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "notes_content_id_fkey"
             columns: ["content_id"]
             isOneToOne: false
@@ -2942,6 +4136,13 @@ export type Database = {
           view_count?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "notices_author_accounts_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notices_author_id_fkey"
             columns: ["author_id"]
@@ -3043,33 +4244,31 @@ export type Database = {
           cultural_journey: string | null
           cultural_journey_en: string | null
           death_date: string | null
-          email: string | null
           gender: boolean | null
           has_voice: boolean
           id: string
           is_verified: boolean | null
-          last_seen_at: string | null
           nationality: string | null
           nickname: string | null
           nickname_en: string | null
+          portrait_caption: string | null
+          portrait_caption_en: string | null
           portrait_url: string | null
           profession: string | null
           profile_type: string | null
-          role: string | null
           selected_title: string | null
           showcase_titles: string[] | null
           slug: string | null
           slug_suffix: string | null
           speech_tone: string | null
           status: string | null
-          suspended_at: string | null
-          suspended_reason: string | null
           title: string | null
           title_en: string | null
           updated_at: string | null
           view_count: number
           virtual_monologue: string | null
           virtual_monologue_en: string | null
+          virtual_monologue_locked_at: string | null
           voice_id_en: string | null
           voice_id_ko: string | null
           voice_speed: number
@@ -3093,33 +4292,31 @@ export type Database = {
           cultural_journey?: string | null
           cultural_journey_en?: string | null
           death_date?: string | null
-          email?: string | null
           gender?: boolean | null
           has_voice?: boolean
           id: string
           is_verified?: boolean | null
-          last_seen_at?: string | null
           nationality?: string | null
           nickname?: string | null
           nickname_en?: string | null
+          portrait_caption?: string | null
+          portrait_caption_en?: string | null
           portrait_url?: string | null
           profession?: string | null
           profile_type?: string | null
-          role?: string | null
           selected_title?: string | null
           showcase_titles?: string[] | null
           slug?: string | null
           slug_suffix?: string | null
           speech_tone?: string | null
           status?: string | null
-          suspended_at?: string | null
-          suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
           updated_at?: string | null
           view_count?: number
           virtual_monologue?: string | null
           virtual_monologue_en?: string | null
+          virtual_monologue_locked_at?: string | null
           voice_id_en?: string | null
           voice_id_ko?: string | null
           voice_speed?: number
@@ -3143,33 +4340,31 @@ export type Database = {
           cultural_journey?: string | null
           cultural_journey_en?: string | null
           death_date?: string | null
-          email?: string | null
           gender?: boolean | null
           has_voice?: boolean
           id?: string
           is_verified?: boolean | null
-          last_seen_at?: string | null
           nationality?: string | null
           nickname?: string | null
           nickname_en?: string | null
+          portrait_caption?: string | null
+          portrait_caption_en?: string | null
           portrait_url?: string | null
           profession?: string | null
           profile_type?: string | null
-          role?: string | null
           selected_title?: string | null
           showcase_titles?: string[] | null
           slug?: string | null
           slug_suffix?: string | null
           speech_tone?: string | null
           status?: string | null
-          suspended_at?: string | null
-          suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
           updated_at?: string | null
           view_count?: number
           virtual_monologue?: string | null
           virtual_monologue_en?: string | null
+          virtual_monologue_locked_at?: string | null
           voice_id_en?: string | null
           voice_id_ko?: string | null
           voice_speed?: number
@@ -3177,7 +4372,15 @@ export type Database = {
           wikidata_qid?: string | null
           youtube_videos?: Json | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_claimed_by_accounts_fkey"
+            columns: ["claimed_by"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       record_comments: {
         Row: {
@@ -3205,6 +4408,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "record_comments_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "record_comments_record_id_fkey"
             columns: ["record_id"]
@@ -3248,6 +4458,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "record_likes_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "record_likes_record_id_fkey"
             columns: ["record_id"]
@@ -3323,6 +4540,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "records_contributor_accounts_fkey"
+            columns: ["contributor_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "records_contributor_id_fkey"
             columns: ["contributor_id"]
             isOneToOne: false
@@ -3334,6 +4558,13 @@ export type Database = {
             columns: ["contributor_id"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "records_user_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
             referencedColumns: ["id"]
           },
           {
@@ -3400,6 +4631,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "reports_reporter_accounts_fkey"
+            columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "reports_reporter_id_fkey"
             columns: ["reporter_id"]
             isOneToOne: false
@@ -3425,6 +4663,20 @@ export type Database = {
             columns: ["resolved_by"]
             isOneToOne: false
             referencedRelation: "profiles_compat"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_resolver_accounts_fkey"
+            columns: ["resolved_by"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_target_accounts_fkey"
+            columns: ["target_user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
             referencedColumns: ["id"]
           },
           {
@@ -3463,6 +4715,13 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "saved_flows_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "saved_playlists_playlist_id_fkey"
             columns: ["flow_id"]
@@ -3556,6 +4815,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "tier_lists_accounts_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "tier_lists_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -3570,6 +4836,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_accounts: {
+        Row: {
+          account_status: string
+          created_at: string
+          email: string | null
+          id: string
+          last_seen_at: string | null
+          role: string
+          suspended_at: string | null
+          suspended_reason: string | null
+        }
+        Insert: {
+          account_status?: string
+          created_at?: string
+          email?: string | null
+          id: string
+          last_seen_at?: string | null
+          role?: string
+          suspended_at?: string | null
+          suspended_reason?: string | null
+        }
+        Update: {
+          account_status?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          last_seen_at?: string | null
+          role?: string
+          suspended_at?: string | null
+          suspended_reason?: string | null
+        }
+        Relationships: []
       }
       user_contents: {
         Row: {
@@ -3638,6 +4937,13 @@ export type Database = {
             columns: ["content_id"]
             isOneToOne: false
             referencedRelation: "contents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_contents_contributor_accounts_fkey"
+            columns: ["contributor_id"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
             referencedColumns: ["id"]
           },
           {
@@ -3756,6 +5062,81 @@ export type Database = {
       }
     }
     Views: {
+      faction_atlas_members: {
+        Row: {
+          assignment_id: string | null
+          celeb_id: string | null
+          faction_image_url: string | null
+          faction_quote_media: Json | null
+          group_color: string | null
+          group_label: string | null
+          group_label_en: string | null
+          group_logo_url: string | null
+          group_position: number | null
+          group_subtitle: string | null
+          group_subtitle_en: string | null
+          hidden: boolean | null
+          long_desc: string | null
+          long_desc_en: string | null
+          person_id: string | null
+          quote: string | null
+          quote_en: string | null
+          short_desc: string | null
+          short_desc_en: string | null
+          sort_order: number | null
+          source: string | null
+          tag_id: string | null
+        }
+        Insert: {
+          assignment_id?: string | null
+          celeb_id?: string | null
+          faction_image_url?: string | null
+          faction_quote_media?: Json | null
+          group_color?: string | null
+          group_label?: string | null
+          group_label_en?: string | null
+          group_logo_url?: string | null
+          group_position?: number | null
+          group_subtitle?: string | null
+          group_subtitle_en?: string | null
+          hidden?: boolean | null
+          long_desc?: string | null
+          long_desc_en?: string | null
+          person_id?: string | null
+          quote?: string | null
+          quote_en?: string | null
+          short_desc?: string | null
+          short_desc_en?: string | null
+          sort_order?: number | null
+          source?: string | null
+          tag_id?: string | null
+        }
+        Update: {
+          assignment_id?: string | null
+          celeb_id?: string | null
+          faction_image_url?: string | null
+          faction_quote_media?: Json | null
+          group_color?: string | null
+          group_label?: string | null
+          group_label_en?: string | null
+          group_logo_url?: string | null
+          group_position?: number | null
+          group_subtitle?: string | null
+          group_subtitle_en?: string | null
+          hidden?: boolean | null
+          long_desc?: string | null
+          long_desc_en?: string | null
+          person_id?: string | null
+          quote?: string | null
+          quote_en?: string | null
+          short_desc?: string | null
+          short_desc_en?: string | null
+          sort_order?: number | null
+          source?: string | null
+          tag_id?: string | null
+        }
+        Relationships: []
+      }
       profiles_compat: {
         Row: {
           avatar_url: string | null
@@ -3769,27 +5150,22 @@ export type Database = {
           created_at: string | null
           cultural_journey: string | null
           death_date: string | null
-          email: string | null
           gender: boolean | null
           has_voice: boolean | null
           id: string | null
           is_verified: boolean | null
-          last_seen_at: string | null
           nationality: string | null
           nickname: string | null
           nickname_en: string | null
           portrait_url: string | null
           profession: string | null
           profile_type: string | null
-          role: string | null
           selected_title: string | null
           showcase_titles: string[] | null
           slug: string | null
           slug_suffix: string | null
           speech_tone: string | null
           status: string | null
-          suspended_at: string | null
-          suspended_reason: string | null
           title: string | null
           title_en: string | null
           voice_id_en: string | null
@@ -3809,27 +5185,22 @@ export type Database = {
           created_at?: string | null
           cultural_journey?: string | null
           death_date?: string | null
-          email?: string | null
           gender?: boolean | null
           has_voice?: boolean | null
           id?: string | null
           is_verified?: boolean | null
-          last_seen_at?: string | null
           nationality?: string | null
           nickname?: string | null
           nickname_en?: string | null
           portrait_url?: string | null
           profession?: string | null
           profile_type?: string | null
-          role?: string | null
           selected_title?: string | null
           showcase_titles?: string[] | null
           slug?: string | null
           slug_suffix?: string | null
           speech_tone?: string | null
           status?: string | null
-          suspended_at?: string | null
-          suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
           voice_id_en?: string | null
@@ -3849,27 +5220,22 @@ export type Database = {
           created_at?: string | null
           cultural_journey?: string | null
           death_date?: string | null
-          email?: string | null
           gender?: boolean | null
           has_voice?: boolean | null
           id?: string | null
           is_verified?: boolean | null
-          last_seen_at?: string | null
           nationality?: string | null
           nickname?: string | null
           nickname_en?: string | null
           portrait_url?: string | null
           profession?: string | null
           profile_type?: string | null
-          role?: string | null
           selected_title?: string | null
           showcase_titles?: string[] | null
           slug?: string | null
           slug_suffix?: string | null
           speech_tone?: string | null
           status?: string | null
-          suspended_at?: string | null
-          suspended_reason?: string | null
           title?: string | null
           title_en?: string | null
           voice_id_en?: string | null
@@ -3877,10 +5243,22 @@ export type Database = {
           voice_v?: number | null
           wikidata_qid?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_claimed_by_accounts_fkey"
+            columns: ["claimed_by"]
+            isOneToOne: false
+            referencedRelation: "user_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
+      admin_delete_auth_user: {
+        Args: { target_user_id: string }
+        Returns: undefined
+      }
       apply_virtual_monologue_candidate: {
         Args: {
           p_candidate_text: string
@@ -3900,6 +5278,7 @@ export type Database = {
         Args: { target_run_id: string }
         Returns: string
       }
+      check_active_account_request: { Args: never; Returns: undefined }
       claim_next_celeb_philosophy_rewrite: {
         Args: { p_lease_minutes?: number; p_worker: string }
         Returns: {
@@ -3947,14 +5326,19 @@ export type Database = {
         }
         Returns: number
       }
-      count_contents_by_users: {
-        Args: { user_ids: string[] }
-        Returns: {
-          count: number
-          user_id: string
-        }[]
+      create_recommendation_notification: {
+        Args: {
+          p_link?: string
+          p_message: string
+          p_metadata?: Json
+          p_recommendation_id: string
+          p_title?: string
+          p_type: string
+        }
+        Returns: string
       }
       delete_auth_user: { Args: { target_user_id: string }; Returns: undefined }
+      delete_my_account: { Args: never; Returns: undefined }
       discourse_replace_episode: {
         Args: {
           p_episode: Json
@@ -4007,7 +5391,7 @@ export type Database = {
       }
       get_celeb_feed_type_counts: { Args: never; Returns: Json }
       get_celeb_type_counts: {
-        Args: { p_user_id: string }
+        Args: { p_celeb_id: string }
         Returns: {
           content_type: string
           total: number
@@ -4043,7 +5427,7 @@ export type Database = {
           bio_en: string
           birth_date: string
           celeb_tier: string
-          claimed_by: string
+          claimed_by_member_id: string
           consumption_philosophy: string
           consumption_philosophy_en: string
           content_count: number
@@ -4058,8 +5442,8 @@ export type Database = {
           nickname_en: string
           portrait_url: string
           profession: string
+          publication_status: string
           slug: string
-          status: string
           title: string
           title_en: string
           total_score: number
@@ -4073,7 +5457,7 @@ export type Database = {
           bio_en: string
           birth_date: string
           celeb_tier: string
-          claimed_by: string
+          claimed_by_member_id: string
           consumption_philosophy: string
           consumption_philosophy_en: string
           content_count: number
@@ -4088,9 +5472,9 @@ export type Database = {
           nickname_en: string
           portrait_url: string
           profession: string
+          publication_status: string
           recent_views: number
           slug: string
-          status: string
           title: string
           title_en: string
           total_score: number
@@ -4126,11 +5510,8 @@ export type Database = {
           user_count: number
         }[]
       }
+      get_current_account_access_state: { Args: never; Returns: string }
       get_database_size: { Args: never; Returns: number }
-      get_friend_activity_type_counts: {
-        Args: { p_user_id: string }
-        Returns: Json
-      }
       get_persona_extremes: {
         Args: { p_runners_up_limit?: number }
         Returns: Json
@@ -4162,12 +5543,12 @@ export type Database = {
         Returns: {
           avg_rating: number
           celeb_count: number
+          celeb_count_in_era: number
           content_id: string
           content_type: string
           creator: string
           creator_en: string
           era: string
-          era_celeb_count: number
           era_description: string
           era_label: string
           era_period: string
@@ -4282,6 +5663,7 @@ export type Database = {
         Returns: undefined
       }
       is_admin: { Args: never; Returns: boolean }
+      is_current_account_active: { Args: never; Returns: boolean }
       renew_celeb_philosophy_rewrite_lease: {
         Args: { p_celeb_id: string; p_lease_minutes?: number; p_worker: string }
         Returns: boolean

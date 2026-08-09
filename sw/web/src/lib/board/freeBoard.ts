@@ -7,7 +7,6 @@ import { headers } from 'next/headers'
 export const FREE_POST_COLS = 'id, title, content, locale, nickname, author_id, is_anonymous, view_count, is_deleted, created_at, updated_at'
 export const FREE_COMMENT_COLS = 'id, post_id, content, nickname, author_id, is_anonymous, is_deleted, created_at, updated_at'
 // 작성자 프로필 조인 (계정 글 표시용)
-export const FREE_AUTHOR_JOIN = 'author:profiles!author_id(id, nickname, avatar_url)'
 export const FREE_RATE_LIMIT_SECONDS = 30
 export const FREE_BOARD_PATH = '/agora/board/free'
 

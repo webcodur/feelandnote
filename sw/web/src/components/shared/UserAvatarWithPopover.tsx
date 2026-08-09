@@ -1,6 +1,6 @@
 /*
   파일명: /components/shared/UserAvatarWithPopover.tsx
-  기능: 프로필 타입에 따른 아바타 상호작용 분기
+  기능: 대상 종류에 따른 아바타 상호작용 분기
   책임: USER는 미니 팝오버, CELEB은 상세 모달을 표시한다.
 */ // ------------------------------
 "use client";
@@ -14,11 +14,11 @@ const CelebDetailModal = lazy(() => import("@/components/features/celeb/modals/C
 
 interface UserAvatarWithPopoverProps {
   userId: string;
-  profileType: "USER" | "CELEB";
+  subjectKind: "member" | "celeb";
   trigger: ReactNode;
 }
 
-export default function UserAvatarWithPopover({ userId, profileType, trigger }: UserAvatarWithPopoverProps) {
+export default function UserAvatarWithPopover({ userId, subjectKind, trigger }: UserAvatarWithPopoverProps) {
   const [celebData, setCelebData] = useState<CelebProfile | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function UserAvatarWithPopover({ userId, profileType, trigger }: 
   }, [userId, isLoading]);
 
   // USER: 미니 팝오버
-  if (profileType === "USER") {
+  if (subjectKind === "member") {
     return <UserMiniProfilePopover userId={userId} trigger={trigger} />;
   }
 

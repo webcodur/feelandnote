@@ -67,12 +67,12 @@ async function main() {
 
     const { data: assigns } = await supabase
       .from('celeb_tag_assignments')
-      .select('celeb_id, profiles!celeb_tag_assignments_celeb_id_fkey(nickname, slug)')
+      .select('celeb_id, celeb:celebs!celeb_tags_celebs_fkey(nickname, slug)')
       .eq('tag_id', tag.id)
     const assignedNick = new Set<string>()
     const assignedSlug = new Set<string>()
     for (const a of assigns ?? []) {
-      const pr = a.profiles as unknown as { nickname: string; slug: string | null }
+      const pr = a.celeb as unknown as { nickname: string; slug: string | null }
       if (pr?.nickname) assignedNick.add(pr.nickname)
       if (pr?.slug) assignedSlug.add(pr.slug)
     }
@@ -92,11 +92,11 @@ async function main() {
         const dbNick = NAME_ALIAS[u.name] ?? u.name
         let found: any = null
         if (u.slug) {
-          const r = await supabase.from('profiles').select('id, nickname').eq('slug', u.slug).maybeSingle()
+          const r = await supabase.from('celebs').select('id, nickname').eq('slug', u.slug).maybeSingle()
           found = r.data
         }
         if (!found) {
-          const r = await supabase.from('profiles').select('id, nickname').eq('nickname', dbNick).maybeSingle()
+          const r = await supabase.from('celebs').select('id, nickname').eq('nickname', dbNick).maybeSingle()
           found = r.data
         }
         const lf = u.longformOnly ? '(롱폼전용)' : ''

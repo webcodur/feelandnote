@@ -45,13 +45,13 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
   const celebIds = assignments.map((a) => a.celeb_id);
 
   // 2. 셀럽 프로필 조회 (닉네임, 아바타)
-  const { data: profiles } = await supabase
-    .from("profiles")
+  const { data: celebRows } = await supabase
+    .from("celebs")
     .select("id, nickname, nickname_en, avatar_url")
     .in("id", celebIds);
 
   const profileMap = new Map<string, SharedContentCeleb>();
-  (profiles ?? []).forEach((p) =>
+  (celebRows ?? []).forEach((p) =>
     profileMap.set(p.id, {
       id: p.id,
       nickname: p.nickname,
@@ -60,13 +60,13 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
     })
   );
 
-  // 3. user_contents + contents JOIN
+  // 3. celeb_contents + contents JOIN
   const { data, error } = await supabase
-    .from("user_contents")
+    .from("celeb_contents")
     .select(
-      `user_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
+      `celeb_id, content_id, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
-    .in("user_id", celebIds)
+    .in("celeb_id", celebIds)
     .eq("visibility", "public");
 
   throwOnQueryError('getTagSharedLibrary', error);
@@ -96,7 +96,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 
     const existing = contentMap.get(c.id);
     if (existing) {
-      existing.celebIds.add(row.user_id);
+      existing.celebIds.add(row.celeb_id);
     } else {
       contentMap.set(c.id, {
         title: ko?.title || en?.title || "",
@@ -105,7 +105,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
         creator_en: en?.creator ?? null,
         thumbnailUrl: ko?.thumbnail_url || en?.thumbnail_url || null,
         type: c.type ?? "BOOK",
-        celebIds: new Set([row.user_id]),
+        celebIds: new Set([row.celeb_id]),
       });
     }
   }
@@ -143,7 +143,7 @@ async function fetchTagSharedLibrary(tagId: string): Promise<SharedContent[]> {
 const getTagSharedLibraryCached = unstable_cache(
   fetchTagSharedLibrary,
   ['tag-shared-library'],
-  // faction_atlas_members(편성) + profiles + user_contents
+  // faction_atlas_members(편성) + celebs + celeb_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 

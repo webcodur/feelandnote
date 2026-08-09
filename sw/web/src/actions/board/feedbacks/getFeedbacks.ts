@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { FeedbackWithAuthor, FeedbackCategory, FeedbackStatus } from '@/types/database'
 import type { Locale } from '@/types/locale'
+import { attachMemberAuthors } from '@/lib/board/memberProfiles'
 
 interface GetFeedbacksParams {
   locale: Locale
@@ -24,10 +25,7 @@ async function fetchFeedbacks(
 
   let query = supabase
     .from('feedbacks')
-    .select(`
-      *,
-      author:profiles!author_id(id, nickname, avatar_url)
-    `, { count: 'exact' })
+    .select('*', { count: 'exact' })
     .eq('locale', locale)
 
   if (category) {
@@ -47,7 +45,8 @@ async function fetchFeedbacks(
     throw new Error('피드백을 불러오는데 실패했습니다')
   }
 
-  const feedbacks = data as FeedbackWithAuthor[]
+  const hydrated = await attachMemberAuthors(supabase, data ?? [])
+  const feedbacks = hydrated as FeedbackWithAuthor[]
 
   if (feedbacks.length > 0) {
     const ids = feedbacks.map(f => f.id)

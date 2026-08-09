@@ -8,6 +8,10 @@ import type { PersonaJsonb, PersonaProfile, PersonaStats } from '@/lib/persona/t
 import { parsePersonaJsonb } from '@/lib/persona/types'
 import {
   calcPersonaMatchDistances,
+  calcEmphasizedVirtueSimilarity,
+  calcVirtuePopulationStats,
+  getEmphasizedVirtueEvidence,
+  getEmphasizedVirtueVector,
   getPersonaMatchComparison,
   getPersonaMatchEvidence,
   groupedDistanceToMatchPercent,
@@ -54,13 +58,13 @@ const MATCH_DIMENSIONS: Record<PersonaMatchCategory, number> = {
   opposite: 4,
 }
 
-// celeb_persona + profiles 조인 행
+// celeb_persona + celebs 조인 행
 interface PersonaJoinProfile {
   nickname: string | null
   nickname_en: string | null
   profession: string | null
   avatar_url: string | null
-  status: string | null
+  publication_status: string | null
   birth_date?: string | null
   death_date?: string | null
   title?: string | null
@@ -69,7 +73,7 @@ interface PersonaJoinProfile {
 interface PersonaJoinRow {
   celeb_id: string
   persona: PersonaJsonb
-  profiles: PersonaJoinProfile | PersonaJoinProfile[] | null
+  celeb: PersonaJoinProfile | PersonaJoinProfile[] | null
 }
 
 // 유사도 계산·유사 카드에 필요한 최소 필드만 담은 경량 벡터.
@@ -91,9 +95,9 @@ interface RankedPersonaMatch extends Omit<PersonaMatch, 'evidence' | 'comparison
 type RankedPersonaMatchGroups = Record<PersonaMatchCategory, RankedPersonaMatch[]>
 
 function pickProfile(
-  profiles: PersonaJoinProfile | PersonaJoinProfile[] | null
+  celeb: PersonaJoinProfile | PersonaJoinProfile[] | null
 ): PersonaJoinProfile | null {
-  return Array.isArray(profiles) ? (profiles[0] ?? null) : profiles
+  return Array.isArray(celeb) ? (celeb[0] ?? null) : celeb
 }
 
 // celeb_persona는 persona jsonb의 16개 score를 동명의 smallint 컬럼으로도 보관한다
@@ -116,7 +120,7 @@ void _statKeyGuard
 
 type PersonaColumnRow = {
   celeb_id: string
-  profiles: PersonaJoinProfile | PersonaJoinProfile[] | null
+  celeb: PersonaJoinProfile | PersonaJoinProfile[] | null
 } & Partial<Record<(typeof PERSONA_STAT_KEYS)[number], number | null>>
 
 function columnsToStats(row: PersonaColumnRow): PersonaStats {
@@ -145,7 +149,7 @@ async function fetchAllPersonaVectors(): Promise<PersonaVectorRow[]> {
       .from('celeb_persona')
       .select(`
         celeb_id, ${PERSONA_STAT_KEYS.join(', ')},
-        profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, status)
+        celeb:celebs!celeb_persona_celebs_fkey (nickname, nickname_en, profession, avatar_url, publication_status)
       `)
       .order('celeb_id')
       .range(from, to) as unknown as PromiseLike<{
@@ -154,8 +158,8 @@ async function fetchAllPersonaVectors(): Promise<PersonaVectorRow[]> {
     }>
   )
   return rows.flatMap((row) => {
-    const profile = pickProfile(row.profiles)
-    if (profile?.status !== 'active') return []
+    const profile = pickProfile(row.celeb)
+    if (profile?.publication_status !== 'active') return []
     return [{
       celeb_id: row.celeb_id,
       stats: columnsToStats(row),
@@ -179,7 +183,7 @@ async function fetchPersonaByCelebId(celebId: string): Promise<PersonaJoinRow | 
     .from('celeb_persona')
     .select(`
       celeb_id, persona,
-      profiles!celeb_persona_celeb_id_fkey (nickname, nickname_en, profession, avatar_url, birth_date, death_date, title, status)
+      celeb:celebs!celeb_persona_celebs_fkey (nickname, nickname_en, profession, avatar_url, birth_date, death_date, title, publication_status)
     `)
     .eq('celeb_id', celebId)
     .maybeSingle()
@@ -194,7 +198,7 @@ function getPersonaByCelebIdCached(celebId: string): Promise<PersonaJoinRow | nu
 }
 
 function targetToProfile(row: PersonaJoinRow, isEn: boolean): PersonaProfile {
-  const profile = pickProfile(row.profiles)
+  const profile = pickProfile(row.celeb)
   const stats = parsePersonaJsonb(row.persona)
   const nickEn = profile?.nickname_en ?? null
   return {
@@ -253,13 +257,15 @@ function toPersonaMatch(
   candidate: PersonaProfile,
   distance: number,
   dimensions: number,
+  matchPercent?: number,
 ): RankedPersonaMatch {
   return {
     celeb_id: candidate.celeb_id,
     nickname: candidate.nickname,
     avatar_url: candidate.avatar_url,
     distance,
-    matchPercent: groupedDistanceToMatchPercent(distance, dimensions),
+    matchPercent:
+      matchPercent ?? groupedDistanceToMatchPercent(distance, dimensions),
     candidate,
   }
 }
@@ -286,6 +292,13 @@ export async function getSimilarByCelebId(
 
   const targetPersona = targetToProfile(targetRow, isEn)
   const targetPersonaJsonb = targetRow.persona
+  const virtuePopulationStats = calcVirtuePopulationStats(
+    allVectors.map((row) => row.stats),
+  )
+  const targetEmphasizedVirtues = getEmphasizedVirtueVector(
+    targetPersona,
+    virtuePopulationStats,
+  )
 
   const categoryLimit = Math.min(limit, 3)
   const rankedMatchesByCategory: RankedPersonaMatchGroups = {
@@ -302,6 +315,14 @@ export async function getSimilarByCelebId(
 
     const candidate = vectorToProfile(row, isEn)
     const distances = calcPersonaMatchDistances(targetPersona, candidate)
+    const candidateEmphasizedVirtues = getEmphasizedVirtueVector(
+      candidate,
+      virtuePopulationStats,
+    )
+    const emphasizedVirtueSimilarity = calcEmphasizedVirtueSimilarity(
+      targetEmphasizedVirtues,
+      candidateEmphasizedVirtues,
+    )
 
     insertTopMatch(
       similarCelebs,
@@ -310,6 +331,22 @@ export async function getSimilarByCelebId(
     )
 
     for (const category of MATCH_CATEGORIES) {
+      if (category === 'virtue') {
+        if (emphasizedVirtueSimilarity <= 0) continue
+
+        insertTopMatch(
+          rankedMatchesByCategory.virtue,
+          toPersonaMatch(
+            candidate,
+            1 - emphasizedVirtueSimilarity,
+            1,
+            Math.round(emphasizedVirtueSimilarity * 100),
+          ),
+          categoryLimit,
+        )
+        continue
+      }
+
       insertTopMatch(
         rankedMatchesByCategory[category],
         toPersonaMatch(
@@ -327,12 +364,21 @@ export async function getSimilarByCelebId(
       category,
       rankedMatchesByCategory[category].map(({ candidate, ...match }) => ({
         ...match,
-        evidence: getPersonaMatchEvidence(
-          targetPersona,
-          candidate,
-          category,
-          category === 'overall' ? 3 : 2,
-        ),
+        evidence:
+          category === 'virtue'
+            ? getEmphasizedVirtueEvidence(
+                targetPersona,
+                candidate,
+                targetEmphasizedVirtues,
+                getEmphasizedVirtueVector(candidate, virtuePopulationStats),
+                2,
+              )
+            : getPersonaMatchEvidence(
+                targetPersona,
+                candidate,
+                category,
+                category === 'overall' ? 3 : 2,
+              ),
         comparison: getPersonaMatchComparison(
           targetPersona,
           candidate,

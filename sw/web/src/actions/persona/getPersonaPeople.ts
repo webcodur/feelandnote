@@ -22,11 +22,11 @@ interface PersonaJoinedProfileRow {
 
 interface PersonaPeopleRow {
   celeb_id: string
-  profiles: PersonaJoinedProfileRow | PersonaJoinedProfileRow[] | null
+  celeb: PersonaJoinedProfileRow | PersonaJoinedProfileRow[] | null
 }
 
 const parseProfile = (row: PersonaPeopleRow): PersonaJoinedProfileRow | null =>
-  (Array.isArray(row.profiles) ? row.profiles[0] : row.profiles) ?? null
+  (Array.isArray(row.celeb) ? row.celeb[0] : row.celeb) ?? null
 
 async function fetchPersonaPeople(limit: number): Promise<PersonaPersonSummary[]> {
   const supabase = createStaticClient()
@@ -34,13 +34,14 @@ async function fetchPersonaPeople(limit: number): Promise<PersonaPersonSummary[]
     .from('celeb_persona')
     .select(`
       celeb_id,
-      profiles!celeb_persona_celeb_id_fkey (
+      celeb:celebs!celeb_persona_celebs_fkey!inner (
         nickname,
         profession,
         avatar_url,
         title
       )
     `)
+    .eq('celeb.publication_status', 'active')
     .limit(limit)
 
   throwOnQueryError('[getPersonaPeople]', error)

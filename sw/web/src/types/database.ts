@@ -6,21 +6,11 @@ import type { Locale } from './locale'
 export type { ContentType, ContentStatus }
 export type RecordType = 'NOTE' | 'QUOTE'
 export type VisibilityType = 'public' | 'followers' | 'private'
-type ProfileType = 'USER' | 'CELEB'
-
 // ===== Phase 1: Core Tables =====
-export interface Profile {
+export interface MemberProfileSummary {
   id: string
-  email: string | null
   nickname: string | null
   avatar_url: string | null
-  profile_type: ProfileType
-  claimed_by: string | null
-  is_verified: boolean
-  bio: string | null
-  profession: string | null
-  title: string | null  // 셀럽 수식어 (예: 테슬라 창립자, 철의 여인)
-  created_at: string
 }
 
 export interface Content {
@@ -128,7 +118,7 @@ interface GuestbookEntry {
 }
 
 export interface GuestbookEntryWithAuthor extends GuestbookEntry {
-  author: Profile
+  author: MemberProfileSummary
 }
 
 // ===== Activity Log =====
@@ -155,7 +145,7 @@ interface Notice {
 }
 
 export interface NoticeWithAuthor extends Notice {
-  author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+  author: MemberProfileSummary
   comment_count?: number
 }
 
@@ -180,12 +170,12 @@ interface Feedback {
 }
 
 export interface FeedbackWithAuthor extends Feedback {
-  author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+  author: MemberProfileSummary
   comment_count?: number
 }
 
 export interface FeedbackWithDetails extends FeedbackWithAuthor {
-  resolver: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
+  resolver: MemberProfileSummary | null
 }
 
 // ===== Board: Comments =====
@@ -203,7 +193,7 @@ interface BoardComment {
 }
 
 export interface BoardCommentWithAuthor extends BoardComment {
-  author: Pick<Profile, 'id' | 'nickname' | 'avatar_url'>
+  author: MemberProfileSummary
 }
 
 // ===== Board: Free (자유게시판 — 로그인·익명 혼합) =====
@@ -222,7 +212,7 @@ export interface FreePost {
   created_at: string
   updated_at: string
   comment_count?: number
-  author?: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
+  author?: MemberProfileSummary | null
 }
 
 export interface FreePostComment {
@@ -235,5 +225,5 @@ export interface FreePostComment {
   is_deleted: boolean
   created_at: string
   updated_at: string
-  author?: Pick<Profile, 'id' | 'nickname' | 'avatar_url'> | null
+  author?: MemberProfileSummary | null
 }

@@ -9,7 +9,7 @@ import { useHostVoiceMapping } from './useHostVoiceMapping'
  *
  * 책임:
  *  - ElevenLabs 보이스 목록 fetch + 검색 + 미리듣기.
- *  - DB(profiles.voice_id_ko/en) 현재값 표시 + 불일치 경고.
+ *  - DB(celebs.voice_id_ko/en) 현재값 표시 + 불일치 경고.
  *  - 저장 범위(에피소드/DB/둘 다) 선택 후 적용.
  *
  * 부모(HostSpeakerRow) 가 episode 갱신 · 저장을 직접 처리하지 않고 콜백으로 위임.
@@ -26,7 +26,7 @@ export function HostVoiceMapping({
   /** 보이스 적용 — 저장 범위에 따라 부모가 episode/DB 저장 수행. 결과 메시지를 반환. */
   onApply: (voiceId: string, scope: SaveScope) => Promise<{ ok: boolean; message: string }>
   /**
-   * 인물 DB(profiles.voice_id_*) 와의 동기화 UI 노출 여부.
+   * 인물 DB(celebs.voice_id_*) 와의 동기화 UI 노출 여부.
    * - true(기본): host 행에서 DB 현황 · 저장 범위 토글 표시.
    * - false: 추가 화자 행은 DB 와 무관하므로 숨기고 에피소드 JSON 에만 적용.
    */

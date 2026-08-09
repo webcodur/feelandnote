@@ -36,7 +36,7 @@ const SCORE_SELECT = [
 
 type PersonaScoreRow = {
   celeb_id: string
-  profiles: ProfileRow | ProfileRow[] | null
+  celeb: ProfileRow | ProfileRow[] | null
 } & Partial<Record<TendencyKey, number | null>>
 
 async function fetchPersonaDistribution(minInfluence: number, limit: number): Promise<PersonaPerson[]> {
@@ -67,11 +67,12 @@ async function fetchPersonaDistribution(minInfluence: number, limit: number): Pr
         .from('celeb_persona')
         .select(`
           celeb_id, ${SCORE_SELECT},
-          profiles!celeb_persona_celeb_id_fkey (
+          celeb:celebs!celeb_persona_celebs_fkey!inner (
             slug, nickname, nickname_en, avatar_url
           )
         `)
         .in('celeb_id', chunk)
+        .eq('celeb.publication_status', 'active')
         .order('celeb_id')
         .overrideTypes<PersonaScoreRow[], { merge: false }>() as unknown as PromiseLike<{
         data: PersonaScoreRow[] | null
@@ -81,7 +82,7 @@ async function fetchPersonaDistribution(minInfluence: number, limit: number): Pr
 
   return data
     .map((row) => {
-      const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles
+      const profile = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
       const stats = Object.fromEntries(
         TENDENCY_KEYS.map((k) => [k, row[k] ?? 0])
       ) as Record<TendencyKey, number>
@@ -101,7 +102,7 @@ async function fetchPersonaDistribution(minInfluence: number, limit: number): Pr
 const getPersonaDistributionCached = unstable_cache(
   fetchPersonaDistribution,
   ['persona-distribution-v2'],
-  // celeb_persona + celeb_influence + 감상문 보유 셀럽 목록(user_contents)을 함께 읽는다
+  // celeb_persona + celeb_influence + 감상문 보유 셀럽 목록(celeb_contents)을 함께 읽는다
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 

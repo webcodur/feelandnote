@@ -26,14 +26,14 @@ interface TagRow {
 interface TagAssignmentRow {
   celeb_id: string;
   tag_id: string;
-  profiles: {
+  celeb: {
     id: string;
     nickname: string;
     nickname_en: string | null;
     avatar_url: string | null;
     profession: string | null;
     nationality: string | null;
-    status: string;
+    publication_status: string;
   } | null;
 }
 
@@ -65,8 +65,8 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
     .select(`
       celeb_id,
       tag_id,
-      profiles!celeb_tag_assignments_celeb_id_fkey (
-        id, nickname, nickname_en, avatar_url, profession, nationality, status
+      celeb:celebs!celeb_tags_celebs_fkey (
+        id, nickname, nickname_en, avatar_url, profession, nationality, publication_status
       )
     `)
     .overrideTypes<TagAssignmentRow[], { merge: false }>();
@@ -81,7 +81,7 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
 
   const assignmentsByTag = new Map<string, TagAssignmentRow[]>();
   for (const a of assignments ?? []) {
-    if (!a.profiles || a.profiles.status !== "active") continue;
+    if (!a.celeb || a.celeb.publication_status !== "active") continue;
     const arr = assignmentsByTag.get(a.tag_id) ?? [];
     arr.push(a);
     assignmentsByTag.set(a.tag_id, arr);
@@ -93,14 +93,18 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
     if (!tag) continue;
 
     // 태그에서 4명만 취한다 (sort_order나 첫 4명)
-    const fourMembers = tagAssignments.slice(0, 4).map((a) => ({
-      id: a.profiles!.id,
-      name: locale === "en"
-        ? (a.profiles!.nickname_en || a.profiles!.nickname)
-        : a.profiles!.nickname,
-      avatarUrl: a.profiles!.avatar_url,
-      groupIndex: -1, // 나중에 부여
-    }));
+    const fourMembers = tagAssignments.slice(0, 4).map((a) => {
+      // assignmentsByTag에 넣을 때 null 조인을 이미 거른다.
+      const celeb = a.celeb!;
+      return {
+        id: celeb.id,
+        name: locale === "en"
+          ? (celeb.nickname_en || celeb.nickname)
+          : celeb.nickname,
+        avatarUrl: celeb.avatar_url,
+        groupIndex: -1, // 나중에 부여
+      };
+    });
 
     groups.push({
       label: locale === "en" ? (tag.name_en || tag.name) : tag.name,
@@ -112,14 +116,14 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
   }
 
   // 3) 직군별 묶음 (국적이 모두 다른 4명)
-  const professionPool = new Map<string, TagAssignmentRow["profiles"][]>();
+  const professionPool = new Map<string, TagAssignmentRow["celeb"][]>();
   for (const a of assignments ?? []) {
-    if (!a.profiles || a.profiles.status !== "active" || !a.profiles.profession) continue;
-    const arr = professionPool.get(a.profiles.profession) ?? [];
+    if (!a.celeb || a.celeb.publication_status !== "active" || !a.celeb.profession) continue;
+    const arr = professionPool.get(a.celeb.profession) ?? [];
     // 중복 방지
-    if (!arr.find((p) => p!.id === a.profiles!.id)) {
-      arr.push(a.profiles);
-      professionPool.set(a.profiles.profession, arr);
+    if (!arr.find((p) => p!.id === a.celeb!.id)) {
+      arr.push(a.celeb);
+      professionPool.set(a.celeb.profession, arr);
     }
   }
 
@@ -165,12 +169,12 @@ async function fetchGroupsPool(locale: string): Promise<PuzzlePool> {
 
 /** 특정 필드의 값이 모두 다른 N명을 뽑는다 */
 function pickDiverseByField(
-  items: (TagAssignmentRow["profiles"])[],
+  items: (TagAssignmentRow["celeb"])[],
   field: "nationality" | "profession",
   count: number
-): (TagAssignmentRow["profiles"])[] {
+): (TagAssignmentRow["celeb"])[] {
   const seen = new Set<string>();
-  const result: (TagAssignmentRow["profiles"])[] = [];
+  const result: (TagAssignmentRow["celeb"])[] = [];
   for (const item of items) {
     if (!item) continue;
     const value = item[field];

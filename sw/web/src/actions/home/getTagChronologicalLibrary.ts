@@ -26,9 +26,9 @@ interface ChronoProfileRow {
   birth_date: string | null;
 }
 
-// user_contents + contents 조인 select 결과 행
+// celeb_contents + contents 조인 select 결과 행
 interface ChronoUserContentRow {
-  user_id: string;
+  celeb_id: string;
   content_id: string;
   review: string | null;
   review_en?: string | null;
@@ -58,15 +58,15 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
   const celebIds = assignments.map((a) => a.celeb_id);
 
   // 2. 프로필 조회 (birthYear 계산용)
-  const { data: profiles } = await supabase
-    .from("profiles")
+  const { data: celebRows } = await supabase
+    .from("celebs")
     .select("id, nickname, nickname_en, avatar_url, profession, birth_date")
     .in("id", celebIds);
 
-  if (!profiles?.length) return { celebs: [], contentsMap: {} };
+  if (!celebRows?.length) return { celebs: [], contentsMap: {} };
 
   // birthYear 계산 후 정렬
-  const celebs: TimelineCeleb[] = (profiles as ChronoProfileRow[])
+  const celebs: TimelineCeleb[] = (celebRows as ChronoProfileRow[])
     .map((p) => ({
       id: p.id,
       nickname: p.nickname,
@@ -78,15 +78,15 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
     .filter((c) => c.birthYear !== 0)
     .sort((a, b) => a.birthYear - b.birthYear);
 
-  // 3. user_contents + contents JOIN (셀럽당 최대 4개)
+  // 3. celeb_contents + contents JOIN (셀럽당 최대 4개)
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === "en" ? "review_en, " : "";
   const { data, error } = await supabase
-    .from("user_contents")
+    .from("celeb_contents")
     .select(
-      `user_id, content_id, review, ${reviewEnSelect}source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
+      `celeb_id, content_id, review, ${reviewEnSelect}source_url, contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`
     )
-    .in("user_id", celebIds)
+    .in("celeb_id", celebIds)
     .eq("visibility", "public");
 
   throwOnQueryError('getTagChronologicalLibrary', error);
@@ -100,14 +100,14 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
     const ko = c.content_locales?.find(l => l.locale === 'ko');
     const en = c.content_locales?.find(l => l.locale === 'en');
 
-    if (!contentsMap[row.user_id]) {
-      contentsMap[row.user_id] = [];
+    if (!contentsMap[row.celeb_id]) {
+      contentsMap[row.celeb_id] = [];
     }
 
     // 셀럽당 최대 4개
-    if (contentsMap[row.user_id].length >= 4) continue;
+    if (contentsMap[row.celeb_id].length >= 4) continue;
 
-    contentsMap[row.user_id].push({
+    contentsMap[row.celeb_id].push({
       contentId: c.id,
       title: ko?.title || en?.title || "",
       title_en: en?.title ?? null,
@@ -127,7 +127,7 @@ async function fetchTagChronologicalLibrary(tagId: string, locale: string): Prom
 const getTagChronologicalLibraryCached = unstable_cache(
   fetchTagChronologicalLibrary,
   ['tag-chronological-library'],
-  // faction_atlas_members(편성) + profiles + user_contents
+  // faction_atlas_members(편성) + celebs + celeb_contents
   { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 );
 

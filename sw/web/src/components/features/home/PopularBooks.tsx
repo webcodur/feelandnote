@@ -15,5 +15,12 @@ export default async function PopularBooks() {
 
   const t = await getTranslations('popularBooks')
 
-  return <AffiliateBookList books={books} heading={t('title')} buyLabel={t('buyOnCoupang')} />
+  return (
+    <AffiliateBookList
+      books={books}
+      heading={t('title')}
+      buyLabel={t('buyOnCoupang')}
+      detailLabel={t('viewBookDetails')}
+    />
+  )
 }

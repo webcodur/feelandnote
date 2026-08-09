@@ -28,7 +28,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
   const { slug } = await params
   const celeb = await getMemberBySlug(slug)
 
-  if (!celeb || celeb.profile_type !== 'CELEB') notFound()
+  if (!celeb || celeb.subject_kind !== 'celeb') notFound()
 
   const [voiceCeleb, explanation] = await Promise.all([
     getCelebVoiceDetail(celeb.id),

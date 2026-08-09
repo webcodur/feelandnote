@@ -27,5 +27,12 @@ export default async function CelebAffiliateBooks({ userId }: CelebAffiliateBook
   }
   const heading = t(HEADING_KEY[source])
 
-  return <AffiliateBookList books={books} heading={heading} buyLabel={t('buyOnCoupang')} />
+  return (
+    <AffiliateBookList
+      books={books}
+      heading={heading}
+      buyLabel={t('buyOnCoupang')}
+      detailLabel={t('viewBookDetails')}
+    />
+  )
 }

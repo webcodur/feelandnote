@@ -150,7 +150,7 @@ export async function inheritVoicesFromProfiles(
   // 셀럽 id → 언어별 목소리. 언어를 골라도 두 컬럼을 함께 읽는다(왕복 수는 같다)
   const voiceByCeleb = new Map<string, Partial<Record<FactionVoiceLocale, string>>>()
   if (celebIds.length) {
-    for (const row of await inChunks(db, 'profiles', 'id', celebIds, 'id, voice_id_ko, voice_id_en')) {
+    for (const row of await inChunks(db, 'celebs', 'id', celebIds, 'id, voice_id_ko, voice_id_en')) {
       const entry: Partial<Record<FactionVoiceLocale, string>> = {}
       for (const loc of ALL_VOICE_LOCALES) {
         const v = trimmed(row[FACTION_VOICE_FIELDS[loc].profile])

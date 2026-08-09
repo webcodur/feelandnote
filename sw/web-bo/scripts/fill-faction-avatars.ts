@@ -137,7 +137,8 @@ async function main() {
       ContentType: 'image/webp', CacheControl: 'public, max-age=31536000, immutable',
     }))
     const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
-    await supabase.from('profiles').update({ avatar_url: url }).eq('id', tgt.id)
+    const { error: updateError } = await supabase.from('celebs').update({ avatar_url: url }).eq('id', tgt.id)
+    if (updateError) throw new Error(`${tgt.name} 아바타 DB 갱신 실패: ${updateError.message}`)
     console.log(`  ${tgt.name} → 아바타 등록 (얼굴검출: ${face ? 'O' : 'X-상단크롭'})`)
   }
 

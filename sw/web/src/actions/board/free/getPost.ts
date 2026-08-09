@@ -1,7 +1,8 @@
 'use server'
 
 import { createAdminClient } from '@/lib/supabase/admin'
-import { FREE_POST_COLS, FREE_AUTHOR_JOIN } from '@/lib/board/freeBoard'
+import { FREE_POST_COLS } from '@/lib/board/freeBoard'
+import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 import type { FreePost } from '@/types/database'
 import type { Locale } from '@/types/locale'
 
@@ -11,14 +12,15 @@ export async function getFreePost(id: string, locale: Locale): Promise<FreePost 
 
   const { data, error } = await supabase
     .from('free_posts')
-    .select(`${FREE_POST_COLS}, ${FREE_AUTHOR_JOIN}`)
+    .select(FREE_POST_COLS)
     .eq('id', id)
     .eq('is_deleted', false)
     .eq('locale', locale)
     .single()
 
   if (error || !data) return null
-  return data as unknown as FreePost
+  const post = await attachMemberAuthor(supabase, data)
+  return post as unknown as FreePost
 }
 
 // 조회수 +1 (상세 페이지 렌더 시 1회 호출, best-effort)

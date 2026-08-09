@@ -75,7 +75,7 @@ async function main() {
   const assignments = (assignmentRows ?? []) as ManualAssignment[]
   const celebIds = assignments.map(row => row.celeb_id)
   const { data: profiles, error: profileError } = await db
-    .from('profiles').select('id, nickname, slug').in('id', celebIds)
+    .from('celebs').select('id, nickname, slug').in('id', celebIds)
   if (profileError) throw new Error(`프로필 조회 실패: ${profileError.message}`)
   const profileById = new Map((profiles ?? []).map(row => [row.id as string, row]))
   const targets = assignments.filter(row => {

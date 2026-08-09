@@ -180,13 +180,12 @@ def search_profiles(query: str, config: AppConfig) -> list[dict[str, Any]]:
     params = urllib.parse.urlencode(
         {
             "select": "id,nickname,nickname_en,slug,avatar_url",
-            "profile_type": "eq.CELEB",
             "or": f"({','.join(clauses)})",
             "order": "nickname.asc",
             "limit": str(MAX_SEARCH_RESULTS),
         }
     )
-    url = f"{config.supabase_url}/rest/v1/profiles?{params}"
+    url = f"{config.supabase_url}/rest/v1/celebs?{params}"
     rows = request_json(url, config)
     if not isinstance(rows, list):
         raise RuntimeError("프로필 검색 결과 형식이 올바르지 않습니다.")
@@ -199,12 +198,11 @@ def get_profile(profile_id: str, config: AppConfig) -> dict[str, Any]:
     params = urllib.parse.urlencode(
         {
             "select": "id,nickname,nickname_en,slug,avatar_url",
-            "profile_type": "eq.CELEB",
             "id": f"eq.{profile_id}",
             "limit": "1",
         }
     )
-    url = f"{config.supabase_url}/rest/v1/profiles?{params}"
+    url = f"{config.supabase_url}/rest/v1/celebs?{params}"
     rows = request_json(url, config)
     if not isinstance(rows, list) or not rows:
         raise LookupError("해당 인물을 찾지 못했습니다.")

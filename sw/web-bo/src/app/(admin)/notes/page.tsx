@@ -23,7 +23,10 @@ export default async function NotesPage({
     .select(
       `
       *,
-      user:profiles!notes_user_id_fkey (id, nickname, avatar_url),
+      account:user_accounts!notes_accounts_fkey(
+        id,
+        member:member_profiles!member_profiles_id_fkey(id, nickname, avatar_url)
+      ),
       content:content_id (id, title, type, thumbnail_url),
       sections:note_sections (id, title, is_completed)
     `,
@@ -35,16 +38,29 @@ export default async function NotesPage({
     query = query.eq('visibility', visibilityFilter)
   }
 
-  const { data: notes, count } = await query.range(
+  const { data: noteRows, count, error: notesError } = await query.range(
     (page - 1) * perPage,
     page * perPage - 1
   )
+
+  if (notesError) throw new Error(`Failed to load notes: ${notesError.message}`)
+
+  const notes = (noteRows ?? []).map((row) => {
+    const account = Array.isArray(row.account) ? row.account[0] : row.account
+    const member = Array.isArray(account?.member) ? account.member[0] : account?.member
+    return { ...row, user: member ?? null }
+  })
 
   const total = count || 0
   const totalPages = Math.ceil(total / perPage)
 
   // 공개 설정별 통계
-  const { data: visibilityStats } = await supabase.from('notes').select('visibility')
+  const { data: visibilityStats, error: visibilityStatsError } = await supabase
+    .from('notes')
+    .select('visibility')
+  if (visibilityStatsError) {
+    throw new Error(`Failed to load note statistics: ${visibilityStatsError.message}`)
+  }
   const visibilityCountMap = (visibilityStats || []).reduce((acc, item) => {
     acc[item.visibility] = (acc[item.visibility] || 0) + 1
     return acc
@@ -59,7 +75,7 @@ export default async function NotesPage({
 
   return (
     <NotesClient
-      notes={notes || []}
+      notes={notes}
       total={total}
       page={page}
       totalPages={totalPages}

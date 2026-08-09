@@ -1,13 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getUserProfile } from "@/actions/user";
-import { notFound, redirect } from "next/navigation";
-import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
-import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSectionHeader";
+import PageContainer from "@/components/layout/PageContainer";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
+import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSectionHeader";
+import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageBanner from "@/components/shared/PageBanner";
-import PageContainer from "@/components/layout/PageContainer";
-import { getTranslations } from "next-intl/server";
+import { createClient } from "@/lib/supabase/server";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,24 +17,19 @@ interface LayoutProps {
 export default async function UserLayout({ children, params }: LayoutProps) {
   const { userId } = await params;
   const supabase = await createClient();
+  const [profileResult, authResult, tCtx, tHome] = await Promise.all([
+    getUserProfile(userId),
+    supabase.auth.getUser(),
+    getTranslations("contextHeader"),
+    getTranslations("home"),
+  ]);
 
-  const result = await getUserProfile(userId);
-  if (!result.success || !result.data) {
+  if (!profileResult.success || !profileResult.data) {
     notFound();
   }
-  const profile = result.data;
 
-  // 셀럽이면 slug 기반 URL로 redirect
-  if (profile.profile_type === 'CELEB' && profile.slug) {
-    redirect(`/celeb/${profile.slug}`);
-  }
-
-  const { data: { user } } = await supabase.auth.getUser();
-  const isOwner = user?.id === userId;
-  const isCeleb = profile.profile_type === "CELEB";
-
-  const tCtx = await getTranslations("contextHeader");
-  const tHome = await getTranslations("home");
+  const profile = profileResult.data;
+  const isOwner = authResult.data.user?.id === userId;
   const pageTitle = tCtx("recordOf", { title: profile.nickname || "User" });
   const englishTitle = tHome("archive.englishTitle");
 
@@ -62,13 +57,13 @@ export default async function UserLayout({ children, params }: LayoutProps) {
           title: profile.title ?? null,
           title_en: profile.title_en,
           title_ko: profile.title_ko,
-          profileType: profile.profile_type as "USER" | "CELEB",
+          profileType: "USER",
         }}
       />
       <PageContainer>
-        <ArchiveTabs userId={userId} isOwner={isOwner} isCeleb={isCeleb} />
+        <ArchiveTabs userId={userId} isOwner={isOwner} isCeleb={false} />
         <main className="max-w-3xl mx-auto animate-fade-in">
-          <ArchiveSectionHeader userId={userId} isOwner={isOwner} isCeleb={isCeleb} />
+          <ArchiveSectionHeader userId={userId} isOwner={isOwner} isCeleb={false} />
           {children}
         </main>
       </PageContainer>

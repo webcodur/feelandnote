@@ -18,7 +18,7 @@ interface ProfileBrief {
 interface PortraitFigureRow {
   celeb_id: string;
   total_score: number | null;
-  profiles: ProfileBrief | ProfileBrief[] | null;
+  celeb: ProfileBrief | ProfileBrief[] | null;
 }
 
 async function fetchPortraitFigures(locale: string): Promise<PortraitFigure[]> {
@@ -28,16 +28,16 @@ async function fetchPortraitFigures(locale: string): Promise<PortraitFigure[]> {
     .select(`
       celeb_id,
       total_score,
-      profiles!celeb_influence_celeb_id_fkey!inner (
+      celeb:celebs!celeb_influence_celebs_fkey!inner (
         id,
         nickname,
         nickname_en,
         avatar_url
       )
     `)
-    .eq("profiles.status", "active")
-    .in("profiles.celeb_tier", [...LISTING_DEFAULT_TIERS])
-    .not("profiles.avatar_url", "is", null)
+    .eq("celeb.publication_status", "active")
+    .in("celeb.celeb_tier", [...LISTING_DEFAULT_TIERS])
+    .not("celeb.avatar_url", "is", null)
     .order("total_score", { ascending: false })
     .order("celeb_id", { ascending: true })
     .limit(60)
@@ -48,7 +48,7 @@ async function fetchPortraitFigures(locale: string): Promise<PortraitFigure[]> {
   }
 
   return (data ?? []).flatMap((row) => {
-    const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+    const profile = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb;
     if (!profile?.avatar_url || !profile.nickname) return [];
 
     return [{

@@ -74,10 +74,9 @@ async function fetchTargets(): Promise<Person[]> {
     ? readFileSync(slugsFile, 'utf-8').split('\n').map((s) => s.trim()).filter(Boolean)
     : arg('slugs')?.split(',').map((s) => s.trim()).filter(Boolean)
   let q = db
-    .from('profiles')
+    .from('celebs')
     .select('slug, nickname, avatar_url')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
 
   if (slugs?.length) q = q.in('slug', slugs)

@@ -760,6 +760,7 @@
   "popularBooks": {
     "title": "Most Read Books",
     "buyOnCoupang": "View on Coupang",
+    "viewBookDetails": "Book details",
     "headingRead": "Books this figure read",
     "headingProfession": "Books read by peers in the same field",
     "headingOrigin": "Source works featuring this figure",

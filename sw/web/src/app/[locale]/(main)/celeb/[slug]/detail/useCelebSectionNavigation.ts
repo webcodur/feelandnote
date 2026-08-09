@@ -8,6 +8,24 @@ import type { ServiceTarget } from "../celebServiceItems";
 
 const NAVIGATION_RELEASE_MS = 1200;
 
+export function navigateToCelebSection(target: ServiceTarget) {
+  trackEvent("celeb_guide_click", { section: target.sectionId });
+  window.history.replaceState(null, "", `#${target.sectionId}`);
+  window.requestAnimationFrame(() => {
+    const section = document.getElementById(target.sectionId);
+    if (!section) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    section.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+    section.focus({ preventScroll: true });
+  });
+}
+
 export function useCelebSectionNavigation(sectionIds: string[]) {
   const sectionKey = sectionIds.join("|");
   const [activeSectionId, setActiveSectionId] = useState("introduction");
@@ -75,7 +93,6 @@ export function useCelebSectionNavigation(sectionIds: string[]) {
   );
 
   const navigate = useCallback((target: ServiceTarget) => {
-    trackEvent("celeb_guide_click", { section: target.sectionId });
     navTargetRef.current = target.sectionId;
 
     window.clearTimeout(navReleaseRef.current);
@@ -84,20 +101,7 @@ export function useCelebSectionNavigation(sectionIds: string[]) {
     }, NAVIGATION_RELEASE_MS);
 
     setActiveSectionId(target.sectionId);
-    window.history.replaceState(null, "", `#${target.sectionId}`);
-    window.requestAnimationFrame(() => {
-      const section = document.getElementById(target.sectionId);
-      if (!section) return;
-
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-      section.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
-      section.focus({ preventScroll: true });
-    });
+    navigateToCelebSection(target);
   }, []);
 
   return { activeSectionId, navigate };

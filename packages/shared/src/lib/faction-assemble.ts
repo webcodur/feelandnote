@@ -188,7 +188,7 @@ export type DurationLookup = (
 ) => { quoteDuration?: number | null; epithetDuration?: number | null } | undefined
 
 export interface BuildRowsOptions {
-  /** 레거시 파일을 처음 가져올 때만 쓰는 slug → profiles.id 해소표 */
+  /** 레거시 파일을 처음 가져올 때만 쓰는 slug → celebs.id 해소표 */
   slugMap?: Map<string, string>
   /** tagSlug → celeb_tags.id. tagSlug 원문은 data 에 남는다 */
   tagMap?: Map<string, string>

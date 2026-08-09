@@ -67,7 +67,7 @@ type AuditRow = {
   slug: string
   nickname: string
   tier: string
-  status: string
+  publicationStatus: string
   gaps: string[]
 }
 
@@ -79,21 +79,20 @@ async function allProfiles(): Promise<Row[]> {
   const out: Row[] = []
   for (let from = 0; ; from += PAGE) {
     let query = db
-      .from('profiles')
+      .from('celebs')
       .select([
         'id', 'slug', 'nickname', 'nickname_en', 'title', 'title_en', 'bio', 'bio_en',
-        'profession', 'nationality', 'birth_date', 'status', 'celeb_tier', 'speech_tone',
+        'profession', 'nationality', 'birth_date', 'publication_status', 'celeb_tier', 'speech_tone',
         'avatar_url', 'content_research_status',
       ].join(','))
-      .eq('profile_type', 'CELEB')
       .order('id')
       .range(from, from + PAGE - 1)
 
-    if (STATUS !== 'all') query = query.eq('status', STATUS)
+    if (STATUS !== 'all') query = query.eq('publication_status', STATUS)
     if (SLUGS.size > 0) query = query.in('slug', [...SLUGS])
 
     const { data, error } = await query
-    if (error) throw new Error(`profiles 조회 실패: ${error.message}`)
+    if (error) throw new Error(`celebs 조회 실패: ${error.message}`)
     const rows = data ?? []
     out.push(...rows)
     if (rows.length < PAGE) break
@@ -242,16 +241,16 @@ async function revalidateCaches() {
 async function main() {
   const profiles = await allProfiles()
   const ids = profiles.map((profile) => profile.id)
-  const [influences, personas, dialogues, userContents, fictionSources] = await Promise.all([
+  const [influences, personas, dialogues, celebContents, fictionSources] = await Promise.all([
     byIds('celeb_influence', '*', ids),
     byIds('celeb_persona', 'celeb_id,persona', ids),
     byIds('celeb_dialogues', 'celeb_id,lines,lines_en', ids),
-    byIds('user_contents', 'user_id,content_id,status,review,review_en,source_url', ids, 'user_id'),
+    byIds('celeb_contents', 'celeb_id,content_id,status,review,review_en,source_url', ids, 'celeb_id'),
     byIds('fiction_source_characters', 'celeb_id,content_id,relation_type', ids),
   ])
 
   const contentIds = [...new Set([
-    ...userContents.map((row) => row.content_id),
+    ...celebContents.map((row) => row.content_id),
     ...fictionSources.map((row) => row.content_id),
   ])]
   const [contents, locales] = await Promise.all([
@@ -267,7 +266,7 @@ async function main() {
   const audited: AuditRow[] = profiles.map((profile) => {
     const tier = profile.celeb_tier ?? 'full'
     const gaps: string[] = []
-    const linked = userContents.filter((row) => row.user_id === profile.id)
+    const linked = celebContents.filter((row) => row.celeb_id === profile.id)
     const sources = fictionSources.filter((row) => row.celeb_id === profile.id)
 
     addProfileGaps(profile, gaps)
@@ -314,19 +313,19 @@ async function main() {
       slug: profile.slug ?? '',
       nickname: profile.nickname ?? '',
       tier,
-      status: profile.status,
+      publicationStatus: profile.publication_status,
       gaps: [...new Set(gaps)],
     }
   })
 
   if (!SKIP_LINK_CHECK) {
     const dbReadyIds = new Set(audited.filter((row) => row.gaps.length === 0 && row.tier === 'full').map((row) => row.id))
-    const linkItems = userContents.filter((row) => dbReadyIds.has(row.user_id) && !blank(row.source_url))
+    const linkItems = celebContents.filter((row) => dbReadyIds.has(row.celeb_id) && !blank(row.source_url))
     const linkStates = await checkUrls(linkItems.map((row) => row.source_url))
     for (const item of linkItems) {
       const state = linkStates.get(item.source_url)
       if (!state?.ok) {
-        const target = audited.find((row) => row.id === item.user_id)
+        const target = audited.find((row) => row.id === item.celeb_id)
         target?.gaps.push(`content:${item.content_id}.source_http(${state?.status ?? 0})`)
       }
     }
@@ -344,12 +343,11 @@ async function main() {
   let cache = null
   if (APPLY && ready.length > 0) {
     const { data, error } = await db
-      .from('profiles')
-      .update({ status: 'active' })
+      .from('celebs')
+      .update({ publication_status: 'active' })
       .in('id', ready.map((row) => row.id))
-      .eq('profile_type', 'CELEB')
-      .eq('status', 'inactive')
-      .select('id,slug,nickname,status')
+      .eq('publication_status', 'inactive')
+      .select('id,slug,nickname,publication_status')
     if (error) throw new Error(`활성화 실패: ${error.message}`)
     activated = data ?? []
     if (activated.length !== ready.length) {
@@ -371,7 +369,7 @@ async function main() {
       slug: row.slug,
       nickname: row.nickname,
       tier: row.tier,
-      status: row.status,
+      publicationStatus: row.publicationStatus,
       gaps: row.gaps,
     })),
     gapCounts: Object.fromEntries([...gapCounts].sort((a, b) => b[1] - a[1])),

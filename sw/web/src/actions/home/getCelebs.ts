@@ -94,7 +94,7 @@ interface CelebRow {
   bio: string | null
   bio_en: string | null
   is_verified: boolean | null
-  claimed_by: string | null
+  claimed_by_member_id: string | null
   follower_count: number
   total_score: number
   content_count: number
@@ -227,12 +227,12 @@ async function fetchCelebsPublic(
     supabase.from('celeb_dialogues')
       .select(DIALOGUE_BRIEF_SELECT_WITH_ID)
       .in('celeb_id', celebIds),
-    supabase.from('profiles')
+    supabase.from('celebs')
       .select('id, voice_v, voice_speed')
       .in('id', celebIds)
       .eq('has_voice', true),
-    supabase.from('profiles')
-      .select('id, status, content_research_status')
+    supabase.from('celebs')
+      .select('id, content_research_status')
       .in('id', celebIds),
     getInfluenceRanking(),
   ])
@@ -264,7 +264,7 @@ async function fetchCelebsPublic(
 
   // 음성 맵
   const voiceMap: Record<string, { voice_v: number; voice_speed: number }> = {}
-  ;((voiceResult.data ?? []) as Pick<Tables<'profiles'>, 'id' | 'voice_v' | 'voice_speed'>[]).forEach(row => {
+  ;((voiceResult.data ?? []) as Pick<Tables<'celebs'>, 'id' | 'voice_v' | 'voice_speed'>[]).forEach(row => {
     voiceMap[row.id] = { voice_v: row.voice_v ?? 0, voice_speed: row.voice_speed ?? 1.0 }
   })
 
@@ -288,8 +288,8 @@ async function fetchCelebsPublic(
 const getCelebsCached = unstable_cache(
   fetchCelebsPublic,
   ['celebs-public'],
-  // profiles·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
-  // 서고 수 필터·정렬(user_contents)까지 한 응답에 담는다
+  // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
+  // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
@@ -316,19 +316,18 @@ export async function getCelebs(
   // 2. 유저별 팔로우 상태 (동적 — 캐싱 불가)
   const celebIds = pub.rows.map(row => row.id)
   let myFollowings = new Set<string>()
-  let myFollowers = new Set<string>()
 
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
     if (user && celebIds.length > 0) {
-      const [followingResult, followerResult] = await Promise.all([
-        supabase.from('follows').select('following_id').eq('follower_id', user.id).in('following_id', celebIds),
-        supabase.from('follows').select('follower_id').eq('following_id', user.id).in('follower_id', celebIds),
-      ])
-      myFollowings = new Set((followingResult.data || []).map(f => f.following_id))
-      myFollowers = new Set((followerResult.data || []).map(f => f.follower_id))
+      const followingResult = await supabase
+        .from('member_celeb_follows')
+        .select('celeb_id')
+        .eq('member_id', user.id)
+        .in('celeb_id', celebIds)
+      myFollowings = new Set((followingResult.data || []).map(f => f.celeb_id))
     }
   } catch {
     // 캐시 컨텍스트에서 cookies 접근 실패 시 무시
@@ -359,14 +358,15 @@ export async function getCelebs(
       quotes: pub.quoteMap[row.id] ?? null,
       quotes_en: pub.quoteEnMap[row.id] ?? null,
       is_verified: row.is_verified ?? false,
-      is_platform_managed: row.claimed_by === null,
+      is_platform_managed: row.claimed_by_member_id === null,
       follower_count: row.follower_count,
       content_count: resolveCelebContentCount(
         row.content_count,
       pub.contentResearchStatusMap[row.id]
       ),
       is_following: myFollowings.has(row.id),
-      is_follower: myFollowers.has(row.id),
+      // 셀럽→회원 역방향 팔로우는 새 관계 모델에 없다.
+      is_follower: false,
       influence: row.total_score > 0 ? {
         total_score: row.total_score,
         level: ranking

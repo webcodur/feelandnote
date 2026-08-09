@@ -4,7 +4,7 @@
  * docs/celeb-data/dialogue/**\/*.json 파일을 읽어
  * celeb_dialogues 테이블에 UPSERT한다.
  *
- * - JSON의 celeb_id가 비어있으면 nickname으로 profiles에서 UUID를 조회
+ * - JSON의 celeb_id가 비어있으면 nickname으로 celebs에서 UUID를 조회
  * - lines 필드만 DB에 반영 (lines_en은 i18n 별도 처리)
  *
  * 사용법: node scripts/dialogue-bulk-update.mjs [--dry-run]
@@ -60,7 +60,7 @@ function collectJsonFiles() {
 // ── nickname → UUID 매핑 조회 ──
 
 async function fetchNicknameMap() {
-  const result = await runSql(`SELECT id, nickname FROM profiles WHERE profile_type = 'CELEB'`);
+  const result = await runSql(`SELECT id, nickname FROM celebs`);
   const map = new Map();
   for (const row of result) {
     // nickname에서 공백을 _로 치환한 버전도 매핑
@@ -86,7 +86,7 @@ function buildUpsertSql(batch) {
   //     시점 복구 한도(28일)를 넘겨 복구가 불가능했다. 같은 사고를 되풀이하지 않는다.
   //
   // 병합이면 원고에 있는 7키는 갱신되고, 원고에 없는 quote는 기존 값이 남는다.
-  // 명언 정본은 celeb_dialogues.lines.quote / lines_en.quote 두 곳뿐이다(profiles.quotes는 부재).
+  // 명언 정본은 celeb_dialogues.lines.quote / lines_en.quote 두 곳뿐이다.
   return `INSERT INTO celeb_dialogues (celeb_id, lines)
 VALUES
   ${values}

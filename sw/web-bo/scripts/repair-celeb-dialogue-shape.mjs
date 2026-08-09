@@ -37,26 +37,25 @@ async function expect(query, label) {
   return data ?? [];
 }
 
-const profiles = [];
+const celebs = [];
 for (let from = 0; ; from += 500) {
   const page = await expect(
     db
-      .from("profiles")
+      .from("celebs")
       .select("id,slug")
-      .eq("profile_type", "CELEB")
-      .eq("status", "active")
+      .eq("publication_status", "active")
       .order("id")
       .range(from, from + 499),
-    "active profiles",
+    "active celebs",
   );
-  profiles.push(...page);
+  celebs.push(...page);
   if (page.length < 500) break;
 }
 
-const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
+const celebById = new Map(celebs.map((celeb) => [celeb.id, celeb]));
 const rows = [];
-for (let index = 0; index < profiles.length; index += 100) {
-  const ids = profiles.slice(index, index + 100).map((profile) => profile.id);
+for (let index = 0; index < celebs.length; index += 100) {
+  const ids = celebs.slice(index, index + 100).map((celeb) => celeb.id);
   rows.push(...await expect(
     db.from("celeb_dialogues").select("celeb_id,lines,lines_en").in("celeb_id", ids),
     "celeb_dialogues",
@@ -75,7 +74,7 @@ for (const row of rows) {
   for (const key of extraEnKeys) delete next[key];
   repairs.push({
     celebId: row.celeb_id,
-    slug: profileById.get(row.celeb_id)?.slug ?? "(unknown)",
+    slug: celebById.get(row.celeb_id)?.slug ?? "(unknown)",
     extraEnKeys,
     before: row.lines_en,
     after: next,

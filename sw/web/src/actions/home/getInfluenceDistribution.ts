@@ -40,7 +40,7 @@ export interface InfluenceDistribution {
 interface InfluenceJoinRow {
   celeb_id: string
   total_score: number | null
-  profiles: {
+  celeb: {
     id: string
     slug: string | null
     nickname: string
@@ -62,7 +62,7 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
       .select(`
         celeb_id,
         total_score,
-        profiles!celeb_influence_celeb_id_fkey!inner (
+        celeb:celebs!celeb_influence_celebs_fkey!inner (
           id,
           slug,
           nickname,
@@ -70,8 +70,8 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
           profession
         )
       `)
-      .eq('profiles.status', 'active')
-      .in('profiles.celeb_tier', [...LISTING_DEFAULT_TIERS])
+      .eq('celeb.publication_status', 'active')
+      .in('celeb.celeb_tier', [...LISTING_DEFAULT_TIERS])
       .order('total_score', { ascending: false })
       .order('celeb_id', { ascending: true })
       .range(from, to)
@@ -92,8 +92,8 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
 
   // 활성 필터는 쿼리에서 완료 — 조인 누락 행만 방어
   const activeCelebs = data.filter(
-    (row): row is InfluenceJoinRow & { profiles: NonNullable<InfluenceJoinRow['profiles']> } =>
-      !!row.profiles
+    (row): row is InfluenceJoinRow & { celeb: NonNullable<InfluenceJoinRow['celeb']> } =>
+      !!row.celeb
   )
 
   const total = activeCelebs.length
@@ -105,7 +105,7 @@ async function fetchInfluenceDistribution(): Promise<InfluenceDistribution> {
   }
 
   activeCelebs.forEach((row, index) => {
-    const profile = row.profiles
+    const profile = row.celeb
 
     // 순위 기반 percentile (참고용)
     const ranking = index + 1

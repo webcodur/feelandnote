@@ -22,7 +22,7 @@ export interface Content {
   external_source: string | null
   metadata: Record<string, unknown>
   created_at: string
-  user_count: number
+  record_count: number
 }
 
 export interface ContentEdition {
@@ -56,6 +56,10 @@ export interface ContentDetail extends Content {
   }[]
 }
 
+function firstRelation<T>(value: T | T[] | null | undefined): T | null {
+  return Array.isArray(value) ? value[0] ?? null : value ?? null
+}
+
 export async function getContent(contentId: string): Promise<ContentDetail | null> {
   const supabase = await createClient()
 
@@ -63,67 +67,91 @@ export async function getContent(contentId: string): Promise<ContentDetail | nul
     .from('contents')
     .select('*')
     .eq('id', contentId)
-    .single()
+    .maybeSingle()
 
-  if (error || !content) return null
+  if (error) throw new Error(`Failed to load content: ${error.message}`)
+  if (!content) return null
 
-  // 에디션 정보
-  const { data: editions } = await supabase
-    .from('content_locales')
-    .select('locale, title, creator, isbn, thumbnail_url, publisher, description, affiliate_url, verified, sources')
-    .eq('content_id', contentId)
-    .order('locale')
+  const [editionsResult, memberContentsResult, celebContentsResult, recordsResult] = await Promise.all([
+    supabase
+      .from('content_locales')
+      .select('locale, title, creator, isbn, thumbnail_url, publisher, description, affiliate_url, verified, sources')
+      .eq('content_id', contentId)
+      .order('locale'),
+    supabase
+      .from('member_contents')
+      .select(`
+        status,
+        created_at,
+        account:user_accounts!member_contents_member_id_fkey (
+          id,
+          profile:member_profiles!member_profiles_id_fkey (nickname, avatar_url)
+        )
+      `)
+      .eq('content_id', contentId)
+      .order('created_at', { ascending: false })
+      .limit(10),
+    supabase
+      .from('celeb_contents')
+      .select(`
+        status,
+        created_at,
+        celeb:celebs!celeb_contents_celeb_id_fkey (id, nickname, avatar_url)
+      `)
+      .eq('content_id', contentId)
+      .order('created_at', { ascending: false })
+      .limit(10),
+    supabase
+      .from('records')
+      .select(`
+        id,
+        type,
+        content,
+        created_at,
+        account:user_accounts!records_user_accounts_fkey (
+          profile:member_profiles!member_profiles_id_fkey (nickname)
+        )
+      `)
+      .eq('content_id', contentId)
+      .order('created_at', { ascending: false })
+      .limit(10),
+  ])
 
-  // 이 콘텐츠를 등록한 사용자들
-  const { data: userContents } = await supabase
-    .from('user_contents')
-    .select(`
-      status,
-      created_at,
-      profiles:user_id (id, nickname, avatar_url)
-    `)
-    .eq('content_id', contentId)
-    .order('created_at', { ascending: false })
-    .limit(10)
+  for (const result of [editionsResult, memberContentsResult, celebContentsResult, recordsResult]) {
+    if (result.error) throw result.error
+  }
 
-  // 이 콘텐츠의 기록들
-  const { data: records } = await supabase
-    .from('records')
-    .select(`
-      id,
-      type,
-      content,
-      created_at,
-      profiles:profiles!records_user_id_fkey (nickname)
-    `)
-    .eq('content_id', contentId)
-    .order('created_at', { ascending: false })
-    .limit(10)
-
-  // 총 사용자 수
-  const { count: userCount } = await supabase
-    .from('user_contents')
-    .select('*', { count: 'exact', head: true })
-    .eq('content_id', contentId)
+  const memberUsers = (memberContentsResult.data || []).map((entry) => {
+    const account = firstRelation(entry.account)
+    const profile = firstRelation(account?.profile)
+    return {
+      id: account?.id ?? '',
+      nickname: profile?.nickname ?? null,
+      avatar_url: profile?.avatar_url ?? null,
+      status: entry.status,
+      created_at: entry.created_at,
+    }
+  })
+  const celebUsers = (celebContentsResult.data || []).map((entry) => {
+    const celeb = firstRelation(entry.celeb)
+    return {
+      id: celeb?.id ?? '',
+      nickname: celeb?.nickname ?? null,
+      avatar_url: celeb?.avatar_url ?? null,
+      status: entry.status,
+      created_at: entry.created_at,
+    }
+  })
 
   return {
     ...content,
-    user_count: userCount || 0,
-    editions: (editions || []) as ContentEdition[],
-    users: (userContents || []).map(uc => {
-      const profiles = uc.profiles as { id: string; nickname: string | null; avatar_url: string | null }[] | { id: string; nickname: string | null; avatar_url: string | null } | null
-      const profile = Array.isArray(profiles) ? profiles[0] : profiles
-      return {
-        id: profile?.id ?? '',
-        nickname: profile?.nickname ?? null,
-        avatar_url: profile?.avatar_url ?? null,
-        status: uc.status,
-        created_at: uc.created_at,
-      }
-    }),
-    records: (records || []).map(r => {
-      const profiles = r.profiles as { nickname: string | null }[] | { nickname: string | null } | null
-      const profile = Array.isArray(profiles) ? profiles[0] : profiles
+    editions: (editionsResult.data || []) as ContentEdition[],
+    users: [...memberUsers, ...celebUsers]
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, 10),
+    records: (recordsResult.data || []).map(r => {
+      const account = firstRelation(r.account)
+      const profile = firstRelation(account?.profile)
       return {
         id: r.id,
         type: r.type,
@@ -272,12 +300,14 @@ export async function upsertAffiliatePlatform(
   const supabase = await createClient()
 
   // 현재 값 조회 (content_locales에서 읽기)
-  const { data } = await supabase
+  const { data, error: localeError } = await supabase
     .from('content_locales')
     .select('affiliate_url')
     .eq('content_id', contentId)
     .eq('locale', locale)
     .single()
+
+  if (localeError) throw localeError
 
   const current: AffiliateLink[] = (data?.affiliate_url as AffiliateLink[]) || []
 
@@ -310,8 +340,7 @@ export async function deleteContent(contentId: string): Promise<void> {
   await requireAdmin()
   const admin = createAdminClient()
 
-  // 대표 원전은 먼저 지정을 해제해야 한다. 이 검사를 user_contents/records 삭제보다 늦게 하면
-  // 마지막 contents DELETE가 FK에서 막힌 뒤 앞의 기록만 사라지는 부분 삭제가 된다.
+  // 대표 원전은 먼저 지정을 해제해야 한다. 콘텐츠 삭제가 FK에서 막히기 전에 안내한다.
   const { data: fictionSource, error: fictionSourceError } = await admin
     .from('fiction_source_contents')
     .select('content_id')
@@ -322,10 +351,6 @@ export async function deleteContent(contentId: string): Promise<void> {
     throw new Error('픽션 대표 원전으로 지정된 콘텐츠입니다. 픽션 원전 관리에서 지정을 먼저 해제하세요.')
   }
 
-  // 관련 데이터 삭제 (RLS 우회 필요)
-  await admin.from('user_contents').delete().eq('content_id', contentId)
-  await admin.from('records').delete().eq('content_id', contentId)
-
   const { error } = await admin
     .from('contents')
     .delete()
@@ -334,7 +359,7 @@ export async function deleteContent(contentId: string): Promise<void> {
   if (error) throw error
 
   revalidatePath('/contents')
-  // contents + user_contents + records 연쇄 삭제 — 셀럽 서고에서도 사라져야 한다
+  // contents + member_contents + celeb_contents + records 연쇄 삭제
   // 삭제는 목록 구성까지 바꾸므로 도메인도 함께 비운다
   await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId, [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS])
 }

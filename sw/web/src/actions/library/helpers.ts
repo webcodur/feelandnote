@@ -1,7 +1,7 @@
 import { CategoryId } from '@/constants/categories'
 import { CL_SELECT_LIST, flattenLocales } from '@/lib/utils/content-locale'
 import { throwOnQueryError } from '@/lib/cache'
-import type { LibraryContent, StaticSupabase, UserContentJoinRow } from './types'
+import type { CelebContentJoinRow, LibraryContent, StaticSupabase } from './types'
 
 // #region 헬퍼 함수 - 콘텐츠 집계 (페이지네이션 지원)
 export function aggregateContents(
@@ -87,7 +87,7 @@ function chunkArray<T>(array: T[], size: number): T[][] {
 // #endregion
 
 // #region 헬퍼 함수 - 페이지네이션으로 모든 데이터 조회
-export async function fetchAllUserContents(
+export async function fetchAllCelebContents(
   supabase: StaticSupabase,
   celebIds: string[],
   // 요청 로케일은 unstable_cache 바깥에서 읽어 인자로 전달한다.
@@ -97,7 +97,7 @@ export async function fetchAllUserContents(
   const PAGE_SIZE = 1000
   const BATCH_SIZE = 50
   const allData: Array<{
-    user_id: string
+    celeb_id: string
     content_id: string
     rating: number | null
     contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null }
@@ -113,14 +113,14 @@ export async function fetchAllUserContents(
 
     while (hasMore) {
       let query = supabase
-        .from('user_contents')
+        .from('celeb_contents')
         .select(`
-          user_id,
+          celeb_id,
           content_id,
           rating,
           contents!inner(id, type, content_locales(${CL_SELECT_LIST}))
         `)
-        .in('user_id', batchIds)
+        .in('celeb_id', batchIds)
         .eq('status', 'FINISHED')
         .range(from, from + PAGE_SIZE - 1)
 
@@ -131,14 +131,14 @@ export async function fetchAllUserContents(
       const { data, error } = await query
 
       // break 하면 목록이 조용히 잘린 채 캐시된다 — 통째로 사라지는 것보다 알아채기 어렵다.
-      throwOnQueryError('fetchAllUserContents', error)
+      throwOnQueryError('fetchAllCelebContents', error)
 
-      const rows: UserContentJoinRow[] = data || []
+      const rows: CelebContentJoinRow[] = data || []
       const typedData = rows.map(item => {
         const raw = Array.isArray(item.contents) ? item.contents[0] : item.contents
         const flat = flattenLocales(raw?.content_locales, locale)
         return {
-          user_id: item.user_id,
+          celeb_id: item.celeb_id,
           content_id: item.content_id,
           rating: item.rating,
           contents: {

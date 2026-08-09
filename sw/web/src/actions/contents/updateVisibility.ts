@@ -18,10 +18,10 @@ export async function updateVisibility({ userContentId, visibility }: UpdateVisi
   }
 
   const { data, error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .update({ visibility })
     .eq('id', userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
     .select('content_id')
     .single()
 

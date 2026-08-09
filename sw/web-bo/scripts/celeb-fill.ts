@@ -12,7 +12,7 @@
  * [
  *   {
  *     "slug": "yuan-shao",
- *     "profiles": { "title": "...", "bio": "...", "title_en": "...", "bio_en": "...",
+ *     "celeb": { "title": "...", "bio": "...", "title_en": "...", "bio_en": "...",
  *                   "profession": "commander", "nationality": "CN", "birth_date": "-154",
  *                   "death_date": "202", "speech_tone": "bold",
  *                   "consumption_philosophy": "...", "consumption_philosophy_en": "..." },
@@ -27,7 +27,7 @@
  *
  * 안전 규칙
  *  - 기존값이 있는 필드·슬롯은 절대 덮어쓰지 않는다(도구가 걸러낸다).
- *  - `profiles`는 `profile_type='CELEB'` 행만 대상. 신규 인물 생성 경로는 없다.
+ *  - `celebs`의 기존 인물만 대상이며 신규 인물 생성 경로는 없다.
  *  - `celeb_influence`·`celeb_persona`·`celeb_dialogues` 행이 없으면 생성한다.
  *  - `celeb_persona`는 `persona` jsonb만 쓴다(평면 점수 컬럼은 DB 트리거가 동기화).
  *  - 반영 후 DB를 다시 읽어 왕복 검증한다. 불일치는 FAILED.
@@ -53,7 +53,7 @@ const PROFILE_FIELDS = [
   'cultural_journey', 'cultural_journey_en',
 ] as const
 
-/** profiles 의 boolean 전용 필드 (json → boolean 변환 필요) */
+/** celebs의 boolean 전용 필드 (json → boolean 변환 필요) */
 const BOOL_PROFILE_FIELDS = ['gender'] as const
 
 const AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity'] as const
@@ -102,8 +102,8 @@ type Ctx = {
 
 async function loadCtx(slug: string): Promise<Ctx> {
   const { data: profile, error } = await db
-    .from('profiles').select('*').eq('slug', slug).eq('profile_type', 'CELEB').maybeSingle()
-  if (error) throw new Error(`${slug} profiles 조회 실패: ${error.message}`)
+    .from('celebs').select('*').eq('slug', slug).maybeSingle()
+  if (error) throw new Error(`${slug} celebs 조회 실패: ${error.message}`)
   if (!profile) throw new Error(`${slug} — CELEB 프로필 없음`)
   const [inf, per, dia] = await Promise.all([
     db.from('celeb_influence').select('*').eq('celeb_id', profile.id).maybeSingle(),
@@ -124,8 +124,8 @@ async function dump() {
     const linesEn = (c.dialogue?.lines_en ?? {}) as Record<string, any>
     out.push({
       slug,
-      nickname: p.nickname, nickname_en: p.nickname_en, tier: p.celeb_tier, status: p.status,
-      profiles: Object.fromEntries(PROFILE_FIELDS.map((f) => [f, p[f] ?? null])),
+      nickname: p.nickname, nickname_en: p.nickname_en, tier: p.celeb_tier, publicationStatus: p.publication_status,
+      celeb: Object.fromEntries(PROFILE_FIELDS.map((f) => [f, p[f] ?? null])),
       profileBlanks: PROFILE_FIELDS.filter((f) => blank(p[f])),
       influence: c.influence
         ? Object.fromEntries(AXES.flatMap((a) => [
@@ -148,7 +148,7 @@ async function dump() {
 
 type Patch = {
   slug: string
-  profiles?: Record<string, string | boolean | null>
+  celeb?: Record<string, string | boolean | null>
   influence?: Record<string, string | number>
   persona?: Record<string, Record<string, { score: number; reason_ko: string; reason_en: string }> | string>
   dialogues?: { lines?: Record<string, any>; lines_en?: Record<string, any> }
@@ -175,7 +175,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
   const log: string[] = []
 
   /**
-   * 작성자가 영향력·페르소나 필드를 `profiles` 아래에 잘못 넣는 일이 잦다.
+   * 작성자가 영향력·페르소나 필드를 `celeb` 아래에 잘못 넣는 일이 잦다.
    * 필드 이름이 서로 겹치지 않으므로 제 위치로 옮겨준다(작업물 유실 방지).
    */
   const isInfluenceKey = (k: string) =>
@@ -184,7 +184,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
 
   const reroute = (patch: Patch): string[] => {
     const moved: string[] = []
-    const prof = patch.profiles as Record<string, any> | undefined
+    const prof = patch.celeb as Record<string, any> | undefined
     if (!prof) return moved
     for (const k of Object.keys(prof)) {
       if ((PROFILE_FIELDS as readonly string[]).includes(k)) continue
@@ -205,14 +205,14 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       const preserved: string[] = []
       if (moved.length) preserved.push(`※ influence 로 이동: ${moved.join(',')}`)
 
-      // ── profiles: 빈칸만
+      // ── celebs: 빈칸만
       const profPayload: Record<string, string | boolean> = {}
-      for (const [k, v] of Object.entries(patch.profiles ?? {})) {
-        if (!(PROFILE_FIELDS as readonly string[]).includes(k)) throw new Error(`허용되지 않은 profiles 필드 ${k}`)
+      for (const [k, v] of Object.entries(patch.celeb ?? {})) {
+        if (!(PROFILE_FIELDS as readonly string[]).includes(k)) throw new Error(`허용되지 않은 celebs 필드 ${k}`)
         const isBool = (BOOL_PROFILE_FIELDS as readonly string[]).includes(k)
         if (!isBool && blank(v)) { preserved.push(`${k}(신규값 공란)`); continue }
         if (isBool) {
-          if (v !== true && v !== false) throw new Error(`profiles.${k} 는 true/false 여야 한다: ${v}`)
+          if (v !== true && v !== false) throw new Error(`celebs.${k} 는 true/false 여야 한다: ${v}`)
           if (!nil(c.profile[k])) { preserved.push(`${k}(기존값 보존)`); continue }
           profPayload[k] = v
           continue
@@ -325,7 +325,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       mergeLines(nextLines, curLines, patch.dialogues?.lines ?? {}, 'ko')
       mergeLines(nextLinesEn, curLinesEn, patch.dialogues?.lines_en ?? {}, 'en')
 
-      if (Object.keys(profPayload).length) changes.push(`profiles(${Object.keys(profPayload).join(',')})`)
+      if (Object.keys(profPayload).length) changes.push(`celebs(${Object.keys(profPayload).join(',')})`)
       if (Object.keys(infPayload).length) changes.push(`influence(${Object.keys(infPayload).join(',')})`)
       if (personaTouched) changes.push('persona')
       if (diaTouched) changes.push('dialogues')
@@ -344,9 +344,9 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
 
       // ── 쓰기
       if (Object.keys(profPayload).length) {
-        const { error } = await db.from('profiles').update(profPayload)
-          .eq('id', c.profile.id).eq('profile_type', 'CELEB')
-        if (error) throw new Error(`profiles UPDATE: ${error.message}`)
+        const { error } = await db.from('celebs').update(profPayload)
+          .eq('id', c.profile.id)
+        if (error) throw new Error(`celebs UPDATE: ${error.message}`)
       }
       if (Object.keys(infPayload).length) {
         if (c.influence) {
@@ -385,9 +385,9 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       for (const [k, v] of Object.entries(profPayload)) {
         const got = after.profile[k]
         if (typeof v === 'boolean') {
-          if (got !== v) bad.push(`profiles.${k}`)
+          if (got !== v) bad.push(`celebs.${k}`)
         } else if (String(got ?? '') !== String(v)) {
-          bad.push(`profiles.${k}`)
+          bad.push(`celebs.${k}`)
         }
       }
       for (const [k, v] of Object.entries(infPayload)) {

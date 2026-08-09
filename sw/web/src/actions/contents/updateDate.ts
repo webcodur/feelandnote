@@ -18,10 +18,10 @@ export async function updateDate({ userContentId, field, date }: UpdateDateParam
   }
 
   const { error } = await supabase
-    .from('user_contents')
+    .from('member_contents')
     .update({ [field]: date })
     .eq('id', userContentId)
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
 
   if (error) {
     console.error('날짜 변경 에러:', error)

@@ -1,6 +1,8 @@
 # Web BO
 
-> **최종 실측 체크: 26.07.30** — 부분 대조: 신고 처리 화면·액션만 실측했고 문서 전체는 미대조. 그 앞 대조는 26.07.29(서재 탐방 제작·리소스 통합과 remotion-bo 폐기)
+> **최종 실측 체크: 26.08.10** — 회원·셀럽 물리 도메인 전환, 현역 화면·서버 액션·
+> 비타임라인 운영 스크립트와 프로덕션 빌드를 대조했다. 새 코드 배포 전이라 운영 DB의
+> 레거시 호환 테이블은 아직 제거하지 않았다.
 
 서비스 운영과 영상 제작 관리를 함께 담당하는 관리자 백오피스다. 실제 서비스 데이터는
 Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
@@ -24,7 +26,7 @@ pnpm dev:bo
 
 ## 접근 권한
 
-`(admin)` 그룹의 모든 화면은 레이아웃에서 두 단계로 막는다. 로그인하지 않았으면 `/login`으로 보내고, 로그인했더라도 `profiles.role`이 `admin` 또는 `super_admin`이 아니면 역시 `/login`으로 보낸다. 개별 화면은 권한을 다시 검사하지 않는다.
+`(admin)` 그룹의 모든 화면은 레이아웃에서 두 단계로 막는다. 로그인하지 않았으면 `/login`으로 보내고, 로그인했더라도 `user_accounts.role`이 `admin` 또는 `super_admin`이 아니면 역시 `/login`으로 보낸다. DB의 관리자 판정은 `is_admin()`을 쓴다. 개별 화면은 권한을 다시 검사하지 않는다.
 
 `/login`은 Supabase 이메일·비밀번호 인증을 사용하며 성공 시 `?redirect` 값 또는 `/users`로 이동한다.
 
@@ -44,7 +46,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/` | 대시보드 | 유저·콘텐츠·감상·기록 총계, 콘텐츠 유형별 비율, 최근 가입자 5명, 최근 활동 10건. 읽기 전용 | `profiles`, `contents`, `records`, `user_contents`, `activity_logs` |
+| `/` | 대시보드 | 유저·콘텐츠·감상·기록 총계, 콘텐츠 유형별 비율, 최근 가입자 5명, 최근 활동 10건. 읽기 전용 | `user_accounts`, `member_profiles`, `contents`, `records`, `member_contents`, `celeb_contents`, `activity_logs` |
 
 ### 셀럽
 
@@ -52,27 +54,27 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `profiles` (`profile_type='CELEB'`) |
-| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 화보를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사·CPU nobg 대기열 처리를 수행 | `profiles` (`avatar_url`, `portrait_url`) |
-| `/celebs/new` | 셀럽 계정 생성 | 신규 셀럽 생성 폼 | `profiles` |
-| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학·태그 + 페르소나·고유대사·계정정보 | `profiles`, `celeb_dialogues`, `celeb_influence`, `celeb_tag_assignments` |
-| `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `user_contents`, `contents`, `content_locales` |
-| `/celebs/[slug]/contents/collect` | (수집) | 콘텐츠 수집 전용 화면. 구현은 `members/[id]/contents/collect/CollectView`에 있다 | `user_contents` |
-| `/celebs/titles` | 셀럽 수식어 편집 | 전체 셀럽 수식어 일괄 편집 | `profiles` |
-| `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `profiles` |
-| `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `profiles` |
-| `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `profiles` |
+| `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `celebs` |
+| `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 화보를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사·CPU nobg 대기열 처리를 수행 | `celebs` (`avatar_url`, `portrait_url`) |
+| `/celebs/new` | 셀럽 등록 | 로그인 계정 없이 신규 셀럽을 직접 등록 | `celebs` |
+| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학·태그 + 페르소나·고유대사 | `celebs`, `celeb_dialogues`, `celeb_influence`, `celeb_tag_assignments` |
+| `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `celeb_contents`, `contents`, `content_locales` |
+| `/celebs/[slug]/contents/collect` | (수집) | 콘텐츠 수집 전용 화면. 구현은 `members/[id]/contents/collect/CollectView`에 있다 | `celeb_contents` |
+| `/celebs/titles` | 셀럽 수식어 편집 | 전체 셀럽 수식어 일괄 편집 | `celebs` |
+| `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `celebs` |
+| `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `celebs` |
+| `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `celebs` |
 | `/celebs/tags` | → 리다이렉트 | `/factions`로 보낸다. 도감 테마 관리는 26.07.25에 세력도감 화면으로 흡수됐다 | — |
-| `/celebs/journeys` | 셀럽 감상 여정 편집 | `cultural_journey` 일괄 편집, 50건 단위 | `profiles` |
-| `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `profiles` |
-| `/celebs/content-research` · `/celebs/content-research/[celebId]` | Light 콘텐츠 조사 목록·인물별 장부 | 목록은 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류한다. 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 기록하고 완료 게이트를 통과한 0건만 `-1`로 확정한다. 감상여정은 읽지 않는다 | `profiles`, `user_contents`, `celeb_content_research_*` 4테이블 |
+| `/celebs/journeys` | 셀럽 감상 여정 편집 | `consumption_philosophy` 일괄 편집, 50건 단위 | `celebs` |
+| `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `celebs` |
+| `/celebs/content-research` · `/celebs/content-research/[celebId]` | Light 콘텐츠 조사 목록·인물별 장부 | 목록은 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류한다. 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 기록하고 완료 게이트를 통과한 0건만 `-1`로 확정한다. 감상여정은 읽지 않는다 | `celebs`, `celeb_contents`, `celeb_content_research_*` 4테이블 |
 | `/celebs/vectors` | 페르소나 분석 | 덕목·능력·성향 16개 축 벡터 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
 | `/celebs/vectors/[slug]` | (닉네임) 페르소나 분석 | 단건 페르소나 축 확인 | `celeb_persona` |
 | `/celebs/influence` | 영향력 평가 | 6개 영역 + 통시성 영향력 대시보드 | `celeb_influence` |
 | `/celebs/influence/[slug]` | (닉네임) 영향력 평가 | 단건 영향력 축 확인 | `celeb_influence` |
-| `/celebs/voice-gen` | 대사/음성 워크스페이스 | 고유 대사 작성, 말투(`speech_tone`)·속도 설정, ElevenLabs 음성 생성 | `celeb_dialogues`, `profiles` |
-| `/celebs/voice-gen/[slug]` | 대사/음성 워크스페이스 | 위와 동일하되 특정 셀럽 선택 상태로 진입 | `celeb_dialogues`, `profiles` |
-| `/celebs/stats` | 셀럽 통계 | 총수·활성률·직군 수·국적 수 요약, 직군 분포, 팔로워 TOP 10, 콘텐츠 수 TOP 10, 최근 등록 | `profiles`, `user_contents`, `user_social`, `user_scores` |
+| `/celebs/voice-gen` | 대사/음성 워크스페이스 | 고유 대사 작성, 말투(`speech_tone`)·속도 설정, ElevenLabs 음성 생성 | `celeb_dialogues`, `celebs` |
+| `/celebs/voice-gen/[slug]` | 대사/음성 워크스페이스 | 위와 동일하되 특정 셀럽 선택 상태로 진입 | `celeb_dialogues`, `celebs` |
+| `/celebs/stats` | 셀럽 통계 | 총수·활성률·직군 수·국적 수 요약, 직군 분포, 팔로워 TOP 10, 콘텐츠 수 TOP 10, 최근 등록 | `celebs`, `celeb_contents`, `celeb_metrics` |
 
 관련 문서: 태그 체계는 [celeb-tag-system.md](./celeb/celeb-tag-system.md), 영향력은 [celeb-4-influence.md](./celeb/celeb-4-influence.md), 페르소나는 [celeb-5-persona.md](./celeb/celeb-5-persona.md), 감상 여정은 [celeb-3-cultural-journey.md](./celeb/celeb-3-cultural-journey.md), 대사·말투는 [celeb-speech.md](./celeb/celeb-speech.md), 콘텐츠 수집은 [celeb-2-content-collector.md](./celeb/celeb-2-content-collector.md), 콘텐츠 검증은 [celeb-content-audit.md](./celeb/celeb-content-audit.md), 영문화는 [celeb-i18n.md](./celeb/celeb-i18n.md)를 본다. 스키마는 [db-celeb.md](./db-celeb.md)가 단일원천이다.
 
@@ -80,27 +82,28 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/users` | 유저 관리 | 일반 유저 목록(검색·상태·역할·정렬, 20건 단위) | `profiles` (`profile_type='USER'`) |
-| `/users/[id]` | 유저 상세 | 프로필·역할·상태·정지 사유·콘텐츠/팔로워/점수 표시, 정지·해제·역할 변경 등 제재 실행. 셀럽이면 404 | `profiles` |
+| `/users` | 유저 관리 | 일반 유저 목록(검색·상태·역할·정렬, 20건 단위) | `user_accounts`, `member_profiles` |
+| `/users/[id]` | 유저 상세 | 프로필·역할·상태·정지 사유·콘텐츠/팔로워/점수 표시, 정지·해제·역할 변경 등 제재 실행 | `user_accounts`, `member_profiles`, `member_social_stats`, `member_scores` |
 
-26.08.09 추가형 분리 이후 `member_profiles`와 `celebs`가 운영 DB에 있다. 전환 기간에는 백오피스 쓰기가 기존 `profiles`를 사용하고 단방향 트리거가 두 전용 테이블을 갱신한다. 회원을 셀럽으로 바꾸는 동작은 제거했다.
+백오피스는 26.08.10부터 회원과 셀럽을 전용 테이블에서 직접 읽고 쓴다. 회원을 셀럽으로
+바꾸는 동작은 없다. 같은 사람이 두 영역에 필요하면 별도 UUID 행과 명시적 인수 관계를 쓴다.
 
 ### 콘텐츠
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `user_contents` |
-| `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 사용자·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `user_contents`, `records` |
-| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 대표 원전으로 지정·해제하고 fiction 인물을 검색·선택해 등장 관계를 저장 | `fiction_source_contents`, `fiction_source_characters`, `contents`, `profiles` |
-| `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `profiles`, `contents`, `content_locales` |
-| `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `profiles`, `contents` |
+| `/contents` | 콘텐츠 관리 | 콘텐츠 목록(제목·제작자 검색, 유형 필터). 도서는 한국어·영문 판본 카드를 나란히 띄워 썸네일 출처까지 진단 | `contents`, `content_locales`, `member_contents`, `celeb_contents` |
+| `/contents/[id]` | (콘텐츠 제목) | 메타·판본·제휴링크 표시, 수정·삭제·제휴링크 관리, 등록 회원·셀럽·관련 기록. BOOK은 KO·EN 표지 URL·출처 편집과 서재 탐방 사용 현황 진입 제공. 픽션 대표 원전은 지정 해제 전 삭제를 거부한다 | `contents`, `content_locales`, `member_contents`, `celeb_contents`, `records` |
+| `/fiction-sources` | 픽션 원전 관리 | 기존 콘텐츠를 대표 원전으로 지정·해제하고 fiction 인물을 검색·선택해 등장 관계를 저장 | `fiction_source_contents`, `fiction_source_characters`, `contents`, `celebs` |
+| `/records` | 기록 관리 | 감상 기록(노트·인용) 목록, 유형·공개범위 필터 + 본문 검색 | `records`, `member_profiles`, `contents`, `content_locales` |
+| `/records/[id]` | 기록 상세 | 본문·작성자·연결 콘텐츠·반응 수·출처 표시, 공개범위 변경·삭제, 댓글 목록 | `records`, `member_profiles`, `contents` |
 
 ### 서재 탐방 제작·리소스 통합
 
 | 라우트 | 화면 | 하는 일 | 주요 원천 |
 | --- | --- | --- | --- |
 | `/book-recommend` | 제작 현황·리소스 | 제작 상태·후보·음성 저장소·작업 큐와 콘텐츠 ID·표지 무결성 감사를 탭으로 통합 | Supabase + `sw/remotion/public/episodes` |
-| `/book-recommend/search` | 새 에피소드 | 셀럽 검색과 기존 에피소드 중복 확인 | `profiles`, 에피소드 목록 |
+| `/book-recommend/search` | 새 에피소드 | 셀럽 검색과 기존 에피소드 중복 확인 | `celebs`, 에피소드 목록 |
 | `/book-recommend/guide` | 운영 가이드 | 현행 제작 흐름·로컬 가동 조건 | 코드·운영 규칙 |
 | `/book-recommend/[name]/scenario` | 원고 | 메타·책·쇼츠 분산 JSON 편집, 이미지·영상·배경음·효과음 관리 | 에피소드 JSON·미디어 |
 | `/book-recommend/[name]/voice` | 음성 | 보이스 선택·생성·발화 시각·파이프라인 진단 | 에피소드 음성·timing JSON |
@@ -118,8 +121,8 @@ pnpm dev:bo
 콘텐츠 관계·표지 운영 규격은
 [서재 탐방 1차 통합](./remotion/book-recommend/unification-phase1.md), 전체 이관 이력은
 [영상 제작 관리 통합 이력](./remotion-bo-plan.md)을 참조한다.
-| `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `profiles`, `contents` |
-| `/playlists` | 플레이리스트 관리 | 플레이리스트 목록, 콘텐츠 유형·공개여부 필터, 항목 수 통계 | `playlists`, `playlist_items`, `profiles` |
+| `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `member_profiles`, `contents` |
+| `/playlists` | 묶음 관리(옛 라우트명) | 플로우 목록, 콘텐츠 유형·공개여부 필터, 노드 수 통계 | `flows`, `flow_nodes`, `member_profiles` |
 
 도서 메타 출처 규칙(네이버·OpenLibrary만 허용)은 [external-services.md](./external-services.md)를 따른다. 스키마는 [db-core.md](./db-core.md)에 있다.
 
@@ -182,7 +185,7 @@ pnpm dev:bo
 | DB 인물 연결 무결성 | `faction_people.celeb_id NOT NULL` + 삭제되지 않은 `CELEB` + 프로필 slug 미러. 한 건이라도 어긋나면 정상 운영 상태가 아니며 저장·출간을 중단한다 |
 | 태그 미지정 세력 | `faction_groups.tag_id`가 null |
 | 개인샷·그룹샷 저장소 동기 상태 | 로컬 파일 해시 ↔ 매니페스트(`_db-sync.json`) 대조 |
-| 얼굴 사진(아바타) 유무 | `profiles.avatar_url` |
+| 얼굴 사진(아바타) 유무 | `celebs.avatar_url` |
 | 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
 
 남은 규칙(사진·영상·음악):
@@ -211,7 +214,7 @@ pnpm dev:bo
 
 편집기 탭은 둘이다. **원고**는 대사와 발언 순서를 글로 다루는 곳(이 담화의 본문), **인물**은 말하는 사람의 실체와 영상 전체 설정이다. 상단 조작줄에 「미리보기」·「대사 뽑기」·**「원천 독백」** 이 있다.
 
-**원천 독백 패널(26.07.26 신설)** — 담화 대사는 사람이 그 인물의 가상 독백(`profiles.virtual_monologue`)을 읽고 다시 쓴 것이다. 예전에는 저장소가 갈려 있어 서비스 화면을 따로 띄워 놓고 옮겨 적었는데, 같은 DB 안으로 들어오면서 조인 한 번으로 편집기 옆에 띄운다. **읽기 전용**이다 — 독백 자체를 고치려면 셀럽 프로필 쪽에서 손댄다.
+**원천 독백 패널(26.07.26 신설)** — 담화 대사는 사람이 그 인물의 가상 독백(`celebs.virtual_monologue`)을 읽고 다시 쓴 것이다. 예전에는 저장소가 갈려 있어 서비스 화면을 따로 띄워 놓고 옮겨 적었는데, 같은 DB 안으로 들어오면서 조인 한 번으로 편집기 옆에 띄운다. **읽기 전용**이다 — 독백 자체를 고치려면 셀럽 프로필 쪽에서 손댄다.
 
 #### 서버 액션 (`actions/admin/discourses/`)
 
@@ -239,24 +242,24 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/blind-game` | 블라인드 게임 | 점수 랭킹(30건 단위), 최고점·최고 연승·평균, 상위 3명 | `blind_game_scores`, `profiles` |
-| `/scores` | 점수 / 랭킹 | 랭킹과 점수 로그 두 탭, 총합·평균·최고 점수 | `user_scores`, `score_logs`, `profiles` |
-| `/tier-lists` | 티어 리스트 관리 | 티어 리스트 목록, 유형·공개여부 필터와 통계 | `tier_lists`, `profiles` |
+| `/blind-game` | 블라인드 게임 | 점수 랭킹(30건 단위), 최고점·최고 연승·평균, 상위 3명 | `blind_game_scores`, `member_profiles` |
+| `/scores` | 점수 / 랭킹 | 랭킹과 점수 로그 두 탭, 총합·평균·최고 점수 | `member_scores`, `member_score_logs`, `member_profiles` |
+| `/tier-lists` | 티어 리스트 관리 | 티어 리스트 목록, 유형·공개여부 필터와 통계 | `tier_lists`, `member_profiles` |
 
 ### 운영
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/today-figure` | 오늘의 인물 | 오늘 기준 앞뒤 7일(15건) 날짜별 선정 셀럽 확인. 출처 배지(뉴스·시드·예측). 조회 전용 | `daily_figures`, `profiles`, `user_contents` |
-| `/guestbooks` | 방명록 관리 | 방명록 목록, 비공개·미확인 필터와 미확인 배지 | `guestbook_entries`, `profiles` |
-| `/free-board` | 자유게시판 관리 | 글·댓글 탭, 노출·숨김 필터. 부적절한 글과 댓글을 숨김 처리 | `free_posts`, `free_post_comments`, `profiles` |
-| `/reports` | 신고 관리 | 신고 목록. 상태·대상 종류 필터, 대기 건 우선 배치, 신고 대상 작성자 표시, 같은 대상에 쌓인 신고 묶음, 반복 신고·남발 집계(카운트 조회) | `reports`, `profiles` |
-| `/reports/[id]` | 신고 상세 | 신고자·대상 작성자·처리 이력. **대상 원문 스냅샷**(글·댓글·방명록·감상 기록·프로필. 이미 지워졌으면 "삭제됨" 표시). 조치: 처리·반려·되돌리기 + 처리 메모, 대상 숨김·삭제, 계정 정지·해제 | `reports`, `profiles`, `free_posts`, `free_post_comments`, `board_comments`, `guestbook_entries`, `feedbacks`, `user_contents` |
+| `/today-figure` | 오늘의 인물 | 오늘 기준 앞뒤 7일(15건) 날짜별 선정 셀럽 확인. 출처 배지(뉴스·시드·예측). 조회 전용 | `daily_figures`, `celebs`, `celeb_contents` |
+| `/guestbooks` | 방명록 관리 | 회원·셀럽 방명록 목록, 비공개·미확인 필터와 미확인 배지 | `member_guestbook_entries`, `celeb_guestbook_entries`, `member_profiles`, `celebs` |
+| `/free-board` | 자유게시판 관리 | 글·댓글 탭, 노출·숨김 필터. 부적절한 글과 댓글을 숨김 처리 | `free_posts`, `free_post_comments`, `member_profiles` |
+| `/reports` | 신고 관리 | 신고 목록. 상태·대상 종류 필터, 대기 건 우선 배치, 신고 대상 작성자 표시, 같은 대상에 쌓인 신고 묶음, 반복 신고·남발 집계(카운트 조회) | `reports`, `user_accounts`, `member_profiles` |
+| `/reports/[id]` | 신고 상세 | 신고자·대상 작성자·처리 이력. **대상 원문 스냅샷**(글·댓글·방명록·감상 기록·프로필. 이미 지워졌으면 "삭제됨" 표시). 조치: 처리·반려·되돌리기 + 처리 메모, 대상 숨김·삭제, 계정 정지·해제 | `reports`, `user_accounts`, `member_profiles`, `free_posts`, `free_post_comments`, `board_comments`, 두 방명록 테이블, `feedbacks`, `member_contents` |
 
 **신고는 사용자 웹에서 들어온다.** 접수 창구는 `sw/web`의 자유게시판 글·댓글, 방명록, 사용자 프로필이다. 신고 사유 목록의 정본은 `sw/web/src/constants/moderation.ts`이며 `sw/web-bo/src/constants/moderation.ts`가 같은 값을 들고 있다 — **한쪽만 고치면 운영 화면의 사유 라벨이 어긋난다.** 원문 조회는 `sw/web-bo/src/lib/report-snapshot.ts`가 대상 종류별 테이블·숨김 수단·삭제 가능 여부를 쥔다. 배경과 Play 정책 요건은 [안드로이드 앱 SSoT](./android-app-feasibility-review-2026-07-29.md) §5.1·§14.
 
 ⚠️ **관리자는 남의 차단 내역을 볼 수 없다.** `blocks`의 RLS가 차단한 본인 행만 select를 허용한다. 운영 화면에서 차단 관계를 다뤄야 하면 `SECURITY DEFINER` RPC 신설이 선행돼야 한다.
-| `/titles` | 칭호 관리 | 칭호 카드 그리드(등급·분류·보너스 점수·획득자 수) | `titles`, `user_titles` |
+| `/titles` | 칭호 안내 | 코드 상수의 칭호 카드 그리드. DB 편집·획득자 수 집계는 제공하지 않는 읽기 전용 화면 | `sw/web/src/constants/titles.ts` |
 
 `/free-board`는 `(admin)` **화면** 중 유일하게 service-role 클라이언트(`createAdminClient()`)를 직접 사용한다. 다른 화면은 모두 일반 클라이언트로 읽는다. 단 서버 액션은 별개다 — `celebs.ts`, `contents.ts`, `records.ts`, `reports/`, `dialogues.ts`, `today-figure.ts`, `members.ts`가 service-role을 쓴다.
 
@@ -264,7 +267,7 @@ pnpm dev:bo
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
-| `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `profiles` |
+| `/activity-logs` | 활동 로그 | 활동 로그(30건 단위), 동작 유형 필터와 유형별 개수. 화면 안내상 90일 보관 | `activity_logs`, `member_profiles` |
 | `/api-usage` | API 사용량 | 외부 API 키 호출 로그(50건 단위), 키·성공여부 필터, 성공률·키별·동작별 통계 | `api_keys`, `api_key_usage` |
 | `/settings` | 설정 | Supabase DB·스토리지·egress와 Vercel Fast Data/Fast Origin·Fluid CPU·호출 한도, 외부 Usage 링크 | Supabase 시스템 통계(RPC) + 운영 기준값 |
 
@@ -316,19 +319,23 @@ pnpm dev:bo
 
 서비스(web) 쪽 캐시 정책과 `/api/revalidate` 사용은 [external-services.md](./external-services.md)를 참조한다.
 
-## 정리 대상
+## 역사적 정리 기록
 
-조사 중 확인한 문제다. 코드는 수정하지 않았다.
+26.07.16 조사에서 확인하고 교정한 이력이다. 아래에서 현재형으로 적힌 리다이렉트만 남아
+있으며, 취소선 항목은 완료 기록이다.
 
 ### members 경로 — 리다이렉트 통로 9개
 
-`(admin)/members/` 아래 9개 page.tsx는 전부 화면 없는 리다이렉트다. 과거 셀럽과 유저를 `profile_type` 탭으로 함께 보던 통합 "멤버 관리" 화면이 커밋 `ce9fc57c`에서 `/celebs`와 `/users` 둘로 갈라졌고, 옛 경로만 하위호환용으로 남았다.
+`(admin)/members/` 아래 9개 page.tsx는 전부 화면 없는 리다이렉트다. 과거 셀럽과 유저를
+저장형 `profile_type` 탭으로 함께 보던 통합 "멤버 관리" 화면이 커밋 `ce9fc57c`에서
+`/celebs`와 `/users` 둘로 갈라졌고, 옛 경로만 URL 하위호환용으로 남았다. 현재 분기는 전용
+테이블을 읽어 만든 출력 필드 `subject_kind`를 사용하며 DB에 공용 유형을 다시 저장하지 않는다.
 
 | 경로 | 보내는 곳 |
 | --- | --- |
 | `/members` | `/users` |
 | `/members/new` | `/celebs/new` |
-| `/members/[id]` | `profile_type`으로 분기해 `/celebs/[slug]` 또는 `/users/[id]` |
+| `/members/[id]` | `subject_kind`로 분기해 `/celebs/[slug]` 또는 `/users/[id]` |
 | `/members/[id]/contents` | `/celebs/[id]/contents` (쿼리 보존) |
 | `/members/[id]/contents/collect` | `/celebs/[id]/contents/collect` |
 | `/members/journeys` · `professions` · `tags` · `titles` | `/celebs/` 대응 경로 |
@@ -364,17 +371,12 @@ pnpm dev:bo
 - ~~`/settings` 거짓 문구~~ → "unstable_cache 적용으로 해결 완료" 삭제(근거 없음). 미구현 카드 4종은 갈 곳 없는 주소를 떼고 점선 테두리 + "준비 중" 배지로 바꿔 눌러지지 않음을 드러냈다.
 - ~~`/login` 자동 로그인~~ → 체크박스와 `bo_auto_login` 저장·복원 코드 제거. 구현하지 않았다. 한번 로그인하면 Supabase가 세션을 유지하므로 실사용 손해는 없다.
 
-**미해결 — 판단 필요**
+**남은 메모**
 
 - **회원 → 셀럽 승격은 폐기했다.** 같은 사람이 회원과 등록 인물 양쪽에 필요하면 서로 다른 행으로 등록하고 명시적인 관계로 연결한다.
-- **`/titles` 버튼 2개가 여전히 무동작.** `actions/admin/titles.ts`에 `createTitle`·`updateTitle`이 이미 있으나 연결만으로 끝나지 않는다 — 획득 조건(`condition`)이 자유 형식 JSON이라 입력 화면과 조건 편집기를 새로 만들어야 한다. 새 기능 개발에 해당해 보류했다.
-- **1x1 픽셀 폴백이 실패를 은폐한다.** image-proxy가 네트워크·404 실패 시 200 + 투명 픽셀을 반환해 `onError`가 뜨지 않고 빈칸이 남는다(실측: 없는 URL이 200 OK로 응답). 프로젝트의 조용한 폴백 금지 규칙 위반이다.
-- **`/celebs/stats`의 링크가 404로 떨어진다.** TOP 10과 최근 등록 링크가 `/celebs/{id}`를 가리키는데, 상세 라우트가 쓰는 `getMemberBySlug`는 `slug` 컬럼만 조회하고 id 폴백이 없다. 조회 실패 시 `notFound()`를 부르므로 이 링크들은 모두 404다.
-- **`/titles`의 버튼이 동작하지 않는다.** "새 칭호 추가"·"수정" 버튼에 핸들러가 없어 사실상 조회 전용이다.
-- **`/settings`의 설정 카드 4개가 껍데기다.** 알림·보안·데이터·테마 카드에 주소만 있고 이동하지 않는다. 또한 화면 본문의 "unstable_cache 적용으로 해결 완료" 문구는 코드상 근거가 없다.
-- **`/login`의 자동 로그인이 미구현이다.** 체크박스 값을 `bo_auto_login`으로 저장하고 읽기는 하지만, 읽은 값은 체크박스 표시 상태를 복원하는 데만 쓴다. 이 값으로 로그인을 자동 실행하는 코드는 없다.
 - **위키미디어 썸네일 2행이 비승인 크기다.** 저장된 주소가 위키미디어 정책상 거부된다("Use thumbnail sizes listed on..."). 데이터 문제.
-- **생성 직후 `/members/${id}` 이동**(CelebForm 409행). 스텁이 `profile_type`으로 분기해 `/celebs/[slug]`에 정상 도달하므로 동작은 한다(한 번 우회). 교정하려면 생성 응답에 없는 slug가 필요하다.
+- **생성 직후 `/members/${id}` 이동**. 스텁이 전용 테이블에서 만든 `subject_kind`로
+  `/celebs/[slug]`에 정상 도달하므로 동작은 하지만 한 번 우회한다.
 
 ## 변경 후 확인
 

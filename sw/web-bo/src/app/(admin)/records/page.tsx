@@ -45,7 +45,7 @@ export default async function RecordsPage({ searchParams }: PageProps) {
     .from('records')
     .select(`
       *,
-      profiles:profiles!records_user_id_fkey (nickname, avatar_url, user_accounts!user_accounts_id_fkey(email)),
+      user:user_accounts!records_user_accounts_fkey (email, member_profiles!member_profiles_id_fkey(nickname, avatar_url)),
       contents:content_id (type, content_locales(locale, title, thumbnail_url))
     `, { count: 'exact' })
 
@@ -61,9 +61,11 @@ export default async function RecordsPage({ searchParams }: PageProps) {
     query = query.ilike('content', `%${search}%`)
   }
 
-  const { data: records, count } = await query
+  const { data: records, count, error } = await query
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
+
+  if (error) throw new Error(`Failed to load records: ${error.message}`)
 
   const total = count || 0
   const totalPages = Math.ceil(total / limit)
@@ -145,14 +147,13 @@ export default async function RecordsPage({ searchParams }: PageProps) {
               ) : (
                 records.map((record) => {
                   // 이메일은 26.08.07에 계정 기록(user_accounts)으로 갈라졌다.
-                  const profile = record.profiles as {
-                    nickname: string
-                    avatar_url: string | null
-                    user_accounts: { email: string | null } | { email: string | null }[] | null
+                  const account = record.user as {
+                    email: string | null
+                    member_profiles: { nickname: string | null; avatar_url: string | null } | { nickname: string | null; avatar_url: string | null }[] | null
                   } | null
-                  const account = Array.isArray(profile?.user_accounts)
-                    ? profile?.user_accounts[0] ?? null
-                    : profile?.user_accounts ?? null
+                  const profile = Array.isArray(account?.member_profiles)
+                    ? account.member_profiles[0] ?? null
+                    : account?.member_profiles ?? null
                   const rawContent = record.contents as { type: string; content_locales: { locale: string; title: string; thumbnail_url: string | null }[] } | null
                   const ko = rawContent?.content_locales?.find((l) => l.locale === 'ko')
                   const en = rawContent?.content_locales?.find((l) => l.locale === 'en')

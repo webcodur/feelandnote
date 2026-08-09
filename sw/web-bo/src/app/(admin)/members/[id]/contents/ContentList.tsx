@@ -125,7 +125,7 @@ export default function ContentList({ contents, celebId }: Props) {
         content_type: editForm.content_type,
         content_title: editForm.content_title,
         content_creator: editForm.content_creator || null,
-        // 콘텐츠 교체 시 새 content_id로 user_contents 업데이트
+        // 콘텐츠 교체 시 새 content_id로 celeb_contents 업데이트
         new_content_id: replacementContent ? finalContentId : undefined,
       })
 
@@ -358,7 +358,7 @@ export default function ContentList({ contents, celebId }: Props) {
                       </div>
                     )}
 
-                    {/* 기록 정보 수정 (user_contents 테이블) */}
+                    {/* 기록 정보 수정 (celeb_contents 테이블) */}
                     <div className="flex items-center gap-3">
                       <select
                         value={editForm.status}

@@ -167,12 +167,11 @@ async function fetchCharactersByContent(
     profileData = await selectInChunks<ProfileRow>(
       assignments.map((assignment) => assignment.celeb_id),
       (celebIds) => supabase
-        .from('profiles')
+        .from('celebs')
         .select('id,slug,nickname,nickname_en,title,title_en,avatar_url')
         .in('id', celebIds)
-        .eq('profile_type', 'CELEB')
         .eq('celeb_tier', 'fiction')
-        .eq('status', 'active')
+        .eq('publication_status', 'active')
         .overrideTypes<ProfileRow[], { merge: false }>(),
     )
   } catch (error) {

@@ -220,7 +220,7 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
   /*
     배정된 인물을 태운다. 거르는 기준은 **배정의 `hidden`** 하나뿐이다(위 조회에서 이미 걸렀다).
 
-    ① **셀럽 전역 상태(status)로 거르지 않는다** — 그 값은 영상 제작 쪽 사정으로 정해지는 것이라
+    ① **셀럽 전역 공개 상태(publication_status)로 거르지 않는다** — 그 값은 영상 제작 쪽 사정으로 정해지는 것이라
        진열 판단과 무관하고, 팩션에서 등록된 42명이 그 때문에 13개 테마에서 통째로 사라져
        있었다(26.07.27 실측).
     ② **등급(celeb_tier)으로도 거르지 않는다** — 목록·검색은 신화·허구 등급을 빼는 게 맞지만
@@ -230,15 +230,15 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 
     게임용 celeb_dialogues는 읽지 않는다. 도감 버튼의 대사는 뷰의 faction quote만 사용한다.
   */
-  const profiles = await selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
-    supabase.from('profiles').select(`
+  const celebRows = await selectInChunks<FeaturedProfileRow>(celebIdArray, (chunk) =>
+    supabase.from('celebs').select(`
       id, nickname, nickname_en, avatar_url, title, title_en, profession, speech_tone
     `).in('id', chunk).overrideTypes<FeaturedProfileRow[], { merge: false }>()
   )
 
   // 맵 구성
   const profileMap = new Map<string, FeaturedProfileRow>()
-  profiles.forEach(p => profileMap.set(p.id, p))
+  celebRows.forEach(p => profileMap.set(p.id, p))
 
   // 결과 조합
   const result: FeaturedTag[] = []

@@ -1,17 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { TempleBellIcon, SacredFlameIcon, MessageTabletIcon, BustIcon, LaurelIcon, ScrollIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
 import { Z_INDEX } from "@/constants/zIndex";
 import { createClient } from "@/lib/supabase/client";
-import { Database } from "@/types/supabase";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations, useLocale } from "next-intl";
 import { formatDistanceToNow } from "date-fns";
 import { ko, enUS } from "date-fns/locale";
 
-type NotificationFull = Database["public"]["Tables"]["notifications"]["Row"];
+interface NotificationFull {
+  id: string;
+  type: string;
+  message: string;
+  link: string | null;
+  is_read: boolean;
+  created_at: string | null;
+}
 // 헤더 드롭다운에서 사용하는 필드만 — egress 절감
 type Notification = Pick<NotificationFull, "id" | "type" | "message" | "link" | "is_read" | "created_at">;
 const NOTIFICATION_BRIEF_COLUMNS = "id, type, message, link, is_read, created_at";
@@ -27,7 +33,7 @@ export default function HeaderNotifications() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
   const t = useTranslations("layout.notifications");
   const locale = useLocale();
@@ -46,9 +52,9 @@ export default function HeaderNotifications() {
 
       // Fetch initial data — 필요 컬럼만 select
       const { data } = await supabase
-        .from("notifications")
+        .from("member_notifications")
         .select(NOTIFICATION_BRIEF_COLUMNS)
-        .eq("user_id", user.id)
+        .eq("member_id", user.id)
         .order("created_at", { ascending: false })
         .limit(20);
 
@@ -68,8 +74,8 @@ export default function HeaderNotifications() {
           {
             event: "INSERT",
             schema: "public",
-            table: "notifications",
-            filter: `user_id=eq.${user.id}`,
+            table: "member_notifications",
+            filter: `member_id=eq.${user.id}`,
           },
           (payload) => {
             const full = payload.new as NotificationFull;
@@ -100,7 +106,7 @@ export default function HeaderNotifications() {
       cancelled = true;
       if (channel) supabase.removeChannel(channel);
     };
-  }, []);
+  }, [supabase]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -123,7 +129,7 @@ export default function HeaderNotifications() {
       );
       setUnreadCount((prev) => Math.max(0, prev - 1));
       
-      await supabase.from("notifications").update({ is_read: true }).eq("id", notif.id);
+      await supabase.from("member_notifications").update({ is_read: true }).eq("id", notif.id);
     }
 
     if (notif.link) {
@@ -140,9 +146,9 @@ export default function HeaderNotifications() {
     setUnreadCount(0);
     
     await supabase
-      .from("notifications")
+      .from("member_notifications")
       .update({ is_read: true })
-      .eq("user_id", user.id)
+      .eq("member_id", user.id)
       .eq("is_read", false);
   };
 

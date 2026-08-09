@@ -5,6 +5,7 @@ import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { BoardCommentWithAuthor, BoardType } from '@/types/database'
 import type { Locale } from '@/types/locale'
+import { attachMemberAuthors } from '@/lib/board/memberProfiles'
 
 interface GetCommentsParams {
   boardType: BoardType
@@ -17,7 +18,7 @@ async function fetchComments(boardType: BoardType, postId: string, locale: Local
 
   const { data, error } = await supabase
     .from('board_comments')
-    .select(`*, author:profiles!author_id(id, nickname, avatar_url)`)
+    .select('*')
     .eq('board_type', boardType)
     .eq('post_id', postId)
     .eq('locale', locale)
@@ -25,7 +26,8 @@ async function fetchComments(boardType: BoardType, postId: string, locale: Local
 
   throwOnQueryError('[댓글 목록]', error)
 
-  return data as BoardCommentWithAuthor[]
+  const comments = await attachMemberAuthors(supabase, data ?? [])
+  return comments as BoardCommentWithAuthor[]
 }
 
 const getCommentsCached = unstable_cache(

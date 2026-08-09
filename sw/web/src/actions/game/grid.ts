@@ -40,12 +40,11 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
   const supabase = createStaticClient();
 
   // 1) 활성 셀럽 프로필 (full/light) — 1,476명이므로 페이징 필수 (PostgREST 1,000행 상한)
-  const profiles = await selectAllPages<ProfileRow>((from, to) =>
+  const celebs = await selectAllPages<ProfileRow>((from, to) =>
     supabase
-      .from("profiles")
+      .from("celebs")
       .select("id, nickname, nickname_en, slug, nationality, profession, birth_date, death_date")
-      .eq("profile_type", "CELEB")
-      .eq("status", "active")
+      .eq("publication_status", "active")
       .in("celeb_tier", [...LISTING_DEFAULT_TIERS])
       .not("nationality", "is", null)
       .not("profession", "is", null)
@@ -57,7 +56,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
     }>,
   );
 
-  if (profiles.length === 0) return [];
+  if (celebs.length === 0) return [];
 
   // 2) 세력 태그 배정
   const assignments = await selectAllPages<TagAssignmentRow>((from, to) =>
@@ -81,7 +80,7 @@ async function fetchGridCelebs(locale: string): Promise<GridCeleb[]> {
     tagMap.set(row.celeb_id, arr);
   }
 
-  return profiles.map((p) => ({
+  return celebs.map((p) => ({
     id: p.id,
     nickname: locale === "en" ? (p.nickname_en || p.nickname) : p.nickname,
     nicknameEn: p.nickname_en || p.nickname,

@@ -64,8 +64,9 @@ export interface GetMyContentsResponse {
   hasMore: boolean
 }
 
-// user_contents에서 실제 사용하는 컬럼만 (contributor_id, review_presets 제외)
-const UC_SELECT_BASE = 'id, user_id, content_id, status, is_recommended, is_spoiler, rating, review, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
+// member_contents에서 실제 사용하는 컬럼만 (contributor_member_id, review_presets 제외).
+// 공개 API의 user_id 키는 기존 화면 호환을 위해 alias로 유지한다.
+const UC_SELECT_BASE = 'id, user_id:member_id, content_id, status, is_recommended, is_spoiler, rating, review, visibility, created_at, updated_at, completed_at, is_pinned, pinned_at, source_url'
 
 export async function getMyContents(params: GetMyContentsParams = {}): Promise<GetMyContentsResponse> {
   const supabase = await createClient()
@@ -80,7 +81,7 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   const offset = (page - 1) * limit
 
   // isbn은 isbn_en 플래튼에 필요. description/publisher/affiliate_url은 미사용 — 제외
-  const contentFields = `id, type, release_date, metadata, user_count, content_locales(${CL_SELECT_LIST}, isbn)`
+  const contentFields = `id, type, release_date, metadata, user_count:record_count, content_locales(${CL_SELECT_LIST}, isbn)`
 
   // 검색 필터 - content_locales에서 2-step 검색 (.or() 보간 인젝션 차단)
   let searchContentIds: string[] | null = null
@@ -103,12 +104,12 @@ export async function getMyContents(params: GetMyContentsParams = {}): Promise<G
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const ucSelect = locale === 'en' ? `${UC_SELECT_BASE}, review_en` : UC_SELECT_BASE
   let query = supabase
-    .from('user_contents')
+    .from('member_contents')
     .select(`
       ${ucSelect},
       ${contentJoin}
     `, { count: 'exact' })
-    .eq('user_id', user.id)
+    .eq('member_id', user.id)
 
   // 정렬
   if (sortBy === 'rating_desc') {

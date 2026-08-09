@@ -19,9 +19,9 @@ async function fetchJsonLdContents(celebId: string): Promise<JsonLdContentRow[]>
   // numberOfItems는 여기서 받은 실제 항목 수로 산출하므로 선언 수와 나열 수는 항상 일치한다.
   // visibility='public'만 선언해야 화면 목록(공개만 노출)과 어긋나지 않는다.
   const { data } = await supabase
-    .from('user_contents')
+    .from('celeb_contents')
     .select(`contents!inner(id, type, content_locales(${CL_SELECT_LIST}))`)
-    .eq('user_id', celebId)
+    .eq('celeb_id', celebId)
     .eq('visibility', 'public')
     .limit(50)
 

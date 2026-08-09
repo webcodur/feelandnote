@@ -99,10 +99,9 @@ async function fetchFromDb(offset: number, limit: number) {
   if (!url || !key) throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 없음')
   const db = createClient(url, key)
   const { data, error } = await db
-    .from('profiles')
+    .from('celebs')
     .select('slug, nickname, avatar_url, celeb_tier')
-    .eq('profile_type', 'CELEB')
-    .eq('status', 'active')
+    .eq('publication_status', 'active')
     .not('avatar_url', 'is', null)
     .order('slug')
     .range(offset, offset + limit - 1)

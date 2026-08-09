@@ -167,7 +167,7 @@ export type SpeakerDurationLookup = (
 ) => { epithetDuration?: number | null } | undefined
 
 export interface BuildRowsOptions {
-  /** slug → profiles.id. 모든 발언자는 저장 전에 DB CELEB 로 해소되어야 한다. */
+  /** slug → celebs.id. 모든 발언자는 저장 전에 DB 인물로 해소되어야 한다. */
   slugMap: Map<string, string>
   /** uuid 생성기 — 호출 측이 주입(shared 는 node:crypto 에 의존하지 않는다) */
   newId: () => string

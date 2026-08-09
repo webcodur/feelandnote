@@ -65,7 +65,7 @@
       "korean": "한국어"
     },
     "footer": {
-      "tagline": "한 줄의 기록이 천 년을 울립니다.",
+      "tagline": "한 줄의 기록, 천 년의 울림",
       "neoPantheon": "신들의 기록관",
       "copyright": "FeelDT. 모든 권리 보유.",
       "archiveOfTaste": "감상의 기록관"
@@ -761,6 +761,7 @@
   "popularBooks": {
     "title": "추천 도서",
     "buyOnCoupang": "쿠팡에서 보기",
+    "viewBookDetails": "책 상세 보기",
     "headingRead": "이 인물이 읽은 책",
     "headingProfession": "같은 분야 인물들이 읽은 책",
     "headingOrigin": "이 인물이 등장하는 원전",

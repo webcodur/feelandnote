@@ -12,7 +12,7 @@ import { getPublicGuestbookEntries } from "@/actions/guestbook";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getFactionTagsByIds } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getAlternates } from "@/lib/seo";
+import { getAlternates, getSeoImageUrl } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
@@ -72,13 +72,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     locale === "en" ? "en" : "ko",
   );
   const canonicalUrl = alternates.canonical;
+  const seoLocale = locale === "en" ? "en" : "ko";
+  const seoImageUrl = getSeoImageUrl(
+    "celeb",
+    slug,
+    seoLocale,
+    result.data.avatar_url ?? result.data.photo_url,
+  );
+  const seoImageAlt = locale === "en"
+    ? `${nickname} portrait`
+    : `${nickname} 인물 이미지`;
 
   // full 등급만 색인 대상이다. light/fiction은 연결용 최소 등록이라
   // 본문이 얇아 색인되면 저품질 페이지로 잡힌다. 링크는 따라가도록 follow는 유지한다.
   // (사이트맵도 full 등급만 등재한다 — 같은 기준)
   const isIndexable = (INDEXABLE_TIERS as readonly string[]).includes(result.data.celeb_tier ?? 'full');
 
-  // OG 이미지는 opengraph-image.tsx에서 자동 생성 (Next.js file convention)
   return {
     title: pageTitle,
     description,
@@ -89,11 +98,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       url: canonicalUrl,
       type: "profile",
+      images: [{
+        url: seoImageUrl,
+        width: 800,
+        height: 800,
+        type: "image/png",
+        alt: seoImageAlt,
+      }],
     },
     twitter: {
-      card: "summary_large_image",
+      card: "summary",
       title: pageTitle,
       description,
+      images: [{ url: seoImageUrl, alt: seoImageAlt }],
     },
   };
 }
@@ -179,6 +196,12 @@ export default async function CelebPage({ params }: PageProps) {
     `/celeb/${slug}`,
     locale === "en" ? "en" : "ko",
   ).canonical;
+  const personImageUrl = getSeoImageUrl(
+    "celeb",
+    slug,
+    locale === "en" ? "en" : "ko",
+    profile.avatar_url ?? profile.photo_url,
+  );
   const contentItems = contentList.map((rawContent, idx) => {
     const flat = flattenLocales(rawContent.content_locales, locale);
     const schemaType = rawContent.type === 'BOOK' ? 'Book'
@@ -207,6 +230,7 @@ export default async function CelebPage({ params }: PageProps) {
       }),
       ...(profile.profession && { jobTitle: getCelebProfessionLabel(profile.profession, locale) }),
       url: canonicalUrl,
+      image: personImageUrl,
     },
     ...(contentItems.length > 0
       ? [{

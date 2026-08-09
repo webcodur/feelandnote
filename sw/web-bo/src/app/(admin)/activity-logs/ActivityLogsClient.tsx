@@ -27,7 +27,7 @@ interface ActivityLog {
   content_id: string | null
   metadata: Record<string, unknown> | null
   created_at: string
-  profiles: {
+  member: {
     id: string
     nickname: string | null
     avatar_url: string | null
@@ -86,17 +86,17 @@ export default function ActivityLogsClient({
       width: '200px',
       render: (_, row) => (
         <Link
-          href={`/members/${row.profiles?.id}`}
+          href={`/members/${row.member?.id}`}
           className="flex items-center gap-3 hover:text-accent"
           onClick={(e) => e.stopPropagation()}
         >
           <Avatar
-            src={row.profiles?.avatar_url}
-            name={row.profiles?.nickname}
+            src={row.member?.avatar_url}
+            name={row.member?.nickname}
             size="sm"
           />
           <span className="text-text-primary truncate">
-            {row.profiles?.nickname || '알 수 없음'}
+            {row.member?.nickname || '알 수 없음'}
           </span>
         </Link>
       ),
@@ -226,16 +226,16 @@ export default function ActivityLogsClient({
             {/* 사용자 정보 */}
             <div className="flex items-center gap-4 p-4 bg-bg-secondary rounded-xl">
               <Avatar
-                src={selectedLog.profiles?.avatar_url}
-                name={selectedLog.profiles?.nickname}
+                src={selectedLog.member?.avatar_url}
+                name={selectedLog.member?.nickname}
                 size="lg"
               />
               <div>
                 <p className="font-medium text-text-primary">
-                  {selectedLog.profiles?.nickname || '알 수 없음'}
+                  {selectedLog.member?.nickname || '알 수 없음'}
                 </p>
                 <Link
-                  href={`/members/${selectedLog.profiles?.id}`}
+                  href={`/members/${selectedLog.member?.id}`}
                   className="text-sm text-accent hover:underline"
                 >
                   프로필 보기

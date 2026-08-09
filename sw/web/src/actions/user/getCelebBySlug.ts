@@ -103,7 +103,7 @@ interface CelebRelationRow {
     nationality: string | null
     birth_date: string | null
     death_date: string | null
-    status: string | null
+    publication_status: string | null
     wikidata_qid: string | null
   } | null
 }
@@ -177,7 +177,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const profile = { ...celeb, selected_title: null }
 
-  const userId = profile.id as string
+  const celebId = profile.id as string
 
   // 카운트 쿼리는 head:true count:'exact' 로 row 송출 0, 타입별 카운트는 RPC 1회로 수신
   const [
@@ -192,30 +192,30 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     explanationResult,
   ] = await Promise.all([
     supabase
-      .from('user_contents')
+      .from('celeb_contents')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', userId),
+      .eq('celeb_id', celebId),
     supabase
-      .from('follows')
+      .from('member_celeb_follows')
       .select('*', { count: 'exact', head: true })
-      .eq('following_id', userId),
+      .eq('celeb_id', celebId),
     supabase
-      .from('guestbook_entries')
+      .from('celeb_guestbook_entries')
       .select('*', { count: 'exact', head: true })
-      .eq('profile_id', userId),
+      .eq('celeb_id', celebId),
     supabase
       .from('celeb_dialogues')
       .select(DIALOGUE_PROFILE_SELECT)
-      .eq('celeb_id', userId)
+      .eq('celeb_id', celebId)
       .maybeSingle(),
-    supabase.rpc('get_celeb_type_counts', { p_user_id: userId }),
+    supabase.rpc('get_celeb_type_counts', { p_celeb_id: celebId }),
     // 세력도감 소속 — 단일 원천은 제작 테이블(faction_people)이고 DB 뷰 faction_atlas_members가
     // 웹 전용 배정과 합쳐 준다. UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽는다.
     (async (): Promise<FactionTagAssignmentRow[]> => {
       const { data: memberRows } = await supabase
         .from('faction_atlas_members')
         .select('tag_id, faction_image_url, sort_order, short_desc, short_desc_en, long_desc, long_desc_en')
-        .eq('celeb_id', userId)
+        .eq('celeb_id', celebId)
         .eq('hidden', false)
         .order('sort_order', { ascending: true })
         .overrideTypes<Omit<FactionTagAssignmentRow, 'tag'>[], { merge: false }>()
@@ -234,16 +234,16 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     })(),
     supabase
       .from('celeb_relations')
-      .select('rel_type, rel_group, note, note_en, target:profiles!celeb_relations_to_id_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, status, wikidata_qid)')
-      .eq('from_id', userId),
+      .select('rel_type, rel_group, note, note_en, target:celebs!celeb_relations_to_celebs_fkey(id, slug, nickname, nickname_en, avatar_url, profession, nationality, birth_date, death_date, publication_status, wikidata_qid)')
+      .eq('from_id', celebId),
     supabase
       .from('celeb_relations_external')
       .select('rel_type, rel_group, qid, name_ko, name_en, image_url, note, note_en')
-      .eq('from_id', userId),
+      .eq('from_id', celebId),
     supabase
       .from('celeb_explanations')
       .select('plain_text, plain_text_en, interpretive_title, interpretive_title_en, interpretive_text, interpretive_text_en')
-      .eq('profile_id', userId)
+      .eq('profile_id', celebId)
       .maybeSingle(),
   ])
 
@@ -285,7 +285,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       relType: r.rel_type,
       relGroup: r.rel_group,
       id: r.target.id,
-      slug: r.target.slug && r.target.status === 'active' ? r.target.slug : null,
+      slug: r.target.slug && r.target.publication_status === 'active' ? r.target.slug : null,
       nickname: r.target.nickname || 'Unknown',
       nickname_en: r.target.nickname_en,
       avatar_url: r.target.avatar_url,
@@ -347,7 +347,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 }
 
 /* 인물 한 명짜리 조회라 항목 태그를 단다 — 한 명을 고쳐도 나머지 인물 화면은 그대로 둔다.
-   profiles(셀럽 본체) + user_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)를 읽는다.
+   celebs(셀럽 본체) + celeb_contents(서고 수) + celeb_dialogues + faction_atlas_members(소속 세력도감)를 읽는다.
    여기서는 slug가 곧 그 인물의 식별자다(id를 아직 모르는 시점의 조회다). */
 const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
@@ -429,7 +429,7 @@ async function getCelebBySlugInner(
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,
-      profile_type: 'CELEB',
+      subject_kind: 'celeb',
       is_verified: profile.is_verified || false,
       created_at: profile.created_at,
       selected_title: selectedTitle,

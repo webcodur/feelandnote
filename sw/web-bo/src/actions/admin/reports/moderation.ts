@@ -143,7 +143,7 @@ export async function suspendReportedUser(
   if (trimmed.length === 0) throw new Error('정지 사유를 입력해달라')
 
   const supabase = createAdminClient()
-  // 계정 정지는 계정 기록에 적는다. profiles.status 는 인물 공개 상태라 다른 축이다(26.08.07 분리).
+  // 계정 정지는 계정 기록에 적는다. celebs.publication_status는 인물 공개 상태라 다른 축이다.
   const { error } = await supabase
     .from('user_accounts')
     .update({

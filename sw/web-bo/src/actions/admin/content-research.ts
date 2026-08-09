@@ -42,7 +42,7 @@ import {
   type UpdateContentResearchScopeInput,
 } from './content-research-types'
 
-type ProfileRow = {
+type CelebRow = {
   id: string
   slug: string | null
   nickname: string | null
@@ -147,7 +147,7 @@ function getBirthYear(value: string | null): number | null {
 }
 
 function getTriageSignals(
-  profile: ProfileRow,
+  profile: CelebRow,
   influenceTotal: number,
   factionLinked: boolean
 ): { score: number; signals: string[] } {
@@ -191,28 +191,27 @@ function deriveBucket(
   return profileStatus === 'active' ? 'active_research' : 'inactive_triage'
 }
 
-async function getAllLightProfiles(): Promise<ProfileRow[]> {
+async function getAllLightCelebs(): Promise<CelebRow[]> {
   const admin = createAdminClient()
-  const rows: ProfileRow[] = []
+  const rows: CelebRow[] = []
 
   for (let from = 0; ; from += PAGE_SIZE) {
     const { data, error } = await admin
-      .from('profiles')
+      .from('celebs')
       .select(`
         id, slug, nickname, avatar_url, profession, birth_date, death_date,
-        status, content_research_status, content_research_updated_at,
+        status:publication_status, content_research_status, content_research_updated_at,
         content_research_confirmed_empty_at,
-        celeb_influence(total_score)
+        celeb_influence!celeb_influence_celebs_fkey(total_score)
       `)
-      .eq('profile_type', 'CELEB')
       // 모집단 조건은 shared 규약이 정한다 — 여기서 값을 하드코딩하지 마라
       .in('celeb_tier', [...CELEB_CONTENT_RESEARCH_TARGET_TIERS])
-      .in('status', [...CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES])
+      .in('publication_status', [...CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES])
       .order('id', { ascending: true })
       .range(from, from + PAGE_SIZE - 1)
 
     if (error) throw error
-    const batch = (data ?? []) as unknown as ProfileRow[]
+    const batch = (data ?? []) as unknown as CelebRow[]
     rows.push(...batch)
     if (batch.length < PAGE_SIZE) break
   }
@@ -229,16 +228,16 @@ async function getContentCounts(celebIds: string[]): Promise<Map<string, number>
 
     for (let from = 0; ; from += PAGE_SIZE) {
       const { data, error } = await admin
-        .from('user_contents')
-        .select('id, user_id')
-        .in('user_id', ids)
+        .from('celeb_contents')
+        .select('id, celeb_id')
+        .in('celeb_id', ids)
         .order('id', { ascending: true })
         .range(from, from + PAGE_SIZE - 1)
 
       if (error) throw error
       const batch = data ?? []
       for (const row of batch) {
-        counts.set(row.user_id, (counts.get(row.user_id) ?? 0) + 1)
+        counts.set(row.celeb_id, (counts.get(row.celeb_id) ?? 0) + 1)
       }
       if (batch.length < PAGE_SIZE) break
     }
@@ -303,14 +302,14 @@ export async function getContentResearchWorkspace(
     researchStatus = 'all',
   } = params
 
-  const profiles = await getAllLightProfiles()
-  const celebIds = profiles.map((profile) => profile.id)
+  const celebs = await getAllLightCelebs()
+  const celebIds = celebs.map((profile) => profile.id)
   const [contentCounts, factionLinkedIds] = await Promise.all([
     getContentCounts(celebIds),
     getFactionLinkedIds(celebIds),
   ])
 
-  const allRows = profiles.map((profile): ContentResearchRow => {
+  const allRows = celebs.map((profile): ContentResearchRow => {
     const influence = getSingleRelation(profile.celeb_influence)
     const influenceTotal = influence?.total_score ?? 0
     const factionLinked = factionLinkedIds.has(profile.id)
@@ -541,18 +540,17 @@ export async function getContentResearchDetail(
 
   const [profileResult, contentCountResult, runsResult] = await Promise.all([
     admin
-      .from('profiles')
+      .from('celebs')
       .select(`
-        id, slug, nickname, nickname_en, profession, status, celeb_tier,
+        id, slug, nickname, nickname_en, profession, status:publication_status, celeb_tier,
         content_research_status
       `)
       .eq('id', celebId)
-      .eq('profile_type', 'CELEB')
       .single(),
     admin
-      .from('user_contents')
+      .from('celeb_contents')
       .select('*', { count: 'exact', head: true })
-      .eq('user_id', celebId),
+      .eq('celeb_id', celebId),
     admin
       .from('celeb_content_research_runs')
       .select(`

@@ -138,9 +138,8 @@ async function main() {
   const PAGE = 1000
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await supabase
-      .from('profiles')
+      .from('celebs')
       .select('id, slug, nickname')
-      .eq('profile_type', 'CELEB')
       .not('avatar_url', 'is', null)
       .neq('avatar_url', '')
       .order('id')

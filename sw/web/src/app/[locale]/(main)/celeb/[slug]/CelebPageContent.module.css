@@ -4,7 +4,9 @@
 }
 
 .opening {
+  display: grid;
   width: 100%;
+  gap: 10px;
   scroll-margin-top: 6rem;
 }
 
@@ -105,6 +107,7 @@
 
 .identityAvatarImage {
   object-fit: cover;
+  filter: none;
 }
 
 .title {
@@ -177,13 +180,13 @@
 
 .recordsGrid {
   width: min(calc(100% - 32px), 1024px);
-  margin: 36px auto 0;
+  margin: 96px auto 0;
 }
 
 .sectionStack {
   display: grid;
   min-width: 0;
-  gap: 44px;
+  gap: 96px;
 }
 
 .recordSection {
@@ -203,15 +206,16 @@
 
 .comparisonMetric {
   display: block;
-  font-size: 0.75rem !important;
+  font-size: 0.875rem !important;
   line-height: 1.15 !important;
   letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--color-accent) 72%, transparent) !important;
+  color: color-mix(in srgb, var(--color-accent) 84%, transparent) !important;
+  font-weight: 700;
 }
 
 @media (min-width: 768px) {
   .comparisonMetric {
-    font-size: 0.8125rem !important;
+    font-size: 0.9375rem !important;
   }
 }
 
@@ -226,7 +230,7 @@
 
   .recordsGrid {
     width: 100%;
-    margin-inline: 0;
+    margin: 72px 0 0;
   }
 
   .identityPanel {
@@ -312,7 +316,7 @@
   }
 
   .sectionStack {
-    gap: 32px;
+    gap: 72px;
   }
 }
 

@@ -2,7 +2,7 @@
  * 서재 탐방 1차 통합 — 본 서비스 콘텐츠 메타와 로컬 렌더 자산의 연결·표지 캐시.
  *
  * 원천:
- *   - 책/판본 식별·외부 표지 URL: Supabase user_contents → contents → content_locales
+ *   - 책/판본 식별·외부 표지 URL: Supabase celeb_contents → contents → content_locales
  *   - 영상 원고·음성·이미지: sw/remotion/public/episodes
  *   - 렌더용 표지: DB 표지에서 재생성하는 로컬 캐시(public/covers/content)
  *
@@ -109,7 +109,7 @@ export interface BookResourceAudit {
 export interface SyncBookResourcesInput {
   /** 비우면 linked/exact 안전 항목 전부 */
   keys?: string[]
-  /** 사람이 고른 user_contents.id. 서버가 해당 인물의 관계인지 다시 검증한다. */
+  /** 사람이 고른 celeb_contents.id. 서버가 해당 인물의 관계인지 다시 검증한다. */
   mappings?: Record<string, string>
 }
 
@@ -165,14 +165,14 @@ interface DbEdition {
   thumbnail_url: string | null
 }
 
-interface DbUserContent {
+interface DbCelebContent {
   id: string
-  user_id: string
+  celeb_id: string
   content_id: string
   editions: DbEdition[]
 }
 
-interface DbProfile {
+interface DbCeleb {
   id: string
   slug: string | null
   nickname: string | null
@@ -315,38 +315,38 @@ function asObject<T>(value: T | T[] | null | undefined): T | null {
   return Array.isArray(value) ? (value[0] ?? null) : (value ?? null)
 }
 
-async function loadProfiles(books: LocalBook[]): Promise<DbProfile[]> {
+async function loadCelebs(books: LocalBook[]): Promise<DbCeleb[]> {
   const admin = createAdminClient()
   const slugHints = [...new Set(books.map(b => b.celebSlugHint).filter(Boolean))]
   const nicknames = [...new Set(books.map(b => b.celebNickname).filter(Boolean))]
 
   const [bySlug, byNickname] = await Promise.all([
     slugHints.length
-      ? admin.from('profiles').select('id, slug, nickname').eq('profile_type', 'CELEB').in('slug', slugHints)
+      ? admin.from('celebs').select('id, slug, nickname').in('slug', slugHints)
       : Promise.resolve({ data: [], error: null }),
     nicknames.length
-      ? admin.from('profiles').select('id, slug, nickname').eq('profile_type', 'CELEB').in('nickname', nicknames)
+      ? admin.from('celebs').select('id, slug, nickname').in('nickname', nicknames)
       : Promise.resolve({ data: [], error: null }),
   ])
 
   if (bySlug.error) throw bySlug.error
   if (byNickname.error) throw byNickname.error
 
-  const map = new Map<string, DbProfile>()
-  for (const profile of [...(bySlug.data ?? []), ...(byNickname.data ?? [])]) {
-    map.set(profile.id, profile as DbProfile)
+  const map = new Map<string, DbCeleb>()
+  for (const celeb of [...(bySlug.data ?? []), ...(byNickname.data ?? [])]) {
+    map.set(celeb.id, celeb as DbCeleb)
   }
   return [...map.values()]
 }
 
-async function loadUserContents(userIds: string[]): Promise<DbUserContent[]> {
-  if (!userIds.length) return []
+async function loadCelebContents(celebIds: string[]): Promise<DbCelebContent[]> {
+  if (!celebIds.length) return []
   const admin = createAdminClient()
   const { data, error } = await admin
-    .from('user_contents')
+    .from('celeb_contents')
     .select(`
       id,
-      user_id,
+      celeb_id,
       content_id,
       contents!inner(
         id,
@@ -354,7 +354,7 @@ async function loadUserContents(userIds: string[]): Promise<DbUserContent[]> {
         content_locales(locale, title, creator, thumbnail_url)
       )
     `)
-    .in('user_id', userIds)
+    .in('celeb_id', celebIds)
     .in('contents.type', ['BOOK', 'VIDEO', 'GAME', 'MUSIC'])
 
   if (error) throw error
@@ -365,14 +365,14 @@ async function loadUserContents(userIds: string[]): Promise<DbUserContent[]> {
     } | Array<{ content_locales?: DbEdition[] | null }> | null)
     return {
       id: row.id,
-      user_id: row.user_id,
+      celeb_id: row.celeb_id,
       content_id: row.content_id,
       editions: content?.content_locales ?? [],
     }
   })
 }
 
-function candidateLabel(uc: DbUserContent): { title: string; creator: string | null } {
+function candidateLabel(uc: DbCelebContent): { title: string; creator: string | null } {
   const ko = uc.editions.find(e => e.locale === 'ko')
   const en = uc.editions.find(e => e.locale === 'en')
   return {
@@ -381,7 +381,7 @@ function candidateLabel(uc: DbUserContent): { title: string; creator: string | n
   }
 }
 
-function scoreCandidate(book: LocalBook, uc: DbUserContent): number {
+function scoreCandidate(book: LocalBook, uc: DbCelebContent): number {
   const title = normalizeText(book.title)
   const creator = normalizeText(book.creator)
   let best = 0
@@ -400,7 +400,7 @@ function scoreCandidate(book: LocalBook, uc: DbUserContent): number {
   return best
 }
 
-function toCandidate(uc: DbUserContent, score: number): BookResourceCandidate {
+function toCandidate(uc: DbCelebContent, score: number): BookResourceCandidate {
   const label = candidateLabel(uc)
   return {
     userContentId: uc.id,
@@ -413,14 +413,14 @@ function toCandidate(uc: DbUserContent, score: number): BookResourceCandidate {
   }
 }
 
-function findProfileForBook(
+function findCelebForBook(
   book: LocalBook,
-  profiles: DbProfile[],
-): DbProfile | null {
-  const slugMatch = profiles.find(p => p.slug === book.celebSlugHint)
+  celebs: DbCeleb[],
+): DbCeleb | null {
+  const slugMatch = celebs.find(p => p.slug === book.celebSlugHint)
   if (slugMatch) return slugMatch
 
-  const nicknameMatches = profiles.filter(p => p.nickname === book.celebNickname)
+  const nicknameMatches = celebs.filter(p => p.nickname === book.celebNickname)
   return nicknameMatches.length === 1 ? nicknameMatches[0] : null
 }
 
@@ -469,26 +469,26 @@ async function coverAudit(
 
 export async function auditBookRecommendResources(): Promise<BookResourceAudit> {
   const books = await discoverLocalBooks()
-  const profiles = await loadProfiles(books)
-  const userContents = await loadUserContents(profiles.map(p => p.id))
-  const byUser = new Map<string, DbUserContent[]>()
-  for (const uc of userContents) {
-    const list = byUser.get(uc.user_id) ?? []
+  const celebs = await loadCelebs(books)
+  const celebContents = await loadCelebContents(celebs.map(p => p.id))
+  const byCeleb = new Map<string, DbCelebContent[]>()
+  for (const uc of celebContents) {
+    const list = byCeleb.get(uc.celeb_id) ?? []
     list.push(uc)
-    byUser.set(uc.user_id, list)
+    byCeleb.set(uc.celeb_id, list)
   }
 
   const rows: BookResourceRow[] = []
 
   for (const book of books) {
-    const profile = findProfileForBook(book, profiles)
-    const dbBooks = profile ? (byUser.get(profile.id) ?? []) : []
+    const profile = findCelebForBook(book, celebs)
+    const dbBooks = profile ? (byCeleb.get(profile.id) ?? []) : []
     const ko = book.locales.find(f => f.locale === 'ko')!
     const currentContentId = String(ko.data.contentId ?? '') || null
     const currentUserContentId = String(ko.data.userContentId ?? '') || null
 
     let matchKind: BookResourceMatchKind = 'unresolved'
-    let matched: DbUserContent | null = null
+    let matched: DbCelebContent | null = null
 
     if (currentUserContentId || currentContentId) {
       matched = dbBooks.find(uc =>

@@ -6,7 +6,7 @@ export const VIRTUE_KEYS = [...INNER_VIRTUE_KEYS, ...OUTER_VIRTUE_KEYS] as const
 
 export type InnerVirtueKey = (typeof INNER_VIRTUE_KEYS)[number]
 export type OuterVirtueKey = (typeof OUTER_VIRTUE_KEYS)[number]
-type VirtueKey = (typeof VIRTUE_KEYS)[number]
+export type VirtueKey = (typeof VIRTUE_KEYS)[number]
 
 const VIRTUE_LABELS: Record<VirtueKey, string> = {
   temperance: '절제',

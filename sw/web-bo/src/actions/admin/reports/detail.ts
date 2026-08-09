@@ -15,7 +15,6 @@ export interface ReportPersonDetail {
   status: string | null
   suspendedAt: string | null
   suspendedReason: string | null
-  profileType: string | null
 }
 
 export interface ReportDetail {
@@ -37,19 +36,18 @@ export interface ReportDetail {
 }
 
 interface RawAccount {
+  id: string
   email: string | null
   account_status: string | null
   suspended_at: string | null
   suspended_reason: string | null
+  member_profiles: RawPerson | RawPerson[] | null
 }
 
 interface RawPerson {
-  id: string
   nickname: string | null
   avatar_url: string | null
-  profile_type: string | null
   // 계정 값은 26.08.07에 user_accounts로 갈라졌다. 인물에게는 이 행이 없다.
-  user_accounts: RawAccount | RawAccount[] | null
 }
 
 interface RawReport {
@@ -64,35 +62,34 @@ interface RawReport {
   resolved_at: string | null
   resolution_note: string | null
   created_at: string
-  reporter: RawPerson | null
-  targetUser: RawPerson | null
-  resolver: { nickname: string | null } | null
+  reporter: RawAccount | null
+  targetUser: RawAccount | null
+  resolver: RawAccount | null
 }
 // #endregion
 
 const PERSON_COLUMNS =
-  '(id, nickname, avatar_url, profile_type, user_accounts!user_accounts_id_fkey(email, account_status, suspended_at, suspended_reason))'
+  '(id, email, account_status, suspended_at, suspended_reason, member_profiles!member_profiles_id_fkey(nickname, avatar_url))'
 
 const DETAIL_SELECT = `
   id, reporter_id, target_type, target_id, target_user_id, reason, description,
   status, resolved_at, resolution_note, created_at,
-  reporter:profiles!reports_reporter_id_fkey ${PERSON_COLUMNS},
-  targetUser:profiles!reports_target_user_id_fkey ${PERSON_COLUMNS},
-  resolver:profiles!reports_resolved_by_fkey (nickname)
+  reporter:user_accounts!reports_reporter_accounts_fkey ${PERSON_COLUMNS},
+  targetUser:user_accounts!reports_target_accounts_fkey ${PERSON_COLUMNS},
+  resolver:user_accounts!reports_resolver_accounts_fkey ${PERSON_COLUMNS}
 `
 
-function toPerson(raw: RawPerson | null): ReportPersonDetail | null {
+function toPerson(raw: RawAccount | null): ReportPersonDetail | null {
   if (!raw) return null
-  const account = Array.isArray(raw.user_accounts) ? raw.user_accounts[0] ?? null : raw.user_accounts
+  const profile = Array.isArray(raw.member_profiles) ? raw.member_profiles[0] ?? null : raw.member_profiles
   return {
     id: raw.id,
-    nickname: raw.nickname,
-    email: account?.email ?? null,
-    avatarUrl: raw.avatar_url,
-    status: account?.account_status ?? null,
-    suspendedAt: account?.suspended_at ?? null,
-    suspendedReason: account?.suspended_reason ?? null,
-    profileType: raw.profile_type,
+    nickname: profile?.nickname ?? null,
+    email: raw.email,
+    avatarUrl: profile?.avatar_url ?? null,
+    status: raw.account_status,
+    suspendedAt: raw.suspended_at,
+    suspendedReason: raw.suspended_reason,
   }
 }
 
@@ -106,7 +103,8 @@ export async function getReportDetail(reportId: string): Promise<ReportDetail | 
     .eq('id', reportId)
     .maybeSingle()
 
-  if (error || !data) return null
+  if (error) throw new Error(`신고 상세 조회 실패: ${error.message}`)
+  if (!data) return null
 
   const raw = data as unknown as RawReport
   const snapshot = await loadReportSnapshot(raw.target_type, raw.target_id)
@@ -125,7 +123,11 @@ export async function getReportDetail(reportId: string): Promise<ReportDetail | 
     createdAt: raw.created_at,
     reporter: toPerson(raw.reporter),
     targetUser: toPerson(raw.targetUser),
-    resolverNickname: raw.resolver?.nickname ?? null,
+    resolverNickname: raw.resolver
+      ? (Array.isArray(raw.resolver.member_profiles)
+          ? raw.resolver.member_profiles[0]?.nickname
+          : raw.resolver.member_profiles?.nickname) ?? null
+      : null,
     snapshot,
   }
 }

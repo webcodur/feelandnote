@@ -16,46 +16,35 @@ export async function getRecommendableFriends(): Promise<ActionResult<Recommenda
     return failure("UNAUTHORIZED");
   }
 
-  // 내가 차단한 사용자 ID 조회
-  const { data: blockedUsers } = await supabase
-    .from("blocks")
-    .select("blocked_id")
-    .eq("blocker_id", user.id);
+  const [blocksResult, followingResult, followerResult] = await Promise.all([
+    supabase
+      .from("blocks")
+      .select("blocker_id, blocked_id")
+      .or(`blocker_id.eq.${user.id},blocked_id.eq.${user.id}`),
+    supabase
+      .from("member_member_follows")
+      .select("followed_member_id")
+      .eq("follower_member_id", user.id),
+    supabase
+      .from("member_member_follows")
+      .select("follower_member_id")
+      .eq("followed_member_id", user.id),
+  ]);
 
-  const blockedIds = blockedUsers?.map((b) => b.blocked_id) ?? [];
+  const blockedIds = new Set<string>();
+  blocksResult.data?.forEach((row) => {
+    blockedIds.add(row.blocker_id === user.id ? row.blocked_id : row.blocker_id);
+  });
+  const followingIds = new Set(followingResult.data?.map((row) => row.followed_member_id) ?? []);
+  const followerIds = new Set(followerResult.data?.map((row) => row.follower_member_id) ?? []);
+  const candidateIds = [...new Set([...followingIds, ...followerIds])];
 
-  // 내가 팔로우하는 사용자
-  const { data: followingData } = await supabase
-    .from("follows")
-    .select(
-      `
-      following_id,
-      profile:profiles!follows_following_id_fkey(
-        id,
-        nickname,
-        avatar_url
-      )
-    `
-    )
-    .eq("follower_id", user.id);
-
-  // 나를 팔로우하는 사용자
-  const { data: followerData } = await supabase
-    .from("follows")
-    .select(
-      `
-      follower_id,
-      profile:profiles!follows_follower_id_fkey(
-        id,
-        nickname,
-        avatar_url
-      )
-    `
-    )
-    .eq("following_id", user.id);
-
-  const followingIds = new Set(followingData?.map((f) => f.following_id) ?? []);
-  const followerIds = new Set(followerData?.map((f) => f.follower_id) ?? []);
+  const { data: profiles } = candidateIds.length
+    ? await supabase
+        .from("member_profiles")
+        .select("id, nickname, avatar_url")
+        .in("id", candidateIds)
+    : { data: [] };
 
   // 사용자 맵 구성
   const userMap = new Map<
@@ -69,24 +58,9 @@ export async function getRecommendableFriends(): Promise<ActionResult<Recommenda
     avatar_url: string | null;
   };
 
-  followingData?.forEach((f) => {
-    const profile = (
-      Array.isArray(f.profile) ? f.profile[0] : f.profile
-    ) as ProfileData | null;
+  (profiles as ProfileData[] | null)?.forEach((profile) => {
     if (profile) {
-      userMap.set(f.following_id, {
-        nickname: profile.nickname ?? "User",
-        avatar_url: profile.avatar_url,
-      });
-    }
-  });
-
-  followerData?.forEach((f) => {
-    const profile = (
-      Array.isArray(f.profile) ? f.profile[0] : f.profile
-    ) as ProfileData | null;
-    if (profile && !userMap.has(f.follower_id)) {
-      userMap.set(f.follower_id, {
+      userMap.set(profile.id, {
         nickname: profile.nickname ?? "User",
         avatar_url: profile.avatar_url,
       });
@@ -97,7 +71,7 @@ export async function getRecommendableFriends(): Promise<ActionResult<Recommenda
   const result: RecommendableUser[] = [];
 
   userMap.forEach((profile, id) => {
-    if (blockedIds.includes(id)) return;
+    if (blockedIds.has(id)) return;
 
     const isFollowing = followingIds.has(id);
     const isFollower = followerIds.has(id);

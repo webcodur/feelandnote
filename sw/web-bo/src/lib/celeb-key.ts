@@ -14,11 +14,11 @@ export function celebKeyColumn(key: string): 'id' | 'slug' {
 export async function resolveCelebId(key: string): Promise<string | null> {
   if (celebKeyColumn(key) === 'id') return key
   const supabase = await createClient()
-  const { data } = await supabase
-    .from('profiles')
+  const { data, error } = await supabase
+    .from('celebs')
     .select('id')
     .eq('slug', key)
-    .eq('profile_type', 'CELEB')
     .maybeSingle()
+  if (error) throw new Error(`Failed to resolve celeb slug: ${error.message}`)
   return (data as { id?: string } | null)?.id ?? null
 }

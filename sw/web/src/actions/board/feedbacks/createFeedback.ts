@@ -5,6 +5,7 @@ import { revalidatePath, revalidateTag } from 'next/cache'
 import { type ActionResult, failure, success, handleSupabaseError } from '@/lib/errors'
 import type { FeedbackCategory, FeedbackWithAuthor } from '@/types/database'
 import { isLocale, type Locale } from '@/types/locale'
+import { attachMemberAuthor } from '@/lib/board/memberProfiles'
 
 interface CreateFeedbackParams {
   locale: Locale
@@ -51,10 +52,7 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
       content: content.trim(),
       locale
     })
-    .select(`
-      *,
-      author:profiles!author_id(id, nickname, avatar_url)
-    `)
+    .select('*')
     .single()
 
   if (error) {
@@ -65,5 +63,6 @@ export async function createFeedback(params: CreateFeedbackParams): Promise<Acti
   revalidatePath('/en/agora/board/feedback')
   revalidateTag('feedbacks', { expire: 0 })
 
-  return success(data as FeedbackWithAuthor)
+  const feedback = await attachMemberAuthor(supabase, data)
+  return success(feedback as FeedbackWithAuthor)
 }

@@ -30,7 +30,7 @@ export default async function InfluenceDetailPage({ params }: PageProps) {
   const { slug } = await params
   const member = await getMemberBySlug(slug)
 
-  if (!member || member.profile_type !== 'CELEB') {
+  if (!member || member.subject_kind !== 'celeb') {
     notFound()
   }
 

@@ -259,7 +259,7 @@ async function main() {
 
   const ids = targets.map(target => target.id)
   const { data: profileData, error: profileError } = await db
-    .from('profiles')
+    .from('celebs')
     .select('id, slug, nickname, birth_date, profession')
     .in('id', ids)
   if (profileError) throw new Error(`프로필 조회 실패: ${profileError.message}`)

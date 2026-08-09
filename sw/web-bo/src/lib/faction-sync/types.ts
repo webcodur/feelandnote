@@ -78,9 +78,9 @@ export interface FactionSyncPerson {
   mythical: boolean
   link: FactionSyncLinkState
   soloShot: FactionSyncSoloShotState
-  /** profiles.avatar_url 존재 여부 */
+  /** celebs.avatar_url 존재 여부 */
   avatar: boolean
-  /** profiles.celeb_tier */
+  /** celebs.celeb_tier */
   tier?: string
   /**
    * 신화 표시와 셀럽 등급이 어긋남 — 제작 데이터는 신화라는데 셀럽 등급이 fiction 이 아니거나 그 반대.
