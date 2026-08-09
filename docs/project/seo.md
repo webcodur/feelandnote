@@ -1,6 +1,6 @@
 # SEO 설정 현황
 
-> **최종 실측 체크: 26.08.10** — 브랜드 검색에서 홈페이지·인물 허브가 사라진 현상을 Google Search Console과 라이브 HTTP로 재확인했다. 두 URL은 색인 `PASS`지만 검색 노출은 8월 기준 0이며, 사이트 전체 노출도 바닥이다. 브랜드 식별·구조화 데이터·답변 엔진 크롤·사이트맵 freshness 교정은 코드에 반영했고 배포 후 재크롤·회복 판정을 기다린다. 기준선과 변경 내역은 「브랜드 검색 노출 붕괴」 절이 쥔다.
+> **최종 실측 체크: 26.08.10** — 브랜드 검색에서 홈페이지·인물 허브가 사라진 현상을 Google Search Console과 라이브 HTTP로 재확인했다. 두 URL은 색인 `PASS`지만 검색 노출은 8월 기준 0이며, 사이트 전체 노출도 바닥이다. 브랜드 식별·구조화 데이터·답변 엔진 크롤·사이트맵 freshness 교정을 커밋 `72b46255`로 배포했고, 전체 17,524 URL을 Bing·네이버 IndexNow에 통지했다. Google 사이트맵 API 재제출은 연결 자격의 권한 부족으로 거절되어 콘솔 수동 제출만 남았다. 기준선·변경·제출 결과는 「브랜드 검색 노출 붕괴」 절이 쥔다.
 
 ## 브랜드·사이트명 단일원천
 
@@ -90,22 +90,31 @@ URL 자체가 삭제된 것은 아니다.
 - sitemap URL 목록은 그대로 두되 인물은 `updated_at ?? created_at`, 작품은 공개 감상문 최신 `updated_at`을 정확한 `lastmod`로 기록하게 했다.
 - 새 라우트가 아니므로 `navigation.tsx`는 변경하지 않았다. 기존 canonical·hreflang는 유지한다.
 
-### 배포 후 회복 절차
+### 배포·제출 결과와 회복 판정
 
-1. 라이브 `/`, `/en`, `/explore`에서 title·description·canonical·hreflang·JSON-LD·가시 별칭을 재검증한다.
-2. Search Console URL 검사에서 `/`, `/explore`, `/about`, `/en`을 각각 실시간 테스트한 뒤 색인 생성을 요청한다.
-3. 기존 `sitemap.xml`을 다시 제출한다. URL 목록이 바뀐 것은 아니며, 대표 페이지 메타·본문 재수집을 촉진하기 위한 운영 조치다.
-4. 같은 page 필터로 7일·14일·28일 노출을 비교한다. 수동 검색 한 번으로 회복을 판정하지 않는다.
-5. 재크롤 뒤에도 브랜드 검색과 property 노출이 28일간 회복되지 않으면 Search Console의 수동 조치·보안 문제·삭제 요청 보고서를 사람이 확인한다. 이 세 보고서는 현재 API로 판독할 수 없다.
+26.08.10 커밋 `72b46255`를 `main`에 푸시했고 Vercel 프로덕션 배포 성공을 확인했다.
+
+- 라이브 `/`, `/en`, `/explore`, `/en/celeb/bill-gates`에서 새 title·description·canonical·hreflang·JSON-LD·가시 브랜드를 확인했다. `OAI-SearchBot`·`Claude-SearchBot`·`PerplexityBot` UA도 공개 페이지를 200으로 받는다.
+- 프로덕션 `sitemap.xml`은 200 `application/xml`, 17,524 URL이며 17,326 URL에 실제 `lastmod`가 있다. IndexNow 키 파일은 200이고 내용도 키와 일치한다.
+- Bing 계열 공용 IndexNow API에는 5,000 + 5,000 + 7,524 URL을, 네이버 공식 IndexNow API에는 10,000 + 7,524 URL을 POST했고 모든 최종 배치가 HTTP 200을 반환했다. 이는 갱신 통지가 수신됐다는 뜻이지 색인 보장은 아니다.
+- Google Search Console URL 검사에서 `/`와 `/explore`는 색인 `PASS`, robots 허용, 사용자·Google canonical 일치다. 마지막 크롤은 각각 2026-06-24와 2026-07-27이라 이번 배포본을 아직 본 결과가 아니다.
+- `/en`은 2026-08-05 크롤 성공·canonical 일치지만 `Crawled - currently not indexed`, `/en/celeb/bill-gates`는 `URL is unknown to Google`이다. 영문판은 별도 회복 대상이다.
+- Search Console에 등록된 사이트맵은 오류·경고 0이지만 마지막 제출 2026-07-15, 마지막 다운로드 2026-07-17, 인식 URL 15,884인 이전 스냅샷이다. 연결 자격으로 `submit_sitemap`을 호출하면 `403 Insufficient Permission`이 나와 26.08.10 API 재제출은 완료하지 못했다.
+
+남은 운영 절차:
+
+1. 권한 있는 로그인 브라우저에서 Google Search Console의 `sitemap.xml`을 다시 제출하고 `/`, `/explore`, `/about`, `/en`을 실시간 테스트한 뒤 색인 생성을 요청한다. 범용 URL 색인 요청은 Search Console API가 제공하지 않는다.
+2. 같은 page 필터로 배포 후 7일·14일·28일 노출을 비교한다. 수동 검색 한 번으로 회복을 판정하지 않는다.
+3. 재크롤 뒤에도 브랜드 검색과 property 노출이 28일간 회복되지 않으면 Search Console의 수동 조치·보안 문제·삭제 요청 보고서를 사람이 확인한다. 이 세 보고서는 현재 연결 API로 판독할 수 없다.
 
 ## 검색엔진 등록 현황
 
 | 서비스 | 상태 | 인증 방식 | 제출 항목 | 비고 |
 |--------|------|----------|----------|------|
-| Google Search Console | ✅ 완료 | 메타태그 (`google` verification) | 사이트맵 | MCP 연결됨 (`mcp__google-search-console__*`) |
+| Google Search Console | ⚠️ 등록·조회 정상, 재제출 권한 부족 | 메타태그 (`google` verification) | 사이트맵 | URL 검사 가능. 26.08.10 `submit_sitemap`은 403; 권한 있는 콘솔에서 수동 재제출 필요 |
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
-| 네이버 서치어드바이저 | ✅ 완료 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 제출 | 2026-03-12 |
-| Bing Webmaster Tools | ✅ 완료 | Google SC 연동 | 사이트맵 | IndexNow 자동 연동. 2026-03-12 |
+| 네이버 서치어드바이저 | ✅ 등록·IndexNow 재통지 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 제출 | 2026-03-12 등록. 26.08.10 전체 17,524 URL 공식 IndexNow API 200 |
+| Bing Webmaster Tools | ✅ 등록·IndexNow 재통지 | Google SC 연동 | 사이트맵 | 2026-03-12 등록. 26.08.10 전체 17,524 URL 공용 IndexNow API 200 |
 | Daum 검색등록 | ✅ 제출 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 |
 
 ### 인증 메타태그 위치
@@ -151,6 +160,7 @@ verification: {
 - production 환경에서만 동작 (dev 환경 skip)
 - 셀럽 등록/수정 등 콘텐츠 변경 시 호출하면 즉시 색인 요청됨
 - **연동 완료** (2026-03-13): `web-bo` celebs.ts의 `toggleCelebStatus`(active 전환 시) + `updateCeleb`(active 셀럽 정보 변경 시) 호출
+- **사이트 전량 갱신 통지** (2026-08-10): 이번 브랜드 메타·구조화 데이터의 사이트 전역 변경에 한해 sitemap 17,524 URL을 Bing 계열 공용 API와 네이버 공식 API에 나눠 전송했고 최종 배치 전부 HTTP 200을 확인했다. 평상시에는 변경된 URL만 증분 통지한다.
 
 ## Robots
 
@@ -202,7 +212,7 @@ curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/profiles?select=slug,created_at&pro
   -H "Authorization: Bearer ${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
 
 # 배포 후 검증
-curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<url>"   # 예상: ~15884
+curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<url>"   # DB 증가에 따라 변함. 날짜별 실측은 이 문서의 사이트맵 절
 curl -s -I "https://feelandnote.com/feed.xml" | grep Content-Type  # 예상: application/rss+xml
 curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: text/plain
 ```
