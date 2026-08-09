@@ -95,7 +95,7 @@ URL 자체가 삭제된 것은 아니다.
 26.08.10 커밋 `72b46255`를 `main`에 푸시했고 Vercel 프로덕션 배포 성공을 확인했다.
 
 - 라이브 `/`, `/en`, `/explore`, `/en/celeb/bill-gates`에서 새 title·description·canonical·hreflang·JSON-LD·가시 브랜드를 확인했다. `OAI-SearchBot`·`Claude-SearchBot`·`PerplexityBot` UA도 공개 페이지를 200으로 받는다.
-- 프로덕션 `sitemap.xml`은 200 `application/xml`, 17,524 URL이며 17,326 URL에 실제 `lastmod`가 있다. IndexNow 키 파일은 200이고 내용도 키와 일치한다.
+- 프로덕션 `sitemap.xml`은 기존 주소를 유지한 사이트맵 인덱스이며 하위 파일 10개를 가리킨다. 하위 파일을 합치면 고유 URL 17,524개, 실제 `lastmod`가 있는 URL 17,326개다. 가장 큰 파일은 1.428MiB다. IndexNow 키 파일도 200이고 내용이 키와 일치한다.
 - Bing 계열 공용 IndexNow API에는 5,000 + 5,000 + 7,524 URL을, 네이버 공식 IndexNow API에는 10,000 + 7,524 URL을 POST했고 모든 최종 배치가 HTTP 200을 반환했다. 이는 갱신 통지가 수신됐다는 뜻이지 색인 보장은 아니다.
 - Google Search Console URL 검사에서 `/`와 `/explore`는 색인 `PASS`, robots 허용, 사용자·Google canonical 일치다. 마지막 크롤은 각각 2026-06-24와 2026-07-27이라 이번 배포본을 아직 본 결과가 아니다.
 - `/en`은 2026-08-05 크롤 성공·canonical 일치지만 `Crawled - currently not indexed`, `/en/celeb/bill-gates`는 `URL is unknown to Google`이다. 영문판은 별도 회복 대상이다.
@@ -131,11 +131,14 @@ verification: {
 
 ## 사이트맵
 
-- **파일**: `sw/web/src/app/sitemap.ts`
-- **URL**: `https://feelandnote.com/sitemap.xml`
+- **데이터·XML 단일원천**: `sw/web/src/lib/sitemap.ts`
+- **인덱스 라우트**: `sw/web/src/app/sitemap.xml/route.ts` → `https://feelandnote.com/sitemap.xml`
+- **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
 - **방식**: Supabase REST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
-- **캐시**: `revalidate = 86400` (ISR 하루. 재생성 1회가 Supabase에서 약 1MB를 끌어오므로 1시간 → 하루로 완화, 2026-07-15)
+- **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
 - **URL 구성**(2026-08-10 로컬 실측): 정적 21경로 42 URL + 셀럽(`celeb_tier=eq.full`) 1,500명 3,000 URL + 감상문 보유 콘텐츠 7,163건 14,326 URL + 기관 선정 78경로 156 URL. 각 경로가 ko·en 2 URL로 나가 총 **17,524개**다. DB 증가에 따라 수치는 바뀌므로 규약값이 아니라 날짜 스냅샷이다.
+- **분할 구조**: 인덱스는 `core`·`celebs`·`contents-0..7`의 10개 파일을 가리킨다. 작품은 UUID 첫 16진수를 8개 고정 버킷에 배정해 같은 작품의 ko·en URL이 항상 같은 파일에 남는다. 26.08.10 실측은 10개 합계 17,524개·중복 0·누락 0, 최대 파일 `celebs.xml` 1.428MiB다.
+- **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 분할 뒤 각 파일은 충분한 여유를 가지며, 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로 유지된다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)
 - **등재 기준**: 셀럽은 full 티어만, 콘텐츠는 감상문(`review`) 1건 이상·`visibility=public`인 것만. 페이지 noindex 기준과 일치시킨다(등재↔색인거부 모순 방지)
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: Supabase REST 기본 제한 1,000행 → 1,000행씩 반복 fetch
@@ -182,13 +185,17 @@ verification: {
 
 ```ts
 const SEO_PATHS = ['/sitemap.xml', '/robots.txt', '/feed.xml', '/opengraph-image']
+const SEO_PATH_PREFIXES = ['/seo-image/', '/sitemaps/']
 
-if (SEO_PATHS.includes(request.nextUrl.pathname)) {
+if (
+  SEO_PATHS.includes(request.nextUrl.pathname)
+  || SEO_PATH_PREFIXES.some((prefix) => request.nextUrl.pathname.startsWith(prefix))
+) {
   return NextResponse.next()
 }
 ```
 
-matcher 패턴의 dot 이스케이프가 불안정하므로, 코드 가드가 SSoT이다. 새 SEO 경로 추가 시 `SEO_PATHS` 배열에 추가한다.
+실제 조건문은 `SEO_PATHS` exact match와 `SEO_PATH_PREFIXES` prefix match를 함께 검사한다. matcher 패턴의 dot 이스케이프가 불안정하므로 코드 가드가 SSoT이다. 단일 SEO 경로는 `SEO_PATHS`, 여러 하위 파일을 갖는 경로는 `SEO_PATH_PREFIXES`에 추가한다.
 
 아이콘은 이제 규약 파일이 아니라 `public/icon.png`·`public/apple-icon.png` 정적 파일로 서빙되므로 `SEO_PATHS`에 넣지 않는다. `[locale]/layout.tsx`의 `icons`와 `manifest.ts`가 이 경로를 가리킨다.
 
@@ -212,7 +219,9 @@ curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/profiles?select=slug,created_at&pro
   -H "Authorization: Bearer ${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
 
 # 배포 후 검증
-curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<url>"   # DB 증가에 따라 변함. 날짜별 실측은 이 문서의 사이트맵 절
+curl -s "https://feelandnote.com/sitemap.xml" | grep -c "<sitemap>" # 현재 하위 파일 10개
+curl -s "https://feelandnote.com/sitemaps/celebs.xml" | grep -c "<url>"
+curl -s "https://feelandnote.com/sitemaps/contents-0.xml" | grep -c "<url>"
 curl -s -I "https://feelandnote.com/feed.xml" | grep Content-Type  # 예상: application/rss+xml
 curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: text/plain
 ```

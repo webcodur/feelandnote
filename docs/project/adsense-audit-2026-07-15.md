@@ -99,7 +99,7 @@ AdSense 승인이 1차 신청(26.03.09) 이후 반복 거절된 원인을 전방
 |------|------|------|---------------------|
 | 셀럽 서재 캐시 분리 | `actions/contents/getUserContents.ts` | `getCachedCelebLibraryContents`(키 `celeb-library-contents`, 7일) 신설. 기존 `public-user-contents`(1시간)는 **일반 사용자 서재 열람용으로 유지** — 본인이 책을 추가하면 곧 반영돼야 하므로 7일 부적합. 같은 캐시를 두 용도가 공유하던 것을 키로 분리 | 셀럽 SSR 순증 **717MB/월 → 4MB/월** |
 | 콘텐츠 메타 수명 | `actions/contents/getContentDetail.ts` | `content-data-public` 3600 → `STATIC_REVALIDATE`. 제목·저자·소개문은 BO 편집 시에만 변한다(셀럽 프로필과 동일 성격). **감상문 피드(`getReviewFeed`)는 사용자 활동으로 변하므로 3600 유지** | 콘텐츠 상세 **50GB/월 → 0.7GB/월** |
-| 사이트맵 주기 | `app/sitemap.ts` | `revalidate` 3600 → 86400(내부 fetch 2곳 포함). 재생성 1회가 약 1MB(셀럽 1,257행 + user_contents 11,230행 스캔) | **750MB/월 → 30MB/월** |
+| 사이트맵 주기 | 당시 `app/sitemap.ts`(현행 경로는 `seo.md` 참조) | `revalidate` 3600 → 86400(내부 fetch 2곳 포함). 재생성 1회가 약 1MB(셀럽 1,257행 + user_contents 11,230행 스캔) | **750MB/월 → 30MB/월** |
 
 ### 실측 페이로드 (Supabase 실 SQL 기준)
 
