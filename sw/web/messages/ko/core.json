@@ -1,8 +1,11 @@
 {
   "site": {
-    "title": "Feel&Note",
-    "description": "위인들이 읽고, 보고, 들은 작품을 한눈에. 1,000명 이상의 감상 기록과 그 울림을 탐색하세요.",
-    "twitterDescription": "한 줄의 기록이 천 년을 울린다. 1,000명 이상의 위인이 남긴 감상 아카이브.",
+    "title": "필앤노트(Feel&Note) — 인물의 책·영화·음악 감상 아카이브",
+    "titleTemplate": "%s | 필앤노트",
+    "brandHeading": "필앤노트(Feel&Note)",
+    "brandAlias": "필앤노트 · Feel&Note",
+    "description": "필앤노트(Feel&Note)는 역사적 인물과 현대 인사가 읽고, 보고, 듣고, 즐긴 작품과 감상 기록을 모은 문화 아카이브입니다.",
+    "twitterDescription": "필앤노트에서 1,000명 이상의 인물이 남긴 책·영화·음악·게임 감상 기록을 만나보세요.",
     "keywords": [
       "감상 기록",
       "셀럽 추천 책",

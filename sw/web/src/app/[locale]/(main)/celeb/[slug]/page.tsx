@@ -12,7 +12,7 @@ import { getPublicGuestbookEntries } from "@/actions/guestbook";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getFactionTagsByIds } from "@/actions/home/getFeaturedTags";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getAlternates, getSeoImageUrl } from "@/lib/seo";
+import { getAlternates, getCreativeWorkCreatorJsonLd, getSeoImageUrl } from "@/lib/seo";
 import { flattenLocales } from "@/lib/utils/content-locale";
 import { getCountryNameByLocale } from "@/lib/countries";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
@@ -46,7 +46,6 @@ export function generateStaticParams() {
 // 서버에서 미리 그릴 서가 첫 화면 항목 수. 서재 훅의 기본 페이지 크기와 같아야
 // 초기 HTML과 클라이언트 첫 페이지가 어긋나지 않는다.
 const LIBRARY_FIRST_PAGE_SIZE = 4;
-
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
@@ -202,6 +201,9 @@ export default async function CelebPage({ params }: PageProps) {
     locale === "en" ? "en" : "ko",
     profile.avatar_url ?? profile.photo_url,
   );
+  const wikidataQid = profile.wikidata_qid?.match(/^Q\d+$/)?.[0] ?? null;
+  const alternateNames = [profile.nickname_ko, profile.nickname_en]
+    .filter((name): name is string => Boolean(name && name !== profile.nickname));
   const contentItems = contentList.map((rawContent, idx) => {
     const flat = flattenLocales(rawContent.content_locales, locale);
     const schemaType = rawContent.type === 'BOOK' ? 'Book'
@@ -215,7 +217,11 @@ export default async function CelebPage({ params }: PageProps) {
       item: {
         "@type": schemaType,
         name: flat.title,
-        ...(flat.creator && { author: { "@type": "Person", name: flat.creator } }),
+        url: getAlternates(
+          `/content/${rawContent.id}`,
+          locale === "en" ? "en" : "ko",
+        ).canonical,
+        ...getCreativeWorkCreatorJsonLd(rawContent.type, flat.creator),
       },
     };
   });
@@ -224,12 +230,22 @@ export default async function CelebPage({ params }: PageProps) {
     {
       "@context": "https://schema.org",
       "@type": "Person",
+      "@id": `${canonicalUrl}#person`,
       name: profile.nickname,
+      ...(alternateNames.length > 0 && { alternateName: alternateNames }),
+      ...(profile.bio && { description: profile.bio }),
       ...(profile.nationality && {
         nationality: getCountryNameByLocale(profile.nationality, locale),
       }),
       ...(profile.profession && { jobTitle: getCelebProfessionLabel(profile.profession, locale) }),
+      ...(profile.birth_date && { birthDate: profile.birth_date }),
+      ...(profile.death_date && { deathDate: profile.death_date }),
+      ...(wikidataQid && {
+        identifier: wikidataQid,
+        sameAs: `https://www.wikidata.org/wiki/${wikidataQid}`,
+      }),
       url: canonicalUrl,
+      mainEntityOfPage: canonicalUrl,
       image: personImageUrl,
     },
     ...(contentItems.length > 0

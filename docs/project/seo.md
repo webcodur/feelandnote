@@ -1,6 +1,102 @@
 # SEO 설정 현황
 
-> **최종 실측 체크: 26.07.22** — 코드·라이브 HTTP와 Google Search Console을 대조. 사이트맵 15,884 URL 수신·오류 0은 유지되지만 대표 페이지 재크롤과 검색 노출 회복은 아직 확인되지 않았다. 자세한 내용은 `adsense-audit-2026-07-15.md` 4-3절 참조.
+> **최종 실측 체크: 26.08.10** — 브랜드 검색에서 홈페이지·인물 허브가 사라진 현상을 Google Search Console과 라이브 HTTP로 재확인했다. 두 URL은 색인 `PASS`지만 검색 노출은 8월 기준 0이며, 사이트 전체 노출도 바닥이다. 브랜드 식별·구조화 데이터·답변 엔진 크롤·사이트맵 freshness 교정은 코드에 반영했고 배포 후 재크롤·회복 판정을 기다린다. 기준선과 변경 내역은 「브랜드 검색 노출 붕괴」 절이 쥔다.
+
+## 브랜드·사이트명 단일원천
+
+브랜드 표기 규약은 문서 문자열이 아니라 코드가 쥔다.
+
+| 무엇 | 단일원천 |
+|------|----------|
+| 정본 URL·기본 사이트명·검색 별칭·Organization/WebSite JSON-LD 생성 | `sw/web/src/lib/seo.ts` |
+| locale별 홈페이지 제목·내부 페이지 제목 템플릿·설명·H1·가시 별칭 | `sw/web/messages/{ko,en}/core.json`의 `site` |
+| 홈페이지 자기참조 canonical·hreflang | `sw/web/src/app/[locale]/(main)/page.tsx` → `getLocalizedAlternates('/')` |
+| 내부 페이지 제목 접미사 적용 | `sw/web/src/app/[locale]/layout.tsx` → `title.template` |
+| 홈페이지 가시 브랜드·접근성 제목 | `sw/web/src/components/features/home/HomeTabSection.tsx` |
+
+운영 규칙:
+
+1. `WebSite` 구조화 데이터는 도메인 홈페이지(`/`, `/en`)에서만 출력한다. `Organization`은 공통 레이아웃에서 출력한다.
+2. 두 구조화 데이터는 반드시 `lib/seo.ts`의 같은 이름·별칭 상수를 사용한다. 문자열을 페이지에 다시 적지 않는다.
+3. 홈페이지는 설명형 절대 제목을 사용하고, 내부 페이지는 locale별 짧은 브랜드 접미사를 자동으로 붙인다. 개별 메시지에 같은 브랜드 접미사를 또 넣지 않는다.
+4. 한국어 화면의 브랜드 한글 표기와 영문 워드마크가 같은 서비스임을 홈페이지 가시 텍스트와 `alternateName`으로 함께 밝힌다.
+5. `meta keywords`는 Google 색인·순위 신호가 아니다. 메시지에 남은 keywords 배열을 브랜드 회복 수단으로 간주하지 않는다.
+
+## SEO·AEO·GEO 운영 원칙
+
+세 용어를 서로 다른 비법처럼 운영하지 않는다. 검색과 답변 엔진이 공통으로 쓰는 공개 문서를 정확히 만들고, 엔진별 수집 통로만 구분한다.
+
+| 축 | 이 프로젝트의 구현 |
+|----|-------------------|
+| 검색 발견 | canonical·hreflang·내부 링크·XML sitemap·RSS·IndexNow |
+| 브랜드/엔터티 판독 | 홈페이지 `WebSite`, 공통 `Organization`, 공식 YouTube `sameAs`, 인물 `Person` + Wikidata `sameAs` |
+| 답변 가능성 | 소개·인물·작품·감상경위·근거 URL을 서버 HTML의 가시 텍스트로 제공 |
+| 답변 엔진 접근 | 검색·사용자 요청용 UA만 공개 경로 허용; 모델 학습·대량 수집 UA는 차단 |
+| 품질 경계 | 구조화 데이터는 가시 본문과 같은 사실만 선언하고, 페이지 성격에 맞지 않는 `FAQPage`·`ProfilePage`를 억지로 붙이지 않음 |
+
+판단 근거:
+
+- Google AI Overviews·AI Mode는 별도 schema나 AI 전용 파일을 요구하지 않고 기존 SEO·색인·가시 텍스트·내부 링크·일치하는 구조화 데이터를 사용한다. 따라서 `llms.txt`를 검색 노출 필수 파일처럼 만들지 않는다. [Google Search Central — AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
+- Google 사이트명은 홈페이지 `WebSite`의 `name`·`alternateName`, `og:site_name`, 제목·헤딩·가시 텍스트의 일관성을 함께 본다. [Google Search Central — Site names](https://developers.google.com/search/docs/appearance/site-names)
+- `ProfilePage`는 사이트와 연관된 작성자·회원 프로필용이다. 역사 인물 자료 페이지에는 `Person`을 유지하고, 설명·생몰일·Wikidata 식별자를 보강한다. [Google Search Central — ProfilePage](https://developers.google.com/search/docs/appearance/structured-data/profile-page)
+- OpenAI·Anthropic·Perplexity·Amazon은 모델 학습용 봇과 검색/사용자 요청용 봇을 별도로 제공한다. `robots.ts`의 두 배열을 합치지 않는다. [OpenAI crawlers](https://developers.openai.com/api/docs/bots) · [Anthropic bots](https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler) · [Perplexity crawlers](https://docs.perplexity.ai/docs/resources/perplexity-crawlers) · [Amazon bots](https://developer.amazon.com/amazonbot)
+
+## 브랜드 검색 노출 붕괴 (2026-08-10)
+
+### 판정
+
+`필앤노트`·`feelandnote` 검색에서 자사 홈페이지·인물 허브가 사라지고 YouTube 결과만 남는 현상은 개인화나 단일 질의의 흔들림이 아니다. Search Console에서 홈페이지·`/explore`뿐 아니라 도메인 전체 검색 노출이 함께 붕괴했다.
+
+| 기간 | 홈페이지 노출 | `/explore` 노출 | 사이트 전체 노출 |
+|------|--------------:|----------------:|------------------:|
+| 2026-03 | 57 | 41 | 674 |
+| 2026-04 | 6 | 5 | 195 |
+| 2026-05 | 6 | 5 | 17 |
+| 2026-06 | 11 | 6 | 24 |
+| 2026-07 | 2 | 2 | 12 |
+| 2026-08-01~08 | **0** | **0** | **2** |
+
+위 값은 26.08.10 `sc-domain:feelandnote.com`의 web 검색 실적을 API로 조회한 날짜 스냅샷이다. 작은 질의는 개인정보 보호 임계값 때문에 query 차원에서 빠질 수 있으므로, 브랜드어 query 행이 아니라 page 필터와 property 총량을 기준선으로 삼았다.
+
+URL 자체가 삭제된 것은 아니다.
+
+| URL | GSC 판정 | 마지막 크롤 | 라이브 |
+|-----|----------|-------------|--------|
+| `/` | 제출되고 색인 생성됨, canonical 일치 | 2026-06-24 | 200, index/follow |
+| `/explore` | 제출되고 색인 생성됨, canonical 일치 | 2026-07-27 | 200, index/follow |
+
+따라서 상태는 「미색인」이 아니라 **색인은 남았지만 검색 결과 후보에서 사실상 탈락**이다.
+
+### 원인 판정
+
+두 축이 겹쳤다.
+
+1. 7월 15일 이전까지 Google은 셀럽 서가가 서버 HTML에 없는 버전, 콘텐츠 링크가 robots에 막힌 버전, 일부 허브가 canonical=홈을 신고하는 버전을 장기간 보았다. 교정 후에도 홈페이지 마지막 크롤은 그보다 이르다. 상세는 `adsense-audit-2026-07-15.md` 2절·4-3절이 쥔다.
+2. 2026-03-26 커밋 `1b02c775`가 전역 제목의 사이트명 접미사를 제거했다. 그 뒤 내부 페이지 제목에서 브랜드가 사라졌고, 홈페이지·구조화 데이터·워드마크·한글 호칭·도메인 표기도 하나의 별칭 집합으로 선언하지 않았다. 제거 시점과 3→4월 노출 급락은 일치하지만, 같은 기간 색인 결함도 있었으므로 단독 인과로 확정하지 않는다.
+
+### 2026-08-10 교정
+
+- 브랜드 이름·별칭·URL과 JSON-LD 빌더를 `src/lib/seo.ts` 한 곳으로 모았다.
+- locale별 홈페이지 제목과 설명을 브랜드+서비스 설명형으로 교체했다.
+- 내부 페이지 제목에 locale별 짧은 브랜드 접미사를 복원했다.
+- 홈페이지에 접근성 제목과 가시 브랜드 별칭을 추가했다.
+- `Organization`에 별칭을 추가하고, `WebSite`는 홈페이지에서만 같은 별칭으로 출력하게 분리했다.
+- `Organization.sameAs`에 locale별 공식 YouTube 채널을 연결해 검색에 남아 있는 채널과 웹사이트가 같은 브랜드임을 선언했다.
+- 인물 `Person`에 가시 소개·한영 별칭·생몰일·Wikidata QID/`sameAs`·정본 URL을 연결하고, 작품 목록 항목은 실제 상세 URL을 갖게 했다.
+- 작품 구조화 데이터의 제작자를 전부 `author`로 쓰던 오류를 유형별 `author`·`director`·`byArtist`·`creator`로 나눴다.
+- `/explore` 제목·설명에 인물 중심 용어와 브랜드 문맥을 반영했다.
+- 영상관처럼 제목 자체에 브랜드가 있던 페이지는 전역 접미사와 중복되지 않게 개별 제목에서 브랜드를 제거했다.
+- 답변 엔진 검색용 UA 9종은 공개 범위를 허용하고, 모델 학습·대량 수집 UA 16종은 계속 전면 차단하도록 `robots.ts`를 분리했다.
+- sitemap URL 목록은 그대로 두되 인물은 `updated_at ?? created_at`, 작품은 공개 감상문 최신 `updated_at`을 정확한 `lastmod`로 기록하게 했다.
+- 새 라우트가 아니므로 `navigation.tsx`는 변경하지 않았다. 기존 canonical·hreflang는 유지한다.
+
+### 배포 후 회복 절차
+
+1. 라이브 `/`, `/en`, `/explore`에서 title·description·canonical·hreflang·JSON-LD·가시 별칭을 재검증한다.
+2. Search Console URL 검사에서 `/`, `/explore`, `/about`, `/en`을 각각 실시간 테스트한 뒤 색인 생성을 요청한다.
+3. 기존 `sitemap.xml`을 다시 제출한다. URL 목록이 바뀐 것은 아니며, 대표 페이지 메타·본문 재수집을 촉진하기 위한 운영 조치다.
+4. 같은 page 필터로 7일·14일·28일 노출을 비교한다. 수동 검색 한 번으로 회복을 판정하지 않는다.
+5. 재크롤 뒤에도 브랜드 검색과 property 노출이 28일간 회복되지 않으면 Search Console의 수동 조치·보안 문제·삭제 요청 보고서를 사람이 확인한다. 이 세 보고서는 현재 API로 판독할 수 없다.
 
 ## 검색엔진 등록 현황
 
@@ -30,12 +126,12 @@ verification: {
 - **URL**: `https://feelandnote.com/sitemap.xml`
 - **방식**: Supabase REST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
 - **캐시**: `revalidate = 86400` (ISR 하루. 재생성 1회가 Supabase에서 약 1MB를 끌어오므로 1시간 → 하루로 완화, 2026-07-15)
-- **URL 구성**(2026-07-15 확장): 정적 20경로 + 셀럽(`celeb_tier=eq.full`) + 감상문 보유 콘텐츠 `/content/{id}` — 각 경로가 ko·en 2 URL로 나가 총 **약 15,884개** (정적 40 + 셀럽 2,514 + 콘텐츠 13,330)
+- **URL 구성**(2026-08-10 로컬 실측): 정적 21경로 42 URL + 셀럽(`celeb_tier=eq.full`) 1,500명 3,000 URL + 감상문 보유 콘텐츠 7,163건 14,326 URL + 기관 선정 78경로 156 URL. 각 경로가 ko·en 2 URL로 나가 총 **17,524개**다. DB 증가에 따라 수치는 바뀌므로 규약값이 아니라 날짜 스냅샷이다.
 - **등재 기준**: 셀럽은 full 티어만, 콘텐츠는 감상문(`review`) 1건 이상·`visibility=public`인 것만. 페이지 noindex 기준과 일치시킨다(등재↔색인거부 모순 방지)
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: Supabase REST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default
-- **lastModified**: 셀럽만 `profiles.created_at` 사용. `updated_at`은 2026-08-09 추가되어 기존 행이 null이므로 아직 사이트맵 기준으로 전환하지 않았다. 정적 경로·콘텐츠는 **기록하지 않는다** — `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 구글이 lastmod 신호를 무시하게 만든다
+- **lastModified**: 인물은 `celebs.updated_at ?? created_at`, 작품은 그 작품의 공개 감상문 중 가장 최신 `updated_at`을 사용한다. 정적 경로·기관 선정 화면은 정확한 수정 시각을 산출할 수 없어 기록하지 않는다. `new Date()` 폴백은 매 재생성마다 "방금 수정됨"으로 찍혀 검색엔진이 신호를 무시하게 만드므로 금지한다
 
 ## RSS 피드
 
@@ -66,7 +162,9 @@ verification: {
   - 개인: `/reading`, `/*/reading`, `/*/chamber`, `/*/merits`
   - 기타: `/notifications`, `/search`, `/lab` (`/en` 접두 변형 포함)
   - 쿼리: `/*?*search=`, `/*?*sortBy=`, `/*?*sort=`, `/*?*page=` — **무한 조합을 만드는 파라미터만** 차단한다. `/*?` 전면 차단은 `?category=`가 붙은 콘텐츠 상세 내부 링크까지 크롤 불가로 만들어 색인 붕괴를 일으켰다(2026-07-15 해제)
-- **AI 학습·수집 크롤러 20종**(`GPTBot`·`ClaudeBot`·`CCBot`·`Bytespider` 등): `Disallow: /` 전 경로 차단. egress 방어의 주력이므로 손대지 않는다
+- **검색·답변·사용자 요청 크롤러 9종**: `OAI-SearchBot`, `ChatGPT-User`, `Claude-SearchBot`, `Claude-User`, `PerplexityBot`, `Perplexity-User`, `Amzn-SearchBot`, `Amzn-User`, `YouBot`. 일반 검색엔진과 같은 공개 범위만 허용하고 `crawlDelay: 1`을 선언한다.
+- **모델 학습·대량 수집 크롤러 16종**(`GPTBot`·`ClaudeBot`·`CCBot`·`Bytespider`·`Google-Extended`·`Amazonbot` 등): `Disallow: /` 전 경로 차단. 답변 엔진을 열었다고 학습 수집까지 연 것이 아니다.
+- 일반 `Googlebot`은 Google 검색·AI Overviews/AI Mode를 함께 제어하고, `Google-Extended` 차단은 Google 검색 노출에 영향을 주지 않는다.
 
 ## 미들웨어 SEO 경로 제외
 
