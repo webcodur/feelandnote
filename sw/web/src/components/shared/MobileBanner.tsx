@@ -19,9 +19,13 @@ export default function MobileBanner({ title, subtitle }: MobileBannerProps) {
         <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#d4af37]" />
       </div>
 
-      <h1 className="text-2xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
+      <div
+        role="heading"
+        aria-level={1}
+        className="text-2xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center"
+      >
         {title}
-      </h1>
+      </div>
 
       {subtitle && subtitle.toLowerCase() !== title.toLowerCase() && (
         <p className="text-[#d4af37] tracking-[0.3em] text-[10px] mt-1.5 uppercase font-cinzel text-center">

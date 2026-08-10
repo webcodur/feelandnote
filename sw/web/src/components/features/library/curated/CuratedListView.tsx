@@ -109,7 +109,7 @@ export default async function CuratedListView({ list }: { list: CuratedListDetai
       </Link>
 
       <header className="space-y-3">
-        <h1 className="text-[22px] font-serif font-bold leading-tight text-text-primary">{list.title}</h1>
+        <h2 className="text-[22px] font-serif font-bold leading-tight text-text-primary">{list.title}</h2>
 
         <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] text-text-tertiary">
           <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">

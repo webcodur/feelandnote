@@ -67,9 +67,9 @@ export default async function AcademyPage() {
             <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#d4af37]" />
             <span className="text-[10px] sm:text-xs text-white/80 font-medium tracking-widest uppercase">{t("eyebrow")}</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
             {t("pageTitle")}
-          </h1>
+          </h2>
           <p className="text-white/60 text-xs sm:text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
             {t("defaultDescription")}
           </p>

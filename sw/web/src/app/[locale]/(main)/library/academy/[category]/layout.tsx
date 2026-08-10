@@ -20,12 +20,12 @@ export default async function AcademyCategoryLayout({ children }: Props) {
     <div className="w-full max-w-5xl mx-auto pt-8 sm:pt-12 md:pt-20">
       {/* 제목 + 카테고리 탭 (레이아웃 — 코스 전환 시 유지) */}
       <div className="mb-6 sm:mb-8 text-center px-4">
-        <h1
+        <h2
           className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-6 sm:mb-8 leading-tight"
           id="academy-title"
         >
           {t("pageTitle")}
-        </h1>
+        </h2>
         <AsyncIntlProvider>
           <AcademyCategoryTabs />
         </AsyncIntlProvider>

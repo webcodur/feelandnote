@@ -93,7 +93,11 @@ export default function ExploreBanner() {
         </div>
 
         {isSubpage ? (
-          <h1 className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center">
+          <div
+            role="heading"
+            aria-level={1}
+            className="flex items-center gap-1.5 text-2xl font-serif font-black tracking-tight leading-normal text-center flex-wrap justify-center"
+          >
             <Link
               href="/explore"
               className="text-[#d4af37] hover:text-white hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] transition-all duration-300"
@@ -125,12 +129,16 @@ export default function ExploreBanner() {
                 {pageTitle}
               </button>
             )}
-          </h1>
+          </div>
         ) : (
           <>
-            <h1 className="text-2xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center">
+            <div
+              role="heading"
+              aria-level={1}
+              className="text-2xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-500 tracking-tight leading-normal text-center"
+            >
               {hubTitle}
-            </h1>
+            </div>
             {hubEnglish.toLowerCase() !== hubTitle.toLowerCase() && (
               <p className="text-[#d4af37] tracking-[0.3em] text-[10px] mt-1.5 uppercase font-cinzel text-center">
                 {hubEnglish}
