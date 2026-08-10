@@ -65,7 +65,7 @@ description: 삼국지 인물 그룹 SSoT 관리. 명단 조회, 신규 인물 �
 
 - 모두 kebab-case 영문 슬러그 (`zhuge-liang`, `sima-yi`)
 - `sw/remotion/public/episodes/<slug>` 폴더명과 100% 일치
-- DB `profiles.slug`와도 일치 (불일치 시 영상은 만들 수 있어도 프로필 링크가 깨진다)
+- DB `celebs.slug`와도 일치 (불일치 시 영상은 만들 수 있어도 프로필 링크가 깨진다)
 
 ## 흔한 함정
 

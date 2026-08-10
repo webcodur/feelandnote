@@ -480,5 +480,5 @@ Mid 50s male military strategist. Cold, restrained mid-low voice. Reveals almost
 - [ ] KO 22파일 × 10인 = 220파일 녹음
 - [ ] EN 22파일 × 10인 = 220파일 녹음
 - [ ] R2 업로드: `celebs/{id}/voice/{locale}/` 경로
-- [ ] DB `profiles.has_voice = true` 업데이트
+- [ ] DB `celebs.has_voice = true` 업데이트
 - [ ] 서비스 확인 테스트

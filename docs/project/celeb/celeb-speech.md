@@ -1,6 +1,6 @@
 # 6. Speech 트랙
 
-> **최종 실측 체크: 26.07.16** — 실 DB 조회로 `profiles.quotes`·`quotes_en` 부재 확인, 정본을 `celeb_dialogues.lines.quote`로 교정
+> **최종 실측 체크: 26.08.10** — 실 DB에서 `celebs.speech_tone`과 `celeb_dialogues.lines.quote`를 대조했다. `celebs.quotes`·`quotes_en`은 존재하지 않는다.
 
 ## 의존 관계
 
@@ -16,7 +16,7 @@ basic 완료 → speech_tone 배정 → quotes 작성 → dialogue 생성
 
 ## 6.1 speech_tone 배정
 
-`profiles.speech_tone` (text 컬럼). **profiles 테이블에 직접 존재** (celeb_persona 아님).
+`celebs.speech_tone` (text 컬럼). **`celebs` 테이블에 직접 존재**한다(celeb_persona 아님).
 
 ### 6종 톤
 
@@ -45,7 +45,7 @@ basic 완료 → speech_tone 배정 → quotes 작성 → dialogue 생성
 ### 배치 처리
 
 ```sql
-UPDATE profiles SET speech_tone = CASE id
+UPDATE celebs SET speech_tone = CASE id
   WHEN '{id1}' THEN '{tone1}'
   WHEN '{id2}' THEN '{tone2}'
   ELSE speech_tone
@@ -60,9 +60,9 @@ WHERE id IN ('{id1}', '{id2}', ...);
 ### quote SSoT
 
 - **SSoT**: `celeb_dialogues.lines.quote`(한국어). 기존 `lines_en.quote`는 보존하지만 현재 작업 범위가 아니다.
-- **`profiles.quotes`·`profiles.quotes_en`은 존재하지 않는다.** 2026-03-23 마이그레이션 `drop_profiles_quotes_and_recreate_compat_view`로 DROP됐고 `profiles_compat` 뷰에도 없다. 두 컬럼을 읽거나 쓰는 SQL은 즉시 에러가 난다.
+- **`celebs.quotes`·`celebs.quotes_en`은 존재하지 않는다.** 두 컬럼을 읽거나 쓰는 SQL은 즉시 에러가 난다.
 - **읽기**: 셀럽 서버 액션이 `celeb_dialogues`에서 quote를 추출한다.
-- **쓰기**: `celeb_dialogues`의 `lines`·`lines_en` JSON을 갱신한다. profiles 동기화 단계는 없다.
+- **쓰기**: `celeb_dialogues`의 `lines`·`lines_en` JSON을 갱신한다. 다른 프로필 테이블로 동기화하지 않는다.
 
 실측(2026-07-16): `celeb_dialogues` 1577행 중 한국어 quote 보유 902행, 영문 quote 보유 1431행.
 
@@ -163,9 +163,8 @@ WHERE id IN ('{id1}', '{id2}', ...);
 -- 30명씩 조회 (quote는 celeb_dialogues에서 꺼낸다)
 SELECT p.id, p.nickname, p.profession, p.speech_tone,
        d.lines->>'quote' AS quote
-FROM profiles p
+FROM celebs p
 JOIN celeb_dialogues d ON d.celeb_id = p.id
-WHERE p.profile_type = 'CELEB'
 ORDER BY p.nickname LIMIT 30 OFFSET {offset};
 
 -- 교정 UPDATE (lines.quote / lines_en.quote 항상 동시)
@@ -174,7 +173,7 @@ UPDATE celeb_dialogues SET
 WHERE celeb_id = '{id1}';
 ```
 
-`profiles`에는 quote 컬럼이 없으므로 위 조회·갱신을 `profiles` 대상으로 바꿔 쓰지 않는다.
+`celebs`에는 quote 컬럼이 없으므로 quote 조회·갱신은 `celeb_dialogues`만 대상으로 한다.
 
 ### 검수 보고 형식
 
@@ -289,7 +288,7 @@ commander 직군 외 모든 인물은 존댓말(~합니다/~해요). deploy·cla
   "celeb_id": "UUID",
   "nickname": "인물명",
   "profession": "직군",
-  "speech_tone": "(profiles.speech_tone)",
+  "speech_tone": "(celebs.speech_tone)",
   "lines": {
     "greeting":     ["[emotion, emotion] 대사", "× 3"],
     "roll_call":    ["[emotion, emotion] 대사", "× 3"],

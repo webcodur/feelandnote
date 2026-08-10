@@ -93,7 +93,7 @@ faction「AI-Supremacy」에 있고 태그엔 없는 20명을 `celeb_tag_assignm
 | Meta | yang-song, jason-wei (2) |
 | Thinking Machines | soumith-chintala, lilian-weng (2) |
 
-> 전제: 20명이 `profiles` 테이블에 이미 등록돼 있어야 배정 가능하다. Phase 1 착수 시 slug 존재 여부를 먼저 확인하고, 미등록자는 등록 여부를 별도 결정한다(과거 faction 전원 DB 동기화 이력 있음).
+> 전제: 20명이 `celebs` 테이블에 이미 등록돼 있어야 배정 가능하다. Phase 1 착수 시 slug 존재 여부를 먼저 확인하고, 미등록자는 등록 여부를 별도 결정한다(과거 faction 전원 DB 동기화 이력 있음).
 
 ### 3-5. 백오피스 — 부모 지정
 
@@ -130,7 +130,7 @@ DB 변경(Phase 1)은 되돌리기 번거로우니 착수 직전 한 번 더 확
 - **B. Mistral AI → Mistral 이름 정리?** — 제안: 정리. 그룹 라벨이 「AI」라 자식 이름의 꼬리 AI가 중복. 단 OpenAI·xAI는 고유명에 AI가 박혀 있어 유지.
 - **C. 그룹 카드 클릭 UX** — 제안: 인라인 확장(URL 자식 slug 유지). 그룹 전용 페이지(`/explore/faction/ai`)는 필요 시 후속.
 - **D. Hugging Face 단체사진** — (1) 새 이미지 생성(유료 승인 필요) / (2) 기존 개인샷 조합 / (3) 보류. 제안 미정, 사장님 결정 필요.
-- **E. 20명 중 profiles 미등록자 처리** — Phase 1에서 확인 후, 미등록 시 등록할지 스킵할지.
+- **E. 20명 중 `celebs` 미등록자 처리** — Phase 1에서 확인 후, 미등록 시 등록할지 스킵할지.
 
 ---
 

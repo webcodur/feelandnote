@@ -38,7 +38,7 @@
 콘텐츠 관계·판본 표지와 영상 원고는 원천이 다르다.
 
 ```text
-Supabase user_contents → contents → content_locales.thumbnail_url
+Supabase celeb_contents → contents → content_locales.thumbnail_url
         ↓ 안정 ID                         ↓ 원본 URL
 book.<locale>.json                 covers/content/<contentId>/<locale>.webp
         └─────────────────────── Remotion 렌더
@@ -79,7 +79,7 @@ BookRecommend.tsx, BookCardVisual.tsx, Overlay.tsx (모두 timing.ts import)
 | `quotePairs` | 인용문+후속맥락 배열 (optional). 각 항목: `{ quote, quoteSource?, quoteDuration?, after?, afterDuration? }` |
 | `category` | 콘텐츠 카테고리 (BOOK/VIDEO/GAME/MUSIC, 생략 시 BOOK) |
 | `contentId` | 본 서비스 `contents.id`. 콘텐츠 식별용 |
-| `userContentId` | 해당 인물의 `user_contents.id`. 감상 관계 검증용 |
+| `userContentId` | 해당 인물의 `celeb_contents.id`. 필드명은 에피소드 포맷 호환을 위해 유지하며 감상 관계 검증에 쓴다 |
 | `thumbnailSourceUrl` | 렌더 표지 캐시를 만든 DB 원본 URL 스냅샷 |
 | `thumbnailSourceLocale` | 표지 원본의 locale |
 | `stats` | DB 통계 (celebCount, celebNames, publisher 등) |
@@ -122,10 +122,10 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 
 | 데이터 | 테이블 | 주요 필드 |
 |--------|--------|-----------|
-| 기본 정보 | `profiles` | nickname, nickname_en, bio, avatar_url, speech_tone |
+| 기본 정보 | `celebs` | nickname, nickname_en, bio, avatar_url, speech_tone |
 | 명언 (SSoT) | `celeb_dialogues` | lines→quote |
-| 콘텐츠 목록 | `user_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review, **`contents.type`** (category 판별용). 조회 시 `type IN ('BOOK','VIDEO','GAME','MUSIC')` — BOOK만 필터링하면 non-BOOK 누락 |
-| celebCount | `user_contents` 집계 | content_id별 추천 셀럽 수 |
+| 콘텐츠 목록 | `celeb_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review, **`contents.type`** (category 판별용). 조회 시 `type IN ('BOOK','VIDEO','GAME','MUSIC')` — BOOK만 필터링하면 non-BOOK 누락 |
+| celebCount | `celeb_contents` 집계 | content_id별 추천 셀럽 수 |
 | 페르소나 | `celeb_persona` | persona (philosophy 작성 참고) |
 
 ---

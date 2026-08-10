@@ -1,6 +1,6 @@
 # 셀럽 아바타 규격 SSoT
 
-인물 얼굴 이미지(`profiles.avatar_url` → R2 `celebs/{id}/avatar.webp`)의 **프레임 기하·안전 영역·발주 프롬프트·판정 기준**을 정한다.
+인물 얼굴 이미지(`celebs.avatar_url` → R2 `celebs/{id}/avatar.webp`)의 **프레임 기하·안전 영역·발주 프롬프트·판정 기준**을 정한다.
 파일 크기·포맷·업로드 경로는 `docs/project/db-celeb.md` 「셀럽 이미지 규격」, 등록 자동화는 `.agents/skills/celeb-avatar-register/SKILL.md`가 각각 SSoT다. 여기는 **한 장의 그림이 어떻게 생겨야 하는가**만 다룬다.
 
 최초 작성 2026-08-01. **지금 등록된 이미지를 소급 교체하지 않는다** — 신규 생성·재생성·재크롭분부터 적용한다.

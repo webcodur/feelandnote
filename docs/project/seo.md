@@ -229,7 +229,7 @@ if (
 cd sw/web && source .env.local
 
 # 사이트맵 쿼리 테스트
-curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/profiles?select=slug,created_at&profile_type=eq.CELEB&status=eq.active&celeb_tier=eq.full&slug=not.is.null&order=created_at.asc&limit=3" \
+curl -s "${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/celebs?select=slug,created_at&publication_status=eq.active&celeb_tier=eq.full&slug=not.is.null&order=created_at.asc&limit=3" \
   -H "apikey: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}" \
   -H "Authorization: Bearer ${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
 
@@ -248,7 +248,7 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 - **해결**: 미들웨어 함수 초반에 `SEO_PATHS` 코드 가드 추가
 
 ### sitemap.xml에 셀럽 URL 0개 (2026-03-12)
-- **원인 1**: `profiles.updated_at` 컬럼이 존재하지 않아 Supabase 쿼리 에러 (42703). `?? []` 폴백으로 에러가 무시됨
+- **원인 1**: 당시 `profiles.updated_at` 컬럼이 존재하지 않아 Supabase 쿼리 에러 (42703). `?? []` 폴백으로 에러가 무시됨. 현재 인물 원천은 `celebs`다
 - **원인 2**: `@supabase/supabase-js` 클라이언트가 Next.js 메타데이터 라우트에서 동작하지 않음
 - **해결**: Supabase REST API 직접 fetch로 전환 + `created_at`으로 변경
 - **교훈**: 배포 전 로컬 curl로 REST 쿼리 검증 필수

@@ -71,7 +71,7 @@
 ## 기술 요구사항
 
 - **Supabase 프로젝트 ID**: `wouqtpvfctednlffross`
-- **DB 테이블**: `profiles`, `celeb_influence`, `celeb_persona`, `celeb_dialogues`
+- **DB 테이블**: `celebs`, `celeb_influence`, `celeb_persona`, `celeb_dialogues`
 - 캐릭터 로딩 조건·쿼리는 `docs/suikoden-sim/02-characters.md`와 `10-implementation-status.md` 참조
 
 ---

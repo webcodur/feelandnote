@@ -8,6 +8,11 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 이 문서는 실제 스키마와 1:1 대조해 갱신한다.
 
+8/9 분리 뒤 회원과 셀럽은 물리 테이블부터 다르다. 회원은
+`user_accounts` → `member_profiles` · `member_contents`, 셀럽은 `celebs` →
+`celeb_contents`를 사용한다. 셀럽 전용 열·외래키·RPC·트리거의 상세는
+[`db-celeb.md`](./db-celeb.md)가 단일원천이다.
+
 ## 사용자/인증
 
 - **`auth.users`**: Supabase 로그인 자격. 애플리케이션 공개 프로필 원천이 아니다
@@ -26,21 +31,26 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`member_social_stats`**: 회원의 follower/following/friend/influence/content 카운트 캐시
 - **`celeb_metrics`**: 셀럽의 follower/content 카운트 캐시
 
-### 배포 호환 구조 — 신규 참조 금지
+### 제거한 혼합 구조 — 역사 문서에서만 등장
 
-옛 `profiles`와 저장형 `profile_type`, `profiles_compat`, `follows`, `user_social`은 새 앱
-배포 전의 호환 구조로만 남아 있다. 현역 코드와 새 DB 객체는 위 전용 테이블에서 시작한다.
+옛 `profiles`·`user_contents`와 저장형 `profile_type`, `profiles_compat`, `follows`,
+`user_social`은 2026-08-10 최종 제거 마이그레이션에서 운영 DB에서 삭제됐다. 현역 코드와 새
+DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요한 경우
+`docs/archive/profile-celeb-account-separation-improvement-2026-08-09.md`의 이력만 참조한다.
 `20260809184517_retire_legacy_profile_domain.sql`은 새 앱 배포와 구버전 인스턴스 종료를
-확인한 뒤 이 호환 구조를 제거한다. 이 절은 현재 사용법이 아니라 제거 게이트를 설명한다.
+확인한 뒤 2026-08-10 적용됐다. 이 절은 현재 사용법이 아니라 제거 결과를 설명한다.
 
 ## 콘텐츠
 
 - **`contents`**: 콘텐츠 마스터. 언어 중립 메타만 보유
   - 컬럼: `id`(text, 기본값 `gen_random_uuid()::text`), `type`, `subtype`, `metadata`(jsonb), `release_date`(text), `external_source`, `external_id`, `member_count`, `celeb_count`, `record_count`, `created_at`
   - `member_count`와 `celeb_count`는 두 감상 관계의 전수 집계이고, `record_count`는 두 값을
-    합친 전체 기록 주체 수다. 옛 `user_count`는 배포 호환 열이며 신규 조회에서 사용하지 않는다
+    합친 전체 기록 주체 수다. 옛 `user_count` 열은 2026-08-10 운영 DB에서 제거됐다
   - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC'
-  - `external_source` CHECK: NULL 또는 'naver_book'|'google_books'|'openlibrary'|'tmdb'|'igdb'|'spotify' (DB가 허용하는 값. 운영 정책상 실제 사용 출처는 별도 규약을 따른다)
+  - `external_source` CHECK (2026-08-10 live 실측): NULL 또는
+    `'kakao_book'|'google_books'|'openlibrary'|'aladin'|'tmdb'|'igdb'|'spotify'|'itunes'`.
+    이는 DB 허용 집합이며 신규 수집 정책은 별도다. 신규 BOOK은 `kakao_book`(ko) 또는
+    `openlibrary`(en)만 쓴다
   - **title/creator/thumbnail_url/description/isbn/publisher/affiliate_url은 contents에 없다.** 전부 `content_locales`로 이관됨(2026-03-06 `drop_contents_legacy_locale_columns_v2`)
 - **`content_locales`**: 콘텐츠 언어별 메타 (아래 상세)
 - **`member_contents`**: 회원 감상 기록. `member_id → user_accounts.id`,
@@ -119,8 +129,8 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 각 필드의 데이터 출처를 추적한다. **CHECK 제약이 없는 자유 jsonb다** — 아래 값은 실측 분포이며 DB가 강제하지 않는다.
 
 ```jsonc
-// 단일 출처 (대부분의 경우)
-{ "primary": "naver_book" }
+// 신규 한국어 BOOK의 단일 출처
+{ "primary": "kakao_book" }
 
 // 혼합 출처 (썸네일만 다른 곳에서 왔을 때)
 { "primary": "openlibrary", "thumbnail": "goodreads" }
@@ -153,7 +163,9 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 | `wikipedia` | BOOK ko | 4 |
 | `aladin` | BOOK ko | 3 |
 
-> 타입별 기본 대응은 BOOK=naver_book(ko)/openlibrary(en), VIDEO=tmdb, GAME=igdb, MUSIC=spotify이다. 단 BOOK en은 위처럼 출처가 다변화돼 있다.
+> 위 표는 **2026-07-16 당시의 역사적 분포**다. 신규 수집의 현재 기본 대응은
+> BOOK=`kakao_book`(ko)/`openlibrary`(en), VIDEO=`tmdb`, GAME=`igdb`, MUSIC=`itunes`다.
+> 기존 `naver_book`·`google_books`·`spotify` 표기는 과거 데이터의 출처 이력으로만 읽는다.
 
 #### thumbnail 값 (실측 2026-07-16)
 
@@ -171,7 +183,10 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 | `confirmed_unavailable_en` | | 2 |
 | `tmdb_textless` | 텍스트 없는 포스터 | 1 |
 
-> `sources.primary`(자유 jsonb)와 `contents.external_source`(CHECK 제약)는 **별개다.** 값 집합이 일치하지 않는다 — `wikidata`·`transliteration`·`manual`·`none`·`aladin`은 sources에만 존재하며 external_source CHECK는 이들을 허용하지 않는다.
+> `sources.primary`(자유 jsonb)와 `contents.external_source`(CHECK 제약)는 **별개다.** 값 집합이
+> 일치하지 않는다. `wikidata`·`transliteration`·`manual`·`none` 등은 sources에만 존재한다.
+> `aladin`은 2026-08-10 live CHECK가 허용하는 호환 값이지만, 신규 BOOK 메타·커버 수집 정책은
+> `kakao_book`(ko)·`openlibrary`(en)만 허용한다.
 
 ## content_locales 조회 규칙
 
@@ -239,7 +254,7 @@ ORDER BY c.created_at DESC;
 | 컬럼 | 역할 | 형식 |
 |------|------|------|
 | `id` | PK, FK 조인용 | UUID (text 저장) |
-| `external_id` | 외부 API 식별자 | ISBN, `tmdb-movie-550`, `igdb-1942`, `spotify-xxx` |
+| `external_id` | 외부 API 식별자 | ISBN, `tmdb-movie-550`, `igdb-1942`, `itunes-1440857781` |
 
 - **web / web-bo 구분 없이 단일 체계다.** 과거 "web은 외부 API ID를 id로 직접 사용" 서술은 폐기됨(2026-03-01 `convert_contents_id_to_uuid` + `set_contents_id_default_uuid`)
 - `addContent`의 `params.id`는 externalId 의미 → `external_id`로 중복 체크 후 UUID 자동 생성

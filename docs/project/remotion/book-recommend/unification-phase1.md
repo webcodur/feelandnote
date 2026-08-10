@@ -10,7 +10,7 @@
 
 ### 포함
 
-- `user_contents → contents → content_locales`를 콘텐츠 관계·판본·외부 표지 URL의 단일원천으로 삼는다.
+- `celeb_contents → contents → content_locales`를 콘텐츠 관계·판본·외부 표지 URL의 단일원천으로 삼는다.
 - 각 `book.ko.json`·`book.en.json`에 안정 ID인 `contentId`, `userContentId`를 기록한다.
 - 렌더용 표지는 DB URL에서 만든 로컬 WebP 캐시로 통일한다.
 - web-bo `/book-recommend`에서 연결 무결성, DB 표지 변경, 구경로, 외부 URL, 파일 누락을 한 번에 진단·동기화한다.
@@ -34,8 +34,8 @@
 
 ```text
 Supabase
-  profiles
-    └─ user_contents.id
+  celebs
+    └─ celeb_contents.id
          └─ contents.id
               └─ content_locales.thumbnail_url   ← 외부 표지 원본
                          │
@@ -55,7 +55,7 @@ public/covers/content/<contentId>/<locale>.webp  ← 재생성 가능한 로컬 
 
 | 데이터 | 쓰기 원천 | Remotion의 역할 |
 |---|---|---|
-| 인물과 콘텐츠의 관계 | `user_contents` | `userContentId` 참조 |
+| 인물과 콘텐츠의 관계 | `celeb_contents` | `userContentId` 참조. JSON 필드명은 호환을 위해 유지 |
 | 콘텐츠 식별 | `contents` | `contentId` 참조 |
 | KO·EN 판본 표지 URL | `content_locales.thumbnail_url` | 원본 URL 스냅샷 보관 |
 | 렌더용 표지 파일 | 위 URL에서 생성 | 로컬 캐시 사용 |
@@ -72,10 +72,10 @@ public/covers/content/<contentId>/<locale>.webp  ← 재생성 가능한 로컬 
 2. 해당 인물의 콘텐츠 중 정규화한 제목이 하나만 정확히 일치하면 자동 연결한다.
 3. 완전 일치가 아니어도 제목 포함 + 저자 완전 일치가 강하고 차점과 충분히 벌어지면
    `1`, `세트`, `Paperback` 같은 판본 수식 차이로 보고 안전 연결한다.
-4. 나머지는 사람이 고른 `user_contents.id`만 받는다. 서버가 다시 해당 인물의 관계인지
+4. 나머지는 사람이 고른 `celeb_contents.id`만 받는다. 서버가 다시 해당 인물의 관계인지
    검증한 뒤 저장한다.
 5. 저자만 같은 책, 다른 권차, 원작과 각색물은 자동 연결하지 않는다.
-6. DB에 콘텐츠만 있고 해당 인물의 `user_contents`가 없으면 먼저 출처와 감상배경을
+6. DB에 콘텐츠만 있고 해당 인물의 `celeb_contents`가 없으면 먼저 출처와 감상배경을
    검증해 관계를 등록한다. Remotion ID만 우회해서 붙이지 않는다.
 
 ## 표지 규칙
@@ -116,7 +116,7 @@ pnpm --dir sw/web-bo book-recommend:resources -- --apply-safe
 # 사람이 검토한 관계 한 건을 명시 연결
 pnpm --dir sw/web-bo book-recommend:resources -- \
   --book "episode/books/book-folder" \
-  --user-content "<user_contents.id>"
+  --user-content "<celeb_contents.id>"
 ```
 
 ## 2026-07-29 이관 실적
@@ -152,7 +152,7 @@ pnpm --dir sw/web-bo book-recommend:resources -- \
 | 전역 콘텐츠부터 없음 | 마리 퀴리–판 타데우시·쿠오바디스, 피터 틸–낭만적 거짓과 소설적 진실 |
 
 이 11건은 표지 문제가 아니라 **감상 관계의 출처 검증·등록 문제**다. Remotion 원고를
-근거 없이 DB로 백필하지 않는다. 웹 팩트체크 후 `user_contents.source_url`, KO·EN
+근거 없이 DB로 백필하지 않는다. 웹 팩트체크 후 `celeb_contents.source_url`, KO·EN
 감상배경까지 등록한 다음 같은 작업대로 연결한다.
 
 ### DB 표지 URL이 비어 있는 7개 판본

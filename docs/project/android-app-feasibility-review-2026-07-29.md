@@ -98,8 +98,8 @@ Google Play는 기능이 거의 없거나 정적 텍스트만 제공하는 앱�
 `sw/web/src/actions/auth/deleteAccount.ts`에 다음 삭제 절차가 구현돼 있다.
 
 1. 현재 사용자 확인
-2. `profiles` 삭제 및 연결 데이터 CASCADE 삭제
-3. Supabase `auth.users` 삭제
+2. 인자 없는 `delete_my_account` RPC로 `user_accounts`와 연결된 `member_profiles`·회원 데이터를 CASCADE 삭제
+3. 같은 RPC에서 Supabase `auth.users` 삭제
 4. 세션 로그아웃
 
 프로필 설정 화면에서도 회원탈퇴 UI를 제공한다. 앱 내부 삭제 경로는 이미 확보돼 있다.
@@ -568,7 +568,7 @@ TWA 셸 자체는 작지만 정책 보강과 실기기 QA가 실제 작업의 �
 ### 14.2 이번에 구현한 것
 
 **DB** — 마이그레이션 `moderation_reports_extend_for_play_ugc`
-- `reports.target_user_id` 추가(신고 대상 콘텐츠의 작성자, FK → `profiles` ON DELETE SET NULL)
+- `reports.target_user_id` 추가(신고 대상 콘텐츠의 작성자, 현재 FK → `user_accounts` ON DELETE SET NULL)
 - `target_type` CHECK에 `post`·`feedback` 추가(자유게시판 글·피드백 신고를 받기 위함. 기존 5종은 유지)
 - 인덱스 3종: `(status, created_at desc)` · `(target_type, target_id)` · `(target_user_id)`
 - `unique(reporter_id, target_type, target_id)` — 같은 사람이 같은 대상을 중복 신고하지 못한다
@@ -597,7 +597,7 @@ TWA 셸 자체는 작지만 정책 보강과 실기기 QA가 실제 작업의 �
 **백오피스 — 신고 운영 (§5.1 「운영 화면」)**
 - 신고 큐 보강(대상 종류 필터·대상 작성자·반복 신고 집계는 카운트 조회)
 - 상세 화면에 대상 원문 스냅샷(`src/lib/report-snapshot.ts`), 삭제된 원문은 "삭제됨" 표시
-- 조치: 처리·반려·되돌리기 + 처리 메모·처리자 기록, 대상 숨김·삭제, 계정 정지·해제(`profiles.status`·`suspended_at`·`suspended_reason` 실측 확인 후 사용)
+- 조치: 처리·반려·되돌리기 + 처리 메모·처리자 기록, 대상 숨김·삭제, 계정 정지·해제(`user_accounts.account_status`·`suspended_at`·`suspended_reason` 사용)
 
 **안드로이드 셸 — `sw/android/`**
 - Gradle 프로젝트(`compileSdk`·`targetSdk` 36, `minSdk` 23), 버전 카탈로그, 서명은 추적 밖 `keystore.properties`에서만 읽는다

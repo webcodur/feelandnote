@@ -1,6 +1,6 @@
 # 가상 독백
 
-> `profiles.virtual_monologue`과 `virtual_monologue_en`의 유일한 규칙 SSoT다.
+> `celebs.virtual_monologue`과 `virtual_monologue_en`의 유일한 규칙 SSoT다.
 > DB 컬럼은 `docs/project/db-celeb.md`, 과거 작업 이력은
 > `docs/archive/virtual-monologue-quality-overhaul-2026-07.md`에서 확인한다.
 

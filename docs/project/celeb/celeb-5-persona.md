@@ -178,8 +178,8 @@ fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-p
 
 ## 금지 사항
 
-- profiles 테이블에 새 레코드를 INSERT하지 않는다
-- celeb_id는 반드시 기존 profiles.id를 사용한다
+- `celebs` 테이블에 새 레코드를 INSERT하지 않는다
+- `celeb_id`는 반드시 기존 `celebs.id`를 사용한다
 - 추측으로 점수를 부풀리지 않는다
 - 모든 점수는 행적 근거가 있어야 한다
 - 기존 개별 컬럼(command, martial 등)에 직접 INSERT하지 않는다. **persona jsonb만 사용**
@@ -189,7 +189,7 @@ fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-p
 ## 작업 흐름
 
 1. **기준점 확인**: `packages/shared/src/constants/celeb-persona-scale.ts`의 `PERSONA_ANCHORS`를 먼저 읽는다. **이 단계를 건너뛰면 회차마다 다른 자로 재게 된다.**
-2. **셀럽 ID 확인**: profiles 테이블에서 해당 셀럽의 id 조회
+2. **셀럽 ID 확인**: `celebs` 테이블에서 해당 셀럽의 id 조회
 3. **정보 수집**: WebSearch로 인물의 행적, 성품, 능력 관련 정보 검색
 4. **점수 산정**: 기준점 인물과 견줘 각 항목별 score + reason_ko + reason_en 결정
 5. **rationale_ko / rationale_en 작성**: 종합 해설지 작성

@@ -46,7 +46,7 @@ fiction은 `celeb_influence` 행을 만들지 않는다. 티어 정의는 `celeb
 | `cultural` | `cultural` | `cultural_exp` | `cultural_exp_en` |
 | `transhistoricity` | `transhistoricity` | `transhistoricity_exp` | `transhistoricity_exp_en` |
 
-- 키 컬럼은 `celeb_id` (기존 `profiles.id` 사용, 신규 profiles INSERT 금지)
+- 키 컬럼은 `celeb_id`다. 반드시 기존 `celebs.id`를 사용하며 영향력 단계에서 셀럽 행을 새로 만들지 않는다
 - `*_exp_en` 7개는 **본 트랙에서 쓰지 않는다.** i18n 트랙(`celeb-i18n.md`)이 채운다
 - `total_score`는 7개 점수의 **단순 합**이다. 저장 시 함께 기록한다
 

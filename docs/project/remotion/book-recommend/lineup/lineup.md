@@ -30,7 +30,7 @@
 ### 보이스
 
 - **해설**: 롱폼·쇼츠·SOLO 모두 Gemini `Charon` 고정.
-- **실제 인물**: 진행 인물과 조연 모두 ElevenLabs ID 필수. DB `profiles.voice_id_ko`를 우선하고, 없으면 청음된 ELE 후보를 새로 캐스팅한다. Gemini로 임시 대체하지 않는다.
+- **실제 인물**: 진행 인물과 조연 모두 ElevenLabs ID 필수. DB `celebs.voice_id_ko`를 우선하고, 없으면 청음된 ELE 후보를 새로 캐스팅한다. Gemini로 임시 대체하지 않는다.
 
 ### 품질
 

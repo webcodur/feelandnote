@@ -1,8 +1,18 @@
 # 2. 콘텐츠 수집
 
-> **최종 실측 체크: 26.08.07** — 표시값 규약을 조사 상태 단독 기준으로 교정(`resolveCelebContentCount` 실코드 대조)
+> **최종 실측 체크: 26.08.10** — 8/9 회원·셀럽 물리 분리 뒤의 `celebs` ·
+> `celeb_contents` · 조사 완료 RPC를 live DB와 현행 코드로 대조했다.
 >
-> 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 이 문서의 BOOK 절차는 카카오 기준으로 갱신했다. `external_source`는 신규 등록 시 **`kakao_book`**이다(기존 `naver_book` 4,021건은 그대로 보존). 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
+> **직접 DB worker 운영 gate(26.08.10):**
+> `20260809222206_content_research_direct_db_pipeline.sql`은 운영 DB에 적용됐지만 enqueue에는
+> SQL alias 충돌이 있고, MUSIC commit은 최종 콘텐츠가 아니라 `pending` 후보를 만들며,
+> commit payload에는 `review_en`도 없다.
+> 별칭만 고치던 미적용 migration은 잘못된 보류 계약을 다시 켜므로 폐기했다. 세 결함을 함께
+> 고치고 rollback canary·계약 검사·`status`를 통과하는 새 forward migration 전에는 direct
+> worker의 실 DB 쓰기 명령을 실행하지 않는다. 이는 기존 조사 장부가 비었다는 뜻이 아니라
+> 새 자동 운영 진입점의 배포 gate다.
+>
+> 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 신규 BOOK의 한국어 메타·커버는 **카카오(`kakao_book`)**, 영문 원서는 **OpenLibrary(`openlibrary`)**만 쓴다. 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 
 ## 핵심 원칙
 
@@ -35,7 +45,8 @@
 장부는 네 테이블이다 — `celeb_content_research_runs`(실행) ·
 `_scopes`(유형별 진행) · `_findings`(후보 판정) · `_sources`(확인한 출처).
 화면(web-bo `/celebs/content-research/<celebId>`)으로도, SQL로도 쓸 수 있다.
-스키마·가드 원문은 `sw/web/supabase/migrations/20260729144835_create_celeb_content_research_history.sql`.
+현행 스키마·가드·완료 함수는
+`sw/web/supabase/migrations/20260809183609_complete_profile_domain_triggers.sql`을 따른다.
 
 **인물 1명당 순서**
 
@@ -57,10 +68,25 @@
    **판정마다 `finding_id`를 채운 출처를 한 줄 더 넣고, 채택 건은 그중 하나가 `primary`여야 한다.**
 4. **유형별 완료** — `_scopes`를 `status='completed'`, `completed_at=now()`로. 네 유형 모두.
 5. **실행 완료** — `SELECT * FROM complete_celeb_content_research_run('{run_id}')`.
-   네 유형 완료·유형별 출처·미판정 후보 없음·채택 건의 1차 출처·채택 건의 `user_contents` 연결·
-   유형 일치를 이 함수가 전부 검사하고, 통과하면 `content_research_status`를 확정한다.
+   네 유형 완료·유형별 출처·미판정 후보 없음·채택 건의 1차 출처·채택 건의 `celeb_contents` 연결·
+   유형 일치를 이 함수가 전부 검사한다. 통과하면 해당 셀럽의 실제 `celeb_contents`를 세어
+   0건은 `confirmed_empty`, 1건 이상은 `open`으로 `celebs.content_research_status`를 확정한다.
 
-⛔ **`profiles.content_research_status`를 직접 UPDATE하지 마라.** 완료 함수만이 확정 자격을 가진다.
+⛔ **`celebs.content_research_status`를 `confirmed_empty`로 직접 UPDATE하지 마라.** 완료 함수만이
+확정 자격을 가진다.
+
+### 직접 DB worker
+
+진입점은 `sw/web-bo/scripts/content-research-db-worker.mjs`, 패키지 명령은
+`pnpm content-research:worker -- <command>`다. DB에 조사 원문·근거·판정·적용 결과를 원자적으로
+남기며 로컬 manifest나 결과 파일을 운영 원천으로 받지 않는다. `commit`만 검증된 JSON을
+표준입력으로 받는다.
+
+작업 명령은 `enqueue`, `claim`, `renew`, `commit`, `fail`, `requeue`, `status`,
+`provider-slot`이다. 2026-08-10 현재 위 운영 gate가 남아 있으므로 `help`·`status`와 로컬
+테스트 외의 실 DB 쓰기는 중단 상태다. worker는 적격 MUSIC payload를 RPC 전에
+`MUSIC_IMMEDIATE_FINALIZATION_REQUIRED`로 거부한다. gate가 해소돼도 첫 순서는 `status`와
+현행 계약 검사이며, 실패하면 쓰기 명령으로 우회하지 않는다.
 
 ---
 
@@ -71,30 +97,29 @@
 - [ ] "N권 추천" 명시 시 수집 개수 대조
 - [ ] 구체적 작품명 필수 (포괄적 언급은 대표작으로 대체)
 - [ ] 동일 작품 중복 시 가장 상세한 출처 하나만
-- [ ] **MUSIC은 등록하지 않고 후보 표에만 넣는다** (아래)
+- [ ] **MUSIC도 조사한 작업에서 iTunes 확인과 최종 등록까지 마친다** (아래)
 
-### 유형별 등록 경로 — MUSIC만 다르다
+### 유형별 등록 경로
 
 | 유형 | 조사 중에 할 일 |
 |------|------------------|
-| BOOK · VIDEO · GAME | 평소대로 `contents` + `content_locales` + `user_contents` 등록 |
-| **MUSIC** | **등록하지 않는다.** `celeb_music_candidates`에 한 줄만 넣고 넘어간다 |
+| BOOK · VIDEO · GAME | 평소대로 `contents` + `content_locales` + `celeb_contents` 등록 |
+| **MUSIC** | iTunes 정확 트랙과 `previewUrl`을 확인한 뒤 `contents` + KO/EN `content_locales` + `celeb_contents` 등록 |
 
-```sql
-INSERT INTO celeb_music_candidates (celeb_id, title, artist, source_url, evidence)
-VALUES ('{셀럽 id}', '{곡명}', '{아티스트}', '{인터뷰·기사 URL}', '{언급 정황 한 줄}')
-ON CONFLICT DO NOTHING;   -- 같은 인물+같은 곡은 한 번만
-```
+`celeb_music_candidates`는 26.08.01 일괄 작업에서 쓰던 레거시 재개 장부다. 신규
+조사 결과를 `pending`으로 넣고 다음 작업으로 넘기지 않는다. 레거시 행을 다룰 때도
+`/celeb-music-collect`로 그 실행 안에서 `registered` 또는 `rejected`까지 마감하고,
+해당 인물의 `pending=0`을 종료 조건으로 삼는다.
 
-**왜 음악만 뒤로 미루나**: 음악 메타는 아이튠즈에서 잡는데 IP 속도 제한이 빡빡하다(26.08.01 실측 **232곡에서 차단**, 해제까지 3시간). 음악인 270명을 조사하면 200곡 안팎이 등록 대상이라 차단 지점과 같은 규모다. 조사 중에 등록하면 **조사 도중 음악이 통째로 실패**한다.
+직접 DB worker의 적용된 RPC는 이 원칙보다 오래된 후보 적치 계약을 갖고 있으므로 MUSIC
+등록 경로가 아니다. worker가 거부하는 것을 우회해 service role로 RPC를 직접 호출하지 않는다.
 
-등록은 `/celeb-music-collect`(하루 200곡 상한)가 후보 표를 읽어 처리하며, 성공하면 `status='registered'`와 `content_id`가, 실패하면 `rejected`와 사유가 채워진다. 조사 쪽에서 확보한 근거는 사라지지 않는다.
-
-증거 기준(A·B급, source_url 필수)은 MUSIC도 똑같이 적용한다 — **후보 표에 넣을 때 이미 그 기준을 통과해야 한다.** 근거가 약한 것을 일단 넣어두면 나중에 걸러낼 사람이 없다.
+증거 기준(A·B급, source_url 필수)은 MUSIC도 똑같이 적용한다. 근거가 약한 것을
+일단 적치하지 말고 조사한 자리에서 기각한다.
 
 ### source_url 필수 (핵심)
 
-source_url 없이 user_contents에 INSERT하는 것은 금지한다.
+source_url 없이 `celeb_contents`에 INSERT하는 것은 금지한다.
 
 - 웹 검색으로 출처 URL을 확보하지 못한 콘텐츠는 등록하지 않는다
 - AI 일반 지식만으로 review를 작성하고 source_url을 빈 값으로 등록하는 행위는 금지
@@ -229,7 +254,7 @@ source_url 없이 user_contents에 INSERT하는 것은 금지한다.
 - `품절`·`절판`은 자동 실패가 아니다. 판본이 식별되면 등록할 수 있다. 다만 이때는 YES24·교보문고·알라딘 중 한 곳에서 그 ISBN의 상품 상세 페이지가 실제로 열리는지 한 번 더 확인한다.
 - `status`가 빈 문자열이거나 카카오에서 해당 ISBN이 안 잡히면 서점 상품 상세 페이지 확인으로 대체한다. 검색엔진 스니펫, 출판사 소개, 도서관 소장 정보, OpenLibrary 레코드만으로는 통과하지 못한다.
 - 제목·저자·ISBN을 대조한다. 동명 해설서·일부 권·다른 번역판이면 실패다.
-- 어느 경로로도 판본이 확인되지 않으면 증거가 강해도 `contents`와 `user_contents`를 만들지 않고 해당 BOOK 후보를 기각한다. 그 인물의 `full` 승격과 Remotion 스캐폴딩에도 사용하지 않는다.
+- 어느 경로로도 판본이 확인되지 않으면 증거가 강해도 `contents`와 `celeb_contents`를 만들지 않고 해당 BOOK 후보를 기각한다. 그 인물의 `full` 승격과 Remotion 스캐폴딩에도 사용하지 않는다.
 
 **카카오 검색 전략**:
 1. **1차**: 한국어 제목만으로 검색 (예: "오디세이아")
@@ -333,38 +358,35 @@ curl -s "https://api.igdb.com/v4/games" \
 
 코드에서는 `packages/content-search/src/igdb.ts`가 토큰 발급·갱신을 알아서 한다. **26.08.01 실측 정상.**
 
-### MUSIC - 아이튠즈 〔조사 중에는 등록하지 않는다〕
+### MUSIC - 아이튠즈 〔조사한 작업에서 즉시 등록〕
 
 Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 구독을 요구하게 됐고 26.08.01 우리 앱에 적용돼 조회가 전부 403이다. 아이튠즈가 그 자리를 대신한다(래퍼: `packages/content-search/src/itunes-music.ts`).
 
-> ⛔ **인물 조사 중에 MUSIC을 등록하지 마라.** 아래 표에 한 줄 넣고 넘어간다.
->
-> ```sql
-> INSERT INTO celeb_music_candidates (celeb_id, title, artist, source_url, evidence)
-> VALUES ('{셀럽 id}', '{곡명}', '{아티스트}', '{인터뷰·기사 URL}', '{언급 정황 한 줄}')
-> ON CONFLICT DO NOTHING;   -- 같은 인물+같은 곡은 한 번만
-> ```
->
-> `contents`·`user_contents`는 만들지 않는다. 등록은 `/celeb-music-collect`가 하루치씩 처리하며,
-> 성공하면 `status='registered'`와 `content_id`가 채워진다. 실패하면 `rejected`와 사유가 남는다.
-> **정식 조사 장부(`celeb_content_research_*`)는 쓰지 마라** — run 개설·4유형 scope·완료 함수로
-> 이어지는 무거운 절차라 후보 한두 건 남기는 용도에 맞지 않고, 트리거가 진행 중인 run 외의 입력을 막는다.
->
-> **왜**: 아이튠즈는 인증이 없는 대신 IP 단위 속도 제한이 빡빡하다. **26.08.01 실측에서 232곡을 처리한 뒤 차단**됐고, 세 번 물러났다 재시도해도 풀리지 않아 남은 1,232곡이 손도 못 대고 실패했다. 차단은 3시간가량 이어졌다.
->
-> 남은 음악인 270명을 조사하면 **200곡 안팎이 등록 대상이 된다**(직군별 실측: 뮤지션 인당 0.75곡, 배우 0.04곡, 감독 0곡). 차단 지점과 거의 같은 규모라, 조사와 등록을 같이 하면 조사 도중에 음악이 통째로 실패한다.
+> **음악 후보를 찾았으면 같은 작업에서 iTunes 트랙을 확인하고 최종 연결한다.**
+> 제목·아티스트가 맞고 `previewUrl`이 있는 트랙만 `contents`·KO/EN
+> `content_locales`·`celeb_contents`에 등록한다. 기존 iTunes 콘텐츠가 있으면 재사용한다.
+> `celeb_music_candidates.pending`에 남기는 것은 완료가 아니다.
+> `celeb_contents.review`와 `review_en`도 최종 연결과 함께 작성한다.
 
-**등록은 하루 한 번 별도로 돌린다.**
+레거시 후보를 처리할 때만 아래 명령을 쓴다.
 
 ```bash
-cd sw/web-bo && node scripts/itunes-music-migrate.mjs          # 200곡(기본 상한)
-cd sw/web-bo && node scripts/itunes-music-migrate.mjs --dry-run # 판정만
+cd sw/web-bo
+node scripts/itunes-music-migrate.mjs --candidates-only \
+  --candidate-id <candidate-uuid> \
+  --review-en "<English review>"
+node scripts/itunes-music-migrate.mjs --candidates-only --all-pending
+node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run
 ```
 
-- 상한 200곡, 차단이 감지되면 즉시 멈추고 남은 분량은 다음 회차로 넘긴다.
+- 신규 조사는 인물당 몇 건 수준이므로 즉시 처리한다.
+- 한국어 `evidence` 후보는 `--candidate-id`와 `--review-en`이 함께 있어야 한다. 없으면
+  provider 조회와 DB 쓰기 전에 중단한다. `review_en` 후속 백필을 전제로 한 일괄 등록은 금지한다.
+- 외부 호출은 순차로 최소 2초 간격을 두며, 403/429를 기각으로 기록하지 않는다.
 - **미리듣기 음원(`previewUrl`)이 없는 곡은 옮기지 않는다.** 옮기는 순간 재생이 끊긴다(실제로 80곡을 그렇게 죽였다가 백업에서 되돌렸다).
 - 재생은 우리 플레이어가 미리듣기 음원을 직접 재생한다. `metadata.previewUrl`이 그 주소다.
 - `contents.external_source`는 `itunes`, `external_id`는 `itunes-{trackId}`.
+- 작업 종료 시 해당 인물의 `pending` 후보가 0인지 재조회한다.
 
 ### MUSIC - Spotify API 〔🔴 26.08.01 차단 — 참고용 호출 규격〕
 
@@ -394,7 +416,7 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 | 테이블.컬럼 | locale | 설명 | 확보 방법 |
 |-------------|--------|------|-----------|
 | `content_locales.isbn` | ko | 한국어 판본 ISBN | 카카오 도서 API |
-| `content_locales.isbn` | en | 영어 판본 ISBN | OpenLibrary / Amazon / 출판사 직검색 (아래 분기) |
+| `content_locales.isbn` | en | 영어 판본 ISBN | OpenLibrary (아래 분기) |
 | `content_locales.title` | ko | 한국어 제목 | 카카오 검색 결과 |
 | `content_locales.title` | en | 영문 제목 | 원서 정보 (아래 분기) |
 | `content_locales.creator` | en | 영문 저자명 | 원서 정보 (아래 분기) |
@@ -407,9 +429,9 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 #### 표준 파이프라인 (26.08.01 개정)
 
-1. **소넷 에이전트 판단**: ko_title + ko_creator → en_title + en_creator 변환
-2. **카카오 도서**: 표지·메타 1순위. 해외 원서도 한국 유통본이면 잡힌다(해외 ISBN 표본 55건 중 52건 적중, 26.08.01 실측)
-3. **OpenLibrary**: 카카오가 못 잡을 때 실존 확인 + ISBN 확보 — `https://openlibrary.org/search.json?title={en_title}&author={en_creator}` 또는 `/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data`
+1. **영문 검색어 준비**: ko_title + ko_creator에서 en_title + en_creator를 확인한다. 이 변환값 자체를 메타 출처로 기록하지 않는다.
+2. **카카오 도서**: 한국어판의 메타·ISBN·표지를 확인한다. ko locale의 신규 출처는 `kakao_book`이다.
+3. **OpenLibrary**: 영문 원서의 메타·ISBN을 확인한다 — `https://openlibrary.org/search.json?title={en_title}&author={en_creator}` 또는 `/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data`. en locale의 신규 출처는 `openlibrary`다.
 4. **OpenLibrary 표지**: `https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false` — 응답 < 1KB는 placeholder로 간주해 폐기
 5. **모두 실패**: `thumbnail_url = null`, `sources.thumbnail = "confirmed_unavailable"`. 표지 없이 등록한다
 
@@ -419,7 +441,7 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 > Goodreads는 2020년에 공개 API를 닫았으므로 대체 통로도 없다.
 > 다만 **이미 확보한 `i.gr-assets.com` 표지 1,794장은 정상이다** — 이미지 서버는 살아 있으니 교체할 필요 없다.
 
-**카카오·OpenLibrary 모두 없는 책**: 한국 유통 이력이 없는 희귀 리프린트·자가출판·비영어권 원서다. 표지를 구할 길이 없으니 표지 없이 두거나, 등록 자격(ISBN으로 독자가 도달 가능한가)을 다시 본다.
+**카카오·OpenLibrary 모두 없는 책**: 한국 유통 이력이 없는 희귀 리프린트·자가출판·비영어권 원서다. 허용된 메타 원천에서 판본을 확인할 수 없으므로 신규 BOOK으로 등록하지 않는다.
 
 **sources 표기**: `{"primary": "kakao_book", "thumbnail": "kakao_book"}` 형태로 메타데이터·표지 출처 분리. 표지를 못 구하면 `"thumbnail": "confirmed_unavailable"`.
 
@@ -432,12 +454,12 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 **2) 한국 현대 도서 (한국 저자 한국어 원작)** — 예: 박경리 토지, 이문열 삼국지, 한강 채식주의자
 - 영역본 있을 때만 en locale 등록 (위 4단계 적용)
-- 영역본 미존재 시: `isbn = null`, title은 한국어 제목의 영문 음차(MR/RR), `sources.primary = "transliteration"`
+- 영역본 미존재 시: en locale을 등록하지 않는다. 영문 메타를 음차로 만들어내지 않는다
 
 **3) 서양 원서** — 영문이 원전
 - 위 4단계 그대로 적용
-- 카카오 검색 결과의 `contents`(소개문)/`datetime`에서 원서 정보 보충 가능
-- OpenLibrary·Goodreads 모두 실패하면 영문 줄 등록 폐기 (아마존 스크래핑 금지 — 공식 API 부재·접근권 제한·실사용 0건)
+- 카카오 검색 결과의 `contents`(소개문)/`datetime`은 한국어판 정보에만 사용한다
+- OpenLibrary에서 영문 원서를 확인하지 못하면 영문 줄 등록을 폐기한다 (아마존 스크래핑 금지 — 공식 API 부재·접근권 제한·실사용 0건)
 
 ### VIDEO/GAME/MUSIC i18n
 
@@ -447,11 +469,11 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
   - `posters[]`에서 `iso_639_1 = "en"` 우선 (vote_average 최고), 없으면 `null`(텍스트 없는 포스터)
   - URL: `https://image.tmdb.org/t/p/w500{file_path}`
   - en 포스터 없으면 sources에 `{"thumbnail": "confirmed_unavailable"}` 마킹
-- IGDB/Spotify: 기본 영문. 한국어 제목은 웹 검색으로 보충. 썸네일은 로케일 무관(동일 URL)
+- IGDB/iTunes: 기본 영문. 한국어 제목은 웹 검색으로 보충. 썸네일은 로케일 무관(동일 URL)
 
 ### review_en (감상평 영문)
 
-`user_contents.review_en`에 영문 감상평을 **수집 시점에 함께 작성**한다.
+`celeb_contents.review_en`에 영문 감상평을 **수집 시점에 함께 작성**한다.
 
 - review(한국어) 작성 후 즉시 영문 버전 작성
 - body 작성 가이드라인과 동일한 구조 유지 (첫 문장 셀럽 풀네임, 간결 서술체)
@@ -461,11 +483,8 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 ## 배치 DB 등록
 
-**개별 INSERT 금지. 반드시 배치로 한 번에 등록한다.**
-
-> ⛔ **MUSIC은 여기서 등록하지 않는다.** 아래 절차는 BOOK·VIDEO·GAME 전용이다.
-> 음악은 `celeb_music_candidates`에 한 줄 넣고 넘어간다(「유형별 등록 경로」 참조).
-> 등록은 `/celeb-music-collect`가 하루치씩 처리한다.
+**한 후보의 `contents`·locale·인물 연결을 중간 상태로 남기지 않는다.** 여러 후보를
+한 인물에서 찾았다면 그 인물 작업 안에서 전부 등록·재조회한다. MUSIC도 예외가 아니다.
 
 ### contents 배치 INSERT
 
@@ -488,30 +507,31 @@ ON CONFLICT (content_id, locale) DO NOTHING;
 -- 3) content_locales (영문)
 INSERT INTO content_locales (content_id, locale, title, creator, thumbnail_url, isbn, sources, verified)
 VALUES
-  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"openlibrary|transliteration"}', true),
+  ('{uuid}', 'en', '{영문제목}', '{영문저자}', '{영문썸네일}', '{isbn_en}', '{"primary":"openlibrary"}', true),
   ...
 ON CONFLICT (content_id, locale) DO NOTHING;
 ```
 
 **주의**: `contents` 테이블에는 title, creator, thumbnail_url 등 로케일 컬럼이 없다. 모든 로케일 데이터는 `content_locales`에만 저장한다. `contents.id`는 UUID 자동 생성, 외부 API 식별자는 `external_id`에 저장.
 
-### user_contents 배치 INSERT
+### celeb_contents 배치 INSERT
 
 contents INSERT의 RETURNING 결과에서 UUID `id`를 확보한 뒤 사용한다.
 
 ```sql
-INSERT INTO user_contents (id, user_id, content_id, status, review, review_en, source_url, visibility)
+INSERT INTO celeb_contents (id, celeb_id, content_id, status, review, review_en, source_url, visibility)
 VALUES
   (gen_random_uuid(), '{셀럽ID}', '{contents.id UUID}', 'FINISHED', '{body_ko}', '{body_en}', '{source1}', 'public'),
   ...;
 ```
 
 **external_source 값** (contents 테이블 — 책 1권의 1차 메타 출처. 그 책의 ISBN·표지를 어디서 잡았는가):
-- BOOK: `kakao_book` (한국어판 있을 때 기본) / `openlibrary` (영문 원서만 있을 때) / `aladin` (카카오에 없어 서점 상품 페이지로 직접 잡은 경우)
-  - ~~`naver_book`~~ 은 26.07.31 API 종료로 신규 사용 금지. 기존 4,021건은 보존한다
+- BOOK: `kakao_book` (한국어판) / `openlibrary` (영문 원서)
+  - 서점 상품 페이지는 판본 실재 검증에만 쓴다. `aladin`을 신규 BOOK 메타·커버 출처로 기록하지 않는다
+  - `naver_book`은 26.07.31 API 종료 뒤 신규 사용 금지이며, 2026-08-10 live CHECK에도 없다
 - VIDEO: `tmdb`
 - GAME: `igdb`
-- MUSIC: `spotify`
+- MUSIC: `itunes` (현행 등록 경로). `spotify`는 기존 데이터 호환 값이다
 
 **금지**:
 - `google_books` 사용 금지 — **일일 호출 한도 1,000건이라 대량 수집에 못 쓴다.** `sw/web-bo/.env`에 키가 `GOOGLE_BOOKS_API_KEY_0`~`_4`로 5개 있는 것이 한도를 늘리려 키를 돌려쓴 흔적이고, 그렇게 해도 부족해 폐기했다. 무료라고 되살리지 마라 — 한도가 문제지 비용이 문제가 아니다. 시스템 제약상 기존 데이터 보존을 위해 enum과 잔존 데이터(`external_source='google_books'` 249건)는 남아 있으나 신규 등록 사용 금지. (위 "영문판 매칭 분기" 참조)
@@ -526,9 +546,9 @@ VALUES
 | VIDEO (영화) | **`tmdb-movie-{tmdbId}`** | `tmdb-movie-550` |
 | VIDEO (TV) | **`tmdb-tv-{tmdbId}`** | `tmdb-tv-1399` |
 | GAME | **`igdb-{igdbId}`** | `igdb-1942` |
-| MUSIC | **`spotify-{spotifyId}`** | `spotify-0lOn8nKk4dzzRfnCCCRbwp` |
+| MUSIC | **`itunes-{trackId}`** | `itunes-1440857781` |
 
-- 모든 외부 ID는 반드시 **접두사 포함** (tmdb-movie-, tmdb-tv-, igdb-, spotify-)
+- 모든 외부 ID는 반드시 **접두사 포함** (tmdb-movie-, tmdb-tv-, igdb-, itunes-)
 - 하이픈(`-`)만 사용. 언더스코어(`_`) 사용 금지
 - VIDEO는 TMDB API 응답의 media_type에 따라 movie/tv 구분 필수
 
@@ -616,4 +636,4 @@ VALUES
 
 - **WebFetch 한계**: 403 차단(gatesnotes.com 등), JS 렌더링 실패, 페이지네이션 미지원
 - **누락 방지**: "N권 추천" 명시 시 반드시 개수 대조
-- **셀럽 ID**: 작업 전 profiles 테이블에서 조회
+- **셀럽 ID**: 작업 전 `celebs` 테이블에서 조회

@@ -31,7 +31,7 @@
 
 | 원천 | 사용 값 |
 |---|---|
-| `profiles` | 이름, 영문 이름, 수식어, 국적, 아바타, 생몰년 |
+| `celebs` | 이름, 영문 이름, 수식어, 국적, 아바타, 생몰년 |
 | `celeb_influence` | 시대 안에서 우선 만날 인물의 정렬 |
 | `celeb_persona` | 군세(command+martial), 책략(intellect), 민심(charm) |
 | `celeb_dialogues` | 한국어·영어 인용문 |

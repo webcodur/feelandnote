@@ -12,7 +12,7 @@
 
 코드 SSoT: `packages/shared/src/lib/three-kingdoms.ts`. 인물 폴더 SSoT: `sw/remotion/public/episodes/three-kingdoms/`. 추가·제거 시 양쪽 동시 갱신.
 
-명단은 DB(`profiles`)에 등록되고 그룹 폴더에 존재하며 감상 콘텐츠(`user_contents`)가 1건 이상인 인물 22명. 생몰 순.
+명단은 DB(`celebs`)에 등록되고 그룹 폴더에 존재하며 감상 콘텐츠(`celeb_contents`)가 1건 이상인 인물 22명. 생몰 순.
 
 | 슬러그 | 한국어 | 생몰 | 칭호 | 진영·분류 |
 |--------|--------|------|------|----------|
@@ -39,7 +39,7 @@
 | `wang-bi` | 왕필 | 226-249 | 득의망상 | 현학 |
 | `chen-shou` | 진수 | 233-297 | 「삼국지」 저자 | 사가 |
 
-> 2026-05 보충: `lu-su`·`zhou-yu`·`deng-ai` 사료 조사로 user_contents 등록 완료(노숙 3권, 주유 3권, 등애 2권). 명단·폴더·코드 SSoT 모두 갱신.
+> 2026-05 보충: `lu-su`·`zhou-yu`·`deng-ai` 사료 조사로 현재 `celeb_contents`에 이관된 감상 관계를 등록 완료(노숙 3권, 주유 3권, 등애 2권). 명단·폴더·코드 SSoT 모두 갱신.
 > 마속·위연·장비·조운 등은 DB 미등록이라 명단에서 제외. 등록 시점에 추가. (폐기된 hell-bar 기획서에 페어 후보로 적혀 있던 인물들이다 — `docs/archive/hell-bar/README.md`)
 > `yi-sun-sin`(이순신)은 조선 인물이라 삼국지 그룹에 포함하지 않는다.
 
@@ -58,7 +58,7 @@
 | `ji-kang` | todo | ✓ | pre-todo에서 승격 |
 | `ruan-ji` | todo | ✓ | pre-todo에서 승격 |
 | `zhang-zhongjing` | todo | ✓ | pre-todo에서 승격 |
-| `lu-su`·`zhou-yu`·`deng-ai` | todo | — | 2026-05 사료 조사 후 user_contents 등록. ko.json 미작성 |
+| `lu-su`·`zhou-yu`·`deng-ai` | todo | — | 2026-05 사료 조사 후 현재 `celeb_contents`에 이관된 관계 등록. ko.json 미작성 |
 | `liu-bei`·`sun-quan`·`lu-meng`·`lu-xun`·`cao-pi`·`cao-zhi`·`jiang-wei`·`cai-wenji`·`wang-bi`·`chen-shou` | todo | — | 빈 폴더 + `_status`만 (DB 스캐폴딩 대기) |
 
 상세 편성 순서는 `book-recommend/lineup/lineup.md`를 본다.

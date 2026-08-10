@@ -165,7 +165,7 @@
    자녀보다 늦게 태어나거나, 쌍둥이 연도가 다르거나, 기준 사건 당시 역할과 나이가
    맞지 않는 값을 막고, 반영 뒤 서비스 대상의 `birth_date` 결손을 다시 전수 조회한다.
 
-5. **명언**: basic 단계에서 다루지 않는다. `profiles`에는 명언 컬럼이 없다 — `quotes`·`quotes_en`은 2026-03-23 `drop_profiles_quotes_and_recreate_compat_view`로 DROP됐고, 위 JSON에 이 키를 넣으면 INSERT가 즉시 실패한다. 명언 정본은 `celeb_dialogues.lines.quote`·`lines_en.quote`이며 Speech 트랙이 작성한다 → `celeb-speech.md` §6.2
+5. **명언**: basic 단계에서 다루지 않는다. `celebs`에는 명언 컬럼이 없다. 명언 정본은 `celeb_dialogues.lines.quote`·`lines_en.quote`이며 Speech 트랙이 작성한다 → `celeb-speech.md` §6.2
 
 6. **문자열 처리**
    - 큰따옴표는 작은따옴표로 대체

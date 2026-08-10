@@ -29,7 +29,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
    | DB 인물 연결 무결성 | `celeb_id NOT NULL` + 삭제되지 않은 CELEB + slug 미러. 한 건이라도 어긋나면 정상 상태가 아니며 저장·출간 중단 |
    | 태그 미지정 세력 | `faction_groups.tag_id`가 null |
    | 개인 화보+대사 음성·그룹샷 저장소 동기 상태 | 로컬 파일 해시·전환 시각 ↔ 매니페스트(`_db-sync.json`)·`web_quote_media` 대조 |
-   | 얼굴 사진(아바타) 유무 | `profiles.avatar_url` |
+   | 얼굴 사진(아바타) 유무 | `celebs.avatar_url` |
    | 신화 표시 ↔ 셀럽 등급 어긋남 | `mythical`과 `fiction` 등급이 서로 다름 |
 
 4. **미리보기(dry-run)** — 변경 예정 목록(created/updated/skipped/blocked)을 확인한다.
@@ -47,7 +47,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 - **읽기 창구 = DB 뷰 `faction_atlas_members`** — 제작 유래(`web_*` 손질 우선, 태그당 셀럽 중복은 제작 앞자리 채택, disabled 제외) ∪ 웹 전용 배정. 정렬은 제작 순번 우선, 웹 전용은 10000+. 행 식별자 `source`(production/manual)·`person_id`·`assignment_id` 포함. 웹·BO 모두 이 뷰를 읽는다.
 - `celeb_tags` — 태그 마스터(테마). 그룹 헤더도 여기 일반 태그 1행으로 존재. **노출 결정은 `is_featured` 스위치 하나다.**
 - `celeb_tag_assignments` — **웹 전용 명단(영상 없는 16태그의 수동 배정) 123행 전용**(26.08.03 P14 정비 후. 최초 단일화 때 남은 214행 중 영상 연결분을 제작으로 흡수. 백업: `_backup/celeb-tag-assignments-full-2026-08-03.json`). 수동 행의 소개(`short_desc`/`long_desc`)·개인샷(`faction_image_url`)·숨김(`hidden`)이 여기 붙는다.
-- `profiles.avatar_url` — 인물 공통 아바타(태그 무관).
+- `celebs.avatar_url` — 인물 공통 아바타(태그 무관).
 
 ## 이미지 3종 — 절대 혼동 금지
 
@@ -55,7 +55,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 | 종류 | 컬럼/필드 | 성격 | R2 경로 | 채우는 경로 |
 |------|-----------|------|---------|------|
-| **아바타** | `profiles.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-register` 스킬 또는 `web-bo/scripts/upload-celeb-avatar.ts --image-file` |
+| **아바타** | `celebs.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-register` 스킬 또는 `web-bo/scripts/upload-celeb-avatar.ts --image-file` |
 | **개인 화보·대사** | `faction_people.web_image_url`(표지) + `web_quote_media`(제작 유래) · 수동 행은 `assignments.faction_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) + 팩션 wav | 표지 `faction/{tagId}/celeb-{celebId}.webp`, 추가 화보·음성은 인물 하위 해시 키 | 출간 패널(person.image·quoteImage·imageChanges + voice → 원본 비율 유지, **얼굴 크롭 금지**) 또는 테마 편집기 업로드 |
 | **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(캐러셀) | `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 출간 패널(clusters[].image 전체, 태그 단위 재구성) |
 

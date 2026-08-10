@@ -1,6 +1,6 @@
 # 가림 해제 (Redact) — 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `getTrackerRound.ts`(censorName 로직·safeWords 보호), `proximity/` 전체(게임 구조 패턴), `i18n/request.ts`(네임스페이스 등록 확인), `messages/ko/core.json`(shared.game 키), `profiles` 테이블 bio 컬럼(코드 내 사용 확인). DB 실측 없음.
+> **최종 실측 체크: 26.07.31** — 부분 대조: `getTrackerRound.ts`(censorName 로직·safeWords 보호), `proximity/` 전체(게임 구조 패턴), `i18n/request.ts`(네임스페이스 등록 확인), `messages/ko/core.json`(shared.game 키), 현재 `celebs`로 이관된 bio 컬럼(코드 내 사용 확인). DB 실측 없음.
 
 ---
 
@@ -55,7 +55,7 @@
 
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
-| `profiles` | `id`, `nickname`, `nickname_en`, `profession`, `nationality`, `birth_date`, `death_date`, `avatar_url`, `bio`, `bio_en` | 인물 메타 + 소개글 본문 |
+| `celebs` | `id`, `nickname`, `nickname_en`, `profession`, `nationality`, `birth_date`, `death_date`, `avatar_url`, `bio`, `bio_en` | 인물 메타 + 소개글 본문 |
 
 ### 본문 원천 판단
 
@@ -69,7 +69,7 @@
 - **엔드포인트**: `actions/game/redact.ts` — `getRedactRound()`
 - **페이징**: `selectAllPages` + `id` 정렬 (PostgREST 1,000행 상한 대응)
 - **캐시**: `unstable_cache` + `CACHE_TAGS.CELEBS` + `STATIC_REVALIDATE`(7일)
-- **필터**: `profile_type = 'CELEB'`, `status = 'active'`, `celeb_tier in ('full', 'light')`, `bio IS NOT NULL`, bio 80글자 이상
+- **필터**: `publication_status = 'active'`, `celeb_tier in ('full', 'light')`, `bio IS NOT NULL`, bio 80글자 이상
 - **이름 마스킹**: 서버 측에서 `censorNameForRedact` 적용 후 전달 (클라이언트에 원문 노출 없음)
 - **랜덤 선정**: 캐시된 후보 풀에서 `Math.random()` 선택 (일일 시드 미적용 — 매 라운드 새 인물)
 

@@ -53,7 +53,7 @@
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
 | `celeb_persona` | `celeb_id`, 16개 flat smallint 컬럼(`command`, `martial`, `intellect`, `charm`, `temperance`, `diligence`, `reflection`, `courage`, `loyalty`, `benevolence`, `fairness`, `humility`, `pessimism_optimism`, `conservative_progressive`, `individual_social`, `cautious_bold`) | 성향 벡터 |
-| `profiles` (inner join) | `id`, `nickname`, `nickname_en`, `profession`, `nationality`, `birth_date`, `death_date`, `avatar_url`, `status`, `celeb_tier` | 인물 메타 |
+| `celebs` (inner join) | `id`, `nickname`, `nickname_en`, `profession`, `nationality`, `birth_date`, `death_date`, `avatar_url`, `publication_status`, `celeb_tier` | 인물 메타 |
 
 ---
 
@@ -62,7 +62,7 @@
 - **엔드포인트**: `actions/game/proximity.ts` — `getProximityCelebs()` (full stats), `getProximityCelebList()` (자동완성용)
 - **페이징**: `selectAllPages` + `celeb_id` 정렬 (PostgREST 1,000행 상한 대응)
 - **캐시**: `unstable_cache` + `CACHE_TAGS.PERSONA` + `STATIC_REVALIDATE`(7일)
-- **필터**: `status = 'active'`, `celeb_tier in ('full', 'light')`
+- **필터**: `publication_status = 'active'`, `celeb_tier in ('full', 'light')`
 - **거리 재사용**: `lib/persona/utils.ts`의 `calcDistance` + `distanceToMatchPercent` — 새로 짜지 않음
 
 ---

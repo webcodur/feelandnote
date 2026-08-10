@@ -1,6 +1,6 @@
 # 넷씩 넷 (Groups) — 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `celeb_tags`·`celeb_tag_assignments` 스키마(db-celeb.md), `profiles.profession`·`nationality` 컬럼(db-core.md·supabase.ts), `celeb-professions.ts` 15종, `getPortraitFigures.ts` 조회 패턴, `GameFullScreen.tsx` 래퍼, `GameShell.tsx` 구조, `i18n/request.ts` 네임스페이스 등록 확인, `messages/{ko,en}/game-groups.json` 자리 파일 확인, `.env` 부재 실측. DB 실측 없음.
+> **최종 실측 체크: 26.07.31** — 부분 대조: `celeb_tags`·`celeb_tag_assignments` 스키마(db-celeb.md), 현재 `celebs.profession`·`nationality`로 이관된 컬럼, `celeb-professions.ts` 15종, `getPortraitFigures.ts` 조회 패턴, `GameFullScreen.tsx` 래퍼, `GameShell.tsx` 구조, `i18n/request.ts` 네임스페이스 등록 확인, `messages/{ko,en}/game-groups.json` 자리 파일 확인, `.env` 부재 실측. DB 실측 없음.
 
 ---
 
@@ -58,13 +58,13 @@
 
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
-| `profiles` | `id`, `nickname`, `nickname_en`, `avatar_url`, `profession`, `nationality`, `status` | 인물 기본 정보 |
+| `celebs` | `id`, `nickname`, `nickname_en`, `avatar_url`, `profession`, `nationality`, `publication_status` | 인물 기본 정보 |
 | `celeb_tags` | `id`, `name`, `name_en`, `slug`, `parent_id` | 세력 태그(묶음 기준) |
 | `celeb_tag_assignments` | `celeb_id`, `tag_id` | 인물↔태그 매핑 |
 
-**직군(profession)**: `profiles.profession` — 15종 (`leader`, `politician`, `commander`, `entrepreneur`, `investor`, `scientist`, `humanities_scholar`, `social_scientist`, `director`, `musician`, `visual_artist`, `author`, `actor`, `influencer`, `athlete`)
+**직군(profession)**: `celebs.profession` — 15종 (`leader`, `politician`, `commander`, `entrepreneur`, `investor`, `scientist`, `humanities_scholar`, `social_scientist`, `director`, `musician`, `visual_artist`, `author`, `actor`, `influencer`, `athlete`)
 
-**국적(nationality)**: `profiles.nationality` — 자유 텍스트, 실측 70+ 국가
+**국적(nationality)**: `celebs.nationality` — 자유 텍스트, 실측 70+ 국가
 
 **세력 태그(tag)**: `celeb_tags` — 실측 40종 + 계층 구조(parent_id)
 
@@ -79,7 +79,7 @@ getGroupsData()
   → isFixtureMode() 체크 (env 유무)
   → fetchGroupsPool(locale)
     → celeb_tags (parent_id IS NULL) 조회
-    → celeb_tag_assignments + profiles 임베드 조회
+    → celeb_tag_assignments + celebs 임베드 조회
     → 인원 4명 이상인 태그를 묶음 후보로 등록
     → 직군별 국적-다양 4명 묶음 추가
   → unstable_cache (7일, tags: ['tags', 'celebs'])

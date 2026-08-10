@@ -2,6 +2,10 @@
 
 `sw/web`의 전송비용 사고 SSoT. 2026-06-29의 Supabase egress 재발 조사에서 시작했으며, 2026-08-04부터 Vercel Fast Origin Transfer·Fluid CPU 사고도 같은 문서에서 추적한다. 서비스별 요약은 `external-services.md`를 참조한다.
 
+> **스키마 이름 주의(26.08.10):** 이 문서의 날짜별 증거에 남은 `profiles`·
+> `user_contents`는 사고 당시 이름이다. 현재 운영 원천은 `celebs`·`celeb_contents`이며,
+> 과거 쿼리를 현행 구현 예시로 재사용하지 않는다.
+
 ## 1. 배경·증상
 
 - 활성 사용자 3명 미만인데 **매월** Supabase 무료 egress 한도(약 5.5GB)를 초과해 프로젝트가 정지된다. 캐싱 작업을 여러 차례 했는데도 재발했다.

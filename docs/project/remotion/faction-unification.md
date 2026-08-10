@@ -53,8 +53,8 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
   - **활성 여부의 단일 원천은 `registered`다(26.07.29).** `registered=true`만 `_episodes.json`에 실리고 렌더·음성·출간 대상이 된다. `status=ready|blocked`는 도감 테마로 옮길 수 있는지의 판단일 뿐 활성 여부가 아니다.
 - `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
 - `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
-- `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug(프로필 미러)·**celeb_id(profiles, NOT NULL, ON DELETE RESTRICT)**·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
-  - `mythical=true` 인물은 `profiles.celeb_tier='fiction'` 프로필에 연결한다.
+- `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug(프로필 미러)·**celeb_id(celebs, NOT NULL, ON DELETE RESTRICT)**·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
+  - `mythical=true` 인물은 `celebs.celeb_tier='fiction'` 프로필에 연결한다.
     2026-08-05 이후 신규 active 전환에는 fiction도 아바타가 필수다. 기존
     `avatar_url=null` active 데이터형 프로필은 소급 비활성화하지 않는다
   - 2026-07-29 전수 기준: 신화·서사 18편, 285배치, 정규 fiction 257명.
@@ -77,7 +77,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
        └ faction_people ─celeb_id─┐   투영       · short_desc(세력별 한줄 소개)
             quote·음성설정·컷효과   │ ─────▶      · long_desc(세력별 상세 설명, 사람이 다듬음)
             lines[0]·epithet ─────┘             · sort_order · faction_image_url(R2 개인샷)
-                                               profiles — 불가침
+                                               celebs — 불가침
 ```
 
 - 투영은 제작→서비스 **단방향·채움 전용**(force로만 덮음). 상위 그룹 계층은 출간 범위 밖이며 `celeb_tags.parent_id`가 정본이다(26.07.26 승격 — 아래 진행 로그).

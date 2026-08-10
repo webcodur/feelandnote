@@ -18,20 +18,19 @@ fiction은 basic 최소 항목만 채우는 티어다. 번역하지 않는다. �
 
 | # | 테이블 | 소스 컬럼 | 번역 컬럼 | 비고 |
 |---|--------|----------|----------|------|
-| 1 | `profiles` | `title` | `title_en` | 수식어 (2~8자 → 영문 동등 표현) |
-| 2 | `profiles` | `bio` | `bio_en` | 소개글 (2줄 분량) |
-| 3 | `profiles` | `consumption_philosophy` | `consumption_philosophy_en` | 감상 철학 |
-| 4 | `profiles` | `cultural_journey` | `cultural_journey_en` | 감상 여정 (500자 이내) |
-| 5 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
-| 6 | `celeb_dialogues` | `lines` (jsonb) | `lines_en` (jsonb) | 고유 대사 21개 + quote |
-| 7 | `profiles` | `virtual_monologue` | `virtual_monologue_en` | 가상 독백. 규칙은 `virtual-monologue.md`, 실행은 `sw/web-bo/scripts/translate-virtual-monologue.ts` |
+| 1 | `celebs` | `title` | `title_en` | 수식어 (2~8자 → 영문 동등 표현) |
+| 2 | `celebs` | `bio` | `bio_en` | 소개글 (2줄 분량) |
+| 3 | `celebs` | `consumption_philosophy` | `consumption_philosophy_en` | 감상 여정·철학의 쓰기 원천. `cultural_journey*`는 generated 별칭 |
+| 4 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
+| 5 | `celeb_dialogues` | `lines` (jsonb) | `lines_en` (jsonb) | 고유 대사 21개 + quote |
+| 6 | `celebs` | `virtual_monologue` | `virtual_monologue_en` | 가상 독백. 규칙은 `virtual-monologue.md`, 실행은 `sw/web-bo/scripts/translate-virtual-monologue.ts` |
 
 ### 번역 대상이 아닌 것
 
 | 항목 | 이유 |
 |------|------|
-| `profiles.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #6에 포함된다 |
-| `profiles.nickname_en` | basic 트랙(`celeb-1-basic-profile.md`)이 작성한다 |
+| `celebs.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #5에 포함된다 |
+| `celebs.nickname_en` | basic 트랙(`celeb-1-basic-profile.md`)이 작성한다 |
 | `celeb_persona`의 `reason_en` / `rationale_en` | 페르소나 트랙(`celeb-5-persona.md`)이 작성한다 |
 
 ---
@@ -42,11 +41,10 @@ fiction은 basic 최소 항목만 채우는 티어다. 번역하지 않는다. �
 
 ```sql
 SELECT p.id, p.nickname, p.nickname_en, p.title, p.bio,
-       p.consumption_philosophy, p.cultural_journey,
+       p.consumption_philosophy,
        p.death_date, p.profession
-FROM profiles p
+FROM celebs p
 WHERE p.id = '{celebId}'
-  AND p.profile_type = 'CELEB'
   AND p.celeb_tier IN ('full', 'light');
 ```
 
@@ -109,15 +107,12 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 - 주어 없이 시작하는 한국어 문체 → 영문에서는 주어 추가 가능
 - 예: "미국 출신 무용가." → "An American dancer."
 
-### consumption_philosophy (감상 철학)
-
-- 원문의 1인칭 시점과 격식 수준을 영문에서도 유지
-- 추측 표현 금지는 영문에서도 동일 적용
-
-### cultural_journey (감상 여정)
+### consumption_philosophy / cultural_journey (감상 여정·철학)
 
 - 500자 이내 한국어 글을 동등 분량의 영문으로 번역
+- 쓰기는 `consumption_philosophy_en`에만 한다. `cultural_journey_en`은 generated 별칭이다
 - 단정적 문체("~다.") → 영문에서도 declarative 문체 유지
+- 원문의 1인칭 시점과 격식 수준을 영문에서도 유지
 - 추측 표현 금지는 영문에서도 동일 적용
 - 작품명 `『』` → 영문 *Title* (이탤릭)
 
@@ -158,8 +153,8 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 복수 셀럽을 처리할 때는 배치 UPDATE를 사용한다.
 
 ```sql
--- profiles 배치
-UPDATE profiles SET
+-- celebs 배치
+UPDATE celebs SET
   title_en = CASE id
     WHEN '{id1}' THEN '{title_en_1}'
     WHEN '{id2}' THEN '{title_en_2}'
@@ -171,10 +166,6 @@ UPDATE profiles SET
   consumption_philosophy_en = CASE id
     WHEN '{id1}' THEN '{consumption_philosophy_en_1}'
     WHEN '{id2}' THEN '{consumption_philosophy_en_2}'
-  END,
-  cultural_journey_en = CASE id
-    WHEN '{id1}' THEN '{cultural_journey_en_1}'
-    WHEN '{id2}' THEN '{cultural_journey_en_2}'
   END
 WHERE id IN ('{id1}', '{id2}');
 
