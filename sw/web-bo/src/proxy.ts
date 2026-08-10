@@ -9,8 +9,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/celebs', request.url))
   }
 
-  // 로그인 페이지와 public API는 체크 제외
-  if (pathname === '/login' || pathname.startsWith('/api/image-proxy')) {
+  // 로그인 페이지와 public API는 체크 제외.
+  // quick-image는 바깥 브라우저 확장이 쿠키 없이 호출하는 창구다. 창구 자신이
+  // 로컬 주소 요청만 받아 배포 환경에서는 404를 낸다(route.ts 주석 참조).
+  if (
+    pathname === '/login'
+    || pathname.startsWith('/api/image-proxy')
+    || pathname.startsWith('/api/celebs/quick-image')
+  ) {
     return NextResponse.next()
   }
 
