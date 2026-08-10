@@ -909,7 +909,6 @@ href
 | `docs/project/web-bo.md` | 회원·셀럽 독립 조회와 권한 출처 반영 |
 | `docs/project/service/profile.md` | 회원 전용 UUID 프로필 경로 반영 |
 | `docs/project/celeb-journey.md` | `celebs` 전원 대상 규칙 반영 |
-| `docs/todo/celeb/celeb-timeline-backfill-handoff-2026-08-08.md` | 구조 이행 후 새 대상 수와 재개 지점 반영 |
 
 ## 하지 않는 것
 

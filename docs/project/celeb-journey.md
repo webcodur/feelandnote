@@ -1,344 +1,146 @@
 # 인물 행적 (생애 연표 · 서사 연표 · 활동 반경)
 
-> **운영 SSoT 전환: 2026-08-10** — 서비스 사건은 `celeb_timeline_events`, 조사 원문과
-> 근거는 `celeb_timeline_research_runs`, 작업 상태는 공용 `celeb_task_queue`의
-> `timeline_backfill_v1` 행이 단일 원천이다. 타임라인 조사 자료를 로컬 파일에 영구 보관하지 않는다.
->
-> **이번 회차 종료(2026-08-10):** 기본 큐·교정·보안·terminal 계보 계약은 운영 DB 적용과
-> 읽기 검증을 마쳤다. 이 회차의 인물 조사는 종료했으며 추가 조사·claim은 하지 않는다.
-> 남은 pending 1,854건의 재개는 이 문서를 근거로 자동 진행하지 않고, 별도 회차에서 사용자가
-> 다시 승인한 뒤 시작한다. 날짜 미상 `life` 양식 migration까지 운영 DB에 적용·검증했지만,
-> 이는 사건 표현 계약만 넓힌 것이며 남은 조사 작업을 자동 재개하지 않는다.
+인물 상세 04번 구획의 데이터와 화면 규격 SSoT다. 서비스에 표시하는 값은
+`public.celeb_timeline_events`가 유일한 원천이며, 관리자는 web-bo에서 이 테이블의 기존 사건
+필드만 추가·수정·삭제한다.
 
-인물 상세 화면의 행적 구획 SSoT다. 실존 인물은 연도형 「생애 연표」, `fiction` 인물은
-대표 원전 순서형 「서사 연표」로 같은 사건 테이블을 사용한다. 사건 가운데 좌표가 있는 행만
-활동 반경 지구본에 오른다. 활동 반경 전용 테이블은 따로 두지 않는다.
+실존 인물은 달력 시점이 있는 「생애 연표」로, `fiction` 인물은 대표 원전 안의 순서를 따르는
+「서사 연표」로 표시한다. 사건 가운데 검증된 좌표가 있는 행만 활동 반경 지구본에 오른다.
+좌표가 없는 중요한 사건도 연표에는 그대로 남는다.
 
-## 대상 — 등록된 인물 전원
+## 사건 데이터
 
-모집단은 **`celebs`의 모든 행 가운데 `celeb_timeline_events`가 한 행도 없는 인물**이다.
-항상 live DB에서 다음 의미의 `NOT EXISTS`로 판정한다.
-
-```sql
-select c.id
-from public.celebs c
-where not exists (
-  select 1
-  from public.celeb_timeline_events e
-  where e.celeb_id = c.id
-);
-```
-
-`publication_status`·`celeb_tier`·생년·사망년을 비롯한 프로필 값은 제외 필터가 아니다.
-`fiction`도 제외하지 않고 결과 형식만 `life`와 다르게 한다. 과거 대상 수나 이전 작업 목록을
-다음 회차의 모집단으로 재사용하지 않는다.
-
-- 생년을 알면 출생 사건을 맨 앞에 한 번 둔다. 모르면 출생 사건을 강제하지 않는다.
-- 사망년을 알면 사망 사건을 맨 뒤에 한 번 둔다. 모르거나 생존 중이면 강제하지 않는다.
-- 생몰 정보가 부분 날짜·근삿값·기원전 표기이면 원문 정밀도를 보존한다. 근거 없이
-  `YYYY-MM-DD`로 승격하지 않는다.
-- `birthDate`·`deathDate`에 근거 충돌이 기록된 경우, 확인되지 않은 프로필 경계에 맞추려고
-  출생·사망 사건을 만들지 않는다.
-- `fiction`은 실제 연도를 억지로 부여하지 않고 대표 원전 안의 순서를 기록한다.
-
-## 2026-08-10 역사 실측
-
-기존 회차에서 `complete` 245명과 사건 1,571건을 적재했다. 조사 결과 246건은 DB 감사 원장으로
-이관했으며, 그중 Ahmed Sherif 1건은 신원 근거 부족으로 `blocked`와
-`applicationStatus='quarantined'`, 사건 0건을 유지했다. 이 숫자는 당시 회차의 역사
-스냅샷일 뿐 현재 결손 수나 다음 작업량이 아니다.
-
-다음 회차는 반드시 live DB의 `NOT EXISTS` 결과에서 시작한다. 공개 상태·등급·생년·사망 여부를
-추가 필터로 붙이지 않는다.
-
-## DB SSoT
-
-### `celeb_timeline_events`
-
-화면에 제공하는 사건 정본이다.
+### `public.celeb_timeline_events`
 
 | 컬럼 | 의미 |
 |---|---|
-| `celeb_id` | 사건 소유 인물 |
-| `year`, `year_end`, `month`, `day` | `life` 사건의 시점. 기원전 연도는 음수이며 날짜 미상은 모두 `null` |
-| `sequence_label`, `sequence_label_en` | `fiction` 사건의 원전 내 국·영문 단계. `life`는 날짜 미상이어도 둘 다 `null` |
+| `id` | 사건 UUID |
+| `celeb_id` | 사건 소유 인물. `celebs.id` 참조 |
+| `year`, `year_end`, `month`, `day` | `life` 사건의 시점. 기원전 연도는 음수 |
+| `sequence_label`, `sequence_label_en` | `fiction` 사건의 원전 내 국·영문 단계 |
 | `title`, `title_en` | 국·영문 제목 |
 | `description`, `description_en` | 국·영문 서술 |
-| `kind` | `birth`, `death`, `education`, `work`, `publish`, `battle`, `travel`, `office`, `meeting`, `other` |
-| `place_name`, `place_name_en`, `lat`, `lng`, `place_qid` | 장소와 검증된 좌표 |
-| `source_url` | 사건이 참조한 첫 근거 URL |
-| `sort_order` | DB가 최종 산출한 표시 순서 |
+| `kind` | 사건 종류 |
+| `place_name`, `place_name_en` | 국·영문 장소명 |
+| `lat`, `lng`, `place_qid` | 검증된 좌표와 Wikidata 장소 식별자 |
+| `source` | 등록 경로. 관리자 손질본은 `manual` |
+| `source_url` | 사건 내용을 확인할 수 있는 HTTP(S) 근거 링크 |
+| `sort_order` | 화면에 표시할 순서 |
+| `created_at`, `updated_at` | 생성·수정 시각 |
 
-`life` 사건은 연도가 확인되면 정수 시점을 쓰고, 확인되지 않으면 `year`·`year_end`·`month`·
-`day`와 두 `sequence_label`을 모두 `null`로 둔다. 허위 연도나 서사 라벨을 만들지 않는다.
-`fiction`만 국·영문 `sequence_label`을 필수로 쓴다. 두 체계를 한 인물에 섞지 않는다.
-`sort_order`는 조사자가 별도로 계산하는 값이 아니라 검증된 payload 배열 위치에서 산출한다.
-화면과 백오피스도 `sort_order`, `id` 순으로 읽으며 날짜 미상 `life`의 왼쪽 위치칸은 비워 두고
-기존 현재/전체 자동 번호만 표시한다.
+`kind`는 다음 값 가운데 하나다.
 
-### `celeb_timeline_research_runs`
-
-조사 전체를 손실 없이 남기는 append-only 감사 원장이다. `celeb_timeline_events`가 화면에 필요한
-한 URL만 표현하는 데 비해, 이 테이블은 다음을 모두 보존한다.
-
-- 정규화된 프로필 스냅샷과 조사 payload 원문
-- 다중 `sources`와 사건별 `event_evidence`
-- `profile_conflicts`와 `blocking_issues`
-- 연구 fingerprint, claim 정보, 사건 ID 배열과 사건 수
-- `complete` 또는 근거가 연결된 `blocked` 결과
-
-`research_fingerprint`는 정규 JSON payload의 소문자 SHA-256이며 `(celeb_id,
-research_fingerprint)`가 유일하다. 동일 claim과 동일 payload의 재전송은 멱등 처리하고, 내용이
-다른 재전송은 거절한다.
-
-### `celeb_task_queue`
-
-별도 타임라인 큐를 만들지 않고 기존 공용 큐를 재사용한다. 모든 조회·갱신은
-`task_type='timeline_backfill_v1'`로 제한되므로 `philosophy_rewrite_v2`를 비롯한 다른 작업 행에
-영향을 주면 안 된다.
-
-큐의 lease와 claim token이 한 인물의 쓰기 권한이다. claim은 `FOR UPDATE SKIP LOCKED`로 서로
-다른 인물을 가져가며, 긴 조사는 만료 전에 renew한다. 실패한 작업은 `fail --retry`로 즉시
-`pending`에 되돌리고, 조사 불가가 근거로 확정된 작업만 `fail --skip`으로 감사 원장을 남긴 뒤
-`skipped`로 닫는다. terminal 작업을 다시 열 때는 명시적인 requeue만 사용한다.
-
-## 마이그레이션과 보안
-
-현재 운영 기반 일곱 migration은 다음과 같다.
-
-- `20260809212156_timeline_direct_db_pipeline.sql` — 큐·감사 원장·기본 RPC
-- `20260809234727_timeline_direct_db_corrections.sql` — 감사 이력을 보존하는 교정 RPC
-- `20260810004016_timeline_direct_db_security_contract.sql` — 실제 ACL·RLS·RPC·역할 그래프를
-  읽어 고정하는 fail-closed 계약. **2026-08-10 운영 DB 적용·읽기 검증 통과**
-- `20260810020404_timeline_terminal_requeue_completion_lineage.sql` — terminal 재큐가 이전 원장을
-  덮지 않고 상호 predecessor/successor 계보로 잇게 하는 계약. **2026-08-10 운영 DB 적용·검증 통과**
-- `20260810024854_timeline_undated_life_events.sql` — 실존 인물의 날짜 미상 사건과 tier별 위치
-  계약을 추가한다. 기존 행 UPDATE 없이 순서를 보존한다. **2026-08-10 운영 DB 적용·검증 통과**
-- `20260810123232_timeline_celeb_tier_position_guard.sql` — 사건이 있는 인물의 `celeb_tier`
-  변경이 날짜형·서사형 위치 계약을 깨뜨리지 못하게 부모 행에서 차단한다.
-  **2026-08-10 운영 DB 적용·양방향 롤백 시험 통과**
-- `20260810034422_timeline_event_position_guard_serialization.sql` — 사건 쓰기가 부모 인물 행을
-  잠가 `celeb_tier` 변경과 직렬화되게 한다. **2026-08-10 운영 DB 적용·실제 PostgreSQL
-  2연결 양방향 경합 시험 통과**
-
-- `celeb_timeline_research_runs`는 RLS와 FORCE RLS를 모두 사용하고 공개 정책을 두지 않는다.
-- `anon`·`authenticated`에는 테이블 권한과 RPC 실행 권한이 없다.
-- 감사 원장 테이블은 `service_role`에 `SELECT`, `INSERT`만 허용하며 `UPDATE`, `DELETE`는
-  허용하지 않는다.
-- 작업 RPC 8개는 `SECURITY DEFINER`, 고정 `search_path=pg_catalog`, `service_role` 전용이다.
-- complete와 blocked skip은 profile drift, lease, claim token, 기존 사건 0행 여부를 다시
-  검사한 뒤 사건·감사 원장·큐 상태를 한 트랜잭션에서 확정한다.
-
-보안 계약은 `service_role`로 전환 가능한 정상 역할과 membership edge까지 정확히 비교한다.
-2026-08-10 운영 기준선의 정상 경로는 `authenticator`, `postgres`, `cli_login_postgres`,
-`supabase_storage_admin`에서 비롯되며 `anon`·`authenticated`에는 그런 경로가 없다. 이는 데이터를
-넣는 절차가 아니라, 권한 상승 경로가 새로 생기거나 사라졌을 때 **쓰기 전에 중단하는 검사**다.
-
-브라우저나 일반 사용자 세션에서 이 RPC를 호출하지 않는다. 운영 worker만 백오피스의
-service-role 환경을 사용한다.
-
-## 직접 DB worker
-
-진입점은 `sw/web-bo/scripts/timeline-db-worker.mjs`, 패키지 명령은 `timeline:worker`다.
-DB 작업 명령은 8개(`enqueue`, `claim`, `renew`, `commit`, `correct`, `fail`, `requeue`,
-`status`)이고, 별도의 읽기 전용 계약 검사 명령 `verify`가 있어 CLI 명령 이름은 모두 9개다.
-
-먼저 현재 스키마와 큐를 읽기 전용으로 확인한다.
-
-```powershell
-cd sw/web-bo
-pnpm timeline:worker -- status
-pnpm timeline:worker -- verify
+```text
+birth, death, education, work, publish,
+battle, travel, office, meeting, other
 ```
 
-`status`와 `verify`는 먼저 세 테이블, 작업 RPC 8개, 보안 계약 RPC, ACL·RLS·역할 그래프의
-exact 계약을 확인한다. 2026-08-10 11:24 KST에는 둘 다 통과했다. 이후 계약이 달라지면 두
-명령은 데이터를 쓰지 않고 실패한다.
+### 위치 값의 두 형식
 
-### 작업 수명주기
+한 사건은 인물 유형에 따라 다음 두 형식 중 정확히 하나를 사용한다.
 
-```powershell
-pnpm timeline:worker -- enqueue
-pnpm timeline:worker -- claim --worker lane-01 --lease-minutes 60
-pnpm timeline:worker -- renew --worker lane-01 --celeb-id $celebId --claim-token $claimToken
-```
+| 인물 | 달력 필드 | 서사 단계 |
+|---|---|---|
+| 실존 인물 (`life`) | 확인된 시점이면 `year` 정수. 날짜 미상이면 `year`, `year_end`, `month`, `day` 모두 `null` | `sequence_label`, `sequence_label_en` 모두 `null` |
+| 허구 인물 (`fiction`) | `year`, `year_end`, `month`, `day` 모두 `null` | 국·영문 `sequence_label`, `sequence_label_en` 모두 필수 |
 
-`enqueue`는 그 시점의 live DB에서 `NOT EXISTS`인 전원을 넣는다. terminal 감사 원장은 보존하며,
-명시적으로 requeue된 인물만 다시 claim할 수 있다. 독립 레인은 claim 결과에 포함된
-`profileSnapshot`을 그대로 조사 payload에 유지한다.
+`life`의 날짜 미상 사건에 임의 연도나 서사 라벨을 만들지 않는다. `fiction`에도 원전 속 사건을
+실제 역사 연도로 환산해 넣지 않는다.
 
-complete payload는 **표준입력으로만** 전달한다. worker는 위치 인수나 payload 파일 경로를
-받지 않는다. PowerShell에서는 메모리에 든 JSON 문자열이나 앞 단계의 stdout을 파이프로
-연결한다.
+### 표시 순서
 
-```powershell
-$payloadJson | pnpm timeline:worker -- commit --worker lane-01 --celeb-id $celebId --claim-token $claimToken
-```
+화면과 백오피스는 사건을 다음 순서로 읽는다.
 
-일시 실패는 payload 없이 retry한다.
+1. `sort_order` 오름차순
+2. 값이 같을 때 `id` 오름차순
 
-```powershell
-pnpm timeline:worker -- fail --worker lane-01 --celeb-id $celebId --claim-token $claimToken --error $errorMessage --retry
-```
+연도는 정렬 기준이 아니다. 같은 해의 사건, 날짜 미상 사건, 원전 순서형 사건을 모두 명시한
+배치대로 보여 주기 위해 `sort_order`가 우선한다.
 
-조사 불가를 확정할 때는 `researchStatus='blocked'`, `events=[]`, 한 건 이상의 근거 연결
-`blockingIssues`가 있는 payload를 표준입력으로 전달한다.
+## 사용자 화면
 
-```powershell
-$blockedPayloadJson | pnpm timeline:worker -- fail --worker lane-01 --celeb-id $celebId --claim-token $claimToken --error $errorMessage --skip
-```
+### 연표 카드
 
-`applicationStatus='quarantined'`가 있으면 최소 한 blocking issue에
-`QUARANTINE_PROFILE` 결정이 있어야 하며, 그 결정이 있으면 application status도 반드시
-`quarantined`여야 한다. 일반 blocked는 둘 다 두지 않는다.
+- `life`에서 연도가 있으면 연도 또는 연도 범위를 표시한다. 기원전은 `BC`와 절댓값으로 쓴다.
+- 날짜 미상 `life`는 왼쪽 위치칸을 비우고 `현재/전체` 자동 번호만 표시한다.
+- `fiction`은 현재 locale의 서사 단계 라벨을 위치 표지로 쓴다.
+- 제목·서술·장소는 영문 locale에서 영문 값이 있으면 영문을, 없으면 한국어 값을 사용한다.
+- 조회 실패를 빈 연표로 숨기지 않고 오류로 드러낸다.
 
-terminal 작업을 사람이 다시 열 때만 다음을 쓴다.
+### 활동 반경 지구본
 
-이 명령은 `20260810020404_timeline_terminal_requeue_completion_lineage.sql`의 운영 적용과 두
-계보 트리거 검증을 마친 뒤에만 실행한다. 일반 pending claim에는 이 추가 migration이 필요하지 않다.
+- `lat`과 `lng`가 모두 있는 사건만 마커와 이동 경로에 포함한다.
+- 연표 카드를 고르면 해당 마커로 이동하고, 마커를 고르면 같은 사건 카드로 이동한다.
+- 좌표가 없는 사건의 장소명은 연표에 표시할 수 있지만 지도 조작 버튼은 비활성화한다.
+- 전체화면 모달에서도 같은 사건 순서와 `현재/전체` 번호를 사용한다.
+- `/explore/timeline`의 국가별 연대기는 생몰년을 사용하는 별도 기능이다.
 
-```powershell
-pnpm timeline:worker -- requeue --celeb-id $celebId --reason $reason
-```
-
-완료된 조사 내용을 고칠 때는 기존 원장을 UPDATE하지 않는다. 현재 run ID와 fingerprint를
-낙관적 잠금으로 넘겨 새 원장을 만들고 기존 원장은 superseded 상태로 보존한다.
-
-```powershell
-$correctedPayloadJson | pnpm timeline:worker -- correct --celeb-id $celebId --expected-run-id $runId --expected-fingerprint $fingerprint --reason $reason
-```
-
-## 조사 payload 계약
-
-worker가 받는 JSON은 단순 사건 목록이 아니라 감사 가능한 조사 전체다.
-
-- `celebId`, `slug`, `nickname`, `nicknameEn`, `timelineMode`
-- claim에서 받은 `profileSnapshot`
-- 한 개 이상의 HTTP(S) `sources`
-- `complete`의 검증된 `events`, 또는 `blocked`의 빈 `events`
-- 각 사건·충돌·blocking issue가 `sources[].id`를 참조하는 `evidenceRefs`
-- 필요할 때만 `profileConflicts`, `blockingIssues`, `applicationStatus`
-
-근거 URL은 worker와 DB 양쪽에서 검사한다. complete에는 `blockingIssues`와
-`applicationStatus`를 넣을 수 없다. blocked에는 사건을 넣을 수 없고, 비어 있지 않은
-`blockingIssues`가 필요하다. raw payload와 파생된 근거 그래프는 감사 원장에 함께 저장된다.
-
-## 조사 형식
-
-### `life`
-
-- 날짜가 확인된 사건은 `year` 정수를 쓰고 두 `sequenceLabel`은 `null`로 둔다.
-- 날짜가 확인되지 않은 사건은 `year`, `yearEnd`, `month`, `day`, `sequenceLabel`,
-  `sequenceLabelEn`을 모두 `null`로 둔다. 배열 위치가 표시 순서이며 임의의 연도·라벨을 만들지 않는다.
-- 연대기 검사는 날짜가 있는 사건끼리의 부분 수열에만 적용한다. 출생·사망 경계 규칙은 그대로다.
-- 확인되는 사건 밀도에 따라 3~30건을 고른다. 숫자를 채우려고 비슷한 사건을 쪼개지 않는다.
-- 중간 사건은 생애의 방향, 주요 성취·실패, 활동 반경을 이해하는 데 실제 손실이 생길 때만
-  남긴다.
-- 제목은 사건에 맞는 자연스러운 한 줄로 쓴다. 서술은 2~3문장으로 사건과 영향을 함께 쓴다.
-- 국·영문을 동시에 완성하고, 영문은 사실과 무게를 지키며 자연스럽게 다시 쓴다.
-- 좌표가 없어도 중요한 사건은 연표에 남긴다.
-
-### `fiction`
-
-- 대표 원전 순서형 사건 6~12건을 둔다.
-- `sequenceLabel`, `sequenceLabelEn`을 사용하고 실제 연도를 넣지 않는다.
-- 원전의 가상 무대명은 기록할 수 있지만, 확인된 현실 지리가 아니면 좌표를 붙이지 않는다.
-- 출처와 사건 근거 연결은 `life`와 똑같이 필수다.
-
-### 사료와 프로필 충돌
-
-- 고대 인물의 연대가 학설마다 갈리면 통설과 불확실성을 함께 적는다.
-- 후대에 덧붙은 일화는 전승임을 분명히 하고 사실로 단정하지 않는다.
-- 프로필의 raw 날짜 정밀도를 그대로 비교한다. 예를 들어 `1980`과 `1980-01-01`은 같지 않다.
-- 프로필 충돌은 현재 claim 스냅샷 값, 근거 값, 양쪽 설명과 근거 참조를 모두 기록한다.
-- 평가가 갈리는 인물은 단죄하거나 미화하지 않고 확인되는 일을 적는다.
-
-## 원자 완료와 검증
-
-complete RPC는 다음 조건을 모두 통과해야 사건을 쓴다.
-
-1. queue lease, worker, claim token이 현재값과 정확히 일치한다.
-2. claim의 profile snapshot과 live profile이 변하지 않았다.
-3. 대상 인물의 기존 사건이 여전히 0행이다.
-4. payload 구조, 사건 수, 출처 URL, 근거 참조, `life`/`fiction` 형식이 유효하다.
-5. 생몰 충돌이 없는 정밀한 프로필 경계만 출생·사망 사건과 대조한다.
-6. 사건 insert, 감사 원장 insert, queue complete가 한 트랜잭션에서 끝난다.
-7. worker가 저장된 사건과 원장을 즉시 다시 읽어 ID·건수·payload를 대조한다.
-
-하나라도 실패하면 부분 완료를 남기지 않는다. 같은 payload 재전송은 실제 사건 내용과 queue의
-terminal pointer까지 exact하게 일치할 때만 `already_completed`로 인정한다.
-
-## 화면
+### 화면 코드
 
 | 파일 | 역할 |
 |---|---|
-| `sw/web/src/components/shared/WorldGlobe/WorldGlobe.tsx` | 공용 지구본. 좌표·경로·회전·확대·국가 hover를 담당하며 도메인을 모른다 |
-| `sw/web/src/actions/celebs/getCelebTimelineEvents.ts` | 로케일별 사건 조회. 조회 실패는 throw한다 |
-| `.../celeb/[slug]/JourneySection.tsx` | 연표와 지구본 연동. 지구본은 동적 로드하고 연표 본문은 서버에서 그린다 |
-| `.../celeb/[slug]/JourneyGlobeModal.tsx` | 전체화면 활동 반경과 연표 카드 |
-| `.../celeb/[slug]/celebSectionChapters.ts` | 인물 상세의 행적 구획 번호 04 |
+| `sw/web/src/actions/celebs/getCelebTimelineEvents.ts` | locale별 사건 조회와 `sort_order`, `id` 정렬 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneySection.tsx` | 연표 카드와 지구본 연동 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyGlobeModal.tsx` | 전체화면 활동 반경과 사건 카드 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/celebSectionChapters.ts` | 인물 상세 구획 번호 04 |
+| `sw/web/src/components/shared/WorldGlobe/WorldGlobe.tsx` | 공용 지구본 렌더링과 조작 |
 | `sw/web/messages/{ko,en}/celeb.json` | 화면 문구 |
 
-한 구획 안에 「나란히 · 생애 연표 · 활동 반경」 보기를 둔다. `fiction` 사건은 연도 대신
-`sequence_label`을 표시한다. 좌표가 하나도 없으면 지도 전환을 띄우지 않고 연표만 보여준다.
-지구본은 110m 지도를 먼저 받고 확대할 때 50m 해안선·현대 국경을 지연 로드한다.
+## 백오피스 수동 편집
 
-## 반복해서 걸린 함정
+관리 화면은 `/celebs/timeline/[slug]`다. 사건 목록은 `sort_order`, `id` 순으로 읽고, 저장된
+사건을 한 건씩 추가·수정·삭제한다.
 
-### 좌표는 기억으로 적지 않는다
+| 파일 | 역할 |
+|---|---|
+| `sw/web-bo/src/actions/admin/timeline.ts` | 조회·검증·추가·수정·삭제와 웹 캐시 갱신 |
+| `sw/web-bo/src/app/(admin)/celebs/timeline/[slug]/page.tsx` | 인물과 사건을 불러오는 편집 페이지 |
+| `sw/web-bo/src/app/(admin)/celebs/timeline/[slug]/TimelineEditor.tsx` | 날짜·서사 단계·본문·장소·순서 입력 UI |
+| `sw/web-bo/src/constants/timeline.ts` | 허용 사건 종류와 한국어 라벨 |
 
-동명 지명과 광역 지형의 중심점 때문에 수백 km 오차가 난다. `timeline-geocode.mjs`로 후보와
-설명을 읽고 실제 사건 지점을 고른다. 후보를 하나로 좁히지 못하면 좌표를 비운다.
+### 추가·수정 규칙
 
-### 서사와 연도 체계를 섞지 않는다
+- 제목은 필수다.
+- `life`의 연도는 정수 또는 명시적인 `null`이다.
+- `life`에서 「날짜 미상」을 선택하면 끝 연도·월·일과 두 서사 라벨을 모두 `null`로 저장한다.
+- `fiction`은 달력 필드를 모두 비우고 국·영문 서사 단계를 모두 입력한다.
+- 끝 연도는 시작 연도보다 앞설 수 없다.
+- 위도와 경도는 둘 다 입력하거나 둘 다 비운다.
+- 좌표를 입력했다면 장소명도 입력한다.
+- 위도는 -90~90, 경도는 -180~180 범위다.
+- `kind`는 이 문서의 허용 목록에 있는 값만 쓴다.
+- 수정한 행은 `source='manual'`로 표시한다.
+- 저장·삭제 뒤 web-bo 경로와 사용자 웹의 인물 캐시를 갱신한다.
 
-기존 사건의 `source` 값만 보고 중복을 판단하면 `manual` 서사 위에 `research` 연도 사건이
-쌓일 수 있다. 현재 모집단은 출처와 무관한 전체 사건 `NOT EXISTS`이고, complete 직전에도
-0행을 재검사한다.
+### 장소와 근거 확인
 
-### 외부 조사 텍스트를 그대로 넣지 않는다
+장소 좌표는 이름만 보고 기억으로 입력하지 않는다. 백오피스의 Wikidata 후보에서 동일 지명과
+설명을 대조한 뒤 선택하고, 현실 좌표가 확인되지 않은 가상 무대에는 좌표를 붙이지 않는다.
 
-이중 아포스트로피, 영문 구두점 소실, 광역 장소, 잘못된 `kind`, 지어낸 연도가 반복해서
-나왔다. worker의 구조 검사는 필요조건일 뿐 자연어 품질과 사실 검증을 대신하지 않는다.
+`source_url`에는 해당 사건을 직접 확인할 수 있는 HTTP(S) 페이지를 넣는다. 외부 자료의 문장을
+그대로 복사하지 말고 사실관계를 확인한 뒤 국·영문 제목과 설명을 서비스 문장으로 작성한다.
 
-### 쓰기 성공 응답만 믿지 않는다
+## 화면 구현 함정
 
-과거 도구가 0행 갱신도 성공으로 보고한 사고가 있었다. 현재 worker는 complete/blocked 뒤
-감사 원장과 사건을 exact readback하며, `verify --celeb-id $celebId`로 특정 인물의 원장과 사건
-연결을 다시 검사할 수 있다.
+### 좌표는 선택 필드다
 
-### 지구본 재렌더링 함정
+좌표가 없는 사건을 누락으로 취급하지 않는다. 잘못된 좌표 한 건이 활동 경로 전체를 왜곡하므로,
+확인되지 않으면 장소명만 남기는 편이 낫다.
 
-- 회전 지시는 `doneFocusRef`로 한 번만 수행한다. 그렇지 않으면 사용자가 돌린 각도가 튄다.
-- 드래그 감도는 구 반지름과 확대율에 맞춘다. 고정 각도/px는 확대할수록 과하게 돈다.
-- 보기 전환 때 지구본 인스턴스를 옮겨 심지 않고 같은 자리에 둔 채 배치 클래스만 바꾼다.
-- `/explore/timeline`은 생몰년을 쓰는 국가별 연대기로, 인물 행적 화면과 다른 기능이다.
+### 연도와 서사 단계를 섞지 않는다
 
-## 별도 회차 운영 재개 체크
+실존 인물의 날짜 미상 사건과 허구 인물의 서사 단계는 DB에서 모두 `year=null`일 수 있지만 의미가
+다르다. `celebs.celeb_tier`와 두 `sequence_label`의 존재 여부를 함께 확인한다.
 
-이 회차는 종료됐다. 아래 절차는 남은 pending을 지금 이어서 처리하라는 지시가 아니라, 사용자가
-별도 회차를 승인했을 때만 쓰는 재개 게이트다.
+### 지구본을 보기 전환마다 다시 만들지 않는다
 
-1. 공통 운영 migration이 배포 이력에 있고 `pnpm timeline:worker -- status`와 `verify`가 모두
-   통과하는지 확인한다.
-2. `status`로 queue와 감사 원장 수치를 읽는다.
-3. 사용자가 새 회차 enqueue를 승인했을 때만 `enqueue`를 실행한다.
-4. 독립 레인은 claim한 인물 하나를 끝내자마자 다음 claim을 받아 릴레이한다.
-5. 완료·blocked는 같은 회차에 DB readback까지 끝내고, 실패는 retry 또는 근거 있는 skip으로
-   명시적으로 닫는다.
-6. terminal 작업을 requeue할 때만 계보 migration의 적용과 트리거 두 개를 추가 확인한다.
+- 회전 지시는 한 번만 수행해 사용자가 돌린 각도를 보존한다.
+- 드래그 감도는 구 반지름과 확대율에 맞춘다.
+- 연표·지도 보기 전환에서는 같은 지구본 인스턴스를 유지하고 배치만 바꾼다.
 
 ## 연계
 
-- 진행 상태와 다음 착수점: `docs/todo/celeb/celeb-timeline-backfill-handoff-2026-08-08.md`
-- DB 스키마: `docs/project/db-celeb.md`
-- 인물 화면 지도: `docs/project/service/README.md`
-- 글쓰기 규칙: `docs/project/writing-rules.md`
-- 운영 worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
-- 운영 migration: `sw/web/supabase/migrations/20260809212156_timeline_direct_db_pipeline.sql`
-- 교정 migration: `sw/web/supabase/migrations/20260809234727_timeline_direct_db_corrections.sql`
-- 적용된 보안 gate: `sw/web/supabase/migrations/20260810004016_timeline_direct_db_security_contract.sql`
-- terminal 재큐 전 적용할 계보 migration: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
-- 적용된 날짜 미상 양식 migration: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
-- 적용된 tier 변경 가드 migration: `sw/web/supabase/migrations/20260810123232_timeline_celeb_tier_position_guard.sql`
-- 적용된 사건 위치 직렬화 migration: `sw/web/supabase/migrations/20260810034422_timeline_event_position_guard_serialization.sql`
+- 인물 DB 스키마: `docs/project/db-celeb.md`
+- 사용자 대면 화면 지도: `docs/project/service/README.md`
+- 한국어·영문 작성 규칙: `docs/project/writing-rules.md`
+- 관리자 백오피스: `docs/project/web-bo.md`
