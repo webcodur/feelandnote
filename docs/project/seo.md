@@ -1,6 +1,6 @@
 # SEO 설정 현황
 
-> **최종 실측 체크: 26.08.10** — 브랜드 검색에서 홈페이지·인물 허브가 사라진 현상을 Google Search Console과 라이브 HTTP로 재확인했다. 두 URL은 색인 `PASS`지만 검색 노출은 8월 기준 0이며, 사이트 전체 노출도 바닥이다. 브랜드 식별·구조화 데이터·답변 엔진 크롤·사이트맵 freshness 교정을 커밋 `72b46255`로 배포했고, 전체 17,524 URL을 Bing·네이버 IndexNow에 통지했다. Google 사이트맵 API 재제출은 연결 자격의 권한 부족으로 거절되어 콘솔 수동 제출만 남았다. 기준선·변경·제출 결과는 「브랜드 검색 노출 붕괴」 절이 쥔다.
+> **최종 실측 체크: 26.08.10** — 브랜드 검색에서 홈페이지·인물 허브가 사라진 현상을 Google Search Console과 라이브 HTTP로 재확인했다. 두 URL은 색인 `PASS`지만 검색 노출은 8월 기준 0이며, 사이트 전체 노출도 바닥이다. 브랜드 식별·구조화 데이터·답변 엔진 크롤·사이트맵 freshness 교정을 커밋 `72b46255`로 배포했고, 전체 17,524 URL을 Bing·네이버 IndexNow에 통지했다. Google에는 분할 사이트맵 인덱스를 다시 제출해 즉시 다운로드·오류 0을 확인했다. 기준선·변경·제출 결과는 「브랜드 검색 노출 붕괴」 절이 쥔다.
 
 ## 브랜드·사이트명 단일원천
 
@@ -99,11 +99,11 @@ URL 자체가 삭제된 것은 아니다.
 - Bing 계열 공용 IndexNow API에는 5,000 + 5,000 + 7,524 URL을, 네이버 공식 IndexNow API에는 10,000 + 7,524 URL을 POST했고 모든 최종 배치가 HTTP 200을 반환했다. 이는 갱신 통지가 수신됐다는 뜻이지 색인 보장은 아니다.
 - Google Search Console URL 검사에서 `/`와 `/explore`는 색인 `PASS`, robots 허용, 사용자·Google canonical 일치다. 마지막 크롤은 각각 2026-06-24와 2026-07-27이라 이번 배포본을 아직 본 결과가 아니다.
 - `/en`은 2026-08-05 크롤 성공·canonical 일치지만 `Crawled - currently not indexed`, `/en/celeb/bill-gates`는 `URL is unknown to Google`이다. 영문판은 별도 회복 대상이다.
-- Search Console에 등록된 사이트맵은 오류·경고 0이지만 마지막 제출 2026-07-15, 마지막 다운로드 2026-07-17, 인식 URL 15,884인 이전 스냅샷이다. 연결 자격으로 `submit_sitemap`을 호출하면 `403 Insufficient Permission`이 나와 26.08.10 API 재제출은 완료하지 못했다.
+- MCP 래퍼의 `submit_sitemap`은 `403 Insufficient Permission`을 반환했지만, 같은 서비스 계정에 정식 `webmasters` OAuth scope를 지정해 Google Search Console REST API로 직접 PUT했다. 2026-08-10 01:33:14Z 제출, 01:33:15Z 다운로드, `isSitemapsIndex=true`, 오류·경고 0을 확인했다.
 
 남은 운영 절차:
 
-1. 권한 있는 로그인 브라우저에서 Google Search Console의 `sitemap.xml`을 다시 제출하고 `/`, `/explore`, `/about`, `/en`을 실시간 테스트한 뒤 색인 생성을 요청한다. 범용 URL 색인 요청은 Search Console API가 제공하지 않는다.
+1. 로그인된 Search Console 브라우저에서 `/`, `/explore`, `/about`, `/en`을 실시간 테스트한 뒤 색인 생성을 요청한다. 범용 URL 색인 요청은 Search Console API가 제공하지 않으며, 26.08.10 작업 세션에는 연결된 로그인 브라우저 탭이 없었다. 사이트맵 재제출은 API로 완료했다.
 2. 같은 page 필터로 배포 후 7일·14일·28일 노출을 비교한다. 수동 검색 한 번으로 회복을 판정하지 않는다.
 3. 재크롤 뒤에도 브랜드 검색과 property 노출이 28일간 회복되지 않으면 Search Console의 수동 조치·보안 문제·삭제 요청 보고서를 사람이 확인한다. 이 세 보고서는 현재 연결 API로 판독할 수 없다.
 
@@ -111,7 +111,7 @@ URL 자체가 삭제된 것은 아니다.
 
 | 서비스 | 상태 | 인증 방식 | 제출 항목 | 비고 |
 |--------|------|----------|----------|------|
-| Google Search Console | ⚠️ 등록·조회 정상, 재제출 권한 부족 | 메타태그 (`google` verification) | 사이트맵 | URL 검사 가능. 26.08.10 `submit_sitemap`은 403; 권한 있는 콘솔에서 수동 재제출 필요 |
+| Google Search Console | ✅ 등록·조회·사이트맵 재제출 완료 | 메타태그 (`google` verification) | 사이트맵 인덱스 | 26.08.10 REST API 직접 PUT 204, 1초 내 다운로드, 오류·경고 0. 개별 URL 색인 요청은 로그인 브라우저 필요 |
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
 | 네이버 서치어드바이저 | ✅ 등록·IndexNow 재통지 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 제출 | 2026-03-12 등록. 26.08.10 전체 17,524 URL 공식 IndexNow API 200 |
 | Bing Webmaster Tools | ✅ 등록·IndexNow 재통지 | Google SC 연동 | 사이트맵 | 2026-03-12 등록. 26.08.10 전체 17,524 URL 공용 IndexNow API 200 |
@@ -205,6 +205,8 @@ if (
 |-----|------|----------|
 | `google-search-console` | 검색 성과 분석, 색인 상태 확인, 사이트맵 제출 | `search_analytics`, `index_inspect`, `submit_sitemap`, `detect_quick_wins` |
 | ~~`google-analytics`~~ | 트래픽·사용자 행동 분석 | **현재 `.mcp.json`에 미등록.** 쓰려면 서버 정의부터 되살려야 한다 |
+
+`google-search-console` MCP의 `submit_sitemap`이 읽기 scope로 403을 반환하더라도 사이트 소유 권한 부족으로 단정하지 않는다. `.mcp.json`의 같은 서비스 계정 자격에 `https://www.googleapis.com/auth/webmasters` scope를 명시해 공식 Sitemaps PUT API를 호출하고, 토큰·자격 파일 내용은 출력하지 않는다.
 
 ## 로컬 검증 방법
 
