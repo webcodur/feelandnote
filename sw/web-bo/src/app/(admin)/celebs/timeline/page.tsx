@@ -31,8 +31,9 @@ export default async function TimelineListPage() {
 
       {celebs.length === 0 ? (
         <p className="text-sm text-text-secondary">
-          아직 행적이 등록된 인물이 없습니다. DB 직접 조사기를 먼저 실행하세요
-          (<code className="text-xs">timeline-research-gpt.mjs --all-deceased --apply</code>).
+          아직 행적이 등록된 인물이 없습니다. 공용 큐 상태와 DB 계약을 먼저 확인하세요
+          (<code className="text-xs">pnpm timeline:worker -- status</code> ·{' '}
+          <code className="text-xs">pnpm timeline:worker -- verify</code>).
         </p>
       ) : (
         <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">

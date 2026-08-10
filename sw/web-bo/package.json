@@ -7,6 +7,12 @@
     "build": "next build --webpack",
     "start": "next start -p 3001",
     "lint": "eslint",
+    "content-research:worker": "node --env-file=.env scripts/content-research-db-worker.mjs",
+    "content-research:worker:test": "node --test scripts/__tests__/content-research-direct-schema.test.mjs scripts/__tests__/content-research-direct-contract.test.mjs scripts/__tests__/content-research-direct-db-worker.test.mjs",
+    "music:candidates:finalize": "node scripts/itunes-music-migrate.mjs --candidates-only --all-pending",
+    "music:candidates:check": "node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run",
+    "timeline:worker": "node --env-file=.env scripts/timeline-db-worker.mjs",
+    "timeline:worker:test": "node --test scripts/__tests__/timeline-direct-schema.test.mjs scripts/__tests__/timeline-direct-contract.test.mjs scripts/__tests__/timeline-db-worker.test.mjs scripts/__tests__/timeline-db-correction-pglite.test.mjs scripts/__tests__/timeline-db-security-contract-pglite.test.mjs scripts/__tests__/timeline-db-terminal-requeue-lineage-pglite.test.mjs",
     "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
     "faction:publish": "tsx scripts/publish-faction-voice.ts"
   },
@@ -33,6 +39,7 @@
     "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.4",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^20",
     "@types/react": "^19",
