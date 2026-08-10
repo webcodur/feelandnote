@@ -1,0 +1,4 @@
+interface:
+  display_name: "브라우저 UI 검수"
+  short_description: "Paseo와 Obscura로 실제 반응형 UI를 검수합니다"
+  default_prompt: "Use $verify-ui-in-browser to inspect this UI in desktop and mobile browsers."
