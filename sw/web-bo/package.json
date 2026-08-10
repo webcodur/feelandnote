@@ -12,7 +12,7 @@
     "music:candidates:finalize": "node scripts/itunes-music-migrate.mjs --candidates-only --all-pending",
     "music:candidates:check": "node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run",
     "timeline:worker": "node --env-file=.env scripts/timeline-db-worker.mjs",
-    "timeline:worker:test": "node --test scripts/__tests__/timeline-direct-schema.test.mjs scripts/__tests__/timeline-direct-contract.test.mjs scripts/__tests__/timeline-db-worker.test.mjs scripts/__tests__/timeline-db-correction-pglite.test.mjs scripts/__tests__/timeline-db-security-contract-pglite.test.mjs scripts/__tests__/timeline-db-terminal-requeue-lineage-pglite.test.mjs",
+    "timeline:worker:test": "node --test scripts/__tests__/timeline-direct-schema.test.mjs scripts/__tests__/timeline-direct-contract.test.mjs scripts/__tests__/timeline-db-worker.test.mjs scripts/__tests__/timeline-db-correction-pglite.test.mjs scripts/__tests__/timeline-db-security-contract-pglite.test.mjs scripts/__tests__/timeline-db-terminal-requeue-lineage-pglite.test.mjs scripts/__tests__/timeline-db-position-serialization-postgres.test.mjs",
     "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
     "faction:publish": "tsx scripts/publish-faction-voice.ts"
   },
