@@ -3,16 +3,11 @@
 > **최종 실측 체크: 26.08.10** — 8/9 회원·셀럽 물리 분리 뒤의 `celebs` ·
 > `celeb_contents` · 조사 완료 RPC를 live DB와 현행 코드로 대조했다.
 >
-> **직접 DB worker 운영 gate(26.08.10):**
-> `20260809222206_content_research_direct_db_pipeline.sql`은 운영 DB에 적용됐지만 enqueue에는
-> SQL alias 충돌이 있고, MUSIC commit은 최종 콘텐츠가 아니라 `pending` 후보를 만들며,
-> commit payload에는 `review_en`도 없다.
-> 별칭만 고치던 미적용 migration은 잘못된 보류 계약을 다시 켜므로 폐기했다. 세 결함을 함께
-> 고치고 rollback canary·계약 검사·`status`를 통과하는 새 forward migration 전에는 direct
-> worker의 실 DB 쓰기 명령을 실행하지 않는다. 이는 기존 조사 장부가 비었다는 뜻이 아니라
-> 새 자동 운영 진입점의 배포 gate다.
->
 > 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 신규 BOOK의 한국어 메타·커버는 **카카오(`kakao_book`)**, 영문 원서는 **OpenLibrary(`openlibrary`)**만 쓴다. 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
+>
+> **직접 DB worker 은퇴(26.08.10):** 실험용 `content-research:worker`와 전용 OpenLibrary 래퍼는
+> 운영 진입점으로 채택하지 않고 제거했다. 적용된 DB 조사 원장과 migration은 이력 보존용이며,
+> 신규 수집은 이 문서의 콘텐츠 타입별 확정 절차를 따른다.
 
 ## 핵심 원칙
 
@@ -75,21 +70,6 @@
 ⛔ **`celebs.content_research_status`를 `confirmed_empty`로 직접 UPDATE하지 마라.** 완료 함수만이
 확정 자격을 가진다.
 
-### 직접 DB worker
-
-진입점은 `sw/web-bo/scripts/content-research-db-worker.mjs`, 패키지 명령은
-`pnpm content-research:worker -- <command>`다. DB에 조사 원문·근거·판정·적용 결과를 원자적으로
-남기며 로컬 manifest나 결과 파일을 운영 원천으로 받지 않는다. `commit`만 검증된 JSON을
-표준입력으로 받는다.
-
-작업 명령은 `enqueue`, `claim`, `renew`, `commit`, `fail`, `requeue`, `status`,
-`provider-slot`이다. 2026-08-10 현재 위 운영 gate가 남아 있으므로 `help`·`status`와 로컬
-테스트 외의 실 DB 쓰기는 중단 상태다. worker는 적격 MUSIC payload를 RPC 전에
-`MUSIC_IMMEDIATE_FINALIZATION_REQUIRED`로 거부한다. gate가 해소돼도 첫 순서는 `status`와
-현행 계약 검사이며, 실패하면 쓰기 명령으로 우회하지 않는다.
-
----
-
 ## 수집 규칙
 
 ### 필수
@@ -110,9 +90,6 @@
 조사 결과를 `pending`으로 넣고 다음 작업으로 넘기지 않는다. 레거시 행을 다룰 때도
 `/celeb-music-collect`로 그 실행 안에서 `registered` 또는 `rejected`까지 마감하고,
 해당 인물의 `pending=0`을 종료 조건으로 삼는다.
-
-직접 DB worker의 적용된 RPC는 이 원칙보다 오래된 후보 적치 계약을 갖고 있으므로 MUSIC
-등록 경로가 아니다. worker가 거부하는 것을 우회해 service role로 RPC를 직접 호출하지 않는다.
 
 증거 기준(A·B급, source_url 필수)은 MUSIC도 똑같이 적용한다. 근거가 약한 것을
 일단 적치하지 말고 조사한 자리에서 기각한다.

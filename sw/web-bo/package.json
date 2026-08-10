@@ -7,8 +7,6 @@
     "build": "next build --webpack",
     "start": "next start -p 3001",
     "lint": "eslint",
-    "content-research:worker": "node --env-file=.env scripts/content-research-db-worker.mjs",
-    "content-research:worker:test": "node --test scripts/__tests__/content-research-direct-schema.test.mjs scripts/__tests__/content-research-direct-contract.test.mjs scripts/__tests__/content-research-direct-db-worker.test.mjs",
     "music:candidates:finalize": "node scripts/itunes-music-migrate.mjs --candidates-only --all-pending",
     "music:candidates:check": "node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run",
     "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
