@@ -50,6 +50,7 @@ Ahmed Sherif 1건은 신원 근거 부족으로 `blocked`·`quarantined`, 사건
 - 적용: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
 - 적용: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
 - 적용: `sw/web/supabase/migrations/20260810123232_timeline_celeb_tier_position_guard.sql`
+- 적용: `sw/web/supabase/migrations/20260810034422_timeline_event_position_guard_serialization.sql`
 - worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
 - package command: `sw/web-bo`의 `pnpm timeline:worker -- <command>`
 - DB 작업 RPC: enqueue, claim, renew, complete, correct, fail, requeue, status 8개
@@ -164,6 +165,7 @@ pnpm timeline:worker -- requeue --celeb-id $celebId --reason $reason
 - terminal 재큐 계보 migration: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
 - 적용된 날짜 미상 양식 migration: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
 - 적용된 tier 변경 가드 migration: `sw/web/supabase/migrations/20260810123232_timeline_celeb_tier_position_guard.sql`
+- 적용된 사건 위치 직렬화 migration: `sw/web/supabase/migrations/20260810034422_timeline_event_position_guard_serialization.sql`
 - worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
 - worker 계약: `sw/web-bo/scripts/lib/timeline-direct-contract.mjs`
 - payload 검증: `sw/web-bo/scripts/lib/timeline-direct-schema.mjs`
