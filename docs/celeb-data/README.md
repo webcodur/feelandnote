@@ -32,11 +32,18 @@ docs/celeb-data/
 246건을 감사 원장으로 이관했다. Ahmed Sherif 1건은 신원 근거 부족으로
 `blocked`·`quarantined`, 사건 0건을 유지했다. 이 수치는 현재 작업량이 아니다.
 
-2026-08-10 11:24 KST 마지막 live 읽기 전용 실측은 인물 2,966명, 사건 보유 1,110명, 결손
-1,856명, 사건 14,633건, 조사 원장 261건이다. 큐는 pending 1,854, in_progress 0, skipped 1,
-completed 14다. 보안 계약 migration은 운영 DB에 적용됐고 `status`·`verify`도 통과했다.
-일반 pending 작업은 운영 승인 뒤 claim할 수 있다. terminal 작업의 requeue만
-`20260810020404_timeline_terminal_requeue_completion_lineage.sql` 적용 전까지 금지한다.
+2026-08-10 이번 회차 종료 시점의 live 읽기 전용 실측은 인물 2,966명, 사건 보유 1,111명,
+결손 1,855명, 사건 14,644건이다. 큐는 completed 15, pending 1,854다. 다중 출처와 사건별
+근거는 로컬 회차 파일이 아니라 `celeb_timeline_research_runs`에 계속 보존한다.
+
+기본 큐·교정·보안 계약과 함께 다음 migration까지 운영 DB 적용·검증을 마쳤다.
+
+- `20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- `20260810024854_timeline_undated_life_events.sql`
+- `20260810123232_timeline_celeb_tier_position_guard.sql`
+
+이번 세션의 추가 claim과 조사는 종료했다. 남은 pending 1,854건은 이 문서만 근거로 자동
+재개하지 않으며, 사용자가 승인한 별도 회차에서만 다시 시작한다.
 
 다음 대상은 live DB에서 `celeb_timeline_events`가 0행인 `celebs` 전원이다. 공개 상태·등급·생년·
 사망 여부로 제외하지 않는다. 조사는 독립 레인이 공용 큐에서 claim하고, complete 또는 blocked
