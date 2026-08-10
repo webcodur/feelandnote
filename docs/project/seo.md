@@ -1,6 +1,6 @@
 # SEO 설정 현황
 
-> **최종 실측 체크: 26.08.10 11:11 KST** — 브랜드 검색 노출 붕괴를 교정한 뒤 Google Search Console에서 분할 사이트맵 `성공`·발견 페이지 17,700개를 확인했고, 대표 URL 4개를 실시간 테스트해 전부 색인 가능 판정과 우선순위 크롤링 대기열 추가를 완료했다. 직접 조치·보안 문제는 없고 최근 6개월 삭제 요청도 없다. 비개인화 검색(`pws=0`)에서는 `feelandnote`에 홈페이지가 다시 첫 웹 결과로 나타났지만 `필앤노트`에는 아직 YouTube만 노출된다. 기준선·변경·제출·회복 결과는 「브랜드 검색 노출 붕괴」 절이 쥔다.
+> **최종 실측 체크: 26.08.10 11:24 KST** — 브랜드 검색 노출 붕괴를 교정한 뒤 Google Search Console에서 분할 사이트맵 `성공`·발견 페이지 17,700개를 확인했고, 대표 URL 4개를 실시간 테스트해 전부 색인 가능 판정과 우선순위 크롤링 대기열 추가를 완료했다. 직접 조치·보안 문제는 없고 최근 6개월 삭제 요청도 없다. 비개인화 검색(`pws=0`)에서는 `feelandnote`에 홈페이지가 다시 첫 웹 결과로 나타났지만 `필앤노트`에는 아직 YouTube만 노출된다. 작업 중 DB 공개 데이터가 늘어 최종 프로덕션 사이트맵 17,724개를 Bing·네이버에도 다시 전량 통지했다. 기준선·변경·제출·회복 결과는 「브랜드 검색 노출 붕괴」 절이 쥔다.
 
 ## 브랜드·사이트명 단일원천
 
@@ -97,6 +97,7 @@
 - 라이브 `/`, `/en`, `/explore`, `/en/celeb/bill-gates`에서 새 title·description·canonical·hreflang·JSON-LD·가시 브랜드를 확인했다. `OAI-SearchBot`·`Claude-SearchBot`·`PerplexityBot` UA도 공개 페이지를 200으로 받는다.
 - 프로덕션 `sitemap.xml`은 기존 주소를 유지한 사이트맵 인덱스이며 하위 파일 10개를 가리킨다. 하위 파일을 합치면 고유 URL 17,524개, 실제 `lastmod`가 있는 URL 17,326개다. 가장 큰 파일은 1.428MiB다. IndexNow 키 파일도 200이고 내용이 키와 일치한다.
 - Bing 계열 공용 IndexNow API에는 5,000 + 5,000 + 7,524 URL을, 네이버 공식 IndexNow API에는 10,000 + 7,524 URL을 POST했고 모든 최종 배치가 HTTP 200을 반환했다. 이는 갱신 통지가 수신됐다는 뜻이지 색인 보장은 아니다.
+- 위 통지 뒤 공개 데이터가 계속 늘어 11:23 KST 프로덕션 사이트맵이 17,724개가 됐다. 최신 스냅샷 전량을 Bing에는 5,000 + 5,000 + 5,000 + 2,724, 네이버에는 10,000 + 7,724 URL로 다시 POST했고 6개 배치가 모두 HTTP 200을 반환했다.
 - Google Search Console URL 검사에서 `/`와 `/explore`는 색인 `PASS`, robots 허용, 사용자·Google canonical 일치다. 마지막 크롤은 각각 2026-06-24와 2026-07-27이라 이번 배포본을 아직 본 결과였다.
 - `/en`은 2026-08-06 크롤 성공·canonical 일치지만 `Crawled - currently not indexed`였다. `/about`은 2026-07-01 마지막 저장 상태가 404여서 미색인이었다. 두 URL 모두 26.08.10 실시간 테스트에서는 현재 배포본이 색인 가능 판정을 통과했다.
 - MCP 래퍼의 `submit_sitemap`은 `403 Insufficient Permission`을 반환했지만, 같은 서비스 계정에 정식 `webmasters` OAuth scope를 지정해 Google Search Console REST API로 직접 PUT했다. 2026-08-10 01:33:14Z 제출, 01:33:15Z 다운로드, `isSitemapsIndex=true`, 오류·경고 0을 확인했다.
@@ -125,8 +126,8 @@
 |--------|------|----------|----------|------|
 | Google Search Console | ✅ 재제출·대표 URL 요청·차단 보고서 확인 완료 | 메타태그 (`google` verification) | 사이트맵 인덱스 | 26.08.10 REST PUT 204, UI `성공`·발견 17,700. 대표 4 URL 실시간 통과·대기열 추가. 직접 조치·보안·삭제 요청 없음 |
 | Google Analytics (GA4) | ✅ 수집 중 | — | — | Property ID: `526353156`. **MCP는 현재 미연결** — `.mcp.json`에 서버 정의 없음(`settings.local.json`의 허용 목록에 이름만 잔존) |
-| 네이버 서치어드바이저 | ✅ 등록·IndexNow 재통지 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 제출 | 2026-03-12 등록. 26.08.10 전체 17,524 URL 공식 IndexNow API 200 |
-| Bing Webmaster Tools | ✅ 등록·IndexNow 재통지 | Google SC 연동 | 사이트맵 | 2026-03-12 등록. 26.08.10 전체 17,524 URL 공용 IndexNow API 200 |
+| 네이버 서치어드바이저 | ✅ 등록·IndexNow 재통지 | 메타태그 (`naver-site-verification`) | 사이트맵 + RSS + 주요 URL 수동 제출 | 2026-03-12 등록. 26.08.10 11:23 KST 최신 17,724 URL 공식 IndexNow API 전 배치 200 |
+| Bing Webmaster Tools | ✅ 등록·IndexNow 재통지 | Google SC 연동 | 사이트맵 | 2026-03-12 등록. 26.08.10 11:23 KST 최신 17,724 URL 공용 IndexNow API 전 배치 200 |
 | Daum 검색등록 | ✅ 제출 | 신규등록 폼 | URL + 사이트 설명 | 2026-03-12 |
 
 ### 인증 메타태그 위치
@@ -148,8 +149,8 @@ verification: {
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
 - **방식**: Supabase REST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
 - **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
-- **URL 구성**(2026-08-10 11:11 KST 프로덕션 실측): 정적·기관 선정 `core.xml` 198 URL + 셀럽 1,507명 3,014 URL + 감상문 보유 콘텐츠 7,244건 14,488 URL. 각 경로가 ko·en 2 URL로 나가 총 **17,700개**다. DB 증가에 따라 수치는 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
-- **분할 구조**: 인덱스는 `core`·`celebs`·`contents-0..7`의 10개 파일을 가리킨다. 작품은 UUID 첫 16진수를 8개 고정 버킷에 배정해 같은 작품의 ko·en URL이 항상 같은 파일에 남는다. 26.08.10 11:11 KST 프로덕션 실측은 10개 합계 17,700개이며 Search Console 발견 페이지 집계와 일치한다.
+- **URL 구성**(2026-08-10 11:23 KST 프로덕션 실측): 정적·기관 선정 `core.xml` 198 URL + 셀럽 1,508명 3,016 URL + 감상문 보유 콘텐츠 7,255건 14,510 URL. 각 경로가 ko·en 2 URL로 나가 총 **17,724개**다. DB 증가에 따라 수치는 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
+- **분할 구조**: 인덱스는 `core`·`celebs`·`contents-0..7`의 10개 파일을 가리킨다. 작품은 UUID 첫 16진수를 8개 고정 버킷에 배정해 같은 작품의 ko·en URL이 항상 같은 파일에 남는다. Search Console은 11:11 KST에 17,700개를 발견했고, 이후 DB 공개 데이터가 늘어난 11:23 KST 프로덕션 실측은 17,724개다.
 - **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 분할 뒤 각 파일은 충분한 여유를 가지며, 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로 유지된다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)
 - **등재 기준**: 셀럽은 full 티어만, 콘텐츠는 감상문(`review`) 1건 이상·`visibility=public`인 것만. 페이지 noindex 기준과 일치시킨다(등재↔색인거부 모순 방지)
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
@@ -175,7 +176,7 @@ verification: {
 - production 환경에서만 동작 (dev 환경 skip)
 - 셀럽 등록/수정 등 콘텐츠 변경 시 호출하면 즉시 색인 요청됨
 - **연동 완료** (2026-03-13): `web-bo` celebs.ts의 `toggleCelebStatus`(active 전환 시) + `updateCeleb`(active 셀럽 정보 변경 시) 호출
-- **사이트 전량 갱신 통지** (2026-08-10): 이번 브랜드 메타·구조화 데이터의 사이트 전역 변경에 한해 sitemap 17,524 URL을 Bing 계열 공용 API와 네이버 공식 API에 나눠 전송했고 최종 배치 전부 HTTP 200을 확인했다. 평상시에는 변경된 URL만 증분 통지한다.
+- **사이트 전량 갱신 통지** (2026-08-10): 이번 브랜드 메타·구조화 데이터의 사이트 전역 변경에 한해 전량 통지했다. 작업 중 공개 데이터 증가를 따라 11:23 KST 최신 sitemap 17,724 URL을 Bing 계열 공용 API와 네이버 공식 API에 다시 나눠 전송했고 최종 6개 배치 전부 HTTP 200을 확인했다. 평상시에는 변경된 URL만 증분 통지한다.
 
 ## Robots
 
