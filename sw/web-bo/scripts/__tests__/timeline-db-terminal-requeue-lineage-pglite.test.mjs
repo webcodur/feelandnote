@@ -16,6 +16,10 @@ const lineageMigrationUrl = new URL(
   '../../../web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql',
   import.meta.url,
 )
+const undatedMigrationUrl = new URL(
+  '../../../web/supabase/migrations/20260810024854_timeline_undated_life_events.sql',
+  import.meta.url,
+)
 
 const celebId = '11111111-1111-1111-1111-111111111111'
 const oldRunId = '22222222-2222-2222-2222-222222222222'
@@ -173,9 +177,101 @@ const baselineSql = String.raw`
   );
 `
 
+function splitSqlStatements(sql) {
+  const statements = []
+  let start = 0
+  let index = 0
+  let singleQuoted = false
+  let doubleQuoted = false
+  let lineComment = false
+  let blockComment = false
+  let dollarTag = null
+  while (index < sql.length) {
+    const current = sql[index]
+    const next = sql[index + 1]
+    if (lineComment) {
+      if (current === '\n') lineComment = false
+      index += 1
+      continue
+    }
+    if (blockComment) {
+      if (current === '*' && next === '/') {
+        blockComment = false
+        index += 2
+      } else index += 1
+      continue
+    }
+    if (dollarTag) {
+      if (sql.startsWith(dollarTag, index)) {
+        index += dollarTag.length
+        dollarTag = null
+      } else index += 1
+      continue
+    }
+    if (singleQuoted) {
+      if (current === "'" && next === "'") index += 2
+      else {
+        if (current === "'") singleQuoted = false
+        index += 1
+      }
+      continue
+    }
+    if (doubleQuoted) {
+      if (current === '"' && next === '"') index += 2
+      else {
+        if (current === '"') doubleQuoted = false
+        index += 1
+      }
+      continue
+    }
+    if (current === '-' && next === '-') {
+      lineComment = true
+      index += 2
+      continue
+    }
+    if (current === '/' && next === '*') {
+      blockComment = true
+      index += 2
+      continue
+    }
+    if (current === "'") {
+      singleQuoted = true
+      index += 1
+      continue
+    }
+    if (current === '"') {
+      doubleQuoted = true
+      index += 1
+      continue
+    }
+    if (current === '$') {
+      const match = /^\$[A-Za-z_][A-Za-z0-9_]*\$|^\$\$/u.exec(sql.slice(index))
+      if (match) {
+        dollarTag = match[0]
+        index += dollarTag.length
+        continue
+      }
+    }
+    if (current === ';') {
+      const statement = sql.slice(start, index + 1).trim()
+      if (statement) statements.push(statement)
+      start = index + 1
+    }
+    index += 1
+  }
+  const trailing = sql.slice(start).trim()
+  if (trailing) statements.push(trailing)
+  return statements
+}
+
 async function applyMigration(db, url, label) {
   try {
-    await db.exec(await readFile(url, 'utf8'))
+    const sql = await readFile(url, 'utf8')
+    if (url === undatedMigrationUrl) {
+      for (const statement of splitSqlStatements(sql)) await db.exec(statement)
+    } else {
+      await db.exec(sql)
+    }
   } catch (error) {
     throw new Error(
       `${label} failed: ${error.message} position=${error.position ?? 'unknown'} detail=${error.detail ?? 'none'}`,
@@ -184,12 +280,13 @@ async function applyMigration(db, url, label) {
   }
 }
 
-async function fixtureDb({ applyLineage = true } = {}) {
+async function fixtureDb({ applyLineage = true, applyUndated = true } = {}) {
   const db = new PGlite()
   await db.exec(baselineSql)
   await applyMigration(db, pipelineMigrationUrl, 'pipeline migration')
   await applyMigration(db, correctionMigrationUrl, 'correction migration')
   if (applyLineage) await applyMigration(db, lineageMigrationUrl, 'terminal lineage migration')
+  if (applyUndated) await applyMigration(db, undatedMigrationUrl, 'undated life migration')
   const snapshot = profileSnapshot()
   await db.query(
     `insert into public.celebs values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
@@ -383,6 +480,189 @@ test('PGlite full migration stack preserves correct RPC success and idempotent r
     assert.equal(retry.status, 'already_corrected')
     assert.equal(retry.runId, first.runId)
     assert.equal((await db.query(`select count(*)::integer as count from public.celeb_timeline_research_runs`)).rows[0].count, 2)
+  } finally {
+    await db.close()
+  }
+})
+
+test('PGlite complete and correct preserve an undated life event at its payload index', async () => {
+  const db = await fixtureDb()
+  try {
+    await db.query(
+      `insert into public.celeb_task_queue (task_type,celeb_id,status,payload)
+       values ('timeline_backfill_v1',$1,'pending',$2)`,
+      [celebId, { schemaVersion: 1, timelineMode: 'life', profileSnapshot: profileSnapshot() }],
+    )
+    const claim = (await db.query(
+      `select * from public.claim_next_celeb_timeline_backfill($1,120)`,
+      [worker],
+    )).rows[0]
+    const payload = completePayload(claim.profile_snapshot)
+    payload.events.splice(2, 0, {
+      ...payload.events[1],
+      year: null,
+      yearEnd: null,
+      month: null,
+      day: null,
+      sequenceLabel: null,
+      sequenceLabelEn: null,
+      kind: 'other',
+      title: '연도 미상 사건',
+      titleEn: 'Undated event',
+      description: '연도는 확인되지 않았지만 사건 자체는 권위 있는 근거로 확인됩니다. 배열 위치가 화면의 결정적 순서를 보존합니다.',
+      descriptionEn: 'The event is verified by authoritative evidence even though its year is unknown. Its payload index preserves deterministic display order.',
+    })
+    const first = await complete(db, claim, payload)
+    assert.equal(first.result.status, 'completed')
+    assert.equal(first.result.eventCount, 4)
+    const retry = await complete(db, claim, payload)
+    assert.equal(retry.result.status, 'already_completed')
+    assert.equal(retry.result.runId, first.result.runId)
+
+    const rows = await db.query(`
+      select year,year_end,month,day,sequence_label,sequence_label_en,sort_order,title
+      from public.celeb_timeline_events where celeb_id=$1 order by sort_order,id
+    `, [celebId])
+    assert.deepEqual(rows.rows.map((row) => row.sort_order), [0, 1, 2, 3])
+    assert.deepEqual(rows.rows[2], {
+      year: null,
+      year_end: null,
+      month: null,
+      day: null,
+      sequence_label: null,
+      sequence_label_en: null,
+      sort_order: 2,
+      title: '연도 미상 사건',
+    })
+
+    const correctedPayload = structuredClone(payload)
+    correctedPayload.events[2].title = '연도 미상 사건 교정'
+    correctedPayload.events[2].titleEn = 'Corrected undated event'
+    const corrected = await correct(db, first, correctedPayload)
+    assert.equal(corrected.status, 'corrected')
+    const correctedRetry = await correct(db, first, correctedPayload)
+    assert.equal(correctedRetry.status, 'already_corrected')
+    assert.equal(correctedRetry.runId, corrected.runId)
+    const correctedRows = await db.query(`
+      select year,sequence_label,sequence_label_en,sort_order,title
+      from public.celeb_timeline_events where celeb_id=$1 order by sort_order,id
+    `, [celebId])
+    assert.deepEqual(correctedRows.rows[2], {
+      year: null,
+      sequence_label: null,
+      sequence_label_en: null,
+      sort_order: 2,
+      title: '연도 미상 사건 교정',
+    })
+  } finally {
+    await db.close()
+  }
+})
+
+test('PGlite rejects malformed undated life payloads with zero partial writes', async () => {
+  const db = await fixtureDb()
+  try {
+    await db.query(
+      `insert into public.celeb_task_queue (task_type,celeb_id,status,payload)
+       values ('timeline_backfill_v1',$1,'pending',$2)`,
+      [celebId, { schemaVersion: 1, timelineMode: 'life', profileSnapshot: profileSnapshot() }],
+    )
+    const claim = (await db.query(
+      `select * from public.claim_next_celeb_timeline_backfill($1,120)`,
+      [worker],
+    )).rows[0]
+    const base = completePayload(claim.profile_snapshot)
+    base.events.splice(2, 0, {
+      ...base.events[1],
+      year: null,
+      yearEnd: null,
+      month: null,
+      day: null,
+      sequenceLabel: null,
+      sequenceLabelEn: null,
+      kind: 'other',
+      title: '연도 미상 사건',
+      titleEn: 'Undated event',
+    })
+    const invalidPayloads = []
+    const missingYear = structuredClone(base)
+    delete missingYear.events[2].year
+    invalidPayloads.push(missingYear)
+    const residue = structuredClone(base)
+    residue.events[2].month = 3
+    invalidPayloads.push(residue)
+    const label = structuredClone(base)
+    label.events[2].sequenceLabel = '금지 라벨'
+    invalidPayloads.push(label)
+    const reversed = structuredClone(base)
+    reversed.events[1].year = 2001
+    reversed.events[3].year = 2000
+    invalidPayloads.push(reversed)
+
+    for (const payload of invalidPayloads) {
+      await assert.rejects(() => complete(db, claim, payload))
+      const state = await db.query(`
+        select
+          (select count(*)::integer from public.celeb_timeline_events where celeb_id=$1) as events,
+          (select count(*)::integer from public.celeb_timeline_research_runs where celeb_id=$1) as runs,
+          (select status from public.celeb_task_queue where task_type='timeline_backfill_v1' and celeb_id=$1) as status
+      `, [celebId])
+      assert.deepEqual(state.rows[0], { events: 0, runs: 0, status: 'in_progress' })
+    }
+  } finally {
+    await db.close()
+  }
+})
+
+test('PGlite migration preserves fiction rows exactly and enforces the tier-specific DB union', async () => {
+  const db = await fixtureDb({ applyUndated: false })
+  const fictionId = '99999999-9999-9999-9999-999999999999'
+  try {
+    await db.query(
+      `insert into public.celebs values ($1,'fiction-fixture','서사 표본','Fiction Fixture',null,null,null,null,null,null,null,'active','fiction',null)`,
+      [fictionId],
+    )
+    await db.query(`
+      insert into public.celeb_timeline_events
+        (celeb_id,year,year_end,month,day,sequence_label,sequence_label_en,title,kind,sort_order)
+      values
+        ($1,null,null,null,null,'1막','Act 1','첫 장면','other',1),
+        ($1,null,null,null,null,'2막','Act 2','둘째 장면','other',2)
+    `, [fictionId])
+    const before = await db.query(`
+      select jsonb_agg(to_jsonb(event_row) order by event_row.sort_order,event_row.id) as rows
+      from public.celeb_timeline_events as event_row where celeb_id=$1
+    `, [fictionId])
+    await applyMigration(db, undatedMigrationUrl, 'undated life migration')
+    const after = await db.query(`
+      select jsonb_agg(to_jsonb(event_row) order by event_row.sort_order,event_row.id) as rows
+      from public.celeb_timeline_events as event_row where celeb_id=$1
+    `, [fictionId])
+    assert.deepEqual(after.rows[0].rows, before.rows[0].rows)
+
+    await assert.rejects(() => db.query(`
+      insert into public.celeb_timeline_events
+        (celeb_id,year,sequence_label,sequence_label_en,title,kind,sort_order)
+      values ($1,null,null,null,'라벨 없는 픽션','other',3)
+    `, [fictionId]))
+    await db.query(`
+      insert into public.celeb_timeline_events
+        (celeb_id,year,year_end,month,day,sequence_label,sequence_label_en,title,kind,sort_order)
+      values ($1,null,null,null,null,null,null,'날짜 미상 실존 사건','other',0)
+    `, [celebId])
+    const life = await db.query(`
+      select year,year_end,month,day,sequence_label,sequence_label_en,sort_order
+      from public.celeb_timeline_events where celeb_id=$1
+    `, [celebId])
+    assert.deepEqual(life.rows[0], {
+      year: null,
+      year_end: null,
+      month: null,
+      day: null,
+      sequence_label: null,
+      sequence_label_en: null,
+      sort_order: 0,
+    })
   } finally {
     await db.close()
   }
