@@ -546,7 +546,7 @@ if (ids.length > 0) {
 
   const reviewRows = await selectByCelebIds(
     "celeb_contents",
-    "id,celeb_id,review,review_en",
+    "id,celeb_id,content_id,review,review_en",
     ids,
     "celeb_id",
   );
@@ -560,6 +560,52 @@ if (ids.length > 0) {
       context: slugContext(profileById, row.celeb_id, { rowId: row.id }),
     });
   }
+
+  const contentIds = [...new Set(reviewRows.map((row) => row.content_id).filter(Boolean))];
+  const localeRows = await selectByCelebIds(
+    "content_locales",
+    "content_id,locale,title,creator,verified,sources",
+    contentIds,
+    "content_id",
+  );
+  const localesByContentId = new Map();
+  for (const row of localeRows) {
+    const localeMap = localesByContentId.get(row.content_id) || new Map();
+    localeMap.set(row.locale, row);
+    localesByContentId.set(row.content_id, localeMap);
+  }
+  const firstReviewByContentId = new Map();
+  for (const row of reviewRows) {
+    if (!firstReviewByContentId.has(row.content_id)) firstReviewByContentId.set(row.content_id, row);
+  }
+  for (const contentId of contentIds) {
+    const localeMap = localesByContentId.get(contentId) || new Map();
+    const reviewRow = firstReviewByContentId.get(contentId);
+    const context = slugContext(profileById, reviewRow?.celeb_id, { contentId });
+    for (const locale of ["ko", "en"]) {
+      const localeRow = localeMap.get(locale);
+      const present = Boolean(localeRow);
+      const code = `CONTENT_LOCALE_${locale.toUpperCase()}_MISSING`;
+      noteCoverage(code, present);
+      if (!present) {
+        add(
+          "errors",
+          code,
+          `Linked content is missing its '${locale}' content_locales row.`,
+          context,
+        );
+        continue;
+      }
+      if (!hasValue(localeRow.title)) {
+        add(
+          "errors",
+          "CONTENT_LOCALE_TITLE_MISSING",
+          `Linked content '${locale}' locale has an empty title.`,
+          { ...context, locale },
+        );
+      }
+    }
+  }
 }
 
 const coverageSummary = Object.fromEntries(
@@ -568,7 +614,7 @@ const coverageSummary = Object.fromEntries(
 add(
   "info",
   "CELEB_DATA_AUDIT_SUMMARY",
-  `Checked ${profiles.length} celeb(s) across profile, explanation, influence, persona, dialogue, timeline, relation, faction, and review data.`,
+  `Checked ${profiles.length} celeb(s) across profile, explanation, influence, persona, dialogue, timeline, relation, faction, review, and linked content locale data.`,
 );
 
 const summary = {
@@ -595,7 +641,9 @@ if (jsonOutput) {
     if (entries.length === 0) continue;
     console.log(`\n${label} (${entries.length})`);
     for (const entry of entries.slice(0, 300)) {
-      const where = [entry.slug, entry.field, entry.rowId].filter(Boolean).join("/");
+      const where = [entry.slug, entry.field, entry.rowId, entry.contentId, entry.locale]
+        .filter(Boolean)
+        .join("/");
       console.log(`- [${entry.code}]${where ? ` ${where}` : ""} ${entry.message}`);
     }
     if (entries.length > 300) console.log(`- ... ${entries.length - 300} more`);
