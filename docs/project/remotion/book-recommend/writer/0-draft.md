@@ -564,10 +564,10 @@ contextMain(감상경위)의 연장선이다. quote 뒤에 흐름이 마무리�
 
 | 데이터 | 테이블 | 주요 필드 |
 |--------|--------|-----------|
-| 기본 정보 | `profiles` | nickname, bio, avatar_url, speech_tone |
+| 기본 정보 | `celebs` | nickname, bio, avatar_url, speech_tone |
 | 명언 | `celeb_dialogues` | lines→quote |
-| 콘텐츠 목록 | `user_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review, **`contents.type`** |
-| celebCount | `user_contents` 집계 | content_id별 추천 셀럽 수 |
+| 콘텐츠 목록 | `celeb_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review, **`contents.type`** |
+| celebCount | `celeb_contents` 집계 | content_id별 추천 셀럽 수 |
 | 페르소나 | `celeb_persona` | persona (philosophy 작성 참고) |
 
 - DB 조회 시 `type IN ('BOOK','VIDEO','GAME','MUSIC')` — BOOK만 필터링하면 non-BOOK 누락.

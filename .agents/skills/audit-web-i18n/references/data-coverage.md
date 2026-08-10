@@ -6,7 +6,7 @@
 
 | 화면 영역 | 테이블·필드 |
 |---|---|
-| 프로필 | `profiles.nickname/bio/title/virtual_monologue/cultural_journey/consumption_philosophy`와 각 `_en` |
+| 셀럽 | `celebs.nickname/bio/title/virtual_monologue/consumption_philosophy`와 각 `_en`; `cultural_journey*`는 generated 읽기 별칭 |
 | 읽어보기 | `celeb_explanations.plain_text/interpretive_title/interpretive_text`와 각 `_en` |
 | 정량 지표 | `celeb_influence.{axis}_exp/_en` |
 | 인물 자질 | `celeb_persona.persona`의 `rationale_ko/en`, 각 `reason_ko/en` |
@@ -14,9 +14,9 @@
 | 타임라인 | `celeb_timeline_events.title/description/place_name`와 각 `_en` |
 | 관계 | 내부·외부 관계의 `name_ko/en`, `note/note_en` |
 | 세력도감 | `celeb_tag_assignments.short_desc/long_desc`와 각 `_en` |
-| 기록물 감상 | `user_contents.review/review_en` |
+| 셀럽 감상 | `celeb_contents.review/review_en` |
 
-전체 조회는 `profiles.id` 순서와 range pagination을 사용한다. 관련 테이블의 UUID는 100개씩 나눠 조회해 PostgREST 1,000행 절단과 긴 `.in()` URL을 피한다.
+전체 조회는 `celebs.id` 순서와 range pagination을 사용한다. 관련 테이블의 UUID는 100개씩 나눠 조회해 PostgREST 1,000행 절단과 긴 `.in()` URL을 피한다.
 
 ## 판정
 

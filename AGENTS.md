@@ -131,7 +131,7 @@ pnpm build:audio-bo
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | **인물**(옛 이름 탐색) — 인물·랭킹·페르소나·세력도감·타임라인 외 |
-| `docs/project/celeb-journey.md` | **인물 생애 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본). 테이블 `celeb_timeline_events`, 공용 지구본 `WorldGlobe`, 조사·적재 도구와 함정 모음. **대상은 등록된 인물 전원이다(26.08.07 전환) — 생존 여부는 조건이 아니며, 사망 시 사망 사건을 더해 한 번 더 갱신한다.** 도구 두 종은 아직 옛 「사망자만」 조건을 강제한다 |
+| `docs/project/celeb-journey.md` | **인물 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본)과 DB 직접 조사 파이프라인. 사건=`celeb_timeline_events`, 감사 원장=`celeb_timeline_research_runs`, 공용 큐=`celeb_task_queue`의 `timeline_backfill_v1`. 대상은 live DB에서 사건이 0행인 등록 인물 전원이며 공개 상태·등급·생몰 필터를 두지 않는다 |
 | `docs/project/celeb-detail-themes.md` | **인물 상세 세계 표현 SSoT** — 국적·연대 기반 39개 세계의 배너·화보 액자·구획 번호·서체와 5개 세계 재질 계열을 함께 쥔다. 직군 기반 8색 테마는 26.08.03 폐기했고 직군은 아이콘·명칭에만 쓴다. 세계 재질은 39/39 운영 적용됐으며 `/lab/celeb-themes`에서 개별 재질 15종과 대표 조합 5종을 같은 토큰으로 검증한다. |
 | `docs/project/celeb-world-banners.md` | **인물 세계 배너 SSoT** — 인물이 산 세계 39종의 배경 사진 규격·장면·검수·모바일 초점 예외·교정 함정. 판정 규칙은 `sw/web/src/lib/celeb/world.ts`가 쥔다. **26.08.03 기준 4판 네이티브 3:1 규격으로 39/39종 서비스 반영 완료**(원본 39·PC/모바일 78) |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
@@ -176,7 +176,7 @@ pnpm build:audio-bo
 | M | `virtual-monologue.md` | **가상 독백 유일 SSoT** — 실존·fiction, 국문·영문의 작성·검토·반영 규칙 |
 | R | `person-reading.md` | **인물 읽어보기 유일 SSoT** — 인물 안내·인물 탐구의 작성, 2회 개선, 검수, 배치·게시 규칙 |
 
-**가상 독백 (`profiles.virtual_monologue`)** — 서비스 화면 노출은 폐기했다. 값은 담화·인물 읽어보기 제작 재료로만 보존하며, 신규 독백 작성은 중단한다. 남은 규칙과 이력은 `docs/project/celeb/virtual-monologue.md`를 따른다.
+**가상 독백 (`celebs.virtual_monologue`)** — 서비스 화면 노출은 폐기했다. 값은 담화·인물 읽어보기 제작 재료로만 보존하며, 신규 독백 작성은 중단한다. 남은 규칙과 이력은 `docs/project/celeb/virtual-monologue.md`를 따른다.
 
 **인물 읽어보기 (`celeb_explanations`)** — 서비스 라벨은 `읽어보기 > 인물 안내 | 인물 탐구`다. 작성·검토·배치·게시 규칙은 `docs/project/celeb/person-reading.md`만 따른다.
 
@@ -241,7 +241,7 @@ pnpm build:audio-bo
 | `docs/project/remotion/faction-unification.md` | **팩션 완전 통합 SSoT** — DB 단일 원천(faction_* 5테이블), 편집·출간은 web-bo `/factions` 하나, `faction-data.json` 은 렌더용 산출물(직접 편집 금지), 세력도감 출간 규칙. 26.07.25 Phase 5 완료 · **26.08.03 단일화(§4-3)** — 웹은 뷰 `faction_atlas_members` 직독, 출간 텍스트 복사 폐기(패널은 사진·영상·음악 전용) |
 | `docs/project/remotion/faction-rules.md` | **팩션 제작 규칙·함정** — 용어와 데이터 구조, 인물 채택 기준, 대사 규칙, 음성 위치 규칙과 음량 함정, 영상 미디어, 썸네일, 아바타 연동, 진행 중 기획 현황 |
 | `docs/project/remotion/faction-video-clips.md` | **팩션 화면 영상화 검토(Higgsfield)** — 인물 화면을 정지 이미지에서 AI 생성 영상으로. 수단 넷을 화면 조건에 따라 골라 쓰는 선택 기준표, 우리 쪽 구조 실측, 발주 원칙, 미결정 갈래와 미확인 항목. **26.08.01 조사 · 생성 미착수** |
-| `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`profiles.virtual_monologue`(사료 — 런타임 의존 아님). **편집은 web-bo `/discourses`** |
+| `docs/project/remotion/discourse.md` | 가상 담화 — 기획 원문(실효 항목은 discourse-unification §0 참조). 독백·난입 반박·대담을 한 엔진으로. 원천=`celebs.virtual_monologue`(사료 — 런타임 의존 아님). **편집은 web-bo `/discourses`** |
 | `docs/project/remotion/discourse-unification.md` | **담화 완전 통합 SSoT** — DB 단일 원천(discourse_* 3테이블), 편집·출간은 web-bo `/discourses` 하나, 세 파일(discourse-data·cast·turns)은 렌더용 산출물(직접 편집 금지). 왕복 검증 7종·반증 시험 10종·export 발효·remotion-bo 담화 폐기. **26.07.26 Phase 5 완료** |
 | `docs/project/remotion/three-kingdoms.md` | 삼국지 인물 그룹 SSoT — `three-kingdoms` 스킬이 참조 |
 | `factions/_docs/folder-rules.md` | **팩션 폴더·파일·단계 규격 SSoT** (춘추전국 정리. 신규 작업 필수) |
@@ -284,7 +284,7 @@ pnpm build:audio-bo
 
 | 영역 | 문서 (`docs/todo/` 기준) |
 |------|------|
-| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-timeline-backfill-handoff-2026-08-08.md` 인물 행적 811명 채우기(조사기 모델 교체가 선행 조건) |
+| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-timeline-backfill-handoff-2026-08-08.md` 보안 계약 적용·읽기 검증을 통과한 `timeline_backfill_v1` 전원 백필(terminal 재큐 계보 migration은 별도 선행) |
 | 세력도감 | `faction/faction-atlas-reconciliation-2026-08-03.md` 제작↔도감 정합화 실측·계획 · `faction/세력도감-단일화-할일.md` 다음 착수 지점 · `faction/tag-ideas.md` 태그 후보 풀 |
 | 게임 | `games/game-wave2-contract.md` 실험 게임 7종 SSoT + 개별 규격 `games/game-<키>-order.md` 7종 |
 | 외부 API | `external-api-migration-2026-08-01.md` 네이버·구글 이탈 대응 미결 항목 |
@@ -298,7 +298,6 @@ pnpm build:audio-bo
 | 단체 사진 구도 아이디어 풀 | **없다.** 구도가 찍어낸 듯 반복되는 것을 막을 수단이 없다 | `image-generation.md` |
 | 학당 게임 강좌 | 자리만 「개발중」으로 세웠고 내용이 없다 | `service/library.md` |
 | 박물관 독서법 비교 화면 | 설정만 있고 그리는 코드가 없어 어느 메뉴로도 갈 수 없다 | `service/library.md` |
-| 쓰지 않는 조회 두 개 | `getTopCelebsAcrossAllEras`·`getLibraryByEra` — 없어진 시대별 화면의 잔재. 지울지 미정 | `tooling-gotchas.md` §3.1 |
 | 문서 실측 점검 | 67종 미점검. 그중 절반이 영상 문서이고 **착수를 막던 사유는 해소됐다** | 「문서 점검 상태」 절 |
 
 **아래 둘은 할 일이 아니라 함정 기록이다.** 같은 사고를 되풀이하지 않기 위해 둔다.

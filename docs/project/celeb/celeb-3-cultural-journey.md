@@ -14,15 +14,15 @@
 
 | 항목 | 값 |
 |------|-----|
-| 테이블·컬럼 | `profiles.cultural_journey` (한국어 정본) |
-| 영문 | `profiles.cultural_journey_en` — 본 트랙에서 쓰지 않는다. i18n 트랙(`celeb-i18n.md`)이 채운다 |
+| 테이블·컬럼 | `celebs.consumption_philosophy` (한국어 쓰기 원천, `cultural_journey`는 generated 별칭) |
+| 영문 | `celebs.consumption_philosophy_en` — 본 트랙에서 쓰지 않는다. i18n 트랙(`celeb-i18n.md`)이 채운다 |
 | 담당 에이전트 | `celeb-3-cultural-journey` |
 
 ## 적용 대상
 
 | 티어 | 수행 | 자료원 |
 |------|------|--------|
-| **full** | 필수 | DB `user_contents.review` 기반. 콘텐츠 수집(트랙 A) 선행 필수 |
+| **full** | 필수 | DB `celeb_contents.review` 기반. 콘텐츠 수집(트랙 A) 선행 필수 |
 | **light** | 필수 | 웹 리서치 기반 |
 | **fiction** | 생략 | — |
 
@@ -62,21 +62,21 @@ fiction은 감상 여정을 쓰지 않는다. 티어 정의는 `celeb-pipeline.m
 ### full 셀럽 (celeb_tier = 'full')
 
 ```sql
-SELECT c.type, cl.title, cl.creator, uc.review
-FROM user_contents uc
-JOIN contents c ON c.id = uc.content_id
+SELECT c.type, cl.title, cl.creator, cc.review
+FROM celeb_contents cc
+JOIN contents c ON c.id = cc.content_id
 LEFT JOIN content_locales cl ON cl.content_id = c.id AND cl.locale = 'ko'
-WHERE uc.user_id = '{셀럽ID}'
+WHERE cc.celeb_id = '{셀럽ID}'
 ORDER BY c.type;
 ```
 
 review 필드가 핵심 소스. DB 기록이 있으면 웹 검색은 불필요하다.
 
-`celeb_tier = 'full'`은 `user_contents` 1건 이상을 DB 트리거(`trg_celeb_full_requires_content`)가 강제한다. full 셀럽은 위 쿼리가 반드시 1건 이상을 반환한다. 0건이면 티어가 잘못 지정된 상태이므로 작성하지 말고 보고한다.
+`celeb_tier = 'full'`은 `celeb_contents` 1건 이상을 DB 트리거가 강제한다. full 셀럽은 위 쿼리가 반드시 1건 이상을 반환한다. 0건이면 티어가 잘못 지정된 상태이므로 작성하지 말고 보고한다.
 
 ### light 셀럽 (celeb_tier = 'light')
 
-웹 리서치만 사용. `user_contents`가 비어 있는 것이 정상이다.
+웹 리서치만 사용. `celeb_contents`가 비어 있는 것이 정상이다.
 
 ---
 

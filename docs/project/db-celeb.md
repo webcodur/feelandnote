@@ -2,7 +2,7 @@
 
 > **최종 실측 체크: 26.08.10** — `celebs` 원본, 셀럽 전용 외래키,
 > `celeb_contents`·`celeb_metrics`, 현역 RPC·트리거를 운영 DB와 대조했다. 옛
-> `profiles`·`user_contents`는 새 앱 배포 전 호환 구조일 뿐 신규 사용 대상이 아니다.
+> `profiles`·`user_contents`와 호환 구조는 26.08.10 운영 DB에서 최종 제거됐다.
 
 Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
@@ -151,7 +151,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **SSoT**: `celeb_dialogues.lines.quote` / `celeb_dialogues.lines_en.quote`
 - ⚠️ **`celebs.quotes` / `celebs.quotes_en` 컬럼은 존재하지 않는다.** 물리 분리 전
   `profiles.quotes` / `profiles.quotes_en`도 2026-03-23에 제거됐으며 호환 뷰에도 없었다
-- **읽기·쓰기 모두 celeb_dialogues 단독.** profiles로의 동기화 대상은 없다
+- **읽기·쓰기 모두 `celeb_dialogues` 단독.** 다른 프로필 테이블로의 동기화 대상은 없다
 - **화면 라벨은 "한마디"다**(2026-07-26 변경, `celebPage.dialogue_quote`). 영문은 `Quote` 유지. 독서 기록 기능의 "명언"(`reading.quote.*`)은 별개이므로 함께 바꾸지 않는다
 - **검색 노출 설명문의 첫머리로 쓰인다**(`sw/web/src/lib/celeb/meta.ts`). 화면뿐 아니라 검색 결과에 그대로 실리는 자리라 오염이 곧 대외 노출이다
 - ⚠️ **길이 상한은 언어별로 다르게 두어야 한다.** 같은 말이라도 영어로 옮기면 글자 수가 두 배 남짓 늘어난다(실측: 한국어 최대 90자 / 영어 최대 221자·평균 73자). 처음에 한쪽 기준(90자)만 걸었더니 **영어 화면에서 367명의 한마디가 조용히 탈락**해 소개문으로 되돌아갔다. 현재는 `QUOTE_MAX = { ko: 90, en: 170 }`이며, 설명문은 한마디를 먼저 싣고 자리가 남을 때만 뒤 안내를 붙인다(`composeDescription`)

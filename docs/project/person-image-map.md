@@ -16,8 +16,8 @@
 
 | 자리 | 저장 위치 | 무엇을 넣나 | 파일 | 규격 SSoT | 채움 (26.08.01) |
 |------|-----------|-------------|------|-----------|------|
-| **아바타** | `profiles.avatar_url` | 얼굴이 화면을 채우는 정사각 헤드숏. 원형으로 잘려 나간다 | R2 `celebs/{id}/avatar.webp` 800×800 | `celeb-avatar-spec.md` | 1,957 / 2,426 |
-| **대표 사진** | `profiles.portrait_url` | 인물 상세 PC 상단의 세로 환경 사진. 복식·배경·소품을 함께 담는다 | R2 `celebs/{id}/photo.webp` | `packages/shared/src/constants/celeb-hero-photo.ts`(비율·픽셀) + `db-celeb.md` 「셀럽 이미지 규격」 + `celeb/hero-photo-status.md` | 390 / 2,426 |
+| **아바타** | `celebs.avatar_url` | 얼굴이 화면을 채우는 정사각 헤드숏. 원형으로 잘려 나간다 | R2 `celebs/{id}/avatar.webp` 800×800 | `celeb-avatar-spec.md` | 1,957 / 2,426 |
+| **대표 사진** | `celebs.portrait_url` | 인물 상세 PC 상단의 세로 환경 사진. 복식·배경·소품을 함께 담는다 | R2 `celebs/{id}/photo.webp` | `packages/shared/src/constants/celeb-hero-photo.ts`(비율·픽셀) + `db-celeb.md` 「셀럽 이미지 규격」 + `celeb/hero-photo-status.md` | 390 / 2,426 |
 | **개인화보** | `faction_people.web_image_url`(제작 유래) · `celeb_tag_assignments.faction_image_url`(웹 전용 배정) — 화면은 뷰 `faction_atlas_members`로 읽는다(26.08.03 단일화) | 태그별 인물 대표 화보. 원본 비율 그대로, **얼굴로 자르지 않는다** | R2 `faction/{tagId}/celeb-{celebId}.webp` | `.agents/skills/faction-celeb-sync/SKILL.md` | 102 / 864 (26.08.01, 단일화 이전 배정 기준 집계) |
 | **단체화보** | `celeb_tags.team_images[]` | 단체 화보 여러 장 | R2 `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 같은 문서 | — |
 | **개인화보(영상 원본)** | `faction_people.image` | 세력도감 영상에서 인물이 등장하는 화면 | 저장소 `factions/<편>/<그룹>/<slug>.png` | `.agents/skills/faction-image/SKILL.md` | 986 / 1,220 |
@@ -31,11 +31,11 @@
 
 | 무엇 | 저장 위치 | 상태 |
 |------|-----------|------|
-| 가상 독백 (1인칭 글) | `profiles.virtual_monologue` · `_en` | 규칙은 `docs/project/celeb/virtual-monologue.md` |
+| 가상 독백 (1인칭 글) | `celebs.virtual_monologue` · `_en` | 규칙은 `docs/project/celeb/virtual-monologue.md` |
 | 담화 영상 인물 그림 | `discourse_speakers.image` · `discourse_turns.image` | **구도 규격 문서 없음** |
 | 관계 인물 사진 (명단 밖 인물) | `celeb_relations_external.image_url` | 위키데이터에서 받아온 것. **규격 없음** |
 | 인물이 산 세계의 배경 사진 | `sw/web-bo/output/worlds-raw/` 원본 · `sw/web/public/images/worlds/` 운영본 | **39세계 완료.** 규격·발주·검수·초점 예외는 `celeb-world-banners.md` |
-| 인사 음성 | `profiles.has_voice` · `voice_id_ko` · `voice_id_en` | 그림이 아니라 소리. 인물 페이지의 대표 사진을 누르면 재생된다 |
+| 인사 음성 | `celebs.has_voice` · `voice_id_ko` · `voice_id_en` | 그림이 아니라 소리. 인물 페이지의 대표 사진을 누르면 재생된다 |
 
 ---
 

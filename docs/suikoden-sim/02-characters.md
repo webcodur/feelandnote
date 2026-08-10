@@ -13,10 +13,10 @@
 SELECT p.id, p.nickname, p.title, p.profession, p.nationality, p.gender,
        p.birth_date, p.death_date, p.bio, p.avatar_url,
        ci.*, cp.persona
-FROM profiles p
+FROM celebs p
 JOIN celeb_influence ci ON ci.celeb_id = p.id
 LEFT JOIN celeb_persona cp ON cp.celeb_id = p.id
-WHERE p.status = 'active'
+WHERE p.publication_status = 'active'
   AND p.death_date IS NOT NULL AND p.death_date != ''
   AND p.profession IS NOT NULL
 -- 사망 120년 경과 판정(CUTOFF_YEARS)은 JS에서 처리

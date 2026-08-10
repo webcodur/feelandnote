@@ -1,8 +1,8 @@
 # Web BO
 
 > **최종 실측 체크: 26.08.10** — 회원·셀럽 물리 도메인 전환, 현역 화면·서버 액션·
-> 비타임라인 운영 스크립트와 프로덕션 빌드를 대조했다. 새 코드 배포 전이라 운영 DB의
-> 레거시 호환 테이블은 아직 제거하지 않았다.
+> 비타임라인 운영 스크립트와 프로덕션 빌드를 대조했다. 새 코드 배포와 구버전 종료 뒤
+> 최종 제거 migration까지 적용해 운영 DB의 레거시 호환 테이블은 제거됐다.
 
 서비스 운영과 영상 제작 관리를 함께 담당하는 관리자 백오피스다. 실제 서비스 데이터는
 Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원천으로 삼는다.
@@ -124,7 +124,7 @@ pnpm dev:bo
 | `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `member_profiles`, `contents` |
 | `/playlists` | 묶음 관리(옛 라우트명) | 플로우 목록, 콘텐츠 유형·공개여부 필터, 노드 수 통계 | `flows`, `flow_nodes`, `member_profiles` |
 
-도서 메타 출처 규칙(네이버·OpenLibrary만 허용)은 [external-services.md](./external-services.md)를 따른다. 스키마는 [db-core.md](./db-core.md)에 있다.
+도서 메타 출처 규칙(한국어판 카카오·영문 원서 OpenLibrary만 허용)은 [external-services.md](./external-services.md)를 따른다. 스키마는 [db-core.md](./db-core.md)에 있다.
 
 ### 세력도감
 

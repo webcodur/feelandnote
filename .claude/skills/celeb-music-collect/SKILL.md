@@ -1,6 +1,6 @@
 ---
 name: celeb-music-collect
-description: 음악 콘텐츠 등록·이전. Spotify가 막혀 아이튠즈로 옮기는 중이며, 속도 제한 때문에 하루치(200곡)씩 나눠 처리한다. "음악 조사", "음악 이전", "음악 등록", "아이튠즈 이전", "음악 마이그레이션", "음악 옮겨줘" 등으로 호출.
+description: 음악 콘텐츠를 iTunes로 확인해 즉시 등록하고 레거시 pending 후보를 최종 마감한다. "음악 조사", "음악 등록", "아이튠즈 등록", "음악 후보 정리" 등으로 호출.
 ---
 
 > **본문은 멀티툴 공용 원본에 있다 → `.agents/skills/celeb-music-collect/SKILL.md`**

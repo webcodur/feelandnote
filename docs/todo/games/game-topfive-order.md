@@ -60,12 +60,12 @@
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
 | `celeb_influence` | celeb_id, total_score | 영향력 순위 결정 |
-| `profiles` | id, nickname, nickname_en, profession | 인물 이름·직군 |
+| `celebs` | id, nickname, nickname_en, profession | 인물 이름·직군 |
 
 ## 조회 설계
 
 1. **`getTopFiveData()` 서버 액션** (캐시 7일, CELEBS 태그)
-   - `celeb_influence` JOIN `profiles`: `total_score DESC`, limit 2000
+   - `celeb_influence` JOIN `celebs`: `total_score DESC`, limit 2000
    - 직군별로 분류 → 12명 이상인 직군만 퍼즐로 사용
    - 각 직군의 상위 12명을 후보로 (상위 5 = 정답, 6~12 = 오답)
 2. 환경값 부재 시 → fixture 데이터 반환 + `isFixture: true`

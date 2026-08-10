@@ -9,19 +9,19 @@
 
 ```sql
 SELECT p.nickname, p.nickname_en,
-  (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
-   WHERE uc.user_id = p.id AND c.type IN ('BOOK','VIDEO','GAME','MUSIC')) as contents,
-  (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
-   WHERE uc.user_id = p.id AND c.type = 'BOOK') as books,
-  (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
-   WHERE uc.user_id = p.id AND c.type != 'BOOK') as non_books,
+  (SELECT count(*) FROM celeb_contents cc JOIN contents c ON cc.content_id = c.id
+   WHERE cc.celeb_id = p.id AND c.type IN ('BOOK','VIDEO','GAME','MUSIC')) as contents,
+  (SELECT count(*) FROM celeb_contents cc JOIN contents c ON cc.content_id = c.id
+   WHERE cc.celeb_id = p.id AND c.type = 'BOOK') as books,
+  (SELECT count(*) FROM celeb_contents cc JOIN contents c ON cc.content_id = c.id
+   WHERE cc.celeb_id = p.id AND c.type != 'BOOK') as non_books,
   EXISTS(SELECT 1 FROM celeb_persona cp WHERE cp.celeb_id = p.id) as has_persona,
   EXISTS(SELECT 1 FROM celeb_dialogues cd WHERE cd.celeb_id = p.id) as has_dialogue,
   p.has_voice
-FROM profiles p
+FROM celebs p
 WHERE p.celeb_tier = 'full'
-AND (SELECT count(*) FROM user_contents uc JOIN contents c ON uc.content_id = c.id
-   WHERE uc.user_id = p.id AND c.type IN ('BOOK','VIDEO','GAME','MUSIC')) >= 3
+AND (SELECT count(*) FROM celeb_contents cc JOIN contents c ON cc.content_id = c.id
+   WHERE cc.celeb_id = p.id AND c.type IN ('BOOK','VIDEO','GAME','MUSIC')) >= 3
 ORDER BY contents DESC
 ```
 

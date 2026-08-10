@@ -1,6 +1,7 @@
 # 영상 제작 관리 통합 이력 (구 remotion-bo)
 
 > **폐기 완료: 26.07.29.** `sw/remotion-bo`의 마지막 시리즈였던 서재 탐방까지 web-bo로 이관했고 앱 디렉터리·workspace 항목·실행 명령을 삭제했다. 현행 제작 창구는 web-bo `/book-recommend`, `/factions`, `/discourses`다. 아래 긴 본문은 옛 앱의 설계와 단계별 이관 이력을 보존한 기록이며 현행 아키텍처로 읽지 않는다.
+> 옛 본문의 `profiles`·`content_celebs` 같은 이름도 당시 기록으로만 보존한다. 현재 물리 원천은 `celebs`·`celeb_contents`다.
 >
 > **최종 이관 실측: 26.07.29** — 서재 탐방 제작 화면 8종, 동적 제작 API 42라우트, 73개 에피소드 로드, 신 레이아웃 metadata/style/timing/wav 쓰기 왕복, 상태 변경의 그룹 폴더 보존, web-bo 빌드·타입·린트 대조.
 >

@@ -45,14 +45,14 @@
 
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
-| `profiles` | id, nickname, nickname_en, slug, nationality, profession, birth_date, death_date, profile_type, status, celeb_tier | 인물 후보 + 자동완성 목록 |
+| `celebs` | id, nickname, nickname_en, slug, nationality, profession, birth_date, death_date, publication_status, celeb_tier | 인물 후보 + 자동완성 목록 |
 | `celeb_tag_assignments` | celeb_id, tag_id, hidden | 세력 태그 소속 (조건 축 "tag") |
 | `celeb_tags` | id, name, name_en, slug, is_featured | 태그 라벨 표시 |
 
 ## 조회 설계
 
 1. **`getGridGameData()` 서버 액션** (캐시 7일, CELEBS 태그)
-   - profiles: `profile_type=CELEB`, `status=active`, `celeb_tier in (full, light)`, `nationality IS NOT NULL`, `profession IS NOT NULL` → limit 1000 (단일 조회, 정렬 `id asc`)
+   - celebs: `publication_status=active`, `celeb_tier in (full, light)`, `nationality IS NOT NULL`, `profession IS NOT NULL` → limit 1000 (단일 조회, 정렬 `id asc`)
    - celeb_tag_assignments: `hidden=false` → limit 5000
    - celeb_tags: `is_featured=true` → limit 100
 2. 환경값 부재 시 catch → fixture 데이터 반환 + `isFixture: true`

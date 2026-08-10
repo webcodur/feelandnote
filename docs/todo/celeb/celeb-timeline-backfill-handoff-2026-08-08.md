@@ -1,178 +1,163 @@
-# 인물 행적 채우기 — 진행·재개 문서
+# 인물 행적 전원 백필 — DB 큐 운영 인계
 
-> 시작: 2026-08-08 · 모집단 확정: 2026-08-09 · 상태: **JSON 선수집 착수 / DB 적재 보류**
+> 시작: 2026-08-08 · DB SSoT 전환: 2026-08-10 · 상태: **기본 큐·교정·보안 계약 적용,
+> `status`·`verify` 통과, 일반 pending 작업 재개 가능**
 >
-> **규격·함정의 SSoT는 `docs/project/celeb-journey.md`다.** 이 문서는 진행 상태와 다음
-> 착수 지점만 쥔다. 작성 규칙·검증 절차·좌표 함정을 여기 옮겨 적지 마라.
->
-> **현재 모집단은 `celebs`에 등록된 모든 인물이다.** 공개 상태·등급·생년·사망 여부로
-> 제외하지 않는다. 이번 회차는 행적이 0건인 인물의 JSON만 모으며 DB에는 쓰지 않는다.
+> 규격·payload·화면·함정은 `docs/project/celeb-journey.md`가 쥔다. 이 문서는 현재 운영 상태와
+> 다음 착수 순서만 기록한다.
 
-## 26.08.08 구형 필터 기준 스냅샷 (현 모집단 아님)
+## 결론
 
-| 구분 | 대상 | 완료 | 미완료 |
-|---|---|---|---|
-| 전체 | 1,777명 | 727명 | **1,050명** |
-| 사망 | — | — | 248명 |
-| 생존 | — | — | 802명 |
+타임라인 백필은 로컬 조사 파일을 쌓는 방식으로 재개하지 않는다. 다음 세 DB 원천만 사용한다.
 
-행적 12,946건(연도형 11,983 + 서사 순서형 963) · 좌표 7,705건 · 장소 6,859곳.
+- 사건 정본: `public.celeb_timeline_events`
+- 조사 근거와 원문 감사 원장: `public.celeb_timeline_research_runs`
+- 작업 상태: `public.celeb_task_queue`의 `task_type='timeline_backfill_v1'`
 
-미완료 1,050명 가운데 802명이 생존 인물이었다. 이 수치는 `active`·`full|light`·생년 보유
-등 지금은 폐기한 조건으로 계산한 역사 기록이다. **현재 남은 작업량으로 재사용하지 않는다.**
-현재 결손 목록은 `celebs` 전원 가운데 행적이 0건인 인물을 새로 대조해 확정한다.
+대상은 live DB에서 `celeb_timeline_events`가 0행인 `celebs` 전원이다. `publication_status`,
+`celeb_tier`, 생년, 사망년으로 제외하지 않는다. `fiction`은 대상에서 빼지 않고 payload 형식만
+`fiction`으로 분기한다.
 
-**fiction 서사 연표는 121명 963건이 남았다**(인물당 8.0건). 26.08.08에 딥식이 만든
-131명 248건을 지운 뒤의 수치이며, 지운 131명은 서사 연표를 다시 만들어야 한다.
+## 2026-08-10 역사 실측
 
-> 🔴 **구형 대상 수 자체도 계속 늘었다.** 26.08.08 하루에도 1,541명에서 1,777명으로
-> 늘었다. 현재는 `celebs` 전원이 모집단이므로 **이 표를 믿지 말고 새 결손 manifest부터
-> 만든다.**
+기존 회차는 `complete` 245명, 사건 1,571건이었다. 조사 결과 246건을 감사 원장으로 이관했고,
+Ahmed Sherif 1건은 신원 근거 부족으로 `blocked`·`quarantined`, 사건 0건을 유지했다.
 
-## 남아 있는 행적의 상태 (26.08.08 전수 감사)
+이 숫자는 이전 회차의 종료 스냅샷이다. 현재 작업량과 다음 대상은 항상 live `NOT EXISTS`로
+다시 계산한다.
 
-**생애 연표 730명 — 충족량은 전원 통과했다.**
+## 현재 live 큐 (2026-08-10)
 
-| 검사 | 결과 |
-|---|---|
-| 3건 미만 · 30건 초과 | **0명** (평균 16.4건) |
-| 서술 30자 미만 | **0건** (평균 108자) |
-| 영문 누락 | **0건** |
-| 좌표 짝 깨짐 · 고아 행 · 두 체계 혼재 | **0건** |
+최초 enqueue 뒤 일부 작업이 진행됐다. 2026-08-10 11:24 KST 읽기 전용 실측은 다음과 같다.
 
-결함은 22명(3%)뿐이고 대부분 진짜 오류가 아니다.
+- 인물 2,966명: 사건 보유 1,110명, 사건 결손 1,856명
+- `timeline_backfill_v1` 큐: pending 1,854, in_progress 0, skipped 1, completed 14
+- 사건 14,633건, 조사 원장 261건(원장이 기록한 사건 1,687건)
 
-| 결함 | 인물 | 성격 |
-|---|---|---|
-| ~~제목이 「~다」로 안 끝남~~ | ~~12명~~ | ✅ **결함이 아니다(26.08.08 규칙 폐지).** 「칸 황금종려상 수상」 같은 명사 종결이 더 나은 자리가 많아 종결 형태 강제를 걷어냈다. 조사기 프롬프트와 검증에서도 뺐다 |
-| 프로필과 생몰 연도 다름 | 9명 | **대부분 학설·역법 차이다.** 뉴턴 1643/1642는 율리우스력 대 그레고리력, 묵자·솔론·소크라테스·로저 베이컨·시내암은 생몰 미상이라 설이 갈린다. **어느 설을 쓸지 정해 프로필과 맞춰야 한다** |
-| 출생·사망 항목이 2건 | 라이트 형제 | 한 프로필에 두 사람이라 구조상 정당하다. 감사 도구는 결함으로 잡으므로 예외로 안다 |
-| ~~사망 항목 오분류~~ | ~~빅토리아 여왕~~ | ✅ **26.08.08 수정 완료.** 「앨버트를 잃고 40년 상복을 입다」(1861)가 `death`로 달려 있었다. 남편 사망이지 본인 사망이 아니라 `other`로 바꿨다 |
-| ~~정렬 번호가 0부터 아님~~ | ~~123명~~ | ✅ **26.08.08 수정 완료.** 순서는 그대로 두고 번호만 0부터 다시 매겼다(995행). 중복도 없다 |
+초기 1,869 pending 가운데 14명은 완료됐고 1명은 근거를 남겨 skipped로 닫혔다. 현재
+`in_progress` lease는 없다. 사건 결손 수에는 현재 큐 이전에 격리된 역사 blocked 행도 포함되므로
+큐의 pending·skipped 합계와 억지로 같게 맞추지 않는다.
 
-**fiction 서사 연표 — 딥식이 만든 131명 248건은 지웠다(26.08.08).** 형식 자체는 흠이 없었으나
-(라벨·제목 누락 0, 짧은 서술 0, 연도형 혼입 0) **인물당 1.9건으로 규격(6~12건)의 3분의 1도
-못 채웠다.** 남은 121명 963건은 7/29 이전 작업분이며 인물당 8.0건으로 규격 안에 든다.
+현 worker의 `status`·`verify`는 새 보안 계약 RPC를 선행 검사하며, 위 실측에서 둘 다 통과했다.
+**지금 다음 착수는 새 enqueue가 아니라 기존 pending 행의 claim이다.** 단, terminal 작업을 다시
+여는 requeue는 아래 계보 migration이 적용되기 전까지 금지한다.
 
-지운 131명은 **서사 연표를 처음부터 다시 만들어야 한다.** 연도형이 아니라 원전 순서형
-(`sequence_label`) JSON으로 먼저 모은다. `fiction-timeline-apply.mjs`와 RPC
-`set_fiction_narrative_events`는 검증·dry-run을 갖춘 후속 적재 회차 전까지 실행하지 않는다.
+## 운영 기반과 적용 상태
 
-## 26.08.08에 무슨 일이 있었나
+- 적용: `sw/web/supabase/migrations/20260809212156_timeline_direct_db_pipeline.sql`
+- 적용: `sw/web/supabase/migrations/20260809234727_timeline_direct_db_corrections.sql`
+- 적용: `sw/web/supabase/migrations/20260810004016_timeline_direct_db_security_contract.sql`
+- **terminal requeue 전 적용:** `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
+- package command: `sw/web-bo`의 `pnpm timeline:worker -- <command>`
+- DB 작업 RPC: enqueue, claim, renew, complete, correct, fail, requeue, status 8개
+- CLI: 위 8개 작업 명령에 읽기 전용 `verify`를 더한 9개 이름
 
-**딥식 경량판이 만든 생애 연표 188명 1,302건을 지웠다.** 백업은 만들지 않았다(작업자 판단).
+migration은 공용 큐의 다른 task type을 건드리지 않는다. 감사 원장은 RLS와 FORCE RLS를
+사용한다. 감사 원장은 `service_role` 읽기만 허용하고 쓰기는 고정된
+`SECURITY DEFINER` RPC로만 수행한다. 역할 그래프도 실측 기준선과 달라지면 쓰기 전에 멈춘다.
 
-- 서술이 GPT 산출물의 절반이었다(53자 대 102자)
-- 영문 문장이 뭉개졌다(쉼표 밀도 1.5 → 0.49)
-- 표본 검증에서 소속·연도를 지어낸 사례가 나왔다(뷔베크 박사학위: 실제 2010년 릴 1대학
-  → 물을 때마다 「2011년 ENS 카샹」·「2011년 그르노블 INP」로 다르게 답했다)
-- 무너지기 직전에 멈춘 값이라 뒷부분을 믿을 수 없었다
+## 다음 착수 순서
 
-삭제 전에는 같은 모델 산출물이 **fiction 252명 1,211건**이었다. 표본 12건의 원전 내용은
-정확했지만 131명 248건이 인물당 1.9건에 그쳐 삭제됐다. **삭제 후 남은 현재 역사 수치는
-위에 적은 121명 963건**이다. 252명 1,211건을 현 상태로 읽지 않는다.
+### 1. 읽기 전용 사전검사
 
-삭제 근거·판별법·모델별 실측표는 `celeb-journey.md` 함정 11에 있다.
-
-## 다음 착수 지점
-
-### 1. 모집단 공용 판정과 JSON 모드를 완성한다 (선행 조건)
-
-공용 모집단 SSoT와 읽기 전용 결손 export, 생애형·fiction형 JSON 검증기는 마련됐다. 구형
-조사기·감사기는 잘못된 모집단과 DB 직행을 되살리지 않도록 은퇴 진입점으로 바꿨다. 아직
-결손 export 결과를 인물별 조사 초안으로 만드는 생성 단계가 없으므로 JSON 선수집 파이프라인
-전체가 끝난 것은 아니다.
-
-| 파일·항목 | 현재 | 다음 |
-|---|---|---|
-| 공용 모집단 | `lib/timeline-target-population.mjs`가 `celebs` 전원과 모든 출처 사건을 기준으로 결손을 판정 | 다른 도구가 모집단 조건을 복제하지 않게 유지 |
-| 결손 export | `timeline-export-missing-manifest.mjs`가 읽기 전용·페이지네이션·해시 manifest를 생성 | 조사 초안 manifest 형식과 연결 |
-| JSON 검증 | `lib/timeline-draft-schema.mjs`와 `timeline-draft-validate.mjs`가 life·fiction, 조건부 생몰 경계, 출처 근거를 검사 | 실제 생성기가 이 형식만 출력하도록 연결 |
-| 구형 조사기·감사기 | `timeline-research-gpt.mjs`·`timeline-audit.mjs`는 안내 후 실패하는 은퇴 진입점 | 다시 활성화하지 않음 |
-| `timeline-apply-json.mjs` | `celebs` 대조와 모든 출처 중복 차단으로 교정 | 이번 회차 `--apply` 금지. 공용 JSON 검증을 통과한 산출물만 받도록 연결 |
-| `auto-seed-birth.mjs` | 삭제 완료 | 되살리지 않음 |
-| `fiction-timeline-apply.mjs` | `celebs` 대조와 기본 dry-run을 갖춤 | 이번 회차 `--apply` 금지. 공용 fiction 검증을 통과한 산출물만 받도록 연결 |
-
-**현재도 `timeline-apply-json.mjs --apply`와 fiction 적재 RPC를 실행하지 않는다.** 다음 작업은
-결손 manifest → 인물별 JSON 생성 → 공용 검증까지이며, DB 적재는 사용자가 별도로 지시하는
-후속 회차다.
-
-### 2. 소규모로 재본다
-
-새 `celebs` 전원 결손 manifest에서 열 명 정도를 뽑아 **JSON까지만** 만들어 인물당 소요
-시간과 실제 비용을 잰다. 26.08.08 단건 실측은
-**소넷이 아르키메데스 7건에 264초**였다(한국어 165자·영문 363자·붕괴 없음·출생 사망 각 1건).
-당시 811명 병렬 예상치는 구형 모집단 계산이므로 현재 작업량 추정에 쓰지 않는다.
-
-### 3. 전체 착수
-
-인물별 JSON을 서로 다른 파일로 모은다. 검증을 통과한 파일은 보존하고 실패·누락 인물만
-다음 릴레이에 넘긴다. 전체 결손 manifest와 파일 slug 집합이 정확히 일치할 때까지 반복한다.
-DB 적재와 좌표 재검증은 사용자가 별도로 지시하는 후속 회차다.
-
-## 쓸 모델 — 둘 중 하나로 고정한다
-
-| 어느 쪽으로 돌리나 | 쓸 것 |
-|---|---|
-| **클로드** | **소넷** |
-| **지피티** | **`gpt-5.6-luna` · 사고량 최고치** |
-
-다른 결(`sol`·`terra`)이나 낮은 사고량으로 내려 잡지 마라. 경량·무료 모델은 쓰지 않는다
-(아래 「왜 소넷인가」의 실측 근거).
-
-지피티 호출 형식은 `.claude/skills/codex-gpt/SKILL.md`를 따른다. 프롬프트는 stdin으로,
-결과는 `--output-last-message` 파일로 받는다.
-
-```bash
-codex exec - -m gpt-5.6-luna -c model_reasoning_effort="max" \
-  --output-last-message OUT.txt --color never
+```powershell
+cd sw/web-bo
+pnpm timeline:worker -- status
+pnpm timeline:worker -- verify
 ```
 
-> **사고량 값은 미검증이다.** `max`로 넣으면 인자 파싱은 통과하지만 서버가 실제로 받는지는
-> 확인하지 못했다(26.08.08 시험 당시 할당량 소진). `codex-call.mjs`의 타입 주석은
-> `low|medium|high|xhigh`까지만 정의하고, 지금까지 실제로 쓰인 값은 `high`·`medium`뿐이다.
-> **처음 돌릴 때 한 건으로 확인하고, 거부되면 `xhigh`로 내린다.**
+`status`와 `verify`는 세 테이블, 작업 RPC 8개, 보안 계약 RPC, ACL·RLS·역할 그래프를 exact
+검사한다. 2026-08-10 11:24 KST에는 통과했다. 이후 하나라도 실패하면 enqueue·claim을 비롯한
+쓰기 명령을 실행하지 않고 schema drift부터 해결한다.
 
-> 🔴 **지피티 할당량은 26.08.10 13:17에 회복된다**(26.08.08 실측 응답).
-> 그전까지 지피티 경로는 막혀 있으므로 클로드 소넷으로 진행한다.
+### 2. 기존 pending 행 claim
 
-## 모델 선택 — 왜 소넷인가
+현재 `in_progress` 행은 없다. 새 enqueue로 모집단을 흔들지 말고 기존 pending 행부터 고유
+worker id로 claim한다. 이후 lease가 생기면 유효한 작업은 건드리지 않고, 만료됐고 작업자가
+없을 때만 이유를 남겨 재시도한다.
 
-26.08.08에 같은 인물·같은 지시로 대조한 결과다. 상세표는 `celeb-journey.md` 함정 11.
+### 3. 독립 레인 릴레이
 
-- **딥식 경량판은 한 번에 서너 건이 한계다.** 그 너머는 문장에 다른 언어가 섞이며 무너진다.
-  요청 건수도 안 지킨다(15건 요청에 8건, 4건 요청에 2건). 나눠 부르면 건수 통제가 안 되고
-  오타 검수에 다시 모델이 들어 무료의 이점이 사라진다
-- **딥식 정식판은 자동 실행이 안 된다.** commandcode 헤드리스가 긴 요청에서 세 번 중 세 번
-  끊겼다(`write EOF`). 짧은 요청은 정상이고 모델 자체는 검색까지 제대로 하고 있었다.
-  `--output-format json`으로 받으면 이벤트는 남지만 최종 응답을 못 받는다
-- **소넷은 시키지 않은 규칙까지 지켰다.** 후대 전승을 「전해진다」로 가르고, 출생 연도가
-  불확실하다는 사실을 서술에 넣고, 「비트루비우스가 전하는 바에 따르면」처럼 출처를 문장에
-  넣었다. `celeb-journey.md` 「사료 다루기」가 요구하는 것들이다
+각 레인은 고유 worker id로 한 인물을 claim한다.
 
-**딥식을 완전히 버릴 필요는 없다.** 서너 건 이하로 짧게 시키면 GPT보다 긴 서술을 냈다
-(5건 요청 시 한국어 161자). 번역·분류·태깅처럼 한 번에 쏟아낼 양이 적은 일에는 쓸 수 있다.
-행적처럼 한 번에 열 건 넘게 지어야 하는 작업에만 못 쓴다.
+```powershell
+pnpm timeline:worker -- claim --worker lane-01 --lease-minutes 60
+```
 
-## 외부 모델을 다시 쓸 때의 최소 방어
+레인은 claim 응답의 `celebId`, `claimToken`, `profileSnapshot`을 기준으로 조사한다. lease 안에
+끝나지 않으면 renew하고, 한 인물을 DB readback까지 닫은 즉시 다음 인물을 claim한다. 다른
+레인의 완료를 기다려 묶음 파일을 만들지 않는다.
 
-이번에 실제로 뚫린 지점들이다.
+### 4. 표준입력으로만 완료
 
-1. **JSON 완료 전에 우리 검증을 반드시 태운다.** 딥식 산출물은 조사기의 검증을 우회해
-   파일에서 DB로 직행했다. 인물당 3~30건·연도순·국영문 필수값과, 생몰 정보가 있을 때만
-   적용하는 출생·사망 검사를 태웠으면 1건짜리는 그 자리에서 반려됐다
-2. **프롬프트에 「아포스트로피와 쉼표를 임의로 빼지 마라」를 넣는다.** 이 한 줄로 영문
-   쉼표 실종과 `Palme dOr` 같은 손상이 사라졌다. 모델 한계가 아니라 발주 누락이었다
-3. **결손 manifest를 만들 때 출처와 무관하게 기존 행적을 본다.** `timeline-apply-json.mjs`의
-   중복 차단은 `source='research'`만 보므로 fiction의 `manual` 서사 연표를 못 막는다.
-   이번 수집 대상은 모든 출처를 합쳐 행적이 0건인 인물뿐이다. 티르는 이 검사가 없어 두
-   체계가 겹쳤다(26.08.08 삭제로 해소)
-4. **구간 판별은 영문 쉼표 밀도로 한다.** 정상은 1.5 안팎, 0.5 아래는 의심. 조회문은
-   `celeb-journey.md` 함정 11에 있다
+조사 payload는 메모리 또는 앞 단계 stdout에서 worker의 표준입력으로 보낸다. payload 경로를
+위치 인수로 넘기는 방식은 worker가 거절한다.
+
+```powershell
+$payloadJson | pnpm timeline:worker -- commit --worker lane-01 --celeb-id $celebId --claim-token $claimToken
+```
+
+complete는 사건 insert, 감사 원장 insert, queue complete를 한 트랜잭션에서 수행하고 즉시
+readback한다. profile drift, lease/token 불일치, 기존 사건 발생, 근거 참조 오류가 있으면
+부분 적재 없이 실패한다.
+
+### 5. 실패와 blocked를 그 자리에서 닫기
+
+일시 장애는 payload 없이 pending으로 되돌린다.
+
+```powershell
+pnpm timeline:worker -- fail --worker lane-01 --celeb-id $celebId --claim-token $claimToken --error $errorMessage --retry
+```
+
+근거상 조사를 완료할 수 없으면 `researchStatus='blocked'`, `events=[]`, 근거가 연결된
+`blockingIssues`가 있는 payload를 표준입력으로 보낸다.
+
+```powershell
+$blockedPayloadJson | pnpm timeline:worker -- fail --worker lane-01 --celeb-id $celebId --claim-token $claimToken --error $errorMessage --skip
+```
+
+blocked도 full payload와 근거 그래프를 감사 원장에 남긴다. “충돌이 있으니 나중에 생각”으로
+열어 두지 않는다. 일반 blocked인지, 프로필 격리 결정까지 완료한 quarantine인지 구조화해
+현재 결론을 저장한다.
+
+terminal 작업을 다시 조사할 명확한 근거가 생겼을 때만 명시적으로 requeue한다.
+
+현재 운영 DB에는 terminal predecessor를 새 완료 원장과 상호 연결하는 계보 migration이
+미적용이다. 아래 명령은 `20260810020404_timeline_terminal_requeue_completion_lineage.sql`을
+적용하고 트리거 두 개를 확인한 뒤에만 실행한다.
+
+```powershell
+pnpm timeline:worker -- requeue --celeb-id $celebId --reason $reason
+```
+
+## 완료 판정
+
+회차 완료는 다음을 모두 만족해야 한다.
+
+1. `status`에서 queue 상태 합계와 감사 원장 합계가 설명된다.
+2. `verify`가 schema/RPC 계약을 통과한다.
+3. complete 인물은 사건 수·ID·내용과 감사 원장의 payload가 exact readback에 일치한다.
+4. skipped 인물은 사건 0건, 비어 있지 않은 blocking issues, 유효한 근거 참조가 원장에 남는다.
+5. `philosophy_rewrite_v2` 등 다른 task type의 큐 sentinel이 변하지 않는다.
+6. 남은 대상 수는 과거 숫자가 아니라 다시 계산한 live `NOT EXISTS`와 일치한다.
+
+## 재개 금지 사항
+
+- 공개 상태·등급·생년·사망 여부 필터를 되살리지 않는다.
+- 이전 회차 숫자나 목록을 현재 큐로 간주하지 않는다.
+- 조사 payload, 충돌 판단, 적용 영수증을 로컬 운영 원천으로 만들지 않는다.
+- commit 또는 blocked skip에 payload 파일 경로를 넘기지 않는다.
+- lease/token 검증과 DB readback을 우회해 사건 테이블에 직접 쓰지 않는다.
+- `fiction`을 별도 모집단으로 빼거나 실제 연도를 만들어 넣지 않는다.
 
 ## 연계
 
-- 규격·화면·함정 SSoT: `docs/project/celeb-journey.md`
-- 글쓰기 규칙: `docs/project/writing-rules.md`
-- 도구: `sw/web-bo/scripts/` 의 `timeline-research-gpt.mjs` · `timeline-audit.mjs` ·
-  `timeline-geocode.mjs` · `timeline-apply-json.mjs`
+- 규격·payload·화면·함정: `docs/project/celeb-journey.md`
+- 기본 DB migration: `sw/web/supabase/migrations/20260809212156_timeline_direct_db_pipeline.sql`
+- 교정 migration: `sw/web/supabase/migrations/20260809234727_timeline_direct_db_corrections.sql`
+- 적용된 보안 gate: `sw/web/supabase/migrations/20260810004016_timeline_direct_db_security_contract.sql`
+- terminal 재큐 계보 migration: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
+- worker 계약: `sw/web-bo/scripts/lib/timeline-direct-contract.mjs`
+- payload 검증: `sw/web-bo/scripts/lib/timeline-direct-schema.mjs`

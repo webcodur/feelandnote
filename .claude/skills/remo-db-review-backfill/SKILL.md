@@ -1,6 +1,6 @@
 ---
 name: remo-db-review-backfill
-description: Remotion 에피소드(ko.json/en.json)의 책별 감상경위를 DB(user_contents.review/review_en)에 반영한다. 기존 DB review를 base로 두고 Remotion이 더 풍부한 부분만 흡수한다. /remo-db-review-backfill <인물명|slug> 으로 실행.
+description: Remotion 에피소드(ko.json/en.json)의 책별 감상경위를 DB(celeb_contents.review/review_en)에 반영한다. 기존 DB review를 base로 두고 Remotion이 더 풍부한 부분만 흡수한다. /remo-db-review-backfill <인물명|slug> 으로 실행.
 ---
 
 > **본문은 멀티툴 공용 원본에 있다 → `.agents/skills/remo-db-review-backfill/SKILL.md`**

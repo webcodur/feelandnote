@@ -93,12 +93,12 @@
 |------|------|:----:|--------|------|
 | `id` | uuid | ✅ | `gen_random_uuid()` | PK |
 | `tag_id` | uuid | ✅ | - | FK → `celeb_tags.id` |
-| `celeb_id` | uuid | ✅ | - | FK → `profiles.id` |
+| `celeb_id` | uuid | ✅ | - | FK → `celebs.id` |
 | `short_desc` | text | - | - | 이 태그에서 이 인물의 한줄 소개 (한국어) |
 | `short_desc_en` | text | - | - | 한줄 소개 (영문) |
 | `long_desc` | text | - | - | 이 태그에서 이 인물의 상세 설명 (한국어, 1~2문장) |
 | `long_desc_en` | text | - | - | 상세 설명 (영문) |
-| `faction_image_url` | text | - | - | 이 태그에서 이 인물의 화보 1장 URL(수동 행 몫. **제작 유래 인물의 개인샷은 `faction_people.web_image_url`**). 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `profiles.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `faction/{tagId}/celeb-{celebId}.webp` |
+| `faction_image_url` | text | - | - | 이 태그에서 이 인물의 화보 1장 URL(수동 행 몫. **제작 유래 인물의 개인샷은 `faction_people.web_image_url`**). 쇼케이스 좌측 큰 사진(Hero)의 소스. 없으면 `celebs.avatar_url`로 폴백(= 얼굴 크롭이 Hero에 뜬다). R2: `faction/{tagId}/celeb-{celebId}.webp` |
 | `sort_order` | integer | - | `0` | 태그 내 인물 정렬 순서 (낮을수록 먼저). 뷰에서 웹 전용 배정은 10000+ 순번으로 제작 유래 뒤에 선다 |
 | `hidden` | boolean | ✅ | `false` | **이 테마에서 이 인물을 감출지**(26.07.27 신설, 위 개편 ①). 셀럽 전역 상태와 무관하다. 제작 유래 인물의 숨김은 `faction_people.web_hidden` |
 | `assigned_at` | timestamptz | - | `now()` | 배정 시각 |
@@ -106,7 +106,7 @@
 ### 관계
 
 ```
-celeb_tags (1) ──< celeb_tag_assignments (N) >── profiles (1)
+celeb_tags (1) ──< celeb_tag_assignments (N) >── celebs (1)
 ```
 
 - 1개 태그에 여러 셀럽 배정 가능
@@ -307,18 +307,18 @@ RETURNING id, name;
 
 태그에 배정할 인물이 DB에 등록되어 있는지 확인한다.
 
-> ⚠️ `status='inactive'` 를 걸러내지 마라 — 도감은 26.07.27부터 그 값을 보지 않는다(개편 ①). 목록에서 빠지는 기준은 **등급**(`celeb_tier` 가 full·light가 아닐 때)과 **배정의 `hidden`** 둘뿐이다.
+> ⚠️ `publication_status='inactive'`를 걸러내지 마라 — 도감은 26.07.27부터 그 값을 보지 않는다(개편 ①). 목록에서 빠지는 기준은 **등급**(`celeb_tier`가 full·light가 아닐 때)과 **배정의 `hidden`** 둘뿐이다.
 
 ```sql
-SELECT id, nickname, nickname_en, status, celeb_tier
-FROM profiles
+SELECT id, nickname, nickname_en, publication_status, celeb_tier
+FROM celebs
 WHERE nickname IN ('인물1', '인물2', ...)
    OR nickname_en ILIKE ANY(ARRAY['%Name1%', '%Name2%', ...])
 ORDER BY nickname;
 ```
 
 - DB 미등록 인물: `celeb-creation-rulebook` 에이전트로 먼저 등록
-- `status = 'inactive'`인 인물도 태그 배정 가능하고 **실제로 도감에 노출된다**(26.07.27 이전에는 문서만 그렇게 적혀 있고 코드는 걸러냈다 — 그 게이트를 걷어냈다)
+- `publication_status = 'inactive'`인 인물도 태그 배정 가능하고 **실제로 도감에 노출된다**(26.07.27 이전에는 문서만 그렇게 적혀 있고 코드는 걸러냈다 — 그 게이트를 걷어냈다)
 
 ### 3단계: 인물 배정
 
@@ -345,7 +345,7 @@ RETURNING celeb_id, short_desc;
 SELECT t.name, p.nickname, a.short_desc, a.long_desc, a.source
 FROM faction_atlas_members a
 JOIN celeb_tags t ON t.id = a.tag_id
-JOIN profiles p ON p.id = a.celeb_id
+JOIN celebs p ON p.id = a.celeb_id
 WHERE t.id = '태그ID'
 ORDER BY a.sort_order;
 ```
@@ -375,7 +375,7 @@ WHERE tag_id = '태그ID' AND celeb_id = '셀럽ID';
 새 태그 생성 시 아래 항목을 모두 확인한다.
 
 - [ ] `celeb_tags` INSERT 완료 (name, name_en, description, description_en, color)
-- [ ] 후보 인물 전원 `profiles` 테이블에 등록 확인
+- [ ] 후보 인물 전원 `celebs` 테이블에 등록 확인
 - [ ] 인물 채움 확인 — 영상 유래는 제작(`faction_people`)에서 자동, 수동 명단만 `celeb_tag_assignments` INSERT (전원 short_desc, long_desc 작성)
 - [ ] sort_order 정렬 기준 결정 및 적용
 - [ ] 기존 태그 색상과 중복되지 않는 color 확인

@@ -16,7 +16,12 @@ Supabase MCP·관리 API가 401 Unauthorized(`SUPABASE_ACCESS_TOKEN` 무효)로 
 
 **진단**: 토큰 유효성은 `GET https://api.supabase.com/v1/projects`로 본다. python urllib으로 호출할 때 **User-Agent 헤더가 필수**다(없으면 Cloudflare error 1010으로 차단된다). 401이면 토큰 자체가 무효로 확정된다. 토큰 값은 python으로 `.env`를 파싱해 확인한다(git bash 인용 꼬임을 피한다).
 
-**MCP가 죽어도 DDL 우회**: access token으로 `POST /v1/projects/{ref}/database/query`에 body `{"query": "<SQL>"}`, header에 Bearer + User-Agent를 넣어 보낸다. 성공 시 STATUS 201이다. 마이그레이션 SQL 파일도 이 방식으로 적용할 수 있다. `project_id = wouqtpvfctednlffross`.
+**Management SQL은 migration 배포 우회가 아니다.** access token으로
+`POST /v1/projects/{ref}/database/query`를 호출하면 SQL은 실행할 수 있지만 로컬 migration
+파일과 `supabase_migrations.schema_migrations`의 timestamp 순서를 자동으로 맞춰 주지 않는다.
+지속 DDL을 이 경로로 적용하면 다음 `db push`가 history drift로 막힌다. 읽기 진단이나 명시적으로
+승인된 rollback-only probe에만 쓰고, 지속 스키마 변경은 migration 파일 + `db push`의 한 경로로
+남긴다. 공식 문서도 원격 SQL Editor/Table Editor 변경이 migration history를 우회한다고 경고한다.
 
 데이터 CRUD 우회(셀럽 등록 등)는 `docs/project/celeb/celeb-gotchas.md` 9절에 있다.
 
@@ -44,7 +49,7 @@ Supabase MCP·관리 API가 401 Unauthorized(`SUPABASE_ACCESS_TOKEN` 무효)로 
 6. JSON 컬럼(`cultural_journey`·`bio`·`youtube_videos` 등)을 결과셋과 함께 풀 셀렉트할 때는 캐시를 적용하고 슬러그·ID 단위로 키를 분리해 hit ratio를 확보한다.
 7. 변경 시 `docs/project/external-services.md`의 캐싱 적용 함수 목록과 잔여 작업을 갱신한다. 그 문서가 SSoT다.
 8. mutation의 `revalidatePath`/`revalidateTag` 호출 빈도를 점검한다. 한 mutation이 3중 path를 무효화하면 캐시 hit ratio가 무력화된다. **web-bo에서 web 캐시를 비울 때는 `revalidateWebItem(도메인, 식별자)`를 쓴다** — 한 건만 비운다. `revalidateWebCache(도메인)`은 그 종류 전부를 비우므로 대량 작업이나 구조 변경에만 쓴다. 신규 등록·삭제처럼 목록 구성까지 바뀌는 저장은 `revalidateWebItem(도메인, 식별자, [도메인])`으로 둘 다 비운다.
-9. **전체 테이블 풀스캔 + 행별 캐시 키 = egress 폭탄.** `unstable_cache` 키에 `celebId`/`page`/`slug` 같은 행별 식별자를 넣으면서 내부에서 전체 테이블을 풀스캔하면(예: `.neq('celeb_id', id)`로 전체 persona, page별 전체 user_contents) 식별자 수만큼 캐시가 갈라져 각 키의 첫 미스가 전체 테이블을 통째로 전송한다. 크롤러가 셀럽 ko/en 페이지를 순회하면 수천 회 × 전체 테이블 = 수 GB다. **해법: 전체 조회는 인자 없는(또는 locale만 받는) 단일 캐시 키로 1회만 받고, 행별 필터·계산·페이지 분할은 그 공유 캐시 위에서 JS로 한다.** 2026-06-22 셀럽 페이지(`getSimilarByCelebId` 전체 persona 4.25MB, `getContemporaries` 전체 profiles)와 라이브러리(`getScripturesByProfession` page별 전체 user_contents)가 이 패턴으로 5.5GB 초과의 주범이었다. 캐시 원본 mutate를 막기 위해 slice 후 `.map(c => ({...c}))` 얕은 복사가 필수다.
+9. **전체 테이블 풀스캔 + 행별 캐시 키 = egress 폭탄.** `unstable_cache` 키에 `celebId`/`page`/`slug` 같은 행별 식별자를 넣으면서 내부에서 전체 테이블을 풀스캔하면(예: `.neq('celeb_id', id)`로 전체 persona, page별 전체 감상 관계) 식별자 수만큼 캐시가 갈라져 각 키의 첫 미스가 전체 테이블을 통째로 전송한다. 크롤러가 셀럽 ko/en 페이지를 순회하면 수천 회 × 전체 테이블 = 수 GB다. **해법: 전체 조회는 인자 없는(또는 locale만 받는) 단일 캐시 키로 1회만 받고, 행별 필터·계산·페이지 분할은 그 공유 캐시 위에서 JS로 한다.** 2026-06-22 셀럽 페이지(`getSimilarByCelebId` 전체 persona 4.25MB, `getContemporaries` 당시 전체 `profiles`, 현 `celebs`)와 라이브러리(`getScripturesByProfession` 당시 page별 전체 `user_contents`, 현 `celeb_contents`)가 이 패턴으로 5.5GB 초과의 주범이었다. 캐시 원본 mutate를 막기 위해 slice 후 `.map(c => ({...c}))` 얕은 복사가 필수다.
 10. **봇 트래픽이 egress 증폭원이다.** 실사용자가 적어도 검색엔진 봇이 sitemap에 등록된 동적 경로(셀럽 slug × ko/en)를 순회하며 캐시 미스를 유발한다. `robots.ts`에 `/*?`(필터·검색 쿼리스트링)를 차단해 캐시 키 폭발(`getCelebs` 12인자 등)을 줄인다. 이미지는 R2(`pub-*.r2.dev`) 서빙이라 Supabase egress와 무관하다. egress는 거의 전부 DB 행 전송이다.
 
 **검증 체크**: 신규 action은 위 항목으로 자가 점검한다. `unstable_cache` import 유무, `createStaticClient` 사용 유무, `lines, lines_en` 문자열 grep, `range(.+PAGE_SIZE` 패턴 grep — 이 4개 grep만으로 80%를 잡는다.
@@ -139,7 +144,9 @@ grep -rln "unstable_cache" sw/web/src/actions | xargs grep -lnE "if \(.*[eE]rror
 
 **지금 남아 있는 예외 둘** — `board/feedbacks/getFeedback.ts`·`board/notices/getNotice.ts`는 `if (error?.code === NO_ROWS_CODE) return null`이 남는다. 글이 없을 때만 도달하는 정상 분기이므로 고칠 것이 없다.
 
-> **남은 데드코드** — `library/celebs.ts`의 `getTopCelebsAcrossAllEras`, `library/era.ts`의 `getLibraryByEra`는 **외부 사용처가 0곳**이다(26.08.07 확인). 없어진 시대별 화면의 잔재다. 규칙을 어긴 채 남겨두지 않도록 도우미는 똑같이 적용해 뒀지만, **지울지는 아직 정하지 않았다.**
+> **정리 완료(26.08.10)** — 외부 사용처가 0곳이던 `library/celebs.ts`의
+> `getTopCelebsAcrossAllEras`와 `library/era.ts`의 `getLibraryByEra`는 제거했다. 시대별 목록의
+> 현역 진입점 `getEraContents`와 그 RPC는 유지한다.
 
 ---
 
@@ -391,3 +398,24 @@ node .claude/skills/ui-shot/shoot.mjs "http://localhost:3000/ko/celeb/bill-gates
 확장은 **로그인이 걸린 외부 사이트**를 다룰 때만 쓴다.
 
 > **캡처가 안 될 때 수치 측정으로 때우지 마라.** 글자 크기·여백·넘침은 재서 알 수 있지만, 사진이 잘렸는지·기호만 있고 뜻을 알 수 없는지·값이 없어 줄표가 허공에 떴는지는 **보아야 안다.** 2026-08-08 인물 상세 점검에서 측정만으로 한 바퀴 돈 뒤 캡처로 다시 보니 표지가 좌우 40% 잘려 제목을 못 읽는 상태였다.
+
+## 12. DB 함수는 catalog 검사가 아니라 rollback canary까지 통과해야 한다 (2026-08-10)
+
+함수 존재·owner·ACL·RLS·OpenAPI 시그니처·SQL parser가 모두 정상이어도 실제 쓰기 경로는
+깨질 수 있다. 콘텐츠 조사 enqueue 함수는 이 검사를 전부 통과했지만, `INSERT ... AS queue`
+뒤 `ON CONFLICT`에서 숨겨진 base table 이름을 참조해 첫 실제 enqueue에서만 `42P01`로
+터졌다.
+
+지속 DB 파이프라인의 배포 완료 조건은 다음과 같다.
+
+1. migration 파일의 parser·ACL·RLS·계약 검사를 통과한다.
+2. 적용 뒤 실제 RPC와 같은 역할·인자로 `BEGIN` 안에서 enqueue → claim → 핵심 write → 완료를
+   호출하고 결과를 단언한다.
+3. `ROLLBACK` 뒤 queue·run·domain row가 기준선으로 정확히 돌아왔는지 별도 read-only 쿼리로
+   확인한다.
+4. 외부 API 때문에 최종 등록을 staging table로 나눴다면 **staging 잔량 0까지가 같은 작업**이다.
+   본 테이블 적재 성공만 보고 완료하지 않는다. 26.08.10 MUSIC은 후보 311건이 0건 처리 상태로
+   남아 있었고, 최종적으로 등록 255·기각 56·pending 0이 된 뒤에야 마감했다.
+
+`dry-run`, schema diff, 응답 200은 위 canary를 대신하지 못한다. 특히 후보·outbox·queue 같은
+중간 테이블이 있으면 종료 보고에 각 terminal 상태와 미처리 수를 반드시 적는다.

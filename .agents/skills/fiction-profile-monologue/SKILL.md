@@ -1,6 +1,6 @@
 ---
 name: fiction-profile-monologue
-description: 신화·전설·허구 인물을 `fiction` 셀럽으로 등록하거나, 대표 원전을 근거로 `profiles.virtual_monologue`과 영문본을 작성·검증·반영할 때 사용한다. "fiction 셀럽", "신화 인물 등록", "허구 인물 가상 독백", "원전 인물 독백" 요청에 적용한다.
+description: 신화·전설·허구 인물을 `fiction` 셀럽으로 등록하거나, 대표 원전을 근거로 `celebs.virtual_monologue`과 영문본을 작성·검증·반영할 때 사용한다. "fiction 셀럽", "신화 인물 등록", "허구 인물 가상 독백", "원전 인물 독백" 요청에 적용한다.
 ---
 
 # fiction 인물과 가상 독백
@@ -35,7 +35,7 @@ node .agents/skills/fiction-profile-monologue/scripts/apply-fiction-manifest.mjs
 
 ## 프로필 가드
 
-- 신규는 `profile_type='CELEB'`, `celeb_tier='fiction'`, `status='inactive'`, `is_verified=false`로 만든다. 기존 활성 프로필은 비활성으로 되돌리지 않는다.
+- 신규는 `celeb_tier='fiction'`, `publication_status='inactive'`, `is_verified=false`로 만든다. 기존 활성 셀럽은 비활성으로 되돌리지 않는다.
 - `nickname_en`과 팩션 인물과 같은 `slug`가 필수다.
 - 소개는 국문 100자, 영문 180자 이내다. 얼굴은 없어도 되며 기존 얼굴은 지우지 않는다.
 - 감상 여정·영향력·페르소나·콘텐츠·고유 대사는 이 작업에서 만들지 않는다.

@@ -1,6 +1,6 @@
 ---
 name: remo-db-review-backfill
-description: Remotion 에피소드(ko.json/en.json)의 책별 감상경위를 DB(user_contents.review/review_en)에 반영한다. 기존 DB review를 base로 두고 Remotion이 더 풍부한 부분만 흡수한다. /remo-db-review-backfill <인물명|slug> 으로 실행.
+description: Remotion 에피소드(ko.json/en.json)의 책별 감상경위를 DB(celeb_contents.review/review_en)에 반영한다. 기존 DB review를 base로 두고 Remotion이 더 풍부한 부분만 흡수한다. /remo-db-review-backfill <인물명|slug> 으로 실행.
 ---
 
 # 감상경위 백필 (Remotion → DB)
@@ -20,7 +20,7 @@ Remotion 영상 제작 과정에서 새로 다듬어진 일화·디테일을 DB 
 
 실행 전 Read tool로 아래를 읽는다:
 - `AGENTS.md`
-- `docs/project/celeb/celeb-content-audit.md` — user_contents/content_locales 스키마·규칙
+- `docs/project/celeb/celeb-content-audit.md` — `celeb_contents`/`content_locales` 스키마·규칙
 - `docs/project/celeb/celeb-2-content-collector.md` §body 작성 가이드라인 — **첫 문장·출처·인물명·인용 말투 룰. 백필도 100% 준수**
 
 ## 파일 위치
@@ -79,29 +79,28 @@ ko.json → `review`, en.json → `review_en`.
 
 ```sql
 SELECT id, nickname, nickname_en
-FROM profiles
-WHERE profile_type = 'CELEB'
-  AND (nickname ILIKE '%<입력>%' OR nickname_en ILIKE '%<입력>%');
+FROM celebs
+WHERE nickname ILIKE '%<입력>%' OR nickname_en ILIKE '%<입력>%';
 ```
 
 복수 건이면 객관식으로 되묻는다 (임의 선택 금지).
 
-교차 검증: ko.json의 `host.avatar_url`에서 `celebs/<uuid>/avatar.webp` 패턴으로 uuid를 추출해 profiles.id와 일치하는지 확인한다. 불일치면 중단.
+교차 검증: ko.json의 `host.avatar_url`에서 `celebs/<uuid>/avatar.webp` 패턴으로 uuid를 추출해 `celebs.id`와 일치하는지 확인한다. 불일치면 중단.
 
 ### DB 책 + 본문 전체 조회 (LEFT 금지)
 
 **중요**: `LEFT(review, N)` 으로 미리보기만 가져오면 백필 실패 시 복원 불가능하다. 반드시 본문 전체를 가져온다.
 
 ```sql
-SELECT uc.content_id,
+SELECT cc.content_id,
        cl_ko.title  AS title_ko, cl_ko.creator AS creator_ko,
        cl_en.title  AS title_en, cl_en.creator AS creator_en,
-       uc.review     AS review_ko_full,
-       uc.review_en  AS review_en_full
-FROM user_contents uc
-LEFT JOIN content_locales cl_ko ON cl_ko.content_id = uc.content_id AND cl_ko.locale = 'ko'
-LEFT JOIN content_locales cl_en ON cl_en.content_id = uc.content_id AND cl_en.locale = 'en'
-WHERE uc.user_id = '<celeb_id>'
+       cc.review     AS review_ko_full,
+       cc.review_en  AS review_en_full
+FROM celeb_contents cc
+LEFT JOIN content_locales cl_ko ON cl_ko.content_id = cc.content_id AND cl_ko.locale = 'ko'
+LEFT JOIN content_locales cl_en ON cl_en.content_id = cc.content_id AND cl_en.locale = 'en'
+WHERE cc.celeb_id = '<celeb_id>'
 ORDER BY cl_ko.title;
 ```
 
@@ -122,17 +121,17 @@ Remotion `books[i].title` + `books[i].creator` 를 DB 행과 매칭한다.
 
 매칭 실패 시 객관식 질문으로 사용자에게 수동 매핑을 요청한다.
 DB에는 있으나 Remotion에 없는 책은 건드리지 않는다 (보고만 한다).
-Remotion에는 있으나 DB에 없는 책은 중단 후 보고 (user_contents 등록은 이 스킬 범위 밖).
+Remotion에는 있으나 DB에 없는 책은 중단 후 보고 (`celeb_contents` 등록은 이 스킬 범위 밖).
 
 ## 워크플로우
 
 ### Phase 1 — 로드
 
-1. 인물명 → profiles.id 조회
+1. 인물명 → `celebs.id` 조회
 2. done/live/todo 순서로 에피소드 디렉토리 탐색
 3. ko.json 로드, en.json이 있으면 함께 로드
-4. host.avatar_url의 uuid와 profiles.id 교차 검증
-5. **user_contents + content_locales(ko/en) + review/review_en 본문 전체 조회** (LEFT 금지, 복원용 백업 겸함)
+4. host.avatar_url의 uuid와 `celebs.id` 교차 검증
+5. **`celeb_contents` + `content_locales`(ko/en) + review/review_en 본문 전체 조회** (LEFT 금지, 복원용 백업 겸함)
 
 ### Phase 2 — 매칭
 
@@ -179,9 +178,9 @@ Remotion에는 있으나 DB에 없는 책은 중단 후 보고 (user_contents �
 승인 후 일괄 UPDATE:
 
 ```sql
-UPDATE user_contents
+UPDATE celeb_contents
 SET review = $1, review_en = $2, updated_at = NOW()
-WHERE user_id = $celeb_id AND content_id = $content_id;
+WHERE celeb_id = $celeb_id AND content_id = $content_id;
 ```
 
 en.json이 없으면 `review_en`은 건드리지 않는다 (기존 값 유지).
@@ -204,4 +203,4 @@ en.json이 없으면 `review_en`은 건드리지 않는다 (기존 값 유지).
 - **pre-todo 디렉토리는 제외** (검수 전 초안)
 - **DB에 있고 Remotion에 없는 책은 건드리지 않는다**
 - **Remotion에 있고 DB에 없는 책은 중단 후 보고** (신규 등록은 범위 밖)
-- **`profiles.cultural_journey` 는 건드리지 않는다** (generated column, 이 스킬 대상 아님)
+- **`celebs.cultural_journey`는 건드리지 않는다** (generated column, 이 스킬 대상 아님)

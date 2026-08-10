@@ -55,15 +55,15 @@
 | 테이블 | 컬럼 | 용도 |
 |--------|------|------|
 | `celeb_influence` | celeb_id, total_score | 비교 기준값 |
-| `profiles` | id, nickname, nickname_en, profession, nationality, birth_date, death_date, avatar_url, status, celeb_tier | 인물 표시 정보 |
+| `celebs` | id, nickname, nickname_en, profession, nationality, birth_date, death_date, avatar_url, publication_status, celeb_tier | 인물 표시 정보 |
 
 ---
 
 ## 조회 설계
 
 1. **`getMorelessCelebs()` 서버 액션** (캐시 7일, CELEBS 태그)
-   - `celeb_influence` → `profiles` inner join
-   - `profiles.status = 'active'`, `celeb_tier in ('full', 'light')`
+   - `celeb_influence` → `celebs` inner join
+   - `celebs.publication_status = 'active'`, `celeb_tier in ('full', 'light')`
    - `total_score >= 10` (너무 낮으면 비교 의미 없음)
    - `total_score IS NOT NULL`
    - 정렬: `celeb_id asc` (2차 정렬키로 페이지 경계 고정)

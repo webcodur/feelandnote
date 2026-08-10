@@ -5,7 +5,7 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
 
 # 셀럽 avatar 자동 등록
 
-`profiles.avatar_url`이 비어있는 셀럽에게 인물 사진을 등록한다. 얼굴을 검출한 뒤 68점 랜드마크로 **눈높이와 턱끝**을 직접 재서 정사각형으로 자른다. 크롭 계산은 `sw/web-bo/src/lib/avatar-geometry.ts` 한 곳이 하며, 등록 경로마다 다른 값이 박혀 있던 상태는 2026-08-01에 정리됐다.
+`celebs.avatar_url`이 비어있는 셀럽에게 인물 사진을 등록한다. 얼굴을 검출한 뒤 68점 랜드마크로 **눈높이와 턱끝**을 직접 재서 정사각형으로 자른다. 크롭 계산은 `sw/web-bo/src/lib/avatar-geometry.ts` 한 곳이 하며, 등록 경로마다 다른 값이 박혀 있던 상태는 2026-08-01에 정리됐다.
 
 > **이전에 이 스킬을 쓴 적이 있다면 먼저 볼 것 — 얼굴을 못 찾았을 때의 동작이 바뀌었다.** 예전에는 entropy 크롭으로 아무 데나 잘라 올리고 성공으로 집계했다. 이제는 **업로드하지 않고 실패**한다. 아래 「실행 흐름」 6번.
 
@@ -41,7 +41,7 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
 ## 실행 흐름 (인물 1명당)
 
 1. **위키데이터 QID 조회** — 영문명으로 `wbsearchentities`. description에 profession 키워드 매칭 점수 우선 정렬.
-2. **동명이인 차단** — `profiles.profession` 컬럼(12종) 기반 키워드 사전 매칭. 매칭 0점이면 `ambiguous_disambig`로 스킵. "fictional", "film/movie/novel(작품)", "company", "school" 등 부정 토큰은 강제 페널티(-100).
+2. **동명이인 차단** — `celebs.profession` 컬럼 기반 키워드 사전 매칭. 매칭 0점이면 `ambiguous_disambig`로 스킵. "fictional", "film/movie/novel(작품)", "company", "school" 등 부정 토큰은 강제 페널티(-100).
 3. **P18(image) 조회** — Wikidata SPARQL/wbgetentities. 없으면 enwiki pageimage fallback.
 4. **라이선스 처리** — 자동 배치는 안전상 CC/PD만 자동 등록한다. CC/PD가 아니어서 자동 단계에서 빠진 인물은 단건 처리에서 라이선스 무시하고 등록한다 (정책 참조).
 5. **다운로드 + 얼굴 검출·랜드마크** — sharp raw RGB → tf.tensor3d → `detectAllFaces`(SSD MobileNet, minConfidence 0.4) + 68점 랜드마크 → 가장 큰 얼굴의 눈 평균 좌표·턱끝 채택 → `avatar-geometry`가 정사각 좌표 산출 → sharp.extract로 좌표 크롭 → 800×800 WebP **품질 95**. 일괄과 단건이 같은 품질이다(단건만 `--quality`로 바꿀 수 있으나 낮추지 않는다).
@@ -50,7 +50,7 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
    - 단건: R2·DB에 손대기 전에 중단한다. 그래도 그 사진을 써야 하면 `--allow-no-face true`를 명시해야 하고, 그때만 **중앙 크롭**으로 진행하며 "규격 기하를 보장하지 않는다"는 경고가 콘솔과 크레딧 로그에 남는다.
    - 얼굴을 못 찾는 것은 대개 전신·측면·군집 사진이거나 고전 회화다. 얼굴이 큰 다른 사진을 먼저 찾는다.
 7. **R2 업로드** — `celebs/{profile_id}/avatar.webp` PUT.
-8. **DB 갱신** — `profiles.avatar_url` UPDATE. wikidata_qid도 비어있으면 함께 저장.
+8. **DB 갱신** — `celebs.avatar_url` UPDATE. `wikidata_qid`도 비어 있으면 함께 저장.
 9. **credits.log 누적** — `{timestamp} | {slug} | {commons_url} | {license} | {author}`.
 
 ## 인자 옵션
@@ -122,10 +122,10 @@ node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-avatar.ts \
 
 신원 불일치·근거 부재로 아바타를 내린 프로필은 업로드 스크립트의 `PROVENANCE_QUARANTINED_SLUGS`에 격리한다. 파일명을 바꾸거나 임시 폴더로 복사해도 등록할 수 없다. 인물 고유의 신원·도상 근거를 검토한 뒤 검역 목록을 명시적으로 해제해야 한다.
 
-`upload-celeb-image-from-url.ts`의 자동 웹 검색 등록과 `fill-faction-avatars.ts`의 팩션 REF 직접 승격은 신원 오등록 위험 때문에 폐기·실행 차단됐다. 우회 진입점으로 되살리지 않는다. `batch-celeb-avatars.ts`도 DB의 `celeb-id`–`slug`–`profile_type` 일치를 먼저 검증하며, 실서비스 쓰기는 DB에 사전 검증된 `wikidata_qid`가 있는 경우에만 허용한다. QID가 없거나 기존 QID에 이미지가 없으면 `--dry-run` 후보 조사까지만 하고 자동 QID 채택·교체·업로드는 하지 않는다.
+`upload-celeb-image-from-url.ts`의 자동 웹 검색 등록과 `fill-faction-avatars.ts`의 팩션 REF 직접 승격은 신원 오등록 위험 때문에 폐기·실행 차단됐다. 우회 진입점으로 되살리지 않는다. `batch-celeb-avatars.ts`도 DB의 `celeb-id`–`slug` 일치를 먼저 검증하며, 실서비스 쓰기는 DB에 사전 검증된 `wikidata_qid`가 있는 경우에만 허용한다. QID가 없거나 기존 QID에 이미지가 없으면 `--dry-run` 후보 조사까지만 하고 자동 QID 채택·교체·업로드는 하지 않는다.
 
 **C. 동명이인 사고 시 되돌림**
-잘못된 사진이 채택된 경우 `profiles.avatar_url`, `profiles.wikidata_qid` 모두 NULL로 UPDATE.
+잘못된 사진이 채택된 경우 `celebs.avatar_url`, `celebs.wikidata_qid` 모두 NULL로 UPDATE.
 
 **D. 위키미디어 Rate Limit (HTTP 429)**
 upload.wikimedia.org가 일시적으로 429를 반환하면 60~90초 텀을 두고 재시도한다. 같은 파일이 계속 429면 더 작은 해상도(thumb)나 다른 후보 파일로 교체한다.

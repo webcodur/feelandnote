@@ -1,6 +1,6 @@
 # 경로 잇기 (Travel) — 발주서
 
-> **최종 실측 체크: 26.07.31** — 실 DB 전량 대조: user_contents 11,331행·프로필 1,476명·태그 864건으로 그래프 구축, 200회 스트레스 시험, 전송량(gzip 489KB) 실측. selectInChunks 교정 전후 비교.
+> **최종 실측 체크: 26.07.31** — 당시 실 DB 전량 대조: 현재 `celeb_contents`로 이관된 관계 11,331행·인물 1,476명·태그 864건으로 그래프 구축, 200회 스트레스 시험, 전송량(gzip 489KB) 실측. selectInChunks 교정 전후 비교.
 
 ---
 
@@ -79,10 +79,10 @@
 
 | 테이블 | 핵심 컬럼 | 용도 |
 |--------|----------|------|
-| `profiles` | id, nickname, nickname_en, slug, nationality, profession, avatar_url, status, celeb_tier | 인물 메타 |
+| `celebs` | id, nickname, nickname_en, slug, nationality, profession, avatar_url, publication_status, celeb_tier | 인물 메타 |
 | `celeb_tag_assignments` | celeb_id, tag_id | 태그 간선 (같은 tag_id면 인접) |
 | `celeb_tags` | id, name, name_en | 태그 이름 (간선 레이블) |
-| `user_contents` | user_id (=celeb profile id), content_id | 콘텐츠 간선 (같은 content_id면 인접) |
+| `celeb_contents` | celeb_id, content_id | 콘텐츠 간선 (같은 content_id면 인접) |
 | `content_locales` | content_id, locale, title | 콘텐츠 제목 (간선 레이블) |
 
 ---
@@ -168,7 +168,7 @@
 |---|------|------|
 | R1 | 실 DB 그래프의 전송량이 예상(~1MB gzip)을 초과 | 허브 캡 값을 낮추거나, 인접 리스트를 정수 인덱스로 압축 |
 | R2 | 허브 캡 후 고립 노드가 많아 출제 풀이 빈약 | 캡 값을 조절하거나, 연결 컴포넌트 최대 집단만 출제 대상으로 |
-| R3 | `user_contents` 전량(11,267행)을 페이징으로 끌어오는 비용 | 7일 1회이므로 egress 영향 미미 (실측 필요) |
+| R3 | `celeb_contents` 전량(당시 11,267행)을 페이징으로 끌어오는 비용 | 7일 1회이므로 egress 영향 미미 (실측 필요) |
 
 ### ⚪ 낮은 위험
 
@@ -186,7 +186,7 @@
 | ~~1~~ | ~~실 DB 그래프 밀도·경로 분포 실측~~ | ~~허브 캡 값 조정 필요 여부 결정~~ → **해결됨(26.07.31)** |
 | 2 | 점수 기록 저장 여부 | 별도 테이블/컬럼 필요 |
 | 3 | 카드 배경 이미지 발주 여부 | `RestGameGrid`의 `image` 속성 |
-| ~~4~~ | ~~서버 조회에서 `user_contents`를 셀럽 id로 필터할지 전량 끌어올지~~ | → **selectInChunks로 전량(26.07.31)** |
+| ~~4~~ | ~~서버 조회에서 `celeb_contents`를 셀럽 id로 필터할지 전량 끌어올지~~ | → **selectInChunks로 전량(26.07.31)** |
 
 ---
 
@@ -194,13 +194,13 @@
 
 ### 원인 진단
 
-`user_contents` 조회에서 `.in("user_id", [...profileMap.keys()].slice(0, 200))` — **첫 200명분만** 조회하고 있었다. PostgREST `in()` URL 한도(462건에서 실패한 실측 이력)를 의식해 `.slice(0, 200)`을 넣었으나, `selectInChunks`를 사용하지 않아 나머지 1,276명의 콘텐츠 기록이 통째로 누락됐다.
+당시 `user_contents`(현 `celeb_contents`) 조회에서 `.in("user_id", [...profileMap.keys()].slice(0, 200))` — **첫 200명분만** 조회하고 있었다. PostgREST `in()` URL 한도(462건에서 실패한 실측 이력)를 의식해 `.slice(0, 200)`을 넣었으나, `selectInChunks`를 사용하지 않아 나머지 1,276명의 콘텐츠 기록이 통째로 누락됐다. 현재 쿼리는 `celeb_contents.celeb_id`를 쓴다.
 
 추가로 `content_locales` 제목 조회에서도 `.limit(chunkSize)`이 걸려 있어 chunk당 200건을 초과하는 결과를 잘랐다.
 
 ### 교정 내용
 
-1. **`user_contents` 조회**: `selectInChunks(celebIds, chunk => selectAllPages(...))`로 교체. 1,476명 ID를 200개 단위로 나눠, 각 chunk 안에서도 PostgREST 1,000행 상한을 페이징으로 우회한다.
+1. **`celeb_contents` 조회**: `selectInChunks(celebIds, chunk => selectAllPages(...))`로 교체. 1,476명 ID를 200개 단위로 나눠, 각 chunk 안에서도 PostgREST 1,000행 상한을 페이징으로 우회한다.
 2. **`content_locales` 제목 조회**: `selectInChunks(contentIds, chunk => ...)`로 교체. `.limit()` 제거.
 3. **허브 캡**: 변경 없음 (태그 20명, 콘텐츠 10명). 실측으로 적정성 확인.
 
@@ -208,7 +208,7 @@
 
 | 지표 | 교정 전 | 교정 후 | 변화 |
 |------|---------|---------|------|
-| user_contents 행 | 1,614 (200명분) | 11,331 (전량) | +603% |
+| 감상 관계 행(현재 `celeb_contents`) | 1,614 (200명분) | 11,331 (전량) | +603% |
 | 콘텐츠 간선 | 571 | 7,142 | ×12.5 |
 | 연결 인물 | 393/1,476 (26.6%) | 1,201/1,476 (81.4%) | +808명 |
 | 고립 인물 | 1,083 (73.4%) | 275 (18.6%) | −808명 |

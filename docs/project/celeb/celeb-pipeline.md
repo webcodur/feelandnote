@@ -205,6 +205,12 @@ basic ─┬─ content
 `/celebs/content-research/[celebId]`다. 작업 경로는 실제 콘텐츠 수, 활성 여부,
 조사 상태와 우선순위 신호만으로 파생하며 감상여정을 읽지 않는다.
 
+> **26.08.10 직접 worker gate:** 적용된 DB 함수에는 enqueue alias 충돌, MUSIC 후보 보류,
+> `review_en` 누락 계약이 함께 남아 있다. 별칭만 고치던 미적용 migration은 폐기했으며, 셋을
+> 한 번에 고친 새 forward migration과 rollback canary가 나오기 전에는 실 DB 쓰기에 쓰지
+> 않는다. 정확한 상태와 재개 순서는 `celeb-2-content-collector.md` 상단을 따른다. 기존 web-bo
+> 장부가 비었다는 뜻은 아니다.
+
 비공개 인물도 조사를 안 했으면 표시값은 `0`이고 조사 대상에 남는다. 감상여정은
 콘텐츠 조사 판정이나 운영 상태의 SSoT로 사용하지 않는다.
 

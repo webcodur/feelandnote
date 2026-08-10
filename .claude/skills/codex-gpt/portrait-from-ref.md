@@ -14,7 +14,7 @@
 
 | 용도 | 규격 SSoT | 프레이밍 |
 |------|-----------|----------|
-| **셀럽 아바타**(`profiles.avatar_url`, 얼굴 원형 썸네일) | `docs/project/celeb-avatar-spec.md` | 아래 FRAMING 블록 **필수** |
+| **셀럽 아바타**(`celebs.avatar_url`, 얼굴 원형 썸네일) | `docs/project/celeb-avatar-spec.md` | 아래 FRAMING 블록 **필수** |
 | **팩션 개인샷**(`faction_image_url`, 원본 전신·연출 화보) | `faction-image` 스킬 | 아바타 규격 적용 안 함. 얼굴 크롭도 하지 않는다 |
 
 ### 아바타 용도일 때 — FRAMING 블록을 반드시 함께 넣는다
@@ -132,6 +132,6 @@ Professional editorial portrait photography
 
 1. **진위 검사** — 원본과 축소 지문 대조, 해상도 상승 확인(`SKILL.md` 회수 절). 안 하면 실패분이 원본 그대로 성공 집계된다.
 2. **누끼** — `nobg-cutout` 스킬(전용 도구 `C:\project\nobg`, `birefnet-general`). **병렬 실행 금지** — CPU 연산이라 한 번에 프로세스 하나만. 대량을 몰아 돌리지도 말 것 — CPU 과부하가 오므로 한 장씩 분리 실행 권장.
-3. 아바타 등록이면 얼굴 크롭 → 800×800 webp(품질 95) → R2 → `profiles.avatar_url`.
+3. 아바타 등록이면 얼굴 크롭 → 800×800 webp(품질 95) → R2 → `celebs.avatar_url`.
    - 얼굴 크롭은 **눈높이·턱끝 랜드마크 기준으로 통일됐다**(2026-08-01). 자를 크기·위치를 인자로 조절하지 않는다 — 옛 조절 인자는 폐기됐다. 규격은 `docs/project/celeb-avatar-spec.md` §6, 계산은 `sw/web-bo/src/lib/avatar-geometry.ts` 한 곳이다.
    - **얼굴을 못 찾으면 등록이 실패한다.** 예전처럼 아무 데나 잘라 올라가지 않는다. 이 양식으로 뽑은 그림은 §4.1 프레이밍 블록을 지켰다면 검출에 걸린다.
