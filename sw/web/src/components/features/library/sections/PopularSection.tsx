@@ -91,7 +91,7 @@ export default function PopularSection({ initialData, professions }: Props) {
   return (
     <section className="space-y-6">
       <header className="text-center">
-        <h1 className="font-serif text-2xl md:text-3xl text-text-primary">{t("title")}</h1>
+        <h2 className="font-serif text-2xl md:text-3xl text-text-primary">{t("title")}</h2>
         <p className="mt-2 text-sm text-text-secondary">{t("description")}</p>
       </header>
 

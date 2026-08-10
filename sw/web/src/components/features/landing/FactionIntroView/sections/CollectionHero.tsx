@@ -33,7 +33,7 @@ export default function CollectionHero({ data, locale, onHide }: CollectionHeroP
             FACTION ATLAS
           </span>
         </div>
-        <h1 className={styles.displayTitle}>{t("title")}</h1>
+        <h2 className={styles.displayTitle}>{t("title")}</h2>
         <p className="max-w-2xl whitespace-pre-line text-base leading-8 text-text-secondary md:text-lg">
           {t("description")}
         </p>

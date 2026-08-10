@@ -26,10 +26,41 @@ const SEO_PATH_PREFIXES = ['/seo-image/', '/sitemaps/']
 const PWA_PATHS = ['/sw.js', '/offline.html']
 const MAINTENANCE_PATH_PREFIX = '/maintenance/'
 
+// 과거 slug generated column이 강세부호를 보존하던 시기에 노출된 주소들이다.
+// 현재 ASCII 정규 slug로 308을 보내 검색엔진의 실패 URL과 신호를 합친다.
+const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
+  'andré-gide': 'andre-gide',
+  'camilo-josé-cela': 'camilo-jose-cela',
+  'françois-pinault': 'francois-pinault',
+  'herta-müller': 'herta-muller',
+  'josé-mourinho': 'jose-mourinho',
+  'tobias-lütke': 'tobias-lutke',
+  // 과거 조 샐다나 프로필의 영문 이름이 잘못 들어가 만들어진 주소다.
+  'joe-tsai': 'zoe-saldana',
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname: rawPathname } = request.nextUrl
 
-  // 0) 로컬 개발 환경에서만 점검 화면의 진입·종료를 시험한다.
+  // 0) 검색엔진에 남은 옛 인물 주소를 현행 정규 주소로 영구 통합한다.
+  const legacyCelebMatch = rawPathname.match(/^\/(en\/)?celeb\/([^/]+)\/?$/)
+  if (legacyCelebMatch) {
+    let requestedSlug = legacyCelebMatch[2]
+    try {
+      requestedSlug = decodeURIComponent(requestedSlug)
+    } catch {
+      // 잘못 인코딩된 경로는 기존 라우팅이 정상적으로 404를 판단하게 둔다.
+    }
+
+    const canonicalSlug = LEGACY_CELEB_SLUG_REDIRECTS[requestedSlug.toLowerCase()]
+    if (canonicalSlug) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${legacyCelebMatch[1] ?? ''}celeb/${canonicalSlug}`
+      return NextResponse.redirect(url, 308)
+    }
+  }
+
+  // 1) 로컬 개발 환경에서만 점검 화면의 진입·종료를 시험한다.
   if (canUseMaintenancePreview()) {
     const previewControl = request.nextUrl.searchParams.get(MAINTENANCE_PREVIEW_PARAM)
 
@@ -64,12 +95,12 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 1) 점검 안내 화면은 다시 리다이렉트하지 않는다.
+  // 2) 점검 안내 화면은 다시 리다이렉트하지 않는다.
   if (rawPathname.startsWith(MAINTENANCE_PATH_PREFIX)) {
     return NextResponse.next()
   }
 
-  // 2) SEO·PWA 정적 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
+  // 3) SEO·PWA 정적 경로는 미들웨어 스킵 (next-intl이 가로채지 않도록)
   if (
     SEO_PATHS.includes(rawPathname)
     || SEO_PATH_PREFIXES.some((prefix) => rawPathname.startsWith(prefix))
@@ -78,10 +109,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // 3) next-intl locale 처리
+  // 4) next-intl locale 처리
   const intlResponse = intlMiddleware(request);
 
-  // 4) Supabase 세션 갱신. 익명 크롤러/방문자는 인증 쿠키가 없으므로
+  // 5) Supabase 세션 갱신. 익명 크롤러/방문자는 인증 쿠키가 없으므로
   // auth.getUser() 왕복을 만들지 않는다. 로그인 쿠키가 있을 때만 기존 갱신을 수행한다.
   const hasSupabaseAuthCookie = request.cookies.getAll().some(({ name }) =>
     name.startsWith('sb-') && name.includes('-auth-token')
@@ -105,7 +136,7 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  // 5) Auth redirect — locale prefix 제거 후 경로 비교
+  // 6) Auth redirect — locale prefix 제거 후 경로 비교
   const pathname = request.nextUrl.pathname;
   const strippedPath = pathname.replace(/^\/(ko|en)/, '') || '/';
 

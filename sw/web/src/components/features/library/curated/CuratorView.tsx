@@ -40,7 +40,7 @@ export default async function CuratorView({ curator }: { curator: CuratorDetail 
         )}
 
         <div className="min-w-0 flex-1">
-          <h1 className="text-[22px] font-serif font-bold leading-tight text-text-primary">{curator.name}</h1>
+          <h2 className="text-[22px] font-serif font-bold leading-tight text-text-primary">{curator.name}</h2>
           <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[12px] text-text-tertiary">
             <span className="rounded border border-accent/20 bg-accent/[0.06] px-1.5 py-0.5 text-accent">
               {t(`kind.${curator.kind}`)}

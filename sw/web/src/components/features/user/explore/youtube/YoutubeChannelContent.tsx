@@ -89,9 +89,9 @@ export default async function YoutubeChannelContent({
         </p>
 
         <div className="mt-6 grid gap-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-          <h1 className="max-w-3xl font-serif text-3xl font-semibold leading-tight text-text-primary sm:text-5xl lg:text-6xl">
+          <h2 className="max-w-3xl font-serif text-3xl font-semibold leading-tight text-text-primary sm:text-5xl lg:text-6xl">
             {t("title")}
-          </h1>
+          </h2>
           <div className="space-y-5">
             <p className="text-sm leading-7 text-text-primary/90 sm:text-base">
               {t("intro")}

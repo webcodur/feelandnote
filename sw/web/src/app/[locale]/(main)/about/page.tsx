@@ -22,7 +22,7 @@ import AboutBody, { SectionHead, SectionClose } from "./AboutBody";
 export async function generateMetadata() {
   const t = await getTranslations("policy");
   return {
-    title: t("about"),
+    title: t("aboutMetaTitle"),
     description: t("aboutDescription"),
     alternates: await getLocalizedAlternates("/about"),
   };

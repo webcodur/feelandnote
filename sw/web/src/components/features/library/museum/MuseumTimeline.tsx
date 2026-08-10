@@ -171,9 +171,9 @@ export default function MuseumTimeline({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-black text-white mb-3 sm:mb-4 leading-tight">
             {t("pageTitle")}
-          </h1>
+          </h2>
           <p className="text-white/60 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 line-clamp-2">
             {description ?? t("defaultDescription")}
           </p>
