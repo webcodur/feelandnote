@@ -2,13 +2,8 @@
   "name": "@feelandnote/content-search",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "test": "tsx --test src/openlibrary.test.ts",
-    "typecheck": "tsc --noEmit --strict --target ES2022 --module ESNext --moduleResolution Bundler --lib ES2022,DOM src/openlibrary.ts"
-  },
   "exports": {
     "./kakao-books": "./src/kakao-books.ts",
-    "./openlibrary": "./src/openlibrary.ts",
     "./itunes-music": "./src/itunes-music.ts",
     "./google-books": "./src/google-books.ts",
     "./tmdb": "./src/tmdb.ts",
