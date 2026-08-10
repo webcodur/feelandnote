@@ -1,7 +1,7 @@
 # 인물 행적 전원 백필 — DB 큐 운영 인계
 
-> 시작: 2026-08-08 · DB SSoT 전환: 2026-08-10 · 상태: **기본 큐·교정·보안 계약 적용,
-> `status`·`verify` 통과, 일반 pending 작업 재개 가능**
+> 시작: 2026-08-08 · DB SSoT 전환: 2026-08-10 · 상태: **이번 회차 종료. 추가 조사·claim 금지.
+> pending 1,854건은 사용자 승인을 받은 별도 회차에서만 재개**
 >
 > 규격·payload·화면·함정은 `docs/project/celeb-journey.md`가 쥔다. 이 문서는 현재 운영 상태와
 > 다음 착수 순서만 기록한다.
@@ -26,7 +26,7 @@ Ahmed Sherif 1건은 신원 근거 부족으로 `blocked`·`quarantined`, 사건
 이 숫자는 이전 회차의 종료 스냅샷이다. 현재 작업량과 다음 대상은 항상 live `NOT EXISTS`로
 다시 계산한다.
 
-## 현재 live 큐 (2026-08-10)
+## 종료 시 live 큐 (2026-08-10)
 
 최초 enqueue 뒤 일부 작업이 진행됐다. 2026-08-10 11:24 KST 읽기 전용 실측은 다음과 같다.
 
@@ -39,15 +39,16 @@ Ahmed Sherif 1건은 신원 근거 부족으로 `blocked`·`quarantined`, 사건
 큐의 pending·skipped 합계와 억지로 같게 맞추지 않는다.
 
 현 worker의 `status`·`verify`는 새 보안 계약 RPC를 선행 검사하며, 위 실측에서 둘 다 통과했다.
-**지금 다음 착수는 새 enqueue가 아니라 기존 pending 행의 claim이다.** 단, terminal 작업을 다시
-여는 requeue는 아래 계보 migration이 적용되기 전까지 금지한다.
+이번 회차에서는 여기서 종료한다. **지금 다음 착수는 없다.** 남은 pending 1,854건은 별도 회차에서
+사용자가 재개를 승인한 뒤에만 claim한다. 과거 명단이나 이 문서만 보고 자동 재개하지 않는다.
 
 ## 운영 기반과 적용 상태
 
 - 적용: `sw/web/supabase/migrations/20260809212156_timeline_direct_db_pipeline.sql`
 - 적용: `sw/web/supabase/migrations/20260809234727_timeline_direct_db_corrections.sql`
 - 적용: `sw/web/supabase/migrations/20260810004016_timeline_direct_db_security_contract.sql`
-- **terminal requeue 전 적용:** `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- 적용: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- 적용: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
 - worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
 - package command: `sw/web-bo`의 `pnpm timeline:worker -- <command>`
 - DB 작업 RPC: enqueue, claim, renew, complete, correct, fail, requeue, status 8개
@@ -57,7 +58,9 @@ migration은 공용 큐의 다른 task type을 건드리지 않는다. 감사 �
 사용한다. 감사 원장은 `service_role` 읽기만 허용하고 쓰기는 고정된
 `SECURITY DEFINER` RPC로만 수행한다. 역할 그래프도 실측 기준선과 달라지면 쓰기 전에 멈춘다.
 
-## 다음 착수 순서
+## 별도 회차가 승인됐을 때의 착수 순서
+
+아래 절차는 이번 회차에서 실행하지 않는다. 신규 조사도 하지 않는다.
 
 ### 1. 읽기 전용 사전검사
 
@@ -123,9 +126,8 @@ blocked도 full payload와 근거 그래프를 감사 원장에 남긴다. “�
 
 terminal 작업을 다시 조사할 명확한 근거가 생겼을 때만 명시적으로 requeue한다.
 
-현재 운영 DB에는 terminal predecessor를 새 완료 원장과 상호 연결하는 계보 migration이
-미적용이다. 아래 명령은 `20260810020404_timeline_terminal_requeue_completion_lineage.sql`을
-적용하고 트리거 두 개를 확인한 뒤에만 실행한다.
+terminal predecessor를 새 완료 원장과 상호 연결하는 계보 migration은 적용·검증을 마쳤다.
+그래도 아래 명령은 명확한 재조사 근거와 사용자 승인이 있을 때만 실행한다.
 
 ```powershell
 pnpm timeline:worker -- requeue --celeb-id $celebId --reason $reason
@@ -150,6 +152,7 @@ pnpm timeline:worker -- requeue --celeb-id $celebId --reason $reason
 - commit 또는 blocked skip에 payload 파일 경로를 넘기지 않는다.
 - lease/token 검증과 DB readback을 우회해 사건 테이블에 직접 쓰지 않는다.
 - `fiction`을 별도 모집단으로 빼거나 실제 연도를 만들어 넣지 않는다.
+- 이번 회차 종료 뒤 남은 pending을 자동 claim하거나 신규 조사하지 않는다.
 
 ## 연계
 
@@ -158,6 +161,7 @@ pnpm timeline:worker -- requeue --celeb-id $celebId --reason $reason
 - 교정 migration: `sw/web/supabase/migrations/20260809234727_timeline_direct_db_corrections.sql`
 - 적용된 보안 gate: `sw/web/supabase/migrations/20260810004016_timeline_direct_db_security_contract.sql`
 - terminal 재큐 계보 migration: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- 적용된 날짜 미상 양식 migration: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
 - worker: `sw/web-bo/scripts/timeline-db-worker.mjs`
 - worker 계약: `sw/web-bo/scripts/lib/timeline-direct-contract.mjs`
 - payload 검증: `sw/web-bo/scripts/lib/timeline-direct-schema.mjs`
