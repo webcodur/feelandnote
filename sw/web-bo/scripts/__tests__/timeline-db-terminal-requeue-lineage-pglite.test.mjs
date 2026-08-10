@@ -20,6 +20,10 @@ const undatedMigrationUrl = new URL(
   '../../../web/supabase/migrations/20260810024854_timeline_undated_life_events.sql',
   import.meta.url,
 )
+const tierGuardMigrationUrl = new URL(
+  '../../../web/supabase/migrations/20260810123232_timeline_celeb_tier_position_guard.sql',
+  import.meta.url,
+)
 
 const celebId = '11111111-1111-1111-1111-111111111111'
 const oldRunId = '22222222-2222-2222-2222-222222222222'
@@ -286,7 +290,10 @@ async function fixtureDb({ applyLineage = true, applyUndated = true } = {}) {
   await applyMigration(db, pipelineMigrationUrl, 'pipeline migration')
   await applyMigration(db, correctionMigrationUrl, 'correction migration')
   if (applyLineage) await applyMigration(db, lineageMigrationUrl, 'terminal lineage migration')
-  if (applyUndated) await applyMigration(db, undatedMigrationUrl, 'undated life migration')
+  if (applyUndated) {
+    await applyMigration(db, undatedMigrationUrl, 'undated life migration')
+    await applyMigration(db, tierGuardMigrationUrl, 'timeline celeb tier guard migration')
+  }
   const snapshot = profileSnapshot()
   await db.query(
     `insert into public.celebs values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
@@ -634,6 +641,7 @@ test('PGlite migration preserves fiction rows exactly and enforces the tier-spec
       from public.celeb_timeline_events as event_row where celeb_id=$1
     `, [fictionId])
     await applyMigration(db, undatedMigrationUrl, 'undated life migration')
+    await applyMigration(db, tierGuardMigrationUrl, 'timeline celeb tier guard migration')
     const after = await db.query(`
       select jsonb_agg(to_jsonb(event_row) order by event_row.sort_order,event_row.id) as rows
       from public.celeb_timeline_events as event_row where celeb_id=$1
@@ -645,6 +653,10 @@ test('PGlite migration preserves fiction rows exactly and enforces the tier-spec
         (celeb_id,year,sequence_label,sequence_label_en,title,kind,sort_order)
       values ($1,null,null,null,'라벨 없는 픽션','other',3)
     `, [fictionId]))
+    await assert.rejects(() => db.query(
+      `update public.celebs set celeb_tier='full' where id=$1`,
+      [fictionId],
+    ))
     await db.query(`
       insert into public.celeb_timeline_events
         (celeb_id,year,year_end,month,day,sequence_label,sequence_label_en,title,kind,sort_order)
@@ -663,6 +675,10 @@ test('PGlite migration preserves fiction rows exactly and enforces the tier-spec
       sequence_label_en: null,
       sort_order: 0,
     })
+    await assert.rejects(() => db.query(
+      `update public.celebs set celeb_tier='fiction' where id=$1`,
+      [celebId],
+    ))
   } finally {
     await db.close()
   }
