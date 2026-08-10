@@ -46,9 +46,9 @@
 마감했고 `pending=0`을 확인했다. 8/9 JSON 적재분 95건은 등록 91·기각 4다.
 
 같은 실측에서 레거시 후보가 한국어 `evidence`만 보존해 새 `celeb_contents` 255행의
-`review_en`이 비어 있음을 확인했다. 콘텐츠·재생·한국어 감상배경 등록은 완료됐지만 영문 감사는
-미완료다. 출처가 허용하는 범위에서 `review`를 번역해 백필해야 하며, 빈 `review_en`을 영문 완료로
-세지 않는다. 이 결손을 이유로 음악을 다시 후보 상태로 되돌리지는 않는다.
+`review_en`이 비어 있음을 확인했다. 26.08.10 세 구간으로 나눠 기존 `review` 범위 안에서
+255/255를 영문화했고, live 전수 재조회에서 공백·원문 복사·한글 잔존·대체문자·첫 문장 인물명
+누락이 모두 0임을 확인했다. 후보 상태는 되돌리지 않았고 최종 수치는 등록 255·기각 56·pending 0이다.
 
 이제 신규 MUSIC은 찾은 인물 작업에서 바로 iTunes 트랙·`previewUrl`을 확인하고
 `contents`·KO/EN locale·`celeb_contents`까지 등록한다. `celeb_music_candidates`에
@@ -57,8 +57,10 @@
 
 **재발 방지:** 운영 DB의 26.08.09 direct research RPC에는 MUSIC 후보 보류 코드가 남아 있다.
 enqueue alias만 고치던 26.08.10 미적용 migration은 보류를 다시 활성화하므로 삭제했다. direct
-worker는 적격 MUSIC commit을 RPC 전에 거부한다. 후속 migration은 alias·MUSIC 최종 등록·
-`review_en` 보존을 함께 교정하고, `pending=0` canary까지 통과해야 운영 gate를 해제할 수 있다.
+worker는 적격 MUSIC commit을 RPC 전에 거부한다. 레거시 iTunes 등록 스크립트도 한국어
+`evidence`에 `--candidate-id`와 `--review-en`이 함께 없으면 provider 조회 전에 중단한다.
+후속 migration은 alias·MUSIC 최종 등록·`review_en` 보존을 함께 교정하고, `pending=0` canary까지
+통과해야 운영 gate를 해제할 수 있다.
 
 웹 검색 한도(`CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION`)는 200 → 100000으로 올려 뒀다.
 그 전에는 세션당 10명 남짓이 한계였고 작업자 8명이 전원 우회 검색으로 돌았다.
