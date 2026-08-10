@@ -54,11 +54,15 @@
 같은 회차에 영문화했다. 최종 live 값은 감상문 12,915/12,915 영문 보유다. 추가 MUSIC 4건은
 Spotify ID를 남겨 둔 채 번역만 하지 않고 iTunes 원곡·미리듣기·KO/EN locale까지 전환했다.
 
-**별도 메타 locale 실측(26.08.10):** 인물과 연결된 콘텐츠 가운데 EN `content_locales`가 없는
-레거시 작품은 172개다(BOOK 137·VIDEO 34·MUSIC 1). 이는 위 `review_en` 결손과 다른 축이다.
-BOOK은 제목을 임의 번역하지 말고 한국어판 Kakao 판본과 영문 OpenLibrary 판본을 실제로 대조해야
-하며, VIDEO는 TMDB 영문 메타, MUSIC은 iTunes 원곡·미리듣기로 보강한다. 감상문 영문화 완료를
-콘텐츠 메타 locale 완료로 부풀려 보고하지 않는다.
+**별도 메타 locale 실측(26.08.10):** 인물과 연결된 콘텐츠 가운데 EN `content_locales`가 없던
+레거시 작품은 172개(BOOK 137·VIDEO 34·MUSIC 1)였다. VIDEO 34·MUSIC 1을 보강한 뒤 13:04 KST
+전역 재조회에서는 EN 결손 137개가 모두 BOOK으로 남았다. 실제 영문판이 있으면 OpenLibrary 판본을
+대조하고, 없으면 `celeb-2-content-collector.md`의 `verified=false` 표시용 locale 규칙을 적용한다.
+
+같은 전역 재조회에서 KO locale 결손도 569개 드러났다. 활성 인물 범위의 확장 감사 결과는 EN 83,
+KO 566 결손이며 이 때문에 전량 감사 명령은 아직 실패한다. `audit-web-i18n`은 이제 이 두 방향을
+오류로 드러내며, 결손 적재가 끝나기 전에는 콘텐츠 메타 locale 완료를 선언하지 않는다. 이는 위
+12,915건의 감상문 `review_en` 완료와 다른 축이다.
 
 이제 신규 MUSIC은 찾은 인물 작업에서 바로 iTunes 트랙·`previewUrl`을 확인하고
 `contents`·KO/EN locale·`celeb_contents`까지 등록한다. `celeb_music_candidates`에
