@@ -48,7 +48,7 @@ export interface CelebHost {
   /** 감상철학 재생 배속 (1=원본, 0.5~2) */
   philosophyPlaybackRate?: number
   /**
-   * 셀럽 DB 인물 식별자(profiles.id, 불변 UUID) — slug·표기가 바뀌어도 보이스·셀럽 정보를 다시 잇는 열쇠.
+   * 셀럽 DB 인물 식별자(celebs.id, 불변 UUID) — slug·표기가 바뀌어도 보이스·셀럽 정보를 다시 잇는 열쇠.
    * 에피소드 생성 시 셀럽 프로필에서 박힌다.
    */
   celebId?: string
@@ -141,7 +141,7 @@ export interface QuotePair {
 export interface BookEntry {
   /** 본 서비스 contents.id — 제목·순서가 바뀌어도 책을 다시 잇는 불변 키 */
   contentId?: string
-  /** 해당 셀럽의 user_contents.id — 인물×책 관계의 불변 키 */
+  /** 해당 셀럽의 celeb_contents.id — 인물×책 관계의 불변 키 */
   userContentId?: string
   title: string
   creator: string

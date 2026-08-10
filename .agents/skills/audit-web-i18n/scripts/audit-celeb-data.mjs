@@ -137,11 +137,11 @@ async function selectAllProfiles() {
   const pageSize = 500;
   for (let from = 0; ; from += pageSize) {
     let query = supabase
-        .from("profiles")
+        .from("celebs")
         .select([
           "id",
           "slug",
-          "status",
+          "publication_status",
           "celeb_tier",
           "nickname",
           "nickname_en",
@@ -155,15 +155,14 @@ async function selectAllProfiles() {
           "cultural_journey_en",
           "consumption_philosophy",
           "consumption_philosophy_en",
-        ].join(","))
-        .eq("profile_type", "CELEB");
-    if (activeOnly) query = query.eq("status", "active");
+        ].join(","));
+    if (activeOnly) query = query.eq("publication_status", "active");
     const page = await expectQuery(
       query
         .not("slug", "is", null)
         .order("id", { ascending: true })
         .range(from, from + pageSize - 1),
-      `profiles range ${from}-${from + pageSize - 1}`,
+      `celebs range ${from}-${from + pageSize - 1}`,
     );
     rows.push(...page);
     if (page.length < pageSize) break;
@@ -174,11 +173,11 @@ async function selectAllProfiles() {
 async function selectProfiles() {
   if (scanAll) return selectAllProfiles();
   let query = supabase
-    .from("profiles")
+    .from("celebs")
     .select([
       "id",
       "slug",
-      "status",
+      "publication_status",
       "celeb_tier",
       "nickname",
       "nickname_en",
@@ -192,14 +191,13 @@ async function selectProfiles() {
       "cultural_journey_en",
       "consumption_philosophy",
       "consumption_philosophy_en",
-    ].join(","))
-    .eq("profile_type", "CELEB");
-  if (activeOnly) query = query.eq("status", "active");
+    ].join(","));
+  if (activeOnly) query = query.eq("publication_status", "active");
   return expectQuery(
     query
       .in("slug", slugs)
       .order("id", { ascending: true }),
-    "profiles by slug",
+    "celebs by slug",
   );
 }
 
@@ -547,10 +545,10 @@ if (ids.length > 0) {
   }
 
   const reviewRows = await selectByCelebIds(
-    "user_contents",
-    "id,user_id,review,review_en",
+    "celeb_contents",
+    "id,celeb_id,review,review_en",
     ids,
-    "user_id",
+    "celeb_id",
   );
   for (const row of reviewRows) {
     checkPair({
@@ -559,7 +557,7 @@ if (ids.length > 0) {
       en: "review_en",
       code: "CONTENT_REVIEW_EN_MISSING",
       label: "Content review",
-      context: slugContext(profileById, row.user_id, { rowId: row.id }),
+      context: slugContext(profileById, row.celeb_id, { rowId: row.id }),
     });
   }
 }
@@ -570,7 +568,7 @@ const coverageSummary = Object.fromEntries(
 add(
   "info",
   "CELEB_DATA_AUDIT_SUMMARY",
-  `Checked ${profiles.length} profile(s) across profile, explanation, influence, persona, dialogue, timeline, relation, faction, and review data.`,
+  `Checked ${profiles.length} celeb(s) across profile, explanation, influence, persona, dialogue, timeline, relation, faction, and review data.`,
 );
 
 const summary = {
@@ -586,8 +584,8 @@ if (jsonOutput) {
   console.log(JSON.stringify({ summary, coverage: coverageSummary, findings }, null, 2));
 } else {
   console.log("Feel&Note celebrity locale data audit");
-  console.log(`- scope: ${scanAll ? (activeOnly ? "all active CELEB profiles" : "all CELEB profiles") : slugs.join(", ")}`);
-  console.log(`- profiles: ${profiles.length}`);
+  console.log(`- scope: ${scanAll ? (activeOnly ? "all active celebs" : "all celebs") : slugs.join(", ")}`);
+  console.log(`- celebs: ${profiles.length}`);
 
   for (const [label, entries] of [
     ["ERROR", findings.errors],

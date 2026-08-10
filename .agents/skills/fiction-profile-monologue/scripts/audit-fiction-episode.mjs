@@ -15,8 +15,8 @@ const slugs = roster.map((person) => person.slug).filter(Boolean);
 const db = supabaseClient(root);
 
 const { data, error } = await db
-  .from('profiles')
-  .select('slug,nickname,nickname_en,profile_type,celeb_tier,status,avatar_url,bio,profession,title,virtual_monologue')
+  .from('celebs')
+  .select('slug,nickname,nickname_en,celeb_tier,publication_status,avatar_url,bio,profession,title,virtual_monologue')
   .in('slug', slugs)
   .order('slug');
 if (error) throw error;
@@ -30,7 +30,7 @@ for (const person of roster) {
   const profile = bySlug.get(person.slug);
   const state = !profile
     ? 'missing'
-    : profile.profile_type !== 'CELEB' || profile.celeb_tier !== 'fiction'
+    : profile.celeb_tier !== 'fiction'
       ? 'wrong-tier'
       : !profile.virtual_monologue?.trim()
         ? 'missing-monologue'

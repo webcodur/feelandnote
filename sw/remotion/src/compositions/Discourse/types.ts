@@ -8,7 +8,7 @@
  * 팩션은 인물 1명 = 1컷 = 1대사로 끝나지만, 담화는 같은 인물이 말했다 반박당했다 되받는다.
  * 그래서 인물의 실체(cast)와 발언(turns)을 분리하고, 발언이 cast를 인덱스로 가리킨다.
  *
- * 원천: 본서비스 가상 독백(profiles.virtual_monologue). 실제 발언이 아니므로 고지(notice)가 필수다.
+ * 원천: 본서비스 가상 독백(celebs.virtual_monologue). 실제 발언이 아니므로 고지(notice)가 필수다.
  * 기획·규격 SSoT: docs/project/remotion/discourse.md
  */
 
