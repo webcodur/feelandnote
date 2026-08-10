@@ -15,17 +15,10 @@
 | 관계 | 내부·외부 관계의 `name_ko/en`, `note/note_en` |
 | 세력도감 | `celeb_tag_assignments.short_desc/long_desc`와 각 `_en` |
 | 셀럽 감상 | `celeb_contents.review/review_en` |
-| 연결 콘텐츠 메타 | `celeb_contents.content_id`가 가리키는 `content_locales`의 `ko`·`en` 행과 각 `title` |
 
 `review_en` 완료율은 과거 전량 번역 수치로 추정하지 않는다. 콘텐츠 대량 적재 뒤 live
 `celeb_contents`를 다시 조회하고, 빈값뿐 아니라 원문과 완전 동일·원문 언어 잔존·`U+FFFD`·
 예상 밖 `?`도 검사한다. DB 쓰기를 했다면 번역 대상 외 컬럼의 전후 해시가 같은지도 확인한다.
-
-`content_locales` 커버리지는 전체 카탈로그가 아니라 **인물에게 실제 연결된 콘텐츠**를 기준으로
-센다. 연결이 없는 유휴 `contents` 행은 별도 카탈로그 정비 대상이며, 인물 locale 결손 수치에
-섞지 않는다. 연결된 콘텐츠는 `ko`·`en` 행과 각 제목을 모두 가져야 한다. 실제 영문 판본이
-없는 BOOK의 표시용 `en` 행은 `verified=false`, ISBN·표지·출판사 없음, 출처 메모 명시 상태를
-허용하되 영문 판본으로 세지 않는다.
 
 전체 조회는 `celebs.id` 순서와 range pagination을 사용한다. 관련 테이블의 UUID는 100개씩 나눠 조회해 PostgREST 1,000행 절단과 긴 `.in()` URL을 피한다.
 

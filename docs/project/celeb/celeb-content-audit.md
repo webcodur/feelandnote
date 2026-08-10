@@ -100,13 +100,6 @@ WHERE id = '{celeb_id}';
 
 **en locale 규칙**:
 - 영문 제목 + 영문 저자
-- `verified=true` BOOK 행은 OpenLibrary에서 확인한 실제 영문 에디션이어야 하며 ISBN·표지·출판사를
-  그 에디션 안에서만 가져온다.
-- 실제 영문판이 없는 **이미 연결된 레거시 BOOK**은 화면 폴백 방지용 en 행을 허용한다. 이때
-  공식 영문 표기 또는 보수적 로마자 표기를 쓰고 `verified=false`, ISBN·표지·출판사 없음,
-  `sources.primary='transliteration'|'none'`과 설명 메모로 판본이 아님을 명시한다.
-- 표시용 행을 실제 영문판·어필리에이트·판본 매칭으로 취급하지 않는다. 신규 콘텐츠 등록을
-  우회하는 수단으로도 쓰지 않는다.
 
 ### Phase 5: thumbnail 확보
 
@@ -130,8 +123,7 @@ WHERE id = '{celeb_id}';
 - URL: `https://covers.openlibrary.org/b/isbn/{ISBN}-L.jpg`
 - 1x1 GIF(GIF89a)가 반환되면 커버 없음 → **폴백 없음. 미해결로 보고**한다(Google Books 폴백 금지).
 - 리다이렉트(302)가 발생하면 커버 있음 → URL 그대로 사용 가능
-- ISBN이 없는 외국 서적은 신규 영문 **판본** 등록을 폐기한다. 이미 연결된 레거시 콘텐츠의
-  표시용 en 행은 위 `verified=false` 규칙으로만 허용한다.
+- ISBN이 없는 외국 서적은 영문 등록 자체를 폐기한다.
 
 **번역본 없는 외국 서적**: ko/en 양쪽에 동일한 커버 이미지를 사용한다.
 

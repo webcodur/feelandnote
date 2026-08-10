@@ -445,38 +445,21 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 **sources 표기**: `{"primary": "kakao_book", "thumbnail": "kakao_book"}` 형태로 메타데이터·표지 출처 분리. 표지를 못 구하면 `"thumbnail": "confirmed_unavailable"`.
 
-#### 영문 판본 locale과 표시용 locale을 구분한다
-
-- **신규 BOOK 등록**은 위 표준 파이프라인대로 실제 판본을 확인해야 한다. `verified=true`인 en
-  행은 OpenLibrary에서 제목·저자·ISBN·표지·출판사가 같은 에디션으로 확인된 경우만 허용한다.
-- 이미 인물에게 연결된 레거시 BOOK에 실제 영문판이 없더라도 영어 화면이 한국어 제목으로
-  폴백되지 않게 **표시용 en 행**은 둔다. 공식 영문 표기가 있으면 그것을 쓰고, 없으면 작품과
-  저자명을 보수적으로 로마자 표기한다.
-- 표시용 행은 영문 판본이 아니다. `verified=false`, `isbn/thumbnail_url/publisher=null`,
-  `sources.primary='transliteration'` 또는 `'none'`과 설명 메모를 사용한다. `contents.external_source`를
-  바꾸거나 어필리에이트·판본 매칭에 사용하지 않는다.
-- 이 예외는 이미 연결된 레거시 콘텐츠의 화면 locale 완결용이다. OpenLibrary 판본을 찾지 못한
-  신규 조사 후보를 등록하기 위한 우회로로 쓰지 않는다.
-
 #### 분기별 특칙
 
 **1) 동아시아 고전 (중국·한국·일본 원전)** — 예: 귀곡자, 음부경, 도덕경, 논어, 정관정요
 - 영역본이 검증 가능하면 위 4단계 그대로 적용
-- **영역본 미존재 시 신규 판본 등록은 폐기**한다. 이미 연결된 레거시 콘텐츠의 화면 표시는 위
-  `verified=false` 표시용 locale 규칙을 따른다.
+- **영역본 미존재 시: 영문 줄 등록 폐기**. ISBN 없는 책을 외부에 노출할 길이 없다(독자가 그 책으로 도달할 수단이 없음). en locale 행 자체를 INSERT하지 않는다. 한국어판이 있으면 ko 줄만 등록 가능.
 - 동양 고전은 Google Books에서 한자 음차본·해설서 false positive가 잦다
 
 **2) 한국 현대 도서 (한국 저자 한국어 원작)** — 예: 박경리 토지, 이문열 삼국지, 한강 채식주의자
 - 영역본 있을 때만 en locale 등록 (위 4단계 적용)
-- 영역본 미존재 시 신규 판본 등록은 하지 않는다. 이미 연결된 레거시 콘텐츠만 공식 영문 표기
-  또는 보수적 로마자 표기의 `verified=false` 표시용 locale을 둔다.
+- 영역본 미존재 시: en locale을 등록하지 않는다. 영문 메타를 음차로 만들어내지 않는다
 
 **3) 서양 원서** — 영문이 원전
 - 위 4단계 그대로 적용
 - 카카오 검색 결과의 `contents`(소개문)/`datetime`은 한국어판 정보에만 사용한다
-- OpenLibrary에서 영문 원서를 확인하지 못하면 신규 영문 판본 등록을 폐기한다. 이미 연결된
-  레거시 콘텐츠의 화면 locale만 위 표시용 규칙으로 보완한다(아마존 스크래핑 금지 — 공식 API
-  부재·접근권 제한·실사용 0건).
+- OpenLibrary에서 영문 원서를 확인하지 못하면 영문 줄 등록을 폐기한다 (아마존 스크래핑 금지 — 공식 API 부재·접근권 제한·실사용 0건)
 
 ### VIDEO/GAME/MUSIC i18n
 
