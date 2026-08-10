@@ -284,7 +284,7 @@ pnpm build:audio-bo
 
 | 영역 | 문서 (`docs/todo/` 기준) |
 |------|------|
-| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-timeline-backfill-handoff-2026-08-08.md` 보안 계약 적용·읽기 검증을 통과한 `timeline_backfill_v1` 전원 백필(terminal 재큐 계보 migration은 별도 선행) |
+| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-timeline-backfill-handoff-2026-08-08.md` 보안 계약 적용·읽기 검증을 통과한 `timeline_backfill_v1` 전원 백필 · `celeb/celeb-buzz-research-2026-08-09.md` 화제성 지표 조사·미결정 계약 |
 | 세력도감 | `faction/faction-atlas-reconciliation-2026-08-03.md` 제작↔도감 정합화 실측·계획 · `faction/세력도감-단일화-할일.md` 다음 착수 지점 · `faction/tag-ideas.md` 태그 후보 풀 |
 | 게임 | `games/game-wave2-contract.md` 실험 게임 7종 SSoT + 개별 규격 `games/game-<키>-order.md` 7종 |
 | 외부 API | `external-api-migration-2026-08-01.md` 네이버·구글 이탈 대응 미결 항목 |
