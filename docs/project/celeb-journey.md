@@ -4,11 +4,11 @@
 > 근거는 `celeb_timeline_research_runs`, 작업 상태는 공용 `celeb_task_queue`의
 > `timeline_backfill_v1` 행이 단일 원천이다. 타임라인 조사 자료를 로컬 파일에 영구 보관하지 않는다.
 >
-> **현재 운영 게이트(2026-08-10):** 기본 큐·교정·보안 계약 migration은 운영 DB에 적용됐고,
-> 11:24 KST 읽기 전용 실측에서 `status`와 `verify`가 모두 통과했다. 일반 pending 작업은 운영
-> 승인 뒤 claim할 수 있다. 다만 `20260810020404_timeline_terminal_requeue_completion_lineage.sql`은
-> 아직 미적용이므로, 이미 `skipped`·`blocked`로 닫힌 terminal 작업은 이 migration의 적용과
-> 트리거 검증 전까지 requeue하지 않는다.
+> **이번 회차 종료(2026-08-10):** 기본 큐·교정·보안·terminal 계보 계약은 운영 DB 적용과
+> 읽기 검증을 마쳤다. 이 회차의 인물 조사는 종료했으며 추가 조사·claim은 하지 않는다.
+> 남은 pending 1,854건의 재개는 이 문서를 근거로 자동 진행하지 않고, 별도 회차에서 사용자가
+> 다시 승인한 뒤 시작한다. 날짜 미상 `life` 양식 migration까지 운영 DB에 적용·검증했지만,
+> 이는 사건 표현 계약만 넓힌 것이며 남은 조사 작업을 자동 재개하지 않는다.
 
 인물 상세 화면의 행적 구획 SSoT다. 실존 인물은 연도형 「생애 연표」, `fiction` 인물은
 대표 원전 순서형 「서사 연표」로 같은 사건 테이블을 사용한다. 사건 가운데 좌표가 있는 행만
@@ -60,8 +60,8 @@ where not exists (
 | 컬럼 | 의미 |
 |---|---|
 | `celeb_id` | 사건 소유 인물 |
-| `year`, `year_end`, `month`, `day` | `life` 사건의 시점. 기원전 연도는 음수 |
-| `sequence_label`, `sequence_label_en` | `fiction` 사건의 원전 내 단계 |
+| `year`, `year_end`, `month`, `day` | `life` 사건의 시점. 기원전 연도는 음수이며 날짜 미상은 모두 `null` |
+| `sequence_label`, `sequence_label_en` | `fiction` 사건의 원전 내 국·영문 단계. `life`는 날짜 미상이어도 둘 다 `null` |
 | `title`, `title_en` | 국·영문 제목 |
 | `description`, `description_en` | 국·영문 서술 |
 | `kind` | `birth`, `death`, `education`, `work`, `publish`, `battle`, `travel`, `office`, `meeting`, `other` |
@@ -69,9 +69,12 @@ where not exists (
 | `source_url` | 사건이 참조한 첫 근거 URL |
 | `sort_order` | DB가 최종 산출한 표시 순서 |
 
-`life` 사건은 연도 계열을, `fiction` 사건은 `sequence_label` 계열을 쓴다. 두 체계를 한 인물에
-섞지 않는다. `sort_order`는 조사자가 신뢰 경계 밖에서 고정하는 값이 아니라 complete RPC가
-검증된 사건 배열로부터 산출한다.
+`life` 사건은 연도가 확인되면 정수 시점을 쓰고, 확인되지 않으면 `year`·`year_end`·`month`·
+`day`와 두 `sequence_label`을 모두 `null`로 둔다. 허위 연도나 서사 라벨을 만들지 않는다.
+`fiction`만 국·영문 `sequence_label`을 필수로 쓴다. 두 체계를 한 인물에 섞지 않는다.
+`sort_order`는 조사자가 별도로 계산하는 값이 아니라 검증된 payload 배열 위치에서 산출한다.
+화면과 백오피스도 `sort_order`, `id` 순으로 읽으며 날짜 미상 `life`의 왼쪽 위치칸은 비워 두고
+기존 현재/전체 자동 번호만 표시한다.
 
 ### `celeb_timeline_research_runs`
 
@@ -101,15 +104,16 @@ research_fingerprint)`가 유일하다. 동일 claim과 동일 payload의 재전
 
 ## 마이그레이션과 보안
 
-현재 구현은 다음 네 migration을 한 세트로 본다. 앞의 세 개는 모든 worker 명령의 공통 기반이고,
-마지막 하나는 terminal 작업을 명시적으로 다시 열 때 필요한 계보 계약이다.
+현재 운영 기반 다섯 migration은 다음과 같다.
 
 - `20260809212156_timeline_direct_db_pipeline.sql` — 큐·감사 원장·기본 RPC
 - `20260809234727_timeline_direct_db_corrections.sql` — 감사 이력을 보존하는 교정 RPC
 - `20260810004016_timeline_direct_db_security_contract.sql` — 실제 ACL·RLS·RPC·역할 그래프를
   읽어 고정하는 fail-closed 계약. **2026-08-10 운영 DB 적용·읽기 검증 통과**
 - `20260810020404_timeline_terminal_requeue_completion_lineage.sql` — terminal 재큐가 이전 원장을
-  덮지 않고 상호 predecessor/successor 계보로 잇게 하는 계약. **2026-08-10 운영 DB 미적용**
+  덮지 않고 상호 predecessor/successor 계보로 잇게 하는 계약. **2026-08-10 운영 DB 적용·검증 통과**
+- `20260810024854_timeline_undated_life_events.sql` — 실존 인물의 날짜 미상 사건과 tier별 위치
+  계약을 추가한다. 기존 행 UPDATE 없이 순서를 보존한다. **2026-08-10 운영 DB 적용·검증 통과**
 
 - `celeb_timeline_research_runs`는 RLS와 FORCE RLS를 모두 사용하고 공개 정책을 두지 않는다.
 - `anon`·`authenticated`에는 테이블 권한과 RPC 실행 권한이 없다.
@@ -217,6 +221,10 @@ worker가 받는 JSON은 단순 사건 목록이 아니라 감사 가능한 조�
 
 ### `life`
 
+- 날짜가 확인된 사건은 `year` 정수를 쓰고 두 `sequenceLabel`은 `null`로 둔다.
+- 날짜가 확인되지 않은 사건은 `year`, `yearEnd`, `month`, `day`, `sequenceLabel`,
+  `sequenceLabelEn`을 모두 `null`로 둔다. 배열 위치가 표시 순서이며 임의의 연도·라벨을 만들지 않는다.
+- 연대기 검사는 날짜가 있는 사건끼리의 부분 수열에만 적용한다. 출생·사망 경계 규칙은 그대로다.
 - 확인되는 사건 밀도에 따라 3~30건을 고른다. 숫자를 채우려고 비슷한 사건을 쪼개지 않는다.
 - 중간 사건은 생애의 방향, 주요 성취·실패, 활동 반경을 이해하는 데 실제 손실이 생길 때만
   남긴다.
@@ -300,9 +308,12 @@ terminal pointer까지 exact하게 일치할 때만 `already_completed`로 인�
 - 보기 전환 때 지구본 인스턴스를 옮겨 심지 않고 같은 자리에 둔 채 배치 클래스만 바꾼다.
 - `/explore/timeline`은 생몰년을 쓰는 국가별 연대기로, 인물 행적 화면과 다른 기능이다.
 
-## 운영 재개 체크
+## 별도 회차 운영 재개 체크
 
-1. 공통 기반 세 migration이 배포 이력에 있고 `pnpm timeline:worker -- status`와 `verify`가 모두
+이 회차는 종료됐다. 아래 절차는 남은 pending을 지금 이어서 처리하라는 지시가 아니라, 사용자가
+별도 회차를 승인했을 때만 쓰는 재개 게이트다.
+
+1. 공통 운영 migration이 배포 이력에 있고 `pnpm timeline:worker -- status`와 `verify`가 모두
    통과하는지 확인한다.
 2. `status`로 queue와 감사 원장 수치를 읽는다.
 3. 사용자가 새 회차 enqueue를 승인했을 때만 `enqueue`를 실행한다.
@@ -322,3 +333,4 @@ terminal pointer까지 exact하게 일치할 때만 `already_completed`로 인�
 - 교정 migration: `sw/web/supabase/migrations/20260809234727_timeline_direct_db_corrections.sql`
 - 적용된 보안 gate: `sw/web/supabase/migrations/20260810004016_timeline_direct_db_security_contract.sql`
 - terminal 재큐 전 적용할 계보 migration: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
+- 적용된 날짜 미상 양식 migration: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
