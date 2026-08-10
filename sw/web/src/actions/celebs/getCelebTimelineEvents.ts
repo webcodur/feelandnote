@@ -50,8 +50,8 @@ async function fetchEvents(celebId: string): Promise<EventRow[]> {
       'id, year, year_end, month, sequence_label, sequence_label_en, title, title_en, description, description_en, kind, place_name, place_name_en, lat, lng, source_url, sort_order',
     )
     .eq('celeb_id', celebId)
-    .order('year', { nullsFirst: false })
     .order('sort_order')
+    .order('id')
     .overrideTypes<EventRow[], { merge: false }>()
 
   // 조용한 폴백 금지 — 조회가 깨지면 빈 연표를 정상처럼 보여주지 않고 드러낸다.
