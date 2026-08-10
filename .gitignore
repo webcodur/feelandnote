@@ -28,6 +28,7 @@ out/
 dist-ssr
 *.local
 .next
+**/.next-*/
 
 # Build & language caches (자동 재생성)
 *.tsbuildinfo
@@ -90,6 +91,7 @@ sw/인물-*.txt
 /scan-*.cjs
 /survey*.cjs
 /_fix-subs.mjs
+/virtual_monologue_test.md
 /.tmp_*
 /tmp_*
 /clean-symlinks.ps1
@@ -141,6 +143,7 @@ sw/인물-*.txt
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
 /.codex/
 /scratch/
+/_workspace/
 /sw/scripts/
 /scripts/remotion/
 

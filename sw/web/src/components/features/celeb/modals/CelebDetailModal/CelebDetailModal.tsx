@@ -281,7 +281,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
         </div>
       )}
 
-      {/* 가상 독백 노출은 폐기했다. profiles.virtual_monologue 값은 제작 재료로만 보존한다. */}
+      {/* 가상 독백 노출은 폐기했다. celebs.virtual_monologue 값은 제작 재료로만 보존한다. */}
       {personGuide ? (
         <section className="mx-6 md:mx-8 mt-4 border-y border-accent/20 py-5">
           <h3 className="mb-2 text-center text-base font-serif font-bold text-accent">

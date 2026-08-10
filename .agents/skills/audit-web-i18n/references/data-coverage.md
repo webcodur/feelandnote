@@ -16,6 +16,10 @@
 | 세력도감 | `celeb_tag_assignments.short_desc/long_desc`와 각 `_en` |
 | 셀럽 감상 | `celeb_contents.review/review_en` |
 
+`review_en` 완료율은 과거 전량 번역 수치로 추정하지 않는다. 콘텐츠 대량 적재 뒤 live
+`celeb_contents`를 다시 조회하고, 빈값뿐 아니라 원문과 완전 동일·원문 언어 잔존·`U+FFFD`·
+예상 밖 `?`도 검사한다. DB 쓰기를 했다면 번역 대상 외 컬럼의 전후 해시가 같은지도 확인한다.
+
 전체 조회는 `celebs.id` 순서와 range pagination을 사용한다. 관련 테이블의 UUID는 100개씩 나눠 조회해 PostgREST 1,000행 절단과 긴 `.in()` URL을 피한다.
 
 ## 판정

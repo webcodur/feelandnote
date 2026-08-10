@@ -178,17 +178,16 @@ for (const relation of manifest.relations) {
 const db = supabaseClient(root);
 const slugs = [...new Set([...peopleBySlug.keys(), ...relationEndpointSlugs])];
 const { data: profiles, error: profileError } = await db
-  .from('profiles')
-  .select('id,slug,nickname,nickname_en,profile_type,celeb_tier,status')
+  .from('celebs')
+  .select('id,slug,nickname,nickname_en,celeb_tier,publication_status')
   .in('slug', slugs);
 if (profileError) throw profileError;
 const profileBySlug = new Map((profiles ?? []).map((profile) => [profile.slug, profile]));
 for (const slug of slugs) {
   const profile = profileBySlug.get(slug);
   if (!profile
-    || profile.profile_type !== 'CELEB'
     || profile.celeb_tier !== 'fiction'
-    || profile.status !== 'active') {
+    || profile.publication_status !== 'active') {
     throw new Error(`${slug}: active fiction 프로필 대조 실패 ${JSON.stringify(profile)}`);
   }
 }

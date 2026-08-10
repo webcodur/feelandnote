@@ -55,8 +55,8 @@ for (const person of manifest.people) {
 const db = supabaseClient(root);
 const slugs = manifest.people.map((person) => person.slug);
 const { data: existingRows, error: selectError } = await db
-  .from('profiles')
-  .select('id,slug,nickname,nickname_en,profile_type,celeb_tier,status,avatar_url,bio,bio_en,profession,title,title_en,nationality,gender,birth_date,death_date,speech_tone,virtual_monologue,virtual_monologue_en')
+  .from('celebs')
+  .select('id,slug,nickname,nickname_en,celeb_tier,publication_status,avatar_url,bio,bio_en,profession,title,title_en,nationality,gender,birth_date,death_date,speech_tone,virtual_monologue,virtual_monologue_en')
   .in('slug', slugs);
 if (selectError) throw selectError;
 const existing = new Map((existingRows ?? []).map((profile) => [profile.slug, profile]));
@@ -72,7 +72,6 @@ let skipped = 0;
 
 for (const person of manifest.people) {
   const before = existing.get(person.slug);
-  if (before && before.profile_type !== 'CELEB') throw new Error(`${person.slug}: 같은 slug의 일반 사용자 계정이 존재합니다.`);
   const payload = {
     nickname: person.nickname,
     nickname_en: person.nickname_en,
@@ -88,18 +87,17 @@ for (const person of manifest.people) {
     speech_tone: person.speech_tone || null,
     virtual_monologue: person.virtual_monologue,
     virtual_monologue_en: person.virtual_monologue_en,
-    profile_type: 'CELEB',
     celeb_tier: 'fiction',
     // 이미 공개된 fiction 프로필을 콘텐츠 보강 때문에 다시 숨기지 않는다.
     // 신규 생성만 검토 전 기본값인 inactive로 둔다.
-    status: before?.status ?? 'inactive',
+    publication_status: before?.publication_status ?? 'inactive',
     is_verified: false,
   };
 
   const changed = !before
     || fields.some((field) => (before[field] ?? null) !== (payload[field] ?? null))
     || before.celeb_tier !== 'fiction'
-    || before.status !== payload.status;
+    || before.publication_status !== payload.publication_status;
   const action = !before ? 'CREATE' : changed ? 'UPDATE' : 'SKIP';
   console.log(`${apply ? 'APPLY' : 'DRY'} ${action} ${person.slug}`);
   if (!changed) {
@@ -109,28 +107,24 @@ for (const person of manifest.people) {
   if (!apply) continue;
 
   if (before) {
-    const { error } = await db.from('profiles').update(payload).eq('id', before.id).eq('profile_type', 'CELEB');
+    const { error } = await db.from('celebs').update(payload).eq('id', before.id);
     if (error) throw error;
     updated++;
     continue;
   }
 
   const id = crypto.randomUUID();
-  const email = `celeb_${id}@feelandnote.local`;
-  const password = crypto.randomUUID() + crypto.randomUUID();
-  const { data: authData, error: authError } = await db.auth.admin.createUser({ id, email, password, email_confirm: true });
-  if (authError) throw authError;
-  try {
-    const { error } = await db.from('profiles').update(payload).eq('id', authData.user.id);
-    if (error) throw error;
-    const { data: saved, error: savedError } = await db.from('profiles').select('slug').eq('id', authData.user.id).single();
-    if (savedError) throw savedError;
-    if (saved.slug !== person.slug) throw new Error(`생성 slug 불일치: 예상 ${person.slug}, 실제 ${saved.slug}`);
-    created++;
-  } catch (error) {
-    await db.auth.admin.deleteUser(authData.user.id);
-    throw error;
+  const { data: saved, error: insertError } = await db
+    .from('celebs')
+    .insert({ id, ...payload })
+    .select('id,slug')
+    .single();
+  if (insertError) throw insertError;
+  if (saved.slug !== person.slug) {
+    await db.from('celebs').delete().eq('id', saved.id);
+    throw new Error(`생성 slug 불일치: 예상 ${person.slug}, 실제 ${saved.slug}`);
   }
+  created++;
 }
 
 console.log(JSON.stringify({ mode: apply ? 'apply' : 'dry-run', total: manifest.people.length, created, updated, skipped }));

@@ -129,8 +129,8 @@ for (const person of manifest.people) {
 const db = supabaseClient(root);
 const slugs = manifest.people.map((person) => person.slug);
 const { data: profiles, error: profileError } = await db
-  .from('profiles')
-  .select('id,slug,nickname,nickname_en,profile_type,celeb_tier,status,speech_tone')
+  .from('celebs')
+  .select('id,slug,nickname,nickname_en,celeb_tier,publication_status,speech_tone')
   .in('slug', slugs);
 if (profileError) throw profileError;
 const profileBySlug = new Map((profiles ?? []).map((profile) => [profile.slug, profile]));
@@ -150,9 +150,8 @@ for (const person of manifest.people) {
   if (!profile
     || profile.nickname !== person.nickname
     || profile.nickname_en !== person.nickname_en
-    || profile.profile_type !== 'CELEB'
     || profile.celeb_tier !== 'fiction'
-    || profile.status !== 'active') {
+    || profile.publication_status !== 'active') {
     throw new Error(`${person.slug}: 공개 fiction 프로필·이름 대조 실패 ${JSON.stringify(profile)}`);
   }
   if (profile.speech_tone && profile.speech_tone !== person.speech_tone) {
@@ -203,7 +202,7 @@ for (const person of manifest.people) {
 if (apply && toneWork.length) {
   for (const { profile, speechTone } of toneWork) {
     const { error } = await db
-      .from('profiles')
+      .from('celebs')
       .update({ speech_tone: speechTone })
       .eq('id', profile.id)
       .is('speech_tone', null);
@@ -223,7 +222,7 @@ if (apply && work.length) {
 
 if (apply) {
   const { data: savedProfiles, error: savedProfileError } = await db
-    .from('profiles')
+    .from('celebs')
     .select('id,speech_tone')
     .in('id', ids);
   if (savedProfileError) throw savedProfileError;

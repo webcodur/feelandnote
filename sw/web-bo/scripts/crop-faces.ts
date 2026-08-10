@@ -1,5 +1,5 @@
 /**
- * crop-faces — 인물 화보에서 "얼굴 정사각 크롭"을 뽑는다. 아바타(profiles.avatar_url)용.
+ * crop-faces — 인물 화보에서 "얼굴 정사각 크롭"을 뽑는다. 아바타(celebs.avatar_url)용.
  *
  * 전신 크롭(단독 화보 REF 재료)은 crop-body.ts를 쓴다. 용도가 다르다.
  *
