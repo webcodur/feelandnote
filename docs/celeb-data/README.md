@@ -41,6 +41,7 @@ docs/celeb-data/
 - `20260810020404_timeline_terminal_requeue_completion_lineage.sql`
 - `20260810024854_timeline_undated_life_events.sql`
 - `20260810123232_timeline_celeb_tier_position_guard.sql`
+- `20260810034422_timeline_event_position_guard_serialization.sql`
 
 이번 세션의 추가 claim과 조사는 종료했다. 남은 pending 1,854건은 이 문서만 근거로 자동
 재개하지 않으며, 사용자가 승인한 별도 회차에서만 다시 시작한다.

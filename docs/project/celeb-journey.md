@@ -104,7 +104,7 @@ research_fingerprint)`가 유일하다. 동일 claim과 동일 payload의 재전
 
 ## 마이그레이션과 보안
 
-현재 운영 기반 여섯 migration은 다음과 같다.
+현재 운영 기반 일곱 migration은 다음과 같다.
 
 - `20260809212156_timeline_direct_db_pipeline.sql` — 큐·감사 원장·기본 RPC
 - `20260809234727_timeline_direct_db_corrections.sql` — 감사 이력을 보존하는 교정 RPC
@@ -117,6 +117,9 @@ research_fingerprint)`가 유일하다. 동일 claim과 동일 payload의 재전
 - `20260810123232_timeline_celeb_tier_position_guard.sql` — 사건이 있는 인물의 `celeb_tier`
   변경이 날짜형·서사형 위치 계약을 깨뜨리지 못하게 부모 행에서 차단한다.
   **2026-08-10 운영 DB 적용·양방향 롤백 시험 통과**
+- `20260810034422_timeline_event_position_guard_serialization.sql` — 사건 쓰기가 부모 인물 행을
+  잠가 `celeb_tier` 변경과 직렬화되게 한다. **2026-08-10 운영 DB 적용·실제 PostgreSQL
+  2연결 양방향 경합 시험 통과**
 
 - `celeb_timeline_research_runs`는 RLS와 FORCE RLS를 모두 사용하고 공개 정책을 두지 않는다.
 - `anon`·`authenticated`에는 테이블 권한과 RPC 실행 권한이 없다.
@@ -338,3 +341,4 @@ terminal pointer까지 exact하게 일치할 때만 `already_completed`로 인�
 - terminal 재큐 전 적용할 계보 migration: `sw/web/supabase/migrations/20260810020404_timeline_terminal_requeue_completion_lineage.sql`
 - 적용된 날짜 미상 양식 migration: `sw/web/supabase/migrations/20260810024854_timeline_undated_life_events.sql`
 - 적용된 tier 변경 가드 migration: `sw/web/supabase/migrations/20260810123232_timeline_celeb_tier_position_guard.sql`
+- 적용된 사건 위치 직렬화 migration: `sw/web/supabase/migrations/20260810034422_timeline_event_position_guard_serialization.sql`
