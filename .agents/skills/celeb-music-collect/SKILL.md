@@ -58,10 +58,6 @@ provider 조회나 DB 쓰기 전에 fail-closed한다. `--celeb-id`·`--all-pend
 - `celeb_contents.review`·`review_en`과 `source_url` 필수
 - 같은 iTunes 곡이 이미 있으면 `contents`를 재사용하고 인물 연결만 추가
 
-현행 `content-research-db-worker.mjs`의 live direct commit은 MUSIC을
-`celeb_music_candidates.pending`으로 적치하는 레거시 계약이므로 **적격 MUSIC payload에는
-사용하지 않는다.** worker도 RPC 호출 전에 이를 fail-closed로 거부한다.
-
 ## 속도 제한 처리
 
 iTunes는 인증·키가 없는 공개 검색이라 IP 제한이 있다. 호출은 전역 순차로 하고 최소

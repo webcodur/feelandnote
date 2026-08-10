@@ -5,8 +5,8 @@
 >
 > 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 신규 BOOK의 한국어 메타·커버는 **카카오(`kakao_book`)**, 영문 원서는 **OpenLibrary(`openlibrary`)**만 쓴다. 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 >
-> **직접 DB worker 은퇴(26.08.10):** 실험용 `content-research:worker`와 전용 OpenLibrary 래퍼는
-> 운영 진입점으로 채택하지 않고 제거했다. 적용된 DB 조사 원장과 migration은 이력 보존용이며,
+> **직접 DB worker 은퇴(26.08.10):** 실험용 worker와 전용 RPC·provider rate-limit 계층은
+> 운영 진입점으로 채택하지 않고 제거했다. 기존 조사 원장·후보·출처는 감사 이력으로 보존하며,
 > 신규 수집은 이 문서의 콘텐츠 타입별 확정 절차를 따른다.
 
 ## 핵심 원칙

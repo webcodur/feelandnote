@@ -1,6 +1,6 @@
 ---
 name: celeb-content-audit
-description: 셀럽 콘텐츠 데이터(출처, review, locale, thumbnail) 검증 및 보완. /celeb-content-audit <셀럽명> 으로 실행.
+description: 셀럽 콘텐츠 데이터(출처, review, locale, thumbnail) 검증 및 보완. /celeb-content-audit 셀럽명으로 실행.
 ---
 
 # 콘텐츠 데이터 감사
@@ -14,6 +14,10 @@ description: 셀럽 콘텐츠 데이터(출처, review, locale, thumbnail) 검�
 - `docs/project/celeb/celeb-content-audit.md` — 감사 규칙 (5단계 절차, locale 규칙, thumbnail 확보법, 보고 형식)
 
 ## 실행
+
+사용자가 조사·보완을 요청하면 현재 DB 스키마를 조회한 뒤 `contents`·`content_locales`·
+`celeb_contents`의 실제 값만 바로 보완한다. 별도 요청이 없는 한 조사 관리용 컬럼·테이블·
+큐·RPC·worker·인수인계 문서를 새로 만들지 않는다.
 
 1. 대상 셀럽의 `celebs.id`를 조회한다 (`nickname` 또는 `nickname_en`으로 검색)
 2. 룰북의 Phase 1~5를 순서대로 수행한다
