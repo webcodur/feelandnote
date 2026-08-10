@@ -131,7 +131,7 @@ pnpm build:audio-bo
 | `docs/project/service/agora.md` | 광장 — 피드·소셜·게시판 3종 |
 | `docs/project/service/profile.md` | 프로필·기록관 — 독서·유산·티어·업적·방명록 |
 | `docs/project/service/explore.md` | **인물**(옛 이름 탐색) — 인물·랭킹·페르소나·세력도감·타임라인 외 |
-| `docs/project/celeb-journey.md` | **인물 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본)과 DB 직접 조사 파이프라인. 사건=`celeb_timeline_events`, 감사 원장=`celeb_timeline_research_runs`, 공용 큐=`celeb_task_queue`의 `timeline_backfill_v1`. 대상은 live DB에서 사건이 0행인 등록 인물 전원이며 공개 상태·등급·생몰 필터를 두지 않는다 |
+| `docs/project/celeb-journey.md` | **인물 행적 SSoT** — 인물 상세 04번 구획(연표 + 활동 반경 지구본)의 사건 구조·표시·수동 편집 규칙. 요청 시 조사해 기존 `celeb_timeline_events` 사건 필드에 등록한다 |
 | `docs/project/celeb-detail-themes.md` | **인물 상세 세계 표현 SSoT** — 국적·연대 기반 39개 세계의 배너·화보 액자·구획 번호·서체와 5개 세계 재질 계열을 함께 쥔다. 직군 기반 8색 테마는 26.08.03 폐기했고 직군은 아이콘·명칭에만 쓴다. 세계 재질은 39/39 운영 적용됐으며 `/lab/celeb-themes`에서 개별 재질 15종과 대표 조합 5종을 같은 토큰으로 검증한다. |
 | `docs/project/celeb-world-banners.md` | **인물 세계 배너 SSoT** — 인물이 산 세계 39종의 배경 사진 규격·장면·검수·모바일 초점 예외·교정 함정. 판정 규칙은 `sw/web/src/lib/celeb/world.ts`가 쥔다. **26.08.03 기준 4판 네이티브 3:1 규격으로 39/39종 서비스 반영 완료**(원본 39·PC/모바일 78) |
 | `docs/project/web-bo.md` | 관리자 백오피스(web-bo) — 라우팅 전수, 운영 워크플로 |
@@ -284,7 +284,7 @@ pnpm build:audio-bo
 
 | 영역 | 문서 (`docs/todo/` 기준) |
 |------|------|
-| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-timeline-backfill-handoff-2026-08-08.md` 이번 회차 종료(추가 조사 금지, pending 1,854건은 별도 승인 회차에서만 재개) · `celeb/celeb-buzz-research-2026-08-09.md` 화제성 지표 조사·미결정 계약 |
+| 셀럽 | `celeb/celeb-data-gap-fill.md` 결손 전수 정비 · `celeb/three-kingdoms-data-gap-backfill.md` 삼국지 회차 · `celeb/celeb-avatar-defects.md` 아바타 교체 잔여 · `celeb/celeb-avatar-nobg-handoff.md` 배경 지우기 재개 지점 · `celeb/celeb-reading-full-rework-handoff-2026-08-04.md` 인물 읽어보기 전량 재검수 · `celeb/celeb-buzz-research-2026-08-09.md` 화제성 지표 조사·미결정 계약 |
 | 세력도감 | `faction/faction-atlas-reconciliation-2026-08-03.md` 제작↔도감 정합화 실측·계획 · `faction/세력도감-단일화-할일.md` 다음 착수 지점 · `faction/tag-ideas.md` 태그 후보 풀 |
 | 게임 | `games/game-wave2-contract.md` 실험 게임 7종 SSoT + 개별 규격 `games/game-<키>-order.md` 7종 |
 | 외부 API | `external-api-migration-2026-08-01.md` 네이버·구글 이탈 대응 미결 항목 |
