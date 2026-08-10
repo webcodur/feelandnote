@@ -136,6 +136,17 @@ test('accepts a strict life payload and maps the first evidence URL', () => {
   assert.equal(rows[2].sort_order, 2)
 })
 
+test('keeps immutable pre-migration life payloads valid when null label keys were omitted', () => {
+  const payload = validLifePayload()
+  for (const event of payload.events) {
+    delete event.sequenceLabel
+    delete event.sequenceLabelEn
+  }
+  assert.deepEqual(validateDirectCommitPayload(payload).issues, [])
+  const rows = mapDirectPayloadToTimelineRows(payload)
+  assert.ok(rows.every((row) => row.sequence_label === null && row.sequence_label_en === null))
+})
+
 test('accepts undated life events in payload order without inventing labels or dates', () => {
   const payload = validLifePayload()
   payload.events.splice(1, 0, lifeEvent(null, 'other', '연도 미상 사건'))
