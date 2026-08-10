@@ -113,22 +113,31 @@ export async function getTimelineEvents(celebId: string): Promise<TimelineEvent[
     .from('celeb_timeline_events')
     .select('*')
     .eq('celeb_id', celebId)
-    .order('year', { nullsFirst: false })
     .order('sort_order')
+    .order('id')
   if (error) throw error
   return (data ?? []) as TimelineEvent[]
 }
 
 type EventInput = Omit<TimelineEvent, 'id' | 'celeb_id' | 'source'>
 
-function validate(e: Partial<EventInput>) {
+function validate(e: Partial<EventInput>, isFiction: boolean) {
   const hasYear = Number.isInteger(e.year)
   const hasSequence = !!e.sequence_label?.trim()
-  if (hasYear === hasSequence)
-    throw new Error('연도 또는 서사 단계 가운데 하나만 넣으세요.')
+  const hasSequenceEn = !!e.sequence_label_en?.trim()
   if (!e.title?.trim()) throw new Error('제목을 넣으세요.')
-  if (!hasYear && (e.year_end != null || e.month != null || e.day != null))
-    throw new Error('서사 단계에는 연도·월·일을 함께 넣을 수 없습니다.')
+  if (isFiction) {
+    if (e.year != null || e.year_end != null || e.month != null || e.day != null)
+      throw new Error('fiction 사건에는 연도·월·일을 넣을 수 없습니다.')
+    if (!hasSequence || !hasSequenceEn)
+      throw new Error('fiction 사건에는 한국어·영문 서사 단계를 모두 넣으세요.')
+  } else {
+    if (!hasYear && e.year !== null) throw new Error('실존 인물의 연도는 정수 또는 날짜 미상(null)이어야 합니다.')
+    if (e.sequence_label != null || e.sequence_label_en != null)
+      throw new Error('실존 인물 사건에는 서사 단계 라벨을 넣을 수 없습니다.')
+    if (e.year === null && (e.year_end != null || e.month != null || e.day != null))
+      throw new Error('날짜 미상 사건에는 끝 연도·월·일을 넣을 수 없습니다.')
+  }
   if (e.year_end != null && e.year != null && e.year_end < e.year)
     throw new Error('끝 연도가 시작 연도보다 앞설 수 없습니다.')
   const hasLat = e.lat != null
@@ -141,6 +150,17 @@ function validate(e: Partial<EventInput>) {
     throw new Error(`종류 '${e.kind}'는 쓸 수 없는 값입니다.`)
 }
 
+async function isFictionCeleb(celebId: string): Promise<boolean> {
+  const supabase = createAdminClient()
+  const { data, error } = await supabase
+    .from('celebs')
+    .select('celeb_tier')
+    .eq('id', celebId)
+    .single()
+  if (error) throw error
+  return data.celeb_tier === 'fiction'
+}
+
 async function afterWrite() {
   revalidatePath('/celebs/timeline', 'layout')
   await revalidateWebCache(CACHE_TAGS.CELEBS)
@@ -148,8 +168,14 @@ async function afterWrite() {
 
 /** 한 건 수정. 손댄 행은 source='manual'이 되어 스크립트 재적재에도 살아남는다 */
 export async function updateTimelineEvent(eventId: string, data: Partial<EventInput>): Promise<void> {
-  validate(data)
   const supabase = createAdminClient()
+  const { data: current, error: readError } = await supabase
+    .from('celeb_timeline_events')
+    .select('celeb_id')
+    .eq('id', eventId)
+    .single()
+  if (readError) throw readError
+  validate(data, await isFictionCeleb(current.celeb_id))
   const { error } = await supabase
     .from('celeb_timeline_events')
     .update({ ...data, source: 'manual' })
@@ -159,7 +185,7 @@ export async function updateTimelineEvent(eventId: string, data: Partial<EventIn
 }
 
 export async function createTimelineEvent(celebId: string, data: EventInput): Promise<string> {
-  validate(data)
+  validate(data, await isFictionCeleb(celebId))
   const supabase = createAdminClient()
   const { data: row, error } = await supabase
     .from('celeb_timeline_events')

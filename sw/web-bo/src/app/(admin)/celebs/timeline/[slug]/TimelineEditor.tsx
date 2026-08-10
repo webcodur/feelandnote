@@ -26,7 +26,7 @@ const makeEmpty = (isFiction: boolean): Draft => ({
   month: null,
   day: null,
   sequence_label: isFiction ? '' : null,
-  sequence_label_en: null,
+  sequence_label_en: isFiction ? '' : null,
   title: '',
   title_en: null,
   description: null,
@@ -44,10 +44,7 @@ const makeEmpty = (isFiction: boolean): Draft => ({
 const num = (v: string): number | null => (v.trim() === '' ? null : Number(v))
 
 const sortEvents = (a: TimelineEvent, b: TimelineEvent) => {
-  if (a.year == null && b.year == null) return a.sort_order - b.sort_order
-  if (a.year == null) return 1
-  if (b.year == null) return -1
-  return a.year - b.year || a.sort_order - b.sort_order
+  return a.sort_order - b.sort_order || a.id.localeCompare(b.id)
 }
 
 export default function TimelineEditor({ celebId, initialEvents, isFiction }: Props) {
@@ -163,6 +160,22 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
 
   const field = 'w-full rounded border border-border bg-bg-primary px-2 py-1.5 text-sm text-text-primary'
   const label = 'block text-xs text-text-secondary mb-1'
+  const isUndatedLife = !isFiction && draft?.year === null
+
+  const toggleUndatedLife = () => {
+    if (!draft || isFiction) return
+    setDraft(isUndatedLife
+      ? { ...draft, year: new Date().getFullYear() }
+      : {
+          ...draft,
+          year: null,
+          year_end: null,
+          month: null,
+          day: null,
+          sequence_label: null,
+          sequence_label_en: null,
+        })
+  }
 
   const form = draft && (
     <div className="space-y-3 rounded-lg border border-accent/40 bg-bg-secondary p-4">
@@ -176,6 +189,21 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
           <X className="h-4 w-4" />
         </button>
       </div>
+
+      {!isFiction && (
+        <button
+          type="button"
+          aria-pressed={isUndatedLife}
+          onClick={toggleUndatedLife}
+          className={`rounded border px-3 py-1.5 text-sm ${
+            isUndatedLife
+              ? 'border-accent bg-accent/15 text-accent hover:bg-accent/25'
+              : 'border-border text-text-secondary hover:border-accent hover:text-text-primary'
+          }`}
+        >
+          날짜 미상
+        </button>
+      )}
 
       <div className={`grid grid-cols-2 gap-3 ${isFiction ? 'sm:grid-cols-4' : 'sm:grid-cols-5'}`}>
         {isFiction ? (
@@ -199,7 +227,7 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
               />
             </div>
           </>
-        ) : (
+        ) : !isUndatedLife ? (
           <>
             <div>
               <label className={label}>연도 (기원전은 음수)</label>
@@ -229,7 +257,7 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
               />
             </div>
           </>
-        )}
+        ) : null}
         <div>
           <label className={label}>종류</label>
           <select
@@ -245,7 +273,7 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
           </select>
         </div>
         <div>
-          <label className={label}>{isFiction ? '서사 순서' : '같은 해 순서'}</label>
+          <label className={label}>{isFiction ? '서사 순서' : '표시 순서'}</label>
           <input
             type="number"
             value={draft.sort_order}
