@@ -50,6 +50,16 @@
 255/255를 영문화했고, live 전수 재조회에서 공백·원문 복사·한글 잔존·대체문자·첫 문장 인물명
 누락이 모두 0임을 확인했다. 후보 상태는 되돌리지 않았고 최종 수치는 등록 255·기각 56·pending 0이다.
 
+후보 범위 밖까지 `celeb_contents`를 전수 조회해 추가 결손 127건(BOOK 58·VIDEO 65·MUSIC 4)도
+같은 회차에 영문화했다. 최종 live 값은 감상문 12,915/12,915 영문 보유다. 추가 MUSIC 4건은
+Spotify ID를 남겨 둔 채 번역만 하지 않고 iTunes 원곡·미리듣기·KO/EN locale까지 전환했다.
+
+**별도 메타 locale 실측(26.08.10):** 인물과 연결된 콘텐츠 가운데 EN `content_locales`가 없는
+레거시 작품은 172개다(BOOK 137·VIDEO 34·MUSIC 1). 이는 위 `review_en` 결손과 다른 축이다.
+BOOK은 제목을 임의 번역하지 말고 한국어판 Kakao 판본과 영문 OpenLibrary 판본을 실제로 대조해야
+하며, VIDEO는 TMDB 영문 메타, MUSIC은 iTunes 원곡·미리듣기로 보강한다. 감상문 영문화 완료를
+콘텐츠 메타 locale 완료로 부풀려 보고하지 않는다.
+
 이제 신규 MUSIC은 찾은 인물 작업에서 바로 iTunes 트랙·`previewUrl`을 확인하고
 `contents`·KO/EN locale·`celeb_contents`까지 등록한다. `celeb_music_candidates`에
 `pending`으로 넣고 별도 회차에 넘기는 방식은 다시 쓰지 않는다. 현재 절차는
