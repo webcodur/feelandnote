@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import {
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -10,7 +9,7 @@ import {
   type ReactNode,
 } from 'react'
 import { Check, Loader2, Move, Upload, X } from 'lucide-react'
-import { createPreviewUrl, getClipboardImageFile } from '@/lib/image'
+import { useImageIntake } from '@/components/celeb/useImageIntake'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 
 interface Props {
@@ -26,14 +25,16 @@ interface Props {
   loadImmediately?: boolean
   highPriority?: boolean
   pasteActive?: boolean
+  /** 바깥에서 밀어넣은 사진. 값이 바뀌면 곧바로 자르기 창이 열린다. */
+  incomingFile?: File | null
+  /** 밀어넣은 사진의 자르기 창이 닫혔을 때(저장·취소·열기 실패) 알린다. */
+  onIncomingDone?: () => void
   onActivate?: () => void
   onFileAccepted?: (file: File) => void
   onCroppedFile: (file: File, previewUrl: string) => void | Promise<void>
   onRemove?: () => void
   onError?: (error: Error) => void
 }
-
-const IMAGE_ONLY_ERROR = new Error('이미지 파일만 사용할 수 있습니다.')
 
 export default function CelebAvatarEditor({
   value,
@@ -48,6 +49,8 @@ export default function CelebAvatarEditor({
   loadImmediately = false,
   highPriority = false,
   pasteActive = false,
+  incomingFile = null,
+  onIncomingDone,
   onActivate,
   onFileAccepted,
   onCroppedFile,
@@ -63,33 +66,15 @@ export default function CelebAvatarEditor({
     if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
   }, [])
 
-  const acceptFile = useCallback(async (file?: File) => {
-    if (!file || disabled) return
-    if (!file.type.startsWith('image/')) {
-      onError?.(IMAGE_ONLY_ERROR)
-      return
-    }
-
-    onFileAccepted?.(file)
-    setCropImageSrc(await createPreviewUrl(file))
-  }, [disabled, onError, onFileAccepted])
-
-  useEffect(() => {
-    if (!pasteActive) return
-
-    function handlePaste(event: ClipboardEvent) {
-      const target = event.target as HTMLElement | null
-      if (target?.closest('input, textarea, [contenteditable="true"]')) return
-
-      const file = getClipboardImageFile(event)
-      if (!file) return
-      event.preventDefault()
-      void acceptFile(file)
-    }
-
-    window.addEventListener('paste', handlePaste)
-    return () => window.removeEventListener('paste', handlePaste)
-  }, [acceptFile, pasteActive])
+  const { acceptFile } = useImageIntake({
+    onPreviewReady: setCropImageSrc,
+    disabled,
+    pasteActive,
+    incomingFile,
+    onIncomingDone,
+    onFileAccepted,
+    onError,
+  })
 
   function handleDragLeave(event: DragEvent<HTMLDivElement>) {
     event.preventDefault()
@@ -120,6 +105,8 @@ export default function CelebAvatarEditor({
     } catch (error) {
       setStatus('idle')
       onError?.(error instanceof Error ? error : new Error('아바타 처리에 실패했습니다.'))
+    } finally {
+      onIncomingDone?.()
     }
   }
 
@@ -233,7 +220,10 @@ export default function CelebAvatarEditor({
           aspectRatio={1}
           allowTransparentPadding
           onComplete={handleCropComplete}
-          onCancel={() => setCropImageSrc(null)}
+          onCancel={() => {
+            setCropImageSrc(null)
+            onIncomingDone?.()
+          }}
         />
       )}
     </>

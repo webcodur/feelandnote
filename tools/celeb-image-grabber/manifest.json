@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "셀럽 사진 즉시 등록",
+  "version": "1.0.0",
+  "description": "아무 웹페이지에서 사진을 Alt+클릭하면 백오피스(localhost:3001) 셀럽 이미지 작업 화면으로 곧바로 보낸다.",
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_title": "셀럽 사진 즉시 등록 — 사진을 Alt+클릭"
+  }
+}

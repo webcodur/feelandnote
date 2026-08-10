@@ -10,8 +10,8 @@ import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCeleb
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
 import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
 import { useToast } from '@/contexts/ToastContext'
-
-type ImageSlot = 'avatar' | 'portrait'
+import QuickImageBar from './QuickImageBar'
+import { useQuickImageInbox, type ImageSlot } from './useQuickImageInbox'
 
 export default function CelebImageGrid({
   celebs,
@@ -25,6 +25,18 @@ export default function CelebImageGrid({
   const [avatarUrls, setAvatarUrls] = useState<Record<string, string | null>>(() =>
     Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.avatar_url ?? null]))
   )
+  const [portraitUrls, setPortraitUrls] = useState<Record<string, string | null>>(() =>
+    Object.fromEntries(celebs.map((celeb) => [celeb.id, celeb.portrait_url ?? null]))
+  )
+  const [quickImageOn, setQuickImageOn] = useState(true)
+  const [avatarOnly, setAvatarOnly] = useState(false)
+  const { nextTarget, incoming, clearIncoming } = useQuickImageInbox({
+    celebs,
+    avatarUrls,
+    portraitUrls,
+    avatarOnly,
+    enabled: quickImageOn,
+  })
   const activeJobIds = Object.values(jobsByCeleb)
     .filter((job) => job.status === 'queued' || job.status === 'running')
     .map((job) => job.id)
@@ -74,16 +86,34 @@ export default function CelebImageGrid({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-px bg-border 2xl:grid-cols-2">
+    <>
+      <QuickImageBar
+        on={quickImageOn}
+        avatarOnly={avatarOnly}
+        editing={incoming !== null}
+        nextName={nextTarget?.celeb.nickname?.trim() || null}
+        nextSlot={nextTarget?.slot ?? null}
+        onToggle={() => setQuickImageOn((current) => !current)}
+        onToggleAvatarOnly={() => setAvatarOnly((current) => !current)}
+      />
+      <div className="grid grid-cols-1 gap-px bg-border 2xl:grid-cols-2">
       {celebs.map((celeb, index) => (
         <CelebImageCard
           key={celeb.id}
           celeb={celeb}
           avatarUrl={avatarUrls[celeb.id] ?? null}
+          portraitUrl={portraitUrls[celeb.id] ?? null}
           imageJob={jobsByCeleb[celeb.id] ?? null}
           activeImageSlot={activeImage?.celebId === celeb.id ? activeImage.slot : null}
+          incomingSlot={incoming?.celebId === celeb.id ? incoming.slot : null}
+          incomingFile={incoming?.celebId === celeb.id ? incoming.file : null}
+          onIncomingDone={clearIncoming}
           highPriority={index < 4}
           onAvatarUrlChange={(url) => setAvatarUrls((current) => ({
+            ...current,
+            [celeb.id]: url,
+          }))}
+          onPortraitUrlChange={(url) => setPortraitUrls((current) => ({
             ...current,
             [celeb.id]: url,
           }))}
@@ -94,26 +124,37 @@ export default function CelebImageGrid({
           onActivateImage={(slot) => setActiveImage({ celebId: celeb.id, slot })}
         />
       ))}
-    </div>
+      </div>
+    </>
   )
 }
 
 function CelebImageCard({
   celeb,
   avatarUrl,
+  portraitUrl,
   imageJob,
   activeImageSlot,
+  incomingSlot,
+  incomingFile,
+  onIncomingDone,
   highPriority,
   onAvatarUrlChange,
+  onPortraitUrlChange,
   onImageJobChange,
   onActivateImage,
 }: {
   celeb: Member
   avatarUrl: string | null
+  portraitUrl: string | null
   imageJob: ImageProcessingJob | null
   activeImageSlot: ImageSlot | null
+  incomingSlot: ImageSlot | null
+  incomingFile: File | null
+  onIncomingDone: () => void
   highPriority: boolean
   onAvatarUrlChange: (url: string | null) => void
+  onPortraitUrlChange: (url: string | null) => void
   onImageJobChange: (job: ImageProcessingJob) => void
   onActivateImage: (slot: ImageSlot) => void
 }) {
@@ -183,6 +224,8 @@ function CelebImageCard({
             loadImmediately
             highPriority={highPriority}
             pasteActive={activeImageSlot === 'avatar'}
+            incomingFile={incomingSlot === 'avatar' ? incomingFile : null}
+            onIncomingDone={onIncomingDone}
             onActivate={() => onActivateImage('avatar')}
             className="h-[280px] w-[280px] shrink-0 rounded-xl"
             previewClassName="h-[280px] w-[280px] rounded-xl border border-border hover:border-accent"
@@ -201,16 +244,19 @@ function CelebImageCard({
         </figure>
 
         <figure className="w-[224px]">
-          <ImageCaption label="Portrait" imageUrl={celeb.portrait_url} name={name} />
+          <ImageCaption label="Portrait" imageUrl={portraitUrl} name={name} />
           <PersistedCelebPortraitEditor
             celebId={celeb.id}
-            portraitUrl={celeb.portrait_url}
+            portraitUrl={portraitUrl}
             name={celeb.nickname}
+            onSaved={onPortraitUrlChange}
             refreshAfterSave={false}
             openOnClick
             loadImmediately
             highPriority={highPriority}
             pasteActive={activeImageSlot === 'portrait'}
+            incomingFile={incomingSlot === 'portrait' ? incomingFile : null}
+            onIncomingDone={onIncomingDone}
             onActivate={() => onActivateImage('portrait')}
             className="group/portrait relative h-[280px] w-[224px] shrink-0 overflow-hidden rounded-xl border border-border bg-bg-secondary hover:border-accent data-[dragging=true]:border-accent data-[dragging=true]:bg-accent/10 data-[dragging=true]:ring-2 data-[dragging=true]:ring-accent/30"
             empty={<ImageIcon className="h-10 w-10 text-text-tertiary" />}

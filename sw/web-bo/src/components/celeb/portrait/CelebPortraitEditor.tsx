@@ -1,10 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect, useState, type DragEvent, type ReactNode } from 'react'
+import { useState, type DragEvent, type ReactNode } from 'react'
 import { Loader2, Move, Upload, X } from 'lucide-react'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
-import { createPreviewUrl, getClipboardImageFile } from '@/lib/image'
+import { useImageIntake } from '@/components/celeb/useImageIntake'
 import ImageCropModal from '@/components/ui/ImageCropModal'
 
 interface Props {
@@ -17,14 +17,16 @@ interface Props {
   loadImmediately?: boolean
   highPriority?: boolean
   pasteActive?: boolean
+  /** 바깥에서 밀어넣은 사진. 값이 바뀌면 곧바로 위치 조정 창이 열린다. */
+  incomingFile?: File | null
+  /** 밀어넣은 사진의 위치 조정 창이 닫혔을 때(저장·취소·열기 실패) 알린다. */
+  onIncomingDone?: () => void
   onActivate?: () => void
   onCroppedFile: (file: File, previewUrl: string) => void | Promise<void>
   onRemove?: () => void
   onFileAccepted?: () => void
   onError?: (error: Error) => void
 }
-
-const IMAGE_ONLY_ERROR = new Error('이미지 파일만 업로드 가능합니다.')
 
 export default function CelebPortraitEditor({
   value,
@@ -36,6 +38,8 @@ export default function CelebPortraitEditor({
   loadImmediately = false,
   highPriority = false,
   pasteActive = false,
+  incomingFile = null,
+  onIncomingDone,
   onActivate,
   onCroppedFile,
   onRemove,
@@ -48,33 +52,14 @@ export default function CelebPortraitEditor({
   const [cropImageSrc, setCropImageSrc] = useState<string | null>(null)
   const [processing, setProcessing] = useState(false)
 
-  const acceptFile = useCallback(async (file?: File) => {
-    if (!file) return
-    if (!file.type.startsWith('image/')) {
-      onError?.(IMAGE_ONLY_ERROR)
-      return
-    }
-
-    onFileAccepted?.()
-    setCropImageSrc(await createPreviewUrl(file))
-  }, [onError, onFileAccepted])
-
-  useEffect(() => {
-    if (!pasteActive) return
-
-    function handlePaste(event: ClipboardEvent) {
-      const target = event.target as HTMLElement | null
-      if (target?.closest('input, textarea, [contenteditable="true"]')) return
-
-      const file = getClipboardImageFile(event)
-      if (!file) return
-      event.preventDefault()
-      void acceptFile(file)
-    }
-
-    window.addEventListener('paste', handlePaste)
-    return () => window.removeEventListener('paste', handlePaste)
-  }, [acceptFile, pasteActive])
+  const { acceptFile } = useImageIntake({
+    onPreviewReady: setCropImageSrc,
+    pasteActive,
+    incomingFile,
+    onIncomingDone,
+    onFileAccepted: onFileAccepted && (() => onFileAccepted()),
+    onError,
+  })
 
   function handleDragLeave(event: DragEvent<HTMLDivElement>) {
     event.preventDefault()
@@ -103,6 +88,7 @@ export default function CelebPortraitEditor({
       onError?.(error instanceof Error ? error : new Error('대표 화보 처리에 실패했습니다.'))
     } finally {
       setProcessing(false)
+      onIncomingDone?.()
     }
   }
 
@@ -230,7 +216,10 @@ export default function CelebPortraitEditor({
           title="대표 화보 위치 조정"
           description="사진을 끌어 위치를 옮기고 아래 막대로 확대하세요."
           onComplete={handleCropComplete}
-          onCancel={() => setCropImageSrc(null)}
+          onCancel={() => {
+            setCropImageSrc(null)
+            onIncomingDone?.()
+          }}
         />
       )}
     </>
