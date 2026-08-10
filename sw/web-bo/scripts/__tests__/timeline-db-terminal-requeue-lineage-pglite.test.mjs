@@ -24,6 +24,10 @@ const tierGuardMigrationUrl = new URL(
   '../../../web/supabase/migrations/20260810123232_timeline_celeb_tier_position_guard.sql',
   import.meta.url,
 )
+const serializationMigrationUrl = new URL(
+  '../../../web/supabase/migrations/20260810034422_timeline_event_position_guard_serialization.sql',
+  import.meta.url,
+)
 
 const celebId = '11111111-1111-1111-1111-111111111111'
 const oldRunId = '22222222-2222-2222-2222-222222222222'
@@ -293,6 +297,7 @@ async function fixtureDb({ applyLineage = true, applyUndated = true } = {}) {
   if (applyUndated) {
     await applyMigration(db, undatedMigrationUrl, 'undated life migration')
     await applyMigration(db, tierGuardMigrationUrl, 'timeline celeb tier guard migration')
+    await applyMigration(db, serializationMigrationUrl, 'timeline event serialization migration')
   }
   const snapshot = profileSnapshot()
   await db.query(
@@ -642,6 +647,7 @@ test('PGlite migration preserves fiction rows exactly and enforces the tier-spec
     `, [fictionId])
     await applyMigration(db, undatedMigrationUrl, 'undated life migration')
     await applyMigration(db, tierGuardMigrationUrl, 'timeline celeb tier guard migration')
+    await applyMigration(db, serializationMigrationUrl, 'timeline event serialization migration')
     const after = await db.query(`
       select jsonb_agg(to_jsonb(event_row) order by event_row.sort_order,event_row.id) as rows
       from public.celeb_timeline_events as event_row where celeb_id=$1
