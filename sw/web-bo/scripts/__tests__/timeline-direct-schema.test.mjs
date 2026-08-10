@@ -42,6 +42,8 @@ function lifeEvent(year, kind, title, overrides = {}) {
     yearEnd: null,
     month: null,
     day: null,
+    sequenceLabel: null,
+    sequenceLabelEn: null,
     title,
     titleEn: title,
     description: description(title),
@@ -134,6 +136,42 @@ test('accepts a strict life payload and maps the first evidence URL', () => {
   assert.equal(rows[2].sort_order, 2)
 })
 
+test('accepts undated life events in payload order without inventing labels or dates', () => {
+  const payload = validLifePayload()
+  payload.events.splice(1, 0, lifeEvent(null, 'other', '연도 미상 사건'))
+  assert.deepEqual(validateDirectCommitPayload(payload).issues, [])
+
+  const rows = mapDirectPayloadToTimelineRows(payload)
+  assert.equal(rows[1].year, null)
+  assert.equal(rows[1].year_end, null)
+  assert.equal(rows[1].month, null)
+  assert.equal(rows[1].day, null)
+  assert.equal(rows[1].sequence_label, null)
+  assert.equal(rows[1].sequence_label_en, null)
+  assert.deepEqual(rows.map((row) => row.sort_order), [0, 1, 2, 3])
+})
+
+test('requires the exact life dated-or-undated union and checks only the dated subsequence', () => {
+  const missingYear = validLifePayload()
+  delete missingYear.events[1].year
+  assert.ok(codes(missingYear).includes('LIFE_POSITION_UNION'))
+
+  const dateResidue = validLifePayload()
+  dateResidue.events[1].year = null
+  dateResidue.events[1].month = 3
+  assert.ok(codes(dateResidue).includes('UNDATED_LIFE_DATE_RESIDUE'))
+
+  const labels = validLifePayload()
+  labels.events[1].year = null
+  labels.events[1].sequenceLabel = '중간'
+  assert.ok(codes(labels).includes('LIFE_LABELS_NULL'))
+
+  const reversed = validLifePayload()
+  reversed.events.splice(1, 0, lifeEvent(null, 'other', '연도 미상 사건'))
+  reversed.events[2].year = 1979
+  assert.ok(codes(reversed).includes('EVENT_ORDER'))
+})
+
 test('accepts six ordered fiction events and maps the timeline union', () => {
   const payload = validFictionPayload()
   assert.deepEqual(validateDirectCommitPayload(payload).issues, [])
@@ -174,7 +212,7 @@ test('enforces timeline union and chronological/sort order', () => {
   const life = validLifePayload()
   life.events[1].sequenceLabel = 'forbidden'
   life.events[1].year = 1979
-  assert.ok(codes(life).includes('EXTRA_KEY'))
+  assert.ok(codes(life).includes('LIFE_LABELS_NULL'))
   assert.ok(codes(life).includes('EVENT_ORDER'))
 
   const fiction = validFictionPayload()

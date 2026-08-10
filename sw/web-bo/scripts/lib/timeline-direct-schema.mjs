@@ -69,6 +69,8 @@ export const LIFE_EVENT_KEYS = new Set([
   'yearEnd',
   'month',
   'day',
+  'sequenceLabel',
+  'sequenceLabelEn',
 ])
 
 export const FICTION_EVENT_KEYS = new Set([
@@ -484,20 +486,27 @@ function validateLifeEvents(payload, sourceIds, issues, usedSourceIds, boundaryC
   for (const [index, event] of events.entries()) {
     if (!validateCommonEvent(event, index, 'life', sourceIds, issues, usedSourceIds)) continue
     const base = `$.events[${index}]`
-    const hasValidYear = Number.isInteger(event.year)
-    if (!hasValidYear) {
-      issues.push(makeIssue('INTEGER_REQUIRED', `${base}.year`, 'life 사건의 year는 정수여야 합니다.'))
+    const hasDatedYear = Number.isInteger(event.year)
+    const hasUndatedYear = hasOwn(event, 'year') && event.year === null
+    if (!hasDatedYear && !hasUndatedYear) {
+      issues.push(makeIssue('LIFE_POSITION_UNION', `${base}.year`, 'life 사건의 year는 정수 또는 명시적인 null이어야 합니다.'))
+    }
+    if (event.sequenceLabel != null || event.sequenceLabelEn != null) {
+      issues.push(makeIssue('LIFE_LABELS_NULL', base, 'life 사건의 sequenceLabel과 sequenceLabelEn은 모두 null이어야 합니다.'))
     }
     validateNullableInteger(event.yearEnd, `${base}.yearEnd`, issues)
     validateNullableInteger(event.month, `${base}.month`, issues, { min: 1, max: 12 })
     validateNullableInteger(event.day, `${base}.day`, issues, { min: 1, max: 31 })
+    if (hasUndatedYear && (event.yearEnd != null || event.month != null || event.day != null)) {
+      issues.push(makeIssue('UNDATED_LIFE_DATE_RESIDUE', base, '날짜 미상 life 사건은 yearEnd, month, day가 모두 null이어야 합니다.'))
+    }
     if (event.day != null && event.month == null) {
       issues.push(makeIssue('DAY_REQUIRES_MONTH', `${base}.day`, 'day가 있으면 month도 있어야 합니다.'))
     }
-    if (Number.isInteger(event.yearEnd) && hasValidYear && event.yearEnd < event.year) {
+    if (Number.isInteger(event.yearEnd) && hasDatedYear && event.yearEnd < event.year) {
       issues.push(makeIssue('YEAR_END_ORDER', `${base}.yearEnd`, 'yearEnd는 year보다 앞설 수 없습니다.'))
     }
-    if (hasValidYear) {
+    if (hasDatedYear) {
       const current = [event.year, event.month ?? 0, event.day ?? 0]
       if (previous && (
         current[0] < previous[0]
@@ -508,7 +517,7 @@ function validateLifeEvents(payload, sourceIds, issues, usedSourceIds, boundaryC
       }
       previous = current
     }
-    const duplicateKey = `${event.year}|${normalizeNullableText(event.title)}`
+    const duplicateKey = `${hasUndatedYear ? 'undated' : event.year}|${normalizeNullableText(event.title)}`
     if (duplicateKeys.has(duplicateKey)) issues.push(makeIssue('EVENT_DUPLICATE', base, `중복 사건 '${duplicateKey}'입니다.`))
     duplicateKeys.add(duplicateKey)
   }
