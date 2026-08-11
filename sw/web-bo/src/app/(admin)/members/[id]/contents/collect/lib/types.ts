@@ -9,6 +9,7 @@ export type InputMode = 'url' | 'text' | 'json'
 export interface JsonInputItem {
   type: ContentType // 필수: BOOK, VIDEO, GAME, MUSIC
   title: string
+  isbn?: string
   body: string
   source: string
 }

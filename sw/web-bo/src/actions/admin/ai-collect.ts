@@ -2,12 +2,13 @@
 
 import { fetchUrlContent } from '@feelandnote/ai-services/url-fetcher'
 import { type ExtractedContent } from '@feelandnote/ai-services/content-extractor'
-import { searchExternal, type ExternalSearchResult, type SearchOptions } from '@feelandnote/content-search/unified-search'
+import { searchExternal, type ExternalSearchResult } from '@feelandnote/content-search/unified-search'
 import type { ContentType } from '@feelandnote/content-search/types'
 import { createClient } from '@/lib/supabase/server'
 import { createContentFromExternal } from './external-search'
 import { addCelebContent } from './celebs'
 import { getBestAvailableKey, getApiKeyById, recordApiKeyUsage, type ApiKey } from './api-keys'
+import { buildExternalSearchPlan } from './ai-collect-search'
 
 // #region Types
 // API 키 가져오기 헬퍼
@@ -133,24 +134,19 @@ export async function processExtractedItems(input: ProcessItemsInput): Promise<P
 
   for (let i = 0; i < itemsToProcess.length; i++) {
     const extracted = itemsToProcess[i]
-    const globalIndex = input.startIndex + i
-    const title = extracted.titleKo || extracted.title
-    // BOOK만 "제목 - 저자" 형식으로 검색 (구글 API가 더 정확하게 매칭)
-    const isBook = extracted.type === 'BOOK'
-    const searchQuery = isBook && extracted.creator ? `${title} - ${extracted.creator}` : title
+    const searchPlan = buildExternalSearchPlan(extracted)
 
     let searchResultsKo: SearchResultItem[] = []
     let searchResultsOriginal: SearchResultItem[] = []
 
     try {
-      // 한국어 제목으로 먼저 검색 (BOOK만 구글 우선)
-      const koResponse = await searchExternal(extracted.type, searchQuery, 1, { preferGoogle: isBook })
+      // BOOK의 ISBN이 있으면 카카오 ISBN 지정 검색, 없으면 기존 제목 검색
+      const koResponse = await searchExternal(extracted.type, searchPlan.primaryQuery, 1)
       searchResultsKo = mapSearchResults(koResponse.items)
 
-      // 한국어로 못 찾으면 원본으로 재검색
-      if (searchResultsKo.length === 0 && title !== extracted.title) {
-        const origQuery = isBook && extracted.creator ? `${extracted.title} - ${extracted.creator}` : extracted.title
-        const origResponse = await searchExternal(extracted.type, origQuery, 1, { preferGoogle: isBook })
+      // ISBN이 없는 입력만 한국어 제목 실패 시 원제로 재검색한다.
+      if (searchResultsKo.length === 0 && searchPlan.fallbackQuery) {
+        const origResponse = await searchExternal(extracted.type, searchPlan.fallbackQuery, 1)
         searchResultsOriginal = mapSearchResults(origResponse.items)
       }
     } catch (err) {
