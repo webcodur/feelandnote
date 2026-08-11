@@ -2,7 +2,7 @@
 //
 // 네이버 도서 검색 API가 2026-07-31자로 종료되어(공지 32564) 그 자리를 대신하며,
 // 네이버 래퍼와 그 전용 스크립트는 전량 제거했다.
-// 상세: docs/project/external-services.md 「외부 콘텐츠 검색 API」
+// 상세: docs/project/platform/external-services.md 「외부 콘텐츠 검색 API」
 
 const KAKAO_REST_API_KEY = process.env.KAKAO_REST_API_KEY
 const KAKAO_BOOK_API_URL = 'https://dapi.kakao.com/v3/search/book'

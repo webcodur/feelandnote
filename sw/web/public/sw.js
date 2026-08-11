@@ -3,7 +3,7 @@
   기능: Feel&Note 서비스 워커
   책임: 오프라인 대체 화면을 보장하고, 정적 자산·이미지만 제한적으로 캐시한다.
 
-  캐시 정책 (docs/project/android-app-feasibility-review-2026-07-29.md §3.2)
+  캐시 정책 (docs/project/apps/android-app-feasibility-review-2026-07-29.md §3.2)
     페이지 이동            network-first, 실패 시 오프라인 화면
     /_next/static/*        cache-first (내용 해시가 붙은 불변 자산)
     로고·앱 셸 아이콘      cache-first

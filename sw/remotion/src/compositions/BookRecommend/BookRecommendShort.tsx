@@ -4,7 +4,7 @@
  * segment array driven. narration flows, visuals follow.
  * 2-column middle: left = text, right = avatar/cover crossfade.
  *
- * @see docs/project/remotion/shorts.md
+ * @see docs/project/remotion/book-recommend/shorts.md
  */
 import React, { useEffect } from 'react'
 import { AbsoluteFill, Audio, getRemotionEnvironment, Img, interpolate, Sequence, spring, useCurrentFrame, useVideoConfig } from 'remotion'

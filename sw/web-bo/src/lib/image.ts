@@ -3,7 +3,7 @@
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 
 // quality — 이 프로그램에서 그림을 압축하는 마지막 지점이다. 앞 단계(크롭)는 무손실로 넘어온다.
-// 아바타 0.95는 규격 SSoT(docs/project/celeb-avatar-spec.md §6)가 정한 값이며 서버 등록 경로와 같다.
+// 아바타 0.95는 규격 SSoT(docs/project/celeb/celeb-avatar-spec.md §6)가 정한 값이며 서버 등록 경로와 같다.
 const IMAGE_SIZES = {
   avatar: { width: 800, height: 800, quality: 0.95 },  // 1:1 정사각 (원형 아바타, 레티나 3x 대응)
   faction: { width: 1080, height: 1080, quality: 0.85 },  // 1:1 정사각 (세력도감 단체샷·전용 화보)

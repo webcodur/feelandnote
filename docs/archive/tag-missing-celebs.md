@@ -1,7 +1,7 @@
 # 태그 후보 — 미등록 인물 목록
 
 > 이력 문서. 현행 규칙 아님. 작성 시점: 26.03.
-> **완료** (2026-03-23). 전원 등록 + 3개 태그 생성·배정·활성화 완료. 태그 생성 절차의 현역 정본은 `docs/project/celeb/celeb-tag-system.md`.
+> **완료** (2026-03-23). 전원 등록 + 3개 테마 생성·배정·활성화 완료. 현행 편집 경로는 web-bo `/factions`다.
 
 ---
 
@@ -64,5 +64,5 @@
 ## 참고
 
 - 인물 등록: `celeb-creation-rulebook` 에이전트 사용
-- 태그 생성 절차: `docs/project/celeb/celeb-tag-system.md`
+- 현행 테마 운영: `docs/project/apps/web-bo.md` 「세력도감」
 - 총 태그 수: 22개 활성 (2026-03-23 기준)

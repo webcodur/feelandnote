@@ -17,13 +17,17 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll()
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet, headers) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
           supabaseResponse = NextResponse.next({
             request
           })
+          // CDN 캐시 방지 헤더 — 세션 쿠키가 다른 사용자에게 노출되지 않도록
+          Object.entries(headers).forEach(([key, value]) =>
+            supabaseResponse.headers.set(key, value)
+          )
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, {
               ...options,

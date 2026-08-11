@@ -4,7 +4,7 @@
  * 차이: 새 도구는 규격 기준선(눈높이·턱끝·중심축)을 겹쳐 그리고, 그 수치를
  * `src/lib/avatar-geometry.ts` 의 AVATAR_SPEC 에서 가져온다. 칸 번호 ↔ 인물 대응표도 함께 낸다.
  * 이 파일은 기준선 없이 격자만 만들며 규격을 참조하지 않는다.
- * 검수 절차는 `docs/project/celeb-avatar-spec.md` §5.2 를 따른다.
+ * 검수 절차는 `docs/project/celeb/celeb-avatar-spec.md` §5.2 를 따른다.
  *
  * ── 이하 원문 ──
  * 아바타 검수 보조 — 지정한 slug들의 아바타를 격자 한 장으로 합성한다.

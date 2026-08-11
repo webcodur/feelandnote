@@ -230,7 +230,7 @@ sw/remotion/public/music/  # 배경음악
 1. **기획·명단** — *어디서: 조사·웹 검색, 셀럽 파이프라인(web-bo `/celebs`).*
    진영별로 인물을 추리고 현직 여부를 웹으로 교차 확인한다(편성 원칙 1). 미등록 인물은 티어를 나눠 먼저 등록한다. 동명이인 주의. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
    - 실존 인물 → `light`(콘텐츠 확보 시 `full` 승격). 관계 때문에 나오는 조연도 같은 기준을 쓴다.
-   - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 스킬 `fiction-profile-monologue`로 기본 정보와 `celebs.virtual_monologue`를 먼저 완성한다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
+   - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 현행 셀럽 등록 경로로 기본 정보만 만들며 `celebs.virtual_monologue`는 요구하거나 신규 작성하지 않는다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
 
    등록 여부·티어는 편집기 인물 행 배지로 확인한다: **✓ DB**(실존 등록·연결) / **⚠ 없음**(키는 있는데 DB 부재) / **미연결**(키 없음) / **신화**(fiction, `mythical` 플래그 — DB 연결 시 초록).
 2. **편 만들기·구성 입력** — *어디서: web-bo `/factions`(편 생성) → `/factions/<편>/ko/info` 정비 탭. 쓰는 곳은 DB다.*
@@ -238,7 +238,7 @@ sw/remotion/public/music/  # 배경음악
 3. **사진 발주·배치** — *어디서: 발주서 `sw/remotion/public/factions/<편>/*.md` + 편집기 사진 풀. 파일은 로컬.*
    스킬 `faction-image` + `00-발주서-*.md`. **단체샷 승인 → 크롭(`<slug>-crop`) → 개인샷(`<slug>.png`)** 순서(folder-rules §8). `person-prompts.md`/`group-prompts.md` 신규 금지. 파일을 세력 폴더 정본 경로에 두고 `logoImg` / `clusters[].image` / `people[].image`를 실제 파일과 동일 문자열로 맞춘다(유저 승인 후).
 4. **대사·수식어 작성** — *어디서: 편집기 정비 탭 인물 행. 쓰는 곳은 DB다.*
-   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 본 서비스 가상 독백에서 핵심 갈등 하나를 압축해 만들며, 독백에 없는 철학을 새로 붙이지 않는다. `quoteOrigin`은 출처 필수칸이 아니라 자유 메모칸이며 비어 있어도 정상이다.
+   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 대표 원전과 기존 조사 자료를 근거로 쓰며, 보존된 가상 독백이 있으면 참고 재료로만 사용할 수 있다. 독백을 먼저 만들거나 대사 내용을 독백 칼럼에 백필하지 않는다. `quoteOrigin`은 출처 필수칸이 아니라 자유 메모칸이며 비어 있어도 정상이다.
    스킬 `faction-dialogue-review`로 한국어 본문과 청크를 한 번 작성하고, 조건부 DB 반영 → export → drift·구조 검증으로 끝낸다. 영문은 현재 제작하지 않으며 별도 요청이 있을 때만 작성한다. 순환 장부·후보 상태·인물별 검토 문서는 만들지 않는다.
 5. **음성 합성** — *어디서: 터미널 `pnpm voice:faction`. 산출물은 `<편>/voice/`(로컬).*
    유저가 명시적으로 요청할 때만 돌린다(`gotchas.md` §6).
@@ -249,7 +249,7 @@ sw/remotion/public/music/  # 배경음악
 8. **렌더·자막·썸네일** — *어디서: 편집기 「렌더」 버튼, 또는 Remotion Studio에서 `Faction-<KEY>` 확인 후 직접.*
    「렌더」 버튼은 세 영상(`out/Faction/{ep}-KO-LV.mp4`·`-KO-S1.mp4`·`-KO-S2.mp4`)과 자막 3종(`.srt`)을 함께 만든다. 컴포지션 ID는 `Faction-<KEY>-KO-LV`·`-KO-S1`·`-KO-S2`. 렌더 직전에 파일을 DB와 맞추는 내보내기가 한 번 더 돈다.
 9. **유튜브 업로드 · 세력도감 출간** — *어디서: 편집기 헤더의 「유튜브」·「출간」 패널.*
-   유튜브는 아래 「유튜브 업로드」 절 참조. 출간은 세력도감(DB `celeb_tags`·`celeb_tag_assignments` + R2 이미지)에 반영한다 — 진단으로 막힌 항목을 확인하고, 미리보기(dry-run)로 변경 예정을 본 뒤 출간한다. 소개문은 채움 전용(도감에서 사람이 다듬은 글을 덮지 않음), 이미지는 해시 기반 멱등 업로드, 출간할 때만 운영 웹 캐시를 무효화한다. **상세는 `docs/project/web-bo.md` 「세력도감」 절, 설계 SSoT는 `faction-unification.md` §4·§9.**
+   유튜브는 아래 「유튜브 업로드」 절 참조. 출간은 세력도감(DB `celeb_tags`·`celeb_tag_assignments` + R2 이미지)에 반영한다 — 진단으로 막힌 항목을 확인하고, 미리보기(dry-run)로 변경 예정을 본 뒤 출간한다. 소개문은 채움 전용(도감에서 사람이 다듬은 글을 덮지 않음), 이미지는 해시 기반 멱등 업로드, 출간할 때만 운영 웹 캐시를 무효화한다. **상세는 `docs/project/apps/web-bo.md` 「세력도감」 절, 설계 SSoT는 `faction-unification.md` §4·§9.**
 
 ## 자막(SRT)
 

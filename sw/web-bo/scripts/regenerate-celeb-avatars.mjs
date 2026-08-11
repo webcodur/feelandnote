@@ -52,7 +52,7 @@ function resolveCodex() {
   return CODEX
 }
 
-// 아바타 구도 규격 SSoT = docs/project/celeb-avatar-spec.md §4.1.
+// 아바타 구도 규격 SSoT = docs/project/celeb/celeb-avatar-spec.md §4.1.
 // 이 상수는 그 문서의 확정본 사본이다. 고칠 일이 생기면 문서를 먼저 고치고 여기로 옮긴다.
 // REF 자체가 옆모습·과확대·과축소·잘림인 경우가 많으므로 구도 복제를 명시적으로 끊는다.
 const FRAMING = `FRAMING — TIGHT HEAD-AND-SHOULDERS PORTRAIT, FIXED GEOMETRY

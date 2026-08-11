@@ -3,7 +3,7 @@
 `celebs.virtual_monologue`의 2026-07 전수 품질 정비 기록을 배치 단위 JSON으로 보존한다.
 당시 배치 JSON에 남은 `profile` 명칭은 파일 형식의 역사일 뿐 현재 DB 테이블명이 아니다.
 
-현행 규칙은 `docs/project/celeb/virtual-monologue.md` 하나만 따른다. 아래 내용은 보존된 옛 배치 파일과 도구의 형식 설명이다.
+서비스 화면 노출과 신규 작성은 중단됐다. 보존 규칙은 `docs/project/celeb/retire/virtual-monologue.md`를 따르며, 아래 명령은 기존 배치 파일과 도구의 역사적 형식을 설명하기 위해 남긴다.
 
 ## 파일 규칙
 

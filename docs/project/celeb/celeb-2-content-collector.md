@@ -3,7 +3,7 @@
 > **최종 실측 체크: 26.08.10** — 8/9 회원·셀럽 물리 분리 뒤의 `celebs` ·
 > `celeb_contents` · 조사 완료 RPC를 live DB와 현행 코드로 대조했다.
 >
-> 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 신규 BOOK의 한국어 메타·커버는 **카카오(`kakao_book`)**, 영문 원서는 **OpenLibrary(`openlibrary`)**만 쓴다. 전환 내역은 `docs/project/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
+> 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 신규 BOOK의 한국어 메타·커버는 **카카오(`kakao_book`)**, 영문 원서는 **OpenLibrary(`openlibrary`)**만 쓴다. 전환 내역은 `docs/project/platform/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 >
 > **직접 DB worker 은퇴(26.08.10):** 실험용 worker와 전용 RPC·provider rate-limit 계층은
 > 운영 진입점으로 채택하지 않고 제거했다. 기존 조사 원장·후보·출처는 감사 이력으로 보존하며,
@@ -380,6 +380,10 @@ curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=
 
 콘텐츠 수집 단계에서 한국어·영문 데이터를 **동시에** 확보한다. 나중에 별도로 번역하지 않는다.
 
+> 이 동시 확보는 **콘텐츠 전체 수집을 발주받은 경우**의 계약이다. 사용자가 ko 데이터만
+> 작성·교정하라고 범위를 제한했다면 en 행·`review_en`·en locale을 임의로 만들거나 고치지
+> 않는다. 일반 번역 작업의 범위 경계는 `celeb-i18n.md`를 따른다.
+
 ### 에디션 일관성 원칙 (필수)
 
 **하나의 content_locales 행에서 ISBN, 표지(thumbnail_url), 출판사는 반드시 같은 에디션에서 가져온다.**
@@ -512,6 +516,7 @@ VALUES
 
 **금지**:
 - `google_books` 사용 금지 — **일일 호출 한도 1,000건이라 대량 수집에 못 쓴다.** `sw/web-bo/.env`에 키가 `GOOGLE_BOOKS_API_KEY_0`~`_4`로 5개 있는 것이 한도를 늘리려 키를 돌려쓴 흔적이고, 그렇게 해도 부족해 폐기했다. 무료라고 되살리지 마라 — 한도가 문제지 비용이 문제가 아니다. 시스템 제약상 기존 데이터 보존을 위해 enum과 잔존 데이터(`external_source='google_books'` 249건)는 남아 있으나 신규 등록 사용 금지. (위 "영문판 매칭 분기" 참조)
+  - 서지 메타 조회뿐 아니라 **책 본문에 특정 문장이 있는지 검색하는 용도로도 호출하지 않는다.** 같은 일일 한도를 소모한다.
 - `amazon` 사용 금지 (공식 API 부재·접근권 제한·실사용 0건).
 - `wikipedia` 사용 금지 (ISBN 없는 책을 외부에 연결할 길이 없음 — 영역본 미존재 시 영문 줄 등록 폐기).
 

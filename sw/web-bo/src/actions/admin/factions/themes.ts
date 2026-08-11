@@ -70,35 +70,53 @@ export async function getThemeEpisodeLinks(): Promise<Record<string, ThemeEpisod
   return links
 }
 
+/** 단일 원천 뷰에서 함께 계산하는 테마별 인물·개인샷 통계. */
+interface ThemeMemberStats {
+  memberCount: number
+  soloImageCount: number
+}
+
 /**
- * 테마별 개인샷 보유 인물 수 — 단일 원천 뷰(faction_atlas_members) 기준.
- * 제작 유래(web_image_url 손질 포함)와 웹 전용 배정을 합친 수라 도감 화면과 같은 값이 나온다.
+ * 테마별 인물·개인샷 수 — 단일 읽기 창구를 한 번만 훑어 두 통계를 함께 만든다.
+ * 옛 `get_tag_celeb_counts` RPC는 수동 배정만 세어 제작 인물을 누락하므로 쓰지 않는다.
  */
-async function getSoloImageCounts(): Promise<Map<string, number>> {
+async function getThemeMemberStats(): Promise<Map<string, ThemeMemberStats>> {
   const supabase = await createClient()
-  const rows = await selectAllPages<{ tag_id: string; celeb_id: string }>((from, to) =>
+  const rows = await selectAllPages<{
+    tag_id: string
+    celeb_id: string
+    faction_image_url: string | null
+  }>((from, to) =>
     supabase.from('faction_atlas_members')
-      .select('tag_id,celeb_id')
-      .not('faction_image_url', 'is', null)
+      .select('tag_id,celeb_id,faction_image_url')
       .order('tag_id').order('celeb_id').range(from, to))
 
-  const counts = new Map<string, number>()
-  for (const r of rows) counts.set(r.tag_id, (counts.get(r.tag_id) ?? 0) + 1)
-  return counts
+  const stats = new Map<string, ThemeMemberStats>()
+  for (const row of rows) {
+    const current = stats.get(row.tag_id) ?? { memberCount: 0, soloImageCount: 0 }
+    current.memberCount += 1
+    if (row.faction_image_url) current.soloImageCount += 1
+    stats.set(row.tag_id, current)
+  }
+  return stats
 }
 
 /** 목록 화면용 — 테마 전량에 인물 수·사진 보유·영상 연결을 붙여 정렬 순서대로 준다 */
 export async function listFactionThemes(): Promise<FactionThemeSummary[]> {
-  const [{ tags }, links, soloCounts] = await Promise.all([
-    getTags(), getThemeEpisodeLinks(), getSoloImageCounts(),
+  const [{ tags }, links, memberStats] = await Promise.all([
+    getTags(), getThemeEpisodeLinks(), getThemeMemberStats(),
   ])
 
-  return tags.map(tag => ({
-    ...tag,
-    teamImageCount: tag.team_images.length,
-    soloImageCount: soloCounts.get(tag.id) ?? 0,
-    episodes: links[tag.id] ?? [],
-  }))
+  return tags.map(tag => {
+    const stats = memberStats.get(tag.id)
+    return {
+      ...tag,
+      celeb_count: stats?.memberCount ?? 0,
+      teamImageCount: tag.team_images.length,
+      soloImageCount: stats?.soloImageCount ?? 0,
+      episodes: links[tag.id] ?? [],
+    }
+  })
 }
 
 /** 상위 묶음으로 고를 수 있는 테마 한 건 */

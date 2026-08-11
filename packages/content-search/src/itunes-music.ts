@@ -8,7 +8,7 @@
 //
 // Spotify와 결정적으로 다른 점: 30초 미리듣기 음원(previewUrl)을 함께 준다.
 // 우리 플레이어가 이 파일을 직접 재생하므로 남의 창(iframe)이 필요 없고 로그인도 필요 없다.
-// 상세: docs/project/external-services.md 「외부 콘텐츠 검색 API」
+// 상세: docs/project/platform/external-services.md 「외부 콘텐츠 검색 API」
 
 const ITUNES_SEARCH_URL = 'https://itunes.apple.com/search'
 const ITUNES_LOOKUP_URL = 'https://itunes.apple.com/lookup'

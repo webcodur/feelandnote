@@ -2,7 +2,7 @@
 
 `feelandnote.com`을 안드로이드 앱으로 감싸는 껍데기다. 화면은 사용자의 브라우저가 그린다. 웹을 배포하면 앱 내용도 함께 갱신되므로 앱을 다시 낼 필요가 없다.
 
-방식 선정 근거와 출시 조건은 `docs/project/android-app-feasibility-review-2026-07-29.md`가 쥔다.
+방식 선정 근거와 출시 조건은 `docs/project/apps/android-app-feasibility-review-2026-07-29.md`가 쥔다.
 
 > **최종 실측 체크: 26.07.30** — 파일 구성은 실측이다. **빌드는 돌리지 않았다**(Android SDK·Gradle 미설치).
 

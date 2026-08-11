@@ -1,0 +1,22 @@
+name: Lint AGENTS.md
+
+on:
+  push:
+    paths:
+      - AGENTS.md
+      - scripts/check-agents-md.mjs
+      - package.json
+      - .github/workflows/lint-agents.yml
+  pull_request:
+    paths:
+      - AGENTS.md
+      - scripts/check-agents-md.mjs
+      - package.json
+      - .github/workflows/lint-agents.yml
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/check-agents-md.mjs

@@ -2,7 +2,7 @@
 
 세력도감(팩션) 영상의 인물 화면을 정지 이미지에서 AI 생성 영상으로 바꾸는 건의 조사 기록이다. **2026-08-01 조사, 생성 미착수.** 확인분에는 무엇을 돌려 나온 결과인지 붙였고, 미확인은 확인 방법을 적었다.
 
-관련: 엔진 구조는 `docs/project/remotion/faction.md`, 제작 규칙·함정은 `docs/project/remotion/faction-rules.md`(§5 영상 미디어 처리가 직결), 발주 프롬프트 원칙은 `docs/project/image-generation.md`.
+관련: 엔진 구조는 `docs/project/remotion/faction.md`, 제작 규칙·함정은 `docs/project/remotion/faction-rules.md`(§5 영상 미디어 처리가 직결), 발주 프롬프트 원칙은 `docs/project/production/image-generation.md`.
 
 ---
 

@@ -1,7 +1,7 @@
 # content_locales 상세 설계서
 
 > 이력 문서. 현행 규칙 아님. 작성 시점: 26.03.
-> ⚠️ 단, §2.2 `content_locales` DDL, §2.3 sources JSONB 스키마, §2.4 verified 상태 정의는 **현행 스키마를 기술하는 살아있는 규격**이며 현역 문서(`docs/project/db-core.md`)에 아직 반영돼 있지 않다.
+> ⚠️ 단, §2.2 `content_locales` DDL, §2.3 sources JSONB 스키마, §2.4 verified 상태 정의는 **현행 스키마를 기술하는 살아있는 규격**이며 현역 문서(`docs/project/data/db-core.md`)에 아직 반영돼 있지 않다.
 
 > ✅ **마이그레이션 완료 (2026-03-06)** — Phase 1(DDL+이관), Phase 2(앱코드 전환), Phase 3(레거시 DROP) 모두 완료.
 > 아래는 설계 당시 문서. 현재 구조는 `content_locales` 테이블이 유일한 로케일 데이터 소스.

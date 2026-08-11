@@ -8,17 +8,19 @@ import type { CelebImageFilter } from '@/actions/admin/celebs'
 interface CelebFilterProps {
   action?: string
   showImageFilter?: boolean
+  tags?: { id: string; name: string }[]
   defaultValues: {
     search: string
     status: string
     profession: string
     tier: string
     imageFilter: CelebImageFilter
+    faction?: string
   }
 }
 
-export default function CelebFilter({ action = '/celebs', showImageFilter = false, defaultValues }: CelebFilterProps) {
-  const { search, status, profession, tier, imageFilter } = defaultValues
+export default function CelebFilter({ action = '/celebs', showImageFilter = false, tags = [], defaultValues }: CelebFilterProps) {
+  const { search, status, profession, tier, imageFilter, faction = 'all' } = defaultValues
 
   return (
     <div className="bg-bg-card border border-border rounded-lg p-3 md:p-4">
@@ -30,7 +32,20 @@ export default function CelebFilter({ action = '/celebs', showImageFilter = fals
           className="flex-1 min-w-0 sm:min-w-[220px]"
         />
 
-        <div className={`grid gap-2 sm:flex md:gap-3 ${showImageFilter ? 'grid-cols-2' : 'grid-cols-3'}`}>
+        <div className={`grid gap-2 sm:flex sm:flex-wrap md:gap-3 ${showImageFilter ? 'grid-cols-2' : 'grid-cols-3'}`}>
+          <select
+            name="faction"
+            defaultValue={faction}
+            className="px-3 py-2 bg-bg-secondary border border-border rounded-lg text-sm text-text-primary focus:border-accent focus:outline-none"
+          >
+            <option value="all">모든 세력</option>
+            {tags.map((tag) => (
+              <option key={tag.id} value={tag.id}>
+                {tag.name}
+              </option>
+            ))}
+          </select>
+
           <select
             name="status"
             defaultValue={status}

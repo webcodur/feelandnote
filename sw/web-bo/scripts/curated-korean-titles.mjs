@@ -25,7 +25,7 @@ import { codexCall } from '../../../.claude/skills/codex-gpt/scripts/codex-call.
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../../..')
-const WORK = join(ROOT, 'docs/curated-lists/_korean-titles')
+const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
 
 function loadEnv(p) {
   if (!existsSync(p)) return

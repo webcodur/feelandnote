@@ -99,6 +99,6 @@ Spotify 레거시가 0이 되기 전에는 플레이어의 Spotify 호환 분기
 
 | 문서 | 내용 |
 |------|------|
-| `docs/project/external-services.md` 「외부 콘텐츠 검색 API」 | Spotify 차단 경위·iTunes 메타 SSoT |
+| `docs/project/platform/external-services.md` 「외부 콘텐츠 검색 API」 | Spotify 차단 경위·iTunes 메타 SSoT |
 | `docs/project/celeb/celeb-2-content-collector.md` 「MUSIC - iTunes」 | 조사와 즉시 등록 절차 |
 | `docs/todo/external-api-migration-2026-08-01.md` | Spotify 레거시 이전 현황 |

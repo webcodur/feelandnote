@@ -214,5 +214,5 @@ celeb_buzz_scores
 - 프로젝트 내부: `sw/web/vercel.json`
 - 프로젝트 내부: `sw/web/src/app/api/cron/today-figure/route.ts`
 - 프로젝트 내부: `.github/workflows/keep-alive.yml`
-- 프로젝트 내부: `docs/project/external-services.md`
-- 프로젝트 내부: `docs/project/web-egress-audit-2026-06-29.md`
+- 프로젝트 내부: `docs/project/platform/external-services.md`
+- 프로젝트 내부: `docs/project/platform/web-egress-audit-2026-06-29.md`

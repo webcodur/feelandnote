@@ -21,11 +21,11 @@
 
 `celebs`의 **텍스트 데이터 빈칸**을 룰북 규격에 맞게 채운다. 2,426명은 최초 회차의 역사
 스냅샷이며 현재 모집단은 실행 시 live `celebs`에서 다시 계산한다. 대상 트랙은
-basic(이름·수식어·소개·직군·국적·생몰) · 감상철학 · 영향력 7축 · 페르소나 16항목+종합해설 ·
+basic(이름·수식어·소개·직군·국적·생몰) · 영향력 7축 · 페르소나 16항목+종합해설 ·
 speech(톤·명언·대사 21개) · 영문(i18n)이다.
 
-**범위 밖**: 가상독백(`virtual_monologue`). 전용 트랙이 따로 있고 한국어 전수는 이미 완료됐다
-(`docs/archive/virtual-monologue-quality-overhaul-2026-07.md`).
+**범위 밖**: 감상 여정(`consumption_philosophy*`)과 가상 독백(`virtual_monologue*`). 둘 다
+서비스 노출·신규 작성이 중단돼 빈 값을 결손으로 세지 않는다(`docs/project/celeb/retire/`).
 
 **결손으로 세지 않는 것**: `fiction` 티어의 생몰(특정 불가가 정상), `fiction`·`relation`
 티어의 영문 필드(번역 대상 아님), `death_date`(생존자는 비어 있는 게 정상).

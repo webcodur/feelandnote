@@ -119,10 +119,10 @@
 - `/explore/faction/[slug]`: `slug`로 태그를 찾아 그 `id`를 `initialTagId`로 넘긴다. 못 찾으면 `notFound()`다.
 - 인물 화보의 대사 버튼은 해당 팩션 배치의 `faction_atlas_members.quote/quote_en`만 자막으로 보낸다. 게임용 `celeb_dialogues`의 greeting·quote로 폴백하지 않는다.
 
-**태그·그룹 체계는 여기서 다루지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`, 26.07.26 코드 상수에서 승격), 그룹 헤더가 일반 태그 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
+**테마·그룹의 운영 규격은 여기서 복제하지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`), 그룹 헤더가 일반 테마 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
 
-- `docs/project/celeb/celeb-tag-system.md` — 셀럽 태그 체계·상위 그룹 현행 규격
-- `docs/project/faction-ai-group-refactor.md` — 그룹 계층 설계 경위(상수 시대 기록)
+- `docs/project/apps/web-bo.md` 「세력도감」 — 현행 운영·편집 규격
+- `docs/project/remotion/faction-unification.md` §4-3 — 제작·서비스 데이터 단일화 설계
 
 ## 인물 피드 (`/explore/feed`)
 
@@ -159,7 +159,7 @@ YouTube 피드와 DB 병합 결과는 6시간 캐시한다. 피드 조회가 실
 - 화면 지도: [README.md](README.md)
 - 서가(오늘의 인물 미리보기): [library.md](library.md)
 - 광장(`/explore/people` 목적지): [agora.md](agora.md)
-- 세력도감 그룹: `docs/project/faction-ai-group-refactor.md`
-- 셀럽 태그: `docs/project/celeb/celeb-tag-system.md`
-- 셀럽 데이터: `docs/project/db-celeb.md`
-- SEO: `docs/project/seo.md`
+- 세력도감 운영·그룹: `docs/project/apps/web-bo.md` 「세력도감」
+- 세력도감 단일화: `docs/project/remotion/faction-unification.md` §4-3
+- 셀럽 데이터: `docs/project/data/db-celeb.md`
+- SEO: `docs/project/operations/seo.md`

@@ -37,7 +37,7 @@
 - 프로필 독백은 `sw/web-bo/scripts/translate-virtual-monologue.ts`를 따른다.
 - 페르소나는 평면 컬럼이 아니라 `persona` JSONB가 원본이다.
 - 한마디는 `set_celeb_quote` RPC만 사용한다. `lines` 전체를 덮지 않는다.
-- 타임라인은 `docs/project/celeb-journey.md`를 따른다.
+- 타임라인은 `docs/project/celeb/celeb-timeline.md`를 따른다.
 - 감상문은 DB↔Remotion SSoT와 팩트체크 원칙을 따른다.
 - 인용·대사·사료는 번역 누락이라는 이유만으로 생성하거나 의역하지 않는다.
 

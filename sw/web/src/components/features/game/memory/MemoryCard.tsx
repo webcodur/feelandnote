@@ -24,11 +24,13 @@ export default function MemoryCard({
   onSelect,
 }: Props) {
   const revealed = isFlipped || isMatched;
+  // 판정 결과가 뜬 카드는 다시 눌러 대기 시간을 건너뛸 수 있다
+  const showsResult = isFlipped && pairResult !== null;
 
   return (
     <button
       type="button"
-      disabled={isMatched || isLocked || (isFlipped && pairResult !== null)}
+      disabled={isMatched || (isLocked && !showsResult)}
       aria-label={revealed ? card.figure.name : backLabel}
       aria-hidden={isMatched}
       onClick={() => onSelect(card)}
@@ -36,9 +38,9 @@ export default function MemoryCard({
         "group relative aspect-[4/5] min-w-0 rounded-lg border bg-bg-card text-left",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         pairResult === "match"
-          ? "border-emerald-400/80 bg-emerald-950/20 shadow-[0_0_24px_-8px_rgba(52,211,153,0.8)]"
+          ? "border-emerald-400 ring-2 ring-emerald-400/70"
           : pairResult === "mismatch"
-            ? "border-orange-400/80 bg-orange-950/20 shadow-[0_0_24px_-8px_rgba(251,146,60,0.7)]"
+            ? "border-orange-400 ring-2 ring-orange-400/70"
             : isFlipped
               ? "border-accent shadow-[0_0_22px_-8px_rgba(212,175,55,0.8)]"
           : "border-accent/20 hover:border-accent/70 hover:bg-white/[0.04]",
@@ -65,14 +67,6 @@ export default function MemoryCard({
             className="object-cover"
             style={{ filter: "none" }}
           />
-          {pairResult && (
-            <span
-              className={`pointer-events-none absolute inset-0 ${
-                pairResult === "match" ? "bg-emerald-400/15" : "bg-orange-400/15"
-              }`}
-              aria-hidden
-            />
-          )}
           <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent px-1.5 pb-1.5 pt-6">
             <span className="block truncate text-center font-serif text-sm font-bold text-text-primary">
               {card.figure.name}

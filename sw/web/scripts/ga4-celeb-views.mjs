@@ -12,7 +12,7 @@
 
   주의:  크리덴셜(credentials/ga-service-account.json)은 추적 대상 밖이다.
          GA4는 열람만 가능하다 — Admin API가 꺼져 있어 설정 변경은 안 된다.
-         상세는 docs/project/traffic-audit-2026-07-25.md 「조회 수단」 참조.
+         상세는 docs/project/operations/traffic-audit-2026-07-25.md 「조회 수단」 참조.
 */
 
 import { readFileSync } from "node:fs";

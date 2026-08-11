@@ -1,7 +1,7 @@
 # 쿠팡 파트너스 링크 만들기
 
 도서에 붙일 쿠팡 제휴 링크를 만드는 도구 세 종. 배경·정책·함정은
-`docs/project/monetization.md`가 쥔다. 여기는 **쓰는 법만** 적는다.
+`docs/project/operations/monetization.md`가 쥔다. 여기는 **쓰는 법만** 적는다.
 
 ## 전제
 

@@ -1,6 +1,6 @@
 /**
  * 승인된 한국어 가상 독백의 영문 후보 생성기.
- * 규칙 SSoT: docs/project/celeb/virtual-monologue.md
+ * 보존 규칙: docs/project/celeb/retire/virtual-monologue.md (신규 작성 중단)
  *
  * 생성 결과는 .tmp-mono-en/candidates.jsonl에만 저장한다.
  * 승인한 JSONL은 --apply-file로 원문 해시를 대조한 뒤 반영한다.

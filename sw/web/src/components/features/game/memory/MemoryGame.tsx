@@ -84,7 +84,38 @@ export default function MemoryGame({
     playSfx(MEMORY_SFX.chooseDifficulty);
   }, [playSfx]);
 
+  /** 짝을 확정하고 두 장을 화면에서 지운다 */
+  const finishMatch = useCallback((ids: string[]) => {
+    clearTimeouts();
+    const nextMatched = new Set(matchedIds);
+    for (const id of ids) nextMatched.add(id);
+    setMatchedIds(nextMatched);
+    setOpenIds([]);
+    setPairResult(null);
+    setLocked(false);
+    if (nextMatched.size === board.length) {
+      setPhase("result");
+      playSfx(MEMORY_SFX.complete);
+    }
+  }, [board.length, clearTimeouts, matchedIds, playSfx]);
+
+  /** 어긋난 두 장을 뒷면으로 되돌린다 */
+  const finishMismatch = useCallback(() => {
+    clearTimeouts();
+    setOpenIds([]);
+    setPairResult(null);
+    setFeedback("");
+    setLocked(false);
+  }, [clearTimeouts]);
+
   const handleSelect = useCallback((card: MemoryCardData) => {
+    // 결과가 뜬 카드를 다시 누르면 대기 시간을 건너뛰고 즉시 마무리한다
+    if (pairResult !== null && openIds.includes(card.instanceId)) {
+      if (pairResult === "match") finishMatch(openIds);
+      else finishMismatch();
+      return;
+    }
+
     if (locked || matchedIds.has(card.instanceId)) return;
 
     if (openIds.includes(card.instanceId)) {
@@ -121,31 +152,28 @@ export default function MemoryGame({
       setLocked(true);
       setFeedback("");
       playSfx(MEMORY_SFX.match);
-      queueTimeout(() => {
-        const nextMatched = new Set(matchedIds);
-        nextMatched.add(firstCard.instanceId);
-        nextMatched.add(card.instanceId);
-        setMatchedIds(nextMatched);
-        setOpenIds([]);
-        setPairResult(null);
-        setLocked(false);
-        if (nextMatched.size === board.length) {
-          setPhase("result");
-          playSfx(MEMORY_SFX.complete);
-        }
-      }, 550);
+      queueTimeout(() => finishMatch([firstCard.instanceId, card.instanceId]), 550);
       return;
     }
 
     setPairResult("mismatch");
     setFeedback(t("mismatch"));
     playMismatchSfx();
-    queueTimeout(() => {
-      setOpenIds([]);
-      setPairResult(null);
-      setFeedback("");
-    }, 900);
-  }, [board, clearTimeouts, locked, matchedIds, openIds, pairResult, playMismatchSfx, playSfx, queueTimeout, t]);
+    queueTimeout(finishMismatch, 900);
+  }, [
+    board,
+    clearTimeouts,
+    finishMatch,
+    finishMismatch,
+    locked,
+    matchedIds,
+    openIds,
+    pairResult,
+    playMismatchSfx,
+    playSfx,
+    queueTimeout,
+    t,
+  ]);
 
   useEffect(() => {
     if (phase !== "playing") return;
