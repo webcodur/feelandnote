@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE, LIST_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, LIST_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -232,7 +232,7 @@ async function fetchCelebsPublic(
       .in('id', celebIds)
       .eq('has_voice', true),
     supabase.from('celebs')
-      .select('id, content_research_status')
+      .select('id, content_research_confirmed_empty_at')
       .in('id', celebIds),
     getInfluenceRanking(),
   ])
@@ -269,8 +269,12 @@ async function fetchCelebsPublic(
   })
 
   const contentResearchStatusMap: Record<string, string> = {}
+  // 조회 실패를 빈 상태 맵으로 캐시하면 7일 동안 조사 완료 여부가 사라진다.
+  throwOnQueryError('공개 인물 목록 조사 상태', researchStatusResult.error)
   ;(researchStatusResult.data ?? []).forEach(row => {
-    contentResearchStatusMap[row.id] = row.content_research_status
+    contentResearchStatusMap[row.id] = row.content_research_confirmed_empty_at
+      ? 'confirmed_empty'
+      : 'open'
   })
 
   // 영향력 랭킹 — 공유 캐시에서 가져온다
@@ -287,7 +291,7 @@ async function fetchCelebsPublic(
 // unstable_cache 래퍼: 인자를 직렬화 가능한 primitive로 전달
 const getCelebsCached = unstable_cache(
   fetchCelebsPublic,
-  ['celebs-public'],
+  ['celebs-public-v2-confirmed-empty-at'],
   // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
@@ -362,7 +366,7 @@ export async function getCelebs(
       follower_count: row.follower_count,
       content_count: resolveCelebContentCount(
         row.content_count,
-      pub.contentResearchStatusMap[row.id]
+        pub.contentResearchStatusMap[row.id]
       ),
       is_following: myFollowings.has(row.id),
       // 셀럽→회원 역방향 팔로우는 새 관계 모델에 없다.
