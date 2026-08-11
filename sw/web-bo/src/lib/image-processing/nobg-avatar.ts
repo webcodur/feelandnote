@@ -6,7 +6,7 @@ import sharp from 'sharp'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { buildSmallAvatar, smallAvatarKey } from '@/lib/avatar-small'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 const NOBG_BATCH_DIR = 'C:\\project\\nobg\\batch'
@@ -129,7 +129,7 @@ export async function processNobgAvatar(celebId: string): Promise<string> {
   const admin = createAdminClient()
   const { data: celeb, error } = await admin
     .from('celebs')
-    .select('id, avatar_url')
+    .select('id, slug, avatar_url')
     .eq('id', celebId)
     .maybeSingle()
 
@@ -154,6 +154,6 @@ export async function processNobgAvatar(celebId: string): Promise<string> {
   if (updateError) throw new Error(`아바타 주소 갱신 실패: ${updateError.message}`)
   if (!updated) throw new Error('아바타 주소를 갱신할 셀럽을 찾을 수 없습니다.')
 
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
+  await revalidateWebCeleb(celeb.id, celeb.slug, [CACHE_TAGS.CELEBS])
   return url
 }

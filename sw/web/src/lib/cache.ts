@@ -6,7 +6,7 @@
 */ // ------------------------------
 
 import { unstable_cache } from 'next/cache'
-import { itemTag, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
+import { detailCacheTags, type CacheTag } from '@feelandnote/shared/constants/cache-tags'
 
 /**
  * 셀럽 정적 데이터 캐시 만료 (초). 7일.
@@ -14,7 +14,7 @@ import { itemTag, type CacheTag } from '@feelandnote/shared/constants/cache-tags
  * 일반 사용자 활동으로는 변하지 않고, 운영자가 백오피스에서 셀럽/콘텐츠 데이터를
  * 넣거나 고칠 때만 변하는 데이터에 적용한다.
  *
- * 데이터 투입 시 web-bo가 저장한 도메인의 태그(CACHE_TAGS — celebs·contents·dialogues·persona·tags)만
+ * 데이터 투입 시 web-bo가 저장한 도메인의 태그(CACHE_TAGS — celebs·contents·dialogues·spectrum·tags)만
  * 골라 즉시 무효화하므로, 이 값은 무효화 누락에 대비한 안전망이다. (= 최악의 경우 7일 내 자동 갱신)
  * 각 캐시의 태그는 그 캐시가 실제로 읽는 테이블을 기준으로 붙인다.
  */
@@ -28,6 +28,9 @@ export const STATIC_REVALIDATE = 604800
  * 저절로 갱신되게 둔다. 목록 화면은 수십 개뿐이라 자주 다시 만들어도 부담이 없다.
  */
 export const LIST_REVALIDATE = 3600
+
+/** 기존 bare-domain 상세 태그를 배포 간 영속 캐시에서 재사용하지 않게 하는 스키마 버전. */
+const DETAIL_CACHE_KEY_VERSION = 'detail-tags-v2'
 
 /* ────────────────────────────────────────────────────────────────
    조회를 감싸는 두 도우미
@@ -47,8 +50,8 @@ export const LIST_REVALIDATE = 3600
 interface CacheOptions {
   /** 만료 시간(초). 기본값은 상세 7일 · 목록 1시간 */
   revalidate?: number
-  /** 이 조회가 함께 읽는 다른 도메인의 태그 */
-  extraTags?: readonly string[]
+  /** 이 상세 조회가 함께 읽는 다른 도메인. 해당 도메인의 명시적 전량 작업에만 함께 비운다. */
+  extraTags?: readonly CacheTag[]
 }
 
 /**
@@ -69,9 +72,11 @@ export function cachedDetail<R>(
   fn: () => Promise<R>,
   options: CacheOptions = {},
 ): Promise<R> {
-  return unstable_cache(fn, [...keyParts], {
+  return unstable_cache(fn, [DETAIL_CACHE_KEY_VERSION, ...keyParts], {
     revalidate: options.revalidate ?? STATIC_REVALIDATE,
-    tags: [itemTag(domain, id), domain, ...(options.extraTags ?? [])],
+    // bare domain은 목록 전용이다. 상세에 붙이면 신규 한 건을 목록에 반영할 때
+    // 기존 상세 수만 건까지 전부 낡은 것으로 처리된다.
+    tags: detailCacheTags(domain, id, options.extraTags),
   })()
 }
 
@@ -101,9 +106,6 @@ export function cachedList<R>(
    실패했는데 빈 목록을 정상 결과처럼 돌려주면 그 빈 값이 캐시에 저장되고,
    만료(위 7일)까지 화면에서 그 구역이 통째로 사라진다. 에러 화면도 안내도 없이
    자리 자체가 없어지므로 원래 그런 화면인 줄 알게 된다.
-
-   실제로 두 번 났다 — 셀럽 목록, 인기 작품(26.08.07).
-   두 사례와 규칙은 `docs/project/platform/tooling-gotchas.md`의 「실패를 캐시에 박지 마라」.
 
    쓰는 법 — 캐시되는 fetch 안에서 던지고, 공개 함수에서 받는다.
 

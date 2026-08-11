@@ -14,7 +14,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { factionAdminClient, requireFactionAdmin } from '@/lib/faction-db'
 import { assertFactionLocal } from '@/lib/faction-local'
 import { promoteSoloShotToAvatar, type FactionAvatarPromoteResult } from '@/lib/faction-avatar-promote'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCeleb } from '@/lib/revalidate-web'
 
 /**
  * @param folder   에피소드 폴더명
@@ -27,9 +27,17 @@ export async function promoteFactionAvatar(
   await requireFactionAdmin()
   assertFactionLocal()
 
-  const r = await promoteSoloShotToAvatar(factionAdminClient(), { folder, personId, force })
+  const db = factionAdminClient()
+  const r = await promoteSoloShotToAvatar(db, { folder, personId, force })
+
+  const { data: celeb, error } = await db
+    .from('celebs')
+    .select('slug')
+    .eq('id', r.celebId)
+    .single()
+  if (error) throw new Error(`승격한 셀럽 slug 조회 실패: ${error.message}`)
 
   // 얼굴 사진은 셀럽 화면·도감 목록이 함께 쓴다
-  await revalidateWebCache([CACHE_TAGS.CELEBS])
+  await revalidateWebCeleb(r.celebId, celeb.slug, [CACHE_TAGS.CELEBS])
   return r
 }

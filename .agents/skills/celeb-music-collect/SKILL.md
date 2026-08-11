@@ -1,12 +1,11 @@
 ---
 name: celeb-music-collect
-description: 음악 콘텐츠를 iTunes로 확인해 contents·locales·celeb_contents에 즉시 등록하고 남은 후보를 마감한다. "음악 조사", "음악 등록", "아이튠즈 등록", "음악 후보 정리" 등에 호출.
+description: 음악 콘텐츠를 iTunes로 확인해 contents·content_locales·celeb_contents에 즉시 등록한다. "음악 조사", "음악 등록", "아이튠즈 등록" 등에 호출.
 ---
 
 # 음악 조사·등록
 
 셀럽이 언급한 음악은 **찾은 작업에서 바로 iTunes 메타를 확인하고 최종 등록한다.**
-`celeb_music_candidates.status='pending'`에 남기는 것은 완료가 아니다.
 
 ## 현행 원칙
 
@@ -16,36 +15,6 @@ description: 음악 콘텐츠를 iTunes로 확인해 contents·locales·celeb_co
 4. `contents` → KO/EN `content_locales` → `celeb_contents`를 같은 작업에서 등록한다.
    `review`와 `review_en`도 이때 함께 쓴다.
 5. 재조회해 iTunes ID·미리듣기·두 locale·인물 연결·감상배경·출처를 확인한다.
-6. 작업 종료 시 해당 인물의 `pending` 후보가 0인지 확인한다.
-
-`celeb_music_candidates`는 과거 일괄 수집의 재개 장부로만 보존한다. **신규 조사 결과를
-여기에 넣고 다음 작업으로 넘기지 않는다.** 레거시 후보를 처리할 때도 성공은
-`registered + content_id`, 확정 실패는 `rejected + reject_reason`으로 그 실행에서 마감한다.
-
-## 실행
-
-```bash
-cd sw/web-bo
-
-# 특정 후보 1건을 영문 감상배경까지 즉시 마감
-node scripts/itunes-music-migrate.mjs --candidates-only \
-  --candidate-id <candidate-uuid> \
-  --review-en "<English review>"
-
-# 영문 evidence만 있는 레거시 pending 전량 마감
-node scripts/itunes-music-migrate.mjs --candidates-only --all-pending
-
-# DB 쓰기 없는 판정 점검
-node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run
-```
-
-후보 모드는 Spotify 이전과 분리되어 **MUSIC 후보부터 처리**한다. `--all-pending`을
-쓰지 않으면 `--limit` 기본값은 200이지만, 이는 레거시 대량 정리의 호출량 제어일 뿐
-신규 후보를 다음 날로 미루라는 규칙이 아니다.
-
-한국어 `evidence`가 있는 후보는 `--candidate-id`와 `--review-en`을 함께 주지 않으면
-provider 조회나 DB 쓰기 전에 fail-closed한다. `--celeb-id`·`--all-pending`으로 한국어
-감상배경만 먼저 등록한 뒤 영문을 백필하는 흐름은 금지한다.
 
 ## 등록 조건
 
@@ -62,10 +31,8 @@ provider 조회나 DB 쓰기 전에 fail-closed한다. `--celeb-id`·`--all-pend
 
 iTunes는 인증·키가 없는 공개 검색이라 IP 제한이 있다. 호출은 전역 순차로 하고 최소
 2초 간격을 둔다. 403/429는 결과 없음이나 기각으로 바꾸지 말고 즉시 오류로 드러낸다.
-다만 **속도 제한 가능성은 후보를 평상시 적치할 이유가 아니다.** 신규 조사는 인물당
-몇 건 수준이므로 즉시 처리한다. 403/429가 나면 같은 작업을 실패 상태로 유지하고 호출
-간격을 둔 뒤 이어서 마감한다. `pending`이 남은 상태를 완료로 보고하고 다른 작업으로
-넘기지 않는다.
+403/429가 나면 해당 곡을 등록하지 않고 작업을 실패 상태로 유지한 뒤, 호출 간격을 두고
+같은 인물 작업을 재개한다. 실패한 결과를 별도 후보 테이블에 적치하지 않는다.
 
 ## 밟으면 터지는 곳
 
@@ -76,8 +43,8 @@ iTunes는 인증·키가 없는 공개 검색이라 IP 제한이 있다. 호출�
 
 ### 차단을 검색 실패로 저장하지 않는다
 
-403/429를 빈 결과로 삼키면 정상 곡이 `rejected`로 오염된다. 차단 시 현재 후보는
-`pending`으로 유지하고 실행을 실패시켜야 한다.
+403/429를 빈 결과로 삼키면 정상 곡을 검색 실패로 오판한다. 차단 시 등록하지 않고
+실행을 실패시켜야 한다.
 
 ### 다국어 아티스트 표기를 함께 판정한다
 

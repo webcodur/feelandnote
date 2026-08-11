@@ -9,7 +9,7 @@
  *   그래서 아래 「계열별 등록표」 얼개(SERIES_HOMES·EDITORS·EPISODE_LISTS 등)는 지금
  *   **한 명뿐인 표**가 됐다. 새 시리즈를 여기 얹을 계획이 없다면 얼개 자체를 걷어내고
  *   서재 탐방을 web-bo 로 마저 옮기는 쪽이 낫다 — 설계 문서
- *   `docs/project/remotion/discourse-unification.md` §8·§9(7) 참조.
+ *   `docs/project/remotion/discourse/unification.md` §8·§9(7) 참조.
  */
 
 /**
@@ -17,7 +17,7 @@
  * - book: episodes/<인물>/ 의 책 본문(meta·books·shorts). 서재 탐방
  *
  * 세력도감(faction)·가상 담화(discourse)는 이 앱에서 폐기됐다 — 편집·출간 전부 web-bo 로 이관
- * (`faction-unification.md` §9 · `discourse-unification.md` §8).
+ * (`docs/project/remotion/faction/unification.md` §9 · `docs/project/remotion/discourse/unification.md` §8).
  */
 export type SeriesDataModel = 'book'
 

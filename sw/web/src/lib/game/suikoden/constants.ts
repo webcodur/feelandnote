@@ -1,7 +1,7 @@
 // 천도 — 상수 정의
 
 import type { BuildingDef, Grade, UnitClass, Region, RegionId, Stats, TerritoryDef, TerritoryId, GameTime, TacticType, Era, ThreatType } from './types'
-import { ABILITY_KEYS as _ABILITY_KEYS, VIRTUE_KEYS as _VIRTUE_KEYS, TENDENCY_KEYS as _TENDENCY_KEYS } from '@/lib/persona/constants'
+import { ABILITY_KEYS as _ABILITY_KEYS, VIRTUE_KEYS as _VIRTUE_KEYS, TENDENCY_KEYS as _TENDENCY_KEYS } from '@/lib/spectrum/constants'
 
 // ── 턴제 엔진 상수 ──
 
@@ -506,13 +506,13 @@ export const DIFFICULTY_CONFIG = {
   hard:   { aiFactions: 7, startMembers: 1, maxTurns: 80,  startAP: 3 },
 } as const
 
-// 능력 4종 키 (UI 표시 순서용) — persona 단일원천
+// 능력 4종 키 (UI 표시 순서용) — spectrum 단일원천
 export const ABILITY_STAT_KEYS = _ABILITY_KEYS
 
-// 덕목 8종 키 — persona 단일원천
+// 덕목 8종 키 — spectrum 단일원천
 export const VIRTUE_STAT_KEYS = _VIRTUE_KEYS
 
-// 성향 4축 — persona 단일원천
+// 성향 4축 — spectrum 단일원천
 export const DISPOSITION_KEYS = _TENDENCY_KEYS
 
 // ── 방랑 이벤트 텍스트 ──

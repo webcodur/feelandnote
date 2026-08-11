@@ -5,7 +5,10 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
 import { type GeneratedInfluence, type GeneratedCelebProfile } from '@feelandnote/ai-services/celeb-profile'
 import { notifyIndexNow } from '@/lib/indexnow'
-import { revalidateWebCache, revalidateWebItem } from '@/lib/revalidate-web'
+import {
+  revalidateWebItems,
+  revalidateWebLists,
+} from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
 import { requireAdmin } from '@/lib/admin-auth'
@@ -32,8 +35,6 @@ export interface Celeb {
   claimed_by: string | null
   created_at: string
   content_count: number
-  content_research_status: string
-  content_research_updated_at: string | null
   content_research_confirmed_empty_at: string | null
   follower_count: number
   influence_total: number
@@ -121,8 +122,6 @@ type CelebListRow = {
   death_date: string | null
   bio: string | null
   cultural_journey: string | null
-  content_research_status: string | null
-  content_research_updated_at: string | null
   content_research_confirmed_empty_at: string | null
   is_verified: boolean | null
   status: string
@@ -163,10 +162,8 @@ function mapCelebListRow(row: CelebListRow, contentCount = 0): Celeb {
     created_at: row.created_at || '',
     content_count: resolveCelebContentCount(
       contentCount,
-      row.content_research_status
+      row.content_research_confirmed_empty_at
     ),
-    content_research_status: row.content_research_status || 'open',
-    content_research_updated_at: row.content_research_updated_at,
     content_research_confirmed_empty_at: row.content_research_confirmed_empty_at,
     follower_count: social?.follower_count || 0,
     influence_total: influence?.total_score || 0,
@@ -356,7 +353,6 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
   const selectFields = `
     id, slug, nickname, avatar_url, portrait_url, profession, title, nationality, gender,
     birth_date, death_date, bio, cultural_journey:consumption_philosophy,
-    content_research_status, content_research_updated_at,
     content_research_confirmed_empty_at,
     is_verified, status:publication_status, celeb_tier, claimed_by:claimed_by_member_id, created_at,
     celeb_metrics!celeb_metrics_celeb_id_fkey (follower_count),
@@ -538,9 +534,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   const rpcRows = data || []
   const rpcCelebIds = rpcRows.map((celeb: any) => celeb.id)
-  const researchStatusMap = new Map<string, {
-    status: string
-    updatedAt: string | null
+  const researchMarkerMap = new Map<string, {
     confirmedEmptyAt: string | null
     portraitUrl: string | null
   }>()
@@ -549,16 +543,13 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     const { data: researchRows, error: researchError } = await supabase
       .from('celebs')
       .select(`
-        id, portrait_url, content_research_status, content_research_updated_at,
-        content_research_confirmed_empty_at
+        id, portrait_url, content_research_confirmed_empty_at
       `)
       .in('id', rpcCelebIds)
 
     if (researchError) throw researchError
     for (const row of researchRows ?? []) {
-      researchStatusMap.set(row.id, {
-        status: row.content_research_status || 'open',
-        updatedAt: row.content_research_updated_at,
+      researchMarkerMap.set(row.id, {
         confirmedEmptyAt: row.content_research_confirmed_empty_at,
         portraitUrl: row.portrait_url,
       })
@@ -566,7 +557,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
   }
 
   let celebs: Celeb[] = rpcRows.map((celeb: any) => {
-    const research = researchStatusMap.get(celeb.id)
+    const research = researchMarkerMap.get(celeb.id)
     return {
       id: celeb.id,
       slug: celeb.slug || null,
@@ -588,10 +579,8 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
       created_at: celeb.created_at || '',
       content_count: resolveCelebContentCount(
         celeb.content_count || 0,
-      research?.status
+        research?.confirmedEmptyAt
       ),
-      content_research_status: research?.status || 'open',
-      content_research_updated_at: research?.updatedAt || null,
       content_research_confirmed_empty_at: research?.confirmedEmptyAt || null,
       follower_count: celeb.follower_count || 0,
       influence_total: celeb.total_score || 0,
@@ -677,10 +666,8 @@ export async function getCeleb(celebId: string): Promise<Celeb | null> {
     influence_total: influence?.total_score || 0,
     content_count: resolveCelebContentCount(
       contentCount || 0,
-      data.content_research_status
+      data.content_research_confirmed_empty_at
     ),
-    content_research_status: data.content_research_status || 'open',
-    content_research_updated_at: data.content_research_updated_at || null,
     content_research_confirmed_empty_at:
       data.content_research_confirmed_empty_at || null,
     follower_count: metrics?.follower_count || 0,
@@ -810,7 +797,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
 
     revalidatePath('/celebs')
     // celebs + celeb_metrics + celeb_influence 신규
-    await revalidateWebCache(CACHE_TAGS.CELEBS)
+    await revalidateWebLists(CACHE_TAGS.CELEBS)
 
     return { id: celebId, slug: createdSlug }
   } catch (err) {
@@ -854,10 +841,12 @@ export async function updateCeleb(
   if (input.status !== undefined) updateData.publication_status = input.status
   if (input.celeb_tier !== undefined) updateData.celeb_tier = input.celeb_tier
 
-  const { error } = await adminClient
+  const { data: profile, error } = await adminClient
     .from('celebs')
     .update(updateData)
     .eq('id', input.id)
+    .select('slug, publication_status')
+    .single()
 
   if (error) throw error
 
@@ -913,16 +902,17 @@ export async function updateCeleb(
   if (revalidateAdminRoutes) revalidatePath('/celebs')
   // 상세는 slug로 주소가 잡힌다(/celebs/[slug]). id로 짚으면 빗나가므로 라우트 패턴으로 지정
   if (revalidateAdminRoutes) revalidatePath('/celebs/[slug]', 'page')
-  // celebs·celeb_influence 수정 + 명언(quotes)이 오면 celeb_dialogues까지 건드린다
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  // 바뀐 인물의 id·slug 캐시와 관련 목록만 갱신한다. 다른 인물 상세는 유지한다.
+  const changedDialogues = input.quotes !== undefined || input.quotes_en !== undefined
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: input.id },
+      ...(profile.slug ? [{ domain: CACHE_TAGS.CELEBS, id: profile.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS, ...(changedDialogues ? [CACHE_TAGS.DIALOGUES] : [])],
+  )
 
   // active 셀럽 정보 변경 시 IndexNow 색인 요청
-  const { data: profile, error: profileReadError } = await adminClient
-    .from('celebs')
-    .select('slug, publication_status')
-    .eq('id', input.id)
-    .single()
-  if (profileReadError) throw profileReadError
   if (profile?.publication_status === 'active' && profile?.slug) {
     notifyIndexNow([`/celeb/${profile.slug}`])
   }
@@ -935,16 +925,24 @@ export async function toggleCelebTier(celebId: string, currentTier: string): Pro
   const supabase = createAdminClient()
   const newTier = currentTier === 'light' ? 'full' : 'light'
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from('celebs')
     .update({ celeb_tier: newTier })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs')
-  // celebs.celeb_tier
-  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
+  // 등급은 상세과 목록 노출 조건을 함께 바꾸므로 해당 인물과 인물 목록만 갱신한다.
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS],
+  )
 }
 // #endregion
 
@@ -972,34 +970,32 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
     }
   }
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from('celebs')
     .update({ publication_status: newStatus })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   // active 전환 시 IndexNow 색인 요청
   if (newStatus === 'active') {
-    const { data: profile, error: profileError } = await supabase
-      .from('celebs')
-      .select('slug')
-      .eq('id', celebId)
-      .single()
-    if (profileError) throw profileError
-    if (profile?.slug) {
-      notifyIndexNow([`/celeb/${profile.slug}`])
+    if (updated.slug) {
+      notifyIndexNow([`/celeb/${updated.slug}`])
     }
   }
 
   revalidatePath('/celebs')
-  // celebs.publication_status — 인물의 노출 자체가 바뀐다. 관련 도메인을 전부 갱신한다.
-  await revalidateWebCache([
-    CACHE_TAGS.CELEBS,
-    CACHE_TAGS.DIALOGUES,
-    CACHE_TAGS.PERSONA,
-    CACHE_TAGS.TAGS,
-  ])
+  // 노출 목록과 이 인물의 상세만 갱신한다. 다른 인물 상세 전량 퍼지는 금지한다.
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
+      { domain: CACHE_TAGS.SPECTRUM, id: celebId },
+    ],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.TAGS],
+  )
   return newStatus
 }
 // #endregion
@@ -1010,23 +1006,27 @@ export async function deleteCeleb(celebId: string): Promise<void> {
   const supabase = createAdminClient()
 
   // 소프트 삭제 (publication_status를 'deleted'로 변경)
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from('celebs')
     .update({ publication_status: 'deleted' })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/titles')
   revalidatePath('/celebs/[slug]', 'page')
-  // publication_status='deleted' 소프트 삭제 — 인물이 사이트 전역에서 사라져야 한다
-  await revalidateWebCache([
-    CACHE_TAGS.CELEBS,
-    CACHE_TAGS.DIALOGUES,
-    CACHE_TAGS.PERSONA,
-    CACHE_TAGS.TAGS,
-  ])
+  // 인물이 목록 전역에서는 빠지되, 무관한 인물 상세 캐시는 유지한다.
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(deleted.slug ? [{ domain: CACHE_TAGS.CELEBS, id: deleted.slug }] : []),
+      { domain: CACHE_TAGS.SPECTRUM, id: celebId },
+    ],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.SPECTRUM, CACHE_TAGS.TAGS],
+  )
 }
 // #endregion
 
@@ -1192,9 +1192,23 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
 
   if (error) throw error
 
+  const { data: celeb, error: celebError } = await supabase
+    .from('celebs')
+    .select('slug')
+    .eq('id', input.celeb_id)
+    .single()
+  if (celebError) throw celebError
+
   revalidatePath('/celebs/[slug]/contents', 'page')
-  // celeb_contents 신규 — 셀럽 서고에 책이 꽂히고 콘텐츠 쪽 보유자 목록도 바뀐다
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
+  // 연결된 인물·작품과 관련 목록만 갱신한다. 다른 상세 수만 건은 유지한다.
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: input.celeb_id },
+      ...(celeb.slug ? [{ domain: CACHE_TAGS.CELEBS, id: celeb.slug }] : []),
+      { domain: CACHE_TAGS.CONTENTS, id: input.content_id },
+    ],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  )
 
   return { id: data.id }
 }
@@ -1222,6 +1236,13 @@ interface UpdateCelebContentInput {
 export async function updateCelebContent(input: UpdateCelebContentInput): Promise<void> {
   // Admin 클라이언트 사용 (RLS 우회)
   const adminClient = createAdminClient()
+
+  const [{ data: existingLink, error: existingLinkError }, { data: celeb, error: celebError }] = await Promise.all([
+    adminClient.from('celeb_contents').select('content_id').eq('id', input.id).single(),
+    adminClient.from('celebs').select('slug').eq('id', input.celeb_id).single(),
+  ])
+  if (existingLinkError) throw existingLinkError
+  if (celebError) throw celebError
 
   // celeb_contents 테이블 업데이트
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
@@ -1263,8 +1284,19 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   }
 
   revalidatePath('/celebs/[slug]/contents', 'page')
-  // celeb_contents(감상문·평점) + contents.type + content_locales(제목·저자)
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS])
+  // 기존·교체 작품과 이 인물만 갱신한다. 제목 변경 때문에 작품 목록 캐시도 갱신한다.
+  const affectedContentIds = [...new Set(
+    [existingLink.content_id, input.content_id, input.new_content_id]
+      .filter((id): id is string => Boolean(id)),
+  )]
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: input.celeb_id },
+      ...(celeb.slug ? [{ domain: CACHE_TAGS.CELEBS, id: celeb.slug }] : []),
+      ...affectedContentIds.map((id) => ({ domain: CACHE_TAGS.CONTENTS, id })),
+    ],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  )
 }
 // #endregion
 
@@ -1273,13 +1305,32 @@ export async function deleteCelebContent(contentId: string, celebId: string): Pr
   // Admin 클라이언트 사용 (RLS 우회)
   const adminClient = createAdminClient()
 
-  const { error } = await adminClient.from('celeb_contents').delete().eq('id', contentId)
+  const { data: celeb, error: celebError } = await adminClient
+    .from('celebs')
+    .select('slug')
+    .eq('id', celebId)
+    .single()
+  if (celebError) throw celebError
+
+  const { data: deleted, error } = await adminClient
+    .from('celeb_contents')
+    .delete()
+    .eq('id', contentId)
+    .select('content_id')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs/[slug]/contents', 'page')
-  // celeb_contents 삭제 — 셀럽 서고와 콘텐츠 보유자 목록 양쪽에서 빠진다
-  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId, [CACHE_TAGS.CONTENTS])
+  // 셀럽 서고와 해당 작품 상세·관련 목록만 갱신한다.
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(celeb.slug ? [{ domain: CACHE_TAGS.CELEBS, id: celeb.slug }] : []),
+      { domain: CACHE_TAGS.CONTENTS, id: deleted.content_id },
+    ],
+    [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  )
 }
 // #endregion
 
@@ -1341,18 +1392,25 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
   await requireAdmin()
   const supabase = createAdminClient()
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from('celebs')
     .update({ title })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/titles')
   revalidatePath('/celebs/[slug]', 'page')
-  // celebs.title
-  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS],
+  )
 }
 // #endregion
 
@@ -1361,18 +1419,25 @@ export async function updateCelebProfession(celebId: string, profession: string 
   await requireAdmin()
   const supabase = createAdminClient()
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from('celebs')
     .update({ profession })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/professions')
   revalidatePath('/celebs/[slug]', 'page')
-  // celebs.profession
-  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS],
+  )
 }
 // #endregion
 
@@ -1381,18 +1446,25 @@ export async function updateCelebJourney(celebId: string, journey: string | null
   await requireAdmin()
   const supabase = createAdminClient()
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from('celebs')
     .update({ consumption_philosophy: journey })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/journeys')
   revalidatePath('/celebs/[slug]', 'page')
-  // celebs.consumption_philosophy
-  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId)
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS],
+  )
 }
 // #endregion
 

@@ -3,10 +3,15 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail, LIST_REVALIDATE, STATIC_REVALIDATE } from '@/lib/cache'
 import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
 import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
 import { findAffiliateLink } from './affiliateLinks'
+import {
+  BESTSELLER_CONTENT_IDS,
+  BESTSELLER_MAX_SLOTS,
+  RECOMMENDATION_EXCLUDED_IDS,
+} from '@/constants/affiliateBookPicks'
 
 export interface AffiliateBook {
   contentId: string
@@ -43,7 +48,19 @@ interface LocaleRow {
 interface PoolEntry {
   book: AffiliateBook
   userCount: number
+  /** 요즘 사람 몇 명이 읽었는지 — 앞자리를 정하는 첫째 기준 */
+  modernCount: number
 }
+
+/**
+ * 이 날짜 뒤에 태어난 인물을 "요즘 사람"으로 본다.
+ * 기록자 수만으로 줄을 세우면 등재 인물 절대다수가 옛사람이라 논어·시경·일리아스가 영원히 앞자리를 차지한다.
+ * 지금 실제로 팔리는 책은 현역 인물이 읽은 쪽이다 — 사피엔스·듄·제로 투 원.
+ */
+const MODERN_BORN_FROM = '1950-01-01'
+
+/** 날마다 앞자리를 돌릴 후보 폭. 좁으면 늘 같은 책만 뜨고, 넓으면 지지가 얕은 책까지 올라온다. */
+const ROTATION_WINDOW = 24
 
 /**
  * 제휴 링크가 걸린 도서 전량. 링크는 BO에서 채우므로 채우는 대로 늘어난다 — 목록을 코드에 박지 않는다.
@@ -67,8 +84,10 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
 
   const rows = (data ?? []) as unknown as LocaleRow[]
   const pool: PoolEntry[] = []
+  const excluded = new Set(RECOMMENDATION_EXCLUDED_IDS)
 
   for (const row of rows) {
+    if (excluded.has(row.content_id)) continue
     const link = findAffiliateLink(row.affiliate_url, platform)
     if (!link?.url || !row.title) continue
     pool.push({
@@ -80,15 +99,83 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
         url: link.url,
       },
       userCount: row.contents?.user_count ?? 0,
+      modernCount: 0,
     })
   }
 
-  return pool.sort((a, b) => b.userCount - a.userCount)
+  const support = await countModernReaders(pool.map((p) => p.book.contentId))
+  for (const entry of pool) entry.modernCount = support.get(entry.book.contentId) ?? 0
+
+  // 요즘 사람이 많이 읽은 책이 먼저, 같으면 기록자 수로 가른다
+  return pool.sort((a, b) => b.modernCount - a.modernCount || b.userCount - a.userCount)
+}
+
+/**
+ * 링크가 걸린 책마다 현역 인물 몇 명이 읽었는지 센다.
+ *
+ * 옛사람이 압도적으로 많은 명단에서 기록자 수만 보면 고전 원전이 상단을 독점한다.
+ * 이 값을 첫째 기준으로 두면 같은 자료에서 지금 팔리는 책이 앞으로 나온다.
+ */
+async function countModernReaders(contentIds: string[]): Promise<Map<string, number>> {
+  const supabase = createStaticClient()
+  const counts = new Map<string, number>()
+  if (contentIds.length === 0) return counts
+
+  const { data: modern, error: celebError } = await supabase
+    .from('celebs')
+    .select('id')
+    .eq('publication_status', 'active')
+    .gte('birth_date', MODERN_BORN_FROM)
+    .limit(2000)
+
+  if (celebError) {
+    console.error('[getAffiliateBooks] 현역 인물 조회 실패:', celebError)
+    return counts
+  }
+
+  const modernIds = new Set((modern ?? []).map((c) => c.id as string))
+  if (modernIds.size === 0) return counts
+
+  // 한 번에 다 물으면 요청 주소가 길어져 거부당한다 — 나눠 묻는다
+  for (let i = 0; i < contentIds.length; i += 60) {
+    const { data, error } = await supabase
+      .from('celeb_contents')
+      .select('content_id, celeb_id')
+      .in('content_id', contentIds.slice(i, i + 60))
+      .limit(2000)
+
+    if (error) {
+      console.error('[getAffiliateBooks] 현역 인물 기록 조회 실패:', error)
+      return counts
+    }
+
+    for (const row of data ?? []) {
+      if (!modernIds.has(row.celeb_id as string)) continue
+      const id = row.content_id as string
+      counts.set(id, (counts.get(id) ?? 0) + 1)
+    }
+  }
+
+  return counts
+}
+
+/**
+ * 상위 후보 안에서 날마다 시작 위치를 옮긴다.
+ * 고정 6권이면 방문할 때마다 같은 표지만 보이고, 그 뒤 스무 권은 영영 노출되지 않는다.
+ */
+function rotateDaily<T>(items: T[], limit: number): T[] {
+  const window = items.slice(0, ROTATION_WINDOW)
+  if (window.length <= limit) return window.slice(0, limit)
+
+  const day = Math.floor(Date.now() / 86_400_000)
+  const start = (day * limit) % window.length
+  return Array.from({ length: limit }, (_, i) => window[(start + i) % window.length])
 }
 
 const fetchAffiliatePoolCached = unstable_cache(fetchAffiliatePool, ['affiliate-pool'], {
-  revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.CONTENTS],
+  // 여러 인물 상세이 함께 쓰는 풀이다. CONTENTS 태그를 달면 작품 한 건 수정이 모든
+  // 인물 상세을 연쇄 무효화하므로, 한 시간 만료로만 새 후보를 흡수한다.
+  revalidate: LIST_REVALIDATE,
 })
 
 export async function getAffiliateBooks(
@@ -96,7 +183,16 @@ export async function getAffiliateBooks(
   limit = 6,
 ): Promise<AffiliateBook[]> {
   const pool = await fetchAffiliatePoolCached(platform)
-  return pool.slice(0, limit).map((v) => v.book)
+
+  // 지금 서점에서 팔리는 책이 먼저 자리를 잡되 정해진 칸까지만, 나머지는 평소 목록이 채운다
+  const ranked = BESTSELLER_CONTENT_IDS.map((id) => pool.find((p) => p.book.contentId === id)).filter(
+    (v): v is PoolEntry => v !== undefined,
+  )
+  const rankedIds = new Set(ranked.map((v) => v.book.contentId))
+  const rest = pool.filter((p) => !rankedIds.has(p.book.contentId))
+
+  const hot = rotateDaily(ranked, Math.min(BESTSELLER_MAX_SLOTS, limit))
+  return [...hot, ...rotateDaily(rest, limit)].slice(0, limit).map((v) => v.book)
 }
 
 /** 그 인물이 실제로 남긴 기록 중 링크가 걸린 것을 고른다. */
@@ -197,17 +293,18 @@ async function fetchAffiliateBooksForCeleb(
   return { books: pool.slice(0, limit).map((v) => v.book), source: 'popular' }
 }
 
-const fetchForCelebCached = unstable_cache(fetchAffiliateBooksForCeleb, ['affiliate-books-celeb'], {
-  revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS],
-})
-
 export async function getAffiliateBooksForCeleb(
   celebId: string,
   platform: AffiliatePlatformKey = 'coupang',
   limit = 6,
 ): Promise<{ books: AffiliateBook[]; source: AffiliateBookSource }> {
-  return fetchForCelebCached(celebId, platform, limit)
+  return cachedDetail(
+    CACHE_TAGS.CELEBS,
+    celebId,
+    ['affiliate-books-celeb', celebId, platform, String(limit)],
+    () => fetchAffiliateBooksForCeleb(celebId, platform, limit),
+    { revalidate: LIST_REVALIDATE, extraTags: [CACHE_TAGS.CONTENTS] },
+  )
 }
 
 /** 여러 인물의 기록을 모아 작품별로 몇 명이 겹치는지 센다. 겹치는 인물이 많을수록 그 진영을 대표한다. */

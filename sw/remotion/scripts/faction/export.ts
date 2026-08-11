@@ -16,7 +16,8 @@
 import { assembleFactionEpisode, type FactionRowSource } from '@feelandnote/shared/lib/faction-assemble'
 import {
   exportFactionEpisodeToFile, writeFactionRegistry, inspectFactionDataFile,
-  type FactionExportResult,
+  inheritCelebVoices,
+  type CelebVoiceLookup, type CelebVoicePair, type FactionExportResult,
 } from '@feelandnote/shared/bo/faction-export'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import {
@@ -35,6 +36,24 @@ export function supabaseRowSource(db: SupabaseClient): FactionRowSource {
   }
 }
 
+/** CELEB 프로필의 국문·영문 목소리 조회 — 팩션이 비운 자리에 물려줄 값 */
+export function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
+  return async (celebIds) => {
+    const out = new Map<string, CelebVoicePair>()
+    for (let i = 0; i < celebIds.length; i += 200) {
+      const { data, error } = await db
+        .from('celebs').select('id,voice_id_ko,voice_id_en').in('id', celebIds.slice(i, i + 200))
+      if (error) throw new Error(`CELEB 목소리 조회 실패: ${error.message}`)
+      for (const r of data ?? []) {
+        const ko = (r.voice_id_ko as string | null)?.trim()
+        const en = (r.voice_id_en as string | null)?.trim()
+        if (ko || en) out.set(r.id as string, { ...(ko ? { ko } : {}), ...(en ? { en } : {}) })
+      }
+    }
+    return out
+  }
+}
+
 /** DB 에서 한 에피소드를 faction-data.json 구조로 재조립한다 (verify 가 이 함수를 쓴다) */
 export async function exportEpisode(
   db: SupabaseClient,
@@ -42,6 +61,7 @@ export async function exportEpisode(
   original?: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
   const { script } = await assembleFactionEpisode(supabaseRowSource(db), folder, original)
+  await inheritCelebVoices(script, celebVoiceLookup(db))
   return script
 }
 
@@ -73,6 +93,7 @@ async function writeEpisode(
     force,
     assemble: async (original) => {
       const { script, row } = await assembleFactionEpisode(src, ep.folder, original)
+      await inheritCelebVoices(script, celebVoiceLookup(db))
       return { script, episodeId: row.id as string }
     },
   })
@@ -94,8 +115,19 @@ async function main() {
 
   console.log(`대상 ${eps.length}편${args.force ? ' (--force — 손 편집 덮어씀)' : ''}`)
   const results: FactionExportResult[] = []
+  const skipped: string[] = []
   for (const ep of eps) {
-    const r = await writeEpisode(db, ep, args.force)
+    let r: FactionExportResult
+    try {
+      r = await writeEpisode(db, ep, args.force)
+    } catch (e) {
+      // 전량 내보내기는 DB 에 없는 폴더(기획만 해 둔 편) 하나 때문에 멈추면 안 된다.
+      // 편을 지목한 경우는 사용자가 그 편을 원한 것이므로 그대로 던진다.
+      if (!args.all) throw e
+      skipped.push(ep.folder)
+      console.log(`  – ${pad(ep.folder, 24)} 건너뜀: ${e instanceof Error ? e.message : String(e)}`)
+      continue
+    }
     results.push(r)
     if (r.written) {
       console.log(`  ✓ ${pad(ep.folder, 24)} ${r.reason}`)
@@ -109,7 +141,8 @@ async function main() {
   const blocked = results.filter(r => !r.written)
   const changed = results.filter(r => r.written && r.changed)
   const unchanged = results.filter(r => r.written && !r.changed)
-  console.log(`\n변경 ${changed.length}편 · 변화 없음 ${unchanged.length}편 · 중단 ${blocked.length}편`)
+  console.log(`\n변경 ${changed.length}편 · 변화 없음 ${unchanged.length}편 · 중단 ${blocked.length}편`
+    + (skipped.length ? ` · 건너뜀 ${skipped.length}편(${skipped.join(', ')})` : ''))
 
   // 등록 목록 재생성은 전량 export 일 때만(단일 에피소드 export 는 목록을 건드리지 않는다)
   if (args.all) {

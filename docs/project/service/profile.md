@@ -61,7 +61,7 @@
 읽음 처리한다. 작성자 표시는 로그인 회원 ID로 조회하며, 대상 프로필의 닉네임·아바타를
 작성자 정보로 재사용하지 않는다.
 
-소개 화면의 구성 요소는 `[userId]/` 아래 평면 파일로 있다. `ProfileBioSection`, `ProfileInfluenceSection`, `ProfilePersonaSection`, `ProfileStatsSection`, `ProfileSettingsSection`, `ProfileAchievementsSection`, `UserBioSection`, `AvatarUploader`다.
+소개 화면의 구성 요소는 `[userId]/` 아래 평면 파일로 있다. `ProfileContent`, `ProfileStatsSection`, `ProfileSettingsSection`, `ProfileAchievementsSection`, `UserBioSection`, `AvatarUploader`다.
 
 메타 설명은 회원 닉네임을 넣은 기본 문구를 쓴다. 오픈그래프 `type`은 `profile`이다.
 
@@ -127,4 +127,4 @@
 - 화면 지도: [README.md](README.md)
 - 광장(팔로우·친구): [agora.md](agora.md)
 - 셀럽 상세·영향력: `docs/project/data/db-celeb.md`, `docs/project/celeb/celeb-4-influence.md`
-- 16축 스펙트럼(내부명 persona): `docs/project/celeb/celeb-5-persona.md`
+- 16축 스펙트럼(내부 레거시명 `persona`): `docs/project/celeb/celeb-5-spectrum.md`

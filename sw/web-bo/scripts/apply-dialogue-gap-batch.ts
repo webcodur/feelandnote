@@ -343,7 +343,7 @@ async function main() {
   }
 
   if (work.length) {
-    await revalidateWebCache(CACHE_TAGS.DIALOGUES)
+    await revalidateWebCache(CACHE_TAGS.DIALOGUES, '승인된 대사 빈칸 배치 전량 반영')
     console.log('CACHE dialogues: 무효화 요청 완료')
   }
   console.log(`DONE ${batch.batch}: ${work.length}명 반영`)

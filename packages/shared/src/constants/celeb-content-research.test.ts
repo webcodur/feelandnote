@@ -8,31 +8,27 @@ import {
 } from './celeb-content-research.ts'
 
 test('positive actual content count always wins', () => {
-  assert.equal(resolveCelebContentCount(3, 'open'), 3)
-  assert.equal(resolveCelebContentCount(4, 'confirmed_empty'), 4)
+  assert.equal(resolveCelebContentCount(3, null), 3)
+  assert.equal(resolveCelebContentCount(4, '2026-08-11T00:00:00.000Z'), 4)
 })
 
-test('zero-content celebrities follow the research status only', () => {
-  assert.equal(resolveCelebContentCount(0, 'open'), CELEB_CONTENT_COUNT.UNRESEARCHED)
-  assert.equal(resolveCelebContentCount(0, 'researching'), CELEB_CONTENT_COUNT.UNRESEARCHED)
-  assert.equal(resolveCelebContentCount(0, 'confirmed_empty'), CELEB_CONTENT_COUNT.RESEARCHED_EMPTY)
+test('zero-content celebrities follow only the confirmed-empty timestamp', () => {
+  assert.equal(resolveCelebContentCount(0, null), CELEB_CONTENT_COUNT.UNRESEARCHED)
+  assert.equal(resolveCelebContentCount(0, '2026-08-11T00:00:00.000Z'), CELEB_CONTENT_COUNT.RESEARCHED_EMPTY)
 })
 
-test('missing or malformed counts fall back to the research status', () => {
-  assert.equal(resolveCelebContentCount(null, 'open'), 0)
-  assert.equal(resolveCelebContentCount(undefined, 'confirmed_empty'), -1)
-  assert.equal(resolveCelebContentCount(Number.NaN, 'open'), 0)
-  assert.equal(resolveCelebContentCount(-5, 'open'), 0)
+test('missing or malformed counts fall back to the confirmed-empty timestamp', () => {
+  assert.equal(resolveCelebContentCount(null, null), 0)
+  assert.equal(resolveCelebContentCount(undefined, '2026-08-11T00:00:00.000Z'), -1)
+  assert.equal(resolveCelebContentCount(Number.NaN, null), 0)
+  assert.equal(resolveCelebContentCount(-5, null), 0)
 })
 
 // 26.08.07 회귀 방지 — 노출 상태는 표시값에 개입하지 않는다.
 // 그전에는 비활성이면 조사 여부와 무관하게 -1이라 신규 비공개 인물이
 // 조사도 하기 전에 "조사 완료"로 보였다.
 test('display value never depends on profile visibility', () => {
-  const statuses = ['open', 'researching'] as const
-  for (const status of statuses) {
-    assert.equal(resolveCelebContentCount(0, status), CELEB_CONTENT_COUNT.UNRESEARCHED)
-  }
+  assert.equal(resolveCelebContentCount(0, null), CELEB_CONTENT_COUNT.UNRESEARCHED)
 })
 
 test('research target population is light plus active or inactive', () => {

@@ -41,7 +41,7 @@ export interface CelebServiceAvailability {
   dialogues: boolean;
   dialogueVoice: boolean;
   influence: boolean;
-  persona: boolean;
+  spectrum: boolean;
   sourceWorks: boolean;
 }
 
@@ -186,7 +186,7 @@ export function useCelebServiceItems({
         label: t("analysis"),
         icon: CELEB_SERVICE_ICONS.analysis,
         ready:
-          (availability.persona || availability.influence)
+          (availability.spectrum || availability.influence)
           && tier !== "fiction",
         target: { sectionId: "analysis" },
         unavailableGuide: {
@@ -194,16 +194,16 @@ export function useCelebServiceItems({
         },
         children: [
           {
-            key: "persona",
+            key: "spectrum",
             chapter: "06-A",
             label: t("profileAxes"),
-            icon: CELEB_SERVICE_ICONS.persona,
+            icon: CELEB_SERVICE_ICONS.spectrum,
             ready:
-              availability.persona
+              availability.spectrum
               && tier !== "fiction",
             target: { sectionId: "analysis" },
             unavailableGuide: {
-              about: t("atlasGuides.persona.about"),
+              about: t("atlasGuides.spectrum.about"),
             },
           },
           {
@@ -284,7 +284,7 @@ export function useCelebServiceItems({
       availability.dialogues,
       availability.faction,
       availability.influence,
-      availability.persona,
+      availability.spectrum,
       availability.relations,
       availability.reading,
       availability.sourceWorks,

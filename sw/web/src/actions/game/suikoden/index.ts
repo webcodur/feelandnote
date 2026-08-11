@@ -7,8 +7,8 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { getLocale } from "next-intl/server";
 import type { GameCharacter } from '@/lib/game/suikoden/types'
-import type { PersonaJsonb } from '@/lib/persona/types'
-import { parsePersonaJsonb } from '@/lib/persona/types'
+import type { SpectrumJsonb } from '@/lib/spectrum/types'
+import { parseSpectrumJsonb } from '@/lib/spectrum/types'
 import { dbToCharacter, getDeathYear } from '@/lib/game/suikoden/utils'
 import type { Tables } from '@/types/supabase'
 import { SUIKODEN_CHARACTER_IDS } from '@/lib/game/suikoden/scenarios'
@@ -34,7 +34,7 @@ interface SuikodenProfileRow {
   bio: string | null
   avatar_url: string | null
   celeb_influence: SuikodenInfluenceJoin | SuikodenInfluenceJoin[] | null
-  celeb_persona: { persona: PersonaJsonb | null } | { persona: PersonaJsonb | null }[] | null
+  celeb_spectrum: { spectrum: SpectrumJsonb | null } | { spectrum: SpectrumJsonb | null }[] | null
 }
 
 // 대사 구조 (상황 키 → 변형 배열)
@@ -62,7 +62,7 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
         political, strategic, tech, social, economic, cultural,
         transhistoricity, total_score
       ),
-      celeb_persona!celeb_persona_celebs_fkey ( persona )
+      celeb_spectrum:celeb_persona!celeb_persona_celebs_fkey ( spectrum:persona )
     `)
     .eq('publication_status', 'active')
     .not('death_date', 'is', null)
@@ -105,9 +105,9 @@ async function fetchSuikodenCharacters(): Promise<GameCharacter[]> {
     .filter((p) => filteredIds.includes(p.id))
     .map((p) => {
       const influence = Array.isArray(p.celeb_influence) ? p.celeb_influence[0] : p.celeb_influence
-      const personaRow = Array.isArray(p.celeb_persona) ? p.celeb_persona[0] : p.celeb_persona
-      const persona = personaRow?.persona ? parsePersonaJsonb(personaRow.persona) : undefined
-      const char = dbToCharacter(p, influence!, persona)
+      const spectrumRow = Array.isArray(p.celeb_spectrum) ? p.celeb_spectrum[0] : p.celeb_spectrum
+      const spectrum = spectrumRow?.spectrum ? parseSpectrumJsonb(spectrumRow.spectrum) : undefined
+      const char = dbToCharacter(p, influence!, spectrum)
       const dlgQuote = quoteMap.get(p.id)
       if (dlgQuote) char.quotes = dlgQuote
       return char

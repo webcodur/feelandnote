@@ -31,7 +31,7 @@ export const CELEB_SERVICE_ICONS = {
   contemporaries: Users,
   analysis: ChartNoAxesCombined,
   influence: Radar,
-  persona: ChartSpline,
+  spectrum: ChartSpline,
   media: CirclePlay,
   dialogues: MessageSquare,
   dialogueVoice: AudioLines,

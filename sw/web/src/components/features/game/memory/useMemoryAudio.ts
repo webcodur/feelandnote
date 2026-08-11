@@ -1,18 +1,14 @@
 "use client";
 
+import { useCallback } from "react";
 import {
   useGameAudio,
   type GameAudioConfig,
 } from "@/components/features/game/shared/hooks/useGameAudio";
+import { getMemoryFlipAudioPlan, MEMORY_SFX } from "./audioPlan";
+import type { MemoryPairResult } from "./types";
 
-export const MEMORY_SFX = {
-  chooseDifficulty: "sfx-cmd-select.mp3",
-  start: "sfx-start.mp3",
-  reveal: "sfx-card-select.mp3",
-  close: "sfx-card-deselect.mp3",
-  match: "sfx-mandate-match.mp3",
-  complete: "sfx-round-win.mp3",
-} as const;
+export { MEMORY_SFX } from "./audioPlan";
 
 const MEMORY_AUDIO_CONFIG: GameAudioConfig = {
   basePath: "/assets/common",
@@ -49,5 +45,17 @@ function playMismatchSfx() {
 }
 
 export function useMemoryAudio() {
-  return { ...useGameAudio(MEMORY_AUDIO_CONFIG), playMismatchSfx };
+  const gameAudio = useGameAudio(MEMORY_AUDIO_CONFIG);
+  const { playSfx, sfxMuted } = gameAudio;
+  const playFlipSfx = useCallback(() => {
+    const plan = getMemoryFlipAudioPlan(null);
+    for (const sfxFile of plan.immediateSfxFiles) playSfx(sfxFile);
+  }, [playSfx]);
+  const playResultSfx = useCallback((result: Exclude<MemoryPairResult, null>) => {
+    const plan = getMemoryFlipAudioPlan(result);
+    for (const sfxFile of plan.delayedSfxFiles) playSfx(sfxFile);
+    if (plan.playDelayedMismatchTone && !sfxMuted) playMismatchSfx();
+  }, [playSfx, sfxMuted]);
+
+  return { ...gameAudio, playFlipSfx, playResultSfx };
 }

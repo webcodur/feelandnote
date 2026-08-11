@@ -2,17 +2,17 @@
  * 근접도 게임 체험 표본
  *
  * ⚠️ 체험 모드 전용: DB 접속이 불가능할 때 사용.
- * ⚠️ 성향 점수(PersonaStats 16축)는 DB에만 있으며, 여기서 지어내지 않는다.
+ * ⚠️ 성향 점수(SpectrumStats 16축)는 DB에만 있으며, 여기서 지어내지 않는다.
  *    체험 모드에서는 시대·지역·직군만으로 거리를 계산하는 대체 규칙을 쓴다.
  *
  * 인물의 이름·생몰년·직군·국적은 모두 사실이다. 확인 불가한 값은 넣지 않았다.
  */
 
-import type { PersonaStats } from '@/lib/persona/types';
+import type { SpectrumStats } from '@/lib/spectrum/types';
 import type { ProximityCeleb, ProximityCelebFull } from './types';
 
 /** 체험 모드에서 사용하는 제로 성향 벡터 (거리 계산에 쓰지 않음을 명시) */
-const ZERO_STATS: PersonaStats = {
+const ZERO_STATS: SpectrumStats = {
   command: 0,
   martial: 0,
   intellect: 0,

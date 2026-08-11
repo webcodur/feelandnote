@@ -51,7 +51,7 @@ export const EXPLORE_GROUP_ID = "explore";
 
 export const EXPLORE_SECTIONS = [
   { key: "ranking",         moreHref: "/explore/ranking",           titleKey: "ranking",         subtitleKey: "rankingSub",         moreKey: "viewAll" },
-  { key: "personaAnalysis", moreHref: "/explore/persona",           titleKey: "personaAnalysis", subtitleKey: "personaAnalysisSub", moreKey: "viewAll" },
+  { key: "spectrumAnalysis", moreHref: "/explore/spectrum",           titleKey: "spectrumAnalysis", subtitleKey: "spectrumAnalysisSub", moreKey: "viewAll" },
   { key: "faction",         moreHref: "/explore/faction",           titleKey: "faction",         subtitleKey: "factionSub",         moreKey: "viewAll" },
 ] as const;
 

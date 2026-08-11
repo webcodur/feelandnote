@@ -16,7 +16,7 @@
 | 파일 | 내용 |
 |------|------|
 | [01-overview.md](./01-overview.md) | 게임 컨셉, 목표, 핵심 루프, 승패 조건, 난이도 |
-| [02-characters.md](./02-characters.md) | 캐릭터 시스템 (페르소나 스탯, Grade, 병과, 영입, 메커니즘 매핑) |
+| [02-characters.md](./02-characters.md) | 캐릭터 시스템 (스펙트럼 스탯, Grade, 병과, 영입, 메커니즘 매핑) |
 | [03-combat.md](./03-combat.md) | 전투 시스템 (그리드 턴제. 구 전술 카드 설계는 부록) |
 | [04-management.md](./04-management.md) | 거점 경영 (건물 15종, 자원, 내정, 민심) |
 | [05-items.md](./05-items.md) | 장비 시스템 (수량제 4종) |

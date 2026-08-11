@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback, useTransition, useMemo, useRef } from
 import { useTranslations } from "next-intl";
 
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
-import { getPublicViewerContents } from "@/actions/contents/getUserContents";
+import { getPublicCelebContents, getPublicViewerContents } from "@/actions/contents/getUserContents";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
 import type { ContentTypeCounts } from "@/types/content";
@@ -37,8 +37,9 @@ export type { SortOption, ReviewFilter, ViewMode, ContentLibraryMode } from "./c
 
 export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const t = useTranslations("archiveSearch");
-  const { maxItems, compact = false, mode = 'owner', targetUserId, initialSearchQuery = '', defaultViewMode, defaultPageSize, initialContents } = options;
+  const { maxItems, compact = false, mode = 'owner', ownerKind = 'member', targetUserId, initialSearchQuery = '', defaultViewMode, defaultPageSize, initialContents } = options;
   const isViewer = mode === 'viewer';
+  const fetchViewerContents = ownerKind === 'celeb' ? getPublicCelebContents : getPublicViewerContents;
 
   // 서버가 첫 화면 데이터를 내려준 경우에만 초기 상태를 채운다.
   // 이러면 첫 렌더가 스켈레톤이 아니라 목록이므로 서버 HTML에 서가 마크업이 실린다.
@@ -169,7 +170,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
 
       if (isViewer && targetUserId) {
         // viewer 모드: 타인의 공개 콘텐츠 조회
-        const result = await getPublicViewerContents({
+        const result = await fetchViewerContents({
           userId: targetUserId,
           type: CATEGORY_ID_TO_TYPE[activeTab],
           // status 제거: 모든 상태 조회
@@ -210,7 +211,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
         setIsRefreshing(false);
       }
     }
-  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, targetUserId, appliedSearchQuery, reviewFilter, sortOption, t]);
+  }, [activeTab, currentPage, maxItems, pageSize, compact, isViewer, fetchViewerContents, targetUserId, appliedSearchQuery, reviewFilter, sortOption, t]);
 
   // 서버 초기 데이터와 같은 조건인 동안은 effect가 개발 모드에서 두 번 실행돼도 재조회하지 않는다.
   // 사용자가 조건을 한 번 바꾸면 이후 기본 조건으로 돌아왔을 때도 정상 재조회한다.

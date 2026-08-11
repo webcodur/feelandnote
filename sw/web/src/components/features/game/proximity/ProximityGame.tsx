@@ -96,7 +96,7 @@ export default function ProximityGame({ celebs, isFixtureMode }: Props) {
             { axis: 'era' as const, proximity: 'close' as const, detail: t('correct') },
             { axis: 'region' as const, proximity: 'close' as const, detail: t('correct') },
             { axis: 'profession' as const, proximity: 'close' as const, detail: t('correct') },
-            { axis: 'persona' as const, proximity: 'close' as const },
+            { axis: 'spectrum' as const, proximity: 'close' as const },
           ]
         : generateAxisHints(guessFull, target, locale);
       result = { celeb: selectedCeleb, temperature, axisHints, isCorrect };

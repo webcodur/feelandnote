@@ -6,7 +6,7 @@
 
 | 경로 | 내용 |
 |---|---|
-| [`celeb/`](celeb/) | 인물 데이터 결손, 아바타, 읽어보기, 화제성 조사와 삼국지 백필 |
+| [`celeb/`](celeb/README.md) | 인물 데이터 결손, 아바타, 읽어보기, 화제성 조사와 보이스 생성 |
 | [`external-api-migration-2026-08-01.md`](external-api-migration-2026-08-01.md) | 외부 API 종료·전환 뒤 남은 일 |
 | [`document-audit.md`](document-audit.md) | 현역 문서와 코드·DB의 실측 대조 |
 

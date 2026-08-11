@@ -289,6 +289,17 @@ export async function getPublicViewerContents(params: GetUserContentsParams): Pr
   return getCachedPublicUserContents(userId, type, page, limit, search, hasReview, sortBy, locale)
 }
 
+/* 셀럽 서가의 클라이언트 재조회용.
+   `getPublicViewerContents`는 회원 서재(member_contents)만 읽는다. 셀럽 화면이 그쪽을 부르면
+   쪽을 넘기거나 조건을 바꾸는 순간 남의 테이블을 뒤져 목록이 사라진다(26.08.10 확인).
+   대상이 셀럽인 화면은 반드시 이 함수를 쓴다 — SSR과 같은 캐시를 공유한다. */
+export async function getPublicCelebContents(params: GetUserContentsParams): Promise<GetUserContentsResponse> {
+  const { userId, type, page = 1, limit = 20, search, hasReview, sortBy = 'recent' } = params
+  const locale = await getLocale()
+
+  return getCachedCelebLibraryContents(userId, type, page, limit, search, hasReview, sortBy, locale)
+}
+
 // 셀럽 상세 SSR용 — 대상이 항상 타인(셀럽)이므로 쿠키·인증을 읽지 않는다.
 // 페이지 서버 렌더에서 직접 호출해 초기 HTML에 서가 목록·감상문을 싣는다(크롤러 노출).
 export async function getPublicUserContents(

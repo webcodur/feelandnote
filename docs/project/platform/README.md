@@ -10,5 +10,3 @@
 | [`env-vars.md`](env-vars.md) | 환경변수·비밀 파일 SSoT |
 | [`external-services.md`](external-services.md) | Supabase, Vercel, R2, 외부 검색 API와 운영 연결 |
 | [`openai-usage.md`](openai-usage.md) | OpenAI 모델·API 사용 기준 |
-| [`tooling-gotchas.md`](tooling-gotchas.md) | 인증·캐시·개발 도구 사고와 재발 방지 |
-| [`web-egress-audit-2026-06-29.md`](web-egress-audit-2026-06-29.md) | 웹 전송 비용 사고의 실측·교정 기준선 |

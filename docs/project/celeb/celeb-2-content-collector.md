@@ -1,74 +1,52 @@
 # 2. 콘텐츠 수집
 
-> **최종 실측 체크: 26.08.10** — 8/9 회원·셀럽 물리 분리 뒤의 `celebs` ·
-> `celeb_contents` · 조사 완료 RPC를 live DB와 현행 코드로 대조했다.
+> **최종 실측 체크: 26.08.11** — 콘텐츠 저장은 `contents` · `content_locales` ·
+> `celeb_contents` 세 테이블만 사용한다.
 >
 > 🔄 **26.08.01 BOOK 한국어 메타 출처가 네이버 → 카카오로 바뀌었다.** 네이버 도서 검색 API가 26.07.31 종료됐고([공지 32564](https://developers.naver.com/notice/article/32564)) 관련 코드는 전량 제거했다. 신규 BOOK의 한국어 메타·커버는 **카카오(`kakao_book`)**, 영문 원서는 **OpenLibrary(`openlibrary`)**만 쓴다. 전환 내역은 `docs/project/platform/external-services.md`의 「외부 콘텐츠 검색 API」 절이 SSoT다.
 >
-> **직접 DB worker 은퇴(26.08.10):** 실험용 worker와 전용 RPC·provider rate-limit 계층은
-> 운영 진입점으로 채택하지 않고 제거했다. 기존 조사 원장·후보·출처는 감사 이력으로 보존하며,
-> 신규 수집은 이 문서의 콘텐츠 타입별 확정 절차를 따른다.
-
 ## 핵심 원칙
 
 1. **품질 우선**: 검색을 반복해도 새로운 콘텐츠가 나오지 않을 때까지 수집
 2. **효율적 검색**: 통합 키워드로 큐레이션 기사 우선 확보, 중복 검색 지양
 3. **한국어 정식 출판명**: 영어 원제가 아닌 한국어 번역본 제목으로 등록
 
-### 조사 상태와 0건 처리
+### 0건 처리
 
 **표시값 규약과 조사 대상 범위의 SSoT는 코드다** —
 `packages/shared/src/constants/celeb-content-research.ts`(배경 설명은
 `celeb-pipeline.md`「콘텐츠 수 표시」). 여기서 다시 서술하지 않는다.
 이 문서는 조사를 *어떻게* 하는지만 다룬다.
 
-이 문서가 쥐는 것은 하나다 — **`confirmed_empty`를 확정할 자격.**
+이 문서가 쥐는 것은 하나다 — **표시값 `-1`을 확정할 자격.**
 
-- BOOK·VIDEO·GAME·MUSIC **네 유형 전부**의 출처와 후보 판정을 조사 장부에 남겨야 한다.
-- 유효한 콘텐츠가 0건일 때만 완료 함수가 `confirmed_empty`를 확정한다.
+- BOOK·VIDEO·GAME·MUSIC **네 유형 전부**를 조사한다.
+- 유효한 콘텐츠가 0건일 때만 `celebs.content_research_confirmed_empty_at`에 확정 시각을 기록한다.
 - 빠른 선별이나 검색 1회 실패만으로 확정하지 않는다.
-- 장부 없이 상태만 바꾸는 경로는 DB 가드가 거부한다.
+- 실제 콘텐츠가 한 건이라도 있으면 DB 가드가 확정 시각 기록을 거부한다.
+- `open`·`researching` 같은 작업 진행 상태는 DB에 기록하지 않는다. 오케스트레이터가 맡는다.
 
-> 26.07.29~30에 장부 없이 상태만 박은 302명이 있었고 26.08.07에 전원 `open`으로
-> 되돌렸다. **장부가 뒷받침하지 않는 `confirmed_empty`는 만들지 마라.**
+### 3레인 릴레이 배치
 
-감상여정은 **후보를 찾는 캐시**이지 등록 증거가 아니다. 작품명은 반드시 이
-문서의 source_url·증거 수준 규칙으로 다시 검증한다.
+소규모 시험은 콘텐츠 0건 인물 3명을 A/B/C 세 독립 레인에 한 명씩 배정한다.
+각 레인은 배정된 인물 밖으로 범위를 넓히지 않는다.
 
-### 조사 장부 쓰는 법
+**1단계 — 조사·등록**
 
-장부는 네 테이블이다 — `celeb_content_research_runs`(실행) ·
-`_scopes`(유형별 진행) · `_findings`(후보 판정) · `_sources`(확인한 출처).
-화면(web-bo `/celebs/content-research/<celebId>`)으로도, SQL로도 쓸 수 있다.
-현행 스키마·가드·완료 함수는
-`sw/web/supabase/migrations/20260809183609_complete_profile_domain_triggers.sql`을 따른다.
+- A/B/C는 동시에 자기 인물의 BOOK·VIDEO·GAME·MUSIC을 조사한다.
+- 유효한 항목은 조사한 레인이 `contents`·`content_locales`·`celeb_contents`에 바로 등록하고 재조회한다.
+- 별도 조사표·후보표·인계 파일은 만들지 않는다.
+- 레인은 신규 `celeb_contents.id`, 작품 유형·제목, `source_url`, `review`·`review_en`을 결과로 넘긴다.
+- 각 레인은 자기 1단계를 끝낸 뒤 같은 인물의 2단계로 이어간다. 다른 레인의 완료를 기다리지 않는다.
 
-**인물 1명당 순서**
+**2단계 — 같은 레인의 1회 재검토**
 
-1. **실행 개설** — `celeb_content_research_runs` 에 INSERT.
-   `celeb_id` · `batch_key`(회차 식별자) · `researcher_label`(작업조) ·
-   `name_variants`(실제 검색에 쓴 표기 배열, 비면 거부) · `homonym_notes`.
-   INSERT하면 BOOK·VIDEO·GAME·MUSIC 네 범위가 트리거로 자동 생성된다.
-   인물당 진행 중 실행은 하나만 허용된다.
-2. **출처 기록** — `_sources`. `finding_id`가 NULL이면 "그 유형 전체를 이것으로 훑었다"는 뜻이며,
-   **유형마다 이런 줄이 최소 하나** 있어야 완료된다.
-   `source_tier`는 `primary`(본인 발언·서한·1차 사료)/`secondary`,
-   `source_kind`는 `direct_statement` `interview` `official_profile` `social_post`
-   `transcript` `archive` `article` `other`,
-   `access_status`는 `accessible` `bot_blocked` `archived` `unavailable`.
-   같은 실행 안에서 (url, finding_id) 조합은 중복 불가.
-3. **후보 판정** — `_findings`. `candidate`로 남기면 완료가 거부된다.
-   `accepted`는 `content_id`(등록을 먼저 끝내고 그 값)와 근거 요약이,
-   `rejected`는 근거 요약과 기각 사유가 필수다.
-   **판정마다 `finding_id`를 채운 출처를 한 줄 더 넣고, 채택 건은 그중 하나가 `primary`여야 한다.**
-4. **유형별 완료** — `_scopes`를 `status='completed'`, `completed_at=now()`로. 네 유형 모두.
-5. **실행 완료** — `SELECT * FROM complete_celeb_content_research_run('{run_id}')`.
-   네 유형 완료·유형별 출처·미판정 후보 없음·채택 건의 1차 출처·채택 건의 `celeb_contents` 연결·
-   유형 일치를 이 함수가 전부 검사한다. 통과하면 해당 셀럽의 실제 `celeb_contents`를 세어
-   0건은 `confirmed_empty`, 1건 이상은 `open`으로 `celebs.content_research_status`를 확정한다.
-
-⛔ **`celebs.content_research_status`를 `confirmed_empty`로 직접 UPDATE하지 마라.** 완료 함수만이
-확정 자격을 가진다.
+- A/B/C는 1단계에서 자신이 등록한 인물의 신규 행만 한 번 다시 검토한다. 레인끼리 결과를 교차 검수하지 않는다.
+- 범위는 `source_url`이 해당 인물과 정확한 작품의 감상·추천 관계를 뒷받침하는지, `review`·`review_en`이 그 근거를 넘겨 말하지 않는지까지다.
+- 근거 범위를 넘긴 감상배경은 해당 레인이 `review`·`review_en`만 교정하고 재조회한다.
+- 인물과 작품의 관계 자체가 출처에서 확인되지 않으면 임의로 보완하거나 삭제하지 않고 실패로 보고한다.
+- 메타데이터·locale·thumbnail 전수 감사나 추가 콘텐츠 조사는 이 단계에서 하지 않는다.
+- 모든 신규 행에 `통과`·`교정`·`실패` 판정이 있어야 배치가 끝난다.
 
 ## 수집 규칙
 
@@ -86,13 +64,8 @@
 | BOOK · VIDEO · GAME | 평소대로 `contents` + `content_locales` + `celeb_contents` 등록 |
 | **MUSIC** | iTunes 정확 트랙과 `previewUrl`을 확인한 뒤 `contents` + KO/EN `content_locales` + `celeb_contents` 등록 |
 
-`celeb_music_candidates`는 26.08.01 일괄 작업에서 쓰던 레거시 재개 장부다. 신규
-조사 결과를 `pending`으로 넣고 다음 작업으로 넘기지 않는다. 레거시 행을 다룰 때도
-`/celeb-music-collect`로 그 실행 안에서 `registered` 또는 `rejected`까지 마감하고,
-해당 인물의 `pending=0`을 종료 조건으로 삼는다.
-
 증거 기준(A·B급, source_url 필수)은 MUSIC도 똑같이 적용한다. 근거가 약한 것을
-일단 적치하지 말고 조사한 자리에서 기각한다.
+별도 후보 테이블에 적치하지 말고 조사한 자리에서 기각한다.
 
 ### source_url 필수 (핵심)
 
@@ -202,8 +175,8 @@ source_url 없이 `celeb_contents`에 INSERT하는 것은 금지한다.
 - [ ] 여러 검색 결과가 동일한 5~7개 작품만 반복 언급
 - [ ] 총 수집량이 20개 이상 (충분)
 
-**검색 종료와 `confirmed_empty` 확정은 같은 말이 아니다.** 확정 자격은 이 문서
-「조사 상태와 0건 처리」 절이 정한다 — 네 유형 전부의 장부가 있어야 한다.
+**검색 종료와 `-1` 확정은 같은 말이 아니다.** 확정 자격은 이 문서
+「0건 처리」 절이 정한다 — 네 유형 전부를 조사해야 한다.
 
 ### WebFetch 활용 전략
 
@@ -342,28 +315,14 @@ Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 �
 > **음악 후보를 찾았으면 같은 작업에서 iTunes 트랙을 확인하고 최종 연결한다.**
 > 제목·아티스트가 맞고 `previewUrl`이 있는 트랙만 `contents`·KO/EN
 > `content_locales`·`celeb_contents`에 등록한다. 기존 iTunes 콘텐츠가 있으면 재사용한다.
-> `celeb_music_candidates.pending`에 남기는 것은 완료가 아니다.
 > `celeb_contents.review`와 `review_en`도 최종 연결과 함께 작성한다.
 
-레거시 후보를 처리할 때만 아래 명령을 쓴다.
-
-```bash
-cd sw/web-bo
-node scripts/itunes-music-migrate.mjs --candidates-only \
-  --candidate-id <candidate-uuid> \
-  --review-en "<English review>"
-node scripts/itunes-music-migrate.mjs --candidates-only --all-pending
-node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run
-```
-
 - 신규 조사는 인물당 몇 건 수준이므로 즉시 처리한다.
-- 한국어 `evidence` 후보는 `--candidate-id`와 `--review-en`이 함께 있어야 한다. 없으면
-  provider 조회와 DB 쓰기 전에 중단한다. `review_en` 후속 백필을 전제로 한 일괄 등록은 금지한다.
+- `review_en` 후속 백필을 전제로 한 일부 등록은 금지한다.
 - 외부 호출은 순차로 최소 2초 간격을 두며, 403/429를 기각으로 기록하지 않는다.
 - **미리듣기 음원(`previewUrl`)이 없는 곡은 옮기지 않는다.** 옮기는 순간 재생이 끊긴다(실제로 80곡을 그렇게 죽였다가 백업에서 되돌렸다).
 - 재생은 우리 플레이어가 미리듣기 음원을 직접 재생한다. `metadata.previewUrl`이 그 주소다.
 - `contents.external_source`는 `itunes`, `external_id`는 `itunes-{trackId}`.
-- 작업 종료 시 해당 인물의 `pending` 후보가 0인지 재조회한다.
 
 ### MUSIC - Spotify API 〔🔴 26.08.01 차단 — 참고용 호출 규격〕
 

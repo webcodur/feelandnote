@@ -7,8 +7,6 @@
     "build": "next build --webpack",
     "start": "next start -p 3001",
     "lint": "eslint",
-    "music:candidates:finalize": "node scripts/itunes-music-migrate.mjs --candidates-only --all-pending",
-    "music:candidates:check": "node scripts/itunes-music-migrate.mjs --candidates-only --limit 10 --dry-run",
     "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
     "faction:publish": "tsx scripts/publish-faction-voice.ts"
   },

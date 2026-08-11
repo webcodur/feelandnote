@@ -24,7 +24,7 @@ const db = createClient(url, key, { auth: { autoRefreshToken: false, persistSess
 
 const PAGE = 1000
 const INFLUENCE_AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural'] as const
-const PERSONA_SCORES = [
+const SPECTRUM_SCORES = [
   'temperance', 'diligence', 'reflection', 'courage', 'loyalty', 'benevolence', 'fairness',
   'humility', 'command', 'martial', 'intellect', 'charm',
   'pessimism_optimism', 'conservative_progressive', 'individual_social', 'cautious_bold',
@@ -69,13 +69,19 @@ async function main() {
     'id',
   )
   const influence = await allRows<Record<string, any>>('celeb_influence', '*', 'celeb_id')
-  const persona = await allRows<Record<string, any>>('celeb_persona', '*', 'celeb_id', undefined, 200)
+  const spectrum = await allRows<Record<string, any>>(
+    'celeb_persona',
+    `celeb_id, ${SPECTRUM_SCORES.join(', ')}, spectrum:persona`,
+    'celeb_id',
+    undefined,
+    200,
+  )
   const dialogues = await allRows<Record<string, any>>(
     'celeb_dialogues', 'celeb_id, lines, lines_en', 'celeb_id', undefined, 200,
   )
 
   const infById = new Map(influence.map((r) => [r.celeb_id, r]))
-  const perById = new Map(persona.map((r) => [r.celeb_id, r]))
+  const perById = new Map(spectrum.map((r) => [r.celeb_id, r]))
   const diaById = new Map(dialogues.map((r) => [r.celeb_id, r]))
 
   type Gap = { slug: string; nickname: string; tier: string; publicationStatus: string; gaps: string[] }
@@ -125,17 +131,17 @@ async function main() {
         if (blank(inf.transhistoricity_exp_en)) gaps.push('i18n:transhistoricity_exp_en')
       }
 
-      // ── 페르소나
+      // ── 스펙트럼
       const per = perById.get(p.id)
-      if (!per) gaps.push('persona:row')
+      if (!per) gaps.push('spectrum:row')
       else {
-        for (const s of PERSONA_SCORES) {
-          if (per[s] === null || per[s] === undefined) gaps.push(`persona:${s}`)
+        for (const s of SPECTRUM_SCORES) {
+          if (per[s] === null || per[s] === undefined) gaps.push(`spectrum:${s}`)
         }
-        if (!per.persona || Object.keys(per.persona).length === 0) gaps.push('persona:detail')
+        if (!per.spectrum || Object.keys(per.spectrum).length === 0) gaps.push('spectrum:detail')
         else {
-          if (blank(per.persona.rationale_ko)) gaps.push('persona:rationale_ko')
-          if (blank(per.persona.rationale_en)) gaps.push('persona:rationale_en')
+          if (blank(per.spectrum.rationale_ko)) gaps.push('spectrum:rationale_ko')
+          if (blank(per.spectrum.rationale_en)) gaps.push('spectrum:rationale_en')
         }
       }
 

@@ -220,6 +220,68 @@ export async function exportFactionEpisodeToFile(opts: ExportToFileOptions): Pro
 }
 
 /**
+ * 인물 목소리를 CELEB 프로필에서 물려받는다 — 팩션이 비어 있을 때만.
+ *
+ * 목소리의 원본은 `celebs.voice_id_ko` 하나다. 팩션 인물 행에 값이 있으면 그 편에서만
+ * 다르게 쓰겠다는 뜻이므로 건드리지 않고, 비어 있으면 프로필 값을 실어 파일로 내보낸다.
+ * 렌더는 DB 를 보지 않고 파일만 읽으므로(문서 §6) 파일에는 최종값이 들어 있어야 한다.
+ *
+ * DB 의 팩션 인물 행은 비어 있는 채로 남는다 — 그것이 「따라가는 중」의 표시다.
+ */
+export interface CelebVoicePair {
+  ko?: string
+  en?: string
+}
+export type CelebVoiceLookup = (celebIds: string[]) => Promise<Map<string, CelebVoicePair>>
+
+/**
+ * 물려받는 자리 — 대사의 국문·영문 두 자리다.
+ *
+ * 수식어 음성(`epithet*`)은 일부러 뺐다. 실제로 쓰는 인물이 아주 적은데 전원에 값이 차면
+ * 준비된 것처럼 보인다. 필요한 인물만 편집 화면에서 정하고, 그때 프로필 값이 후보로 뜬다.
+ */
+const VOICE_SLOTS: { field: string; lang: keyof CelebVoicePair }[] = [
+  { field: 'quoteElevenlabsVoiceId', lang: 'ko' },
+  { field: 'quoteElevenlabsVoiceIdEn', lang: 'en' },
+]
+
+export async function inheritCelebVoices(
+  script: Record<string, unknown>,
+  lookup: CelebVoiceLookup,
+): Promise<{ filled: number; names: string[] }> {
+  type Row = Record<string, unknown>
+  const people: Row[] = []
+  for (const g of (script.groups ?? []) as Row[]) {
+    for (const c of (g.clusters ?? []) as Row[]) {
+      for (const p of (c.people ?? []) as Row[]) {
+        if (typeof p.celebId !== 'string' || !p.celebId) continue
+        const hasBlank = VOICE_SLOTS.some(s => !(typeof p[s.field] === 'string' && (p[s.field] as string).trim()))
+        if (hasBlank) people.push(p)
+      }
+    }
+  }
+  if (!people.length) return { filled: 0, names: [] }
+
+  const voices = await lookup([...new Set(people.map(p => p.celebId as string))])
+  const names = new Set<string>()
+  let filled = 0
+  for (const p of people) {
+    const pair = voices.get(p.celebId as string)
+    if (!pair) continue
+    for (const slot of VOICE_SLOTS) {
+      const cur = typeof p[slot.field] === 'string' ? (p[slot.field] as string).trim() : ''
+      if (cur) continue
+      const v = pair[slot.lang]
+      if (!v) continue
+      p[slot.field] = v
+      filled++
+      names.add(String(p.name ?? ''))
+    }
+  }
+  return { filled, names: [...names] }
+}
+
+/**
  * `_episodes.json` 재생성 — 렌더 로더가 static import 하는 등록 화이트리스트다.
  * 형식(2칸 들여쓰기 + 끝 개행)을 유지하고, 내용이 같으면 파일을 건드리지 않는다.
  */

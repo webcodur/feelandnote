@@ -1,0 +1,133 @@
+'use server'
+
+import { unstable_cache } from 'next/cache'
+import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { STATIC_REVALIDATE } from '@/lib/cache'
+import { createStaticClient } from '@/lib/supabase/static'
+import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { TENDENCY_KEYS, type TendencyKey } from '@/lib/spectrum/constants'
+import { getInfluenceRanking } from '@/actions/home/getCelebs'
+
+const DEFAULT_LIMIT = 3000
+const SPECTRUM_SEARCH_LIMIT = 8
+
+/** 분포 차트에 찍히는 인물 (성향 4축 수치 + 영향력 점수) — 근거는 별도 조회 */
+export interface SpectrumPerson {
+  id: string
+  slug: string | null
+  nickname: string
+  nickname_en: string | null
+  avatar_url: string | null
+  influence: number // 영향력 total_score (0~100)
+  stats: Record<TendencyKey, number>
+}
+
+interface ProfileRow {
+  slug: string | null
+  nickname: string | null
+  nickname_en: string | null
+  avatar_url: string | null
+}
+
+// 이 화면은 성향 4축만 쓴다. 능력·덕목 12축을 RSC 경계까지 보내지 않는다.
+const SCORE_SELECT = [
+  ...TENDENCY_KEYS.map((k) => `${k}:persona->dispositions->${k}->score`),
+].join(', ')
+
+type SpectrumScoreRow = {
+  celeb_id: string
+  celeb: ProfileRow | ProfileRow[] | null
+} & Partial<Record<TendencyKey, number | null>>
+
+async function fetchSpectrumDistribution(minInfluence: number, limit: number): Promise<SpectrumPerson[]> {
+  const supabase = createStaticClient()
+
+  // 영향력 — getCelebs와 같은 캐시를 공유한다
+  const { scoreMap: inflMapRaw } = await getInfluenceRanking()
+
+  // 감상 경위(review) 보유 셀럽만 성향 분석 대상에 넣는다.
+  // 이 RPC도 1,000행에서 잘린다 — 1,281명 중 281명이 빠져 성향 점수가 멀쩡히 도착해도
+  // 이 명단에 없다는 이유로 걸러졌다(실측). 페이징 없이는 필터가 곧 손실이다.
+  const reviewIds = await selectAllPages<{ celeb_id: string }>((from, to) =>
+    supabase.rpc('get_review_celeb_ids').order('celeb_id').range(from, to)
+  )
+  const reviewers = new Set(reviewIds.map((r) => r.celeb_id))
+
+  const inflMapItems = Object.entries(inflMapRaw)
+    .filter(([, score]) => minInfluence <= 0 || score >= minInfluence)
+  const eligibleIds = (minInfluence > 0
+    ? inflMapItems.filter(([id]) => reviewers.has(id)).map(([id]) => id)
+    : reviewIds.map((r) => r.celeb_id)
+  ).slice(0, limit)
+
+  // 대상 UUID만 200개씩 묶어 조회한다. 허브 진입 때 1,000명 넘는 spectrum를 읽고
+  // 클라이언트에서 버리던 비용과 단일 대형 RSC 응답을 함께 없앤다.
+  const data = await selectInChunks<SpectrumScoreRow>(eligibleIds, (chunk) =>
+      supabase
+        .from('celeb_persona')
+        .select(`
+          celeb_id, ${SCORE_SELECT},
+          celeb:celebs!celeb_persona_celebs_fkey!inner (
+            slug, nickname, nickname_en, avatar_url
+          )
+        `)
+        .in('celeb_id', chunk)
+        .eq('celeb.publication_status', 'active')
+        .order('celeb_id')
+        .overrideTypes<SpectrumScoreRow[], { merge: false }>() as unknown as PromiseLike<{
+        data: SpectrumScoreRow[] | null
+        error: { message: string } | null
+      }>
+  )
+
+  return data
+    .map((row) => {
+      const profile = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
+      const stats = Object.fromEntries(
+        TENDENCY_KEYS.map((k) => [k, row[k] ?? 0])
+      ) as Record<TendencyKey, number>
+      return {
+        id: row.celeb_id,
+        slug: profile?.slug ?? null,
+        nickname: profile?.nickname ?? '',
+        nickname_en: profile?.nickname_en ?? null,
+        avatar_url: profile?.avatar_url ?? null,
+        influence: inflMapRaw[row.celeb_id] ?? 0,
+        stats,
+      }
+    })
+    .filter((p) => p.nickname.length > 0)
+}
+
+const getSpectrumDistributionCached = unstable_cache(
+  fetchSpectrumDistribution,
+  ['spectrum-distribution-v2'],
+  // celeb_persona + celeb_influence + 감상문 보유 셀럽 목록(celeb_contents)을 함께 읽는다
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.SPECTRUM, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
+)
+
+interface SpectrumDistributionOptions {
+  minInfluence?: number
+  limit?: number
+}
+
+export async function getSpectrumDistribution({
+  minInfluence = 0,
+  limit = DEFAULT_LIMIT,
+}: SpectrumDistributionOptions = {}): Promise<SpectrumPerson[]> {
+  return getSpectrumDistributionCached(Math.max(0, minInfluence), Math.max(1, limit))
+}
+
+/** 전체 검색 데이터는 서버 캐시에만 두고, 브라우저에는 일치한 소수만 보낸다. */
+export async function searchSpectrumPeople(query: string): Promise<SpectrumPerson[]> {
+  const normalized = query.trim().slice(0, 80).toLocaleLowerCase()
+  if (!normalized) return []
+
+  const people = await getSpectrumDistribution()
+  return people
+    .filter((person) =>
+      person.nickname.toLocaleLowerCase().includes(normalized)
+      || (person.nickname_en?.toLocaleLowerCase().includes(normalized) ?? false)
+    )
+    .slice(0, SPECTRUM_SEARCH_LIMIT)
+}

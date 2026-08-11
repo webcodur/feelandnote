@@ -29,7 +29,7 @@ type CelebInfluenceJoin = Pick<
 >;
 
 // celeb_persona 임베드 조회 행
-type CelebPersonaJoin = Pick<Tables<"celeb_persona">, "command" | "martial" | "intellect" | "charm">;
+type CelebSpectrumJoin = Pick<Tables<"celeb_persona">, "command" | "martial" | "intellect" | "charm">;
 
 // 카드 풀 celebs 조회 행 (!inner 조인이라 임베드는 항상 존재)
 type CelebCardRow = Pick<
@@ -38,7 +38,7 @@ type CelebCardRow = Pick<
   | "avatar_url" | "death_date" | "gender" | "speech_tone" | "has_voice" | "voice_v" | "voice_speed"
 > & {
   celeb_influence: CelebInfluenceJoin | CelebInfluenceJoin[];
-  celeb_persona: CelebPersonaJoin | CelebPersonaJoin[];
+  celeb_spectrum: CelebSpectrumJoin | CelebSpectrumJoin[];
 };
 
 /** 카드 풀 조회 (대사 미포함 — 경량, 1시간 캐시) */
@@ -54,7 +54,7 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
       celeb_influence!celeb_influence_celebs_fkey!inner(
         political, strategic, tech, social, economic, cultural, transhistoricity
       ),
-      celeb_persona!celeb_persona_celebs_fkey!inner(command, martial, intellect, charm)
+      celeb_spectrum:celeb_persona!celeb_persona_celebs_fkey!inner(command, martial, intellect, charm)
     `)
     .eq("publication_status", "active")
     .not("death_date", "is", null)
@@ -64,12 +64,12 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
     query = query.in("id", celebIds);
   }
 
-  const { data: personaData, error: personaError } = await query;
+  const { data: spectrumData, error: spectrumError } = await query;
 
-  throwOnQueryError('[getCelebCards] 셀럽 카드 조회', personaError);
-  if (!personaData) return [];
+  throwOnQueryError('[getCelebCards] 셀럽 카드 조회', spectrumError);
+  if (!spectrumData) return [];
 
-  const cardRows: CelebCardRow[] = personaData;
+  const cardRows: CelebCardRow[] = spectrumData;
 
   // quote만 JSON path로 조회 (전체 lines JSONB 송출 방지)
   const cardIds = cardRows.map(r => r.id);
@@ -86,14 +86,14 @@ async function fetchCelebCards(celebIdsKey: string, locale: string): Promise<Bat
   }
 
   return cardRows
-    .filter((row) => row.celeb_influence && row.celeb_persona && isPublicDomainCeleb(row.death_date))
+    .filter((row) => row.celeb_influence && row.celeb_spectrum && isPublicDomainCeleb(row.death_date))
     .map((row) => {
       const inf = Array.isArray(row.celeb_influence)
         ? row.celeb_influence[0]
         : row.celeb_influence;
-      const per = Array.isArray(row.celeb_persona)
-        ? row.celeb_persona[0]
-        : row.celeb_persona;
+      const per = Array.isArray(row.celeb_spectrum)
+        ? row.celeb_spectrum[0]
+        : row.celeb_spectrum;
 
       const influence = {} as Record<Domain, number>;
       for (const key of DOMAIN_KEYS) {

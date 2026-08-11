@@ -93,11 +93,11 @@ export type TerritoryId =
   | 'new_york' | 'tenochtitlan'                  // 아메리카
   | 'sydney'                                     // 오세아니아
 
-// ── 16 페르소나 스탯 시스템 ──
-// 단일원천: PersonaStats (lib/persona/types.ts)
+// ── 16 스펙트럼 스탯 시스템 ──
+// 단일원천: SpectrumStats (lib/spectrum/types.ts)
 
-import type { PersonaStats } from '@/lib/persona/types'
-export type Stats = PersonaStats
+import type { SpectrumStats } from '@/lib/spectrum/types'
+export type Stats = SpectrumStats
 
 // ── 병력 장비 (원작 4종 수량제) ──
 
@@ -126,8 +126,8 @@ export interface GameCharacter {
   hp: number
   maxHp: number
   grade: Grade
-  personaGrade?: Grade
-  personaGradeScore?: number  // 페르소나 기반 Grade 점수 (0~100)
+  spectrumGrade?: Grade
+  spectrumGradeScore?: number  // 스펙트럼 기반 Grade 점수 (0~100)
   unitClass: UnitClass
   totalScore: number
   // 병사 시스템

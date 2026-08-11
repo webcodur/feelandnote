@@ -121,7 +121,7 @@ async function main() {
   }
 
   if (apply) {
-    await revalidateWebCache(CACHE_TAGS.CELEBS)
+    await revalidateWebCache(CACHE_TAGS.CELEBS, '검증 프로필 신원 일괄 교정')
     console.log(`CACHE invalidated: ${CACHE_TAGS.CELEBS}`)
   }
 }

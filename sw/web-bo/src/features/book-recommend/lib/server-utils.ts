@@ -170,7 +170,7 @@ export type EpisodeListItem = { id: string; status: EpisodeStatus; group: string
  * 표에 없는 계열(book)만 episodes/ 재귀 스캔·분할 저장 경로를 탄다.
  *
  * ⚠ 26.07.26 현재 표가 **비었다.** 유일한 항목이던 가상 담화가 web-bo 로 이관됐다
- *   (`discourse-unification.md` §8). 남은 시리즈는 서재 탐방 하나이고 그건 아래 책 경로를 탄다.
+ *   (`docs/project/remotion/discourse/unification.md` §8). 남은 시리즈는 서재 탐방 하나이고 그건 아래 책 경로를 탄다.
  * ──────────────────────────────────────────────────────────────────────── */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

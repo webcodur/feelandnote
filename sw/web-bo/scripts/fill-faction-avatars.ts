@@ -14,6 +14,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import { CELEB_AVATAR_SMALL } from '@feelandnote/shared/constants/celeb-avatar-small'
+import { CACHE_TAGS, domainRevalidationTags } from '@feelandnote/shared/constants/cache-tags'
 import { existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -148,7 +149,7 @@ async function main() {
     try {
       const res = await fetch(`${webUrl}/api/revalidate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tag: 'celebs', secret }),
+        body: JSON.stringify({ tag: domainRevalidationTags(CACHE_TAGS.CELEBS), secret }),
       })
       console.log(`캐시 무효화: ${res.status}`)
     } catch { console.log('캐시 무효화 실패') }

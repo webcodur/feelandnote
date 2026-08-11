@@ -167,7 +167,7 @@ export async function fetchAllCelebContents(
   return allData
 }
 
-// ⚠️ Map 반환 — unstable_cache로 감싸지 마라 (Map은 직렬화 불가, §10 tooling-gotchas)
+// Map은 JSON 캐시 경계에서 보존되지 않으므로 unstable_cache로 감싸지 않는다.
 // 콘텐츠 ID별 셀럽(active CELEB, FINISHED) 카운트 — RPC로 카운트만 수신
 export async function fetchGlobalCelebCounts(
   supabase: StaticSupabase,
@@ -190,7 +190,7 @@ export async function fetchGlobalCelebCounts(
   return countMap
 }
 
-// ⚠️ Map 반환 — unstable_cache로 감싸지 마라 (Map은 직렬화 불가, §10 tooling-gotchas)
+// Map은 JSON 캐시 경계에서 보존되지 않으므로 unstable_cache로 감싸지 않는다.
 // 콘텐츠 ID별 일반 유저(USER, FINISHED) 카운트 — RPC로 카운트만 수신
 export async function fetchUserContentCounts(
   supabase: StaticSupabase,

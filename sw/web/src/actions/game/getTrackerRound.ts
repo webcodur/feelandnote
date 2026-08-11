@@ -1,7 +1,7 @@
 /*
   파일명: actions/game/getTrackerRound.ts
   기능: 미궁(인물등용) 게임 라운드 데이터 조회
-  책임: 랜덤 셀럽 1명(등용 대상) + 페르소나 + 콘텐츠 + 현자 5명 일괄 조회
+  책임: 랜덤 셀럽 1명(등용 대상) + 스펙트럼 + 콘텐츠 + 현자 5명 일괄 조회
 */
 "use server";
 
@@ -71,7 +71,7 @@ interface TrackerDialogueRow {
   lines_en: DialogueLines | null;
 }
 
-interface TrackerPersona {
+interface TrackerSpectrum {
   // 능력 (0~100)
   command: number;
   martial: number;
@@ -106,7 +106,7 @@ export interface TrackerRound {
   bio: string | null;
   quotes: string | null;
   culturalJourney: string | null;
-  persona: TrackerPersona;
+  spectrum: TrackerSpectrum;
   contents: TrackerContent[];
   options: TrackerOption[];
 }
@@ -197,7 +197,7 @@ async function isKoreanLocale(): Promise<boolean> {
 const getCachedTrackerCandidates = unstable_cache(
   async () => {
     const supabase = createStaticClient();
-    // 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + persona + review 있는 콘텐츠 + cultural journey)
+    // 자격 있는 셀럽 목록 조회 (퍼블릭 도메인 + spectrum + review 있는 콘텐츠 + cultural journey)
     const { data, error } = await supabase.rpc("get_tracker_candidates", {
       exclude_ids: [],
     });
@@ -206,7 +206,7 @@ const getCachedTrackerCandidates = unstable_cache(
   },
   ["tracker-candidates"],
   // get_tracker_candidates: celebs + celeb_persona 보유 + 감상문 있는 celeb_contents 조건
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.PERSONA] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.SPECTRUM] }
 );
 
 export async function getTrackerRound(
@@ -270,7 +270,7 @@ const getCachedFallbackEligible = unstable_cache(
   async (): Promise<FallbackCelebRow[]> => {
     const supabase = createStaticClient();
 
-    // 자격 있는 셀럽 목록: persona 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
+    // 자격 있는 셀럽 목록: spectrum 존재 + cultural journey 존재 + 리뷰 있는 콘텐츠 존재
     // 여정·소개 전문은 여기서 받지 않는다 — 선정된 1명만 별도 수신 (egress 절감)
     // 1,000행 상한에 걸리므로 나눠 받는다(실측 1,148행 — 자르면 후보 148명이 조용히 탈락).
     const celebRows = await selectAllPages<FallbackCelebRow>((from, to) =>
@@ -297,13 +297,13 @@ const getCachedFallbackEligible = unstable_cache(
       return match ? parseInt(match[1], 10) <= 1920 : false;
     });
 
-    // persona 존재 확인
+    // spectrum 존재 확인
     const celebIds = publicDomain.map((c) => c.id);
-    const personas = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
+    const spectra = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
       supabase.from("celeb_persona").select("celeb_id").in("celeb_id", chunk)
     );
 
-    const personaSet = new Set(personas.map((p) => p.celeb_id));
+    const spectrumSet = new Set(spectra.map((p) => p.celeb_id));
 
     // 리뷰 있는 콘텐츠 4건 이상인 셀럽만 허용
     const reviewRows = await selectInChunks<{ celeb_id: string }>(celebIds, (chunk) =>
@@ -325,12 +325,12 @@ const getCachedFallbackEligible = unstable_cache(
 
     // cultural_journey 존재·비어있지 않음은 DB 필터로 보장됨
     return publicDomain.filter(
-      (c) => personaSet.has(c.id) && reviewSet.has(c.id)
+      (c) => spectrumSet.has(c.id) && reviewSet.has(c.id)
     );
   },
   ["tracker-fallback-eligible"],
   // celebs + celeb_persona + celeb_contents(감상문 수)
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.PERSONA] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.SPECTRUM] }
 );
 
 async function getTrackerRoundFallback(
@@ -410,8 +410,8 @@ async function buildRound(
   quotes: string | null,
   preferKo: boolean = true
 ): Promise<TrackerRound | null> {
-  // 2+3. 페르소나 + 리뷰 콘텐츠 병렬 조회
-  const [{ data: personaData }, { data: ucData }] = await Promise.all([
+  // 2+3. 스펙트럼 + 리뷰 콘텐츠 병렬 조회
+  const [{ data: spectrumData }, { data: ucData }] = await Promise.all([
     supabase
       .from("celeb_persona")
       .select(
@@ -428,7 +428,7 @@ async function buildRound(
       .limit(8),
   ]);
 
-  if (!personaData) return null;
+  if (!spectrumData) return null;
 
   const ucRows: TrackerUcRow[] = ucData ?? [];
   const contentIds = ucRows.map((uc) => uc.content_id);
@@ -579,7 +579,7 @@ async function buildRound(
     bio: bio ? censorName(bio, nickname, safeWords) : null,
     quotes: quotes ? censorName(quotes, nickname, safeWords) : null,
     culturalJourney: culturalJourney ? censorName(culturalJourney, nickname, safeWords) : null,
-    persona: personaData as TrackerPersona,
+    spectrum: spectrumData as TrackerSpectrum,
     contents,
     options,
   };

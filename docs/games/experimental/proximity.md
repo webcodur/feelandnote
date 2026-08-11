@@ -1,6 +1,6 @@
 # 근접도 (Proximity) — 발주서
 
-> **최종 실측 체크: 26.07.31** — 부분 대조: `getTrackerRound.ts`(TrackerPersona 16축), `getSimilarByCelebId.ts`(calcDistance·distanceToMatchPercent), `lib/persona/constants.ts`(STAT_KEYS·TENDENCY_KEYS), `lib/persona/types.ts`(PersonaStats·PersonaProfile), `lib/persona/utils.ts`(calcDistance 시그니처), `getPortraitFigures.ts`(서버 조회 패턴), `portrait/` 전체(게임 구조 패턴), `i18n/request.ts`(네임스페이스 등록 확인), `messages/ko/core.json`(shared.game 키 확인). DB 실측 없음.
+> **최종 실측 체크: 26.08.11** — 부분 대조: `getTrackerRound.ts`(TrackerSpectrum 16축), `getSimilarByCelebId.ts`(calcDistance·distanceToMatchPercent), `lib/spectrum/constants.ts`(STAT_KEYS·TENDENCY_KEYS), `lib/spectrum/types.ts`(SpectrumStats·SpectrumProfile), `lib/spectrum/utils.ts`(calcDistance 시그니처), `getPortraitFigures.ts`(서버 조회 패턴), `portrait/` 전체(게임 구조 패턴), `i18n/request.ts`(네임스페이스 등록 확인), `messages/ko/core.json`(shared.game 키 확인). DB 실측 없음.
 
 ---
 
@@ -42,7 +42,7 @@
 | 온도 범위 | 0~100 (정수) |
 | 온도 계산 (배포) | `calcDistance`(유클리드 16차원) → `distanceToMatchPercent`(최대 거리 400 기준 반전) |
 | 온도 계산 (체험) | 직군 일치 +30, 나라 일치 +30 / 문화권 +15, 시대 차이에 따라 0~+40 |
-| 축 힌트 | era(30년 이내 close / 100년 medium / 그 이상 far), region(같은 나라 close / 같은 문화권 medium / 아님 far), profession(같으면 close / 아님 far), persona(온도 75+ close / 45+ medium / 아래 far) |
+| 축 힌트 | era(30년 이내 close / 100년 medium / 그 이상 far), region(같은 나라 close / 같은 문화권 medium / 아님 far), profession(같으면 close / 아님 far), spectrum(온도 75+ close / 45+ medium / 아래 far) |
 | 포기 | 언제든 가능. 결과 화면에 "포기"로 표시 |
 | 최고 기록 | localStorage에 최소 추측 수 저장 |
 
@@ -61,9 +61,9 @@
 
 - **엔드포인트**: `actions/game/proximity.ts` — `getProximityCelebs()` (full stats), `getProximityCelebList()` (자동완성용)
 - **페이징**: `selectAllPages` + `celeb_id` 정렬 (PostgREST 1,000행 상한 대응)
-- **캐시**: `unstable_cache` + `CACHE_TAGS.PERSONA` + `STATIC_REVALIDATE`(7일)
+- **캐시**: `unstable_cache` + `CACHE_TAGS.SPECTRUM` + `STATIC_REVALIDATE`(7일)
 - **필터**: `publication_status = 'active'`, `celeb_tier in ('full', 'light')`
-- **거리 재사용**: `lib/persona/utils.ts`의 `calcDistance` + `distanceToMatchPercent` — 새로 짜지 않음
+- **거리 재사용**: `lib/spectrum/utils.ts`의 `calcDistance` + `distanceToMatchPercent` — 새로 짜지 않음
 
 ---
 
@@ -125,7 +125,7 @@
 | `correct` | 정답 | Correct |
 | `fixtureNotice` | 체험 모드: 표본 데이터로… | Demo mode: Running on sample data… |
 | `bestRecord` | 최고 기록: {count}회만에 정답 | Best: solved in {count} guesses |
-| `axis.*` (4) | 시대/지역/직군/성향 | Era/Region/Profession/Persona |
+| `axis.*` (4) | 시대/지역/직군/성향 | Era/Region/Profession/Spectrum |
 | `rules.*` (6) | 규칙 카드 3종(제목+본문) | Rule cards |
 | `result.*` (8) | 결과 화면 문구 | Result screen |
 

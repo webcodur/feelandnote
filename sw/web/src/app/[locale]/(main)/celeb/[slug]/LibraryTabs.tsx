@@ -49,6 +49,7 @@ export default function LibraryTabs({
       <div className={cn(tab !== "consume" && "hidden")}>
         <ContentLibrary
           mode="viewer"
+          ownerKind="celeb"
           targetUserId={userId}
           emptyMessage={emptyMessage}
           showPagination

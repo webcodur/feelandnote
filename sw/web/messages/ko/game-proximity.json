@@ -15,7 +15,7 @@
       "era": "시대",
       "region": "지역",
       "profession": "직군",
-      "persona": "성향"
+      "spectrum": "성향"
     },
     "rules": {
       "guessTitle": "추측하기",

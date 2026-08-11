@@ -1,7 +1,7 @@
 /**
  * 세력도감 출간 계약 타입 — 진단(diagnose)·출간(publish) 요청/응답.
  *
- * 설계 단일원천: docs/project/remotion/faction-unification.md §4(경계)·§9(개조 방향)
+ * 설계 단일원천: docs/project/remotion/faction/unification.md §4(경계)·§9(개조 방향)
  *
  * 제작 데이터(faction_* 5테이블)의 **사진·영상·음악·태그**를 서비스 세력도감(celeb_tags + R2 이미지)에
  * 반영할 때 주고받는 형태만 담는다. fs·supabase 를 부르지 않아 클라이언트(출간 패널)에서도 그대로 읽는다.

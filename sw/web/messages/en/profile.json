@@ -177,7 +177,7 @@
       "present": "Present",
       "empty": "No bio has been inscribed yet."
     },
-    "persona": {
+    "spectrum": {
       "label": "16-Axis Spectrum",
       "description": "A 16-axis spectrum of {nickname}'s virtues, abilities, and dispositions.",
       "neutral": "Neutral",

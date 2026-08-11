@@ -13,7 +13,7 @@
  * 디스크에는 세 파일로 나뉘어 있다(discourse-data.json 메타·편성 / cast.json 인물 / turns.json 발언).
  * **이 타입은 합쳐진 한 벌**이다 — IO(discourse-utils.ts)가 읽을 때 합치고 쓸 때 나누므로 화면·API는 나뉜 것을 모른다.
  * 세 파일 모두 한국어 필드 + 영문 필드(*En)를 함께 둔다. 렌더 로더가 언어별로 펼친다.
- * 기획·규격 SSoT: docs/project/remotion/discourse.md
+ * 기획·규격 SSoT: docs/project/remotion/discourse/README.md
  */
 
 /** 영상 방향 — 담화는 세로 전용이지만 팩션과 시그니처를 맞춘다 */

@@ -8,8 +8,8 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { revalidateWebCache } from '@/lib/revalidate-web'
-import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { revalidateWebCeleb, revalidateWebItems, revalidateWebLists } from '@/lib/revalidate-web'
+import { CACHE_TAGS, type CacheItemTarget } from '@feelandnote/shared/constants/cache-tags'
 import { factionAdminClient, requireFactionAdmin } from '@/lib/faction-db'
 import {
   toTeamImages, serializeTeamImages, type FactionTeamImage,
@@ -215,7 +215,7 @@ export async function createTag(input: CreateTagInput): Promise<{ id: string } |
 
   revalidateThemeScreens()
   // celeb_tags 신규 — 태그 편성과 태그명을 품은 셀럽 목록 캐시 모두 갱신
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateWebLists([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { id: data.id }
 }
 // #endregion
@@ -258,6 +258,44 @@ async function checkParentAssignment(
 }
 // #endregion
 
+async function getAtlasTagCelebTargets(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  tagId: string,
+): Promise<CacheItemTarget[]> {
+  const { data: assignments, error: assignmentsError } = await supabase
+    .from('faction_atlas_members')
+    .select('celeb_id')
+    .eq('tag_id', tagId)
+  if (assignmentsError) throw new Error(`도감 태그 인물 조회 실패: ${assignmentsError.message}`)
+
+  const celebIds = [...new Set((assignments ?? []).map((row) => row.celeb_id))]
+  if (celebIds.length === 0) return []
+
+  const { data: celebs, error: celebsError } = await supabase
+    .from('celebs')
+    .select('id, slug')
+    .in('id', celebIds)
+  if (celebsError) throw new Error(`도감 태그 인물 slug 조회 실패: ${celebsError.message}`)
+
+  const targets: CacheItemTarget[] = []
+  for (const celeb of celebs ?? []) {
+    targets.push({ domain: CACHE_TAGS.CELEBS, id: celeb.id })
+    if (celeb.slug) targets.push({ domain: CACHE_TAGS.CELEBS, id: celeb.slug })
+  }
+  return targets
+}
+
+async function revalidateAtlasTagCelebs(
+  targets: readonly CacheItemTarget[],
+): Promise<void> {
+  const listDomains = [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS]
+  if (targets.length === 0) {
+    await revalidateWebLists(listDomains)
+    return
+  }
+  await revalidateWebItems(targets, listDomains)
+}
+
 // #region updateTag
 export async function updateTag(input: UpdateTagInput): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
@@ -298,7 +336,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
 
   revalidateThemeScreens()
   // celeb_tags 수정(이름·색·slug) — 태그명이 셀럽 목록 캐시에 박혀 있어 함께 갱신
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateAtlasTagCelebs(await getAtlasTagCelebTargets(supabase, input.id))
   return { success: true }
 }
 // #endregion
@@ -306,6 +344,7 @@ export async function updateTag(input: UpdateTagInput): Promise<{ success: boole
 // #region deleteTag
 export async function deleteTag(tagId: string): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
+  const cacheTargets = await getAtlasTagCelebTargets(supabase, tagId)
 
   const { error } = await supabase
     .from('celeb_tags')
@@ -319,7 +358,7 @@ export async function deleteTag(tagId: string): Promise<{ success: boolean; erro
 
   revalidateThemeScreens()
   // celeb_tags 삭제 — 배정(celeb_tag_assignments)까지 연쇄 제거되므로 셀럽 캐시도 갱신
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateAtlasTagCelebs(cacheTargets)
   return { success: true }
 }
 // #endregion
@@ -346,7 +385,7 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
 
   revalidateThemeScreens()
   // celeb_tags.sort_order — 노출 순서만 바뀌므로 태그 편성 캐시만
-  await revalidateWebCache(CACHE_TAGS.TAGS)
+  await revalidateWebLists(CACHE_TAGS.TAGS)
   return { success: true }
 }
 // #endregion
@@ -374,6 +413,20 @@ async function findAtlasRow(
     return { row: null, error: error.message }
   }
   return { row: data ?? null, error: null }
+}
+
+/** 한 명의 도감 배정만 바뀐 뒤 그 인물 상세과 도감·인물 목록만 갱신한다. */
+async function revalidateAtlasCeleb(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  celebId: string,
+): Promise<void> {
+  const { data, error } = await supabase
+    .from('celebs')
+    .select('slug')
+    .eq('id', celebId)
+    .single()
+  if (error) throw new Error(`도감 인물 slug 조회 실패: ${error.message}`)
+  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
 }
 // #endregion
 
@@ -503,7 +556,7 @@ export async function updateTagAssignmentDesc(
 
   revalidateThemeScreens()
   // 소개문 — 세력도감 소개글이 셀럽 캐시에도 실린다
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateAtlasCeleb(supabase, celebId)
   return { success: true }
 }
 // #endregion
@@ -604,7 +657,7 @@ export async function addCelebToTag(
     }
 
     revalidateThemeScreens()
-    await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+    await revalidateAtlasCeleb(supabase, celebId)
     return { success: true, revived: true }
   }
 
@@ -639,7 +692,7 @@ export async function addCelebToTag(
 
   revalidateThemeScreens()
   // celeb_tag_assignments 신규 — 셀럽 목록 카드에도 배정 태그가 실린다
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateAtlasCeleb(supabase, celebId)
   return { success: true, sort_order: nextSortOrder }
 }
 // #endregion
@@ -674,7 +727,7 @@ export async function removeCelebFromTag(
     }
 
     revalidateThemeScreens()
-    await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+    await revalidateAtlasCeleb(supabase, celebId)
     return { success: true, hiddenInstead: true }
   }
 
@@ -690,7 +743,7 @@ export async function removeCelebFromTag(
 
   revalidateThemeScreens()
   // celeb_tag_assignments 삭제 — 셀럽 목록 카드에서도 배정 태그가 빠져야 한다
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateAtlasCeleb(supabase, celebId)
   return { success: true }
 }
 // #endregion
@@ -743,7 +796,7 @@ export async function updateTagCelebOrder(
 
   revalidateThemeScreens()
   // celeb_tag_assignments.sort_order — 셀럽 목록 카드 노출 순서에도 반영된다
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateWebLists([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true, skippedProduction }
 }
 // #endregion
@@ -767,7 +820,7 @@ export async function setTagTeamImages(
 
   revalidateThemeScreens()
   // celeb_tags.team_images — 태그 편성 화면 전용
-  await revalidateWebCache(CACHE_TAGS.TAGS)
+  await revalidateWebLists(CACHE_TAGS.TAGS)
   return { success: true }
 }
 // #endregion
@@ -815,7 +868,7 @@ export async function setTagCelebHidden(
   }
 
   revalidateThemeScreens()
-  await revalidateWebCache(CACHE_TAGS.TAGS)
+  await revalidateAtlasCeleb(supabase, celebId)
   return { success: true }
 }
 // #endregion
@@ -857,7 +910,7 @@ export async function setTagCelebImage(
 
   revalidateThemeScreens()
   // faction_image_url — 셀럽 카드 이미지에도 반영된다
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateAtlasCeleb(supabase, celebId)
   return { success: true }
 }
 // #endregion

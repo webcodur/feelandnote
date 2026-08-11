@@ -8,7 +8,7 @@
 basic 완료 → speech_tone 배정 → quotes 작성 → dialogue 생성
 ```
 
-- speech_tone: basic만 완료되면 독립 배정 가능 (persona 의존 없음)
+- speech_tone: basic만 완료되면 독립 배정 가능 (스펙트럼 의존 없음)
 - quotes: speech_tone 확정 후 어조 일치 기반 작성
 - dialogue: quotes 완료 후 생성. **생몰 연대·생존 여부와 무관하게 모든 셀럽이 한국어 21개 전체 대사를 갖는다.**
 

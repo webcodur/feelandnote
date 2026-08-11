@@ -12,6 +12,7 @@ import { createClient } from '@supabase/supabase-js'
 import sharp from 'sharp'
 import { readFileSync, existsSync } from 'fs'
 import { resolve } from 'path'
+import { CACHE_TAGS, domainRevalidationTags } from '@feelandnote/shared/constants/cache-tags'
 
 const TAG_ID = 'e4a87099-b467-4d2d-a7d8-77e7e16aeb87'
 const FACTION_ROOT = resolve(process.cwd(), '../remotion/public/factions/02-페이팔마피아')
@@ -93,7 +94,7 @@ async function main() {
     try {
       const res = await fetch(`${webUrl}/api/revalidate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tag: 'celebs', secret }),
+        body: JSON.stringify({ tag: domainRevalidationTags(CACHE_TAGS.CELEBS), secret }),
       })
       console.log(`캐시 무효화: ${res.status}`)
     } catch { console.log('캐시 무효화 실패') }

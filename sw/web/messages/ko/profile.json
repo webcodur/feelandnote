@@ -177,7 +177,7 @@
       "present": "현재",
       "empty": "아직 새겨진 소개가 없습니다."
     },
-    "persona": {
+    "spectrum": {
       "label": "16축 스펙트럼",
       "description": "{nickname}의 덕목·능력·성향을 16개 축으로 정리한 스펙트럼입니다.",
       "neutral": "중립",

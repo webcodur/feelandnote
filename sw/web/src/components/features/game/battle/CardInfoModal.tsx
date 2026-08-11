@@ -11,7 +11,7 @@ import { useLocale } from "next-intl";
 import type { BattleCard, Command, Domain } from "@/lib/game/types";
 import { COMMANDS, DOMAINS, DOMAIN_LABELS, DOMAIN_LABELS_EN } from "@/lib/game/types";
 import { calcAptitude, aptitudeToStars } from "@/lib/game/gameEngine";
-import { ABILITY_KEYS, ABILITY_LABELS as ABILITY_LABEL_MAP } from "@/lib/persona/constants";
+import { ABILITY_KEYS, ABILITY_LABELS as ABILITY_LABEL_MAP } from "@/lib/spectrum/constants";
 import { getCelebProfessionLabel } from "@/constants/celebProfessions";
 import { getBattleCardEffect, getBattleCommandLabel, getBattleText } from "./i18n";
 

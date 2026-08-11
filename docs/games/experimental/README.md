@@ -10,13 +10,13 @@
 
 | 키 | 이름 | 원형 (실존 게임) | 한 줄 |
 |---|---|---|---|
-| `grid` | 교차 격자 | Immaculate Grid, Pokedoku, Cinematrix, FaceGrid | 3×3 격자의 행·열 조건을 동시에 만족하는 인물을 직접 떠올려 채운다 |
-| `groups` | 넷씩 넷 | NYT Connections, Conexo, Categories | 인물 16명을 공통점 4개 묶음으로 가른다 |
-| `proximity` | 근접도 | Metazooa, Globle, Contexto | 인물을 추측하면 오늘의 인물과 얼마나 가까운지 알려준다. 온도만 보고 좁힌다 |
-| `travel` | 경로 잇기 | Travle, The Wiki Game, Cinema Circuit, GlobeHoppr | 두 인물을 정해진 이동 횟수 안에 잇는다. 최단이 아니라 도달이 목표 |
-| `moreless` | 어느 쪽 | More or Less, Juxtastat, Steamry, TimeSwipe | 둘 중 큰 쪽을 고르고 연속 기록을 쌓는다 |
-| `topfive` | 상위 다섯 | Factle, Top 5, Daily Tens | 오늘의 기준에 맞는 상위 5개를 순서까지 맞힌다 |
-| `redact` | 가림 해제 | Redactle, Pedantle, Peekpedia | 인물 소개를 통째로 가려놓고 단어를 캐내며 정체를 밝힌다 |
+| [`grid`](grid.md) | 교차 격자 | Immaculate Grid, Pokedoku, Cinematrix, FaceGrid | 3×3 격자의 행·열 조건을 동시에 만족하는 인물을 직접 떠올려 채운다 |
+| [`groups`](groups.md) | 넷씩 넷 | NYT Connections, Conexo, Categories | 인물 16명을 공통점 4개 묶음으로 가른다 |
+| [`proximity`](proximity.md) | 근접도 | Metazooa, Globle, Contexto | 인물을 추측하면 오늘의 인물과 얼마나 가까운지 알려준다. 온도만 보고 좁힌다 |
+| [`travel`](travel.md) | 경로 잇기 | Travle, The Wiki Game, Cinema Circuit, GlobeHoppr | 두 인물을 정해진 이동 횟수 안에 잇는다. 최단이 아니라 도달이 목표 |
+| [`moreless`](moreless.md) | 어느 쪽 | More or Less, Juxtastat, Steamry, TimeSwipe | 둘 중 큰 쪽을 고르고 연속 기록을 쌓는다 |
+| [`topfive`](topfive.md) | 상위 다섯 | Factle, Top 5, Daily Tens | 오늘의 기준에 맞는 상위 5개를 순서까지 맞힌다 |
+| [`redact`](redact.md) | 가림 해제 | Redactle, Pedantle, Peekpedia | 인물 소개를 통째로 가려놓고 단어를 캐내며 정체를 밝힌다 |
 
 ## 2. 🔴 절대 건드리지 말 것 (공유 파일)
 
@@ -113,7 +113,7 @@
 
 **③ 실험 라우트는 `force-dynamic`을 선언한다.** 선언 전에는 Next가 정적 생성을 시도했다 실패하며 빌드 로그에 `Dynamic server usage` 오류를 6건 남겼다(신작 3개 라우트만). 진짜 오류를 가릴 잡음이라 8개 라우트 전부에 선언해 0건으로 만들었다.
 
-**④ 실제 데이터로 처음 돌릴 때 잡힌 결함 2종**은 `docs/project/platform/tooling-gotchas.md` 10번에 정리했다. 요약하면 `unstable_cache`가 `Map`을 직렬화하지 못해 빈 객체로 만들고(교차 격자가 계속 표본으로 떨어졌다), 그 원인을 `catch`가 삼켜 진단이 불가능했다. 7종 전부 폴백 이유를 로그에 남기도록 고쳤다.
+**④ 실제 데이터로 처음 돌릴 때 잡힌 결함 2종** — `unstable_cache`가 `Map`을 빈 객체로 직렬화했고 `catch`가 원인을 숨겼다. 캐시 경계는 plain object만 넘기고, 7종 전부 폴백 이유를 로그에 남기도록 고쳤다.
 
 ## 10. 체험 표본 전수 DB 대조 감사 (26.07.31)
 

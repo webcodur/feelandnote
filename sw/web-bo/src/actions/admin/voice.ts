@@ -8,7 +8,7 @@ import {
   DIALOGUE_TYPES, TYPE_PREFIX, VARIANTS, LOCALES,
   voiceR2Key,
 } from '@/lib/voice-path'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 /** 음성 파일 업로드 (단일, VoiceSection 수동 업로드용) */
@@ -39,12 +39,12 @@ export async function toggleHasVoice(
     .from('celebs')
     .update({ has_voice: value })
     .eq('id', celebId)
-    .select('id')
+    .select('id, slug')
     .maybeSingle()
   if (error) return { success: false, error: error.message }
   if (!data) return { success: false, error: '셀럽을 찾을 수 없습니다.' }
-  // celebs.has_voice — 대사 음성 재생 여부를 가르므로 대사 캐시도 함께
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  // celebs.has_voice — 이 인물의 상세과 관련 목록만 갱신한다.
+  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }
 
@@ -116,7 +116,7 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
     .from('celebs')
     .update({ has_voice: false, voice_v: 0 })
     .eq('id', celebId)
-    .select('id')
+    .select('id, slug')
     .maybeSingle()
   if (error) throw error
   if (!data) throw new Error('셀럽을 찾을 수 없습니다.')
@@ -125,7 +125,7 @@ export async function deleteAllVoiceFiles(celebId: string): Promise<{ success: b
   const failedDeletionCount = deletionResults.filter((result) => result.status === 'rejected').length
 
   // celebs.has_voice/voice_v — 음성 전량 삭제, 대사 재생 경로도 무효
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   if (failedDeletionCount > 0) {
     throw new Error(`음성 파일 ${failedDeletionCount}개를 삭제하지 못했습니다.`)
   }

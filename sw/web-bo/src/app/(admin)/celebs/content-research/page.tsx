@@ -13,14 +13,10 @@ import {
   CONTENT_RESEARCH_BUCKETS,
   type ContentResearchBucket,
 } from '@/actions/admin/content-research-types'
-import {
-  CELEB_CONTENT_RESEARCH_STATUSES,
-  type CelebContentResearchStatus,
-} from '@feelandnote/shared/constants/celeb-content-research'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
-import ResearchStatusControls from './ResearchStatusControls'
+import ConfirmedEmptyControls from './ConfirmedEmptyControls'
 
 export const metadata: Metadata = {
   title: '셀럽 콘텐츠 조사',
@@ -32,7 +28,6 @@ interface PageProps {
     page?: string
     search?: string
     bucket?: string
-    researchStatus?: string
   }>
 }
 
@@ -58,18 +53,12 @@ const BUCKET_META: Record<
     description: '영향력·자료 존재 가능성만 보고 조사 시작 여부 결정',
     className: 'border-amber-500/30 bg-amber-500/10 text-amber-200',
   },
-  confirmed_empty: {
+  confirmed_zero: {
     label: '없음 확정',
     shortLabel: '-1 확정',
     description: '콘텐츠 없음으로 닫아 표시값 -1',
     className: 'border-slate-500/30 bg-slate-500/10 text-slate-200',
   },
-}
-
-const RESEARCH_STATUS_LABELS: Record<CelebContentResearchStatus, string> = {
-  open: '열린 0',
-  researching: '조사 중',
-  confirmed_empty: '-1 확정',
 }
 
 function parseBucket(value: string | undefined): ContentResearchBucket | 'all' {
@@ -78,31 +67,20 @@ function parseBucket(value: string | undefined): ContentResearchBucket | 'all' {
     : 'all'
 }
 
-function parseResearchStatus(
-  value: string | undefined
-): CelebContentResearchStatus | 'all' {
-  return CELEB_CONTENT_RESEARCH_STATUSES.includes(value as CelebContentResearchStatus)
-    ? (value as CelebContentResearchStatus)
-    : 'all'
-}
-
 function makeFilterHref(
   current: {
     search: string
     bucket: ContentResearchBucket | 'all'
-    researchStatus: CelebContentResearchStatus | 'all'
   },
   patch: Partial<{
     search: string
     bucket: ContentResearchBucket | 'all'
-    researchStatus: CelebContentResearchStatus | 'all'
   }>
 ): string {
   const next = { ...current, ...patch }
   const query = new URLSearchParams()
   if (next.search) query.set('search', next.search)
   if (next.bucket !== 'all') query.set('bucket', next.bucket)
-  if (next.researchStatus !== 'all') query.set('researchStatus', next.researchStatus)
   const queryString = query.toString()
   return `/celebs/content-research${queryString ? `?${queryString}` : ''}`
 }
@@ -118,15 +96,13 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
   const page = Math.max(1, Number(params.page) || 1)
   const search = params.search?.trim() ?? ''
   const bucket = parseBucket(params.bucket)
-  const researchStatus = parseResearchStatus(params.researchStatus)
   const workspace = await getContentResearchWorkspace({
     page,
     limit: 50,
     search,
     bucket,
-    researchStatus,
   })
-  const currentFilters = { search, bucket, researchStatus }
+  const currentFilters = { search, bucket }
 
   return (
     <div className="space-y-5">
@@ -139,7 +115,8 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
           <p className="mt-2 max-w-3xl text-sm leading-6 text-text-secondary">
             <strong className="text-text-primary">0은 가능성을 열어 둔 상태</strong>이고,
             콘텐츠 없음으로 확정한 경우 <strong className="text-rose-300">-1</strong>로
-            닫습니다. 콘텐츠가 하나라도 등록되면 조사 상태와 무관하게 실측 개수를 표시합니다.
+            닫습니다. 진행 상황은 작업 오케스트레이터가 관리하며 DB에는 저장하지 않습니다.
+            콘텐츠가 하나라도 등록되면 실측 개수를 표시합니다.
           </p>
         </div>
         <Link
@@ -155,12 +132,12 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
         <div className="rounded-lg border border-border bg-bg-card p-4">
           <div className="flex items-center gap-2 text-sm text-text-secondary">
             <CircleDashed className="h-4 w-4" />
-            열린 상태
+            조사 대상
           </div>
           <p className="mt-2 text-2xl font-bold text-text-primary">
             {(
-              workspace.statusCounts.open +
-              workspace.statusCounts.researching
+              workspace.bucketCounts.active_research +
+              workspace.bucketCounts.inactive_triage
             ).toLocaleString()}
           </p>
           <p className="mt-1 text-xs text-text-tertiary">전부 표시값 0, 다시 조사 가능</p>
@@ -181,7 +158,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
             없음 확정
           </div>
           <p className="mt-2 text-2xl font-bold text-rose-300">
-            {workspace.statusCounts.confirmed_empty.toLocaleString()}
+            {workspace.bucketCounts.confirmed_zero.toLocaleString()}
           </p>
           <p className="mt-1 text-xs text-text-tertiary">없음 확정, 표시값 -1</p>
         </div>
@@ -236,18 +213,6 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
           className="min-w-0 flex-1 rounded-lg border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary outline-none focus:border-accent"
         />
         {bucket !== 'all' ? <input type="hidden" name="bucket" value={bucket} /> : null}
-        <select
-          name="researchStatus"
-          defaultValue={researchStatus}
-          className="rounded-lg border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary outline-none focus:border-accent"
-        >
-          <option value="all">모든 조사 상태</option>
-          {Object.entries(RESEARCH_STATUS_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label} ({workspace.statusCounts[value as CelebContentResearchStatus]})
-            </option>
-          ))}
-        </select>
         <Button type="submit" size="sm">
           필터 적용
         </Button>
@@ -262,7 +227,7 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
                 <th className="px-4 py-3 font-medium">작업 경로</th>
                 <th className="px-4 py-3 font-medium">쓱 보기 신호</th>
                 <th className="px-4 py-3 text-center font-medium">표시값</th>
-                <th className="px-4 py-3 font-medium">조사 상태</th>
+                <th className="px-4 py-3 font-medium">0건 처리</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -306,12 +271,6 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
                           {bucketMeta.shortLabel}
                         </span>
                         <div className="mt-2 flex gap-2 text-xs">
-                          <Link
-                            href={`/celebs/content-research/${row.id}`}
-                            className="font-medium text-accent hover:text-accent-hover hover:underline"
-                          >
-                            조사 장부
-                          </Link>
                           {row.slug ? (
                             <>
                               <Link
@@ -366,9 +325,9 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
                         ) : null}
                       </td>
                       <td className="px-4 py-3 align-top">
-                        <ResearchStatusControls
+                        <ConfirmedEmptyControls
                           celebId={row.id}
-                          currentStatus={row.researchStatus}
+                          confirmedEmptyAt={row.confirmedEmptyAt}
                           actualContentCount={row.actualContentCount}
                         />
                       </td>
@@ -398,7 +357,6 @@ export default async function ContentResearchPage({ searchParams }: PageProps) {
         params={{
           search: search || undefined,
           bucket: bucket !== 'all' ? bucket : undefined,
-          researchStatus: researchStatus !== 'all' ? researchStatus : undefined,
         }}
       />
     </div>

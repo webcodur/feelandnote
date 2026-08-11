@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
-import { ALL_CACHE_TAGS, isAllowedCacheTag } from '@feelandnote/shared/constants/cache-tags'
+import {
+  ALL_CACHE_TAGS,
+  isAllowedCacheTag,
+  normalizeLegacyCacheTag,
+} from '@feelandnote/shared/constants/cache-tags'
 
 /**
  * 캐시 무효화 API — web-bo 등 외부에서 호출
@@ -35,7 +39,7 @@ export async function POST(request: NextRequest) {
 
   // 단일 문자열·배열 모두 허용(하위호환). 중복은 제거한다.
   const requested: unknown[] = Array.isArray(tag) ? tag : [tag]
-  const tags = [...new Set(requested)]
+  const tags = [...new Set(requested.map(normalizeLegacyCacheTag))]
 
   // 도메인 태그이거나 「알려진 도메인:식별자」만 받는다 — 아무 문자열이나 받으면
   // 외부에서 임의 캐시를 비울 수 있다

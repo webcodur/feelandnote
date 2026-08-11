@@ -2,34 +2,20 @@
 
 셀럽의 추천 도서를 소개하는 영상 시리즈.
 
-## 목차
+## 문서 지도
 
-| 장 | 문서 | 내용 |
-|----|------|------|
-| 1 | 이 문서 | 데이터 흐름, BookEntry, 음성 파일 구조, **에피소드 제작 절차** |
-| 2 | [longform.md](longform.md) | 롱폼 — 섹션 구성, 역할·말투, 타이밍, 워크플로 |
-| 3 | [shorts.md](shorts.md) | 쇼츠 — 4비트 구조, 비주얼, 음성, 자막 |
-| 3b | [solo.md](solo.md) | 1권 모드(SOLO) — 16:9 자유 마디, 책 폴더 솔로 파일, 컴포지션·렌더·유튜브 |
-| 4 | [voice/tts.md](voice/tts.md) | 음성 생성 — 엔진, 보이스, 커맨드, **타이밍 파이프라인** |
-| 4b | [voice/actors.md](voice/actors.md) | 보이스 배정 — Charon 해설과 인물별 ElevenLabs 등록 |
-| 5 | [lineup/lineup.md](lineup/lineup.md) | 편성표 — 배포 순서, 제작 진행 현황 |
-| 5b | [lineup/candidates.md](lineup/candidates.md) | 후보 전략 — 라이벌 묶음, 정치 교차 |
-| 5c | lineup/candidates-raw.md | 후보 전체 리스트 (DB 자동 생성, git 미추적) |
-| 6 | [rules.md](rules.md) | 불변 규칙 — 윤리, 데이터 흐름, 개발 주의사항 |
-| 7 | [render.md](render.md) | 렌더 출력 — 명령어, 파일명 규칙, 코덱 옵션 |
-| 8 | [image-requirements.md](image-requirements.md) | 배경연출 이미지 — 생성 가이드, 프롬프트 규칙, 품질 기준 |
-| 8b | [shorts-image.md](shorts-image.md) | 쇼츠 이미지 전환 — imageChangeAt, 앵커 매칭, 크로스페이드 |
-| 8c | [image-anchor-sync.md](image-anchor-sync.md) | 이미지 앵커 동기화 파이프라인 — 폴더 스캔·품질 필터·ko/en 동기화 |
-| 9 | [writer/](writer/) | 글쓰기 + 교정 파이프라인 |
-| 9-0 | [writer/0-draft.md](writer/0-draft.md) | **초안 작성 가이드** — 테마·필드별 기준·말투·문장 원칙·DB 매핑 |
-| 9-1 | [writer/1-fact-check.md](writer/1-fact-check.md) | 사료 검증 — 역사적 사실·인용문·출처 교차 검증 |
-| 9-2 | [writer/2-chronology.md](writer/2-chronology.md) | 인생 순서 배치 — 생애 연대기 기반 books 배열 |
-| 9-3 | [writer/3-story-power.md](writer/3-story-power.md) | 스토리 파워 — 중심축·감정곡선·S급 context·벤치마크 |
-| 9-4 | [writer/4-prose.md](writer/4-prose.md) | 글 부드러움 — 주어·연결어·리듬·TTS 친화성 |
-| 9-5 | [writer/5-editorial-board.md](writer/5-editorial-board.md) | 편집국 검토 — 분야 정확성·사료·영상 이야기·한국어 자연성 |
-| 9-6 | [writer/6-paragraphs.md](writer/6-paragraphs.md) | 문단 분할 — 긴 서술 필드를 `\n\n` 기준으로 분할. 원문 보존 |
-| 10 | [final-check.md](final-check.md) | 출품 전 최종 점검 — 한영 정합성·텍스트·이미지·음성·윤리 |
-| 11 | [unification-phase1.md](unification-phase1.md) | 본 서비스 1차 통합 — 콘텐츠 ID·표지 SSoT·운영 작업대·잔여 큐 |
+번호는 실제 실행 순서가 있는 글쓰기 파이프라인 안에서만 쓴다. 나머지는 책임별 문서와 하위 폴더로 찾는다.
+
+| 영역 | 문서 | 책임 |
+|---|---|---|
+| 영상 형식 | [`longform.md`](longform.md) · [`shorts.md`](shorts.md) · [`solo.md`](solo.md) | 롱폼·쇼츠·1권 SOLO 구성 |
+| 글쓰기 | [`writer/`](writer/README.md) · [`shorts-best-cases.md`](shorts-best-cases.md) | 초안부터 번역까지의 0~7단계와 쇼츠 모범 사례 |
+| 음성 | [`voice/`](voice/README.md) | 보이스 배정·TTS·메타데이터·5단계 타이밍 파이프라인 |
+| 편성 | [`lineup/`](lineup/README.md) | 배포 순서, 제작 현황, 후보 풀 |
+| 이미지 | [`image-requirements.md`](image-requirements.md) · [`image-generation-techniques.md`](image-generation-techniques.md) | 이미지 요구사항과 생성 표현법 |
+| 이미지 타이밍 | [`shorts-image.md`](shorts-image.md) · [`image-anchor-sync.md`](image-anchor-sync.md) | 화면 전환과 ko/en 앵커 동기화 |
+| 출력·검수 | [`render.md`](render.md) · [`final-check.md`](final-check.md) | 렌더 출력과 출품 전 최종 점검 |
+| 공통 계약 | [`rules.md`](rules.md) · [`unification-phase1.md`](unification-phase1.md) | 불변 규칙과 본서비스 연결 |
 
 ---
 
@@ -109,7 +95,7 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 | 단계 | 작업 | 참조 |
 |------|------|------|
 | 1 | **편성 확인** — 순서·라이벌 묶음·분량(10권↓단일, 11~20권 2편, 20권↑선별) | [lineup.md](lineup/lineup.md) § 편성 원칙·제작 규칙 |
-| 2 | **DB 데이터 수집** — 프로필·명언·콘텐츠·통계·페르소나. 콘텐츠 타입(`contents.type`)이 BOOK이 아닌 항목은 category 필드 필수 | 아래 DB 소스 표 |
+| 2 | **DB 데이터 수집** — 프로필·명언·콘텐츠·통계·스펙트럼. 콘텐츠 타입(`contents.type`)이 BOOK이 아닌 항목은 category 필드 필수 | 아래 DB 소스 표 |
 | 3 | **JSON 초안** — `public/episodes/pre-todo/<name>.json` 작성 (기존 JSON 복사 후 수정) | [longform.md](longform.md) § DB→JSON 변환 체크리스트 |
 | 4 | **텍스트 검수** — 주어 규칙·말투·진부 표현 제거 | [longform.md](longform.md) § 말투 규칙, [lineup.md](lineup/lineup.md) § 품질 |
 | 5 | **ID·표지 동기화** — DB 관계 연결 + DB 표지 → `covers/content/<contentId>/<locale>.webp` 캐시 | [unification-phase1.md](unification-phase1.md) |
@@ -126,7 +112,7 @@ public/episodes/<person>/voice/<locale>/gemini/  ← 인물별 음성
 | 명언 (SSoT) | `celeb_dialogues` | lines→quote |
 | 콘텐츠 목록 | `celeb_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review, **`contents.type`** (category 판별용). 조회 시 `type IN ('BOOK','VIDEO','GAME','MUSIC')` — BOOK만 필터링하면 non-BOOK 누락 |
 | celebCount | `celeb_contents` 집계 | content_id별 추천 셀럽 수 |
-| 페르소나 | `celeb_persona` | persona (philosophy 작성 참고) |
+| 스펙트럼 | `celeb_persona` | `persona` JSONB (philosophy 작성 참고) |
 
 ---
 

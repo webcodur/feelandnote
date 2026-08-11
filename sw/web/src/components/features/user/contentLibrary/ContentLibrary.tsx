@@ -26,6 +26,7 @@ export default function ContentLibrary({
   showPagination = true,
   emptyMessage,
   mode = "owner",
+  ownerKind = "member",
   targetUserId,
   ownerNickname,
   defaultViewMode,
@@ -34,7 +35,7 @@ export default function ContentLibrary({
   initialContents,
 }: ContentLibraryProps) {
   const locale = useLocale();
-  const lib = useContentLibrary({ maxItems, compact, mode, targetUserId, defaultViewMode, defaultPageSize, initialContents });
+  const lib = useContentLibrary({ maxItems, compact, mode, ownerKind, targetUserId, defaultViewMode, defaultPageSize, initialContents });
   const isViewer = lib.isViewer;
   const t = useTranslations("celebPage");
   const tArchive = useTranslations("archiveSearch");

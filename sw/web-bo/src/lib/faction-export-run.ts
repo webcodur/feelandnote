@@ -9,7 +9,10 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { assembleFactionEpisode } from '@feelandnote/shared/lib/faction-assemble'
-import { exportFactionEpisodeToFile, factionEpisodePaths } from '@feelandnote/shared/bo/faction-export'
+import {
+  exportFactionEpisodeToFile, factionEpisodePaths,
+  inheritCelebVoices, type CelebVoiceLookup, type CelebVoicePair,
+} from '@feelandnote/shared/bo/faction-export'
 import { FACTIONS_DIR } from '@feelandnote/shared/bo/episode-store'
 import { factionTreeSource } from '@/lib/faction-db'
 import { assertFactionLocal } from '@/lib/faction-local'
@@ -28,6 +31,27 @@ export interface FactionExportResult {
   diffs?: string[]
 }
 
+/**
+ * CELEB 프로필의 국문·영문 목소리 조회 — 팩션이 비운 자리에 물려줄 값.
+ * 팩션 트리 공급자는 팩션 4테이블만 알아서 여기서 따로 조회한다.
+ */
+function celebVoiceLookup(db: SupabaseClient): CelebVoiceLookup {
+  return async (celebIds) => {
+    const out = new Map<string, CelebVoicePair>()
+    for (let i = 0; i < celebIds.length; i += 200) {
+      const { data, error } = await db
+        .from('celebs').select('id,voice_id_ko,voice_id_en').in('id', celebIds.slice(i, i + 200))
+      if (error) throw new Error(`CELEB 목소리 조회 실패: ${error.message}`)
+      for (const r of data ?? []) {
+        const ko = (r.voice_id_ko as string | null)?.trim()
+        const en = (r.voice_id_en as string | null)?.trim()
+        if (ko || en) out.set(r.id as string, { ...(ko ? { ko } : {}), ...(en ? { en } : {}) })
+      }
+    }
+    return out
+  }
+}
+
 /** 한 편을 파일로 내보낸다. 호출 전에 관리자 확인을 마쳤어야 한다. */
 export async function runFactionExport(
   db: SupabaseClient,
@@ -44,6 +68,7 @@ export async function runFactionExport(
     force: options.force,
     assemble: async (original) => {
       const { script, row } = await assembleFactionEpisode(await factionTreeSource(db, folder), folder, original)
+      await inheritCelebVoices(script, celebVoiceLookup(db))
       return { script, episodeId: row.id as string }
     },
   })

@@ -68,7 +68,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs/journeys', label: '감상 여정', icon: Brain },
       { href: '/celebs/content-research', label: '콘텐츠 조사', icon: SearchCheck },
       { href: '/celebs/timeline', label: '생애 행적', icon: Route },
-      { href: '/celebs/vectors', label: '페르소나', icon: Radar },
+      { href: '/celebs/vectors', label: '스펙트럼', icon: Radar },
       { href: '/celebs/influence', label: '영향력', icon: Flame },
       { href: '/celebs/voice-gen', label: '대사/음성', icon: Volume2 },
       { href: '/celebs/stats', label: '통계', icon: BarChart3 },

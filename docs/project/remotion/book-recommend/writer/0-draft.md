@@ -527,7 +527,7 @@ contextMain(감상경위)의 연장선이다. quote 뒤에 흐름이 마무리�
 |------|------|------|
 | **훅** | 결과를 먼저. 2문장(임팩트+보조). 의외성 필수 | "유명한 사람이 책을 좋아했다" — 놀라움 없음 |
 | **인트로** | 인물명 필수. 정체성 한 줄 | 훅에서 이름을 안 밝혔다면 인트로가 첫 네이밍 |
-| **대사** (celeb) | 1인칭 독서관·인용. 검증된 직접 발언 또는 1인칭 페르소나 | 본문 해설과 인과 단절되면 죽은 대사 |
+| **대사** (celeb) | 1인칭 독서관·인용. 검증된 직접 발언 또는 인물 고유의 1인칭 발화 | 본문 해설과 인과 단절되면 죽은 대사 |
 | **해설** (narrator) | 롱폼 S급 context에서 추출. 시간순 서사 | 쇼츠용 별도 창작 금지 |
 
 ### 텍스트 금기
@@ -568,7 +568,7 @@ contextMain(감상경위)의 연장선이다. quote 뒤에 흐름이 마무리�
 | 명언 | `celeb_dialogues` | lines→quote |
 | 콘텐츠 목록 | `celeb_contents` → `contents` → `content_locales` | title, creator, thumbnail_url, review, **`contents.type`** |
 | celebCount | `celeb_contents` 집계 | content_id별 추천 셀럽 수 |
-| 페르소나 | `celeb_persona` | persona (philosophy 작성 참고) |
+| 스펙트럼 | `celeb_persona` | `persona` JSONB (philosophy 작성 참고) |
 
 - DB 조회 시 `type IN ('BOOK','VIDEO','GAME','MUSIC')` — BOOK만 필터링하면 non-BOOK 누락.
 - `contents.type`이 BOOK이 아닌 항목은 JSON에 `category` 필드 필수 (VIDEO, GAME, MUSIC).

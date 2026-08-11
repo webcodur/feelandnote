@@ -271,16 +271,16 @@ function auditProfileRows(profiles) {
   }
 }
 
-function flattenPersonaEntries(persona) {
+function flattenSpectrumEntries(spectrum) {
   const entries = [];
-  if (!persona || typeof persona !== "object") return entries;
+  if (!spectrum || typeof spectrum !== "object") return entries;
   for (const groupName of [
     "abilities",
     "inner_virtues",
     "outer_virtues",
     "dispositions",
   ]) {
-    const group = persona[groupName];
+    const group = spectrum[groupName];
     if (!group || typeof group !== "object") continue;
     for (const [key, value] of Object.entries(group)) {
       if (value && typeof value === "object") {
@@ -410,28 +410,28 @@ if (ids.length > 0) {
     }
   }
 
-  const personaRows = await selectByCelebIds(
+  const spectrumRows = await selectByCelebIds(
     "celeb_persona",
     "celeb_id,persona",
     ids,
   );
-  for (const row of personaRows) {
+  for (const row of spectrumRows) {
     const context = slugContext(profileById, row.celeb_id);
     checkPair({
       row: row.persona,
       ko: "rationale_ko",
       en: "rationale_en",
-      code: "PERSONA_RATIONALE_EN_MISSING",
-      label: "Persona rationale",
+      code: "SPECTRUM_RATIONALE_EN_MISSING",
+      label: "Spectrum rationale",
       context,
     });
-    for (const entry of flattenPersonaEntries(row.persona)) {
+    for (const entry of flattenSpectrumEntries(row.persona)) {
       checkPair({
         row: entry.value,
         ko: "reason_ko",
         en: "reason_en",
-        code: "PERSONA_REASON_EN_MISSING",
-        label: `Persona reason (${entry.path})`,
+        code: "SPECTRUM_REASON_EN_MISSING",
+        label: `Spectrum reason (${entry.path})`,
         context: { ...context, field: entry.path },
       });
     }
@@ -569,7 +569,7 @@ const coverageSummary = Object.fromEntries(
 add(
   "info",
   "CELEB_DATA_AUDIT_SUMMARY",
-  `Checked ${profiles.length} celeb(s) across profile, explanation, influence, persona, dialogue, timeline, relation, faction, and review data.`,
+  `Checked ${profiles.length} celeb(s) across profile, explanation, influence, spectrum, dialogue, timeline, relation, faction, and review data.`,
 );
 
 const summary = {

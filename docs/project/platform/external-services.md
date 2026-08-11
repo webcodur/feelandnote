@@ -120,12 +120,12 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 ### 사고 후속 7차 — 전수 재점검 (2026-06-29)
 
-상세 보고서: **`docs/project/platform/web-egress-audit-2026-06-29.md`**. 멀티에이전트 코드 전수 점검 2회(점검 시점 프로젝트 정지 상태라 실측 불가, 추정은 코드 구조 기반).
+멀티에이전트 코드 전수 점검 2회(점검 시점 프로젝트 정지 상태라 실측 불가, 추정은 코드 구조 기반).
 
 **핵심 정정 2건**:
 - 이미지는 Supabase egress와 **무관**(아바타·음성=R2, 표지=외부 URL). Storage 다운로드 호출 0건. egress 본체는 DB REST/RPC 응답이다.
 - ~~**프로덕션 `CRON_SECRET` 미설정** 확인. `revalidate-web.ts`가 키 없으면 호출을 스킵하므로 **자동 무효화가 안 돌고 있다** → "저장마다 전역 퍼지로 터진다"는 현재 주범이 아니다.~~ 대신 `/api/revalidate`가 무방비(`undefined===undefined` 통과)라 외부 무단 퍼지가 가능했다.
-  > **🔴 2026-07-15 정정 — 이 판정은 폐기됐다.** 유저가 ④를 이행해 프로덕션 web·web-bo 양쪽에 `CRON_SECRET`을 동일 값으로 설정했다(실측: 라이브 `POST /api/revalidate` 401 — 미설정이면 코드상 503). **따라서 "저장마다 전역 퍼지"는 다시 참이 됐고, ⑤ 태그 국소화 전까지 활성 상태였다.** 9차에서 해소. 상세는 `web-egress-audit-2026-06-29.md` 3절 발견 2 정정·10절.
+  > **🔴 2026-07-15 정정 — 이 판정은 폐기됐다.** 유저가 ④를 이행해 프로덕션 web·web-bo 양쪽에 `CRON_SECRET`을 동일 값으로 설정했다(실측: 라이브 `POST /api/revalidate` 401 — 미설정이면 코드상 503). **따라서 "저장마다 전역 퍼지"는 다시 참이 됐고, ⑤ 태그 국소화 전까지 활성 상태였다.** 9차에서 해소.
 
 **적용 (main)**:
 - `robots.ts` AI 크롤러(GPTBot·ClaudeBot·Bytespider 등) 전면 차단 + 검색봇 `crawlDelay 10`; `explore` persona·ranking·timeline `revalidate` 300→3600 (`b1155cea`)
@@ -155,7 +155,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 ### 사고 후속 9차 — AdSense 색인 교정 + 태그 국소화 (2026-07-15)
 
-상세: **`docs/project/operations/adsense-audit-2026-07-15.md`**(4-1·4-2절), `web-egress-audit-2026-06-29.md`(9·10절). 커밋 `2c1aa1ad`·`2ba74f02` 배포 완료.
+상세: **`docs/project/operations/adsense-audit-2026-07-15.md`**(4-1·4-2절). 커밋 `2c1aa1ad`·`2ba74f02` 배포 완료.
 
 **계기**: AdSense 반복 거절의 원인이 색인 붕괴(사이트맵 2,196 URL 제출 대비 3개월 노출 45면, 색인률 2%)로 확정돼 크롤 노출을 크게 늘렸다(사이트맵 → 15,884 URL, robots `/*?` 차단 해제, crawlDelay 10→1, 셀럽 서가 SSR 전환). egress 재폭발 여부를 재감사한 결과:
 
@@ -204,7 +204,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 - **사고**: Hobby 최근 30일 Fast Origin Transfer 10.12/10GB, Fluid Active CPU 7시간 35분/4시간. Fast Data Transfer는 9.96/100GB라 일반 대역폭 한도 문제가 아니다.
 - **뜻**: Fast Origin은 Function·Middleware·ISR 등 compute와 CDN 사이의 입력·출력 바이트다. Supabase PostgREST egress와 별도이며, Supabase 캐시가 적중해도 동적 SSR HTML 응답은 Vercel Origin 사용량이 된다.
-- **원인·조치 SSoT**: [`web-egress-audit-2026-06-29.md` 11절](./web-egress-audit-2026-06-29.md#11-vercel-fast-origin-transfer-한도-초과-2026-08-04). `[locale]` root layout의 요청 header 의존 제거(루트 전체 정적 강제 금지), 셀럽·콘텐츠 공개 ISR/개인화 분리, 익명 Middleware auth 생략, web-bo 한도 문구 교정.
+- **원인·조치**: `[locale]` root layout의 요청 header 의존 제거(루트 전체 정적 강제 금지), 셀럽·콘텐츠 공개 ISR/개인화 분리, 익명 Middleware auth 생략, web-bo 한도 문구 교정.
 - **운영 주의**: 로컬 수정·재배포가 이미 누적된 최근 30일 사용량을 초기화하지 않는다. Hobby 프로젝트 중지 위험은 기간 만료 또는 플랜 전환 전까지 남는다. 배포 후 route별 `X-Vercel-Cache`와 Usage 기울기를 확인해야 해소 판정한다.
 - **공식 문서**: [CDN usage](https://vercel.com/docs/manage-cdn-usage), [Fluid compute](https://vercel.com/docs/functions/usage-and-pricing), [ISR usage](https://vercel.com/docs/incremental-static-regeneration/limits-and-pricing).
 

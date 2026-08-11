@@ -1,9 +1,8 @@
 # 콘텐츠 데이터 감사
 
-> **최종 실측 체크: 26.08.10** — 8/9 도메인 분리 뒤의 실 DB에서
+> **최종 실측 체크: 26.08.11** — 실 DB에서
 > `celeb_contents`(review·review_en·source_url) · `content_locales`(title·creator·thumbnail_url·isbn) ·
-> `contents`(metadata·external_source·celeb_count) · `celebs`(`cultural_journey`·
-> `cultural_journey_en` = generated, 쓰기는 `consumption_philosophy`·`_en`)를 대조했다.
+> `contents`(metadata·external_source·celeb_count)를 대조했다.
 > Phase 5의 신규 BOOK 메타·커버 출처는 한국어 `kakao_book`, 영문 `openlibrary`다.
 > 출처 링크 검증 절차(Phase 2~3)는 실행 대조하지 않았다.
 
@@ -28,37 +27,6 @@ WHERE cc.celeb_id = '{celeb_id}'
 ORDER BY c.id, cl.locale;
 ```
 
-MUSIC 후보 장부를 쓴 적이 있는 인물은 같은 조회에서 끝내지 말고 후보 상태도 확인한다:
-
-```sql
-SELECT status, count(*)
-FROM celeb_music_candidates
-WHERE celeb_id = '{celeb_id}'
-GROUP BY status
-ORDER BY status;
-
-SELECT id, status, content_id, reject_reason
-FROM celeb_music_candidates
-WHERE celeb_id = '{celeb_id}'
-  AND (
-    status = 'pending'
-    OR (status = 'registered' AND content_id IS NULL)
-    OR (status = 'rejected' AND nullif(btrim(reject_reason), '') IS NULL)
-  );
-```
-
-첫 쿼리의 `pending`은 반드시 0이어야 한다. `registered`는 `content_id`가 실제 MUSIC
-`contents`와 해당 인물의 `celeb_contents`로 이어져야 하고, `rejected`는 사유가 있어야 한다.
-후보 행이 terminal이라는 사실만으로 최종 연결 검사를 생략하지 않는다.
-
-cultural_journey 본문도 함께 조회:
-
-```sql
-SELECT cultural_journey, cultural_journey_en
-FROM celebs
-WHERE id = '{celeb_id}';
-```
-
 ### Phase 2: 출처 링크 검증
 
 각 `source_url`을 WebFetch로 접근하여 확인한다:
@@ -79,11 +47,6 @@ WHERE id = '{celeb_id}';
 1. **review 텍스트**가 출처 내용과 일치하는지 확인. 
    - **[주의]** 단일 출처(`source_url`)가 3자 큐레이션 사이트(예: blinkist, 서평 모음집)인 경우, 해당 사이트 자체의 환각이나 멋대로 유추한 추천일 가능성이 높다. 셀럽의 "직접 추천"이나 핵심 발언은 반드시 `search_web`을 통해 본인의 육성 인터뷰나 공식 발표 등 독립적인 1차 사료로 교차 검증해야 한다.
 2. **콘텐츠 매칭**: 연결된 content의 title이 실제로 올바른 작품인지 (metadata.titleOriginal, ISBN 등 교차 확인)
-3. **cultural_journey 본문**에서 해당 콘텐츠 관련 서술이 사실에 부합하는지
-
-주의사항:
-- `cultural_journey`는 generated column이다. 수정 시 **`consumption_philosophy` / `consumption_philosophy_en`**을 UPDATE한다.
-- 부정확한 서술은 최소 수정 원칙으로 해당 문장만 고친다.
 
 ### Phase 4: locale 처리 검증
 
@@ -162,7 +125,4 @@ ISBN, 표지, 출판사 등은 **하나의 에디션**에서 일관되게 가져
 - source_url 교체 시, 새 출처가 review 내용을 실제로 뒷받침하는지 확인한 후 교체한다.
 - `contents.celeb_count` 정합성을 유지한다. 콘텐츠를 교체하면 트리거가 구·신 콘텐츠를 모두 재집계한다.
 - metadata.titleOriginal이 실제 원제와 일치하는지 확인한다.
-- MUSIC 감사 종료 조건은 `pending=0`이다. API 차단·속도 제한 때문에 남은 후보는 기각하지
-  말고 작업을 미완료로 유지한 채 같은 회차에서 재개한다.
-- 직접 조사 worker의 legacy commit은 MUSIC을 후보 장부에 보류하는 계약이므로 적격 MUSIC에
-  사용하지 않는다. 최종 iTunes 콘텐츠·두 locale·인물 연결까지 완료한 경로만 성공이다.
+- MUSIC도 최종 iTunes 콘텐츠·두 locale·인물 연결까지 확인된 행만 성공이다.

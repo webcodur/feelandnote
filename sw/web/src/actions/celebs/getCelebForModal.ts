@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
+import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
@@ -52,10 +52,10 @@ async function fetchCelebModalPublic(
     profileQuery = profileQuery.eq('publication_status', 'active')
   }
 
-  const { data, error } = await profileQuery.maybeSingle()
+  const { data, error } = await profileQuery.single()
 
   const profile: ProfileModalRow | null = data
-  throwOnQueryError('getCelebForModal 프로필', error)
+  throwOnQueryError('getCelebForModal 프로필', error, { ignoreCodes: [NO_ROWS_CODE] })
   if (!profile) return null
 
   // 병렬 조회
@@ -104,7 +104,7 @@ async function fetchCelebModalPublic(
     profile,
     contentCount: resolveCelebContentCount(
       contentResult.count,
-      profile.content_research_confirmed_empty_at ? 'confirmed_empty' : null
+      profile.content_research_confirmed_empty_at
     ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,
@@ -115,7 +115,7 @@ async function fetchCelebModalPublic(
 
 const getCelebModalCached = unstable_cache(
   (celebId: string) => fetchCelebModalPublic(celebId, true),
-  ['celeb-modal-v2-confirmed-empty-at'],
+  ['celeb-modal'],
   // celebs·celeb_influence + celeb_contents(서고 수) + faction_atlas_members + celeb_dialogues
   {
     revalidate: STATIC_REVALIDATE,
@@ -145,7 +145,7 @@ const getFactionCelebModalCached = unstable_cache(
     if (!assignment) return null
     return fetchCelebModalPublic(celebId, false)
   },
-  ['faction-celeb-modal-v2-confirmed-empty-at'],
+  ['faction-celeb-modal'],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],

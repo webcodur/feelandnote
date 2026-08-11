@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
-import { getSimilarByCelebId } from "@/actions/persona/getSimilarByCelebId";
+import { getSimilarByCelebId } from "@/actions/spectrum/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
@@ -136,7 +136,7 @@ export default async function CelebPage({ params }: PageProps) {
   };
   const pageTitle = locale === 'en' ? buildCelebTitleEn(titleInput) : buildCelebTitleKo(titleInput);
 
-  const [guestbookResult, influenceData, personaData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
+  const [guestbookResult, influenceData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
     getPublicGuestbookEntries({ profileId: userId }),
     getCelebInfluence(userId, locale),
     getSimilarByCelebId(userId, 3, locale),
@@ -272,7 +272,7 @@ export default async function CelebPage({ params }: PageProps) {
         shareTitle={pageTitle}
         userId={userId}
         influenceData={influenceData}
-        personaData={personaData}
+        spectrumData={spectrumData}
         guestbookEntries={guestbookResult.entries}
         guestbookTotal={guestbookResult.total}
         greeting={greeting}

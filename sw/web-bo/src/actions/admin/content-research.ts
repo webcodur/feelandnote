@@ -2,44 +2,19 @@
 
 import { revalidatePath } from 'next/cache'
 import {
-  CELEB_CONTENT_RESEARCH_STATUSES,
   CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES,
   CELEB_CONTENT_RESEARCH_TARGET_TIERS,
   resolveCelebContentCount,
-  type CelebContentResearchStatus,
 } from '@feelandnote/shared/constants/celeb-content-research'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebItems } from '@/lib/revalidate-web'
 import {
-  CONTENT_RESEARCH_ACCESS_STATUSES,
-  CONTENT_RESEARCH_FINDING_DECISIONS,
-  CONTENT_RESEARCH_RUN_STATUSES,
-  CONTENT_RESEARCH_SCOPE_STATUSES,
-  CONTENT_RESEARCH_SOURCE_KINDS,
-  CONTENT_RESEARCH_SOURCE_TIERS,
-  CONTENT_RESEARCH_TYPES,
-  type ContentResearchAccessStatus,
   type ContentResearchBucket,
-  type ContentResearchDetail,
-  type ContentResearchFinding,
-  type ContentResearchFindingDecision,
   type ContentResearchRow,
-  type ContentResearchRun,
-  type ContentResearchRunStatus,
-  type ContentResearchScope,
-  type ContentResearchScopeStatus,
-  type ContentResearchSource,
-  type ContentResearchSourceKind,
-  type ContentResearchSourceTier,
-  type ContentResearchType,
   type ContentResearchWorkspace,
   type GetContentResearchParams,
-  type SaveContentResearchFindingInput,
-  type SaveContentResearchSourceInput,
-  type StartContentResearchRunInput,
-  type UpdateContentResearchScopeInput,
 } from './content-research-types'
 
 type CelebRow = {
@@ -51,62 +26,11 @@ type CelebRow = {
   birth_date: string | null
   death_date: string | null
   status: string | null
-  content_research_status: string | null
-  content_research_updated_at: string | null
   content_research_confirmed_empty_at: string | null
   celeb_influence:
     | { total_score: number | null }
     | { total_score: number | null }[]
     | null
-}
-
-type ResearchRunRow = {
-  id: string
-  celeb_id: string
-  batch_key: string
-  status: string
-  researcher_id: string | null
-  researcher_label: string
-  name_variants: string[]
-  homonym_notes: string | null
-  summary: string | null
-  started_at: string
-  completed_at: string | null
-}
-
-type ResearchScopeRow = {
-  run_id: string
-  content_type: string
-  status: string
-  search_notes: string | null
-  completed_at: string | null
-}
-
-type ResearchFindingRow = {
-  id: string
-  run_id: string
-  content_type: string
-  decision: string
-  title: string
-  creator: string | null
-  content_id: string | null
-  evidence_summary: string | null
-  rejection_reason: string | null
-  created_at: string
-}
-
-type ResearchSourceRow = {
-  id: string
-  run_id: string
-  content_type: string
-  finding_id: string | null
-  url: string
-  source_tier: string
-  source_kind: string
-  access_status: string
-  title: string | null
-  notes: string | null
-  checked_at: string
 }
 
 const PAGE_SIZE = 1000
@@ -130,12 +54,6 @@ const MODERN_SOURCE_RICH_PROFESSIONS = new Set([
 function getSingleRelation<T>(value: T | T[] | null): T | null {
   if (Array.isArray(value)) return value[0] ?? null
   return value
-}
-
-function normalizeResearchStatus(value: string | null): CelebContentResearchStatus {
-  return CELEB_CONTENT_RESEARCH_STATUSES.includes(value as CelebContentResearchStatus)
-    ? (value as CelebContentResearchStatus)
-    : 'open'
 }
 
 function getBirthYear(value: string | null): number | null {
@@ -181,10 +99,10 @@ function getTriageSignals(
 function deriveBucket(
   profileStatus: string,
   actualContentCount: number,
-  researchStatus: CelebContentResearchStatus
+  confirmedEmptyAt: string | null
 ): ContentResearchBucket {
-  if (actualContentCount === 0 && researchStatus === 'confirmed_empty') {
-    return 'confirmed_empty'
+  if (actualContentCount === 0 && confirmedEmptyAt) {
+    return 'confirmed_zero'
   }
   if (actualContentCount > 0) return 'promote_audit'
 
@@ -200,8 +118,7 @@ async function getAllLightCelebs(): Promise<CelebRow[]> {
       .from('celebs')
       .select(`
         id, slug, nickname, avatar_url, profession, birth_date, death_date,
-        status:publication_status, content_research_status, content_research_updated_at,
-        content_research_confirmed_empty_at,
+        status:publication_status, content_research_confirmed_empty_at,
         celeb_influence!celeb_influence_celebs_fkey(total_score)
       `)
       // 모집단 조건은 shared 규약이 정한다 — 여기서 값을 하드코딩하지 마라
@@ -279,15 +196,7 @@ function emptyBucketCounts(): Record<ContentResearchBucket, number> {
     promote_audit: 0,
     active_research: 0,
     inactive_triage: 0,
-    confirmed_empty: 0,
-  }
-}
-
-function emptyStatusCounts(): Record<CelebContentResearchStatus, number> {
-  return {
-    open: 0,
-    researching: 0,
-    confirmed_empty: 0,
+    confirmed_zero: 0,
   }
 }
 
@@ -299,7 +208,6 @@ export async function getContentResearchWorkspace(
     limit = 50,
     search = '',
     bucket = 'all',
-    researchStatus = 'all',
   } = params
 
   const celebs = await getAllLightCelebs()
@@ -314,9 +222,9 @@ export async function getContentResearchWorkspace(
     const influenceTotal = influence?.total_score ?? 0
     const factionLinked = factionLinkedIds.has(profile.id)
     const actualContentCount = contentCounts.get(profile.id) ?? 0
-    const normalizedResearchStatus = normalizeResearchStatus(profile.content_research_status)
     const { score, signals } = getTriageSignals(profile, influenceTotal, factionLinked)
     const profileStatus = profile.status ?? 'inactive'
+    const confirmedEmptyAt = profile.content_research_confirmed_empty_at
 
     return {
       id: profile.id,
@@ -332,15 +240,13 @@ export async function getContentResearchWorkspace(
       actualContentCount,
       displayContentCount: resolveCelebContentCount(
         actualContentCount,
-      normalizedResearchStatus
+        confirmedEmptyAt
       ),
-      researchStatus: normalizedResearchStatus,
-      researchUpdatedAt: profile.content_research_updated_at,
-      confirmedEmptyAt: profile.content_research_confirmed_empty_at,
+      confirmedEmptyAt,
       bucket: deriveBucket(
         profileStatus,
         actualContentCount,
-        normalizedResearchStatus
+        confirmedEmptyAt
       ),
       triageScore: score,
       triageSignals: signals,
@@ -348,16 +254,13 @@ export async function getContentResearchWorkspace(
   })
 
   const bucketCounts = emptyBucketCounts()
-  const statusCounts = emptyStatusCounts()
   for (const row of allRows) {
     bucketCounts[row.bucket] += 1
-    statusCounts[row.researchStatus] += 1
   }
 
   const normalizedSearch = search.trim().toLocaleLowerCase('ko')
   const filteredRows = allRows
     .filter((row) => bucket === 'all' || row.bucket === bucket)
-    .filter((row) => researchStatus === 'all' || row.researchStatus === researchStatus)
     .filter((row) => {
       if (!normalizedSearch) return true
       return (
@@ -383,7 +286,6 @@ export async function getContentResearchWorkspace(
     page: safePage,
     totalPages: Math.ceil(filteredRows.length / limit),
     bucketCounts,
-    statusCounts,
   }
 }
 
@@ -404,28 +306,22 @@ async function assertAdmin(): Promise<{ id: string }> {
   return { id: user.id }
 }
 
-export async function updateContentResearchStatus(
+export async function setContentResearchConfirmedEmpty(
   celebId: string,
-  nextStatus: CelebContentResearchStatus
+  confirmed: boolean
 ): Promise<void> {
   await assertAdmin()
-
-  if (!CELEB_CONTENT_RESEARCH_STATUSES.includes(nextStatus)) {
-    throw new Error('유효하지 않은 조사 상태입니다.')
-  }
-
-  if (nextStatus === 'confirmed_empty') {
-    throw new Error(
-      '없음 확정은 조사 장부에서 BOOK·VIDEO·GAME·MUSIC 네 유형을 완료해야 합니다.'
-    )
-  }
 
   const admin = createAdminClient()
   const { data, error } = await admin
     .from('celebs')
-    .update({ content_research_status: nextStatus })
+    .update({
+      content_research_confirmed_empty_at: confirmed
+        ? new Date().toISOString()
+        : null,
+    })
     .eq('id', celebId)
-    .select('id')
+    .select('id, slug')
     .maybeSingle()
 
   if (error) throw error
@@ -434,536 +330,11 @@ export async function updateContentResearchStatus(
   revalidatePath('/celebs')
   revalidatePath('/celebs/content-research')
   revalidatePath('/celebs/[slug]', 'page')
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
-}
-
-function requireText(value: string, label: string): string {
-  const normalized = value.trim()
-  if (!normalized) throw new Error(`${label}을(를) 입력하세요.`)
-  return normalized
-}
-
-function optionalText(value: string | null | undefined): string | null {
-  const normalized = value?.trim() ?? ''
-  return normalized || null
-}
-
-function normalizeNameVariants(values: string[]): string[] {
-  return [
-    ...new Set(
-      values
-        .map((value) => value.trim())
-        .filter(Boolean)
-    ),
-  ]
-}
-
-function normalizeContentResearchType(value: string): ContentResearchType {
-  if (!CONTENT_RESEARCH_TYPES.includes(value as ContentResearchType)) {
-    throw new Error(`알 수 없는 콘텐츠 유형입니다: ${value}`)
-  }
-  return value as ContentResearchType
-}
-
-function normalizeRunStatus(value: string): ContentResearchRunStatus {
-  if (!CONTENT_RESEARCH_RUN_STATUSES.includes(value as ContentResearchRunStatus)) {
-    throw new Error(`알 수 없는 조사 실행 상태입니다: ${value}`)
-  }
-  return value as ContentResearchRunStatus
-}
-
-function normalizeScopeStatus(value: string): ContentResearchScopeStatus {
-  if (!CONTENT_RESEARCH_SCOPE_STATUSES.includes(value as ContentResearchScopeStatus)) {
-    throw new Error(`알 수 없는 유형 조사 상태입니다: ${value}`)
-  }
-  return value as ContentResearchScopeStatus
-}
-
-function normalizeFindingDecision(value: string): ContentResearchFindingDecision {
-  if (
-    !CONTENT_RESEARCH_FINDING_DECISIONS.includes(
-      value as ContentResearchFindingDecision
-    )
-  ) {
-    throw new Error(`알 수 없는 후보 판정입니다: ${value}`)
-  }
-  return value as ContentResearchFindingDecision
-}
-
-function normalizeSourceTier(value: string): ContentResearchSourceTier {
-  if (!CONTENT_RESEARCH_SOURCE_TIERS.includes(value as ContentResearchSourceTier)) {
-    throw new Error(`알 수 없는 출처 등급입니다: ${value}`)
-  }
-  return value as ContentResearchSourceTier
-}
-
-function normalizeSourceKind(value: string): ContentResearchSourceKind {
-  if (!CONTENT_RESEARCH_SOURCE_KINDS.includes(value as ContentResearchSourceKind)) {
-    throw new Error(`알 수 없는 출처 종류입니다: ${value}`)
-  }
-  return value as ContentResearchSourceKind
-}
-
-function normalizeAccessStatus(value: string): ContentResearchAccessStatus {
-  if (
-    !CONTENT_RESEARCH_ACCESS_STATUSES.includes(value as ContentResearchAccessStatus)
-  ) {
-    throw new Error(`알 수 없는 출처 접근 상태입니다: ${value}`)
-  }
-  return value as ContentResearchAccessStatus
-}
-
-function revalidateResearchWorkspace(celebId: string): void {
-  revalidatePath('/celebs/content-research')
-  revalidatePath(`/celebs/content-research/${celebId}`)
-}
-
-async function getRunCelebId(
-  admin: ReturnType<typeof createAdminClient>,
-  runId: string
-): Promise<string> {
-  const { data, error } = await admin
-    .from('celeb_content_research_runs')
-    .select('celeb_id')
-    .eq('id', runId)
-    .single()
-
-  if (error || !data) throw error ?? new Error('조사 실행을 찾을 수 없습니다.')
-  return data.celeb_id
-}
-
-export async function getContentResearchDetail(
-  celebId: string
-): Promise<ContentResearchDetail> {
-  await assertAdmin()
-  const admin = createAdminClient()
-
-  const [profileResult, contentCountResult, runsResult] = await Promise.all([
-    admin
-      .from('celebs')
-      .select(`
-        id, slug, nickname, nickname_en, profession, status:publication_status, celeb_tier,
-        content_research_status
-      `)
-      .eq('id', celebId)
-      .single(),
-    admin
-      .from('celeb_contents')
-      .select('*', { count: 'exact', head: true })
-      .eq('celeb_id', celebId),
-    admin
-      .from('celeb_content_research_runs')
-      .select(`
-        id, celeb_id, batch_key, status, researcher_id, researcher_label,
-        name_variants, homonym_notes, summary, started_at, completed_at
-      `)
-      .eq('celeb_id', celebId)
-      .order('started_at', { ascending: false }),
-  ])
-
-  if (profileResult.error || !profileResult.data) {
-    throw profileResult.error ?? new Error('셀럽 프로필을 찾을 수 없습니다.')
-  }
-  if (contentCountResult.error) throw contentCountResult.error
-  if (runsResult.error) throw runsResult.error
-
-  const profile = profileResult.data
-  const runRows = (runsResult.data ?? []) as ResearchRunRow[]
-  const runIds = runRows.map((run) => run.id)
-
-  let scopeRows: ResearchScopeRow[] = []
-  let findingRows: ResearchFindingRow[] = []
-  let sourceRows: ResearchSourceRow[] = []
-
-  if (runIds.length > 0) {
-    const [scopesResult, findingsResult, sourcesResult] = await Promise.all([
-      admin
-        .from('celeb_content_research_scopes')
-        .select('run_id, content_type, status, search_notes, completed_at')
-        .in('run_id', runIds),
-      admin
-        .from('celeb_content_research_findings')
-        .select(`
-          id, run_id, content_type, decision, title, creator, content_id,
-          evidence_summary, rejection_reason, created_at
-        `)
-        .in('run_id', runIds)
-        .order('created_at', { ascending: true }),
-      admin
-        .from('celeb_content_research_sources')
-        .select(`
-          id, run_id, content_type, finding_id, url, source_tier, source_kind,
-          access_status, title, notes, checked_at
-        `)
-        .in('run_id', runIds)
-        .order('checked_at', { ascending: true }),
-    ])
-
-    if (scopesResult.error) throw scopesResult.error
-    if (findingsResult.error) throw findingsResult.error
-    if (sourcesResult.error) throw sourcesResult.error
-
-    scopeRows = (scopesResult.data ?? []) as ResearchScopeRow[]
-    findingRows = (findingsResult.data ?? []) as ResearchFindingRow[]
-    sourceRows = (sourcesResult.data ?? []) as ResearchSourceRow[]
-  }
-
-  const sources: ContentResearchSource[] = sourceRows.map((source) => ({
-    id: source.id,
-    runId: source.run_id,
-    contentType: normalizeContentResearchType(source.content_type),
-    findingId: source.finding_id,
-    url: source.url,
-    sourceTier: normalizeSourceTier(source.source_tier),
-    sourceKind: normalizeSourceKind(source.source_kind),
-    accessStatus: normalizeAccessStatus(source.access_status),
-    title: source.title,
-    notes: source.notes,
-    checkedAt: source.checked_at,
-  }))
-
-  const sourcesByFinding = new Map<string, ContentResearchSource[]>()
-  for (const source of sources) {
-    if (!source.findingId) continue
-    const current = sourcesByFinding.get(source.findingId) ?? []
-    current.push(source)
-    sourcesByFinding.set(source.findingId, current)
-  }
-
-  const findings: ContentResearchFinding[] = findingRows.map((finding) => ({
-    id: finding.id,
-    runId: finding.run_id,
-    contentType: normalizeContentResearchType(finding.content_type),
-    decision: normalizeFindingDecision(finding.decision),
-    title: finding.title,
-    creator: finding.creator,
-    contentId: finding.content_id,
-    evidenceSummary: finding.evidence_summary,
-    rejectionReason: finding.rejection_reason,
-    createdAt: finding.created_at,
-    sources: sourcesByFinding.get(finding.id) ?? [],
-  }))
-
-  const runs: ContentResearchRun[] = runRows.map((run) => {
-    const scopes: ContentResearchScope[] = scopeRows
-      .filter((scope) => scope.run_id === run.id)
-      .map((scope) => {
-        const contentType = normalizeContentResearchType(scope.content_type)
-        return {
-          runId: run.id,
-          contentType,
-          status: normalizeScopeStatus(scope.status),
-          searchNotes: scope.search_notes,
-          completedAt: scope.completed_at,
-          findings: findings.filter(
-            (finding) =>
-              finding.runId === run.id && finding.contentType === contentType
-          ),
-          sources: sources.filter(
-            (source) => source.runId === run.id && source.contentType === contentType
-          ),
-        }
-      })
-      .sort(
-        (left, right) =>
-          CONTENT_RESEARCH_TYPES.indexOf(left.contentType) -
-          CONTENT_RESEARCH_TYPES.indexOf(right.contentType)
-      )
-
-    return {
-      id: run.id,
-      celebId: run.celeb_id,
-      batchKey: run.batch_key,
-      status: normalizeRunStatus(run.status),
-      researcherId: run.researcher_id,
-      researcherLabel: run.researcher_label,
-      nameVariants: run.name_variants,
-      homonymNotes: run.homonym_notes,
-      summary: run.summary,
-      startedAt: run.started_at,
-      completedAt: run.completed_at,
-      scopes,
-    }
-  })
-
-  return {
-    profile: {
-      id: profile.id,
-      slug: profile.slug,
-      nickname: profile.nickname ?? '이름 없음',
-      nicknameEn: profile.nickname_en,
-      profession: profile.profession,
-      profileStatus: profile.status ?? 'inactive',
-      celebTier: profile.celeb_tier,
-      actualContentCount: contentCountResult.count ?? 0,
-      researchStatus: normalizeResearchStatus(profile.content_research_status),
-    },
-    runs,
-  }
-}
-
-export async function startContentResearchRun(
-  input: StartContentResearchRunInput
-): Promise<{ runId: string }> {
-  const adminUser = await assertAdmin()
-  const admin = createAdminClient()
-  const nameVariants = normalizeNameVariants(input.nameVariants)
-
-  if (nameVariants.length === 0) {
-    throw new Error('조사에 사용한 인물명·표기 변형을 하나 이상 입력하세요.')
-  }
-
-  const { data, error } = await admin
-    .from('celeb_content_research_runs')
-    .insert({
-      celeb_id: input.celebId,
-      batch_key: requireText(input.batchKey, '배치 키'),
-      researcher_id: adminUser.id,
-      researcher_label: requireText(input.researcherLabel, '조사자'),
-      name_variants: nameVariants,
-      homonym_notes: optionalText(input.homonymNotes),
-    })
-    .select('id')
-    .single()
-
-  if (error || !data) throw error ?? new Error('조사 실행을 만들지 못했습니다.')
-
-  revalidateResearchWorkspace(input.celebId)
-  return { runId: data.id }
-}
-
-export async function updateContentResearchRun(
-  runId: string,
-  input: {
-    researcherLabel: string
-    nameVariants: string[]
-    homonymNotes?: string | null
-    summary?: string | null
-  }
-): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const celebId = await getRunCelebId(admin, runId)
-  const nameVariants = normalizeNameVariants(input.nameVariants)
-
-  if (nameVariants.length === 0) {
-    throw new Error('조사에 사용한 인물명·표기 변형을 하나 이상 입력하세요.')
-  }
-
-  const { data, error } = await admin
-    .from('celeb_content_research_runs')
-    .update({
-      researcher_label: requireText(input.researcherLabel, '조사자'),
-      name_variants: nameVariants,
-      homonym_notes: optionalText(input.homonymNotes),
-      summary: optionalText(input.summary),
-    })
-    .eq('id', runId)
-    .eq('status', 'in_progress')
-    .select('id')
-    .maybeSingle()
-
-  if (error) throw error
-  if (!data) throw new Error('진행 중인 조사 실행을 찾을 수 없습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function updateContentResearchScope(
-  input: UpdateContentResearchScopeInput
-): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const contentType = normalizeContentResearchType(input.contentType)
-  const status = normalizeScopeStatus(input.status)
-  const celebId = await getRunCelebId(admin, input.runId)
-
-  const { data, error } = await admin
-    .from('celeb_content_research_scopes')
-    .update({
-      status,
-      search_notes: optionalText(input.searchNotes),
-      completed_at: status === 'completed' ? new Date().toISOString() : null,
-    })
-    .eq('run_id', input.runId)
-    .eq('content_type', contentType)
-    .select('run_id')
-    .maybeSingle()
-
-  if (error) throw error
-  if (!data) throw new Error('변경할 유형 조사 범위를 찾을 수 없습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function saveContentResearchFinding(
-  input: SaveContentResearchFindingInput
-): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const contentType = normalizeContentResearchType(input.contentType)
-  const decision = normalizeFindingDecision(input.decision)
-  const celebId = await getRunCelebId(admin, input.runId)
-  const contentId = optionalText(input.contentId)
-  const evidenceSummary = optionalText(input.evidenceSummary)
-  const rejectionReason = optionalText(input.rejectionReason)
-
-  if (decision === 'accepted' && !contentId) {
-    throw new Error('채택 작품은 먼저 콘텐츠 메타와 연결 ID를 확정해야 합니다.')
-  }
-  if (decision !== 'candidate' && !evidenceSummary) {
-    throw new Error('채택·기각 판정에는 근거 요약이 필요합니다.')
-  }
-  if (decision === 'rejected' && !rejectionReason) {
-    throw new Error('기각 판정에는 기각 사유가 필요합니다.')
-  }
-
-  const payload = {
-    run_id: input.runId,
-    content_type: contentType,
-    decision,
-    title: requireText(input.title, '작품명'),
-    creator: optionalText(input.creator),
-    content_id: decision === 'accepted' ? contentId : null,
-    evidence_summary: decision === 'candidate' ? null : evidenceSummary,
-    rejection_reason: decision === 'rejected' ? rejectionReason : null,
-  }
-
-  const query = input.id
-    ? admin
-        .from('celeb_content_research_findings')
-        .update(payload)
-        .eq('id', input.id)
-        .eq('run_id', input.runId)
-    : admin.from('celeb_content_research_findings').insert(payload)
-
-  const { data, error } = await query.select('id').maybeSingle()
-  if (error) throw error
-  if (!data) throw new Error('저장할 조사 후보를 찾지 못했습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function deleteContentResearchFinding(
-  runId: string,
-  findingId: string
-): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const celebId = await getRunCelebId(admin, runId)
-  const { data, error } = await admin
-    .from('celeb_content_research_findings')
-    .delete()
-    .eq('id', findingId)
-    .eq('run_id', runId)
-    .select('id')
-    .maybeSingle()
-
-  if (error) throw error
-  if (!data) throw new Error('삭제할 조사 후보를 찾지 못했습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function saveContentResearchSource(
-  input: SaveContentResearchSourceInput
-): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const contentType = normalizeContentResearchType(input.contentType)
-  const sourceTier = normalizeSourceTier(input.sourceTier)
-  const sourceKind = normalizeSourceKind(input.sourceKind)
-  const accessStatus = normalizeAccessStatus(input.accessStatus)
-  const celebId = await getRunCelebId(admin, input.runId)
-  const url = requireText(input.url, '출처 URL')
-
-  try {
-    const parsedUrl = new URL(url)
-    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
-      throw new Error('HTTP(S) URL만 저장할 수 있습니다.')
-    }
-  } catch {
-    throw new Error('유효한 HTTP(S) 출처 URL을 입력하세요.')
-  }
-
-  const payload = {
-    run_id: input.runId,
-    content_type: contentType,
-    finding_id: input.findingId || null,
-    url,
-    source_tier: sourceTier,
-    source_kind: sourceKind,
-    access_status: accessStatus,
-    title: optionalText(input.title),
-    notes: optionalText(input.notes),
-    checked_at: new Date().toISOString(),
-  }
-
-  const query = input.id
-    ? admin
-        .from('celeb_content_research_sources')
-        .update(payload)
-        .eq('id', input.id)
-        .eq('run_id', input.runId)
-    : admin.from('celeb_content_research_sources').insert(payload)
-
-  const { data, error } = await query.select('id').maybeSingle()
-  if (error) throw error
-  if (!data) throw new Error('저장할 조사 출처를 찾지 못했습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function deleteContentResearchSource(
-  runId: string,
-  sourceId: string
-): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const celebId = await getRunCelebId(admin, runId)
-  const { data, error } = await admin
-    .from('celeb_content_research_sources')
-    .delete()
-    .eq('id', sourceId)
-    .eq('run_id', runId)
-    .select('id')
-    .maybeSingle()
-
-  if (error) throw error
-  if (!data) throw new Error('삭제할 조사 출처를 찾지 못했습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function cancelContentResearchRun(runId: string): Promise<void> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const celebId = await getRunCelebId(admin, runId)
-
-  const { data, error } = await admin.rpc('cancel_celeb_content_research_run', {
-    target_run_id: runId,
-  })
-
-  if (error) throw error
-  if (data !== celebId) throw new Error('조사 취소 결과가 대상 인물과 일치하지 않습니다.')
-  revalidateResearchWorkspace(celebId)
-}
-
-export async function completeContentResearchRun(
-  runId: string
-): Promise<{ researchStatus: string; actualContentCount: number }> {
-  await assertAdmin()
-  const admin = createAdminClient()
-  const celebId = await getRunCelebId(admin, runId)
-  const { data, error } = await admin.rpc('complete_celeb_content_research_run', {
-    target_run_id: runId,
-  })
-
-  if (error) throw error
-  const result = Array.isArray(data) ? data[0] : data
-  if (!result) throw new Error('조사 완료 결과를 받지 못했습니다.')
-
-  revalidateResearchWorkspace(celebId)
-  revalidatePath('/celebs')
-  revalidatePath('/celebs/[slug]', 'page')
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
-
-  return {
-    researchStatus: result.final_research_status,
-    actualContentCount: Number(result.actual_content_count),
-  }
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(data.slug ? [{ domain: CACHE_TAGS.CELEBS, id: data.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS],
+  )
 }

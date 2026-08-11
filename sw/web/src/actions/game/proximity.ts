@@ -17,16 +17,16 @@ import { createStaticClient } from '@/lib/supabase/static';
 import { selectAllPages } from '@feelandnote/shared/lib/paginate';
 import { getLocale } from 'next-intl/server';
 import { LISTING_DEFAULT_TIERS } from '@feelandnote/shared/constants/celeb-tiers';
-import type { PersonaStats } from '@/lib/persona/types';
+import type { SpectrumStats } from '@/lib/spectrum/types';
 import type { ProximityCeleb, ProximityCelebFull } from '@/components/features/game/proximity/types';
 import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
   OUTER_VIRTUE_KEYS,
   TENDENCY_KEYS,
-} from '@/lib/persona/constants';
+} from '@/lib/spectrum/constants';
 
-const PERSONA_STAT_KEYS = [
+const SPECTRUM_STAT_KEYS = [
   ...ABILITY_KEYS,
   ...INNER_VIRTUE_KEYS,
   ...OUTER_VIRTUE_KEYS,
@@ -78,10 +78,10 @@ function pickProfile(celeb: ProximityColumnRow['celeb']) {
   return Array.isArray(celeb) ? (celeb[0] ?? null) : celeb;
 }
 
-function columnsToStats(row: ProximityColumnRow): PersonaStats {
+function columnsToStats(row: ProximityColumnRow): SpectrumStats {
   return Object.fromEntries(
-    PERSONA_STAT_KEYS.map((k) => [k, (row as unknown as Record<string, unknown>)[k] ?? 0])
-  ) as unknown as PersonaStats;
+    SPECTRUM_STAT_KEYS.map((k) => [k, (row as unknown as Record<string, unknown>)[k] ?? 0])
+  ) as unknown as SpectrumStats;
 }
 
 async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
@@ -90,7 +90,7 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
     supabase
       .from('celeb_persona')
       .select(`
-        celeb_id, ${PERSONA_STAT_KEYS.join(', ')},
+        celeb_id, ${SPECTRUM_STAT_KEYS.join(', ')},
         celeb:celebs!celeb_persona_celebs_fkey!inner (
           id, nickname, nickname_en, profession, nationality,
           birth_date, death_date, avatar_url, publication_status
@@ -125,7 +125,7 @@ async function fetchProximityCelebs(): Promise<ProximityCelebFull[]> {
 const getProximityCelebsCached = unstable_cache(
   fetchProximityCelebs,
   ['proximity-game-celebs'],
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.PERSONA] }
+  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.SPECTRUM] }
 );
 
 /** 게임용 전체 후보 조회 (full stats 포함) */

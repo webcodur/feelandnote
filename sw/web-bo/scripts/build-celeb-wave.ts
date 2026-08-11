@@ -5,7 +5,7 @@
  *   pnpm exec tsx scripts/build-celeb-wave.ts --class heavy --agents 8 --per 4
  *
  * --class light : 행은 있고 필드만 빈 인물 (주로 영문 결손) — 한 배치에 많이 담을 수 있다
- * --class heavy : 영향력·페르소나·대사 행 자체가 없는 인물 — 한 배치에 적게 담는다
+ * --class heavy : 영향력·스펙트럼·대사 행 자체가 없는 인물 — 한 배치에 적게 담는다
  *
  * 우선순위: status='active' 먼저, 그다음 결손 개수 많은 순.
  * 산출물: .tmp-celeb-fill/chunk-NN.json (기존 chunk/patch 는 지우고 새로 만든다)
@@ -16,7 +16,10 @@ import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 
 const DIR = '.tmp-celeb-fill'
-const HEAVY_MARKERS = ['influence:row', 'persona:row', 'speech:dialogue_row']
+const HEAVY_MARKERS = ['influence:row', 'spectrum:row', 'speech:dialogue_row']
+
+/** 과거 감사 산출물의 prefix는 입력 경계에서만 허용한다. */
+const normGap = (gap: string): string => gap.replace(/^persona:/, 'spectrum:')
 
 function argOf(name: string, dflt: string): string {
   const i = process.argv.indexOf(`--${name}`)
@@ -36,7 +39,7 @@ async function main() {
   })
   const audit = JSON.parse(raw.slice(raw.indexOf('{'))) as { rows: Gap[]; withGaps: number }
 
-  const isHeavy = (r: Gap) => r.gaps.some((g) => HEAVY_MARKERS.includes(g))
+  const isHeavy = (r: Gap) => r.gaps.some((g) => HEAVY_MARKERS.includes(normGap(g)))
   let pool = audit.rows.filter((r) => (cls === 'heavy' ? isHeavy(r) : !isHeavy(r)))
 
   pool.sort((a, b) => {

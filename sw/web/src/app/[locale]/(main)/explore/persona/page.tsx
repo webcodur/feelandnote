@@ -1,36 +1,11 @@
 /*
-  파일명: /app/(main)/explore/persona/page.tsx
-  기능: 비범한 기록가 전체 보기 페이지
-  책임: persona 16축 극단 셀럽 + 10명 차순위를 표시한다.
-*/ // ------------------------------
+  Legacy compatibility route: /explore/persona -> /explore/spectrum
+*/
 
-import { getTranslations } from "next-intl/server";
-import { getLocalizedAlternates } from "@/lib/seo";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import { getPersonaExtremes } from "@/actions/home/getPersonaExtremes";
-import PersonaFullSection from "@/components/features/user/explore/sections/PersonaFullSection";
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
-export const revalidate = 3600;
-
-export async function generateMetadata() {
-  const t = await getTranslations("explore.persona");
-  return {
-    title: t("metaTitle"),
-    description: t("metaDescription"),
-    alternates: await getLocalizedAlternates("/explore/persona"),
-  };
-}
-
-async function PersonaServer() {
-  const entries = await getPersonaExtremes({ runnersUpLimit: 10 });
-
-  return (
-    <AsyncIntlProvider>
-      <PersonaFullSection entries={entries} />
-    </AsyncIntlProvider>
-  );
-}
-
-export default function PersonaPage() {
-  return <PersonaServer />;
+export default async function LegacySpectrumRedirectPage() {
+  const locale = await getLocale();
+  redirect({ href: "/explore/spectrum", locale });
 }

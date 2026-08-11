@@ -214,6 +214,6 @@ filter: brightness(0.35) saturate(0.5);
 | [image-anchor-sync.md](image-anchor-sync.md) | 이미지 앵커 동기화 파이프라인 — 품질 기준 8항목, 앵커 규칙 |
 | [shorts-image.md](shorts-image.md) | 쇼츠 이미지 전환 시스템 — imageChangeAt, 크로스페이드 |
 | [rules.md](rules.md) | 불변 규칙 — 이미지 전환은 시간이 아닌 텍스트 앵커에 묶는다 |
-| [../../../archive/shorts-image-changelog.md](../../../archive/shorts-image-changelog.md) | 쇼츠 이미지 완료 이력 |
-| [../../../archive/shorts-image-spec.md](../../../archive/shorts-image-spec.md) | 폐기 — 구 쇼츠 배경 명세. 에피소드별 프롬프트 11건 기록 보존용 |
-| [../../../archive/shorts-image-gen.md](../../../archive/shorts-image-gen.md) | 폐기 — 구 이미지 생성 지시서. 넘버링 파일명·`CINEMATIC_EPISODES`·`prompts.json` 모두 현재 코드에 없음 |
+| [`docs/archive/remotion/shorts-image-changelog.md`](../../../archive/remotion/shorts-image-changelog.md) | 쇼츠 이미지 완료 이력 |
+| [`docs/archive/remotion/shorts-image-spec.md`](../../../archive/remotion/shorts-image-spec.md) | 폐기 — 구 쇼츠 배경 명세. 에피소드별 프롬프트 11건 기록 보존용 |
+| [`docs/archive/remotion/shorts-image-gen.md`](../../../archive/remotion/shorts-image-gen.md) | 폐기 — 구 이미지 생성 지시서. 넘버링 파일명·`CINEMATIC_EPISODES`·`prompts.json` 모두 현재 코드에 없음 |
