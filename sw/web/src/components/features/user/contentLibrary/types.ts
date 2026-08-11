@@ -1,5 +1,5 @@
 import type { ContentLibraryMode } from "./useContentLibrary";
-import type { ViewMode } from "./contentLibraryTypes";
+import type { ContentOwnerKind, ViewMode } from "./contentLibraryTypes";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 
 export interface ContentLibraryProps {
@@ -10,6 +10,7 @@ export interface ContentLibraryProps {
   emptyMessage?: string;
   // 공통 컴포넌트 모드
   mode?: ContentLibraryMode;
+  ownerKind?: ContentOwnerKind; // 서가 임자 종류 (기본: member). 인물 서가는 'celeb'
   targetUserId?: string; // viewer 모드에서 필수
   ownerNickname?: string; // 기록 소유자 닉네임
   defaultViewMode?: ViewMode; // 초기 뷰 모드 (기본: grid)

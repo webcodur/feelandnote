@@ -90,7 +90,7 @@
 ## 조회 설계
 
 - **패턴**: 전수 조회 → 단일 키 7일 공유 캐시 → 클라이언트에서 BFS.
-- **선례**: `all-persona-vectors`(유사 인물 추천)가 같은 구조.
+- **선례**: `all-spectrum-vectors`(유사 인물 추천)가 같은 구조.
 - **캐시 키**: `"travel-game-graph"`, tags: `[CONTENTS, CELEBS, TAGS]`
 - **페이징**: `selectAllPages` + `.order('id', { ascending: true })`
 - **허브 캡**: 태그 20명 초과 제외, 콘텐츠 10명 초과 제외.

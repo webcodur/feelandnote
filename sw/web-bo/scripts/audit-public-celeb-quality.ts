@@ -35,7 +35,7 @@ const DIALOGUE_KEYS = [
   'clash_attack',
 ] as const
 const INFLUENCE_AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural'] as const
-const PERSONA_GROUPS = ['abilities', 'inner_virtues', 'outer_virtues', 'dispositions'] as const
+const SPECTRUM_GROUPS = ['abilities', 'inner_virtues', 'outer_virtues', 'dispositions'] as const
 
 type DbError = { message: string } | null
 type PageResult<T> = { data: T[] | null; error: DbError }
@@ -78,7 +78,7 @@ type InfluenceRow = {
 } & Record<`${(typeof INFLUENCE_AXES)[number]}_exp`, string | null>
   & Record<`${(typeof INFLUENCE_AXES)[number]}_exp_en`, string | null>
 
-type PersonaRow = { celeb_id: string; persona: Json | null }
+type SpectrumRow = { celeb_id: string; spectrum: Json | null }
 
 type CelebContentRow = {
   id: string
@@ -204,9 +204,9 @@ async function main() {
       .range(from, to)
     return { data: data as unknown as InfluenceRow[] | null, error }
   })
-  const personas = await allRows<PersonaRow>('celeb_persona', async (from, to) => {
-    const { data, error } = await db.from('celeb_persona').select('celeb_id, persona').order('celeb_id').range(from, to)
-    return { data: data as unknown as PersonaRow[] | null, error }
+  const spectra = await allRows<SpectrumRow>('celeb_persona', async (from, to) => {
+    const { data, error } = await db.from('celeb_persona').select('celeb_id, spectrum:persona').order('celeb_id').range(from, to)
+    return { data: data as unknown as SpectrumRow[] | null, error }
   })
   const celebContents = await allRows<CelebContentRow>('celeb_contents', async (from, to) => {
     const { data, error } = await db
@@ -272,7 +272,7 @@ async function main() {
   const fullIds = new Set(profiles.filter(row => row.celeb_tier === 'full').map(row => row.id))
   const dialogueById = new Map(dialogues.map(row => [row.celeb_id, row]))
   const influenceById = new Map(influences.map(row => [row.celeb_id, row]))
-  const personaById = new Map(personas.map(row => [row.celeb_id, row]))
+  const spectrumById = new Map(spectra.map(row => [row.celeb_id, row]))
 
   const lineupPath = path.resolve(process.cwd(), '../remotion/scripts/youtube/faction-lineup.json')
   const lineup = JSON.parse(await readFile(lineupPath, 'utf8')) as Record<string, { uploads?: Json }>
@@ -325,13 +325,13 @@ async function main() {
       || !text(row.transhistoricity_exp_en)
   })
 
-  const personaMissing = fullLight.filter(row => !personaById.has(row.id))
-  const personaIncomplete = fullLight.filter(profile => {
-    const persona = personaById.get(profile.id)?.persona
-    if (!persona) return false
-    if (!text(persona.rationale_ko) || !text(persona.rationale_en)) return true
-    return PERSONA_GROUPS.some(group => {
-      const values = persona[group]
+  const spectrumMissing = fullLight.filter(row => !spectrumById.has(row.id))
+  const spectrumIncomplete = fullLight.filter(profile => {
+    const spectrum = spectrumById.get(profile.id)?.spectrum
+    if (!spectrum) return false
+    if (!text(spectrum.rationale_ko) || !text(spectrum.rationale_en)) return true
+    return SPECTRUM_GROUPS.some(group => {
+      const values = spectrum[group]
       if (!values || typeof values !== 'object' || Array.isArray(values)) return true
       return Object.values(values as Json).some(value => {
         if (!value || typeof value !== 'object' || Array.isArray(value)) return true
@@ -580,10 +580,10 @@ async function main() {
       textIncomplete: influenceTextIncomplete.length,
       examples: [...influenceMissing, ...influenceTextIncomplete].slice(0, 12).map(row => row.nickname ?? row.id),
     },
-    persona: {
-      missing: personaMissing.length,
-      incomplete: personaIncomplete.length,
-      examples: [...personaMissing, ...personaIncomplete].slice(0, 12).map(row => row.nickname ?? row.id),
+    spectrum: {
+      missing: spectrumMissing.length,
+      incomplete: spectrumIncomplete.length,
+      examples: [...spectrumMissing, ...spectrumIncomplete].slice(0, 12).map(row => row.nickname ?? row.id),
     },
     dialogues: {
       rowsInScope: dialogueProblems.length,

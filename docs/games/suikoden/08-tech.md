@@ -73,7 +73,7 @@ app/[locale]/(main)/rest/suikoden/       — loading.tsx 만 있고 page.tsx 없
 
 ### 캐릭터 로딩
 
-`profiles`에서 필요한 프로필·영향력·페르소나를 읽되 `.in('id', SUIKODEN_CHARACTER_IDS)`로 **시나리오 5종이 실제 사용하는 고정 인물만** 조회한다.
+`profiles`에서 필요한 프로필·영향력·스펙트럼을 읽되 `.in('id', SUIKODEN_CHARACTER_IDS)`로 **시나리오 5종이 실제 사용하는 고정 인물만** 조회한다.
 
 필터:
 - `status = 'active'`
@@ -84,7 +84,7 @@ app/[locale]/(main)/rest/suikoden/       — loading.tsx 만 있고 page.tsx 없
 
 정렬은 `totalScore` 내림차순이다. 명언도 조회가 끝난 고정 인물 ID만 `celeb_dialogues`에서 읽는다. 선택 시나리오에 필요한 인물이 결과에 없으면 `getMissingScenarioCharacterIds()`가 누락을 반환하고 시작 화면이 해당 시나리오를 비활성화한다.
 
-- `celeb_persona` 있으면 페르소나 기반 Grade 산정 (우선)
+- `celeb_persona` 있으면 스펙트럼 기반 Grade 산정 (우선)
 - 없으면 `total_score` 기반 Grade 폴백
 
 ### 대사 로딩

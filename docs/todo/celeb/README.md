@@ -1,0 +1,12 @@
+# 인물 진행 과제
+
+인물 영역에서 아직 다음 작업이 남은 실행 문서다. 현행 규격은 [`docs/project/celeb/`](../../project/celeb/README.md), 완료 이력은 [`docs/archive/celeb/`](../../archive/celeb/README.md)에서 찾는다.
+
+| 문서 | 다음 작업 |
+|---|---|
+| [`celeb-data-gap-fill.md`](celeb-data-gap-fill.md) | 신규 유입을 포함한 데이터 결손 재점검 |
+| [`celeb-avatar-defects.md`](celeb-avatar-defects.md) | 확정 아바타 결함 교체 |
+| [`celeb-avatar-nobg-handoff.md`](celeb-avatar-nobg-handoff.md) | 배경 제거 증분 처리 재개 |
+| [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 읽어보기 전량 검수·보완 |
+| [`celeb-buzz-research-2026-08-09.md`](celeb-buzz-research-2026-08-09.md) | 화제성 지표 조사·설계 후 구현 여부 결정 |
+| [`voice-generation-wave2.md`](voice-generation-wave2.md) | 10인 보이스 생성·업로드·서비스 확인 |

@@ -9,7 +9,7 @@ import type { GetUserContentsResponse } from "@/actions/contents/getUserContents
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
-import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
+import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import {
@@ -58,7 +58,7 @@ interface CelebRecordSectionsProps {
   locale: Locale;
   worldId: string;
   influenceData: CelebInfluenceDetail | null;
-  personaData: SimilarByCelebResult | null;
+  spectrumData: SimilarByCelebResult | null;
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
   dialogueLines?: Record<string, string[]> | null;
@@ -75,7 +75,7 @@ export default function CelebRecordSections({
   locale,
   worldId,
   influenceData,
-  personaData,
+  spectrumData,
   guestbookEntries,
   guestbookTotal,
   dialogueLines,
@@ -107,7 +107,7 @@ export default function CelebRecordSections({
     dialogues: hasDialogues,
     dialogueVoice: hasDialogues && hasVoice,
     influence: Boolean(influenceData),
-    persona: Boolean(personaData?.targetPersona),
+    spectrum: Boolean(spectrumData?.targetSpectrum),
     sourceWorks: fictionSources.length > 0,
   };
   const serviceItems = useCelebServiceItems({
@@ -247,7 +247,7 @@ export default function CelebRecordSections({
           <SectionSurface className={TAB_BOX_CLASS_NAME}>
             <FigureAnalysisTabs
               item={serviceItemsByKey.get("analysis")!}
-              personaData={personaData}
+              spectrumData={spectrumData}
               influenceData={influenceData}
             />
           </SectionSurface>

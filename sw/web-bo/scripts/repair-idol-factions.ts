@@ -748,7 +748,10 @@ async function main() {
   await applyEpisodes(db, roster)
   await verifyDatabase(db, roster, tagIds)
   await exportFiles(db)
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+  await revalidateWebCache(
+    [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
+    '아이돌 팩션 편성 복구 배치가 여러 태그와 인물을 함께 바꾼다',
+  )
   console.log('\nDB 적용·export·검증 완료. faction:verify를 이어서 실행하세요.')
 }
 

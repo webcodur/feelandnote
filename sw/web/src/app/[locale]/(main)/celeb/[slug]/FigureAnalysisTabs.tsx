@@ -4,43 +4,43 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import type { SimilarByCelebResult } from "@/actions/persona/getSimilarByCelebId";
+import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import CelebInfluenceSection from "./CelebInfluenceSection";
 import type { ServiceItem } from "./celebServiceItems";
-import PersonaSection from "./PersonaSection";
+import SpectrumSection from "./SpectrumSection";
 import UnavailableSectionGuide from "./UnavailableSectionGuide";
 
-type AnalysisTab = "persona" | "influence";
+type AnalysisTab = "spectrum" | "influence";
 
 interface Props {
   item: ServiceItem;
-  personaData: SimilarByCelebResult | null;
+  spectrumData: SimilarByCelebResult | null;
   influenceData: CelebInfluenceDetail | null;
 }
 
 export default function FigureAnalysisTabs({
   item,
-  personaData,
+  spectrumData,
   influenceData,
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
-  const personaItem = childItems.find((child) => child.key === "persona");
+  const spectrumItem = childItems.find((child) => child.key === "spectrum");
   const influenceItem = childItems.find((child) => child.key === "influence");
   const [tab, setTab] = useState<AnalysisTab>(() => {
-    if (personaItem?.ready) return "persona";
+    if (spectrumItem?.ready) return "spectrum";
     if (influenceItem?.ready) return "influence";
-    return "persona";
+    return "spectrum";
   });
 
-  if (!personaItem || !influenceItem) return null;
+  if (!spectrumItem || !influenceItem) return null;
 
   const tabs: ArchiveTabItem<AnalysisTab>[] = [
     {
-      key: "persona",
-      label: personaItem.label,
+      key: "spectrum",
+      label: spectrumItem.label,
     },
     {
       key: "influence",
@@ -64,15 +64,15 @@ export default function FigureAnalysisTabs({
         role="tabpanel"
         aria-labelledby={`archive-tab-${tab}`}
       >
-        {tab === "persona" && (
-          personaItem.ready && personaData?.targetPersona ? (
-            <PersonaSection
-              persona={personaData.targetPersona}
-              personaJsonb={personaData.targetPersonaJsonb}
-              matchesByCategory={personaData.matchesByCategory}
+        {tab === "spectrum" && (
+          spectrumItem.ready && spectrumData?.targetSpectrum ? (
+            <SpectrumSection
+              spectrum={spectrumData.targetSpectrum}
+              spectrumJsonb={spectrumData.targetSpectrumJsonb}
+              matchesByCategory={spectrumData.matchesByCategory}
             />
           ) : (
-            <UnavailableSectionGuide item={personaItem} />
+            <UnavailableSectionGuide item={spectrumItem} />
           )
         )}
 

@@ -100,18 +100,18 @@
       "next": "다음",
       "explore": "탐색하기",
       "noCountryFigures": "해당 국가의 인물이 없습니다.",
-      "personaQuickView": {
+      "spectrumQuickView": {
         "loading": "스펙트럼을 분석하는 중...",
         "analysis": "스펙트럼 해설",
         "visitLibrary": "{name}의 기록물 보기",
         "exploreJourney": "감상 여정과 취향 탐색"
       },
-      "personaReason": {
+      "spectrumReason": {
         "loading": "근거를 불러오는 중...",
         "figureDetail": "인물 상세",
         "close": "닫기"
       },
-      "personaDistribution": {
+      "spectrumDistribution": {
         "axes": {
           "pessimism_optimism": {
             "negative": "비관",
@@ -152,14 +152,14 @@
       },
       "loading": "로딩 중...",
       "friend": "친구",
-      "personaNoData": "표시할 사람 데이터가 없습니다.",
-      "personaList": "사람 목록",
+      "spectrumNoData": "표시할 사람 데이터가 없습니다.",
+      "spectrumList": "사람 목록",
       "professionUnknown": "직군 미상",
-      "personaLoading": "정보 불러오는 중...",
-      "personaTitle": "16축 스펙트럼",
-      "personaNoPersona": "스펙트럼 데이터 없음",
-      "personaNoSelection": "선택 가능한 사람이 없습니다.",
-      "personaFigure": "인물",
+      "spectrumLoading": "정보 불러오는 중...",
+      "spectrumTitle": "16축 스펙트럼",
+      "spectrumNoSpectrum": "스펙트럼 데이터 없음",
+      "spectrumNoSelection": "선택 가능한 사람이 없습니다.",
+      "spectrumFigure": "인물",
       "auraTitle": {
         "1": "필멸자",
         "2": "순례자",
@@ -188,8 +188,8 @@
       "trendingSub": "최근 한 달 사이 사람들이 가장 많이 찾은 인물입니다.",
       "ranking": "프로필",
       "rankingSub": "인기와 감상 기록, 무작위 추천으로 다양한 인물을 만나보세요.",
-      "personaAnalysis": "성향 분석",
-      "personaAnalysisSub": "영향력 있는 인물들이 네 가지 성향(낙관·진취·공동체·과감)에서 어디쯤 서 있는지 분포로 봅니다. 이름으로 찾아볼 수도 있습니다.",
+      "spectrumAnalysis": "성향 분석",
+      "spectrumAnalysisSub": "영향력 있는 인물들이 네 가지 성향(낙관·진취·공동체·과감)에서 어디쯤 서 있는지 분포로 봅니다. 이름으로 찾아볼 수도 있습니다.",
       "groupDocumented": "탐구자",
       "groupDocumentedDesc": "한 줄의 기록을 남긴 인물들. 그들의 울림이 여러분의 다음 감상을 안내합니다.",
       "groupThinkers": "기타 인물",
@@ -202,15 +202,15 @@
       "factionSub": "시대와 분야를 넘어 하나의 주제로 엮인 세력도감.",
       "allCelebs": "랜덤",
       "allCelebsSub": "매일 무작위로 새로 뽑는 인물들입니다. 내일은 다른 얼굴들이 찾아옵니다.",
-      "personaExtremes": "비범한 인물",
-      "personaExtremesSub": "선명한 덕목과 탁월한 능력, 뚜렷한 성향을 지닌 인물들. 이들의 고유한 특징이 감상의 결을 어떻게 바꾸는지 살펴보세요.",
+      "spectrumExtremes": "비범한 인물",
+      "spectrumExtremesSub": "선명한 덕목과 탁월한 능력, 뚜렷한 성향을 지닌 인물들. 이들의 고유한 특징이 감상의 결을 어떻게 바꾸는지 살펴보세요.",
       "viewMore": "더보기",
       "viewAll": "전체보기",
       "viewAllProfiles": "전체",
       "quickNav": "바로가기",
       "navCelebs": "인물 목록",
       "navTopByType": "분야별 챔피언",
-      "navPersona": "스펙트럼",
+      "navSpectrum": "스펙트럼",
       "navFeed": "인물 피드",
       "navFaction": "세력도감",
       "navDirectory": "디렉토리",
@@ -290,7 +290,7 @@
       "sharedDesc": "Top {count}명 중 2명 이상이 함께 감상한 작품입니다.",
       "sharedBy": "감상한 인물"
     },
-    "persona": {
+    "spectrum": {
       "metaTitle": "16축 스펙트럼 | 인물",
       "metaDescription": "역량·덕목·성향 16개 축에서 두드러지는 인물을 살펴보세요."
     },

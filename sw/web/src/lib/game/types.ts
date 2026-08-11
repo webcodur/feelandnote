@@ -4,7 +4,7 @@
   책임: 게임 전체에서 사용하는 타입을 단일 원천으로 관리한다.
 */
 
-import type { AbilityKey } from "@/lib/persona/constants";
+import type { AbilityKey } from "@/lib/spectrum/constants";
 import type { SpeechTone, DialogueLines } from "@/lib/game/voice/types";
 
 // ─── 도메인 (영향력 6대 영역) ───
@@ -45,7 +45,7 @@ export interface BattleCard {
   gender: boolean | null;
   speechTone: SpeechTone;
   influence: Record<Domain, number>; // 0-10
-  /** 능력치 4개 — 단일원천: persona/constants.ts AbilityKey */
+  /** 능력치 4개 — 단일원천: spectrum/constants.ts AbilityKey */
   ability: Record<AbilityKey, number>;
   /** 인물별 고유 대사 (없으면 공통 대사 폴백) */
   dialogueLines?: DialogueLines;

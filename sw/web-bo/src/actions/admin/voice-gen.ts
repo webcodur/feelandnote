@@ -5,7 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
 
@@ -181,13 +181,13 @@ export async function bumpVoiceVersion(celebId: string): Promise<number> {
     .from('celebs')
     .update({ voice_v: newV })
     .eq('id', celebId)
-    .select('id')
+    .select('id, slug')
     .maybeSingle()
   if (updateError) throw updateError
   if (!updated) throw new Error('셀럽을 찾을 수 없습니다.')
 
   // celebs.voice_v — 음성 파일 캐시 버스터, 대사 음성 URL에 붙는다
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  await revalidateWebCeleb(celebId, updated.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return newV
 }
 
@@ -248,13 +248,13 @@ export async function enableHasVoice(celebId: string): Promise<void> {
     .from('celebs')
     .update({ has_voice: true })
     .eq('id', celebId)
-    .select('id')
+    .select('id, slug')
     .maybeSingle()
   if (error) throw error
   if (!data) throw new Error('셀럽을 찾을 수 없습니다.')
 
   // celebs.has_voice — 대사 음성 재생 여부를 가른다
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 
 /** voice_id 저장 */
@@ -270,11 +270,11 @@ export async function saveVoiceId(
     .from('celebs')
     .update({ [col]: voiceId })
     .eq('id', celebId)
-    .select('id')
+    .select('id, slug')
     .maybeSingle()
   if (error) return { success: false, error: error.message }
   if (!data) return { success: false, error: '셀럽을 찾을 수 없습니다.' }
   // celebs.voice_id_ko/en — 대사 음성 합성에 쓰이는 셀럽 컬럼
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  await revalidateWebCeleb(celebId, data.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
   return { success: true }
 }

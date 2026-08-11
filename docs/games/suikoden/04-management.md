@@ -27,7 +27,7 @@
 
 ## 건물 — 15종 (`BUILDINGS`)
 
-배치 요구 스탯은 `requireStat`/`requireStatMin` 한 쌍으로 판정한다. 값은 페르소나 스탯(0~100)이다.
+배치 요구 스탯은 `requireStat`/`requireStatMin` 한 쌍으로 판정한다. 값은 스펙트럼 스탯(0~100)이다.
 
 ### 경제 건물
 

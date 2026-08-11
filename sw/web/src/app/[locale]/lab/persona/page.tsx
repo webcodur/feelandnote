@@ -1,19 +1,11 @@
-import PersonaExplorerSection from "@/components/features/user/explore/persona/PersonaExplorerSection";
-import { getPersonaByCelebId } from "@/actions/persona/getPersonaByCelebId";
-import { getPersonaPeople } from "@/actions/persona/getPersonaPeople";
+/*
+  Legacy compatibility route: /lab/persona -> /lab/spectrum
+*/
 
-export const revalidate = 300;
+import { redirect } from "@/i18n/navigation";
+import { getLocale } from "next-intl/server";
 
-export default async function Page() {
-  const people = await getPersonaPeople(300);
-  const selectedId = people[0]?.id ?? null;
-  const initialPersona = selectedId ? await getPersonaByCelebId(selectedId) : null;
-
-  return (
-    <PersonaExplorerSection
-      initialPeople={people}
-      initialSelectedId={selectedId}
-      initialPersona={initialPersona}
-    />
-  );
+export default async function LegacySpectrumLabRedirectPage() {
+  const locale = await getLocale();
+  redirect({ href: "/lab/spectrum", locale });
 }

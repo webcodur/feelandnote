@@ -48,22 +48,22 @@ export interface MemberInfluence {
   total_score: number
 }
 
-export interface PersonaFieldJsonb {
+export interface SpectrumFieldJsonb {
   score: number
   reason_ko?: string
   reason_en?: string
 }
 
-export interface PersonaJsonb {
-  abilities?: Record<string, PersonaFieldJsonb>
-  inner_virtues?: Record<string, PersonaFieldJsonb>
-  outer_virtues?: Record<string, PersonaFieldJsonb>
-  dispositions?: Record<string, PersonaFieldJsonb>
+export interface SpectrumJsonb {
+  abilities?: Record<string, SpectrumFieldJsonb>
+  inner_virtues?: Record<string, SpectrumFieldJsonb>
+  outer_virtues?: Record<string, SpectrumFieldJsonb>
+  dispositions?: Record<string, SpectrumFieldJsonb>
   rationale_ko?: string
   rationale_en?: string
 }
 
-export interface MemberPersona {
+export interface MemberSpectrum {
   temperance: number
   diligence: number
   reflection: number
@@ -80,7 +80,7 @@ export interface MemberPersona {
   conservative_progressive: number
   individual_social: number
   cautious_bold: number
-  persona?: PersonaJsonb | null
+  spectrum?: SpectrumJsonb | null
 }
 
 export interface Member {
@@ -118,10 +118,8 @@ export interface Member {
   has_voice?: boolean
   influence?: MemberInfluence | null
   influence_total?: number
-  persona?: MemberPersona | null
+  spectrum?: MemberSpectrum | null
   content_count: number
-  content_research_status?: string
-  content_research_updated_at?: string | null
   content_research_confirmed_empty_at?: string | null
   follower_count: number
   following_count?: number
@@ -198,8 +196,6 @@ function celebToMember(c: Celeb): Member {
     celeb_tier: c.celeb_tier,
     claimed_by: c.claimed_by,
     content_count: c.content_count,
-    content_research_status: c.content_research_status,
-    content_research_updated_at: c.content_research_updated_at,
     content_research_confirmed_empty_at: c.content_research_confirmed_empty_at,
     follower_count: c.follower_count,
     influence_total: c.influence_total,
@@ -240,11 +236,11 @@ const CELEB_DETAIL_SELECT = `
     social, social_exp, economic, economic_exp, cultural, cultural_exp,
     transhistoricity, transhistoricity_exp, total_score
   ),
-  celeb_persona!celeb_persona_celebs_fkey (
+  celeb_spectrum:celeb_persona!celeb_persona_celebs_fkey (
     temperance, diligence, reflection, courage, loyalty, benevolence,
     fairness, humility, command, martial, intellect, charm,
     pessimism_optimism, conservative_progressive, individual_social, cautious_bold,
-    persona
+    spectrum:persona
   )
 `
 
@@ -315,7 +311,7 @@ async function memberProfileToMember(data: any): Promise<Member> {
 async function celebProfileToMember(data: any): Promise<Member> {
   const contentCount = await getCelebContentCount(data.id)
   const influence = getSingleRelation<MemberInfluence>(data.celeb_influence)
-  const persona = getSingleRelation<MemberPersona>(data.celeb_persona)
+  const spectrum = getSingleRelation<MemberSpectrum>(data.celeb_spectrum)
   const metrics = getSingleRelation<{ follower_count?: number | null }>(data.celeb_metrics)
   return {
     id: data.id,
@@ -348,10 +344,11 @@ async function celebProfileToMember(data: any): Promise<Member> {
     claimed_by: data.claimed_by_member_id ?? null,
     influence,
     influence_total: influence?.total_score || 0,
-    persona,
-    content_count: resolveCelebContentCount(contentCount, data.content_research_status),
-    content_research_status: data.content_research_status ?? 'open',
-    content_research_updated_at: data.content_research_updated_at ?? null,
+    spectrum,
+    content_count: resolveCelebContentCount(
+      contentCount,
+      data.content_research_confirmed_empty_at
+    ),
     content_research_confirmed_empty_at: data.content_research_confirmed_empty_at ?? null,
     follower_count: metrics?.follower_count || 0,
   }

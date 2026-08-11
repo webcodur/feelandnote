@@ -3,7 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebItem } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { TIMELINE_KINDS } from '@/constants/timeline'
 
@@ -161,9 +161,10 @@ async function isFictionCeleb(celebId: string): Promise<boolean> {
   return data.celeb_tier === 'fiction'
 }
 
-async function afterWrite() {
+async function afterWrite(celebId: string) {
   revalidatePath('/celebs/timeline', 'layout')
-  await revalidateWebCache(CACHE_TAGS.CELEBS)
+  // 해당 인물의 상세·연표와 인물 목록만 갱신한다. 다른 인물 상세는 유지한다.
+  await revalidateWebItem(CACHE_TAGS.CELEBS, celebId, [CACHE_TAGS.CELEBS])
 }
 
 /** 한 건 수정. 손댄 행은 source='manual'이 되어 스크립트 재적재에도 살아남는다 */
@@ -181,7 +182,7 @@ export async function updateTimelineEvent(eventId: string, data: Partial<EventIn
     .update({ ...data, source: 'manual' })
     .eq('id', eventId)
   if (error) throw error
-  await afterWrite()
+  await afterWrite(current.celeb_id)
 }
 
 export async function createTimelineEvent(celebId: string, data: EventInput): Promise<string> {
@@ -193,15 +194,20 @@ export async function createTimelineEvent(celebId: string, data: EventInput): Pr
     .select('id')
     .single()
   if (error) throw error
-  await afterWrite()
+  await afterWrite(celebId)
   return row.id
 }
 
 export async function deleteTimelineEvent(eventId: string): Promise<void> {
   const supabase = createAdminClient()
-  const { error } = await supabase.from('celeb_timeline_events').delete().eq('id', eventId)
+  const { data, error } = await supabase
+    .from('celeb_timeline_events')
+    .delete()
+    .eq('id', eventId)
+    .select('celeb_id')
+    .single()
   if (error) throw error
-  await afterWrite()
+  await afterWrite(data.celeb_id)
 }
 
 /** 지명 → 위키데이터 좌표 후보. 고르는 것은 사람이다 — 동명 지명 오배정이 잦다 */

@@ -1,6 +1,6 @@
 ---
 name: celeb-activation-audit
-description: 비활성 셀럽의 아바타·기본정보·영향력·페르소나·대사·한영 번역·콘텐츠 조사/locale/출처 링크를 전수 감사하고, 모든 필수조건을 통과한 인물만 active로 일괄 전환한다. "활성화 가능한 인물 찾아줘", "데이터 완성된 셀럽 activate", "셀럽 공개 준비도 감사", "inactive 전수 검사" 요청에 사용한다.
+description: 비활성 셀럽의 아바타·기본정보·영향력·스펙트럼·대사·한영 번역·콘텐츠 조사/locale/출처 링크를 전수 감사하고, 모든 필수조건을 통과한 인물만 active로 일괄 전환한다. "활성화 가능한 인물 찾아줘", "데이터 완성된 셀럽 activate", "셀럽 공개 준비도 감사", "inactive 전수 검사" 요청에 사용한다.
 ---
 
 # 셀럽 활성화 감사
@@ -34,7 +34,7 @@ pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
 ## 판정 계약
 
 - 전 티어: `avatar_url`과 한·영 기본 프로필이 필수다.
-- full/light: 영향력 7축 한영, 페르소나 16축 점수·근거 한영, speech tone, 명언 한영, 7상황×3개 대사 한영이 필수다.
+- full/light: 영향력 7축 한영, 스펙트럼 16축 점수·근거 한영, speech tone, 명언 한영, 7상황×3개 대사 한영이 필수다.
 - full: 콘텐츠 1건 이상, 전부 `FINISHED`, `review`, `review_en`, `source_url`, ko/en locale의 제목·저자·표지, BOOK ISBN, source URL 2xx가 필수다.
 - light: 콘텐츠 0건이며 `content_research_status='confirmed_empty'`여야 한다.
 - fiction: 대표 원전 연결이 1건 이상이고 원전의 ko/en locale 메타가 완전해야 한다.

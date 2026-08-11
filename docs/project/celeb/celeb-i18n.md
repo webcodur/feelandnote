@@ -37,7 +37,7 @@ fiction은 basic 최소 항목만 채우는 티어다. 번역하지 않는다. �
 |------|------|
 | `celebs.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #4에 포함된다 |
 | `celebs.nickname_en` | basic 트랙(`celeb-1-basic-profile.md`)이 작성한다 |
-| `celeb_persona`의 `reason_en` / `rationale_en` | 페르소나 트랙(`celeb-5-persona.md`)이 작성한다 |
+| `celeb_persona`의 `reason_en` / `rationale_en` | 스펙트럼 트랙(`celeb-5-spectrum.md`)이 작성한다 |
 | `consumption_philosophy*` / `cultural_journey*` | 감상 여정 신규 작성·번역 중단. `retire/celeb-3-cultural-journey.md` 참조 |
 | `virtual_monologue*` | 가상 독백 서비스 노출·신규 작성·번역 중단. `retire/virtual-monologue.md` 참조 |
 

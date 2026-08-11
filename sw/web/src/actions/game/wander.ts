@@ -15,7 +15,7 @@ import type { Tables } from "@/types/supabase";
 
 type ProfileRow = Pick<Tables<"celebs">, "id" | "nickname" | "nickname_en" | "title" | "title_en" | "nationality" | "avatar_url" | "birth_date" | "death_date">;
 type InfluenceRow = Pick<Tables<"celeb_influence">, "celeb_id" | "total_score">;
-type PersonaRow = Pick<Tables<"celeb_persona">, "celeb_id" | "command" | "martial" | "intellect" | "charm">;
+type SpectrumRow = Pick<Tables<"celeb_persona">, "celeb_id" | "command" | "martial" | "intellect" | "charm">;
 type FigureBase = Omit<WanderFigure, "name" | "title" | "quote"> & ProfileRow;
 
 function parseYear(value: string | null, fallback: number): number {
@@ -49,7 +49,7 @@ function takeDiverse(figures: FigureBase[]): FigureBase[] {
 
 async function fetchWanderPools(locale: string): Promise<WanderPools> {
   const supabase = createStaticClient();
-  const [celebRows, influences, personas] = await Promise.all([
+  const [celebRows, influences, spectra] = await Promise.all([
     selectAllPages<ProfileRow>((from, to) => supabase.from("celebs")
       .select("id, nickname, nickname_en, title, title_en, nationality, avatar_url, birth_date, death_date")
       .eq("publication_status", "active")
@@ -57,15 +57,15 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
       .order("id").range(from, to).overrideTypes<ProfileRow[], { merge: false }>()),
     selectAllPages<InfluenceRow>((from, to) => supabase.from("celeb_influence")
       .select("celeb_id, total_score").order("celeb_id").range(from, to)),
-    selectAllPages<PersonaRow>((from, to) => supabase.from("celeb_persona")
+    selectAllPages<SpectrumRow>((from, to) => supabase.from("celeb_persona")
       .select("celeb_id, command, martial, intellect, charm").order("celeb_id").range(from, to)),
   ]);
   const influenceMap = new Map(influences.map((row) => [row.celeb_id, row.total_score ?? 0]));
-  const personaMap = new Map(personas.map((row) => [row.celeb_id, row]));
+  const spectrumMap = new Map(spectra.map((row) => [row.celeb_id, row]));
   const currentYear = new Date().getFullYear();
   const bases = celebRows.flatMap((profile): FigureBase[] => {
-    const persona = personaMap.get(profile.id);
-    if (!persona || !profile.nickname) return [];
+    const spectrum = spectrumMap.get(profile.id);
+    if (!spectrum || !profile.nickname) return [];
     return [{
       ...profile,
       nationality: profile.nationality ?? "",
@@ -75,9 +75,9 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
       region: getRegionForNationality(profile.nationality ?? ""),
       totalScore: influenceMap.get(profile.id) ?? 0,
       powers: {
-        might: Math.round(persona.command * 0.55 + persona.martial * 0.45),
-        insight: persona.intellect,
-        support: persona.charm,
+        might: Math.round(spectrum.command * 0.55 + spectrum.martial * 0.45),
+        insight: spectrum.intellect,
+        support: spectrum.charm,
       },
     }];
   });

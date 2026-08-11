@@ -2,6 +2,10 @@
 
 import Image from "next/image";
 import { Brain } from "lucide-react";
+import {
+  MEMORY_RESULT_TIMING,
+  showsMemorySuccessEffect,
+} from "./audioPlan";
 import type { MemoryCardData, MemoryPairResult } from "./types";
 
 interface Props {
@@ -9,7 +13,7 @@ interface Props {
   isFlipped: boolean;
   isMatched: boolean;
   pairResult: MemoryPairResult;
-  isLocked: boolean;
+  resultEffectActive: boolean;
   backLabel: string;
   onSelect: (card: MemoryCardData) => void;
 }
@@ -19,20 +23,29 @@ export default function MemoryCard({
   isFlipped,
   isMatched,
   pairResult,
-  isLocked,
+  resultEffectActive,
   backLabel,
   onSelect,
 }: Props) {
   const revealed = isFlipped || isMatched;
-  // 판정 결과가 뜬 카드는 다시 눌러 대기 시간을 건너뛸 수 있다
-  const showsResult = isFlipped && pairResult !== null;
-
+  const showsSuccessEffect = showsMemorySuccessEffect(
+    pairResult,
+    resultEffectActive,
+    isMatched,
+  );
   return (
     <button
       type="button"
-      disabled={isMatched || (isLocked && !showsResult)}
+      disabled={isMatched}
       aria-label={revealed ? card.figure.name : backLabel}
       aria-hidden={isMatched}
+      data-result-stage={
+        pairResult === null
+          ? undefined
+          : resultEffectActive
+            ? "effect"
+            : "immediate"
+      }
       onClick={() => onSelect(card)}
       className={[
         "group relative aspect-[4/5] min-w-0 rounded-lg border bg-bg-card text-left",
@@ -40,7 +53,7 @@ export default function MemoryCard({
         pairResult === "match"
           ? "border-emerald-400 ring-2 ring-emerald-400/70"
           : pairResult === "mismatch"
-            ? "border-orange-400 ring-2 ring-orange-400/70"
+            ? "border-red-400 ring-2 ring-red-400/70"
             : isFlipped
               ? "border-accent shadow-[0_0_22px_-8px_rgba(212,175,55,0.8)]"
           : "border-accent/20 hover:border-accent/70 hover:bg-white/[0.04]",
@@ -49,7 +62,7 @@ export default function MemoryCard({
           : "",
       ].join(" ")}
     >
-      <span className="absolute inset-0 block">
+      <span className="absolute inset-0 block overflow-hidden rounded-[7px]">
         <span className={`absolute inset-0 flex ${revealed ? "invisible" : "visible"}`}>
           <span className="m-1.5 flex flex-1 items-center justify-center rounded-md border border-accent/15 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.11),transparent_58%)]">
             <span className="flex h-9 w-9 items-center justify-center rounded-full border border-accent/30 text-accent">
@@ -58,7 +71,16 @@ export default function MemoryCard({
           </span>
         </span>
 
-        <span className={`absolute inset-0 overflow-hidden rounded-[7px] bg-stone-heavy ${revealed ? "visible" : "invisible"}`}>
+        <span
+          className={`absolute inset-0 overflow-hidden rounded-[7px] bg-stone-heavy transition-transform ease-out motion-reduce:transform-none motion-reduce:transition-none ${
+            revealed ? "visible" : "invisible"
+          } ${
+            showsSuccessEffect
+              ? "translate-y-1"
+              : "translate-y-0"
+          }`}
+          style={{ transitionDuration: `${MEMORY_RESULT_TIMING.effectTransitionMs}ms` }}
+        >
           <Image
             src={card.figure.avatarUrl}
             alt=""
@@ -66,6 +88,14 @@ export default function MemoryCard({
             sizes="(max-width: 640px) 20vw, 140px"
             className="object-cover"
             style={{ filter: "none" }}
+          />
+          <span
+            className={`pointer-events-none absolute inset-0 bg-bg-main/60 transition-opacity ease-out motion-reduce:transition-none ${
+              showsSuccessEffect
+                ? "opacity-100"
+                : "opacity-0"
+            }`}
+            style={{ transitionDuration: `${MEMORY_RESULT_TIMING.effectTransitionMs}ms` }}
           />
           <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent px-1.5 pb-1.5 pt-6">
             <span className="block truncate text-center font-serif text-sm font-bold text-text-primary">

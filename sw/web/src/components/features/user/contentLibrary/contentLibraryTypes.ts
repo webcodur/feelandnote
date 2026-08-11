@@ -10,6 +10,8 @@ export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "cr
 export type ReviewFilter = "all" | "has_review" | "no_review";
 export type ViewMode = "grid" | "list";
 export type ContentLibraryMode = "owner" | "viewer";
+/** 이 서가의 임자가 회원인지 인물인지. 감상 기록이 서로 다른 테이블에 있어 조회 경로가 갈린다. */
+export type ContentOwnerKind = "member" | "celeb";
 
 export interface FlowInfo {
   id: string;
@@ -21,6 +23,7 @@ export interface UseContentLibraryOptions {
   compact?: boolean;
   showCategories?: boolean;
   mode?: ContentLibraryMode;
+  ownerKind?: ContentOwnerKind;
   targetUserId?: string;
   initialSearchQuery?: string;
   defaultViewMode?: ViewMode;

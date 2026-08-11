@@ -17,6 +17,7 @@ import { createHash } from 'crypto'
 import { createClient } from '@supabase/supabase-js'
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'fs'
 import { resolve } from 'path'
+import { CACHE_TAGS, domainRevalidationTags } from '@feelandnote/shared/constants/cache-tags'
 
 function loadEnv() {
   const envPath = resolve(process.cwd(), '.env')
@@ -199,7 +200,7 @@ async function revalidateCelebs(): Promise<string> {
   const response = await fetch(`${webUrl}/api/revalidate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ tag: 'celebs', secret }),
+    body: JSON.stringify({ tag: domainRevalidationTags(CACHE_TAGS.CELEBS), secret }),
   })
   if (!response.ok) {
     throw new Error(`celebs 캐시 무효화 실패: HTTP ${response.status} ${await response.text()}`)

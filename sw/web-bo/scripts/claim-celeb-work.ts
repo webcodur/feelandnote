@@ -4,7 +4,7 @@
  *
  *   pnpm exec tsx scripts/claim-celeb-work.ts --worker lane-a --count 4
  *   pnpm exec tsx scripts/claim-celeb-work.ts --worker lane-a --count 4 --class heavy
- *   pnpm exec tsx scripts/claim-celeb-work.ts --worker lane-a --count 3 --target influence-persona
+ *   pnpm exec tsx scripts/claim-celeb-work.ts --worker lane-a --count 3 --target influence-spectrum
  *
  * 동작
  *  - DB를 재감사해 남은 결손 인물을 구한다(진행 상황의 원천은 DB다).
@@ -22,7 +22,7 @@ import { execFileSync } from 'node:child_process'
 const DIR = '.tmp-celeb-fill'
 const CLAIMS = path.join(DIR, 'claims')
 const LEASE_MS = 30 * 60 * 1000
-const HEAVY_MARKERS = ['influence:row', 'persona:row', 'speech:dialogue_row']
+const HEAVY_MARKERS = ['influence:row', 'spectrum:row', 'speech:dialogue_row']
 
 /**
  * 대상 결손 묶음. `--target` 으로 고른다.
@@ -31,13 +31,13 @@ const HEAVY_MARKERS = ['influence:row', 'persona:row', 'speech:dialogue_row']
 const TARGETS: Record<string, string[]> = {
   /** 직군·국적·성별 3필드 */
   basic3: ['basic:profession', 'basic:nationality', 'basic:gender'],
-  /** 영향력 7축 + 페르소나 16축. 행 자체가 없는 인물이 대부분이다 */
-  'influence-persona': [
+  /** 영향력 7축 + 스펙트럼 16축. 행 자체가 없는 인물이 대부분이다 */
+  'influence-spectrum': [
     'influence:row',
-    'persona:row',
-    'persona:detail',
-    'persona:rationale_ko',
-    'persona:rationale_en',
+    'spectrum:row',
+    'spectrum:detail',
+    'spectrum:rationale_ko',
+    'spectrum:rationale_en',
   ],
   /** 영문 번역 — 수식어·소개·영향력 설명·명언·대사 */
   i18n: [
@@ -61,8 +61,15 @@ const TARGETS: Record<string, string[]> = {
   'speech-basic': ['basic:title', 'speech:tone', 'speech:dialogue_row', 'speech:lines_ko'],
 }
 
-/** 감사가 붙이는 개수 꼬리표를 뗀다: `i18n:lines_en(21)` → `i18n:lines_en` */
-const normGap = (g: string) => g.replace(/\(\d+\)$/, '')
+/** 외부 자동화가 넘길 수 있는 폐기 전 CLI 값만 입력 경계에서 정규화한다. */
+const LEGACY_TARGET_ALIASES: Record<string, string> = {
+  'influence-persona': 'influence-spectrum',
+}
+
+/** 개수 꼬리표와 폐기 전 gap prefix를 정식 spectrum marker로 정규화한다. */
+const normGap = (g: string) => g
+  .replace(/\(\d+\)$/, '')
+  .replace(/^persona:/, 'spectrum:')
 
 /**
  * 대상 묶음별 제외 조건. 이 결손을 가진 인물은 그 묶음에서 뺀다.
@@ -83,7 +90,8 @@ async function main() {
   if (!worker) throw new Error('--worker 필요')
   const count = Number(argOf('count', '4'))
   const cls = argOf('class', 'any')
-  const targetName = argOf('target', 'basic3')
+  const requestedTargetName = argOf('target', 'basic3')
+  const targetName = LEGACY_TARGET_ALIASES[requestedTargetName] ?? requestedTargetName
   const TARGET = TARGETS[targetName]
   if (!TARGET) throw new Error(`--target 은 ${Object.keys(TARGETS).join(' | ')} 중 하나여야 한다: ${targetName}`)
 
@@ -109,7 +117,7 @@ async function main() {
   })
   const audit = JSON.parse(raw.slice(raw.indexOf('{'))) as { rows: Gap[]; withGaps: number }
 
-  const isHeavy = (r: Gap) => r.gaps.some((g) => HEAVY_MARKERS.includes(g))
+  const isHeavy = (r: Gap) => r.gaps.some((g) => HEAVY_MARKERS.includes(normGap(g)))
   let pool = audit.rows
   if (cls === 'heavy') pool = pool.filter(isHeavy)
   else if (cls === 'light') pool = pool.filter((r) => !isHeavy(r))
@@ -134,7 +142,7 @@ async function main() {
   } catch {
     /* 장부 없으면 무시 */
   }
-  const deferredBySlug = new Map(deferred.map((d) => [d.slug, new Set(d.gaps)]))
+  const deferredBySlug = new Map(deferred.map((d) => [d.slug, new Set(d.gaps.map(normGap))]))
   let deferredSkipped = 0
   pool = pool.filter((r) => {
     const d = deferredBySlug.get(r.slug)
@@ -171,6 +179,9 @@ async function main() {
   await writeFile(out, JSON.stringify(claimed, null, 2))
 
   console.log(`worker=${worker} class=${cls} target=${targetName}`)
+  if (requestedTargetName !== targetName) {
+    console.warn(`legacy target alias: ${requestedTargetName} -> ${targetName}`)
+  }
   console.log(
     `전체 결손 ${audit.withGaps}명 · 대상 풀 ${pool.length}명` +
       ` (보류 제외 ${deferredSkipped}명, 선행 트랙 미완 제외 ${excludedByPrereq}명)`,

@@ -1,17 +1,17 @@
 # 인물 (`(main)/explore/*`)
 
-> **최종 실측 체크: 26.08.07** — 화면 목록·허브 구역 수·제목 접미를 코드와 재대조. 라벨을 「탐색」에서 **「인물」**로 바꿨다(26.08.07, 주소·코드 키는 `explore` 유지)
+> **최종 실측 체크: 26.08.11** — 스펙트럼 주소·액션·컴포넌트와 레거시 리다이렉트를 코드에 재대조했다. 라벨을 「탐색」에서 **「인물」**로 바꿨다(26.08.07, 주소·코드 키는 `explore` 유지)
 
-인물을 여러 축으로 훑는 영역이다. 짝이 되는 축은 작품(`/library`)이다 — **사람과, 그 사람이 남긴 것.** 허브 하나에 실제 화면 10개, 레거시 리다이렉트 5개로 이뤄진다.
+인물을 여러 축으로 훑는 영역이다. 짝이 되는 축은 작품(`/library`)이다 — **사람과, 그 사람이 남긴 것.** 허브 하나에 실제 화면 10개, 레거시 리다이렉트 6개로 이뤄진다.
 
 ## 화면 목록
 
 | 경로 | 역할 | 데이터 출처 |
 |---|---|---|
-| `/explore` | 허브. 3개 미리보기 + 네비게이터 (본문 §허브 절과 일치. 26.08.07 실측) | `getCelebs`, `getTopByContentType`, `getPersonaDistribution`, `getFeaturedTags` |
+| `/explore` | 허브. 3개 미리보기 + 네비게이터 (본문 §허브 절과 일치. 26.08.11 실측) | `getCelebs`, `getTopByContentType`, `getSpectrumDistribution`, `getFeaturedTags` |
 | `/explore/figures` | 인물 목록. 파라미터 유무로 두 모드 | `getCelebs` 또는 `getCelebsByProfession` + 4종 집계 |
 | `/explore/ranking` | 분야별 랭킹. 콘텐츠 타입별 Top 10 | `getTopByContentTypeFull`, `getSharedContents` |
-| `/explore/persona` | 스펙트럼. 16축 극단 인물 + 차순위 10명 | `getPersonaExtremes` |
+| `/explore/spectrum` | 스펙트럼. 16축 극단 인물 + 차순위 10명 | `getSpectrumExtremes` |
 | `/explore/today` | 오늘의 인물 | `getTodayFigure` |
 | `/explore/faction` | 세력도감 | `getFeaturedTags` |
 | `/explore/faction/[slug]` | 테마별 고유 주소 세력도감 | `getFeaturedTags` |
@@ -20,7 +20,7 @@
 | `/explore/youtube` | 영상관. 서재 탐방·세력도감 소개 + 재생목록 + 시리즈별 영상 | `getYoutubeCelebs`, `getYoutubeFactionVideos`, `constants/youtube.ts` |
 | `/explore/directory` | 전체 인물 디렉토리 (SEO 인덱스) | `getCelebDirectory` |
 
-레거시 리다이렉트 5개.
+레거시 리다이렉트 6개.
 
 | 경로 | 목적지 | `next.config.ts` 규칙 |
 |---|---|---|
@@ -29,8 +29,9 @@
 | `/explore/celeb-feed` | `/explore/feed` | 있음 |
 | `/explore/top-by-type` | `/explore/ranking` | 있음 |
 | `/explore/celebs` | `/explore/figures` | 있음 |
+| `/explore/persona` | `/explore/spectrum` | 없음. 페이지 리다이렉트만 유지 |
 
-다섯 모두 두 겹이다 — 페이지 리다이렉트(307)와 `next.config.ts`의 설정 리다이렉트(308)가 함께 있다. 설정 쪽은 로케일 접두어가 없는 형태와 `/:locale(ko|en)/...` 형태를 각각 규칙으로 둔다.
+기존 다섯 주소는 두 겹이다 — 페이지 리다이렉트(307)와 `next.config.ts`의 설정 리다이렉트(308)가 함께 있다. 설정 쪽은 로케일 접두어가 없는 형태와 `/:locale(ko|en)/...` 형태를 각각 규칙으로 둔다. `/explore/persona`는 과거 공유 주소 호환을 위한 페이지 리다이렉트만 둔다.
 
 ## 레이아웃·허브
 
@@ -41,7 +42,7 @@
 | # | 섹션 | 컴포넌트 | 더보기 |
 |---|---|---|---|
 | 1 | 랭킹 | `RankingTabs` (인기 프로필 · 챔피언 · 오늘의 추천 탭) | 탭별 (`figures?tier=full` / `ranking` / `figures?tier=full`) |
-| 2 | 성향 분석 | `PersonaDistribution` | `/explore/persona` |
+| 2 | 성향 분석 | `SpectrumDistribution` | `/explore/spectrum` |
 | 3 | 세력도감 | `FactionCard` | `/explore/faction` |
 
 **인기 프로필 탭은 영향력과 다른 축이다**(2026-07-26 신설). 영향력은 인류사 기준의 고정값이라 "지금 무엇이 읽히는가"를 담지 못하고, 누적 조회수로 세워도 앞자리가 영원히 고정된다. 그래서 **최근 30일 조회수**로 매긴다. 실측 차이 — 젠슨 황은 누적 1위·30일 2위, 리처드 파인만은 누적 18회인데 30일 17회로 최근 급등분이다. 데이터 구조·시딩 내역은 `db-celeb.md`의 「인물 조회수」 절.
@@ -68,7 +69,7 @@
 
 `PopularBooks`(쿠팡 제휴)를 임포트하지만 렌더는 주석 처리돼 있다.
 
-`navigation.tsx`의 하위 링크는 9개(figures·ranking·persona·today·faction·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
+`navigation.tsx`의 하위 링크는 9개(figures·ranking·spectrum·today·faction·feed·timeline·youtube·directory)다. `EXPLORE_SECTIONS` + `EXPLORE_STANDALONE` 조합과 항목이 어긋난다 — 하위 링크에는 `today`가 있고 허브 네비게이터에는 없으며, 반대로 `navOthers`(`?tier=light`)는 허브에만 있다.
 
 ## 인물 목록 (`/explore/figures`)
 
@@ -99,11 +100,11 @@
 
 메타·i18n 네임스페이스는 옛 이름 `explore.topByType`을 그대로 쓴다. `revalidate = 3600`.
 
-## 스펙트럼 (`/explore/persona`)
+## 스펙트럼 (`/explore/spectrum`)
 
-`getPersonaExtremes({ runnersUpLimit: 10 })`로 16축 각각의 극단 인물과 차순위 10명을 받아 `PersonaFullSection`에 넘긴다. 사용자 노출 명칭은 "스펙트럼"이며, 라우트·컴포넌트·DB의 `persona` 명칭은 호환성을 위해 유지한다. `revalidate = 3600`.
+`getSpectrumExtremes({ runnersUpLimit: 10 })`로 16축 각각의 극단 인물과 차순위 10명을 받아 `SpectrumFullSection`에 넘긴다. DB의 `celeb_persona` 테이블과 `persona` JSONB 열, RPC `get_persona_extremes`만 레거시 저장소 식별자로 유지한다. `revalidate = 3600`.
 
-허브의 성향 분포(`PersonaDistribution`)는 `getPersonaDistribution()`이라는 다른 액션을 쓴다.
+허브의 성향 분포(`SpectrumDistribution`)는 `getSpectrumDistribution()`이라는 다른 액션을 쓴다.
 
 ## 오늘의 인물 (`/explore/today`)
 
@@ -122,7 +123,7 @@
 **테마·그룹의 운영 규격은 여기서 복제하지 않는다.** 그룹 계층의 단일원천(`celeb_tags.parent_id`), 그룹 헤더가 일반 테마 행으로 존재하는 구조, `getFeaturedTags`가 `parentSlug`를 붙이는 방식은 아래 문서를 본다.
 
 - `docs/project/apps/web-bo.md` 「세력도감」 — 현행 운영·편집 규격
-- `docs/project/remotion/faction-unification.md` §4-3 — 제작·서비스 데이터 단일화 설계
+- `docs/project/remotion/faction/unification.md` §4-3 — 제작·서비스 데이터 단일화 설계
 
 ## 인물 피드 (`/explore/feed`)
 
@@ -160,6 +161,6 @@ YouTube 피드와 DB 병합 결과는 6시간 캐시한다. 피드 조회가 실
 - 서가(오늘의 인물 미리보기): [library.md](library.md)
 - 광장(`/explore/people` 목적지): [agora.md](agora.md)
 - 세력도감 운영·그룹: `docs/project/apps/web-bo.md` 「세력도감」
-- 세력도감 단일화: `docs/project/remotion/faction-unification.md` §4-3
+- 세력도감 단일화: `docs/project/remotion/faction/unification.md` §4-3
 - 셀럽 데이터: `docs/project/data/db-celeb.md`
 - SEO: `docs/project/operations/seo.md`

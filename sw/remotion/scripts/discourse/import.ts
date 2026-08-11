@@ -29,7 +29,7 @@ const USAGE = '사용: pnpm discourse:import -- (--episode <폴더명> | --all) 
 
 /**
  * `.in()` 한 번에 실을 값 개수. 이 저장소는 462개 id 를 단일 in() 에 실어
- * URL 한도를 넘겨 실패한 실측 이력이 있다(docs/project/remotion/faction-unification.md §5). 200 으로 끊는다.
+ * URL 한도를 넘겨 실패한 실측 이력이 있다(docs/project/remotion/faction/unification.md §5). 200 으로 끊는다.
  */
 const IN_CHUNK = 200
 

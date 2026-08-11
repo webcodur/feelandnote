@@ -17,6 +17,7 @@ import sharp from 'sharp'
 import { readFileSync, readdirSync, existsSync } from 'fs'
 import { resolve } from 'path'
 import { randomUUID } from 'crypto'
+import { CACHE_TAGS, domainRevalidationTags } from '@feelandnote/shared/constants/cache-tags'
 
 // ── .env 직접 로드 (--env-file 미사용 환경 대비) ──
 function loadEnv() {
@@ -182,7 +183,7 @@ async function run() {
     try {
       const res = await fetch(`${webUrl}/api/revalidate`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tag: 'celebs', secret }),
+        body: JSON.stringify({ tag: domainRevalidationTags(CACHE_TAGS.CELEBS), secret }),
       })
       console.log(`\n캐시 무효화: ${res.status}`)
     } catch { console.log('\n캐시 무효화 실패 — 자동 갱신 대기') }

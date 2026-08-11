@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebItems } from '@/lib/revalidate-web'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export interface FictionSourceContentSummary {
@@ -300,19 +300,36 @@ export async function saveFictionSource(input: {
   if (celebIds.some((id) => !id)) throw new Error('비어 있는 인물 ID가 포함되어 있습니다')
 
   const admin = createAdminClient()
+  const { data: previous, error: previousError } = await admin
+    .from('fiction_source_characters')
+    .select('celeb_id')
+    .eq('content_id', contentId)
+  if (previousError) throw new Error(`기존 대표 원전 인물 조회 실패: ${previousError.message}`)
+
   const { error } = await admin.rpc('set_fiction_source_characters', {
     p_content_id: contentId,
     p_celeb_ids: celebIds,
   })
   if (error) throw new Error(`대표 원전 저장 실패: ${error.message}`)
 
+  const affectedCelebIds = [...new Set([...(previous ?? []).map((row) => row.celeb_id), ...celebIds])]
+  const { data: celebs, error: celebsError } = affectedCelebIds.length > 0
+    ? await admin.from('celebs').select('id, slug').in('id', affectedCelebIds)
+    : { data: [], error: null }
+  if (celebsError) throw new Error(`대표 원전 인물 slug 조회 실패: ${celebsError.message}`)
+
   revalidatePath('/fiction-sources')
   revalidatePath(`/contents/${contentId}`)
-  await revalidateWebCache([
-    CACHE_TAGS.FICTION_SOURCES,
-    CACHE_TAGS.CELEBS,
-    CACHE_TAGS.CONTENTS,
-  ])
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CONTENTS, id: contentId },
+      ...affectedCelebIds.map((id) => ({ domain: CACHE_TAGS.CELEBS, id })),
+      ...(celebs ?? []).flatMap((celeb) => (
+        celeb.slug ? [{ domain: CACHE_TAGS.CELEBS, id: celeb.slug }] : []
+      )),
+    ],
+    [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  )
 }
 
 export async function removeFictionSource(contentId: string): Promise<void> {
@@ -321,17 +338,34 @@ export async function removeFictionSource(contentId: string): Promise<void> {
   if (!id) throw new Error('대표 콘텐츠 ID가 필요합니다')
 
   const admin = createAdminClient()
+  const { data: previous, error: previousError } = await admin
+    .from('fiction_source_characters')
+    .select('celeb_id')
+    .eq('content_id', id)
+  if (previousError) throw new Error(`기존 대표 원전 인물 조회 실패: ${previousError.message}`)
+
   const { error } = await admin
     .from('fiction_source_contents')
     .delete()
     .eq('content_id', id)
   if (error) throw new Error(`대표 원전 지정 해제 실패: ${error.message}`)
 
+  const affectedCelebIds = [...new Set((previous ?? []).map((row) => row.celeb_id))]
+  const { data: celebs, error: celebsError } = affectedCelebIds.length > 0
+    ? await admin.from('celebs').select('id, slug').in('id', affectedCelebIds)
+    : { data: [], error: null }
+  if (celebsError) throw new Error(`대표 원전 인물 slug 조회 실패: ${celebsError.message}`)
+
   revalidatePath('/fiction-sources')
   revalidatePath(`/contents/${id}`)
-  await revalidateWebCache([
-    CACHE_TAGS.FICTION_SOURCES,
-    CACHE_TAGS.CELEBS,
-    CACHE_TAGS.CONTENTS,
-  ])
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CONTENTS, id },
+      ...affectedCelebIds.map((celebId) => ({ domain: CACHE_TAGS.CELEBS, id: celebId })),
+      ...(celebs ?? []).flatMap((celeb) => (
+        celeb.slug ? [{ domain: CACHE_TAGS.CELEBS, id: celeb.slug }] : []
+      )),
+    ],
+    [CACHE_TAGS.FICTION_SOURCES, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  )
 }

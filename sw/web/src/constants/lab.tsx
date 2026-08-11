@@ -81,11 +81,11 @@ export const LAB_ITEMS: LabItem[] = [
     subtitle: "몰입감을 높이는 배경 연출 라이브러리",
   },
   {
-    value: "persona",
+    value: "spectrum",
     label: "인물카드",
     icon: Users,
-    href: "/lab/persona",
-    title: "Persona Cards",
+    href: "/lab/spectrum",
+    title: "Spectrum Cards",
     subtitle: "인물 정보 카드 및 벡터 시각화",
   },
   {

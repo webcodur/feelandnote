@@ -21,7 +21,5 @@ description: 셀럽 콘텐츠 데이터(출처, review, locale, thumbnail) 검�
 
 1. 대상 셀럽의 `celebs.id`를 조회한다 (`nickname` 또는 `nickname_en`으로 검색)
 2. 룰북의 Phase 1~5를 순서대로 수행한다
-3. MUSIC이 있거나 레거시 후보 이력이 있으면 `pending=0`, 등록 후보의 최종 연결,
-   기각 후보의 사유까지 검사한다
-4. `review_en` 공백을 번역 완료로 간주하지 않는다
-5. 보고 형식에 맞춰 결과를 출력한다
+3. `review_en` 공백을 번역 완료로 간주하지 않는다
+4. 보고 형식에 맞춰 결과를 출력한다

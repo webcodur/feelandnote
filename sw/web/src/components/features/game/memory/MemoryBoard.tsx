@@ -16,11 +16,11 @@ interface Props {
   openIds: string[];
   matchedIds: Set<string>;
   pairResult: MemoryPairResult;
+  resultEffectActive: boolean;
   moves: number;
   elapsedSeconds: number;
   remainingPairs: number;
   progress: number;
-  locked: boolean;
   feedback: string;
   onSelect: (card: MemoryCardData) => void;
   onRestart: () => void;
@@ -33,11 +33,11 @@ export default function MemoryBoard({
   openIds,
   matchedIds,
   pairResult,
+  resultEffectActive,
   moves,
   elapsedSeconds,
   remainingPairs,
   progress,
-  locked,
   feedback,
   onSelect,
   onRestart,
@@ -93,7 +93,7 @@ export default function MemoryBoard({
             isFlipped={openIds.includes(card.instanceId)}
             isMatched={matchedIds.has(card.instanceId)}
             pairResult={openIds.includes(card.instanceId) ? pairResult : null}
-            isLocked={locked}
+            resultEffectActive={resultEffectActive}
             backLabel={t("cardBack")}
             onSelect={onSelect}
           />
@@ -102,7 +102,7 @@ export default function MemoryBoard({
 
       <p
         className={`mt-3 min-h-6 text-center font-serif text-sm font-bold ${
-          pairResult === "mismatch" ? "text-orange-300" : "text-accent"
+          pairResult === "mismatch" ? "text-red-300" : "text-accent"
         }`}
         aria-live="polite"
       >

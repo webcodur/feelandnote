@@ -50,7 +50,7 @@ node .agents/skills/audit-web-i18n/scripts/audit-celeb-data.mjs --slugs=stanley-
 node .agents/skills/audit-web-i18n/scripts/audit-celeb-data.mjs --all --json
 ```
 
-이 스크립트는 읽기 전용이다. 프로필, 읽어보기, 영향력 설명, 페르소나 근거, 대사, 타임라인, 관계, 세력 설명, 감상문의 KO→EN 존재 여부와 JSON 구조를 검사한다. 판정과 수정 규칙은 [data-coverage.md](references/data-coverage.md)를 읽고 따른다.
+이 스크립트는 읽기 전용이다. 프로필, 읽어보기, 영향력 설명, 스펙트럼 근거, 대사, 타임라인, 관계, 세력 설명, 감상문의 KO→EN 존재 여부와 JSON 구조를 검사한다. 판정과 수정 규칙은 [data-coverage.md](references/data-coverage.md)를 읽고 따른다.
 
 ## 4. KO/EN 실화면 검사
 

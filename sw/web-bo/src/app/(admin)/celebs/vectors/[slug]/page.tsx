@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
-import { getPersonaVectors } from '@/actions/admin/persona'
+import { getSpectrumVectors } from '@/actions/admin/spectrum'
 import { getMemberBySlug } from '@/actions/admin/members'
 import CelebSearchBar from '@/components/celeb/CelebSearchBar'
-import PersonaReferencePanel from '../components/PersonaReferencePanel'
+import SpectrumReferencePanel from '../components/SpectrumReferencePanel'
 import VectorDashboard from '../components/VectorChart'
 
 export async function generateMetadata({
@@ -27,7 +27,7 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-export default async function PersonaVectorDetailPage({ params }: PageProps) {
+export default async function SpectrumVectorDetailPage({ params }: PageProps) {
   const { slug } = await params
   const member = await getMemberBySlug(slug)
 
@@ -35,7 +35,7 @@ export default async function PersonaVectorDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  const vectors = await getPersonaVectors()
+  const vectors = await getSpectrumVectors()
   const selectedVectors = vectors.filter((vector) => vector.celeb_id === member.id)
 
   return (
@@ -62,7 +62,7 @@ export default async function PersonaVectorDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <PersonaReferencePanel vectors={vectors} />
+      <SpectrumReferencePanel vectors={vectors} />
 
       {selectedVectors.length > 0 ? (
         <VectorDashboard vectors={selectedVectors} />

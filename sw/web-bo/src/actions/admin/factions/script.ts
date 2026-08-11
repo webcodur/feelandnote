@@ -20,6 +20,12 @@ import { replaceFactionEpisode } from '@/lib/faction-save'
 import { runFactionExport, type FactionExportResult } from '@/lib/faction-export-run'
 import { publishEpisode } from '@/lib/faction-sync/publish'
 
+/** 인물 프로필에 적힌 목소리 — 팩션이 비워 두면 이 값을 따라간다 */
+export interface CelebVoiceEntry {
+  ko?: string
+  en?: string
+}
+
 export interface LoadedFactionScript {
   folder: string
   episodeId: string
@@ -30,6 +36,43 @@ export interface LoadedFactionScript {
   status: string
   registered: boolean
   sortOrder: number
+  /**
+   * 이 편에 나오는 인물들의 프로필 목소리 (celebId → 값).
+   *
+   * 화면이 「프로필을 따라가는 중」과 「이 편에서만 다르게」를 구분해 보여주려면 원본 값을 알아야 한다.
+   * 대본 조립기는 팩션 4테이블만 읽으므로 여기서 따로 실어 보낸다.
+   */
+  celebVoices: Record<string, CelebVoiceEntry>
+}
+
+/** 대본에 등장하는 모든 인물의 프로필 목소리를 모은다 */
+async function loadCelebVoices(
+  db: ReturnType<typeof factionAdminClient>, script: Record<string, unknown>,
+): Promise<Record<string, CelebVoiceEntry>> {
+  type Row = Record<string, unknown>
+  const ids = new Set<string>()
+  for (const g of (script.groups ?? []) as Row[]) {
+    for (const c of (g.clusters ?? []) as Row[]) {
+      for (const p of (c.people ?? []) as Row[]) {
+        if (typeof p.celebId === 'string' && p.celebId) ids.add(p.celebId)
+      }
+    }
+  }
+  if (!ids.size) return {}
+
+  const out: Record<string, CelebVoiceEntry> = {}
+  const list = [...ids]
+  for (let i = 0; i < list.length; i += 200) {
+    const { data, error } = await db
+      .from('celebs').select('id,voice_id_ko,voice_id_en').in('id', list.slice(i, i + 200))
+    if (error) throw new Error(`프로필 목소리 조회 실패: ${error.message}`)
+    for (const r of data ?? []) {
+      const ko = (r.voice_id_ko as string | null)?.trim()
+      const en = (r.voice_id_en as string | null)?.trim()
+      if (ko || en) out[r.id as string] = { ...(ko ? { ko } : {}), ...(en ? { en } : {}) }
+    }
+  }
+  return out
 }
 
 /** 편집기가 열 때 — DB 4계층을 한 왕복(중첩 임베드)으로 받아 대본으로 조립한다 */
@@ -45,7 +88,68 @@ export async function loadFactionScript(folder: string): Promise<LoadedFactionSc
     status: (row.status as string) ?? 'blocked',
     registered: (row.registered as boolean) ?? false,
     sortOrder: (row.sort_order as number) ?? 0,
+    celebVoices: await loadCelebVoices(db, script),
   }
+}
+
+/**
+ * 인물 프로필의 목소리를 바꾼다 — 그 사람이 나오는 **모든 편**에 영향이 간다.
+ *
+ * 팩션 인물 행을 비워 둔 편들은 다음 내보내기부터 이 값을 따라간다. 그래서 화면은 이 함수를
+ * 부르기 전에 반드시 사람의 승인을 받는다(어느 편들이 바뀌는지 보여준 뒤).
+ */
+export async function setCelebVoice(
+  celebId: string,
+  lang: 'ko' | 'en',
+  voiceId: string,
+): Promise<{ ok: true; affectedEpisodes: string[] }> {
+  await requireFactionAdmin()
+  if (!celebId) throw new Error('인물이 지정되지 않았습니다')
+  const db = factionAdminClient()
+
+  const column = lang === 'en' ? 'voice_id_en' : 'voice_id_ko'
+  const value = voiceId.trim() || null
+  const { error } = await db.from('celebs').update({ [column]: value }).eq('id', celebId)
+  if (error) throw new Error(`프로필 목소리 저장 실패: ${error.message}`)
+
+  return { ok: true, affectedEpisodes: await episodesFollowingProfile(db, celebId) }
+}
+
+/**
+ * 승인창이 미리 묻는다 — 이 인물의 프로필 목소리를 바꾸면 어느 편들이 따라 바뀌는가.
+ * 바꾸기 전에 보여줄 목록이라 읽기 전용이다.
+ */
+export async function getEpisodesFollowingProfile(celebId: string): Promise<string[]> {
+  await requireFactionAdmin()
+  if (!celebId) return []
+  return episodesFollowingProfile(factionAdminClient(), celebId)
+}
+
+/**
+ * 이 인물이 프로필을 따라가고 있는 편 목록 — 팩션 인물 행의 목소리 칸이 빈 편들이다.
+ * 서버 안에서만 쓴다(액션 인자로 DB 연결을 넘길 수 없다).
+ */
+async function episodesFollowingProfile(
+  db: ReturnType<typeof factionAdminClient>,
+  celebId: string,
+): Promise<string[]> {
+  const { data, error } = await db
+    .from('faction_people')
+    .select('data, faction_clusters!inner(faction_groups!inner(faction_episodes!inner(folder)))')
+    .eq('celeb_id', celebId)
+  if (error) throw new Error(`출연 편 조회 실패: ${error.message}`)
+
+  const folders = new Set<string>()
+  for (const row of (data ?? []) as Record<string, unknown>[]) {
+    const own = (row.data as Record<string, unknown> | null)?.quoteElevenlabsVoiceId
+    if (typeof own === 'string' && own.trim()) continue   // 그 편에서만 따로 쓰는 중 — 영향 없음
+    const cluster = row.faction_clusters as Record<string, unknown> | undefined
+    const group = cluster?.faction_groups as Record<string, unknown> | undefined
+    const ep = group?.faction_episodes as Record<string, unknown> | undefined
+    const folder = ep?.folder
+    if (typeof folder === 'string') folders.add(folder)
+  }
+  return [...folders].sort()
 }
 
 /**

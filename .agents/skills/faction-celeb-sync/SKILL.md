@@ -13,7 +13,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 2. **사진·영상·음악** — 편집기 헤더의 「출간」 패널로 올린다(진단→dry-run→출간).
 3. **영상 없는 태그의 수동 명단** — 배정 테이블(`celeb_tag_assignments`)을 web-bo `/factions/themes/[tagId]` 테마 편집기에서 관리한다.
 
-수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 운영·편집 SSoT는 `docs/project/apps/web-bo.md` 「세력도감」 절이고, 데이터 단일화 설계는 `docs/project/remotion/faction-unification.md` §4-3·§9가 쥔다. `celeb_tags`·`celeb_tag_assignments`는 별도 태그 기능이 아니라 세력도감 테마의 내부 DB 계약이다.
+수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 운영·편집 SSoT는 `docs/project/apps/web-bo.md` 「세력도감」 절이고, 데이터 단일화 설계는 `docs/project/remotion/faction/unification.md` §4-3·§9가 쥔다. `celeb_tags`·`celeb_tag_assignments`는 별도 태그 기능이 아니라 세력도감 테마의 내부 DB 계약이다.
 
 > **26.07.25 이관** — 출간 배관이 remotion-bo에서 web-bo로 옮겨 오면서 창구가 **API 라우트가 아니라 서버 액션**(`src/actions/admin/factions/publish.ts`의 `diagnoseFactionPublish`·`publishFactionEpisode`)이 됐다. 옛 `api/faction/db-sync/{status,publish}` 2라우트는 삭제됐고 **remotion-bo의 팩션 주소는 404다.** 서버 액션은 `curl`로 찌를 수 없으므로 진단·출간은 화면에서 한다.
 > **26.08.03 단일화** — 출간의 텍스트 복사가 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다.
@@ -109,4 +109,4 @@ curl.exe -X POST "https://feelandnote.com/api/revalidate" -H "Content-Type: appl
 ```
 `CRON_SECRET`은 `sw/web/.env`. (출간 패널은 이걸 자동으로 한다.)
 
-관련: `celeb-avatar-register`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `web-bo.md` 「세력도감」 절(운영·출간 배관), `faction-unification.md`(통합 설계).
+관련: `celeb-avatar-register`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `docs/project/apps/web-bo.md` 「세력도감」 절(운영·출간 배관), `docs/project/remotion/faction/unification.md`(통합 설계).

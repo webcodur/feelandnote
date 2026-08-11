@@ -3,7 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/admin-auth'
 import { revalidatePath } from 'next/cache'
-import { revalidateWebCache } from '@/lib/revalidate-web'
+import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 
 export interface DialogueLines {
@@ -30,17 +30,19 @@ export async function updateSpeechTone(
   await requireAdmin()
   const supabase = createAdminClient()
 
-  const { error } = await supabase
+  const { data: celeb, error } = await supabase
     .from('celebs')
     .update({ speech_tone: tone })
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
   // celebs.speech_tone — 셀럽 컬럼이지만 대사 재생에 쓰이므로 둘 다
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  await revalidateWebCeleb(celebId, celeb.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 // #endregion
 
@@ -52,17 +54,19 @@ export async function updateVoiceSpeed(
   await requireAdmin()
   const supabase = createAdminClient()
 
-  const { error } = await supabase
+  const { data: celeb, error } = await supabase
     .from('celebs')
     .update({ voice_speed: speed } as Record<string, unknown>)
     .eq('id', celebId)
+    .select('slug')
+    .single()
 
   if (error) throw error
 
   revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
   // celebs.voice_speed — 셀럽 컬럼이자 대사 재생 속도
-  await revalidateWebCache([CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
+  await revalidateWebCeleb(celebId, celeb.slug, [CACHE_TAGS.CELEBS, CACHE_TAGS.DIALOGUES])
 }
 // #endregion
 
@@ -92,9 +96,16 @@ export async function saveCelebDialogues(
 
   if (error) throw error
 
+  const { data: celeb, error: celebError } = await supabase
+    .from('celebs')
+    .select('slug')
+    .eq('id', celebId)
+    .single()
+  if (celebError) throw celebError
+
   revalidatePath('/celebs/[slug]', 'page')
   revalidatePath('/celebs/voice-gen', 'layout')
-  // celeb_dialogues만 수정
-  await revalidateWebCache(CACHE_TAGS.DIALOGUES)
+  // 이 인물의 대사·프로필 캐시와 대사 목록만 갱신한다.
+  await revalidateWebCeleb(celebId, celeb.slug, [CACHE_TAGS.DIALOGUES])
 }
 // #endregion

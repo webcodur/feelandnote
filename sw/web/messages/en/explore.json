@@ -100,18 +100,18 @@
       "next": "Next",
       "explore": "Explore",
       "noCountryFigures": "No figures are registered for this country.",
-      "personaQuickView": {
+      "spectrumQuickView": {
         "loading": "Analyzing the spectrum...",
         "analysis": "Spectrum Overview",
         "visitLibrary": "View {name}'s records",
         "exploreJourney": "Explore their cultural journey and tastes"
       },
-      "personaReason": {
+      "spectrumReason": {
         "loading": "Loading evidence...",
         "figureDetail": "View figure",
         "close": "Close"
       },
-      "personaDistribution": {
+      "spectrumDistribution": {
         "axes": {
           "pessimism_optimism": {
             "negative": "Pessimistic",
@@ -152,14 +152,14 @@
       },
       "loading": "Loading...",
       "friend": "Friend",
-      "personaNoData": "No person data to display.",
-      "personaList": "People",
+      "spectrumNoData": "No person data to display.",
+      "spectrumList": "People",
       "professionUnknown": "Unknown",
-      "personaLoading": "Loading info...",
-      "personaTitle": "16-Axis Spectrum",
-      "personaNoPersona": "No spectrum data",
-      "personaNoSelection": "No person available to select.",
-      "personaFigure": "Figure",
+      "spectrumLoading": "Loading info...",
+      "spectrumTitle": "16-Axis Spectrum",
+      "spectrumNoSpectrum": "No spectrum data",
+      "spectrumNoSelection": "No person available to select.",
+      "spectrumFigure": "Figure",
       "auraTitle": {
         "1": "Mortal",
         "2": "Pilgrim",
@@ -188,8 +188,8 @@
       "trendingSub": "The most visited figures over the past month.",
       "ranking": "Profiles",
       "rankingSub": "Discover figures through popularity, activity records, and random picks.",
-      "personaAnalysis": "Disposition Analysis",
-      "personaAnalysisSub": "See where influential figures stand across four dispositions (optimism, progressiveness, community, boldness). You can also search by name.",
+      "spectrumAnalysis": "Disposition Analysis",
+      "spectrumAnalysisSub": "See where influential figures stand across four dispositions (optimism, progressiveness, community, boldness). You can also search by name.",
       "groupDocumented": "Seekers",
       "groupDocumentedDesc": "Figures who left their lines recorded. Their echoes light the way to your next discovery.",
       "groupThinkers": "Thinkers",
@@ -202,15 +202,15 @@
       "factionSub": "Curated collections of figures united by a single theme, transcending eras and fields.",
       "allCelebs": "Random",
       "allCelebsSub": "A fresh random set of figures picked each day. Different faces tomorrow.",
-      "personaExtremes": "Extraordinary Figures",
-      "personaExtremesSub": "Figures with distinct virtues, exceptional abilities, and profound traits. See how their unique characteristics shape their records.",
+      "spectrumExtremes": "Extraordinary Figures",
+      "spectrumExtremesSub": "Figures with distinct virtues, exceptional abilities, and profound traits. See how their unique characteristics shape their records.",
       "viewMore": "View more",
       "viewAll": "View all",
       "viewAllProfiles": "All",
       "quickNav": "Quick Navigation",
       "navCelebs": "Figures",
       "navTopByType": "Category Champions",
-      "navPersona": "Spectrum",
+      "navSpectrum": "Spectrum",
       "navFeed": "Feed",
       "navFaction": "Faction",
       "navDirectory": "Directory",
@@ -290,7 +290,7 @@
       "sharedDesc": "Works enjoyed by 2 or more of the Top {count}.",
       "sharedBy": "Appreciated by"
     },
-    "persona": {
+    "spectrum": {
       "metaTitle": "16-Axis Spectrum | Figures",
       "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition."
     },

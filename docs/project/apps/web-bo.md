@@ -12,7 +12,7 @@ Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원
 | **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도감·가상 담화·서재 탐방 | Supabase + 로컬 Remotion |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
-구 remotion-bo의 이관 이력은 [영상 제작 관리 통합 이력](../remotion/remotion-bo-plan.md),
+구 remotion-bo의 이관 이력은 [영상 제작 관리 통합 이력](../../archive/remotion/remotion-bo-plan.md),
 audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
 
 ## 실행
@@ -57,7 +57,7 @@ pnpm dev:bo
 | `/celebs` | 셀럽 관리 | 셀럽 목록 조회·검색·필터(상태/직군/등급)·정렬·페이지네이션. 하위 도구 허브 | `celebs` |
 | `/celebs/images` | 셀럽 이미지 작업 | 아바타·대표 화보를 크게 비교하고 드롭 교체·원본 열기·클립보드 복사·CPU nobg 대기열 처리를 수행. 바깥 브라우저에서 Alt+클릭한 사진을 빈 자리로 받는 즉시 등록도 여기서 동작한다([`tools/celeb-image-grabber`](../../../tools/celeb-image-grabber/README.md)) | `celebs` (`avatar_url`, `portrait_url`) |
 | `/celebs/new` | 셀럽 등록 | 로그인 계정 없이 신규 셀럽을 직접 등록 | `celebs` |
-| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학 + 페르소나·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
+| `/celebs/[slug]` | (셀럽 닉네임) | 단건 상세·편집. 기본정보·아바타 CPU nobg 대기열·영향력·감상철학 + 스펙트럼·고유대사. 세력도감 편성은 이 화면에서 고치지 않는다 | `celebs`, `celeb_dialogues`, `celeb_influence` |
 | `/celebs/[slug]/contents` | (셀럽 닉네임) | 셀럽에 등록된 콘텐츠 목록·필터·추가·내보내기, 하단에 수집기 | `celeb_contents`, `contents`, `content_locales` |
 | `/celebs/[slug]/contents/collect` | (수집) | 콘텐츠 수집 전용 화면. 구현은 `members/[id]/contents/collect/CollectView`에 있다 | `celeb_contents` |
 | `/celebs/titles` | 셀럽 수식어 편집 | 전체 셀럽 수식어 일괄 편집 | `celebs` |
@@ -66,16 +66,16 @@ pnpm dev:bo
 | `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `celebs` |
 | `/celebs/journeys` | 셀럽 감상 여정 편집 | `consumption_philosophy` 일괄 편집, 50건 단위 | `celebs` |
 | `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `celebs` |
-| `/celebs/content-research` · `/celebs/content-research/[celebId]` | Light 콘텐츠 조사 목록·인물별 장부 | 목록은 실제 콘텐츠 수·활성 여부·조사 상태·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류한다. 장부는 BOOK·VIDEO·GAME·MUSIC 네 유형의 출처와 후보 판정을 기록하고 완료 게이트를 통과한 0건만 `-1`로 확정한다. 감상여정은 읽지 않는다 | `celebs`, `celeb_contents`, `celeb_content_research_*` 4테이블 |
-| `/celebs/vectors` | 페르소나 분석 | 덕목·능력·성향 16개 축 벡터 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
-| `/celebs/vectors/[slug]` | (닉네임) 페르소나 분석 | 단건 페르소나 축 확인 | `celeb_persona` |
+| `/celebs/content-research` | Light 콘텐츠 조사 목록 | 실제 콘텐츠 수·활성 여부·0건 확정 여부·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류하고, 0건 인물의 `-1` 확정·해제만 관리한다 | `celebs`, `celeb_contents` |
+| `/celebs/vectors` | 스펙트럼 분석 | 덕목·능력·성향 16개 축 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |
+| `/celebs/vectors/[slug]` | (닉네임) 스펙트럼 분석 | 단건 스펙트럼 축 확인 | `celeb_persona` |
 | `/celebs/influence` | 영향력 평가 | 6개 영역 + 통시성 영향력 대시보드 | `celeb_influence` |
 | `/celebs/influence/[slug]` | (닉네임) 영향력 평가 | 단건 영향력 축 확인 | `celeb_influence` |
 | `/celebs/voice-gen` | 대사/음성 워크스페이스 | 고유 대사 작성, 말투(`speech_tone`)·속도 설정, ElevenLabs 음성 생성 | `celeb_dialogues`, `celebs` |
 | `/celebs/voice-gen/[slug]` | 대사/음성 워크스페이스 | 위와 동일하되 특정 셀럽 선택 상태로 진입 | `celeb_dialogues`, `celebs` |
 | `/celebs/stats` | 셀럽 통계 | 총수·활성률·직군 수·국적 수 요약, 직군 분포, 팔로워 TOP 10, 콘텐츠 수 TOP 10, 최근 등록 | `celebs`, `celeb_contents`, `celeb_metrics` |
 
-관련 문서: 영향력은 [celeb-4-influence.md](../celeb/celeb-4-influence.md), 페르소나는 [celeb-5-persona.md](../celeb/celeb-5-persona.md), 폐기 예정 감상 여정 참고본은 [celeb-3-cultural-journey.md](../celeb/retire/celeb-3-cultural-journey.md), 대사·말투는 [celeb-speech.md](../celeb/celeb-speech.md), 콘텐츠 수집은 [celeb-2-content-collector.md](../celeb/celeb-2-content-collector.md), 콘텐츠 검증은 [celeb-content-audit.md](../celeb/celeb-content-audit.md), 영문화는 [celeb-i18n.md](../celeb/celeb-i18n.md)를 본다. 세력도감 편성은 아래 「세력도감」 절, 셀럽 스키마는 [db-celeb.md](../data/db-celeb.md)가 단일원천이다.
+관련 문서: 영향력은 [celeb-4-influence.md](../celeb/celeb-4-influence.md), 스펙트럼은 [celeb-5-spectrum.md](../celeb/celeb-5-spectrum.md), 폐기 예정 감상 여정 참고본은 [celeb-3-cultural-journey.md](../celeb/retire/celeb-3-cultural-journey.md), 대사·말투는 [celeb-speech.md](../celeb/celeb-speech.md), 콘텐츠 수집은 [celeb-2-content-collector.md](../celeb/celeb-2-content-collector.md), 콘텐츠 검증은 [celeb-content-audit.md](../celeb/celeb-content-audit.md), 영문화는 [celeb-i18n.md](../celeb/celeb-i18n.md)를 본다. 세력도감 편성은 아래 「세력도감」 절, 셀럽 스키마는 [db-celeb.md](../data/db-celeb.md)가 단일원천이다.
 
 ### 유저
 
@@ -119,7 +119,7 @@ pnpm dev:bo
 
 콘텐츠 관계·표지 운영 규격은
 [서재 탐방 1차 통합](../remotion/book-recommend/unification-phase1.md), 전체 이관 이력은
-[영상 제작 관리 통합 이력](../remotion/remotion-bo-plan.md)을 참조한다.
+[영상 제작 관리 통합 이력](../../archive/remotion/remotion-bo-plan.md)을 참조한다.
 | `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `member_profiles`, `contents` |
 | `/playlists` | 묶음 관리(옛 라우트명) | 플로우 목록, 콘텐츠 유형·공개여부 필터, 노드 수 통계 | `flows`, `flow_nodes`, `member_profiles` |
 
@@ -129,7 +129,7 @@ pnpm dev:bo
 
 > 26.07.25 신설 — 팩션(세력도감) 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 팩션 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [faction.md](../remotion/faction.md), 통합 설계는 [faction-unification.md](../remotion/faction-unification.md) §4-3다.
+영상 시리즈 「세력도감」의 **텍스트·구성 단일 원천은 Supabase 5테이블**(`faction_episodes`·`faction_groups`·`faction_clusters`·`faction_people`·`faction_episode_parts`)이다. 렌더 엔진이 읽는 `sw/remotion/public/factions/<편>/faction-data.json`은 **저장할 때 DB에서 만들어 내는 산출물**이며 직접 편집하지 않는다(첫 키 `_generated` 마커의 checksum이 어긋나면 내보내기가 중단된다). **서비스 웹·BO의 도감 인물 읽기는 DB 뷰 `faction_atlas_members` 직독이다(26.08.03 단일화)** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정(`celeb_tag_assignments`). 시리즈 자체의 SSoT는 [`faction/`](../remotion/faction/README.md), 통합 설계는 [`faction/unification.md`](../remotion/faction/unification.md) §4-3다.
 
 | 라우트 | 화면 | 하는 일 | 주요 테이블 |
 | --- | --- | --- | --- |
@@ -201,7 +201,7 @@ pnpm dev:bo
 
 > 26.07.26 신설 — 가상 담화 영상의 제작 화면이 remotion-bo에서 이곳으로 옮겨 왔다. remotion-bo의 담화 구역은 전량 폐기됐고 그 주소는 404다.
 
-영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 Supabase 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [discourse.md](../remotion/discourse.md), 통합 설계는 [discourse-unification.md](../remotion/discourse-unification.md)다.
+영상 시리즈 「가상 담화」의 **텍스트·구성 단일 원천은 Supabase 3테이블**(`discourse_episodes`·`discourse_speakers`·`discourse_turns`)이다. 렌더 엔진이 읽는 `sw/remotion/public/discourses/<편>/` 의 **세 파일**(`discourse-data.json` 메타 · `cast.json` 인물 · `turns.json` 발언)은 저장할 때 DB에서 만들어 내는 산출물이며 직접 편집하지 않는다. 시리즈 자체의 SSoT는 [`discourse/`](../remotion/discourse/README.md), 통합 설계는 [`discourse/unification.md`](../remotion/discourse/unification.md)다.
 
 ⚠ **손 편집 감시가 세력도감와 다르다.** 마커(`_generated`)는 메타 파일 첫 키에 **하나뿐**인데 checksum은 **세 파일을 합친 전체**로 계산한다. 뒤 두 파일은 최상위가 배열이라 마커를 박을 자리가 없어서다. 덕분에 `cast.json`·`turns.json` 을 손으로 고쳐도 내보내기가 중단되고 어긋난 자리를 짚어 준다.
 

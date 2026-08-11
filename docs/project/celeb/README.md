@@ -4,13 +4,19 @@
 
 ## 생성·검수 파이프라인
 
+| 단계 | 문서 | 책임 |
+|---:|---|---|
+| 전체 | [`celeb-pipeline.md`](celeb-pipeline.md) | 전체 파이프라인과 작업 큐 |
+| 1 | [`celeb-1-basic-profile.md`](celeb-1-basic-profile.md) | 기본 정보 |
+| 2 | [`celeb-2-content-collector.md`](celeb-2-content-collector.md) | 콘텐츠 수집 |
+| 3 | [`retire/celeb-3-cultural-journey.md`](retire/celeb-3-cultural-journey.md) | 폐기된 감상 여정 단계. 번호는 이력 보존을 위해 비워 두지 않음 |
+| 4 | [`celeb-4-influence.md`](celeb-4-influence.md) | 영향력 평가 |
+| 5 | [`celeb-5-spectrum.md`](celeb-5-spectrum.md) | 스펙트럼 |
+
+말투·번역·콘텐츠 감사는 번호 파이프라인을 가로지르는 별도 트랙이다.
+
 | 문서 | 책임 |
 |---|---|
-| [`celeb-pipeline.md`](celeb-pipeline.md) | 전체 파이프라인과 작업 큐 |
-| [`celeb-1-basic-profile.md`](celeb-1-basic-profile.md) | 기본 정보 |
-| [`celeb-2-content-collector.md`](celeb-2-content-collector.md) | 콘텐츠 수집 |
-| [`celeb-4-influence.md`](celeb-4-influence.md) | 영향력 평가 |
-| [`celeb-5-persona.md`](celeb-5-persona.md) | 페르소나 |
 | [`celeb-speech.md`](celeb-speech.md) | 말투·명언·대사 트랙 |
 | [`celeb-i18n.md`](celeb-i18n.md) | 영문 데이터 |
 | [`celeb-content-audit.md`](celeb-content-audit.md) | 콘텐츠 출처·locale·thumbnail 감사 |
@@ -27,10 +33,10 @@
 | [`hero-photo-status.md`](hero-photo-status.md) | 대표 화보 현황과 남은 작업 |
 | [`person-reading.md`](person-reading.md) | 인물 안내·인물 탐구 작성과 게시 규칙 |
 
-## 감사·회차 자료
+## 감사·보존·진행 자료
 
 | 문서 | 성격 |
 |---|---|
 | [`fiction-faction-link-audit-2026-07-29.md`](fiction-faction-link-audit-2026-07-29.md) | fiction 프로필·팩션·대표 원전 연결 감사 |
-| [`voice-generation-wave2.md`](voice-generation-wave2.md) | 보이스 생성 회차 스냅샷 |
 | [`retire/`](retire/README.md) | 비활성인 감상 여정·가상 독백 보존 규칙. 신규 작업 기준으로 사용하지 않음 |
+| [`docs/todo/celeb/`](../../todo/celeb/README.md) | 보이스 생성·아바타·읽어보기 등 아직 남은 인물 작업 |

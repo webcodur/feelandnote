@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE, LIST_REVALIDATE, throwOnQueryError } from '@/lib/cache'
+import { STATIC_REVALIDATE, LIST_REVALIDATE } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -19,7 +19,7 @@ export type CelebSortBy = 'daily_recommend' | 'composite' | 'follower' | 'birth_
 const TRENDING_DAYS = 30
 
 // ── 영향력 랭킹 공유 캐시 ────────────────────────────────────────────────
-// 같은 요청 안에서 getCelebs(6회 이상 호출)와 getPersonaDistribution이
+// 같은 요청 안에서 getCelebs(6회 이상 호출)와 getSpectrumDistribution이
 // selectAllPages(celeb_influence)를 각자 하지 않고 이 캐시 하나만 거치게 한다.
 // 1시간 수명: 목록이 갱신될 때 순위가 바뀌어야 하므로 7일이 아니라 한 시간으로 둔다.
 
@@ -48,7 +48,7 @@ async function fetchInfluenceRanking(): Promise<InfluenceRanking> {
   return { rankingMap, scoreMap, influenceTotal: rows.length }
 }
 
-// getPersonaDistribution도 이 캐시를 공유한다. export.
+// getSpectrumDistribution도 이 캐시를 공유한다. export.
 export const getInfluenceRanking = unstable_cache(
   fetchInfluenceRanking,
   ['influence-ranking'],
@@ -142,7 +142,7 @@ interface PublicCelebData {
   quoteMap: Record<string, string>
   quoteEnMap: Record<string, string>
   voiceMap: Record<string, { voice_v: number; voice_speed: number }>
-  contentResearchStatusMap: Record<string, string>
+  contentResearchConfirmedEmptyMap: Record<string, string | null>
   rankingMap: Record<string, number>
   influenceTotal: number
 }
@@ -191,11 +191,11 @@ async function fetchCelebsPublic(
   const celebIds = rows.map(row => row.id)
 
   if (celebIds.length === 0) {
-    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchStatusMap: {}, rankingMap: {}, influenceTotal: 0 }
+    return { rows: [], total, totalPages, tagMap: {}, tagSortOrderMap: {}, greetingMap: {}, greetingEnMap: {}, quoteMap: {}, quoteEnMap: {}, voiceMap: {}, contentResearchConfirmedEmptyMap: {}, rankingMap: {}, influenceTotal: 0 }
   }
 
-  // 병렬 조회: 태그, 대사, 음성, 콘텐츠 조사 상태 + 영향력 랭킹(공유 캐시)
-  const [tagJoinRows, dialogueResult, voiceResult, researchStatusResult, influenceRanking] = await Promise.all([
+  // 병렬 조회: 태그, 대사, 음성, 0건 확정 시각 + 영향력 랭킹(공유 캐시)
+  const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult, influenceRanking] = await Promise.all([
     // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
       const { data: memberRows } = await supabase
@@ -268,13 +268,9 @@ async function fetchCelebsPublic(
     voiceMap[row.id] = { voice_v: row.voice_v ?? 0, voice_speed: row.voice_speed ?? 1.0 }
   })
 
-  const contentResearchStatusMap: Record<string, string> = {}
-  // 조회 실패를 빈 상태 맵으로 캐시하면 7일 동안 조사 완료 여부가 사라진다.
-  throwOnQueryError('공개 인물 목록 조사 상태', researchStatusResult.error)
-  ;(researchStatusResult.data ?? []).forEach(row => {
-    contentResearchStatusMap[row.id] = row.content_research_confirmed_empty_at
-      ? 'confirmed_empty'
-      : 'open'
+  const contentResearchConfirmedEmptyMap: Record<string, string | null> = {}
+  ;(researchMarkerResult.data ?? []).forEach(row => {
+    contentResearchConfirmedEmptyMap[row.id] = row.content_research_confirmed_empty_at
   })
 
   // 영향력 랭킹 — 공유 캐시에서 가져온다
@@ -283,7 +279,7 @@ async function fetchCelebsPublic(
   return {
     rows, total, totalPages, tagMap, tagSortOrderMap,
     greetingMap, greetingEnMap, quoteMap, quoteEnMap,
-    voiceMap, contentResearchStatusMap,
+    voiceMap, contentResearchConfirmedEmptyMap,
     rankingMap, influenceTotal,
   }
 }
@@ -291,7 +287,7 @@ async function fetchCelebsPublic(
 // unstable_cache 래퍼: 인자를 직렬화 가능한 primitive로 전달
 const getCelebsCached = unstable_cache(
   fetchCelebsPublic,
-  ['celebs-public-v2-confirmed-empty-at'],
+  ['celebs-public'],
   // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
@@ -366,7 +362,7 @@ export async function getCelebs(
       follower_count: row.follower_count,
       content_count: resolveCelebContentCount(
         row.content_count,
-        pub.contentResearchStatusMap[row.id]
+        pub.contentResearchConfirmedEmptyMap[row.id]
       ),
       is_following: myFollowings.has(row.id),
       // 셀럽→회원 역방향 팔로우는 새 관계 모델에 없다.

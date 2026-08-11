@@ -1,10 +1,10 @@
 // 천도 — 유틸리티 함수
 
 import type { GameCharacter, Stats, Grade, TerritoryId, RegionId, Faction, GameState, TerritoryDef } from './types'
-import type { PersonaStats } from '@/lib/persona/types'
+import type { SpectrumStats } from '@/lib/spectrum/types'
 import { PROFESSION_TO_CLASS, GRADE_THRESHOLDS, NATIONALITY_TO_REGION, NATIONALITY_TO_TERRITORY, GRADE_TROOPS, TERRITORIES } from './constants'
 
-// ── DB → GameCharacter 변환 (16페르소나 매핑) ──
+// ── DB → GameCharacter 변환 (16스펙트럼 매핑) ──
 
 interface DbProfile {
   id: string
@@ -30,13 +30,13 @@ interface DbInfluence {
   total_score?: number | null
 }
 
-export function dbToCharacter(profile: DbProfile, influence: DbInfluence, persona?: PersonaStats): GameCharacter {
+export function dbToCharacter(profile: DbProfile, influence: DbInfluence, spectrum?: SpectrumStats): GameCharacter {
   const totalScore = influence.total_score ?? 0
 
-  // 페르소나 16값 → Stats 직접 매핑
+  // 스펙트럼 16값 → Stats 직접 매핑
   let stats: Stats
-  if (persona) {
-    stats = { ...persona }
+  if (spectrum) {
+    stats = { ...spectrum }
   } else {
     // influence 기반 폴백: 0~10 → 0~100 스케일
     const strategic = influence.strategic ?? 0
@@ -57,7 +57,7 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
     }
   }
 
-  const gradeScore = calcPersonaGrade(stats.command, stats.martial, stats.intellect, stats.charm)
+  const gradeScore = calcSpectrumGrade(stats.command, stats.martial, stats.intellect, stats.charm)
   const grade = calcGrade(gradeScore)
 
   const effectiveGrade = grade
@@ -82,8 +82,8 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
     hp,
     maxHp: hp,
     grade,
-    personaGrade: persona != null ? grade : undefined,
-    personaGradeScore: persona != null ? gradeScore : undefined,
+    spectrumGrade: spectrum != null ? grade : undefined,
+    spectrumGradeScore: spectrum != null ? gradeScore : undefined,
     unitClass: (profile.profession ? PROFESSION_TO_CLASS[profile.profession] : undefined) ?? 'ranger',
     totalScore,
     troops: maxTroops,
@@ -94,21 +94,21 @@ export function dbToCharacter(profile: DbProfile, influence: DbInfluence, person
   }
 }
 
-// ── 페르소나 기반 등급 계산 ──
+// ── 스펙트럼 기반 등급 계산 ──
 
-function calcPersonaGrade(command: number, martial: number, intellect: number, charm: number): number {
+function calcSpectrumGrade(command: number, martial: number, intellect: number, charm: number): number {
   const sorted = [command, martial, intellect, charm].sort((a, b) => b - a)
   return sorted[0] * 0.4 + sorted[1] * 0.3 + sorted[2] * 0.2 + sorted[3] * 0.1
 }
 
-/** personaGrade 우선, 없으면 기존 grade 폴백 */
+/** spectrumGrade 우선, 없으면 기존 grade 폴백 */
 export function getEffectiveGrade(c: GameCharacter): Grade {
-  return c.personaGrade ?? c.grade
+  return c.spectrumGrade ?? c.grade
 }
 
-/** personaGrade 점수 (숫자) 반환. persona 없으면 totalScore 폴백 */
+/** spectrumGrade 점수 (숫자) 반환. spectrum 없으면 totalScore 폴백 */
 export function getEffectiveGradeScore(c: GameCharacter): number {
-  return c.personaGradeScore ?? c.totalScore
+  return c.spectrumGradeScore ?? c.totalScore
 }
 
 // ── 등급 계산 ──

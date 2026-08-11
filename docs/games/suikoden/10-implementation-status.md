@@ -48,7 +48,7 @@
 | **scenarios.ts** | 시나리오 5종·고정 인물 검사 | `SCENARIOS`, `SUIKODEN_CHARACTER_IDS`, `getMissingScenarioCharacterIds()` |
 | **assetManager.ts** | 초상 경로·폴백 | `getPortraitUrl()`, `getCharacterFallback()`, `preloadAssets()` |
 
-> `calcTacticDamage()`, `calcPersonaGrade()`는 **export되지 않는다.** `calcPersonaGrade`는 `utils.ts` 내부 함수이고, 전술 대미지 계산 함수는 전투 개편으로 사라졌다.
+> `calcTacticDamage()`, `calcSpectrumGrade()`는 **export되지 않는다.** `calcSpectrumGrade`는 `utils.ts` 내부 함수이고, 전술 대미지 계산 함수는 전투 개편으로 사라졌다.
 
 ### UI 컴포넌트 (`sw/web/src/components/features/game/suikoden/`)
 

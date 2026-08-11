@@ -21,8 +21,8 @@ export const CACHE_TAGS = {
   CONTENTS: 'contents',
   /** 셀럽 고유 대사 */
   DIALOGUES: 'dialogues',
-  /** 페르소나 벡터·성향 분포 */
-  PERSONA: 'persona',
+  /** 스펙트럼 벡터·성향 분포 */
+  SPECTRUM: 'spectrum',
   /** 세력도감(faction) 태그 편성 */
   TAGS: 'tags',
   /** 픽션 인물 ↔ 대표 원전 콘텐츠 연결 */
@@ -33,8 +33,22 @@ export const CACHE_TAGS = {
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS]
 
+/** 상세 캐시 전량을 명시적으로 가리키는 예약 식별자. 도메인 태그는 목록 전용이다. */
+export const BULK_CACHE_ID = '__all__'
+
 /** /api/revalidate가 허용하는 도메인 태그 목록 */
 export const ALL_CACHE_TAGS: CacheTag[] = Object.values(CACHE_TAGS)
+
+/**
+ * 배포 전환기 외부 호출의 폐기 전 태그를 정식 태그로 바꾼다.
+ * 새 코드가 legacy 명칭을 생성하지 않도록 revalidate API 입력 경계에서만 호출한다.
+ */
+export function normalizeLegacyCacheTag(tag: unknown): unknown {
+  if (typeof tag !== 'string') return tag
+  if (tag === 'persona') return CACHE_TAGS.SPECTRUM
+  if (tag.startsWith('persona:')) return `${CACHE_TAGS.SPECTRUM}:${tag.slice('persona:'.length)}`
+  return tag
+}
 
 /* ────────────────────────────────────────────────────────────────
    항목 태그 — 「도메인:식별자」
@@ -44,9 +58,9 @@ export const ALL_CACHE_TAGS: CacheTag[] = Object.values(CACHE_TAGS)
    (26.08.08 실측) 그 뒤로 방문·크롤링마다 재생성이 쌓여 ISR 쓰기가 무료 한도의
    5.5배까지 올라갔다.
 
-   그래서 상세 조회에는 항목 태그를 함께 단다. 한 건을 고치면 그 한 건만 비운다.
-   도메인 태그도 같이 다는 이유는, 대량 작업에서 수백 번 호출하는 대신 도메인
-   한 번으로 쓸어내는 길을 남겨 두기 위함이다.
+   그래서 상세 조회에는 항목 태그와 별도 `도메인:__all__` 태그를 단다. 한 건을 고치면
+   그 한 건만, 명시적 대량 작업이면 `__all__`만 비운다. bare 도메인 태그는 목록 전용이다.
+   목록 구성이 바뀌었다고 기존 상세 수만 건까지 함께 재생성되는 일을 막기 위한 분리다.
    ──────────────────────────────────────────────────────────────── */
 
 /** 구분자. 식별자(UUID·slug)에 나오지 않는 문자를 쓴다. */
@@ -56,6 +70,60 @@ const ITEM_TAG_SEPARATOR = ':'
 export function itemTag(domain: CacheTag, id: string | null | undefined): string {
   const trimmed = (id ?? '').trim()
   return trimmed ? `${domain}${ITEM_TAG_SEPARATOR}${trimmed}` : domain
+}
+
+/** 한 도메인의 상세 캐시 전량에만 붙는 태그. 목록 태그와 분리해 신규 등록이 상세 전량을 비우지 않게 한다. */
+export function bulkTag(domain: CacheTag): string {
+  return itemTag(domain, BULK_CACHE_ID)
+}
+
+/**
+ * 상세 조회 하나가 실제로 의존하는 항목·전량 태그를 만든다.
+ * 관련 도메인이 같은 식별자를 공유하면 그 도메인의 단일 항목 수정에도 함께 갱신된다.
+ */
+export function detailCacheTags(
+  domain: CacheTag,
+  id: string | null | undefined,
+  relatedDomains: readonly CacheTag[] = [],
+): string[] {
+  const trimmed = (id ?? '').trim()
+  if (!trimmed) throw new Error(`Cache item identifier is required for ${domain}`)
+
+  const domains = [...new Set([domain, ...relatedDomains])]
+  return [
+    ...domains.map((value) => itemTag(value, trimmed)),
+    ...domains.map(bulkTag),
+  ]
+}
+
+/** 정말 전량이 바뀐 작업에서 목록 태그와 상세 전량 태그를 함께 만든다. */
+export function domainRevalidationTags(domains: CacheTag | readonly CacheTag[]): string[] {
+  const values = Array.isArray(domains) ? domains : [domains]
+  return [...new Set(values.flatMap((domain) => [domain, bulkTag(domain)]))]
+}
+
+export interface CacheItemTarget {
+  domain: CacheTag
+  id: string | null | undefined
+}
+
+/**
+ * 특정 항목과, 구성 변경이 필요한 목록만 가리킨다.
+ *
+ * 식별자가 비었다고 도메인 전량 퍼지로 물러나면 호출부 실수 하나가 수만 상세를 비우므로
+ * 실패시켜 원래 저장 작업에서 바로 드러낸다.
+ */
+export function itemRevalidationTags(
+  targets: readonly CacheItemTarget[],
+  listDomains: readonly CacheTag[] = [],
+): string[] {
+  const itemTags = targets.map(({ domain, id }) => {
+    const trimmed = (id ?? '').trim()
+    if (!trimmed) throw new Error(`Cache item identifier is required for ${domain}`)
+    return itemTag(domain, trimmed)
+  })
+
+  return [...new Set([...itemTags, ...listDomains])]
 }
 
 /**

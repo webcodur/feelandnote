@@ -18,7 +18,7 @@
  *                   "consumption_philosophy": "...", "consumption_philosophy_en": "..." },
  *     "influence": { "political": 7, "political_exp": "...", "political_exp_en": "...", ... ,
  *                    "transhistoricity": 5, "transhistoricity_exp": "...", "transhistoricity_exp_en": "..." },
- *     "persona": { "abilities": { "command": { "score": 70, "reason_ko": "...", "reason_en": "..." }, ... },
+ *     "spectrum": { "abilities": { "command": { "score": 70, "reason_ko": "...", "reason_en": "..." }, ... },
  *                  "inner_virtues": {...}, "outer_virtues": {...}, "dispositions": {...} },
  *     "dialogues": { "lines": { "quote": "...", "greeting": ["a","b","c"], ... },
  *                    "lines_en": { "quote": "...", "greeting": ["a","b","c"], ... } }
@@ -29,7 +29,7 @@
  *  - 기존값이 있는 필드·슬롯은 절대 덮어쓰지 않는다(도구가 걸러낸다).
  *  - `celebs`의 기존 인물만 대상이며 신규 인물 생성 경로는 없다.
  *  - `celeb_influence`·`celeb_persona`·`celeb_dialogues` 행이 없으면 생성한다.
- *  - `celeb_persona`는 `persona` jsonb만 쓴다(평면 점수 컬럼은 DB 트리거가 동기화).
+ *  - `celeb_persona`는 물리 `persona` jsonb만 쓴다(평면 점수 컬럼은 DB 트리거가 동기화).
  *  - 반영 후 DB를 다시 읽어 왕복 검증한다. 불일치는 FAILED.
  */
 
@@ -57,7 +57,7 @@ const PROFILE_FIELDS = [
 const BOOL_PROFILE_FIELDS = ['gender'] as const
 
 const AXES = ['political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity'] as const
-const PERSONA_GROUPS = {
+const SPECTRUM_GROUPS = {
   abilities: ['command', 'martial', 'intellect', 'charm'],
   inner_virtues: ['temperance', 'diligence', 'reflection', 'courage'],
   outer_virtues: ['loyalty', 'benevolence', 'fairness', 'humility'],
@@ -96,7 +96,7 @@ function argOf(name: string, dflt?: string): string | undefined {
 type Ctx = {
   profile: Record<string, any>
   influence: Record<string, any> | null
-  persona: Record<string, any> | null
+  spectrum: Record<string, any> | null
   dialogue: Record<string, any> | null
 }
 
@@ -107,10 +107,10 @@ async function loadCtx(slug: string): Promise<Ctx> {
   if (!profile) throw new Error(`${slug} — CELEB 프로필 없음`)
   const [inf, per, dia] = await Promise.all([
     db.from('celeb_influence').select('*').eq('celeb_id', profile.id).maybeSingle(),
-    db.from('celeb_persona').select('*').eq('celeb_id', profile.id).maybeSingle(),
+    db.from('celeb_persona').select('id,celeb_id,spectrum:persona').eq('celeb_id', profile.id).maybeSingle(),
     db.from('celeb_dialogues').select('*').eq('celeb_id', profile.id).maybeSingle(),
   ])
-  return { profile, influence: inf.data ?? null, persona: per.data ?? null, dialogue: dia.data ?? null }
+  return { profile, influence: inf.data ?? null, spectrum: per.data ?? null, dialogue: dia.data ?? null }
 }
 
 async function dump() {
@@ -133,8 +133,8 @@ async function dump() {
             [`${a}_exp_en`, c.influence![`${a}_exp_en`] ?? null],
           ]))
         : null,
-      personaExists: Boolean(c.persona),
-      personaGroups: c.persona?.persona ? Object.keys(c.persona.persona) : [],
+      spectrumExists: Boolean(c.spectrum),
+      spectrumGroups: c.spectrum?.spectrum ? Object.keys(c.spectrum.spectrum) : [],
       dialogueExists: Boolean(c.dialogue),
       dialogueBlanks: {
         quote: blank(lines.quote), quote_en: blank(linesEn.quote),
@@ -150,6 +150,8 @@ type Patch = {
   slug: string
   celeb?: Record<string, string | boolean | null>
   influence?: Record<string, string | number>
+  spectrum?: Record<string, Record<string, { score: number; reason_ko: string; reason_en: string }> | string>
+  /** @deprecated 입력 호환 전용. 내부에서는 즉시 spectrum으로 정규화한다. */
   persona?: Record<string, Record<string, { score: number; reason_ko: string; reason_en: string }> | string>
   dialogues?: { lines?: Record<string, any>; lines_en?: Record<string, any> }
 }
@@ -175,7 +177,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
   const log: string[] = []
 
   /**
-   * 작성자가 영향력·페르소나 필드를 `celeb` 아래에 잘못 넣는 일이 잦다.
+   * 작성자가 영향력·스펙트럼 필드를 `celeb` 아래에 잘못 넣는 일이 잦다.
    * 필드 이름이 서로 겹치지 않으므로 제 위치로 옮겨준다(작업물 유실 방지).
    */
   const isInfluenceKey = (k: string) =>
@@ -263,36 +265,37 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
         }
       }
 
-      // ── persona: 행/그룹/키 단위로 빈칸만
-      const curPersona = (c.persona?.persona ?? {}) as Record<string, any>
-      const nextPersona: Record<string, any> = JSON.parse(JSON.stringify(curPersona))
-      let personaTouched = false
-      for (const [group, entries] of Object.entries(patch.persona ?? {})) {
+      // ── spectrum: 행/그룹/키 단위로 빈칸만
+      const curSpectrum = (c.spectrum?.spectrum ?? {}) as Record<string, any>
+      const nextSpectrum: Record<string, any> = JSON.parse(JSON.stringify(curSpectrum))
+      let spectrumTouched = false
+      const spectrumPatch = patch.spectrum ?? patch.persona ?? {}
+      for (const [group, entries] of Object.entries(spectrumPatch)) {
         // 종합 해설은 그룹이 아니라 최상위 문자열 필드다
         if (group === 'rationale_ko' || group === 'rationale_en') {
           const v = entries as unknown
           if (blank(v)) { preserved.push(`per.${group}(신규값 공란)`); continue }
-          if (!blank(curPersona[group])) { preserved.push(`per.${group}(기존값 보존)`); continue }
-          nextPersona[group] = String(v)
-          personaTouched = true
+          if (!blank(curSpectrum[group])) { preserved.push(`per.${group}(기존값 보존)`); continue }
+          nextSpectrum[group] = String(v)
+          spectrumTouched = true
           continue
         }
-        const allowed = (PERSONA_GROUPS as Record<string, readonly string[]>)[group]
-        if (!allowed) throw new Error(`허용되지 않은 persona 그룹 ${group}`)
+        const allowed = (SPECTRUM_GROUPS as Record<string, readonly string[]>)[group]
+        if (!allowed) throw new Error(`허용되지 않은 spectrum 그룹 ${group}`)
         for (const [k, val] of Object.entries(entries)) {
-          if (!allowed.includes(k)) throw new Error(`persona ${group} 에 ${k} 는 없다`)
-          if (!nil(curPersona[group]?.[k]?.score)) { preserved.push(`per.${group}.${k}(기존값 보존)`); continue }
+          if (!allowed.includes(k)) throw new Error(`spectrum ${group} 에 ${k} 는 없다`)
+          if (!nil(curSpectrum[group]?.[k]?.score)) { preserved.push(`per.${group}.${k}(기존값 보존)`); continue }
           if (nil(val?.score) || blank(val?.reason_ko) || blank(val?.reason_en)) {
             preserved.push(`per.${group}.${k}(score·reason_ko·reason_en 중 결손)`); continue
           }
           const n = Number(val.score)
           const range = group === 'dispositions' ? [-50, 50] : [0, 100]
           if (!Number.isInteger(n) || n < range[0] || n > range[1]) {
-            throw new Error(`persona ${group}.${k} score 범위 ${range.join('~')}: ${val.score}`)
+            throw new Error(`spectrum ${group}.${k} score 범위 ${range.join('~')}: ${val.score}`)
           }
-          nextPersona[group] ??= {}
-          nextPersona[group][k] = { score: n, reason_ko: String(val.reason_ko), reason_en: String(val.reason_en) }
-          personaTouched = true
+          nextSpectrum[group] ??= {}
+          nextSpectrum[group][k] = { score: n, reason_ko: String(val.reason_ko), reason_en: String(val.reason_en) }
+          spectrumTouched = true
         }
       }
 
@@ -327,7 +330,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
 
       if (Object.keys(profPayload).length) changes.push(`celebs(${Object.keys(profPayload).join(',')})`)
       if (Object.keys(infPayload).length) changes.push(`influence(${Object.keys(infPayload).join(',')})`)
-      if (personaTouched) changes.push('persona')
+      if (spectrumTouched) changes.push('spectrum')
       if (diaTouched) changes.push('dialogues')
 
       if (changes.length === 0) {
@@ -357,12 +360,12 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
           if (error) throw new Error(`celeb_influence INSERT: ${error.message}`)
         }
       }
-      if (personaTouched) {
-        if (c.persona) {
-          const { error } = await db.from('celeb_persona').update({ persona: nextPersona }).eq('celeb_id', c.profile.id)
+      if (spectrumTouched) {
+        if (c.spectrum) {
+          const { error } = await db.from('celeb_persona').update({ persona: nextSpectrum }).eq('celeb_id', c.profile.id)
           if (error) throw new Error(`celeb_persona UPDATE: ${error.message}`)
         } else {
-          const { error } = await db.from('celeb_persona').insert({ celeb_id: c.profile.id, persona: nextPersona })
+          const { error } = await db.from('celeb_persona').insert({ celeb_id: c.profile.id, persona: nextSpectrum })
           if (error) throw new Error(`celeb_persona INSERT: ${error.message}`)
         }
       }
@@ -393,16 +396,16 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       for (const [k, v] of Object.entries(infPayload)) {
         if (String(after.influence?.[k] ?? '') !== String(v)) bad.push(`influence.${k}`)
       }
-      if (personaTouched) {
-        for (const [g, entries] of Object.entries(nextPersona)) {
+      if (spectrumTouched) {
+        for (const [g, entries] of Object.entries(nextSpectrum)) {
           if (typeof entries === 'string') {
-            if (String(after.persona?.persona?.[g] ?? '') !== entries) bad.push(`persona.${g}`)
+            if (String(after.spectrum?.spectrum?.[g] ?? '') !== entries) bad.push(`spectrum.${g}`)
             continue
           }
           for (const [k, val] of Object.entries(entries as Record<string, any>)) {
-            const got = after.persona?.persona?.[g]?.[k]
+            const got = after.spectrum?.spectrum?.[g]?.[k]
             if (!got || Number(got.score) !== Number(val.score) || got.reason_ko !== val.reason_ko) {
-              bad.push(`persona.${g}.${k}`)
+              bad.push(`spectrum.${g}.${k}`)
             }
           }
         }

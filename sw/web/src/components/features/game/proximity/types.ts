@@ -5,7 +5,7 @@
  * 오늘의 인물이 숨어 있고, 추측할 때마다 정답과의 거리를 알려준다.
  */
 
-import type { PersonaStats } from '@/lib/persona/types';
+import type { SpectrumStats } from '@/lib/spectrum/types';
 
 /** 자동완성용 후보 인물 (가볍게) */
 export interface ProximityCeleb {
@@ -19,9 +19,9 @@ export interface ProximityCeleb {
   avatar_url: string | null;
 }
 
-/** 거리 계산에 쓰이는 전체 벡터 (persona 16축 포함) */
+/** 거리 계산에 쓰이는 전체 벡터 (spectrum 16축 포함) */
 export interface ProximityCelebFull extends ProximityCeleb {
-  stats: PersonaStats;
+  stats: SpectrumStats;
 }
 
 /** 추측 결과: 방금 추측한 인물과 정답 사이의 거리 힌트 */
@@ -44,7 +44,7 @@ export interface ProximityAxisHint {
   detail?: string;
 }
 
-export type ProximityAxis = 'era' | 'region' | 'profession' | 'persona';
+export type ProximityAxis = 'era' | 'region' | 'profession' | 'spectrum';
 
 /** 게임 상태 */
 export type ProximityPhase = 'lobby' | 'playing' | 'result';

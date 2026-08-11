@@ -8,6 +8,8 @@ import { createMemoryBoard } from "./engine";
 import MemoryBoard from "./MemoryBoard";
 import MemoryLobby from "./MemoryLobby";
 import MemoryResult from "./MemoryResult";
+import { getMemorySelectionGate } from "./selection";
+import { MEMORY_RESULT_TIMING } from "./audioPlan";
 import { MEMORY_SFX, useMemoryAudio } from "./useMemoryAudio";
 import {
   MEMORY_DIFFICULTIES,
@@ -32,7 +34,7 @@ export default function MemoryGame({
 }: Props) {
   const t = useTranslations("rest.arena.memory");
   const tGame = useTranslations("shared.game");
-  const { playSfx, playMismatchSfx } = useMemoryAudio();
+  const { playSfx, playFlipSfx, playResultSfx } = useMemoryAudio();
   const [phase, setPhase] = useState<GamePhase>("lobby");
   const [difficulty, setDifficulty] = useState<MemoryDifficulty>("easy");
   const [board, setBoard] = useState<MemoryCardData[]>([]);
@@ -42,6 +44,7 @@ export default function MemoryGame({
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [locked, setLocked] = useState(false);
   const [pairResult, setPairResult] = useState<MemoryPairResult>(null);
+  const [resultEffectActive, setResultEffectActive] = useState(false);
   const [feedback, setFeedback] = useState("");
   const timeoutIds = useRef<number[]>([]);
 
@@ -74,6 +77,7 @@ export default function MemoryGame({
     setElapsedSeconds(0);
     setLocked(false);
     setPairResult(null);
+    setResultEffectActive(false);
     setFeedback("");
     setPhase("playing");
     playSfx(MEMORY_SFX.start);
@@ -92,6 +96,7 @@ export default function MemoryGame({
     setMatchedIds(nextMatched);
     setOpenIds([]);
     setPairResult(null);
+    setResultEffectActive(false);
     setLocked(false);
     if (nextMatched.size === board.length) {
       setPhase("result");
@@ -104,19 +109,34 @@ export default function MemoryGame({
     clearTimeouts();
     setOpenIds([]);
     setPairResult(null);
+    setResultEffectActive(false);
     setFeedback("");
     setLocked(false);
   }, [clearTimeouts]);
 
   const handleSelect = useCallback((card: MemoryCardData) => {
+    const selectionGate = getMemorySelectionGate({
+      pairResult,
+      isOpen: openIds.includes(card.instanceId),
+      locked,
+      isMatched: matchedIds.has(card.instanceId),
+    });
+
     // 결과가 뜬 카드를 다시 누르면 대기 시간을 건너뛰고 즉시 마무리한다
-    if (pairResult !== null && openIds.includes(card.instanceId)) {
+    if (selectionGate === "finish-result") {
       if (pairResult === "match") finishMatch(openIds);
       else finishMismatch();
       return;
     }
 
-    if (locked || matchedIds.has(card.instanceId)) return;
+    if (selectionGate === "advance-match") {
+      finishMatch(openIds);
+      setOpenIds([card.instanceId]);
+      playFlipSfx();
+      return;
+    }
+
+    if (selectionGate === "ignore") return;
 
     if (openIds.includes(card.instanceId)) {
       if (openIds.length === 1 && pairResult === null) {
@@ -130,14 +150,15 @@ export default function MemoryGame({
       clearTimeouts();
       setOpenIds([card.instanceId]);
       setPairResult(null);
+      setResultEffectActive(false);
       setFeedback("");
-      playSfx(MEMORY_SFX.reveal);
+      playFlipSfx();
       return;
     }
 
     if (openIds.length === 0) {
       setOpenIds([card.instanceId]);
-      playSfx(MEMORY_SFX.reveal);
+      playFlipSfx();
       return;
     }
 
@@ -149,17 +170,30 @@ export default function MemoryGame({
 
     if (firstCard.figure.id === card.figure.id) {
       setPairResult("match");
+      setResultEffectActive(false);
       setLocked(true);
       setFeedback("");
-      playSfx(MEMORY_SFX.match);
-      queueTimeout(() => finishMatch([firstCard.instanceId, card.instanceId]), 550);
+      playFlipSfx();
+      queueTimeout(() => {
+        setResultEffectActive(true);
+        playResultSfx("match");
+      }, MEMORY_RESULT_TIMING.effectDelayMs);
+      queueTimeout(
+        () => finishMatch([firstCard.instanceId, card.instanceId]),
+        MEMORY_RESULT_TIMING.matchFinishMs,
+      );
       return;
     }
 
     setPairResult("mismatch");
+    setResultEffectActive(false);
     setFeedback(t("mismatch"));
-    playMismatchSfx();
-    queueTimeout(finishMismatch, 900);
+    playFlipSfx();
+    queueTimeout(() => {
+      setResultEffectActive(true);
+      playResultSfx("mismatch");
+    }, MEMORY_RESULT_TIMING.effectDelayMs);
+    queueTimeout(finishMismatch, MEMORY_RESULT_TIMING.mismatchFinishMs);
   }, [
     board,
     clearTimeouts,
@@ -169,7 +203,8 @@ export default function MemoryGame({
     matchedIds,
     openIds,
     pairResult,
-    playMismatchSfx,
+    playFlipSfx,
+    playResultSfx,
     playSfx,
     queueTimeout,
     t,
@@ -241,11 +276,11 @@ export default function MemoryGame({
           openIds={openIds}
           matchedIds={matchedIds}
           pairResult={pairResult}
+          resultEffectActive={resultEffectActive}
           moves={moves}
           elapsedSeconds={elapsedSeconds}
           remainingPairs={remainingPairs}
           progress={progress}
-          locked={locked}
           feedback={feedback}
           onSelect={handleSelect}
           onRestart={() => startGame()}

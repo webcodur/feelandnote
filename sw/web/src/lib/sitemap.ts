@@ -188,7 +188,7 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/timeline', 'weekly', 0.7],
   ['/explore/faction', 'daily', 0.7],
   ['/explore/youtube', 'weekly', 0.7],
-  ['/explore/persona', 'weekly', 0.6],
+  ['/explore/spectrum', 'weekly', 0.6],
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],
   ['/explore/feed', 'daily', 0.7],

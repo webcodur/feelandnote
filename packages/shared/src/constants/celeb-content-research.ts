@@ -4,17 +4,6 @@
 // 여기서 가져다 쓰고, 문서는 이 파일을 가리키기만 한다(규약을 다시 서술하지 않는다).
 // 사람이 읽을 배경 설명은 `docs/project/celeb/celeb-pipeline.md`「콘텐츠 수 표시」.
 
-export const CELEB_CONTENT_RESEARCH_STATUSES = [
-  'open',
-  'researching',
-  'confirmed_empty',
-] as const
-
-export type CelebContentResearchStatus =
-  (typeof CELEB_CONTENT_RESEARCH_STATUSES)[number]
-
-export const DEFAULT_CELEB_CONTENT_RESEARCH_STATUS: CelebContentResearchStatus = 'open'
-
 /**
  * 콘텐츠 수 표시값.
  *
@@ -31,10 +20,10 @@ export const CELEB_CONTENT_COUNT = {
  * 셀럽 콘텐츠 수의 표시 규약.
  *
  * - 양수: 실제 celeb_contents 개수
- * - 0: 콘텐츠가 0건이고 아직 "없음"으로 닫지 않은 상태 (= 조사 대상)
- * - -1: 조사를 마쳤고 0건으로 확정한 상태 (`confirmed_empty`. 더 조사하지 않는다)
+ * - 0: 콘텐츠가 0건이고 아직 "없음"으로 확정하지 않은 상태 (= 조사 대상)
+ * - -1: 조사를 마쳤고 0건으로 확정한 상태 (`content_research_confirmed_empty_at` 존재. 더 조사하지 않는다)
  *
- * 실제 콘텐츠가 하나라도 있으면 조사 상태보다 실측 개수를 항상 우선한다.
+ * 실제 콘텐츠가 하나라도 있으면 확정 시각보다 실측 개수를 항상 우선한다.
  *
  * **노출 상태(`celebs.publication_status`)는 이 값에 영향을 주지 않는다.** 비활성 상태는
  * 서비스에 안 띄운다는 뜻일 뿐 조사를 마쳤다는 뜻이 아니다. 26.07.30~26.08.07
@@ -44,20 +33,20 @@ export const CELEB_CONTENT_COUNT = {
  */
 export function resolveCelebContentCount(
   actualCount: number | null | undefined,
-  researchStatus: string | null | undefined
+  confirmedEmptyAt: string | null | undefined
 ): number {
   const normalizedCount = Number.isFinite(actualCount)
     ? Math.max(0, Math.trunc(actualCount as number))
     : 0
 
   if (normalizedCount > 0) return normalizedCount
-  return researchStatus === 'confirmed_empty'
+  return confirmedEmptyAt
     ? CELEB_CONTENT_COUNT.RESEARCHED_EMPTY
     : CELEB_CONTENT_COUNT.UNRESEARCHED
 }
 
 /**
- * 조사 장부에 오르는 모집단.
+ * 콘텐츠 조사 목록에 오르는 모집단.
  *
  * 조사 대상 목록을 뽑는 쿼리는 이 상수를 써서 조건을 건다. 값을 하드코딩하면
  * 문서·화면·스크립트가 제각기 갈라진다.
@@ -68,7 +57,7 @@ export function resolveCelebContentCount(
  * - `suspended`·`deleted` — 서비스에서 내린 인물이라 조사 큐에 올리지 않는다.
  *
  * 조사를 마친 인물은 결과가 둘로 갈릴 뿐 둘 다 재조사 대상이 아니다.
- * 콘텐츠를 찾았으면 `full`(표시값 양수), 없었으면 `confirmed_empty`(표시값 -1).
+ * 콘텐츠를 찾았으면 `full`(표시값 양수), 없었으면 확정 시각을 기록한다(표시값 -1).
  */
 export const CELEB_CONTENT_RESEARCH_TARGET_TIERS = ['light'] as const
 
@@ -77,7 +66,7 @@ export const CELEB_CONTENT_RESEARCH_TARGET_PROFILE_STATUSES = [
   'inactive',
 ] as const
 
-/** 이 인물이 조사 장부 모집단에 드는가. 등급·노출 상태만 본다. */
+/** 이 인물이 콘텐츠 조사 목록에 드는가. 등급·노출 상태만 본다. */
 export function isCelebContentResearchTarget(
   celebTier: string | null | undefined,
   profileStatus: string | null | undefined

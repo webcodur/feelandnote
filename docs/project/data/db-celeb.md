@@ -14,14 +14,13 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - 실측 분포(2026-08-04): 전체 full 1,461 / light 954 / fiction 255, 그중 active full 1,362 / light 118 / fiction 252
     - 정상적인 실존 인물은 등록 목적과 무관하게 최소 `light`로 둔다
     - `fiction` = 신화·전설·허구 속 존재(2026-07 신설, 실존 아님. 일리아스 신·영웅 등). 상단 인물 검색과 대표 원전 연결로 노출하며 승격 대상은 아님
-  - `content_research_status` (text, 기본값 `'open'`): `open` / `researching` / `confirmed_empty`
+  - `content_research_confirmed_empty_at` (timestamptz, nullable): 네 유형을 조사했지만 유효한 콘텐츠가 0건임을 확정한 시각
     - 표시값 규약과 조사 대상 범위의 SSoT는 코드다 — `packages/shared/src/constants/celeb-content-research.ts`. 여기 다시 적지 않는다
-    - 요약만: 실제 개수가 양수면 그 값, 0건이면 `confirmed_empty`일 때 `-1`, 아니면 `0`. **노출 상태는 개입하지 않는다**(26.08.07 교정 — 그전에는 비활성이면 조사 여부와 무관하게 `-1`이었다)
-    - `content_research_updated_at`, `content_research_confirmed_empty_at`이 변경·확정 시각을 보존
-    - DB 가드가 콘텐츠 보유자의 `confirmed_empty` 변경을 거부한다. 신규 `confirmed_empty`는 아래 조사 장부의 완료 함수만 기록할 수 있다
-    - 확정 뒤 콘텐츠가 추가되면 트리거가 상태를 `open`으로 자동 복귀시킨다
+    - 요약만: 실제 개수가 양수면 그 값, 0건이면 확정 시각이 있을 때 `-1`, 아니면 `0`. **노출 상태는 개입하지 않는다**
+    - DB 가드가 콘텐츠 보유자의 확정 시각 기록을 거부한다. 확정 뒤 콘텐츠가 추가되면 트리거가 확정 시각을 비운다
+    - 조사 진행 상태는 오케스트레이터가 관리하며 DB에 저장하지 않는다
   - `publication_status` (text, 기본값 `'active'`): CHECK `active`|`inactive`|`suspended`|`deleted`. **인물에게는 노출 상태 하나만 뜻한다.**
-    - 26.08.07 이전 `profiles.status`는 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 가짜 Auth 계정을 폐기하고 `celebs.publication_status`로 옮겨 의미를 물리적으로 분리했다 — 경위는 `docs/archive/profile-user-celeb-separation-2026-08-07.md`
+    - 26.08.07 이전 `profiles.status`는 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 가짜 Auth 계정을 폐기하고 `celebs.publication_status`로 옮겨 의미를 물리적으로 분리했다 — 경위는 `docs/archive/data/profile-user-celeb-separation-2026-08-07.md`
     - 실측 분포(26.08.07): active 1,793 / inactive 725 / suspended 224
     - **목록 노출은 이 값 하나가 아니라 `celeb_tier` 필터도 함께 가른다.** `publication_status`는 공개 여부만 뜻하며 조사 여부·관계·태그 배정 같은 독립 사실을 대신하지 않는다. “내일 active로 바꾸면 해당 값이 저절로 맞아지는가?”가 아니라면 이 열을 조건에 넣지 않는다. 26.07.26 관계망, 26.07.27 세력도감 태그, 26.08.07 콘텐츠 조사에서 같은 혼용 사고를 교정했다
     - **계정 전용 열은 `celebs`에 없다.** 회원 계정 상태는 `user_accounts.account_status`이며 셀럽 공개 상태와 다른 축이다. 관리자 판정은 `is_admin()` 하나가 쥔다
@@ -44,7 +43,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 Supabase Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
 - **`celeb_contents`**: 셀럽 감상경위. `celeb_id → celebs.id`, `content_id → contents.id`,
-  UNIQUE(`celeb_id`, `content_id`). 출처 가드·조사 상태·파생 개수는 이 테이블 기준이다
+  UNIQUE(`celeb_id`, `content_id`). 출처 가드·0건 확정 해제·파생 개수는 이 테이블 기준이다
 - **`celeb_metrics`**: 셀럽별 `follower_count`·`content_count` 캐시. `celeb_id`가 PK이자
   `celebs.id` FK다
 - **공개 RLS 경계**: `celebs`·`celeb_contents`·`celeb_metrics`는 일반적으로
@@ -71,15 +70,6 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 실측: family 7,435 / rivalry 214 / friendship 158 행 · UNIQUE(from_id, qid, rel_type)
   - 가족은 위키데이터 속성 수집, 라이벌·지기는 전수 훑기 결과를 이름→QID 대조(wbsearchentities)로 적재. **접두 검색이라 수식어 넣으면 오배정된다** — 곤충 속(屬)·동명이인 사고로 라이벌 23건·지기 23건을 사후 교정했다(설명·생몰 검증 필수)
   - 실측 커버리지(내부+외부 합산): 관계 보유 셀럽 1,303/1,692(77%)
-- **셀럽 콘텐츠 조사 장부** (2026-07-29): 빠른 후보 검증을 전면 조사 완료로 오인하지 않도록 실행·유형·후보·출처를 영속 기록한다
-  - `celeb_content_research_runs`: 인물별 조사 실행. 조사자, 배치 키, 이름 변형, 동명이인 메모, 요약과 시작·완료 시각을 보존한다. 한 인물의 `in_progress` 실행은 최대 1개다
-  - `celeb_content_research_scopes`: 실행마다 자동 생성되는 `BOOK` / `VIDEO` / `GAME` / `MUSIC` 네 범위와 검색 메모·완료 상태
-  - `celeb_content_research_findings`: 후보 작품의 `candidate` / `accepted` / `rejected` 판정. 채택은 실제 `contents`·`celeb_contents` 연결, 기각은 근거 요약과 사유가 필수다
-  - `celeb_content_research_sources`: 범위 또는 후보에 연결한 URL, 출처 등급·종류, 접근 상태와 확인 시각
-  - `complete_celeb_content_research_run(uuid)`만 조사를 닫는다. 네 범위 완료, 범위별 출처 1개 이상, 미판정 후보 0, 후보별 출처, 채택 후보의 1차 출처와 실제 콘텐츠 연결을 한 트랜잭션에서 검증한다
-  - 완료 시 실제 콘텐츠가 0건일 때만 `celebs.content_research_status='confirmed_empty'`, 1건 이상이면 `open`이다
-  - 실행 시작·프로필 `researching`, 실행 취소·프로필 `open`은 각각 DB 트랜잭션으로 함께 바뀐다. 완료·취소된 실행과 하위 기록은 불변이다
-  - 네 테이블은 RLS를 켜고 anon·authenticated 권한을 주지 않는다. web-bo 관리자 서버 액션이 service role로만 읽고 쓴다
 - **`fiction_source_contents`**: 기존 `contents` 중 신화·전설·허구 작품을 대표할 행을 관리자가 지정한다
   - PK/FK `content_id → contents.id`, 삭제 RESTRICT. 작품·판본 테이블을 새로 복제하지 않고 기존 콘텐츠를 정본 링크로 재사용한다
   - 공개 SELECT만 허용하고 쓰기는 service role 전용이다
@@ -105,7 +95,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - **total_score는 트리거 `trg_calc_influence_total`이 자동 계산**한다 (7개 값의 단순 합). 직접 써도 덮어써진다
   - 축별 설명 컬럼: `{축}_exp`, `{축}_exp_en`
   - UNIQUE(celeb_id)
-- **`celeb_persona`**: 인물 페르소나 수치. **3개 카테고리를 반드시 구분할 것** (단일원천: `sw/web/src/lib/persona/constants.ts`)
+- **`celeb_persona`**: 인물 스펙트럼 수치. 테이블명은 레거시 저장소 식별자다. **3개 카테고리를 반드시 구분할 것** (단일원천: `sw/web/src/lib/spectrum/constants.ts`)
   - **덕목 8개** (VirtueKey, 0~100): temperance, diligence, reflection, courage, loyalty, benevolence, fairness, humility
   - **능력 4개** (AbilityKey, 0~100): command, martial, intellect, charm
   - **성향 4개** (TendencyKey, -50~+50): pessimism_optimism, conservative_progressive, individual_social, cautious_bold
@@ -121,16 +111,15 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     못하도록 CHECK가 막는다
   - `lat`/`lng`는 **둘 다 있거나 둘 다 없거나**(CHECK). 좌표 있는 행만 활동 반경 지도에 오른다 — **활동 반경용 테이블은 없다**
   - `place_qid`(장소 위키데이터 식별자)는 좌표 재검증의 근거다. 비우지 마라
-  - `source` CHECK: research·wikidata·manual. 재적재는 `research` 행만 갈아끼우고 `manual`은 보존
-  - fiction 일괄 적재는 service role 전용 RPC
-    `set_fiction_narrative_events(uuid,jsonb)`가 한 인물의 서사 사건만 원자적으로
-    교체한다
-  - 실측(2026-07-30): 210명 3,547건(연도형 3,507 + 서사형 40), 좌표 3,354건.
-    RLS 공개 읽기만
-- **`celeb_tags`** / **`celeb_tag_assignments`**: 세력도감 테마·영상 없는 테마의 수동 명단. 별도 태그 기능이 아니며, 서비스 읽기는 `faction_atlas_members` 뷰 하나로 합친다. 운영은 `web-bo.md` 「세력도감」, 단일화 설계는 `remotion/faction-unification.md` §4-3 참조
+  - `source` CHECK: research·wikidata·manual. 값은 사건이 등록된 경로만 표시한다
+  - 별도 조사 이력 테이블·작업 큐·조사 RPC는 없다. 조사자는 인물 한 명을 조사·자체검증한 뒤
+    최종 사건만 이 테이블에 직접 반영한다
+  - RLS 공개 읽기만 허용하며 쓰기는 관리자 서버에서 수행한다
+- **`celeb_tags`** / **`celeb_tag_assignments`**: 세력도감 테마·영상 없는 테마의 수동 명단. 별도 태그 기능이 아니며, 서비스 읽기는 `faction_atlas_members` 뷰 하나로 합친다. 운영은 `web-bo.md` 「세력도감」, 단일화 설계는 `remotion/faction/unification.md` §4-3 참조
 - **`celeb_task_queue`**: 작업 큐 → `celeb-pipeline.md` 참조
   - PK(task_type, celeb_id). status CHECK: pending|in_progress|completed|failed|skipped
   - 리스 방식: claimed_by / claimed_at / lease_expires_at / attempt_count / last_error
+  - 인물 타임라인 조사는 이 큐를 사용하지 않는다
 - **`celeb_dialogues_bak_20260714`**: 2026-07-14 대사 교정(`fix_dialogue_object_lines_to_string`) 백업 테이블(18행). **RLS 비활성**
 - **`celeb_works`**: ~~삭제됨 (2026-03-11)~~. 실시간 Wikidata 조회로 대체
 - **퍼블릭 도메인 셀럽**: 1920년 이전 사망자. `isPublicDomainCeleb()` 함수로 필터링

@@ -1,12 +1,12 @@
 /**
  * 근접도 게임 엔진
  *
- * 거리 계산: lib/persona/utils.ts의 calcDistance를 재사용한다.
+ * 거리 계산: lib/spectrum/utils.ts의 calcDistance를 재사용한다.
  * 추가로 시대·지역·직군 축을 별도로 평가해 힌트를 생성한다.
  */
 
-import { calcDistance, distanceToMatchPercent } from '@/lib/persona/utils';
-import type { PersonaProfile, PersonaStats } from '@/lib/persona/types';
+import { calcDistance, distanceToMatchPercent } from '@/lib/spectrum/utils';
+import type { SpectrumProfile, SpectrumStats } from '@/lib/spectrum/types';
 import { getKSTDateKey, dateKeyToSeed } from '@/lib/game/date-seed';
 import type {
   ProximityAxisHint,
@@ -16,8 +16,8 @@ import type {
 } from './types';
 import { PROXIMITY_TEMPERATURE_CORRECT } from './types';
 
-/** PersonaStats → PersonaProfile (calcDistance용 더미 래퍼) */
-function statsToProfile(stats: PersonaStats): PersonaProfile {
+/** SpectrumStats → SpectrumProfile (calcDistance용 더미 래퍼) */
+function statsToProfile(stats: SpectrumStats): SpectrumProfile {
   return {
     celeb_id: '',
     nickname: '',
@@ -36,8 +36,8 @@ function statsToProfile(stats: PersonaStats): PersonaProfile {
  * 100 = 정답, 0 = 최대 거리
  */
 export function calculateTemperature(
-  guessStats: PersonaStats,
-  targetStats: PersonaStats
+  guessStats: SpectrumStats,
+  targetStats: SpectrumStats
 ): number {
   const distance = calcDistance(statsToProfile(guessStats), statsToProfile(targetStats));
   return distanceToMatchPercent(distance);
@@ -62,8 +62,8 @@ export function generateAxisHints(
   // 3. 직군 (profession) — 같은지 다른지
   hints.push(evaluateProfession(guess, target, locale));
 
-  // 4. 성향 (persona) — 16축 전체 거리를 3단계로
-  hints.push(evaluatePersona(guess.stats, target.stats));
+  // 4. 성향 (spectrum) — 16축 전체 거리를 3단계로
+  hints.push(evaluateSpectrum(guess.stats, target.stats));
 
   return hints;
 }
@@ -139,19 +139,19 @@ function evaluateProfession(
   return { axis: 'profession', proximity: 'far', detail };
 }
 
-function evaluatePersona(
-  guessStats: PersonaStats,
-  targetStats: PersonaStats
+function evaluateSpectrum(
+  guessStats: SpectrumStats,
+  targetStats: SpectrumStats
 ): ProximityAxisHint {
   const temp = distanceToMatchPercent(calcDistance(statsToProfile(guessStats), statsToProfile(targetStats)));
 
   if (temp >= 75) {
-    return { axis: 'persona', proximity: 'close' };
+    return { axis: 'spectrum', proximity: 'close' };
   }
   if (temp >= 45) {
-    return { axis: 'persona', proximity: 'medium' };
+    return { axis: 'spectrum', proximity: 'medium' };
   }
-  return { axis: 'persona', proximity: 'far' };
+  return { axis: 'spectrum', proximity: 'far' };
 }
 
 /**
@@ -172,7 +172,7 @@ export function processGuess(
         { axis: 'era', proximity: 'close', detail: locale === 'ko' ? '정답!' : 'Correct!' },
         { axis: 'region', proximity: 'close', detail: locale === 'ko' ? '정답!' : 'Correct!' },
         { axis: 'profession', proximity: 'close', detail: locale === 'ko' ? '정답!' : 'Correct!' },
-        { axis: 'persona', proximity: 'close' },
+        { axis: 'spectrum', proximity: 'close' },
       ],
       isCorrect: true,
     };

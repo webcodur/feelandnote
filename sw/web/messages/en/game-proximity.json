@@ -9,19 +9,19 @@
     "guessCounter": "{current} / {max} guesses",
     "giveUp": "Give Up",
     "correct": "Correct",
-    "fixtureNotice": "Demo mode: Running on sample data. Distance is calculated using era, region, and profession only (no persona scores).",
+    "fixtureNotice": "Demo mode: Running on sample data. Distance is calculated using era, region, and profession only (no spectrum scores).",
     "bestRecord": "Best: solved in {count} guesses",
     "axis": {
       "era": "Era",
       "region": "Region",
       "profession": "Profession",
-      "persona": "Persona"
+      "spectrum": "Spectrum"
     },
     "rules": {
       "guessTitle": "Guess",
       "guessBody": "Guess any historical or notable figure. You have up to 15 attempts.",
       "hintsTitle": "Read Hints",
-      "hintsBody": "Each guess reveals a temperature (0–100) plus axis hints for era, region, profession, and persona.",
+      "hintsBody": "Each guess reveals a temperature (0–100) plus axis hints for era, region, profession, and spectrum.",
       "narrowTitle": "Narrow Down",
       "narrowBody": "Combine the hints to close in. This is a deduction game, not a knowledge test."
     },

@@ -163,7 +163,7 @@ const DOMAIN_GUIDE = {
     "These describe a person's cultural journey. Preserve the paragraph structure and the evidence strength. Do not invent works or episodes.",
   profile_philosophy:
     "These summarize a person's approach to cultural consumption. Keep the voice analytical but natural.",
-  persona_rationale:
+  spectrum_rationale:
     "These explain quantitative figure metrics. Render internal snake_case axes as natural reader-facing English, never as raw identifiers.",
   faction_short:
     "These are compact faction-card summaries. Keep them concise and specific to the person and faction.",
@@ -278,10 +278,10 @@ async function officialEnglishLabels(qids) {
 
 async function applyItem(item, en) {
   if (!APPLY) return;
-  if (item.kind === "persona") {
-    const persona = structuredClone(item.persona);
-    persona.rationale_en = en;
-    const { error } = await db.from("celeb_persona").update({ persona }).eq("id", item.rowId);
+  if (item.kind === "spectrum") {
+    const spectrum = structuredClone(item.spectrum);
+    spectrum.rationale_en = en;
+    const { error } = await db.from("celeb_persona").update({ persona: spectrum }).eq("id", item.rowId);
     if (error) throw error;
   } else {
     const { error } = await db
@@ -299,7 +299,7 @@ async function buildTargets() {
   const ids = profiles.map((profile) => profile.id);
   const items = [];
 
-  const addText = ({ domain, table, rowId, column, ko, context, kind, persona }) => {
+  const addText = ({ domain, table, rowId, column, ko, context, kind, spectrum }) => {
     if (!hasText(ko)) return;
     items.push({
       id: `${table}:${rowId}:${column}`,
@@ -310,7 +310,7 @@ async function buildTargets() {
       ko: ko.trim(),
       context,
       kind,
-      persona,
+      spectrum,
     });
   };
 
@@ -335,19 +335,19 @@ async function buildTargets() {
     }
   }
 
-  const personaRows = await selectByIds("celeb_persona", "id,celeb_id,persona", ids);
-  for (const row of personaRows) {
-    if (!row.persona || !hasText(row.persona.rationale_ko) || hasText(row.persona.rationale_en)) continue;
+  const spectrumRows = await selectByIds("celeb_persona", "id,celeb_id,spectrum:persona", ids);
+  for (const row of spectrumRows) {
+    if (!row.spectrum || !hasText(row.spectrum.rationale_ko) || hasText(row.spectrum.rationale_en)) continue;
     const profile = profileById.get(row.celeb_id);
     addText({
-      domain: "persona_rationale",
+      domain: "spectrum_rationale",
       table: "celeb_persona",
       rowId: row.id,
-      column: "persona.rationale_en",
-      ko: row.persona.rationale_ko,
+      column: "spectrum.rationale_en",
+      ko: row.spectrum.rationale_ko,
       context: { slug: profile?.slug, person: profile?.nickname_en || profile?.nickname },
-      kind: "persona",
-      persona: row.persona,
+      kind: "spectrum",
+      spectrum: row.spectrum,
     });
   }
 

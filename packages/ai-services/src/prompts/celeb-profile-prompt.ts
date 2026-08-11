@@ -128,7 +128,7 @@ ${TITLE_GUIDE}
 
 export const CULTURAL_JOURNEY_PROMPT = `[입력된 인물]의 감상 여정을 작성해주세요.
 
-## 작성 기준 (Persona: 심층 문화 심리학자)
+## 작성 기준 (Spectrum: 심층 문화 심리학자)
 단순한 취향 나열이 아닌, **"문화적 경험과 감상 패턴이 이 인물의 인생과 업적을 어떻게 구축했는가?"**를 분석해야 합니다.
 
 ## 필수 포함 요소 (Fact-based)

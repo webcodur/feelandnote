@@ -76,7 +76,7 @@ AdSense 승인이 1차 신청(26.03.09) 이후 반복 거절된 원인을 전방
 
 ## 4-1. egress 영향 검증 (같은 날 추가 감사)
 
-크롤 노출을 크게 늘렸으므로(사이트맵 7.2배, robots 완화, 셀럽 SSR 조회 추가) egress 재폭발 위험을 별도 감사했다. 이 사이트는 Supabase egress 무료 한도 초과로 프로젝트 정지가 반복돼 Pro 결제로 넘어간 이력이 있다(`web-egress-audit-2026-06-29.md`).
+크롤 노출을 크게 늘렸으므로(사이트맵 7.2배, robots 완화, 셀럽 SSR 조회 추가) egress 재폭발 위험을 별도 감사했다. 이 사이트는 Supabase egress 무료 한도 초과로 프로젝트 정지가 반복돼 Pro 결제로 넘어간 이력이 있다.
 
 ### 결론: 재폭발하지 않는다. 단 캐시 수명 3곳을 교정했다.
 
@@ -121,7 +121,7 @@ AdSense 승인이 1차 신청(26.03.09) 이후 반복 거절된 원인을 전방
 - 의미: **BO 저장 1회마다 `revalidateTag('celebs', {expire:0})`가 실제로 실행되고 있었다.** 그런데 egress 감사 ⑤(태그 국소화)가 미착수라 캐시 약 70곳이 전부 단일 태그 `['celebs']`였다 → **저장 1회가 7일 캐시를 포함한 전 캐시를 즉시 전멸**시켰다. 호출부는 `web-bo/src/actions/admin/`(celebs·contents·dialogues)에 **42곳**이라 셀럽 대량 작업 시 저장마다 반복됐다.
 - 비용: 퍼지 1회 직후 크롤·방문의 콜드 = 셀럽별 1,257 × 약 31.7KB + 전역 단일키(`all-persona-vectors` 5.32MB + `celebs-with-dates` 530KB) ≈ **약 46MB/퍼지**. BO 저장 20회/일이면 **약 27GB/월**.
 - **이것이 egress 재폭발의 활성 경로였다.** 본 문서 4-1절의 캐시 수명 교정(7일)은 BO 저장이 없는 구간에서만 온전히 효과를 내므로, 저장이 잦으면 수명과 무관하게 리셋된다.
-- **→ 같은 날 ⑤ 태그 국소화를 완료해 해소했다.** SSoT `packages/shared/src/constants/cache-tags.ts`(`CACHE_TAGS` 5종: CELEBS·CONTENTS·DIALOGUES·PERSONA·TAGS)로 web 캐시 72곳 재태깅(62곳 도메인 배정 + 10곳 태그 제거 — BO가 건드리지 않는 게시판·업적·팔로워 등), web-bo 호출부 34곳을 실제 수정 테이블 기준으로 매핑, `revalidateWebCache` 기본값 제거(인자 누락 시 타입 에러로 전역 퍼지 재발 차단), `/api/revalidate` 배열 수용. 이제 **BO 저장이 해당 도메인만 비운다.** 상세는 `web-egress-audit-2026-06-29.md` 10절.
+- **→ 같은 날 ⑤ 태그 국소화를 완료해 해소했다.** SSoT `packages/shared/src/constants/cache-tags.ts`(`CACHE_TAGS` 5종: CELEBS·CONTENTS·DIALOGUES·PERSONA·TAGS)로 web 캐시 72곳 재태깅(62곳 도메인 배정 + 10곳 태그 제거 — BO가 건드리지 않는 게시판·업적·팔로워 등), web-bo 호출부 34곳을 실제 수정 테이블 기준으로 매핑, `revalidateWebCache` 기본값 제거(인자 누락 시 타입 에러로 전역 퍼지 재발 차단), `/api/revalidate` 배열 수용. 이제 **BO 저장이 해당 도메인만 비운다.**
 
 부수로, 7일 캐시는 BO 수정이 최대 7일간 안 보인다는 뜻이지만 **④가 켜져 있어 저장 시 자동 반영되므로 실질 문제는 없다**(오히려 지금은 너무 잘 비워지는 게 문제다). 수동 무효화 경로(`/api/revalidate`)도 정상 작동한다.
 
@@ -226,7 +226,7 @@ AdSense 승인이 1차 신청(26.03.09) 이후 반복 거절된 원인을 전방
 |---|------|------|
 | 높음 | **AdSense 실제 거절 문구 확보** | 현재 문서에는 신청·거절 날짜만 있고 사이트 화면의 사유·문제 코드가 없다. 이 정보 없이 색인 문제를 유일 원인으로 확정하지 않는다 |
 | 높음 | **콘텐츠 상세 색인 기준 재검토** | 6,665건 중 감상문 1건 77.1%, 한국어 감상문 중앙값 158자. 특히 MUSIC 1,426건은 1건 비율 88.6%·중앙값 108자다. “얇음”을 글자 수로 기계 판정하지 말고, 자체 큐레이션의 실질과 외부 메타 의존도를 함께 본다 |
-| ~~높음~~ | **정적 렌더 전환 시 SSR 파손 주의** | **해소(2026-08-04).** `ContentLibrary`의 `useSearchParams()`를 제거했다. 서가 초기 데이터는 정적 HTML에 유지하고 `?q=`만 hydration 후 `window.location.search`에서 적용한다. `[locale]` root layout 승격·셀럽 ISR 전환과 함께 처리했으며, 배포 후 HTML 원문에 책 제목·감상문이 남는지 재확인해야 한다. 상세는 `web-egress-audit-2026-06-29.md` 11절 |
+| ~~높음~~ | **정적 렌더 전환 시 SSR 파손 주의** | **해소(2026-08-04).** `ContentLibrary`의 `useSearchParams()`를 제거했다. 서가 초기 데이터는 정적 HTML에 유지하고 `?q=`만 hydration 후 `window.location.search`에서 적용한다. `[locale]` root layout 승격·셀럽 ISR 전환과 함께 처리했으며, 배포 후 HTML 원문에 책 제목·감상문이 남는지 재확인해야 한다. |
 | 중 | 도메인 메일(`contact@feelandnote.com`) 개설 후 Contact·Privacy에 반영 | 현재 gmail 단일. 승인 필수 요건은 아니나 신뢰 신호 |
 | 중 | 약관·방침 보강 | 약관 1,317자·방침 1,852자로 템플릿 수준. UGC 플랫폼인데 저작권 침해 신고 절차(notice & takedown), 서비스 변경·중단, 분쟁 해결, 국외 이전(Supabase/Vercel/Google), 만 14세 미만 조항 부재 |
 | 중 | 쿠키 동의(CMP) | 영문판 운영으로 EEA/UK 트래픽이 열려 있으나 인증 CMP 부재. 승인 요건은 아니고 승인 후 게재 제한 요인. Google Funding Choices 검토 |

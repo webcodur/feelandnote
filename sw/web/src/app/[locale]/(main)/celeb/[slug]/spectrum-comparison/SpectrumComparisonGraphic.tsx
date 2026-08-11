@@ -1,0 +1,176 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
+import {
+  ABILITY_KEYS,
+  TENDENCY_KEYS,
+  VIRTUE_KEYS,
+  type StatKey,
+} from "@/lib/spectrum/constants";
+import type {
+  SpectrumMatch,
+  SpectrumMatchCategory,
+  SpectrumMatchEvidence,
+} from "@/lib/spectrum/utils";
+import { cn } from "@/lib/utils";
+import DispositionCompass from "./sections/DispositionCompass";
+import RadarComparison from "./sections/RadarComparison";
+import { TENDENCY_ENDPOINTS, isTendencyAxis } from "./shared";
+
+interface SpectrumComparisonGraphicProps {
+  category: SpectrumMatchCategory;
+  match: SpectrumMatch;
+  subjectName: string;
+}
+
+export default function SpectrumComparisonGraphic({
+  category,
+  match,
+  subjectName,
+}: SpectrumComparisonGraphicProps) {
+  const t = useTranslations("celebPage");
+  const ts = useTranslations("shared.spectrum.stat");
+  const tl = useTranslations("shared.spectrum.tendency_label");
+  const candidateName = match.nickname;
+
+  const comparisonByAxis = new Map(
+    match.comparison.map((evidence) => [evidence.axis, evidence]),
+  );
+  const orderedStats = [...ABILITY_KEYS, ...VIRTUE_KEYS]
+    .map((axis) => comparisonByAxis.get(axis))
+    .filter((evidence): evidence is SpectrumMatchEvidence => Boolean(evidence));
+  const orderedVirtues = VIRTUE_KEYS.map((axis) =>
+    comparisonByAxis.get(axis),
+  ).filter((evidence): evidence is SpectrumMatchEvidence => Boolean(evidence));
+  const orderedAbilities = ABILITY_KEYS.map((axis) =>
+    comparisonByAxis.get(axis),
+  ).filter((evidence): evidence is SpectrumMatchEvidence => Boolean(evidence));
+  const orderedTendencies = TENDENCY_KEYS.map((axis) =>
+    comparisonByAxis.get(axis),
+  ).filter((evidence): evidence is SpectrumMatchEvidence => Boolean(evidence));
+
+  const rankedEvidence = match.evidence.length
+    ? match.evidence
+    : [...match.comparison]
+        .sort((a, b) => {
+          const aGap = Math.abs(
+            category === "opposite"
+              ? -a.targetValue - a.candidateValue
+              : a.targetValue - a.candidateValue,
+          );
+          const bGap = Math.abs(
+            category === "opposite"
+              ? -b.targetValue - b.candidateValue
+              : b.targetValue - b.candidateValue,
+          );
+          return aGap - bGap;
+        })
+        .slice(0, 2);
+
+  const preferredAxis = rankedEvidence[0]?.axis;
+  const formatInsightAxis = (
+    evidence: SpectrumMatchEvidence,
+    useCandidate = false,
+  ) => {
+    if (!isTendencyAxis(evidence.axis)) return ts(evidence.axis as StatKey);
+    const value = useCandidate
+      ? evidence.candidateValue
+      : evidence.targetValue;
+    if (Math.abs(value) <= 10) return t("spectrumMatchModalNeutral");
+    const endpoints = TENDENCY_ENDPOINTS[evidence.axis];
+    return tl(value < 0 ? endpoints[0] : endpoints[1]);
+  };
+  const subjectAxes = rankedEvidence
+    .slice(0, 2)
+    .map((evidence) => formatInsightAxis(evidence))
+    .join(" · ");
+  const candidateAxes = rankedEvidence
+    .slice(0, 2)
+    .map((evidence) => formatInsightAxis(evidence, true))
+    .join(" · ");
+
+  const insight = (() => {
+    switch (category) {
+      case "overall":
+        return t("spectrumMatchGraphicOverallInsight", { axes: subjectAxes });
+      case "disposition":
+        return t("spectrumMatchGraphicDispositionInsight", {
+          axes: subjectAxes,
+        });
+      case "virtue":
+        return t("spectrumMatchGraphicVirtueInsight", { axes: subjectAxes });
+      case "ability":
+        return t("spectrumMatchGraphicAbilityInsight", {
+          candidate: candidateName,
+          subject: subjectName,
+          axes: subjectAxes,
+        });
+      case "opposite":
+        return t("spectrumMatchGraphicOppositeInsight", {
+          subject: subjectName,
+          candidate: candidateName,
+          subjectAxes,
+          candidateAxes,
+        });
+    }
+  })();
+
+  return (
+    <div className="mt-3">
+      <div
+        className={cn(
+          "grid gap-3",
+          category === "overall" && "md:grid-cols-[1.16fr_0.84fr]",
+        )}
+      >
+        {(category === "overall" ||
+          category === "virtue" ||
+          category === "ability") && (
+          <RadarComparison
+            data={
+              category === "overall"
+                ? orderedStats
+                : category === "virtue"
+                  ? orderedVirtues
+                  : orderedAbilities
+            }
+            subjectName={subjectName}
+            candidateName={candidateName}
+            title={t(
+              category === "overall"
+                ? "spectrumMatchGraphicOverallRadar"
+                : category === "virtue"
+                  ? "spectrumMatchGraphicVirtueRadar"
+                  : "spectrumMatchGraphicAbilityRadar",
+            )}
+            preferredAxis={preferredAxis}
+          />
+        )}
+
+        {(category === "overall" ||
+          category === "disposition" ||
+          category === "opposite") && (
+          <DispositionCompass
+            data={orderedTendencies}
+            subjectName={subjectName}
+            candidateName={candidateName}
+            title={t("spectrumMatchGraphicCompass")}
+            preferredAxis={preferredAxis}
+            opposite={category === "opposite"}
+            twoColumn={category !== "overall"}
+          />
+        )}
+      </div>
+
+      <div className="relative mt-3 flex items-start gap-3 overflow-hidden border-l-2 border-accent/55 bg-white/[0.03] px-3.5 py-2.5">
+        <span className="mt-0.5 shrink-0 text-xs font-bold tracking-[0.1em] text-accent">
+          {t("spectrumMatchGraphicInsightLabel")}
+        </span>
+        <p className="text-balance break-keep text-sm font-medium leading-5 text-text-primary md:text-[15px]">
+          {insight}
+        </p>
+      </div>
+    </div>
+  );
+}

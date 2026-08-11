@@ -8,13 +8,13 @@
  *
  * 뼈대가 인물 명단이 아니라 **발언 순서(turns)** 라는 점이 이 편집기의 축이다.
  * 「원고」가 대본 전체를 글로 다루고(경계·발언 나누기·세부 패널), 「인물」이 말하는 사람의 실체를 다룬다.
- * 발언을 옮기면 음원 자리가 밀리므로 원고 탭이 음원 파일과 발언 배열을 대조해 경고를 띄운다(discourse.md §5-1).
+ * 발언을 옮기면 음원 자리가 밀리므로 원고 탭이 음원 파일과 발언 배열을 대조해 경고를 띄운다(docs/project/remotion/discourse/README.md §5-1).
  *
  * 이 앱(web-bo)은 DB 가 대본의 원본이다. 창구(fetch)로 파일을 읽고 쓰던 remotion-bo 시절과 달리
  * 서버 액션(loadDiscourseScript·saveDiscourseScript)으로 불러오고 저장하며, 저장 시점의 updatedAt 을
  * 낙관적 잠금 기준으로 들고 다닌다(팩션 편집기와 같은 방식 — FactionEditor.tsx 참조).
  *
- * 기획·완성 정의 SSoT: docs/project/remotion/discourse.md §7
+ * 기획·완성 정의 SSoT: docs/project/remotion/discourse/README.md §7
  */
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'

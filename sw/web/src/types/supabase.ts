@@ -318,227 +318,6 @@ export type Database = {
           },
         ]
       }
-      celeb_content_research_findings: {
-        Row: {
-          content_id: string | null
-          content_type: string
-          created_at: string
-          creator: string | null
-          decision: string
-          evidence_summary: string | null
-          id: string
-          rejection_reason: string | null
-          run_id: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          content_id?: string | null
-          content_type: string
-          created_at?: string
-          creator?: string | null
-          decision?: string
-          evidence_summary?: string | null
-          id?: string
-          rejection_reason?: string | null
-          run_id: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          content_id?: string | null
-          content_type?: string
-          created_at?: string
-          creator?: string | null
-          decision?: string
-          evidence_summary?: string | null
-          id?: string
-          rejection_reason?: string | null
-          run_id?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "celeb_content_research_findings_content_id_fkey"
-            columns: ["content_id"]
-            isOneToOne: false
-            referencedRelation: "contents"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "celeb_content_research_findings_scope_fkey"
-            columns: ["run_id", "content_type"]
-            isOneToOne: false
-            referencedRelation: "celeb_content_research_scopes"
-            referencedColumns: ["run_id", "content_type"]
-          },
-        ]
-      }
-      celeb_content_research_runs: {
-        Row: {
-          batch_key: string
-          celeb_id: string
-          completed_at: string | null
-          created_at: string
-          homonym_notes: string | null
-          id: string
-          name_variants: string[]
-          researcher_id: string | null
-          researcher_label: string
-          started_at: string
-          status: string
-          summary: string | null
-          updated_at: string
-        }
-        Insert: {
-          batch_key: string
-          celeb_id: string
-          completed_at?: string | null
-          created_at?: string
-          homonym_notes?: string | null
-          id?: string
-          name_variants: string[]
-          researcher_id?: string | null
-          researcher_label: string
-          started_at?: string
-          status?: string
-          summary?: string | null
-          updated_at?: string
-        }
-        Update: {
-          batch_key?: string
-          celeb_id?: string
-          completed_at?: string | null
-          created_at?: string
-          homonym_notes?: string | null
-          id?: string
-          name_variants?: string[]
-          researcher_id?: string | null
-          researcher_label?: string
-          started_at?: string
-          status?: string
-          summary?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "ccrr_celeb_celebs_fkey"
-            columns: ["celeb_id"]
-            isOneToOne: false
-            referencedRelation: "celebs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "ccrr_researcher_accounts_fkey"
-            columns: ["researcher_id"]
-            isOneToOne: false
-            referencedRelation: "user_accounts"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      celeb_content_research_scopes: {
-        Row: {
-          completed_at: string | null
-          content_type: string
-          created_at: string
-          run_id: string
-          search_notes: string | null
-          status: string
-          updated_at: string
-        }
-        Insert: {
-          completed_at?: string | null
-          content_type: string
-          created_at?: string
-          run_id: string
-          search_notes?: string | null
-          status?: string
-          updated_at?: string
-        }
-        Update: {
-          completed_at?: string | null
-          content_type?: string
-          created_at?: string
-          run_id?: string
-          search_notes?: string | null
-          status?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "celeb_content_research_scopes_run_id_fkey"
-            columns: ["run_id"]
-            isOneToOne: false
-            referencedRelation: "celeb_content_research_runs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      celeb_content_research_sources: {
-        Row: {
-          access_status: string
-          checked_at: string
-          content_type: string
-          created_at: string
-          finding_id: string | null
-          id: string
-          notes: string | null
-          run_id: string
-          source_kind: string
-          source_tier: string
-          title: string | null
-          updated_at: string
-          url: string
-        }
-        Insert: {
-          access_status?: string
-          checked_at?: string
-          content_type: string
-          created_at?: string
-          finding_id?: string | null
-          id?: string
-          notes?: string | null
-          run_id: string
-          source_kind: string
-          source_tier: string
-          title?: string | null
-          updated_at?: string
-          url: string
-        }
-        Update: {
-          access_status?: string
-          checked_at?: string
-          content_type?: string
-          created_at?: string
-          finding_id?: string | null
-          id?: string
-          notes?: string | null
-          run_id?: string
-          source_kind?: string
-          source_tier?: string
-          title?: string | null
-          updated_at?: string
-          url?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "celeb_content_research_sources_finding_fkey"
-            columns: ["finding_id", "run_id", "content_type"]
-            isOneToOne: false
-            referencedRelation: "celeb_content_research_findings"
-            referencedColumns: ["id", "run_id", "content_type"]
-          },
-          {
-            foreignKeyName: "celeb_content_research_sources_scope_fkey"
-            columns: ["run_id", "content_type"]
-            isOneToOne: false
-            referencedRelation: "celeb_content_research_scopes"
-            referencedColumns: ["run_id", "content_type"]
-          },
-        ]
-      }
       celeb_contents: {
         Row: {
           celeb_id: string
@@ -879,63 +658,6 @@ export type Database = {
             foreignKeyName: "celeb_metrics_celeb_id_fkey"
             columns: ["celeb_id"]
             isOneToOne: true
-            referencedRelation: "celebs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      celeb_music_candidates: {
-        Row: {
-          artist: string | null
-          celeb_id: string
-          content_id: string | null
-          created_at: string
-          evidence: string | null
-          id: string
-          reject_reason: string | null
-          source_url: string
-          status: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          artist?: string | null
-          celeb_id: string
-          content_id?: string | null
-          created_at?: string
-          evidence?: string | null
-          id?: string
-          reject_reason?: string | null
-          source_url: string
-          status?: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          artist?: string | null
-          celeb_id?: string
-          content_id?: string | null
-          created_at?: string
-          evidence?: string | null
-          id?: string
-          reject_reason?: string | null
-          source_url?: string
-          status?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "celeb_music_candidates_content_id_fkey"
-            columns: ["content_id"]
-            isOneToOne: false
-            referencedRelation: "contents"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cmc_celeb_celebs_fkey"
-            columns: ["celeb_id"]
-            isOneToOne: false
             referencedRelation: "celebs"
             referencedColumns: ["id"]
           },
@@ -1447,8 +1169,6 @@ export type Database = {
           consumption_philosophy: string | null
           consumption_philosophy_en: string | null
           content_research_confirmed_empty_at: string | null
-          content_research_status: string
-          content_research_updated_at: string | null
           created_at: string
           cultural_journey: string | null
           cultural_journey_en: string | null
@@ -1492,8 +1212,6 @@ export type Database = {
           consumption_philosophy?: string | null
           consumption_philosophy_en?: string | null
           content_research_confirmed_empty_at?: string | null
-          content_research_status?: string
-          content_research_updated_at?: string | null
           created_at?: string
           cultural_journey?: string | null
           cultural_journey_en?: string | null
@@ -1537,8 +1255,6 @@ export type Database = {
           consumption_philosophy?: string | null
           consumption_philosophy_en?: string | null
           content_research_confirmed_empty_at?: string | null
-          content_research_status?: string
-          content_research_updated_at?: string | null
           created_at?: string
           cultural_journey?: string | null
           cultural_journey_en?: string | null
@@ -3983,14 +3699,6 @@ export type Database = {
           current_text: string
         }[]
       }
-      assert_celeb_content_research_run_ready: {
-        Args: { target_run_id: string }
-        Returns: undefined
-      }
-      cancel_celeb_content_research_run: {
-        Args: { target_run_id: string }
-        Returns: string
-      }
       check_active_account_request: { Args: never; Returns: undefined }
       claim_next_celeb_philosophy_rewrite: {
         Args: { p_lease_minutes?: number; p_worker: string }
@@ -4006,14 +3714,6 @@ export type Database = {
           priority: number
           profession: string
           slug: string
-        }[]
-      }
-      complete_celeb_content_research_run: {
-        Args: { target_run_id: string }
-        Returns: {
-          actual_content_count: number
-          celeb_id: string
-          final_research_status: string
         }[]
       }
       complete_celeb_philosophy_rewrite: {
@@ -4384,10 +4084,6 @@ export type Database = {
       set_celeb_quote: {
         Args: { p_celeb_id: string; p_quote_en?: string; p_quote_ko: string }
         Returns: boolean
-      }
-      set_fiction_narrative_events: {
-        Args: { p_celeb_id: string; p_events: Json }
-        Returns: number
       }
       set_fiction_source_characters: {
         Args: { p_celeb_ids?: string[]; p_content_id: string }

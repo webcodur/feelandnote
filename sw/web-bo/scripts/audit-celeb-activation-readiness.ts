@@ -13,6 +13,7 @@
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
+import { CACHE_TAGS, domainRevalidationTags } from '@feelandnote/shared/constants/cache-tags'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -29,7 +30,7 @@ const LINK_TIMEOUT_MS = 15_000
 const INFLUENCE_AXES = [
   'political', 'strategic', 'tech', 'social', 'economic', 'cultural', 'transhistoricity',
 ] as const
-const PERSONA_GROUPS = {
+const SPECTRUM_GROUPS = {
   abilities: ['command', 'martial', 'intellect', 'charm'],
   inner_virtues: ['temperance', 'diligence', 'reflection', 'courage'],
   outer_virtues: ['loyalty', 'benevolence', 'fairness', 'humility'],
@@ -83,7 +84,7 @@ async function allProfiles(): Promise<Row[]> {
       .select([
         'id', 'slug', 'nickname', 'nickname_en', 'title', 'title_en', 'bio', 'bio_en',
         'profession', 'nationality', 'birth_date', 'publication_status', 'celeb_tier', 'speech_tone',
-        'avatar_url', 'content_research_status',
+        'avatar_url', 'content_research_confirmed_empty_at',
       ].join(','))
       .order('id')
       .range(from, from + PAGE - 1)
@@ -175,19 +176,19 @@ function addInfluenceGaps(profile: Row, influence: Row | undefined, gaps: string
   if (influence.total_score === null || influence.total_score === undefined) gaps.push('influence:total_score')
 }
 
-function addPersonaGaps(personaRow: Row | undefined, gaps: string[]) {
-  const persona = personaRow?.persona
-  if (!persona) {
-    gaps.push('persona:row')
+function addSpectrumGaps(spectrumRow: Row | undefined, gaps: string[]) {
+  const spectrum = spectrumRow?.spectrum
+  if (!spectrum) {
+    gaps.push('spectrum:row')
     return
   }
-  if (blank(persona.rationale_ko)) gaps.push('persona:rationale_ko')
-  if (blank(persona.rationale_en)) gaps.push('persona:rationale_en')
-  for (const [group, keys] of Object.entries(PERSONA_GROUPS)) {
+  if (blank(spectrum.rationale_ko)) gaps.push('spectrum:rationale_ko')
+  if (blank(spectrum.rationale_en)) gaps.push('spectrum:rationale_en')
+  for (const [group, keys] of Object.entries(SPECTRUM_GROUPS)) {
     for (const key of keys) {
-      const value = persona?.[group]?.[key]
+      const value = spectrum?.[group]?.[key]
       if (!value || typeof value.score !== 'number' || blank(value.reason_ko) || blank(value.reason_en)) {
-        gaps.push(`persona:${group}.${key}`)
+        gaps.push(`spectrum:${group}.${key}`)
       }
     }
   }
@@ -230,7 +231,15 @@ async function revalidateCaches() {
     const response = await fetch(`${webUrl}/api/revalidate`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ tag: ['celebs', 'dialogues', 'persona', 'tags'], secret }),
+      body: JSON.stringify({
+        tag: domainRevalidationTags([
+          CACHE_TAGS.CELEBS,
+          CACHE_TAGS.DIALOGUES,
+          CACHE_TAGS.SPECTRUM,
+          CACHE_TAGS.TAGS,
+        ]),
+        secret,
+      }),
     })
     return { ok: response.ok, detail: `HTTP ${response.status}` }
   } catch (error) {
@@ -241,9 +250,9 @@ async function revalidateCaches() {
 async function main() {
   const profiles = await allProfiles()
   const ids = profiles.map((profile) => profile.id)
-  const [influences, personas, dialogues, celebContents, fictionSources] = await Promise.all([
+  const [influences, spectra, dialogues, celebContents, fictionSources] = await Promise.all([
     byIds('celeb_influence', '*', ids),
-    byIds('celeb_persona', 'celeb_id,persona', ids),
+    byIds('celeb_persona', 'celeb_id,spectrum:persona', ids),
     byIds('celeb_dialogues', 'celeb_id,lines,lines_en', ids),
     byIds('celeb_contents', 'celeb_id,content_id,status,review,review_en,source_url', ids, 'celeb_id'),
     byIds('fiction_source_characters', 'celeb_id,content_id,relation_type', ids),
@@ -259,7 +268,7 @@ async function main() {
   ])
 
   const influenceById = new Map(influences.map((row) => [row.celeb_id, row]))
-  const personaById = new Map(personas.map((row) => [row.celeb_id, row]))
+  const spectrumById = new Map(spectra.map((row) => [row.celeb_id, row]))
   const dialogueById = new Map(dialogues.map((row) => [row.celeb_id, row]))
   const contentById = new Map(contents.map((row) => [row.id, row]))
 
@@ -273,7 +282,7 @@ async function main() {
     if (tier === 'full' || tier === 'light') {
       if (blank(profile.speech_tone)) gaps.push('speech:tone')
       addInfluenceGaps(profile, influenceById.get(profile.id), gaps)
-      addPersonaGaps(personaById.get(profile.id), gaps)
+      addSpectrumGaps(spectrumById.get(profile.id), gaps)
       addDialogueGaps(dialogueById.get(profile.id), gaps)
     }
 
@@ -293,7 +302,7 @@ async function main() {
       }
     } else if (tier === 'light') {
       if (linked.length > 0) gaps.push('content:light_has_content')
-      if (profile.content_research_status !== 'confirmed_empty') gaps.push('content:research_not_confirmed_empty')
+      if (blank(profile.content_research_confirmed_empty_at)) gaps.push('content:empty_not_confirmed')
     } else if (tier === 'fiction') {
       if (sources.length === 0) gaps.push('fiction:source_missing')
       for (const source of sources) {

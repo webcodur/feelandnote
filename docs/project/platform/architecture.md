@@ -37,7 +37,7 @@ app/
       agora/           # 광장 (social, social-feed, board/{notice,free,feedback})
       celeb/[slug]/    # 인물 상세
       content/[contentId]/
-      explore/         # 탐색 (figures, ranking, persona, today, faction/[slug],
+      explore/         # 탐색 (figures, ranking, spectrum, today, faction/[slug],
                        #       feed, timeline, youtube, directory)
       library/         # 서가 (era, profession, museum, academy/[category]/[course])
       about/           # 서비스 소개 (문의 안내 흡수). 본문(AboutBody)은 홈 첫 방문 환영판과 공유
@@ -58,7 +58,7 @@ app/
 
 actions/               # Server Actions
                        # achievements, activity, auth, board, celebs, contents, flows,
-                       # game, guestbook, home, moderation, notes, notifications, persona,
+                       # game, guestbook, home, moderation, notes, notifications, spectrum,
                        # recommendations, scriptures, search, user
 components/
   features/            # agora, board, book, celeb, content, figure, game, home,
@@ -81,7 +81,7 @@ hooks/                 # useCelebGreeting, useCountries, useDebounce, useDialogu
                        # useRecentContents, useRecentProfiles, useTextToSpeech, useVoiceMuted
 i18n/                  # navigation, request, routing
 lib/                   # auth, board, cache, config, countries, errors, game, moderation,
-                       # persona, r2, seo, supabase(client/server/middleware), url, utils
+                       # spectrum, r2, seo, supabase(client/server/middleware), url, utils
 types/                 # academy, content, database, home, locale, recommendation,
                        # supabase(자동생성)
 ```
@@ -118,7 +118,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 
 | 상위 | 하위 링크 |
 |---|---|
-| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/persona`(스펙트럼), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(영상관), `/explore/directory`(디렉토리) |
+| explore | `/explore/figures`(인물 목록), `/explore/ranking`(분야별 랭킹), `/explore/spectrum`(스펙트럼), `/explore/today`(오늘의 인물), `/explore/faction`(세력도감), `/explore/feed`(인물 피드), `/explore/timeline`(국가별 연대기), `/explore/youtube`(영상관), `/explore/directory`(디렉토리) |
 | scriptures | `/library/era`(불후의 명작), `/library/profession`(갈림길), `/library/museum`(박물관), `/library/academy`(학당) |
 | rest | `/rest#dawn`(여명), `/rest#labyrinth`(미궁), `/rest#hegemony`(패권), `/rest#suikoden`(천도) — 앵커 |
 

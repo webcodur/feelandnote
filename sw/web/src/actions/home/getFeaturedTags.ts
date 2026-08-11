@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { LIST_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { toFactionMusic, toFactionVideos, type FactionMusic, type FactionVideos } from '@/lib/faction-videos'
 import { toFactionQuoteMedia, type FactionQuoteMedia } from '@feelandnote/shared/lib/faction-quote-media'
@@ -314,10 +314,11 @@ async function fetchFeaturedTagsPublic(): Promise<FeaturedTag[]> {
 const getCachedFeaturedTags = unstable_cache(
   fetchFeaturedTagsPublic,
   ['featured-tags-light-v4'],
-  // 팩션 구성·표시용 프로필과 제작 대사만 읽는다. 게임 대사·콘텐츠 수정은 이 캐시를 무효화하지 않는다.
+  // 팩션 편성 전용 공유 자료다. 일반 인물·서고 수정이 모든 인물 상세을 연쇄 무효화하지 않도록
+  // TAGS만 즉시 갱신하고, 프로필 표시값은 한 시간 만료로 흡수한다.
   {
-    revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
+    revalidate: LIST_REVALIDATE,
+    tags: [CACHE_TAGS.TAGS],
   }
 )
 

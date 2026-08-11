@@ -82,11 +82,11 @@ export default async function CelebDetailPage({ params }: PageProps) {
         {/* CelebForm 내부: 기본정보 / 영향력 / 감상철학 / 태그 아코디언 */}
         <CelebForm mode="edit" celeb={celeb} />
 
-        {/* 페르소나 / 대사·음성 / 심화 열전 — 동일 카드형 아코디언 */}
+        {/* 스펙트럼 / 대사·음성 / 심화 열전 — 동일 카드형 아코디언 */}
         <ExtraSections
           celebId={celeb.id}
           celebSlug={celeb.slug || slug}
-          personaRaw={celeb.persona || null}
+          spectrumRaw={celeb.spectrum || null}
           voiceCeleb={voiceCeleb}
         />
       </LangModeProvider>

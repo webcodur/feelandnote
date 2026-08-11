@@ -218,7 +218,10 @@ export async function publishEpisode(
     add({ kind: 'revalidate', group: '-', action: 'skipped', reason: 'no-change' })
   } else {
     // 도감(TAGS)과 셀럽(CELEBS) 두 도메인만 — 제작 데이터는 서비스에 나오지 않으므로 그 밖은 불필요하다
-    await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
+    await revalidateWebCache(
+      [CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS],
+      '팩션 출간 배치가 여러 태그와 인물 배정을 함께 바꾼다',
+    )
     add({ kind: 'revalidate', group: '-', action: 'updated', reason: `${CACHE_TAGS.TAGS}, ${CACHE_TAGS.CELEBS}` })
   }
 

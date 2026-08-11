@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import type { PersonaData, StatKey, TendencyKey } from '@/actions/admin/persona'
-import PersonaStatBars from '@/components/celeb/PersonaStatBars'
+import type { SpectrumData, StatKey, TendencyKey } from '@/actions/admin/spectrum'
+import SpectrumStatBars from '@/components/celeb/SpectrumStatBars'
 
 const ALL_STAT_KEYS: StatKey[] = [
   'temperance', 'diligence', 'reflection', 'courage',
@@ -39,10 +39,10 @@ const COLORS = [
 ]
 
 interface Props {
-  vectors: PersonaData[]
+  vectors: SpectrumData[]
 }
 
-function calcDistance(a: PersonaData, b: PersonaData): number {
+function calcDistance(a: SpectrumData, b: SpectrumData): number {
   let sum = 0
   for (const key of ALL_STAT_KEYS) {
     sum += (a[key] - b[key]) ** 2
@@ -60,7 +60,7 @@ export default function VectorDashboard({ vectors }: Props) {
 
   const selectedVectors = selected
     .map((celebId) => vectors.find((v) => v.celeb_id === celebId))
-    .filter((vector): vector is PersonaData => Boolean(vector))
+    .filter((vector): vector is SpectrumData => Boolean(vector))
 
   const primaryTarget = selectedVectors[0]
   const similarities = primaryTarget
@@ -78,11 +78,11 @@ export default function VectorDashboard({ vectors }: Props) {
     )
   }
 
-  const personaEntries = selectedVectors.map((v) => ({
+  const spectrumEntries = selectedVectors.map((v) => ({
     ...v,
     id: v.celeb_id,
     nickname: v.nickname,
-    persona: v.persona,
+    spectrum: v.spectrum,
   }))
 
   return (
@@ -94,7 +94,7 @@ export default function VectorDashboard({ vectors }: Props) {
           {selected.length === 0 ? (
             <p className="text-text-secondary text-center py-20">셀럽을 선택하세요</p>
           ) : (
-            <PersonaStatBars personas={personaEntries} />
+            <SpectrumStatBars spectra={spectrumEntries} />
           )}
         </div>
       </div>

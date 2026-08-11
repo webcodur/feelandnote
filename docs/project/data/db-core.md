@@ -36,7 +36,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 옛 `profiles`·`user_contents`와 저장형 `profile_type`, `profiles_compat`, `follows`,
 `user_social`은 2026-08-10 최종 제거 마이그레이션에서 운영 DB에서 삭제됐다. 현역 코드와 새
 DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요한 경우
-`docs/archive/profile-celeb-account-separation-improvement-2026-08-09.md`의 이력만 참조한다.
+`docs/archive/data/profile-celeb-account-separation-improvement-2026-08-09.md`의 이력만 참조한다.
 `20260809184517_retire_legacy_profile_domain.sql`은 새 앱 배포와 구버전 인스턴스 종료를
 확인한 뒤 2026-08-10 적용됐다. 이 절은 현재 사용법이 아니라 제거 결과를 설명한다.
 
@@ -63,7 +63,7 @@ DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요한
 - **`celeb_contents`**: 셀럽 감상경위. `celeb_id → celebs.id`,
   `content_id → contents.id`
   - 감상 필드 모양은 회원 기록과 같지만 RLS·출처·점수 규칙은 공유하지 않는다
-  - `source_url` 필수 가드와 콘텐츠 조사 상태·셀럽 지표 갱신은 이 테이블의 트리거가 맡는다
+  - `source_url` 필수 가드와 0건 확정 해제·셀럽 지표 갱신은 이 테이블의 트리거가 맡는다
   - UNIQUE(`celeb_id`, `content_id`)
 - 두 감상 테이블 공통:
   - `status` CHECK: 'WANT'|'FINISHED'
@@ -294,7 +294,7 @@ ORDER BY c.created_at DESC;
 | `member_profiles` | 회원 초기화 트리거 | `member_social_stats`·`member_scores` 초기 행 보장 |
 | `celebs` | 셀럽 초기화 트리거 | `celeb_metrics` 초기 행 보장 |
 | `member_contents` | 카운트·점수 트리거 | 회원 콘텐츠 수와 `contents.member_count` 갱신, 최초 감상 점수 1회 반영 |
-| `celeb_contents` | 출처·카운트·조사 트리거 | `source_url` 강제, 셀럽 지표와 `contents.celeb_count`·조사 상태 갱신 |
+| `celeb_contents` | 출처·카운트·0건 확정 트리거 | `source_url` 강제, 셀럽 지표와 `contents.celeb_count` 갱신, 콘텐츠 추가 시 0건 확정 해제 |
 | `member_member_follows` | 관계·알림 트리거 | 회원 follower/following/friend 카운트와 이벤트별 알림 동기 |
 | `member_celeb_follows` | 관계 트리거 | 회원 following과 셀럽 follower 카운트 동기 |
 | `member_guestbook_entries` | 방명록 알림 트리거 | 이벤트별 회원 알림 생성·삭제 |
