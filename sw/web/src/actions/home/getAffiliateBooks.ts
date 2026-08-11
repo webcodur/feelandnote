@@ -4,8 +4,9 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { STATIC_REVALIDATE } from '@/lib/cache'
-import type { AffiliateLink, AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
+import type { AffiliatePlatformKey } from '@/constants/affiliatePlatforms'
 import { FACTION_BOOK_TOPICS } from '@/constants/factionBookTopics'
+import { findAffiliateLink } from './affiliateLinks'
 
 export interface AffiliateBook {
   contentId: string
@@ -35,7 +36,7 @@ interface LocaleRow {
   title: string | null
   creator: string | null
   thumbnail_url: string | null
-  affiliate_url: AffiliateLink[] | null
+  affiliate_url: unknown
   contents: { user_count: number | null } | null
 }
 
@@ -68,7 +69,7 @@ async function fetchAffiliatePool(platform: AffiliatePlatformKey): Promise<PoolE
   const pool: PoolEntry[] = []
 
   for (const row of rows) {
-    const link = row.affiliate_url?.find((l) => l.platform === platform)
+    const link = findAffiliateLink(row.affiliate_url, platform)
     if (!link?.url || !row.title) continue
     pool.push({
       book: {
