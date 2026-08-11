@@ -54,6 +54,7 @@ export function parseJsonInput(jsonText: string): ExtractedContent[] {
       titleKo: title, // 한국어 제목으로 가정
       creator,
       creatorKo: creator,
+      isbn: item.type === 'BOOK' ? item.isbn?.trim() || undefined : undefined,
       review: item.body?.replace(/\\n/g, '\n') || '',
       sourceUrl: item.source || undefined,
     }
@@ -73,6 +74,7 @@ export function generateAIPrompt(): string {
   {
     "type": "BOOK",
     "title": "작품명(저자/감독)",
+    "isbn": "9781234567890",
     "body": "감상 경위 또는 리뷰 본문",
     "source": "https://출처URL"
   }
@@ -82,6 +84,7 @@ export function generateAIPrompt(): string {
 ### 필드 규칙
 - **type**: \`BOOK\` | \`VIDEO\` | \`GAME\` | \`MUSIC\` 중 하나 (필수)
 - **title**: "작품명(창작자)" 형식. 예: "데미안(헤르만 헤세)", "기생충(봉준호)"
+- **isbn**: BOOK에만 사용. 실제로 확인한 해당 한국어판의 ISBN-13을 하이픈 없이 입력. 확인하지 못했으면 빈 문자열 (추정 금지)
 - **body**: 감상 경위 또는 리뷰. 개행은 \\n 사용
 - **source**: 해당 정보의 출처 URL (필수)
 

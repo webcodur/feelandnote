@@ -9,6 +9,8 @@ export interface ExtractedContent {
   titleKo?: string
   creator?: string
   creatorKo?: string
+  /** BOOK 판본을 정확히 찾기 위한 ISBN-10 또는 ISBN-13 */
+  isbn?: string
   review?: string
   sourceUrl?: string
   rating?: number
