@@ -2,7 +2,7 @@
 
 > 실측 대조: 26.07.25 — 23개 에피소드 JSON 전수(537 인물 배치)·faction-data.json 읽기/쓰기 주체 21곳 전수·web-bo 구조·DB 실측 기반 설계. Phase 1(스키마·이관·왕복 검증)은 26.07.25 완료 — 하단 진행 로그 참조.
 >
-> **26.07.27 — 영상에서 도감으로 넘기는 작업을 대대적으로 진행했다.** 도감 테마 40→76개, 대분류 10개로 재편, 인물 소개문 300여 건 신규. 편 상태는 두 값(`ready`/`blocked`)으로 축소. 도감 쪽 변경(노출 스위치·단체 사진 구조·인원 상한)은 **`docs/project/celeb/celeb-tag-system.md` 의 「26.07.27 개편」 절이 정본**이다.
+> **26.07.27 — 영상에서 도감으로 넘기는 작업을 대대적으로 진행했다.** 도감 테마 40→76개, 대분류 10개로 재편, 인물 소개문 300여 건 신규. 편 상태는 두 값(`ready`/`blocked`)으로 축소했다. 현행 도감 운영·편집 규격은 `docs/project/apps/web-bo.md` 「세력도감」 절이 쥔다.
 > **이 문서가 `faction-db-sync.md`(다리 방식)를 대체한다.** 다리(양방향 동기화)는 폐기 개념이고, 목표는 집 하나다. faction-sync 코드는 이관·이미지 배관 도구로 개조되어 살아남는다.
 > **26.08.03 — 단일화(§4-3).** 텍스트 투영(출간의 복사)마저 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다. 제작 인물의 도감 한줄은 직함 첫 항목으로 고정하며 별도 웹 한줄 손질은 폐기했다.
 > **26.08.03 — 인물 연결·주체 경계 강제.** `faction_people.celeb_id`는 필수 DB CELEB UUID이며, 행 자체도 자연인 또는 하나의 개별 허구 인물만 허용한다. 회사·조직·제품·기계·기체·부대·종족·듀오는 세력과 미디어 문맥으로 관리한다. 미연결 390행을 무차별 계정화했던 초판은 같은 날 철회했다. 비인물 행 70개와 그 계정 70개를 제거하고, 묶음 2행은 실제 발화자에게 재연결했으며, 비어 버리는 산업 세력에는 DB 실제 인물 14행을 넣었다. 에너지 편은 임시 인물 4명이 아니라 원래 기획 백업의 회사별 담당자 8명을 복원했다. 현재 1,446행 전부가 개별 DB 인물이며 UI·서버·CLI·DB 트리거가 함께 막는다.
@@ -124,7 +124,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
 
 ### 4-3. 단일화 (26.08.03) — 텍스트 복사 폐기, 뷰 직독
 
-투영(제작→배정 복사) 자체를 폐기하고 데이터를 한 벌로 줄였다. 작업 기록은 `docs/todo/faction/faction-atlas-reconciliation-2026-08-03.md` 「단일화 전환」.
+투영(제작→배정 복사) 자체를 폐기하고 데이터를 한 벌로 줄였다. 현행 데이터 계약은 이 절이 쥔다.
 
 - **인물 텍스트(대사 quote·직함·소개 epithet/lines)의 유일 원천 = `faction_people`.** 제작 유래 인물의 도감 한줄은 직함 첫 항목(JSON `lines[0]`, PostgreSQL `lines[1]`)으로 고정한다. 손질은 `web_long_desc`(±en, 상세)·`web_image_url`(표지)·`web_quote_media`(출간 음성+화보 타임라인)·`web_hidden`만 허용하며 옛 `web_short_desc`(±en)는 폐기했다.
 - **웹·BO는 DB 뷰 `faction_atlas_members`를 읽는다** — 제작 유래(한줄=직함 첫 항목, 상세=`web_long_desc` 손질 우선) ∪ 웹 전용 배정. 태그당 셀럽 중복은 제작 앞자리 채택, `disabled` 제외. 정렬은 제작 순번 우선, 웹 전용은 10000+ 순번.
@@ -265,7 +265,7 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
   - **web-bo 액션** `src/actions/admin/factions/{episodes,script,export,publish}.ts`. 저장 절차는 `src/lib/faction-save.ts` 로 빼 인증 밖에 뒀다 — 액션 안에 두면 Next 밖에서 부를 수 없어 검증이 불가능하다.
   - **fs 라우트 14종** — `api/faction/{media,media/folder,media/[episode]/[...path],asset/[...path],voice(+[episode]·[file]·save·age·reorder·timing·analyze),task,task/[id]}`. 전부 `FACTION_LOCAL=1` 가드(미설정 503+사유) + **자체 관리자 확인**.
   - **주소를 `api/faction-media` 대신 `api/faction/media` 로 잡았다** — P3 에서 올린 공용 부품이 `/api/${series}/media`·`/media/folder`·`/faction-avatar` 를 하드코딩해 부른다. 시리즈 이름 `faction` 을 첫 토막에 두면 그 부품을 한 줄도 고치지 않고 쓴다. 하이픈으로 잡으면 4b 가 공용 부품을 포크해야 해서 §8 「복사 금지」와 충돌한다.
-  - 🔴 **진입 검사가 이미지 확장자를 통째로 건너뛴다** — `sw/web-bo/src/proxy.ts` 의 matcher 가 `.*\.(svg|png|jpg|jpeg|gif|webp)$` 를 제외한다. 즉 `/api/faction/asset/x/y.png` 는 로그인 검사를 지나쳐 라우트에 곧바로 닿는다(실측 확인). 그래서 라우트마다 `guardFactionRoute()`(로컬 가드+관리자 확인)를 첫 줄에 두고, 경로 잠금은 `lib/faction-asset.ts` 로 분리했다. **둘 중 하나만 있으면 뚫린다.** 같은 함정으로 이미지 프록시가 무방비였던 이력이 있다(AGENTS.md).
+  - 🔴 **진입 검사가 이미지 확장자를 통째로 건너뛴다** — `sw/web-bo/src/proxy.ts` 의 matcher 가 `.*\.(svg|png|jpg|jpeg|gif|webp)$` 를 제외한다. 즉 `/api/faction/asset/x/y.png` 는 로그인 검사를 지나쳐 라우트에 곧바로 닿는다(실측 확인). 그래서 라우트마다 `guardFactionRoute()`(로컬 가드+관리자 확인)를 첫 줄에 두고, 경로 잠금은 `lib/faction-asset.ts` 로 분리했다. **둘 중 하나만 있으면 뚫린다.** 같은 함정으로 이미지 프록시가 무방비였던 이력이 있다.
   - **검증 실측(PayPal-Mafia)**: ① 조립기 ≡ CLI 내보내기(25,550 bytes, 차이 0) ② 저장 왕복 동일(세력 4·묶음 4·인물 14·편댓글 1, 차이 0) ②-b 음성 길이 15건 보존 ③ 어긋난 기준 시각 거부 ④ 자동 내보내기 → 마커 기록·파일 ≡ DB·원본 백업 보존 ⑤ **없는 묶음을 가리키는 인물 행을 섞으니 FK 위반으로 전체 롤백**(세력 4→4·묶음 4→4·인물 14→14·updated_at 불변 — 부분 반영 0) ⑥ 이후 `faction:verify --episode PayPal-Mafia` 6종 전부 통과. 경로 이탈 12종 전량 차단(뿌리 밖 해석 0), 확장자 화이트리스트가 json·txt·확장자 없음 거절. tsc 3종 0 · eslint 0 · `next build` 로 라우트 14종·화면 2종 컴파일 확인.
   - **음성 길이 소유권(§7) 강제 지점** — 저장 시 DB 값이 있으면 그것을 신뢰하고 편집기가 보낸 값으로 덮지 않는다. DB 가 비고 대본에 있을 때만 채운다(`lib/faction-save.ts` 의 `loadExistingDurations`). 저장 창구 응답의 길이는 화면 표시용이고 DB 반영은 `faction:durations-pull` 이 wav 실측으로 한다.
   - ⚠ **`Gods-Greek-Compact` 는 파일이 DB 보다 새롭다** — 파일 mtime 26.07.25 19:35 vs DB 행 18:59(KST), 대사 148곳이 다르고 파일 쪽 `quoteOrigin` 이 "GPT-5.6 신규 작성(2026-07-25)"이다. 즉 Phase 1 이관 뒤 사람이 JSON 을 더 고쳤다(§11 R3 그 자체). **이번 작업의 회귀가 아니다**(옛·새 조립기 바이트 동일로 증명). 내보내기는 발효 전 가드가 이 편을 막으므로 되돌림 사고는 안 난다. 흡수하려면 `pnpm faction:import -- --episode Gods-Greek-Compact` 를 사람이 판단해 실행해야 한다 — 임의로 실행하지 않았다.

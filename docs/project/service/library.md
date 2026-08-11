@@ -164,5 +164,5 @@ AI 학당의 데이터와 `/library/academy/ai/{foundations|prompting|creation}`
 
 - 화면 지도: [README.md](README.md)
 - 탐색(오늘의 인물 본편): [explore.md](explore.md)
-- 셀럽 데이터: `docs/project/db-celeb.md`, `docs/project/celeb/`
-- 다국어: `docs/project/i18n.md`
+- 셀럽 데이터: `docs/project/data/db-celeb.md`, `docs/project/celeb/`
+- 다국어: `docs/project/platform/i18n.md`

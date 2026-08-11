@@ -902,13 +902,12 @@ href
 |---|---|
 | `docs/archive/profile-table-separation-considerations.md` | 공용 부모 권고가 폐기된 선행 메모로 유지 |
 | `docs/archive/profile-user-celeb-separation-2026-08-07.md` | 26.08.07 계정 분리 이력으로 보존 |
-| `docs/project/db-core.md` | 회원·계정·혼합 관계 최종 스키마 반영 |
-| `docs/project/db-celeb.md` | `celebs`와 셀럽 전용 관계 SSoT로 갱신 |
+| `docs/project/data/db-core.md` | 회원·계정·혼합 관계 최종 스키마 반영 |
+| `docs/project/data/db-celeb.md` | `celebs`와 셀럽 전용 관계 SSoT로 갱신 |
 | `docs/project/celeb/celeb-pipeline.md` | 가짜 Auth 계정 생성법 제거, 셀럽 직접 등록 반영 |
-| `docs/project/celeb/celeb-gotchas.md` | 폐기된 계정 우회 등록법 제거 |
-| `docs/project/web-bo.md` | 회원·셀럽 독립 조회와 권한 출처 반영 |
+| `docs/project/apps/web-bo.md` | 회원·셀럽 독립 조회와 권한 출처 반영 |
 | `docs/project/service/profile.md` | 회원 전용 UUID 프로필 경로 반영 |
-| `docs/project/celeb-journey.md` | `celebs` 전원 대상 규칙 반영 |
+| `docs/project/celeb/celeb-timeline.md` | `celebs` 전원 대상 규칙 반영 |
 
 ## 하지 않는 것
 

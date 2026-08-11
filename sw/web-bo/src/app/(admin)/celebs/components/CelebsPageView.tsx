@@ -1,6 +1,7 @@
 import { BarChart3, BookOpen, Briefcase, Compass, FileEdit, Images, Plus, Route, Rows3, Tag, Volume2 } from 'lucide-react'
 import Link from 'next/link'
 import { getMembers } from '@/actions/admin/members'
+import { getTags } from '@/actions/admin/tags'
 import type { CelebImageFilter } from '@/actions/admin/celebs'
 import Button from '@/components/ui/Button'
 import Pagination from '@/components/ui/Pagination'
@@ -17,6 +18,7 @@ export interface CelebsSearchParams {
   profession?: string
   tier?: string
   image?: string
+  faction?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -36,23 +38,40 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
   const imageFilter: CelebImageFilter = params.image === 'missing-avatar' || params.image === 'missing-portrait'
     ? params.image
     : 'all'
+  const faction = params.faction || 'all'
   const sort = params.sort || 'created_at'
   const sortOrder = params.sortOrder || 'desc'
   const baseHref = view === 'images' ? '/celebs/images' : '/celebs'
-  const resultSetKey = [page, search, status, profession, tier, imageFilter, sort, sortOrder].join(':')
+  const resultSetKey = [page, search, status, profession, tier, imageFilter, faction, sort, sortOrder].join(':')
 
-  const { members: celebs, total } = await getMembers({
-    profileType: 'CELEB',
-    page,
-    limit: 20,
-    search,
-    status,
-    profession: profession !== 'all' ? profession : undefined,
-    tier: tier !== 'all' ? tier : undefined,
-    imageFilter: view === 'images' ? imageFilter : undefined,
-    sort,
-    sortOrder,
+  const [{ members: celebs, total }, { tags }] = await Promise.all([
+    getMembers({
+      profileType: 'CELEB',
+      page,
+      limit: 20,
+      search,
+      status,
+      profession: profession !== 'all' ? profession : undefined,
+      tier: tier !== 'all' ? tier : undefined,
+      imageFilter: view === 'images' ? imageFilter : undefined,
+      tagId: faction !== 'all' ? faction : undefined,
+      sort,
+      sortOrder,
+    }),
+    getTags()
+  ])
+
+  const tagMap = new Map(tags.map(t => [t.id, t]))
+  const formattedTags = tags.map(t => {
+    if (t.parent_id) {
+      const parent = tagMap.get(t.parent_id)
+      if (parent) {
+        return { id: t.id, name: `[${parent.name} - ${t.name}]` }
+      }
+    }
+    return { id: t.id, name: `[${t.name}]` }
   })
+
   const imageProcessingJobs = view === 'images'
     ? await getImageProcessingJobsForCelebs(celebs.map((celeb) => celeb.id))
     : {}
@@ -65,6 +84,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
     profession: profession !== 'all' ? profession : undefined,
     tier: tier !== 'all' ? tier : undefined,
     image: imageFilter !== 'all' ? imageFilter : undefined,
+    faction: faction !== 'all' ? faction : undefined,
     sort: sort !== 'created_at' ? sort : undefined,
     sortOrder: sortOrder !== 'desc' ? sortOrder : undefined,
   }
@@ -129,10 +149,11 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
       </div>
 
       <CelebFilter
-        key={`${search}:${status}:${profession}:${tier}:${imageFilter}`}
+        key={`${search}:${status}:${profession}:${tier}:${imageFilter}:${faction}`}
         action={baseHref}
         showImageFilter={view === 'images'}
-        defaultValues={{ search, status, profession, tier, imageFilter }}
+        tags={formattedTags}
+        defaultValues={{ search, status, profession, tier, imageFilter, faction }}
       />
 
       <ActiveSortChips />

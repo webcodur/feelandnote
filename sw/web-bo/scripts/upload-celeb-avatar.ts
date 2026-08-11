@@ -1,7 +1,7 @@
 /**
  * 셀럽 아바타 자동 등록 — 위키미디어 Commons 이미지 다운로드 → 얼굴 랜드마크 크롭 → R2 업로드 → Supabase celebs.avatar_url 갱신
  *
- * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb-avatar-spec.md §1·§6이고,
+ * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb/celeb-avatar-spec.md §1·§6이고,
  * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 이 스크립트는 좌표를 직접 계산하지 않는다.
  *
  * 사용법 (sw/web-bo 디렉토리에서):
@@ -199,7 +199,7 @@ function parseArgs(): Args {
   if (faceFrameRatioRaw !== undefined) {
     console.warn(
       '[경고] --face-frame-ratio 는 이제 쓰지 않는다. '
-      + '규격은 docs/project/celeb-avatar-spec.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
+      + '규격은 docs/project/celeb/celeb-avatar-spec.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
     )
   }
   const outSize = outSizeRaw ? Number(outSizeRaw) : 800

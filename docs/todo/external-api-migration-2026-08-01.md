@@ -5,7 +5,7 @@
 
 | 사건 | SSoT |
 |------|------|
-| 네이버 도서 검색 종료(26.07.31) → 카카오 전환 | `docs/project/external-services.md` 「외부 콘텐츠 검색 API」 |
+| 네이버 도서 검색 종료(26.07.31) → 카카오 전환 | `docs/project/platform/external-services.md` 「외부 콘텐츠 검색 API」 |
 | Spotify 개발자 모드 차단(26.08.01) → 아이튠즈 전환 | 같은 문서 |
 | 콘텐츠 수집 절차 갱신 | `docs/project/celeb/celeb-2-content-collector.md` |
 

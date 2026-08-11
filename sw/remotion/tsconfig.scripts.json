@@ -1,5 +1,5 @@
 {
-  "//": "scripts/ 는 tsconfig.json 의 include(src·episodes) 밖이라 `tsc --noEmit` 이 검사하지 않는다(AGENTS.md TODO). DB 이관 도구(팩션·담화)를 따로 검사하는 설정. 알려진 기존 오류 1건: scripts/voice/faction/engine.ts 의 'wav' 타입 선언 부재 — faction/verify.ts 가 동적 import 로 물고 들어오며, 이 통합 작업과 무관한 종전 상태다.",
+  "//": "scripts/ 는 tsconfig.json 의 include(src·episodes) 밖이라 `tsc --noEmit` 이 검사하지 않는다. DB 이관 도구(팩션·담화)를 따로 검사하는 설정. 알려진 기존 오류 1건: scripts/voice/faction/engine.ts 의 'wav' 타입 선언 부재 — faction/verify.ts 가 동적 import 로 물고 들어오며, 이 통합 작업과 무관한 종전 상태다.",
   "extends": "./tsconfig.json",
   "include": ["scripts/discourse", "scripts/faction", "scripts/lib"]
 }

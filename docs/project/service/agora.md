@@ -76,7 +76,7 @@
 - 차단한 사람의 글·댓글은 목록에서 걷어낸다(`getFreePosts`·`getFreeComments`). 두 조회는 캐시를 쓰지 않아 요청마다 보는 사람 기준으로 걸러진다.
 - 전체 건수는 걸러낸 만큼만 뺀 근사값이다. 뒷 페이지의 차단 글은 반영되지 않는다.
 - 작성 폼과 댓글 폼에 금지 내용 안내와 약관 링크가 상시 뜬다. 동의 없이 제출을 막지는 않는다.
-- 부품·정책 요건은 [안드로이드 앱 SSoT](../android-app-feasibility-review-2026-07-29.md) §5.1·§14.
+- 부품·정책 요건은 [안드로이드 앱 SSoT](../apps/android-app-feasibility-review-2026-07-29.md) §5.1·§14.
 
 ### 공지사항 (`notice`)
 
@@ -113,4 +113,4 @@
 - 화면 지도: [README.md](README.md)
 - 인물 피드(`/explore/feed`): [explore.md](explore.md)
 - 프로필·팔로우 대상: [profile.md](profile.md)
-- SEO·색인 정책: `docs/project/seo.md`
+- SEO·색인 정책: `docs/project/operations/seo.md`

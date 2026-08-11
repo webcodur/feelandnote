@@ -572,7 +572,7 @@ async function main() {
     `\n완료 — 새로 등록 ${created} / 기존 책에 연결 ${linkedExisting} / 못 찾음 ${notFound}`
   )
 
-  const reportPath = resolve(__dirname, '..', '..', '..', 'docs', 'curated-lists', '_register-report.json')
+  const reportPath = resolve(__dirname, '..', '..', '..', 'data', 'curated-lists', '_register-report.json')
   writeFileSync(reportPath, JSON.stringify({ created, linkedExisting, notFound, failures }, null, 2), 'utf-8')
   console.log(`못 찾은 항목 명단: ${reportPath}`)
 }

@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getUserProfile } from "@/actions/user";
+import { getCelebSlugById } from "@/actions/celebs/getCelebSlugById";
+import { redirect } from "@/i18n/navigation";
 import PageContainer from "@/components/layout/PageContainer";
 import RecentProfileTracker from "@/components/features/profile/RecentProfileTracker";
 import ArchiveSectionHeader from "@/components/features/user/profile/ArchiveSectionHeader";
@@ -11,11 +13,11 @@ import { createClient } from "@/lib/supabase/server";
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: Promise<{ userId: string }>;
+  params: Promise<{ userId: string; locale: string }>;
 }
 
 export default async function UserLayout({ children, params }: LayoutProps) {
-  const { userId } = await params;
+  const { userId, locale } = await params;
   const supabase = await createClient();
   const [profileResult, authResult, tCtx, tHome] = await Promise.all([
     getUserProfile(userId),
@@ -25,6 +27,12 @@ export default async function UserLayout({ children, params }: LayoutProps) {
   ]);
 
   if (!profileResult.success || !profileResult.data) {
+    /* 이 자리는 회원 전용이지만 인물 식별자로 만들어진 옛 주소가 밖에 돌아다닌다.
+       인물이면 없는 화면이라 내치지 말고 정본 주소로 넘긴다. */
+    const celebSlug = await getCelebSlugById(userId);
+    if (celebSlug) {
+      redirect({ href: `/celeb/${celebSlug}`, locale });
+    }
     notFound();
   }
 

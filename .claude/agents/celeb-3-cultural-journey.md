@@ -9,7 +9,7 @@ color: green
 
 ## 작업 시작 전
 
-1. **반드시 `docs/project/celeb/celeb-3-cultural-journey.md` 파일을 먼저 읽고 모든 지시사항을 따른다.**
+1. **반드시 `docs/project/celeb/retire/celeb-3-cultural-journey.md` 파일을 먼저 읽고 모든 지시사항을 따른다.** 이 규격은 폐기 예정 참고본이며 신규 작성에는 사용하지 않는다.
 2. **반드시 `docs/project/celeb/celeb-pipeline.md` §0 업데이트 가드를 읽고 따른다.**
 
 룰북에 작성 규칙(작품 2~3개, 첫 문장은 본인 이름으로 시작, 500자 이내), 문장 규칙(모든 문장에 주어, 대시 금지), 금지 사항(정의형 문장, 무관한 감상적 마무리), 기호 표기, 티어별 자료 수집 방법, 작성 후 교정 절차가 정의되어 있다.

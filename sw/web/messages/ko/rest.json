@@ -62,12 +62,12 @@
         }
       },
       "memory": {
-        "label": "기억궁",
+        "label": "기억",
         "description": "같은 인물의 얼굴을 찾아 짝을 맞추세요",
         "headerSub": "카드를 뒤집어 얼굴을 기억하세요. 같은 인물의 두 장을 찾으면 초상이 사라집니다.",
         "catchphrase": "사라지는 초상",
         "selectDifficulty": "난이도 선택",
-        "startGame": "기억궁 입장",
+        "startGame": "기억 입장",
         "notEnoughFigures": "게임에 필요한 인물 사진을 불러오지 못했습니다.",
         "difficulty": {
           "easy": {

@@ -18,6 +18,10 @@ Remotion(React 기반 영상 프레임워크)으로 제작하는 영상 시리�
 |------|------|-----------|
 | 삼국지 | [three-kingdoms.md](three-kingdoms.md) | `packages/shared/src/lib/three-kingdoms.ts` |
 
+## 제작 관리 이력
+
+구 remotion-bo의 세 시리즈를 web-bo로 이관하고 앱을 폐기한 기록은 [remotion-bo-plan.md](remotion-bo-plan.md)에 보존한다. 현행 편집·출간 창구는 [`../apps/web-bo.md`](../apps/web-bo.md)를 따른다.
+
 ---
 
 ## 공통 코드 구조

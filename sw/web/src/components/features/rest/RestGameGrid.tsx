@@ -32,7 +32,7 @@ const PortraitGame = dynamic(() => import("@/components/features/game/portrait/P
 
 export type GameId = "dawn" | "labyrinth" | "hegemony" | "suikoden" | "wander" | "memory" | "portrait";
 
-// image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/project/game-card-images.md)
+// image: 각 게임 로비 캔버스 광경을 정지 회화로 옮긴 카드 배경 (docs/games/card-images.md)
 // dev: true — 미공개 게임. 개발자 모드에서만 카드를 띄운다.
 const GAME_SECTIONS = [
   { valueKey: "dawn" as const, label: "DAWN", icon: Clock, image: "/images/games/dawn-card.webp", dev: false },
@@ -41,7 +41,7 @@ const GAME_SECTIONS = [
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp", dev: false },
   { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: "/images/games/wander-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
   { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
-  // 시대의 초상은 기억궁 카드 그림을 함께 쓴다 (docs/project/game-card-images.md §5)
+  // 시대의 초상은 기억 게임 카드 그림을 함께 쓴다 (docs/games/card-images.md §5)
   { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
 ] as const;
 

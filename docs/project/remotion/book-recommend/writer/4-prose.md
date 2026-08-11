@@ -15,7 +15,7 @@
 
 ### 번역투
 
-> **판별과 교정 규칙은 `docs/project/writing-rules.md`가 SSoT다.** 사물 주어, 영어 분열문,
+> **판별과 교정 규칙은 `docs/project/production/writing-rules.md`가 SSoT다.** 사물 주어, 영어 분열문,
 > 개념을 영어로 잡고 한국어 옷을 입히는 문제, 의미 전환 단계, 반복 수사 금지가 거기 있다.
 > 문장 단위 진단표는 `ko-detranslate` 스킬. 여기서 규칙을 다시 정의하지 않는다.
 

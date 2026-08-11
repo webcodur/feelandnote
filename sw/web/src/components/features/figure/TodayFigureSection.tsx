@@ -125,7 +125,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
 
                 {/* 인물 프로필 */}
                 <Link
-                    href={`/${figure.id}`}
+                    href={`/celeb/${figure.slug || figure.id}`}
                     className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl transition-all duration-500 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
                 >
                     <div className="relative">
@@ -261,7 +261,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                 {filteredContents.length > 0 && (
                     <div className="flex justify-end mt-4">
                          <Link
-                            href={`/${figure.id}`}
+                            href={`/celeb/${figure.slug || figure.id}`}
                             className="text-xs text-accent/80 hover:text-accent shrink-0"
                         >
                             {t("viewAll")} →

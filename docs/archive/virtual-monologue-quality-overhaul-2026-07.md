@@ -1,7 +1,7 @@
 # 가상 독백 전수 품질 정비 기록
 
 > **완료 이력 전용. 현행 규칙이 아니다.** 작성·검토·반영 규칙은
-> `docs/project/celeb/virtual-monologue.md` 하나만 따른다.
+> 보존 규칙은 `docs/project/celeb/retire/virtual-monologue.md`를 따른다.
 
 > 시작: 2026-07-29 · 상태: **실존 full·light 한국어 전수 완료 — 활성 1,476명 / 유지 624명 / 게시 139명 / 보류 713명**
 > 한국어 원천: `profiles.virtual_monologue`  

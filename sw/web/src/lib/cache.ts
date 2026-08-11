@@ -102,8 +102,8 @@ export function cachedList<R>(
    만료(위 7일)까지 화면에서 그 구역이 통째로 사라진다. 에러 화면도 안내도 없이
    자리 자체가 없어지므로 원래 그런 화면인 줄 알게 된다.
 
-   실제로 두 번 났다 — 셀럽 목록(`docs/project/celeb/celeb-gotchas.md` §1),
-   인기 작품(26.08.07). 규칙은 `docs/project/tooling-gotchas.md` §3.1.
+   실제로 두 번 났다 — 셀럽 목록, 인기 작품(26.08.07).
+   두 사례와 규칙은 `docs/project/platform/tooling-gotchas.md`의 「실패를 캐시에 박지 마라」.
 
    쓰는 법 — 캐시되는 fetch 안에서 던지고, 공개 함수에서 받는다.
 

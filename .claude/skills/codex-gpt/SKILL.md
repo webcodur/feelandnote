@@ -56,7 +56,7 @@ ERROR codex_core::session::session: failed to load skill ...: missing YAML front
 
 ## 이미지 생성 (codex 내장 image_gen)
 
-구독제라 종량 과금 없음, rate limit만 있다. 발주 원칙(구도·시선·REF 사용법)은 `docs/project/image-generation.md`, API 직접 호출 규격·비용은 `docs/project/openai-usage.md`. 여기는 **codex로 부를 때의 실행 규칙만** 둔다.
+구독제라 종량 과금 없음, rate limit만 있다. 발주 원칙(구도·시선·REF 사용법)은 `docs/project/production/image-generation.md`, API 직접 호출 규격·비용은 `docs/project/platform/openai-usage.md`. 여기는 **codex로 부를 때의 실행 규칙만** 둔다.
 
 ```bash
 codex exec - -m gpt-5.6-sol --skip-git-repo-check \

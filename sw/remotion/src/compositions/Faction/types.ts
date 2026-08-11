@@ -140,7 +140,7 @@ export interface FactionPerson {
   /**
    * 제작 메모칸(자유 입력) — 이름이 origin이지만 출처 필드가 아니다.
    * 화면 라벨도 「대사 메모」이고 렌더에 노출되지 않는다(script.ts가 ko 렌더에서 제외).
-   * 출처를 의무 저장하지 않으며 빈칸도 결손이 아니다(AGENTS.md 26.07.31 운영 정정).
+   * 출처를 의무 저장하지 않으며 빈칸도 결손이 아니다(docs/project/remotion/faction-rules.md §3.4).
    * 대사 작업을 발주할 때 이 칸을 필수 출처로 요구하지 마라.
    */
   quoteOrigin?: string

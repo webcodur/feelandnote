@@ -143,12 +143,13 @@ export interface GetMembersParams {
   profession?: string
   tier?: string
   imageFilter?: CelebImageFilter
+  tagId?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
 
 export async function getMembers(params: GetMembersParams = {}): Promise<MembersResponse> {
-  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, imageFilter, sort, sortOrder } = params
+  const { profileType, page = 1, limit = 20, search, status, role, profession, tier, imageFilter, tagId, sort, sortOrder } = params
 
   if (profileType === 'CELEB') {
     const { celebs, total } = await getCelebs({
@@ -159,6 +160,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       profession,
       tier: tier as 'full' | 'light' | 'all' | undefined,
       imageFilter,
+      tagId,
       sort,
       sortOrder,
     })

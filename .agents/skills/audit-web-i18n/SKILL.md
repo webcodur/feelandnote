@@ -14,7 +14,7 @@ description: Feel&Note 사용자 웹의 한국어·영어 locale 대응을 코�
 - 전수 데이터 커버리지 요청에만 `audit-celeb-data.mjs --all`을 사용한다.
 - Remotion 원고 번역은 이 스킬의 범위가 아니다.
 
-작업 전 `docs/project/i18n.md`와 관련 화면 문서를 읽는다. 문구를 고치면 `docs/project/writing-rules.md`, UI를 고치면 `docs/project/code-rules.md`도 읽는다.
+작업 전 `docs/project/platform/i18n.md`와 관련 화면 문서를 읽는다. 문구를 고치면 `docs/project/production/writing-rules.md`, UI를 고치면 `docs/project/platform/code-rules.md`도 읽는다.
 
 ## 2. 정적 대응 검사
 

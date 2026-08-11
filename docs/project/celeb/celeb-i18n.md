@@ -1,6 +1,6 @@
 # 7. 영문 번역
 
-> **최종 실측 체크: 26.07.16** — 번역 대상 컬럼 실 DB 대조(부재 컬럼 제거, `consumption_philosophy_en` 추가)
+> **최종 실측 체크: 26.08.10** — 감상 여정과 가상 독백의 신규 번역 중단을 현행 파이프라인과 대조
 
 ## 적용 대상
 
@@ -14,24 +14,32 @@ fiction은 basic 최소 항목만 채우는 티어다. 번역하지 않는다. �
 
 담당 에이전트는 `celeb-7-i18n`. **모든 트랙 완료 후** 실행한다.
 
+### 작업 범위 경계
+
+한국어 데이터만 작성·교정하라는 요청에는 영문 열·영문 JSON·영문 locale을 자동으로 함께
+수정하지 않는다. 영문 검토·번역이 명시된 경우에만 이 트랙을 실행한다. 단, 사용자가
+`celeb-2-content-collector` 전체 수집을 요청한 경우에는 그 룰북이 한·영 메타를 한 번에
+확보하도록 정한 별도 계약을 따른다. 즉 **ko 전용 수정**과 **콘텐츠 전체 수집**을 같은 범위로
+해석하지 않는다.
+
 ## 번역 대상
 
 | # | 테이블 | 소스 컬럼 | 번역 컬럼 | 비고 |
 |---|--------|----------|----------|------|
 | 1 | `celebs` | `title` | `title_en` | 수식어 (2~8자 → 영문 동등 표현) |
 | 2 | `celebs` | `bio` | `bio_en` | 소개글 (2줄 분량) |
-| 3 | `celebs` | `consumption_philosophy` | `consumption_philosophy_en` | 감상 여정·철학의 쓰기 원천. `cultural_journey*`는 generated 별칭 |
-| 4 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
-| 5 | `celeb_dialogues` | `lines` (jsonb) | `lines_en` (jsonb) | 고유 대사 21개 + quote |
-| 6 | `celebs` | `virtual_monologue` | `virtual_monologue_en` | 가상 독백. 규칙은 `virtual-monologue.md`, 실행은 `sw/web-bo/scripts/translate-virtual-monologue.ts` |
+| 3 | `celeb_influence` | `*_exp` (7개) | `*_exp_en` | 영향력 설명 (30자 이내) |
+| 4 | `celeb_dialogues` | `lines` (jsonb) | `lines_en` (jsonb) | 고유 대사 21개 + quote |
 
 ### 번역 대상이 아닌 것
 
 | 항목 | 이유 |
 |------|------|
-| `celebs.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #5에 포함된다 |
+| `celebs.quotes` / `quotes_en` | **해당 컬럼이 없다.** 명언 정본은 `celeb_dialogues.lines.quote` / `lines_en.quote`이며 위 #4에 포함된다 |
 | `celebs.nickname_en` | basic 트랙(`celeb-1-basic-profile.md`)이 작성한다 |
 | `celeb_persona`의 `reason_en` / `rationale_en` | 페르소나 트랙(`celeb-5-persona.md`)이 작성한다 |
+| `consumption_philosophy*` / `cultural_journey*` | 감상 여정 신규 작성·번역 중단. `retire/celeb-3-cultural-journey.md` 참조 |
+| `virtual_monologue*` | 가상 독백 서비스 노출·신규 작성·번역 중단. `retire/virtual-monologue.md` 참조 |
 
 ---
 
@@ -41,7 +49,6 @@ fiction은 basic 최소 항목만 채우는 티어다. 번역하지 않는다. �
 
 ```sql
 SELECT p.id, p.nickname, p.nickname_en, p.title, p.bio,
-       p.consumption_philosophy,
        p.death_date, p.profession
 FROM celebs p
 WHERE p.id = '{celebId}'
@@ -107,15 +114,6 @@ SELECT lines FROM celeb_dialogues WHERE celeb_id = '{celebId}';
 - 주어 없이 시작하는 한국어 문체 → 영문에서는 주어 추가 가능
 - 예: "미국 출신 무용가." → "An American dancer."
 
-### consumption_philosophy / cultural_journey (감상 여정·철학)
-
-- 500자 이내 한국어 글을 동등 분량의 영문으로 번역
-- 쓰기는 `consumption_philosophy_en`에만 한다. `cultural_journey_en`은 generated 별칭이다
-- 단정적 문체("~다.") → 영문에서도 declarative 문체 유지
-- 원문의 1인칭 시점과 격식 수준을 영문에서도 유지
-- 추측 표현 금지는 영문에서도 동일 적용
-- 작품명 `『』` → 영문 *Title* (이탤릭)
-
 ### lines.quote (명언)
 
 명언은 `celeb_dialogues.lines.quote` → `lines_en.quote`로 번역한다.
@@ -162,10 +160,6 @@ UPDATE celebs SET
   bio_en = CASE id
     WHEN '{id1}' THEN '{bio_en_1}'
     WHEN '{id2}' THEN '{bio_en_2}'
-  END,
-  consumption_philosophy_en = CASE id
-    WHEN '{id1}' THEN '{consumption_philosophy_en_1}'
-    WHEN '{id2}' THEN '{consumption_philosophy_en_2}'
   END
 WHERE id IN ('{id1}', '{id2}');
 

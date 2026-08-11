@@ -10,7 +10,6 @@ nul
 .mcp.json
 
 # Google credentials (GA, YouTube OAuth)
-ga-credentials.json
 **/credentials/
 
 # Logs

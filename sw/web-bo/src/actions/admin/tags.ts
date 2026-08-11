@@ -1,5 +1,11 @@
 'use server'
 
+/**
+ * 세력도감 테마 CRUD와 웹 전용 편성 액션.
+ * `celeb_tags`·`celeb_tag_assignments`는 호환을 위해 유지하는 DB 이름이며,
+ * 별도 셀럽 태그 관리 화면이나 셀럽 편집 폼에서는 이 액션을 사용하지 않는다.
+ */
+
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { revalidateWebCache } from '@/lib/revalidate-web'
@@ -124,11 +130,7 @@ export interface TagsResponse {
 }
 // #endregion
 
-/**
- * 도감 테마 화면 갱신 — 통합 목록(세력도감)과 통합 편집 진입점(웹 전용 테마 화면) 두 곳.
- * 옛 태그 관리 주소(`/celebs/tags`)는 26.07.25 에, 테마 편집기(`/factions/themes/[tagId]`)는
- * 26.08.03 편집 화면 통합에 흡수됐다.
- */
+/** 세력도감 통합 목록과 편·테마 편집 화면을 함께 갱신한다. */
 function revalidateThemeScreens() {
   revalidatePath('/factions')
   revalidatePath('/factions/[episode]', 'page')
@@ -149,19 +151,7 @@ export async function getTags(): Promise<TagsResponse> {
     return { tags: [], total: 0 }
   }
 
-  // 태그별 셀럽 카운트 조회
-  const { data: counts } = await supabase
-    .rpc('get_tag_celeb_counts')
-
-  const countMap = new Map<string, number>()
-  counts?.forEach((row: { tag_id: string; celeb_count: number }) => {
-    countMap.set(row.tag_id, row.celeb_count)
-  })
-
-  const tags: CelebTag[] = (data ?? []).map(tag => ({
-    ...normalizeTag(tag),
-    celeb_count: countMap.get(tag.id) ?? 0,
-  }))
+  const tags: CelebTag[] = (data ?? []).map(normalizeTag)
 
   return { tags, total: tags.length }
 }
@@ -361,44 +351,6 @@ export async function updateTagOrder(tagIds: string[]): Promise<{ success: boole
 }
 // #endregion
 
-// #region getCelebTags - 특정 셀럽의 태그 목록 (설명 포함)
-export interface CelebTagWithDesc extends CelebTag {
-  short_desc: string | null
-  long_desc: string | null
-  short_desc_en: string | null
-  long_desc_en: string | null
-}
-
-/**
- * [단일화 전환 주의] 배정 테이블만 읽는 수동 명단 전용 도구다. 제작 유래로 도감에 실리는
- * 태그는 여기 안 잡히거나(사본 삭제 후) 옛 사본 값이 보일 수 있다 — 도감 화면의 정본은
- * faction_atlas_members 뷰다.
- */
-export async function getCelebTags(celebId: string): Promise<CelebTagWithDesc[]> {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase
-    .from('celeb_tag_assignments')
-    .select('short_desc, long_desc, short_desc_en, long_desc_en, tag:celeb_tags(*)')
-    .eq('celeb_id', celebId)
-
-  if (error) {
-    console.error('셀럽 태그 조회 에러:', error)
-    return []
-  }
-
-  return (data ?? [])
-    .map(item => ({
-      ...(item.tag as unknown as CelebTag),
-      short_desc: item.short_desc as string | null,
-      long_desc: item.long_desc as string | null,
-      short_desc_en: item.short_desc_en as string | null,
-      long_desc_en: item.long_desc_en as string | null,
-    }))
-    .filter(t => t.id)
-}
-// #endregion
-
 // #region 뷰 행 판별 - 편집 대상이 제작 유래인지 웹 전용 배정인지
 /**
  * (태그, 셀럽) 한 짝의 뷰 행을 찾는다. 뷰가 같은 짝을 두 번 싣지 않으므로(제작 유래가 있으면
@@ -486,60 +438,6 @@ export async function getTagCelebs(tagId: string): Promise<CelebTagAssignment[]>
 }
 // #endregion
 
-// #region updateCelebTags - 셀럽의 태그 일괄 업데이트 (설명 포함)
-export interface CelebTagInput {
-  tagId: string
-  short_desc?: string | null
-  long_desc?: string | null
-}
-
-/**
- * [단일화 전환 주의] 배정 테이블 전면 교체 — 수동 명단 전용 도구다. 제작 유래로 커버되는
- * (태그, 셀럽) 짝은 뷰가 제작 행을 앞세우므로 여기서 insert/delete 해도 도감 화면에는
- * 반영되지 않는다. 그 짝의 노출·소개는 편 편집기의 도감 구획(web_* 칸)에서 다룬다.
- */
-export async function updateCelebTags(
-  celebId: string,
-  tags: CelebTagInput[]
-): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
-
-  // 기존 태그 모두 삭제
-  const { error: deleteError } = await supabase
-    .from('celeb_tag_assignments')
-    .delete()
-    .eq('celeb_id', celebId)
-
-  if (deleteError) {
-    console.error('셀럽 태그 삭제 에러:', deleteError)
-    return { success: false, error: deleteError.message }
-  }
-
-  // 새 태그 일괄 추가 (설명 포함)
-  if (tags.length > 0) {
-    const { error: insertError } = await supabase
-      .from('celeb_tag_assignments')
-      .insert(tags.map(t => ({
-        celeb_id: celebId,
-        tag_id: t.tagId,
-        short_desc: t.short_desc || null,
-        long_desc: t.long_desc || null,
-      })))
-
-    if (insertError) {
-      console.error('셀럽 태그 추가 에러:', insertError)
-      return { success: false, error: insertError.message }
-    }
-  }
-
-  revalidatePath('/celebs/[slug]', 'page')
-  revalidateThemeScreens()
-  // celeb_tag_assignments 전면 교체 — 셀럽 목록·모달이 배정 태그를 함께 담는다
-  await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
-  return { success: true }
-}
-// #endregion
-
 // #region updateTagAssignmentDesc - 단일 태그 설명 수정
 /**
  * 소개문 저장 — 유래에 따라 쓰는 곳이 갈린다.
@@ -603,7 +501,6 @@ export async function updateTagAssignmentDesc(
     }
   }
 
-  revalidatePath('/celebs/[slug]', 'page')
   revalidateThemeScreens()
   // 소개문 — 세력도감 소개글이 셀럽 캐시에도 실린다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
@@ -707,7 +604,6 @@ export async function addCelebToTag(
     }
 
     revalidateThemeScreens()
-    revalidatePath('/celebs/[slug]', 'page')
     await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
     return { success: true, revived: true }
   }
@@ -742,7 +638,6 @@ export async function addCelebToTag(
   }
 
   revalidateThemeScreens()
-  revalidatePath('/celebs/[slug]', 'page')
   // celeb_tag_assignments 신규 — 셀럽 목록 카드에도 배정 태그가 실린다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true, sort_order: nextSortOrder }
@@ -779,7 +674,6 @@ export async function removeCelebFromTag(
     }
 
     revalidateThemeScreens()
-    revalidatePath('/celebs/[slug]', 'page')
     await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
     return { success: true, hiddenInstead: true }
   }
@@ -795,7 +689,6 @@ export async function removeCelebFromTag(
   }
 
   revalidateThemeScreens()
-  revalidatePath('/celebs/[slug]', 'page')
   // celeb_tag_assignments 삭제 — 셀럽 목록 카드에서도 배정 태그가 빠져야 한다
   await revalidateWebCache([CACHE_TAGS.TAGS, CACHE_TAGS.CELEBS])
   return { success: true }

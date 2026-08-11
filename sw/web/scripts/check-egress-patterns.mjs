@@ -210,7 +210,7 @@ const CATEGORY_LABEL = {
 const CATEGORY_ORDER = ['lines-raw-select', 'rsc-direct-supabase', 'action-no-cache', 'fullscan-pagination', 'lines-raw-select-cached']
 
 console.error(`Supabase egress 위험 패턴 ${violations.length}건 적발`)
-console.error('상세 가이드: docs/project/external-services.md, memory/feedback_supabase_action_caching.md')
+console.error('상세 가이드: docs/project/platform/external-services.md, memory/feedback_supabase_action_caching.md')
 console.error('')
 
 let criticalCount = 0

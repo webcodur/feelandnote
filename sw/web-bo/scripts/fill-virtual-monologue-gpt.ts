@@ -1,6 +1,6 @@
 /**
  * 실존 full·light 및 fiction 인물의 한국어 가상 독백 후보 생성기.
- * 규칙 SSoT: docs/project/celeb/virtual-monologue.md
+ * 보존 규칙: docs/project/celeb/retire/virtual-monologue.md (신규 작성 중단)
  *
  * 한 번의 모델 호출 안에서 4단계(재료 조사 → 말투·표현 설계 → 작성 → 검토하며 수정)를 거쳐
  * 실존 후보는 .tmp-gpt-mono, fiction 후보는 에피소드별 .tmp-gpt-mono-fiction에

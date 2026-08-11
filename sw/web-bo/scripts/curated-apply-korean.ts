@@ -21,7 +21,7 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../../..')
-const WORK = join(ROOT, 'docs/curated-lists/_korean-titles')
+const WORK = join(ROOT, 'data/curated-lists/_korean-titles')
 
 function loadEnv(p: string) {
   if (!existsSync(p)) return

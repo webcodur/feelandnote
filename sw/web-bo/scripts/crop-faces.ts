@@ -3,7 +3,7 @@
  *
  * 전신 크롭(단독 화보 REF 재료)은 crop-body.ts를 쓴다. 용도가 다르다.
  *
- * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb-avatar-spec.md §1·§6이고,
+ * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb/celeb-avatar-spec.md §1·§6이고,
  * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 등록 스크립트와 같은 구현을 쓴다.
  * 눈과 턱을 랜드마크로 직접 재서 규격 자리에 놓는다. 수치는 avatar-geometry.ts 의 AVATAR_SPEC 에만 있다.
  * 자를 크기·위치를 옵션으로 흔들 수 없다 — 그래야 인물마다 결과가 같아진다.
@@ -213,7 +213,7 @@ function parseArgs() {
     if (flags.has(dead)) {
       console.warn(
         `[경고] --${dead} 는 이제 쓰지 않는다. `
-        + '규격은 docs/project/celeb-avatar-spec.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
+        + '규격은 docs/project/celeb/celeb-avatar-spec.md 가 정하며 src/lib/avatar-geometry.ts 가 그대로 따른다. 무시한다.'
       )
     }
   }

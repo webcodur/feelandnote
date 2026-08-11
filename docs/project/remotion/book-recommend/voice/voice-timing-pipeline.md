@@ -86,7 +86,7 @@ pnpm voice:tts -- --episode <ep> --long --normalize --update-json
 - 하나라도 실패 → abort, 디스크 미수정
 - 전부 통과 → 일괄 커밋
 
-**분할 규칙** ([tts.md](../project/remotion/book-recommend/voice/tts.md) 4단계 참조):
+**분할 규칙** ([tts.md](tts.md) 4단계 참조):
 - 절 경계 (연결어미 뒤)
 - 주어/목적어 뒤 (서술어까지 10자 이내면 합침)
 - 수식절+피수식어 한 덩어리

@@ -115,7 +115,7 @@
 
 **전용 편집 화면은 예정에 없다(26.08.01 유저 결정).** 운영은 아래 세 도구로 한다.
 
-1. 조사 결과를 §4.2 형식의 JSON으로 `docs/curated-lists/`에 둔다
+1. 조사 결과를 §4.2 형식의 JSON으로 `data/curated-lists/`에 둔다
 2. `import-curated-list.ts`로 적재한다(멱등이라 몇 번을 돌려도 같다)
 3. `match-curated-items.ts` → `register-curated-books.ts`로 작품을 잇는다
 4. `/api/revalidate`에 `curated`·`contents` 태그를 던져 캐시를 비운다
@@ -139,8 +139,8 @@
 | `sw/web-bo/scripts/import-curated-list.ts` | 수집 JSON → DB 적재. 기관·목록은 slug 기준 갱신, 항목은 목록 단위 전량 교체(멱등). 이미 맺은 작품 연결은 제목+저자로 회수해 되붙인다. `_`로 시작하는 파일은 부속 자료로 보고 건너뛴다. `--dry` |
 | `sw/web-bo/scripts/match-curated-items.ts` | 항목 ↔ **기존** 콘텐츠 연결. 제목 정규화 + 저자 대조. 도서·영상 모두 다루며 목록의 대상 매체와 같은 것만 후보로 삼는다. `--dry` `--list <slug>` `--relink` |
 | `sw/web-bo/scripts/register-curated-books.ts` | 우리에게 **없는** 작품을 외부에서 찾아 등록하고 잇는다. 도서는 카카오·Open Library, 영상은 TMDB. `--dry` `--limit N` `--list <slug>` |
-| `docs/curated-lists/_author-aliases.json` | 저자 표기 대응표. 음역 차이(맥루한↔맥루언)는 규칙으로 안 잡혀 사람이 확인한 것만 등록 |
-| `docs/curated-lists/_match-report.json` · `_register-report.json` | 실행 보고(보류·미보유·미발견 명단). 실행마다 덮어쓴다 |
+| `data/curated-lists/_author-aliases.json` | 저자 표기 대응표. 음역 차이(맥루한↔맥루언)는 규칙으로 안 잡혀 사람이 확인한 것만 등록 |
+| `data/curated-lists/_match-report.json` · `_register-report.json` | 실행 보고(보류·미보유·미발견 명단). 실행마다 덮어쓴다 |
 
 **작품을 새로 등록할 때의 판정**
 
@@ -243,7 +243,7 @@
 
 > ⚠️ **파이브북스 4종은 담았다가 폐기했다(26.08.02).** 심리학 48·경제학 57·AI 48·철학 62를 넣었으나, 그 사이트에는 「심리학 48선」 같은 **발표된 목록이 없다** — 전문가 한 명당 다섯 권씩 고른 인터뷰 수천 편이 쌓여 있을 뿐이고, 우리가 분야로 긁어모아 묶은 것이었다. 발표 주체가 없는 묶음을 부커상·NYT 100선 옆에 나란히 두면 목록 전체의 신뢰가 깎인다.
 >
-> **판정 기준** — 새 목록을 담기 전에 묻는다. **"누가, 언제, 이 목록을 목록으로서 발표했나?"** 답이 없으면 담지 않는다. 좋은 책이 모여 있는지는 그다음 문제다. 조사 파일은 `docs/curated-lists/_fivebooks-*.json`에 앞머리 표시를 달아 두었다(폴더 전체 적재 시 건너뛴다).
+> **판정 기준** — 새 목록을 담기 전에 묻는다. **"누가, 언제, 이 목록을 목록으로서 발표했나?"** 답이 없으면 담지 않는다. 좋은 책이 모여 있는지는 그다음 문제다. 조사 파일은 `data/curated-lists/_fivebooks-*.json`에 앞머리 표시를 달아 두었다(폴더 전체 적재 시 건너뛴다).
 
 > **「심리학자 117인이 고른 책」의 이름을 왜 그렇게 지었나.** 처음에는 「영국심리학회 심리학 필독서」로 부르려 했으나, 조사해 보니 학회가 심사·의결한 공식 권장도서가 아니라 회원지 인터뷰에서 심리학자 개개인에게 물은 답을 모은 것이었다. 학회 이름을 앞세우면 없는 권위를 만드는 셈이라 답한 사람 수를 제목에 넣었다.
 

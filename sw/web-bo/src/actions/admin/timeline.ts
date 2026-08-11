@@ -7,7 +7,7 @@ import { revalidateWebCache } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { TIMELINE_KINDS } from '@/constants/timeline'
 
-/* 인물 생애 행적 편집 — 규격은 docs/project/celeb-journey.md 가 SSoT다.
+/* 인물 생애 행적 편집 — 규격은 docs/project/celeb/celeb-timeline.md 가 SSoT다.
    DB가 유일 원천이며 이 화면은 한 건씩 고치는 창구다. 조사기의 강제 재적재는
    source='research' 행만 갈아끼우므로 여기서 손댄 행은 source를 'manual'로
    바꿔 두어야 덮이지 않는다. */

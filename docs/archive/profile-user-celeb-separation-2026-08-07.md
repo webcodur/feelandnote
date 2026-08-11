@@ -228,7 +228,7 @@ WHERE p.id = au.id AND p.profile_type = 'CELEB' AND au.last_sign_in_at IS NULL; 
 
 > **함정:** 두 UPDATE를 데이터 수정 CTE로 한 문장에 묶으면 **같은 행에는 하나만 적용된다.** 손웅정은 두 조건에 모두 걸려 뒤 UPDATE가 0건으로 흘렀다. 따로 실행해 해결.
 
-**② `status` 의미 확정** — `docs/project/db-celeb.md`에 기록했다. 인물에게는 **노출 상태 하나만** 뜻한다. 겹침의 원인이던 계정이 사라져 더 이상 두 뜻으로 읽히지 않는다. 목록 노출을 가르는 것은 여전히 `celeb_tier`이며, `status`를 다른 판단에 끌어 쓰지 말라는 규칙은 `celeb-gotchas.md` §9-1이 계속 SSoT다.
+**② `status` 의미 확정** — `docs/project/data/db-celeb.md`에 기록했다. 인물에게는 **노출 상태 하나만** 뜻한다. 겹침의 원인이던 계정이 사라져 더 이상 두 뜻으로 읽히지 않는다. 목록 노출에는 `celeb_tier` 필터도 함께 적용되며, 공개 상태를 다른 판단에 끌어 쓰지 않는 규칙도 현재는 `db-celeb.md`가 쥔다.
 
 **③ 점수·소셜 자동 생성 트리거 — 변경하지 않는다**
 

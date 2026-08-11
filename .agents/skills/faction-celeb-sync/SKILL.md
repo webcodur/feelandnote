@@ -13,7 +13,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 2. **사진·영상·음악** — 편집기 헤더의 「출간」 패널로 올린다(진단→dry-run→출간).
 3. **영상 없는 태그의 수동 명단** — 배정 테이블(`celeb_tag_assignments`)을 web-bo `/factions/themes/[tagId]` 테마 편집기에서 관리한다.
 
-수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 파이프라인 SSoT는 `docs/project/web-bo.md` 「세력도감」 절(설계 근거는 `docs/project/remotion/faction-unification.md` §4-3·§9), 태그 시스템 SSoT는 `docs/project/celeb/celeb-tag-system.md`.
+수동 스크립트·REST 직접 수정은 파이프라인이 못 하는 예외에만 쓴다. 운영·편집 SSoT는 `docs/project/apps/web-bo.md` 「세력도감」 절이고, 데이터 단일화 설계는 `docs/project/remotion/faction-unification.md` §4-3·§9가 쥔다. `celeb_tags`·`celeb_tag_assignments`는 별도 태그 기능이 아니라 세력도감 테마의 내부 DB 계약이다.
 
 > **26.07.25 이관** — 출간 배관이 remotion-bo에서 web-bo로 옮겨 오면서 창구가 **API 라우트가 아니라 서버 액션**(`src/actions/admin/factions/publish.ts`의 `diagnoseFactionPublish`·`publishFactionEpisode`)이 됐다. 옛 `api/faction/db-sync/{status,publish}` 2라우트는 삭제됐고 **remotion-bo의 팩션 주소는 404다.** 서버 액션은 `curl`로 찌를 수 없으므로 진단·출간은 화면에서 한다.
 > **26.08.03 단일화** — 출간의 텍스트 복사가 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다.
@@ -61,7 +61,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 **함정**: 개인샷을 안 채우면 Hero가 아바타(얼굴 크롭)로 폴백돼 "얼굴이 Hero에 뜬다". 아바타=얼굴, 개인샷=원본 전신 — 반드시 다른 이미지.
 
-아바타의 프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`가 SSoT다(개인샷에는 적용하지 않는다).
+아바타의 프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb/celeb-avatar-spec.md`가 SSoT다(개인샷에는 적용하지 않는다).
 
 ## 파이프라인이 못 하는 것 (예외 작업)
 
@@ -79,7 +79,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 1. **원본 선정** — 기존 `_refs/<인물>`을 먼저 열고, 팩션 개인 화보 후보를 한 장씩 직접 대조한다. 첫 파일을
    자동 채택하거나 비교용 시트·합본을 만들지 않는다. 일치하는 컷이 없으면 조사 후 서로 구별되는 익명 REF와
    개인 화보를 먼저 설계한다. 실제 얼굴을 추정·생성하거나 일반 웹 사진을 본인 사진으로 대체하지 않는다.
-2. **크롭** — 목표 프레임 기하는 `docs/project/celeb-avatar-spec.md` §1·§2를 따른다. `sw/web-bo/scripts/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
+2. **크롭** — 목표 프레임 기하는 `docs/project/celeb/celeb-avatar-spec.md` §1·§2를 따른다. `sw/web-bo/scripts/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
    검출되지 않은 경우에만 수동 정사각 크롭을 허용한다. 수동 크롭도 승인된 REF의 은폐 방식·복식·소품을
    보존하며 얼굴을 보정하거나 드러내지 않는다.
 3. **배경 제거** — 반드시 `nobg-cutout` 스킬과 `C:\project\nobg` 전용 도구를 쓴다. 서비스 배경
@@ -109,4 +109,4 @@ curl.exe -X POST "https://feelandnote.com/api/revalidate" -H "Content-Type: appl
 ```
 `CRON_SECRET`은 `sw/web/.env`. (출간 패널은 이걸 자동으로 한다.)
 
-관련: `celeb-avatar-register`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `celeb-tag-system.md`(태그 SSoT), `web-bo.md` 「세력도감」 절(출간 배관), `faction-unification.md`(통합 설계).
+관련: `celeb-avatar-register`(아바타), `nobg-cutout`(배경 제거), `faction-image`(팩션 발주·익명 인물 설계), `web-bo.md` 「세력도감」 절(운영·출간 배관), `faction-unification.md`(통합 설계).

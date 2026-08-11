@@ -9,7 +9,7 @@
  *
  * targets는 "slug<TAB>profile_id" 형식. --targets-file 미지정 시 스크립트 내 DEFAULT_TARGETS 사용.
  *
- * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb-avatar-spec.md §1·§6이고,
+ * 자르는 규격의 단일원천(SSoT)은 docs/project/celeb/celeb-avatar-spec.md §1·§6이고,
  * 좌표 계산은 src/lib/avatar-geometry.ts 한 곳이 담당한다. 단건 등록기와 같은 구현을 쓴다.
  *
  * 흐름:

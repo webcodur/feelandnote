@@ -1,7 +1,7 @@
 /**
  * @deprecated 실존 인물의 팩션 화보를 신원 근거로 오인할 수 있어 실행을 차단했다.
  *
- * ⚠️ 이 파일의 크롭 코드는 폐기된 규격이다. 현재 규격은 docs/project/celeb-avatar-spec.md,
+ * ⚠️ 이 파일의 크롭 코드는 폐기된 규격이다. 현재 규격은 docs/project/celeb/celeb-avatar-spec.md,
  *    구현은 src/lib/avatar-geometry.ts 하나다. 여기 남은 상수·상단 정사각 폴백을 참고해 되살리지 마라.
  *
  * 프로필 사진(avatar)이 없는 세력도감 인물에게, 전용 화보(단독샷)에서 얼굴을 검출·정사각 크롭해 아바타로 박는다.

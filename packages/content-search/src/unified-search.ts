@@ -32,7 +32,7 @@ function mergeBookResults(
 
 // 도서 검색 (카카오 - 사용자용 기본)
 // 네이버 도서 API가 26.07.31 종료되어 카카오가 그 자리를 대신한다.
-// Google Books는 일일 한도 1,000건이라 폴백으로도 쓰지 않는다(AGENTS.md).
+// Google Books는 일일 한도 1,000건이라 폴백으로도 쓰지 않는다(docs/project/platform/external-services.md).
 async function searchBooksKakaoFirst(query: string, page: number): Promise<SearchResponse<ExternalSearchResult>> {
   const kakaoResult = await searchKakaoBooks(query, page)
 

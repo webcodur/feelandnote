@@ -2,7 +2,7 @@
 
 > ⚠️ **대체됨(26.08.06 아카이브).** 이 문서를 재개 지시로 읽지 마라. 본문의 "확정 잔여 164명"은 26.08.02 일괄 재생성으로 해소돼 지금은 10명 남짓이고, 아래 「단일원천」이 가리키는 `celeb-avatar-missing.md`·`celeb-avatar-modern-targets.md`·`celeb-avatar-local-assets.md` 세 문서는 삭제됐다.
 >
-> **현행 재개 지점**: 잔여 명단은 `docs/todo/celeb/celeb-avatar-defects.md`, 배경 지우기 증분은 `docs/todo/celeb/celeb-avatar-nobg-handoff.md`, 구도 규격은 `docs/project/celeb-avatar-spec.md`. 이 문서는 26.07.30 시점의 정비 절차 기록으로만 남긴다.
+> **현행 재개 지점**: 잔여 명단은 `docs/todo/celeb/celeb-avatar-defects.md`, 배경 지우기 증분은 `docs/todo/celeb/celeb-avatar-nobg-handoff.md`, 구도 규격은 `docs/project/celeb/celeb-avatar-spec.md`. 이 문서는 26.07.30 시점의 정비 절차 기록으로만 남긴다.
 >
 > 작성일: 2026-07-30
 
@@ -15,8 +15,8 @@
 - 현대 인물 특수 보류: `celeb-avatar-modern-targets.md`
 - 로컬 자산 정책: `celeb-avatar-local-assets.md`
 - 기계 판독 큐: `.tmp/celeb-avatar-audit-queue.json`
-- **초상 구도 규격(SSoT)**: `docs/project/celeb-avatar-spec.md`
-- 이미지 규격: `docs/project/db-celeb.md`
+- **초상 구도 규격(SSoT)**: `docs/project/celeb/celeb-avatar-spec.md`
+- 이미지 규격: `docs/project/data/db-celeb.md`
 - 배경 제거: `.agents/skills/nobg-cutout/SKILL.md`
 - 자동 등록 규칙: `.agents/skills/celeb-avatar-register/SKILL.md`
 
@@ -207,7 +207,7 @@
 
 ### 서비스 초상 규격
 
-- **프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb-avatar-spec.md`가 단일원천이다.** 아래는 요약이며, 충돌하면 그 문서를 따른다.
+- **프레임 기하·안전 영역·발주 프롬프트·판정 기준은 `docs/project/celeb/celeb-avatar-spec.md`가 단일원천이다.** 아래는 요약이며, 충돌하면 그 문서를 따른다.
 - 화면을 100단위로 볼 때 눈높이 46 · 턱끝 81 · 콧대 가로 50(목표값. 판정 허용은 SSoT §1).
 - **머리 위는 자유다.** 머리카락·모자·투구·관모가 화면 위로 잘려도 무방하다. 다만 이마·눈썹·귀 등 얼굴 자체가 잘리면 불합격이다.
 - **턱 아래도 자유다.** 맨 목·옷깃·러프·관복 깃·투구 목가리개·갑옷 어깨보호구·긴 머리카락 무엇이 채워도 되고, 어깨가 아예 안 보여도 된다. 어깨를 담으려고 카메라를 빼지 않는다. 턱 아래가 텅 비어 원형 안에 머리만 떠 보이는 것만 불합격이다.

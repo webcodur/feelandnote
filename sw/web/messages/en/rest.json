@@ -62,12 +62,12 @@
         }
       },
       "memory": {
-        "label": "Memory Hall",
+        "label": "Memory",
         "description": "Find two cards showing the same historical figure",
         "headerSub": "Turn the cards, remember each face, and find every matching pair. A matched portrait disappears.",
         "catchphrase": "Vanishing Portraits",
         "selectDifficulty": "Select Difficulty",
-        "startGame": "Enter Memory Hall",
+        "startGame": "Enter Memory",
         "notEnoughFigures": "The figure portraits needed for this game could not be loaded.",
         "difficulty": {
           "easy": {

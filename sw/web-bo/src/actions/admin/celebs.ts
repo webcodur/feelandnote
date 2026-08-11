@@ -54,6 +54,7 @@ interface GetCelebsParams {
   profession?: string
   tier?: 'full' | 'light' | 'all'
   imageFilter?: CelebImageFilter
+  tagId?: string
   sort?: string
   sortOrder?: 'asc' | 'desc'
 }
@@ -287,7 +288,8 @@ function buildCelebListQuery(
   supabase: ReturnType<typeof createAdminClient>,
   params: Pick<GetCelebsParams, 'search' | 'status' | 'profession' | 'tier' | 'imageFilter'>,
   select: string,
-  options?: { count?: 'exact'; head?: boolean }
+  options?: { count?: 'exact'; head?: boolean },
+  inIds?: string[]
 ) {
   const { search, status, profession, tier, imageFilter } = params
 
@@ -321,6 +323,10 @@ function buildCelebListQuery(
     query = query.is('portrait_url', null)
   }
 
+  if (inIds) {
+    query = query.in('id', inIds)
+  }
+
   return query
 }
 
@@ -343,7 +349,7 @@ const CELEB_SORT_COLUMNS: Record<string, string> = {
 }
 
 async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
   const supabase = createAdminClient()
   const offset = (page - 1) * limit
   const filters = { search, status, profession, tier, imageFilter }
@@ -357,7 +363,22 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     celeb_influence!celeb_influence_celebs_fkey (total_score)
   `
 
-  const { count, error: countError } = await buildCelebListQuery(supabase, filters, 'id', { count: 'exact', head: true })
+  let tagCelebIds: string[] | undefined
+  if (tagId && tagId !== 'all') {
+    const { data: tagAssignments, error: tagError } = await supabase
+      .from('faction_atlas_members')
+      .select('celeb_id')
+      .eq('tag_id', tagId)
+
+    if (tagError) {
+      console.error('[getCelebsByDirectQuery] 태그 인물 조회 실패:', tagError)
+      throw tagError
+    }
+    tagCelebIds = tagAssignments?.map((a: any) => a.celeb_id) || []
+    if (tagCelebIds.length === 0) return { celebs: [], total: 0 }
+  }
+
+  const { count, error: countError } = await buildCelebListQuery(supabase, filters, 'id', { count: 'exact', head: true }, tagCelebIds)
 
   if (countError) {
     console.error('[getCelebsByDirectQuery] count 조회 실패:', countError)
@@ -374,7 +395,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
     const ascending = sortOrder === 'asc'
     // 값이 빈 행은 JS 정렬(compareText)에서 빈 문자열로 취급돼 오름차순의 맨 앞에 왔다.
     // DB도 같은 자리에 두도록 nullsFirst를 오름차순 여부에 맞춘다.
-    let query = buildCelebListQuery(supabase, filters, selectFields)
+    let query = buildCelebListQuery(supabase, filters, selectFields, undefined, tagCelebIds)
       .order(sortColumn, { ascending, nullsFirst: ascending })
     if (sortColumn !== 'created_at') query = query.order('created_at', { ascending: false })
     query = query.order('nickname', { ascending: true, nullsFirst: true })
@@ -400,7 +421,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   for (let batchOffset = 0; batchOffset < count; batchOffset += batchSize) {
     const batchEnd = Math.min(batchOffset + batchSize - 1, count - 1)
-    const { data: batch, error: batchError } = await buildCelebListQuery(supabase, filters, selectFields)
+    const { data: batch, error: batchError } = await buildCelebListQuery(supabase, filters, selectFields, undefined, tagCelebIds)
       .order('id', { ascending: true })
       .range(batchOffset, batchEnd)
 
@@ -437,7 +458,7 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
 // #region getCelebs
 export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsResponse> {
-  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, sort = 'created_at', sortOrder = 'desc' } = params
+  const { page = 1, limit = 20, search, status, profession, tier, imageFilter, tagId, sort = 'created_at', sortOrder = 'desc' } = params
   const rpcUnsupportedSorts = ['avatar_url', 'title', 'gender', 'celeb_tier']
   const needsExactFiltering =
     rpcUnsupportedSorts.includes(sort) ||
@@ -445,10 +466,11 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     status === 'inactive' ||
     status === 'suspended' ||
     (tier && tier !== 'all') ||
-    (imageFilter && imageFilter !== 'all')
+    (imageFilter && imageFilter !== 'all') ||
+    (tagId && tagId !== 'all')
 
   if (needsExactFiltering) {
-    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, imageFilter, sort, sortOrder })
+    return getCelebsByDirectQuery({ page, limit, search, status, profession, tier, imageFilter, tagId, sort, sortOrder })
   }
 
   const supabase = createAdminClient()
@@ -477,7 +499,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_nationality: null,
     p_content_type: null,
     p_search: search || null,
-    p_tag_id: null,
+    p_tag_id: tagId && tagId !== 'all' ? tagId : null,
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
@@ -502,7 +524,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     p_search: search || '',
     p_limit: limit,
     p_offset: actualOffset,
-    p_tag_id: null,
+    p_tag_id: tagId && tagId !== 'all' ? tagId : null,
     p_min_content_count: 0,
     p_gender: null,
     p_include_inactive: includeInactive,
