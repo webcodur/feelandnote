@@ -3,7 +3,7 @@
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { NO_ROWS_CODE, STATIC_REVALIDATE, throwOnQueryError, withQueryFallback } from '@/lib/cache'
+import { STATIC_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import type { CelebProfile, CelebInfluence, CelebTagInfo } from '@/types/home'
@@ -22,7 +22,7 @@ type ProfileModalRow = Pick<
   | 'title' | 'title_en'
   | 'nationality' | 'birth_date' | 'death_date' | 'bio' | 'bio_en'
   | 'is_verified' | 'claimed_by_member_id' | 'has_voice' | 'voice_v' | 'voice_speed' | 'celeb_tier'
-  | 'publication_status' | 'content_research_status'
+  | 'publication_status' | 'content_research_confirmed_empty_at'
 >
 
 // 캐시되는 공개 데이터 묶음 (인증 비의존)
@@ -45,17 +45,17 @@ async function fetchCelebModalPublic(
   // 프로필 조회 (인물 미리보기에 필요한 필드만)
   let profileQuery = supabase
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by_member_id, has_voice, voice_v, voice_speed, celeb_tier, publication_status, content_research_status')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, nationality, birth_date, death_date, bio, bio_en, is_verified, claimed_by_member_id, has_voice, voice_v, voice_speed, celeb_tier, publication_status, content_research_confirmed_empty_at')
     .eq('id', celebId)
 
   if (requireActive) {
     profileQuery = profileQuery.eq('publication_status', 'active')
   }
 
-  const { data, error } = await profileQuery.single()
+  const { data, error } = await profileQuery.maybeSingle()
 
   const profile: ProfileModalRow | null = data
-  throwOnQueryError('getCelebForModal 프로필', error, { ignoreCodes: [NO_ROWS_CODE] })
+  throwOnQueryError('getCelebForModal 프로필', error)
   if (!profile) return null
 
   // 병렬 조회
@@ -104,7 +104,7 @@ async function fetchCelebModalPublic(
     profile,
     contentCount: resolveCelebContentCount(
       contentResult.count,
-      profile.content_research_status
+      profile.content_research_confirmed_empty_at ? 'confirmed_empty' : null
     ),
     followerCount: followerResult.count || 0,
     totalScore: influenceResult.data?.total_score ?? null,
@@ -115,7 +115,7 @@ async function fetchCelebModalPublic(
 
 const getCelebModalCached = unstable_cache(
   (celebId: string) => fetchCelebModalPublic(celebId, true),
-  ['celeb-modal'],
+  ['celeb-modal-v2-confirmed-empty-at'],
   // celebs·celeb_influence + celeb_contents(서고 수) + faction_atlas_members + celeb_dialogues
   {
     revalidate: STATIC_REVALIDATE,
@@ -145,7 +145,7 @@ const getFactionCelebModalCached = unstable_cache(
     if (!assignment) return null
     return fetchCelebModalPublic(celebId, false)
   },
-  ['faction-celeb-modal'],
+  ['faction-celeb-modal-v2-confirmed-empty-at'],
   {
     revalidate: STATIC_REVALIDATE,
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],

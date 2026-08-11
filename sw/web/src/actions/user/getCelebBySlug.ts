@@ -2,7 +2,7 @@
 import { cache } from 'react'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { cachedDetail } from '@/lib/cache'
+import { cachedDetail, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { type ActionResult, failure } from '@/lib/errors'
 import { type PublicUserProfile, type CelebTier } from './getUserProfile'
@@ -134,7 +134,7 @@ interface PublicCelebBySlugData {
     voice_speed: number | null
     wikidata_qid: string | null
     celeb_tier: string | null
-    content_research_status: string | null
+    content_research_confirmed_empty_at: string | null
     view_count: number | null
     youtube_videos: Record<string, { videoId: string; uploadedAt: string }> | null
     portrait_url: string | null
@@ -166,12 +166,16 @@ interface PublicCelebBySlugData {
 async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugData | null> {
   const supabase = createStaticClient()
 
-  const { data: celeb } = await supabase
+  const { data: celeb, error: celebError } = await supabase
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_status, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
-    .single()
+    .maybeSingle()
+
+  // 정상적인 0행만 상세 404로 보낸다. 스키마 불일치·권한·네트워크 오류를 null로
+  // 삼키면 notFound()와 7일 캐시에 박혀 실제 active 인물이 검색에서 사라진다.
+  throwOnQueryError('공개 인물 본체', celebError)
 
   if (!celeb) return null
 
@@ -329,7 +333,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
     profile: profile as PublicCelebBySlugData['profile'],
     contentCount: resolveCelebContentCount(
       contentCountResult.count,
-      profile.content_research_status
+      profile.content_research_confirmed_empty_at ? 'confirmed_empty' : null
     ),
     followerCount: followerResult.count || 0,
     guestbookCount: guestbookResult.count || 0,
@@ -353,8 +357,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v5: 비활성 세력 배정을 상세 페이지의 세력도감에서 제외한다.
-    ['celeb-by-slug-v5-active-factions', slug],
+    // v6: 제거된 조사 상태 컬럼 조회 실패가 null로 캐시된 v5 항목을 다시 쓰지 않는다.
+    ['celeb-by-slug-v6-confirmed-empty-at', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )
