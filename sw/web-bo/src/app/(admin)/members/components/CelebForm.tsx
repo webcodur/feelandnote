@@ -15,9 +15,12 @@ import { useToast } from '@/contexts/ToastContext'
 import { resizeSingleImage, resizePortraitImage } from '@/lib/image'
 import CelebAvatarEditor, { AvatarUploadEmpty } from '@/components/celeb/avatar/CelebAvatarEditor'
 import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
+import { saveCelebAvatar } from '@/components/celeb/avatar/saveCelebAvatar'
 import CelebPortraitEditor from '@/components/celeb/portrait/CelebPortraitEditor'
+import { saveCelebPortrait } from '@/components/celeb/portrait/saveCelebPortrait'
 import FormattedText from '@/components/ui/FormattedText'
 import { useLangMode, type LangMode } from '@/contexts/LangModeContext'
+import { persistCroppedCelebImage } from './persistCroppedCelebImage'
 
 // #region Types
 interface CelebFormData {
@@ -261,7 +264,24 @@ export default function CelebForm({ mode, celeb }: Props) {
     setAvatarPreview(null)
   }
 
-  function handleAvatarCrop(file: File, croppedDataUrl: string) {
+  async function handleAvatarCrop(file: File, croppedDataUrl: string) {
+    const url = await persistCroppedCelebImage({
+      mode,
+      celebId: celeb?.id,
+      file,
+      persist: saveCelebAvatar,
+    })
+
+    if (url) {
+      setError(null)
+      setAvatarFile(null)
+      setAvatarPreview(null)
+      initialFormData.current = { ...initialFormData.current, avatar_url: url }
+      setFormData((prev) => ({ ...prev, avatar_url: url }))
+      showToast('success', '아바타를 저장했습니다.')
+      return
+    }
+
     setAvatarFile(file)
     setAvatarPreview(croppedDataUrl)
   }
@@ -274,7 +294,24 @@ export default function CelebForm({ mode, celeb }: Props) {
   }
 
   // #region 대표 화보
-  function handlePortraitCrop(file: File, croppedDataUrl: string) {
+  async function handlePortraitCrop(file: File, croppedDataUrl: string) {
+    const url = await persistCroppedCelebImage({
+      mode,
+      celebId: celeb?.id,
+      file,
+      persist: saveCelebPortrait,
+    })
+
+    if (url) {
+      setError(null)
+      setPortraitFile(null)
+      setPortraitPreview(null)
+      initialFormData.current = { ...initialFormData.current, portrait_url: url }
+      setFormData((prev) => ({ ...prev, portrait_url: url }))
+      showToast('success', '대표 사진을 저장했습니다.')
+      return
+    }
+
     setPortraitFile(file)
     setPortraitPreview(croppedDataUrl)
   }
@@ -521,6 +558,7 @@ export default function CelebForm({ mode, celeb }: Props) {
                   removable
                   loadImmediately
                   highPriority
+                  showSavedState={mode === 'edit'}
                   onFileAccepted={applyFileNameAsNickname}
                   onCroppedFile={handleAvatarCrop}
                   onRemove={handleImageRemove}
