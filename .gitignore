@@ -101,7 +101,7 @@ sw/인물-*.txt
 /mcps/
 /output/
 
-# Root-level 작업 메모 (로컬 보관용)
+# 작업 메모 (로컬 보관용 — docs/resource/ 로 이동, 루트 패턴은 잔존 파일 대비 유지)
 /CELEB_QUEUE.md
 /SHORTS_EXAMPLE.txt
 /최고 쇼츠.txt
@@ -114,6 +114,9 @@ sw/인물-*.txt
 /조사요구서-*.md
 /이미지분석.txt
 /살아있는 프로젝트.txt
+/docs/resource/프롬프트_*.txt
+/docs/resource/보이스 에디터.txt
+/docs/resource/내 할 일.txt
 
 # 일회성 작업 스크립트·중간 산출물 (파일명 앞에 .tmp- 를 붙인다)
 .tmp-*
@@ -140,6 +143,25 @@ sw/인물-*.txt
 
 # 외부 AI 에이전트 설정
 # .agents = 멀티툴 공용 스킬·문서 (git 추적)
+# 아래는 .agents/skills 를 가리키는 로컬 정션이다. 실체가 아니므로 추적하지 않는다.
+# 새 컴퓨터나 새 스킬 추가 시 `.agents/link-skills.ps1` 로 다시 만든다.
+/.claude/skills/audit-web-i18n/
+/.claude/skills/celeb-activation-audit/
+/.claude/skills/celeb-reading/
+/.claude/skills/diagnosing-bugs/
+/.claude/skills/faction-character-info/
+/.claude/skills/faction-data-manage/
+/.claude/skills/faction-dialogue-review/
+/.claude/skills/fiction-profile-audit/
+/.claude/skills/interview-audio-pipeline/
+/.claude/skills/nobg-cutout/
+/.claude/skills/remo-resource-scanner/
+/.claude/skills/supabase/
+/.claude/skills/supabase-postgres-best-practices/
+/.claude/skills/ui-scroll/
+/.claude/skills/verify-ui-in-browser/
+/.claude/skills/win-lock-bypass-editor/
+/.claude/skills/writing-for-agents/
 /.codex/
 /scratch/
 /_workspace/

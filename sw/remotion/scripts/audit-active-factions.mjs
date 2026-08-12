@@ -3,8 +3,10 @@
  */
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const root = path.resolve("sw/remotion/public/factions");
+const appRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = path.join(appRoot, "public/factions");
 const active = new Set(
   JSON.parse(fs.readFileSync(path.join(root, "_episodes.json"), "utf8")),
 );
@@ -37,7 +39,7 @@ function resolveUnderSeries(seriesBase, seriesName, imgPath) {
   }
   const full = path.join(seriesBase, fp);
   if (fs.existsSync(full)) return { full, ok: true };
-  const pub = path.join("sw/remotion/public", imgPath.replace(/^\//, ""));
+  const pub = path.join(appRoot, "public", imgPath.replace(/^\//, ""));
   if (fs.existsSync(pub)) return { full: pub, ok: true };
   return { full, ok: false };
 }

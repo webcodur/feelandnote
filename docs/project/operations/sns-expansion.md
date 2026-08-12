@@ -43,7 +43,7 @@
 **레버 1 — 카드 생성기** (인스타·쓰레드·틱톡·네이버·X 캐러셀)
 - **무엇:** 기존 책·인물 데이터로 정지 이미지 카드(여러 장 넘기는 카드뉴스)를 자동으로 찍어낸다.
 - **왜:** 비율(1:1·4:5·9:16·16:9)만 바꾸면 다섯 채널을 **한 코드로 전부 먹인다.**
-- **현황(26.07.29 실측): 만들어졌다.** 카드 렌더러(`sw/remotion/src/compositions/BookCard/` 7종, `FactionCard/` 5종), 미리보기·편성 화면(서재 탐방은 web-bo `/book-recommend/<인물>/cards`, 팩션은 web-bo `/factions` 카드 화면), 출고 배치(`pnpm render:cards`)가 전부 있다. 남은 건 전권 양산·배포. 구현 SSoT: `sw/remotion/docs/project/card-news/IMPLEMENTATION.md`.
+- **현황(26.07.29 실측): 만들어졌다.** 카드 렌더러(`sw/remotion/src/compositions/BookCard/` 7종, `FactionCard/` 5종), 미리보기·편성 화면(서재 탐방은 web-bo `/book-recommend/<인물>/cards`, 팩션은 web-bo `/factions` 카드 화면), 출고 배치(`pnpm render:cards`)가 전부 있다. 남은 건 전권 양산·배포. 구현 SSoT: `docs/project/remotion/card-news.md`.
 - **남은 제약:** 비율별 레이아웃(1:1·9:16)에서 책 많은 목차·긴 감상경위가 넘치는지 미점검. 세로 인물 사진을 가로/정사각에 맞추는 초점 정보가 대부분 미지정.
 
 **레버 2 — 감상 배경 스토리화** (텍스트 채널 무기)
@@ -195,7 +195,7 @@
   - **카드 컴포넌트 둘 다 구현됨**: 팩션 FactionCard 5종(cover·quote·dquote·grid·number) + 북리커맨드 BookCard 5종(책장·표지·인용·대출카드·숫자), 1:1·4:5·9:16 등록. **남은 공통 작업 = 정지 이미지 양산(렌더 출력 연결 + 전권 배치 스크립트).** 이게 SNS 카드 콘텐츠를 실제로 뽑아내는 다음 한 걸음.
   - **영상 게시 준비(정정)**: 유튜브는 **이미 공개 운영 중**이다(앞서 "비공개 48개 공개 전환"으로 파악한 건 오류). 새 에피소드는 재렌더 필요, 솔로 롱폼은 음성 미생성으로 막힘.
   - **계획 현실화**: "30일 8채널 동시 시작"은 1인 운영엔 비현실. 권장 순서 = ① 카드 정지이미지 양산(다른 쪽 진행 중) ② X 텍스트·카드 시작 ③ 인스타 ④ 네이버·쓰레드 순차. (유튜브는 이미 공개 운영 중.)
-- **카드 생성기 미리보기·편성·출고 구현 (2026-06-30, web-bo 이관 2026-07-29)**: 북리커맨드 BookCard를 7종으로 재정비(인물소개·마무리 추가, 대출카드 폐기, 감상경위 분할 context 추가). 현행 Cards 탭은 web-bo `/book-recommend/<인물>/cards` — @remotion/player 미리보기, 책 선별, 비율 토글(4:5·1:1·9:16), 편성 저장(`faction-cards.json`). 편성 두 유형 A「읽은 책 N권」캐러셀·B「한 권 깊게」. PNG 출고 `render:cards` 배치. 구현 SSoT: **`sw/remotion/docs/project/card-news/IMPLEMENTATION.md`** (remotion 워크스페이스 안에 있다 — 저장소 루트 `docs/`가 아니다). (팩션 FactionCard는 별도 진행)
+- **카드 생성기 미리보기·편성·출고 구현 (2026-06-30, web-bo 이관 2026-07-29)**: 북리커맨드 BookCard를 7종으로 재정비(인물소개·마무리 추가, 대출카드 폐기, 감상경위 분할 context 추가). 현행 Cards 탭은 web-bo `/book-recommend/<인물>/cards` — @remotion/player 미리보기, 책 선별, 비율 토글(4:5·1:1·9:16), 편성 저장(`faction-cards.json`). 편성 두 유형 A「읽은 책 N권」캐러셀·B「한 권 깊게」. PNG 출고 `render:cards` 배치. 구현 SSoT: **`docs/project/remotion/card-news.md`**. (팩션 FactionCard는 별도 진행)
 - **채널 통일감 가이드 (2026-06-30, 진행 중)**: 북리커맨드(인물 서사)와 팩션(인물 도감)을 한 계정에 이질감 없이 공존시키는 원칙 = **"같은 뼈대, 다른 살".**
   - 통일(뼈대): 브랜드 마크·워터마크 위치·크기, 메인 색·폰트, 카드뉴스 첫 장(표지)·끝 장(사이트 안내) 틀, 인물 사진 색감·크롭 규칙.
   - 자유(살): 중간 장 구성(서재=서사 흐름, 세력도감=진영 격자), 보조 악센트색.

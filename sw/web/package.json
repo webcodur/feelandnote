@@ -10,6 +10,11 @@
     "lint:egress": "node scripts/check-egress-patterns.mjs",
     "check:timeline-scroll": "node scripts/check-celeb-timeline-scroll.mjs",
     "check:memory-audio": "node scripts/check-memory-match-audio.mjs",
+    "celeb:qid": "node scripts/bulk-qid.mjs",
+    "avatar:prune-old": "node scripts/delete-old-avatars.mjs",
+    "stats:celeb-views": "node scripts/ga4-celeb-views.mjs",
+    "icons:app": "node scripts/generate-app-icons.mjs",
+    "icons:android": "node scripts/generate-android-launcher-icons.mjs",
     "test:memory-audio": "tsx --test src/components/features/game/memory/audioPlan.test.ts",
     "test:memory-selection": "tsx --test src/components/features/game/memory/selection.test.ts",
     "test:content-expand": "tsx --test src/components/features/user/contentLibrary/expand/*.test.ts"

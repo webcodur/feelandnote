@@ -35,8 +35,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 
 옛 `profiles`·`user_contents`와 저장형 `profile_type`, `profiles_compat`, `follows`,
 `user_social`은 2026-08-10 최종 제거 마이그레이션에서 운영 DB에서 삭제됐다. 현역 코드와 새
-DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요한 경우
-`docs/archive/data/profile-celeb-account-separation-improvement-2026-08-09.md`의 이력만 참조한다.
+DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요하면 마이그레이션 파일과 커밋 이력에서 찾는다.
 `20260809184517_retire_legacy_profile_domain.sql`은 새 앱 배포와 구버전 인스턴스 종료를
 확인한 뒤 2026-08-10 적용됐다. 이 절은 현재 사용법이 아니라 제거 결과를 설명한다.
 

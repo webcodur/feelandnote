@@ -1,6 +1,6 @@
 # 기관 선정 목록 적재 자료
 
-작품 화면의 「기관 선정」에 넣는 기관·시상·분야별 목록 JSON과 수집·매칭 보고서를 보관한다. 화면 구조와 적재 도구의 현역 규격은 [`docs/project/service/curated-lists.md`](../docs/project/service/curated-lists.md)가 쥔다.
+작품 화면의 「기관 선정」에 넣는 기관·시상·분야별 목록 JSON과 수집·매칭 보고서를 보관한다. 화면 구조와 적재 도구의 현역 규격은 [`docs/project/service/curated-lists.md`](../../docs/project/service/curated-lists.md)가 쥔다.
 
 ## 파일 규칙
 

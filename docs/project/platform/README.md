@@ -10,3 +10,4 @@
 | [`env-vars.md`](env-vars.md) | 환경변수·비밀 파일 SSoT |
 | [`external-services.md`](external-services.md) | Supabase, Vercel, R2, 외부 검색 API와 운영 연결 |
 | [`openai-usage.md`](openai-usage.md) | OpenAI 모델·API 사용 기준 |
+| [`oauth-setup.md`](oauth-setup.md) | 소셜 로그인 연동 설정과 인증 흐름 |

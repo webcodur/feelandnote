@@ -259,7 +259,7 @@ dead 코드 판별은 `Root.tsx`부터 import 그래프 BFS로 reachable을 계�
 
 ### SNS 카드뉴스 (BookCard)
 
-북리커맨드 인물·책 SNS 카드뉴스. SSoT는 `sw/remotion/docs/project/card-news/IMPLEMENTATION.md`(`docs/project/card-news/`에는 시안 html만 있다).
+북리커맨드 인물·책 SNS 카드뉴스. SSoT는 `docs/project/remotion/card-news.md`.
 
 - **렌더러**: `sw/remotion/src/compositions/BookCard/BookCard.tsx`. 카드 7종(intro·shelf·cover·context·quote·number·cta). 대출카드(librarycard)는 폐기했다. 자매 컴포넌트는 `FactionCard/`. utils 의존을 끊고 자체 `resolveSrc(src, assetBase)`를 쓴다(remotion 렌더는 staticFile, 외부 앱은 assetBase). `josa`를 export한다. intro 소개 한 줄은 featuredQuote를 우선한다(philosophy 첫 문장은 "안녕하십니까" 같은 독백 인사라 후순위).
 - **미리보기**: web-bo Cards 탭 `/book-recommend/<인물>/cards`. @remotion/player로 BookCard를 띄운다(`transpilePackages:['@feelandnote/remotion']`, deep import `@feelandnote/remotion/src/...`). 로컬 표지는 `/api/rm-asset/[...path]`로 서빙한다(remotion public, 한글 폴더 디코딩). 기능은 A/B 토글·책 선별·비율(4:5·1:1·9:16)·편성 저장.

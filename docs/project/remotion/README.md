@@ -12,7 +12,7 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 
 세력도감의 제작 규칙은 [`faction/rules.md`](faction/rules.md), 데이터 단일화 설계는 [`faction/unification.md`](faction/unification.md), 화면 영상화 검토는 [`faction/video-clips.md`](faction/video-clips.md)가 나눠 맡는다. 가상 담화의 통합 설계는 [`discourse/unification.md`](discourse/unification.md)가 쥔다.
 
-「저승 술집(hell-bar)」은 구현 전에 폐기됐고 가상 담화가 역할을 이어받았다. 기획 보존본은 [`docs/archive/remotion/hell-bar/`](../../archive/remotion/hell-bar/README.md)에만 둔다.
+「저승 술집(hell-bar)」은 구현 전에 폐기됐고 가상 담화가 역할을 이어받았다. 기획서는 저장소에서 지웠다.
 
 ## 인물 그룹
 
@@ -26,7 +26,9 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 
 ## 제작 관리
 
-현행 편집·출간 창구는 [`docs/project/apps/web-bo.md`](../apps/web-bo.md)다. 구 remotion-bo를 web-bo로 이관하고 앱을 폐기한 과정은 [`docs/archive/remotion/remotion-bo-plan.md`](../../archive/remotion/remotion-bo-plan.md)에 이력으로만 보존한다.
+현행 편집·출간 창구는 [`docs/project/apps/web-bo.md`](../apps/web-bo.md)다. 구 remotion-bo는 web-bo로 이관하고 앱을 폐기했다.
+
+인물·책 카드를 SNS로 내보내는 카드뉴스 구현 현황은 [`card-news.md`](card-news.md)가 쥔다.
 
 ## 코드·데이터 진입점
 

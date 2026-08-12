@@ -18,8 +18,7 @@
     "audit:i18n": "node .agents/skills/audit-web-i18n/scripts/audit-static.mjs",
     "audit:i18n:data": "node .agents/skills/audit-web-i18n/scripts/audit-celeb-data.mjs",
     "audit:i18n:routes": "node .agents/skills/audit-web-i18n/scripts/audit-routes.mjs",
-    "voice": "pnpm --filter @feelandnote/remotion voice",
-    "voice:list": "pnpm --filter @feelandnote/remotion voice:list"
+    "gate:publication": "py -3.12 sw/remotion/scripts/publication-gate.py"
   },
   "devDependencies": {
     "puppeteer": "^24.2.1",

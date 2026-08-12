@@ -5,7 +5,7 @@
 ## 디렉터리
 
 ```text
-docs/celeb-data/
+data/celeb/
 ├── README.md
 ├── dialogue/
 │   ├── 01-괴테.md ... 12-박상영.md
@@ -30,7 +30,7 @@ docs/celeb-data/
 
 ### `virtual-monologue/`
 
-가상 독백 전수 정비 당시의 배치, 근거 dossier, 초안과 적용 보고서를 보존한다. 서비스 화면 노출과 신규 작성은 중단됐으며, 현행 판단은 [`docs/project/celeb/retire/virtual-monologue.md`](../project/celeb/retire/virtual-monologue.md)를 따른다.
+가상 독백 전수 정비 당시의 배치, 근거 dossier, 초안과 적용 보고서를 보존한다. 서비스 화면 노출과 신규 작성은 중단됐으며, 현행 판단은 [`docs/project/celeb/retire/virtual-monologue.md`](../../docs/project/celeb/retire/virtual-monologue.md)를 따른다.
 
 ## 타임라인
 
