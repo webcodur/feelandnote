@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, Briefcase, Compass, FileEdit, Images, Plus, Route, Rows3, Tag, Volume2 } from 'lucide-react'
+import { BarChart3, BookOpen, Briefcase, Compass, FileEdit, Plus, Route, Tag, Volume2 } from 'lucide-react'
 import Link from 'next/link'
 import { getMembers } from '@/actions/admin/members'
 import { getTags } from '@/actions/admin/tags'
@@ -10,6 +10,8 @@ import ActiveSortChips from './ActiveSortChips'
 import CelebFilter from './CelebFilter'
 import CelebImageGrid from './CelebImageGrid'
 import CelebTable from './CelebTable'
+import CelebViewNavigation, { buildCelebViewHref } from './CelebViewNavigation'
+import { buildFactionThemes } from './factionOptions'
 
 export interface CelebsSearchParams {
   page?: string
@@ -61,16 +63,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
     getTags()
   ])
 
-  const tagMap = new Map(tags.map(t => [t.id, t]))
-  const formattedTags = tags.map(t => {
-    if (t.parent_id) {
-      const parent = tagMap.get(t.parent_id)
-      if (parent) {
-        return { id: t.id, name: `[${parent.name} - ${t.name}]` }
-      }
-    }
-    return { id: t.id, name: `[${t.name}]` }
-  })
+  const factionThemes = buildFactionThemes(tags)
 
   const imageProcessingJobs = view === 'images'
     ? await getImageProcessingJobsForCelebs(celebs.map((celeb) => celeb.id))
@@ -152,7 +145,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
         key={`${search}:${status}:${profession}:${tier}:${imageFilter}:${faction}`}
         action={baseHref}
         showImageFilter={view === 'images'}
-        tags={formattedTags}
+        factionThemes={factionThemes}
         defaultValues={{ search, status, profession, tier, imageFilter, faction }}
       />
 
@@ -164,12 +157,11 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
             {view === 'images' ? '이미지를 끌어 놓아 교체하고, 클릭하면 원본을 엽니다.' : '전체 관리 정보'}
           </p>
           <nav className="flex shrink-0 rounded-lg border border-border bg-bg-card p-1" aria-label="셀럽 목록 보기 방식">
-            <ViewLink href={buildHref('/celebs', navigationParams)} active={view === 'table'}>
-              <Rows3 className="h-4 w-4" />표
-            </ViewLink>
-            <ViewLink href={buildHref('/celebs/images', navigationParams)} active={view === 'images'}>
-              <Images className="h-4 w-4" />이미지
-            </ViewLink>
+            <CelebViewNavigation
+              tableHref={buildCelebViewHref('/celebs', navigationParams)}
+              imagesHref={buildCelebViewHref('/celebs/images', navigationParams)}
+              activeView={view}
+            />
           </nav>
         </div>
 
@@ -186,38 +178,5 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
 
       <Pagination page={page} totalPages={totalPages} baseHref={baseHref} params={paginationParams} />
     </div>
-  )
-}
-
-function buildHref(pathname: string, params: Record<string, string | undefined>): string {
-  const searchParams = new URLSearchParams()
-  for (const [key, value] of Object.entries(params)) {
-    if (value) searchParams.set(key, value)
-  }
-  const query = searchParams.toString()
-  return query ? `${pathname}?${query}` : pathname
-}
-
-function ViewLink({
-  href,
-  active,
-  children,
-}: {
-  href: string
-  active: boolean
-  children: React.ReactNode
-}) {
-  return (
-    <Link
-      href={href}
-      aria-current={active ? 'page' : undefined}
-      className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold ${
-        active
-          ? 'bg-accent text-white'
-          : 'text-text-secondary hover:bg-white/5 hover:text-text-primary'
-      }`}
-    >
-      {children}
-    </Link>
   )
 }

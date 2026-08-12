@@ -361,16 +361,30 @@ async function getCelebsByDirectQuery(params: GetCelebsParams = {}): Promise<Cel
 
   let tagCelebIds: string[] | undefined
   if (tagId && tagId !== 'all') {
+    // 상위 테마를 고르면 그 아래 세력에 속한 인물까지 함께 담는다
+    const { data: childTags, error: childError } = await supabase
+      .from('celeb_tags')
+      .select('id')
+      .eq('parent_id', tagId)
+
+    if (childError) {
+      console.error('[getCelebsByDirectQuery] 하위 테마 조회 실패:', childError)
+      throw childError
+    }
+
+    const targetTagIds = [tagId, ...((childTags ?? []) as { id: string }[]).map((t) => t.id)]
+
     const { data: tagAssignments, error: tagError } = await supabase
       .from('faction_atlas_members')
       .select('celeb_id')
-      .eq('tag_id', tagId)
+      .in('tag_id', targetTagIds)
 
     if (tagError) {
       console.error('[getCelebsByDirectQuery] 태그 인물 조회 실패:', tagError)
       throw tagError
     }
-    tagCelebIds = tagAssignments?.map((a: any) => a.celeb_id) || []
+    // 여러 하위 세력에 겹쳐 속한 인물이 있어 중복을 걷어낸다
+    tagCelebIds = [...new Set(((tagAssignments ?? []) as { celeb_id: string }[]).map((a) => a.celeb_id))]
     if (tagCelebIds.length === 0) return { celebs: [], total: 0 }
   }
 

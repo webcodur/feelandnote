@@ -1,0 +1,4 @@
+interface:
+  display_name: "팩션 데이터 연결"
+  short_description: "팩션 제작 DB와 로컬 산출물을 안전하게 동기화"
+  default_prompt: "Use $faction-data-manage to inspect and safely synchronize faction production data."

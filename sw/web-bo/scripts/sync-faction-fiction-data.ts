@@ -224,10 +224,15 @@ const CANONICAL_SLUG: Record<string, string> = {
   // 실존 당나라 장군 이정 프로필과 봉신연의의 탁탑천왕을 분리한다.
   'li-jing': 'li-jing-fengshen',
   // 트로이 전쟁의 디오메데스와 별개이며 영문 표시 이름을 그대로 slug에 반영한다.
+  // 한국어 표시명도 DISPLAY_NAME에서 구분해 서비스 목록의 동명이인 오인을 막는다.
   'diomedes-thrace': 'diomedes-of-thrace',
 }
 
 const DISPLAY_NAME: Record<string, { ko?: string; en: string; slugSuffix?: string }> = {
+  'diomedes-of-thrace': {
+    ko: '트라키아의 디오메데스',
+    en: 'Diomedes of Thrace',
+  },
   'li-jing-fengshen': {
     ko: '이정 (봉신연의)',
     en: 'Li Jing',

@@ -26,6 +26,7 @@
     "faction:card-still": "node --max-old-space-size=8192 --import tsx scripts/render/faction-card-still.ts",
     "faction:import": "tsx scripts/faction/import.ts",
     "faction:export": "tsx scripts/faction/export.ts",
+    "faction:images-sync": "tsx scripts/faction/images-sync.ts",
     "faction:verify": "tsx scripts/faction/verify.ts",
     "faction:durations-pull": "tsx scripts/faction/durations-pull.ts",
     "discourse:import": "tsx scripts/discourse/import.ts",

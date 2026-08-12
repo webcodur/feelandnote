@@ -71,7 +71,7 @@ export async function deleteCelebPortrait(celebId: string): Promise<void> {
 }
 
 // #region 세력도감(faction) 이미지
-// R2 폴더. 2026-08-01 spotlight → faction 이전 완료(migrate-spotlight-to-faction-r2.mjs)
+// R2 폴더. spotlight → faction 이전 완료.
 const FACTION_FOLDER = 'faction'
 
 interface UploadResult {
