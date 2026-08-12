@@ -35,6 +35,7 @@ const TYPE_TO_CATEGORY: Record<ContentType, CategoryId> = {
 }
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const BOOK_METADATA_CACHE_VARIANT = process.env.KAKAO_REST_API_KEY ? 'kakao-on' : 'kakao-off'
 
 /* 같은 값이 출처마다 다른 이름으로 저장돼 있다(26.08.10 실측 — 출간일이 publishDate·pubdate·publishedDate
    세 갈래, 원제가 original_title·titleOriginal 두 갈래). 화면 부품은 한 이름만 읽으므로 여기서 모은다.
@@ -149,7 +150,7 @@ export async function getContentBrief(contentId: string, locale: string): Promis
       cachedDetail(
         CACHE_TAGS.CONTENTS,
         contentId,
-        ['content-brief-description-v1', contentId, safeLocale],
+        ['content-brief-description-v1', BOOK_METADATA_CACHE_VARIANT, contentId, safeLocale],
         () => fetchBrief(contentId, safeLocale),
       ),
     null,
