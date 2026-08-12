@@ -77,6 +77,7 @@
     "runtimeMinutes": "{minutes} min",
     "cast": "Cast",
     "trackList": "Track List",
+    "listenOnApple": "Listen on Apple Music",
     "label": "Label",
     "screenshots": "Screenshots",
     "buyAt": "Buy on {platform}",

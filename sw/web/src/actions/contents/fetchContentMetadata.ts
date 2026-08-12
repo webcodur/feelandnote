@@ -13,6 +13,8 @@ export interface ContentMetadata {
   id: string
   metadata: Record<string, unknown> | null
   subtype?: string
+  /** 실제로 응답을 돌려준 외부 출처. 요청 당시 DB 출처와 다를 수 있다. */
+  source?: 'kakao_book' | 'google_books' | 'tmdb' | 'igdb' | 'spotify'
 }
 
 // 외부 API에서 메타데이터 조회 (내부 함수)
@@ -29,21 +31,21 @@ async function fetchMetadataFromApi(
         // Google Books 소스 → Google Books 우선
         const googleBook = await getGoogleBookByIsbn(externalId)
         if (googleBook) {
-          return { id: externalId, metadata: googleBook.metadata }
+          return { id: externalId, metadata: googleBook.metadata, source: 'google_books' }
         }
         const kakaoBook = await getKakaoBookByIsbn(externalId)
         if (kakaoBook) {
-          return { id: externalId, metadata: kakaoBook.metadata }
+          return { id: externalId, metadata: kakaoBook.metadata, source: 'kakao_book' }
         }
       } else {
         // 그 외(kakao_book·openlibrary·출처 미상) → 카카오 우선
         const kakaoBook = await getKakaoBookByIsbn(externalId)
         if (kakaoBook) {
-          return { id: externalId, metadata: kakaoBook.metadata }
+          return { id: externalId, metadata: kakaoBook.metadata, source: 'kakao_book' }
         }
         const googleBook = await getGoogleBookByIsbn(externalId)
         if (googleBook) {
-          return { id: externalId, metadata: googleBook.metadata }
+          return { id: externalId, metadata: googleBook.metadata, source: 'google_books' }
         }
       }
 
@@ -51,15 +53,20 @@ async function fetchMetadataFromApi(
     }
     case 'VIDEO': {
       const video = await getVideoById(externalId)
-      return { id: externalId, metadata: video?.metadata || null, subtype: video?.subtype }
+      return {
+        id: externalId,
+        metadata: video?.metadata || null,
+        subtype: video?.subtype,
+        source: video ? 'tmdb' : undefined,
+      }
     }
     case 'GAME': {
       const game = await getGameById(externalId)
-      return { id: externalId, metadata: game?.metadata || null }
+      return { id: externalId, metadata: game?.metadata || null, source: game ? 'igdb' : undefined }
     }
     case 'MUSIC': {
       const album = await getAlbumById(externalId)
-      return { id: externalId, metadata: album?.metadata || null }
+      return { id: externalId, metadata: album?.metadata || null, source: album ? 'spotify' : undefined }
     }
     default:
       return { id: externalId, metadata: null }

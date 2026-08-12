@@ -1,0 +1,8 @@
+.indexScrollbar {
+  scrollbar-width: thin;
+}
+
+/* 공용 5px 스크롤바보다 높은 우선순위로 이 목록 레일만 2px로 줄인다. */
+.indexScrollbar.indexScrollbar::-webkit-scrollbar {
+  width: 2px;
+}

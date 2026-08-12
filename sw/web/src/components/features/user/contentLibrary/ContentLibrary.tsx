@@ -5,20 +5,18 @@
 */ // ------------------------------
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { SlidersHorizontal } from "lucide-react";
 import { useContentLibrary } from "./useContentLibrary";
 import { useMonthScrollObserver } from "./useMonthScrollObserver";
-import ArchiveControlBar from "./controlBar/ArchiveControlBar";
 import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
 import { Pagination, DeleteConfirmModal } from "@/components/ui";
-import ControlPanel from "@/components/shared/ControlPanel";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+import ContentLibraryControls from "./ContentLibraryControls";
 
 export default function ContentLibrary({
   compact = false,
@@ -29,18 +27,20 @@ export default function ContentLibrary({
   ownerKind = "member",
   targetUserId,
   ownerNickname,
+  ownerAvatarUrl,
   defaultViewMode,
+  desktopViewMode,
   defaultPageSize,
   hideControlWrapper = false,
   initialContents,
 }: ContentLibraryProps) {
   const locale = useLocale();
-  const lib = useContentLibrary({ maxItems, compact, mode, ownerKind, targetUserId, defaultViewMode, defaultPageSize, initialContents });
+  const lib = useContentLibrary({ maxItems, compact, mode, ownerKind, targetUserId, defaultViewMode, desktopViewMode, defaultPageSize, initialContents });
   const isViewer = lib.isViewer;
-  const t = useTranslations("celebPage");
+  /** 셀럽 감상은 서비스 등록일이 감상 시점이 아니므로 월별로 나누지 않는다. */
+  const showMonthSections = ownerKind !== "celeb";
   const tArchive = useTranslations("archiveSearch");
   const resolvedEmptyMessage = emptyMessage ?? tArchive("empty");
-  const [isControlsExpanded, setIsControlsExpanded] = useState(false);
   const applySearchQuery = lib.applySearchQuery;
 
   // URL 검색어는 hydration 뒤에만 반영한다. useSearchParams를 서버 렌더 경로에서
@@ -50,7 +50,10 @@ export default function ContentLibrary({
     if (query) applySearchQuery(query);
   }, [applySearchQuery]);
 
-  const currentVisibleMonth = useMonthScrollObserver(lib.monthKeys, lib.collapsedMonths);
+  const currentVisibleMonth = useMonthScrollObserver(
+    showMonthSections ? lib.monthKeys : [],
+    lib.collapsedMonths,
+  );
 
   // #region 헬퍼 함수
   const renderItems = (items: UserContentWithContent[]) => (
@@ -63,6 +66,7 @@ export default function ContentLibrary({
       readOnly={isViewer}
       targetUserId={targetUserId}
       ownerNickname={ownerNickname}
+      ownerAvatarUrl={ownerAvatarUrl}
       savedContentIds={lib.savedContentIds}
     />
   );
@@ -73,6 +77,8 @@ export default function ContentLibrary({
   const hasContents = lib.contents.length > 0;
   const hasFilteredContents = lib.filteredAndSortedContents.length > 0;
   const isSearching = lib.appliedSearchQuery.trim().length >= 2;
+  /* 펼침 보기는 선택 목록 전체를 한 번에 받는다 — 달별 묶음과 쪽 번호는 그 안에서 뜻이 없다 */
+  const isExpandView = lib.viewMode === "expand";
   // #endregion
 
   // #region 렌더링
@@ -84,59 +90,29 @@ export default function ContentLibrary({
 
   return (
     <div>
-      <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />
+      {showMonthSections && <MonthTransitionIndicator currentMonthKey={currentVisibleMonth} />}
 
-      {/* 컨트롤 패널 */}
-      {hideControlWrapper ? (
-        <div className="mb-2">
-          <ArchiveControlBar
-            activeTab={lib.activeTab}
-            onTabChange={lib.setActiveTab}
-            typeCounts={lib.typeCounts}
-            sortOption={lib.sortOption}
-            onSortOptionChange={lib.setSortOption}
-            reviewFilter={lib.reviewFilter}
-            onReviewFilterChange={lib.setReviewFilter}
-            viewMode={lib.viewMode}
-            onViewModeChange={lib.setViewMode}
-            isAllCollapsed={lib.isAllCollapsed}
-            onExpandAll={lib.expandAll}
-            onCollapseAll={lib.collapseAll}
-            searchQuery={lib.searchQuery}
-            onSearchChange={lib.setSearchQuery}
-            onSearch={lib.executeSearch}
-            onClearSearch={lib.clearSearch}
-            compact
-          />
-        </div>
-      ) : (
-        <ControlPanel
-          title={t("recordControl")}
-          icon={<SlidersHorizontal size={16} className="text-accent/70" />}
-          isExpanded={isControlsExpanded}
-          onToggleExpand={() => setIsControlsExpanded(!isControlsExpanded)}
-          className="mb-6 sticky top-0 z-30 max-w-2xl mx-auto"
-        >
-          <ArchiveControlBar
-            activeTab={lib.activeTab}
-            onTabChange={lib.setActiveTab}
-            typeCounts={lib.typeCounts}
-            sortOption={lib.sortOption}
-            onSortOptionChange={lib.setSortOption}
-            reviewFilter={lib.reviewFilter}
-            onReviewFilterChange={lib.setReviewFilter}
-            viewMode={lib.viewMode}
-            onViewModeChange={lib.setViewMode}
-            isAllCollapsed={lib.isAllCollapsed}
-            onExpandAll={lib.expandAll}
-            onCollapseAll={lib.collapseAll}
-            searchQuery={lib.searchQuery}
-            onSearchChange={lib.setSearchQuery}
-            onSearch={lib.executeSearch}
-            onClearSearch={lib.clearSearch}
-          />
-        </ControlPanel>
-      )}
+      <ContentLibraryControls
+        activeTab={lib.activeTab}
+        onTabChange={lib.setActiveTab}
+        typeCounts={lib.typeCounts}
+        sortOption={lib.sortOption}
+        onSortOptionChange={lib.setSortOption}
+        reviewFilter={lib.reviewFilter}
+        onReviewFilterChange={lib.setReviewFilter}
+        viewMode={lib.viewMode}
+        onViewModeChange={lib.setViewMode}
+        isAllCollapsed={lib.isAllCollapsed}
+        onExpandAll={lib.expandAll}
+        onCollapseAll={lib.collapseAll}
+        searchQuery={lib.searchQuery}
+        onSearchChange={lib.setSearchQuery}
+        onSearch={lib.executeSearch}
+        onClearSearch={lib.clearSearch}
+        showMonthControls={showMonthSections}
+        compact={hideControlWrapper}
+        hideWrapper={hideControlWrapper}
+      />
 
       {/* 콘텐츠 목록 — 재조회 중에도 기존 기록을 읽고 조작할 수 있다. */}
       <div className="relative">
@@ -151,7 +127,9 @@ export default function ContentLibrary({
           className="py-8 [overflow-anchor:none]"
         >
           {hasFilteredContents ? (
-            lib.sortOption === "recent" ? (
+            isExpandView ? (
+              renderItems(lib.filteredAndSortedContents)
+            ) : showMonthSections && lib.sortOption === "recent" ? (
               lib.monthKeys.map((monthKey) => {
                 const items = lib.groupedByMonth[monthKey] || [];
                 return (
@@ -177,7 +155,7 @@ export default function ContentLibrary({
           )}
 
           {/* 쪽 넘김 — 재조회 중에도 자리를 지켜야 누른 단추가 눈앞에서 사라지지 않는다 */}
-          {!compact && showPagination && (
+          {!compact && showPagination && !isExpandView && (
             <>
               <hr className="border-white/10 mt-8 mb-8" />
               <div className="flex justify-center">

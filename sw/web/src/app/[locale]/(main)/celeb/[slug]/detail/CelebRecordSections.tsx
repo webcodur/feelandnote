@@ -198,6 +198,7 @@ export default function CelebRecordSections({
               <LibraryTabs
                 userId={userId}
                 nickname={profile.nickname}
+                avatarUrl={profile.avatar_url ?? null}
                 emptyMessage={t("libraryEmpty")}
                 wikidataQid={profile.wikidata_qid ?? null}
                 initialContents={initialContents}

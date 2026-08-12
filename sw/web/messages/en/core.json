@@ -472,6 +472,9 @@
     "content": {
       "addToRecord": "Add to records",
       "viewDetails": "View details",
+      "allReviews": "All reviews",
+      "bookDetails": "Book details",
+      "unverified": "Unverified",
       "listenOnSpotify": "Listen on Spotify",
       "publisher": "Publisher",
       "publishDate": "Published",

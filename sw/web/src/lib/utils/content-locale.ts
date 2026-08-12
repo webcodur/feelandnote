@@ -39,6 +39,7 @@ export function flattenLocales(locales: ContentLocaleRow[] | null | undefined, l
     thumbnail_url: primary?.thumbnail_url || fallback?.thumbnail_url || null,
     description: primary?.description || fallback?.description || null,
     publisher: primary?.publisher || fallback?.publisher || null,
+    isbn: primary?.isbn || fallback?.isbn || null,
     title_ko: ko?.title || null,
     title_en: en?.title || null,
     creator_en: en?.creator || null,
