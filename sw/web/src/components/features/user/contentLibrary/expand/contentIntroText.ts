@@ -9,6 +9,19 @@ const NAMED_HTML_ENTITIES = {
   quot: '"',
 } as const;
 
+interface ContentIntroSource {
+  description?: string | null;
+  metadata?: {
+    description?: string | null;
+    storyline?: string | null;
+  } | null;
+}
+
+/** 응답으로 받은 소개 필드 중 화면에 표시할 원문을 고른다. */
+export function selectContentIntroText(brief: ContentIntroSource | null) {
+  return brief?.description || brief?.metadata?.storyline || brief?.metadata?.description || null;
+}
+
 /**
  * DB에서 일반 문자열로 넘어온 HTML 엔티티만 텍스트로 복원한다.
  * 반환값은 FormattedText가 React 텍스트 노드로 렌더링하므로 HTML로 실행되지 않는다.

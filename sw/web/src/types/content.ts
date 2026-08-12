@@ -17,6 +17,7 @@ export interface ContentMetadata {
   isbn?: string
   genre?: string
   link?: string
+  description?: string
 
   // 영상
   voteAverage?: number
