@@ -76,7 +76,7 @@ async function fetchMetadataFromApi(
 // 캐시된 메타데이터 조회 (1시간 캐싱)
 const getCachedMetadata = unstable_cache(
   fetchMetadataFromApi,
-  ['content-metadata-description-v1'],
+  ['content-metadata-full-description-v1'],
   { revalidate: STATIC_REVALIDATE }
 )
 
