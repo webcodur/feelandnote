@@ -1,6 +1,6 @@
 # 7. 영문본 원전 보존 검증·교정 (Translation Audit)
 
-> **최종 실측 체크: 26.07.16** — 대상 파일 경로와 `scripts/remotion/publication-gate.py` 실존·동작 대조. 스크립트는 같은 날 신 구조 기준으로 재작성해 실행 검증까지 마쳤고, 이어서 출판 안전 검사 8~10(ko/en 책 정렬·고아 업로드 기록·`_status` 모순)을 추가해 en 보유 16개 에피소드 전량 스윕으로 재검증했다(크래시 0, 1~7 판정 무변동, 8~10 오탐 0 / abraham-lincoln 7/10 — 09↔10 책 뒤바뀜·`ko-shorts-7` 고아 기록 적발, jensen-huang 7/10 — `done`인데 업로드 기록 0건, yi-sun-sin 9/10 — 8~10 전부 PASS). 번역 원칙·register 매트릭스·예시 등 내용 판단은 검증 범위 밖(경로와 스크립트만 확인)
+> **최종 실측 체크: 26.07.16** — 대상 파일 경로와 `sw/remotion/scripts/publication-gate.py` 실존·동작 대조. 스크립트는 같은 날 신 구조 기준으로 재작성해 실행 검증까지 마쳤고, 이어서 출판 안전 검사 8~10(ko/en 책 정렬·고아 업로드 기록·`_status` 모순)을 추가해 en 보유 16개 에피소드 전량 스윕으로 재검증했다(크래시 0, 1~7 판정 무변동, 8~10 오탐 0 / abraham-lincoln 7/10 — 09↔10 책 뒤바뀜·`ko-shorts-7` 고아 기록 적발, jensen-huang 7/10 — `done`인데 업로드 기록 0건, yi-sun-sin 9/10 — 8~10 전부 PASS). 번역 원칙·register 매트릭스·예시 등 내용 판단은 검증 범위 밖(경로와 스크립트만 확인)
 
 > **이 문서는 KO → EN 방향만 다룬다.** 한국어 원문 자체의 번역투·문장 규칙은
 > `docs/project/production/writing-rules.md`가 SSoT다. 영문본이 어색하면 한국어 원문부터
@@ -470,12 +470,12 @@ Edit tool로 `book.en.json`·`shorts.en.json`·`meta.en.json`을 직접 수정�
 자동 검증 1~10번을 한 번에 돌리는 Python 스크립트:
 
 ```
-py -3.12 scripts/remotion/publication-gate.py <인물>
-# 예: py -3.12 scripts/remotion/publication-gate.py abraham-lincoln
+py -3.12 sw/remotion/scripts/publication-gate.py <인물>
+# 예: py -3.12 sw/remotion/scripts/publication-gate.py abraham-lincoln
 # 10/10 PASS(exit 0) → 자동 게이트 통과 / 그 외(exit 1) → 결함 위치 출력
 ```
 
-**스크립트 경로**: `scripts/remotion/publication-gate.py` (신 구조 대응 완료, 26.07.16 재작성·실행 검증 / 같은 날 8~10 추가·전 에피소드 스윕 검증)
+**스크립트 경로**: `sw/remotion/scripts/publication-gate.py` (신 구조 대응 완료, 26.07.16 재작성·실행 검증 / 같은 날 8~10 추가·전 에피소드 스윕 검증)
 
 - 인자는 **인물 slug 하나뿐**이다. 단계(stage) 인자는 폴더 구조에서 사라졌으므로 폐지했다(옛 `<stage> <slug>` 호출은 stage를 무시하고 계속 동작).
 - 파이썬은 `py -3.12`로 실행한다.
