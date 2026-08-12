@@ -25,6 +25,7 @@ interface Props {
   loadImmediately?: boolean
   highPriority?: boolean
   pasteActive?: boolean
+  showSavedState?: boolean
   /** 바깥에서 밀어넣은 사진. 값이 바뀌면 곧바로 자르기 창이 열린다. */
   incomingFile?: File | null
   /** 밀어넣은 사진의 자르기 창이 닫혔을 때(저장·취소·열기 실패) 알린다. */
@@ -49,6 +50,7 @@ export default function CelebAvatarEditor({
   loadImmediately = false,
   highPriority = false,
   pasteActive = false,
+  showSavedState = true,
   incomingFile = null,
   onIncomingDone,
   onActivate,
@@ -100,6 +102,10 @@ export default function CelebAvatarEditor({
       const blob = await response.blob()
       const file = new File([blob], 'avatar.png', { type: 'image/png' })
       await onCroppedFile(file, croppedDataUrl)
+      if (!showSavedState) {
+        setStatus('idle')
+        return
+      }
       setStatus('saved')
       savedTimerRef.current = setTimeout(() => setStatus('idle'), 1200)
     } catch (error) {
