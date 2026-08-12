@@ -70,9 +70,7 @@
 ```sql
 alter table public.celeb_tag_assignments drop column spotlight_image_url;
 ```
-```bash
-cd sw/web-bo && node scripts/migrate-spotlight-to-faction-r2.mjs --purge
-```
+spotlight 이미지는 faction 경로로 이관하고 원본을 정리했다. 이관용 일회성 스크립트도 함께 폐기했다.
 
 ---
 

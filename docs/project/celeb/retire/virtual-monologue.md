@@ -30,12 +30,9 @@
 담화와 `인물 읽어보기` 제작 재료로만 보존한다. 사용자가 별도로 요청한 작성과 시험은
 후보 원고만 만들며 DB에는 자동 반영하지 않는다.
 
-## 보존된 과거 도구
+## 남아 있는 관리 경로
 
-아래 파일은 기존 값 감사·이력 재현용이다. 신규 독백 생성·번역·DB 반영에 실행하지 않는다.
+독백 생성·번역·조건부 게시에 쓰던 일회성 스크립트는 기능 폐기와 함께 삭제했다.
 
-- 실존 후보 생성 이력: `sw/web-bo/scripts/fill-virtual-monologue-gpt.ts`
-- 영문 후보 생성 이력: `sw/web-bo/scripts/translate-virtual-monologue.ts`
-- 실존 조건부 게시 이력: `sw/web-bo/scripts/apply-virtual-monologue-batch.ts`
 - fiction 연결 읽기 감사: `.agents/skills/fiction-profile-audit/`
 - 기존 확정값 잠금 관리: `sw/web-bo/scripts/lock-virtual-monologue.ts`

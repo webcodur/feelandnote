@@ -3,7 +3,7 @@
 `celebs.virtual_monologue`의 2026-07 전수 품질 정비 기록을 배치 단위 JSON으로 보존한다.
 당시 배치 JSON에 남은 `profile` 명칭은 파일 형식의 역사일 뿐 현재 DB 테이블명이 아니다.
 
-서비스 화면 노출과 신규 작성은 중단됐다. 보존 규칙은 `docs/project/celeb/retire/virtual-monologue.md`를 따르며, 아래 명령은 기존 배치 파일과 도구의 역사적 형식을 설명하기 위해 남긴다.
+서비스 화면 노출과 신규 작성은 중단됐다. 보존 규칙은 `docs/project/celeb/retire/virtual-monologue.md`를 따른다.
 
 ## 파일 규칙
 
@@ -20,37 +20,6 @@
 
 영문 작업은 한국어 배치가 확정된 뒤 별도 배치로 만든다.
 
-## 배치 작업 명령
+## 폐기 상태
 
-`sw/web-bo`에서 실행한다. 모든 생성·검토·수정·승인은 배치 파일만 바꾸며, 마지막 게시기만 DB를 갱신한다.
-
-```bash
-# 1. 빈 배치
-pnpm exec tsx scripts/prepare-virtual-monologue-batch.ts --batch-id VM-P1 --slugs peter-thiel --out ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json
-
-# 2. 조사·route 판정 뒤 후보 생성
-pnpm exec tsx scripts/merge-virtual-monologue-dossier.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --dossier ../../docs/celeb-data/virtual-monologue/dossiers/peter-thiel.json
-pnpm exec tsx scripts/generate-virtual-monologue-batch.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --slugs peter-thiel
-
-# 3. 서로 다른 렌즈의 독립 검토
-pnpm exec tsx scripts/review-virtual-monologue-batch.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --lens evidence --slugs peter-thiel
-pnpm exec tsx scripts/review-virtual-monologue-batch.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --lens editorial --slugs peter-thiel
-
-# 4. 결함이 있으면 수정하고 3번을 처음부터 다시 실행
-pnpm exec tsx scripts/revise-virtual-monologue-batch.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --slugs peter-thiel
-
-# 모델 재수정 대신 사람이 직접 편집한 경우
-pnpm exec tsx scripts/set-virtual-monologue-candidate.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --slug elon-musk --text ../../docs/celeb-data/virtual-monologue/drafts/elon-musk.txt --note "독립 검토를 반영한 직접 편집"
-
-# 5. 두 검토 통과 뒤 명시적 승인. 기본 dry-run이며 --apply가 배치에 승인 기록
-pnpm exec tsx scripts/approve-virtual-monologue-batch.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --slugs peter-thiel --by codex-main --note "근거·문장 재독 완료" --apply
-
-# 6. 게시도 기본 dry-run. --apply가 있어야 조건부 DB 반영
-pnpm exec tsx scripts/apply-virtual-monologue-batch.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json
-
-# 7. 게시 뒤 공개 한국어 탭의 서버 렌더링 문단 완전 일치 확인. 기본 dry-run
-pnpm exec tsx scripts/verify-virtual-monologue-live-html.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --slugs peter-thiel
-pnpm exec tsx scripts/verify-virtual-monologue-live-html.ts --file ../../docs/celeb-data/virtual-monologue/2026-07-29-VM-P1.json --slugs peter-thiel --apply
-```
-
-게시기는 배치 작성 당시 `currentText`와 DB 원문이 정확히 같을 때만 원자적으로 저장한다. 원문 drift, 검토 누락, 승인 누락, 후보 해시 불일치는 모두 실패한다.
+생성·검토·수정·승인·게시 스크립트는 모두 삭제했다. 이 폴더의 JSON과 원고는 과거 검토 자료이며 실행 입력으로 사용하지 않는다.
