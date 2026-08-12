@@ -6,7 +6,7 @@
 > 포함) 동안 영문 번역 2,471칸, 영향력·스펙트럼 249명, 말투·대사 69명을 채웠다.
 > 남은 결손은 **얼굴 사진 275명**(이 트랙 밖)과 **근거 부재로 보류한 42건**(명언 31 · 생년 8 ·
 > 성별 2 · 국적 1)뿐이다. 보류분은 채우는 것이 아니라 비워 두는 것이 규격이거나, 출처를
-> 못 찾아 지어내지 않기로 판정한 항목이다. 전부 `deferred.json` 에 사유가 있다.
+> 못 찾아 지어내지 않기로 판정한 항목이다. 당시 실행 폴더의 `deferred.json`에 사유를 기록했다.
 >
 > 🔴 **"완료"라는 상태는 유지되지 않는다.** 다른 경로로 CELEB이 계속 등록된다 — 이날만 인원이
 > 2,426명에서 2,742명으로 늘었고, 영향력·스펙트럼은 오전에 0을 찍은 뒤 신규 53명이 들어왔다.
@@ -15,7 +15,7 @@
 > **2026-08-06 완료 — 직군·국적·성별 3필드.** fiction 포함 전 티어 결손을 정리했다.
 > 최종 실측: profession 0 / nationality 3(전부 신원·배경 불명 보류) / gender 2(호랑이·야마타노오로치 —
 > 성별 묘사 없는 동물·괴물 보류). 대부분은 DB 직접 반영 + `celeb-fill.ts apply`로 해결,
-> 보류 3건은 `deferred.json`에 근거와 함께 기록됐다.
+> 보류 3건은 당시 실행 폴더의 `deferred.json`에 근거와 함께 기록됐다.
 
 ## 무엇을 하는 작업인가
 
@@ -57,21 +57,23 @@ speech(톤·명언·대사 21개) · 영문(i18n)이다.
 | `scripts/claim-celeb-work.ts` | `--worker <레인> --count N --target <묶음>` — 레인별 독립 선점. 중복 선점 차단, lease 30분, 보류 항목 제외. `--target`은 `basic3`(직군·국적·성별, 기본값) / `influence-spectrum` / `i18n`(영문 번역) / `speech-basic`(수식어·말투·대사 21개) 중 하나이며, 그 트랙 결손자만 뽑는다 |
 | `scripts/celeb-fill.ts` | `dump` / `apply --file` / `apply-dir --dir` — **빈칸만 채우는** 조건부 반영. 기본 dry-run, `--apply`로 저장 |
 | `scripts/defer-celeb-gap.ts` | 근거 부재 항목 보류 기록. 기록분은 선점 대상에서 빠져 큐 앞단을 막지 않는다 |
-| `scripts/build-celeb-wave.ts` | (구) 파도 단위 묶음 생성기. 선점 방식으로 대체됐다 |
 
 ### 작업 폴더 `sw/web-bo/.tmp-celeb-fill/`
 
+이 폴더는 한 실행 중에만 쓰며 작업이 끝나면 통째로 삭제한다. 영향력·스펙트럼 규격은
+`docs/project/celeb/celeb-4-influence.md`와 `celeb-5-spectrum.md`, 영문 규격은
+`docs/project/celeb/celeb-i18n.md`를 따른다.
+
 | 경로 | 내용 |
 |---|---|
-| `INSTRUCTIONS-influence-spectrum.md` | **영향력·스펙트럼 전용 지시서.** 7축·16축 규격(영문 설명 포함), 점수 눈금과 앵커, 무력 8단계, 동점 금지, 한국어 문장 규칙을 담는다 |
-| `INSTRUCTIONS-i18n.md` | **영문 번역 전용 지시서.** 번역 대상 5종, 대사 원문 조회법, 명언 원문 복원 원칙, 말투별 영문 결, 태그 금지 |
+| `work-<lane>.json` | 해당 레인이 이번에 선점한 대상 |
 | `research/` | 조사 결과 대기분 |
-| `research-applied/` | 반영 완료분 (이력). 26.08.07 기준 862건 |
+| `research-applied/` | 이번 실행에서 반영한 결과를 중복 적용하지 않기 위한 임시 이력 |
 | `claims/` | 선점 잠금. 반영 성공 시 자동 반납 |
-| `deferred.json` | 보류 장부 (근거 부재 사유 포함). 26.08.07 기준 12건 |
+| `deferred.json` | 이번 실행에서 근거 부족 항목을 다시 선점하지 않기 위한 임시 목록 |
 
 > basic 3필드 지시서(`INSTRUCTIONS.md`)는 그 트랙이 26.08.06에 끝나 삭제됐다. 다시 필요하면
-> 위 두 지시서를 본떠 만든다.
+> 현행 basic 규격을 따른다.
 >
 > **레인이 작업 없이 끝나면 그 인물의 선점 잠금이 남는다.** 반영 도구는 성공한 인물만 잠금을
 > 푼다. 그래서 "이미 채워져 있었다"로 끝난 레인의 잠금은 30분 뒤 만료될 때까지 그 인물을
@@ -119,7 +121,8 @@ Windows에서 즉시 실패한다. 이름 없이 발주하면 6대가 문제없�
 ```bash
 cd sw/web-bo
 # 1) 레인 1개 × 12단계로 조사 (subagent, model=claude-opus-5)
-#    각 단계 프롬프트: "LANE=lane-a. .tmp-celeb-fill/INSTRUCTIONS.md 절차대로 조사만 하라"
+#    영향력·스펙트럼: docs/project/celeb/celeb-4-influence.md + celeb-5-spectrum.md
+#    영문 번역:       docs/project/celeb/celeb-i18n.md
 # 2) 반영
 pnpm exec tsx scripts/celeb-fill.ts apply-dir --dir .tmp-celeb-fill/research          # dry-run
 pnpm exec tsx scripts/celeb-fill.ts apply-dir --dir .tmp-celeb-fill/research --apply

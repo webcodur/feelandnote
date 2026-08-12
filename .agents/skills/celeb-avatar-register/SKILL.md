@@ -122,7 +122,7 @@ node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-avatar.ts \
 
 신원 불일치·근거 부재로 아바타를 내린 프로필은 업로드 스크립트의 `PROVENANCE_QUARANTINED_SLUGS`에 격리한다. 파일명을 바꾸거나 임시 폴더로 복사해도 등록할 수 없다. 인물 고유의 신원·도상 근거를 검토한 뒤 검역 목록을 명시적으로 해제해야 한다.
 
-`upload-celeb-image-from-url.ts`의 자동 웹 검색 등록과 `fill-faction-avatars.ts`의 팩션 REF 직접 승격은 신원 오등록 위험 때문에 폐기·실행 차단됐다. 우회 진입점으로 되살리지 않는다. `batch-celeb-avatars.ts`도 DB의 `celeb-id`–`slug` 일치를 먼저 검증하며, 실서비스 쓰기는 DB에 사전 검증된 `wikidata_qid`가 있는 경우에만 허용한다. QID가 없거나 기존 QID에 이미지가 없으면 `--dry-run` 후보 조사까지만 하고 자동 QID 채택·교체·업로드는 하지 않는다.
+자동 웹 검색 등록과 팩션 REF 직접 승격 진입점은 신원 오등록 위험 때문에 폐기됐다. `batch-celeb-avatars.ts`도 DB의 `celeb-id`–`slug` 일치를 먼저 검증하며, 실서비스 쓰기는 DB에 사전 검증된 `wikidata_qid`가 있는 경우에만 허용한다. QID가 없거나 기존 QID에 이미지가 없으면 `--dry-run` 후보 조사까지만 하고 자동 QID 채택·교체·업로드는 하지 않는다.
 
 **C. 동명이인 사고 시 되돌림**
 잘못된 사진이 채택된 경우 `celebs.avatar_url`, `celebs.wikidata_qid` 모두 NULL로 UPDATE.

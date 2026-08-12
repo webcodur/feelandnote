@@ -34,7 +34,7 @@
 
 - 감사 스크립트에 쓰기 기능을 추가하지 않는다.
 - 읽어보기 번역·조건부 반영은 `sw/web-bo/scripts/translate-celeb-readings.ts`를 따른다.
-- 프로필 독백은 `sw/web-bo/scripts/translate-virtual-monologue.ts`를 따른다.
+- 프로필 독백 기능은 폐기됐다. 잔존 데이터 판단은 `docs/project/celeb/retire/virtual-monologue.md`를 따른다.
 - 스펙트럼은 평면 컬럼이 아니라 `persona` JSONB가 원본이다. `persona`는 레거시 저장소 식별자다.
 - 한마디는 `set_celeb_quote` RPC만 사용한다. `lines` 전체를 덮지 않는다.
 - 타임라인은 `docs/project/celeb/celeb-timeline.md`를 따른다.
