@@ -137,7 +137,7 @@ public/episodes/
 | `done` | YouTube 업로드 완료 |
 | (파일 없음) | 그룹 폴더 또는 비활성 분류 폴더 — 인식 안 함 |
 
-> **변경 이력 (2026-05)**: 옛 `todo/`·`live/`·`done/` 3단 폴더를 폐기하고 `_status` 파일로 분리. 진척도와 그룹을 직교 축으로 둘 수 있다. 마이그레이션 스크립트: `scripts/remotion/migrate-episodes-flatten.mjs`.
+> **변경 이력 (2026-05)**: 옛 `todo/`·`live/`·`done/` 3단 폴더를 폐기하고 `_status` 파일로 분리했다. 진척도와 그룹을 직교 축으로 둘 수 있다. 이관용 일회성 스크립트는 폐기했다.
 
 ### 승격 절차
 
