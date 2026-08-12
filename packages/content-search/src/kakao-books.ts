@@ -124,6 +124,84 @@ function toResult(book: KakaoBook): KakaoBookSearchResult {
   }
 }
 
+const HTML_ENTITY_PATTERN = /&(#(?:x[\da-f]+|\d+)|amp|apos|gt|lt|nbsp|quot);/gi
+const NAMED_HTML_ENTITIES: Record<string, string> = {
+  amp: '&',
+  apos: "'",
+  gt: '>',
+  lt: '<',
+  nbsp: ' ',
+  quot: '"',
+}
+
+function decodeHtmlEntities(text: string): string {
+  return text.replace(HTML_ENTITY_PATTERN, (source, entity: string) => {
+    if (!entity.startsWith('#')) return NAMED_HTML_ENTITIES[entity.toLowerCase()] ?? source
+
+    const isHex = entity[1]?.toLowerCase() === 'x'
+    const codePoint = Number.parseInt(entity.slice(isHex ? 2 : 1), isHex ? 16 : 10)
+    return Number.isFinite(codePoint) && codePoint > 0 && codePoint <= 0x10ffff
+      ? String.fromCodePoint(codePoint)
+      : source
+  })
+}
+
+/** 다음 모바일 책 상세의 소개 본문을 일반 텍스트로 복원한다. */
+export function parseDaumBookDescription(html: string): string | null {
+  const match = html.match(
+    /<div[^>]+class=["'][^"']*\binfo_desc\b[^"']*["'][^>]*>[\s\S]*?<p[^>]+class=["'][^"']*\bdesc\b[^"']*["'][^>]*>([\s\S]*?)<\/p>/i,
+  )
+  if (!match?.[1]) return null
+
+  const text = decodeHtmlEntities(
+    match[1]
+      .replace(/<br\s*\/?>/gi, '\n')
+      .replace(/<[^>]+>/g, ' '),
+  )
+    .replace(/\u00a0/g, ' ')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/ *\n */g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+
+  return text || null
+}
+
+function getDaumMobileDetailUrl(bookUrl: string): string | null {
+  try {
+    const source = new URL(bookUrl)
+    const bookId = source.searchParams.get('bookId')
+    if (!bookId) return null
+
+    const detail = new URL('https://m.search.daum.net/search')
+    detail.searchParams.set('w', 'bookpage')
+    detail.searchParams.set('bookId', bookId)
+    detail.searchParams.set('tab', 'introduction')
+    detail.searchParams.set('q', source.searchParams.get('q') ?? '')
+    return detail.toString()
+  } catch {
+    return null
+  }
+}
+
+async function fetchFullBookDescription(bookUrl: string): Promise<string | null> {
+  const detailUrl = getDaumMobileDetailUrl(bookUrl)
+  if (!detailUrl) return null
+
+  try {
+    const response = await fetch(detailUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148',
+      },
+      signal: AbortSignal.timeout(5000),
+    })
+    if (!response.ok) return null
+    return parseDaumBookDescription(await response.text())
+  } catch {
+    return null
+  }
+}
+
 async function fetchBooks(params: URLSearchParams): Promise<{
   items: KakaoBookSearchResult[]
   total: number
@@ -199,11 +277,23 @@ export async function getBookByIsbn(isbn: string): Promise<KakaoBookSearchResult
   if (!compact) return null
 
   const result = await searchBooks(compact, 1)
-  return (
+  const book = (
     result.items.find(
       book => book.externalId === compact || book.metadata.isbn === compact
     ) ??
     result.items[0] ??
     null
   )
+  if (!book) return null
+
+  const fullDescription = await fetchFullBookDescription(book.metadata.link)
+  if (!fullDescription || fullDescription.length <= book.metadata.description.length) return book
+
+  return {
+    ...book,
+    metadata: {
+      ...book.metadata,
+      description: fullDescription,
+    },
+  }
 }
