@@ -23,7 +23,7 @@ export const FILTER_BUTTON_STYLES = {
 
 // 모바일 필터 칩 스타일
 export const FILTER_CHIP_STYLES = {
-  base: "flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm whitespace-nowrap shrink-0 transition-colors duration-100 font-medium cursor-pointer",
+  base: "flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm whitespace-nowrap shrink-0 font-medium cursor-pointer",
   active: "bg-accent text-bg-main border-accent shadow-md shadow-accent/20",
   inactive: "bg-white/5 text-text-primary border-accent/40 hover:border-accent/60 hover:bg-white/10",
 } as const;

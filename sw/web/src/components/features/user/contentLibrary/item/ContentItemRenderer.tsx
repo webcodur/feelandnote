@@ -15,6 +15,7 @@ import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { ViewMode } from "../contentLibraryTypes";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import { useLocale } from "next-intl";
+import ExpandDetailView from "../expand/ExpandDetailView";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -27,6 +28,7 @@ interface ContentItemRendererProps {
   readOnly?: boolean;
   targetUserId?: string;
   ownerNickname?: string;
+  ownerAvatarUrl?: string | null;
   // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
   savedContentIds?: Set<string> | null;
 }
@@ -34,11 +36,12 @@ interface ContentItemRendererProps {
 
 export default function ContentItemRenderer({
   items,
-  viewMode = "grid",
+  viewMode = "list",
   onDelete,
   onAddContent,
   readOnly = false,
   ownerNickname,
+  ownerAvatarUrl,
   savedContentIds,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
@@ -60,6 +63,11 @@ export default function ContentItemRenderer({
     return `/content/${item.content_id}?category=${category}`;
   };
 
+  // 펼침 보기는 카드 격자를 쓰지 않는다 — 목록에서 고른 한 건을 통째로 보여준다
+  if (viewMode === "expand") {
+    return <ExpandDetailView items={items} ownerNickname={ownerNickname} ownerAvatarUrl={ownerAvatarUrl} />;
+  }
+
   // 뷰어 보유 여부
   const isViewerSaved = (contentId: string) =>
     savedContentIds !== null && savedContentIds !== undefined && savedContentIds.has(contentId);
@@ -67,13 +75,11 @@ export default function ContentItemRenderer({
 
   return (
     <div className="space-y-4">
-      <ContentGrid variant={viewMode === "list" ? "list" : "wide"}>
+      <ContentGrid variant="list">
         {items.map((item) => {
           const currentRating = localRatings[item.id] !== undefined ? localRatings[item.id] : item.rating;
           const rawReview = (locale === 'en' && item.review_en) ? item.review_en : item.review;
           const reviewIsOriginalLanguage = locale === "en" && !item.review_en && !!item.review;
-          // 목록 보기는 감상문을 읽으라고 만든 형태다 — 좁은 화면에서도 표지 옆에 감상문을 붙여 둔다
-          const reviewProp = viewMode === "list" ? rawReview : undefined;
           return (
             <div key={item.id} className="w-full">
             <ContentCard
@@ -83,10 +89,10 @@ export default function ContentItemRenderer({
               creator={getLocalizedContent(item.content, locale).creator}
               thumbnail={item.content.thumbnail_url}
               rating={currentRating}
-              review={reviewProp}
+              review={rawReview}
               reviewIsOriginalLanguage={reviewIsOriginalLanguage}
-              mobileLayout={viewMode === "list" ? "review" : undefined}
-              heightClass={viewMode === "list" ? "h-[320px] md:h-[280px]" : undefined}
+              mobileLayout="review"
+              heightClass="h-[320px] md:h-[280px]"
               isSpoiler={item.is_spoiler ?? undefined}
               sourceUrl={item.source_url}
               href={getHref(item)}

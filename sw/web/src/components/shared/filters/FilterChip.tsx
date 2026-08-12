@@ -34,6 +34,8 @@ export default function FilterChip({
       unstyled
       onClick={onClick}
       disabled={isLoading}
+      aria-label={`${label}: ${value}`}
+      title={`${label}: ${value}`}
       className={`
         flex items-center justify-center ${FILTER_CHIP_STYLES.base} 
         bg-white/5 whitespace-nowrap overflow-hidden !p-0

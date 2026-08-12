@@ -104,6 +104,9 @@ export default function FilterChipDropdown({
         unstyled
         onClick={handleToggle}
         disabled={isLoading}
+        aria-label={`${label}: ${value}`}
+        aria-expanded={isOpen}
+        title={`${label}: ${value}`}
         className={`
           flex items-center justify-center rounded-md border transition-none
           bg-white/5 whitespace-nowrap overflow-hidden

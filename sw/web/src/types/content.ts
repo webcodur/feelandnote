@@ -45,5 +45,12 @@ export interface ContentMetadata {
   tracks?: { name: string; durationMs: number; trackNumber: number }[]
   label?: string
   copyrights?: string[]
+  /* iTunes에서 받아온 음반에 붙는 값들. 음악 자료는 iTunes 출처가 다수라
+     이 이름들이 실제로 채워져 있다(26.08.10 실측 — 271/317건에 itunesUrl) */
+  itunesUrl?: string
+  previewUrl?: string
+  /** 연주자 한 명만 적힌 옛 자료. artists 배열이 없을 때 대신 쓴다 */
+  performer?: string
+  album?: string
 }
 // #endregion
