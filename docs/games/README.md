@@ -37,10 +37,10 @@
 |---|---|---|
 | 여명 | 전용 게임 규격 문서 없음 | 라우트는 [`architecture.md`](../project/platform/architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-1-여명-dawn--역사의-서광) |
 | 미궁 | 전용 게임 규격 문서 없음 | 라우트는 [`architecture.md`](../project/platform/architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-2-미궁-labyrinth--은둔한-현자-찾기) |
-| 패권 | 전용 게임 규격 문서 없음 | 라우트는 [`architecture.md`](../project/platform/architecture.md), 카드용 장면과 한 줄 설명은 [`card-images.md`](card-images.md#3-3-패권-hegemony--강한-자가-지배한다) |
+| 패권 | [`hegemony.md`](hegemony.md) | 게임 규칙, 카드·적성·상성 판정, 라운드 결산, AI 판단, 파일 구조, 추후 개발 예정 기능 |
 | 천도 | [`suikoden/dev-guide.md`](suikoden/dev-guide.md), [`suikoden/`](suikoden/README.md) | 개발 규칙과 작업 절차는 룰북, 설계는 01~09, 현재 코드 사실은 10 |
 
-여명·미궁·패권에 전용 문서가 없다는 표기는 새 문서를 만들자는 과제가 아니라, 현재 문서 범위를 숨기지 않기 위한 목록 정보다.
+여명·미궁에 전용 문서가 없다는 표기는 새 문서를 만들자는 과제가 아니라, 현재 문서 범위를 숨기지 않기 위한 목록 정보다. 패권 문서는 26.08.12에 코드 폴더에서 이곳으로 옮겨 왔으며, 마지막 코드 대조 시점은 문서 자체를 확인한다.
 
 ### 개발자 모드
 

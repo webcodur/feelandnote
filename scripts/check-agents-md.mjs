@@ -38,7 +38,7 @@ const requiredRouters = [
   'docs/README.md',
   'docs/project/README.md',
   'docs/todo/README.md',
-  'docs/archive/README.md',
+  'data/celeb/README.md',
 ]
 
 for (const router of requiredRouters) {

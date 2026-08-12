@@ -68,23 +68,22 @@ export default function ImageCropModal({
   // AI 분석 상태
   const [analyzing, setAnalyzing] = useState(false)
   const [notice, setNotice] = useState<{ tone: 'warn' | 'error'; lines: string[] } | null>(null)
-  const imageSize = useRef<{ width: number; height: number } | null>(null)
+  /**
+   * 원본을 한 번만 받아 두고 자동 맞춤·잘라내기가 함께 쓴다.
+   * 얼굴을 찾으려면 픽셀을 읽어야 하므로 교차 출처 허가를 붙인다 — 지금 들어오는 것은 파일에서 만든
+   * 자체 데이터라 무관하지만, 원격 주소가 들어와도 캔버스가 오염되지 않는다.
+   */
+  const sourceImage = useRef<HTMLImageElement | null>(null)
 
   // initialCroppedAreaPixels + key remount 방식
   const [initialArea, setInitialArea] = useState<Area | undefined>(undefined)
   const [cropperKey, setCropperKey] = useState(0)
 
-  const handleAutoCrop = useCallback(async () => {
-    if (!imageSize.current) return
+  const runAutoCrop = useCallback(async (img: HTMLImageElement) => {
     setAnalyzing(true)
     setNotice(null)
 
     try {
-      const img = new Image()
-      img.crossOrigin = 'anonymous'
-      img.src = imageSrc
-      await img.decode()
-
       const result = await detectFaceLandmarks(img)
       if (!result) {
         setNotice({ tone: 'error', lines: ['얼굴을 찾지 못했습니다. 아래 조절 막대로 직접 맞춰 주세요.'] })
@@ -108,20 +107,39 @@ export default function ImageCropModal({
     } finally {
       setAnalyzing(false)
     }
-  }, [imageSrc])
+  }, [])
 
-  // 이미지 크기 저장 + 1:1이면 자동 AI 맞춤
+  const handleAutoCrop = useCallback(() => {
+    const img = sourceImage.current
+    if (!img) return
+    void runAutoCrop(img)
+  }, [runAutoCrop])
+
+  // 원본을 한 번만 읽는다. 1:1이면 곧바로 자동 맞춤까지 이어서 실행한다.
   useEffect(() => {
-    const img = new Image()
-    img.onload = () => {
-      imageSize.current = { width: img.width, height: img.height }
+    let cancelled = false
+    sourceImage.current = null
 
-      if (enableAutoCrop && Math.abs(aspectRatio - 1) < 0.01) {
-        handleAutoCrop()
-      }
-    }
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
     img.src = imageSrc
-  }, [imageSrc, aspectRatio, enableAutoCrop, handleAutoCrop])
+    img.decode().then(
+      () => {
+        if (cancelled) return
+        sourceImage.current = img
+        if (enableAutoCrop && Math.abs(aspectRatio - 1) < 0.01) void runAutoCrop(img)
+      },
+      (e: unknown) => {
+        if (cancelled) return
+        console.error(e)
+        setNotice({ tone: 'error', lines: ['이미지를 읽지 못했습니다. 다시 올려 주세요.'] })
+      }
+    )
+
+    return () => {
+      cancelled = true
+    }
+  }, [imageSrc, aspectRatio, enableAutoCrop, runAutoCrop])
 
   const onCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -130,8 +148,9 @@ export default function ImageCropModal({
   const handleConfirm = async () => {
     if (!croppedAreaPixels) return
 
-    const croppedImage = await getCroppedImage(imageSrc, croppedAreaPixels)
-    onComplete(croppedImage)
+    // 위에서 받아 둔 원본을 그대로 쓴다. 못 받았을 때만 다시 읽는다.
+    const image = sourceImage.current ?? (await createImage(imageSrc))
+    onComplete(getCroppedImage(image, croppedAreaPixels))
   }
 
   const handleReset = () => {
@@ -298,8 +317,7 @@ export default function ImageCropModal({
  * 자른 결과를 무손실 PNG로 돌려준다.
  * 여기서 webp로 줄이면 뒤이은 축소(lib/image.ts)와 합쳐 손실이 두 겹 쌓인다 — 압축은 마지막 한 번만 한다.
  */
-async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<string> {
-  const image = await createImage(imageSrc)
+function getCroppedImage(image: HTMLImageElement, pixelCrop: Area): string {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
 
@@ -337,9 +355,11 @@ async function getCroppedImage(imageSrc: string, pixelCrop: Area): Promise<strin
   return canvas.toDataURL('image/png')
 }
 
+/** 원본을 못 받아 둔 예외 상황에서만 쓰는 폴백. 캔버스가 오염되지 않게 허가를 붙인다. */
 function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image()
+    image.crossOrigin = 'anonymous'
     image.addEventListener('load', () => resolve(image))
     image.addEventListener('error', (error) => reject(error))
     image.src = url

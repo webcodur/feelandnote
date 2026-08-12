@@ -97,9 +97,18 @@ Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 �
 - 현역 프로젝트 문서: `docs/project/README.md`
 - 게임 문서: `docs/games/README.md`
 - 진행 중 작업: `docs/todo/README.md`
-- 완료·폐기 이력: `docs/archive/README.md`
+- DB 반영 전 인물 원고·기계 산출물: `data/celeb/README.md`
 
 작업 전 `docs/README.md`에서 해당 영역만 찾아 읽는다. 모든 문서를 한꺼번에 읽지 않는다. 사용자의 요청과 일치하는 스킬이 있으면 그 `SKILL.md`를 먼저 읽고 스킬이 가리키는 현행 SSoT만 추가로 연다.
+
+전문 도메인 작업은 별도 에이전트 정의 없이 서브에이전트에 아래 룰북을 물려 발주한다. 발주 프롬프트에 룰북 경로를 명시하지 않으면 지침 없이 도는 서브에이전트가 나온다.
+
+| 작업 | 물릴 룰북 |
+|------|-----------|
+| 셀럽 파이프라인 전 단계 | `docs/project/celeb/celeb-pipeline.md` (단계별 룰북 표를 그 안에서 쥔다) |
+| 셀럽 콘텐츠 감사 | `docs/project/celeb/celeb-content-audit.md` |
+| 영상 원고 0~7단계 | `docs/project/remotion/book-recommend/rules.md` + `writer/<단계>.md` |
+| 천도 게임 개발 | `docs/games/suikoden/dev-guide.md` |
 
 글쓰기와 이미지 제작은 각각 `docs/project/production/writing-rules.md`, `docs/project/production/image-generation.md`를 따른다. 앱·서비스·DB·셀럽·영상의 세부 진입점은 `docs/project/README.md`가 쥔다.
 
@@ -107,8 +116,8 @@ Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 �
 
 - 현행 규격은 `docs/project/` 또는 `docs/games/`에 둔다.
 - 다음 작업이 남은 인수인계와 실행 큐는 `docs/todo/`에 둔다.
-- 완료 보고서·회차 스냅샷·폐기 문서는 `docs/archive/`로 옮긴다. 아카이브를 현행 규칙으로 인용하지 않는다.
-- DB 반영 전 원고·배치·기계 산출물은 `docs/celeb-data/` 등 해당 데이터 폴더에 둔다.
-- 작업이 끝나면 현행 규칙을 담당 SSoT에 흡수하고, TODO에서 제거하고, 필요한 실행 이력만 아카이브한다.
+- 완료 보고서·회차 스냅샷·폐기 문서는 남기지 않는다. 규칙을 담당 SSoT로 옮긴 뒤 문서를 지운다. 경위가 필요하면 커밋 이력에서 꺼낸다.
+- DB 반영 전 원고·배치·기계 산출물은 `data/celeb/` 등 데이터 폴더에 둔다. 문서 폴더에 데이터를 쌓지 않는다.
+- 작업이 끝나면 현행 규칙을 담당 SSoT에 흡수하고, TODO에서 제거하고, 남은 문서를 지운다.
 - 문서를 추가·완료·이동·삭제하면 상위 README, 스킬, 코드 주석의 경로를 함께 갱신하고 옛 경로 참조가 0건인지 확인한다.
 - 같은 규칙을 여러 README나 `AGENTS.md`에 풀어 쓰지 않는다. 상위 문서는 경로와 책임만 설명한다.

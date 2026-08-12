@@ -1,6 +1,6 @@
 # 인물 진행 과제
 
-인물 영역에서 아직 다음 작업이 남은 실행 문서다. 현행 규격은 [`docs/project/celeb/`](../../project/celeb/README.md), 완료 이력은 [`docs/archive/celeb/`](../../archive/celeb/README.md)에서 찾는다.
+인물 영역에서 아직 다음 작업이 남은 실행 문서다. 현행 규격은 [`docs/project/celeb/`](../../project/celeb/README.md)에서 찾는다.
 
 | 문서 | 다음 작업 |
 |---|---|

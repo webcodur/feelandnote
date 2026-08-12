@@ -3,8 +3,7 @@
 > 상태: **구현 완료, 운영 데이터 정비 진행 중** (2026-07-29)
 >
 > 이 문서는 전체 이관의 선행 단계인 콘텐츠 식별자·표지 단일원천화 규격이다.
-> 같은 날 제작 작업대 전체도 web-bo로 이관되어 remotion-bo는 폐기됐다. 전체 이력은
-> [`docs/archive/remotion/remotion-bo-plan.md`](../../../archive/remotion/remotion-bo-plan.md) 「북리커맨드 최종 이관」을 본다.
+> 같은 날 제작 작업대 전체도 web-bo로 이관되어 remotion-bo는 폐기됐다.
 
 ## 이번 단계의 결정
 

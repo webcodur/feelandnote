@@ -172,5 +172,5 @@ GeminiVoiceSelect의 web-bo 폐포 포함 여부 · discourse-voice 라우트 �
   - ⚠ **남겨 둔 것**: `api/[series]/music`(목록·폴더 열기)은 호출처가 담화 편집기뿐이었으나 **동작 자체는 멀쩡하다**(시리즈 공용 `public/music/` 을 읽는다). 고장이 아니라 부르는 사람이 없어진 것이라 그대로 뒀다 — 지우려면 별도 판단이 필요하다.
   - 등록표 9곳은 `SeriesDataModel` 유니온에서 `'discourse'` 를 빼자 타입 검사기가 전부 지목했다(팩션 P5 와 같은 방법). `usesLangTabEditor` 는 정의째 소멸했다 — 쓰는 시리즈가 없어졌다.
   - **§8.5 죽은 호출 재확인**: shared `media.tsx:623` 이 `/api/${series}/faction-avatar` 를 부르는 배선은 그대로다. 담화 인물 카드가 slug 를 넘기지 않아 **버튼 자체가 안 그려지므로 지금은 호출되지 않는다.** web-bo 이식본도 같은 상태다 — 이 버튼을 켜려면 라우트 신설(`celeb-avatar` 로 개명 후보)이 선행돼야 한다.
-  - 문서 6종 동기화: 이 문서 · `docs/project/remotion/discourse/README.md`(머리에 통합 완료 표기) · `docs/project/apps/web-bo.md`(「가상 담화」 절 신설) · `docs/archive/remotion/remotion-bo-plan.md`(폐기 실적 + **「단일 시리즈가 된 뒤」 관찰**) · `AGENTS.md` · `docs/project/remotion/faction/unification.md`(형제 통합 완료 1줄).
+  - 문서 5종 동기화: 이 문서 · `docs/project/remotion/discourse/README.md`(머리에 통합 완료 표기) · `docs/project/apps/web-bo.md`(「가상 담화」 절 신설) · `AGENTS.md` · `docs/project/remotion/faction/unification.md`(형제 통합 완료 1줄).
   - 당시 이 앱에 남은 시리즈는 서재 탐방 하나였다. 이 관찰이 Phase 7의 전제가 되었고, 26.07.29 web-bo 이관과 앱 소멸로 해소됐다.

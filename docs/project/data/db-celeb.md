@@ -20,7 +20,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     - DB 가드가 콘텐츠 보유자의 확정 시각 기록을 거부한다. 확정 뒤 콘텐츠가 추가되면 트리거가 확정 시각을 비운다
     - 조사 진행 상태는 오케스트레이터가 관리하며 DB에 저장하지 않는다
   - `publication_status` (text, 기본값 `'active'`): CHECK `active`|`inactive`|`suspended`|`deleted`. **인물에게는 노출 상태 하나만 뜻한다.**
-    - 26.08.07 이전 `profiles.status`는 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 가짜 Auth 계정을 폐기하고 `celebs.publication_status`로 옮겨 의미를 물리적으로 분리했다 — 경위는 `docs/archive/data/profile-user-celeb-separation-2026-08-07.md`
+    - 26.08.07 이전 `profiles.status`는 「계정 제재」와 「인물 공개」 두 뜻으로 겹쳐 읽혔다. 가짜 Auth 계정을 폐기하고 `celebs.publication_status`로 옮겨 의미를 물리적으로 분리했다
     - 실측 분포(26.08.07): active 1,793 / inactive 725 / suspended 224
     - **목록 노출은 이 값 하나가 아니라 `celeb_tier` 필터도 함께 가른다.** `publication_status`는 공개 여부만 뜻하며 조사 여부·관계·태그 배정 같은 독립 사실을 대신하지 않는다. “내일 active로 바꾸면 해당 값이 저절로 맞아지는가?”가 아니라면 이 열을 조건에 넣지 않는다. 26.07.26 관계망, 26.07.27 세력도감 태그, 26.08.07 콘텐츠 조사에서 같은 혼용 사고를 교정했다
     - **계정 전용 열은 `celebs`에 없다.** 회원 계정 상태는 `user_accounts.account_status`이며 셀럽 공개 상태와 다른 축이다. 관리자 판정은 `is_admin()` 하나가 쥔다

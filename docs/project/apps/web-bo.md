@@ -12,8 +12,7 @@ Supabase, 렌더용 서재 탐방 자산은 `sw/remotion/public/episodes`를 원
 | **web-bo** | 3001 | **서비스 운영 + 영상 제작 관리.** 셀럽·유저·콘텐츠·커뮤니티와 세력도감·가상 담화·서재 탐방 | Supabase + 로컬 Remotion |
 | audio-bo | 3005 | 로컬 음성 작업실. 받아쓰기·화자 학습·합성 | D드라이브 |
 
-구 remotion-bo의 이관 이력은 [영상 제작 관리 통합 이력](../../archive/remotion/remotion-bo-plan.md),
-audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
+구 remotion-bo는 이 앱으로 이관하고 폐기했다. audio-bo는 [Audio BO](./audio-bo.md)를 참조한다.
 
 ## 실행
 
@@ -118,8 +117,7 @@ pnpm dev:bo
 `covers/content/<contentId>/<locale>.webp`에 만든다.
 
 콘텐츠 관계·표지 운영 규격은
-[서재 탐방 1차 통합](../remotion/book-recommend/unification-phase1.md), 전체 이관 이력은
-[영상 제작 관리 통합 이력](../../archive/remotion/remotion-bo-plan.md)을 참조한다.
+[서재 탐방 1차 통합](../remotion/book-recommend/unification-phase1.md)을 참조한다.
 | `/notes` | 노트 관리 | 노트 목록(24건 단위), 공개설정 필터와 설정별 개수, 섹션 완료 여부 | `notes`, `note_sections`, `member_profiles`, `contents` |
 | `/playlists` | 묶음 관리(옛 라우트명) | 플로우 목록, 콘텐츠 유형·공개여부 필터, 노드 수 통계 | `flows`, `flow_nodes`, `member_profiles` |
 

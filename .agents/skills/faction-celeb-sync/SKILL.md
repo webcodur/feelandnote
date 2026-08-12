@@ -65,7 +65,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 ## 파이프라인이 못 하는 것 (예외 작업)
 
-- **신규 인물 등록** — 프로필 없는 **개별 인물**(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`celeb-creation-rulebook`)으로 먼저 등록. 신화·허구도 하나의 개별 인물일 때만 `fiction` 티어 + 인물 데이터 `mythical: true`로 등록한다. 종족·형제 묶음·신화 집단은 등록하지 않는다.
+- **신규 인물 등록** — 프로필 없는 **개별 인물**(blocked 명단)은 celeb 파이프라인(web-bo `/celebs/new`·`docs/project/celeb/celeb-pipeline.md`)으로 먼저 등록. 신화·허구도 하나의 개별 인물일 때만 `fiction` 티어 + 인물 데이터 `mythical: true`로 등록한다. 종족·형제 묶음·신화 집단은 등록하지 않는다.
 - **상위 그룹 계층** — `celeb_tags.parent_id`가 SSoT다(26.07.26 코드 상수에서 승격, `constants/factionGroups.ts`는 삭제됨). 신규 태그를 그룹에 넣으려면 web-bo `/factions/themes/[tagId]`의 「상위 묶음」에서 고른다. ⚠️ 출간 결과의 `constantHint` 안내 문구는 아직 옛 상수 파일을 가리킨다(후속 교정 대상).
 - **태그 노출 결정** — 신규 태그는 `is_featured=false`로 생성된다. 노출 전환·설명문(`description`)·색은 web-bo 태그 화면에서 사람이 다듬는다.
 - **아바타** — 위 표 참조.
