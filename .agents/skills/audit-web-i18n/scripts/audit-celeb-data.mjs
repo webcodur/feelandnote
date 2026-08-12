@@ -30,7 +30,7 @@ function findRepoRoot(start) {
   while (true) {
     if (
       fs.existsSync(path.join(current, "sw", "web", "package.json"))
-      && fs.existsSync(path.join(current, "docs", "project", "db-celeb.md"))
+      && fs.existsSync(path.join(current, "docs", "project", "data", "db-celeb.md"))
     ) {
       return current;
     }
