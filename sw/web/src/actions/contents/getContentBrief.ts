@@ -149,7 +149,7 @@ export async function getContentBrief(contentId: string, locale: string): Promis
       cachedDetail(
         CACHE_TAGS.CONTENTS,
         contentId,
-        ['content-brief-description-v1', contentId, safeLocale],
+        ['content-brief-description-v2', contentId, safeLocale],
         () => fetchBrief(contentId, safeLocale),
       ),
     null,
