@@ -1,7 +1,17 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { normalizeContentIntroText } from "./contentIntroText";
+import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
+
+test("받은 metadata.description을 책 소개로 선택한다", () => {
+  assert.equal(
+    selectContentIntroText({
+      description: null,
+      metadata: { description: "외부 메타데이터에서 받은 책 소개" },
+    }),
+    "외부 메타데이터에서 받은 책 소개",
+  );
+});
 
 test("책 소개의 HTML 엔티티를 일반 텍스트로 복원한다", () => {
   assert.equal(

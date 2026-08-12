@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 import FormattedText from "@/components/ui/FormattedText";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
-import { normalizeContentIntroText } from "./contentIntroText";
+import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import { useWheelBoundaryPassThrough } from "./useWheelBoundaryPassThrough";
 
@@ -35,8 +35,7 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
     );
   }
 
-  // 게임은 줄거리가 소개를 대신하는 경우가 많다
-  const sourceText = brief?.description || brief?.metadata?.storyline || null;
+  const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
 
   return (
