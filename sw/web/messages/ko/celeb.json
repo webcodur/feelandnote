@@ -54,6 +54,10 @@
       "library": {
         "about": "이 인물이 감상한 콘텐츠와 직접 남긴 창작물을 함께 모읍니다."
       },
+      "lightLibrary": {
+        "about": "확인된 감상·창작 기록이 있을 때 이곳에 연결합니다.",
+        "notice": "지금은 프로필과 인물 분석을 중심으로 살펴보세요. 등록된 경우 읽어보기, 타임라인, 인물 관계도 함께 볼 수 있습니다."
+      },
       "sourceWorks": {
         "about": "신화·서사시·문학 등 이 인물이 등장하는 원전과 작품을 연결해 보여줍니다."
       },
@@ -67,7 +71,7 @@
         "about": "이 인물에 대한 감상과 해석을 함께 남기는 공간입니다."
       },
       "relations": {
-        "about": "이 인물과 실제로 연결된 사람들을 관계 유형별로 잇습니다."
+        "about": "이 인물과 확인된 관계를 유형별로 잇습니다."
       },
       "contemporaries": {
         "about": "생몰 기간이 겹치는 인물을 찾고, 후보가 많으면 출생 시점이 가까운 순과 함께 산 기간이 긴 순으로 좁혀 최대 30명만 보여줍니다."
@@ -77,6 +81,10 @@
       },
       "analysis": {
         "about": "이 인물의 16축 스펙트럼과 영향력을 살펴봅니다."
+      },
+      "fictionAnalysis": {
+        "about": "이야기 속 인물은 현실 인물용 영향력 평가와 16축 스펙트럼의 대상이 아닙니다.",
+        "notice": "원전·등장 작품, 서사 연표, 인물 관계를 따라 이 인물의 역할과 변화를 살펴보세요."
       },
       "media": {
         "about": "이 인물의 생각과 목소리를 글·음성·영상으로 만납니다."
@@ -91,11 +99,11 @@
         "about": "화면 상황에 따라 이 인물다운 반응과 말을 들려주는 대사 모음입니다."
       },
       "videos": {
-        "about": "이 인물의 감상 기록과 사상을 영상으로 풀어낸 콘텐츠를 모읍니다."
+        "about": "이 인물을 다루는 공개 영상을 모읍니다."
       }
     },
     "influence": "영향력",
-    "tierFictionBadge": "신화 속 인물",
+    "tierFictionBadge": "신화·이야기 속 인물",
     "library": "기록물",
     "libraryEmpty": "아직 공개된 감상 기록이 없습니다.",
     "sourceWorks": "원전·등장 작품",
@@ -107,6 +115,7 @@
       "adaptation": "각색 작품"
     },
     "analysis": "인물 분석",
+    "fictionAnalysis": "인물 해석",
     "media": "미디어",
     "guestbook": "방명록",
     "fictionGuestbook": "감상록",
@@ -174,6 +183,7 @@
     "relAllTitle": "{name}의 전체 관계",
     "relAllCount": "관계 인물 {count}명",
     "relationGraphNote": "혈연·사제·영향 관계는 위키데이터에 기록된 사실을 기준으로 합니다.",
+    "fictionRelationGraphNote": "관계는 원전과 주요 전승에 나타난 가족·동료·대립 구도를 기준으로 합니다.",
     "relFilter_all": "전체",
     "relFilter_family": "혈연",
     "relFilter_thought": "사상",
@@ -299,7 +309,7 @@
     "dialogue_battle_lose": "패배",
     "dialogue_clash_attack": "기합",
     "creativeSearch": "검색",
-    "notFound": "셀럽을 찾을 수 없습니다",
+    "notFound": "인물을 찾을 수 없습니다",
     "enlargePhoto": "초상화 크게 보기",
     "playGreetingVoice": "인사말 듣기"
   }

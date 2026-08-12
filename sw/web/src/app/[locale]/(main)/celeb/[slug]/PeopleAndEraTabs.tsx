@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
+import { useTranslations } from "next-intl";
+
 import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
-import { useTranslations } from "next-intl";
+import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
@@ -23,6 +24,7 @@ interface Props {
   contemporaries: ContemporaryCeleb[];
   factions: FeaturedTag[];
   currentCelebId: string;
+  isFiction: boolean;
 }
 
 const TAB_KEYS: readonly PeopleAndEraTab[] = [
@@ -39,76 +41,75 @@ export default function PeopleAndEraTabs({
   contemporaries,
   factions,
   currentCelebId,
+  isFiction,
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
-  const relationItem = childItems.find((child) => child.key === "relations");
-  const contemporariesItem = childItems.find(
-    (child) => child.key === "contemporaries",
-  );
-  const factionItem = childItems.find((child) => child.key === "faction");
-  const [tab, setTab] = useState<PeopleAndEraTab>(() => {
-    if (relationItem?.ready) return "relations";
-    if (contemporariesItem?.ready) return "contemporaries";
-    if (factionItem?.ready) return "faction";
-    return "relations";
+  const visibleTabs = TAB_KEYS.flatMap((key) => {
+    const child = childItems.find((candidate) => candidate.key === key);
+    return child ? [{ key, item: child }] : [];
   });
+  const [tab, setTab] = useState<PeopleAndEraTab>(() =>
+    visibleTabs.find(({ item: child }) => child.ready)?.key
+      ?? visibleTabs[0]?.key
+      ?? "relations"
+  );
+  const active = visibleTabs.find(({ key }) => key === tab) ?? visibleTabs[0];
+  if (!active) return null;
 
-  if (!relationItem || !contemporariesItem || !factionItem) return null;
-
-  const tabItems: Record<PeopleAndEraTab, ServiceItem> = {
-    relations: relationItem,
-    contemporaries: contemporariesItem,
-    faction: factionItem,
-  };
-  const tabs: ArchiveTabItem<PeopleAndEraTab>[] = TAB_KEYS.map((key) => ({
+  const activeKey = active.key;
+  const activeItem = active.item;
+  const tabs: ArchiveTabItem<PeopleAndEraTab>[] = visibleTabs.map(({ key, item: child }) => ({
     key,
-    label: tabItems[key].label,
+    label: child.label,
   }));
+  const columnsClassName = visibleTabs.length === 1
+    ? "grid-cols-1"
+    : visibleTabs.length === 2
+      ? "grid-cols-2"
+      : "grid-cols-3";
 
   return (
     <div>
       <ArchiveTabsHeader
         tabs={tabs}
-        activeKey={tab}
+        activeKey={activeKey}
         onChange={setTab}
-        columnsClassName="grid-cols-3"
+        columnsClassName={columnsClassName}
         ariaLabel={t("connections")}
       />
 
       <div
-        id={`archive-panel-${tab}`}
+        id={`archive-panel-${activeKey}`}
         role="tabpanel"
-        aria-labelledby={`archive-tab-${tab}`}
+        aria-labelledby={`archive-tab-${activeKey}`}
       >
-        {tab === "relations" && (
-          relationItem.ready ? (
+        {activeKey === "relations" && (
+          activeItem.ready ? (
             <RelationGraphSection
               centerName={centerName}
               centerAvatarUrl={centerAvatarUrl}
               relations={relations}
+              isFiction={isFiction}
             />
           ) : (
-            <UnavailableSectionGuide item={relationItem} />
+            <UnavailableSectionGuide item={activeItem} />
           )
         )}
 
-        {tab === "contemporaries" && (
-          contemporariesItem.ready ? (
+        {activeKey === "contemporaries" && (
+          activeItem.ready ? (
             <ContemporariesSection contemporaries={contemporaries} />
           ) : (
-            <UnavailableSectionGuide item={contemporariesItem} />
+            <UnavailableSectionGuide item={activeItem} />
           )
         )}
 
-        {tab === "faction" && (
-          factionItem.ready ? (
-            <FactionSection
-              factions={factions}
-              currentCelebId={currentCelebId}
-            />
+        {activeKey === "faction" && (
+          activeItem.ready ? (
+            <FactionSection factions={factions} currentCelebId={currentCelebId} />
           ) : (
-            <UnavailableSectionGuide item={factionItem} />
+            <UnavailableSectionGuide item={activeItem} />
           )
         )}
       </div>

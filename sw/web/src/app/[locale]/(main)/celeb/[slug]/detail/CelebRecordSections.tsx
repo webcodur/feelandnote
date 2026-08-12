@@ -238,6 +238,7 @@ export default function CelebRecordSections({
               contemporaries={contemporaries}
               factions={factionTags}
               currentCelebId={profile.id}
+              isFiction={isFiction}
             />
           </SectionSurface>
         </section>
@@ -245,11 +246,15 @@ export default function CelebRecordSections({
         <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
           {renderSectionHeading("analysis")}
           <SectionSurface className={TAB_BOX_CLASS_NAME}>
-            <FigureAnalysisTabs
-              item={serviceItemsByKey.get("analysis")!}
-              spectrumData={spectrumData}
-              influenceData={influenceData}
-            />
+            {isFiction ? (
+              <UnavailableSectionGuide item={serviceItemsByKey.get("analysis")!} />
+            ) : (
+              <FigureAnalysisTabs
+                item={serviceItemsByKey.get("analysis")!}
+                spectrumData={spectrumData}
+                influenceData={influenceData}
+              />
+            )}
           </SectionSurface>
         </section>
 

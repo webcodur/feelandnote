@@ -9,4 +9,5 @@
 | [`celeb-avatar-nobg-handoff.md`](celeb-avatar-nobg-handoff.md) | 배경 제거 증분 처리 재개 |
 | [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 읽어보기 전량 검수·보완 |
 | [`celeb-buzz-research-2026-08-09.md`](celeb-buzz-research-2026-08-09.md) | 화제성 지표 조사·설계 후 구현 여부 결정 |
+| [`celeb-profile-headline.md`](celeb-profile-headline.md) | LIGHT·FICTION 인물의 한 줄 정의 필드 설계·한영 작성·적용 |
 | [`voice-generation-wave2.md`](voice-generation-wave2.md) | 10인 보이스 생성·업로드·서비스 확인 |

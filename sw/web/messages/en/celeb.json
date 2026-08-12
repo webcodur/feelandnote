@@ -54,6 +54,10 @@
       "library": {
         "about": "The works this figure experienced and the works they created, kept together as records."
       },
+      "lightLibrary": {
+        "about": "Verified viewing and creative records are linked here when available.",
+        "notice": "For now, start with the profile and figure analysis. Reading, timeline, and relationship sections appear when records are available."
+      },
       "sourceWorks": {
         "about": "Source texts and works in which this figure appears, from myth and epic to literature."
       },
@@ -67,7 +71,7 @@
         "about": "A place to leave reflections and interpretations of this figure."
       },
       "relations": {
-        "about": "A map of people who were demonstrably connected to this figure."
+        "about": "A map of verified relationships around this figure, grouped by type."
       },
       "contemporaries": {
         "about": "We find figures with overlapping lifetimes, then narrow large pools to 30 by nearest birth date and longest shared lifetime."
@@ -77,6 +81,10 @@
       },
       "analysis": {
         "about": "A 16-axis spectrum and an assessment of public influence."
+      },
+      "fictionAnalysis": {
+        "about": "Figures from myth and fiction are not scored with the influence assessment or 16-axis spectrum used for real people.",
+        "notice": "Follow the source works, story timeline, and relationships to understand this character's role and development."
       },
       "media": {
         "about": "Writing, voice, and video that bring this figure's thought and character into view."
@@ -91,11 +99,11 @@
         "about": "A collection of responses written for this figure in different situations across the service."
       },
       "videos": {
-        "about": "Published videos that explore this figure's viewing history and ideas."
+        "about": "Published videos about this figure."
       }
     },
     "influence": "Influence",
-    "tierFictionBadge": "Mythic figure",
+    "tierFictionBadge": "Myth & Story Figure",
     "library": "Records",
     "libraryEmpty": "No public viewing records yet.",
     "sourceWorks": "Source Works",
@@ -107,6 +115,7 @@
       "adaptation": "Adaptation"
     },
     "analysis": "Figure Analysis",
+    "fictionAnalysis": "Character Reading",
     "media": "Media",
     "guestbook": "Guestbook",
     "fictionGuestbook": "Reader Notes",
@@ -174,6 +183,7 @@
     "relAllTitle": "All connections of {name}",
     "relAllCount": "{count} connected people",
     "relationGraphNote": "Kinship, mentorship, and influence links are drawn from facts recorded in Wikidata.",
+    "fictionRelationGraphNote": "Relationships follow family, alliance, and conflict as presented in source texts and major traditions.",
     "relFilter_all": "All",
     "relFilter_family": "Kinship",
     "relFilter_thought": "Influence",
@@ -299,7 +309,7 @@
     "dialogue_battle_lose": "Defeat",
     "dialogue_clash_attack": "Strike",
     "creativeSearch": "Search",
-    "notFound": "Celebrity not found",
+    "notFound": "Figure not found",
     "enlargePhoto": "View larger portrait",
     "playGreetingVoice": "Play greeting"
   }

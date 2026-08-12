@@ -20,7 +20,7 @@ export default function UnavailableSectionGuide({ item }: Props) {
     <div className={styles.shell}>
       <p className={styles.about}>{guide.about}</p>
       <p className={styles.notice}>
-        {t("atlasGuideNoData", { section: item.label })}
+        {guide.notice ?? t("atlasGuideNoData", { section: item.label })}
       </p>
     </div>
   );

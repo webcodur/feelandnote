@@ -138,9 +138,10 @@ interface Props {
   centerName: string;
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
+  isFiction?: boolean;
 }
 
-export default function RelationGraphSection({ centerName, centerAvatarUrl, relations }: Props) {
+export default function RelationGraphSection({ centerName, centerAvatarUrl, relations, isFiction = false }: Props) {
   const locale = useLocale();
   const t = useTranslations("celebPage");
   const tp = useTranslations("profession");
@@ -850,9 +851,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         </div>
       )}
 
-      {/* 출처 고지 — 사실 관계는 위키데이터 기준 */}
+      {/* 관계의 근거는 현실 인물과 이야기 속 인물이 서로 다르다. */}
       <p className="text-xs text-center leading-relaxed break-keep">
-        {t("relationGraphNote")}
+        {t(isFiction ? "fictionRelationGraphNote" : "relationGraphNote")}
       </p>
 
       {showAllRelations && (

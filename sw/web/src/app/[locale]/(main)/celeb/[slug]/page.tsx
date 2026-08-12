@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale, getTranslations } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
 import { getSimilarByCelebId } from "@/actions/spectrum/getSimilarByCelebId";
@@ -11,23 +11,14 @@ import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getPublicGuestbookEntries } from "@/actions/guestbook";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getFactionTagsByIds } from "@/actions/home/getFeaturedTags";
-import { getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { getAlternates, getCreativeWorkCreatorJsonLd, getSeoImageUrl } from "@/lib/seo";
-import { flattenLocales } from "@/lib/utils/content-locale";
-import { getCountryNameByLocale } from "@/lib/countries";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
-import { INDEXABLE_TIERS } from "@feelandnote/shared/constants/celeb-tiers";
 import CelebPageContent from "./CelebPageContent";
 import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
-import {
-  buildCelebTitleKo,
-  buildCelebTitleEn,
-  buildCelebDescriptionKo,
-  buildCelebDescriptionEn,
-  type CelebMetaInput,
-} from "@/lib/celeb/meta";
+import { buildCelebTitle } from "@/lib/celeb/meta";
+import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
+import { buildCelebPageMetadata, createCelebMetaInput } from "./celebPageMetadata";
 
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
@@ -50,68 +41,7 @@ const LIBRARY_FIRST_PAGE_SIZE = 4;
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   setRequestLocale(locale);
-  const result = await getCelebBySlug(slug, locale);
-
-  if (!result.success || !result.data) {
-    const t = await getTranslations("celebPage");
-    return { title: t("notFound") };
-  }
-
-  const { nickname, title, contentTypeCounts, quotes, bio } = result.data;
-  // 설명문에 그 사람의 한마디를 싣는다 — 1,257명이 같은 문장으로 나가던 것을 갈랐다
-  const metaInput: CelebMetaInput = {
-    nickname, title, counts: contentTypeCounts, quote: quotes, bio,
-  };
-  const pageTitle = locale === 'en' ? buildCelebTitleEn(metaInput) : buildCelebTitleKo(metaInput);
-  const description = locale === 'en'
-    ? buildCelebDescriptionEn(metaInput)
-    : buildCelebDescriptionKo(metaInput);
-  const alternates = getAlternates(
-    `/celeb/${slug}`,
-    locale === "en" ? "en" : "ko",
-  );
-  const canonicalUrl = alternates.canonical;
-  const seoLocale = locale === "en" ? "en" : "ko";
-  const seoImageUrl = getSeoImageUrl(
-    "celeb",
-    slug,
-    seoLocale,
-    result.data.avatar_url ?? result.data.photo_url,
-  );
-  const seoImageAlt = locale === "en"
-    ? `${nickname} portrait`
-    : `${nickname} 인물 이미지`;
-
-  // full 등급만 색인 대상이다. light/fiction은 연결용 최소 등록이라
-  // 본문이 얇아 색인되면 저품질 페이지로 잡힌다. 링크는 따라가도록 follow는 유지한다.
-  // (사이트맵도 full 등급만 등재한다 — 같은 기준)
-  const isIndexable = (INDEXABLE_TIERS as readonly string[]).includes(result.data.celeb_tier ?? 'full');
-
-  return {
-    title: pageTitle,
-    description,
-    robots: isIndexable ? undefined : { index: false, follow: true },
-    alternates,
-    openGraph: {
-      title: pageTitle,
-      description,
-      url: canonicalUrl,
-      type: "profile",
-      images: [{
-        url: seoImageUrl,
-        width: 800,
-        height: 800,
-        type: "image/png",
-        alt: seoImageAlt,
-      }],
-    },
-    twitter: {
-      card: "summary",
-      title: pageTitle,
-      description,
-      images: [{ url: seoImageUrl, alt: seoImageAlt }],
-    },
-  };
+  return buildCelebPageMetadata(locale, slug);
 }
 
 export default async function CelebPage({ params }: PageProps) {
@@ -131,18 +61,14 @@ export default async function CelebPage({ params }: PageProps) {
     tier: profile.celeb_tier,
   });
   const worldBannerImages = getWorldBannerImages(worldId);
-  const titleInput: CelebMetaInput = {
-    nickname: profile.nickname, title: profile.title, counts: profile.contentTypeCounts,
-  };
-  const pageTitle = locale === 'en' ? buildCelebTitleEn(titleInput) : buildCelebTitleKo(titleInput);
 
   const [guestbookResult, influenceData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
     getPublicGuestbookEntries({ profileId: userId }),
-    getCelebInfluence(userId, locale),
-    getSimilarByCelebId(userId, 3, locale),
-    getCelebJsonLdContents(userId),
+    profile.celeb_tier === "fiction" ? Promise.resolve(null) : getCelebInfluence(userId, locale),
+    profile.celeb_tier === "fiction" ? Promise.resolve(null) : getSimilarByCelebId(userId, 3, locale),
+    profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
-    profile.birth_date
+    profile.celeb_tier !== "fiction" && profile.birth_date
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
     getCelebTimelineEvents(userId, locale),
@@ -168,6 +94,11 @@ export default async function CelebPage({ params }: PageProps) {
       : Promise.resolve([]),
   ]);
 
+  const pageTitle = buildCelebTitle(
+    createCelebMetaInput(profile, fictionSources),
+    locale,
+  );
+
   const greetingFromLines = (lines: Record<string, string[] | string> | null | undefined) => {
     const v = lines?.greeting;
     return Array.isArray(v) ? v : null;
@@ -190,80 +121,20 @@ export default async function CelebPage({ params }: PageProps) {
       ) as Record<string, string[]>
     : null;
 
-  // JSON-LD 구조화 데이터: Person + ItemList
-  const canonicalUrl = getAlternates(
-    `/celeb/${slug}`,
-    locale === "en" ? "en" : "ko",
-  ).canonical;
-  const personImageUrl = getSeoImageUrl(
-    "celeb",
+  const jsonLd = buildCelebPageJsonLd({
+    profile,
     slug,
-    locale === "en" ? "en" : "ko",
-    profile.avatar_url ?? profile.photo_url,
-  );
-  const wikidataQid = profile.wikidata_qid?.match(/^Q\d+$/)?.[0] ?? null;
-  const alternateNames = [profile.nickname_ko, profile.nickname_en]
-    .filter((name): name is string => Boolean(name && name !== profile.nickname));
-  const contentItems = contentList.map((rawContent, idx) => {
-    const flat = flattenLocales(rawContent.content_locales, locale);
-    const schemaType = rawContent.type === 'BOOK' ? 'Book'
-      : rawContent.type === 'VIDEO' ? 'Movie'
-      : rawContent.type === 'MUSIC' ? 'MusicRecording'
-      : rawContent.type === 'GAME' ? 'VideoGame'
-      : 'CreativeWork';
-    return {
-      "@type": "ListItem",
-      position: idx + 1,
-      item: {
-        "@type": schemaType,
-        name: flat.title,
-        url: getAlternates(
-          `/content/${rawContent.id}`,
-          locale === "en" ? "en" : "ko",
-        ).canonical,
-        ...getCreativeWorkCreatorJsonLd(rawContent.type, flat.creator),
-      },
-    };
+    locale,
+    pageTitle,
+    contents: contentList,
+    fictionSources,
   });
-
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": `${canonicalUrl}#person`,
-      name: profile.nickname,
-      ...(alternateNames.length > 0 && { alternateName: alternateNames }),
-      ...(profile.bio && { description: profile.bio }),
-      ...(profile.nationality && {
-        nationality: getCountryNameByLocale(profile.nationality, locale),
-      }),
-      ...(profile.profession && { jobTitle: getCelebProfessionLabel(profile.profession, locale) }),
-      ...(profile.birth_date && { birthDate: profile.birth_date }),
-      ...(profile.death_date && { deathDate: profile.death_date }),
-      ...(wikidataQid && {
-        identifier: wikidataQid,
-        sameAs: `https://www.wikidata.org/wiki/${wikidataQid}`,
-      }),
-      url: canonicalUrl,
-      mainEntityOfPage: canonicalUrl,
-      image: personImageUrl,
-    },
-    ...(contentItems.length > 0
-      ? [{
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          name: pageTitle,
-          numberOfItems: contentItems.length,
-          itemListElement: contentItems,
-        }]
-      : []),
-  ];
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
       <CelebPageContent
@@ -286,8 +157,7 @@ export default async function CelebPage({ params }: PageProps) {
         worldBannerImages={worldBannerImages}
       />
 
-      {/* 제휴 도서 — 읽은 책·같은 직군·인기 순으로 물러나며 고른다. 영문 화면에서는 그리지 않는다 */}
-      <CelebAffiliateBooks userId={userId} />
+      {profile.celeb_tier === "full" && <CelebAffiliateBooks userId={userId} />}
     </>
   );
 }

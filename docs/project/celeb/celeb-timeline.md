@@ -73,6 +73,12 @@ battle, travel, office, meeting, other
 - 날짜 미상 `life`는 왼쪽 위치칸을 비우고 `현재/전체` 자동 번호만 표시한다.
 - `fiction`은 현재 locale의 서사 단계 라벨을 위치 표지로 쓴다.
 - 제목·서술·장소는 영문 locale에서 영문 값이 있으면 영문을, 없으면 한국어 값을 사용한다.
+- 카드는 `이전 열 | 본문 | 다음 열`의 3열이다. 두 이동 열은 카드의 전체 높이가 클릭 영역이며,
+  본문 길이에 따라 프레임 높이가 바뀌지 않는다.
+- 프레임 높이는 좁은 화면 360px, `md` 이상 396px이다. 연도와 현재 위치 아래의 제목·장소·서술은
+  하나의 내부 세로 스크롤 영역으로 읽으며, 브라우저 스크롤 앵커링을 사용하지 않는다.
+- 본문 위 세로 휠과 터치는 내부 내용을 우선 스크롤하고, 본문을 가로로 밀면 이전·다음 사건으로
+  이동한다.
 - 조회 실패를 빈 연표로 숨기지 않고 오류로 드러낸다.
 
 ### 활동 반경 지구본
@@ -81,6 +87,8 @@ battle, travel, office, meeting, other
 - 연표 카드를 고르면 해당 마커로 이동하고, 마커를 고르면 같은 사건 카드로 이동한다.
 - 좌표가 없는 사건의 장소명은 연표에 표시할 수 있지만 지도 조작 버튼은 비활성화한다.
 - 전체화면 모달에서도 같은 사건 순서와 `현재/전체` 번호를 사용한다.
+- 상세 페이지의 인라인 지구본은 휠과 세로 터치를 페이지 스크롤에 양보한다. 확대·축소는 화면 버튼을
+  쓰고, 모든 방향 드래그와 휠 확대가 필요하면 전체화면 지구본을 연다.
 - `/explore/timeline`의 국가별 연대기는 생몰년을 사용하는 별도 기능이다.
 
 ### 화면 코드
@@ -88,11 +96,15 @@ battle, travel, office, meeting, other
 | 파일 | 역할 |
 |---|---|
 | `sw/web/src/actions/celebs/getCelebTimelineEvents.ts` | locale별 사건 조회와 `sort_order`, `id` 정렬 |
-| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneySection.tsx` | 연표 카드와 지구본 연동 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneySection.tsx` | 연표와 지구본의 선택 상태 연동 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyEventCarousel.tsx` | 3열 사건 이동과 가로 밀기 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyEventCard.tsx` | 고정 높이 사건 본문과 내부 스크롤 |
+| `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyMapPanel.tsx` | 인라인·전체화면 활동 반경 구성 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/JourneyGlobeModal.tsx` | 전체화면 활동 반경과 사건 카드 |
 | `sw/web/src/app/[locale]/(main)/celeb/[slug]/celebSectionChapters.ts` | 인물 상세 구획 번호 04 |
 | `sw/web/src/components/shared/WorldGlobe/WorldGlobe.tsx` | 공용 지구본 렌더링과 조작 |
 | `sw/web/messages/{ko,en}/celeb.json` | 화면 문구 |
+| `sw/web/scripts/check-celeb-timeline-scroll.mjs` | 고정 높이·전체 이동 열·내부 스크롤·인라인 지구본 회귀 검사 |
 
 ## 백오피스 수동 편집
 
