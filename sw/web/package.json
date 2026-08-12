@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "lint:egress": "node scripts/check-egress-patterns.mjs",
+    "check:timeline-scroll": "node scripts/check-celeb-timeline-scroll.mjs",
     "check:memory-audio": "node scripts/check-memory-match-audio.mjs",
     "test:memory-audio": "tsx --test src/components/features/game/memory/audioPlan.test.ts",
     "test:memory-selection": "tsx --test src/components/features/game/memory/selection.test.ts"

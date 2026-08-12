@@ -22,6 +22,25 @@
 4. 한국어 화면의 브랜드 한글 표기와 영문 워드마크가 같은 서비스임을 홈페이지 가시 텍스트와 `alternateName`으로 함께 밝힌다.
 5. `meta keywords`는 Google 색인·순위 신호가 아니다. 메시지에 남은 keywords 배열을 브랜드 회복 수단으로 간주하지 않는다.
 
+## 인물 상세 메타데이터
+
+인물 상세의 제목과 설명은 `sw/web/src/lib/celeb/meta.ts`가 만들고, 메타 태그 조립은
+`celeb/[slug]/celebPageMetadata.ts`가 맡는다. 콘텐츠가 실제로 있는 `full`만 감상 기록과
+건수를 제목에 쓴다. 콘텐츠가 없는 `full`은 인물 정보와 기록을 쓴다. `light`는 기존
+수식어(`title`)를 이름 앞에 두어 짧게 병치하고, `fiction`은 이름과 연결 원전의 등장인물 관계를 밝힌다.
+픽션에 연결 원전이 없으면 기존 수식어, 수식어도 없으면 이름까지만 쓴다. 한 티어의 문구를
+다른 티어에 재사용해 감상하지 않은 작품을 추천·감상한 것처럼 보이게 하지 않는다.
+
+수식어보다 구체적인 인물별 한 줄 정의는 아직 데이터가 없으므로 소개문에서 자동 추출하지
+않는다. 별도 필드와 전 인물 한영 원고를 마련하는 후속 작업은
+[`docs/todo/celeb/celeb-profile-headline.md`](../../todo/celeb/celeb-profile-headline.md)에서 관리한다.
+
+구조화 데이터는 모두 `Person`을 중심 엔터티로 유지한다. `full`의 공개 감상 기록만
+`ItemList`로 연결하고, `fiction`의 원전·등장 작품은 `CreativeWork.character`로 인물과 잇는다.
+픽션 프로필의 서사 기준 연도와 배경 국가는 실제 생몰일·국적이 아니므로 해당 값을
+구조화 데이터에 선언하지 않는다. canonical·hreflang·Open Graph·Twitter 문구도 같은
+티어별 제목과 설명을 공유한다.
+
 ## SEO·AEO·GEO 운영 원칙
 
 세 용어를 서로 다른 비법처럼 운영하지 않는다. 검색과 답변 엔진이 공통으로 쓰는 공개 문서를 정확히 만들고, 엔진별 수집 통로만 구분한다.
@@ -188,7 +207,7 @@ verification: {
 - **URL 구성**(2026-08-10 11:23 KST 프로덕션 실측): 정적·기관 선정 `core.xml` 198 URL + 셀럽 1,508명 3,016 URL + 감상문 보유 콘텐츠 7,255건 14,510 URL. 각 경로가 ko·en 2 URL로 나가 총 **17,724개**다. DB 증가에 따라 수치는 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
 - **분할 구조**: 인덱스는 `core`·`celebs`·`contents-0..7`의 10개 파일을 가리킨다. 작품은 UUID 첫 16진수를 8개 고정 버킷에 배정해 같은 작품의 ko·en URL이 항상 같은 파일에 남는다. Search Console은 11:11 KST에 17,700개를 발견했고, 이후 DB 공개 데이터가 늘어난 11:23 KST 프로덕션 실측은 17,724개다.
 - **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 분할 뒤 각 파일은 충분한 여유를 가지며, 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로 유지된다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)
-- **등재 기준**: 셀럽은 full 티어만, 콘텐츠는 감상문(`review`) 1건 이상·`visibility=public`인 것만. 페이지 noindex 기준과 일치시킨다(등재↔색인거부 모순 방지)
+- **등재 기준**: 인물은 active이면서 `INDEXABLE_TIERS`에 포함된 티어, 콘텐츠는 감상문(`review`) 1건 이상·`visibility=public`인 것만. 현행 인물 티어는 모두 고유한 상세 정보를 제공하므로 색인하며, 페이지 robots 기준과 사이트맵 기준은 같은 상수를 쓴다
 - **리다이렉트 스텁 제외**: `/explore/celebs`·`people`·`figure`·`celeb-feed`·`top-by-type`, `/agora` 미등재
 - **페이지네이션**: Supabase REST 기본 제한 1,000행 → 1,000행씩 반복 fetch
 - **hreflang**: ko, en, x-default

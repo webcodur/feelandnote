@@ -22,6 +22,7 @@ export interface ServiceItem {
   target: ServiceTarget;
   unavailableGuide?: {
     about: string;
+    notice?: string;
   };
   children?: readonly ServiceItem[];
   companion?: {
@@ -115,7 +116,12 @@ export function useCelebServiceItems({
         unavailableGuide: {
           about: tier === "fiction"
             ? t("atlasGuides.sourceWorks.about")
-            : t("atlasGuides.library.about"),
+            : tier === "light"
+              ? t("atlasGuides.lightLibrary.about")
+              : t("atlasGuides.library.about"),
+          notice: tier === "light"
+            ? t("atlasGuides.lightLibrary.notice")
+            : undefined,
         },
       },
       {
@@ -138,7 +144,7 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.connections,
         ready:
           availability.relations
-          || availability.contemporaries
+          || (tier !== "fiction" && availability.contemporaries)
           || availability.faction,
         target: { sectionId: "connections" },
         unavailableGuide: {
@@ -156,17 +162,17 @@ export function useCelebServiceItems({
               about: t("atlasGuides.relations.about"),
             },
           },
-          {
-            key: "contemporaries",
-            chapter: "05-B",
-            label: t("contemporaries"),
-            icon: CELEB_SERVICE_ICONS.contemporaries,
-            ready: availability.contemporaries,
-            target: { sectionId: "connections" },
-            unavailableGuide: {
-              about: t("atlasGuides.contemporaries.about"),
-            },
-          },
+          ...(tier === "fiction" ? [] : [{
+              key: "contemporaries",
+              chapter: "05-B",
+              label: t("contemporaries"),
+              icon: CELEB_SERVICE_ICONS.contemporaries,
+              ready: availability.contemporaries,
+              target: { sectionId: "connections" },
+              unavailableGuide: {
+                about: t("atlasGuides.contemporaries.about"),
+              },
+            }]),
           {
             key: "faction",
             chapter: "05-C",
@@ -183,24 +189,27 @@ export function useCelebServiceItems({
       {
         key: "analysis",
         chapter: CELEB_SERVICE_CHAPTERS.analysis,
-        label: t("analysis"),
+        label: tier === "fiction" ? t("fictionAnalysis") : t("analysis"),
         icon: CELEB_SERVICE_ICONS.analysis,
-        ready:
-          (availability.spectrum || availability.influence)
-          && tier !== "fiction",
+        ready: tier === "fiction"
+          || availability.spectrum
+          || availability.influence,
         target: { sectionId: "analysis" },
         unavailableGuide: {
-          about: t("atlasGuides.analysis.about"),
+          about: tier === "fiction"
+            ? t("atlasGuides.fictionAnalysis.about")
+            : t("atlasGuides.analysis.about"),
+          notice: tier === "fiction"
+            ? t("atlasGuides.fictionAnalysis.notice")
+            : undefined,
         },
-        children: [
+        children: tier === "fiction" ? undefined : [
           {
             key: "spectrum",
             chapter: "06-A",
             label: t("profileAxes"),
             icon: CELEB_SERVICE_ICONS.spectrum,
-            ready:
-              availability.spectrum
-              && tier !== "fiction",
+            ready: availability.spectrum,
             target: { sectionId: "analysis" },
             unavailableGuide: {
               about: t("atlasGuides.spectrum.about"),
@@ -211,9 +220,7 @@ export function useCelebServiceItems({
             chapter: "06-B",
             label: t("influence"),
             icon: CELEB_SERVICE_ICONS.influence,
-            ready:
-              availability.influence
-              && tier !== "fiction",
+            ready: availability.influence,
             target: { sectionId: "analysis" },
             unavailableGuide: {
               about: t("atlasGuides.influence.about"),

@@ -52,6 +52,8 @@ interface Props {
   onExpand?: () => void;
   expandLabel?: string;
   expandAriaLabel?: string;
+  /** 인라인 배치에서 세로 휠·터치를 바깥 페이지 스크롤에 양보한다 */
+  allowPageScroll?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -317,6 +319,7 @@ export default function WorldGlobe({
   onExpand,
   expandLabel,
   expandAriaLabel,
+  allowPageScroll = false,
 }: Props) {
   const locale = useLocale();
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -921,7 +924,7 @@ export default function WorldGlobe({
   /* ── 휠 확대 ── */
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || allowPageScroll) return;
     const handler = (e: WheelEvent) => {
       e.preventDefault();
       scheduleZoomSettle();
@@ -938,7 +941,7 @@ export default function WorldGlobe({
       wheelIdleTimerRef.current = null;
       wheelActiveRef.current = false;
     };
-  }, [ensureDetailedMap, requestDraw, scheduleZoomSettle]);
+  }, [allowPageScroll, ensureDetailedMap, requestDraw, scheduleZoomSettle]);
 
   /* ── 끌어서 회전 ── */
   const handlePointerDown = useCallback(
@@ -1175,12 +1178,12 @@ export default function WorldGlobe({
         ref={canvasRef}
         role="img"
         aria-label={label}
-        /* touchAction none — 손가락으로 끌 때 브라우저가 그 동작을 페이지 스크롤로
-           가져가 버리면 지구본이 돌지 않는다. 회전은 이 그림판이 직접 맡는다. */
+        /* 인라인에서는 세로 동작을 페이지에 양보하고 가로 끌기로 지구본을 돌린다.
+           전체화면에서는 모든 방향의 끌기를 지구본이 직접 맡는다. */
         style={{
           display: "block",
           width: "100%",
-          touchAction: "none",
+          touchAction: allowPageScroll ? "pan-y" : "none",
           cursor: onSelect && hoverId ? "pointer" : "grab",
         }}
         onPointerDown={handlePointerDown}

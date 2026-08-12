@@ -9,8 +9,9 @@ export const CELEB_TIERS: readonly CelebTier[] = ['full', 'light', 'fiction'] as
 // fiction은 기본에서 빠지고 필터로 명시할 때만 등장한다. 상세 페이지는 등급과 무관하게 열린다.
 export const LISTING_DEFAULT_TIERS: readonly CelebTier[] = ['full', 'light'] as const
 
-// 색인 대상. full만 sitemap 등재·robots index.
-export const INDEXABLE_TIERS: readonly CelebTier[] = ['full'] as const
+// 상세 정보가 공개되는 모든 등급을 sitemap에 싣고 색인한다.
+// 목록 기본 노출 여부는 LISTING_DEFAULT_TIERS가 별도로 결정한다.
+export const INDEXABLE_TIERS: readonly CelebTier[] = [...CELEB_TIERS] as const
 
 // 실존 인물이 아닌 등급
 export const FICTIONAL_TIERS: readonly CelebTier[] = ['fiction'] as const
