@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import Cropper, { Area } from 'react-easy-crop'
 import { X, ZoomIn, ZoomOut, RotateCcw, Grid3X3, Sparkles, Loader2, AlertTriangle } from 'lucide-react'
 
@@ -161,8 +162,8 @@ export default function ImageCropModal({
     setNotice(null)
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+  const modal = (
+    <div className="fixed inset-0 z-[700] flex items-center justify-center p-4">
       {/* 오버레이 */}
       <div className="absolute inset-0 bg-black/80" onClick={onCancel} />
 
@@ -171,7 +172,7 @@ export default function ImageCropModal({
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="relative bg-bg-card border border-border rounded-2xl w-full max-w-lg mx-4 overflow-hidden"
+        className="relative max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl border border-border bg-bg-card"
       >
         {/* 헤더 */}
         <div className="flex items-center justify-between p-4 border-b border-border">
@@ -310,6 +311,9 @@ export default function ImageCropModal({
       </div>
     </div>
   )
+
+  if (typeof window === 'undefined') return null
+  return createPortal(modal, document.body)
 }
 
 // #region getCroppedImage
