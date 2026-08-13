@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Play, Square, ListMusic } from "lucide-react";
+import { Play, Square, ListMusic, Info } from "lucide-react";
 import type { Locale } from "@/types/locale";
 import { stripEmotionTag } from "@/components/features/game/shared/hooks/useDialogue";
 import { getVoiceUrl, getQuoteVoiceUrl, getMonologueVoiceUrl } from "@/lib/game/voice/voiceUrl";
@@ -141,6 +141,13 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
 
   return (
     <div className="space-y-5">
+      <div className="flex items-start justify-center gap-1.5">
+        <Info size={13} className="mt-0.5 shrink-0 text-text-secondary/70" aria-hidden />
+        <p className="max-w-3xl break-keep text-center text-xs leading-relaxed text-text-secondary/70">
+          {t("dialogueDescription")}
+        </p>
+      </div>
+
       {/* 전체 재생 컨트롤 */}
       {hasVoice && (
         <div className="flex items-center gap-2">
@@ -156,7 +163,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
       )}
 
       <div
-        className="flex gap-2 overflow-x-auto overscroll-x-contain pb-1 scrollbar-hide"
+        className="flex flex-wrap justify-center gap-2 pb-1"
         role="tablist"
         aria-label={t("mediaDialogues")}
       >
@@ -210,7 +217,7 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
                     {isPlaying ? <Square size={12} /> : <Play size={12} />}
                   </button>
                 )}
-                <span className={`flex-1 text-sm leading-relaxed break-keep ${isPlaying ? "text-accent" : "text-text-secondary"}`}>
+                <span className={`flex-1 text-center text-sm leading-relaxed break-keep ${isPlaying ? "text-accent" : "text-text-secondary"}`}>
                   &ldquo;{text}&rdquo;
                 </span>
               </div>

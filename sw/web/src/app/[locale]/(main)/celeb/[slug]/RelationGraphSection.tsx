@@ -62,6 +62,9 @@ const SOCIAL_BAND_OF: Record<string, SocialBand> = {
   rival: "sideR",
 };
 const SOCIAL_GROUPS: CelebRelationItem["relGroup"][] = ["thought", "career", "friendship", "rivalry"];
+/** 그외(사회 관계) 묶음의 중립 색 — 가족 회색과 구별된다 */
+const OTHER_COLOR = "#7d8491";
+type RelFilter = "all" | "others" | CelebRelationItem["relGroup"];
 
 /**
  * 본문은 관계의 구조만 파악할 수 있을 만큼만 보여준다.
@@ -148,7 +151,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
   useCountries();
   const [filter, setFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
   const [showAllRelations, setShowAllRelations] = useState(false);
-  const [allRelationsFilter, setAllRelationsFilter] = useState<"all" | CelebRelationItem["relGroup"]>("all");
+  const [allRelationsFilter, setAllRelationsFilter] = useState<RelFilter>("all");
   const [connectors, setConnectors] = useState<Connector[]>([]);
   const [previewRelation, setPreviewRelation] = useState<PersonNode | null>(null);
   const {
@@ -260,10 +263,6 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     for (const person of allPeople) {
       groupCounts.set(person.group, (groupCounts.get(person.group) ?? 0) + 1);
     }
-    const visibleIds = new Set([
-      ...Object.values(kinRows).flat().map((person) => person.id),
-      ...Object.values(bands).flat().map((person) => person.id),
-    ]);
     return {
       kinRows,
       kinIds,
@@ -276,7 +275,8 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
       groupCounts,
       familyCount: Object.values(allKinRows).flat().length,
       socialCount: socialResolved.length,
-      hiddenCount: Math.max(0, allPeople.length - visibleIds.size),
+      familyHiddenCount: Math.max(0, Object.values(allKinRows).flat().length - Object.values(kinRows).flat().length),
+      socialHiddenCount: Math.max(0, socialResolved.length - Object.values(bands).flat().length),
     };
   }, [people, filter]);
 
@@ -613,6 +613,10 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
   const subHeading = (text: string, count?: number) => (
     <div className="relative z-10 flex items-center gap-3">
+      <span
+        aria-hidden
+        className="h-px flex-1 bg-gradient-to-r from-transparent to-accent-dim/45"
+      />
       <p className="flex shrink-0 items-baseline gap-2 font-serif text-base font-bold tracking-[0.14em] text-text-primary">
         {text}
         {typeof count === "number" && (
@@ -644,20 +648,25 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     "friendship",
     "rivalry",
   ];
-  const allRelationFilters: ("all" | CelebRelationItem["relGroup"])[] = [
+  const allRelationFilters: RelFilter[] = [
     "all",
-    ...allRelationGroups.filter((group) => view.groupCounts.has(group)),
+    ...((view.groupCounts.get("family") ?? 0) > 0 ? (["family"] as RelFilter[]) : []),
+    ...(SOCIAL_GROUPS.some((group) => view.groupCounts.has(group)) ? (["others"] as RelFilter[]) : []),
+    ...allRelationGroups.filter((group) => group !== "family" && view.groupCounts.has(group)),
   ];
-  const panelGroups = (allRelationsFilter === "all"
-    ? allRelationGroups
-    : [allRelationsFilter]
+  const panelGroups = (
+    allRelationsFilter === "all"
+      ? allRelationGroups
+      : allRelationsFilter === "others"
+        ? allRelationGroups.filter((group) => group !== "family")
+        : [allRelationsFilter]
   ).map((group) => ({
     group,
     people: view.allPeople.filter((person) => person.group === group),
   })).filter(({ people: groupPeople }) => groupPeople.length > 0);
 
-  const openAllRelations = () => {
-    setAllRelationsFilter("all");
+  const openAllRelations = (preset: RelFilter) => {
+    setAllRelationsFilter(preset);
     setShowAllRelations(true);
   };
 
@@ -704,6 +713,27 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     </div>
   ) : null;
 
+  const moreButton = (kind: "family" | "others") => {
+    const hidden = kind === "family" ? view.familyHiddenCount : view.socialHiddenCount;
+    if (hidden <= 0) return null;
+    const Icon = kind === "family" ? Users : Network;
+    const labelKey = kind === "family" ? "relViewFamily" : "relViewOthers";
+    const count = kind === "family" ? view.familyCount : view.socialCount;
+    return (
+      <button
+        type="button"
+        onClick={() => openAllRelations(kind)}
+        className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.025] px-4 py-2 text-[13px] font-medium text-text-secondary hover:border-accent/45 hover:bg-white/[0.055] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
+        <Icon size={15} aria-hidden />
+        {t(labelKey, { count })}
+        <span className="rounded-full bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-text-secondary group-hover:text-accent">
+          +{hidden}
+        </span>
+      </button>
+    );
+  };
+
   return (
     <div className="space-y-5">
       <div className="space-y-8 md:hidden">
@@ -718,6 +748,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 ...view.kinRows.children,
               ]).map(compactPersonCard)}
             </div>
+            <div className="flex justify-center">{moreButton("family")}</div>
           </div>
         )}
 
@@ -731,6 +762,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               {mobileBand(t("relBandSideR"), view.bands.sideR)}
               {mobileBand(t("relBandDown", { name: centerName }), view.bands.down)}
             </div>
+            <div className="flex justify-center">{moreButton("others")}</div>
           </div>
         )}
       </div>
@@ -778,6 +810,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 {view.kinRows.children.map((p) => nodeCard(p))}
               </div>
             )}
+            <div className="flex justify-center pt-6">{moreButton("family")}</div>
           </div>
         )}
 
@@ -831,25 +864,10 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 </div>
               </div>
             )}
+            <div className="flex justify-center pt-2">{moreButton("others")}</div>
           </div>
         )}
       </div>
-
-      {view.hiddenCount > 0 && (
-        <div className="flex justify-center">
-          <button
-            type="button"
-            onClick={openAllRelations}
-            className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.025] px-4 py-2 text-[13px] font-medium text-text-secondary hover:border-accent/45 hover:bg-white/[0.055] hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-          >
-            <Network size={15} aria-hidden />
-            {t("relViewAll", { count: view.allPeople.length })}
-            <span className="rounded-full bg-white/[0.06] px-1.5 py-0.5 font-mono text-[11px] text-text-secondary group-hover:text-accent">
-              +{view.hiddenCount}
-            </span>
-          </button>
-        </div>
-      )}
 
       {/* 관계의 근거는 현실 인물과 이야기 속 인물이 서로 다르다. */}
       <p className="text-xs text-center leading-relaxed break-keep">
@@ -889,10 +907,12 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
 
             <div className="flex flex-wrap gap-2 border-b border-white/10 px-4 py-3 sm:px-5">
               {allRelationFilters.map((group) => {
-                const color = group === "all" ? GROUP_COLOR.family : GROUP_COLOR[group];
+                const color = group === "all" ? GROUP_COLOR.family : group === "others" ? OTHER_COLOR : GROUP_COLOR[group];
                 const count = group === "all"
                   ? view.allPeople.length
-                  : view.groupCounts.get(group) ?? 0;
+                  : group === "others"
+                    ? view.socialCount
+                    : view.groupCounts.get(group) ?? 0;
                 return (
                   <button
                     key={group}

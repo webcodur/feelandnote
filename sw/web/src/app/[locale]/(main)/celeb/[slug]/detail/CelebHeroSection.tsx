@@ -202,7 +202,8 @@ export default function CelebHeroSection({
             </div>
 
             <div className={styles.identityCopy}>
-              <div className={styles.identityPrimary}>
+              <div className={styles.identityTop}>
+                <div className={styles.identityPrimary}>
                 <div
                   className={`${styles.identityHeading} ${
                     profile.photo_url && profile.avatar_url
@@ -261,6 +262,25 @@ export default function CelebHeroSection({
                 ) : null}
               </div>
 
+              <div className={styles.actions}>
+                <CelebViewCounter
+                  celebId={profile.id}
+                  nickname={nickname}
+                  initialCount={profile.view_count ?? 0}
+                  iconClassName={styles.viewCounterIcon}
+                  buttonClassName={styles.viewCounterButton}
+                />
+                <ShareButtons
+                  title={shareTitle}
+                  path={`/celeb/${slug}`}
+                  align="center"
+                  comfortable
+                  iconOnly
+                  showLabel={false}
+                />
+              </div>
+              </div>
+
               <div className={styles.identityNarrative}>
                 {profile.bio ? <p className={styles.bio}>{profile.bio}</p> : null}
                 {profile.quotes ? (
@@ -282,22 +302,6 @@ export default function CelebHeroSection({
                     ) : null}
                   </div>
                 ) : null}
-
-                <div className={styles.actions}>
-                  <CelebViewCounter
-                    celebId={profile.id}
-                    nickname={nickname}
-                    initialCount={profile.view_count ?? 0}
-                  />
-                  <ShareButtons
-                    title={shareTitle}
-                    path={`/celeb/${slug}`}
-                    align="center"
-                    comfortable
-                    iconOnly
-                    showLabel={false}
-                  />
-                </div>
               </div>
             </div>
           </div>
