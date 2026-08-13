@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import { Users } from 'lucide-react'
 import type { FactionScript, FactionGroup, FactionTrack, FactionPerson, HoldMotion } from '@/lib/faction-types'
 import { HOLD_MOTION_OPTIONS } from './shared/holdMotion'
 import { factionVoiceFile, buildGroupMoveRenames, buildPersonCrossMoveRenames, reorderFactionVoice } from '@/lib/faction-voice'
@@ -65,6 +67,17 @@ import { folderToParam } from '@/lib/faction-edit-route'
 
 /** 편집 화면 주소 뿌리 — 목록도 상세도 이 아래에 있다 */
 const EDIT_BASE = '/factions'
+
+const FactionPeoplePanel = dynamic(
+  () => import('./FactionEditor/FactionPeoplePanel/FactionPeoplePanel'),
+  {
+    loading: () => (
+      <div className="rounded-xl border border-border bg-bg-card px-4 py-16 text-center text-sm text-text-secondary">
+        인물 사진 모드를 여는 중입니다…
+      </div>
+    ),
+  },
+)
 
 
 /** 신규 세력 기본형 — 항상 그룹(clusters) 1개를 갖는다. 호출마다 새 객체(참조 공유 방지) */
@@ -154,6 +167,8 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
   // 편집 언어 — 입력칸의 노출 언어를 한국어/영어/둘 다로 가린다(하위 입력칸 전체가 따른다)
   const [editLang, setEditLang] = useState<EditLang>(initialLang ?? 'ko')
   const [showCards, setShowCards] = useState(false)
+  // 정비 화면 안의 에피소드 전체 인물 사진 모드. URL은 /info를 유지하고 이미지 풀과 나란히 쓴다.
+  const [showPeopleImages, setShowPeopleImages] = useState(false)
   // 편집 탭 — 정비(info) / 편성 쇼츠(shorts) / 편성 롱폼(longform). 주소창 both/<탭> 과 짝을 이룬다.
   const [tab, setTab] = useState<FactionEditTab>(initialTab)
   // 편성 안에서 마지막으로 본 하위(쇼츠/롱폼) — 최상위 '편성'을 다시 누르면 이 화면으로 돌아간다
@@ -188,15 +203,27 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
   const toggleCards = useCallback(() => {
     const nextOpen = !showCards
     window.history.pushState(null, '', nextOpen ? cardBoardPath : infoPath)
+    setShowPeopleImages(false)
     setShowCards(nextOpen)
   }, [showCards, cardBoardPath, infoPath])
   // 탭 전환 — 카드 화면을 닫고 해당 탭 주소로 바꾼다(정비=info / 편성 쇼츠=shorts / 편성 롱폼=longform)
   const goTab = useCallback((next: FactionEditTab) => {
     setShowCards(false)
+    setShowPeopleImages(false)
     setTab(next)
     if (next !== 'info') setComposeSub(next)
     window.history.pushState(null, '', `${EDIT_BASE}/${folderToParam(name)}/${editLang}/${next}`)
-  }, [series, name, editLang])
+  }, [name, editLang])
+
+  const togglePeopleImages = useCallback(() => {
+    const nextOpen = !(tab === 'info' && showPeopleImages)
+    setShowCards(false)
+    setShowPreview(false)
+    setTab('info')
+    setShowPeopleImages(nextOpen)
+    if (nextOpen) setShowPool(true)
+    window.history.pushState(null, '', infoPath)
+  }, [infoPath, setShowPool, showPeopleImages, tab])
 
   const scriptRef = useRef<FactionScript | null>(null)
   scriptRef.current = script
@@ -978,6 +1005,18 @@ ${res.exported.reason}`)
             <FactionNameCopyButton script={script} />
             <FactionCopyButton script={script} />
             <button
+              onClick={togglePeopleImages}
+              aria-pressed={tab === 'info' && showPeopleImages}
+              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
+                tab === 'info' && showPeopleImages
+                  ? 'border-accent bg-accent/10 text-accent'
+                  : 'border-border bg-bg-card text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-accent'
+              }`}
+              title="이 편의 전체 등장인물 아바타·대표 사진 관리"
+            >
+              <Users size={15} /> 인물 사진
+            </button>
+            <button
               onClick={() => setShowPool(v => !v)}
               className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
                 showPool
@@ -1123,7 +1162,7 @@ ${res.exported.reason}`)
           )}
 
           {/* 정비 — 세력·인물 데이터 그 자체 (편 구분 없이 평면 나열). 편 배정·구성은 편성 탭에서 */}
-          {tab === 'info' && (
+          {tab === 'info' && !showPeopleImages && (
             <div className="space-y-4">
               {/* 대사 자막 표시 — 북리커맨드 쇼츠 작은 자막을 팩션에도 적용. 일괄 도구로 전 인물 통일 */}
               <div className="rounded-lg border border-border bg-bg-card/50 p-3">
@@ -1307,6 +1346,10 @@ ${res.exported.reason}`)
                 <Plus size={16} /> 세력 추가
               </button>
             </div>
+          )}
+
+          {tab === 'info' && showPeopleImages && (
+            <FactionPeoplePanel groups={groups} series={series} episodeName={name} />
           )}
 
           {/* 편성 롱폼 — 세력 순서·시대 문구·편 경계를 직접 짠다 */}

@@ -30,6 +30,10 @@ interface Props {
   incomingFile?: File | null
   /** 밀어넣은 사진의 자르기 창이 닫혔을 때(저장·취소·열기 실패) 알린다. */
   onIncomingDone?: () => void
+  /** 파일이 아닌 경로를 전달하는 외부 드래그 소스의 MIME 형식. */
+  externalDropType?: string
+  /** 외부 드래그 소스에서 받은 값을 사진 파일로 받아들이는 호출부에 넘긴다. */
+  onExternalDrop?: (value: string) => void | Promise<void>
   onActivate?: () => void
   onFileAccepted?: (file: File) => void
   onCroppedFile: (file: File, previewUrl: string) => void | Promise<void>
@@ -53,6 +57,8 @@ export default function CelebAvatarEditor({
   showSavedState = true,
   incomingFile = null,
   onIncomingDone,
+  externalDropType,
+  onExternalDrop,
   onActivate,
   onFileAccepted,
   onCroppedFile,
@@ -78,6 +84,11 @@ export default function CelebAvatarEditor({
     onError,
   })
 
+  function acceptsDrag(event: DragEvent<HTMLDivElement>): boolean {
+    return event.dataTransfer.types.includes('Files')
+      || (!!externalDropType && event.dataTransfer.types.includes(externalDropType))
+  }
+
   function handleDragLeave(event: DragEvent<HTMLDivElement>) {
     event.preventDefault()
     event.stopPropagation()
@@ -87,9 +98,21 @@ export default function CelebAvatarEditor({
   }
 
   async function handleDrop(event: DragEvent<HTMLDivElement>) {
+    if (!acceptsDrag(event)) return
     event.preventDefault()
     event.stopPropagation()
     setDragging(false)
+    const externalValue = externalDropType
+      ? event.dataTransfer.getData(externalDropType)
+      : ''
+    if (externalValue && onExternalDrop) {
+      try {
+        await onExternalDrop(externalValue)
+      } catch (error) {
+        onError?.(error instanceof Error ? error : new Error('사진을 불러오지 못했습니다.'))
+      }
+      return
+    }
     await acceptFile(event.dataTransfer.files?.[0])
   }
 
@@ -123,13 +146,16 @@ export default function CelebAvatarEditor({
       <div
         data-dragging={dragging || undefined}
         onDragEnter={(event) => {
+          if (!acceptsDrag(event)) return
           event.preventDefault()
           event.stopPropagation()
           if (!disabled) setDragging(true)
         }}
         onDragOver={(event) => {
+          if (!acceptsDrag(event)) return
           event.preventDefault()
           event.stopPropagation()
+          event.dataTransfer.dropEffect = 'copy'
         }}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

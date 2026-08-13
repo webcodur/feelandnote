@@ -43,6 +43,7 @@ import {
   Database,
   BookMarked,
   Images,
+  ClipboardCheck,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -72,6 +73,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs/influence', label: '영향력', icon: Flame },
       { href: '/celebs/voice-gen', label: '대사/음성', icon: Volume2 },
       { href: '/celebs/stats', label: '통계', icon: BarChart3 },
+      { href: '/celebs/data-readiness', label: '데이터 준비도', icon: ClipboardCheck },
     ],
   },
   {
