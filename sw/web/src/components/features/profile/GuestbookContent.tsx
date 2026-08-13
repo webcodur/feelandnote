@@ -148,7 +148,7 @@ export default function GuestbookContent({
     <div
       className={
         isCeleb
-          ? "mx-auto w-full max-w-[800px] py-7 sm:px-6 sm:py-9 md:py-10"
+          ? "w-full py-7 sm:py-9 md:py-10"
           : ""
       }
     >
@@ -223,7 +223,7 @@ export default function GuestbookContent({
           <div
             className={
               isCeleb
-                ? "space-y-3 border-t border-white/[0.07] pt-6"
+                ? "grid gap-3 border-t border-white/[0.07] pt-6 lg:grid-cols-2"
                 : "divide-y divide-white/[0.04]"
             }
           >

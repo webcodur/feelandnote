@@ -71,6 +71,18 @@
   min-width: 0;
 }
 
+.identityTop {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.identityPrimary {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .identityHeading {
   min-width: 0;
 }
@@ -151,6 +163,7 @@
   max-width: 72ch;
   margin-top: 18px;
   color: color-mix(in srgb, var(--color-text-primary) 78%, var(--color-text-secondary));
+  font-size: 17px;
   line-height: 1.75;
   word-break: keep-all;
 }
@@ -161,21 +174,24 @@
   margin-top: 16px;
   align-items: flex-start;
   gap: 8px;
-  padding-inline-start: 15px;
-  border-inline-start: 2px solid color-mix(in srgb, var(--color-accent) 54%, transparent);
   color: color-mix(in srgb, var(--color-accent) 74%, var(--color-text-primary));
   font-family: var(--font-serif);
-  font-style: italic;
+  font-size: 17px;
   line-height: 1.75;
   word-break: keep-all;
 }
 
+/* PC: 제목(identityPrimary)과 같은 줄 우상단에 붙는다. absolute를 쓰지 않아
+   위에 따로 떠 있지 않고, flex gap이 제목과 버튼 사이 공간을 채운다. */
 .actions {
   display: flex;
-  margin-top: 14px;
+  flex: 0 0 auto;
   align-items: center;
-  justify-content: flex-end;
   gap: 6px;
+}
+
+.viewCounterIcon {
+  display: block;
 }
 
 .recordsGrid {
@@ -285,10 +301,6 @@
     justify-content: center;
   }
 
-  .actions {
-    justify-content: flex-end;
-  }
-
   .meta {
     margin-top: 14px;
     gap: 8px 10px;
@@ -307,12 +319,34 @@
 
   .quote {
     margin-top: 16px;
-    padding-inline-start: 12px;
     line-height: 1.6;
   }
 
+  /* 모바일: identityTop(relative) 기준으로 빼내 배너(충돌영역) 위 우상단에 띄운다.
+     identityTop top = 아바타 bottom(80px) + padding-top(16px) = 96px,
+     아바타 중앙(y=24px)에 맞추려면 top:-72px. */
   .actions {
-    margin-top: 16px;
+    position: absolute;
+    top: -72px;
+    right: 0;
+    left: auto;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: none;
+  }
+
+  .viewCounterIcon {
+    display: none;
+  }
+
+  /* 아이콘이 사라져도 공유 버튼(32×32)과 같은 고정 크기를 미리 차지하고,
+     숫자를 중앙 정렬한다. 숫자가 3자리 이하일 때 크기 변동이 없다. */
+  .viewCounterButton {
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
   }
 
   .sectionStack {
@@ -329,16 +363,5 @@
 @media (min-width: 768px) {
   .avatarHeroColumn {
     transform: translateY(-24px);
-  }
-}
-
-@media (min-width: 1024px) {
-  .identityPrimary {
-    padding-inline-end: 0;
-  }
-
-  .actions {
-    position: static;
-    margin-top: 18px;
   }
 }

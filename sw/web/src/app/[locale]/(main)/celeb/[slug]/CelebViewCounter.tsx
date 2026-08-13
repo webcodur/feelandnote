@@ -20,9 +20,19 @@ interface CelebViewCounterProps {
   nickname: string;
   /** 서버가 넘긴 값. 낡았을 수 있으나 첫 화면을 비워두지 않기 위해 쓴다. */
   initialCount: number;
+  /** 눈 아이콘에 적용할 클래스. 모바일에서 숫자만 남기고 가릴 때 쓴다. */
+  iconClassName?: string;
+  /** 버튼에 적용할 클래스. 모바일에서 공유 버튼과 같은 고정 크기를 줄 때 쓴다. */
+  buttonClassName?: string;
 }
 
-export default function CelebViewCounter({ celebId, nickname, initialCount }: CelebViewCounterProps) {
+export default function CelebViewCounter({
+  celebId,
+  nickname,
+  initialCount,
+  iconClassName,
+  buttonClassName,
+}: CelebViewCounterProps) {
   const t = useTranslations("celebPage");
   const [count, setCount] = useState(initialCount);
   const [isOpen, setIsOpen] = useState(false);
@@ -55,11 +65,13 @@ export default function CelebViewCounter({ celebId, nickname, initialCount }: Ce
       <button
         type="button"
         onClick={handleOpen}
-        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-white/12 bg-transparent px-2.5 text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+        className={`inline-flex h-9 items-center gap-1.5 rounded-md border border-white/12 bg-transparent px-2.5 text-text-secondary hover:border-accent/50 hover:bg-white/[0.04] hover:text-accent active:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 ${
+          buttonClassName ?? ""
+        }`}
         title={t("viewCount")}
         aria-label={`${t("viewCount")}: ${count.toLocaleString()}`}
       >
-        <Eye size={16} aria-hidden />
+        <Eye size={16} aria-hidden className={iconClassName} />
         <span className="font-mono text-xs tabular-nums">{count.toLocaleString()}</span>
         <span className="sr-only">{t("viewCount")}</span>
       </button>
