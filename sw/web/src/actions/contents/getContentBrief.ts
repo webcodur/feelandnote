@@ -106,8 +106,13 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
   const exactLocale = locales?.find((item) => item.locale === locale)
   const externalId = (row.external_id as string | null) || contentId
   const externalSource = row.external_source as string | null
+  const storedMetadata = normalizeMetadata(row.metadata as Record<string, unknown> | null)
 
-  const fetched = await fetchContentMetadata(externalId, type, externalSource ?? undefined)
+  // 음악은 등록할 때 미리듣기와 Apple 링크를 저장한다. 상세를 열 때마다 공개 API를 다시
+  // 호출하면 iTunes IP 제한을 소모하므로 저장값이 있을 때는 외부 조회를 생략한다.
+  const fetched = type === 'MUSIC' && storedMetadata
+    ? { id: externalId, metadata: null, source: undefined, subtype: undefined }
+    : await fetchContentMetadata(externalId, type, externalSource ?? undefined)
 
   /* DB에 쌓인 값과 바깥에서 받아온 값을 합친다. 바깥 값이 더 온전하므로 먼저 깔고
      운영자가 손으로 고친 DB 값을 그 위에 덮는다. */
@@ -138,7 +143,7 @@ async function fetchBrief(contentId: string, locale: string): Promise<ContentBri
 /**
  * 작품 한 건의 소개·정보를 가져온다.
  *
- * 바깥(카카오·TMDB·IGDB·Spotify) 조회가 섞여 있어 첫 호출은 왕복이 생긴다.
+ * 바깥(카카오·TMDB·IGDB·iTunes) 조회가 섞여 있어 첫 호출은 왕복이 생긴다.
  * 결과는 작품 한 건 단위로 저장되므로 같은 작품을 두 번째 열 때는 즉시 돌아온다.
  */
 export async function getContentBrief(contentId: string, locale: string): Promise<ContentBrief | null> {

@@ -4,7 +4,7 @@ import { searchBooks as searchKakaoBooks, type KakaoBookSearchResult } from './k
 import { searchGoogleBooks, type GoogleBookSearchResult } from './google-books'
 import { searchVideo, type VideoSearchResult } from './tmdb'
 import { searchGames, type GameSearchResult } from './igdb'
-import { searchMusic, type MusicSearchResult } from './spotify'
+import { searchMusic, type MusicSearchResult } from './itunes-music'
 import type { ContentType, SearchResponse } from './types'
 
 // 통합 도서 검색 결과 타입 (카카오 + Google Books)
@@ -145,4 +145,4 @@ export type { GoogleBookSearchResult } from './google-books'
 export type { VideoSearchResult, VideoSubtype, VideoEnLocale } from './tmdb'
 export { getVideoEnLocale } from './tmdb'
 export type { GameSearchResult } from './igdb'
-export type { MusicSearchResult } from './spotify'
+export type { MusicSearchResult } from './itunes-music'

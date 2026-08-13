@@ -16,7 +16,7 @@ pnpm photo:crop-body public/factions/.../_group.png   # 위치 인자도 동일
 
 | 명령 | 하는 일 |
 |---|---|
-| `celeb:audit:activation` | 공개 전환 준비도 감사. `--apply` 로 일괄 활성화까지 |
+| `celeb:audit:activation` | 전체 인물 데이터 보유율·공개 전환 준비도 감사. `--apply` 로 일괄 활성화까지 |
 | `celeb:audit:basic` | 기본 정보 결손 전수 조사(읽기 전용) |
 | `celeb:audit:tracks` | 전 트랙 결손 전수 감사(읽기 전용) |
 | `celeb:audit:public` | 사용자 웹 노출 데이터의 구조·결측 1차 감사 |
@@ -87,7 +87,10 @@ pnpm photo:crop-body public/factions/.../_group.png   # 위치 인자도 동일
 | 명령 | 하는 일 |
 |---|---|
 | `book-recommend:resources` | 서재 탐방 DB 연결·표지 캐시 운영 |
-| `music:itunes-migrate` | 음악 메타를 아이튠즈 기준으로 이전 |
+| `music:itunes-migrate` | Spotify 레거시의 1차 넓은 이전. 정밀 단계가 시작된 뒤에는 다시 돌리지 않는다 |
+| `music:spotify-classify` | 원래 Spotify ID의 트랙·앨범·공식 제목·아티스트·앨범 수록곡 지문을 재개 가능하게 분류 |
+| `music:itunes-precision` | 다중 ID lookup·응답 캐시를 써서 DB를 바꾸지 않고 기존 전환분과 잔여분의 Apple 정본 후보를 정밀 스캔 |
+| `music:itunes-precision:auto` | 정밀 스캔을 제한 속도로 끝까지 재개한 뒤 고신뢰 후보만 묶음 재검증해 자동 반영 |
 | `coupang:candidates` | 제휴 링크 후보 수집 |
 | `coupang:pick` | 후보 중 선택분 확정 |
 | `coupang:audit` | 연결된 제휴 링크 점검 |

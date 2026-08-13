@@ -21,7 +21,7 @@ export const API_SOURCE_URL: Record<Exclude<CategoryId, "all">, string> = {
   book: "https://developers.kakao.com/docs/latest/ko/daum-search/dev-guide#search-book",
   video: "https://www.themoviedb.org",
   game: "https://www.igdb.com",
-  music: "https://developer.spotify.com",
+  music: "https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/Searching.html",
 };
 
 export const CONTENT_SORT_OPTIONS = [

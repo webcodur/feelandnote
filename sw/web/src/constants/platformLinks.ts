@@ -69,14 +69,6 @@ export const PLATFORM_LINKS: Record<ContentType, PlatformLink[]> = {
   ],
   MUSIC: [
     {
-      key: "spotify",
-      name: "Spotify",
-      buildUrl: ({ externalId }) => {
-        const spotifyId = externalId.replace(/^spotify-/, "");
-        return `https://open.spotify.com/album/${spotifyId}`;
-      },
-    },
-    {
       key: "apple-music",
       name: "Apple Music",
       buildUrl: ({ title }) =>

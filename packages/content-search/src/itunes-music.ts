@@ -31,6 +31,11 @@ interface ItunesTrack {
   kind?: string
 }
 
+interface PlayableItunesTrack extends ItunesTrack {
+  trackId: number
+  previewUrl: string
+}
+
 export interface ItunesMusicResult {
   externalId: string
   externalSource: 'itunes'
@@ -52,6 +57,8 @@ export interface ItunesMusicResult {
   }
 }
 
+export type MusicSearchResult = ItunesMusicResult
+
 /** 표지를 원하는 크기로. 아이튠즈는 URL의 치수 부분만 바꾸면 된다 */
 function artwork(track: ItunesTrack, size = 600): string | null {
   const url = track.artworkUrl100 || track.artworkUrl60
@@ -59,26 +66,51 @@ function artwork(track: ItunesTrack, size = 600): string | null {
   return url.replace(/\/\d+x\d+bb\.(jpg|png)$/, `/${size}x${size}bb.$1`)
 }
 
-function toResult(t: ItunesTrack): ItunesMusicResult {
-  const isAlbum = t.wrapperType === 'collection' || (!t.trackId && !!t.collectionId)
-  const id = t.trackId ?? t.collectionId
+function isPlayableTrack(track: ItunesTrack): track is PlayableItunesTrack {
+  return typeof track.trackId === 'number'
+    && typeof track.previewUrl === 'string'
+    && track.previewUrl.length > 0
+}
 
+function toResult(t: PlayableItunesTrack): ItunesMusicResult {
   return {
-    externalId: `itunes-${id}`,
+    externalId: `itunes-${t.trackId}`,
     externalSource: 'itunes',
     category: 'music',
-    title: (t.trackName || t.collectionName || '').trim(),
+    title: (t.trackName || '').trim(),
     creator: t.artistName || '',
     coverImageUrl: artwork(t),
     metadata: {
       summary: '',
       releaseDate: (t.releaseDate || '').slice(0, 10),
-      albumType: isAlbum ? 'album' : 'track',
+      albumType: 'track',
       totalTracks: t.trackCount ?? 0,
       artists: t.artistName ? [t.artistName] : [],
-      previewUrl: t.previewUrl ?? null,
+      previewUrl: t.previewUrl,
       itunesUrl: t.trackViewUrl || t.collectionViewUrl || '',
       genre: t.primaryGenreName || '',
+    },
+  }
+}
+
+function toAlbumResult(collection: ItunesTrack, previewTrack: PlayableItunesTrack): ItunesMusicResult | null {
+  if (typeof collection.collectionId !== 'number') return null
+  return {
+    externalId: `itunes-${collection.collectionId}`,
+    externalSource: 'itunes',
+    category: 'music',
+    title: (collection.collectionName || '').trim(),
+    creator: collection.artistName || '',
+    coverImageUrl: artwork(collection),
+    metadata: {
+      summary: '',
+      releaseDate: (collection.releaseDate || '').slice(0, 10),
+      albumType: 'album',
+      totalTracks: collection.trackCount ?? 0,
+      artists: collection.artistName ? [collection.artistName] : [],
+      previewUrl: previewTrack.previewUrl,
+      itunesUrl: collection.collectionViewUrl || '',
+      genre: collection.primaryGenreName || '',
     },
   }
 }
@@ -118,7 +150,7 @@ export async function searchMusic(
       limit: String(Math.min(limit + offset, 200)),
       country,
     })
-    const results = await call(`${ITUNES_SEARCH_URL}?${params}`)
+    const results = (await call(`${ITUNES_SEARCH_URL}?${params}`)).filter(isPlayableTrack)
     if (results.length) {
       const items = results.slice(offset, offset + limit).map(toResult)
       return { items, total: results.length, hasMore: results.length > offset + limit }
@@ -132,12 +164,22 @@ export async function getTrackById(externalId: string): Promise<ItunesMusicResul
   const id = externalId.replace(/^itunes[-_]/, '')
   if (!/^\d+$/.test(id)) return null
 
-  const results = await call(`${ITUNES_LOOKUP_URL}?id=${id}&country=US`)
-  if (!results.length) {
-    const kr = await call(`${ITUNES_LOOKUP_URL}?id=${id}&country=KR`)
-    return kr.length ? toResult(kr[0]) : null
+  for (const country of ['US', 'KR']) {
+    const results = await call(`${ITUNES_LOOKUP_URL}?id=${id}&entity=song&country=${country}&limit=200`)
+    const directTrack = results.find((result) => result.trackId === Number(id) && isPlayableTrack(result))
+    if (directTrack && isPlayableTrack(directTrack)) return toResult(directTrack)
+
+    const collection = results.find((result) => (
+      result.wrapperType === 'collection' && result.collectionId === Number(id)
+    ))
+    const previewTrack = results.find((result) => (
+      result.collectionId === Number(id) && isPlayableTrack(result)
+    ))
+    if (collection && previewTrack && isPlayableTrack(previewTrack)) {
+      return toAlbumResult(collection, previewTrack)
+    }
   }
-  return toResult(results[0])
+  return null
 }
 
 /** 재생용 미리듣기 주소만 필요할 때 */

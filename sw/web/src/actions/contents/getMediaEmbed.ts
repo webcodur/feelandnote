@@ -36,6 +36,12 @@ async function resolveMusic(
   const none: MediaEmbedResult = { embedType: null, embedId: null }
 
   if (/^itunes[-_]/.test(externalId)) {
+    const storedPreviewUrl = typeof metadata?.previewUrl === 'string' && metadata.previewUrl.length > 0
+      ? metadata.previewUrl
+      : null
+    if (storedPreviewUrl) {
+      return { embedType: 'itunes', embedId: externalId, previewUrl: storedPreviewUrl }
+    }
     const previewUrl = await getPreviewUrl(externalId).catch(() => null)
     return { embedType: 'itunes', embedId: externalId, previewUrl }
   }

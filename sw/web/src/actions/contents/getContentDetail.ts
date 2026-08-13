@@ -94,7 +94,7 @@ async function fetchContentDataPublic(
   locale: string,
 ): Promise<ContentDetailData['content'] | null> {
   const supabase = createStaticClient()
-  const contentSelect = `id, external_id, external_source, type, release_date, content_locales(${CL_SELECT})`
+  const contentSelect = `id, external_id, external_source, type, release_date, metadata, content_locales(${CL_SELECT})`
 
   function buildDbContent(raw: Record<string, unknown>) {
     const locales = raw.content_locales as ContentLocaleRow[] | null
@@ -104,6 +104,7 @@ async function fetchContentDataPublic(
       external_id: raw.external_id as string | null,
       external_source: raw.external_source as string | undefined,
       type: raw.type as string,
+      metadata: raw.metadata as Record<string, unknown> | null,
       title: flat.title,
       creator: flat.creator,
       thumbnail_url: flat.thumbnail_url,
@@ -137,20 +138,28 @@ async function fetchContentDataPublic(
   }
 
   const isMetaDescUsable = (source?: string) =>
-    locale === 'ko' || source === 'google_books' || source === 'igdb' || source === 'spotify'
+    locale === 'ko' || source === 'google_books' || source === 'igdb'
 
   if (dbContent) {
     const categoryId = TYPE_TO_CATEGORY[dbContent.type as ContentType]
     const externalId = dbContent.external_id || dbContent.id
-    const metadataResult = await fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source)
+    const storedMetadata = dbContent.metadata && Object.keys(dbContent.metadata).length > 0
+      ? dbContent.metadata
+      : null
+    const metadataResult = dbContent.type === 'MUSIC' && storedMetadata
+      ? null
+      : await fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source)
     const dbMetaDesc = isMetaDescUsable(dbContent.external_source)
-      ? (metadataResult.metadata?.description as string)
+      ? (metadataResult?.metadata?.description as string)
       : undefined
+    const mergedMetadata = metadataResult?.metadata || storedMetadata
+      ? { ...(metadataResult?.metadata ?? {}), ...(storedMetadata ?? {}) }
+      : null
 
     const dbMetadata = overrideBookLink(
-      metadataResult.metadata
-        ? { ...metadataResult.metadata, ...(dbContent.publisher && { publisher: dbContent.publisher }) }
-        : metadataResult.metadata,
+      mergedMetadata
+        ? { ...mergedMetadata, ...(dbContent.publisher && { publisher: dbContent.publisher }) }
+        : mergedMetadata,
       locale, dbContent.type
     )
 
