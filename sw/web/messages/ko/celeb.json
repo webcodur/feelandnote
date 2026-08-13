@@ -56,13 +56,13 @@
       },
       "lightLibrary": {
         "about": "확인된 감상·창작 기록이 있을 때 이곳에 연결합니다.",
-        "notice": "지금은 프로필과 인물 분석을 중심으로 살펴보세요. 등록된 경우 읽어보기, 타임라인, 인물 관계도 함께 볼 수 있습니다."
+        "notice": "지금은 프로필과 수치 분석을 중심으로 살펴보세요. 등록된 경우 읽어보기, 생애 연대기, 인물 관계도 함께 볼 수 있습니다."
       },
       "sourceWorks": {
         "about": "신화·서사시·문학 등 이 인물이 등장하는 원전과 작품을 연결해 보여줍니다."
       },
       "timeline": {
-        "about": "생애의 주요 사건을 타임라인과 활동 반경 지도에서 보여줍니다."
+        "about": "생애의 주요 사건을 연대기와 활동 반경 지도에서 보여줍니다."
       },
       "fictionTimeline": {
         "about": "원전과 전승에서 벌어진 주요 사건을 서사 순서와 배경 지도에서 보여줍니다."
@@ -84,7 +84,7 @@
       },
       "fictionAnalysis": {
         "about": "이야기 속 인물은 현실 인물용 영향력 평가와 16축 스펙트럼의 대상이 아닙니다.",
-        "notice": "원전·등장 작품, 서사 연표, 인물 관계를 따라 이 인물의 역할과 변화를 살펴보세요."
+        "notice": "원전·등장 작품, 서사 연대기, 인물 관계를 따라 이 인물의 역할과 변화를 살펴보세요."
       },
       "media": {
         "about": "이 인물의 생각과 목소리를 글·음성·영상으로 만납니다."
@@ -114,7 +114,7 @@
       "origin": "첫 등장 원전",
       "adaptation": "각색 작품"
     },
-    "analysis": "인물 분석",
+    "analysis": "수치 분석",
     "fictionAnalysis": "인물 해석",
     "media": "미디어",
     "guestbook": "방명록",
@@ -149,8 +149,8 @@
     "factionOpenMember": "인물 카드 열기",
     "factionClose": "여기서 닫기",
     "relationGraph": "인물 관계망",
-    "timeline": "타임라인",
-    "fictionTimeline": "서사 연표",
+    "timeline": "생애 연대기",
+    "fictionTimeline": "서사 연대기",
     "timelineBc": "BC",
     "timelineMapLabel": "행적이 남은 곳을 표시한 지구본",
     "timelinePrev": "앞선 기록",
@@ -163,7 +163,7 @@
     "timelineFullscreenTitle": "생애 활동 반경",
     "timelineCloseMap": "전체 지도 닫기",
     "timelineViewBoth": "나란히",
-    "timelineViewList": "타임라인",
+    "timelineViewList": "연대기",
     "timelineViewMap": "활동 반경",
     "timelineZoomIn": "크게 보기",
     "timelineZoomOut": "작게 보기",
@@ -300,9 +300,11 @@
     "roleNotable": "대표작",
     "roleCreator": "창작",
     "dialogues": "고유 대사",
-    "dialogueDescription": "게임에서 사용되는 인물별 대사입니다. 실제 게임에는 근대 이전의 인물만 등장하며, 그 외 인물의 대사는 재미로 감상해 주세요.",
-    "dialoguePlayAll": "전체 재생",
+    "dialogueDescription": "게임에서 사용되는 인물별 대사입니다. 실제 게임에서는 근대 이전의 인물만 등장하며, 그 외 인물의 대사는 재미로 감상해 주세요.",
+    "dialoguePlayAll": "재생",
+    "dialogueAll": "전체",
     "dialogueStop": "정지",
+    "copyLine": "대사 복사",
     "dialogue_quote": "한마디",
     "dialogue_monologue": "독백",
     "dialogue_greeting": "인사",

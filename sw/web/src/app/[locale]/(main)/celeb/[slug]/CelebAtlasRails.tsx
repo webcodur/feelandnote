@@ -126,6 +126,7 @@ export function CelebAtlasNavigation({
                 }}
                 type="button"
                 onClick={() => onNavigate(item.target)}
+                onMouseDown={(event) => event.preventDefault()}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onFocus={() => setHoveredIndex(index)}
                 onBlur={() => setHoveredIndex(null)}

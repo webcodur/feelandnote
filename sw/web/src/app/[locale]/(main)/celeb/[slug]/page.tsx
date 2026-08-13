@@ -137,7 +137,7 @@ export default async function CelebPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
 
-      <CelebPageContent
+<CelebPageContent
         profile={profile}
         slug={slug}
         shareTitle={pageTitle}
@@ -155,9 +155,9 @@ export default async function CelebPage({ params }: PageProps) {
         fictionSources={fictionSources}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
-      />
-
-      {profile.celeb_tier === "full" && <CelebAffiliateBooks userId={userId} />}
+      >
+        {profile.celeb_tier === "full" && <CelebAffiliateBooks userId={userId} />}
+      </CelebPageContent>
     </>
   );
 }
