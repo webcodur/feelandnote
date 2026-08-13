@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
+import { getCelebContentCounts, getContentCounts, getUserContentCounts } from "@/actions/contents/getContentCounts";
 import { checkContentsSaved } from "@/actions/contents/getMyContentIds";
 import { getMyContents, type UserContentWithContent } from "@/actions/contents/getMyContents";
 import {
@@ -166,7 +166,9 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     const loadCounts = async () => {
       try {
         const counts = isViewer && targetUserId
-          ? await getUserContentCounts(targetUserId)
+          ? ownerKind === 'celeb'
+            ? await getCelebContentCounts(targetUserId)
+            : await getUserContentCounts(targetUserId)
           : await getContentCounts();
         if (active) setTypeCounts(counts);
       } catch (countError) {
@@ -175,7 +177,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     };
     void loadCounts();
     return () => { active = false; };
-  }, [isViewer, targetUserId]);
+  }, [isViewer, ownerKind, targetUserId]);
 
   useEffect(() => {
     if (!isViewer || contents.length === 0) {

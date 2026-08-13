@@ -13,7 +13,7 @@ import type { CategoryId } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 import type { ContentTypeCounts } from "@/types/content";
 
-import type { ReviewFilter, SortOption, ViewMode } from "../contentLibraryTypes";
+import type { ReviewFilter, SortOption } from "../contentLibraryTypes";
 import { REVIEW_FILTER_OPTIONS, SORT_OPTIONS, TAB_OPTIONS } from "./constants";
 
 interface ArchiveFilterRowProps {
@@ -24,7 +24,6 @@ interface ArchiveFilterRowProps {
   onSortOptionChange: (option: SortOption) => void;
   reviewFilter: ReviewFilter;
   onReviewFilterChange: (filter: ReviewFilter) => void;
-  viewMode: ViewMode;
   compact: boolean;
 }
 
@@ -38,7 +37,6 @@ export default function ArchiveFilterRow({
   onSortOptionChange,
   reviewFilter,
   onReviewFilterChange,
-  viewMode,
   compact,
 }: ArchiveFilterRowProps) {
   const t = useTranslations("archiveSearch");
@@ -67,7 +65,6 @@ export default function ArchiveFilterRow({
   const reviewLabel = t(
     `review.${REVIEW_FILTER_OPTIONS.find((option) => option.value === reviewFilter)?.key ?? "all"}`,
   );
-  const useIcons = viewMode === "expand";
 
   return (
     <>
@@ -79,7 +76,7 @@ export default function ArchiveFilterRow({
           <FilterChipDropdown
             label={t("filter.category")}
             value={categoryLabel}
-            icon={useIcons ? <LibraryBig size={15} strokeWidth={1.7} aria-hidden /> : undefined}
+            icon={<LibraryBig size={18} strokeWidth={1.7} aria-hidden />}
             isActive
             options={categoryOptions}
             currentValue={activeTab}
@@ -88,7 +85,7 @@ export default function ArchiveFilterRow({
           <FilterChipDropdown
             label={t("filter.review")}
             value={reviewLabel}
-            icon={useIcons ? <MessageSquareText size={15} strokeWidth={1.7} aria-hidden /> : undefined}
+            icon={<MessageSquareText size={18} strokeWidth={1.7} aria-hidden />}
             isActive={reviewFilter !== "all"}
             options={reviewOptions}
             currentValue={reviewFilter}
@@ -97,7 +94,7 @@ export default function ArchiveFilterRow({
           <FilterChipDropdown
             label={t("filter.sort")}
             value={sortLabel}
-            icon={useIcons ? <ArrowUpDown size={15} strokeWidth={1.7} aria-hidden /> : undefined}
+            icon={<ArrowUpDown size={18} strokeWidth={1.7} aria-hidden />}
             isActive={sortOption !== "recent"}
             options={sortOptions}
             currentValue={sortOption}
@@ -105,33 +102,30 @@ export default function ArchiveFilterRow({
           />
         </div>
 
-        <div className={cn(
-          "w-full min-w-0 items-center gap-2 md:hidden",
-          useIcons ? "grid grid-cols-3" : "flex flex-wrap",
-        )}>
+        <div className="grid w-full min-w-0 grid-cols-3 items-center gap-2 md:hidden">
           <FilterChip
             label={t("filter.category")}
             value={categoryLabel}
-            icon={useIcons ? <LibraryBig size={14} strokeWidth={1.7} aria-hidden /> : undefined}
+            icon={<LibraryBig size={16} strokeWidth={1.7} aria-hidden />}
             isActive
             onClick={() => setActiveFilter("category")}
-            className={useIcons ? "min-w-0" : "min-w-0 basis-[calc(50%-0.25rem)]"}
+            className="min-w-0"
           />
           <FilterChip
             label={t("filter.review")}
             value={reviewLabel}
-            icon={useIcons ? <MessageSquareText size={14} strokeWidth={1.7} aria-hidden /> : undefined}
+            icon={<MessageSquareText size={16} strokeWidth={1.7} aria-hidden />}
             isActive={reviewFilter !== "all"}
             onClick={() => setActiveFilter("review")}
-            className={useIcons ? "min-w-0" : "min-w-0 basis-[calc(50%-0.25rem)]"}
+            className="min-w-0"
           />
           <FilterChip
             label={t("filter.sort")}
             value={sortLabel}
-            icon={useIcons ? <ArrowUpDown size={14} strokeWidth={1.7} aria-hidden /> : undefined}
+            icon={<ArrowUpDown size={16} strokeWidth={1.7} aria-hidden />}
             isActive={sortOption !== "recent"}
             onClick={() => setActiveFilter("sort")}
-            className={useIcons ? "min-w-0" : "min-w-0 basis-full"}
+            className="min-w-0"
           />
         </div>
       </div>
