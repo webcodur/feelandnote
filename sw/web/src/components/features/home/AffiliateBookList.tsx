@@ -28,8 +28,8 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
     <section className="w-full mt-12 md:mt-20 pt-6 md:pt-10 pb-6 md:pb-10 border-t border-white/5">
       <div className="flex flex-col items-center text-center mb-4 md:mb-7 gap-2">
         <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
-        <Logo size="sm" asLink={false} />
-        <h2 className="text-base font-bold tracking-tight text-text-primary md:text-xl">{heading}</h2>
+        <Logo size="md" asLink={false} />
+        <h2 className="text-base font-bold tracking-tight text-text-secondary md:text-xl">{heading}</h2>
       </div>
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
@@ -39,42 +39,43 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
             key={book.contentId}
             className="shrink-0 snap-start flex w-[128px] flex-col gap-2 md:w-[180px] md:gap-3"
           >
-            <a
-              href={book.url}
-              target="_blank"
-              rel="noopener noreferrer nofollow sponsored"
-              className="group/coupang flex flex-col gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E44232]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212]"
-              title={`${book.title} · ${buyLabel}`}
-            >
-              <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden border border-transparent bg-white/[0.04] group-hover/coupang:border-[#E44232]/55 group-focus-visible/coupang:border-[#E44232]/55">
-                <ContentImage
-                  src={book.thumbnail}
-                  alt={book.title}
-                  sizes="(max-width: 768px) 128px, 180px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col gap-0.5">
-                <div className="flex min-w-0 items-center gap-1">
-                  <p className="min-w-0 flex-1 truncate text-[13px] font-semibold text-white/90 group-hover/coupang:text-[#ff776a] group-focus-visible/coupang:text-[#ff776a] md:text-sm">
-                    {book.title}
-                  </p>
+            <div className="flex flex-col overflow-hidden rounded-lg border border-[#E44232]/40 bg-[#E44232]/10">
+              <a
+                href={book.url}
+                target="_blank"
+                rel="noopener noreferrer nofollow sponsored"
+                className="group/coupang flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E44232]/70 focus-visible:ring-inset"
+                title={`${book.title} · ${buyLabel}`}
+              >
+                <div className="relative w-full aspect-[2/3] overflow-hidden bg-white/[0.04]">
+                  <ContentImage
+                    src={book.thumbnail}
+                    alt={book.title}
+                    sizes="(max-width: 768px) 128px, 180px"
+                    className="object-cover"
+                  />
                   <ExternalLink
-                    size={10}
-                    className="shrink-0 text-[#E44232]/65 group-hover/coupang:text-[#ff776a] group-focus-visible/coupang:text-[#ff776a]"
+                    size={30}
+                    strokeWidth={1.7}
+                    className="absolute end-2 top-2 rounded-full bg-black p-1.5 text-[#ff776a] shadow-[0_0_10px_rgba(255,119,106,0.5)] group-hover/coupang:text-[#ff9a8f] group-hover/coupang:shadow-[0_0_12px_rgba(255,154,143,0.65)]"
                     aria-hidden
                   />
                 </div>
-                {book.creator && <p className="text-[11px] md:text-xs text-white/50 truncate">{book.creator}</p>}
-              </div>
-            </a>
+                <div className="flex flex-col items-center gap-0.5 px-2.5 py-2 text-center">
+                  <p className="min-w-0 truncate text-[13px] font-semibold text-white/90 group-hover/coupang:text-[#ff776a] md:text-sm">
+                    {book.title}
+                  </p>
+                  {book.creator && <p className="truncate text-[11px] md:text-xs text-white/50 group-hover/coupang:text-[#ff776a]/85">{book.creator}</p>}
+                </div>
+              </a>
+            </div>
 
             <Link
               href={`/content/${book.contentId}?category=book`}
-              className="mt-auto flex items-center justify-center gap-1 rounded-md border border-white/10 bg-white/[0.06] px-2 py-1.5 text-[11px] font-medium text-white/70 hover:border-[#d4af37]/40 hover:bg-[#d4af37]/10 hover:text-[#d4af37] active:bg-[#d4af37]/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212] md:text-xs"
+              className="mt-auto flex items-center justify-center gap-1.5 rounded-md border border-white/10 bg-white/[0.06] px-2.5 py-2 text-xs font-medium text-white/70 hover:border-[#d4af37]/40 hover:bg-[#d4af37]/10 hover:text-[#d4af37] active:bg-[#d4af37]/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#121212] md:text-[13px]"
               title={`${book.title} · ${detailLabel}`}
             >
-              <BookOpenText size={11} className="shrink-0" aria-hidden />
+              <BookOpenText size={13} className="shrink-0" aria-hidden />
               {detailLabel}
             </Link>
           </div>

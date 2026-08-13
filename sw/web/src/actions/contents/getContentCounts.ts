@@ -20,15 +20,18 @@ async function countByType(
   supabase: SupabaseClient,
   userId: string,
   publicOnly: boolean,
+  ownerKind: 'member' | 'celeb' = 'member',
 ): Promise<ContentTypeCounts> {
   const counts = zeroCounts()
+  const archiveTable = ownerKind === 'celeb' ? 'celeb_contents' : 'member_contents'
+  const ownerColumn = ownerKind === 'celeb' ? 'celeb_id' : 'member_id'
 
   await Promise.all(
     CONTENT_TYPES.map(async (type) => {
       let query = supabase
-        .from('member_contents')
+        .from(archiveTable)
         .select('content:contents!inner(type)', { count: 'exact', head: true })
-        .eq('member_id', userId)
+        .eq(ownerColumn, userId)
         .eq('status', 'FINISHED')
         .eq('content.type', type)
 
@@ -68,4 +71,16 @@ const getCachedUserContentCounts = unstable_cache(
 
 export async function getUserContentCounts(userId: string): Promise<ContentTypeCounts> {
   return withQueryFallback('getUserContentCounts', () => getCachedUserContentCounts(userId), zeroCounts())
+}
+
+// 특정 셀럽의 공개 콘텐츠 타입별 개수 (FINISHED) — celeb_contents, 캐시.
+// 셀럽 서가는 member_contents가 아니라 celeb_contents에 있어 카운트 조회 테이블을 갈라야 한다.
+const getCachedCelebContentCounts = unstable_cache(
+  async (userId: string) => countByType(createStaticClient(), userId, true, 'celeb'),
+  ['celeb-content-counts'],
+  { revalidate: 3600, tags: [CACHE_TAGS.CONTENTS] }
+)
+
+export async function getCelebContentCounts(userId: string): Promise<ContentTypeCounts> {
+  return withQueryFallback('getCelebContentCounts', () => getCachedCelebContentCounts(userId), zeroCounts())
 }
