@@ -8,12 +8,16 @@
  *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --json
  *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
  *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --slugs=slug-a,slug-b
+ *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --status=all --skip-link-check
+ *   pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --html --skip-link-check
  */
 
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { CACHE_TAGS, domainRevalidationTags } from '@feelandnote/shared/constants/cache-tags'
+import { isCelebContentResearchTarget } from '@feelandnote/shared/constants/celeb-content-research'
+import { writeCelebReadinessHtml } from './lib/celeb-readiness-report'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -39,12 +43,19 @@ const SPECTRUM_GROUPS = {
 const DIALOGUE_KEYS = [
   'greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
 ] as const
+const COVERAGE_DOMAINS = ['basic', 'influence', 'spectrum', 'speech', 'content', 'source'] as const
 
 const args = process.argv.slice(2)
 const APPLY = args.includes('--apply')
 const JSON_OUTPUT = args.includes('--json')
 const SKIP_LINK_CHECK = args.includes('--skip-link-check')
-const STATUS = (args.find((arg) => arg.startsWith('--status='))?.split('=', 2)[1] ?? 'inactive') as
+const HTML_ARG = args.find((arg) => arg === '--html' || arg.startsWith('--html='))
+const HTML_ARG_VALUE = HTML_ARG?.startsWith('--html=') ? HTML_ARG.split('=', 2)[1]?.trim() : ''
+const HTML_OUTPUT = HTML_ARG
+  ? path.resolve(process.cwd(), HTML_ARG_VALUE || '../../.artifacts/celeb-data-readiness.html')
+  : null
+const STATUS = (args.find((arg) => arg.startsWith('--status='))?.split('=', 2)[1]
+  ?? (HTML_OUTPUT ? 'all' : 'inactive')) as
   | 'inactive'
   | 'active'
   | 'all'
@@ -58,11 +69,28 @@ const SLUGS = new Set(
 if (APPLY && STATUS !== 'inactive') {
   throw new Error('--apply는 --status=inactive 범위에서만 허용됩니다.')
 }
+if (APPLY && HTML_OUTPUT) throw new Error('--apply와 --html은 함께 사용할 수 없습니다.')
+if (JSON_OUTPUT && HTML_OUTPUT) throw new Error('--json과 --html은 함께 사용할 수 없습니다.')
 
 // Supabase의 테이블별 생성 타입을 이 운영 스크립트에 전부 끌어오지 않고 동적 감사한다.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Row = Record<string, any>
 type LinkResult = { ok: boolean; status: number; error?: string }
+type LinkAudit = {
+  mode: 'skipped' | 'checked'
+  checked: number
+  passed: number
+  failed: number
+  failureStatusCounts: Record<string, number>
+}
+type CoverageDomain = (typeof COVERAGE_DOMAINS)[number]
+type Coverage = {
+  complete: number
+  required: number
+  percentage: number
+  completeDomains: CoverageDomain[]
+  missingDomains: CoverageDomain[]
+}
 type AuditRow = {
   id: string
   slug: string
@@ -70,6 +98,7 @@ type AuditRow = {
   tier: string
   publicationStatus: string
   gaps: string[]
+  coverage: Coverage
 }
 
 const blank = (value: unknown) => value === null || value === undefined || String(value).trim() === ''
@@ -83,7 +112,7 @@ async function allProfiles(): Promise<Row[]> {
       .from('celebs')
       .select([
         'id', 'slug', 'nickname', 'nickname_en', 'title', 'title_en', 'bio', 'bio_en',
-        'profession', 'nationality', 'birth_date', 'publication_status', 'celeb_tier', 'speech_tone',
+        'profession', 'nationality', 'gender', 'birth_date', 'publication_status', 'celeb_tier', 'speech_tone',
         'avatar_url', 'content_research_confirmed_empty_at',
       ].join(','))
       .order('id')
@@ -144,23 +173,31 @@ async function checkUrl(sourceUrl: string): Promise<LinkResult> {
 async function checkUrls(urls: string[]): Promise<Map<string, LinkResult>> {
   const result = new Map<string, LinkResult>()
   const unique = [...new Set(urls)]
+  let nextProgress = 60
+  console.error(`출처 링크 검사 시작: ${unique.length}개`)
   for (let index = 0; index < unique.length; index += LINK_CONCURRENCY) {
     const group = unique.slice(index, index + LINK_CONCURRENCY)
     const checked = await Promise.all(group.map(async (sourceUrl) => [sourceUrl, await checkUrl(sourceUrl)] as const))
     for (const [sourceUrl, state] of checked) result.set(sourceUrl, state)
+    const completed = Math.min(index + group.length, unique.length)
+    if (completed >= nextProgress || completed === unique.length) {
+      const failed = [...result.values()].filter((state) => !state.ok).length
+      console.error(`출처 링크 검사: ${completed}/${unique.length} · 현재 실패 ${failed}`)
+      nextProgress = completed + 60
+    }
   }
   return result
 }
 
 function addProfileGaps(profile: Row, gaps: string[]) {
   const tier = profile.celeb_tier ?? 'full'
-  const common = ['nickname', 'nickname_en', 'slug', 'profession', 'title', 'title_en', 'bio', 'bio_en', 'avatar_url']
+  const common = [
+    'nickname', 'nickname_en', 'slug', 'profession', 'title', 'title_en', 'bio', 'bio_en',
+    'nationality', 'avatar_url',
+  ]
   for (const field of common) if (blank(profile[field])) gaps.push(`basic:${field}`)
-  if (tier !== 'fiction') {
-    for (const field of ['nationality', 'birth_date']) {
-      if (blank(profile[field])) gaps.push(`basic:${field}`)
-    }
-  }
+  if (profile.gender === null || profile.gender === undefined) gaps.push('basic:gender')
+  if (tier !== 'fiction' && blank(profile.birth_date)) gaps.push('basic:birth_date')
 }
 
 function addInfluenceGaps(profile: Row, influence: Row | undefined, gaps: string[]) {
@@ -223,6 +260,86 @@ function addLocaleGaps(contentId: string, content: Row | undefined, locales: Row
   }
 }
 
+function requiredCoverageDomains(tier: string): CoverageDomain[] {
+  if (tier === 'full' || tier === 'light') {
+    return ['basic', 'influence', 'spectrum', 'speech', 'content']
+  }
+  if (tier === 'fiction') return ['basic', 'source']
+  return ['basic']
+}
+
+function hasDomainGap(domain: CoverageDomain, gaps: string[]): boolean {
+  if (domain === 'basic') return gaps.some((gap) => gap.startsWith('basic:'))
+  if (domain === 'influence') {
+    return gaps.some((gap) => gap.startsWith('influence:') || /^i18n:[a-z_]+_exp_en$/.test(gap))
+  }
+  if (domain === 'spectrum') return gaps.some((gap) => gap.startsWith('spectrum:'))
+  if (domain === 'speech') {
+    return gaps.some((gap) =>
+      gap.startsWith('speech:') || gap === 'i18n:quote_en' || gap.startsWith('i18n:en.'),
+    )
+  }
+  if (domain === 'content') return gaps.some((gap) => gap.startsWith('content:'))
+  return gaps.some((gap) => gap.startsWith('fiction:') || gap.startsWith('content:'))
+}
+
+function coverageOf(tier: string, gaps: string[]): Coverage {
+  const domains = requiredCoverageDomains(tier)
+  const completeDomains = domains.filter((domain) => !hasDomainGap(domain, gaps))
+  const missingDomains = domains.filter((domain) => hasDomainGap(domain, gaps))
+  return {
+    complete: completeDomains.length,
+    required: domains.length,
+    percentage: Math.round((completeDomains.length / domains.length) * 1000) / 10,
+    completeDomains,
+    missingDomains,
+  }
+}
+
+function summarizeCoverage(rows: AuditRow[]) {
+  const percentages = rows.map((row) => row.coverage.percentage)
+  const domainCoverage = Object.fromEntries(
+    COVERAGE_DOMAINS.flatMap((domain) => {
+      const applicable = rows.filter((row) => requiredCoverageDomains(row.tier).includes(domain))
+      if (applicable.length === 0) return []
+      const complete = applicable.filter((row) => row.coverage.completeDomains.includes(domain)).length
+      return [[domain, {
+        complete,
+        applicable: applicable.length,
+        percentage: Math.round((complete / applicable.length) * 1000) / 10,
+      }]]
+    }),
+  )
+
+  return {
+    averagePercentage: percentages.length > 0
+      ? Math.round((percentages.reduce((sum, value) => sum + value, 0) / percentages.length) * 10) / 10
+      : 0,
+    bands: {
+      '100': percentages.filter((value) => value === 100).length,
+      '80-99': percentages.filter((value) => value >= 80 && value < 100).length,
+      '60-79': percentages.filter((value) => value >= 60 && value < 80).length,
+      '40-59': percentages.filter((value) => value >= 40 && value < 60).length,
+      '20-39': percentages.filter((value) => value >= 20 && value < 40).length,
+      '0-19': percentages.filter((value) => value < 20).length,
+    },
+    domains: domainCoverage,
+  }
+}
+
+function normalizeGap(gap: string): string {
+  return gap.replace(/^content:[^.]+(?:\.(?:ko|en))?\./, 'content:')
+}
+
+function groupBy<T>(rows: T[], keyOf: (row: T) => string): Map<string, T[]> {
+  const grouped = new Map<string, T[]>()
+  for (const row of rows) {
+    const key = keyOf(row)
+    grouped.set(key, [...(grouped.get(key) ?? []), row])
+  }
+  return grouped
+}
+
 async function revalidateCaches() {
   const secret = process.env.CRON_SECRET
   const webUrl = process.env.NEXT_PUBLIC_WEB_URL || 'https://feelandnote.com'
@@ -271,12 +388,15 @@ async function main() {
   const spectrumById = new Map(spectra.map((row) => [row.celeb_id, row]))
   const dialogueById = new Map(dialogues.map((row) => [row.celeb_id, row]))
   const contentById = new Map(contents.map((row) => [row.id, row]))
+  const celebContentsByCeleb = groupBy(celebContents, (row) => row.celeb_id)
+  const fictionSourcesByCeleb = groupBy(fictionSources, (row) => row.celeb_id)
+  const localesByContent = groupBy(locales, (row) => row.content_id)
 
   const audited: AuditRow[] = profiles.map((profile) => {
     const tier = profile.celeb_tier ?? 'full'
     const gaps: string[] = []
-    const linked = celebContents.filter((row) => row.celeb_id === profile.id)
-    const sources = fictionSources.filter((row) => row.celeb_id === profile.id)
+    const linked = celebContentsByCeleb.get(profile.id) ?? []
+    const sources = fictionSourcesByCeleb.get(profile.id) ?? []
 
     addProfileGaps(profile, gaps)
     if (tier === 'full' || tier === 'light') {
@@ -296,7 +416,7 @@ async function main() {
         addLocaleGaps(
           item.content_id,
           contentById.get(item.content_id),
-          locales.filter((row) => row.content_id === item.content_id),
+          localesByContent.get(item.content_id) ?? [],
           gaps,
         )
       }
@@ -309,7 +429,7 @@ async function main() {
         addLocaleGaps(
           source.content_id,
           contentById.get(source.content_id),
-          locales.filter((row) => row.content_id === source.content_id),
+          localesByContent.get(source.content_id) ?? [],
           gaps,
         )
       }
@@ -317,33 +437,66 @@ async function main() {
       gaps.push(`tier:unsupported(${tier})`)
     }
 
+    const uniqueGaps = [...new Set(gaps)]
     return {
       id: profile.id,
       slug: profile.slug ?? '',
       nickname: profile.nickname ?? '',
       tier,
       publicationStatus: profile.publication_status,
-      gaps: [...new Set(gaps)],
+      gaps: uniqueGaps,
+      coverage: coverageOf(tier, uniqueGaps),
     }
   })
 
+  let linkAudit: LinkAudit = {
+    mode: SKIP_LINK_CHECK ? 'skipped' : 'checked',
+    checked: 0,
+    passed: 0,
+    failed: 0,
+    failureStatusCounts: {},
+  }
   if (!SKIP_LINK_CHECK) {
     const dbReadyIds = new Set(audited.filter((row) => row.gaps.length === 0 && row.tier === 'full').map((row) => row.id))
     const linkItems = celebContents.filter((row) => dbReadyIds.has(row.celeb_id) && !blank(row.source_url))
     const linkStates = await checkUrls(linkItems.map((row) => row.source_url))
+    const failedStates = [...linkStates.values()].filter((state) => !state.ok)
+    const failureStatusCounts = new Map<string, number>()
+    for (const state of failedStates) {
+      const key = state.status === 0 ? 'network_or_timeout' : String(state.status)
+      failureStatusCounts.set(key, (failureStatusCounts.get(key) ?? 0) + 1)
+    }
+    linkAudit = {
+      mode: 'checked',
+      checked: linkStates.size,
+      passed: linkStates.size - failedStates.length,
+      failed: failedStates.length,
+      failureStatusCounts: Object.fromEntries(
+        [...failureStatusCounts].sort((a, b) => b[1] - a[1]),
+      ),
+    }
     for (const item of linkItems) {
       const state = linkStates.get(item.source_url)
       if (!state?.ok) {
         const target = audited.find((row) => row.id === item.celeb_id)
-        target?.gaps.push(`content:${item.content_id}.source_http(${state?.status ?? 0})`)
+        if (target) {
+          target.gaps.push(`content:${item.content_id}.source_http(${state?.status ?? 0})`)
+          target.coverage = coverageOf(target.tier, target.gaps)
+        }
       }
     }
   }
 
   const ready = audited.filter((row) => row.gaps.length === 0)
+  const lightUnconfirmed = audited.filter(
+    (row) => row.tier === 'light' && row.gaps.includes('content:empty_not_confirmed'),
+  )
+  const contentResearchTargets = lightUnconfirmed.filter((row) =>
+    isCelebContentResearchTarget(row.tier, row.publicationStatus),
+  )
   const gapCounts = new Map<string, number>()
   for (const row of audited) {
-    for (const gap of new Set(row.gaps.map((item) => item.replace(/:[^.]+\.[^.]+\./, ':')))) {
+    for (const gap of new Set(row.gaps.map(normalizeGap))) {
       gapCounts.set(gap, (gapCounts.get(gap) ?? 0) + 1)
     }
   }
@@ -365,15 +518,60 @@ async function main() {
     cache = await revalidateCaches()
   }
 
+  const scopeByTier = Object.fromEntries(
+    ['full', 'light', 'fiction'].map((tier) => [tier, audited.filter((row) => row.tier === tier).length]),
+  )
+  const statuses = [...new Set(audited.map((row) => row.publicationStatus))].sort()
+  const scopeByPublicationStatus = Object.fromEntries(
+    statuses.map((status) => [status, audited.filter((row) => row.publicationStatus === status).length]),
+  )
+  const readinessByTier = Object.fromEntries(
+    ['full', 'light', 'fiction'].map((tier) => {
+      const rows = audited.filter((row) => row.tier === tier)
+      const tierReady = rows.filter((row) => row.gaps.length === 0).length
+      return [tier, {
+        scope: rows.length,
+        ready: tierReady,
+        readyPercentage: rows.length > 0 ? Math.round((tierReady / rows.length) * 1000) / 10 : 0,
+        coverage: summarizeCoverage(rows),
+      }]
+    }),
+  )
+  const readinessByPublicationStatus = Object.fromEntries(
+    statuses.map((status) => {
+      const rows = audited.filter((row) => row.publicationStatus === status)
+      const statusReady = rows.filter((row) => row.gaps.length === 0).length
+      return [status, {
+        scope: rows.length,
+        ready: statusReady,
+        readyPercentage: rows.length > 0 ? Math.round((statusReady / rows.length) * 1000) / 10 : 0,
+        coverage: summarizeCoverage(rows),
+      }]
+    }),
+  )
+
   const summary = {
+    measuredAt: new Date().toISOString(),
     scope: profiles.length,
+    scopeByTier,
+    scopeByPublicationStatus,
     ready: ready.length,
+    readyPercentage: profiles.length > 0 ? Math.round((ready.length / profiles.length) * 1000) / 10 : 0,
     readyByTier: Object.fromEntries(
       ['full', 'light', 'fiction'].map((tier) => [tier, ready.filter((row) => row.tier === tier).length]),
     ),
+    readinessByTier,
+    readinessByPublicationStatus,
+    coverage: summarizeCoverage(audited),
+    contentResearch: {
+      rawUnconfirmed: lightUnconfirmed.length,
+      targets: contentResearchTargets.length,
+      excludedByPublicationStatus: lightUnconfirmed.length - contentResearchTargets.length,
+    },
     activated: activated.length,
     cache,
     linkCheck: SKIP_LINK_CHECK ? 'skipped' : 'required',
+    linkAudit,
     candidates: ready.map((row) => ({
       slug: row.slug,
       nickname: row.nickname,
@@ -385,15 +583,67 @@ async function main() {
     rows: audited,
   }
 
+  if (HTML_OUTPUT) {
+    await writeCelebReadinessHtml(summary, HTML_OUTPUT)
+    console.log(`HTML 보고서 생성: ${HTML_OUTPUT}`)
+    return
+  }
+
   if (JSON_OUTPUT) {
     console.log(JSON.stringify(summary, null, 2))
     return
   }
 
-  console.log(`범위 ${summary.scope}명 · 활성화 준비 ${summary.ready}명 · 실제 반영 ${summary.activated}명`)
-  console.log(`티어별 준비: full ${summary.readyByTier.full} · light ${summary.readyByTier.light} · fiction ${summary.readyByTier.fiction}`)
-  for (const row of ready.sort((a, b) => a.nickname.localeCompare(b.nickname, 'ko'))) {
-    console.log(`  READY ${row.tier.padEnd(7)} ${row.nickname} (${row.slug})`)
+  console.log(
+    `범위 ${summary.scope}명 · 데이터 완비 ${summary.ready}명 (${summary.readyPercentage}%) · `
+    + `영역 평균 보유율 ${summary.coverage.averagePercentage}% · 실제 반영 ${summary.activated}명`,
+  )
+  console.log(
+    `콘텐츠 조사 대상 ${summary.contentResearch.targets}명 · `
+    + `전체 상태 light 0건·미확정 ${summary.contentResearch.rawUnconfirmed}명 `
+    + `(상태 제외 ${summary.contentResearch.excludedByPublicationStatus}명)`,
+  )
+  if (summary.linkAudit.mode === 'checked') {
+    console.log(
+      `출처 링크 ${summary.linkAudit.checked}개 검사 · 통과 ${summary.linkAudit.passed}개 · 실패 ${summary.linkAudit.failed}개`,
+    )
+  } else {
+    console.log('출처 링크 검사 생략 · 구조 보유율 기준')
+  }
+  console.log('\n티어별')
+  for (const tier of ['full', 'light', 'fiction']) {
+    const state = summary.readinessByTier[tier]
+    console.log(
+      `  ${tier.padEnd(7)} ${String(state.scope).padStart(4)}명 · 완비 ${String(state.ready).padStart(4)}명 `
+      + `(${String(state.readyPercentage).padStart(5)}%) · 영역 평균 ${state.coverage.averagePercentage}%`,
+    )
+  }
+  console.log('\n공개 상태별')
+  for (const status of statuses) {
+    const state = summary.readinessByPublicationStatus[status]
+    console.log(
+      `  ${status.padEnd(10)} ${String(state.scope).padStart(4)}명 · 완비 ${String(state.ready).padStart(4)}명 `
+      + `(${String(state.readyPercentage).padStart(5)}%) · 영역 평균 ${state.coverage.averagePercentage}%`,
+    )
+  }
+  console.log('\n영역별 완비')
+  for (const domain of COVERAGE_DOMAINS) {
+    const state = summary.coverage.domains[domain]
+    if (!state) continue
+    console.log(
+      `  ${domain.padEnd(10)} ${String(state.complete).padStart(4)} / ${String(state.applicable).padEnd(4)} `
+      + `(${state.percentage}%)`,
+    )
+  }
+  console.log('\n인물별 영역 보유 구간')
+  for (const [band, count] of Object.entries(summary.coverage.bands)) {
+    console.log(`  ${band.padEnd(6)} ${String(count).padStart(4)}명`)
+  }
+  if (STATUS === 'inactive' || SLUGS.size > 0 || args.includes('--list-ready')) {
+    console.log('\n완비 인물')
+    for (const row of ready.sort((a, b) => a.nickname.localeCompare(b.nickname, 'ko'))) {
+      console.log(`  READY ${row.tier.padEnd(7)} ${row.nickname} (${row.slug})`)
+    }
   }
   if (cache) console.log(`캐시 무효화: ${cache.ok ? '성공' : '실패'} (${cache.detail})`)
   console.log('\n주요 탈락 사유')

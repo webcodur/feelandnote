@@ -37,6 +37,7 @@ import { mkdir, readFile, readdir, rename, unlink } from 'node:fs/promises'
 import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
+import { femaleMartialAdjust } from '@feelandnote/shared/constants/celeb-spectrum-scale'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -270,6 +271,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       const nextSpectrum: Record<string, any> = JSON.parse(JSON.stringify(curSpectrum))
       let spectrumTouched = false
       const spectrumPatch = patch.spectrum ?? patch.persona ?? {}
+      let femaleAdjustCount = 0
       for (const [group, entries] of Object.entries(spectrumPatch)) {
         // 종합 해설은 그룹이 아니라 최상위 문자열 필드다
         if (group === 'rationale_ko' || group === 'rationale_en') {
@@ -293,8 +295,15 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
           if (!Number.isInteger(n) || n < range[0] || n > range[1]) {
             throw new Error(`spectrum ${group}.${k} score 범위 ${range.join('~')}: ${val.score}`)
           }
+          // 여성 무력 보정 — 규칙은 shared의 FEMALE_MARTIAL_ADJUSTMENT_RULE이 정본이다.
+          // 채점자는 성별과 무관한 추정 자로 raw 점수를 주고, 저장 직전 여기서 보정한다.
+          // reason은 채점자의 근거 원문을 보존하고 점수만 바꾼다.
+          const finalScore = c.profile.gender === false && group === 'abilities' && k === 'martial'
+            ? femaleMartialAdjust(n)
+            : n
+          if (finalScore !== n) femaleAdjustCount++
           nextSpectrum[group] ??= {}
-          nextSpectrum[group][k] = { score: n, reason_ko: String(val.reason_ko), reason_en: String(val.reason_en) }
+          nextSpectrum[group][k] = { score: finalScore, reason_ko: String(val.reason_ko), reason_en: String(val.reason_en) }
           spectrumTouched = true
         }
       }
@@ -341,7 +350,10 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
 
       if (!doWrite) {
         ok++
-        log.push(`DRY  ${patch.slug} ← ${changes.join(' ')} | 보존 ${preserved.length}`)
+        const adjustNote = femaleAdjustCount > 0
+          ? ` | 여성무력보정 ${femaleAdjustCount}건(martial→${nextSpectrum.abilities?.martial?.score})`
+          : ''
+        log.push(`DRY  ${patch.slug} ← ${changes.join(' ')} | 보존 ${preserved.length}${adjustNote}`)
         continue
       }
 
