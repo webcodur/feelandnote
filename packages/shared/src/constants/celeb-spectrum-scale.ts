@@ -65,7 +65,7 @@ export const AXIS_LABELS: Record<SpectrumAxis, string> = {
 /** 축이 무엇을 재는가. 채점 지시문에 그대로 싣는다. */
 export const AXIS_DEFINITIONS: Record<SpectrumAxis, string> = {
   command: '조직·군대·국가를 실제로 이끌고 관리한 역량. 명성·흥행력·산업 영향력은 여기가 아니라 매력에서 잰다.',
-  martial: '개인 전투력·운동 능력·신체 강인함·생존력의 총합. 전장의 무인과 경기장의 선수를 같은 자로 잰다.',
+  martial: '근력·민첩·지구력·강인함(부상 회복·고통 인내 포함)의 종합 추정치. 전장의 무인과 경기장의 선수를 같은 자로 잰다. 신체 활동 이력은 이 추정치의 증거이지 점수 자체가 아니다. 시대·환경이 가한 수동 피해(피격·기아·학대·감염)는 본인 능력 근거에서 뺀다 — 겪었다는 사실이 체력이 아니다.',
   intellect: '지적 능력·분석력·창의적 사고·전문 지식.',
   charm: '인간적 매력·예술적 아우라·대중적 호소력. 위압적 권위뿐 아니라 우아함·품격도 포함한다.',
   temperance: '욕망·감정·권력의 자제.',
@@ -132,15 +132,36 @@ export interface MartialGrade {
 }
 
 export const MARTIAL_GRADES: readonly MartialGrade[] = [
-  { name: '무신', hanja: '武神', min: 95, max: 100, criterion: '인류사 최정상 전투력·운동 능력' },
-  { name: '맹장', hanja: '猛將', min: 85, max: 94, criterion: '전장·경기장의 전설. 직접 전투로 역사를 바꿈' },
-  { name: '용장', hanja: '勇將', min: 75, max: 84, criterion: '실전 경험 풍부. 직접 전투 참여 후 생존' },
-  { name: '무인', hanja: '武人', min: 65, max: 74, criterion: '군사 교육 이수 또는 신체 중심 직업 활동' },
-  { name: '문무', hanja: '文武', min: 50, max: 64, criterion: '일정 수준의 신체 활동 기록 있음' },
-  { name: '서생', hanja: '書生', min: 35, max: 49, criterion: '학자·문인 기본값. 특별한 신체 활동 없음' },
-  { name: '허약', hanja: '虛弱', min: 20, max: 34, criterion: '병약 기록. 신체 활동 극히 제한적' },
-  { name: '잔질', hanja: '殘疾', min: 5, max: 19, criterion: '신체 장애·중증 질환으로 활동 불가' },
+  { name: '무신', hanja: '武神', min: 95, max: 100, criterion: '근력·민첩·파워·지구력이 인류사 정상급' },
+  { name: '맹장', hanja: '猛將', min: 85, max: 94, criterion: '전장·경기장 정상급 신체 능력. 직접 접전·시합으로 입증' },
+  { name: '용장', hanja: '勇將', min: 75, max: 84, criterion: '실전·실기 경험 풍부. 부상 복귀·장기 지속의 체력 상위권' },
+  { name: '무인', hanja: '武人', min: 65, max: 74, criterion: '군사 교육·신체 중심 직업으로 단련된 체력 수준' },
+  { name: '문무', hanja: '文武', min: 50, max: 64, criterion: '일정 수준의 신체 훈련 기록. 비전투직도 지속 훈련이 확인되면 이 위로' },
+  { name: '서생', hanja: '書生', min: 35, max: 49, criterion: '비신체직 종사자의 기본 체력 추정치. 특별한 훈련·질환 기록 없음' },
+  { name: '허약', hanja: '虛弱', min: 20, max: 34, criterion: '만성 질환·병약 기록으로 체력 전반 저하. 활동은 가능하나 지속성 부족' },
+  { name: '잔질', hanja: '殘疾', min: 5, max: 19, criterion: '신체 장애·중증 질환으로 일상·직업 활동 자체가 제한됨' },
 ] as const
+
+/**
+ * 신체 역량 입증 여성을 제외한 일반 여성의 무력 보정 — 무력 한 축에만 적용한다.
+ * 고정 -15가 아니라 점진(tapered) 보정이다. 고점(50+)은 -15, 저점(50 미만)은 보정량이 선형 줄어든다.
+ * 0점은 보정 0, 50점은 -15, 100점은 -15. 저점에서 0점 붕괴를 막는다.
+ *
+ * 적용 예:
+ *   raw 100 → -15 = 85   raw 50 → -15 = 35   raw 30 → -9 = 21
+ *   raw 15 → -4 = 11     raw 8 → -2 = 6      raw 0 → 0 = 0
+ */
+export function femaleMartialAdjust(rawScore: number): number {
+  const adj = rawScore >= 50 ? 15 : Math.round((15 * rawScore) / 50)
+  return Math.max(5, rawScore - adj)
+}
+
+export const FEMALE_MARTIAL_ADJUSTMENT_RULE =
+  '무력(martial) 한 축에만 적용한다. 능력 나머지(command·intellect·charm)와 덕목·성향은 성별과 무관하게 동일 자로 잰다. ' +
+  '모든 여성에게 점진 보정을 적용한다 — 신체 역량 입증 여성(athlete·commander·무술·댄서·실전 전투 등)도 포함. ' +
+  '직군·이력으로 받은 무력 플러스(athlete 기본 80+, 댄서 구간 55~60 등)와 성별 보정은 별개 차원이다 — 직군 플러스는 산출 단계에서, 보정은 산출 후 한 번. ' +
+  '보정량: 산출 점수 ≥ 50이면 -15, 50 미만이면 round(15 × 점수/50). ' +
+  '즉 100→85, 50→35, 30→21, 15→11, 8→6, 0→0. 보정 후 점수가 5 미만이면 5로 고정한다.'
 
 export function martialGradeOf(score: number): MartialGrade | undefined {
   return MARTIAL_GRADES.find(g => score >= g.min && score <= g.max)
@@ -152,15 +173,15 @@ export function martialGradeOf(score: number): MartialGrade | undefined {
  * 평화주의자라서, 은둔했다는 이유로 10점대를 주지 마라.
  */
 export const MARTIAL_FLOOR_RULE =
-  '잔질(5~19)은 실제 신체 장애·중증 질환 기록이 있을 때만 부여한다. 전투 기록이 없다는 이유만으로는 서생(35~49)이 기본이다.'
+  '잔질(5~19)은 실제 신체 장애·중증 질환 기록이 있을 때만 부여한다. 전투 기록이 없다는 이유만으로는 서생(35~49)이 기본이다. 반대로 피해적 경험(피격·기아·학대·감염·포로 생활)은 본인의 능동적 신체 능력이 아니므로 무력 근거에서 뺀다 — 겪었다는 사실이 체력이 아니다.'
 
-/** 배우·음악인 무력은 개별 필모그래피를 추적하지 않고 아래 구간에서 고른다. */
+/** 배우·음악인 무력 — 개별 필모그래피를 추적하지 않고 아래 체력 유형으로 잡는다. 점수는 신체 능력 추정치이지 '연기·흥행 이력'이 아니다. */
 export const PERFORMER_MARTIAL_BANDS = [
-  { condition: '실제 무술가·격투가 출신', min: 75, max: 90, examples: ['이소룡', '성룡'] },
-  { condition: '스포츠 선수 출신', min: 65, max: 74, examples: ['제이슨 스타뎀', '드웨인 존슨'] },
-  { condition: '대표적 액션스타(비무술 출신)', min: 65, max: 70, examples: ['아놀드 슈왈츠제네거', '실베스터 스탤론'] },
-  { condition: '무용·댄서 출신', min: 55, max: 60, examples: [] },
-  { condition: '그 외 배우·음악인', min: 50, max: 55, examples: [] },
+  { condition: '실제 무술가·격투가 출신(기초 체력 입증됨)', min: 75, max: 90, examples: ['이소룡', '성룡'] },
+  { condition: '스포츠 선수 출신(경쟁 체력 입증됨)', min: 65, max: 74, examples: ['제이슨 스타뎀', '드웨인 존슨'] },
+  { condition: '대표적 액션스타(비무술 출신, 장기 신체 훈련 기록)', min: 65, max: 70, examples: ['아놀드 슈왈츠제네거', '실베스터 스탤론'] },
+  { condition: '무용·댄서 출신(근지구력·협응력 훈련 입증)', min: 55, max: 60, examples: [] },
+  { condition: '그 외 배우·음악인(특별한 신체 훈련 기록 없음 — 비신체직 기본값)', min: 50, max: 55, examples: [] },
 ] as const
 
 // ─────────────────────────────────────────────────────────────
@@ -194,20 +215,20 @@ const COMMAND: readonly SpectrumAnchor[] = [
 ] as const
 
 const MARTIAL: readonly SpectrumAnchor[] = [
-  { score: 98, nickname: '알렉산더 대왕', note: '최전선 돌격을 반복하고도 10년 원정을 완주' },
-  { score: 97, nickname: '마이클 조던', note: '경기장 최정상 운동 능력' },
-  { score: 90, nickname: '오기', note: '전장의 전설. 직접 전투로 역사를 바꿈' },
-  { score: 88, nickname: '이순신', note: '해전 직접 지휘. 총상을 입고도 복귀' },
-  { score: 80, nickname: '칭기즈 칸', note: '평생 마상 원정. 실전 참여 후 생존' },
-  { score: 73, nickname: '어니스트 헤밍웨이', note: '종군·복싱·수렵 등 다종목 신체 활동' },
-  { score: 68, nickname: '나폴레옹 보나파르트', note: '포병 장교로 군사 교육 이수' },
-  { score: 51, nickname: '공자', note: '활쏘기·수레몰기를 익힘. 일정한 신체 활동 기록' },
-  { score: 38, nickname: '마하트마 간디', note: '학자·활동가. 특별한 신체 활동 없음' },
-  { score: 36, nickname: '스티브 잡스', note: '동일' },
-  { score: 25, nickname: '마리 앙투아네트', note: '병약 기록' },
-  { score: 22, nickname: '아이작 뉴턴', note: '병약. 신체 활동 극히 제한적' },
-  { score: 10, nickname: '손빈', note: '다리를 잃어 활동 불가' },
-  { score: 8, nickname: '스티븐 호킹', note: '전신 마비' },
+  { score: 98, nickname: '알렉산더 대왕', note: '근력·민첩·지구력 정상급. 최전선 돌격 반복·수차례 중상 복귀로 입증' },
+  { score: 97, nickname: '마이클 조던', note: '폭발적 가속·코어 파워·민첩이 경기장 정상급' },
+  { score: 90, nickname: '오기', note: '실전 전투력·근접 격투 강인함 정상급' },
+  { score: 88, nickname: '이순신', note: '해상 장기 근무 지구력·총상 후 복귀 회복력 상위' },
+  { score: 80, nickname: '칭기즈 칸', note: '평생 마상 원정을 견딘 강인함·지구력 상위' },
+  { score: 73, nickname: '어니스트 헤밍웨이', note: '종군·복싱·수렴 등 다종목 기초 체력·근지구력 상위' },
+  { score: 68, nickname: '나폴레옹 보나파르트', note: '포병 장교 훈련·군사 교육으로 단련된 체력' },
+  { score: 51, nickname: '공자', note: '전통 예식 무예(활쏘기·수레몰기) 기초 훈련 연마' },
+  { score: 38, nickname: '마하트마 간디', note: '비신체직 활동가 기본 체력. 단식·장거리 행진의 인내는 있으나 근력·파워는 낮음' },
+  { score: 36, nickname: '스티브 잡스', note: '비신체직 기업인 기본 체력. 특별한 훈련 기록 없음' },
+  { score: 25, nickname: '마리 앙투아네트', note: '병약 체질·만성 쇠약 추정' },
+  { score: 22, nickname: '아이작 뉴턴', note: '만성 병약·극히 제한적 체력' },
+  { score: 10, nickname: '손빈', note: '다리 절단으로 일상·직업 활동 자체가 제한됨' },
+  { score: 8, nickname: '스티븐 호킹', note: '전신 마비로 일상 활동 자체가 제한됨' },
 ] as const
 
 const INTELLECT: readonly SpectrumAnchor[] = [
