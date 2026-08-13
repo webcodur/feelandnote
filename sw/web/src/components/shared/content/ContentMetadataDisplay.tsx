@@ -97,6 +97,7 @@ export default function ContentMetadataDisplay({
     albumType,
     totalTracks,
     artists,
+    itunesUrl,
     spotifyUrl,
   } = metadata;
 
@@ -151,7 +152,12 @@ export default function ContentMetadataDisplay({
       );
 
     // 음악
-    case "music":
+    case "music": {
+      const listenLink = itunesUrl
+        ? { url: itunesUrl, label: t("listenOnApple") }
+        : spotifyUrl
+          ? { url: spotifyUrl, label: t("listenOnSpotify") }
+          : null;
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
           {albumType && <InfoItem icon={Disc3} label={t("albumType")} value={albumType} compact={compact} />}
@@ -159,19 +165,20 @@ export default function ContentMetadataDisplay({
             <InfoItem icon={Music} label={t("tracks", { count: totalTracks })} value={totalTracks} compact={compact} />
           )}
           {!compact && artists && artists.length > 1 && <TagList items={artists} label={t("artist")} compact={compact} />}
-          {!compact && spotifyUrl && (
+          {!compact && listenLink && (
             <a
-              href={spotifyUrl}
+              href={listenLink.url}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm text-accent hover:underline"
             >
               <ExternalLink size={14} />
-              {t("listenOnSpotify")}
+              {listenLink.label}
             </a>
           )}
         </div>
       );
+    }
 
     default:
       return null;

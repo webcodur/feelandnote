@@ -60,7 +60,10 @@
     "coupang:audit": "node scripts/coupang/audit-linked.mjs",
 
     "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
-    "music:itunes-migrate": "node scripts/itunes-music-migrate.mjs"
+    "music:itunes-migrate": "node scripts/itunes-music-migrate.mjs",
+    "music:spotify-classify": "node scripts/classify-spotify-music-entities.mjs",
+    "music:itunes-precision": "node scripts/itunes-music-precision.mjs",
+    "music:itunes-precision:auto": "node scripts/itunes-music-precision.mjs --auto"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

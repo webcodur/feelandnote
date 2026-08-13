@@ -8,7 +8,6 @@
     "./google-books": "./src/google-books.ts",
     "./tmdb": "./src/tmdb.ts",
     "./igdb": "./src/igdb.ts",
-    "./spotify": "./src/spotify.ts",
     "./unified-search": "./src/unified-search.ts",
     "./naver-news": "./src/naver-news.ts",
     "./naver-blog": "./src/naver-blog.ts",

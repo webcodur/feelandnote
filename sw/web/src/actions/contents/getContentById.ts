@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { searchBooks } from '@feelandnote/content-search/kakao-books'
 import { getVideoById } from '@feelandnote/content-search/tmdb'
 import { getGameById } from '@feelandnote/content-search/igdb'
-import { getAlbumById } from '@feelandnote/content-search/spotify'
+import { getTrackById } from '@feelandnote/content-search/itunes-music'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentDetail {
@@ -74,17 +74,17 @@ async function fetchContentFromApi(
     }
 
     case 'music': {
-      const album = await getAlbumById(externalId)
-      if (!album) return null
+      const track = await getTrackById(externalId)
+      if (!track) return null
       return {
-        id: album.externalId,
-        title: album.title,
-        creator: album.creator,
+        id: track.externalId,
+        title: track.title,
+        creator: track.creator,
         category: 'music',
-        thumbnail: album.coverImageUrl || undefined,
-        description: `${album.metadata.albumType} | ${album.metadata.totalTracks}곡`,
-        releaseDate: album.metadata.releaseDate,
-        metadata: album.metadata,
+        thumbnail: track.coverImageUrl || undefined,
+        description: track.metadata.genre || track.metadata.albumType,
+        releaseDate: track.metadata.releaseDate,
+        metadata: track.metadata,
       }
     }
 

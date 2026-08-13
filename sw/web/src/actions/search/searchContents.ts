@@ -3,7 +3,7 @@
 import { searchBooks } from '@feelandnote/content-search/kakao-books'
 import { searchVideo } from '@feelandnote/content-search/tmdb'
 import { searchGames } from '@feelandnote/content-search/igdb'
-import { searchMusic } from '@feelandnote/content-search/spotify'
+import { searchMusic } from '@feelandnote/content-search/itunes-music'
 import type { CategoryId } from '@/constants/categories'
 
 export interface ContentSearchResult {
