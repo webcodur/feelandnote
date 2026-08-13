@@ -1,6 +1,6 @@
 ---
 name: celeb-activation-audit
-description: 비활성 셀럽의 아바타·기본정보·영향력·스펙트럼·대사·한영 번역·콘텐츠 조사/locale/출처 링크를 전수 감사하고, 모든 필수조건을 통과한 인물만 active로 일괄 전환한다. "활성화 가능한 인물 찾아줘", "데이터 완성된 셀럽 activate", "셀럽 공개 준비도 감사", "inactive 전수 검사" 요청에 사용한다.
+description: 전체 또는 비활성 셀럽의 아바타·기본정보·영향력·스펙트럼·대사·한영 번역·콘텐츠 조사/locale/출처 링크 보유 상태를 전수 감사하고, 모든 필수조건을 통과한 인물만 active로 일괄 전환한다. "전체 인물 데이터 보유율", "활성화 가능한 인물 찾아줘", "데이터 완성된 셀럽 activate", "셀럽 공개 준비도 감사", "inactive 전수 검사" 요청에 사용한다.
 ---
 
 # 셀럽 활성화 감사
@@ -22,6 +22,9 @@ pnpm exec tsx scripts/audit-celeb-activation-readiness.ts
 # 기계 판독 결과
 pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --json
 
+# 전체 공개 상태의 인물별·티어별·영역별 구조 보유율 추적
+pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --status=all --skip-link-check
+
 # 일부 인물만 감사
 pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --slugs=slug-a,slug-b
 
@@ -29,14 +32,21 @@ pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --slugs=slug-a,slug-b
 pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
 ```
 
-`--skip-link-check`는 네트워크 장애를 분리 진단할 때만 쓴다. 그 결과를 최종 활성화 후보로 부르지 않는다.
+`--json`의 `rows[].coverage`는 인물별 보유율과 완료·누락 영역을 담는다. full/light는
+기본정보·영향력·스펙트럼·발화·콘텐츠 조사 5영역, fiction은 기본정보·대표 원전 2영역을
+동일 가중치로 센다. 한 필드라도 빠진 영역은 미완료이므로 이 값은 셀 개수 비율이 아니라
+운영 가능한 **영역 완성도**다.
+
+`--skip-link-check`는 네트워크 장애를 분리하거나 전체 구조 보유율을 빠르게 실측할 때만 쓴다.
+그 결과를 최종 활성화 후보로 부르지 않는다. 최종 후보 판정은 옵션 없이 source URL의 HTTP
+상태까지 검사한다.
 
 ## 판정 계약
 
-- 전 티어: `avatar_url`과 한·영 기본 프로필이 필수다.
+- 전 티어: `avatar_url`, `gender`, `nationality`와 한·영 기본 프로필이 필수다. 실존 인물은 `birth_date`도 필수다.
 - full/light: 영향력 7축 한영, 스펙트럼 16축 점수·근거 한영, speech tone, 명언 한영, 7상황×3개 대사 한영이 필수다.
 - full: 콘텐츠 1건 이상, 전부 `FINISHED`, `review`, `review_en`, `source_url`, ko/en locale의 제목·저자·표지, BOOK ISBN, source URL 2xx가 필수다.
-- light: 콘텐츠 0건이며 `content_research_status='confirmed_empty'`여야 한다.
+- light: 콘텐츠 0건이며 `content_research_confirmed_empty_at`이 기록돼 있어야 한다.
 - fiction: 대표 원전 연결이 1건 이상이고 원전의 ko/en locale 메타가 완전해야 한다.
 - 폐기 예정 감상 여정·가상 독백·대표 화보는 활성화 조건이 아니다.
 - `suspended`와 `deleted`는 자동 활성화하지 않는다.
@@ -52,7 +62,7 @@ pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
 
 ## 보고
 
-- 감사 범위, 준비 완료 수, 티어별 수
+- 감사 범위, 엄격 완비 수·비율, 티어별 수, 영역 평균 보유율
 - 실제 활성화 수
 - 주요 탈락 사유와 아바타 누락 수
 - source URL 검사 수행 여부
