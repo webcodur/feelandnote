@@ -324,14 +324,11 @@ Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 �
 - 재생은 우리 플레이어가 미리듣기 음원을 직접 재생한다. `metadata.previewUrl`이 그 주소다.
 - `contents.external_source`는 `itunes`, `external_id`는 `itunes-{trackId}`.
 
-### MUSIC - Spotify API 〔🔴 26.08.01 차단 — 참고용 호출 규격〕
+### Spotify 레거시
 
-```bash
-export $(grep -E "^SPOTIFY_" ./sw/web/.env | xargs) && \
-curl -s "https://api.spotify.com/v1/search?q={검색어}&type=track,album&limit=3" \
-  -H "Authorization: Bearer {SPOTIFY_ACCESS_TOKEN}" \
-| jq '{tracks: [.tracks.items[:3][] | {id, name, artist: .artists[0].name, image: .album.images[0].url}]}'
-```
+Spotify API는 신규 조사에 사용하지 않는다. 호출 래퍼와 자격증명 의존성도 제거했다.
+`external_source='spotify'`인 기존 콘텐츠는 `docs/todo/external-api-migration-2026-08-01.md`의
+커서대로 iTunes로 옮기며, 이전이 끝날 때까지만 사용자 웹의 임베드 호환 분기를 유지한다.
 
 ---
 
@@ -567,7 +564,6 @@ VALUES
 | `TMDB_API_KEY` | TMDB API | VIDEO | 정상. **`TMDB_ACCESS_TOKEN`이 아니다** — Bearer 방식은 401이 난다. `api_key` 쿼리 파라미터로 쓴다 |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | IGDB API | GAME | 정상. **`IGDB_*`가 아니다** — IGDB는 트위치 계정으로 인증한다. 토큰은 저장돼 있지 않고 매번 발급받는다 |
 | (없음) | 아이튠즈 | MUSIC | 인증·키가 없는 공개 창구. 대신 IP 속도 제한이 있다 |
-| ~~`SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET`~~ | ~~Spotify API~~ | ~~MUSIC~~ | **26.08.01 차단.** 토큰 발급은 되지만 모든 조회가 403 |
 | ~~`GOOGLE_BOOKS_API_KEY`~~ | ~~구글 도서 API~~ | — | **사용 금지** (위 "영문판 매칭 분기" 참조) |
 | ~~`NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET`~~ | ~~네이버 도서~~ | — | **26.07.31 종료.** 같은 키의 뉴스·블로그·이미지 검색은 계속 유효하다 |
 

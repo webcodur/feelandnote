@@ -83,7 +83,7 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 책 검색 (현행 주력) | 네이버 개발자센터 |
 | `TMDB_API_KEY` | 영화·드라마 | TMDB |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | 게임(IGDB는 트위치 인증을 쓴다) | Twitch 개발자 콘솔 |
-| `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` | 음악 | Spotify for Developers |
+| (없음) | 음악(iTunes Search API) | 인증·키 없이 사용. IP 속도 제한을 지킨다 |
 | `KOPIS_API_KEY` | 공연 정보 | KOPIS. **현재 소스에서 참조처를 찾지 못했다** — 예비값으로 본다 |
 | `GOOGLE_BOOKS_API_KEY`, `..._0` ~ `..._13` | ⚠️ **폐기.** 하루 1,000건 한도 때문에 키 15개를 돌려 써도 부족했다 | 신규 사용 금지 |
 

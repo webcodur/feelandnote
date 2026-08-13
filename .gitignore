@@ -159,7 +159,6 @@ sw/인물-*.txt
 /.claude/skills/supabase/
 /.claude/skills/supabase-postgres-best-practices/
 /.claude/skills/ui-scroll/
-/.claude/skills/verify-ui-in-browser/
 /.claude/skills/win-lock-bypass-editor/
 /.claude/skills/writing-for-agents/
 /.codex/
