@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 
 import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
@@ -38,6 +38,7 @@ interface CelebPageContentProps {
   fictionSources: FictionSourceContent[];
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
+  children?: ReactNode;
 }
 
 export default function CelebPageContent({
@@ -58,6 +59,7 @@ export default function CelebPageContent({
   fictionSources,
   worldId,
   worldBannerImages,
+  children,
 }: CelebPageContentProps) {
   const locale = useLocale() as Locale;
 
@@ -132,6 +134,8 @@ export default function CelebPageContent({
         initialContents={initialContents}
         fictionSources={fictionSources}
       />
+
+      {children}
     </div>
   );
 }

@@ -39,7 +39,7 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
             key={book.contentId}
             className="shrink-0 snap-start flex w-[128px] flex-col gap-2 md:w-[180px] md:gap-3"
           >
-            <div className="flex flex-col overflow-hidden rounded-lg border border-[#E44232]/40 bg-[#E44232]/10">
+            <div className="flex flex-col overflow-hidden rounded-lg border border-[#E44232]/40 bg-[#E44232]/10 group-hover/coupang:border-[#E44232]/70 group-hover/coupang:bg-[#E44232]/15">
               <a
                 href={book.url}
                 target="_blank"
