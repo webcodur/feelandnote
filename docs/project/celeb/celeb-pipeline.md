@@ -187,7 +187,7 @@ basic 완료 후 4개 트랙이 **병렬** 실행된다.
 basic ─┬─ content
        ├─ influence
        ├─ spectrum
-       └─ speech (tone → quotes → dialogue)
+       └─ speech (최소 조사 → tone → 한마디 1 + 상황 대사 21 평가·생성)
                                     (dialogue는 전원 21개 전체)
 모든 트랙 완료 → i18n
 ```

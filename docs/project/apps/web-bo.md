@@ -70,7 +70,7 @@ pnpm dev:bo
 | `/celebs/vectors/[slug]` | (닉네임) 스펙트럼 분석 | 단건 스펙트럼 축 확인 | `celeb_persona` |
 | `/celebs/influence` | 영향력 평가 | 6개 영역 + 통시성 영향력 대시보드 | `celeb_influence` |
 | `/celebs/influence/[slug]` | (닉네임) 영향력 평가 | 단건 영향력 축 확인 | `celeb_influence` |
-| `/celebs/voice-gen` | 대사/음성 워크스페이스 | 고유 대사 작성, 말투(`speech_tone`)·속도 설정, ElevenLabs 음성 생성 | `celeb_dialogues`, `celebs` |
+| `/celebs/voice-gen` | 대사/음성 워크스페이스 | 고유 대사 작성, 말투(`speech_tone`)·속도 설정, KO·EN별 GEM/ELE 엔진·보이스 선택, 단건·일괄 생성, 공용 파형 트림·들숨 제거. `celebs.voice_id_ko/en`은 실제 인물용 ElevenLabs ID만 영구 저장하고 GEM 선택은 현재 생성 작업에만 적용 | `celeb_dialogues`, `celebs` |
 | `/celebs/voice-gen/[slug]` | 대사/음성 워크스페이스 | 위와 동일하되 특정 셀럽 선택 상태로 진입 | `celeb_dialogues`, `celebs` |
 | `/celebs/stats` | 셀럽 통계 | 총수·활성률·직군 수·국적 수 요약, 직군 분포, 팔로워 TOP 10, 콘텐츠 수 TOP 10, 최근 등록 | `celebs`, `celeb_contents`, `celeb_metrics` |
 
@@ -134,10 +134,10 @@ pnpm dev:bo
 | `/factions` | 세력도감 | **표 하나(26.08.03 목록 통합).** 한 줄 = 편집 화면 하나다. 영상 편은 편 편집기로, 영상 없는 웹 전용 테마는 「영상 없음」 표찰을 달고 테마 화면으로 간다. 제작 편에 연결된 테마는 제 줄 없이 그 편 줄의 배지로만 보인다. 칸은 이름·렌더 편성·도감(이관 가능/보류, 노출)·세력/인물 수·연결 테마·수정일. 필터 5종(전체·렌더 편성·미편성·테마 미연결·영상 없음)과 검색이 있다. **`faction_people`는 개별 인물 전용** — 회사·조직·제품·기계·기체·부대·집단은 세력과 미디어에 두고 그 아래 실제 사람만 추가한다. 신규 등록은 확인 체크·서버 가드·DB 트리거를 모두 지난다. **줄은 상위분류로 묶인다(26.08.03)** — 갈래의 정본은 서비스 도감과 같은 `celeb_tags.parent_id`이고, 아래에 테마를 거느린 테마가 곧 상위분류라 제 줄 대신 묶음 머리로 올라선다(머리에 노출 배지·「분류 편집」). 영상 편은 그 편의 세력이 가리키는 테마를 따라 갈래에 들고, 어디에도 안 걸리면 맨 아래 「분류 없음」에 모인다. 묶음은 접었다 펼 수 있고(「모두 접기」), 검색 중에는 접힘을 무시한다. 묶기는 `FactionBoard/sections/atlasGrouping.ts` 소유. 모든 실물과 DB 키는 **`sw/remotion/public/factions/<folder>` 한 단계**이며 경로로 상태를 표현하지 않는다. 활성 여부는 별도 DB 값 `registered`; `true`만 `_episodes.json`에 들어가 렌더·음성·출간 대상이 된다. 「새 영상 편」·「새 웹 전용 테마」는 표 머리 오른쪽. **편별 조작(상태·렌더 편성·내보내기·이름 변경·복제·삭제)은 영상 편집기 상단 조작줄에 있다**(`components/factions/FactionEpisodeActions.tsx`). 목록은 폴더가 아니라 DB에서 센다 | `faction_episodes`, `celeb_tags` |
 | `/factions/themes/[tagId]` | 도감 테마 편집 | 테마 하나가 화면 한 장. 메타(이름·영문·설명·색·slug·노출·기간)·인물(검색 추가·제거·끌어 정렬·소개문 ko/en)·단체샷 여러 장·인물별 개인샷. **영상 편이 없는 글 전용 테마도 여기서 다 만든다.** 인물 목록은 뷰 `faction_atlas_members`에서 읽고 **행마다 제작/수동 출처 배지**가 붙는다(26.08.03) — 제작 행의 한줄은 직함 1행 고정이고 상세 소개·개인샷·숨김만 `faction_people`의 `web_*` 칸에 기록된다. 제거는 숨김(`web_hidden`)으로 동작하며, 끌어 정렬은 수동 행 전용이다. 수동 행은 영상 원문이 없으므로 한줄·상세를 모두 직접 편집한다 | `celeb_tags`, `celeb_tag_assignments`, `faction_people`(web_* 칸) |
 | `/factions/[episode]` | → 리다이렉트 | `…/ko/info`로 보낸다. `[lang]`만 있는 주소도 같은 탭으로 보낸다 | — |
-| `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼). `info`의 「인물 사진」 모드는 현재 대본의 등장인물을 UUID로 중복 제거해 한 번씩 보여주며, 오른쪽 이미지 풀 사진을 아바타·대표 사진 칸에 놓으면 공용 크롭 편집기를 거쳐 기존 R2 키와 `celebs.avatar_url`·`portrait_url`에 즉시 저장한다. 영상 개인샷(`faction_people.image`)은 바꾸지 않는다 | 위 5테이블, `celebs` |
+| `/factions/[episode]/[lang]/[tab]` | (편 이름) | 편집기 본체. `[lang]`은 `ko`·`en`·`both`, `[tab]`은 `info`(정비)·`shorts`(편성 쇼츠)·`longform`(편성 롱폼). `info`에서 인물 등록·대사·음성 없는 「상황 화면」을 세력 시작(`openingScenes`, 하위 그룹 비귀속) 또는 특정 그룹 마지막(`scenesAfter`)에 넣을 수 있으며 쇼츠·롱폼 공통으로 이어진다. 「인물 사진」 모드는 현재 대본의 등장인물을 UUID로 중복 제거해 한 번씩 보여주며, 오른쪽 이미지 풀 사진을 아바타·대표 사진 칸에 놓으면 공용 크롭 편집기를 거쳐 기존 R2 키와 `celebs.avatar_url`·`portrait_url`에 즉시 저장한다. 영상 개인샷(`faction_people.image`)은 바꾸지 않는다 | 위 5테이블, `celebs` |
 | `/factions/[episode]/[lang]/[tab]/card/…` | (편 이름) 카드 | 카드뉴스 편성·미리보기·출고. 정비 탭 아래에만 있어 다른 탭으로 들어오면 `info`로 보낸다 | — |
 
-편집기 탭은 위 세 개다. **정비**는 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정을 다루고, 같은 주소의 **인물 사진** 모드는 이 편 전체 인물의 프로필 사진을 다룬다. **편성 쇼츠**는 세력을 편별로 배치하고 편 화면·음악을 정하는 곳, **편성 롱폼**은 세력 순서·시대 문구·편 경계를 짜는 곳이다. 헤더에 「출간」·「렌더」·「유튜브」 패널 버튼이 있다.
+편집기 탭은 위 세 개다. **정비**는 세력·그룹·인물의 실체와 공통 이야기 흐름(세력 시작·그룹 뒤 상황 화면), 대사·음성·컷 효과·전역 설정을 다루고, 같은 주소의 **인물 사진** 모드는 이 편 전체 인물의 프로필 사진을 다룬다. **편성 쇼츠**는 세력을 편별로 나누고 편 화면·음악을 정하는 곳, **편성 롱폼**은 세력 순서·시대 문구·챕터·편 경계를 정하는 곳이다. 편성은 상황 화면 자체를 생성·편집하지 않는다. 헤더에 「출간」·「렌더」·「유튜브」 패널 버튼이 있다.
 
 **「렌더」 버튼은 창고 방식으로 돈다(26.07.26).** 영상·롱폼 썸네일 모두 `pnpm render:staged` 를 부르고, 그 스크립트가 렌더 직전에 **그 편 자산 + 공용(효과음·곡·글꼴)만** 임시 폴더에 하드링크로 모아 넘긴다. 예전에는 편마다 `public/` 7.3GB를 통째로 복사해 디스크가 찼다 — 실측 PayPal-Mafia 기준 **189MB**로 줄었다. 조립이 실패하면 조용히 통짜로 넘어가지 않고 멈춘다(사람이 `--full-public` 을 붙여야 옛 방식). 규칙은 `sw/remotion/scripts/render/stage.ts` 소유이고 함정은 `gotchas.md` 렌더 절에 있다.
 
@@ -286,7 +286,7 @@ pnpm dev:bo
 
 `proxy.ts:15`가 이 창구만 로그인 검사에서 제외한다. 즉 **인증 없이 호출된다.** 대상 주소 제한이 없으면 임의 호스트로 서버 요청이 나가므로(SSRF) 허용 목록이 유일한 방어선이다.
 
-허용 11종은 `content_locales.thumbnail_url` 전량(13,489행)을 실측해 확정했다 — 네이버(쇼핑·책), Spotify, TMDB, Goodreads, OpenLibrary, Google Books, IGDB, 알라딘, YES24, 위키미디어. **R2는 이 창구를 타지 않는다**(셀럽 아바타 전용)라 제외했다.
+허용 11종은 `content_locales.thumbnail_url` 전량을 실측해 확정했다 — 네이버(쇼핑·책), Apple Music, TMDB, Goodreads, OpenLibrary, Google Books, IGDB, 알라딘, YES24, 위키미디어. **R2는 이 창구를 타지 않는다**(셀럽 아바타 전용)라 제외했다.
 
 지킬 것.
 - **호스트 정확 일치로 검사한다.** 부분 일치(`includes`)는 `evil.com/?x=books.google.com` 우회를 허용한다.

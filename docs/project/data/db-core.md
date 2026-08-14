@@ -46,9 +46,9 @@ DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요하
   - `member_count`와 `celeb_count`는 두 감상 관계의 전수 집계이고, `record_count`는 두 값을
     합친 전체 기록 주체 수다. 옛 `user_count` 열은 2026-08-10 운영 DB에서 제거됐다
   - `type` CHECK: 'BOOK'|'VIDEO'|'GAME'|'MUSIC'
-  - `external_source` CHECK (2026-08-10 live 실측): NULL 또는
-    `'kakao_book'|'google_books'|'openlibrary'|'aladin'|'tmdb'|'igdb'|'spotify'|'itunes'`.
-    이는 DB 허용 집합이며 신규 수집 정책은 별도다. 신규 BOOK은 `kakao_book`(ko) 또는
+  - `external_source` CHECK: NULL 또는
+    `'kakao_book'|'google_books'|'openlibrary'|'aladin'|'tmdb'|'igdb'|'itunes'`.
+    MUSIC은 별도 CHECK로 `itunes`만 허용한다. 신규 BOOK은 `kakao_book`(ko) 또는
     `openlibrary`(en)만 쓴다
   - **title/creator/thumbnail_url/description/isbn/publisher/affiliate_url은 contents에 없다.** 전부 `content_locales`로 이관됨(2026-03-06 `drop_contents_legacy_locale_columns_v2`)
 - **`content_locales`**: 콘텐츠 언어별 메타 (아래 상세)
@@ -61,13 +61,11 @@ DB 객체는 위 전용 테이블에서 시작한다. 과거 이름이 필요하
   - 평점 또는 리뷰가 처음 생기는 전환은 DB 트리거가 활동 점수 5점을 정확히 한 번만 부여한다
 - **`celeb_contents`**: 셀럽 감상경위. `celeb_id → celebs.id`,
   `content_id → contents.id`
-  - 감상 필드 모양은 회원 기록과 같지만 RLS·출처·점수 규칙은 공유하지 않는다
+  - 셀럽과 작품의 출처 기반 감상 관계이며 별점 필드는 없다. 별점은 개별 회원의 `member_contents.rating`에만 기록한다
   - `source_url` 필수 가드와 0건 확정 해제·셀럽 지표 갱신은 이 테이블의 트리거가 맡는다
   - UNIQUE(`celeb_id`, `content_id`)
-- 두 감상 테이블 공통:
-  - `status` CHECK: 'WANT'|'FINISHED'
-  - `rating` CHECK: 0~5 (numeric)
-  - `visibility`: `visibility_type` enum, 기본값 'public'
+- 두 감상 테이블은 `status` CHECK('WANT'|'FINISHED')와 `visibility`(`visibility_type`, 기본값 'public')를 공유한다
+- `member_contents.rating` CHECK: 0~5 (numeric). 셀럽 감상경위에는 별점을 두지 않는다
 - **`records`**: 기록. type CHECK 'NOTE'|'QUOTE', content, rating, location, visibility, source_url, contributor_id
 - **`notes`** / **`note_sections`**: 구조화된 감상 노트. notes(user_id, content_id, snapshot jsonb, memo) + note_sections(title, memo, is_completed, sort_order)
 - **`academy_lesson_progress`**: 학당 레슨별 학습 진행 (category_id/sub_category_id/lesson_id, is_completed, completed_at, last_studied_at)
@@ -151,7 +149,6 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 |----|---------|------|
 | `openlibrary` | BOOK en (신규 파이프라인) | 3,819 |
 | `naver_book` | BOOK ko | 3,806 |
-| `spotify` | MUSIC ko/en | 2,965 |
 | `tmdb` | VIDEO ko/en | 2,912 |
 | `google_books` | BOOK en (구 스크립트. 신규 수집 금지) | 282 |
 | `igdb` | GAME ko/en | 240 |
@@ -164,7 +161,7 @@ RLS 활성. 정책 3종: SELECT `USING (true)` 전체 공개 / INSERT `WITH CHEC
 
 > 위 표는 **2026-07-16 당시의 역사적 분포**다. 신규 수집의 현재 기본 대응은
 > BOOK=`kakao_book`(ko)/`openlibrary`(en), VIDEO=`tmdb`, GAME=`igdb`, MUSIC=`itunes`다.
-> 기존 `naver_book`·`google_books`·`spotify` 표기는 과거 데이터의 출처 이력으로만 읽는다.
+> 기존 `naver_book`·`google_books` 표기는 과거 데이터의 출처 이력으로만 읽는다.
 
 #### thumbnail 값 (실측 2026-07-16)
 

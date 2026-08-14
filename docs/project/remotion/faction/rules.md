@@ -26,6 +26,18 @@
 
 새 필드를 만들지 말고 이 둘을 쓴다. 음성은 안전하다 — `timing.ts`가 단일 세력에도 `clusterIndex=0`을 부여해 wav는 항상 `C01` 형식이므로 단일↔그룹 전환은 wav 경로에 영향이 없다.
 
+### 1.1-1 인물 없는 상황 화면
+
+괴물·재난·장소·전투처럼 서사에는 필요하지만 독립된 인물 카드와 대사가 필요 없는 대상은 `faction_people`에 넣지 않는다. 정비 탭에서 세력 시작의 `openingScenes` 또는 해당 그룹 뒤의 `scenesAfter` 상황 화면으로 통과시킨다. 퀴클롭스의 동굴, 세이렌의 바다, 폭풍, 함대 침몰 같은 사건이 이 범주다.
+
+- 상황 화면은 **정비가 소유하는 쇼츠·롱폼 공통 이야기 요소**다. 인물 UUID·셀럽 프로필·직함·대사·TTS·자막 타이밍을 만들지 않는다.
+- 필수값은 `title`, 선택값은 `titleEn`·`caption`·`captionEn`·`media`·`mediaCrop`·`durationSec`·`sfx`다. `caption`은 인용문이나 등장인물 대사가 아니라 화면에 보이는 사건 설명이다.
+- `media`는 이미지·영상 모두 가능하고 비워도 된다. 비우면 렌더러가 어두운 텍스트 카드로 보여 주므로, 자산이 준비되기 전에도 이야기 순서를 먼저 검수할 수 있다.
+- 화면 길이는 기본 4.5초, 허용 범위 2~15초다. 잠깐 지나가는 사건은 4~5초를 기준으로 하고, 한 상황 화면 안에서 장황한 설명을 하지 않는다.
+- 한 세력의 여정 자체를 여는 독립 사건은 `FactionGroup.openingScenes`에 넣어 하위 인물군에 귀속시키지 않는다. 재생 순서는 `세력 시작 상황 → 그룹 화보 → 인물들`이다. 특정 그룹의 인물들이 겪은 후속 사건만 그 그룹의 `scenesAfter`에 넣는다.
+- 상황 화면은 각각 `faction_groups.data.openingScenes` 또는 `faction_clusters.data.scenesAfter`에 보존한다. 기존 data JSONB를 쓰므로 새 테이블·컬럼을 만들지 않는다. `faction_episodes.longform_layout`은 세력 순서·시대 문구·챕터·롱폼 편 경계만 쥐며 상황 화면을 소유하지 않는다.
+- `faction-data.json`을 손으로 고치지 않는다. web-bo 「정비」에서 저장하거나 정상 저장 코어를 거친 뒤 `pnpm faction:export`로 내보낸다.
+
 ### 1.2 폴더는 통째로 git 밖이다
 
 `.gitignore:53`이 `sw/remotion/public/factions/`를 통째로 제외한다(episodes·voice·music과 동일한 로컬 관리 정책). `faction-data.json`·wav·png·`_episodes.json`까지 전부 git 추적이 0이다. `git ls-files`로 팩션 하위를 조회하면 0건, `git check-ignore`는 IGNORED를 반환한다.

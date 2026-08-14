@@ -279,7 +279,7 @@ sw/remotion/public/music/  # 배경음악
 | `ko-shorts-N` | 세로 쇼츠 N편 | `KO-SN` | 쇼츠 편(part) N |
 
 - **쇼츠 편(part)** — BO에서 `shortsPartCount`를 1…N으로 정하고 진영의 `part`를 배정한다. `part` 미지정/0 진영은 모든 편 공통. 편별 영상 명칭은 `titleByPart`, 편별 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`. 렌더·자막·업로드 대상은 실제로 배정된 양수 `part`에서 동적으로 파생한다.
-- **롱폼 편(lvPart)** — 롱폼 배치(`longformLayout`)에 꽂은 **편 경계(`{cut:true}`)**로 갈린다. 경계 n개 → 롱폼 n+1편(KO-LV1·KO-LV2…), 경계가 없으면 기존 통짜 KO-LV 하나. 각 편은 자체 인트로·아웃트로를 갖고, 시대 문구 카드는 자기 구간의 편에 속한다. 배치에 빠진 활성 세력은 마지막 편에 붙는다. 편별 영상 명칭은 `titleByLvPart`, 시작문구는 `loglineByLvPart`, 대표 인물은 `heroesByLvPart`(미지정이면 공통값). 유튜브 제목은 편별 명칭이 없으면 `(N부)`를 덧붙여 중복을 막는다. 쇼츠 `part`와는 완전히 독립된 축이다.
+- **롱폼 편(lvPart)** — 롱폼 배치(`longformLayout`)에 꽂은 **편 경계(`{cut:true}`)**로 갈린다. 경계 n개 → 롱폼 n+1편(KO-LV1·KO-LV2…), 경계가 없으면 기존 통짜 KO-LV 하나. 각 편은 자체 인트로·아웃트로를 갖고, 시대 문구·챕터는 자기 구간의 편에 속한다. 정비에서 세력의 `openingScenes` 또는 그룹의 `scenesAfter`에 붙인 인물 없는 상황 화면은 해당 세력과 함께 쇼츠·롱폼 공통 이야기 흐름으로 재생되고, 편성 화면에서는 따로 편집하지 않는다. 배치에 빠진 활성 세력은 마지막 편에 붙는다. 편별 영상 명칭은 `titleByLvPart`, 시작문구는 `loglineByLvPart`, 대표 인물은 `heroesByLvPart`(미지정이면 공통값). 유튜브 제목은 편별 명칭이 없으면 `(N부)`를 덧붙여 중복을 막는다. 쇼츠 `part`와는 완전히 독립된 축이다.
 - 가로(LH)·영문(EN)은 렌더가 켜지면 이 표에 추가한다.
 
 ## 유튜브 업로드
