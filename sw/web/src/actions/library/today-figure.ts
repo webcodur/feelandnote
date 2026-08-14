@@ -106,7 +106,6 @@ type FigureProfileRow = Pick<
 interface FigureUserContentRow {
   id: string
   content_id: string
-  rating: number | null
   review: string | null
   review_en?: string | null
   is_spoiler: boolean | null
@@ -130,7 +129,7 @@ async function fetchFigureContents(
     supabase
       .from('celeb_contents')
       // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
-      .select(`id, content_id, rating, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
+      .select(`id, content_id, review, ${locale === 'en' ? 'review_en, ' : ''}is_spoiler, source_url, contents(id, type, content_locales(${CL_SELECT_LIST}))`)
       .eq('celeb_id', celebId)
       .eq('status', 'FINISHED')
       .eq('visibility', 'public'),
@@ -161,7 +160,7 @@ async function fetchFigureContents(
       type: (content?.type as CategoryId) || 'BOOK',
       celeb_count: 1,
       user_count: userCountMap.get(content?.id || '') ?? 0,
-      avg_rating: item.rating ? Number(item.rating) : null,
+      avg_rating: null,
       review: item.review,
       review_en: item.review_en ?? null,
       is_spoiler: item.is_spoiler as boolean,

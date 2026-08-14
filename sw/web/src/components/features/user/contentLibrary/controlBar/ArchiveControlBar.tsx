@@ -21,6 +21,7 @@ export default function ArchiveControlBar({
         onSortOptionChange={props.onSortOptionChange}
         reviewFilter={props.reviewFilter}
         onReviewFilterChange={props.onReviewFilterChange}
+        allowRatingSort={props.allowRatingSort}
         compact={compact}
       />
       <ArchiveActionRow

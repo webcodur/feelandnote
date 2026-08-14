@@ -41,7 +41,7 @@ interface ReviewProfileRow {
 
 interface ReviewFeedRow {
   id: string
-  rating: number | null
+  rating?: number | null
   review: string | null
   review_en?: string | null
   is_spoiler: boolean
@@ -63,7 +63,7 @@ function toReviewFeedItem(
 
   return {
     id: record.id,
-    rating: record.rating,
+    rating: record.rating ?? null,
     review: record.review as string,
     review_en: record.review_en ?? null,
     is_spoiler: record.is_spoiler,
@@ -94,7 +94,6 @@ async function fetchReviewFeed(
 
   const selectBase = `
       id,
-      rating,
       review,
       ${reviewEnSelect}
       is_spoiler,
@@ -106,6 +105,7 @@ async function fetchReviewFeed(
     .from('member_contents')
     .select(`
       ${selectBase},
+      rating,
       member_id
     `)
     .eq('content_id', contentId)

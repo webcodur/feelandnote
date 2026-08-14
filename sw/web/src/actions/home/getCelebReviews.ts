@@ -33,7 +33,6 @@ interface ReviewCelebRow {
 // celeb_contents select 결과 행
 interface ReviewRow {
   id: string
-  rating: number | null
   review: string | null
   review_en?: string | null
   is_spoiler: boolean | null
@@ -62,7 +61,6 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
       .from('celeb_contents')
       .select(`
         id,
-        rating,
         review,
         ${reviewEnSelect}
         is_spoiler,
@@ -89,7 +87,6 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
       .eq('visibility', 'public')
       .order('is_pinned', { ascending: false, nullsFirst: false })
       .order('is_recommended', { ascending: false, nullsFirst: false })
-      .order('rating', { ascending: false, nullsFirst: false })
       .order('updated_at', { ascending: false })
       .limit(REPRESENTATIVE_REVIEW_LIMIT),
     supabase
@@ -127,7 +124,6 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
       const flat = flattenLocales(content.content_locales, locale)
       return {
         id: row.id,
-        rating: row.rating,
         review: row.review,
         review_en: row.review_en ?? null,
         is_spoiler: row.is_spoiler ?? false,

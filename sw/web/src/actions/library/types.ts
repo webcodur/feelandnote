@@ -9,6 +9,7 @@ export interface LibraryContent {
   type: string
   celeb_count: number
   user_count: number
+  /** 개별 회원의 member_contents.rating 평균. 셀럽 감상경위의 값이 아니다. */
   avg_rating: number | null
   review?: string | null
   review_en?: string | null
@@ -60,7 +61,6 @@ export interface ContentJoinRow {
 export interface CelebContentJoinRow {
   celeb_id: string
   content_id: string
-  rating: number | null
   contents: ContentJoinRow | ContentJoinRow[] | null
 }
 

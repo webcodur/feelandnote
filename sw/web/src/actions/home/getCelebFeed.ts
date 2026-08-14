@@ -41,7 +41,6 @@ interface FeedCelebRow {
 // celeb_contents select 결과 행
 interface FeedRow {
   id: string
-  rating: number | null
   review: string | null
   review_en?: string | null
   is_spoiler: boolean | null
@@ -66,7 +65,6 @@ async function fetchCelebFeed(
     .from('celeb_contents')
     .select(`
       id,
-      rating,
       review,
       ${reviewEnSelect}
       is_spoiler,
@@ -144,7 +142,6 @@ async function fetchCelebFeed(
     const flat = flattenLocales(content.content_locales, locale)
     return {
       id: row.id,
-      rating: row.rating,
       review: row.review,
       review_en: row.review_en ?? null,
       is_spoiler: row.is_spoiler ?? false,

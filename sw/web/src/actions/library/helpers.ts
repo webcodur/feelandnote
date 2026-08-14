@@ -7,7 +7,6 @@ import type { CelebContentJoinRow, LibraryContent, StaticSupabase } from './type
 export function aggregateContents(
   data: Array<{
     content_id: string
-    rating: number | null
     contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null } | null
   }>,
   options: {
@@ -19,10 +18,7 @@ export function aggregateContents(
 ): { contents: LibraryContent[]; total: number } {
   const { category, page = 1, limit = 12, userCountMap } = options
 
-  const contentMap = new Map<string, {
-    content: LibraryContent
-    ratings: number[]
-  }>()
+  const contentMap = new Map<string, LibraryContent>()
 
   for (const item of data) {
     const content = item.contents
@@ -31,38 +27,28 @@ export function aggregateContents(
 
     const existing = contentMap.get(content.id)
     if (existing) {
-      existing.content.celeb_count++
-      if (item.rating) existing.ratings.push(Number(item.rating))
+      existing.celeb_count++
     } else {
       contentMap.set(content.id, {
-        content: {
-          id: content.id,
-          title: content.title,
-          creator: content.creator,
-          thumbnail_url: content.thumbnail_url,
-          type: content.type as CategoryId,
-          celeb_count: 1,
-          user_count: userCountMap?.get(content.id) ?? 0,
-          avg_rating: null,
-          title_ko: content.title_ko ?? null,
-          title_en: content.title_en ?? null,
-          creator_en: content.creator_en ?? null,
-          isbn_en: content.isbn_en ?? null,
-          thumbnail_en: content.thumbnail_en ?? null,
-          has_en_edition: content.has_en_edition ?? null,
-        },
-        ratings: item.rating ? [Number(item.rating)] : []
+        id: content.id,
+        title: content.title,
+        creator: content.creator,
+        thumbnail_url: content.thumbnail_url,
+        type: content.type as CategoryId,
+        celeb_count: 1,
+        user_count: userCountMap?.get(content.id) ?? 0,
+        avg_rating: null,
+        title_ko: content.title_ko ?? null,
+        title_en: content.title_en ?? null,
+        creator_en: content.creator_en ?? null,
+        isbn_en: content.isbn_en ?? null,
+        thumbnail_en: content.thumbnail_en ?? null,
+        has_en_edition: content.has_en_edition ?? null,
       })
     }
   }
 
   const allContents = Array.from(contentMap.values())
-    .map(({ content, ratings }) => ({
-      ...content,
-      avg_rating: ratings.length > 0
-        ? Math.round((ratings.reduce((a, b) => a + b, 0) / ratings.length) * 10) / 10
-        : null
-    }))
     .sort((a, b) => {
       if (b.celeb_count !== a.celeb_count) return b.celeb_count - a.celeb_count
       return a.title.localeCompare(b.title, 'ko')
@@ -99,7 +85,6 @@ export async function fetchAllCelebContents(
   const allData: Array<{
     celeb_id: string
     content_id: string
-    rating: number | null
     contents: { id: string; title: string; creator: string | null; thumbnail_url: string | null; type: string; title_ko?: string | null; title_en?: string | null; creator_en?: string | null; isbn_en?: string | null; thumbnail_en?: string | null; has_en_edition?: boolean | null }
   }> = []
 
@@ -117,7 +102,6 @@ export async function fetchAllCelebContents(
         .select(`
           celeb_id,
           content_id,
-          rating,
           contents!inner(id, type, content_locales(${CL_SELECT_LIST}))
         `)
         .in('celeb_id', batchIds)
@@ -140,7 +124,6 @@ export async function fetchAllCelebContents(
         return {
           celeb_id: item.celeb_id,
           content_id: item.content_id,
-          rating: item.rating,
           contents: {
             id: raw?.id as string,
             title: flat.title,
