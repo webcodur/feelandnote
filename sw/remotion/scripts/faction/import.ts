@@ -61,7 +61,7 @@ async function resolvePeople(
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
     const chunk = uniq.slice(i, i + IN_CHUNK)
     const { data, error } = await db.from('celebs').select('id,slug,nickname,nickname_en')
-      .in('publication_status', ['active', 'inactive', 'suspended']).in('slug', chunk)
+      .in('publication_status', ['active', 'inactive']).in('slug', chunk)
     if (error) throw new Error(`celebs slug 조회 실패: ${error.message}`)
     for (const r of data ?? []) {
       assertIndividualFactionSubject(r.nickname, r.nickname_en, `DB CELEB ${String(r.id)}`)
@@ -72,7 +72,7 @@ async function resolvePeople(
   const uniqIds = [...new Set(ids)]
   for (let i = 0; i < uniqIds.length; i += IN_CHUNK) {
     const { data, error } = await db.from('celebs').select('id,nickname,nickname_en')
-      .in('publication_status', ['active', 'inactive', 'suspended'])
+      .in('publication_status', ['active', 'inactive'])
       .in('id', uniqIds.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`celebs UUID 조회 실패: ${error.message}`)
     for (const r of data ?? []) {

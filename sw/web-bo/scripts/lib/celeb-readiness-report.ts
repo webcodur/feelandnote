@@ -298,7 +298,7 @@ function renderHtml(report: ReadinessHtmlReport, fonts: { regular: string; bold:
       <p class="section-label">01 / 전체 요약</p>
       <section class="metrics" aria-label="전체 통계">
         <article class="metric primary"><span class="metric-label">엄격 완비율</span><strong class="metric-value">${percent(report.readyPercentage)}</strong><span class="metric-note">${number(report.ready)}명 완비 · ${number(incomplete)}명 결손</span></article>
-        <article class="metric"><span class="metric-label">전체 등록 인원</span><strong class="metric-value">${number(report.scope)}</strong><span class="metric-note">active · inactive · suspended 합계</span></article>
+        <article class="metric"><span class="metric-label">전체 등록 인원</span><strong class="metric-value">${number(report.scope)}</strong><span class="metric-note">active · inactive 합계</span></article>
         <article class="metric"><span class="metric-label">영역 평균 보유율</span><strong class="metric-value">${percent(report.coverage.averagePercentage)}</strong><span class="metric-note">인물별 적용영역 동일 가중치</span></article>
         <article class="metric"><span class="metric-label">공개 중 결손</span><strong class="metric-value">${number(activeIncomplete)}</strong><span class="metric-note">active ${number(active.scope)}명 중 현행 기준 미완비</span></article>
       </section>
@@ -317,7 +317,7 @@ function renderHtml(report: ReadinessHtmlReport, fonts: { regular: string; bold:
 
       <div class="grid-two">
         <section class="panel"><header class="panel-head"><h2>티어별</h2><small>필수조건 차등 적용</small></header><div class="table-wrap"><table><thead><tr><th>티어</th><th>전체</th><th>완비</th><th>완비율</th><th>평균 보유율</th></tr></thead><tbody>${renderBreakdown(report.readinessByTier, ['full', 'light', 'fiction'])}</tbody></table></div></section>
-        <section class="panel"><header class="panel-head"><h2>공개 상태별</h2><small>publication_status</small></header><div class="table-wrap"><table><thead><tr><th>상태</th><th>전체</th><th>완비</th><th>완비율</th><th>평균 보유율</th></tr></thead><tbody>${renderBreakdown(report.readinessByPublicationStatus, ['active', 'inactive', 'suspended', 'deleted'])}</tbody></table></div></section>
+        <section class="panel"><header class="panel-head"><h2>공개 상태별</h2><small>publication_status</small></header><div class="table-wrap"><table><thead><tr><th>상태</th><th>전체</th><th>완비</th><th>완비율</th><th>평균 보유율</th></tr></thead><tbody>${renderBreakdown(report.readinessByPublicationStatus, ['active', 'inactive', 'deleted'])}</tbody></table></div></section>
       </div>
 
       <section class="panel gap-panel"><header class="panel-head"><h2>주요 결손 항목</h2><small>한 인물의 중복 결손 포함</small></header><div class="gap-list">${renderGaps(report)}</div></section>

@@ -38,7 +38,7 @@ interface CelebFormData {
   avatar_url: string
   portrait_url: string
   is_verified: boolean
-  status: 'active' | 'suspended'
+  status: 'active' | 'inactive'
   celeb_tier: 'full' | 'light'
   cultural_journey: string
   cultural_journey_en: string
@@ -105,7 +105,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     avatar_url: celeb?.avatar_url || '',
     portrait_url: celeb?.portrait_url || '',
     is_verified: celeb?.is_verified || false,
-    status: (celeb?.status as 'active' | 'suspended') || 'suspended',
+    status: (celeb?.status as 'active' | 'inactive') || 'inactive',
     // 새로 만드는 인물은 감상 기록이 있을 수 없어 full로 저장되지 않는다(DB가 막는다)
     celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
     cultural_journey: celeb?.cultural_journey || '',
@@ -629,8 +629,8 @@ export default function CelebForm({ mode, celeb }: Props) {
                   <span className="text-xs text-text-primary">활성</span>
                 </label>
                 <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="status" value="suspended" checked={formData.status === 'suspended'} onChange={() => handleChange('status', 'suspended')} className="w-3 h-3" />
-                  <span className="text-xs text-text-primary">비활성</span>
+                  <input type="radio" name="status" value="inactive" checked={formData.status === 'inactive'} onChange={() => handleChange('status', 'inactive')} className="w-3 h-3" />
+                  <span className="text-xs text-text-primary">비공개</span>
                 </label>
               </div>
               <div className="flex items-center gap-2 border-l border-border pl-4">

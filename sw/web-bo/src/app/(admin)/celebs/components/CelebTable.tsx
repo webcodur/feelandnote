@@ -136,7 +136,6 @@ function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string;
   const config: Record<string, { className: string; hoverClass: string; icon: React.ElementType; title: string }> = {
     active: { className: 'text-green-400', hoverClass: 'hover:bg-yellow-500/10', icon: CheckCircle, title: 'active → inactive' },
     inactive: { className: 'text-yellow-400', hoverClass: 'hover:bg-green-500/10', icon: Clock, title: 'inactive → active' },
-    suspended: { className: 'text-red-400', hoverClass: 'hover:bg-green-500/10', icon: Ban, title: 'suspended → active' },
     deleted: { className: 'text-gray-400', hoverClass: '', icon: Ban, title: 'deleted' },
   }
   const { className, hoverClass, icon: Icon, title } = config[status] || config.active

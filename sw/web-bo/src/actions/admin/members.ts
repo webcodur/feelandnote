@@ -154,7 +154,7 @@ export async function getMembers(params: GetMembersParams = {}): Promise<Members
       page,
       limit,
       search,
-      status: status as 'active' | 'inactive' | 'suspended' | 'all',
+      status: status as 'active' | 'inactive' | 'all',
       profession,
       tier: tier as 'full' | 'light' | 'all' | undefined,
       imageFilter,

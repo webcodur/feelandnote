@@ -54,7 +54,7 @@ async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<st
   for (let i = 0; i < uniq.length; i += IN_CHUNK) {
     const chunk = uniq.slice(i, i + IN_CHUNK)
     const { data, error } = await db.from('celebs').select('id,slug')
-      .in('publication_status', ['active', 'inactive', 'suspended'])
+      .in('publication_status', ['active', 'inactive'])
       .in('slug', chunk)
     if (error) throw new Error(`celebs slug 조회 실패: ${error.message}`)
     for (const r of data ?? []) {

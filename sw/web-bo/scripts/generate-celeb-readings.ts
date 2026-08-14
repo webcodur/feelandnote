@@ -184,7 +184,7 @@ type ProfileRow = {
   nationality: string | null
   birth_date: string | null
   death_date: string | null
-  publication_status: 'active' | 'inactive' | 'suspended'
+  publication_status: 'active' | 'inactive'
   celeb_tier: string | null
   wikidata_qid: string | null
   virtual_monologue: string | null
@@ -1824,7 +1824,7 @@ async function main() {
     contextsByProfile.set(row.celeb_id, [...(contextsByProfile.get(row.celeb_id) ?? []), context])
   }
 
-  const statusRank = { active: 0, inactive: 1, suspended: 2 }
+  const statusRank = { active: 0, inactive: 1 }
   let targets = profiles
     .filter((profile) => INCLUDE_EXISTING || REWRITE_EXISTING || !existingIds.has(profile.id))
     .filter((profile) => !SLUGS || SLUGS.has(profile.slug))
@@ -1898,7 +1898,7 @@ async function main() {
 
   if (STATS) {
     const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
-    const byStatus = Object.fromEntries(['active', 'inactive', 'suspended'].map((status) => {
+    const byStatus = Object.fromEntries(['active', 'inactive'].map((status) => {
       const statusProfiles = profiles.filter((profile) => profile.publication_status === status)
       const statusIds = new Set(statusProfiles.map((profile) => profile.id))
       const statusRows = explanations.filter((row) => statusIds.has(row.profile_id))
@@ -1975,7 +1975,7 @@ async function main() {
       const profile = profileById.get(row.profile_id)
       return Boolean(row.published_at) !== (profile?.publication_status === 'active')
     }).length
-    const missingByStatus = Object.fromEntries(['active', 'inactive', 'suspended'].map((status) => [
+    const missingByStatus = Object.fromEntries(['active', 'inactive'].map((status) => [
       status,
       materials.filter((material) => material.profile.publication_status === status).length,
     ]))

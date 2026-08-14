@@ -277,7 +277,7 @@ pnpm dev:bo
 | --- | --- | --- |
 | `/api/image-proxy` | `?url=` | 외부 이미지를 서버에서 받아 중계한다. **허용 호스트 11종만 통과**(아래 참조). `books.google.com`은 https로 강제한다. 429·403은 원본 URL로 넘기고, 204는 404로, 그 밖의 실패는 투명 1x1 PNG로 응답한다. 하루 캐시 |
 | `/api/contents/search` | `?q=` (2자 이상) | 판본 제목으로 콘텐츠를 찾아 최대 20건 반환. 한국어 우선, 없으면 영문 |
-| `/api/celebs/search` | `?q=` (1자 이상) | 셀럽을 한글·영문 닉네임으로 찾아 최대 10건 반환. 상태가 `active`·`inactive`·`suspended`인 것만 |
+| `/api/celebs/search` | `?q=` (1자 이상) | 셀럽을 한글·영문 닉네임으로 찾아 최대 10건 반환. 상태가 `active`·`inactive`인 것만 |
 | `/api/voice/[...path]` | 경로 세그먼트 | 로컬 `sw/remotion/public/voice/` 아래 wav 파일을 서빙한다. 경로에 `..`이 있으면 400 |
 
 `/api/voice`는 로컬 파일시스템에 직접 의존하므로 remotion 프로젝트가 같은 위치에 있어야 동작한다.

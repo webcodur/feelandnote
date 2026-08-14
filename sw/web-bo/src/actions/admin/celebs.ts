@@ -51,7 +51,7 @@ interface GetCelebsParams {
   page?: number
   limit?: number
   search?: string
-  status?: 'active' | 'inactive' | 'suspended' | 'all'
+  status?: 'active' | 'inactive' | 'all'
   profession?: string
   tier?: 'full' | 'light' | 'all'
   imageFilter?: CelebImageFilter
@@ -73,7 +73,7 @@ interface CreateCelebInput {
   cultural_journey?: string
   avatar_url?: string
   is_verified?: boolean
-  status?: 'active' | 'inactive' | 'suspended'
+  status?: 'active' | 'inactive'
   /** 등급은 받지 않는다 — 신규는 항상 light다(NEW_CELEB_TIER 주석 참조) */
   influence?: GeneratedInfluence
 }
@@ -99,7 +99,7 @@ interface UpdateCelebInput {
   /** 인물 상세 상단 대표 화보. 빈 문자열이면 내린다 */
   portrait_url?: string
   is_verified?: boolean
-  status?: 'active' | 'inactive' | 'suspended'
+  status?: 'active' | 'inactive'
   celeb_tier?: 'full' | 'light'
   influence?: GeneratedInfluence
 }
@@ -219,8 +219,7 @@ function sortCelebs(celebs: Celeb[], sort: string, sortOrder: 'asc' | 'desc') {
   const statusRank: Record<string, number> = {
     active: 0,
     inactive: 1,
-    suspended: 2,
-    deleted: 3,
+    deleted: 2,
   }
 
   celebs.sort((a, b) => {
@@ -297,7 +296,7 @@ function buildCelebListQuery(
   if (status && status !== 'all') {
     query = query.eq('publication_status', status)
   } else {
-    query = query.in('publication_status', ['active', 'inactive', 'suspended'])
+    query = query.in('publication_status', ['active', 'inactive'])
   }
 
   if (profession && profession !== 'all') {
@@ -474,7 +473,6 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
     rpcUnsupportedSorts.includes(sort) ||
     sort === 'content_count' ||
     status === 'inactive' ||
-    status === 'suspended' ||
     (tier && tier !== 'all') ||
     (imageFilter && imageFilter !== 'all') ||
     (tagId && tagId !== 'all')
@@ -500,7 +498,7 @@ export async function getCelebs(params: GetCelebsParams = {}): Promise<CelebsRes
 
   const rpcSortBy = sortByMap[sort] || `created_at_${sortOrder}`
 
-  // status 필터: inactive/suspended 보려면 includeInactive 필요
+  // status 필터: inactive를 보려면 includeInactive 필요
   const includeInactive = status !== 'active'
 
   // 전체 개수 조회
@@ -764,7 +762,7 @@ export async function createCeleb(input: CreateCelebInput): Promise<{ id: string
         consumption_philosophy: input.cultural_journey || null,
         avatar_url: input.avatar_url || null,
         is_verified: input.is_verified || false,
-        publication_status: input.status || 'suspended',
+        publication_status: input.status || 'inactive',
         celeb_tier: NEW_CELEB_TIER,
       })
       .select('slug')
@@ -967,7 +965,6 @@ export async function toggleCelebStatus(celebId: string, currentStatus: string):
   const cycle: Record<string, string> = {
     active: 'inactive',
     inactive: 'active',
-    suspended: 'active',
   }
   const newStatus = cycle[currentStatus] || 'active'
 
