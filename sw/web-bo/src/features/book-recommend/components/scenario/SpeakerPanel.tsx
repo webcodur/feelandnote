@@ -4,11 +4,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { useEpisode } from '@/features/book-recommend/lib/episode-context'
 import { GeminiVoiceSelect } from '../scenario-voice/GeminiVoiceSelect'
 import { HostSpeakerRow } from './HostSpeakerRow'
-import { HostVoiceMapping, type SaveScope } from './HostVoiceMapping'
-import { SpeakerEngineToggle } from './SpeakerEngineToggle'
+import { HostVoiceMapping } from './HostVoiceMapping'
+import { SpeakerEngineToggle, type SpeakerEngine } from './SpeakerEngineToggle'
 import { EleVoiceExpandButton } from './EleVoiceExpandButton'
 
-export type SpeakerEngine = 'gemini' | 'elevenlabs'
+export type { SpeakerEngine } from './SpeakerEngineToggle'
 
 export interface Speaker {
   id: string
@@ -56,7 +56,7 @@ function SpeakerRow({ speaker: s, onPatch, onSetEngine, onRemove, onRenameId }: 
   const voiceValue = s.voiceId ?? (engine === 'elevenlabs' ? (s.elevenlabsVoiceId ?? '') : '')
 
   // ELE 보이스 적용 — 에피소드 JSON(speaker.voiceId)만 갱신. DB 는 건드리지 않는다.
-  const applyEle = async (newId: string, _scope: SaveScope): Promise<{ ok: boolean; message: string }> => {
+  const applyEle = async (newId: string): Promise<{ ok: boolean; message: string }> => {
     onPatch({ voiceId: newId, elevenlabsVoiceId: newId, engine: 'elevenlabs' })
     return { ok: true, message: '에피소드 JSON 에 적용' }
   }

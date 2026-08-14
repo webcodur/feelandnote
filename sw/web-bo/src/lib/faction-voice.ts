@@ -84,7 +84,6 @@ export function factionOpeningReadText(script: FactionScript): string {
 }
 
 const EPITHET_INHERIT_FIELDS = [
-  ['epithetEngine', 'quoteEngine'],
   ['epithetSpeaker', 'quoteSpeaker'],
   ['epithetStyle', 'quoteStyle'],
   ['epithetElevenlabsVoiceId', 'quoteElevenlabsVoiceId'],
@@ -111,7 +110,6 @@ const sameValue = (a: unknown, b: unknown): boolean =>
   a === b || JSON.stringify(a) === JSON.stringify(b)
 
 const COMMON_NARRATION_KEYS = [
-  'quoteEngine',
   'quoteSpeaker',
   'quoteStyle',
   'quoteElevenlabsVoiceId',

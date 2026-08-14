@@ -141,7 +141,7 @@ export async function assembleFactionEpisode(
     return joinGroup(g, clusters)
   })
 
-  // longform_layout — {groupId:uuid} → {group:index}
+  // longform_layout — DB 의 세력 UUID 참조를 렌더용 배열 인덱스로 되돌린다.
   const storedLayout = epRow.longform_layout as Row[] | null
   let layout: unknown[] | undefined
   if (storedLayout) {
@@ -289,7 +289,8 @@ export function buildFactionRows(
     })
   })
 
-  // longformLayout — {group:index} → {groupId:uuid}. 범위 밖 인덱스는 저장 전에 막는다.
+  // longformLayout — 세력 배열 인덱스 참조를 DB UUID 참조로 바꾼다.
+  // 시대 문구·챕터·편 경계는 참조가 없어 그대로 보존한다.
   const layout = script.longformLayout as Row[] | undefined
   let longformLayout: unknown[] | null = null
   if (layout) {

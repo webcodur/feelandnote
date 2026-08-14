@@ -4,7 +4,7 @@ import { makePathRemapper } from '@feelandnote/shared/bo/editor'
 /**
  * FactionScript 데이터에서 영상에 연결된 이미지 경로를 모두 수집한다.
  * 수집 대상: group.logoVid·logoImg·image, cluster.image, person.image,
- *   시작 화면 이미지(heroes/heroesByPart 의 'logo:<경로>'), 종료 이미지(outroImage).
+ *   시작 화면 이미지(heroes/heroesByPart 의 'logo:<경로>'), 종료 이미지, 챕터·상황 화면 미디어.
  * heroes 의 인물 slug 는 person.image 로 이미 잡히므로 'logo:' 항목만 별도로 더한다.
  * 외부 URL(http로 시작)은 풀(로컬 파일)과 무관하므로 제외한다.
  */
@@ -32,13 +32,21 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
   }
   // 시작·종료 이미지
   add(script.introImage)
+  add(script.introImageLong)
   add(script.outroImage)
+  add(script.outroImageLong)
+  add(script.lvThumbnailImage)
+  for (const item of script.longformLayout ?? []) {
+    if ('chapter' in item) add(item.chapter.media)
+  }
 
   for (const group of script.groups ?? []) {
     add(group.logoVid)
     add(group.logoImg)
+    for (const scene of group.openingScenes ?? []) add(scene.media)
     for (const cluster of group.clusters ?? []) {
       add(cluster.image)
+      for (const scene of cluster.scenesAfter ?? []) add(scene.media)
       for (const person of cluster.people ?? []) addPerson(person)
     }
   }
@@ -80,12 +88,29 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
     ...g,
     logoVid: m(g.logoVid),
     logoImg: m(g.logoImg),
-    clusters: (g.clusters ?? []).map(c => ({ ...c, image: m(c.image), people: (c.people ?? []).map(mapPerson) })),
+    openingScenes: g.openingScenes?.map(scene => ({ ...scene, media: m(scene.media) })),
+    clusters: (g.clusters ?? []).map(c => ({
+      ...c,
+      image: m(c.image),
+      scenesAfter: c.scenesAfter?.map(scene => ({ ...scene, media: m(scene.media) })),
+      people: (c.people ?? []).map(mapPerson),
+    })),
   }))
 
   const next: FactionScript = { ...script, groups }
   if (script.introImage) next.introImage = m(script.introImage)
+  if (script.introImageLong) next.introImageLong = m(script.introImageLong)
   if (script.outroImage) next.outroImage = m(script.outroImage)
+  if (script.outroImageLong) next.outroImageLong = m(script.outroImageLong)
+  if (script.lvThumbnailImage) next.lvThumbnailImage = m(script.lvThumbnailImage)
+  if (script.longformLayout) {
+    next.longformLayout = script.longformLayout.map(item => {
+      if ('chapter' in item && item.chapter.media) {
+        return { chapter: { ...item.chapter, media: m(item.chapter.media) } }
+      }
+      return item
+    })
+  }
   if (script.heroes) next.heroes = script.heroes.map(mapHero)
   if (script.heroesByPart) {
     next.heroesByPart = Object.fromEntries(

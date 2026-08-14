@@ -12,6 +12,7 @@ import { FactionCelebSearchModal, type CelebResult } from './FactionCelebSearchM
 import { PersonList } from './PersonList/PersonList'
 import { CoverPickerButton } from './CoverPickerButton/CoverPickerButton'
 import { GroupThemePanel, GroupThemeBadge } from './GroupThemePanel'
+import { FactionSceneList } from './FactionSceneList'
 
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { folderToParam } from '@/lib/faction-edit-route'
@@ -47,7 +48,7 @@ function celebToPerson(c: CelebResult): FactionPerson {
     // 불변 셀럽 ID — 앞으로 보이스·셀럽 정보 연동의 열쇠
     celebId: c.id,
     // DB에 국문 보이스가 있으면 그대로 끌어와 ElevenLabs 대사 음성으로 채운다
-    ...(c.voice_id_ko ? { quoteElevenlabsVoiceId: c.voice_id_ko, quoteEngine: 'elevenlabs' as const } : {}),
+    ...(c.voice_id_ko ? { quoteElevenlabsVoiceId: c.voice_id_ko } : {}),
   }
 }
 
@@ -424,21 +425,40 @@ export function FactionGroupEditor({
             )}
           </div>
 
+          <FactionSceneList
+            scenes={group.openingScenes ?? []}
+            onChange={openingScenes => onChange({ ...group, openingScenes: openingScenes.length ? openingScenes : undefined })}
+            series={series}
+            episodeName={episodeName}
+            editLang={editLang}
+            heading="이 세력의 시작 상황 화면"
+            description="하위 그룹이나 인물에 속하지 않는 사건입니다. 이 세력이 시작되면 화보·인물보다 먼저 쇼츠와 롱폼에 나옵니다."
+          />
+
           {/* 단일 모드(무소속 개인군): 화보 없이 인물 목록만 — clusters[0] 편집 */}
           {!split && group.solo && (
-            <PersonList
-              people={c0.people ?? []}
-              onPeopleChange={next => setC0({ ...c0, people: next })}
-              onAddCeleb={() => setCelebTarget(0)}
-              series={series}
-              episodeName={episodeName}
-              groupIndex={groupIndex}
-              clusterIndex={0}
-              editLang={editLang}
-              onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
-              celebExisting={celebExisting}
-              celebLoaded={celebLoaded}
-            />
+            <div className="space-y-3">
+              <PersonList
+                people={c0.people ?? []}
+                onPeopleChange={next => setC0({ ...c0, people: next })}
+                onAddCeleb={() => setCelebTarget(0)}
+                series={series}
+                episodeName={episodeName}
+                groupIndex={groupIndex}
+                clusterIndex={0}
+                editLang={editLang}
+                onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
+                celebExisting={celebExisting}
+                celebLoaded={celebLoaded}
+              />
+              <FactionSceneList
+                scenes={c0.scenesAfter ?? []}
+                onChange={scenesAfter => setC0({ ...c0, scenesAfter: scenesAfter.length ? scenesAfter : undefined })}
+                series={series}
+                episodeName={episodeName}
+                editLang={editLang}
+              />
+            </div>
           )}
 
           {/* 단일 모드(그룹 안 나눈 일반 세력): 그룹 하나짜리 아코디언으로 — 나눈 세력과 모양 통일. 대상은 clusters[0] */}
@@ -511,6 +531,13 @@ export function FactionGroupEditor({
                     onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(0, pi) : undefined}
                     celebExisting={celebExisting}
                     celebLoaded={celebLoaded}
+                  />
+                  <FactionSceneList
+                    scenes={c0.scenesAfter ?? []}
+                    onChange={scenesAfter => setC0({ ...c0, scenesAfter: scenesAfter.length ? scenesAfter : undefined })}
+                    series={series}
+                    episodeName={episodeName}
+                    editLang={editLang}
                   />
                 </div>
               )}
@@ -618,6 +645,13 @@ export function FactionGroupEditor({
                         onMoveCrossGroup={onMoveCrossGroup ? (pi) => onMoveCrossGroup(ci, pi) : undefined}
                         celebExisting={celebExisting}
                         celebLoaded={celebLoaded}
+                      />
+                      <FactionSceneList
+                        scenes={c.scenesAfter ?? []}
+                        onChange={scenesAfter => setCluster(ci, { ...c, scenesAfter: scenesAfter.length ? scenesAfter : undefined })}
+                        series={series}
+                        episodeName={episodeName}
+                        editLang={editLang}
                       />
                     </div>
                   )}

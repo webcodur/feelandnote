@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile, EleVoiceLike } from '@feelandnote/shared/bo/voice-utils'
 import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
@@ -24,6 +25,9 @@ import {
   EleVoiceCombobox, useEleVoiceNotes, useEleVoiceHistory,
 } from '@/components/voice/ele-voice-picker'
 import { folderToParam } from '@/lib/faction-edit-route'
+import { effectiveElevenLabsVoiceId } from '@feelandnote/shared/lib/faction-voice-provider'
+import { useFactionVoice } from '../../../../../shared/FactionVoiceContext'
+import { factionEleVoiceAvailability } from './faction-ele-voice-availability'
 
 /**
  * 북리커맨드 ExpandedVoicePanel 통째 복제 — 세력도감 인물 1명용.
@@ -67,7 +71,7 @@ type FactionExpandedVoicePanelProps = {
   /** 작업 모드 — 모달 헤더의 모드 탭이 소유한다(FactionVoiceSettingsModal). */
   mode: FactionVoiceMode
   /**
-   * 편집 언어 — 합성 엔진·ElevenLabs 목소리를 이 언어의 칸에 읽고 쓰고,
+   * 편집 언어 — ElevenLabs 목소리를 이 언어의 칸에 읽고 쓰고,
    * 셀럽 DB 연동도 이 언어의 목소리(voice_id_ko / voice_id_en)를 다룬다. 미지정이면 국문.
    */
   lang?: EditLang
@@ -88,6 +92,7 @@ export function FactionExpandedVoicePanel({
   // 목소리는 한 언어만 고른다 — 「양쪽 함께 보기」는 국문으로 접는다
   const voiceLang: FactionVoiceLang = voiceLangOf(lang)
   const langLabel = LANG_LABEL[voiceLang]
+  const factionVoice = useFactionVoice()
 
   // error 는 양쪽 hook(spec·생성)이 공유하므로 orchestrator 가 소유한다.
   const [error, setError] = useState<string | null>(null)
@@ -96,6 +101,7 @@ export function FactionExpandedVoicePanel({
   // 성별·나이·억양 등 꼬리표(labels)와 미리듣기(preview_url)까지 받아 콤보박스에서 거르기·정렬에 쓴다.
   const [eleVoices, setEleVoices] = useState<EleVoiceLike[]>([])
   const [eleVoicesLoading, setEleVoicesLoading] = useState(false)
+  const [eleVoicesLoaded, setEleVoicesLoaded] = useState(false)
   const [eleVoicesError, setEleVoicesError] = useState<string | null>(null)
   const eleVoiceNotes = useEleVoiceNotes()
   const eleVoiceHistory = useEleVoiceHistory()
@@ -155,11 +161,15 @@ export function FactionExpandedVoicePanel({
   // 도감에 적힌 이 보이스의 추가 음량 — 인물에 값이 없을 때 재생·미리듣기가 대신 쓴다.
   // 훅을 부르기 전에 인물 데이터에서 직접 읽는다(훅 결과에 기대면 순환한다).
   const assignedVoiceId = person[langFieldsOf(slot, lang).eleVoiceId] as string | undefined
-  const usesEle = person[langFieldsOf(slot, lang).engine] === 'elevenlabs'
-  const catalogGainDb = usesEle ? voiceGainDbOf(eleVoiceNotes.notes, assignedVoiceId) : undefined
+  const inheritedVoiceId = slot.id === 'quote' && person.celebId
+    ? factionVoice?.celebVoices[person.celebId]?.[voiceLang]
+    : undefined
+  const effectiveVoiceId = effectiveElevenLabsVoiceId(assignedVoiceId, inheritedVoiceId)
+  const catalogGainDb = voiceGainDbOf(eleVoiceNotes.notes, effectiveVoiceId)
 
   const spec = useFactionVoiceSpec({
     person, onPersonChange: onChange, slot, lang,
+    inheritedEleVoiceId: inheritedVoiceId,
     gainDbFallback: catalogGainDb,
     gainDbOfVoice: id => voiceGainDbOf(eleVoiceNotes.notes, id),
   })
@@ -203,15 +213,23 @@ export function FactionExpandedVoicePanel({
 
   // ELE 선택 시 보이스 목록을 한 번 불러온다(워크스페이스 등록 보이스 전체).
   useEffect(() => {
-    if (spec.chosenEngine !== 'elevenlabs' || eleVoices.length || eleVoicesLoading) return
+    if (spec.chosenEngine !== 'elevenlabs' || eleVoices.length || eleVoicesLoading || eleVoicesLoaded) return
     setEleVoicesLoading(true)
     setEleVoicesError(null)
     fetch('/api/elevenlabs/voices')
       .then(r => r.json())
       .then(d => { if (Array.isArray(d.voices)) setEleVoices(d.voices); else setEleVoicesError(d.error ?? '목록 로드 실패') })
       .catch(e => setEleVoicesError(String(e)))
-      .finally(() => setEleVoicesLoading(false))
-  }, [spec.chosenEngine, eleVoices.length, eleVoicesLoading])
+      .finally(() => { setEleVoicesLoading(false); setEleVoicesLoaded(true) })
+  }, [spec.chosenEngine, eleVoices.length, eleVoicesLoading, eleVoicesLoaded])
+
+  const eleVoiceAvailability = factionEleVoiceAvailability(
+    spec.eleVoiceId,
+    eleVoicesLoaded && !eleVoicesError,
+    eleVoices.map(v => v.voice_id),
+  )
+  const eleVoiceUnavailable = spec.chosenEngine === 'elevenlabs' && eleVoiceAvailability === 'unavailable'
+  const eleVoiceMissing = spec.chosenEngine === 'elevenlabs' && eleVoiceAvailability === 'missing'
 
   // 현재 선택 보이스의 소속 계정 — 목록에 있으면 생성 API 에 힌트로 넘긴다(계정 오탐 방지).
   const eleAccountId = eleVoices.find(v => v.voice_id === spec.eleVoiceId)?.account?.id ?? null
@@ -258,7 +276,16 @@ export function FactionExpandedVoicePanel({
     // (이 한 줄이 없으면 BO 에서 만든 음원은 길이가 비어 렌더에서 재생되지 않고 컷이 그냥 넘어간다.)
     // ⚠ 만들기·저장은 몇 초 걸린다 — 그 사이 사람이 보이스를 바꿀 수 있으므로 **최신 인물**에 얹는다.
     //   누를 당시 인물을 그대로 되쓰면 그 사이 고친 값이 통째로 되돌아간다(26.07.26 아레스 사고).
-    onSaved: dur => onChangeRef.current({ ...personRef.current, [slot.fields.duration]: dur }),
+    onSaved: async dur => {
+      // 음원 파일만 저장하고 대본을 저장하지 않으면, 새로 고른 Gemini/ELE 보이스가 새로고침 때
+      // 기본값(Puck)으로 돌아간다. 길이와 현재 배역을 먼저 루트 state에 동기 반영한 뒤 같은 동작에서
+      // DB·faction-data.json까지 확정한다.
+      flushSync(() => {
+        onChangeRef.current({ ...personRef.current, [slot.fields.duration]: dur })
+      })
+      const saved = await factionVoice?.save?.()
+      if (saved === false) setError('음원은 저장됐지만 보이스 배역을 대본에 저장하지 못했다')
+    },
   })
 
   const [dbBusy, setDbBusy] = useState(false)
@@ -344,8 +371,7 @@ export function FactionExpandedVoicePanel({
   const hasTempPreview = gen.tempPreview?.key === secKey
   const previewEngine = gen.tempPreview?.engine ?? null
 
-  const engineLabel = spec.chosenEngine === 'elevenlabs'
-    ? 'ELE' : spec.chosenEngine === 'gemini-v3' ? 'GEM 3.1' : 'GEM 2.5'
+  const engineLabel = spec.chosenEngine === 'elevenlabs' ? 'ELE' : 'GEM 2.5'
 
   return (
     <div className="relative space-y-3" onClick={e => e.stopPropagation()}>
@@ -397,7 +423,6 @@ export function FactionExpandedVoicePanel({
             className="h-8 text-sm bg-white px-2 cursor-pointer text-slate-950 font-bold focus:outline-none"
           >
             <option value="gemini">GEM 2.5</option>
-            <option value="gemini-v3">GEM 3.1</option>
             <option value="elevenlabs">ELE</option>
           </select>
         </div>
@@ -518,6 +543,22 @@ export function FactionExpandedVoicePanel({
       )}
 
       {/* 새 음원 생성 — 북리커맨드 GenerateSection 그대로 재사용 (화면 동일) */}
+      {eleVoiceUnavailable && (
+        <div role="alert" className="rounded-md border border-amber-400 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900">
+          현재 배정된 ELE 보이스는 연결된 ElevenLabs 계정에서 사용할 수 없다. 위의 「보이스 선택」에서 목록에 있는 보이스를 다시 골라야 생성할 수 있다.
+          <div className="mt-1 break-all font-mono text-[10px] font-normal text-amber-800">{spec.eleVoiceId}</div>
+        </div>
+      )}
+      {eleVoiceMissing && (
+        <div role="alert" className="rounded-md border border-amber-400 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900">
+          ELE 음원을 만들려면 먼저 위의 「보이스 선택」에서 현재 계정에 있는 보이스를 골라야 한다.
+        </div>
+      )}
+      {mode === 'main' && error && (
+        <div role="alert" className="rounded-md border border-danger/50 bg-danger/10 px-3 py-2 text-xs font-semibold text-danger-text">
+          음원 생성 실패 — {error}
+        </div>
+      )}
       <GenerateSection
         secKey={secKey}
         sectionTexts={spec.sectionTexts}
@@ -559,6 +600,7 @@ export function FactionExpandedVoicePanel({
         previewGainDb={spec.gainDb}
         // 엔진 선택은 위쪽에 따로 두었으므로 이 섹션의 엔진 드롭다운은 숨긴다(중복 제거).
         hideEngineSelect
+        saveTargetLabel="행 재생 버튼"
         // 발화시각 정렬 — 음원이 확정되면 눌러 자막 타이밍을 맞춘다(백그라운드 작업).
         onAlign={() => gen.alignCurrent()}
         aligning={gen.aligning}
@@ -610,7 +652,7 @@ export function FactionExpandedVoicePanel({
           : <div className="px-1 py-2 text-xs text-text-dim">저장된 음원이 없다. 「생성·트림」에서 먼저 음원을 만든다.</div>
       )}
 
-      {error && <div className="text-xs text-danger-text">{error}</div>}
+      {mode !== 'main' && error && <div role="alert" className="text-xs text-danger-text">{error}</div>}
     </div>
   )
 }

@@ -11,6 +11,8 @@ export interface FactionVoiceMeta {
 }
 
 export interface FactionVoiceCtx {
+  /** 셀럽 프로필에 저장된 언어별 ElevenLabs 보이스. 편별 값이 없을 때 유효값으로 쓴다. */
+  celebVoices: Record<string, { ko?: string; en?: string }>
   /** 파일명 → 메타. 존재 여부·길이 판정용 */
   byFile: Map<string, FactionVoiceMeta>
   /** 파일명 → 재생 URL */
@@ -21,6 +23,8 @@ export interface FactionVoiceCtx {
   regeneratingFile: string | null
   /** 음성 파일 목록 다시 읽기 — 미리듣기 저장 직후 존재·길이 갱신용 */
   reload?: () => void
+  /** 현재 화면의 대본을 DB와 렌더용 JSON에 확정한다. 음원 저장과 배역 저장을 한 동작으로 묶는 데 쓴다. */
+  save: () => Promise<boolean>
   /** 현재 에피소드 폴더명 — 인물 패널 preview·save 라우트용 */
   episodeName?: string
   /** 시리즈 id — preview·save 라우트용 */

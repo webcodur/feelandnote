@@ -26,6 +26,7 @@
     "./lib/faction-assemble": "./src/lib/faction-assemble.ts",
     "./lib/faction-person-subject": "./src/lib/faction-person-subject.ts",
     "./lib/faction-quote-media": "./src/lib/faction-quote-media.ts",
+    "./lib/faction-voice-provider": "./src/lib/faction-voice-provider.ts",
     "./lib/faction-team-image": "./src/lib/faction-team-image.ts",
     "./lib/discourse-schema": "./src/lib/discourse-schema.ts",
     "./lib/discourse-assemble": "./src/lib/discourse-assemble.ts",

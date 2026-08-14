@@ -2,11 +2,12 @@
 
 import type { FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
-import type { FactionVoiceMeta } from '../../../../shared/FactionVoiceContext'
+import { useFactionVoice, type FactionVoiceMeta } from '../../../../shared/FactionVoiceContext'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
+import { effectiveElevenLabsVoiceId, factionVoiceProvider } from '@feelandnote/shared/lib/faction-voice-provider'
 import { Mic } from '@feelandnote/shared/bo/icons'
 import { AudioWavePlayer } from '@feelandnote/shared/bo/audio-wave-player'
-import { QUOTE_SLOT, langFieldsOf, type FactionVoiceSlot } from './voice-panel/voice-slots'
+import { QUOTE_SLOT, langFieldsOf, voiceLangOf, type FactionVoiceSlot } from './voice-panel/voice-slots'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { folderToParam } from '@/lib/faction-edit-route'
 
@@ -44,17 +45,22 @@ export function FactionVoicePanel({
   onOpenModal: () => void
   /** 음성 슬롯 — 대사(기본) 또는 수식어 */
   slot?: FactionVoiceSlot
-  /** 편집 언어 — 요약에 보일 엔진·목소리를 이 언어 칸에서 읽는다 */
+  /** 편집 언어 — 요약에 보일 ElevenLabs 목소리를 이 언어 칸에서 읽는다 */
   lang?: EditLang
 }) {
+  const factionVoice = useFactionVoice()
   if (!hasContent) return null
 
   const F = slot.fields
   const L = langFieldsOf(slot, lang)
-  const engine = (person[L.engine] as string | undefined) ?? 'gemini'
-  const engineLabel = engine === 'elevenlabs' ? 'ELE' : engine === 'gemini-v3' ? 'GEM 3.1' : 'GEM 2.5'
+  const inheritedVoiceId = slot.id === 'quote' && person.celebId
+    ? factionVoice?.celebVoices[person.celebId]?.[voiceLangOf(lang)]
+    : undefined
+  const eleVoiceId = effectiveElevenLabsVoiceId(person[L.eleVoiceId] as string | undefined, inheritedVoiceId)
+  const engine = factionVoiceProvider(eleVoiceId)
+  const engineLabel = engine === 'elevenlabs' ? 'ELE' : 'GEM 2.5'
   const voiceSummary = engine === 'elevenlabs'
-    ? ((person[L.eleVoiceId] as string | undefined) || 'ID 미설정')
+    ? eleVoiceId
     : ((person[F.speaker] as string | undefined) || VOICE.celeb)
 
   return (

@@ -40,7 +40,7 @@ export function FactionVoiceSettingsModal({
   onClose: () => void
   /** 음성 슬롯 — 대사(기본) 또는 수식어 */
   slot?: FactionVoiceSlot
-  /** 편집 언어 — 엔진·목소리 칸과 셀럽 보이스 연동이 이 언어를 따른다 */
+  /** 편집 언어 — ElevenLabs 목소리 칸과 셀럽 보이스 연동이 이 언어를 따른다 */
   lang?: EditLang
 }) {
   // 수식어 슬롯에는 발화 시각 교정(싱크)이 없다 — 그 탭을 뺀다.

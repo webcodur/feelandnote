@@ -19,11 +19,8 @@ export type FactionVoiceJob = {
   text: string
   /** 인물별 화자 ID (data 의 quoteSpeaker). 미지정이면 공용 기본 보이스 */
   speaker?: string
-  /**
-   * 인물별 합성 엔진 (data 의 quoteEngine). 'gemini' | 'gemini-v3' | 'elevenlabs'.
-   * 'elevenlabs' 는 사용자 전담이라 자동 생성에서 제외된다(buildVoiceJobs 단계에서 거른다).
-   */
-  engine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
+  /** 선택 언어의 ElevenLabs 보이스 ID. 있으면 자동 Gemini 생성에서 제외한다. */
+  elevenLabsVoiceId?: string
   /** 대사 의미 덩어리(원문, 발화 스타일 prefix 제외) — 발화 시각 정렬·자막 페이지 단위. 없으면 통대사 1개 */
   chunks: string[]
   /** buildCues 인덱스 — quoteDuration 기록 시 인물을 다시 찾는 데 쓴다. 인물 컷은 항상 그룹 소속이라 clusterIndex 도 항상 있다 */
@@ -87,7 +84,9 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
       // 자막 덩어리는 원문(prefix 제외) 기준 — 빈 덩어리(연속 개행=페이지 경계)는 제외해 발화 시각 정렬과 1:1. 없으면 통대사 1개.
       chunks: rawChunks?.length ? rawChunks : [text],
       speaker: person.quoteSpeaker,
-      engine: person.quoteEngine,
+      elevenLabsVoiceId: LANG === 'en'
+        ? person.quoteElevenlabsVoiceIdEn
+        : person.quoteElevenlabsVoiceId,
       groupIndex: cue.groupIndex,
       personIndex: cue.personIndex,
       clusterIndex: cue.clusterIndex,

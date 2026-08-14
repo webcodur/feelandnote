@@ -27,8 +27,8 @@ const head = (s?: string) => (s ?? '').split('\n')[0]?.trim() ?? ''
 
 /**
  * 롱폼 편성 패널 — 쇼츠 편성(편1·편2)과 별개로 롱폼 전용 순서를 직접 짠다.
- * 세력 블록을 위/아래로 옮겨 원하는 순서(예: 시조-4강-유럽-중국-기타)로 배치하고,
- * 사이사이 「시대 문구」 카드와 「편 경계」를 끼울 수 있다. 세력 내부 구성·쇼츠·음원은 건드리지 않는다.
+ * 세력 블록을 위/아래로 옮겨 원하는 순서로 배치하고,
+ * 사이사이 「시대 문구」·「편 경계」를 끼운다. 사건 화면 자체는 정비 탭에서 그룹에 붙인다.
  * 편 경계를 꽂으면 롱폼이 그 지점에서 여러 편(1편·2편…)으로 갈라지고, 편별 명칭·시작문구를 따로 둘 수 있다.
  * 비워두면(직접 배치 안 함) 롱폼은 세력 카드 배열 순서를 그대로 따른다.
  */
@@ -121,7 +121,7 @@ export function FactionLongformPanel({
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-2">
             <span className="shrink-0 text-base font-bold text-text-primary">롱폼 편성</span>
-            <span className="truncate text-[11px] text-text-dim">{layout.length ? '세력 순서를 직접 배치 · 사이에 시대 문구 카드·편 경계' : '직접 배치 안 함 — 롱폼은 세력 카드 배열 순서를 따른다'}</span>
+            <span className="truncate text-[11px] text-text-dim">{layout.length ? '롱폼 세력 순서·시대 문구·편 경계' : '직접 편성 안 함 — 정비의 세력 순서와 상황 화면을 그대로 따른다'}</span>
           </div>
         </div>
         <span className="ml-auto flex shrink-0 items-center gap-2 text-xs text-text-dim">
@@ -185,7 +185,7 @@ export function FactionLongformPanel({
           </button>
         ) : (
           <>
-            {/* 롱폼 순서 — 세력 블록·시대 문구 카드·편 경계를 위/아래로 옮긴다 */}
+            {/* 롱폼 순서 — 세력·전환 카드를 위/아래로 옮긴다. 상황 화면 자체는 정비에서 관리한다. */}
             <div className="flex flex-col gap-1">
               {/* 경계가 있으면 맨 앞에 1편 라벨 — 어느 편에 속하는지 한눈에 */}
               {hasCut && (
@@ -318,7 +318,7 @@ export function FactionLongformPanel({
                   <div key={i} className="flex items-center gap-1.5">
                     <button
                       onClick={() => onJump(it.group)}
-                      className="flex min-w-0 flex-1 items-center gap-2 rounded px-2 py-1 text-left transition hover:brightness-110 hover:ring-2 hover:ring-white/30"
+                      className="flex min-w-0 flex-1 items-center gap-2 rounded px-2 py-1 text-left hover:brightness-110 hover:ring-2 hover:ring-white/30"
                       style={{ backgroundColor: color, color: contrast(color) }}
                       title={g ? `${head(g.name)}로 이동` : '없는 세력'}
                     >
@@ -331,7 +331,7 @@ export function FactionLongformPanel({
               })}
             </div>
 
-            {/* 추가 도구 — 시대 문구 / 편 경계 / 안 든 세력 */}
+            {/* 추가 도구 — 롱폼 전환 카드 / 안 든 세력 */}
             <div className="flex flex-wrap items-center gap-1.5 border-t border-border/60 pt-2">
               <button onClick={addEra} className="rounded border border-amber-500/60 px-2 py-1 text-[11px] font-bold text-amber-600 hover:bg-amber-500/10">+ 시대 문구</button>
               <button onClick={addCut} title="편 경계 — 롱폼을 이 지점에서 다음 편으로 가른다 (각 편은 자체 시작·종료 화면)" className="rounded border border-sky-500/60 px-2 py-1 text-[11px] font-bold text-sky-600 hover:bg-sky-500/10">+ 편 경계</button>

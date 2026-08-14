@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { isValidSeries } from '@/features/book-recommend/lib/series-registry'
-import { getEleAccounts, resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
+import {
+  getEleAccountConfigIssues, getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
+} from '@feelandnote/shared/lib/ele-accounts'
 
 export async function POST(req: Request, { params }: { params: Promise<{ series: string }> }) {
   const { series } = await params
@@ -15,15 +17,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ series:
   if (getEleAccounts().length === 0) {
     return NextResponse.json({
       success: false,
-      error: 'ElevenLabs API 키가 설정되지 않음 (.env 의 ELEVENLABS_API_KEY / ELEVENLABS_API_KEY_FEELANDNOTE)',
+      error: getEleAccountSetupError(),
     }, { status: 400 })
   }
 
   const account = await resolveEleAccountForVoice(id, accountId)
   if (!account) {
+    const configError = getEleAccountConfigIssues().length > 0 ? ` ${getEleAccountSetupError()}` : ''
     return NextResponse.json({
       success: false,
-      error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${id} (연결된 계정 라이브러리에 없거나, 무료 계정은 라이브러리 음성을 API로 쓸 수 없음)`,
+      error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${id} (연결된 계정 라이브러리에 없거나, 무료 계정은 라이브러리 음성을 API로 쓸 수 없음).${configError}`,
     }, { status: 400 })
   }
 

@@ -63,6 +63,8 @@ type GenerateSectionProps = {
   previewGainDb?: number
   /** 엔진 선택 드롭다운을 이 섹션에서 숨긴다 (선택) — 호출 측이 엔진 선택을 상단에 따로 둘 때. 미지정이면 표시(기존 동작). */
   hideEngineSelect?: boolean
+  /** 즉시 저장 결과가 나타나는 위치. 지정하면 미리듣기와 저장 버튼의 차이를 버튼 문구에 드러낸다. */
+  saveTargetLabel?: string
 }
 
 export function GenerateSection({
@@ -74,7 +76,7 @@ export function GenerateSection({
   hasTempPreview, tempPreview, previewEngine, handleSavePreview, trimSaving, setTempPreview,
   handleGenerate, segmentPath, segmentMeta, metaSaving, metaError,
   handleSegmentMetaChange, eleSendOpts,
-  previewPlaybackRate, previewGainDb, hideEngineSelect,
+  previewPlaybackRate, previewGainDb, hideEngineSelect, saveTargetLabel,
   onAlign, aligning, canAlign,
 }: GenerateSectionProps) {
   // Alt+1 = 생성(미리듣기) / Alt+2 = 생성 및 저장 — 입력칸에 포커스가 있어도 동작한다(Alt 조합이라 타이핑과 안 겹침).
@@ -274,16 +276,16 @@ export function GenerateSection({
               className={`${BTN_ELE} flex-1 disabled:opacity-50 disabled:cursor-not-allowed`}
               title="생성 후 미리듣기"
             >
-              {generating ? 'ELE 생성 중…' : 'ELE 생성'}
+              {generating ? 'ELE 생성 중…' : saveTargetLabel ? 'ELE 미리듣기 생성' : 'ELE 생성'}
               <span className="ml-2 text-[10px] font-mono opacity-70">Alt+1</span>
             </button>
             <button
               onClick={() => eleSpec && handleGenerate(eleSpec, secKey, ttsText, { saveImmediately: true })}
               disabled={generating || !eleSpec}
               className={`${BTN_SM} flex-1 bg-emerald-600 text-white border border-emerald-500/50 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed`}
-              title="생성 후 미리듣기 없이 바로 슬롯에 저장"
+              title={saveTargetLabel ? `생성 후 저장하여 ${saveTargetLabel}에 반영` : '생성 후 미리듣기 없이 바로 슬롯에 저장'}
             >
-              {generating ? '처리 중…' : '생성 및 저장'}
+              {generating ? '처리 중…' : saveTargetLabel ? `ELE 생성·저장 → ${saveTargetLabel}` : '생성 및 저장'}
               <span className="ml-2 text-[10px] font-mono opacity-70">Alt+2</span>
             </button>
           </div>
@@ -299,16 +301,16 @@ export function GenerateSection({
             className={`${BTN_GEM} flex-1`}
             title="생성 후 미리듣기"
           >
-            {generating ? 'GEM 생성 중…' : chosenEngine === 'gemini-v3' ? 'GEM 3.1 생성' : 'GEM 2.5 생성'}
+            {generating ? 'GEM 생성 중…' : saveTargetLabel ? 'GEM 미리듣기 생성' : chosenEngine === 'gemini-v3' ? 'GEM 3.1 생성' : 'GEM 2.5 생성'}
             <span className="ml-2 text-[10px] font-mono opacity-70">Alt+1</span>
           </button>
           <button
             onClick={() => handleGenerate(geminiSpec, secKey, ttsText, { saveImmediately: true })}
             disabled={generating}
             className={`${BTN_SM} flex-1 bg-emerald-600 text-white border border-emerald-500/50 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed`}
-            title="생성 후 미리듣기 없이 바로 슬롯에 저장"
+            title={saveTargetLabel ? `생성 후 저장하여 ${saveTargetLabel}에 반영` : '생성 후 미리듣기 없이 바로 슬롯에 저장'}
           >
-            {generating ? '처리 중…' : '생성 및 저장'}
+            {generating ? '처리 중…' : saveTargetLabel ? `GEM 생성·저장 → ${saveTargetLabel}` : '생성 및 저장'}
             <span className="ml-2 text-[10px] font-mono opacity-70">Alt+2</span>
           </button>
         </div>

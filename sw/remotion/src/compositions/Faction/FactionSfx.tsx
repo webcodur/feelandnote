@@ -14,6 +14,8 @@ const GROUP_VOL = 0.5
 const PERSON_VOL = 0.32
 /** 챕터 전환 효과음 음량 — 장 전환 임팩트라 세력 등장보다 살짝 크게 */
 const CHAPTER_VOL = 0.6
+/** 상황 화면은 선택한 환경음·효과음만 사용한다. */
+const SCENE_VOL = 0.5
 
 export const FactionSfx: React.FC<{ cues: TimedCue[] }> = ({ cues }) => (
   <>
@@ -30,6 +32,13 @@ export const FactionSfx: React.FC<{ cues: TimedCue[] }> = ({ cues }) => (
         return (
           <Sequence key={`sfx-p-${i}`} from={tc.start + f(ENTER_NAME_SEC)} durationInFrames={f(1.2)}>
             <Audio src={staticFile(SFX_PERSON)} volume={PERSON_VOL} />
+          </Sequence>
+        )
+      }
+      if (tc.cue.kind === 'scene' && tc.cue.scene.sfx) {
+        return (
+          <Sequence key={`sfx-s-${i}`} from={tc.start} durationInFrames={Math.min(tc.duration, f(8))}>
+            <Audio src={staticFile(`common/sfx/${tc.cue.scene.sfx}`)} volume={SCENE_VOL} />
           </Sequence>
         )
       }
