@@ -18,7 +18,6 @@ interface Props {
 
 interface EditFormState {
   status: string
-  rating: string
   review: string
   source_url: string
   content_type: string
@@ -50,7 +49,6 @@ export default function ContentList({ contents, celebId }: Props) {
     setCurrentContentDbId(content.content.id)
     setEditForm({
       status: content.status,
-      rating: content.rating?.toString() || '',
       review: content.review || '',
       source_url: content.source_url || '',
       content_type: content.content.type,
@@ -118,7 +116,6 @@ export default function ContentList({ contents, celebId }: Props) {
         id: userContentId,
         celeb_id: celebId,
         status: editForm.status,
-        rating: editForm.rating ? Number(editForm.rating) : null,
         review: editForm.review || null,
         source_url: editForm.source_url || null,
         content_id: finalContentId,
@@ -274,12 +271,6 @@ export default function ContentList({ contents, celebId }: Props) {
                   <div className="mt-2 space-y-1">
                     <div className="flex items-center gap-3 text-sm">
                       <StatusBadge status={content.status} />
-                      {content.rating && (
-                        <div className="flex items-center gap-1 text-yellow-400">
-                          <Star className="w-3 h-3 fill-current" />
-                          <span>{content.rating}</span>
-                        </div>
-                      )}
                     </div>
                     {content.review && <p className="text-sm text-text-secondary whitespace-pre-line">{content.review}</p>}
                     <div className="text-xs">
@@ -371,16 +362,6 @@ export default function ContentList({ contents, celebId }: Props) {
                           </option>
                         ))}
                       </select>
-                      <input
-                        type="number"
-                        min="0"
-                        max="5"
-                        step="0.5"
-                        value={editForm.rating}
-                        onChange={(e) => setEditForm({ ...editForm, rating: e.target.value })}
-                        placeholder="평점"
-                        className="w-20 px-3 py-1.5 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none"
-                      />
                     </div>
                     <textarea
                       value={editForm.review}
