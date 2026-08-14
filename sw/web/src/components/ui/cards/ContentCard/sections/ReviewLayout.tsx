@@ -25,7 +25,6 @@ interface ReviewLayoutProps {
 export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   const {
     title,
-    creator,
     rating,
     onRatingClick,
     reviewIsOriginalLanguage,
@@ -34,13 +33,11 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     headerNode,
     className,
     heightClass = "h-[280px]",
-    mobileLayout = "poster",
     sourceUrl,
   } = props;
 
   const {
     ContentIcon,
-    aspectClass,
     t,
     isSpoiler,
     showImage,
@@ -51,7 +48,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
     setImageError,
     handleImageLoad,
     handleClick,
-    editionUnavailable,
     editionNoCover,
     activeEdition,
     effectiveCelebCount,
@@ -62,10 +58,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
   } = state;
 
   const selectable = props.selectable;
-
-  const isMobileReview = mobileLayout === "review";
-  const horizontalVisibility = isMobileReview ? "flex" : "hidden sm:flex";
-  const verticalVisibility = isMobileReview ? "hidden" : "sm:hidden flex";
 
   const renderSelectOverlay = () => {
     if (!selectable) return null;
@@ -98,8 +90,8 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
 
   return (
     <>
-      {/* 가로 레이아웃 (PC 기본, 모바일 옵션) */}
-      <div className={`relative group/card ${horizontalVisibility} flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden ${className || ""}`}>
+      {/* 가로 레이아웃: 좌측 표지 + 우측 감상문 (화면 크기 무관 단일 형태) */}
+      <div className={`relative group/card flex flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden ${className || ""}`}>
         <CornerAccents radius="lg" />
         <CardHeader props={props} state={state} />
         <div
@@ -107,7 +99,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
           className="flex items-stretch gap-3 cursor-pointer w-full p-2"
         >
         {/* 썸네일 영역 */}
-        <div className={`relative ${isMobileReview ? "w-28 sm:w-40" : "w-40"} flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
+        <div className={`relative w-28 sm:w-40 flex-shrink-0 rounded-lg overflow-hidden bg-bg-secondary shadow-lg border border-white/5 ${heightClass}`}>
           {showImage ? (
             /* 표지 자리는 세로로 길어 잘라 채우면 좌우가 날아간다 — 제목이 읽히도록 전부 담는다 */
             <ContentImage
@@ -234,61 +226,6 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
             )}
           </div>
         </div>
-        </div>
-      </div>
-
-      {/* 모바일: 포스터 카드 (mobileLayout='review'일 때 숨김) */}
-      <div
-        className={`${verticalVisibility} flex-col bg-bg-card border border-white/[0.06] rounded-xl overflow-hidden shadow-md ${className || ""}`}
-      >
-        <CardHeader props={props} state={state} />
-        {headerNode && (
-          <div className="px-2.5 py-2 flex justify-between items-start bg-black/20 border-b border-white/5" onClick={(e) => e.stopPropagation()}>
-            <div className="flex-1">{headerNode}</div>
-          </div>
-        )}
-
-        <div
-          onClick={handleClick}
-          className="cursor-pointer relative overflow-hidden bg-bg-secondary"
-        >
-          <div className={`${aspectClass} overflow-hidden relative bg-bg-secondary`}>
-            {showImage ? (
-              <ContentImage
-                src={displayThumbnail}
-                alt={title}
-                sizes="(max-width: 768px) 100vw, 300px"
-                onError={() => setImageError(true)}
-                onLoad={handleImageLoad}
-              />
-            ) : (
-              <GenerativeBookCover
-                title={editionUnavailable ? title : displayTitle}
-                ContentIcon={ContentIcon}
-                iconSize={24}
-                label={
-                  editionUnavailable
-                    ? (activeEdition === "ko" ? t("edition.noKoDesc") : t("edition.noEnDesc"))
-                    : editionNoCover
-                      ? (activeEdition === "ko" ? t("edition.noCoverKo") : t("edition.noCoverEn"))
-                      : undefined
-                }
-              />
-            )}
-            {renderBottomLeft()}
-            {renderSelectOverlay()}
-            {renderBottomRight()}
-
-          </div>
-
-          <div className={`p-2 ${headerNode ? "bg-[#151515]" : ""}`}>
-            <h3 className="text-[11px] font-bold text-text-primary line-clamp-2 leading-tight min-h-[28px]">
-              {editionUnavailable ? title : displayTitle}
-            </h3>
-            <p className="text-[10px] text-text-secondary line-clamp-1 mt-1">
-              {editionUnavailable ? (creator ? creator.replace(/\^/g, ", ") : "\u00A0") : (displayCreator ? displayCreator.replace(/\^/g, ", ") : "\u00A0")}
-            </p>
-          </div>
         </div>
       </div>
 

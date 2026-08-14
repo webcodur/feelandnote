@@ -8,6 +8,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
+import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
@@ -58,6 +59,7 @@ interface CelebRecordSectionsProps {
   locale: Locale;
   worldId: string;
   influenceData: CelebInfluenceDetail | null;
+  influenceExplorerData: InfluenceExplorerData | null;
   spectrumData: SimilarByCelebResult | null;
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
@@ -75,6 +77,7 @@ export default function CelebRecordSections({
   locale,
   worldId,
   influenceData,
+  influenceExplorerData,
   spectrumData,
   guestbookEntries,
   guestbookTotal,
@@ -254,6 +257,7 @@ export default function CelebRecordSections({
                 item={serviceItemsByKey.get("analysis")!}
                 spectrumData={spectrumData}
                 influenceData={influenceData}
+                influenceExplorerData={influenceExplorerData}
               />
             )}
           </SectionSurface>

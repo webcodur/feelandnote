@@ -8,6 +8,7 @@ import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
+import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
@@ -26,6 +27,7 @@ interface CelebPageContentProps {
   shareTitle: string;
   userId: string;
   influenceData: CelebInfluenceDetail | null;
+  influenceExplorerData: InfluenceExplorerData | null;
   spectrumData: SimilarByCelebResult | null;
   guestbookEntries: GuestbookEntryWithAuthor[];
   guestbookTotal: number;
@@ -47,6 +49,7 @@ export default function CelebPageContent({
   shareTitle,
   userId,
   influenceData,
+  influenceExplorerData,
   spectrumData,
   guestbookEntries,
   guestbookTotal,
@@ -124,6 +127,7 @@ export default function CelebPageContent({
         locale={locale}
         worldId={worldId}
         influenceData={influenceData}
+        influenceExplorerData={influenceExplorerData}
         spectrumData={spectrumData}
         guestbookEntries={guestbookEntries}
         guestbookTotal={guestbookTotal}

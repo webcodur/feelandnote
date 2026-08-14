@@ -84,7 +84,6 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         ownerNickname={review.celeb.nickname}
         headerNode={headerNode}
         saved={initialSaved}
-        mobileLayout="review"
         heightClass="h-[320px]"
         className="sm:max-w-4xl sm:mx-auto"
         titleKo={review.content.title_ko}

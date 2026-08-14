@@ -338,7 +338,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       onClick={handleBackdropClick}
     >
       {/* PC: 중앙 모달 */}
-      <div className="hidden md:flex items-center justify-center h-full p-6">
+      <div className="hidden md:flex items-center justify-center h-full p-6" onClick={handleBackdropClick}>
         <div className="relative w-full max-w-[520px] animate-modal-content shadow-[0_0_50px_-12px_rgba(212,175,55,0.25)]">
           {/* 그라데이션 테두리 */}
           <div className={`absolute -inset-[3px] bg-gradient-to-br ${borderGradient} opacity-90 rounded-sm`} />
@@ -358,7 +358,7 @@ export default function CelebDetailModal({ celeb, isOpen, onClose, context, hide
       </div>
 
       {/* 모바일: Bottom Sheet */}
-      <div className="md:hidden flex flex-col justify-end h-full relative">
+      <div className="md:hidden flex flex-col justify-end h-full relative" onClick={handleBackdropClick}>
         <div className="shrink-0 h-[12vh] w-full z-10" onClick={onClose} />
         <div className="bg-bg-main rounded-t-[2.5rem] flex flex-col animate-bottomsheet-content shadow-[0_-20px_40px_rgba(0,0,0,0.4)] overflow-hidden h-[88vh]">
           {modalBody}
