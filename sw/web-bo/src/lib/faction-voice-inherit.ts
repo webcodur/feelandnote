@@ -12,9 +12,7 @@
  *    한 명씩 사람 손으로 덮는 자리다).
  * 2. **언어를 가른다.** 셀럽 프로필이 국문·영문 목소리를 따로 들고 있으므로(`voice_id_ko`·`voice_id_en`)
  *    제작 데이터도 언어별 칸에 따로 채운다. 한 언어를 채워도 다른 언어 칸은 건드리지 않는다.
- * 3. **엔진 표기의 짝을 맞춘다.** 목소리를 채우면서 **같은 언어의** 엔진 표기가 비어 있으면 `elevenlabs` 로
- *    함께 세운다. 실측 근거(26.07.25): 국문 목소리를 가진 인물 309명 중 300명이 엔진 표기 `elevenlabs` 를
- *    함께 갖는다. 이미 다른 엔진이 적혀 있으면 그 표기는 건드리지 않는다(사람이 고른 값이다).
+ * 3. **목소리 ID만 채운다.** ID 자체가 ElevenLabs 배역을 뜻하며 생성 엔진은 생성할 때 선택한다.
  * 4. **에피소드 갱신 시각을 직접 올린다.** 팩션 5테이블에는 트리거가 없다(실측 확인). 인물 행만 고치면
  *    열려 있는 편집 화면의 저장 잠금이 그대로 유효해, 그 화면이 목소리가 빈 옛 내용으로 저장하며
  *    방금 채운 값을 지운다. 그래서 일부러 잠금을 무효화해 편집 화면이 다시 불러오게 만든다.
@@ -41,8 +39,6 @@ export interface FactionVoiceInheritTarget {
   locale: FactionVoiceLocale
   /** 셀럽 프로필에서 물려받는 목소리 */
   voiceId: string
-  /** 같은 언어의 엔진 표기까지 함께 세우는가(비어 있던 인물만) */
-  setsEngine: boolean
 }
 
 export interface FactionVoiceInheritResult {
@@ -179,7 +175,6 @@ export async function inheritVoicesFromProfiles(
         celebId,
         locale,
         voiceId,
-        setsEngine: !trimmed(data[F.personEngine]),
       })
     }
   }
@@ -197,7 +192,6 @@ export async function inheritVoicesFromProfiles(
       ?? { data: { ...(dataById.get(t.personId) ?? {}) }, count: 0, name: t.name }
     const F = FACTION_VOICE_FIELDS[t.locale]
     entry.data[F.person] = t.voiceId
-    if (t.setsEngine) entry.data[F.personEngine] = 'elevenlabs'
     entry.count += 1
     merged.set(t.personId, entry)
   }

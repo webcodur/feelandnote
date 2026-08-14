@@ -1,2 +1,2 @@
-export { BreathModeContent } from './BreathModeContent'
-export type { BreathEndpoints } from './useBreathEditor'
+export { BreathModeContent } from '@/components/scenario-voice/BreathModeContent'
+export type { BreathEndpoints } from '@/components/scenario-voice/BreathModeContent'

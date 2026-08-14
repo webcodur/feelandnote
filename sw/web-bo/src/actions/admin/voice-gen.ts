@@ -7,7 +7,9 @@ import { uploadToR2, R2_PUBLIC_URL } from '@/lib/r2'
 import { voiceFileName, voiceR2Key } from '@/lib/voice-path'
 import { revalidateWebCeleb } from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
+import {
+  getEleAccountConfigIssues, getEleAccountSetupError, resolveEleAccountForVoice,
+} from '@feelandnote/shared/lib/ele-accounts'
 
 export interface VoiceGenCeleb {
   id: string
@@ -126,9 +128,10 @@ export async function generateVoicePreview(params: {
 
   const account = await resolveEleAccountForVoice(id, accountId)
   if (!account) {
+    const configError = getEleAccountConfigIssues().length > 0 ? ` ${getEleAccountSetupError()}` : ''
     return {
       success: false,
-      error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${id} (연결된 계정 라이브러리에 없거나, 무료 계정은 라이브러리 음성을 API로 쓸 수 없음)`,
+      error: `해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${id} (연결된 계정 라이브러리에 없거나, 무료 계정은 라이브러리 음성을 API로 쓸 수 없음).${configError}`,
     }
   }
 

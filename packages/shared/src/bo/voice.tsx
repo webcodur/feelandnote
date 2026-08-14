@@ -527,7 +527,7 @@ type UseVoiceGenerationArgs = {
   error: string | null
   setError: (e: string | null) => void
   /** 저장 직후 실제 길이(초) 전달 — 받는 쪽이 화면·영상 길이를 이 음원에 맞춘다 */
-  onSaved?: (durationSec: number) => void
+  onSaved?: (durationSec: number) => void | Promise<void>
   /** 저장 직후 그 엔진을 쓰는 음원으로 전환 — 안 하면 창 밖 재생이 옛 음원을 계속 내보낸다 */
   onActivateEngine?: (engine: EngineKind) => void | Promise<void>
   /** 저장 후 음성 목록 다시 읽기 */
@@ -602,7 +602,7 @@ export function useVoiceGeneration({
       if (opts?.saveImmediately) {
         const saveData = await endpoints.save(targetFile(spec.engine, key), data.base64)
         if (!saveData.success) { setError(saveData.error ?? '저장 실패'); return }
-        if (typeof saveData.duration === 'number' && saveData.duration > 0) onSaved?.(saveData.duration)
+        if (typeof saveData.duration === 'number' && saveData.duration > 0) await onSaved?.(saveData.duration)
         if (tempPreview) { URL.revokeObjectURL(tempPreview.blobUrl); setTempPreview(null) }
         // 방금 저장한 엔진을 쓰는 음원으로 전환 — 안 하면 창 밖 재생이 옛 음원을 계속 내보낸다.
         await onActivateEngine?.(spec.engine)
@@ -678,7 +678,7 @@ export function useVoiceGeneration({
       }
       const data = await endpoints.save(targetFile(tempPreview.engine, tempPreview.key), saveBase64)
       if (!data.success) { setError(data.error ?? '저장 실패'); return }
-      if (typeof data.duration === 'number' && data.duration > 0) onSaved?.(data.duration)
+      if (typeof data.duration === 'number' && data.duration > 0) await onSaved?.(data.duration)
       // 방금 저장한 엔진을 쓰는 음원으로 전환 — 창 밖 재생이 새 음원을 내보내게 한다.
       await onActivateEngine?.(tempPreview.engine)
       URL.revokeObjectURL(tempPreview.blobUrl)
@@ -708,7 +708,7 @@ export function useVoiceGeneration({
       await audioCtx.close()
       const saveData = await endpoints.save(f.name, base64)
       // 잘라서 길이가 줄었으니 저장된 길이도 새 값으로 갱신한다(영상 컷 길이·재생 동기화).
-      if (typeof saveData.duration === 'number' && saveData.duration > 0) onSaved?.(saveData.duration)
+      if (typeof saveData.duration === 'number' && saveData.duration > 0) await onSaved?.(saveData.duration)
       setTrimStart(0)
       setTrimEnd(trimEnd - trimStart)
       setReloadTick(Date.now())

@@ -132,6 +132,14 @@ function GroupBlock({ g, gi, series, episodeName, onToggleDisabled }: {
         </div>
       )}
 
+      {(g.openingScenes ?? []).map((scene, si) => (
+        <div key={`opening-scene-${si}`} className="rounded-md border-s-2 border-teal-500 bg-teal-500/10 px-3 py-2 text-center">
+          <p className="text-[10px] font-bold text-teal-500">세력 시작 상황 · 하위 그룹 소속 아님</p>
+          <p className="text-xs font-bold text-text-primary">{scene.title || '상황 화면'}</p>
+          {scene.caption ? <p className="mt-0.5 text-[10px] text-text-secondary">{scene.caption}</p> : null}
+        </div>
+      ))}
+
       {/* 묶음마다: (비-solo면) 화보 카드 → 인물 컷 */}
       {clusters.map((c, ci) => {
         const people = c.people ?? []
@@ -147,6 +155,13 @@ function GroupBlock({ g, gi, series, episodeName, onToggleDisabled }: {
               ))}
               {people.length === 0 && <span className="text-xs text-text-dim">인물 없음</span>}
             </div>
+            {(c.scenesAfter ?? []).map((scene, si) => (
+              <div key={`scene-${si}`} className="rounded-md border-s-2 border-teal-500 bg-teal-500/10 px-3 py-2 text-center">
+                <p className="text-[10px] font-bold text-teal-500">상황 화면 · 인물·대사 없음</p>
+                <p className="text-xs font-bold text-text-primary">{scene.title || '상황 화면'}</p>
+                {scene.caption ? <p className="mt-0.5 text-[10px] text-text-secondary">{scene.caption}</p> : null}
+              </div>
+            ))}
           </div>
         )
       })}

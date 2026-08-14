@@ -589,7 +589,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
 }
 
 /**
- * 롱폼 배치를 uuid 참조에서 **세력 인덱스** 참조로 되돌린다.
+ * 롱폼 편성을 uuid 참조에서 **세력 인덱스** 참조로 되돌린다.
  *
  * DB 는 세력을 `{groupId: uuid}` 로 가리키지만 편 경계 판정 규칙(`youtube-faction-meta`·렌더 timing)은
  * 전부 인덱스 기준이다. 사라진 세력을 가리키는 항목은 버린다 — 남겨 두면 없는 자리를 세어

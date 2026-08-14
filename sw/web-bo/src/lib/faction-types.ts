@@ -111,14 +111,10 @@ export interface FactionPerson extends FactionCardFields {
   epithetGainDb?: number
   /** 수식어 나레이션 재생 배속 (기본 1, 0.5~2) */
   epithetPlaybackRate?: number
-  /** 수식어 나레이션 합성 엔진 ('gemini'|'gemini-v3'|'elevenlabs') — 대사 음성과 별개로 둔다(나레이터 보이스) */
-  epithetEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** 수식어 나레이션 Gemini 보이스명 */
   epithetSpeaker?: string
   /** 수식어 나레이션 ElevenLabs 보이스 ID */
   epithetElevenlabsVoiceId?: string
-  /** 수식어 나레이션 합성 엔진 — 영문판. 국문(epithetEngine)과 따로 고른다 */
-  epithetEngineEn?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** 수식어 나레이션 ElevenLabs 보이스 ID — 영문판. 셀럽 프로필의 voice_id_en 과 짝이다 */
   epithetElevenlabsVoiceIdEn?: string
   /** 수식어 나레이션 발화 스타일 prefix (Gemini) */
@@ -230,26 +226,11 @@ export interface FactionPerson extends FactionCardFields {
   quotePlaybackRate?: number
   /** 대사 음성 화자 ID (선택) — 인물별 Gemini 보이스명 오버라이드. 미지정이면 공용 기본 목소리 */
   quoteSpeaker?: string
-  /**
-   * 대사 음성 합성 엔진 (선택) — 'gemini'(2.5) | 'gemini-v3'(3.1) | 'elevenlabs'.
-   * 미지정이면 'gemini'. 파이프라인은 Gemini 만 자동 생성, 'elevenlabs' 는 미리듣기 패널에서 사용자가 직접 생성·저장.
-   */
-  quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
-  /** 대사 음성 ElevenLabs 보이스 ID (선택) — quoteEngine='elevenlabs' 일 때 사용. 미리듣기·사용자 생성용 */
+  /** 대사 음성 ElevenLabs 보이스 ID. 값이 있으면 ElevenLabs 배역으로 판정한다. */
   quoteElevenlabsVoiceId?: string
   /**
-   * 대사 음성 합성 엔진 — **영문판**. 국문(quoteEngine)과 따로 고른다.
-   *
-   * 국문과 한 칸을 나눠 쓰지 않는 이유: 영문 목소리를 채우며 엔진을 바꾸면 국문 합성 엔진까지
-   * 함께 바뀐다. 언어마다 잘 맞는 엔진이 다르므로(국문 GEM · 영문 ELE 같은 조합) 칸을 갈랐다.
-   *
-   * ⚠ 음성 합성 파이프라인은 아직 이 값을 읽지 않는다 — `--lang en` 으로 돌려도 국문 엔진(quoteEngine)을
-   *   따른다. 현재는 백오피스 편집기의 미리듣기·수동 생성과 셀럽 목소리 연동에만 쓰인다.
-   */
-  quoteEngineEn?: 'gemini' | 'gemini-v3' | 'elevenlabs'
-  /**
    * 대사 음성 ElevenLabs 보이스 ID — **영문판**. 셀럽 프로필의 `voice_id_en` 과 짝이다
-   * (국문 `quoteElevenlabsVoiceId` ↔ `voice_id_ko`). 위와 같은 이유로 파이프라인은 아직 안 읽는다.
+   * (국문 `quoteElevenlabsVoiceId` ↔ `voice_id_ko`). 영문 생성 파이프라인도 이 값을 읽는다.
    */
   quoteElevenlabsVoiceIdEn?: string
   /**
@@ -259,7 +240,7 @@ export interface FactionPerson extends FactionCardFields {
    */
   quoteStyle?: string
   /**
-   * 대사 ElevenLabs 감정/강도 옵션 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 대사 ElevenLabs 감정/강도 옵션 (선택) — ElevenLabs 미리듣기·사용자 생성에 반영.
    * 북리커맨드 ELE send options 중 인물 톤 표현에 필요한 최소(stability·style)만 둔다.
    * 미지정 필드는 프리뷰 라우트 기본값(stability 0.5, style 0.3)을 따른다.
    */
@@ -270,7 +251,7 @@ export interface FactionPerson extends FactionCardFields {
     style?: number
   }
   /**
-   * 대사 ElevenLabs 감정 태그 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 대사 ElevenLabs 감정 태그 (선택) — ElevenLabs 미리듣기·사용자 생성에 반영.
    * 북리커맨드 ELE send options 의 emotions[] 에 대응. 0~2개. 비면 감정 태그 없이 합성한다.
    * 합성 시 본문 앞에 "[tag1, tag2] " 형태로 붙는다(북리커맨드 buildEleText 규칙 그대로).
    */
@@ -312,6 +293,8 @@ export interface FactionCluster {
   imageCrop?: FactionImageCrop
   /** 이 묶음 인물 (등장 순서) */
   people: FactionPerson[]
+  /** 이 그룹의 마지막 인물 뒤에 이어지는 인물 없는 사건 화면. 쇼츠·롱폼 공통 이야기 흐름이다. */
+  scenesAfter?: FactionScene[]
   /** 이 그룹샷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다. 'zoomin'=다가가는 줌 */
   holdMotion?: HoldMotion
   /** 이 그룹샷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 세력→에피소드 설정을 따른다 */
@@ -333,6 +316,8 @@ export interface FactionCluster {
 export interface FactionGroup extends Partial<FactionGroupCardFields> {
   /** 세력 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=명칭(식별자), 나머지=설명(세력색) */
   name: string
+  /** 이 세력이 시작될 때 인물·그룹 화보보다 먼저 나오는 공통 상황 화면. 하위 인물군에 귀속되지 않는다. */
+  openingScenes?: FactionScene[]
   /**
    * 그룹명 — 그룹을 따로 나누지 않는 세력의 단일 그룹샷 카드 명칭(한 필드, 개행). 첫 줄=명칭, 나머지=설명(세력색).
    * 비우면 세력 명칭 둘째 줄을 그룹샷에 그대로 쓴다. 그룹을 여러 개로 나눈 세력은 각 그룹(clusters)의 label 을 쓴다.
@@ -497,7 +482,23 @@ export interface FactionChapter {
 }
 
 /**
- * 롱폼 배치 한 칸 — 세력 블록(group: 원래 세력 인덱스) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
+ * 상황 화면 — 인물 계정·대사·음성 없이 사건·장소·괴물·재난을 이야기 흐름 사이에 보여주는 컷.
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionScene.
+ */
+export interface FactionScene {
+  title: string
+  titleEn?: string
+  caption?: string
+  captionEn?: string
+  media?: string
+  mediaCrop?: FactionImageCrop
+  durationSec?: number
+  sfx?: string
+}
+
+/**
+ * 롱폼 편성 한 칸 — 세력 블록(group) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
+ * 상황 화면은 정비에서 FactionCluster.scenesAfter 로 관리하며 여기에 넣지 않는다.
  * longformLayout 항목 순서대로 롱폼이 흐른다. cut 을 꽂으면 그 지점에서 여러 편으로 갈라진다.
  * 챕터 전환(chapter)은 영상을 가르지 않고 한 영상 안에서 챕터를 넘긴다(음악 곡 경계 겸용).
  */
@@ -515,7 +516,7 @@ export type FactionLongformItem =
 export type FactionNarratorVoice = Pick<FactionPerson,
   | 'quote' | 'quoteEn' | 'quoteChunks' | 'quoteEnChunks'
   | 'quoteDuration' | 'quoteGainDb' | 'quotePlaybackRate'
-  | 'quoteEngine' | 'quoteSpeaker' | 'quoteElevenlabsVoiceId' | 'quoteStyle'
+  | 'quoteSpeaker' | 'quoteElevenlabsVoiceId' | 'quoteStyle'
   | 'quoteEleOptions' | 'quoteEleEmotions' | 'quoteEleTrail'
 >
 

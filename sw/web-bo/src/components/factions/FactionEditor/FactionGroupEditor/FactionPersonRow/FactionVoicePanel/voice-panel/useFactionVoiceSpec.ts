@@ -5,6 +5,7 @@ import type { FactionPerson } from '@/lib/faction-types'
 import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
 import type { GenEngine } from '@feelandnote/shared/bo/voice-utils'
 import { VOICE } from '@feelandnote/shared/lib/voice-policy'
+import { effectiveElevenLabsVoiceId, factionVoiceProvider } from '@feelandnote/shared/lib/faction-voice-provider'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { buildVoiceAssignPatch, langFieldsOf, type FactionVoiceSlot } from './voice-slots'
 
@@ -22,10 +23,12 @@ type UseFactionVoiceSpecArgs = {
   /** 음성 슬롯 — 대사(QUOTE_SLOT) 또는 수식어(EPITHET_SLOT) */
   slot: FactionVoiceSlot
   /**
-   * 편집 언어 — 합성 엔진·ElevenLabs 목소리를 이 언어의 칸에 읽고 쓴다.
+   * 편집 언어 — ElevenLabs 목소리를 이 언어의 칸에 읽고 쓴다.
    * 미지정이면 국문(옛 호출부 동작 그대로).
    */
   lang?: EditLang
+  /** 편별 배정이 없을 때 이어받는 셀럽 프로필 ElevenLabs 보이스 */
+  inheritedEleVoiceId?: string
   /**
    * 보이스 도감에 적힌 그 보이스의 추가 음량 — 인물에 값이 없을 때 대신 쓴다.
    * 음량은 보이스 자체의 성질이라 인물마다 다시 맞추지 않는다.
@@ -38,9 +41,9 @@ type UseFactionVoiceSpecArgs = {
   gainDbOfVoice?: (voiceId: string) => number | undefined
 }
 
-export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDbFallback, gainDbOfVoice }: UseFactionVoiceSpecArgs) {
+export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, inheritedEleVoiceId, gainDbFallback, gainDbOfVoice }: UseFactionVoiceSpecArgs) {
   const F = slot.fields
-  // 엔진·목소리만 언어별 칸을 쓴다(스타일·감정·길이·음량·배속은 언어 공용 — voice-slots 주석 참조)
+  // ElevenLabs 목소리만 언어별 칸을 쓴다(스타일·감정·길이·음량·배속은 언어 공용).
   const L = langFieldsOf(slot, lang)
 
   /**
@@ -72,16 +75,10 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDb
   useEffect(() => { setTtsText(original) }, [original])
 
   // ── 엔진 결정 ──
-  const personEngine: GenEngine = (person[L.engine] as GenEngine | undefined) ?? 'gemini'
-  const [chosenEngine, setChosenEngine] = useState<GenEngine>(personEngine)
-  useEffect(() => { setChosenEngine(personEngine) }, [personEngine])
-
-  // chosenEngine 토글 → 인물 데이터(slot.engine)에 명시적으로 반영한다.
-  // 공용 낭독 목소리를 상속하는 수식어에서는 'gemini'도 실제 인물별 예외값이 될 수 있다.
-  const handleChosenEngine = (e: GenEngine) => {
-    setChosenEngine(e)
-    setField(L.engine, e)
-  }
+  const ownEleVoiceId = person[L.eleVoiceId] as string | undefined
+  const eleVoiceId = effectiveElevenLabsVoiceId(ownEleVoiceId, inheritedEleVoiceId) ?? ''
+  // 엔진은 생성 세션의 선택값이다. ElevenLabs ID가 있으면 ELE로 시작하고 별도 영속 필드는 두지 않는다.
+  const [chosenEngine, setChosenEngine] = useState<GenEngine>(() => factionVoiceProvider(eleVoiceId))
 
   // ── 보이스 spec ──
   const stylePrefix = (person[F.style] as string | undefined) ?? ''
@@ -98,7 +95,6 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDb
     setField(F.style, trimmed || undefined)
   }
 
-  const eleVoiceId = (person[L.eleVoiceId] as string | undefined) ?? ''
   /**
    * 보이스 배정 — 인물의 음량 칸이 비어 있으면 도감에 적힌 그 보이스의 음량을 **함께** 적어 둔다.
    * 도감 값을 내보내기가 몰래 끼워 넣는 방식은 쓰지 않으므로(왕복 검증이 깨진다) 이 순간 데이터에
@@ -167,7 +163,7 @@ export function useFactionVoiceSpec({ person, onPersonChange, slot, lang, gainDb
   return {
     sectionTexts,
     ttsText, setTtsText,
-    chosenEngine, setChosenEngine: handleChosenEngine,
+    chosenEngine, setChosenEngine,
     geminiSpec,
     eleSpec,
     activeSpec,

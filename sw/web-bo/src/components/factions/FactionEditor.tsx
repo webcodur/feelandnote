@@ -62,7 +62,7 @@ import { FactionLongformPanel } from './FactionEditor/FactionLongformPanel'
 import { FactionPersonMoveModal } from './FactionEditor/FactionPersonMoveModal'
 import type { FactionEditTab } from '@/lib/faction-edit-route'
 import { useCelebExists } from '@/lib/useCelebExists'
-import { loadFactionScript, saveFactionScript } from '@/actions/admin/factions/script'
+import { loadFactionScript, saveFactionScript, type CelebVoiceEntry } from '@/actions/admin/factions/script'
 import { folderToParam } from '@/lib/faction-edit-route'
 
 /** 편집 화면 주소 뿌리 — 목록도 상세도 이 아래에 있다 */
@@ -147,6 +147,7 @@ function partSectionsOf(count: number): PartSection[] {
 
 export function FactionEditor({ series, name, initialLang, initialTab = 'info', cardTarget }: { series: string; name: string; initialLang?: EditLang; initialTab?: FactionEditTab; cardTarget?: FactionCardInitialTarget }) {
   const [script, setScript] = useState<FactionScript | null>(null)
+  const [celebVoices, setCelebVoices] = useState<Record<string, CelebVoiceEntry>>({})
   const [showPreview, setShowPreview] = useState(false)
   // 이미지 풀 — 진입 시 기본 펼침 + Ctrl+Q 토글(북리커맨드와 공통)
   const { open: showPool, setOpen: setShowPool } = useImagePoolToggle()
@@ -290,6 +291,7 @@ ${res.exported.reason}`)
     return loadFactionScript(name)
       .then((loaded) => {
         updatedAtRef.current = loaded.updatedAt
+        setCelebVoices(loaded.celebVoices)
         const data = loaded.script as unknown as FactionScript
         const groups = data.groups ?? []
         const loadedScript = { ...data, groups }
@@ -366,7 +368,7 @@ ${res.exported.reason}`)
   const update = useCallback((patch: Partial<FactionScript>) => {
     setScript(prev => (prev ? { ...prev, ...patch } : prev))
     setDirty(true)
-  }, [])
+  }, [setDirty])
 
   const updateGroups = useCallback((groups: FactionGroup[]) => update({ groups }), [update])
 
@@ -799,11 +801,13 @@ ${res.exported.reason}`)
   return (
     <FactionAtlasProvider folder={name} reloadKey={atlasReloadKey}>
     <FactionVoiceProvider value={{
+      celebVoices,
       byFile: voiceByFile,
       voiceUrl,
       regenerate: regenerateVoice,
       regeneratingFile,
       reload: loadVoices,
+      save,
       episodeName: name,
       series,
       commonNarrationVoice: script.narrator?.logline,
@@ -1036,7 +1040,7 @@ ${res.exported.reason}`)
             <button
               onClick={() => setVoiceModalOpen(true)}
               className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
-              title="인물 대사 음성 생성 옵션 (엔진·대상·생성 모드)"
+              title="인물 대사 음성 생성 옵션 (대상·생성 모드)"
             >
               <Mic size={15} /> 음성 생성
             </button>
@@ -1161,7 +1165,7 @@ ${res.exported.reason}`)
             />
           )}
 
-          {/* 정비 — 세력·인물 데이터 그 자체 (편 구분 없이 평면 나열). 편 배정·구성은 편성 탭에서 */}
+          {/* 정비 — 세력·인물·상황 화면 데이터 그 자체 (편 구분 없이 평면 나열). 편 배정·분리는 편성 탭에서 */}
           {tab === 'info' && !showPeopleImages && (
             <div className="space-y-4">
               {/* 대사 자막 표시 — 북리커맨드 쇼츠 작은 자막을 팩션에도 적용. 일괄 도구로 전 인물 통일 */}

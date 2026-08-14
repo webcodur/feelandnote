@@ -38,10 +38,14 @@ export interface FactionGroupMeta {
 }
 
 /**
- * 롱폼 배치 한 칸(경량) — 세력 블록(group)·시대 문구 카드(era)·편 경계(cut).
+ * 롱폼 편성 한 칸(경량) — 세력 참조, 시대·챕터 카드, 편 경계.
  * faction-data.json 의 longformLayout 을 그대로 받는다. remotion 측 FactionLongformItem 과 구조 동기화.
  */
-export type FactionLongformLayoutItem = { group: number } | { era: unknown } | { cut: true } | { chapter: unknown }
+export type FactionLongformLayoutItem =
+  | { group: number }
+  | { era: unknown }
+  | { cut: true }
+  | { chapter: unknown }
 
 /** 팩션 메타 생성 입력 — faction-data.json 의 상위 필드 일부만 추린 경량 형태 */
 export interface FactionMetaInput {

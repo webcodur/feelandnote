@@ -10,7 +10,7 @@
  * 통합 명칭(name·title·label)은 데이터가 이미 '앞부분\n뒷부분' 한 필드라 그대로 펼친다(렌더가 split).
  */
 
-import type { FactionScript, FactionGroup, FactionCluster, FactionPerson, FactionNarratorVoice } from './types'
+import type { FactionScript, FactionGroup, FactionCluster, FactionPerson, FactionNarratorVoice, FactionScene } from './types'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
 import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 // 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
@@ -49,7 +49,6 @@ function inheritEpithetVoice(p: FactionPerson, common?: FactionNarratorVoice): F
   if (!common) return p
   return {
     ...p,
-    epithetEngine: p.epithetEngine ?? common.quoteEngine,
     epithetSpeaker: p.epithetSpeaker ?? common.quoteSpeaker,
     epithetStyle: p.epithetStyle ?? common.quoteStyle,
     epithetElevenlabsVoiceId: p.epithetElevenlabsVoiceId ?? common.quoteElevenlabsVoiceId,
@@ -83,6 +82,15 @@ function resolveCluster(c: FactionCluster, en: boolean, commonVoice?: FactionNar
     // 단체 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 labelEn 폴백.
     label: en ? (c.labelEn ?? c.label) : c.label,
     people: c.people?.map(p => resolvePerson(p, en, commonVoice)) ?? [],
+    scenesAfter: c.scenesAfter?.map(scene => resolveScene(scene, en)),
+  }
+}
+
+function resolveScene(scene: FactionScene, en: boolean): FactionScene {
+  return {
+    ...scene,
+    title: en ? (scene.titleEn ?? scene.title) : scene.title,
+    caption: en ? (scene.captionEn ?? scene.caption) : scene.caption,
   }
 }
 
@@ -91,6 +99,7 @@ function resolveGroup(g: FactionGroup, en: boolean, commonVoice?: FactionNarrato
     ...g,
     // 세력 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 nameEn 폴백.
     name: en ? (g.nameEn ?? g.name) : g.name,
+    openingScenes: g.openingScenes?.map(scene => resolveScene(scene, en)),
     clusters: g.clusters.map(c => resolveCluster(c, en, commonVoice)),
   }
 }
@@ -157,7 +166,7 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
     logline: en ? data.loglineEn : data.logline,
     loglineByPart: en ? data.loglineByPartEn : data.loglineByPart,
     loglineByLvPart: en ? data.loglineByLvPartEn : data.loglineByLvPart,
-    // 롱폼 배치 — 영문판은 시대 문구(era)·챕터 제목(chapter)을 영문으로 치환(없으면 한국어 폴백). 세력 참조·편 경계(cut)는 그대로.
+    // 롱폼 편성 — 영문판은 시대 문구·챕터 제목을 영문으로 치환한다. 세력 참조·편 경계는 그대로.
     longformLayout: data.longformLayout?.map(it =>
       'era' in it ? { era: { ...it.era, label: en ? (it.era.labelEn ?? it.era.label) : it.era.label } }
       : 'chapter' in it ? {

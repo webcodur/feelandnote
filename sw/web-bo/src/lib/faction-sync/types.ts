@@ -44,9 +44,9 @@ export type FactionSyncSoloShotState = 'synced' | 'stale' | 'local-only' | 'db-o
 export type FactionVoiceLocale = 'ko' | 'en'
 
 /** 언어별 제작 데이터 ↔ 셀럽 프로필 칸 대응 — 진단·상속이 같은 표를 본다 */
-export const FACTION_VOICE_FIELDS: Record<FactionVoiceLocale, { person: string; personEngine: string; profile: string; label: string }> = {
-  ko: { person: 'quoteElevenlabsVoiceId', personEngine: 'quoteEngine', profile: 'voice_id_ko', label: '국문' },
-  en: { person: 'quoteElevenlabsVoiceIdEn', personEngine: 'quoteEngineEn', profile: 'voice_id_en', label: '영문' },
+export const FACTION_VOICE_FIELDS: Record<FactionVoiceLocale, { person: string; profile: string; label: string }> = {
+  ko: { person: 'quoteElevenlabsVoiceId', profile: 'voice_id_ko', label: '국문' },
+  en: { person: 'quoteElevenlabsVoiceIdEn', profile: 'voice_id_en', label: '영문' },
 }
 
 /**

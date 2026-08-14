@@ -12,7 +12,7 @@
 import { mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import path from 'path'
-import { VOICE, MODEL_GEMINI_25, MODEL_GEMINI_31 } from '../2-synthesize/config.js'
+import { VOICE } from '../2-synthesize/config.js'
 import { normalizeWav, normalizeAll } from '../2-synthesize/normalize.js'
 import {
   EPISODE_NAME, DATA_PATH, VOICE_DIR, LANG, GEMINI_MODEL,
@@ -25,25 +25,16 @@ import { synthesizeGemini, measureWavDuration } from './engine.js'
 // DB↔JSON 음성 길이 감시 열(문서 §7 ③) — 조회는 전부 저 모듈이 하고 여기엔 훅만 둔다.
 import { tryLoadDbQuoteDurations } from '../../faction/db-durations.js'
 import { vnPersonQuote } from '../../../src/compositions/Faction/voice-names.js'
+import { factionVoiceProvider } from '@feelandnote/shared/lib/faction-voice-provider'
 
 /** 인물 화자 → Gemini 보이스명. quoteSpeaker 가 보이스명 오버라이드. 미지정이면 공용 셀럽 보이스. */
 function voiceFor(job: FactionVoiceJob): string {
   return job.speaker && job.speaker.trim() ? job.speaker.trim() : VOICE.celeb
 }
 
-/**
- * 인물별 합성 모델 — quoteEngine 이 'gemini-v3' 면 3.1, 'gemini' 면 2.5,
- * 미지정이면 CLI 전역 --engine(GEMINI_MODEL)을 따른다. ('elevenlabs' 인물은 이미 잡에서 제외됨)
- */
-function modelFor(job: FactionVoiceJob): string {
-  if (job.engine === 'gemini-v3') return MODEL_GEMINI_31
-  if (job.engine === 'gemini') return MODEL_GEMINI_25
-  return GEMINI_MODEL
-}
-
-/** 매니페스트 해시 키 — 보이스+모델을 합쳐, 엔진(2.5↔3.1) 교체도 재생성을 트리거한다. */
+/** 매니페스트 해시 키 — 생성할 때 선택한 Gemini 모델 교체도 재생성을 트리거한다. */
 function hashVoice(job: FactionVoiceJob): string {
-  return `${voiceFor(job)}@${modelFor(job)}`
+  return `${voiceFor(job)}@${GEMINI_MODEL}`
 }
 
 export async function main(): Promise<void> {
@@ -75,9 +66,9 @@ export async function main(): Promise<void> {
 
   // ElevenLabs 인물은 자동 "생성" 대상이 아니다(사용자 전담). BO 미리듣기 패널에서 직접 생성·저장한다.
   // 단, 이미 존재하는 wav 의 길이 측정은 엔진과 무관하므로 여기서 제외해도 --update-json 은 allJobs 를 쓴다.
-  const eleSkipped = jobs.filter(j => j.engine === 'elevenlabs').length
+  const eleSkipped = jobs.filter(j => factionVoiceProvider(j.elevenLabsVoiceId) === 'elevenlabs').length
   if (eleSkipped > 0) {
-    jobs = jobs.filter(j => j.engine !== 'elevenlabs')
+    jobs = jobs.filter(j => factionVoiceProvider(j.elevenLabsVoiceId) !== 'elevenlabs')
     console.log(`ElevenLabs 지정 ${eleSkipped}명 자동 생성 제외 (사용자 전담)`)
   }
 
@@ -166,7 +157,7 @@ export async function main(): Promise<void> {
   const durations: Record<string, number> = {}
   for (const job of jobs) {
     const voice = voiceFor(job)
-    const model = modelFor(job)
+    const model = GEMINI_MODEL
     const fp = path.join(VOICE_DIR, job.file)
     console.log(`[${job.file}] [${voice}] (${model})`)
     const dur = await synthesizeGemini(job.text, voice, fp, model)

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
-import { getEleAccounts } from '@feelandnote/shared/lib/ele-accounts'
+import {
+  getEleAccountConfigIssues, getEleAccountSetupError, getEleAccounts,
+} from '@feelandnote/shared/lib/ele-accounts'
 import { guardAdminRoute } from '@/lib/admin-route'
 
 type ElevenVoice = {
@@ -61,7 +63,7 @@ export async function GET() {
 
   const accounts = getEleAccounts()
   if (accounts.length === 0) {
-    return NextResponse.json({ error: 'ELEVENLABS_API_KEY not set' }, { status: 500 })
+    return NextResponse.json({ error: getEleAccountSetupError() }, { status: 500 })
   }
 
   try {
@@ -88,7 +90,12 @@ export async function GET() {
       }
     }
 
-    return NextResponse.json({ voices })
+    const configWarnings = getEleAccountConfigIssues().map(issue => (
+      issue.reason === 'api-key-id'
+        ? `${issue.envVar}에 API Key ID가 들어 있어 이 계정을 제외함`
+        : `${issue.envVar}가 sk_... 비밀 키 형식이 아니어서 이 계정을 제외함`
+    ))
+    return NextResponse.json({ voices, ...(configWarnings.length ? { configWarnings } : {}) })
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 })
   }

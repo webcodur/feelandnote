@@ -744,7 +744,7 @@ function VoiceInheritReport({ r }: { r: InheritFactionVoicesResult }) {
             <li key={`${t.personId}-${t.locale}`}>
               <span className="rounded bg-bg-main px-1 py-px text-[10px] font-semibold text-text-dim">{LOCALE_LABEL[t.locale]}</span>
               {' '}{t.name} <span className="font-mono text-text-dim">{t.voiceId}</span>
-              <span className="text-text-dim"> ({t.group}{t.setsEngine ? ' · 엔진도 함께' : ''})</span>
+              <span className="text-text-dim"> ({t.group})</span>
             </li>
           ))}
         </ul>

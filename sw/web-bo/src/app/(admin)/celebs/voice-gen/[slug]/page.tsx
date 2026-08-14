@@ -28,7 +28,7 @@ export default async function VoiceGenSlugPage({ params }: PageProps) {
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-text-primary">대사/음성 워크스페이스</h1>
           <p className="text-sm text-text-secondary mt-1">
-            ElevenLabs TTS{celeb ? ` · ${celeb.nickname ?? slug}` : ''}
+            Gemini · ElevenLabs TTS{celeb ? ` · ${celeb.nickname ?? slug}` : ''}
           </p>
         </div>
       </div>

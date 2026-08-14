@@ -12,7 +12,9 @@ import { GoogleGenAI } from '@google/genai'
 import wav from 'wav'
 import path from 'path'
 import { spawn } from 'node:child_process'
-import { getEleAccounts, resolveEleAccountForVoice } from '@feelandnote/shared/lib/ele-accounts'
+import {
+  getEleAccountSetupError, getEleAccounts, resolveEleAccountForVoice,
+} from '@feelandnote/shared/lib/ele-accounts'
 import { type Voice } from './config.js'
 import { START_KEY_INDEX, GEMINI_MODEL } from './cli.js'
 
@@ -117,7 +119,7 @@ export async function synthesizeElevenlabs(text: string, voiceId: string, output
   if (!/^\[.+?\]/.test(text.trim())) throw new Error(`ElevenLabs 감정 태그 누락: "${text.slice(0, 50)}…" — 텍스트 앞에 [감정, 톤] 태그를 추가하세요.`)
 
   if (getEleAccounts().length === 0) {
-    throw new Error('ElevenLabs API 키가 설정되지 않음 (.env의 ELEVENLABS_API_KEY / ELEVENLABS_API_KEY_FEELANDNOTE)')
+    throw new Error(getEleAccountSetupError())
   }
   const account = await resolveEleAccountForVoice(voiceId)
   if (!account) throw new Error(`해당 음성을 가진 ElevenLabs 계정을 찾지 못함: ${voiceId}`)

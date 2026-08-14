@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { Mic, Loader } from '@feelandnote/shared/bo/icons'
 
-// 세력도감 음성 생성 옵션 — 엔진·대상·정규화·생성 모드를 고른 뒤 생성한다.
+// 세력도감 Gemini 일괄 생성 옵션 — 대상·정규화·생성 모드를 고른 뒤 생성한다.
 export type FactionVoiceOptions = {
-  engine: string
+  engine: 'gemini'
   only?: string
   normalize: boolean
   force: boolean
@@ -19,7 +19,6 @@ type Props = {
 }
 
 export function FactionVoiceModal({ onClose, onGenerate }: Props) {
-  const [engine, setEngine] = useState('gemini')
   const [only, setOnly] = useState('')
   const [normalize, setNormalize] = useState(true)
   const [thenAlign, setThenAlign] = useState(false)
@@ -34,7 +33,7 @@ export function FactionVoiceModal({ onClose, onGenerate }: Props) {
     if (busy) return
     setBusy(true)
     try {
-      await onGenerate({ engine, only: only.trim() || undefined, normalize, force, thenAlign: align })
+      await onGenerate({ engine: 'gemini', only: only.trim() || undefined, normalize, force, thenAlign: align })
       onClose()
     } finally {
       setBusy(false)
@@ -57,25 +56,9 @@ export function FactionVoiceModal({ onClose, onGenerate }: Props) {
         </div>
 
         <div className="space-y-4 p-4">
-          {/* 엔진 — 일괄 생성 기본 엔진. 인물별 설정(quoteEngine)이 우선한다.
-              ElevenLabs 인물은 자동 생성에서 제외되고, 인물 패널에서 사용자가 직접 미리듣기·저장한다. */}
-          <div className="flex items-center gap-2">
-            <label className="w-24 shrink-0 text-xs text-text-dim">기본 엔진 -</label>
-            <select
-              value={engine}
-              onChange={e => setEngine(e.target.value)}
-              title="일괄 생성 기본 엔진. 인물별 설정이 있으면 그 엔진을 따른다. Gemini 3.1은 audio tag 지원·단가 2배"
-              className="flex-1 rounded-md border border-border bg-bg-main px-3 py-2 text-sm focus:border-accent focus:outline-none"
-            >
-              <option value="gemini">Gemini 2.5</option>
-              <option value="gemini-v3">Gemini 3.1</option>
-              <option value="elevenlabs">ElevenLabs</option>
-            </select>
-          </div>
-
           <p className="rounded-md border border-border bg-bg-main px-3 py-2 text-[11px] leading-relaxed text-text-dim">
-            인물마다 음성 패널에서 엔진·보이스를 따로 지정할 수 있습니다. 지정한 인물은 그 설정대로 생성되고,
-            ElevenLabs로 지정한 인물은 자동 생성에서 빠집니다. ElevenLabs 음원은 인물 패널의 미리듣기로 만들어 저장하세요.
+            일괄 생성은 Gemini 2.5를 사용합니다. ElevenLabs 보이스 ID가 있는 인물은 자동 생성에서 빠지며,
+            해당 음원은 인물 패널의 미리듣기로 만들어 저장하세요.
           </p>
 
           {/* 대상 — 특정 인물 파일 접두만 생성. 비우면 전체 */}

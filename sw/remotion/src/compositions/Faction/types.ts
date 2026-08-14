@@ -80,8 +80,6 @@ export interface FactionPerson {
   epithetGainDb?: number
   /** 수식어 나레이션 재생 배속 (기본 1, 0.5~2) */
   epithetPlaybackRate?: number
-  /** 수식어 나레이션 합성 엔진 (BO 생성용 — 렌더는 저장된 wav만 재생) */
-  epithetEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** 수식어 나레이션 Gemini 보이스명 (BO 생성용) */
   epithetSpeaker?: string
   /** 수식어 나레이션 ElevenLabs 보이스 ID (BO 생성용) */
@@ -225,14 +223,10 @@ export interface FactionPerson {
   quotePlaybackRate?: number
   /** 대사 음성 화자 ID (선택) — 인물별 Gemini 보이스명 오버라이드. 미지정이면 공용 기본 목소리 */
   quoteSpeaker?: string
-  /**
-   * 대사 음성 합성 엔진 (선택) — 'gemini'(2.5) | 'gemini-v3'(3.1) | 'elevenlabs'.
-   * 미지정이면 'gemini'. 파이프라인(pnpm voice:faction)은 Gemini 만 자동 생성하고,
-   * 'elevenlabs' 음원은 BO 미리듣기 패널에서 사용자가 직접 생성·저장한다(자동 생성 차단).
-   */
-  quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
-  /** 대사 음성 ElevenLabs 보이스 ID (선택) — quoteEngine='elevenlabs' 일 때 사용. 미리듣기·사용자 생성용 */
+  /** 대사 음성 ElevenLabs 보이스 ID. 값이 있으면 자동 Gemini 생성에서 제외한다. */
   quoteElevenlabsVoiceId?: string
+  /** 영문 대사 ElevenLabs 보이스 ID */
+  quoteElevenlabsVoiceIdEn?: string
   /**
    * 대사 발화 스타일 지시 (선택) — Gemini 합성 시 텍스트 앞에 "<지시>: " prefix 로 붙는다.
    * 예: '강하고 단호하게', '낮고 간절하게'. 비면 기본 말투. 인물별로 톤을 저장해 같은 보이스라도
@@ -241,7 +235,7 @@ export interface FactionPerson {
    */
   quoteStyle?: string
   /**
-   * 대사 ElevenLabs 감정/강도 옵션 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 대사 ElevenLabs 감정/강도 옵션 (선택) — ElevenLabs 미리듣기·사용자 생성에 반영.
    * 북리커맨드 ELE send options 중 인물 톤 표현에 필요한 최소(stability·style)만 둔다.
    * Gemini 합성에는 영향이 없다(스타일은 quoteStyle 로 표현). 렌더는 저장된 wav 만 재생한다.
    */
@@ -252,7 +246,7 @@ export interface FactionPerson {
     style?: number
   }
   /**
-   * 대사 ElevenLabs 감정 태그 (선택) — quoteEngine='elevenlabs' 미리듣기·사용자 생성에 반영.
+   * 대사 ElevenLabs 감정 태그 (선택) — ElevenLabs 미리듣기·사용자 생성에 반영.
    * 북리커맨드 ELE send options 의 emotions[] 에 대응. 0~2개. 비면 감정 태그 없이 합성한다.
    * 합성 시 본문 앞에 "[tag1, tag2] " 형태로 붙는다(북리커맨드 buildEleText 규칙 그대로).
    * Gemini 합성·렌더에는 영향이 없다(렌더는 저장된 wav 만 재생).
@@ -301,6 +295,8 @@ export interface FactionCluster {
   cardBody?: string
   /** 이 묶음 인물 목록 */
   people: FactionPerson[]
+  /** 이 그룹의 마지막 인물 뒤에 이어지는 인물 없는 사건 화면. 쇼츠·롱폼 공통 이야기 흐름이다. */
+  scenesAfter?: FactionScene[]
   /** 이 그룹샷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다. 'zoomin'=다가가는 줌 */
   holdMotion?: HoldMotion
   /** 이 그룹샷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 세력→에피소드 설정을 따른다 */
@@ -323,6 +319,8 @@ export interface FactionCluster {
 export interface FactionGroup {
   /** 세력 명칭 — 통합 한 필드. 앞부분\n뒷부분(개행) 형태 (예: 'OpenAI\n모든 것의 시작') */
   name: string
+  /** 이 세력이 시작될 때 인물·그룹 화보보다 먼저 나오는 공통 상황 화면. 하위 인물군에 귀속되지 않는다. */
+  openingScenes?: FactionScene[]
   /** 이 세력의 카드뉴스용 소개글 (강령 카드 등 하단에 노출) */
   cardBody?: string
   /** 이 세력의 강령 타이틀 (기본: '세력 강령') */
@@ -504,7 +502,31 @@ export interface FactionChapter {
 }
 
 /**
- * 롱폼 배치 한 칸 — 세력 블록(group: 원래 세력 인덱스) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
+ * 상황 화면 — 인물로 등록할 필요가 없는 사건·장소·괴물·재난을 이야기 흐름 사이에 잠깐 보여주는 컷.
+ * 인물 대사·음성 슬롯은 갖지 않으며 배경 미디어와 짧은 사건 설명만 표시한다.
+ */
+export interface FactionScene {
+  /** 상황 제목. 예: '퀴클롭스의 동굴' */
+  title: string
+  /** 상황 제목 영문 */
+  titleEn?: string
+  /** 사건을 설명하는 한두 줄. 대사가 아니라 화면 설명이다 */
+  caption?: string
+  /** 사건 설명 영문 */
+  captionEn?: string
+  /** 배경 이미지·영상. 비어 있으면 텍스트 중심의 어두운 배경으로 렌더한다 */
+  media?: string
+  /** 배경 미디어 맞춤 */
+  mediaCrop?: FactionImageCrop
+  /** 화면 지속 시간(초). 렌더에서 2~15초로 제한하며 기본 4.5초 */
+  durationSec?: number
+  /** 선택 효과음(public/common/sfx/ 하위). 대사·음성 없이 장면의 소리만 더한다 */
+  sfx?: string
+}
+
+/**
+ * 롱폼 편성 한 칸 — 세력 블록(group) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
+ * 상황 화면은 정비에서 FactionCluster.scenesAfter 로 관리하며 여기에 넣지 않는다.
  * longformLayout 항목 순서대로 롱폼이 흐른다.
  * 편 경계(cut)를 꽂으면 롱폼이 그 지점에서 여러 편(KO-LV1·KO-LV2…)으로 갈라진다.
  * 경계가 하나도 없으면 기존처럼 통짜 한 편(KO-LV). 각 편은 자체 인트로·아웃트로를 갖는다.
@@ -536,12 +558,12 @@ export interface FactionNarratorVoice {
   quoteGainDb?: number
   /** 재생 배속 (기본 1, 0.5~2) */
   quotePlaybackRate?: number
-  /** 합성 엔진 (BO 생성용 — 렌더는 저장된 wav만 재생) */
-  quoteEngine?: 'gemini' | 'gemini-v3' | 'elevenlabs'
   /** Gemini 보이스명 (BO 생성용) */
   quoteSpeaker?: string
   /** ElevenLabs 보이스 ID (BO 생성용) */
   quoteElevenlabsVoiceId?: string
+  /** 영문 ElevenLabs 보이스 ID (BO 생성용) */
+  quoteElevenlabsVoiceIdEn?: string
   /** 발화 스타일 prefix (BO 생성용) */
   quoteStyle?: string
   /** ELE 감정/강도 (BO 생성용) */

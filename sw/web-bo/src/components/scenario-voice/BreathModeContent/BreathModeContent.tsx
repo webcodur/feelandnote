@@ -271,7 +271,7 @@ export function BreathModeContent({ series, name, file, onRefresh, endpoints }: 
       {ed.loading ? (
         <div className="text-sm text-text-secondary italic px-1 py-6">음원 로딩 중…</div>
       ) : ed.wav ? (
-        <div className="rounded border border-border transition-colors">
+        <div className="rounded border border-border">
           <div 
             className="px-3 py-1.5 border-b border-border rounded-t flex items-center justify-between bg-bg-card text-text-primary"
           >
