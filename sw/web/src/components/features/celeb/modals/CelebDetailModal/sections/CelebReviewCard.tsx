@@ -83,7 +83,7 @@ export function CelebReviewCard({ review, celeb, modalZIndex }: { review: CelebR
         href=""
         ownerNickname={reviewDisplayName}
         headerNode={headerNode}
-        heightClass="h-[320px] md:h-[280px]"
+        heightClass="h-[320px]"
         modalZIndex={modalZIndex}
         titleKo={review.content.title_ko}
         titleEn={review.content.title_en}

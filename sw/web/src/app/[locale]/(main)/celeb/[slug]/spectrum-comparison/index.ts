@@ -1,1 +1,5 @@
-export { default } from "./SpectrumComparisonGraphic";
+export {
+  default,
+  MatchInsightNote,
+  useMatchInsight,
+} from "./SpectrumComparisonGraphic";

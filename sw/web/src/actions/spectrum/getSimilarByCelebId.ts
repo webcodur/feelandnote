@@ -9,12 +9,15 @@ import { parseSpectrumJsonb } from '@/lib/spectrum/types'
 import {
   calcSpectrumMatchDistances,
   calcEmphasizedVirtueSimilarity,
-  calcVirtuePopulationStats,
+  calcPopulationStats,
   getEmphasizedVirtueEvidence,
   getEmphasizedVirtueVector,
+  getSpectrumHighlights,
   getSpectrumMatchComparison,
   getSpectrumMatchEvidence,
   groupedDistanceToMatchPercent,
+  toPopulationAdjustedStats,
+  type SpectrumHighlight,
   type SpectrumMatch,
   type SpectrumMatchCategory,
   type SpectrumMatchGroups,
@@ -24,7 +27,9 @@ import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
   OUTER_VIRTUE_KEYS,
+  STAT_KEYS,
   TENDENCY_KEYS,
+  VIRTUE_KEYS,
 } from '@/lib/spectrum/constants'
 
 export interface SimilarByCelebResult {
@@ -32,6 +37,10 @@ export interface SimilarByCelebResult {
   targetSpectrumJsonb: SpectrumJsonb | null
   similarCelebs: SimilarCeleb[]
   matchesByCategory: SpectrumMatchGroups
+  /** 인물 지문 — 집단에서 크게 벗어난 축 (이탈 큰 순) */
+  highlights: SpectrumHighlight[]
+  /** 비교 모집단(활성 인물) 수. 지문 문구의 "N명 중"에 쓴다 */
+  population: number
 }
 
 const EMPTY_MATCH_GROUPS: SpectrumMatchGroups = {
@@ -143,6 +152,10 @@ function columnsToStats(row: SpectrumColumnRow): SpectrumStats {
 // 후보에조차 오르지 못했다(실측). 어느 1,000명이 남는지는 정렬 없는 select의
 // 반환 순서에 달려 특정 인물이 상시 배제됐다. celeb_id 정렬로 페이지 경계의
 // 중복·누락을 막고, 덤으로 동점 인물의 노출 순서까지 요청마다 흔들리지 않게 고정된다.
+//
+// 공개 인물 거르기는 DB에서 한다. 전량(2,711행)을 받아 JS로 걸러 1,778행만 쓰던 때는
+// 페이지가 셋이라 2,579ms가 걸렸다. 조인 조건으로 미리 좁히면 페이지가 둘로 줄어
+// 712ms다(실측 26.08.14, 결과 행 수는 동일).
 async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
   const supabase = createStaticClient()
   const rows = await selectAllPages<SpectrumColumnRow>((from, to) =>
@@ -150,8 +163,9 @@ async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
       .from('celeb_persona')
       .select(`
         celeb_id, ${SPECTRUM_STAT_KEYS.join(', ')},
-        celeb:celebs!celeb_persona_celebs_fkey (nickname, nickname_en, profession, avatar_url, publication_status)
+        celeb:celebs!inner (nickname, nickname_en, profession, avatar_url, publication_status)
       `)
+      .eq('celeb.publication_status', 'active')
       .order('celeb_id')
       .range(from, to) as unknown as PromiseLike<{
       data: SpectrumColumnRow[] | null
@@ -175,6 +189,30 @@ async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
 /* 성향 벡터 전량 — 한 명이 바뀌어도 비교 대상 전체가 달라지므로 목록으로 다룬다 */
 const getAllSpectrumVectorsCached = () =>
   cachedList(CACHE_TAGS.SPECTRUM, ['all-spectrum-vectors'], fetchAllSpectrumVectors)
+
+/**
+ * 감상 기록을 가진 인물 명단.
+ * 닮은 인물을 보여주는 목적은 "그 사람은 무엇을 읽었나"로 건너가게 하는 것이다.
+ * 기록이 없는 인물이 뽑히면 그 다리가 끊기므로 후보에서 뒤로 민다.
+ *
+ * 집계 캐시 열을 읽는다 — 감상 행을 매번 훑는 RPC보다 다섯 배 빠르고 결과는 같다
+ * (실측 26.08.14: 645ms 대 3,647ms, 양쪽 모두 1,717명으로 일치).
+ */
+async function fetchReviewCelebIds(): Promise<string[]> {
+  const supabase = createStaticClient()
+  const rows = await selectAllPages<{ celeb_id: string }>((from, to) =>
+    supabase
+      .from('celeb_metrics')
+      .select('celeb_id')
+      .gt('content_count', 0)
+      .order('celeb_id')
+      .range(from, to)
+  )
+  return rows.map((row) => row.celeb_id)
+}
+
+const getReviewCelebIdsCached = () =>
+  cachedList(CACHE_TAGS.CONTENTS, ['review-celeb-ids'], fetchReviewCelebIds)
 
 // 대상 셀럽 1명분: 레이더 근거(rationale/reason) 표시를 위해 spectrum jsonb 원본과
 // 생몰일·title까지 포함해 단건 조회한다. 1행이라 캐시 한도와 무관하다.
@@ -277,9 +315,10 @@ export async function getSimilarByCelebId(
   locale: string = 'ko'
 ): Promise<SimilarByCelebResult> {
   const isEn = locale === 'en'
-  const [targetRow, allVectors] = await Promise.all([
+  const [targetRow, allVectors, reviewCelebIds] = await Promise.all([
     getSpectrumByCelebIdCached(celebId),
     getAllSpectrumVectorsCached(),
+    getReviewCelebIdsCached(),
   ])
 
   if (!targetRow) {
@@ -288,18 +327,27 @@ export async function getSimilarByCelebId(
       targetSpectrumJsonb: null,
       similarCelebs: [],
       matchesByCategory: EMPTY_MATCH_GROUPS,
+      highlights: [],
+      population: 0,
     }
   }
 
   const targetSpectrum = targetToProfile(targetRow, isEn)
   const targetSpectrumJsonb = targetRow.spectrum
-  const virtuePopulationStats = calcVirtuePopulationStats(
-    allVectors.map((row) => row.stats),
-  )
+  const populationStats = allVectors.map((row) => row.stats)
+  // 능력·덕목 12축 집단 통계 — 유사도 보정·근거 선정·지문이 모두 이 위에서 돈다.
+  // 덕목 8축 통계(VirtuePopulationStats)는 이 상위 집합에서 구조적으로 호환된다.
+  const statStats = calcPopulationStats(populationStats, STAT_KEYS)
+  const virtuePopulationStats = Object.fromEntries(
+    VIRTUE_KEYS.map((axis) => [axis, statStats[axis]]),
+  ) as Pick<typeof statStats, (typeof VIRTUE_KEYS)[number]>
   const targetEmphasizedVirtues = getEmphasizedVirtueVector(
     targetSpectrum,
     virtuePopulationStats,
   )
+  // 유사 인물 산정은 집단 위치 보정 공간에서 — 퍼짐 넓은 축의 순위 지배를 막는다
+  const adjustedTarget = toPopulationAdjustedStats(targetSpectrum, statStats)
+  const highlights = getSpectrumHighlights(targetSpectrum, populationStats, statStats)
 
   const categoryLimit = Math.min(limit, 3)
   const rankedMatchesByCategory: RankedSpectrumMatchGroups = {
@@ -311,11 +359,21 @@ export async function getSimilarByCelebId(
   }
   const similarCelebs: SimilarCeleb[] = []
 
-  for (const row of allVectors) {
+  // 감상 기록이 있는 인물만 후보로 둔다 — 기록 없는 인물이 뽑히면 카드를 눌러도
+  // 보여줄 것이 없다. 명단을 못 받았을 때만 전체를 후보로 되돌린다.
+  const reviewers = new Set(reviewCelebIds)
+  const candidateRows = reviewers.size > 0
+    ? allVectors.filter((row) => reviewers.has(row.celeb_id))
+    : allVectors
+
+  for (const row of candidateRows) {
     if (row.celeb_id === celebId) continue
 
     const candidate = vectorToProfile(row, isEn)
-    const distances = calcSpectrumMatchDistances(targetSpectrum, candidate)
+    const distances = calcSpectrumMatchDistances(
+      adjustedTarget,
+      toPopulationAdjustedStats(row.stats, statStats),
+    )
     const candidateEmphasizedVirtues = getEmphasizedVirtueVector(
       candidate,
       virtuePopulationStats,
@@ -379,6 +437,7 @@ export async function getSimilarByCelebId(
                 candidate,
                 category,
                 category === 'overall' ? 3 : 2,
+                statStats,
               ),
         comparison: getSpectrumMatchComparison(
           targetSpectrum,
@@ -389,5 +448,12 @@ export async function getSimilarByCelebId(
     ]),
   ) as SpectrumMatchGroups
 
-  return { targetSpectrum, targetSpectrumJsonb, similarCelebs, matchesByCategory }
+  return {
+    targetSpectrum,
+    targetSpectrumJsonb,
+    similarCelebs,
+    matchesByCategory,
+    highlights,
+    population: allVectors.length,
+  }
 }

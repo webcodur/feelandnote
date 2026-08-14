@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
+import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
 import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
@@ -18,12 +19,14 @@ interface Props {
   item: ServiceItem;
   spectrumData: SimilarByCelebResult | null;
   influenceData: CelebInfluenceDetail | null;
+  influenceExplorerData: InfluenceExplorerData | null;
 }
 
 export default function FigureAnalysisTabs({
   item,
   spectrumData,
   influenceData,
+  influenceExplorerData,
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
@@ -70,6 +73,8 @@ export default function FigureAnalysisTabs({
               spectrum={spectrumData.targetSpectrum}
               spectrumJsonb={spectrumData.targetSpectrumJsonb}
               matchesByCategory={spectrumData.matchesByCategory}
+              highlights={spectrumData.highlights}
+              population={spectrumData.population}
             />
           ) : (
             <UnavailableSectionGuide item={spectrumItem} />
@@ -78,7 +83,10 @@ export default function FigureAnalysisTabs({
 
         {tab === "influence" && (
           influenceItem.ready && influenceData ? (
-            <CelebInfluenceSection data={influenceData} />
+            <CelebInfluenceSection
+              data={influenceData}
+              explorerData={influenceExplorerData}
+            />
           ) : (
             <UnavailableSectionGuide item={influenceItem} />
           )

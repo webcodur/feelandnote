@@ -2,7 +2,6 @@
 
 import {
   useState,
-  useRef,
   useEffect,
   useId,
   type CSSProperties,
@@ -10,10 +9,10 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import { DetailToggle, ScoreBar } from "@/components/ui";
+import { Carousel, DetailToggle, ScoreBar } from "@/components/ui";
 import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import {
   ABILITY_KEYS,
@@ -61,89 +60,6 @@ function getRationale(
   return locale === "en" && jsonb.rationale_en
     ? jsonb.rationale_en
     : jsonb.rationale_ko;
-}
-
-// ─── 옆으로 넘겨보는 묶음 ───────────────────────────
-
-/** 가로 스냅 스크롤 묶음의 현재 위치를 추적하고 특정 장으로 보낸다 */
-function useSnapCarousel(count: number) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const scrollTo = (nextIndex: number) => {
-    const boundedIndex = Math.max(0, Math.min(count - 1, nextIndex));
-    const container = ref.current;
-    const target = container?.children[boundedIndex] as HTMLElement | undefined;
-    if (!container || !target) return;
-
-    container.scrollTo({
-      left:
-        target.getBoundingClientRect().left -
-        container.getBoundingClientRect().left +
-        container.scrollLeft,
-      behavior: "smooth",
-    });
-    setActiveIndex(boundedIndex);
-  };
-
-  const syncIndex = () => {
-    const container = ref.current;
-    if (!container) return;
-
-    const containerLeft = container.getBoundingClientRect().left;
-    let closestIndex = 0;
-    let closestDistance = Number.POSITIVE_INFINITY;
-
-    (Array.from(container.children) as HTMLElement[]).forEach((card, index) => {
-      const distance = Math.abs(
-        card.getBoundingClientRect().left - containerLeft,
-      );
-      if (distance < closestDistance) {
-        closestIndex = index;
-        closestDistance = distance;
-      }
-    });
-
-    setActiveIndex((current) =>
-      current === closestIndex ? current : closestIndex,
-    );
-  };
-
-  return { ref, activeIndex, scrollTo, syncIndex };
-}
-
-/** 넘겨보는 묶음의 이름표 줄. 이름을 누르면 그 장으로 간다 */
-function CarouselTabs({
-  activeIndex,
-  labels,
-  onSelect,
-  className,
-}: {
-  activeIndex: number;
-  labels: string[];
-  onSelect: (index: number) => void;
-  className?: string;
-}) {
-  return (
-    <div className={cn("flex items-stretch gap-1", className)}>
-      {labels.map((label, index) => (
-        <button
-          key={label}
-          type="button"
-          onClick={() => onSelect(index)}
-          aria-current={index === activeIndex}
-          className={cn(
-            "min-w-0 flex-1 truncate rounded-md px-1 py-2 font-serif text-base",
-            index === activeIndex
-              ? "bg-accent/[0.1] font-bold text-accent"
-              : "text-text-secondary hover:bg-white/[0.04] hover:text-text-primary",
-          )}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-  );
 }
 
 // ─── 섹션 헤더 ──────────────────────────────────────
@@ -293,6 +209,7 @@ function SpectrumEvidenceChip({
   axis,
   value,
   label,
+  direction,
   className,
   borderClassName,
   borderStyle,
@@ -300,6 +217,8 @@ function SpectrumEvidenceChip({
   axis: SpectrumMatchEvidence["axis"];
   value: number;
   label: string;
+  /** 능력·덕목 근거 — 함께 높아서(high) 닮았는지 함께 낮아서(low) 닮았는지 */
+  direction?: SpectrumMatchEvidence["direction"];
   className?: string;
   borderClassName?: string;
   borderStyle?: CSSProperties;
@@ -314,7 +233,7 @@ function SpectrumEvidenceChip({
     <span
       title={label}
       className={cn(
-        "inline-flex min-h-6 max-w-full items-center justify-center overflow-hidden whitespace-nowrap rounded-[4px] border px-2 py-1 font-sans text-xs font-semibold leading-none tracking-[-0.01em] shadow-[0_1px_5px_rgba(0,0,0,0.12)] md:text-[13px]",
+        "inline-flex min-h-6 max-w-full items-center justify-center gap-0.5 overflow-hidden whitespace-nowrap rounded-[4px] border px-2 py-1 font-sans text-xs font-semibold leading-none tracking-[-0.01em] shadow-[0_1px_5px_rgba(0,0,0,0.12)] md:text-[13px]",
         color,
         borderClassName,
         className,
@@ -322,6 +241,11 @@ function SpectrumEvidenceChip({
       style={borderStyle}
     >
       <span className="truncate">{label}</span>
+      {direction ? (
+        <span aria-hidden className="shrink-0 opacity-80">
+          {direction === "high" ? "↑" : "↓"}
+        </span>
+      ) : null}
     </span>
   );
 }
@@ -517,6 +441,7 @@ function SpectrumMatchGroup({
                     axis={evidence.axis}
                     value={evidence.targetValue}
                     label={formatEvidence(evidence)}
+                    direction={evidence.direction}
                   />
                 ))}
               </span>
@@ -575,12 +500,6 @@ function SpectrumMatchGroupsModal({
 }) {
   const t = useTranslations("celebPage");
   const titleId = useId();
-  const {
-    ref: carouselRef,
-    activeIndex,
-    scrollTo: scrollToCategory,
-    syncIndex,
-  } = useSnapCarousel(categories.length);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -634,22 +553,20 @@ function SpectrumMatchGroupsModal({
           </button>
         </header>
 
-        {categories.length > 1 ? (
-          <CarouselTabs
-            activeIndex={activeIndex}
-            labels={categories.map((category) =>
-              t(MATCH_CATEGORY_TITLE_KEYS[category]),
-            )}
-            onSelect={scrollToCategory}
-            className="border-b border-white/[0.06] px-3 py-1.5"
-          />
-        ) : null}
-
         <div className="overflow-y-auto overscroll-contain p-2.5 [overflow-anchor:none] custom-scrollbar md:p-3">
-          <div
-            ref={carouselRef}
-            onScroll={syncIndex}
-            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth scrollbar-hide"
+          <Carousel
+            labels={{
+              previous: isEn ? "Previous comparison" : "이전 비교",
+              next: isEn ? "Next comparison" : "다음 비교",
+              dot: (index, count) => t("carouselDot", { index, count }),
+            }}
+            tabLabels={
+              categories.length > 1
+                ? categories.map((category) =>
+                    t(MATCH_CATEGORY_TITLE_KEYS[category]),
+                  )
+                : undefined
+            }
           >
             {categories.map((category) => (
               <SpectrumMatchGroup
@@ -659,10 +576,9 @@ function SpectrumMatchGroupsModal({
                 matches={matchesByCategory[category]}
                 onOpen={(match) => onOpenMatch(category, match)}
                 bare
-                className="w-full shrink-0 snap-start"
               />
             ))}
-          </div>
+          </Carousel>
         </div>
       </section>
     </div>,
@@ -863,12 +779,16 @@ interface SpectrumSectionProps {
   spectrum: NonNullable<SimilarByCelebResult["targetSpectrum"]>;
   spectrumJsonb: SpectrumJsonb | null;
   matchesByCategory: SpectrumMatchGroups;
+  highlights: SimilarByCelebResult["highlights"];
+  population: number;
 }
 
 export default function SpectrumSection({
   spectrum,
   spectrumJsonb,
   matchesByCategory,
+  highlights,
+  population,
 }: SpectrumSectionProps) {
   const t = useTranslations("celebPage");
   const ts = useTranslations("shared.spectrum.stat");
@@ -910,13 +830,6 @@ export default function SpectrumSection({
   const dispositionCompareCategories = (
     ["disposition", "opposite"] as SpectrumMatchCategory[]
   ).filter((category) => matchesByCategory[category].length > 0);
-
-  const {
-    ref: dispositionCompareRef,
-    activeIndex: dispositionCompareIndex,
-    scrollTo: scrollToDispositionComparison,
-    syncIndex: syncDispositionCompareIndex,
-  } = useSnapCarousel(dispositionCompareCategories.length);
 
   const abilityPanel = (
     <MetricPanel
@@ -1038,12 +951,26 @@ export default function SpectrumSection({
     { key: "virtue", label: t("virtue"), node: virtuePanel },
   ];
 
-  const {
-    ref: metricCarouselRef,
-    activeIndex: metricIndex,
-    scrollTo: scrollToMetric,
-    syncIndex: syncMetricIndex,
-  } = useSnapCarousel(metricPanels.length);
+  /** 지문 항목 문구 — 능력·덕목은 상·하위, 성향은 치우친 쪽 라벨의 극단 백분위 */
+  const formatHighlight = (
+    highlight: SimilarByCelebResult["highlights"][number],
+  ): string => {
+    const tendencyLabelKeys =
+      TENDENCY_EVIDENCE_LABELS[highlight.axis as TendencyKey];
+    if (tendencyLabelKeys) {
+      const [negativeKey, positiveKey] = tendencyLabelKeys;
+      return t("spectrumHighlight_high", {
+        axis: tl(highlight.direction === "high" ? positiveKey : negativeKey),
+        percent: highlight.percentile,
+      });
+    }
+    return t(
+      highlight.direction === "high"
+        ? "spectrumHighlight_high"
+        : "spectrumHighlight_low",
+      { axis: ts(highlight.axis as StatKey), percent: highlight.percentile },
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -1057,28 +984,40 @@ export default function SpectrumSection({
         </div>
       )}
 
+      {/* 인물 지문 — 전체 인물 중 이 사람이 유별난 지점 */}
+      {highlights.length > 0 && population > 0 ? (
+        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4">
+          <span className="text-xs text-text-secondary">
+            {t("spectrumHighlightAmong", { count: population })}
+          </span>
+          {highlights.map((highlight) => (
+            <SpectrumEvidenceChip
+              key={highlight.axis}
+              axis={highlight.axis}
+              value={highlight.value}
+              label={formatHighlight(highlight)}
+            />
+          ))}
+        </div>
+      ) : null}
+
       {/* 상세 분석 토글 (영향력 탭과 같은 단추) */}
       <DetailToggle open={showDetail} onToggle={() => setShowDetail((v) => !v)} />
 
       {/* 좁은 화면 — 능력·성향·덕목을 옆으로 넘겨본다 */}
       <div className="md:hidden">
-        <CarouselTabs
-          activeIndex={metricIndex}
-          labels={metricPanels.map((panel) => panel.label)}
-          onSelect={scrollToMetric}
-          className="mb-3"
-        />
-        <div
-          ref={metricCarouselRef}
-          onScroll={syncMetricIndex}
-          className="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth scrollbar-hide"
+        <Carousel
+          labels={{
+            previous: isEn ? "Previous metric" : "이전 지표",
+            next: isEn ? "Next metric" : "다음 지표",
+            dot: (index, count) => t("carouselDot", { index, count }),
+          }}
+          tabLabels={metricPanels.map((panel) => panel.label)}
         >
           {metricPanels.map((panel) => (
-            <div key={panel.key} className="w-full shrink-0 snap-start">
-              {panel.node}
-            </div>
+            <div key={panel.key}>{panel.node}</div>
           ))}
-        </div>
+        </Carousel>
 
         {/* 어느 지표를 보고 있든 함께 뜬다 */}
         {matchesByCategory.overall.length > 0 ? (
@@ -1113,47 +1052,15 @@ export default function SpectrumSection({
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch md:border-t md:border-white/5 md:pt-6">
           {dispositionPanel}
           {dispositionCompareCategories.length > 0 ? (
-            <div className="relative hidden min-w-0 md:block">
-              <div className="absolute end-3 top-3 z-20 flex items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() =>
-                    scrollToDispositionComparison(dispositionCompareIndex - 1)
-                  }
-                  disabled={dispositionCompareIndex === 0}
-                  aria-label={
-                    isEn
-                      ? "Previous disposition comparison"
-                      : "이전 성향 비교"
-                  }
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-accent-dim/30 bg-bg-main/70 text-accent-dim hover:border-accent/70 hover:bg-accent/[0.1] hover:text-accent disabled:cursor-default disabled:opacity-20"
-                >
-                  <ArrowLeft size={16} aria-hidden />
-                </button>
-                <span className="min-w-8 text-center font-mono text-[11px] text-text-secondary">
-                  {dispositionCompareIndex + 1} / {dispositionCompareCategories.length}
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    scrollToDispositionComparison(dispositionCompareIndex + 1)
-                  }
-                  disabled={
-                    dispositionCompareIndex ===
-                    dispositionCompareCategories.length - 1
-                  }
-                  aria-label={
-                    isEn ? "Next disposition comparison" : "다음 성향 비교"
-                  }
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-accent-dim/30 bg-bg-main/70 text-accent-dim hover:border-accent/70 hover:bg-accent/[0.1] hover:text-accent disabled:cursor-default disabled:opacity-20"
-                >
-                  <ArrowRight size={16} aria-hidden />
-                </button>
-              </div>
-              <div
-                ref={dispositionCompareRef}
-                onScroll={syncDispositionCompareIndex}
-                className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth scrollbar-hide"
+            <div className="hidden min-w-0 md:block">
+              <Carousel
+                labels={{
+                  previous: isEn
+                    ? "Previous disposition comparison"
+                    : "이전 성향 비교",
+                  next: isEn ? "Next disposition comparison" : "다음 성향 비교",
+                  dot: (index, count) => t("carouselDot", { index, count }),
+                }}
               >
                 {dispositionCompareCategories.map((category) => (
                   <SpectrumMatchGroup
@@ -1162,10 +1069,10 @@ export default function SpectrumSection({
                     subjectName={spectrum.nickname}
                     matches={matchesByCategory[category]}
                     onOpen={(match) => setSelectedMatch({ category, match })}
-                    className="w-full shrink-0 snap-start"
+                    className="h-full"
                   />
                 ))}
-              </div>
+              </Carousel>
             </div>
           ) : null}
         </div>
@@ -1217,10 +1124,12 @@ export default function SpectrumSection({
 
       {selectedMatch && (
         <SpectrumMatchModal
+          key={selectedMatch.match.celeb_id}
           category={selectedMatch.category}
           match={selectedMatch.match}
           subjectName={spectrum.nickname}
           subjectAvatarUrl={spectrum.avatar_url}
+          subjectSpectrumJsonb={spectrumJsonb}
           loading={loadingId === selectedMatch.match.celeb_id}
           onClose={() => setSelectedMatch(null)}
           onViewPerson={() => void openSelectedMatchPerson()}

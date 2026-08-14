@@ -68,7 +68,7 @@ function FriendFeedCard({ activity }: { activity: FeedActivity }) {
         ownerNickname={activity.user_nickname}
         headerNode={headerNode}
         mobileLayout="review"
-        heightClass="h-[320px] md:h-[280px]"
+        heightClass="h-[320px]"
         className="sm:max-w-4xl sm:mx-auto"
         titleKo={activity.content_title_ko}
         titleEn={activity.content_title_en}

@@ -6,30 +6,29 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import type { SpectrumExtremeEntry } from "@/actions/home/getSpectrumExtremes";
+import type { SpectrumAxisLibrary } from "@/actions/spectrum/getSpectrumAxisLibraries";
 import type { SpectrumStatsWithReasons } from "@/lib/spectrum/types";
 import { GROUPS, AXIS_COLORS, AXIS_SHORT_LABELS } from "../../spectrumAxis";
 import type { FocusedCeleb } from "./types";
 import FocusPanel from "./sections/FocusPanel";
 import AxisCard from "./sections/AxisCard";
+import AxisLibraryPanel from "./sections/AxisLibraryPanel";
 import DispositionCard from "./sections/DispositionCard";
 
 interface SpectrumFullSectionProps {
   entries: SpectrumExtremeEntry[];
+  libraries?: SpectrumAxisLibrary[];
 }
 
-export default function SpectrumFullSection({ entries }: SpectrumFullSectionProps) {
+export default function SpectrumFullSection({ entries, libraries = [] }: SpectrumFullSectionProps) {
   const locale = useLocale();
   const [activeTab, setActiveTab] = useState(0);
   const [activeAxisIdx, setActiveAxisIdx] = useState(0);
   const [focusedCelebId, setFocusedCelebId] = useState<string | null>(null);
-
-  useEffect(() => {
-    setFocusedCelebId(null);
-  }, [activeTab, activeAxisIdx]);
 
   if (entries.length === 0) return null;
 
@@ -107,7 +106,7 @@ export default function SpectrumFullSection({ entries }: SpectrumFullSectionProp
           return (
             <button
               key={i}
-              onClick={() => { setActiveTab(i); setActiveAxisIdx(0); }}
+              onClick={() => { setActiveTab(i); setActiveAxisIdx(0); setFocusedCelebId(null); }}
               className={cn(
                 "px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300",
                 i === activeTab
@@ -133,7 +132,7 @@ export default function SpectrumFullSection({ entries }: SpectrumFullSectionProp
           return (
             <button
               key={k}
-              onClick={() => setActiveAxisIdx(idx)}
+              onClick={() => { setActiveAxisIdx(idx); setFocusedCelebId(null); }}
               className={cn(
                 "px-4 py-2 rounded-full text-xs font-bold transition-all border",
                 activeAxisIdx === idx
@@ -171,6 +170,15 @@ export default function SpectrumFullSection({ entries }: SpectrumFullSectionProp
            />
         </div>
       </div>
+
+      {/* 기질의 서재 — 이 축의 극단 집단이 공통으로 감상한 작품 */}
+      <AxisLibraryPanel
+        library={libraries.find((axisLibrary) => axisLibrary.axis === activeEntry.axis)}
+        entry={activeEntry}
+        isDisposition={isDispositions}
+        locale={locale}
+        color={color}
+      />
     </div>
   );
 }

@@ -42,3 +42,36 @@ export async function getSpectrumReason(celebId: string, axis: string): Promise<
   if (!celebId || !axis) return null
   return withQueryFallback('getSpectrumReason', () => getSpectrumReasonCached(celebId, axis), null)
 }
+
+/** 인물 한 명의 16축 근거를 한 번에. 축마다 따로 조회하면 같은 행을 열여섯 번 읽는다 */
+export type SpectrumReasonMap = Record<string, SpectrumReason>
+
+async function fetchSpectrumReasons(celebId: string): Promise<SpectrumReasonMap> {
+  const supabase = createStaticClient()
+  const { data, error } = await supabase
+    .from('celeb_persona')
+    .select('spectrum:persona')
+    .eq('celeb_id', celebId)
+    .single()
+
+  throwOnQueryError('[getSpectrumReasons]', error, { ignoreCodes: [NO_ROWS_CODE] })
+  if (!data) return {}
+
+  const withReasons = parseSpectrumJsonbWithReasons((data as { spectrum: SpectrumJsonb }).spectrum)
+  return Object.fromEntries(
+    Object.entries(withReasons).map(([axis, field]) => [
+      axis,
+      { ko: field.reason_ko, en: field.reason_en },
+    ]),
+  )
+}
+
+const getSpectrumReasonsCached = unstable_cache(fetchSpectrumReasons, ['spectrum-reasons'], {
+  revalidate: STATIC_REVALIDATE,
+  tags: [CACHE_TAGS.SPECTRUM],
+})
+
+export async function getSpectrumReasons(celebId: string): Promise<SpectrumReasonMap> {
+  if (!celebId) return {}
+  return withQueryFallback('getSpectrumReasons', () => getSpectrumReasonsCached(celebId), {})
+}
