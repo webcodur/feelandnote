@@ -4,8 +4,8 @@
 
 | 문서 | 다음 작업 | 남은 규모 (26.08.14 실측) |
 |---|---|---|
-| [`celeb-data-gap-fill.md`](celeb-data-gap-fill.md) | **타임라인.** 텍스트 결손은 소진됐다. 대표사진은 26.08.14 유저 결정으로 결손 집계에서 제외 | 연표 **901명** (공개 기준) |
-| [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | **다른 담당자가 진행 중**(26.08.14). 이 세션에서 착수하지 않는다 | 공개 안내 결손 7명 · 검수 미표시 1,617행 |
+| [`celeb-data-gap-fill.md`](celeb-data-gap-fill.md) | **타임라인.** 영향력 40 이상 123명은 26.08.14 완료(1,293건). 다음 후보는 영향력 30~39의 180명. 대표사진은 유저 결정으로 결손 집계에서 제외 | 연표 **778명** (공개 기준) |
+| [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 클로드 릴레이로 전량 재검수·처방 진행 중(26.08.14 착수). 재개 지점은 `data/celeb/reading-relay/ledger.json` | 전량 2,670행 중 원장 기준 잔여분 |
 | [`celeb-avatar-defects.md`](celeb-avatar-defects.md) | 확정 아바타 결함 교체 | 명단 6명 (전수 판정 과제는 26.08.14 폐기) |
 | [`celeb-avatar-nobg-handoff.md`](celeb-avatar-nobg-handoff.md) | 배경 제거 증분 처리 재개 | 26.08.05 이후 신규분 |
 | [`celeb-profile-headline.md`](celeb-profile-headline.md) | LIGHT·FICTION 인물의 한 줄 정의 필드 설계·한영 작성·적용 | 컬럼 미구현 |
