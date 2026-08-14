@@ -85,7 +85,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
         headerNode={headerNode}
         saved={initialSaved}
         mobileLayout="review"
-        heightClass="h-[320px] md:h-[280px]"
+        heightClass="h-[320px]"
         className="sm:max-w-4xl sm:mx-auto"
         titleKo={review.content.title_ko}
         titleEn={review.content.title_en}
@@ -113,7 +113,7 @@ function CelebFeedCard({ review, initialSaved = false }: CelebFeedCardProps) {
 // #region Skeleton
 function ReviewCardSkeleton() {
   return (
-    <div className="animate-pulse flex gap-3 bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden p-3 sm:p-4 sm:max-w-4xl sm:mx-auto w-full h-[320px] md:h-[280px]">
+    <div className="animate-pulse flex gap-3 bg-[#1e1e1e] border border-white/10 rounded-lg overflow-hidden p-3 sm:p-4 sm:max-w-4xl sm:mx-auto w-full h-[320px]">
       <div className="w-28 sm:w-[160px] lg:w-[180px] flex-shrink-0 bg-white/5 rounded-lg" />
       <div className="flex-1 space-y-3">
         <div className="flex items-center gap-2 sm:gap-3">

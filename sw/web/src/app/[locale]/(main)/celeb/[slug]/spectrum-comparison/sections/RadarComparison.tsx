@@ -7,7 +7,6 @@ import type { StatKey } from "@/lib/spectrum/constants";
 import type { SpectrumStats } from "@/lib/spectrum/types";
 import { cn } from "@/lib/utils";
 import {
-  AxisReadout,
   CANDIDATE_COLOR,
   ChartFrame,
   Diamond,
@@ -24,7 +23,6 @@ export default function RadarComparison({
   title,
   preferredAxis,
 }: ComparisonChartProps) {
-  const t = useTranslations("celebPage");
   const ts = useTranslations("shared.spectrum.stat");
   const uid = useId().replaceAll(":", "");
   const [hoveredAxis, setHoveredAxis] = useState<keyof SpectrumStats | null>(null);
@@ -40,12 +38,13 @@ export default function RadarComparison({
   if (!activeEvidence) return null;
 
   const useSideReadout = data.length < 10;
-  const width = 420;
-  const height = useSideReadout ? 330 : 296;
+  // 축이 적으면 별 모양이 좁아 좌우가 빈다 — 그림 크기는 두고 그릴 판을 줄인다
+  const width = useSideReadout ? (data.length <= 4 ? 330 : 380) : 420;
+  const height = useSideReadout ? 300 : 296;
   const centerX = width / 2;
-  const centerY = useSideReadout ? 165 : 139;
-  const radius = useSideReadout ? 125 : 94;
-  const labelRadius = useSideReadout ? 150 : 127;
+  const centerY = useSideReadout ? 150 : 139;
+  const radius = useSideReadout ? 118 : 94;
+  const labelRadius = useSideReadout ? 141 : 127;
   const angleStep = 360 / data.length;
   const angleFor = (index: number) => -90 + angleStep * index;
   const valuePoint = (index: number, value: number) =>
@@ -62,20 +61,32 @@ export default function RadarComparison({
     valuePoint(index, evidence.candidateValue),
   );
 
+  const activeIndex = data.findIndex((evidence) => evidence.axis === activeAxis);
+  // 판정 영역이 그림판을 벗어나면 그 바깥은 눌러도 잡히지 않는다
+  const sectorRadius = Math.min(centerX, centerY, labelRadius + 20);
+  /** 축 하나가 맡는 부채꼴 — 이 조각 어디를 눌러도 그 축이 선택된다 */
+  const sectorPath = (index: number) => {
+    const half = angleStep / 2;
+    const start = polarPoint(centerX, centerY, sectorRadius, angleFor(index) - half);
+    const end = polarPoint(centerX, centerY, sectorRadius, angleFor(index) + half);
+    const largeArc = angleStep > 180 ? 1 : 0;
+    return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${sectorRadius} ${sectorRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
+  };
+  /** 고른 축에서 몇 칸 떨어졌는가 — 멀수록 빛이 옅어진다 */
+  const stepsFromActive = (index: number) => {
+    if (activeIndex < 0) return data.length;
+    const raw = Math.abs(index - activeIndex);
+    return Math.min(raw, data.length - raw);
+  };
+
   return (
-    <ChartFrame title={title} hint={t("spectrumMatchGraphicHint")}>
-      <div
-        className={cn(
-          "relative",
-          useSideReadout &&
-            "@min-[520px]:grid @min-[520px]:grid-cols-[minmax(0,1fr)_176px] @min-[520px]:items-stretch @min-[520px]:gap-3",
-        )}
-      >
+    <ChartFrame>
+      <div className="relative">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className={cn(
             "mx-auto mt-1 block h-auto w-full select-none overflow-visible",
-            useSideReadout ? "max-w-[440px]" : "max-w-[560px]",
+            useSideReadout ? "max-w-[400px]" : "max-w-[560px]",
           )}
           role="img"
           aria-label={title}
@@ -94,7 +105,35 @@ export default function RadarComparison({
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
+            {/* 가운데는 밝고 바깥으로 갈수록 사라지는 빛 — 부채꼴을 이걸로 채운다 */}
+            <radialGradient id={`spectrum-sector-${uid}`} cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor={SUBJECT_COLOR} stopOpacity="0.34" />
+              <stop offset="55%" stopColor={SUBJECT_COLOR} stopOpacity="0.16" />
+              <stop offset="100%" stopColor={SUBJECT_COLOR} stopOpacity="0" />
+            </radialGradient>
           </defs>
+
+          {/* 빛나는 조각 — 보여주기만 한다. 누르는 자리는 맨 위에 따로 깔려 있다 */}
+          {data.map((evidence, index) => {
+            const steps = stepsFromActive(index);
+            const glow = steps === 0 ? 1 : steps === 1 ? 0.32 : 0;
+            return (
+              <path
+                key={`sector-${evidence.axis}`}
+                d={sectorPath(index)}
+                fill={`url(#spectrum-sector-${uid})`}
+                opacity={glow}
+                pointerEvents="none"
+                stroke={
+                  evidence.axis === selectedAxis
+                    ? "rgba(216,186,104,0.3)"
+                    : "transparent"
+                }
+                strokeWidth="1"
+                className="transition-opacity duration-300 ease-out"
+              />
+            );
+          })}
 
           {[25, 50, 75, 100].map((level) => {
             const gridPoints = data.map((_, index) =>
@@ -117,6 +156,7 @@ export default function RadarComparison({
                 }
                 strokeDasharray={level === 100 ? undefined : "2.5 4"}
                 strokeWidth={level === 100 ? 1.15 : 0.8}
+                pointerEvents="none"
               />
             );
           })}
@@ -137,6 +177,8 @@ export default function RadarComparison({
                     : "rgba(255,255,255,0.09)"
                 }
                 strokeWidth={active ? 1.4 : 0.75}
+                pointerEvents="none"
+                className="transition-[stroke,stroke-width] duration-300"
               />
             );
           })}
@@ -147,6 +189,7 @@ export default function RadarComparison({
             stroke={SUBJECT_COLOR}
             strokeWidth="2"
             strokeLinejoin="round"
+            pointerEvents="none"
             style={{ mixBlendMode: "screen" }}
           />
           <path
@@ -156,6 +199,7 @@ export default function RadarComparison({
             strokeWidth="1.8"
             strokeLinejoin="round"
             strokeDasharray="4 3"
+            pointerEvents="none"
             style={{ mixBlendMode: "screen" }}
           />
 
@@ -164,7 +208,7 @@ export default function RadarComparison({
             const candidate = candidatePoints[index];
             const active = evidence.axis === activeAxis;
             return (
-              <g key={`points-${evidence.axis}`}>
+              <g key={`points-${evidence.axis}`} pointerEvents="none">
                 <circle
                   cx={target.x}
                   cy={target.y}
@@ -175,6 +219,7 @@ export default function RadarComparison({
                   filter={
                     active ? `url(#spectrum-radar-glow-${uid})` : undefined
                   }
+                  className="transition-all duration-300"
                 />
                 <Diamond
                   x={candidate.x}
@@ -193,55 +238,63 @@ export default function RadarComparison({
             const anchor =
               cosine > 0.22 ? "start" : cosine < -0.22 ? "end" : "middle";
             const active = evidence.axis === activeAxis;
-            const hitX =
-              anchor === "start" ? -7 : anchor === "end" ? -83 : -45;
             return (
-              <g
+              <text
                 key={`label-${evidence.axis}`}
-                transform={`translate(${label.x} ${label.y})`}
-                role="button"
-                tabIndex={0}
-                aria-label={`${ts(evidence.axis as StatKey)}: ${subjectName} ${evidence.targetValue}, ${candidateName} ${evidence.candidateValue}`}
-                className="cursor-pointer outline-none"
-                onPointerEnter={() => setHoveredAxis(evidence.axis)}
-                onPointerLeave={() => setHoveredAxis(null)}
-                onFocus={() => setHoveredAxis(evidence.axis)}
-                onBlur={() => setHoveredAxis(null)}
-                onClick={() => setSelectedAxis(evidence.axis)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setSelectedAxis(evidence.axis);
-                  }
-                }}
+                x={label.x}
+                y={label.y}
+                textAnchor={anchor}
+                dominantBaseline="middle"
+                fontSize={data.length >= 10 ? 13 : 15}
+                fontWeight={active ? 750 : 550}
+                fill={active ? SUBJECT_COLOR : "rgba(244,240,232,0.82)"}
+                pointerEvents="none"
+                className="transition-[fill] duration-200"
               >
-                <rect
-                  x={hitX}
-                  y="-12"
-                  width="90"
-                  height="24"
-                  fill="transparent"
-                />
-                <text
-                  textAnchor={anchor}
-                  dominantBaseline="middle"
-                  fontSize={data.length >= 10 ? 13 : 15}
-                  fontWeight={active ? 750 : 550}
-                  fill={active ? "#ffffff" : "rgba(244,240,232,0.88)"}
-                >
-                  {ts(evidence.axis as StatKey)}
-                </text>
-              </g>
+                {ts(evidence.axis as StatKey)}
+              </text>
             );
           })}
+
+          {/* 누르는 자리 — 그림 위에 투명하게 덮어 도형 안쪽에서도 잡히게 한다 */}
+          {data.map((evidence, index) => (
+            <path
+              key={`hit-${evidence.axis}`}
+              d={sectorPath(index)}
+              fill="transparent"
+              pointerEvents="all"
+              role="button"
+              tabIndex={0}
+              aria-label={`${ts(evidence.axis as StatKey)}: ${subjectName} ${evidence.targetValue}, ${candidateName} ${evidence.candidateValue}`}
+              className="cursor-pointer outline-none"
+              onPointerEnter={() => setHoveredAxis(evidence.axis)}
+              onPointerLeave={() => setHoveredAxis(null)}
+              onFocus={() => setHoveredAxis(evidence.axis)}
+              onBlur={() => setHoveredAxis(null)}
+              onClick={() => setSelectedAxis(evidence.axis)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setSelectedAxis(evidence.axis);
+                }
+              }}
+            />
+          ))}
         </svg>
 
-        <AxisReadout
-          evidence={activeEvidence}
-          subjectName={subjectName}
-          candidateName={candidateName}
-          side={useSideReadout}
-        />
+        {/* 고른 축의 값은 상자 바닥 양 구석에 — 도형과 축 이름을 피해 늘 비는 자리다 */}
+        <strong
+          className="pointer-events-none absolute bottom-0 start-0 font-mono text-[28px] font-bold leading-none transition-colors duration-300"
+          style={{ color: SUBJECT_COLOR }}
+        >
+          {activeEvidence.targetValue}
+        </strong>
+        <strong
+          className="pointer-events-none absolute bottom-0 end-0 font-mono text-[28px] font-bold leading-none transition-colors duration-300"
+          style={{ color: CANDIDATE_COLOR }}
+        >
+          {activeEvidence.candidateValue}
+        </strong>
       </div>
     </ChartFrame>
   );

@@ -92,7 +92,7 @@ export default function ContentItemRenderer({
               review={rawReview}
               reviewIsOriginalLanguage={reviewIsOriginalLanguage}
               mobileLayout="review"
-              heightClass="h-[320px] md:h-[280px]"
+              heightClass="h-[320px]"
               isSpoiler={item.is_spoiler ?? undefined}
               sourceUrl={item.source_url}
               href={getHref(item)}

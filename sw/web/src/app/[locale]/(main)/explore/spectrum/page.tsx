@@ -8,6 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import { getSpectrumExtremes } from "@/actions/home/getSpectrumExtremes";
+import { getSpectrumAxisLibraries } from "@/actions/spectrum/getSpectrumAxisLibraries";
 import SpectrumFullSection from "@/components/features/user/explore/sections/SpectrumFullSection";
 
 export const revalidate = 3600;
@@ -22,11 +23,14 @@ export async function generateMetadata() {
 }
 
 async function SpectrumServer() {
-  const entries = await getSpectrumExtremes({ runnersUpLimit: 10 });
+  const [entries, libraries] = await Promise.all([
+    getSpectrumExtremes({ runnersUpLimit: 10 }),
+    getSpectrumAxisLibraries(),
+  ]);
 
   return (
     <AsyncIntlProvider>
-      <SpectrumFullSection entries={entries} />
+      <SpectrumFullSection entries={entries} libraries={libraries} />
     </AsyncIntlProvider>
   );
 }

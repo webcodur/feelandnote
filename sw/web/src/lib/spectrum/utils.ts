@@ -3,6 +3,7 @@ import {
   STAT_KEYS,
   TENDENCY_KEYS,
   VIRTUE_KEYS,
+  type StatKey,
   type VirtueKey,
 } from './constants'
 import type { SpectrumProfile, SpectrumStats } from './types'
@@ -20,6 +21,17 @@ export interface SpectrumMatchEvidence {
   axis: keyof SpectrumStats
   targetValue: number
   candidateValue: number
+  /** 능력·덕목 근거의 방향 — 집단 평균 대비 함께 높은가(high) 함께 낮은가(low). 성향 축은 방향 라벨 자체가 방향이라 비워 둔다 */
+  direction?: 'high' | 'low'
+}
+
+/** 인물 지문 한 항목 — 집단에서 크게 벗어난 축과 그 위치 */
+export interface SpectrumHighlight {
+  axis: keyof SpectrumStats
+  /** 벗어난 방향의 극단 기준 상위 비율(%). 1이면 상위 1% */
+  percentile: number
+  direction: 'high' | 'low'
+  value: number
 }
 
 export interface SpectrumMatch {
@@ -47,34 +59,35 @@ export type EmphasizedVirtueVector = Record<VirtueKey, number>
 /** 중시 덕목은 한 인물에게 가장 두드러진 덕목까지만 비교한다. */
 export const EMPHASIZED_VIRTUE_LIMIT = 3
 
-/** 활성 인물 모집단에서 각 덕목의 평균과 표준편차를 구한다. */
-export function calcVirtuePopulationStats(
+/** 모집단에서 주어진 축들의 평균과 표준편차를 구한다. */
+export function calcPopulationStats<K extends keyof SpectrumStats>(
   spectra: readonly SpectrumStats[],
-): VirtuePopulationStats {
+  keys: readonly K[],
+): Record<K, VirtuePopulationStat> {
   const count = spectra.length
   const sums = Object.fromEntries(
-    VIRTUE_KEYS.map((axis) => [axis, 0]),
-  ) as Record<VirtueKey, number>
+    keys.map((axis) => [axis, 0]),
+  ) as Record<K, number>
 
   for (const spectrum of spectra) {
-    for (const axis of VIRTUE_KEYS) sums[axis] += spectrum[axis]
+    for (const axis of keys) sums[axis] += spectrum[axis]
   }
 
   const means = Object.fromEntries(
-    VIRTUE_KEYS.map((axis) => [axis, count > 0 ? sums[axis] / count : 0]),
-  ) as Record<VirtueKey, number>
+    keys.map((axis) => [axis, count > 0 ? sums[axis] / count : 0]),
+  ) as Record<K, number>
   const squaredDifferences = Object.fromEntries(
-    VIRTUE_KEYS.map((axis) => [axis, 0]),
-  ) as Record<VirtueKey, number>
+    keys.map((axis) => [axis, 0]),
+  ) as Record<K, number>
 
   for (const spectrum of spectra) {
-    for (const axis of VIRTUE_KEYS) {
+    for (const axis of keys) {
       squaredDifferences[axis] += (spectrum[axis] - means[axis]) ** 2
     }
   }
 
   return Object.fromEntries(
-    VIRTUE_KEYS.map((axis) => [
+    keys.map((axis) => [
       axis,
       {
         mean: means[axis],
@@ -82,7 +95,57 @@ export function calcVirtuePopulationStats(
           count > 0 ? Math.sqrt(squaredDifferences[axis] / count) : 0,
       },
     ]),
-  ) as VirtuePopulationStats
+  ) as Record<K, VirtuePopulationStat>
+}
+
+/** 활성 인물 모집단에서 각 덕목의 평균과 표준편차를 구한다. */
+export function calcVirtuePopulationStats(
+  spectra: readonly SpectrumStats[],
+): VirtuePopulationStats {
+  return calcPopulationStats(spectra, VIRTUE_KEYS)
+}
+
+// ─── 집단 위치 보정 ───
+//
+// 능력·덕목 12축은 절대 점수의 쏠림이 축마다 심하다(실측: 근면 평균 81·표준편차 10,
+// 통솔 평균 60·표준편차 23). 절대값 그대로 거리를 재면 퍼짐이 넓은 축이 순위를
+// 지배하고, 전원이 높은 축은 아무것도 구별하지 못한다. 그래서 유사도 비교는
+// 절대 점수가 아니라 "집단 안에서 어디쯤인가"(z점수)로 보정한 값 위에서 수행한다.
+// 성향 4축(-50~+50)은 방향 자체가 절대 의미이고 축 간 퍼짐 차이가 작아 원값을 쓴다.
+
+/** z점수 절단 한계. ±2.5σ 밖은 순위에 더 기여하지 않는다 */
+const Z_CLAMP = 2.5
+
+/** 능력·덕목 근거로 인정하는 최소 이탈(σ). 약 상·하위 20% 밖 */
+const STAT_EVIDENCE_MIN_Z = 0.8
+
+/** 인물 지문에 올리는 최소 이탈(σ) */
+const HIGHLIGHT_MIN_Z = 1.0
+
+export type StatPopulationStats = Record<StatKey, VirtuePopulationStat>
+
+function axisZ(value: number, stat: VirtuePopulationStat): number {
+  return stat.standardDeviation > 0
+    ? (value - stat.mean) / stat.standardDeviation
+    : 0
+}
+
+/** z점수를 0~100 보정 점수로 되돌린다. 성향 축과 같은 폭(100)이라 거리 공식을 공유한다 */
+function zToScore(z: number): number {
+  const clamped = Math.max(-Z_CLAMP, Math.min(Z_CLAMP, z))
+  return ((clamped + Z_CLAMP) / (2 * Z_CLAMP)) * 100
+}
+
+/** 능력·덕목 12축만 집단 위치 보정 점수로 바꾼 벡터. 성향 4축은 원값 유지 */
+export function toPopulationAdjustedStats(
+  spectrum: SpectrumStats,
+  statStats: StatPopulationStats,
+): SpectrumStats {
+  const adjusted = { ...spectrum }
+  for (const axis of STAT_KEYS) {
+    adjusted[axis] = zToScore(axisZ(spectrum[axis], statStats[axis]))
+  }
+  return adjusted
 }
 
 /**
@@ -170,10 +233,12 @@ export function getEmphasizedVirtueEvidence(
 /**
  * 후보 한 명의 5가지 비교 거리를 한 번의 지표 순회로 계산한다.
  * 반대 성향은 능력·덕목을 건드리지 않고 성향 4축의 부호만 뒤집어 비교한다.
+ * 유사 인물 산정에는 능력·덕목을 `toPopulationAdjustedStats`로 보정한 벡터를 넣는다 —
+ * 원값 벡터를 넣으면 퍼짐 넓은 축(통솔·무력)이 순위를 지배한다.
  */
 export function calcSpectrumMatchDistances(
-  target: SpectrumVector,
-  candidate: SpectrumVector,
+  target: SpectrumStats,
+  candidate: SpectrumStats,
 ): SpectrumMatchDistances {
   let abilitySum = 0
   let virtueSum = 0
@@ -202,47 +267,126 @@ export function calcSpectrumMatchDistances(
 
 /**
  * 상위 매칭 인물 카드에 보여 줄 대표 축을 고른다.
- * 단순히 차이가 작은 중립값보다, 서로 닮은 방향이 뚜렷한 축을 조금 우선한다.
+ * 근거의 자격 — 두 사람 모두 특징이 뚜렷하고 그 방향이 같은 축만 인정한다.
+ * 능력·덕목은 집단 평균에서 함께 벗어난 축(함께 높음/함께 낮음), 성향은
+ * 치우침이 뚜렷하고 방향이 같은 축. 둘 다 어중간한 축은 점수 차가 작아도
+ * 아무것도 말해주지 않으므로 근거로 올리지 않는다.
  */
 export function getSpectrumMatchEvidence(
   target: SpectrumVector,
   candidate: SpectrumVector,
   category: SpectrumMatchCategory,
   limit: number,
+  statStats: StatPopulationStats,
 ): SpectrumMatchEvidence[] {
-  return getSpectrumMatchComparison(target, candidate, category)
-    .map(({ axis, targetValue, candidateValue }) => {
-      const isTendency = TENDENCY_KEYS.includes(axis as (typeof TENDENCY_KEYS)[number])
-      const midpoint = isTendency ? 0 : 50
-      const difference = category === 'opposite'
-        ? Math.abs(-targetValue - candidateValue)
-        : Math.abs(targetValue - candidateValue)
-      const salience = (Math.abs(targetValue - midpoint) + Math.abs(candidateValue - midpoint)) / 2
+  const candidates: (SpectrumMatchEvidence & { strength: number })[] = []
 
-      return {
+  for (const { axis, targetValue, candidateValue } of getSpectrumMatchComparison(target, candidate, category)) {
+    const isTendency = TENDENCY_KEYS.includes(axis as (typeof TENDENCY_KEYS)[number])
+
+    if (isTendency) {
+      const bothDirectional = Math.abs(targetValue) > 10 && Math.abs(candidateValue) > 10
+      if (!bothDirectional) continue
+
+      const sameDirection = Math.sign(targetValue) === Math.sign(candidateValue)
+      if (category === 'opposite' ? sameDirection : !sameDirection) continue
+
+      // 치우침 폭 절반(50) 대비 강도 — 능력·덕목의 σ 강도와 같은 0~1대 척도
+      candidates.push({
         axis,
         targetValue,
         candidateValue,
-        isTendency,
-        rankScore: difference - salience * 0.15,
-      }
-    })
-    .filter(({ targetValue, candidateValue, isTendency }) => {
-      if (!isTendency) return true
+        strength: Math.min(Math.abs(targetValue), Math.abs(candidateValue)) / 50,
+      })
+      continue
+    }
 
-      const bothDirectional = Math.abs(targetValue) > 10 && Math.abs(candidateValue) > 10
-      if (!bothDirectional) return false
+    const stat = statStats[axis as StatKey]
+    const targetZ = axisZ(targetValue, stat)
+    const candidateZ = axisZ(candidateValue, stat)
+    const bothDeviant =
+      Math.abs(targetZ) >= STAT_EVIDENCE_MIN_Z &&
+      Math.abs(candidateZ) >= STAT_EVIDENCE_MIN_Z &&
+      Math.sign(targetZ) === Math.sign(candidateZ)
+    if (!bothDeviant) continue
 
-      const sameDirection = Math.sign(targetValue) === Math.sign(candidateValue)
-      return category === 'opposite' ? !sameDirection : sameDirection
-    })
-    .sort((a, b) => a.rankScore - b.rankScore || String(a.axis).localeCompare(String(b.axis)))
-    .slice(0, limit)
-    .map(({ axis, targetValue, candidateValue }) => ({
+    candidates.push({
       axis,
       targetValue,
       candidateValue,
+      direction: targetZ > 0 ? 'high' : 'low',
+      strength: Math.min(Math.abs(targetZ), Math.abs(candidateZ)) / Z_CLAMP,
+    })
+  }
+
+  return candidates
+    .sort((a, b) => b.strength - a.strength || String(a.axis).localeCompare(String(b.axis)))
+    .slice(0, limit)
+    .map(({ axis, targetValue, candidateValue, direction }) => ({
+      axis,
+      targetValue,
+      candidateValue,
+      ...(direction ? { direction } : {}),
     }))
+}
+
+/**
+ * 인물 지문 — 집단에서 1σ 이상 벗어난 축을 이탈 순으로 추린다.
+ * 능력·덕목은 상·하위, 성향은 치우친 쪽의 극단 백분위를 함께 담는다.
+ */
+export function getSpectrumHighlights(
+  target: SpectrumStats,
+  population: readonly SpectrumStats[],
+  statStats: StatPopulationStats,
+  limit: number = 3,
+): SpectrumHighlight[] {
+  const count = population.length
+  if (count === 0) return []
+
+  const candidates: (SpectrumHighlight & { deviation: number })[] = []
+
+  for (const axis of STAT_KEYS) {
+    const value = target[axis]
+    const z = axisZ(value, statStats[axis])
+    if (Math.abs(z) < HIGHLIGHT_MIN_Z) continue
+
+    const direction: 'high' | 'low' = z > 0 ? 'high' : 'low'
+    const moreExtreme = population.reduce(
+      (acc, row) => acc + (direction === 'high' ? (row[axis] > value ? 1 : 0) : (row[axis] < value ? 1 : 0)),
+      0,
+    )
+    candidates.push({
+      axis,
+      direction,
+      value,
+      percentile: Math.max(1, Math.round(((moreExtreme + 1) / count) * 100)),
+      deviation: Math.abs(z),
+    })
+  }
+
+  for (const axis of TENDENCY_KEYS) {
+    const value = target[axis]
+    // 성향은 절대 치우침 자체가 특징이다. ±50 폭에서 30 이상(60%)을 뚜렷한 극단으로 본다
+    if (Math.abs(value) < 30) continue
+
+    const direction: 'high' | 'low' = value > 0 ? 'high' : 'low'
+    const moreExtreme = population.reduce(
+      (acc, row) => acc + (direction === 'high' ? (row[axis] > value ? 1 : 0) : (row[axis] < value ? 1 : 0)),
+      0,
+    )
+    candidates.push({
+      axis,
+      direction,
+      value,
+      percentile: Math.max(1, Math.round(((moreExtreme + 1) / count) * 100)),
+      deviation: Math.abs(value) / 20, // σ 단위와 얼추 맞는 강도로 환산해 능력·덕목과 섞어 정렬
+    })
+  }
+
+  return candidates
+    .sort((a, b) => b.deviation - a.deviation || a.percentile - b.percentile)
+    .slice(0, limit)
+    .map(({ axis, percentile, direction, value }) => ({ axis, percentile, direction, value }))
 }
 
 /** 상위 매칭 인물의 상세 모달에서 비교할 해당 분류 전체 축 */
@@ -270,34 +414,6 @@ export function getSpectrumMatchComparison(
       targetValue: target[axis],
       candidateValue: candidate[axis],
     }))
-}
-
-/** 특정 지표 묶음만 비교하는 유클리드 거리 */
-export function calcDistanceByKeys(
-  a: SpectrumVector,
-  b: SpectrumVector,
-  keys: readonly (keyof SpectrumProfile)[],
-): number {
-  let sum = 0
-  for (const key of keys) {
-    const aValue = a[key]
-    const bValue = b[key]
-    if (typeof aValue !== 'number' || typeof bValue !== 'number') continue
-    sum += (aValue - bValue) ** 2
-  }
-  return Math.sqrt(sum)
-}
-
-/** 성향 4축의 방향을 뒤집은 거울상과 후보 사이의 거리 */
-export function calcOppositeDispositionDistance(
-  target: SpectrumVector,
-  candidate: SpectrumVector,
-): number {
-  let sum = 0
-  for (const key of TENDENCY_KEYS) {
-    sum += (-target[key] - candidate[key]) ** 2
-  }
-  return Math.sqrt(sum)
 }
 
 /** 차원 수가 다른 비교 묶음의 거리를 동일한 0~100% 척도로 변환 */
