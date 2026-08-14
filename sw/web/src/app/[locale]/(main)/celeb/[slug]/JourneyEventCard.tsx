@@ -37,7 +37,7 @@ export default function JourneyEventCard({
       <div
         data-timeline-body-scroll
         tabIndex={isCurrent ? 0 : -1}
-        className="custom-scrollbar min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-y-contain [overflow-anchor:none] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+        className="custom-scrollbar min-h-0 flex-1 touch-pan-y overflow-y-auto [overflow-anchor:none] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
         <div className="border-b border-accent-dim/20 px-4 py-4 md:px-5">
           <h3 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
