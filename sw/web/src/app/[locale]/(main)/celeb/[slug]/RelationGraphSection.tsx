@@ -102,8 +102,10 @@ const rowBus = (row: Geo[], busY: number, anchorX: number) => {
 
 interface PersonNode {
   id: string;
-  /** null = 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이동 불가 이름 노드 */
+  /** null = 열어 볼 페이지가 없다 — 이동 불가 이름 노드 */
   slug: string | null;
+  /** true = 우리 명단 인물(slug가 없으면 아직 공개 전), false = 위키데이터에만 있는 인물 */
+  listed: boolean;
   name: string;
   avatar_url: string | null;
   types: string[];
@@ -181,7 +183,7 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
         if (note && !cur.notesByType[r.relType]) cur.notesByType[r.relType] = note;
       } else {
         map.set(r.id, {
-          id: r.id, slug: r.slug, name, avatar_url: r.avatar_url,
+          id: r.id, slug: r.slug, listed: r.listed, name, avatar_url: r.avatar_url,
           types: [r.relType], group: r.relGroup, note,
           notesByType: note ? { [r.relType]: note } : {},
           profession: r.profession, nationality: r.nationality,
@@ -1067,7 +1069,10 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                   {formatYear(selected.birth_date)}–{selected.death_date ? formatYear(selected.death_date) : ""}
                 </span>
               )}
-              {!selected.slug && <span className="">{t("relExternalNote")}</span>}
+              {/* 들어갈 페이지가 없는 사유를 갈라 적는다 — 우리 인물이면 아직 공개 전, 아니면 명단 밖 */}
+              {!selected.slug && (
+                <span className="">{selected.listed ? t("relPendingNote") : t("relExternalNote")}</span>
+              )}
             </div>
 
             {/* 등록 인물은 본 카드와 원전 경로를 나란히 제공한다. */}
