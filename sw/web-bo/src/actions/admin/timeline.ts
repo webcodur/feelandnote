@@ -17,8 +17,6 @@ export interface TimelineEvent {
   celeb_id: string
   year: number | null
   year_end: number | null
-  month: number | null
-  day: number | null
   sequence_label: string | null
   sequence_label_en: string | null
   title: string
@@ -30,9 +28,7 @@ export interface TimelineEvent {
   place_name_en: string | null
   lat: number | null
   lng: number | null
-  place_qid: string | null
   source: string
-  source_url: string | null
   sort_order: number
 }
 
@@ -127,16 +123,16 @@ function validate(e: Partial<EventInput>, isFiction: boolean) {
   const hasSequenceEn = !!e.sequence_label_en?.trim()
   if (!e.title?.trim()) throw new Error('제목을 넣으세요.')
   if (isFiction) {
-    if (e.year != null || e.year_end != null || e.month != null || e.day != null)
-      throw new Error('fiction 사건에는 연도·월·일을 넣을 수 없습니다.')
+    if (e.year != null || e.year_end != null)
+      throw new Error('fiction 사건에는 연도를 넣을 수 없습니다.')
     if (!hasSequence || !hasSequenceEn)
       throw new Error('fiction 사건에는 한국어·영문 서사 단계를 모두 넣으세요.')
   } else {
     if (!hasYear && e.year !== null) throw new Error('실존 인물의 연도는 정수 또는 날짜 미상(null)이어야 합니다.')
     if (e.sequence_label != null || e.sequence_label_en != null)
       throw new Error('실존 인물 사건에는 서사 단계 라벨을 넣을 수 없습니다.')
-    if (e.year === null && (e.year_end != null || e.month != null || e.day != null))
-      throw new Error('날짜 미상 사건에는 끝 연도·월·일을 넣을 수 없습니다.')
+    if (e.year === null && e.year_end != null)
+      throw new Error('날짜 미상 사건에는 끝 연도를 넣을 수 없습니다.')
   }
   if (e.year_end != null && e.year != null && e.year_end < e.year)
     throw new Error('끝 연도가 시작 연도보다 앞설 수 없습니다.')

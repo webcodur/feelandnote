@@ -19,15 +19,14 @@
 |---|---|
 | `id` | 사건 UUID |
 | `celeb_id` | 사건 소유 인물. `celebs.id` 참조 |
-| `year`, `year_end`, `month`, `day` | `life` 사건의 시점. 기원전 연도는 음수 |
+| `year`, `year_end` | `life` 사건의 시점. 기원전 연도는 음수 |
 | `sequence_label`, `sequence_label_en` | `fiction` 사건의 원전 내 국·영문 단계 |
 | `title`, `title_en` | 국·영문 제목 |
 | `description`, `description_en` | 국·영문 서술 |
 | `kind` | 사건 종류 |
 | `place_name`, `place_name_en` | 국·영문 장소명 |
-| `lat`, `lng`, `place_qid` | 검증된 좌표와 Wikidata 장소 식별자 |
+| `lat`, `lng` | 검증된 좌표. 선택 필드다 |
 | `source` | 등록 경로. 관리자 손질본은 `manual` |
-| `source_url` | 사건 내용을 확인할 수 있는 HTTP(S) 근거 링크 |
 | `sort_order` | 화면에 표시할 순서 |
 | `created_at`, `updated_at` | 생성·수정 시각 |
 
@@ -38,14 +37,33 @@ birth, death, education, work, publish,
 battle, travel, office, meeting, other
 ```
 
+### 폐기한 필드 (2026-08-14)
+
+`source_url`·`place_qid`·`month`·`day`를 제거했다. **사용자 화면과 관리 화면 어디에서도 읽지 않으면서
+조사 비용만 발생시키던 값들이다.** 마이그레이션은
+`sw/web/supabase/migrations/20260814030000_drop_unused_timeline_fields.sql`이다.
+
+- **`source_url`** — 확인되지 않은 링크는 근거가 아니라 근거라는 주장이다. 아무도 열어보지 않는 값이
+  붙어 있으면 「출처가 있으니 맞겠지」라는 잘못된 안심만 준다. 사실 확인은 본문 문장을 직접 검색해
+  대조한다. **다시 넣자는 제안이 나오면 「누가 그 값을 읽는가」부터 답한다.**
+- **`place_qid`** — 좌표를 따로 저장하므로 읽는 곳이 없었다.
+- **`month`·`day`** — 연도까지는 쉽지만 그 아래로 내려가는 순간 조사비가 급등하는데 화면에 나오지 않는다.
+  `day`는 조회조차 하지 않았다.
+
+`kind`는 조사 비용이 사실상 없고 관리 화면이 쓰므로 유지한다.
+
+> 판단 기준: **필드를 늘릴 때는 「어느 화면이 이 값을 그리는가」를 먼저 답한다.** 답이 없으면 넣지 않는다.
+> 조사 대상 필드 하나는 인물당 십수 번, 전체로는 수천 번 반복되는 비용이다.
+
+
 ### 위치 값의 두 형식
 
 한 사건은 인물 유형에 따라 다음 두 형식 중 정확히 하나를 사용한다.
 
 | 인물 | 달력 필드 | 서사 단계 |
 |---|---|---|
-| 실존 인물 (`life`) | 확인된 시점이면 `year` 정수. 날짜 미상이면 `year`, `year_end`, `month`, `day` 모두 `null` | `sequence_label`, `sequence_label_en` 모두 `null` |
-| 허구 인물 (`fiction`) | `year`, `year_end`, `month`, `day` 모두 `null` | 국·영문 `sequence_label`, `sequence_label_en` 모두 필수 |
+| 실존 인물 (`life`) | 확인된 시점이면 `year` 정수. 날짜 미상이면 `year`, `year_end` 모두 `null` | `sequence_label`, `sequence_label_en` 모두 `null` |
+| 허구 인물 (`fiction`) | `year`, `year_end` 모두 `null` | 국·영문 `sequence_label`, `sequence_label_en` 모두 필수 |
 
 `life`의 날짜 미상 사건에 임의 연도나 서사 라벨을 만들지 않는다. `fiction`에도 원전 속 사건을
 실제 역사 연도로 환산해 넣지 않는다.
@@ -122,7 +140,7 @@ battle, travel, office, meeting, other
 
 - 제목은 필수다.
 - `life`의 연도는 정수 또는 명시적인 `null`이다.
-- `life`에서 「날짜 미상」을 선택하면 끝 연도·월·일과 두 서사 라벨을 모두 `null`로 저장한다.
+- `life`에서 「날짜 미상」을 선택하면 끝 연도와 두 서사 라벨을 모두 `null`로 저장한다.
 - `fiction`은 달력 필드를 모두 비우고 국·영문 서사 단계를 모두 입력한다.
 - 끝 연도는 시작 연도보다 앞설 수 없다.
 - 위도와 경도는 둘 다 입력하거나 둘 다 비운다.
@@ -132,13 +150,16 @@ battle, travel, office, meeting, other
 - 수정한 행은 `source='manual'`로 표시한다.
 - 저장·삭제 뒤 web-bo 경로와 사용자 웹의 인물 캐시를 갱신한다.
 
-### 장소와 근거 확인
+### 장소와 사실 확인
 
 장소 좌표는 이름만 보고 기억으로 입력하지 않는다. 백오피스의 Wikidata 후보에서 동일 지명과
 설명을 대조한 뒤 선택하고, 현실 좌표가 확인되지 않은 가상 무대에는 좌표를 붙이지 않는다.
+**좌표는 선택 필드다. 확인에 시간이 걸리면 장소명만 남기고 넘어간다** — 좌표 없는 사건도 연표에는
+그대로 뜬다.
 
-`source_url`에는 해당 사건을 직접 확인할 수 있는 HTTP(S) 페이지를 넣는다. 외부 자료의 문장을
-그대로 복사하지 말고 사실관계를 확인한 뒤 국·영문 제목과 설명을 서비스 문장으로 작성한다.
+사건은 조사해서 확인한 사실만 적는다. 외부 자료의 문장을 그대로 복사하지 말고 사실관계를 확인한 뒤
+국·영문 제목과 설명을 서비스 문장으로 쓴다. **근거 링크 필드는 폐기했으므로 URL을 모으는 데 시간을
+쓰지 않는다.** 대신 본문에 적은 사실이 검색으로 재확인되는지를 조사 단계에서 직접 대조한다.
 
 ## 화면 구현 함정
 
