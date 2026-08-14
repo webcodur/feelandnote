@@ -90,11 +90,14 @@ export async function saveCelebDialogues(
   if (lines !== null) payload.lines = lines
   if (lines_en !== null) payload.lines_en = lines_en
 
-  const { error } = await supabase
+  const { data: saved, error } = await supabase
     .from('celeb_dialogues')
     .upsert(payload, { onConflict: 'celeb_id' })
+    .select('celeb_id')
+    .single()
 
   if (error) throw error
+  if (!saved || saved.celeb_id !== celebId) throw new Error('대사 저장 결과를 확인할 수 없습니다.')
 
   const { data: celeb, error: celebError } = await supabase
     .from('celebs')

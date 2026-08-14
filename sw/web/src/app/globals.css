@@ -51,6 +51,13 @@
   --color-stone-heavy: #1a1a1b;
   --color-stone-light: #2a2a2c;
   --color-stone-border: #3c3c3e;
+
+  /* 대사 재생 이퀄라이저 바 */
+  --animate-eq-bar: eqBar 1s ease-in-out infinite;
+  @keyframes eqBar {
+    0%, 100% { transform: scaleY(0.35); }
+    50% { transform: scaleY(1); }
+  }
 }
 
 @layer base {

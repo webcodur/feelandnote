@@ -16,20 +16,31 @@
  * 「연령 변형」은 서버 변환 창구가 편 폴더 전용이라 여기서는 뺐다.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
   VoiceEditorShell, SavedVoiceSection, EleEmotionPicker, useVoiceGeneration,
   type VoiceGenEndpoints,
 } from '@feelandnote/shared/bo/voice'
-import type { EleVoiceLike, SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
+import type { SegmentEngineSpec } from '@feelandnote/shared/bo/voice-utils'
 import { buildEleText } from '@/components/scenario-voice/types'
+import { GeminiVoiceSelect } from '@/components/scenario-voice/GeminiVoiceSelect'
+import {
+  SpeakerEngineToggle,
+  type SpeakerEngine,
+} from '@/components/scenario-voice/SpeakerEngineToggle'
 import { BreathModeContent, type BreathEndpoints } from '@/components/scenario-voice/BreathModeContent'
-import { EleVoiceCombobox, useEleVoiceNotes, useEleVoiceHistory } from '@/components/voice/ele-voice-picker'
-import { uploadVoiceFromPreview, bumpVoiceVersion, enableHasVoice, type VoiceGenCeleb } from '@/actions/admin/voice-gen'
+import {
+  EleVoiceCombobox, useEleVoiceCatalog, useEleVoiceNotes, useEleVoiceHistory,
+} from '@/components/voice/ele-voice-picker'
+import {
+  uploadVoiceFromPreview, bumpVoiceVersion, enableHasVoice, saveVoiceId, type VoiceGenCeleb,
+} from '@/actions/admin/voice-gen'
 import { TYPE_LABELS } from '@/lib/voice-path'
 import { buildCelebVoiceRecommendations } from './recommendations'
 import { useCelebVoiceAsset } from './useCelebVoiceAsset'
 import { LOCALE_BADGE, type Locale, type VoiceSettings } from '../constants'
+import { celebVoicePreviewUrl } from '../voice-preview'
+import { audioContentTypeOfBase64 } from '../audio'
 
 type EditorMode = 'gen' | 'breath'
 
@@ -37,15 +48,6 @@ const MODES = [
   { id: 'gen' as const, label: '만들기' },
   { id: 'breath' as const, label: '들숨' },
 ]
-
-/** base64 앞머리를 보고 wav 인지 가린다 (앞뒤를 자르면 wav 로 바뀐다) */
-function contentTypeOf(base64: string): string {
-  try {
-    return atob(base64.slice(0, 8)).slice(0, 4) === 'RIFF' ? 'audio/wav' : 'audio/mpeg'
-  } catch {
-    return 'audio/mpeg'
-  }
-}
 
 export interface CelebVoiceEditorTarget {
   locale: Locale
@@ -58,6 +60,8 @@ export interface CelebVoiceEditorTarget {
 interface Props {
   celeb: VoiceGenCeleb
   target: CelebVoiceEditorTarget
+  engine: SpeakerEngine
+  onEngineChange: (engine: SpeakerEngine) => void
   /** 그 언어의 목소리 번호 */
   voiceId: string
   onVoiceIdChange: (voiceId: string) => void
@@ -76,7 +80,7 @@ interface Props {
 }
 
 export default function CelebVoiceEditorModal({
-  celeb, target, voiceId, onVoiceIdChange, hasFile,
+  celeb, target, engine, onEngineChange, voiceId, onVoiceIdChange, hasFile,
   settings, onSettingsChange, emotions, onEmotionsChange, trail, onTrailChange,
   playbackRate, onSaved, onClose,
 }: Props) {
@@ -93,27 +97,10 @@ export default function CelebVoiceEditorModal({
   })
 
   // ── 보이스 목록·메모·이미 쓴 곳 ──
-  const [voices, setVoices] = useState<EleVoiceLike[]>([])
-  const [voicesLoading, setVoicesLoading] = useState(false)
-  const [voicesError, setVoicesError] = useState<string | null>(null)
+  const catalog = useEleVoiceCatalog()
+  const voices = catalog.voices
   const notes = useEleVoiceNotes()
   const history = useEleVoiceHistory()
-
-  useEffect(() => {
-    let alive = true
-    setVoicesLoading(true)
-    setVoicesError(null)
-    fetch('/api/elevenlabs/voices')
-      .then(r => r.json())
-      .then(d => {
-        if (!alive) return
-        if (Array.isArray(d.voices)) setVoices(d.voices)
-        else setVoicesError(d.error ?? '목록을 못 읽었다')
-      })
-      .catch(e => { if (alive) setVoicesError(String(e)) })
-      .finally(() => { if (alive) setVoicesLoading(false) })
-    return () => { alive = false }
-  }, [])
 
   const recommendations = useMemo(
     () => buildCelebVoiceRecommendations({
@@ -129,12 +116,18 @@ export default function CelebVoiceEditorModal({
 
   // ── 만들기·저장 절차 (세력도감과 같은 훅) ──
   const endpoints: VoiceGenEndpoints = useMemo(() => ({
-    previewUrl: () => `/api/celebs/${encodeURIComponent(celebKey)}/voice/preview`,
+    previewUrl: route => celebVoicePreviewUrl(celebKey, route),
     save: async (_fileName, base64) => {
+      // ELE 보이스가 없던 인물도 음원 저장 한 번으로 다음 진입부터 같은 배역을 쓴다.
+      // Gemini 보이스·모델은 생성 세션 값이므로 프로필에 저장하지 않는다.
+      if (engine === 'elevenlabs' && voiceId.trim()) {
+        const voiceSave = await saveVoiceId(celeb.id, locale, voiceId.trim())
+        if (!voiceSave.success) return { success: false, error: voiceSave.error ?? 'Voice ID 저장 실패' }
+      }
       const result = await uploadVoiceFromPreview({
         celebId: celeb.id, base64, locale,
         dialogueType: type, variant,
-        contentType: contentTypeOf(base64),
+        contentType: audioContentTypeOfBase64(base64),
       })
       if (!result.success) return { success: false, error: result.error }
       await bumpVoiceVersion(celeb.id)
@@ -144,12 +137,12 @@ export default function CelebVoiceEditorModal({
     sourceUrl: () => asset.fileUrl,
     // 자막 점등 시각을 다시 잡는 기능은 대사에 해당 사항이 없다 — 화면에도 내놓지 않는다
     analyze: async () => new Response(null, { status: 501 }),
-  }), [celebKey, celeb.id, celeb.has_voice, locale, type, variant, asset.fileUrl])
+  }), [celebKey, celeb.id, celeb.has_voice, locale, type, variant, asset.fileUrl, engine, voiceId])
 
   const gen = useVoiceGeneration({
     endpoints,
     activeFile: asset.file,
-    chosenEngine: 'elevenlabs',
+    chosenEngine: engine,
     styleEdit: '',
     buildText: t => buildEleText(t, {
       emotionEnabled: emotions.length > 0,
@@ -169,7 +162,7 @@ export default function CelebVoiceEditorModal({
   })
 
   const slotKey = `${locale}/${type}${variant ?? ''}`
-  const spec: SegmentEngineSpec = { engine: 'elevenlabs', voiceParam: voiceId }
+  const spec: SegmentEngineSpec = { engine, voiceParam: voiceId }
 
   const runGenerate = useCallback((saveImmediately: boolean) => {
     if (!voiceId.trim()) { setError('목소리 번호를 먼저 고른다'); return }
@@ -220,7 +213,7 @@ export default function CelebVoiceEditorModal({
               <div className="min-w-0 space-y-3">
                 <h3 className="border-b border-border pb-1.5 text-sm font-bold text-text-primary">해당 음원 설정</h3>
                 <SavedVoiceSection
-                  tracks={asset.file ? [{ label: 'ELE', file: asset.file, active: true }] : []}
+                  tracks={asset.file ? [{ label: engine === 'elevenlabs' ? 'ELE' : 'GEM', file: asset.file, active: true }] : []}
                   playUrl={() => asset.fileUrl}
                   trimStart={gen.trimStart}
                   setTrimStart={gen.setTrimStart}
@@ -239,24 +232,40 @@ export default function CelebVoiceEditorModal({
               <div className="min-w-0 space-y-3">
                 <h3 className="border-b border-border pb-1.5 text-sm font-bold text-text-primary">음원 만들기 설정</h3>
 
-                <EleVoiceCombobox
-                  voices={voices}
-                  value={voiceId}
-                  onChange={onVoiceIdChange}
-                  loading={voicesLoading}
-                  error={voicesError}
-                  recommendations={recommendations}
-                  voiceNotes={notes.notes}
-                  notesLoading={notes.loading}
-                  notesError={notes.error}
-                  savingVoiceId={notes.savingVoiceId}
-                  onUpdateVoiceNote={notes.updateVoiceNote}
-                  voiceHistory={history.history}
-                  historyLoading={history.loading}
-                  historyError={history.error}
-                  historyUsageCount={history.usageCount}
-                />
+                <div className="flex items-start gap-2">
+                  <SpeakerEngineToggle engine={engine} onChange={onEngineChange} />
+                  <div className="min-w-0 flex-1">
+                    {engine === 'gemini' ? (
+                      <GeminiVoiceSelect
+                        value={voiceId}
+                        onChange={onVoiceIdChange}
+                        placeholderLabel="Gemini 보이스 선택"
+                        className="h-8 w-full border-border bg-bg-card px-2 py-1 text-text-primary"
+                      />
+                    ) : (
+                      <EleVoiceCombobox
+                        voices={voices}
+                        value={voiceId}
+                        onChange={onVoiceIdChange}
+                        loading={catalog.loading}
+                        error={catalog.error}
+                        recommendations={recommendations}
+                        voiceNotes={notes.notes}
+                        notesLoading={notes.loading}
+                        notesError={notes.error}
+                        savingVoiceId={notes.savingVoiceId}
+                        onUpdateVoiceNote={notes.updateVoiceNote}
+                        voiceHistory={history.history}
+                        historyLoading={history.loading}
+                        historyError={history.error}
+                        historyUsageCount={history.usageCount}
+                      />
+                    )}
+                  </div>
+                </div>
 
+                {engine === 'elevenlabs' && (
+                  <>
                 {/* 감정·강도 */}
                 <div className="flex items-stretch overflow-hidden rounded border border-border">
                   <span className="flex shrink-0 items-center border-r border-slate-300 bg-slate-100 px-2 text-sm font-extrabold text-slate-800">감정·강도</span>
@@ -300,6 +309,8 @@ export default function CelebVoiceEditorModal({
                     <EleEmotionPicker value={emotions} onChange={onEmotionsChange} />
                   </div>
                 </div>
+                  </>
+                )}
 
                 {/* 읽어줄 문장 */}
                 <div className="rounded border border-border bg-bg-main/40 p-3 space-y-2">
@@ -308,7 +319,11 @@ export default function CelebVoiceEditorModal({
                     <span className="ml-auto font-mono text-[10px] text-text-tertiary">{text.length}자</span>
                   </div>
                   <p className="whitespace-pre-wrap rounded bg-bg-card px-2 py-1.5 font-mono text-sm text-text-primary">{text || '—'}</p>
-                  <p className="text-[11px] text-text-dim">실제 보내는 문장: {buildEleText(text, { emotionEnabled: emotions.length > 0, emotions, trailEnabled: trail })}</p>
+                  <p className="text-[11px] text-text-dim">
+                    실제 보내는 문장: {engine === 'elevenlabs'
+                      ? buildEleText(text, { emotionEnabled: emotions.length > 0, emotions, trailEnabled: trail })
+                      : text}
+                  </p>
 
                   <div className="flex items-center gap-2">
                     {gen.generating ? (
