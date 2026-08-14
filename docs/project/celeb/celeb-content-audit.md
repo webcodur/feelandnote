@@ -50,9 +50,11 @@ ORDER BY c.id, cl.locale;
 
 ### Phase 4: locale 처리 검증
 
-각 콘텐츠의 content_locales에 ko, en 양쪽이 존재하는지 확인한다.
+각 콘텐츠의 content_locales에 ko, en 양쪽이 존재하는지 확인한다. 단, 검증 가능한
+영역본이 없는 BOOK은 en 콘텐츠 메타 행을 만들지 않는 정상 예외다.
 
-`celeb_contents.review_en`은 locale 행과 별개의 필수 영문 감상배경이다. KO/EN
+`celeb_contents.review_en`은 콘텐츠 en locale과 별개의 필수 영문 감상배경이다. BOOK의
+en 콘텐츠 메타 행을 생략해도 `review_en`은 반드시 작성한다. KO/EN
 `content_locales`가 모두 있어도 `review_en`이 비면 영문 감사 미완료로 보고한다. 출처에 없는
 사실을 보태 자동 번역으로 메우지 말고, 한국어 `review`와 출처가 허용하는 범위에서 작성한다.
 

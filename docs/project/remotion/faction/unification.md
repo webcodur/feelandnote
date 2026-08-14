@@ -44,15 +44,15 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
 정규화 수위: **핫 컬럼 + 단일 `data` jsonb + `mined` jsonb 분리. 버킷 분할 안 함.** 근거: 채움율, 드리프트 만성, 왕복 동일성, minedQuotes 크기 격리(detoast 회피), jsonb→컬럼 승격은 무손실.
 
 테이블 5종(정본은 DB — `information_schema`가 정확):
-- `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(ready/blocked)**·**block_note**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 {groupId:uuid}|{era}|{cut}|{chapter} — 내보내기가 인덱스로 환원)·data(jsonb)
+- `faction_episodes` — folder(unique)·title(+en)·logline(+en)·**status(ready/blocked)**·**block_note**·registered(現 _episodes.json)·sort_order·longform_layout(jsonb, 항목 `{groupId:uuid}`(세력)|`{era}`|`{cut}`|`{chapter}` — 내보내기가 세력 UUID 참조를 인덱스로 환원)·data(jsonb)
   - **`status` 는 두 값뿐이다(26.07.27 마이그레이션 `simplify_faction_episode_status_to_two_values`).** 묻는 것은 하나다 — 이 편을 도감으로 옮길 수 있는가. `ready`(인물이 인명부에 있다, 이미 옮긴 편 포함) / `blocked`(출연진이 사람이 아니거나 등록 인물이 셋 미만). 26.07.29 실측은 ready 52 · blocked 40.
   - 옛 다섯 값(idea/todo/live/done/shelved)은 **폐기**했다. 「할 것인가」와 「어디까지 왔나」를 한 칸에 섞어 놓은 데다 렌더·출간 코드가 이 값을 읽지 않아 실제와 계속 어긋났다(유튜브에 나간 편은 둘인데 「준비」로 남은 20편 중 12편이 이미 렌더 편성에 올라 있었다).
   - **`block_note`** — 못 옮기는 이유 한 줄(26.07.27 신설). 이유가 편마다 제각각이라 분류로 묶으면 뭉뚱그려진다. 목록에서 폴더 경로 자리에 이 줄이 대신 뜬다.
   - 렌더·음성·출간에 딸려 가지 않는 근거는 예전과 같이 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 26.07.29 현재 등록 13편·미등록 80편이다.
   - **folder 는 한 단계짜리 고유 슬러그다.** 모든 편은 `sw/remotion/public/factions/<folder>`에 나란히 있고 주소도 같은 값을 그대로 인코딩한다. 폴더 위치에 활성·비활성 의미를 싣지 않는다.
   - **활성 여부의 단일 원천은 `registered`다(26.07.29).** `registered=true`만 `_episodes.json`에 실리고 렌더·음성·출간 대상이 된다. `status=ready|blocked`는 도감 테마로 옮길 수 있는지의 판단일 뿐 활성 여부가 아니다.
-- `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data. unique(episode_id, position)
-- `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. unique(group_id, position)
+- `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data(`openingScenes`: 하위 인물군에 속하지 않는 세력 시작 상황 화면). unique(episode_id, position)
+- `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data(`scenesAfter`: 이 그룹 뒤에 이어지는 쇼츠·롱폼 공통 상황 화면). unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug(프로필 미러)·**celeb_id(celebs, NOT NULL, ON DELETE RESTRICT)**·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
   - `mythical=true` 인물은 `celebs.celeb_tier='fiction'` 프로필에 연결한다.
     2026-08-05 이후 신규 active 전환에는 fiction도 아바타가 필수다. 기존

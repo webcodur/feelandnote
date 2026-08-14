@@ -105,6 +105,8 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `ELEVENLABS_API_KEY_FEELANDNOTE` | web-bo, remotion | 두 번째 계정 키. 한도 소진 시 갈아탄다 |
 | `GOOGLE_CLOUD_TTS_KEY` | web, web-bo, remotion | 구글 음성 합성 |
 
+ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 시 표시되는 실제 `sk_...` 비밀 키를 넣는다. Key ID는 인증 헤더에 사용할 수 없다.
+
 ### 3-6. Gemini(Google GenAI) 키 무리
 
 이미지·텍스트 생성에 쓴다. **무료 키의 하루 한도가 낮아 여러 개를 순번대로 돌려쓰는 구조**라 이름이 번호로 끝난다.

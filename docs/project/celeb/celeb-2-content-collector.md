@@ -308,9 +308,9 @@ curl -s "https://api.igdb.com/v4/games" \
 
 코드에서는 `packages/content-search/src/igdb.ts`가 토큰 발급·갱신을 알아서 한다. **26.08.01 실측 정상.**
 
-### MUSIC - 아이튠즈 〔조사한 작업에서 즉시 등록〕
+### MUSIC - Apple Music 〔조사한 작업에서 즉시 등록〕
 
-Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 구독을 요구하게 됐고 26.08.01 우리 앱에 적용돼 조회가 전부 403이다. 아이튠즈가 그 자리를 대신한다(래퍼: `packages/content-search/src/itunes-music.ts`).
+메타 조회는 Apple iTunes Search API 래퍼 `packages/content-search/src/itunes-music.ts`를 사용한다.
 
 > **음악 후보를 찾았으면 같은 작업에서 iTunes 트랙을 확인하고 최종 연결한다.**
 > 제목·아티스트가 맞고 `previewUrl`이 있는 트랙만 `contents`·KO/EN
@@ -323,14 +323,6 @@ Spotify는 26.02 개발자 모드 정책 변경으로 앱 소유자의 유료 �
 - **미리듣기 음원(`previewUrl`)이 없는 곡은 옮기지 않는다.** 옮기는 순간 재생이 끊긴다(실제로 80곡을 그렇게 죽였다가 백업에서 되돌렸다).
 - 재생은 우리 플레이어가 미리듣기 음원을 직접 재생한다. `metadata.previewUrl`이 그 주소다.
 - `contents.external_source`는 `itunes`, `external_id`는 `itunes-{trackId}`.
-
-### Spotify 레거시
-
-Spotify API는 신규 조사에 사용하지 않는다. 호출 래퍼와 자격증명 의존성도 제거했다.
-`external_source='spotify'`인 기존 콘텐츠는 `docs/todo/external-api-migration-2026-08-01.md`의
-커서대로 iTunes로 옮기며, 이전이 끝날 때까지만 사용자 웹의 임베드 호환 분기를 유지한다.
-
----
 
 ## i18n (다국어) 필수 작업
 
@@ -468,7 +460,7 @@ VALUES
   - `naver_book`은 26.07.31 API 종료 뒤 신규 사용 금지이며, 2026-08-10 live CHECK에도 없다
 - VIDEO: `tmdb`
 - GAME: `igdb`
-- MUSIC: `itunes` (현행 등록 경로). `spotify`는 기존 데이터 호환 값이다
+- MUSIC: `itunes`
 
 **금지**:
 - `google_books` 사용 금지 — **일일 호출 한도 1,000건이라 대량 수집에 못 쓴다.** `sw/web-bo/.env`에 키가 `GOOGLE_BOOKS_API_KEY_0`~`_4`로 5개 있는 것이 한도를 늘리려 키를 돌려쓴 흔적이고, 그렇게 해도 부족해 폐기했다. 무료라고 되살리지 마라 — 한도가 문제지 비용이 문제가 아니다. 시스템 제약상 기존 데이터 보존을 위해 enum과 잔존 데이터(`external_source='google_books'` 249건)는 남아 있으나 신규 등록 사용 금지. (위 "영문판 매칭 분기" 참조)

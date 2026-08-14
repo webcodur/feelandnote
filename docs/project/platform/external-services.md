@@ -218,17 +218,16 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 | BOOK (영문 원서) | OpenLibrary | 정상 |
 | VIDEO | TMDB | 정상 |
 | GAME | IGDB | 정상 |
-| MUSIC | **Apple iTunes Search API** | 정상 (`itunes-music.ts`). Spotify API는 26.08.01부터 403이라 신규 호출 경로를 제거했다 |
+| MUSIC | **Apple iTunes Search API / Apple Music** | 정상 (`itunes-music.ts`) |
 | 뉴스·블로그·이미지 | 네이버 검색 | 정상 (`naver-news.ts`·`naver-blog.ts`·`naver-image.ts`) |
 
-### Spotify 종료와 iTunes 전환
+### Apple 음악 연동
 
 - 신규 검색과 단건 조회는 `packages/content-search/src/itunes-music.ts`만 사용한다.
-- Apple이 밝힌 Search API 제한은 약 분당 20회다. 1차 넓은 이전이 끝난 뒤에는 `itunes-music-migrate.mjs`를 반복하지 않고 `itunes-music-precision.mjs --auto` 한 프로세스로 정밀 이전한다. 공식 다중 ID lookup과 로컬 응답 캐시로 호출 수를 줄이며, 추가 프로세스나 병렬 요청열을 보태지 않는다.
-- 429는 일일 할당량 소진이나 검색 결과 없음이 아니다. 자동 실행은 상태를 저장하고 냉각한 뒤 마지막 미완료 행부터 계속한다. 요청 간격·묶음 크기·429 냉각·재시도 횟수는 실행 코드의 상수를 SSoT로 삼고, 소요 시간은 곡 수가 아니라 상태 파일의 실제 API 요청 수로 판단한다.
-- 검색 결과는 `previewUrl`이 있는 트랙만 저장한다. 서비스 재생기는 이 미리듣기 파일을 직접 재생하며, 상세에는 Apple Music 링크를 붙인다.
-- 차단된 Spotify API 래퍼·package export·신규 검색 호출은 제거했다. `external_source='spotify'`인 기존 데이터의 임베드 재생만 이전 완료 때까지 호환 분기로 유지한다.
-- 정밀 이전 상태와 공개 Apple 응답 캐시는 `.codex/runtime`에만 두고, 멈춘 시점의 인수인계 수치는 `docs/todo/external-api-migration-2026-08-01.md`가 쥔다.
+- `contents.external_source='itunes'`, `external_id='itunes-{trackId}'`만 MUSIC에 허용한다.
+- `previewUrl`이 있는 결과만 저장하고 서비스 플레이어가 30초 미리듣기를 직접 재생한다. 상세와 플로팅 플레이어에는 `itunesUrl`을 Apple Music 전곡 링크로 표시한다.
+- Search API 제한은 약 분당 20회다. 호출은 순차 처리하고 403/429를 결과 없음이나 기각으로 기록하지 않는다.
+- 과거에는 Spotify를 음악 메타와 재생에 사용했으나 현재는 완전히 폐기했다.
 
 ### 네이버 도서 검색 API 종료 (2026-07-31)
 
