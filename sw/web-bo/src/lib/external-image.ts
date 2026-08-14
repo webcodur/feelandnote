@@ -10,7 +10,6 @@
 export const ALLOWED_IMAGE_HOSTS = new Set([
   'shopping-phinf.pstatic.net', // 네이버 쇼핑(도서)
   'bookthumb-phinf.pstatic.net', // 네이버 책
-  'i.scdn.co', // Spotify
   'is1-ssl.mzstatic.com', // Apple Music
   'image.tmdb.org', // TMDB
   'i.gr-assets.com', // Goodreads

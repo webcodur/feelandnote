@@ -28,7 +28,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**.supabase.co' },
       { protocol: 'https', hostname: 'image.tmdb.org' },
       { protocol: 'https', hostname: 'images.igdb.com' },
-      { protocol: 'https', hostname: 'i.scdn.co' },
       { protocol: 'https', hostname: 'shopping-phinf.pstatic.net' },
       { protocol: 'https', hostname: 'books.google.com' },
       { protocol: 'https', hostname: '**' },

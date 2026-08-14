@@ -83,7 +83,7 @@ function normalizeMetadata(raw: Record<string, unknown> | null): ContentMetadata
 function isMetaDescUsable(locale: string, source?: string | null): boolean {
   return locale === 'ko'
     ? source === 'kakao_book' || source === 'tmdb'
-    : source === 'google_books' || source === 'igdb' || source === 'spotify'
+    : source === 'google_books' || source === 'igdb' || source === 'itunes'
 }
 
 async function fetchBrief(contentId: string, locale: string): Promise<ContentBrief | null> {

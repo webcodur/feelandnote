@@ -65,7 +65,7 @@ async function fetchMetadataFromApi(
       return { id: externalId, metadata: game?.metadata || null, source: game ? 'igdb' : undefined }
     }
     case 'MUSIC': {
-      if (externalSource === 'spotify' || !/^itunes[-_]\d+$/.test(externalId)) {
+      if (!/^itunes[-_]\d+$/.test(externalId)) {
         return { id: externalId, metadata: null }
       }
       const track = await getTrackById(externalId)

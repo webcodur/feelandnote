@@ -67,9 +67,7 @@ export function MusicDetails({ metadata }: { metadata: ContentMetadata }) {
       : [];
   const listenLink = metadata.itunesUrl
     ? { url: metadata.itunesUrl, label: t("listenOnApple") }
-    : metadata.spotifyUrl
-      ? { url: metadata.spotifyUrl, label: tShared("listenOnSpotify") }
-      : null;
+    : null;
   const tracks = metadata.tracks ?? [];
 
   return (

@@ -98,7 +98,6 @@ export default function ContentMetadataDisplay({
     totalTracks,
     artists,
     itunesUrl,
-    spotifyUrl,
   } = metadata;
 
   switch (category.toLowerCase()) {
@@ -155,9 +154,7 @@ export default function ContentMetadataDisplay({
     case "music": {
       const listenLink = itunesUrl
         ? { url: itunesUrl, label: t("listenOnApple") }
-        : spotifyUrl
-          ? { url: spotifyUrl, label: t("listenOnSpotify") }
-          : null;
+        : null;
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
           {albumType && <InfoItem icon={Disc3} label={t("albumType")} value={albumType} compact={compact} />}
