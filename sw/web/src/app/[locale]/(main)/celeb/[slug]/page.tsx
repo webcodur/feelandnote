@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
+import { getInfluenceExplorer } from "@/actions/home/getInfluenceExplorer";
 import { getSimilarByCelebId } from "@/actions/spectrum/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
@@ -62,9 +63,10 @@ export default async function CelebPage({ params }: PageProps) {
   });
   const worldBannerImages = getWorldBannerImages(worldId);
 
-  const [guestbookResult, influenceData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
+  const [guestbookResult, influenceData, influenceExplorerData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
     getPublicGuestbookEntries({ profileId: userId }),
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getCelebInfluence(userId, locale),
+    profile.celeb_tier === "fiction" ? Promise.resolve(null) : getInfluenceExplorer(userId, locale),
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getSimilarByCelebId(userId, 3, locale),
     profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
@@ -143,6 +145,7 @@ export default async function CelebPage({ params }: PageProps) {
         shareTitle={pageTitle}
         userId={userId}
         influenceData={influenceData}
+        influenceExplorerData={influenceExplorerData}
         spectrumData={spectrumData}
         guestbookEntries={guestbookResult.entries}
         guestbookTotal={guestbookResult.total}

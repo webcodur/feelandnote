@@ -232,7 +232,6 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                                 sourceUrl={content.source_url ?? undefined}
                                 ownerNickname={displayName}
                                 heightClass="h-[280px]"
-                                mobileLayout="review"
                                 recommendable={true}
                                 userContentId={content.user_content_id}
                                 className="shadow-lg transition-all"

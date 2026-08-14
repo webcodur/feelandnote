@@ -83,7 +83,7 @@
       "loadingRecords": "기록을 불러오는 중...",
       "viewProfile": "프로필 보기",
       "reviewCount": "{name}의 {count}개의 감상 기록",
-      "featuredWorks": "{name}의 대표작",
+      "featuredWorks": "{name}의 감상 기록",
       "viewAllRecordsOnProfile": "전체 감상 기록은 인물 페이지에서 확인할 수 있습니다.",
       "viewAllRecords": "감상 기록 전체 보기",
       "keywords": "{name}의 키워드",

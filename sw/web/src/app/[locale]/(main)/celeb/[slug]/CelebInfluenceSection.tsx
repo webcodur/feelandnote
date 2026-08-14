@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Info } from "lucide-react";
 
 import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
+import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
 import {
   CategoryDetail,
   TotalScoreCard,
@@ -13,12 +14,14 @@ import {
   sumBaseScore,
 } from "@/components/features/influence";
 import { DetailToggle, ScoreBar } from "@/components/ui";
+import InfluenceExplorer from "./InfluenceExplorer";
 
 interface Props {
   data: CelebInfluenceDetail;
+  explorerData: InfluenceExplorerData | null;
 }
 
-export default function CelebInfluenceSection({ data }: Props) {
+export default function CelebInfluenceSection({ data, explorerData }: Props) {
   const t = useTranslations("profilePage.influence");
   const [isScaleOpen, setIsScaleOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
@@ -27,12 +30,20 @@ export default function CelebInfluenceSection({ data }: Props) {
 
   // 인물의 강세부터 읽히도록 점수 순으로 세운다 (0점도 어둡게 그대로 선다)
   const rankedCategories = sortCategoriesByScore(data);
+  const rankedData = explorerData
+    ? {
+        ...data,
+        ranking: explorerData.current.ranking,
+        rankedTotal: explorerData.total,
+        percentile: explorerData.current.percentile,
+      }
+    : data;
 
   return (
     <div className="space-y-5">
       {/* 1. 상단 영역: 종합 영향력 히어로 섹션 */}
       <section className="w-full">
-        <TotalScoreCard data={data} />
+        <TotalScoreCard data={rankedData} />
       </section>
 
       {/* 역량·덕목·성향 탭과 같은 자리·같은 단추 — 누르기 전에는 수치만 보인다 */}
@@ -106,6 +117,10 @@ export default function CelebInfluenceSection({ data }: Props) {
           ))}
         </div>
       </section>
+
+      {explorerData ? (
+        <InfluenceExplorer key={explorerData.current.id} data={explorerData} />
+      ) : null}
 
       <TranshistoricityInfoModal
         isOpen={isScaleOpen}

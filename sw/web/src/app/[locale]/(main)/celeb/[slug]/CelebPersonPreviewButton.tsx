@@ -11,6 +11,8 @@ interface CelebPersonPreviewButtonProps {
   avatarUrl: string | null;
   onClick: () => void;
   loading?: boolean;
+  disabled?: boolean;
+  ariaCurrent?: "true" | "page";
   size?: "compact" | "large" | "featured";
   fullWidth?: boolean;
   children?: ReactNode;
@@ -36,6 +38,8 @@ export default function CelebPersonPreviewButton({
   avatarUrl,
   onClick,
   loading = false,
+  disabled = false,
+  ariaCurrent,
   size = "compact",
   fullWidth = false,
   children,
@@ -47,10 +51,12 @@ export default function CelebPersonPreviewButton({
     <button
       type="button"
       onClick={onClick}
-      disabled={loading}
+      disabled={loading || disabled}
       aria-busy={loading}
+      aria-current={ariaCurrent}
       className={cn(
-        "group flex cursor-pointer flex-col items-center gap-1.5 rounded-md border border-transparent px-1 py-1 text-center hover:border-accent/30 hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-wait",
+        "group flex cursor-pointer flex-col items-center gap-1.5 rounded-md border border-transparent px-1 py-1 text-center hover:border-accent/30 hover:bg-white/[0.025] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:cursor-default",
+        loading && "cursor-wait opacity-60",
         fullWidth ? "w-full" : "w-20 md:w-24",
         className,
       )}
@@ -75,7 +81,7 @@ export default function CelebPersonPreviewButton({
                 alt={name}
                 width={avatarPixels[size]}
                 height={avatarPixels[size]}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="h-full w-full object-cover"
                 unoptimized
               />
             </BlurDissolve>

@@ -91,7 +91,6 @@ export default function ContentItemRenderer({
               rating={currentRating}
               review={rawReview}
               reviewIsOriginalLanguage={reviewIsOriginalLanguage}
-              mobileLayout="review"
               heightClass="h-[320px]"
               isSpoiler={item.is_spoiler ?? undefined}
               sourceUrl={item.source_url}
