@@ -4,8 +4,8 @@
 
 | 문서 | 다음 작업 | 남은 규모 (26.08.14 실측) |
 |---|---|---|
-| [`celeb-data-gap-fill.md`](celeb-data-gap-fill.md) | **대표사진·타임라인.** 텍스트 결손은 소진됐고, 감사가 세지 않던 두 항목이 남았다 | 대표사진 **1,301명** · 연표 **901명** (공개 기준) |
-| [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 읽어보기 검수 표시. 본문은 사실상 완료 | 공개 안내 결손 7명 · 검수 미표시 1,617행 |
+| [`celeb-data-gap-fill.md`](celeb-data-gap-fill.md) | **타임라인.** 텍스트 결손은 소진됐다. 대표사진은 26.08.14 유저 결정으로 결손 집계에서 제외 | 연표 **901명** (공개 기준) |
+| [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | **다른 담당자가 진행 중**(26.08.14). 이 세션에서 착수하지 않는다 | 공개 안내 결손 7명 · 검수 미표시 1,617행 |
 | [`celeb-avatar-defects.md`](celeb-avatar-defects.md) | 확정 아바타 결함 교체 | 명단 6명 (전수 판정 과제는 26.08.14 폐기) |
 | [`celeb-avatar-nobg-handoff.md`](celeb-avatar-nobg-handoff.md) | 배경 제거 증분 처리 재개 | 26.08.05 이후 신규분 |
 | [`celeb-profile-headline.md`](celeb-profile-headline.md) | LIGHT·FICTION 인물의 한 줄 정의 필드 설계·한영 작성·적용 | 컬럼 미구현 |

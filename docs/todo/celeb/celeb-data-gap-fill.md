@@ -159,21 +159,26 @@ pnpm exec tsx scripts/audit-celeb-track-gaps.ts
 
 ### 🔴 감사가 보지 않는 결손 (2026-08-14 실측)
 
-`audit-celeb-track-gaps.ts`가 세는 것은 `avatar_url`까지다. **`portrait_url`(대표사진)과
-`celeb_timeline_events`(연표)는 아예 모집단에 없다.** 그래서 위 표가 0이어도 화면에는 큰
-공백이 남는다. 규모는 오히려 이쪽이 크다.
+`audit-celeb-track-gaps.ts`가 세는 것은 `avatar_url`까지다. **`celeb_timeline_events`(연표)는
+아예 모집단에 없다.** 그래서 위 표가 0이어도 화면에는 큰 공백이 남는다.
 
 | 결손 | 공개 인물(1,858) | 전체(2,968) |
 |---|---:|---:|
-| **대표사진 `portrait_url`** | **1,301명** (full 1,090 · light 187 · fiction 24) | 1,570명 |
 | **타임라인 사건 0건** | **901명** (full 716 · light 183 · fiction 2) | 1,850명 |
 | 아바타 `avatar_url` | 0명 | 169명 |
 
-**아바타와 대표사진은 다른 필드다.** 아바타는 얼굴 크롭(`celebs/{id}/avatar.webp`)이고 공개
-인물은 전원 채워져 있다. 대표사진은 상세 화면 상단의 세로 전신컷(`celebs/{id}/photo.webp`)이며
-공개 인물의 70%가 비어 있다. 진행 현황은 `docs/project/celeb/hero-photo-status.md`가 쥔다.
+#### 대표사진은 결손으로 세지 않는다 (2026-08-14 유저 결정)
 
-- 화면에서 바로 보이는 공백이며, 그중 716명은 콘텐츠까지 갖춘 `full` 등급이다.
+`portrait_url`(상세 화면 상단의 세로 전신컷, `celebs/{id}/photo.webp`)은 **있으나 없으나 무방한
+값이므로 결손 집계·감사 대상에서 제외한다.** 유저가 직접 시간 날 때 채운다. 다음 회차에서 이
+숫자를 다시 꺼내 「남은 과제」로 올리지 않는다. 진행 현황이 필요하면
+`docs/project/celeb/hero-photo-status.md`만 본다. 참고로 26.08.14 기준 공개 인물 1,301명이 비어
+있었으나, 이 값은 추적 지표가 아니다.
+
+**아바타와 대표사진은 다른 필드다.** 아바타는 얼굴 크롭(`celebs/{id}/avatar.webp`)이고 공개
+인물은 전원 채워져 있다. 아바타는 계속 결손으로 센다.
+
+- 연표는 화면에서 바로 보이는 공백이며, 그중 716명은 콘텐츠까지 갖춘 `full` 등급이다.
 - 규격은 `docs/project/celeb/celeb-timeline.md`가 쥔다. 조사 운영도 그 문서의 「조사 운영」 절을 따른다
   (선점기를 쓰지 않고 세션 오케스트레이터가 사건 0건 인물을 독립 레인에 배정한다).
 - 다음 회차 우선순위는 **공개 `full` 716명**이다.
