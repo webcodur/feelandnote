@@ -1,0 +1,122 @@
+{
+ "slug": "sima-yi",
+ "events": [
+  {
+   "year": 179,
+   "year_end": null,
+   "kind": "birth",
+   "title": "하내군 온현에서 태어나다",
+   "title_en": "Born in Wen County, Henei Commandery",
+   "description": "하내군 온현의 명문가에서 태어났다. 어려서부터 학식이 깊다는 평판을 얻었다.",
+   "description_en": "He was born into a prominent family in Wen County, Henei Commandery. Even as a young man he was known for his learning.",
+   "place_name": "하내군 온현",
+   "place_name_en": "Wen County, Henei Commandery",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 201,
+   "year_end": null,
+   "kind": "other",
+   "title": "조조의 부름을 중풍을 핑계로 거절하다",
+   "title_en": "He feigned paralysis to refuse Cao Cao's summons",
+   "description": "조조가 관직에 부르자 중풍에 걸려 몸을 못 쓴다며 거절했다. 조조 밑에서 벼슬하기를 꺼려 여러 해를 버텼다.",
+   "description_en": "When Cao Cao summoned him to office, he claimed he was paralyzed and unable to move. He kept up the pretense for years, reluctant to serve under Cao Cao.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 208,
+   "year_end": null,
+   "kind": "office",
+   "title": "조조의 강요로 문학연에 오르다",
+   "title_en": "He was forced by Cao Cao to take office",
+   "description": "조조가 승상이 되어 다시 부르며 계속 누워 있으면 잡아 가두겠다고 압박하자 그제야 나가 문학연에 올랐다.",
+   "description_en": "When Cao Cao, now chancellor, summoned him again and warned that continued malingering would mean arrest, he finally came out and took the post of household secretary.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 226,
+   "year_end": null,
+   "kind": "office",
+   "title": "조비의 유훈으로 조예를 보좌하다",
+   "title_en": "He was entrusted with guiding Cao Rui at Cao Pi's death",
+   "description": "조비가 임종에 앞서 태자 조예를 사마의와 조진, 조휴, 진군 네 사람에게 부탁했다. 조예가 즉위하자 무양후에 봉해졌다.",
+   "description_en": "On his deathbed Cao Pi entrusted his heir, Cao Rui, to Sima Yi along with Cao Zhen, Cao Xiu, and Chen Qun. When Cao Rui took the throne, Sima Yi was enfeoffed Marquis of Wuyang.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 228,
+   "year_end": null,
+   "kind": "battle",
+   "title": "상용까지 급히 달려가 맹달을 베다",
+   "title_en": "He raced to Shangyong and beheaded Meng Da",
+   "description": "위를 배신하고 촉한으로 돌아서려던 맹달의 낌새를 알아채고 편지로 시간을 벌면서 군을 몰아 상용까지 급행군했다. 여드레 만에 성을 무너뜨리고 맹달을 죽였다.",
+   "description_en": "Sensing that Meng Da was about to defect from Wei back to Shu Han, he sent a letter to buy time while marching his army toward Shangyong at forced speed. He broke the city within eight days and had Meng Da killed.",
+   "place_name": "상용",
+   "place_name_en": "Shangyong",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 234,
+   "year_end": null,
+   "kind": "battle",
+   "title": "오장원에서 제갈량과 백여 일을 대치하다",
+   "title_en": "He faced off with Zhuge Liang at Wuzhang Plains for a hundred days",
+   "description": "북벌에 나선 제갈량의 촉군과 오장원에서 백여 일간 맞섰다. 성 밖으로 나가지 않고 버티는 사이 제갈량이 진중에서 병으로 죽었다.",
+   "description_en": "He faced Zhuge Liang's invading Shu army at Wuzhang Plains for more than a hundred days. While he held his lines without engaging, Zhuge Liang fell ill and died in camp.",
+   "place_name": "오장원",
+   "place_name_en": "Wuzhang Plains",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 238,
+   "year_end": null,
+   "kind": "battle",
+   "title": "요동의 공손연을 정벌하다",
+   "title_en": "He conquered Gongsun Yuan in Liaodong",
+   "description": "독자 세력을 이루던 요동의 공손연을 치러 원정에 나서 양평성을 함락했다. 48년을 이어 온 요동 할거 정권이 이로써 끝났다.",
+   "description_en": "He led an expedition against Gongsun Yuan, who had built an independent power base in Liaodong, and took the city of Xiangping. This ended forty-eight years of separatist rule in Liaodong.",
+   "place_name": "요동 양평",
+   "place_name_en": "Xiangping, Liaodong",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 249,
+   "year_end": null,
+   "kind": "battle",
+   "title": "고평릉의 변을 일으켜 조상 일파를 제거하다",
+   "title_en": "He seized power in the Gaoping Tombs coup",
+   "description": "조상이 어린 황제를 데리고 고평릉으로 성묘 간 틈을 타 정변을 일으켜 낙양을 장악했다. 조상 형제와 그 측근들을 모반죄로 몰아 일족을 멸했다.",
+   "description_en": "While Cao Shuang escorted the young emperor to visit the Gaoping Tombs, Sima Yi staged a coup and seized control of Luoyang. He charged Cao Shuang, his brothers, and their allies with treason and had their clans exterminated.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 251,
+   "year_end": null,
+   "kind": "death",
+   "title": "낙양에서 병으로 죽다",
+   "title_en": "He died of illness in Luoyang",
+   "description": "고평릉의 변으로 위나라의 실권을 완전히 쥔 지 2년 만에 병으로 죽었다. 일흔셋이었고, 이때 다진 기반 위에서 손자 사마염이 뒷날 진나라를 세웠다.",
+   "description_en": "Two years after seizing full control of Wei through the coup, he died of illness at seventy-two. The foundation he laid enabled his grandson Sima Yan to found the Jin dynasty later.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": null,
+   "lng": null
+  }
+ ]
+}

@@ -1,0 +1,96 @@
+{
+ "slug": "hippocrates",
+ "events": [
+  {
+   "year": -460,
+   "year_end": null,
+   "kind": "birth",
+   "title": "코스 섬에서 의사 집안의 아들로 태어나다",
+   "title_en": "Born on Cos into a family of physicians",
+   "description": "에게해의 섬 코스에서 태어났다. 아버지 헤라클레이데스는 사제이자 의사였고, 그는 이 집안에서 의술을 익히며 자랐다.",
+   "description_en": "He was born on the island of Cos in the Aegean. His father, Heracleides, was both a priest and a physician, and he grew up learning medicine inside that family.",
+   "place_name": "그리스 코스 섬",
+   "place_name_en": "Cos, Greece",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "아버지에게 의술을 배우다",
+   "title_en": "He learned medicine from his father",
+   "description": "아버지 헤라클레이데스에게서 의술을 배웠다. 어릴 때부터 몸을 단련하고 글을 읽는 교육을 함께 받았다.",
+   "description_en": "He learned medicine from his father, Heracleides. From childhood he trained his body and studied letters alongside his medical education.",
+   "place_name": "그리스 코스 섬",
+   "place_name_en": "Cos, Greece",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "그리스와 소아시아를 떠돌며 환자를 보다",
+   "title_en": "He traveled through Greece and Asia Minor treating patients",
+   "description": "그리스 본토와 소아시아 여러 곳을 다니며 환자를 치료하고 제자를 가르쳤다. 정확히 어느 해에 어디를 다녔는지는 남아 있지 않다.",
+   "description_en": "He moved through mainland Greece and across Asia Minor, treating patients and teaching students as he went. No record fixes exactly when or where each stop took place.",
+   "place_name": "그리스·소아시아",
+   "place_name_en": "Greece and Asia Minor",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "병을 신의 벌이 아닌 자연 현상으로 보다",
+   "title_en": "He treated disease as a natural process, not divine punishment",
+   "description": "병을 신이 내리는 벌이나 저주로 보던 통념을 버리고, 몸 안에서 일어나는 자연적 원인으로 설명했다. 코스에서 의학을 가르치며 이 관점을 제자들에게 전했다.",
+   "description_en": "He rejected the common belief that disease was a curse or punishment sent by the gods, and explained it instead as a natural process within the body. He taught this view to his students at Cos.",
+   "place_name": "그리스 코스 섬",
+   "place_name_en": "Cos, Greece",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "히포크라테스 전집이 그의 이름으로 전해지다",
+   "title_en": "The Hippocratic Corpus came down under his name",
+   "description": "그의 이름을 단 의학서 묶음인 히포크라테스 전집이 훗날까지 전해진다. 실제로는 여러 저자의 글이 섞여 있어, 그가 직접 쓴 부분이 어디까지인지는 확인되지 않는다.",
+   "description_en": "A body of medical writings known as the Hippocratic Corpus survives under his name. It mixes the work of several authors, and no one can confirm how much of it he wrote himself.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "그의 이름을 단 의사의 선서가 남다",
+   "title_en": "An oath bearing his name was left to physicians",
+   "description": "환자를 대하는 의사의 도리를 담은 선서가 그의 이름으로 전해진다. 이 선서를 그가 직접 썼는지는 확인되지 않고, 후대 학파가 정리했다는 견해가 있다.",
+   "description_en": "An oath setting out a physician's duty to patients survives under his name. Whether he wrote it himself is unconfirmed, and some scholars hold that a later branch of his school compiled it.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -370,
+   "year_end": null,
+   "kind": "death",
+   "title": "테살리아 라리사에서 죽다",
+   "title_en": "He died at Larissa in Thessaly",
+   "description": "그리스 테살리아 지방의 라리사에서 죽었다. 죽을 때 나이는 기록마다 여든셋에서 백 살 넘게까지 갈려 확정할 수 없다.",
+   "description_en": "He died at Larissa in the region of Thessaly. Accounts of his age at death disagree widely, ranging from the early eighties to well past a hundred, and no figure can be fixed.",
+   "place_name": "그리스 테살리아 라리사",
+   "place_name_en": "Larissa, Thessaly, Greece",
+   "lat": null,
+   "lng": null
+  }
+ ]
+}

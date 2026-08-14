@@ -1,0 +1,122 @@
+{
+ "slug": "ion-stoica",
+ "events": [
+  {
+   "year": 1964,
+   "year_end": null,
+   "kind": "birth",
+   "title": "루마니아에서 태어나다",
+   "title_en": "Born in Romania",
+   "description": "루마니아에서 태어나 어린 시절을 보냈다. 뒤에 컴퓨터공학을 공부해 미국으로 건너갔다.",
+   "description_en": "He was born and spent his early years in Romania. He later studied computer engineering and moved to the United States.",
+   "place_name": "루마니아",
+   "place_name_en": "Romania",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "education",
+   "title": "부쿠레슈티 폴리테크닉대에서 석사를 마치다",
+   "title_en": "He earned a master's degree at the Polytechnic University of Bucharest",
+   "description": "부쿠레슈티 폴리테크닉대학교에서 컴퓨터공학과 제어공학을 공부하고 석사학위를 받았다.",
+   "description_en": "He studied computer science and control engineering at the Polytechnic University of Bucharest and earned his master's degree there.",
+   "place_name": "루마니아 부쿠레슈티",
+   "place_name_en": "Bucharest, Romania",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "education",
+   "title": "카네기멜런대에서 박사학위를 받다",
+   "title_en": "He earned his PhD at Carnegie Mellon University",
+   "description": "카네기멜런대학교에서 전기컴퓨터공학 박사학위를 받았다. 분산 해시 테이블 시스템 코드에 대한 연구로 이듬해 ACM 박사학위 논문상을 받았다.",
+   "description_en": "He earned his PhD in electrical and computer engineering at Carnegie Mellon University. His research on the Chord distributed hash table system won the ACM doctoral dissertation award the following year.",
+   "place_name": "미국 피츠버그",
+   "place_name_en": "Pittsburgh, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "office",
+   "title": "버클리대 교수로 부임하다",
+   "title_en": "He joined the faculty at UC Berkeley",
+   "description": "카네기멜런대를 나와 UC버클리 컴퓨터과학과 교수로 자리를 옮겼다.",
+   "description_en": "After leaving Carnegie Mellon he joined the computer science faculty at UC Berkeley.",
+   "place_name": "미국 캘리포니아주 버클리",
+   "place_name_en": "Berkeley, California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "office",
+   "title": "콘비바를 공동창업하다",
+   "title_en": "He co-founded Conviva",
+   "description": "대규모 동영상 배급 기술을 상용화하는 콘비바를 공동창업했다.",
+   "description_en": "He co-founded Conviva to commercialize technology for large-scale video distribution.",
+   "place_name": "미국 캘리포니아주",
+   "place_name_en": "California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "버클리 AMP랩에서 아파치 스파크가 태어나다",
+   "title_en": "Apache Spark was born in Berkeley's AMPLab",
+   "description": "자신이 공동 지도하던 버클리 AMP랩에서 대용량 데이터 처리 프레임워크 아파치 스파크가 만들어졌다. 하둡의 느린 반복 연산을 해결하려는 시도였다.",
+   "description_en": "In Berkeley's AMPLab, which he co-directed, the large-scale data processing framework Apache Spark was created. It addressed Hadoop's slowness at iterative computation.",
+   "place_name": "미국 캘리포니아주 버클리",
+   "place_name_en": "Berkeley, California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "office",
+   "title": "데이터브릭스를 공동창업하다",
+   "title_en": "He co-founded Databricks",
+   "description": "아파치 스파크를 상용 서비스로 만들려고 데이터브릭스를 공동창업했다.",
+   "description_en": "He co-founded Databricks to turn Apache Spark into a commercial service.",
+   "place_name": "미국 캘리포니아주",
+   "place_name_en": "California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "office",
+   "title": "라이즈랩을 세워 레이 프로젝트를 이끌다",
+   "title_en": "He founded RISELab and led the Ray project",
+   "description": "버클리에 라이즈랩을 세우고 초대 소장을 맡았다. 이곳에서 분산 인공지능 연산을 위한 프레임워크 레이가 나왔다.",
+   "description_en": "He founded RISELab at Berkeley and served as its first director. The distributed AI computing framework Ray emerged from this lab.",
+   "place_name": "미국 캘리포니아주 버클리",
+   "place_name_en": "Berkeley, California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "office",
+   "title": "애니스케일을 공동창업하다",
+   "title_en": "He co-founded Anyscale",
+   "description": "레이를 상용화하는 애니스케일을 공동창업했다. 인공지능 애플리케이션을 위한 분산 파이썬 처리 기술을 서비스로 내놓았다.",
+   "description_en": "He co-founded Anyscale to commercialize Ray, offering distributed Python processing technology as a service for AI applications.",
+   "place_name": "미국 캘리포니아주",
+   "place_name_en": "California, United States",
+   "lat": null,
+   "lng": null
+  }
+ ]
+}

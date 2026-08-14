@@ -1,0 +1,96 @@
+{
+ "slug": "euclid",
+ "events": [
+  {
+   "year": -325,
+   "year_end": null,
+   "kind": "birth",
+   "title": "기원전 325년 무렵 태어나다",
+   "title_en": "Born around 325 BC",
+   "description": "정확한 출생지와 시점은 전하지 않는다. 학자들은 기원전 325년 무렵으로 추정할 뿐이다.",
+   "description_en": "No record gives his birthplace or exact birth year. Scholars place it only around 325 BC.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "알렉산드리아에서 학파를 세우다",
+   "title_en": "He founded a school in Alexandria",
+   "description": "프톨레마이오스 1세가 다스리던 시절 알렉산드리아에서 학파를 세우고 수학을 가르쳤다. 언제 이집트로 건너갔는지는 전하지 않는다.",
+   "description_en": "During the reign of Ptolemy I he founded a school in Alexandria and taught mathematics there. No record says when he arrived in Egypt.",
+   "place_name": "이집트 알렉산드리아",
+   "place_name_en": "Alexandria, Egypt",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "원론 열세 권을 쓰다",
+   "title_en": "He wrote the thirteen books of the Elements",
+   "description": "피타고라스, 에우독소스, 테아이테토스 등 앞선 수학자들의 성과를 정의·공준·증명으로 잇는 하나의 체계로 묶어 원론 열세 권을 썼다. 이 책은 19세기 말까지 기하학 교육의 표준으로 쓰였다.",
+   "description_en": "He gathered the work of earlier mathematicians such as Pythagoras, Eudoxus, and Theaetetus into a single system built from definitions, postulates, and proofs, and wrote the thirteen books of the Elements. The book remained the standard text for teaching geometry until the late nineteenth century.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "프톨레마이오스 1세에게 왕도는 없다고 답하다",
+   "title_en": "He told Ptolemy I there was no royal road",
+   "description": "프톨레마이오스 1세가 원론보다 빠르게 기하학을 배울 길을 묻자 기하학에는 왕도가 없다고 답했다고 전한다. 이 일화는 유클리드가 죽고 700년 뒤 프로클로스가 남긴 기록에만 나온다.",
+   "description_en": "When Ptolemy I asked for a shorter path to geometry than the Elements, Euclid is said to have answered that there was no royal road to geometry. The story survives only through Proclus, writing seven hundred years after Euclid's death.",
+   "place_name": "이집트 알렉산드리아",
+   "place_name_en": "Alexandria, Egypt",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "데이터·광학 등 다른 저작을 남기다",
+   "title_en": "He left other works such as Data and Optics",
+   "description": "원론 외에도 데이터, 광학, 현상 같은 책을 남겼다. 포리즘과 원뿔곡선론은 후대에 실전됐다.",
+   "description_en": "Beyond the Elements he left works such as Data, Optics, and Phaenomena. His Porisms and Conics were later lost.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "배움의 대가를 묻는 제자에게 동전을 쥐여주다",
+   "title_en": "He gave a coin to a student who asked what he would gain",
+   "description": "한 제자가 기하학을 배워 무엇을 얻느냐고 묻자 노예를 시켜 동전을 쥐여주며, 배운 것에서 이득을 봐야 한다면 이거라도 가지라 했다고 전한다. 이 일화도 후대 기록에만 남았다.",
+   "description_en": "When a student asked what he would gain from learning geometry, Euclid is said to have told a slave to give him a coin, since he had to profit from what he learned. This story, too, survives only in later sources.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -265,
+   "year_end": null,
+   "kind": "death",
+   "title": "세상을 떠나다",
+   "title_en": "He died",
+   "description": "기원전 265년 무렵 세상을 떠난 것으로 추정된다. 정확한 때와 곳, 사인은 어떤 기록에도 남지 않았다.",
+   "description_en": "He is thought to have died around 265 BC. No record preserves the exact date, place, or cause.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ]
+}

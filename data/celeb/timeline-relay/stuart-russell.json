@@ -1,0 +1,122 @@
+{
+ "slug": "stuart-russell",
+ "events": [
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "birth",
+   "title": "포츠머스에서 태어나다",
+   "title_en": "Born in Portsmouth",
+   "description": "영국 포츠머스에서 태어났다.",
+   "description_en": "He was born in Portsmouth, England.",
+   "place_name": "영국 포츠머스",
+   "place_name_en": "Portsmouth, United Kingdom",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "education",
+   "title": "옥스퍼드에서 물리학 학위를 받다",
+   "title_en": "He earned a physics degree at Oxford",
+   "description": "옥스퍼드대학교에서 물리학 최우등 학위를 받았다.",
+   "description_en": "He earned a first-class honours degree in physics from Oxford University.",
+   "place_name": "영국 옥스퍼드",
+   "place_name_en": "Oxford, United Kingdom",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "education",
+   "title": "스탠퍼드에서 컴퓨터과학 박사를 받다",
+   "title_en": "He earned a computer science PhD at Stanford",
+   "description": "스탠퍼드대학교에서 컴퓨터과학 박사학위를 받고 곧바로 UC 버클리 교수로 자리 잡았다.",
+   "description_en": "He earned his PhD in computer science from Stanford University and moved almost immediately into a faculty position at UC Berkeley.",
+   "place_name": "미국 캘리포니아주 스탠퍼드",
+   "place_name_en": "Stanford, California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "publish",
+   "title": "'인공지능: 현대적 접근법'을 펴내다",
+   "title_en": "He published Artificial Intelligence: A Modern Approach",
+   "description": "피터 노빅과 함께 AI 표준 교과서 '인공지능: 현대적 접근법'을 펴냈다. 이후 전 세계 1500여 대학의 강의에서 쓰이는 정전이 되었다.",
+   "description_en": "With Peter Norvig he published Artificial Intelligence: A Modern Approach, the field's standard textbook. It went on to be used in courses at more than 1,500 universities worldwide.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "other",
+   "title": "자율살상무기 규제 운동을 시작하다",
+   "title_en": "He began campaigning against lethal autonomous weapons",
+   "description": "제네바 유엔재래식무기협약 회의에서 발언하며 자율살상무기 규제를 촉구하기 시작했다. 이후 수만 명의 과학자가 서명한 공개서한을 이끌었다.",
+   "description_en": "He began speaking out against lethal autonomous weapons at the UN Convention on Certain Conventional Weapons in Geneva. He went on to lead an open letter signed by tens of thousands of scientists.",
+   "place_name": "스위스 제네바",
+   "place_name_en": "Geneva, Switzerland",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "office",
+   "title": "인간중심AI센터를 세우다",
+   "title_en": "He founded the Center for Human-Compatible AI",
+   "description": "UC 버클리에 인간중심AI센터를 세워 AI 안전 연구를 이끄는 거점으로 삼았다.",
+   "description_en": "He founded the Center for Human-Compatible AI at UC Berkeley, making it a hub for AI safety research.",
+   "place_name": "미국 캘리포니아주 버클리",
+   "place_name_en": "Berkeley, California, United States",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "publish",
+   "title": "단편영화 '슬로터봇'을 공개하다",
+   "title_en": "He released the short film Slaughterbots",
+   "description": "생명의미래연구소와 함께 무리 지어 표적을 암살하는 초소형 자율 무기의 위험을 그린 단편영화 '슬로터봇'을 내놓았다.",
+   "description_en": "With the Future of Life Institute he released Slaughterbots, a short film depicting the dangers of swarming autonomous micro-drones used for targeted killing.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "publish",
+   "title": "'인간 양립 가능'을 펴내다",
+   "title_en": "He published Human Compatible",
+   "description": "'인간 양립 가능: 인공지능과 통제 문제'를 펴내 AI 안전 담론을 대중서로 끌어냈다. 인간의 목적을 확신하지 못하는 AI를 설계하자는 대안을 제시했다.",
+   "description_en": "He published Human Compatible: Artificial Intelligence and the Problem of Control, bringing AI safety discourse to a general audience. The book proposed designing AI systems that remain uncertain about human objectives rather than pursuing fixed goals.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "other",
+   "title": "대영제국훈장을 받다",
+   "title_en": "He was appointed OBE",
+   "description": "엘리자베스 2세 여왕으로부터 대영제국훈장을 받았다.",
+   "description_en": "He received the OBE from Queen Elizabeth II.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ]
+}
