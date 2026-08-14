@@ -22,7 +22,7 @@ export default function AddContentForm({ celebId }: Props) {
   const [error, setError] = useState<string | null>(null)
   const [selectedContent, setSelectedContent] = useState<SelectedContent | null>(null)
   const [contentType, setContentType] = useState<ContentType>('BOOK')
-  const [form, setForm] = useState({ status: 'FINISHED', rating: '', review: '', source_url: '' })
+  const [form, setForm] = useState({ status: 'FINISHED', review: '', source_url: '' })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -59,7 +59,6 @@ export default function AddContentForm({ celebId }: Props) {
         celeb_id: celebId,
         content_id: contentId,
         status: form.status,
-        rating: form.rating ? Number(form.rating) : undefined,
         review: form.review || undefined,
         source_url: form.source_url || undefined,
       })
@@ -84,7 +83,7 @@ export default function AddContentForm({ celebId }: Props) {
     setIsOpen(false)
     setSelectedContent(null)
     setError(null)
-    setForm({ status: 'FINISHED', rating: '', review: '', source_url: '' })
+    setForm({ status: 'FINISHED', review: '', source_url: '' })
   }
 
   const thumbnailUrl = selectedContent?.source === 'db' ? selectedContent.data.thumbnail_url : selectedContent?.data.coverImageUrl
@@ -141,22 +140,6 @@ export default function AddContentForm({ celebId }: Props) {
                         </option>
                       ))}
                     </select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-text-secondary">
-                      평점 <span className="text-text-secondary/60">(선택)</span>
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="5"
-                      step="0.5"
-                      value={form.rating}
-                      onChange={(e) => setForm({ ...form, rating: e.target.value })}
-                      placeholder="입력 안 함"
-                      className="w-full px-4 py-2 bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
-                    />
                   </div>
 
                   <div className="space-y-2">

@@ -1049,7 +1049,6 @@ export interface CelebContent {
   id: string
   content_id: string
   status: string
-  rating: number | null
   review: string | null
   is_spoiler: boolean
   visibility: string
@@ -1127,7 +1126,6 @@ export async function getCelebContents(
       id: item.id,
       content_id: item.content_id,
       status: item.status,
-      rating: item.rating,
       review: item.review,
       is_spoiler: item.is_spoiler || false,
       visibility: item.visibility || 'public',
@@ -1157,7 +1155,6 @@ interface AddCelebContentInput {
   celeb_id: string
   content_id: string
   status: string
-  rating?: number
   review?: string
   is_spoiler?: boolean
   source_url?: string
@@ -1194,7 +1191,6 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
       celeb_id: input.celeb_id,
       content_id: input.content_id,
       status: input.status,
-      rating: input.rating !== undefined ? input.rating : null,
       review: input.review || null,
       is_spoiler: input.is_spoiler || false,
       visibility: 'public',
@@ -1233,7 +1229,6 @@ interface UpdateCelebContentInput {
   id: string
   celeb_id: string
   status?: string
-  rating?: number | null
   review?: string | null
   is_spoiler?: boolean
   visibility?: string
@@ -1262,7 +1257,6 @@ export async function updateCelebContent(input: UpdateCelebContentInput): Promis
   const updateData: Record<string, unknown> = { updated_at: new Date().toISOString() }
 
   if (input.status !== undefined) updateData.status = input.status
-  if (input.rating !== undefined) updateData.rating = input.rating
   if (input.review !== undefined) updateData.review = input.review
   if (input.is_spoiler !== undefined) updateData.is_spoiler = input.is_spoiler
   if (input.visibility !== undefined) updateData.visibility = input.visibility

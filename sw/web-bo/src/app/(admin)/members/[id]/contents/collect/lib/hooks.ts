@@ -221,7 +221,6 @@ export function useCollect({ celebId, celebName }: UseCollectProps) {
             status: item.status,
             itemSourceUrl: original.sourceUrl,
             itemReview: original.review,
-            itemRating: original.rating,
             titleOriginal:
               original.title !== finalSearchResult.title ? original.title : undefined,
           }

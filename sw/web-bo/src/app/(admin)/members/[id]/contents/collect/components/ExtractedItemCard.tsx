@@ -308,26 +308,12 @@ export default function ExtractedItemCard({
                 onClick={(e) => e.stopPropagation()}
               />
             </div>
-            {/* 평점 및 감상 상태 */}
+            {/* 감상 상태 */}
             <div className="flex items-center gap-3">
               <label className="text-xs text-text-secondary w-16 shrink-0">
-                평점/상태
+                상태
               </label>
-              <div className="flex items-center gap-2 flex-1">
-                <input
-                  type="number"
-                  min="0"
-                  max="5"
-                  step="0.5"
-                  value={item.rating || ''}
-                  onChange={(e) => {
-                    const val = parseFloat(e.target.value)
-                    onUpdateExtractedItem(index, { rating: isNaN(val) ? undefined : val })
-                  }}
-                  className="w-20 px-2 py-1.5 bg-bg-secondary border border-border rounded text-sm text-text-primary focus:border-accent focus:outline-none"
-                  placeholder="0.0"
-                  onClick={(e) => e.stopPropagation()}
-                />
+              <div className="flex-1">
                 <select
                   value={processed?.status || 'FINISHED'}
                   onChange={(e) => onHandleStatusChange(index, e.target.value)}

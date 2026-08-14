@@ -13,7 +13,6 @@ export interface ExtractedContent {
   isbn?: string
   review?: string
   sourceUrl?: string
-  rating?: number
 }
 
 export interface ExtractionResult {
