@@ -2,13 +2,16 @@ import type { MetadataRoute } from 'next'
 import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
 
 export const SITEMAP_REVALIDATE_SECONDS = 86400
-export const CONTENT_SITEMAP_BUCKETS = 8
 
-export const SITEMAP_NAMES = [
-  'core',
-  'celebs',
-  ...Array.from({ length: CONTENT_SITEMAP_BUCKETS }, (_, index) => `contents-${index}`),
-] as const
+/**
+ * 작품 상세(`/content/{uuid}`)는 사이트맵에서 제외한다 (2026-08-14).
+ *
+ * 본문이 출판사 소개문이라 서점·출판사·나무위키에 같은 글이 이미 있고, 주소도 UUID라
+ * 검색어와 이어질 단서가 없다. 순위가 나올 수 없는 14,386개가 전체 제출량의 79%를 차지해
+ * 크롤 예산을 소진시켰고, 직접 작성한 인물 글은 「발견됨 - 색인 생성 안 됨」에 머물렀다.
+ * 색인 대상은 인물과 주요 목록으로 좁힌다. 작품 페이지 자체는 그대로 두며, 내부 링크로만 닿는다.
+ */
+export const SITEMAP_NAMES = ['core', 'celebs'] as const
 
 const BASE_URL = 'https://feelandnote.com'
 
@@ -64,62 +67,6 @@ async function fetchCelebs(): Promise<{
   }
 
   return allCelebs
-}
-
-async function fetchReviewedContents(): Promise<{
-  id: string
-  lastModified: Date | undefined
-}[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !key) return []
-
-  const contentUpdatedAt = new Map<string, string>()
-  const pageSize = 1000
-  let offset = 0
-
-  while (true) {
-    const params = new URLSearchParams({
-      select: 'content_id,updated_at',
-      review: 'not.is.null',
-      visibility: 'eq.public',
-      order: 'id.asc',
-      offset: String(offset),
-      limit: String(pageSize),
-    })
-
-    const response = await fetch(`${url}/rest/v1/celeb_contents?${params}`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-      next: { revalidate: SITEMAP_REVALIDATE_SECONDS },
-    })
-
-    if (!response.ok) {
-      console.error(
-        `[sitemap] celeb_contents REST failed: ${response.status} ${response.statusText}`,
-      )
-      break
-    }
-
-    const data: { content_id: string | null; updated_at: string | null }[] =
-      await response.json()
-    for (const row of data) {
-      if (!row.content_id) continue
-      const previous = contentUpdatedAt.get(row.content_id)
-      if (row.updated_at && (!previous || row.updated_at > previous)) {
-        contentUpdatedAt.set(row.content_id, row.updated_at)
-      } else if (!previous) {
-        contentUpdatedAt.set(row.content_id, '')
-      }
-    }
-
-    if (data.length < pageSize) break
-    offset += pageSize
-  }
-
-  return [...contentUpdatedAt].map(([id, updatedAt]) => ({
-    id,
-    lastModified: updatedAt ? new Date(updatedAt) : undefined,
-  }))
 }
 
 async function fetchCuratedPaths(): Promise<string[]> {
@@ -231,23 +178,7 @@ export async function getSitemapEntries(name: string): Promise<MetadataRoute.Sit
     )
   }
 
-  const contentMatch = /^contents-(\d+)$/.exec(name)
-  if (!contentMatch) return null
-
-  const bucket = Number(contentMatch[1])
-  if (!Number.isInteger(bucket) || bucket < 0 || bucket >= CONTENT_SITEMAP_BUCKETS) return null
-
-  const reviewedContents = await fetchReviewedContents()
-  return reviewedContents
-    .filter(({ id }) => contentBucket(id) === bucket)
-    .flatMap(({ id, lastModified }) =>
-      entry(`/content/${id}`, 'monthly', 0.6, lastModified),
-    )
-}
-
-function contentBucket(id: string): number {
-  const firstHex = Number.parseInt(id.replaceAll('-', '').charAt(0), 16)
-  return Number.isNaN(firstHex) ? 0 : firstHex % CONTENT_SITEMAP_BUCKETS
+  return null
 }
 
 function escapeXml(value: string): string {
