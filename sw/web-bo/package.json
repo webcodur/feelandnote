@@ -15,6 +15,8 @@
     "celeb:audit:public": "tsx scripts/audit-public-celeb-quality.ts",
     "celeb:claim": "tsx scripts/claim-celeb-work.ts",
     "celeb:fill": "tsx scripts/celeb-fill.ts",
+    "celeb:speech-research:prepare": "tsx scripts/prepare-celeb-speech-research.ts",
+    "celeb:speech-research:test": "tsx --test scripts/lib/celeb-speech-research.test.ts",
     "celeb:defer": "tsx scripts/defer-celeb-gap.ts",
     "celeb:i18n-backfill": "node scripts/backfill-celeb-i18n.mjs",
     "celeb:readings": "tsx scripts/generate-celeb-readings.ts",
@@ -59,11 +61,7 @@
     "coupang:pick": "node scripts/coupang/cp-pick.mjs",
     "coupang:audit": "node scripts/coupang/audit-linked.mjs",
 
-    "book-recommend:resources": "tsx scripts/book-recommend-resources.ts",
-    "music:itunes-migrate": "node scripts/itunes-music-migrate.mjs",
-    "music:spotify-classify": "node scripts/classify-spotify-music-entities.mjs",
-    "music:itunes-precision": "node scripts/itunes-music-precision.mjs",
-    "music:itunes-precision:auto": "node scripts/itunes-music-precision.mjs --auto"
+    "book-recommend:resources": "tsx scripts/book-recommend-resources.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

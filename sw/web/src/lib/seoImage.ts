@@ -14,7 +14,6 @@ const ALLOWED_IMAGE_HOSTS = new Set([
   't1.daumcdn.net',
   'image.tmdb.org',
   'covers.openlibrary.org',
-  'i.scdn.co',
   'i.gr-assets.com',
   'images.igdb.com',
   'books.google.com',
@@ -27,7 +26,6 @@ const ALLOWED_IMAGE_HOSTS = new Set([
 const ALLOWED_IMAGE_HOST_SUFFIXES = [
   '.r2.dev',
   '.supabase.co',
-  '.spotifycdn.com',
   '.mzstatic.com',
   '.imgix.net',
   '.bigcommerce.com',

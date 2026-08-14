@@ -42,7 +42,6 @@ export interface ContentMetadata {
   albumType?: string
   totalTracks?: number
   artists?: string[]
-  spotifyUrl?: string
   tracks?: { name: string; durationMs: number; trackNumber: number }[]
   label?: string
   copyrights?: string[]

@@ -103,14 +103,10 @@
       "hoursAgo": "{hours}h ago",
       "daysAgo": "{days}d ago"
     },
-    "itunes": {
-      "previewNotice": "30-second preview. Full track available on Apple Music."
-    },
-    "spotify": {
-      "mobileNotice": "Only 30-second previews are available on mobile browsers.",
-      "pcPrefix": "On PC, ",
-      "login": "sign in to Spotify",
-      "pcSuffix": " and return to enjoy full tracks. Complete Spotify age verification to access all songs."
+    "appleMusic": {
+      "label": "Apple Music",
+      "listen": "Listen in full",
+      "previewNotice": "30-second preview provided by Apple Music."
     },
     "externalLinks": "External Links",
     "recentContents": "Recently Viewed",
@@ -242,9 +238,10 @@
     }
   },
   "musicPlayer": {
-    "previewNotice": "30-second preview",
+    "previewNotice": "30-second Apple Music preview",
     "previewUnavailable": "No preview available for this track",
-    "title": "Music Player",
+    "title": "Apple Music Preview",
+    "listenOnApple": "Listen in full",
     "gameBgm": "Game BGM",
     "close": "Close",
     "album": "Album",
@@ -255,11 +252,7 @@
     "loading": "Loading...",
     "empty": "No music to display",
     "emptyHint": "Music with interested or listened status will appear here",
-    "noticeWantStatus": "Music with {want} or {finished} status will appear here.",
-    "noticeSpotify": "Log in to {login} on PC browser to play full tracks freely.",
-    "noticeSpotifyLogin": "Spotify",
-    "noticeAge": "For age-restricted tracks, {action} to trigger age verification. Return after verification to play normally.",
-    "noticeAgeAction": "try playing the track in the Spotify app"
+    "noticeWantStatus": "Music with {want} or {finished} status will appear here."
   },
   "customContent": {
     "modalTitle": "Custom registration",

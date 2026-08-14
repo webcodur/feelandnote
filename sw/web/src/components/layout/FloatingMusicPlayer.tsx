@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
-import { Music, X, Info } from 'lucide-react'
+import { ExternalLink, Music, X, Info } from 'lucide-react'
 import { Z_INDEX } from '@/constants/zIndex'
 import { getMyMusicList, type MusicTrack } from '@/actions/contents/getMyMusicList'
 import type { ContentStatus } from '@/types/database'
@@ -34,20 +34,12 @@ function NoticeItems({ t }: { t: (key: string, params?: Record<string, string>) 
   const tStatus = useTranslations('status')
   const items = [
     <>{t('noticeWantStatus', { want: tStatus('want'), finished: tStatus('finished') })}</>,
-    <>{t('noticeSpotify', { login: t('noticeSpotifyLogin') })}</>,
-    <>{t('noticeAge', { action: t('noticeAgeAction') })}</>,
   ]
   return <>{items.map((item, i) => <li key={i}>{item}</li>)}</>
 }
 // #endregion
 
 // #region Helpers
-const extractSpotifyId = (externalId: string) =>
-  externalId.replace(/^spotify[-_]/, '')
-
-const spotifyEmbedUrl = (id: string, entity: 'track' | 'album') =>
-  `https://open.spotify.com/embed/${entity}/${id}?utm_source=generator&theme=0`
-
 const loadSavedSize = () => {
   try {
     const raw = localStorage.getItem(LS_KEY)
@@ -70,7 +62,6 @@ export default function FloatingMusicPlayer() {
   const [panelW, setPanelW] = useState(DEFAULT_W)
   const [panelH, setPanelH] = useState(DEFAULT_H)
   const [embedH, setEmbedH] = useState(EMBED_DEFAULT)
-  const [splitKey, setSplitKey] = useState(0)
   const [showNotice, setShowNotice] = useState(false)
   const [showInfo, setShowInfo] = useState(false)
   const loadedRef = useRef(false)
@@ -85,21 +76,6 @@ export default function FloatingMusicPlayer() {
       setIsAuthenticated(!!user)
     })
   }, [])
-
-  useEffect(() => {
-    if (!isOpen || loadedRef.current) return
-    loadedRef.current = true
-    const saved = loadSavedSize()
-    if (saved) { setPanelW(saved.w); setPanelH(saved.h); sizeRef.current = saved }
-    const split = localStorage.getItem(LS_SPLIT_KEY)
-    if (split) { const h = Number(split); setEmbedH(h); embedHRef.current = h }
-    const dismissed = !!localStorage.getItem(LS_NOTICE_KEY)
-    setShowNotice(!dismissed)
-    if (dismissed) {
-      setLoading(true)
-      getMyMusicList().then((list) => { setTracks(list); setLoading(false) })
-    }
-  }, [isOpen])
 
   const handleDismissNotice = () => {
     setShowNotice(false)
@@ -147,7 +123,6 @@ export default function FloatingMusicPlayer() {
       embedHRef.current = snapped
       setEmbedH(snapped)
       localStorage.setItem(LS_SPLIT_KEY, String(snapped))
-      setSplitKey((k) => k + 1)
       document.removeEventListener('mousemove', onMove)
       document.removeEventListener('mouseup', onUp)
     }
@@ -168,7 +143,21 @@ export default function FloatingMusicPlayer() {
     })
   }
 
-  const handleOpen = () => setIsOpen(true)
+  const handleOpen = () => {
+    setIsOpen(true)
+    if (gameAudio || loadedRef.current) return
+    loadedRef.current = true
+    const saved = loadSavedSize()
+    if (saved) { setPanelW(saved.w); setPanelH(saved.h); sizeRef.current = saved }
+    const split = localStorage.getItem(LS_SPLIT_KEY)
+    if (split) { const h = Number(split); setEmbedH(h); embedHRef.current = h }
+    const dismissed = !!localStorage.getItem(LS_NOTICE_KEY)
+    setShowNotice(!dismissed)
+    if (dismissed) {
+      setLoading(true)
+      getMyMusicList().then((list) => { setTracks(list); setLoading(false) })
+    }
+  }
   const handleHide = () => setIsOpen(false)
   const current = tracks[currentIdx]
   const bodyH = panelH - HEADER_H
@@ -205,12 +194,12 @@ export default function FloatingMusicPlayer() {
     )
   }
 
-  // ── 기본 모드: Spotify 뮤직 플레이어 ──
+  // ── 기본 모드: Apple Music 미리듣기 플레이어 ──
   return (
     <>
       {!isOpen && (
-        <button onClick={handleOpen} className="fixed bottom-4 end-4 w-12 h-12 rounded-full flex items-center justify-center shadow-lg border bg-bg-card border-border text-text-secondary hover:text-accent hover:border-accent/30" style={zStyle} title={t('title')}>
-          <Music size={20} />
+        <button onClick={handleOpen} className="fixed bottom-4 end-4 flex size-12 items-center justify-center rounded-full border border-white/15 bg-gradient-to-br from-[#fa2d48] via-[#d52d8c] to-[#7d3cff] text-white shadow-lg hover:brightness-110" style={zStyle} title={t('title')}>
+          <Music size={20} fill="currentColor" />
         </button>
       )}
 
@@ -224,6 +213,9 @@ export default function FloatingMusicPlayer() {
           {/* 헤더 */}
           <div className="flex items-center justify-between px-3 border-b border-border" style={{ height: HEADER_H }}>
             <div className="flex items-center gap-1.5 ps-4">
+              <span className="flex size-4 items-center justify-center rounded bg-gradient-to-br from-[#fa2d48] via-[#d52d8c] to-[#7d3cff] text-white">
+                <Music size={9} fill="currentColor" />
+              </span>
               <span className="text-[11px] font-medium">{t('title')}</span>
               {!showNotice && (
                 <button onClick={() => setShowInfo((v) => !v)} className={showInfo ? 'text-accent' : ' hover:text-text-secondary'}>
@@ -259,22 +251,35 @@ export default function FloatingMusicPlayer() {
                 </div>
               )}
 
-              {/* 재생기 — 아이튠즈로 옮긴 곡은 미리듣기 음원을 직접 재생하고, 남은 Spotify 곡은 기존 임베드 */}
+              {/* Apple Music 미리듣기 음원을 직접 재생한다 */}
               <div style={{ height: clamped }}>
-                {current && current.source === 'itunes' && (
+                {current && (
                   current.previewUrl ? (
-                    <div className="flex flex-col items-center justify-center gap-2 h-full px-3">
+                    <div className="flex h-full flex-col items-center justify-center gap-1 px-3 py-1">
                       <audio key={current.id} src={current.previewUrl} controls autoPlay preload="none" className="w-full" />
-                      <span className="text-[11px] text-text-secondary">{t('previewNotice')}</span>
+                      <div className="flex w-full items-center justify-between gap-2 text-[11px] text-text-secondary">
+                        <span className="flex min-w-0 items-center gap-1.5 truncate">
+                          <span className="size-2 shrink-0 rounded-full bg-gradient-to-br from-[#fa2d48] via-[#d52d8c] to-[#7d3cff]" />
+                          {t('previewNotice')}
+                        </span>
+                        {current.appleMusicUrl && (
+                          <a
+                            href={current.appleMusicUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 font-medium text-accent hover:bg-accent/10"
+                          >
+                            {t('listenOnApple')}
+                            <ExternalLink size={10} />
+                          </a>
+                        )}
+                      </div>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center h-full">
                       <span className="text-[11px] text-text-secondary">{t('previewUnavailable')}</span>
                     </div>
                   )
-                )}
-                {current && current.source === 'spotify' && (
-                  <iframe className="block" key={`${current.id}-${splitKey}`} src={spotifyEmbedUrl(extractSpotifyId(current.externalId), current.spotifyEntity)} width="100%" height={clamped} frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" />
                 )}
               </div>
 

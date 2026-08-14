@@ -1,13 +1,9 @@
-// 아이튠즈(Apple) 음악 검색 래퍼 — MUSIC 메타의 유일한 출처
-//
-// Spotify Web API는 2026-02 개발자 모드 정책 변경으로 앱 소유자의 유료 구독을 요구하게 됐고,
-// 26.08.01 우리 앱에 적용돼 검색·단건 조회가 모두 403이다. 그 자리를 대신한다.
+// Apple iTunes Search API 음악 검색 래퍼 — MUSIC 메타의 유일한 출처.
 //
 // 인증·키가 없는 공개 창구라 IP 단위 속도 제한만 있다. 대량 조회는 막히므로
 // 인물당 몇 건 수준의 신규 등록에만 쓴다(실측: 26.08.01 대량 재수집이 403으로 차단).
 //
-// Spotify와 결정적으로 다른 점: 30초 미리듣기 음원(previewUrl)을 함께 준다.
-// 우리 플레이어가 이 파일을 직접 재생하므로 남의 창(iframe)이 필요 없고 로그인도 필요 없다.
+// 30초 미리듣기 음원(previewUrl)을 함께 주며, 우리 플레이어가 이 파일을 직접 재생한다.
 // 상세: docs/project/platform/external-services.md 「외부 콘텐츠 검색 API」
 
 const ITUNES_SEARCH_URL = 'https://itunes.apple.com/search'

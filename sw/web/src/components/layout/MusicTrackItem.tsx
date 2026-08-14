@@ -95,7 +95,7 @@ export default function MusicTrackItem({ track, index, total, isActive, onSelect
           )}
         </div>
         <div className="flex flex-col items-end gap-0.5 shrink-0">
-          <span className="text-[9px]">{t(track.spotifyEntity as 'album' | 'track')}</span>
+          <span className="text-[9px]">{t(track.entity)}</span>
           {statusColor && <span className="text-[9px]" style={{ color: statusColor }}>{tStatus(track.status.toLowerCase())}</span>}
         </div>
       </button>
