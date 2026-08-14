@@ -126,13 +126,13 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'ful
 **조사를 마친 인물은 결과가 둘로 갈릴 뿐 둘 다 재조사 대상이 아니다.** 콘텐츠를
 찾았으면 `full`(표시값 양수), 없었으면 확정 시각을 기록한다(표시값 `-1`). 그래서
 조사 목록 모집단에서 `full`이 빠진다 — 이미 조사를 거쳤기 때문이다. `fiction`은
-허구 인물이라 콘텐츠 개념 자체가 없고, `suspended`는 서비스에서 내린 인물이다.
+허구 인물이라 콘텐츠 개념 자체가 없다.
 
 **운영은 단순하다 — 콘텐츠 조사 화면에서 `0`으로 보이면 그게 조사 대상이다.** 화면이
 모집단을 이미 걸러 놓았으므로 등급·노출 상태를 따로 따질 필요가 없다.
 
-다만 **DB 전체에서 표시값만 세면 안 된다.** 그 집계에는 화면에 뜨지 않는 fiction과
-정지 인물이 섞인다(26.08.07 실측: 표시값 `0` 1,146명 중 모집단은 667명). 규모를
+다만 **DB 전체에서 표시값만 세면 안 된다.** 그 집계에는 화면에 뜨지 않는 fiction이
+섞인다(26.08.07 실측: 표시값 `0` 1,146명 중 모집단은 667명). 규모를
 셀 때는 `isCelebContentResearchTarget`을 함께 건다.
 
 > ⚠️ **노출 상태(`celebs.publication_status`)를 표시값 계산에 끌어 쓰지 마라(26.08.07 교정).**
@@ -161,7 +161,7 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'ful
 
 - `crypto.randomUUID()`로 셀럽 UUID를 발급하고 예시형 UUID 하드코딩을 거부한다
 - `nickname_en`을 필수로 받아 generated `slug`를 만들고 중복이면 `slug_suffix`를 배정한다
-- 신규 등급은 항상 `light`, 기본 공개 상태는 `suspended`다
+- 신규 등급은 항상 `light`, 기본 공개 상태는 `inactive`다
 - 아바타 없는 `active`와 콘텐츠 없는 `full`은 DB 트리거가 거부한다
 - `celeb_metrics` 초기 행을 보장한다
 
@@ -173,7 +173,7 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'ful
 INSERT INTO public.celebs (
   id, nickname, nickname_en, celeb_tier, publication_status
 ) VALUES (
-  gen_random_uuid(), :nickname, :nickname_en, 'light', 'suspended'
+  gen_random_uuid(), :nickname, :nickname_en, 'light', 'inactive'
 );
 ```
 

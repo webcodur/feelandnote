@@ -159,7 +159,7 @@ type ProfileRow = {
   slug: string
   nickname: string
   nickname_en: string | null
-  publication_status: 'active' | 'inactive' | 'suspended'
+  publication_status: 'active' | 'inactive'
   celeb_tier: string | null
 }
 
@@ -643,7 +643,7 @@ async function main() {
 
   const profileById = new Map(profiles.map((profile) => [profile.id, profile]))
   const explanationById = new Map(explanations.map((row) => [row.profile_id, row]))
-  const statusRank = { active: 0, inactive: 1, suspended: 2 }
+  const statusRank = { active: 0, inactive: 1 }
   let materials = explanations
     .filter(needsTranslation)
     .map((explanation) => ({ profile: profileById.get(explanation.profile_id), explanation }))

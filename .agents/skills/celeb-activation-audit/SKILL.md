@@ -49,7 +49,7 @@ pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
 - light: 콘텐츠 0건이며 `content_research_confirmed_empty_at`이 기록돼 있어야 한다.
 - fiction: 대표 원전 연결이 1건 이상이고 원전의 ko/en locale 메타가 완전해야 한다.
 - 폐기 예정 감상 여정·가상 독백·대표 화보는 활성화 조건이 아니다.
-- `suspended`와 `deleted`는 자동 활성화하지 않는다.
+- `deleted`는 자동 활성화하지 않는다.
 
 ## 반영 안전장치
 

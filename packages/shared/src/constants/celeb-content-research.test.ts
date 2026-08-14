@@ -41,8 +41,8 @@ test('finished and non-person tiers stay out of the research queue', () => {
   assert.equal(isCelebContentResearchTarget('full', 'active'), false)
   // fiction — 허구 인물이라 일반 콘텐츠 조사 개념이 없다.
   assert.equal(isCelebContentResearchTarget('fiction', 'active'), false)
-  // suspended — 서비스에서 내린 인물이다.
-  assert.equal(isCelebContentResearchTarget('light', 'suspended'), false)
+  // deleted — 서비스에서 내린 인물이다.
+  assert.equal(isCelebContentResearchTarget('light', 'deleted'), false)
   assert.equal(isCelebContentResearchTarget(null, null), false)
 })
 

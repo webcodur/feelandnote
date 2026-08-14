@@ -92,7 +92,6 @@ export default function CelebFilter({ action = '/celebs', showImageFilter = fals
             <option value="all">모든 상태</option>
             <option value="active">활성</option>
             <option value="inactive">비공개</option>
-            <option value="suspended">정지</option>
           </select>
 
           <select

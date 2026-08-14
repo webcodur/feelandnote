@@ -103,7 +103,7 @@ async function resolveSlugs(db: SupabaseClient, slugs: string[]): Promise<Map<st
   for (let i = 0; i < slugs.length; i += IN_CHUNK) {
     const { data, error } = await db
       .from('celebs').select('id,slug')
-      .in('publication_status', ['active', 'inactive', 'suspended'])
+      .in('publication_status', ['active', 'inactive'])
       .in('slug', slugs.slice(i, i + IN_CHUNK))
     if (error) throw new Error(`셀럽 조회 실패: ${error.message}`)
     for (const r of data ?? []) if (r.slug) map.set(r.slug as string, r.id as string)

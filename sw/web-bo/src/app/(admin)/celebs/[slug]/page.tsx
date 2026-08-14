@@ -102,8 +102,7 @@ export default async function CelebDetailPage({ params }: PageProps) {
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { label: string; className: string; icon: React.ElementType }> = {
     active: { label: '활성', className: 'bg-green-500/10 text-green-400', icon: CheckCircle },
-    inactive: { label: '미검수', className: 'bg-yellow-500/10 text-yellow-400', icon: Clock },
-    suspended: { label: '정지', className: 'bg-red-500/10 text-red-400', icon: Ban },
+    inactive: { label: '비공개', className: 'bg-yellow-500/10 text-yellow-400', icon: Clock },
     deleted: { label: '삭제됨', className: 'bg-gray-500/10 text-gray-400', icon: Ban },
   }
   const { label, className, icon: Icon } = config[status] || config.active
