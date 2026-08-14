@@ -159,11 +159,10 @@ export default function CelebPortraitEditor({
             className="absolute inset-0 z-10 cursor-pointer"
           >
             <Image
-              src={`${value}${value.includes('?') ? '&' : '?'}cors=1`}
+              src={value}
               alt={alt}
               fill
               unoptimized
-              crossOrigin="anonymous"
               loading={loadImmediately ? 'eager' : 'lazy'}
               fetchPriority={highPriority ? 'high' : 'auto'}
               className="object-cover"

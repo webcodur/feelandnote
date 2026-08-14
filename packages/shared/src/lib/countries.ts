@@ -23,12 +23,24 @@ const COUNTRY_CODES = [
   'YT', 'ZA', 'ZM', 'ZW',
 ]
 
+/**
+ * 국적을 특정할 수 없는 인물에 쓰는 코드. ISO 3166-1이 사용자 지정용으로 비워 둔 자리라
+ * 실제 국가와 충돌하지 않는다.
+ *
+ * **비워 두는 것과 다르다.** 빈 값은 "아직 조사하지 않았다"는 뜻이고, 이 코드는
+ * "조사했으나 특정할 수 없다"는 뜻이다. 익명 활동가처럼 신원 비공개가 그 인물의 성격인
+ * 경우에도 이 값을 쓴다 — 추정으로 국가를 붙이는 것이 오히려 사실을 왜곡한다.
+ */
+export const UNKNOWN_COUNTRY_CODE = 'XX'
+
+const UNKNOWN_COUNTRY: Country = { code: UNKNOWN_COUNTRY_CODE, name: '미확인', name_en: 'Unknown' }
+
 // 국가 목록을 한 번만 빌드 (모듈 로드 시 1회)
 function buildCountries(): Country[] {
   const koNames = new Intl.DisplayNames(['ko'], { type: 'region' })
   const enNames = new Intl.DisplayNames(['en'], { type: 'region' })
 
-  return COUNTRY_CODES
+  const countries = COUNTRY_CODES
     .map((code) => {
       const name_en = enNames.of(code) || code
       return {
@@ -38,6 +50,10 @@ function buildCountries(): Country[] {
       }
     })
     .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
+
+  // 실제 국가가 아니므로 이름순에 섞지 않고 목록 맨 뒤에 둔다
+  countries.push(UNKNOWN_COUNTRY)
+  return countries
 }
 
 // 모듈 레벨 캐시 (lazy 빌드)
