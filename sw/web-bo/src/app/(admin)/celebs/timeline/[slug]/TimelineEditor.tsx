@@ -23,8 +23,6 @@ type Draft = Omit<TimelineEvent, 'id' | 'celeb_id' | 'source'>
 const makeEmpty = (isFiction: boolean): Draft => ({
   year: isFiction ? null : new Date().getFullYear(),
   year_end: null,
-  month: null,
-  day: null,
   sequence_label: isFiction ? '' : null,
   sequence_label_en: isFiction ? '' : null,
   title: '',
@@ -36,8 +34,6 @@ const makeEmpty = (isFiction: boolean): Draft => ({
   place_name_en: null,
   lat: null,
   lng: null,
-  place_qid: null,
-  source_url: null,
   sort_order: 0,
 })
 
@@ -108,14 +104,13 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
       place_name_en: c.label,
       lat: c.lat,
       lng: c.lng,
-      place_qid: c.qid,
     })
     setCandidates(null)
   }
 
   const clearPlace = () => {
     if (!draft) return
-    setDraft({ ...draft, lat: null, lng: null, place_qid: null })
+    setDraft({ ...draft, lat: null, lng: null })
   }
 
   const save = () => {
@@ -170,8 +165,6 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
           ...draft,
           year: null,
           year_end: null,
-          month: null,
-          day: null,
           sequence_label: null,
           sequence_label_en: null,
         })
@@ -244,15 +237,6 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
                 type="number"
                 value={draft.year_end ?? ''}
                 onChange={(e) => setDraft({ ...draft, year_end: num(e.target.value) })}
-                className={field}
-              />
-            </div>
-            <div>
-              <label className={label}>월</label>
-              <input
-                type="number"
-                value={draft.month ?? ''}
-                onChange={(e) => setDraft({ ...draft, month: num(e.target.value) })}
                 className={field}
               />
             </div>
@@ -409,7 +393,6 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
               <span className="font-mono">
                 {draft.lat.toFixed(4)}, {draft.lng!.toFixed(4)}
               </span>
-              {draft.place_qid && <span className="opacity-70">{draft.place_qid}</span>}
               <button type="button" onClick={clearPlace} className="underline hover:text-text-primary">
                 좌표 비우기
               </button>
@@ -418,15 +401,6 @@ export default function TimelineEditor({ celebId, initialEvents, isFiction }: Pr
             <span>좌표 없음 — 연표에만 뜨고 지도에는 나오지 않습니다.</span>
           )}
         </p>
-      </div>
-
-      <div>
-        <label className={label}>근거 링크</label>
-        <input
-          value={draft.source_url ?? ''}
-          onChange={(e) => setDraft({ ...draft, source_url: e.target.value || null })}
-          className={field}
-        />
       </div>
 
       <div className="flex items-center gap-2">

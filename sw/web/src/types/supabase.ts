@@ -1047,22 +1047,18 @@ export type Database = {
         Row: {
           celeb_id: string
           created_at: string
-          day: number | null
           description: string | null
           description_en: string | null
           id: string
           kind: string
           lat: number | null
           lng: number | null
-          month: number | null
           place_name: string | null
           place_name_en: string | null
-          place_qid: string | null
           sequence_label: string | null
           sequence_label_en: string | null
           sort_order: number
           source: string
-          source_url: string | null
           title: string
           title_en: string | null
           updated_at: string
@@ -1072,22 +1068,18 @@ export type Database = {
         Insert: {
           celeb_id: string
           created_at?: string
-          day?: number | null
           description?: string | null
           description_en?: string | null
           id?: string
           kind?: string
           lat?: number | null
           lng?: number | null
-          month?: number | null
           place_name?: string | null
           place_name_en?: string | null
-          place_qid?: string | null
           sequence_label?: string | null
           sequence_label_en?: string | null
           sort_order?: number
           source?: string
-          source_url?: string | null
           title: string
           title_en?: string | null
           updated_at?: string
@@ -1097,22 +1089,18 @@ export type Database = {
         Update: {
           celeb_id?: string
           created_at?: string
-          day?: number | null
           description?: string | null
           description_en?: string | null
           id?: string
           kind?: string
           lat?: number | null
           lng?: number | null
-          month?: number | null
           place_name?: string | null
           place_name_en?: string | null
-          place_qid?: string | null
           sequence_label?: string | null
           sequence_label_en?: string | null
           sort_order?: number
           source?: string
-          source_url?: string | null
           title?: string
           title_en?: string | null
           updated_at?: string

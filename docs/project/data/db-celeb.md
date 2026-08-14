@@ -111,7 +111,9 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
     `year=null` + `sequence_label(_en)` + `sort_order`를 쓴다. 둘을 동시에 쓰지
     못하도록 CHECK가 막는다
   - `lat`/`lng`는 **둘 다 있거나 둘 다 없거나**(CHECK). 좌표 있는 행만 활동 반경 지도에 오른다 — **활동 반경용 테이블은 없다**
-  - `place_qid`(장소 위키데이터 식별자)는 좌표 재검증의 근거다. 비우지 마라
+  - `source_url`·`place_qid`·`month`·`day`는 **2026-08-14에 폐기했다.** 어느 화면도 읽지 않으면서
+    조사 비용만 발생시켰다. 되살리자는 제안이 나오면 「누가 그 값을 그리는가」부터 답한다 →
+    `celeb-timeline.md` 「폐기한 필드」
   - `source` CHECK: research·wikidata·manual. 값은 사건이 등록된 경로만 표시한다
   - 별도 조사 이력 테이블·작업 큐·조사 RPC는 없다. 조사자는 인물 한 명을 조사·자체검증한 뒤
     최종 사건만 이 테이블에 직접 반영한다
