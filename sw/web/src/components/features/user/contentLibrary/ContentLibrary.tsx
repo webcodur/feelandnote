@@ -110,6 +110,7 @@ export default function ContentLibrary({
         onSearch={lib.executeSearch}
         onClearSearch={lib.clearSearch}
         showMonthControls={showMonthSections}
+        allowRatingSort={ownerKind === "member"}
         compact={hideControlWrapper}
         hideWrapper={hideControlWrapper}
       />

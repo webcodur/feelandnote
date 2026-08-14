@@ -24,6 +24,7 @@ interface ArchiveFilterRowProps {
   onSortOptionChange: (option: SortOption) => void;
   reviewFilter: ReviewFilter;
   onReviewFilterChange: (filter: ReviewFilter) => void;
+  allowRatingSort?: boolean;
   compact: boolean;
 }
 
@@ -37,6 +38,7 @@ export default function ArchiveFilterRow({
   onSortOptionChange,
   reviewFilter,
   onReviewFilterChange,
+  allowRatingSort = true,
   compact,
 }: ArchiveFilterRowProps) {
   const t = useTranslations("archiveSearch");
@@ -48,7 +50,10 @@ export default function ArchiveFilterRow({
     label: tCategory(tab.value),
     count: tab.type ? typeCounts[tab.type] : totalCount,
   }));
-  const sortOptions: FilterOption[] = SORT_OPTIONS.map(({ value, key }) => ({
+  const availableSortOptions = allowRatingSort
+    ? SORT_OPTIONS
+    : SORT_OPTIONS.filter(({ value }) => value !== "rating_desc" && value !== "rating_asc");
+  const sortOptions: FilterOption[] = availableSortOptions.map(({ value, key }) => ({
     value,
     label: t(`sort.${key}`),
   }));
@@ -60,7 +65,7 @@ export default function ArchiveFilterRow({
     TAB_OPTIONS.find((tab) => tab.value === activeTab)?.value ?? "all",
   );
   const sortLabel = t(
-    `sort.${SORT_OPTIONS.find((option) => option.value === sortOption)?.key ?? "recent"}`,
+    `sort.${availableSortOptions.find((option) => option.value === sortOption)?.key ?? "recent"}`,
   );
   const reviewLabel = t(
     `review.${REVIEW_FILTER_OPTIONS.find((option) => option.value === reviewFilter)?.key ?? "all"}`,

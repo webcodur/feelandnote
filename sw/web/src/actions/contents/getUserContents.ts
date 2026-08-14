@@ -77,7 +77,7 @@ interface QueryUserContentsOptions {
   isOwnProfile: boolean
 }
 
-// 회원·인물 감상 테이블의 화면 계약이 같아 읽기만 공통화한다.
+// 회원·인물 감상 테이블의 공통 필드만 함께 읽는다. 별점은 회원 기록에만 있다.
 // 원본과 소유자 FK는 ownerKind로 분기하고 반환 형태는 기존 API를 유지한다.
 async function queryUserContents(
   supabase: SupabaseClient,
@@ -109,30 +109,32 @@ async function queryUserContents(
 
   // 영어 감상문은 en 화면에서만 쓰인다 — ko 응답에서 수신 제외 (egress 절감)
   const reviewEnSelect = locale === 'en' ? 'review_en,' : ''
+  const memberRatingSelect = ownerKind === 'member' ? 'rating,' : ''
+  const archiveSelect: string = `
+    id,
+    content_id,
+    status,
+    is_recommended,
+    ${memberRatingSelect}
+    review,
+    ${reviewEnSelect}
+    review_presets,
+    is_spoiler,
+    visibility,
+    created_at,
+    source_url,
+    ${contentJoin}
+  `
 
   let query = supabase
     .from(archiveTable)
-    .select(`
-      id,
-      content_id,
-      status,
-      is_recommended,
-      rating,
-      review,
-      ${reviewEnSelect}
-      review_presets,
-      is_spoiler,
-      visibility,
-      created_at,
-      source_url,
-      ${contentJoin}
-    `, { count: 'exact' })
+    .select(archiveSelect, { count: 'exact' })
     .eq(ownerColumn, userId)
 
   // 정렬
-  if (sortBy === 'rating_desc') {
+  if (ownerKind === 'member' && sortBy === 'rating_desc') {
     query = query.order('rating', { ascending: false, nullsFirst: false })
-  } else if (sortBy === 'rating_asc') {
+  } else if (ownerKind === 'member' && sortBy === 'rating_asc') {
     query = query.order('rating', { ascending: true, nullsFirst: false })
   } else {
     query = query.order('created_at', { ascending: false })
@@ -182,6 +184,7 @@ async function queryUserContents(
     const locales = c.content_locales as ContentLocaleRow[] | null
     const flat = flattenLocales(locales, locale)
     const raw = item as unknown as Record<string, unknown>
+    const rating = ownerKind === 'member' ? (raw.rating as number | null) : null
     return {
       id: item.id as string,
       content_id: raw.content_id as string,
@@ -205,8 +208,8 @@ async function queryUserContents(
         thumbnail_en: flat.thumbnail_en,
         has_en_edition: flat.has_en_edition,
       },
-      public_record: (raw.rating || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {
-        rating: raw.rating as number | null,
+      public_record: (rating !== null || raw.review || ((raw.review_presets as string[] | null)?.length)) ? {
+        rating,
         content_preview: (raw.review as string) || null,
         content_preview_en: (raw.review_en as string | undefined) || null,
         review_presets: (raw.review_presets as string[]) || null,

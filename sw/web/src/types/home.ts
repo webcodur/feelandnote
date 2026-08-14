@@ -72,7 +72,6 @@ export interface CelebProfile {
 
 export interface CelebReview {
   id: string
-  rating: number | null
   review: string
   review_en: string | null
   is_spoiler: boolean

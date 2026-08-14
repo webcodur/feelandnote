@@ -102,9 +102,10 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
       const hasReview = reviewFilter === "all"
         ? undefined
         : reviewFilter === "has_review";
-      const sortBy = (["recent", "rating_desc", "rating_asc"] as const).includes(
+      const requestedSort = (["recent", "rating_desc", "rating_asc"] as const).includes(
         sortOption as "recent" | "rating_desc" | "rating_asc",
       ) ? sortOption as "recent" | "rating_desc" | "rating_asc" : "recent";
+      const sortBy = ownerKind === "celeb" ? "recent" : requestedSort;
 
       if (isViewer && targetUserId) {
         const result = await fetchViewerContents({

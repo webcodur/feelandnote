@@ -21,5 +21,6 @@ export interface ArchiveControlBarProps {
   onSearch: () => void;
   onClearSearch: () => void;
   showMonthControls?: boolean;
+  allowRatingSort?: boolean;
   compact?: boolean;
 }

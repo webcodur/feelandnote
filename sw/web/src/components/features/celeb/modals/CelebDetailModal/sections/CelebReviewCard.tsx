@@ -7,8 +7,6 @@ import type { CelebReview } from "@/types/home";
 import { ContentCard } from "@/components/ui/cards";
 import { Avatar, BlurDissolve, TitleBadge, Modal as UiModal, ModalBody, ModalFooter } from "@/components/ui";
 import Button from "@/components/ui/Button";
-import { updateUserContentRating } from "@/actions/contents/updateRating";
-import RatingEditModal from "@/components/ui/cards/ContentCard/modals/RatingEditModal";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import { formatDistanceToNow } from "date-fns";
 import { ko, enUS } from "date-fns/locale";
@@ -17,11 +15,9 @@ import { useTranslations, useLocale } from "next-intl";
 
 const DATE_LOCALES = { ko, en: enUS } as const;
 
-export function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: { review: CelebReview; celeb: CelebProfile; onRatingUpdate?: (id: string, rating: number | null) => void; modalZIndex?: number }) {
+export function CelebReviewCard({ review, celeb, modalZIndex }: { review: CelebReview; celeb: CelebProfile; modalZIndex?: number }) {
   const router = useRouter();
   const [showUserModal, setShowUserModal] = useState(false);
-  const [showRatingModal, setShowRatingModal] = useState(false);
-  const [currentRating, setCurrentRating] = useState<number | null>(review.rating);
   const t = useTranslations("home.ui");
   const locale = useLocale();
   const isEn = locale === "en";
@@ -81,8 +77,6 @@ export function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: 
         thumbnail={review.content.thumbnail_url}
         celebCount={review.content.celeb_count}
         userCount={review.content.user_count}
-        rating={currentRating}
-        onRatingClick={(e) => { e.stopPropagation(); setShowRatingModal(true); }}
         review={(locale === 'en' && review.review_en) ? review.review_en : review.review}
         isSpoiler={review.is_spoiler}
         sourceUrl={review.source_url}
@@ -96,21 +90,6 @@ export function CelebReviewCard({ review, celeb, onRatingUpdate, modalZIndex }: 
         creatorEn={review.content.creator_en}
         thumbnailEn={review.content.thumbnail_en}
         hasEnEdition={review.content.has_en_edition}
-      />
-
-      <RatingEditModal
-        isOpen={showRatingModal}
-        onClose={() => setShowRatingModal(false)}
-        contentTitle={review.content.title}
-        currentRating={currentRating}
-        onSave={async (rating) => {
-          const result = await updateUserContentRating({ userContentId: review.id, rating });
-          if (result.success) {
-            setCurrentRating(rating);
-            onRatingUpdate?.(review.id, rating);
-          }
-        }}
-        zIndex={modalZIndex}
       />
 
       <UiModal isOpen={showUserModal} onClose={() => setShowUserModal(false)} title={t("visitArchive")} icon={User} size="sm" closeOnOverlayClick zIndex={modalZIndex}>
