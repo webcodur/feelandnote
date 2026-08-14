@@ -66,12 +66,22 @@ export function base64ToBytes(base64: string): Uint8Array<ArrayBuffer> {
   return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0)) as Uint8Array<ArrayBuffer>
 }
 
+/** base64 앞머리의 RIFF 시그니처로 저장된 음원의 실제 형식을 판별한다. */
+export function audioContentTypeOfBase64(base64: string): 'audio/mpeg' | 'audio/wav' {
+  try {
+    return atob(base64.slice(0, 8)).slice(0, 4) === 'RIFF' ? 'audio/wav' : 'audio/mpeg'
+  } catch {
+    return 'audio/mpeg'
+  }
+}
+
 /** 볼륨 부스트를 적용해 WAV base64로 바꾼다. 부스트가 0이면 원본을 그대로 돌려준다 */
 export async function boostToBase64(
   base64: string,
   gainDb: number,
+  sourceContentType: 'audio/mpeg' | 'audio/wav' = 'audio/mpeg',
 ): Promise<{ base64: string; contentType: string }> {
-  if (gainDb <= 0) return { base64, contentType: 'audio/mpeg' }
+  if (gainDb <= 0) return { base64, contentType: sourceContentType }
   const raw = base64ToBytes(base64)
   const ctx = new AudioContext()
   try {

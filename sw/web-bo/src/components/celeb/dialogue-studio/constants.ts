@@ -46,6 +46,7 @@ export interface Preview {
   blobUrl: string
   base64: string
   bytes: number
+  contentType: 'audio/mpeg' | 'audio/wav'
   duration: number
   trimStart: number
   trimEnd: number

@@ -6,7 +6,6 @@ import {
   ChevronDown, ChevronRight, Save, Zap, X, Download, SlidersHorizontal,
 } from 'lucide-react'
 import {
-  generateVoicePreview,
   uploadVoiceFromPreview,
   bumpVoiceVersion,
   fetchVoiceFile,
@@ -18,60 +17,32 @@ import {
   getVoiceStatus, toggleHasVoice, deleteAllVoiceFiles, uploadVoiceFile,
 } from '@/actions/admin/voice'
 import {
-  saveCelebDialogues, updateSpeechTone, updateVoiceSpeed, type DialogueLines,
+  saveCelebDialogues, updateSpeechTone, updateVoiceSpeed,
 } from '@/actions/admin/dialogues'
 import { useToast } from '@/contexts/ToastContext'
 import { DIALOGUE_TYPES, TYPE_LABELS, allVoiceSlots } from '@/lib/voice-path'
-import { buildEleText } from '@/components/scenario-voice/types'
+import {
+  buildEleText, GEMINI_VOICES_FEMALE, GEMINI_VOICES_MALE,
+} from '@/components/scenario-voice/types'
+import type { SpeakerEngine } from '@/components/scenario-voice/SpeakerEngineToggle'
 import CelebVoiceEditorModal, { type CelebVoiceEditorTarget } from './voice-editor/CelebVoiceEditorModal'
+import { VoiceProviderSettings } from './VoiceProviderSettings'
+import { requestCelebVoicePreview } from './voice-preview'
 import { Waveform, SliderField } from './Waveform'
-import { applyGain, encodeWAV, abToBase64, base64ToBytes, boostToBase64 } from './audio'
+import {
+  applyGain, encodeWAV, abToBase64, audioContentTypeOfBase64, base64ToBytes, boostToBase64,
+} from './audio'
 import {
   DEFAULT_SETTINGS, LABELS, LOCALE_BADGE, MODE_OPTIONS, SPEECH_TONES, TONE_LABELS,
   localesFor, type Locale, type Preview, type ViewMode, type VoiceSettings,
 } from './constants'
+import {
+  applyTtsOverride, buildInitialDialogueDraft, findTtsOverrides, prepareDialogueSave,
+  type DialogueSource,
+} from './draft'
+import { runVoiceJobsWithConcurrency } from './voice-generation-batch'
 
 const VALID_BULK_FILES = new Set(allVoiceSlots().map((s) => s.fileName))
-
-/** 대사 묶음에서 문자열 항목 하나를 꺼낸다 (없으면 빈 문자열) */
-function readText(lines: unknown, key: 'quote' | 'monologue'): string {
-  const value = (lines as Record<string, unknown> | null | undefined)?.[key]
-  return typeof value === 'string' ? value : ''
-}
-
-/** 셀럽 데이터 → 편집 상태 초기값. 키는 모두 "{언어}/{항목}" 꼴이다 */
-function buildInitialState(celeb: VoiceGenCeleb) {
-  const ttsTexts: Record<string, string> = {}
-  const dialogues: Record<string, string> = {}
-
-  for (const loc of ['ko', 'en'] as const) {
-    const lines = loc === 'ko' ? celeb.dialogue_lines : celeb.dialogue_lines_en
-    for (const type of DIALOGUE_TYPES) {
-      const arr = lines?.[type]
-      for (let i = 0; i < 3; i++) {
-        const key = `${loc}/${type}-${i + 1}`
-        const text = arr?.[i] || ''
-        dialogues[key] = text
-        if (text.trim()) ttsTexts[key] = text
-      }
-    }
-    const quote = readText(loc === 'ko' ? celeb.dialogue_lines : celeb.dialogue_lines_en, 'quote')
-    if (quote.trim()) ttsTexts[`${loc}/quote`] = quote
-  }
-
-  return {
-    ttsTexts,
-    dialogues,
-    quotes: {
-      ko: readText(celeb.dialogue_lines, 'quote'),
-      en: readText(celeb.dialogue_lines_en, 'quote'),
-    } as Record<string, string>,
-    monologues: {
-      ko: readText(celeb.dialogue_lines, 'monologue'),
-      en: readText(celeb.dialogue_lines_en, 'monologue'),
-    } as Record<string, string>,
-  }
-}
 
 interface Props {
   /** 편집 대상. 다른 인물로 바꿀 때는 호출부에서 key={celeb.id}로 갈아끼운다 */
@@ -80,11 +51,19 @@ interface Props {
 
 export default function CelebDialogueStudio({ celeb }: Props) {
   const { showToast } = useToast()
-  const initial = useMemo(() => buildInitialState(celeb), [celeb])
+  const initial = useMemo(() => buildInitialDialogueDraft(
+    celeb.dialogue_lines as DialogueSource | null,
+    celeb.dialogue_lines_en as DialogueSource | null,
+  ), [celeb])
 
   // 목소리 번호
   const [voiceIdKo, setVoiceIdKo] = useState(celeb.voice_id_ko || '')
   const [voiceIdEn, setVoiceIdEn] = useState(celeb.voice_id_en || '')
+  const [engineKo, setEngineKo] = useState<SpeakerEngine>(celeb.voice_id_ko ? 'elevenlabs' : 'gemini')
+  const [engineEn, setEngineEn] = useState<SpeakerEngine>(celeb.voice_id_en ? 'elevenlabs' : 'gemini')
+  const defaultGeminiVoice = celeb.gender === false ? GEMINI_VOICES_FEMALE[0] : GEMINI_VOICES_MALE[0]
+  const [geminiVoiceKo, setGeminiVoiceKo] = useState<string>(defaultGeminiVoice)
+  const [geminiVoiceEn, setGeminiVoiceEn] = useState<string>(defaultGeminiVoice)
 
   // 표시 모드 (한영본 / 국문 / 영문)
   const [mode, setMode] = useState<ViewMode>('both')
@@ -110,12 +89,39 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     trailEnabled: trail,
   }), [emotions, trail])
 
+  const engineForLocale = useCallback(
+    (loc: Locale): SpeakerEngine => loc === 'ko' ? engineKo : engineEn,
+    [engineKo, engineEn],
+  )
+  const voiceForLocale = useCallback((loc: Locale): string => {
+    const engine = engineForLocale(loc)
+    if (engine === 'gemini') return loc === 'ko' ? geminiVoiceKo : geminiVoiceEn
+    return loc === 'ko' ? voiceIdKo : voiceIdEn
+  }, [engineForLocale, geminiVoiceKo, geminiVoiceEn, voiceIdKo, voiceIdEn])
+
   // 진행 상태 (키는 모두 "{언어}/{항목}")
-  const [generating, setGenerating] = useState<string | null>(null)
+  const [generatingKeys, setGeneratingKeys] = useState<Set<string>>(() => new Set())
   const [uploading, setUploading] = useState<string | null>(null)
   const [downloading, setDownloading] = useState<string | null>(null)
   const [loadingExisting, setLoadingExisting] = useState<string | null>(null)
   const [batchRunning, setBatchRunning] = useState(false)
+
+  const beginGenerating = useCallback((key: string) => {
+    setGeneratingKeys(prev => {
+      const next = new Set(prev)
+      next.add(key)
+      return next
+    })
+  }, [])
+
+  const endGenerating = useCallback((key: string) => {
+    setGeneratingKeys(prev => {
+      if (!prev.has(key)) return prev
+      const next = new Set(prev)
+      next.delete(key)
+      return next
+    })
+  }, [])
 
   // 생성 결과(임시) / R2 보유 현황
   const [previews, setPreviews] = useState<Record<string, Preview>>({})
@@ -140,11 +146,17 @@ export default function CelebDialogueStudio({ celeb }: Props) {
   // 편집 중인 값
   const [ttsTexts, setTtsTexts] = useState<Record<string, string>>(initial.ttsTexts)
   const [editDialogues, setEditDialogues] = useState<Record<string, string>>(initial.dialogues)
-  const [editQuotes, setEditQuotes] = useState<Record<string, string>>(initial.quotes)
-  const [editMonologues, setEditMonologues] = useState<Record<string, string>>(initial.monologues)
+  const [editQuotes, setEditQuotes] = useState<Record<Locale, string>>(initial.quotes)
+  const [editMonologues, setEditMonologues] = useState<Record<Locale, string>>(initial.monologues)
   const [speechTone, setSpeechTone] = useState(celeb.speech_tone || 'free')
   const [voiceSpeed, setVoiceSpeed] = useState(celeb.voice_speed ?? 1.0)
   const [dialogueSaving, setDialogueSaving] = useState(false)
+  const ttsOverrides = useMemo(() => findTtsOverrides({
+    ttsTexts,
+    dialogues: editDialogues,
+    quotes: editQuotes,
+  }), [ttsTexts, editDialogues, editQuotes])
+  const ttsOverrideSet = useMemo(() => new Set(ttsOverrides), [ttsOverrides])
 
   // R2 보유 현황 조회
   useEffect(() => {
@@ -178,6 +190,22 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     setTtsTexts((prev) => ({ ...prev, [`${loc}/${key}`]: value }))
   }
 
+  function applyTtsTextToDialogue(fullKey: string) {
+    const next = applyTtsOverride({
+      ttsTexts,
+      dialogues: editDialogues,
+      quotes: editQuotes,
+    }, fullKey)
+    setEditDialogues(next.dialogues)
+    setEditQuotes(next.quotes)
+  }
+
+  function resetTtsText(fullKey: string) {
+    const [loc, key] = fullKey.split('/', 2) as [Locale, string]
+    const value = key === 'quote' ? editQuotes[loc] : editDialogues[fullKey]
+    setTtsTexts((prev) => ({ ...prev, [fullKey]: value ?? '' }))
+  }
+
   function setEditDialogue(loc: Locale, key: string, value: string) {
     const fullKey = `${loc}/${key}`
     setEditDialogues((prev) => ({ ...prev, [fullKey]: value }))
@@ -203,30 +231,23 @@ export default function CelebDialogueStudio({ celeb }: Props) {
   const handleSaveDialogues = useCallback(async () => {
     setDialogueSaving(true)
 
-    const buildLines = (loc: Locale): DialogueLines => {
-      // 편집기가 다루지 않는 잔여 항목(옛 회차가 남긴 키 등)은 원본 그대로 살려 둔다.
-      // 통째로 새로 쓰면 화면에 없는 값이 조용히 사라진다.
-      const existing = (loc === 'ko' ? celeb.dialogue_lines : celeb.dialogue_lines_en) ?? {}
-      const result: Record<string, unknown> = { ...existing }
+    const plan = prepareDialogueSave({
+      linesKo: celeb.dialogue_lines as DialogueSource | null,
+      linesEn: celeb.dialogue_lines_en as DialogueSource | null,
+      ttsTexts,
+      dialogues: editDialogues,
+      quotes: editQuotes,
+      monologues: editMonologues,
+    })
 
-      for (const type of DIALOGUE_TYPES) {
-        result[type] = [
-          editDialogues[`${loc}/${type}-1`] || '',
-          editDialogues[`${loc}/${type}-2`] || '',
-          editDialogues[`${loc}/${type}-3`] || '',
-        ]
-      }
-      result.quote = editQuotes[loc] ?? ''
-
-      // 없던 인물에게 빈 독백 칸을 새로 만들지는 않는다
-      const monologue = editMonologues[loc] ?? ''
-      if (monologue.trim() || 'monologue' in existing) result.monologue = monologue
-
-      return result as unknown as DialogueLines
+    if (plan.status === 'blocked') {
+      showToast('error', `저장되지 않는 음성용 문장이 ${plan.overrideKeys.length}개 있습니다. 각 줄에서 대사에 반영하거나 원문으로 되돌려 주세요.`)
+      setDialogueSaving(false)
+      return
     }
 
     try {
-      await saveCelebDialogues(celeb.id, buildLines('ko'), buildLines('en'))
+      await saveCelebDialogues(celeb.id, plan.linesKo, plan.linesEn)
       if (speechTone !== (celeb.speech_tone || '')) {
         await updateSpeechTone(celeb.id, speechTone)
       }
@@ -235,7 +256,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       showToast('error', `${LABELS.saveFail}: ${String(err)}`)
     }
     setDialogueSaving(false)
-  }, [celeb, editDialogues, editQuotes, editMonologues, speechTone, showToast])
+  }, [celeb, ttsTexts, editDialogues, editQuotes, editMonologues, speechTone, showToast])
 
   const handleSaveVoiceId = useCallback(async (loc: Locale) => {
     const vid = loc === 'ko' ? voiceIdKo : voiceIdEn
@@ -312,7 +333,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
             setPlaying(null)
             return
           }
-          const blob = new Blob([base64ToBytes(res.base64)], { type: 'audio/mpeg' })
+          const blob = new Blob([base64ToBytes(res.base64)], { type: audioContentTypeOfBase64(res.base64) })
           playWithHtmlAudio(URL.createObjectURL(blob))
         })
         .catch(() => { showToast('error', LABELS.playFail); setPlaying(null) })
@@ -322,8 +343,9 @@ export default function CelebDialogueStudio({ celeb }: Props) {
 
   // #region 생성 · 업로드 · 내려받기
   const handleGenerate = useCallback(async (loc: Locale, type: string, variant?: number) => {
-    const vid = loc === 'ko' ? voiceIdKo : voiceIdEn
-    if (!vid.trim()) {
+    const engine = engineForLocale(loc)
+    const voice = voiceForLocale(loc)
+    if (!voice.trim()) {
       return showToast('error', LABELS.enterVoiceIdFirst.replace('{locale}', loc.toUpperCase()))
     }
 
@@ -332,42 +354,55 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     const text = ttsTexts[fullKey] || ''
     if (!text.trim()) return showToast('error', LABELS.emptyTtsText)
 
-    setGenerating(fullKey)
-    const result = await generateVoicePreview({ voiceId: vid.trim(), text: composeText(loc, text), settings })
+    beginGenerating(fullKey)
+    try {
+      const result = await requestCelebVoicePreview({
+        celebKey: celeb.slug || celeb.id,
+        engine,
+        voice: voice.trim(),
+        text: engine === 'elevenlabs' ? composeText(loc, text) : text,
+        settings,
+      })
 
-    if (result.success && result.base64) {
-      clearPreview(fullKey)
+      if (result.success && result.base64) {
+        clearPreview(fullKey)
 
-      const audioCtx = new AudioContext()
-      const audioBuf = await audioCtx.decodeAudioData(base64ToBytes(result.base64).buffer.slice(0) as ArrayBuffer)
-      const duration = audioBuf.duration
+        const audioCtx = new AudioContext()
+        const audioBuf = await audioCtx.decodeAudioData(base64ToBytes(result.base64).buffer.slice(0) as ArrayBuffer)
+        const duration = audioBuf.duration
 
-      let finalBase64 = result.base64
-      let finalBytes = result.bytes || 0
-      let boostDb = 0
+        let finalBase64 = result.base64
+        let finalBytes = result.bytes || 0
+        let boostDb = 0
+        let contentType: Preview['contentType'] = result.contentType
 
-      if (settings.volumeBoost > 0) {
-        const boosted = await applyGain(audioBuf, settings.volumeBoost)
-        const wavBuf = encodeWAV(boosted, 0, boosted.duration)
-        finalBase64 = abToBase64(wavBuf)
-        finalBytes = wavBuf.byteLength
-        boostDb = settings.volumeBoost
+        if (settings.volumeBoost > 0) {
+          const boosted = await applyGain(audioBuf, settings.volumeBoost)
+          const wavBuf = encodeWAV(boosted, 0, boosted.duration)
+          finalBase64 = abToBase64(wavBuf)
+          finalBytes = wavBuf.byteLength
+          boostDb = settings.volumeBoost
+          contentType = 'audio/wav'
+        }
+        await audioCtx.close()
+
+        const blob = new Blob([base64ToBytes(finalBase64)], { type: contentType })
+        const blobUrl = URL.createObjectURL(blob)
+
+        setPreviews((prev) => ({
+          ...prev,
+          [fullKey]: { blobUrl, base64: finalBase64, bytes: finalBytes, contentType, duration, trimStart: 0, trimEnd: duration, boostDb },
+        }))
+        showToast('success', `${LOCALE_BADGE[loc].label} ${LABELS.previewDone} (${(finalBytes / 1024).toFixed(0)}KB, ${duration.toFixed(1)}s${boostDb > 0 ? `, +${boostDb}dB` : ''})`)
+      } else {
+        showToast('error', result.error || LABELS.generateFail)
       }
-      await audioCtx.close()
-
-      const blob = new Blob([base64ToBytes(finalBase64)], { type: boostDb > 0 ? 'audio/wav' : 'audio/mpeg' })
-      const blobUrl = URL.createObjectURL(blob)
-
-      setPreviews((prev) => ({
-        ...prev,
-        [fullKey]: { blobUrl, base64: finalBase64, bytes: finalBytes, duration, trimStart: 0, trimEnd: duration, boostDb },
-      }))
-      showToast('success', `${LOCALE_BADGE[loc].label} ${LABELS.previewDone} (${(finalBytes / 1024).toFixed(0)}KB, ${duration.toFixed(1)}s${boostDb > 0 ? `, +${boostDb}dB` : ''})`)
-    } else {
-      showToast('error', result.error || LABELS.generateFail)
+    } catch (error) {
+      showToast('error', `${LABELS.generateFail}: ${error instanceof Error ? error.message : String(error)}`)
+    } finally {
+      endGenerating(fullKey)
     }
-    setGenerating(null)
-  }, [voiceIdKo, voiceIdEn, settings, ttsTexts, composeText, showToast])
+  }, [celeb.id, celeb.slug, engineForLocale, voiceForLocale, settings, ttsTexts, composeText, showToast, beginGenerating, endGenerating])
 
   const handleUpload = useCallback(async (loc: Locale, type: string, variant?: number) => {
     const key = type === 'quote' ? 'quote' : `${type}-${variant}`
@@ -378,7 +413,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     setUploading(fullKey)
 
     let uploadBase64 = preview.base64
-    let contentType = preview.boostDb && preview.boostDb > 0 ? 'audio/wav' : 'audio/mpeg'
+    let contentType = preview.contentType
     const isTrimmed = preview.trimStart > 0.01 || preview.trimEnd < preview.duration - 0.01
     if (isTrimmed) {
       try {
@@ -426,11 +461,13 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     try {
       const result = await fetchVoiceFile({ celebId: celeb.id, locale: loc, dialogueType: type, variant })
       if (!result.success || !result.base64) throw new Error(result.error || '파일 없음')
-      const blob = new Blob([base64ToBytes(result.base64)], { type: 'audio/mpeg' })
+      const contentType = audioContentTypeOfBase64(result.base64)
+      const extension = contentType === 'audio/wav' ? 'wav' : 'mp3'
+      const blob = new Blob([base64ToBytes(result.base64)], { type: contentType })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `${celeb.slug || celeb.id}_${loc}_${key}.mp3`
+      a.download = `${celeb.slug || celeb.id}_${loc}_${key}.${extension}`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
@@ -451,7 +488,8 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       const result = await fetchVoiceFile({ celebId: celeb.id, locale: loc, dialogueType: type, variant })
       if (!result.success || !result.base64) throw new Error(result.error || '파일 없음')
 
-      const blob = new Blob([base64ToBytes(result.base64)], { type: 'audio/mpeg' })
+      const contentType = audioContentTypeOfBase64(result.base64)
+      const blob = new Blob([base64ToBytes(result.base64)], { type: contentType })
       const blobUrl = URL.createObjectURL(blob)
 
       const audioCtx = new AudioContext()
@@ -462,7 +500,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       clearPreview(fullKey)
       setPreviews((prev) => ({
         ...prev,
-        [fullKey]: { blobUrl, base64: result.base64!, bytes: result.bytes || 0, duration, trimStart: 0, trimEnd: duration },
+        [fullKey]: { blobUrl, base64: result.base64!, bytes: result.bytes || 0, contentType, duration, trimStart: 0, trimEnd: duration },
       }))
     } catch (err) {
       showToast('error', `로드 실패: ${String(err)}`)
@@ -472,7 +510,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
 
   /** 전체 생성 — 지금 모드에 해당하는 언어를 차례로 처리한다 */
   const handleBatchGenerate = useCallback(async () => {
-    const missing = activeLocales.filter((loc) => !(loc === 'ko' ? voiceIdKo : voiceIdEn).trim())
+    const missing = activeLocales.filter((loc) => !voiceForLocale(loc).trim())
     if (missing.length > 0) {
       return showToast('error', LABELS.enterVoiceIdFirst.replace('{locale}', missing.map((l) => l.toUpperCase()).join(', ')))
     }
@@ -480,40 +518,54 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     setBatchRunning(true)
     let ok = 0, fail = 0
 
-    /** 한 자리 생성 → 업로드. 대사가 비었으면 null */
-    const runSlot = async (loc: Locale, vid: string, type: string, variant?: number) => {
-      const key = type === 'quote' ? 'quote' : `${type}-${variant}`
-      const fullKey = `${loc}/${key}`
-      const text = ttsTexts[fullKey] || ''
-      if (!text.trim()) return null
-
-      setGenerating(fullKey)
-      const gen = await generateVoicePreview({ voiceId: vid, text: composeText(loc, text), settings })
-      if (!gen.success || !gen.base64) return false
-
-      const { base64, contentType } = await boostToBase64(gen.base64, settings.volumeBoost)
-      const up = await uploadVoiceFromPreview({
-        celebId: celeb.id, base64, locale: loc, dialogueType: type, variant, contentType,
-      })
-      if (!up.success) return false
-      setVoiceFiles((prev) => ({ ...prev, [fullKey]: true }))
-      return true
-    }
-
+    type BatchJob = { loc: Locale; type: string; variant?: number; fullKey: string; text: string }
+    const jobs: BatchJob[] = []
     for (const loc of activeLocales) {
-      const vid = (loc === 'ko' ? voiceIdKo : voiceIdEn).trim()
-
       for (const type of DIALOGUE_TYPES) {
         for (let i = 0; i < 3; i++) {
-          const r = await runSlot(loc, vid, type, i + 1)
-          if (r === null) continue
-          r ? ok++ : fail++
-          await new Promise((res) => setTimeout(res, 800))
+          const fullKey = `${loc}/${type}-${i + 1}`
+          const text = ttsTexts[fullKey] || ''
+          if (text.trim()) jobs.push({ loc, type, variant: i + 1, fullKey, text })
         }
       }
+      const fullKey = `${loc}/quote`
+      const text = ttsTexts[fullKey] || ''
+      if (text.trim()) jobs.push({ loc, type: 'quote', fullKey, text })
+    }
 
-      const r = await runSlot(loc, vid, 'quote')
-      if (r !== null) r ? ok++ : fail++
+    const results = await runVoiceJobsWithConcurrency(jobs, async job => {
+      beginGenerating(job.fullKey)
+      try {
+        const engine = engineForLocale(job.loc)
+        const gen = await requestCelebVoicePreview({
+          celebKey: celeb.slug || celeb.id,
+          engine,
+          voice: voiceForLocale(job.loc).trim(),
+          text: engine === 'elevenlabs' ? composeText(job.loc, job.text) : job.text,
+          settings,
+        })
+        if (!gen.success || !gen.base64) return false
+
+        const { base64, contentType } = await boostToBase64(gen.base64, settings.volumeBoost, gen.contentType)
+        const up = await uploadVoiceFromPreview({
+          celebId: celeb.id,
+          base64,
+          locale: job.loc,
+          dialogueType: job.type,
+          variant: job.variant,
+          contentType,
+        })
+        if (!up.success) return false
+        setVoiceFiles(prev => ({ ...prev, [job.fullKey]: true }))
+        return true
+      } finally {
+        endGenerating(job.fullKey)
+      }
+    })
+
+    for (const result of results) {
+      if (result.status === 'fulfilled' && result.value) ok += 1
+      else fail += 1
     }
 
     if (ok > 0) {
@@ -524,10 +576,9 @@ export default function CelebDialogueStudio({ celeb }: Props) {
       }
     }
 
-    setGenerating(null)
     setBatchRunning(false)
     showToast(fail === 0 ? 'success' : 'error', `생성 완료: 성공 ${ok}개, 실패 ${fail}개`)
-  }, [celeb.id, activeLocales, voiceIdKo, voiceIdEn, settings, ttsTexts, composeText, hasVoice, showToast])
+  }, [celeb.id, celeb.slug, activeLocales, engineForLocale, voiceForLocale, settings, ttsTexts, composeText, hasVoice, showToast, beginGenerating, endGenerating])
   // #endregion
 
   // #region 음성 파일 전반 (켜기 · 묶음 올리기 · 전체 삭제)
@@ -662,7 +713,8 @@ export default function CelebDialogueStudio({ celeb }: Props) {
     const fullKey = `${loc}/${key}`
     const editValue = isQuote ? (editQuotes[loc] ?? '') : (editDialogues[fullKey] ?? '')
     const ttsValue = ttsTexts[fullKey] ?? editValue
-    const isGen = generating === fullKey
+    const isTtsOverride = ttsOverrideSet.has(fullKey)
+    const isGen = generatingKeys.has(fullKey)
     const isPlay = playing === fullKey
     const hasPreview = !!previews[fullKey]
     const hasFile = !!voiceFiles[fullKey]
@@ -694,10 +746,28 @@ export default function CelebDialogueStudio({ celeb }: Props) {
         </div>
 
         {editValue.trim() && (
-          <div className={`flex items-center gap-2 ${indent}`}>
-            <input type="text" value={ttsValue} onChange={(e) => setTtsText(loc, key, e.target.value)}
-              className="flex-1 bg-bg-secondary border border-border rounded px-2 py-1 text-sm text-text-primary focus:outline-none focus:border-accent font-mono"
-              placeholder="TTS text" />
+          <div className={`space-y-1 ${indent}`}>
+            <div className="flex items-center gap-2">
+              <span className="shrink-0 text-xs text-text-secondary" title="음성 생성에만 쓰며 대사 저장 버튼으로는 저장되지 않습니다.">
+                음성용(임시)
+              </span>
+              <input type="text" value={ttsValue} onChange={(e) => setTtsText(loc, key, e.target.value)}
+                className={`flex-1 bg-bg-secondary border rounded px-2 py-1 text-sm text-text-primary focus:outline-none font-mono ${isTtsOverride ? 'border-amber-500 focus:border-amber-400' : 'border-border focus:border-accent'}`}
+                placeholder="음성 합성에 읽힐 문장" />
+              {isTtsOverride && (
+                <>
+                  <button type="button" onClick={() => applyTtsTextToDialogue(fullKey)}
+                    className="shrink-0 rounded border border-emerald-500/40 bg-emerald-500/10 px-2 py-1 text-xs font-medium text-emerald-400 hover:bg-emerald-500/20"
+                    title="이 음성용 문장을 실제 저장 대사에도 반영합니다.">
+                    대사에 반영
+                  </button>
+                  <button type="button" onClick={() => resetTtsText(fullKey)}
+                    className="shrink-0 rounded border border-border px-2 py-1 text-xs text-text-secondary hover:bg-white/5 hover:text-text-primary"
+                    title="음성용 문장을 저장 대사와 같은 내용으로 되돌립니다.">
+                    원문으로
+                  </button>
+                </>
+              )}
             <button type="button"
               onClick={() => handlePlay(fullKey, { locale: loc, dialogueType: type, variant })}
               disabled={!hasFile}
@@ -738,6 +808,10 @@ export default function CelebDialogueStudio({ celeb }: Props) {
               title={LABELS.openEditor}>
               <SlidersHorizontal className="w-3.5 h-3.5" />
             </button>
+            </div>
+            {isTtsOverride && (
+              <p className="text-xs text-amber-400">이 문장은 음성 생성에만 쓰입니다. 실제 대사를 바꾸려면 「대사에 반영」을 누르세요.</p>
+            )}
           </div>
         )}
 
@@ -803,25 +877,25 @@ export default function CelebDialogueStudio({ celeb }: Props) {
         </button>
       </div>
 
-      {/* 목소리 번호 (모드에 해당하는 언어만) */}
+      {/* 언어별 생성 엔진과 보이스 */}
       <div className={`${CARD} p-5`}>
         <div className={`grid grid-cols-1 gap-3 ${activeLocales.length > 1 ? 'md:grid-cols-2' : ''}`}>
-          {activeLocales.map((loc) => (
-            <div key={loc}>
-              <label className="text-xs text-text-secondary mb-1 block">Voice ID ({LOCALE_BADGE[loc].label})</label>
-              <div className="flex gap-1.5">
-                <input type="text"
-                  value={loc === 'ko' ? voiceIdKo : voiceIdEn}
-                  onChange={(e) => (loc === 'ko' ? setVoiceIdKo : setVoiceIdEn)(e.target.value)}
-                  placeholder="ElevenLabs Voice ID"
-                  className="flex-1 bg-bg-secondary border border-border rounded-lg px-3 py-1.5 text-sm text-text-primary font-mono placeholder-text-tertiary focus:outline-none focus:border-accent" />
-                <button type="button" onClick={() => handleSaveVoiceId(loc)}
-                  className="px-2 py-1.5 rounded-lg text-xs bg-accent/10 text-accent border border-accent/30 hover:bg-accent/20">
-                  <Save className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          ))}
+          {activeLocales.map((loc) => {
+            const isKo = loc === 'ko'
+            return (
+              <VoiceProviderSettings
+                key={loc}
+                locale={loc}
+                engine={isKo ? engineKo : engineEn}
+                onEngineChange={isKo ? setEngineKo : setEngineEn}
+                geminiVoice={isKo ? geminiVoiceKo : geminiVoiceEn}
+                onGeminiVoiceChange={isKo ? setGeminiVoiceKo : setGeminiVoiceEn}
+                elevenlabsVoiceId={isKo ? voiceIdKo : voiceIdEn}
+                onElevenlabsVoiceIdChange={isKo ? setVoiceIdKo : setVoiceIdEn}
+                onSaveElevenlabsVoiceId={() => { void handleSaveVoiceId(loc) }}
+              />
+            )
+          })}
         </div>
       </div>
 
@@ -834,7 +908,7 @@ export default function CelebDialogueStudio({ celeb }: Props) {
               className="bg-bg-secondary border border-border rounded-lg px-2 py-1 text-xs text-text-primary focus:outline-none focus:border-accent">
               {SPEECH_TONES.map((t) => <option key={t} value={t}>{TONE_LABELS[t]} ({t})</option>)}
             </select>
-            <button type="button" onClick={handleBatchGenerate} disabled={batchRunning}
+            <button type="button" onClick={handleBatchGenerate} disabled={batchRunning || generatingKeys.size > 0}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-accent text-white hover:bg-accent-hover disabled:opacity-50">
               {batchRunning ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />}
               {LABELS.batchGenerate} ({activeLocales.map((l) => LOCALE_BADGE[l].label).join('+')})
@@ -890,8 +964,13 @@ export default function CelebDialogueStudio({ celeb }: Props) {
           return (
             <div key={type} className="border-b border-border last:border-b-0">
               <button type="button"
-                onClick={() => setExpandedTypes((prev) => { const next = new Set(prev); next.has(type) ? next.delete(type) : next.add(type); return next })}
-                className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-bg-secondary/50 transition-colors">
+                onClick={() => setExpandedTypes((prev) => {
+                  const next = new Set(prev)
+                  if (next.has(type)) next.delete(type)
+                  else next.add(type)
+                  return next
+                })}
+                className="w-full flex items-center gap-2 px-4 py-3 text-left hover:bg-bg-secondary/50">
                 {isExpanded ? <ChevronDown className="w-4 h-4 text-text-tertiary" /> : <ChevronRight className="w-4 h-4 text-text-tertiary" />}
                 <span className="text-sm font-medium text-text-primary">{TYPE_LABELS[type]}</span>
                 {activeLocales.map((loc) => {
@@ -964,11 +1043,15 @@ export default function CelebDialogueStudio({ celeb }: Props) {
         <CelebVoiceEditorModal
           celeb={celeb}
           target={editorTarget}
-          voiceId={editorTarget.locale === 'ko' ? voiceIdKo : voiceIdEn}
+          engine={engineForLocale(editorTarget.locale)}
+          onEngineChange={editorTarget.locale === 'ko' ? setEngineKo : setEngineEn}
+          voiceId={voiceForLocale(editorTarget.locale)}
           onVoiceIdChange={(v) => {
-            // 창에서 고른 목소리는 그 언어의 목소리 번호 칸에 그대로 들어간다.
-            // 인물에 영구히 남기려면 목소리 번호 칸 옆 저장을 누른다.
-            if (editorTarget.locale === 'ko') setVoiceIdKo(v)
+            const engine = engineForLocale(editorTarget.locale)
+            if (engine === 'gemini') {
+              if (editorTarget.locale === 'ko') setGeminiVoiceKo(v)
+              else setGeminiVoiceEn(v)
+            } else if (editorTarget.locale === 'ko') setVoiceIdKo(v)
             else setVoiceIdEn(v)
           }}
           hasFile={!!voiceFiles[

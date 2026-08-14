@@ -54,11 +54,10 @@ const TARGETS: Record<string, string[]> = {
     'i18n:lines_en',
   ],
   /**
-   * 수식어·말투·대사 21개 — 신규 등록 인물의 한국어 기본 정비.
-   * `speech:quote`(명언)는 일부러 뺐다. 확인된 실제 발언이 없으면 비워 두는 것이 정상인데,
-   * 결손으로는 계속 잡혀서 그 한 칸만 빈 인물이 큐 앞단을 반복해 차지한다.
+   * 수식어·최소 조사·말투·한마디 1개·대사 21개 — 신규 등록 인물의 한국어 기본 정비.
+   * 검증 발언을 못 찾은 인물도 조사 완료 뒤 표준 자리 표시 값을 넣으므로 quote 공란은 정상 완료가 아니다.
    */
-  'speech-basic': ['basic:title', 'speech:tone', 'speech:dialogue_row', 'speech:lines_ko'],
+  'speech-basic': ['basic:title', 'speech:tone', 'speech:quote', 'speech:dialogue_row', 'speech:lines_ko'],
 }
 
 /** 외부 자동화가 넘길 수 있는 폐기 전 CLI 값만 입력 경계에서 정규화한다. */

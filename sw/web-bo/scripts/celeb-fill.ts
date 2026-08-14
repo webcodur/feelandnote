@@ -1,12 +1,13 @@
 /**
- * 셀럽 전 트랙 결손 조건부 반영 도구. **빈칸만 채운다.**
+ * 셀럽 전 트랙 결손 조건부 반영 도구. 기본은 빈칸만 채우며,
+ * 최소 조사에서 REVISE 판정을 받은 한국어 대사만 현재값 해시를 확인해 교체한다.
  *
  * 덤프(읽기 전용):
  *   pnpm exec tsx scripts/celeb-fill.ts dump --slugs a,b,c
  *
  * 반영(기본 dry-run. --apply 로만 저장):
- *   pnpm exec tsx scripts/celeb-fill.ts apply --file .tmp-celeb-fill/patch-NN.json
- *   pnpm exec tsx scripts/celeb-fill.ts apply --file .tmp-celeb-fill/patch-NN.json --apply
+ *   pnpm exec tsx scripts/celeb-fill.ts apply --file .tmp-celeb-fill/patch-NN.json --only-slugs a,b,c
+ *   pnpm exec tsx scripts/celeb-fill.ts apply --file .tmp-celeb-fill/patch-NN.json --only-slugs a,b,c --apply
  *
  * 패치 형식:
  * [
@@ -21,15 +22,22 @@
  *     "spectrum": { "abilities": { "command": { "score": 70, "reason_ko": "...", "reason_en": "..." }, ... },
  *                  "inner_virtues": {...}, "outer_virtues": {...}, "dispositions": {...} },
  *     "dialogues": { "lines": { "quote": "...", "greeting": ["a","b","c"], ... },
- *                    "lines_en": { "quote": "...", "greeting": ["a","b","c"], ... } }
+ *                    "lines_en": { "quote": "...", "greeting": ["a","b","c"], ... } },
+ *     "speech_research": { "schemaVersion": 1, "identity": {...}, "representativeFacts": [...],
+ *                    "voiceSamples": [...], "dialogueAnchors": [...], "searchedChannels": [...],
+ *                    "searchQueries": [...], "inspectedSources": [...], "quoteOutcome": "verified",
+ *                    "dialogueDecision": "CREATE", "dialogueAssessment": "...",
+ *                    "expectedLinesSha256": "..." }
  *   }
  * ]
  *
  * 안전 규칙
- *  - 기존값이 있는 필드·슬롯은 절대 덮어쓰지 않는다(도구가 걸러낸다).
+ *  - 기존값이 있는 일반 필드·슬롯은 덮어쓰지 않는다. 한국어 대사는 검증된 REVISE 패치만 예외다.
  *  - `celebs`의 기존 인물만 대상이며 신규 인물 생성 경로는 없다.
  *  - `celeb_influence`·`celeb_persona`·`celeb_dialogues` 행이 없으면 생성한다.
  *  - `celeb_persona`는 물리 `persona` jsonb만 쓴다(평면 점수 컬럼은 DB 트리거가 동기화).
+ *  - 한국어 한마디·상황 대사는 최소 조사 묶음이 없으면 거부한다.
+ *  - 한마디는 `set_celeb_quote` RPC로만 한·영 동시 갱신한다.
  *  - 반영 후 DB를 다시 읽어 왕복 검증한다. 불일치는 FAILED.
  */
 
@@ -38,6 +46,11 @@ import path from 'node:path'
 import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
 import { femaleMartialAdjust } from '@feelandnote/shared/constants/celeb-spectrum-scale'
+import {
+  speechLinesSha256,
+  validateSpeechResearch,
+  type SpeechResearch,
+} from './lib/celeb-speech-research'
 
 config({ path: path.resolve(process.cwd(), '.env'), quiet: true })
 
@@ -155,6 +168,7 @@ type Patch = {
   /** @deprecated 입력 호환 전용. 내부에서는 즉시 spectrum으로 정규화한다. */
   persona?: Record<string, Record<string, { score: number; reason_ko: string; reason_en: string }> | string>
   dialogues?: { lines?: Record<string, any>; lines_en?: Record<string, any> }
+  speech_research?: SpeechResearch
 }
 
 async function apply() {
@@ -163,6 +177,25 @@ async function apply() {
   const doWrite = process.argv.includes('--apply')
   const patches = JSON.parse(await readFile(path.resolve(file), 'utf8')) as Patch[]
   if (!Array.isArray(patches) || patches.length === 0) throw new Error('배치가 비었다')
+
+  const patchSlugs = patches.map((patch) => patch.slug?.trim()).filter(Boolean)
+  if (patchSlugs.length !== patches.length) throw new Error('모든 패치에 slug가 필요하다')
+  if (new Set(patchSlugs).size !== patchSlugs.length) throw new Error('패치에 중복 slug가 있다')
+
+  const onlySlugsArg = argOf('only-slugs')
+  if (patches.some((patch) => patch.speech_research) && !onlySlugsArg) {
+    throw new Error('speech_research 배치는 --only-slugs로 담당 인물 전체를 잠가야 한다')
+  }
+  if (onlySlugsArg) {
+    const onlySlugs = onlySlugsArg.split(',').map((slug) => slug.trim()).filter(Boolean)
+    if (onlySlugs.length === 0) throw new Error('--only-slugs가 비었다')
+    if (new Set(onlySlugs).size !== onlySlugs.length) throw new Error('--only-slugs에 중복 slug가 있다')
+    const actual = [...patchSlugs].sort()
+    const expected = [...onlySlugs].sort()
+    if (!sameJson(actual, expected)) {
+      throw new Error(`패치 slug가 실행 잠금과 다르다: expected=${expected.join(',')} actual=${actual.join(',')}`)
+    }
+  }
 
   const r = await applyPatches(patches, doWrite)
   for (const l of r.log) console.log(l)
@@ -207,6 +240,33 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       const changes: string[] = []
       const preserved: string[] = []
       if (moved.length) preserved.push(`※ influence 로 이동: ${moved.join(',')}`)
+
+      const proposedKo = patch.dialogues?.lines ?? {}
+      const proposedEn = patch.dialogues?.lines_en ?? {}
+      const hasKoDialoguePatch = (DIALOGUE_KEYS as readonly string[]).some((key) => key in proposedKo)
+      const hasKoQuotePatch = !blank(proposedKo.quote)
+      const hasKoSpeechPatch = hasKoDialoguePatch || hasKoQuotePatch
+      let speechResearch: SpeechResearch | undefined
+      if (hasKoSpeechPatch) {
+        const decision = patch.speech_research?.dialogueDecision
+        if (decision === 'CREATE' || decision === 'REVISE') {
+          for (const key of DIALOGUE_KEYS) {
+            const values = proposedKo[key]
+            if (!Array.isArray(values) || values.length !== 3 || values.some(blank)) {
+              throw new Error(`${decision} 판정은 ko.${key} 3개를 모두 제출해야 한다`)
+            }
+          }
+        }
+        speechResearch = validateSpeechResearch({
+          research: patch.speech_research,
+          currentLines: c.dialogue?.lines ?? {},
+          proposedQuoteKo: proposedKo.quote,
+          proposedQuoteEn: proposedEn.quote,
+          hasKoDialoguePatch,
+        })
+      } else if (patch.speech_research) {
+        throw new Error('speech_research가 있지만 한국어 한마디·상황 대사 패치가 없다')
+      }
 
       // ── celebs: 빈칸만
       const profPayload: Record<string, string | boolean> = {}
@@ -314,12 +374,17 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       const nextLines: Record<string, any> = JSON.parse(JSON.stringify(curLines))
       const nextLinesEn: Record<string, any> = JSON.parse(JSON.stringify(curLinesEn))
       let diaTouched = false
+      let quoteTouched = false
       const mergeLines = (target: Record<string, any>, cur: Record<string, any>, src: Record<string, any>, tag: string) => {
         for (const [k, v] of Object.entries(src)) {
           if (k === 'quote') {
             if (blank(v)) { preserved.push(`${tag}.quote(신규값 공란)`); continue }
-            if (!blank(cur.quote)) { preserved.push(`${tag}.quote(기존값 보존)`); continue }
-            target.quote = String(v); diaTouched = true; continue
+            const canReplace = Boolean(speechResearch) && tag === 'ko'
+              ? speechResearch!.dialogueDecision !== 'CREATE'
+              : Boolean(speechResearch) && tag === 'en' && speechResearch!.dialogueDecision !== 'CREATE'
+            if (!blank(cur.quote) && !canReplace) { preserved.push(`${tag}.quote(기존값 보존)`); continue }
+            if (String(cur.quote ?? '') === String(v)) { preserved.push(`${tag}.quote(현재값과 같음)`); continue }
+            target.quote = String(v); quoteTouched = true; continue
           }
           if (!(DIALOGUE_KEYS as readonly string[]).includes(k)) throw new Error(`허용되지 않은 대사 키 ${k}`)
           if (!Array.isArray(v) || v.length !== 3) throw new Error(`${tag}.${k} 는 3개 배열이어야 한다`)
@@ -327,8 +392,10 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
           const arr = Array.isArray(target[k]) ? [...target[k]] : [...curArr]
           while (arr.length < 3) arr.push('')
           for (let i = 0; i < 3; i++) {
-            if (!blank(curArr[i])) { preserved.push(`${tag}.${k}[${i}](기존값 보존)`); continue }
+            const canReplace = tag === 'ko' && speechResearch?.dialogueDecision === 'REVISE'
+            if (!blank(curArr[i]) && !canReplace) { preserved.push(`${tag}.${k}[${i}](기존값 보존)`); continue }
             if (blank(v[i])) { preserved.push(`${tag}.${k}[${i}](신규값 공란)`); continue }
+            if (String(curArr[i] ?? '') === String(v[i])) { preserved.push(`${tag}.${k}[${i}](현재값과 같음)`); continue }
             arr[i] = String(v[i]); diaTouched = true
           }
           target[k] = arr
@@ -341,6 +408,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       if (Object.keys(infPayload).length) changes.push(`influence(${Object.keys(infPayload).join(',')})`)
       if (spectrumTouched) changes.push('spectrum')
       if (diaTouched) changes.push('dialogues')
+      if (quoteTouched) changes.push('quote')
 
       if (changes.length === 0) {
         skipped++
@@ -358,6 +426,13 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       }
 
       // ── 쓰기
+      if (speechResearch) {
+        const fresh = await loadCtx(patch.slug)
+        const freshHash = speechLinesSha256(fresh.dialogue?.lines ?? {})
+        if (freshHash !== speechResearch.expectedLinesSha256) {
+          throw new Error(`쓰기 직전 대사 현재값이 달라졌다: expected=${speechResearch.expectedLinesSha256} actual=${freshHash}`)
+        }
+      }
       if (Object.keys(profPayload).length) {
         const { error } = await db.from('celebs').update(profPayload)
           .eq('id', c.profile.id)
@@ -383,8 +458,18 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
       }
       if (diaTouched) {
         const body: Record<string, any> = {}
-        if (Object.keys(nextLines).length) body.lines = nextLines
-        if (Object.keys(nextLinesEn).length) body.lines_en = nextLinesEn
+        const bodyLines = JSON.parse(JSON.stringify(nextLines)) as Record<string, any>
+        const bodyLinesEn = JSON.parse(JSON.stringify(nextLinesEn)) as Record<string, any>
+        // quote는 아래 set_celeb_quote RPC만 갱신한다. 배열 교정 중 전체 JSON 덮어쓰기로
+        // 한마디를 잃지 않도록 쓰기 본문에는 현재 quote를 되돌려 넣는다.
+        if (quoteTouched) {
+          if (blank(curLines.quote)) delete bodyLines.quote
+          else bodyLines.quote = curLines.quote
+          if (blank(curLinesEn.quote)) delete bodyLinesEn.quote
+          else bodyLinesEn.quote = curLinesEn.quote
+        }
+        if (Object.keys(bodyLines).length) body.lines = bodyLines
+        if (Object.keys(bodyLinesEn).length) body.lines_en = bodyLinesEn
         if (c.dialogue) {
           const { error } = await db.from('celeb_dialogues').update(body).eq('celeb_id', c.profile.id)
           if (error) throw new Error(`celeb_dialogues UPDATE: ${error.message}`)
@@ -392,6 +477,14 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
           const { error } = await db.from('celeb_dialogues').insert({ celeb_id: c.profile.id, ...body })
           if (error) throw new Error(`celeb_dialogues INSERT: ${error.message}`)
         }
+      }
+      if (quoteTouched) {
+        const { error } = await db.rpc('set_celeb_quote', {
+          p_celeb_id: c.profile.id,
+          p_quote_ko: String(nextLines.quote),
+          p_quote_en: String(nextLinesEn.quote),
+        })
+        if (error) throw new Error(`set_celeb_quote RPC: ${error.message}`)
       }
 
       // ── 왕복 검증
@@ -422,7 +515,7 @@ async function applyPatches(patches: Patch[], doWrite: boolean) {
           }
         }
       }
-      if (diaTouched) {
+      if (diaTouched || quoteTouched) {
         const gotKo = after.dialogue?.lines ?? {}
         const gotEn = after.dialogue?.lines_en ?? {}
         if (!sameJson(gotKo, nextLines)) bad.push('dialogues.lines')

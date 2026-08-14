@@ -71,8 +71,10 @@ export interface CelebRelationItem {
   relType: string
   relGroup: 'family' | 'thought' | 'rivalry' | 'career' | 'friendship'
   id: string
-  /** null이면 명단 밖 인물(위키데이터 등재) — 페이지가 없어 이름 노드로만 띄운다 */
+  /** null이면 이동할 페이지가 없다 — 이름 노드로만 띄운다. 사유는 listed로 갈린다 */
   slug: string | null
+  /** true=우리 명단에 등록된 인물(아직 공개 전일 수 있다), false=위키데이터에만 있는 명단 밖 인물 */
+  listed: boolean
   nickname: string
   nickname_en: string | null
   avatar_url: string | null
@@ -286,6 +288,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       relGroup: r.rel_group,
       id: r.target.id,
       slug: r.target.slug && r.target.publication_status === 'active' ? r.target.slug : null,
+      listed: true,
       nickname: r.target.nickname || 'Unknown',
       nickname_en: r.target.nickname_en,
       avatar_url: r.target.avatar_url,
@@ -308,6 +311,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       relGroup: r.rel_group,
       id: `ext-${r.qid}`,
       slug: null,
+      listed: false,
       nickname: r.name_ko || (r.name_en as string),
       nickname_en: r.name_en,
       avatar_url: r.image_url,
@@ -353,8 +357,8 @@ const getCelebBySlugCached = (slug: string) =>
   cachedDetail(
     CACHE_TAGS.CELEBS,
     slug,
-    // v5: 비활성 세력 배정을 상세 페이지의 세력도감에서 제외한다.
-    ['celeb-by-slug-v5-active-factions', slug],
+    // v6: 관계망 인물에 명단 등록 여부(listed)를 함께 내린다.
+    ['celeb-by-slug-v6-relation-listed', slug],
     () => fetchCelebBySlugPublic(slug),
     { extraTags: [CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS] },
   )
