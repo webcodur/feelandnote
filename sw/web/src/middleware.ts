@@ -169,10 +169,11 @@ export const config = {
      * - _next/static, _next/image (빌드 에셋)
      * - favicon.ico
      * - assets/ (게임 오디오 등 정적 에셋)
+     * - seo-image/, sitemaps/, opengraph-image (locale·세션 처리가 없는 SEO 응답)
      * - 미디어/폰트/데이터 확장자 (svg, png, mp3, woff2, json 등)
      * - auth/callback (OAuth 콜백)
      * - api/ (API 라우트)
      */
-    '/((?!_next/static|_next/image|favicon.ico|auth/callback|api/|assets/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3|mp4|ogg|wav|woff2?|ttf|eot|ico|json|xml|txt|webmanifest)$).*)'
+    '/((?!_next/static|_next/image|favicon.ico|auth/callback|api/|assets/|seo-image/|sitemaps/|opengraph-image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp3|mp4|ogg|wav|woff2?|ttf|eot|ico|json|xml|txt|webmanifest)$).*)'
   ]
 };

@@ -8,6 +8,7 @@
 |---|---|
 | [`celeb/`](celeb/README.md) | 인물 데이터 결손, 아바타, 읽어보기, 화제성 조사와 보이스 생성 |
 | [`external-api-migration-2026-08-01.md`](external-api-migration-2026-08-01.md) | 외부 API 종료·전환 뒤 남은 일 |
+| [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | 기존 R2·캐시·앱 경계를 실측해 사용자 웹과 백오피스의 최적 배포처·비용 상한을 결정하는 조사 |
 | [`document-audit.md`](document-audit.md) | 현역 문서와 코드·DB의 실측 대조 |
 
 ## 이동 규칙

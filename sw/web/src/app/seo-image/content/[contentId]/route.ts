@@ -1,6 +1,6 @@
-import { unstable_cache } from 'next/cache'
 import { NextRequest } from 'next/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { createSeoImageResponse, createSquareSeoImage } from '@/lib/seoImage'
 
@@ -16,25 +16,31 @@ interface ContentImageRow {
   content_locales: ContentImageLocaleRow[] | null
 }
 
-const getContentImage = unstable_cache(
-  async (contentId: string, locale: 'ko' | 'en'): Promise<string | null> => {
-    const supabase = createStaticClient()
-    const { data, error } = await supabase
-      .from('contents')
-      .select('content_locales(locale, thumbnail_url)')
-      .eq('id', contentId)
-      .maybeSingle()
+async function fetchContentImage(contentId: string, locale: 'ko' | 'en'): Promise<string | null> {
+  const supabase = createStaticClient()
+  const { data, error } = await supabase
+    .from('contents')
+    .select('content_locales(locale, thumbnail_url)')
+    .eq('id', contentId)
+    .maybeSingle()
 
-    if (error) throw error
+  if (error) throw error
 
-    const rows = (data as ContentImageRow | null)?.content_locales ?? []
-    const primary = rows.find((row) => row.locale === locale)
-    const fallback = rows.find((row) => row.locale === (locale === 'en' ? 'ko' : 'en'))
-    return primary?.thumbnail_url ?? fallback?.thumbnail_url ?? null
-  },
-  ['seo-image-content'],
-  { revalidate, tags: [CACHE_TAGS.CONTENTS] },
-)
+  const rows = (data as ContentImageRow | null)?.content_locales ?? []
+  const primary = rows.find((row) => row.locale === locale)
+  const fallback = rows.find((row) => row.locale === (locale === 'en' ? 'ko' : 'en'))
+  return primary?.thumbnail_url ?? fallback?.thumbnail_url ?? null
+}
+
+function getContentImage(contentId: string, locale: 'ko' | 'en') {
+  return cachedDetail(
+    CACHE_TAGS.CONTENTS,
+    contentId,
+    ['seo-image-content', contentId, locale],
+    () => fetchContentImage(contentId, locale),
+    { revalidate },
+  )
+}
 
 export async function GET(
   request: NextRequest,
