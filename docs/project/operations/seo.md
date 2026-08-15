@@ -371,7 +371,11 @@ if (
 }
 ```
 
-실제 조건문은 `SEO_PATHS` exact match와 `SEO_PATH_PREFIXES` prefix match를 함께 검사한다. matcher 패턴의 dot 이스케이프가 불안정하므로 코드 가드가 SSoT이다. 단일 SEO 경로는 `SEO_PATHS`, 여러 하위 파일을 갖는 경로는 `SEO_PATH_PREFIXES`에 추가한다.
+실제 조건문은 `SEO_PATHS` exact match와 `SEO_PATH_PREFIXES` prefix match를 함께 검사한다. 여기에 matcher도
+`seo-image/`, `sitemaps/`, `opengraph-image`를 제외해 해당 요청이 미들웨어 함수를 호출하기 전에 차단한다.
+코드 가드는 matcher의 확장자·dot 처리 차이나 향후 경로 변경에 대비한 방어선으로 유지한다. 단일 SEO 경로는
+`SEO_PATHS`, 여러 하위 파일을 갖는 경로는 `SEO_PATH_PREFIXES`에 추가하고 matcher 제외 여부도 함께 검토한다.
+회귀 검사는 Next.js의 실제 matcher 판정기를 쓰는 `sw/web/src/middleware.test.ts`가 맡는다.
 
 아이콘은 이제 규약 파일이 아니라 `public/icon.png`·`public/apple-icon.png` 정적 파일로 서빙되므로 `SEO_PATHS`에 넣지 않는다. `[locale]/layout.tsx`의 `icons`와 `manifest.ts`가 이 경로를 가리킨다.
 
@@ -446,6 +450,10 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
   2. 인물은 아바타(없으면 대표 초상), 작품은 locale별 원본 표지를 자르지 않고 정사각 PNG 안에 담는다. 원본이 없거나 응답하지 않아도 깨진 URL 대신 유형별 기본 이미지를 반환한다.
   3. `middleware.ts`의 `SEO_PATH_PREFIXES`가 이미지 라우트를 locale 미들웨어에서 제외한다. HTML 페이지에는 같은 URL을 Open Graph·Twitter·JSON-LD 이미지로 함께 선언한다.
   4. `FormattedText`는 인용부호와 문장을 한 텍스트 노드의 유니코드 따옴표로 출력하며, 작품 메타 설명도 `toSeoDescription()`으로 평문화한다.
+- **현행 비용 방어**: SEO 이미지의 Supabase 원본 URL 조회는 `cachedDetail`로 UUID·slug별 태그를 붙인다.
+  목록 캐시 무효화가 모든 SEO 이미지 조회를 함께 비우지 않으며, 해당 인물·콘텐츠 수정 때만 그 항목이 갱신된다.
+  OpenLibrary가 `archive.org`와 `*.archive.org`로 보내는 HTTPS 리다이렉트는 허용하되 HTTP·로컬 주소·도메인
+  접미사 위장은 거부한다. 허용 규칙과 검사는 `seoImageOrigin.ts`, `seoImageOrigin.test.ts`가 맡는다.
 - **검증**: 프로덕션 빌드 후 인물·책·원본 없음 표본 모두 직접 200 PNG 응답, 네이버 공식 이미지 조건 충족, 공개 HTML에서 기존 엔티티·노드 경계 주석 제거를 확인했다. 기존 검색 결과는 재수집 뒤 바뀌므로 즉시 교체되지는 않는다.
 - **참고**: [네이버 서치어드바이저 콘텐츠 마크업 — 오픈 그래프 이미지](https://searchadvisor.naver.com/guide/markup-content)
 

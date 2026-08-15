@@ -1,6 +1,7 @@
 import 'server-only'
 
 import sharp from 'sharp'
+import { isAllowedSeoImageUrl } from '@/lib/seoImageOrigin'
 
 export const SEO_IMAGE_SIZE = 800
 
@@ -10,40 +11,11 @@ const MAX_SOURCE_BYTES = 12 * 1024 * 1024
 const MAX_REDIRECTS = 3
 const SOURCE_REVALIDATE_SECONDS = 60 * 60 * 24 * 7
 
-const ALLOWED_IMAGE_HOSTS = new Set([
-  't1.daumcdn.net',
-  'image.tmdb.org',
-  'covers.openlibrary.org',
-  'i.gr-assets.com',
-  'images.igdb.com',
-  'books.google.com',
-  'image.aladin.co.kr',
-  'image.yes24.com',
-  'upload.wikimedia.org',
-  'contents.kyobobook.co.kr',
-])
-
-const ALLOWED_IMAGE_HOST_SUFFIXES = [
-  '.r2.dev',
-  '.supabase.co',
-  '.mzstatic.com',
-  '.imgix.net',
-  '.bigcommerce.com',
-]
-
-function isAllowedImageUrl(url: URL): boolean {
-  if (url.protocol !== 'https:') return false
-
-  const hostname = url.hostname.toLowerCase()
-  return ALLOWED_IMAGE_HOSTS.has(hostname)
-    || ALLOWED_IMAGE_HOST_SUFFIXES.some((suffix) => hostname.endsWith(suffix))
-}
-
 async function fetchImageBuffer(sourceUrl: string): Promise<Buffer> {
   let currentUrl = new URL(sourceUrl)
 
   for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
-    if (!isAllowedImageUrl(currentUrl)) {
+    if (!isAllowedSeoImageUrl(currentUrl)) {
       throw new Error(`허용되지 않은 이미지 호스트: ${currentUrl.hostname}`)
     }
 

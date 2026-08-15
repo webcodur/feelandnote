@@ -208,6 +208,20 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - **운영 주의**: 로컬 수정·재배포가 이미 누적된 최근 30일 사용량을 초기화하지 않는다. Hobby 프로젝트 중지 위험은 기간 만료 또는 플랜 전환 전까지 남는다. 배포 후 route별 `X-Vercel-Cache`와 Usage 기울기를 확인해야 해소 판정한다.
 - **공식 문서**: [CDN usage](https://vercel.com/docs/manage-cdn-usage), [Fluid compute](https://vercel.com/docs/functions/usage-and-pricing), [ISR usage](https://vercel.com/docs/incremental-static-regeneration/limits-and-pricing).
 
+### Git 배포 빌드 게이트
+
+- 두 Vercel 프로젝트의 Root Directory는 각각 `sw/web`, `sw/web-bo`다. 각 디렉터리의 `vercel.json`이
+  저장소 루트 `scripts/vercel-ignore-build.mjs`를 `ignoreCommand`로 실행한다.
+- 판정은 커밋 메시지가 아니라 직전 성공 배포 SHA와 현재 SHA 사이의 변경 파일을 사용한다. Git diff나
+  환경변수 확인에 실패하면 종료 코드 1로 빌드를 계속해, 필요한 배포를 잘못 건너뛰지 않는다.
+- 사용자 웹은 `sw/web`의 런타임·설정 파일과 `packages/`, 루트 의존성 파일이 바뀔 때만 빌드한다.
+  백오피스는 같은 공통 범위에 `sw/web-bo` 런타임·설정과 직접 import하는 `sw/remotion/src`를 더한다.
+  문서, 로컬 제작 데이터, 다른 앱, Remotion 대용량 `public` 자산만 바뀐 커밋은 둘 다 건너뛴다.
+- 영향도 SSoT와 회귀 검사는 각각 `scripts/lib/vercel-build-impact.mjs`,
+  `scripts/vercel-build-impact.test.mjs`다. 새 공유 패키지나 빌드 입력을 추가하면 이 둘을 함께 갱신한다.
+- Vercel 규약상 `ignoreCommand` 종료 코드 0은 빌드 취소, 1은 빌드 계속이다. 같은 SHA를 환경변수 변경
+  때문에 강제 재배포할 때는 대시보드 Redeploy에서 Ignore Build Step 사용을 해제한다.
+
 ## 외부 콘텐츠 검색 API
 
 콘텐츠(도서·영상·게임·음악) 메타 조회에 쓰는 외부 API. 래퍼는 `packages/content-search/`.
