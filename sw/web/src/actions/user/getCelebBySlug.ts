@@ -246,6 +246,8 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
       .from('celeb_explanations')
       .select('plain_text, plain_text_en, interpretive_title, interpretive_title_en, interpretive_text, interpretive_text_en')
       .eq('profile_id', celebId)
+      // 승인 시각이 찍힌 글만 내보낸다. 품질 재검수가 끝나지 않은 원고는 화면에 올리지 않는다
+      .not('published_at', 'is', null)
       .maybeSingle(),
   ])
 

@@ -44,6 +44,8 @@ export interface CelebServiceAvailability {
   influence: boolean;
   spectrum: boolean;
   sourceWorks: boolean;
+  /** 실제로 등록된 기록물이 있는가. 없으면 서재 구획을 그리지 않는다. */
+  library: boolean;
 }
 
 interface UseCelebServiceItemsProps {
@@ -111,7 +113,10 @@ export function useCelebServiceItems({
         icon: tier === "fiction"
           ? CELEB_SERVICE_ICONS.sourceWorks
           : CELEB_SERVICE_ICONS.library,
-        ready: tier === "fiction" ? availability.sourceWorks : showLibrary,
+        ready:
+          tier === "fiction"
+            ? availability.sourceWorks
+            : showLibrary && availability.library,
         target: { sectionId: tier === "fiction" ? "source-works" : "library" },
         unavailableGuide: {
           about: tier === "fiction"
@@ -284,7 +289,23 @@ export function useCelebServiceItems({
             : t("guestbookCta"),
         },
       },
-    ] satisfies ServiceItem[]),
+    ] satisfies ServiceItem[])
+      // 자료가 없는 구획은 목록에서 뺀다. 빈 안내만 남는 섹션을 화면에 만들지 않기 위해서다.
+      .filter((item) => item.ready)
+      // 걸러낸 뒤 번호를 다시 매긴다. 남은 순서대로 01, 02가 되어야 목차가 끊기지 않는다.
+      .map((item, index) => {
+        const chapter = String(index + 1).padStart(2, "0");
+        return {
+          ...item,
+          chapter,
+          children: item.children
+            ?.filter((child) => child.ready)
+            .map((child, childIndex) => ({
+              ...child,
+              chapter: `${chapter}-${String.fromCharCode(65 + childIndex)}`,
+            })),
+        };
+      }),
     [
       availability.contemporaries,
       availability.dialogueVoice,
@@ -294,6 +315,7 @@ export function useCelebServiceItems({
       availability.spectrum,
       availability.relations,
       availability.reading,
+      availability.library,
       availability.sourceWorks,
       availability.timeline,
       availability.videos,

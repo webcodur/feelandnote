@@ -93,6 +93,8 @@ async function fetchCelebModalContent(celebId: string, locale: string): Promise<
       .from('celeb_explanations')
       .select('plain_text, plain_text_en')
       .eq('profile_id', celebId)
+      // 상세 화면과 같은 기준으로 승인된 글만 쓴다
+      .not('published_at', 'is', null)
       .maybeSingle(),
   ])
 
