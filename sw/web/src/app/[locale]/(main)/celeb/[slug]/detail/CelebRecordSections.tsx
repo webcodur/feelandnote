@@ -30,11 +30,7 @@ import FigureReadingTabs from "../FigureReadingTabs";
 import JourneySection from "../JourneySection";
 import LibraryTabs from "../LibraryTabs";
 import PeopleAndEraTabs from "../PeopleAndEraTabs";
-import {
-  type CelebServiceAvailability,
-  useCelebServiceItems,
-} from "../celebServiceItems";
-import { getLocalizedCelebVideos } from "./celebDetailData";
+import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
 const SECTION_CLASS_NAME = `animate-fade-in ${styles.recordSection}`;
@@ -68,6 +64,7 @@ interface CelebRecordSectionsProps {
   factionTags: FeaturedTag[];
   initialContents: GetUserContentsResponse;
   fictionSources: FictionSourceContent[];
+  serviceModel: CelebServiceModel;
 }
 
 export default function CelebRecordSections({
@@ -86,38 +83,11 @@ export default function CelebRecordSections({
   factionTags,
   initialContents,
   fictionSources,
+  serviceModel,
 }: CelebRecordSectionsProps) {
   const t = useTranslations("celebPage");
-  const celebTier = profile.celeb_tier ?? "full";
-  const isFiction = celebTier === "fiction";
-  const showLibrary = celebTier === "full";
-  const hasVoice = profile.has_voice ?? false;
-  const hasDialogues = Boolean(
-    dialogueLines && Object.keys(dialogueLines).length > 0,
-  );
-  const { longform, shorts } = useMemo(
-    () => getLocalizedCelebVideos(profile.youtube_videos, locale),
-    [locale, profile.youtube_videos],
-  );
-  const availability: CelebServiceAvailability = {
-    reading: Boolean(profile.reading),
-    relations: profile.relations.length > 0,
-    timeline: timelineEvents.length > 0,
-    contemporaries: contemporaries.length > 0,
-    faction: factionTags.length > 0,
-    videos: longform.length > 0 || shorts.length > 0,
-    dialogues: hasDialogues,
-    dialogueVoice: hasDialogues && hasVoice,
-    influence: Boolean(influenceData),
-    spectrum: Boolean(spectrumData?.targetSpectrum),
-    sourceWorks: fictionSources.length > 0,
-    library: initialContents.items.length > 0,
-  };
-  const serviceItems = useCelebServiceItems({
-    tier: celebTier,
-    showLibrary,
-    availability,
-  });
+  const isFiction = (profile.celeb_tier ?? "full") === "fiction";
+  const { items: serviceItems, longform, shorts, hasVoice } = serviceModel;
   const { activeSectionId, navigate } = useCelebSectionNavigation(
     serviceItems.map((item) => item.target.sectionId),
   );
