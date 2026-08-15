@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getGuestbookEntries, markGuestbookAsRead } from "@/actions/guestbook";
 import { getUserProfile } from "@/actions/user";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
+import { PendingBlock } from "@/components/ui/pending";
 import ProfileContent from "./ProfileContent";
+import { GuestbookSection } from "./sections";
 
 interface PageProps {
   params: Promise<{ userId: string; locale: string }>;
@@ -45,10 +47,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function OverviewPage({ params }: PageProps) {
   const { userId } = await params;
   const supabase = await createClient();
-  const [authResult, profileResult, guestbookResult] = await Promise.all([
+  // 프로필 소개는 즉시 그린다. 방명록은 조회·읽음 처리가 붙어 있어 별도 구획(Suspense)으로 뗀다
+  const [authResult, profileResult] = await Promise.all([
     supabase.auth.getUser(),
     getUserProfile(userId),
-    getGuestbookEntries({ profileId: userId, subjectKind: "member" }),
   ]);
 
   if (!profileResult.success || !profileResult.data) {
@@ -58,18 +60,17 @@ export default async function OverviewPage({ params }: PageProps) {
   const currentUser = authResult.data.user;
   const isOwner = currentUser?.id === userId;
 
-  if (isOwner) {
-    await markGuestbookAsRead();
-  }
-
   return (
     <ProfileContent
       profile={profileResult.data}
       userId={userId}
       isOwner={isOwner}
-      guestbookEntries={guestbookResult.entries}
-      guestbookTotal={guestbookResult.total}
       guestbookCurrentUserId={currentUser?.id ?? null}
+      guestbookSlot={
+        <Suspense fallback={<PendingBlock variant="rows" count={3} />}>
+          <GuestbookSection userId={userId} isOwner={isOwner} currentUserId={currentUser?.id ?? null} />
+        </Suspense>
+      }
     />
   );
 }

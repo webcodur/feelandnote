@@ -1,31 +1,29 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 import { type PublicUserProfile } from "@/actions/user";
-import GuestbookContent from "@/components/features/profile/GuestbookContent";
 import { ModerationMenu } from "@/components/features/moderation";
 import ClassicalBox from "@/components/ui/ClassicalBox";
 import { DecorativeLabel } from "@/components/ui";
 import { ENUM_REPORT_TARGET_TYPE } from "@/constants/moderation";
-import { type GuestbookEntryWithAuthor } from "@/types/database";
 import UserBioSection from "./UserBioSection";
 
 interface ProfileContentProps {
   profile: PublicUserProfile;
   userId: string;
   isOwner: boolean;
-  guestbookEntries: GuestbookEntryWithAuthor[];
-  guestbookTotal: number;
   guestbookCurrentUserId: string | null;
+  /** 방명록 구획 — 서버가 Suspense로 감싸 넘겨준다. 조회를 여기서 기다리지 않는다 */
+  guestbookSlot: ReactNode;
 }
 
 export default function ProfileContent({
   profile,
   userId,
   isOwner,
-  guestbookEntries,
-  guestbookTotal,
   guestbookCurrentUserId,
+  guestbookSlot,
 }: ProfileContentProps) {
   const t = useTranslations("profilePage");
 
@@ -51,13 +49,7 @@ export default function ProfileContent({
           <div className="flex justify-center mb-6 sm:mb-8">
             <DecorativeLabel label={t("guestbook")} />
           </div>
-          <GuestbookContent
-            profileId={userId}
-            currentUserId={guestbookCurrentUserId}
-            isOwner={isOwner}
-            initialEntries={guestbookEntries}
-            initialTotal={guestbookTotal}
-          />
+          {guestbookSlot}
         </ClassicalBox>
       </section>
     </div>

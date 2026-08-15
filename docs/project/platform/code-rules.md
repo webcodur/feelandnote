@@ -16,8 +16,12 @@
 - **조작용 요소(버튼·카드·칩)의 hover는 즉각 반응** — transition/delay 금지, 위로 뜸·확대 등 이동 지양. 상세는 아래 "상호작용" 참조
 - 반복 UI는 상수 배열 + map 렌더링
 
-## Suspense + i18n (필수)
-- Suspense 내부의 비동기 서버 컴포넌트가 클라이언트 컴포넌트를 렌더링할 때, `AsyncIntlProvider`로 감싼다
+## 구획별 독립 레인 · Suspense + i18n (필수)
+- **색인 대상 화면**(홈·탐색·서가·인물·작품 등)에 `loading.tsx`·맨 `<Suspense fallback>`을 두지 않는다. 봇이 스켈레톤을 본문으로 읽어 색인 사고가 세 번 났다(`docs/operations/seo.md`). 대신 `@/components/ui/pending/Lane`을 쓴다 — 봇·미확인 UA는 완성 HTML, 사람 브라우저만 Suspense 스트리밍(`lib/render-mode.ts`, 모르면 봇). ISR 화면(인물·작품 상세)은 `headers()`가 정적을 깨므로 Lane도 쓰지 않는다.
+- 비색인 화면(`[userId]/*`, `rest/*`, `agora/*`, `search`)은 일반 Suspense·loading.tsx를 써도 된다.
+- 구획은 실패·0건에도 자리를 지킨다. 조회 실패는 구획 async 컴포넌트가 try/catch로 잡아 `RetryBlock`을 그린다(Lane에는 에러 경계가 없다 — 던지면 봇 응답 전체가 죽는다). 대기 자리는 `PendingBlock`(잿빛 맥동 블록·스피너를 새로 만들지 않는다), 첫 화면 밖 + 색인 가치 없음 + 비쌈을 모두 만족하는 구획만 `Deferred`로 뷰포트 근접 시 클라이언트 조회.
+- `Lane`은 서버 전용이라 `pending/index.ts` 배럴에 없다. 클라이언트 파일은 배럴(`PendingBlock`·`RetryBlock`·`Deferred`·`LinkPending`)만 쓴다.
+- Suspense 내부의 비동기 서버 컴포넌트가 클라이언트 컴포넌트를 렌더링할 때, `AsyncIntlProvider`로 감싼다(Lane은 자동으로 감싼다)
 - Next.js 16 스트리밍 SSR에서 `NextIntlClientProvider` 컨텍스트가 Suspense 경계를 넘지 못하는 문제 해결
 - 위치: `@/components/shared/AsyncIntlProvider`
 ```tsx

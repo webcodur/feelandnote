@@ -1,4 +1,10 @@
-/** 허브 섹션 ID·네비게이션·config 유틸 */
+/** 허브 섹션 ID·네비게이션·config 유틸
+ *
+ *  구획은 언제나 그려진다 — 조회에 실패해도, 자료가 0건이어도 자리를 지킨다.
+ *  그래서 목차·번호·총 개수는 조회 결과가 아니라 config에서 고정으로 뽑는다.
+ *  (예전에는 "실제로 그려지는 구획만 센다"는 규칙이 있었지만, 그 규칙이 실패한 구획을
+ *   조용히 지워 버려 26.08.15에 폐기했다.)
+ */
 
 import { Rss, Clock, Youtube, BookOpenText, UsersRound } from "lucide-react";
 
@@ -17,10 +23,10 @@ interface HubSectionConfig {
 }
 
 /** 제네릭 헬퍼: config 배열 + key → HubSection props 일괄 반환.
- *  넘어온 배열이 곧 "실제로 그려지는 구획 목록"이다 — 번호·총 개수·첫 구획 판정 모두 여기서 나온다. */
+ *  호출자는 config 전체를 그대로 넘긴다 — 번호·총 개수·첫 구획 판정이 조회 결과에 흔들리지 않는다. */
 export function hubSection(sections: readonly HubSectionConfig[], groupId: string, key: string, t: (k: string) => string) {
   const idx = sections.findIndex((s) => s.key === key);
-  if (idx < 0) throw new Error(`hubSection: 그려지지 않는 구획을 참조했다 (${groupId}/${key})`);
+  if (idx < 0) throw new Error(`hubSection: config에 없는 구획을 참조했다 (${groupId}/${key})`);
   const sec = sections[idx];
   return {
     title: t(sec.titleKey),
@@ -40,7 +46,7 @@ export function withoutMore(p: ReturnType<typeof hubSection>) {
   return { title: p.title, subtitle: p.subtitle, index: p.index, total: p.total, groupId: p.groupId, hideDivider: p.hideDivider };
 }
 
-/** 목차 줄 항목 — 라벨은 구획 제목과 같은 문구를 쓴다 */
+/** 목차 줄 항목 — 라벨은 구획 제목과 같은 문구를 쓴다. config 전체를 넘긴다(구획은 항상 그려진다) */
 export function hubNavItems(sections: readonly HubSectionConfig[], t: (k: string) => string) {
   return sections.map((s) => ({ label: t(s.titleKey), href: s.moreHref }));
 }

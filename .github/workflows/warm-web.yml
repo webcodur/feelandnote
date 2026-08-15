@@ -1,0 +1,20 @@
+name: Warm Web Caches
+
+# 배포로 캐시 키가 바뀌면 허브 화면의 데이터 캐시가 전부 식는다. 매시 허브 6개를 한 번씩 열어
+# 다음 방문자가 콜드를 맞지 않게 한다. Vercel Hobby는 크론이 하루 1회라 여기서 돈다.
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+jobs:
+  warm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Visit hub pages
+        run: |
+          for path in / /explore /explore/spectrum /explore/ranking /explore/figures /library; do
+            code=$(curl -s -o /dev/null -w "%{http_code} %{time_total}s" \
+              -A "feelandnote-warm/1.0" "https://feelandnote.com$path")
+            echo "$path -> $code"
+          done

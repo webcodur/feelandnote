@@ -2,43 +2,56 @@
   파일명: /components/features/user/explore/hub/RankingTabs.tsx
   기능: 허브 프로필 섹션 탭 묶음
   책임: 인기 · 기록왕 · 랜덤을 한 칸 안 탭으로 전환. 전체 인물 목록 링크 제공.
-        비어 있는 탭은 애초에 만들지 않는다 — 눌러도 빈 화면이 나오는 탭을 남기지 않기 위함.
+        조회에 실패한 탭은 칩을 남기고 본문만 "다시 시도"로 바꾼다 — 칩까지 사라지면
+        무엇이 빠졌는지 알 수 없다. 정말 0건인 탭만 뺀다.
 */ // ------------------------------
 
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+// 모음(index)이 아니라 파일에서 바로 가져온다 — 모음에는 서버 전용 Lane이 함께 들어 있어
+// 클라이언트 번들에 next/headers가 딸려 들어간다
+import { RetryBlock, LinkPending } from "@/components/ui/pending";
 import HubCelebGrid from "./HubCelebGrid";
 import TopByTypeGrid from "./TopByTypeGrid";
 import type { CelebProfile } from "@/types/home";
 import type { TopByTypeEntry } from "@/actions/home/getTopByContentType";
 
 interface RankingTabsProps {
-  trending: CelebProfile[];
-  topByType: TopByTypeEntry[];
+  /** null이면 조회 실패, 빈 배열이면 정말 0건 */
+  trending: CelebProfile[] | null;
+  topByType: TopByTypeEntry[] | null;
   /** 랜덤 — 매일 새로 뽑는 인물들 */
-  dailyPicks: CelebProfile[];
+  dailyPicks: CelebProfile[] | null;
+}
+
+/** 탭 본문. null을 돌려주면 그 탭은 만들지 않는다(0건) */
+function tabBody<T>(items: T[] | null, render: (values: T[]) => ReactNode): ReactNode {
+  if (items === null) return <RetryBlock />;
+  if (items.length === 0) return null;
+  return render(items);
 }
 
 export default function RankingTabs({ trending, topByType, dailyPicks }: RankingTabsProps) {
   const t = useTranslations("explore.hub");
+  const tPending = useTranslations("pending");
   const [tab, setTab] = useState(0);
 
-  const tabs: { key: string; body: React.ReactNode }[] = [];
-  if (trending.length > 0) {
-    tabs.push({ key: "trending", body: <HubCelebGrid celebs={trending} /> });
-  }
-  if (topByType.length > 0) {
-    tabs.push({ key: "topByType", body: <TopByTypeGrid entries={topByType} /> });
-  }
-  if (dailyPicks.length > 0) {
-    tabs.push({ key: "allCelebs", body: <HubCelebGrid celebs={dailyPicks} /> });
-  }
+  // 셋 다 실패했으면 탭 자체가 의미 없다 — 구획 본문을 통째로 다시 시도 자리로 둔다
+  if (trending === null && topByType === null && dailyPicks === null) return <RetryBlock />;
 
-  if (tabs.length === 0) return null;
+  const tabs = [
+    { key: "trending", body: tabBody(trending, (v) => <HubCelebGrid celebs={v} />) },
+    { key: "topByType", body: tabBody(topByType, (v) => <TopByTypeGrid entries={v} />) },
+    { key: "allCelebs", body: tabBody(dailyPicks, (v) => <HubCelebGrid celebs={v} />) },
+  ].filter((entry) => entry.body !== null);
+
+  if (tabs.length === 0) {
+    return <p className="text-sm text-text-secondary text-center py-8">{tPending("empty")}</p>;
+  }
 
   const current = tabs[Math.min(tab, tabs.length - 1)];
 
@@ -81,7 +94,9 @@ export default function RankingTabs({ trending, topByType, dailyPicks }: Ranking
           className="flex items-center gap-1.5 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-xs font-medium text-white/50 hover:border-white/10 hover:bg-white/10 hover:text-[#d4af37]"
         >
           {t("viewAllProfiles")}
-          <ArrowRight size={14} className="text-[#d4af37]/70" />
+          <LinkPending>
+            <ArrowRight size={14} className="text-[#d4af37]/70" />
+          </LinkPending>
         </Link>
       </div>
     </div>

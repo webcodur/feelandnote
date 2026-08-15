@@ -264,6 +264,17 @@
   }
 
 
+  /* 대기 표식 — 헤어라인이 가운데서 그려졌다 사라진다 */
+  .animate-pending-line {
+    transform-origin: center;
+    animation: pendingLine 1.6s ease-in-out infinite;
+  }
+
+  /* 대기 표식 — 가운데 마름모는 숨 쉬듯 밝기만 오간다 */
+  .animate-pending-mark {
+    animation: pendingMark 1.6s ease-in-out infinite;
+  }
+
   /* Scrollbar utilities */
   .scrollbar-stable {
     scrollbar-gutter: stable;
@@ -304,6 +315,37 @@
   }
   38% {
     transform: scale(0.86);
+    opacity: 1;
+  }
+}
+
+/* 대기 표식 헤어라인 — 가운데서 바깥으로 그려졌다 조용히 사라진다 */
+@keyframes pendingLine {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  35% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* 대기 표식 마름모 — 밝기만 오간다 */
+@keyframes pendingMark {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
     opacity: 1;
   }
 }

@@ -9,7 +9,6 @@ import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
-import { getPublicGuestbookEntries } from "@/actions/guestbook";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getFactionTagsByIds } from "@/actions/home/getFeaturedTags";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
@@ -63,8 +62,9 @@ export default async function CelebPage({ params }: PageProps) {
   });
   const worldBannerImages = getWorldBannerImages(worldId);
 
-  const [guestbookResult, influenceData, influenceExplorerData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
-    getPublicGuestbookEntries({ profileId: userId }),
+  // 방명록은 캐시되지 않는 조회라 ISR HTML에 굳으면 7일간 새 글이 안 보인다.
+  // 색인 가치도 없고 화면 맨 아래에 있어 클라이언트가 뷰포트 근접 시 직접 불러온다.
+  const [influenceData, influenceExplorerData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getCelebInfluence(userId, locale),
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getInfluenceExplorer(userId, locale),
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getSimilarByCelebId(userId, 3, locale),
@@ -147,8 +147,6 @@ export default async function CelebPage({ params }: PageProps) {
         influenceData={influenceData}
         influenceExplorerData={influenceExplorerData}
         spectrumData={spectrumData}
-        guestbookEntries={guestbookResult.entries}
-        guestbookTotal={guestbookResult.total}
         greeting={greeting}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}

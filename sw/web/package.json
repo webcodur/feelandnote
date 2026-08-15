@@ -9,6 +9,7 @@
     "lint": "eslint",
     "lint:egress": "node scripts/check-egress-patterns.mjs",
     "test:seo-infra": "tsx --test src/lib/seoImageOrigin.test.ts src/middleware.test.ts",
+    "test:render-mode": "tsx --test src/lib/render-mode.test.ts",
     "check:timeline-scroll": "node scripts/check-celeb-timeline-scroll.mjs",
     "check:memory-audio": "node scripts/check-memory-match-audio.mjs",
     "celeb:qid": "node scripts/bulk-qid.mjs",

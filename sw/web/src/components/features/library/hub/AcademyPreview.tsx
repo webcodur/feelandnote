@@ -1,12 +1,15 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ACADEMY_CATEGORY_IDS, ACADEMY_UPCOMING_CATEGORY_IDS } from "@/constants/libraryMuseum";
-import { BookOpen, Film, Music, Gamepad2, Cpu, ChevronRight } from "lucide-react";
+import { BookOpen, Film, Music, Gamepad2, Cpu } from "lucide-react";
 
 interface AcademyPreviewProps {
-  isSignedIn?: boolean;
+  /** 로그인 진도(사용자별 비캐시 조회)에 따라 달라지는 이어보기 지름길.
+   *  카드 본문과 따로 도는 작은 레인이 채운다 — 진도 조회가 늦어도 카드는 먼저 뜬다. */
+  continueLink?: ReactNode;
 }
 
 const CATEGORY_ICONS = {
@@ -34,9 +37,8 @@ const TAG_HOVER = "text-white/40 group-hover:text-white/70 group-hover:border-wh
   다른 구획(박물관·기관 선정)처럼 "내용물 격자"로 보여 주고, 배너식 홍보 블록을 쓰지 않는다.
   상호작용 규약: 즉각 반응(테두리·아이콘·제목), 곁들이는 연출(하단 금선)만 transition.
 */
-export default function AcademyPreview({ isSignedIn }: AcademyPreviewProps) {
+export default function AcademyPreview({ continueLink }: AcademyPreviewProps) {
   const t = useTranslations("library.academy");
-  const tHub = useTranslations("library.hub");
 
   return (
     <div className="space-y-6">
@@ -134,18 +136,8 @@ export default function AcademyPreview({ isSignedIn }: AcademyPreviewProps) {
         </Link>
       )}
 
-      {/* 로그인 상태에서만: 이어보기 지름길 — 다른 구획의 보조 버튼과 같은 결 */}
-      {isSignedIn && (
-        <div className="flex justify-center">
-          <Link
-            href="/library/academy"
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/25 text-accent text-xs font-semibold hover:bg-accent hover:text-[#121212] transition-colors duration-300"
-          >
-            {tHub("continueLearning")}
-            <ChevronRight size={14} />
-          </Link>
-        </div>
-      )}
+      {/* 로그인 진도에 따른 이어보기 지름길 — 별도 레인이 채운다 */}
+      {continueLink}
     </div>
   );
 }

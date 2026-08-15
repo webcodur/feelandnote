@@ -44,19 +44,17 @@ export default async function RestPage({ searchParams }: RestPageProps) {
   const devMode = process.env.NODE_ENV === "development" || dev === "1";
   const visibleSections = GAME_SECTIONS.filter((game) => devMode || !game.dev);
 
-  const [
-    bgImagesDawn,
-    bgImagesLabyrinth,
-    bgImagesHegemony,
-    suikodenCharacters,
-    suikodenDialogues,
-  ] = await Promise.all([
+  // 배경 이미지는 동기 fs 읽기라 가볍다 — 그대로 기다린다
+  const [bgImagesDawn, bgImagesLabyrinth, bgImagesHegemony] = await Promise.all([
     getGameBackgroundImages("dawn-1"),
     getGameBackgroundImages("labyrinth-1"),
     getGameBackgroundImages("hegemony-1"),
-    loadSuikodenCharacters(),
-    loadSuikodenDialogues(),
   ]);
+
+  // 천도(수이코덴) 인물·대사 조회는 기다리지 않는다 — 카드 격자를 붙잡지 않고,
+  // 실제로 천도 카드를 열 때(SuikodenSlot)만 완료를 기다린다
+  const suikodenCharactersPromise = loadSuikodenCharacters();
+  const suikodenDialoguesPromise = loadSuikodenDialogues();
 
   // 미공개 게임 자료는 개발자 모드에서만 조회한다 — 평소 통신량을 늘리지 않기 위함
   const [wanderPools, memoryFigures, portraitFigures] = devMode
@@ -89,8 +87,8 @@ export default async function RestPage({ searchParams }: RestPageProps) {
         bgImagesDawn={bgImagesDawn}
         bgImagesLabyrinth={bgImagesLabyrinth}
         bgImagesHegemony={bgImagesHegemony}
-        suikodenCharacters={suikodenCharacters}
-        suikodenDialogues={suikodenDialogues}
+        suikodenCharactersPromise={suikodenCharactersPromise}
+        suikodenDialoguesPromise={suikodenDialoguesPromise}
         wanderPools={wanderPools}
         memoryFigures={memoryFigures}
         portraitFigures={portraitFigures}

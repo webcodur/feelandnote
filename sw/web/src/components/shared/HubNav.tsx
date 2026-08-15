@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { hubSectionId } from "@/components/shared/hubSectionUtils";
+import { LinkPending } from "@/components/ui/pending";
 
 /** 이 화면 안의 구획으로 굴러가는 목차 항목 — 아이콘을 두지 않는 것이 계약이다 */
 interface HubAnchorItem {
@@ -27,7 +28,7 @@ interface HubPageItem {
 }
 
 interface HubNavProps {
-  /** 실제로 그려지는 구획만 순서대로 넘긴다 — 접힌 구획을 넘기면 눌러도 굴러갈 곳이 없다 */
+  /** 구획을 config 순서 그대로 넘긴다 — 구획은 실패·0건에도 자리를 지키므로 목차와 어긋나지 않는다 */
   hubItems: HubAnchorItem[];
   /** 별도 화면 (이 줄에서만 접근 가능) */
   standaloneItems?: HubPageItem[];
@@ -125,7 +126,9 @@ export default function HubNav({ hubItems, standaloneItems, groupId }: HubNavPro
             <span className="shrink-0 text-white/40 group-hover:text-[#d4af37]">{item.icon}</span>
           )}
           <span className="whitespace-nowrap">{item.label}</span>
-          <ArrowUpRight size={12} className="shrink-0 text-white/25 group-hover:text-[#d4af37]/80" />
+          <LinkPending>
+            <ArrowUpRight size={12} className="shrink-0 text-white/25 group-hover:text-[#d4af37]/80" />
+          </LinkPending>
         </Link>
       ))}
     </div>

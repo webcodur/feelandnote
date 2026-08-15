@@ -16,6 +16,7 @@ import HeaderProfileMenu from "./HeaderProfileMenu";
 import Logo from "@/components/ui/Logo";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
 import Button from "@/components/ui/Button";
+import { LinkPending } from "@/components/ui/pending";
 import { Z_INDEX } from "@/constants/zIndex";
 import { HEADER_NAV_ITEMS } from "@/constants/navigation";
 
@@ -94,11 +95,12 @@ export default function Header({ isMobile }: HeaderProps) {
                 <Link
                   key={item.key}
                   href={href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium no-underline ${
+                  className={`relative px-3 py-2 rounded-lg text-sm font-medium no-underline ${
                     isActive ? "text-accent bg-accent/10 text-glow" : "text-text-secondary hover:text-text-primary hover:bg-white/5 hover:text-glow"
                   }`}
                 >
                   {t(`nav.${item.key}`)}
+                  <LinkPending className="absolute top-1.5 end-1.5" />
                 </Link>
               );
             })}

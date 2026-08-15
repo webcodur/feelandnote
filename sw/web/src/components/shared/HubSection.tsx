@@ -9,6 +9,7 @@
 import { useCallback } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { LinkPending } from "@/components/ui/pending";
 
 import { hubSectionId } from "./hubSectionUtils";
 import { useTranslations } from "next-intl";
@@ -143,7 +144,9 @@ export default function HubSection({
             className="flex items-center gap-1.5 text-xs text-white/50 hover:text-[#d4af37] font-medium transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/5 hover:border-white/10"
           >
             {resolvedMoreLabel}
-            <ArrowRight size={14} className="text-[#d4af37]/70" />
+            <LinkPending>
+              <ArrowRight size={14} className="text-[#d4af37]/70" />
+            </LinkPending>
           </Link>
         </div>
       )}

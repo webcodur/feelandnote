@@ -376,6 +376,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 | 워크플로우 | 스케줄 | 설명 |
 |-----------|--------|------|
 | `keep-alive.yml` | `0 */6 * * *` (6시간 간격) | Supabase Free 플랜 자동 일시정지 방지 |
+| `warm-web.yml` | `17 * * * *` (매시) | 허브 화면 6개(`/`, `/explore`, `/explore/spectrum`, `/explore/ranking`, `/explore/figures`, `/library`)를 한 번씩 열어 데이터 캐시를 데운다. 배포로 캐시 키가 바뀐 뒤 최대 1시간 안에 회복. Vercel Hobby 크론이 하루 1회라 여기서 돈다 |
 
 - Supabase REST API에 간단한 SELECT 쿼리를 보내 프로젝트를 깨운 상태로 유지
 - GitHub Secrets 필요: `SUPABASE_ANON_KEY`

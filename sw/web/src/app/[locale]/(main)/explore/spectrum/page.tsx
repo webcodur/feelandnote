@@ -1,17 +1,17 @@
 /*
   파일명: /app/(main)/explore/spectrum/page.tsx
   기능: 비범한 기록가 전체 보기 페이지
-  책임: spectrum 16축 극단 셀럽 + 10명 차순위를 표시한다.
+  책임: spectrum 16축 극단 셀럽 + 10명 차순위를 표시한다. 본문은 레인 하나로 스트리밍한다.
 */ // ------------------------------
 
+import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { getLocalizedAlternates } from "@/lib/seo";
-import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
-import { getSpectrumExtremes } from "@/actions/home/getSpectrumExtremes";
-import { getSpectrumAxisLibraries } from "@/actions/spectrum/getSpectrumAxisLibraries";
-import SpectrumFullSection from "@/components/features/user/explore/sections/SpectrumFullSection";
+import { PendingBlock } from "@/components/ui/pending";
+import Lane from "@/components/ui/pending/Lane";
+import { SpectrumBody } from "./sections";
 
-export const revalidate = 3600;
+/* Lane이 요청 헤더(UA)를 읽어 화면을 동적으로 만든다 — 정적 재검증은 더 이상 의미가 없어 지웠다 */
 
 export async function generateMetadata() {
   const t = await getTranslations("explore.spectrum");
@@ -22,19 +22,12 @@ export async function generateMetadata() {
   };
 }
 
-async function SpectrumServer() {
-  const [entries, libraries] = await Promise.all([
-    getSpectrumExtremes({ runnersUpLimit: 10 }),
-    getSpectrumAxisLibraries(),
-  ]);
+export default function SpectrumPage() {
+  const t = useTranslations("pending");
 
   return (
-    <AsyncIntlProvider>
-      <SpectrumFullSection entries={entries} libraries={libraries} />
-    </AsyncIntlProvider>
+    <Lane fallback={<PendingBlock variant="rows" count={4} label={t("loading")} />}>
+      <SpectrumBody />
+    </Lane>
   );
-}
-
-export default function SpectrumPage() {
-  return <SpectrumServer />;
 }
