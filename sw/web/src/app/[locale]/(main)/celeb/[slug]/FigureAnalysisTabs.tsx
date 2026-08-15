@@ -11,9 +11,10 @@ import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import CelebInfluenceSection from "./CelebInfluenceSection";
 import type { ServiceItem } from "./celebServiceItems";
 import SpectrumSection from "./SpectrumSection";
-import UnavailableSectionGuide from "./UnavailableSectionGuide";
 
 type AnalysisTab = "spectrum" | "influence";
+
+const TAB_KEYS: readonly AnalysisTab[] = ["spectrum", "influence"];
 
 interface Props {
   item: ServiceItem;
@@ -30,66 +31,53 @@ export default function FigureAnalysisTabs({
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
-  const spectrumItem = childItems.find((child) => child.key === "spectrum");
-  const influenceItem = childItems.find((child) => child.key === "influence");
-  const [tab, setTab] = useState<AnalysisTab>(() => {
-    if (spectrumItem?.ready) return "spectrum";
-    if (influenceItem?.ready) return "influence";
-    return "spectrum";
+  // 자료가 있는 탭만 목록에 남는다. 없는 탭을 기다리다 빈 상자를 그리지 않는다
+  const visibleTabs = TAB_KEYS.flatMap((key) => {
+    const child = childItems.find((candidate) => candidate.key === key);
+    return child ? [{ key, item: child }] : [];
   });
+  const [tab, setTab] = useState<AnalysisTab>(
+    () => visibleTabs[0]?.key ?? "spectrum",
+  );
+  const active = visibleTabs.find(({ key }) => key === tab) ?? visibleTabs[0];
+  if (!active) return null;
 
-  if (!spectrumItem || !influenceItem) return null;
-
-  const tabs: ArchiveTabItem<AnalysisTab>[] = [
-    {
-      key: "spectrum",
-      label: spectrumItem.label,
-    },
-    {
-      key: "influence",
-      label: influenceItem.label,
-    },
-  ];
+  const activeKey = active.key;
+  const tabs: ArchiveTabItem<AnalysisTab>[] = visibleTabs.map(
+    ({ key, item: child }) => ({ key, label: child.label }),
+  );
 
   return (
     <div>
       <ArchiveTabsHeader
         tabs={tabs}
-        activeKey={tab}
+        activeKey={activeKey}
         onChange={setTab}
-        columnsClassName="grid-cols-2"
+        columnsClassName={visibleTabs.length === 1 ? "grid-cols-1" : "grid-cols-2"}
         ariaLabel={t("analysis")}
         mobileTextClassName="text-lg"
       />
 
       <div
-        id={`archive-panel-${tab}`}
+        id={`archive-panel-${activeKey}`}
         role="tabpanel"
-        aria-labelledby={`archive-tab-${tab}`}
+        aria-labelledby={`archive-tab-${activeKey}`}
       >
-        {tab === "spectrum" && (
-          spectrumItem.ready && spectrumData?.targetSpectrum ? (
-            <SpectrumSection
-              spectrum={spectrumData.targetSpectrum}
-              spectrumJsonb={spectrumData.targetSpectrumJsonb}
-              matchesByCategory={spectrumData.matchesByCategory}
-              highlights={spectrumData.highlights}
-              population={spectrumData.population}
-            />
-          ) : (
-            <UnavailableSectionGuide item={spectrumItem} />
-          )
+        {activeKey === "spectrum" && spectrumData?.targetSpectrum && (
+          <SpectrumSection
+            spectrum={spectrumData.targetSpectrum}
+            spectrumJsonb={spectrumData.targetSpectrumJsonb}
+            matchesByCategory={spectrumData.matchesByCategory}
+            highlights={spectrumData.highlights}
+            population={spectrumData.population}
+          />
         )}
 
-        {tab === "influence" && (
-          influenceItem.ready && influenceData ? (
-            <CelebInfluenceSection
-              data={influenceData}
-              explorerData={influenceExplorerData}
-            />
-          ) : (
-            <UnavailableSectionGuide item={influenceItem} />
-          )
+        {activeKey === "influence" && influenceData && (
+          <CelebInfluenceSection
+            data={influenceData}
+            explorerData={influenceExplorerData}
+          />
         )}
       </div>
     </div>

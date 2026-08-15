@@ -6,7 +6,6 @@ import { useTranslations } from "next-intl";
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
 import DialogueSection from "./DialogueSection";
-import UnavailableSectionGuide from "./UnavailableSectionGuide";
 import VideosSection, { type CelebVideoItem } from "./VideosSection";
 
 type MediaTab = "dialogues" | "videos";
@@ -43,58 +42,52 @@ export default function FigureMediaTabs({
 }: Props) {
   const t = useTranslations("celebPage");
   const childItems = item.children ?? [];
-  const tabItems = Object.fromEntries(
-    childItems.map((child) => [child.key, child]),
-  ) as Partial<Record<MediaTab, ServiceItem>>;
-  const [tab, setTab] = useState<MediaTab>(() => {
-    return TAB_KEYS.find((key) => tabItems[key]?.ready) ?? "dialogues";
+  // 자료가 있는 탭만 목록에 남는다. 없는 탭을 기다리다 빈 상자를 그리지 않는다
+  const visibleTabs = TAB_KEYS.flatMap((key) => {
+    const child = childItems.find((candidate) => candidate.key === key);
+    return child ? [{ key, item: child }] : [];
   });
+  const [tab, setTab] = useState<MediaTab>(
+    () => visibleTabs[0]?.key ?? "dialogues",
+  );
+  const active = visibleTabs.find(({ key }) => key === tab) ?? visibleTabs[0];
+  if (!active) return null;
 
-  if (!TAB_KEYS.every((key) => tabItems[key])) return null;
-
-  const tabs: ArchiveTabItem<MediaTab>[] = TAB_KEYS.map((key) => ({
-    key,
-    label: tabItems[key]!.label,
-  }));
+  const activeKey = active.key;
+  const tabs: ArchiveTabItem<MediaTab>[] = visibleTabs.map(
+    ({ key, item: child }) => ({ key, label: child.label }),
+  );
 
   return (
     <div>
       <ArchiveTabsHeader
         tabs={tabs}
-        activeKey={tab}
+        activeKey={activeKey}
         onChange={setTab}
-        columnsClassName="grid-cols-2"
+        columnsClassName={visibleTabs.length === 1 ? "grid-cols-1" : "grid-cols-2"}
         ariaLabel={t("media")}
       />
 
       <div
-        id={`archive-panel-${tab}`}
+        id={`archive-panel-${activeKey}`}
         role="tabpanel"
-        aria-labelledby={`archive-tab-${tab}`}
+        aria-labelledby={`archive-tab-${activeKey}`}
       >
         {/* 가상 독백은 화면에서 폐기하고 DB에 제작 재료로만 남긴다. */}
-        {tab === "dialogues" && (
-          tabItems.dialogues!.ready && dialogueLines ? (
-            <DialogueSection
-              lines={dialogueLines}
-              nickname={nickname}
-              avatarUrl={avatarUrl}
-              hasVoice={hasVoice}
-              celebId={celebId}
-              voiceV={voiceV}
-              voiceSpeed={voiceSpeed}
-            />
-          ) : (
-            <UnavailableSectionGuide item={tabItems.dialogues!} />
-          )
+        {activeKey === "dialogues" && dialogueLines && (
+          <DialogueSection
+            lines={dialogueLines}
+            nickname={nickname}
+            avatarUrl={avatarUrl}
+            hasVoice={hasVoice}
+            celebId={celebId}
+            voiceV={voiceV}
+            voiceSpeed={voiceSpeed}
+          />
         )}
 
-        {tab === "videos" && (
-          tabItems.videos!.ready ? (
-            <VideosSection longform={longform} shorts={shorts} />
-          ) : (
-            <UnavailableSectionGuide item={tabItems.videos!} />
-          )
+        {activeKey === "videos" && (
+          <VideosSection longform={longform} shorts={shorts} />
         )}
       </div>
     </div>

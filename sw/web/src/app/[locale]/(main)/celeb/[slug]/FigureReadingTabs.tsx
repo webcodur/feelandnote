@@ -7,7 +7,6 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
-import UnavailableSectionGuide from "./UnavailableSectionGuide";
 
 type ReadingTab = "person-guide" | "person-explore";
 
@@ -59,25 +58,17 @@ export default function FigureReadingTabs({ item, reading }: Props) {
         role="tabpanel"
         aria-labelledby={`archive-tab-${tab}`}
       >
-        {tab === "person-guide" && (
-          reading ? (
-            <Paragraphs text={reading.guide} />
-          ) : (
-            <UnavailableSectionGuide item={tabItems["person-guide"]!} />
-          )
+        {tab === "person-guide" && reading && (
+          <Paragraphs text={reading.guide} />
         )}
 
-        {tab === "person-explore" && (
-          reading ? (
-            <article className="mx-auto max-w-3xl pb-2">
-              <h3 className="mb-5 text-center font-serif text-xl font-semibold leading-snug text-text-primary md:text-2xl">
-                {reading.explorationTitle}
-              </h3>
-              <Paragraphs text={reading.explorationText} />
-            </article>
-          ) : (
-            <UnavailableSectionGuide item={tabItems["person-explore"]!} />
-          )
+        {tab === "person-explore" && reading && (
+          <article className="mx-auto max-w-3xl pb-2">
+            <h3 className="mb-5 text-center font-serif text-xl font-semibold leading-snug text-text-primary md:text-2xl">
+              {reading.explorationTitle}
+            </h3>
+            <Paragraphs text={reading.explorationText} />
+          </article>
         )}
       </div>
     </div>

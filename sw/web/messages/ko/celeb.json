@@ -28,80 +28,13 @@
     "mediaDialogues": "고유 대사",
     "mediaVideos": "영상",
     "atlasProfile": "프로필",
-    "atlasUnavailable": "이 인물에게 없는 구획",
-    "atlasUnavailableShort": "미개방",
     "celebSealTooltip": "공인 인물 표식",
     "atlasGuideNoData": "이 인물의 {section} 정보는 아직 등록되지 않았습니다.",
-    "atlasGuideOpenAction": "안내 구획으로 이동합니다",
     "atlasGuideOpenShort": "안내 보기",
     "previousSection": "이전 항목: {name}",
     "nextSection": "다음 항목: {name}",
     "noPreviousSection": "이전 항목 없음",
     "noNextSection": "다음 항목 없음",
-    "atlasGuides": {
-      "connections": {
-        "about": "이 인물을 둘러싼 사람과 시대, 진영을 세 갈래 기록으로 묶어 보여줍니다."
-      },
-      "reading": {
-        "about": "인물을 처음 이해하는 안내와 한 걸음 더 들어가는 탐구를 함께 제공합니다."
-      },
-      "personGuide": {
-        "about": "이 인물이 누구이고 무엇을 했는지 처음 보는 독자도 이해할 수 있게 설명합니다."
-      },
-      "personExplore": {
-        "about": "확인된 사실을 바탕으로 이 인물의 선택과 긴장을 한 가지 관점에서 살펴봅니다."
-      },
-      "library": {
-        "about": "이 인물이 감상한 콘텐츠와 직접 남긴 창작물을 함께 모읍니다."
-      },
-      "lightLibrary": {
-        "about": "확인된 감상·창작 기록이 있을 때 이곳에 연결합니다.",
-        "notice": "지금은 프로필과 수치 분석을 중심으로 살펴보세요. 등록된 경우 읽어보기, 생애 연대기, 인물 관계도 함께 볼 수 있습니다."
-      },
-      "sourceWorks": {
-        "about": "신화·서사시·문학 등 이 인물이 등장하는 원전과 작품을 연결해 보여줍니다."
-      },
-      "timeline": {
-        "about": "생애의 주요 사건을 연대기와 활동 반경 지도에서 보여줍니다."
-      },
-      "fictionTimeline": {
-        "about": "원전과 전승에서 벌어진 주요 사건을 서사 순서와 배경 지도에서 보여줍니다."
-      },
-      "fictionGuestbook": {
-        "about": "이 인물에 대한 감상과 해석을 함께 남기는 공간입니다."
-      },
-      "relations": {
-        "about": "이 인물과 확인된 관계를 유형별로 잇습니다."
-      },
-      "contemporaries": {
-        "about": "생몰 기간이 겹치는 인물을 찾고, 후보가 많으면 출생 시점이 가까운 순과 함께 산 기간이 긴 순으로 좁혀 최대 30명만 보여줍니다."
-      },
-      "faction": {
-        "about": "하나의 시대·사상·조직·작품을 둘러싼 진영과 대립 구도를 보여줍니다."
-      },
-      "analysis": {
-        "about": "이 인물의 16축 스펙트럼과 영향력을 살펴봅니다."
-      },
-      "fictionAnalysis": {
-        "about": "이야기 속 인물은 현실 인물용 영향력 평가와 16축 스펙트럼의 대상이 아닙니다.",
-        "notice": "원전·등장 작품, 서사 연대기, 인물 관계를 따라 이 인물의 역할과 변화를 살펴보세요."
-      },
-      "media": {
-        "about": "이 인물의 생각과 목소리를 글·음성·영상으로 만납니다."
-      },
-      "influence": {
-        "about": "정치·전략·기술·사회·경제·문화 여섯 영역의 영향력을 평가합니다."
-      },
-      "spectrum": {
-        "about": "역량·덕목·성향을 16축 스펙트럼으로 분석합니다."
-      },
-      "dialogues": {
-        "about": "화면 상황에 따라 이 인물다운 반응과 말을 들려주는 대사 모음입니다."
-      },
-      "videos": {
-        "about": "이 인물을 다루는 공개 영상을 모읍니다."
-      }
-    },
     "influence": "영향력",
     "tierFictionBadge": "신화·이야기 속 인물",
     "library": "기록물",

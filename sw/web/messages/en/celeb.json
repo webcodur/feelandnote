@@ -28,80 +28,13 @@
     "mediaDialogues": "Lines",
     "mediaVideos": "Video",
     "atlasProfile": "Profile",
-    "atlasUnavailable": "Unavailable for this figure",
-    "atlasUnavailableShort": "Locked",
     "celebSealTooltip": "Official figure seal",
     "atlasGuideNoData": "No {section} information has been registered for this figure yet.",
-    "atlasGuideOpenAction": "Opens the section guide",
     "atlasGuideOpenShort": "View guide",
     "previousSection": "Previous section: {name}",
     "nextSection": "Next section: {name}",
     "noPreviousSection": "No previous section",
     "noNextSection": "No next section",
-    "atlasGuides": {
-      "connections": {
-        "about": "Three records that place this figure among other people, their era, and their camps."
-      },
-      "reading": {
-        "about": "A clear introduction to the figure, followed by a closer exploration."
-      },
-      "personGuide": {
-        "about": "An accessible account of who this figure was and what they did."
-      },
-      "personExplore": {
-        "about": "A focused reading of the figure's choices and tensions, grounded in established facts."
-      },
-      "library": {
-        "about": "The works this figure experienced and the works they created, kept together as records."
-      },
-      "lightLibrary": {
-        "about": "Verified viewing and creative records are linked here when available.",
-        "notice": "For now, start with the profile and quantitative analysis. Reading, life chronicle, and relationship sections appear when records are available."
-      },
-      "sourceWorks": {
-        "about": "Source texts and works in which this figure appears, from myth and epic to literature."
-      },
-      "timeline": {
-        "about": "A chronicle and activity map of the major events in this figure's life."
-      },
-      "fictionTimeline": {
-        "about": "Major events from source texts and traditions, arranged in narrative order with a map of their settings."
-      },
-      "fictionGuestbook": {
-        "about": "A place to leave reflections and interpretations of this figure."
-      },
-      "relations": {
-        "about": "A map of verified relationships around this figure, grouped by type."
-      },
-      "contemporaries": {
-        "about": "We find figures with overlapping lifetimes, then narrow large pools to 30 by nearest birth date and longest shared lifetime."
-      },
-      "faction": {
-        "about": "The camps and rivalries surrounding a shared era, ideology, organization, or work."
-      },
-      "analysis": {
-        "about": "A 16-axis spectrum and an assessment of public influence."
-      },
-      "fictionAnalysis": {
-        "about": "Figures from myth and fiction are not scored with the influence assessment or 16-axis spectrum used for real people.",
-        "notice": "Follow the source works, story chronicle, and relationships to understand this character's role and development."
-      },
-      "media": {
-        "about": "Writing, voice, and video that bring this figure's thought and character into view."
-      },
-      "influence": {
-        "about": "An assessment of influence across politics, strategy, technology, society, economics, and culture."
-      },
-      "spectrum": {
-        "about": "A 16-axis spectrum of ability, virtue, and disposition."
-      },
-      "dialogues": {
-        "about": "A collection of responses written for this figure in different situations across the service."
-      },
-      "videos": {
-        "about": "Published videos about this figure."
-      }
-    },
     "influence": "Influence",
     "tierFictionBadge": "Myth & Story Figure",
     "library": "Records",
