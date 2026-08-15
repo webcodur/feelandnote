@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import type { FactionScript, FactionLongformItem, FactionChapter, FactionNarratorVoice, FactionPerson } from '../../../lib/faction-types'
+import { type FactionScript, type FactionLongformItem, type FactionChapter, type FactionNarratorVoice, type FactionPerson } from '../../../lib/faction-types'
 import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
-import { totalPeople, totalSec, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, chapterCoverSecOf } from '../shared/timing'
+import { totalPeople, totalSec, longformPartCount, longformSegments, longformSliceGroup, ERA_SEC, CHAPTER_BLACK_SEC, chapterCoverSecOf } from '../shared/timing'
 import { stripCommonNarrationVoice, vnChapterTitle } from '@/lib/faction-voice'
 import { useFactionVoice } from '../shared/FactionVoiceContext'
 import { formatMmss } from '@feelandnote/shared/bo/editor'
@@ -14,6 +14,7 @@ import { CoverPickerButton } from './FactionGroupEditor/CoverPickerButton/CoverP
 import { FactionVoicePanel } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/FactionVoicePanel'
 import { FactionVoiceSettingsModal } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/voice-panel/FactionVoiceSettingsModal'
 import { QUOTE_SLOT } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/voice-panel/voice-slots'
+import { FactionHeroPicker, type HeroCandidate } from './FactionHeroPicker'
 
 /** 세력 색 위 글자색 — 밝으면 검정, 어두우면 흰색 */
 function contrast(hex?: string): string {
@@ -55,6 +56,18 @@ export function FactionLongformPanel({
   const [chapterVoiceOpen, setChapterVoiceOpen] = useState<number | null>(null)
   const layout: FactionLongformItem[] = script.longformLayout ?? []
   const active = script.groups.map((g, i) => ({ g, i })).filter(x => !x.g.disabled)
+  const heroCandidates = Array.from(new Map(
+    script.groups.flatMap(group => [
+      ...(group.people ?? []),
+      ...(group.clusters ?? []).flatMap(cluster => cluster.people ?? []),
+    ])
+      .filter(person => !!person.slug)
+      .map(person => [person.slug as string, {
+        slug: person.slug as string,
+        name: person.name,
+        image: person.image,
+      } satisfies HeroCandidate]),
+  ).values())
 
   const setLayout = (next: FactionLongformItem[]) =>
     onChange({ longformLayout: next.length ? next : undefined })
@@ -99,7 +112,11 @@ export function FactionLongformPanel({
   const segments = longformSegments(script)
   const lvPartSec = (p: number): number => {
     const steps = segments[p - 1] ?? []
-    const gs = steps.flatMap(s => ('gi' in s ? [script.groups[s.gi]].filter(Boolean) : []))
+    const gs = steps.flatMap(s => {
+      if (!('gi' in s)) return []
+      const group = longformSliceGroup(script, s)
+      return group ? [group] : []
+    })
     const eraN = steps.filter(s => 'era' in s).length
     const chapterSec = steps
       .filter((s): s is { chapter: FactionChapter } => 'chapter' in s)
@@ -121,7 +138,7 @@ export function FactionLongformPanel({
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-2">
             <span className="shrink-0 text-base font-bold text-text-primary">롱폼 편성</span>
-            <span className="truncate text-[11px] text-text-dim">{layout.length ? '롱폼 세력 순서·시대 문구·편 경계' : '직접 편성 안 함 — 정비의 세력 순서와 상황 화면을 그대로 따른다'}</span>
+            <span className="truncate text-[11px] text-text-dim">{layout.length ? '롱폼 세력 순서·시대 문구·편 경계' : '직접 편성 안 함 — 정비의 세력 순서와 개별 장면을 그대로 따른다'}</span>
           </div>
         </div>
         <span className="ml-auto flex shrink-0 items-center gap-2 text-xs text-text-dim">
@@ -179,13 +196,13 @@ export function FactionLongformPanel({
           </div>
         </div>
 
-        {layout.length === 0 ? (
+        {layout.length === 0 && !hasCut ? (
           <button onClick={initFromGroups} className="w-full rounded-md border border-dashed border-amber-500/60 px-3 py-2 text-xs font-bold text-amber-600 hover:bg-amber-500/10">
             직접 배치 시작 — 현재 세력 순서로 깔기
           </button>
         ) : (
           <>
-            {/* 롱폼 순서 — 세력·전환 카드를 위/아래로 옮긴다. 상황 화면 자체는 정비에서 관리한다. */}
+            {/* 롱폼 순서 — 세력·전환 카드를 위/아래로 옮긴다. 개별 장면 자체는 정비에서 관리한다. */}
             <div className="flex flex-col gap-1">
               {/* 경계가 있으면 맨 앞에 1편 라벨 — 어느 편에 속하는지 한눈에 */}
               {hasCut && (
@@ -353,15 +370,26 @@ export function FactionLongformPanel({
             {/* 편별 설정 — 경계가 있을 때만. 각 롱폼 편의 영상 명칭·시작문구(비우면 공통 값) */}
             {hasCut && (
               <div className="space-y-2 border-t border-border/60 pt-2">
-                <div className="text-[10px] font-semibold text-text-dim">롱폼 편별 설정 — 편 경계로 가른 각 편의 명칭·시작문구 (비우면 공통)</div>
+                <div className="text-[10px] font-semibold text-text-dim">롱폼 편별 설정 — 편 경계로 가른 각 편의 명칭·시작문구·핵심 인물 (비우면 공통)</div>
                 {Array.from({ length: lvCount }, (_, k) => k + 1).map(p => (
                   <div key={p} className="space-y-2 rounded-md border border-border/60 bg-bg-card/30 p-2.5">
                     <div className="flex items-baseline gap-2">
                       <span className="text-[11px] font-bold text-sky-600">롱폼 {p}편</span>
                       <span className="font-mono text-[10px] text-text-dim">{formatMmss(lvPartSec(p))}</span>
                     </div>
-                    <PartTextField part={p} label="영상 명칭" keys={{ common: 'title', byPart: 'titleByPart' }} multiline script={script} update={onChange} editLang={editLang} />
-                    <PartTextField part={p} label="시작문구" keys={{ common: 'logline', byPart: 'loglineByPart' }} multiline multilineHint="시작문구 (개행하면 위·아래 두 줄)" script={script} update={onChange} editLang={editLang} />
+                    <PartTextField part={p} label="영상 명칭" keys={{ common: 'title', byPart: 'titleByLvPart' }} multiline script={script} update={onChange} editLang={editLang} />
+                    <PartTextField part={p} label="시작문구" keys={{ common: 'logline', byPart: 'loglineByLvPart' }} multiline multilineHint="시작문구 (개행하면 위·아래 두 줄)" script={script} update={onChange} editLang={editLang} />
+                    <FactionHeroPicker
+                      script={{ ...script, heroesByPart: script.heroesByLvPart }}
+                      candidates={heroCandidates}
+                      series={series}
+                      episodeName={episodeName}
+                      part={p}
+                      onChange={patch => {
+                        if ('heroesByPart' in patch) onChange({ heroesByLvPart: patch.heroesByPart })
+                        else onChange(patch)
+                      }}
+                    />
                   </div>
                 ))}
               </div>

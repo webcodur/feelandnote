@@ -16,7 +16,6 @@ import { QUOTE_SLOT, EPITHET_SLOT } from './FactionVoicePanel/voice-panel/voice-
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { CelebBadge } from '@/components/factions/shared/CelebBadge'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
-import { EditorPanel } from '@/components/scenario/EditorPanel'
 
 type Props = {
   person: FactionPerson
@@ -32,6 +31,9 @@ type Props = {
   personIndex: number
   /** 그룹 인덱스 (0-based) — 항상 존재(단일 모드·solo는 0) */
   clusterIndex: number
+  /** 개인샷이 비었거나 같은 파일이면 대신 쓰는 그룹 화보 */
+  inheritedImage?: string
+  inheritedImageCrop?: FactionImageCrop
   editLang: EditLang
   /** 그룹 내 인물 총 수 (이전/다음 스크롤 버튼용) */
   totalPeople?: number
@@ -50,7 +52,11 @@ import { PersonAtlasPanel } from './sections/PersonAtlasPanel'
 import { ChevronLeft, ChevronRight } from '@feelandnote/shared/bo/icons'
 import { folderToParam } from '@/lib/faction-edit-route'
 
-export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, groupIndex, personIndex, clusterIndex, editLang, totalPeople = 1, onMoveCrossGroup, celebExisting, celebLoaded }: Props) {
+export function FactionPersonRow({
+  person, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName,
+  groupIndex, personIndex, clusterIndex, inheritedImage, inheritedImageCrop,
+  editLang, totalPeople = 1, onMoveCrossGroup, celebExisting, celebLoaded,
+}: Props) {
   const [pickerOpen, setPickerOpen] = useState(false)
   // 인물 행 접기 — 기본 접힘(목록 조망). 펼치면 전체 편집 폼.
   const [collapsed, setCollapsed] = useState(true)
@@ -71,14 +77,23 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   // 음성 설정 모달 — 접힘·펼침 무관하게 헤더 버튼으로 바로 연다. 대사·수식어 각각.
   const [voiceModalOpen, setVoiceModalOpen] = useState(false)
   const [epithetModalOpen, setEpithetModalOpen] = useState(false)
+  const ownImage = person.image && person.image !== inheritedImage ? person.image : undefined
+  const imageInherited = !!inheritedImage && !ownImage
+  const effectiveImage = ownImage ?? inheritedImage
+  const effectiveImageCrop = ownImage ? person.imageCrop : inheritedImageCrop
+  const changeImage = (next: string | undefined) => onChange({
+    ...person,
+    image: next && next !== inheritedImage ? next : undefined,
+    ...(!next || next === inheritedImage ? { imageCrop: undefined } : {}),
+  })
   // 이미지 풀에서 끌어온 이미지를 사진 칸에 놓으면 연결 — 드래그 중 하이라이트
-  const { dragOver, dropProps } = useImageDrop(FACTION_IMAGE_DND, path => onChange({ ...person, image: path }))
+  const { dragOver, dropProps } = useImageDrop(FACTION_IMAGE_DND, changeImage)
   // 대사 사진 카드는 ImageCard 가 스스로 끌어다 놓기를 받는다(공용 부품)
   // imageChanges 항목별 이미지 선택 모달 — 편집 중 항목 인덱스(null=닫힘)
   const [imgChangeEdit, setImgChangeEdit] = useState<number | null>(null)
   // 대사 사진(quoteImage) 선택 모달 — 대사 시작 시점에 바뀔 두 번째 사진
   const [quoteImgPickerOpen, setQuoteImgPickerOpen] = useState(false)
-  const src = imageSrc(series, episodeName, person.image)
+  const src = imageSrc(series, episodeName, effectiveImage)
   const quoteImgSrc = imageSrc(series, episodeName, person.quoteImage)
   const disabled = !!person.disabled
   const longformOnly = !!(person as any).longformOnly
@@ -101,6 +116,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
   // 저장된 음원 메타 → 북리커맨드 VoiceFile 형태로 어댑트(존재 시). 패널·모달 공용.
   const meta = voice?.byFile.get(voiceFile)
+  const metaDuration = meta?.duration
   const activeFile: VoiceFile | undefined = meta
     ? { name: voiceFile, sizeKB: Math.round(meta.size / 1024), duration: meta.duration, engine: 'gemini' }
     : undefined
@@ -109,6 +125,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const epithetFile = factionVoiceFile(groupIndex, personIndex, clusterIndex, 'epithet')
   const hasEpithet = !!person.epithet?.trim()
   const epithetMeta = voice?.byFile.get(epithetFile)
+  const epithetMetaDuration = epithetMeta?.duration
   const epithetActiveFile: VoiceFile | undefined = epithetMeta
     ? { name: epithetFile, sizeKB: Math.round(epithetMeta.size / 1024), duration: epithetMeta.duration, engine: 'gemini' }
     : undefined
@@ -121,16 +138,16 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   //   따라온 정확한 길이를 옛 인물 길이로 잘못 덮어쓴다. 생성·트림은 모달 onSaved 로 명시 갱신하고,
   //   외부 교체로 어긋난 길이는 `voice:faction --update-json` 으로 일괄 정정한다.
   useEffect(() => {
-    if (!meta || meta.duration <= 0) return
+    if (!metaDuration || metaDuration <= 0) return
     const cur = person.quoteDuration ?? 0
-    if (cur <= 0) onChange({ ...person, quoteDuration: meta.duration })
-  }, [meta?.duration, person, onChange])
+    if (cur <= 0) onChange({ ...person, quoteDuration: metaDuration })
+  }, [metaDuration, person, onChange])
   // 수식어 나레이션도 동일 — 디스크 음원이 있는데 epithetDuration 이 비어 있으면 디스크 길이로 채운다.
   useEffect(() => {
-    if (!epithetMeta || epithetMeta.duration <= 0) return
+    if (!epithetMetaDuration || epithetMetaDuration <= 0) return
     const cur = person.epithetDuration ?? 0
-    if (cur <= 0) onChange({ ...person, epithetDuration: epithetMeta.duration })
-  }, [epithetMeta?.duration, person, onChange])
+    if (cur <= 0) onChange({ ...person, epithetDuration: epithetMetaDuration })
+  }, [epithetMetaDuration, person, onChange])
   // 대사 처리 스텝(직함·수식어·음성) — 신모델. 접힌 줄 배지/체크박스에 공유.
   const stepsShorts = factionStepsOf(person, true)
   const stepsLongform = factionStepsOf(person, false)
@@ -169,19 +186,23 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   // 영상 제외(눈) 버튼 — 접힘·펼침 공용
   const eyeButton = (
     <button
+      type="button"
       onClick={() => onChange({ ...person, disabled: disabled ? undefined : true })}
-      className={`rounded-md border p-1.5 ${disabled ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+      aria-pressed={disabled}
+      className={`flex h-8 w-8 items-center justify-center rounded-md border ${disabled ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
       title={disabled ? '이 인물을 다시 영상에 포함' : '이 인물을 영상에서 제외 (데이터는 보존)'}
     >
       {disabled ? <Eye size={15} /> : <EyeOff size={15} />}
     </button>
   )
-  // 롱폼 전용(필름) 버튼 — 켜면 이 인물만 세로 쇼츠에서 빠지고 가로 롱폼에는 그대로 나온다
+  // 롱폼 전용(필름) 버튼 — 켜면 이 인물은 모든 롱폼에 나오고 쇼츠에서만 빠진다
   const longformButton = (
     <button
+      type="button"
       onClick={() => onChange({ ...person, longformOnly: longformOnly ? undefined : true })}
-      className={`rounded-md border p-1.5 ${longformOnly ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
-      title={longformOnly ? '이 인물을 쇼츠에도 다시 포함' : '이 인물을 가로 롱폼에만 노출 (세로 쇼츠에서 제외)'}
+      aria-pressed={longformOnly}
+      className={`flex h-8 w-8 items-center justify-center rounded-md border ${longformOnly ? 'border-accent bg-accent/10 text-accent' : 'border-border text-text-secondary hover:bg-bg-hover'}`}
+      title={longformOnly ? '이 인물을 쇼츠에도 다시 포함' : '이 인물을 롱폼에만 노출 (쇼츠에서 제외)'}
     >
       <Film size={15} />
     </button>
@@ -190,26 +211,27 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   const moveDeleteButtons = (
     <>
       {onMoveCrossGroup && (
-        <button onClick={onMoveCrossGroup} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="다른 세력/그룹으로 이동">
+        <button type="button" onClick={onMoveCrossGroup} className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary hover:bg-bg-hover" title="다른 세력/그룹으로 이동">
           <ArrowRightLeft size={15} />
         </button>
       )}
-      <button onClick={onMoveUp} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="위로">
+      <button type="button" onClick={onMoveUp} disabled={personIndex === 0} className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary hover:bg-bg-hover disabled:cursor-not-allowed disabled:opacity-40" title="위로">
         <ChevronUp size={15} />
       </button>
-      <button onClick={onMoveDown} className="rounded-md border border-border p-1.5 text-text-secondary hover:bg-bg-hover" title="아래로">
+      <button type="button" onClick={onMoveDown} disabled={personIndex >= totalPeople - 1} className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary hover:bg-bg-hover disabled:cursor-not-allowed disabled:opacity-40" title="아래로">
         <ChevronDown size={15} />
       </button>
-      <button onClick={onDelete} className="rounded-md border border-border p-1.5 text-danger-text hover:bg-danger/15" title="삭제">
+      <span className="mx-0.5 h-5 w-px bg-border" aria-hidden="true" />
+      <button type="button" onClick={onDelete} className="flex h-8 w-8 items-center justify-center rounded-md border border-danger/40 text-danger-text hover:border-danger/70 hover:bg-danger/15" title="삭제">
         <Trash2 size={15} />
       </button>
     </>
   )
   const picker = pickerOpen && (
     <ImagePicker
-      value={person.image}
-      onChange={next => onChange({ ...person, image: next })}
-      crop={person.imageCrop}
+      value={ownImage}
+      onChange={changeImage}
+      crop={ownImage ? person.imageCrop : undefined}
       onCropChange={c => onChange({ ...person, imageCrop: c })}
       series={series}
       episodeName={episodeName}
@@ -264,7 +286,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
   return (
     <div
       id={`person-${groupIndex}-${clusterIndex}-${personIndex}`}
-      className={`group flex items-stretch rounded-md border overflow-hidden bg-bg-card ${longformOnly && !disabled ? 'border-accent/40' : 'border-border'}`}
+      className={`group flex scroll-mt-24 items-stretch overflow-hidden rounded-md border bg-bg-card ${longformOnly && !disabled ? 'border-accent/40' : 'border-border'}`}
       style={disabled ? { opacity: 0.5, filter: 'saturate(0.4)' } : undefined}
     >
       {/* 좌측 스크롤 이동 버튼 (독립 영역) */}
@@ -279,7 +301,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
               document.getElementById(`person-${groupIndex}-${clusterIndex}-${personIndex - 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
             }
           }}
-          className="w-10 shrink-0 flex items-center justify-center border-r border-border transition-colors hover:bg-slate-200/60 text-text-dim hover:text-text-secondary cursor-pointer"
+          className="flex w-10 shrink-0 cursor-pointer items-center justify-center border-r border-border text-text-dim hover:bg-slate-200/60 hover:text-text-secondary"
           title={personIndex === 0 ? "팀 화보로 이동" : "이전 인물로 이동"}
         >
           <ChevronLeft size={24} />
@@ -288,21 +310,20 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
       {/* 메인 콘텐츠 영역 */}
       <div className="flex-1 min-w-0 flex flex-col">
-        {/* 헤더 — 항상 보임. 헤더(빈 영역·이름)를 누르면 접기/펼치기 */}
+        {/* 헤더 — 미디어·요약 토글·명령을 각각 독립된 조작으로 둔다. */}
       <div
-        className={`flex cursor-pointer items-center gap-2 p-2 transition-none hover:bg-bg-secondary`}
-        onClick={() => setCollapsed(v => !v)}
-        title={collapsed ? '펼쳐서 편집' : '접기'}
+        className="flex items-center gap-2 p-2"
       >
         {/* 썸네일 — 클릭하면 이미지 변경. 풀에서 끌어온 이미지를 놓으면 그 자리에서 연결 */}
         <button
+          type="button"
           onClick={e => { e.stopPropagation(); setPickerOpen(true) }}
           {...dropProps}
           className={`relative shrink-0 overflow-hidden rounded border ${dragOver ? 'border-accent ring-2 ring-accent' : 'border-border'}`}
           title="클릭: 이미지 변경 · 풀에서 끌어다 놓기: 연결"
         >
           {src ? (
-            <MediaThumb src={src} alt="" className="h-14 w-11 object-cover" style={cropToStyle(person.imageCrop)} />
+            <MediaThumb src={src} alt="" className="h-14 w-11 object-cover" style={cropToStyle(effectiveImageCrop)} />
           ) : (
             <span className="flex h-14 w-11 items-center justify-center bg-bg-secondary text-base font-bold text-text-secondary">
               {initial(person.name)}
@@ -313,9 +334,23 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
               연결
             </span>
           )}
+          {imageInherited && !dragOver && (
+            <span className="pointer-events-none absolute left-0.5 top-0.5 rounded bg-sky-950/90 px-1 py-0.5 text-[8px] font-bold leading-none text-sky-200">
+              상속
+            </span>
+          )}
         </button>
         {/* 이름 + 요약 + 처리 단계 */}
-        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <button
+          type="button"
+          onClick={() => setCollapsed(value => !value)}
+          aria-expanded={!collapsed}
+          aria-controls={`person-body-${groupIndex}-${clusterIndex}-${personIndex}`}
+          className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-1 py-1 text-left hover:bg-bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          title={collapsed ? '인물 편집 펼치기' : '인물 편집 접기'}
+        >
+          <ChevronDown size={17} className={`shrink-0 text-text-dim transition-transform duration-200 ${collapsed ? '-rotate-90' : ''}`} />
+          <span className="flex min-w-0 flex-1 flex-col gap-0.5">
           <span className="flex items-center gap-1.5">
             <span className="text-sm font-semibold">{person.name || '이름 없음'}</span>
             {celebBadge}
@@ -325,10 +360,11 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
             </span>
           </span>
           {summary && <span className="line-clamp-1 text-xs text-text-dim">{summary}</span>}
-        </div>
+          </span>
+        </button>
         {/* 움직임 효과(전환·지속·줌 목표점·지지직·속도)는 상단 「효과 관리」 시트에서 설정 */}
         {/* 조작 — 헤더 클릭(토글)과 분리 */}
-        <div className="flex shrink-0 items-center gap-1" onClick={e => e.stopPropagation()}>
+        <div className="flex shrink-0 items-center gap-1">
           {/* 대사 음성 설정 — 아코디언을 펼치지 않고도 바로 연다 (대사 있는 인물만) */}
           {voice && hasQuote && (
             <div className="flex items-stretch rounded-md border border-border bg-bg-main overflow-hidden">
@@ -369,7 +405,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
 
       {/* 펼침 폼 — 헤더 아래로 자연스럽게 늘어난다(세로 균형 안정) */}
       {!collapsed && (
-      <div className="flex min-w-0 flex-col gap-2 border-t border-border p-2">
+      <div id={`person-body-${groupIndex}-${clusterIndex}-${personIndex}`} className="flex min-w-0 flex-col gap-2 border-t border-border p-2">
         <PersonBasicInfo person={person} onChange={onChange} editLang={editLang} />
         {/* 도감 표기 — 영상 원문 바로 아래에서 도감 손질(web_*)을 나란히 보고 고친다 */}
         <PersonAtlasPanel
@@ -381,8 +417,11 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
         />
         {/* BookRecommend 스타일 시나리오 행 (한마디 대사 + 비주얼 트랙 통폐합) */}
         <div className="mb-2 rounded-lg border border-slate-400 bg-bg-card shadow-sm overflow-hidden">
-          <div 
-            className="flex items-center justify-between px-3 py-1.5 bg-bg-secondary border-b border-slate-400 text-sm text-text-primary cursor-pointer hover:bg-bg-hover transition-colors"
+          <button
+            type="button"
+            aria-expanded={quoteExpanded}
+            aria-controls={`person-quote-${groupIndex}-${clusterIndex}-${personIndex}`}
+            className="flex w-full cursor-pointer items-center justify-between border-b border-slate-400 bg-bg-secondary px-3 py-2 text-left text-sm text-text-primary hover:bg-bg-hover focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent"
             onClick={() => setQuoteExpanded(!quoteExpanded)}
             title={quoteExpanded ? '클릭하면 접기' : '클릭하면 펼치기'}
           >
@@ -394,10 +433,10 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
             <div className="text-xs text-text-dim">
               {hasQuoteImages && '이미지 연결됨'}
             </div>
-          </div>
+          </button>
           
           {quoteExpanded && (
-            <div className="flex p-3 gap-4 bg-bg-main/30 items-start">
+            <div id={`person-quote-${groupIndex}-${clusterIndex}-${personIndex}`} className="flex items-start gap-4 bg-bg-main/30 p-3">
               {/* 왼쪽: 텍스트 에디터 */}
               <div className="flex-1 min-w-0 flex gap-3">
                 {editLang !== 'en' && (
@@ -481,7 +520,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
                   src={quoteImgSrc}
                   crop={person.quoteImageCrop}
                   inheritedSrc={src}
-                  inheritedCrop={person.imageCrop}
+                  inheritedCrop={effectiveImageCrop}
                   inheritedLabel="상속"
                   onDropImage={path => onChange({ ...person, quoteImage: path })}
                   onOpenPicker={() => setQuoteImgPickerOpen(true)}
@@ -817,7 +856,7 @@ export function FactionPersonRow({ person, onChange, onDelete, onMoveUp, onMoveD
             e.stopPropagation()
             document.getElementById(`person-${groupIndex}-${clusterIndex}-${personIndex + 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }}
-          className={`w-10 shrink-0 flex items-center justify-center border-l border-border transition-colors ${
+          className={`flex w-10 shrink-0 items-center justify-center border-l border-border ${
             personIndex >= (totalPeople ?? 1) - 1
               ? 'opacity-30 cursor-not-allowed bg-bg-secondary text-text-dim' 
               : 'hover:bg-slate-200/60 text-text-dim hover:text-text-secondary cursor-pointer'

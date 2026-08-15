@@ -57,7 +57,7 @@ function styledTextOf(p: FactionPerson, text: string): string {
  * disabled 세력·disabled 인물은 buildCues 가 이미 컷을 안 만들므로 자동 제외된다(렌더와 동일 기준).
  * 대사가 없는 인물은 건너뛴다.
  *
- * portrait=false(가로 롱폼)로 컷을 만든다 — longformOnly 세력/묶음까지 모두 포함해
+ * portrait=false(롱폼)로 컷을 만든다 — longformOnly 세력/묶음까지 모두 포함해
  * 음성을 빠짐없이 생성한다. 세로 쇼츠 컷은 이 집합의 부분집합이라 별도 생성이 불필요하다.
  */
 export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {

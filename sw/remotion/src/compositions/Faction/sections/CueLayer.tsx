@@ -11,7 +11,7 @@ import { GroupCard, ClusterCard } from './GroupCard'
 import { PersonCard } from './PersonCard'
 import { EraCard } from './EraCard'
 import { ChapterCard } from './ChapterCard'
-import { SceneCard } from './SceneCard'
+import { IndividualSceneCard } from './IndividualSceneCard'
 import { FilledImage } from './FilledImage'
 // import { BrandLogo } from '../../BookRecommend/utils' // 종료 화면 브랜드 로고 미노출(주석 처리)
 
@@ -91,7 +91,19 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   // start부터로 잡으면 페이드인 구간엔 영상이 아직 없어 교차 없이 툭 나타난다.
   else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} isShorts={isShorts} part={part} startFrame={enterStart} frame={frame} cueStart={start} />
   else if (cue.kind === 'era') content = <EraCard label={cue.label} />
-  else if (cue.kind === 'scene') content = <SceneCard scene={cue.scene} episodeName={episodeName} cueStart={start} cueDuration={duration} />
+  else if (cue.kind === 'scene') content = (
+    <IndividualSceneCard
+      scene={cue.scene}
+      episodeName={episodeName}
+      cueStart={start}
+      cueDuration={duration}
+      orientation={orientation}
+      captionPosition={script.quoteCaptionPos}
+      captionSize={script.quoteCaptionSize}
+      captionFont={script.quoteCaptionFont}
+      captionIdHoldSec={script.captionIdHoldSec}
+    />
+  )
   // 챕터 전환 검정 브릿지 — 순수 검정 컷. 앞뒤 크로스페이드가 이전 챕터를 검정으로 닫고 표지를 검정에서 연다(검정 경유 전환).
   else if (cue.kind === 'chapterBlack') content = <AbsoluteFill style={{ background: BG }} />
   else if (cue.kind === 'chapter') content = <ChapterCard script={script} chapter={cue.chapter} episodeName={episodeName} cueStart={start} cueDuration={duration} />

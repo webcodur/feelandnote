@@ -19,7 +19,10 @@ import {
   type FactionQuoteMediaCaption,
   type FactionQuoteMediaFocus,
 } from '@feelandnote/shared/lib/faction-quote-media'
-import type { FactionLongformLayoutItem } from '@feelandnote/shared/lib/youtube-faction-meta'
+import type {
+  FactionGroupMeta,
+  FactionLongformLayoutItem,
+} from '@feelandnote/shared/lib/youtube-faction-meta'
 import { safeRelSegs } from '@feelandnote/shared/bo/episode-store'
 import { factionEpisodeDir } from '@/lib/faction-paths'
 import { vnPersonQuote } from '@/lib/faction-voice'
@@ -119,8 +122,12 @@ export interface PublishGroup {
   part?: number
   /** 영상에서 뺀 세력(데이터는 남긴다) — 편 번호 산출에서 제외된다 */
   disabled: boolean
-  /** 가로 롱폼 전용 — 지금 나가는 영상은 전부 세로라 어느 편에도 안 나온다 */
+  /** 롱폼 전용 — 방향과 무관하게 롱폼에는 포함하고 쇼츠에서만 제외한다 */
   longformOnly: boolean
+  /** 쇼츠 내부 편 경계를 포함한 세력 내 이야기 순서. 영상 메타 편 판정에만 사용한다. */
+  sequence?: FactionGroupMeta['sequence']
+  /** sequence의 clusterIndex 검증을 위한 경량 묶음 슬롯. 실제 출간 인물은 people에 평탄화되어 있다. */
+  clusters: NonNullable<FactionGroupMeta['clusters']>
   /** 세력 로고(data.logoImg) — 영상 타이틀 카드에 쓰는 이미지. 없는 세력이 많다 */
   logo?: LocalImageRef
   /**
@@ -568,6 +575,10 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
       part: typeof g.part === 'number' && g.part > 0 ? g.part : undefined,
       disabled: g.disabled === true,
       longformOnly: g.longform_only === true,
+      sequence: Array.isArray(data.sequence)
+        ? data.sequence as FactionGroupMeta['sequence']
+        : undefined,
+      clusters: clusters.map(() => ({})),
       ...(logo ? { logo } : {}),
       webLogoUrl: typeof g.web_logo_url === 'string' && g.web_logo_url.trim() ? g.web_logo_url : null,
       people,

@@ -27,7 +27,7 @@
  *      챕터 경계가 없으면 전역 모드와 같다.
  *   ③ 쇼츠(전역 모드) — 그 편의 재생 목록 첫 곡(`globalBgmTracks` 순서 그대로).
  *
- * `disabled`·`longformOnly` 세력은 지금 나가는 세로 영상 어디에도 없으므로 곡도 없다(`file: null`).
+ * `disabled` 세력은 곡이 없고, `longformOnly` 세력은 롱폼에서 실제로 흐르는 곡을 고른다.
  *
  * ⚠ 이 폴더는 `sw/remotion/tsconfig.json` 의 include 밖이라 `npx tsc --noEmit` 으로 검사되지 않는다.
  *   고친 뒤에는 컴파일러 옵션을 직접 줘서 따로 검사한다(lib.ts 머리말과 같은 주의).
@@ -35,6 +35,7 @@
 
 import { existsSync, readFileSync } from 'fs'
 import path from 'path'
+import { factionLongformSegments } from '@feelandnote/shared/lib/faction-longform'
 import { factionVariants, type FactionVariantDef } from '@feelandnote/shared/lib/youtube-faction-meta'
 import { episodeDirOf } from '@feelandnote/shared/bo/episode-store'
 import { FACTIONS_DIR, ROOT, parseArgs } from './lib.js'
@@ -76,22 +77,16 @@ function firstLine(v: unknown): string {
 }
 
 /**
- * 롱폼 편(lvPart)에 속하는 세력 인덱스 — 편 경계(cut)로 가른 구간.
+ * 롱폼 편(lvPart)에 속하는 세력 인덱스 — 바깥 편성 또는 세력 내부 sequence 경계로 가른 구간.
  * 배치에 빠진 활성 세력은 마지막 구간에 붙는다(`youtube-faction-meta`·`timing` 과 같은 규칙).
  */
 function lvPartGroupIndexes(script: FactionScript, lvPart: number): Set<number> | null {
-  const layout = (script.longformLayout ?? []) as Array<Record<string, unknown>>
-  if (!layout.some(it => 'cut' in it)) return null
-  const segments: number[][] = [[]]
-  for (const it of layout) {
-    if ('cut' in it) { segments.push([]); continue }
-    if ('group' in it && typeof it.group === 'number') segments[segments.length - 1].push(it.group)
-  }
-  const placed = new Set(layout.flatMap(it => ('group' in it && typeof it.group === 'number' ? [it.group] : [])))
-  ;(script.groups ?? []).forEach((g, gi) => {
-    if (!g.disabled && !placed.has(gi)) segments[segments.length - 1].push(gi)
-  })
-  return new Set(segments[lvPart - 1] ?? [])
+  const segments = factionLongformSegments(
+    script.groups as unknown as Array<Record<string, unknown>>,
+    script.longformLayout,
+  )
+  if (segments.length <= 1) return null
+  return new Set((segments[lvPart - 1] ?? []).flatMap(step => 'gi' in step ? [step.gi] : []))
 }
 
 /** 이 세력이 나오는 쇼츠 편 — part 미지정(공통)은 모든 편에 나오므로 첫 편으로 본다 */
@@ -147,7 +142,7 @@ function musicOfGroupInVariant(
 export function collectThemeMusic(script: FactionScript, episode: string): ThemeMusicResult {
   const groups = script.groups ?? []
   const variants = factionVariants(
-    groups.map(g => ({ part: g.part, disabled: g.disabled })),
+    groups,
     script.longformLayout as never,
   )
   const longforms = variants.filter(v => !v.isShorts)
@@ -157,9 +152,8 @@ export function collectThemeMusic(script: FactionScript, episode: string): Theme
     const name = firstLine(g.name) || `세력 ${gi + 1}`
     const blank = { index: gi, name, variant: null, file: null, abs: null }
 
-    // 세로 영상에 안 나오는 세력 — 뺀 세력(disabled)·가로 롱폼 전용(longformOnly)
+    // 모든 영상에서 뺀 세력만 제외한다. longformOnly 는 아래 롱폼 우선 판정에 그대로 들어간다.
     if (g.disabled) return { ...blank, note: '영상에서 뺀 세력' }
-    if (g.longformOnly) return { ...blank, note: '가로 롱폼 전용 세력 — 세로 영상에 안 나온다' }
 
     // 롱폼 먼저(챕터마다 곡이 갈려 세력 단위 해상도가 가장 높다), 없으면 그 세력의 쇼츠 편
     const order = [longformVariantOf(script, gi, longforms), shortsVariantOf(g, shortsList)]

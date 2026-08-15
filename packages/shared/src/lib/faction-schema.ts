@@ -42,6 +42,7 @@ import {
   type ColumnRules,
   type CompareRules,
 } from './series-schema'
+import { factionSequenceOf } from './faction-sequence'
 
 export type { HotMap, SplitResult, GeneratedMarker } from './series-schema'
 export {
@@ -184,7 +185,10 @@ export function joinEpisode(
 
 /** 세력 — clusters 를 뺀 나머지가 data(tagSlug 포함) */
 export function splitGroup(group: Record<string, unknown>): SplitResult {
-  return splitLevel(group, GROUP_HOT, GROUP_CHILDREN)
+  const normalized: Record<string, unknown> = { ...group, sequence: factionSequenceOf(group) }
+  // 구 위치 필드는 읽기 호환일 뿐 저장 원천이 아니다. sequence와 함께 남기면 순서가 두 벌이 된다.
+  delete normalized.openingScenes
+  return splitLevel(normalized, GROUP_HOT, GROUP_CHILDREN)
 }
 
 export function joinGroup(
@@ -192,13 +196,23 @@ export function joinGroup(
   clusters: Record<string, unknown>[],
 ): Record<string, unknown> {
   const out = joinLevel(row, GROUP_HOT)
+  // 구 scenesAfter를 읽어 sequence로 승격한 뒤 클러스터 본체에서는 제거한다.
   out.clusters = clusters
+  out.sequence = factionSequenceOf(out)
+  delete out.openingScenes
+  out.clusters = clusters.map(cluster => {
+    const clean = { ...cluster }
+    delete clean.scenesAfter
+    return clean
+  })
   return out
 }
 
 /** 묶음 — people 을 뺀 나머지가 data */
 export function splitCluster(cluster: Record<string, unknown>): SplitResult {
-  return splitLevel(cluster, CLUSTER_HOT, CLUSTER_CHILDREN)
+  const normalized: Record<string, unknown> = { ...cluster }
+  delete normalized.scenesAfter
+  return splitLevel(normalized, CLUSTER_HOT, CLUSTER_CHILDREN)
 }
 
 export function joinCluster(

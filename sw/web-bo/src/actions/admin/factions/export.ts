@@ -7,7 +7,7 @@
  * 파일을 다시 만들어야 한다. 편집기 저장이 이 액션을 자동으로 부르므로 사람이 따로 누를 일은
  * 파일이 어긋났을 때뿐이다.
  *
- * 마커·손 편집 가드·백업·등록 목록 형식은 전부 `@feelandnote/shared/bo/faction-export` 소유다.
+ * 마커·손 편집 가드·등록 목록 형식은 전부 `@feelandnote/shared/bo/faction-export` 소유다.
  * 렌더 저장소의 CLI(`pnpm faction:export`)가 같은 코어를 쓴다 — 규칙을 여기서 다시 짜지 마라.
  */
 

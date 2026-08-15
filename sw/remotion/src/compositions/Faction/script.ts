@@ -10,7 +10,7 @@
  * 통합 명칭(name·title·label)은 데이터가 이미 '앞부분\n뒷부분' 한 필드라 그대로 펼친다(렌더가 split).
  */
 
-import type { FactionScript, FactionGroup, FactionCluster, FactionPerson, FactionNarratorVoice, FactionScene } from './types'
+import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionCluster, type FactionPerson, type FactionNarratorVoice, type FactionIndividualScene } from './types'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
 import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 // 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
@@ -76,17 +76,23 @@ function resolvePerson(p: FactionPerson, en: boolean, commonVoice?: FactionNarra
   }, commonVoice)
 }
 
-function resolveCluster(c: FactionCluster, en: boolean, commonVoice?: FactionNarratorVoice): FactionCluster {
+function resolveCluster(c: FactionCluster, en: boolean, commonVoice?: FactionNarratorVoice, inheritImage = true): FactionCluster {
   return {
     ...c,
     // 단체 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 labelEn 폴백.
     label: en ? (c.labelEn ?? c.label) : c.label,
-    people: c.people?.map(p => resolvePerson(p, en, commonVoice)) ?? [],
-    scenesAfter: c.scenesAfter?.map(scene => resolveScene(scene, en)),
+    // 개인샷이 비었거나 그룹 화보와 같은 파일이면 렌더용 객체에 그룹 화보·맞춤을 펼친다.
+    // 원본 JSON에는 중복 저장하지 않으면서 인트로·인물 컷·카드뉴스 등 모든 소비자가 같은 사진을 본다.
+    people: c.people?.map(p => {
+      const person = resolvePerson(p, en, commonVoice)
+      const inheritsImage = inheritImage && !!c.image && (!person.image || person.image === c.image)
+      return inheritsImage ? { ...person, image: c.image, imageCrop: c.imageCrop } : person
+    }) ?? [],
+    scenesAfter: undefined,
   }
 }
 
-function resolveScene(scene: FactionScene, en: boolean): FactionScene {
+function resolveScene(scene: FactionIndividualScene, en: boolean): FactionIndividualScene {
   return {
     ...scene,
     title: en ? (scene.titleEn ?? scene.title) : scene.title,
@@ -99,8 +105,11 @@ function resolveGroup(g: FactionGroup, en: boolean, commonVoice?: FactionNarrato
     ...g,
     // 세력 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 nameEn 폴백.
     name: en ? (g.nameEn ?? g.name) : g.name,
-    openingScenes: g.openingScenes?.map(scene => resolveScene(scene, en)),
-    clusters: g.clusters.map(c => resolveCluster(c, en, commonVoice)),
+    openingScenes: undefined,
+    sequence: factionSequenceOf(g).map(item => item.kind === 'scene'
+      ? { ...item, scene: resolveScene(item.scene, en) }
+      : item),
+    clusters: g.clusters.map(c => resolveCluster(c, en, commonVoice, !g.solo)),
   }
 }
 

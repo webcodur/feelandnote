@@ -1,10 +1,10 @@
-import type { FactionScript } from '@/lib/faction-types'
+import { factionSequenceOf, type FactionScript } from '@/lib/faction-types'
 import { makePathRemapper } from '@feelandnote/shared/bo/editor'
 
 /**
  * FactionScript 데이터에서 영상에 연결된 이미지 경로를 모두 수집한다.
  * 수집 대상: group.logoVid·logoImg·image, cluster.image, person.image,
- *   시작 화면 이미지(heroes/heroesByPart 의 'logo:<경로>'), 종료 이미지, 챕터·상황 화면 미디어.
+ *   시작 화면 이미지(heroes/heroesByPart/heroesByLvPart 의 'logo:<경로>'), 종료 이미지, 챕터·개별 장면 미디어.
  * heroes 의 인물 slug 는 person.image 로 이미 잡히므로 'logo:' 항목만 별도로 더한다.
  * 외부 URL(http로 시작)은 풀(로컬 파일)과 무관하므로 제외한다.
  */
@@ -30,6 +30,9 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
   for (const list of Object.values(script.heroesByPart ?? {})) {
     for (const h of list) addHeroImg(h)
   }
+  for (const list of Object.values(script.heroesByLvPart ?? {})) {
+    for (const h of list) addHeroImg(h)
+  }
   // 시작·종료 이미지
   add(script.introImage)
   add(script.introImageLong)
@@ -43,10 +46,11 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
   for (const group of script.groups ?? []) {
     add(group.logoVid)
     add(group.logoImg)
-    for (const scene of group.openingScenes ?? []) add(scene.media)
+    for (const item of factionSequenceOf(group)) {
+      if (item.kind === 'scene') add(item.scene.media)
+    }
     for (const cluster of group.clusters ?? []) {
       add(cluster.image)
-      for (const scene of cluster.scenesAfter ?? []) add(scene.media)
       for (const person of cluster.people ?? []) addPerson(person)
     }
   }
@@ -88,11 +92,14 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
     ...g,
     logoVid: m(g.logoVid),
     logoImg: m(g.logoImg),
-    openingScenes: g.openingScenes?.map(scene => ({ ...scene, media: m(scene.media) })),
+    openingScenes: undefined,
+    sequence: factionSequenceOf(g).map(item => item.kind === 'scene'
+      ? { ...item, scene: { ...item.scene, media: m(item.scene.media) } }
+      : item),
     clusters: (g.clusters ?? []).map(c => ({
       ...c,
       image: m(c.image),
-      scenesAfter: c.scenesAfter?.map(scene => ({ ...scene, media: m(scene.media) })),
+      scenesAfter: undefined,
       people: (c.people ?? []).map(mapPerson),
     })),
   }))
@@ -115,6 +122,11 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
   if (script.heroesByPart) {
     next.heroesByPart = Object.fromEntries(
       Object.entries(script.heroesByPart).map(([k, v]) => [k, v.map(mapHero)]),
+    )
+  }
+  if (script.heroesByLvPart) {
+    next.heroesByLvPart = Object.fromEntries(
+      Object.entries(script.heroesByLvPart).map(([k, v]) => [k, v.map(mapHero)]),
     )
   }
   return changed ? next : script

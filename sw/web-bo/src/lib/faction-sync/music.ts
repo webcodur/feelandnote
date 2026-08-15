@@ -115,7 +115,7 @@ export async function runThemeMusicCli(folder: string): Promise<ThemeMusicResult
  * 한 테마의 대표 곡 — 그 태그를 쓰는 세력 중 **가장 앞 세력**의 곡.
  * 여러 곡이 섞이면(챕터가 갈리는 편) 앞 세력 것을 쓴다 — 도감은 한 곡만 보여준다.
  *
- * `disabled`·`longformOnly` 세력은 세로 영상에 안 나오므로 CLI 가 이미 곡을 비워 보낸다.
+ * `disabled` 세력은 CLI 가 곡을 비워 보내고, `longformOnly` 세력은 롱폼에서 흐르는 곡을 사용한다.
  */
 export function pickTagMusic(
   result: ThemeMusicResult, tagGroups: ReadonlyArray<PublishGroup>,

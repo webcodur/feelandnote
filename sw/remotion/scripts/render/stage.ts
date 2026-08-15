@@ -56,14 +56,17 @@ function episodeSrcDir(series: string, episode: string): string {
 }
 
 /**
- * 에피소드 폴더 안에서 렌더가 절대 읽지 않는 하위 — 발주 참고 이미지·조사 문서·백업이라
+ * 에피소드 폴더 안에서 렌더가 절대 읽지 않는 하위 — 발주 참고 이미지·조사 문서·보관 자산이라
  * 크기만 차지한다(PayPal-Mafia 기준 `_refs` 만 6.8MB).
  */
 const SKIP_DIRS = new Set([
-  '.export-backup', '_docs', '_refs', 'quotes', '_archive', '_staging',
+  '_docs', '_refs', 'quotes', '_archive', '_staging',
   // 합성 원본(정규화 전) — 영상은 정규화된 wav 만 재생한다. PayPal-Mafia 만 9.9MB, 전 편 합 135MB
   '.raw',
 ])
+
+/** 담화의 export 백업은 현행 시스템이므로 기존처럼 렌더 창고에서 제외한다. */
+const DISCOURSE_SKIP_DIRS = new Set([...SKIP_DIRS, '.export-backup'])
 
 /** 에피소드 폴더 안에서 건너뛸 파일 — 발주서 문서류 */
 function skipFile(name: string): boolean {
@@ -112,14 +115,14 @@ function placeFile(src: string, dst: string, c: Counter): void {
 }
 
 /** 폴더 하나 — 건너뛸 하위를 빼고 재귀 */
-function placeDir(srcDir: string, dstDir: string, c: Counter, prune: boolean): void {
+function placeDir(srcDir: string, dstDir: string, c: Counter, skipDirs?: ReadonlySet<string>): void {
   if (!existsSync(srcDir)) return
   for (const entry of readdirSync(srcDir, { withFileTypes: true })) {
-    if (prune && entry.isDirectory() && SKIP_DIRS.has(entry.name)) continue
-    if (prune && entry.isFile() && skipFile(entry.name)) continue
+    if (skipDirs && entry.isDirectory() && skipDirs.has(entry.name)) continue
+    if (skipDirs && entry.isFile() && skipFile(entry.name)) continue
     const src = path.join(srcDir, entry.name)
     const dst = path.join(dstDir, entry.name)
-    if (entry.isDirectory()) placeDir(src, dst, c, prune)
+    if (entry.isDirectory()) placeDir(src, dst, c, skipDirs)
     else if (entry.isFile()) placeFile(src, dst, c)
   }
 }
@@ -178,10 +181,11 @@ export async function buildRenderStage(series: string, episode: string): Promise
   const c: Counter = { files: 0, bytes: 0, linked: 0, copied: 0 }
 
   // ① 에피소드 폴더 — 창고 안 자리는 staticFile 이 부르는 이름 그대로다
-  placeDir(epSrc, path.join(dir, seriesDir, episode), c, true)
+  const skipDirs = series === 'discourse' ? DISCOURSE_SKIP_DIRS : SKIP_DIRS
+  placeDir(epSrc, path.join(dir, seriesDir, episode), c, skipDirs)
 
   // ② 공용 — 효과음·글꼴
-  for (const rel of COMMON_DIRS) placeDir(path.join(PUBLIC_DIR, rel), path.join(dir, rel), c, false)
+  for (const rel of COMMON_DIRS) placeDir(path.join(PUBLIC_DIR, rel), path.join(dir, rel), c)
 
   // ③ 곡 — 이 편이 실제로 재생하는 것만. 데이터가 부르는데 없는 곡은 조용히 넘기지 않고 알린다
   //    (통짜 방식에서도 어차피 깨질 자산 결손이다)

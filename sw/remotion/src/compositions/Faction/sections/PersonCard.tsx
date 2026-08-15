@@ -12,6 +12,7 @@ import { expandSubTimings, type VoiceTimingSegment } from '../../../lib/voice-ti
 import { FactionMedia } from './FactionMedia'
 import { HoldGlitch } from '../transitions'
 import { CaptionBackdrop } from './CaptionBackdrop'
+import { CaptionIdentityText, CaptionSwapSlot, resolveFactionCaptionAppearance } from './CaptionSwapSlot'
 
 // 직함 마커 효과음(가로 롱폼) — 직함 줄이 하나씩 리스팅될 때마다 마커(점)가 톡 찍히는 소리.
 // 전용 합성 자산(짧은 상승 블립). 톤 교체 시 이 파일명만 바꾼다.
@@ -258,6 +259,11 @@ export const PersonCard: React.FC<{
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const local = frame - cueStart
+  const cluster = group.clusters?.[clusterIndex ?? 0]
+  // 개인샷이 비었거나 그룹 화보와 같은 파일이면 중복값 대신 그룹 화보·맞춤을 상속한다.
+  const inheritsClusterImage = !group.solo && !!cluster?.image && (!person.image || person.image === cluster.image)
+  const baseImage = inheritsClusterImage ? cluster?.image : person.image
+  const baseImageCrop = inheritsClusterImage ? cluster?.imageCrop : person.imageCrop
   // 롱폼은 사진을 기다리지 않고 텍스트가 컷과 거의 동시에 바로 등장 — 등장 타이밍을 ENTER_NAME_SEC만큼 앞당긴다(세로 쇼츠는 기존 그대로)
   const lt = orientation === 'landscape' ? local + f(ENTER_NAME_SEC) : local
   // 대사 소스 — 덩어리(quoteChunks)가 있으면 그 배열을, 없으면 통째 quote를 단일 덩어리로.
@@ -577,7 +583,7 @@ export const PersonCard: React.FC<{
     </AbsoluteFill>
   )
   const imgChanges = person.imageChanges?.length ? [...person.imageChanges].sort((a, b) => a.chunk - b.chunk) : []
-  const photo = !person.image || imgErr ? initialsFallback : (() => {
+  const photo = !baseImage || imgErr ? initialsFallback : (() => {
     // 덩어리 시작 프레임 — 발화 시각(voiceTiming) 우선, 없으면 글자수 비례.
     // 발화 시각·글자수는 자막(QuotePages)과 동일하게 '빈 덩어리(연속 개행)를 뺀 실제 덩어리' 기준으로 센다.
     // imageChanges[].chunk 는 BO에서 quoteChunks(빈 덩어리 포함) 인덱스로 저장되므로, 실제 덩어리 인덱스로 환산해야
@@ -608,9 +614,9 @@ export const PersonCard: React.FC<{
     const localOf = (abs: number) => Math.max(0, abs - cueStart)
     // 단일 사진: 대사 전체 길이로 줌 늘림. 다중: stretch 생략 → 정속 + 사진마다 재시작.
     if (!changes.length) {
-      return <FactionMedia src={imgSrc(episodeName, person.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(person.imageCrop, 0, holdSpanFrames)} />
+      return <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, holdSpanFrames)} />
     }
-    const base = <FactionMedia src={imgSrc(episodeName, person.image)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(person.imageCrop, 0)} />
+    const base = <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0)} />
     const cf = f(CROSSFADE_SEC)
     return (
       <>
@@ -645,46 +651,28 @@ export const PersonCard: React.FC<{
   const captionLeadExitOp = useCaption && hasQuote && orientation === 'landscape'
     ? interpolate(lt, [f(quoteEnterSec), f(quoteEnterSec + ENTER_FADE_SEC)], [1, 0], clamp)
     : 1
-  const isMidLow = quoteCaptionPos === 'center'
-  // 대사 자막 슬롯 — MID 중앙 기준으로 살짝 아래(translateY). bottom 모드는 하단 여백.
-  // 좌하 이름·직함 때문에 bottom을 비우면 중앙값이 위로 밀리므로, center는 inset 0 + 하향 오프셋.
-  const CAPTION_CENTER_NUDGE_Y = 56 // px — 중앙보다 아래로 (미세조정)
-  const captionSlotPos: React.CSSProperties = isMidLow
-    ? {
-        top: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        transform: `translateY(${CAPTION_CENTER_NUDGE_Y}px)`,
-      }
-    : { bottom: orientation === 'portrait' ? 200 : 80, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }
-  const captionFont = quoteCaptionSize === 'large'
-    ? (orientation === 'landscape' ? 52 : 56)
-    : (orientation === 'landscape' ? 44 : 48)
-  const captionFontFamily = quoteCaptionFont === 'serif' ? FONT_SERIF : FONT
-  const captionMinH = Math.round(captionFont * 1.35 * 2 + 28)
+  const captionAppearance = resolveFactionCaptionAppearance(orientation, {
+    position: quoteCaptionPos,
+    size: quoteCaptionSize,
+    font: quoteCaptionFont,
+  })
+  const captionSlotPos = captionAppearance.slotStyle
+  const captionFont = captionAppearance.fontSize
+  const captionFontFamily = captionAppearance.fontFamily
+  const captionMinH = captionAppearance.minHeight
   // 신원 — 로고/그룹명 CardCaption 과 동일 위치·형태.
   // [개편] 중앙 배치 + 중앙자막 크기로 축소. [기존] idCaptionSize 62 / idExtraSize 40 / flex-end + pad '0 60px 56px'
   const idCaptionSize = 48
   const idExtraSize = 34
-  // 등장 — 컷이 실제로 시작한 뒤(local 0) 짧게 떠오른다.
-  // 컷 전환은 컷 끝보다 먼저 들어오므로(전환 길이만큼), 예전처럼 처음부터 켜두면 그 겹침 구간에
-  // 이전 인물 대사와 같은 중앙 자리에서 함께 읽혔다. 사진은 전환이 담당하고 글자는 컷 시작에 맞춘다.
-  const idOp = interpolate(local, [0, f(ENTER_FADE_SEC)], [0, 1], clamp)
-  const idTagOp = 1
-  // [개편] 신원 퇴장 — 대사와 같은 중앙 자리를 쓰므로 대사 등장 직전에 교차 퇴장. 대사 없으면 컷 내내 유지.
-  const idExitOp = hasQuote
-    ? interpolate(lt, [f(quoteEnterSec - ENTER_FADE_SEC), f(quoteEnterSec)], [1, 0], clamp)
-    : 1
   const captionEl = useCaption && orientation === 'portrait' ? (
-    <>
-      {/* 1) 신원 — 중앙 배치(대사 자막 슬롯과 동일: 정중앙 + 56px 아래) */}
-      <AbsoluteFill style={{
-        zIndex: 42,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '0 60px',
-        transform: `translateY(${CAPTION_CENTER_NUDGE_Y}px)`,
-        pointerEvents: 'none',
-        opacity: boxExitOp * idOp * idExitOp,
-      }}>
+    <CaptionSwapSlot
+      localFrame={local}
+      captionEnterSec={quoteEnterSec}
+      exitOpacity={boxExitOp}
+      hasCaption={hasQuote}
+      captionSlotStyle={captionSlotPos}
+      captionMinHeight={captionMinH}
+      identity={(
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -750,19 +738,7 @@ export const PersonCard: React.FC<{
             </div>
           ) : null}
           {/* 이름(앞부분·흰색) / 직함(뒷부분·세력색) — GroupCard CardCaption 과 동일 규격·정렬 */}
-          <div style={{
-            color: '#ffffff',
-            fontFamily: FONT_SERIF,
-            fontSize: idCaptionSize,
-            fontWeight: 800,
-            letterSpacing: 1,
-            lineHeight: 1.15,
-            textAlign: 'center',
-            wordBreak: 'keep-all',
-            textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)',
-            WebkitTextStroke: '1px rgba(0,0,0,0.85)',
-            paintOrder: 'stroke fill',
-          }}><CaptionBackdrop>{person.name}</CaptionBackdrop></div>
+          <CaptionIdentityText fontSize={idCaptionSize}>{person.name}</CaptionIdentityText>
           {creditHead ? (
             <div style={{
               color: accent,
@@ -774,7 +750,6 @@ export const PersonCard: React.FC<{
               textAlign: 'center',
               whiteSpace: 'pre-line',
               wordBreak: 'keep-all',
-              opacity: idTagOp,
               textShadow: '0 2px 8px rgba(0,0,0,0.95), 0 0 16px rgba(0,0,0,0.8)',
               WebkitTextStroke: '1px rgba(0,0,0,0.85)',
               paintOrder: 'stroke fill',
@@ -782,19 +757,8 @@ export const PersonCard: React.FC<{
             }}><CaptionBackdrop>{creditHead}</CaptionBackdrop></div>
           ) : null}
         </div>
-      </AbsoluteFill>
-      {/* 2) 대사 자막 — 옵션 위치. 하단 신원과 분리 */}
-      {hasQuote ? (
-        <div style={{
-          position: 'absolute',
-          zIndex: 40,
-          left: CONTENT_PAD,
-          right: CONTENT_PAD,
-          ...captionSlotPos,
-          pointerEvents: 'none',
-          opacity: boxExitOp * quoteOp,
-          minHeight: captionMinH,
-        }}>
+      )}
+      caption={hasQuote ? (
           <ShortCaption
             text={quoteText}
             startFrame={cueStart + f(quoteEnterSec)}
@@ -807,9 +771,8 @@ export const PersonCard: React.FC<{
             maxPanelWidth={760}
             chrome="shadow"
           />
-        </div>
-      ) : null}
-    </>
+      ) : undefined}
+    />
   ) : (useCaption && hasQuote && quoteOp > 0 ? (
     // 가로 롱폼 자막 모드 — 대사만 중하단(신 mid-low) 음영 자막
     <div style={{
@@ -817,7 +780,7 @@ export const PersonCard: React.FC<{
       zIndex: 40,
       left: CONTENT_PAD,
       right: CONTENT_PAD,
-      bottom: isMidLow ? '28%' : 56,
+       bottom: captionAppearance.landscapeBottom,
       display: 'flex',
       justifyContent: 'center',
       opacity: quoteOp * boxExitOp,

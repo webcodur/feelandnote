@@ -5,6 +5,8 @@
  * 한 파일(data.json)에 한국어 필드 + 영문 필드(*En)를 함께 둔다. 렌더 로더가 언어별로 펼친다.
  */
 
+import { factionSequenceOf as rawFactionSequenceOf } from '@feelandnote/shared/lib/faction-sequence'
+
 /**
  * 사진 맞춤 — 화면 비율과 안 맞는 사진(가로 사진 등)을 화면에 채울(cover) 때
  * 잘릴 위치(초점)와 확대 정도를 정한다. 미지정이면 가운데 채움(기존 동작과 동일).
@@ -157,7 +159,7 @@ export interface FactionPerson extends FactionCardFields {
   quoteEnChunks?: string[]
   /** 소속 (예: 'OpenAI') — 언어 공통 */
   org?: string
-  /** 인물 이미지. images/ 하위 파일명(basename) 또는 외부 URL(http로 시작) */
+  /** 인물 이미지. 비우거나 소속 그룹 화보와 같은 파일이면 그룹 화보·맞춤을 상속한다. 그 외에는 images/ 하위 파일명 또는 외부 URL */
   image?: string
   /** 인물 이미지 맞춤 — 잘릴 위치·확대. 미지정이면 가운데 채움 */
   imageCrop?: FactionImageCrop
@@ -194,7 +196,7 @@ export interface FactionPerson extends FactionCardFields {
   celebId?: string
   /** true면 이 인물을 영상에서 제외(데이터는 보존). 세력 disabled의 인물 단위 버전 */
   disabled?: boolean
-  /** 켜면 이 인물만 세로 쇼츠에서 빠지고 가로 롱폼에는 그대로 나온다 */
+  /** 켜면 이 인물은 모든 롱폼에 나오고 쇼츠에서만 빠진다 */
   longformOnly?: boolean
   /**
    * 대사 처리 스텝 (신모델) — 3개 독립 토글. 켜진 스텝이 순서대로 나오고 마지막에 대사로 교차한다.
@@ -208,7 +210,7 @@ export interface FactionPerson extends FactionCardFields {
   stepEpithetShorts?: boolean
   stepVoiceShorts?: boolean
   /**
-   * 가로 롱폼 전용 대사 처리 스텝
+   * 롱폼 전용 대사 처리 스텝
    */
   stepCreditLongform?: boolean
   stepEpithetLongform?: boolean
@@ -293,8 +295,8 @@ export interface FactionCluster {
   imageCrop?: FactionImageCrop
   /** 이 묶음 인물 (등장 순서) */
   people: FactionPerson[]
-  /** 이 그룹의 마지막 인물 뒤에 이어지는 인물 없는 사건 화면. 쇼츠·롱폼 공통 이야기 흐름이다. */
-  scenesAfter?: FactionScene[]
+  /** @deprecated 구 파일 읽기 전용. 저장 시 FactionGroup.sequence의 scene 항목으로 승격한다. */
+  scenesAfter?: FactionIndividualScene[]
   /** 이 그룹샷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다. 'zoomin'=다가가는 줌 */
   holdMotion?: HoldMotion
   /** 이 그룹샷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 세력→에피소드 설정을 따른다 */
@@ -307,7 +309,7 @@ export interface FactionCluster {
   zoomFocus?: ZoomFocus
   /** 이 그룹샷 줌·이동 속도 배수(1=기본). 미지정이면 세력→에피소드→1 */
   zoomSpeed?: number
-  /** true면 이 묶음만 세로 쇼츠에서 제외하고 가로 롱폼에는 노출한다 (세력은 그대로, 묶음 단위 분기) */
+  /** true면 이 묶음은 모든 롱폼에 나오고 쇼츠에서만 제외한다 (세력은 그대로, 묶음 단위 분기) */
   longformOnly?: boolean
   /** true면 이 묶음을 영상에서 완전히 제외. 데이터는 보존되어 false로 되돌리면 그대로 살아난다 */
   disabled?: boolean
@@ -316,8 +318,10 @@ export interface FactionCluster {
 export interface FactionGroup extends Partial<FactionGroupCardFields> {
   /** 세력 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=명칭(식별자), 나머지=설명(세력색) */
   name: string
-  /** 이 세력이 시작될 때 인물·그룹 화보보다 먼저 나오는 공통 상황 화면. 하위 인물군에 귀속되지 않는다. */
-  openingScenes?: FactionScene[]
+  /** @deprecated 구 파일 읽기 전용. 저장 시 sequence의 선두 scene 항목으로 승격한다. */
+  openingScenes?: FactionIndividualScene[]
+  /** 그룹과 개별 장면의 실제 이야기 순서. clusterIndex는 clusters 배열의 위치를 가리킨다. */
+  sequence?: FactionSequenceItem[]
   /**
    * 그룹명 — 그룹을 따로 나누지 않는 세력의 단일 그룹샷 카드 명칭(한 필드, 개행). 첫 줄=명칭, 나머지=설명(세력색).
    * 비우면 세력 명칭 둘째 줄을 그룹샷에 그대로 쓴다. 그룹을 여러 개로 나눈 세력은 각 그룹(clusters)의 label 을 쓴다.
@@ -392,7 +396,7 @@ export interface FactionGroup extends Partial<FactionGroupCardFields> {
   clusters?: FactionCluster[]
   /** 소속 인물 (clusters가 없을 때 사용) */
   people: FactionPerson[]
-  /** true면 세로 쇼츠에서만 제외하고 가로 롱폼에는 노출한다 (쇼츠 3분 제한 대응) */
+  /** true면 모든 롱폼에 노출하고 쇼츠에서만 제외한다 (쇼츠 3분 제한 대응) */
   longformOnly?: boolean
   /**
    * 쇼츠 편 배정 (선택). 한 에피소드를 여러 쇼츠 편으로 나눌 때 이 세력을 몇 편에 넣을지 정한다.
@@ -408,6 +412,7 @@ export interface FactionTrack {
   /** public/music/ 하위 파일 basename */
   file: string
   /** 곡 길이(초). 순차 배치·순환 계산용. 음악 선택 시 자동 측정해 저장 */
+  /** 최소 화면 지속 시간. 실제 길이는 해설 글자 수에 맞춰 자동으로 더 길어질 수 있다 */
   durationSec?: number
   /** 이 곡 음량 배율 (0~1, 미지정이면 1 = 원음). 0.5 면 50%. 곡마다 음량 편차를 잡는 데 쓴다 */
   volume?: number
@@ -482,10 +487,10 @@ export interface FactionChapter {
 }
 
 /**
- * 상황 화면 — 인물 계정·대사·음성 없이 사건·장소·괴물·재난을 이야기 흐름 사이에 보여주는 컷.
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionScene.
+ * 개별 장면 — 인물 계정·대사·음성 없이 사건·장소·괴물·재난을 이야기 흐름 사이에 보여주는 컷.
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionIndividualScene.
  */
-export interface FactionScene {
+export interface FactionIndividualScene {
   title: string
   titleEn?: string
   caption?: string
@@ -496,9 +501,21 @@ export interface FactionScene {
   sfx?: string
 }
 
+/** 세력 안의 수평 이야기 순서 — 그룹과 개별 장면이 같은 층위에 놓인다. */
+export type FactionSequenceItem =
+  | { kind: 'cluster'; clusterIndex: number }
+  | { kind: 'scene'; id: string; scene: FactionIndividualScene }
+  /** 쇼츠 편 경계. 롱폼에서는 재생 항목 없이 건너뛴다. */
+  | { kind: 'cut' }
+
+/** 구/신 데이터를 모두 같은 수평 시퀀스로 읽는 BO 측 타입 래퍼. */
+export function factionSequenceOf(group: FactionGroup): FactionSequenceItem[] {
+  return rawFactionSequenceOf(group as unknown as Record<string, unknown>) as unknown as FactionSequenceItem[]
+}
+
 /**
  * 롱폼 편성 한 칸 — 세력 블록(group) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
- * 상황 화면은 정비에서 FactionCluster.scenesAfter 로 관리하며 여기에 넣지 않는다.
+ * 개별 장면은 정비에서 FactionGroup.sequence로 관리하며 여기에 넣지 않는다.
  * longformLayout 항목 순서대로 롱폼이 흐른다. cut 을 꽂으면 그 지점에서 여러 편으로 갈라진다.
  * 챕터 전환(chapter)은 영상을 가르지 않고 한 영상 안에서 챕터를 넘긴다(음악 곡 경계 겸용).
  */
@@ -588,11 +605,11 @@ export interface FactionScript {
    */
   quoteDisplay?: 'box' | 'caption'
   /**
-   * 작은 자막 세로 위치 — 에피소드 전역 기본. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
+   * 작은 자막 세로 위치 — 에피소드 전역 기본이자 개별 장면 해설의 상속값. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
    * - 'bottom'(기본): 화면 최하단(이름·직함과 동일 선상) / 'center': 화면 중하단 밴드(이름과 떨어진 독립 블록).
    */
   quoteCaptionPos?: 'bottom' | 'center'
-  /** 작은 자막 폰트 스타일 — 에피소드 전역 기본. 'default'(기본) | 'serif-large'(세리프 좀 더 큼) */
+  /** 작은 자막 크기·글꼴 — 에피소드 전역 기본이자 개별 장면 해설의 상속값. */
   quoteCaptionSize?: 'default' | 'large'
   quoteCaptionFont?: 'default' | 'serif'
   /**
@@ -610,6 +627,8 @@ export interface FactionScript {
   shortsPartCount?: number
   /** 쇼츠 편(part)별 영상 명칭 (한 필드, 개행). 해당 편 렌더 시 title 대신 쓴다. 미지정 편은 공통 값 */
   titleByPart?: Record<number, string>
+  /** 롱폼 편(lvPart)별 영상 명칭. 내부·외부 편 경계로 갈린 해당 롱폼에서 title 대신 쓴다. */
+  titleByLvPart?: Record<number, string>
   /** 시작 화면에 띄울 시작문구. 영상 명칭 아래에 천천히 떠올라 영상 주제를 먼저 알린다 — 언어 공통(en은 loglineEn) */
   logline?: string
   /** 시작문구 (영문) */
@@ -618,6 +637,10 @@ export interface FactionScript {
   loglineByPart?: Record<number, string>
   /** 쇼츠 편(part)별 시작문구 (영문) */
   loglineByPartEn?: Record<number, string>
+  /** 롱폼 편(lvPart)별 시작문구. 미지정 편은 공통 logline을 쓴다. */
+  loglineByLvPart?: Record<number, string>
+  /** 롱폼 편(lvPart)별 시작문구 영문 */
+  loglineByLvPartEn?: Record<number, string>
   /** 시작 화면 지속 시간(초). 미지정이면 기본값(2.5). 시작문구를 읽을 여유가 필요할 때 늘린다 */
   introSec?: number
   /**
@@ -683,6 +706,8 @@ export interface FactionScript {
   noOutro?: boolean
   /** 쇼츠 편(part)별 시작 화면 핵심 인물 slug. 해당 편 렌더 시 heroes 대신 쓴다. 미지정 편은 공통 heroes */
   heroesByPart?: Record<number, string[]>
+  /** 롱폼 편(lvPart)별 시작 화면 핵심 인물 slug. 미지정 편은 공통 heroes를 쓴다. */
+  heroesByLvPart?: Record<number, string[]>
   /** 시작/마지막 화면 배치 — 'row'(가로 한 줄·각 칸 세로로 김, 기본) | 'column'(세로 한 줄·각 칸 가로로 김) | 'grid'(2열 그리드) */
   heroLayout?: 'row' | 'column' | 'grid'
   /** 롱폼(LV) 썸네일 전용 이미지(DND 등록용). 미지정이면 첫 번째 인물 이미지로 폴백 */

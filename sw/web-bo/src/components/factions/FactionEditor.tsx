@@ -1,15 +1,12 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import Link from 'next/link'
-import dynamic from 'next/dynamic'
-import { Users } from 'lucide-react'
 import type { FactionScript, FactionGroup, FactionTrack, FactionPerson, HoldMotion } from '@/lib/faction-types'
 import { HOLD_MOTION_OPTIONS } from './shared/holdMotion'
 import { factionVoiceFile, buildGroupMoveRenames, buildPersonCrossMoveRenames, reorderFactionVoice } from '@/lib/faction-voice'
 import { totalSec, totalPeople, cueCount } from './shared/timing'
 import {
-  EditLangSwitch, FloatingSaveButton, formatMmss, useEpisodeEditor, type EditLang,
+  FloatingSaveButton, useEpisodeEditor, type EditLang,
 } from '@feelandnote/shared/bo/editor'
 
 /** 음악 파일 길이(초) 측정 — 브라우저 Audio 메타데이터 */
@@ -34,14 +31,30 @@ function measureDuration(url: string): Promise<number> {
     a.src = url
   })
 }
-import { Plus, Eye, Upload, Search, Film, ImageIcon, Mic, ChevronsUpDown, ChevronsDownUp, FolderOpen } from '@feelandnote/shared/bo/icons'
-import { FactionGroupEditor } from './FactionEditor/FactionGroupEditor/FactionGroupEditor'
-import { FactionCopyButton } from './shared/FactionCopyButton'
-import { FactionNameCopyButton } from './shared/FactionNameCopyButton'
+import { ChevronsUpDown, ChevronsDownUp } from '@feelandnote/shared/bo/icons'
 import { FactionPreview } from './FactionEditor/FactionPreview'
 import { ImagePool, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { FactionShortsPartHeader } from './FactionEditor/sections/FactionShortsPartHeader'
 import FactionEpisodeActions from './FactionEpisodeActions'
+import { FactionEditorHeader } from './FactionEditor/sections/FactionEditorHeader'
+import { FactionProjectSettings } from './FactionEditor/sections/FactionProjectSettings'
+import { FactionMusicSettings } from './FactionEditor/sections/FactionMusicSettings'
+import { FactionToolDock } from './FactionEditor/sections/FactionToolDock'
+import { FactionInfoPanel } from './FactionEditor/sections/FactionInfoPanel'
+import {
+  configuredShortsParts,
+  contrastText,
+  DEFAULT_SHORTS_PART_COUNT,
+  FactionComposeRow,
+  MAX_SHORTS_PART_COUNT,
+  partSectionsOf,
+  shortsPartScriptOf,
+  shortsPartSlicesOf,
+  shortsPartCountOf,
+  shortsSliceSummary,
+  type PartAssignOption,
+  usesInternalShortsCuts,
+} from './FactionEditor/sections/factionShorts'
 import { collectUsedImages, remapFactionImages } from './shared/usedImages'
 import { TaskPanel } from '@/components/TaskPanel'
 import { FactionVoiceProvider, type FactionVoiceMeta } from './shared/FactionVoiceContext'
@@ -51,8 +64,6 @@ import { FactionQuoteModeModal } from './FactionEditor/FactionQuoteModeModal'
 import { FactionHeroPicker, type HeroCandidate } from './FactionEditor/FactionHeroPicker'
 import { FactionYouTubePanel } from './FactionEditor/FactionYouTubePanel'
 import { FactionPublishPanel } from './FactionPublishPanel'
-import { FactionImageSyncBadge } from './FactionImageSyncBadge'
-import { FactionNarratorPanel } from './FactionEditor/FactionNarratorPanel'
 import { FactionCommentPanel } from './FactionEditor/FactionCommentPanel'
 import { FactionEffectsSheet } from './FactionEditor/FactionEffectsSheet'
 import { useImagePoolToggle } from '@/lib/useImagePoolToggle'
@@ -68,82 +79,8 @@ import { folderToParam } from '@/lib/faction-edit-route'
 /** 편집 화면 주소 뿌리 — 목록도 상세도 이 아래에 있다 */
 const EDIT_BASE = '/factions'
 
-const FactionPeoplePanel = dynamic(
-  () => import('./FactionEditor/FactionPeoplePanel/FactionPeoplePanel'),
-  {
-    loading: () => (
-      <div className="rounded-xl border border-border bg-bg-card px-4 py-16 text-center text-sm text-text-secondary">
-        인물 사진 모드를 여는 중입니다…
-      </div>
-    ),
-  },
-)
-
-
 /** 신규 세력 기본형 — 항상 그룹(clusters) 1개를 갖는다. 호출마다 새 객체(참조 공유 방지) */
 const newGroup = (): FactionGroup => ({ name: '', color: '#92400e', clusters: [{ people: [] }], people: [] })
-
-/** 세력 색 위에 얹을 글자색 — 밝은 색이면 어두운 글자, 어두운 색이면 밝은 글자(라이트모드 가독성) */
-function contrastText(hex: string): string {
-  const c = (hex ?? '').replace('#', '')
-  if (c.length < 6) return '#ffffff'
-  const r = parseInt(c.slice(0, 2), 16), g = parseInt(c.slice(2, 4), 16), b = parseInt(c.slice(4, 6), 16)
-  return 0.299 * r + 0.587 * g + 0.114 * b > 150 ? '#1a1a1a' : '#ffffff'
-}
-
-const DEFAULT_SHORTS_PART_COUNT = 2
-const MAX_SHORTS_PART_COUNT = 99
-
-type PartSection = { key: number; label: string; hint: string }
-type PartAssignOption = { value: number; label: string }
-
-const SHORTS_PART_RECORD_KEYS = [
-  'titleByPart',
-  'loglineByPart',
-  'loglineByPartEn',
-  'musicByPart',
-  'musicVolumeByPart',
-  'introImageByPart',
-  'outroImageByPart',
-  'heroesByPart',
-] as const satisfies ReadonlyArray<keyof FactionScript>
-
-/** 세력 배정과 편별 설정에서 실제로 참조 중인 쇼츠 편 번호를 모은다. */
-function configuredShortsParts(script: FactionScript): number[] {
-  const parts = new Set<number>()
-  for (const group of script.groups ?? []) {
-    if (!group.disabled && group.part != null && group.part > 0) parts.add(group.part)
-  }
-  for (const key of SHORTS_PART_RECORD_KEYS) {
-    const record = script[key]
-    if (!record || typeof record !== 'object') continue
-    for (const raw of Object.keys(record)) {
-      const part = Number(raw)
-      if (Number.isInteger(part) && part > 0) parts.add(part)
-    }
-  }
-  return [...parts].sort((a, b) => a - b)
-}
-
-/** 기존 데이터는 2편 UI로 열고, 이미 3편 이상을 쓰는 데이터는 절대 숨기지 않는다. */
-function shortsPartCountOf(script: FactionScript): number {
-  const saved = Number.isInteger(script.shortsPartCount) && (script.shortsPartCount ?? 0) > 0
-    ? Math.min(script.shortsPartCount as number, MAX_SHORTS_PART_COUNT)
-    : DEFAULT_SHORTS_PART_COUNT
-  const highestConfigured = configuredShortsParts(script).at(-1) ?? 0
-  return Math.max(saved, highestConfigured)
-}
-
-/** key 0 = 편 미지정(모든 편 공통), 1부터 사용자가 지정한 쇼츠 편. */
-function partSectionsOf(count: number): PartSection[] {
-  return [
-    { key: 0, label: '모든 편 공통', hint: '쇼츠 모든 편에 노출' },
-    ...Array.from({ length: count }, (_, index) => {
-      const part = index + 1
-      return { key: part, label: `${part}편`, hint: `${part}편 쇼츠에만` }
-    }),
-  ]
-}
 
 export function FactionEditor({ series, name, initialLang, initialTab = 'info', cardTarget }: { series: string; name: string; initialLang?: EditLang; initialTab?: FactionEditTab; cardTarget?: FactionCardInitialTarget }) {
   const [script, setScript] = useState<FactionScript | null>(null)
@@ -297,9 +234,12 @@ ${res.exported.reason}`)
         const loadedScript = { ...data, groups }
         setScript(loadedScript)
         // 실제 표시되는 편 묶음 키 — 렌더 로직과 동일 기준(활성 세력의 part로 묶음 판정)
-        const shown = partSectionsOf(shortsPartCountOf(loadedScript)).filter(sec =>
-          groups.some(g => !g.disabled && (g.part ?? 0) === sec.key),
-        )
+        const internalCuts = usesInternalShortsCuts(loadedScript)
+        const shown = partSectionsOf(shortsPartCountOf(loadedScript)).filter(sec => (
+          internalCuts
+            ? sec.key > 0 && shortsPartSlicesOf(loadedScript, sec.key).length > 0
+            : groups.some(g => !g.disabled && (g.part ?? 0) === sec.key)
+        ))
         // 편 묶음이 2개 이상이면 모두 접고, 1개 이하면 모두 펼친다
         setCollapsedParts(shown.length >= 2 ? Object.fromEntries(shown.map(s => [s.key, true])) : {})
         setDirty(false)
@@ -546,11 +486,26 @@ ${res.exported.reason}`)
         heroCandidatesBySlug.set(slug, { slug, name: `${g.name} 로고`, image: logoImg })
       }
     }
-    const ppl = g.clusters?.length ? g.clusters.flatMap(c => c.people) : g.people
-    for (const p of ppl) {
-      personSlugs.push(p.slug)
-      if (p.slug && !heroCandidatesBySlug.has(p.slug)) {
-        heroCandidatesBySlug.set(p.slug, { slug: p.slug, name: p.name, image: p.image })
+    if (g.clusters?.length) {
+      for (const cluster of g.clusters) {
+        for (const p of cluster.people) {
+          personSlugs.push(p.slug)
+          if (p.slug && !heroCandidatesBySlug.has(p.slug)) {
+            const inheritsGroupImage = !g.solo && !!cluster.image && (!p.image || p.image === cluster.image)
+            heroCandidatesBySlug.set(p.slug, {
+              slug: p.slug,
+              name: p.name,
+              image: inheritsGroupImage ? cluster.image : p.image,
+            })
+          }
+        }
+      }
+    } else {
+      for (const p of g.people) {
+        personSlugs.push(p.slug)
+        if (p.slug && !heroCandidatesBySlug.has(p.slug)) {
+          heroCandidatesBySlug.set(p.slug, { slug: p.slug, name: p.name, image: p.image })
+        }
       }
     }
   }
@@ -587,6 +542,7 @@ ${res.exported.reason}`)
   if (!script) return <div className="p-6 text-text-dim">불러오는 중...</div>
 
   const groups = script.groups ?? []
+  const internalShortsCuts = usesInternalShortsCuts(script)
   const shortsPartCount = shortsPartCountOf(script)
   const partSections = partSectionsOf(shortsPartCount)
   const partAssignOptions: PartAssignOption[] = [
@@ -814,322 +770,94 @@ ${res.exported.reason}`)
     }}>
     {/* faction-ui — 이 가지 안쪽만 글자·선 보정을 받는다(globals.css 끝 절 참조).
         영상 관리 대시보드의 촘촘한 표가 그 보정에 기대어 읽히도록 짜여 있어 함께 옮겼다. */}
-    <div className="faction-ui relative pb-12">
-      {/* 상단 바 */}
-      <div className="mb-4 py-3">
-        <div className="mb-2 flex items-center gap-2">
-          <Link href={EDIT_BASE} className="text-sm text-text-secondary hover:text-accent">← 목록</Link>
-          <EditLangSwitch value={editLang} onChange={(next) => {
-            setEditLang(next)
-            window.history.pushState(null, '', `${EDIT_BASE}/${folderToParam(name)}/${next}/${showCards ? tab + '/card' : tab}`)
-          }} />
-          {/* 정비/편성 탭 — 정비=세력·인물 데이터 세팅, 편성=구성 방식(쇼츠·롱폼) */}
-          <div className="flex items-center gap-1.5">
-            <div className="flex items-center gap-0.5 rounded-md border border-border bg-bg-card p-0.5">
-              <button
-                onClick={() => goTab('info')}
-                className={`rounded px-2.5 py-1 text-xs font-semibold ${tab === 'info' && !showCards ? 'bg-accent text-white' : 'text-text-secondary hover:bg-bg-hover'}`}
-              >
-                정비
-              </button>
-              <button
-                onClick={() => goTab(composeSub)}
-                className={`rounded px-2.5 py-1 text-xs font-semibold ${tab !== 'info' && !showCards ? 'bg-accent text-white' : 'text-text-secondary hover:bg-bg-hover'}`}
-              >
-                편성
-              </button>
-            </div>
-            {/* 편성 하위 — 쇼츠(편별 배치)와 롱폼(순서·시대 문구·편 경계) */}
-            {tab !== 'info' && (
-              <div className="flex items-center gap-0.5 rounded-md border border-border/60 bg-bg-card/50 p-0.5">
-                {([['shorts', '쇼츠'], ['longform', '롱폼']] as ['shorts' | 'longform', string][]).map(([v, lbl]) => (
-                  <button
-                    key={v}
-                    onClick={() => goTab(v)}
-                    className={`rounded px-2 py-1 text-xs font-semibold ${tab === v && !showCards ? 'bg-accent/80 text-white' : 'text-text-secondary hover:bg-bg-hover'}`}
-                  >
-                    {lbl}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          {/* 편 자체에 대한 조작 — 상태·편성·내보내기·이름 변경·복제·삭제.
-              목록이 도감 테마 기준 표 하나로 합쳐지면서 여기로 옮겨 왔다. */}
-          <div className="ml-auto flex items-center gap-3">
-            <FactionEpisodeActions folder={name} variant="bar" />
-            <span className="text-xs text-text-secondary">
-              총 {formatMmss(totalSec(script))} · 컷 {cueCount(script)}개
-            </span>
-          </div>
-        </div>
+    <div className="faction-ui relative mx-auto max-w-[1800px] pb-16">
+      <FactionEditorHeader
+        editBase={EDIT_BASE}
+        editLang={editLang}
+        tab={tab}
+        composeSub={composeSub}
+        showCards={showCards}
+        durationSec={totalSec(script)}
+        cutCount={cueCount(script)}
+        episodeActions={<FactionEpisodeActions folder={name} variant="bar" />}
+        onEditLangChange={next => {
+          setEditLang(next)
+          window.history.pushState(null, '', `${EDIT_BASE}/${folderToParam(name)}/${next}/${showCards ? tab + '/card' : tab}`)
+        }}
+        onTabChange={goTab}
+      />
 
-        <div className="flex flex-col gap-2">
-          {/* 영상 명칭 — 한 칸(개행 입력). 첫 줄=앞부분(흰색), 둘째 줄부터=뒷부분(세력색). 국문/영문 나란히 */}
-          <div className="flex items-start gap-2">
-            <label className="mt-2 w-20 shrink-0 text-xs text-text-dim">영상 명칭 -</label>
-            {editLang !== 'en' && (
-              <textarea
-                rows={2}
-                placeholder={'영상 명칭\n첫 줄=앞부분(흰색), 둘째 줄부터=뒷부분(세력색)'}
-                value={script.title}
-                onChange={e => update({ title: e.target.value })}
-                className="min-w-0 flex-1 resize-y rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-bold focus:border-accent focus:outline-none"
-              />
-            )}
-            {editLang !== 'ko' && (
-              <>
-                <label className="mt-2 w-12 shrink-0 text-xs text-text-dim">(영문) -</label>
-                <textarea
-                  rows={2}
-                  placeholder={'EN 영상 명칭 (영문)\n첫 줄=앞부분, 둘째 줄부터=뒷부분'}
-                  value={script.titleEn ?? ''}
-                  onChange={e => update({ titleEn: e.target.value || undefined })}
-                  className="min-w-0 flex-1 resize-y rounded-md border border-border/60 bg-bg-card/50 px-3 py-2 text-xs text-text-secondary focus:border-accent focus:outline-none"
-                />
-              </>
-            )}
-          </div>
-          {/* 움직임 효과 통합 관리 — 전환·시작·지속·줌 목표점·지지직·속도를 전 대상(전역·세력·그룹샷·인물) 한 곳에서 */}
-          <div className="flex items-center gap-2">
-            <label className="w-20 shrink-0 text-xs text-text-dim">움직임 효과 -</label>
-            <button
-              onClick={() => setEffectsOpen(true)}
-              className="rounded-md border border-accent bg-accent/10 px-3 py-1.5 text-sm font-semibold text-accent hover:bg-accent/20"
-            >
-              효과 관리 열기
-            </button>
-            <span className="text-xs text-text-dim">전환 · 시작 · 지속 · 줌 목표점 · 지지직 · 속도 — 전 인물·그룹샷을 한 곳에서 (빈 칸은 상위 따름)</span>
-          </div>
-          {/* 인물 전환효과 — 세로 쇼츠 인물 사진 모션 */}
-          <div className="flex items-center gap-2">
-            <label className="w-20 shrink-0 text-xs text-text-dim">전환효과 -</label>
-            <select
-              value={script.transition ?? 'zoomout'}
-              onChange={e => update({ transition: e.target.value as FactionScript['transition'] })}
-              className="rounded-md border border-border bg-bg-card px-3 py-2 text-sm focus:border-accent focus:outline-none"
-            >
-              <option value="auto">자동 (인물마다 번갈아)</option>
-              <option value="zoomout">줌 아웃</option>
-              <option value="zoomin">줌 인</option>
-              <option value="kenburns">확대하며 위로 이동</option>
-              <option value="slideLeft">슬라이드 (오른쪽에서 등장)</option>
-              <option value="slideRight">슬라이드 (왼쪽에서 등장)</option>
-              <option value="glitch">TV 지직거림</option>
-              <option value="tear">찢기 (가운데 갈라짐)</option>
-              <option value="crt">옛 TV 켜지듯</option>
-              <option value="zoompunch">확 다가오기</option>
-              <option value="whip">빠르게 스쳐 지나기</option>
-              <option value="filmburn">필름 타들어가듯</option>
-              <option value="pixelate">뿌옇게 뭉갰다 또렷해지기</option>
-              <option value="shutter">블라인드 열리기</option>
-            </select>
-            <span className="text-xs text-text-dim">세로 쇼츠 인물 사진 움직임</span>
-          </div>
-          {/* 지속 효과(전역) — 컷이 떠 있는 동안의 카메라 움직임. 세력·인물이 덮어쓴다. 일괄 도구로 전체 통일·해제 */}
-          <div className="flex flex-wrap items-center gap-2">
-            <label className="w-20 shrink-0 text-xs text-text-dim">지속효과 -</label>
-            <select
-              value={script.holdMotion ?? 'none'}
-              onChange={e => update({ holdMotion: e.target.value as HoldMotion })}
-              className="rounded-md border border-border bg-bg-card px-3 py-2 text-sm focus:border-accent focus:outline-none"
-            >
-              {HOLD_MOTION_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-            <button
-              onClick={() => bulkApplyHold((script.holdMotion ?? 'none') as HoldMotion)}
-              className="rounded-md border border-border bg-bg-card px-2.5 py-2 text-xs hover:bg-bg-hover"
-              title="모든 세력·인물의 개별 설정을 지우고 위 효과로 통일한다(전역 정지 스위치도 해제)"
-            >
-              전체 통일 덮어쓰기
-            </button>
-            <button
-              onClick={bulkClearHold}
-              className="rounded-md border border-border bg-bg-card px-2.5 py-2 text-xs hover:bg-bg-hover"
-              title="모든 세력·인물의 지속 효과를 끄고 정지로 통일한다"
-            >
-              모두 끄기
-            </button>
-            <span className="text-xs text-text-dim">머무는 동안 사진 움직임(진입 전환과 별개)</span>
-          </div>
-          {/* 시작·종료 화면 관련(시작 길이·시작문구·인물·종료 이미지·마무리 타이밍)은 아래 편 「공통」 묶음의 시작 화면/종료 화면 구획에서 한곳에 다룬다. */}
-        </div>
+      <div className="mb-3 space-y-2">
+        <FactionToolDock
+          script={script}
+          folder={name}
+          imageSyncReloadKey={atlasReloadKey + imageSyncReloadKey}
+          peopleImagesActive={tab === 'info' && showPeopleImages}
+          poolActive={showPool}
+          previewActive={showPreview}
+          youtubeActive={showYouTube}
+          publishActive={showPublish}
+          cardsActive={showCards}
+          syncing={syncing}
+          rendering={rendering}
+          onTogglePeopleImages={togglePeopleImages}
+          onTogglePool={() => setShowPool(value => !value)}
+          onTogglePreview={() => setShowPreview(value => !value)}
+          onOpenVoice={() => setVoiceModalOpen(true)}
+          onNormalizeVoice={() => {
+            if (confirm('이 에피소드의 모든 음성(ElevenLabs 포함)을 같은 음량으로 균일화합니다. 원본은 voice/.raw 에 백업됩니다. 진행할까요?')) {
+              triggerVoice({ normalizeOnly: true })
+            }
+          }}
+          onOpenQuoteMode={() => setQuoteModeOpen(true)}
+          onSyncVoice={syncVoiceDurations}
+          onRender={render}
+          onToggleYouTube={() => setShowYouTube(value => !value)}
+          onOpenPublish={() => setShowPublish(true)}
+          onTogglePublish={() => {
+            if (showPublish) setImageSyncReloadKey(key => key + 1)
+            setShowPublish(value => !value)
+          }}
+          onToggleCards={toggleCards}
+        />
 
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          {/* ── 배경음악 카드 ── 곡 / 편별 / 대사 중 음량 + 업로드 */}
-          <div className="w-full space-y-2 rounded-lg border border-border bg-bg-card/40 p-3">
-            <div className="text-xs font-semibold text-text-secondary">배경음악</div>
-
-            {/* 공통 곡 — 롱폼, 그리고 편별 BGM 미지정 편에 쓰인다 */}
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className="w-24 shrink-0 text-xs text-text-dim">공통 곡</span>
-              {tracks.map((t, i) => (
-                <span key={i} className="flex items-center gap-1 rounded-md border border-border bg-bg-card px-2 py-1 text-xs">
-                  <span className="text-text-dim">{i + 1}.</span>
-                  <span className="max-w-[11rem] truncate" title={t.file}>{t.file}</span>
-                  <span className="text-text-dim">{Number.isFinite(t.durationSec) && (t.durationSec ?? 0) > 0 ? formatMmss(t.durationSec!) : '측정중…'}</span>
-                  <span className="flex items-center gap-1 border-l border-border pl-1.5" title="이 곡 음량. 100%가 원음">
-                    <input type="range" min={0} max={1} step={0.05} value={t.volume ?? 1} onChange={e => setTrackVolume(i, Number(e.target.value))} className="w-16 accent-accent" />
-                    <span className="w-9 text-right font-mono text-[10px] text-text-secondary">{Math.round((t.volume ?? 1) * 100)}%</span>
-                  </span>
-                  <button onClick={() => moveTrack(i, -1)} disabled={i === 0} className="px-0.5 text-text-secondary hover:text-accent disabled:opacity-30" title="앞으로">↑</button>
-                  <button onClick={() => moveTrack(i, 1)} disabled={i === tracks.length - 1} className="px-0.5 text-text-secondary hover:text-accent disabled:opacity-30" title="뒤로">↓</button>
-                  <button onClick={() => removeTrack(i)} className="px-0.5 text-danger-text hover:underline" title="제거">×</button>
-                </span>
-              ))}
-              {tracks.length === 0 && <span className="text-xs text-text-dim">없음</span>}
-              <select value="" onChange={e => { addTrack(e.target.value); e.target.value = '' }} className="rounded-md border border-border bg-bg-card px-2 py-1 text-xs">
-                <option value="">+ 곡 추가</option>
-                {musicList.map(m => <option key={m} value={m}>{musicLabel(m)}</option>)}
-              </select>
-              {tracks.length > 1 && (
-                <span className="text-[10px] text-text-dim">합 {formatMmss(tracks.reduce((s, t) => s + (t.durationSec ?? 0), 0))} · 영상 {formatMmss(totalSec(script))}</span>
-              )}
-            </div>
-
-            {/* 편별 BGM은 아래 편 묶음(1편·2편)에서 다룬다. 여기 공통 곡은 편별 미지정 편에 쓰인다 */}
-
-            {/* 대사 중 음량(덕킹) */}
-            <div className="flex items-center gap-2">
-              <span className="w-24 shrink-0 text-xs text-text-dim">대사 중 음량</span>
-              <input type="range" min={0} max={1} step={0.05} value={script.musicDuckVolume ?? 1} onChange={e => { const v = Number(e.target.value); update({ musicDuckVolume: v === 1 ? undefined : v }) }} className="w-24 accent-accent" />
-              <span className="w-9 text-right font-mono text-[10px] text-text-secondary">{Math.round((script.musicDuckVolume ?? 1) * 100)}%</span>
-              <span className="text-[10px] text-text-dim">대사(음성) 나올 때만 낮춤 · 평소 100%</span>
-              <button
-                onClick={openMusicFolder}
-                title="음악 폴더를 파일 탐색기로 연다. 곡을 여기에 넣고 새로고침하면 목록에 나타난다"
-                className="ml-auto flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-xs font-semibold text-text-secondary hover:bg-bg-hover"
-              >
-                <FolderOpen size={14} /> 음악 폴더 열기
-              </button>
-            </div>
-          </div>
-
-          <div className="ml-auto flex items-center gap-2">
-            <FactionNameCopyButton script={script} />
-            <FactionCopyButton script={script} />
-            <button
-              onClick={togglePeopleImages}
-              aria-pressed={tab === 'info' && showPeopleImages}
-              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
-                tab === 'info' && showPeopleImages
-                  ? 'border-accent bg-accent/10 text-accent'
-                  : 'border-border bg-bg-card text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-accent'
-              }`}
-              title="이 편의 전체 등장인물 아바타·대표 사진 관리"
-            >
-              <Users size={15} /> 인물 사진
-            </button>
-            <button
-              onClick={() => setShowPool(v => !v)}
-              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
-                showPool
-                  ? 'border-accent bg-accent/10 text-accent'
-                  : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
-              }`}
-              title="이미지 풀 — 폴더별 이미지 조망 (사용/미사용) · Ctrl+Q"
-            >
-              <ImageIcon size={15} /> 이미지 풀
-            </button>
-            <button
-              onClick={() => setShowPreview(v => !v)}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
-            >
-              <Eye size={15} /> {showPreview ? '편집' : '미리보기'}
-            </button>
-            <button
-              onClick={() => setVoiceModalOpen(true)}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
-              title="인물 대사 음성 생성 옵션 (대상·생성 모드)"
-            >
-              <Mic size={15} /> 음성 생성
-            </button>
-            <button
-              onClick={() => { if (confirm('이 에피소드의 모든 음성(ElevenLabs 포함)을 같은 음량으로 균일화합니다. 원본은 voice/.raw 에 백업됩니다. 진행할까요?')) triggerVoice({ normalizeOnly: true }) }}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
-              title="모든 대사 음성(ElevenLabs 포함)을 같은 라우드니스로 일괄 균일화 (생성 없이 정규화만)"
-            >
-              음량 균일화
-            </button>
-            <button
-              onClick={() => setQuoteModeOpen(true)}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
-              title="전 인물 대사 처리 단계(음성/대사/직함) 일괄 편집"
-            >
-              대사 단계
-            </button>
-            <button
-              onClick={syncVoiceDurations}
-              disabled={syncing}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover disabled:opacity-50"
-              title="모든 인물의 음성 길이를 실제 음원 파일 길이로 다시 맞춘다 (위치 변경·음원 교체 후 컷 길이 정정)"
-            >
-              {syncing ? '맞추는 중…' : '음성 길이 맞추기'}
-            </button>
-            <button
-              onClick={render}
-              disabled={rendering}
-              className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover disabled:opacity-50"
-              title="세로 영상 1편 렌더 (out/Faction/)"
-            >
-              <Film size={15} /> {rendering ? '시작 중...' : '렌더'}
-            </button>
-            <button
-              onClick={() => setShowYouTube(v => !v)}
-              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
-                showYouTube
-                  ? 'border-accent bg-accent/10 text-accent'
-                  : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
-              }`}
-              title="유튜브 업로드·메타 관리"
-            >
-              <Upload size={15} /> 유튜브
-            </button>
-            {/* 사진 경고 배지 — 반영이 막혔거나 원본이 없는 사진이 있을 때만 뜬다(평상시 비표시).
-                대본 저장(atlasReloadKey)마다 다시 센다. FACTION_LOCAL 없으면 판정 불가라 안 뜬다. */}
-            <FactionImageSyncBadge
-              folder={name}
-              reloadKey={atlasReloadKey + imageSyncReloadKey}
-              onOpenPublish={() => setShowPublish(true)}
+        {!showPreview && !showCards && !showPeopleImages && (
+          <div className="grid items-start gap-2 xl:grid-cols-2">
+            <FactionProjectSettings
+              script={script}
+              editLang={editLang}
+              onChange={update}
+              onOpenEffects={() => setEffectsOpen(true)}
+              onApplyHold={bulkApplyHold}
+              onClearHold={bulkClearHold}
             />
-            <button
-              onClick={() => {
-                // 닫히는 순간 배지를 다시 센다 — 패널 안에서 수동 반영을 돌렸을 수 있다
-                if (showPublish) setImageSyncReloadKey(k => k + 1)
-                setShowPublish(v => !v)
-              }}
-              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
-                showPublish
-                  ? 'border-accent bg-accent/10 text-accent'
-                  : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
-              }`}
-              title="세력도감(본서비스) 반영 진단 — 저장이 자동 반영하므로 평소엔 필요 없다. 무엇이 어긋났는지 확인·미리보기·수동 재실행"
-            >
-              <Search size={15} /> 진단
-            </button>
-            <button
-              onClick={toggleCards}
-              className={`flex items-center gap-1.5 rounded-md border px-3 py-2 text-sm font-semibold ${
-                showCards ? 'border-accent bg-accent/10 text-accent' : 'border-border bg-bg-card text-text-secondary hover:bg-bg-hover'
-              }`}
-            >
-              카드/도감
-            </button>
-            <FloatingSaveButton dirty={dirty} saving={saving} onSave={save} />
-            {/* 저장 완료 알림 — 저장에 딸려 돈 사진 공정 결과(「사진 N장 반영」). 저장 단추 위에 잠시 뜬다 */}
-            {saveNote && (
-              <div
-                className={`fixed bottom-20 right-6 z-50 max-w-sm rounded-md border px-3 py-2 text-xs shadow-lg ${
-                  saveNote.warn
-                    ? 'border-amber-500 bg-amber-500/15 text-amber-500'
-                    : 'border-border bg-bg-card text-text-secondary'
-                }`}
-              >
-                {saveNote.text}
-              </div>
-            )}
+
+            <FactionMusicSettings
+              script={script}
+              tracks={tracks}
+              musicList={musicList}
+              videoDurationSec={totalSec(script)}
+              musicLabel={musicLabel}
+              onChange={update}
+              onAddTrack={addTrack}
+              onMoveTrack={moveTrack}
+              onRemoveTrack={removeTrack}
+              onTrackVolume={setTrackVolume}
+              onOpenFolder={openMusicFolder}
+            />
           </div>
-        </div>
+        )}
+
+        <FloatingSaveButton dirty={dirty} saving={saving} onSave={save} />
+        {saveNote && (
+          <div className={`fixed bottom-20 right-6 z-50 max-w-sm rounded-lg border px-4 py-3 text-sm shadow-lg ${
+            saveNote.warn
+              ? 'border-amber-500 bg-amber-500/15 text-amber-500'
+              : 'border-border bg-bg-card text-text-secondary'
+          }`}>
+            {saveNote.text}
+          </div>
+        )}
       </div>
 
       {/* 본문 — 편집 화면일 때만 이미지 풀 사이드바를 곁들인다 */}
@@ -1165,195 +893,28 @@ ${res.exported.reason}`)
             />
           )}
 
-          {/* 정비 — 세력·인물·상황 화면 데이터 그 자체 (편 구분 없이 평면 나열). 편 배정·분리는 편성 탭에서 */}
-          {tab === 'info' && !showPeopleImages && (
-            <div className="space-y-4">
-              {/* 대사 자막 표시 — 북리커맨드 쇼츠 작은 자막을 팩션에도 적용. 일괄 도구로 전 인물 통일 */}
-              <div className="rounded-lg border border-border bg-bg-card/50 p-3">
-                <div className="mb-1.5 text-xs font-semibold text-text-dim">대사 화면 표시 (에피소드 기본)</div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="박스는 이름·직함과 함께 큰 글씨 대사. 작은 자막은 북리커맨드 쇼츠처럼 글래스 태블릿으로 대사만 띄운다">
-                    표시 방식
-                    <select
-                      value={script.quoteDisplay ?? 'box'}
-                      onChange={e => update({ quoteDisplay: e.target.value === 'caption' ? 'caption' : 'box' })}
-                      className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    >
-                      <option value="box">박스 (기존)</option>
-                      <option value="caption">작은 자막</option>
-                    </select>
-                  </span>
-                  {(script.quoteDisplay ?? 'box') === 'caption' && (
-                    <>
-                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="작은 자막이 화면 어디에 붙을지. 하단은 아래쪽, 중하단은 화면 세로 아래쪽 중간 밴드">
-                        자막 위치
-                        <select
-                          value={script.quoteCaptionPos ?? 'bottom'}
-                          onChange={e => update({ quoteCaptionPos: e.target.value === 'center' ? 'center' : 'bottom' })}
-                          className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                        >
-                          <option value="bottom">하단</option>
-                          <option value="center">중하단</option>
-                        </select>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="자막 크기">
-                        크기
-                        <select
-                          value={script.quoteCaptionSize ?? 'default'}
-                          onChange={e => update({ quoteCaptionSize: e.target.value === 'large' ? 'large' : 'default' })}
-                          className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                        >
-                          <option value="default">기본</option>
-                          <option value="large">크게</option>
-                        </select>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs text-text-dim" title="자막 폰트">
-                        폰트
-                        <select
-                          value={script.quoteCaptionFont ?? 'default'}
-                          onChange={e => update({ quoteCaptionFont: e.target.value === 'serif' ? 'serif' : 'default' })}
-                          className="rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                        >
-                          <option value="default">고딕 (기본)</option>
-                          <option value="serif">명조 (세리프)</option>
-                        </select>
-                      </span>
-                    </>
-                  )}
-                  <button
-                    type="button"
-                    onClick={bulkStampQuoteDisplay}
-                    className="rounded-md border border-border bg-bg-card px-2.5 py-1.5 text-xs hover:bg-bg-hover"
-                    title="위 에피소드 기본값을 모든 인물 필드에 직접 기록한다. 인물별 개별 설정도 이 값으로 덮어쓴다"
-                  >
-                    전 인물에 박기
-                  </button>
-                  <button
-                    type="button"
-                    onClick={bulkClearQuoteDisplay}
-                    className="rounded-md border border-border bg-bg-card px-2.5 py-1.5 text-xs hover:bg-bg-hover"
-                    title="모든 인물의 대사 표시 개별 설정을 지운다. 이후 에피소드 기본만 따른다"
-                  >
-                    개별 설정 비우기
-                  </button>
-                </div>
-                <p className="mt-1.5 text-[11px] text-text-dim">
-                  인물이 따로 지정한 값이 있으면 그쪽이 우선한다. 「전 인물에 박기」는 전부 같은 값으로 덮고, 「개별 설정 비우기」는 전역 기본만 쓰게 한다.
-                </p>
-              </div>
-              {/* 전역 타이밍 오버라이드 — 로고 재생시간, 인트로/아웃트로 등. /info 에서 바로 보이게 배치 */}
-              <div className="rounded-lg border border-border bg-bg-card/50 p-3">
-                <div className="mb-1.5 text-xs font-semibold text-text-dim">전역 타이밍 (기본값은 코드 상수)</div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                  <label className="w-20 shrink-0 text-xs text-text-dim">시간 -</label>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="시작 화면(영상 도입)이 떠 있는 시간. 비우면 2.5초">
-                    시작 화면
-                    <input
-                      type="number" min={1} max={12} step={0.5} placeholder="2.5"
-                      value={script.introSec ?? ''}
-                      onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ introSec: v != null && Number.isFinite(v) ? v : undefined }) }}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="영상 끝 화면(브랜드 또는 종료 이미지)이 떠 있는 시간. 비우면 2.5초">
-                    종료 화면
-                    <input
-                      type="number" min={0} step={0.5} placeholder="2.5"
-                      value={script.outroHoldSec ?? ''}
-                      onChange={e => update({ outroHoldSec: e.target.value === '' ? undefined : Number(e.target.value) })}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="로고 영상(logoVid) 또는 이미지(logoImg) 타이틀 카드 재생 시간. 로고 있는 세력의 풀스크린 진입 화면 길이. 비우면 4초. 스튜디오에서 GROUP cue 길이로 적용">
-                    로고 타이틀
-                    <input
-                      type="number" min={0.5} max={8} step={0.1} placeholder="4"
-                      value={script.groupSec ?? ''}
-                      onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ groupSec: v != null && Number.isFinite(v) ? v : undefined }) }}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="그룹샷(단체사진) 카드 재생 시간 — 그룹명이 뜨는 화면 길이. 비우면 인원 수에 맞춰 자동(2.6~3.2초). 지정하면 인원 수와 무관하게 이 값으로 고정">
-                    그룹명 출력
-                    <input
-                      type="number" min={0.5} max={8} step={0.1} placeholder="자동"
-                      value={script.clusterSec ?? ''}
-                      onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ clusterSec: v != null && Number.isFinite(v) ? v : undefined }) }}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="자막형 인물 화면에서 대사가 뜨기 전, 이름·직함만 보이는 시간. 비우면 1초. 늘리면 그만큼 인물 화면이 길어진다(낭독 길이는 그대로)">
-                    이름 출력
-                    <input
-                      type="number" min={0} max={6} step={0.1} placeholder="1"
-                      value={script.captionIdHoldSec ?? ''}
-                      onChange={e => { const v = e.target.value === '' ? undefined : Number(e.target.value); update({ captionIdHoldSec: v != null && Number.isFinite(v) ? v : undefined }) }}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="마지막 인물 대사가 끝난 뒤, 그 화면을 멈춘 채 기다리는 시간. 비우면 4초">
-                    대사 후 대기
-                    <input
-                      type="number" min={0} step={0.5} placeholder="4"
-                      value={script.endHoldSec ?? ''}
-                      onChange={e => update({ endHoldSec: e.target.value === '' ? undefined : Number(e.target.value) })}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-xs text-text-dim" title="맨 끝에서 화면이 검정으로 서서히 어두워지는 시간. 비우면 3초">
-                    암전
-                    <input
-                      type="number" min={0} step={0.5} placeholder="3"
-                      value={script.endFadeSec ?? ''}
-                      onChange={e => update({ endFadeSec: e.target.value === '' ? undefined : Number(e.target.value) })}
-                      className="w-14 rounded-md border border-border bg-bg-card px-2 py-1.5 text-sm focus:border-accent focus:outline-none"
-                    />
-                    초
-                  </span>
-                </div>
-                <div className="mt-1 text-[10px] text-text-dim">이 값들은 스크립트에 저장되어 Remotion Studio / 렌더에서 buildCues 시 groupSec(로고)·clusterSec(그룹샷) 재생시간을 덮어씀</div>
-              </div>
-
-              {/* 공용 낭독 — 제목·시작문구·수식어가 한 목소리를 공유하고, 인물별 예외만 따로 둔다 */}
-              <FactionNarratorPanel script={script} update={update} series={series} episodeName={name} />
-
-              {groups.map((g, i) => (
-                <div key={i} id={`faction-group-${i}`} className="scroll-mt-24">
-                  <FactionGroupEditor
-                    groupIndex={i}
-                    group={g}
-                    onChange={next => setGroup(i, next)}
-                    onDelete={() => deleteGroup(i)}
-                    onMoveUp={() => moveGroup(i, -1)}
-                    onMoveDown={() => moveGroup(i, 1)}
-                    series={series}
-                    episodeName={name}
-                    musicList={musicList}
-                    editLang={editLang}
-                    onMoveCrossGroup={(ci: number, pi: number) => setCrossMoveTarget({ fromGi: i, fromCi: ci, fromPi: pi })}
-                    celebExisting={celeb.existing}
-                    celebLoaded={celeb.loaded}
-                  />
-                </div>
-              ))}
-              {groups.length === 0 && <p className="text-sm text-text-dim">아직 세력이 없습니다. 아래에서 추가하세요.</p>}
-              <button
-                onClick={addGroup}
-                className="flex items-center gap-1.5 rounded-md border border-dashed border-border bg-bg-card px-4 py-2.5 text-sm font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover"
-              >
-                <Plus size={16} /> 세력 추가
-              </button>
-            </div>
-          )}
-
-          {tab === 'info' && showPeopleImages && (
-            <FactionPeoplePanel groups={groups} series={series} episodeName={name} />
+          {/* 정비 — 세력·그룹·인물·개별 장면 데이터 그 자체. */}
+          {tab === 'info' && (
+            <FactionInfoPanel
+              script={script}
+              series={series}
+              episodeName={name}
+              musicList={musicList}
+              editLang={editLang}
+              showPeopleImages={showPeopleImages}
+              celebExisting={celeb.existing}
+              celebLoaded={celeb.loaded}
+              onChange={update}
+              onApplyDialogueAll={bulkStampQuoteDisplay}
+              onClearDialogueOverrides={bulkClearQuoteDisplay}
+              onSetGroup={setGroup}
+              onDeleteGroup={deleteGroup}
+              onMoveGroup={moveGroup}
+              onMovePersonCrossGroup={(groupIndex, clusterIndex, personIndex) => {
+                setCrossMoveTarget({ fromGi: groupIndex, fromCi: clusterIndex, fromPi: personIndex })
+              }}
+              onAddGroup={addGroup}
+            />
           )}
 
           {/* 편성 롱폼 — 세력 순서·시대 문구·편 경계를 직접 짠다 */}
@@ -1379,13 +940,17 @@ ${res.exported.reason}`)
             <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-bg-card/50 px-4 py-3">
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-bold text-text-primary">쇼츠 편수</div>
-                <div className="text-[11px] text-text-dim">편수를 직접 정하거나 세력의 편 드롭다운에서 「+ 다음 편 추가」를 고르세요. 공통 세력은 모든 편에 반복 노출됩니다.</div>
+                <div className="text-[11px] text-text-dim">
+                  {internalShortsCuts
+                    ? `이야기 사이 경계 ${shortsPartCount - 1}개가 실제 쇼츠 ${shortsPartCount}편을 나눕니다. 편 경계는 정비 탭의 이야기 순서에서 옮깁니다.`
+                    : '편수를 직접 정하거나 세력의 편 드롭다운에서 「+ 다음 편 추가」를 고르세요. 공통 세력은 모든 편에 반복 노출됩니다.'}
+                </div>
               </div>
               <div className="flex shrink-0 items-center overflow-hidden rounded-md border border-border bg-bg-main">
                 <button
                   type="button"
                   onClick={() => changeShortsPartCount(shortsPartCount - 1)}
-                  disabled={shortsPartCount <= 1}
+                  disabled={internalShortsCuts || shortsPartCount <= 1}
                   className="h-9 w-9 text-base font-bold text-text-secondary hover:bg-bg-hover hover:text-accent disabled:cursor-not-allowed disabled:opacity-30"
                   title="쇼츠 편수 줄이기"
                   aria-label="쇼츠 편수 줄이기"
@@ -1397,6 +962,7 @@ ${res.exported.reason}`)
                   min={1}
                   max={MAX_SHORTS_PART_COUNT}
                   value={shortsPartCount}
+                  readOnly={internalShortsCuts}
                   onChange={e => {
                     if (e.target.value !== '') changeShortsPartCount(Number(e.target.value))
                   }}
@@ -1406,7 +972,7 @@ ${res.exported.reason}`)
                 <button
                   type="button"
                   onClick={() => changeShortsPartCount(shortsPartCount + 1)}
-                  disabled={shortsPartCount >= MAX_SHORTS_PART_COUNT}
+                  disabled={internalShortsCuts || shortsPartCount >= MAX_SHORTS_PART_COUNT}
                   className="h-9 w-9 text-base font-bold text-text-secondary hover:bg-bg-hover hover:text-accent disabled:cursor-not-allowed disabled:opacity-30"
                   title="쇼츠 편수 늘리기"
                   aria-label="쇼츠 편수 늘리기"
@@ -1420,7 +986,10 @@ ${res.exported.reason}`)
 
           {/* 편성 쇼츠 — 세력을 편(공통·1편…N편)별로 배치하고 편 화면·음악을 정한다. 세력 데이터 편집은 정비 탭 */}
           {tab === 'shorts' && groups.length > 0 && partSections.map(sec => {
-            const items = groups.map((g, i) => ({ g, i })).filter(({ g }) => !g.disabled && (g.part ?? 0) === sec.key)
+            const slices = internalShortsCuts && sec.key > 0 ? shortsPartSlicesOf(script, sec.key) : []
+            const items = internalShortsCuts
+              ? slices.map(slice => ({ g: slice.group, i: slice.groupIndex }))
+              : groups.map((g, i) => ({ g, i })).filter(({ g }) => !g.disabled && (g.part ?? 0) === sec.key)
             // 개별 편 묶음이 비면 안내만. 공통 묶음(0)은 세력이 없어도 항상 표시한다 —
             // 시작/종료 화면·시간·효과음 등 영상 전역 설정이 이 안에 있어, 세력을 전부 편에 배정해도 편집칸이 사라지지 않게 한다.
             if (items.length === 0 && sec.key !== 0) {
@@ -1432,7 +1001,9 @@ ${res.exported.reason}`)
             }
             const partCollapsed = !!collapsedParts[sec.key]
             // 이 편 한정 요약 — 길이·인물 수는 기존 추정 함수에 이 편 세력만 넘겨 재사용
-            const partScript = { ...script, groups: items.map(x => x.g) }
+            const partScript = internalShortsCuts && sec.key > 0
+              ? shortsPartScriptOf(script, sec.key)
+              : { ...script, groups: items.map(x => x.g) }
             const partPeople = totalPeople(partScript)
             const partDur = totalSec(partScript)
             // 이 편에 담긴 세력 미리보기 — 세력마다 자기 색으로 칠하고 구분선으로 나눠 접힌 상태에서도 무엇이 들어있는지 보이게
@@ -1632,23 +1203,57 @@ ${res.exported.reason}`)
                     <FactionCommentPanel series={series} episodeName={name} part={sec.key} />
                     {/* 이 편에 배치된 세력 — 편 이동·순서만 다룬다(데이터 편집은 정비 탭) */}
                     <div className="space-y-1">
-                      {items.map(({ g, i }) => (
-                        <FactionComposeRow
-                          key={i}
-                          group={g}
-                          groupIndex={i}
-                          partOptions={partAssignOptions}
-                          onPart={p => setGroupPart(i, p)}
-                          onMoveUp={() => moveGroupInPart(i, -1)}
-                          onMoveDown={() => moveGroupInPart(i, 1)}
-                          onEdit={() => {
-                            goTab('info')
-                            requestAnimationFrame(() => requestAnimationFrame(() =>
-                              document.getElementById(`faction-group-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
-                            ))
-                          }}
-                        />
-                      ))}
+                      {internalShortsCuts && sec.key > 0
+                        ? slices.map(slice => {
+                          const color = slice.group.color ?? '#92400e'
+                          const label = (slice.group.name ?? '').split('\n')[0]?.trim() || '(이름 없음)'
+                          return (
+                            <div
+                              key={`${slice.groupIndex}-${slice.step.sequenceStart}`}
+                              className="flex items-center gap-2 rounded-md border border-border bg-bg-card/50 px-2.5 py-1.5"
+                            >
+                              <span
+                                className="max-w-[14rem] shrink-0 truncate rounded px-2 py-0.5 text-xs font-bold"
+                                style={{ backgroundColor: color, color: contrastText(color) }}
+                              >
+                                {label}
+                              </span>
+                              <span className="min-w-0 flex-1 truncate text-[11px] text-text-secondary" title={shortsSliceSummary(slice)}>
+                                {shortsSliceSummary(slice)}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  goTab('info')
+                                  requestAnimationFrame(() => requestAnimationFrame(() =>
+                                    document.getElementById(`faction-group-${slice.groupIndex}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+                                  ))
+                                }}
+                                className="shrink-0 rounded border border-border px-2 py-1 text-[11px] font-semibold text-text-secondary hover:bg-bg-hover"
+                                title="정비 탭에서 이야기 순서와 편 경계 편집"
+                              >
+                                경계 편집
+                              </button>
+                            </div>
+                          )
+                        })
+                        : items.map(({ g, i }) => (
+                          <FactionComposeRow
+                            key={i}
+                            group={g}
+                            groupIndex={i}
+                            partOptions={partAssignOptions}
+                            onPart={p => setGroupPart(i, p)}
+                            onMoveUp={() => moveGroupInPart(i, -1)}
+                            onMoveDown={() => moveGroupInPart(i, 1)}
+                            onEdit={() => {
+                              goTab('info')
+                              requestAnimationFrame(() => requestAnimationFrame(() =>
+                                document.getElementById(`faction-group-${i}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+                              ))
+                            }}
+                          />
+                        ))}
                     </div>
                   </div>
                 )}
@@ -1708,7 +1313,7 @@ ${res.exported.reason}`)
         {/* 이미지 풀 사이드바 — 편집 화면에서만. 아래로 내려가도 화면에 따라붙는다.
             높이 = 창 높이 − 상단 띠(4rem) − 위 여백(0.5rem) − 아래 숨틈(1rem) */}
         {!showPreview && showPool && (
-          <aside className="sticky top-2 hidden max-h-[calc(100vh-5.5rem)] w-[34rem] shrink-0 overflow-y-auto rounded-md border border-border bg-bg-main/40 p-3 lg:block [overflow-anchor:none]">
+          <aside className="sticky top-16 hidden max-h-[calc(100vh-5rem)] w-[30rem] shrink-0 overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[34rem] [overflow-anchor:none]">
             <ImagePool
               series={series}
               episodeName={name}
@@ -1726,7 +1331,7 @@ ${res.exported.reason}`)
 
       {/* 좁은 화면: 풀을 본문 아래에 펼침 */}
       {!showPreview && showPool && (
-        <div className="mt-6 rounded-md border border-border bg-bg-main/40 p-3 lg:hidden">
+        <div className="mt-6 rounded-xl border border-border bg-bg-card p-3 xl:hidden">
           <ImagePool
             series={series}
             episodeName={name}
@@ -1779,56 +1384,5 @@ ${res.exported.reason}`)
     </div>
     </FactionVoiceProvider>
     </FactionAtlasProvider>
-  )
-}
-
-/** 편성 쇼츠 세력 배정 행 — 편 이동·순서만 다룬다(데이터 편집은 정비 탭). 세력 데이터 카드를 대신한다. */
-function FactionComposeRow({
-  group,
-  groupIndex,
-  partOptions,
-  onPart,
-  onMoveUp,
-  onMoveDown,
-  onEdit,
-}: {
-  group: FactionGroup
-  groupIndex: number
-  partOptions: PartAssignOption[]
-  onPart: (partKey: number) => void
-  onMoveUp: () => void
-  onMoveDown: () => void
-  onEdit: () => void
-}) {
-  const color = group.color ?? '#92400e'
-  const label = (group.name ?? '').split('\n')[0]?.trim() || '(이름 없음)'
-  const people = group.clusters?.length
-    ? group.clusters.reduce((s, c) => s + c.people.length, 0)
-    : group.people?.length ?? 0
-  const current = group.disabled ? -1 : (group.part ?? 0)
-  return (
-    <div id={`faction-group-${groupIndex}`} className="flex scroll-mt-24 items-center gap-2 rounded-md border border-border bg-bg-card/50 px-2.5 py-1.5">
-      <span
-        className="min-w-0 max-w-[14rem] shrink truncate rounded px-2 py-0.5 text-xs font-bold"
-        style={{ backgroundColor: color, color: contrastText(color) }}
-        title={label}
-      >
-        {label}
-      </span>
-      <span className="shrink-0 text-[11px] text-text-dim">인물 {people}</span>
-      <div className="ml-auto flex shrink-0 items-center gap-1.5">
-        <select
-          value={current}
-          onChange={e => onPart(Number(e.target.value))}
-          className="rounded-md border border-border bg-bg-card px-2 py-1 text-xs focus:border-accent focus:outline-none"
-          title="이 세력이 들어갈 편"
-        >
-          {partOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
-        <button onClick={onMoveUp} className="rounded border border-border px-1.5 py-1 text-[11px] leading-none text-text-secondary hover:bg-bg-hover" title="같은 편 안에서 위로">▲</button>
-        <button onClick={onMoveDown} className="rounded border border-border px-1.5 py-1 text-[11px] leading-none text-text-secondary hover:bg-bg-hover" title="같은 편 안에서 아래로">▼</button>
-        <button onClick={onEdit} className="rounded border border-border px-2 py-1 text-[11px] font-semibold text-text-secondary hover:bg-bg-hover" title="정비 탭에서 이 세력 데이터 편집">정비</button>
-      </div>
-    </div>
   )
 }

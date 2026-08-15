@@ -3,6 +3,10 @@
 import { useState } from 'react'
 import type { FactionScript, FactionNarrator, FactionNarratorVoice, FactionPerson } from '@/lib/faction-types'
 import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
+import {
+  fixedFactionOpeningVoiceId,
+  withFixedFactionOpeningVoice,
+} from '@feelandnote/shared/lib/faction-voice-provider'
 import { factionOpeningReadText, vnNarratorLogline } from '@/lib/faction-voice'
 import { useFactionVoice } from '../shared/FactionVoiceContext'
 import { FactionVoicePanel } from './FactionGroupEditor/FactionPersonRow/FactionVoicePanel/FactionVoicePanel'
@@ -51,37 +55,47 @@ export function FactionNarratorPanel({
 
   if (!n) {
     return (
-      <div className="rounded-lg border border-border bg-bg-card/50 p-3">
-        <div className="flex items-center gap-3">
-          <div className="text-xs font-semibold text-text-dim">팩션 낭독 음성</div>
+      <section className="rounded-xl border border-border bg-bg-card p-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-bold uppercase tracking-wider text-accent">공용 음성</p>
+            <h2 className="mt-1 text-lg font-bold text-text-primary">팩션 낭독</h2>
+            <p className="mt-1 text-sm text-text-secondary">제목·시작문구·챕터명과 인물 수식어가 한 목소리를 공유합니다.</p>
+          </div>
           <button
             type="button"
             onClick={() => update({ narrator: { readLogline: true, logline: {} } })}
-            className="rounded-md border border-border px-2.5 py-1 text-xs font-semibold text-text-secondary hover:bg-bg-hover"
+            className="rounded-lg border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
           >
             + 낭독 음성 추가
           </button>
-          <p className="text-[11px] text-text-dim">
-            하나의 목소리로 제목·시작문구·챕터명과 필요한 인물의 수식어를 읽는다. 별도 해설자는 등장하지 않는다.
-          </p>
         </div>
-      </div>
+      </section>
     )
   }
 
   const openingText = factionOpeningReadText(script)
+  const fixedVoiceId = fixedFactionOpeningVoiceId(episodeName)
   // 시작 낭독을 모두 꺼도 공용 목소리는 수식어용으로 설정할 수 있어야 하므로 미리듣기 샘플을 남긴다.
   // 읽을 대상을 하나도 안 골라도 음원은 이 문구로 만들어지고, 아래 판정도 전부 이 값을 기준으로 한다.
   const readText = openingText.trim() || script.logline?.trim() || script.title
 
-  const personFor = (_key: NarrationSlotKey): FactionPerson => {
-    const v: FactionNarratorVoice = { ...(n.logline ?? {}), quote: readText }
+  const personFor = (): FactionPerson => {
+    const v: FactionNarratorVoice = withFixedFactionOpeningVoice(episodeName, {
+      ...(n.logline ?? {}),
+      quote: readText,
+    })
     return { ...v, name: '팩션 낭독 음성' } as unknown as FactionPerson
   }
 
   const saveVoice = (key: NarrationSlotKey) => (next: FactionPerson) => {
-    const { name: _name, ...rest } = next as unknown as FactionNarratorVoice & { name?: string }
-    if (key === 'opening') setNarrator({ logline: { ...rest, quote: readText } })
+    const { name, ...rest } = next as unknown as FactionNarratorVoice & { name?: string }
+    void name
+    if (key === 'opening') {
+      setNarrator({
+        logline: withFixedFactionOpeningVoice(episodeName, { ...rest, quote: readText }),
+      })
+    }
   }
 
   const activeFileFor = (file: string): VoiceFile | undefined => {
@@ -100,27 +114,29 @@ export function FactionNarratorPanel({
     || Object.keys(script.loglineByPart ?? {}).length
   )
   return (
-    <div className="space-y-3 rounded-lg border border-border bg-bg-card/50 p-3">
-      <div className="flex items-center gap-3">
-        <div className="text-xs font-semibold text-text-dim">팩션 낭독 음성</div>
-        <p className="flex-1 text-[11px] text-text-dim">
-          제목·시작문구·챕터명·수식어가 같은 목소리를 공유한다. 개별 음성에서 값을 바꾸면 그 항목만 예외가 된다.
-        </p>
+    <section className="space-y-4 rounded-xl border border-border bg-bg-card p-4">
+      <header className="flex items-start gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-bold uppercase tracking-wider text-accent">공용 음성</p>
+          <h2 className="mt-1 text-lg font-bold text-text-primary">팩션 낭독</h2>
+          <p className="mt-1 text-sm text-text-secondary">제목·시작문구·챕터명·수식어가 같은 목소리를 공유합니다.</p>
+        </div>
         <button
           type="button"
           onClick={() => {
             if (confirm('팩션 낭독 음성 설정을 제거할까? (만든 음원 파일은 남는다)')) update({ narrator: undefined })
           }}
-          className="rounded-md border border-border px-2 py-1 text-[11px] text-text-dim hover:bg-bg-hover"
+          className="rounded-lg border border-border px-3 py-2 text-sm text-text-secondary hover:bg-danger/15 hover:text-danger-text"
         >
           제거
         </button>
-      </div>
+      </header>
 
-      <div className="rounded-md border border-border/70 p-2 space-y-2">
+      <fieldset className="space-y-3 rounded-lg border border-border bg-bg-main p-3">
+        <legend className="sr-only">팩션 낭독 설정</legend>
         <div className="flex flex-wrap items-center gap-4">
-          <span className="text-xs font-semibold text-text-secondary">낭독 대상</span>
-          <label className="inline-flex items-center gap-1.5 text-xs text-text-secondary">
+          <span className="text-sm font-bold text-text-primary">낭독 대상</span>
+          <label className="inline-flex items-center gap-2 text-sm text-text-secondary">
             <input
               type="checkbox"
               checked={n.readTitle ?? false}
@@ -128,7 +144,7 @@ export function FactionNarratorPanel({
             />
             영상 제목
           </label>
-          <label className="inline-flex items-center gap-1.5 text-xs text-text-secondary">
+          <label className="inline-flex items-center gap-2 text-sm text-text-secondary">
             <input
               type="checkbox"
               checked={n.readLogline ?? true}
@@ -136,7 +152,7 @@ export function FactionNarratorPanel({
             />
             시작문구
           </label>
-          <label className="inline-flex items-center gap-1.5 text-xs text-text-secondary">
+          <label className="inline-flex items-center gap-2 text-sm text-text-secondary">
             <input
               type="checkbox"
               checked={n.readChapterTitle ?? false}
@@ -146,7 +162,7 @@ export function FactionNarratorPanel({
           </label>
           {openingStale && (
             <span
-              className="rounded bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-amber-500"
+              className="rounded-md bg-amber-500/15 px-2 py-1 text-xs font-semibold text-amber-500"
               title="읽을 항목이나 문구가 바뀌었다. 다시 생성해야 화면과 소리가 맞는다"
             >
               낭독문 변경됨 — 재생성 필요
@@ -155,20 +171,25 @@ export function FactionNarratorPanel({
         </div>
 
         {!openingText.trim() && (
-          <p className="text-[11px] text-text-dim">
+          <p className="text-sm leading-relaxed text-text-secondary">
             시작 화면에서 읽을 대상을 하나도 안 골랐다. 아래 문구로 음원은 만들어 두고 들어볼 수 있으며,
             이 목소리는 인물 수식어의 공용 기본값으로 쓰인다.
           </p>
         )}
-        <p className="whitespace-pre-line text-[11px] leading-relaxed text-text-dim">{readText}</p>
+        <p className="whitespace-pre-line rounded-lg border border-border bg-bg-card px-3 py-2 text-sm leading-relaxed text-text-secondary">{readText}</p>
+        {fixedVoiceId && (
+          <p className="rounded-md border border-violet-500/40 bg-violet-500/10 px-2.5 py-1.5 text-xs font-semibold text-violet-300">
+            세력도감 공통 전문 성우 · 모든 팩션의 시작문구가 같은 성우로 고정됩니다.
+          </p>
+        )}
         {hasPartSpecificOpening && openingText.trim() && (
-          <p className="text-[10px] text-amber-500">
+          <p className="text-sm text-amber-500">
             편별 제목·시작문구가 있다. 현재 공용 시작 음원은 위 전역 문구 한 벌만 읽으므로 편별 영상에는 따로 확인이 필요하다.
           </p>
         )}
 
         <FactionVoicePanel
-          person={personFor('opening')}
+          person={personFor()}
           series={series}
           episodeName={episodeName}
           voiceFile={SLOT_DEFS.opening.file}
@@ -178,11 +199,11 @@ export function FactionNarratorPanel({
           onOpenModal={() => setOpenKey('opening')}
           slot={SLOT_DEFS.opening.slot}
         />
-      </div>
+      </fieldset>
 
       {openKey && (
         <FactionVoiceSettingsModal
-          person={personFor(openKey)}
+          person={personFor()}
           onChange={saveVoice(openKey)}
           series={series}
           episodeName={episodeName}
@@ -193,6 +214,6 @@ export function FactionNarratorPanel({
           slot={SLOT_DEFS[openKey].slot}
         />
       )}
-    </div>
+    </section>
   )
 }

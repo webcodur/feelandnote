@@ -80,13 +80,19 @@ export const Typewriter: React.FC<Props> = ({
     () => {
       // 글자 단위 점등 — 공유 slice(단어 경계 스냅)를 건너뛰고 한 글자를 한 세그먼트로 둔다.
       if (charLevel) {
-        const chars = Array.from(text)
+        const chars = Array.from(text.replace(/\r\n?/g, '\n'))
         const useT = timings && timings.length === chars.length
           && timings.every(t => t.start != null && t.end != null)
-        const per = spreadFrames / Math.max(1, chars.length)
-        const ranges = chars.map((_, i) => useT
-          ? { start: Math.round(timings![i].start! * FPS), end: Math.round(timings![i].end! * FPS) }
-          : { start: Math.round(i * per), end: Math.round((i + 1) * per) })
+        const visibleCount = chars.filter((char) => char !== '\n').length
+        const per = spreadFrames / Math.max(1, visibleCount)
+        let visibleIndex = 0
+        const ranges = chars.map((char, i) => {
+          if (useT) return { start: Math.round(timings![i].start! * FPS), end: Math.round(timings![i].end! * FPS) }
+          const start = Math.round(visibleIndex * per)
+          if (char === '\n') return { start, end: start }
+          visibleIndex += 1
+          return { start, end: Math.round(visibleIndex * per) }
+        })
         return { texts: chars, ranges, paraBreakAfter: new Set<number>() }
       }
       return buildHighlightSegments(text, timings, spreadFrames)
