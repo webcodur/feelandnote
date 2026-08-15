@@ -16,6 +16,19 @@ interface Options<T extends CelebSearchItem> {
   onSelect?: (item: T) => void
 }
 
+interface ClosestTarget extends EventTarget {
+  closest?: (selector: string) => Element | null
+}
+
+export function shouldCloseCelebSearch(
+  root: HTMLDivElement | null,
+  target: EventTarget | null,
+): boolean {
+  if (!target) return true
+  if (root?.contains(target as Node)) return false
+  return !(target as ClosestTarget).closest?.('[role="dialog"][aria-modal="true"]')
+}
+
 export function useCelebSearch<T extends CelebSearchItem>({
   initialQuery,
   items,
@@ -51,7 +64,7 @@ export function useCelebSearch<T extends CelebSearchItem>({
 
   useEffect(() => {
     function closeWhenClickingOutside(event: MouseEvent) {
-      if (!rootRef.current?.contains(event.target as Node)) setIsOpen(false)
+      if (shouldCloseCelebSearch(rootRef.current, event.target)) setIsOpen(false)
     }
     document.addEventListener('mousedown', closeWhenClickingOutside)
     return () => document.removeEventListener('mousedown', closeWhenClickingOutside)

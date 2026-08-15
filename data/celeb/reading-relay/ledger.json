@@ -1,0 +1,7886 @@
+[
+ {
+  "slug": "abraham-lincoln",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:10:16.402Z"
+ },
+ {
+  "slug": "ada-lovelace",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:10:16.402Z"
+ },
+ {
+  "slug": "adena-friedman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:10:16.402Z"
+ },
+ {
+  "slug": "akbar-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:10:16.402Z"
+ },
+ {
+  "slug": "aaron-d'souza",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:47.997Z"
+ },
+ {
+  "slug": "aaron-swartz",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:47.997Z"
+ },
+ {
+  "slug": "abraham-karem",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:47.997Z"
+ },
+ {
+  "slug": "adam-bry",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:47.997Z"
+ },
+ {
+  "slug": "adam-neumann",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:50.765Z"
+ },
+ {
+  "slug": "adam-smith",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:19:50.765Z"
+ },
+ {
+  "slug": "aeneas",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:19:50.765Z"
+ },
+ {
+  "slug": "agni",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:19:53.494Z"
+ },
+ {
+  "slug": "ahn-chang-ho",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:19:53.494Z"
+ },
+ {
+  "slug": "ahn-hyo-seop",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:53.494Z"
+ },
+ {
+  "slug": "ahn-sung-ki",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:56.041Z"
+ },
+ {
+  "slug": "akio-toyoda",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:56.041Z"
+ },
+ {
+  "slug": "alan-brooke",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:58.452Z"
+ },
+ {
+  "slug": "albert-einstein",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:19:58.452Z"
+ },
+ {
+  "slug": "albert-kesselring",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:19:58.452Z"
+ },
+ {
+  "slug": "aaron-d'souza",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:55.448Z"
+ },
+ {
+  "slug": "aaron-swartz",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:55.448Z"
+ },
+ {
+  "slug": "abraham-karem",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:55.448Z"
+ },
+ {
+  "slug": "adam-bry",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:55.448Z"
+ },
+ {
+  "slug": "adam-neumann",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:59.024Z"
+ },
+ {
+  "slug": "adam-smith",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:59.024Z"
+ },
+ {
+  "slug": "aeneas",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:20:59.024Z"
+ },
+ {
+  "slug": "agni",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:02.596Z"
+ },
+ {
+  "slug": "ahn-chang-ho",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:02.596Z"
+ },
+ {
+  "slug": "ahn-hyo-seop",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:02.596Z"
+ },
+ {
+  "slug": "ahn-sung-ki",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:05.564Z"
+ },
+ {
+  "slug": "akio-toyoda",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:05.564Z"
+ },
+ {
+  "slug": "akira-toriyama",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "al-alcorn",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "al-biruni",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "al-capone",
+  "action": "update",
+  "result": "반려: 탐구 분량 미달: 107자",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "al-farabi",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "al-ghazali",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "al-kamil",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:08.704Z"
+ },
+ {
+  "slug": "alan-brooke",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:11.763Z"
+ },
+ {
+  "slug": "albert-einstein",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:11.763Z"
+ },
+ {
+  "slug": "albert-kesselring",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:21:11.763Z"
+ },
+ {
+  "slug": "aaron-d'souza",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:20.006Z"
+ },
+ {
+  "slug": "aaron-swartz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:20.006Z"
+ },
+ {
+  "slug": "abraham-karem",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:20.006Z"
+ },
+ {
+  "slug": "adam-bry",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:20.006Z"
+ },
+ {
+  "slug": "adam-neumann",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:23.933Z"
+ },
+ {
+  "slug": "adam-smith",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:23.933Z"
+ },
+ {
+  "slug": "aeneas",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:23.933Z"
+ },
+ {
+  "slug": "agni",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:27.590Z"
+ },
+ {
+  "slug": "ahn-chang-ho",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:27.590Z"
+ },
+ {
+  "slug": "ahn-hyo-seop",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:27.590Z"
+ },
+ {
+  "slug": "ahn-sung-ki",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:30.657Z"
+ },
+ {
+  "slug": "akio-toyoda",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:30.657Z"
+ },
+ {
+  "slug": "akira-toriyama",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "al-alcorn",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "al-biruni",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "al-capone",
+  "action": "update",
+  "result": "반려: 탐구 분량 미달: 107자",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "al-farabi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "al-ghazali",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "al-kamil",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:34.011Z"
+ },
+ {
+  "slug": "alan-brooke",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:36.972Z"
+ },
+ {
+  "slug": "albert-einstein",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T02:56:36.972Z"
+ },
+ {
+  "slug": "albert-kesselring",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T02:56:36.972Z"
+ },
+ {
+  "slug": "andre-massena",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:00:57.408Z"
+ },
+ {
+  "slug": "amnon-shashua",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:01:10.717Z"
+ },
+ {
+  "slug": "alexander-kolesnikov",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:02:09.746Z"
+ },
+ {
+  "slug": "alexandr-wang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:02:09.746Z"
+ },
+ {
+  "slug": "andrej-karpathy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "andrew-carnegie",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "andrew-feldman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "andrew-huberman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "andrew-lincoln",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "andrew-milich",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "andrew-musk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:02.619Z"
+ },
+ {
+  "slug": "al-capone",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:51.331Z"
+ },
+ {
+  "slug": "albert-speer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:51.331Z"
+ },
+ {
+  "slug": "aleksandr-vasilevsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:03:51.331Z"
+ },
+ {
+  "slug": "andrew-tulloch",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:09.279Z"
+ },
+ {
+  "slug": "andrew-weinreich",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:09.279Z"
+ },
+ {
+  "slug": "andy-grove",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:09.279Z"
+ },
+ {
+  "slug": "andy-warhol",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:09.279Z"
+ },
+ {
+  "slug": "alex-graves",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:40.638Z"
+ },
+ {
+  "slug": "alex-kendall",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:40.638Z"
+ },
+ {
+  "slug": "alex-krizhevsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:40.638Z"
+ },
+ {
+  "slug": "alex-mashinsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:04:40.638Z"
+ },
+ {
+  "slug": "alfred-hitchcock",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:05:13.886Z"
+ },
+ {
+  "slug": "ali-ghodsi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:05:13.886Z"
+ },
+ {
+  "slug": "allen-zhang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:05:13.886Z"
+ },
+ {
+  "slug": "amanda-mcmaster",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:05:13.886Z"
+ },
+ {
+  "slug": "apollo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:08:02.845Z"
+ },
+ {
+  "slug": "ares",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:08:02.845Z"
+ },
+ {
+  "slug": "arianna-huffington",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:09:59.311Z"
+ },
+ {
+  "slug": "armin-papperger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:09:59.311Z"
+ },
+ {
+  "slug": "artemis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:09:59.311Z"
+ },
+ {
+  "slug": "attila",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:10:39.627Z"
+ },
+ {
+  "slug": "augustine",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:10:39.627Z"
+ },
+ {
+  "slug": "augustus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:10:39.627Z"
+ },
+ {
+  "slug": "ayn-rand",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:10:39.627Z"
+ },
+ {
+  "slug": "asa",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:11:54.834Z"
+ },
+ {
+  "slug": "ashish-vaswani",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:11:54.834Z"
+ },
+ {
+  "slug": "ashok-elluswamy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:11:54.834Z"
+ },
+ {
+  "slug": "ashoka-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:11:54.834Z"
+ },
+ {
+  "slug": "angela-merkel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:12:15.495Z"
+ },
+ {
+  "slug": "anita-roddick",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:12:15.495Z"
+ },
+ {
+  "slug": "anna-akhmatova",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:12:15.495Z"
+ },
+ {
+  "slug": "anne-bonny",
+  "action": "update",
+  "result": "반려: 탐구 분량 미달: 99자",
+  "at": "2026-08-14T03:12:15.495Z"
+ },
+ {
+  "slug": "anne-hathaway",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T03:12:15.495Z"
+ },
+ {
+  "slug": "bedivere",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:12:53.263Z"
+ },
+ {
+  "slug": "beeple",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T03:12:53.263Z"
+ },
+ {
+  "slug": "ben-mann",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:12:53.263Z"
+ },
+ {
+  "slug": "benjamin-disraeli",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:12:53.263Z"
+ },
+ {
+  "slug": "bai-qi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:10.211Z"
+ },
+ {
+  "slug": "baldr",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:10.211Z"
+ },
+ {
+  "slug": "ban-gu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:10.211Z"
+ },
+ {
+  "slug": "bang-chan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:10.211Z"
+ },
+ {
+  "slug": "bang-si-hyuk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:10.211Z"
+ },
+ {
+  "slug": "antoni-gaudi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "antonin-dvorak",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "antonio-gracias",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "antonio-gramsci",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "antonio-vivaldi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "anya-taylor-joy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "apep",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:22.678Z"
+ },
+ {
+  "slug": "arthur",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:39.487Z"
+ },
+ {
+  "slug": "arthur-blank",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:39.487Z"
+ },
+ {
+  "slug": "arthur-harris",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:39.487Z"
+ },
+ {
+  "slug": "arthur-mensch",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:39.487Z"
+ },
+ {
+  "slug": "arthur-schopenhauer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:13:39.487Z"
+ },
+ {
+  "slug": "bao-zheng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:14:04.664Z"
+ },
+ {
+  "slug": "barbara-cartland",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:14:04.664Z"
+ },
+ {
+  "slug": "baruch-spinoza",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:14:04.664Z"
+ },
+ {
+  "slug": "bastet",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:14:04.664Z"
+ },
+ {
+  "slug": "batu-khan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:14:04.664Z"
+ },
+ {
+  "slug": "bayezid-ii",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:14:04.664Z"
+ },
+ {
+  "slug": "annie-ernaux",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "anthony-armstrong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "anthony-hopkins",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "antigonus-i-monophthalmus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "antinous",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "antisthenes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "anton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:07.771Z"
+ },
+ {
+  "slug": "ba-jin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:26.605Z"
+ },
+ {
+  "slug": "bae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:26.605Z"
+ },
+ {
+  "slug": "bae-doona",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:26.605Z"
+ },
+ {
+  "slug": "baek-mun-oh",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:26.605Z"
+ },
+ {
+  "slug": "baekhyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:15:26.605Z"
+ },
+ {
+  "slug": "bhima",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:19:18.322Z"
+ },
+ {
+  "slug": "bill-ackman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:19:18.322Z"
+ },
+ {
+  "slug": "bill-clinton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:19:18.322Z"
+ },
+ {
+  "slug": "bill-gates",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:19:18.322Z"
+ },
+ {
+  "slug": "boa",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:19:52.078Z"
+ },
+ {
+  "slug": "bob-mumgaard",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:19:52.078Z"
+ },
+ {
+  "slug": "carlo-ancelotti",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:20:20.536Z"
+ },
+ {
+  "slug": "caspar-david-friedrich",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T03:20:20.536Z"
+ },
+ {
+  "slug": "cassander",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:20:20.536Z"
+ },
+ {
+  "slug": "cameron-winklevoss",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:21:57.119Z"
+ },
+ {
+  "slug": "candarli-halil-pasha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:21:57.119Z"
+ },
+ {
+  "slug": "cao-hong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:21:57.119Z"
+ },
+ {
+  "slug": "bernard-montgomery",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:15.468Z"
+ },
+ {
+  "slug": "bernt-bornich",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:15.468Z"
+ },
+ {
+  "slug": "beto-orourke",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:15.468Z"
+ },
+ {
+  "slug": "brian-singerman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:31.088Z"
+ },
+ {
+  "slug": "bruce-lee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:31.088Z"
+ },
+ {
+  "slug": "bruce-willis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:31.088Z"
+ },
+ {
+  "slug": "brynhild",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:31.088Z"
+ },
+ {
+  "slug": "bugsy-siegel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:31.088Z"
+ },
+ {
+  "slug": "brad-lightcap",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:34.498Z"
+ },
+ {
+  "slug": "brahma",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:34.498Z"
+ },
+ {
+  "slug": "brandon-tseng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:34.498Z"
+ },
+ {
+  "slug": "bret-johnsen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:34.498Z"
+ },
+ {
+  "slug": "brewster-kahle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:34.498Z"
+ },
+ {
+  "slug": "bill-gerstenmaier",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:46.977Z"
+ },
+ {
+  "slug": "bill-gurley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:46.977Z"
+ },
+ {
+  "slug": "bill-riley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:46.977Z"
+ },
+ {
+  "slug": "billy-the-kid",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:22:46.977Z"
+ },
+ {
+  "slug": "cao-ren",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:23:31.343Z"
+ },
+ {
+  "slug": "caravaggio",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:23:31.343Z"
+ },
+ {
+  "slug": "carl-friedrich-gauss",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:23:31.343Z"
+ },
+ {
+  "slug": "carl-icahn",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:23:31.343Z"
+ },
+ {
+  "slug": "anne-bonny",
+  "action": "update",
+  "result": "반려: 탐구 분량 미달: 116자",
+  "at": "2026-08-14T03:23:44.800Z"
+ },
+ {
+  "slug": "anne-hathaway",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:23:44.800Z"
+ },
+ {
+  "slug": "beeple",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T03:23:44.800Z"
+ },
+ {
+  "slug": "benji-taylor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:23:44.800Z"
+ },
+ {
+  "slug": "beomgyu",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T03:23:44.800Z"
+ },
+ {
+  "slug": "bumpy-johnson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:02.005Z"
+ },
+ {
+  "slug": "byun-young-joo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:02.005Z"
+ },
+ {
+  "slug": "cafu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:02.005Z"
+ },
+ {
+  "slug": "cai-yong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:02.005Z"
+ },
+ {
+  "slug": "calypso",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:02.005Z"
+ },
+ {
+  "slug": "bobby",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:57.518Z"
+ },
+ {
+  "slug": "boethius",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:57.518Z"
+ },
+ {
+  "slug": "bom-kim",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:57.518Z"
+ },
+ {
+  "slug": "bong-jin-kim",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:57.518Z"
+ },
+ {
+  "slug": "borte",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T03:24:57.518Z"
+ },
+ {
+  "slug": "christine-de-pizan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:31:08.800Z"
+ },
+ {
+  "slug": "charles-baudelaire",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:31:52.113Z"
+ },
+ {
+  "slug": "charles-beckwith",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:31:52.113Z"
+ },
+ {
+  "slug": "charles-darwin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:31:52.113Z"
+ },
+ {
+  "slug": "charles-dickens",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:31:52.113Z"
+ },
+ {
+  "slug": "charles-xii",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:31:52.113Z"
+ },
+ {
+  "slug": "cerberus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:09.454Z"
+ },
+ {
+  "slug": "cha-eun-woo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:09.454Z"
+ },
+ {
+  "slug": "chaeryeong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:09.454Z"
+ },
+ {
+  "slug": "chagatai-khan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:27.438Z"
+ },
+ {
+  "slug": "chan-sung-jung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:27.438Z"
+ },
+ {
+  "slug": "chandragupta-maurya",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:27.438Z"
+ },
+ {
+  "slug": "chanyeol",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:27.438Z"
+ },
+ {
+  "slug": "charlemagne",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:27.438Z"
+ },
+ {
+  "slug": "anne-bonny",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:41.875Z"
+ },
+ {
+  "slug": "beeple",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:41.875Z"
+ },
+ {
+  "slug": "beomgyu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:41.875Z"
+ },
+ {
+  "slug": "caspar-david-friedrich",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:41.875Z"
+ },
+ {
+  "slug": "cassandra",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:41.875Z"
+ },
+ {
+  "slug": "chey-tae-won",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:45.552Z"
+ },
+ {
+  "slug": "chiang-kai-shek",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:45.552Z"
+ },
+ {
+  "slug": "chiquita",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:45.552Z"
+ },
+ {
+  "slug": "cho-yeo-jeong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:45.552Z"
+ },
+ {
+  "slug": "cho-young-joo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:45.552Z"
+ },
+ {
+  "slug": "chris-bumstead",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:32:49.041Z"
+ },
+ {
+  "slug": "chris-lattner",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:32:49.041Z"
+ },
+ {
+  "slug": "chris-levesque",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:32:49.041Z"
+ },
+ {
+  "slug": "chris-olah",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:32:49.041Z"
+ },
+ {
+  "slug": "choi-dong-hoon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:19.309Z"
+ },
+ {
+  "slug": "choi-min-ho",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:19.309Z"
+ },
+ {
+  "slug": "choo-shin-soo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:19.309Z"
+ },
+ {
+  "slug": "chow-yun-fat",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:19.309Z"
+ },
+ {
+  "slug": "chris-pavlovski",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:46.936Z"
+ },
+ {
+  "slug": "chris-pine",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:46.936Z"
+ },
+ {
+  "slug": "chris-urmson",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:33:46.936Z"
+ },
+ {
+  "slug": "christian-bale",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:46.936Z"
+ },
+ {
+  "slug": "christian-prouteau",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:46.936Z"
+ },
+ {
+  "slug": "christian-szegedy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:33:46.936Z"
+ },
+ {
+  "slug": "charlie-munger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:30.603Z"
+ },
+ {
+  "slug": "charlize-theron",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:30.603Z"
+ },
+ {
+  "slug": "charlotte-bronte",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:30.603Z"
+ },
+ {
+  "slug": "che-guevara",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:30.603Z"
+ },
+ {
+  "slug": "chelsea-manning",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:30.603Z"
+ },
+ {
+  "slug": "chen-duxiu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:30.603Z"
+ },
+ {
+  "slug": "chen-gong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:43.860Z"
+ },
+ {
+  "slug": "chen-shou",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:43.860Z"
+ },
+ {
+  "slug": "cheng-pu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:43.860Z"
+ },
+ {
+  "slug": "cheng-yi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:43.860Z"
+ },
+ {
+  "slug": "cher",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:34:43.860Z"
+ },
+ {
+  "slug": "chester-nimitz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:43.860Z"
+ },
+ {
+  "slug": "christy-brown",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:46.790Z"
+ },
+ {
+  "slug": "chuichi-nagumo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:46.790Z"
+ },
+ {
+  "slug": "chun-doo-hwan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:46.790Z"
+ },
+ {
+  "slug": "chun-lee-kyung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:46.790Z"
+ },
+ {
+  "slug": "chung-eui-sun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:34:46.790Z"
+ },
+ {
+  "slug": "cliff-asness",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:40:59.603Z"
+ },
+ {
+  "slug": "clint-eastwood",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:40:59.603Z"
+ },
+ {
+  "slug": "coco-chanel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:40:59.603Z"
+ },
+ {
+  "slug": "daji",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:32.325Z"
+ },
+ {
+  "slug": "dalai-lama",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:32.325Z"
+ },
+ {
+  "slug": "dan-brown",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:32.325Z"
+ },
+ {
+  "slug": "dave-limp",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:47.015Z"
+ },
+ {
+  "slug": "david-ben-gurion",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:47.015Z"
+ },
+ {
+  "slug": "david-fincher",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:47.015Z"
+ },
+ {
+  "slug": "david-goggins",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:47.015Z"
+ },
+ {
+  "slug": "david-hockney",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:47.015Z"
+ },
+ {
+  "slug": "danielle-steel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:51.221Z"
+ },
+ {
+  "slug": "daosheng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:51.221Z"
+ },
+ {
+  "slug": "darius-i",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:41:51.221Z"
+ },
+ {
+  "slug": "coen-brothers",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:11.651Z"
+ },
+ {
+  "slug": "colby-hastings",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:11.651Z"
+ },
+ {
+  "slug": "colin-huang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:11.651Z"
+ },
+ {
+  "slug": "conor-mcgregor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:11.651Z"
+ },
+ {
+  "slug": "david-hume",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:27.780Z"
+ },
+ {
+  "slug": "david-kirtley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:27.780Z"
+ },
+ {
+  "slug": "david-ricks",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:27.780Z"
+ },
+ {
+  "slug": "david-stirling",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:27.780Z"
+ },
+ {
+  "slug": "circe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:50.866Z"
+ },
+ {
+  "slug": "clarice-lispector",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:50.866Z"
+ },
+ {
+  "slug": "claude-debussy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:50.866Z"
+ },
+ {
+  "slug": "claude-levi-strauss",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:42:50.866Z"
+ },
+ {
+  "slug": "constantine-xi-palaiologos",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:21.286Z"
+ },
+ {
+  "slug": "cornelius-vanderbilt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:21.286Z"
+ },
+ {
+  "slug": "count-alessandro-di-cagliostro",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:21.286Z"
+ },
+ {
+  "slug": "cristiano-ronaldo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:21.286Z"
+ },
+ {
+  "slug": "curtis-lemay",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:21.286Z"
+ },
+ {
+  "slug": "curtis-priem",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:21.286Z"
+ },
+ {
+  "slug": "claude-monet",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:45.396Z"
+ },
+ {
+  "slug": "claude-shannon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:45.396Z"
+ },
+ {
+  "slug": "claudio-abbado",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:45.396Z"
+ },
+ {
+  "slug": "claudius",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:45.396Z"
+ },
+ {
+  "slug": "clay-sell",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:45.396Z"
+ },
+ {
+  "slug": "clayton-christensen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:43:45.396Z"
+ },
+ {
+  "slug": "cher",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "chris-lattner",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "chris-levesque",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "chris-olah",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "chris-urmson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "chung-ji-yong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "chung-ji-young",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:44:17.989Z"
+ },
+ {
+  "slug": "cher",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "chris-lattner",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "chris-levesque",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "chris-olah",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "chris-urmson",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "chung-ji-yong",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "chung-ji-young",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T04:45:00.293Z"
+ },
+ {
+  "slug": "daniel-goleman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:05.707Z"
+ },
+ {
+  "slug": "daniel-gross",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:05.707Z"
+ },
+ {
+  "slug": "daniel-kahneman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:05.707Z"
+ },
+ {
+  "slug": "daniel-levy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:05.707Z"
+ },
+ {
+  "slug": "daniel-pink",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:05.707Z"
+ },
+ {
+  "slug": "danielle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:45:05.707Z"
+ },
+ {
+  "slug": "cyrus-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:46:07.924Z"
+ },
+ {
+  "slug": "d.o.",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:46:07.924Z"
+ },
+ {
+  "slug": "da-qiao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:46:07.924Z"
+ },
+ {
+  "slug": "daddy-yankee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:46:07.924Z"
+ },
+ {
+  "slug": "daft-punk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:46:07.924Z"
+ },
+ {
+  "slug": "dai-zhen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:46:07.924Z"
+ },
+ {
+  "slug": "dayot-upamecano",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:02.435Z"
+ },
+ {
+  "slug": "deianira",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:02.435Z"
+ },
+ {
+  "slug": "dolph-lundgren",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:37.805Z"
+ },
+ {
+  "slug": "dom-hofmann",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:37.805Z"
+ },
+ {
+  "slug": "donald-trump-jr.",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:37.805Z"
+ },
+ {
+  "slug": "dr.-seuss",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:52.078Z"
+ },
+ {
+  "slug": "drona",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:52.078Z"
+ },
+ {
+  "slug": "du-fu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:52:52.078Z"
+ },
+ {
+  "slug": "dietrich-fischer-dieskau",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:05.182Z"
+ },
+ {
+  "slug": "dietrich-mateschitz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:05.182Z"
+ },
+ {
+  "slug": "diogenes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:05.182Z"
+ },
+ {
+  "slug": "diomedes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:05.182Z"
+ },
+ {
+  "slug": "dennis-whyte",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:38.282Z"
+ },
+ {
+  "slug": "derek-proudian",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:38.282Z"
+ },
+ {
+  "slug": "devendra-singh-chaplot",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:38.282Z"
+ },
+ {
+  "slug": "edward-thorp",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:56.406Z"
+ },
+ {
+  "slug": "edwin-hubble",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:56.406Z"
+ },
+ {
+  "slug": "egon-schiele",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:56.406Z"
+ },
+ {
+  "slug": "eiichiro-oda",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:56.406Z"
+ },
+ {
+  "slug": "el-cid",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:53:56.406Z"
+ },
+ {
+  "slug": "dong-zhuo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:14.905Z"
+ },
+ {
+  "slug": "donghae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:14.905Z"
+ },
+ {
+  "slug": "doris-lessing",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:14.905Z"
+ },
+ {
+  "slug": "doug-mcmillon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:14.905Z"
+ },
+ {
+  "slug": "dhritarashtra",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:28.612Z"
+ },
+ {
+  "slug": "dian-wei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:28.612Z"
+ },
+ {
+  "slug": "diaochan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:28.612Z"
+ },
+ {
+  "slug": "diego-maradona",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:28.612Z"
+ },
+ {
+  "slug": "dionysus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:32.229Z"
+ },
+ {
+  "slug": "dj-seo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:32.229Z"
+ },
+ {
+  "slug": "dmitri-dolgov",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:32.229Z"
+ },
+ {
+  "slug": "doc-holliday",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:32.229Z"
+ },
+ {
+  "slug": "duarte-i",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:45.278Z"
+ },
+ {
+  "slug": "duke-of-wellington",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:45.278Z"
+ },
+ {
+  "slug": "duke-xiao-of-qin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:45.278Z"
+ },
+ {
+  "slug": "duryodhana",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:45.278Z"
+ },
+ {
+  "slug": "dushasana",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:45.278Z"
+ },
+ {
+  "slug": "dwight-d.-eisenhower",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:45.278Z"
+ },
+ {
+  "slug": "eddie-vedder",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:58.563Z"
+ },
+ {
+  "slug": "edmund-burke",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:58.563Z"
+ },
+ {
+  "slug": "eduardo-saverin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T04:54:58.563Z"
+ },
+ {
+  "slug": "eleanor-of-aquitaine",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:05:08.083Z"
+ },
+ {
+  "slug": "eli-cohen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:05:08.083Z"
+ },
+ {
+  "slug": "elijah-wood",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:05:08.083Z"
+ },
+ {
+  "slug": "elizabeth-banks",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:05:08.083Z"
+ },
+ {
+  "slug": "elizabeth-ii",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:05:08.083Z"
+ },
+ {
+  "slug": "fan-zeng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:08:31.336Z"
+ },
+ {
+  "slug": "fei-fei-li",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:08:31.336Z"
+ },
+ {
+  "slug": "felix",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T05:08:31.336Z"
+ },
+ {
+  "slug": "elizabeth-taylor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "elon-musk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "elton-john",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "elvis-presley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "emile-zola",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "emily-blunt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "emily-bronte",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:12.232Z"
+ },
+ {
+  "slug": "emily-dickinson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:16.254Z"
+ },
+ {
+  "slug": "emmett-shear",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:16.254Z"
+ },
+ {
+  "slug": "emperor-huizong-of-song",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:08:16.254Z"
+ },
+ {
+  "slug": "eugene-de-beauharnais",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:12:45.214Z"
+ },
+ {
+  "slug": "eratosthenes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:13:21.275Z"
+ },
+ {
+  "slug": "eric-trappier",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:13:21.275Z"
+ },
+ {
+  "slug": "eric-trump",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:13:21.275Z"
+ },
+ {
+  "slug": "empress-lu-zhi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:31.428Z"
+ },
+ {
+  "slug": "empress-myeongseong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:31.428Z"
+ },
+ {
+  "slug": "enheduanna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:31.428Z"
+ },
+ {
+  "slug": "enid-blyton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:31.428Z"
+ },
+ {
+  "slug": "fenrir",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:45.999Z"
+ },
+ {
+  "slug": "ferdinand-magellan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:45.999Z"
+ },
+ {
+  "slug": "filippo-brunelleschi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:14:45.999Z"
+ },
+ {
+  "slug": "francesco-petrarca",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:08.898Z"
+ },
+ {
+  "slug": "francis-bacon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:08.898Z"
+ },
+ {
+  "slug": "francis-drake",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:08.898Z"
+ },
+ {
+  "slug": "francis-of-assisi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:08.898Z"
+ },
+ {
+  "slug": "eunseok",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:46.508Z"
+ },
+ {
+  "slug": "eurylochus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:46.508Z"
+ },
+ {
+  "slug": "eurymachus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:15:46.508Z"
+ },
+ {
+  "slug": "francisco-gomes-neto",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:01.556Z"
+ },
+ {
+  "slug": "frank-rosenblatt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:01.556Z"
+ },
+ {
+  "slug": "frank-wang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:15.544Z"
+ },
+ {
+  "slug": "franklin-d.-roosevelt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:15.544Z"
+ },
+ {
+  "slug": "franz-beckenbauer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:15.544Z"
+ },
+ {
+  "slug": "franz-schubert",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:15.544Z"
+ },
+ {
+  "slug": "franz-von-holzhausen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:15.544Z"
+ },
+ {
+  "slug": "frederick-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:41.160Z"
+ },
+ {
+  "slug": "freyr",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:41.160Z"
+ },
+ {
+  "slug": "frida-kahlo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:41.160Z"
+ },
+ {
+  "slug": "friedrich-engels",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:41.160Z"
+ },
+ {
+  "slug": "friedrich-paulus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:16:41.160Z"
+ },
+ {
+  "slug": "erich-von-manstein",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:17:20.437Z"
+ },
+ {
+  "slug": "erlang-shen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:17:20.437Z"
+ },
+ {
+  "slug": "ernest-king",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:17:20.437Z"
+ },
+ {
+  "slug": "erwin-schrodinger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:17:20.437Z"
+ },
+ {
+  "slug": "fa-zheng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:00.890Z"
+ },
+ {
+  "slug": "fafnir",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:00.890Z"
+ },
+ {
+  "slug": "fan-li",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:00.890Z"
+ },
+ {
+  "slug": "emperor-showa",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:36.060Z"
+ },
+ {
+  "slug": "emperor-wu-of-han",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:36.060Z"
+ },
+ {
+  "slug": "emperor-xian-of-han",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:36.060Z"
+ },
+ {
+  "slug": "emperor-yang-of-sui",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:36.060Z"
+ },
+ {
+  "slug": "empress-elisabeth",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:18:36.060Z"
+ },
+ {
+  "slug": "geb",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:23:52.156Z"
+ },
+ {
+  "slug": "gedik-ahmed-pasha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:23:52.156Z"
+ },
+ {
+  "slug": "george-boole",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:23:52.156Z"
+ },
+ {
+  "slug": "guiguzi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:00.577Z"
+ },
+ {
+  "slug": "guillaume-faury",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:00.577Z"
+ },
+ {
+  "slug": "guillaume-lample",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:00.577Z"
+ },
+ {
+  "slug": "gunnar",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:00.577Z"
+ },
+ {
+  "slug": "gabriel-garcia-marquez",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:40.294Z"
+ },
+ {
+  "slug": "gaius-cassius-longinus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:40.294Z"
+ },
+ {
+  "slug": "gan-ning",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:40.294Z"
+ },
+ {
+  "slug": "gilles-deleuze",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:52.698Z"
+ },
+ {
+  "slug": "giotto-di-bondone",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:52.698Z"
+ },
+ {
+  "slug": "giovanni-boccaccio",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:52.698Z"
+ },
+ {
+  "slug": "glenn-gould",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:25:52.698Z"
+ },
+ {
+  "slug": "gandhari",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:05.435Z"
+ },
+ {
+  "slug": "gao-shun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:05.435Z"
+ },
+ {
+  "slug": "gavin-wood",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:05.435Z"
+ },
+ {
+  "slug": "gawain",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:05.435Z"
+ },
+ {
+  "slug": "geryon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:09.316Z"
+ },
+ {
+  "slug": "giacomo-casanova",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:09.316Z"
+ },
+ {
+  "slug": "giacomo-puccini",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:09.316Z"
+ },
+ {
+  "slug": "gil-shwed",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:09.316Z"
+ },
+ {
+  "slug": "george-kurtz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:23.104Z"
+ },
+ {
+  "slug": "george-marshall",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:23.104Z"
+ },
+ {
+  "slug": "george-michael",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:23.104Z"
+ },
+ {
+  "slug": "george-orwell",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:23.104Z"
+ },
+ {
+  "slug": "george-s.-patton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:23.104Z"
+ },
+ {
+  "slug": "frigg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:40.065Z"
+ },
+ {
+  "slug": "fritz-haber",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:40.065Z"
+ },
+ {
+  "slug": "fusu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:40.065Z"
+ },
+ {
+  "slug": "fyodor-dostoevsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:40.065Z"
+ },
+ {
+  "slug": "g-dragon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:26:40.065Z"
+ },
+ {
+  "slug": "frigg",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T10:27:15.663Z"
+ },
+ {
+  "slug": "fritz-haber",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T10:27:15.663Z"
+ },
+ {
+  "slug": "fusu",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T10:27:15.663Z"
+ },
+ {
+  "slug": "fyodor-dostoevsky",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T10:27:15.663Z"
+ },
+ {
+  "slug": "g-dragon",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T10:27:15.663Z"
+ },
+ {
+  "slug": "george-soros",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "george-vi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "george-washington",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "georges-simenon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "georgy-zhukov",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "gerd-von-rundstedt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "germaine-de-stael",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:31.319Z"
+ },
+ {
+  "slug": "go-ah-sung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:44.036Z"
+ },
+ {
+  "slug": "gojong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:44.036Z"
+ },
+ {
+  "slug": "gongsun-zan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:44.036Z"
+ },
+ {
+  "slug": "gordon-moore",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:44.036Z"
+ },
+ {
+  "slug": "greg-yang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:57.456Z"
+ },
+ {
+  "slug": "gregg-popovich",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:57.456Z"
+ },
+ {
+  "slug": "gu-yanwu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:57.456Z"
+ },
+ {
+  "slug": "guan-ping",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:27:57.456Z"
+ },
+ {
+  "slug": "gunpei-yokoi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "guo-jia",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "guo-si",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "guo-tu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "guo-ziyi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "gustav-klimt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "gustave-flaubert",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:31:15.275Z"
+ },
+ {
+  "slug": "heinrich-himmler",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:36:52.788Z"
+ },
+ {
+  "slug": "helen-keller",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:36:52.788Z"
+ },
+ {
+  "slug": "helmut-kohl",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:36:52.788Z"
+ },
+ {
+  "slug": "h.-l.-hunt",
+  "action": "update",
+  "result": "반려: 안내 분량 미달: 54자",
+  "at": "2026-08-14T10:37:27.293Z"
+ },
+ {
+  "slug": "ha-jung-woo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:27.293Z"
+ },
+ {
+  "slug": "hadrian",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:27.293Z"
+ },
+ {
+  "slug": "haechan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:27.293Z"
+ },
+ {
+  "slug": "gustavo-dudamel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:39.493Z"
+ },
+ {
+  "slug": "gwanghaegun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:39.493Z"
+ },
+ {
+  "slug": "gwynne-shotwell",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:39.493Z"
+ },
+ {
+  "slug": "harry-s.-truman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:42.673Z"
+ },
+ {
+  "slug": "harvey-c.-jones",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:42.673Z"
+ },
+ {
+  "slug": "hathor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:37:42.673Z"
+ },
+ {
+  "slug": "han-so-hee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:38:09.142Z"
+ },
+ {
+  "slug": "han-yu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:38:09.142Z"
+ },
+ {
+  "slug": "han-yu-jin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:38:09.142Z"
+ },
+ {
+  "slug": "hank-aaron",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:38:09.142Z"
+ },
+ {
+  "slug": "hannah-arendt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T10:38:09.142Z"
+ },
+ {
+  "slug": "hal-finney",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:12:09.319Z"
+ },
+ {
+  "slug": "ham-seok-heon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:12:09.319Z"
+ },
+ {
+  "slug": "hamilcar-barca",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:12:09.319Z"
+ },
+ {
+  "slug": "han",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:12:09.319Z"
+ },
+ {
+  "slug": "han-feizi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:12:09.319Z"
+ },
+ {
+  "slug": "han-jae-rim",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:12:09.319Z"
+ },
+ {
+  "slug": "hanni",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "hannibal-barca",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "hans-zimmer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "hanuman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "harold-robbins",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "harper-lee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "harris-fricker",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:19:40.547Z"
+ },
+ {
+  "slug": "henry-kravis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:21:00.387Z"
+ },
+ {
+  "slug": "henry-miller",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:21:00.387Z"
+ },
+ {
+  "slug": "henry-morgan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:21:00.387Z"
+ },
+ {
+  "slug": "heo-gyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:21:00.387Z"
+ },
+ {
+  "slug": "heo-nanseolheon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:21:00.387Z"
+ },
+ {
+  "slug": "hephaestion",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:21:00.387Z"
+ },
+ {
+  "slug": "hayao-nakayama",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:28:59.238Z"
+ },
+ {
+  "slug": "he-dongfeng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:28:59.238Z"
+ },
+ {
+  "slug": "heath-ledger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:28:59.238Z"
+ },
+ {
+  "slug": "hector-berlioz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:28:59.238Z"
+ },
+ {
+  "slug": "hector-monsegur",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:28:59.238Z"
+ },
+ {
+  "slug": "heechul",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:28:59.238Z"
+ },
+ {
+  "slug": "helmut-schmidt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "helmuth-von-moltke",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "henri-giraud",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "henri-matisse",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "henry-cavill",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "henry-david-thoreau",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "henry-ford",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "henry-kissinger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:03.073Z"
+ },
+ {
+  "slug": "hera",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "heracles",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "herbert-von-karajan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "herman-melville",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "hermann-goring",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "hermann-hesse",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "hermes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "herod-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:06.407Z"
+ },
+ {
+  "slug": "herodotus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "herta-muller",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "heungseon-daewongun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "hideki-tojo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "hieronymus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "hildegard-of-bingen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "hippocrates",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:29:09.718Z"
+ },
+ {
+  "slug": "hongyu-ren",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:07.367Z"
+ },
+ {
+  "slug": "honore-de-balzac",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:07.367Z"
+ },
+ {
+  "slug": "horus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:07.367Z"
+ },
+ {
+  "slug": "howard-schultz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:07.367Z"
+ },
+ {
+  "slug": "hozier",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:07.367Z"
+ },
+ {
+  "slug": "hu-hai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:07.367Z"
+ },
+ {
+  "slug": "inbee-park",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "indra-nooyi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "indrajit",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "ingmar-bergman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "ingvar-kamprad",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "iolaus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "ion-stoica",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:37:20.570Z"
+ },
+ {
+  "slug": "ip-man",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "iphigenia",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "iryeon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "isaac-asimov",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "isaac-newton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "isabella-i",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "isadora-duncan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "isaiah-berlin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:03.171Z"
+ },
+ {
+  "slug": "hugh-jackman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "huh-yunjin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "hulagu-khan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "hulk-hogan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "humbaba",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "hwang-dong-hyuk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "hwang-hui",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "hwang-hyun-san",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:16.026Z"
+ },
+ {
+  "slug": "ibn-sina",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:28.813Z"
+ },
+ {
+  "slug": "igor-babuschkin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:28.813Z"
+ },
+ {
+  "slug": "igor-stravinsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:28.813Z"
+ },
+ {
+  "slug": "im-kwon-taek",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:28.813Z"
+ },
+ {
+  "slug": "im-si-wan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:28.813Z"
+ },
+ {
+  "slug": "h.-l.-hunt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:32.009Z"
+ },
+ {
+  "slug": "hiroki-totoki",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:32.009Z"
+ },
+ {
+  "slug": "hiroshi-fujiwara",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:32.009Z"
+ },
+ {
+  "slug": "hiroshi-mikitani",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:32.009Z"
+ },
+ {
+  "slug": "hiroshi-yamauchi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:32.009Z"
+ },
+ {
+  "slug": "hoan-ton-that",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:32.009Z"
+ },
+ {
+  "slug": "hwanung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hyein",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hyoyeon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hypatia",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hyun-bin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hyung-won-chung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hyungwon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:38:45.203Z"
+ },
+ {
+  "slug": "hyunjin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "i.m",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "i.n",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "ian-fleming",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "ian-mckellen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "iarbas",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "ibn-khaldun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:17.449Z"
+ },
+ {
+  "slug": "hogni",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:34.356Z"
+ },
+ {
+  "slug": "homer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:34.356Z"
+ },
+ {
+  "slug": "hong-eunchae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:34.356Z"
+ },
+ {
+  "slug": "hong-sang-soo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:34.356Z"
+ },
+ {
+  "slug": "hong-soo-hwan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:34.356Z"
+ },
+ {
+  "slug": "hongjoong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:34.356Z"
+ },
+ {
+  "slug": "hwang-ji-u",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hwang-jini",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hwang-jung-min",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hwang-kyung-seon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hwang-sok-yong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hwang-young-cho",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hwanin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:39:47.430Z"
+ },
+ {
+  "slug": "hu-shih",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:00.536Z"
+ },
+ {
+  "slug": "huang-gai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:00.536Z"
+ },
+ {
+  "slug": "huang-zhong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:00.536Z"
+ },
+ {
+  "slug": "huening-kai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:00.536Z"
+ },
+ {
+  "slug": "hugh-dowding",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:00.536Z"
+ },
+ {
+  "slug": "hugh-grant",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:00.536Z"
+ },
+ {
+  "slug": "isang-yun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "ishak-pasha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "ishtar",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "isis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "isoroku-yamamoto",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "isser-harel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "iu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T11:42:42.323Z"
+ },
+ {
+  "slug": "jake-gyllenhaal",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "jakub-pachocki",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "jalal-ad-din-mangburni",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "jalal-ad-din-muhammad-rumi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "james-cameron",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "james-clerk-maxwell",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "james-franco",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T14:21:44.529Z"
+ },
+ {
+  "slug": "ivan-konev",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T15:26:45.645Z"
+ },
+ {
+  "slug": "ivan-turgenev",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T15:26:45.645Z"
+ },
+ {
+  "slug": "ivanka-trump",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T15:26:45.645Z"
+ },
+ {
+  "slug": "j.-paul-getty",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T15:26:45.645Z"
+ },
+ {
+  "slug": "jay-chou",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:39:32.975Z"
+ },
+ {
+  "slug": "jack-ma",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:39:45.271Z"
+ },
+ {
+  "slug": "jennifer-lopez",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:40:02.712Z"
+ },
+ {
+  "slug": "james-patterson",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:40:12.148Z"
+ },
+ {
+  "slug": "jang-jae-hyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:40:15.295Z"
+ },
+ {
+  "slug": "jason-ginsberg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:40:20.139Z"
+ },
+ {
+  "slug": "jackson-wang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:40:21.821Z"
+ },
+ {
+  "slug": "jan-koum",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:40:30.786Z"
+ },
+ {
+  "slug": "jeno",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:40:38.285Z"
+ },
+ {
+  "slug": "jacques-louis-david",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:40:49.551Z"
+ },
+ {
+  "slug": "j.-robert-oppenheimer",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:40:57.950Z"
+ },
+ {
+  "slug": "jeff-dean",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:41:01.824Z"
+ },
+ {
+  "slug": "jack-nicholson",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:41:09.352Z"
+ },
+ {
+  "slug": "jade-emperor",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:41:14.384Z"
+ },
+ {
+  "slug": "jay-graber",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:41:18.779Z"
+ },
+ {
+  "slug": "jang-mi-ran",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:41:29.105Z"
+ },
+ {
+  "slug": "james-peng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:41:43.941Z"
+ },
+ {
+  "slug": "james-jebbia",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:41:49.102Z"
+ },
+ {
+  "slug": "jaemin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:41:52.860Z"
+ },
+ {
+  "slug": "jensen-huang",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:41:59.931Z"
+ },
+ {
+  "slug": "jan-leike",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:42:04.843Z"
+ },
+ {
+  "slug": "jason-statham",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:42:05.079Z"
+ },
+ {
+  "slug": "jean-jacques-rousseau",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:42:05.736Z"
+ },
+ {
+  "slug": "jeffrey-katzenberg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:42:07.003Z"
+ },
+ {
+  "slug": "james-watson",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:42:18.906Z"
+ },
+ {
+  "slug": "jahangir",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:42:30.057Z"
+ },
+ {
+  "slug": "jeon-bong-jun",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:42:40.373Z"
+ },
+ {
+  "slug": "jane-austen",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:42:49.925Z"
+ },
+ {
+  "slug": "jack-ma",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:42:52.448Z"
+ },
+ {
+  "slug": "jack-nicholson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:42:53.722Z"
+ },
+ {
+  "slug": "jay-z",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:42:56.719Z"
+ },
+ {
+  "slug": "james-jesus-angleton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:02.635Z"
+ },
+ {
+  "slug": "jang-wonyoung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:06.338Z"
+ },
+ {
+  "slug": "j.-robert-oppenheimer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:06.893Z"
+ },
+ {
+  "slug": "james-watt",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:43:10.518Z"
+ },
+ {
+  "slug": "jason-wei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:31.320Z"
+ },
+ {
+  "slug": "jenna-ortega",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:43:36.420Z"
+ },
+ {
+  "slug": "jack-nicklaus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:37.222Z"
+ },
+ {
+  "slug": "jeon-do-yeon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:42.810Z"
+ },
+ {
+  "slug": "jean-lannes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:50.101Z"
+ },
+ {
+  "slug": "jake",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:43:52.058Z"
+ },
+ {
+  "slug": "jane-fraser",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:43:58.305Z"
+ },
+ {
+  "slug": "jb-straubel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:44:07.817Z"
+ },
+ {
+  "slug": "jean-michel-basquiat",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:44:15.742Z"
+ },
+ {
+  "slug": "jawaharlal-nehru",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:44:19.034Z"
+ },
+ {
+  "slug": "jared-birchall",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:44:28.148Z"
+ },
+ {
+  "slug": "jamie-dimon",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:44:41.972Z"
+ },
+ {
+  "slug": "jane-goodall",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:44:48.561Z"
+ },
+ {
+  "slug": "james-madison",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:45:01.376Z"
+ },
+ {
+  "slug": "jake-davis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:07.220Z"
+ },
+ {
+  "slug": "jennifer-connelly",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:45:09.598Z"
+ },
+ {
+  "slug": "jeon-je-wan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:13.379Z"
+ },
+ {
+  "slug": "jamie-foxx",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:45:16.324Z"
+ },
+ {
+  "slug": "jared-isaacman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:23.577Z"
+ },
+ {
+  "slug": "james-mattis",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:45:29.056Z"
+ },
+ {
+  "slug": "jack-tramiel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:29.654Z"
+ },
+ {
+  "slug": "jean-baptiste-bernadotte",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:32.928Z"
+ },
+ {
+  "slug": "jean-moulin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:33.501Z"
+ },
+ {
+  "slug": "jean-paul-sartre",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:45:56.592Z"
+ },
+ {
+  "slug": "jay",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:45:58.994Z"
+ },
+ {
+  "slug": "jean-claude-van-damme",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:46:11.155Z"
+ },
+ {
+  "slug": "j.p.-morgan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:46:19.426Z"
+ },
+ {
+  "slug": "jennifer-doudna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:46:21.283Z"
+ },
+ {
+  "slug": "jeon-yeo-been",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:46:28.031Z"
+ },
+ {
+  "slug": "jared-kaplan",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:46:33.435Z"
+ },
+ {
+  "slug": "jamukha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:46:40.394Z"
+ },
+ {
+  "slug": "james-mcavoy",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:46:44.415Z"
+ },
+ {
+  "slug": "jang-dong-gun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:46:44.518Z"
+ },
+ {
+  "slug": "jebe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:04.692Z"
+ },
+ {
+  "slug": "j.r.r.-tolkien",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:05.059Z"
+ },
+ {
+  "slug": "jay-b",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:16.465Z"
+ },
+ {
+  "slug": "jean-de-dieu-soult",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:20.869Z"
+ },
+ {
+  "slug": "jack-welch",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:24.537Z"
+ },
+ {
+  "slug": "jared-kushner",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:39.620Z"
+ },
+ {
+  "slug": "jacques-louis-david",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:42.869Z"
+ },
+ {
+  "slug": "jade-emperor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:44.210Z"
+ },
+ {
+  "slug": "jahangir",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:45.961Z"
+ },
+ {
+  "slug": "james-madison",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:50.693Z"
+ },
+ {
+  "slug": "james-mattis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:52.044Z"
+ },
+ {
+  "slug": "james-mcavoy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:53.367Z"
+ },
+ {
+  "slug": "james-patterson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:54.706Z"
+ },
+ {
+  "slug": "james-watson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:56.254Z"
+ },
+ {
+  "slug": "james-watt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:57.623Z"
+ },
+ {
+  "slug": "jack-clark",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:58.124Z"
+ },
+ {
+  "slug": "jamie-dimon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:47:58.971Z"
+ },
+ {
+  "slug": "jamie-foxx",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:00.249Z"
+ },
+ {
+  "slug": "jang-in-pyo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:00.847Z"
+ },
+ {
+  "slug": "jane-austen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:02.084Z"
+ },
+ {
+  "slug": "jane-fraser",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:03.356Z"
+ },
+ {
+  "slug": "jane-goodall",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:04.675Z"
+ },
+ {
+  "slug": "jared-kaplan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:08.289Z"
+ },
+ {
+  "slug": "jason-statham",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:11.301Z"
+ },
+ {
+  "slug": "jawaharlal-nehru",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:12.818Z"
+ },
+ {
+  "slug": "james-musk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:13.782Z"
+ },
+ {
+  "slug": "jeff-bezos",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:14.719Z"
+ },
+ {
+  "slug": "jay-chou",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:15.665Z"
+ },
+ {
+  "slug": "jean-claude-van-damme",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:17.830Z"
+ },
+ {
+  "slug": "jane-austen",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:18.427Z"
+ },
+ {
+  "slug": "jean-jacques-rousseau",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:19.310Z"
+ },
+ {
+  "slug": "jean-michel-basquiat",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:20.767Z"
+ },
+ {
+  "slug": "jean-paul-sartre",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:22.259Z"
+ },
+ {
+  "slug": "jeff-dean",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:23.945Z"
+ },
+ {
+  "slug": "jenna-ortega",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:26.917Z"
+ },
+ {
+  "slug": "jennifer-connelly",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:28.619Z"
+ },
+ {
+  "slug": "jason",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:29.122Z"
+ },
+ {
+  "slug": "james-madison",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:31.016Z"
+ },
+ {
+  "slug": "jack-dorsey",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:30.850Z"
+ },
+ {
+  "slug": "jennifer-lopez",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:32.036Z"
+ },
+ {
+  "slug": "james-mattis",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:32.386Z"
+ },
+ {
+  "slug": "jensen-huang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:33.534Z"
+ },
+ {
+  "slug": "james-mcavoy",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:33.716Z"
+ },
+ {
+  "slug": "jane-fraser",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:33.775Z"
+ },
+ {
+  "slug": "jeon-bong-jun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:48:34.862Z"
+ },
+ {
+  "slug": "jane-goodall",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:35.127Z"
+ },
+ {
+  "slug": "jared-kaplan",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:42.695Z"
+ },
+ {
+  "slug": "jean-jacques-rousseau",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:57.231Z"
+ },
+ {
+  "slug": "jean-michel-basquiat",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:58.574Z"
+ },
+ {
+  "slug": "jean-paul-sartre",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:48:59.935Z"
+ },
+ {
+  "slug": "jean-de-meun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:49:00.810Z"
+ },
+ {
+  "slug": "jay-chou",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:49:19.673Z"
+ },
+ {
+  "slug": "jean-claude-van-damme",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:49:21.068Z"
+ },
+ {
+  "slug": "jackson-pollock",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:49:44.235Z"
+ },
+ {
+  "slug": "jack-garabedian",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:49:56.798Z"
+ },
+ {
+  "slug": "jason",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:51:34.150Z"
+ },
+ {
+  "slug": "jeff-bezos",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:51:39.167Z"
+ },
+ {
+  "slug": "johann-wolfgang-von-goethe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:29.521Z"
+ },
+ {
+  "slug": "jinni",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:32.470Z"
+ },
+ {
+  "slug": "john-romero",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:38.603Z"
+ },
+ {
+  "slug": "john-krasinski",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:46.421Z"
+ },
+ {
+  "slug": "jimmy-ba",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:48.189Z"
+ },
+ {
+  "slug": "jo-seung-woo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:48.846Z"
+ },
+ {
+  "slug": "johannes-brahms",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T16:54:56.374Z"
+ },
+ {
+  "slug": "joe-gebbia",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:54:57.919Z"
+ },
+ {
+  "slug": "jim-carrey",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:02.719Z"
+ },
+ {
+  "slug": "jeremy-stoppelman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:11.341Z"
+ },
+ {
+  "slug": "ji-kang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:14.755Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T16:55:16.240Z"
+ },
+ {
+  "slug": "johannes-brahms",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:21.703Z"
+ },
+ {
+  "slug": "john-d.-rockefeller",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:30.393Z"
+ },
+ {
+  "slug": "jesse-eisenberg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:47.221Z"
+ },
+ {
+  "slug": "john-lennon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:49.979Z"
+ },
+ {
+  "slug": "johannes-gutenberg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:55:54.476Z"
+ },
+ {
+  "slug": "jo-sung-hee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:02.707Z"
+ },
+ {
+  "slug": "jim-collins",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:08.701Z"
+ },
+ {
+  "slug": "jimmy-iovine",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:12.176Z"
+ },
+ {
+  "slug": "john-stuart-mill",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:18.004Z"
+ },
+ {
+  "slug": "johannes-kepler",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:18.511Z"
+ },
+ {
+  "slug": "jinyoung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:20.088Z"
+ },
+ {
+  "slug": "joe-lonsdale",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:22.630Z"
+ },
+ {
+  "slug": "johannes-vermeer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:47.280Z"
+ },
+ {
+  "slug": "john-draper",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:56:58.758Z"
+ },
+ {
+  "slug": "ji-ling",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:00.034Z"
+ },
+ {
+  "slug": "jeong-yak-yong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:00.416Z"
+ },
+ {
+  "slug": "john-adams",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:10.668Z"
+ },
+ {
+  "slug": "jimmy-page",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:14.537Z"
+ },
+ {
+  "slug": "jim-keller",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:15.251Z"
+ },
+ {
+  "slug": "joachim-murat",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:16.385Z"
+ },
+ {
+  "slug": "jisoo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:20.648Z"
+ },
+ {
+  "slug": "jeong-you-jeong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:27.904Z"
+ },
+ {
+  "slug": "john-maynard-keynes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:29.519Z"
+ },
+ {
+  "slug": "joe-rogan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:37.279Z"
+ },
+ {
+  "slug": "jesse-owens",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:51.906Z"
+ },
+ {
+  "slug": "jeonghan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:57:55.565Z"
+ },
+ {
+  "slug": "jim-simons",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:07.016Z"
+ },
+ {
+  "slug": "john-gotti",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:20.249Z"
+ },
+ {
+  "slug": "jeongyeon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:22.824Z"
+ },
+ {
+  "slug": "john-bogle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:24.236Z"
+ },
+ {
+  "slug": "joan-of-arc",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:27.172Z"
+ },
+ {
+  "slug": "johnny",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:27.305Z"
+ },
+ {
+  "slug": "jessica-chastain",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:29.414Z"
+ },
+ {
+  "slug": "jin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:35.960Z"
+ },
+ {
+  "slug": "john-mccarthy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:46.223Z"
+ },
+ {
+  "slug": "jo-in-sung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:58:49.493Z"
+ },
+ {
+  "slug": "joe-sutter",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:02.132Z"
+ },
+ {
+  "slug": "jia-xu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:04.584Z"
+ },
+ {
+  "slug": "jim-sinegal",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:06.565Z"
+ },
+ {
+  "slug": "jesus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:12.166Z"
+ },
+ {
+  "slug": "john-calvin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:37.999Z"
+ },
+ {
+  "slug": "jin-jong-oh",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:39.032Z"
+ },
+ {
+  "slug": "joel-edgerton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:48.648Z"
+ },
+ {
+  "slug": "johnny-cash",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:50.030Z"
+ },
+ {
+  "slug": "jochi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:51.391Z"
+ },
+ {
+  "slug": "john-milton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:56.660Z"
+ },
+ {
+  "slug": "jeremy-hammond",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T16:59:58.212Z"
+ },
+ {
+  "slug": "jim-taiclet",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:00:11.939Z"
+ },
+ {
+  "slug": "jo-jung-rae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:00:23.343Z"
+ },
+ {
+  "slug": "jeremy-renner",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:00:35.854Z"
+ },
+ {
+  "slug": "jia-yi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:00:38.679Z"
+ },
+ {
+  "slug": "jet-li",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:00:39.423Z"
+ },
+ {
+  "slug": "jocko-willink",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:01:01.061Z"
+ },
+ {
+  "slug": "jin-seon-kyu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:01:04.022Z"
+ },
+ {
+  "slug": "john-perry-barlow",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:01:07.488Z"
+ },
+ {
+  "slug": "johan-cruijff",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:01:21.438Z"
+ },
+ {
+  "slug": "jo-jung-suk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:01:52.457Z"
+ },
+ {
+  "slug": "jimmu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:01:55.042Z"
+ },
+ {
+  "slug": "ji-chang-wook",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:02:07.404Z"
+ },
+ {
+  "slug": "jodie-foster",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:02:11.245Z"
+ },
+ {
+  "slug": "john-rawls",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:02:21.447Z"
+ },
+ {
+  "slug": "jin-yong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:02:27.421Z"
+ },
+ {
+  "slug": "johann-rupert",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:02:28.003Z"
+ },
+ {
+  "slug": "jiahui-yu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:02:31.860Z"
+ },
+ {
+  "slug": "johann-sebastian-bach",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T17:03:39.843Z"
+ },
+ {
+  "slug": "johann-sebastian-bach",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:04:00.079Z"
+ },
+ {
+  "slug": "jiang-wei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:04:39.662Z"
+ },
+ {
+  "slug": "jihyo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:07:04.982Z"
+ },
+ {
+  "slug": "justin-bieber",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:09:41.517Z"
+ },
+ {
+  "slug": "jose-saramago",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:09:46.524Z"
+ },
+ {
+  "slug": "kate-winslet",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:10:13.406Z"
+ },
+ {
+  "slug": "julius-caesar",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:10:20.384Z"
+ },
+ {
+  "slug": "justin-timberlake",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:10:24.045Z"
+ },
+ {
+  "slug": "jongho",
+  "action": "update",
+  "result": "반려: 안내 분량 미달: 76자",
+  "at": "2026-08-14T17:10:37.160Z"
+ },
+ {
+  "slug": "jumong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:10:46.445Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T17:10:56.153Z"
+ },
+ {
+  "slug": "kazuo-ishiguro",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:09.980Z"
+ },
+ {
+  "slug": "jun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:09.980Z"
+ },
+ {
+  "slug": "keller-rinaudo-cliffton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:13.061Z"
+ },
+ {
+  "slug": "joshua",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:13.364Z"
+ },
+ {
+  "slug": "joseph-fouche",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:19.268Z"
+ },
+ {
+  "slug": "jongho",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:26.141Z"
+ },
+ {
+  "slug": "kang-je-gyu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:29.383Z"
+ },
+ {
+  "slug": "karl-donitz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:31.769Z"
+ },
+ {
+  "slug": "johnny-depp",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:34.758Z"
+ },
+ {
+  "slug": "kathy-warden",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:44.840Z"
+ },
+ {
+  "slug": "jungsang-kim",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T17:11:45.810Z"
+ },
+ {
+  "slug": "joseph-goebbels",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:14:00.382Z"
+ },
+ {
+  "slug": "kang-youwei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:14:03.757Z"
+ },
+ {
+  "slug": "juno",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:16:31.242Z"
+ },
+ {
+  "slug": "jordan-peterson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:16:58.552Z"
+ },
+ {
+  "slug": "kang-full",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:05.441Z"
+ },
+ {
+  "slug": "kazuha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:07.326Z"
+ },
+ {
+  "slug": "jurgen-klopp",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:13.350Z"
+ },
+ {
+  "slug": "karl-marx",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:13.465Z"
+ },
+ {
+  "slug": "josephine-de-beauharnais",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:13.673Z"
+ },
+ {
+  "slug": "jorge-luis-borges",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:24.194Z"
+ },
+ {
+  "slug": "julien-chaumond",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:26.363Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-14T23:17:28.556Z"
+ },
+ {
+  "slug": "kangxi-emperor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:39.605Z"
+ },
+ {
+  "slug": "kevin-spacey",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:39.998Z"
+ },
+ {
+  "slug": "ki-sung-yueng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:43.432Z"
+ },
+ {
+  "slug": "karl-popper",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:46.147Z"
+ },
+ {
+  "slug": "jormungandr",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:50.919Z"
+ },
+ {
+  "slug": "josh-brolin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:17:56.505Z"
+ },
+ {
+  "slug": "kenzaburo-oe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:15.056Z"
+ },
+ {
+  "slug": "jose-mourinho",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:15.496Z"
+ },
+ {
+  "slug": "kanishka",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:23.003Z"
+ },
+ {
+  "slug": "kazuo-inamori",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:38.565Z"
+ },
+ {
+  "slug": "jon-bon-jovi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:40.566Z"
+ },
+ {
+  "slug": "kevin-systrom",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:42.525Z"
+ },
+ {
+  "slug": "kevin-costner",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:18:48.443Z"
+ },
+ {
+  "slug": "jon-fosse",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:21.588Z"
+ },
+ {
+  "slug": "jurgen-schmidhuber",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:23.751Z"
+ },
+ {
+  "slug": "jun-ji-hyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:26.689Z"
+ },
+ {
+  "slug": "karl-urban",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:28.927Z"
+ },
+ {
+  "slug": "ju-shou",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:34.454Z"
+ },
+ {
+  "slug": "kim-basinger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:43.883Z"
+ },
+ {
+  "slug": "kevin-warsh",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:58.166Z"
+ },
+ {
+  "slug": "kazuo-tadanobu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:19:58.714Z"
+ },
+ {
+  "slug": "kantaro-suzuki",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:20:21.479Z"
+ },
+ {
+  "slug": "kevin-feige",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:20:23.684Z"
+ },
+ {
+  "slug": "kendrick-lamar",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:20:34.071Z"
+ },
+ {
+  "slug": "jonathan-abrams",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:20:36.165Z"
+ },
+ {
+  "slug": "jose-reyes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:20:43.129Z"
+ },
+ {
+  "slug": "kanye-west",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:20:53.499Z"
+ },
+ {
+  "slug": "kai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:00.646Z"
+ },
+ {
+  "slug": "jude-bellingham",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:01.855Z"
+ },
+ {
+  "slug": "karna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:05.505Z"
+ },
+ {
+  "slug": "jung-hae-in",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:05.698Z"
+ },
+ {
+  "slug": "kim-beom-su",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:08.433Z"
+ },
+ {
+  "slug": "kai-fu-lee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:26.345Z"
+ },
+ {
+  "slug": "keanu-reeves",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:27.833Z"
+ },
+ {
+  "slug": "kevin-mitnick",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:43.745Z"
+ },
+ {
+  "slug": "kate-beckinsale",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:43.747Z"
+ },
+ {
+  "slug": "jonathan-haidt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:21:46.474Z"
+ },
+ {
+  "slug": "joseph-haydn",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:12.798Z"
+ },
+ {
+  "slug": "katsushika-hokusai",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-14T23:22:24.481Z"
+ },
+ {
+  "slug": "key",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:26.984Z"
+ },
+ {
+  "slug": "kim-bu-sik",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:27.051Z"
+ },
+ {
+  "slug": "jude-law",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:27.266Z"
+ },
+ {
+  "slug": "jungho-shin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:36.407Z"
+ },
+ {
+  "slug": "joseph-stalin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:41.967Z"
+ },
+ {
+  "slug": "katsushika-hokusai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:50.408Z"
+ },
+ {
+  "slug": "jonathan-hurst",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:51.426Z"
+ },
+ {
+  "slug": "keigo-higashino",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:55.189Z"
+ },
+ {
+  "slug": "kang-dong-won",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:58.118Z"
+ },
+ {
+  "slug": "kelly-ortberg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:22:59.339Z"
+ },
+ {
+  "slug": "kevin-poulsen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:23:24.591Z"
+ },
+ {
+  "slug": "khabib-nurmagomedov",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:23:33.024Z"
+ },
+ {
+  "slug": "judea-pearl",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:23:35.008Z"
+ },
+ {
+  "slug": "karaca-pasha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:23:37.775Z"
+ },
+ {
+  "slug": "jungwoo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:04.673Z"
+ },
+ {
+  "slug": "kevin-scott",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:06.261Z"
+ },
+ {
+  "slug": "kim-chi-ha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:11.847Z"
+ },
+ {
+  "slug": "keira-knightley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:14.296Z"
+ },
+ {
+  "slug": "kareem-abdul-jabbar",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:15.193Z"
+ },
+ {
+  "slug": "katy-perry",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:26.254Z"
+ },
+ {
+  "slug": "keith-alexander",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:32.887Z"
+ },
+ {
+  "slug": "khosrow-i",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:24:46.481Z"
+ },
+ {
+  "slug": "judi-dench",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:25:02.913Z"
+ },
+ {
+  "slug": "ken-griffin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:25:05.767Z"
+ },
+ {
+  "slug": "keith-rabois",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:25:35.581Z"
+ },
+ {
+  "slug": "kautilya",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:25:48.979Z"
+ },
+ {
+  "slug": "kim-chun-su",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:25:53.139Z"
+ },
+ {
+  "slug": "ki-bo-bae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:26:03.610Z"
+ },
+ {
+  "slug": "julian-assange",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:26:20.863Z"
+ },
+ {
+  "slug": "ken-watanabe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:26:25.666Z"
+ },
+ {
+  "slug": "karl-landsteiner",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:26:45.652Z"
+ },
+ {
+  "slug": "ken-howery",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:42:14.648Z"
+ },
+ {
+  "slug": "ken-kutaragi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-14T23:42:44.729Z"
+ },
+ {
+  "slug": "ken-howery",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:06:18.998Z"
+ },
+ {
+  "slug": "ken-kutaragi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:06:51.381Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T02:10:12.726Z"
+ },
+ {
+  "slug": "kim-go-eun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:10:13.304Z"
+ },
+ {
+  "slug": "kim-jee-woon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:10:28.121Z"
+ },
+ {
+  "slug": "kobe-bryant",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:10:38.715Z"
+ },
+ {
+  "slug": "kim-young-sam",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:10:47.001Z"
+ },
+ {
+  "slug": "king-helu",
+  "action": "update",
+  "result": "반려: 탐구 분량 미달: 119자",
+  "at": "2026-08-15T02:11:02.218Z"
+ },
+ {
+  "slug": "kenji-mizoguchi",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T02:11:09.217Z"
+ },
+ {
+  "slug": "kim-seo-hyung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:10.203Z"
+ },
+ {
+  "slug": "kong-rong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:15.870Z"
+ },
+ {
+  "slug": "kris-marszalek",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:21.038Z"
+ },
+ {
+  "slug": "king-helu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:22.362Z"
+ },
+ {
+  "slug": "kim-tae-rae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:28.976Z"
+ },
+ {
+  "slug": "kim-ki-young",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:29.717Z"
+ },
+ {
+  "slug": "kylian-mbappe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:31.436Z"
+ },
+ {
+  "slug": "kim-yu-jeong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T02:11:31.516Z"
+ },
+ {
+  "slug": "kim-gu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:01:10.095Z"
+ },
+ {
+  "slug": "kim-jeong-hui",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:01:11.744Z"
+ },
+ {
+  "slug": "kim-kwang-hyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:01:13.281Z"
+ },
+ {
+  "slug": "kim-yu-sin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:01:15.420Z"
+ },
+ {
+  "slug": "king-zhao-of-yan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:01:16.964Z"
+ },
+ {
+  "slug": "konosuke-matsushita",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:01:18.709Z"
+ },
+ {
+  "slug": "kim-ok-gyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:03:04.124Z"
+ },
+ {
+  "slug": "kim-su-young",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:03:18.110Z"
+ },
+ {
+  "slug": "kristalina-georgieva",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:03:44.520Z"
+ },
+ {
+  "slug": "king-seongdeok",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:03:46.700Z"
+ },
+ {
+  "slug": "lady-gaga",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:03:55.935Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T05:04:00.220Z"
+ },
+ {
+  "slug": "kim-gyu-vin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:04:03.356Z"
+ },
+ {
+  "slug": "kim-jinhwan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:04:15.668Z"
+ },
+ {
+  "slug": "kenji-mizoguchi",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T05:04:39.904Z"
+ },
+ {
+  "slug": "kim-philby",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:04:41.557Z"
+ },
+ {
+  "slug": "lao-ai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:04:45.340Z"
+ },
+ {
+  "slug": "kublai-khan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:06.065Z"
+ },
+ {
+  "slug": "kim-han-min",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:13.466Z"
+ },
+ {
+  "slug": "kim-tae-ri",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:17.183Z"
+ },
+ {
+  "slug": "lars-fruergaard-jorgensen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:24.436Z"
+ },
+ {
+  "slug": "king-wen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:24.437Z"
+ },
+ {
+  "slug": "kim-jong-un",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:42.114Z"
+ },
+ {
+  "slug": "kim-taek-jin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:48.283Z"
+ },
+ {
+  "slug": "lady-gan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:50.726Z"
+ },
+ {
+  "slug": "kukai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:05:56.038Z"
+ },
+ {
+  "slug": "kim-seong-hun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:06.639Z"
+ },
+ {
+  "slug": "kimbal-musk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:13.348Z"
+ },
+ {
+  "slug": "klay-thompson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:31.559Z"
+ },
+ {
+  "slug": "kim-da-mi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:36.291Z"
+ },
+ {
+  "slug": "kim-seung-youn",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:37.786Z"
+ },
+ {
+  "slug": "kumbhakarna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:39.394Z"
+ },
+ {
+  "slug": "king-wuling-of-zhao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:40.459Z"
+ },
+ {
+  "slug": "kim-hee-ae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:43.093Z"
+ },
+ {
+  "slug": "king-faisal",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:49.359Z"
+ },
+ {
+  "slug": "lao-she",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:06:53.086Z"
+ },
+ {
+  "slug": "kim-si-seup",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:07:09.416Z"
+ },
+ {
+  "slug": "kim-jung-ju",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:07:16.872Z"
+ },
+ {
+  "slug": "lars-moravy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:07:18.208Z"
+ },
+ {
+  "slug": "kim-whan-ki",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:07:36.234Z"
+ },
+ {
+  "slug": "kim-dae-geon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:07:54.469Z"
+ },
+ {
+  "slug": "kim-hong-do",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:08.322Z"
+ },
+ {
+  "slug": "kliment-voroshilov",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:13.912Z"
+ },
+ {
+  "slug": "king-zhaoxiang-of-qin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:15.954Z"
+ },
+ {
+  "slug": "lady-zhen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:19.346Z"
+ },
+ {
+  "slug": "kurt-cobain",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:22.916Z"
+ },
+ {
+  "slug": "kim-yeon-koung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:32.012Z"
+ },
+ {
+  "slug": "king-goujian",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:34.361Z"
+ },
+ {
+  "slug": "larry-bird",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:35.157Z"
+ },
+ {
+  "slug": "lashana-lynch",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:47.295Z"
+ },
+ {
+  "slug": "kim-ki-hoon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:08:52.761Z"
+ },
+ {
+  "slug": "king-zhou",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:07.239Z"
+ },
+ {
+  "slug": "lana-del-rey",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:19.598Z"
+ },
+ {
+  "slug": "kim-hye-soo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:20.905Z"
+ },
+ {
+  "slug": "kim-dae-jung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:27.012Z"
+ },
+ {
+  "slug": "kim-soo-hyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:37.536Z"
+ },
+ {
+  "slug": "konstantin-rokossovsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:43.005Z"
+ },
+ {
+  "slug": "kyle-vogt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:43.174Z"
+ },
+ {
+  "slug": "kim-kyung-ju",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:44.841Z"
+ },
+ {
+  "slug": "king-zhuang-of-chu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:47.643Z"
+ },
+ {
+  "slug": "lancelot",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:47.950Z"
+ },
+ {
+  "slug": "king-huai-of-chu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:50.311Z"
+ },
+ {
+  "slug": "larry-culp",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:09:53.428Z"
+ },
+ {
+  "slug": "latinus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:10:00.319Z"
+ },
+ {
+  "slug": "kim-yoon-seok",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:10:09.391Z"
+ },
+ {
+  "slug": "kim-hye-yoon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:10:29.494Z"
+ },
+ {
+  "slug": "kim-dong-myung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:10:35.289Z"
+ },
+ {
+  "slug": "kim-soo-nyung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:10:50.543Z"
+ },
+ {
+  "slug": "kim-young-ha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:10:52.080Z"
+ },
+ {
+  "slug": "kim-min-hee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:02.631Z"
+ },
+ {
+  "slug": "koo-junhoe",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-15T05:11:12.448Z"
+ },
+ {
+  "slug": "king-huiwen-of-qin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:14.868Z"
+ },
+ {
+  "slug": "lebron-james",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:20.088Z"
+ },
+ {
+  "slug": "kyuhyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:24.195Z"
+ },
+ {
+  "slug": "kirsten-dunst",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:38.139Z"
+ },
+ {
+  "slug": "kim-ji-won",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:45.091Z"
+ },
+ {
+  "slug": "koo-junhoe",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:11:50.494Z"
+ },
+ {
+  "slug": "kim-namjoon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:12:05.246Z"
+ },
+ {
+  "slug": "kyujin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:12:18.637Z"
+ },
+ {
+  "slug": "kim-dong-soo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:12:30.669Z"
+ },
+ {
+  "slug": "king-jeongjo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:12:50.630Z"
+ },
+ {
+  "slug": "kim-ji-woong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:13:01.925Z"
+ },
+ {
+  "slug": "koo-kwang-mo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:13:16.499Z"
+ },
+ {
+  "slug": "kim-donghyuk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:13:48.338Z"
+ },
+ {
+  "slug": "koray-kavukcuoglu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:14:32.982Z"
+ },
+ {
+  "slug": "koxinga",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:15:21.428Z"
+ },
+ {
+  "slug": "leonard-bernstein",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:18:39.056Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T05:18:53.539Z"
+ },
+ {
+  "slug": "lee-jung-eun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:18:59.160Z"
+ },
+ {
+  "slug": "leonardo-da-vinci",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:13.206Z"
+ },
+ {
+  "slug": "lin-xiangru",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:25.327Z"
+ },
+ {
+  "slug": "liang-qichao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:27.289Z"
+ },
+ {
+  "slug": "lee-myung-se",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:32.837Z"
+ },
+ {
+  "slug": "lee-woon-jae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:33.531Z"
+ },
+ {
+  "slug": "kenji-mizoguchi",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T05:19:39.179Z"
+ },
+ {
+  "slug": "lisandro-martinez",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:41.476Z"
+ },
+ {
+  "slug": "leonardo-dicaprio",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:44.164Z"
+ },
+ {
+  "slug": "lewis-hamilton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:49.385Z"
+ },
+ {
+  "slug": "liu-yifei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:19:56.725Z"
+ },
+ {
+  "slug": "lee-jung-jae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:20:04.004Z"
+ },
+ {
+  "slug": "leonardo-fibonacci",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-15T05:20:14.792Z"
+ },
+ {
+  "slug": "lee-do-hyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:20:15.818Z"
+ },
+ {
+  "slug": "liang-wenfeng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:20:42.788Z"
+ },
+ {
+  "slug": "li-qingzhao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:20:47.806Z"
+ },
+ {
+  "slug": "leonardo-fibonacci",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:20:49.293Z"
+ },
+ {
+  "slug": "lee-o-young",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:20:59.572Z"
+ },
+ {
+  "slug": "liu-bang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:02.601Z"
+ },
+ {
+  "slug": "lee-yoo-mi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:03.942Z"
+ },
+ {
+  "slug": "li-bai",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:10.561Z"
+ },
+ {
+  "slug": "liu-zhang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:14.182Z"
+ },
+ {
+  "slug": "lee-kang-in",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:14.389Z"
+ },
+ {
+  "slug": "leonhard-euler",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:21.083Z"
+ },
+ {
+  "slug": "linden-blue",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:31.293Z"
+ },
+ {
+  "slug": "lee-young-ae",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:44.360Z"
+ },
+ {
+  "slug": "lee-dong-hyung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:49.492Z"
+ },
+ {
+  "slug": "li-si",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:50.703Z"
+ },
+ {
+  "slug": "li-dazhao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:52.982Z"
+ },
+ {
+  "slug": "lee-byung-chul",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:21:57.986Z"
+ },
+ {
+  "slug": "liao-hua",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:22:00.906Z"
+ },
+ {
+  "slug": "lee-sang-hwa",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:22:18.042Z"
+ },
+ {
+  "slug": "liu-bei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:22:29.062Z"
+ },
+ {
+  "slug": "lee-kuan-yew",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:22:30.419Z"
+ },
+ {
+  "slug": "liu-zongyuan",
+  "action": "update",
+  "result": "반려: 안내 공허 마무리 재유입",
+  "at": "2026-08-15T05:22:31.415Z"
+ },
+ {
+  "slug": "leonidas-i",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:22:59.997Z"
+ },
+ {
+  "slug": "li-hongzhang",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:10.292Z"
+ },
+ {
+  "slug": "liu-zongyuan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:10.811Z"
+ },
+ {
+  "slug": "lee-hae-jin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:15.666Z"
+ },
+ {
+  "slug": "li-zhi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:17.832Z"
+ },
+ {
+  "slug": "leehan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:18.859Z"
+ },
+ {
+  "slug": "lif",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:32.217Z"
+ },
+ {
+  "slug": "lee-byung-hun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:35.853Z"
+ },
+ {
+  "slug": "liu-biao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:50.297Z"
+ },
+ {
+  "slug": "lee-kun-hee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:23:52.900Z"
+ },
+ {
+  "slug": "ling-tong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:00.764Z"
+ },
+ {
+  "slug": "lee-soo-man",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:04.140Z"
+ },
+ {
+  "slug": "livy",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:07.763Z"
+ },
+ {
+  "slug": "lernaean-hydra",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:09.309Z"
+ },
+ {
+  "slug": "leeseo",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:25.761Z"
+ },
+ {
+  "slug": "li-jing",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:36.412Z"
+ },
+ {
+  "slug": "lif",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:48.961Z"
+ },
+ {
+  "slug": "lee-hoe-yeong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:51.584Z"
+ },
+ {
+  "slug": "liu-qi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:52.843Z"
+ },
+ {
+  "slug": "li-zicheng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:24:54.076Z"
+ },
+ {
+  "slug": "lee-myung-bak",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:16.292Z"
+ },
+ {
+  "slug": "lee-chang-dong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:18.673Z"
+ },
+ {
+  "slug": "liz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:23.368Z"
+ },
+ {
+  "slug": "lifthrasir",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:23.864Z"
+ },
+ {
+  "slug": "linus-torvalds",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:39.292Z"
+ },
+ {
+  "slug": "lev-yashin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:40.969Z"
+ },
+ {
+  "slug": "leeteuk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:42.547Z"
+ },
+ {
+  "slug": "lee-sung-min",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:25:44.290Z"
+ },
+ {
+  "slug": "li-jue",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:09.043Z"
+ },
+ {
+  "slug": "lia",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:16.000Z"
+ },
+ {
+  "slug": "lee-tae-jun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:16.651Z"
+ },
+ {
+  "slug": "liu-shan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:25.903Z"
+ },
+ {
+  "slug": "lee-jae-yong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:32.769Z"
+ },
+ {
+  "slug": "lionel-messi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:45.482Z"
+ },
+ {
+  "slug": "lola-montez",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:53.092Z"
+ },
+ {
+  "slug": "lilian-weng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:26:57.163Z"
+ },
+ {
+  "slug": "lee-cheong-jun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:27:14.130Z"
+ },
+ {
+  "slug": "li-mu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:27:39.827Z"
+ },
+ {
+  "slug": "lee-jay-hyun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:27:55.417Z"
+ },
+ {
+  "slug": "liam-neeson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:28:04.395Z"
+ },
+ {
+  "slug": "lily",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:28:05.849Z"
+ },
+ {
+  "slug": "liu-xie",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:28:22.639Z"
+ },
+ {
+  "slug": "lionel-richie",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:28:25.182Z"
+ },
+ {
+  "slug": "lee-je-hoon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:29:19.246Z"
+ },
+ {
+  "slug": "lim-yo-hwan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:29:42.173Z"
+ },
+ {
+  "slug": "lian-po",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:29:47.224Z"
+ },
+ {
+  "slug": "lisa",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:29:54.003Z"
+ },
+ {
+  "slug": "jan-hus",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T05:59:13.083Z"
+ },
+ {
+  "slug": "louis-braille",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T05:59:45.882Z"
+ },
+ {
+  "slug": "kenji-mizoguchi",
+  "action": "update",
+  "result": "충돌: 조건부 갱신 불일치",
+  "at": "2026-08-15T06:00:01.982Z"
+ },
+ {
+  "slug": "louis-mountbatten",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:00:58.177Z"
+ },
+ {
+  "slug": "lord-chunshen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:02:00.628Z"
+ },
+ {
+  "slug": "louis-nicolas-davout",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:02:06.862Z"
+ },
+ {
+  "slug": "louis-pasteur",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:02:42.933Z"
+ },
+ {
+  "slug": "louis-xiv",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:03:31.303Z"
+ },
+ {
+  "slug": "louis-xvi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:04:08.838Z"
+ },
+ {
+  "slug": "lord-pingyuan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:04:09.272Z"
+ },
+ {
+  "slug": "loyd-blankenship",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:05:16.987Z"
+ },
+ {
+  "slug": "lord-xinling",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:05:31.937Z"
+ },
+ {
+  "slug": "lorenzo-de-medici",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:06:08.561Z"
+ },
+ {
+  "slug": "lu-bu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:06:37.227Z"
+ },
+ {
+  "slug": "louis-alexandre-berthier",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T06:07:34.931Z"
+ },
+ {
+  "slug": "ajax-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:53:58.703Z"
+ },
+ {
+  "slug": "alexis-de-tocqueville",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:54:57.434Z"
+ },
+ {
+  "slug": "achates",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:55:12.581Z"
+ },
+ {
+  "slug": "alex-karp",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:55:34.797Z"
+ },
+ {
+  "slug": "alberto-giacometti",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:55:40.396Z"
+ },
+ {
+  "slug": "alice-munro",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:55:50.931Z"
+ },
+ {
+  "slug": "alexander-pushkin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:56:38.545Z"
+ },
+ {
+  "slug": "alcibiades",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:56:39.961Z"
+ },
+ {
+  "slug": "achilles",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:56:55.089Z"
+ },
+ {
+  "slug": "akio-morita",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:57:14.795Z"
+ },
+ {
+  "slug": "ahyeon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:57:26.584Z"
+ },
+ {
+  "slug": "alecto",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:57:28.484Z"
+ },
+ {
+  "slug": "alexander-scriabin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:57:28.679Z"
+ },
+ {
+  "slug": "alex-ferguson",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:58:00.501Z"
+ },
+ {
+  "slug": "akira-kurosawa",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:58:03.485Z"
+ },
+ {
+  "slug": "adam-back",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:58:10.985Z"
+ },
+ {
+  "slug": "allen-dulles",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:58:18.979Z"
+ },
+ {
+  "slug": "al-khwarizmi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:58:42.471Z"
+ },
+ {
+  "slug": "adam-grant",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:59:02.063Z"
+ },
+ {
+  "slug": "alexander-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:59:08.948Z"
+ },
+ {
+  "slug": "al-kindi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:59:17.840Z"
+ },
+ {
+  "slug": "adolf-hitler",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:59:33.027Z"
+ },
+ {
+  "slug": "alexander-von-humboldt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T11:59:57.659Z"
+ },
+ {
+  "slug": "adrien-brody",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:00:04.679Z"
+ },
+ {
+  "slug": "al-mamun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:00:06.205Z"
+ },
+ {
+  "slug": "amancio-ortega",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:00:15.957Z"
+ },
+ {
+  "slug": "alexandre-dumas",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:00:33.051Z"
+ },
+ {
+  "slug": "aeetes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:00:36.347Z"
+ },
+ {
+  "slug": "amartya-sen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:01:41.411Z"
+ },
+ {
+  "slug": "amata",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:02:14.865Z"
+ },
+ {
+  "slug": "amaterasu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T12:02:46.783Z"
+ },
+ {
+  "slug": "ahmed-sherif",
+  "action": "hold",
+  "result": "보류(신원 미확인)",
+  "at": "2026-08-15T20:55:00.000Z"
+ },
+ {
+  "slug": "angelina-jolie",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:36:16.823Z"
+ },
+ {
+  "slug": "archimedes",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:36:16.986Z"
+ },
+ {
+  "slug": "absyrtus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:36:17.839Z"
+ },
+ {
+  "slug": "amber-heard",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:36:21.296Z"
+ },
+ {
+  "slug": "anna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:36:56.456Z"
+ },
+ {
+  "slug": "anne-frank",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:37:22.562Z"
+ },
+ {
+  "slug": "al-pacino",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:37:26.470Z"
+ },
+ {
+  "slug": "amin-nasser",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:37:44.488Z"
+ },
+ {
+  "slug": "argos",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:37:50.175Z"
+ },
+ {
+  "slug": "alan-rickman",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:37:52.496Z"
+ },
+ {
+  "slug": "aegisthus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:37:58.392Z"
+ },
+ {
+  "slug": "amy-adams",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:10.170Z"
+ },
+ {
+  "slug": "alan-turing",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:17.234Z"
+ },
+ {
+  "slug": "aeolus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:32.543Z"
+ },
+ {
+  "slug": "ariana-grande",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:33.851Z"
+ },
+ {
+  "slug": "amycus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:36.978Z"
+ },
+ {
+  "slug": "albertus-magnus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:42.657Z"
+ },
+ {
+  "slug": "annie-oakley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:45.807Z"
+ },
+ {
+  "slug": "aeschylus",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:38:58.304Z"
+ },
+ {
+  "slug": "an-jung-geun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:02.736Z"
+ },
+ {
+  "slug": "aristotle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:06.718Z"
+ },
+ {
+  "slug": "anchises",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:10.161Z"
+ },
+ {
+  "slug": "anubis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:10.360Z"
+ },
+ {
+  "slug": "alec-radford",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:11.777Z"
+ },
+ {
+  "slug": "an-lushan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:28.889Z"
+ },
+ {
+  "slug": "alex-spiro",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:35.045Z"
+ },
+ {
+  "slug": "andre-gide",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:39:35.299Z"
+ },
+ {
+  "slug": "andrei-tarkovsky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:00.475Z"
+ },
+ {
+  "slug": "alexander-hamilton",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:02.133Z"
+ },
+ {
+  "slug": "agamemnon",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:05.064Z"
+ },
+ {
+  "slug": "andrew-ng",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:27.648Z"
+ },
+ {
+  "slug": "alfred-nobel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:28.321Z"
+ },
+ {
+  "slug": "agatha-christie",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:29.910Z"
+ },
+ {
+  "slug": "aphrodite",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:46.473Z"
+ },
+ {
+  "slug": "arjuna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:40:52.222Z"
+ },
+ {
+  "slug": "andvari",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:02.232Z"
+ },
+ {
+  "slug": "an-yujin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:11.343Z"
+ },
+ {
+  "slug": "apsu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:15.102Z"
+ },
+ {
+  "slug": "andy-lau",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:26.628Z"
+ },
+ {
+  "slug": "arnold-palmer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:35.019Z"
+ },
+ {
+  "slug": "ana-de-armas",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:37.654Z"
+ },
+ {
+  "slug": "aravind-srinivas",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:42.400Z"
+ },
+ {
+  "slug": "andy-serkis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:57.184Z"
+ },
+ {
+  "slug": "aidan-gomez",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:41:59.118Z"
+ },
+ {
+  "slug": "arnold-schoenberg",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:42:20.184Z"
+ },
+ {
+  "slug": "ang-lee",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:42:23.477Z"
+ },
+ {
+  "slug": "arnold-schwarzenegger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:42:57.776Z"
+ },
+ {
+  "slug": "ajax-the-lesser",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:43:31.592Z"
+ },
+ {
+  "slug": "ban-zhao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:54:26.746Z"
+ },
+ {
+  "slug": "barack-obama",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:55:03.228Z"
+ },
+ {
+  "slug": "blaise-pascal",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:55:20.992Z"
+ },
+ {
+  "slug": "arthur-conan-doyle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:55:21.625Z"
+ },
+ {
+  "slug": "audrey-hepburn",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:55:40.593Z"
+ },
+ {
+  "slug": "arthur-schnitzler",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:55:51.583Z"
+ },
+ {
+  "slug": "augeas",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:56:07.006Z"
+ },
+ {
+  "slug": "benjamin-graham",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:56:13.413Z"
+ },
+ {
+  "slug": "bob-dylan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:56:16.919Z"
+ },
+ {
+  "slug": "auguste-rodin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:56:32.832Z"
+ },
+ {
+  "slug": "bartholomew-roberts",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:56:35.031Z"
+ },
+ {
+  "slug": "ayrton-senna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:56:58.332Z"
+ },
+ {
+  "slug": "bhishma",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:03.606Z"
+ },
+ {
+  "slug": "ben-affleck",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:07.174Z"
+ },
+ {
+  "slug": "bob-iger",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:08.166Z"
+ },
+ {
+  "slug": "bi-gan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:29.640Z"
+ },
+ {
+  "slug": "babe-ruth",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:30.976Z"
+ },
+ {
+  "slug": "arturo-toscanini",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:36.288Z"
+ },
+ {
+  "slug": "benjamin-netanyahu",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:37.326Z"
+ },
+ {
+  "slug": "bob-marley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:46.982Z"
+ },
+ {
+  "slug": "bill-dally",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:54.263Z"
+ },
+ {
+  "slug": "bad-bunny",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:57:56.059Z"
+ },
+ {
+  "slug": "bill-russell",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:20.429Z"
+ },
+ {
+  "slug": "bai-juyi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:22.377Z"
+ },
+ {
+  "slug": "ben-horowitz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:23.402Z"
+ },
+ {
+  "slug": "bob-odenkirk",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:29.055Z"
+ },
+ {
+  "slug": "billie-eilish",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:45.926Z"
+ },
+ {
+  "slug": "bambam",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:46.719Z"
+ },
+ {
+  "slug": "bernard-arnault",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:47.592Z"
+ },
+ {
+  "slug": "arvind-krishna",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:58:51.666Z"
+ },
+ {
+  "slug": "benedict-cumberbatch",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:00.639Z"
+ },
+ {
+  "slug": "billie-holiday",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:12.257Z"
+ },
+ {
+  "slug": "bobby-fischer",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:12.651Z"
+ },
+ {
+  "slug": "ascanius",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:30.062Z"
+ },
+ {
+  "slug": "benito-mussolini",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:35.545Z"
+ },
+ {
+  "slug": "billy-joel",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:36.797Z"
+ },
+ {
+  "slug": "atalanta",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T13:59:58.974Z"
+ },
+ {
+  "slug": "bonaventure",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:00:29.393Z"
+ },
+ {
+  "slug": "bernard-werber",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:00:33.283Z"
+ },
+ {
+  "slug": "benjamin-franklin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:00:48.941Z"
+ },
+ {
+  "slug": "blackbeard",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:01:13.968Z"
+ },
+ {
+  "slug": "athena",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:01:30.639Z"
+ },
+ {
+  "slug": "bernhard-riemann",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:01:48.299Z"
+ },
+ {
+  "slug": "bong-joon-ho",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:01:52.827Z"
+ },
+ {
+  "slug": "atum",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:01:58.958Z"
+ },
+ {
+  "slug": "bertrand-russell",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:03:30.789Z"
+ },
+ {
+  "slug": "beyonce",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:04:44.073Z"
+ },
+ {
+  "slug": "bharata",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T14:05:50.503Z"
+ },
+ {
+  "slug": "brad-pitt",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:13:04.695Z"
+ },
+ {
+  "slug": "cate-blanchett",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:13:24.917Z"
+ },
+ {
+  "slug": "changbin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:13:36.220Z"
+ },
+ {
+  "slug": "brett-adcock",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:13:49.776Z"
+ },
+ {
+  "slug": "cai-yuanpei",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:13:54.274Z"
+ },
+ {
+  "slug": "catherine-the-great",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:14:02.011Z"
+ },
+ {
+  "slug": "carl-gustav-jung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:14:10.346Z"
+ },
+ {
+  "slug": "chenle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:14:17.288Z"
+ },
+ {
+  "slug": "brian-armstrong",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:14:58.435Z"
+ },
+ {
+  "slug": "carl-lewis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:02.541Z"
+ },
+ {
+  "slug": "chiwetel-ejiofor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:03.363Z"
+ },
+ {
+  "slug": "changpeng-zhao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:09.601Z"
+ },
+ {
+  "slug": "cathie-wood",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:29.964Z"
+ },
+ {
+  "slug": "cameron-diaz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:34.960Z"
+ },
+ {
+  "slug": "brian-chesky",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:46.519Z"
+ },
+ {
+  "slug": "chloe-grace-moretz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:15:48.078Z"
+ },
+ {
+  "slug": "celine-dion",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:18.112Z"
+ },
+ {
+  "slug": "carl-sagan",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:23.857Z"
+ },
+ {
+  "slug": "charles-de-gaulle",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:27.272Z"
+ },
+ {
+  "slug": "camilla",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:32.744Z"
+ },
+ {
+  "slug": "bruno-mars",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:33.081Z"
+ },
+ {
+  "slug": "choi-jin-cheul",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:37.125Z"
+ },
+ {
+  "slug": "cha-bum-kun",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:16:46.499Z"
+ },
+ {
+  "slug": "buddha",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:17:17.793Z"
+ },
+ {
+  "slug": "camilo-jose-cela",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:17:21.719Z"
+ },
+ {
+  "slug": "charlie-chaplin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:17:31.153Z"
+ },
+ {
+  "slug": "carl-von-clausewitz",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:17:39.296Z"
+ },
+ {
+  "slug": "bull-demon-king",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:17:54.235Z"
+ },
+ {
+  "slug": "chad-hurley",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:17:57.778Z"
+ },
+ {
+  "slug": "chaeyoung",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:18:31.717Z"
+ },
+ {
+  "slug": "charlie-hunnam",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:18:46.851Z"
+ },
+ {
+  "slug": "cao-cao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:18:50.916Z"
+ },
+ {
+  "slug": "carlo-gambino",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:18:55.607Z"
+ },
+ {
+  "slug": "cai-wenji",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:19:22.509Z"
+ },
+ {
+  "slug": "charybdis",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:19:41.355Z"
+ },
+ {
+  "slug": "chamath-palihapitiya",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:19:53.341Z"
+ },
+ {
+  "slug": "cao-pi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:20:05.448Z"
+ },
+ {
+  "slug": "carlos-santana",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:20:36.313Z"
+ },
+ {
+  "slug": "chen",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:21:13.834Z"
+ },
+ {
+  "slug": "choi-woo-shik",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:21:23.265Z"
+ },
+ {
+  "slug": "carrie-anne-moss",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:21:28.256Z"
+ },
+ {
+  "slug": "cao-xueqin",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:21:33.662Z"
+ },
+ {
+  "slug": "castor",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:22:18.502Z"
+ },
+ {
+  "slug": "choi-min-sik",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:22:28.543Z"
+ },
+ {
+  "slug": "cao-zhi",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:22:46.666Z"
+ },
+ {
+  "slug": "cheng-hao",
+  "action": "update",
+  "result": "반영",
+  "at": "2026-08-15T15:22:48.126Z"
+ }
+]
