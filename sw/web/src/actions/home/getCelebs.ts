@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE, LIST_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, LIST_REVALIDATE, throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -163,27 +163,30 @@ async function fetchCelebsPublic(
     /* 최근 조회수 순 — 기간 창 순위라 필터·페이지 개념이 없다.
        누적으로 뽑으면 앞에 세우는 인물이 영원히 고정되므로 창을 쓴다.
        목록 단일 진입점(get_celebs_sorted)을 건드리지 않기 위해 별도 함수를 둔다. */
-    const { data } = await supabase.rpc('get_celebs_trending', {
+    const { data, error } = await supabase.rpc('get_celebs_trending', {
       p_days: TRENDING_DAYS, p_limit: limit,
     })
+    throwOnQueryError('인기 인물 목록', error)
     rows = (data || []) as CelebRow[]
     total = rows.length
   } else {
     // 전체 개수 조회
-    const { data: countData } = await supabase.rpc('count_celebs_filtered', {
+    const { data: countData, error: countError } = await supabase.rpc('count_celebs_filtered', {
       p_profession: profession, p_nationality: nationality, p_content_type: contentType,
       p_search: search, p_tag_id: tagId, p_min_content_count: minContentCount,
       p_gender: gender, p_include_inactive: includeInactive, p_celeb_tiers: tiers,
     })
+    throwOnQueryError('인물 목록 개수', countError)
     total = countData ?? 0
 
     // 정렬된 셀럽 목록 조회
-    const { data } = await supabase.rpc('get_celebs_sorted', {
+    const { data, error } = await supabase.rpc('get_celebs_sorted', {
       p_profession: profession, p_nationality: nationality, p_content_type: contentType,
       p_sort_by: sortBy, p_search: search ?? '', p_limit: limit, p_offset: offset,
       p_tag_id: tagId, p_min_content_count: minContentCount, p_gender: gender,
       p_include_inactive: includeInactive, p_celeb_tiers: tiers,
     })
+    throwOnQueryError('인물 목록', error)
     rows = (data || []) as CelebRow[]
   }
 
@@ -198,20 +201,22 @@ async function fetchCelebsPublic(
   const [tagJoinRows, dialogueResult, voiceResult, researchMarkerResult, influenceRanking] = await Promise.all([
     // 세력도감 소속 — UNION 뷰는 태그 embed가 안 되므로 뷰 → celeb_tags 두 단계로 읽어 합친다
     (async (): Promise<TagAssignmentJoinRow[]> => {
-      const { data: memberRows } = await supabase
+      const { data: memberRows, error: memberError } = await supabase
         .from('faction_atlas_members')
         .select('celeb_id, tag_id, short_desc, short_desc_en, long_desc, long_desc_en, sort_order')
         .in('celeb_id', celebIds)
         .eq('hidden', false)
         .overrideTypes<AtlasMemberRow[], { merge: false }>()
+      throwOnQueryError('인물 세력도감 배정', memberError)
       if (!memberRows?.length) return []
 
       const memberTagIds = [...new Set(memberRows.map((r) => r.tag_id))]
-      const { data: tagRows } = await supabase
+      const { data: tagRows, error: tagError } = await supabase
         .from('celeb_tags')
         .select('id, name, name_en, color')
         .in('id', memberTagIds)
         .overrideTypes<{ id: string; name: string; name_en: string | null; color: string }[], { merge: false }>()
+      throwOnQueryError('인물 세력도감 태그', tagError)
       const tagById = new Map((tagRows ?? []).map((t) => [t.id, t]))
 
       return memberRows.map((r) => ({
@@ -236,6 +241,9 @@ async function fetchCelebsPublic(
       .in('id', celebIds),
     getInfluenceRanking(),
   ])
+  throwOnQueryError('인물 대사', dialogueResult.error)
+  throwOnQueryError('인물 음성', voiceResult.error)
+  throwOnQueryError('인물 콘텐츠 조사 상태', researchMarkerResult.error)
 
   // 태그 맵
   const tagMap: Record<string, CelebTagInfo[]> = {}
@@ -287,7 +295,8 @@ async function fetchCelebsPublic(
 // unstable_cache 래퍼: 인자를 직렬화 가능한 primitive로 전달
 const getCelebsCached = unstable_cache(
   fetchCelebsPublic,
-  ['celebs-public'],
+  // 반환 모양이 바뀌면 반드시 버전을 올린다. 배포 간 영속 캐시가 구형 필드를 되돌려줄 수 있다.
+  ['celebs-public-v3-confirmed-empty-map'],
   // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
