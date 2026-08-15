@@ -12,13 +12,13 @@ import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer"
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
-import GuestbookContent from "@/components/features/profile/GuestbookContent";
+import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
+import { Deferred, PendingBlock } from "@/components/ui/pending";
 import {
   formatSectionNumber,
   getWorldStyle,
 } from "@/lib/celeb/worldStyle";
 import type { Locale } from "@/types/locale";
-import type { GuestbookEntryWithAuthor } from "@/types/database";
 
 import { CelebAtlasNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
@@ -56,8 +56,6 @@ interface CelebRecordSectionsProps {
   influenceData: CelebInfluenceDetail | null;
   influenceExplorerData: InfluenceExplorerData | null;
   spectrumData: SimilarByCelebResult | null;
-  guestbookEntries: GuestbookEntryWithAuthor[];
-  guestbookTotal: number;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
   timelineEvents: CelebTimelineEvent[];
@@ -75,8 +73,6 @@ export default function CelebRecordSections({
   influenceData,
   influenceExplorerData,
   spectrumData,
-  guestbookEntries,
-  guestbookTotal,
   dialogueLines,
   contemporaries,
   timelineEvents,
@@ -239,16 +235,16 @@ export default function CelebRecordSections({
 
         <section id="guestbook" tabIndex={-1} className={SECTION_CLASS_NAME}>
           {renderSectionHeading("guestbook")}
+          {/* 방명록은 색인 가치가 없고 맨 아래에 있으며 캐시에 굳으면 안 되는 자료라
+              화면이 다가올 때 비로소 불러온다. 제목은 서버 HTML에 그대로 남는다. */}
           <SectionSurface>
-            <GuestbookContent
-              profileId={userId}
-              isOwner={false}
-              initialEntries={guestbookEntries}
-              initialTotal={guestbookTotal}
-              hideEmptyState
-              isFiction={isFiction}
-              variant="celeb"
-            />
+            <Deferred
+              fallback={
+                <PendingBlock variant="rows" count={3} className="py-7" />
+              }
+            >
+              <GuestbookDeferred profileId={userId} isFiction={isFiction} />
+            </Deferred>
           </SectionSurface>
         </section>
       </div>

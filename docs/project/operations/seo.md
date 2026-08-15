@@ -472,6 +472,7 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
   6. 영문 메뉴명 "Scriptures" → "Library" 변경
   7. URL 경로 `/scriptures` → `/library` 변경 + 영구 리다이렉트 (next.config.ts `permanent: true` → 308)
 - **교훈**: `loading.tsx`뿐 아니라 컴포넌트 레벨 `<Suspense>`도 동일한 SEO 문제를 유발한다. SEO 대상 페이지에서는 Suspense를 사용하지 않는다
+- **현행(26.08.16)**: 사람 브라우저에만 구획별 스트리밍을 주는 `Lane`(`components/ui/pending/Lane.tsx`, UA 판정 `lib/render-mode.ts`)이 이 규칙을 대체한다. 봇·미확인 UA는 여전히 완성 HTML을 받는다. 배포 검증: 봇 UA로 curl해 `<template id="B:` 0개·본문 텍스트 잔존을 확인한다. 규칙 원문은 `docs/project/platform/code-rules.md`
 
 ### 검색 노출 약 2% 규모 — AdSense 반복 거절 (2026-07-15, 07-22 재검증)
 

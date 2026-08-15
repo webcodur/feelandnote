@@ -787,5 +787,11 @@
     "closeVideo": "Close video",
     "playMusic": "Theme music",
     "pauseMusic": "Pause music"
+  },
+  "pending": {
+    "loading": "Loading",
+    "failed": "Couldn't load this section",
+    "retry": "Try again",
+    "empty": "Nothing here yet"
   }
 }

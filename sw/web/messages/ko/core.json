@@ -788,5 +788,11 @@
     "closeVideo": "영상 닫기",
     "playMusic": "테마 음악",
     "pauseMusic": "음악 멈춤"
+  },
+  "pending": {
+    "loading": "불러오는 중",
+    "failed": "불러오지 못했습니다",
+    "retry": "다시 시도",
+    "empty": "아직 자료가 없습니다"
   }
 }

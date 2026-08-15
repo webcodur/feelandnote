@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Z_INDEX } from "@/constants/zIndex";
 import { BOTTOM_NAV_ITEMS } from "@/constants/navigation";
+import { LinkPending } from "@/components/ui/pending";
 
 interface NavItemProps {
   href: string;
@@ -23,13 +24,14 @@ function NavItem({ href, active, icon, label }: NavItemProps) {
   return (
     <Link
       href={href}
-      className={`flex flex-col items-center justify-center gap-1 py-1 flex-1 no-underline
+      className={`relative flex flex-col items-center justify-center gap-1 py-1 flex-1 no-underline
         ${active ? "text-accent" : "text-text-secondary opacity-60 hover:opacity-100"}`}
     >
       <div className={active ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : ""}>
         {icon}
       </div>
       <span className={`text-[9px] font-serif tracking-tighter ${active ? "font-black" : "font-medium"}`}>{label}</span>
+      <LinkPending className="absolute top-1 end-[22%]" />
     </Link>
   );
 }

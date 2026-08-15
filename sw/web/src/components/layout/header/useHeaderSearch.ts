@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback, useTransition } from "react";
 import { useRouter, usePathname } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { searchContents, searchUsers, searchTags, searchRecords, searchCelebs } from "@/actions/search";
 import { addContent } from "@/actions/contents/addContent";
@@ -45,7 +44,6 @@ export function useHeaderSearch() {
   const t = useTranslations("searchResult");
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isModeOpen, setIsModeOpen] = useState(false);
   const [mode, setMode] = useState<SearchMode>("celeb");
@@ -88,10 +86,12 @@ export function useHeaderSearch() {
     localStorage.setItem(SEARCH_PREF_KEY, JSON.stringify({ mode, category: contentCategory }));
   }, [mode, contentCategory]);
 
-  // 검색 페이지에서 URL 파라미터와 동기화
+  // 검색 페이지에서 URL 파라미터와 동기화. useSearchParams 대신 window에서 읽는다 —
+  // useSearchParams는 헤더 전체를 Suspense 뒤로 밀어 봇이 받는 첫 청크에서 내비게이션이 빠졌다.
   useEffect(() => {
     if (pathname !== "/search") return;
 
+    const searchParams = new URLSearchParams(window.location.search);
     const urlMode = searchParams.get("mode") as SearchMode;
     const urlCategory = searchParams.get("category") as ContentCategory;
 
@@ -101,7 +101,7 @@ export function useHeaderSearch() {
     if (urlCategory && CONTENT_CATEGORIES.some((c) => c.id === urlCategory)) {
       setContentCategory(urlCategory);
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   // 현재 사용자 ID 가져오기
   useEffect(() => {

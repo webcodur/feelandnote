@@ -10,6 +10,7 @@ import type { GameBackgroundImages } from "@/lib/getGameBackgroundImages";
 import type { GameCharacter } from "@/lib/game/suikoden/types";
 import type { WanderPools } from "@/lib/game/wander/types";
 import type { DialoguesMap } from "@/components/features/game/suikoden/SuikodenGameWrapper";
+import SuikodenSlot from "./SuikodenSlot";
 import { Brain, ScanFace } from "lucide-react";
 import type { MemoryFigure } from "@/components/features/game/memory/types";
 import type { PortraitFigure } from "@/components/features/game/portrait/types";
@@ -25,7 +26,6 @@ function GameLoadingScreen() {
 const DawnGameWrapper = dynamic(() => import("@/components/features/game/dawn/DawnGameWrapper"), { loading: GameLoadingScreen });
 const LabyrinthGame = dynamic(() => import("@/components/features/game/labyrinth/LabyrinthGame"), { loading: GameLoadingScreen });
 const HegemonyGame = dynamic(() => import("@/components/features/game/battle/HegemonyGame"), { loading: GameLoadingScreen });
-const SuikodenGameWrapper = dynamic(() => import("@/components/features/game/suikoden/SuikodenGameWrapper"), { loading: GameLoadingScreen });
 const WanderGame = dynamic(() => import("@/components/features/game/wander/WanderGame"), { loading: GameLoadingScreen });
 const MemoryGame = dynamic(() => import("@/components/features/game/memory/MemoryGame"), { loading: GameLoadingScreen });
 const PortraitGame = dynamic(() => import("@/components/features/game/portrait/PortraitGame"), { loading: GameLoadingScreen });
@@ -54,8 +54,9 @@ interface Props {
   bgImagesDawn: GameBackgroundImages | null;
   bgImagesLabyrinth: GameBackgroundImages | null;
   bgImagesHegemony: GameBackgroundImages | null;
-  suikodenCharacters: GameCharacter[];
-  suikodenDialogues: DialoguesMap;
+  /** 카드 격자를 붙잡지 않도록 기다리지 않고 넘겨받는다 — 실제로 천도 카드를 열 때 SuikodenSlot이 기다린다 */
+  suikodenCharactersPromise: Promise<GameCharacter[]>;
+  suikodenDialoguesPromise: Promise<DialoguesMap>;
   /** 미공개 게임 자료는 개발자 모드가 아닐 때 조회하지 않으므로 null이 들어온다 */
   wanderPools: WanderPools | null;
   memoryFigures: MemoryFigure[] | null;
@@ -68,8 +69,8 @@ export default function RestGameGrid({
   bgImagesDawn,
   bgImagesLabyrinth,
   bgImagesHegemony,
-  suikodenCharacters,
-  suikodenDialogues,
+  suikodenCharactersPromise,
+  suikodenDialoguesPromise,
   wanderPools,
   memoryFigures,
   portraitFigures,
@@ -138,10 +139,9 @@ export default function RestGameGrid({
       )}
 
       {activeGame === "suikoden" && (
-        <SuikodenGameWrapper
-          characters={suikodenCharacters}
-          dialogues={suikodenDialogues}
-          initialFullScreen={true}
+        <SuikodenSlot
+          charactersPromise={suikodenCharactersPromise}
+          dialoguesPromise={suikodenDialoguesPromise}
           onExitFullScreenExternal={handleExit}
         />
       )}

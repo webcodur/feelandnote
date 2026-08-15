@@ -305,13 +305,24 @@ const getCelebsCached = unstable_cache(
   }
 )
 
+// 인기(trending)만 따로 감싼다 — 30일 창 순위를 7일 캐시에 묶으면 한 주 내내 같은 순위가 나온다
+const getCelebsTrendingCached = unstable_cache(
+  fetchCelebsPublic,
+  ['celebs-public-trending-v1'],
+  {
+    revalidate: LIST_REVALIDATE,
+    tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
+  }
+)
+
 export async function getCelebs(
   params: GetCelebsParams = {}
 ): Promise<GetCelebsResult> {
   const { page = 1, limit = 8, profession, nationality, contentType, gender, sortBy = 'daily_recommend', search, tagId, minContentCount = 0, includeInactive = false, tiers } = params
 
   // 1. 캐싱된 공개 데이터 조회
-  const pub = await getCelebsCached(
+  const loadPublic = sortBy === 'trending' ? getCelebsTrendingCached : getCelebsCached
+  const pub = await loadPublic(
     page, limit, profession ?? null, nationality ?? null,
     contentType ?? null, gender ?? null, sortBy,
     search ?? null, tagId ?? null, minContentCount,

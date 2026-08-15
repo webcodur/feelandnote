@@ -15,7 +15,6 @@ import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
 import type { Locale } from "@/types/locale";
-import type { GuestbookEntryWithAuthor } from "@/types/database";
 
 import styles from "./CelebPageContent.module.css";
 import CelebHeroSection from "./detail/CelebHeroSection";
@@ -30,8 +29,6 @@ interface CelebPageContentProps {
   influenceData: CelebInfluenceDetail | null;
   influenceExplorerData: InfluenceExplorerData | null;
   spectrumData: SimilarByCelebResult | null;
-  guestbookEntries: GuestbookEntryWithAuthor[];
-  guestbookTotal: number;
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
   contemporaries: ContemporaryCeleb[];
@@ -52,8 +49,6 @@ export default function CelebPageContent({
   influenceData,
   influenceExplorerData,
   spectrumData,
-  guestbookEntries,
-  guestbookTotal,
   greeting,
   dialogueLines,
   contemporaries,
@@ -143,8 +138,6 @@ export default function CelebPageContent({
         influenceData={influenceData}
         influenceExplorerData={influenceExplorerData}
         spectrumData={spectrumData}
-        guestbookEntries={guestbookEntries}
-        guestbookTotal={guestbookTotal}
         dialogueLines={dialogueLines}
         contemporaries={contemporaries}
         timelineEvents={timelineEvents}

@@ -10,6 +10,7 @@
 | [`external-api-migration-2026-08-01.md`](external-api-migration-2026-08-01.md) | 외부 API 종료·전환 뒤 남은 일 |
 | [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | 기존 R2·캐시·앱 경계를 실측해 사용자 웹과 백오피스의 최적 배포처·비용 상한을 결정하는 조사 |
 | [`document-audit.md`](document-audit.md) | 현역 문서와 코드·DB의 실측 대조 |
+| [`web-section-lanes.md`](web-section-lanes.md) | 사용자 웹 구획별 독립 레인 전환(2026-08-16 완료) 뒤 남은 일 — 회원 서재 첫 페이지 서버 주입, 인물 목록 필터 뷰 분리, 인물 상세 스크롤 잔여 후보 |
 
 ## 이동 규칙
 
