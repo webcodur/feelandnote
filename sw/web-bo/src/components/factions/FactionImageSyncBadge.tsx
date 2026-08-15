@@ -50,8 +50,9 @@ export function FactionImageSyncBadge({ folder, reloadKey, onOpenPublish }: {
   if (pendingTotal > 0) {
     return (
       <button
+        type="button"
         onClick={onOpenPublish}
-        className="flex items-center gap-1.5 rounded-md border border-amber-500 bg-amber-500/15 px-3 py-2 text-sm font-semibold text-amber-500 hover:bg-amber-500/30"
+        className="flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border border-amber-500 bg-amber-500/15 px-2.5 text-xs font-semibold text-amber-500 hover:bg-amber-500/30"
         title={`아직 도감에 안 올라간 사진 — ${detail}. 눌러서 진단 패널 열기`}
       >
         <ImageIcon size={15} /> 사진 미반영 {pendingTotal}
@@ -62,8 +63,9 @@ export function FactionImageSyncBadge({ folder, reloadKey, onOpenPublish }: {
   if (summary.fileMissing > 0) {
     return (
       <button
+        type="button"
         onClick={onOpenPublish}
-        className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-amber-500 hover:bg-bg-hover"
+        className="flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border border-border bg-bg-card px-2.5 text-xs font-semibold text-amber-500 hover:bg-bg-hover"
         title={`데이터에 적힌 사진인데 로컬 파일이 없다 — ${detail}. 반영으로 해소되지 않으니 원본을 확인한다`}
       >
         <ImageIcon size={15} /> 사진 파일 없음 {summary.fileMissing}

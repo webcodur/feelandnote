@@ -16,7 +16,7 @@
  *
  *   롱폼 — 편 경계(cut)가 없으면 통짜 한 편(`ko-longform`). 있으면 그 테마의 세력이 속한 편.
  *          여러 편에 걸치면 가장 앞 편.
- *   쇼츠 — 그 테마 세력들의 쇼츠 편(part) 중 가장 앞 번호. 편이 아예 없는 에피소드는 단일 쇼츠(`ko-shorts-1`).
+ *   쇼츠 — 내부 이야기 경계가 있으면 첫 등장 편, 없으면 그 테마 세력들의 legacy part 중 가장 앞 번호.
  *
  * 두 번째 이후 편은 버린다 — 도감은 「롱폼 보기 / 쇼츠 보기」 두 갈래만 보여준다.
  *
@@ -36,6 +36,8 @@ import {
   type FactionLongformLayoutItem,
   type FactionVariantDef,
 } from '@feelandnote/shared/lib/youtube-faction-meta'
+import { factionLongformSegments } from '@feelandnote/shared/lib/faction-longform'
+import { factionShortsSegments, hasFactionShortsCuts } from '@feelandnote/shared/lib/faction-shorts'
 import { checkUploadsLive, type LiveCheck, type UploadRecordLike } from '@/lib/youtube-liveness'
 import type { PublishGroup } from './collect'
 
@@ -108,20 +110,6 @@ export async function readFactionUploads(folder: string): Promise<FactionUploads
  * 롱폼 편(lvPart)별 세력 인덱스 집합 — 배치를 편 경계(cut)로 가른 구간.
  * 배치에 빠진 활성 세력은 마지막 구간에 붙는다(`youtube-faction-meta` · 렌더 timing 과 같은 규칙).
  */
-function longformSegments(
-  layout: ReadonlyArray<FactionLongformLayoutItem>,
-  groups: ReadonlyArray<PublishGroup>,
-): number[][] {
-  const segments: number[][] = [[]]
-  for (const it of layout) {
-    if ('cut' in it) { segments.push([]); continue }
-    if ('group' in it) segments[segments.length - 1].push(it.group)
-  }
-  const placed = new Set(layout.flatMap(it => ('group' in it ? [it.group] : [])))
-  groups.forEach((g, gi) => { if (!g.disabled && !placed.has(gi)) segments[segments.length - 1].push(gi) })
-  return segments
-}
-
 /**
  * 한 테마(태그)를 쓰는 세력들에 맞는 영상 종류를 고른다 — 롱폼 하나, 쇼츠 하나.
  *
@@ -134,35 +122,45 @@ export function pickTagVariants(
   tagGroups: ReadonlyArray<PublishGroup>,
   layout?: ReadonlyArray<FactionLongformLayoutItem>,
 ): { longform?: FactionVariantDef; shorts?: FactionVariantDef } {
-  // 영상에 안 나오는 세력만 가진 테마는 볼 영상이 없다 —
-  // 뺀 세력(disabled)과 가로 롱폼 전용(longformOnly)은 지금 나가는 세로 영상 어디에도 없다.
-  const onScreen = tagGroups.filter(g => !g.disabled && !g.longformOnly)
-  if (!onScreen.length) return {}
+  // disabled 만 모든 영상에서 빠진다. longformOnly 는 롱폼 대표 영상에는 포함하고 쇼츠만 비운다.
+  const longformGroups = tagGroups.filter(g => !g.disabled)
+  if (!longformGroups.length) return {}
+  const shortsGroups = longformGroups.filter(g => !g.longformOnly)
 
   const variants = factionVariants(
-    all.map(g => ({ part: g.part, disabled: g.disabled })),
+    all,
     layout,
   )
   const longforms = variants.filter(v => !v.isShorts)
   const shortsList = variants.filter(v => v.isShorts)
-  const idx = new Set(onScreen.map(g => g.index))
+  const idx = new Set(longformGroups.map(g => g.index))
 
   // 롱폼 — 편 경계가 없으면 통짜 한 편, 있으면 이 테마 세력이 처음 나타나는 편
   let longform: FactionVariantDef | undefined
   if (longforms.length <= 1) {
     longform = longforms[0]
   } else {
-    const segments = longformSegments(layout ?? [], all)
-    const hit = segments.findIndex(seg => seg.some(gi => idx.has(gi)))
+    const segments = factionLongformSegments(
+      all as unknown as Record<string, unknown>[],
+      layout,
+    )
+    const hit = segments.findIndex(segment => segment.some(step => 'gi' in step && idx.has(step.gi)))
     longform = hit >= 0 ? longforms[hit] : undefined
   }
 
-  // 쇼츠 — 이 테마 세력들의 편 번호 중 가장 앞. 편을 나누지 않은 에피소드는 단일 쇼츠
+  // 쇼츠 — 내부 이야기 경계가 있으면 그 세력이 처음 등장하는 전역 쇼츠 편, 없으면 legacy group.part 중 가장 앞.
   let shorts: FactionVariantDef | undefined
-  if (shortsList.length === 1 && shortsList[0].part == null) {
+  if (!shortsGroups.length) {
+    shorts = undefined
+  } else if (shortsList.length === 1 && shortsList[0].part == null) {
     shorts = shortsList[0]
+  } else if (hasFactionShortsCuts(all as unknown as Record<string, unknown>[])) {
+    const shortsIndex = new Set(shortsGroups.map(g => g.index))
+    const hit = factionShortsSegments(all as unknown as Record<string, unknown>[])
+      .findIndex(segment => segment.some(step => shortsIndex.has(step.gi)))
+    shorts = hit >= 0 ? shortsList.find(variant => variant.part === hit + 1) : undefined
   } else {
-    const parts = onScreen
+    const parts = shortsGroups
       .filter(g => g.part != null && g.part > 0)
       .map(g => g.part as number)
       .sort((a, b) => a - b)

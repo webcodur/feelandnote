@@ -122,12 +122,14 @@ const FILTER_OPTIONS = [
  * 이때 className·style 은 바깥 래퍼가 받고, 미디어는 래퍼를 가득 채운다(fit 으로 맞춤).
  */
 export function MediaThumb({
-  src, alt = '', className, style, autoPlay = false, showExt = false, fit = 'cover',
+  src, alt = '', className, style, mediaStyle, autoPlay = false, showExt = false, fit = 'cover',
 }: {
   src: string
   alt?: string
   className?: string
   style?: CSSProperties
+  /** showExt 래퍼 안의 실제 img/video에 적용할 맞춤·확대 스타일. */
+  mediaStyle?: CSSProperties
   autoPlay?: boolean
   /** 확장자 배지 + 영상 표식 노출 */
   showExt?: boolean
@@ -149,10 +151,10 @@ export function MediaThumb({
   return (
     <span className={`relative block overflow-hidden ${className ?? ''}`} style={style}>
       {video ? (
-        <video src={src} className={`h-full w-full ${fitCls}`} muted loop playsInline autoPlay={autoPlay} preload="metadata" />
+        <video src={src} className={`h-full w-full ${fitCls}`} style={mediaStyle} muted loop playsInline autoPlay={autoPlay} preload="metadata" />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt} className={`h-full w-full ${fitCls}`} />
+        <img src={src} alt={alt} className={`h-full w-full ${fitCls}`} style={mediaStyle} />
       )}
       {/* 확장자 배지 — 영상은 강조색, 사진은 무채색 */}
       <span

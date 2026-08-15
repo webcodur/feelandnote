@@ -5,7 +5,24 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import type { FactionScript, FactionPerson, FactionEra, FactionChapter, FactionScene, FactionNarratorVoice } from './types'
+import { factionSequenceOf, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionIndividualScene, type FactionNarratorVoice } from './types'
+import {
+  factionLongformPartCount,
+  factionLongformSegments,
+  factionLongformSliceItems,
+} from '@feelandnote/shared/lib/faction-longform'
+import {
+  factionShortsSegments,
+  factionShortsSliceItems,
+  hasFactionShortsCuts,
+} from '@feelandnote/shared/lib/faction-shorts'
+import {
+  FACTION_ENTER_FADE_SEC,
+  FACTION_ENTER_NAME_SEC,
+  FACTION_SCENE_DEFAULT_SEC,
+  FACTION_SCENE_CAPTION_ID_HOLD_SEC,
+  factionSceneTiming,
+} from '@feelandnote/shared/lib/faction-scene-timing'
 import { clampRate, vnPersonQuote } from './voice-names'
 
 export const FPS = 60
@@ -40,11 +57,11 @@ export const CHAPTER_VOICE_TAIL_SEC = 0.8
 export const CHAPTER_HOLD_SEC = 2.0
 /** 챕터 전환 직전 인물이 검정으로 서서히 덮이는 시간(초) — 검정 브릿지가 이 길이로 페이드인해 마지막 인물이 검정으로 페이드아웃된다 */
 export const CHAPTER_FADE_SEC = 0.4
-/** 인물·대사 없이 사건만 지나가는 상황 화면 기본 길이(초) */
-export const SCENE_SEC = 4.5
-/** 상황 화면 길이 — 너무 짧아 읽히지 않거나 너무 길게 정지하지 않도록 제한한다. */
-export function sceneSecOf(scene: FactionScene): number {
-  return Math.min(15, Math.max(2, scene.durationSec ?? SCENE_SEC))
+/** 인물·대사 없이 사건만 지나가는 개별 장면 기본 길이(초) */
+export const SCENE_SEC = FACTION_SCENE_DEFAULT_SEC
+/** 개별 장면 길이 — 해설 글자 수로 자동 계산하고 durationSec는 최소 노출 시간으로만 쓴다. */
+export function sceneSecOf(scene: FactionIndividualScene, captionIdHoldSec?: number): number {
+  return factionSceneTiming({ ...scene, captionIdHoldSec }).durationSec
 }
 
 /**
@@ -100,9 +117,9 @@ export const READ_FRAMES_PER_CHAR = 3.0
  * (직함 스텝 아닐 때는 직함 1번만 이름 옆에 함께 등장)
  */
 /** 박스+이름+1번 직함 슬라이드 인 시작(초). 직함 스텝일 때 2·3번 직함은 박스 슬라이드 종료 후 별도 등장. */
-export const ENTER_NAME_SEC = 0.2
+export const ENTER_NAME_SEC = FACTION_ENTER_NAME_SEC
 /** 각 단계 페이드인/아웃 길이(초) */
-export const ENTER_FADE_SEC = 0.35
+export const ENTER_FADE_SEC = FACTION_ENTER_FADE_SEC
 
 /* ── 직함 읽기 시간(직함 글자 수 비례) — 렌더(PersonCard)와 컷 길이 계산이 공유 ── */
 /** 직함 글자당 프레임 — 리스트는 통으로 훑는 라벨이라 빠르게 넘긴다 */
@@ -295,7 +312,7 @@ export interface LeadTiming {
  * 리드 스텝이 없어도 무조건 이 구간을 확보한다(0초 신원 스킵 방지).
  * 편별 조정은 script.captionIdHoldSec(BO 「전역 타이밍」의 이름 출력).
  */
-export const CAPTION_ID_HOLD_SEC = 1.0
+export const CAPTION_ID_HOLD_SEC = FACTION_SCENE_CAPTION_ID_HOLD_SEC
 
 /** 자막형 인물 화면에서 대사 전 이름·직함 노출 시간(초) — 편 설정이 있으면 그 값, 없으면 기본값 */
 export function captionIdHoldSecOf(script?: FactionScript, override?: number): number {
@@ -571,7 +588,7 @@ export type Cue =
   | { kind: 'group'; groupIndex: number }
   | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
   | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex: number; steps: PersonSteps }
-  | { kind: 'scene'; scene: FactionScene }
+  | { kind: 'scene'; scene: FactionIndividualScene }
   | { kind: 'era'; label: string }
   | { kind: 'chapterBlack'; chapter: FactionChapter }
   | { kind: 'chapter'; chapter: FactionChapter }
@@ -585,37 +602,29 @@ export interface TimedCue {
   duration: number
 }
 
-/** 롱폼 편 개수 — longformLayout의 편 경계(cut) 수 + 1. 경계가 없으면 1(통짜 한 편). */
-export function longformPartCount(script: Pick<FactionScript, 'longformLayout'>): number {
-  const cuts = (script.longformLayout ?? []).filter((it) => 'cut' in it).length
-  return cuts + 1
+/** 롱폼 편 개수 — longformLayout의 바깥 편 경계만 센다. */
+export function longformPartCount(script: Pick<FactionScript, 'groups' | 'longformLayout'>): number {
+  return factionLongformPartCount(
+    script.groups as unknown as Array<Record<string, unknown>>,
+    script.longformLayout,
+  )
 }
 
 /**
  * 롱폼 배치를 편 경계(cut)로 가른 편 구간들.
  * 편성에 빠진 활성 세력은 누락 방지로 마지막 구간 맨 뒤에 자동으로 붙는다.
- * 인물 없는 상황 화면은 정비 데이터인 group.openingScenes 또는 cluster.scenesAfter 를 따라
- * 세력 블록 안에서 재생된다. openingScenes 는 하위 인물군에 귀속되지 않고 세력 시작에 먼저 나온다.
+ * 인물 없는 개별 장면은 group.sequence에서 그룹과 같은 층위의 순서 항목으로 재생된다.
  */
 export type FactionLongformStep =
   | { era: FactionEra }
-  | { gi: number }
+  | { gi: number; sequenceStart: number; sequenceEnd: number }
   | { chapter: FactionChapter }
 
 export function longformSegments(script: FactionScript): FactionLongformStep[][] {
-  const segments: FactionLongformStep[][] = [[]]
-  for (const it of script.longformLayout ?? []) {
-    if ('cut' in it) { segments.push([]); continue }
-    if ('group' in it) segments[segments.length - 1].push({ gi: it.group })
-    else if ('chapter' in it) segments[segments.length - 1].push({ chapter: it.chapter })
-    else segments[segments.length - 1].push({ era: it.era })
-  }
-  const placedGroups = new Set((script.longformLayout ?? []).flatMap((it) => ('group' in it ? [it.group] : [])))
-  script.groups.forEach((g, gi) => {
-    if (g.disabled || placedGroups.has(gi)) return
-    segments[segments.length - 1].push({ gi })
-  })
-  return segments
+  return factionLongformSegments<FactionEra, FactionChapter>(
+    script.groups as unknown as Array<Record<string, unknown>>,
+    script.longformLayout,
+  )
 }
 
 /**
@@ -641,14 +650,24 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
   //    쇼츠·미설정 롱폼은 세력 배열 순서.
   //    세력은 원래 인덱스를 보존하므로 세력도감 구도·음원·자막 키가 그대로 유효하다. ──
   let steps: FactionLongformStep[]
-  if (!portrait && script.longformLayout?.length) {
+  if (!portrait) {
     const segments = longformSegments(script)
     // 롱폼 편 지정 + 경계가 실제로 있을 때만 그 편 구간으로 좁힌다. 그 외엔 전체(경계 무시하고 이어붙임).
     steps = segments.length > 1 && lvPart != null
       ? segments[lvPart - 1] ?? []
       : segments.flat()
   } else {
-    steps = script.groups.map((_, gi): FactionLongformStep => ({ gi }))
+    const usesInternalShortsCuts = hasFactionShortsCuts(script.groups as unknown as Array<Record<string, unknown>>)
+    if (usesInternalShortsCuts) {
+      const segments = factionShortsSegments(script.groups as unknown as Array<Record<string, unknown>>)
+      steps = part != null ? segments[part - 1] ?? [] : segments.flat()
+    } else {
+      steps = script.groups.map((group, gi): FactionLongformStep => ({
+        gi,
+        sequenceStart: 0,
+        sequenceEnd: factionSequenceOf(group).length,
+      }))
+    }
   }
 
   // 세력 로고와 레거시 수장 판정은 세력의 첫 등장에 한 번만 적용한다.
@@ -658,7 +677,11 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     const group = script.groups[gi]
     if (!group || group.disabled) return false
     if (portrait && group.longformOnly) return false
-    if (portrait && part != null && group.part != null && group.part !== part) return false
+    if (portrait
+      && !hasFactionShortsCuts(script.groups as unknown as Array<Record<string, unknown>>)
+      && part != null
+      && group.part != null
+      && group.part !== part) return false
     return true
   }
   const pushCluster = (gi: number, ci: number) => {
@@ -682,10 +705,6 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       const personStep = personSteps(person, portrait, isLeader)
       push({ kind: 'person', groupIndex: gi, personIndex: pi, clusterIndex: ci, steps: personStep }, personDurationSec(person, personStep, portrait, { script }))
     })
-    // 정비에서 이 그룹 뒤에 붙인 사건 화면 — 그룹과 같은 쇼츠 편에 속하고 롱폼에도 같은 순서로 나온다.
-    for (const scene of cluster.scenesAfter ?? []) {
-      push({ kind: 'scene', scene }, sceneSecOf(scene))
-    }
   }
 
   steps.forEach((step) => {
@@ -716,10 +735,13 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     const gi = step.gi
     if (!groupVisible(gi)) return
     const group = script.groups[gi]
-    for (const scene of group.openingScenes ?? []) {
-      push({ kind: 'scene', scene }, sceneSecOf(scene))
+    const items = portrait
+      ? factionShortsSliceItems<FactionIndividualScene>(group as unknown as Record<string, unknown>, step)
+      : factionLongformSliceItems<FactionIndividualScene>(group as unknown as Record<string, unknown>, step)
+    for (const item of items) {
+      if (item.kind === 'scene') push({ kind: 'scene', scene: item.scene }, sceneSecOf(item.scene, script.captionIdHoldSec))
+      else if (item.kind === 'cluster') pushCluster(gi, item.clusterIndex)
     }
-    for (let ci = 0; ci < (group.clusters ?? []).length; ci++) pushCluster(gi, ci)
   })
   // 엔딩 카드는 두지 않는다. 마지막 인물 컷은 대사 끝부터 종료 꼬리(endHold)만큼 화면을 정지한 채 유지하고,
   // 그 인물이 남은 채 검정으로 서서히 잠기며(꼬리 마지막 endFade) 영상이 끝난다.

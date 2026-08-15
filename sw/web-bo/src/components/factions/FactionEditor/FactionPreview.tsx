@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import type { FactionScript, FactionGroup, FactionCluster, FactionPerson } from '@/lib/faction-types'
-import { imageSrc, initial, totalSec, cueCount, factionStepsOf, longformPartCount, longformSegments, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
+import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionCluster, type FactionPerson, type FactionImageCrop } from '@/lib/faction-types'
+import { imageSrc, initial, totalSec, cueCount, factionStepsOf, longformPartCount, longformSegments, longformSliceGroup, ERA_SEC, CHAPTER_BLACK_SEC, CHAPTER_COVER_SEC } from '../shared/timing'
 import { formatMmss } from '@feelandnote/shared/bo/editor'
 import { MediaThumb, cropToStyle } from '@feelandnote/shared/bo/media'
 import { Eye, EyeOff } from '@feelandnote/shared/bo/icons'
+import { factionSceneCaptionPages } from '@feelandnote/shared/lib/faction-scene-timing'
 
 type Props = {
   script: FactionScript
@@ -50,15 +51,20 @@ function CoverChip({ image, label, color, series, episodeName }: {
 }
 
 // 인물 한 명 셀
-function PersonCell({ person, series, episodeName, isLeader }: {
+function PersonCell({ person, series, episodeName, isLeader, inheritedImage, inheritedImageCrop }: {
   person: FactionPerson
   series: string
   episodeName: string
+  inheritedImage?: string
+  inheritedImageCrop?: FactionImageCrop
   /** 세력 첫 인물(수장) 여부 — quoteMode 자동(미지정) 판정용 */
   isLeader?: boolean
 }) {
-  const src = imageSrc(series, episodeName, person.image)
-  const missing = !person.image
+  const ownImage = person.image && person.image !== inheritedImage ? person.image : undefined
+  const imageInherited = !!inheritedImage && !ownImage
+  const effectiveImage = ownImage ?? inheritedImage
+  const effectiveImageCrop = ownImage ? person.imageCrop : inheritedImageCrop
+  const src = imageSrc(series, episodeName, effectiveImage)
   // 대사 처리 스텝(직함·수식어·음성) — 켜진 것만 배지로. 음성 켜지면 강조색.
   const steps = factionStepsOf(person, true, isLeader)
   const stepLabels = [steps.credit && '직함', steps.epithet && '수식', steps.voice && '음성'].filter(Boolean)
@@ -72,7 +78,14 @@ function PersonCell({ person, series, episodeName, isLeader }: {
       style={person.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}
     >
       {src ? (
-        <MediaThumb src={src} alt="" className={`h-14 w-14 rounded-full object-cover ${missing ? 'border-2 border-danger-text' : ''}`} style={cropToStyle(person.imageCrop)} />
+        <span className="relative">
+          <MediaThumb src={src} alt="" className="h-14 w-14 rounded-full object-cover" style={cropToStyle(effectiveImageCrop)} />
+          {imageInherited && (
+            <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 rounded bg-sky-950/90 px-1 text-[8px] font-bold text-sky-200">
+              상속
+            </span>
+          )}
+        </span>
       ) : (
         <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-danger-text bg-bg-secondary text-sm font-bold text-text-secondary">
           {initial(person.name)}
@@ -80,7 +93,7 @@ function PersonCell({ person, series, episodeName, isLeader }: {
       )}
       <span className="flex items-center gap-0.5">
         <span className={`rounded px-1 text-[9px] font-semibold ${badge.c}`} title={`대사 처리: ${badge.t}`}>{badge.t}</span>
-        {(person as any).longformOnly && <span className="rounded bg-accent/20 px-1 text-[9px] font-semibold text-accent" title="롱폼 전용 — 세로 쇼츠에서 제외">L</span>}
+        {(person as any).longformOnly && <span className="rounded bg-accent/20 px-1 text-[9px] font-semibold text-accent" title="롱폼 전용 — 쇼츠에서 제외">L</span>}
       </span>
       <span className="w-full truncate text-center text-[11px] text-text-secondary">{person.name || '?'}</span>
       {person.lines?.length ? (
@@ -132,36 +145,61 @@ function GroupBlock({ g, gi, series, episodeName, onToggleDisabled }: {
         </div>
       )}
 
-      {(g.openingScenes ?? []).map((scene, si) => (
-        <div key={`opening-scene-${si}`} className="rounded-md border-s-2 border-teal-500 bg-teal-500/10 px-3 py-2 text-center">
-          <p className="text-[10px] font-bold text-teal-500">세력 시작 상황 · 하위 그룹 소속 아님</p>
-          <p className="text-xs font-bold text-text-primary">{scene.title || '상황 화면'}</p>
-          {scene.caption ? <p className="mt-0.5 text-[10px] text-text-secondary">{scene.caption}</p> : null}
-        </div>
-      ))}
-
-      {/* 묶음마다: (비-solo면) 화보 카드 → 인물 컷 */}
-      {clusters.map((c, ci) => {
+      {/* 수평 sequence 순서대로 그룹과 개별 장면을 같은 층위에 펼친다. */}
+      {factionSequenceOf(g).map((item, sequenceIndex) => {
+        if (item.kind === 'cut') {
+          return (
+            <div key={`cut-${sequenceIndex}`} className="flex items-center gap-2 py-1" aria-label="쇼츠 편 경계">
+              <span className="h-px flex-1 bg-sky-500/50" />
+              <span className="shrink-0 rounded border border-sky-500/50 bg-sky-500/10 px-2 py-0.5 text-[9px] font-black text-sky-500">쇼츠 편 경계 · 롱폼 연속</span>
+              <span className="h-px flex-1 bg-sky-500/50" />
+            </div>
+          )
+        }
+        if (item.kind === 'scene') {
+          const scene = item.scene
+          const captionPages = factionSceneCaptionPages(scene.caption)
+          return (
+            <div key={item.id} className="rounded-md border-s-2 border-teal-500 bg-teal-500/10 px-3 py-2 text-center">
+              <p className="text-[10px] font-bold text-teal-500">개별 장면 · 인물·대사 없음</p>
+              <p className="text-xs font-bold text-text-primary">{scene.title || '개별 장면'}</p>
+              {captionPages.length > 0 ? (
+                <div className="mt-1.5 space-y-1 text-left">
+                  {captionPages.map((page, pageIndex) => (
+                    <div key={`${pageIndex}-${page}`} className="flex gap-1.5 rounded bg-bg-main/45 px-2 py-1.5">
+                      <span className="shrink-0 rounded bg-teal-500/15 px-1 text-[9px] font-black text-teal-400">{pageIndex + 1}</span>
+                      <p className="whitespace-pre-line text-[10px] leading-relaxed text-text-secondary">{page}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          )
+        }
+        const ci = item.clusterIndex
+        const c = clusters[ci]
+        if (!c) return null
         const people = c.people ?? []
         return (
-          <div key={ci} className="space-y-1.5 rounded-md bg-bg-main/40 p-2 relative" style={c.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}>
+          <div key={`cluster-${ci}-${sequenceIndex}`} className="space-y-1.5 rounded-md bg-bg-main/40 p-2 relative" style={c.disabled ? { opacity: 0.4, filter: 'saturate(0.4)' } : undefined}>
             {c.disabled && <div className="absolute top-2 right-2 rounded bg-danger/20 px-1.5 text-[10px] font-semibold text-danger-text z-10">영상 제외</div>}
             {!g.solo && (
               <CoverChip image={c.image} label={c.label} color={color} series={series} episodeName={episodeName} />
             )}
             <div className="flex gap-2 overflow-x-auto pb-1">
               {people.map((p, pi) => (
-                <PersonCell key={pi} person={p} series={series} episodeName={episodeName} isLeader={ci === 0 && pi === 0} />
+                <PersonCell
+                  key={pi}
+                  person={p}
+                  series={series}
+                  episodeName={episodeName}
+                  inheritedImage={g.solo ? undefined : c.image}
+                  inheritedImageCrop={g.solo ? undefined : c.imageCrop}
+                  isLeader={ci === 0 && pi === 0}
+                />
               ))}
               {people.length === 0 && <span className="text-xs text-text-dim">인물 없음</span>}
             </div>
-            {(c.scenesAfter ?? []).map((scene, si) => (
-              <div key={`scene-${si}`} className="rounded-md border-s-2 border-teal-500 bg-teal-500/10 px-3 py-2 text-center">
-                <p className="text-[10px] font-bold text-teal-500">상황 화면 · 인물·대사 없음</p>
-                <p className="text-xs font-bold text-text-primary">{scene.title || '상황 화면'}</p>
-                {scene.caption ? <p className="mt-0.5 text-[10px] text-text-secondary">{scene.caption}</p> : null}
-              </div>
-            ))}
           </div>
         )
       })}
@@ -180,15 +218,19 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
   const steps = lvPart != null ? longformSegments(script)[lvPart - 1] ?? [] : null
 
   // 요약 — 편 선택 시 그 편 세력만으로 계산(시대 문구 카드 시간 포함). 각 편은 자체 인트로·아웃트로
-  const partGroups = steps ? steps.flatMap(s => ('gi' in s ? [groups[s.gi]].filter(Boolean) : [])) : groups
+  const partGroups = steps ? steps.flatMap(s => {
+    if (!('gi' in s)) return []
+    const group = longformSliceGroup(script, s)
+    return group ? [group] : []
+  }) : groups
   const eraN = steps ? steps.filter(s => 'era' in s).length : 0
   const chapterN = steps ? steps.filter(s => 'chapter' in s).length : 0
   const scoped = steps ? { ...script, groups: partGroups } : script
   // 타이틀·시작문구 — 편 선택 시 편별 값(비우면 공통)
-  const title = (lvPart != null ? script.titleByPart?.[lvPart] : undefined) || script.title
+  const title = (lvPart != null ? script.titleByLvPart?.[lvPart] : undefined) || script.title
   const logline = lvPart != null
-    ? (script.loglineByPart?.[lvPart] || script.logline)
-    : (script.logline || script.loglineByPart?.[1])
+    ? (script.loglineByLvPart?.[lvPart] || script.logline)
+    : (script.logline || script.loglineByLvPart?.[1])
 
   return (
     <div>
@@ -261,8 +303,9 @@ export function FactionPreview({ script, series, episodeName, onToggleDisabled }
                   )
                 }
                 const g = groups[st.gi]
-                if (!g) return null
-                return <GroupBlock key={k} g={g} gi={st.gi} series={series} episodeName={episodeName} onToggleDisabled={onToggleDisabled} />
+                const slice = g ? longformSliceGroup(script, st) : undefined
+                if (!slice) return null
+                return <GroupBlock key={k} g={slice} gi={st.gi} series={series} episodeName={episodeName} onToggleDisabled={onToggleDisabled} />
               })
             ) : (
               groups.map((g, gi) => (

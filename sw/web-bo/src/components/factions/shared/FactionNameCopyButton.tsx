@@ -44,11 +44,12 @@ export function FactionNameCopyButton({ script }: { script: FactionScript }) {
 
   return (
     <button
+      type="button"
       onClick={copy}
-      className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-2 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
+      className="flex h-8 items-center gap-1.5 whitespace-nowrap rounded-md border border-border bg-bg-main px-2.5 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       title="활성 세력의 명칭만 모아서 텍스트로 복사"
     >
-      <Copy size={15} /> {copied ? '복사됨' : '세력명칭 복사'}
+      <Copy size={15} /> <span aria-live="polite">{copied ? '복사됨' : '세력명칭 복사'}</span>
     </button>
   )
 }

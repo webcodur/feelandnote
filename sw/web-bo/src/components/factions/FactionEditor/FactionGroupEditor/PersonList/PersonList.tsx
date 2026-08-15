@@ -1,6 +1,6 @@
 'use client'
 
-import type { FactionPerson } from '@/lib/faction-types'
+import type { FactionImageCrop, FactionPerson } from '@/lib/faction-types'
 import { FactionPersonRow } from '../FactionPersonRow/FactionPersonRow'
 import { useFactionVoice } from '../../../shared/FactionVoiceContext'
 import { buildPersonSwapRenames, reorderFactionVoice } from '@/lib/faction-voice'
@@ -17,6 +17,9 @@ type Props = {
   groupIndex: number
   /** 그룹 인덱스 (0-based) — 항상 존재(단일 모드·solo는 0) */
   clusterIndex: number
+  /** 인물 사진이 비었거나 이 경로와 같으면 그룹 화보를 상속한다 */
+  inheritedImage?: string
+  inheritedImageCrop?: FactionImageCrop
   editLang: EditLang
   onMoveCrossGroup?: (personIndex: number) => void
   /** 셀럽 DB 등록 배지용 대조 결과 — 에피소드 레벨에서 배치 조회한 것을 그대로 내려받는다 */
@@ -26,12 +29,20 @@ type Props = {
 
 export function PersonList({
   people, onPeopleChange, onAddCeleb, series, episodeName, groupIndex, clusterIndex, editLang, onMoveCrossGroup,
-  celebExisting, celebLoaded,
+  inheritedImage, inheritedImageCrop, celebExisting, celebLoaded,
 }: Props) {
   const voiceCtx = useFactionVoice()
-  const setPerson = (i: number, p: FactionPerson) =>
-    onPeopleChange(people.map((x, idx) => (idx === i ? p : x)))
-  const deletePerson = (i: number) => onPeopleChange(people.filter((_, idx) => idx !== i))
+  const setPerson = (i: number, p: FactionPerson) => {
+    const normalized = inheritedImage && p.image === inheritedImage
+      ? { ...p, image: undefined, imageCrop: undefined }
+      : p
+    onPeopleChange(people.map((x, idx) => (idx === i ? normalized : x)))
+  }
+  const deletePerson = (i: number) => {
+    const name = people[i]?.name || `인물 ${i + 1}`
+    if (!confirm(`${name}을(를) 삭제할까요? 입력한 소개·대사·이미지 연결도 함께 사라집니다.`)) return
+    onPeopleChange(people.filter((_, idx) => idx !== i))
+  }
 
   // 인물 순서 변경 — 음원 파일은 "인물 위치" 기반이라, 인물만 바꾸면 옛 음원이 그대로 남아
   // 다른 사람 목소리가 나온다. 그래서 음원을 먼저 swap 하고, 성공하면 인물 배열을 바꾼다.
@@ -61,7 +72,7 @@ export function PersonList({
     <div className="space-y-2">
       {people.map((p, i) => (
         <FactionPersonRow
-          key={i}
+          key={p.celebId ?? p.slug ?? `${p.name}-${i}`}
           person={p}
           onChange={next => setPerson(i, next)}
           onDelete={() => deletePerson(i)}
@@ -72,6 +83,8 @@ export function PersonList({
           groupIndex={groupIndex}
           personIndex={i}
           clusterIndex={clusterIndex}
+          inheritedImage={inheritedImage}
+          inheritedImageCrop={inheritedImageCrop}
           editLang={editLang}
           totalPeople={people.length}
           onMoveCrossGroup={onMoveCrossGroup ? () => onMoveCrossGroup(i) : undefined}
@@ -79,11 +92,12 @@ export function PersonList({
           celebLoaded={celebLoaded}
         />
       ))}
-      {people.length === 0 && <p className="text-xs text-text-dim">아직 인물이 없습니다.</p>}
+      {people.length === 0 && <p className="rounded-md border border-dashed border-border px-3 py-4 text-center text-xs text-text-dim">등록된 인물이 없습니다.</p>}
       <div className="flex gap-2">
         <button
+          type="button"
           onClick={onAddCeleb}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 py-1.5 text-sm font-semibold text-text-secondary hover:bg-bg-hover"
+          className="flex h-9 items-center gap-1.5 rounded-md border border-border bg-bg-card px-3 text-sm font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           <Search size={15} /> 실제 인물 DB 추가
         </button>

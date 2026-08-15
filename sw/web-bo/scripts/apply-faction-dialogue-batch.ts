@@ -254,7 +254,11 @@ function assertNullableChunks(
   allowExistingEmpty = false,
 ): asserts value is NullableChunks {
   if (value === null) return
-  if (!Array.isArray(value) || !value.length) fail(`${label}: null 또는 비어 있지 않은 문자열 배열이어야 합니다`)
+  if (!Array.isArray(value)) fail(`${label}: null 또는 문자열 배열이어야 합니다`)
+  if (!value.length) {
+    if (allowExistingEmpty) return
+    fail(`${label}: null 또는 비어 있지 않은 문자열 배열이어야 합니다`)
+  }
   value.forEach((chunk, index) => {
     if (allowExistingEmpty) {
       if (typeof chunk !== 'string') fail(`${label}[${index}]: 문자열이어야 합니다`)
@@ -340,9 +344,15 @@ function validateState(value: unknown, label: string, requireJoined: boolean): a
     fail(`${label}: minedQuotes와 minedNote 중 하나만 명시해야 합니다`)
   }
   assertNullableString(value.quote, `${label}.quote`)
-  assertNullableString(value.quoteEn, `${label}.quoteEn`)
+  // 레거시 팩션에는 영문 미작성 상태가 null/null뿐 아니라 ''/[]로도 남아 있다.
+  // 한국어 대사만 고칠 때 그 값을 억지로 정규화하지 않고 문자 그대로 보존할 수 있게 한다.
+  if (value.quoteEn !== '') assertNullableString(value.quoteEn, `${label}.quoteEn`)
   assertNullableChunks(value.quoteChunks, `${label}.quoteChunks`, !requireJoined)
-  assertNullableChunks(value.quoteEnChunks, `${label}.quoteEnChunks`, !requireJoined)
+  assertNullableChunks(
+    value.quoteEnChunks,
+    `${label}.quoteEnChunks`,
+    !requireJoined || value.quoteEn === '',
+  )
   assertNullableStringSpec(value.quoteOrigin, `${label}.quoteOrigin`)
   if (hasMinedQuotes) assertMinedQuoteSpec(value.minedQuotes, `${label}.minedQuotes`)
   if (hasMinedNote) assertNullableStringSpec(value.minedNote, `${label}.minedNote`)

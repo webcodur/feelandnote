@@ -1,6 +1,16 @@
 // 세력도감 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
 
-import type { FactionScript, FactionPerson, FactionEra, FactionChapter, FactionScene } from '@/lib/faction-types'
+import { factionSequenceOf, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionIndividualScene } from '@/lib/faction-types'
+import {
+  FACTION_SCENE_DEFAULT_SEC,
+  factionSceneTiming,
+} from '@feelandnote/shared/lib/faction-scene-timing'
+import {
+  factionLongformPartCount as sharedLongformPartCount,
+  factionLongformSegments as sharedLongformSegments,
+  factionLongformSliceItems,
+  type FactionLongformStep as SharedLongformStep,
+} from '@feelandnote/shared/lib/faction-longform'
 
 export const INTRO_SEC = 2.5
 /** BO 미리보기 기본값 — 실제 렌더와 일치시키기 위해 4로 맞춤. script.groupSec가 있으면 우선 */
@@ -14,11 +24,11 @@ export const CHAPTER_BLACK_SEC = 0.25
 export const CHAPTER_COVER_SEC = 3.5
 export const CHAPTER_VOICE_DELAY_SEC = 0.45
 export const CHAPTER_VOICE_TAIL_SEC = 0.8
-/** 인물·대사 없는 상황 화면 기본 길이 — Remotion timing.ts 와 동기화. */
-export const SCENE_SEC = 4.5
+/** 인물·대사 없는 개별 장면 기본 길이 — Remotion timing.ts 와 동기화. */
+export const SCENE_SEC = FACTION_SCENE_DEFAULT_SEC
 
-export function sceneSecOf(scene: FactionScene): number {
-  return Math.min(15, Math.max(2, scene.durationSec ?? SCENE_SEC))
+export function sceneSecOf(scene: FactionIndividualScene, captionIdHoldSec?: number): number {
+  return factionSceneTiming({ ...scene, captionIdHoldSec }).durationSec
 }
 
 /** 챕터명 음성이 있으면 실제 렌더와 같이 표지 컷을 음성 끝까지 연장한다. */
@@ -116,17 +126,25 @@ function personDurationSec(p: FactionPerson): number {
 }
 
 /** 한 세력의 인물 목록 — 항상 그룹(clusters)별 합산 */
+function sequenceClusters(g: FactionScript['groups'][number]) {
+  const clusters = g.clusters ?? []
+  return factionSequenceOf(g).flatMap(item => {
+    if (item.kind !== 'cluster') return []
+    const cluster = clusters[item.clusterIndex]
+    return cluster && !cluster.disabled ? [cluster] : []
+  })
+}
+
 function groupPeople(g: FactionScript['groups'][number]): FactionPerson[] {
-  const list = (g.clusters ?? []).flatMap(c => c.people ?? [])
+  const list = sequenceClusters(g).flatMap(c => c.people ?? [])
   // 영상에서 제외된 인물은 길이·카운트 계산에서 뺀다 (렌더와 일치)
   return list.filter(p => !p.disabled)
 }
 
-/** 세력 시작 + 각 그룹 뒤에 붙은 공통 상황 화면 길이 합계. */
-function groupScenesSec(g: FactionScript['groups'][number]): number {
-  const opening = (g.openingScenes ?? []).reduce((sum, scene) => sum + sceneSecOf(scene), 0)
-  return opening + (g.clusters ?? []).reduce(
-    (sum, cluster) => cluster.disabled ? sum : sum + (cluster.scenesAfter ?? []).reduce((s, scene) => s + sceneSecOf(scene), 0),
+/** 세력의 수평 이야기 순서에 놓인 개별 장면 길이 합계. */
+function groupScenesSec(g: FactionScript['groups'][number], script: FactionScript): number {
+  return factionSequenceOf(g).reduce(
+    (sum, item) => item.kind === 'scene' ? sum + sceneSecOf(item.scene, script.captionIdHoldSec) : sum,
     0,
   )
 }
@@ -149,7 +167,7 @@ export function totalPeople(script: FactionScript): number {
  */
 function groupClusterCards(g: FactionScript['groups'][number]): number {
   if (g.solo) return 0
-  return (g.clusters ?? []).filter(c => {
+  return sequenceClusters(g).filter(c => {
     const shown = (c.people ?? []).filter(p => !p.disabled)
     return !(shown.length === 1 && !c.image)
   }).length
@@ -174,7 +192,7 @@ export function totalSec(script: FactionScript): number {
     const clusterCardsSec = groupClusterCards(g) * clusterSecOf(script)
     // 인물 컷은 텍스트 양에 따라 길이가 다르다 — 사람마다 합산
     const peopleSec = groupPeople(g).reduce((s, p) => s + personDurationSec(p), 0)
-    return sum + head + clusterCardsSec + peopleSec + groupScenesSec(g)
+    return sum + head + clusterCardsSec + peopleSec + groupScenesSec(g, script)
   }, 0)
   // 엔딩 카드 없음. 마지막 인물 컷은 대사 끝부터 대사 후 대기(endHold)만큼 유지된다.
   // 추정: 인물 합산에는 PERSON_HOLD가 이미 포함되므로, 마지막 인물 hold를 대사 후 대기로 치환한다(렌더와 근사).
@@ -190,45 +208,49 @@ export function cueCount(script: FactionScript): number {
   const groupCards = groups.filter(g => g.logoVid || g.logoImg).length
   const clusterCards = groups.reduce((s, g) => s + groupClusterCards(g), 0)
   const sceneCards = groups.reduce(
-    (sum, g) => sum + (g.openingScenes?.length ?? 0)
-      + (g.clusters ?? []).reduce((n, cluster) => n + (cluster.disabled ? 0 : (cluster.scenesAfter?.length ?? 0)), 0),
+    (sum, g) => sum + factionSequenceOf(g).filter(item => item.kind === 'scene').length,
     0,
   )
   return 1 + groupCards + clusterCards + totalPeople(script) + sceneCards
 }
 
-/** 롱폼 편 개수 — longformLayout의 편 경계(cut) 수 + 1. 경계가 없으면 1(통짜 한 편). 렌더(Faction/timing.ts)와 동일 */
+export type FactionLongformStep = SharedLongformStep<FactionEra, FactionChapter>
+
+/** 공용 세그먼트의 한 세력 slice를 BO FactionGroup으로 좁힌다. */
+export function longformSliceGroup(
+  script: FactionScript,
+  step: Extract<FactionLongformStep, { gi: number }>,
+): FactionScript['groups'][number] | undefined {
+  const group = script.groups[step.gi]
+  if (!group) return undefined
+  const sequence = factionLongformSliceItems(
+    group as unknown as Record<string, unknown>,
+    step,
+  ) as unknown as ReturnType<typeof factionSequenceOf>
+  const includedClusters = new Set(sequence.flatMap(item => item.kind === 'cluster' ? [item.clusterIndex] : []))
+  const clusters = (group.clusters ?? []).map((cluster, clusterIndex) =>
+    includedClusters.has(clusterIndex) ? cluster : { ...cluster, disabled: true },
+  )
+  return { ...group, openingScenes: undefined, clusters, sequence }
+}
+
+/** 롱폼 편 개수 — longformLayout의 바깥 편 경계만 센다. group.sequence cut은 쇼츠 전용이다. */
 export function longformPartCount(script: FactionScript): number {
-  const cuts = (script.longformLayout ?? []).filter(it => 'cut' in it).length
-  return cuts + 1
+  return sharedLongformPartCount(
+    script.groups as unknown as Record<string, unknown>[],
+    script.longformLayout,
+  )
 }
 
 /**
  * 롱폼 배치를 편 경계(cut)로 가른 편 구간들 — 렌더(Faction/timing.ts longformSegments)와 동일 규칙.
  * 각 구간은 세력 블록(gi)·시대 문구 카드(era)·챕터 전환(chapter)의 나열. 배치에 빠진 활성 세력은 마지막 구간 맨 뒤에 자동으로 붙는다.
  */
-export function longformSegments(script: FactionScript): Array<Array<
-  | { era: FactionEra }
-  | { gi: number }
-  | { chapter: FactionChapter }
->> {
-  type Step =
-    | { era: FactionEra }
-    | { gi: number }
-    | { chapter: FactionChapter }
-  const segments: Step[][] = [[]]
-  for (const it of script.longformLayout ?? []) {
-    if ('cut' in it) { segments.push([]); continue }
-    if ('group' in it) segments[segments.length - 1].push({ gi: it.group })
-    else if ('chapter' in it) segments[segments.length - 1].push({ chapter: it.chapter })
-    else segments[segments.length - 1].push({ era: it.era })
-  }
-  const placedGroups = new Set((script.longformLayout ?? []).flatMap(it => ('group' in it ? [it.group] : [])))
-  script.groups.forEach((g, gi) => {
-    if (g.disabled || placedGroups.has(gi)) return
-    segments[segments.length - 1].push({ gi })
-  })
-  return segments
+export function longformSegments(script: FactionScript): FactionLongformStep[][] {
+  return sharedLongformSegments<FactionEra, FactionChapter>(
+    script.groups as unknown as Record<string, unknown>[],
+    script.longformLayout,
+  )
 }
 
 /** 사진 표시 주소 — 담화와 규칙이 같아 공용 부품 shared/bo/media-src 한 곳에만 둔다 */

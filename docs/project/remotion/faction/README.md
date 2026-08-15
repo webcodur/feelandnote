@@ -195,7 +195,7 @@ sw/remotion/public/music/  # 배경음악
 
 - 파일 첫 키에 `_generated {from, at, episodeId, checksum}` 마커가 붙는다(렌더는 미지 키를 무시한다).
 - 손으로 고치면 다음 내보내기가 **checksum 불일치로 중단하고 diff를 뿜는다.** `--force`로만 강행된다.
-- DB 조립 결과가 현재 파일과 같으면 파일·마커 시각·백업을 모두 건드리지 않는다. 실제 내용이 바뀔 때만 내보내기 전 원본을 `.export-backup/<시각>/`에 남긴다.
+- DB 조립 결과가 현재 파일과 같으면 파일·마커 시각을 건드리지 않는다. 실제 내용이 바뀌면 현재 산출물을 덮어쓰며, 별도 export 이력은 남기지 않는다.
 - 수정은 web-bo `/factions` 편집 화면에서 한다. 이미 손으로 고쳐 버렸다면 `pnpm faction:import -- --episode <편>`으로 DB에 재흡수하되, **반대 방향으로 덮어쓸 위험이 있으므로 사람이 판단해 실행한다**(임의 실행 금지).
 - 상시 감시는 `pnpm faction:verify`(`--all` / `--episode <편>` / `--drift`).
 
@@ -224,7 +224,7 @@ sw/remotion/public/music/  # 배경음악
 
 편집기 상단 탭은 **정비 / 편성**이고, 편성은 하위에 **쇼츠 · 롱폼**을 둔다.
 
-- **정비 탭**(`info`) — 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정(영상 명칭·시작문구·intro/outro·전역 배경음악·덕킹·효과음·움직임 효과 기본값). 세력은 배열 순서로 전체 평면 나열(활성 + 「재료」 접이식으로 영상 제외 세력).
+- **정비 탭**(`info`) — 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정(영상 명칭·시작문구·intro/outro·전역 배경음악·덕킹·효과음·움직임 효과 기본값). 세력은 배열 순서로 전체 평면 나열하고, 각 세력 안의 그룹·개별 장면은 `sequence` 수평 레일에서 같은 층위로 배치한다(활성 + 「재료」 접이식으로 영상 제외 세력).
 - **편성 > 쇼츠**(`shorts`) — 사용자가 지정하는 `shortsPartCount` + 편별 영상 명칭·시작문구·통합화면 + 세력의 편 배정·편 안 순서 + **세력별 쇼츠 곡**. 편수 조절기 또는 세력 배정 드롭다운의 `+ 다음 편 추가`로 N편을 늘린다.
 - **편성 > 롱폼**(`longform`) — `FactionLongformPanel`: 세력 순서 + 시대 문구 카드 + **편 경계(롱폼 편 분할)** + **세력별 롱폼 곡**.
 
@@ -278,8 +278,8 @@ sw/remotion/public/music/  # 배경음악
 | `ko-longform-N` | 세로 롱폼 N편(편 경계 있을 때) | `KO-LVN` | 롱폼 편(lvPart) N |
 | `ko-shorts-N` | 세로 쇼츠 N편 | `KO-SN` | 쇼츠 편(part) N |
 
-- **쇼츠 편(part)** — BO에서 `shortsPartCount`를 1…N으로 정하고 진영의 `part`를 배정한다. `part` 미지정/0 진영은 모든 편 공통. 편별 영상 명칭은 `titleByPart`, 편별 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`. 렌더·자막·업로드 대상은 실제로 배정된 양수 `part`에서 동적으로 파생한다.
-- **롱폼 편(lvPart)** — 롱폼 배치(`longformLayout`)에 꽂은 **편 경계(`{cut:true}`)**로 갈린다. 경계 n개 → 롱폼 n+1편(KO-LV1·KO-LV2…), 경계가 없으면 기존 통짜 KO-LV 하나. 각 편은 자체 인트로·아웃트로를 갖고, 시대 문구·챕터는 자기 구간의 편에 속한다. 정비에서 세력의 `openingScenes` 또는 그룹의 `scenesAfter`에 붙인 인물 없는 상황 화면은 해당 세력과 함께 쇼츠·롱폼 공통 이야기 흐름으로 재생되고, 편성 화면에서는 따로 편집하지 않는다. 배치에 빠진 활성 세력은 마지막 편에 붙는다. 편별 영상 명칭은 `titleByLvPart`, 시작문구는 `loglineByLvPart`, 대표 인물은 `heroesByLvPart`(미지정이면 공통값). 유튜브 제목은 편별 명칭이 없으면 `(N부)`를 덧붙여 중복을 막는다. 쇼츠 `part`와는 완전히 독립된 축이다.
+- **쇼츠 편(part)** — 기본 방식은 BO에서 `shortsPartCount`를 1…N으로 정하고 진영의 `part`를 배정하는 것이다. 한 세력의 이야기 도중에 편을 나눠야 하면 그 세력 `sequence`에 **쇼츠 편 경계(`{kind:'cut'}`)**를 둔다. 내부 경계가 하나라도 있으면 전역 이야기 순서를 경계 n개 → 쇼츠 n+1편(KO-S1·KO-S2…)으로 나누며 legacy 진영 `part`보다 우선한다. 같은 세력은 양쪽 편에 필요한 sequence 구간만 나뉘고 clusters·people 배열과 음성 F/C/P 좌표는 바뀌지 않는다. 편별 영상 명칭은 `titleByPart`, 시작문구는 `loglineByPart`, 대표 인물은 `heroesByPart`다.
+- **롱폼 편(lvPart)** — 롱폼은 `longformLayout`의 바깥 **편 경계(`{cut:true}`)**로만 나눈다. 세력 `sequence`의 쇼츠 경계는 재생 항목 없이 건너뛰므로 롱폼 이야기는 계속 이어진다. 바깥 경계가 없으면 통짜 KO-LV 한 편이며, 경계 n개면 KO-LV1…N+1 각 편이 자체 인트로·아웃트로를 갖는다. 편별 영상 명칭은 `titleByLvPart`, 시작문구는 `loglineByLvPart`, 대표 인물은 `heroesByLvPart`(미지정이면 공통값)다.
 - 가로(LH)·영문(EN)은 렌더가 켜지면 이 표에 추가한다.
 
 ## 유튜브 업로드

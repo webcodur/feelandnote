@@ -30,7 +30,7 @@
 - (W3 생성·복제 → DB로. W4 일회성 이관 스크립트들 → 사문화 표기. W1↔W2 duration 유실 충돌은 현재도 실재.)
 
 **읽기 = 21곳**. 핵심:
-- **R1 렌더 로더** `Faction/script.ts:20` — **webpack `require.context` 빌드타임 정적 스캔 + 동기**, `_episodes.json` static import(:17). R2 `Root.tsx:207,230,253` — `calcFactionFrames` 동기 호출로 duration 확정, 컴포지션 ID 집합이 `part`·`longformLayout` cut에 의존. → **DB 직접 fetch 불가의 구조적 근거.**
+- **R1 렌더 로더** `Faction/script.ts:20` — **webpack `require.context` 빌드타임 정적 스캔 + 동기**, `_episodes.json` static import(:17). R2 `Root.tsx` — `calcFactionFrames` 동기 호출로 duration 확정, 컴포지션 ID 집합이 쇼츠 `part`와 롱폼의 바깥 `longformLayout` cut·세력 `sequence` 내부 cut에 의존. → **DB 직접 fetch 불가의 구조적 근거.**
 - R5 SRT(`faction-srt.ts:87`, `scaleVoiceTimings` 복제본 보유) · R6 음성 잡(`buildVoiceJobs` — `buildCues` 재사용) · R8 WhisperX(`3-transcribe.py:631`, `F{g:02d}C{c:02d}P{p:02d}-quote` 키 재현) · R9 유튜브(`youtube-faction.ts:43`) · R12 렌더 트리거 · R15 faction-sync · R16 카드뉴스(`person-cards/*.json` 이름 키 병합).
 - **인물 위치(FxxCxxPxx)가 음성 자산의 물리적 신원** — `faction-voice/[episode]/reorder` 라우트가 wav + `data.timing.pN.*.json` 키 + `voice/2-word-timings.json` targets 3곳을 함께 옮긴다. DB 편집기의 순서 변경도 이 3중 동기를 재현해야 한다(web-bo 로컬 실행이 요구사항인 이유).
 - 발화시각(`data.timing.*`)·단어타이밍은 별도 파일 — **DB 이관 범위 밖(로컬 유지)**.
@@ -51,8 +51,8 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
   - 렌더·음성·출간에 딸려 가지 않는 근거는 예전과 같이 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 26.07.29 현재 등록 13편·미등록 80편이다.
   - **folder 는 한 단계짜리 고유 슬러그다.** 모든 편은 `sw/remotion/public/factions/<folder>`에 나란히 있고 주소도 같은 값을 그대로 인코딩한다. 폴더 위치에 활성·비활성 의미를 싣지 않는다.
   - **활성 여부의 단일 원천은 `registered`다(26.07.29).** `registered=true`만 `_episodes.json`에 실리고 렌더·음성·출간 대상이 된다. `status=ready|blocked`는 도감 테마로 옮길 수 있는지의 판단일 뿐 활성 여부가 아니다.
-- `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data(`openingScenes`: 하위 인물군에 속하지 않는 세력 시작 상황 화면). unique(episode_id, position)
-- `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data(`scenesAfter`: 이 그룹 뒤에 이어지는 쇼츠·롱폼 공통 상황 화면). unique(group_id, position)
+- `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data(`sequence`: 세력 안의 그룹 참조·개별 장면·쇼츠 편 경계를 같은 층위로 나열한다. 롱폼은 내부 경계를 건너뛴다). unique(episode_id, position)
+- `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. 그룹·인물 실체는 관계형 행으로 유지하고 `faction_groups.data.sequence`의 `clusterIndex`가 position-1을 가리킨다. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·name(+en)·slug(프로필 미러)·**celeb_id(celebs, NOT NULL, ON DELETE RESTRICT)**·org·mythical·epithet(+en)·lines(+en, text[])·image·quote(+en)·quote_chunks(+en)·quote_origin·**quote_duration/epithet_duration(파이프라인 소유)**·disabled·longform_only·**mined(jsonb 크기 격리)**·data. unique(cluster_id, position)
   - `mythical=true` 인물은 `celebs.celeb_tier='fiction'` 프로필에 연결한다.
     2026-08-05 이후 신규 active 전환에는 fiction도 아바타가 필수다. 기존
@@ -95,9 +95,9 @@ faction_episodes                               celeb_tags (40행, slug unique �
 
 - **원천**: `sw/remotion/scripts/youtube/faction-lineup.json` 의 `<편>.uploads.<variant>`(`{videoId, uploadedAt}`). 공개 여부 필드는 **없다** — 그래서 매 출간마다 유튜브에 직접 물어본다(`youtube-liveness.checkUploadsLive`, KO 채널 1회 = 쿼터 1 unit).
 - **선정 규칙** — 태그 하나에 롱폼 1편·쇼츠 1편.
-  - 롱폼: 편 경계(`longformLayout` 의 `cut`)가 없으면 통짜 `ko-longform`. 있으면 그 태그 세력이 처음 나타나는 편(`ko-longform-N`).
-  - 쇼츠: 그 태그 세력들의 `part` 중 가장 앞 번호. 편을 나누지 않은 에피소드는 단일 `ko-shorts-1`.
-  - `disabled`·`longformOnly` 세력만 가진 태그는 세로 영상 어디에도 안 나오므로 **영상 없음**(현행 실측: AI-Supremacy 의 hugging-face).
+  - 롱폼: 바깥 편 경계(`longformLayout`의 `cut`)가 없으면 통짜 `ko-longform`. 있으면 그 태그 세력이 처음 나타나는 편(`ko-longform-N`). 세력 내부의 `group.sequence kind:'cut'`은 쇼츠 경계라 롱폼 판정에서는 건너뛴다.
+  - 쇼츠: 내부 이야기 경계가 있으면 그 태그 세력이 처음 등장하는 전역 쇼츠 편. 내부 경계가 없으면 그 태그 세력들의 legacy `part` 중 가장 앞 번호. 편을 나누지 않은 에피소드는 단일 `ko-shorts-1`.
+  - `disabled` 세력만 가진 태그는 **영상 없음**이다. `longformOnly` 세력은 롱폼 영상만 연결하고 쇼츠 영상은 비운다.
   - variant 키 목록은 `factionVariants()` 가 단일원천 — 여기서 규칙을 복제하지 않는다.
 - **공개 상태**: `public` 만 싣는다. `private`·`unlisted`·삭제(`missing`)는 사유를 남기고 제외. **조회 자체가 실패하면(토큰 만료 등) 아무것도 바꾸지 않는다** — 한 번의 인증 실패로 전 테마 영상이 지워지는 사고 방지.
 - **출간 범위**: `scope.videos`. 업로드 기록 파일을 읽으므로 사진과 마찬가지로 `REMOTION_LOCAL=1`(옛 `FACTION_LOCAL=1`)이 필요하다.
@@ -116,10 +116,10 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - **선정 규칙** — 테마당 대표 1곡.
   - 변형은 영상과 같은 방식으로 고른다. **롱폼을 먼저 본다**(챕터마다 곡이 갈려 세력 단위 해상도가 가장 높다), 못 찾으면 그 세력의 쇼츠 편.
   - 롱폼(챕터 모드): 그 세력의 첫 컷 프레임을 덮는 곡 구간의 파일. 전역 모드: 재생 목록 **첫 곡**.
-  - 태그를 여러 세력이 나눠 쓰면 **자리가 가장 앞인 세력**의 곡. `disabled`·`longformOnly` 세력은 곡 없음.
+  - 태그를 여러 세력이 나눠 쓰면 **자리가 가장 앞인 세력**의 곡. `disabled` 세력은 곡이 없고 `longformOnly` 세력은 롱폼에서 흐르는 곡을 쓴다.
 - **곡 파일**: `faction-music/<내용 sha1 앞 8자>-<파일명>` 키로 R2 업로드. **내용 해시가 키라 같은 곡은 한 번만 올라간다**(여러 테마·여러 편이 한 객체를 공유). 1년 불변 캐시 그대로, `?v=` 없음.
 - **출간 범위**: `scope.music`. 선곡 도구와 mp3 를 읽으므로 `REMOTION_LOCAL=1` 필요. **선곡 조회가 실패하면 아무것도 바꾸지 않는다**(한 번의 실행 실패로 전 테마 음악이 지워지는 사고 방지).
-- **반증 시험(26.07.26 실측)**: 6편 전량에서 CLI 판정이 엔진 `collectBgmFiles` 의 같은 변형 결과 안에 있는지 대조 — 불일치 0. 편별 결과: PayPal-Mafia 4세력 전부 `Velvet_Side_Door`(렌더 창고 실측값과 일치) · Digital-Resistance 3+3(`Black_Rain_Protocol`/`Cipher_in_Ashes`) · Gods-Greek 2+2+2 · Homer-Iliad 3+2 · korea-football-best11 4세력 + 가로 전용 1세력 제외 · **AI-Supremacy 는 곡 자체가 없어 전 테마 null**.
+- **반증 시험(26.07.26 실측)**: 6편 전량에서 CLI 판정이 엔진 `collectBgmFiles` 의 같은 변형 결과 안에 있는지 대조 — 불일치 0. 편별 결과는 당시 커밋 이력에 남긴다. 현행은 `longformOnly` 세력도 롱폼 변형의 실제 곡을 판정한다.
 - ⚠ `sw/remotion/scripts/` 는 `tsconfig.json` include 밖이다 — 이 CLI 는 `npx tsc -p tsconfig.scripts.json --noEmit` 으로 따로 검사한다(기존 오류 1건 `scripts/voice/faction/engine.ts` 의 `wav` 타입 부재는 종전 상태).
 
 ### 4-3. 단일화 (26.08.03) — 텍스트 복사 폐기, 뷰 직독
@@ -151,7 +151,7 @@ DB 직접 fetch 기각(R1·R2 구조적 장벽 + 부수 소비자 4곳 개조 + 
 DB → pnpm faction:export → faction-data.json(+_episodes.json 재생성) → 렌더·SRT·유튜브·음성 파이프라인 전부 무수정
 ```
 
-수정 금지 강제(Phase 2에서 발효): 파일 첫 키 `_generated {from,at,episodeId,checksum}` 마커(렌더는 미지 키 무시) + export가 checksum 불일치(손 편집) 시 중단·diff 출력·`--force` 요구 + `faction:verify --drift` 상시 감시 + export 전 `.export-backup/<ts>/`(최근 10회 — git 미추적이라 필수).
+수정 금지 강제(Phase 2에서 발효): 파일 첫 키 `_generated {from,at,episodeId,checksum}` 마커(렌더는 미지 키 무시) + export가 checksum 불일치(손 편집) 시 중단·diff 출력·`--force` 요구 + `faction:verify --drift` 상시 감시. 현행 정본은 DB이며 렌더용 JSON은 다시 만들 수 있으므로 별도 export 이력을 보관하지 않는다.
 
 ## 7. quoteDuration 3단 처리 — 파이프라인 코드 무수정 원칙
 
@@ -177,7 +177,7 @@ faction-sync 개조: `collectEpisode` 입력을 DB로, 진단은 이미지·연�
 |---|---|---|
 | 0 | 팩션 WIP 커밋 정착(기준 SHA) + web-bo 배포본 확인 | P3 착수 전 필수 |
 | 1 | 마이그레이션 + schema lib + import/export/verify + 왕복 검증 | **완료 26.07.25 (23/23)** |
-| 2 | export 발효: `_generated` 마커·checksum 가드·`.export-backup/`·`_episodes.json` 재생성·durations-pull·verify duration 열 | **완료 26.07.25** — 실측 확인: 파일 첫 키 `_generated{from,at,episodeId,checksum}` 실재 · `faction-export.ts` 의 손 편집 감지·`force` 요구·`.export-backup/`(최근 10회 + `_original/`) · `pnpm faction:durations-pull` · `faction:verify --drift` · `voice:faction` 의 quoteDuration↔DB 대조 |
+| 2 | export 발효: `_generated` 마커·checksum 가드·`_episodes.json` 재생성·durations-pull·verify duration 열 | **완료 26.07.25** — 실측 확인: 파일 첫 키 `_generated{from,at,episodeId,checksum}` 실재 · `faction-export.ts` 의 손 편집 감지·`force` 요구 · `pnpm faction:durations-pull` · `faction:verify --drift` · `voice:faction` 의 quoteDuration↔DB 대조. 현행은 DB를 정본으로 삼고 별도 export 이력을 남기지 않는다. |
 | 3 | 공유 부품 4종+Task Queue shared 승격(~2,900줄, import ~60곳) | **완료 26.07.25** — `packages/shared/src/bo/` 22파일 4,425줄. 4종만으로는 컴파일이 안 돼 의존 폐포까지 올렸다(icons·voice-utils·audio-wave-player·time-ruler·gain + `EleSettings`·`GenEngine`·`TempPreview`·`playDing`). remotion-bo 의 shared 참조 168줄/109파일, 껍데기 재export 0, tsc 3종(remotion-bo·remotion·web-bo) 0, 화면 5종 브라우저 실측(콘솔 오류 0) |
 | 4a | **web-bo 서버 기반** — 원자 저장 RPC + 조립기 shared 화 + 액션 4종 + fs 라우트 14종 + 목록 화면 | **완료 26.07.25** — 아래 진행 로그 참조 |
 | 4b | **web-bo 편집기 UI** — 편집기 본체 56파일 이식 + 데이터층 배선(4a 액션 호출) — PayPal-Mafia 선검수 | **완료 26.07.25** — 아래 진행 로그 참조 |
@@ -198,7 +198,7 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
 ## 진행 로그
 
 - 26.07.26 **참조 기반 렌더 창고** — 렌더가 `public/` 7.3GB를 통째로 번들에 복사하던 것을 그 편 자산 + 공용만 모은 임시 폴더로 줄였다. **PayPal-Mafia 기준 7.3GB → 189MB(150파일, 전부 하드링크, 56ms, 용량 순증 0).**
-  - `scripts/render/stage.ts`(창고 조립·정리) + `scripts/render/render-staged.ts`(껍데기 CLI, `pnpm render:staged`). 담는 것은 `factions/<편>/`(`_refs`·`_docs`·`quotes`·`_archive`·`.export-backup`·`voice/.raw` 제외) + `common`·`music`·`fonts`. 담화도 `--series discourse` 로 같은 원리.
+  - `scripts/render/stage.ts`(창고 조립·정리) + `scripts/render/render-staged.ts`(껍데기 CLI, `pnpm render:staged`). 담는 것은 `factions/<편>/`(`_refs`·`_docs`·`quotes`·`_archive`·`voice/.raw` 제외) + `common`·`music`·`fonts`. 담화도 `--series discourse` 로 같은 원리.
   - **기본이 창고, 통짜는 `--full-public` 명시.** 조립 실패 시 조용히 통짜로 넘어가지 않고 사유와 함께 멈춘다.
   - web-bo 렌더 버튼(영상·롱폼 썸네일)이 이 경로를 쓴다. Studio는 복사를 안 하므로 대상 아님.
   - **실렌더 실증(PayPal-Mafia KO-S1, 150프레임)**: 창고 산출물과 통짜 산출물이 **637,810바이트로 동일**(앞 구간). 대사가 재생되는 구간(1200~1349프레임)에서는 **오디오 트랙 md5 완전 일치**(영상 크기 0.19% 차이는 h264 인코더 비결정성). **반증 시험** — 창고에서 음성 폴더만 떼고 같은 구간을 뽑으니 `F01C01P01-quote.wav` 404로 실패했다. 즉 그 구간이 실제로 대사를 물고 있고, 창고가 그것을 공급했다는 뜻이다. 썸네일(still) 경로도 창고로 출고 성공.
@@ -207,7 +207,7 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
   - **DB 폴더 키는 불변**(`not-using/<분류>/<이름>`) — 키를 바꾸면 주소·매니페스트·저장된 사진 경로가 흔들린다. 대응은 **`resolveEpisodeLocation`(shared `bo/episode-store`) 한 함수**가 맡고 `episodeDirOf` 가 그것을 지난다.
   - **흩어져 있던 경로 조립을 이번에 수렴** — `factionEpisodePaths`(shared `bo/faction-export`)가 `path.join(factionsDir, path.basename(folder))` 였다. 보관함 편이 들어온 뒤로 **web-bo 자동 내보내기가 `public/factions/<이름>` 이라는 없는 자리를 가리키고 있었다**(CLI 는 스캔 결과 경로를 써서 멀쩡했으므로 드러나지 않았다). `episodeDirOf` 로 교체. 자산 창구(`lib/faction-asset.ts`)도 같은 함수로 뿌리를 정한다.
   - 스캔 쪽은 `scripts/faction/lib.ts` 의 `IDEA_BANK_DIR`. `.gitignore` 에 새 경로 항목 추가(옛 `public/factions/` 패턴이 못 덮는다).
-  - **실측**: `faction:verify --all` 95/95 통과 · 이동 후 보관함 편 내보내기가 새 위치에 기록되고 백업(`.export-backup/_original`)도 그 아래 생성 · 승격(보관함→뿌리) 실이동 왕복 성공 · `public/factions` 스캔 23편 유지 · `remotion compositions` 경고 0(팩션 컴포지션은 등록 14편분) · tsc web-bo·remotion 0.
+  - **실측**: `faction:verify --all` 95/95 통과 · 이동 후 보관함 편 내보내기가 새 위치에 기록됨 · 승격(보관함→뿌리) 실이동 왕복 성공 · `public/factions` 스캔 23편 유지 · `remotion compositions` 경고 0(팩션 컴포지션은 등록 14편분) · tsc web-bo·remotion 0.
 - 26.07.30 **「위대한 해커들」 3편 전면 비활성화** — `great-hackers-faces`·`great-hackers-masked`·`great-hackers-state`를 모두 DB `blocked/registered=false/sort_order=0`으로 내리고 렌더 등록 목록에서 제거했다. 도감 자료는 연결을 끊거나 삭제하지 않고 `state-hackers`·`masked-hackers`의 `is_featured=false`로 비활성화했으며, 국가편의 세 그룹 연결·배정 8건·이미지 메타데이터는 유지한다. 전용 기획·대사 검토 Markdown과 export/archive/REF 백업만 로컬에서 제거했고 `faction-data.json`과 현재 이미지 자산은 비활성 자료로 남겼다. 로컬 `_status.json`은 이후 전 편에서 폐기했으며 운영 상태는 DB만 쓴다.
 - 26.07.29 **활성·비활성 팩션 실물 1차 재통합** — 사용자 운영 판단에 따라 `sw/remotion/idea-bank/`의 71편·719파일·210,216,734바이트를 원래 자리인 **`sw/remotion/public/factions/not-using/`** 로 이동했다. DB 키와 내용은 불변이며 전용 `resolveEpisodeLocation`·`IDEA_BANK_ROOT`·`IDEA_BANK_DIR` 분기를 제거했다. 로더는 `not-using/`의 데이터와 발화 시각을 모두 제외하고, 표준 렌더는 기존 참조 기반 창고를 쓰므로 활성 영상의 입력은 변하지 않는다. `--full-public`을 명시한 옛 통짜 렌더만 후보 자산까지 포함한다.
   - DB 92편 ↔ 로컬 92편 키 전수 일치. `_episodes.json`에만 남아 있던 DB 부재 별칭 `Gods-Greek-Compact`를 제거하고 `registered=true` 13편으로 재생성했다.
@@ -260,13 +260,13 @@ web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · �
   - 남은 것(5단계): 출간 배관(`faction-sync`) 이동·개조, `series-registry` 스위치, remotion-bo 팩션 87파일 삭제, 문서 갱신. 그때 이 단계에서 둔 검사 규칙 예외와 출간 스위치를 함께 걷어낸다.
 - 26.07.25 **Phase 4a 완료 — web-bo 서버 기반**(편집기 UI 본체는 4b).
   - **원자 저장 RPC** `faction_replace_episode(p_folder, p_episode, p_groups, p_clusters, p_people, p_parts, p_expected_updated_at)` 적용(마이그레이션 `faction_replace_episode_rpc`). security definer, 실행 권한 `service_role` 만(실측 acl `postgres=X | service_role=X`). **행 분해는 TS 담당, RPC 는 꽂기만** — `jsonb_populate_recordset(null::faction_groups, …)` 로 테이블 행 모양에 그대로 채워 컬럼이 늘어도 SQL 무수정. 하위 FK 는 TS 가 uuid 를 미리 만들어 맺고, 알 수 없는 `episode_id` 만 RPC 가 채운다. 26.08.03 `enforce_faction_people_celeb_link`에서 인물 전수 검증을 삭제·잠금보다 앞으로 옮기고, `celeb_id NOT NULL`·CELEB 트리거·역참조 가드·slug 자동 동기화를 추가했다.
-  - **조립·기록 코어 shared 화** — `packages/shared/src/lib/faction-assemble.ts`(DB→FactionScript 조립 + FactionScript→행 분해) · `packages/shared/src/bo/faction-export.ts`(마커·손 편집 가드·백업·등록 목록). CLI `scripts/faction/export.ts` 는 얇은 래퍼로 축소. **동작 불변을 바이트로 증명** — 옛 코드와 새 코드의 조립 결과를 23편 전량 대조해 전부 동일(`85224 vs 85224` 식). `faction:verify --all` 은 22/23(실패 1편은 아래 참조).
+  - **조립·기록 코어 shared 화** — `packages/shared/src/lib/faction-assemble.ts`(DB→FactionScript 조립 + FactionScript→행 분해) · `packages/shared/src/bo/faction-export.ts`(마커·손 편집 가드·등록 목록). CLI `scripts/faction/export.ts` 는 얇은 래퍼로 축소. **동작 불변을 바이트로 증명** — 옛 코드와 새 코드의 조립 결과를 23편 전량 대조해 전부 동일(`85224 vs 85224` 식). `faction:verify --all` 은 22/23(실패 1편은 아래 참조).
   - **shared 추가 승격** — `bo/voice-age`·`bo/voice-normalize`(remotion-bo 에서 git mv, 팩션·서재 탐방 4곳 import 교체). 팩션 음성 저장/연령 창구가 web-bo 로 오면서 두 앱이 같은 부품을 봐야 했다.
   - **web-bo 액션** `src/actions/admin/factions/{episodes,script,export,publish}.ts`. 저장 절차는 `src/lib/faction-save.ts` 로 빼 인증 밖에 뒀다 — 액션 안에 두면 Next 밖에서 부를 수 없어 검증이 불가능하다.
   - **fs 라우트 14종** — `api/faction/{media,media/folder,media/[episode]/[...path],asset/[...path],voice(+[episode]·[file]·save·age·reorder·timing·analyze),task,task/[id]}`. 전부 `FACTION_LOCAL=1` 가드(미설정 503+사유) + **자체 관리자 확인**.
   - **주소를 `api/faction-media` 대신 `api/faction/media` 로 잡았다** — P3 에서 올린 공용 부품이 `/api/${series}/media`·`/media/folder`·`/faction-avatar` 를 하드코딩해 부른다. 시리즈 이름 `faction` 을 첫 토막에 두면 그 부품을 한 줄도 고치지 않고 쓴다. 하이픈으로 잡으면 4b 가 공용 부품을 포크해야 해서 §8 「복사 금지」와 충돌한다.
   - 🔴 **진입 검사가 이미지 확장자를 통째로 건너뛴다** — `sw/web-bo/src/proxy.ts` 의 matcher 가 `.*\.(svg|png|jpg|jpeg|gif|webp)$` 를 제외한다. 즉 `/api/faction/asset/x/y.png` 는 로그인 검사를 지나쳐 라우트에 곧바로 닿는다(실측 확인). 그래서 라우트마다 `guardFactionRoute()`(로컬 가드+관리자 확인)를 첫 줄에 두고, 경로 잠금은 `lib/faction-asset.ts` 로 분리했다. **둘 중 하나만 있으면 뚫린다.** 같은 함정으로 이미지 프록시가 무방비였던 이력이 있다.
-  - **검증 실측(PayPal-Mafia)**: ① 조립기 ≡ CLI 내보내기(25,550 bytes, 차이 0) ② 저장 왕복 동일(세력 4·묶음 4·인물 14·편댓글 1, 차이 0) ②-b 음성 길이 15건 보존 ③ 어긋난 기준 시각 거부 ④ 자동 내보내기 → 마커 기록·파일 ≡ DB·원본 백업 보존 ⑤ **없는 묶음을 가리키는 인물 행을 섞으니 FK 위반으로 전체 롤백**(세력 4→4·묶음 4→4·인물 14→14·updated_at 불변 — 부분 반영 0) ⑥ 이후 `faction:verify --episode PayPal-Mafia` 6종 전부 통과. 경로 이탈 12종 전량 차단(뿌리 밖 해석 0), 확장자 화이트리스트가 json·txt·확장자 없음 거절. tsc 3종 0 · eslint 0 · `next build` 로 라우트 14종·화면 2종 컴파일 확인.
+  - **검증 실측(PayPal-Mafia)**: ① 조립기 ≡ CLI 내보내기(25,550 bytes, 차이 0) ② 저장 왕복 동일(세력 4·묶음 4·인물 14·편댓글 1, 차이 0) ②-b 음성 길이 15건 보존 ③ 어긋난 기준 시각 거부 ④ 자동 내보내기 → 마커 기록·파일 ≡ DB ⑤ **없는 묶음을 가리키는 인물 행을 섞으니 FK 위반으로 전체 롤백**(세력 4→4·묶음 4→4·인물 14→14·updated_at 불변 — 부분 반영 0) ⑥ 이후 `faction:verify --episode PayPal-Mafia` 6종 전부 통과. 경로 이탈 12종 전량 차단(뿌리 밖 해석 0), 확장자 화이트리스트가 json·txt·확장자 없음 거절. tsc 3종 0 · eslint 0 · `next build` 로 라우트 14종·화면 2종 컴파일 확인.
   - **음성 길이 소유권(§7) 강제 지점** — 저장 시 DB 값이 있으면 그것을 신뢰하고 편집기가 보낸 값으로 덮지 않는다. DB 가 비고 대본에 있을 때만 채운다(`lib/faction-save.ts` 의 `loadExistingDurations`). 저장 창구 응답의 길이는 화면 표시용이고 DB 반영은 `faction:durations-pull` 이 wav 실측으로 한다.
   - ⚠ **`Gods-Greek-Compact` 는 파일이 DB 보다 새롭다** — 파일 mtime 26.07.25 19:35 vs DB 행 18:59(KST), 대사 148곳이 다르고 파일 쪽 `quoteOrigin` 이 "GPT-5.6 신규 작성(2026-07-25)"이다. 즉 Phase 1 이관 뒤 사람이 JSON 을 더 고쳤다(§11 R3 그 자체). **이번 작업의 회귀가 아니다**(옛·새 조립기 바이트 동일로 증명). 내보내기는 발효 전 가드가 이 편을 막으므로 되돌림 사고는 안 난다. 흡수하려면 `pnpm faction:import -- --episode Gods-Greek-Compact` 를 사람이 판단해 실행해야 한다 — 임의로 실행하지 않았다.
   - 남은 것(4b): 편집기 본체 56파일 이식과 배선. 순서 변경 흐름은 `api/faction/voice/[episode]/reorder` 를 부르는 기존 계약을 그대로 유지한다(§11 R2).

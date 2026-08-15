@@ -18,6 +18,7 @@ import {
   useEffect, useRef, useState,
   type ReactNode,
 } from 'react'
+import { createPortal } from 'react-dom'
 import type {
   VoiceFile, EngineKind, SegmentEngineSpec, EleSettings, TempPreview, GenEngine,
 } from './voice-utils'
@@ -172,6 +173,7 @@ export const BOOK_VOICE_MODES: VoiceEditorModeDef<BookVoiceMode>[] = [
  *  1) 창이 떠 있는 동안 뒤 화면이 따라 스크롤되지 않게 잠근다.
  *  2) 뒤 배경에서 시작한 누름만 닫기로 인정한다 — 창 안(예: 파형의 구간 선)에서 끌기 시작해
  *     손을 배경 위에서 떼도 창이 닫히지 않는다.
+ *  3) 호출한 카드의 overflow·contain·transform과 무관하도록 document.body portal에 렌더한다.
  *
  * 자판: Esc 로 닫고 1·2·3… 으로 모드를 바꾼다. 글자를 적는 칸에 커서가 있으면 무시한다.
  */
@@ -189,6 +191,7 @@ export function VoiceEditorShell<M extends string>({
   children: (mode: M, setMode: (m: M) => void) => ReactNode
 }) {
   const [mode, setMode] = useState<M>(modes[0]!.id)
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null)
   // 뒤 배경에서 시작된 누름만 닫기로 인정한다(창 안에서 시작한 끌기가 배경에서 끝나도 안 닫힘).
   const downOnBackdrop = useRef(false)
   // onClose 는 부르는 쪽이 그때그때 새 함수로 넘긴다. 이걸 아래 effect 가 지켜보면 부모가 다시
@@ -200,6 +203,7 @@ export function VoiceEditorShell<M extends string>({
   modesRef.current = modes
 
   useEffect(() => {
+    setPortalRoot(document.body)
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => {
@@ -213,7 +217,9 @@ export function VoiceEditorShell<M extends string>({
     return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
   }, [])
 
-  return (
+  if (!portalRoot) return null
+
+  return createPortal((
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
       onMouseDown={e => { downOnBackdrop.current = e.target === e.currentTarget }}
@@ -274,7 +280,7 @@ export function VoiceEditorShell<M extends string>({
         </div>
       </div>
     </div>
-  )
+  ), portalRoot)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -41,6 +41,7 @@ import { FactionLVThumbnail } from "./compositions/Thumbnail/FactionLVThumbnail"
 import { FactionLVThumbCandidate } from "./compositions/Thumbnail/FactionLVThumbCandidate";
 import { BookRecommendLegacy } from "./compositions/BookRecommend/legacy/BookRecommendLongLegacy";
 import { factionCompBase, factionLongformPartNumbers } from "@feelandnote/shared/lib/youtube-faction-meta";
+import { factionShortsPartNumbers } from "@feelandnote/shared/lib/faction-shorts";
 // 가상 담화 컴포지션 ID 앞머리(`Discourse-<폴더명>`) — 26.07.26 packages/shared 로 승격해 단일원천화.
 // 이 파일의 등록 규칙과 왕복 검증(scripts/discourse/verify.ts ③)이 같은 함수를 쓴다.
 import { discourseCompBase } from "@feelandnote/shared/lib/youtube-discourse-meta";
@@ -202,17 +203,22 @@ export const RemotionRoot: React.FC = () => {
             const studioLabel = ep
             // 쇼츠 편(part) — 진영 part 의 실제 편 수만큼 등록. 편이 없으면 전체 진영을 담은 단일 쇼츠(part 미지정).
             // 접미사 규칙(KO-S{part})은 @feelandnote/shared 의 factionVariants 와 일치한다.
-            const parts = Array.from(
+            const shortsGroups = script.groups.filter((g) => !g.disabled && !g.longformOnly)
+            const legacyParts = Array.from(
               new Set(
-                script.groups
-                  .filter((g) => !g.disabled && g.part != null && g.part > 0)
+                shortsGroups
+                  .filter((g) => g.part != null && g.part > 0)
                   .map((g) => g.part as number),
               ),
             ).sort((a, b) => a - b)
+            const internalParts = factionShortsPartNumbers(script.groups as unknown as Array<Record<string, unknown>>)
+            const parts = internalParts.length > 0 ? internalParts : legacyParts
             const shortsVariants: { suffix: string; part: number | undefined }[] =
-              parts.length === 0
-                ? [{ suffix: 'S1', part: undefined }]
-                : parts.map((p) => ({ suffix: `S${p}`, part: p }))
+              shortsGroups.length === 0
+                ? []
+                : parts.length === 0
+                  ? [{ suffix: 'S1', part: undefined }]
+                  : parts.map((p) => ({ suffix: `S${p}`, part: p }))
             return (
               <Folder key={key} name={studioLabel}>
                 {/* KO-S{n} — 한국어 세로 쇼츠. 진영 part 별로 분리(편 없으면 전체 1편). */}
@@ -234,7 +240,7 @@ export const RemotionRoot: React.FC = () => {
                 })}
                 {/* KO-LV — 한국어 세로 롱폼 (1080x1920). 롱폼 배치의 편 경계(cut)가 있으면 KO-LV1·KO-LV2… 로 분리, 없으면 통짜 KO-LV. */}
                 {(() => {
-                  const lvParts = factionLongformPartNumbers(script.longformLayout)
+                  const lvParts = factionLongformPartNumbers(script.longformLayout, script.groups)
                   const lvVariants: { suffix: string; lvPart: number | undefined }[] =
                     lvParts.length === 0
                       ? [{ suffix: 'LV', lvPart: undefined }]

@@ -9,6 +9,17 @@
  * 컴포지션·출력 파일 접미사는 factionVariants(groups) 가 단일원천이다 (Root.tsx 등록과 일치).
  */
 
+import {
+  factionLongformSegments,
+  factionLongformSliceItems,
+} from './faction-longform'
+import {
+  factionShortsPartNumbers,
+  factionShortsSegments,
+  factionShortsSliceItems,
+  hasFactionShortsCuts,
+} from './faction-shorts'
+
 // ─── 타입 ──────────────────────────────────────────────
 
 export type FactionUploadRecord = { videoId: string; uploadedAt: string }
@@ -17,6 +28,10 @@ export interface FactionPersonMeta {
   name: string
   nameEn?: string
   slug?: string
+  /** 영상에서 완전히 제외한다. */
+  disabled?: boolean
+  /** 모든 롱폼에는 포함하고 쇼츠에서만 제외한다. */
+  longformOnly?: boolean
   /** 직함·이력 줄. [0] = 대표 직함(설명에 인물 옆 괄호로 노출). */
   lines?: string[]
   linesEn?: string[]
@@ -31,10 +46,15 @@ export interface FactionGroupMeta {
   part?: number
   /** 영상 제외(데이터만 보관) */
   disabled?: boolean
-  /** true면 세로 영상에서 진영 전체 제외(가로 롱폼 전용). timing.ts 와 동일 규칙. */
+  /** 모든 롱폼에는 포함하고 쇼츠에서만 진영 전체를 제외한다. */
   longformOnly?: boolean
   people?: FactionPersonMeta[]
-  clusters?: Array<{ people?: FactionPersonMeta[]; longformOnly?: boolean }>
+  clusters?: Array<{ people?: FactionPersonMeta[]; disabled?: boolean; longformOnly?: boolean }>
+  sequence?: Array<
+    | { kind: 'cluster'; clusterIndex: number }
+    | { kind: 'scene'; id: string; scene: object }
+    | { kind: 'cut' }
+  >
 }
 
 /**
@@ -84,14 +104,14 @@ export interface FactionVariantDef {
 
 /**
  * 진영 part 값에서 쇼츠 편 번호 목록을 뽑는다 — 중복 제거·오름차순.
- * 편 미지정(part 없음/0)·disabled 진영은 제외. 편이 하나도 없으면 빈 배열.
+ * 편 미지정(part 없음/0)·disabled·longformOnly 진영은 제외. 편이 하나도 없으면 빈 배열.
  */
 export function factionPartNumbers(
-  groups: ReadonlyArray<{ part?: number; disabled?: boolean }>,
+  groups: ReadonlyArray<{ part?: number; disabled?: boolean; longformOnly?: boolean }>,
 ): number[] {
   const set = new Set<number>()
   for (const g of groups) {
-    if (g.disabled) continue
+    if (g.disabled || g.longformOnly) continue
     if (g.part != null && g.part > 0) set.add(g.part)
   }
   return [...set].sort((a, b) => a - b)
@@ -103,23 +123,35 @@ export function factionPartNumbers(
  */
 export function factionLongformPartNumbers(
   layout?: ReadonlyArray<FactionLongformLayoutItem>,
+  groups: ReadonlyArray<FactionGroupMeta> = [],
 ): number[] {
-  const cuts = (layout ?? []).filter((it) => 'cut' in it).length
-  if (cuts === 0) return []
-  return Array.from({ length: cuts + 1 }, (_, i) => i + 1)
+  const count = factionLongformSegments(
+    groups as unknown as Array<Record<string, unknown>>,
+    layout,
+  ).length
+  if (count <= 1) return []
+  return Array.from({ length: count }, (_, i) => i + 1)
 }
 
 /**
  * 에피소드별 영상 종류 목록 — 세로 롱폼 1편 또는 N편(롱폼 배치의 편 경계 수만큼) + 세로 쇼츠 N편(진영 part 의 실제 편 수만큼).
- * 쇼츠 편이 하나도 없으면 전체 진영을 담은 단일 쇼츠(part 미지정, 접미사 KO-S1).
+ * 쇼츠 대상 진영에 편 번호가 없으면 전체 쇼츠 대상 진영을 담은 단일 쇼츠(part 미지정, 접미사 KO-S1).
+ * 모든 활성 진영이 longformOnly 면 쇼츠 변형 자체를 만들지 않는다.
  * 롱폼 편 경계가 없으면 통짜 롱폼(KO-LV), 있으면 KO-LV1·KO-LV2… 로 갈라진다.
  * 컴포지션 ID·출력 파일 접미사·업로드 키의 단일원천이다 (Root.tsx 등록 규칙과 일치).
  */
 export function factionVariants(
-  groups: ReadonlyArray<{ part?: number; disabled?: boolean }>,
+  groups: ReadonlyArray<{
+    name?: string
+    part?: number
+    disabled?: boolean
+    longformOnly?: boolean
+    clusters?: FactionGroupMeta['clusters']
+    sequence?: FactionGroupMeta['sequence']
+  }>,
   layout?: ReadonlyArray<FactionLongformLayoutItem>,
 ): FactionVariantDef[] {
-  const lvParts = factionLongformPartNumbers(layout)
+  const lvParts = factionLongformPartNumbers(layout, groups as ReadonlyArray<FactionGroupMeta>)
   const longforms: FactionVariantDef[] = lvParts.length === 0
     ? [{ key: 'ko-longform', label: '세로 롱폼', isShorts: false, part: undefined, fileSuffix: 'KO-LV' }]
     : lvParts.map((p): FactionVariantDef => ({
@@ -129,7 +161,10 @@ export function factionVariants(
         lvPart: p,
         fileSuffix: `KO-LV${p}`,
       }))
-  const parts = factionPartNumbers(groups)
+  const shortsGroups = groups.filter(g => !g.disabled && !g.longformOnly)
+  if (shortsGroups.length === 0) return longforms
+  const internalParts = factionShortsPartNumbers(groups as unknown as Array<Record<string, unknown>>)
+  const parts = internalParts.length > 0 ? internalParts : factionPartNumbers(shortsGroups)
   if (parts.length === 0) {
     // 편 미지정 — 전체 진영을 담은 단일 쇼츠
     return [...longforms, { key: 'ko-shorts-1', label: '세로 쇼츠', isShorts: true, part: undefined, fileSuffix: 'KO-S1' }]
@@ -197,14 +232,21 @@ function nameTail(s?: string): string {
 }
 
 /**
- * 그룹의 직속 people + cluster people 을 평탄화한다.
- * longformOnly 묶음은 세로 영상에 안 나오므로 제외한다(현재 전 variant 가 세로 — timing.ts 와 동일).
+ * 그룹의 직속 people + cluster people 을 현재 영상 종류에 맞춰 평탄화한다.
+ * disabled 는 항상 제외하고 longformOnly 는 쇼츠에서만 제외한다.
  */
-function groupPeople(g: FactionGroupMeta): FactionPersonMeta[] {
-  const direct = g.people ?? []
+function groupPeople(
+  g: FactionGroupMeta,
+  isShorts: boolean,
+  allowedClusterIndexes?: ReadonlySet<number>,
+): FactionPersonMeta[] {
+  const visiblePeople = (people: FactionPersonMeta[]) => people.filter(p => !p.disabled && !(isShorts && p.longformOnly))
+  const direct = visiblePeople(g.people ?? [])
   const clustered = (g.clusters ?? [])
-    .filter(c => !c.longformOnly)
-    .flatMap(c => c.people ?? [])
+    .filter((c, index) => (allowedClusterIndexes == null || allowedClusterIndexes.has(index))
+      && !c.disabled
+      && !(isShorts && c.longformOnly))
+    .flatMap(c => visiblePeople(c.people ?? []))
   return [...direct, ...clustered]
 }
 
@@ -212,17 +254,46 @@ function groupPeople(g: FactionGroupMeta): FactionPersonMeta[] {
  * 롱폼 편(lvPart)에 속하는 세력 인덱스 집합 — 롱폼 배치를 편 경계(cut)로 가른 그 편 구간.
  * 경계가 없으면 null(전체). 배치에 빠진 활성 세력은 마지막 구간에 붙는다(timing.ts longformSegments 와 동일 규칙).
  */
-function longformPartGroupIndexSet(input: FactionMetaInput, lvPart: number): Set<number> | null {
-  const layout = input.longformLayout ?? []
-  if (!layout.some(it => 'cut' in it)) return null
-  const segments: number[][] = [[]]
-  for (const it of layout) {
-    if ('cut' in it) { segments.push([]); continue }
-    if ('group' in it) segments[segments.length - 1].push(it.group)
+function longformPartGroupSlices(input: FactionMetaInput, lvPart: number): Map<number, Set<number>> | null {
+  const segments = factionLongformSegments(
+    input.groups as unknown as Array<Record<string, unknown>>,
+    input.longformLayout,
+  )
+  if (segments.length <= 1) return null
+  const slices = new Map<number, Set<number>>()
+  for (const step of segments[lvPart - 1] ?? []) {
+    if (!('gi' in step)) continue
+    const group = input.groups[step.gi]
+    if (!group) continue
+    const indexes = slices.get(step.gi) ?? new Set<number>()
+    for (const item of factionLongformSliceItems(
+      group as unknown as Record<string, unknown>,
+      step,
+    )) {
+      if (item.kind === 'cluster') indexes.add(item.clusterIndex)
+    }
+    slices.set(step.gi, indexes)
   }
-  const placed = new Set(layout.flatMap(it => ('group' in it ? [it.group] : [])))
-  ;(input.groups ?? []).forEach((g, gi) => { if (!g.disabled && !placed.has(gi)) segments[segments.length - 1].push(gi) })
-  return new Set(segments[lvPart - 1] ?? [])
+  return slices
+}
+
+/** sequence 내부 쇼츠 경계를 쓸 때 한 쇼츠 편에 속하는 그룹별 cluster 인덱스. */
+function shortsPartGroupSlices(input: FactionMetaInput, part: number): Map<number, Set<number>> | null {
+  if (!hasFactionShortsCuts(input.groups as unknown as Array<Record<string, unknown>>)) return null
+  const slices = new Map<number, Set<number>>()
+  for (const step of factionShortsSegments(input.groups as unknown as Array<Record<string, unknown>>)[part - 1] ?? []) {
+    const group = input.groups[step.gi]
+    if (!group) continue
+    const indexes = slices.get(step.gi) ?? new Set<number>()
+    for (const item of factionShortsSliceItems(
+      group as unknown as Record<string, unknown>,
+      step,
+    )) {
+      if (item.kind === 'cluster') indexes.add(item.clusterIndex)
+    }
+    slices.set(step.gi, indexes)
+  }
+  return slices
 }
 
 /**
@@ -232,26 +303,32 @@ function longformPartGroupIndexSet(input: FactionMetaInput, lvPart: number): Set
  *  - lvPart 지정(롱폼 편): 롱폼 배치의 그 편 구간 진영만
  *  - 둘 다 미지정(통짜 롱폼): 전체
  */
-function visibleGroups(input: FactionMetaInput, part?: number, lvPart?: number): FactionGroupMeta[] {
-  const lvSet = lvPart != null ? longformPartGroupIndexSet(input, lvPart) : null
+function visibleGroups(input: FactionMetaInput, isShorts: boolean, part?: number, lvPart?: number): FactionGroupMeta[] {
+  const lvSlices = lvPart != null ? longformPartGroupSlices(input, lvPart) : null
+  const shortsSlices = isShorts && part != null ? shortsPartGroupSlices(input, part) : null
   return (input.groups ?? []).filter((g, gi) => {
     if (g.disabled) return false
-    // longformOnly 진영은 세로 영상에서 빠진다(가로 롱폼 전용). 현재 전 variant 가 세로다.
-    if (g.longformOnly) return false
-    if (lvSet) return lvSet.has(gi)
+    if (isShorts && g.longformOnly) return false
+    if (lvSlices) return lvSlices.has(gi)
+    if (shortsSlices) return shortsSlices.has(gi)
     if (part == null) return true
     const gp = g.part ?? 0
     return gp === 0 || gp === part
   })
 }
 
-function allPeople(input: FactionMetaInput, part?: number, lvPart?: number): FactionPersonMeta[] {
-  return visibleGroups(input, part, lvPart).flatMap(groupPeople)
+function allPeople(input: FactionMetaInput, isShorts: boolean, part?: number, lvPart?: number): FactionPersonMeta[] {
+  const lvSlices = lvPart != null ? longformPartGroupSlices(input, lvPart) : null
+  const shortsSlices = isShorts && part != null ? shortsPartGroupSlices(input, part) : null
+  return visibleGroups(input, isShorts, part, lvPart).flatMap(g => {
+    const gi = input.groups.indexOf(g)
+    return groupPeople(g, isShorts, lvSlices?.get(gi) ?? shortsSlices?.get(gi))
+  })
 }
 
 /** heroes(slug) 순서를 우선해 인물을 정렬한다. heroes에 없는 인물은 등장순으로 뒤에 붙는다. */
-function peopleHeroesFirst(input: FactionMetaInput, part?: number, lvPart?: number): FactionPersonMeta[] {
-  const people = allPeople(input, part, lvPart)
+function peopleHeroesFirst(input: FactionMetaInput, isShorts: boolean, part?: number, lvPart?: number): FactionPersonMeta[] {
+  const people = allPeople(input, isShorts, part, lvPart)
   const heroes = (part != null ? input.heroesByPart?.[String(part)] : undefined)
     ?? (lvPart != null ? input.heroesByLvPart?.[String(lvPart)] : undefined)
     ?? input.heroes ?? []
@@ -385,7 +462,6 @@ export function buildFactionTags(
   }
 
   // 1) 시리즈·브랜드 (쇼츠는 세로·3분 이하로 YouTube 가 자동 분류 — 'Shorts' 태그 불필요)
-  void isShorts
   if (lang === 'ko') {
     ;['세력도감', '세력도', '인물관계도', 'FeelAndNote', '필앤노트'].forEach(push)
   } else {
@@ -401,7 +477,7 @@ export function buildFactionTags(
   push(tagToken(epTitle))
 
   // 3) 진영명 (해당 편) — 통합 명칭에서 앞부분(세력명)만 태그로. 뒷부분(슬로건)은 검색 가치가 없어 제외.
-  for (const g of visibleGroups(input, part, lvPart)) {
+  for (const g of visibleGroups(input, isShorts, part, lvPart)) {
     const raw = lang === 'en' ? (g.nameEn || g.name) : g.name
     const head = nameHead(raw)
     push(head)
@@ -409,7 +485,7 @@ export function buildFactionTags(
   }
 
   // 4) 인물명 — heroes 우선. ko: 국문만(영문명까지 넣으면 500자 예산을 금방 소진해 뒤쪽 인물이 누락된다), en: 영문만
-  for (const p of peopleHeroesFirst(input, part, lvPart)) {
+  for (const p of peopleHeroesFirst(input, isShorts, part, lvPart)) {
     if (lang === 'ko') {
       push(p.name)
     } else {
@@ -440,9 +516,12 @@ export function buildFactionDescription(
   const heading = sub ? `${title}: ${sub}` : title
   // 진영마다 [● 앞부분 · 뒷부분] + [그 진영 인물 이름 줄]. 진영 사이는 빈 줄로 띄운다.
   // 인물이 없는 진영(AI의 시조 등)은 라벨만. 이름은 lang 에 맞춰 국문/영문.
-  const groups = visibleGroups(input, part, lvPart).flatMap((g, i) => {
+  const lvSlices = lvPart != null ? longformPartGroupSlices(input, lvPart) : null
+  const shortsSlices = isShorts && part != null ? shortsPartGroupSlices(input, part) : null
+  const groups = visibleGroups(input, isShorts, part, lvPart).flatMap((g, i) => {
     const label = groupLabel(g, lang)
-    const names = groupPeople(g)
+    const gi = input.groups.indexOf(g)
+    const names = groupPeople(g, isShorts, lvSlices?.get(gi) ?? shortsSlices?.get(gi))
       .map(p => {
         const nm = lang === 'en' ? (p.nameEn || p.name) : p.name
         if (!nm || !nm.trim()) return null
@@ -456,7 +535,7 @@ export function buildFactionDescription(
     return i === 0 ? block : ['', ...block]
   })
 
-  const heroNames = peopleHeroesFirst(input, part, lvPart)
+  const heroNames = peopleHeroesFirst(input, isShorts, part, lvPart)
     .slice(0, 6)
     .map(p => (lang === 'en' ? (p.nameEn || p.name) : p.name))
     .map(tagToken)

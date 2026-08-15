@@ -8,7 +8,7 @@
  *
  * ⚠ 조립·기록의 **실제 규칙은 이 파일에 없다.**
  *   - DB 4계층 → FactionScript 조립 : `@feelandnote/shared/lib/faction-assemble`
- *   - 마커·손 편집 가드·백업·파일 쓰기 : `@feelandnote/shared/bo/faction-export`
+ *   - 마커·손 편집 가드·파일 쓰기 : `@feelandnote/shared/bo/faction-export`
  *   web-bo 편집기의 자동 내보내기가 같은 두 모듈을 쓴다. 규칙을 여기서 고치지 마라 —
  *   파일과 화면이 갈라지고, 그 갈라짐은 영상이 렌더된 뒤에야 드러난다.
  */
