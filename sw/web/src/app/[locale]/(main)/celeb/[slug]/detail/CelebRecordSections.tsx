@@ -34,7 +34,6 @@ import {
   type CelebServiceAvailability,
   useCelebServiceItems,
 } from "../celebServiceItems";
-import UnavailableSectionGuide from "../UnavailableSectionGuide";
 import { getLocalizedCelebVideos } from "./celebDetailData";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
@@ -112,6 +111,7 @@ export default function CelebRecordSections({
     influence: Boolean(influenceData),
     spectrum: Boolean(spectrumData?.targetSpectrum),
     sourceWorks: fictionSources.length > 0,
+    library: initialContents.items.length > 0,
   };
   const serviceItems = useCelebServiceItems({
     tier: celebTier,
@@ -168,118 +168,104 @@ export default function CelebRecordSections({
       />
 
       <div className={styles.sectionStack}>
-        <section id="reading" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          {renderSectionHeading("reading")}
-          <SectionSurface className={TAB_BOX_CLASS_NAME}>
-            <FigureReadingTabs
-              item={serviceItemsByKey.get("reading")!}
-              reading={profile.reading}
-            />
-          </SectionSurface>
-        </section>
+        {serviceItemsByKey.has("reading") && (
+          <section id="reading" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("reading")}
+            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+              <FigureReadingTabs
+                item={serviceItemsByKey.get("reading")!}
+                reading={profile.reading}
+              />
+            </SectionSurface>
+          </section>
+        )}
 
-        <section
-          id={isFiction ? "source-works" : "library"}
-          tabIndex={-1}
-          className={SECTION_CLASS_NAME}
-        >
-          {renderSectionHeading(isFiction ? "sourceWorks" : "library")}
-          {isFiction ? (
-            fictionSources.length > 0 ? (
+        {serviceItemsByKey.has(isFiction ? "sourceWorks" : "library") && (
+          <section
+            id={isFiction ? "source-works" : "library"}
+            tabIndex={-1}
+            className={SECTION_CLASS_NAME}
+          >
+            {renderSectionHeading(isFiction ? "sourceWorks" : "library")}
+            {isFiction ? (
               <SectionSurface>
                 <FictionSourceWorksSection sources={fictionSources} />
               </SectionSurface>
             ) : (
-              <SectionSurface>
-                <UnavailableSectionGuide
-                  item={serviceItemsByKey.get("sourceWorks")!}
+              <SectionSurface className={TAB_BOX_CLASS_NAME}>
+                <LibraryTabs
+                  userId={userId}
+                  nickname={profile.nickname}
+                  avatarUrl={profile.avatar_url ?? null}
+                  emptyMessage={t("libraryEmpty")}
+                  wikidataQid={profile.wikidata_qid ?? null}
+                  initialContents={initialContents}
                 />
               </SectionSurface>
-            )
-          ) : showLibrary ? (
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
-              <LibraryTabs
-                userId={userId}
-                nickname={profile.nickname}
-                avatarUrl={profile.avatar_url ?? null}
-                emptyMessage={t("libraryEmpty")}
-                wikidataQid={profile.wikidata_qid ?? null}
-                initialContents={initialContents}
-              />
-            </SectionSurface>
-          ) : (
-            <SectionSurface>
-              <UnavailableSectionGuide
-                item={serviceItemsByKey.get("library")!}
-              />
-            </SectionSurface>
-          )}
-        </section>
+            )}
+          </section>
+        )}
 
-        <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          {renderSectionHeading("timeline")}
-          {timelineEvents.length > 0 ? (
+        {serviceItemsByKey.has("timeline") && (
+          <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("timeline")}
             <SectionSurface>
               <JourneySection events={timelineEvents} />
             </SectionSurface>
-          ) : (
-            <SectionSurface>
-              <UnavailableSectionGuide
-                item={serviceItemsByKey.get("timeline")!}
+          </section>
+        )}
+
+        {serviceItemsByKey.has("connections") && (
+          <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("connections")}
+            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+              <PeopleAndEraTabs
+                item={serviceItemsByKey.get("connections")!}
+                centerName={profile.nickname}
+                centerAvatarUrl={profile.avatar_url}
+                relations={profile.relations}
+                contemporaries={contemporaries}
+                factions={factionTags}
+                currentCelebId={profile.id}
+                isFiction={isFiction}
               />
             </SectionSurface>
-          )}
-        </section>
+          </section>
+        )}
 
-        <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          {renderSectionHeading("connections")}
-          <SectionSurface className={TAB_BOX_CLASS_NAME}>
-            <PeopleAndEraTabs
-              item={serviceItemsByKey.get("connections")!}
-              centerName={profile.nickname}
-              centerAvatarUrl={profile.avatar_url}
-              relations={profile.relations}
-              contemporaries={contemporaries}
-              factions={factionTags}
-              currentCelebId={profile.id}
-              isFiction={isFiction}
-            />
-          </SectionSurface>
-        </section>
-
-        <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          {renderSectionHeading("analysis")}
-          <SectionSurface className={TAB_BOX_CLASS_NAME}>
-            {isFiction ? (
-              <UnavailableSectionGuide item={serviceItemsByKey.get("analysis")!} />
-            ) : (
+        {serviceItemsByKey.has("analysis") && (
+          <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("analysis")}
+            <SectionSurface className={TAB_BOX_CLASS_NAME}>
               <FigureAnalysisTabs
                 item={serviceItemsByKey.get("analysis")!}
                 spectrumData={spectrumData}
                 influenceData={influenceData}
                 influenceExplorerData={influenceExplorerData}
               />
-            )}
-          </SectionSurface>
-        </section>
+            </SectionSurface>
+          </section>
+        )}
 
-        <section id="media" tabIndex={-1} className={SECTION_CLASS_NAME}>
-          {renderSectionHeading("media")}
-          <SectionSurface className={TAB_BOX_CLASS_NAME}>
-            <FigureMediaTabs
-              item={serviceItemsByKey.get("media")!}
-              dialogueLines={dialogueLines}
-              nickname={profile.nickname}
-              avatarUrl={profile.avatar_url}
-              hasVoice={hasVoice}
-              celebId={userId}
-              voiceV={profile.voice_v}
-              voiceSpeed={profile.voice_speed}
-              longform={longform}
-              shorts={shorts}
-            />
-          </SectionSurface>
-        </section>
+        {serviceItemsByKey.has("media") && (
+          <section id="media" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("media")}
+            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+              <FigureMediaTabs
+                item={serviceItemsByKey.get("media")!}
+                dialogueLines={dialogueLines}
+                nickname={profile.nickname}
+                avatarUrl={profile.avatar_url}
+                hasVoice={hasVoice}
+                celebId={userId}
+                voiceV={profile.voice_v}
+                voiceSpeed={profile.voice_speed}
+                longform={longform}
+                shorts={shorts}
+              />
+            </SectionSurface>
+          </section>
+        )}
 
         <section id="guestbook" tabIndex={-1} className={SECTION_CLASS_NAME}>
           {renderSectionHeading("guestbook")}
