@@ -20,10 +20,6 @@ export interface ServiceItem {
   icon: LucideIcon;
   ready: boolean;
   target: ServiceTarget;
-  unavailableGuide?: {
-    about: string;
-    notice?: string;
-  };
   children?: readonly ServiceItem[];
   companion?: {
     label: string;
@@ -78,9 +74,6 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.reading,
         ready: availability.reading,
         target: { sectionId: "reading" },
-        unavailableGuide: {
-          about: t("atlasGuides.reading.about"),
-        },
         children: [
           {
             key: "person-guide",
@@ -89,9 +82,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.personGuide,
             ready: availability.reading,
             target: { sectionId: "reading" },
-            unavailableGuide: {
-              about: t("atlasGuides.personGuide.about"),
-            },
           },
           {
             key: "person-explore",
@@ -100,9 +90,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.personExplore,
             ready: availability.reading,
             target: { sectionId: "reading" },
-            unavailableGuide: {
-              about: t("atlasGuides.personExplore.about"),
-            },
           },
         ],
       },
@@ -118,16 +105,6 @@ export function useCelebServiceItems({
             ? availability.sourceWorks
             : showLibrary && availability.library,
         target: { sectionId: tier === "fiction" ? "source-works" : "library" },
-        unavailableGuide: {
-          about: tier === "fiction"
-            ? t("atlasGuides.sourceWorks.about")
-            : tier === "light"
-              ? t("atlasGuides.lightLibrary.about")
-              : t("atlasGuides.library.about"),
-          notice: tier === "light"
-            ? t("atlasGuides.lightLibrary.notice")
-            : undefined,
-        },
       },
       {
         key: "timeline",
@@ -136,11 +113,6 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.timeline,
         ready: availability.timeline,
         target: { sectionId: "timeline" },
-        unavailableGuide: {
-          about: tier === "fiction"
-            ? t("atlasGuides.fictionTimeline.about")
-            : t("atlasGuides.timeline.about"),
-        },
       },
       {
         key: "connections",
@@ -152,9 +124,6 @@ export function useCelebServiceItems({
           || (tier !== "fiction" && availability.contemporaries)
           || availability.faction,
         target: { sectionId: "connections" },
-        unavailableGuide: {
-          about: t("atlasGuides.connections.about"),
-        },
         children: [
           {
             key: "relations",
@@ -163,9 +132,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.relations,
             ready: availability.relations,
             target: { sectionId: "connections" },
-            unavailableGuide: {
-              about: t("atlasGuides.relations.about"),
-            },
           },
           ...(tier === "fiction" ? [] : [{
               key: "contemporaries",
@@ -174,9 +140,6 @@ export function useCelebServiceItems({
               icon: CELEB_SERVICE_ICONS.contemporaries,
               ready: availability.contemporaries,
               target: { sectionId: "connections" },
-              unavailableGuide: {
-                about: t("atlasGuides.contemporaries.about"),
-              },
             }]),
           {
             key: "faction",
@@ -185,9 +148,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.faction,
             ready: availability.faction,
             target: { sectionId: "connections" },
-            unavailableGuide: {
-              about: t("atlasGuides.faction.about"),
-            },
           },
         ],
       },
@@ -196,19 +156,10 @@ export function useCelebServiceItems({
         chapter: CELEB_SERVICE_CHAPTERS.analysis,
         label: tier === "fiction" ? t("fictionAnalysis") : t("analysis"),
         icon: CELEB_SERVICE_ICONS.analysis,
-        ready: tier === "fiction"
-          || availability.spectrum
-          || availability.influence,
+        // 가상 인물도 자료가 있을 때만 그린다. 예전에는 무조건 열려 빈 상자가 남았다
+        ready: availability.spectrum || availability.influence,
         target: { sectionId: "analysis" },
-        unavailableGuide: {
-          about: tier === "fiction"
-            ? t("atlasGuides.fictionAnalysis.about")
-            : t("atlasGuides.analysis.about"),
-          notice: tier === "fiction"
-            ? t("atlasGuides.fictionAnalysis.notice")
-            : undefined,
-        },
-        children: tier === "fiction" ? undefined : [
+        children: [
           {
             key: "spectrum",
             chapter: "06-A",
@@ -216,9 +167,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.spectrum,
             ready: availability.spectrum,
             target: { sectionId: "analysis" },
-            unavailableGuide: {
-              about: t("atlasGuides.spectrum.about"),
-            },
           },
           {
             key: "influence",
@@ -227,9 +175,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.influence,
             ready: availability.influence,
             target: { sectionId: "analysis" },
-            unavailableGuide: {
-              about: t("atlasGuides.influence.about"),
-            },
           },
         ],
       },
@@ -242,9 +187,6 @@ export function useCelebServiceItems({
           availability.videos
           || availability.dialogues,
         target: { sectionId: "media" },
-        unavailableGuide: {
-          about: t("atlasGuides.media.about"),
-        },
         children: [
           // 가상 독백 탭은 서비스 노출에서 폐기했다. DB 원문은 제작 재료로만 보존한다.
           {
@@ -254,9 +196,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.dialogues,
             ready: availability.dialogues,
             target: { sectionId: "media" },
-            unavailableGuide: {
-              about: t("atlasGuides.dialogues.about"),
-            },
             companion: {
               label: t("serviceDialogueVoice"),
               icon: CELEB_SERVICE_ICONS.dialogueVoice,
@@ -270,9 +209,6 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.videos,
             ready: availability.videos,
             target: { sectionId: "media" },
-            unavailableGuide: {
-              about: t("atlasGuides.videos.about"),
-            },
           },
         ],
       },
@@ -283,11 +219,6 @@ export function useCelebServiceItems({
         icon: CELEB_SERVICE_ICONS.guestbook,
         ready: true,
         target: { sectionId: "guestbook" },
-        unavailableGuide: {
-          about: tier === "fiction"
-            ? t("atlasGuides.fictionGuestbook.about")
-            : t("guestbookCta"),
-        },
       },
     ] satisfies ServiceItem[])
       // 자료가 없는 구획은 목록에서 뺀다. 빈 안내만 남는 섹션을 화면에 만들지 않기 위해서다.

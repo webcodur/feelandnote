@@ -115,7 +115,6 @@ export function CelebAtlasNavigation({
 
           {items.map((item, index) => {
             const isActive = item.target.sectionId === activeSectionId;
-            const isReady = item.ready;
 
             return (
               <button
@@ -131,17 +130,11 @@ export function CelebAtlasNavigation({
                 onFocus={() => setHoveredIndex(index)}
                 onBlur={() => setHoveredIndex(null)}
                 aria-current={isActive ? "location" : undefined}
-                aria-label={
-                  isReady
-                    ? item.label
-                    : `${item.label}, ${t("atlasUnavailable")}. ${t("atlasGuideOpenAction")}`
-                }
                 className={cn(
                   styles.profileNavItem,
                   NAV_GROUP_START_KEYS.has(item.key) &&
                     styles.profileNavItemGroupStart,
                   isActive && styles.profileNavItemActive,
-                  !isReady && styles.profileNavItemPending,
                 )}
               >
                 {item.label}

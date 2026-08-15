@@ -340,9 +340,9 @@ export default function SpectrumMatchModal({
                   candidateName={match.nickname}
                 />
 
-                {/* 항목 이름은 왼쪽 칸에서 두 문장 높이의 한가운데를 잡는다 */}
+                {/* 근거는 패널 위에서부터 자연스럽게 이어서 읽힌다 */}
                 {reasonRows.length > 0 ? (
-                  <ul className="mt-3 flex flex-1 flex-col justify-between divide-y divide-white/[0.06]">
+                  <ul className="mt-3 flex flex-col divide-y divide-white/[0.06]">
                     {reasonRows.map((row) => (
                       <li
                         key={row.axis}
@@ -407,13 +407,15 @@ export default function SpectrumMatchModal({
               ) : (
                 <Carousel
                   header={
-                    <p className="text-sm font-bold text-text-primary md:text-base">
-                      {t("spectrumMatchModalLibrary", {
-                        candidate: withParticle(match.nickname, "subject"),
-                      })}
-                    </p>
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                      <p className="text-center text-sm font-bold text-text-primary md:text-base">
+                        {t("spectrumMatchModalLibrary", {
+                          candidate: withParticle(match.nickname, "subject"),
+                        })}
+                      </p>
+                    </div>
                   }
-                  headerClassName="border-b border-white/[0.07] bg-white/[0.02] px-4 py-2"
+                  headerClassName="relative min-h-6 border-b border-white/[0.07] bg-white/[0.02] px-4 py-2"
                   className="pb-3 md:pb-4"
                   trackClassName="px-3 pt-3 md:px-4"
                   labels={{
