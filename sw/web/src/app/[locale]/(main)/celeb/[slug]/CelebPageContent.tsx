@@ -20,6 +20,7 @@ import type { GuestbookEntryWithAuthor } from "@/types/database";
 import styles from "./CelebPageContent.module.css";
 import CelebHeroSection from "./detail/CelebHeroSection";
 import CelebRecordSections from "./detail/CelebRecordSections";
+import { useCelebServiceModel } from "./detail/useCelebServiceModel";
 
 interface CelebPageContentProps {
   profile: CelebBySlugProfile;
@@ -68,6 +69,18 @@ export default function CelebPageContent({
 
   // 인물 화면이 한 장에서 끝나는 원인을 판별하기 위한 구획 열람 집계다.
   const contentRef = useRef<HTMLDivElement>(null);
+  const serviceModel = useCelebServiceModel({
+    profile,
+    locale,
+    contemporaries,
+    timelineEvents,
+    factionTags,
+    influenceData,
+    spectrumData,
+    dialogueLines,
+    fictionSources,
+    initialContents,
+  });
   useSectionViewTracking(contentRef);
 
   useEffect(() => {
@@ -119,6 +132,7 @@ export default function CelebPageContent({
         locale={locale}
         worldId={worldId}
         worldBannerImages={worldBannerImages}
+        serviceItems={serviceModel.items}
       />
 
       <CelebRecordSections
@@ -137,6 +151,7 @@ export default function CelebPageContent({
         factionTags={factionTags}
         initialContents={initialContents}
         fictionSources={fictionSources}
+        serviceModel={serviceModel}
       />
 
       {children}
