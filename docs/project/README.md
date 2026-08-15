@@ -15,6 +15,8 @@ Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운�
 | [`operations/`](operations/README.md) | SEO, 수익화, 유입 감사, SNS 확장 |
 | [`production/`](production/README.md) | 글쓰기와 이미지 생성·발주 공통 규칙 |
 
+AI 에이전트가 이 저장소에서 일하는 방식은 [`agent-rules.md`](agent-rules.md)가 쥔다. 루트 [`AGENTS.md`](../../AGENTS.md)는 그중 사고로 직결되는 불변사항만 압축해 둔다.
+
 ## 문서 판정
 
 - 이 디렉터리는 현역 문서만 둔다. 완료 보고서와 폐기 문서는 규칙을 담당 SSoT로 옮긴 뒤 지운다.
