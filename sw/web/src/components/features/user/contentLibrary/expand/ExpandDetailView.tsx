@@ -101,6 +101,7 @@ export default function ExpandDetailView({
       <ExpandIndexRail
         itemIds={items.map((item) => item.id)}
         titles={titles}
+        contentTypes={items.map((item) => item.content.type)}
         selectedIndex={selectedIndex}
         isOpen={isIndexOpen}
         indexId={indexId}

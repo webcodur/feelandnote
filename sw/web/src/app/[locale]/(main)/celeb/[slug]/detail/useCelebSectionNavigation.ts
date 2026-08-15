@@ -18,8 +18,9 @@ export function navigateToCelebSection(target: ServiceTarget) {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    /* "auto"는 html의 scroll-behavior: smooth를 따라가므로 움직임 최소화가 먹지 않는다 */
     section.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
+      behavior: reduceMotion ? "instant" : "smooth",
       block: "start",
     });
     section.focus({ preventScroll: true });

@@ -59,7 +59,8 @@ function RankActionButton({
       aria-label={ariaLabel}
       disabled={disabled}
       onClick={onClick}
-      className="absolute left-2 top-2 z-20 min-h-6 cursor-pointer rounded-sm border border-accent/25 bg-black/75 px-2 py-1 text-[10px] font-bold leading-none text-accent shadow-sm hover:border-accent hover:bg-accent hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-60"
+      /* 얼굴 위에 얹지 않는다 — 아바타 위쪽 제 줄에 세워 인물을 가리지 않게 한다 */
+      className="mx-auto mt-1.5 min-h-5 w-fit shrink-0 cursor-pointer rounded-sm border border-accent/25 bg-white/[0.04] px-1.5 py-0.5 text-[10px] font-bold leading-none text-accent hover:border-accent hover:bg-accent hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:pointer-events-none disabled:opacity-60"
     >
       {label}
     </button>
@@ -210,34 +211,8 @@ export default function InfluenceExplorer({ data }: Props) {
                   <li
                     key={person.id}
                     ref={isCurrent ? currentRankRef : undefined}
-                    className="relative min-w-0"
+                    className="flex h-full min-w-0 flex-col"
                   >
-                    <CelebPersonPreviewButton
-                      name={person.nickname}
-                      avatarUrl={person.avatar_url}
-                      size="large"
-                      fullWidth
-                      loading={isLoading}
-                      disabled={Boolean(loadingId)}
-                      ariaCurrent={isCurrent ? "true" : undefined}
-                      onClick={() =>
-                        void openPerson(person, {
-                          kind: "ranking",
-                          people: data.neighbors,
-                          index,
-                        })
-                      }
-                      className={cn(
-                        "h-full gap-2 rounded-sm border-white/[0.07] bg-white/[0.018] px-1.5 py-3 hover:border-accent/45 hover:bg-accent/[0.055] md:px-2 md:py-3.5",
-                        isCurrent
-                          ? "!border-accent/55 !bg-accent/[0.08]"
-                          : loadingId && !isLoading
-                            ? "opacity-55"
-                            : "",
-                      )}
-                    >
-                      {cardMetrics(person)}
-                    </CelebPersonPreviewButton>
                     <RankActionButton
                       label={t("explorer.rankNumber", {
                         ranking: person.ranking,
@@ -256,6 +231,32 @@ export default function InfluenceExplorer({ data }: Props) {
                         })
                       }
                     />
+                    <CelebPersonPreviewButton
+                      name={person.nickname}
+                      avatarUrl={person.avatar_url}
+                      size="large"
+                      fullWidth
+                      loading={isLoading}
+                      disabled={Boolean(loadingId)}
+                      ariaCurrent={isCurrent ? "true" : undefined}
+                      onClick={() =>
+                        void openPerson(person, {
+                          kind: "ranking",
+                          people: data.neighbors,
+                          index,
+                        })
+                      }
+                      className={cn(
+                        "flex-1 gap-2 rounded-sm border-white/[0.07] bg-white/[0.018] px-1.5 py-3 hover:border-accent/45 hover:bg-accent/[0.055] md:px-2 md:py-3.5",
+                        isCurrent
+                          ? "!border-accent/55 !bg-accent/[0.08]"
+                          : loadingId && !isLoading
+                            ? "opacity-55"
+                            : "",
+                      )}
+                    >
+                      {cardMetrics(person)}
+                    </CelebPersonPreviewButton>
                   </li>
                 );
               })}
@@ -325,35 +326,7 @@ export default function InfluenceExplorer({ data }: Props) {
               const isCurrent = person.id === data.current.id;
               const isLoading = loadingId === person.id;
               return (
-                <div key={person.id} className="relative h-full min-w-0">
-                  <CelebPersonPreviewButton
-                    name={person.nickname}
-                    avatarUrl={person.avatar_url}
-                    size="featured"
-                    fullWidth
-                    loading={isLoading}
-                    disabled={Boolean(loadingId)}
-                    ariaCurrent={isCurrent ? "true" : undefined}
-                    onClick={() =>
-                      void openPerson(person, {
-                        kind: "field",
-                        people: activeLeaders,
-                        index,
-                        field: activeField,
-                      })
-                    }
-                    className={cn(
-                      "h-full gap-1.5 rounded-none border-white/[0.07] bg-white/[0.018] px-2 py-2.5 hover:border-accent/45 hover:bg-accent/[0.055]",
-                      index > 0 && "border-s border-white/[0.07]",
-                      isCurrent
-                        ? "!bg-accent/[0.07]"
-                        : loadingId && !isLoading
-                          ? "opacity-55"
-                          : "",
-                    )}
-                  >
-                    {cardMetrics(person, activeField)}
-                  </CelebPersonPreviewButton>
+                <div key={person.id} className="flex h-full min-w-0 flex-col">
                   <RankActionButton
                     label={t("explorer.rankNumber", {
                       ranking: person.fieldRank,
@@ -372,6 +345,33 @@ export default function InfluenceExplorer({ data }: Props) {
                       })
                     }
                   />
+                  <CelebPersonPreviewButton
+                    name={person.nickname}
+                    avatarUrl={person.avatar_url}
+                    size="featured"
+                    fullWidth
+                    loading={isLoading}
+                    disabled={Boolean(loadingId)}
+                    ariaCurrent={isCurrent ? "true" : undefined}
+                    onClick={() =>
+                      void openPerson(person, {
+                        kind: "field",
+                        people: activeLeaders,
+                        index,
+                        field: activeField,
+                      })
+                    }
+                    className={cn(
+                      "flex-1 gap-1.5 rounded-none border-white/[0.07] bg-white/[0.018] px-2 py-2.5 hover:border-accent/45 hover:bg-accent/[0.055]",
+                      isCurrent
+                        ? "!bg-accent/[0.07]"
+                        : loadingId && !isLoading
+                          ? "opacity-55"
+                          : "",
+                    )}
+                  >
+                    {cardMetrics(person, activeField)}
+                  </CelebPersonPreviewButton>
                 </div>
               );
             })}

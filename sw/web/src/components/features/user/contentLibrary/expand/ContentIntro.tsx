@@ -10,10 +10,20 @@ import { useTranslations } from "next-intl";
 
 import FormattedText from "@/components/ui/FormattedText";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import type { CategoryId } from "@/constants/categories";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 import { useWheelBoundaryPassThrough } from "./useWheelBoundaryPassThrough";
+
+// 매체마다 제목을 달리 붙인다 — 영화를 "작품 소개"라 부르면 무엇의 소개인지 흐려진다
+const INTRO_HEADING_KEY: Record<CategoryId, string> = {
+  all: "expandContentIntro",
+  book: "expandBookIntro",
+  video: "expandVideoIntro",
+  game: "expandGameIntro",
+  music: "expandMusicIntro",
+};
 
 interface ContentIntroProps {
   brief: ContentBrief | null;
@@ -44,7 +54,7 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
         id={headingId}
         className={`${EXPAND_SECTION_HEADING_CLASS} mb-4`}
       >
-        {brief?.category === "book" ? t("expandBookIntro") : t("expandContentIntro")}
+        {t(INTRO_HEADING_KEY[brief?.category ?? "all"])}
       </h4>
 
       {/* 영상 홍보 문구는 소개 위에 한 줄로 얹는다 */}

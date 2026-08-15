@@ -2,7 +2,9 @@
 
 import type { MutableRefObject, RefObject } from "react";
 import { Menu } from "lucide-react";
+import { useTranslations } from "next-intl";
 
+import { getCategoryByDbType } from "@/constants/categories";
 import { cn } from "@/lib/utils";
 
 import styles from "./ExpandDetailView.module.css";
@@ -10,6 +12,8 @@ import styles from "./ExpandDetailView.module.css";
 interface ExpandIndexRailProps {
   itemIds: string[];
   titles: string[];
+  /** 제목만으로는 책인지 영상인지 알 수 없어 매체 아이콘을 함께 세운다 */
+  contentTypes: string[];
   selectedIndex: number;
   isOpen: boolean;
   indexId: string;
@@ -28,6 +32,7 @@ interface ExpandIndexRailProps {
 export default function ExpandIndexRail({
   itemIds,
   titles,
+  contentTypes,
   selectedIndex,
   isOpen,
   indexId,
@@ -37,6 +42,8 @@ export default function ExpandIndexRail({
   onToggle,
   onSelect,
 }: ExpandIndexRailProps) {
+  const t = useTranslations("content");
+
   return (
     <aside className="relative col-start-1 row-span-2 row-start-1 min-w-0 md:col-start-2">
       <div
@@ -80,6 +87,9 @@ export default function ExpandIndexRail({
           >
             {titles.map((title, index) => {
               const isSelected = index === selectedIndex;
+              const category = getCategoryByDbType(contentTypes[index]);
+              const MediaIcon = category?.lucideIcon;
+              const mediaLabel = category ? t(`category.${category.id}`) : "";
               return (
                 <button
                   key={itemIds[index]}
@@ -89,21 +99,34 @@ export default function ExpandIndexRail({
                   }}
                   onClick={() => onSelect(index)}
                   aria-current={isSelected ? "true" : undefined}
-                  aria-label={`${index + 1}. ${title}`}
-                  title={title}
+                  aria-label={`${index + 1}. ${title}${mediaLabel ? ` (${mediaLabel})` : ""}`}
+                  title={mediaLabel ? `${title} (${mediaLabel})` : title}
                   className={cn(
                     "grid min-h-11 w-full grid-cols-[32px_minmax(0,1fr)] items-center border-b border-white/[0.08] px-0 text-sm last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 md:grid-cols-[48px_minmax(0,1fr)]",
                     isSelected ? "bg-accent/[0.09] text-accent" : "text-text-secondary",
                   )}
                 >
                   <span
-                    className={cn(
-                      "w-full shrink-0 text-center font-mono text-xs font-semibold tabular-nums",
-                      isSelected ? "text-accent" : "text-text-tertiary",
-                    )}
+                    className="flex w-full shrink-0 flex-col items-center justify-center gap-0.5 py-1"
                     aria-hidden
                   >
-                    {index + 1}
+                    <span
+                      className={cn(
+                        "font-mono text-xs font-semibold tabular-nums",
+                        isSelected ? "text-accent" : "text-text-tertiary",
+                      )}
+                    >
+                      {index + 1}
+                    </span>
+                    {MediaIcon && (
+                      <MediaIcon
+                        className={cn(
+                          "h-3.5 w-3.5",
+                          isSelected ? "text-accent" : "text-text-secondary",
+                        )}
+                        strokeWidth={1.8}
+                      />
+                    )}
                   </span>
                   <span
                     aria-hidden={!isOpen}
