@@ -76,9 +76,10 @@ export default async function CelebDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <CelebExplanationSection explanation={explanation} />
-
       <LangModeProvider>
+        {/* 읽어보기 — 인물 안내·인물 탐구 편집대 */}
+        <CelebExplanationSection celebId={celeb.id} slug={celeb.slug} explanation={explanation} />
+
         {/* CelebForm 내부: 기본정보 / 영향력 / 감상철학 / 태그 아코디언 */}
         <CelebForm mode="edit" celeb={celeb} />
 

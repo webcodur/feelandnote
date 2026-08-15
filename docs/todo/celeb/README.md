@@ -11,5 +11,6 @@
 | [`celeb-profile-headline.md`](celeb-profile-headline.md) | LIGHT·FICTION 인물의 한 줄 정의 필드 설계·한영 작성·적용 | 컬럼 미구현 |
 | [`celeb-buzz-research-2026-08-09.md`](celeb-buzz-research-2026-08-09.md) | 표본 실측 완료. 언어판 가중 결정 후 구현 여부 판단 | 설계 초안 |
 | [`voice-generation-wave2.md`](voice-generation-wave2.md) | 보이스 생성·업로드·서비스 확인 | 대상 9명(문서 8번 결번) |
+| [`dmx777-blog-book-backfill-2026-08-15.md`](dmx777-blog-book-backfill-2026-08-15.md) | 이재용 도서 2건 반영 → 유저 블로그 순회로 미등록 인물 등록·감상배경 | 이재용 확보 완료, 블로그 명단 미집계 |
 
 > 규모는 매번 명령으로 다시 산출한다. 위 수치는 그날의 스냅샷이다.

@@ -42,6 +42,15 @@ PASS 판정 자체를 신뢰할 수 없다고 결론냈다. 나머지 1,136명�
 
 1·3번은 기계 검사가 무력하다. 재작성 지침에 판정법을 넣어 두는 것 외에 방법이 없다.
 
+## 판정 기준 (2026-08-15 변경)
+
+**"고칠 것 없음"은 선택지에서 뺐다.** 판정은 B(문장 교정) 아니면 A(조사 재작성) 둘 중 하나다.
+
+재개 첫 회차에서 48명 중 16명이 그대로 통과했다. 히포크라테스 사례로 이미 폐기하기로 한
+판정이 지침에 남아 있어서다. 16명은 되돌려 다시 대상에 넣었고 지침에서 그 선택지를 없앴다.
+되돌리기는 `scripts/revert-untouched-readings.ts`가 한다 — 백업본과 인물탐구가 한 글자도
+다르지 않은데 검수 표시만 찍힌 행을 찾아 표시를 지우고 원장에서 뺀다.
+
 ## 실행 체계 (sw/web-bo에서)
 
 | 구성 | 경로 |
@@ -50,6 +59,8 @@ PASS 판정 자체를 신뢰할 수 없다고 결론냈다. 나머지 1,136명�
 | 묶음 생성기 | `scripts/make-celeb-reading-bundles.ts --out=<폴더> --count=N --size=8` |
 | DB 반영 관문 | `scripts/apply-celeb-reading-relay.ts --file=<결과.json>` |
 | 단건 회수기 | `scripts/recover-celeb-reading-singles.ts --dir=<결과폴더>` |
+| 스냅샷 재생성 | `scripts/refresh-celeb-reading-snapshot.ts` — 회차 발주 전 필수 |
+| 무수정 통과분 되돌리기 | `scripts/revert-untouched-readings.ts [--dry]` |
 | 전량 스냅샷·백업 | `data/celeb/reading-relay/all-readings.json`, `backup-20260814.json` |
 | 진행 원장 | `data/celeb/reading-relay/ledger.json` |
 | 재작업 큐 | `data/celeb/reading-relay/redo-queue.json` (1,658명) |
@@ -69,6 +80,8 @@ PASS 판정 자체를 신뢰할 수 없다고 결론냈다. 나머지 1,136명�
 - `review_status` 초기화 같은 일괄 갱신을 하면 `updated_at`이 바뀌어 **기존 스냅샷이 전부
   충돌한다.** 초기화 후에는 `all-readings.json`을 반드시 다시 뽑는다
 - 스냅샷이 낡아 튕긴 원고는 버리지 말고 단건 회수기로 살린다
+- 보류 판정은 원장에 직접 적어야 남는다. 반영 관문을 타지 않으므로 기록하지 않으면
+  다음 회차에 같은 인물이 계속 다시 뽑힌다
 
 ## 보류 항목
 
