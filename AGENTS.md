@@ -84,6 +84,15 @@ Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 �
 - DB에 콘텐츠가 확정되면 `sw/remotion/public/episodes/<셀럽>/books/`에 폴더와 `book.ko.json` 초안을 스캐폴딩한다.
 - Remotion 원고의 신규 일화·인용을 DB에 백필할 때는 웹에서 독립적으로 팩트체크한다. 대본이나 3자 큐레이션 해석만으로 DB를 갱신하지 않는다.
 
+### 파일·git 안전
+
+- `git stash`를 쓰지 않는다. 미커밋 변경이 수백 파일 쌓여 있어 pop 한 번 실패하면 작업물이 사라진다. 비교는 `git diff`·`git show HEAD:<파일>`로 한다.
+- 커밋은 항상 `git commit -m "..." -- <경로>`로 범위를 지정한다. 커밋과 push는 사용자가 지시할 때만 실행한다.
+- 이미지·음성 등 추적 밖 자산은 삭제·덮어쓰기 전에 `git ls-tree HEAD -- <경로>`로 추적 여부를 확인하고 원본을 `_backup`에 복사한다.
+- 한글이 든 JSON은 Edit 도구로 고치지 않는다. Node·Python으로 읽기→파싱→쓰기 경로를 쓴다.
+- 사용자가 쓴 원고와 편집 중인 파일은 위임받지 않는 한 고치지 않는다. 제안은 텍스트로 먼저 보여준다.
+- 유료 API를 쓰는 이미지·음성 생성, 서비스 노출·업로드·발행은 사용자의 명시적 지시 뒤에만 실행한다.
+
 ### 데이터·외부 서비스
 
 - 실행 규약·허용값·임계값은 코드 상수 하나를 SSoT로 두고 화면·서버 액션·스크립트가 import해 사용한다. 문서는 값을 복제하지 않는다.
@@ -93,6 +102,7 @@ Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 �
 
 ## 문서·스킬 라우팅
 
+- 에이전트 운용 원칙: `docs/project/agent-rules.md` (착수 전 조사, 위임, 사실성, 지시 해석, 보고 방식, 도구)
 - 전체 문서 지도: `docs/README.md`
 - 현역 프로젝트 문서: `docs/project/README.md`
 - 게임 문서: `docs/games/README.md`
