@@ -5,6 +5,7 @@ import {
   isAllowedCacheTag,
   normalizeLegacyCacheTag,
 } from '@feelandnote/shared/constants/cache-tags'
+import { purgeCloudflareByTags } from '@/lib/cloudflarePurge'
 
 /**
  * 캐시 무효화 API — web-bo 등 외부에서 호출
@@ -55,5 +56,9 @@ export async function POST(request: NextRequest) {
     revalidateTag(t, { expire: 0 })
   }
 
-  return NextResponse.json({ revalidated: true, tags })
+  // Cloudflare 앞단이 있으면 그 항목의 공개 URL 사본도 함께 지운다.
+  // 여기서 빠지면 Vercel은 새로 만들어도 Cloudflare가 보관 기간 내내 옛 화면을 준다.
+  const cloudflare = await purgeCloudflareByTags(tags as string[])
+
+  return NextResponse.json({ revalidated: true, tags, cloudflare })
 }
