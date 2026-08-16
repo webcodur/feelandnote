@@ -11,6 +11,13 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
 - **플랜**: Free (Egress 5.5GB/월, 쿼터 리필 주기: 매월 5일경)
 
+### 공개 조회 문장 제한·인덱스 (2026-08-16)
+
+- **증상**: 탐색·서가·홈·성향 화면의 조회가 콜드에서 `canceling statement due to statement timeout`(57014)으로 실패해 구획이 통째로 빠졌다(Vercel 로그 24h 40건+).
+- **원인(실측)**: anon 역할 `statement_timeout`이 **3초**였고, 하나씩은 0.2~2.2초로 통과하지만 캐시가 한 시각에 같이 식어 조회 15종이 동시에 몰리면 서로 밀려 3초를 넘겼다(3벌 동시 실행으로 재현). DB 유휴 후 첫 조회는 5~11배 느리다(Free 플랜).
+- **조치**: ① `alter role anon set statement_timeout='15s'` ② `celeb_contents`(감상문 정렬·필터)·`celeb_influence`(순위)·`content_locales`(제휴)·`celebs`(생년) 부분 인덱스 5개 — `sw/web/supabase/migrations/20260816040000_*.sql` ③ 코드: 기질별 서재 조회를 짝(celeb_id, content_id)만 받고 뽑힌 작품에만 메타를 붙이게(5.4MB·13.5초 → 1.4MB·5.7초 + 0.3MB), 성향 분포·닮은 인물이 같은 명단 캐시(`celeb_metrics`) 공유, `cachedList/cachedDetail` 만료 시각을 키별 ±10%로 어긋나게(`spreadRevalidate`).
+- **남은 것**: `get_celebs_sorted`(전 컬럼 2,406행 실체화)·`get_chosen_scriptures`(전량 집계 후 LIMIT 12)·`get_celeb_feed_type_counts` RPC 재작성 — 반환 형태를 건드려 별도 작업.
+
 ### Egress 초과 사고 (2026-03-18)
 
 **원인**: SSR 페이지에 캐싱 없이 Supabase API를 과다 호출. 크롤러(Googlebot 등)가 페이지 방문 시마다 전량 재조회.

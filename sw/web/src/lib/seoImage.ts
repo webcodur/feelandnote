@@ -89,7 +89,7 @@ async function createFallbackImage(variant: SeoImageVariant): Promise<Buffer> {
     </svg>
   `)
 
-  return sharp(svg).png({ compressionLevel: 9, adaptiveFiltering: true }).toBuffer()
+  return sharp(svg).flatten({ background: '#14110d' }).jpeg({ quality: 82, mozjpeg: true }).toBuffer()
 }
 
 async function composeSquareImage(source: Buffer, variant: SeoImageVariant): Promise<Buffer> {
@@ -142,7 +142,8 @@ async function composeSquareImage(source: Buffer, variant: SeoImageVariant): Pro
       { input: shadow, left: Math.min(left + 10, SEO_IMAGE_SIZE - displayed.info.width), top: Math.min(top + 14, SEO_IMAGE_SIZE - displayed.info.height) },
       { input: displayed.data, left, top },
     ])
-    .png({ compressionLevel: 9, adaptiveFiltering: true })
+    .flatten({ background: '#14110d' })
+    .jpeg({ quality: 82, mozjpeg: true, chromaSubsampling: '4:4:4' })
     .toBuffer()
 }
 
@@ -171,9 +172,11 @@ export async function createSquareSeoImage(
 export function createSeoImageResponse(image: Buffer): Response {
   return new Response(new Uint8Array(image), {
     headers: {
-      'Content-Type': 'image/png',
+      'Content-Type': 'image/jpeg',
       'Content-Length': String(image.byteLength),
-      'Cache-Control': 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=2592000',
+      // 사진 계열은 PNG가 5~7배 크다(인물 668KB→JPEG ≈100KB). 크롤러가 ID마다 처음 여는 요청이 하루 2,700건이라
+      // 이 바이트가 그대로 Fast Origin Transfer가 된다. CDN 보관도 30일로 늘린다(아바타 교체 시 태그로 무효화된다).
+      'Cache-Control': 'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=2592000',
     },
   })
 }

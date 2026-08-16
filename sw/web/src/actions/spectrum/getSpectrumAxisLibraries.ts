@@ -2,9 +2,9 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE, withQueryFallback } from '@/lib/cache'
+import { STATIC_REVALIDATE, spreadRevalidate, withQueryFallback } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
-import { selectAllPages } from '@feelandnote/shared/lib/paginate'
+import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
 import {
   ABILITY_KEYS,
   INNER_VIRTUE_KEYS,
@@ -78,10 +78,12 @@ type PersonScoreRow = PersonRow & Partial<Record<AxisKey, number | null>>
 interface LibraryRow {
   celeb_id: string
   content_id: string
-  content:
-    | { type: string | null; content_locales: { locale: string; title: string | null; thumbnail_url: string | null }[] | null }
-    | { type: string | null; content_locales: { locale: string; title: string | null; thumbnail_url: string | null }[] | null }[]
-    | null
+}
+
+interface WorkMetaRow {
+  id: string
+  type: string | null
+  content_locales: { locale: string; title: string | null; thumbnail_url: string | null }[] | null
 }
 
 interface Person {
@@ -135,21 +137,19 @@ interface WorkMeta {
   thumbnail_en: string | null
 }
 
-async function fetchLibraries(): Promise<{
-  byCeleb: Map<string, string[]>
-  workMeta: Map<string, WorkMeta>
-}> {
+/**
+ * 누가 무엇을 감상했는지 — 인물·작품 짝만 받는다.
+ *
+ * 제목·표지는 여기서 붙이지 않는다. 화면에 남는 건 축·방향마다 여섯 편, 다 합쳐 192편뿐인데
+ * 짝마다 작품과 언어별 제목을 함께 받으면 12,666행에 5.4MB·13.5초가 든다(실측 26.08.15).
+ * 식별자만 받으면 같은 행 수에 1.4MB·5.7초다. 제목은 뽑히고 나서 한 번에 붙인다.
+ */
+async function fetchLibraryPairs(): Promise<Map<string, string[]>> {
   const supabase = createStaticClient()
   const rows = await selectAllPages<LibraryRow>((from, to) =>
     supabase
       .from('celeb_contents')
-      .select(`
-        celeb_id, content_id,
-        content:contents!celeb_contents_content_id_fkey (
-          type,
-          content_locales (locale, title, thumbnail_url)
-        )
-      `)
+      .select('celeb_id, content_id')
       .not('review', 'is', null)
       .neq('review', '')
       .eq('visibility', 'public')
@@ -161,46 +161,60 @@ async function fetchLibraries(): Promise<{
   )
 
   const byCeleb = new Map<string, string[]>()
-  const workMeta = new Map<string, WorkMeta>()
-
   for (const row of rows) {
-    const content = pickOne(row.content)
-    if (!content) continue
-
-    if (!workMeta.has(row.content_id)) {
-      const locales = content.content_locales ?? []
-      const ko = locales.find((entry) => entry.locale === 'ko')
-      const en = locales.find((entry) => entry.locale === 'en')
-      const title = ko?.title ?? en?.title
-      if (!title) continue
-      workMeta.set(row.content_id, {
-        type: content.type ?? 'BOOK',
-        title,
-        title_en: en?.title ?? null,
-        thumbnail_url: ko?.thumbnail_url ?? en?.thumbnail_url ?? null,
-        thumbnail_en: en?.thumbnail_url ?? null,
-      })
-    }
-
     const list = byCeleb.get(row.celeb_id) ?? []
     list.push(row.content_id)
     byCeleb.set(row.celeb_id, list)
   }
-
-  return { byCeleb, workMeta }
+  return byCeleb
 }
 
-/** 극단 집단이 공통으로 감상한 작품을 집계한다. group은 축 극단 순으로 정렬돼 들어온다 */
+/** 뽑힌 작품의 제목·표지만 한 번에 받는다. 제목이 없는 작품은 자리를 얻지 못한다 */
+async function fetchWorkMeta(contentIds: string[]): Promise<Map<string, WorkMeta | null>> {
+  const resolved = new Map<string, WorkMeta | null>()
+  if (contentIds.length === 0) return resolved
+
+  const supabase = createStaticClient()
+  const rows = await selectInChunks<WorkMetaRow>(contentIds, (chunk) =>
+    supabase
+      .from('contents')
+      .select('id, type, content_locales (locale, title, thumbnail_url)')
+      .in('id', chunk) as unknown as PromiseLike<{
+      data: WorkMetaRow[] | null
+      error: { message: string } | null
+    }>
+  )
+
+  for (const id of contentIds) resolved.set(id, null)
+  for (const row of rows) {
+    const locales = row.content_locales ?? []
+    const ko = locales.find((entry) => entry.locale === 'ko')
+    const en = locales.find((entry) => entry.locale === 'en')
+    const title = ko?.title ?? en?.title
+    if (!title) continue
+    resolved.set(row.id, {
+      type: row.type ?? 'BOOK',
+      title,
+      title_en: en?.title ?? null,
+      thumbnail_url: ko?.thumbnail_url ?? en?.thumbnail_url ?? null,
+      thumbnail_en: en?.thumbnail_url ?? null,
+    })
+  }
+  return resolved
+}
+
+/** 작품 하나와 그 작품을 감상한 집단 구성원 — 아직 제목을 붙이기 전 단계 */
+type SharedWorkCount = [contentId: string, readers: AxisLibraryReader[]]
+
+/** 극단 집단이 공통으로 감상한 작품을 많이 겹친 순으로 줄 세운다. group은 축 극단 순으로 정렬돼 들어온다 */
 function collectSharedWorks(
   group: Person[],
   byCeleb: Map<string, string[]>,
-  workMeta: Map<string, WorkMeta>,
-): AxisLibraryWork[] {
+): SharedWorkCount[] {
   const readersByWork = new Map<string, AxisLibraryReader[]>()
 
   for (const person of group) {
     for (const contentId of byCeleb.get(person.reader.id) ?? []) {
-      if (!workMeta.has(contentId)) continue
       const readers = readersByWork.get(contentId) ?? []
       readers.push(person.reader)
       readersByWork.set(contentId, readers)
@@ -210,19 +224,58 @@ function collectSharedWorks(
   return [...readersByWork.entries()]
     .filter(([, readers]) => readers.length >= MIN_SHARED_READERS)
     .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]))
-    .slice(0, TOP_WORKS_LIMIT)
-    .map(([contentId, readers]) => ({
+}
+
+/**
+ * 줄 세운 후보 목록마다 앞에서부터 여섯 편이 채워질 만큼만 제목을 받아 온다.
+ * 제목 없는 작품이 섞여 있으면 그 자리를 다음 후보가 물려받으므로, 다 채울 때까지 되풀이한다.
+ * 실제로는 한 번에 끝난다(836편·0.3MB, 실측 26.08.15 — 제목 없는 작품 0편).
+ */
+async function resolveTopWorkMeta(
+  rankings: SharedWorkCount[][],
+): Promise<Map<string, WorkMeta | null>> {
+  const resolved = new Map<string, WorkMeta | null>()
+
+  for (;;) {
+    const pending = new Set<string>()
+    for (const ranking of rankings) {
+      let filled = 0
+      for (const [contentId] of ranking) {
+        if (filled >= TOP_WORKS_LIMIT) break
+        if (!resolved.has(contentId)) pending.add(contentId)
+        else if (resolved.get(contentId)) filled += 1
+      }
+    }
+    if (pending.size === 0) return resolved
+
+    const fetched = await fetchWorkMeta([...pending])
+    for (const [contentId, meta] of fetched) resolved.set(contentId, meta)
+  }
+}
+
+function toAxisLibraryWorks(
+  ranking: SharedWorkCount[],
+  workMeta: Map<string, WorkMeta | null>,
+): AxisLibraryWork[] {
+  const works: AxisLibraryWork[] = []
+  for (const [contentId, readers] of ranking) {
+    if (works.length >= TOP_WORKS_LIMIT) break
+    const meta = workMeta.get(contentId)
+    if (!meta) continue
+    works.push({
       content_id: contentId,
-      ...workMeta.get(contentId)!,
+      ...meta,
       readerCount: readers.length,
       readers: readers.slice(0, READER_PREVIEW_LIMIT),
-    }))
+    })
+  }
+  return works
 }
 
 async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
-  const [people, { byCeleb, workMeta }] = await Promise.all([
+  const [people, byCeleb] = await Promise.all([
     fetchPeople(),
-    fetchLibraries(),
+    fetchLibraryPairs(),
   ])
 
   // 서재가 있는 인물만 극단 집단 후보다 — 서재 없는 극단 인물이 자리를 차지하면
@@ -232,7 +285,7 @@ async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
   const isTendency = (axis: AxisKey) =>
     (TENDENCY_KEYS as readonly string[]).includes(axis)
 
-  return AXIS_KEYS.map((axis) => {
+  const rankings = AXIS_KEYS.map((axis) => {
     const sortedDesc = [...owners].sort((a, b) => b.stats[axis] - a.stats[axis])
     const sortedAsc = [...sortedDesc].reverse()
 
@@ -248,17 +301,31 @@ async function fetchSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {
 
     return {
       axis,
-      high: collectSharedWorks(highGroup, byCeleb, workMeta),
-      low: collectSharedWorks(lowGroup, byCeleb, workMeta),
+      high: collectSharedWorks(highGroup, byCeleb),
+      low: collectSharedWorks(lowGroup, byCeleb),
     }
   })
+
+  const workMeta = await resolveTopWorkMeta(
+    rankings.flatMap(({ high, low }) => [high, low]),
+  )
+
+  return rankings.map(({ axis, high, low }) => ({
+    axis,
+    high: toAxisLibraryWorks(high, workMeta),
+    low: toAxisLibraryWorks(low, workMeta),
+  }))
 }
 
 const getCachedSpectrumAxisLibraries = unstable_cache(
   fetchSpectrumAxisLibraries,
   ['spectrum-axis-libraries'],
-  // celeb_persona 점수 + celeb_contents 감상 관계 + content_locales 메타
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.SPECTRUM, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
+  // celeb_persona 점수 + celeb_contents 감상 관계 + content_locales 메타.
+  // 만료는 키마다 어긋나게 잡는다 — 성향 화면의 큰 캐시들이 한 시각에 같이 식으면 3초 제한에 걸린다
+  {
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['spectrum-axis-libraries']),
+    tags: [CACHE_TAGS.SPECTRUM, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  }
 )
 
 export async function getSpectrumAxisLibraries(): Promise<SpectrumAxisLibrary[]> {

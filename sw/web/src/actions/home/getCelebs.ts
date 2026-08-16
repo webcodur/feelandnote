@@ -4,7 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { LISTING_DEFAULT_TIERS, type CelebTier } from '@feelandnote/shared/constants/celeb-tiers'
 import { resolveCelebContentCount } from '@feelandnote/shared/constants/celeb-content-research'
-import { STATIC_REVALIDATE, LIST_REVALIDATE, throwOnQueryError } from '@/lib/cache'
+import { STATIC_REVALIDATE, LIST_REVALIDATE, spreadRevalidate, throwOnQueryError } from '@/lib/cache'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
@@ -49,10 +49,12 @@ async function fetchInfluenceRanking(): Promise<InfluenceRanking> {
 }
 
 // getSpectrumDistribution도 이 캐시를 공유한다. export.
+// 만료는 키마다 어긋나게 잡는다 — 탐색 허브가 함께 쓰는 큰 캐시들이 한 시각에 같이 식으면
+// 조회가 몰려 3초 제한에 걸린다
 export const getInfluenceRanking = unstable_cache(
   fetchInfluenceRanking,
   ['influence-ranking'],
-  { revalidate: LIST_REVALIDATE, tags: [CACHE_TAGS.CELEBS] }
+  { revalidate: spreadRevalidate(LIST_REVALIDATE, ['influence-ranking']), tags: [CACHE_TAGS.CELEBS] }
 )
 
 interface GetCelebsParams {
@@ -300,7 +302,7 @@ const getCelebsCached = unstable_cache(
   // celebs·celeb_influence(정렬/랭킹) + faction_atlas_members·celeb_tags + celeb_dialogues +
   // 서고 수 필터·정렬(celeb_contents)까지 한 응답에 담는다
   {
-    revalidate: STATIC_REVALIDATE,
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['celebs-public-v3-confirmed-empty-map']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
   }
 )
@@ -310,7 +312,7 @@ const getCelebsTrendingCached = unstable_cache(
   fetchCelebsPublic,
   ['celebs-public-trending-v1'],
   {
-    revalidate: LIST_REVALIDATE,
+    revalidate: spreadRevalidate(LIST_REVALIDATE, ['celebs-public-trending-v1']),
     tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS, CACHE_TAGS.DIALOGUES, CACHE_TAGS.TAGS],
   }
 )
