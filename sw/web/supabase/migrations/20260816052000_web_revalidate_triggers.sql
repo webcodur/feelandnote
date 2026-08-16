@@ -18,3 +18,7 @@
 --
 -- 새 표를 웹이 읽게 되면: select public.web_revalidate_attach('public.<표>', $$array['<도메인>:'||r.<식별자>]$$, '<휘발 컬럼>', 'n.<pk> = o.<pk>');
 -- (함수 본문은 운영 DB의 public.web_revalidate_send / web_revalidate_trigger / web_revalidate_attach 참조)
+
+-- 추가(같은 날): 인물 목록 구성이 바뀌는 변경(등록·삭제·공개 상태·등급·이름·slug·직군·국적·생몰·아바타)은
+-- 도메인 태그 'celebs'까지 비운다 — public.web_revalidate_celebs_list() + web_reval_list_{ins,upd,del}.
+-- 명부·연표(ISR 7일)와 탐색 목록 캐시가 이 태그로 갱신된다.

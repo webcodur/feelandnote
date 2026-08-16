@@ -4,14 +4,23 @@
   책임: 모든 셀럽을 초성/알파벳순으로 나열하여 크롤러가 한 번에 전체 URL을 발견하도록 한다.
 */ // ------------------------------
 
-import { getTranslations, getLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getCelebDirectory, type CelebDirectoryRow } from "@/actions/celebs/getCelebDirectory";
 import { getLocalizedAlternates } from "@/lib/seo";
 import { PROFESSION_ICONS, PROFESSION_COLORS } from "@/constants/professionIcons";
 import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 
-export async function generateMetadata() {
+// 정적(ISR). 명부는 2,400명 전부를 싣는 큰 화면(HTML 수 MB)이라 방문마다 서버가 만들면 그 바이트가 그대로
+// 원본 전송량이 된다. 한 번 만들어 CDN에 두고, 인물 등록·삭제·공개 상태 변경 때 DB 트리거가 'celebs' 태그를 비운다.
+export const revalidate = 604800;
+
+interface PageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("explore.directory");
   return {
     title: t("metaTitle"),
@@ -19,6 +28,9 @@ export async function generateMetadata() {
     alternates: await getLocalizedAlternates("/explore/directory"),
   };
 }
+
+/** 목록 항목 한 줄. 항목이 2,400개라 클래스 문자열도 한 번만 적는다 */
+const ITEM_CLASS = "group flex items-center gap-1.5 py-1 text-sm text-text-primary hover:text-accent";
 
 /** 한글 초성 추출 */
 function getChosung(char: string): string {
@@ -34,9 +46,13 @@ function getChosung(char: string): string {
   return "#";
 }
 
-export default async function DirectoryPage() {
-  const locale = await getLocale();
+export default async function DirectoryPage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("explore.directory");
+  // 2,400개 항목마다 클라이언트 Link를 세우면 항목당 데이터가 RSC 페이로드에 한 번 더 실리고 미리가져오기까지 돈다.
+  // 명부는 색인용 목록이라 순수 링크(<a>)로 그린다
+  const localePrefix = locale === "en" ? "/en" : "";
 
   const celebs = await getCelebDirectory();
 
@@ -97,6 +113,19 @@ export default async function DirectoryPage() {
         ))}
       </nav>
 
+      {/* 직군 아이콘 원본 — 항목 2,400개가 각자 SVG를 품으면 그것만 수 MB다. 한 번만 그리고 <use>로 참조한다 */}
+      <svg aria-hidden className="hidden">
+        {CELEB_PROFESSIONS.map((prof) => {
+          const Icon = PROFESSION_ICONS[prof.value];
+          if (!Icon) return null;
+          return (
+            <symbol key={prof.value} id={`prof-${prof.value}`} viewBox="0 0 24 24">
+              <Icon size={24} />
+            </symbol>
+          );
+        })}
+      </svg>
+
       {/* 인물 목록 */}
       <div className="space-y-10">
         {sortedKeys.map((key) => {
@@ -112,20 +141,17 @@ export default async function DirectoryPage() {
                     locale === "en" && celeb.nickname_en
                       ? celeb.nickname_en
                       : celeb.nickname;
-                  const ProfIcon = celeb.profession ? PROFESSION_ICONS[celeb.profession] : null;
+                  const hasIcon = !!(celeb.profession && PROFESSION_ICONS[celeb.profession]);
                   return (
                     <li key={celeb.slug}>
-                      <Link
-                        href={`/celeb/${celeb.slug}`}
-                        className="group flex items-center gap-1.5 py-1 hover:text-accent transition-colors"
-                      >
-                        {ProfIcon && (
-                          <ProfIcon size={13} className={`${PROFESSION_COLORS[celeb.profession!] ?? ""} shrink-0`} />
+                      <a href={`${localePrefix}/celeb/${celeb.slug}`} className={ITEM_CLASS}>
+                        {hasIcon && (
+                          <svg width={13} height={13} className={`${PROFESSION_COLORS[celeb.profession!] ?? ""} shrink-0`}>
+                            <use href={`#prof-${celeb.profession}`} />
+                          </svg>
                         )}
-                        <span className="text-sm text-text-primary group-hover:text-accent transition-colors">
-                          {displayName}
-                        </span>
-                      </Link>
+                        <span>{displayName}</span>
+                      </a>
                     </li>
                   );
                 })}
