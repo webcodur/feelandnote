@@ -11,6 +11,14 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
 - **플랜**: Free (Egress 5.5GB/월, 쿼터 리필 주기: 매월 5일경)
 
+### Cloudflare 앞단 캐시 (2026-08-16 가동)
+
+- 요청 경로: 브라우저·로봇 → **Cloudflare**(캐시·방화벽) → Vercel(캐시·함수) → Supabase. Vercel은 그대로 빌드·배포·실행. 설정 내역·검증·되돌리기는 `docs/todo/web-deployment-platform-research.md`「26.08.16 실행 결과」.
+- 캐시 대상: 인물·작품 상세, 명부·연표, SEO 이미지(30일). 로그인 쿠키 요청은 우회. 홈·탐색·회원·광장·API·auth는 캐시 안 함.
+- 데이터 변경: DB 트리거 → `/api/revalidate` → Vercel 태그 무효화 + Cloudflare URL 퍼지(`lib/cloudflarePurge.ts`). 코드 배포: Cloudflare 사본은 그대로 — 상세 화면 모양이 바뀐 배포만 `cloudflare-purge.yml`이 전체 퍼지(GitHub Secrets 필요).
+- 봇 차단은 Cloudflare 방화벽이 1차(UA 22종), 미들웨어 403·Vercel 방화벽은 2차. Cloudflare 뒤에서는 Vercel 쪽에 방문자 IP·통신사가 Cloudflare로 보이므로 IP·ASN 규칙은 Cloudflare에서 건다.
+- 확인 명령: `curl -sI https://feelandnote.com/celeb/<slug> | grep cf-cache-status` (HIT/MISS/DYNAMIC).
+
 ### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
 
 - **원칙**: 무효화를 앱 코드나 스크립트가 부르는 것을 전제하지 않는다. 데이터의 90%가 LLM 세션·스크립트·SQL로 들어오므로, **행이 바뀌면 DB가 스스로 `feelandnote.com/api/revalidate`에 태그를 보낸다**(pg_net, 문장 단위 트리거 + 전이 표 → 한 문장에 HTTP 한 번). 표→태그 대응은 `sw/web/supabase/migrations/20260816052000_web_revalidate_triggers.sql`.
