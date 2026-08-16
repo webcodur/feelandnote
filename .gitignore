@@ -200,3 +200,6 @@ tmp/
 # 조사·적재 작업 중 만드는 임시 산출물. 쓰고 나면 지운다
 _tmp-*
 **/_tmp-*
+
+# 릴레이 스냅샷은 스크립트로 다시 뽑는다. 회차마다 7MB씩 쌓이므로 추적하지 않는다
+data/celeb/reading-relay/all-readings.json
