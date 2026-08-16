@@ -1,0 +1,20 @@
+-- 2026-08-16 운영 적용 완료(Supabase MCP apply_migration). 기록용.
+-- 웹 캐시 무효화를 DB가 스스로 알린다. 백오피스·스크립트·LLM 세션·SQL 편집기 어느 길로 쓰든
+-- 행이 바뀌면 DB가 feelandnote.com/api/revalidate 에 「도메인:식별자」 태그를 POST한다(pg_net).
+-- 문장 단위 트리거 + 전이 표라 한 문장이 2,000행을 바꿔도 HTTP 호출은 한 번(태그 200개 단위로 분할)이다.
+-- 비밀키는 vault.secrets 'web_revalidate_secret'(=CRON_SECRET). 응답 확인: select * from net._http_response order by id desc;
+--
+-- 표 → 태그
+--   celebs                → celebs:<id>, celebs:<slug>            (view_count·updated_at만 바뀐 문장은 무시)
+--   celeb_contents        → celebs:<id·slug>, contents:<content_id>
+--   celeb_dialogues       → celebs:<id·slug>, dialogues:<id>
+--   celeb_explanations · celeb_timeline_events · celeb_relations(_external) · celeb_influence → celebs:<id·slug>
+--   celeb_persona         → spectrum:<id>, celebs:<id·slug>
+--   celeb_tag_assignments · faction_people → tags, celebs:<id·slug> / celeb_tags · faction_groups · faction_clusters · faction_episodes → tags
+--   contents              → contents:<id>, contents:<external_id>  (member_count·celeb_count·record_count만 바뀐 문장은 무시)
+--   content_locales       → contents:<content_id·external_id>
+--   fiction_source_*      → fiction-sources (+ 관련 celebs·contents 항목)
+--   curators · curated_lists · curated_list_items → curated
+--
+-- 새 표를 웹이 읽게 되면: select public.web_revalidate_attach('public.<표>', $$array['<도메인>:'||r.<식별자>]$$, '<휘발 컬럼>', 'n.<pk> = o.<pk>');
+-- (함수 본문은 운영 DB의 public.web_revalidate_send / web_revalidate_trigger / web_revalidate_attach 참조)

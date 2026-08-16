@@ -11,6 +11,13 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
 - **플랜**: Free (Egress 5.5GB/월, 쿼터 리필 주기: 매월 5일경)
 
+### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
+
+- **원칙**: 무효화를 앱 코드나 스크립트가 부르는 것을 전제하지 않는다. 데이터의 90%가 LLM 세션·스크립트·SQL로 들어오므로, **행이 바뀌면 DB가 스스로 `feelandnote.com/api/revalidate`에 태그를 보낸다**(pg_net, 문장 단위 트리거 + 전이 표 → 한 문장에 HTTP 한 번). 표→태그 대응은 `sw/web/supabase/migrations/20260816052000_web_revalidate_triggers.sql`.
+- 그래서 인물·작품 상세의 시간 재검증은 **없다**(`revalidate = false`). 바뀐 항목만 다음 방문 때 다시 만든다. 조회수(`celebs.view_count`)·회원 집계 카운트만 바뀐 문장은 알리지 않는다(방문마다 재생성되는 사고 방지).
+- 확인: `select * from net._http_response order by id desc limit 5;` 로 status 200과 태그를 본다. 백오피스의 `revalidateWebCache()` 호출은 그대로 두되(중복 무해) 새 코드에서 필수는 아니다.
+- 새 표를 웹이 읽게 되면 `web_revalidate_attach(...)` 한 줄로 붙인다. 비밀키는 Vault `web_revalidate_secret`(=CRON_SECRET) — 키를 돌리면 둘 다 바꾼다.
+
 ### 공개 조회 문장 제한·인덱스 (2026-08-16)
 
 - **증상**: 탐색·서가·홈·성향 화면의 조회가 콜드에서 `canceling statement due to statement timeout`(57014)으로 실패해 구획이 통째로 빠졌다(Vercel 로그 24h 40건+).
