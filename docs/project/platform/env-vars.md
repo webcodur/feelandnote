@@ -125,7 +125,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
-| `CRON_SECRET` | web, web-bo | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구의 암호. **비어 있으면 갱신 창구가 스스로 거부한다** |
+| `CRON_SECRET` | web, web-bo, **Supabase Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Vercel·로컬 `.env`·Vault 세 곳을 함께 바꾼다(`external-services.md`「웹 캐시 무효화 단일 창구」) |
 
 Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UTC = 한국시각 0시 5분, `/api/cron/today-figure`).
 
