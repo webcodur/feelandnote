@@ -2,11 +2,12 @@
 
 import { unstable_cache } from 'next/cache'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { STATIC_REVALIDATE, spreadRevalidate } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
-import { selectAllPages, selectInChunks } from '@feelandnote/shared/lib/paginate'
+import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import { TENDENCY_KEYS, type TendencyKey } from '@/lib/spectrum/constants'
 import { getInfluenceRanking } from '@/actions/home/getCelebs'
+import { getReviewCelebIdsCached } from './reviewCelebIds'
 
 const DEFAULT_LIMIT = 3000
 const SPECTRUM_SEARCH_LIMIT = 8
@@ -45,19 +46,17 @@ async function fetchSpectrumDistribution(minInfluence: number, limit: number): P
   // 영향력 — getCelebs와 같은 캐시를 공유한다
   const { scoreMap: inflMapRaw } = await getInfluenceRanking()
 
-  // 감상 경위(review) 보유 셀럽만 성향 분석 대상에 넣는다.
-  // 이 RPC도 1,000행에서 잘린다 — 1,281명 중 281명이 빠져 성향 점수가 멀쩡히 도착해도
-  // 이 명단에 없다는 이유로 걸러졌다(실측). 페이징 없이는 필터가 곧 손실이다.
-  const reviewIds = await selectAllPages<{ celeb_id: string }>((from, to) =>
-    supabase.rpc('get_review_celeb_ids').order('celeb_id').range(from, to)
-  )
-  const reviewers = new Set(reviewIds.map((r) => r.celeb_id))
+  // 감상 기록 보유 셀럽만 성향 분석 대상에 넣는다.
+  // 닮은 인물 화면과 같은 명단·같은 캐시를 쓴다 — 감상 행을 매번 훑는 대신
+  // 집계 캐시 열을 읽어 다섯 배 빠르고, 두 화면이 한 번만 조회한다(실측 26.08.14: 1,717명 동일).
+  const reviewIds = await getReviewCelebIdsCached()
+  const reviewers = new Set(reviewIds)
 
   const inflMapItems = Object.entries(inflMapRaw)
     .filter(([, score]) => minInfluence <= 0 || score >= minInfluence)
   const eligibleIds = (minInfluence > 0
     ? inflMapItems.filter(([id]) => reviewers.has(id)).map(([id]) => id)
-    : reviewIds.map((r) => r.celeb_id)
+    : reviewIds
   ).slice(0, limit)
 
   // 대상 UUID만 200개씩 묶어 조회한다. 허브 진입 때 1,000명 넘는 spectrum를 읽고
@@ -102,8 +101,12 @@ async function fetchSpectrumDistribution(minInfluence: number, limit: number): P
 const getSpectrumDistributionCached = unstable_cache(
   fetchSpectrumDistribution,
   ['spectrum-distribution-v2'],
-  // celeb_persona + celeb_influence + 감상문 보유 셀럽 목록(celeb_contents)을 함께 읽는다
-  { revalidate: STATIC_REVALIDATE, tags: [CACHE_TAGS.SPECTRUM, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
+  // celeb_persona + celeb_influence + 감상 기록 보유 셀럽 명단(celeb_metrics)을 함께 읽는다.
+  // 만료는 키마다 어긋나게 잡는다 — 함께 식으면 조회가 몰려 3초 제한에 걸린다
+  {
+    revalidate: spreadRevalidate(STATIC_REVALIDATE, ['spectrum-distribution-v2']),
+    tags: [CACHE_TAGS.SPECTRUM, CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS],
+  }
 )
 
 interface SpectrumDistributionOptions {

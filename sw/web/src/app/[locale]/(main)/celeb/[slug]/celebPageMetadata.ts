@@ -71,7 +71,7 @@ export async function buildCelebPageMetadata(
         url: imageUrl,
         width: 800,
         height: 800,
-        type: "image/png",
+        type: "image/jpeg",
         alt: imageAlt,
       }],
     },

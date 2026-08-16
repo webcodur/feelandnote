@@ -32,6 +32,32 @@ export const LIST_REVALIDATE = 3600
 /** 기존 bare-domain 상세 태그를 배포 간 영속 캐시에서 재사용하지 않게 하는 스키마 버전. */
 const DETAIL_CACHE_KEY_VERSION = 'detail-tags-v2'
 
+/** 만료 시각을 캐시마다 어긋나게 하는 폭. 정해진 수명의 ±10% 안에서 움직인다. */
+const REVALIDATE_SPREAD = 0.1
+
+/**
+ * 만료 시각을 키마다 조금씩 어긋나게 한다.
+ *
+ * 같은 배포에서 함께 만들어진 캐시는 수명이 같으면 한 시각에 같이 식는다. 그 뒤 첫 방문
+ * 하나가 조회 여러 건을 동시에 다시 돌리게 되고, 서로 밀려 3초 제한(Supabase 조회 제한)에
+ * 걸려 통째로 실패한다. 화면 한 구역이 사라지는 사고가 여기서 났다.
+ *
+ * 그래서 키 문자열로 정한 고정 오프셋을 준다. 같은 키는 언제 계산해도 같은 값이 나오므로
+ * (무작위가 아니다) 요청마다·빌드마다 흔들리지 않고, 캐시끼리만 만료가 벌어진다.
+ */
+export function spreadRevalidate(revalidate: number, keyParts: readonly string[]): number {
+  const key = keyParts.join('\u0000')
+  // FNV-1a — 짧고 결정적이면 충분하다. 보안 용도가 아니다
+  let hash = 0x811c9dc5
+  for (let index = 0; index < key.length; index++) {
+    hash ^= key.charCodeAt(index)
+    hash = Math.imul(hash, 0x01000193)
+  }
+  const ratio = (hash >>> 0) / 0x100000000 // 0 이상 1 미만
+  const offset = revalidate * REVALIDATE_SPREAD * (ratio * 2 - 1) // ±10%
+  return Math.max(1, Math.round(revalidate + offset))
+}
+
 /* ────────────────────────────────────────────────────────────────
    조회를 감싸는 두 도우미
 
@@ -73,7 +99,7 @@ export function cachedDetail<R>(
   options: CacheOptions = {},
 ): Promise<R> {
   return unstable_cache(fn, [DETAIL_CACHE_KEY_VERSION, ...keyParts], {
-    revalidate: options.revalidate ?? STATIC_REVALIDATE,
+    revalidate: spreadRevalidate(options.revalidate ?? STATIC_REVALIDATE, keyParts),
     // bare domain은 목록 전용이다. 상세에 붙이면 신규 한 건을 목록에 반영할 때
     // 기존 상세 수만 건까지 전부 낡은 것으로 처리된다.
     tags: detailCacheTags(domain, id, options.extraTags),
@@ -95,7 +121,7 @@ export function cachedList<R>(
   options: CacheOptions = {},
 ): Promise<R> {
   return unstable_cache(fn, [...keyParts], {
-    revalidate: options.revalidate ?? LIST_REVALIDATE,
+    revalidate: spreadRevalidate(options.revalidate ?? LIST_REVALIDATE, keyParts),
     tags: [domain, ...(options.extraTags ?? [])],
   })()
 }

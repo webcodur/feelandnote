@@ -4,6 +4,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { cachedList, cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
+import { getReviewCelebIdsCached } from './reviewCelebIds'
 import type { SpectrumJsonb, SpectrumProfile, SpectrumStats } from '@/lib/spectrum/types'
 import { parseSpectrumJsonb } from '@/lib/spectrum/types'
 import {
@@ -189,30 +190,6 @@ async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
 /* 성향 벡터 전량 — 한 명이 바뀌어도 비교 대상 전체가 달라지므로 목록으로 다룬다 */
 const getAllSpectrumVectorsCached = () =>
   cachedList(CACHE_TAGS.SPECTRUM, ['all-spectrum-vectors'], fetchAllSpectrumVectors)
-
-/**
- * 감상 기록을 가진 인물 명단.
- * 닮은 인물을 보여주는 목적은 "그 사람은 무엇을 읽었나"로 건너가게 하는 것이다.
- * 기록이 없는 인물이 뽑히면 그 다리가 끊기므로 후보에서 뒤로 민다.
- *
- * 집계 캐시 열을 읽는다 — 감상 행을 매번 훑는 RPC보다 다섯 배 빠르고 결과는 같다
- * (실측 26.08.14: 645ms 대 3,647ms, 양쪽 모두 1,717명으로 일치).
- */
-async function fetchReviewCelebIds(): Promise<string[]> {
-  const supabase = createStaticClient()
-  const rows = await selectAllPages<{ celeb_id: string }>((from, to) =>
-    supabase
-      .from('celeb_metrics')
-      .select('celeb_id')
-      .gt('content_count', 0)
-      .order('celeb_id')
-      .range(from, to)
-  )
-  return rows.map((row) => row.celeb_id)
-}
-
-const getReviewCelebIdsCached = () =>
-  cachedList(CACHE_TAGS.CONTENTS, ['review-celeb-ids'], fetchReviewCelebIds)
 
 // 대상 셀럽 1명분: 레이더 근거(rationale/reason) 표시를 위해 spectrum jsonb 원본과
 // 생몰일·title까지 포함해 단건 조회한다. 1행이라 캐시 한도와 무관하다.

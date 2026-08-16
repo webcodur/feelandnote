@@ -76,7 +76,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         url: seoImageUrl,
         width: 800,
         height: 800,
-        type: "image/png",
+        type: "image/jpeg",
         alt: seoImageAlt,
       }],
     },
