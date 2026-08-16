@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { MODEL_TRAINING_CRAWLERS } from '@/lib/blocked-crawlers'
 
 /** 검색·답변 노출과 사용자 요청에 쓰이는 봇. 학습용 봇과 분리해 공개 문서만 허용한다. */
 const ANSWER_CRAWLERS = [
@@ -13,28 +14,7 @@ const ANSWER_CRAWLERS = [
   'YouBot',
 ]
 
-/**
- * 검색 노출과 무관한 AI 모델 학습·대량 수집용 크롤러.
- * 검색·답변용 봇은 ANSWER_CRAWLERS로 분리하고, 이 목록만 전면 차단한다.
- */
-const MODEL_TRAINING_CRAWLERS = [
-  'GPTBot',
-  'ClaudeBot',
-  'anthropic-ai',
-  'Claude-Web',
-  'CCBot',
-  'Google-Extended',
-  'Applebot-Extended',
-  'Bytespider',
-  'Amazonbot',
-  'meta-externalagent',
-  'FacebookBot',
-  'Diffbot',
-  'ImagesiftBot',
-  'Omgilibot',
-  'cohere-ai',
-  'DataForSeoBot',
-]
+// 학습·대량 수집 크롤러 명단은 미들웨어(403)와 공유한다 — lib/blocked-crawlers.ts
 
 const COMMON_DISALLOW = [
   '/private/',
@@ -84,7 +64,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       // 모델 학습·대량 수집 크롤러: 전 경로 차단
       {
-        userAgent: MODEL_TRAINING_CRAWLERS,
+        userAgent: [...MODEL_TRAINING_CRAWLERS],
         disallow: '/',
       },
     ],

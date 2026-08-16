@@ -6,8 +6,9 @@
 
 import MainLayout from "@/components/layout/LayoutMain";
 import { QuickRecordProvider } from "@/contexts/QuickRecordContext";
+import MessageScope from "@/components/shared/MessageScope";
 
-export default function StandaloneGroupLayout({
+function StandaloneGroupLayoutBody({
   children,
 }: {
   children: React.ReactNode;
@@ -16,5 +17,14 @@ export default function StandaloneGroupLayout({
     <QuickRecordProvider>
       <MainLayout>{children}</MainLayout>
     </QuickRecordProvider>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function StandaloneGroupLayout(props: { children: React.ReactNode }) {
+  return (
+    <MessageScope>
+      <StandaloneGroupLayoutBody {...props} />
+    </MessageScope>
   );
 }

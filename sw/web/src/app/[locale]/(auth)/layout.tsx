@@ -5,15 +5,25 @@
 */ // ------------------------------
 
 import type { Metadata } from "next";
+import MessageScope from "@/components/shared/MessageScope";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AuthLayout({
+function AuthLayoutBody({
   children
 }: {
   children: React.ReactNode
 }) {
   return <>{children}</>
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function AuthLayout(props: { children: React.ReactNode }) {
+  return (
+    <MessageScope>
+      <AuthLayoutBody {...props} />
+    </MessageScope>
+  );
 }

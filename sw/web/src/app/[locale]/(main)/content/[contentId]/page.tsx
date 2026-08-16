@@ -24,7 +24,9 @@ interface PageProps {
 }
 
 // Next segment config는 import 상수가 아니라 정적 분석 가능한 숫자 리터럴이어야 한다.
-export const revalidate = 604800;
+// 30일. 상세 한 장의 ISR 쓰기는 HTML+RSC 0.5~1.2MB(8KB당 1단위)라 전량 한 바퀴가 약 $6다.
+// 백오피스 저장은 태그로 그 항목만 즉시 무효화하므로 시간 재검증은 안전망일 뿐이다.
+export const revalidate = 2592000;
 
 // 사이트맵의 수천 개 작품을 빌드 때 전부 만들지 않고 첫 요청에 ISR로 생성한다.
 export function generateStaticParams() {

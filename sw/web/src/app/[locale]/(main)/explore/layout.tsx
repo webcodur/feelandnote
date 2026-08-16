@@ -9,12 +9,13 @@ import { getTranslations } from "next-intl/server";
 import PageContainer from "@/components/layout/PageContainer";
 import HubBackLink from "@/components/shared/HubBackLink";
 import ExploreBanner from "@/components/features/user/explore/hub/ExploreBanner";
+import MessageScope from "@/components/shared/MessageScope";
 
 interface Props {
   children: ReactNode;
 }
 
-export default async function ExploreLayout({ children }: Props) {
+async function ExploreLayoutBody({ children }: Props) {
   const tNav = await getTranslations("nav");
 
   return (
@@ -26,5 +27,14 @@ export default async function ExploreLayout({ children }: Props) {
         {children}
       </PageContainer>
     </>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function ExploreLayout(props: Props) {
+  return (
+    <MessageScope>
+      <ExploreLayoutBody {...props} />
+    </MessageScope>
   );
 }

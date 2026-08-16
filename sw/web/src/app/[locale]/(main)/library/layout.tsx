@@ -11,12 +11,13 @@ import HubBackLink from "@/components/shared/HubBackLink";
 import AsyncIntlProvider from "@/components/shared/AsyncIntlProvider";
 import LibraryBanner from "@/components/features/library/hub/LibraryBanner";
 import { LibraryCrumbProvider } from "@/components/features/library/hub/LibraryCrumbs";
+import MessageScope from "@/components/shared/MessageScope";
 
 interface Props {
   children: ReactNode;
 }
 
-export default async function LibraryLayout({ children }: Props) {
+async function LibraryLayoutBody({ children }: Props) {
   const tNav = await getTranslations("nav");
 
   return (
@@ -32,5 +33,14 @@ export default async function LibraryLayout({ children }: Props) {
         </PageContainer>
       </LibraryCrumbProvider>
     </AsyncIntlProvider>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function LibraryLayout(props: Props) {
+  return (
+    <MessageScope>
+      <LibraryLayoutBody {...props} />
+    </MessageScope>
   );
 }

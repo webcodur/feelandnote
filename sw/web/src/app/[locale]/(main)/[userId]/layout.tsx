@@ -10,13 +10,14 @@ import ArchiveTabs from "@/components/features/user/profile/ArchiveTabs";
 import PrismBanner from "@/components/lab/PrismBanner";
 import PageBanner from "@/components/shared/PageBanner";
 import { createClient } from "@/lib/supabase/server";
+import MessageScope from "@/components/shared/MessageScope";
 
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ userId: string; locale: string }>;
 }
 
-export default async function UserLayout({ children, params }: LayoutProps) {
+async function UserLayoutBody({ children, params }: LayoutProps) {
   const { userId, locale } = await params;
   const supabase = await createClient();
   const [profileResult, authResult, tCtx, tHome] = await Promise.all([
@@ -76,5 +77,14 @@ export default async function UserLayout({ children, params }: LayoutProps) {
         </main>
       </PageContainer>
     </>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function UserLayout(props: LayoutProps) {
+  return (
+    <MessageScope>
+      <UserLayoutBody {...props} />
+    </MessageScope>
   );
 }

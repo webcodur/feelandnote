@@ -3,14 +3,12 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
 import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
-import { getInfluenceExplorer } from "@/actions/home/getInfluenceExplorer";
 import { getSimilarByCelebId } from "@/actions/spectrum/getSimilarByCelebId";
 import { getContemporaries } from "@/actions/celebs/getContemporaries";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
-import { getFactionTagsByIds } from "@/actions/home/getFeaturedTags";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
@@ -27,7 +25,9 @@ interface PageProps {
 // 정적/ISR 렌더링: 로그인 의존 요소(방명록 본인 판정)를 클라이언트로 분리해
 // 페이지 본문은 쿠키를 읽지 않는다. 봇 크롤이 HTML 캐시에 적중해 DB 조회가 발생하지 않는다.
 // Next segment config는 import 상수가 아니라 정적 분석 가능한 숫자 리터럴이어야 한다.
-export const revalidate = 604800;
+// 30일. 상세 한 장의 ISR 쓰기는 HTML+RSC 0.5~1.2MB(8KB당 1단위)라 전량 한 바퀴가 약 $6다.
+// 백오피스 저장은 태그로 그 항목만 즉시 무효화하므로 시간 재검증은 안전망일 뿐이다.
+export const revalidate = 2592000;
 
 // 수천 개 slug를 빌드 때 한꺼번에 생성하지 않고 첫 요청에 ISR로 만든다.
 export function generateStaticParams() {
@@ -64,9 +64,10 @@ export default async function CelebPage({ params }: PageProps) {
 
   // 방명록은 캐시되지 않는 조회라 ISR HTML에 굳으면 7일간 새 글이 안 보인다.
   // 색인 가치도 없고 화면 맨 아래에 있어 클라이언트가 뷰포트 근접 시 직접 불러온다.
-  const [influenceData, influenceExplorerData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, factionTags, initialContents, fictionSources] = await Promise.all([
+  // 관계·분석 구획의 본문은 브라우저가 화면 근처에서 직접 불러온다. 여기서는 목차가
+  // 필요로 하는 「있다·없다」만 확인하고 자료 자체는 HTML에 싣지 않는다.
+  const [influenceData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, initialContents, fictionSources] = await Promise.all([
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getCelebInfluence(userId, locale),
-    profile.celeb_tier === "fiction" ? Promise.resolve(null) : getInfluenceExplorer(userId, locale),
     profile.celeb_tier === "fiction" ? Promise.resolve(null) : getSimilarByCelebId(userId, 3, locale),
     profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
@@ -74,7 +75,6 @@ export default async function CelebPage({ params }: PageProps) {
       ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
       : Promise.resolve([]),
     getCelebTimelineEvents(userId, locale),
-    getFactionTagsByIds(profile.factionTags.map((tag) => tag.id)),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
     profile.celeb_tier === 'full'
@@ -123,6 +123,18 @@ export default async function CelebPage({ params }: PageProps) {
       ) as Record<string, string[]>
     : null;
 
+  const sideAvailability = {
+    relations: profile.relations.length > 0,
+    contemporaries: contemporaries.length > 0,
+    faction: profile.factionTags.length > 0,
+    influence: Boolean(influenceData),
+    spectrum: Boolean(spectrumData?.targetSpectrum),
+  };
+
+  // 인연 목록과 세력 배정표는 관계 구획이 화면에 다가올 때 브라우저가 다시 받는다.
+  // 화면에 그리지 않는 자료를 HTML에 실으면 ISR 한 장이 그만큼 무거워진다.
+  const clientProfile = { ...profile, relations: [], factionTags: [] };
+
   const jsonLd = buildCelebPageJsonLd({
     profile,
     slug,
@@ -140,18 +152,14 @@ export default async function CelebPage({ params }: PageProps) {
       />
 
 <CelebPageContent
-        profile={profile}
+        profile={clientProfile}
         slug={slug}
         shareTitle={pageTitle}
         userId={userId}
-        influenceData={influenceData}
-        influenceExplorerData={influenceExplorerData}
-        spectrumData={spectrumData}
         greeting={greeting}
         dialogueLines={dialogueLines}
-        contemporaries={contemporaries}
         timelineEvents={timelineEvents}
-        factionTags={factionTags}
+        sideAvailability={sideAvailability}
         initialContents={initialContents}
         fictionSources={fictionSources}
         worldId={worldId}

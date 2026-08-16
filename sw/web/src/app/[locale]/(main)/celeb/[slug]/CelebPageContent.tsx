@@ -3,14 +3,9 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 
-import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
-import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
-import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
-import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
@@ -19,21 +14,21 @@ import type { Locale } from "@/types/locale";
 import styles from "./CelebPageContent.module.css";
 import CelebHeroSection from "./detail/CelebHeroSection";
 import CelebRecordSections from "./detail/CelebRecordSections";
-import { useCelebServiceModel } from "./detail/useCelebServiceModel";
+import {
+  useCelebServiceModel,
+  type CelebSideAvailability,
+} from "./detail/useCelebServiceModel";
 
 interface CelebPageContentProps {
   profile: CelebBySlugProfile;
   slug: string;
   shareTitle: string;
   userId: string;
-  influenceData: CelebInfluenceDetail | null;
-  influenceExplorerData: InfluenceExplorerData | null;
-  spectrumData: SimilarByCelebResult | null;
   greeting?: string[] | null;
   dialogueLines?: Record<string, string[]> | null;
-  contemporaries: ContemporaryCeleb[];
   timelineEvents: CelebTimelineEvent[];
-  factionTags: FeaturedTag[];
+  /** 관계·분석 구획은 브라우저가 직접 불러오므로 「있다·없다」만 받는다 */
+  sideAvailability: CelebSideAvailability;
   initialContents: GetUserContentsResponse;
   fictionSources: FictionSourceContent[];
   worldId: string;
@@ -46,14 +41,10 @@ export default function CelebPageContent({
   slug,
   shareTitle,
   userId,
-  influenceData,
-  influenceExplorerData,
-  spectrumData,
   greeting,
   dialogueLines,
-  contemporaries,
   timelineEvents,
-  factionTags,
+  sideAvailability,
   initialContents,
   fictionSources,
   worldId,
@@ -67,11 +58,8 @@ export default function CelebPageContent({
   const serviceModel = useCelebServiceModel({
     profile,
     locale,
-    contemporaries,
     timelineEvents,
-    factionTags,
-    influenceData,
-    spectrumData,
+    sideAvailability,
     dialogueLines,
     fictionSources,
     initialContents,
@@ -132,16 +120,12 @@ export default function CelebPageContent({
 
       <CelebRecordSections
         profile={profile}
+        slug={slug}
         userId={userId}
         locale={locale}
         worldId={worldId}
-        influenceData={influenceData}
-        influenceExplorerData={influenceExplorerData}
-        spectrumData={spectrumData}
         dialogueLines={dialogueLines}
-        contemporaries={contemporaries}
         timelineEvents={timelineEvents}
-        factionTags={factionTags}
         initialContents={initialContents}
         fictionSources={fictionSources}
         serviceModel={serviceModel}
