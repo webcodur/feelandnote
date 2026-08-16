@@ -14,6 +14,12 @@ import { CELEB_PROFESSIONS } from "@/constants/celebProfessions";
 // 원본 전송량이 된다. 한 번 만들어 CDN에 두고, 인물 등록·삭제·공개 상태 변경 때 DB 트리거가 'celebs' 태그를 비운다.
 export const revalidate = 604800;
 
+// [locale] 세그먼트는 generateStaticParams가 없으면 동적으로 취급된다(빌드 표의 ƒ). 빈 배열을 돌려주면
+// 첫 요청에 ISR로 만들어져 다음부터 CDN에서 나간다(인물 상세와 같은 방식).
+export function generateStaticParams() {
+  return [];
+}
+
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
