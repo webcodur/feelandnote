@@ -5,7 +5,7 @@
 */ // ------------------------------
 
 import { ReactNode } from "react";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import PageContainer from "@/components/layout/PageContainer";
 import HubBackLink from "@/components/shared/HubBackLink";
 import ExploreBanner from "@/components/features/user/explore/hub/ExploreBanner";
@@ -13,9 +13,13 @@ import MessageScope from "@/components/shared/MessageScope";
 
 interface Props {
   children: ReactNode;
+  params: Promise<{ locale: string }>;
 }
 
-async function ExploreLayoutBody({ children }: Props) {
+async function ExploreLayoutBody({ children, params }: Props) {
+  // 정적(ISR) 하위 화면(명부·연표)이 요청 헤더에 기대지 않게 locale을 params로 못 박는다
+  const { locale } = await params;
+  setRequestLocale(locale);
   const tNav = await getTranslations("nav");
 
   return (
