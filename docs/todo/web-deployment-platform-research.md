@@ -137,3 +137,16 @@ Vercel Usage를 사용자 웹과 백오피스로 나눠 적용 전·후 기울�
 **비용** Cloudflare Free. Cache Reserve(롱테일 유지)는 월 $1 안팎, 적중률 보고 결정.
 
 **작업 순서** ① 도메인 추가·네임서버 변경(유저) ② SSL Full(strict)·캐시 규칙·봇 규칙 이관·`/api/revalidate` 퍼지 연결·배포 후 퍼지 판정 워크플로 ③ 검증(배포 뒤 상세가 Cloudflare에서 나오는지, 인물 수정 뒤 그 페이지만 갱신되는지, 로그인·OAuth·이미지 정상) ④ 되돌리기: 네임서버 원위치.
+
+### 26.08.16 실행 결과 — Cloudflare 앞단 가동
+
+- Cloudflare 존 `feelandnote.com`(Free, zone id는 `sw/web/.env` `CLOUDFLARE_ZONE_ID`) 생성, 네임서버 `gabriella.ns.cloudflare.com`·`kobe.ns.cloudflare.com`으로 Vercel 등록 도메인의 NS 변경(전파 1분, Universal SSL 발급 ~1분 — 그 사이 HTTPS 30초 안팎 불통).
+- DNS: 루트 A `76.76.21.21`(프록시), `www` CNAME `cname.vercel-dns.com`(프록시), `admin` CNAME(백오피스, DNS만 — 캐시 안 탐), 구글 인증 CNAME, CAA 2건(pki.goog·sectigo) — Vercel DNS에 있던 것 전부 복제.
+- 존 설정: SSL Full(strict), Always HTTPS, Brotli.
+- 캐시 규칙(`http_request_cache_settings`): `/celeb/*` `/en/celeb/*` `/content/*` `/en/content/*` `/seo-image/*` `/explore/directory` `/explore/timeline`(ko·en) → 엣지 30일 보관(원본 max-age=0 무시), 단 `-auth-token` 쿠키(로그인)가 있으면 우회. 홈·탐색·회원·광장 등은 규칙 없음(DYNAMIC).
+- 방화벽(`http_request_firewall_custom`): 학습·마케팅 크롤러 22종 UA 차단(`lib/blocked-crawlers.ts`와 같은 명단) — Vercel 도달 전에 403.
+- 퍼지 연동: `/api/revalidate`가 태그→URL로 Cloudflare 퍼지(`lib/cloudflarePurge.ts`), Vercel env `CLOUDFLARE_ZONE_ID`·`CLOUDFLARE_API_TOKEN`. 종단 검증: 인물 상세 HIT → DB 행 갱신(트리거) → ko·en 모두 MISS.
+- 검증 완료: 상세·이미지 2회차 HIT, 홈·탐색 DYNAMIC, 로그인 쿠키 DYNAMIC, Ahrefs UA 403·Googlebot 200, http→https·www→루트 리다이렉트, 백오피스 정상.
+- **미완**: 배포 후 전체 퍼지 워크플로(`.github/workflows/cloudflare-purge.yml`)는 GitHub Secrets `CLOUDFLARE_ZONE_ID`·`CLOUDFLARE_API_TOKEN`이 아직 없어 건너뛴다. UI가 바뀐 배포 뒤 상세 화면은 30일까지 옛 모양이 남을 수 있다 → secret 넣기 전에는 대시보드 "Purge Everything"으로 수동.
+- 되돌리기: Vercel → Domains → feelandnote.com → Nameservers → "Restore Original Nameservers".
+
