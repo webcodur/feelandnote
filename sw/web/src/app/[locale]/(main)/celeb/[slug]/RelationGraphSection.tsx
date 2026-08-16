@@ -833,12 +833,16 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
                 </div>
               </div>
             )}
+            {/*
+              좌우 띠는 제 내용만큼만 차지한다. 남는 자리를 먹게 두면
+              한쪽 띠만 있는 인물에서 도표 덩어리가 반대편으로 밀린다.
+            */}
             <div className="relative flex items-center justify-center gap-4 md:gap-8 my-4">
               {view.bands.sideL.length > 0 && (
-                <div className="flex max-w-[38%] flex-1 flex-col items-end gap-3">
+                <div className="flex min-w-0 max-w-[38%] flex-col items-end gap-3">
                   <p className="text-end text-xs font-semibold tracking-[0.08em] text-text-secondary">
-                                    {t("relBandSideL")}
-                                  </p>
+                    {t("relBandSideL")}
+                  </p>
                   <div className="flex flex-wrap justify-end gap-x-2 gap-y-3">
                     {view.bands.sideL.map((p) => nodeCard(p, "sm"))}
                   </div>
@@ -846,10 +850,10 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
               )}
               {selfNode(hubRef)}
               {view.bands.sideR.length > 0 && (
-                <div className="flex max-w-[38%] flex-1 flex-col items-start gap-3">
+                <div className="flex min-w-0 max-w-[38%] flex-col items-start gap-3">
                   <p className="text-xs font-semibold tracking-[0.08em] text-text-secondary">
-                                    {t("relBandSideR")}
-                                  </p>
+                    {t("relBandSideR")}
+                  </p>
                   <div className="flex flex-wrap justify-start gap-x-2 gap-y-3">
                     {view.bands.sideR.map((p) => nodeCard(p, "sm"))}
                   </div>

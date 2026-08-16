@@ -173,6 +173,12 @@ interface CarouselProps {
   /** 장마다 이름이 있을 때. 점 대신 이름표 줄이 위에 붙는다 */
   tabLabels?: string[];
   /**
+   * 넘김 단추를 놓는 자리.
+   * `center`는 낱장 한가운데 좌우에 겹쳐 놓고, `top`은 낱장 제목 줄 높이의 좌우 끝에 놓는다.
+   * 낱장이 제 제목을 품고 있어 바깥 제목 줄(header)을 쓸 수 없을 때 `top`을 쓴다.
+   */
+  arrowsAlign?: "center" | "top";
+  /**
    * 제목 줄. 주면 넘김 단추가 낱장 위가 아니라 이 줄 오른쪽 끝에 붙는다.
    * 낱장 좌우에 단추 자리를 비워 둘 필요가 없어진다.
    */
@@ -190,6 +196,7 @@ export function Carousel({
   gapClassName = "gap-2",
   showDots = true,
   tabLabels,
+  arrowsAlign = "center",
   header,
   headerClassName,
   className,
@@ -280,7 +287,16 @@ export function Carousel({
         </div>
 
         {/* 제목 줄에 단추를 올린 경우에는 낱장 위에 겹치지 않는다 */}
-        {count > 1 && !arrowsInHeader ? (
+        {count > 1 && !arrowsInHeader && arrowsAlign === "top" ? (
+          <div className="pointer-events-none absolute inset-x-0 top-3 z-10 flex items-center justify-between px-2 md:top-4 md:px-3">
+            <span className="pointer-events-auto">
+              {arrowButton("previous")}
+            </span>
+            <span className="pointer-events-auto">{arrowButton("next")}</span>
+          </div>
+        ) : null}
+
+        {count > 1 && !arrowsInHeader && arrowsAlign === "center" ? (
           <>
             <button
               type="button"

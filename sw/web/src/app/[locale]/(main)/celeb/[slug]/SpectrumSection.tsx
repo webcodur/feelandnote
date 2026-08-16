@@ -1061,6 +1061,8 @@ export default function SpectrumSection({
                   next: isEn ? "Next disposition comparison" : "다음 성향 비교",
                   dot: (index, count) => t("carouselDot", { index, count }),
                 }}
+                arrowsAlign="top"
+                showDots={false}
               >
                 {dispositionCompareCategories.map((category) => (
                   <SpectrumMatchGroup
