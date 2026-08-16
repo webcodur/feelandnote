@@ -10,12 +10,13 @@ import HubBackLink from "@/components/shared/HubBackLink";
 import HexagonBanner from "@/components/lab/HexagonBanner";
 import PageBanner from "@/components/shared/PageBanner";
 import { getTranslations } from "next-intl/server";
+import MessageScope from "@/components/shared/MessageScope";
 
 interface Props {
   children: ReactNode;
 }
 
-export default async function RestLayout({ children }: Props) {
+async function RestLayoutBody({ children }: Props) {
   const tNav = await getTranslations("nav");
   const tHome = await getTranslations("home");
   const title = tNav("rest");
@@ -40,5 +41,14 @@ export default async function RestLayout({ children }: Props) {
         {children}
       </PageContainer>
     </>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function RestLayout(props: Props) {
+  return (
+    <MessageScope>
+      <RestLayoutBody {...props} />
+    </MessageScope>
   );
 }

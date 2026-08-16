@@ -3,14 +3,9 @@
 import { useMemo, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 
-import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
-import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import type { InfluenceExplorerData } from "@/actions/home/getInfluenceExplorer";
-import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
-import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
 import { Deferred, PendingBlock } from "@/components/ui/pending";
@@ -24,12 +19,12 @@ import { CelebAtlasNavigation } from "../CelebAtlasRails";
 import styles from "../CelebPageContent.module.css";
 import CelebSectionHeading from "../CelebSectionHeading";
 import FictionSourceWorksSection from "../FictionSourceWorksSection";
-import FigureAnalysisTabs from "../FigureAnalysisTabs";
 import FigureMediaTabs from "../FigureMediaTabs";
 import FigureReadingTabs from "../FigureReadingTabs";
 import JourneySection from "../JourneySection";
 import LibraryTabs from "../LibraryTabs";
-import PeopleAndEraTabs from "../PeopleAndEraTabs";
+import CelebAnalysisDeferred from "./CelebAnalysisDeferred";
+import CelebConnectionsDeferred from "./CelebConnectionsDeferred";
 import type { CelebServiceModel } from "./useCelebServiceModel";
 import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
@@ -50,16 +45,12 @@ function SectionSurface({
 
 interface CelebRecordSectionsProps {
   profile: CelebBySlugProfile;
+  slug: string;
   userId: string;
   locale: Locale;
   worldId: string;
-  influenceData: CelebInfluenceDetail | null;
-  influenceExplorerData: InfluenceExplorerData | null;
-  spectrumData: SimilarByCelebResult | null;
   dialogueLines?: Record<string, string[]> | null;
-  contemporaries: ContemporaryCeleb[];
   timelineEvents: CelebTimelineEvent[];
-  factionTags: FeaturedTag[];
   initialContents: GetUserContentsResponse;
   fictionSources: FictionSourceContent[];
   serviceModel: CelebServiceModel;
@@ -67,16 +58,12 @@ interface CelebRecordSectionsProps {
 
 export default function CelebRecordSections({
   profile,
+  slug,
   userId,
   locale,
   worldId,
-  influenceData,
-  influenceExplorerData,
-  spectrumData,
   dialogueLines,
-  contemporaries,
   timelineEvents,
-  factionTags,
   initialContents,
   fictionSources,
   serviceModel,
@@ -184,17 +171,24 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("connections") && (
           <section id="connections" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("connections")}
+            {/* 인물 목록과 세력 화보는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다.
+                제목은 서버 HTML에 그대로 남는다. */}
             <SectionSurface className={TAB_BOX_CLASS_NAME}>
-              <PeopleAndEraTabs
-                item={serviceItemsByKey.get("connections")!}
-                centerName={profile.nickname}
-                centerAvatarUrl={profile.avatar_url}
-                relations={profile.relations}
-                contemporaries={contemporaries}
-                factions={factionTags}
-                currentCelebId={profile.id}
-                isFiction={isFiction}
-              />
+              <Deferred
+                fallback={
+                  <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
+                }
+              >
+                <CelebConnectionsDeferred
+                  slug={slug}
+                  locale={locale}
+                  item={serviceItemsByKey.get("connections")!}
+                  centerName={profile.nickname}
+                  centerAvatarUrl={profile.avatar_url}
+                  currentCelebId={profile.id}
+                  isFiction={isFiction}
+                />
+              </Deferred>
             </SectionSurface>
           </section>
         )}
@@ -202,13 +196,19 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("analysis") && (
           <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("analysis")}
+            {/* 점수와 그래프는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다 */}
             <SectionSurface className={TAB_BOX_CLASS_NAME}>
-              <FigureAnalysisTabs
-                item={serviceItemsByKey.get("analysis")!}
-                spectrumData={spectrumData}
-                influenceData={influenceData}
-                influenceExplorerData={influenceExplorerData}
-              />
+              <Deferred
+                fallback={
+                  <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
+                }
+              >
+                <CelebAnalysisDeferred
+                  celebId={userId}
+                  locale={locale}
+                  item={serviceItemsByKey.get("analysis")!}
+                />
+              </Deferred>
             </SectionSurface>
           </section>
         )}

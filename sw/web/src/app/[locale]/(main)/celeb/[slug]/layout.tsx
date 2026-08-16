@@ -5,6 +5,8 @@ import RecentProfileTracker from "@/components/features/profile/RecentProfileTra
 import CelebWorldMaterialScope from "@/components/features/celeb/CelebWorldMaterialScope";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import PageContainer from "@/components/layout/PageContainer";
+import MessageScope from "@/components/shared/MessageScope";
+import { CELEB_MESSAGE_PATHS } from "@/i18n/message-scope";
 import styles from "./CelebDetailTypography.module.css";
 
 interface LayoutProps {
@@ -29,26 +31,30 @@ export default async function CelebLayout({ children, params }: LayoutProps) {
     tier: profile.celeb_tier,
   });
 
+  // 이 화면이 실제로 쓰는 문구만 받는다. 사전 전체를 실으면 한 장이 굳을 때마다
+  // HTML·RSC 양쪽에 187KB가 복사된다(external-services.md「ISR 쓰기 비용 규칙」).
   return (
-    <CelebWorldMaterialScope worldId={worldId}>
-      <RecentProfileTracker
-        profile={{
-          id: profile.id,
-          nickname: profile.nickname,
-          nickname_en: profile.nickname_en,
-          nickname_ko: profile.nickname_ko,
-          avatarUrl: profile.avatar_url ?? null,
-          title: profile.title ?? null,
-          title_en: profile.title_en,
-          title_ko: profile.title_ko,
-          profileType: "CELEB",
-        }}
-      />
-      <PageContainer wide>
-        <main className={`${styles.detailTypography} mx-auto max-w-[1400px] animate-fade-in`}>
-          {children}
-        </main>
-      </PageContainer>
-    </CelebWorldMaterialScope>
+    <MessageScope paths={CELEB_MESSAGE_PATHS}>
+      <CelebWorldMaterialScope worldId={worldId}>
+        <RecentProfileTracker
+          profile={{
+            id: profile.id,
+            nickname: profile.nickname,
+            nickname_en: profile.nickname_en,
+            nickname_ko: profile.nickname_ko,
+            avatarUrl: profile.avatar_url ?? null,
+            title: profile.title ?? null,
+            title_en: profile.title_en,
+            title_ko: profile.title_ko,
+            profileType: "CELEB",
+          }}
+        />
+        <PageContainer wide>
+          <main className={`${styles.detailTypography} mx-auto max-w-[1400px] animate-fade-in`}>
+            {children}
+          </main>
+        </PageContainer>
+      </CelebWorldMaterialScope>
+    </MessageScope>
   );
 }

@@ -2,13 +2,9 @@
 
 import { useMemo } from "react";
 
-import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
-import type { CelebInfluenceDetail } from "@/actions/home/getCelebInfluence";
-import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
-import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import type { Locale } from "@/types/locale";
 
@@ -19,14 +15,23 @@ import {
 } from "../celebServiceItems";
 import { getLocalizedCelebVideos } from "./celebDetailData";
 
+/**
+ * 관계·분석 구획은 화면이 다가왔을 때 브라우저가 직접 불러온다.
+ * 목차는 그보다 먼저 그려져야 하므로 「있다·없다」만 서버에서 넘겨받는다.
+ */
+export interface CelebSideAvailability {
+  relations: boolean;
+  contemporaries: boolean;
+  faction: boolean;
+  influence: boolean;
+  spectrum: boolean;
+}
+
 interface UseCelebServiceModelProps {
   profile: CelebBySlugProfile;
   locale: Locale;
-  contemporaries: ContemporaryCeleb[];
   timelineEvents: CelebTimelineEvent[];
-  factionTags: FeaturedTag[];
-  influenceData: CelebInfluenceDetail | null;
-  spectrumData: SimilarByCelebResult | null;
+  sideAvailability: CelebSideAvailability;
   dialogueLines?: Record<string, string[]> | null;
   fictionSources: FictionSourceContent[];
   initialContents: GetUserContentsResponse;
@@ -47,11 +52,8 @@ export interface CelebServiceModel {
 export function useCelebServiceModel({
   profile,
   locale,
-  contemporaries,
   timelineEvents,
-  factionTags,
-  influenceData,
-  spectrumData,
+  sideAvailability,
   dialogueLines,
   fictionSources,
   initialContents,
@@ -68,15 +70,15 @@ export function useCelebServiceModel({
 
   const availability: CelebServiceAvailability = {
     reading: Boolean(profile.reading),
-    relations: profile.relations.length > 0,
+    relations: sideAvailability.relations,
     timeline: timelineEvents.length > 0,
-    contemporaries: contemporaries.length > 0,
-    faction: factionTags.length > 0,
+    contemporaries: sideAvailability.contemporaries,
+    faction: sideAvailability.faction,
     videos: longform.length > 0 || shorts.length > 0,
     dialogues: hasDialogues,
     dialogueVoice: hasDialogues && hasVoice,
-    influence: Boolean(influenceData),
-    spectrum: Boolean(spectrumData?.targetSpectrum),
+    influence: sideAvailability.influence,
+    spectrum: sideAvailability.spectrum,
     sourceWorks: fictionSources.length > 0,
     library: initialContents.items.length > 0,
   };

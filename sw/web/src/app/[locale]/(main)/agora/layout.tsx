@@ -11,6 +11,7 @@ import AgoraTabs from "@/components/features/user/agora/AgoraTabs";
 import HegemonyMapBanner from "@/components/lab/HegemonyMapBanner";
 import PageBanner from "@/components/shared/PageBanner";
 import { getTranslations } from "next-intl/server";
+import MessageScope from "@/components/shared/MessageScope";
 
 // 광장 전체 색인 제외 (2026-07-15)
 // 게시글 총량이 한 자릿수라 검색엔진에 "제작 중인 사이트" 신호를 보내고,
@@ -23,7 +24,7 @@ interface Props {
   children: ReactNode;
 }
 
-export default async function AgoraLayout({ children }: Props) {
+async function AgoraLayoutBody({ children }: Props) {
   const tNav = await getTranslations("nav");
   const tHome = await getTranslations("home");
   const title = tNav("agora");
@@ -48,5 +49,14 @@ export default async function AgoraLayout({ children }: Props) {
         {children}
       </PageContainer>
     </>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function AgoraLayout(props: Props) {
+  return (
+    <MessageScope>
+      <AgoraLayoutBody {...props} />
+    </MessageScope>
   );
 }

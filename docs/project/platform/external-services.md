@@ -208,6 +208,13 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - **운영 주의**: 로컬 수정·재배포가 이미 누적된 최근 30일 사용량을 초기화하지 않는다. Hobby 프로젝트 중지 위험은 기간 만료 또는 플랜 전환 전까지 남는다. 배포 후 route별 `X-Vercel-Cache`와 Usage 기울기를 확인해야 해소 판정한다.
 - **공식 문서**: [CDN usage](https://vercel.com/docs/manage-cdn-usage), [Fluid compute](https://vercel.com/docs/functions/usage-and-pricing), [ISR usage](https://vercel.com/docs/incremental-static-regeneration/limits-and-pricing).
 
+### ISR 쓰기 비용 규칙 (2026-08-16)
+
+- ISR 쓰기는 **8KB당 1단위**로 센다. 상세 한 장은 HTML+RSC 0.5~1.2MB(작품 323+239KB, 인물 804+449KB 실측)라 생성 한 번에 70~156단위다. 사이트맵 15,884장을 크롤러가 한 바퀴 돌면 약 110만 단위 ≈ $6 — 8월 12일 `detail-tags-v2` 키 교체 직후 실측 1,167,485단위와 일치한다.
+- **상세 캐시 키(`DETAIL_CACHE_KEY_VERSION`·`celebs-public-*` 등)를 바꾸면 전량 재생성 한 바퀴 = 약 $6.** 반환 모양이 정말 바뀌었을 때만 올리고, 문구·필드 추가 수준이면 올리지 않는다.
+- 상세 페이지 시간 재검증은 30일(`revalidate = 2592000`)이다. 백오피스 저장이 태그로 그 항목만 즉시 무효화하므로 시간 재검증은 안전망일 뿐이다.
+- 크롤러가 하루 1만 장을 연다(작품 5,725·인물 3,710·SEO 이미지 2,759 / 24h 실측). 동적 렌더로 바꾸면 이 트래픽이 Supabase egress로 옮겨가 더 나쁘다. 줄이는 순서는 ① 상세 페이지 바이트 다이어트 ② 학습·대량 수집 크롤러 미들웨어 403(`lib/blocked-crawlers.ts`, robots.txt와 명단 공유) ③ Vercel Firewall의 AI Bots 관리 규칙(대시보드).
+
 ### Git 배포 빌드 게이트
 
 - 두 Vercel 프로젝트의 Root Directory는 각각 `sw/web`, `sw/web-bo`다. 각 디렉터리의 `vercel.json`이

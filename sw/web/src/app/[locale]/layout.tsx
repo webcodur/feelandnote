@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { setRequestLocale, getMessages, getTranslations } from "next-intl/server";
+import { BASE_MESSAGE_PATHS, pickMessages } from "@/i18n/message-scope";
 import Footer from "@/components/ui/Layout/Footer";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { GlobalDialogueProvider } from "@/components/features/game/shared/providers/GlobalDialogueProvider";
@@ -97,7 +98,9 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const messages = await getMessages({ locale });
+  // 번역 사전 전체(187KB)를 모든 화면에 실으면 ISR로 굳는 상세 한 장마다 HTML·RSC
+  // 양쪽에 그대로 복사된다. 여기서는 공통 뼈대만 내리고 화면별 몫은 MessageScope가 덧댄다.
+  const messages = pickMessages(await getMessages({ locale }), BASE_MESSAGE_PATHS);
   const t = await getTranslations({ locale, namespace: "site" });
   const organizationJsonLd = getOrganizationJsonLd(t("description"));
 

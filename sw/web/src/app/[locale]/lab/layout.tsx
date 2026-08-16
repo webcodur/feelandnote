@@ -6,6 +6,7 @@
 
 import { ReactNode } from "react";
 import LabTabs from "@/components/lab/LabTabs";
+import MessageScope from "@/components/shared/MessageScope";
 
 interface Props {
   children: ReactNode;
@@ -13,7 +14,7 @@ interface Props {
 
 export const metadata = { title: "Lab" };
 
-export default function LabLayout({ children }: Props) {
+function LabLayoutBody({ children }: Props) {
   return (
     <div className="min-h-screen bg-[#050505] text-[#e0e0e0] flex flex-col items-center py-12 md:py-20 px-4">
       <h1 className="text-3xl md:text-4xl font-cinzel text-[#d4af37] mb-8">Component Lab</h1>
@@ -28,5 +29,14 @@ export default function LabLayout({ children }: Props) {
         {children}
       </div>
     </div>
+  );
+}
+
+// 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
+export default function LabLayout(props: Props) {
+  return (
+    <MessageScope>
+      <LabLayoutBody {...props} />
+    </MessageScope>
   );
 }

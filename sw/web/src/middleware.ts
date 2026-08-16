@@ -7,6 +7,7 @@ import {
   MAINTENANCE_PREVIEW_PARAM,
 } from '@/lib/maintenance';
 import { updateSession } from '@/lib/supabase/middleware';
+import { isBlockedCrawler } from '@/lib/blocked-crawlers';
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -41,6 +42,12 @@ const LEGACY_CELEB_SLUG_REDIRECTS: Record<string, string> = {
 
 export async function middleware(request: NextRequest) {
   const { pathname: rawPathname } = request.nextUrl
+
+  // robots.txt로 금지한 학습·대량 수집 크롤러는 여기서 끊는다. 통과시키면 상세 페이지를
+  // 한 장씩 ISR 생성(쓰기 8KB당 과금)하고 SEO 이미지까지 만들게 된다.
+  if (isBlockedCrawler(request.headers.get('user-agent'))) {
+    return new NextResponse(null, { status: 403 })
+  }
 
   // 0) 검색엔진에 남은 옛 인물 주소를 현행 정규 주소로 영구 통합한다.
   const legacyCelebMatch = rawPathname.match(/^\/(en\/)?celeb\/([^/]+)\/?$/)
