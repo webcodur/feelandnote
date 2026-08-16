@@ -1,0 +1,32 @@
+name: Cloudflare Purge After Deploy
+
+# Vercel 프로덕션 배포가 성공하면, 이번 배포가 Cloudflare에 캐시된 화면(상세·명부·연표·SEO 이미지)의
+# 모양을 바꿨는지 변경 파일로 판정하고 필요할 때만 전체 퍼지 한 번을 부른다.
+# 배포가 끝나기 전에 퍼지하면 Cloudflare가 옛 배포 응답을 다시 담으므로 반드시 success 뒤에 돈다.
+on:
+  deployment_status:
+
+jobs:
+  purge:
+    if: github.event.deployment_status.state == 'success' && startsWith(github.event.deployment.environment, 'Production') && github.event.deployment.payload.project_name != 'feelandnote-bo'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Find previous successful production deploy
+        id: prev
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          prev=$(gh api "repos/${{ github.repository }}/deployments?environment=${{ github.event.deployment.environment }}&per_page=20" \
+            --jq '[.[] | select(.sha != "${{ github.event.deployment.sha }}")][0].sha // empty')
+          echo "sha=$prev" >> "$GITHUB_OUTPUT"
+          echo "previous=$prev"
+      - name: Decide and purge
+        env:
+          PREVIOUS_SHA: ${{ steps.prev.outputs.sha }}
+          CURRENT_SHA: ${{ github.event.deployment.sha }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: node scripts/cloudflare-purge-after-deploy.mjs
