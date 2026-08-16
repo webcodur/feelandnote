@@ -35,7 +35,10 @@ async function ExploreLayoutBody({ children, params }: Props) {
 }
 
 // 이 묶음은 화면마다 쓰는 문구 폭이 넓어 공통 뼈대에 남은 문구를 통째로 덧댄다.
-export default function ExploreLayout(props: Props) {
+export default async function ExploreLayout(props: Props) {
+  // MessageScope(getMessages)가 자식보다 먼저 돌므로 여기서 locale을 못 박아야 요청 헤더를 안 읽는다
+  const { locale } = await props.params;
+  setRequestLocale(locale);
   return (
     <MessageScope>
       <ExploreLayoutBody {...props} />

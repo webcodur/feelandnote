@@ -48,6 +48,7 @@ export const BASE_MESSAGE_PATHS = [
   "customContent",
   "banner",
   "actionModal",
+  "agora.section",
   "agoraGame",
   "export",
   "userBio",
