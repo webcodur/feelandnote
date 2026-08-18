@@ -88,6 +88,15 @@ export default function FeaturedFaction({
     [],
   );
 
+  const handleTagTeamImagesChange = useCallback(
+    (tagId: string, teamImages: FeaturedTag["team_images"]) => {
+      setDisplayTags((previous) => previous.map((tag) => (
+        tag.id === tagId ? { ...tag, team_images: teamImages } : tag
+      )));
+    },
+    [],
+  );
+
   // 선택된 테마를 주소창에 반영(공유 가능한 고유 주소). 페이지 이동 없이 주소만 갱신한다.
   useEffect(() => {
     if (!isExplore || typeof window === "undefined") return;
@@ -178,7 +187,7 @@ export default function FeaturedFaction({
           </p>
         </div>
       )}
-
+          
       {/* ─── 뷰 모드 탭 ─── */}
       {activeTag?.is_featured && activeTagIndex >= 0 && (
         <ViewModeTabs viewMode={viewMode} onChange={setViewMode} t={t} />
@@ -200,6 +209,8 @@ export default function FeaturedFaction({
                 key={activeTag.id}
                 activeTag={activeTag}
                 locale={locale}
+                canEditNames={canEditNames}
+                onTagTeamImagesChange={handleTagTeamImagesChange}
               />
               {/* 이 진영이 다루는 분야의 책. 걸린 책이 없거나 영문 화면이면 그리지 않는다 */}
               <TagOriginBooks tagId={activeTag.id} tagName={activeTag.name} variant="topic" />
@@ -221,8 +232,6 @@ export default function FeaturedFaction({
     </div>
   );
 }
-
-
 /* ─── 뷰 모드 탭 ─── */
 function ViewModeTabs({
   viewMode,
