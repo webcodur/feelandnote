@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Star, BookOpen, BadgeCheck, CheckCircle, Ban, Zap, Clock, Copy, Check, Loader2 } from 'lucide-react'
 import { type Member } from '@/actions/admin/members'
 import { toggleCelebTier, toggleCelebStatus } from '@/actions/admin/celebs'
+import { useToast } from '@/contexts/ToastContext'
 import { getCelebProfessionLabel } from '@/constants/celebCategories'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
@@ -130,6 +131,7 @@ export default function CelebTable({ celebs }: { celebs: Member[] }) {
 }
 
 function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string; status: string }) {
+  const { showToast } = useToast()
   const [status, setStatus] = useState(initialStatus)
   const [loading, setLoading] = useState(false)
 
@@ -141,13 +143,14 @@ function StatusToggleIcon({ celebId, status: initialStatus }: { celebId: string;
   const { className, hoverClass, icon: Icon, title } = config[status] || config.active
 
   const handleClick = async () => {
-    if (status === 'deleted' || loading) return
+    if (status !== 'active' && status !== 'inactive') return
+    if (loading) return
     setLoading(true)
     try {
       const newStatus = await toggleCelebStatus(celebId, status)
       setStatus(newStatus)
     } catch (e) {
-      console.error('status 전환 실패:', e)
+      showToast('error', e instanceof Error ? e.message : '인물 활성 상태를 바꾸지 못했다.')
     } finally {
       setLoading(false)
     }

@@ -122,14 +122,13 @@ function buildSpectrumJsonb(
 // #region Types
 interface ExtraSectionsProps {
   celebId: string
-  celebSlug: string
   spectrumRaw: MemberSpectrum | null
   /** 대사·음성 편집기에 넘길 인물 데이터. 없으면 그 구획을 열지 않는다 */
   voiceCeleb: VoiceGenCeleb | null
 }
 // #endregion
 
-export default function ExtraSections({ celebId, celebSlug, spectrumRaw, voiceCeleb }: ExtraSectionsProps) {
+export default function ExtraSections({ celebId, spectrumRaw, voiceCeleb }: ExtraSectionsProps) {
   const { showToast } = useToast()
 
   // --- Spectrum state ---
@@ -188,11 +187,27 @@ export default function ExtraSections({ celebId, celebSlug, spectrumRaw, voiceCe
   }
 
   const dialogueCount = countDialogueLines(voiceCeleb?.dialogue_lines ?? null)
+  const filledStatCount = ALL_KEYS.filter((k) => (spectrumStats[k] ?? 0) !== 0 || Boolean(reasons[k]?.trim())).length
 
   return (
-    <>
+    <div className="space-y-4">
       {/* Spectrum Stats */}
-      <CardAccordion title="스펙트럼 스탯">
+      <CardAccordion
+        key="spectrum-stats"
+        title="스펙트럼 스탯"
+        summary={
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-text-secondary">
+              {filledStatCount}/{ALL_KEYS.length}
+            </span>
+            {filledStatCount === ALL_KEYS.length && (
+              <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400">
+                완료
+              </span>
+            )}
+          </div>
+        }
+      >
         <div className="space-y-5">
           {STAT_GROUPS.map((group) => (
             <div key={group.label}>
@@ -272,6 +287,7 @@ export default function ExtraSections({ celebId, celebSlug, spectrumRaw, voiceCe
       {/* 대사 · 음성 — 작업실(/celebs/voice-gen)과 같은 편집기를 그대로 쓴다 */}
       {voiceCeleb && (
         <CardAccordion
+          key="dialogue-studio"
           title="대사 · 음성"
           summary={
             <div className="flex items-center gap-2">
@@ -285,11 +301,14 @@ export default function ExtraSections({ celebId, celebSlug, spectrumRaw, voiceCe
           <CelebDialogueStudio celeb={voiceCeleb} />
         </CardAccordion>
       )}
+    </div>
+  )
+}
 
-      {/* Deep Profile */}
-      <CardAccordion title="심화 열전">
-        <DeepProfileSection celebId={celebId} slug={celebSlug} />
-      </CardAccordion>
-    </>
+export function DeepProfileAccordion({ celebId, slug }: { celebId: string; slug: string }) {
+  return (
+    <CardAccordion title="심화 열전">
+      <DeepProfileSection celebId={celebId} slug={slug} />
+    </CardAccordion>
   )
 }

@@ -1,11 +1,12 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Check, Loader2 } from 'lucide-react'
+import { Check, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
 import { saveCelebExplanation } from '@/actions/admin/celeb-explanation'
 import type { CelebExplanation, CelebExplanationReviewStatus } from '@/lib/admin/celeb-explanations'
 import { formatKstDateTime } from '@/lib/date-format'
 import { useToast } from '@/contexts/ToastContext'
+import { useLangMode } from '@/contexts/LangModeContext'
 
 interface CelebExplanationSectionProps {
   celebId: string
@@ -43,8 +44,12 @@ function toDraft(explanation: CelebExplanation | null): Draft {
 
 export default function CelebExplanationSection({ celebId, slug, explanation }: CelebExplanationSectionProps) {
   const { showToast } = useToast()
+  const langMode = useLangMode()
+  const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState<Draft>(() => toDraft(explanation))
   const [saving, setSaving] = useState(false)
+  const showKo = langMode !== 'en'
+  const showEn = langMode !== 'ko'
 
   const initial = useRef(toDraft(explanation))
 
@@ -91,17 +96,81 @@ export default function CelebExplanationSection({ celebId, slug, explanation }: 
   }
 
   const reviewBadge = REVIEW_STATUS.find((r) => r.value === draft.reviewStatus) ?? REVIEW_STATUS[2]
+  const koBlock = (
+    <div className="space-y-3">
+      {langMode === 'both' && <p className="text-xs font-semibold text-accent">국문</p>}
+      <Field
+        label="인물 안내"
+        hint="권장 150~300자"
+        count={draft.plainText.length}
+        value={draft.plainText}
+        onChange={(v) => setField('plainText', v)}
+      />
+      <Field
+        label="인물 탐구 제목"
+        hint="권장 20~40자"
+        count={draft.interpretiveTitle.length}
+        value={draft.interpretiveTitle}
+        onChange={(v) => setField('interpretiveTitle', v)}
+        singleLine
+      />
+      <Field
+        label="인물 탐구 본문"
+        hint="권장 400~800자"
+        count={draft.interpretiveText.length}
+        value={draft.interpretiveText}
+        onChange={(v) => setField('interpretiveText', v)}
+      />
+    </div>
+  )
+  const enBlock = (
+    <div className={`space-y-3 ${showKo ? 'pt-2 border-t border-border' : ''}`}>
+      {langMode === 'both' && <p className="text-xs font-semibold text-text-secondary">영문</p>}
+      <Field
+        label="인물 안내"
+        hint="권장 150~300자"
+        count={draft.plainTextEn.length}
+        value={draft.plainTextEn}
+        onChange={(v) => setField('plainTextEn', v)}
+        placeholder="영문 번역 (비워 두면 미제공)"
+      />
+      <Field
+        label="인물 탐구 제목"
+        hint="권장 20~40자"
+        count={draft.interpretiveTitleEn.length}
+        value={draft.interpretiveTitleEn}
+        onChange={(v) => setField('interpretiveTitleEn', v)}
+        singleLine
+        placeholder="영문 번역 (비워 두면 미제공)"
+      />
+      <Field
+        label="인물 탐구 본문"
+        hint="권장 400~800자"
+        count={draft.interpretiveTextEn.length}
+        value={draft.interpretiveTextEn}
+        onChange={(v) => setField('interpretiveTextEn', v)}
+        placeholder="영문 번역 (비워 두면 미제공)"
+      />
+    </div>
+  )
+
+  const summaryText =
+    draft.interpretiveTitle || draft.plainText
+      ? `${draft.interpretiveTitle ? `[${draft.interpretiveTitle}] ` : ''}${draft.plainText}`
+      : '처음 보는 독자를 위한 안내와, 사실을 한 번 더 연결해 읽는 탐구'
 
   return (
-    <section className="bg-bg-card border border-border rounded-lg p-5 space-y-5">
-      <header className="flex flex-wrap items-start justify-between gap-3">
-        <div>
+    <section className="bg-bg-card border border-border rounded-lg overflow-hidden">
+      <button type="button" onClick={() => setOpen(!open)} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+        <div className="text-left min-w-0 pr-4">
           <h2 className="text-base font-semibold text-text-primary">읽어보기</h2>
-          <p className="mt-1 text-xs text-text-tertiary">
-            처음 보는 독자를 위한 안내와, 사실을 한 번 더 연결해 읽는 탐구
-          </p>
+          {!open && (
+            <p className="mt-1 text-xs text-text-tertiary truncate">
+              {summaryText}
+            </p>
+          )}
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex items-center gap-3 shrink-0">
           <span className={`rounded px-2 py-1 text-xs font-medium ${reviewBadge.className}`}>
             {reviewBadge.label}
           </span>
@@ -116,107 +185,61 @@ export default function CelebExplanationSection({ celebId, slug, explanation }: 
               {explanation.published_at ? '게시됨' : '미게시 · 검토용'}
             </span>
           )}
+          {open ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
         </div>
-      </header>
+      </button>
 
-      {!explanation && (
-        <p className="rounded-lg border border-dashed border-border bg-bg-secondary/40 px-4 py-3 text-xs text-text-secondary">
-          아직 작성된 읽어보기 원고가 없습니다. 아래에 입력하고 저장하면 새로 등록됩니다.
-        </p>
-      )}
+      {open && (
+        <div className="px-4 pb-4 space-y-5">
+          {!explanation && (
+            <p className="rounded-lg border border-dashed border-border bg-bg-secondary/40 px-4 py-3 text-xs text-text-secondary">
+              아직 작성된 읽어보기 원고가 없습니다. 아래에 입력하고 저장하면 새로 등록됩니다.
+            </p>
+          )}
 
-      {/* 한국어 */}
-      <div className="space-y-3">
-        <p className="text-xs font-semibold text-accent">국문</p>
+          {showKo && koBlock}
+          {showEn && enBlock}
 
-        <Field
-          label="인물 안내"
-          count={draft.plainText.length}
-          value={draft.plainText}
-          onChange={(v) => setField('plainText', v)}
-        />
-        <Field
-          label="인물 탐구 제목"
-          count={draft.interpretiveTitle.length}
-          value={draft.interpretiveTitle}
-          onChange={(v) => setField('interpretiveTitle', v)}
-          singleLine
-        />
-        <Field
-          label="인물 탐구 본문"
-          count={draft.interpretiveText.length}
-          value={draft.interpretiveText}
-          onChange={(v) => setField('interpretiveText', v)}
-        />
-      </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-text-secondary">검수 상태</span>
+              <div className="flex gap-1">
+                {REVIEW_STATUS.map((status) => (
+                  <button
+                    key={String(status.value)}
+                    type="button"
+                    onClick={() => setField('reviewStatus', status.value)}
+                    className={`rounded px-2 py-1 text-xs font-medium ${
+                      draft.reviewStatus === status.value
+                        ? `${status.className} ring-1 ring-inset ring-current`
+                        : 'bg-bg-secondary text-text-tertiary hover:text-text-primary'
+                    }`}
+                  >
+                    {status.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-      {/* 영문 */}
-      <div className="space-y-3 pt-2 border-t border-border">
-        <p className="text-xs font-semibold text-text-secondary">영문</p>
-
-        <Field
-          label="인물 안내"
-          count={draft.plainTextEn.length}
-          value={draft.plainTextEn}
-          onChange={(v) => setField('plainTextEn', v)}
-          placeholder="영문 번역 (비워 두면 미제공)"
-        />
-        <Field
-          label="인물 탐구 제목"
-          count={draft.interpretiveTitleEn.length}
-          value={draft.interpretiveTitleEn}
-          onChange={(v) => setField('interpretiveTitleEn', v)}
-          singleLine
-          placeholder="영문 번역 (비워 두면 미제공)"
-        />
-        <Field
-          label="인물 탐구 본문"
-          count={draft.interpretiveTextEn.length}
-          value={draft.interpretiveTextEn}
-          onChange={(v) => setField('interpretiveTextEn', v)}
-          placeholder="영문 번역 (비워 두면 미제공)"
-        />
-      </div>
-
-      {/* 검수 상태 + 저장 */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-text-secondary">검수 상태</span>
-          <div className="flex gap-1">
-            {REVIEW_STATUS.map((status) => (
+            {isDirty() && (
               <button
-                key={String(status.value)}
                 type="button"
-                onClick={() => setField('reviewStatus', status.value)}
-                className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
-                  draft.reviewStatus === status.value
-                    ? `${status.className} ring-1 ring-inset ring-current`
-                    : 'bg-bg-secondary text-text-tertiary hover:text-text-primary'
-                }`}
+                onClick={save}
+                disabled={saving}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-accent/10 text-accent border border-accent/30 hover:bg-accent/20 disabled:opacity-50"
               >
-                {status.label}
+                {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+                저장
               </button>
-            ))}
+            )}
           </div>
+
+          {explanation && (
+            <p className="text-[11px] text-text-tertiary">
+              최종 수정 {formatKstDateTime(explanation.updated_at)}
+            </p>
+          )}
         </div>
-
-        {isDirty() && (
-          <button
-            type="button"
-            onClick={save}
-            disabled={saving}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs bg-accent/10 text-accent border border-accent/30 hover:bg-accent/20 disabled:opacity-50"
-          >
-            {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
-            저장
-          </button>
-        )}
-      </div>
-
-      {explanation && (
-        <p className="text-[11px] text-text-tertiary">
-          최종 수정 {formatKstDateTime(explanation.updated_at)}
-        </p>
       )}
     </section>
   )
@@ -229,6 +252,7 @@ function Field({
   onChange,
   singleLine = false,
   placeholder,
+  hint,
 }: {
   label: string
   count: number
@@ -236,15 +260,18 @@ function Field({
   onChange: (value: string) => void
   singleLine?: boolean
   placeholder?: string
+  hint?: string
 }) {
   const inputClass =
-    'w-full px-3 py-2 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none'
+    'w-full px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none'
 
   return (
-    <label className="block space-y-1.5">
-      <span className="flex items-baseline justify-between gap-3">
-        <span className="text-xs font-medium text-text-secondary">{label}</span>
-        <span className="text-[11px] text-text-tertiary">{count}자</span>
+    <div className="grid grid-cols-[7rem_1fr] gap-x-3 items-start">
+      <span className="pt-2 text-xs font-medium text-text-secondary">
+        {label}
+        <span className="mt-0.5 block text-[11px] font-normal text-text-tertiary">
+          {count}자 {hint && <span className="text-[10px] text-text-tertiary/70">({hint})</span>}
+        </span>
       </span>
       {singleLine ? (
         <input
@@ -257,7 +284,7 @@ function Field({
       ) : (
         <AutoTextarea value={value} onChange={onChange} placeholder={placeholder} className={inputClass} />
       )}
-    </label>
+    </div>
   )
 }
 

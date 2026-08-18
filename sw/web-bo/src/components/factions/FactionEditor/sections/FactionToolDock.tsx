@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { Users } from 'lucide-react'
-import { Eye, Film, ImageIcon, Mic, Search, Upload } from '@feelandnote/shared/bo/icons'
+import { Film, ImageIcon, Mic, Search, Upload } from '@feelandnote/shared/bo/icons'
 import type { FactionScript } from '@/lib/faction-types'
 import { FactionCopyButton } from '../../shared/FactionCopyButton'
 import { FactionNameCopyButton } from '../../shared/FactionNameCopyButton'
@@ -51,7 +51,6 @@ type Props = {
   imageSyncReloadKey: number
   peopleImagesActive: boolean
   poolActive: boolean
-  previewActive: boolean
   youtubeActive: boolean
   publishActive: boolean
   cardsActive: boolean
@@ -59,7 +58,6 @@ type Props = {
   rendering: boolean
   onTogglePeopleImages: () => void
   onTogglePool: () => void
-  onTogglePreview: () => void
   onOpenVoice: () => void
   onNormalizeVoice: () => void
   onOpenQuoteMode: () => void
@@ -72,9 +70,9 @@ type Props = {
 }
 
 export function FactionToolDock({
-  script, folder, imageSyncReloadKey, peopleImagesActive, poolActive, previewActive,
+  script, folder, imageSyncReloadKey, peopleImagesActive, poolActive,
   youtubeActive, publishActive, cardsActive, syncing, rendering, onTogglePeopleImages,
-  onTogglePool, onTogglePreview, onOpenVoice, onNormalizeVoice, onOpenQuoteMode,
+  onTogglePool, onOpenVoice, onNormalizeVoice, onOpenQuoteMode,
   onSyncVoice, onRender, onToggleYouTube, onOpenPublish, onTogglePublish, onToggleCards,
 }: Props) {
   return (
@@ -89,7 +87,6 @@ export function FactionToolDock({
         </ToolGroup>
 
         <ToolGroup label="검수">
-          <ToolButton icon={<Eye size={15} />} active={previewActive} onClick={onTogglePreview}>{previewActive ? '편집 화면' : '미리보기'}</ToolButton>
           <ToolButton icon={<Search size={15} />} active={publishActive} onClick={onTogglePublish} title="본서비스 반영 상태 진단">반영 진단</ToolButton>
           <ToolButton active={cardsActive} onClick={onToggleCards}>카드·도감</ToolButton>
         </ToolGroup>

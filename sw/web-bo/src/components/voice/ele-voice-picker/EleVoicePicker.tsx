@@ -17,18 +17,25 @@ import type { FactionVoiceHistoryEntry } from '@/lib/faction-voice-casting-histo
 import type { EleVoiceRecommendation } from './types'
 
 /**
- * ElevenLabs 보이스 콤보박스 — 드롭다운(전체 목록 + 이름 검색 + 거르기·정렬)과 직접 입력을 한 위젯에 합친다.
+ * ELE 보이스 고르기 — 진입 버튼과 전면 선택 창(검색 + 거르기·정렬 + 목록)을 한 부품에 담는다.
+ *
+ * 이름은 한 곳에서만 정한다. 주석·컴포넌트 이름·화면 제목이 모두 아래 ELE_VOICE_PICKER_TITLE 을 따른다.
  *
  * 표준 datalist 는 입력값(voiceId)으로 목록을 필터링해, 보이스가 선택된 상태(입력칸에 id 가 차 있음)에서
  * 드롭다운을 다시 열면 그 id 와 매칭되는 항목만 떠 사실상 목록이 사라진다. 그래서 직접 구현한다.
  *
  * 동작:
- *  - 입력칸 클릭/포커스 → 드롭다운 펼침. 검색어가 비면 전체 목록, 입력하면 이름·voiceId 로 필터.
+ *  - 진입 버튼 클릭 → 선택 창 펼침. 검색어가 비면 전체 목록, 입력하면 이름·voiceId 로 필터.
  *  - 성별·나이·억양·언어·용도·분류 칩으로 거르고, 이름·분류·미리듣기 기준으로 정렬한다.
- *  - 목록 항목 클릭 → 그 보이스 voiceId 를 저장(입력칸엔 이름 표시).
+ *  - 목록 항목의 「선택」 → 그 보이스 voiceId 를 저장(진입 버튼엔 이름 표시).
  *  - 목록에 없는 보이스 → 검색어를 그대로 voiceId 로 지정하는 항목이 맨 아래에 뜬다(공유 보이스 등 대응).
  *  - 검색은 query 로만 다루고 저장은 명시적 선택(클릭)으로만 — 타이핑이 곧장 저장되지 않아 검색/직접입력이 안 섞인다.
+ *  - 이름·사용 인물은 칸 폭을 고정해 줄이 밀리지 않게 하고, 넘치면 그 칸 안에서만 가로로 굴린다.
+ *    사용 인물은 눌러서 전체 명단을 겹창으로 펼친다.
  */
+
+/** 이 UI 의 이름 — 주석·컴포넌트 이름·화면 제목의 단일 출처 */
+export const ELE_VOICE_PICKER_TITLE = 'ELE 보이스 고르기'
 
 type Voice = EleVoiceLike
 type VoiceQuickFilter = 'good' | 'maybe' | 'noted' | 'used' | 'unused'
@@ -42,7 +49,7 @@ const QUICK_FILTER_LABEL: Record<VoiceQuickFilter, string> = {
 }
 const QUICK_FILTERS: VoiceQuickFilter[] = ['good', 'maybe', 'noted', 'used', 'unused']
 
-export function EleVoiceCombobox({
+export function EleVoicePicker({
   voices, value, onChange, loading, error, recommendations = [],
   voiceNotes = {}, notesLoading = false, notesError = null, savingVoiceId = null, onUpdateVoiceNote,
   onApplyVoiceGain, applyingGainVoiceId = null,
@@ -86,6 +93,10 @@ export function EleVoiceCombobox({
   const [noteDrafts, setNoteDrafts] = useState<Record<string, string>>({})
   // 음량 입력 임시값 — 타자 중에는 저장하지 않고 칸을 떠날 때 한 번만 도감에 적는다
   const [gainDrafts, setGainDrafts] = useState<Record<string, string>>({})
+  // 보이스 ID 복사 알림 — 복사한 보이스 하나만 잠깐 「복사됨」으로 바뀐다
+  const [copiedVoiceId, setCopiedVoiceId] = useState<string | null>(null)
+  // 사용 인물 겹창 — 칸에 다 못 담는 인물 명단을 이 보이스 하나만 펼쳐 본다
+  const [usageVoiceId, setUsageVoiceId] = useState<string | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   // 보이스 샘플 미리듣기 — ElevenLabs preview_url 을 재생. 한 번에 하나만.
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -102,11 +113,21 @@ export function EleVoiceCombobox({
     a.play().catch(() => setPreviewingId(null))
   }
 
-  // 드롭다운이 닫히면 재생을 멈춘다(선택·바깥 클릭·Escape 모두 setOpen(false) 경유).
+  const copyVoiceId = (voiceId: string) => {
+    navigator.clipboard?.writeText(voiceId)
+      .then(() => {
+        setCopiedVoiceId(voiceId)
+        setTimeout(() => setCopiedVoiceId(cur => (cur === voiceId ? null : cur)), 1200)
+      })
+      .catch(() => undefined)
+  }
+
+  // 선택 창이 닫히면 재생을 멈추고 겹창도 접는다(선택·바깥 클릭·Escape 모두 setOpen(false) 경유).
   useEffect(() => {
     if (open) return
     if (audioRef.current) { audioRef.current.pause(); audioRef.current = null }
     setPreviewingId(null)
+    setUsageVoiceId(null)
   }, [open])
 
   const selected = voices.find(v => v.voice_id === value)
@@ -275,6 +296,14 @@ export function EleVoiceCombobox({
     const names = entry.usages.slice(0, 3).map(usage => usage.personName).join(', ')
     return `사용 ${entry.count}회${names ? ` · ${names}` : ''}`
   }
+  // 이 보이스를 쓰는 인물 이름 — 같은 인물이 여러 자리에 걸쳐 있어도 한 번만 센다
+  const usagePeople = (entry: FactionVoiceHistoryEntry | undefined) => {
+    const names: string[] = []
+    for (const usage of entry?.usages ?? []) {
+      if (usage.personName && !names.includes(usage.personName)) names.push(usage.personName)
+    }
+    return names
+  }
 
   // 보이스 한 줄 — 아래 목록과 상단 고정(지금 선택된 보이스) 양쪽에서 같은 모양으로 쓴다.
   const renderVoiceRow = (v: Voice) => {
@@ -293,7 +322,7 @@ export function EleVoiceCombobox({
     return (
       <div
         key={v.voice_id}
-        className={`grid w-full grid-cols-[44px_56px_minmax(0,1fr)_auto_auto_148px] items-center gap-3 border-b border-slate-200 px-3 py-1.5 text-left ${
+        className={`grid w-full grid-cols-[44px_56px_200px_minmax(0,1fr)_168px_auto_auto_52px] items-center gap-3 border-b border-slate-200 px-3 py-1.5 text-left ${
           sel ? 'bg-emerald-50 text-emerald-800' : blocked ? 'bg-rose-50/70 text-slate-700' : 'text-slate-900 hover:bg-slate-50'
         }`}
       >
@@ -319,9 +348,15 @@ export function EleVoiceCombobox({
               : 'border border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50'
           }`}
         >{sel ? '선택됨' : '선택'}</button>
-        {/* 이름·배지·추천 사유·사용 이력 — 한 줄. 길면 이 칸 안에서만 가로 스크롤(막대는 숨김). */}
+        {/* 이름 — 칸 폭을 못 넘긴다. 길면 이 칸 안에서만 가로로 굴린다(막대는 숨김). */}
+        <span
+          className="scrollbar-hide min-w-0 overflow-x-auto whitespace-nowrap"
+          title={v.name}
+        >
+          <span className={`text-sm ${sel ? 'font-extrabold' : 'font-bold'}`}>{v.name}</span>
+        </span>
+        {/* 배지·추천 사유 — 한 줄. 길면 이 칸 안에서만 가로 스크롤(막대는 숨김). */}
         <span className="scrollbar-hide flex min-w-0 items-center gap-1.5 overflow-x-auto whitespace-nowrap">
-          <span className={`shrink-0 text-sm ${sel ? 'font-extrabold' : 'font-bold'}`}>{v.name}</span>
           {rec && <span className="shrink-0 rounded bg-amber-100 px-1 text-[9px] font-black text-amber-800">추천 {rec.rank}</span>}
           {history && <span className="shrink-0 rounded bg-slate-100 px-1 text-[9px] font-black text-slate-600">사용 {history.count}</span>}
           {status && <span className={`shrink-0 rounded px-1 text-[9px] font-black ${
@@ -347,10 +382,20 @@ export function EleVoiceCombobox({
           {rec && (
             <span className="shrink-0 text-[10px] font-semibold text-amber-700">{rec.reasons.slice(0, 3).join(' · ')}</span>
           )}
-          {historyText && (
-            <span className="shrink-0 text-[10px] font-semibold text-slate-500">{historyText}</span>
-          )}
         </span>
+        {/* 사용 인물 — 칸 폭에서 잘리고, 누르면 전체 명단이 겹창으로 열린다 */}
+        {history?.count ? (
+          <button
+            type="button"
+            onClick={e => { e.stopPropagation(); setUsageVoiceId(v.voice_id) }}
+            title={historyText ?? '사용 인물 보기'}
+            className="min-w-0 truncate rounded border border-slate-200 bg-white px-1.5 py-0.5 text-left text-[10px] font-semibold text-slate-600 hover:border-sky-400 hover:text-sky-700"
+          >
+            {usagePeople(history).join(', ')}
+          </button>
+        ) : (
+          <span className="text-center text-[10px] text-slate-300">—</span>
+        )}
         {/* 판정·메모 — 같은 줄 오른쪽 고정 */}
         {onUpdateVoiceNote ? (
           <span className="flex shrink-0 items-center gap-1">
@@ -417,7 +462,7 @@ export function EleVoiceCombobox({
                   title="이 보이스를 쓰는 인물들의 음량 칸에 도감 값을 내려보낸다(빈 칸과 옛 도감값을 그대로 쓰던 인물만). 렌더는 인물 값만 읽는다"
                   className="shrink-0 rounded border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-500 hover:border-amber-400 hover:text-amber-700 disabled:opacity-50"
                 >
-                  {applyingGainVoiceId === v.voice_id ? '적용 중…' : '인물에 적용'}
+                  {applyingGainVoiceId === v.voice_id ? '등록 중…' : '인물 등록'}
                 </button>
               )}
             </span>
@@ -437,7 +482,19 @@ export function EleVoiceCombobox({
           </span>
         ) : <span />}
         <span className="text-center text-[10px] font-semibold text-slate-400">{v.category ? facetValueLabel(v.category) : '—'}</span>
-        <span className="truncate font-mono text-[10px] text-slate-400">{v.voice_id}</span>
+        {/* 보이스 ID — 줄에서 읽을 일이 없어 복사 단추만 남긴다(전문은 툴팁) */}
+        <button
+          type="button"
+          onClick={e => { e.stopPropagation(); copyVoiceId(v.voice_id) }}
+          title={`보이스 ID 복사 — ${v.voice_id}`}
+          className={`rounded border px-1 py-0.5 text-[10px] font-bold ${
+            copiedVoiceId === v.voice_id
+              ? 'border-emerald-300 bg-emerald-100 text-emerald-700'
+              : 'border-slate-200 bg-white text-slate-500 hover:border-slate-400 hover:text-slate-800'
+          }`}
+        >
+          {copiedVoiceId === v.voice_id ? '복사됨' : '복사'}
+        </button>
       </div>
     )
   }
@@ -530,6 +587,10 @@ export function EleVoiceCombobox({
           onMouseDown={() => { setOpen(false); setQuery('') }}
         />
         <div className="fixed left-1/2 top-1/2 z-50 flex h-[90vh] w-[min(92vw,1700px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-2xl">
+          {/* 제목 — 창 맨 위 가운데. 이 UI 의 이름은 ELE_VOICE_PICKER_TITLE 하나로 정한다 */}
+          <div className="shrink-0 border-b border-slate-200 bg-slate-100 px-3 py-2 text-center">
+            <span className="text-sm font-black tracking-wide text-slate-800">{ELE_VOICE_PICKER_TITLE}</span>
+          </div>
           {loading && <div className="px-3 py-2 text-xs text-slate-500 font-bold">불러오는 중…</div>}
           {error && <div className="px-3 py-2 text-xs text-danger-text font-bold">목록 로드 실패 — voiceId 직접 입력: {error}</div>}
 
@@ -714,14 +775,16 @@ export function EleVoiceCombobox({
           )}
           {!loading && !error && filtered.length > 0 && (
             <>
-              {/* 헤더 행 — 컬럼: 듣기 · 이름 · 분류 · 보이스 ID */}
-              <div className="sticky top-0 z-10 grid grid-cols-[44px_56px_minmax(0,1fr)_auto_auto_148px] gap-3 border-b border-slate-200 bg-slate-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">
+              {/* 헤더 행 — 컬럼: 듣기 · 선택 · 이름 · 배지 · 사용 인물 · 판정·메모 · 분류 · 복사 */}
+              <div className="sticky top-0 z-10 grid grid-cols-[44px_56px_200px_minmax(0,1fr)_168px_auto_auto_52px] gap-3 border-b border-slate-200 bg-slate-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">
                 <span />
                 <span />
                 <span>이름</span>
+                <span>배지 · 추천 사유</span>
+                <span>사용 인물</span>
                 <span className="text-center">판정 · 메모</span>
                 <span className="text-center">분류</span>
-                <span>보이스 ID</span>
+                <span className="text-center">ID</span>
               </div>
               {filtered.map(v => renderVoiceRow(v))}
             </>
@@ -737,6 +800,52 @@ export function EleVoiceCombobox({
           )}
           </div>
         </div>
+
+        {/* 사용 인물 겹창 — 줄에서 잘린 명단을 자리·편까지 붙여 전부 펼친다 */}
+        {usageVoiceId && (() => {
+          const entry = voiceHistory[usageVoiceId]
+          const usageVoice = voiceById.get(usageVoiceId)
+          return (
+            <>
+              <div
+                className="fixed inset-0 z-[60] bg-black/40"
+                onMouseDown={e => { e.stopPropagation(); setUsageVoiceId(null) }}
+              />
+              <div className="fixed left-1/2 top-1/2 z-[61] flex max-h-[70vh] w-[min(92vw,640px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded border border-slate-300 bg-white shadow-2xl">
+                <div className="flex shrink-0 items-center gap-2 border-b border-slate-200 bg-slate-100 px-3 py-2">
+                  <span className="min-w-0 truncate text-sm font-black text-slate-800">{usageVoice?.name ?? usageVoiceId}</span>
+                  <span className="shrink-0 rounded bg-slate-200 px-1.5 text-[10px] font-black text-slate-600">사용 {entry?.count ?? 0}</span>
+                  <button
+                    type="button"
+                    onClick={() => setUsageVoiceId(null)}
+                    className="ml-auto shrink-0 rounded border border-slate-300 bg-white px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:border-slate-500 hover:text-slate-900"
+                  >닫기</button>
+                </div>
+                <div className="min-h-0 flex-1 overflow-auto">
+                  {entry?.usages.length
+                    ? entry.usages.map((usage, index) => (
+                      <div key={`${usage.episode}-${usage.personName}-${usage.slot}-${index}`} className="border-b border-slate-100 px-3 py-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-sm font-bold text-slate-900">{usage.personName}</span>
+                          {usage.personNameEn && <span className="text-[10px] text-slate-400">{usage.personNameEn}</span>}
+                          <span className="rounded bg-slate-100 px-1 text-[9px] font-black text-slate-600">
+                            {usage.slot === 'quote' ? '대사' : '수식어'}
+                          </span>
+                        </div>
+                        <div className="mt-0.5 text-[11px] text-slate-500">
+                          {[usage.role, usage.org].filter(Boolean).join(' · ') || '—'}
+                        </div>
+                        <div className="mt-0.5 text-[11px] font-semibold text-slate-600">
+                          {[usage.episodeTitle ?? usage.episode, usage.groupName, usage.clusterLabel].filter(Boolean).join(' › ')}
+                        </div>
+                      </div>
+                    ))
+                    : <div className="px-3 py-3 text-xs font-bold text-slate-400">사용 기록 없음</div>}
+                </div>
+              </div>
+            </>
+          )
+        })()}
         </>
       )}
     </div>

@@ -22,7 +22,7 @@ import { FactionSyncContent } from './FactionSyncContent'
 import { FactionRateGainControls } from './FactionRateGainControls'
 import { buildFactionEleVoiceRecommendations } from './faction-voice-recommendations'
 import {
-  EleVoiceCombobox, useEleVoiceNotes, useEleVoiceHistory,
+  EleVoicePicker, useEleVoiceNotes, useEleVoiceHistory,
 } from '@/components/voice/ele-voice-picker'
 import { folderToParam } from '@/lib/faction-edit-route'
 import { effectiveElevenLabsVoiceId } from '@feelandnote/shared/lib/faction-voice-provider'
@@ -429,7 +429,7 @@ export function FactionExpandedVoicePanel({
         {/* 보이스 콤보박스 — 드롭다운(전체 목록 + 이름 검색) + voiceId 직접 지정을 한 위젯에. */}
         {spec.chosenEngine === 'elevenlabs' && (
           <div className="min-w-0 flex-1">
-            <EleVoiceCombobox
+            <EleVoicePicker
               voices={eleVoices}
               value={spec.eleVoiceId}
               onChange={spec.setEleVoiceId}

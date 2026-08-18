@@ -497,6 +497,12 @@ export interface FactionIndividualScene {
   captionEn?: string
   media?: string
   mediaCrop?: FactionImageCrop
+  /**
+   * 한 장면 안에서 배경을 갈아 끼운다. `paragraph`는 caption의 단락 인덱스(0-based, 빈 줄로 나뉜 덩어리)이며
+   * 그 단락이 뜨는 시점에 crossfade 로 교체된다. 장면을 여러 개로 쪼개 제목을 다시 다는 대신,
+   * 제목 하나를 유지한 채 컷만 나눌 때 쓴다.
+   */
+  mediaChanges?: { paragraph: number; media: string; crop?: FactionImageCrop }[]
   durationSec?: number
   sfx?: string
 }
