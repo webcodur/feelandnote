@@ -17,6 +17,7 @@ import NationalityText from "@/components/ui/NationalityText";
 import ShareButtons from "@/components/ui/ShareButtons";
 import { useCelebGreeting } from "@/hooks/useCelebGreeting";
 import { trackEvent } from "@/lib/analytics/track";
+import { getCelebAge } from "@/lib/celeb/lifespan";
 import type { WorldBannerImages } from "@/lib/celeb/worldImages";
 import {
   formatSectionNumber,
@@ -25,7 +26,6 @@ import {
 } from "@/lib/celeb/worldStyle";
 import type { Locale } from "@/types/locale";
 
-import { getCelebAge } from "../celebAge";
 import CelebSectionHeading from "../CelebSectionHeading";
 import CelebHeroPhoto from "../CelebHeroPhoto";
 import styles from "../CelebPageContent.module.css";
@@ -212,7 +212,9 @@ export default function CelebHeroSection({
                   ) : null}
 
                   <div className={styles.identityHeadingCopy}>
-                    {profile.title ? (
+                    {profile.headline ? (
+                      <p className={styles.title}>{profile.headline}</p>
+                    ) : profile.title ? (
                       <p className={styles.title}>{profile.title}</p>
                     ) : null}
                     <h1 className={styles.name}>{nickname}</h1>

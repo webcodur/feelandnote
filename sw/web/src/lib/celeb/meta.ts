@@ -6,6 +6,8 @@ export interface CelebMetaSourceWork { title: string; relationType?: string }
 export interface CelebMetaInput {
   nickname: string;
   title: string | null;
+  headline?: string | null;
+  headline_en?: string | null;
   counts: ContentCounts;
   tier?: CelebTier;
   quote?: string | null;
@@ -98,19 +100,24 @@ function countPartsKo(counts: ContentCounts): string[] {
 
 export function buildCelebTitleKo(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
-  const source = primarySource(input);
+  const headline = input.headline?.trim();
   if (tier === "fiction") {
+    if (headline) return `${headline} — ${input.nickname}`;
+    const source = primarySource(input);
     return source
       ? `${input.nickname}, 《${source}》의 등장인물`
       : titleLabel(input);
   }
   if (tier === "light") {
+    if (headline) return `${headline} — ${input.nickname}`;
     return titleLabel(input);
   }
   const records = countPartsKo(input.counts);
-  return records.length > 0
-    ? `${identityKo(input)}${subjectParticle(input.nickname)} ${records.join(", ")}`
-    : `${identityKo(input)}: 인물 정보와 기록`;
+  if (records.length > 0) {
+    return `${identityKo(input)}${subjectParticle(input.nickname)} ${records.join(", ")}`;
+  }
+  if (headline) return `${headline} — ${input.nickname}`;
+  return `${identityKo(input)}: 인물 정보와 기록`;
 }
 
 function descriptionHeadKo(input: CelebMetaInput): string {
@@ -118,7 +125,11 @@ function descriptionHeadKo(input: CelebMetaInput): string {
     const quote = sanitizeQuote(input.quote, "ko");
     if (quote) return `“${quote}” ${identityKo(input)}.`;
   }
+  const headline = input.headline?.trim();
   const intro = firstSentence(input.bio);
+  if (headline) {
+    return intro ? `${headline} ${input.nickname}. ${intro}` : `${headline} ${input.nickname}.`;
+  }
   return intro ? `${identityKo(input)}. ${intro}` : `${identityKo(input)}의 인물 정보.`;
 }
 
@@ -160,14 +171,22 @@ function countPartsEn(counts: ContentCounts): string[] {
 
 export function buildCelebTitleEn(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
-  const source = primarySource(input);
+  const headlineEn = (input.headline_en || input.headline)?.trim();
   if (tier === "fiction") {
+    if (headlineEn) return `${headlineEn} — ${input.nickname}`;
+    const source = primarySource(input);
     return source ? `${input.nickname} in ${sourceAfterPrepositionEn(source)}` : titleLabel(input);
   }
-  if (tier === "light") return titleLabel(input);
+  if (tier === "light") {
+    if (headlineEn) return `${headlineEn} — ${input.nickname}`;
+    return titleLabel(input);
+  }
   const records = countPartsEn(input.counts);
-  return records.length > 0 ? `${identityEn(input)}: ${records.join(", ")}`
-    : `${identityEn(input)}: Biography & Records`;
+  if (records.length > 0) {
+    return `${identityEn(input)}: ${records.join(", ")}`;
+  }
+  if (headlineEn) return `${headlineEn} — ${input.nickname}`;
+  return `${identityEn(input)}: Biography & Records`;
 }
 
 function descriptionHeadEn(input: CelebMetaInput): string {
@@ -175,7 +194,11 @@ function descriptionHeadEn(input: CelebMetaInput): string {
     const quote = sanitizeQuote(input.quote, "en");
     if (quote) return `“${quote}” ${identityEn(input)}.`;
   }
+  const headlineEn = (input.headline_en || input.headline)?.trim();
   const intro = firstSentence(input.bio);
+  if (headlineEn) {
+    return intro ? `${headlineEn} ${input.nickname}. ${intro}` : `A profile of ${headlineEn} ${input.nickname}.`;
+  }
   return intro ? `${identityEn(input)}. ${intro}` : `A profile of ${identityEn(input)}.`;
 }
 

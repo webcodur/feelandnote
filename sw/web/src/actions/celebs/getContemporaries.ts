@@ -4,6 +4,7 @@ import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { LIST_REVALIDATE } from '@/lib/cache'
+import { getCelebLifeEndYear } from '@/lib/celeb/lifespan'
 
 export interface ContemporaryCeleb {
   id: string
@@ -80,9 +81,8 @@ export async function getContemporaries(
   if (isNaN(birth)) return []
   const birthDateSortValue = getBirthDateSortValue(birthDate)
 
-  const currentYear = new Date().getFullYear()
-  const death = deathDate ? parseInt(deathDate) : currentYear
-  if (isNaN(death)) return []
+  const death = getCelebLifeEndYear(birthDate, deathDate)
+  if (death === null) return []
 
   const all = await getAllCelebsWithDatesCached()
   const results: ContemporaryCeleb[] = []
@@ -91,8 +91,8 @@ export async function getContemporaries(
     if (row.id === celebId) continue
     const b = parseInt(row.birth_date!)
     if (isNaN(b)) continue
-    const d = row.death_date ? parseInt(row.death_date) : currentYear
-    if (isNaN(d)) continue
+    const d = getCelebLifeEndYear(row.birth_date, row.death_date)
+    if (d === null) continue
 
     if (birth <= d && death >= b) {
       results.push({
@@ -115,8 +115,10 @@ export async function getContemporaries(
       - Math.abs(birthDateSortValue - getBirthDateSortValue(b.birth_date!))
     if (birthGap !== 0) return birthGap
 
-    const overlapA = Math.min(death, a.death_date ? parseInt(a.death_date) : currentYear) - Math.max(birth, birthA)
-    const overlapB = Math.min(death, b.death_date ? parseInt(b.death_date) : currentYear) - Math.max(birth, birthB)
+    const endA = getCelebLifeEndYear(a.birth_date, a.death_date) ?? birthA
+    const endB = getCelebLifeEndYear(b.birth_date, b.death_date) ?? birthB
+    const overlapA = Math.min(death, endA) - Math.max(birth, birthA)
+    const overlapB = Math.min(death, endB) - Math.max(birth, birthB)
     if (overlapA !== overlapB) return overlapB - overlapA
 
     return a.id.localeCompare(b.id)

@@ -31,6 +31,9 @@ export interface PublicUserProfile {
   title: string | null
   title_en?: string | null
   title_ko?: string | null
+  headline?: string | null
+  headline_en?: string | null
+  headline_ko?: string | null
   nationality: string | null
   birth_date: string | null
   death_date: string | null

@@ -14,6 +14,8 @@ export function createCelebMetaInput(
   return {
     nickname: profile.nickname,
     title: profile.title,
+    headline: profile.headline,
+    headline_en: profile.headline_en,
     counts: profile.contentTypeCounts,
     tier: profile.celeb_tier ?? "full",
     quote: profile.quotes,

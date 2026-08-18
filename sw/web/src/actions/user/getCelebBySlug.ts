@@ -125,6 +125,8 @@ interface PublicCelebBySlugData {
     profession: string | null
     title: string | null
     title_en: string | null
+    headline: string | null
+    headline_en: string | null
     nationality: string | null
     birth_date: string | null
     death_date: string | null
@@ -170,7 +172,7 @@ async function fetchCelebBySlugPublic(slug: string): Promise<PublicCelebBySlugDa
 
   const { data: celeb } = await supabase
     .from('celebs')
-    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
+    .select('id, slug, nickname, nickname_en, avatar_url, bio, bio_en, profession, title, title_en, headline, headline_en, nationality, birth_date, death_date, is_verified, created_at, has_voice, voice_v, voice_speed, wikidata_qid, celeb_tier, content_research_confirmed_empty_at, view_count, youtube_videos, portrait_url, portrait_caption, portrait_caption_en')
     .eq('slug', slug)
     .eq('publication_status', 'active')
     .single()
@@ -432,6 +434,9 @@ async function getCelebBySlugInner(
       title: resolve('title', profile.title_en, profile.title),
       title_en: profile.title_en,
       title_ko: profile.title,
+      headline: resolve('headline', profile.headline_en, profile.headline),
+      headline_en: profile.headline_en,
+      headline_ko: profile.headline,
       nationality: profile.nationality,
       birth_date: profile.birth_date,
       death_date: profile.death_date,
