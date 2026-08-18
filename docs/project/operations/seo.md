@@ -27,15 +27,12 @@
 ## 인물 상세 메타데이터
 
 인물 상세의 제목과 설명은 `sw/web/src/lib/celeb/meta.ts`가 만들고, 메타 태그 조립은
-`celeb/[slug]/celebPageMetadata.ts`가 맡는다. 콘텐츠가 실제로 있는 `full`만 감상 기록과
-건수를 제목에 쓴다. 콘텐츠가 없는 `full`은 인물 정보와 기록을 쓴다. `light`는 기존
-수식어(`title`)를 이름 앞에 두어 짧게 병치하고, `fiction`은 이름과 연결 원전의 등장인물 관계를 밝힌다.
-픽션에 연결 원전이 없으면 기존 수식어, 수식어도 없으면 이름까지만 쓴다. 한 티어의 문구를
-다른 티어에 재사용해 감상하지 않은 작품을 추천·감상한 것처럼 보이게 하지 않는다.
+`celeb/[slug]/celebPageMetadata.ts`가 맡는다.
 
-수식어보다 구체적인 인물별 한 줄 정의는 아직 데이터가 없으므로 소개문에서 자동 추출하지
-않는다. 별도 필드와 전 인물 한영 원고를 마련하는 후속 작업은
-[`docs/todo/celeb/celeb-profile-headline.md`](../../todo/celeb/celeb-profile-headline.md)에서 관리한다.
+- **`headline`(한 줄 정의)**: `fiction`과 `light` 인물에서 `headline`이 등록되어 있으면 최우선으로 `${headline} — ${nickname}` 형식으로 타이틀을 조립한다. `full` 인물도 감상 기록이 0건일 때 `headline`이 있으면 이를 우선 활용한다.
+- **`fiction`**: `headline`이 없을 경우 연결 원전이 있으면 `${nickname}, 《${원전}》의 등장인물`로, 원전 연결도 없으면 기존 수식어(`${title} — ${nickname}`), 수식어도 없으면 이름만 쓴다.
+- **`light`**: `headline`이 없을 경우 기존 수식어(`${title} — ${nickname}`)로 폴백한다.
+- **`full`**: 콘텐츠가 실제로 1건 이상 있는 `full`은 감상 기록과 건수를 제목에 쓴다 (`${title} ${nickname}이 감상한 책 ${count}권...`).
 
 구조화 데이터는 모두 `Person`을 중심 엔터티로 유지한다. `full`의 공개 감상 기록만
 `ItemList`로 연결하고, `fiction`의 원전·등장 작품은 `CreativeWork.character`로 인물과 잇는다.
@@ -242,7 +239,7 @@ GSC 자료는 2026-02-07부터 시작한다. 구글 기준 도메인 나이가 6
 1. **500 복구 배포** — 하지 않으면 아래가 전부 무의미하다.
 2. **작품 상세를 사이트맵에서 제외**(이 문서 「사이트맵」절 반영 완료) — 제출량 18,300 → 3,914(프로덕션 실측).
 3. **외부 링크 확보** — 크롤 예산 자체를 늘리는 유일한 수단이다.
-4. 한 줄 정의 필드·스니펫 개선([`celeb-profile-headline.md`](../../todo/celeb/celeb-profile-headline.md))은
+4. 한 줄 정의 필드·스니펫 개선([`celeb-1-basic-profile.md`](../celeb/celeb-1-basic-profile.md))은
    위 셋이 끝난 뒤에 착수한다. 구글이 방문하지 않는 상태에서 문구를 다듬어도 노출 자리가 없다.
 
 작품 페이지 자체는 삭제·noindex하지 않았다. 내부 링크로는 계속 닿으며, 사이트맵 제출 대상에서만 뺐다.

@@ -29,8 +29,8 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `birth_date` / `death_date`는 BC 표기(`-384`)를 담기 위한 **text**다
   - `claimed_by_member_id`는 인수 회원의 `user_accounts.id`를 참조한다. 셀럽 자신의 로그인
     계정이 아니다
-  - 실제 감상 철학 저장 열은 `consumption_philosophy` / `consumption_philosophy_en`이다.
-    `cultural_journey` / `cultural_journey_en`은 읽기 전용 generated 별칭이므로 직접 쓰지 않는다
+  - 감상여정 저장 열은 `cultural_journey` / `cultural_journey_en`이다. `consumption_philosophy*`는 레거시 호환 열이다.
+    `cultural_journey` / `cultural_journey_en`은 감상여정 정식 저장 열이므로 직접 사용한다.
   - `speech_tone` (text): 말투 6종. **`celebs` 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
@@ -39,7 +39,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `virtual_monologue_en` (text): 가상 독백 영문본 (2026-07-21 `add_virtual_monologue_en_column`)
     - fiction 데이터 연결 단계에서는 둘 다 null이어도 active·검색 노출을 허용한다.
       원전 검토를 거치지 않은 대량 독백으로 빈칸을 메우지 않는다
-  - `virtual_monologue_locked_at` (timestamptz): **가상 독백 확정 잠금** (2026-08-02 `add_virtual_monologue_lock`). 값이 있으면 트리거 `guard_virtual_monologue_lock`이 어떤 경로(관리자 폼·게시 RPC·스크립트)로 오든 `virtual_monologue` UPDATE를 거부한다. 해제(null 세팅)와 본문 수정은 반드시 별도 문장 — 한 문장에 섞어도 차단된다. 잠금·해제·목록 CLI: `sw/web-bo/scripts/lock-virtual-monologue.ts`
+  - `virtual_monologue_locked_at` (timestamptz): **가상 독백 확정 잠금** (2026-08-02 `add_virtual_monologue_lock`). 값이 있으면 트리거 `guard_virtual_monologue_lock`이 어떤 경로(관리자 폼·게시 RPC·스크립트)로 오든 `virtual_monologue` UPDATE를 거부한다. 해제(null 세팅)와 본문 수정은 반드시 별도 문장 — 한 문장에 섞어도 차단된다. 잠금·해제·목록 CLI: `sw/web-bo/scripts/fiction/monologue-lock.ts`
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 Supabase Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
@@ -58,12 +58,12 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 작성·검토·배치 규칙은 `docs/project/celeb/person-reading.md`, 최초 스키마는 `20260803181502_create_celeb_explanations.sql`, 현행 검수 상태는 `20260804060931_replace_celeb_explanation_sources_with_review_status.sql` 참조
   - `celeb_explanation_sources`는 2026-08-04 폐기했다. 사실 조사는 계속 수행하지만 URL은 집필 캐시에만 임시 보관하고 서비스 DB에는 적재하지 않는다
 - **`celeb_relations`**: 인물 관계망 (2026-07-22 `add_celeb_relations_table`). 위키데이터 사실 관계 + 수동 보강
-  - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/sync-celeb-relations.ts`가 SSoT
+  - `rel_type` = **"to_id가 from_id에게 무엇인가"** (father/mother/parent/child/spouse/partner/sibling/relative/teacher/student/influence/influenced/rival). 방향 규약·수집은 `sw/web-bo/scripts/celeb/relations.ts`가 SSoT
   - `rel_group`: family(혈연)/thought(사상)/career(공동 창업)/friendship(지기)/rivalry(라이벌) · `source`: wikidata/manual. 재수집은 wikidata 출처만 갈아끼움(manual 보존)
   - `publication_status`가 비공개인 내부 상대도 관계 사실에서는 제외하지 않는다. 화면은 이름 노드로 표시하고 이동만 막는다(`slug=null`); 위키데이터 링크는 `celebs.wikidata_qid`를 쓴다
   - 근거 설명은 `note`(한국어)와 `note_en`(영문)을 짝으로 쓴다. `label_ko`·`label_en`은 소비처가 없는 레거시 열이므로 새 값을 넣지 않는다
   - 혈연은 세대·형제 수 자체가 정보이므로 인원 상한을 적용하지 않는다. 화면의 접이식 상한은 사회 관계에만 적용한다
-  - `sync-celeb-relations.ts` 재실행은 `source='wikidata'` 행을 교체한다. 수동 보강은 반드시 `source='manual'`로 저장한다
+  - `celeb/relations.ts` 재실행은 `source='wikidata'` 행을 교체한다. 수동 보강은 반드시 `source='manual'`로 저장한다
   - 실측(2026-07-22): 방향 간선 1,972 — thought 1,110 / rivalry 456 / family 148 / friendship 140 / career(P112 조직 매개) 118
   - rivalry·friendship은 위키데이터에 사실상 없어 GPT 제안+전수 훑기(1,692명) → 병렬 검증 → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
   - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
@@ -87,7 +87,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
       content FK·non-fiction 관계는 각각 0건
     - 미연결 2명은 펜테실레이아·멤논. 직접 원전인 소실 서사시
       《아이티오피스》를 후대 작품으로 대체하지 않고 보류
-    - 재현·감사: `sw/web-bo/scripts/audit-fiction-faction-links.ts`
+    - 재현·감사: `sw/web-bo/scripts/fiction/audit.ts`
       (여기 함께 적혀 있던 `sync-fiction-source-rosters.ts`는 저장소에 없다 —
       26.08.06 확인. 이름이 비슷한 `sync-fiction-profiles.ts`·
       `sync-faction-fiction-data.ts`가 그 역할을 나눠 가졌는지는 **미확인**)
@@ -206,7 +206,7 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 - 주소는 원본에서 파일명만 바꿔 얻는다(`celebAvatarSmallUrl`). DB에 별도 컬럼을 두지 않는다 — 26.08.08 실측으로 아바타 보유 2,483명 전원이 예외 없이 `celebs/{id}/avatar.webp` 규칙을 따랐다.
 - **어느 자리가 작은 판을 쓰는지는 화면이 아니라 표시 크기가 정한다.** 상한(`maxDisplayPx`)은 위 상수 파일에 있고, 웹은 세 갈래로 그 판정을 공유한다 — 훅 `sw/web/src/hooks/useCelebAvatarSrc.ts`, 그 훅을 쓰는 공용 부품 `components/ui/CelebImage.tsx`·`CelebAvatarImage.tsx`. 새 화면은 표시 크기(`sizes`)만 정확히 넘기면 되고, 판정을 다시 적지 않는다.
 - 작은 판이 없는 인물은 화면이 원본으로 되돌린다. 그래서 생성이 밀려도 얼굴이 사라지지는 않는다.
-- 만드는 곳은 넷이다 — 일괄 생성 `sw/web-bo/scripts/generate-celeb-avatar-sm.ts`, 그리고 아바타를 올리는 세 경로(백오피스 화면 `actions/admin/storage.ts`, 등록 스크립트 `scripts/upload-celeb-avatar.ts`, 배경 지우기 `lib/image-processing/nobg-avatar.ts`)가 모두 원본과 함께 만든다.
+- 만드는 곳은 넷이다 — 일괄 생성 `sw/web-bo/scripts/avatar/sm.ts`, 그리고 아바타를 올리는 세 경로(백오피스 화면 `actions/admin/storage.ts`, 등록 스크립트 `scripts/avatar/upload.ts`, 배경 지우기 `lib/image-processing/nobg-avatar.ts`)가 모두 원본과 함께 만든다.
 
 **아바타 구도 규격**
 
@@ -234,7 +234,7 @@ R2 `celebs/{id}/` 경로. `web-bo`의 `lib/image.ts`에서 리사이즈.
 
 | 경로 | 도구 | 비고 |
 |------|------|------|
-| 손에 있는 파일 등록 | `sw/web-bo/scripts/upload-celeb-hero-photo.ts` | 배치 JSON `[{slug, celeb_id, nickname, image}]`. id-slug 일치를 확인한 뒤에만 쓴다 |
+| 손에 있는 파일 등록 | `sw/web-bo/scripts/photo/hero-upload.ts` | 배치 JSON `[{slug, celeb_id, nickname, image}]`. id-slug 일치를 확인한 뒤에만 쓴다 |
 | 팩션 폴더에서 전용 | `scan-faction-portrait-candidates.mjs` 로 후보 수집 → 눈으로 1장 선별 → 위 등록 도구 | **유튜브에 올라간 편만 대상**(`scripts/youtube/faction-lineup.json`). 팩션 원본은 영상 자산이므로 절대 삭제하지 않는다 |
 | codex 로 생성 | `generate-celeb-hero-photos.mjs` | 얼굴 아바타를 REF로 붙여 생성 → 진위검사 → 등록 → 생성물 로컬 삭제까지 한 건에 끝낸다. 대상 추출은 `pick-hero-photo-targets.mjs` |
 

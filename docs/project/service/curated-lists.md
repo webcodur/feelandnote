@@ -136,9 +136,9 @@
 
 | 파일 | 역할 |
 |---|---|
-| `sw/web-bo/scripts/import-curated-list.ts` | 수집 JSON → DB 적재. 기관·목록은 slug 기준 갱신, 항목은 목록 단위 전량 교체(멱등). 이미 맺은 작품 연결은 제목+저자로 회수해 되붙인다. `_`로 시작하는 파일은 부속 자료로 보고 건너뛴다. `--dry` |
-| `sw/web-bo/scripts/match-curated-items.ts` | 항목 ↔ **기존** 콘텐츠 연결. 제목 정규화 + 저자 대조. 도서·영상 모두 다루며 목록의 대상 매체와 같은 것만 후보로 삼는다. `--dry` `--list <slug>` `--relink` |
-| `sw/web-bo/scripts/register-curated-books.ts` | 우리에게 **없는** 작품을 외부에서 찾아 등록하고 잇는다. 도서는 카카오·Open Library, 영상은 TMDB. `--dry` `--limit N` `--list <slug>` |
+| `sw/web-bo/scripts/curated/import.ts` | 수집 JSON → DB 적재. 기관·목록은 slug 기준 갱신, 항목은 목록 단위 전량 교체(멱등). 이미 맺은 작품 연결은 제목+저자로 회수해 되붙인다. `_`로 시작하는 파일은 부속 자료로 보고 건너뛴다. `--dry` |
+| `sw/web-bo/scripts/curated/match.ts` | 항목 ↔ **기존** 콘텐츠 연결. 제목 정규화 + 저자 대조. 도서·영상 모두 다루며 목록의 대상 매체와 같은 것만 후보로 삼는다. `--dry` `--list <slug>` `--relink` |
+| `sw/web-bo/scripts/curated/register.ts` | 우리에게 **없는** 작품을 외부에서 찾아 등록하고 잇는다. 도서는 카카오·Open Library, 영상은 TMDB. `--dry` `--limit N` `--list <slug>` |
 | `data/curated-lists/_author-aliases.json` | 저자 표기 대응표. 음역 차이(맥루한↔맥루언)는 규칙으로 안 잡혀 사람이 확인한 것만 등록 |
 | `data/curated-lists/_match-report.json` · `_register-report.json` | 실행 보고(보류·미보유·미발견 명단). 실행마다 덮어쓴다 |
 
@@ -184,8 +184,8 @@
 
 | 파일 | 역할 |
 |---|---|
-| `sw/web-bo/scripts/curated-korean-titles.mjs` | 대상 추출 후 GPT에 20건씩 물어 **한국어 출간명·저자**와 **현재 연결이 맞는지**를 받는다. `--dump` `--ask [--limit N]` |
-| `sw/web-bo/scripts/curated-apply-korean.ts` | 받은 답으로 ① 오연결 해제 ② 서재에 이미 있는 한국어 책과 잇기 ③ 없으면 카카오에서 찾아 등록. `--dry` `--unlink` |
+| `sw/web-bo/scripts/curated/titles.mjs` | 대상 추출 후 GPT에 20건씩 물어 **한국어 출간명·저자**와 **현재 연결이 맞는지**를 받는다. `--dump` `--ask [--limit N]` |
+| `sw/web-bo/scripts/curated/titles-apply.ts` | 받은 답으로 ① 오연결 해제 ② 서재에 이미 있는 한국어 책과 잇기 ③ 없으면 카카오에서 찾아 등록. `--dry` `--unlink` |
 
 - **배치는 20건**이 상한이다. 40건으로 묶으면 답을 다 쓰기 전에 시간이 끊긴다.
 - 🔴 **사고 깊이는 `low`로 내린다.** 「이 책의 한국어 제목이 뭐냐」는 아는지 묻는 일이라 깊이 생각해도 나아지지 않는데, 기본값(medium)으로 돌렸더니 **10분에 40건**이었다(전량 5시간). `low` + 동시 6으로 바꾸니 **분당 44건**으로 6배 빨라졌고 답의 품질은 그대로였다.

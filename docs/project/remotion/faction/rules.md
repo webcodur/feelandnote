@@ -364,10 +364,10 @@ ElevenLabs 대사 음원의 음량이 제각각인 문제는 **loudnorm 라우�
 
 팩션 인물이 DB(`celebs`)에 등록돼도 프로필 아바타(`avatar_url`)가 비어 세력도감 카드에 이미지가 안 뜨는 경우가 있다. 팩션 영상용 개인샷을 아바타로 재활용하는 자동 승격은 **`celeb_tier='fiction'` 인물에만 허용한다.** 실존 인물은 팩션 개인샷만으로 신원을 입증할 수 없으므로 자동 승격하지 않는다.
 
-**기존 스크립트를 재사용한다:** `sw/web-bo/scripts/upload-celeb-avatar.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{celebs.id}/avatar.webp` PUT → `celebs.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY다.
+**기존 스크립트를 재사용한다:** `sw/web-bo/scripts/avatar/upload.ts`의 `--image-file` 로컬 모드. sharp + @vladmandic/face-api로 얼굴 자동 검출 → 얼굴 중심 정사각 크롭 → 800×800 webp → R2 `celebs/{celebs.id}/avatar.webp` PUT → `celebs.avatar_url` UPDATE까지 자동이다. 필요한 env는 `sw/web-bo/.env`의 R2_* 7키 + SUPABASE_SERVICE_ROLE_KEY다.
 
 ```
-npx tsx scripts/upload-celeb-avatar.ts --celeb-id <celebs.id UUID> \
+npx tsx scripts/avatar/upload.ts --celeb-id <celebs.id UUID> \
   --image-file "C:/abs/path.png" --slug <slug> \
   --source-note "공식 사진을 바탕으로 한 신원 보존 재구성" \
   --identity-evidence "https://공식·기관·본인 페이지"
@@ -388,7 +388,7 @@ npx tsx scripts/upload-celeb-avatar.ts --celeb-id <celebs.id UUID> \
 - 누끼 이미지에서도 얼굴 검출이 정상이다(0.55~0.997). `--face-detect false`는 불필요하다.
 - CUDA dll 경고는 무시한다(CPU 폴백).
 - 얼굴 정사각 크롭은 upload 스크립트가 이미 한다. **2026-08-01부터 눈높이·턱끝 랜드마크 기준으로 통일됐다** — 상자에 배율(0.45·2.2배)을 곱하던 옛 방식과 조절 인자는 폐기됐고, 계산은 `sw/web-bo/src/lib/avatar-geometry.ts` 한 곳이 한다. 수치는 `docs/project/celeb/celeb-avatar-spec.md` §1·§6이 SSoT다. **얼굴을 못 찾으면 대체 크롭으로 올리지 않고 실패한다.**
-- `crop-faces.ts`는 아바타용 얼굴 정사각 크롭 도구다(같은 규격·같은 계산). 무릎까지 전신 크롭은 `crop-body.ts`가 따로 있다.
+- `photo/crop-faces.ts`는 아바타용 얼굴 정사각 크롭 도구다(같은 규격·같은 계산). 무릎까지 전신 크롭은 `photo/crop-body.ts`가 따로 있다.
 
 **배치 주의:** 여러 명을 bash `while IFS= read`로 순회할 때 배치 tsv 마지막 줄에 개행이 없으면 마지막 1명이 스킵된다(개행을 추가하거나 마지막 인물은 개별 실행). `getFeaturedTags`는 `unstable_cache`(tags:['celebs'])라 갱신 후 새로고침·revalidate가 필요하다.
 

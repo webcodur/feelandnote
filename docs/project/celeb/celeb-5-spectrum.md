@@ -70,7 +70,7 @@ fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-p
 | 축별 기준점 인물 | `SPECTRUM_ANCHORS` |
 | 무력 8단계 등급·하한선 규칙·배우 구간 | `MARTIAL_GRADES`, `MARTIAL_FLOOR_RULE`, `PERFORMER_MARTIAL_BANDS` |
 | 삼국지 인물 전용 대응표 | `THREE_KINGDOMS_ANCHORS` |
-| 채점 원칙(행적 우선·동점 금지 등) | `SCORING_PRINCIPLES`, `MIN_SCORE_GAP` |
+| 채점 원칙(행적 우선 등) | `SCORING_PRINCIPLES` |
 
 `rationale_ko` / `rationale_en`은 인물 종합 해설이다. 작성법은 아래 「인물 분석 해설지」 절.
 
@@ -130,12 +130,12 @@ fiction은 `celeb_persona` 행을 만들지 않는다. 티어 정의는 `celeb-p
 
 ## 채점 원칙
 
-**원칙 목록과 기준점은 코드가 정본이다** — `SCORING_PRINCIPLES`, `SPECTRUM_ANCHORS`, `MIN_SCORE_GAP`.
+**원칙 목록과 기준점은 코드가 정본이다** — `SCORING_PRINCIPLES`, `SPECTRUM_ANCHORS`.
 아래는 그 원칙이 왜 생겼는지의 배경이다.
 
 **행적이 직군을 이긴다.** 헤밍웨이는 직군만 보면 무력 40대이나 1차대전 종군·복싱·아프리카 수렵·노르망디 동행을 근거로 72~75가 맞다. 직군 기본값은 행적 정보가 전혀 없을 때의 마지막 수단이다.
 
-**같은 배치에서 같은 점수를 주지 마라.** 최소 3점 차를 두고, 인물 간 상대 비교로 서열을 확정한 뒤 점수를 매긴다. 티어 하한값(55·42·30)에 기계적으로 찍는 것이 가장 흔한 실패다.
+**인물 간 상대 비교로 서열을 확정한 뒤 점수를 매긴다.** 티어 하한값(55·42·30)에 기계적으로 찍는 것이 가장 흔한 실패다.
 
 **26.08.08 실측에서 드러난 세 가지 오독** — 같은 함정을 되풀이하지 마라.
 

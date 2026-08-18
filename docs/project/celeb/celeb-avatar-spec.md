@@ -13,7 +13,7 @@
 
 | 갈래 | 실측 |
 |------|------|
-| 크롭 구현 벌 수 | 6벌 (`upload-celeb-avatar.ts` · `batch-celeb-avatars.ts` · `crop-faces.ts` · `src/utils/faceDetection.ts` · 폐기 2벌) |
+| 크롭 구현 벌 수 | 6벌 (`avatar/upload.ts` · `avatar/batch.ts` · `photo/crop-faces.ts` · `src/utils/faceDetection.ts` · 폐기 2벌) |
 | 얼굴 비율 상수 | 3종 — `0.45` / `2.2배(=0.4545)` / `0.55` |
 | 세로 기준점 | 3종 — 얼굴 상자 중심을 정중앙 / 정수리 여백 기준 상단 고정 / 콧대 지점을 정중앙 |
 | 얼굴 검출 모델 | 2종 — 서버 SSD MobileNet v1, 관리자 화면 TinyFaceDetector (상자 규약이 달라 같은 비율값이 같은 결과를 내지 않는다) |
@@ -38,7 +38,7 @@
 이어서 다른 60명을 판정 도구로 쟀다.
 
 ```
-npx tsx scripts/measure-avatar-geometry.ts <이미지폴더>
+npx tsx scripts/avatar/measure.ts <이미지폴더>
 ```
 
 | | 규격 | p10 | 중앙 | p90 |
@@ -380,14 +380,14 @@ Output size: exactly 1024 x 1024 pixels, square 1:1.
 
 | | 무엇을 잡나 | 수단 |
 |---|---|---|
-| 1단계 | 얼굴이 좌우로 밀린 것 | `measure-avatar-geometry.ts` |
-| 2단계 | **그 밖의 전부** — 상반신 유입·시선·잘림·배경·질감 | `build-avatar-contact-sheet.ts`로 격자를 만들어 직접 본다 |
+| 1단계 | 얼굴이 좌우로 밀린 것 | `avatar/measure.ts` |
+| 2단계 | **그 밖의 전부** — 상반신 유입·시선·잘림·배경·질감 | `avatar/contact-sheet.ts`로 격자를 만들어 직접 본다 |
 
 ### 5.1 1단계 — 수치로 거른다
 
 ```
-npx tsx scripts/measure-avatar-geometry.ts <이미지폴더>
-npx tsx scripts/measure-avatar-geometry.ts --from-db --offset 0 --limit 200
+npx tsx scripts/avatar/measure.ts <이미지폴더>
+npx tsx scripts/avatar/measure.ts --from-db --offset 0 --limit 200
 ```
 
 이미지마다 눈높이·턱끝·얼굴 중심축을 재고 §1 허용 범위와 대조해 합격·이탈을 찍는다. 판정 수치는 `src/lib/avatar-geometry.ts` 하나에서만 온다.
@@ -432,8 +432,8 @@ npx tsx scripts/measure-avatar-geometry.ts --from-db --offset 0 --limit 200
 ### 5.2 2단계 — 격자로 직접 본다
 
 ```
-npx tsx scripts/build-avatar-contact-sheet.ts --out <출력폴더> --limit 36
-npx tsx scripts/build-avatar-contact-sheet.ts --out <출력폴더> --slugs a,b,c
+npx tsx scripts/avatar/contact-sheet.ts --out <출력폴더> --limit 36
+npx tsx scripts/avatar/contact-sheet.ts --out <출력폴더> --slugs a,b,c
 ```
 
 등록된 아바타를 내려받아 §1 기준선(눈 46 · 턱 81 · 중심축 50)을 겹친 격자로 묶고, 칸 번호와 인물의 대응표를 함께 낸다. 30~40명을 한 번에 판정할 수 있다.
@@ -494,7 +494,7 @@ npx tsx scripts/build-avatar-contact-sheet.ts --out <출력폴더> --slugs a,b,c
 **1) 재크롭이 되는지 본다**
 
 ```
-npx tsx scripts/crop-faces.ts <내려받은폴더> <출력폴더> --size 800
+npx tsx scripts/photo/crop-faces.ts <내려받은폴더> <출력폴더> --size 800
 ```
 
 - **경고가 없고 결과가 규격에 들면** 그것으로 교체한다. 다만 원본 일부를 잘라 800으로 늘리는 것이라 확대가 들어간다(실측 약 1.2배). 원형 100px 표시에서는 티가 안 나지만 손실은 손실이다.
@@ -574,7 +574,7 @@ npx tsx scripts/crop-faces.ts <내려받은폴더> <출력폴더> --size 800
 | 상자 배율 방식 폐기 | 눈·턱 직접 측정으로 전환. 검출 모델 차이가 결과에 영향을 주지 않게 됐다 |
 | 관리자 화면의 이중 재인코딩 제거 | 무손실로 넘기고 마지막 한 번만 0.95 |
 | 품질값 통일 | 아바타 전 경로 95 |
-| 규격 판정 도구 | `scripts/measure-avatar-geometry.ts`. 판정 수치는 공용 구현에서만 온다 |
+| 규격 판정 도구 | `scripts/avatar/measure.ts`. 판정 수치는 공용 구현에서만 온다 |
 | 조절 인자 제거 | `--face-frame-ratio`·`--frame-ratio`·`--headroom` 폐기(넘겨도 무시). 규격을 호출자가 흔들 수 없다 |
 | 규격 서술 이원화 해소 | 9곳이 제각기 서술하던 것을 이 문서 하나로 모았다 |
 

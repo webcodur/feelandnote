@@ -17,7 +17,8 @@
 
 | 문서 | 책임 |
 |---|---|
-| [`celeb-speech.md`](celeb-speech.md) | 말투·명언·대사 트랙 |
+| [`celeb-speech.md`](celeb-speech.md) | 말투·명언·대사 트랙의 작성 규칙 |
+| [`celeb-speech-pipeline.md`](celeb-speech-pipeline.md) | 그 규칙을 실행하는 5단계 도구 흐름 |
 | [`celeb-i18n.md`](celeb-i18n.md) | 영문 데이터 |
 | [`celeb-content-audit.md`](celeb-content-audit.md) | 콘텐츠 출처·locale·thumbnail 감사 |
 
@@ -26,6 +27,7 @@
 | 문서 | 책임 |
 |---|---|
 | [`celeb-timeline.md`](celeb-timeline.md) | 인물 생애·서사 연표와 활동 반경 |
+| [`celeb-timeline-grok-relay.md`](celeb-timeline-grok-relay.md) | 그록으로 연표를 채울 때의 조사·의심 릴레이 |
 | [`celeb-detail-themes.md`](celeb-detail-themes.md) | 인물 상세 세계 표현 |
 | [`celeb-world-banners.md`](celeb-world-banners.md) | 세계 배너 이미지 규격 |
 | [`celeb-avatar-spec.md`](celeb-avatar-spec.md) | 아바타 구도·프레이밍 규격 |
@@ -37,6 +39,5 @@
 
 | 문서 | 성격 |
 |---|---|
-| [`fiction-faction-link-audit-2026-07-29.md`](fiction-faction-link-audit-2026-07-29.md) | fiction 프로필·팩션·대표 원전 연결 감사 |
 | [`retire/`](retire/README.md) | 비활성인 감상 여정·가상 독백 보존 규칙. 신규 작업 기준으로 사용하지 않음 |
 | [`docs/todo/celeb/`](../../todo/celeb/README.md) | 보이스 생성·아바타·읽어보기 등 아직 남은 인물 작업 |

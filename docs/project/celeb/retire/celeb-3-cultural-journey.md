@@ -14,8 +14,8 @@
 
 | 항목 | 값 |
 |------|-----|
-| 테이블·컬럼 | `celebs.consumption_philosophy` (한국어 쓰기 원천, `cultural_journey`는 generated 별칭) |
-| 영문 | `celebs.consumption_philosophy_en` — 본 트랙에서 쓰지 않는다. i18n 트랙(`celeb-i18n.md`)이 채운다 |
+| 테이블·컬럼 | `celebs.cultural_journey` (한국어 정식 저장 열) |
+| 영문 | `celebs.cultural_journey_en` — 본 트랙에서 쓰지 않는다. i18n 트랙(`celeb-i18n.md`)이 채운다 |
 | 담당 에이전트 | `celeb-3-cultural-journey` |
 
 ## 적용 대상

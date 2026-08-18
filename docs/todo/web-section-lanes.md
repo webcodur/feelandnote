@@ -1,13 +1,46 @@
-# 사용자 웹 구획별 독립 레인 — 남은 일
+# 사용자 웹 남은 작업
 
-> 본 작업(공용 대기 모듈 · 봇/사람 분기 `Lane` · 탐색·서가·홈·탐색 하위·비색인 화면 레인 전환 · 인물 상세 방명록 지연 로딩 · 링크 대기 표식 · 매시 캐시 데우기)은 2026-08-16에 끝났다. 규칙은 `docs/project/platform/code-rules.md`「구획별 독립 레인」과 `docs/project/operations/seo.md`가 쥔다. 경위는 커밋 이력에서 꺼낸다.
+구획별 대기·렌더 규칙은 `docs/project/platform/code-rules.md`, 검색 노출·캐시 운영은
+`docs/project/operations/seo.md`를 따른다. 이 문서에는 아직 실행할 일만 둔다.
 
-## 남은 일
+## 1. 회원 기록 첫 화면에 목록 주입
 
-| 항목 | 내용 | 재개 지점 |
-|---|---|---|
-| `[userId]/reading` 첫 페이지 서버 주입 | 서버는 프로필만 확인하고 목록은 클라이언트가 다시 조회해 스피너가 두 번 뜬다. 첫 페이지를 서버에서 넣어 `initialContents`로 넘긴다 | `sw/web/src/app/[locale]/(main)/[userId]/reading/page.tsx` → `RecordsContent` → `ContentLibrary` |
-| 인물 목록 필터 뷰 레인 분리 | 필터 줄과 목록이 `useCelebFilters` 한 상태로 묶여 있어 레인 1개로 뒀다. 나누려면 필터 위젯 재설계가 필요 | `sw/web/src/app/[locale]/(main)/explore/figures/sections.tsx`, `components/features/user/explore/CelebCarousel.tsx` |
-| 인물 상세 스크롤 잔여 후보 | ① 연표 카드·대사 칸 위 휠 latching(브라우저 동작, 코드 결함 아님) ② 방명록이 늦게 붙으며 문서 높이 변동 ③ 1340px 이상에서 좌측 목차 레일이 휠을 삼킴 | `docs/resource/프롬프트_전달.txt` 1번 아래 메모, `useCelebSectionNavigation.ts` |
-| `<main>`의 `scrollbar-stable` 죽은 클래스 | 스크롤 컨테이너가 아니라 효과 없음. 실제 동작은 `globals.css` html 선언 | `components/layout/LayoutMain.tsx` |
-| 실화면 확인 | 인물 상세 펼쳐보기 목록의 매체 아이콘, 순위 배지 위치, 링크 대기 표식은 코드·curl로만 확인했다. 배포 후 데스크톱 폭에서 눈으로 확인 | — |
+- 문제: 서버는 프로필만 읽고 목록은 브라우저가 다시 조회해 대기 표시가 두 번 뜬다.
+- 작업: 첫 페이지를 서버에서 조회해 `initialContents`로 넘긴다.
+- 재개: `sw/web/src/app/[locale]/(main)/[userId]/reading/page.tsx` → `RecordsContent` → `ContentLibrary`
+- 확인: 본인·타인 화면의 공개 범위가 달라지지 않고, 첫 목록 뒤의 검색·정렬·쪽 이동이 계속 동작해야 한다.
+
+## 2. 배포 화면 검수
+
+데스크톱 너비에서 다음을 직접 확인한다.
+
+- 인물 상세 펼쳐보기의 매체 아이콘과 순위 배지 위치
+- 링크를 누른 즉시 대기 표식이 나오는지
+- 방명록이 늦게 붙을 때 본문이 틀어지거나 현재 위치가 튀지 않는지
+- 1340px 이상에서 왼쪽 목차 위의 휠이 본문 스크롤을 막지 않는지
+
+## 3. 인물 상세 스크롤 잔여 현상 분리
+
+다음 후보를 각각 재현해 코드 결함과 브라우저 기본 동작을 구분한다.
+
+- 연표 카드·대사 칸 위에서 휠이 잠깐 묶이는 현상
+- 방명록 삽입으로 문서 높이가 변하는 현상
+- 넓은 화면의 왼쪽 목차가 휠을 잡는 현상
+
+코드 수정은 재현된 결함에만 적용한다. 재개 지점은
+`sw/web/src/app/[locale]/(main)/celeb/[slug]/detail/useCelebSectionNavigation.ts`와 각 내부 스크롤 칸이다.
+
+## 4. 인물 필터와 결과 목록 분리
+
+- 현재 필터 줄과 결과 목록은 `useCelebFilters` 한 상태에 묶여 있다.
+- 필터 조작은 유지하면서 결과 조회·대기·실패 상태만 별도 경계로 나눈다.
+- 재개: `sw/web/src/app/[locale]/(main)/explore/figures/sections.tsx`,
+  `sw/web/src/components/features/home/CelebCarousel.tsx`,
+  `sw/web/src/components/features/home/useCelebFilters.ts`
+- 확인: 검색어·정렬·쪽·필터 URL 동기화와 모바일 필터가 유지되어야 한다.
+
+## 5. 효과 없는 스크롤바 클래스 제거
+
+`sw/web/src/components/layout/LayoutMain.tsx`의 `<main>`은 스크롤 상자가 아니므로
+`scrollbar-stable`이 효과가 없다. `globals.css`의 `html` 설정이 실제 동작을 계속 담당하는지
+확인한 뒤 죽은 클래스만 제거한다.
