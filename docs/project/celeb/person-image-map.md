@@ -78,9 +78,9 @@ spotlight 이미지는 faction 경로로 이관하고 원본을 정리했다. �
 
 | 자리 | 도구 |
 |------|------|
-| 아바타 | `upload-celeb-avatar.ts`(등록·크롭), `batch-celeb-avatars.ts`(일괄), `crop-faces.ts`(크롭만) |
+| 아바타 | `avatar/upload.ts`(등록·크롭), `avatar/batch.ts`(일괄), `photo/crop-faces.ts`(크롭만) |
 | 대표 사진 | `generate-celeb-hero-photos.mjs`(생성~등록), `pick-hero-photo-targets.mjs`(대상 추출), `upload-celeb-hero-photo.ts`(손에 있는 파일), `scan-faction-portrait-candidates.mjs`(영상 자산에서 후보 수집) |
 | 개인화보·단체화보 | web-bo `/factions` 출간 패널 (진단 → dry-run → 출간). 26.08.03부터 이 패널은 사진·영상·음악 업로드 전용이다(텍스트 복사 폐기). 개인샷 주소는 `faction_people.web_image_url`에 기록된다 |
-| 영상 원본 | 발주는 `faction-image` 규칙, 전신 크롭은 `crop-body.ts` |
+| 영상 원본 | 발주는 `faction-image` 규칙, 전신 크롭은 `photo/crop-body.ts` |
 
 아바타에는 **신원 근거 가드**가 걸려 있다 — 출처 불명 얼굴을 특정 인물에 붙일 수 없고, `celeb-avatar-register` 스킬과 `docs/project/celeb/celeb-avatar-spec.md`가 이를 규정한다.

@@ -34,4 +34,4 @@
 독백 생성·번역·조건부 게시에 쓰던 일회성 스크립트는 기능 폐기와 함께 삭제했다.
 
 - fiction 연결 읽기 감사: `.agents/skills/fiction-profile-audit/`
-- 기존 확정값 잠금 관리: `sw/web-bo/scripts/lock-virtual-monologue.ts`
+- 기존 확정값 잠금 관리: `sw/web-bo/scripts/fiction/monologue-lock.ts`

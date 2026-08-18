@@ -26,7 +26,7 @@
 
 ## 2. 왜 사진인가
 
-인물 화보 발주서(`sw/web-bo/scripts/generate-celeb-hero-photos.mjs`)가 "초사실 사진, 붓질·일러스트·CG 렌더 금지"로 못 박혀 있다. 배너 바로 아래에 그 화보가 붙으므로 배너가 회화풍이면 두 그림이 따로 논다. **배너도 사진이다. 다만 사람이 없는 공간 사진이다.**
+인물 화보 발주서(`sw/web-bo/scripts/photo/hero-generate.mjs`)가 "초사실 사진, 붓질·일러스트·CG 렌더 금지"로 못 박혀 있다. 배너 바로 아래에 그 화보가 붙으므로 배너가 회화풍이면 두 그림이 따로 논다. **배너도 사진이다. 다만 사람이 없는 공간 사진이다.**
 
 ## 3. 공통 규격 — 39장 전부 동일
 
@@ -48,7 +48,7 @@ PC와 모바일은 같은 3:1 원본을 쓴다.
 
 - PC판: 원본 전체를 1536×512로 축소한다. 크롭하지 않는다.
 - 모바일판: 정규화한 PC판에서 928×512를 가로로만 자른다. `mobile-left`는 자동 중앙값을 쓰지 않고 랜드마크·거리·소품이 온전히 남는 위치를 눈으로 고른다.
-- 후처리: `node sw/web-bo/scripts/prepare-world-banner.mjs --id <world-id> --source <원본> --mobile-left <0~608>`.
+- 후처리: `node sw/web-bo/scripts/photo/world-banner.mjs --id <world-id> --source <원본> --mobile-left <0~608>`.
 
 ### 코드 ID와 모바일 초점
 

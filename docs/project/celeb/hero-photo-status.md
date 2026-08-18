@@ -109,7 +109,7 @@
 1. **전수 판정** — 등록된 사진을 내려받아 눈으로 `on_target` / `too_tight` / `too_wide` / `unusable` 로 분류한다. 240px로 줄여 보고 판정해야 실제 화면과 맞다. 서브에이전트를 나눠 돌리면 30명당 5분 안팎
 2. **재생성 대상 고르기** — `too_wide` 만 골라도 실효가 대부분이다. `too_tight` 는 급하지 않다
 3. **주소를 먼저 비운다** — `celebs.portrait_url`을 null로. 안 그러면 러너가 "이미 채워짐"으로 건너뛴다
-4. **다시 뽑는다** — `sw/web-bo/scripts/generate-celeb-hero-photos.mjs` 에 해당 인물 배치를 넘긴다. 연출 본문(brief)은 재사용하면 된다. 러너의 `FRAMING` 블록이 확정 규격을 강제한다
+4. **다시 뽑는다** — `sw/web-bo/scripts/photo/hero-generate.mjs` 에 해당 인물 배치를 넘긴다. 연출 본문(brief)은 재사용하면 된다. 러너의 `FRAMING` 블록이 확정 규격을 강제한다
 
 팩션 출처 85명은 **원본이 영상 자산이라 크롭만 다시 할 수 없다** — 다시 만들려면 생성으로 새로 뽑아야 한다.
 

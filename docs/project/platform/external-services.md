@@ -18,6 +18,8 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - 데이터 변경: DB 트리거 → `/api/revalidate` → Vercel 태그 무효화 + Cloudflare URL 퍼지(`lib/cloudflarePurge.ts`). 코드 배포: Cloudflare 사본은 그대로 — 상세 화면 모양이 바뀐 배포만 `cloudflare-purge.yml`이 전체 퍼지(GitHub Secrets 필요).
 - 봇 차단은 Cloudflare 방화벽이 1차(UA 22종), 미들웨어 403·Vercel 방화벽은 2차. Cloudflare 뒤에서는 Vercel 쪽에 방문자 IP·통신사가 Cloudflare로 보이므로 IP·ASN 규칙은 Cloudflare에서 건다.
 - 확인 명령: `curl -sI https://feelandnote.com/celeb/<slug> | grep cf-cache-status` (HIT/MISS/DYNAMIC).
+- **이관 직후 DNS 전파 편차(2026-08-17):** 이관 다음날 일부 국내 ISP 리졸버가 구 경로를 캐싱해 접속 실패(PWA 오프라인 화면) 신고 있었음. Cloudflare DNS(1.1.1.1) 직접 조회로 신규 엣지 정상 확인 — 신·구 경로 둘 다 응답 정상이라 서버 장애가 아니라 리졸버별 전파 편차로 판정. 봇 차단 UA(`blocked-crawlers.ts`)는 구체 문자열 매칭이라 오탐 원인 아님.
+- **같은 날 재발 확인:** 몇 시간 뒤 같은 사용자가 재차 접속 실패 보고. 재진단 결과 해당 ISP 리졸버가 **조회할 때마다** 구 IP(`216.150.x.x`)와 신규 Cloudflare 엣지 IP(`172.67.x.x`/`104.21.x.x`) 사이를 오락가락(5회 중 2~3회꼴로 뒤바뀜). 두 경로 각각은 10연속 200 OK로 개별 안정 — 서버·Cloudflare·Vercel 쪽 문제는 배제, 원인은 ISP 리졸버 클러스터의 캐시 미정렬이며 우리 쪽에서 고칠 수 있는 지점이 아니다. **즉시 우회책**: 기기·공유기 DNS를 `1.1.1.1` 또는 `8.8.8.8`로 수동 지정하면 오락가락 없이 항상 정상 접속됨(모바일 데이터 전환도 우회됨). 언제 완전히 정착될지는 해당 ISP 쪽 일정이라 예측 불가 — 재발 신고가 오면 이 항목부터 참조하고 신규 원인부터 찾지 않는다.
 
 ### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
 

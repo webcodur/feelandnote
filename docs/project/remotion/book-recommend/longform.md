@@ -141,7 +141,7 @@ const labelSummaryFrom = visual
 
 DB 소스 매핑과 필드별 작성 기준은 **[writer/0-draft.md](writer/0-draft.md)** 참조. 아래는 JSON 변환 시 기술적 체크.
 
-1. consumption_philosophy → 1인칭 감상철학 재작성 (speech_tone 반영)
+1. cultural_journey → 1인칭 감상철학 재작성 (speech_tone 반영)
 2. **category**: DB `contents.type`이 BOOK이 아닌 항목은 `"category": "VIDEO"` 등 필수 추가
 3. stats: celebCount, celebNames (DB 조회)
 4. publishYear: 고대 작품은 "기원전 X세기" 형식
