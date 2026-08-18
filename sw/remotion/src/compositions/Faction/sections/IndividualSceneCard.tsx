@@ -142,6 +142,19 @@ export const IndividualSceneCard: React.FC<{
     extrapolateRight: "clamp",
   });
   const objPos = `${scene.mediaCrop?.x ?? 50}% ${scene.mediaCrop?.y ?? 50}%`;
+  // 한 장면 안의 배경 교체 — 지정한 자막 단락이 뜨는 시점에 다음 사진이 겹쳐 떠오른다.
+  // 제목을 그대로 둔 채 컷만 나누는 용도라, 교체본마다 줌을 처음부터 다시 시작한다.
+  const captionPages = factionSceneCaptionPageTimings(scene.caption);
+  const mediaChanges = (scene.mediaChanges ?? [])
+    .filter((c) => !!c.media)
+    .map((c) => {
+      const page = captionPages[c.paragraph];
+      const atSec = captionEnterSec + (page ? page.revealStartSec : 0);
+      return { ...c, at: cueStart + f(atSec) };
+    })
+    .filter((c) => c.at > cueStart && c.at < end)
+    .sort((a, b) => a.at - b.at);
+  const MEDIA_FADE_SEC = 0.5;
 
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
@@ -161,6 +174,27 @@ export const IndividualSceneCard: React.FC<{
           }}
         />
       )}
+      {mediaChanges.map((c, i) => {
+        const op = interpolate(
+          frame,
+          [c.at - f(MEDIA_FADE_SEC), c.at],
+          [0, 1],
+          CLAMP,
+        );
+        if (op <= 0) return null;
+        const cZoom = interpolate(frame, [c.at, end], [1.01, 1.065], CLAMP);
+        return (
+          <AbsoluteFill key={`sm-${i}`} style={{ opacity: op }}>
+            <FilledImage
+              src={imgSrc(episodeName, c.media)}
+              objPos={`${c.crop?.x ?? scene.mediaCrop?.x ?? 50}% ${c.crop?.y ?? scene.mediaCrop?.y ?? 50}%`}
+              scale={(c.crop?.scale ?? 1) * cZoom}
+              startFrame={c.at}
+              onError={() => {}}
+            />
+          </AbsoluteFill>
+        );
+      })}
       <AbsoluteFill
         style={{
           background:

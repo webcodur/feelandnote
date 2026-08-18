@@ -4,8 +4,11 @@ import { f, ENTER_NAME_SEC, type TimedCue } from './timing'
 
 /**
  * 세력도감 효과음(SFX).
- * - 세력 등장(로고 카드, group 컷) → chime: 새 진영 등장 강조.
- * - 인물 등장(person 컷, 박스 슬라이드 인 시점) → whoosh: 전환 리듬.
+ * - 개별 장면·챕터 → 데이터에 지정한 음원만 재생한다(항상 켜짐).
+ * - 세력 등장(group)·인물 등장(person) 기본 효과음은 `defaults`를 켤 때만 깐다.
+ *   기본이 꺼진 이유: 이 컴포넌트가 오래 배선되지 않아 어느 편에도 그 소리가 없었고,
+ *   배선하면서 켜면 모든 에피소드에 없던 chime·whoosh가 한꺼번에 생긴다.
+ *   또 group 컷에는 `script.groupSfx`(Faction.tsx)라는 별도 경로가 이미 있어 겹친다.
  * 음량은 BGM을 덮지 않게 낮게 깐다. 음원은 common/sfx 공용 자산.
  */
 const SFX_GROUP = 'common/sfx/chime.wav'
@@ -17,17 +20,17 @@ const CHAPTER_VOL = 0.6
 /** 개별 장면은 선택한 환경음·효과음만 사용한다. */
 const SCENE_VOL = 0.5
 
-export const FactionSfx: React.FC<{ cues: TimedCue[] }> = ({ cues }) => (
+export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean }> = ({ cues, defaults = false }) => (
   <>
     {cues.map((tc, i) => {
-      if (tc.cue.kind === 'group') {
+      if (tc.cue.kind === 'group' && defaults) {
         return (
           <Sequence key={`sfx-g-${i}`} from={tc.start} durationInFrames={f(2)}>
             <Audio src={staticFile(SFX_GROUP)} volume={GROUP_VOL} />
           </Sequence>
         )
       }
-      if (tc.cue.kind === 'person') {
+      if (tc.cue.kind === 'person' && defaults) {
         // 박스가 옆에서 슬라이드 인하는 시점(ENTER_NAME_SEC)에 맞춰 whoosh
         return (
           <Sequence key={`sfx-p-${i}`} from={tc.start + f(ENTER_NAME_SEC)} durationInFrames={f(1.2)}>

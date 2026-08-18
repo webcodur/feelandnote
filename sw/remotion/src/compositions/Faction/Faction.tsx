@@ -8,6 +8,7 @@ import type { FactionScript, Orientation } from './types'
 import { episodes } from './script'
 import { buildCues, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, INTRO_SEC, INTRO_FADE_OUT_SEC, endFadeSecOf, f, type TimedCue } from './timing'
 import { FactionBgm } from './FactionBgm'
+import { FactionSfx } from './FactionSfx'
 import { buildFactionSubs } from './subs'
 import { BG, FONT, DEFAULT_ACCENT, HEADER_H, SAFE_BOTTOM } from './constants'
 import { personCutKind, resolveOutroImage } from './utils'
@@ -118,6 +119,8 @@ export const Faction: React.FC<{ script?: FactionScript; episodeKey?: string; ep
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
       <FactionBgm script={script} total={total} portrait={isShorts} part={activePart} lvPart={activeLvPart} />
+      {/* 개별 장면·챕터에 지정한 효과음 — 데이터(scene.sfx·chapter.sfx)가 있는 컷에서만 난다. */}
+      <FactionSfx cues={cues} />
       {/* 시작 효과음 — 시작 화면·문구와 같이 켜지고, 같은 페이드아웃 구간에서 같이 꺼진다. BO에서 음원 선택. */}
       {script.startSfx && ((activePart != null && script.loglineByPart?.[activePart]) || (activeLvPart != null && script.loglineByLvPart?.[activeLvPart]) || script.logline) && (() => {
         const introSec = script.introSec ?? INTRO_SEC
