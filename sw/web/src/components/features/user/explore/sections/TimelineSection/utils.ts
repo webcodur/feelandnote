@@ -5,13 +5,15 @@
 */ // ------------------------------
 
 import type { TimelineCeleb } from "@/actions/home";
+import {
+  getCelebLifeEndYear,
+  getCelebYear,
+  isCelebDeceased,
+} from "@/lib/celeb/lifespan";
 
 /** birth_date에서 연도 추출. BC 표기("-0500-01-01")도 처리 */
 export function getYear(dateStr: string): number {
-  if (dateStr.startsWith("-")) {
-    return -parseInt(dateStr.slice(1, 5), 10);
-  }
-  return parseInt(dateStr.slice(0, 4), 10);
+  return getCelebYear(dateStr) ?? NaN;
 }
 
 /** 연도를 표시용 문자열로 변환 */
@@ -38,14 +40,12 @@ export function getEraInfo(year: number): EraInfo {
   return { key: "contemporary-3", label: "21세기", labelEn: "21st Century", range: "2000 ~" };
 }
 
-/** 생몰 표시 */
+/** 생몰 표시. 몰년을 모르는 사망자에게 "~"를 달면 살아 있는 것처럼 읽힌다 */
 export function formatLifespan(birth: string | null, death: string | null): string {
   if (!birth) return "";
-  const bYear = getYear(birth);
-  const bStr = formatYear(bYear);
-  if (!death) return `${bStr} ~`;
-  const dYear = getYear(death);
-  return `${bStr} ~ ${formatYear(dYear)}`;
+  const bStr = formatYear(getYear(birth));
+  if (death) return `${bStr} ~ ${formatYear(getYear(death))}`;
+  return isCelebDeceased(birth, death) ? bStr : `${bStr} ~`;
 }
 
 /** 생애가 겹치는 타국 인물 탐색 (full 티어 우선, 출생연도 근접순, 최대 5명) */
@@ -55,14 +55,14 @@ export function findContemporaries(
   selectedCountry: string
 ): TimelineCeleb[] {
   const bYear = getYear(celeb.birth_date!);
-  const dYear = celeb.death_date ? getYear(celeb.death_date) : bYear + 70;
+  const dYear = getCelebLifeEndYear(celeb.birth_date, celeb.death_date) ?? bYear;
 
   return celebs
     .filter((c) => {
       if (c.id === celeb.id || !c.birth_date) return false;
       if (c.nationality === selectedCountry) return false; // 현재 보고 있는 국가 제외
       const cBirth = getYear(c.birth_date);
-      const cDeath = c.death_date ? getYear(c.death_date) : cBirth + 70;
+      const cDeath = getCelebLifeEndYear(c.birth_date, c.death_date) ?? cBirth;
       return bYear <= cDeath && dYear >= cBirth;
     })
     .sort((a, b) => {

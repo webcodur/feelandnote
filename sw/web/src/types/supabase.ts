@@ -1151,8 +1151,6 @@ export type Database = {
           birth_date: string | null
           celeb_tier: string
           claimed_by_member_id: string | null
-          consumption_philosophy: string | null
-          consumption_philosophy_en: string | null
           content_research_confirmed_empty_at: string | null
           created_at: string
           cultural_journey: string | null
@@ -1194,8 +1192,6 @@ export type Database = {
           birth_date?: string | null
           celeb_tier?: string
           claimed_by_member_id?: string | null
-          consumption_philosophy?: string | null
-          consumption_philosophy_en?: string | null
           content_research_confirmed_empty_at?: string | null
           created_at?: string
           cultural_journey?: string | null
@@ -1237,8 +1233,6 @@ export type Database = {
           birth_date?: string | null
           celeb_tier?: string
           claimed_by_member_id?: string | null
-          consumption_philosophy?: string | null
-          consumption_philosophy_en?: string | null
           content_research_confirmed_empty_at?: string | null
           created_at?: string
           cultural_journey?: string | null
@@ -3692,8 +3686,8 @@ export type Database = {
           celeb_id: string
           celeb_tier: string
           claimed_at: string
-          consumption_philosophy: string
-          consumption_philosophy_en: string
+          cultural_journey: string
+          cultural_journey_en: string
           lease_expires_at: string
           nickname: string
           priority: number
@@ -3704,8 +3698,8 @@ export type Database = {
       complete_celeb_philosophy_rewrite: {
         Args: {
           p_celeb_id: string
-          p_consumption_philosophy: string
-          p_consumption_philosophy_en: string
+          p_cultural_journey: string
+          p_cultural_journey_en: string
           p_worker: string
         }
         Returns: boolean
@@ -3826,8 +3820,8 @@ export type Database = {
           birth_date: string
           celeb_tier: string
           claimed_by_member_id: string
-          consumption_philosophy: string
-          consumption_philosophy_en: string
+          cultural_journey: string
+          cultural_journey_en: string
           content_count: number
           created_at: string
           death_date: string
@@ -3856,8 +3850,8 @@ export type Database = {
           birth_date: string
           celeb_tier: string
           claimed_by_member_id: string
-          consumption_philosophy: string
-          consumption_philosophy_en: string
+          cultural_journey: string
+          cultural_journey_en: string
           content_count: number
           created_at: string
           death_date: string

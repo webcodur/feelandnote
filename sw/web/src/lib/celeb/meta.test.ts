@@ -142,3 +142,31 @@ test("fiction without a linked source falls back to its existing title", () => {
   assert.ok(ko.length <= 175);
   assert.ok(en.length <= 175);
 });
+
+test("headline takes priority for fiction and light profiles", () => {
+  const fictionInput: CelebMetaInput = {
+    nickname: "아킬레우스",
+    title: "트로이 전쟁의 영웅",
+    headline: "그리스군 최강의 전사",
+    headline_en: "The Greatest Warrior of the Achaean Army",
+    tier: "fiction",
+    counts: emptyCounts,
+    sourceWorks: [{ title: "《일리아스》", relationType: "origin" }],
+  };
+
+  assert.equal(buildCelebTitleKo(fictionInput), "그리스군 최강의 전사 — 아킬레우스");
+  assert.equal(buildCelebTitleEn(fictionInput), "The Greatest Warrior of the Achaean Army — 아킬레우스");
+
+  const lightInput: CelebMetaInput = {
+    nickname: "찰리 멍거",
+    title: "투자자",
+    headline: "워런 버핏의 60년 지혜이자 평생 파트너",
+    headline_en: "Warren Buffett's Lifelong Partner and Mentor",
+    tier: "light",
+    counts: emptyCounts,
+  };
+
+  assert.equal(buildCelebTitleKo(lightInput), "워런 버핏의 60년 지혜이자 평생 파트너 — 찰리 멍거");
+  assert.equal(buildCelebTitleEn(lightInput), "Warren Buffett's Lifelong Partner and Mentor — 찰리 멍거");
+});
+

@@ -7,6 +7,7 @@ import { LISTING_DEFAULT_TIERS } from "@feelandnote/shared/constants/celeb-tiers
 import { selectAllPages, selectInChunks } from "@feelandnote/shared/lib/paginate";
 import { createStaticClient } from "@/lib/supabase/static";
 import { STATIC_REVALIDATE } from "@/lib/cache";
+import { getCelebLifeEndYear, getCelebYear } from "@/lib/celeb/lifespan";
 import { getRegionForNationality } from "@/lib/game/suikoden/utils";
 import { WANDER_ERAS, WANDER_POOL_SIZE } from "@/lib/game/wander/constants";
 import type { WanderFigure, WanderPools } from "@/lib/game/wander/types";
@@ -17,12 +18,6 @@ type ProfileRow = Pick<Tables<"celebs">, "id" | "nickname" | "nickname_en" | "ti
 type InfluenceRow = Pick<Tables<"celeb_influence">, "celeb_id" | "total_score">;
 type SpectrumRow = Pick<Tables<"celeb_persona">, "celeb_id" | "command" | "martial" | "intellect" | "charm">;
 type FigureBase = Omit<WanderFigure, "name" | "title" | "quote"> & ProfileRow;
-
-function parseYear(value: string | null, fallback: number): number {
-  if (!value) return fallback;
-  const match = value.match(/^-?\d{1,4}/);
-  return match ? Number(match[0]) : fallback;
-}
 
 function takeDiverse(figures: FigureBase[]): FigureBase[] {
   const groups = new Map<string, FigureBase[]>();
@@ -70,8 +65,8 @@ async function fetchWanderPools(locale: string): Promise<WanderPools> {
       ...profile,
       nationality: profile.nationality ?? "",
       avatarUrl: profile.avatar_url,
-      birthYear: parseYear(profile.birth_date, 0),
-      deathYear: parseYear(profile.death_date, currentYear),
+      birthYear: getCelebYear(profile.birth_date) ?? 0,
+      deathYear: getCelebLifeEndYear(profile.birth_date, profile.death_date) ?? currentYear,
       region: getRegionForNationality(profile.nationality ?? ""),
       totalScore: influenceMap.get(profile.id) ?? 0,
       powers: {
