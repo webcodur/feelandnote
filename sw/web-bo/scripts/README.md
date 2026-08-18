@@ -12,6 +12,29 @@ pnpm photo:crop-body public/factions/.../_group.png   # 위치 인자도 동일
 
 세부 사용법·옵션은 각 스크립트 첫머리 주석이 쥔다. 이 문서는 어떤 도구가 있는지만 가리킨다.
 
+## 폴더 규칙
+
+**명령 이름이 곧 경로다.** `pnpm a:b` 는 `scripts/a/b.ts`, `pnpm a:b:c` 는 `scripts/a/b-c.ts` 를 실행한다.
+
+```
+scripts/
+  celeb/          인물 데이터 — 감사·선점·반영·읽어보기
+    speech/       말투·한마디·대사 (번호 순서)
+    reading/      읽어보기 릴레이·묶음
+    timeline/     생애 연표·좌표
+  avatar/         아바타 등록·크롭·측정
+  photo/          인물 화보·얼굴 크롭·배너
+  faction/        세력도감 출간·대사·이미지
+  fiction/        신화·전설·허구 인물
+  curated/        기관 선정 목록
+  coupang/        제휴 링크
+  book-recommend/ 서재 탐방 자원
+  lib/            공용 모듈
+  schemas/  sql/  스키마·질의문
+```
+
+경로는 파일이 놓인 깊이에 기대지 않는다. `.env`·저장소 루트가 필요하면 `lib/paths.ts` 의 `boPath`·`repoPath`·`scriptsPath` 를 쓴다. `resolve(__dirname, '..')` 같은 상대 홉을 새로 쓰지 않는다.
+
 ## 셀럽 데이터
 
 | 명령 | 하는 일 |
@@ -28,6 +51,19 @@ pnpm photo:crop-body public/factions/.../_group.png   # 위치 인자도 동일
 | `celeb:readings:translate` | 읽어보기 영문 번역 |
 | `celeb:relations` | 위키데이터 기반 인물 관계망 수집 |
 | `celeb:dialogue-repair` | 대사 데이터 최상위 구조 교정 |
+
+## 셀럽 말투·대사
+
+번호 순서대로 실행한다. 4단계 반영은 위의 `celeb:fill` 이 맡는다. 전체 흐름은 [`docs/project/celeb/celeb-speech-pipeline.md`](../../../docs/project/celeb/celeb-speech-pipeline.md)가 쥔다.
+
+| 명령 | 하는 일 |
+|---|---|
+| `celeb:speech:1-targets` | 대사·한마디를 채울 대상 선별과 현재값 스냅샷 |
+| `celeb:speech:2-collect` | 본문 회수와 직접 인용 추출(`probe`·`extract`·`verify`) |
+| `celeb:speech:3-patch` | 최소 입력을 `celeb:fill` 패치로 조립. 해시는 DB에서 다시 계산한다 |
+| `celeb:speech:test` | 조사 묶음 검증 규칙 단위 테스트 |
+
+`celeb/reading/` 과 `celeb/timeline/` 에는 pnpm 명령이 없는 릴레이 도구가 들어 있다. 각 파일 머리말 주석과 해당 영역 문서를 따른다.
 
 ## 아바타
 

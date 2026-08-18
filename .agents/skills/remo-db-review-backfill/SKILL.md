@@ -203,4 +203,4 @@ en.json이 없으면 `review_en`은 건드리지 않는다 (기존 값 유지).
 - **pre-todo 디렉토리는 제외** (검수 전 초안)
 - **DB에 있고 Remotion에 없는 책은 건드리지 않는다**
 - **Remotion에 있고 DB에 없는 책은 중단 후 보고** (신규 등록은 범위 밖)
-- **`celebs.cultural_journey`는 건드리지 않는다** (generated column, 이 스킬 대상 아님)
+- **`celebs.cultural_journey`는 건드리지 않는다** (감상여정은 이 스킬 대상 아님)

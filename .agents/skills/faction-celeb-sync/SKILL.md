@@ -55,7 +55,7 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 
 | 종류 | 컬럼/필드 | 성격 | R2 경로 | 채우는 경로 |
 |------|-----------|------|---------|------|
-| **아바타** | `celebs.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-register` 스킬 또는 `web-bo/scripts/upload-celeb-avatar.ts --image-file` |
+| **아바타** | `celebs.avatar_url` | 얼굴 크롭(원형 썸네일) | `celebs/{celebId}/avatar.webp` | **파이프라인 밖** — `celeb-avatar-register` 스킬 또는 `web-bo/scripts/avatar/upload.ts --image-file` |
 | **개인 화보·대사** | `faction_people.web_image_url`(표지) + `web_quote_media`(제작 유래) · 수동 행은 `assignments.faction_image_url` | **원본 전신/연출 화보**(Hero 큰 사진) + 팩션 wav | 표지 `faction/{tagId}/celeb-{celebId}.webp`, 추가 화보·음성은 인물 하위 해시 키 | 출간 패널(person.image·quoteImage·imageChanges + voice → 원본 비율 유지, **얼굴 크롭 금지**) 또는 테마 편집기 업로드 |
 | **그룹샷** | `celeb_tags.team_images[]` | 단체 화보(캐러셀) | `faction/{tagId}/team/g{NN}c{NN}-{hash8}.webp` | 출간 패널(clusters[].image 전체, 태그 단위 재구성) |
 
@@ -79,13 +79,13 @@ description: 팩션(factions/) 영상 인물을 세력도감(/explore/faction)�
 1. **원본 선정** — 기존 `_refs/<인물>`을 먼저 열고, 팩션 개인 화보 후보를 한 장씩 직접 대조한다. 첫 파일을
    자동 채택하거나 비교용 시트·합본을 만들지 않는다. 일치하는 컷이 없으면 조사 후 서로 구별되는 익명 REF와
    개인 화보를 먼저 설계한다. 실제 얼굴을 추정·생성하거나 일반 웹 사진을 본인 사진으로 대체하지 않는다.
-2. **크롭** — 목표 프레임 기하는 `docs/project/celeb/celeb-avatar-spec.md` §1·§2를 따른다. `sw/web-bo/scripts/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
+2. **크롭** — 목표 프레임 기하는 `docs/project/celeb/celeb-avatar-spec.md` §1·§2를 따른다. `sw/web-bo/scripts/photo/crop-faces.ts`를 먼저 실행한다. 마스크·후면·불투명 고글 때문에 얼굴이
    검출되지 않은 경우에만 수동 정사각 크롭을 허용한다. 수동 크롭도 승인된 REF의 은폐 방식·복식·소품을
    보존하며 얼굴을 보정하거나 드러내지 않는다.
 3. **배경 제거** — 반드시 `nobg-cutout` 스킬과 `C:\project\nobg` 전용 도구를 쓴다. 서비스 배경
    `#0a0a0a`, 밝은 배경, 원형 썸네일에서 경계·잔상·타인 신체가 없는지 직접 본다. 실패 후보는 업로드하지 않는다.
 4. **등록·업로드** — 셀럽이 없으면 실존하는 **개별 인물** 프로필을 먼저 생성하고 `faction_people.celeb_id`를 연결한다. 회사·조직·기계 이름으로 프로필을 대신 만들지 않는다.
-   최종 800×800 RGBA WebP를 `upload-celeb-avatar.ts --image-file`로
+   최종 800×800 RGBA WebP를 `avatar/upload.ts --image-file`로
    `celebs/{celebId}/avatar.webp`에 올린다. 완전 은폐 인물은 `--face-detect false`를 명시한다.
 5. **검증·출간** — R2 재다운로드본과 업로드 미리보기의 해시·크기·알파를 대조하고 운영 페이지가 새
    버전 URL을 읽는지 확인한다. `[CELEBS, TAGS]` 캐시를 무효화한 뒤 출간 패널의 진단→dry-run→출간을 거친다.

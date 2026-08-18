@@ -6,7 +6,7 @@
 
 | 화면 영역 | 테이블·필드 |
 |---|---|
-| 셀럽 | `celebs.nickname/bio/title/virtual_monologue/consumption_philosophy`와 각 `_en`; `cultural_journey*`는 generated 읽기 별칭 |
+| 셀럽 | `celebs.nickname/bio/title/virtual_monologue/cultural_journey`와 각 `_en`; `consumption_philosophy*`는 레거시 호환 열 |
 | 읽어보기 | `celeb_explanations.plain_text/interpretive_title/interpretive_text`와 각 `_en` |
 | 정량 지표 | `celeb_influence.{axis}_exp/_en` |
 | 인물 자질 | `celeb_persona.persona`의 `rationale_ko/en`, 각 `reason_ko/en` |
@@ -33,7 +33,7 @@
 ## 수정할 때
 
 - 감사 스크립트에 쓰기 기능을 추가하지 않는다.
-- 읽어보기 번역·조건부 반영은 `sw/web-bo/scripts/translate-celeb-readings.ts`를 따른다.
+- 읽어보기 번역·조건부 반영은 `sw/web-bo/scripts/celeb/readings-translate.ts`를 따른다.
 - 프로필 독백 기능은 폐기됐다. 잔존 데이터 판단은 `docs/project/celeb/retire/virtual-monologue.md`를 따른다.
 - 스펙트럼은 평면 컬럼이 아니라 `persona` JSONB가 원본이다. `persona`는 레거시 저장소 식별자다.
 - 한마디는 `set_celeb_quote` RPC만 사용한다. `lines` 전체를 덮지 않는다.

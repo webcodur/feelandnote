@@ -48,7 +48,7 @@ const DOMAIN_LABELS: Record<string, string> = {
   source: '대표 원전',
 }
 const DOMAIN_DEFINITIONS: Record<string, string> = {
-  basic: '이름·slug·직업·칭호·소개(KO/EN)·국적·성별·생년·아바타.',
+  basic: '이름·slug·한 줄 정의(KO/EN)·직업·칭호·소개(KO/EN)·국적·성별·생년·아바타.',
   influence: '정치·전략·기술·사회·경제·문화·초역사 7축 점수·축별 설명(KO/EN)·총점.',
   spectrum: '능력·내덕·외덕·성향 16속성별 점수·사유(KO/EN) + 근거(KO/EN).',
   speech: '대사 행 + 명언 + 정해진 7개 상황별 대사(KO/EN).',
@@ -79,6 +79,8 @@ function gapLabel(gap: string): string {
     'content:creator': '콘텐츠 저자·제작자 누락',
     'basic:avatar_url': '아바타 누락',
     'basic:birth_date': '생년 누락',
+    'basic:headline': '한 줄 정의(KO) 누락',
+    'basic:headline_en': '한 줄 정의(EN) 누락',
     'content:empty_not_confirmed': 'light 콘텐츠 0건·미확정 (전체 상태)',
     'speech:tone': 'speech tone 누락',
     'influence:row': '영향력 행 전체 누락',

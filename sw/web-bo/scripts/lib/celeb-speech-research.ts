@@ -3,6 +3,81 @@ import { createHash } from 'node:crypto'
 export const NO_VERIFIED_QUOTE_KO = '[확인된 어록이 없습니다]'
 export const NO_VERIFIED_QUOTE_EN = '[No verified quote]'
 
+/**
+ * 대사 실행 규약의 SSoT. 문서는 이 상수를 가리키고 값을 복제하지 않는다.
+ * 규칙의 뜻과 목표 범위는 `docs/project/celeb/celeb-speech.md` §6.3이 쥔다.
+ */
+export const SPEECH_SITUATIONS = [
+  'greeting', 'roll_call', 'deploy', 'battle_win', 'battle_draw', 'battle_lose', 'clash_attack',
+] as const
+
+export type SpeechSituation = typeof SPEECH_SITUATIONS[number]
+
+/** 한 상황당 대사 개수. 7상황 × 3개 = 21개. */
+export const SPEECH_LINES_PER_SITUATION = 3
+
+/** 표시용 한국어 한마디 상한. */
+export const SPEECH_QUOTE_MAX_KO = 50
+
+/**
+ * 상황별 한국어 대사 상한. clash·deploy·roll_call·battle_* 는 룰북 실측값이고,
+ * greeting 은 같은 한 호흡 반응으로 보아 battle_* 와 같은 상한을 적용한다.
+ * 긴 직접 인용을 보존해야 하는 기존 greeting 은 신규 작성 대상이 아니므로 이 게이트를 타지 않는다.
+ */
+export const SPEECH_LINE_MAX_KO: Record<SpeechSituation, number> = {
+  greeting: 40,
+  roll_call: 40,
+  deploy: 35,
+  battle_win: 40,
+  battle_draw: 40,
+  battle_lose: 40,
+  clash_attack: 25,
+}
+
+/** 문장 맨 앞의 ELE 발화 지시 태그. 길이를 셀 때 제외한다. */
+const ELE_TAG = /^\s*\[[^\]]*\]\s*/
+
+export function stripEleTag(line: string): string {
+  return line.replace(ELE_TAG, '').trim()
+}
+
+/**
+ * 한국어 21개 대사의 구조·길이·중복을 검사한다. 위반 목록을 돌려주며 비어 있으면 통과다.
+ * `allowEleTag: false`(기본)는 신규 작성용이다. AI는 태그를 새로 붙이지 않는다.
+ */
+export function validateSpeechLinesKo(
+  lines: Record<string, unknown>,
+  options: { allowEleTag?: boolean } = {},
+): string[] {
+  const allowEleTag = options.allowEleTag ?? false
+  const violations: string[] = []
+  const all: string[] = []
+
+  for (const situation of SPEECH_SITUATIONS) {
+    const values = lines[situation]
+    if (!Array.isArray(values) || values.length !== SPEECH_LINES_PER_SITUATION) {
+      violations.push(`${situation}: 문자열 ${SPEECH_LINES_PER_SITUATION}개가 아니다`)
+      continue
+    }
+    for (const value of values) {
+      if (typeof value !== 'string' || value.trim().length === 0) {
+        violations.push(`${situation}: 빈 문자열이 있다`)
+        continue
+      }
+      const hasTag = ELE_TAG.test(value)
+      if (hasTag && !allowEleTag) violations.push(`${situation}: 발화 지시 태그를 새로 붙이지 않는다 | ${value}`)
+      const body = stripEleTag(value)
+      const max = SPEECH_LINE_MAX_KO[situation]
+      if (body.length > max) violations.push(`${situation}: ${body.length}자 (상한 ${max}) | ${value}`)
+      if (body.includes('—')) violations.push(`${situation}: 줄표는 쓰지 않는다 | ${value}`)
+      all.push(body)
+    }
+  }
+
+  if (new Set(all).size !== all.length) violations.push('21개 안에 같은 문장이 있다')
+  return violations
+}
+
 const BLOCKED_QUOTE_HOSTS = [
   'brainyquote.com',
   'azquotes.com',
@@ -129,7 +204,9 @@ export function validateSpeechResearch(args: {
   const quoteKo = text(args.proposedQuoteKo, 'dialogues.lines.quote')
   const quoteEn = text(args.proposedQuoteEn, 'dialogues.lines_en.quote')
   if (quoteKo.includes('\n') || quoteEn.includes('\n')) throw new Error('한마디에는 줄바꿈을 넣지 않는다')
-  if (quoteKo.length > 50) throw new Error(`한국어 한마디가 50자를 넘는다: ${quoteKo.length}`)
+  if (quoteKo.length > SPEECH_QUOTE_MAX_KO) {
+    throw new Error(`한국어 한마디가 ${SPEECH_QUOTE_MAX_KO}자를 넘는다: ${quoteKo.length}`)
+  }
 
   if (research.quoteOutcome === 'verified') {
     if (!Array.isArray(research.voiceSamples) || research.voiceSamples.length < 1) {
