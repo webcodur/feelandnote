@@ -9,6 +9,14 @@ description: Claude Code에서 agy(Antigravity CLI, 구글 제미니 백엔드)�
 
 실행 파일(실측): `C:\Users\webco\AppData\Local\agy\bin\agy.exe`. `.exe`라 codex의 `.cmd` spawn 함정(ENOENT)이 없다.
 
+## 모델은 항상 명시한다 — `gemini-3.7-flash-high`
+
+**호출할 때마다 `--model gemini-3.7-flash-high`를 붙인다. 예외 없다.**
+
+`settings.json`의 기본값을 믿지 마라. 2026-08-17 실측에서 기본값이 `Gemini 3.6 Flash (Low)`였고, 그것으로 돌린 한국어 재작성에서 오탈자("변변"), 고유명사 오역(「악양루기」→ `Yueyang Tower`), 금지한 평가어 재삽입이 나왔다. 한 세대 낮은 모델에 추론 강도까지 최하였던 탓이다.
+
+`agy models`로 목록을 본다. 상위부터 `gemini-3.7-flash-{high,medium,low}`, `gemini-3.6-flash-*`, `gemini-3.5-flash-*`, `gemini-3.1-pro-{high,low}`가 있고 Claude Sonnet 4.6·Opus 4.6·GPT-OSS 120B도 붙어 있다. 기본값은 `~/.gemini/antigravity-cli/settings.json`의 `model` 키가 쥐며 사람이 바꿀 수 있으므로, 플래그로 덮어써야 결과가 재현된다.
+
 ## 로그인 계정 확인법
 
 agy에는 `whoami` 류 서브커맨드가 없다. **실행 로그에서 뽑는 것이 유일한 확실한 방법**이다. 계정은 유저가 수시로 갈아끼우므로 **캐시된 기억을 믿지 말고 매번 새로 확인**한다.
