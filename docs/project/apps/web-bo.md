@@ -63,7 +63,7 @@ pnpm dev:bo
 | `/celebs/titles/[slug]` | (닉네임) 수식어 편집 | 단건 수식어 수정 | `celebs` |
 | `/celebs/professions` | 셀럽 직군 편집 | 전체 셀럽 직군 일괄 편집 | `celebs` |
 | `/celebs/professions/[slug]` | (닉네임) 직업 편집 | 단건 직업 수정 | `celebs` |
-| `/celebs/journeys` | 셀럽 감상 여정 편집 | `consumption_philosophy` 일괄 편집, 50건 단위 | `celebs` |
+| `/celebs/journeys` | 셀럽 감상 여정 편집 | `cultural_journey` 일괄 편집, 50건 단위 | `celebs` |
 | `/celebs/journeys/[slug]` | (닉네임) 감상 철학 편집 | 단건 감상 철학 집중 수정 | `celebs` |
 | `/celebs/content-research` | Light 콘텐츠 조사 목록 | 실제 콘텐츠 수·활성 여부·0건 확정 여부·영향력·자료형 직군·세력도감 연결로 작업 대상을 분류하고, 0건 인물의 `-1` 확정·해제만 관리한다 | `celebs`, `celeb_contents` |
 | `/celebs/vectors` | 스펙트럼 분석 | 덕목·능력·성향 16개 축 열람(레퍼런스 패널 + 대시보드) | `celeb_persona` |

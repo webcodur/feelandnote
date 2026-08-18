@@ -20,9 +20,9 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
 
 ## 핵심 스크립트
 
-- 일괄: `sw/web-bo/scripts/batch-celeb-avatars.ts`
-- 단건: `sw/web-bo/scripts/upload-celeb-avatar.ts`
-- 크레딧 로그: `sw/web-bo/scripts/celeb-image-credits.log`
+- 일괄: `sw/web-bo/scripts/avatar/batch.ts`
+- 단건: `sw/web-bo/scripts/avatar/upload.ts`
+- 크레딧 로그: `sw/web-bo/scripts/avatar/credits.log`
 
 ## 의존성 (이미 설치됨)
 
@@ -33,7 +33,7 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
 **프레임 기하(눈높이·턱끝·콧대·안전 영역)와 자르는 계산식의 SSoT는 `docs/project/celeb/celeb-avatar-spec.md` §1·§6이다.** 머리 위는 규격에 없다 — 머리카락·모자·투구가 잘려도 무방하고, 얼굴이 잘리는 것만 막는다. 턱 아래도 규격에 없다 — 맨 목이든 옷깃이든 갑옷이든 머리카락이든 무엇이 채워도 되고 어깨가 아예 안 보여도 된다. 이 스킬은 등록 자동화만 담당한다. 계산식·수치를 여기 옮겨 적지 않는다 — 두 벌이 되는 순간 다시 어긋난다.
 
 - **눈·턱 기준으로 통일됐다(2026-08-01).** 얼굴 검출 상자에 배율을 곱하던 방식을 버렸다. 상자는 모델·인물마다 잡는 범위가 달라, 같은 배율을 넣어도 얼굴 크기가 흔들렸다(표본 60명 실측에서 32% 요동). 눈과 턱은 랜드마크로 직접 재므로 검출 모델이 무엇이든 같은 결과가 나온다.
-- **계산 구현은 `sw/web-bo/src/lib/avatar-geometry.ts` 하나다.** 일괄 등록·단건 등록·얼굴 정사각 전처리(`crop-faces.ts`)·관리자 화면(`src/utils/faceDetection.ts`)이 전부 이 파일을 부른다. 결과가 이상하면 이 파일과 SSoT §6만 본다.
+- **계산 구현은 `sw/web-bo/src/lib/avatar-geometry.ts` 하나다.** 일괄 등록·단건 등록·얼굴 정사각 전처리(`photo/crop-faces.ts`)·관리자 화면(`src/utils/faceDetection.ts`)이 전부 이 파일을 부른다. 결과가 이상하면 이 파일과 SSoT §6만 본다.
 - **자를 크기·위치를 인자로 흔들 수 없다.** 인물마다 결과가 같으려면 규격이 코드에 고정돼 있어야 한다. 옛 조절 인자는 전부 폐기됐다(아래 「인자 옵션」).
 - 랜드마크를 못 얻으면 상자 기준 폴백으로 후퇴한다. 이 경로는 얼굴 크기가 ±14% 흔들리므로, 결과에 그 사실이 경고로 붙는다.
 - 원본이 규격보다 작거나 얼굴이 원본 가장자리에 붙어 좌표를 밀어야 했을 때도 **조용히 넘어가지 않는다.** 콘솔·크레딧 로그·배치 보고서에 규격 경고가 남는다. 경고가 붙은 인물은 눈으로 확인한다.
@@ -60,12 +60,12 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
 | 인자 | 어디에 있었나 | 지금 |
 |------|------|------|
 | `--face-frame-ratio` | 단건 등록 | 폐기. 경고 한 줄 찍고 무시한다 |
-| `--frame-ratio` · `--headroom` | `crop-faces.ts` | 폐기. 경고 한 줄 찍고 무시한다 |
+| `--frame-ratio` · `--headroom` | `photo/crop-faces.ts` | 폐기. 경고 한 줄 찍고 무시한다 |
 | `--require-face` | 단건 등록 | 얼굴 필수가 기본 동작이 됐다. `true`는 받아만 준다(단 `--face-detect false`와 같이 주면 오류로 중단). `false`는 경고만 찍고 무시한다 — 대체 크롭이 필요하면 `--allow-no-face true`를 쓴다 |
 
 자를 크기·위치는 SSoT가 정하고 `avatar-geometry.ts`가 계산한다. 조절 인자를 되살리지 않는다.
 
-⚠️ **크롭·품질 인자는 단건 스크립트 `upload-celeb-avatar.ts`에만 있다. 배치 스크립트 `batch-celeb-avatars.ts`에는 없다** — 배치가 파싱하는 인자는 `--dry-run`·`--scan-db`·`--only`·`--targets-file`·`--offset`·`--limit`·`--exclude-file` 뿐이며, 출력 800×800·품질 95·얼굴 검출 사용이 코드에 박혀 있다. 배치에 크롭 옵션을 넘겨도 무시된다.
+⚠️ **크롭·품질 인자는 단건 스크립트 `avatar/upload.ts`에만 있다. 배치 스크립트 `avatar/batch.ts`에는 없다** — 배치가 파싱하는 인자는 `--dry-run`·`--scan-db`·`--only`·`--targets-file`·`--offset`·`--limit`·`--exclude-file` 뿐이며, 출력 800×800·품질 95·얼굴 검출 사용이 코드에 박혀 있다. 배치에 크롭 옵션을 넘겨도 무시된다.
 
 - `--scan-db`: DB에서 avatar_url 비어있는 CELEB 자동 조회.
 - `--only <slug>,<slug>,...`: 특정 인물만 처리.
@@ -96,7 +96,7 @@ description: 셀럽 avatar 이미지를 등록한다. 출처에 서열은 없다
 
 **A. 신규 등록 직후 일괄**
 ```
-node --experimental-loader tsx sw/web-bo/scripts/batch-celeb-avatars.ts --scan-db --offset 0 --limit 50
+node --experimental-loader tsx sw/web-bo/scripts/avatar/batch.ts --scan-db --offset 0 --limit 50
 ```
 50명 단위로 반복 호출, 실패자는 `.tmp-exclude-failed.txt`에 누적해 다음 배치에서 제외.
 
@@ -106,14 +106,14 @@ node --experimental-loader tsx sw/web-bo/scripts/batch-celeb-avatars.ts --scan-d
 
 Commons 파일이 있을 때 — 파일명만 넘긴다(`File:` 접두사 없이, 공백 그대로, 라이선스 무관):
 ```
-node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-avatar.ts \
+node --experimental-loader tsx sw/web-bo/scripts/avatar/upload.ts \
   --celeb-id <uuid> --commons-file "Akira_Toriyama_2023.jpg" --slug <slug> \
   --source-note "<신원·편집 설명>" --identity-evidence "https://commons.wikimedia.org/wiki/File:Akira_Toriyama_2023.jpg"
 ```
 
 Commons에 사진 자체가 없을 때 — 일반 웹에서 인물 사진 URL을 직접 찾아 `--image-url`로 넣는다. 라이선스 따지지 않는다:
 ```
-node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-avatar.ts \
+node --experimental-loader tsx sw/web-bo/scripts/avatar/upload.ts \
   --celeb-id <uuid> --image-url "https://..." --slug <slug> \
   --source-note "<신원·편집 설명>" --identity-evidence "https://공식·기관·본인 페이지"
 ```
@@ -122,7 +122,7 @@ node --experimental-loader tsx sw/web-bo/scripts/upload-celeb-avatar.ts \
 
 신원 불일치·근거 부재로 아바타를 내린 프로필은 업로드 스크립트의 `PROVENANCE_QUARANTINED_SLUGS`에 격리한다. 파일명을 바꾸거나 임시 폴더로 복사해도 등록할 수 없다. 인물 고유의 신원·도상 근거를 검토한 뒤 검역 목록을 명시적으로 해제해야 한다.
 
-자동 웹 검색 등록과 팩션 REF 직접 승격 진입점은 신원 오등록 위험 때문에 폐기됐다. `batch-celeb-avatars.ts`도 DB의 `celeb-id`–`slug` 일치를 먼저 검증하며, 실서비스 쓰기는 DB에 사전 검증된 `wikidata_qid`가 있는 경우에만 허용한다. QID가 없거나 기존 QID에 이미지가 없으면 `--dry-run` 후보 조사까지만 하고 자동 QID 채택·교체·업로드는 하지 않는다.
+자동 웹 검색 등록과 팩션 REF 직접 승격 진입점은 신원 오등록 위험 때문에 폐기됐다. `avatar/batch.ts`도 DB의 `celeb-id`–`slug` 일치를 먼저 검증하며, 실서비스 쓰기는 DB에 사전 검증된 `wikidata_qid`가 있는 경우에만 허용한다. QID가 없거나 기존 QID에 이미지가 없으면 `--dry-run` 후보 조사까지만 하고 자동 QID 채택·교체·업로드는 하지 않는다.
 
 **C. 동명이인 사고 시 되돌림**
 잘못된 사진이 채택된 경우 `celebs.avatar_url`, `celebs.wikidata_qid` 모두 NULL로 UPDATE.
@@ -150,7 +150,7 @@ upload.wikimedia.org가 일시적으로 429를 반환하면 60~90초 텀을 두�
 
 ```
 cd sw/web-bo
-npx tsx scripts/measure-avatar-geometry.ts <이미지폴더>
+npx tsx scripts/avatar/measure.ts <이미지폴더>
 ```
 
 폴더 안의 이미지를 전부 열어 68점 랜드마크를 돌리고, 이미지마다 눈높이·턱끝·얼굴 중심축을 프레임 100단위로 환산해 **규격 허용 범위와 대조한 합격·이탈 판정**을 찍는다. 판정 수치는 `src/lib/avatar-geometry.ts`의 `AVATAR_SPEC` 하나에서만 온다 — 이 도구가 따로 기준을 갖고 있지 않다.
@@ -163,7 +163,7 @@ npx tsx scripts/measure-avatar-geometry.ts <이미지폴더>
 
 - 위키데이터·Commons API 실제 반환값만 사용. 파일명 fabrication 금지(허위 File: 이름을 만들어 넘기지 말 것).
 - **라이선스로 막지 말 것.** 자동 배치가 라이선스 사유로 빠뜨린 인물도 단건 처리에서 끝까지 등록한다. 정책: 얼굴 일치만 본다.
-- 얼굴 미검출 인물(주로 고전 초상화·고대 인물 그림)은 이제 자동으로 등록되지 않는다. 얼굴이 큰 다른 사진을 찾거나, `crop-faces.ts`·관리자 화면에서 사람이 맞춘 뒤 로컬 파일 모드로 올린다.
+- 얼굴 미검출 인물(주로 고전 초상화·고대 인물 그림)은 이제 자동으로 등록되지 않는다. 얼굴이 큰 다른 사진을 찾거나, `photo/crop-faces.ts`·관리자 화면에서 사람이 맞춘 뒤 로컬 파일 모드로 올린다.
 - **얼굴이 없는 것이 정상인 인물이 있다.** 사토시 나카모토·클로윈디처럼 신원이 공개되지 않아 얼굴 자료가 아예 없는 경우로, 후드 속 어둠이나 복면으로 익명성을 형상화한다. 이들은 기하 규격이 면제되며(SSoT §1) 사람이 직접 올린다 — `--allow-no-face true` 또는 관리자 화면. **미검출 명단에서 이들을 재작업 대상으로 올리지 마라.**
 - 음성·이미지 AI 생성은 별도 사전 승인 필요(메모리 `feedback_no_auto_generation.md`). 검색·등록은 사전 승인 불요.
 - 잘못된 인물 사진이 들어가지 않게 — 동명이인·작품 표지·캐릭터·기념물 사진은 등록 금지. 본인 얼굴 사진만.

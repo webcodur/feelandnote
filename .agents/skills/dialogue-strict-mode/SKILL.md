@@ -89,4 +89,4 @@
 
 - 룰북 SSoT: `docs/project/celeb/celeb-speech.md`, 한국어 규격은 `docs/project/production/writing-rules.md` §1
 - 번역투 전문: `.claude/skills/ko-detranslate/SKILL.md` / 문장력·AI slop: `.claude/skills/no-trash-prose/SKILL.md`
-- DB 갱신은 `sw/web-bo/scripts/celeb-fill.ts`만 사용한다(빈칸만 채움, 기존값 덮지 않음). 검증 통과 전에는 DB에 쓰지 않는다.
+- DB 갱신은 `sw/web-bo/scripts/celeb/fill.ts`만 사용한다(빈칸만 채움, 기존값 덮지 않음). 검증 통과 전에는 DB에 쓰지 않는다.

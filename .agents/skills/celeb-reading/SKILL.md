@@ -30,9 +30,9 @@ description: 인물 상세의 읽어보기 구획에 들어가는 인물 안내�
 `sw/web-bo`에서 실행한다.
 
 ```powershell
-pnpm exec tsx scripts/generate-celeb-readings.ts --slugs=jiwoo,brad-pitt,bai-juyi --rewrite-existing --review-existing --research --deep-research --generate --apply --resume
-pnpm exec tsx scripts/generate-celeb-readings.ts --all --rewrite-existing --review-existing --research --deep-research --generate --apply --resume
-pnpm exec tsx scripts/generate-celeb-readings.ts --stats
+pnpm exec tsx scripts/celeb/readings.ts --slugs=jiwoo,brad-pitt,bai-juyi --rewrite-existing --review-existing --research --deep-research --generate --apply --resume
+pnpm exec tsx scripts/celeb/readings.ts --all --rewrite-existing --review-existing --research --deep-research --generate --apply --resume
+pnpm exec tsx scripts/celeb/readings.ts --stats
 ```
 
 전량 교체는 `--all --rewrite-existing --review-existing` 조합에서만 허용한다. `human_reviewed`는

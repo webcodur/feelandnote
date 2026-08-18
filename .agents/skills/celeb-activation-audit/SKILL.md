@@ -17,19 +17,19 @@ description: 전체 또는 비활성 셀럽의 아바타·기본정보·영향�
 
 ```bash
 # 읽기 전용 전수 감사. source_url HTTP 상태도 확인한다.
-pnpm exec tsx scripts/audit-celeb-activation-readiness.ts
+pnpm exec tsx scripts/celeb/audit-activation.ts
 
 # 기계 판독 결과
-pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --json
+pnpm exec tsx scripts/celeb/audit-activation.ts --json
 
 # 전체 공개 상태의 인물별·티어별·영역별 구조 보유율 추적
-pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --status=all --skip-link-check
+pnpm exec tsx scripts/celeb/audit-activation.ts --status=all --skip-link-check
 
 # 일부 인물만 감사
-pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --slugs=slug-a,slug-b
+pnpm exec tsx scripts/celeb/audit-activation.ts --slugs=slug-a,slug-b
 
 # 사용자에게 active 반영을 명시적으로 요청받았을 때만 실행
-pnpm exec tsx scripts/audit-celeb-activation-readiness.ts --apply
+pnpm exec tsx scripts/celeb/audit-activation.ts --apply
 ```
 
 `--json`의 `rows[].coverage`는 인물별 보유율과 완료·누락 영역을 담는다. full/light는

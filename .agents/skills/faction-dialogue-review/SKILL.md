@@ -39,7 +39,7 @@ description: 팩션(factions/) 인물의 한국어 대사를 새로 작성하거
 에피소드 폴더에 작업 장부를 남기지 않는다.
 
 1. 조건부 반영기에 필요한 계약은 임시 JSON으로만 만든다.
-2. `sw/web-bo/scripts/apply-faction-dialogue-batch.ts`를 dry-run한다.
+2. `sw/web-bo/scripts/faction/dialogue-apply.ts`를 dry-run한다.
 3. 예상 현재값이 정확히 일치할 때만 `--apply`한다.
 4. `faction:export`로 렌더 산출물을 재생성한다.
 5. `faction:verify`, `--drift`, `check-dialogue.mjs`를 통과시킨다.
