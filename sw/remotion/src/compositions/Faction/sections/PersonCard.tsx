@@ -42,13 +42,16 @@ function epithetWordTimings(text: string, totalSec: number): VoiceTimingSegment[
   const pauseTotal = pauseAfter.reduce((a, b) => a + b, 0)
   // 점등에 쓸 시간 = 전체 - 휴지 합. 휴지가 과하면 점등이 너무 빨라지지 않게 하한(전체의 40%)을 둔다.
   const speakSec = Math.max(totalSec * 0.4, totalSec - pauseTotal)
+  // 휴지 합이 남는 시간을 넘으면 비례 축소해 전체 길이를 넘지 않게 한다(뒷어절 유실 방지).
+  const pauseRoom = Math.max(0, totalSec - speakSec)
+  const pauseScale = pauseTotal > pauseRoom ? pauseRoom / pauseTotal : 1
   const lens = words.map(w => w.length)
   const total = lens.reduce((a, b) => a + b, 0) || 1
   let cur = 0
   return words.map((w, i) => {
     const dur = (speakSec * lens[i]) / total
     const seg: VoiceTimingSegment = { start: cur, end: cur + dur, text: w }
-    cur += dur + pauseAfter[i] // 구두점 뒤 휴지만큼 다음 어절 점등을 미룬다
+    cur += dur + pauseAfter[i] * pauseScale // 구두점 뒤 휴지만큼 다음 어절 점등을 미룬다
     return seg
   })
 }
@@ -72,6 +75,10 @@ function epithetCharTimings(text: string, totalSec: number): VoiceTimingSegment[
   })
   const pauseTotal = pauseAfter.reduce((a, b) => a + b, 0)
   const speakSec = Math.max(totalSec * 0.4, totalSec - pauseTotal)
+  // 휴지 합이 남는 시간을 넘으면 비례 축소한다. 구두점이 많은 수식어(예: `... ... !!! !!!`)에서
+  // 휴지만으로 노출 시간을 넘겨 뒷글자가 컷 밖으로 밀려나면 화면에 아무것도 안 뜬다.
+  const pauseRoom = Math.max(0, totalSec - speakSec)
+  const pauseScale = pauseTotal > pauseRoom ? pauseRoom / pauseTotal : 1
   // 공백은 가중치 0(즉시 통과), 그 외 글자는 균등 가중치.
   const weights = chars.map((c): number => (/\s/.test(c) ? 0 : 1))
   const wTotal = weights.reduce((a, b) => a + b, 0) || 1
@@ -79,7 +86,7 @@ function epithetCharTimings(text: string, totalSec: number): VoiceTimingSegment[
   return chars.map((c, i) => {
     const dur = (speakSec * weights[i]) / wTotal
     const seg: VoiceTimingSegment = { start: cur, end: cur + dur, text: c }
-    cur += dur + pauseAfter[i]
+    cur += dur + pauseAfter[i] * pauseScale
     return seg
   })
 }
