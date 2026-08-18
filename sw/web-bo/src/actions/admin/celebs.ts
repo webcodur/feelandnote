@@ -85,6 +85,8 @@ interface UpdateCelebInput {
   profession?: string
   title?: string
   title_en?: string
+  headline?: string
+  headline_en?: string
   nationality?: string
   gender?: boolean | null
   birth_date?: string
@@ -100,7 +102,7 @@ interface UpdateCelebInput {
   portrait_url?: string
   is_verified?: boolean
   status?: 'active' | 'inactive'
-  celeb_tier?: 'full' | 'light'
+  celeb_tier?: 'full' | 'light' | 'fiction'
   influence?: GeneratedInfluence
 }
 
@@ -839,6 +841,8 @@ export async function updateCeleb(
   if (input.profession !== undefined) updateData.profession = input.profession
   if (input.title !== undefined) updateData.title = input.title
   if (input.title_en !== undefined) updateData.title_en = input.title_en || null
+  if (input.headline !== undefined) updateData.headline = input.headline || null
+  if (input.headline_en !== undefined) updateData.headline_en = input.headline_en || null
   if (input.nationality !== undefined) updateData.nationality = input.nationality
   if (input.gender !== undefined) updateData.gender = input.gender
   if (input.birth_date !== undefined) updateData.birth_date = input.birth_date
@@ -1408,6 +1412,81 @@ export async function updateCelebTitle(celebId: string, title: string | null): P
 
   revalidatePath('/celebs')
   revalidatePath('/celebs/titles')
+  revalidatePath('/celebs/[slug]', 'page')
+  await revalidateWebItems(
+    [
+      { domain: CACHE_TAGS.CELEBS, id: celebId },
+      ...(updated.slug ? [{ domain: CACHE_TAGS.CELEBS, id: updated.slug }] : []),
+    ],
+    [CACHE_TAGS.CELEBS],
+  )
+}
+// #endregion
+
+// #region getCelebsForHeadlineEdit & updateCelebHeadline - 헤드라인(한 줄 정의) 목록 및 편집
+export interface CelebHeadlineItem {
+  id: string
+  slug: string | null
+  nickname: string | null
+  nickname_en: string | null
+  avatar_url: string | null
+  profession: string | null
+  title: string | null
+  title_en: string | null
+  headline: string | null
+  headline_en: string | null
+  status: string
+  celeb_tier: string | null
+}
+
+export async function getCelebsForHeadlineEdit(): Promise<CelebHeadlineItem[]> {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase
+    .from('celebs')
+    .select('id, slug, nickname, nickname_en, avatar_url, profession, title, title_en, headline, headline_en, status:publication_status, celeb_tier')
+    .order('nickname', { ascending: true })
+
+  if (error) throw error
+
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    slug: row.slug || null,
+    nickname: row.nickname,
+    nickname_en: row.nickname_en,
+    avatar_url: row.avatar_url,
+    profession: row.profession,
+    title: row.title,
+    title_en: row.title_en,
+    headline: row.headline,
+    headline_en: row.headline_en,
+    status: row.status,
+    celeb_tier: row.celeb_tier,
+  }))
+}
+
+export async function updateCelebHeadline(
+  celebId: string,
+  headline: string | null,
+  headlineEn: string | null = null,
+): Promise<void> {
+  await requireAdmin()
+  const supabase = createAdminClient()
+
+  const { data: updated, error } = await supabase
+    .from('celebs')
+    .update({
+      headline: headline ? headline.trim() : null,
+      headline_en: headlineEn ? headlineEn.trim() : null,
+    })
+    .eq('id', celebId)
+    .select('slug')
+    .single()
+
+  if (error) throw error
+
+  revalidatePath('/celebs')
+  revalidatePath('/celebs/headlines')
   revalidatePath('/celebs/[slug]', 'page')
   await revalidateWebItems(
     [

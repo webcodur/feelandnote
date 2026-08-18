@@ -107,6 +107,8 @@ export interface Member {
   death_date?: string | null
   nickname_en?: string | null
   title_en?: string | null
+  headline?: string | null
+  headline_en?: string | null
   bio_en?: string | null
   cultural_journey?: string | null
   cultural_journey_en?: string | null
@@ -333,6 +335,8 @@ async function celebProfileToMember(data: any): Promise<Member> {
     death_date: data.death_date,
     nickname_en: data.nickname_en ?? null,
     title_en: data.title_en ?? null,
+    headline: data.headline ?? null,
+    headline_en: data.headline_en ?? null,
     bio_en: data.bio_en ?? null,
     cultural_journey: data.cultural_journey,
     cultural_journey_en: data.cultural_journey_en ?? null,

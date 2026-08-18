@@ -19,7 +19,7 @@ test('셀럽 음성 화면은 GEM/ELE 엔진과 엔진별 보이스를 선택한
 
   assert.match(panel, /SpeakerEngineToggle/)
   assert.match(panel, /GeminiVoiceSelect/)
-  assert.match(panel, /EleVoiceCombobox/)
+  assert.match(panel, /EleVoicePicker/)
   assert.match(studio, /engineKo/)
   assert.match(studio, /engineEn/)
   assert.match(editor, /chosenEngine:\s*engine/)

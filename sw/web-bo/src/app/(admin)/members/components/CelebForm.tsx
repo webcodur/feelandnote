@@ -1,15 +1,15 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { createCeleb, updateCeleb, deleteCeleb } from '@/actions/admin/celebs'
+import { createCeleb, updateCeleb, deleteCeleb, setCelebMonologueLock } from '@/actions/admin/celebs'
 import { uploadCelebImage } from '@/actions/admin/storage'
 import { calculateInfluenceRank, type GeneratedInfluence } from '@feelandnote/ai-services/celeb-profile'
 import { CELEB_HERO_PHOTO_SPEC } from '@feelandnote/shared/constants/celeb-hero-photo'
 import type { Member } from '@/actions/admin/members'
 import { CELEB_PROFESSIONS } from '@/constants/celebCategories'
 import { useCountries } from '@/hooks/useCountries'
-import { Loader2, Trash2, Star, ChevronDown, ChevronUp } from 'lucide-react'
+import { Loader2, Trash2, Star, ChevronDown, ChevronUp, Lock, LockOpen } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { useToast } from '@/contexts/ToastContext'
 import { resizeSingleImage, resizePortraitImage } from '@/lib/image'
@@ -21,6 +21,7 @@ import { saveCelebPortrait } from '@/components/celeb/portrait/saveCelebPortrait
 import FormattedText from '@/components/ui/FormattedText'
 import { useLangMode, type LangMode } from '@/contexts/LangModeContext'
 import { persistCroppedCelebImage } from './persistCroppedCelebImage'
+import CelebDetailHeader from '../../celebs/[slug]/CelebDetailHeader'
 
 // #region Types
 interface CelebFormData {
@@ -29,6 +30,8 @@ interface CelebFormData {
   profession: string
   title: string
   title_en: string
+  headline: string
+  headline_en: string
   nationality: string
   gender: boolean | null
   birth_date: string
@@ -39,7 +42,7 @@ interface CelebFormData {
   portrait_url: string
   is_verified: boolean
   status: 'active' | 'inactive'
-  celeb_tier: 'full' | 'light'
+  celeb_tier: 'full' | 'light' | 'fiction'
   cultural_journey: string
   cultural_journey_en: string
 }
@@ -47,6 +50,8 @@ interface CelebFormData {
 interface Props {
   mode: 'create' | 'edit'
   celeb?: Member
+  children?: ReactNode
+  lead?: ReactNode
 }
 
 const INFLUENCE_LABELS: Record<string, { label: string; max: number }> = {
@@ -96,6 +101,8 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     profession: celeb?.profession || '',
     title: celeb?.title || '',
     title_en: celeb?.title_en || '',
+    headline: celeb?.headline || '',
+    headline_en: celeb?.headline_en || '',
     nationality: celeb?.nationality || '',
     gender: celeb?.gender ?? null,
     birth_date: celeb?.birth_date || '',
@@ -107,7 +114,7 @@ function getInitialFormData(celeb?: Member): CelebFormData {
     is_verified: celeb?.is_verified || false,
     status: (celeb?.status as 'active' | 'inactive') || 'inactive',
     // 새로 만드는 인물은 감상 기록이 있을 수 없어 full로 저장되지 않는다(DB가 막는다)
-    celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light') || 'full') : 'light',
+    celeb_tier: celeb ? ((celeb.celeb_tier as 'full' | 'light' | 'fiction') || 'full') : 'light',
     cultural_journey: celeb?.cultural_journey || '',
     cultural_journey_en: celeb?.cultural_journey_en || '',
   }
@@ -156,7 +163,7 @@ function getInitialInfluence(celeb?: Member): GeneratedInfluence {
  */
 const CELEB_LIST_PATH = '/celebs'
 
-export default function CelebForm({ mode, celeb }: Props) {
+export default function CelebForm({ mode, celeb, children, lead }: Props) {
   const router = useRouter()
   const { showToast } = useToast()
   const langMode = useLangMode()
@@ -183,10 +190,29 @@ export default function CelebForm({ mode, celeb }: Props) {
     basicInfo: true,
     influence: false,
     journey: false,
+    monologue: false,
   })
 
   function toggleSection(key: keyof typeof openSections) {
     setOpenSections(prev => ({ ...prev, [key]: !prev[key] }))
+  }
+
+  // 가상 독백 확정 잠금 — 잠기면 DB 트리거가 모든 경로의 독백 수정을 차단한다
+  const [monologueLockedAt, setMonologueLockedAt] = useState<string | null>(celeb?.virtual_monologue_locked_at ?? null)
+  const [monologueLockLoading, setMonologueLockLoading] = useState(false)
+
+  async function toggleMonologueLock() {
+    if (!celeb) return
+    setMonologueLockLoading(true)
+    try {
+      const { locked_at } = await setCelebMonologueLock(celeb.id, !monologueLockedAt)
+      setMonologueLockedAt(locked_at)
+      showToast('success', locked_at ? '가상 독백을 확정했습니다. 잠금 해제 전까지 수정되지 않습니다.' : '잠금을 해제했습니다.')
+    } catch (e) {
+      showToast('error', e instanceof Error ? e.message : '잠금 변경에 실패했습니다.')
+    } finally {
+      setMonologueLockLoading(false)
+    }
   }
 
   // 파일명 → 인물명 자동 입력 토글 (localStorage 연동)
@@ -257,6 +283,51 @@ export default function CelebForm({ mode, celeb }: Props) {
 
   function handleChange(field: keyof CelebFormData, value: string | boolean | null) {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  async function persistPublicationStatus(next: 'active' | 'inactive') {
+    const previous = formData.status
+    handleChange('status', next)
+    if (mode !== 'edit' || !celeb || previous === next) return
+    try {
+      await updateCeleb({ id: celeb.id, status: next })
+      initialFormData.current = { ...initialFormData.current, status: next }
+      showToast('success', next === 'active' ? '인물을 활성으로 바꿨다.' : '인물을 비공개로 바꿨다.')
+      router.refresh()
+    } catch (error) {
+      handleChange('status', previous)
+      showToast('error', error instanceof Error ? error.message : '인물 활성 상태를 바꾸지 못했다.')
+    }
+  }
+
+  async function persistVerified(next: boolean) {
+    const previous = formData.is_verified
+    handleChange('is_verified', next)
+    if (mode !== 'edit' || !celeb || previous === next) return
+    try {
+      await updateCeleb({ id: celeb.id, is_verified: next })
+      initialFormData.current = { ...initialFormData.current, is_verified: next }
+      showToast('success', next ? '인증 완료로 변경했습니다.' : '인증 해제했습니다.')
+      router.refresh()
+    } catch (error) {
+      handleChange('is_verified', previous)
+      showToast('error', error instanceof Error ? error.message : '인증 상태를 변경하지 못했습니다.')
+    }
+  }
+
+  async function persistTier(next: 'full' | 'light' | 'fiction') {
+    const previous = formData.celeb_tier
+    handleChange('celeb_tier', next)
+    if (mode !== 'edit' || !celeb || previous === next) return
+    try {
+      await updateCeleb({ id: celeb.id, celeb_tier: next })
+      initialFormData.current = { ...initialFormData.current, celeb_tier: next }
+      showToast('success', `인물 등급을 ${next}로 변경했습니다.`)
+      router.refresh()
+    } catch (error) {
+      handleChange('celeb_tier', previous)
+      showToast('error', error instanceof Error ? error.message : '인물 등급을 변경하지 못했습니다.')
+    }
   }
 
   function handleImageRemove() {
@@ -428,6 +499,8 @@ export default function CelebForm({ mode, celeb }: Props) {
           profession: formData.profession || undefined,
           title: formData.title || undefined,
           title_en: formData.title_en,
+          headline: formData.headline || undefined,
+          headline_en: formData.headline_en,
           nationality: formData.nationality || undefined,
           gender: formData.gender,
           birth_date: formData.birth_date || undefined,
@@ -479,8 +552,70 @@ export default function CelebForm({ mode, celeb }: Props) {
     }
   }
 
+  const options = (
+    <div className="flex items-center gap-4">
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input type="checkbox" checked={formData.is_verified} onChange={(e) => handleChange('is_verified', e.target.checked)} className="w-3.5 h-3.5 rounded border-border bg-bg-secondary text-accent focus:ring-accent" />
+        <div className="flex items-center gap-1"><Star className="w-3 h-3 text-blue-400" /><span className="text-xs text-text-primary">인증</span></div>
+      </label>
+      <div className="flex items-center gap-2">
+        <span className="text-xs text-text-secondary">인물 활성</span>
+        <label className="flex items-center gap-1 cursor-pointer">
+          <input type="radio" name="status" value="active" checked={formData.status === 'active'} onChange={() => { void persistPublicationStatus('active') }} className="w-3 h-3" />
+          <span className="text-xs text-text-primary">활성</span>
+        </label>
+        <label className="flex items-center gap-1 cursor-pointer">
+          <input type="radio" name="status" value="inactive" checked={formData.status === 'inactive'} onChange={() => { void persistPublicationStatus('inactive') }} className="w-3 h-3" />
+          <span className="text-xs text-text-primary">비공개</span>
+        </label>
+      </div>
+      <div className="flex items-center gap-2 border-l border-border pl-4">
+        {mode === 'create' ? (
+          <>
+            <span className="text-xs font-mono text-orange-400">light</span>
+            <span className="text-[10px] text-text-secondary">감상 기록을 채운 뒤 올린다</span>
+          </>
+        ) : (
+          <>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="radio" name="celeb_tier" value="full" checked={formData.celeb_tier === 'full'} onChange={() => handleChange('celeb_tier', 'full')} className="w-3 h-3" />
+              <span className="text-xs text-text-primary">full</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="radio" name="celeb_tier" value="light" checked={formData.celeb_tier === 'light'} onChange={() => handleChange('celeb_tier', 'light')} className="w-3 h-3" />
+              <span className="text-xs font-mono text-orange-400">light</span>
+            </label>
+            <label className="flex items-center gap-1 cursor-pointer">
+              <input type="radio" name="celeb_tier" value="fiction" checked={formData.celeb_tier === 'fiction'} onChange={() => handleChange('celeb_tier', 'fiction')} className="w-3 h-3" />
+              <span className="text-xs font-mono text-purple-400">fiction</span>
+            </label>
+          </>
+        )}
+      </div>
+    </div>
+  )
+
   return (
     <>
+    {mode === 'edit' && celeb && (
+      <CelebDetailHeader
+        slug={celeb.slug || ''}
+        nickname={formData.nickname || celeb.nickname || ''}
+        title={formData.title || celeb.title}
+        headline={formData.headline || celeb.headline}
+        headlineEn={formData.headline_en || celeb.headline_en}
+        celebId={celeb.id}
+        claimedBy={celeb.claimed_by}
+        createdAt={celeb.created_at}
+        isVerified={formData.is_verified}
+        status={formData.status}
+        tier={formData.celeb_tier}
+        contentCount={celeb.content_count || 0}
+        onVerified={(value) => { void persistVerified(value) }}
+        onStatus={(value) => { void persistPublicationStatus(value) }}
+        onTier={(value) => { void persistTier(value) }}
+      />
+    )}
     <form id="celeb-form" onSubmit={handleSubmit} className="space-y-4">
       {error && <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-red-400 text-sm">{error}</div>}
 
@@ -489,9 +624,9 @@ export default function CelebForm({ mode, celeb }: Props) {
         <button type="button" onClick={() => toggleSection('basicInfo')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
           <h2 className="text-base font-semibold text-text-primary">기본정보</h2>
           <div className="flex items-center gap-3">
-            {!openSections.basicInfo && (formData.profession || formData.nationality) && (
-              <span className="text-xs text-text-secondary truncate max-w-[200px]">
-                {[CELEB_PROFESSIONS.find(p => p.value === formData.profession)?.label, formData.nationality].filter(Boolean).join(' · ')}
+            {!openSections.basicInfo && (formData.headline || formData.profession || formData.nationality) && (
+              <span className="text-xs text-text-secondary truncate max-w-[320px]">
+                {[formData.headline, CELEB_PROFESSIONS.find(p => p.value === formData.profession)?.label, formData.nationality].filter(Boolean).join(' · ')}
               </span>
             )}
             {openSections.basicInfo ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
@@ -520,6 +655,13 @@ export default function CelebForm({ mode, celeb }: Props) {
               en={<input type="text" value={formData.title_en} onChange={(e) => handleChange('title_en', e.target.value)} placeholder="EN: e.g. Iron Lady" className={INPUT_EN_CLS} />}
             />
 
+            <label htmlFor="headline" className="text-xs font-medium text-text-secondary">한 줄 정의</label>
+            <BilingualInput
+              mode={langMode}
+              ko={<input type="text" id="headline" value={formData.headline} onChange={(e) => handleChange('headline', e.target.value)} placeholder="예: 워런 버핏의 60년 지혜이자 평생 파트너" className={INPUT_CLS} />}
+              en={<input type="text" value={formData.headline_en} onChange={(e) => handleChange('headline_en', e.target.value)} placeholder="EN: e.g. Warren Buffett's Lifelong Partner and Mentor" className={INPUT_EN_CLS} />}
+            />
+
             <label htmlFor="nationality" className="text-xs font-medium text-text-secondary">국적</label>
             <select id="nationality" value={formData.nationality} onChange={(e) => handleChange('nationality', e.target.value)} disabled={countriesLoading} className="px-3 py-1.5 text-sm bg-bg-secondary border border-border rounded-lg text-text-primary focus:border-accent focus:outline-none disabled:opacity-50">
               <option value="">{countriesLoading ? '로딩 중...' : '국적 선택'}</option>
@@ -546,118 +688,109 @@ export default function CelebForm({ mode, celeb }: Props) {
               en={<textarea rows={2} value={formData.bio_en} onChange={(e) => handleChange('bio_en', e.target.value)} placeholder="EN: English bio" className={TEXTAREA_EN_CLS} />}
             />
 
-            <label className="text-xs font-medium text-text-secondary self-start pt-1">아바타</label>
-            <div className="flex items-start gap-3">
-              <div className="w-[160px] shrink-0">
-                <CelebAvatarEditor
-                  value={avatarPreview || formData.avatar_url}
-                  alt={formData.nickname || '인물'}
-                  className="h-[160px] w-[160px] rounded-xl"
-                  previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
-                  empty={<AvatarUploadEmpty />}
-                  removable
-                  loadImmediately
-                  highPriority
-                  showSavedState={mode === 'edit'}
-                  onFileAccepted={applyFileNameAsNickname}
-                  onCroppedFile={handleAvatarCrop}
-                  onRemove={handleImageRemove}
-                  onError={(avatarError) => setError(avatarError.message)}
-                />
-                {mode === 'edit' && celeb && (
-                  <CelebAvatarNobgButton
-                    celebId={celeb.id}
-                    name={formData.nickname}
-                    avatarUrl={formData.avatar_url}
-                    disabled={avatarFile !== null || formData.avatar_url !== initialFormData.current.avatar_url}
-                    onCompleted={handleAvatarNobgCompleted}
-                    className="mt-2 w-full"
-                  />
-                )}
+            {/* 아바타 & 대표 화보 좌우 나란히 배치 */}
+            <label className="text-xs font-medium text-text-secondary self-start pt-2">사진·화보</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3 bg-bg-secondary/40 border border-border/80 rounded-xl">
+              {/* 아바타 (좌) */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-text-primary">아바타</span>
+                  <label className="flex items-center gap-1.5 cursor-pointer" onClick={e => e.stopPropagation()}>
+                    <input type="checkbox" checked={autoNameFromFile} onChange={toggleAutoName} className="w-3 h-3 rounded border-border bg-bg-secondary text-accent focus:ring-accent" />
+                    <span className="text-[10px] text-text-secondary">파일명 → 닉네임</span>
+                  </label>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-[130px] shrink-0">
+                    <CelebAvatarEditor
+                      value={avatarPreview || formData.avatar_url}
+                      alt={formData.nickname || '인물'}
+                      className="h-[130px] w-[130px] rounded-xl"
+                      previewClassName="h-full w-full rounded-xl border-2 border-dashed border-border hover:border-accent hover:bg-accent/5"
+                      empty={<AvatarUploadEmpty />}
+                      removable
+                      loadImmediately
+                      highPriority
+                      showSavedState={mode === 'edit'}
+                      onFileAccepted={applyFileNameAsNickname}
+                      onCroppedFile={handleAvatarCrop}
+                      onRemove={handleImageRemove}
+                      onError={(avatarError) => setError(avatarError.message)}
+                    />
+                    {mode === 'edit' && celeb && (
+                      <CelebAvatarNobgButton
+                        celebId={celeb.id}
+                        name={formData.nickname}
+                        avatarUrl={formData.avatar_url}
+                        disabled={avatarFile !== null || formData.avatar_url !== initialFormData.current.avatar_url}
+                        onCompleted={handleAvatarNobgCompleted}
+                        className="mt-2 w-full text-xs"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-1.5 min-w-0">
+                    <input
+                      type="url"
+                      value={formData.avatar_url}
+                      onChange={(e) => handleChange('avatar_url', e.target.value)}
+                      placeholder="아바타 URL 직접 입력"
+                      className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+                    />
+                    <p className="text-[11px] text-text-tertiary leading-normal">
+                      목록, 카드 등에 노출되는 1:1 정사각 얼굴 사진입니다.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="flex-1 space-y-1.5 min-w-0">
-                <input
-                  type="url"
-                  value={formData.avatar_url}
-                  onChange={(e) => handleChange('avatar_url', e.target.value)}
-                  placeholder="이미지 URL 직접 입력"
-                  className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
-                />
-                <label className="flex items-center gap-1.5 cursor-pointer" onClick={e => e.stopPropagation()}>
-                  <input type="checkbox" checked={autoNameFromFile} onChange={toggleAutoName} className="w-3 h-3 rounded border-border bg-bg-secondary text-accent focus:ring-accent" />
-                  <span className="text-[10px] text-text-secondary">파일명 → 인물명</span>
-                </label>
+
+              {/* 대표 화보 (우) */}
+              <div className="space-y-2 border-t md:border-t-0 md:border-l border-border/80 pt-3 md:pt-0 md:pl-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-text-primary">대표 화보</span>
+                  <span className="text-[10px] text-text-tertiary font-mono">{CELEB_HERO_PHOTO_SPEC.aspectLabel}</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="shrink-0">
+                    <CelebPortraitEditor
+                      value={portraitPreview || formData.portrait_url}
+                      alt={`${formData.nickname || '인물'} 대표 화보`}
+                      loadImmediately
+                      highPriority
+                      onFileAccepted={() => setError(null)}
+                      onCroppedFile={handlePortraitCrop}
+                      onRemove={handlePortraitRemove}
+                      onError={(cropError) => setError(cropError.message)}
+                    />
+                  </div>
+                  <div className="flex-1 space-y-1.5 min-w-0">
+                    <input
+                      type="url"
+                      value={formData.portrait_url}
+                      onChange={(e) => handleChange('portrait_url', e.target.value)}
+                      placeholder="대표 화보 URL 직접 입력"
+                      className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
+                    />
+                    <p className="text-[10px] text-text-secondary leading-normal">
+                      인물 상세 상단에 걸립니다. 비우면 세력도감 화보 → 아바타 순으로 물러납니다.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <label className="text-xs font-medium text-text-secondary self-start pt-1">대표 화보</label>
-            <div className="flex items-start gap-3">
-              <CelebPortraitEditor
-                value={portraitPreview || formData.portrait_url}
-                alt={`${formData.nickname || '인물'} 대표 화보`}
-                loadImmediately
-                highPriority
-                onFileAccepted={() => setError(null)}
-                onCroppedFile={handlePortraitCrop}
-                onRemove={handlePortraitRemove}
-                onError={(cropError) => setError(cropError.message)}
-              />
-              <div className="flex-1 space-y-1.5 min-w-0">
-                <input
-                  type="url"
-                  value={formData.portrait_url}
-                  onChange={(e) => handleChange('portrait_url', e.target.value)}
-                  placeholder="이미지 URL 직접 입력"
-                  className="w-full px-2 py-1.5 text-xs bg-bg-secondary border border-border rounded-lg text-text-primary placeholder-text-secondary focus:border-accent focus:outline-none"
-                />
-                <p className="text-[10px] text-text-secondary">
-                  인물 상세 PC 화면 맨 위에 {CELEB_HERO_PHOTO_SPEC.aspectLabel}으로 크게 걸린다. 파일을 놓으면 같은 비율 편집기가 열리고, 사진을 끌어 이동하거나
-                  최대 3배까지 확대할 수 있다. 비우면 세력도감 화보 → 아바타 순으로 물러난다
-                </p>
-              </div>
-            </div>
-
-            <label className="text-xs font-medium text-text-secondary">옵션</label>
-            <div className="flex items-center gap-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={formData.is_verified} onChange={(e) => handleChange('is_verified', e.target.checked)} className="w-3.5 h-3.5 rounded border-border bg-bg-secondary text-accent focus:ring-accent" />
-                <div className="flex items-center gap-1"><Star className="w-3 h-3 text-blue-400" /><span className="text-xs text-text-primary">인증</span></div>
-              </label>
-              <div className="flex items-center gap-2">
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="status" value="active" checked={formData.status === 'active'} onChange={() => handleChange('status', 'active')} className="w-3 h-3" />
-                  <span className="text-xs text-text-primary">활성</span>
-                </label>
-                <label className="flex items-center gap-1 cursor-pointer">
-                  <input type="radio" name="status" value="inactive" checked={formData.status === 'inactive'} onChange={() => handleChange('status', 'inactive')} className="w-3 h-3" />
-                  <span className="text-xs text-text-primary">비공개</span>
-                </label>
-              </div>
-              <div className="flex items-center gap-2 border-l border-border pl-4">
-                {mode === 'create' ? (
-                  // 새 인물은 감상 기록이 없어 light뿐이다. 등급은 기록을 채운 뒤 올린다
-                  <>
-                    <span className="text-xs font-mono text-orange-400">light</span>
-                    <span className="text-[10px] text-text-secondary">감상 기록을 채운 뒤 올린다</span>
-                  </>
-                ) : (
-                  <>
-                    <label className="flex items-center gap-1 cursor-pointer">
-                      <input type="radio" name="celeb_tier" value="full" checked={formData.celeb_tier === 'full'} onChange={() => handleChange('celeb_tier', 'full')} className="w-3 h-3" />
-                      <span className="text-xs text-text-primary">full</span>
-                    </label>
-                    <label className="flex items-center gap-1 cursor-pointer">
-                      <input type="radio" name="celeb_tier" value="light" checked={formData.celeb_tier === 'light'} onChange={() => handleChange('celeb_tier', 'light')} className="w-3 h-3" />
-                      <span className="text-xs font-mono text-orange-400">light</span>
-                    </label>
-                  </>
-                )}
-              </div>
-            </div>
+            {mode === 'create' && (
+              <>
+                <label className="text-xs font-medium text-text-secondary">옵션</label>
+                {options}
+              </>
+            )}
           </div>
         </div>
         )}
       </div>
+
+      {/* 읽어보기 (기본정보 다음) */}
+      {lead}
 
       {/* Influence Card */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
@@ -699,6 +832,8 @@ export default function CelebForm({ mode, celeb }: Props) {
           </div>
         )}
       </div>
+
+      {children}
 
       {/* Cultural Journey */}
       <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
@@ -761,12 +896,66 @@ export default function CelebForm({ mode, celeb }: Props) {
         )}
       </div>
 
-      {/* 가상 독백 UI는 폐기했다. celebs 값과 잠금 API는 담화 제작 재료 보존용으로만 유지한다. */}
+      {/* 가상 독백 (보존 데이터 - 현재 서비스 미노출) */}
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+        <button type="button" onClick={() => toggleSection('monologue')} className="w-full p-4 flex items-center justify-between hover:bg-white/5">
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-semibold text-text-primary">가상 독백</h2>
+            <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-zinc-500/10 text-zinc-400 border border-zinc-500/20">
+              보존 데이터 (서비스 미노출)
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            {monologueLockedAt && (
+              <span className="flex items-center gap-1 text-xs text-amber-400"><Lock className="w-3.5 h-3.5" />확정</span>
+            )}
+            {!openSections.monologue && celeb?.virtual_monologue && (
+              <span className="text-xs text-text-secondary">{celeb.virtual_monologue.length}자</span>
+            )}
+            {openSections.monologue ? <ChevronUp className="w-5 h-5 text-text-secondary" /> : <ChevronDown className="w-5 h-5 text-text-secondary" />}
+          </div>
+        </button>
+        {openSections.monologue && (
+          <div className="px-4 pb-4 space-y-3">
+            {mode === 'edit' && celeb?.virtual_monologue && (
+              <div className="flex items-center justify-between gap-3 p-3 bg-bg-secondary/50 border border-border rounded-lg">
+                <p className="text-xs text-text-secondary">
+                  {monologueLockedAt
+                    ? `${new Date(monologueLockedAt).toLocaleString('ko-KR')}에 확정되었습니다. 잠금을 해제하기 전까지 어떤 도구로도 수정되지 않습니다.`
+                    : '확정하면 생성 스크립트·게시 도구를 포함한 모든 경로의 수정이 차단됩니다.'}
+                </p>
+                <Button type="button" variant="secondary" onClick={toggleMonologueLock} disabled={monologueLockLoading}>
+                  {monologueLockLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : monologueLockedAt ? (
+                    <LockOpen className="w-4 h-4" />
+                  ) : (
+                    <Lock className="w-4 h-4" />
+                  )}
+                  {monologueLockedAt ? '잠금 해제' : '확정 잠금'}
+                </Button>
+              </div>
+            )}
+            {celeb?.virtual_monologue ? (
+              <div className="p-3 bg-bg-secondary/50 border border-border rounded-lg text-sm text-text-primary leading-relaxed space-y-2">
+                {celeb.virtual_monologue.split('\n\n').map((p, i) => <p key={i}><FormattedText text={p} /></p>)}
+              </div>
+            ) : (
+              <p className="text-sm text-text-secondary">등록된 가상 독백 데이터가 없습니다.</p>
+            )}
+          </div>
+        )}
+      </div>
 
     </form>
 
     {/* Floating Actions */}
     <div className="fixed bottom-6 right-6 flex items-center gap-3 z-50">
+      {isDirty() && (
+        <span className="px-2.5 py-1 text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-lg shadow-sm">
+          수정사항 미저장
+        </span>
+      )}
       {mode === 'edit' && (
         <Button type="button" variant="danger" onClick={handleDelete} disabled={deleteLoading}>
           {deleteLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}삭제

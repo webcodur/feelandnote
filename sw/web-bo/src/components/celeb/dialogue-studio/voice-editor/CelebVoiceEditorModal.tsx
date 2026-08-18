@@ -6,7 +6,7 @@
  * 화면 구성·부품은 세력도감과 같다.
  *  · 창 껍데기·모드 탭·자판 규약  → 공용 VoiceEditorShell
  *  · 저장된 음원 파형·앞뒤 자르기 → 공용 SavedVoiceSection
- *  · 보이스 고르기·감정 표식      → 공용 EleVoiceCombobox · EleEmotionPicker
+ *  · 보이스 고르기·감정 표식      → 공용 EleVoicePicker · EleEmotionPicker
  *  · 들숨 제거                    → 공용 BreathModeContent
  *
  * 다른 것은 음원이 놓인 자리뿐이다. 세력도감은 편 폴더의 wav 파일이고 이쪽은 R2에 올려 둔
@@ -30,7 +30,7 @@ import {
 } from '@/components/scenario-voice/SpeakerEngineToggle'
 import { BreathModeContent, type BreathEndpoints } from '@/components/scenario-voice/BreathModeContent'
 import {
-  EleVoiceCombobox, useEleVoiceCatalog, useEleVoiceNotes, useEleVoiceHistory,
+  EleVoicePicker, useEleVoiceCatalog, useEleVoiceNotes, useEleVoiceHistory,
 } from '@/components/voice/ele-voice-picker'
 import {
   uploadVoiceFromPreview, bumpVoiceVersion, enableHasVoice, saveVoiceId, type VoiceGenCeleb,
@@ -243,7 +243,7 @@ export default function CelebVoiceEditorModal({
                         className="h-8 w-full border-border bg-bg-card px-2 py-1 text-text-primary"
                       />
                     ) : (
-                      <EleVoiceCombobox
+                      <EleVoicePicker
                         voices={voices}
                         value={voiceId}
                         onChange={onVoiceIdChange}

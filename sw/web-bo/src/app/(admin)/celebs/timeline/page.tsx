@@ -9,8 +9,9 @@ export const metadata: Metadata = {
 
 export default async function TimelineListPage() {
   const celebs = await getTimelineCelebs()
-  const totalEvents = celebs.reduce((s, c) => s + c.event_count, 0)
-  const totalCoords = celebs.reduce((s, c) => s + c.coord_count, 0)
+  const listed = celebs.filter((c) => c.slug)
+  const totalEvents = listed.reduce((s, c) => s + c.event_count, 0)
+  const totalCoords = listed.reduce((s, c) => s + c.coord_count, 0)
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -24,18 +25,18 @@ export default async function TimelineListPage() {
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-text-primary">생애 행적 편집</h1>
           <p className="text-sm text-text-secondary mt-1">
-            인물 {celebs.length}명 · 행적 {totalEvents}건 · 좌표 {totalCoords}건
+            인물 {listed.length}명 · 행적 {totalEvents}건 · 좌표 {totalCoords}건
           </p>
         </div>
       </div>
 
-      {celebs.length === 0 ? (
-        <p className="text-sm text-text-secondary">
-          아직 행적이 등록된 인물이 없습니다.
-        </p>
-      ) : (
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {celebs.map((c) => (
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {listed.length === 0 ? (
+          <p className="text-sm text-text-secondary">
+            아직 행적이 등록된 인물이 없습니다.
+          </p>
+        ) : (
+          listed.map((c) => (
             <Link
               key={c.id}
               href={`/celebs/timeline/${c.slug}`}
@@ -49,23 +50,25 @@ export default async function TimelineListPage() {
                   className="h-10 w-10 flex-shrink-0 rounded-full object-cover"
                 />
               ) : (
-                <div className="h-10 w-10 flex-shrink-0 rounded-full bg-bg-primary" />
+                <span className="h-10 w-10 flex-shrink-0 rounded-full bg-bg-primary" />
               )}
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-text-primary">{c.nickname}</p>
-                <p className="flex items-center gap-2 text-xs text-text-secondary">
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-medium text-text-primary">
+                  {c.nickname}
+                </span>
+                <span className="flex items-center gap-2 text-xs text-text-secondary">
                   <span>행적 {c.event_count}</span>
                   <span className="flex items-center gap-0.5">
                     <MapPin className="h-3 w-3" />
                     {c.coord_count}
                   </span>
-                  {c.total_score != null && <span>영향력 {c.total_score}</span>}
-                </p>
-              </div>
+                  {c.total_score != null ? <span>영향력 {c.total_score}</span> : null}
+                </span>
+              </span>
             </Link>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+      </div>
     </div>
   )
 }

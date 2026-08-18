@@ -32,7 +32,6 @@ function measureDuration(url: string): Promise<number> {
   })
 }
 import { ChevronsUpDown, ChevronsDownUp } from '@feelandnote/shared/bo/icons'
-import { FactionPreview } from './FactionEditor/FactionPreview'
 import { ImagePool, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { FactionShortsPartHeader } from './FactionEditor/sections/FactionShortsPartHeader'
 import FactionEpisodeActions from './FactionEpisodeActions'
@@ -85,7 +84,6 @@ const newGroup = (): FactionGroup => ({ name: '', color: '#92400e', clusters: [{
 export function FactionEditor({ series, name, initialLang, initialTab = 'info', cardTarget }: { series: string; name: string; initialLang?: EditLang; initialTab?: FactionEditTab; cardTarget?: FactionCardInitialTarget }) {
   const [script, setScript] = useState<FactionScript | null>(null)
   const [celebVoices, setCelebVoices] = useState<Record<string, CelebVoiceEntry>>({})
-  const [showPreview, setShowPreview] = useState(false)
   // 이미지 풀 — 진입 시 기본 펼침 + Ctrl+Q 토글(북리커맨드와 공통)
   const { open: showPool, setOpen: setShowPool } = useImagePoolToggle()
   const [showYouTube, setShowYouTube] = useState(false)
@@ -156,7 +154,6 @@ export function FactionEditor({ series, name, initialLang, initialTab = 'info', 
   const togglePeopleImages = useCallback(() => {
     const nextOpen = !(tab === 'info' && showPeopleImages)
     setShowCards(false)
-    setShowPreview(false)
     setTab('info')
     setShowPeopleImages(nextOpen)
     if (nextOpen) setShowPool(true)
@@ -794,7 +791,6 @@ ${res.exported.reason}`)
           imageSyncReloadKey={atlasReloadKey + imageSyncReloadKey}
           peopleImagesActive={tab === 'info' && showPeopleImages}
           poolActive={showPool}
-          previewActive={showPreview}
           youtubeActive={showYouTube}
           publishActive={showPublish}
           cardsActive={showCards}
@@ -802,7 +798,6 @@ ${res.exported.reason}`)
           rendering={rendering}
           onTogglePeopleImages={togglePeopleImages}
           onTogglePool={() => setShowPool(value => !value)}
-          onTogglePreview={() => setShowPreview(value => !value)}
           onOpenVoice={() => setVoiceModalOpen(true)}
           onNormalizeVoice={() => {
             if (confirm('이 에피소드의 모든 음성(ElevenLabs 포함)을 같은 음량으로 균일화합니다. 원본은 voice/.raw 에 백업됩니다. 진행할까요?')) {
@@ -821,7 +816,7 @@ ${res.exported.reason}`)
           onToggleCards={toggleCards}
         />
 
-        {!showPreview && !showCards && !showPeopleImages && (
+        {!showCards && !showPeopleImages && (
           <div className="grid items-start gap-2 xl:grid-cols-2">
             <FactionProjectSettings
               script={script}
@@ -861,16 +856,9 @@ ${res.exported.reason}`)
       </div>
 
       {/* 본문 — 편집 화면일 때만 이미지 풀 사이드바를 곁들인다 */}
-      <div className={!showPreview && showPool ? 'flex items-start gap-4' : ''}>
+      <div className={showPool ? 'flex items-start gap-4' : ''}>
         <div className="min-w-0 flex-1">
-      {showPreview ? (
-        <FactionPreview
-          script={script}
-          series={series}
-          episodeName={name}
-          onToggleDisabled={gi => setGroup(gi, { ...groups[gi], disabled: groups[gi].disabled ? undefined : true })}
-        />
-      ) : showCards ? (
+      {showCards ? (
         <FactionCardPanel
           script={script}
           series={series}
@@ -1310,10 +1298,9 @@ ${res.exported.reason}`)
       )}
         </div>
 
-        {/* 이미지 풀 사이드바 — 편집 화면에서만. 아래로 내려가도 화면에 따라붙는다.
-            높이 = 창 높이 − 상단 띠(4rem) − 위 여백(0.5rem) − 아래 숨틈(1rem) */}
-        {!showPreview && showPool && (
-          <aside className="sticky top-16 hidden max-h-[calc(100vh-5rem)] w-[30rem] shrink-0 overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[34rem] [overflow-anchor:none]">
+        {/* 이미지 풀 사이드바 — 편집 화면에서만. main 스크롤 영역의 맨 위에 붙는다. */}
+        {showPool && (
+          <aside className="sticky top-0 hidden max-h-[calc(100vh-5rem)] w-[30rem] shrink-0 overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[34rem] [overflow-anchor:none]">
             <ImagePool
               series={series}
               episodeName={name}
@@ -1330,7 +1317,7 @@ ${res.exported.reason}`)
       </div>
 
       {/* 좁은 화면: 풀을 본문 아래에 펼침 */}
-      {!showPreview && showPool && (
+      {showPool && (
         <div className="mt-6 rounded-xl border border-border bg-bg-card p-3 xl:hidden">
           <ImagePool
             series={series}

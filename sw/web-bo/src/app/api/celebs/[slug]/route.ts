@@ -6,7 +6,7 @@ import { guardAdminRoute } from '@/lib/admin-route'
 // 이 앱의 관례인 `@/lib/supabase/server` 의 createClient() (사용자 권한)를 쓴다.
 // 이식 시 추가: 이 앱의 `/api/**` 는 미들웨어가 없어 그냥 열려 있으므로 관리자 확인을 앞에 둔다.
 
-const PROFILE_SELECT = 'id, slug, nickname, nickname_en, title, profession, nationality, bio, bio_en, avatar_url, speech_tone, cultural_journey:consumption_philosophy, cultural_journey_en:consumption_philosophy_en, virtual_monologue, has_voice, voice_id_ko, voice_id_en, voice_speed, birth_date, death_date, celeb_tier'
+const PROFILE_SELECT = 'id, slug, nickname, nickname_en, title, profession, nationality, bio, bio_en, avatar_url, speech_tone, cultural_journey, cultural_journey_en, virtual_monologue, has_voice, voice_id_ko, voice_id_en, voice_speed, birth_date, death_date, celeb_tier'
 
 export async function GET(req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const denied = await guardAdminRoute()

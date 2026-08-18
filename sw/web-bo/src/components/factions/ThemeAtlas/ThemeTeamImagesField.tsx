@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { Star, X } from 'lucide-react'
 import type { FactionTeamImage } from '@feelandnote/shared/lib/faction-team-image'
 import { setTagTeamImages, type CelebTagAssignment } from '@/actions/admin/tags'
 import { uploadTagTeamImage, deleteTagTeamImage } from '@/actions/admin/storage'
@@ -97,6 +97,15 @@ export function ThemeTeamImagesField({
     await setTagTeamImages(tagId, teamImages)
   }
 
+  const handleSetAsCover = async (index: number) => {
+    if (index === 0) return
+    const next = [...teamImages]
+    const [target] = next.splice(index, 1)
+    next.unshift(target)
+    setTeamImages(next)
+    await setTagTeamImages(tagId, next)
+  }
+
   return (
     <div className="flex-1 space-y-2">
       {teamImages.map((img, index) => (
@@ -108,8 +117,26 @@ export function ThemeTeamImagesField({
           onDragEnd={handleDragEnd}
           className={`flex gap-3 rounded-lg border border-border bg-bg-secondary p-2 ${draggedIndex === index ? 'opacity-50' : ''}`}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={img.url} alt="" className="h-24 w-24 shrink-0 rounded-lg border border-border object-cover" draggable={false} />
+          <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg border border-border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={img.url} alt="" className="h-full w-full object-cover" draggable={false} />
+            {index === 0 ? (
+              <span className="absolute bottom-1 left-1 inline-flex items-center gap-0.5 rounded bg-black/80 px-1.5 py-0.5 text-[10px] font-bold text-amber-400 backdrop-blur-sm">
+                <Star size={10} className="fill-amber-400" />
+                대표
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void handleSetAsCover(index)}
+                className="absolute bottom-1 left-1 inline-flex items-center gap-0.5 rounded border border-white/20 bg-black/70 px-1.5 py-0.5 text-[10px] font-medium text-white/90 hover:border-amber-400 hover:text-amber-400"
+                title="이 사진을 대표 이미지로 지정합니다"
+              >
+                <Star size={10} />
+                대표 지정
+              </button>
+            )}
+          </div>
 
           <div className="min-w-0 flex-1 space-y-2">
             <input

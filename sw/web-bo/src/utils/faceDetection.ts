@@ -1,7 +1,7 @@
 /**
  * 관리자 화면의 얼굴 검출 — 자동 크롭 제안의 기준점(눈·턱)을 뽑는다.
  *
- * 라이브러리는 `@vladmandic/face-api` 하나다. 노드 스크립트(scripts/crop-faces.ts 등)도 같은 것을 쓴다.
+ * 라이브러리는 `@vladmandic/face-api` 하나다. 노드 스크립트(scripts/photo/crop-faces.ts 등)도 같은 것을 쓴다.
  * 폐기된 `face-api.js@0.22.2`를 되살리지 마라 — 2020년에 멈춘 배포판이고 tfjs 1.7.0을 따로 끌고 온다.
  * 두 벌이 공존하던 시절에도 weights는 바이트 단위로 같았고 파일명 규약(`-shard1` vs `.bin`)만 달랐다.
  *

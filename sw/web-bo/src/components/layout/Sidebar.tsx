@@ -44,6 +44,7 @@ import {
   BookMarked,
   Images,
   ClipboardCheck,
+  Quote,
   type LucideIcon,
 } from 'lucide-react'
 import { useMobileSidebar } from '@/contexts/MobileSidebarContext'
@@ -65,6 +66,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs', label: '목록', icon: Star },
       { href: '/celebs/images', label: '이미지 작업', icon: Images },
       { href: '/celebs/titles', label: '수식어', icon: Sparkles },
+      { href: '/celebs/headlines', label: '헤드라인', icon: Quote },
       { href: '/celebs/professions', label: '직군', icon: Target },
       { href: '/celebs/journeys', label: '감상 여정', icon: Brain },
       { href: '/celebs/content-research', label: '콘텐츠 조사', icon: SearchCheck },

@@ -1,7 +1,7 @@
 'use client'
 
 import { Save } from 'lucide-react'
-import { EleVoiceCombobox, useEleVoiceCatalog } from '@/components/voice/ele-voice-picker'
+import { EleVoicePicker, useEleVoiceCatalog } from '@/components/voice/ele-voice-picker'
 import { GeminiVoiceSelect } from '@/components/scenario-voice/GeminiVoiceSelect'
 import {
   SpeakerEngineToggle,
@@ -63,7 +63,7 @@ export function VoiceProviderSettings({
       ) : (
         <div className="flex items-start gap-1.5">
           <div className="min-w-0 flex-1">
-            <EleVoiceCombobox
+            <EleVoicePicker
               voices={catalog.voices}
               value={elevenlabsVoiceId}
               onChange={onElevenlabsVoiceIdChange}
