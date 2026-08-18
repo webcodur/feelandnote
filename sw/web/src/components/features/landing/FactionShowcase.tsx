@@ -4,14 +4,15 @@ import { useEffect, useState, useRef, lazy, Suspense, type CSSProperties, type M
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Play, Pause, Pointer, X } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, ChevronUp, Users, UserRound, Images, LoaderCircle, Loader2, Play, Pause, Pointer, Star, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/types/locale";
 import type { FeaturedTag, FeaturedCeleb } from "@/actions/home";
 import { getCelebForModal } from "@/actions/celebs/getCelebForModal";
+import { setFactionCoverImage } from "@/actions/admin/factions/updateFactionTeamImages";
 import type { CelebProfile } from "@/types/home";
 import { Z_INDEX } from "@/constants/zIndex";
-import { toTeamImages } from "@feelandnote/shared/lib/faction-team-image";
+import { toTeamImages, type FactionTeamImage } from "@feelandnote/shared/lib/faction-team-image";
 import { duckBgm } from "@/lib/audio-ducking";
 import FactionMediaLinks from "@/components/features/faction/FactionMediaLinks";
 import FactionMobileInfoPanel from "./FactionMobileInfoPanel";
@@ -102,6 +103,8 @@ interface FactionShowcaseProps {
   initialCelebId?: string;
   variant?: "standalone" | "embedded";
   atlasLinkLabel?: string;
+  canEditNames?: boolean;
+  onTagTeamImagesChange?: (tagId: string, teamImages: FactionTeamImage[]) => void;
 }
 
 type ShowcaseItem =
@@ -129,6 +132,8 @@ export default function FactionShowcase({
   initialCelebId,
   variant = "standalone",
   atlasLinkLabel,
+  canEditNames = false,
+  onTagTeamImagesChange,
 }: FactionShowcaseProps) {
   const t = useTranslations("landing");
   const localizedCelebName = (celeb: FeaturedCeleb) =>
@@ -297,6 +302,29 @@ export default function FactionShowcase({
   const factionAudioRef = useRef<HTMLAudioElement | null>(null);
   const factionAudioRafRef = useRef<number | null>(null);
   const duckRestoreRef = useRef<(() => void) | null>(null);
+  const [isSettingCover, setIsSettingCover] = useState(false);
+
+  const handleSetCover = async (imageUrl: string) => {
+    if (isSettingCover || !canEditNames) return;
+    setIsSettingCover(true);
+    try {
+      const result = await setFactionCoverImage({
+        tagId: activeTag.id,
+        imageUrl,
+      });
+      if (result.success) {
+        onTagTeamImagesChange?.(activeTag.id, result.data.team_images);
+        setSelectedIdx(0);
+      } else {
+        alert(result.message || (locale === "en" ? "Failed to set cover image." : "대표 이미지 설정에 실패했습니다."));
+      }
+    } catch (e) {
+      console.error("[FactionShowcase] Failed to set cover image:", e);
+      alert(locale === "en" ? "An error occurred while setting cover image." : "대표 이미지 설정 중 오류가 발생했습니다.");
+    } finally {
+      setIsSettingCover(false);
+    }
+  };
 
   useEffect(() => {
     const listElement = listRef.current;
@@ -909,11 +937,47 @@ export default function FactionShowcase({
         </div>
       )}
 
+      {/* 단체샷 대표 이미지 배지 및 설정 버튼 (관리자 전용) */}
+      {current.type === "team" && teamImage && canEditNames && (
+        teamSlide === 0 ? (
+          <div
+            className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-amber-400/50 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-amber-300 shadow-[0_2px_12px_rgba(0,0,0,0.8)] backdrop-blur-md"
+            title={locale === "en" ? "Cover image of this theme" : "이 테마의 대표 이미지입니다"}
+          >
+            <Star size={12} className="fill-amber-300 text-amber-300" />
+            <span>{locale === "en" ? "Cover Image" : "대표 이미지"}</span>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              void handleSetCover(teamImage.url);
+            }}
+            disabled={isSettingCover}
+            className="absolute right-3 top-3 z-30 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-black/80 px-2.5 py-1 text-[11px] font-bold text-white/90 shadow-[0_2px_12px_rgba(0,0,0,0.8)] backdrop-blur-md transition-all hover:border-amber-400 hover:bg-amber-400/20 hover:text-amber-300 active:scale-95 disabled:cursor-wait disabled:opacity-60"
+            title={locale === "en" ? "Set this photo as the cover image of the theme" : "이 사진을 테마의 대표 이미지로 설정합니다"}
+          >
+            {isSettingCover ? (
+              <Loader2 size={12} className="animate-spin text-amber-300" />
+            ) : (
+              <Star size={12} className="text-white/70" />
+            )}
+            <span>{locale === "en" ? "Set as Cover" : "대표로 설정"}</span>
+          </button>
+        )
+      )}
+
       {/* 단체샷 캐러셀 컨트롤 (여러 장일 때) */}
       {current.type === "team" && teamImages.length > 1 && (
         <>
           {/* 장수 카운터 */}
-          <div className="absolute right-3 top-3 z-10 hidden items-center gap-1 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white/90 backdrop-blur-md md:flex">
+          <div
+            className={cn(
+              "absolute right-3 z-10 hidden items-center gap-1 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white/90 backdrop-blur-md md:flex",
+              canEditNames ? "top-11" : "top-3",
+            )}
+          >
             <Images size={12} />
             {teamSlide + 1} / {teamImages.length}
           </div>
