@@ -449,6 +449,7 @@
     "expandMusicIntro": "Music description",
     "expandContentIntro": "Overview",
     "expandNoIntro": "No description available yet.",
+    "expandIntroSource": "Source: {source}",
     "expandCover": "Enlarge cover",
     "expandReviewOf": "Why {name} picked this",
     "expandReview": "Why they picked this",

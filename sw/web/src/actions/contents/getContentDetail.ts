@@ -20,6 +20,12 @@ import type { AffiliateLink } from '@/constants/affiliatePlatforms'
 import { getLocale } from 'next-intl/server'
 import { CL_SELECT, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import { cachedDetail } from '@/lib/cache'
+import {
+  dropForeignDisplayText,
+  pickIntroForLocale,
+  stripLocalizedMeta,
+} from '@/lib/utils/content-locale-text'
+import { fetchBookIntroEn } from './fetchBookIntroEn'
 
 // #region 타입 정의
 export interface ContentDetailData {
@@ -110,6 +116,7 @@ async function fetchContentDataPublic(
       thumbnail_url: flat.thumbnail_url,
       description: getLocaleDescription(locales, locale),
       publisher: getLocalePublisher(locales, locale),
+      isbn_en: flat.isbn_en,
       release_date: raw.release_date as string | null,
       affiliate_url: flat.affiliate_url,
     }
@@ -137,8 +144,10 @@ async function fetchContentDataPublic(
     }
   }
 
+  /* 실제로 응답을 돌려준 출처로 판정한다. DB 표기가 google_books여도 조회가 카카오로 넘어가면
+     돌아오는 소개문은 한국어다 — 표기만 믿으면 영문 화면에 한국어 소개가 실린다. */
   const isMetaDescUsable = (source?: string) =>
-    locale === 'ko' || source === 'google_books' || source === 'igdb'
+    locale === 'ko' || source === 'google_books' || source === 'igdb' || source === 'tmdb'
 
   if (dbContent) {
     const categoryId = TYPE_TO_CATEGORY[dbContent.type as ContentType]
@@ -148,19 +157,29 @@ async function fetchContentDataPublic(
       : null
     const metadataResult = dbContent.type === 'MUSIC' && storedMetadata
       ? null
-      : await fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source)
-    const dbMetaDesc = isMetaDescUsable(dbContent.external_source)
-      ? (metadataResult?.metadata?.description as string)
+      : await fetchContentMetadata(externalId, dbContent.type as ContentType, dbContent.external_source, locale === 'en' ? 'en' : 'ko')
+    /* 소개문 필드 이름이 출처마다 다르다 — TMDB는 overview, IGDB는 summary·storyline이다. */
+    const fetchedMeta = metadataResult?.metadata ?? {}
+    /* 도서의 영문 소개는 카카오가 주지 않는다. 원서 ISBN으로 OpenLibrary에서 따로 받는다. */
+    const bookIntroEn = locale === 'en' && dbContent.type === 'BOOK'
+      ? await fetchBookIntroEn(dbContent.isbn_en)
+      : null
+    const dbMetaDesc = isMetaDescUsable(metadataResult?.source ?? dbContent.external_source)
+      ? ([fetchedMeta.description, fetchedMeta.overview, fetchedMeta.storyline, fetchedMeta.summary]
+          .find((value): value is string => typeof value === 'string' && value.trim() !== ''))
       : undefined
     const mergedMetadata = metadataResult?.metadata || storedMetadata
-      ? { ...(metadataResult?.metadata ?? {}), ...(storedMetadata ?? {}) }
+      ? { ...(metadataResult?.metadata ?? {}), ...stripLocalizedMeta(locale, storedMetadata) }
       : null
 
-    const dbMetadata = overrideBookLink(
-      mergedMetadata
-        ? { ...mergedMetadata, ...(dbContent.publisher && { publisher: dbContent.publisher }) }
-        : mergedMetadata,
-      locale, dbContent.type
+    const dbMetadata = dropForeignDisplayText(
+      locale,
+      overrideBookLink(
+        mergedMetadata
+          ? { ...mergedMetadata, ...(dbContent.publisher && { publisher: dbContent.publisher }) }
+          : mergedMetadata,
+        locale, dbContent.type
+      ),
     )
 
     return {
@@ -169,7 +188,7 @@ async function fetchContentDataPublic(
       title: dbContent.title,
       creator: dbContent.creator || undefined,
       thumbnail: dbContent.thumbnail_url || undefined,
-      description: dbContent.description || dbMetaDesc || undefined,
+      description: pickIntroForLocale(locale, [dbContent.description, dbMetaDesc, bookIntroEn]) ?? undefined,
       releaseDate: dbContent.release_date || undefined,
       type: dbContent.type as ContentType,
       category: categoryId,
@@ -210,7 +229,7 @@ const fetchContentDataPublicCached = (contentId: string, category: CategoryId | 
   cachedDetail(
     CACHE_TAGS.CONTENTS,
     contentId,
-    ['content-data-public', contentId, category ?? '', locale],
+    ['content-data-public-locale-intro-v3', contentId, category ?? '', locale],
     () => fetchContentDataPublic(contentId, category, locale),
   )
 // #endregion

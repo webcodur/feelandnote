@@ -2,14 +2,16 @@
   파일명: /components/features/user/contentLibrary/expand/ContentIntro.tsx
   기능: 펼침 보기 윗칸 — 표지 옆에 붙는 작품 소개.
   책임: 그 작품이 무엇인지만 말한다. 인물의 감상배경은 다음 칸이 맡는다.
+        음악은 애플이 소개를 주지 않아 바깥 출처를 여러 곳에서 받아 오고, 둘 이상이면 탭으로 보여 준다.
 */ // ------------------------------
 "use client";
 
-import { useId } from "react";
+import { useId, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import FormattedText from "@/components/ui/FormattedText";
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
+import type { ContentIntroSource } from "@/actions/contents/fetchMusicIntros";
 import type { CategoryId } from "@/constants/categories";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
@@ -25,6 +27,15 @@ const INTRO_HEADING_KEY: Record<CategoryId, string> = {
   music: "expandMusicIntro",
 };
 
+// 출처 이름은 고유명사라 번역하지 않는다
+const PROVIDER_LABEL: Record<ContentIntroSource["provider"], string> = {
+  wikipedia: "Wikipedia",
+  lastfm: "Last.fm",
+};
+
+const BODY_CLASS =
+  "custom-scrollbar max-h-56 overflow-y-auto whitespace-pre-wrap pe-2 text-sm leading-relaxed text-text-secondary sm:max-h-72";
+
 interface ContentIntroProps {
   brief: ContentBrief | null;
   isLoading: boolean;
@@ -34,6 +45,7 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const headingId = useId();
   const scrollRef = useWheelBoundaryPassThrough();
+  const [pickedProvider, setPickedProvider] = useState<ContentIntroSource["provider"] | null>(null);
 
   if (isLoading) {
     return (
@@ -47,6 +59,10 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
 
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
+
+  // 바깥에서 받아 온 소개들. 앞선 작품에서 고른 탭이 남아 있으면 첫 번째로 되돌린다
+  const sources = brief?.introSources ?? [];
+  const active = sources.find((item) => item.provider === pickedProvider) ?? sources[0] ?? null;
 
   return (
     <section aria-labelledby={headingId}>
@@ -63,11 +79,49 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
       )}
 
       {text ? (
-        <div
-          ref={scrollRef}
-          className="custom-scrollbar max-h-56 overflow-y-auto whitespace-pre-wrap pe-2 text-sm leading-relaxed text-text-secondary sm:max-h-72"
-        >
+        <div ref={scrollRef} className={BODY_CLASS}>
           <FormattedText text={text} />
+        </div>
+      ) : active ? (
+        <div>
+          {sources.length > 1 && (
+            <div role="tablist" className="mb-3 flex gap-1.5">
+              {sources.map((item) => {
+                const isActive = item.provider === active.provider;
+                return (
+                  <button
+                    key={item.provider}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setPickedProvider(item.provider)}
+                    className={`rounded-md border px-2.5 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 ${
+                      isActive
+                        ? "border-accent/50 bg-accent/15 text-white"
+                        : "border-white/10 bg-white/[0.03] text-text-tertiary hover:border-white/25 hover:text-white"
+                    }`}
+                  >
+                    {PROVIDER_LABEL[item.provider]}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
+          <div ref={scrollRef} className={BODY_CLASS}>
+            <FormattedText text={normalizeContentIntroText(active.text)} />
+          </div>
+
+          {active.url && (
+            <a
+              href={active.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-block text-xs text-text-tertiary underline-offset-2 hover:text-accent hover:underline"
+            >
+              {t("expandIntroSource", { source: PROVIDER_LABEL[active.provider] })}
+            </a>
+          )}
         </div>
       ) : (
         <p className="text-sm italic text-text-tertiary">{t("expandNoIntro")}</p>

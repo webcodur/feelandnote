@@ -444,7 +444,10 @@ export async function getVideoEnLocale(externalId: string): Promise<VideoEnLocal
 }
 
 // ID로 영상 정보 조회 (metadata 포함 - 상세 정보 강화)
-export async function getVideoById(externalId: string): Promise<VideoSearchResult | null> {
+export async function getVideoById(
+  externalId: string,
+  locale: 'ko' | 'en' = 'ko',
+): Promise<VideoSearchResult | null> {
   if (!TMDB_API_KEY) return null
 
   // externalId 형식: tmdb-movie-123 또는 tmdb-tv-456
@@ -453,12 +456,14 @@ export async function getVideoById(externalId: string): Promise<VideoSearchResul
 
   const [, mediaType, id] = match
   const isMovie = mediaType === 'movie'
+  // 줄거리·장르·홍보문구가 이 언어로 돌아온다. 영문 화면에 ko-KR 응답을 실으면 한국어가 그대로 보인다.
+  const language = locale === 'en' ? 'en-US' : 'ko-KR'
 
   try {
     // 상세 정보 + Credits 병렬 요청
     const [detailRes, creditsRes] = await Promise.all([
-      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=ko-KR`),
-      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}/credits?api_key=${TMDB_API_KEY}&language=ko-KR`)
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}?api_key=${TMDB_API_KEY}&language=${language}`),
+      fetch(`${TMDB_BASE_URL}/${mediaType}/${id}/credits?api_key=${TMDB_API_KEY}&language=${language}`)
     ])
 
     if (!detailRes.ok) return null

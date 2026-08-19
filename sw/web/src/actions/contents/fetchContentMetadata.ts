@@ -22,7 +22,8 @@ export interface ContentMetadata {
 async function fetchMetadataFromApi(
   externalId: string,
   type: ContentType,
-  externalSource?: string
+  externalSource?: string,
+  locale: 'ko' | 'en' = 'ko',
 ): Promise<ContentMetadata> {
   switch (type) {
     case 'BOOK': {
@@ -52,7 +53,7 @@ async function fetchMetadataFromApi(
       return { id: externalId, metadata: null }
     }
     case 'VIDEO': {
-      const video = await getVideoById(externalId)
+      const video = await getVideoById(externalId, locale)
       return {
         id: externalId,
         metadata: video?.metadata || null,
@@ -85,13 +86,15 @@ const getCachedMetadata = unstable_cache(
 
 // 단일 콘텐츠 metadata 조회
 // externalId: 외부 API 식별자 (ISBN, tmdb-movie-123 등)
+// locale: 언어별 응답이 있는 출처(TMDB)에만 쓰인다. 캐시는 인자별로 갈린다.
 export async function fetchContentMetadata(
   externalId: string,
   type: ContentType,
-  externalSource?: string
+  externalSource?: string,
+  locale: 'ko' | 'en' = 'ko',
 ): Promise<ContentMetadata> {
   try {
-    return await getCachedMetadata(externalId, type, externalSource)
+    return await getCachedMetadata(externalId, type, externalSource, locale)
   } catch (error) {
     console.error(`[fetchContentMetadata] ${type} ${externalId} 에러:`, error)
     return { id: externalId, metadata: null }
