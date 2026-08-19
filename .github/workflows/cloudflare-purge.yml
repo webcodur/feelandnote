@@ -14,7 +14,10 @@ permissions: {}
 
 jobs:
   purge:
-    if: github.event.deployment_status.state == 'success' && startsWith(github.event.deployment.environment, 'Production') && github.event.deployment.payload.project_name != 'feelandnote-bo'
+    # 백오피스(feelandnote-bo) 배포는 웹 캐시와 무관하다. payload.project_name은 Vercel이 채우지
+    # 않아 비교가 늘 통과하므로(26.08.19 실측 — 백오피스 배포가 웹 퍼지를 부르고 있었다)
+    # environment 이름 끝으로 가른다.
+    if: github.event.deployment_status.state == 'success' && startsWith(github.event.deployment.environment, 'Production') && !endsWith(github.event.deployment.environment, '-bo')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
