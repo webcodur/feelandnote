@@ -4,7 +4,7 @@
  *
  * 문자열 규칙으로는 닫히지 않는 영역이다. 「하비(현 장쑤성 피저우시 일대)」 같은 고대 지명,
  * 동음이의어, 옛 행정구역은 의미를 알아야 풀린다. 정규식을 사례마다 늘리는 대신 모델에 맡긴다.
- * 기계가 할 수 있는 정규화는 backfill-celeb-timeline-coords.ts가 먼저 끝낸 뒤 남은 것만 온다.
+ * 기계가 할 수 있는 정규화는 backfill-coords.ts가 먼저 끝낸 뒤 남은 것만 온다.
  *
  * 실행:
  *   pnpm exec tsx scripts/celeb/timeline/resolve-places-grok.ts ask [--batch 50] [--lanes 6] [--max N]
@@ -15,7 +15,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import { REPO_ROOT } from '../../lib/paths'
-import { grokJson } from '../../../../../.claude/skills/grok-cli/scripts/grok-call.mjs'
+import { grokJson } from '../../../../../.agents/skills/grok-cli/scripts/grok-call.mjs'
 
 function loadEnv() {
   const file = resolve(process.cwd(), '.env')

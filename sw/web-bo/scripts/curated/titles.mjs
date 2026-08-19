@@ -21,7 +21,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs'
 import { resolve, dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { createClient } from '@supabase/supabase-js'
-import { codexCall } from '../../../../.claude/skills/codex-gpt/scripts/codex-call.mjs'
+import { codexCall } from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../../../..')
