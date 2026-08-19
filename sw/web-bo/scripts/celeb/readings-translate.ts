@@ -29,7 +29,7 @@ import { createClient } from '@supabase/supabase-js'
 import {
   codexCall,
   looksRateLimited,
-} from '../../../../.claude/skills/codex-gpt/scripts/codex-call.mjs'
+} from '../../../../.agents/skills/codex-gpt/scripts/codex-call.mjs'
 
 function loadEnv() {
   for (const filename of ['.env.local', '.env']) {

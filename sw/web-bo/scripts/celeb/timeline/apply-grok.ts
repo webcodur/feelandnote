@@ -3,14 +3,15 @@
  * 규칙 SSoT: docs/project/celeb/celeb-timeline-grok-relay.md, docs/project/celeb/celeb-timeline.md
  * (이 스크립트는 규칙을 복제하지 않는다. 그록에게 두 문서를 직접 읽게 한다.)
  *
- * 흐름: 조사자(grok) 조사 → 의심자(grok, 새 세션) 검증 → 결함 자동 반영 → DB 삽입 → 왕복 검증.
- * 의심자 응답의 reasoning_tokens가 너무 낮으면(=검색 없이 대충 답함) 자동 재시도한다.
+ * 흐름: 조사(grok) → 의심(grok, 새 세션·출처 필수) → 수정(grok) → 구조 검사 → 대기열 → 사람 승인.
+ * 의심자가 실제로 연 출처(sources)를 2곳 미만으로 적으면 검색을 안 한 것으로 보고 재시도한다.
  *
  * 이미 사건이 있는 인물은 덮어쓰지 않고 SKIPPED 처리한다. life(실존) 티어만 지원한다.
  *
  * 실행:
- *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --slugs kim-yuna,guy-pearce
- *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --auto --limit 5
+ *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --auto --total 40 --lanes 12 --stage
+ *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts review   # 대기열을 읽고 판단
+ *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts commit   # 승인분만 DB 반영
  */
 
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
@@ -18,7 +19,7 @@ import { readdir } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { createClient } from '@supabase/supabase-js'
 import { REPO_ROOT } from '../../lib/paths'
-import { grokJson } from '../../../../../.claude/skills/grok-cli/scripts/grok-call.mjs'
+import { grokJson } from '../../../../../.agents/skills/grok-cli/scripts/grok-call.mjs'
 
 function loadEnv() {
   const file = resolve(process.cwd(), '.env')
@@ -40,7 +41,6 @@ const supabase = createClient(
 
 const RELAY_DOC = resolve(REPO_ROOT, 'docs/project/celeb/celeb-timeline-grok-relay.md')
 const TIMELINE_DOC = resolve(REPO_ROOT, 'docs/project/celeb/celeb-timeline.md')
-const TMP_DIR = resolve(process.cwd(), '.tmp-celeb-timeline-grok')
 
 /** 의심자가 실제로 연 출처의 최소 개수. 검색을 건너뛰면 이 배열을 채울 수 없다. */
 const MIN_SKEPTIC_SOURCES = 2
