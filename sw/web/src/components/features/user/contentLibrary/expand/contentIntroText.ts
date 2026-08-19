@@ -11,15 +11,14 @@ const NAMED_HTML_ENTITIES = {
 
 interface ContentIntroSource {
   description?: string | null;
-  metadata?: {
-    description?: string | null;
-    storyline?: string | null;
-  } | null;
 }
 
-/** 응답으로 받은 소개 필드 중 화면에 표시할 원문을 고른다. */
+/*
+  소개문은 서버가 화면 언어에 맞는 것만 골라 description에 담아 준다.
+  여기서 metadata를 다시 뒤지면 카카오·TMDB가 준 한국어 소개가 영문 화면에 그대로 나온다(26.08.19 사고).
+*/
 export function selectContentIntroText(brief: ContentIntroSource | null) {
-  return brief?.description || brief?.metadata?.storyline || brief?.metadata?.description || null;
+  return brief?.description || null;
 }
 
 /**
