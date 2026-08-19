@@ -147,6 +147,7 @@ Vercel Usage를 사용자 웹과 백오피스로 나눠 적용 전·후 기울�
 - 방화벽(`http_request_firewall_custom`): 학습·마케팅 크롤러 22종 UA 차단(`lib/blocked-crawlers.ts`와 같은 명단) — Vercel 도달 전에 403.
 - 퍼지 연동: `/api/revalidate`가 태그→URL로 Cloudflare 퍼지(`lib/cloudflarePurge.ts`), Vercel env `CLOUDFLARE_ZONE_ID`·`CLOUDFLARE_API_TOKEN`. 종단 검증: 인물 상세 HIT → DB 행 갱신(트리거) → ko·en 모두 MISS.
 - 검증 완료: 상세·이미지 2회차 HIT, 홈·탐색 DYNAMIC, 로그인 쿠키 DYNAMIC, Ahrefs UA 403·Googlebot 200, http→https·www→루트 리다이렉트, 백오피스 정상.
-- 배포 후 전체 퍼지 워크플로(`.github/workflows/cloudflare-purge.yml`): GitHub Secrets `CLOUDFLARE_ZONE_ID`·`CLOUDFLARE_API_TOKEN` 등록 완료(26.08.16). 상세 화면 모양이 바뀐 배포가 성공하면 자동으로 전체 퍼지 1회. 첫 실행 결과는 다음 코드 배포 뒤 Actions 탭에서 확인한다.
+- 배포 후 전체 퍼지 워크플로(`.github/workflows/cloudflare-purge.yml`): GitHub Secrets `CLOUDFLARE_ZONE_ID`·`CLOUDFLARE_API_TOKEN` 등록 완료(26.08.16). 프로덕션 배포가 성공하면 판정 없이 전체 퍼지 1회, 5분 제한.
+- 변경 파일로 퍼지 여부를 판정하던 단계는 폐기했다(26.08.19). 배포는 Vercel ISR 사본도 함께 새로 만들어 판정으로 아끼는 것이 Cloudflare HIT 유지뿐인데, 그 단계가 매번 매달려 퍼지가 한 번도 나가지 못했다.
 - 되돌리기: Vercel → Domains → feelandnote.com → Nameservers → "Restore Original Nameservers".
 
