@@ -93,4 +93,4 @@
 
 ## 클로드 스킬
 
-`/three-kingdoms` — 본 문서와 코드 roster를 일관되게 유지·점검하는 스킬. 명단 조회, 신규 인물 추가, 메타 시그널 누락 점검을 수행한다. `.claude/skills/three-kingdoms/SKILL.md` 참조.
+`/three-kingdoms` — 본 문서와 코드 roster를 일관되게 유지·점검하는 스킬. 명단 조회, 신규 인물 추가, 메타 시그널 누락 점검을 수행한다. `.agents/skills/three-kingdoms/SKILL.md` 참조.

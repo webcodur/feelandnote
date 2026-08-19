@@ -76,6 +76,9 @@ AI 에이전트의 기본 동작을 덮어쓰는 규칙만 둔다. 모델이 알
 
 31. **호출 규약이 정해지면 스킬의 `scripts/` 헬퍼로 굳히고 스크립트는 그걸 import한다.** 세부 작업마다 spawn·플래그·타임아웃·파싱을 다시 짜지 않는다. 규약이 코드 한 곳에 모이면 근거는 스킬 문서가, 호출은 헬퍼가 쥐어 다음 작업의 토큰이 줄어든다. 새 CLI를 붙일 때도 `codex-call.mjs`·`grok-call.mjs`를 베끼면 된다.
 
+32. **새 스킬은 `.agents/skills/<이름>/`에 만들고 `.claude/skills/<이름>` 정션을 반드시 함께 놓는다.** 스킬 실체는 `.agents`가 단일 거처이고 `.claude`는 발견용 링크 62개뿐이다. 클로드의 스킬 스캐너는 `.claude/skills/`만 보므로 정션이 빠지면 그 스킬은 존재하지 않는 것과 같다. 수정도 `.agents` 실체에서 한다.
+    > `.agents`에만 있던 `dialogue-strict-mode`는 목록에도 안 뜨고 이름 호출도 거부돼 유령으로 있었다. 정션을 놓자 즉시 네이티브 로딩됐다. 정션 생성은 관리자 권한이 필요 없다: `New-Item -ItemType Junction -Path .claude\skills\<이름> -Target <절대경로>\.agents\skills\<이름>`
+
 ## 파일 사고 이력
 
 파일·git 안전 규칙 자체는 `AGENTS.md`「전역 불변사항」에 있다. 여기에는 그 규칙이 생긴 경위만 남긴다.
