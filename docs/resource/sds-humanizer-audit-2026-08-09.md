@@ -157,7 +157,7 @@ Markdown 표·체크박스·frontmatter·각주는 검사하지만, HTML·DOCX·
 원본 폴더는 보존한 채 다음 두 프로젝트 스킬 경로에 `v1.9.0` 패키지를 설치했다. 두 사본은 설치 시점에 원본과 SHA-256이 일치한다.
 
 - `.agents/skills/sds-humanizer/` — 프로젝트 공용 에이전트용
-- `.claude/skills/sds-humanizer/` — Claude 작업 흐름용
+- `.agents/skills/sds-humanizer/` — Claude 작업 흐름용
 
 각 사본은 `SKILL.md`, references 16개, `scripts/rewrite_guard.py`를 포함한 21개 파일이다. 보호 스크립트는 두 경로 모두 문법 검사와 `--help` 실행을 통과했다.
 

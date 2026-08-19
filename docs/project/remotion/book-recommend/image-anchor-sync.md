@@ -4,7 +4,7 @@
 
 에피소드 `images/` 폴더의 이미지를 전수 분석하여 ko 앵커를 자동 부착하고, 이어서 en 에피소드에 대응 앵커를 동기화하는 파이프라인의 상세 가이드.
 
-실행은 `/image-anchor-sync <에피소드명>` 스킬로 한다. 스킬 요약은 `.claude/skills/remo-image-anchor-sync/SKILL.md`.
+실행은 `/image-anchor-sync <에피소드명>` 스킬로 한다. 스킬 요약은 `.agents/skills/remo-image-anchor-sync/SKILL.md`.
 
 ## 파이프라인 개요
 

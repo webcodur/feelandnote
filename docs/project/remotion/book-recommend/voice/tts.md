@@ -45,7 +45,7 @@ Gemini의 스타일 지시는 `Charon` 해설에만 적용한다. ElevenLabs 인
 
 파이프라인은 `seg.style` prefix로 톤을 지시하지만, Gemini TTS는 **짧고 독립적인 문장에서는 style prefix를 제대로 반영하지 못하고 평상어로 되돌아가는** 경향이 있다. 짧은 세그먼트에 사극체·비장체·낮은 톤·속삭임 같은 특정 캐릭터 톤이 필요할 때는 파이프라인 우회가 필요하다.
 
-**적용 대상** (hook 전용 아님): 쇼츠 `S01-hook`, `S02-intro`, 짧은 narrator 연결 구간, 롱폼 `D{NN}a-title`(연극적 제목 발화) 등 **30~60자 이내의 독립 문장**이라면 어디든 가능. 반복 사용 절차는 `.claude/skills/remo-voice-short-retone` 스킬로 정리되어 있다.
+**적용 대상** (hook 전용 아님): 쇼츠 `S01-hook`, `S02-intro`, 짧은 narrator 연결 구간, 롱폼 `D{NN}a-title`(연극적 제목 발화) 등 **30~60자 이내의 독립 문장**이라면 어디든 가능. 반복 사용 절차는 `.agents/skills/remo-voice-short-retone` 스킬로 정리되어 있다.
 
 #### ✅ tail padding 전략
 
