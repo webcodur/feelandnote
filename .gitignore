@@ -212,3 +212,4 @@ data/celeb/reading-relay/wave/
 
 # msys/git-bash 크래시 덤프
 *.stackdump
+tmp-*
