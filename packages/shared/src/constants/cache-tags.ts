@@ -33,6 +33,75 @@ export const CACHE_TAGS = {
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS]
 
+/** Cloudflare 퍼지 결과와 /api/revalidate 성공 응답의 공유 계약. */
+export type CloudflarePurgeResult =
+  | {
+      urls: string[]
+      ok: true
+      status: 'not_needed'
+      mode: 'none'
+    }
+  | {
+      urls: string[]
+      ok: true
+      status: 'purged'
+      mode: 'targeted' | 'everything'
+    }
+  | {
+      urls: string[]
+      ok: false
+      status: 'not_configured' | 'failed'
+      mode: 'targeted' | 'everything'
+      failedBatches?: number
+    }
+
+export interface CompleteCacheRevalidationResponse {
+  revalidated: true
+  complete: true
+  tags: string[]
+  cloudflare: Extract<CloudflarePurgeResult, { ok: true }>
+}
+
+function sameUniqueStrings(actual: unknown, expected: readonly string[]): actual is string[] {
+  if (!Array.isArray(actual) || actual.some((value) => typeof value !== 'string')) return false
+  if (actual.length !== expected.length || new Set(actual).size !== actual.length) return false
+  const expectedSet = new Set(expected)
+  return expectedSet.size === expected.length && actual.every((value) => expectedSet.has(value))
+}
+
+/** web·web-bo·운영 CLI가 동일한 완료 응답만 성공으로 보게 한다. */
+export function isCompleteCacheRevalidationResponse(
+  value: unknown,
+  expectedTags: readonly string[],
+  expectedMode?: 'none' | 'targeted' | 'everything',
+): value is CompleteCacheRevalidationResponse {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false
+  const response = value as Record<string, unknown>
+  if (response.revalidated !== true || response.complete !== true) return false
+  if (!sameUniqueStrings(response.tags, expectedTags)) return false
+
+  const cloudflare = response.cloudflare
+  if (!cloudflare || typeof cloudflare !== 'object' || Array.isArray(cloudflare)) return false
+  const result = cloudflare as Record<string, unknown>
+  if (result.ok !== true || !Array.isArray(result.urls)) return false
+  if (result.urls.some((url) => typeof url !== 'string')) return false
+  if (expectedMode !== undefined && result.mode !== expectedMode) return false
+
+  return (
+    result.status === 'purged'
+      && result.mode === 'targeted'
+      && result.urls.length > 0
+  ) || (
+    result.status === 'purged'
+      && result.mode === 'everything'
+      && result.urls.length === 0
+  ) || (
+    result.status === 'not_needed'
+      && result.mode === 'none'
+      && result.urls.length === 0
+  )
+}
+
 /** 상세 캐시 전량을 명시적으로 가리키는 예약 식별자. 도메인 태그는 목록 전용이다. */
 export const BULK_CACHE_ID = '__all__'
 
@@ -143,6 +212,8 @@ export function isAllowedCacheTag(tag: unknown): tag is string {
   const id = tag.slice(at + 1)
   if (!(ALL_CACHE_TAGS as string[]).includes(domain)) return false
 
-  // 식별자는 UUID·slug·외부 id 정도만 — 경로나 공백이 섞이면 거른다
-  return /^[A-Za-z0-9._-]{1,128}$/.test(id)
+  // 공개 경로 조각에 쓰이는 식별자다. `uğur-şahin`, `NYPL:...` 같은 실제 값은
+  // 허용하되 경로·쿼리를 바꾸거나 제어문자를 숨길 수 있는 문자는 거른다.
+  if (id === '.' || id === '..') return false
+  return /^[^\s/\\?#%\p{Cc}\p{Cf}\p{Cs}]{1,128}$/u.test(id)
 }

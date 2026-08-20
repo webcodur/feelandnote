@@ -1,11 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { revalidateTag } from 'next/cache'
-import {
-  ALL_CACHE_TAGS,
-  isAllowedCacheTag,
-  normalizeLegacyCacheTag,
-} from '@feelandnote/shared/constants/cache-tags'
 import { purgeCloudflareByTags } from '@/lib/cloudflarePurge'
+import { createRevalidationHandler } from './handler'
+
+const handleRevalidation = createRevalidationHandler({
+  expireTag: (tag) => revalidateTag(tag, { expire: 0 }),
+  purgeByTags: purgeCloudflareByTags,
+})
 
 /**
  * 캐시 무효화 API — web-bo 등 외부에서 호출
@@ -20,45 +21,5 @@ import { purgeCloudflareByTags } from '@/lib/cloudflarePurge'
  * 대량 작업이나 구조 변경처럼 정말 전부 바뀐 때만 쓴다.
  */
 export async function POST(request: NextRequest) {
-  const expected = process.env.CRON_SECRET
-
-  // 비밀키 미설정 환경에서는 무효화 엔드포인트를 완전히 닫는다.
-  // (미설정 시 secret 비교가 undefined === undefined로 통과되어 외부 무단 캐시 퍼지에
-  //  노출되는 것을 차단. 키를 설정하면 정상 인증 경로가 복구된다.)
-  if (!expected) {
-    return NextResponse.json(
-      { error: 'Revalidation disabled: CRON_SECRET is not configured.' },
-      { status: 503 },
-    )
-  }
-
-  const { tag, secret } = await request.json()
-
-  if (secret !== expected) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
-  // 단일 문자열·배열 모두 허용(하위호환). 중복은 제거한다.
-  const requested: unknown[] = Array.isArray(tag) ? tag : [tag]
-  const tags = [...new Set(requested.map(normalizeLegacyCacheTag))]
-
-  // 도메인 태그이거나 「알려진 도메인:식별자」만 받는다 — 아무 문자열이나 받으면
-  // 외부에서 임의 캐시를 비울 수 있다
-  const invalid = tags.length === 0 || tags.some(t => !isAllowedCacheTag(t))
-  if (invalid) {
-    return NextResponse.json(
-      { error: `Invalid tag. Allowed: ${ALL_CACHE_TAGS.join(', ')} (or "<domain>:<id>")` },
-      { status: 400 },
-    )
-  }
-
-  for (const t of tags as string[]) {
-    revalidateTag(t, { expire: 0 })
-  }
-
-  // Cloudflare 앞단이 있으면 그 항목의 공개 URL 사본도 함께 지운다.
-  // 여기서 빠지면 Vercel은 새로 만들어도 Cloudflare가 보관 기간 내내 옛 화면을 준다.
-  const cloudflare = await purgeCloudflareByTags(tags as string[])
-
-  return NextResponse.json({ revalidated: true, tags, cloudflare })
+  return handleRevalidation(request)
 }

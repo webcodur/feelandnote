@@ -72,7 +72,8 @@ export function getSeoImageUrl(
 ): string {
   const url = new URL(`/seo-image/${kind}/${encodeURIComponent(id)}`, BASE_URL);
   url.searchParams.set('locale', locale);
-  if (sourceUrl) url.searchParams.set('v', hashImageSource(sourceUrl));
+  // 이미지가 없는 경우도 fallback 버전 키를 넣어 no-v 엣지 객체를 다시 참조하지 않는다.
+  url.searchParams.set('v', hashImageSource(sourceUrl || `fallback:${kind}`));
   return url.toString();
 }
 
