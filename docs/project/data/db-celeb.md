@@ -106,7 +106,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - **`celeb_dialogues`**: 인물별 고유 대사. `celeb_id`(PK, `celebs` FK), lines(jsonb), lines_en(jsonb)
   - **dialogueLines**: DB 개인화 대사 (celeb_dialogues 테이블, 인물별 고유)
   - **defaultLines**: 톤별 범용 대사 (코드 하드코딩, speech_tone 6종 기반)
-- **`celeb_timeline_events`**: 실존 인물 생애 행적 + fiction 서사 사건 (2026-07-26 도입, 2026-07-30 서사 순서 확장). 규격·조사 절차는 `docs/project/celeb/celeb-timeline.md`가 SSoT
+- **`celeb_timeline_events`**: 실존 인물·fiction 인물 타임라인 사건 (2026-07-26 도입, 2026-07-30 서사 순서 확장). 규격·조사 절차는 `docs/project/celeb/celeb-timeline.md`가 SSoT
   - 사건 하나가 한 행. 실존 인물은 `year` 정수(**기원전은 음수**), fiction은
     `year=null` + `sequence_label(_en)` + `sort_order`를 쓴다. 둘을 동시에 쓰지
     못하도록 CHECK가 막는다
@@ -148,7 +148,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
 - ⚠️ **`celebs.quotes` / `celebs.quotes_en` 컬럼은 존재하지 않는다.** 물리 분리 전
   `profiles.quotes` / `profiles.quotes_en`도 2026-03-23에 제거됐으며 호환 뷰에도 없었다
 - **읽기·쓰기 모두 `celeb_dialogues` 단독.** 다른 프로필 테이블로의 동기화 대상은 없다
-- **화면 라벨은 "한마디"다**(2026-07-26 변경, `celebPage.dialogue_quote`). 영문은 `Quote` 유지. 독서 기록 기능의 "명언"(`reading.quote.*`)은 별개이므로 함께 바꾸지 않는다
+- **화면 라벨은 "한마디"다**(2026-07-26 변경, `celebPage.dialogue_quote`). 영문은 `Quote`를 쓴다
 - **검색 노출 설명문의 첫머리로 쓰인다**(`sw/web/src/lib/celeb/meta.ts`). 화면뿐 아니라 검색 결과에 그대로 실리는 자리라 오염이 곧 대외 노출이다
 - ⚠️ **길이 상한은 언어별로 다르게 두어야 한다.** 같은 말이라도 영어로 옮기면 글자 수가 두 배 남짓 늘어난다(실측: 한국어 최대 90자 / 영어 최대 221자·평균 73자). 처음에 한쪽 기준(90자)만 걸었더니 **영어 화면에서 367명의 한마디가 조용히 탈락**해 소개문으로 되돌아갔다. 현재는 `QUOTE_MAX = { ko: 90, en: 170 }`이며, 설명문은 한마디를 먼저 싣고 자리가 남을 때만 뒤 안내를 붙인다(`composeDescription`)
 
