@@ -62,7 +62,7 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | web, web-bo | 브라우저용 공개 키 |
 | `SUPABASE_SERVICE_ROLE_KEY` | web, web-bo, remotion | 🔴 **전권 키.** 접근 규칙(RLS)을 전부 무시한다. 브라우저로 새면 안 된다 |
 | `SUPABASE_URL` | remotion | 위 URL과 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다 |
-| `SUPABASE_ACCESS_TOKEN` | web | 계정 단위 관리 토큰(CLI·MCP용). 실제 참조처는 미확인 — 남아 있는 값이다 |
+| `SUPABASE_ACCESS_TOKEN` | web | 🔴 계정 단위 관리 토큰. CLI·MCP와 `web-bo`의 헤드라인 전량 적용 도구가 Management API의 다건 SQL에 사용한다. 헤드라인 도구는 `sw/web/.env`에서 이 값을 읽으므로 운영 URL·service-role과 같은 프로젝트인지 적용 전에 확인한다 |
 
 발급: Supabase 대시보드 → Project Settings → API.
 
@@ -125,7 +125,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
-| `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Vercel), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지·규칙 편집 토큰(`feelandnote-front-cache`, 권한: Zone·Zone Settings·Cache Purge·Cache Rules·Firewall Services·DNS·Zone WAF, 전 존). 없으면 `/api/revalidate`가 Cloudflare 퍼지를 건너뛰고 배포 후 퍼지 워크플로도 건너뛴다. 돌릴 때는 세 곳 모두 |
+| `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Vercel), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Vercel·GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 각각 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. 실제 web 프로덕션 배포 후와 수동 실행 시 전체 퍼지하는 GitHub 워크플로도 비밀값 누락·HTTP 오류·`success: false`를 모두 실패로 처리한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
 | `CRON_SECRET` | web, web-bo, **Supabase Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Vercel·로컬 `.env`·Vault 세 곳을 함께 바꾼다(`external-services.md`「웹 캐시 무효화 단일 창구」) |
 
 Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UTC = 한국시각 0시 5분, `/api/cron/today-figure`).

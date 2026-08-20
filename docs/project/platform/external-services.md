@@ -15,7 +15,9 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 
 - 요청 경로: 브라우저·로봇 → **Cloudflare**(캐시·방화벽) → Vercel(캐시·함수) → Supabase. Vercel은 그대로 빌드·배포·실행. 설정 내역·검증·되돌리기는 `docs/todo/web-deployment-platform-research.md`「26.08.16 실행 결과」.
 - 캐시 대상: 인물·작품 상세, 명부·연표, SEO 이미지(30일). 로그인 쿠키 요청은 우회. 홈·탐색·회원·광장·API·auth는 캐시 안 함.
-- 데이터 변경: DB 트리거 → `/api/revalidate` → Vercel 태그 무효화 + Cloudflare URL 퍼지(`lib/cloudflarePurge.ts`). 코드 배포: 프로덕션 배포가 성공하면 `cloudflare-purge.yml`이 판정 없이 전체 퍼지 1회(GitHub Secrets 필요).
+- **현행 운영 규칙(Cloudflare ruleset v4)**: 인물·작품 상세는 익명의 비-RSC HTML만 30일 캐시한다. 이 HTML 캐시 키는 쿼리를 무시하고, `RSC` 헤더가 있거나 `_rsc` 쿼리가 있는 요청은 우회한다. 인증 쿠키 요청도 계속 우회하고, SEO 이미지는 이미지 변형값이 섞이지 않도록 쿼리를 캐시 키에 유지한다.
+- 데이터 변경: DB 트리거 → `/api/revalidate` → Next 태그 즉시 만료 + Cloudflare 퍼지(`lib/cloudflarePurge.ts`) → **다음 방문이 ISR 페이지를 한 번만 재생성**. 사용자 방문 때마다 무효화하지 않는다.
+- 코드 배포: 실제 web 프로덕션 배포가 성공한 뒤에만 `cloudflare-purge.yml`이 전체 퍼지 1회를 수행한다(web-bo 배포는 제외). 데이터만 대량 반영한 뒤에는 `workflow_dispatch`로 같은 퍼지를 수동 실행할 수 있다. 비밀값 누락, HTTP 200 아님, Cloudflare 응답의 `success: false`는 정상 종료로 건너뛰지 않고 워크플로를 실패시킨다.
 - 봇 차단은 Cloudflare 방화벽이 1차(UA 22종), 미들웨어 403·Vercel 방화벽은 2차. Cloudflare 뒤에서는 Vercel 쪽에 방문자 IP·통신사가 Cloudflare로 보이므로 IP·ASN 규칙은 Cloudflare에서 건다.
 - 확인 명령: `curl -sI https://feelandnote.com/celeb/<slug> | grep cf-cache-status` (HIT/MISS/DYNAMIC).
 - **이관 직후 DNS 전파 편차(2026-08-17):** 이관 다음날 일부 국내 ISP 리졸버가 구 경로를 캐싱해 접속 실패(PWA 오프라인 화면) 신고 있었음. Cloudflare DNS(1.1.1.1) 직접 조회로 신규 엣지 정상 확인 — 신·구 경로 둘 다 응답 정상이라 서버 장애가 아니라 리졸버별 전파 편차로 판정. 봇 차단 UA(`blocked-crawlers.ts`)는 구체 문자열 매칭이라 오탐 원인 아님.
@@ -23,10 +25,11 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 
 ### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
 
-- **원칙**: 무효화를 앱 코드나 스크립트가 부르는 것을 전제하지 않는다. 데이터의 90%가 LLM 세션·스크립트·SQL로 들어오므로, **행이 바뀌면 DB가 스스로 `feelandnote.com/api/revalidate`에 태그를 보낸다**(pg_net, 문장 단위 트리거 + 전이 표 → 한 문장에 HTTP 한 번). 표→태그 대응은 `sw/web/supabase/migrations/20260816052000_web_revalidate_triggers.sql`.
-- 그래서 인물·작품 상세의 시간 재검증은 **없다**(`revalidate = false`). 바뀐 항목만 다음 방문 때 다시 만든다. 조회수(`celebs.view_count`)·회원 집계 카운트만 바뀐 문장은 알리지 않는다(방문마다 재생성되는 사고 방지).
-- 확인: `select * from net._http_response order by id desc limit 5;` 로 status 200과 태그를 본다. 백오피스의 `revalidateWebCache()` 호출은 그대로 두되(중복 무해) 새 코드에서 필수는 아니다.
-- 새 표를 웹이 읽게 되면 `web_revalidate_attach(...)` 한 줄로 붙인다. 비밀키는 Vault `web_revalidate_secret`(=CRON_SECRET) — 키를 돌리면 둘 다 바꾼다.
+- **원칙**: 무효화를 앱 코드나 스크립트가 부르는 것을 전제하지 않는다. 데이터의 90%가 LLM 세션·스크립트·SQL로 들어오므로, **행이 바뀌면 DB가 스스로 `feelandnote.com/api/revalidate`에 태그를 보낸다**(pg_net, 문장 단위 트리거 + 전이 표 → 한 문장에 HTTP 한 번). 운영에 적용한 트리거·태그 매핑의 재현 원천은 `sw/web/supabase/migrations/20260820093729_harden_web_revalidation_triggers.sql`이다. 주석만 남은 `20260816052000_web_revalidate_triggers.sql`을 현행 원본으로 사용하지 않는다.
+- 일반 변경은 항목 태그로 Next 캐시와 Cloudflare URL을 같이 비운다. 대량 반영은 `domain:__all__`(예: `celebs:__all__`, `contents:__all__`)로 해당 도메인의 Next 상세 캐시를 전량 만료시키고 Cloudflare `purge_everything`을 딱 한 번 호출한다. 인물·작품 페이지는 `revalidate = false`이므로 변경 후 첫 방문이 한 번 재생성하고 그 다음부터 재사용한다. 조회수(`celebs.view_count`)·시각 갱신만 있는 문장은 리스트를 비우지 않는다.
+- `/api/revalidate`는 Next 태그를 먼저 만료시키고 Cloudflare 퍼지를 수행한다. 퍼지 대상이 있는데 자격증명이 없으면 503, Cloudflare HTTP·본문 응답이 실패하면 502이며 둘 다 `revalidated: true`, `complete: false`를 반환한다. 이 응답은 성공이 아니므로 호출자는 재시도·운영 조치를 해야 한다. 앞단 퍼지가 필요 없는 태그만 받으면 `not_needed`로 완료할 수 있다.
+- 확인: `select * from net._http_response order by id desc limit 5;`에서 status 200과 응답 본문의 `complete: true`를 같이 본다. 백오피스의 `revalidateWebCache()` 호출은 DB 트리거와 중복되어도 무해하지만, 호출했다면 반드시 `complete: true`까지 검증한다.
+- 새 표를 웹이 읽게 되면 주석 파일을 복사하지 말고 새 migration에 태그 매핑과 트리거를 재현 가능하게 추가한다. 비밀키는 Vault `web_revalidate_secret`(=CRON_SECRET) — 키를 돌리면 Vercel·로컬 `.env`·Vault를 함께 바꾼다.
 
 ### 공개 조회 문장 제한·인덱스 (2026-08-16)
 
@@ -237,7 +240,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - ISR 쓰기는 **8KB당 1단위**로 센다. 상세 한 장은 HTML+RSC 0.5~1.2MB(작품 323+239KB, 인물 804+449KB 실측)라 생성 한 번에 70~156단위다. 사이트맵 15,884장을 크롤러가 한 바퀴 돌면 약 110만 단위 ≈ $6 — 8월 12일 `detail-tags-v2` 키 교체 직후 실측 1,167,485단위와 일치한다.
 - **배포 한 번 = ISR 상세 전량 재생성 한 바퀴다.** 새 배포가 나가면 저장된 상세 HTML이 전부 무효가 되고 크롤러가 다시 훑는 만큼 쓰기가 발생한다(배포 직후 응답 크기가 즉시 바뀌는 것으로 확인, 26.08.16). 다이어트 뒤 한 바퀴 ≈ $2.7. **코드 배포는 모아서 하루 1~2회 이하**로 한다. 문서·데이터만 바뀐 커밋은 빌드 게이트가 건너뛴다.
 - **상세 캐시 키(`DETAIL_CACHE_KEY_VERSION`·`celebs-public-*` 등)를 바꾸면 전량 재생성 한 바퀴 = 약 $6.** 반환 모양이 정말 바뀌었을 때만 올리고, 문구·필드 추가 수준이면 올리지 않는다.
-- 상세 페이지 시간 재검증은 30일(`revalidate = 2592000`)이다. 백오피스 저장이 태그로 그 항목만 즉시 무효화하므로 시간 재검증은 안전망일 뿐이다.
+- 인물·작품 상세는 시간 재검증이 없는 요청 기반 ISR(`revalidate = false`)이다. 배포 뒤 첫 요청이나 태그 만료 뒤 첫 요청이 한 번 생성하고, 그 다음 요청부터 같은 사본을 재사용한다. Cloudflare의 익명 HTML 30일 보관은 별도 앞단 계층이며 DB 태그·배포 퍼지로 즉시 비운다.
 - 명부(`/explore/directory`)·연표(`/explore/timeline`)는 ISR(7일, `generateStaticParams`로 정적 진입)이다. `[locale]` 아래 화면은 `generateStaticParams`가 없으면 동적으로 취급되고, 레이아웃에서 `getMessages`/`getTranslations`를 부르기 전에 `setRequestLocale`을 해야 정적이 깨지지 않는다.
 - 크롤러가 하루 1만 장을 연다(작품 5,725·인물 3,710·SEO 이미지 2,759 / 24h 실측). 동적 렌더로 바꾸면 이 트래픽이 Supabase egress로 옮겨가 더 나쁘다. 줄이는 순서는 ① 상세 페이지 바이트 다이어트 ② 학습·대량 수집 크롤러 미들웨어 403(`lib/blocked-crawlers.ts`, robots.txt와 명단 공유) ③ Vercel Firewall의 AI Bots 관리 규칙(대시보드).
 
