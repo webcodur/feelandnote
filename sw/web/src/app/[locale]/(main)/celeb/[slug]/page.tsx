@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getCelebBySlug } from "@/actions/user/getCelebBySlug";
-import { getCelebInfluence } from "@/actions/home/getCelebInfluence";
-import { getSimilarByCelebId } from "@/actions/spectrum/getSimilarByCelebId";
-import { getContemporaries } from "@/actions/celebs/getContemporaries";
+import { getCelebSidePresence } from "@/actions/celebs/getCelebSidePresence";
 import { getCelebTimelineEvents } from "@/actions/celebs/getCelebTimelineEvents";
 import { getCelebJsonLdContents, getCelebDialogueFull } from "@/actions/celebs/getCelebJsonLdData";
 import { getPublicUserContents } from "@/actions/contents/getUserContents";
+import { getContentBrief } from "@/actions/contents/getContentBrief";
 import { getFictionSourcesForCeleb } from "@/actions/fiction/getFictionSources";
 import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
@@ -25,9 +24,11 @@ interface PageProps {
 // 정적/ISR 렌더링: 로그인 의존 요소(방명록 본인 판정)를 클라이언트로 분리해
 // 페이지 본문은 쿠키를 읽지 않는다. 봇 크롤이 HTML 캐시에 적중해 DB 조회가 발생하지 않는다.
 // Next segment config는 import 상수가 아니라 정적 분석 가능한 숫자 리터럴이어야 한다.
-// 시간 재검증 없음. 데이터가 바뀌면 DB 트리거(web_revalidate_trigger)가 그 항목 태그를 비워
-// 다음 방문 때만 다시 만든다 — 백오피스·스크립트·SQL 어느 길로 쓰든 같다.
-// 상세 한 장의 ISR 쓰기는 HTML+RSC 0.25~0.55MB(8KB당 1단위)라 시간마다 전량 재생성하면 곧 돈이다.
+// segment 자체는 시간 재검증을 강제하지 않는다. 다만 초기 렌더가 소비하는 숫자형
+// unstable_cache 안전망(STATIC_REVALIDATE, 키별 spread)이 실제 route TTL의 상한을 약 1주로 둔다.
+// 데이터가 바뀌면 DB 트리거(web_revalidate_trigger)가 그 항목 태그를 즉시 비워 다음 방문 때만
+// 다시 만든다 — 백오피스·스크립트·SQL 어느 길로 쓰든 같다.
+// 상세 한 장의 ISR 쓰기는 HTML+RSC 0.25~0.55MB(8KB당 1단위)라 짧은 주기로 전량 재생성하면 곧 돈이다.
 export const revalidate = false;
 
 // 수천 개 slug를 빌드 때 한꺼번에 생성하지 않고 첫 요청에 ISR로 만든다.
@@ -67,34 +68,50 @@ export default async function CelebPage({ params }: PageProps) {
   // 색인 가치도 없고 화면 맨 아래에 있어 클라이언트가 뷰포트 근접 시 직접 불러온다.
   // 관계·분석 구획의 본문은 브라우저가 화면 근처에서 직접 불러온다. 여기서는 목차가
   // 필요로 하는 「있다·없다」만 확인하고 자료 자체는 HTML에 싣지 않는다.
-  const [influenceData, spectrumData, contentList, dialogueData, contemporaries, timelineEvents, initialContents, fictionSources] = await Promise.all([
-    profile.celeb_tier === "fiction" ? Promise.resolve(null) : getCelebInfluence(userId, locale),
-    profile.celeb_tier === "fiction" ? Promise.resolve(null) : getSimilarByCelebId(userId, 3, locale),
+  const initialContentsPromise = profile.celeb_tier === 'full'
+    ? getPublicUserContents({
+        userId,
+        page: 1,
+        limit: LIBRARY_FIRST_PAGE_SIZE,
+        sortBy: 'recent',
+      }, locale)
+    : Promise.resolve({
+        items: [],
+        total: 0,
+        page: 1,
+        totalPages: 0,
+        hasMore: false,
+      });
+  const initialContentBriefPromise = initialContentsPromise.then((contents) => {
+    const firstContentId = contents.items[0]?.content_id;
+    return firstContentId ? getContentBrief(firstContentId, locale) : null;
+  });
+
+  const [
+    sidePresence,
+    contentList,
+    dialogueData,
+    timelineEvents,
+    initialContents,
+    fictionSources,
+    initialContentBrief,
+  ] = await Promise.all([
+    getCelebSidePresence({
+      celebId: userId,
+      tier: profile.celeb_tier,
+      birthDate: profile.birth_date,
+      deathDate: profile.death_date,
+    }),
     profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
-    profile.celeb_tier !== "fiction" && profile.birth_date
-      ? getContemporaries(userId, profile.birth_date, profile.death_date, locale)
-      : Promise.resolve([]),
     getCelebTimelineEvents(userId, locale),
     // 서가 첫 화면을 서버에서 조회해 초기 HTML에 책·감상문 텍스트를 싣는다.
     // 셀럽은 항상 타인이므로 쿠키를 읽지 않는 공개 조회를 쓴다(unstable_cache 적중).
-    profile.celeb_tier === 'full'
-      ? getPublicUserContents({
-          userId,
-          page: 1,
-          limit: LIBRARY_FIRST_PAGE_SIZE,
-          sortBy: 'recent',
-        }, locale)
-      : Promise.resolve({
-          items: [],
-          total: 0,
-          page: 1,
-          totalPages: 0,
-          hasMore: false,
-        }),
+    initialContentsPromise,
     profile.celeb_tier === 'fiction'
       ? getFictionSourcesForCeleb(userId, locale)
       : Promise.resolve([]),
+    initialContentBriefPromise,
   ]);
 
   const pageTitle = buildCelebTitle(
@@ -126,10 +143,10 @@ export default async function CelebPage({ params }: PageProps) {
 
   const sideAvailability = {
     relations: profile.relations.length > 0,
-    contemporaries: contemporaries.length > 0,
+    contemporaries: sidePresence.contemporaries,
     faction: profile.factionTags.length > 0,
-    influence: Boolean(influenceData),
-    spectrum: Boolean(spectrumData?.targetSpectrum),
+    influence: sidePresence.influence,
+    spectrum: sidePresence.spectrum,
   };
 
   // 인연 목록과 세력 배정표는 관계 구획이 화면에 다가올 때 브라우저가 다시 받는다.
@@ -162,6 +179,7 @@ export default async function CelebPage({ params }: PageProps) {
         timelineEvents={timelineEvents}
         sideAvailability={sideAvailability}
         initialContents={initialContents}
+        initialContentBrief={initialContentBrief ?? undefined}
         fictionSources={fictionSources}
         worldId={worldId}
         worldBannerImages={worldBannerImages}

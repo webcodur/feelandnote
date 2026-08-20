@@ -1,41 +1,300 @@
 name: Cloudflare Purge After Deploy
 
-# Vercel 프로덕션 배포가 성공하면 Cloudflare에 담긴 화면 사본을 전부 버린다.
-# 배포가 끝나기 전에 퍼지하면 Cloudflare가 옛 배포 응답을 다시 담으므로 반드시 success 뒤에 돈다.
-#
-# 판정하지 않고 매번 버린다(26.08.19). 배포는 Vercel의 ISR 사본도 함께 새로 만들므로
-# 판정으로 아끼는 것은 Cloudflare HIT 유지뿐이고, 그 이득보다 판정 단계가 무는 고장이 크다.
-# 실제로 직전 배포 SHA를 gh api로 찾던 단계가 매번 매달려 퍼지가 한 번도 나가지 못했다.
+# Vercel public web 프로덕션 배포가 끝난 뒤, 직전 성공 배포와의 누적 diff가 영향을 주는
+# Cloudflare 경로군만 비운다. 판정 실패를 전체 존 퍼지로 대체하지 않는다.
 on:
   deployment_status:
   workflow_dispatch:
+    inputs:
+      scope:
+        description: Cloudflare purge scope
+        required: true
+        type: choice
+        options:
+          - none
+          - celeb
+          - content
+          - seo
+          - cached-html
+          - emergency-zone
+      emergency_confirmation:
+        description: Type PURGE-ENTIRE-FEELANDNOTE-ZONE only for emergency-zone
+        required: false
+        type: string
 
-# GITHUB_TOKEN을 쓰지 않는다 — Cloudflare API만 부른다.
-permissions: {}
+permissions:
+  actions: read
+  contents: read
 
 jobs:
   purge:
-    # 백오피스(feelandnote-bo) 배포는 웹 캐시와 무관하다. payload.project_name은 Vercel이 채우지
-    # 않아 비교가 늘 통과하므로(26.08.19 실측 — 백오피스 배포가 웹 퍼지를 부르고 있었다)
-    # environment 이름 끝으로 가른다.
-    if: github.event_name == 'workflow_dispatch' || (github.event.deployment_status.state == 'success' && startsWith(github.event.deployment.environment, 'Production') && !endsWith(github.event.deployment.environment, '-bo'))
+    # Vercel은 payload.project_name을 채우지 않는다. 실측된 exact environment 이름으로
+    # public web(feelandnote)만 허용하고 feelandnote-bo 및 애매한 이벤트는 건너뛴다.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'deployment_status' &&
+        github.event.deployment_status.state == 'success' &&
+        github.event.deployment.environment == 'Production – feelandnote'
+      )
+    # public 자동 실행끼리만 직렬화한다. 자동 실행은 최신 pending이 앞 실행부터의 누적 diff를
+    # 다시 계산하므로 교체돼도 안전하다. 수동 scope는 자동 pending을 밀어내지 않게 run별로 분리한다.
+    concurrency:
+      group: ${{ github.event_name == 'deployment_status' && 'cloudflare-purge-production-auto' || format('cloudflare-purge-manual-{0}', github.run_id) }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
-      - name: Purge everything
+      - name: Check out deployed revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # checkout v4는 sparse-checkout에 blob:none partial clone을 자동 적용한다.
+          sparse-checkout: scripts/lib/cloudflare-purge-impact.mjs
+          sparse-checkout-cone-mode: false
+          ref: ${{ github.event_name == 'deployment_status' && github.event.deployment.sha || github.sha }}
+
+      - name: Resolve manual scope
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          MANUAL_SCOPE: ${{ inputs.scope }}
+          EMERGENCY_CONFIRMATION: ${{ inputs.emergency_confirmation }}
+        run: |
+          set -euo pipefail
+          node scripts/lib/cloudflare-purge-impact.mjs \
+            --scope "$MANUAL_SCOPE" \
+            --confirmation "$EMERGENCY_CONFIRMATION" \
+            > "$RUNNER_TEMP/cloudflare-purge-plan.json"
+          jq -e '.scopes | length > 0' "$RUNNER_TEMP/cloudflare-purge-plan.json" >/dev/null
+
+      - name: Classify deployment impact
+        if: github.event_name == 'deployment_status'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CURRENT_SHA: ${{ github.event.deployment.sha }}
+        run: |
+          set -euo pipefail
+
+          if ! [[ "$CURRENT_SHA" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "[cf-purge] invalid deployment SHA; refusing automatic purge: $CURRENT_SHA" >&2
+            exit 1
+          fi
+
+          api_get() {
+            local url="$1"
+            local output="$2"
+            curl --silent --show-error --fail-with-body --location \
+              --connect-timeout 10 --max-time 30 \
+              --retry 3 --retry-delay 2 --retry-max-time 90 --retry-all-errors \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -o "$output" \
+              "$url"
+          }
+
+          baseline_sha=""
+          baseline_run_id=""
+          max_pages=20
+          for page in $(seq 1 "$max_pages"); do
+            runs_json="$RUNNER_TEMP/cloudflare-purge-runs-$page.json"
+            candidates_json="$RUNNER_TEMP/cloudflare-purge-candidates-$page.json"
+            api_get \
+              "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/cloudflare-purge.yml/runs?status=completed&event=deployment_status&branch=main&per_page=100&page=$page" \
+              "$runs_json"
+            jq -e '.workflow_runs | type == "array"' "$runs_json" >/dev/null
+            node scripts/lib/cloudflare-purge-impact.mjs \
+              --baseline-candidates "$runs_json" \
+              --current-sha "$CURRENT_SHA" \
+              > "$candidates_json"
+
+            candidates_tsv="$RUNNER_TEMP/cloudflare-purge-candidates-$page.tsv"
+            jq -r '.candidates[] | [.id, .headSha] | @tsv' \
+              "$candidates_json" > "$candidates_tsv"
+            while IFS=$'\t' read -r candidate_run_id candidate_sha; do
+              [ -n "$candidate_run_id" ] || continue
+              jobs_json="$RUNNER_TEMP/cloudflare-purge-jobs-$candidate_run_id.json"
+              api_get \
+                "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/runs/$candidate_run_id/jobs?filter=latest&per_page=100" \
+                "$jobs_json"
+              jq -e '.jobs | type == "array"' "$jobs_json" >/dev/null
+
+              # BO deployment는 같은 workflow run을 만들 수 있지만 purge 잡이 skipped다.
+              if node scripts/lib/cloudflare-purge-impact.mjs \
+                --has-successful-purge-job "$jobs_json"; then
+                baseline_sha="$candidate_sha"
+                baseline_run_id="$candidate_run_id"
+                break
+              fi
+            done < "$candidates_tsv"
+
+            [ -z "$baseline_sha" ] || break
+            has_more=$(jq -r '.hasMore' "$candidates_json")
+            if [ "$has_more" != "true" ]; then
+              break
+            fi
+            if [ "$page" -eq "$max_pages" ]; then
+              echo "[cf-purge] baseline search exceeded $max_pages API pages" >&2
+              exit 1
+            fi
+          done
+
+          # 같은 SHA의 완료 run만 있어도 이전 배포 기준은 아니다. 누적 diff를 잃지 않게 실패시킨다.
+          if ! [[ "$baseline_sha" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "[cf-purge] no distinct completed public-production baseline; use an explicit manual scope" >&2
+            exit 1
+          fi
+
+          git cat-file -e "$baseline_sha^{commit}"
+          git cat-file -e "$CURRENT_SHA^{commit}"
+          if ! git merge-base --is-ancestor "$baseline_sha" "$CURRENT_SHA"; then
+            echo "[cf-purge] baseline $baseline_sha is not an ancestor of $CURRENT_SHA" >&2
+            exit 1
+          fi
+
+          changed_files="$RUNNER_TEMP/cloudflare-purge-changed-files.z"
+          git diff --name-only -z --no-renames --diff-filter=ACDMRTUXB \
+            "$baseline_sha" "$CURRENT_SHA" -- > "$changed_files"
+          node scripts/lib/cloudflare-purge-impact.mjs \
+            --files-z "$changed_files" \
+            > "$RUNNER_TEMP/cloudflare-purge-plan.json"
+
+          # 자동 분류기는 어떤 실패에서도 zone purge 권한으로 승격될 수 없다.
+          jq -e '.emergencyZone == false and (.scopes | index("emergency-zone") | not)' \
+            "$RUNNER_TEMP/cloudflare-purge-plan.json" >/dev/null
+
+          echo "[cf-purge] baseline run=$baseline_run_id sha=$baseline_sha"
+          echo "[cf-purge] current sha=$CURRENT_SHA"
+          echo "[cf-purge] changed paths:"
+          git diff --name-status --no-renames --diff-filter=ACDMRTUXB \
+            "$baseline_sha" "$CURRENT_SHA" -- | sed -n '1,80p'
+
+      - name: Publish purge plan
+        id: impact
+        run: |
+          set -euo pipefail
+          jq -e '
+            def allowed_scope:
+              . == "none"
+              or . == "celeb"
+              or . == "content"
+              or . == "seo"
+              or . == "cached-html"
+              or . == "emergency-zone";
+            def allowed_prefix:
+              . == "feelandnote.com/celeb/"
+              or . == "feelandnote.com/en/celeb/"
+              or . == "feelandnote.com/content/"
+              or . == "feelandnote.com/en/content/"
+              or . == "feelandnote.com/seo-image/"
+              or . == "feelandnote.com/sitemaps/";
+            def allowed_file:
+              . == "https://feelandnote.com/sitemap.xml"
+              or . == "https://feelandnote.com/robots.txt"
+              or . == "https://feelandnote.com/feed.xml"
+              or . == "https://feelandnote.com/opengraph-image"
+              or . == "https://feelandnote.com/explore/directory"
+              or . == "https://feelandnote.com/en/explore/directory"
+              or . == "https://feelandnote.com/explore/timeline"
+              or . == "https://feelandnote.com/en/explore/timeline";
+            (.scopes
+              | type == "array"
+                and length > 0
+                and all(.[]; type == "string" and allowed_scope)
+                and (length == (unique | length)))
+            and (.prefixes | type == "array")
+            and (.files | type == "array")
+            and (.emergencyZone | type == "boolean")
+            and all(.prefixes[]; type == "string" and allowed_prefix)
+            and all(.files[]; type == "string" and allowed_file)
+            and (
+              if .scopes == ["none"] then
+                .emergencyZone == false
+                and (.prefixes | length == 0)
+                and (.files | length == 0)
+              elif .scopes == ["emergency-zone"] then
+                .emergencyZone == true
+                and (.prefixes | length == 0)
+                and (.files | length == 0)
+              else
+                .emergencyZone == false
+                and (.scopes | all(.[]; . != "none" and . != "emergency-zone"))
+                and (((.prefixes | length) + (.files | length)) > 0)
+              end
+            )
+          ' "$RUNNER_TEMP/cloudflare-purge-plan.json" >/dev/null
+          plan=$(jq -c . "$RUNNER_TEMP/cloudflare-purge-plan.json")
+          echo "plan=$plan" >> "$GITHUB_OUTPUT"
+          echo "### Cloudflare purge plan" >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          jq . "$RUNNER_TEMP/cloudflare-purge-plan.json" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Purge scoped Cloudflare cache
         env:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          PURGE_PLAN: ${{ steps.impact.outputs.plan }}
         run: |
+          set -euo pipefail
+
+          if jq -e '.scopes == ["none"]' <<<"$PURGE_PLAN" >/dev/null; then
+            echo "[cf-purge] no cached production path changed; no API call"
+            exit 0
+          fi
+
           if [ -z "$CLOUDFLARE_ZONE_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "[cf-purge] Cloudflare 설정 없음 — 실제 퍼지를 확인할 수 없으므로 실패 처리"
+            echo "[cf-purge] Cloudflare credentials missing; refusing to report success" >&2
             exit 1
           fi
-          code=$(curl -sS --max-time 30 -o response.json -w '%{http_code}' \
-            -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
-            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}')
-          echo "[cf-purge] 전체 퍼지 $code: $(head -c 200 response.json)"
-          test "$code" = "200"
-          jq -e '.success == true' response.json >/dev/null
+
+          # 분류기 파일이 변조돼도 다른 host나 임의 URL을 지우지 못하게 한 번 더 제한한다.
+          jq -e '
+            all(.prefixes[]; startswith("feelandnote.com/"))
+            and all(.files[]; startswith("https://feelandnote.com/"))
+          ' <<<"$PURGE_PLAN" >/dev/null
+
+          purge_request() {
+            local label="$1"
+            local payload_file="$2"
+            local response_file="$RUNNER_TEMP/cloudflare-response-$label.json"
+            local code
+            local curl_status
+
+            set +e
+            code=$(curl --silent --show-error --fail-with-body --location \
+              --connect-timeout 10 --max-time 30 \
+              --retry 3 --retry-delay 2 --retry-max-time 90 --retry-all-errors \
+              -o "$response_file" -w '%{http_code}' \
+              -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H "Content-Type: application/json" \
+              --data-binary "@$payload_file")
+            curl_status=$?
+            set -e
+
+            echo "[cf-purge] $label HTTP $code: $(head -c 300 "$response_file" 2>/dev/null || true)"
+            if [ "$curl_status" -ne 0 ] || [ "$code" != "200" ]; then
+              echo "[cf-purge] $label request failed" >&2
+              exit 1
+            fi
+            jq -e '.success == true' "$response_file" >/dev/null
+          }
+
+          if jq -e '.emergencyZone == true' <<<"$PURGE_PLAN" >/dev/null; then
+            printf '%s\n' '{"purge_everything":true}' > "$RUNNER_TEMP/cloudflare-emergency.json"
+            purge_request emergency-zone "$RUNNER_TEMP/cloudflare-emergency.json"
+            exit 0
+          fi
+
+          prefix_count=$(jq '.prefixes | length' <<<"$PURGE_PLAN")
+          if [ "$prefix_count" -gt 0 ]; then
+            jq '{prefixes: .prefixes}' <<<"$PURGE_PLAN" > "$RUNNER_TEMP/cloudflare-prefixes.json"
+            purge_request prefixes "$RUNNER_TEMP/cloudflare-prefixes.json"
+          fi
+
+          file_count=$(jq '.files | length' <<<"$PURGE_PLAN")
+          if [ "$file_count" -gt 0 ]; then
+            jq '{files: .files}' <<<"$PURGE_PLAN" > "$RUNNER_TEMP/cloudflare-files.json"
+            purge_request files "$RUNNER_TEMP/cloudflare-files.json"
+          fi

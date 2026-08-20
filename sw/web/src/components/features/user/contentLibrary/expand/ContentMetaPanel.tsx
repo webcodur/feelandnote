@@ -10,6 +10,7 @@ interface ContentMetaPanelProps {
   brief: ContentBrief | null;
   isLoading: boolean;
   internalHref: string;
+  mediaEnabled?: boolean;
 }
 
 function LoadingMetadata() {
@@ -21,7 +22,12 @@ function LoadingMetadata() {
   );
 }
 
-export default function ContentMetaPanel({ brief, isLoading, internalHref }: ContentMetaPanelProps) {
+export default function ContentMetaPanel({
+  brief,
+  isLoading,
+  internalHref,
+  mediaEnabled = true,
+}: ContentMetaPanelProps) {
   if (isLoading) return <LoadingMetadata />;
   if (!brief) return null;
 
@@ -44,8 +50,15 @@ export default function ContentMetaPanel({ brief, isLoading, internalHref }: Con
       )}
 
       {category === "video" && metadata && <VideoDetails metadata={metadata} />}
-      {category === "music" && metadata && <MusicDetails metadata={metadata} />}
-      {category === "game" && metadata && <GameScreenshots screenshots={metadata.screenshots ?? []} />}
+      {category === "music" && metadata && (
+        <MusicDetails metadata={metadata} mediaEnabled={mediaEnabled} />
+      )}
+      {category === "game" && metadata && (
+        <GameScreenshots
+          screenshots={metadata.screenshots ?? []}
+          mediaEnabled={mediaEnabled}
+        />
+      )}
     </div>
   );
 }

@@ -33,6 +33,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     desktopViewMode,
     defaultPageSize,
     initialContents,
+    initialContentBrief,
   } = options;
   const isViewer = mode === "viewer";
 
@@ -48,7 +49,11 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
   const isDesktop = useDesktopLayout();
   const [pickedViewMode, setPickedViewMode] = useState<ViewMode | null>(null);
   const viewMode =
-    pickedViewMode ?? (isDesktop && desktopViewMode ? desktopViewMode : defaultViewMode ?? "list");
+    pickedViewMode ?? (isDesktop === true && desktopViewMode ? desktopViewMode : defaultViewMode ?? "list");
+  const hasResponsiveDefaultView =
+    pickedViewMode === null
+    && desktopViewMode !== undefined
+    && desktopViewMode !== (defaultViewMode ?? "list");
 
   const data = useContentLibraryData({
     activeTab,
@@ -59,6 +64,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     initialContents,
     initialSearchQuery,
     isViewer,
+    isResponsiveViewPending: hasResponsiveDefaultView && isDesktop === null,
     maxItems,
     ownerKind,
     pageSize,
@@ -156,6 +162,12 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     setReviewFilter,
     viewMode,
     setViewMode: setPickedViewMode,
+    isDesktop,
+    hasResponsiveDefaultView,
+    isResolvingResponsiveView: hasResponsiveDefaultView && isDesktop === null,
+    responsiveDefaultViewMode: defaultViewMode ?? "list",
+    responsiveDesktopViewMode: desktopViewMode,
+    initialContentBrief,
     searchQuery,
     setSearchQuery,
     appliedSearchQuery,

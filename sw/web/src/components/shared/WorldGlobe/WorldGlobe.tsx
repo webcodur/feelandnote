@@ -8,6 +8,7 @@ import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import { localizeCountryName } from "./countryNamesKo";
+import { globeFrameStyle } from "./globeLayout";
 import {
   PULSE_MS,
   canStartFocusAnimation,
@@ -503,8 +504,6 @@ export default function WorldGlobe({
     if (canvas.width !== physicalWidth || canvas.height !== physicalHeight) {
       canvas.width = physicalWidth;
       canvas.height = physicalHeight;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
       backgroundDirtyRef.current = true;
     }
     if (!backgroundCanvasRef.current) {
@@ -931,9 +930,8 @@ export default function WorldGlobe({
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const w = entry.contentRect.width;
-        const h = fillContainer
-          ? Math.max(280, entry.contentRect.height)
-          : Math.max(280, Math.min(w * 0.9, maxHeight));
+        const h = entry.contentRect.height;
+        if (w <= 0 || h <= 0) continue;
         sizeRef.current = { w, h };
         backgroundDirtyRef.current = true;
         requestDraw();
@@ -1385,7 +1383,9 @@ export default function WorldGlobe({
   return (
     <div
       ref={containerRef}
+      data-world-globe
       className={`relative overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary select-none ${className}`}
+      style={fillContainer ? undefined : globeFrameStyle(maxHeight)}
     >
       {mapNote && (
         <div
@@ -1441,6 +1441,7 @@ export default function WorldGlobe({
         style={{
           display: "block",
           width: "100%",
+          height: "100%",
           touchAction: allowPageScroll ? "pan-y" : "none",
           cursor: onSelect && hoverId ? "pointer" : "grab",
         }}

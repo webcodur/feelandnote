@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import GuestbookDeferred from "@/components/features/profile/GuestbookDeferred";
@@ -52,6 +53,7 @@ interface CelebRecordSectionsProps {
   dialogueLines?: Record<string, string[]> | null;
   timelineEvents: CelebTimelineEvent[];
   initialContents: GetUserContentsResponse;
+  initialContentBrief?: ContentBrief;
   fictionSources: FictionSourceContent[];
   serviceModel: CelebServiceModel;
 }
@@ -65,6 +67,7 @@ export default function CelebRecordSections({
   dialogueLines,
   timelineEvents,
   initialContents,
+  initialContentBrief,
   fictionSources,
   serviceModel,
 }: CelebRecordSectionsProps) {
@@ -153,6 +156,7 @@ export default function CelebRecordSections({
                   emptyMessage={t("libraryEmpty")}
                   wikidataQid={profile.wikidata_qid ?? null}
                   initialContents={initialContents}
+                  initialContentBrief={initialContentBrief}
                 />
               </SectionSurface>
             )}

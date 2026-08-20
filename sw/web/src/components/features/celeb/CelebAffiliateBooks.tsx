@@ -1,9 +1,35 @@
-import { getTranslations, getLocale } from 'next-intl/server'
-import { getAffiliateBooksForCeleb } from '@/actions/home/getAffiliateBooks'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
+import {
+  getAffiliateBooksForCeleb,
+  type AffiliateBookSource,
+} from '@/actions/home/getAffiliateBooks'
 import AffiliateBookList from '@/components/features/home/AffiliateBookList'
+import { RetryBlock, useNearViewport } from '@/components/ui/pending'
+import {
+  createAffiliateBooksLoadGate,
+  type AffiliateBooksResult,
+} from './CelebAffiliateBooksLoadGate'
 
 interface CelebAffiliateBooksProps {
   userId: string
+}
+
+type LoadStatus = 'idle' | 'ready' | 'failed'
+
+interface LoadState {
+  key: string
+  status: LoadStatus
+  data: AffiliateBooksResult | null
+}
+
+const HEADING_KEY: Record<AffiliateBookSource, 'headingOrigin' | 'headingRead' | 'headingProfession' | 'title'> = {
+  origin: 'headingOrigin',
+  read: 'headingRead',
+  profession: 'headingProfession',
+  popular: 'title',
 }
 
 /**
@@ -11,28 +37,54 @@ interface CelebAffiliateBooksProps {
  * 그 인물이 읽은 책을 먼저 내고, 없으면 같은 직군 인물들이 읽은 책, 그것도 없으면 많이 읽힌 책 순으로 물러난다.
  * 무엇을 기준으로 골랐는지에 따라 머리글이 달라진다 — 읽지도 않은 책을 "이 인물의 책"처럼 보이면 안 된다.
  */
-export default async function CelebAffiliateBooks({ userId }: CelebAffiliateBooksProps) {
-  const locale = await getLocale()
+export default function CelebAffiliateBooks({ userId }: CelebAffiliateBooksProps) {
+  const locale = useLocale()
+  const t = useTranslations('popularBooks')
+  const { ref, isNear } = useNearViewport('600px 0px')
+  const [attempt, setAttempt] = useState(0)
+  const [loadGate] = useState(() => createAffiliateBooksLoadGate(
+    (celebId) => getAffiliateBooksForCeleb(celebId, 'coupang', 6),
+  ))
+  const [loadState, setLoadState] = useState<LoadState>({
+    key: '',
+    status: 'idle',
+    data: null,
+  })
+  const requestKey = `${userId}:${attempt}`
+
+  useEffect(() => loadGate.observe({
+    enabled: locale === 'ko' && isNear,
+    key: requestKey,
+    userId,
+    onReady: (data) => setLoadState({ key: requestKey, status: 'ready', data }),
+    onError: (error) => {
+      console.error('Load celeb affiliate books error:', error)
+      setLoadState({ key: requestKey, status: 'failed', data: null })
+    },
+  }), [isNear, loadGate, locale, requestKey, userId])
+
   if (locale !== 'ko') return null
 
-  const { books, source } = await getAffiliateBooksForCeleb(userId, 'coupang', 6)
-  if (books.length === 0) return null
-
-  const t = await getTranslations('popularBooks')
-  const HEADING_KEY: Record<typeof source, string> = {
-    origin: 'headingOrigin',
-    read: 'headingRead',
-    profession: 'headingProfession',
-    popular: 'title',
+  const handleRetry = () => {
+    setLoadState({ key: '', status: 'idle', data: null })
+    setAttempt((value) => value + 1)
   }
-  const heading = t(HEADING_KEY[source])
+
+  const isCurrentRequest = loadState.key === requestKey
+  const data = isCurrentRequest ? loadState.data : null
 
   return (
-    <AffiliateBookList
-      books={books}
-      heading={heading}
-      buyLabel={t('buyOnCoupang')}
-      detailLabel={t('viewBookDetails')}
-    />
+    <div ref={ref}>
+      {isCurrentRequest && loadState.status === 'failed' ? (
+        <RetryBlock onRetry={handleRetry} />
+      ) : data ? (
+        <AffiliateBookList
+          books={data.books}
+          heading={t(HEADING_KEY[data.source])}
+          buyLabel={t('buyOnCoupang')}
+          detailLabel={t('viewBookDetails')}
+        />
+      ) : null}
+    </div>
   )
 }

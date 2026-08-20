@@ -4,6 +4,7 @@
 */
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import type { GetUserContentsResponse, UserContentPublic } from "@/actions/contents/getUserContents";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
 // #region 타입
 export type SortOption = "recent" | "title" | "rating_desc" | "rating_asc" | "creator";
@@ -33,6 +34,8 @@ export interface UseContentLibraryOptions {
   defaultPageSize?: number;
   // viewer 모드 서버 렌더 초기 데이터. 있으면 첫 화면을 클라이언트 페치 없이 그린다.
   initialContents?: GetUserContentsResponse;
+  /** 펼침 첫 카드용 서버 렌더 소개. null도 조회가 끝난 정상 결과다. */
+  initialContentBrief?: ContentBrief | null;
 }
 
 // #endregion

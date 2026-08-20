@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import type { FictionSourceContent } from "@/actions/fiction/getFictionSources";
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
 import { useSectionViewTracking } from "@/lib/analytics/track";
@@ -30,6 +31,7 @@ interface CelebPageContentProps {
   /** 관계·분석 구획은 브라우저가 직접 불러오므로 「있다·없다」만 받는다 */
   sideAvailability: CelebSideAvailability;
   initialContents: GetUserContentsResponse;
+  initialContentBrief?: ContentBrief;
   fictionSources: FictionSourceContent[];
   worldId: string;
   worldBannerImages: WorldBannerImages | null;
@@ -46,6 +48,7 @@ export default function CelebPageContent({
   timelineEvents,
   sideAvailability,
   initialContents,
+  initialContentBrief,
   fictionSources,
   worldId,
   worldBannerImages,
@@ -127,6 +130,7 @@ export default function CelebPageContent({
         dialogueLines={dialogueLines}
         timelineEvents={timelineEvents}
         initialContents={initialContents}
+        initialContentBrief={initialContentBrief}
         fictionSources={fictionSources}
         serviceModel={serviceModel}
       />

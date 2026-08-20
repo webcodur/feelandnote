@@ -9,48 +9,21 @@ import { getMyContents, type UserContentWithContent } from "@/actions/contents/g
 import {
   getPublicCelebContents,
   getPublicViewerContents,
-  type GetUserContentsResponse,
 } from "@/actions/contents/getUserContents";
-import { CATEGORY_ID_TO_TYPE, type CategoryId } from "@/constants/categories";
 import type { ContentTypeCounts } from "@/types/content";
 
-import { mapPublicToUserContent, type ContentOwnerKind, type ReviewFilter, type SortOption, type ViewMode } from "./contentLibraryTypes";
+import { mapPublicToUserContent } from "./contentLibraryTypes";
+import {
+  createContentRequest,
+  createLibrarySeed,
+  isInitialSeedQuery,
+  resolveDatasetPresentation,
+  type ContentDatasetMode,
+  type ContentLibraryDataOptions,
+  type LibrarySeed,
+} from "./contentLibraryDataState";
 
-const EXPAND_LIMIT = 200;
-
-interface ContentLibraryDataOptions {
-  activeTab: CategoryId;
-  appliedSearchQuery: string;
-  compact: boolean;
-  currentPage: number;
-  defaultPageSize: number;
-  initialContents?: GetUserContentsResponse;
-  initialSearchQuery: string;
-  isViewer: boolean;
-  maxItems?: number;
-  ownerKind: ContentOwnerKind;
-  pageSize: number;
-  reviewFilter: ReviewFilter;
-  sortOption: SortOption;
-  targetUserId?: string;
-  viewMode: ViewMode;
-}
-
-interface LibrarySeed {
-  contents: UserContentWithContent[];
-  totalPages: number;
-  total: number;
-}
-
-function createSeed(options: ContentLibraryDataOptions): LibrarySeed | null {
-  const { initialContents, initialSearchQuery, isViewer, targetUserId } = options;
-  if (!isViewer || !targetUserId || !initialContents || initialSearchQuery.trim().length >= 2) return null;
-  return {
-    contents: mapPublicToUserContent(initialContents.items, targetUserId),
-    totalPages: initialContents.totalPages,
-    total: initialContents.total,
-  };
-}
+export { resolveDatasetPresentation };
 
 export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const t = useTranslations("archiveSearch");
@@ -59,7 +32,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     appliedSearchQuery,
     compact,
     currentPage,
-    defaultPageSize,
+    isResponsiveViewPending,
     isViewer,
     maxItems,
     ownerKind,
@@ -70,10 +43,13 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
     viewMode,
   } = options;
   const seedRef = useRef<LibrarySeed | null | undefined>(undefined);
-  if (seedRef.current === undefined) seedRef.current = createSeed(options);
+  if (seedRef.current === undefined) seedRef.current = createLibrarySeed(options);
   const seed = seedRef.current;
 
   const [contents, setContents] = useState<UserContentWithContent[]>(seed?.contents ?? []);
+  const [contentsMode, setContentsMode] = useState<ContentDatasetMode | null>(
+    seed ? "seed" : null,
+  );
   const [isLoading, setIsLoading] = useState(!seed);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -88,53 +64,42 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const fetchViewerContents = ownerKind === "celeb" ? getPublicCelebContents : getPublicViewerContents;
   const loadContents = useCallback(async () => {
     const requestId = ++loadRequestIdRef.current;
+    const requestedViewMode = viewMode;
     if (hasLoadedRef.current) setIsRefreshing(true);
     else setIsLoading(true);
     setError(null);
 
     try {
-      const isExpand = viewMode === "expand";
-      const limit = isExpand ? EXPAND_LIMIT : maxItems || pageSize;
-      const page = isExpand || compact ? 1 : currentPage;
-      const search = appliedSearchQuery.trim().length >= 2
-        ? appliedSearchQuery.trim()
-        : undefined;
-      const hasReview = reviewFilter === "all"
-        ? undefined
-        : reviewFilter === "has_review";
-      const requestedSort = (["recent", "rating_desc", "rating_asc"] as const).includes(
-        sortOption as "recent" | "rating_desc" | "rating_asc",
-      ) ? sortOption as "recent" | "rating_desc" | "rating_asc" : "recent";
-      const sortBy = ownerKind === "celeb" ? "recent" : requestedSort;
+      const request = createContentRequest({
+        activeTab,
+        appliedSearchQuery,
+        compact,
+        currentPage,
+        maxItems,
+        ownerKind,
+        pageSize,
+        reviewFilter,
+        sortOption,
+        viewMode,
+      });
 
       if (isViewer && targetUserId) {
         const result = await fetchViewerContents({
           userId: targetUserId,
-          type: CATEGORY_ID_TO_TYPE[activeTab],
-          page,
-          limit,
-          search,
-          hasReview,
-          sortBy,
+          ...request,
         });
         if (requestId !== loadRequestIdRef.current) return;
         setContents(mapPublicToUserContent(result.items, targetUserId));
         setTotalPages(result.totalPages);
         setTotal(result.total);
       } else {
-        const result = await getMyContents({
-          type: CATEGORY_ID_TO_TYPE[activeTab],
-          page,
-          limit,
-          search,
-          hasReview,
-          sortBy,
-        });
+        const result = await getMyContents(request);
         if (requestId !== loadRequestIdRef.current) return;
         setContents(result.items);
         setTotalPages(result.totalPages);
         setTotal(result.total);
       }
+      setContentsMode(requestedViewMode);
     } catch (loadError) {
       if (requestId !== loadRequestIdRef.current) return;
       console.error("콘텐츠 로드 실패:", loadError);
@@ -146,21 +111,20 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
         setIsRefreshing(false);
       }
     }
-  }, [activeTab, appliedSearchQuery, compact, currentPage, fetchViewerContents, isViewer, maxItems, pageSize, reviewFilter, sortOption, t, targetUserId, viewMode]);
+  }, [activeTab, appliedSearchQuery, compact, currentPage, fetchViewerContents, isViewer, maxItems, ownerKind, pageSize, reviewFilter, sortOption, t, targetUserId, viewMode]);
 
-  const isInitialSeedQuery = activeTab === "all"
-    && currentPage === 1
-    && pageSize === defaultPageSize
-    && appliedSearchQuery.trim().length < 2
-    && reviewFilter === "all"
-    && sortOption === "recent"
-    && viewMode !== "expand";
+  // 펼침의 최대 200행을 목록 카드로 잠깐 재해석하면 DOM·인증·카운트 요청이 폭발한다.
+  // 반대 방향(list → expand)은 현재 페이지의 첫 항목을 큰 카드로 즉시 보여주는 안전한 seed다.
+  const presentation = resolveDatasetPresentation(contentsMode, viewMode, isLoading);
+  const { isStaleExpandDatasetForList } = presentation;
+
+  const hasInitialSeedQuery = isInitialSeedQuery(options);
 
   useEffect(() => {
-    if (hasSeedForInitialQueryRef.current && isInitialSeedQuery) return;
+    if (hasSeedForInitialQueryRef.current && hasInitialSeedQuery) return;
     hasSeedForInitialQueryRef.current = false;
     void loadContents();
-  }, [isInitialSeedQuery, loadContents]);
+  }, [hasInitialSeedQuery, loadContents]);
 
   useEffect(() => {
     let active = true;
@@ -181,7 +145,13 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   }, [isViewer, ownerKind, targetUserId]);
 
   useEffect(() => {
-    if (!isViewer || contents.length === 0) {
+    if (
+      !isViewer
+      || contents.length === 0
+      || viewMode === "expand"
+      || isResponsiveViewPending
+      || isStaleExpandDatasetForList
+    ) {
       setSavedContentIds(null);
       return;
     }
@@ -190,7 +160,20 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
       if (active) setSavedContentIds(ids);
     });
     return () => { active = false; };
-  }, [contents, isViewer]);
+  }, [contents, isResponsiveViewPending, isStaleExpandDatasetForList, isViewer, viewMode]);
 
-  return { contents, setContents, isLoading, isRefreshing, error, totalPages, total, typeCounts, savedContentIds, setSavedContentIds, loadContents };
+  return {
+    contents: presentation.shouldKeepContents ? contents : [],
+    setContents,
+    isLoading: presentation.shouldShowBlockingLoading,
+    isRefreshing: isRefreshing || (isStaleExpandDatasetForList && error === null),
+    error,
+    presentationViewMode: presentation.presentationViewMode,
+    totalPages,
+    total,
+    typeCounts,
+    savedContentIds,
+    setSavedContentIds,
+    loadContents,
+  };
 }

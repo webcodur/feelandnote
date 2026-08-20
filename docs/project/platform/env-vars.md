@@ -125,7 +125,7 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 | 이름 | 들어가는 곳 | 설명 |
 |------|------------|------|
-| `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Vercel), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Vercel·GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 각각 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. 실제 web 프로덕션 배포 후와 수동 실행 시 전체 퍼지하는 GitHub 워크플로도 비밀값 누락·HTTP 오류·`success: false`를 모두 실패로 처리한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
+| `CLOUDFLARE_ZONE_ID` · `CLOUDFLARE_API_TOKEN` | web(Vercel), GitHub Secrets, 로컬 `.env` | Cloudflare 앞단 캐시 존과 퍼지 토큰. Vercel·GitHub에는 해당 zone의 **Cache Purge만 허용한 전용 토큰**을 각각 두고, Cache Rules·DNS·WAF까지 가진 운영 토큰은 로컬 규칙 관리에만 쓴다. 앞단 퍼지가 필요한 요청에서 자격증명이 없으면 `/api/revalidate`는 `complete: false`·503, Cloudflare API가 실패하면 `complete: false`·502를 돌려준다. public web 프로덕션 배포 워크플로는 변경 영향 경로군만 퍼지하며, 비밀값 누락·GitHub 기준 실행 조회 실패·미분류 경로·Cloudflare HTTP 오류·`success: false`를 모두 실패로 처리한다. 전체 존 퍼지는 `workflow_dispatch`의 `emergency-zone`과 정확한 확인문을 함께 입력한 경우에만 허용한다. Zone ID는 같아야 하지만 API token 값은 배치별 최소 권한으로 분리해도 된다 |
 | `CRON_SECRET` | web, web-bo, **Supabase Vault(`web_revalidate_secret`)** | 정해진 시각에 도는 작업(오늘의 인물)과 화면 갱신 창구(`/api/revalidate`)의 암호. **비어 있으면 갱신 창구가 스스로 거부한다.** DB 트리거가 같은 값을 Vault에서 읽어 웹에 무효화를 보내므로, 키를 돌릴 때는 Vercel·로컬 `.env`·Vault 세 곳을 함께 바꾼다(`external-services.md`「웹 캐시 무효화 단일 창구」) |
 
 Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UTC = 한국시각 0시 5분, `/api/cron/today-figure`).

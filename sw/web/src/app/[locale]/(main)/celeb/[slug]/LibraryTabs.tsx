@@ -7,6 +7,7 @@ import ContentLibrary from "@/components/features/user/contentLibrary/ContentLib
 import CreativeLibrary from "@/components/features/celeb/creativeLibrary/CreativeLibrary";
 import { cn } from "@/lib/utils";
 import type { GetUserContentsResponse } from "@/actions/contents/getUserContents";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 
@@ -20,6 +21,7 @@ interface LibraryTabsProps {
   emptyMessage: string;
   wikidataQid?: string | null;
   initialContents?: GetUserContentsResponse;
+  initialContentBrief?: ContentBrief | null;
 }
 
 export default function LibraryTabs({
@@ -29,6 +31,7 @@ export default function LibraryTabs({
   emptyMessage,
   wikidataQid,
   initialContents,
+  initialContentBrief,
 }: LibraryTabsProps) {
   const t = useTranslations("celebPage");
   const [tab, setTab] = useState<LibraryTab>("consume");
@@ -65,6 +68,7 @@ export default function LibraryTabs({
           defaultPageSize={4}
           hideControlWrapper
           initialContents={initialContents}
+          initialContentBrief={initialContentBrief}
         />
       </div>
       {/* 창작 탭은 외부 Wikidata 조회를 유발하므로 선택 시에만 마운트한다 */}

@@ -44,6 +44,7 @@ export function useContentCardState(props: ContentCardProps) {
     onClick,
     showInfo = true,
     showGradient = true,
+    effectsEnabled = true,
   } = props;
 
   const ContentIcon = TYPE_ICONS[contentType];
@@ -56,6 +57,7 @@ export function useContentCardState(props: ContentCardProps) {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
+    if (!effectsEnabled) return;
     let cancelled = false;
     const checkAuth = async () => {
       try {
@@ -72,7 +74,7 @@ export function useContentCardState(props: ContentCardProps) {
     };
     checkAuth();
     return () => { cancelled = true; };
-  }, []);
+  }, [effectsEnabled]);
 
   // 내부 saved 상태 관리 (props 기본값 + 동적 업데이트)
   const [internalSaved, setInternalSaved] = useState(saved);
@@ -106,12 +108,16 @@ export function useContentCardState(props: ContentCardProps) {
 
   // 인원 구성: prop으로 전달되면 사용, 없으면 자동 조회
   const shouldFetch = celebCount === undefined;
-  const fetched = useContentCounts(shouldFetch ? contentId : undefined);
+  const fetched = useContentCounts(effectsEnabled && shouldFetch ? contentId : undefined);
   const effectiveCelebCount = celebCount ?? fetched.celebCount;
   const effectiveUserCount = userCount ?? fetched.userCount ?? 0;
 
   // 에디션 토글 (BOOK 전용 — 내부 자동 계산)
-  const resolvedThumbnailEn = useEditionThumbnail(contentId, contentType, thumbnailEn);
+  const resolvedThumbnailEn = useEditionThumbnail(
+    effectsEnabled ? contentId : undefined,
+    contentType,
+    thumbnailEn,
+  );
   const editions = contentType === "BOOK"
     ? getBookEditions({ type: "BOOK", title_ko: titleKo, title_en: titleEn, creator, creator_en: creatorEn, thumbnail_url: thumbnail, thumbnail_en: resolvedThumbnailEn, has_en_edition: hasEnEdition })
     : undefined;
@@ -143,13 +149,14 @@ export function useContentCardState(props: ContentCardProps) {
     setImageError(false);
   }, [thumbnail, activeEdition]);
 
-  const showImage = !!displayThumbnail && !imageError;
+  const showImage = effectsEnabled && !!displayThumbnail && !imageError;
 
   // 리뷰 모드 여부
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
 
   // 리뷰/프리셋 콘텐츠가 있을 때 sourceUrl 필수 검증 (headerNode 모드에서는 제외)
   useEffect(() => {
+    if (!effectsEnabled) return;
     const hasReviewContent = review !== undefined || (reviewPresets && reviewPresets.length > 0);
     if (hasReviewContent && !sourceUrl && !headerNode) {
       console.error('[ContentCard] 리뷰/프리셋이 있는데 sourceUrl이 없습니다:', {
@@ -160,7 +167,7 @@ export function useContentCardState(props: ContentCardProps) {
         reviewPresets,
       });
     }
-  }, [review, reviewPresets, sourceUrl, title, contentId, userContentId, headerNode]);
+  }, [contentId, effectsEnabled, headerNode, review, reviewPresets, sourceUrl, title, userContentId]);
 
   // 콘텐츠 상세 페이지 URL
   const contentDetailUrl = contentId

@@ -57,7 +57,13 @@ function formatDuration(durationMs: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function MusicDetails({ metadata }: { metadata: ContentMetadata }) {
+export function MusicDetails({
+  metadata,
+  mediaEnabled = true,
+}: {
+  metadata: ContentMetadata;
+  mediaEnabled?: boolean;
+}) {
   const t = useTranslations("contentDetail");
   const tShared = useTranslations("shared.content");
   const performers = metadata.artists?.length
@@ -77,9 +83,13 @@ export function MusicDetails({ metadata }: { metadata: ContentMetadata }) {
         {metadata.albumType && <MetadataLine label={tShared("albumType")} value={metadata.albumType} />}
         {metadata.genre && <MetadataLine label={tShared("genre")} value={metadata.genre} />}
         {metadata.previewUrl && (
-          <audio controls preload="none" src={metadata.previewUrl} className="w-full max-w-md">
-            <track kind="captions" />
-          </audio>
+          mediaEnabled ? (
+            <audio controls preload="none" src={metadata.previewUrl} className="h-10 w-full max-w-md">
+              <track kind="captions" />
+            </audio>
+          ) : (
+            <div aria-hidden className="h-10 w-full max-w-md rounded-md bg-white/[0.04]" />
+          )
         )}
         {listenLink && (
           <a
@@ -127,7 +137,13 @@ function MetadataLine({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function GameScreenshots({ screenshots }: { screenshots: string[] }) {
+export function GameScreenshots({
+  screenshots,
+  mediaEnabled = true,
+}: {
+  screenshots: string[];
+  mediaEnabled?: boolean;
+}) {
   const t = useTranslations("contentDetail");
   if (screenshots.length === 0) return null;
 
@@ -137,12 +153,14 @@ export function GameScreenshots({ screenshots }: { screenshots: string[] }) {
       <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
         {screenshots.slice(0, 6).map((url, index) => (
           <div key={url} className="relative aspect-video overflow-hidden rounded-lg border border-white/10">
-            <ContentImage
-              src={url}
-              alt={`${index + 1}`}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              className="object-cover"
-            />
+            {mediaEnabled ? (
+              <ContentImage
+                src={url}
+                alt={`${index + 1}`}
+                sizes="(max-width: 768px) 50vw, 33vw"
+                className="object-cover"
+              />
+            ) : null}
           </div>
         ))}
       </div>
