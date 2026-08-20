@@ -3,7 +3,7 @@ import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { createStaticClient } from '@/lib/supabase/static'
 import { cachedDetail } from '@/lib/cache'
 
-/* ── 인물 생애 행적 ──
+/* ── 인물 타임라인 ──
    좌표를 가진 항목만 활동반경 지도에 뜬다. 좌표 없는 항목도 연표에는 남는다.
    국가별 연대기(`getCelebTimeline`)와 다른 물건이다 — 그쪽은 생몰년만 쓴다. */
 

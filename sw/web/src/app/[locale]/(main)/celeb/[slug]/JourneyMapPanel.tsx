@@ -7,7 +7,11 @@ import { useTranslations } from "next-intl";
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
 import JourneyGlobeModal from "./JourneyGlobeModal";
-import { formatTimelinePosition, type JourneyViewMode } from "./journeyTimeline";
+import {
+  formatTimelinePosition,
+  timelineYearCopy,
+  type JourneyViewMode,
+} from "./journeyTimeline";
 
 const WorldGlobe = dynamic(() => import("@/components/shared/WorldGlobe"), {
   ssr: false,
@@ -21,6 +25,7 @@ interface Props {
   activeId: string | null;
   focusId: string | null;
   focusKey: number;
+  unknownKey: number;
   view: JourneyViewMode;
   event: CelebTimelineEvent | undefined;
   current: number;
@@ -34,6 +39,7 @@ export default function JourneyMapPanel({
   activeId,
   focusId,
   focusKey,
+  unknownKey,
   view,
   event,
   current,
@@ -42,6 +48,7 @@ export default function JourneyMapPanel({
   onNavigate,
 }: Props) {
   const t = useTranslations("celebPage");
+  const yearCopy = timelineYearCopy(t);
   const [expanded, setExpanded] = useState(false);
   const formatRecordCount = useCallback(
     (count: number) => t("timelineMapRecordCount", { count }),
@@ -54,6 +61,7 @@ export default function JourneyMapPanel({
     activeId,
     focusId,
     focusKey,
+    unknownKey,
     onSelect,
     label: t("timelineMapLabel"),
     controlLabels: {
@@ -93,7 +101,7 @@ export default function JourneyMapPanel({
           />
         }
         event={event}
-        yearLabel={event ? formatTimelinePosition(event, t("timelineBc")) : null}
+        yearLabel={event ? formatTimelinePosition(event, yearCopy) : null}
         current={current}
         total={total}
         pageLabel={t("timelinePage", { current: current + 1, total })}
