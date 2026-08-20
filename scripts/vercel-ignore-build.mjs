@@ -2,7 +2,10 @@ import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
-import { shouldBuildVercelProject } from './lib/vercel-build-impact.mjs'
+import {
+  shouldBuildVercelProject,
+  VERCEL_BUILD_DIFF_FILTER,
+} from './lib/vercel-build-impact.mjs'
 
 const project = process.argv[2]
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
@@ -33,7 +36,7 @@ const diff = spawnSync(
     'diff',
     '--name-only',
     '--no-renames',
-    '--diff-filter=ACMRTUXB',
+    `--diff-filter=${VERCEL_BUILD_DIFF_FILTER}`,
     previousSha,
     currentSha,
     '--',
