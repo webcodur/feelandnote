@@ -10,7 +10,7 @@ Feel&Note의 현재 앱 구조, 서비스 규격, 데이터 계약, 제작·운�
 | [`apps/`](apps/README.md) | web-bo, audio-bo, Android 앱 셸 같은 개별 앱 운영 문서 |
 | [`service/`](service/README.md) | 사용자 웹 화면과 라우트 |
 | [`data/`](data/README.md) | 핵심 DB와 인물 DB 스키마 |
-| [`celeb/`](celeb/README.md) | 인물 생성 파이프라인, 상세 화면, 이미지, 행적, 읽어보기 |
+| [`celeb/`](celeb/README.md) | 인물 생성 파이프라인, 상세 화면, 이미지, 타임라인, 읽어보기 |
 | [`remotion/`](remotion/README.md) | 서재 탐방, 세력도감, 담화, 영상·음성 제작 |
 | [`operations/`](operations/README.md) | SEO, 수익화, 유입 감사, SNS 확장 |
 | [`production/`](production/README.md) | 글쓰기와 이미지 생성·발주 공통 규칙 |

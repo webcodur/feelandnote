@@ -47,7 +47,6 @@ app/
     (policy)/          # terms, privacy, account-deletion
     (standalone)/      # search
     lab/               # 사내 실험 화면 11종 (+ 허브·상세 = page.tsx 13개). 목록 SSoT는 constants/lab.tsx의 LAB_ITEMS
-    reading/           # 독서 워크스페이스 (자체 components, hooks 보유)
     layout.tsx  |  not-found.tsx
   api/                 # avatar, celeb-works, cron/today-figure, revalidate, tts, wiki-summary
   auth/callback/       # OAuth 콜백
@@ -137,7 +136,7 @@ types/                 # academy, content, database, home, locale, recommendatio
 
 ### 네비게이션에 없는 화면
 
-`/agora`는 `NAV_ITEMS`에 없다. 풋터(`FOOTER_MISC_LINKS`)와 앱 내부 링크로만 들어간다. 그 밖에 `/celeb/[slug]`, `/content/[contentId]`, `/notifications`, `/reading`, `/search`, `(policy)` 화면, `/lab` 도 네비게이션 밖이다.
+`/agora`는 `NAV_ITEMS`에 없다. 풋터(`FOOTER_MISC_LINKS`)와 앱 내부 링크로만 들어간다. 그 밖에 `/celeb/[slug]`, `/content/[contentId]`, `/notifications`, `/search`, `(policy)` 화면, `/lab` 도 네비게이션 밖이다.
 
 ### 레거시 리다이렉트
 

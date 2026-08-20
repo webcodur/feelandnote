@@ -345,7 +345,7 @@ verification: {
 - **일반 크롤러(`*`)**: `allow: /` + `crawlDelay: 1`. Disallow는 아래.
   - 시스템: `/private/`, `/admin/`, `/api/`
   - 인증: `/login`, `/signup`, `/reset-password` (각각 `/en` 접두 변형 포함)
-  - 개인: `/reading`, `/*/reading`, `/*/chamber`, `/*/merits`
+  - 개인: `/*/reading`, `/*/chamber`, `/*/merits`
   - 기타: `/notifications`, `/search`, `/lab` (`/en` 접두 변형 포함)
   - 쿼리: `/*?*search=`, `/*?*sortBy=`, `/*?*sort=`, `/*?*page=` — **무한 조합을 만드는 파라미터만** 차단한다. `/*?` 전면 차단은 `?category=`가 붙은 콘텐츠 상세 내부 링크까지 크롤 불가로 만들어 색인 붕괴를 일으켰다(2026-07-15 해제)
 - **검색·답변·사용자 요청 크롤러 9종**: `OAI-SearchBot`, `ChatGPT-User`, `Claude-SearchBot`, `Claude-User`, `PerplexityBot`, `Perplexity-User`, `Amzn-SearchBot`, `Amzn-User`, `YouBot`. 일반 검색엔진과 같은 공개 범위만 허용하고 `crawlDelay: 1`을 선언한다.
