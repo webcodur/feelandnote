@@ -5,6 +5,31 @@ import {
   canStartFocusAnimation,
   hasInterruptedFocusTicket,
 } from "./globeSpin";
+import {
+  GLOBE_ASPECT_RATIO,
+  GLOBE_MIN_HEIGHT,
+  globeFrameStyle,
+  globeHeightForWidth,
+} from "./globeLayout";
+
+describe("globe layout", () => {
+  it("uses one responsive height formula from mobile through atlas mode", () => {
+    assert.equal(globeHeightForWidth(240, 460), 280);
+    assert.equal(globeHeightForWidth(390, 460), 351);
+    assert.equal(globeHeightForWidth(440, 460), 396);
+    assert.equal(globeHeightForWidth(800, 460), 460);
+    assert.equal(globeHeightForWidth(550, 620), 495);
+  });
+
+  it("reserves the same geometry before the canvas is drawn", () => {
+    assert.deepEqual(globeFrameStyle(460), {
+      width: "100%",
+      aspectRatio: GLOBE_ASPECT_RATIO,
+      minHeight: GLOBE_MIN_HEIGHT,
+      maxHeight: 460,
+    });
+  });
+});
 
 describe("canStartFocusAnimation", () => {
   it("does not start an initial focus animation while the globe is offscreen", () => {

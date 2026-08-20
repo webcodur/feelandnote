@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import styles from "../ExpandDetailView.module.css";
 import type { ExpandIndexEntry } from "../groupExpandIndexItems";
 
 interface ExpandIndexGroupProps {
@@ -14,10 +15,8 @@ interface ExpandIndexGroupProps {
   headingId: string;
   label: string;
   Icon?: LucideIcon;
-  isOpen: boolean;
   isExpanded: boolean;
-  selectedIndex: number | null;
-  keepSelectedItemVisible: boolean;
+  scrollTargetIndex: number | null;
   items: ExpandIndexEntry[];
   setItemRef: (index: number, element: HTMLButtonElement | null) => void;
   onToggle: (groupKey: string) => void;
@@ -28,9 +27,13 @@ interface ExpandIndexGroupProps {
 interface ExpandIndexItemProps {
   item: ExpandIndexEntry;
   label: string;
-  isOpen: boolean;
-  isExpanded: boolean;
-  isSelected: boolean;
+  setItemRef: (index: number, element: HTMLButtonElement | null) => void;
+  onSelect: (index: number) => void;
+}
+
+interface ExpandIndexItemsProps {
+  items: ExpandIndexEntry[];
+  label: string;
   setItemRef: (index: number, element: HTMLButtonElement | null) => void;
   onSelect: (index: number) => void;
 }
@@ -38,9 +41,6 @@ interface ExpandIndexItemProps {
 const ExpandIndexItem = memo(function ExpandIndexItem({
   item,
   label,
-  isOpen,
-  isExpanded,
-  isSelected,
   setItemRef,
   onSelect,
 }: ExpandIndexItemProps) {
@@ -51,29 +51,28 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
         setItemRef(item.originalIndex, element);
       }}
       onClick={() => onSelect(item.originalIndex)}
-      tabIndex={isExpanded ? undefined : -1}
-      aria-current={isSelected ? "true" : undefined}
+      aria-current={item.originalIndex === 0 ? "true" : undefined}
       aria-label={`${label} ${item.localIndex}. ${item.title}`}
       title={item.title}
       className={cn(
-        "grid min-h-11 w-full grid-cols-[32px_minmax(0,1fr)] items-center border-b border-white/[0.08] px-0 text-sm last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 md:grid-cols-[48px_minmax(0,1fr)]",
-        isSelected ? "bg-accent/[0.09] text-accent" : "text-text-secondary",
+        "grid min-h-11 w-full grid-cols-[32px_minmax(0,1fr)] items-center border-b border-white/[0.08] px-0 text-sm text-text-secondary last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 md:grid-cols-[48px_minmax(0,1fr)]",
+        styles.indexItem,
       )}
     >
       <span
         className={cn(
-          "flex w-full shrink-0 items-center justify-center font-mono text-xs font-semibold tabular-nums",
-          isSelected ? "text-accent" : "text-text-tertiary",
+          "flex w-full shrink-0 items-center justify-center font-mono text-xs font-semibold tabular-nums text-text-tertiary",
+          styles.indexItemNumber,
         )}
         aria-hidden
       >
         {item.localIndex}
       </span>
       <span
-        aria-hidden={!isOpen}
+        aria-hidden
         className={cn(
           "line-clamp-2 min-w-0 pe-2 text-start text-sm leading-snug transition-opacity duration-150 ease-out",
-          isOpen ? "opacity-100" : "opacity-0",
+          styles.indexItemTitle,
         )}
       >
         {item.title}
@@ -82,15 +81,34 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
   );
 });
 
+const ExpandIndexItems = memo(function ExpandIndexItems({
+  items,
+  label,
+  setItemRef,
+  onSelect,
+}: ExpandIndexItemsProps) {
+  return (
+    <div className="min-h-0 overflow-hidden">
+      {items.map((item) => (
+        <ExpandIndexItem
+          key={item.itemId}
+          item={item}
+          label={label}
+          setItemRef={setItemRef}
+          onSelect={onSelect}
+        />
+      ))}
+    </div>
+  );
+});
+
 function ExpandIndexGroup({
   groupKey,
   headingId,
   label,
   Icon,
-  isOpen,
   isExpanded,
-  selectedIndex,
-  keepSelectedItemVisible,
+  scrollTargetIndex,
   items,
   setItemRef,
   onToggle,
@@ -98,18 +116,17 @@ function ExpandIndexGroup({
   onSelectedItemReady,
 }: ExpandIndexGroupProps) {
   const panelId = `${headingId}-items`;
-  const hasSelectedItem = selectedIndex !== null;
 
   useEffect(() => {
-    if (keepSelectedItemVisible && hasSelectedItem && isExpanded) {
-      onSelectedItemReady(selectedIndex);
+    if (scrollTargetIndex !== null && isExpanded) {
+      onSelectedItemReady(scrollTargetIndex);
     }
-  }, [hasSelectedItem, isExpanded, keepSelectedItemVisible, onSelectedItemReady, selectedIndex]);
+  }, [isExpanded, onSelectedItemReady, scrollTargetIndex]);
 
   const handlePanelTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
     if (event.currentTarget !== event.target) return;
-    if (keepSelectedItemVisible && selectedIndex !== null) {
-      onSelectedItemReady(selectedIndex);
+    if (scrollTargetIndex !== null) {
+      onSelectedItemReady(scrollTargetIndex);
     }
   };
 
@@ -126,29 +143,28 @@ function ExpandIndexGroup({
         >
           <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/25" />
           <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-black/50" />
-          <span className={cn("flex items-center justify-center", isOpen ? "gap-2.5" : "gap-0")}>
+          <span className={cn("flex items-center justify-center", styles.indexGroupLabelWrap)}>
             <span className="flex shrink-0 items-center justify-center" aria-hidden>
               {Icon && <Icon className="h-3 w-3" strokeWidth={1.8} />}
             </span>
             <span
               className={cn(
                 "text-center text-xs font-medium tracking-wide transition-opacity duration-150 ease-out",
-                isOpen ? "min-w-0 truncate opacity-100" : "w-0 overflow-hidden opacity-0",
+                styles.indexGroupLabel,
               )}
             >
               {label}
             </span>
           </span>
-          {isOpen && (
-            <ChevronDown
-              aria-hidden
-              className={cn(
-                "absolute end-1 h-3 w-3 shrink-0 transition-transform duration-200 ease-out",
-                isExpanded ? "rotate-0" : "-rotate-90",
-              )}
-              strokeWidth={1.8}
-            />
-          )}
+          <ChevronDown
+            aria-hidden
+            className={cn(
+              "absolute end-1 h-3 w-3 shrink-0 transition-transform duration-200 ease-out",
+              styles.indexGroupChevron,
+              isExpanded ? "rotate-0" : "-rotate-90",
+            )}
+            strokeWidth={1.8}
+          />
         </button>
       </h3>
       <div
@@ -163,20 +179,12 @@ function ExpandIndexGroup({
           isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
-        <div className="min-h-0 overflow-hidden">
-          {items.map((item) => (
-            <ExpandIndexItem
-              key={item.itemId}
-              item={item}
-              label={label}
-              isOpen={isOpen}
-              isExpanded={isExpanded}
-              isSelected={item.originalIndex === selectedIndex}
-              setItemRef={setItemRef}
-              onSelect={onSelect}
-            />
-          ))}
-        </div>
+        <ExpandIndexItems
+          items={items}
+          label={label}
+          setItemRef={setItemRef}
+          onSelect={onSelect}
+        />
       </div>
     </section>
   );

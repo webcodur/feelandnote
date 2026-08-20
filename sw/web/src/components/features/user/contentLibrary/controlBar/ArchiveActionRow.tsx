@@ -27,6 +27,8 @@ interface ArchiveActionRowProps {
   onClearSearch: () => void;
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
+  responsiveDesktopViewMode?: ViewMode;
+  isResponsiveViewUnresolved?: boolean;
   sortOption: SortOption;
   isAllCollapsed: boolean;
   onExpandAll: () => void;
@@ -42,6 +44,8 @@ export default function ArchiveActionRow({
   onClearSearch,
   viewMode,
   onViewModeChange,
+  responsiveDesktopViewMode,
+  isResponsiveViewUnresolved = false,
   sortOption,
   isAllCollapsed,
   onExpandAll,
@@ -52,6 +56,8 @@ export default function ArchiveActionRow({
   const t = useTranslations("archiveSearch");
   const nextViewMode: ViewMode = viewMode === "list" ? "expand" : "list";
   const NextViewIcon = VIEW_ICON[nextViewMode];
+  const desktopNextViewMode: ViewMode = responsiveDesktopViewMode === "expand" ? "list" : "expand";
+  const DesktopNextViewIcon = VIEW_ICON[desktopNextViewMode];
   const canSearch = searchQuery.trim().length >= 2;
 
   return (
@@ -96,16 +102,44 @@ export default function ArchiveActionRow({
       </button>
 
       <div className="mx-0.5 h-5 w-px bg-white/10" />
-      <button
-        type="button"
-        onClick={() => onViewModeChange(nextViewMode)}
-        data-testid="archive-view-toggle"
-        aria-label={t(VIEW_LABEL_KEY[nextViewMode])}
-        className="flex min-h-[2.5rem] w-[2.5rem] items-center justify-center rounded-lg border border-accent/25 bg-white/5 hover:border-accent/50 hover:bg-white/10 hover:text-text-primary"
-        title={t(VIEW_LABEL_KEY[nextViewMode])}
-      >
-        <NextViewIcon size={16} />
-      </button>
+      {isResponsiveViewUnresolved && responsiveDesktopViewMode ? (
+        <>
+          <button
+            type="button"
+            onClick={() => onViewModeChange(nextViewMode)}
+            data-testid="archive-view-toggle"
+            data-next-view-mode={nextViewMode}
+            aria-label={t(VIEW_LABEL_KEY[nextViewMode])}
+            className="flex min-h-[2.5rem] w-[2.5rem] items-center justify-center rounded-lg border border-accent/25 bg-white/5 hover:border-accent/50 hover:bg-white/10 hover:text-text-primary md:hidden"
+            title={t(VIEW_LABEL_KEY[nextViewMode])}
+          >
+            <NextViewIcon size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={() => onViewModeChange(desktopNextViewMode)}
+            data-testid="archive-view-toggle"
+            data-next-view-mode={desktopNextViewMode}
+            aria-label={t(VIEW_LABEL_KEY[desktopNextViewMode])}
+            className="hidden min-h-[2.5rem] w-[2.5rem] items-center justify-center rounded-lg border border-accent/25 bg-white/5 hover:border-accent/50 hover:bg-white/10 hover:text-text-primary md:flex"
+            title={t(VIEW_LABEL_KEY[desktopNextViewMode])}
+          >
+            <DesktopNextViewIcon size={16} />
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          onClick={() => onViewModeChange(nextViewMode)}
+          data-testid="archive-view-toggle"
+          data-next-view-mode={nextViewMode}
+          aria-label={t(VIEW_LABEL_KEY[nextViewMode])}
+          className="flex min-h-[2.5rem] w-[2.5rem] items-center justify-center rounded-lg border border-accent/25 bg-white/5 hover:border-accent/50 hover:bg-white/10 hover:text-text-primary"
+          title={t(VIEW_LABEL_KEY[nextViewMode])}
+        >
+          <NextViewIcon size={16} />
+        </button>
+      )}
 
       {showMonthControls && (
         <button

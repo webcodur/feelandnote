@@ -7,6 +7,8 @@
 import type { ContentType, ContentStatus } from "@/types/database";
 
 export interface ContentCardProps {
+  /** CSS로 숨긴 반응형 임시 presenter는 인증·통계·표지 보완 요청을 시작하지 않는다. */
+  effectsEnabled?: boolean;
   // 필수: 콘텐츠 식별자 (인원 구성 뱃지 조회에 사용)
   contentId: string;
 
@@ -74,7 +76,7 @@ export interface ContentCardProps {
   // 스타일
   className?: string;
   heightClass?: string;
-  
+
   // 강제 포스터 모드 (리뷰가 있어도 포스터 형태 유지)
   forcePoster?: boolean;
 

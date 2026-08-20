@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import type { RefObject } from "react";
 import { Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -13,7 +14,6 @@ import ExpandIndexGroup from "./unit/ExpandIndexGroup";
 
 interface ExpandIndexRailProps {
   groups: ExpandIndexTypeGroup[];
-  selectedIndex: number;
   isOpen: boolean;
   indexId: string;
   navRef: RefObject<HTMLElement | null>;
@@ -25,23 +25,22 @@ interface ExpandIndexRailProps {
     collapse: string;
   };
   collapsedGroupTypes: ReadonlySet<string>;
-  keepSelectedItemVisible: boolean;
+  scrollTargetIndex: number | null;
   onToggle: () => void;
   onToggleGroup: (dbType: string) => void;
   onSelect: (index: number) => void;
   onSelectedItemReady: (index: number) => void;
 }
 
-export default function ExpandIndexRail({
+function ExpandIndexRail({
   groups,
-  selectedIndex,
   isOpen,
   indexId,
   navRef,
   setItemRef,
   labels,
   collapsedGroupTypes,
-  keepSelectedItemVisible,
+  scrollTargetIndex,
   onToggle,
   onToggleGroup,
   onSelect,
@@ -85,15 +84,17 @@ export default function ExpandIndexRail({
             ref={navRef}
             id={indexId}
             aria-label={labels.list}
+            data-open={isOpen}
             className={cn(
               "custom-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden [overflow-anchor:none]",
+              styles.indexRail,
               styles.indexScrollbar,
             )}
           >
             {groups.map((group) => {
               const category = getCategoryByDbType(group.dbType);
-              const selectedEntry = group.items.find(
-                (item) => item.originalIndex === selectedIndex,
+              const hasScrollTarget = group.items.some(
+                (item) => item.originalIndex === scrollTargetIndex,
               );
               return (
                 <ExpandIndexGroup
@@ -102,10 +103,8 @@ export default function ExpandIndexRail({
                   headingId={`${indexId}-${group.dbType}`}
                   label={category ? t(`category.${category.id}`) : group.dbType}
                   Icon={category?.lucideIcon}
-                  isOpen={isOpen}
                   isExpanded={!collapsedGroupTypes.has(group.dbType)}
-                  selectedIndex={selectedEntry?.originalIndex ?? null}
-                  keepSelectedItemVisible={keepSelectedItemVisible && !!selectedEntry}
+                  scrollTargetIndex={hasScrollTarget ? scrollTargetIndex : null}
                   items={group.items}
                   setItemRef={setItemRef}
                   onToggle={onToggleGroup}
@@ -120,3 +119,5 @@ export default function ExpandIndexRail({
     </aside>
   );
 }
+
+export default memo(ExpandIndexRail);

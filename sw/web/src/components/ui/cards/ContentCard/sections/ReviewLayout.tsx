@@ -229,7 +229,7 @@ export default function ReviewLayout({ props, state }: ReviewLayoutProps) {
         </div>
       </div>
 
-      <CardModals props={props} state={state} />
+      {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
     </>
   );
 }

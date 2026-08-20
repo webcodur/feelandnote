@@ -11,9 +11,9 @@ function subscribe(onChange: () => void) {
 }
 
 const getSnapshot = () => window.matchMedia(DESKTOP_LAYOUT_QUERY).matches;
-const getServerSnapshot = () => false;
+const getServerSnapshot = () => null;
 
-/** Tailwind의 md 경계와 같은 넓은 화면 판정. 서버에서는 좁은 화면으로 렌더한다. */
+/** Tailwind의 md 경계와 같은 넓은 화면 판정. 서버·첫 hydration은 아직 모르는 상태(null)다. */
 export function useDesktopLayout() {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

@@ -4,164 +4,113 @@
 */
 "use client";
 
-import { useCallback, useId, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useId, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
-import { CATEGORIES } from "@/constants/categories";
-import { getLocalizedContent } from "@/lib/utils/editions";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import { cn } from "@/lib/utils";
 
-import { DESKTOP_LAYOUT_QUERY, useDesktopLayout } from "../useDesktopLayout";
-import { getContainedListScrollDelta } from "./containedListScroll";
+import { useDesktopLayout } from "../useDesktopLayout";
+import { buildExpandPresentation } from "./buildExpandPresentation";
 import ExpandCard from "./ExpandCard";
 import ExpandIndexRail from "./ExpandIndexRail";
-import {
-  getExpandIndexNavigationOrder,
-  getExpandIndexNeighbor,
-  groupExpandIndexItems,
-} from "./groupExpandIndexItems";
+import { getExpandIndexNavigationOrder } from "./groupExpandIndexItems";
 import {
   ExpandArrowButton,
   ExpandBottomNavigation,
   ExpandTitleHeader,
 } from "./ExpandNavigation";
 import { useContentBrief } from "./useContentBrief";
+import { useExpandIndexSelection } from "./useExpandIndexSelection";
 
 interface ExpandDetailViewProps {
   items: UserContentWithContent[];
   ownerNickname?: string;
   ownerAvatarUrl?: string | null;
-}
-
-const CATEGORY_DB_ORDER = CATEGORIES.map((category) => category.dbType);
-
-interface ExpandSelection {
-  contentId: string | null;
-  keepIndexItemVisible: boolean;
+  isActive?: boolean;
+  desktopPresentation?: boolean;
+  initialContentBrief?: ContentBrief | null;
 }
 
 export default function ExpandDetailView({
   items,
   ownerNickname,
   ownerAvatarUrl,
+  isActive = true,
+  desktopPresentation = false,
+  initialContentBrief,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
   const indexId = useId();
   const isDesktop = useDesktopLayout();
-  const [selection, setSelection] = useState<ExpandSelection>(() => ({
-    contentId: items[0]?.content_id ?? null,
-    keepIndexItemVisible: false,
-  }));
-  const [indexPreference, setIndexPreference] = useState<boolean | null>(null);
-  const [collapsedGroupTypes, setCollapsedGroupTypes] = useState<ReadonlySet<string>>(
-    () => new Set(),
-  );
-  const indexNavRef = useRef<HTMLElement | null>(null);
-  const indexItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
-
-  const total = items.length;
-  const selectedItemIndex = selection.contentId
-    ? items.findIndex((item) => item.content_id === selection.contentId)
-    : -1;
-  const selectedIndex = selectedItemIndex >= 0 ? selectedItemIndex : 0;
-  const isIndexOpen = indexPreference ?? isDesktop;
-  const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
-  const { brief, isLoading: isBriefLoading } = useContentBrief(contentIds, selectedIndex);
-  const presentation = useMemo(() => {
-    const localized = items.map((item) => getLocalizedContent(item.content, locale));
-    const titles = localized.map((content) => content.title);
-    return {
-      titles,
-      creators: localized.map((content) => content.creator?.replace(/\^/g, ", ") ?? null),
-      groups: groupExpandIndexItems(
-        {
-          itemIds: items.map((item) => item.id),
-          titles,
-          contentTypes: items.map((item) => item.content.type),
-        },
-        CATEGORY_DB_ORDER,
-      ),
-    };
-  }, [items, locale]);
+  const presentation = useMemo(() => buildExpandPresentation(items, locale), [items, locale]);
   const navigationOrder = useMemo(
     () => getExpandIndexNavigationOrder(presentation.groups),
     [presentation.groups],
   );
-
-  const keepIndexItemVisible = useCallback((itemIndex: number) => {
-    const nav = indexNavRef.current;
-    const item = indexItemRefs.current[itemIndex];
-    if (!nav || !item || item.closest("[inert]")) return;
-    const delta = getContainedListScrollDelta(
-      nav.getBoundingClientRect(),
-      item.getBoundingClientRect(),
-    );
-    if (delta !== 0) nav.scrollTop += delta;
-  }, []);
-  const setIndexItemRef = useCallback(
-    (itemIndex: number, element: HTMLButtonElement | null) => {
-      indexItemRefs.current[itemIndex] = element;
-    },
-    [],
+  const indexLabels = useMemo(() => {
+    return {
+      list: t("expandIndexLabel"),
+      title: t("expandIndexTitle"),
+      expand: t("expandIndexExpand"),
+      collapse: t("expandIndexCollapse"),
+    };
+  }, [t]);
+  const total = items.length;
+  // 제목·선택 표시는 즉시 바꾸되 긴 감상배경 본문 교체는 낮은 우선순위로 렌더한다.
+  // 빠른 연속 선택에서는 중간 본문 렌더를 버리고 마지막 선택만 완성할 수 있다.
+  const {
+    collapsedGroupTypes,
+    indexNavRef,
+    indexPreference,
+    isIndexOpen,
+    isLatestSelection,
+    keepIndexItemVisible,
+    keepSelectedItemVisible,
+    selectedContentId,
+    selectedIndex,
+    selectDirectly,
+    selectNext,
+    selectPrevious,
+    setIndexItemRef,
+    toggleGroup,
+    toggleIndex,
+  } = useExpandIndexSelection({
+    items,
+    groups: presentation.groups,
+    navigationOrder,
+    desktopPresentation,
+    isDesktop,
+  });
+  const deferredDetailContentId = useDeferredValue(selectedContentId);
+  const requestedDetailIndex = deferredDetailContentId
+    ? items.findIndex((item) => item.content_id === deferredDetailContentId)
+    : -1;
+  const safeRequestedDetailIndex = requestedDetailIndex >= 0 ? requestedDetailIndex : selectedIndex;
+  const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
+  const {
+    contentId: committedDetailContentId,
+    brief: committedBrief,
+    isLoading: isRequestedBriefLoading,
+  } = useContentBrief(
+    contentIds,
+    safeRequestedDetailIndex,
+    selectedContentId,
+    isLatestSelection,
+    isActive,
+    initialContentBrief,
   );
-
-  const previousIndex = getExpandIndexNeighbor(navigationOrder, selectedIndex, -1);
-  const nextIndex = getExpandIndexNeighbor(navigationOrder, selectedIndex, 1);
+  const committedDetailIndex = committedDetailContentId
+    ? items.findIndex((item) => item.content_id === committedDetailContentId)
+    : -1;
+  const hasCommittedDetail = committedDetailIndex >= 0;
+  const renderedDetailIndex = hasCommittedDetail ? committedDetailIndex : selectedIndex;
+  const brief = hasCommittedDetail ? committedBrief : null;
+  const isBriefLoading = !hasCommittedDetail && isRequestedBriefLoading;
+  const isDetailPending = renderedDetailIndex !== selectedIndex || isBriefLoading;
   const isNavigationDisabled = total <= 1;
-
-  const selectIndex = useCallback(
-    (next: number, keepIndexItemVisible: boolean) => {
-      const nextItem = items[next];
-      if (!nextItem) return;
-
-      setSelection({
-        contentId: nextItem.content_id,
-        keepIndexItemVisible,
-      });
-
-      if (keepIndexItemVisible) {
-        const targetGroupType = presentation.groups.find((group) =>
-          group.items.some((item) => item.originalIndex === next),
-        )?.dbType;
-        if (targetGroupType) {
-          setCollapsedGroupTypes((current) => {
-            if (!current.has(targetGroupType)) return current;
-            const expanded = new Set(current);
-            expanded.delete(targetGroupType);
-            return expanded;
-          });
-        }
-      }
-
-      if (!window.matchMedia(DESKTOP_LAYOUT_QUERY).matches) setIndexPreference(false);
-    },
-    [items, presentation.groups],
-  );
-  const selectDirectly = useCallback(
-    (next: number) => selectIndex(next, false),
-    [selectIndex],
-  );
-  const selectPrevious = useCallback(
-    () => selectIndex(previousIndex, true),
-    [previousIndex, selectIndex],
-  );
-  const selectNext = useCallback(
-    () => selectIndex(nextIndex, true),
-    [nextIndex, selectIndex],
-  );
-  const toggleIndex = useCallback(() => {
-    setIndexPreference((current) => !(current ?? isDesktop));
-  }, [isDesktop]);
-  const toggleGroup = useCallback((dbType: string) => {
-    setCollapsedGroupTypes((current) => {
-      const next = new Set(current);
-      if (next.has(dbType)) next.delete(dbType);
-      else next.add(dbType);
-      return next;
-    });
-  }, []);
 
   if (total === 0) return null;
 
@@ -170,9 +119,11 @@ export default function ExpandDetailView({
       className={cn(
         "relative -mx-2 grid w-[calc(100%+1rem)] min-w-0 grid-cols-[32px_minmax(0,1fr)] overflow-hidden rounded-xl border border-white/10 bg-bg-card md:mx-0 md:w-full",
         "md:transition-[grid-template-columns] md:duration-300 md:ease-out",
-        isIndexOpen
+        indexPreference === null
           ? "md:grid-cols-[48px_184px_minmax(0,1fr)_48px]"
-          : "md:grid-cols-[48px_48px_minmax(0,1fr)_48px]",
+          : isIndexOpen
+            ? "md:grid-cols-[48px_184px_minmax(0,1fr)_48px]"
+            : "md:grid-cols-[48px_48px_minmax(0,1fr)_48px]",
       )}
     >
       <ExpandArrowButton
@@ -184,19 +135,17 @@ export default function ExpandDetailView({
       />
       <ExpandIndexRail
         groups={presentation.groups}
-        selectedIndex={selectedIndex}
         isOpen={isIndexOpen}
         indexId={indexId}
         navRef={indexNavRef}
         setItemRef={setIndexItemRef}
-        labels={{
-          list: t("expandIndexLabel"),
-          title: t("expandIndexTitle"),
-          expand: t("expandIndexExpand"),
-          collapse: t("expandIndexCollapse"),
-        }}
+        labels={indexLabels}
         collapsedGroupTypes={collapsedGroupTypes}
-        keepSelectedItemVisible={selection.keepIndexItemVisible}
+        scrollTargetIndex={
+          keepSelectedItemVisible && renderedDetailIndex === selectedIndex
+            ? selectedIndex
+            : null
+        }
         onToggle={toggleIndex}
         onToggleGroup={toggleGroup}
         onSelect={selectDirectly}
@@ -212,13 +161,17 @@ export default function ExpandDetailView({
         onNext={selectNext}
       />
 
-      <div className="col-start-2 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0">
+      <div
+        data-testid="expand-detail-body"
+        aria-busy={isDetailPending}
+        className="col-start-2 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0"
+      >
         <ExpandCard
-          key={items[selectedIndex].id}
-          item={items[selectedIndex]}
+          key={items[renderedDetailIndex].id}
+          item={items[renderedDetailIndex]}
           brief={brief}
           isBriefLoading={isBriefLoading}
-          isActive
+          isActive={isActive}
           ownerNickname={ownerNickname}
           ownerAvatarUrl={ownerAvatarUrl}
         />

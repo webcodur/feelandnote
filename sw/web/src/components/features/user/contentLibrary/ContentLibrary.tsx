@@ -1,8 +1,3 @@
-/*
-  파일명: /components/features/user/contentLibrary/ContentLibrary.tsx
-  기능: 콘텐츠 라이브러리 메인 컴포넌트
-  책임: 필터, 정렬, 페이지네이션을 포함한 콘텐츠 목록을 표시한다.
-*/ // ------------------------------
 "use client";
 
 import { useEffect } from "react";
@@ -13,10 +8,11 @@ import MonthSection from "./section/MonthSection";
 import ContentItemRenderer from "./item/ContentItemRenderer";
 import MonthTransitionIndicator from "./section/MonthTransitionIndicator";
 import { LoadingState, ErrorState, EmptyState } from "./ContentLibraryStates";
-import { Pagination, DeleteConfirmModal } from "@/components/ui";
+import { DeleteConfirmModal } from "@/components/ui";
 import type { ContentLibraryProps } from "./types";
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
 import ContentLibraryControls from "./ContentLibraryControls";
+import ContentLibraryBody from "./ContentLibraryBody";
 
 export default function ContentLibrary({
   compact = false,
@@ -33,9 +29,14 @@ export default function ContentLibrary({
   defaultPageSize,
   hideControlWrapper = false,
   initialContents,
+  initialContentBrief,
 }: ContentLibraryProps) {
   const locale = useLocale();
-  const lib = useContentLibrary({ maxItems, compact, mode, ownerKind, targetUserId, defaultViewMode, desktopViewMode, defaultPageSize, initialContents });
+  const lib = useContentLibrary({
+    maxItems, compact, mode, ownerKind, targetUserId,
+    defaultViewMode, desktopViewMode, defaultPageSize,
+    initialContents, initialContentBrief,
+  });
   const isViewer = lib.isViewer;
   /** 셀럽 감상은 서비스 등록일이 감상 시점이 아니므로 월별로 나누지 않는다. */
   const showMonthSections = ownerKind !== "celeb";
@@ -55,12 +56,19 @@ export default function ContentLibrary({
     lib.collapsedMonths,
   );
 
-  // #region 헬퍼 함수
-  const renderItems = (items: UserContentWithContent[]) => (
+  const renderItems = (
+    items: UserContentWithContent[],
+    viewMode = lib.viewMode,
+    effectsEnabled = true,
+    desktopPresentation = false,
+  ) => (
     <ContentItemRenderer
       items={items}
       compact={compact}
-      viewMode={lib.viewMode}
+      viewMode={viewMode}
+      effectsEnabled={effectsEnabled}
+      desktopPresentation={desktopPresentation}
+      initialContentBrief={lib.initialContentBrief}
       onDelete={lib.handleDelete}
       onAddContent={lib.handleAddContent}
       readOnly={isViewer}
@@ -71,20 +79,51 @@ export default function ContentLibrary({
     />
   );
 
-  // #endregion
-
-  // #region 렌더링 - 상태
   const hasContents = lib.contents.length > 0;
   const hasFilteredContents = lib.filteredAndSortedContents.length > 0;
   const isSearching = lib.appliedSearchQuery.trim().length >= 2;
   /* 펼침 보기는 선택 목록 전체를 한 번에 받는다 — 달별 묶음과 쪽 번호는 그 안에서 뜻이 없다 */
-  const isExpandView = lib.viewMode === "expand";
-  // #endregion
-
-  // #region 렌더링
+  const isExpandView = lib.presentationViewMode === "expand";
+  const renderContentsForMode = (
+    viewMode: typeof lib.viewMode,
+    effectsEnabled = true,
+    desktopPresentation = false,
+  ) => {
+    if (viewMode === "expand") {
+      return renderItems(
+        lib.filteredAndSortedContents,
+        viewMode,
+        effectsEnabled,
+        desktopPresentation,
+      );
+    }
+    if (showMonthSections && lib.sortOption === "recent") {
+      return lib.monthKeys.map((monthKey) => {
+        const items = lib.groupedByMonth[monthKey] || [];
+        return (
+          <MonthSection
+            key={monthKey}
+            monthKey={monthKey}
+            label={lib.formatMonthLabel(monthKey, locale)}
+            itemCount={items.length}
+            isCollapsed={lib.collapsedMonths.has(monthKey)}
+            onToggle={() => lib.toggleMonth(monthKey)}
+          >
+            {renderItems(items, viewMode, effectsEnabled, desktopPresentation)}
+          </MonthSection>
+        );
+      });
+    }
+    return renderItems(
+      lib.filteredAndSortedContents,
+      viewMode,
+      effectsEnabled,
+      desktopPresentation,
+    );
+  };
   // 에러/로딩 상태
-  if (lib.error) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
-  if (lib.isLoading) return <LoadingState compact={compact} />;
+  if (lib.error && !hasContents) return <ErrorState message={lib.error} onRetry={lib.loadContents} compact={compact} />;
+  if (lib.isLoading && !hasContents) return <LoadingState compact={compact} />;
   // 검색 중이 아닌데 콘텐츠가 없으면 빈 상태 표시
   if (!hasContents && !isSearching) return <EmptyState message={resolvedEmptyMessage} compact={compact} />;
 
@@ -102,6 +141,8 @@ export default function ContentLibrary({
         onReviewFilterChange={lib.setReviewFilter}
         viewMode={lib.viewMode}
         onViewModeChange={lib.setViewMode}
+        responsiveDesktopViewMode={lib.responsiveDesktopViewMode}
+        isResponsiveViewUnresolved={lib.isResolvingResponsiveView}
         isAllCollapsed={lib.isAllCollapsed}
         onExpandAll={lib.expandAll}
         onCollapseAll={lib.collapseAll}
@@ -115,64 +156,28 @@ export default function ContentLibrary({
         hideWrapper={hideControlWrapper}
       />
 
-      {/* 콘텐츠 목록 — 재조회 중에도 기존 기록을 읽고 조작할 수 있다. */}
-      <div className="relative">
-        {lib.isRefreshing && (
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-x-2 top-0 z-20 h-px animate-pulse bg-accent shadow-[0_0_10px_color-mix(in_srgb,var(--color-accent)_55%,transparent)]"
-          />
-        )}
-        <div
-          aria-busy={lib.isRefreshing}
-          className="py-8 [overflow-anchor:none]"
-        >
-          {hasFilteredContents ? (
-            isExpandView ? (
-              renderItems(lib.filteredAndSortedContents)
-            ) : showMonthSections && lib.sortOption === "recent" ? (
-              lib.monthKeys.map((monthKey) => {
-                const items = lib.groupedByMonth[monthKey] || [];
-                return (
-                  <MonthSection
-                    key={monthKey}
-                    monthKey={monthKey}
-                    label={lib.formatMonthLabel(monthKey, locale)}
-                    itemCount={items.length}
-                    isCollapsed={lib.collapsedMonths.has(monthKey)}
-                    onToggle={() => lib.toggleMonth(monthKey)}
-                  >
-                    {renderItems(items)}
-                  </MonthSection>
-                );
-              })
-            ) : (
-              renderItems(lib.filteredAndSortedContents)
-            )
-          ) : (
-            <div className="py-12 text-center text-text-secondary">
-              {tArchive("noResults")}
-            </div>
-          )}
-
-          {/* 쪽 넘김 — 재조회 중에도 자리를 지켜야 누른 단추가 눈앞에서 사라지지 않는다 */}
-          {!compact && showPagination && !isExpandView && (
-            <>
-              <hr className="border-white/10 mt-8 mb-8" />
-              <div className="flex justify-center">
-                <Pagination
-                  currentPage={lib.currentPage}
-                  totalPages={lib.totalPages}
-                  onPageChange={lib.setCurrentPage}
-                  pageSize={lib.pageSize}
-                  onPageSizeChange={lib.setPageSize}
-                  showPageSizeSelector
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      <ContentLibraryBody
+        compact={compact}
+        currentPage={lib.currentPage}
+        error={lib.error}
+        hasContents={hasContents}
+        hasFilteredContents={hasFilteredContents}
+        hasResponsiveDefaultView={lib.hasResponsiveDefaultView}
+        isDesktop={lib.isDesktop}
+        isExpandView={isExpandView}
+        isRefreshing={lib.isRefreshing}
+        loadContents={lib.loadContents}
+        noResultsMessage={tArchive("noResults")}
+        onPageChange={lib.setCurrentPage}
+        onPageSizeChange={lib.setPageSize}
+        pageSize={lib.pageSize}
+        presentationViewMode={lib.presentationViewMode}
+        renderContentsForMode={renderContentsForMode}
+        responsiveDefaultViewMode={lib.responsiveDefaultViewMode}
+        responsiveDesktopViewMode={lib.responsiveDesktopViewMode}
+        showPagination={showPagination}
+        totalPages={lib.totalPages}
+      />
 
 
       {/* 개별 삭제 확인 모달 - owner 모드에서만 */}
@@ -188,5 +193,4 @@ export default function ContentLibrary({
       )}
     </div>
   );
-  // #endregion
 }

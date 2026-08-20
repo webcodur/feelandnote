@@ -149,7 +149,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
         <Link href={href} className={containerClass} onClick={handleClick}>
           {cardContent}
         </Link>
-        <CardModals props={props} state={state} />
+        {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
       </div>
     );
   }
@@ -160,7 +160,7 @@ export default function DefaultLayout({ props, state }: DefaultLayoutProps) {
       <div className={containerClass} onClick={handleClick}>
         {cardContent}
       </div>
-      <CardModals props={props} state={state} />
+      {props.effectsEnabled !== false && <CardModals props={props} state={state} />}
     </div>
   );
 }

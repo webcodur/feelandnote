@@ -16,6 +16,7 @@ import type { ViewMode } from "../contentLibraryTypes";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import { useLocale } from "next-intl";
 import ExpandDetailView from "../expand/ExpandDetailView";
+import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
 // #region 타입
 interface ContentItemRendererProps {
@@ -31,6 +32,9 @@ interface ContentItemRendererProps {
   ownerAvatarUrl?: string | null;
   // 뷰어 모드: 보유 콘텐츠 ID 집합 (null = 비로그인)
   savedContentIds?: Set<string> | null;
+  effectsEnabled?: boolean;
+  desktopPresentation?: boolean;
+  initialContentBrief?: ContentBrief | null;
 }
 // #endregion
 
@@ -43,6 +47,9 @@ export default function ContentItemRenderer({
   ownerNickname,
   ownerAvatarUrl,
   savedContentIds,
+  effectsEnabled = true,
+  desktopPresentation = false,
+  initialContentBrief,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
   const [ratingEditTarget, setRatingEditTarget] = useState<{
@@ -65,7 +72,16 @@ export default function ContentItemRenderer({
 
   // 펼침 보기는 카드 격자를 쓰지 않는다 — 목록에서 고른 한 건을 통째로 보여준다
   if (viewMode === "expand") {
-    return <ExpandDetailView items={items} ownerNickname={ownerNickname} ownerAvatarUrl={ownerAvatarUrl} />;
+    return (
+      <ExpandDetailView
+        items={items}
+        ownerNickname={ownerNickname}
+        ownerAvatarUrl={ownerAvatarUrl}
+        isActive={effectsEnabled}
+        desktopPresentation={desktopPresentation}
+        initialContentBrief={initialContentBrief}
+      />
+    );
   }
 
   // 뷰어 보유 여부
@@ -121,6 +137,7 @@ export default function ContentItemRenderer({
               creatorEn={item.content.creator_en}
               thumbnailEn={item.content.thumbnail_en}
               hasEnEdition={item.content.has_en_edition}
+              effectsEnabled={effectsEnabled}
             />
             </div>
           );

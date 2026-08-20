@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import type { GlobeMarker } from "@/components/shared/WorldGlobe";
+import { globeFrameStyle } from "@/components/shared/WorldGlobe/globeLayout";
 import JourneyGlobeModal from "./JourneyGlobeModal";
 import {
   formatTimelinePosition,
@@ -16,7 +17,10 @@ import {
 const WorldGlobe = dynamic(() => import("@/components/shared/WorldGlobe"), {
   ssr: false,
   loading: () => (
-    <div className="h-[320px] rounded border border-accent-dim/20 bg-bg-secondary/60" />
+    <div
+      data-globe-loading
+      className="absolute inset-0 rounded border border-accent-dim/20 bg-bg-secondary/60"
+    />
   ),
 });
 
@@ -50,6 +54,7 @@ export default function JourneyMapPanel({
   const t = useTranslations("celebPage");
   const yearCopy = timelineYearCopy(t);
   const [expanded, setExpanded] = useState(false);
+  const globeMaxHeight = view === "atlas" ? 620 : 460;
   const formatRecordCount = useCallback(
     (count: number) => t("timelineMapRecordCount", { count }),
     [t],
@@ -80,14 +85,17 @@ export default function JourneyMapPanel({
           view === "both" ? "order-first md:order-none" : ""
         }`}
       >
-        <WorldGlobe
-          {...globeProps}
-          maxHeight={view === "atlas" ? 620 : 460}
-          onExpand={() => setExpanded(true)}
-          expandLabel={t("timelineExpandMap")}
-          expandAriaLabel={t("timelineExpandMapLabel")}
-          allowPageScroll
-        />
+        <div data-globe-frame className="relative" style={globeFrameStyle(globeMaxHeight)}>
+          <WorldGlobe
+            {...globeProps}
+            className="h-full"
+            maxHeight={globeMaxHeight}
+            onExpand={() => setExpanded(true)}
+            expandLabel={t("timelineExpandMap")}
+            expandAriaLabel={t("timelineExpandMapLabel")}
+            allowPageScroll
+          />
+        </div>
       </div>
 
       <JourneyGlobeModal

@@ -1,9 +1,7 @@
-'use server'
-
 import { unstable_cache } from 'next/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
-import { LIST_REVALIDATE } from '@/lib/cache'
+import { LIST_REVALIDATE, STATIC_REVALIDATE } from '@/lib/cache'
 import { getCelebLifeEndYear } from '@/lib/celeb/lifespan'
 
 export interface ContemporaryCeleb {
@@ -27,6 +25,12 @@ interface CelebDateRow {
   death_date: string | null
   slug: string | null
   nationality: string | null
+}
+
+export interface CelebLifeSpanRow {
+  id: string
+  birth_date: string | null
+  death_date: string | null
 }
 
 const MAX_CONTEMPORARIES = 30
@@ -68,6 +72,66 @@ const getAllCelebsWithDatesCached = unstable_cache(
   ['celebs-with-dates'],
   { revalidate: LIST_REVALIDATE },
 )
+
+// 상세 페이지의 목차에는 동시대 인물 전체 카드가 아니라 존재 여부만 필요하다.
+// 표시용 1시간 캐시를 페이지 생성 중 읽으면 그 짧은 수명이 인물 상세 전체의
+// 재검증 주기로 전파되므로, 생몰일만 담은 7일 안전망 원장을 따로 둔다.
+// 태그를 붙이지 않아 일반 프로필 수정이 이 공유 원장과 모든 상세를 함께 비우지 않는다.
+async function fetchAllCelebLifeSpans(): Promise<CelebLifeSpanRow[]> {
+  const supabase = createStaticClient()
+  return await selectAllPages<CelebLifeSpanRow>((from, to) =>
+    supabase
+      .from('celebs')
+      .select('id, birth_date, death_date')
+      .eq('publication_status', 'active')
+      .not('birth_date', 'is', null)
+      .order('id')
+      .range(from, to)
+      .overrideTypes<CelebLifeSpanRow[], { merge: false }>()
+  )
+}
+
+const getAllCelebLifeSpansCached = unstable_cache(
+  fetchAllCelebLifeSpans,
+  ['celeb-life-spans-for-presence'],
+  { revalidate: STATIC_REVALIDATE },
+)
+
+export function hasContemporaryOverlap(
+  rows: readonly CelebLifeSpanRow[],
+  celebId: string,
+  birthDate: string,
+  deathDate: string | null,
+): boolean {
+  const birth = parseInt(birthDate)
+  if (isNaN(birth)) return false
+
+  const death = getCelebLifeEndYear(birthDate, deathDate)
+  if (death === null) return false
+
+  return rows.some((row) => {
+    if (row.id === celebId || !row.birth_date) return false
+
+    const candidateBirth = parseInt(row.birth_date)
+    if (isNaN(candidateBirth)) return false
+
+    const candidateDeath = getCelebLifeEndYear(row.birth_date, row.death_date)
+    if (candidateDeath === null) return false
+
+    return birth <= candidateDeath && death >= candidateBirth
+  })
+}
+
+/** 인물 상세 목차용 경량 판정. 첫 겹침에서 멈추며 카드 생성·정렬을 하지 않는다. */
+export async function hasContemporaries(
+  celebId: string,
+  birthDate: string,
+  deathDate: string | null,
+): Promise<boolean> {
+  if (isNaN(parseInt(birthDate))) return false
+  const rows = await getAllCelebLifeSpansCached()
+  return hasContemporaryOverlap(rows, celebId, birthDate, deathDate)
+}
 
 export async function getContemporaries(
   celebId: string,

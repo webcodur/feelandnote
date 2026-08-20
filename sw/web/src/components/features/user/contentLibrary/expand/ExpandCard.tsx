@@ -6,7 +6,7 @@
 */ // ------------------------------
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Star, ZoomIn } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -34,7 +34,7 @@ interface ExpandCardProps {
   ownerAvatarUrl?: string | null;
 }
 
-export default function ExpandCard({
+function ExpandCard({
   item,
   brief,
   isBriefLoading,
@@ -68,13 +68,15 @@ export default function ExpandCard({
               aria-label={tExpand("expandCover")}
               className="group relative mx-auto block h-56 w-36 shrink-0 cursor-zoom-in overflow-hidden rounded-lg border border-white/10 bg-bg-secondary shadow-lg hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:mx-0 sm:h-72 sm:w-48"
             >
-              <ContentImage
-                src={coverUrl}
-                alt={title}
-                sizes="(max-width: 640px) 144px, 192px"
-                className="object-contain"
-                loading={isActive ? "eager" : "lazy"}
-              />
+              {isActive ? (
+                <ContentImage
+                  src={coverUrl}
+                  alt={title}
+                  sizes="(max-width: 640px) 144px, 192px"
+                  className="object-contain"
+                  loading="eager"
+                />
+              ) : null}
               <span className="pointer-events-none absolute inset-0 flex items-end justify-end bg-black/0 p-2 group-hover:bg-black/15">
                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-black/65 text-white/70 opacity-0 group-hover:opacity-100">
                   <ZoomIn size={16} aria-hidden />
@@ -104,7 +106,9 @@ export default function ExpandCard({
           <div className="mb-4 flex items-center gap-3">
             {ownerAvatarUrl && (
               <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full border border-accent/30 bg-bg-secondary">
-                <ContentImage src={ownerAvatarUrl} alt={ownerNickname ?? ""} sizes="40px" className="object-cover" />
+                {isActive ? (
+                  <ContentImage src={ownerAvatarUrl} alt={ownerNickname ?? ""} sizes="40px" className="object-cover" />
+                ) : null}
               </span>
             )}
             <div className="min-w-0">
@@ -163,17 +167,24 @@ export default function ExpandCard({
         </section>
 
         {/* 아랫칸 — 출판사·출판일·ISBN 등 작품의 나머지 정보 */}
-        <ContentMetaPanel brief={brief} isLoading={isBriefLoading} internalHref={href} />
+        <ContentMetaPanel
+          brief={brief}
+          isLoading={isBriefLoading}
+          internalHref={href}
+          mediaEnabled={isActive}
+        />
       </article>
 
-      {coverUrl ? (
+      {isActive && coverUrl && isCoverOpen ? (
         <ImageViewerModal
           src={coverUrl}
           alt={title}
-          isOpen={isCoverOpen}
+          isOpen
           onClose={() => setIsCoverOpen(false)}
         />
       ) : null}
     </>
   );
 }
+
+export default memo(ExpandCard);

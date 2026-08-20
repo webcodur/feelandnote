@@ -13,6 +13,9 @@ export interface ArchiveControlBarProps {
   onReviewFilterChange: (filter: ReviewFilter) => void;
   viewMode: ViewMode;
   onViewModeChange: (mode: ViewMode) => void;
+  /** 서버가 viewport를 아직 모를 때 CSS가 넓은 화면용 전환 버튼을 고른다. */
+  responsiveDesktopViewMode?: ViewMode;
+  isResponsiveViewUnresolved?: boolean;
   isAllCollapsed: boolean;
   onExpandAll: () => void;
   onCollapseAll: () => void;
