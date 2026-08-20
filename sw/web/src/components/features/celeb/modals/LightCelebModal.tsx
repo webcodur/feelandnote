@@ -44,7 +44,6 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
   const isEn = locale === "en";
 
   const displayNickname = (isEn && celeb.nickname_en) || celeb.nickname;
-  const displayHeadline = (isEn && celeb.headline_en) || celeb.headline;
   const displayTitle = (isEn && celeb.title_en) || celeb.title;
   const displayBio = (isEn && celeb.bio_en) || celeb.bio;
   const displayQuotes = (isEn && celeb.quotes_en) || celeb.quotes;
@@ -102,11 +101,9 @@ export default function LightCelebModal({ celeb, isOpen, onClose, zIndex }: Ligh
           />
         </BlurDissolve>
 
-        {displayHeadline ? (
-          <p className="text-xs md:text-sm text-accent font-serif font-bold text-center px-4 mb-1">{displayHeadline}</p>
-        ) : displayTitle ? (
+        {displayTitle && (
           <p className="text-[10px] text-accent font-bold uppercase tracking-[.25em] mb-1">{displayTitle}</p>
-        ) : null}
+        )}
 
         <h2 className="text-2xl md:text-3xl font-black font-serif text-text-primary leading-tight text-center break-all mb-3">
           {displayNickname}

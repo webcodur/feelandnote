@@ -212,14 +212,16 @@ export default function CelebHeroSection({
                   ) : null}
 
                   <div className={styles.identityHeadingCopy}>
-                    {profile.headline ? (
-                      <p className={styles.title}>{profile.headline}</p>
-                    ) : profile.title ? (
+                    {profile.title ? (
                       <p className={styles.title}>{profile.title}</p>
                     ) : null}
                     <h1 className={styles.name}>{nickname}</h1>
                   </div>
                 </div>
+
+                {profile.headline ? (
+                  <p className={styles.headline}>{profile.headline}</p>
+                ) : null}
 
                 <div className={styles.meta}>
                   {professionLabel ? (

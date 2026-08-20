@@ -49,6 +49,12 @@ function titleLabel(input: CelebMetaInput): string {
   return title ? `${title} — ${input.nickname}` : input.nickname;
 }
 
+// 한국어 제목은 대시 대신 쉼표로 잇는다. "A — B"는 한국어 어순에 붙지 않는다.
+function titleLabelKo(input: CelebMetaInput): string {
+  const title = input.title?.trim();
+  return title ? `${title}, ${input.nickname}` : input.nickname;
+}
+
 function sanitizeQuote(raw: string | null | undefined, locale: "ko" | "en"): string | null {
   if (!raw) return null;
   const cleaned = raw
@@ -102,22 +108,26 @@ export function buildCelebTitleKo(input: CelebMetaInput): string {
   const tier = input.tier ?? "full";
   const headline = input.headline?.trim();
   if (tier === "fiction") {
-    if (headline) return `${headline} — ${input.nickname}`;
+    if (headline) return `${headline}, ${input.nickname}`;
     const source = primarySource(input);
     return source
       ? `${input.nickname}, 《${source}》의 등장인물`
-      : titleLabel(input);
+      : titleLabelKo(input);
   }
   if (tier === "light") {
-    if (headline) return `${headline} — ${input.nickname}`;
-    return titleLabel(input);
+    if (headline) return `${headline}, ${input.nickname}`;
+    return titleLabelKo(input);
   }
+  // 앞은 한 줄 정의가 잡아 클릭을 부르고, 뒤의 기록은 잘려도 색인에 남아
+  // 「인물 + 책」류 검색에 걸린다. headline이 없을 때만 수식어로 물러선다.
   const records = countPartsKo(input.counts);
+  const lead = headline ?? identityKo(input);
   if (records.length > 0) {
-    return `${identityKo(input)}${subjectParticle(input.nickname)} ${records.join(", ")}`;
+    const subject = headline ? `${headline}, ${input.nickname}` : identityKo(input);
+    return `${subject}${subjectParticle(input.nickname)} ${records.join(", ")}`;
   }
-  if (headline) return `${headline} — ${input.nickname}`;
-  return `${identityKo(input)}: 인물 정보와 기록`;
+  if (headline) return `${headline}, ${input.nickname}`;
+  return `${lead}: 인물 정보와 기록`;
 }
 
 function descriptionHeadKo(input: CelebMetaInput): string {
@@ -159,13 +169,16 @@ export function buildCelebDescriptionKo(input: CelebMetaInput): string {
 const identityEn = (input: CelebMetaInput) =>
   input.title ? `${input.nickname}, ${input.title}` : input.nickname;
 
+const countedEn = (count: number, singular: string, plural: string) =>
+  `${count} ${count === 1 ? singular : plural}`;
+
 function countPartsEn(counts: ContentCounts): string[] {
   const numbered = totalCount(counts) > COUNT_HIDE_THRESHOLD;
   const parts: string[] = [];
-  if (counts.BOOK > 0) parts.push(numbered ? `${counts.BOOK} books read` : "books read");
-  if (counts.VIDEO > 0) parts.push(numbered ? `${counts.VIDEO} videos watched` : "videos watched");
-  if (counts.MUSIC > 0) parts.push(numbered ? `${counts.MUSIC} songs heard` : "music heard");
-  if (counts.GAME > 0) parts.push(numbered ? `${counts.GAME} games played` : "games played");
+  if (counts.BOOK > 0) parts.push(numbered ? `${countedEn(counts.BOOK, "book", "books")} read` : "books read");
+  if (counts.VIDEO > 0) parts.push(numbered ? `${countedEn(counts.VIDEO, "video", "videos")} watched` : "videos watched");
+  if (counts.MUSIC > 0) parts.push(numbered ? `${countedEn(counts.MUSIC, "song", "songs")} heard` : "music heard");
+  if (counts.GAME > 0) parts.push(numbered ? `${countedEn(counts.GAME, "game", "games")} played` : "games played");
   return parts;
 }
 
@@ -181,9 +194,11 @@ export function buildCelebTitleEn(input: CelebMetaInput): string {
     if (headlineEn) return `${headlineEn} — ${input.nickname}`;
     return titleLabel(input);
   }
+  // 한국어와 같은 구성 — 앞의 한 줄 정의가 클릭을 부르고, 뒤의 기록은 색인에 남는다
   const records = countPartsEn(input.counts);
   if (records.length > 0) {
-    return `${identityEn(input)}: ${records.join(", ")}`;
+    const subject = headlineEn ? `${headlineEn} — ${input.nickname}` : identityEn(input);
+    return `${subject}: ${records.join(", ")}`;
   }
   if (headlineEn) return `${headlineEn} — ${input.nickname}`;
   return `${identityEn(input)}: Biography & Records`;

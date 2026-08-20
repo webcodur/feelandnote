@@ -142,6 +142,17 @@
   text-wrap: balance;
 }
 
+/* 한 줄 정의. 이름 아래 전체 폭을 쓴다 — 아바타 옆 좁은 칸에 넣으면 문장이 접힌다 */
+.headline {
+  margin-top: 10px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.7vw, 20px);
+  font-weight: 600;
+  line-height: 1.45;
+  text-wrap: balance;
+}
+
 .meta {
   display: flex;
   margin-top: 14px;

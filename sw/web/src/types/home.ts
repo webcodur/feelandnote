@@ -37,8 +37,6 @@ export interface CelebProfile {
   profession: string | null
   title: string | null  // 수식어 (예: 테슬라 창립자, 철의 여인)
   title_en: string | null
-  headline?: string | null  // 한 줄 정의 (예: 그리스군 최강의 전사)
-  headline_en?: string | null
   nationality: string | null  // 국적
   birth_date: string | null   // 출생연일
   death_date: string | null   // 사망연일

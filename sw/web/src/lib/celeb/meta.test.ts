@@ -29,6 +29,26 @@ test("full title describes only real viewing records", () => {
   );
 });
 
+test("full title leads with the headline while preserving viewing records", () => {
+  const input: CelebMetaInput = {
+    nickname: "젠슨 황",
+    title: "엔비디아 CEO",
+    headline: "AI 가속 컴퓨팅 시대를 연 엔비디아의 수장",
+    headline_en: "The Nvidia chief who ushered in accelerated AI computing",
+    tier: "full",
+    counts: { ...emptyCounts, BOOK: 5, GAME: 1 },
+  };
+
+  assert.equal(
+    buildCelebTitleKo(input),
+    "AI 가속 컴퓨팅 시대를 연 엔비디아의 수장, 젠슨 황이 감상한 책 5권, 즐긴 게임 1개",
+  );
+  assert.equal(
+    buildCelebTitleEn({ ...input, nickname: "Jensen Huang" }),
+    "The Nvidia chief who ushered in accelerated AI computing — Jensen Huang: 5 books read, 1 game played",
+  );
+});
+
 test("full profile without records does not claim recommendations", () => {
   const input: CelebMetaInput = {
     nickname: "기록 없는 인물",
@@ -49,17 +69,17 @@ test("light title keeps the existing modifier without inventing a page summary",
     counts: emptyCounts,
   };
 
-  assert.equal(buildCelebTitleKo(input), "군사좨주 — 곽가");
+  assert.equal(buildCelebTitleKo(input), "군사좨주, 곽가");
   assert.equal(
     buildCelebTitleEn({ ...input, nickname: "Guo Jia", title: "Army Libationer" }),
     "Army Libationer — Guo Jia",
   );
 
   const variedTitles = [
-    ["강감찬", "귀주대첩", "귀주대첩 — 강감찬"],
-    ["김고은", "도깨비", "도깨비 — 김고은"],
-    ["마리아 칼라스", "라 디비나", "라 디비나 — 마리아 칼라스"],
-    ["클레오파트라", "마지막 파라오", "마지막 파라오 — 클레오파트라"],
+    ["강감찬", "귀주대첩", "귀주대첩, 강감찬"],
+    ["김고은", "도깨비", "도깨비, 김고은"],
+    ["마리아 칼라스", "라 디비나", "라 디비나, 마리아 칼라스"],
+    ["클레오파트라", "마지막 파라오", "마지막 파라오, 클레오파트라"],
   ] as const;
   for (const [nickname, title, expected] of variedTitles) {
     assert.equal(buildCelebTitleKo({ ...input, nickname, title }), expected);
@@ -132,7 +152,7 @@ test("fiction without a linked source falls back to its existing title", () => {
   };
   const en = buildCelebDescriptionEn(enInput);
 
-  assert.equal(buildCelebTitleKo(input), "에티오피아의 왕 — 멤논");
+  assert.equal(buildCelebTitleKo(input), "에티오피아의 왕, 멤논");
   assert.equal(buildCelebTitleEn(enInput), "King of Ethiopia — Memnon");
   assert.equal(buildCelebTitleKo({ ...input, title: null }), "멤논");
   assert.match(ko, /인물 안내와 탐구/);
@@ -154,7 +174,7 @@ test("headline takes priority for fiction and light profiles", () => {
     sourceWorks: [{ title: "《일리아스》", relationType: "origin" }],
   };
 
-  assert.equal(buildCelebTitleKo(fictionInput), "그리스군 최강의 전사 — 아킬레우스");
+  assert.equal(buildCelebTitleKo(fictionInput), "그리스군 최강의 전사, 아킬레우스");
   assert.equal(buildCelebTitleEn(fictionInput), "The Greatest Warrior of the Achaean Army — 아킬레우스");
 
   const lightInput: CelebMetaInput = {
@@ -166,7 +186,6 @@ test("headline takes priority for fiction and light profiles", () => {
     counts: emptyCounts,
   };
 
-  assert.equal(buildCelebTitleKo(lightInput), "워런 버핏의 60년 지혜이자 평생 파트너 — 찰리 멍거");
+  assert.equal(buildCelebTitleKo(lightInput), "워런 버핏의 60년 지혜이자 평생 파트너, 찰리 멍거");
   assert.equal(buildCelebTitleEn(lightInput), "Warren Buffett's Lifelong Partner and Mentor — 찰리 멍거");
 });
-
