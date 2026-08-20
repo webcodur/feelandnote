@@ -4,10 +4,11 @@
 */
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useId, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
+import { CATEGORIES } from "@/constants/categories";
 import { getLocalizedContent } from "@/lib/utils/editions";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,11 @@ import { DESKTOP_LAYOUT_QUERY, useDesktopLayout } from "../useDesktopLayout";
 import { getContainedListScrollDelta } from "./containedListScroll";
 import ExpandCard from "./ExpandCard";
 import ExpandIndexRail from "./ExpandIndexRail";
+import {
+  getExpandIndexNavigationOrder,
+  getExpandIndexNeighbor,
+  groupExpandIndexItems,
+} from "./groupExpandIndexItems";
 import {
   ExpandArrowButton,
   ExpandBottomNavigation,
@@ -27,6 +33,8 @@ interface ExpandDetailViewProps {
   ownerNickname?: string;
   ownerAvatarUrl?: string | null;
 }
+
+const CATEGORY_DB_ORDER = CATEGORIES.map((category) => category.dbType);
 
 export default function ExpandDetailView({
   items,
@@ -47,6 +55,26 @@ export default function ExpandDetailView({
   const isIndexOpen = indexPreference ?? isDesktop;
   const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
   const { brief, isLoading: isBriefLoading } = useContentBrief(contentIds, selectedIndex);
+  const presentation = useMemo(() => {
+    const localized = items.map((item) => getLocalizedContent(item.content, locale));
+    const titles = localized.map((content) => content.title);
+    return {
+      titles,
+      creators: localized.map((content) => content.creator?.replace(/\^/g, ", ") ?? null),
+      groups: groupExpandIndexItems(
+        {
+          itemIds: items.map((item) => item.id),
+          titles,
+          contentTypes: items.map((item) => item.content.type),
+        },
+        CATEGORY_DB_ORDER,
+      ),
+    };
+  }, [items, locale]);
+  const navigationOrder = useMemo(
+    () => getExpandIndexNavigationOrder(presentation.groups),
+    [presentation.groups],
+  );
 
   const [renderedItems, setRenderedItems] = useState(items);
   if (renderedItems !== items) {
@@ -54,24 +82,21 @@ export default function ExpandDetailView({
     setIndex(0);
   }
 
-  useEffect(() => {
+  const keepIndexItemVisible = useCallback((itemIndex: number) => {
     const nav = indexNavRef.current;
-    const item = indexItemRefs.current[selectedIndex];
-    if (!nav || !item) return;
+    const item = indexItemRefs.current[itemIndex];
+    if (!nav || !item || item.closest("[inert]")) return;
     const delta = getContainedListScrollDelta(
       nav.getBoundingClientRect(),
       item.getBoundingClientRect(),
     );
     if (delta !== 0) nav.scrollTop += delta;
-  }, [selectedIndex]);
+  }, []);
 
   if (total === 0) return null;
 
-  const localized = items.map((item) => getLocalizedContent(item.content, locale));
-  const titles = localized.map((content) => content.title);
-  const creators = localized.map((content) => content.creator?.replace(/\^/g, ", ") ?? null);
-  const previousIndex = selectedIndex === 0 ? total - 1 : selectedIndex - 1;
-  const nextIndex = selectedIndex >= total - 1 ? 0 : selectedIndex + 1;
+  const previousIndex = getExpandIndexNeighbor(navigationOrder, selectedIndex, -1);
+  const nextIndex = getExpandIndexNeighbor(navigationOrder, selectedIndex, 1);
   const isNavigationDisabled = total <= 1;
 
   const selectIndex = (next: number) => {
@@ -99,9 +124,7 @@ export default function ExpandDetailView({
         onClick={selectPrevious}
       />
       <ExpandIndexRail
-        itemIds={items.map((item) => item.id)}
-        titles={titles}
-        contentTypes={items.map((item) => item.content.type)}
+        groups={presentation.groups}
         selectedIndex={selectedIndex}
         isOpen={isIndexOpen}
         indexId={indexId}
@@ -115,10 +138,11 @@ export default function ExpandDetailView({
         }}
         onToggle={() => setIndexPreference(!isIndexOpen)}
         onSelect={selectIndex}
+        onSelectedItemReady={keepIndexItemVisible}
       />
       <ExpandTitleHeader
-        title={titles[selectedIndex]}
-        creator={creators[selectedIndex]}
+        title={presentation.titles[selectedIndex]}
+        creator={presentation.creators[selectedIndex]}
         previousLabel={t("expandPrev")}
         nextLabel={t("expandNext")}
         disabled={isNavigationDisabled}
