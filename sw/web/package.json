@@ -11,6 +11,7 @@
     "test:seo-infra": "tsx --test src/lib/seoImageOrigin.test.ts src/middleware.test.ts",
     "test:render-mode": "tsx --test src/lib/render-mode.test.ts",
     "check:timeline-scroll": "node scripts/check-celeb-timeline-scroll.mjs",
+    "check:content-expand-scroll": "node scripts/check-content-expand-scroll.mjs",
     "check:memory-audio": "node scripts/check-memory-match-audio.mjs",
     "celeb:qid": "node scripts/bulk-qid.mjs",
     "avatar:prune-old": "node scripts/delete-old-avatars.mjs",
@@ -19,6 +20,7 @@
     "icons:android": "node scripts/generate-android-launcher-icons.mjs",
     "test:memory-audio": "tsx --test src/components/features/game/memory/audioPlan.test.ts",
     "test:memory-selection": "tsx --test src/components/features/game/memory/selection.test.ts",
+    "test:globe": "tsx --test src/components/shared/WorldGlobe/globeSpin.test.ts",
     "test:content-expand": "tsx --test src/components/features/user/contentLibrary/expand/*.test.ts",
     "test:content-locale": "tsx --test src/lib/utils/content-locale-text.test.ts"
   },

@@ -52,6 +52,39 @@ export type MarkerPulse = {
   duration: number;
 };
 
+/**
+ * Focus animations are intentionally deferred until the canvas is visible.
+ * The journey map is mounted below the fold on the celeb page, so starting
+ * the initial pulse while it is offscreen needlessly keeps the main thread
+ * busy for the full pulse duration.
+ */
+export function canStartFocusAnimation(
+  ready: boolean,
+  focusId: string | null,
+  isViewportVisible: boolean,
+  ticket: string,
+  completedTicket: string,
+): boolean {
+  return (
+    ready &&
+    focusId !== null &&
+    isViewportVisible &&
+    ticket !== completedTicket
+  );
+}
+
+/**
+ * A visibility callback and an already queued animation frame can observe
+ * the hide in either order. Keep the interruption decision independent from
+ * the animation flags so either order can release the focus ticket.
+ */
+export function hasInterruptedFocusTicket(
+  isViewportVisible: boolean,
+  activeFocusTicket: string | null,
+): boolean {
+  return !isViewportVisible && activeFocusTicket !== null;
+}
+
 export function pulseProgress(pulse: MarkerPulse, now: number): number | null {
   const t = (now - pulse.start) / pulse.duration;
   if (t < 0 || t >= 1) return null;

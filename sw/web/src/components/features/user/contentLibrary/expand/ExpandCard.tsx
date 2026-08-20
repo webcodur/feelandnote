@@ -21,7 +21,6 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import ContentIntro from "./ContentIntro";
 import ContentMetaPanel from "./ContentMetaPanel";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
-import { useWheelBoundaryPassThrough } from "./useWheelBoundaryPassThrough";
 
 interface ExpandCardProps {
   item: UserContentWithContent;
@@ -47,7 +46,6 @@ export default function ExpandCard({
   // 감상문 관련 문구(출처·스포일러·원문 안내)는 목록 카드와 같은 묶음을 쓴다
   const t = useTranslations("content");
   const tExpand = useTranslations("archiveSearch");
-  const reviewScrollRef = useWheelBoundaryPassThrough();
   const [isCoverOpen, setIsCoverOpen] = useState(false);
 
   const { title } = getLocalizedContent(item.content, locale);
@@ -129,11 +127,9 @@ export default function ExpandCard({
                   {t("reviewModal.originalLanguage")}
                 </p>
               )}
-            {/* 감상배경은 여섯 줄 높이까지만 펼치고, 나머지는 이 칸 안에서 읽는다.
-                출처는 스크롤 칸 밖에 남겨 긴 글에서도 바로 확인할 수 있게 한다. */}
+              {/* 긴 감상배경도 문서 흐름에 전부 펼쳐 휠과 터치 스크롤을 한 축으로 유지한다. */}
               <div
-                ref={reviewScrollRef}
-                className="custom-scrollbar max-h-[11.1em] min-w-0 w-full overflow-y-auto whitespace-pre-line break-words pe-2 font-sans text-[15px] leading-[1.85] text-text-secondary"
+                className="min-w-0 w-full whitespace-pre-line break-words font-sans text-[15px] leading-[1.85] text-text-secondary"
               >
                 <FormattedText text={review} />
               </div>

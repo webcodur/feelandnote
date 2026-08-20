@@ -10,6 +10,8 @@ import * as topojson from "topojson-client";
 import { localizeCountryName } from "./countryNamesKo";
 import {
   PULSE_MS,
+  canStartFocusAnimation,
+  hasInterruptedFocusTicket,
   isNearRotation,
   pulseProgress,
   pulseRing,
@@ -359,6 +361,7 @@ export default function WorldGlobe({
   const detailedMapPromiseRef = useRef<Promise<void> | null>(null);
   const [ready, setReady] = useState(false);
   const [detailedReady, setDetailedReady] = useState(false);
+  const [isViewportVisible, setIsViewportVisible] = useState(false);
   const [hoverId, setHoverId] = useState<string | null>(null);
   /* 손끝이 닿은 나라 이름 — 지도만으로는 어디가 어딘지 알 수 없어 아래 띠에 적는다 */
   const [hoverCountry, setHoverCountry] = useState<string | null>(null);
@@ -379,6 +382,10 @@ export default function WorldGlobe({
   const pulseRafRef = useRef(0);
   const pulseRef = useRef<MarkerPulse | null>(null);
   const mountedRef = useRef(true);
+  const viewportVisibleRef = useRef(false);
+  const reducedMotionRef = useRef(false);
+  const doneFocusRef = useRef("");
+  const activeFocusAnimationRef = useRef<string | null>(null);
   const draggingRef = useRef(false);
   const wheelActiveRef = useRef(false);
   const wheelIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -470,6 +477,7 @@ export default function WorldGlobe({
 
   /* ── 그리기 ── */
   const draw = useCallback(() => {
+    if (!viewportVisibleRef.current) return;
     const canvas = canvasRef.current;
     const baseMap = baseMapRef.current;
     if (!canvas || !baseMap) return;
@@ -869,6 +877,7 @@ export default function WorldGlobe({
   drawRef.current = draw;
 
   const requestDraw = useCallback(() => {
+    if (!viewportVisibleRef.current) return;
     cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => drawRef.current());
   }, []);
@@ -902,8 +911,8 @@ export default function WorldGlobe({
   }, [locale, visitedRegions]);
 
   useEffect(() => {
-    if (ready) requestDraw();
-  }, [ready, requestDraw]);
+    if (ready && isViewportVisible) requestDraw();
+  }, [isViewportVisible, ready, requestDraw]);
 
   const scheduleZoomSettle = useCallback(() => {
     wheelActiveRef.current = true;
@@ -957,19 +966,82 @@ export default function WorldGlobe({
     spinningRef.current = false;
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return;
+    }
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      reducedMotionRef.current = media.matches;
+    };
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
   const cancelPulse = useCallback(() => {
     cancelAnimationFrame(pulseRafRef.current);
     pulseRafRef.current = 0;
     pulseRef.current = null;
   }, []);
 
+  const releaseInterruptedFocusTicket = useCallback(() => {
+    if (
+      !hasInterruptedFocusTicket(
+        viewportVisibleRef.current,
+        activeFocusAnimationRef.current,
+      )
+    ) {
+      return;
+    }
+    doneFocusRef.current = "";
+    activeFocusAnimationRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      viewportVisibleRef.current = true;
+      setIsViewportVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      const visible = entry?.isIntersecting ?? false;
+      viewportVisibleRef.current = visible;
+      setIsViewportVisible((current) => (current === visible ? current : visible));
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (isViewportVisible) return;
+    // This can run before or after a queued animation frame. The helper keeps
+    // both orderings from leaving a completed ticket behind.
+    releaseInterruptedFocusTicket();
+    cancelSpin();
+    cancelPulse();
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
+  }, [cancelPulse, cancelSpin, isViewportVisible, releaseInterruptedFocusTicket]);
+
   const runPulseLoop = useCallback(() => {
     if (pulseRafRef.current || spinningRef.current) return;
     const step = (now: number) => {
       const current = pulseRef.current;
+      if (!viewportVisibleRef.current) {
+        releaseInterruptedFocusTicket();
+        pulseRef.current = null;
+        pulseRafRef.current = 0;
+        return;
+      }
       if (!current || pulseProgress(current, now) == null) {
         pulseRef.current = null;
         pulseRafRef.current = 0;
+        activeFocusAnimationRef.current = null;
         requestDraw();
         return;
       }
@@ -977,15 +1049,21 @@ export default function WorldGlobe({
       pulseRafRef.current = requestAnimationFrame(step);
     };
     pulseRafRef.current = requestAnimationFrame(step);
-  }, [requestDraw]);
+  }, [releaseInterruptedFocusTicket, requestDraw]);
 
   const startPulse = useCallback(
     (id: string) => {
-      if (spinningRef.current) return;
+      if (spinningRef.current || !viewportVisibleRef.current) return;
       setUnknownMark(0);
       cancelAnimationFrame(pulseRafRef.current);
       pulseRafRef.current = 0;
       pulseRef.current = { id, start: performance.now(), duration: PULSE_MS };
+      if (reducedMotionRef.current) {
+        pulseRef.current = null;
+        activeFocusAnimationRef.current = null;
+        drawRef.current();
+        return;
+      }
       drawRef.current();
       runPulseLoop();
     },
@@ -1006,6 +1084,15 @@ export default function WorldGlobe({
         return;
       }
 
+      if (reducedMotionRef.current) {
+        cancelPulse();
+        rotationRef.current = to;
+        backgroundDirtyRef.current = true;
+        requestDraw();
+        onArrive?.();
+        return;
+      }
+
       cancelPulse();
       setUnknownMark(0);
       const duration = spinDurationMs(from, to);
@@ -1013,6 +1100,12 @@ export default function WorldGlobe({
       spinningRef.current = true;
 
       const step = (now: number) => {
+        if (!viewportVisibleRef.current) {
+          releaseInterruptedFocusTicket();
+          spinningRef.current = false;
+          spinRafRef.current = 0;
+          return;
+        }
         const t = Math.min(1, (now - started) / duration);
         rotationRef.current = rotationAt(from, to, t);
         backgroundDirtyRef.current = true;
@@ -1029,22 +1122,30 @@ export default function WorldGlobe({
       };
       spinRafRef.current = requestAnimationFrame(step);
     },
-    [cancelPulse, cancelSpin, requestDraw],
+    [cancelPulse, cancelSpin, releaseInterruptedFocusTicket, requestDraw],
   );
 
   /* ── 지정된 좌표로 돌리기 ──
      같은 지시를 두 번 수행하지 않도록 표를 끊어 둔다. 이 처리는 다시 그릴 때마다
      딸려 재실행되는데(마우스가 점 위를 스치기만 해도 그렇다), 그때마다 회전을
      되돌리면 사용자가 손으로 돌려 놓은 각도가 제자리로 튕겨 간다. */
-  const doneFocusRef = useRef("");
   useEffect(() => {
-    if (!ready || !focusId) return;
+    if (!ready || !focusId || !isViewportVisible) return;
     const ticket = `${focusId}#${focusKey}`;
-    if (doneFocusRef.current === ticket) return;
+    if (
+      !canStartFocusAnimation(
+        ready,
+        focusId,
+        isViewportVisible,
+        ticket,
+        doneFocusRef.current,
+      )
+    ) return;
     const target = ordered.find((m) => m.id === focusId);
     if (!target) return;
     const firstLook = !doneFocusRef.current;
     doneFocusRef.current = ticket;
+    activeFocusAnimationRef.current = ticket;
     const to: [number, number] = [-target.lng, -target.lat];
     if (firstLook) {
       rotationRef.current = to;
@@ -1057,12 +1158,13 @@ export default function WorldGlobe({
       return;
     }
     startSpin(to, () => startPulse(target.id));
-  }, [focusId, focusKey, ordered, ready, requestDraw, startPulse, startSpin]);
+  }, [focusId, focusKey, isViewportVisible, ordered, ready, requestDraw, startPulse, startSpin]);
 
   useEffect(() => {
     if (!unknownKey) return;
     cancelSpin();
     cancelPulse();
+    activeFocusAnimationRef.current = null;
     setUnknownMark(unknownKey);
   }, [cancelPulse, cancelSpin, unknownKey]);
 
@@ -1100,6 +1202,7 @@ export default function WorldGlobe({
       setHoverCountry(null);
       cancelPulse();
       cancelSpin();
+      activeFocusAnimationRef.current = null;
       draggingRef.current = true;
       movedRef.current = false;
       dragStartRef.current = {
@@ -1247,6 +1350,7 @@ export default function WorldGlobe({
       const hit = hitTest(e.clientX, e.clientY);
       if (hit) {
         cancelSpin();
+        activeFocusAnimationRef.current = null;
         startPulse(hit);
         onSelect(hit);
       }
@@ -1267,6 +1371,7 @@ export default function WorldGlobe({
 
   const handleReset = useCallback(() => {
     cancelSpin();
+    activeFocusAnimationRef.current = null;
     rotationRef.current = homeRotation;
     zoomRef.current = homeZoom;
     backgroundDirtyRef.current = true;
