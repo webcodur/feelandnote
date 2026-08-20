@@ -16,7 +16,6 @@ import type { CategoryId } from "@/constants/categories";
 
 import { normalizeContentIntroText, selectContentIntroText } from "./contentIntroText";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
-import { useWheelBoundaryPassThrough } from "./useWheelBoundaryPassThrough";
 
 // 매체마다 제목을 달리 붙인다 — 영화를 "작품 소개"라 부르면 무엇의 소개인지 흐려진다
 const INTRO_HEADING_KEY: Record<CategoryId, string> = {
@@ -34,7 +33,7 @@ const PROVIDER_LABEL: Record<ContentIntroSource["provider"], string> = {
 };
 
 const BODY_CLASS =
-  "custom-scrollbar max-h-56 overflow-y-auto whitespace-pre-wrap pe-2 text-sm leading-relaxed text-text-secondary sm:max-h-72";
+  "whitespace-pre-wrap text-sm leading-relaxed text-text-secondary";
 
 interface ContentIntroProps {
   brief: ContentBrief | null;
@@ -44,7 +43,6 @@ interface ContentIntroProps {
 export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const headingId = useId();
-  const scrollRef = useWheelBoundaryPassThrough();
   const [pickedProvider, setPickedProvider] = useState<ContentIntroSource["provider"] | null>(null);
 
   if (isLoading) {
@@ -79,7 +77,7 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
       )}
 
       {text ? (
-        <div ref={scrollRef} className={BODY_CLASS}>
+        <div className={BODY_CLASS}>
           <FormattedText text={text} />
         </div>
       ) : active ? (
@@ -108,7 +106,7 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
             </div>
           )}
 
-          <div ref={scrollRef} className={BODY_CLASS}>
+          <div className={BODY_CLASS}>
             <FormattedText text={normalizeContentIntroText(active.text)} />
           </div>
 

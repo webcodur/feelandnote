@@ -36,6 +36,11 @@ interface ExpandDetailViewProps {
 
 const CATEGORY_DB_ORDER = CATEGORIES.map((category) => category.dbType);
 
+interface ExpandSelection {
+  contentId: string | null;
+  keepIndexItemVisible: boolean;
+}
+
 export default function ExpandDetailView({
   items,
   ownerNickname,
@@ -45,13 +50,22 @@ export default function ExpandDetailView({
   const locale = useLocale();
   const indexId = useId();
   const isDesktop = useDesktopLayout();
-  const [index, setIndex] = useState(0);
+  const [selection, setSelection] = useState<ExpandSelection>(() => ({
+    contentId: items[0]?.content_id ?? null,
+    keepIndexItemVisible: false,
+  }));
   const [indexPreference, setIndexPreference] = useState<boolean | null>(null);
+  const [collapsedGroupTypes, setCollapsedGroupTypes] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
   const indexNavRef = useRef<HTMLElement | null>(null);
   const indexItemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const total = items.length;
-  const selectedIndex = Math.min(index, Math.max(0, total - 1));
+  const selectedItemIndex = selection.contentId
+    ? items.findIndex((item) => item.content_id === selection.contentId)
+    : -1;
+  const selectedIndex = selectedItemIndex >= 0 ? selectedItemIndex : 0;
   const isIndexOpen = indexPreference ?? isDesktop;
   const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
   const { brief, isLoading: isBriefLoading } = useContentBrief(contentIds, selectedIndex);
@@ -76,12 +90,6 @@ export default function ExpandDetailView({
     [presentation.groups],
   );
 
-  const [renderedItems, setRenderedItems] = useState(items);
-  if (renderedItems !== items) {
-    setRenderedItems(items);
-    setIndex(0);
-  }
-
   const keepIndexItemVisible = useCallback((itemIndex: number) => {
     const nav = indexNavRef.current;
     const item = indexItemRefs.current[itemIndex];
@@ -92,19 +100,70 @@ export default function ExpandDetailView({
     );
     if (delta !== 0) nav.scrollTop += delta;
   }, []);
-
-  if (total === 0) return null;
+  const setIndexItemRef = useCallback(
+    (itemIndex: number, element: HTMLButtonElement | null) => {
+      indexItemRefs.current[itemIndex] = element;
+    },
+    [],
+  );
 
   const previousIndex = getExpandIndexNeighbor(navigationOrder, selectedIndex, -1);
   const nextIndex = getExpandIndexNeighbor(navigationOrder, selectedIndex, 1);
   const isNavigationDisabled = total <= 1;
 
-  const selectIndex = (next: number) => {
-    setIndex(next);
-    if (!window.matchMedia(DESKTOP_LAYOUT_QUERY).matches) setIndexPreference(false);
-  };
-  const selectPrevious = () => selectIndex(previousIndex);
-  const selectNext = () => selectIndex(nextIndex);
+  const selectIndex = useCallback(
+    (next: number, keepIndexItemVisible: boolean) => {
+      const nextItem = items[next];
+      if (!nextItem) return;
+
+      setSelection({
+        contentId: nextItem.content_id,
+        keepIndexItemVisible,
+      });
+
+      if (keepIndexItemVisible) {
+        const targetGroupType = presentation.groups.find((group) =>
+          group.items.some((item) => item.originalIndex === next),
+        )?.dbType;
+        if (targetGroupType) {
+          setCollapsedGroupTypes((current) => {
+            if (!current.has(targetGroupType)) return current;
+            const expanded = new Set(current);
+            expanded.delete(targetGroupType);
+            return expanded;
+          });
+        }
+      }
+
+      if (!window.matchMedia(DESKTOP_LAYOUT_QUERY).matches) setIndexPreference(false);
+    },
+    [items, presentation.groups],
+  );
+  const selectDirectly = useCallback(
+    (next: number) => selectIndex(next, false),
+    [selectIndex],
+  );
+  const selectPrevious = useCallback(
+    () => selectIndex(previousIndex, true),
+    [previousIndex, selectIndex],
+  );
+  const selectNext = useCallback(
+    () => selectIndex(nextIndex, true),
+    [nextIndex, selectIndex],
+  );
+  const toggleIndex = useCallback(() => {
+    setIndexPreference((current) => !(current ?? isDesktop));
+  }, [isDesktop]);
+  const toggleGroup = useCallback((dbType: string) => {
+    setCollapsedGroupTypes((current) => {
+      const next = new Set(current);
+      if (next.has(dbType)) next.delete(dbType);
+      else next.add(dbType);
+      return next;
+    });
+  }, []);
+
+  if (total === 0) return null;
 
   return (
     <section
@@ -129,15 +188,18 @@ export default function ExpandDetailView({
         isOpen={isIndexOpen}
         indexId={indexId}
         navRef={indexNavRef}
-        itemRefs={indexItemRefs}
+        setItemRef={setIndexItemRef}
         labels={{
           list: t("expandIndexLabel"),
           title: t("expandIndexTitle"),
           expand: t("expandIndexExpand"),
           collapse: t("expandIndexCollapse"),
         }}
-        onToggle={() => setIndexPreference(!isIndexOpen)}
-        onSelect={selectIndex}
+        collapsedGroupTypes={collapsedGroupTypes}
+        keepSelectedItemVisible={selection.keepIndexItemVisible}
+        onToggle={toggleIndex}
+        onToggleGroup={toggleGroup}
+        onSelect={selectDirectly}
         onSelectedItemReady={keepIndexItemVisible}
       />
       <ExpandTitleHeader

@@ -1,6 +1,6 @@
 "use client";
 
-import type { MutableRefObject, RefObject } from "react";
+import type { RefObject } from "react";
 import { Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -17,14 +17,17 @@ interface ExpandIndexRailProps {
   isOpen: boolean;
   indexId: string;
   navRef: RefObject<HTMLElement | null>;
-  itemRefs: MutableRefObject<(HTMLButtonElement | null)[]>;
+  setItemRef: (index: number, element: HTMLButtonElement | null) => void;
   labels: {
     list: string;
     title: string;
     expand: string;
     collapse: string;
   };
+  collapsedGroupTypes: ReadonlySet<string>;
+  keepSelectedItemVisible: boolean;
   onToggle: () => void;
+  onToggleGroup: (dbType: string) => void;
   onSelect: (index: number) => void;
   onSelectedItemReady: (index: number) => void;
 }
@@ -35,9 +38,12 @@ export default function ExpandIndexRail({
   isOpen,
   indexId,
   navRef,
-  itemRefs,
+  setItemRef,
   labels,
+  collapsedGroupTypes,
+  keepSelectedItemVisible,
   onToggle,
+  onToggleGroup,
   onSelect,
   onSelectedItemReady,
 }: ExpandIndexRailProps) {
@@ -86,16 +92,23 @@ export default function ExpandIndexRail({
           >
             {groups.map((group) => {
               const category = getCategoryByDbType(group.dbType);
+              const selectedEntry = group.items.find(
+                (item) => item.originalIndex === selectedIndex,
+              );
               return (
                 <ExpandIndexGroup
                   key={group.dbType}
+                  groupKey={group.dbType}
                   headingId={`${indexId}-${group.dbType}`}
                   label={category ? t(`category.${category.id}`) : group.dbType}
                   Icon={category?.lucideIcon}
                   isOpen={isOpen}
-                  selectedIndex={selectedIndex}
+                  isExpanded={!collapsedGroupTypes.has(group.dbType)}
+                  selectedIndex={selectedEntry?.originalIndex ?? null}
+                  keepSelectedItemVisible={keepSelectedItemVisible && !!selectedEntry}
                   items={group.items}
-                  itemRefs={itemRefs}
+                  setItemRef={setItemRef}
+                  onToggle={onToggleGroup}
                   onSelect={onSelect}
                   onSelectedItemReady={onSelectedItemReady}
                 />
