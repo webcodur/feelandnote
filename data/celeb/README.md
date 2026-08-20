@@ -10,6 +10,10 @@ data/celeb/
 ├── dialogue/
 │   ├── 01-괴테.md ... 12-박상영.md
 │   └── _unregistered/{nickname}.json
+├── headline-rewrite/
+│   ├── ledger/lane-NN.json
+│   ├── packs/
+│   └── drafts/
 ├── viewing-research/
 │   └── YYYY-MM-DD-<scope>.md
 └── virtual-monologue/
@@ -17,6 +21,11 @@ data/celeb/
     ├── dossiers/
     └── drafts/
 ```
+
+### `headline-rewrite/`
+
+한 줄 정의 전량 개편의 레인별 원장·팩·초안이다. 호출은 `celeb-headline-rewrite` 스킬, 룰은
+`docs/project/celeb/celeb-1-basic-profile.md` 한 줄 정의 절이다. 서비스 값의 원천은 DB다.
 
 ### `dialogue/`
 
