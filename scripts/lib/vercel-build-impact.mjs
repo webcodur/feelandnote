@@ -6,6 +6,8 @@ const ROOT_BUILD_FILES = new Set([
   'pnpmfile.cjs',
 ])
 
+export const VERCEL_BUILD_DIFF_FILTER = 'ACDMRTUXB'
+
 const SHARED_BUILD_PREFIXES = [
   'packages/',
   'patches/',
