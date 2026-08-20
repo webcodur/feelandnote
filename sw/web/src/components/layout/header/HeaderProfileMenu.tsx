@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Users, Rss, Megaphone, MessageSquare, NotebookPen } from "lucide-react";
+import { Users, Rss, Megaphone, MessageSquare } from "lucide-react";
 import { RomanGateIcon, BustIcon } from "@/components/ui/icons/neo-pantheon";
 import Button from "@/components/ui/Button";
 import LocaleSwitcher from "@/components/shared/LocaleSwitcher";
@@ -27,7 +27,6 @@ interface HeaderProfileMenuProps {
 export default function HeaderProfileMenu({ profile, isLoggedIn = true }: HeaderProfileMenuProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const t = useTranslations("layout.profile");
-  const tLayout = useTranslations("layout");
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -108,18 +107,6 @@ export default function HeaderProfileMenu({ profile, isLoggedIn = true }: Header
             >
               <BustIcon size={16} className="text-text-secondary" />
               {t("myPage")}
-            </Link>
-          </div>
-
-          {/* 감상 모드 */}
-          <div className="border-t border-border py-1">
-            <Link
-              href="/reading"
-              onClick={() => setShowDropdown(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 no-underline text-text-primary"
-            >
-              <NotebookPen size={16} className="text-text-secondary" />
-              {tLayout("readingMode")}
             </Link>
           </div>
 

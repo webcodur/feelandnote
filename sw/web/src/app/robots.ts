@@ -31,7 +31,6 @@ const COMMON_DISALLOW = [
   '/search',
   '/en/search',
   '/lab',
-  '/reading',
   '/*/reading',
   '/*/chamber',
   '/*/merits',

@@ -5,7 +5,7 @@ import { routing } from './routing';
 /** 메시지 네임스페이스 — 추가 시 여기만 수정 */
 const NAMESPACES = [
   'core', 'nav', 'home', 'auth', 'explore', 'agora',
-  'library', 'content', 'profile', 'celeb', 'rest', 'flow', 'reading',
+  'library', 'content', 'profile', 'celeb', 'rest', 'flow',
   'moderation',
   // 신작 게임 2차 물결 — 게임마다 자기 문구 파일을 갖는다 (docs/games/experimental/README.md)
   'game-grid', 'game-groups', 'game-proximity', 'game-travel',
