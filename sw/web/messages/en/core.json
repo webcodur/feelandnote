@@ -40,7 +40,6 @@
     "INTERNAL_ERROR": "Something went wrong. Please try again shortly."
   },
   "layout": {
-    "readingMode": "Reading Mode",
     "notifications": {
       "title": "Notifications",
       "newCount": "{count} new",

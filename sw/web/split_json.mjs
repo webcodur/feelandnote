@@ -13,8 +13,7 @@ const map = {
   profile: ["userProfile", "profileSection", "userBio", "profilePage"],
   celeb: ["celebPage"],
   rest: ["rest", "agoraGame"],
-  flow: ["recommendation", "note", "creation", "recordInteraction", "flowEditor", "flowDetail"],
-  reading: ["reading"]
+  flow: ["recommendation", "note", "creation", "recordInteraction", "flowEditor", "flowDetail"]
 };
 
 for (const lang of ['ko', 'en']) {
