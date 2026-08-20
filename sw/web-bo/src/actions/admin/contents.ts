@@ -3,7 +3,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { revalidatePath } from 'next/cache'
-import { revalidateWebCache, revalidateWebItem } from '@/lib/revalidate-web'
+import {
+  getWebContentRevalidationSnapshot,
+  revalidateWebContent,
+} from '@/lib/revalidate-web'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { requireAdmin } from '@/lib/admin-auth'
 import { validateExternalImageUrl } from '@/lib/external-image'
@@ -208,8 +211,8 @@ export async function updateContentCover(input: {
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${input.contentId}`)
-  // 이 작품 한 건만 비운다 — 나머지 작품 화면은 창고에 그대로 둔다
-  await revalidateWebItem(CACHE_TAGS.CONTENTS, input.contentId)
+  // 표지는 인물 서가의 초기 HTML에도 들어간다. 작품·인물의 UUID와 공개 URL 별칭을 함께 비운다.
+  await revalidateWebContent(input.contentId, { includeCelebLibraries: true })
 }
 
 export async function updateContent(
@@ -225,6 +228,7 @@ export async function updateContent(
     release_date?: string
   }
 ): Promise<void> {
+  await requireAdmin()
   const supabase = await createClient()
 
   // contents 테이블에는 release_date만 전송 (로케일 데이터는 content_locales에만)
@@ -238,7 +242,7 @@ export async function updateContent(
 
   // content_locales 업데이트 (ko)
   if (data.title || data.creator || data.description || data.publisher) {
-    await supabase.from('content_locales').upsert({
+    const { error } = await supabase.from('content_locales').upsert({
       content_id: contentId,
       locale: 'ko',
       ...(data.title && { title: data.title }),
@@ -246,30 +250,39 @@ export async function updateContent(
       ...(data.description && { description: data.description }),
       ...(data.publisher && { publisher: data.publisher }),
     }, { onConflict: 'content_id,locale' })
+    if (error) throw error
   }
 
   // content_locales 업데이트 (en)
   if (data.title_en || data.creator_en || data.isbn_en) {
-    await supabase.from('content_locales').upsert({
+    const { error } = await supabase.from('content_locales').upsert({
       content_id: contentId,
       locale: 'en',
       ...(data.title_en && { title: data.title_en }),
       ...(data.creator_en && { creator: data.creator_en }),
       ...(data.isbn_en && { isbn: data.isbn_en }),
     }, { onConflict: 'content_id,locale' })
+    if (error) throw error
   }
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
-  // contents.release_date + content_locales(제목·저자·설명)
-  // 이 작품 한 건만 비운다 — 나머지 작품 화면은 창고에 그대로 둔다
-  await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId)
+  // 제목·창작자·isbn은 인물 서가 초기 HTML에도 들어간다. 설명·출판사·출간일은 작품 상세만 비운다.
+  const includeCelebLibraries = [
+    data.title,
+    data.title_en,
+    data.creator,
+    data.creator_en,
+    data.isbn_en,
+  ].some((value) => value !== undefined)
+  await revalidateWebContent(contentId, { includeCelebLibraries })
 }
 
 export async function updateAffiliateLinks(
   contentId: string,
   links: AffiliateLink[] | null
 ): Promise<void> {
+  await requireAdmin()
   const supabase = await createClient()
 
   const value = links && links.length > 0 ? links : null
@@ -285,9 +298,8 @@ export async function updateAffiliateLinks(
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
-  // content_locales.affiliate_url
-  // 이 작품 한 건만 비운다 — 나머지 작품 화면은 창고에 그대로 둔다
-  await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId)
+  // 구매 링크는 작품 상세에서만 쓴다. 인물 서가 전체를 다시 만들지 않는다.
+  await revalidateWebContent(contentId)
 }
 
 /** 단일 플랫폼 링크를 upsert(추가/수정)하거나 삭제한다. url이 빈 문자열이면 해당 플랫폼 제거. */
@@ -297,6 +309,7 @@ export async function upsertAffiliatePlatform(
   url: string,
   locale: string = 'ko'
 ): Promise<void> {
+  await requireAdmin()
   const supabase = await createClient()
 
   // 현재 값 조회 (content_locales에서 읽기)
@@ -331,9 +344,11 @@ export async function upsertAffiliatePlatform(
     locale,
     affiliate_url: value,
   }, { onConflict: 'content_id,locale' })
+  if (error) throw error
 
   revalidatePath('/contents')
   revalidatePath(`/contents/${contentId}`)
+  await revalidateWebContent(contentId)
 }
 
 export async function deleteContent(contentId: string): Promise<void> {
@@ -351,6 +366,9 @@ export async function deleteContent(contentId: string): Promise<void> {
     throw new Error('픽션 대표 원전으로 지정된 콘텐츠입니다. 픽션 원전 관리에서 지정을 먼저 해제하세요.')
   }
 
+  // 삭제 뒤에는 external_id와 celeb_contents 연쇄 삭제로 공개 URL 별칭을 찾을 수 없다.
+  const webCacheSnapshot = await getWebContentRevalidationSnapshot(contentId, true)
+
   const { error } = await admin
     .from('contents')
     .delete()
@@ -361,5 +379,7 @@ export async function deleteContent(contentId: string): Promise<void> {
   revalidatePath('/contents')
   // contents + member_contents + celeb_contents + records 연쇄 삭제
   // 삭제는 목록 구성까지 바꾸므로 도메인도 함께 비운다
-  await revalidateWebItem(CACHE_TAGS.CONTENTS, contentId, [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS])
+  await revalidateWebContent(webCacheSnapshot, {
+    listDomains: [CACHE_TAGS.CONTENTS, CACHE_TAGS.CELEBS],
+  })
 }
