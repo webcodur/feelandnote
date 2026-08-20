@@ -12,7 +12,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, X } from "lucide-react";
 
 import CelebDetailModal from "@/components/features/celeb/modals/CelebDetailModal";
-import { Carousel, DetailToggle, ScoreBar } from "@/components/ui";
+import { Carousel } from "@/components/ui";
+import AbilityStatList from "./AbilityStatList";
+import DispositionStatList from "./DispositionStatList";
+import VirtueStatList from "./VirtueStatList";
 import type { SimilarByCelebResult } from "@/actions/spectrum/getSimilarByCelebId";
 import {
   ABILITY_KEYS,
@@ -586,193 +589,6 @@ function SpectrumMatchGroupsModal({
   );
 }
 
-function VirtueBar({
-  label,
-  value,
-  reason,
-  isEn,
-  showReason,
-}: {
-  label: string;
-  value: number;
-  reason?: string;
-  isEn?: boolean;
-  showReason?: boolean;
-}) {
-  return (
-    <ScoreBar
-      label={label}
-      value={value}
-      labelClassName={isEn ? "w-[5.5rem]" : "w-10"}
-      description={
-        showReason && reason ? (
-          <span className="block animate-fade-in">{reason}</span>
-        ) : null
-      }
-    />
-  );
-}
-
-// ─── 성향 바 ────────────────────────────────────────
-
-interface VirtueSummaryItem {
-  key: StatKey;
-  label: string;
-  value: number;
-  reason?: string;
-}
-
-function VirtueSummaryGroup({
-  title,
-  items,
-  showReason,
-}: {
-  title: string;
-  items: VirtueSummaryItem[];
-  showReason: boolean;
-}) {
-  return (
-    <div className="min-w-0">
-      <div className="border-b border-white/[0.07] bg-white/[0.018] px-3 py-1.5">
-        <p className="text-center text-sm font-bold tracking-[0.12em] text-accent/75">
-          {title}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 gap-px bg-white/[0.07]">
-        {items.map((item) => (
-          <div
-            key={item.key}
-            className="flex min-w-0 items-center justify-between gap-2 bg-[color:var(--material-panel,var(--color-bg-card))] px-2 py-1.5"
-          >
-            <span className="min-w-0 truncate text-sm text-text-secondary">
-              {item.label}
-            </span>
-            <span className="relative flex h-6 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[2px] border border-white/10 bg-black/20">
-              <span
-                aria-hidden
-                className={cn(
-                  "absolute inset-y-0 start-0 border-e transition-[width] duration-700 ease-out",
-                  item.value >= 80
-                    ? "border-accent/30 bg-accent/20"
-                    : item.value >= 60
-                      ? "border-accent/20 bg-accent/[0.12]"
-                      : "border-white/10 bg-white/[0.055]",
-                )}
-                style={{ width: `${item.value}%` }}
-              />
-              <strong
-                className={cn(
-                  "relative z-10 font-serif text-sm tabular-nums",
-                  item.value >= 80
-                    ? "text-accent"
-                    : item.value >= 60
-                      ? "text-text-primary"
-                      : "text-text-secondary",
-                )}
-              >
-                {item.value}
-              </strong>
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {showReason ? (
-        <div className="grid gap-x-5 gap-y-2 border-t border-white/[0.07] px-3 py-3 sm:grid-cols-2">
-          {items.map((item) =>
-            item.reason ? (
-              <p
-                key={item.key}
-                className="text-xs leading-relaxed text-text-secondary"
-              >
-                <span className="me-1.5 font-bold text-text-primary/80">
-                  {item.label}
-                </span>
-                {item.reason}
-              </p>
-            ) : null,
-          )}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function TendencyBar({
-  neg,
-  pos,
-  value,
-  reason,
-  isEn,
-  showReason,
-}: {
-  neg: string;
-  pos: string;
-  value: number;
-  reason?: string;
-  isEn?: boolean;
-  showReason?: boolean;
-}) {
-  const position = ((value + 50) / 100) * 100;
-  const activeLabel =
-    Math.abs(value) > 10 ? (value < 0 ? "neg" : "pos") : null;
-
-  const labelW = isEn ? "w-[5.5rem]" : "w-10";
-
-  return (
-    <div className="py-1.5">
-      <div className="flex items-center gap-3">
-        <span
-          className={cn(
-            "text-center text-sm tracking-tight shrink-0",
-            labelW,
-            activeLabel === "neg"
-              ? "text-blue-400 font-bold"
-              : "",
-          )}
-        >
-          {neg}
-        </span>
-        <div className="relative flex-1 h-1.5 bg-white/10 overflow-hidden rounded-full ring-1 ring-white/5">
-          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-white/20 z-20" />
-          <div
-            className={cn(
-              "absolute top-0 bottom-0 transition-all duration-1000 ease-out",
-              value < 0 ? "bg-blue-500/30" : "bg-orange-500/30",
-            )}
-            style={
-              value < 0
-                ? { left: `${position}%`, right: "50%" }
-                : { left: "50%", width: `${position - 50}%` }
-            }
-          />
-          <div
-            className="absolute top-1/2 w-2 h-2 -translate-y-1/2 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)] z-30 transition-all duration-1000 ease-out"
-            style={{ left: `${position}%` }}
-          />
-        </div>
-        <span
-          className={cn(
-            "text-center text-sm tracking-tight shrink-0",
-            labelW,
-            activeLabel === "pos"
-              ? "text-orange-400 font-bold"
-              : "",
-          )}
-        >
-          {pos}
-        </span>
-      </div>
-      {showReason && reason && (
-        <p className="mt-1 text-sm text-text-secondary leading-relaxed break-keep animate-fade-in">
-          {reason}
-        </p>
-      )}
-    </div>
-  );
-}
-
 // ─── 메인 컴포넌트 ──────────────────────────────────
 
 interface SpectrumSectionProps {
@@ -800,7 +616,6 @@ export default function SpectrumSection({
     openCelebPreview,
     closeCelebPreview,
   } = useCelebPreview("spectrum");
-  const [showDetail, setShowDetail] = useState(false);
   const [mobileMatchCategories, setMobileMatchCategories] = useState<
     SpectrumMatchCategory[] | null
   >(null);
@@ -838,19 +653,18 @@ export default function SpectrumSection({
       tone="border-t-emerald-300/35"
     >
       <div className="flex flex-1 flex-col gap-2">
-        {ABILITY_KEYS.map((key) => (
-          <VirtueBar
-            key={key}
-            label={ts(key)}
-            value={spectrum[key]}
-            reason={localizeSpectrumText(
+        <AbilityStatList
+          isEn={isEn}
+          items={ABILITY_KEYS.map((key) => ({
+            key,
+            label: ts(key),
+            value: spectrum[key],
+            reason: localizeSpectrumText(
               getReasonFromJsonb(spectrumJsonb, "abilities", key, locale),
               locale,
-            )}
-            isEn={isEn}
-            showReason={showDetail}
-          />
-        ))}
+            ),
+          }))}
+        />
         {matchesByCategory.ability.length > 0 ? (
           <div className="mt-auto">
             <MobileMatchButton
@@ -870,20 +684,19 @@ export default function SpectrumSection({
       tone="border-t-blue-400/35"
     >
       <div className="flex flex-1 flex-col gap-2">
-        {TENDENCY_KEYS.map((key) => (
-          <TendencyBar
-            key={key}
-            neg={tendencyLabels[key][0]}
-            pos={tendencyLabels[key][1]}
-            value={spectrum[key]}
-            reason={localizeSpectrumText(
+        <DispositionStatList
+          isEn={isEn}
+          items={TENDENCY_KEYS.map((key) => ({
+            key,
+            neg: tendencyLabels[key][0],
+            pos: tendencyLabels[key][1],
+            value: spectrum[key],
+            reason: localizeSpectrumText(
               getReasonFromJsonb(spectrumJsonb, "dispositions", key, locale),
               locale,
-            )}
-            isEn={isEn}
-            showReason={showDetail}
-          />
-        ))}
+            ),
+          }))}
+        />
         {dispositionCompareCategories.length > 0 ? (
           <div className="mt-auto">
             <MobileMatchButton
@@ -904,36 +717,28 @@ export default function SpectrumSection({
       description={t("virtueDesc")}
       tone="border-t-amber-300/35"
     >
-      <div className="grid grid-cols-2 overflow-hidden rounded-sm border border-white/[0.08] bg-white/[0.012]">
-        <VirtueSummaryGroup
-          title={t("innerVirtue")}
-          showReason={showDetail}
-          items={INNER_VIRTUE_KEYS.map((key) => ({
-            key,
-            label: ts(key),
-            value: spectrum[key],
-            reason: localizeSpectrumText(
-              getReasonFromJsonb(spectrumJsonb, "inner_virtues", key, locale),
-              locale,
-            ),
-          }))}
-        />
-        <div className="border-s border-white/[0.08]">
-          <VirtueSummaryGroup
-            title={t("outerVirtue")}
-            showReason={showDetail}
-            items={OUTER_VIRTUE_KEYS.map((key) => ({
-              key,
-              label: ts(key),
-              value: spectrum[key],
-              reason: localizeSpectrumText(
-                getReasonFromJsonb(spectrumJsonb, "outer_virtues", key, locale),
-                locale,
-              ),
-            }))}
-          />
-        </div>
-      </div>
+      <VirtueStatList
+        innerTitle={t("innerVirtue")}
+        outerTitle={t("outerVirtue")}
+        innerItems={INNER_VIRTUE_KEYS.map((key) => ({
+          key,
+          label: ts(key),
+          value: spectrum[key],
+          reason: localizeSpectrumText(
+            getReasonFromJsonb(spectrumJsonb, "inner_virtues", key, locale),
+            locale,
+          ),
+        }))}
+        outerItems={OUTER_VIRTUE_KEYS.map((key) => ({
+          key,
+          label: ts(key),
+          value: spectrum[key],
+          reason: localizeSpectrumText(
+            getReasonFromJsonb(spectrumJsonb, "outer_virtues", key, locale),
+            locale,
+          ),
+        }))}
+      />
       {matchesByCategory.virtue.length > 0 ? (
         <div className="mt-auto">
           <MobileMatchButton
@@ -1001,12 +806,11 @@ export default function SpectrumSection({
         </div>
       ) : null}
 
-      {/* 상세 분석 토글 (영향력 탭과 같은 단추) */}
-      <DetailToggle open={showDetail} onToggle={() => setShowDetail((v) => !v)} />
-
+      {/* 능력·성향·덕목 근거는 각 항목을 눌러 연다 */}
       {/* 좁은 화면 — 능력·성향·덕목을 옆으로 넘겨본다 */}
       <div className="md:hidden">
         <Carousel
+          isolateInactiveSlides
           labels={{
             previous: isEn ? "Previous metric" : "이전 지표",
             next: isEn ? "Next metric" : "다음 지표",

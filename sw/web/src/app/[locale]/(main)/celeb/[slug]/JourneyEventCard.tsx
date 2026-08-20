@@ -1,12 +1,14 @@
-import { MapPin } from "lucide-react";
-
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
+
+import TimelineIndexTick from "./TimelineIndexTick";
 
 interface Props {
   event: CelebTimelineEvent;
   isCurrent: boolean;
   positionLabel: string;
-  pageLabel: string;
+  currentNumber: number;
+  currentLabel: string;
+  totalLabel: string;
   onPlaceSelect: () => void;
 }
 
@@ -14,7 +16,9 @@ export default function JourneyEventCard({
   event,
   isCurrent,
   positionLabel,
-  pageLabel,
+  currentNumber,
+  currentLabel,
+  totalLabel,
   onPlaceSelect,
 }: Props) {
   const hasPlace = event.lat != null && event.lng != null;
@@ -23,14 +27,35 @@ export default function JourneyEventCard({
     <article
       data-timeline-current={isCurrent ? "" : undefined}
       aria-hidden={!isCurrent}
-      className="flex h-full min-h-0 w-full shrink-0 flex-col overflow-hidden bg-bg-secondary/35"
+      className="flex h-full min-h-0 w-full flex-col overflow-hidden bg-bg-secondary/35"
     >
-      <div className="flex items-center justify-between gap-3 border-b border-accent-dim/20 px-4 py-3 md:px-5">
-        <p className="font-mono text-base font-semibold text-accent">
-          {positionLabel}
+      <div className="grid min-h-12 shrink-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-accent-dim/20 px-4 py-2 md:px-5">
+        <p
+          className="justify-self-start font-mono text-sm leading-none text-text-tertiary"
+          aria-label={currentLabel}
+        >
+          #<TimelineIndexTick value={currentNumber} />
         </p>
-        <p className="shrink-0 font-mono text-sm text-text-tertiary">
-          {pageLabel}
+        {positionLabel ? (
+          hasPlace ? (
+            <button
+              type="button"
+              tabIndex={isCurrent ? 0 : -1}
+              onClick={onPlaceSelect}
+              className="min-w-0 break-words text-center font-mono text-sm font-semibold leading-snug text-accent hover:text-accent/80"
+            >
+              {positionLabel}
+            </button>
+          ) : (
+            <p className="min-w-0 break-words text-center font-mono text-sm font-semibold leading-snug text-accent">
+              {positionLabel}
+            </p>
+          )
+        ) : (
+          <span aria-hidden className="block" />
+        )}
+        <p className="justify-self-end font-mono text-sm leading-none text-text-tertiary">
+          {totalLabel}
         </p>
       </div>
 
@@ -40,33 +65,9 @@ export default function JourneyEventCard({
         className="custom-scrollbar min-h-0 flex-1 touch-pan-y overflow-y-auto [overflow-anchor:none] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
       >
         <div className="border-b border-accent-dim/20 px-4 py-4 md:px-5">
-          <h3 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
+          <h3 className="text-center text-lg font-bold leading-snug text-text-primary md:text-xl">
             {event.title}
           </h3>
-        </div>
-
-        <div className="border-b border-accent-dim/20 px-4 py-3 md:px-5">
-          {event.placeName ? (
-            <button
-              type="button"
-              tabIndex={isCurrent ? 0 : -1}
-              onClick={onPlaceSelect}
-              disabled={!hasPlace}
-              className={`flex items-center gap-2 text-start text-sm ${
-                hasPlace
-                  ? "text-text-secondary hover:text-accent"
-                  : "cursor-default text-text-tertiary"
-              }`}
-            >
-              <MapPin size={15} className="shrink-0" aria-hidden />
-              <span>{event.placeName}</span>
-            </button>
-          ) : (
-            <p className="flex items-center gap-2 text-sm text-text-tertiary">
-              <MapPin size={15} className="shrink-0" aria-hidden />
-              <span aria-hidden>-</span>
-            </p>
-          )}
         </div>
 
         <div className="px-4 py-4 md:px-5 md:py-5">

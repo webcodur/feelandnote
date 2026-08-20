@@ -71,6 +71,8 @@ interface Props {
   description?: ReactNode;
   /** 굵은 막대 — 요약 줄처럼 무게를 실어야 할 때 */
   thick?: boolean;
+  /** 선택됨 — 막대 채움색만 바꾼다. hover와 섞지 않는다 */
+  selected?: boolean;
   className?: string;
 }
 
@@ -82,6 +84,7 @@ export default function ScoreBar({
   maxText,
   description,
   thick = false,
+  selected = false,
   className,
 }: Props) {
   const safeValue = Number.isFinite(value) ? value : 0;
@@ -105,13 +108,13 @@ export default function ScoreBar({
           className={cn(
             "relative flex-1 overflow-hidden rounded-full",
             thick ? "h-2" : "h-1.5",
-            TRACK_BY_TIER[tier],
+            selected ? "bg-white/[0.08] ring-1 ring-white/35" : TRACK_BY_TIER[tier],
           )}
         >
           <div
             className={cn(
               "relative h-full rounded-full transition-[width] duration-700 ease-out",
-              FILL_BY_TIER[tier],
+              selected ? "bg-white" : FILL_BY_TIER[tier],
             )}
             style={{ width: `${percent}%` }}
           >

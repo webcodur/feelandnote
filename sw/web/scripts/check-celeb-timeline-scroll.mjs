@@ -75,16 +75,7 @@ async function readCarouselLayout(page) {
     const rect = carousel.getBoundingClientRect();
     const rails = [...carousel.querySelectorAll("[data-timeline-rail]")];
     const cards = [...carousel.querySelectorAll("article")];
-    const bodies = [...carousel.querySelectorAll("[data-timeline-body-scroll]")];
-    const overflows = bodies.map((body, index) => ({
-      index,
-      overflow: body.scrollHeight - body.clientHeight,
-    }));
-    const longest = overflows.reduce(
-      (best, candidate) =>
-        candidate.overflow > best.overflow ? candidate : best,
-      { index: 0, overflow: 0 },
-    );
+    const body = carousel.querySelector("[data-timeline-body-scroll]");
 
     return {
       height: Math.round(rect.height),
@@ -94,26 +85,46 @@ async function readCarouselLayout(page) {
       cardHeights: cards.map((card) =>
         Math.round(card.getBoundingClientRect().height),
       ),
-      bodyOverflowY: bodies[0] ? getComputedStyle(bodies[0]).overflowY : null,
-      bodyOverflowAnchor: bodies[0]
-        ? getComputedStyle(bodies[0]).overflowAnchor
-        : null,
-      longest,
+      bodyOverflowY: body ? getComputedStyle(body).overflowY : null,
+      bodyOverflowAnchor: body ? getComputedStyle(body).overflowAnchor : null,
+      bodyOverflow: body ? body.scrollHeight - body.clientHeight : 0,
+      index: Number(carousel.getAttribute("data-timeline-index") ?? 0),
+      total: Number(carousel.getAttribute("data-timeline-total") ?? 0),
     };
   });
 }
 
-async function selectTimelineEvent(page, index) {
-  for (let step = 0; step < index; step += 1) {
-    await page.click("[data-timeline-next]");
-    await new Promise((resolve) => setTimeout(resolve, 320));
-  }
+async function currentTimelineIndex(page) {
+  return page.$eval("[data-timeline-carousel]", (carousel) =>
+    Number(carousel.getAttribute("data-timeline-index") ?? 0),
+  );
 }
 
-async function currentTimelineIndex(page) {
-  return page.$$eval("[data-timeline-carousel] article", (cards) =>
-    cards.findIndex((card) => card.hasAttribute("data-timeline-current")),
+async function bodyOverflowAtCurrent(page) {
+  return page.$eval(
+    "[data-timeline-current] [data-timeline-body-scroll]",
+    (body) => body.scrollHeight - body.clientHeight,
   );
+}
+
+async function findLongestEvent(page, total) {
+  let at = await currentTimelineIndex(page);
+  while (at > 0) {
+    await page.click('[data-timeline-rail="previous"]');
+    at -= 1;
+    await new Promise((resolve) => setTimeout(resolve, 80));
+  }
+
+  let best = { index: 0, overflow: 0 };
+  for (let index = 0; index < total; index += 1) {
+    const overflow = await bodyOverflowAtCurrent(page);
+    if (overflow > best.overflow) best = { index, overflow };
+    if (index < total - 1) {
+      await page.click("[data-timeline-next]");
+      await new Promise((resolve) => setTimeout(resolve, 80));
+    }
+  }
+  return best;
 }
 
 async function clickRailEdge(page, selector, edge) {
@@ -264,7 +275,12 @@ try {
       "end",
     ),
   };
-  await selectTimelineEvent(page, layout.longest.index);
+  const longest = await findLongestEvent(page, layout.total);
+  const currentAfterScan = await currentTimelineIndex(page);
+  for (let step = currentAfterScan; step > longest.index; step -= 1) {
+    await page.click('[data-timeline-rail="previous"]');
+    await new Promise((resolve) => setTimeout(resolve, 80));
+  }
   const bodyWheel = await wheelInsideTimelineBody(page);
   const bodyTouch = await swipeInsideTimelineBody(page);
   const globeDelta = await wheelOver(page, "#timeline canvas");
@@ -277,7 +293,7 @@ try {
   console.log(
     JSON.stringify(
       {
-        layout,
+        layout: { ...layout, longest },
         railNavigation,
         swipeNavigation,
         bodyWheel,
@@ -314,7 +330,7 @@ try {
       `타임라인 본문에서 스크롤 앵커링을 끄지 않았습니다: ${layout.bodyOverflowAnchor}`,
     );
   }
-  if (layout.longest.overflow <= 0) {
+  if (longest.overflow <= 0) {
     throw new Error("긴 사건 설명에서도 본문 내부 스크롤이 생기지 않습니다.");
   }
   if (

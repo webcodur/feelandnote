@@ -1,12 +1,22 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { Maximize2 } from "lucide-react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 
 import { localizeCountryName } from "./countryNamesKo";
+import {
+  PULSE_MS,
+  isNearRotation,
+  pulseProgress,
+  pulseRing,
+  rotationAt,
+  spinDurationMs,
+  type MarkerPulse,
+} from "./globeSpin";
 
 /* ── 공용 지구본 ──
    좌표 목록을 받아 회전하는 지구 위에 찍고, 원하면 순서대로 이어 경로를 그린다.
@@ -34,6 +44,8 @@ interface Props {
   focusId?: string | null;
   /** 같은 좌표를 다시 눌러도 회전시키기 위한 증가 키 */
   focusKey?: number;
+  /** 위치를 모르는 사건을 골랐을 때 가운데 ?를 다시 띄운다 */
+  unknownKey?: number;
   className?: string;
   label?: string;
   /** 지구본 높이 상한(px). 단독으로 크게 볼 때 올린다 */
@@ -308,6 +320,7 @@ export default function WorldGlobe({
   onSelect,
   focusId = null,
   focusKey = 0,
+  unknownKey = 0,
   className = "",
   label,
   maxHeight = 460,
@@ -335,6 +348,10 @@ export default function WorldGlobe({
   const backgroundDirtyRef = useRef(true);
   const baseMapRef = useRef<MapLayers | null>(null);
   const detailedMapRef = useRef<MapLayers | null>(null);
+  const baseFastMeshesRef = useRef<{
+    coast: FastMesh;
+    borders: FastMesh;
+  } | null>(null);
   const detailedFastMeshesRef = useRef<{
     coast: FastMesh;
     borders: FastMesh;
@@ -345,6 +362,7 @@ export default function WorldGlobe({
   const [hoverId, setHoverId] = useState<string | null>(null);
   /* 손끝이 닿은 나라 이름 — 지도만으로는 어디가 어딘지 알 수 없어 아래 띠에 적는다 */
   const [hoverCountry, setHoverCountry] = useState<string | null>(null);
+  const [unknownMark, setUnknownMark] = useState(0);
   const hoverIdRef = useRef<string | null>(null);
   const hoverCountryRef = useRef<string | null>(null);
 
@@ -356,6 +374,10 @@ export default function WorldGlobe({
   const labelWidthCacheRef = useRef(new Map<string, number>());
   const rafRef = useRef(0);
   const hoverRafRef = useRef(0);
+  const spinRafRef = useRef(0);
+  const spinningRef = useRef(false);
+  const pulseRafRef = useRef(0);
+  const pulseRef = useRef<MarkerPulse | null>(null);
   const mountedRef = useRef(true);
   const draggingRef = useRef(false);
   const wheelActiveRef = useRef(false);
@@ -409,7 +431,12 @@ export default function WorldGlobe({
       .then((r) => r.json())
       .then((data: TopoData) => {
         if (!alive) return;
-        baseMapRef.current = mapLayersOf(data, true);
+        const layers = mapLayersOf(data, true);
+        baseMapRef.current = layers;
+        baseFastMeshesRef.current = {
+          coast: fastMeshOf(layers.coast),
+          borders: fastMeshOf(layers.borders),
+        };
         backgroundDirtyRef.current = true;
         setReady(true);
       })
@@ -453,9 +480,14 @@ export default function WorldGlobe({
     const zoom = zoomRef.current;
     const detailedMap =
       zoom >= HIGH_DETAIL_RENDER_ZOOM ? detailedMapRef.current : null;
-    const fastDetailedInteraction =
-      draggingRef.current && detailedMap && detailedFastMeshesRef.current;
-    const layers = detailedMap && !fastDetailedInteraction ? detailedMap : baseMap;
+    const interacting = draggingRef.current || spinningRef.current;
+    const spinning = spinningRef.current;
+    const fastMeshes = interacting
+      ? detailedMap && detailedFastMeshesRef.current
+        ? detailedFastMeshesRef.current
+        : baseFastMeshesRef.current
+      : null;
+    const layers = detailedMap && !fastMeshes ? detailedMap : baseMap;
     const labelLayers = detailedMap ?? baseMap;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const physicalWidth = Math.max(1, Math.round(w * dpr));
@@ -487,7 +519,8 @@ export default function WorldGlobe({
     const projection = projectionOf();
     const path = d3.geoPath(projection, ctx);
     const radius = Math.max(Math.min(w, h) * zoom, 1);
-    const interactionActive = draggingRef.current || wheelActiveRef.current;
+    const interactionActive =
+      draggingRef.current || wheelActiveRef.current || spinningRef.current;
     const backgroundSnapshot = backgroundSnapshotRef.current;
     const canScaleBackgroundDuringWheel =
       wheelActiveRef.current &&
@@ -529,12 +562,8 @@ export default function WorldGlobe({
     ctx.fill();
     ctx.strokeStyle = SEA_EDGE;
     ctx.lineWidth = 1;
-    ctx.shadowColor = "rgba(212,175,55,0.16)";
-    ctx.shadowBlur = 10;
     ctx.stroke();
-    ctx.shadowBlur = 0;
 
-    // 육지 — 방향성 있는 빛만 주고 실제 고도색인 것처럼 꾸미지 않는다
     ctx.beginPath();
     path(layers.land);
     const landGradient = ctx.createLinearGradient(w * 0.2, h * 0.15, w * 0.82, h * 0.9);
@@ -544,7 +573,6 @@ export default function WorldGlobe({
     ctx.fillStyle = landGradient;
     ctx.fill();
 
-    // 이 인물의 행적 좌표가 있는 현대 국가는 기본 상태에서도 알아볼 수 있게 한다
     if (visitedRegions.counts.size > 0) {
       ctx.beginPath();
       for (const country of visitedRegions.counts.keys()) {
@@ -558,30 +586,15 @@ export default function WorldGlobe({
       ctx.stroke();
     }
 
-    // 해안선은 자연지형, 현대 국경은 행정 정보라 서로 다른 무게로 그린다
-    if (fastDetailedInteraction) {
+    if (fastMeshes) {
       ctx.beginPath();
-      traceFastMesh(
-        ctx,
-        fastDetailedInteraction.coast,
-        rotation,
-        radius,
-        w / 2,
-        h / 2,
-      );
+      traceFastMesh(ctx, fastMeshes.coast, rotation, radius, w / 2, h / 2);
       ctx.strokeStyle = COAST_EDGE;
       ctx.lineWidth = 0.85;
       ctx.stroke();
 
       ctx.beginPath();
-      traceFastMesh(
-        ctx,
-        fastDetailedInteraction.borders,
-        rotation,
-        radius,
-        w / 2,
-        h / 2,
-      );
+      traceFastMesh(ctx, fastMeshes.borders, rotation, radius, w / 2, h / 2);
       ctx.strokeStyle = BORDER_EDGE;
       ctx.lineWidth = 0.45;
       ctx.stroke();
@@ -599,97 +612,151 @@ export default function WorldGlobe({
       ctx.stroke();
     }
 
-    // 경위선은 육지·바다 위를 같은 좌표계로 가로지른다
     ctx.beginPath();
     path(graticule);
     ctx.strokeStyle = GRATICULE;
     ctx.lineWidth = 0.45;
     ctx.stroke();
 
-    // 지도 위 국명 — 큰 국가는 먼저, 확대할수록 소국까지. 겹치는 글자는 뒤쪽을 생략한다.
     const minLabelArea =
-      zoom < 0.65
-        ? 0.006
-        : zoom < 0.95
-          ? 0.002
-          : zoom < 1.5
-            ? 0.0003
-            : zoom < 2.4
-              ? 0.00003
-              : 0;
-    const labelLimit = zoom < 0.65 ? 36 : zoom < 1.5 ? 60 : 100;
-    const labelFontSize =
-      (zoom >= 1.5 ? 10 : zoom >= 0.8 ? 9 : 8) + (fillContainer ? 2 : 0);
-    const occupiedLabels: {
-      left: number;
-      right: number;
-      top: number;
-      bottom: number;
-    }[] = [];
-    const labelCandidates = labelLayers.countryLabels.toSorted((a, b) => {
-      const aVisited = visitedRegions.counts.has(a.name) ? 1 : 0;
-      const bVisited = visitedRegions.counts.has(b.name) ? 1 : 0;
-      return bVisited - aVisited || b.area - a.area;
-    });
-    let placedLabels = 0;
+        zoom < 0.65
+          ? 0.006
+          : zoom < 0.95
+            ? 0.002
+            : zoom < 1.5
+              ? 0.0003
+              : zoom < 2.4
+                ? 0.00003
+                : 0;
+      const labelLimit = zoom < 0.65 ? 36 : zoom < 1.5 ? 60 : 100;
+      const labelFontSize =
+        (zoom >= 1.5 ? 10 : zoom >= 0.8 ? 9 : 8) + (fillContainer ? 2 : 0);
+      const occupiedLabels: {
+        left: number;
+        right: number;
+        top: number;
+        bottom: number;
+      }[] = [];
+      const labelCandidates = labelLayers.countryLabels.toSorted((a, b) => {
+        const aVisited = visitedRegions.counts.has(a.name) ? 1 : 0;
+        const bVisited = visitedRegions.counts.has(b.name) ? 1 : 0;
+        return bVisited - aVisited || b.area - a.area;
+      });
+      let placedLabels = 0;
 
-    ctx.save();
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.lineJoin = "round";
-    for (const candidate of labelCandidates) {
-      const isVisited = visitedRegions.counts.has(candidate.name);
-      if (!isVisited && candidate.area < minLabelArea) continue;
-      if (!isVisible(candidate.anchor[0], candidate.anchor[1], rotation)) continue;
-      const pt = projection(candidate.anchor);
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.lineJoin = "round";
+      for (const candidate of labelCandidates) {
+        const isVisited = visitedRegions.counts.has(candidate.name);
+        if (!isVisited && candidate.area < minLabelArea) continue;
+        if (!isVisible(candidate.anchor[0], candidate.anchor[1], rotation))
+          continue;
+        const pt = projection(candidate.anchor);
+        if (!pt) continue;
+
+        const fontWeight = isVisited ? 650 : 500;
+        const font = `${fontWeight} ${labelFontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+        const text = localizeCountryName(candidate.name, locale);
+        const widthCacheKey = `${font}|${text}`;
+        ctx.font = font;
+        let textWidth = labelWidthCacheRef.current.get(widthCacheKey);
+        if (textWidth == null) {
+          textWidth = ctx.measureText(text).width;
+          labelWidthCacheRef.current.set(widthCacheKey, textWidth);
+        }
+        const halfWidth = textWidth / 2 + 3;
+        const halfHeight = labelFontSize / 2 + 2;
+        if (
+          Math.hypot(pt[0] - w / 2, pt[1] - h / 2) +
+            Math.hypot(halfWidth, halfHeight) >
+          radius - 2
+        ) {
+          continue;
+        }
+        const box = {
+          left: pt[0] - halfWidth,
+          right: pt[0] + halfWidth,
+          top: pt[1] - halfHeight,
+          bottom: pt[1] + halfHeight,
+        };
+        const overlaps = occupiedLabels.some(
+          (other) =>
+            box.left < other.right &&
+            box.right > other.left &&
+            box.top < other.bottom &&
+            box.bottom > other.top,
+        );
+        if (overlaps) continue;
+
+        occupiedLabels.push(box);
+        ctx.strokeStyle = COUNTRY_LABEL_HALO;
+        ctx.lineWidth = isVisited ? 2.6 : 2.2;
+        ctx.strokeText(text, pt[0], pt[1]);
+        ctx.fillStyle = isVisited
+          ? VISITED_COUNTRY_LABEL_FILL
+          : COUNTRY_LABEL_FILL;
+        ctx.fillText(text, pt[0], pt[1]);
+        placedLabels += 1;
+        if (placedLabels >= labelLimit) break;
+      }
+    ctx.restore();
+
+    for (const pole of POLES) {
+      if (!isVisible(0, pole.lat, rotation)) continue;
+      const pt = projection([0, pole.lat]);
       if (!pt) continue;
 
-      const fontWeight = isVisited ? 650 : 500;
-      const font = `${fontWeight} ${labelFontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`;
-      const text = localizeCountryName(candidate.name, locale);
-      const widthCacheKey = `${font}|${text}`;
-      ctx.font = font;
-      let textWidth = labelWidthCacheRef.current.get(widthCacheKey);
-      if (textWidth == null) {
-        textWidth = ctx.measureText(text).width;
-        labelWidthCacheRef.current.set(widthCacheKey, textWidth);
-      }
-      const halfWidth = textWidth / 2 + 3;
-      const halfHeight = labelFontSize / 2 + 2;
-      if (
-        Math.hypot(pt[0] - w / 2, pt[1] - h / 2) +
-          Math.hypot(halfWidth, halfHeight) >
-        radius - 2
-      ) {
-        continue;
-      }
-      const box = {
-        left: pt[0] - halfWidth,
-        right: pt[0] + halfWidth,
-        top: pt[1] - halfHeight,
-        bottom: pt[1] + halfHeight,
-      };
-      const overlaps = occupiedLabels.some(
-        (other) =>
-          box.left < other.right &&
-          box.right > other.left &&
-          box.top < other.bottom &&
-          box.bottom > other.top,
-      );
-      if (overlaps) continue;
+      const r = 5;
+      ctx.beginPath();
+      ctx.arc(pt[0], pt[1], r + 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = pole.glow;
+      ctx.fill();
 
-      occupiedLabels.push(box);
-      ctx.strokeStyle = COUNTRY_LABEL_HALO;
-      ctx.lineWidth = isVisited ? 2.6 : 2.2;
-      ctx.strokeText(text, pt[0], pt[1]);
-      ctx.fillStyle = isVisited
-        ? VISITED_COUNTRY_LABEL_FILL
-        : COUNTRY_LABEL_FILL;
-      ctx.fillText(text, pt[0], pt[1]);
-      placedLabels += 1;
-      if (placedLabels >= labelLimit) break;
+      ctx.beginPath();
+      ctx.moveTo(pt[0], pt[1] - r);
+      ctx.lineTo(pt[0] + r, pt[1]);
+      ctx.lineTo(pt[0], pt[1] + r);
+      ctx.lineTo(pt[0] - r, pt[1]);
+      ctx.closePath();
+      ctx.fillStyle = pole.fill;
+      ctx.fill();
+      ctx.strokeStyle = "rgba(8,10,12,0.9)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
-    ctx.restore();
+
+    if (showPath && ordered.length > 1) {
+      const pathStep = spinning ? 0.08 : 0.02;
+      ctx.strokeStyle = PATH_COLOR;
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([5, 4]);
+      for (let i = 0; i < ordered.length - 1; i++) {
+        const a = ordered[i];
+        const b = ordered[i + 1];
+        if (a.lat === b.lat && a.lng === b.lng) continue;
+        const interp = d3.geoInterpolate([a.lng, a.lat], [b.lng, b.lat]);
+        ctx.beginPath();
+        let penUp = true;
+        for (let t = 0; t <= 1.0001; t += pathStep) {
+          const coord = interp(Math.min(t, 1));
+          const pt = projection(coord);
+          if (pt && isVisible(coord[0], coord[1], rotation)) {
+            if (penUp) {
+              ctx.moveTo(pt[0], pt[1]);
+              penUp = false;
+            } else {
+              ctx.lineTo(pt[0], pt[1]);
+            }
+          } else {
+            penUp = true;
+          }
+        }
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
 
       const backgroundCtx = backgroundCanvas.getContext("2d");
       if (backgroundCtx && !interactionActive) {
@@ -730,88 +797,61 @@ export default function WorldGlobe({
       ctx.stroke();
     }
 
-    // 두 극 표식 — 마름모 하나로 위아래를 알린다
-    for (const pole of POLES) {
-      if (!isVisible(0, pole.lat, rotation)) continue;
-      const pt = projection([0, pole.lat]);
-      if (!pt) continue;
-
-      const r = 5;
-      ctx.beginPath();
-      ctx.arc(pt[0], pt[1], r + 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = pole.glow;
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.moveTo(pt[0], pt[1] - r);
-      ctx.lineTo(pt[0] + r, pt[1]);
-      ctx.lineTo(pt[0], pt[1] + r);
-      ctx.lineTo(pt[0] - r, pt[1]);
-      ctx.closePath();
-      ctx.fillStyle = pole.fill;
-      ctx.fill();
-      ctx.strokeStyle = "rgba(8,10,12,0.9)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    // 이동 경로 — 지구 뒤로 넘어가는 구간은 끊는다
-    if (showPath && ordered.length > 1) {
-      ctx.strokeStyle = PATH_COLOR;
-      ctx.lineWidth = 1.2;
-      ctx.setLineDash([5, 4]);
-      for (let i = 0; i < ordered.length - 1; i++) {
-        const a = ordered[i];
-        const b = ordered[i + 1];
-        if (a.lat === b.lat && a.lng === b.lng) continue;
-        const interp = d3.geoInterpolate([a.lng, a.lat], [b.lng, b.lat]);
-        ctx.beginPath();
-        let penUp = true;
-        for (let t = 0; t <= 1.0001; t += 0.02) {
-          const coord = interp(Math.min(t, 1));
-          const pt = projection(coord);
-          if (pt && isVisible(coord[0], coord[1], rotation)) {
-            if (penUp) {
-              ctx.moveTo(pt[0], pt[1]);
-              penUp = false;
-            } else {
-              ctx.lineTo(pt[0], pt[1]);
-            }
-          } else {
-            penUp = true;
-          }
-        }
-        ctx.stroke();
-      }
-      ctx.setLineDash([]);
-    }
-
     // 행적 좌표는 일반 지도 정보보다 한 단계 강한 금색 점과 후광으로 구분한다
-    for (const m of ordered) {
+    const pulse = pulseRef.current;
+    const pulseT = pulse ? pulseProgress(pulse, performance.now()) : null;
+    if (pulse && pulseT == null) pulseRef.current = null;
+    const pulseTarget = pulse ? ordered.find((m) => m.id === pulse.id) : null;
+    const globeScale = fillContainer ? 1.15 : 1;
+    const hoverId = hoverIdRef.current;
+    const stacked = [...ordered].sort((a, b) => {
+      const rank = (marker: (typeof ordered)[number]) =>
+        marker.id === activeId ? 2 : marker.id === hoverId ? 1 : 0;
+      return rank(a) - rank(b);
+    });
+    for (const m of stacked) {
       if (!isVisible(m.lng, m.lat, rotation)) continue;
       const pt = projection([m.lng, m.lat]);
       if (!pt) continue;
 
       const isActive = m.id === activeId;
       const isHover = m.id === hoverIdRef.current;
-      const markerScale = fillContainer ? 1.15 : 1;
-      const r = (isActive ? 6.25 : isHover ? 5.5 : 4) * markerScale;
+      const isPulse = pulseT != null && pulseTarget != null &&
+        m.lat === pulseTarget.lat &&
+        m.lng === pulseTarget.lng;
+      const r = (isActive ? 6.25 : isHover ? 5.5 : 4) * globeScale;
 
       ctx.beginPath();
-      ctx.arc(pt[0], pt[1], r + (isActive || isHover ? 4.5 : 3), 0, Math.PI * 2);
+      ctx.arc(pt[0], pt[1], r + (isActive || isHover || isPulse ? 4.5 : 3), 0, Math.PI * 2);
       ctx.fillStyle =
-        isActive || isHover
+        isActive || isHover || isPulse
           ? "rgba(249,215,110,0.22)"
           : "rgba(212,175,55,0.11)";
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(pt[0], pt[1], r, 0, Math.PI * 2);
-      ctx.fillStyle = isActive || isHover ? DOT_ACTIVE : DOT_FILL;
+      ctx.fillStyle = isActive || isHover || isPulse ? DOT_ACTIVE : DOT_FILL;
       ctx.fill();
       ctx.strokeStyle = "rgba(10,10,10,0.9)";
-      ctx.lineWidth = isActive || isHover ? 1.4 : 1;
+      ctx.lineWidth = isActive || isHover || isPulse ? 1.4 : 1;
       ctx.stroke();
+    }
+
+    // 같은 좌표에 점이 여러 개여도 파동은 모든 점 위에 한 번만 그린다
+    if (pulse && pulseT != null && pulseTarget && isVisible(pulseTarget.lng, pulseTarget.lat, rotation)) {
+      const pt = projection([pulseTarget.lng, pulseTarget.lat]);
+      if (pt) {
+        for (const lag of [0, 0.32]) {
+          const wave = pulseRing(pulseT, lag);
+          if (!wave) continue;
+          ctx.beginPath();
+          ctx.arc(pt[0], pt[1], wave.radius * globeScale, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(249,215,110,${wave.alpha})`;
+          ctx.lineWidth = wave.width;
+          ctx.stroke();
+        }
+      }
     }
 
   }, [
@@ -825,10 +865,13 @@ export default function WorldGlobe({
     visitedRegions,
   ]);
 
+  const drawRef = useRef(draw);
+  drawRef.current = draw;
+
   const requestDraw = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(draw);
-  }, [draw]);
+    rafRef.current = requestAnimationFrame(() => drawRef.current());
+  }, []);
 
   /** 확대 의도가 생겼을 때만 50m 지도를 별도 청크로 받는다. */
   const ensureDetailedMap = useCallback(() => {
@@ -898,10 +941,95 @@ export default function WorldGlobe({
         mountedRef.current = false;
         cancelAnimationFrame(rafRef.current);
         cancelAnimationFrame(hoverRafRef.current);
+        cancelAnimationFrame(spinRafRef.current);
+        cancelAnimationFrame(pulseRafRef.current);
+        spinningRef.current = false;
+        pulseRef.current = null;
         if (wheelIdleTimerRef.current) clearTimeout(wheelIdleTimerRef.current);
       };
     },
     [],
+  );
+
+  const cancelSpin = useCallback(() => {
+    cancelAnimationFrame(spinRafRef.current);
+    spinRafRef.current = 0;
+    spinningRef.current = false;
+  }, []);
+
+  const cancelPulse = useCallback(() => {
+    cancelAnimationFrame(pulseRafRef.current);
+    pulseRafRef.current = 0;
+    pulseRef.current = null;
+  }, []);
+
+  const runPulseLoop = useCallback(() => {
+    if (pulseRafRef.current || spinningRef.current) return;
+    const step = (now: number) => {
+      const current = pulseRef.current;
+      if (!current || pulseProgress(current, now) == null) {
+        pulseRef.current = null;
+        pulseRafRef.current = 0;
+        requestDraw();
+        return;
+      }
+      requestDraw();
+      pulseRafRef.current = requestAnimationFrame(step);
+    };
+    pulseRafRef.current = requestAnimationFrame(step);
+  }, [requestDraw]);
+
+  const startPulse = useCallback(
+    (id: string) => {
+      if (spinningRef.current) return;
+      setUnknownMark(0);
+      cancelAnimationFrame(pulseRafRef.current);
+      pulseRafRef.current = 0;
+      pulseRef.current = { id, start: performance.now(), duration: PULSE_MS };
+      drawRef.current();
+      runPulseLoop();
+    },
+    [runPulseLoop],
+  );
+
+  const startSpin = useCallback(
+    (to: [number, number], onArrive?: () => void) => {
+      cancelSpin();
+      const from: [number, number] = [
+        rotationRef.current[0],
+        rotationRef.current[1],
+      ];
+      if (isNearRotation(from, to)) {
+        rotationRef.current = to;
+        requestDraw();
+        onArrive?.();
+        return;
+      }
+
+      cancelPulse();
+      setUnknownMark(0);
+      const duration = spinDurationMs(from, to);
+      const started = performance.now();
+      spinningRef.current = true;
+
+      const step = (now: number) => {
+        const t = Math.min(1, (now - started) / duration);
+        rotationRef.current = rotationAt(from, to, t);
+        backgroundDirtyRef.current = true;
+        requestDraw();
+        if (t < 1) {
+          spinRafRef.current = requestAnimationFrame(step);
+          return;
+        }
+        spinningRef.current = false;
+        spinRafRef.current = 0;
+        backgroundDirtyRef.current = true;
+        requestDraw();
+        onArrive?.();
+      };
+      spinRafRef.current = requestAnimationFrame(step);
+    },
+    [cancelPulse, cancelSpin, requestDraw],
   );
 
   /* ── 지정된 좌표로 돌리기 ──
@@ -910,16 +1038,33 @@ export default function WorldGlobe({
      되돌리면 사용자가 손으로 돌려 놓은 각도가 제자리로 튕겨 간다. */
   const doneFocusRef = useRef("");
   useEffect(() => {
-    if (!focusId) return;
+    if (!ready || !focusId) return;
     const ticket = `${focusId}#${focusKey}`;
     if (doneFocusRef.current === ticket) return;
     const target = ordered.find((m) => m.id === focusId);
     if (!target) return;
+    const firstLook = !doneFocusRef.current;
     doneFocusRef.current = ticket;
-    rotationRef.current = [-target.lng, -target.lat];
-    backgroundDirtyRef.current = true;
-    requestDraw();
-  }, [focusId, focusKey, ordered, requestDraw]);
+    const to: [number, number] = [-target.lng, -target.lat];
+    if (firstLook) {
+      rotationRef.current = to;
+      backgroundDirtyRef.current = true;
+      startPulse(target.id);
+      return;
+    }
+    if (isNearRotation(rotationRef.current, to)) {
+      startPulse(target.id);
+      return;
+    }
+    startSpin(to, () => startPulse(target.id));
+  }, [focusId, focusKey, ordered, ready, requestDraw, startPulse, startSpin]);
+
+  useEffect(() => {
+    if (!unknownKey) return;
+    cancelSpin();
+    cancelPulse();
+    setUnknownMark(unknownKey);
+  }, [cancelPulse, cancelSpin, unknownKey]);
 
   /* ── 휠 확대 ── */
   useEffect(() => {
@@ -953,6 +1098,8 @@ export default function WorldGlobe({
       hoverCountryRef.current = null;
       setHoverId(null);
       setHoverCountry(null);
+      cancelPulse();
+      cancelSpin();
       draggingRef.current = true;
       movedRef.current = false;
       dragStartRef.current = {
@@ -964,7 +1111,7 @@ export default function WorldGlobe({
       requestDraw();
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
     },
-    [requestDraw],
+    [cancelPulse, cancelSpin, requestDraw],
   );
 
   const hitTest = useCallback(
@@ -984,14 +1131,15 @@ export default function WorldGlobe({
         const pt = projection([m.lng, m.lat]);
         if (!pt) continue;
         const dist = Math.hypot(mx - pt[0], my - pt[1]);
-        if (dist < HIT_RADIUS && dist < closestDist) {
+        if (dist >= HIT_RADIUS || dist > closestDist) continue;
+        if (dist < closestDist || m.id === activeId) {
           closest = m.id;
           closestDist = dist;
         }
       }
       return closest;
     },
-    [ordered, projectionOf],
+    [activeId, ordered, projectionOf],
   );
 
   /** 커서가 짚은 자리가 어느 나라인지 — 지도 원본이 가진 이름을 그대로 쓴다 */
@@ -1097,9 +1245,13 @@ export default function WorldGlobe({
     (e: React.MouseEvent) => {
       if (movedRef.current || !onSelect) return;
       const hit = hitTest(e.clientX, e.clientY);
-      if (hit) onSelect(hit);
+      if (hit) {
+        cancelSpin();
+        startPulse(hit);
+        onSelect(hit);
+      }
     },
-    [hitTest, onSelect],
+    [cancelSpin, hitTest, onSelect, startPulse],
   );
 
   const zoomBy = useCallback(
@@ -1114,11 +1266,12 @@ export default function WorldGlobe({
   );
 
   const handleReset = useCallback(() => {
+    cancelSpin();
     rotationRef.current = homeRotation;
     zoomRef.current = homeZoom;
     backgroundDirtyRef.current = true;
     requestDraw();
-  }, [homeRotation, homeZoom, requestDraw]);
+  }, [cancelSpin, homeRotation, homeZoom, requestDraw]);
 
   const btnClass = `${
     fillContainer ? "h-9 w-9 text-base" : "h-7 w-7 text-sm"
@@ -1205,6 +1358,20 @@ export default function WorldGlobe({
         }}
         onClick={handleClick}
       />
+
+      {unknownMark > 0 && (
+        <motion.span
+          key={unknownMark}
+          initial={{ opacity: 0, scale: 0.72 }}
+          animate={{ opacity: [0, 1, 1, 0], scale: [0.72, 1, 1, 1.06] }}
+          transition={{ duration: 1.05, times: [0, 0.18, 0.62, 1], ease: "easeOut" }}
+          onAnimationComplete={() => setUnknownMark(0)}
+          className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center font-serif text-6xl font-semibold text-accent"
+          aria-hidden
+        >
+          ?
+        </motion.span>
+      )}
 
       <div
         ref={tooltipRef}

@@ -168,6 +168,8 @@ interface CarouselProps {
    */
   itemWidthClassName?: string;
   gapClassName?: string;
+  /** 한 장만 보이는 캐러셀에서 화면 밖 슬라이드의 포커스와 접근성을 막는다. */
+  isolateInactiveSlides?: boolean;
   /** 현재 위치 점 줄. 이름표 줄(tabLabels)을 쓰면 자동으로 꺼진다 */
   showDots?: boolean;
   /** 장마다 이름이 있을 때. 점 대신 이름표 줄이 위에 붙는다 */
@@ -194,6 +196,7 @@ export function Carousel({
   labels,
   itemWidthClassName = "w-full",
   gapClassName = "gap-2",
+  isolateInactiveSlides = false,
   showDots = true,
   tabLabels,
   arrowsAlign = "center",
@@ -276,14 +279,19 @@ export function Carousel({
             trackClassName,
           )}
         >
-          {children.map((child, index) => (
-            <div
-              key={index}
-              className={cn("shrink-0 snap-start", itemWidthClassName)}
-            >
-              {child}
-            </div>
-          ))}
+          {children.map((child, index) => {
+            const isolated = isolateInactiveSlides && index !== activeIndex;
+            return (
+              <div
+                key={index}
+                aria-hidden={isolated || undefined}
+                inert={isolated}
+                className={cn("shrink-0 snap-start", itemWidthClassName)}
+              >
+                {child}
+              </div>
+            );
+          })}
         </div>
 
         {/* 제목 줄에 단추를 올린 경우에는 낱장 위에 겹치지 않는다 */}

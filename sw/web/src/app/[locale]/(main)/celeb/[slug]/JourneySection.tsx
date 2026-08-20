@@ -13,12 +13,19 @@ interface Props {
   events: CelebTimelineEvent[];
 }
 
+function mappedIdOf(event: CelebTimelineEvent | undefined): string | null {
+  return event?.lat != null && event?.lng != null ? event.id : null;
+}
+
 export default function JourneySection({ events }: Props) {
   const t = useTranslations("celebPage");
   const [mode, setMode] = useState<JourneyViewMode>("both");
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const [focusId, setFocusId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(() => mappedIdOf(events[0]));
+  const [focusId, setFocusId] = useState<string | null>(() => mappedIdOf(events[0]));
   const [focusKey, setFocusKey] = useState(0);
+  const [unknownKey, setUnknownKey] = useState(() =>
+    mappedIdOf(events[0]) ? 0 : 1,
+  );
   const [index, setIndex] = useState(0);
 
   // 좌표를 가진 항목만 지도에 오른다.
@@ -46,6 +53,8 @@ export default function JourneySection({ events }: Props) {
   const handleGlobeSelect = useCallback(
     (id: string) => {
       setActiveId(id);
+      setFocusId(id);
+      setFocusKey((k) => k + 1);
       const at = events.findIndex((e) => e.id === id);
       if (at >= 0) setIndex(at);
     },
@@ -70,6 +79,8 @@ export default function JourneySection({ events }: Props) {
         setFocusKey((k) => k + 1);
       } else {
         setActiveId(null);
+        setFocusId(null);
+        setUnknownKey((k) => k + 1);
       }
     },
     [at, events, total],
@@ -134,6 +145,7 @@ export default function JourneySection({ events }: Props) {
             activeId={activeId}
             focusId={focusId}
             focusKey={focusKey}
+            unknownKey={unknownKey}
             view={view}
             event={event}
             current={at}

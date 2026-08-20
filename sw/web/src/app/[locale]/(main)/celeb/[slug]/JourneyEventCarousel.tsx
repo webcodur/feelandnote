@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  useCallback,
-  useRef,
-  useState,
-  type PointerEvent as ReactPointerEvent,
-} from "react";
+import { useCallback, useRef, type PointerEvent as ReactPointerEvent } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import type { CelebTimelineEvent } from "@/actions/celebs/getCelebTimelineEvents";
 import JourneyEventCard from "./JourneyEventCard";
-import { formatTimelinePosition } from "./journeyTimeline";
+import { formatTimelineHeadline, timelineYearCopy } from "./journeyTimeline";
 
 interface Props {
   events: CelebTimelineEvent[];
@@ -29,7 +24,7 @@ export default function JourneyEventCarousel({
   onPlaceSelect,
 }: Props) {
   const t = useTranslations("celebPage");
-  const [dragX, setDragX] = useState(0);
+  const yearCopy = timelineYearCopy(t);
   const swipeRef = useRef({
     x: 0,
     y: 0,
@@ -39,6 +34,7 @@ export default function JourneyEventCarousel({
   });
   const trackRef = useRef<HTMLDivElement>(null);
   const total = events.length;
+  const event = events[current];
 
   const go = useCallback(
     (next: number) => {
@@ -47,47 +43,39 @@ export default function JourneyEventCarousel({
     [onChange, total],
   );
 
-  const handleDragStart = useCallback((event: ReactPointerEvent) => {
+  const handleDragStart = useCallback((pointer: ReactPointerEvent) => {
     swipeRef.current = {
-      x: event.clientX,
-      y: event.clientY,
-      active: true,
+      x: pointer.clientX,
+      y: pointer.clientY,
+      active: pointer.pointerType === "touch",
       moved: false,
       offset: 0,
     };
   }, []);
 
-  const handleDragMove = useCallback(
-    (event: ReactPointerEvent) => {
-      const drag = swipeRef.current;
-      if (!drag.active) return;
-      const dx = event.clientX - drag.x;
-      const dy = event.clientY - drag.y;
+  const handleDragMove = useCallback((pointer: ReactPointerEvent) => {
+    const drag = swipeRef.current;
+    if (!drag.active) return;
+    const dx = pointer.clientX - drag.x;
+    const dy = pointer.clientY - drag.y;
 
-      if (!drag.moved) {
-        if (Math.abs(dx) < 6) return;
-        if (Math.abs(dx) <= Math.abs(dy)) {
-          drag.active = false;
-          return;
-        }
-        drag.moved = true;
+    if (!drag.moved) {
+      if (Math.abs(dx) < 6) return;
+      if (Math.abs(dx) <= Math.abs(dy)) {
+        drag.active = false;
+        return;
       }
+      drag.moved = true;
+    }
 
-      const atEdge =
-        (current === 0 && dx > 0) ||
-        (current === total - 1 && dx < 0);
-      drag.offset = atEdge ? dx * 0.3 : dx;
-      setDragX(drag.offset);
-    },
-    [current, total],
-  );
+    drag.offset = dx;
+  }, []);
 
   const handleDragEnd = useCallback(() => {
     const drag = swipeRef.current;
     const shifted = drag.offset;
     drag.active = false;
     drag.offset = 0;
-    setDragX(0);
     if (!shifted) return;
 
     const width = trackRef.current?.clientWidth ?? 0;
@@ -97,9 +85,13 @@ export default function JourneyEventCarousel({
     }
   }, [current, go]);
 
+  if (!event) return null;
+
   return (
     <div
       data-timeline-carousel
+      data-timeline-index={current}
+      data-timeline-total={total}
       className="grid h-[360px] min-w-0 grid-cols-[40px_minmax(0,1fr)_40px] overflow-hidden rounded border border-accent-dim/30 bg-bg-secondary/35 md:h-[396px] md:grid-cols-[52px_minmax(0,1fr)_52px]"
     >
       <button
@@ -122,34 +114,21 @@ export default function JourneyEventCarousel({
         onPointerCancel={handleDragEnd}
         onPointerLeave={handleDragEnd}
       >
-        <div
-          className={`flex h-full items-stretch ${
-            dragX ? "" : "transition-transform duration-300 ease-out"
-          }`}
-          style={{
-            transform: `translateX(calc(${-current * 100}% + ${dragX}px))`,
+        <JourneyEventCard
+          event={event}
+          isCurrent
+          positionLabel={formatTimelineHeadline(
+            event,
+            yearCopy,
+            (when, place) => t("timelineHeadlineJoin", { when, place }),
+          )}
+          currentNumber={current + 1}
+          currentLabel={t("timelineCurrent", { current: current + 1 })}
+          totalLabel={t("timelineTotal", { total })}
+          onPlaceSelect={() => {
+            if (!swipeRef.current.moved) onPlaceSelect(event.id);
           }}
-        >
-          {events.map((item, itemIndex) => {
-            const isCurrent = itemIndex === current;
-
-            return (
-              <JourneyEventCard
-                key={item.id}
-                event={item}
-                isCurrent={isCurrent}
-                positionLabel={formatTimelinePosition(item, t("timelineBc"))}
-                pageLabel={t("timelinePage", {
-                  current: itemIndex + 1,
-                  total,
-                })}
-                onPlaceSelect={() => {
-                  if (!swipeRef.current.moved) onPlaceSelect(item.id);
-                }}
-              />
-            );
-          })}
-        </div>
+        />
       </div>
 
       <button
