@@ -89,15 +89,15 @@
         "remaining": "남은 짝 {pairs}",
         "restart": "다시 섞기",
         "cardBack": "뒤집힌 인물 카드",
-        "match": "일치! 두 초상이 사라집니다.",
-        "mismatch": "다른 인물입니다. 얼굴을 다시 기억하세요.",
         "result": {
           "breadcrumb": "완료",
-          "title": "모든 초상이 사라졌습니다",
+          "title": "게임 클리어",
           "summary": "{moves}번의 시도, {seconds}초 만에 완성했습니다.",
           "replay": "같은 난이도",
           "next": "다음 난이도",
-          "lobby": "난이도 선택"
+          "lobby": "난이도 선택",
+          "figuresTitle": "이번에 만난 인물",
+          "figuresEmpty": "등록된 감상 기록이 없습니다."
         }
       },
       "dawn": {

@@ -89,15 +89,15 @@
         "remaining": "{pairs} pairs left",
         "restart": "Shuffle Again",
         "cardBack": "Face-down figure card",
-        "match": "A match! Both portraits vanish.",
-        "mismatch": "Different figures. Remember their faces.",
         "result": {
           "breadcrumb": "Complete",
-          "title": "Every Portrait Has Vanished",
+          "title": "Game Clear",
           "summary": "Completed in {moves} moves and {seconds} seconds.",
           "replay": "Same Difficulty",
           "next": "Next Difficulty",
-          "lobby": "Choose Difficulty"
+          "lobby": "Choose Difficulty",
+          "figuresTitle": "Figures You Met",
+          "figuresEmpty": "No notes on record."
         }
       },
       "dawn": {

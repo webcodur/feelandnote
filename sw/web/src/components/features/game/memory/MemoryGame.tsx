@@ -45,7 +45,6 @@ export default function MemoryGame({
   const [locked, setLocked] = useState(false);
   const [pairResult, setPairResult] = useState<MemoryPairResult>(null);
   const [resultEffectActive, setResultEffectActive] = useState(false);
-  const [feedback, setFeedback] = useState("");
   const timeoutIds = useRef<number[]>([]);
 
   const config = MEMORY_DIFFICULTIES.find((item) => item.key === difficulty)
@@ -53,7 +52,6 @@ export default function MemoryGame({
   const difficultyIndex = MEMORY_DIFFICULTIES.findIndex((item) => item.key === difficulty);
   const hasNextDifficulty = difficultyIndex < MEMORY_DIFFICULTIES.length - 1;
   const remainingPairs = Math.max(0, (board.length - matchedIds.size) / 2);
-  const progress = board.length === 0 ? 0 : (matchedIds.size / board.length) * 100;
 
   const clearTimeouts = useCallback(() => {
     for (const id of timeoutIds.current) window.clearTimeout(id);
@@ -78,7 +76,6 @@ export default function MemoryGame({
     setLocked(false);
     setPairResult(null);
     setResultEffectActive(false);
-    setFeedback("");
     setPhase("playing");
     playSfx(MEMORY_SFX.start);
   }, [clearTimeouts, difficulty, figures, playSfx]);
@@ -110,7 +107,6 @@ export default function MemoryGame({
     setOpenIds([]);
     setPairResult(null);
     setResultEffectActive(false);
-    setFeedback("");
     setLocked(false);
   }, [clearTimeouts]);
 
@@ -151,8 +147,7 @@ export default function MemoryGame({
       setOpenIds([card.instanceId]);
       setPairResult(null);
       setResultEffectActive(false);
-      setFeedback("");
-      playFlipSfx();
+        playFlipSfx();
       return;
     }
 
@@ -172,8 +167,7 @@ export default function MemoryGame({
       setPairResult("match");
       setResultEffectActive(false);
       setLocked(true);
-      setFeedback("");
-      playFlipSfx();
+        playFlipSfx();
       queueTimeout(() => {
         setResultEffectActive(true);
         playResultSfx("match");
@@ -187,7 +181,6 @@ export default function MemoryGame({
 
     setPairResult("mismatch");
     setResultEffectActive(false);
-    setFeedback(t("mismatch"));
     playFlipSfx();
     queueTimeout(() => {
       setResultEffectActive(true);
@@ -207,7 +200,6 @@ export default function MemoryGame({
     playResultSfx,
     playSfx,
     queueTimeout,
-    t,
   ]);
 
   useEffect(() => {
@@ -221,16 +213,30 @@ export default function MemoryGame({
 
   useEffect(() => clearTimeouts, [clearTimeouts]);
 
+  // 이번 판에 나온 인물 — 결과 화면에서 감상 기록으로 이어준다
+  const playedFigures = useMemo(() => {
+    const unique = new Map<string, MemoryFigure>();
+    for (const card of board) {
+      if (!unique.has(card.figure.id)) unique.set(card.figure.id, card.figure);
+    }
+    return [...unique.values()];
+  }, [board]);
+
   const breadcrumbs = useMemo(() => {
     const items: BreadcrumbItem[] = [{ label: t("label"), onClick: () => setPhase("lobby") }];
-    if (phase === "playing") items.push({ label: t(`difficulty.${difficulty}.label`) });
+    if (phase === "playing") {
+      items.push({
+        label: `${t(`difficulty.${difficulty}.label`)} · ${t("remaining", { pairs: remainingPairs })}`,
+      });
+    }
     if (phase === "result") items.push({ label: t("result.breadcrumb") });
     return items;
-  }, [difficulty, phase, t]);
+  }, [difficulty, phase, remainingPairs, t]);
 
   return (
     <GameFullScreen
       breadcrumbs={breadcrumbs}
+      reserveSubtitleSpace={false}
       onHome={() => setPhase("lobby")}
       onExitFullScreen={onExitFullScreenExternal}
       initialFullScreen={initialFullScreen}
@@ -261,6 +267,7 @@ export default function MemoryGame({
       ) : phase === "result" ? (
         <MemoryResult
           difficulty={difficulty}
+          figures={playedFigures}
           moves={moves}
           elapsedSeconds={elapsedSeconds}
           hasNextDifficulty={hasNextDifficulty}
@@ -271,7 +278,7 @@ export default function MemoryGame({
       ) : (
         <MemoryBoard
           board={board}
-          difficulty={difficulty}
+          maxWidthClassName={config.maxWidthClassName}
           gridClassName={config.gridClassName}
           openIds={openIds}
           matchedIds={matchedIds}
@@ -279,9 +286,6 @@ export default function MemoryGame({
           resultEffectActive={resultEffectActive}
           moves={moves}
           elapsedSeconds={elapsedSeconds}
-          remainingPairs={remainingPairs}
-          progress={progress}
-          feedback={feedback}
           onSelect={handleSelect}
           onRestart={() => startGame()}
         />
