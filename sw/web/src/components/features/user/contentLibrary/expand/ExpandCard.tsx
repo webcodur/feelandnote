@@ -26,6 +26,7 @@ interface ExpandCardProps {
   item: UserContentWithContent;
   brief: ContentBrief | null;
   isBriefLoading: boolean;
+  isRecordLoading: boolean;
   /** 화면에 지금 떠 있는 카드인지. 옆에 대기 중인 카드는 표지를 서둘러 받지 않는다 */
   isActive: boolean;
   /** 이 감상배경을 남긴 인물 이름 */
@@ -38,6 +39,7 @@ function ExpandCard({
   item,
   brief,
   isBriefLoading,
+  isRecordLoading,
   isActive,
   ownerNickname,
   ownerAvatarUrl,
@@ -124,7 +126,13 @@ function ExpandCard({
             </div>
           </div>
 
-          {review && !isSpoiler && (
+          {isRecordLoading ? (
+            <div aria-hidden className="space-y-2 py-1">
+              <div className="h-3 w-full animate-pulse rounded bg-white/[0.06]" />
+              <div className="h-3 w-11/12 animate-pulse rounded bg-white/[0.06]" />
+              <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
+            </div>
+          ) : review && !isSpoiler ? (
             <>
               {reviewIsOriginalLanguage && (
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-200">
@@ -138,19 +146,21 @@ function ExpandCard({
                 <FormattedText text={review} />
               </div>
             </>
-          )}
+          ) : null}
 
-          {review && isSpoiler && (
+          {!isRecordLoading && review && isSpoiler && (
             <div className="rounded-lg border border-white/5 bg-white/5 px-4 py-6 text-center text-sm text-text-secondary">
               {t("reviewModal.spoiler")}
             </div>
           )}
 
-          {!review && <p className="text-sm italic text-text-tertiary">{t("reviewModal.noReview")}</p>}
+          {!isRecordLoading && !review && <p className="text-sm italic text-text-tertiary">{t("reviewModal.noReview")}</p>}
 
         {/* 출처 */}
           <div className="mt-4 min-w-0 text-sm">
-            {item.source_url ? (
+            {isRecordLoading ? (
+              <span className="block h-3 w-40 animate-pulse rounded bg-white/[0.06]" />
+            ) : item.source_url ? (
               <a
                 href={item.source_url}
                 target="_blank"

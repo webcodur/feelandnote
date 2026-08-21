@@ -10,6 +10,7 @@ import {
   filterAndSortContents,
   formatMonthLabel,
   groupByMonth,
+  mapPublicToUserContent,
   type ReviewFilter,
   type SortOption,
   type UseContentLibraryOptions,
@@ -36,6 +37,10 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     initialContentBrief,
   } = options;
   const isViewer = mode === "viewer";
+  const initialContentRecord = useMemo(() => {
+    if (ownerKind !== "celeb" || !targetUserId || !initialContents?.items[0]) return undefined;
+    return mapPublicToUserContent([initialContents.items[0]], targetUserId)[0];
+  }, [initialContents, ownerKind, targetUserId]);
 
   const [activeTab, setActiveTabState] = useState<CategoryId>("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -168,6 +173,7 @@ export function useContentLibrary(options: UseContentLibraryOptions = {}) {
     responsiveDefaultViewMode: defaultViewMode ?? "list",
     responsiveDesktopViewMode: desktopViewMode,
     initialContentBrief,
+    initialContentRecord,
     searchQuery,
     setSearchQuery,
     appliedSearchQuery,

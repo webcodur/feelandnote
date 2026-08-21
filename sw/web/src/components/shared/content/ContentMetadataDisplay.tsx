@@ -5,18 +5,10 @@
 */ // ------------------------------
 "use client";
 
-import {
-  Building2,
-  Tv,
-  Star,
-  Gamepad2,
-  Music,
-  Disc3,
-  ExternalLink,
-} from "lucide-react";
 import type { ContentMetadata } from "@/types/content";
 import { useTranslations } from "next-intl";
 import BookMetadata from "./contentMetadata/BookMetadata";
+import MetadataField from "./MetadataField";
 
 interface ContentMetadataDisplayProps {
   category: string;
@@ -30,50 +22,6 @@ interface ContentMetadataDisplayProps {
   internalHref?: string;
 }
 
-interface InfoItemProps {
-  icon: React.ElementType;
-  label: string;
-  value: string | number;
-  compact: boolean;
-}
-
-function InfoItem({ icon: Icon, label, value, compact }: InfoItemProps) {
-  return (
-    <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
-      <Icon size={compact ? 12 : 14} className="shrink-0 text-text-primary/60" />
-      <span className="text-text-primary/60">{label}</span>
-      <span className="font-medium text-white">{value}</span>
-    </div>
-  );
-}
-
-interface TagListProps {
-  items: string[];
-  label: string;
-  compact: boolean;
-}
-
-function TagList({ items, label, compact }: TagListProps) {
-  const visibleCount = compact ? 3 : 5;
-
-  return (
-    <div className="flex flex-wrap items-center gap-2">
-      <span className={`${compact ? "text-xs" : "text-sm"} text-text-primary/60`}>{label}</span>
-      {items.slice(0, visibleCount).map((item, i) => (
-        <span
-          key={i}
-          className={`rounded-md bg-white/10 px-2 py-0.5 ${compact ? "text-[10px]" : "text-xs"} text-white`}
-        >
-          {item}
-        </span>
-      ))}
-      {items.length > visibleCount && (
-        <span className="text-xs text-text-primary/60">+{items.length - visibleCount}</span>
-      )}
-    </div>
-  );
-}
-
 export default function ContentMetadataDisplay({
   category,
   metadata,
@@ -84,6 +32,7 @@ export default function ContentMetadataDisplay({
   internalHref,
 }: ContentMetadataDisplayProps) {
   const t = useTranslations("shared.content");
+  const tDetail = useTranslations("contentDetail");
   if (!metadata) return null;
 
   // metadata에서 값 추출
@@ -119,16 +68,12 @@ export default function ContentMetadataDisplay({
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
           {subtype && (
-            <InfoItem icon={Tv} label={t("type")} value={subtype === "movie" ? t("movie") : t("tvProgram")} compact={compact} />
+            <MetadataField label={t("type")} value={subtype === "movie" ? t("movie") : t("tvProgram")} compact={compact} />
           )}
           {voteAverage !== undefined && (
-            <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
-              <Star size={compact ? 12 : 14} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-text-primary/60">{t("rating")}</span>
-              <span className="text-white font-medium">{voteAverage.toFixed(1)}</span>
-            </div>
+            <MetadataField label={t("rating")} value={voteAverage.toFixed(1)} compact={compact} />
           )}
-          {genres && genres.length > 0 && <TagList items={genres} label={t("genre")} compact={compact} />}
+          {genres && genres.length > 0 && <MetadataField label={t("genre")} value={genres.join(" · ")} compact={compact} />}
         </div>
       );
 
@@ -136,17 +81,13 @@ export default function ContentMetadataDisplay({
     case "game":
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
-          {developer && <InfoItem icon={Gamepad2} label={t("developer")} value={developer} compact={compact} />}
-          {!compact && publisher && <InfoItem icon={Building2} label={t("gamePublisher")} value={publisher} compact={compact} />}
+          {developer && <MetadataField label={t("developer")} value={developer} compact={compact} />}
+          {!compact && publisher && <MetadataField label={t("gamePublisher")} value={publisher} compact={compact} />}
           {rating !== undefined && (
-            <div className={`flex items-center gap-2 ${compact ? "text-xs" : "text-sm"}`}>
-              <Star size={compact ? 12 : 14} className="text-yellow-400 fill-yellow-400" />
-              <span className="text-text-primary/60">{t("rating")}</span>
-              <span className="text-white font-medium">{t("ratingScore", { score: rating })}</span>
-            </div>
+            <MetadataField label={t("rating")} value={t("ratingScore", { score: rating })} compact={compact} />
           )}
-          {platforms && platforms.length > 0 && <TagList items={platforms} label={t("platform")} compact={compact} />}
-          {!compact && genres && genres.length > 0 && <TagList items={genres} label={t("genre")} compact={compact} />}
+          {platforms && platforms.length > 0 && <MetadataField label={t("platform")} value={platforms.join(" · ")} compact={compact} />}
+          {!compact && genres && genres.length > 0 && <MetadataField label={t("genre")} value={genres.join(" · ")} compact={compact} />}
         </div>
       );
 
@@ -157,19 +98,18 @@ export default function ContentMetadataDisplay({
         : null;
       return (
         <div className={`flex flex-col ${compact ? "gap-1.5" : "gap-3"}`}>
-          {albumType && <InfoItem icon={Disc3} label={t("albumType")} value={albumType} compact={compact} />}
+          {albumType && <MetadataField label={t("albumType")} value={albumType} compact={compact} />}
           {totalTracks !== undefined && (
-            <InfoItem icon={Music} label={t("tracks", { count: totalTracks })} value={totalTracks} compact={compact} />
+            <MetadataField label={tDetail("trackList")} value={totalTracks} compact={compact} />
           )}
-          {!compact && artists && artists.length > 1 && <TagList items={artists} label={t("artist")} compact={compact} />}
+          {!compact && artists && artists.length > 1 && <MetadataField label={t("artist")} value={artists.join(" · ")} compact={compact} />}
           {!compact && listenLink && (
             <a
               href={listenLink.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-accent hover:underline"
+              className="text-sm text-accent hover:underline"
             >
-              <ExternalLink size={14} />
               {listenLink.label}
             </a>
           )}
