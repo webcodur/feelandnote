@@ -27,7 +27,7 @@ const GAME_SECTIONS = [
   { href: "/rest#hegemony",  valueKey: "hegemony" as const,  dev: false },
   { href: "/rest#suikoden",  valueKey: "suikoden" as const,  dev: false },
   { href: "/rest#wander",    valueKey: "wander" as const,    dev: true },
-  { href: "/rest#memory",    valueKey: "memory" as const,    dev: true },
+  { href: "/rest#memory",    valueKey: "memory" as const,    dev: false },
   { href: "/rest#portrait",  valueKey: "portrait" as const,  dev: true },
 ] as const;
 // #endregion
@@ -56,10 +56,12 @@ export default async function RestPage({ searchParams }: RestPageProps) {
   const suikodenCharactersPromise = loadSuikodenCharacters();
   const suikodenDialoguesPromise = loadSuikodenDialogues();
 
-  // 미공개 게임 자료는 개발자 모드에서만 조회한다 — 평소 통신량을 늘리지 않기 위함
-  const [wanderPools, memoryFigures, portraitFigures] = devMode
-    ? await Promise.all([loadWanderPools(), getMemoryFigures(), getPortraitFigures()])
-    : [null, null, null];
+  // 기억은 공개 게임이라 늘 조회한다. 미공개 게임 자료는 개발자 모드에서만 받아 평소 통신량을 늘리지 않는다
+  const [memoryFigures, wanderPools, portraitFigures] = await Promise.all([
+    getMemoryFigures(),
+    devMode ? loadWanderPools() : Promise.resolve(null),
+    devMode ? getPortraitFigures() : Promise.resolve(null),
+  ]);
 
   // 목차 줄 항목 — 아이콘은 아래 게임 카드가 이미 크게 달고 있어 여기서는 번호와 이름만 쓴다
   const hubItems = visibleSections.map((game) => ({

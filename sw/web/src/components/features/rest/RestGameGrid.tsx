@@ -40,7 +40,7 @@ const GAME_SECTIONS = [
   { valueKey: "hegemony" as const, label: "HEGEMONY", icon: Swords, image: "/images/games/hegemony-card.webp", dev: false },
   { valueKey: "suikoden" as const, label: "CHEONDO", icon: Crown, image: "/images/games/suikoden-card.webp", dev: false },
   { valueKey: "wander" as const, label: "WANDER", icon: Footprints, image: "/images/games/wander-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
-  { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
+  { valueKey: "memory" as const, label: "MEMORY", icon: Brain, image: "/images/games/memory-card.webp", dev: false }, // i18n-audit-ignore -- 공식 영문 게임명
   // 시대의 초상은 기억 게임 카드 그림을 함께 쓴다 (docs/games/card-images.md §5)
   { valueKey: "portrait" as const, label: "PORTRAITS IN TIME", icon: ScanFace, image: "/images/games/memory-card.webp", dev: true }, // i18n-audit-ignore -- 공식 영문 게임명
 ] as const;
