@@ -96,7 +96,7 @@ function ExpandCard({
           )}
 
           <div className="min-w-0 flex-1">
-            <ContentIntro brief={brief} isLoading={isBriefLoading} />
+            <ContentIntro brief={brief} category={category} isLoading={isBriefLoading} />
           </div>
         </div>
 

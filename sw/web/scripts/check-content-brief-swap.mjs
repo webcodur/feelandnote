@@ -97,6 +97,8 @@ try {
         busy: library.querySelector('[data-testid="expand-detail-body"]')?.getAttribute("aria-busy") ?? null,
         title: library.querySelector('[data-testid="expand-selected-title"]')?.textContent?.trim() ?? null,
         selectedTitle: selected?.getAttribute("title") ?? null,
+        bodyTitle: article?.querySelector("img")?.getAttribute("alt") ?? null,
+        reviewText: currentReview?.textContent?.replace(/\s+/g, " ").trim() ?? "",
         windowY: Math.round(window.scrollY * 10) / 10,
         navScrollTop: Math.round(nav.scrollTop * 10) / 10,
         targetTop: Math.round(candidate.row.getBoundingClientRect().top * 10) / 10,
@@ -106,6 +108,7 @@ try {
     const intervalId = window.setInterval(sample, 8);
     window.__contentBriefSwapTrace = {
       expectedTitle: candidate.row.title,
+      initialReviewText: review.textContent?.replace(/\s+/g, " ").trim() ?? "",
       samples,
       stop() {
         window.clearInterval(intervalId);
@@ -158,16 +161,11 @@ try {
     const targetPositions = trace.samples.map((sample) => sample.targetTop);
     return {
       expectedTitle: trace.expectedTitle,
+      initialReviewText: trace.initialReviewText,
       sampleCount: trace.samples.length,
       firstChanged,
       final,
       sawSkeletonAfterSwap: changed.some((sample) => sample.skeleton),
-      sawBusyBeforeSwap: trace.samples.some(
-        (sample) => !sample.articleChanged && sample.busy === "true",
-      ),
-      sawSkeletonBeforeSwap: trace.samples.some(
-        (sample) => !sample.articleChanged && sample.skeleton,
-      ),
       postSwapReviewDelta: Math.round((Math.max(...reviewTops) - Math.min(...reviewTops)) * 10) / 10,
       windowDelta: Math.round((Math.max(...windowPositions) - Math.min(...windowPositions)) * 10) / 10,
       navDelta: Math.round((Math.max(...navPositions) - Math.min(...navPositions)) * 10) / 10,
@@ -184,23 +182,20 @@ try {
 
   assert.equal(
     result.sawSkeletonAfterSwap,
-    false,
-    `A loading skeleton appeared between complete cards: ${JSON.stringify(result)}`,
-  );
-  assert.equal(
-    result.sawBusyBeforeSwap,
     true,
-    `The complete previous card was not marked busy while waiting: ${JSON.stringify(result)}`,
+    `The selected record did not expose its pending intro: ${JSON.stringify(result)}`,
   );
   assert.equal(
-    result.sawSkeletonBeforeSwap,
-    false,
-    `The previous complete card regressed to a skeleton while waiting: ${JSON.stringify(result)}`,
+    result.firstChanged.bodyTitle,
+    result.expectedTitle,
+    `The body kept showing the previous record: ${JSON.stringify(result)}`,
   );
-  assert(
-    result.postSwapReviewDelta <= tolerance,
-    `The review moved again after the new card appeared: ${JSON.stringify(result)}`,
+  assert.notEqual(
+    result.firstChanged.reviewText,
+    result.initialReviewText,
+    `The review kept showing the previous record: ${JSON.stringify(result)}`,
   );
+  assert.equal(result.firstChanged.busy, "true");
   assert(result.windowDelta <= tolerance, `Selection moved document scroll: ${JSON.stringify(result)}`);
   assert(result.navDelta <= tolerance, `Selection moved index scroll: ${JSON.stringify(result)}`);
   assert(result.targetDelta <= tolerance, `Selection moved the clicked index row: ${JSON.stringify(result)}`);
@@ -211,8 +206,13 @@ try {
   const rapid = await checkRapidSelection(page, firstRapidRequest, secondRapidRequest);
   assert.equal(
     rapid.intermediateBodyAppeared,
+    true,
+    `The intermediate selection did not receive immediate body feedback: ${JSON.stringify(rapid)}`,
+  );
+  assert.equal(
+    rapid.staleBodyAppearedAfterFinal,
     false,
-    `A stale intermediate response replaced the last complete card: ${JSON.stringify(rapid)}`,
+    `A stale response replaced the final selected detail: ${JSON.stringify(rapid)}`,
   );
   assert.equal(
     rapid.finalBodyTitle,
@@ -745,6 +745,9 @@ async function checkRapidSelection(page, firstRequest, secondRequest) {
     if (!trace) throw new Error("Missing rapid brief trace");
     trace.stop();
     const articleChanges = trace.changes.filter((change) => change.bodyTitle != null);
+    const finalChangeIndex = articleChanges.findIndex(
+      (change) => change.bodyTitle === finalTitle,
+    );
     return {
       intermediateTitle,
       finalTitle,
@@ -753,6 +756,9 @@ async function checkRapidSelection(page, firstRequest, secondRequest) {
       intermediateBodyAppeared: articleChanges.some(
         (change) => change.bodyTitle === intermediateTitle,
       ),
+      staleBodyAppearedAfterFinal: finalChangeIndex >= 0 && articleChanges
+        .slice(finalChangeIndex + 1)
+        .some((change) => change.bodyTitle !== finalTitle),
       articleChanges,
     };
   }, targets);

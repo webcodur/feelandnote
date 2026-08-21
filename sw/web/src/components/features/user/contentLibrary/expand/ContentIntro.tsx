@@ -37,26 +37,18 @@ const BODY_CLASS =
 
 interface ContentIntroProps {
   brief: ContentBrief | null;
+  category: CategoryId;
   isLoading: boolean;
 }
 
-export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
+export default function ContentIntro({ brief, category, isLoading }: ContentIntroProps) {
   const t = useTranslations("archiveSearch");
   const headingId = useId();
   const [pickedProvider, setPickedProvider] = useState<ContentIntroSource["provider"] | null>(null);
 
-  if (isLoading) {
-    return (
-      <div className="space-y-2">
-        <div className="h-3 w-full animate-pulse rounded bg-white/[0.06]" />
-        <div className="h-3 w-11/12 animate-pulse rounded bg-white/[0.06]" />
-        <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
-      </div>
-    );
-  }
-
   const sourceText = selectContentIntroText(brief);
   const text = sourceText ? normalizeContentIntroText(sourceText) : null;
+  const headingCategory = brief?.category ?? category;
 
   // 바깥에서 받아 온 소개들. 앞선 작품에서 고른 탭이 남아 있으면 첫 번째로 되돌린다
   const sources = brief?.introSources ?? [];
@@ -68,15 +60,21 @@ export default function ContentIntro({ brief, isLoading }: ContentIntroProps) {
         id={headingId}
         className={`${EXPAND_SECTION_HEADING_CLASS} mb-4`}
       >
-        {t(INTRO_HEADING_KEY[brief?.category ?? "all"])}
+        {t(INTRO_HEADING_KEY[headingCategory])}
       </h4>
 
       {/* 영상 홍보 문구는 소개 위에 한 줄로 얹는다 */}
-      {brief?.category === "video" && brief.metadata?.tagline && (
+      {!isLoading && brief?.category === "video" && brief.metadata?.tagline && (
         <p className="mb-3 text-sm italic text-text-secondary">{brief.metadata.tagline}</p>
       )}
 
-      {text ? (
+      {isLoading ? (
+        <div aria-hidden className="space-y-2">
+          <div className="h-3 w-full animate-pulse rounded bg-white/[0.06]" />
+          <div className="h-3 w-11/12 animate-pulse rounded bg-white/[0.06]" />
+          <div className="h-3 w-4/5 animate-pulse rounded bg-white/[0.06]" />
+        </div>
+      ) : text ? (
         <div className={BODY_CLASS}>
           <FormattedText text={text} />
         </div>
