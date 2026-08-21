@@ -42,11 +42,11 @@ export default function MemoryLobby({
         {t("headerSub")}
       </p>
 
-      <fieldset className="mt-9 w-full">
+      <fieldset className="mt-9 w-full max-w-md">
         <legend className="mb-4 font-serif text-lg font-bold text-text-primary">
           {t("selectDifficulty")}
         </legend>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3">
           {MEMORY_DIFFICULTIES.map((item) => {
             const active = item.key === difficulty;
             return (
@@ -56,20 +56,22 @@ export default function MemoryLobby({
                 aria-pressed={active}
                 onClick={() => onDifficultyChange(item.key)}
                 className={[
-                  "rounded-xl border p-4 text-start",
+                  "rounded-xl border px-4 py-3 text-start",
                   active
                     ? "border-accent bg-accent/10 text-text-primary"
                     : "border-white/10 bg-bg-main/70 text-text-secondary hover:border-accent/60 hover:bg-white/[0.05] hover:text-text-primary",
                 ].join(" ")}
               >
-                <span className="block font-serif text-lg font-bold">
-                  {t(`difficulty.${item.key}.label`)}
-                </span>
-                <span className="mt-1 block text-sm leading-6 text-text-secondary">
-                  {t(`difficulty.${item.key}.description`, {
-                    pairs: item.pairs,
-                    cards: item.pairs * 2,
-                  })}
+                <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                  <span className="font-serif text-lg font-bold">
+                    {t(`difficulty.${item.key}.label`)}
+                  </span>
+                  <span className="text-sm leading-6 text-text-secondary">
+                    {t(`difficulty.${item.key}.description`, {
+                      pairs: item.pairs,
+                      cards: item.pairs * 2,
+                    })}
+                  </span>
                 </span>
               </button>
             );

@@ -48,7 +48,7 @@ export default function MemoryCard({
       }
       onClick={() => onSelect(card)}
       className={[
-        "group relative aspect-[4/5] min-w-0 rounded-lg border bg-bg-card text-left",
+        "group @container relative aspect-[4/5] min-w-0 rounded-lg border bg-bg-card text-left",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
         pairResult === "match"
           ? "border-emerald-400 ring-2 ring-emerald-400/70"
@@ -97,8 +97,9 @@ export default function MemoryCard({
             }`}
             style={{ transitionDuration: `${MEMORY_RESULT_TIMING.effectTransitionMs}ms` }}
           />
-          <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent px-1.5 pb-1.5 pt-6">
-            <span className="block truncate text-center font-serif text-sm font-bold text-text-primary">
+          {/* 카드가 넉넉한 가로 화면에서만 이름을 얹는다. 좁거나 낮은 화면은 보드의 이름 자리가 대신 읽는다 */}
+          <span className="absolute inset-x-0 bottom-0 hidden bg-gradient-to-t from-bg-main via-bg-main/90 to-transparent px-1 pb-1.5 pt-6 landscape:[@media(min-height:600px)]:block">
+            <span className="block truncate text-center font-serif text-xs font-bold text-text-primary @min-[7rem]:text-sm">
               {card.figure.name}
             </span>
           </span>
