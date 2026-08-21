@@ -1,9 +1,8 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import ContentImage from "@/components/ui/ContentImage";
+import MetadataField from "@/components/shared/content/MetadataField";
 import type { ContentMetadata } from "@/types/content";
 
 function SubHeading({ children }: { children: React.ReactNode }) {
@@ -18,34 +17,17 @@ export function VideoDetails({ metadata }: { metadata: ContentMetadata }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {metadata.director && (
-        <div>
-          <SubHeading>{t("director")}</SubHeading>
-          <p className="text-sm text-text-primary">{metadata.director}</p>
-        </div>
+        <MetadataField label={t("director")} value={metadata.director} />
       )}
       {metadata.runtime && (
-        <div>
-          <SubHeading>{t("runtime")}</SubHeading>
-          <p className="text-sm text-text-secondary">
-            {t("runtimeMinutes", { minutes: metadata.runtime })}
-          </p>
-        </div>
+        <MetadataField label={t("runtime")} value={t("runtimeMinutes", { minutes: metadata.runtime })} />
       )}
       {cast.length > 0 && (
-        <div className="col-span-full">
-          <SubHeading>{t("cast")}</SubHeading>
-          <div className="flex flex-wrap gap-2">
-            {cast.map((actor, index) => (
-              <span
-                key={`${actor.name}-${index}`}
-                className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-xs"
-              >
-                {actor.name}
-                {actor.character && <span className="text-text-tertiary"> ({actor.character})</span>}
-              </span>
-            ))}
-          </div>
-        </div>
+        <MetadataField
+          className="col-span-full"
+          label={t("cast")}
+          value={cast.map((actor) => actor.character ? `${actor.name} (${actor.character})` : actor.name).join(" · ")}
+        />
       )}
     </div>
   );
@@ -79,9 +61,9 @@ export function MusicDetails({
   return (
     <div className="space-y-4">
       <div className="space-y-3">
-        {performers.length > 0 && <MetadataLine label={tShared("artist")} value={performers.join(", ")} />}
-        {metadata.albumType && <MetadataLine label={tShared("albumType")} value={metadata.albumType} />}
-        {metadata.genre && <MetadataLine label={tShared("genre")} value={metadata.genre} />}
+        {performers.length > 0 && <MetadataField label={tShared("artist")} value={performers.join(" · ")} />}
+        {metadata.albumType && <MetadataField label={tShared("albumType")} value={metadata.albumType} />}
+        {metadata.genre && <MetadataField label={tShared("genre")} value={metadata.genre} />}
         {metadata.previewUrl && (
           mediaEnabled ? (
             <audio controls preload="none" src={metadata.previewUrl} className="h-10 w-full max-w-md">
@@ -96,9 +78,8 @@ export function MusicDetails({
             href={listenLink.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-accent hover:text-accent-hover hover:underline"
+            className="inline-flex text-sm text-accent hover:text-accent-hover hover:underline"
           >
-            <ExternalLink size={14} aria-hidden />
             {listenLink.label}
           </a>
         )}
@@ -123,47 +104,7 @@ export function MusicDetails({
           </div>
         </div>
       )}
-      {metadata.label && <MetadataLine label={t("label")} value={metadata.label} />}
-    </div>
-  );
-}
-
-function MetadataLine({ label, value }: { label: string; value: string }) {
-  return (
-    <p className="flex flex-wrap items-center gap-2 text-sm">
-      <span className="text-text-secondary">{label}</span>
-      <span className="font-medium text-text-primary">{value}</span>
-    </p>
-  );
-}
-
-export function GameScreenshots({
-  screenshots,
-  mediaEnabled = true,
-}: {
-  screenshots: string[];
-  mediaEnabled?: boolean;
-}) {
-  const t = useTranslations("contentDetail");
-  if (screenshots.length === 0) return null;
-
-  return (
-    <div>
-      <SubHeading>{t("screenshots")}</SubHeading>
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-        {screenshots.slice(0, 6).map((url, index) => (
-          <div key={url} className="relative aspect-video overflow-hidden rounded-lg border border-white/10">
-            {mediaEnabled ? (
-              <ContentImage
-                src={url}
-                alt={`${index + 1}`}
-                sizes="(max-width: 768px) 50vw, 33vw"
-                className="object-cover"
-              />
-            ) : null}
-          </div>
-        ))}
-      </div>
+      {metadata.label && <MetadataField label={t("label")} value={metadata.label} />}
     </div>
   );
 }

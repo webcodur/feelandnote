@@ -11,8 +11,8 @@
   color: var(--color-accent);
 }
 
-.indexItem[aria-current="true"] .indexItemNumber {
-  color: var(--color-accent);
+.indexItem[aria-current="true"] .indexItemMarker {
+  background-color: var(--color-accent);
 }
 
 .indexGroupLabelWrap {
@@ -31,6 +31,10 @@
 
 .indexRail[data-open="true"] .indexItemTitle {
   opacity: 1;
+}
+
+.indexRail[data-open="true"] .indexItemMarker {
+  opacity: 0;
 }
 
 .indexRail[data-open="true"] .indexGroupLabelWrap {

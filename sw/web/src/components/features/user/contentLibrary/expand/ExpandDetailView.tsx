@@ -22,6 +22,7 @@ import {
   ExpandTitleHeader,
 } from "./ExpandNavigation";
 import { useContentBrief } from "./useContentBrief";
+import { useCelebContentRecord } from "./useCelebContentRecord";
 import { useExpandIndexSelection } from "./useExpandIndexSelection";
 
 interface ExpandDetailViewProps {
@@ -31,6 +32,8 @@ interface ExpandDetailViewProps {
   isActive?: boolean;
   desktopPresentation?: boolean;
   initialContentBrief?: ContentBrief | null;
+  initialContentRecord?: UserContentWithContent;
+  celebId?: string;
 }
 
 export default function ExpandDetailView({
@@ -40,6 +43,8 @@ export default function ExpandDetailView({
   isActive = true,
   desktopPresentation = false,
   initialContentBrief,
+  initialContentRecord,
+  celebId,
 }: ExpandDetailViewProps) {
   const t = useTranslations("archiveSearch");
   const locale = useLocale();
@@ -98,6 +103,14 @@ export default function ExpandDetailView({
     initialContentBrief,
   );
   const brief = loadedBriefContentId === selectedContentId ? loadedBrief : null;
+  const selectedPlaceholder = items[selectedIndex];
+  const { record, isLoading: isRecordLoading } = useCelebContentRecord(
+    celebId,
+    selectedContentId,
+    initialContentRecord,
+    isActive,
+  );
+  const selectedItem = record?.content_id === selectedContentId ? record : selectedPlaceholder;
   const isNavigationDisabled = total <= 1;
 
   if (total === 0) return null;
@@ -147,14 +160,15 @@ export default function ExpandDetailView({
 
       <div
         data-testid="expand-detail-body"
-        aria-busy={isBriefLoading}
+        aria-busy={isBriefLoading || isRecordLoading}
         className="col-start-2 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0"
       >
         <ExpandCard
-          key={items[selectedIndex].id}
-          item={items[selectedIndex]}
+          key={selectedItem.id}
+          item={selectedItem}
           brief={brief}
           isBriefLoading={isBriefLoading}
+          isRecordLoading={isRecordLoading}
           isActive={isActive}
           ownerNickname={ownerNickname}
           ownerAvatarUrl={ownerAvatarUrl}

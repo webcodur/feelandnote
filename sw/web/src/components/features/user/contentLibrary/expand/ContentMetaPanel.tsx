@@ -4,7 +4,8 @@
 import type { ContentBrief } from "@/actions/contents/getContentBrief";
 import ContentMetadataDisplay from "@/components/shared/content/ContentMetadataDisplay";
 
-import { GameScreenshots, MusicDetails, VideoDetails } from "./ContentMetaDetails";
+import { MusicDetails, VideoDetails } from "./ContentMetaDetails";
+import GameScreenshots from "./GameScreenshots";
 
 interface ContentMetaPanelProps {
   brief: ContentBrief | null;

@@ -52,26 +52,24 @@ const ExpandIndexItem = memo(function ExpandIndexItem({
       }}
       onClick={() => onSelect(item.originalIndex)}
       aria-current={item.originalIndex === 0 ? "true" : undefined}
-      aria-label={`${label} ${item.localIndex}. ${item.title}`}
+      aria-label={`${label}. ${item.title}`}
       title={item.title}
       className={cn(
-        "grid min-h-11 w-full grid-cols-[32px_minmax(0,1fr)] items-center border-b border-white/[0.08] px-0 text-sm text-text-secondary last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70 md:grid-cols-[48px_minmax(0,1fr)]",
+        "relative flex min-h-11 w-full items-center border-b border-white/[0.08] px-2 text-sm text-text-secondary last:border-b-0 hover:bg-white/[0.05] hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70",
         styles.indexItem,
       )}
     >
       <span
         className={cn(
-          "flex w-full shrink-0 items-center justify-center font-mono text-xs font-semibold tabular-nums text-text-tertiary",
-          styles.indexItemNumber,
+          "absolute start-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/20 transition-opacity duration-150 ease-out",
+          styles.indexItemMarker,
         )}
         aria-hidden
-      >
-        {item.localIndex}
-      </span>
+      />
       <span
         aria-hidden
         className={cn(
-          "line-clamp-2 min-w-0 pe-2 text-start text-sm leading-snug transition-opacity duration-150 ease-out",
+          "line-clamp-2 min-w-0 w-full text-start text-sm leading-snug transition-opacity duration-150 ease-out",
           styles.indexItemTitle,
         )}
       >
@@ -149,11 +147,14 @@ function ExpandIndexGroup({
             </span>
             <span
               className={cn(
-                "text-center text-xs font-medium tracking-wide transition-opacity duration-150 ease-out",
+                "flex items-center gap-1.5 text-center text-xs font-medium tracking-wide transition-opacity duration-150 ease-out",
                 styles.indexGroupLabel,
               )}
             >
-              {label}
+              <span>{label}</span>
+              <span className="font-mono text-[10px] tabular-nums text-text-tertiary">
+                {items.length}
+              </span>
             </span>
           </span>
           <ChevronDown

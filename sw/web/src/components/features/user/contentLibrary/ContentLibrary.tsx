@@ -69,6 +69,7 @@ export default function ContentLibrary({
       effectsEnabled={effectsEnabled}
       desktopPresentation={desktopPresentation}
       initialContentBrief={lib.initialContentBrief}
+      initialContentRecord={lib.initialContentRecord}
       onDelete={lib.handleDelete}
       onAddContent={lib.handleAddContent}
       readOnly={isViewer}

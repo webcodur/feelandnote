@@ -10,6 +10,7 @@ import {
   getPublicCelebContents,
   getPublicViewerContents,
 } from "@/actions/contents/getUserContents";
+import { getPublicCelebContentIndex } from "@/actions/contents/getCelebContentExpand";
 import type { ContentTypeCounts } from "@/types/content";
 
 import { mapPublicToUserContent } from "./contentLibraryTypes";
@@ -61,7 +62,6 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
   const loadRequestIdRef = useRef(0);
   const hasSeedForInitialQueryRef = useRef(seed !== null);
 
-  const fetchViewerContents = ownerKind === "celeb" ? getPublicCelebContents : getPublicViewerContents;
   const loadContents = useCallback(async () => {
     const requestId = ++loadRequestIdRef.current;
     const requestedViewMode = viewMode;
@@ -84,10 +84,12 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
       });
 
       if (isViewer && targetUserId) {
-        const result = await fetchViewerContents({
-          userId: targetUserId,
-          ...request,
-        });
+        const result = ownerKind === "celeb" && requestedViewMode === "expand"
+          ? await getPublicCelebContentIndex({ userId: targetUserId, ...request })
+          : await (ownerKind === "celeb" ? getPublicCelebContents : getPublicViewerContents)({
+              userId: targetUserId,
+              ...request,
+            });
         if (requestId !== loadRequestIdRef.current) return;
         setContents(mapPublicToUserContent(result.items, targetUserId));
         setTotalPages(result.totalPages);
@@ -111,7 +113,7 @@ export function useContentLibraryData(options: ContentLibraryDataOptions) {
         setIsRefreshing(false);
       }
     }
-  }, [activeTab, appliedSearchQuery, compact, currentPage, fetchViewerContents, isViewer, maxItems, ownerKind, pageSize, reviewFilter, sortOption, t, targetUserId, viewMode]);
+  }, [activeTab, appliedSearchQuery, compact, currentPage, isViewer, maxItems, ownerKind, pageSize, reviewFilter, sortOption, t, targetUserId, viewMode]);
 
   // 펼침의 최대 200행을 목록 카드로 잠깐 재해석하면 DOM·인증·카운트 요청이 폭발한다.
   // 반대 방향(list → expand)은 현재 페이지의 첫 항목을 큰 카드로 즉시 보여주는 안전한 seed다.

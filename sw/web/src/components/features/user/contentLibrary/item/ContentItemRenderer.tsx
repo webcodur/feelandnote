@@ -35,6 +35,7 @@ interface ContentItemRendererProps {
   effectsEnabled?: boolean;
   desktopPresentation?: boolean;
   initialContentBrief?: ContentBrief | null;
+  initialContentRecord?: UserContentWithContent;
 }
 // #endregion
 
@@ -50,6 +51,8 @@ export default function ContentItemRenderer({
   effectsEnabled = true,
   desktopPresentation = false,
   initialContentBrief,
+  initialContentRecord,
+  targetUserId,
 }: ContentItemRendererProps) {
   // 별점 편집 모달 상태
   const [ratingEditTarget, setRatingEditTarget] = useState<{
@@ -80,6 +83,8 @@ export default function ContentItemRenderer({
         isActive={effectsEnabled}
         desktopPresentation={desktopPresentation}
         initialContentBrief={initialContentBrief}
+        initialContentRecord={initialContentRecord}
+        celebId={targetUserId}
       />
     );
   }
