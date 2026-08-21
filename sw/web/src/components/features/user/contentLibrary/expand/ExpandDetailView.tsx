@@ -4,7 +4,7 @@
 */
 "use client";
 
-import { useDeferredValue, useId, useMemo } from "react";
+import { useId, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import type { UserContentWithContent } from "@/actions/contents/getMyContents";
@@ -84,32 +84,20 @@ export default function ExpandDetailView({
     desktopPresentation,
     isDesktop,
   });
-  const deferredDetailContentId = useDeferredValue(selectedContentId);
-  const requestedDetailIndex = deferredDetailContentId
-    ? items.findIndex((item) => item.content_id === deferredDetailContentId)
-    : -1;
-  const safeRequestedDetailIndex = requestedDetailIndex >= 0 ? requestedDetailIndex : selectedIndex;
   const contentIds = useMemo(() => items.map((item) => item.content_id), [items]);
   const {
-    contentId: committedDetailContentId,
-    brief: committedBrief,
-    isLoading: isRequestedBriefLoading,
+    contentId: loadedBriefContentId,
+    brief: loadedBrief,
+    isLoading: isBriefLoading,
   } = useContentBrief(
     contentIds,
-    safeRequestedDetailIndex,
+    selectedIndex,
     selectedContentId,
     isLatestSelection,
     isActive,
     initialContentBrief,
   );
-  const committedDetailIndex = committedDetailContentId
-    ? items.findIndex((item) => item.content_id === committedDetailContentId)
-    : -1;
-  const hasCommittedDetail = committedDetailIndex >= 0;
-  const renderedDetailIndex = hasCommittedDetail ? committedDetailIndex : selectedIndex;
-  const brief = hasCommittedDetail ? committedBrief : null;
-  const isBriefLoading = !hasCommittedDetail && isRequestedBriefLoading;
-  const isDetailPending = renderedDetailIndex !== selectedIndex || isBriefLoading;
+  const brief = loadedBriefContentId === selectedContentId ? loadedBrief : null;
   const isNavigationDisabled = total <= 1;
 
   if (total === 0) return null;
@@ -141,11 +129,7 @@ export default function ExpandDetailView({
         setItemRef={setIndexItemRef}
         labels={indexLabels}
         collapsedGroupTypes={collapsedGroupTypes}
-        scrollTargetIndex={
-          keepSelectedItemVisible && renderedDetailIndex === selectedIndex
-            ? selectedIndex
-            : null
-        }
+        scrollTargetIndex={keepSelectedItemVisible ? selectedIndex : null}
         onToggle={toggleIndex}
         onToggleGroup={toggleGroup}
         onSelect={selectDirectly}
@@ -163,12 +147,12 @@ export default function ExpandDetailView({
 
       <div
         data-testid="expand-detail-body"
-        aria-busy={isDetailPending}
+        aria-busy={isBriefLoading}
         className="col-start-2 row-start-2 min-w-0 md:col-start-3 [&>article]:rounded-none [&>article]:border-0"
       >
         <ExpandCard
-          key={items[renderedDetailIndex].id}
-          item={items[renderedDetailIndex]}
+          key={items[selectedIndex].id}
+          item={items[selectedIndex]}
           brief={brief}
           isBriefLoading={isBriefLoading}
           isActive={isActive}
