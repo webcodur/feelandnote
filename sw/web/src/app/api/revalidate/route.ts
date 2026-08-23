@@ -6,11 +6,11 @@ import { createRevalidationHandler } from './handler'
 const handleRevalidation = createRevalidationHandler({
   expireTag: (tag) => revalidateTag(tag, { expire: 0 }),
   purgeByTags: purgeCloudflareByTags,
-})
+}, 'targeted')
 
 /**
  * 캐시 무효화 API — web-bo 등 외부에서 호출
- * POST /api/revalidate
+ * POST /api/revalidate (targeted only; bulk는 /api/revalidate/v2)
  * Body: { tag: "celebs" | "celebs:<id>" | ["contents:<id>", "contents"], secret: "..." }
  *
  * tag는 단일 문자열·배열 모두 받는다. BO의 한 저장이 여러 도메인에 걸칠 때

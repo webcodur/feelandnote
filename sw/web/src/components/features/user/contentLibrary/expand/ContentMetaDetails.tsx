@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 
+import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
 import MetadataField from "@/components/shared/content/MetadataField";
 import type { ContentMetadata } from "@/types/content";
 
@@ -17,7 +18,7 @@ export function VideoDetails({ metadata }: { metadata: ContentMetadata }) {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {metadata.director && (
-        <MetadataField label={t("director")} value={metadata.director} />
+        <MetadataField label={t("director")} value={<CreatorNames text={metadata.director} />} />
       )}
       {metadata.runtime && (
         <MetadataField label={t("runtime")} value={t("runtimeMinutes", { minutes: metadata.runtime })} />
@@ -26,7 +27,13 @@ export function VideoDetails({ metadata }: { metadata: ContentMetadata }) {
         <MetadataField
           className="col-span-full"
           label={t("cast")}
-          value={cast.map((actor) => actor.character ? `${actor.name} (${actor.character})` : actor.name).join(" · ")}
+          value={
+            <CreatorNames
+              text={cast
+                .map((actor) => (actor.character ? `${actor.name} (${actor.character})` : actor.name))
+                .join(" · ")}
+            />
+          }
         />
       )}
     </div>
@@ -61,7 +68,9 @@ export function MusicDetails({
   return (
     <div className="space-y-4">
       <div className="space-y-3">
-        {performers.length > 0 && <MetadataField label={tShared("artist")} value={performers.join(" · ")} />}
+        {performers.length > 0 && (
+          <MetadataField label={tShared("artist")} value={<CreatorNames text={performers.join(" · ")} />} />
+        )}
         {metadata.albumType && <MetadataField label={tShared("albumType")} value={metadata.albumType} />}
         {metadata.genre && <MetadataField label={tShared("genre")} value={metadata.genre} />}
         {metadata.previewUrl && (

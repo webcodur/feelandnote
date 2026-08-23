@@ -12,6 +12,7 @@ import type { ContentCardProps } from "./types";
 import { TYPE_ICONS, ASPECT_STYLES } from "./constants";
 import { useContentCounts } from "./hooks/useCelebCount";
 import { useEditionThumbnail } from "./hooks/useEditionThumbnail";
+import { hasReviewContent } from "./reviewContent";
 
 export function useContentCardState(props: ContentCardProps) {
   const {
@@ -154,11 +155,10 @@ export function useContentCardState(props: ContentCardProps) {
   // 리뷰 모드 여부
   const isReviewMode = (review !== undefined || (reviewPresets && reviewPresets.length > 0) || headerNode !== undefined) && !forcePoster;
 
-  // 리뷰/프리셋 콘텐츠가 있을 때 sourceUrl 필수 검증 (headerNode 모드에서는 제외)
+  // 감상 내용이 실린 카드에만 출처를 요구한다 (headerNode 모드에서는 제외)
   useEffect(() => {
     if (!effectsEnabled) return;
-    const hasReviewContent = review !== undefined || (reviewPresets && reviewPresets.length > 0);
-    if (hasReviewContent && !sourceUrl && !headerNode) {
+    if (hasReviewContent(review, reviewPresets) && !sourceUrl && !headerNode) {
       console.error('[ContentCard] 리뷰/프리셋이 있는데 sourceUrl이 없습니다:', {
         title,
         contentId,

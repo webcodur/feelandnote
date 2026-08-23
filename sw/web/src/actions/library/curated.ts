@@ -9,7 +9,7 @@
 import { unstable_cache } from 'next/cache'
 import { getLocale } from 'next-intl/server'
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { STATIC_REVALIDATE } from '@/lib/cache'
+import { cachedDetail, STATIC_REVALIDATE } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { CL_SELECT_LIST, flattenLocales, type ContentLocaleRow } from '@/lib/utils/content-locale'
 import type {
@@ -431,12 +431,13 @@ async function fetchCuratedEntriesForContent(contentId: string, locale: string):
     })
 }
 
-const getCuratedEntriesCached = unstable_cache(fetchCuratedEntriesForContent, ['curated-entries-for-content'], {
-  revalidate: STATIC_REVALIDATE,
-  tags: [CACHE_TAGS.CURATED],
-})
-
 export async function getCuratedEntriesForContent(contentId: string, locale?: string): Promise<ContentCuratedEntry[]> {
-  return getCuratedEntriesCached(contentId, locale ?? (await getLocale()))
+  const resolvedLocale = locale ?? (await getLocale())
+  return cachedDetail(
+    CACHE_TAGS.CURATED,
+    contentId,
+    ['curated-entries-for-content-v2', contentId, resolvedLocale],
+    () => fetchCuratedEntriesForContent(contentId, resolvedLocale),
+  )
 }
 // #endregion

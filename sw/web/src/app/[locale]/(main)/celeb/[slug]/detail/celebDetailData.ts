@@ -1,28 +1,11 @@
 import type { CelebBySlugProfile } from "@/actions/user/getCelebBySlug";
+import { formatCelebPeriod } from "@/lib/utils/celeb-period";
 import type { Locale } from "@/types/locale";
 
 import type { CelebVideoItem } from "../VideosSection";
 
-function formatYear(year: string | null | undefined) {
-  if (!year) return "";
-
-  const numericYear = Number.parseInt(year, 10);
-  if (Number.isNaN(numericYear)) return year;
-  return numericYear < 0 ? `BC ${Math.abs(numericYear)}` : `${numericYear}`;
-}
-
-export function formatCelebPeriod(
-  birthDate: string | null | undefined,
-  deathDate: string | null | undefined,
-) {
-  const birthYear = formatYear(birthDate);
-  if (!birthYear) return "";
-
-  // 살아 있는 사람에게 줄표만 매달아 두면 뒤가 잘린 것처럼 보인다.
-  // 생존 여부는 옆의 나이 표시가 이미 알려 준다
-  const deathYear = deathDate ? formatYear(deathDate) : "";
-  return deathYear ? `${birthYear} — ${deathYear}` : birthYear;
-}
+// 생몰 표기는 이름 대조 후보 목록과 함께 쓰므로 공용 유틸에 둔다
+export { formatCelebPeriod };
 
 export function getLocalizedCelebVideos(
   videos: CelebBySlugProfile["youtube_videos"],

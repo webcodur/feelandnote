@@ -224,6 +224,14 @@
   outline: none;
 }
 
+/* 탭 없이 글만 담는 상자. 탭이 있는 구획은 탭 줄이 위 경계선과 글 사이를 채우지만,
+   글이 바로 오는 구획은 스스로 자리를 만들어야 한다 — 안 그러면 첫 줄이 경계선에 붙는다.
+   sectionSurface가 padding을 shorthand로 쥐고 있어 Tailwind py-*로는 덮이지 않는다. */
+.proseSurface {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
 .sectionSurface {
   min-width: 0;
   padding: 0 8px;
@@ -372,6 +380,11 @@
 }
 
 @media (min-width: 768px) {
+  .proseSurface {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
   .avatarHeroColumn {
     transform: translateY(-24px);
   }

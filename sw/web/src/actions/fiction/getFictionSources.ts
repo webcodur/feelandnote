@@ -1,7 +1,7 @@
 'use server'
 
 import { unstable_cache } from 'next/cache'
-import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { bulkTag, CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { selectInChunks } from '@feelandnote/shared/lib/paginate'
 import type { CategoryId } from '@/constants/categories'
 import { STATIC_REVALIDATE, cachedDetail } from '@/lib/cache'
@@ -98,10 +98,13 @@ async function fetchAllAssignments(): Promise<AssignmentRow[]> {
 
 const fetchAllAssignmentsCached = unstable_cache(
   fetchAllAssignments,
-  ['fiction-source-character-assignments'],
+  ['fiction-source-character-assignments-v2'],
   {
     revalidate: STATIC_REVALIDATE,
-    tags: [CACHE_TAGS.FICTION_SOURCES],
+    tags: [
+      CACHE_TAGS.FICTION_SOURCES,
+      bulkTag(CACHE_TAGS.FICTION_SOURCES),
+    ],
   },
 )
 
@@ -217,6 +220,8 @@ export async function getFictionCharactersForContent(
   contentId: string,
   locale: string = 'ko',
 ): Promise<FictionSourceCharacter[]> {
+  // 연결이 없는 작품도 bulk 태그를 단 공유 원장을 먼저 소비한다. 그러면 전량 갱신 시
+  // 빈 결과로 일찍 끝난 Full Route도 함께 만료되고, 새 원전 연결을 낡은 원장이 가리지 않는다.
   const assignments = await fetchAllAssignmentsCached()
   if (!assignments.some((assignment) => assignment.content_id === contentId)) {
     return []
