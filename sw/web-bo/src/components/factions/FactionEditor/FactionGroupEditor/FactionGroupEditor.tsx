@@ -7,7 +7,6 @@ import {
   factionSequenceOf,
   type FactionCluster,
   type FactionGroup,
-  type FactionIndividualScene,
   type FactionPerson,
   type FactionSequenceItem,
 } from '@/lib/faction-types'
@@ -15,7 +14,7 @@ import { FactionCelebSearchModal, type CelebResult } from './FactionCelebSearchM
 import { FactionClusterEditor } from './FactionClusterEditor'
 import { FactionGroupHeader } from './FactionGroupHeader'
 import { FactionGroupSettings } from './FactionGroupSettings'
-import { FactionIndividualSceneEditor } from './FactionIndividualSceneEditor'
+import { FactionNarrativeEntryEditor } from './FactionNarrativeEntryEditor'
 import { FactionSequenceEditor } from './FactionSequenceEditor'
 
 type Props = {
@@ -62,6 +61,8 @@ function hasValidCutPositions(sequence: FactionSequenceItem[]): boolean {
     || (index > 0 && index < sequence.length - 1 && sequence[index - 1]?.kind !== 'cut' && sequence[index + 1]?.kind !== 'cut'))
 }
 
+type EntryItem = Extract<FactionSequenceItem, { kind: 'entry' }>
+
 export function FactionGroupEditor({
   groupIndex, group, onChange, onDelete, onMoveUp, onMoveDown, series, episodeName, editLang,
   onMoveCrossGroup, celebExisting, celebLoaded, captionIdHoldSec,
@@ -89,12 +90,15 @@ export function FactionGroupEditor({
 
   const setSequence = (next: FactionSequenceItem[]) => onChange({
     ...group,
-    openingScenes: undefined,
     sequence: next,
   })
-  const updateScene = (id: string, nextScene: FactionIndividualScene) => setSequence(sequence.map(item =>
-    item.kind === 'scene' && item.id === id ? { ...item, scene: nextScene } : item,
-  ))
+  const updateEntry = (item: EntryItem, nextEntry: FactionPerson) => {
+    const nextClusters = clusters.map((cluster, clusterIndex) => clusterIndex !== item.clusterIndex ? cluster : {
+      ...cluster,
+      people: (cluster.people ?? []).map((entry, entryIndex) => entryIndex === item.entryIndex ? nextEntry : entry),
+    })
+    onChange({ ...group, clusters: nextClusters, sequence })
+  }
   const moveSequenceItem = (index: number, direction: -1 | 1) => {
     const target = index + direction
     if (index < 0 || target < 0 || target >= sequence.length) return
@@ -103,23 +107,40 @@ export function FactionGroupEditor({
     if (!hasValidCutPositions(next)) return
     setSequence(next)
   }
-  const moveScene = (id: string, direction: -1 | 1) => {
-    const index = sequence.findIndex(item => item.kind === 'scene' && item.id === id)
+  const moveEntry = (entry: EntryItem, direction: -1 | 1) => {
+    const index = sequence.findIndex(item => item.kind === 'entry'
+      && item.clusterIndex === entry.clusterIndex && item.entryIndex === entry.entryIndex)
     moveSequenceItem(index, direction)
   }
-  const deleteScene = (id: string) => {
-    const item = sequence.find(candidate => candidate.kind === 'scene' && candidate.id === id)
-    if (!item || item.kind !== 'scene') return
-    if (!confirm(`「${item.scene.title || '개별 장면'}」을 삭제할까요? 문장과 이미지 연결도 함께 사라집니다.`)) return
-    setSequence(sequence.filter(candidate => !(candidate.kind === 'scene' && candidate.id === id)))
+  const deleteEntry = (item: EntryItem) => {
+    const entry = clusters[item.clusterIndex]?.people[item.entryIndex]
+    if (!entry || entry.isPerson !== false) return
+    if (!confirm(`「${entry.name || '서사 항목'}」을 삭제할까요? 문장과 이미지 연결도 함께 사라집니다.`)) return
+    const nextClusters = clusters.map((cluster, clusterIndex) => clusterIndex !== item.clusterIndex ? cluster : {
+      ...cluster,
+      people: (cluster.people ?? []).filter((_, entryIndex) => entryIndex !== item.entryIndex),
+    })
+    const nextSequence = sequence.flatMap(candidate => {
+      if (candidate.kind !== 'entry' || candidate.clusterIndex !== item.clusterIndex) return [candidate]
+      if (candidate.entryIndex === item.entryIndex) return []
+      return [{ ...candidate, entryIndex: candidate.entryIndex > item.entryIndex ? candidate.entryIndex - 1 : candidate.entryIndex }]
+    })
+    onChange({ ...group, clusters: nextClusters, sequence: cleanSequenceCuts(nextSequence) })
   }
 
   const setClusters = (next: FactionCluster[]) => onChange({ ...group, clusters: next, sequence })
   const setCluster = (index: number, next: FactionCluster) => {
+    const previous = clusters[index]
+    const reboundSequence = sequence.map(item => {
+      if (item.kind !== 'entry' || item.clusterIndex !== index) return item
+      const previousEntry = previous?.people?.[item.entryIndex]
+      const nextIndex = previousEntry ? (next.people ?? []).indexOf(previousEntry) : -1
+      return nextIndex >= 0 ? { ...item, entryIndex: nextIndex } : item
+    })
     const updated = clusters.length
       ? clusters.map((cluster, clusterIndex) => clusterIndex === index ? next : cluster)
       : [next]
-    setClusters(updated)
+    onChange({ ...group, clusters: updated, sequence: reboundSequence })
   }
   const addCluster = () => onChange({
     ...group,
@@ -130,7 +151,7 @@ export function FactionGroupEditor({
     if (clusters.length <= 1) return
     if (!confirm('이 그룹을 삭제하시겠습니까? (그룹 내 인물도 함께 삭제됩니다)')) return
     const nextSequence = cleanSequenceCuts(sequence.reduce<FactionSequenceItem[]>((items, item) => {
-      if (item.kind !== 'cluster') items.push(item)
+      if (item.kind === 'cut') items.push(item)
       else if (item.clusterIndex !== index) items.push({
         ...item,
         clusterIndex: item.clusterIndex > index ? item.clusterIndex - 1 : item.clusterIndex,
@@ -144,22 +165,34 @@ export function FactionGroupEditor({
     })
   }
   const mergeClusters = () => {
-    const people = clusters.flatMap(cluster => cluster.people ?? [])
+    const allEntries = clusters.flatMap(cluster => cluster.people ?? [])
+    const people = allEntries.filter(entry => entry.isPerson !== false)
+    const narratives = allEntries.filter(entry => entry.isPerson === false)
+    const mergedEntries = [...people, ...narratives]
     let keptCluster = false
     const nextSequence = cleanSequenceCuts(sequence.reduce<FactionSequenceItem[]>((items, item) => {
-      if (item.kind !== 'cluster') items.push(item)
+      if (item.kind === 'cut') items.push(item)
+      else if (item.kind === 'entry') {
+        const entry = clusters[item.clusterIndex]?.people?.[item.entryIndex]
+        const entryIndex = entry ? mergedEntries.indexOf(entry) : -1
+        if (entryIndex >= 0) items.push({ kind: 'entry', clusterIndex: 0, entryIndex })
+      }
       else if (!keptCluster) {
         keptCluster = true
         items.push({ kind: 'cluster', clusterIndex: 0 })
       }
       return items
     }, []))
-    onChange({ ...group, clusters: [{ ...firstCluster, people }], sequence: nextSequence })
+    onChange({ ...group, clusters: [{ ...firstCluster, people: mergedEntries }], sequence: nextSequence })
   }
   const addCeleb = (celeb: CelebResult) => {
     if (celebTarget === undefined) return
     const target = clusters[celebTarget]
-    if (target) setCluster(celebTarget, { ...target, people: [...(target.people ?? []), celebToPerson(celeb)] })
+    if (target) {
+      const people = (target.people ?? []).filter(entry => entry.isPerson !== false)
+      const narratives = (target.people ?? []).filter(entry => entry.isPerson === false)
+      setCluster(celebTarget, { ...target, people: [...people, celebToPerson(celeb), ...narratives] })
+    }
   }
 
   return (
@@ -177,7 +210,7 @@ export function FactionGroupEditor({
         onMoveUp={onMoveUp}
         onMoveDown={onMoveDown}
         onJumpCluster={clusterIndex => jumpTo(`cluster-header-${groupIndex}-${clusterIndex}`, clusterIndex)}
-        onJumpIndividualScene={sceneId => jumpTo(`scene-${groupIndex}-${sceneId}`)}
+        onJumpNarrativeEntry={entryKey => jumpTo(`entry-${groupIndex}-${entryKey}`)}
       />
 
       {expanded ? (
@@ -226,22 +259,25 @@ export function FactionGroupEditor({
                 />
               )
             }}
-            renderScene={(item, sequenceIndex) => (
-              <FactionIndividualSceneEditor
+            renderEntry={(item, sequenceIndex) => {
+              const entry = clusters[item.clusterIndex]?.people[item.entryIndex]
+              if (!entry || entry.isPerson !== false) return null
+              return <FactionNarrativeEntryEditor
                 item={item}
+                scene={entry}
                 sequenceIndex={sequenceIndex}
                 sequenceLength={sequence.length}
                 numberLabel={`${groupIndex + 1}-${sequenceIndex + 1}`}
-                onChange={updateScene}
-                onMove={moveScene}
-                onDelete={deleteScene}
+                onChange={updateEntry}
+                onMove={moveEntry}
+                onDelete={deleteEntry}
                 series={series}
                 episodeName={episodeName}
                 editLang={editLang}
-                idPrefix={`scene-${groupIndex}`}
+                idPrefix={`entry-${groupIndex}`}
                 captionIdHoldSec={captionIdHoldSec}
               />
-            )}
+            }}
             renderCut={sequenceIndex => (
               <div className="flex items-center gap-2 rounded border border-dashed border-sky-500/60 bg-sky-500/10 px-3 py-2" aria-label="쇼츠 편 경계">
                 <span className="h-px flex-1 bg-sky-500/50" />

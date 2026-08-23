@@ -121,7 +121,7 @@ export async function inheritVoicesFromProfiles(
   const personRows = clusterRows.length
     ? await inChunks(
       db, 'faction_people', 'cluster_id', clusterRows.map(c => c.id as string),
-      'id, cluster_id, position, name, celeb_id, data',
+      'id, cluster_id, position, is_person, name, celeb_id, data',
     )
     : []
 
@@ -137,7 +137,7 @@ export async function inheritVoicesFromProfiles(
       clusterOrder.set(c.id as string, ci)
     })
   })
-  const ordered = [...personRows].sort((a, b) =>
+  const ordered = personRows.filter(p => p.is_person !== false).sort((a, b) =>
     (groupOrderByCluster.get(a.cluster_id as string) ?? 0) - (groupOrderByCluster.get(b.cluster_id as string) ?? 0)
     || (clusterOrder.get(a.cluster_id as string) ?? 0) - (clusterOrder.get(b.cluster_id as string) ?? 0)
     || (a.position as number) - (b.position as number))

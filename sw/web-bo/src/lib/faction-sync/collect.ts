@@ -113,7 +113,7 @@ export interface PublishGroup {
   tagId: string | null
   /** 데이터에 적힌 태그 연결 키(data.tagSlug) */
   tagSlug: string | null
-  /** 세력 폴더(NN-<slug>)에서 뽑은 제안 연결 키 */
+  /** 세력 이름에서 뽑은 제안 연결 키. 이미지 폴더명과 무관하다. */
   suggestedSlug: string
   /**
    * 이 세력이 속한 쇼츠 편(1…N). 없거나 0 이면 모든 편 공통.
@@ -204,30 +204,6 @@ export function resolveImageRef(folder: string, raw: unknown): LocalImageRef | u
     rel: relSegs.join('/'),
     abs: path.join(factionEpisodeDir(folder), ...relSegs),
   }
-}
-
-/** 세력 폴더명(01a-declarers)에서 슬러그 추출 — 앞 번호와 구분자를 떼낸다 */
-function slugFromFolder(folder: string): string {
-  return slugify(folder.replace(/^\d+[a-z]*[-_]?/i, ''))
-}
-
-/**
- * 이 세력의 폴더 이름 — 인물·그룹샷 이미지 경로의 첫 토막에서 뽑는다.
- * 폴더 순서와 세력 순서가 어긋난 편(AI-Supremacy: 8번째 세력이 11-huggingface)이 실재하므로
- * 번호 대조는 쓰지 않는다. 가장 많이 등장한 첫 토막을 그 세력의 폴더로 본다.
- */
-function folderOfGroup(refs: (LocalImageRef | undefined)[]): string | undefined {
-  const count = new Map<string, number>()
-  for (const r of refs) {
-    if (!r || r.external) continue
-    const head = r.rel.split('/')[0]
-    if (!head || head === 'images') continue
-    count.set(head, (count.get(head) ?? 0) + 1)
-  }
-  let best: string | undefined
-  let bestN = 0
-  for (const [f, n] of count) if (n > bestN) { best = f; bestN = n }
-  return best
 }
 
 /**
@@ -438,7 +414,7 @@ const CLUSTER_SELECT = 'id, group_id, position, label, label_en, image'
 // 여기 딸려 오지 않는다 — 한 편 최대 87명이므로 무게는 문제되지 않는다.
 // 인물 텍스트(epithet·lines·quote)는 받지 않는다 — 뷰(faction_atlas_members)가 직접 읽는 단일 원천이라
 // 출간이 나를 것이 없다. web_image_url 은 개인샷 출간의 기록처라 함께 받는다.
-const PERSON_SELECT = 'id, cluster_id, position, name, slug, celeb_id, mythical, web_image_url, web_quote_media, image, quote_chunks, quote_duration, data'
+const PERSON_SELECT = 'id, cluster_id, position, is_person, name, slug, celeb_id, mythical, web_image_url, web_quote_media, image, quote_chunks, quote_duration, data'
 
 const byPosition = (a: Row, b: Row) => (a.position as number) - (b.position as number)
 
@@ -467,7 +443,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id', clusterRows.map(c => c.id as string), PERSON_SELECT)
     : []
-  const brokenPerson = personRows.find(p => typeof p.celeb_id !== 'string' || !p.celeb_id)
+  const brokenPerson = personRows.find(p => p.is_person !== false && (typeof p.celeb_id !== 'string' || !p.celeb_id))
   if (brokenPerson) {
     throw new Error(`팩션 DB 인물 연결 무결성 오류(${folder}): ${String(brokenPerson.name ?? brokenPerson.id)}`)
   }
@@ -495,6 +471,7 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
     const people: PublishPerson[] = []
     clusters.forEach((c, ci) => {
       for (const [pi, p] of (peopleByCluster.get(c.id as string) ?? []).entries()) {
+        if (p.is_person === false) continue
         const voiceFile = vnPersonQuote(index, pi, ci)
         const stem = voiceFile.replace(/\.wav$/i, '')
         const media = portraitsOf(folder, p, voiceTimings[stem])
@@ -557,9 +534,8 @@ export async function collectEpisode(db: SupabaseClient, folder: string): Promis
 
     const logo = resolveImageRef(folder, data.logoImg)
 
-    const imgFolder = folderOfGroup([...people.map(p => p.image), ...teamShots.map(t => t.image)])
     const nameEn = groupLabelEn
-    const suggestedSlug = (imgFolder && slugFromFolder(imgFolder)) || slugify(nameEn) || slugify(groupLabel)
+    const suggestedSlug = slugify(nameEn) || slugify(groupLabel)
     const tagSlug = typeof data.tagSlug === 'string' && data.tagSlug.trim() ? data.tagSlug.trim() : null
 
     return {

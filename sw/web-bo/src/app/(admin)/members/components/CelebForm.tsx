@@ -538,7 +538,7 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
 
   async function handleDelete() {
     if (!celeb) return
-    if (!confirm('정말로 이 셀럽 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return
+    if (!confirm('이 인물을 삭제 처리하시겠습니까? 인물 목록과 서비스에서 숨겨집니다.')) return
 
     setDeleteLoading(true)
     setError(null)
@@ -957,8 +957,14 @@ export default function CelebForm({ mode, celeb, children, lead }: Props) {
         </span>
       )}
       {mode === 'edit' && (
-        <Button type="button" variant="danger" onClick={handleDelete} disabled={deleteLoading}>
-          {deleteLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}삭제
+        <Button
+          type="button"
+          variant="danger"
+          onClick={handleDelete}
+          disabled={deleteLoading}
+          className="!border !border-red-300 !bg-red-500 !text-white shadow-lg shadow-red-950/40 hover:!border-red-200 hover:!bg-red-400 active:!bg-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+        >
+          {deleteLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}인물 삭제
         </Button>
       )}
       {mode === 'create' && (

@@ -1,4 +1,4 @@
-/* 생애 행적 상수 — `actions/admin/timeline.ts`는 'use server' 파일이라
+/* 타임라인 상수 — `actions/admin/timeline.ts`는 'use server' 파일이라
    async 함수 외에는 내보낼 수 없다. 그래서 상수는 여기 둔다.
    값의 단일원천은 DB CHECK 제약이며 규격은 docs/project/celeb/celeb-timeline.md 다. */
 

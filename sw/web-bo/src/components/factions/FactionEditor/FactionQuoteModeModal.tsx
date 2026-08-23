@@ -43,7 +43,7 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
       let leaderSeen = false
       ;(g.clusters ?? []).forEach((c, ci) => {
         ;(c.people ?? []).forEach((p, pi) => {
-          if (p.disabled) return
+          if (p.isPerson === false || p.disabled) return
           const isLeader = !leaderSeen
           leaderSeen = true
           const cur = factionStepsOf(p, isShorts, isLeader)
@@ -74,7 +74,7 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
       if (g.disabled) return
       ;(g.clusters ?? []).forEach(c => {
         ;(c.people ?? []).forEach(p => {
-          if (p.disabled) return
+          if (p.isPerson === false || p.disabled) return
           const quote = p.quoteChunks?.filter(x => x.trim()).join(' ') || p.quote || ''
           if (!quote.trim()) return
           lines.push(`${p.name || '?'} - ${quote}`)
@@ -151,7 +151,7 @@ export function FactionQuoteModeModal({ script, series, episodeName, onChange, o
                 <div className="space-y-1">
                   {clusters.flatMap(({ people, ci }) =>
                     people.map((p, pi) => {
-                      if (p.disabled) return null
+                      if (p.isPerson === false || p.disabled) return null
                       const isLeader = !leaderSeen
                       leaderSeen = true
                       const stepsShorts = factionStepsOf(p, true, isLeader)

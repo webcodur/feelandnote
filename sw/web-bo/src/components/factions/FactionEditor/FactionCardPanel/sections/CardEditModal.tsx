@@ -77,7 +77,7 @@ export function CardEditModal({
               <input
                 value={draftStoryImg}
                 onChange={e => setDraftStoryImg(e.target.value)}
-                placeholder="예: 01-pioneers/1/story-turing-01.png"
+                placeholder="예: 01-pioneers/story-turing-01.png"
                 className="w-full rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
               />
             </>
@@ -88,7 +88,7 @@ export function CardEditModal({
               <input
                 value={draftFace}
                 onChange={e => setDraftFace(e.target.value)}
-                placeholder="예: 01-pioneers/1/face-turing.png"
+                placeholder="예: 01-pioneers/face-turing.png"
                 className="w-full rounded-md border border-border bg-bg-main px-2 py-1.5 text-xs focus:border-accent focus:outline-none"
               />
             </>

@@ -102,7 +102,7 @@ export interface FactionSyncGroup {
   tagId: string | null
   /** 데이터에 적힌 태그 연결 키(celeb_tags.slug). null 이면 미지정 */
   tagSlug: string | null
-  /** 세력 폴더(NN-<slug>)에서 뽑은 제안 연결 키 */
+  /** 세력 이름에서 뽑은 제안 연결 키. 이미지 폴더명과 무관하다. */
   suggestedSlug: string
   tag: {
     exists: boolean

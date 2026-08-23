@@ -31,7 +31,7 @@ export async function GET(
   if (denied) return denied
 
   const { episode, path: parts } = await params
-  const file = (parts ?? []).join('/') // 하위 폴더 경로(예 '1/앨런 튜링.webp') 보존
+  const file = (parts ?? []).join('/') // 단일·다중 묶음의 하위 경로를 그대로 보존
   if (!episode || !file) return new NextResponse('bad request', { status: 400 })
 
   const ext = file.slice(file.lastIndexOf('.')).toLowerCase()

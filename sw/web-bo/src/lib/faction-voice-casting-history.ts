@@ -42,6 +42,7 @@ type FactionData = {
 }
 
 type FactionPersonLike = {
+  isPerson?: boolean
   name?: string
   nameEn?: string
   role?: string
@@ -155,6 +156,7 @@ export async function collectFactionVoiceHistory(): Promise<FactionVoiceHistoryR
 
       for (const cluster of clusters) {
         for (const person of cluster.people ?? []) {
+          if (person.isPerson === false) continue
           const pairs: Array<{ voiceId?: string; slot: 'quote' | 'epithet' }> = [
             { voiceId: person.quoteElevenlabsVoiceId, slot: 'quote' },
             { voiceId: person.epithetElevenlabsVoiceId, slot: 'epithet' },

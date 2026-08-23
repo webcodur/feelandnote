@@ -3,7 +3,7 @@
  *
  * 평상시에는 contents.id와 external_id의 작품 태그만 비운다. 작품 소개는 인물 서고의
  * 초기 HTML에 포함되지 않으므로 인물 태그를 비우지 않는다. 전체 릴리스에서는
- * `--all-details`로 Next 상세 캐시 전량 만료와 Cloudflare 전체 퍼지를 한 번에 실행한다.
+ * `--all-details`로 Next 상세 캐시 전량 만료와 Cloudflare 작품·인물 상세 prefix 퍼지를 실행한다.
  */
 
 import path from 'node:path'
@@ -34,15 +34,14 @@ async function main() {
   if (options.mode === 'all-details') {
     const plan = makeRevalidationPlan(options)
     console.log('전체 릴리스 모드 · contents:__all__ 1개')
-    console.log('주의 · 모든 작품 상세과 작품 데이터에 의존하는 인물 상세도 함께 만료됩니다.')
-    console.log('주의 · 실실행하면 Cloudflare 전체 캐시도 즉시 한 번 퍼지합니다.')
+    console.log('주의 · 모든 작품 상세와 작품 데이터에 의존하는 인물 상세도 함께 만료됩니다.')
+    console.log('주의 · 실실행하면 Cloudflare 작품·인물 상세 경로군만 prefix로 퍼지합니다.')
 
     const result = await sendRevalidationTags({
       tags: plan.tags,
       dry: options.dry,
       webUrl: options.webUrl,
       secret: process.env.CRON_SECRET,
-      expectedCloudflareMode: plan.cloudflareMode,
     })
     if (options.dry) {
       console.log(`dry-run 완료 · 예정 요청 ${result.plannedRequests} · 재검증 HTTP 0`)
@@ -51,7 +50,7 @@ async function main() {
 
     console.log(
       `전체 상세 캐시 처리 완료 · 요청 ${result.completedRequests}/${result.plannedRequests} · ` +
-      `태그 ${result.confirmedTags}/${plan.tags.length} · Cloudflare 전체 퍼지 확인`,
+      `태그 ${result.confirmedTags}/${plan.tags.length} · Cloudflare 상세 prefix 퍼지 확인`,
     )
     return
   }
@@ -97,7 +96,7 @@ async function main() {
   if (options.dry && plan.tags.length > MAX_TARGETED_TAGS && !options.allowLargeTargeted) {
     console.log(
       '주의 · 실실행은 대량 항목 퍼지를 차단합니다. 전체 릴리스에서는 ' +
-      '--all-details --confirm-global-purge를 사용하세요.',
+      '--all-details --confirm-bulk-purge를 사용하세요.',
     )
   }
 
@@ -106,7 +105,6 @@ async function main() {
     dry: options.dry,
     webUrl: options.webUrl,
     secret: process.env.CRON_SECRET,
-    expectedCloudflareMode: plan.cloudflareMode,
   })
 
   if (options.dry) {

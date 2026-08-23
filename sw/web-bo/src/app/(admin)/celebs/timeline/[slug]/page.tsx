@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const member = await getMemberBySlug(slug)
-  const sectionName = member?.celeb_tier === 'fiction' ? '서사 연표' : '생애 행적'
+  const sectionName = '타임라인'
   return { title: member ? `${member.nickname ?? '셀럽'} ${sectionName} 편집` : `${sectionName} 편집` }
 }
 
@@ -32,7 +32,7 @@ export default async function TimelineDetailPage({ params }: PageProps) {
 
   const events = await getTimelineEvents(member.id)
   const isFiction = member.celeb_tier === 'fiction'
-  const sectionName = isFiction ? '서사 연표' : '생애 행적'
+  const sectionName = '타임라인'
 
   return (
     <div className="space-y-4 md:space-y-6">

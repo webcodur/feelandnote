@@ -115,7 +115,7 @@ export default async function CelebsPageView({ searchParams, view }: Props) {
           </Link>
           <Link href="/celebs/timeline">
             <Button size="sm" variant="secondary" className="w-full sm:w-auto">
-              <Route className="h-4 w-4" />생애 행적
+              <Route className="h-4 w-4" />타임라인
             </Button>
           </Link>
           <Link href="/celebs/vectors">

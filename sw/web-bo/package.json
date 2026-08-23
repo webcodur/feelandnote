@@ -8,7 +8,6 @@
     "start": "next start -p 3001",
     "lint": "eslint",
     "test:faction-options": "tsx --test \"src/app/(admin)/celebs/components/factionOptions.test.ts\"",
-
     "celeb:audit:activation": "tsx scripts/celeb/audit-activation.ts",
     "celeb:audit:basic": "tsx scripts/celeb/audit-basic.ts",
     "celeb:audit:tracks": "tsx scripts/celeb/audit-tracks.ts",
@@ -25,45 +24,42 @@
     "celeb:readings:translate": "tsx scripts/celeb/readings-translate.ts",
     "celeb:relations": "node --env-file=.env --import tsx scripts/celeb/relations.ts",
     "celeb:dialogue-repair": "node scripts/celeb/dialogue-repair.mjs",
-
     "avatar:batch": "tsx scripts/avatar/batch.ts",
     "avatar:upload": "tsx scripts/avatar/upload.ts",
     "avatar:sm": "tsx scripts/avatar/sm.ts",
     "avatar:find-unnobg": "tsx scripts/avatar/find-unnobg.ts",
     "avatar:measure": "tsx scripts/avatar/measure.ts",
     "avatar:contact-sheet": "tsx scripts/avatar/contact-sheet.ts",
-
     "photo:hero:pick": "node scripts/photo/hero-pick.mjs",
     "photo:hero:generate": "node scripts/photo/hero-generate.mjs",
     "photo:hero:upload": "tsx scripts/photo/hero-upload.ts",
     "photo:crop-faces": "tsx scripts/photo/crop-faces.ts",
     "photo:crop-body": "tsx scripts/photo/crop-body.ts",
     "photo:world-banner": "node scripts/photo/world-banner.mjs",
-
     "faction:publish": "tsx scripts/faction/publish.ts",
     "faction:publish:photos": "tsx scripts/faction/publish-photos.ts",
     "faction:dialogue-apply": "tsx scripts/faction/dialogue-apply.ts",
     "faction:portrait-scan": "node scripts/faction/portrait-scan.mjs",
     "faction:images:person": "tsx scripts/faction/images-person.ts",
     "faction:images:team": "tsx scripts/faction/images-team.ts",
-
     "fiction:audit": "node --env-file=.env --import tsx scripts/fiction/audit.ts",
     "fiction:sync": "node --env-file=.env --import tsx scripts/fiction/sync.ts",
     "fiction:sync:faction": "node --env-file=.env --import tsx scripts/fiction/sync-faction.ts",
     "fiction:publish": "node --env-file=.env --import tsx scripts/fiction/publish.ts",
     "fiction:monologue-lock": "node --env-file=.env --import tsx scripts/fiction/monologue-lock.ts",
-
     "curated:import": "tsx scripts/curated/import.ts",
     "curated:match": "tsx scripts/curated/match.ts",
     "curated:register": "tsx scripts/curated/register.ts",
     "curated:titles": "node scripts/curated/titles.mjs",
     "curated:titles:apply": "tsx scripts/curated/titles-apply.ts",
-
     "coupang:candidates": "node scripts/coupang/candidates.mjs",
     "coupang:pick": "node scripts/coupang/pick.mjs",
     "coupang:audit": "node scripts/coupang/audit.mjs",
-
-    "book-recommend:resources": "tsx scripts/book-recommend/resources.ts"
+    "book-recommend:resources": "tsx scripts/book-recommend/resources.ts",
+    "contents:music-ko": "tsx scripts/contents/music-intro-ko.ts",
+    "contents:game-ko": "tsx scripts/contents/game-intro-ko.ts",
+    "contents:book-en": "tsx scripts/contents/book-intro-en.ts",
+    "contents:revalidate": "tsx scripts/contents/revalidate-filled.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",

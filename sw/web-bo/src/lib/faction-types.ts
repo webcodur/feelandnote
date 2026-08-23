@@ -5,7 +5,7 @@
  * 한 파일(data.json)에 한국어 필드 + 영문 필드(*En)를 함께 둔다. 렌더 로더가 언어별로 펼친다.
  */
 
-import { factionSequenceOf as rawFactionSequenceOf } from '@feelandnote/shared/lib/faction-sequence'
+import { factionSequenceOf as rawFactionSequenceOf, normalizeFactionGroupEntries } from '@feelandnote/shared/lib/faction-sequence'
 
 /**
  * 사진 맞춤 — 화면 비율과 안 맞는 사진(가로 사진 등)을 화면에 채울(cover) 때
@@ -83,10 +83,26 @@ export interface FactionGroupCardFields {
 }
 
 export interface FactionPerson extends FactionCardFields {
+  /** false면 CELEB/세력도감에 들어가지 않는 서사 컷. 생략 또는 true면 DB 개인샷이다. */
+  isPerson?: boolean
   /** 이름 (예: '샘 알트만') */
   name: string
   /** 이름 영문 (영문판에서 name 대체) */
   nameEn?: string
+  /** 서사 컷 안에서 순서대로 흐르는 해설·대사 덩어리(isPerson=false 전용) */
+  beats?: FactionSceneBeat[]
+  /** 구 서사 컷 한 벌 해설. beats가 없을 때만 사용한다. */
+  caption?: string
+  captionEn?: string
+  mediaChanges?: { paragraph: number; media: string; crop?: FactionImageCrop }[]
+  durationSec?: number
+  sfx?: string
+  /** 구 caption 음성 설정. beats를 쓰면 덩어리별 설정을 쓴다. */
+  voiceDuration?: number
+  voiceGainDb?: number
+  voicePlaybackRate?: number
+  voiceSpeaker?: string
+  voiceStyle?: string
   /** 수식어·직책 (예: 'CEO', '딥러닝의 대부') */
   role?: string
   /** 이 인물 컷 진입 전환효과(세로 쇼츠). 미지정이면 세력→에피소드 설정을 따른다 */
@@ -295,8 +311,6 @@ export interface FactionCluster {
   imageCrop?: FactionImageCrop
   /** 이 묶음 인물 (등장 순서) */
   people: FactionPerson[]
-  /** @deprecated 구 파일 읽기 전용. 저장 시 FactionGroup.sequence의 scene 항목으로 승격한다. */
-  scenesAfter?: FactionIndividualScene[]
   /** 이 그룹샷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다. 'zoomin'=다가가는 줌 */
   holdMotion?: HoldMotion
   /** 이 그룹샷 시작 효과(등장 직후 짧은 도입 임팩트). 미지정이면 세력→에피소드 설정을 따른다 */
@@ -318,9 +332,7 @@ export interface FactionCluster {
 export interface FactionGroup extends Partial<FactionGroupCardFields> {
   /** 세력 명칭 (한 필드, 개행으로 앞/뒤). 첫 줄=명칭(식별자), 나머지=설명(세력색) */
   name: string
-  /** @deprecated 구 파일 읽기 전용. 저장 시 sequence의 선두 scene 항목으로 승격한다. */
-  openingScenes?: FactionIndividualScene[]
-  /** 그룹과 개별 장면의 실제 이야기 순서. clusterIndex는 clusters 배열의 위치를 가리킨다. */
+  /** 단체샷과 isPerson=false 공통 개인 항목의 실제 이야기 순서. */
   sequence?: FactionSequenceItem[]
   /**
    * 그룹명 — 그룹을 따로 나누지 않는 세력의 단일 그룹샷 카드 명칭(한 필드, 개행). 첫 줄=명칭, 나머지=설명(세력색).
@@ -487,41 +499,86 @@ export interface FactionChapter {
 }
 
 /**
- * 개별 장면 — 인물 계정·대사·음성 없이 사건·장소·괴물·재난을 이야기 흐름 사이에 보여주는 컷.
- * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionIndividualScene.
+ * 장면 안에서 순서대로 흐르는 한 덩어리. 화자가 있으면 그 인물의 대사, 없으면 나레이터 해설이다.
+ * 화자는 셀럽 등록과 무관한 자유 문자열이라, 인물 카드로 세우기엔 가벼운 배역도 장면 안에서 말한다.
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionSceneBeat.
  */
-export interface FactionIndividualScene {
-  title: string
-  titleEn?: string
-  caption?: string
-  captionEn?: string
+export interface FactionSceneBeat {
+  /** 화자 이름. 없으면 해설이며 장면 제목이 이름 자리를 지킨다 */
+  speaker?: string
+  speakerEn?: string
+  /** 화면에 뜨고 낭독되는 본문. 빈 줄로 나누면 같은 덩어리 안에서 화면이 넘어간다 */
+  text: string
+  textEn?: string
+  /** 이 덩어리가 시작될 때 갈아 끼울 배경 */
   media?: string
+  /** 배경 교체 시점. 기본은 덩어리 시작, text면 본문·음성 시작 */
+  mediaAt?: 'beat' | 'text'
   mediaCrop?: FactionImageCrop
-  /**
-   * 한 장면 안에서 배경을 갈아 끼운다. `paragraph`는 caption의 단락 인덱스(0-based, 빈 줄로 나뉜 덩어리)이며
-   * 그 단락이 뜨는 시점에 crossfade 로 교체된다. 장면을 여러 개로 쪼개 제목을 다시 다는 대신,
-   * 제목 하나를 유지한 채 컷만 나눌 때 쓴다.
-   */
-  mediaChanges?: { paragraph: number; media: string; crop?: FactionImageCrop }[]
-  durationSec?: number
-  sfx?: string
+  /** 음성 길이(초) — 파이프라인 소유. 사람이 입력하지 않는다 */
+  voiceDuration?: number
+  voiceGainDb?: number
+  voicePlaybackRate?: number
+  /** Gemini 보이스명 오버라이드 */
+  voiceSpeaker?: string
+  /** 인물 카드로도 등장하는 사람은 카드와 같은 ELE 보이스를 적어 목소리를 맞춘다 */
+  voiceElevenlabsVoiceId?: string
+  voiceElevenlabsVoiceIdEn?: string
+  /** 발화 스타일 지시 — 합성 시 "<지시>: " prefix 로 붙는다 */
+  voiceStyle?: string
 }
 
-/** 세력 안의 수평 이야기 순서 — 그룹과 개별 장면이 같은 층위에 놓인다. */
+/**
+ * 장면을 이루는 덩어리 배열. `beats`가 있으면 내용이 있는 것만 추리고, 없으면 구 데이터의
+ * `caption` 한 벌을 해설 덩어리 하나로 승격한다(음성 설정도 함께 옮긴다).
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/timing.ts 의 sceneBeatsOf.
+ */
+export function factionSceneBeats(scene: FactionPerson): FactionSceneBeat[] {
+  const beats = scene.beats?.filter(b => !!b && (!!b.text?.trim() || !!b.speaker?.trim()))
+  if (beats?.length) return beats
+  if (!scene.caption?.trim()) return []
+  return [{
+    text: scene.caption,
+    textEn: scene.captionEn,
+    voiceDuration: scene.voiceDuration,
+    voiceGainDb: scene.voiceGainDb,
+    voicePlaybackRate: scene.voicePlaybackRate,
+    voiceSpeaker: scene.voiceSpeaker,
+    voiceStyle: scene.voiceStyle,
+  }]
+}
+
+/** 세력 안의 수평 이야기 순서 — 단체샷과 공통 개인 항목 참조가 같은 층위에 놓인다. */
 export type FactionSequenceItem =
   | { kind: 'cluster'; clusterIndex: number }
-  | { kind: 'scene'; id: string; scene: FactionIndividualScene }
+  | { kind: 'entry'; clusterIndex: number; entryIndex: number }
   /** 쇼츠 편 경계. 롱폼에서는 재생 항목 없이 건너뛴다. */
   | { kind: 'cut' }
 
 /** 구/신 데이터를 모두 같은 수평 시퀀스로 읽는 BO 측 타입 래퍼. */
 export function factionSequenceOf(group: FactionGroup): FactionSequenceItem[] {
+  const raw = group as unknown as Record<string, unknown>
+  const hasLegacy = Array.isArray(raw.openingScenes)
+    || (Array.isArray(raw.sequence) && raw.sequence.some(item => (item as Record<string, unknown>)?.kind === 'scene'))
+    || (group.clusters ?? []).some(cluster => Array.isArray((cluster as unknown as Record<string, unknown>).scenesAfter))
+  if (hasLegacy) {
+    const normalized = normalizeFactionGroupEntries(raw) as unknown as FactionGroup
+    group.clusters = normalized.clusters
+    group.sequence = normalized.sequence
+  }
   return rawFactionSequenceOf(group as unknown as Record<string, unknown>) as unknown as FactionSequenceItem[]
+}
+
+/** sequence 참조가 가리키는 서사 항목. */
+export function factionEntryAt(group: FactionGroup, item: Extract<FactionSequenceItem, { kind: 'entry' }>): FactionPerson {
+  const entry = group.clusters?.[item.clusterIndex]?.people[item.entryIndex]
+  if (!entry || entry.isPerson !== false) throw new Error('sequence entry 참조가 유효한 서사 항목이 아니다')
+  return entry
 }
 
 /**
  * 롱폼 편성 한 칸 — 세력 블록(group) / 시대 문구 카드(era) / 편 경계(cut) / 챕터 전환(chapter).
- * 개별 장면은 정비에서 FactionGroup.sequence로 관리하며 여기에 넣지 않는다.
+ * 서사 항목은 정비에서 FactionGroup.sequence로 관리하며 여기에 넣지 않는다.
  * longformLayout 항목 순서대로 롱폼이 흐른다. cut 을 꽂으면 그 지점에서 여러 편으로 갈라진다.
  * 챕터 전환(chapter)은 영상을 가르지 않고 한 영상 안에서 챕터를 넘긴다(음악 곡 경계 겸용).
  */
@@ -611,11 +668,11 @@ export interface FactionScript {
    */
   quoteDisplay?: 'box' | 'caption'
   /**
-   * 작은 자막 세로 위치 — 에피소드 전역 기본이자 개별 장면 해설의 상속값. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
+   * 작은 자막 세로 위치 — 에피소드 전역 기본이자 서사 항목 해설의 상속값. 인물 quoteCaptionPos 가 있으면 그쪽이 우선.
    * - 'bottom'(기본): 화면 최하단(이름·직함과 동일 선상) / 'center': 화면 중하단 밴드(이름과 떨어진 독립 블록).
    */
   quoteCaptionPos?: 'bottom' | 'center'
-  /** 작은 자막 크기·글꼴 — 에피소드 전역 기본이자 개별 장면 해설의 상속값. */
+  /** 작은 자막 크기·글꼴 — 에피소드 전역 기본이자 서사 항목 해설의 상속값. */
   quoteCaptionSize?: 'default' | 'large'
   quoteCaptionFont?: 'default' | 'serif'
   /**
@@ -739,7 +796,7 @@ export interface FactionCardsFile {
 
 /**
  * 영상 데이터(FactionScript) 위에 카드 대본(FactionCardsFile)을 병합한다.
- * 각 인물(세력 people·묶음 clusters.people)에 이름이 일치하는 카드 필드를 덮어씌워
+ * `isPerson=true` 인물에만 이름이 일치하는 카드 필드를 덮어씌워
  * 카드 미리보기·출고의 단일 원본을 만든다. 원본 script 는 바뀌지 않는다(복사본 반환).
  */
 export function mergeFactionCards(script: FactionScript, cards: FactionCardsFile): FactionScript {
@@ -747,6 +804,7 @@ export function mergeFactionCards(script: FactionScript, cards: FactionCardsFile
   const byGroupName = cards.groups ?? {}
 
   const mergePerson = (p: FactionPerson): FactionPerson => {
+    if (p.isPerson === false) return p
     const card = byPersonName[p.name]
     return card ? { ...p, ...card } : p
   }

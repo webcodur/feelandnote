@@ -27,7 +27,7 @@ function groupBlock(group: FactionGroup, index: number): string {
   ;(group.clusters ?? []).forEach(cluster => {
     const label = flatName(cluster.label)
     if (label) lines.push(`(${label})`)
-    ;(cluster.people ?? []).forEach(p => lines.push(personLine(p)))
+    ;(cluster.people ?? []).filter(p => p.isPerson !== false).forEach(p => lines.push(personLine(p)))
   })
   return lines.join('\n')
 }

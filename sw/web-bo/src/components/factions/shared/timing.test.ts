@@ -14,12 +14,12 @@ function scriptWithInternalCut(): FactionScript {
       name: '한 세력',
       people: [],
       clusters: [
-        { label: '첫 묶음', people: [] },
+        { label: '첫 묶음', people: [{ isPerson: false, name: '전환 장면' }] },
         { label: '둘째 묶음', people: [] },
       ],
       sequence: [
         { kind: 'cluster', clusterIndex: 0 },
-        { kind: 'scene', id: 'bridge', scene: { title: '전환 장면' } },
+        { kind: 'entry', clusterIndex: 0, entryIndex: 0 },
         { kind: 'cut' },
         { kind: 'cluster', clusterIndex: 1 },
       ],
@@ -46,7 +46,7 @@ test('롱폼 미리보기용 세력 slice에는 내부 쇼츠 경계를 제외�
 
   assert.deepEqual(firstSlice?.sequence, [
     { kind: 'cluster', clusterIndex: 0 },
-    { kind: 'scene', id: 'bridge', scene: { title: '전환 장면' } },
+    { kind: 'entry', clusterIndex: 0, entryIndex: 0 },
     { kind: 'cluster', clusterIndex: 1 },
   ])
   assert.equal(firstSlice?.clusters?.[0].disabled, undefined)

@@ -13,9 +13,9 @@ export interface FactionCastEntry {
 
 function peopleOf(group: FactionGroup): FactionPerson[] {
   if (group.clusters?.length) {
-    return group.clusters.flatMap(cluster => cluster.people ?? [])
+    return group.clusters.flatMap(cluster => cluster.people ?? []).filter(person => person.isPerson !== false)
   }
-  return group.people ?? []
+  return (group.people ?? []).filter(person => person.isPerson !== false)
 }
 
 function identityOf(person: FactionPerson): string {

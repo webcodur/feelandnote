@@ -74,7 +74,7 @@ export function FactionInfoPanel({
 
       <section className="space-y-4 rounded-xl border border-border bg-bg-card/40 p-4 sm:p-5">
         <header className="flex h-9 items-center justify-between gap-3 border-b border-border/60 px-1 pb-3">
-          <span className="text-xs text-text-tertiary">세력 · 그룹 · 인물 · 개별 장면</span>
+          <span className="text-xs text-text-tertiary">세력 · 묶음 · 인물 · 서사 항목</span>
           <span className="rounded border border-border bg-bg-card px-2.5 py-1 text-xs font-bold text-text-secondary">{groups.length}개 세력</span>
         </header>
 

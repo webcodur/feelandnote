@@ -13,7 +13,7 @@ type Props = {
   contentClassName?: string
 }
 
-/** 그룹과 개별 장면이 공유하는 편집 타임라인 카드 골격. */
+/** 묶음과 서사 항목이 공유하는 편집 타임라인 카드 골격. */
 export function FactionSequenceCard({
   id,
   numberLabel,

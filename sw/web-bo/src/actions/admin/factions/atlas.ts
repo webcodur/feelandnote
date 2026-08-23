@@ -129,9 +129,10 @@ export async function getEpisodeAtlas(folder: string): Promise<EpisodeAtlas> {
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
         clusterRows.map(c => c.id as string),
-        'id,cluster_id,position,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_hidden')
+        'id,cluster_id,position,is_person,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_hidden')
     : []
-  const brokenPerson = personRows.find(p => typeof p.celeb_id !== 'string' || !p.celeb_id)
+  const atlasPeople = personRows.filter(p => p.is_person !== false)
+  const brokenPerson = atlasPeople.find(p => typeof p.celeb_id !== 'string' || !p.celeb_id)
   if (brokenPerson) {
     throw new Error(`팩션 DB 인물 연결 무결성 오류: ${String(brokenPerson.name ?? brokenPerson.id)}`)
   }
@@ -139,7 +140,7 @@ export async function getEpisodeAtlas(folder: string): Promise<EpisodeAtlas> {
   const groupPosById = new Map(groupRows.map(g => [g.id as string, g.position as number]))
   const clusterById = new Map(clusterRows.map(c => [c.id as string, c]))
 
-  const people: AtlasPersonState[] = personRows.map(p => {
+  const people: AtlasPersonState[] = atlasPeople.map(p => {
     const cluster = clusterById.get(p.cluster_id as string)
     return {
       personId: p.id as string,

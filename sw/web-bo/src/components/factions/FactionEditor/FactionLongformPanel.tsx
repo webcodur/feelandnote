@@ -61,7 +61,7 @@ export function FactionLongformPanel({
       ...(group.people ?? []),
       ...(group.clusters ?? []).flatMap(cluster => cluster.people ?? []),
     ])
-      .filter(person => !!person.slug)
+      .filter(person => person.isPerson !== false && !!person.slug)
       .map(person => [person.slug as string, {
         slug: person.slug as string,
         name: person.name,
@@ -138,7 +138,7 @@ export function FactionLongformPanel({
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-2">
             <span className="shrink-0 text-base font-bold text-text-primary">롱폼 편성</span>
-            <span className="truncate text-[11px] text-text-dim">{layout.length ? '롱폼 세력 순서·시대 문구·편 경계' : '직접 편성 안 함 — 정비의 세력 순서와 개별 장면을 그대로 따른다'}</span>
+            <span className="truncate text-[11px] text-text-dim">{layout.length ? '롱폼 세력 순서·시대 문구·편 경계' : '직접 편성 안 함 — 정비의 세력 순서와 서사 항목을 그대로 따른다'}</span>
           </div>
         </div>
         <span className="ml-auto flex shrink-0 items-center gap-2 text-xs text-text-dim">
@@ -202,7 +202,7 @@ export function FactionLongformPanel({
           </button>
         ) : (
           <>
-            {/* 롱폼 순서 — 세력·전환 카드를 위/아래로 옮긴다. 개별 장면 자체는 정비에서 관리한다. */}
+            {/* 롱폼 순서 — 세력·전환 카드를 위/아래로 옮긴다. 서사 항목 자체는 정비에서 관리한다. */}
             <div className="flex flex-col gap-1">
               {/* 경계가 있으면 맨 앞에 1편 라벨 — 어느 편에 속하는지 한눈에 */}
               {hasCut && (

@@ -575,6 +575,7 @@ function matchesIdentity(
   ci: number,
   pi: number,
 ): boolean {
+  if (person.isPerson === false) return false
   if (person.name !== identity.name) return false
   if (identity.slug !== undefined && person.slug !== identity.slug) return false
   if (identity.groupName !== undefined && group.name !== identity.groupName) return false

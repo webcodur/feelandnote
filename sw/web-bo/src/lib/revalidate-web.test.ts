@@ -3,6 +3,7 @@ import test from 'node:test'
 import {
   assertRevalidationResponse,
   normalizeRevalidationWebUrl,
+  revalidateWebCache,
   revalidateWebItems,
   revalidateWebLists,
   webContentRevalidationTags,
@@ -81,13 +82,15 @@ test('대량 태그를 50개씩 나누고 각 응답 태그를 확인한다', as
   process.env.CRON_SECRET = 'test-secret'
   process.env.NEXT_PUBLIC_WEB_URL = 'https://feelandnote.com'
   const received: string[][] = []
+  const endpoints: string[] = []
 
   t.mock.method(globalThis, 'fetch', async (
-    _input: string | URL | Request,
+    input: string | URL | Request,
     init?: RequestInit,
   ) => {
     const requestBody = JSON.parse(String(init?.body)) as { tag: string[] }
     received.push(requestBody.tag)
+    endpoints.push(String(input))
     return Response.json({
       revalidated: true,
       complete: true,
@@ -96,7 +99,13 @@ test('대량 태그를 50개씩 나누고 각 응답 태그를 확인한다', as
         ok: true,
         status: 'purged',
         mode: 'targeted',
-        urls: ['https://feelandnote.com/content/item'],
+        urls: requestBody.tag.flatMap((tag) => {
+          const id = tag.slice('contents:'.length)
+          return [
+            `https://feelandnote.com/content/${id}`,
+            `https://feelandnote.com/en/content/${id}`,
+          ]
+        }),
       },
     })
   })
@@ -113,6 +122,74 @@ test('대량 태그를 50개씩 나누고 각 응답 태그를 확인한다', as
   })))
 
   assert.deepEqual(received.map((chunk) => chunk.length), [50, 1])
+  assert.deepEqual(endpoints, [
+    'https://feelandnote.com/api/revalidate',
+    'https://feelandnote.com/api/revalidate',
+  ])
+})
+
+test('domain-wide bulk request는 versioned v2 endpoint로만 보낸다', async (t) => {
+  const originalSecret = process.env.CRON_SECRET
+  const originalWebUrl = process.env.NEXT_PUBLIC_WEB_URL
+  process.env.CRON_SECRET = 'test-secret'
+  process.env.NEXT_PUBLIC_WEB_URL = 'https://feelandnote.com'
+  let endpoint = ''
+
+  t.mock.method(globalThis, 'fetch', async (
+    input: string | URL | Request,
+    init?: RequestInit,
+  ) => {
+    endpoint = String(input)
+    const requestBody = JSON.parse(String(init?.body)) as { tag: string[] }
+    return Response.json({
+      revalidated: true,
+      complete: true,
+      tags: requestBody.tag,
+      cloudflare: {
+        ok: true,
+        status: 'purged',
+        mode: 'prefix',
+        urls: [],
+        prefixes: [
+          'feelandnote.com/content/',
+          'feelandnote.com/en/content/',
+          'feelandnote.com/celeb/',
+          'feelandnote.com/en/celeb/',
+        ],
+      },
+    })
+  })
+  t.after(() => {
+    if (originalSecret === undefined) delete process.env.CRON_SECRET
+    else process.env.CRON_SECRET = originalSecret
+    if (originalWebUrl === undefined) delete process.env.NEXT_PUBLIC_WEB_URL
+    else process.env.NEXT_PUBLIC_WEB_URL = originalWebUrl
+  })
+
+  await revalidateWebCache(CACHE_TAGS.CONTENTS, 'release-wide content refresh')
+  assert.equal(endpoint, 'https://feelandnote.com/api/revalidate/v2')
+})
+
+test('unsupported curated bulk request는 HTTP 전에 fail closed한다', async (t) => {
+  const originalSecret = process.env.CRON_SECRET
+  const originalWebUrl = process.env.NEXT_PUBLIC_WEB_URL
+  process.env.CRON_SECRET = 'test-secret'
+  process.env.NEXT_PUBLIC_WEB_URL = 'https://feelandnote.com'
+  const fetchMock = t.mock.method(globalThis, 'fetch', async () => {
+    throw new Error('must not call HTTP')
+  })
+  t.after(() => {
+    if (originalSecret === undefined) delete process.env.CRON_SECRET
+    else process.env.CRON_SECRET = originalSecret
+    if (originalWebUrl === undefined) delete process.env.NEXT_PUBLIC_WEB_URL
+    else process.env.NEXT_PUBLIC_WEB_URL = originalWebUrl
+  })
+
+  await assert.rejects(
+    revalidateWebCache(CACHE_TAGS.CURATED, 'unsupported until consumer dependency is verified'),
+    /Unsupported bulk cache tag/,
+  )
+  assert.equal(fetchMock.mock.callCount(), 0)
 })
 
 test('Next와 Cloudflare 무효화가 모두 완료된 응답만 통과시킨다', () => {
@@ -124,7 +201,10 @@ test('Next와 Cloudflare 무효화가 모두 완료된 응답만 통과시킨다
       ok: true,
       status: 'purged',
       mode: 'targeted',
-      urls: ['https://feelandnote.com/content/tmdb-77'],
+      urls: [
+        'https://feelandnote.com/content/tmdb-77',
+        'https://feelandnote.com/en/content/tmdb-77',
+      ],
     },
   }, ['contents:tmdb-77']))
 
@@ -187,5 +267,45 @@ test('Next와 Cloudflare 무효화가 모두 완료된 응답만 통과시킨다
       },
     }, ['contents:tmdb-77']),
     /캐시 무효화 완료 응답 계약/,
+  )
+})
+
+test('bulk 응답은 유효한 Cloudflare prefix 목록까지 확인한다', () => {
+  const tags = ['contents:__all__']
+  const response = {
+    revalidated: true,
+    complete: true,
+    tags,
+    cloudflare: {
+      ok: true,
+      status: 'purged',
+      mode: 'prefix',
+      prefixes: [
+        'feelandnote.com/content/',
+        'feelandnote.com/en/content/',
+        'feelandnote.com/celeb/',
+        'feelandnote.com/en/celeb/',
+      ],
+      urls: [],
+    },
+  }
+
+  assert.doesNotThrow(() => assertRevalidationResponse(response, tags))
+  assert.throws(
+    () => assertRevalidationResponse({
+      ...response,
+      cloudflare: { ...response.cloudflare, prefixes: [] },
+    }, tags),
+    /완료 응답 계약/,
+  )
+  assert.throws(
+    () => assertRevalidationResponse({
+      ...response,
+      cloudflare: {
+        ...response.cloudflare,
+        prefixes: response.cloudflare.prefixes.slice(0, -1),
+      },
+    }, tags),
+    /완료 응답 계약/,
   )
 })

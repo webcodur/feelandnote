@@ -36,11 +36,11 @@ import {
   Volume2,
   MessageSquare,
   MessagesSquare,
+  ListOrdered,
   Swords,
   BookOpenText,
-  Search,
   SearchCheck,
-  Database,
+  Film,
   BookMarked,
   Images,
   ClipboardCheck,
@@ -70,7 +70,7 @@ const menuGroups: MenuGroup[] = [
       { href: '/celebs/professions', label: '직군', icon: Target },
       { href: '/celebs/journeys', label: '감상 여정', icon: Brain },
       { href: '/celebs/content-research', label: '콘텐츠 조사', icon: SearchCheck },
-      { href: '/celebs/timeline', label: '생애 행적', icon: Route },
+      { href: '/celebs/timeline', label: '타임라인', icon: Route },
       { href: '/celebs/vectors', label: '스펙트럼', icon: Radar },
       { href: '/celebs/influence', label: '영향력', icon: Flame },
       { href: '/celebs/voice-gen', label: '대사/음성', icon: Volume2 },
@@ -95,23 +95,13 @@ const menuGroups: MenuGroup[] = [
     ],
   },
   {
-    key: 'book-recommend', label: '서재 탐방', icon: BookOpenText,
+    key: 'video', label: '영상', icon: Film,
     children: [
-      { href: '/book-recommend', label: '제작 현황', icon: BookOpenText },
-      { href: '/book-recommend/search', label: '새 에피소드', icon: Search },
-      { href: '/book-recommend?view=resources', label: '리소스', icon: Database },
-    ],
-  },
-  {
-    key: 'factions', label: '세력도감', icon: Swords,
-    children: [
-      { href: '/factions', label: '목록·도감 테마', icon: Swords },
-    ],
-  },
-  {
-    key: 'discourses', label: '가상 담화', icon: MessagesSquare,
-    children: [
-      { href: '/discourses', label: '편 목록', icon: MessagesSquare },
+      { href: '/book-recommend', label: '서재 탐방', icon: BookOpenText },
+      { href: '/book-person', label: '책과 사람', icon: BookOpen },
+      { href: '/factions', label: '세력도감', icon: Swords },
+      { href: '/discourses', label: '가상 담화', icon: MessagesSquare },
+      { href: '/rankings', label: '랭킹', icon: ListOrdered },
     ],
   },
   {

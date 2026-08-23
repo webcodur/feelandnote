@@ -4,7 +4,7 @@ import { ArrowLeft, MapPin } from 'lucide-react'
 import { getTimelineCelebs } from '@/actions/admin/timeline'
 
 export const metadata: Metadata = {
-  title: '생애 행적 편집',
+  title: '타임라인 편집',
 }
 
 export default async function TimelineListPage() {
@@ -23,7 +23,7 @@ export default async function TimelineListPage() {
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-xl md:text-2xl font-bold text-text-primary">생애 행적 편집</h1>
+          <h1 className="text-xl md:text-2xl font-bold text-text-primary">타임라인 편집</h1>
           <p className="text-sm text-text-secondary mt-1">
             인물 {listed.length}명 · 행적 {totalEvents}건 · 좌표 {totalCoords}건
           </p>

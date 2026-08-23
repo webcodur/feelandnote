@@ -58,6 +58,28 @@ export function vnNarratorIntro(): string {
   return 'narrator-intro.wav'
 }
 
+/** 본문 기반 안정 키 — 항목을 재배치해도 음성이 다른 항목으로 바뀌지 않고, 본문 수정 시 옛 음원을 재생하지 않는다. */
+function narrationTextKey(text: string): string {
+  let hash = 0x811c9dc5
+  for (const ch of text.trim().replace(/\r\n/g, '\n')) {
+    hash ^= ch.charCodeAt(0)
+    hash = Math.imul(hash, 0x01000193)
+  }
+  return (hash >>> 0).toString(36)
+}
+
+/**
+ * 서사 항목 덩어리(해설·대사) 음성 파일명 — 인물 좌표(FxxCxxPxx) 밖의 항목이라 화자 + 본문 해시로 명명한다.
+ * 예: scene-1k2j3h4.wav. 장면을 옮기거나 순서를 바꿔도 음원이 따라오고, 본문을 고치면
+ * 파일명이 달라져 옛 음원이 남아 재생되지 않는다. 같은 말을 다른 인물이 해도 목소리가 달라야 하므로
+ * 화자를 해시에 함께 넣는다.
+ *
+ * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnSceneBeat 와 규칙이 100% 일치해야 한다.
+ */
+export function vnSceneBeat(speaker: string | undefined, text: string): string {
+  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${text}`)}.wav`
+}
+
 /** 제목 기반 안정 키 — 챕터 재배치에는 유지되고 제목 수정 시 옛 음원을 잘못 재생하지 않는다. */
 function chapterTitleKey(title: string): string {
   let hash = 0x811c9dc5
@@ -181,7 +203,9 @@ const KINDS = ['quote', 'epithet'] as const
 /** 한 세력의 모든 인물 음원 슬롯 — (clusterIndex, personIndex). 항상 clusters 경유. */
 function groupSlots(group: FactionGroup): { clusterIndex: number; personIndex: number }[] {
   const slots: { clusterIndex: number; personIndex: number }[] = []
-  ;(group.clusters ?? []).forEach((c, ci) => (c.people ?? []).forEach((_, pi) => slots.push({ clusterIndex: ci, personIndex: pi })))
+  ;(group.clusters ?? []).forEach((c, ci) => (c.people ?? []).forEach((entry, pi) => {
+    if (entry.isPerson !== false) slots.push({ clusterIndex: ci, personIndex: pi })
+  }))
   return slots
 }
 
@@ -206,7 +230,7 @@ export function buildGroupMoveRenames(group: FactionGroup, fromG: number, toG: n
 export function buildClusterMoveRenames(group: FactionGroup, groupIndex: number, fromCi: number, toCi: number): FactionRename[] {
   if (fromCi === toCi) return []
   const people = group.clusters?.[fromCi]?.people ?? []
-  return people.flatMap((_, pi) =>
+  return people.flatMap((entry, pi) => entry.isPerson === false ? [] :
     KINDS.map(kind => ({
       from: factionVoiceFile(groupIndex, pi, fromCi, kind),
       to: factionVoiceFile(groupIndex, pi, toCi, kind),

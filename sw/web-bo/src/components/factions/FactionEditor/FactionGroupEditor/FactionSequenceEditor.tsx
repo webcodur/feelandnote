@@ -1,25 +1,25 @@
 import React, { type ReactNode } from 'react'
 import type { FactionSequenceItem } from '@/lib/faction-types'
 
-type SceneItem = Extract<FactionSequenceItem, { kind: 'scene' }>
+type EntryItem = Extract<FactionSequenceItem, { kind: 'entry' }>
 
 type Props = {
   sequence: FactionSequenceItem[]
   renderCluster: (clusterIndex: number, sequenceIndex: number) => ReactNode
-  renderScene: (item: SceneItem, sequenceIndex: number) => ReactNode
+  renderEntry: (item: EntryItem, sequenceIndex: number) => ReactNode
   renderCut?: (sequenceIndex: number) => ReactNode
   footer?: ReactNode
 }
 
 /** 세력 본문 편집기를 영상 이야기 순서와 동일한 DOM 순서로 배치한다. */
-export function FactionSequenceEditor({ sequence, renderCluster, renderScene, renderCut, footer }: Props) {
+export function FactionSequenceEditor({ sequence, renderCluster, renderEntry, renderCut, footer }: Props) {
   return (
     <div className="flex flex-col gap-3" data-faction-sequence-editor>
       {sequence.map((item, sequenceIndex) => {
         if (item.kind === 'cluster') {
           return <div key={`cluster-${item.clusterIndex}`}>{renderCluster(item.clusterIndex, sequenceIndex)}</div>
         }
-        if (item.kind === 'scene') return <div key={item.id}>{renderScene(item, sequenceIndex)}</div>
+        if (item.kind === 'entry') return <div key={`entry-${item.clusterIndex}-${item.entryIndex}`}>{renderEntry(item, sequenceIndex)}</div>
         return (
           <div key={`cut-${sequenceIndex}`}>
             {renderCut?.(sequenceIndex) ?? (
