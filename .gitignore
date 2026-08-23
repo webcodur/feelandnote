@@ -58,6 +58,10 @@ sw/remotion/.render-stage/
 # Remotion BGM 음원 (로컬 관리)
 sw/remotion/public/music/
 
+# Remotion book-person·rankings 시리즈 자료 — 로컬 관리
+sw/remotion/public/book-person/
+sw/remotion/public/rankings/
+
 # 담화 내보내기 백업 — DB 발효 때마다 쌓이는 회차 사본이라 추적하지 않는다.
 # (담화 데이터 세 파일 자체는 추적 대상이다. factions/ 처럼 통째로 빼지 않는다)
 sw/remotion/public/discourses/*/.export-backup/
