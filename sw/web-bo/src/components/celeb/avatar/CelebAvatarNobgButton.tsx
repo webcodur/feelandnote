@@ -17,6 +17,8 @@ interface Props {
   disabled?: boolean
   job?: ImageProcessingJob | null
   poll?: boolean
+  /** 일괄 처리처럼 결과를 한 번에 요약해 알릴 때 개별 완료 알림을 끈다. */
+  quiet?: boolean
   className?: string
   onJobChange?: (job: ImageProcessingJob) => void
   onCompleted?: (url: string) => void
@@ -29,6 +31,7 @@ export default function CelebAvatarNobgButton({
   disabled = false,
   job,
   poll = true,
+  quiet = false,
   className = '',
   onJobChange,
   onCompleted,
@@ -91,12 +94,12 @@ export default function CelebAvatarNobgButton({
     if (currentJob.status === 'done' && currentJob.resultUrl) {
       notifiedJobId.current = currentJob.id
       onCompleted?.(currentJob.resultUrl)
-      showToast('success', `${label} 아바타의 배경을 제거했습니다.`)
+      if (!quiet) showToast('success', `${label} 아바타의 배경을 제거했습니다.`)
     } else if (currentJob.status === 'error') {
       notifiedJobId.current = currentJob.id
-      showToast('error', currentJob.error || 'nobg 처리에 실패했습니다.')
+      if (!quiet) showToast('error', currentJob.error || 'nobg 처리에 실패했습니다.')
     }
-  }, [currentJob, label, onCompleted, showToast])
+  }, [currentJob, label, onCompleted, quiet, showToast])
 
   async function handleNobg() {
     if (!avatarUrl || disabled || active) return

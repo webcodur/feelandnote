@@ -1,11 +1,13 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { processNobgAvatar } from './nobg-avatar'
+import { processNobgAvatars, type NobgAvatarResult } from './nobg-avatar'
 import type { ImageProcessingJob, ImageProcessingJobType } from './types'
 
 const QUEUE_DIR = path.join(process.cwd(), '.tmp', 'image-processing')
 const QUEUE_FILE = path.join(QUEUE_DIR, 'queue.json')
 const MAX_RETAINED_JOBS = 200
+// 배경 제거 모델은 프로세스마다 973MB를 다시 읽는다. 대기 작업을 묶어 한 번만 띄운다.
+const MAX_BATCH_SIZE = 20
 
 interface PersistedQueue {
   jobs: ImageProcessingJob[]
@@ -115,11 +117,25 @@ function mutate<T>(operation: () => Promise<T>): Promise<T> {
   return run
 }
 
-async function runJob(job: ImageProcessingJob): Promise<string> {
-  switch (job.type) {
+async function runJobs(
+  batch: ImageProcessingJob[],
+  onResult: (celebId: string, result: NobgAvatarResult) => void
+): Promise<unknown> {
+  switch (batch[0].type) {
     case 'nobg-avatar':
-      return processNobgAvatar(job.celebId)
+      return processNobgAvatars(batch.map((job) => job.celebId), onResult)
   }
+}
+
+function finishJob(job: ImageProcessingJob, result: NobgAvatarResult): void {
+  if (result.url) {
+    job.status = 'done'
+    job.resultUrl = result.url
+  } else {
+    job.status = 'error'
+    job.error = result.error || '이미지 처리 실패'
+  }
+  job.finishedAt = new Date().toISOString()
 }
 
 function startWorker(): void {
@@ -133,35 +149,47 @@ function startWorker(): void {
 
 async function drainQueue(): Promise<void> {
   while (pendingIds.length > 0) {
-    const job = await mutate(async () => {
-      const id = pendingIds.shift()
-      const next = id ? jobs.get(id) : undefined
-      if (!next) return null
-      next.status = 'running'
-      next.queuePosition = 0
-      next.startedAt = new Date().toISOString()
-      next.error = undefined
-      await persistQueue()
-      return next
+    // 같은 종류의 대기 작업을 한 덩어리로 꺼낸다.
+    const batch = await mutate(async () => {
+      const picked: ImageProcessingJob[] = []
+      while (pendingIds.length > 0 && picked.length < MAX_BATCH_SIZE) {
+        const next = jobs.get(pendingIds[0])
+        if (!next) {
+          pendingIds.shift()
+          continue
+        }
+        if (picked.length > 0 && next.type !== picked[0].type) break
+        pendingIds.shift()
+        next.status = 'running'
+        next.queuePosition = 0
+        next.startedAt = new Date().toISOString()
+        next.error = undefined
+        picked.push(next)
+      }
+      if (picked.length > 0) await persistQueue()
+      return picked
     })
-    if (!job) continue
+    if (batch.length === 0) continue
 
     try {
-      const resultUrl = await runJob(job)
-      await mutate(async () => {
-        job.status = 'done'
-        job.resultUrl = resultUrl
-        job.finishedAt = new Date().toISOString()
-        await persistQueue()
+      // 인물별 결과는 나오는 대로 반영한다. 화면 폴링이 곧바로 집어간다.
+      await runJobs(batch, (celebId, result) => {
+        const job = batch.find((candidate) => candidate.celebId === celebId)
+        if (job) finishJob(job, result)
       })
     } catch (error) {
-      await mutate(async () => {
-        job.status = 'error'
-        job.error = error instanceof Error ? error.message : '이미지 처리 실패'
-        job.finishedAt = new Date().toISOString()
-        await persistQueue()
-      })
+      const message = error instanceof Error ? error.message : '이미지 처리 실패'
+      for (const job of batch) {
+        if (job.status === 'running') finishJob(job, { error: message })
+      }
     }
+
+    await mutate(async () => {
+      for (const job of batch) {
+        if (job.status === 'running') finishJob(job, { error: '이미지 처리 결과를 받지 못했습니다.' })
+      }
+      await persistQueue()
+    })
   }
 }
 
