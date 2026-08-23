@@ -14,12 +14,8 @@ data/celeb/
 │   ├── ledger/lane-NN.json
 │   ├── packs/
 │   └── drafts/
-├── viewing-research/
-│   └── YYYY-MM-DD-<scope>.md
-└── virtual-monologue/
-    ├── README.md
-    ├── dossiers/
-    └── drafts/
+└── viewing-research/
+    └── YYYY-MM-DD-<scope>.md
 ```
 
 ### `headline-rewrite/`
@@ -36,10 +32,6 @@ data/celeb/
 ### `viewing-research/`
 
 인물군의 콘텐츠 감상 언급을 조사한 날짜별 스냅샷이다. 실제 서비스 관계와 출처는 DB 반영·감사 절차를 통과한 값만 정본으로 본다.
-
-### `virtual-monologue/`
-
-가상 독백 전수 정비 당시의 배치, 근거 dossier, 초안과 적용 보고서를 보존한다. 서비스 화면 노출과 신규 작성은 중단됐으며, 현행 판단은 [`docs/project/celeb/retire/virtual-monologue.md`](../../docs/project/celeb/retire/virtual-monologue.md)를 따른다.
 
 ## 타임라인
 

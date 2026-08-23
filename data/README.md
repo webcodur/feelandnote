@@ -4,7 +4,7 @@
 
 | 경로 | 내용 | 현역 규격 |
 |---|---|---|
-| [`celeb/`](celeb/README.md) | DB 반영 전 인물 대사 원고, 조사 스냅샷, 보존된 가상 독백 작업 자료 | [`docs/project/celeb/`](../docs/project/celeb/README.md) |
+| [`celeb/`](celeb/README.md) | DB 반영 전 인물 대사 원고와 조사 스냅샷 | [`docs/project/celeb/`](../docs/project/celeb/README.md) |
 | [`curated-lists/`](curated-lists/README.md) | 기관·시상·분야별 선정 목록과 수집·매칭 보고서 | [`docs/project/service/curated-lists.md`](../docs/project/service/curated-lists.md) |
 | `coupang/` | 제휴 상품 연결 대상과 선별 결과 | [`docs/project/operations/monetization.md`](../docs/project/operations/monetization.md) |
 
