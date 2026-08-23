@@ -1759,7 +1759,7 @@ async function main() {
     fetchAll<ProfileRow>(
       'celebs',
       'id,slug,nickname,nickname_en,bio,profession,title,nationality,birth_date,death_date,publication_status,celeb_tier,wikidata_qid',
-      (query) => query.order('id'),
+      (query) => query.neq('publication_status', 'deleted').order('id'),
     ),
     fetchAll<ExplanationRow>('celeb_explanations', 'profile_id,review_status,published_at,plain_text,interpretive_title,interpretive_text,plain_text_en,interpretive_title_en,interpretive_text_en,updated_at', (query) => query.order('profile_id')),
   ])
