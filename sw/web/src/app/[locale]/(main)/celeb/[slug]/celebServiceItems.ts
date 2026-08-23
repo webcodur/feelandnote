@@ -83,14 +83,16 @@ export function useCelebServiceItems({
             ready: availability.reading,
             target: { sectionId: "reading" },
           },
-          {
-            key: "person-explore",
-            chapter: "02-B",
-            label: t("personExplore"),
-            icon: CELEB_SERVICE_ICONS.personExplore,
-            ready: availability.reading,
-            target: { sectionId: "reading" },
-          },
+          // 인물 탐구 닫음(2026-08-22). 안내만 제공한다.
+          // 생성 품질이 기준에 못 미쳐 화면에서 내렸다. DB 필드는 남아 있다.
+          // {
+          //   key: "person-explore",
+          //   chapter: "02-B",
+          //   label: t("personExplore"),
+          //   icon: CELEB_SERVICE_ICONS.personExplore,
+          //   ready: availability.reading,
+          //   target: { sectionId: "reading" },
+          // },
         ],
       },
       {
