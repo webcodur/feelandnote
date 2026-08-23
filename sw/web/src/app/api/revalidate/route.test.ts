@@ -82,7 +82,10 @@ test('targeted purge가 성공하면 기존 HTTP 200 흐름을 유지한다', as
   const handleRevalidation = createRevalidationHandler({
     expireTag: () => undefined,
     purgeByTags: async () => ({
-      urls: ['https://feelandnote.com/content/abc123'],
+      urls: [
+        'https://feelandnote.com/content/abc123',
+        'https://feelandnote.com/en/content/abc123',
+      ],
       ok: true,
       status: 'purged',
       mode: 'targeted',
@@ -96,12 +99,142 @@ test('targeted purge가 성공하면 기존 HTTP 200 흐름을 유지한다', as
     complete: true,
     tags: ['contents:abc123'],
     cloudflare: {
-      urls: ['https://feelandnote.com/content/abc123'],
+      urls: [
+        'https://feelandnote.com/content/abc123',
+        'https://feelandnote.com/en/content/abc123',
+      ],
       ok: true,
       status: 'purged',
       mode: 'targeted',
     },
   })
+})
+
+test('legacy endpoint는 bulk tag를 Next·Cloudflare mutation 전에 거부한다', async (t) => {
+  configureSecret(t)
+  const expired: string[] = []
+  let purges = 0
+  const handleRevalidation = createRevalidationHandler({
+    expireTag: (tag) => expired.push(tag),
+    purgeByTags: async () => {
+      purges += 1
+      return { urls: [], ok: true, status: 'not_needed', mode: 'none' }
+    },
+  })
+  const response = await handleRevalidation(request(['contents:item-1', 'contents:__all__']))
+
+  assert.equal(response.status, 400)
+  assert.deepEqual(expired, [])
+  assert.equal(purges, 0)
+  assert.match((await response.json()).error, /\/api\/revalidate\/v2/)
+})
+
+test('v2 endpoint는 bulk가 포함된 mixed prefix+exact 요청만 처리한다', async (t) => {
+  configureSecret(t)
+  const expired: string[] = []
+  let purges = 0
+  const handleRevalidation = createRevalidationHandler({
+    expireTag: (tag) => expired.push(tag),
+    purgeByTags: async () => {
+      purges += 1
+      return {
+        urls: [
+          'https://feelandnote.com/content/item-1',
+          'https://feelandnote.com/en/content/item-1',
+        ],
+        prefixes: [
+          'feelandnote.com/content/',
+          'feelandnote.com/en/content/',
+          'feelandnote.com/celeb/',
+          'feelandnote.com/en/celeb/',
+        ],
+        ok: true,
+        status: 'purged',
+        mode: 'prefix',
+      }
+    },
+  }, 'bulk')
+  const tags = ['contents:__all__', 'contents:item-1']
+  const response = await handleRevalidation(request(tags))
+
+  assert.equal(response.status, 200)
+  assert.deepEqual(expired, tags)
+  assert.equal(purges, 1)
+  assert.deepEqual(await response.json(), {
+    revalidated: true,
+    complete: true,
+    tags,
+    cloudflare: {
+      urls: [
+        'https://feelandnote.com/content/item-1',
+        'https://feelandnote.com/en/content/item-1',
+      ],
+      prefixes: [
+        'feelandnote.com/content/',
+        'feelandnote.com/en/content/',
+        'feelandnote.com/celeb/',
+        'feelandnote.com/en/celeb/',
+      ],
+      ok: true,
+      status: 'purged',
+      mode: 'prefix',
+    },
+  })
+})
+
+test('v2 endpoint는 targeted-only 요청을 mutation 전에 거부한다', async (t) => {
+  configureSecret(t)
+  let expired = 0
+  let purges = 0
+  const handleRevalidation = createRevalidationHandler({
+    expireTag: () => { expired += 1 },
+    purgeByTags: async () => {
+      purges += 1
+      return { urls: [], ok: true, status: 'not_needed', mode: 'none' }
+    },
+  }, 'bulk')
+
+  const response = await handleRevalidation(request('contents:item-1'))
+  assert.equal(response.status, 400)
+  assert.equal(expired, 0)
+  assert.equal(purges, 0)
+  assert.match((await response.json()).error, /legacy endpoint/)
+})
+
+test('v2 endpoint는 지원 근거가 없는 bulk domain을 mutation 전에 거부한다', async (t) => {
+  configureSecret(t)
+  let expired = 0
+  let purges = 0
+  const handleRevalidation = createRevalidationHandler({
+    expireTag: () => { expired += 1 },
+    purgeByTags: async () => {
+      purges += 1
+      return { urls: [], ok: true, status: 'not_needed', mode: 'none' }
+    },
+  }, 'bulk')
+
+  const response = await handleRevalidation(request('curated:__all__'))
+  assert.equal(response.status, 400)
+  assert.equal(expired, 0)
+  assert.equal(purges, 0)
+  assert.match((await response.json()).error, /Unsupported bulk cache tag/)
+})
+
+test('handler는 Cloudflare의 one-URL false green을 완료로 내보내지 않는다', async (t) => {
+  configureSecret(t)
+  const handleRevalidation = createRevalidationHandler({
+    expireTag: () => undefined,
+    purgeByTags: async () => ({
+      urls: ['https://feelandnote.com/content/abc123'],
+      ok: true,
+      status: 'purged',
+      mode: 'targeted',
+    }),
+  })
+
+  const response = await handleRevalidation(request('contents:abc123'))
+  assert.equal(response.status, 502)
+  assert.equal((await response.json()).complete, false)
 })
 
 test('잘못된 JSON·객체가 아닌 body·과도한 태그를 400으로 거부한다', async (t) => {
@@ -136,7 +269,13 @@ test('DB trigger chunk boundary인 정확히 200개 태그는 수락한다', asy
     purgeByTags: async (tags) => {
       purged = tags
       return {
-        urls: ['https://feelandnote.com/content/item-0'],
+        urls: tags.flatMap((tag) => {
+          const id = tag.slice('contents:'.length)
+          return [
+            `https://feelandnote.com/content/${id}`,
+            `https://feelandnote.com/en/content/${id}`,
+          ]
+        }),
         ok: true,
         status: 'purged',
         mode: 'targeted',

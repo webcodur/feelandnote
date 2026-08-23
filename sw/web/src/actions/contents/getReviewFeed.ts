@@ -2,7 +2,7 @@
 
 import { unstable_cache } from 'next/cache'
 import { throwOnQueryError, withQueryFallback } from '@/lib/cache'
-import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
+import { bulkTag, CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
 import { getLocale } from 'next-intl/server'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
@@ -175,16 +175,31 @@ const getReviewFeedCached = unstable_cache(
   { revalidate: 3600, tags: [CACHE_TAGS.CELEBS, CACHE_TAGS.CONTENTS] }
 )
 
+/**
+ * 공개 작품 상세가 셀럽 리뷰 작성자 정보에 의존한다는 사실만 Data Cache에 기록한다.
+ *
+ * 실제 리뷰는 아래에서 직접 읽는다. 여기에 1시간짜리 결과 캐시를 다시 끼우면 그 짧은
+ * 수명이 작품 상세 Full Route 전체의 재생성 주기가 되기 때문이다. 값 없는 영구 캐시는
+ * 시간 만료를 만들지 않으면서 `celebs:__all__` 무효화를 작품 상세까지 전파한다.
+ */
+const trackPublicReviewCelebBulkDependency = unstable_cache(
+  async () => true,
+  ['public-review-feed-celeb-bulk-dependency-v1'],
+  { revalidate: false, tags: [bulkTag(CACHE_TAGS.CELEBS)] },
+)
+
 // 콘텐츠 상세의 ISR 본문용. viewer별 제외 규칙을 섞지 않아 모든 방문자가
 // 같은 공개 리뷰 HTML을 CDN에서 공유할 수 있다.
 export async function getPublicReviewFeed(
   params: GetReviewFeedParams,
   locale: string,
 ): Promise<ReviewFeedItem[]> {
+  const dependencyPromise = trackPublicReviewCelebBulkDependency()
+
   // 바깥의 콘텐츠 ISR 문서가 결과를 보관한다. 1시간 Data Cache를 중첩하면
   // 페이지 전체의 재검증 주기가 짧아질 수 있으므로 공개 첫 화면은 직접 읽는다.
   // 캐시를 거치지 않아도 폴백은 필요하다 — 조회가 실패했다고 화면 전체를 죽이지 않는다.
-  return withQueryFallback(
+  const reviewsPromise = withQueryFallback(
     'getPublicReviewFeed',
     () => fetchReviewFeed(
       params.contentId,
@@ -196,6 +211,8 @@ export async function getPublicReviewFeed(
     ),
     [],
   )
+  const [reviews] = await Promise.all([reviewsPromise, dependencyPromise])
+  return reviews
 }
 
 export async function getReviewFeed(params: GetReviewFeedParams): Promise<ReviewFeedItem[]> {

@@ -2,6 +2,7 @@
   파일명: /components/features/user/contentLibrary/expand/ExpandCard.tsx
   기능: 펼침 보기의 카드 한 장.
   책임: 세 칸을 위에서 아래로 쌓는다 — 표지와 작품 소개, 인물의 감상배경, 작품의 나머지 정보.
+        감상배경만 상자 높이를 두고, 넘치는 긴 글은 그 안에서 굴린다.
         제목과 작품 선택 목록은 카드 밖의 ExpandDetailView가 맡는다.
 */ // ------------------------------
 "use client";
@@ -20,6 +21,7 @@ import type { ContentBrief } from "@/actions/contents/getContentBrief";
 
 import ContentIntro from "./ContentIntro";
 import ContentMetaPanel from "./ContentMetaPanel";
+import ReviewScrollBox from "./ReviewScrollBox";
 import { EXPAND_SECTION_HEADING_CLASS } from "./expandSectionStyles";
 
 interface ExpandCardProps {
@@ -139,12 +141,9 @@ function ExpandCard({
                   {t("reviewModal.originalLanguage")}
                 </p>
               )}
-              {/* 긴 감상배경도 문서 흐름에 전부 펼쳐 휠과 터치 스크롤을 한 축으로 유지한다. */}
-              <div
-                className="min-w-0 w-full whitespace-pre-line break-words font-sans text-[15px] leading-[1.85] text-text-secondary"
-              >
+              <ReviewScrollBox>
                 <FormattedText text={review} />
-              </div>
+              </ReviewScrollBox>
             </>
           ) : null}
 

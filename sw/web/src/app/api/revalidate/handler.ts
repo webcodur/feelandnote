@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   ALL_CACHE_TAGS,
   isAllowedCacheTag,
+  isBulkCacheTag,
+  isCompleteCacheRevalidationResponse,
   normalizeLegacyCacheTag,
+  unsupportedBulkCacheTags,
 } from '@feelandnote/shared/constants/cache-tags'
 import type { purgeCloudflareByTags } from '@/lib/cloudflarePurge'
 
@@ -16,7 +19,10 @@ type RevalidationDependencies = {
 const MAX_TAGS_PER_REQUEST = 200
 
 /** Next 라우트의 허용 export를 더럽히지 않고 요청·실패 계약을 단위 테스트하기 위한 핸들러. */
-export function createRevalidationHandler(dependencies: RevalidationDependencies) {
+export function createRevalidationHandler(
+  dependencies: RevalidationDependencies,
+  endpoint: 'targeted' | 'bulk' = 'targeted',
+) {
   return async function handleRevalidation(request: NextRequest) {
     const expected = process.env.CRON_SECRET
 
@@ -69,10 +75,32 @@ export function createRevalidationHandler(dependencies: RevalidationDependencies
       )
     }
 
-    for (const tag of tags as string[]) dependencies.expireTag(tag)
+    const validatedTags = tags as string[]
+    const bulkTags = validatedTags.filter(isBulkCacheTag)
+    if (endpoint === 'targeted' && bulkTags.length > 0) {
+      return NextResponse.json(
+        { error: 'Bulk cache tags are accepted only at /api/revalidate/v2.' },
+        { status: 400 },
+      )
+    }
+    if (endpoint === 'bulk' && bulkTags.length === 0) {
+      return NextResponse.json(
+        { error: 'Targeted-only requests must use the legacy endpoint /api/revalidate.' },
+        { status: 400 },
+      )
+    }
+    const unsupportedBulk = unsupportedBulkCacheTags(validatedTags)
+    if (unsupportedBulk.length > 0) {
+      return NextResponse.json(
+        { error: `Unsupported bulk cache tag: ${unsupportedBulk.join(', ')}` },
+        { status: 400 },
+      )
+    }
+
+    for (const tag of validatedTags) dependencies.expireTag(tag)
 
     // Next 캐시만 비고 Cloudflare 사본이 남으면 무효화는 완료된 것이 아니다.
-    const cloudflare = await dependencies.purgeByTags(tags as string[])
+    const cloudflare = await dependencies.purgeByTags(validatedTags)
     if (!cloudflare.ok) {
       const status = cloudflare.status === 'not_configured' ? 503 : 502
       return NextResponse.json(
@@ -87,6 +115,25 @@ export function createRevalidationHandler(dependencies: RevalidationDependencies
       )
     }
 
-    return NextResponse.json({ revalidated: true, complete: true, tags, cloudflare })
+    const completeResponse = {
+      revalidated: true as const,
+      complete: true as const,
+      tags: validatedTags,
+      cloudflare,
+    }
+    if (!isCompleteCacheRevalidationResponse(completeResponse, validatedTags)) {
+      return NextResponse.json(
+        {
+          revalidated: true,
+          complete: false,
+          tags: validatedTags,
+          cloudflare,
+          error: 'Cloudflare purge result did not match the requested cache tags.',
+        },
+        { status: 502 },
+      )
+    }
+
+    return NextResponse.json(completeResponse)
   }
 }

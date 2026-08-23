@@ -16,6 +16,8 @@ const maximumRepeatedInitialAction = Number(
   process.env.DETAIL_SCROLL_CHECK_MAX_REPEATED_ACTION ?? 8,
 );
 const tolerance = 2;
+// 감상배경 상자의 최소 높이. 15px 본문에 줄높이 1.85, 16줄 기준(약 444px)에서 여유를 뒀다
+const minimumReviewBoxHeight = Number(process.env.DETAIL_SCROLL_CHECK_MIN_REVIEW_BOX ?? 380);
 const entryRequestTraces = new WeakMap();
 
 const viewports = {
@@ -655,6 +657,8 @@ async function checkReviewScroll(page) {
           className: element.className,
           range: Math.max(0, element.scrollHeight - element.clientHeight),
           overflowY: getComputedStyle(element).overflowY,
+          overscrollY: getComputedStyle(element).overscrollBehaviorY,
+          clientHeight: element.clientHeight,
         }))
         .filter((element) => element.range > 0);
 
@@ -681,21 +685,37 @@ async function checkReviewScroll(page) {
     0,
     `Content introduction has an inner vertical scroll range: ${JSON.stringify(sections.intro)}`,
   );
-  assert.equal(
-    sections.review.scrollables.length,
-    0,
-    `Review has an inner vertical scroll range: ${JSON.stringify(sections.review)}`,
-  );
+  /* 감상배경은 긴 글만 상자 안에서 굴린다. 두 가지를 지켜야 한다.
+     하나, 상자가 넉넉해 짧은 글은 아예 스크롤이 생기지 않을 것.
+     둘, overscroll을 막지 않아 상자 끝에 닿으면 휠이 페이지로 넘어갈 것.
+     예전에 상자를 6줄로 좁힌 채 휠을 코드로 가로채려다 실패했다. 그 조합을 다시 만들지 않는다. */
+  for (const scroller of sections.review.scrollables) {
+    assert(
+      !["contain", "none"].includes(scroller.overscrollY),
+      `Review scroller traps overscroll — the wheel cannot reach the page: ${JSON.stringify(scroller)}`,
+    );
+    assert(
+      scroller.clientHeight >= minimumReviewBoxHeight,
+      `Review box is too short (${scroller.clientHeight}px < ${minimumReviewBoxHeight}px): ${JSON.stringify(scroller)}`,
+    );
+  }
 
   const wheel = await wheelOverReview(page);
-  assert(
-    Math.abs(wheel.pageDelta) > 20,
-    `Wheel over the review did not move the document: ${JSON.stringify(wheel)}`,
-  );
-  assert(
-    Math.abs(wheel.innerDelta) <= tolerance,
-    `Wheel over the review moved an inner scroller: ${JSON.stringify(wheel)}`,
-  );
+  if (wheel.hadInnerRange) {
+    assert(
+      Math.abs(wheel.innerDelta) > tolerance,
+      `Wheel over the long review did not move the review box: ${JSON.stringify(wheel)}`,
+    );
+    assert(
+      Math.abs(wheel.pageDeltaAtBottom) > 20,
+      `Wheel at the review box bottom did not chain to the document: ${JSON.stringify(wheel)}`,
+    );
+  } else {
+    assert(
+      Math.abs(wheel.pageDelta) > 20,
+      `Wheel over the short review did not move the document: ${JSON.stringify(wheel)}`,
+    );
+  }
 
   return { sections, wheel };
 }
@@ -749,7 +769,12 @@ async function wheelOverReview(page) {
           .filter((element) => ["auto", "scroll"].includes(getComputedStyle(element).overflowY))
           .reduce((total, element) => total + element.scrollTop, 0)
       : 0;
-    return { page: window.scrollY, inner };
+    const range = section
+      ? [section, ...section.querySelectorAll("*")]
+          .filter((element) => ["auto", "scroll"].includes(getComputedStyle(element).overflowY))
+          .reduce((total, element) => total + Math.max(0, element.scrollHeight - element.clientHeight), 0)
+      : 0;
+    return { page: window.scrollY, inner, range };
   });
   await page.mouse.move(point.x, point.y);
   await page.mouse.wheel({ deltaY: 180 });
@@ -768,9 +793,42 @@ async function wheelOverReview(page) {
     return { page: window.scrollY, inner };
   });
 
+  /* 상자를 끝까지 내린 뒤 한 번 더 굴린다. 여기서 페이지가 움직여야 휠이 상자에 갇히지 않는다 —
+     예전에 이게 안 돼 휠을 코드로 가로챘고, 그 보정이 브라우저마다 튀어 스크롤을 통째로 걷어냈다. */
+  let pageDeltaAtBottom = 0;
+  if (before.range > tolerance) {
+    await page.evaluate(() => {
+      const library = document.querySelector("#library");
+      const heading = [...(library?.querySelectorAll("h4") ?? [])].find((item) =>
+        /감상\s*배경|review/i.test(item.textContent?.trim() ?? ""),
+      );
+      const section = heading?.closest("section") ?? heading?.parentElement;
+      if (!section) return;
+      for (const element of [section, ...section.querySelectorAll("*")]) {
+        if (["auto", "scroll"].includes(getComputedStyle(element).overflowY)) {
+          element.scrollTop = element.scrollHeight;
+        }
+      }
+    });
+    await settleLayout(page);
+
+    const atBottom = await page.evaluate(() => window.scrollY);
+    /* 브라우저는 한 손짓이 이어지는 동안 스크롤을 상자에 붙잡아 둔다(래칭).
+       사람도 몇 번 더 굴려야 넘어가므로 검사도 여러 번 굴려 본다. */
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.mouse.wheel({ deltaY: 200 });
+      await new Promise((resolve) => setTimeout(resolve, 150));
+    }
+    const afterBottom = await page.evaluate(() => window.scrollY);
+    pageDeltaAtBottom = Math.round(afterBottom - atBottom);
+  }
+
   return {
+    hadInnerRange: before.range > tolerance,
+    innerRange: Math.round(before.range),
     pageDelta: Math.round(after.page - before.page),
     innerDelta: Math.round(after.inner - before.inner),
+    pageDeltaAtBottom,
   };
 }
 

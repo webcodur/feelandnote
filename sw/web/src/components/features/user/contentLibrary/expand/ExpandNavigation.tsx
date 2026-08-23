@@ -2,6 +2,8 @@
 
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
+import CreatorNames from "@/components/shared/content/creatorLink/CreatorNames";
+
 interface ArrowButtonProps {
   direction: "previous" | "next";
   label: string;
@@ -76,7 +78,11 @@ export function ExpandTitleHeader({
         >
           {title}
         </h3>
-        {creator && <p className="truncate text-sm text-text-secondary">{creator}</p>}
+        {creator && (
+          <p className="truncate text-sm text-text-secondary">
+            <CreatorNames text={creator} />
+          </p>
+        )}
       </div>
       <ExpandArrowButton
         direction="next"

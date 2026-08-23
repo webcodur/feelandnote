@@ -320,7 +320,7 @@ export type Database = {
       }
       celeb_contents: {
         Row: {
-          celeb_id: string
+          celeb_id: string | null
           completed_at: string | null
           content_id: string
           contributor_id_snapshot: string | null
@@ -1735,6 +1735,7 @@ export type Database = {
           era: string | null
           id: string
           image: string | null
+          is_person: boolean
           lines: string[] | null
           lines_en: string[] | null
           living: boolean
@@ -1745,7 +1746,7 @@ export type Database = {
           slug: string | null
         }
         Insert: {
-          celeb_id: string
+          celeb_id?: string | null
           color?: string | null
           data?: Json
           disabled?: boolean
@@ -1756,6 +1757,7 @@ export type Database = {
           era?: string | null
           id?: string
           image?: string | null
+          is_person?: boolean
           lines?: string[] | null
           lines_en?: string[] | null
           living?: boolean
@@ -1766,7 +1768,7 @@ export type Database = {
           slug?: string | null
         }
         Update: {
-          celeb_id?: string
+          celeb_id?: string | null
           color?: string | null
           data?: Json
           disabled?: boolean
@@ -1777,6 +1779,7 @@ export type Database = {
           era?: string | null
           id?: string
           image?: string | null
+          is_person?: boolean
           lines?: string[] | null
           lines_en?: string[] | null
           living?: boolean

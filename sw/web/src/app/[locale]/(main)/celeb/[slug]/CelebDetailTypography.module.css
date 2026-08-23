@@ -63,7 +63,10 @@
     font-size: 1.25rem !important;
   }
 
-  .detailTypography button,
+  /* 손가락으로 누르는 조작 단추에만 최소 크기를 준다.
+     문장 속에 섞인 단추(data-inline)는 글줄의 일부라 44px을 씌우면 줄 높이가 깨진다 —
+     제목 아래 창작자 줄이 실제로 8px 넘쳐 잘렸다. */
+  .detailTypography button:not([data-inline]),
   .detailTypography input,
   .detailTypography select {
     min-height: 44px;
