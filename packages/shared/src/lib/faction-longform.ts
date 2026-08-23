@@ -56,11 +56,11 @@ export function factionLongformSegments<Tera = unknown, TChapter = unknown>(
 }
 
 /** 한 세력 slice가 실제로 포함하는 sequence 항목. cut marker 자체는 반환하지 않는다. */
-export function factionLongformSliceItems<TScene = Row>(
+export function factionLongformSliceItems(
   group: Row,
   step: { sequenceStart: number; sequenceEnd: number },
-): FactionSequenceItem<TScene>[] {
-  return (factionSequenceOf(group) as unknown as FactionSequenceItem<TScene>[])
+): FactionSequenceItem[] {
+  return factionSequenceOf(group)
     .slice(step.sequenceStart, step.sequenceEnd)
     .filter(item => item.kind !== 'cut')
 }

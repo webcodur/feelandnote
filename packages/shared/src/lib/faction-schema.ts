@@ -42,7 +42,7 @@ import {
   type ColumnRules,
   type CompareRules,
 } from './series-schema'
-import { factionSequenceOf } from './faction-sequence'
+import { factionSequenceOf, normalizeFactionGroupEntries } from './faction-sequence'
 
 export type { HotMap, SplitResult, GeneratedMarker } from './series-schema'
 export {
@@ -95,6 +95,7 @@ export const CLUSTER_CHILDREN = ['people'] as const
 
 /** faction_people */
 export const PERSON_HOT: HotMap = {
+  isPerson: 'is_person',
   name: 'name',
   nameEn: 'name_en',
   celebId: 'celeb_id',
@@ -185,7 +186,8 @@ export function joinEpisode(
 
 /** 세력 — clusters 를 뺀 나머지가 data(tagSlug 포함) */
 export function splitGroup(group: Record<string, unknown>): SplitResult {
-  const normalized: Record<string, unknown> = { ...group, sequence: factionSequenceOf(group) }
+  const normalized: Record<string, unknown> = normalizeFactionGroupEntries(group)
+  normalized.sequence = factionSequenceOf(normalized)
   // 구 위치 필드는 읽기 호환일 뿐 저장 원천이 아니다. sequence와 함께 남기면 순서가 두 벌이 된다.
   delete normalized.openingScenes
   return splitLevel(normalized, GROUP_HOT, GROUP_CHILDREN)
@@ -196,16 +198,10 @@ export function joinGroup(
   clusters: Record<string, unknown>[],
 ): Record<string, unknown> {
   const out = joinLevel(row, GROUP_HOT)
-  // 구 scenesAfter를 읽어 sequence로 승격한 뒤 클러스터 본체에서는 제거한다.
   out.clusters = clusters
-  out.sequence = factionSequenceOf(out)
-  delete out.openingScenes
-  out.clusters = clusters.map(cluster => {
-    const clean = { ...cluster }
-    delete clean.scenesAfter
-    return clean
-  })
-  return out
+  const normalized = normalizeFactionGroupEntries(out)
+  normalized.sequence = factionSequenceOf(normalized)
+  return normalized
 }
 
 /** 묶음 — people 을 뺀 나머지가 data */
@@ -230,6 +226,8 @@ export function joinCluster(
  */
 export function splitPerson(person: Record<string, unknown>): SplitResult & { mined: unknown } {
   const { cols, data } = splitLevel(person, PERSON_HOT, PERSON_MINED)
+  // is_person의 DB 기본은 true다. JSON에서는 기존 인물 호환을 위해 true를 생략하고 false만 명시한다.
+  cols.is_person = person.isPerson !== false
   const mined: Record<string, unknown> = {}
   for (const k of PERSON_MINED) {
     if (k in person) mined[k] = person[k]
@@ -239,6 +237,8 @@ export function splitPerson(person: Record<string, unknown>): SplitResult & { mi
 
 export function joinPerson(row: Record<string, unknown>): Record<string, unknown> {
   const out = joinLevel(row, PERSON_HOT)
+  if (row.is_person === false) out.isPerson = false
+  else delete out.isPerson
   const mined = row.mined as Record<string, unknown> | null | undefined
   if (mined) {
     for (const k of PERSON_MINED) {

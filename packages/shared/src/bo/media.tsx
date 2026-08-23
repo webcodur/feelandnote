@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * 사진·영상 화면 부품 한 벌 — 세력도(faction)와 가상 담화(discourse)가 함께 쓴다.
+ * 사진·영상 화면 부품 한 벌 — 세력도·가상 담화·책과 사람·랭킹이 함께 쓴다.
  *
  * 두 시리즈는 같은 부품을 각자 복제해 두고 있었다(썸네일·드롭·크게 보기·맞춤 편집기·
  * 고르기 창·목록·칸). 그러다 보니 한쪽에만 기능이 붙고 문구가 갈라졌다.
@@ -56,6 +56,8 @@ export interface ImageFocus {
 /** 끌어다 놓기 데이터 종류 — 시리즈끼리 섞이지 않게 갈라 둔다 */
 export const FACTION_IMAGE_DND = 'application/x-faction-image'
 export const DISCOURSE_IMAGE_DND = 'application/x-discourse-image'
+export const BOOK_PERSON_IMAGE_DND = 'application/x-book-person-image'
+export const RANKING_IMAGE_DND = 'application/x-ranking-image'
 
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
 
