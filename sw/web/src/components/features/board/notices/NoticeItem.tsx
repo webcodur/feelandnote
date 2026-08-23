@@ -21,12 +21,13 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
   return (
     <Link
       href={`/agora/board/notice/${notice.id}`}
+      /* 테두리·배경은 즉각 축이다 — transition을 얹지 않는다(ui-hover).
+         곁들이는 연출(모서리 장식)은 아래 자식 엘리먼트가 따로 맡는다 */
       className={`
         group block relative p-4 rounded-lg
         bg-bg-card/60 backdrop-blur-sm
         border border-accent-dim/20
         hover:border-accent/40 hover:bg-bg-card/80
-        transition-all duration-200
         ${notice.is_pinned ? 'border-l-2 border-l-accent' : ''}
       `}
     >
@@ -43,7 +44,7 @@ export default function NoticeItem({ notice }: NoticeItemProps) {
           </div>
         )}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent transition-colors">
+          <h3 className="text-sm font-serif font-medium text-text-primary truncate group-hover:text-accent">
             {notice.title}
             {isNew(notice.created_at) && (
               <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-sans font-bold leading-none rounded bg-accent/20 text-accent align-middle">

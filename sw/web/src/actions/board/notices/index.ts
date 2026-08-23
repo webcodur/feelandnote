@@ -1,5 +1,6 @@
 export { getNotices } from './getNotices'
 export { getNotice } from './getNotice'
+export { incrementNoticeView } from './incrementNoticeView'
 export { createNotice } from './createNotice'
 export { updateNotice } from './updateNotice'
 export { deleteNotice } from './deleteNotice'

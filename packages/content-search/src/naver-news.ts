@@ -52,6 +52,31 @@ function extractSource(url: string): string {
   }
 }
 
+/**
+ * 최근 N시간 안에 **제목**으로 이 이름을 다룬 기사 수.
+ *
+ * 본문까지 훑는 전체 검색은 이름이 스치기만 해도 잡힌다(예: 인물과 무관한 운세·서평 기사).
+ * 제목에 이름이 있어야 그 사람을 다룬 기사라고 보고, 화제도 지표로는 이 수만 쓴다.
+ *
+ * 네이버 뉴스 검색은 한 번에 최대 100건이라 이 값이 상한이다. 순위를 가리는 데는 충분하다.
+ */
+export async function countRecentTitleMentions(
+  name: string,
+  hours: number = 48
+): Promise<number> {
+  // 짧은 이름은 다른 낱말에 섞여 오탐이 난다. 지표로 쓰지 않는다
+  if (name.trim().length < 3) return 0
+
+  const { items } = await searchNews(`"${name}"`, 100)
+  const cutoff = Date.now() - hours * 60 * 60 * 1000
+
+  return items.filter((item) => {
+    const published = new Date(item.pubDate).getTime()
+    if (Number.isNaN(published) || published < cutoff) return false
+    return item.title.includes(name)
+  }).length
+}
+
 export async function searchNews(
   query: string,
   display: number = 10

@@ -31,9 +31,11 @@ interface ReviewCardProps {
   item: ReviewFeedItem;
   className?: string;
   isExpanded?: boolean; // 강제 전체 표시 (QuickRecord InfoPanel용)
+  /** 작성 시각을 감춘다. 인물 리뷰처럼 언제 썼는지가 뜻을 갖지 않는 자리에서 쓴다 */
+  hideTime?: boolean;
 }
 
-export default function ReviewCard({ item, className = "", isExpanded = false }: ReviewCardProps) {
+export default function ReviewCard({ item, className = "", isExpanded = false, hideTime = false }: ReviewCardProps) {
   const [showSpoiler, setShowSpoiler] = useState(false);
   const t = useTranslations("contentDetail.review");
   const tTime = useTranslations("contentDetail.relativeTime");
@@ -44,12 +46,13 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
 
   return (
     <div className={`bg-bg-card border border-border rounded-xl ${className}`}>
-      <div className="p-2.5 flex items-center gap-2 border-b border-white/5">
+      {/* 시각을 감추면 머리글이 한 줄이 된다. 그때는 얼굴도 그 높이에 맞춰 작게 세운다 */}
+      <div className={`p-2.5 flex gap-2 border-b border-white/5 ${hideTime ? "items-stretch" : "items-center"}`}>
         <UserAvatarWithPopover
           userId={item.user.id}
           subjectKind={item.user.subject_kind}
           trigger={
-            <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden hover:ring-2 hover:ring-accent/50 cursor-pointer transition-all">
+            <div className={`relative rounded-full text-lg flex items-center justify-center bg-bg-secondary overflow-hidden hover:ring-2 hover:ring-accent/50 cursor-pointer ${hideTime ? "aspect-square h-full min-h-9" : "w-8 h-8 md:w-10 md:h-10"}`}>
               {/* 셀럽 아바타에만 블러 디졸브 등장 효과 — 일반 사용자 아바타는 그대로 */}
               {item.user.avatar_url ? (
                 item.user.subject_kind === 'celeb' ? (
@@ -72,7 +75,7 @@ export default function ReviewCard({ item, className = "", isExpanded = false }:
                  <span className="text-[10px] text-accent/80 border border-accent/20 px-1 rounded bg-accent/5">Celeb</span>
              )}
           </div>
-          <div className="text-[10px] text-text-secondary">{timeAgo}</div>
+          {!hideTime && <div className="text-[10px] text-text-secondary">{timeAgo}</div>}
         </div>
         {item.rating && (
             <div className="flex items-center gap-0.5 text-accent text-xs bg-accent/5 px-1.5 py-0.5 rounded-full border border-accent/10">

@@ -60,7 +60,8 @@ export interface ArchiveProps {
 
 interface HomeEditorAreaProps {
     targetContent: QuickRecordTarget | null;
-    onEditorComplete: () => void;
+    /** 저장이 끝났음을 알린다. 방금 저장한 값을 함께 넘겨 편집 자리를 그대로 유지하게 한다 */
+    onEditorComplete: (saved?: { rating: number; review: string; presets: string[] }) => void;
     editorRef: React.RefObject<HTMLDivElement | null>;
     suggestionProps: SuggestionProps;
     archiveProps: ArchiveProps;
@@ -80,6 +81,8 @@ export function HomeEditorArea({
     const [review, setReview] = useState(targetContent?.initialReview || "");
     const [presets, setPresets] = useState<string[]>(targetContent?.initialPresets || []);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    // 저장 직후 잠깐 켜지는 표시. 버튼이 체크로 바뀌어 "됐다"를 알린다
+    const [justSaved, setJustSaved] = useState(false);
     const [isNoteDirty, setIsNoteDirty] = useState(false);
     const [activeTab, setActiveTab] = useState<'EDIT' | 'PREVIEW'>('EDIT');
     const [activeMainTab, setActiveMainTab] = useState<'REVIEW' | 'NOTE'>('REVIEW');
@@ -153,7 +156,9 @@ export function HomeEditorArea({
                 });
             }
 
-            onEditorComplete();
+            setJustSaved(true);
+            window.setTimeout(() => setJustSaved(false), 2000);
+            onEditorComplete({ rating, review: review.trim(), presets });
         } catch (error) {
             console.error("기록 저장 실패:", error);
             alert(tSection("saveError"));
@@ -181,13 +186,15 @@ export function HomeEditorArea({
             <div className="flex flex-col gap-4">
                 <DecorativeLabel label={t("myRecord")} />
                 
-                {/* Unified Tab Header */}
-                <div className="flex items-center justify-between pb-1">
+                {/* Unified Tab Header
+                    탭은 가운데 세우고, 오른쪽 조작부는 흐름에서 빼 절대 위치로 건다.
+                    한 줄에 나란히 두면 조작부 너비만큼 탭이 왼쪽으로 밀린다 */}
+                <div className="relative flex items-center justify-center pb-1">
                     {/* Main Tabs */}
                     <div className="flex items-center gap-6">
                         <button
                             onClick={() => setActiveMainTab('REVIEW')}
-                            className={`pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
+                            className={`pb-2 -mb-2.5 text-lg font-sans font-bold border-b-2 ${
                                 activeMainTab === 'REVIEW'
                                 ? 'text-accent border-accent'
                                 : ' border-transparent hover:text-text-secondary'
@@ -197,7 +204,7 @@ export function HomeEditorArea({
                         </button>
                         <button
                             onClick={() => setActiveMainTab('NOTE')}
-                            className={`pb-2 -mb-2.5 transition-all text-lg font-sans font-bold border-b-2 ${
+                            className={`pb-2 -mb-2.5 text-lg font-sans font-bold border-b-2 ${
                                 activeMainTab === 'NOTE'
                                 ? 'text-accent border-accent'
                                 : ' border-transparent hover:text-text-secondary'
@@ -208,7 +215,7 @@ export function HomeEditorArea({
                     </div>
 
                     {/* Dynamic Controls based on Active Tab */}
-                    <div className="flex items-center gap-4">
+                    <div className="absolute right-0 flex items-center gap-4">
                         {activeMainTab === 'REVIEW' && (
                             <div className="flex bg-black/20 p-1 rounded-lg">
                                 <button
@@ -238,10 +245,10 @@ export function HomeEditorArea({
                     </div>
                 </div>
 
-                {/* Content Area */}
-                <div className="bg-bg-card/10 rounded-2xl border border-white/5 overflow-hidden min-h-[500px]">
+                {/* Content Area — 상단 도구다. 글 쓸 만큼만 잡고 본문 구획처럼 길게 늘이지 않는다 */}
+                <div className="bg-bg-card/10 rounded-2xl border border-white/5 overflow-hidden min-h-[380px]">
                     {activeMainTab === 'REVIEW' ? (
-                        <div className="h-[500px]">
+                        <div className="h-[380px]">
                              <MyReviewPanel
                                 review={review}
                                 setReview={setReview}
@@ -256,6 +263,7 @@ export function HomeEditorArea({
                                 setViewMode={setActiveTab}
                                 onSave={handleSubmit}
                                 isSubmitting={isSubmitting}
+                                justSaved={justSaved}
                                 contentTitle={targetContent.title}
                                 contentCreator={targetContent.creator}
                                 isRecommendation={targetContent.isRecommendation}

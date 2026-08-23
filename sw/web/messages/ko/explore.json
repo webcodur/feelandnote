@@ -217,7 +217,11 @@
       "navTimeline": "국가별 연대기",
       "navYoutube": "영상관",
       "navToday": "오늘의 인물",
-      "navOthers": "기타 인물"
+      "navOthers": "기타 인물",
+      "figureLinks": {
+        "title": "요즘 주목받는 인물",
+        "description": "최근 한 달 동안 많이 찾은 인물부터 만나보세요"
+      }
     },
     "youtube": {
       "metaTitle": "영상관 | 서재 탐방·세력도감",
@@ -272,7 +276,14 @@
     "directory": {
       "metaTitle": "셀럽 전체 목록 | 추천 책·영화 디렉토리",
       "metaDescription": "1,000명 이상의 셀럽을 초성순으로 탐색. 각 인물이 추천한 책, 영화, 음악 목록을 확인하세요.",
-      "totalCount": "총 {count}명의 인물"
+      "totalCount": "총 {count}명의 인물",
+      "professionMetaTitle": "{profession} 인물 목록 | 추천 책·영화·음악",
+      "professionMetaDescription": "{profession} {count}명이 감상한 책, 영화, 음악을 인물별로 살펴보세요.",
+      "professionHeading": "{profession} 인물",
+      "professionCount": "총 {count}명",
+      "professionIndexTitle": "직군별 명부",
+      "backToDirectory": "전체 명부로",
+      "otherProfessions": "다른 직군 명부"
     },
     "celebFeed": {
       "metaTitle": "인물 피드 | 셀럽 최신 추천 작품",

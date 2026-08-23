@@ -47,7 +47,7 @@ export default function NoticeForm({ mode, notice }: NoticeFormProps) {
     <div className="relative">
       <Link
         href={mode === 'create' ? '/agora/board/notice' : `/agora/board/notice/${notice?.id}`}
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6"
       >
         <ArrowLeft size={16} />
         {mode === 'create' ? t('backToList') : t('backToDetail')}

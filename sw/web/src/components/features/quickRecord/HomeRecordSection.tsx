@@ -37,6 +37,8 @@ interface HomeRecordSectionProps {
   reviewedList: UserContentPublic[];
   profile?: UserProfile | null;
   initialSuggestions?: LibraryContent[];
+  /** 여닫이 상자 안에서 열릴 때 true — 상자 머리가 이미 하는 말을 되풀이하지 않는다 */
+  embedded?: boolean;
 }
 
 interface BlogSearchResultData {
@@ -50,6 +52,7 @@ export default function HomeRecordSection({
   reviewedList,
   profile,
   initialSuggestions = [],
+  embedded = false,
 }: HomeRecordSectionProps) {
   const t = useTranslations("quickRecord.home");
   const [query, setQuery] = useState("");
@@ -65,13 +68,27 @@ export default function HomeRecordSection({
   const [localUnreviewedList, setLocalUnreviewedList] = useState(unreviewedList);
   const [localReviewedList, setLocalReviewedList] = useState(reviewedList);
 
-  useEffect(() => {
-    setLocalUnreviewedList(unreviewedList);
-  }, [unreviewedList]);
+  // 카테고리 전환 효과가 최신 목록을 읽되, 목록이 바뀌었다고 다시 돌지는 않게 하는 통로.
+  // 렌더마다 현재 값을 담아 둔다(ref 갱신은 렌더를 부르지 않는다)
+  const unreviewedListRef = useRef(localUnreviewedList);
+  unreviewedListRef.current = localUnreviewedList;
 
-  useEffect(() => {
+  // 카테고리 전환 효과가 "지금 검색 중인가"를 읽는 통로. 검색어 자체는 의존성에 넣지 않는다
+  const queryRef = useRef(query);
+  queryRef.current = query;
+
+  // 서버가 새 목록을 내려주면 지역 상태를 갈아끼운다. 렌더 중에 처리해 연쇄 렌더를 만들지 않는다
+  const [syncedUnreviewed, setSyncedUnreviewed] = useState(unreviewedList);
+  if (syncedUnreviewed !== unreviewedList) {
+    setSyncedUnreviewed(unreviewedList);
+    setLocalUnreviewedList(unreviewedList);
+  }
+
+  const [syncedReviewed, setSyncedReviewed] = useState(reviewedList);
+  if (syncedReviewed !== reviewedList) {
+    setSyncedReviewed(reviewedList);
     setLocalReviewedList(reviewedList);
-  }, [reviewedList]);
+  }
 
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("book");
   const [suggestions, setSuggestions] = useState<LibraryContent[]>(initialSuggestions);
@@ -87,14 +104,22 @@ export default function HomeRecordSection({
   const editorRef = useRef<HTMLDivElement>(null);
 
   // 통합된 로딩 로직 (초기 진입 & 카테고리 변경)
+  //
+  // 의존성에 목록을 넣지 않는다. 리뷰를 저장하면 미기록 목록이 바뀌는데, 그때 이 효과가 다시
+  // 돌면 사용자가 보고 있던 자리를 빼앗아 다른 콘텐츠를 열어 버린다("저장하니 딴 게 뜬다").
+  // 자동 지정은 카테고리를 고른 순간에만 한다.
   useEffect(() => {
     const categoryConfig = getCategoryById(selectedCategory);
     if (!categoryConfig) return;
 
     const targetContentType = categoryConfig.dbType;
+    // 검색 중이면 사람이 찾던 것을 고르려는 참이다. 자동으로 다른 것을 열어 자리를 빼앗지 않는다
+    const isSearchingNow = queryRef.current.trim().length >= 2;
 
     startCategoryTransition(async () => {
-        const unreviewedItem = localUnreviewedList.find(item => item.content.type === targetContentType);
+        const unreviewedItem = isSearchingNow
+            ? undefined
+            : unreviewedListRef.current.find(item => item.content.type === targetContentType);
 
         if (unreviewedItem) {
             openQuickRecord({
@@ -115,7 +140,7 @@ export default function HomeRecordSection({
             const newSuggestions = await getQuickRecordSuggestions(categoryConfig.dbType); 
             setSuggestions(newSuggestions);
             
-            if (!unreviewedItem && newSuggestions.length > 0) {
+            if (!isSearchingNow && !unreviewedItem && newSuggestions.length > 0) {
                  const firstItem = newSuggestions[0];
                  openQuickRecord({
                     id: firstItem.id,
@@ -133,7 +158,7 @@ export default function HomeRecordSection({
             setSuggestions([]);
         }
     });
-  }, [selectedCategory, localUnreviewedList]);
+  }, [selectedCategory]);
 
   // 검색 효과
   useEffect(() => {
@@ -163,7 +188,8 @@ export default function HomeRecordSection({
         setSearchResults([]);
       }
     });
-  }, [debouncedQuery]);
+    // 분야를 바꾸면 같은 검색어로 다시 찾는다 — 영화를 찾다 음악으로 옮기면 음악에서 찾아야 한다
+  }, [debouncedQuery, selectedCategory]);
 
   // Guest Logic: Check for pending content
   useEffect(() => {
@@ -220,10 +246,23 @@ export default function HomeRecordSection({
     }
   }, [userId]);
 
-  const handleEditorComplete = () => {
-    closeQuickRecord();
+  const handleEditorComplete = (saved?: { rating: number; review: string; presets: string[] }) => {
     setQuery("");
     setSearchResults([]);
+
+    // 저장했다고 자리를 비우지 않는다. 방금 남긴 값을 그대로 실어 편집기를 유지한다 —
+    // 닫으면 카테고리 효과가 다른 콘텐츠를 채워 "저장하니 딴 게 뜬다"가 된다
+    if (saved && targetContent) {
+      openQuickRecord({
+        ...targetContent,
+        initialRating: saved.rating,
+        initialReview: saved.review,
+        initialPresets: saved.presets,
+      });
+      return;
+    }
+
+    closeQuickRecord();
   };
 
   const handleSearchResultClick = (result: SearchResult) => {
@@ -300,12 +339,17 @@ export default function HomeRecordSection({
         if (result.success && result.data) {
              openQuickRecord({
                 id: result.data.userContentId,
-                contentId: picked.id,
+                // 검색 결과의 id는 외부 API 것(TMDB 등)이라 상세 조회에 쓰면 못 찾는다.
+                // addContent가 돌려준 저장소 콘텐츠 id를 쓴다
+                contentId: result.data.contentId,
                 type: picked.type,
                 title: picked.title,
                 thumbnailUrl: picked.thumbnailUrl || picked.thumbnail,
                 creator: picked.creator,
-                initialPresets: [],
+                // 이미 남긴 감상이 있으면 그대로 불러온다 — 빈 칸으로 열면 덮어쓴 것처럼 보인다
+                initialRating: result.data.existingRecord?.rating ?? 0,
+                initialReview: result.data.existingRecord?.review ?? "",
+                initialPresets: result.data.existingRecord?.reviewPresets ?? [],
                 isRecommendation: false,
              });
              if (editorRef.current) {
@@ -336,13 +380,18 @@ export default function HomeRecordSection({
 
   return (
     <div className="w-full flex flex-col">
-        {/* 1. Header Area: Profile & Login */}
-        <HomeRecordHeader 
-            profile={profile} 
-            contentCount={localUnreviewedList.length + allReviewedItems.length} 
-        />
+        {/* 1. Header Area: Profile & Login
+            여닫이 안에서는 접는다 — 상자 머리가 이미 "빠른기록"과 미기록 수를 말하고 있어
+            같은 라벨·설명·프로필이 한 화면에 두 번 서게 된다 */}
+        {!embedded && (
+            <HomeRecordHeader
+                profile={profile}
+                contentCount={localUnreviewedList.length + allReviewedItems.length}
+            />
+        )}
 
-        <section className="min-h-[500px] flex flex-col gap-8 relative animate-in fade-in slide-in-from-bottom-4 duration-700">
+        {/* 여닫이 안에서는 최소 높이를 두지 않는다. 내용이 적은 날 빈 공간만 길게 남는다 */}
+        <section className={`flex flex-col relative animate-in fade-in duration-500 ${embedded ? "gap-6" : "min-h-[500px] gap-8 slide-in-from-bottom-4"}`}>
             {/* 2. Search Area: Category Tabs & Search Bar */}
             <HomeSearchArea
                 selectedCategory={selectedCategory}

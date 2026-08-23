@@ -44,7 +44,7 @@ export default function NoticeDetail({
       {/* 뒤로가기 */}
       <Link
         href="/agora/board/notice"
-        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent font-serif mb-6"
       >
         <ArrowLeft size={16} />
         {t('backToList')}

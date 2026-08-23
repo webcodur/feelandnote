@@ -350,11 +350,13 @@ export default function InfoPanel({
         {activeTab === 'REVIEW_CELEB' && (
              <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-right-2 duration-300 p-4">
                  {celebReviews.map((review) => (
-                     <ReviewCard 
-                        key={review.id} 
-                        item={review} 
-                        isExpanded={true} 
-                        className="shadow-sm hover:bg-white/5 transition-colors"
+                     <ReviewCard
+                        key={review.id}
+                        item={review}
+                        isExpanded={true}
+                        /* 인물 리뷰는 언제 썼는지가 뜻을 갖지 않는다 — 감상 자체를 읽는 자리다 */
+                        hideTime
+                        className="shadow-sm hover:bg-white/5"
                      />
                  ))}
              </div>

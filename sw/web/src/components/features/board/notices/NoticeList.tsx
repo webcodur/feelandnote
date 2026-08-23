@@ -10,7 +10,6 @@ import NoticeItem from './NoticeItem'
 
 interface NoticeListProps {
   notices: NoticeWithAuthor[]
-  total: number
   currentPage: number
   totalPages: number
   isAdmin?: boolean
@@ -18,7 +17,6 @@ interface NoticeListProps {
 
 export default function NoticeList({
   notices,
-  total,
   currentPage,
   totalPages,
   isAdmin = false
