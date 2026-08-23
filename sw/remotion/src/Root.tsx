@@ -45,6 +45,13 @@ import { factionShortsPartNumbers } from "@feelandnote/shared/lib/faction-shorts
 // 가상 담화 컴포지션 ID 앞머리(`Discourse-<폴더명>`) — 26.07.26 packages/shared 로 승격해 단일원천화.
 // 이 파일의 등록 규칙과 왕복 검증(scripts/discourse/verify.ts ③)이 같은 함수를 쓴다.
 import { discourseCompBase } from "@feelandnote/shared/lib/youtube-discourse-meta";
+import { BookPersonShort, calcBookPersonFrames, FPS as BOOK_PERSON_FPS } from "./compositions/BookPerson/BookPersonShort";
+import { bookPersonCompId } from "./compositions/BookPerson/types";
+import { episodes as bookPersonEpisodes } from "./compositions/BookPerson/script";
+import { Ranking } from "./compositions/Ranking/Ranking";
+import { episodes as rankingEpisodes, episodeNames as rankingEpisodeNames } from "./compositions/Ranking/script";
+import { rankingCompId, rankingThumbId } from "./compositions/Ranking/types";
+import { calcTotalFrames as calcRankingFrames, FPS as RANKING_FPS } from "./compositions/Ranking/timing";
 
 /** 에피소드명에서 로케일·파트 접미사를 분리 */
 function parseEpMeta(name: string) {
@@ -358,6 +365,37 @@ export const RemotionRoot: React.FC = () => {
           })}
       </Folder>
 
+      {/* === 랭킹 === */}
+      <Folder name="Ranking">
+        {Object.entries(rankingEpisodes).map(([key, script]) => {
+          const dur = calcRankingFrames(script)
+          if (!Number.isFinite(dur) || dur <= 0) return null
+          const ep = rankingEpisodeNames[key]
+          return (
+            <Folder key={key} name={key}>
+              <Composition
+                id={rankingCompId(key)}
+                component={Ranking}
+                durationInFrames={dur}
+                fps={RANKING_FPS}
+                width={1080}
+                height={1920}
+                defaultProps={{ episodeKey: key, episodeName: ep }}
+              />
+              <Composition
+                id={rankingThumbId(key)}
+                component={Ranking}
+                durationInFrames={1}
+                fps={1}
+                width={1080}
+                height={1920}
+                defaultProps={{ episodeKey: key, episodeName: ep }}
+              />
+            </Folder>
+          )
+        })}
+      </Folder>
+
       {/* === 세력도감 카드뉴스 (still 추출) === */}
       <Folder name="FactionCard">
         {(() => {
@@ -507,6 +545,26 @@ export const RemotionRoot: React.FC = () => {
             </>
           );
         })()}
+      </Folder>
+
+      {/* === 책과 사람 === */}
+      <Folder name="BookPerson">
+        {Object.entries(bookPersonEpisodes).map(([name, script]) => {
+          const dur = calcBookPersonFrames(script)
+          if (!Number.isFinite(dur) || dur <= 0) return null
+          return (
+            <Composition
+              key={name}
+              id={bookPersonCompId(name)}
+              component={BookPersonShort}
+              durationInFrames={dur}
+              fps={BOOK_PERSON_FPS}
+              width={1080}
+              height={1920}
+              defaultProps={{ script, episodeName: name }}
+            />
+          )
+        })}
       </Folder>
 
       {/* === 기타 === */}

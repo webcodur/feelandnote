@@ -11,6 +11,9 @@
  *
  * 흐름: buildVoiceJobs(렌더와 동일 인덱싱) → voice/<stem>.wav 실측 → faction_people UPDATE.
  * 수식어 음원(`-epithet.wav`)이 있으면 epithet_duration 도 함께 갱신한다.
+ *
+ * 서사 항목 덩어리 음성(`scene-<화자·본문해시>.wav`)은 해당 `faction_people.data`
+ * 안 덩어리의 voiceDuration에 적는다. 파일명이 화자·본문만으로 정해지므로 위치 좌표가 필요 없다.
  */
 
 import { existsSync } from 'fs'
@@ -18,8 +21,11 @@ import path from 'path'
 import {
   adminClient, parseArgs, selectEpisodes, pad, readFactionData, type EpisodeFolder,
 } from './lib.js'
-import { loadPersonSlots, updateDurations, slotKeyFromIndices, round2 } from './db-durations.js'
-import { vnPersonEpithet } from '../../src/compositions/Faction/voice-names.js'
+import {
+  loadPersonSlots, updateDurations, slotKeyFromIndices, round2,
+  loadNarrativeEntries, updateNarrativeEntryData,
+} from './db-durations.js'
+import { vnPersonEpithet, vnSceneBeat } from '../../src/compositions/Faction/voice-names.js'
 
 const USAGE = '사용: pnpm faction:durations-pull -- (--episode <폴더명> | --all) [--dry-run]'
 
@@ -56,6 +62,8 @@ interface Stat {
   changed: number
   /** 수식어 음원 갱신 대상 */
   epithetChanged: number
+  /** 서사 항목 해설·대사 낭독 갱신 대상 */
+  sceneChanged: number
   /** 파일(JSON)의 값과 실측이 다른 건 — 참고용 */
   fileDiff: number
   /** 자리를 DB 에서 못 찾음 */
@@ -66,13 +74,16 @@ interface Stat {
 async function pullEpisode(
   db: ReturnType<typeof adminClient>,
   ep: EpisodeFolder,
-  build: (s: never, part?: number) => { file: string; text: string; groupIndex: number; clusterIndex: number; personIndex: number }[],
+  build: (s: never, part?: number) => {
+    file: string; text: string; target?: 'person' | 'scene'
+    groupIndex?: number; clusterIndex?: number; personIndex?: number
+  }[],
   measureWavDuration: (p: string) => Promise<number>,
   dryRun: boolean,
 ): Promise<Stat> {
   const st: Stat = {
     folder: ep.folder, measured: 0, missing: 0, same: 0, changed: 0,
-    epithetChanged: 0, fileDiff: 0, orphan: 0, details: [],
+    epithetChanged: 0, sceneChanged: 0, fileDiff: 0, orphan: 0, details: [],
   }
   const script = readFactionData(ep.dataPath)
   const slots = await loadPersonSlots(db, ep.folder)
@@ -82,7 +93,9 @@ async function pullEpisode(
   const updates: { id: string; quoteDuration?: number; epithetDuration?: number }[] = []
 
   for (const job of jobs) {
-    const key = slotKeyFromIndices(job.groupIndex, job.clusterIndex, job.personIndex)
+    // 서사 항목 음성은 같은 faction_people 행의 data jsonb에 산다 — 아래에서 따로 처리한다.
+    if (job.target === 'scene') continue
+    const key = slotKeyFromIndices(job.groupIndex!, job.clusterIndex!, job.personIndex!)
     const slot = slots.get(key)
     if (!slot) {
       st.orphan++
@@ -112,13 +125,13 @@ async function pullEpisode(
     }
 
     // 파일에 적힌 값과의 차이는 참고로만 센다(파일은 산출물이라 export 로 맞춰진다)
-    const filePerson = ((((script.groups as never[])?.[job.groupIndex] as Record<string, unknown>)
-      ?.clusters as never[])?.[job.clusterIndex] as Record<string, unknown>)
-    const fileQd = ((filePerson?.people as never[])?.[job.personIndex] as Record<string, unknown>)?.quoteDuration
+    const filePerson = ((((script.groups as never[])?.[job.groupIndex!] as Record<string, unknown>)
+      ?.clusters as never[])?.[job.clusterIndex!] as Record<string, unknown>)
+    const fileQd = ((filePerson?.people as never[])?.[job.personIndex!] as Record<string, unknown>)?.quoteDuration
     if (typeof fileQd === 'number' && Math.abs(fileQd - measured) > 0.005) st.fileDiff++
 
     // 수식어 음원
-    const epithetStem = vnPersonEpithet(job.groupIndex, job.personIndex, job.clusterIndex)
+    const epithetStem = vnPersonEpithet(job.groupIndex!, job.personIndex!, job.clusterIndex!)
     const epithetPath = path.join(voiceDir, epithetStem)
     if (existsSync(epithetPath)) {
       try {
@@ -135,7 +148,67 @@ async function pullEpisode(
   }
 
   if (!dryRun && updates.length) await updateDurations(db, updates)
+  await pullSceneNarrations(db, ep, voiceDir, measureWavDuration, dryRun, st)
   return st
+}
+
+/**
+ * 서사 항목 덩어리(해설·대사) 음성 길이를 faction_people.data에 적어 넣는다.
+ * 파일명이 화자 + 본문 해시(vnSceneBeat)라 위치 좌표가 필요 없다. 덩어리를 쓰지 않는 구 데이터는
+ * caption 한 벌을 해설 덩어리로 보고 scene 의 레거시 voiceDuration 에 적는다.
+ */
+async function pullSceneNarrations(
+  db: ReturnType<typeof adminClient>,
+  ep: EpisodeFolder,
+  voiceDir: string,
+  measureWavDuration: (p: string) => Promise<number>,
+  dryRun: boolean,
+  st: Stat,
+): Promise<void> {
+  const entries = await loadNarrativeEntries(db, ep.folder)
+  for (const entry of entries) {
+    const scene = entry.data
+    let dirty = false
+    const title = entry.name
+
+    // 덩어리를 쓰면 그 배열을, 아니면 caption 한 벌을 해설 덩어리 하나로 본다.
+    const beats = Array.isArray(scene.beats) && scene.beats.length
+      ? (scene.beats as Record<string, unknown>[])
+      : [scene]
+
+    for (const beat of beats) {
+        const text = beat === scene ? scene.caption : beat.text
+        if (typeof text !== 'string' || !text.trim()) continue
+        const speaker = beat === scene ? undefined
+          : (typeof beat.speaker === 'string' ? beat.speaker : undefined)
+
+        const file = vnSceneBeat(speaker, text)
+        const wavPath = path.join(voiceDir, file)
+        if (!existsSync(wavPath)) { st.missing++; continue }
+
+        let measured: number
+        try {
+          measured = round2(await measureWavDuration(wavPath))
+        } catch (e) {
+          st.missing++
+          st.details.push(`${file}: wav 손상 — ${e instanceof Error ? e.message : String(e)}`)
+          continue
+        }
+        st.measured++
+
+        const current = typeof beat.voiceDuration === 'number' ? beat.voiceDuration : null
+        if (current === null || Math.abs(current - measured) > 0.005) {
+          beat.voiceDuration = measured
+          st.sceneChanged++
+          dirty = true
+          const who = speaker ? `${title} / ${speaker}` : title || file
+          st.details.push(`${file} (서사 ${who}): DB ${current ?? '없음'} → ${measured}`)
+        } else {
+          st.same++
+        }
+    }
+    if (dirty && !dryRun) await updateNarrativeEntryData(db, entry.id, entry.data)
+  }
 }
 
 async function main() {
@@ -151,13 +224,15 @@ async function main() {
     all.push(st)
     console.log(`  ${pad(ep.folder, 24)} 실측 ${pad(String(st.measured), 4)} 일치 ${pad(String(st.same), 4)}`
       + ` 갱신 ${pad(String(st.changed), 4)} 수식어 ${pad(String(st.epithetChanged), 3)}`
+      + ` 서사 ${pad(String(st.sceneChanged), 3)}`
       + ` wav없음 ${pad(String(st.missing), 4)}${st.orphan ? ` 고아 ${st.orphan}` : ''}`)
   }
 
   const sum = (k: keyof Stat) => all.reduce((a, s) => a + (s[k] as number), 0)
   console.log('\n── 합계 ──')
   console.log(`wav 실측 ${sum('measured')}건 · DB 일치 ${sum('same')}건 · DB 갱신 ${sum('changed')}건`
-    + ` · 수식어 갱신 ${sum('epithetChanged')}건 · wav 없음 ${sum('missing')}건 · 고아 ${sum('orphan')}건`)
+    + ` · 수식어 갱신 ${sum('epithetChanged')}건 · 서사 갱신 ${sum('sceneChanged')}건`
+    + ` · wav 없음 ${sum('missing')}건 · 고아 ${sum('orphan')}건`)
   const rate = sum('measured') ? ((sum('same') / sum('measured')) * 100).toFixed(1) : '-'
   console.log(`DB↔wav 일치율 ${rate}% (실측 대비)`)
   console.log(`참고: 파일(JSON)↔wav 불일치 ${sum('fileDiff')}건 — 파일은 산출물이라 다음 export 에서 맞춰진다`)
@@ -168,7 +243,7 @@ async function main() {
     for (const d of details.slice(0, 60)) console.log(`  · ${d}`)
     if (details.length > 60) console.log(`  … 외 ${details.length - 60}건`)
   }
-  if (args.dryRun && sum('changed') + sum('epithetChanged') > 0) {
+  if (args.dryRun && sum('changed') + sum('epithetChanged') + sum('sceneChanged') > 0) {
     console.log('\n반영하려면 --dry-run 없이 다시 실행한다. 이후 pnpm faction:export 로 파일까지 맞춘다.')
   }
 }

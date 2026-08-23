@@ -51,10 +51,10 @@ export function vnNarratorIntro(): string {
   return 'narrator-intro.wav'
 }
 
-/** 제목 기반 안정 키 — 챕터를 재배치해도 음성이 다른 챕터로 바뀌지 않고, 제목 수정 시 옛 음원을 재생하지 않는다. */
-function chapterTitleKey(title: string): string {
+/** 본문 기반 안정 키 — 항목을 재배치해도 음성이 다른 항목으로 바뀌지 않고, 본문 수정 시 옛 음원을 재생하지 않는다. */
+function narrationTextKey(text: string): string {
   let hash = 0x811c9dc5
-  for (const ch of title.trim().replace(/\r\n/g, '\n')) {
+  for (const ch of text.trim().replace(/\r\n/g, '\n')) {
     hash ^= ch.charCodeAt(0)
     hash = Math.imul(hash, 0x01000193)
   }
@@ -63,7 +63,21 @@ function chapterTitleKey(title: string): string {
 
 /** 챕터명 낭독 음원. 언어별 제목이 다르면 파일도 자동 분리된다. */
 export function vnChapterTitle(title: string): string {
-  return `chapter-${chapterTitleKey(title)}.wav`
+  return `chapter-${narrationTextKey(title)}.wav`
+}
+
+/**
+ * 서사 항목 덩어리(해설·대사) 음원 — 인물 좌표(FxxCxxPxx) 밖의 항목이라 챕터와 같은 본문 해시 명명을 쓴다.
+ * 장면을 세력 사이에서 옮기거나 순서를 바꿔도 음원이 따라오고, 본문을 고치면 파일명이 달라져
+ * 옛 음원이 남아 재생되는 일이 없다. 언어별 본문이 다르면 파일도 자동 분리된다.
+ *
+ * 화자를 해시에 함께 넣는다 — 같은 말을 다른 인물이 해도 목소리가 달라야 하므로 음원이 갈려야 한다.
+ *
+ * ⚠ 동기화 대상: sw/web-bo/src/lib/faction-voice.ts 의 vnSceneBeat 와 규칙이 100% 일치해야 한다.
+ *   워크스페이스 경계상 import 불가라 복제한다. 한쪽을 바꾸면 반드시 다른 쪽도 함께 바꾼다.
+ */
+export function vnSceneBeat(speaker: string | undefined, text: string): string {
+  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${text}`)}.wav`
 }
 
 /**

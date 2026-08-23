@@ -13,7 +13,7 @@ export type FactionCaptionAppearance = {
   font?: 'default' | 'serif';
 };
 
-/** 인물 자막형과 개별 장면 해설이 공유하는 위치·크기·글꼴 해석. */
+/** 인물 자막형과 서사 항목 해설이 공유하는 위치·크기·글꼴 해석. */
 export function resolveFactionCaptionAppearance(
   orientation: Orientation,
   appearance: FactionCaptionAppearance,
@@ -59,6 +59,11 @@ type CaptionSwapSlotProps = {
   captionPadding?: number;
   captionMinHeight?: number;
   captionSlotStyle?: React.CSSProperties;
+  /**
+   * 이름 자리를 띄울지. 서사 항목에서 같은 화자가 이어 말하는 덩어리는 이름을 다시 띄우지 않고
+   * 본문만 교체하므로 false 를 넘긴다. 기본은 기존 동작대로 띄운다.
+   */
+  showIdentity?: boolean;
 };
 
 /** 자막형 공통 슬롯 — 신원이 먼저 뜨고 사라진 같은 자리에 자막이 이어진다. */
@@ -73,6 +78,7 @@ export const CaptionSwapSlot: React.FC<CaptionSwapSlotProps> = ({
   captionPadding = 48,
   captionMinHeight,
   captionSlotStyle,
+  showIdentity = true,
 }) => {
   const clamp = {
     extrapolateLeft: "clamp",
@@ -109,19 +115,21 @@ export const CaptionSwapSlot: React.FC<CaptionSwapSlotProps> = ({
 
   return (
     <>
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 42,
-          left: identityPadding,
-          right: identityPadding,
-          ...resolvedSlotStyle,
-          pointerEvents: "none",
-          opacity: exitOpacity * identityIn * identityOut,
-        }}
-      >
-        {identity}
-      </div>
+      {showIdentity ? (
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 42,
+            left: identityPadding,
+            right: identityPadding,
+            ...resolvedSlotStyle,
+            pointerEvents: "none",
+            opacity: exitOpacity * identityIn * identityOut,
+          }}
+        >
+          {identity}
+        </div>
+      ) : null}
       {hasCaption && caption ? (
         <div
           style={{

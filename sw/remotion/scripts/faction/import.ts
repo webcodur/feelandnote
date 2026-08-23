@@ -39,7 +39,9 @@ interface EpisodeStats {
   folder: string
   groups: number
   clusters: number
+  entries: number
   people: number
+  narratives: number
   parts: number
   /** 해소된 slug 수 / 전체 slug 보유 인물 수 */
   slugResolved: number
@@ -125,7 +127,7 @@ async function importEpisode(
   const script = readFactionData(ep.dataPath)
   const groups = (script.groups ?? []) as Row[]
   const stats: EpisodeStats = {
-    folder: ep.folder, groups: 0, clusters: 0, people: 0, parts: 0,
+    folder: ep.folder, groups: 0, clusters: 0, entries: 0, people: 0, narratives: 0, parts: 0,
     slugResolved: 0, slugTotal: 0, tagResolved: 0, tagTotal: 0,
   }
 
@@ -157,6 +159,11 @@ async function importEpisode(
       for (const c of (g.clusters ?? []) as Row[]) {
         stats.clusters++
         for (const p of (c.people ?? []) as Row[]) {
+          stats.entries++
+          if (p.isPerson === false) {
+            stats.narratives++
+            continue
+          }
           stats.people++
           const slug = p.slug as string | undefined
           const explicitId = typeof p.celebId === 'string' ? p.celebId : undefined
@@ -248,22 +255,32 @@ async function importEpisode(
       if (!clusterId) throw new Error(`묶음 id 해소 실패(${ep.folder} g${gi + 1}c${ci + 1})`)
       ;((c.people ?? []) as Row[]).forEach((p, pi) => {
         const { cols, data, mined } = splitPerson(p)
+        const isPerson = p.isPerson !== false
         const slug = p.slug as string | undefined
-        const explicitId = typeof p.celebId === 'string' && validCelebIds.has(p.celebId)
+        const explicitId = isPerson && typeof p.celebId === 'string' && validCelebIds.has(p.celebId)
           ? p.celebId
           : undefined
-        const celebId = explicitId ?? (slug ? slugMap.get(slug) : undefined)
-        if (!celebId) throw new Error(`DB CELEB 미연결 인물: ${ep.folder}/${String(p.name ?? '')}`)
-        stats.slugTotal++
-        stats.slugResolved++
+        const celebId = isPerson ? (explicitId ?? (slug ? slugMap.get(slug) : undefined)) : null
+        if (isPerson && !celebId) throw new Error(`DB CELEB 미연결 인물: ${ep.folder}/${String(p.name ?? '')}`)
+        if (isPerson) {
+          stats.slugTotal++
+          stats.slugResolved++
+        }
         personRows.push({
-          cluster_id: clusterId, position: pi + 1, ...cols, celeb_id: celebId, mined, data,
+          cluster_id: clusterId, position: pi + 1, ...cols,
+          is_person: isPerson,
+          celeb_id: celebId,
+          slug: isPerson ? cols.slug : null,
+          mined,
+          data,
         })
       })
     })
   })
   if (personRows.length) await insertChunked(db, 'faction_people', personRows)
-  stats.people = personRows.length
+  stats.entries = personRows.length
+  stats.people = personRows.filter(row => row.is_person !== false).length
+  stats.narratives = personRows.filter(row => row.is_person === false).length
 
   // ── 6) longformLayout — {group:index} → {groupId:uuid} ──
   if (layout) {
@@ -318,6 +335,7 @@ async function main() {
     for (const g of (script.groups ?? []) as Row[]) {
       for (const c of (g.clusters ?? []) as Row[]) {
         for (const p of (c.people ?? []) as Row[]) {
+          if (p.isPerson === false) continue
           if (p.slug) allSlugs.push(p.slug as string)
           if (p.celebId) allCelebIds.push(p.celebId as string)
           personRefs.push({
@@ -353,12 +371,12 @@ async function main() {
     const s = await importEpisode(db, ep, slugMap, idSet, tagMap, args.dryRun, unresolvedTags)
     all.push(s)
     if (s.skipped) console.log(`  ✗ ${pad(ep.folder, 24)} ${s.skipped}`)
-    else console.log(`  ✓ ${pad(ep.folder, 24)} 세력 ${pad(String(s.groups), 3)} 묶음 ${pad(String(s.clusters), 3)} 인물 ${pad(String(s.people), 4)} 편댓글 ${s.parts}`)
+    else console.log(`  ✓ ${pad(ep.folder, 24)} 세력 ${pad(String(s.groups), 3)} 묶음 ${pad(String(s.clusters), 3)} 항목 ${pad(String(s.entries), 4)} (인물 ${s.people} · 서사 ${s.narratives}) 편댓글 ${s.parts}`)
   }
 
   const sum = (k: keyof EpisodeStats) => all.reduce((a, s) => a + (s[k] as number), 0)
   console.log('\n── 합계 ──')
-  console.log(`에피소드 ${all.filter(s => !s.skipped).length}/${all.length} · 세력 ${sum('groups')} · 묶음 ${sum('clusters')} · 인물 ${sum('people')} · 편댓글 ${sum('parts')}`)
+  console.log(`에피소드 ${all.filter(s => !s.skipped).length}/${all.length} · 세력 ${sum('groups')} · 묶음 ${sum('clusters')} · 항목 ${sum('entries')} (인물 ${sum('people')} · 서사 ${sum('narratives')}) · 편댓글 ${sum('parts')}`)
   console.log(`셀럽 연결 ${sum('slugResolved')}/${sum('slugTotal')} · 태그 연결 ${sum('tagResolved')}/${sum('tagTotal')}`)
 
   if (unresolvedTags.size) {

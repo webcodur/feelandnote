@@ -19,7 +19,7 @@ import {
   DRY_RUN, LIST_ONLY, FORCE_ALL, NORMALIZE, NORMALIZE_ONLY, INIT_MANIFEST, UPDATE_JSON, VERIFY, ONLY_TARGETS,
 } from './cli.js'
 import { analyzeTiming } from '../../../src/compositions/Faction/timing.js'
-import { loadFactionData, buildVoiceJobs, writeQuoteDurations, type FactionVoiceJob } from './data.js'
+import { loadFactionData, buildVoiceJobs, writeVoiceDurations, type FactionVoiceJob } from './data.js'
 import { jobHash, loadManifest, saveManifest } from './manifest.js'
 import { synthesizeGemini, measureWavDuration } from './engine.js'
 // DB↔JSON 음성 길이 감시 열(문서 §7 ③) — 조회는 전부 저 모듈이 하고 여기엔 훅만 둔다.
@@ -107,7 +107,7 @@ export async function main(): Promise<void> {
       durations[j.file] = await measureWavDuration(fp)
       measured++
     }
-    const changed = await writeQuoteDurations(durations)
+    const changed = await writeVoiceDurations(durations)
     console.log(`✓ 기존 wav ${measured}개 측정 → faction-data.json quoteDuration ${changed}개 갱신`)
     return
   }
@@ -174,7 +174,7 @@ export async function main(): Promise<void> {
   await saveManifest(manifest)
 
   // 길이 → faction-data.json quoteDuration 기록
-  const changed = await writeQuoteDurations(durations)
+  const changed = await writeVoiceDurations(durations)
   console.log('\n=== duration 결과 ===')
   for (const [file, dur] of Object.entries(durations)) {
     console.log(`${file.padEnd(22)} ${dur.toFixed(2)}s`)

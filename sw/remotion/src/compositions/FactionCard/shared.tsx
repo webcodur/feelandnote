@@ -41,7 +41,8 @@ export const lighten = (hex: string, t: number): string => mix(hex, '#ffffff', t
 
 // #region 데이터 헬퍼
 export const DEFAULT_COLOR = '#00ff00'
-export const groupPeople = (g: FactionGroup): FactionPerson[] => g.clusters.flatMap(c => c.people)
+export const groupPeople = (g: FactionGroup): FactionPerson[] =>
+  g.clusters.flatMap(c => c.people).filter(person => person.isPerson !== false)
 export const groupCoverImage = (g: FactionGroup): string | undefined => g.logoImg
 export const colorOf = (g: FactionGroup): string => g.color ?? DEFAULT_COLOR
 export const roleOf = (p: FactionPerson): string => p.lines?.[0] ?? p.org ?? ''

@@ -9,6 +9,9 @@ export interface FactionImageRow {
   part?: number
   image?: string | null
   slug?: string | null
+  name?: string | null
+  is_person?: boolean
+  isPerson?: boolean
   clusters?: unknown
   people?: unknown
 }

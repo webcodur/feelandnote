@@ -14,7 +14,7 @@ export const GroupshotCard: React.FC<CardPropsBase> = ({ script, episodeName, ca
   const g = script.groups[card.groupIndex]
   const c = colorOf(g)
   const cluster = clustersOf(g)[card.clusterIndex]
-  const people = (cluster?.people ?? []).filter(p => !p.disabled)
+  const people = (cluster?.people ?? []).filter(p => p.isPerson !== false && !p.disabled)
   const label = cluster?.label
   const body = nameTail(label) || nameTail(g.name)
   const rep = people.find(p => p.quoteCard || p.quote) || people[0]

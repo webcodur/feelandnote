@@ -4,7 +4,7 @@ import { f, ENTER_NAME_SEC, type TimedCue } from './timing'
 
 /**
  * 세력도감 효과음(SFX).
- * - 개별 장면·챕터 → 데이터에 지정한 음원만 재생한다(항상 켜짐).
+ * - 서사 항목·챕터 → 데이터에 지정한 음원만 재생한다(항상 켜짐).
  * - 세력 등장(group)·인물 등장(person) 기본 효과음은 `defaults`를 켤 때만 깐다.
  *   기본이 꺼진 이유: 이 컴포넌트가 오래 배선되지 않아 어느 편에도 그 소리가 없었고,
  *   배선하면서 켜면 모든 에피소드에 없던 chime·whoosh가 한꺼번에 생긴다.
@@ -17,7 +17,7 @@ const GROUP_VOL = 0.5
 const PERSON_VOL = 0.32
 /** 챕터 전환 효과음 음량 — 장 전환 임팩트라 세력 등장보다 살짝 크게 */
 const CHAPTER_VOL = 0.6
-/** 개별 장면은 선택한 환경음·효과음만 사용한다. */
+/** 서사 항목은 선택한 환경음·효과음만 사용한다. */
 const SCENE_VOL = 0.5
 
 export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean }> = ({ cues, defaults = false }) => (
@@ -38,10 +38,10 @@ export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean }> = ({
           </Sequence>
         )
       }
-      if (tc.cue.kind === 'scene' && tc.cue.scene.sfx) {
+      if (tc.cue.kind === 'entry' && tc.cue.entry.sfx) {
         return (
           <Sequence key={`sfx-s-${i}`} from={tc.start} durationInFrames={Math.min(tc.duration, f(8))}>
-            <Audio src={staticFile(`common/sfx/${tc.cue.scene.sfx}`)} volume={SCENE_VOL} />
+            <Audio src={staticFile(`common/sfx/${tc.cue.entry.sfx}`)} volume={SCENE_VOL} />
           </Sequence>
         )
       }

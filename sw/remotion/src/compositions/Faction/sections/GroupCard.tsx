@@ -98,7 +98,7 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
   const soloSub = React.useMemo(() => {
     const cs = group.clusters
     if (!cs?.length) return undefined
-    const vis = cs.filter(c => (c.people ?? []).some(p => !p.disabled))
+    const vis = cs.filter(c => (c.people ?? []).some(p => p.isPerson !== false && !p.disabled))
     if (vis.length !== 1) return undefined
     const c = vis[0]
     return !c.image && c.label?.trim() ? c.label : undefined

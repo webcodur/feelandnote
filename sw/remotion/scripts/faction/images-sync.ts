@@ -50,7 +50,7 @@ async function main(): Promise<void> {
   const clusterIds = dbClusters.map(row => String(row.id))
 
   const { data: peopleData, error: peopleError } = clusterIds.length
-    ? await db.from('faction_people').select('id,cluster_id,position,slug,name,image')
+    ? await db.from('faction_people').select('id,cluster_id,position,is_person,slug,name,image')
       .in('cluster_id', clusterIds).order('position')
     : { data: [], error: null }
   if (peopleError) throw new Error(`DB 인물 조회 실패: ${peopleError.message}`)
@@ -104,14 +104,24 @@ async function main(): Promise<void> {
       for (let pi = 0; pi < clusterPeople.length; pi++) {
         const dbPerson = clusterPeople[pi]
         const localPerson = localPeople[pi]
+        const localIsPerson = localPerson.isPerson !== false
+        const dbIsPerson = dbPerson.is_person !== false
+        if (localIsPerson !== dbIsPerson) {
+          throw new Error(`${clusterSubject} 항목 ${pi + 1} isPerson 불일치: 로컬 ${localIsPerson}, DB ${dbIsPerson}`)
+        }
         const localSlug = String(localPerson.slug ?? '')
         const dbSlug = String(dbPerson.slug ?? '')
-        if (!localSlug || localSlug !== dbSlug) {
+        const localName = String(localPerson.name ?? '')
+        const dbName = String(dbPerson.name ?? '')
+        if (localIsPerson && (!localSlug || localSlug !== dbSlug)) {
           throw new Error(`${clusterSubject} 인물 ${pi + 1} slug 불일치: 로컬 ${localSlug || '-'}, DB ${dbSlug || '-'}`)
+        }
+        if (!localIsPerson && (!localName || localName !== dbName)) {
+          throw new Error(`${clusterSubject} 서사 항목 ${pi + 1} 이름 불일치: 로컬 ${localName || '-'}, DB ${dbName || '-'}`)
         }
         const personImage = imagePath(localPerson.image)
         if (!personImage) continue
-        const personSubject = `${clusterSubject} ${localSlug}`
+        const personSubject = `${clusterSubject} ${localIsPerson ? localSlug : `서사 ${localName}`}`
         assertLocalImage(episode.dir, personImage, personSubject)
         connectedPeople++
         const before = imagePath(dbPerson.image)
@@ -125,7 +135,7 @@ async function main(): Promise<void> {
     }
   }
 
-  console.log(`검증: 묶음 이미지 ${connectedClusters}개, 인물 이미지 ${connectedPeople}개`)
+  console.log(`검증: 묶음 이미지 ${connectedClusters}개, 개인 항목 이미지 ${connectedPeople}개`)
   console.log(`DB 변경 대상: ${targets.length}개`)
   for (const target of targets) {
     console.log(`  ${target.subject}: ${target.before ?? '(비어 있음)'} -> ${target.after}`)

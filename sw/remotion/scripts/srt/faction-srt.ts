@@ -69,7 +69,9 @@ function scaleVoiceTimings(script: FactionScript, vt: VoiceTimings): VoiceTiming
     if (g.disabled) return
     // 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 키는 항상 FxxCxxPxx (solo 포함).
     ;(g.clusters ?? []).forEach((c, ci) => {
-      ;(c.people ?? []).forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci))))
+      ;(c.people ?? []).forEach((p, pi) => {
+        if (p.isPerson !== false) apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci)))
+      })
     })
   })
   return out ?? vt
