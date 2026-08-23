@@ -5,7 +5,7 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import { factionSequenceOf, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionIndividualScene, type FactionNarratorVoice } from './types'
+import { factionEntryAt, factionSequenceOf, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionSceneBeat, type FactionNarratorVoice } from './types'
 import {
   factionLongformPartCount,
   factionLongformSegments,
@@ -22,6 +22,7 @@ import {
   FACTION_SCENE_DEFAULT_SEC,
   FACTION_SCENE_CAPTION_ID_HOLD_SEC,
   factionSceneTiming,
+  type FactionSceneBeatTiming,
 } from '@feelandnote/shared/lib/faction-scene-timing'
 import { clampRate, vnPersonQuote } from './voice-names'
 
@@ -57,11 +58,67 @@ export const CHAPTER_VOICE_TAIL_SEC = 0.8
 export const CHAPTER_HOLD_SEC = 2.0
 /** 챕터 전환 직전 인물이 검정으로 서서히 덮이는 시간(초) — 검정 브릿지가 이 길이로 페이드인해 마지막 인물이 검정으로 페이드아웃된다 */
 export const CHAPTER_FADE_SEC = 0.4
-/** 인물·대사 없이 사건만 지나가는 개별 장면 기본 길이(초) */
+/** 인물 카드가 아닌 서사 항목 기본 길이(초) */
 export const SCENE_SEC = FACTION_SCENE_DEFAULT_SEC
-/** 개별 장면 길이 — 해설 글자 수로 자동 계산하고 durationSec는 최소 노출 시간으로만 쓴다. */
-export function sceneSecOf(scene: FactionIndividualScene, captionIdHoldSec?: number): number {
-  return factionSceneTiming({ ...scene, captionIdHoldSec }).durationSec
+/**
+ * 장면을 이루는 덩어리 배열. `beats`가 있으면 내용이 있는 것만 추리고, 없으면 구 데이터의
+ * `caption` 한 벌을 해설 덩어리 하나로 승격한다(음성 설정도 함께 옮겨 옛 음원이 그대로 재생된다).
+ */
+export function sceneBeatsOf(scene: FactionPerson): FactionSceneBeat[] {
+  const beats = scene.beats?.filter(b => !!b && (!!b.text?.trim() || !!b.speaker?.trim()))
+  if (beats?.length) return beats
+  if (!scene.caption?.trim()) return []
+  return [{
+    text: scene.caption,
+    textEn: scene.captionEn,
+    voiceDuration: scene.voiceDuration,
+    voiceGainDb: scene.voiceGainDb,
+    voicePlaybackRate: scene.voicePlaybackRate,
+    voiceSpeaker: scene.voiceSpeaker,
+    voiceStyle: scene.voiceStyle,
+  }]
+}
+
+/**
+ * 덩어리 음성 재생 시간(초) — 음원 길이에 배속을 반영한 실제 재생 길이.
+ * 음원이 없으면 0이며, 이때 그 덩어리는 글자 수 추정으로만 점등한다.
+ */
+export function sceneBeatAudioPlaySec(beat: FactionSceneBeat): number {
+  if (!beat.voiceDuration || beat.voiceDuration <= 0) return 0
+  return beat.voiceDuration / clampRate(beat.voicePlaybackRate)
+}
+
+/** 서사 덩어리의 배경 교체 시각. 화자 표식은 전경에 남기고 실제 대사부터 클로즈업할 수 있다. */
+export function sceneBeatMediaStartSec(
+  beat: FactionSceneBeat,
+  timing: FactionSceneBeatTiming,
+): number {
+  return beat.mediaAt === 'text' ? timing.textStartSec : timing.startSec
+}
+
+/**
+ * 서사 항목 길이 계산에 넘길 SSoT 입력. 컷 빌더와 화면(NarrativeEntryCard)이 같은 값을 보도록
+ * 반드시 이 함수를 거친다.
+ */
+export function sceneTimingInputOf(scene: FactionPerson, captionIdHoldSec?: number) {
+  return {
+    caption: scene.caption,
+    durationSec: scene.durationSec,
+    captionIdHoldSec,
+    beats: sceneBeatsOf(scene).map(b => ({
+      speaker: b.speaker,
+      text: b.text,
+      voiceSec: sceneBeatAudioPlaySec(b),
+    })),
+  }
+}
+
+/**
+ * 서사 항목 길이 — 덩어리 글자 수로 자동 계산하고 durationSec는 최소 노출 시간으로만 쓴다.
+ * 덩어리에 음원이 있으면 점등 속도와 컷 길이를 그 음성에 맞춘다.
+ */
+export function sceneSecOf(scene: FactionPerson, captionIdHoldSec?: number): number {
+  return factionSceneTiming(sceneTimingInputOf(scene, captionIdHoldSec)).durationSec
 }
 
 /**
@@ -588,7 +645,7 @@ export type Cue =
   | { kind: 'group'; groupIndex: number }
   | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
   | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex: number; steps: PersonSteps }
-  | { kind: 'scene'; scene: FactionIndividualScene }
+  | { kind: 'entry'; entry: FactionPerson; groupIndex: number; clusterIndex: number; entryIndex: number }
   | { kind: 'era'; label: string }
   | { kind: 'chapterBlack'; chapter: FactionChapter }
   | { kind: 'chapter'; chapter: FactionChapter }
@@ -613,7 +670,7 @@ export function longformPartCount(script: Pick<FactionScript, 'groups' | 'longfo
 /**
  * 롱폼 배치를 편 경계(cut)로 가른 편 구간들.
  * 편성에 빠진 활성 세력은 누락 방지로 마지막 구간 맨 뒤에 자동으로 붙는다.
- * 인물 없는 개별 장면은 group.sequence에서 그룹과 같은 층위의 순서 항목으로 재생된다.
+ * 인물 카드가 아닌 서사 항목은 group.sequence에서 묶음과 같은 층위의 순서 항목으로 재생된다.
  */
 export type FactionLongformStep =
   | { era: FactionEra }
@@ -694,12 +751,12 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       groupIntroShown.add(gi)
     }
     const people = cluster.people ?? []
-    const shotCount = people.filter(p => !p.disabled && !(portrait && p.longformOnly)).length
+    const shotCount = people.filter(p => p.isPerson !== false && !p.disabled && !(portrait && p.longformOnly)).length
     if (!group.solo && cluster.image) {
       push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterSecOf(script, shotCount))
     }
     people.forEach((person, pi) => {
-      if (person.disabled || (portrait && person.longformOnly)) return
+      if (person.isPerson === false || person.disabled || (portrait && person.longformOnly)) return
       const isLeader = !groupLeaderAssigned.has(gi)
       groupLeaderAssigned.add(gi)
       const personStep = personSteps(person, portrait, isLeader)
@@ -736,10 +793,15 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     if (!groupVisible(gi)) return
     const group = script.groups[gi]
     const items = portrait
-      ? factionShortsSliceItems<FactionIndividualScene>(group as unknown as Record<string, unknown>, step)
-      : factionLongformSliceItems<FactionIndividualScene>(group as unknown as Record<string, unknown>, step)
+      ? factionShortsSliceItems(group as unknown as Record<string, unknown>, step)
+      : factionLongformSliceItems(group as unknown as Record<string, unknown>, step)
     for (const item of items) {
-      if (item.kind === 'scene') push({ kind: 'scene', scene: item.scene }, sceneSecOf(item.scene, script.captionIdHoldSec))
+      if (item.kind === 'entry') {
+        const entry = factionEntryAt(group, item)
+        if (!entry.disabled && !(portrait && entry.longformOnly)) {
+          push({ kind: 'entry', entry, groupIndex: gi, clusterIndex: item.clusterIndex, entryIndex: item.entryIndex }, sceneSecOf(entry, script.captionIdHoldSec))
+        }
+      }
       else if (item.kind === 'cluster') pushCluster(gi, item.clusterIndex)
     }
   })

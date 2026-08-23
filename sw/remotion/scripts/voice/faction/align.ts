@@ -104,9 +104,11 @@ export async function main(): Promise<void> {
       + (subT ? ` · subTimings ${subT.length}` : ' · subTimings 생략(글자수 비례)'))
   }
 
-  // --only 등 일부만 처리해도 기존 산출(다른 인물)을 보존하고 이번 결과만 덮어쓴다
+  // --only 일부 처리에서는 기존 산출(같은 편의 다른 인물)을 보존한다.
+  // 편 전체 처리에서는 현재 편 결과로 교체해, 인물이 다른 편으로 이동한 뒤 옛 키가
+  // data.timing.p<N>.*.json 에 계속 남아 로더에서 중복 병합되는 일을 막는다.
   let existing: VoiceTimings = {}
-  if (existsSync(OUT_PATH)) {
+  if (ONLY_TARGETS.length > 0 && existsSync(OUT_PATH)) {
     try { existing = JSON.parse(await readFile(OUT_PATH, 'utf-8')) as VoiceTimings } catch { existing = {} }
   }
   const merged: VoiceTimings = { ...existing, ...voiceTimings }

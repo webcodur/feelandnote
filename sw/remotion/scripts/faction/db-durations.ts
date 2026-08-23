@@ -75,6 +75,7 @@ export async function loadPersonSlots(
       .from('faction_people')
       .select('id,cluster_id,position,name,quote_duration,epithet_duration')
       .in('cluster_id', ids.slice(i, i + 200))
+      .eq('is_person', true)
     if (pErr) throw new Error(`인물 조회 실패(${folder}): ${pErr.message}`)
     for (const p of people ?? []) {
       const info = clusterInfo.get(p.cluster_id as string)
@@ -96,6 +97,57 @@ export async function loadPersonSlots(
 
 /** 소수 2자리 — 파이프라인 기록 관례와 동일 */
 export const round2 = (n: number) => Math.round(n * 100) / 100
+
+/** 사람 카드가 아닌 서사 타임라인 항목. 해설 음성 설정은 이 행의 data jsonb에 산다. */
+export interface NarrativeEntryRow {
+  id: string
+  name: string
+  data: Record<string, unknown>
+}
+
+/** 한 에피소드의 is_person=false 행을 data jsonb 째로 읽는다. */
+export async function loadNarrativeEntries(
+  db: SupabaseClient, folder: string,
+): Promise<NarrativeEntryRow[]> {
+  const { data: ep, error: epErr } = await db
+    .from('faction_episodes').select('id').eq('folder', folder).single()
+  if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)
+
+  const { data: groups, error: gErr } = await db
+    .from('faction_groups').select('id').eq('episode_id', ep.id)
+  if (gErr) throw new Error(`세력 조회 실패(${folder}): ${gErr.message}`)
+  const groupIds = (groups ?? []).map(group => group.id as string)
+  if (!groupIds.length) return []
+  const { data: clusters, error: cErr } = await db
+    .from('faction_clusters').select('id').in('group_id', groupIds)
+  if (cErr) throw new Error(`묶음 조회 실패(${folder}): ${cErr.message}`)
+  const clusterIds = (clusters ?? []).map(cluster => cluster.id as string)
+  if (!clusterIds.length) return []
+
+  const entries: NarrativeEntryRow[] = []
+  for (let i = 0; i < clusterIds.length; i += 200) {
+    const { data, error } = await db
+      .from('faction_people')
+      .select('id,name,data')
+      .in('cluster_id', clusterIds.slice(i, i + 200))
+      .eq('is_person', false)
+    if (error) throw new Error(`서사 항목 조회 실패(${folder}): ${error.message}`)
+    entries.push(...(data ?? []).map(entry => ({
+      id: entry.id as string,
+      name: entry.name as string,
+      data: (entry.data as Record<string, unknown>) ?? {},
+    })))
+  }
+  return entries
+}
+
+/** 서사 항목 data jsonb 갱신 — 해설·대사 덩어리의 voiceDuration을 적는다. */
+export async function updateNarrativeEntryData(
+  db: SupabaseClient, id: string, data: Record<string, unknown>,
+): Promise<void> {
+  const { error } = await db.from('faction_people').update({ data }).eq('id', id).eq('is_person', false)
+  if (error) throw new Error(`서사 항목 낭독 길이 갱신 실패(${id}): ${error.message}`)
+}
 
 /** quote_duration·epithet_duration 갱신 */
 export async function updateDurations(

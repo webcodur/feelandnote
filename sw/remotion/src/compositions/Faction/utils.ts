@@ -190,7 +190,7 @@ export const holdMotionTransform = (hold: HoldMotion, z: number, extraScale = 1,
 /**
  * 인물·로고·화보 이미지 경로.
  * - 외부 URL(http) → 그대로
- * - 폴더 경로(슬래시 포함, 예: '1/앨런 튜링.webp') → 에피소드 폴더 하위에서 직접
+ * - 폴더 경로(슬래시 포함, 예: '02-homeward/circe.webp') → 에피소드 폴더 하위에서 직접
  * - basename(예: 'logo.png') → 에피소드 폴더 하위 images/ 에서 찾는다 (BO 업로드 호환)
  */
 export const imgSrc = (episodeName: string, image: string) =>
@@ -264,7 +264,7 @@ export const personCutKind = (script: FactionScript, cue: TimedCue['cue'], orien
 export const findPerson = (script: FactionScript, slug: string): FactionPerson | null => {
   for (const g of script.groups) {
     if (g.disabled) continue
-    const list = g.clusters.flatMap(c => c.people)
+    const list = g.clusters.flatMap(c => c.people).filter(p => p.isPerson !== false)
     const p = list.find(x => x.slug === slug && !x.disabled)
     if (p) return p
   }

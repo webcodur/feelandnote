@@ -10,7 +10,8 @@
  * 통합 명칭(name·title·label)은 데이터가 이미 '앞부분\n뒷부분' 한 필드라 그대로 펼친다(렌더가 split).
  */
 
-import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionCluster, type FactionPerson, type FactionNarratorVoice, type FactionIndividualScene } from './types'
+import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionCluster, type FactionPerson, type FactionNarratorVoice } from './types'
+import { normalizeFactionGroupEntries } from '@feelandnote/shared/lib/faction-sequence'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
 import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 // 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
@@ -61,6 +62,18 @@ function inheritEpithetVoice(p: FactionPerson, common?: FactionNarratorVoice): F
 }
 
 function resolvePerson(p: FactionPerson, en: boolean, commonVoice?: FactionNarratorVoice): FactionPerson {
+  if (p.isPerson === false) {
+    return {
+      ...p,
+      name: en ? (p.nameEn ?? p.name) : p.name,
+      caption: en ? (p.captionEn ?? p.caption) : p.caption,
+      beats: p.beats?.map(beat => ({
+        ...beat,
+        speaker: en ? (beat.speakerEn ?? beat.speaker) : beat.speaker,
+        text: en ? (beat.textEn ?? beat.text) : beat.text,
+      })),
+    }
+  }
   if (!en) {
     // quoteOrigin은 제작 메모다. 한국어 렌더 문구로 노출하지 않는다.
     return inheritEpithetVoice({ ...p, quoteEn: undefined }, commonVoice)
@@ -85,31 +98,20 @@ function resolveCluster(c: FactionCluster, en: boolean, commonVoice?: FactionNar
     // 원본 JSON에는 중복 저장하지 않으면서 인트로·인물 컷·카드뉴스 등 모든 소비자가 같은 사진을 본다.
     people: c.people?.map(p => {
       const person = resolvePerson(p, en, commonVoice)
-      const inheritsImage = inheritImage && !!c.image && (!person.image || person.image === c.image)
+      const inheritsImage = person.isPerson !== false && inheritImage && !!c.image && (!person.image || person.image === c.image)
       return inheritsImage ? { ...person, image: c.image, imageCrop: c.imageCrop } : person
     }) ?? [],
-    scenesAfter: undefined,
-  }
-}
-
-function resolveScene(scene: FactionIndividualScene, en: boolean): FactionIndividualScene {
-  return {
-    ...scene,
-    title: en ? (scene.titleEn ?? scene.title) : scene.title,
-    caption: en ? (scene.captionEn ?? scene.caption) : scene.caption,
   }
 }
 
 function resolveGroup(g: FactionGroup, en: boolean, commonVoice?: FactionNarratorVoice): FactionGroup {
+  const normalized = normalizeFactionGroupEntries(g as unknown as Record<string, unknown>) as unknown as FactionGroup
   return {
-    ...g,
+    ...normalized,
     // 세력 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 nameEn 폴백.
-    name: en ? (g.nameEn ?? g.name) : g.name,
-    openingScenes: undefined,
-    sequence: factionSequenceOf(g).map(item => item.kind === 'scene'
-      ? { ...item, scene: resolveScene(item.scene, en) }
-      : item),
-    clusters: g.clusters.map(c => resolveCluster(c, en, commonVoice, !g.solo)),
+    name: en ? (normalized.nameEn ?? normalized.name) : normalized.name,
+    sequence: factionSequenceOf(normalized),
+    clusters: normalized.clusters.map(c => resolveCluster(c, en, commonVoice, !normalized.solo)),
   }
 }
 
@@ -141,7 +143,9 @@ function scaleVoiceTimings(data: FactionScript, vt?: VoiceTimings): VoiceTimings
     if (g.disabled) return
     // 인물 컷 cue 에 clusterIndex 가 항상 들어가므로 키는 항상 FxxCxxPxx (solo 포함).
     ;(g.clusters ?? []).forEach((c, ci) => {
-      ;(c.people ?? []).forEach((p, pi) => apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci))))
+      ;(c.people ?? []).forEach((p, pi) => {
+        if (p.isPerson !== false) apply(p, vnTimingKey(vnPersonQuote(gi, pi, ci)))
+      })
     })
   })
   return out ?? vt

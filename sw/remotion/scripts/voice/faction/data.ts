@@ -1,33 +1,47 @@
 /**
- * faction/data.ts — faction-data.json 로드 + 인물 음성 잡 추출 + quoteDuration 안전 기록
+ * faction/data.ts — faction-data.json 로드 + 음성 잡 추출 + 음성 길이 안전 기록
  *
  * 잡 인덱싱(groupIndex·clusterIndex·personIndex)은 렌더의 buildCues 와 100% 동일해야
  * 파일명(vnPersonQuote)이 렌더 cue 의 staticFile 경로와 일치한다. 그래서 직접 순회하지 않고
  * buildCues 결과의 person 컷을 그대로 쓴다 — 인덱스 드리프트 원천 차단.
+ *
+ * 서사 항목은 덩어리(beat)마다 음성을 갖는다. 인물 좌표 밖이라 화자 + 본문 해시로 파일명을
+ * 정한다(vnSceneBeat). 장면을 옮기거나 순서를 바꿔도 음원이 따라오고, 본문을 고치면 파일명이 바뀌어
+ * 옛 음원이 남지 않는다. 화자를 해시에 넣으므로 같은 말이라도 인물이 다르면 음원이 갈린다.
  */
 
 import { readFile, writeFile } from 'fs/promises'
-import { buildCues, type Cue } from '../../../src/compositions/Faction/timing.js'
-import type { FactionScript, FactionPerson } from '../../../src/compositions/Faction/types.js'
-import { vnPersonQuote } from '../../../src/compositions/Faction/voice-names.js'
+import { factionSceneCaptionPages } from '@feelandnote/shared/lib/faction-scene-timing'
+import { buildCues, sceneBeatsOf, type Cue } from '../../../src/compositions/Faction/timing.js'
+import { factionEntryAt, factionSequenceOf } from '../../../src/compositions/Faction/types.js'
+import type { FactionScript, FactionPerson, FactionSceneBeat } from '../../../src/compositions/Faction/types.js'
+import { vnPersonQuote, vnSceneBeat } from '../../../src/compositions/Faction/voice-names.js'
 import { DATA_PATH, LANG } from './cli.js'
 
 export type FactionVoiceJob = {
-  /** 출력 파일명 (vnPersonQuote 규칙) — 예 F01C01P01-quote.wav */
+  /** 출력 파일명 — 인물은 vnPersonQuote(F01C01P01-quote.wav), 장면 덩어리는 vnSceneBeat(scene-<해시>.wav) */
   file: string
-  /** 합성 대상 텍스트 (선택 언어의 대사) */
+  /** 합성 대상 텍스트 (선택 언어의 인물 대사 또는 장면 덩어리 본문) */
   text: string
-  /** 인물별 화자 ID (data 의 quoteSpeaker). 미지정이면 공용 기본 보이스 */
+  /** 화자 ID (인물 quoteSpeaker / 장면 voiceSpeaker). 미지정이면 공용 기본 보이스 */
   speaker?: string
-  /** 선택 언어의 ElevenLabs 보이스 ID. 있으면 자동 Gemini 생성에서 제외한다. */
+  /** 선택 언어의 ElevenLabs 보이스 ID. 있으면 자동 Gemini 생성에서 제외한다. 장면 덩어리는 쓰지 않는다. */
   elevenLabsVoiceId?: string
-  /** 대사 의미 덩어리(원문, 발화 스타일 prefix 제외) — 발화 시각 정렬·자막 페이지 단위. 없으면 통대사 1개 */
+  /** 의미 덩어리(원문, 발화 스타일 prefix 제외) — 발화 시각 정렬·자막 페이지 단위. 인물은 quoteChunks, 장면은 본문 문단. */
   chunks: string[]
-  /** buildCues 인덱스 — quoteDuration 기록 시 인물을 다시 찾는 데 쓴다. 인물 컷은 항상 그룹 소속이라 clusterIndex 도 항상 있다 */
-  groupIndex: number
-  personIndex: number
-  clusterIndex: number
-}
+} & (
+  | {
+      /** 인물 대사 잡 — buildCues 인덱스로 기록 대상을 되찾는다. 인물 컷은 항상 그룹 소속이라 clusterIndex 도 항상 있다 */
+      target: 'person'
+      groupIndex: number
+      personIndex: number
+      clusterIndex: number
+    }
+  | {
+      /** 서사 항목 덩어리 잡 — 파일명이 화자·본문만으로 정해지므로 좌표를 들고 다니지 않는다 */
+      target: 'scene'
+    }
+)
 
 /** faction-data.json 원본을 그대로 읽는다(가공 없음). 기록 시 이 객체를 수정해 되쓴다. */
 export async function loadFactionData(): Promise<FactionScript> {
@@ -49,6 +63,37 @@ function quoteTextOf(p: FactionPerson): string {
  */
 function styledTextOf(p: FactionPerson, text: string): string {
   const style = (p.quoteStyle ?? '').trim()
+  return style ? `${style}: ${text}` : text
+}
+
+/**
+ * 선택 언어의 덩어리 본문·화자. ko=text/speaker, en=textEn/speakerEn(폴백 ko).
+ * 렌더도 진입 시점(script.ts)에 같은 규칙으로 갈아 끼우므로, 이 값으로 만든 파일명(vnSceneBeat)이
+ * 렌더가 재생하는 경로와 일치한다 — 언어가 다르면 파일도 갈린다.
+ */
+function beatTextOf(beat: FactionSceneBeat): string {
+  const t = LANG === 'en' ? (beat.textEn ?? beat.text) : beat.text
+  return (t ?? '').trim() ? (t as string) : ''
+}
+
+function beatSpeakerOf(beat: FactionSceneBeat): string | undefined {
+  return LANG === 'en' ? (beat.speakerEn ?? beat.speaker) : beat.speaker
+}
+
+/**
+ * 덩어리 낭독·대사 텍스트 — 화면에 뜨는 본문을 그대로 읽는다.
+ * 문단 경계(빈 줄)와 줄바꿈은 화면 조판용이라 합성 전에 한 흐름으로 편다.
+ */
+function beatNarrationTextOf(text: string): string {
+  return factionSceneCaptionPages(text)
+    .map(page => page.replace(/\n+/g, ' ').trim())
+    .filter(Boolean)
+    .join(' ')
+}
+
+/** 장면 덩어리도 인물 대사와 같은 규칙으로 발화 스타일 prefix 를 붙인다. */
+function styledBeatTextOf(beat: FactionSceneBeat, text: string): string {
+  const style = (beat.voiceStyle ?? '').trim()
   return style ? `${style}: ${text}` : text
 }
 
@@ -87,35 +132,122 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
       elevenLabsVoiceId: LANG === 'en'
         ? person.quoteElevenlabsVoiceIdEn
         : person.quoteElevenlabsVoiceId,
+      target: 'person',
       groupIndex: cue.groupIndex,
       personIndex: cue.personIndex,
       clusterIndex: cue.clusterIndex,
     })
   }
+  jobs.push(...buildSceneVoiceJobs(script, part))
+  return jobs
+}
+
+/**
+ * 서사 항목 덩어리 잡. 파일명이 화자·본문 해시라 컷 인덱스와 무관하므로 buildCues 대신
+ * 세력의 sequence 를 직접 순회한다(인덱스 드리프트가 파일명에 영향을 주지 않는다).
+ * 렌더와 같은 기준으로 비활성 세력과 본문 없는 덩어리를 뺀다. 화자·본문이 완전히 같은 덩어리 둘은
+ * 파일명도 같으므로 한 번만 합성해 공유한다.
+ */
+function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {
+  const jobs: FactionVoiceJob[] = []
+  const seen = new Set<string>()
+  for (const group of script.groups) {
+    if (group.disabled) continue
+    if (part != null && group.part != null && group.part !== part) continue
+    for (const item of factionSequenceOf(group)) {
+      if (item.kind !== 'entry') continue
+      const entry = factionEntryAt(group, item)
+      // 구 데이터의 caption 한 벌도 sceneBeatsOf 가 해설 덩어리 하나로 승격해 준다.
+      for (const beat of sceneBeatsOf(entry)) {
+        const raw = beatTextOf(beat)
+        if (!raw) continue
+        const text = beatNarrationTextOf(raw)
+        if (!text) continue
+        // 렌더(NarrativeEntryCard)가 부르는 것과 똑같이 화자 + 본문 원문으로 파일명을 만든다.
+        const file = vnSceneBeat(beatSpeakerOf(beat), raw)
+        if (seen.has(file)) continue
+        seen.add(file)
+        jobs.push({
+          file,
+          text: styledBeatTextOf(beat, text),
+          chunks: factionSceneCaptionPages(raw),
+          speaker: beat.voiceSpeaker,
+          // 인물 카드로도 등장하는 사람은 카드와 같은 ELE 보이스를 쓴다 → 자동 생성에서 빠지고 사용자가 만든다.
+          elevenLabsVoiceId: LANG === 'en'
+            ? beat.voiceElevenlabsVoiceIdEn
+            : beat.voiceElevenlabsVoiceId,
+          target: 'scene',
+        })
+      }
+    }
+  }
   return jobs
 }
 
 /** 잡 인덱스로 data 안의 실제 인물 객체를 찾는다(quoteDuration 기록 대상). */
-function findPerson(script: FactionScript, job: FactionVoiceJob): FactionPerson | undefined {
+function findPerson(
+  script: FactionScript,
+  job: Extract<FactionVoiceJob, { target: 'person' }>,
+): FactionPerson | undefined {
   return script.groups[job.groupIndex]?.clusters?.[job.clusterIndex]?.people[job.personIndex]
 }
 
 /**
- * 측정한 음성 길이를 faction-data.json 의 해당 인물 quoteDuration 에 기록한다.
+ * 같은 화자·본문(=같은 파일명)을 쓰는 모든 덩어리에 음성 길이를 기록한다.
+ * factionSequenceOf 는 scene 객체를 복사하지 않고 원본 참조로 넘기므로 여기서 쓴 값이 그대로 저장된다.
+ * 구 데이터(caption 한 벌)는 승격 덩어리가 사본이라 원본 scene 의 레거시 필드에 적는다.
+ */
+function writeSceneDuration(script: FactionScript, file: string, rounded: number): number {
+  let changed = 0
+  for (const group of script.groups) {
+    for (const item of factionSequenceOf(group)) {
+      if (item.kind !== 'entry') continue
+      const scene = factionEntryAt(group, item)
+      const targets: { get: () => number | undefined; set: (v: number) => void }[] = []
+
+      if (scene.beats?.length) {
+        for (const beat of scene.beats) {
+          const raw = beatTextOf(beat)
+          if (!raw || vnSceneBeat(beatSpeakerOf(beat), raw) !== file) continue
+          targets.push({ get: () => beat.voiceDuration, set: v => { beat.voiceDuration = v } })
+        }
+      } else {
+        const raw = LANG === 'en' ? (scene.captionEn ?? scene.caption) : scene.caption
+        if (raw?.trim() && vnSceneBeat(undefined, raw) === file) {
+          targets.push({ get: () => scene.voiceDuration, set: v => { scene.voiceDuration = v } })
+        }
+      }
+
+      for (const target of targets) {
+        if (target.get() === rounded) continue
+        target.set(rounded)
+        changed++
+      }
+    }
+  }
+  return changed
+}
+
+/**
+ * 측정한 음성 길이를 faction-data.json 에 기록한다 — 인물은 quoteDuration, 서사 항목은 voiceDuration.
  * 읽기→수정→쓰기. 다른 필드·구조는 보존한다. 변경이 없으면 파일을 건드리지 않는다.
  *
  * @param durations file → 길이(초)
  */
-export async function writeQuoteDurations(durations: Record<string, number>): Promise<number> {
+export async function writeVoiceDurations(durations: Record<string, number>): Promise<number> {
   const script = await loadFactionData()
   const jobs = buildVoiceJobs(script)
   let changed = 0
   for (const job of jobs) {
     const dur = durations[job.file]
     if (dur == null) continue
+    const rounded = Math.round(dur * 100) / 100
+    if (job.target === 'scene') {
+      changed += writeSceneDuration(script, job.file, rounded)
+      continue
+    }
     const person = findPerson(script, job)
     if (!person) continue
-    const rounded = Math.round(dur * 100) / 100
     if (person.quoteDuration !== rounded) {
       person.quoteDuration = rounded
       changed++

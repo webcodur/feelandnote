@@ -11,7 +11,7 @@ import { GroupCard, ClusterCard } from './GroupCard'
 import { PersonCard } from './PersonCard'
 import { EraCard } from './EraCard'
 import { ChapterCard } from './ChapterCard'
-import { IndividualSceneCard } from './IndividualSceneCard'
+import { NarrativeEntryCard } from './NarrativeEntryCard'
 import { FilledImage } from './FilledImage'
 // import { BrandLogo } from '../../BookRecommend/utils' // 종료 화면 브랜드 로고 미노출(주석 처리)
 
@@ -91,9 +91,9 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   // start부터로 잡으면 페이드인 구간엔 영상이 아직 없어 교차 없이 툭 나타난다.
   else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} isShorts={isShorts} part={part} startFrame={enterStart} frame={frame} cueStart={start} />
   else if (cue.kind === 'era') content = <EraCard label={cue.label} />
-  else if (cue.kind === 'scene') content = (
-    <IndividualSceneCard
-      scene={cue.scene}
+  else if (cue.kind === 'entry') content = (
+    <NarrativeEntryCard
+      scene={cue.entry}
       episodeName={episodeName}
       cueStart={start}
       cueDuration={duration}

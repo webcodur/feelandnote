@@ -21,11 +21,11 @@ export const MapCard: React.FC<CardPropsBase> = ({ script, episodeName, card, as
 
   if (card.personIndex != null) {
     for (let k = 0; k < clusters.length; k++) {
-      const n = clusters[k].people.length
+      const n = clusters[k].people.filter(entry => entry.isPerson !== false).length
       if (local < n) { ci = k; break }
       local -= n
     }
-    person = clusters[ci]?.people[local]
+    person = clusters[ci]?.people.filter(entry => entry.isPerson !== false)[local]
   }
 
   type MapRow = { label: string; sub?: string; depth: 0 | 1 | 2; active: boolean; dim: number }
@@ -39,7 +39,7 @@ export const MapCard: React.FC<CardPropsBase> = ({ script, episodeName, card, as
     clusters.forEach((cl: any, k: number) => {
       rows.push({ label: nameHead(cl.label) || `그룹 ${k + 1}`, depth: 1, active: card.personIndex != null ? k === ci : false, dim: card.personIndex != null ? Math.abs(k - ci) : 1 })
       if (card.personIndex != null && k !== ci) return
-      const ppl = (cl.people ?? []).filter((p: any) => !p.disabled)
+      const ppl = (cl.people ?? []).filter((p: any) => p.isPerson !== false && !p.disabled)
       const activePersonIdx = person ? ppl.indexOf(person) : 0
       ppl.forEach((p: any, j: number) => rows.push({ label: p.name || `인물 ${j + 1}`, depth: 2, active: p === person, dim: card.personIndex != null ? Math.abs(j - activePersonIdx) : 1 }))
     })

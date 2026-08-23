@@ -22,7 +22,8 @@ type Props = { script: FactionScript; episodeName: string }
 
 /** 대표 이미지 폴백 — 첫 인물 사진 → 첫 그룹샷 */
 const firstImage = (s: FactionScript, ep: string) => {
-  const p = s.groups.flatMap(g => g.clusters.flatMap(c => c.people)).find(pp => pp.image)
+  const p = s.groups.flatMap(g => g.clusters.flatMap(c => c.people))
+    .find(pp => pp.isPerson !== false && pp.image)
   const c = s.groups.flatMap(g => g.clusters).find(cc => cc.image)
   const raw = p?.image ?? c?.image
   return raw ? imgSrc(ep, raw) : undefined

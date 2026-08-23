@@ -15,6 +15,7 @@ const DARK = '#090807'
 export const FactionLVThumbnail: React.FC<Props> = ({ script, episodeName }) => {
   // Use the explicitly provided LV thumbnail image, or fallback to the very first person in the faction
   const allPeople = script.groups.flatMap(g => g.clusters.flatMap(c => c.people))
+    .filter(person => person.isPerson !== false)
   const imageToUse = script.lvThumbnailImage ?? allPeople[0]?.image
 
   return (
