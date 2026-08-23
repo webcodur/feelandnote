@@ -25,6 +25,8 @@ import {
 export type FactionUploadRecord = { videoId: string; uploadedAt: string }
 
 export interface FactionPersonMeta {
+  /** false인 서사 컷은 영상 흐름에는 나오지만 인물 목록·영웅 메타에는 들어가지 않는다. */
+  isPerson?: boolean
   name: string
   nameEn?: string
   slug?: string
@@ -52,7 +54,7 @@ export interface FactionGroupMeta {
   clusters?: Array<{ people?: FactionPersonMeta[]; disabled?: boolean; longformOnly?: boolean }>
   sequence?: Array<
     | { kind: 'cluster'; clusterIndex: number }
-    | { kind: 'scene'; id: string; scene: object }
+    | { kind: 'entry'; clusterIndex: number; entryIndex: number }
     | { kind: 'cut' }
   >
 }
@@ -240,7 +242,7 @@ function groupPeople(
   isShorts: boolean,
   allowedClusterIndexes?: ReadonlySet<number>,
 ): FactionPersonMeta[] {
-  const visiblePeople = (people: FactionPersonMeta[]) => people.filter(p => !p.disabled && !(isShorts && p.longformOnly))
+  const visiblePeople = (people: FactionPersonMeta[]) => people.filter(p => p.isPerson !== false && !p.disabled && !(isShorts && p.longformOnly))
   const direct = visiblePeople(g.people ?? [])
   const clustered = (g.clusters ?? [])
     .filter((c, index) => (allowedClusterIndexes == null || allowedClusterIndexes.has(index))

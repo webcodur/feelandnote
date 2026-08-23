@@ -42,11 +42,11 @@ export function factionShortsSegments(groups: ReadonlyArray<Row>): FactionShorts
 }
 
 /** 한 쇼츠 slice가 실제로 포함하는 sequence 항목. cut marker 자체는 반환하지 않는다. */
-export function factionShortsSliceItems<TScene = Row>(
+export function factionShortsSliceItems(
   group: Row,
   step: Pick<FactionShortsStep, 'sequenceStart' | 'sequenceEnd'>,
-): FactionSequenceItem<TScene>[] {
-  return (factionSequenceOf(group) as unknown as FactionSequenceItem<TScene>[])
+): FactionSequenceItem[] {
+  return factionSequenceOf(group)
     .slice(step.sequenceStart, step.sequenceEnd)
     .filter(item => item.kind !== 'cut')
 }

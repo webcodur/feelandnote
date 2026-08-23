@@ -15,11 +15,36 @@ export const FACTION_ENTER_NAME_SEC = 0.2;
 export const FACTION_ENTER_FADE_SEC = 0.35;
 export const FACTION_SCENE_CAPTION_ID_HOLD_SEC = 1;
 
+/**
+ * 장면 안에서 순서대로 흐르는 한 덩어리.
+ * 화자(speaker)가 있으면 그 인물이 말하는 대사, 없으면 나레이터 해설이다.
+ * 해설만·대사만·둘 다·여러 인물이 주고받기·말 없는 이미지 컷이 전부 이 배열 하나로 표현된다.
+ */
+export type FactionSceneBeatInput = {
+  /** 화자 이름. 없으면 해설이며 장면 제목이 이름 자리를 지킨다. 셀럽 등록과 무관한 자유 문자열이다. */
+  speaker?: string;
+  /** 화면에 뜨고 낭독되는 본문. 빈 줄로 나누면 같은 덩어리 안에서 화면이 넘어간다. */
+  text?: string;
+  /** 이 덩어리 음성의 재생 길이(초, 배속 반영 후). 있으면 글자 점등을 이 길이에 맞춘다. */
+  voiceSec?: number;
+};
+
 export type FactionSceneTimingInput = {
   caption?: string;
   /** 자동 계산보다 더 오래 보여주고 싶을 때 지정하는 최소 노출 시간. */
   durationSec?: number;
   captionIdHoldSec?: number;
+  /**
+   * 해설 낭독 음원의 재생 길이(초, 배속 반영 후). 있으면 글자 점등을 글자 수 추정 대신
+   * 이 길이에 맞춘다. 문단 사이 정지·교차 시간도 낭독 안에 이미 들어 있다고 보고 차감한다.
+   * 덩어리(beats)를 쓰면 덩어리별 voiceSec 이 이 값을 대신한다.
+   */
+  voiceSec?: number;
+  /**
+   * 장면을 이루는 덩어리들. 비어 있으면 caption 한 벌을 해설 덩어리 하나로 본다(구 데이터 호환).
+   * 장면 제목은 첫 덩어리 앞에서 한 번 뜨고, 화자가 바뀌는 덩어리마다 이름 자리가 새로 뜬다.
+   */
+  beats?: FactionSceneBeatInput[];
 };
 
 export type FactionSceneTiming = {
@@ -28,6 +53,28 @@ export type FactionSceneTiming = {
   captionRevealSec: number;
   captionCompleteSec: number;
   durationSec: number;
+  /** 덩어리별 화면 시각. 구 데이터(caption 한 벌)도 덩어리 하나로 정규화돼 여기 들어온다. */
+  beats: FactionSceneBeatTiming[];
+};
+
+/** 한 덩어리의 화면 시각. 모든 값은 장면 시작 기준 상대 초다. */
+export type FactionSceneBeatTiming = {
+  /** 이름 자리에 뜰 문구. 화자가 있으면 화자, 없으면 장면 제목이 그 자리를 지킨다(빈 문자열이면 제목 사용). */
+  speaker: string;
+  text: string;
+  /**
+   * 이름 자리를 새로 띄우는 덩어리인가. 첫 덩어리와, 앞 덩어리와 화자가 다른 덩어리가 해당한다.
+   * 같은 화자가 이어 말하면 이름을 다시 띄우지 않고 본문만 교체한다.
+   */
+  showsIdentity: boolean;
+  /** 덩어리가 시작되는 시각(이름 등장 또는 본문 교차 시작). */
+  startSec: number;
+  /** 본문이 뜨기 시작하는 시각. */
+  textStartSec: number;
+  /** 본문 안의 문단별 시각 — textStartSec 기준 상대. */
+  pages: FactionSceneCaptionPageTiming[];
+  /** 본문 완독 시각. */
+  completeSec: number;
 };
 
 export type FactionSceneCaptionPageTiming = {
@@ -59,26 +106,55 @@ export function factionSceneCaptionCharCount(caption?: string): number {
   ).length;
 }
 
+/** 문단 사이에 들어가는 완독 정지 + 교차 전환의 합계(초). 문단이 하나면 0이다. */
+function paragraphOverheadSec(pageCount: number): number {
+  return pageCount > 1
+    ? (pageCount - 1) *
+        (FACTION_SCENE_PARAGRAPH_HOLD_SEC + FACTION_SCENE_PARAGRAPH_TRANSITION_SEC)
+    : 0;
+}
+
 /**
- * 개별 장면의 문단별 화면 시각. 첫 문단은 바로 점등하고, 이후 문단은
+ * 서사 항목의 문단별 화면 시각. 첫 문단은 바로 점등하고, 이후 문단은
  * 이전 문단 완독 정지 뒤 교차 전환한 다음 점등한다.
+ *
+ * 해설 낭독 음원 길이(voiceSec)를 주면 점등 속도를 글자 수 추정 대신 낭독에 맞춘다.
+ * 낭독에는 문단 사이 쉼도 포함돼 있으므로 정지·교차 시간을 먼저 빼고, 남은 시간을
+ * 문단별 글자 수에 비례해 나눈다. 마지막 문단 완독 시점이 낭독 끝과 거의 일치한다.
  */
 export function factionSceneCaptionPageTimings(
   caption?: string,
+  voiceSec?: number,
 ): FactionSceneCaptionPageTiming[] {
   const pages = factionSceneCaptionPages(caption);
+  const charCounts = pages.map((text) => factionSceneCaptionCharCount(text));
+  const totalChars = charCounts.reduce((sum, n) => sum + n, 0);
+  const usesVoice =
+    voiceSec != null && Number.isFinite(voiceSec) && voiceSec > 0 && pages.length > 0;
+  // 낭독이 문단 사이 쉼보다도 짧으면 점등할 시간이 없어진다. 문단당 최소 점등 시간을 보장한다.
+  const revealTotalSec = usesVoice
+    ? Math.max(voiceSec - paragraphOverheadSec(pages.length), 0.3 * pages.length)
+    : 0;
   let cursorSec = 0;
 
   return pages.map((text, index) => {
-    const charCount = factionSceneCaptionCharCount(text);
+    const charCount = charCounts[index];
     const startSec = cursorSec;
     const revealStartSec =
       startSec + (index === 0 ? 0 : FACTION_SCENE_PARAGRAPH_TRANSITION_SEC);
-    const revealSec = charCount / FACTION_SCENE_CAPTION_CHARS_PER_SEC;
+    const revealSec = usesVoice
+      ? revealTotalSec *
+        (totalChars > 0 ? charCount / totalChars : 1 / pages.length)
+      : charCount / FACTION_SCENE_CAPTION_CHARS_PER_SEC;
     const completeSec = revealStartSec + revealSec;
     cursorSec = completeSec + FACTION_SCENE_PARAGRAPH_HOLD_SEC;
     return { text, charCount, startSec, revealStartSec, revealSec, completeSec };
   });
+}
+
+/** 뺄셈으로 유도한 초 값의 부동소수점 찌꺼기를 정리한다. 마이크로초 미만은 화면·음성 어디에도 의미가 없다. */
+function tidySec(sec: number): number {
+  return Math.round(sec * 1e6) / 1e6;
 }
 
 function finiteAtLeast(
@@ -92,23 +168,88 @@ function finiteAtLeast(
 }
 
 /**
- * 제목 표시 → 해설 점등 → 완독 정지 → 종료 페이드의 전체 시간을 계산한다.
- * 자동 길이에는 상한을 두지 않아 긴 해설도 중간에서 잘리지 않는다.
+ * 장면을 이루는 덩어리 배열로 정규화한다.
+ * `beats`가 있으면 내용이 있는 것만 추리고, 없으면 구 데이터의 `caption` 한 벌을 해설 덩어리 하나로 본다.
+ * 그래서 덩어리를 쓰지 않는 기존 장면도 계산 경로가 완전히 같다.
+ */
+export function factionSceneBeatsOf(
+  input: FactionSceneTimingInput,
+): FactionSceneBeatInput[] {
+  const beats = input.beats?.filter(
+    (b) => !!b && (!!b.text?.trim() || !!b.speaker?.trim()),
+  );
+  if (beats?.length) return beats;
+  if (!input.caption?.trim()) return [];
+  return [{ text: input.caption, voiceSec: input.voiceSec }];
+}
+
+/**
+ * 덩어리별 화면 시각. 이름 자리는 첫 덩어리와 화자가 바뀌는 덩어리에서만 새로 뜨고,
+ * 같은 화자가 이어 말하면 본문만 교차로 교체된다.
+ */
+export function factionSceneBeatTimings(
+  input: FactionSceneTimingInput,
+): FactionSceneBeatTiming[] {
+  const beats = factionSceneBeatsOf(input);
+  const captionIdHoldSec = finiteAtLeast(
+    input.captionIdHoldSec,
+    0,
+    FACTION_SCENE_CAPTION_ID_HOLD_SEC,
+  );
+  const identityLeadSec =
+    FACTION_ENTER_NAME_SEC + FACTION_ENTER_FADE_SEC + captionIdHoldSec;
+
+  let cursorSec = 0;
+  let previousSpeaker: string | null = null;
+
+  return beats.map((beat, index) => {
+    const speaker = (beat.speaker ?? "").trim();
+    const showsIdentity = index === 0 || speaker !== previousSpeaker;
+    previousSpeaker = speaker;
+
+    const startSec = cursorSec;
+    const textStartSec =
+      startSec +
+      (showsIdentity ? identityLeadSec : FACTION_SCENE_PARAGRAPH_TRANSITION_SEC);
+    const pages = factionSceneCaptionPageTimings(beat.text, beat.voiceSec);
+    const completeSec = textStartSec + (pages.at(-1)?.completeSec ?? 0);
+    cursorSec = completeSec + FACTION_SCENE_PARAGRAPH_HOLD_SEC;
+
+    return {
+      speaker,
+      text: beat.text ?? "",
+      showsIdentity,
+      startSec,
+      textStartSec,
+      pages,
+      completeSec,
+    };
+  });
+}
+
+/**
+ * 이름 표시 → 본문 점등 → 완독 정지 → 종료 페이드의 전체 시간을 계산한다.
+ * 덩어리가 여럿이면 그 흐름을 모두 담는다. 자동 길이에는 상한을 두지 않아 긴 장면도 중간에서 잘리지 않는다.
  */
 export function factionSceneTiming(
   input: FactionSceneTimingInput,
 ): FactionSceneTiming {
-  const captionCharCount = factionSceneCaptionCharCount(input.caption);
-  const captionPages = factionSceneCaptionPageTimings(input.caption);
+  const beats = factionSceneBeatsOf(input);
+  const beatTimings = factionSceneBeatTimings(input);
+  const captionCharCount = beats.reduce(
+    (sum, beat) => sum + factionSceneCaptionCharCount(beat.text),
+    0,
+  );
   const captionIdHoldSec = finiteAtLeast(
     input.captionIdHoldSec,
     0,
     FACTION_SCENE_CAPTION_ID_HOLD_SEC,
   );
   const captionStartSec =
+    beatTimings[0]?.textStartSec ??
     FACTION_ENTER_NAME_SEC + FACTION_ENTER_FADE_SEC + captionIdHoldSec;
-  const captionRevealSec = captionPages.at(-1)?.completeSec ?? 0;
-  const captionCompleteSec = captionStartSec + captionRevealSec;
+  const captionCompleteSec = beatTimings.at(-1)?.completeSec ?? captionStartSec;
+  const captionRevealSec = tidySec(captionCompleteSec - captionStartSec);
   const automaticSec =
     captionCharCount > 0
       ? captionCompleteSec +
@@ -116,12 +257,29 @@ export function factionSceneTiming(
         FACTION_SCENE_EXIT_FADE_SEC
       : FACTION_SCENE_DEFAULT_SEC;
   const minimumSec = finiteAtLeast(input.durationSec, FACTION_SCENE_MIN_SEC, 0);
+  // 점등 하한 때문에 문단 계산이 음성보다 짧아질 수 있다. 어떤 덩어리의 음성도 잘리지 않도록 바닥을 깐다.
+  const voiceEndSec = beatTimings.reduce((max, timing, index) => {
+    const voiceSec = finiteAtLeast(beats[index]?.voiceSec, 0, 0);
+    if (voiceSec <= 0) return max;
+    const end =
+      timing.textStartSec +
+      voiceSec +
+      FACTION_SCENE_POST_CAPTION_HOLD_SEC +
+      FACTION_SCENE_EXIT_FADE_SEC;
+    return Math.max(max, end);
+  }, 0);
 
   return {
     captionCharCount,
     captionStartSec,
     captionRevealSec,
     captionCompleteSec,
-    durationSec: Math.max(FACTION_SCENE_MIN_SEC, automaticSec, minimumSec),
+    durationSec: Math.max(
+      FACTION_SCENE_MIN_SEC,
+      automaticSec,
+      minimumSec,
+      voiceEndSec,
+    ),
+    beats: beatTimings,
   };
 }

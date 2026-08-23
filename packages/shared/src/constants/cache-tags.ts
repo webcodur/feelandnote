@@ -33,6 +33,31 @@ export const CACHE_TAGS = {
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS]
 
+/** 상세 캐시 전량만 명시적으로 가리키는 예약 식별자. */
+export const BULK_CACHE_ID = '__all__'
+
+/** Cloudflare가 실제로 보관하는 상세 HTML 경로군. bulk 태그의 퍼지 영향 범위 SSoT다. */
+export type CacheDetailRouteFamily = 'celeb' | 'content'
+
+/** 두 상세 경로군 × ko/en. bulk 퍼지가 이보다 넓어지면 계약 변경으로 검토해야 한다. */
+export const MAX_CLOUDFLARE_BULK_PREFIXES = 4
+
+/**
+ * `domain:__all__`이 비워야 하는 상세 경로군.
+ *
+ * 현재 HTML에서 검증한 직접 의존성만 적는다. 지원을 확정하지 않은 도메인은 빈 배열로 두고
+ * v2 요청 경계에서 거부한다. 추측으로 다른 경로군까지 넓혀 ISR 재생성 비용을 만들지 않는다.
+ */
+export const CACHE_TAG_BULK_ROUTE_FAMILIES = {
+  [CACHE_TAGS.CELEBS]: ['celeb'],
+  [CACHE_TAGS.CONTENTS]: ['content', 'celeb'],
+  [CACHE_TAGS.DIALOGUES]: ['celeb'],
+  [CACHE_TAGS.SPECTRUM]: ['celeb'],
+  [CACHE_TAGS.TAGS]: ['celeb'],
+  [CACHE_TAGS.FICTION_SOURCES]: ['celeb'],
+  [CACHE_TAGS.CURATED]: [],
+} as const satisfies Record<CacheTag, readonly CacheDetailRouteFamily[]>
+
 /** Cloudflare 퍼지 결과와 /api/revalidate 성공 응답의 공유 계약. */
 export type CloudflarePurgeResult =
   | {
@@ -45,13 +70,28 @@ export type CloudflarePurgeResult =
       urls: string[]
       ok: true
       status: 'purged'
-      mode: 'targeted' | 'everything'
+      mode: 'targeted'
+    }
+  | {
+      urls: string[]
+      prefixes: string[]
+      ok: true
+      status: 'purged'
+      mode: 'prefix'
     }
   | {
       urls: string[]
       ok: false
       status: 'not_configured' | 'failed'
-      mode: 'targeted' | 'everything'
+      mode: 'targeted'
+      failedBatches?: number
+    }
+  | {
+      urls: string[]
+      prefixes: string[]
+      ok: false
+      status: 'not_configured' | 'failed'
+      mode: 'prefix'
       failedBatches?: number
     }
 
@@ -73,7 +113,6 @@ function sameUniqueStrings(actual: unknown, expected: readonly string[]): actual
 export function isCompleteCacheRevalidationResponse(
   value: unknown,
   expectedTags: readonly string[],
-  expectedMode?: 'none' | 'targeted' | 'everything',
 ): value is CompleteCacheRevalidationResponse {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return false
   const response = value as Record<string, unknown>
@@ -84,29 +123,145 @@ export function isCompleteCacheRevalidationResponse(
   if (!cloudflare || typeof cloudflare !== 'object' || Array.isArray(cloudflare)) return false
   const result = cloudflare as Record<string, unknown>
   if (result.ok !== true || !Array.isArray(result.urls)) return false
-  if (result.urls.some((url) => typeof url !== 'string')) return false
-  if (expectedMode !== undefined && result.mode !== expectedMode) return false
+  let expected: CloudflarePurgeExpectation
+  try {
+    expected = cloudflarePurgeExpectationForTags(expectedTags)
+  } catch {
+    return false
+  }
+  if (result.mode !== expected.mode || !sameUniqueStrings(result.urls, expected.urls)) return false
 
-  return (
-    result.status === 'purged'
-      && result.mode === 'targeted'
-      && result.urls.length > 0
-  ) || (
-    result.status === 'purged'
-      && result.mode === 'everything'
-      && result.urls.length === 0
-  ) || (
-    result.status === 'not_needed'
-      && result.mode === 'none'
-      && result.urls.length === 0
-  )
+  if (expected.mode === 'prefix') {
+    return result.status === 'purged'
+      && sameUniqueStrings(result.prefixes, expected.prefixes)
+  }
+
+  if (result.prefixes !== undefined) return false
+  return expected.mode === 'targeted'
+    ? result.status === 'purged'
+    : result.status === 'not_needed'
 }
-
-/** 상세 캐시 전량을 명시적으로 가리키는 예약 식별자. 도메인 태그는 목록 전용이다. */
-export const BULK_CACHE_ID = '__all__'
 
 /** /api/revalidate가 허용하는 도메인 태그 목록 */
 export const ALL_CACHE_TAGS: CacheTag[] = Object.values(CACHE_TAGS)
+
+const CACHE_SITE_ORIGIN = 'https://feelandnote.com'
+const CACHE_ITEM_UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+/** Cloudflare API가 요구하는 scheme 없는 prefix. 순서도 공유 계약의 일부다. */
+export const CACHE_DETAIL_ROUTE_PREFIXES = {
+  celeb: ['feelandnote.com/celeb/', 'feelandnote.com/en/celeb/'],
+  content: ['feelandnote.com/content/', 'feelandnote.com/en/content/'],
+} as const satisfies Record<CacheDetailRouteFamily, readonly string[]>
+
+export type DataCachePurgeMode = 'none' | 'targeted' | 'prefix'
+
+export interface CloudflarePurgeExpectation {
+  mode: DataCachePurgeMode
+  urls: string[]
+  prefixes: string[]
+}
+
+/** 예약 bulk sentinel인지 도메인까지 확인한다. 일반 식별자에 포함된 문자열은 bulk가 아니다. */
+export function isBulkCacheTag(tag: string): boolean {
+  const separator = tag.indexOf(':')
+  if (separator <= 0 || tag.slice(separator + 1) !== BULK_CACHE_ID) return false
+  return (ALL_CACHE_TAGS as readonly string[]).includes(tag.slice(0, separator))
+}
+
+/** v2 bulk prefix를 아직 지원하지 않는 태그만 돌려준다. */
+export function unsupportedBulkCacheTags(tags: readonly string[]): string[] {
+  return tags.filter((tag) => {
+    if (!isBulkCacheTag(tag)) return false
+    const domain = tag.slice(0, tag.indexOf(':')) as CacheTag
+    return CACHE_TAG_BULK_ROUTE_FAMILIES[domain].length === 0
+  })
+}
+
+export const TARGETED_REVALIDATION_API_PATH = '/api/revalidate'
+export const BULK_REVALIDATION_API_PATH = '/api/revalidate/v2'
+
+/** 새/구 web·호출자 혼합 배포에서도 bulk가 legacy endpoint로 후퇴하지 않게 한다. */
+export function revalidationApiPathForTags(
+  tags: readonly string[],
+): typeof TARGETED_REVALIDATION_API_PATH | typeof BULK_REVALIDATION_API_PATH {
+  const unsupported = unsupportedBulkCacheTags(tags)
+  if (unsupported.length > 0) {
+    throw new Error(`Unsupported bulk cache tag: ${unsupported.join(', ')}`)
+  }
+  return tags.some(isBulkCacheTag)
+    ? BULK_REVALIDATION_API_PATH
+    : TARGETED_REVALIDATION_API_PATH
+}
+
+/** 태그 하나가 가리키는 캐시된 공개 HTML 경로. 캐시하지 않는 도메인은 빈 배열이다. */
+export function cacheTagToCloudflarePaths(tag: string): string[] {
+  const separator = tag.indexOf(':')
+  const domain = separator < 0 ? tag : tag.slice(0, separator)
+  const id = separator < 0 ? '' : tag.slice(separator + 1)
+
+  if (!id) {
+    if (domain === CACHE_TAGS.CELEBS) {
+      return ['/explore/directory', '/en/explore/directory', '/explore/timeline', '/en/explore/timeline']
+    }
+    if (domain === CACHE_TAGS.DIALOGUES) {
+      return ['/explore/timeline', '/en/explore/timeline']
+    }
+    return []
+  }
+  if (id === BULK_CACHE_ID) return []
+
+  if (domain === CACHE_TAGS.CELEBS) {
+    if (CACHE_ITEM_UUID_RE.test(id)) return []
+    return [`/celeb/${id}`, `/en/celeb/${id}`]
+  }
+  if (domain === CACHE_TAGS.CONTENTS) {
+    return [`/content/${id}`, `/en/content/${id}`]
+  }
+  return []
+}
+
+/**
+ * 요청 태그에서 기대하는 Cloudflare exact URL·prefix·mode를 한 번만 계산한다.
+ * web 실행기와 web-bo 검증기가 이 값을 함께 사용해 축약 응답을 성공으로 오인하지 않는다.
+ */
+export function cloudflarePurgeExpectationForTags(
+  tags: readonly string[],
+): CloudflarePurgeExpectation {
+  const unsupported = unsupportedBulkCacheTags(tags)
+  if (unsupported.length > 0) {
+    throw new Error(`Unsupported bulk cache tag: ${unsupported.join(', ')}`)
+  }
+
+  const urls = new Set<string>()
+  const prefixes = new Set<string>()
+
+  for (const tag of tags) {
+    for (const path of cacheTagToCloudflarePaths(tag)) {
+      urls.add(new URL(path, CACHE_SITE_ORIGIN).toString())
+    }
+
+    if (!isBulkCacheTag(tag)) continue
+    const domain = tag.slice(0, tag.indexOf(':')) as CacheTag
+    for (const family of CACHE_TAG_BULK_ROUTE_FAMILIES[domain]) {
+      for (const prefix of CACHE_DETAIL_ROUTE_PREFIXES[family]) prefixes.add(prefix)
+    }
+  }
+
+  const prefixValues = [...prefixes]
+  if (prefixValues.length > MAX_CLOUDFLARE_BULK_PREFIXES) {
+    throw new Error(
+      `Cloudflare bulk prefix contract exceeded: ${prefixValues.length}/${MAX_CLOUDFLARE_BULK_PREFIXES}`,
+    )
+  }
+
+  const urlValues = [...urls]
+  return {
+    mode: prefixValues.length > 0 ? 'prefix' : urlValues.length > 0 ? 'targeted' : 'none',
+    urls: urlValues,
+    prefixes: prefixValues,
+  }
+}
 
 /**
  * 배포 전환기 외부 호출의 폐기 전 태그를 정식 태그로 바꾼다.
@@ -138,12 +293,15 @@ const ITEM_TAG_SEPARATOR = ':'
 /** 「도메인:식별자」 태그를 만든다. 식별자가 비면 도메인 태그로 물러난다. */
 export function itemTag(domain: CacheTag, id: string | null | undefined): string {
   const trimmed = (id ?? '').trim()
+  if (trimmed === BULK_CACHE_ID) {
+    throw new Error(`Cache item identifier ${BULK_CACHE_ID} is reserved; use bulkTag(${domain})`)
+  }
   return trimmed ? `${domain}${ITEM_TAG_SEPARATOR}${trimmed}` : domain
 }
 
 /** 한 도메인의 상세 캐시 전량에만 붙는 태그. 목록 태그와 분리해 신규 등록이 상세 전량을 비우지 않게 한다. */
 export function bulkTag(domain: CacheTag): string {
-  return itemTag(domain, BULK_CACHE_ID)
+  return `${domain}${ITEM_TAG_SEPARATOR}${BULK_CACHE_ID}`
 }
 
 /**

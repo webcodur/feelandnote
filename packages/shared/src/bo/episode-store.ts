@@ -25,6 +25,10 @@ import { REMOTION_ROOT } from './remotion-root'
 export const FACTIONS_DIR = path.join(REMOTION_ROOT, 'public', 'factions')
 /** 가상 담화 뿌리 — public/discourses/ */
 export const DISCOURSES_DIR = path.join(REMOTION_ROOT, 'public', 'discourses')
+/** 책과 사람 뿌리 — public/book-person/ */
+export const BOOK_PERSON_DIR = path.join(REMOTION_ROOT, 'public', 'book-person')
+/** 랭킹 뿌리 — public/rankings/ */
+export const RANKINGS_DIR = path.join(REMOTION_ROOT, 'public', 'rankings')
 
 /* ── 이름·경로 안전화 ── */
 
