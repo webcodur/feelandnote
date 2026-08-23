@@ -1,0 +1,103 @@
+/**
+ * agy(Antigravity/Gemini) 1회 호출 헬퍼.
+ *
+ *   import { agyCall } from '<skill>/scripts/agy-call.mjs'
+ *   const text = await agyCall('프롬프트', { docs: ['docs/.../rules.md'] })
+ *
+ * 설계 근거:
+ *   - Windows에서는 확인된 agy.exe 절대경로를 직접 spawn한다.
+ *   - 모델은 품질 검증을 마친 gemini-3.7-flash-high로 고정한다.
+ *   - 긴 한국어는 셸을 거치지 않고 하나의 argv로 넘겨 따옴표 재해석을 막는다.
+ *   - 저장소를 어지르지 않도록 전용 임시 cwd에서 실행한다.
+ */
+
+import { spawn } from 'node:child_process'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { isAbsolute, resolve } from 'node:path'
+
+const AGY_BIN = process.env.AGY_BIN
+  ?? 'C:/Users/webco/AppData/Local/agy/bin/agy.exe'
+const MODEL = 'gemini-3.7-flash-high'
+const DEFAULT_TIMEOUT_MS = 900_000
+
+/**
+ * @param {string} prompt
+ * @param {object} [opts]
+ * @param {string[]} [opts.docs] 문서 절대경로 또는 repoRoot 기준 상대경로.
+ * @param {string} [opts.repoRoot] docs 상대경로 해석 기준.
+ * @param {number} [opts.timeoutMs]
+ * @returns {Promise<string>} stdout의 최종 텍스트.
+ */
+export function agyCall(prompt, opts = {}) {
+  const {
+    docs = [], repoRoot = process.cwd(), timeoutMs = DEFAULT_TIMEOUT_MS,
+  } = opts
+  const work = mkdtempSync(resolve(tmpdir(), 'agy-call-'))
+  const fullPrompt = withDocs(prompt, docs, repoRoot)
+  const args = [
+    '-p', fullPrompt,
+    '--dangerously-skip-permissions',
+    '--model', MODEL,
+  ]
+
+  return new Promise((resolveCall, rejectCall) => {
+    const child = spawn(AGY_BIN, args, { cwd: work })
+    let out = ''
+    let err = ''
+    let settled = false
+    const finish = (callback) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      cleanup(work)
+      callback()
+    }
+    const timer = setTimeout(() => {
+      child.kill('SIGKILL')
+      finish(() => rejectCall(new Error(`agy 시간 초과 (${Math.round(timeoutMs / 60000)}분)`)))
+    }, timeoutMs)
+
+    child.stdout.on('data', (data) => { out += data.toString() })
+    child.stderr.on('data', (data) => { err += data.toString() })
+    child.on('error', (error) => finish(() => rejectCall(error)))
+    child.on('close', (code) => finish(() => {
+      if (code !== 0) {
+        rejectCall(new Error(`agy exit ${code}: ${(err || out).slice(0, 500)}`))
+        return
+      }
+      const text = out.trim()
+      if (!text) {
+        rejectCall(new Error(`agy 빈 응답: ${err.slice(0, 300)}`))
+        return
+      }
+      resolveCall(text)
+    }))
+  })
+}
+
+export const looksQuotaLimited = (message = '') => (
+  /quota|rate.?limit|429|resets? in/i.test(message)
+)
+
+function withDocs(prompt, docs, repoRoot) {
+  if (docs.length === 0) return prompt
+  const paths = docs.map((doc) => (isAbsolute(doc) ? doc : resolve(repoRoot, doc)))
+  return [
+    '시작하기 전에 다음 파일을 반드시 읽고 그 규칙을 그대로 따른다.',
+    ...paths.map((path) => `- ${path}`),
+    '',
+    prompt,
+  ].join('\n')
+}
+
+function cleanup(directory) {
+  try { rmSync(directory, { recursive: true, force: true }) } catch { /* 무해 */ }
+}
+
+if (process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/'))) {
+  const prompt = process.argv.slice(2).join(' ') || '연결 확인. "ok"만 출력하라.'
+  agyCall(prompt)
+    .then((text) => console.log(text))
+    .catch((error) => { console.error(error.message); process.exit(1) })
+}

@@ -24,9 +24,9 @@ Read `references/evaluation-cases.md` only when modifying or testing this skill.
 7. Check concrete names, dates, events, numbers, quotations, and technical terms against the supplied material. Do not invent new concrete claims.
 8. Return only the finished composition.
 
-## Virtual monologues
+## First-person drafts
 
-Treat a virtual-monologue draft as disposable production material, not the person's original words. Retain only the person's supported ideas, actions, concepts, and first-person stance. Rebuild the voice and argument in concise Korean. Remove generic reflection and biography-shaped filler. A short, exact statement is better than a complete paraphrase.
+Treat a first-person draft as disposable production material, not the person's original words. Retain only the person's supported ideas, actions, concepts, and first-person stance. Rebuild the voice and argument in concise Korean. Remove generic reflection and biography-shaped filler. A short, exact statement is better than a complete paraphrase.
 
 ## Output
 
