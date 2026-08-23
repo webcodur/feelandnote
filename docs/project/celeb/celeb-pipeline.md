@@ -11,8 +11,6 @@
 > 원천은 코드다 — `packages/shared/src/constants/celeb-tiers.ts`. 목록·검색·사이트맵에
 > 어느 등급이 뜨는지는 그 파일을 보고, 여기 옮겨 적지 않는다.
 
-> ⛔ **감상 여정(`cultural_journey`)은 폐기된 제작 트랙이다. 어느 티어에서도 신규 작성하지 않는다.** 기존 데이터는 보존하되 새 인물에게 채우지 말고, 조사·발주 대상에서 제외한다. 상세 근거는 아래 「콘텐츠 개수 상태」 절 마지막 항목. 이 방침이 이 문서의 다른 서술보다 우선한다.
-
 | 티어 | 콘텐츠 수집 | 프로필 페이지 | 홈·검색·탐색 노출 | 실존 |
 |------|------------|-------------|------------------|------|
 | **full** | O | 콘텐츠 탭 표시 | O | O |
@@ -21,7 +19,7 @@
 
 **light** = 콘텐츠 유무와 무관하게 서비스에 등록할 가치가 있는 실존 인물의 최소 등급이다. 팩션 출연자나 에피소드 조연처럼 다른 인물과의 연결 때문에 등록한 정상적인 실존 인물도 `light`로 둔다. 콘텐츠가 0건이고 `content_research_confirmed_empty_at`이 비어 있으면 조사 대상으로 남기며, 영향력·스펙트럼·speech·i18n 등 실존 인물 트랙은 동일하게 수행한다.
 
-**fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 생몰은 특정 불가하면 비운다. 직군·국적·성별은 원전 근거로 채운다(집단·비인격 존재만 null 유지 — 규칙은 `celeb-1-basic-profile.md`). 감상 여정·영향력·스펙트럼 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 대신 기존 `contents` 한 건을 대표 원전으로 지정해 인물과 연결하며, 상세 화면 02번 구획에 「원전·등장 작품」을 표시한다. 이 연결은 인물이 콘텐츠를 감상했다는 뜻이 아니므로 `celeb_contents`에 넣지 않는다.
+**fiction** = **실존 인물이 아닌 신화·전설·허구 속 존재**(일리아스의 신·영웅 등). 생년은 추정, 몰년은 특정 불가하면 비운다. 직군·국적·성별은 원전 근거로 추정하여 채운다(집단·비인격 존재만 null 유지 — 규칙은 `celeb-1-basic-profile.md`). 영향력·스펙트럼 등 실존 인물 분석 트랙은 부적절하므로 생략한다. 대신 기존 `contents` 한 건을 대표 원전으로 지정해 인물과 연결하며, 상세 화면 02번 구획에 「원전·등장 작품」을 표시한다. 이 연결은 인물이 콘텐츠를 감상했다는 뜻이 아니므로 `celeb_contents`에 넣지 않는다.
 
 active 상세 페이지는 모든 티어가 색인 대상이다. 다만 제목과 설명은 티어마다 다르다.
 `full`은 실제 감상 기록이 있을 때만 그 종류와 건수를 쓰고, `light`는 인물 안내와 분석,
@@ -29,14 +27,97 @@ active 상세 페이지는 모든 티어가 색인 대상이다. 다만 제목�
 스펙트럼을 적용하지 않는다. 색인과 목록 노출의 실제 게이트는 위 코드 SSoT를 따른다.
 
 fiction은 basic 최소 정보와 아바타를 갖춘 뒤 active 프로필을 만들 수 있다.
-`virtual_monologue`는 비워 두며 `is_verified=false`여도 상단 검색, 팩션, 대표 원전 관계는
-정상 동작한다. 가상 독백은 서비스 노출과 신규 작성이 중단됐으므로 활성화 조건이나 후속
-파이프라인에 넣지 않는다. 기존 값의 보존 규칙은 `retire/virtual-monologue.md`를 따른다.
+`is_verified=false`여도 상단 검색, 팩션, 대표 원전 관계는 정상 동작한다.
 
 2026-08-05부터 **모든 티어의 신규 active 전환에는 `avatar_url`이 필수**다. DB 트리거와
 백오피스 상태 변경 경로가 이를 함께 강제한다. 기존 active 중 아바타가 없는 레거시 행은
-소급 비활성화하지 않지만, 아바타를 채우기 전까지 재활성화할 수 없다. 독백 부재는
-활성화 조건이 아니다.
+소급 비활성화하지 않지만, 아바타를 채우기 전까지 재활성화할 수 없다.
+
+2026-08-22에 **인물 탐구(`celeb_explanations.interpretive_*`)를 화면에서 닫았다.** 생성 품질이
+기준에 못 미쳐 내렸고, 인물 상세의 읽어보기 구획에는 **인물 안내(`plain_text`)만 남았다**
+(`sw/web/src/app/[locale]/(main)/celeb/[slug]/FigureReadingTabs.tsx`).
+DB의 `interpretive_*` 값은 보존하되 되살리지 않는다. 글의 작성·검수·게시 규칙은
+`person-reading.md`가 쥔다. 안내가 없을 때 화면이 어떻게 되는지는 아래 구획 표가 쥔다.
+
+DB가 강제하는 활성화·티어 조건은 `trg_celebs_active_requires_avatar`와
+`trg_celeb_full_requires_content` 둘뿐이다. **연결된 콘텐츠 자체의 메타
+(`content_locales`의 제목·저자·`thumbnail_url`·BOOK `isbn`·locale 행)는 활성화 조건이 아니다.**
+인물 데이터가 아니라 콘텐츠 데이터이고, 표지·ISBN은 수집 API가 주지 않으면 인물 쪽 작업으로
+풀리지 않는다. 콘텐츠 보완 절차는 `celeb-content-audit.md`가 쥔다.
+
+### 활성화 조건은 이 문서가 쥔다
+
+**`celeb-activation-audit` 스킬을 2026-08-23에 폐기했다.** 그 스킬의 「판정 계약」은 근거 없이
+쌓인 체크리스트였고, 네 곳이 사실과 어긋난 것으로 드러났다.
+
+| 필수로 적었던 것 | 실제 |
+|---|---|
+| 콘텐츠 ko/en 메타·BOOK ISBN | `celeb-content-audit.md`가 **정상 예외**로 규정한 상태다 |
+| 연결 콘텐츠가 **전부** `FINISHED` | 읽고 싶은 책(`WANT`)을 담는 것은 정상 기능이다 |
+| source URL **HTTP 2xx** | 실측 346건 실패 중 **진짜 죽은 링크는 1건**이고 나머지는 봇 차단이다 |
+| 인물 안내가 없으면 읽어보기가 빈 채 노출 | **자동으로 숨는다.** `availability.reading`이 false면 목차와 본문에서 함께 빠진다 |
+
+**활성화 조건은 화면을 근거로 세운다.** 「이 데이터가 없으면 인물 상세의 어느 구획이 비는가」를
+실제 컴포넌트에서 확인하고, 그 근거를 조건 옆에 적는다.
+
+`sw/web-bo/scripts/celeb/audit-activation.ts`는 **보유율 보고서**로만 쓴다. 그 출력의 「탈락」은
+참고값이고, 활성화 판단의 최종 근거가 아니다.
+
+#### 구획별 판정 (코드 실측 2026-08-23)
+
+인물 상세는 여덟 장이다(`celebSectionChapters.ts`). `celebServiceItems.ts` 끝의
+`.filter((item) => item.ready)`가 자료 없는 장을 목차에서 빼고 번호를 다시 매기며,
+`CelebRecordSections.tsx`가 그 목록에 남은 장만 렌더한다. **01 소개와 08 방명록만 `ready: true`로
+고정이고, 02~07은 전부 자동으로 숨는다.**
+
+| 장 | 렌더 필드 | 비면 | 활성화 필수? | 근거 파일 |
+|---|---|---|---|---|
+| 01 소개 | `celebs.nickname(_en)`·`avatar_url`·`title`·`headline`·`bio`·`profession`·`nationality`·`birth_date`·`death_date`·`portrait_url(_caption)`, `celeb_dialogues.lines->quote`·`->greeting` | **구획은 늘 뜬다.** 필드별로 그 줄만 사라진다. `nickname`이 비면 h1이 `Unknown`, `avatar_url`이 비면 이름 첫 글자 원, `portrait_url`이 비면 아바타로 대체 | **여기만 필수.** `nickname`·`avatar_url`·`headline`·`bio`는 없으면 그 자리가 빈다 | `detail/CelebHeroSection.tsx`, `CelebHeroPhoto.tsx`, `actions/user/getCelebBySlug.ts` |
+| 02 읽어보기 | `celeb_explanations.plain_text(_en)`, `published_at` 있는 행만 | 행이 없거나 미게시면 **구획이 숨는다**. 게시했는데 `plain_text`만 비면 빈 문단 하나로 노출 | 아님. 단 **게시 표시를 찍고 본문을 비우지 말 것** | `FigureReadingTabs.tsx`, `detail/useCelebServiceModel.ts`, `getCelebBySlug.ts` |
+| 03 서재 / 원전·등장 작품 | full: `celeb_contents`(`visibility='public'`) → `contents`·`content_locales` / fiction: `fiction_source_characters` → `fiction_source_contents` / light: **항상 없음**(`showLibrary = tier === 'full'`) | **숨는다.** full은 첫 4건 조회가 0건이면 숨는다 — 트리거는 행 존재만 보고 공개 여부를 안 본다 | 아님 | `detail/CelebRecordSections.tsx`, `LibraryTabs.tsx`, `actions/contents/getUserContents.ts`, `FictionSourceWorksSection.tsx` |
+| 04 연표 | `celeb_timeline_events` | **숨는다.** 좌표(`lat`·`lng`) 없는 항목만 있으면 지도 탭이 빠지고 연표만 남는다 | 아님 | `JourneySection.tsx`, `actions/celebs/getCelebTimelineEvents.ts` |
+| 05 관계 | `celeb_relations`·`celeb_relations_external` / `faction_atlas_members`(`hidden=false` + `celeb_tags.is_featured`·`slug`) / 동시대는 `birth_date` 겹침 | 셋 다 없어야 **숨는다.** 하나만 있으면 그 탭만 남는다. fiction은 코드가 동시대 탭을 제외한다 | 아님 | `celebServiceItems.ts`, `PeopleAndEraTabs.tsx`, `actions/celebs/getCelebSidePresence.ts` |
+| 06 분석 | `celeb_persona.persona` / `celeb_influence` | 둘 다 없어야 **숨는다.** fiction은 `getCelebSidePresence`가 무조건 false를 돌려주므로 항상 없다 | 아님 | `getCelebSidePresence.ts`, `FigureAnalysisTabs.tsx`, `actions/celebs/getCelebSideData.ts` |
+| 07 미디어 | `celeb_dialogues.lines(_en)` / `celebs.youtube_videos`의 `<locale>-longform`·`<locale>-shorts-N` | 둘 다 없어야 **숨는다.** 영상 키는 locale별이라 ko만 있으면 EN 화면에서 영상 탭이 빠진다. `lines`에 배열 키는 있는데 `DialogueSection`의 9종 키가 하나도 없으면 대사 탭이 열리고 내용이 null이 되어 **빈 상자가 남는다** | 아님. 단 **9종 밖 키만 넣지 말 것** | `FigureMediaTabs.tsx`, `DialogueSection.tsx`, `detail/celebDetailData.ts` |
+| 08 방명록 | `celeb_guestbook_entries` (방문자가 쓴다) | **구획은 늘 뜬다.** 글이 없으면 빈 목록과 작성 칸만 남는다 | 인물 데이터로 채울 수 없다 | `detail/CelebRecordSections.tsx`, `components/features/profile/GuestbookDeferred.tsx` |
+
+#### 최소 필수 조건
+
+**화면이 비는 것을 막는 조건은 01 소개의 필드와 「반쯤 채운 상태」 셋뿐이다.** 02~07은 자료가
+없으면 목차와 본문에서 함께 사라지므로 빈 구획을 만들지 않는다.
+
+| 조건 | 없으면 화면 어디가 비는가 | 지금 걸리는 활성 인물 |
+|---|---|---:|
+| `avatar_url` | 01의 대표 이미지가 이름 첫 글자 원으로 바뀐다 (트리거가 이미 강제) | 0 |
+| `nickname` | 01의 h1이 `Unknown`이 된다 | 0 |
+| `headline` | 이름 밑 한 줄 정의 자리가 빈다 | 0 |
+| `bio` | 01 하단 서술이 통째로 빈다 | 0 |
+| `profession`·`nationality`·`birth_date` | 이름 밑 배지 줄에서 그 항목이 빠진다. `birth_date`가 없으면 05의 동시대 인물 탭도 함께 사라진다 | 각 0 |
+| `nickname_en`·`headline_en`·`bio_en` | EN 화면이 한국어 원문을 그대로 띄우고 상단에 안내문이 붙는다 | 0 |
+| `celeb_explanations`: `published_at`을 찍었으면 `plain_text`가 있을 것 | 02가 빈 문단 하나로 노출된다 | 0 |
+| `celeb_dialogues.lines`: `quote`·`monologue`·`greeting`·`roll_call`·`deploy`·`battle_win`·`battle_draw`·`battle_lose`·`clash_attack` 중 1종 이상 | 07 대사 탭이 열리고 내용이 비어 빈 상자가 남는다 | 0 |
+| full 티어: `visibility='public'`인 `celeb_contents` 1건 이상 | 전부 비공개면 03 서재가 사라진다 (트리거는 공개 여부를 안 본다) | 0 |
+
+**아홉 조건 모두 지금 걸리는 인물이 0명이다.** 활성 1,858명(full 1,508 / light 270 / fiction 80)
+전원이 아바타·이름·한 줄 정의·소개·직군·국적·생년·영문본·게시된 인물 안내를 갖췄고,
+`celeb_explanations` 행 수는 전체 인물 수와 같으며 미게시 1,202건은 비활성 인물과 정확히 같다.
+즉 **활성화 게이트는 파이프라인이 이미 통과시켜 놓았고, 이 목록은 신규 활성화에만 쓰인다.**
+
+남아 있는 결손은 전부 「구획이 사라지는」 쪽이라 빈 화면을 만들지 않는다.
+
+| 결손 | 화면 결과 | 활성 인물 |
+|---|---|---:|
+| `lines->quote` 표시 불가 | 01의 인용 블록이 빠진다 | 15 (full 3·light 5·fiction 7) |
+| fiction 대표 원전 연결 0 | 03이 사라진다 | 2 (`memnon`·`penthesilea`) |
+| `celeb_timeline_events` 0 | 04가 사라진다 | 2 (`diomedes-of-thrace`·`taishang-laojun`) |
+| 관계·세력 둘 다 0 | 05가 사라진다 | 7 (전부 fiction) |
+| fiction 티어 | 06이 항상 없다 (코드가 강제) | 80 |
+| `wikidata_qid` 없음 | 02 하단 위키데이터 링크가 빠지고, full은 03 「창작」 탭이 안내 문구만 뜬다 | 290 (full 135) |
+| `portrait_url` 없음 | 아바타로 대체되어 빈 자리가 없다 | 1,266 |
+| ko 영상만 있음 | EN 화면에서 07 영상 탭이 빠진다 | 5 |
+
+구획 수 분포는 **full 8장 1,508명 · light 7장 270명 · fiction 7장 69명·6장 11명**이다.
+01과 08만 남는 인물은 0명이다.
 
 fiction은 홈 캐러셀·탐색·타임라인에서는 제외하지만 **상단 인물 검색에는 포함**한다. 팩션 영상·다른 인물·대표 원전 콘텐츠에서도 도달할 수 있다.
 
@@ -86,12 +167,18 @@ fiction은 홈 캐러셀·탐색·타임라인에서는 제외하지만 **상단
 | 《길가메시 서사시》 | 기존 contents | 7명 |
 | 《에누마 엘리시》 | Open Library `OL51041680M` | 4명 |
 | 《아서왕의 죽음》 | Open Library `OL6633760M` | 15명 |
+| 《삼국지연의》 | ISBN `9791160200164` | 3명 |
 
 - 《오디세이아》 5권 한 권 안에서도 제우스·아테나·헤르메스·포세이돈이 귀향에 직접 개입한다([원문](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Aabo%3Atlg%2C0012%2C002%3A5)).
 - 《신통기》는 제우스·헤라·아테나·아폴론·아레스의 계보([901행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0130%3Acard%3D901)), 아프로디테의 탄생([173행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0130%3Acard%3D173)), 헤르메스의 탄생([938행 이후](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0130%3Acard%3D938))을 직접 다룬다. 포세이돈도 Earth-Shaker로 계보에 포함된다.
 - 18개 신화·서사 팩션의 285배치를 정규화한 fiction 257명 전원이 프로필·태그에
   연결됐다. 20개 대표 원전의 관계는 285행이며, 중복 인물을 합친 255명이 하나
   이상의 원전에 연결된다. 아바타 없는 데이터형 프로필은 209명이다.
+- 초선·주창·축융부인은 진수의 《삼국지》(정사)에 없고 나관중의 《삼국지연의》가 만들어 낸
+  인물이다. 그래서 정사 판본이 아니라 연의 판본에 연결한다. 각각 8회 연환계
+  ([원문](https://zh.wikisource.org/wiki/三國演義/第008回)), 28회 관우 합류
+  ([원문](https://zh.wikisource.org/wiki/三國演義/第028回)), 90회 남만 전투
+  ([원문](https://zh.wikisource.org/wiki/三國演義/第090回))에서 등장한다.
 - 펜테실레이아·멤논은 《아이티오피스》의 인물임이 남은 줄거리에서 확인되지만
   ([Proclus 요약](https://www.theoi.com/Text/EpicCycle.html#Aethiopis)), 해당 작품은
   소실됐다. 후대 작품을 원전으로 둔갑시키지 않고 미연결로 보존한다.
@@ -147,7 +234,6 @@ light → full 승격: 콘텐츠 수집 후 `UPDATE celebs SET celeb_tier = 'ful
   한 건이라도 있으면 DB 가드가 거부한다.
 - `open`·`researching` 같은 진행 상태는 DB에 저장하지 않는다. 진행 중인 작업은
   오케스트레이터가 관리한다.
-- 폐기 전 감상여정 데이터는 보관만 하며 콘텐츠 조사에서 읽거나 쓰지 않는다.
 
 ---
 
@@ -202,8 +288,6 @@ basic ─┬─ content
 | C | 스펙트럼 | `celeb-5-spectrum.md` | basic |
 | D | Speech 트랙 | `celeb-speech.md` | basic |
 | — | 영문 번역 | `celeb-i18n.md` | 모든 트랙 완료 |
-
-> 감상 여정(`retire/celeb-3-cultural-journey.md`)은 **비활성이라 파이프라인에서 제외했다.** 룰북 파일은 기존 데이터 참조용으로 남겨 두었을 뿐이며, 신규 인물 작업에서 호출하지 않는다.
 
 ### light 파이프라인
 
@@ -299,7 +383,7 @@ SELECT public.complete_celeb_philosophy_rewrite('celeb-id', 'agent-01', '한국�
 SELECT public.fail_celeb_philosophy_rewrite('celeb-id', 'agent-01', 'reason', true);
 ```
 
-> `*_celeb_cultural_journey_rewrite` 계열 함수와 `cultural_journey_rewrite_v2` task_type은 **DB에 존재하지 않는다.** 호출하면 에러가 난다. 다른 트랙을 큐로 돌리려면 그 트랙 전용 함수·task_type을 먼저 만들어야 한다.
+> 위 `philosophy_rewrite_v2` 외의 트랙은 전용 함수·task_type이 DB에 없다. 호출하면 에러가 난다. 다른 트랙을 큐로 돌리려면 먼저 만들어야 한다.
 
 ### 운영 쿼리
 

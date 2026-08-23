@@ -31,6 +31,8 @@ import { useCelebSectionNavigation } from "./useCelebSectionNavigation";
 
 const SECTION_CLASS_NAME = `animate-fade-in ${styles.recordSection}`;
 const TAB_BOX_CLASS_NAME = "pt-0 md:pt-0";
+// 탭 없이 글만 담는 상자 — 여백과 그 근거는 CelebPageContent.module.css의 .proseSurface에 있다
+const PROSE_BOX_CLASS_NAME = styles.proseSurface;
 
 function SectionSurface({
   children,
@@ -127,10 +129,12 @@ export default function CelebRecordSections({
         {serviceItemsByKey.has("reading") && (
           <section id="reading" tabIndex={-1} className={SECTION_CLASS_NAME}>
             {renderSectionHeading("reading")}
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+            <SectionSurface className={PROSE_BOX_CLASS_NAME}>
               <FigureReadingTabs
                 item={serviceItemsByKey.get("reading")!}
                 reading={profile.reading}
+                name={profile.nickname}
+                wikidataQid={profile.wikidata_qid ?? null}
               />
             </SectionSurface>
           </section>
