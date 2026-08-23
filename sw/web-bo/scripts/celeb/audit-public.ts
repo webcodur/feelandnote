@@ -262,6 +262,7 @@ async function main() {
     const { data, error } = await db
       .from('faction_people')
       .select('id, cluster_id, celeb_id, name, quote, quote_en, quote_chunks, quote_en_chunks, quote_origin, epithet, epithet_en')
+      .eq('is_person', true)
       .order('id')
       .range(from, to)
     return { data: data as unknown as FactionPersonRow[] | null, error }

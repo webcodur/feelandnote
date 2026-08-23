@@ -252,6 +252,20 @@ async function run() {
     if (e.type !== 'influence' && e.type !== 'influenced') continue
     if (edges.has(`${e.from}|${e.to}|teacher`) || edges.has(`${e.from}|${e.to}|student`)) edges.delete(edgeKey(e))
   }
+  // 정리 3: 지기가 있는 쌍의 위키 동반자(P451)는 가계에 넣지 않는다.
+  // 헤파이스티온·토르-로키처럼 벗을 배우/동반자 칸에 세우던 사고를 막는다.
+  const friendPairs = new Set<string>()
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await supabase.from('celeb_relations')
+      .select('from_id,to_id').eq('rel_type', 'friend').range(from, from + 999)
+    if (error) throw error
+    for (const r of data ?? []) friendPairs.add([r.from_id, r.to_id].sort().join('|'))
+    if (!data || data.length < 1000) break
+  }
+  for (const e of [...edges.values()]) {
+    if (e.type !== 'partner') continue
+    if (friendPairs.has([e.from, e.to].sort().join('|'))) edges.delete(edgeKey(e))
+  }
 
   // 공동 창업 간선 — 이미 더 가까운 관계(가족·사제)가 있는 쌍에는 얹지 않는다.
   // 같은 쌍이 여러 회사를 함께 세웠으면 조직 이름을 병기한다(머스크·틸: 페이팔 + OpenAI 후원 등).
