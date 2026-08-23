@@ -7,7 +7,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { LinkPending } from "@/components/ui/pending";
 
@@ -74,16 +74,13 @@ export default function HubSection({
 
         {/* 좌우 화살표 + 제목 (아랫줄) */}
         <div className="flex items-center gap-3">
+          {/* 첫 구획에는 이전이 없다 — 끝으로 감는 단추를 두지 않고 자리만 비워 둔다.
+              자리를 지워 버리면 제목이 구획마다 좌우로 흔들린다 */}
           {hasNav && (
             index === 0 ? (
-              <button
-                type="button"
-                onClick={() => scrollTo(total! - 1)}
-                className="p-1.5 rounded-full text-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
-                aria-label={t("last")}
-              >
-                <ChevronsLeft size={16} />
-              </button>
+              <span aria-hidden className="p-1.5 invisible">
+                <ChevronLeft size={16} />
+              </span>
             ) : (
               <button
                 type="button"
@@ -102,14 +99,9 @@ export default function HubSection({
           </h2>
           {hasNav && (
             index === total! - 1 ? (
-              <button
-                type="button"
-                onClick={() => scrollTo(0)}
-                className="p-1.5 rounded-full text-[#d4af37]/50 hover:text-[#d4af37] hover:bg-[#d4af37]/10 transition-colors"
-                aria-label={t("first")}
-              >
-                <ChevronsRight size={16} />
-              </button>
+              <span aria-hidden className="p-1.5 invisible">
+                <ChevronRight size={16} />
+              </span>
             ) : (
               <button
                 type="button"

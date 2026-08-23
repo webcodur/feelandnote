@@ -14,7 +14,8 @@
 | locale별 홈페이지 제목·내부 페이지 제목 템플릿·설명·H1·가시 별칭 | `sw/web/messages/{ko,en}/core.json`의 `site` |
 | 홈페이지 자기참조 canonical·hreflang | `sw/web/src/app/[locale]/(main)/page.tsx` → `getLocalizedAlternates('/')` |
 | 내부 페이지 제목 접미사 적용 | `sw/web/src/app/[locale]/layout.tsx` → `title.template` |
-| 홈페이지 가시 브랜드·접근성 제목 | `sw/web/src/components/features/home/HomeTabSection.tsx` |
+| 홈페이지 가시 브랜드·접근성 제목 | `sw/web/src/components/features/home/HomeBrandHeader.tsx` |
+| 홈 구획 순서·목차 라벨·구획별 더보기 대상 | `sw/web/src/components/shared/hubSectionUtils.tsx`의 `HOME_SECTIONS` |
 
 운영 규칙:
 
@@ -300,6 +301,29 @@ verification: {
 },
 ```
 
+## 내부 링크 통로
+
+사이트맵은 "URL이 있다"만 알린다. **어느 페이지가 중요한지는 내부 링크가 말한다.** 인물 1,858명
+전원이 `/explore/directory` 한 장에서만 링크되던 때, 링크 1,777개가 한 곳에 몰려 모든 인물이
+똑같이 1/1777이었고 크롤러는 크롤 순서를 정할 근거가 없었다. 작품 사이트맵 제외(08-14)와 별개
+축의 병목이라 통로를 층으로 나눴다.
+
+| 층 | 화면 | 인물 링크 | 단일원천 |
+|---|---|---:|---|
+| 1 | 홈 | 12 (기록순) | `components/features/home/HomeFigureLinks.tsx` |
+| 2 | `/explore` | 24 (최근 30일 조회순, 유동) | `app/[locale]/(main)/explore/sections.tsx`의 `FigureLinksSection` |
+| 3 | `/explore/directory` | 전량 + 직군 명부 15장으로 분기 | `app/[locale]/(main)/explore/directory/` |
+| 4 | 인물 상세 ↔ 인물 상세 | 최대 12 (공개 관계 인물) | `app/[locale]/(main)/celeb/[slug]/RelatedFigureLinks.tsx` |
+
+- **직군 명부**(`/explore/directory/{profession}`): 직군 목록은 `CELEB_PROFESSIONS` 상수가 쥔다.
+  상수 밖 값은 404다. 15장 × ko·en = 30 URL을 `core.xml`에 싣는다. 초성이 아니라 직군으로 쪼갠
+  이유는 "기업가 인물 목록"이 실제 검색어와 이어지고 "ㄱ"은 그렇지 않기 때문이다.
+- **관계 링크**: 관계 그래프(`RelationGraphSection`)는 모달로만 이동해 크롤러에게 막다른 길이다.
+  서버가 이미 들고 있는 `profile.relations`에서 `slug`가 있는(=공개) 인물만 골라 실제 `<a>`로
+  세운다. 추가 조회는 없다.
+- **홈 링크 수를 늘리지 않는다**: 12를 24로 되돌리면 링크 하나의 무게가 옅어지고 화면에는 명단
+  벽이 선다. 커버리지는 3층(직군 명부)이 맡는다.
+
 ## 사이트맵
 
 - **데이터·XML 단일원천**: `sw/web/src/lib/sitemap.ts`
@@ -307,7 +331,7 @@ verification: {
 - **하위 라우트**: `sw/web/src/app/sitemaps/[name]/route.ts` → `/sitemaps/*.xml`
 - **방식**: Supabase REST API 직접 fetch (`@supabase/supabase-js`는 메타데이터 라우트에서 동작 안 함)
 - **캐시**: 인덱스·하위 파일 모두 `revalidate = 86400` (ISR 하루. Next.js route config 정적 분석 때문에 두 route 파일의 값은 숫자 리터럴이어야 하며, 데이터 fetch 주기는 `lib/sitemap.ts`가 쥔다)
-- **URL 구성**(2026-08-14 배포 후 프로덕션 실측): 정적·기관 선정 `core.xml` 198 URL + 인물 1,858명 3,716 URL = 총 **3,914개**. 각 경로가 ko·en 2 URL로 나간다. DB 증가에 따라 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
+- **URL 구성**(2026-08-22 로컬 실측): 정적·기관 선정·직군 명부 `core.xml` 228 URL + 인물 1,858명 3,716 URL = 총 **3,944개**. 각 경로가 ko·en 2 URL로 나간다. 08-22에 직군 명부 15장(30 URL)이 `core`에 들어와 198 → 228이 됐다. DB 증가에 따라 바뀌므로 규약값이 아니라 시각을 붙인 스냅샷이다.
 - **분할 구조**: 인덱스는 `core`·`celebs` 2개 파일을 가리킨다. 종전 `contents-0..7` 8개는 2026-08-14에 제거했고 해당 주소는 404다.
 - **작품 상세 제외**(2026-08-14): `/content/{uuid}`는 사이트맵에 넣지 않는다. 본문이 출판사 소개문 복제라 순위가 나올 수 없는데 제출량의 79%를 차지해 크롤 예산을 소진시켰다. 판정 근거는 「색인 회복 실패 재조사」절이 쥔다. 되돌리려면 그 절의 3번 근거를 먼저 반박해야 한다.
 - **분할 이유**: 종전 단일 파일은 9.21MiB로 네이버의 10MB 제한 직전이었다. 작품 제외 후에는 여유가 크지만, 인물 증가에 대비해 인덱스 구조는 유지한다. 기존 제출 주소 `/sitemap.xml`은 인덱스로 그대로다. [네이버 서치어드바이저 — RSS 및 사이트맵 제출](https://searchadvisor.naver.com/guide/request-feed)

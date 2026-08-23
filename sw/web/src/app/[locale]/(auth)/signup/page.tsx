@@ -5,6 +5,7 @@
 */
 
 import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
 import SignupForm from './SignupForm'
 
 export async function generateMetadata() {
@@ -31,13 +32,13 @@ export default async function Page() {
         {/* 이용약관 */}
         <p className="text-center text-sm text-text-secondary">
           {t('signup.termsPrefix')}{' '}
-          <a href="/terms" className="underline hover:text-text-secondary">
+          <Link href="/terms" className="underline hover:text-text-secondary">
             {t('terms')}
-          </a>
+          </Link>
           {t('signup.termsAnd')}{' '}
-          <a href="/privacy" className="underline hover:text-text-secondary">
+          <Link href="/privacy" className="underline hover:text-text-secondary">
             {t('privacy')}
-          </a>
+          </Link>
           {t('signup.termsSuffix')}
         </p>
       </div>

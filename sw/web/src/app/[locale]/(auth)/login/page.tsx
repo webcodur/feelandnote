@@ -77,13 +77,13 @@ export default function Page() {
         {/* 이용약관 */}
         <p className="text-center text-sm text-text-secondary">
           {t('login.termsPrefix')}{' '}
-          <a href="/terms" className="underline hover:text-text-secondary">
+          <Link href="/terms" className="underline hover:text-text-secondary">
             {t('terms')}
-          </a>
+          </Link>
           {t('login.termsAnd')}{' '}
-          <a href="/privacy" className="underline hover:text-text-secondary">
+          <Link href="/privacy" className="underline hover:text-text-secondary">
             {t('privacy')}
-          </a>
+          </Link>
           {t('login.termsSuffix')}
         </p>
       </div>

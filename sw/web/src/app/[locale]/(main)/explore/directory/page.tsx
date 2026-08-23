@@ -84,26 +84,30 @@ export default async function DirectoryPage({ params }: PageProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      {/* 직군 범례 */}
+      {/* 직군 범례 — 각 직군의 개별 명부로 가는 링크를 겸한다 */}
       <div className="mb-8 space-y-3">
         <p className="text-text-secondary text-sm">
           {t("totalCount", { count: totalCount })}
         </p>
-        <div className="flex flex-wrap gap-x-4 gap-y-2">
+        <nav aria-label={t("professionIndexTitle")} className="flex flex-wrap gap-x-4 gap-y-2">
           {CELEB_PROFESSIONS.map((prof) => {
             const Icon = PROFESSION_ICONS[prof.value];
             const color = PROFESSION_COLORS[prof.value] ?? "";
             if (!Icon) return null;
             return (
-              <span key={prof.value} className="inline-flex items-center gap-1">
+              <a
+                key={prof.value}
+                href={`${localePrefix}/explore/directory/${prof.value}`}
+                className="inline-flex items-center gap-1 hover:text-accent"
+              >
                 <Icon size={13} className={color} />
                 <span className="text-xs">
                   {locale === "en" ? prof.label_en : prof.label}
                 </span>
-              </span>
+              </a>
             );
           })}
-        </div>
+        </nav>
       </div>
 
       {/* 앵커 네비게이션 */}

@@ -2,7 +2,6 @@
   파일명: /components/features/home/IntroFrame.tsx
   기능: 서비스 첫인사 액자 (알렉산더·나폴레옹·링컨 사례 + 표어 + 영감의 연쇄 안내)
   책임: 홈 환영판과 /about이 같은 액자를 그리도록 한 벌로 묶는다.
-        HomeTabSection에 있던 것을 옮겨 왔다(2026-08-01, 환영판·소개 통합).
 */
 
 "use client";

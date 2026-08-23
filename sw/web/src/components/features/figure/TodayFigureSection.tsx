@@ -2,16 +2,14 @@
 
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { Avatar, BlurDissolve } from "@/components/ui";
-import SectionHeader from "@/components/shared/SectionHeader";
 import { ContentCard } from "@/components/ui/cards";
 import { ContentTypeSummary } from "@/components/ui/ContentTypeSummary";
-import { CELEB_PROFESSIONS, getCelebProfessionLabel } from "@/constants/celebProfessions";
-import { Calendar, ArrowRight, BookOpen, Newspaper, Cake } from "lucide-react";
+import { Calendar, BookOpen, Newspaper, Cake } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ContentType } from "@/types/database";
 import { getLocalizedContent } from "@/lib/utils/editions";
@@ -57,26 +55,20 @@ interface TodayFigureSectionProps {
     figure: Figure;
     contents: Content[];
     source?: TodayFigureSource;
+    /** 홈 HubSection 안에 들어갈 때 true — 제목·부제는 밖이 쥐므로 날짜 뱃지만 남긴다 */
+    embedded?: boolean;
 }
 
-/** 마지막 글자의 받침 유무로 '이/가' 반환 (Korean only) */
-function subjectParticle(name: string): string {
-  const last = name.charCodeAt(name.length - 1);
-  if (last < 0xac00 || last > 0xd7a3) return "이";
-  return (last - 0xac00) % 28 === 0 ? "가" : "이";
-}
-
-export default function TodayFigureSection({ figure, contents, source }: TodayFigureSectionProps) {
+export default function TodayFigureSection({ figure, contents, source, embedded = false }: TodayFigureSectionProps) {
     const t = useTranslations("todayFigure");
     const tProfession = useTranslations("profession");
     const locale = useLocale();
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
-    if (!figure) return null;
-
-    const displayName = locale === "en" && figure.nickname_en ? figure.nickname_en : figure.nickname;
-    const displayBio = locale === "en" && figure.bio_en ? figure.bio_en : figure.bio;
-    const professionLabel = figure.profession ? tProfession(figure.profession) : "";
+    // figure 부재의 이른 반환은 모든 훅(useMemo) 뒤에서 한다 — react-hooks/rules-of-hooks
+    const displayName = (locale === "en" && figure?.nickname_en ? figure.nickname_en : figure?.nickname) ?? "";
+    const displayBio = locale === "en" && figure?.bio_en ? figure.bio_en : figure?.bio;
+    const professionLabel = figure?.profession ? tProfession(figure.profession) : "";
 
     const filteredContents = categoryFilter
         ? contents.filter(c => c.type === categoryFilter)
@@ -86,47 +78,55 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
     const today = new Date();
     const dateStr = t("dateLabel", { month: today.getMonth() + 1, day: today.getDate() });
 
-    // 라이브러리 라벨 빌드
-    const libraryLabel = useMemo(() => {
-        const counts = { BOOK: 0, VIDEO: 0, MUSIC: 0, GAME: 0 };
-        for (const c of contents) {
-            if (c.type in counts) counts[c.type as keyof typeof counts]++;
-        }
-        const parts: string[] = [];
-        if (counts.BOOK > 0) parts.push(t("bookCount", { count: counts.BOOK }));
-        if (counts.VIDEO > 0) parts.push(t("videoCount", { count: counts.VIDEO }));
-        if (counts.MUSIC > 0) parts.push(t("musicCount", { count: counts.MUSIC }));
-        if (counts.GAME > 0) parts.push(t("gameCount", { count: counts.GAME }));
+    // 제목은 한 줄이다. 종류별 개수는 바로 아래 분류 칩이 이미 말하므로 문구로 되풀이하지 않는다
+    const libraryLabel = t("libraryLabelEmpty", {
+        profession: professionLabel,
+        nickname: displayName,
+    });
 
-        if (parts.length === 0) {
-            return t("libraryLabelEmpty", { profession: professionLabel, nickname: displayName });
-        }
-        const particle = locale === "ko" ? subjectParticle(displayName) : "";
-        return t.rich("libraryLabelFull", { 
-            profession: professionLabel, 
-            nickname: displayName, 
-            particle, 
-            items: parts.join(", "),
-            colored: (chunks) => <span className="text-[#E6D5A7] font-medium text-[19px] sm:text-[22px] tracking-wide inline-block pt-2 pb-1">{chunks}</span>
-        });
-    }, [contents, displayName, professionLabel, locale, t]);
+    if (!figure) return null;
 
     return (
         <div className="w-full">
             {/* 섹션 헤더 */}
             <div className="text-center mb-6 md:mb-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium mb-2">
-                    <Calendar size={12} />
-                    <span>{dateStr}</span>
+                {/* 날짜 알약은 자기 줄을 차지해야 한다 — 블록 래퍼를 빼면 아래 인물 카드(inline-flex)와
+                    한 줄에 붙어 인물이 오른쪽으로 밀린다(부제를 감추는 embedded에서 드러났다) */}
+                <div className="mb-2">
+                    {/* 선정 사유 마크가 알약 오른쪽 위에 걸리므로 기준점을 알약에 둔다 */}
+                    <div className="relative inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">
+                        <Calendar size={12} />
+                        <span>{dateStr}</span>
+                        {source?.type === 'birthday' && (
+                            <span
+                                title={t("birthdayChip")}
+                                className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full border border-[#121212] bg-amber-500/90 text-black"
+                            >
+                                <Cake size={9} strokeWidth={2.5} />
+                                <span className="sr-only">{t("birthdayChip")}</span>
+                            </span>
+                        )}
+                        {source?.type === 'news' && (
+                            <span
+                                title={t("newsChip", { count: source.newsCount })}
+                                className="absolute -right-1.5 -top-1.5 flex size-4 items-center justify-center rounded-full border border-[#121212] bg-blue-500/90 text-white"
+                            >
+                                <Newspaper size={9} strokeWidth={2.5} />
+                                <span className="sr-only">{t("newsChip", { count: source.newsCount })}</span>
+                            </span>
+                        )}
+                    </div>
                 </div>
-                <p className="text-sm mb-4">
-                    {t("subtitle")}
-                </p>
+                {!embedded && (
+                    <p className="text-sm mb-4">
+                        {t("subtitle")}
+                    </p>
+                )}
 
                 {/* 인물 프로필 */}
                 <Link
                     href={`/celeb/${figure.slug || figure.id}`}
-                    className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl transition-all duration-500 hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
+                    className="group relative inline-flex flex-col items-center gap-5 mb-0 py-6 px-10 rounded-2xl hover:bg-gradient-to-b hover:from-white/5 hover:to-transparent"
                 >
                     <div className="relative">
                         <BlurDissolve className="inline-block">
@@ -134,7 +134,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                                 url={figure.avatar_url}
                                 name={displayName}
                                 size="2xl"
-                                className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)] transition-all duration-500"
+                                className="ring-2 ring-white/10 group-hover:ring-accent/50 group-hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]"
                             />
                         </BlurDissolve>
                         {/* 콘텐츠 개수 뱃지 */}
@@ -147,7 +147,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     </div>
 
                     <div className="text-center space-y-2">
-                        <h2 className="text-3xl md:text-4xl font-serif font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent transition-all duration-500">
+                        <h2 className="text-3xl md:text-4xl font-serif font-bold text-text-primary group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-accent group-hover:via-amber-200 group-hover:to-accent">
                             {displayName}
                         </h2>
                         <div className="flex items-center justify-center gap-3">
@@ -158,28 +158,6 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                     </div>
                 </Link>
 
-                {/* 선정 과정 안내 */}
-                {source?.type === 'birthday' && (
-                    <div className="max-w-md mx-auto mt-2 mb-2">
-                        <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20">
-                            <Cake size={14} className="text-amber-400 shrink-0" />
-                            <p className="text-xs text-amber-300/90">
-                                {t("birthdaySelected")}
-                            </p>
-                        </div>
-                    </div>
-                )}
-                {source?.type === 'news' && (
-                    <div className="max-w-md mx-auto mt-2 mb-2">
-                        <div className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                            <Newspaper size={14} className="text-blue-400 shrink-0" />
-                            <p className="text-xs text-blue-300/90">
-                                {t("newsSelected", { count: source.newsCount })}
-                            </p>
-                        </div>
-                    </div>
-                )}
-
                 {/* 간단한 소개글 */}
                 {displayBio && (
                     <p className="text-center text-sm text-text-secondary max-w-xl mx-auto mb-4 line-clamp-2 mt-2 px-4 break-keep">
@@ -188,37 +166,37 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                 )}
             </div>
 
-            {/* 콘텐츠 리스트 (Grid) */}
-            <div className="space-y-4 min-h-[200px]">
-                <SectionHeader
-                    title={libraryLabel}
-                    label="LEGACY"
-                    description={
-                        <Link
-                            href={`/celeb/${figure.slug || figure.id}`}
-                            className="inline-flex items-center gap-1.5 px-4 py-2 mt-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-accent/30 hover:text-accent transition-all group"
-                        >
-                            <span>{t("guestbookCta")}</span>
-                            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                        </Link>
-                    }
-                />
+            <div className="min-h-[200px]">
+                {/* 제목 — 가로선 대신 이 문구만 박스로 감싼다. 카드까지 묶으면 서가 전체가
+                    액자에 갇혀 답답하고, 구획 경계가 이중이 된다 */}
+                <div className="mx-auto mb-6 w-fit max-w-full rounded-2xl border border-white/10 bg-white/[0.02] px-5 py-4 md:px-8 md:py-5">
+                    <h3
+                        className={cn(
+                            "text-center font-serif font-black text-text-primary leading-[1.4] whitespace-pre-line",
+                            // 홈에서는 구획 제목(오늘의 인물)의 아래 위계다
+                            embedded ? "text-lg sm:text-xl" : "text-2xl sm:text-3xl",
+                        )}
+                    >
+                        {libraryLabel}
+                    </h3>
 
-                {/* 타입별 필터 (ContentTypeSummary) */}
-                <ContentTypeSummary
-                    items={contents}
-                    value={categoryFilter}
-                    onChange={(type) => setCategoryFilter(type)}
-                    size="md"
-                    className="mb-8"
-                />
+                    {/* 종류별 개수는 이 칩이 말한다 — 제목에 "6권의 책"을 또 쓰지 않는다 */}
+                    <ContentTypeSummary
+                        items={contents}
+                        value={categoryFilter}
+                        onChange={(type) => setCategoryFilter(type)}
+                        size="md"
+                        className="mt-4"
+                    />
+                </div>
 
                 {filteredContents.length > 0 ? (
                     <div className={cn(
                         "grid gap-3 md:gap-4",
                         "grid-cols-1 md:grid-cols-2"
                     )}>
-                        {filteredContents.slice(0, 8).map((content) => (
+                        {/* 홈은 티저다 — 두 행까지만 세우고 나머지는 상세(전체 보기)로 보낸다 */}
+                        {filteredContents.slice(0, 4).map((content) => (
                             <ContentCard
                                 key={content.id}
                                 contentId={content.id}
@@ -234,7 +212,7 @@ export default function TodayFigureSection({ figure, contents, source }: TodayFi
                                 heightClass="h-[280px]"
                                 recommendable={true}
                                 userContentId={content.user_content_id}
-                                className="shadow-lg transition-all"
+                                className="shadow-lg"
                                 titleKo={content.title_ko}
                                 titleEn={content.title_en}
                                 creatorEn={content.creator_en}
