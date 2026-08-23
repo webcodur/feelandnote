@@ -1,9 +1,9 @@
 # 환경변수 · 비밀값 SSoT
 
-> **최종 실측 체크: 26.07.31** — 저장소 내 `.env` 3종·`sw/web/credentials/ga-service-account.json`·`.mcp.json` 전량 대조, 앱별 `process.env` 참조 실측
+> **최종 실측 체크: 26.08.22** — 저장소 내 `.env` 3종·`credentials/` 3곳·`.mcp.json` 전량 대조, 앱별 `process.env` 참조 실측
 
 **이 저장소는 비밀값을 커밋하지 않는다.** `.gitignore`가 `.env`·`.env.*`·`.mcp.json`·`**/credentials/`를 모두 제외한다.
-그래서 `git clone`만으로는 어떤 앱도 뜨지 않는다. **아래 파일 6종을 사람이 직접 옮겨야 한다.**
+그래서 `git clone`만으로는 어떤 앱도 뜨지 않는다. **아래 파일 7종을 사람이 직접 옮겨야 한다.**
 
 값 자체는 이 문서에 적지 않는다. 이 문서가 답하는 것은 **"어떤 파일이, 어디에, 무엇을 담고 있어야 하는가"**다.
 
@@ -17,8 +17,18 @@
 | 2 | `.env` | `sw/web-bo/` | 백오피스가 뜨지 않음 |
 | 3 | `.env` | `sw/remotion/` | 영상 음성 합성·R2 업로드·DB 조회 전부 실패 |
 | 4 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 유입 통계(GA4) 조회 불가. 웹 구동 자체는 됨 |
-| 5 | `.mcp.json` | 저장소 루트 | AI 도구에서 Supabase·검색 콘솔 조회 불가. 서비스 구동과 무관 |
-| 6 | `.claude/settings.local.json` | 저장소 루트 | Claude Code 개인 설정만. 서비스와 무관 |
+| 5 | `client_secret.json`·`youtube_token.json`·`youtube_token_en.json` | `sw/remotion/credentials/` | 🔴 **유튜브 업로드·메타 갱신·삭제 전부 불가** (KO·EN 채널 OAuth. `scripts/youtube/youtube-core.ts`가 읽는다) |
+| 6 | `.mcp.json` | 저장소 루트 | AI 도구에서 Supabase·검색 콘솔 조회 불가. 서비스 구동과 무관 |
+| 7 | `.claude/settings.local.json` | 저장소 루트 | Claude Code 개인 설정만. 서비스와 무관 |
+
+루트 `credentials/ga-service-account.json`도 남아 있으나 **참조처가 없는 사본**이다(전부 `sw/web/credentials/` 경로만 읽는다). 옮기지 않아도 된다.
+
+저장소 **밖** 파일도 2종 있다. `.mcp.json`이 경로로 가리키므로 없으면 해당 MCP 서버만 죽는다(서비스 구동과 무관).
+
+| 파일 | 위치 | 용도 |
+|------|------|------|
+| `ga-credentials.json` | `C:/Users/<사용자>/.claude/` | 검색 콘솔 MCP 인증 |
+| `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
 **`sw/audio-bo`는 `.env`가 없다** — 로컬 작업 폴더 경로를 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)으로 박아 뒀다. 다른 컴퓨터에서 폴더 위치가 다르면 §5를 본다.
@@ -80,7 +90,9 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 
 | 이름 | 용도 | 발급 |
 |------|------|------|
-| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 책 검색 (현행 주력) | 네이버 개발자센터 |
+| `KAKAO_REST_API_KEY` | 책 검색 (한국어판 현행 주력. 영문 원서는 OpenLibrary — 키 불요) | 카카오 개발자센터 |
+| `NAVER_CLIENT_ID` / `NAVER_CLIENT_SECRET` | 블로그·이미지·뉴스 검색. **책 검색에는 더 쓰지 않는다** | 네이버 개발자센터 |
+| `LASTFM_API_KEY` | 음악 메타 보강 (web만. 없으면 조용히 건너뜀) | Last.fm API |
 | `TMDB_API_KEY` | 영화·드라마 | TMDB |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | 게임(IGDB는 트위치 인증을 쓴다) | Twitch 개발자 콘솔 |
 | (없음) | 음악(iTunes Search API) | 인증·키 없이 사용. IP 속도 제한을 지킨다 |
@@ -161,7 +173,8 @@ Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UT
 | 서버 | 담고 있는 것 |
 |------|-------------|
 | `supabase` | 🔴 Supabase 개인 접근 토큰(실행 인자에 평문) |
-| `google-search-console` | `GOOGLE_APPLICATION_CREDENTIALS` — 구글 인증 파일 경로 |
+| `google-search-console` | `GOOGLE_APPLICATION_CREDENTIALS` — 구글 인증 파일 경로(`C:/Users/<사용자>/.claude/ga-credentials.json`, 저장소 밖) |
+| `obscura` | 비밀값 없음. 로컬 실행 파일 경로(`C:\Tools\obscura\`)만 가리킨다 |
 
 > 이 파일이 커밋되면 **깃허브가 토큰을 감지해 자동 폐기**시킨다. `.gitignore`에 이미 들어 있으니 해제하지 않는다.
 
@@ -177,7 +190,13 @@ Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UT
 | `GPT_SOVITS_ROOT` | `D:\GPT-SoVITS\GPT-SoVITS-v2pro-20250604` | 음성 합성 도구 설치 위치 |
 | `INTERVIEW_CLEANER_ROOT` | `D:\audios\interview-cleaner` | 받아쓰기 도구 위치 |
 
-영상 자료(`sw/remotion/public/episodes`·`factions`·`music`·`covers`)도 통째로 추적 대상이 아니다. **저장소를 복제해도 영상 자료는 따라오지 않는다** — 별도로 옮긴다.
+영상 자료(`sw/remotion/public/episodes`·`factions`·`music`·`covers`)도 통째로 추적 대상이 아니다. **저장소를 복제해도 영상 자료는 따라오지 않는다** — 별도로 옮긴다. 26.08.22 실측 규모는 episodes 3.7GB(6,628파일)·factions 3.1GB(3,964파일)·music 138MB·covers 32MB로, 합쳐 약 7GB다. 외장 저장소나 로컬 네트워크로 옮긴다.
+
+그 밖에 새 컴퓨터에서 챙길 것:
+
+- **`.claude/skills/` 정션 재생성** — `.agents/skills/`를 가리키는 로컬 정션이라 복제로 따라오지 않는다. `.agents/link-skills.ps1`을 실행해 다시 만든다.
+- **안드로이드 서명 키** — `sw/android/keystore.properties`와 `*.jks`는 추적 제외 대상이며 현재 저장소 안에 실물이 없다(예시 파일만 있다). 앱 서명·출시 단계라면 서명 키를 보관처에서 따로 옮긴다.
+- **음성 작업 폴더** — 위 표의 `D:\audios\...`·`D:\GPT-SoVITS\...`는 저장소 밖 별도 설치물이다. 음성 학습·합성을 쓸 때만 필요하다.
 
 ---
 
@@ -188,5 +207,6 @@ Vercel의 예약 실행 설정은 `sw/web/vercel.json`에 있다(매일 15:05 UT
 3. ElevenLabs·Gemini·TMDB 등 → 각 콘솔에서 키 폐기 후 재발급
 4. 구글 서비스 계정 → 키 삭제 후 새 키 내려받아 `sw/web/credentials/ga-service-account.json` 교체
 5. Supabase 개인 접근 토큰 → 폐기 후 `.mcp.json` 갱신
+6. 유튜브 OAuth → 구글 클라우드 콘솔에서 OAuth 클라이언트 비밀 재발급, `sw/remotion/credentials/client_secret.json` 교체 후 KO·EN 채널 토큰 재인증
 
 과금이 붙는 것은 ElevenLabs·Gemini 유료 키·구글 TTS다. 유출 시 여기부터 잠근다.

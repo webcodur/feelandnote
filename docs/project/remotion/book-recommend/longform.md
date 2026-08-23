@@ -141,12 +141,11 @@ const labelSummaryFrom = visual
 
 DB 소스 매핑과 필드별 작성 기준은 **[writer/0-draft.md](writer/0-draft.md)** 참조. 아래는 JSON 변환 시 기술적 체크.
 
-1. cultural_journey → 1인칭 감상철학 재작성 (speech_tone 반영)
-2. **category**: DB `contents.type`이 BOOK이 아닌 항목은 `"category": "VIDEO"` 등 필수 추가
-3. stats: celebCount, celebNames (DB 조회)
-4. publishYear: 고대 작품은 "기원전 X세기" 형식
-5. TTS 오버라이드: 숫자 → 한글, 외래어 발음 조정
-6. **표지 이미지**: 한영 양쪽 `content_locales`에 유효한 `thumbnail_url` 필수. 외부 URL은 `public/covers/`에 로컬 다운로드
+1. **category**: DB `contents.type`이 BOOK이 아닌 항목은 `"category": "VIDEO"` 등 필수 추가
+2. stats: celebCount, celebNames (DB 조회)
+3. publishYear: 고대 작품은 "기원전 X세기" 형식
+4. TTS 오버라이드: 숫자 → 한글, 외래어 발음 조정
+5. **표지 이미지**: 한영 양쪽 `content_locales`에 유효한 `thumbnail_url` 필수. 외부 URL은 `public/covers/`에 로컬 다운로드
 
 ---
 

@@ -9,7 +9,7 @@
 ## Supabase (MCP 서버)
 DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
-- **플랜**: Free (Egress 5.5GB/월, 쿼터 리필 주기: 매월 5일경)
+- **플랜**: Pro (Egress 250GB/월, 청구 주기 매월 3일 시작. 26.08.23 실측 사용률 5% — Free 복귀는 egress 실측 월 ~21GB로 불가, 절감 경로는 `docs/todo/web-deployment-platform-research.md` Phase 2)
 
 ### Cloudflare 앞단 캐시 (2026-08-16 가동)
 
@@ -411,7 +411,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 | 워크플로우 | 스케줄 | 설명 |
 |-----------|--------|------|
-| `keep-alive.yml` | `0 */6 * * *` (6시간 간격) | Supabase Free 플랜 자동 일시정지 방지 |
+| `keep-alive.yml` | `0 */6 * * *` (6시간 간격) | Supabase Free 플랜 자동 일시정지 방지 — **Pro 전환으로 목적 소멸(26.08.23). 삭제 후보, 지시 대기** |
 | `warm-web.yml` | `17 * * * *` (매시) | 허브 화면 6개(`/`, `/explore`, `/explore/spectrum`, `/explore/ranking`, `/explore/figures`, `/library`)를 한 번씩 열어 데이터 캐시를 데운다. 배포로 캐시 키가 바뀐 뒤 최대 1시간 안에 회복. Vercel Hobby 크론이 하루 1회라 여기서 돈다 |
 
 - Supabase REST API에 간단한 SELECT 쿼리를 보내 프로젝트를 깨운 상태로 유지
