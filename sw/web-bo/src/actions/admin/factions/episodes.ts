@@ -94,7 +94,7 @@ export async function listFactionEpisodes(): Promise<FactionEpisodeSummary[]> {
     db.from('faction_clusters').select('id,group_id').order('id').range(from, to))
 
   const people = await selectAllPages<Record<string, unknown>>((from, to) =>
-    db.from('faction_people').select('id,cluster_id').order('id').range(from, to))
+    db.from('faction_people').select('id,cluster_id').eq('is_person', true).order('id').range(from, to))
 
   const groupCount = new Map<string, number>()
   const episodeOfGroup = new Map<string, string>()

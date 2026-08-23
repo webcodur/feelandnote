@@ -73,6 +73,7 @@ export async function replaceFactionEpisode(
   // UUID가 정체성의 원천이다. slug는 현재 프로필 값을 미러링해 이름 변경·레거시 파일의
   // 오래된 키가 새 행에 남지 않게 한다.
   for (const p of payload.people) {
+    if (p.is_person === false) continue
     const profile = profilesById.get(p.celeb_id as string)
     if (!profile) throw new Error(`팩션 인물의 DB CELEB 검증 결과가 사라졌다: ${String(p.name ?? p.celeb_id)}`)
     p.slug = profile.slug
@@ -101,6 +102,14 @@ export async function replaceFactionEpisode(
   // 도감에 이름만 뜨고 눌러도 화면이 안 열리므로 감춘 채로 넣는다. 사람이 도감 구획에서 직접
   // 보이기로 바꾸면 그 값이 기존 값으로 보존돼 다음 저장에 되살아나지 않는다.
   for (const p of payload.people) {
+    if (p.is_person === false) {
+      p.web_hidden = true
+      p.web_long_desc = null
+      p.web_long_desc_en = null
+      p.web_image_url = null
+      p.web_quote_media = null
+      continue
+    }
     const kept = webLookup(p)
     p.web_hidden = kept?.web_hidden
       ?? unpublishedIds.has(p.celeb_id as string)
@@ -144,6 +153,7 @@ function collectPeople(script: Record<string, unknown>): PersonRef[] {
   for (const [gi, g] of ((script.groups ?? []) as Row[]).entries()) {
     for (const [ci, c] of (((g.clusters ?? []) as Row[]).entries())) {
       for (const [pi, p] of (((c.people ?? []) as Row[]).entries())) {
+        if (p.isPerson === false) continue
         refs.push({
           path: `세력 ${gi + 1}·묶음 ${ci + 1}·인물 ${pi + 1}`,
           name: String(p.name ?? ''),
@@ -268,7 +278,7 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
         clusterRows.map(c => c.id as string),
-        'cluster_id,position,celeb_id,slug,name,quote_duration,epithet_duration')
+        'cluster_id,position,is_person,celeb_id,slug,name,quote_duration,epithet_duration')
     : []
 
   const num = (v: unknown): number | null =>
@@ -281,7 +291,7 @@ async function loadExistingDurations(db: SupabaseClient, episodeId: string): Pro
     const gi = gPos.get(c.group_id as string) ?? 0
     cOrder.set(c.id as string, gi * 1000 + (c.position as number))
   }
-  const sorted = [...personRows].sort((a, b) =>
+  const sorted = personRows.filter(p => p.is_person !== false).sort((a, b) =>
     (cOrder.get(a.cluster_id as string) ?? 0) - (cOrder.get(b.cluster_id as string) ?? 0)
     || (a.position as number) - (b.position as number))
 
@@ -338,7 +348,7 @@ async function loadExistingWebOverrides(
   const personRows = clusterRows.length
     ? await inChunks(db, 'faction_people', 'cluster_id',
         clusterRows.map(c => c.id as string),
-         'cluster_id,position,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_quote_media,web_hidden')
+         'cluster_id,position,is_person,celeb_id,slug,name,web_long_desc,web_long_desc_en,web_image_url,web_quote_media,web_hidden')
     : []
 
   // 신원별로 자리 순서대로 줄을 세운다 — durations 와 같은 짝짓기 규칙
@@ -348,7 +358,7 @@ async function loadExistingWebOverrides(
     const gi = gPos.get(c.group_id as string) ?? 0
     cOrder.set(c.id as string, gi * 1000 + (c.position as number))
   }
-  const sorted = [...personRows].sort((a, b) =>
+  const sorted = personRows.filter(p => p.is_person !== false).sort((a, b) =>
     (cOrder.get(a.cluster_id as string) ?? 0) - (cOrder.get(b.cluster_id as string) ?? 0)
     || (a.position as number) - (b.position as number))
 

@@ -122,10 +122,11 @@ export async function promoteSoloShotToAvatar(
 
   const { data: person, error: pErr } = await db
     .from('faction_people')
-    .select('id, name, slug, celeb_id, image, cluster_id')
+    .select('id, is_person, name, slug, celeb_id, image, cluster_id')
     .eq('id', personId).maybeSingle()
   if (pErr) throw new Error(`인물 조회 실패: ${pErr.message}`)
   if (!person) throw new Error(`인물을 찾을 수 없습니다: ${personId}`)
+  if (person.is_person === false) throw new Error('서사 항목은 셀럽 얼굴 사진으로 승격할 수 없습니다')
 
   // 이 인물이 정말 그 편의 것인지 자리를 거슬러 확인한다 — 주소만 알면 불릴 수 있는 창구라
   // 「화면에서 눌렀으니 맞겠지」로 넘기지 않는다. 임베드 응답 모양에 기대지 않고 한 칸씩 올라간다.

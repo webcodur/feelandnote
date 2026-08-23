@@ -17,7 +17,7 @@ export const COMMON_PERSON_CARD_GUIDES = {
 
 // 세력의 인물 목록 — 항상 그룹(clusters)별 합산. (렌더러 groupPeople 과 동일 정규화)
 export function peopleOf(g: FactionScript['groups'][number]) {
-  return (g.clusters ?? []).flatMap(c => c.people ?? [])
+  return (g.clusters ?? []).flatMap(c => c.people ?? []).filter(person => person.isPerson !== false)
 }
 
 export type FactionCardInitialTarget = {

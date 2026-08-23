@@ -3,6 +3,7 @@ import {
   domainRevalidationTags,
   isCompleteCacheRevalidationResponse,
   itemRevalidationTags,
+  revalidationApiPathForTags,
   type CacheItemTarget,
   type CacheTag,
 } from '@feelandnote/shared/constants/cache-tags'
@@ -211,6 +212,7 @@ interface RevalidationResponseBody {
     status?: unknown
     mode?: unknown
     urls?: unknown
+    prefixes?: unknown
   }
 }
 
@@ -277,9 +279,10 @@ async function sendRevalidate(tags: string[]) {
 
   for (let index = 0; index < uniqueTags.length; index += REVALIDATE_TAGS_PER_REQUEST) {
     const chunk = uniqueTags.slice(index, index + REVALIDATE_TAGS_PER_REQUEST)
+    const endpoint = revalidationApiPathForTags(chunk)
     let res: Response
     try {
-      res = await fetch(`${webUrl}/api/revalidate`, {
+      res = await fetch(`${webUrl}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tag: chunk, secret }),

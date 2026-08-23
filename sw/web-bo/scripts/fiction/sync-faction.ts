@@ -405,6 +405,7 @@ async function main() {
   const people = await allRows<PersonRow>('faction_people', async (from, to) => {
     const { data, error } = await db.from('faction_people')
       .select('id,cluster_id,position,name,name_en,slug,celeb_id,mythical,lines,lines_en')
+      .eq('is_person', true)
       .order('id').range(from, to)
     return { data: data as unknown as PersonRow[] | null, error }
   })

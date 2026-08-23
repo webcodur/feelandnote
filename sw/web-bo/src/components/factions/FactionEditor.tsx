@@ -389,6 +389,7 @@ ${res.exported.reason}`)
       const byFile = new Map(files.map(v => [v.file, v]))
       let changed = 0
       const fix = (p: FactionPerson, gi: number, pi: number, ci: number): FactionPerson => {
+        if (p.isPerson === false) return p
         const meta = byFile.get(factionVoiceFile(gi, pi, ci))
         if (meta && meta.duration > 0 && Math.abs((p.quoteDuration ?? 0) - meta.duration) > 0.05) {
           changed++
@@ -486,6 +487,7 @@ ${res.exported.reason}`)
     if (g.clusters?.length) {
       for (const cluster of g.clusters) {
         for (const p of cluster.people) {
+          if (p.isPerson === false) continue
           personSlugs.push(p.slug)
           if (p.slug && !heroCandidatesBySlug.has(p.slug)) {
             const inheritsGroupImage = !g.solo && !!cluster.image && (!p.image || p.image === cluster.image)
@@ -499,6 +501,7 @@ ${res.exported.reason}`)
       }
     } else {
       for (const p of g.people) {
+        if (p.isPerson === false) continue
         personSlugs.push(p.slug)
         if (p.slug && !heroCandidatesBySlug.has(p.slug)) {
           heroCandidatesBySlug.set(p.slug, { slug: p.slug, name: p.name, image: p.image })
@@ -575,8 +578,8 @@ ${res.exported.reason}`)
   const mapAllPeople = (fn: (p: FactionPerson) => FactionPerson): FactionGroup[] =>
     groups.map(g => ({
       ...g,
-      people: (g.people ?? []).map(fn),
-      clusters: g.clusters?.map(c => ({ ...c, people: (c.people ?? []).map(fn) })),
+      people: (g.people ?? []).map(p => p.isPerson === false ? p : fn(p)),
+      clusters: g.clusters?.map(c => ({ ...c, people: (c.people ?? []).map(p => p.isPerson === false ? p : fn(p)) })),
     }))
   // 인물 개별 설정을 비워 에피소드 기본만 쓰게 한다.
   const bulkClearQuoteDisplay = () => {
@@ -711,13 +714,17 @@ ${res.exported.reason}`)
     if (!sourceCluster || !targetCluster) return
 
     const person = sourceCluster.people[fromPi]
-    if (!person) return
+    if (!person || person.isPerson === false) return
+
+    // 인물은 항상 서사 항목 앞에 둔다. 그래야 인물 음성의 P번호가 서사 항목 추가와 무관하게 안정적이다.
+    const targetInsertIndex = targetCluster.people.findIndex(entry => entry.isPerson === false)
+    const toPi = targetInsertIndex < 0 ? targetCluster.people.length : targetInsertIndex
 
     const renames = buildPersonCrossMoveRenames(
       fromGi, fromCi, fromPi,
       toGi, toCi,
       sourceCluster.people.length,
-      targetCluster.people.length
+      toPi
     )
 
     const { ok, error } = await reorderFactionVoice(series, name, renames)
@@ -729,11 +736,24 @@ ${res.exported.reason}`)
 
     const nextGroups = JSON.parse(JSON.stringify(groups)) as FactionGroup[]
     
+    // 삭제·삽입으로 바뀌는 공통 배열 위치를 sequence의 entry 참조에도 동일하게 반영한다.
+    const shiftEntryRefs = (group: FactionGroup, clusterIndex: number, pivot: number, delta: -1 | 1) => ({
+      ...group,
+      sequence: group.sequence?.map(item => {
+        if (item.kind !== 'entry' || item.clusterIndex !== clusterIndex) return item
+        if (delta < 0) return item.entryIndex > pivot ? { ...item, entryIndex: item.entryIndex - 1 } : item
+        return item.entryIndex >= pivot ? { ...item, entryIndex: item.entryIndex + 1 } : item
+      }),
+    })
+
+    nextGroups[fromGi] = shiftEntryRefs(nextGroups[fromGi], fromCi, fromPi, -1)
+    nextGroups[toGi] = shiftEntryRefs(nextGroups[toGi], toCi, toPi, 1)
+
     // remove from source
     const movedPerson = nextGroups[fromGi].clusters![fromCi].people.splice(fromPi, 1)[0]
     
-    // add to target
-    nextGroups[toGi].clusters![toCi].people.push(movedPerson)
+    // add to target, before narrative entries
+    nextGroups[toGi].clusters![toCi].people.splice(toPi, 0, movedPerson)
 
     updateGroups(nextGroups)
     setCrossMoveTarget(null)
@@ -881,7 +901,7 @@ ${res.exported.reason}`)
             />
           )}
 
-          {/* 정비 — 세력·그룹·인물·개별 장면 데이터 그 자체. */}
+          {/* 정비 — 세력·묶음·인물·서사 항목 데이터 그 자체. */}
           {tab === 'info' && (
             <FactionInfoPanel
               script={script}

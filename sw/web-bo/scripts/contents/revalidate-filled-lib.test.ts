@@ -51,20 +51,24 @@ test('type과 locale를 엄격히 검증하고 dry-run은 web 주소 없이 허�
   )
 })
 
-test('전체 퍼지는 별도 확인을 요구하고 type·locale와 섞지 않는다', () => {
-  assert.throws(() => parseCliOptions(['--all-details'], WEB_ENV), /--confirm-global-purge/)
+test('전체 상세 prefix 퍼지는 별도 확인을 요구하고 type·locale와 섞지 않는다', () => {
+  assert.throws(() => parseCliOptions(['--all-details'], WEB_ENV), /--confirm-bulk-purge/)
   assert.throws(
     () => parseCliOptions(['--all-details', '--type', 'BOOK', '--locale', 'en', '--dry'], WEB_ENV),
     /함께 쓸 수 없습니다/,
   )
   assert.deepEqual(
-    parseCliOptions(['--all-details', '--confirm-global-purge'], WEB_ENV),
+    parseCliOptions(['--all-details', '--confirm-bulk-purge'], WEB_ENV),
     {
       mode: 'all-details',
       dry: false,
       webUrl: 'https://feelandnote.com',
-      confirmGlobalPurge: true,
+      confirmBulkPurge: true,
     },
+  )
+  assert.throws(
+    () => parseCliOptions(['--all-details', '--confirm-global-purge'], WEB_ENV),
+    /폐기.*--confirm-bulk-purge/,
   )
 })
 
@@ -138,14 +142,47 @@ test('큰 항목별 퍼지는 확인 없이 막고 전체 모드는 태그 하�
     mode: 'all-details',
     dry: false,
     webUrl: 'https://feelandnote.com',
-    confirmGlobalPurge: true,
+    confirmBulkPurge: true,
   })
   assert.deepEqual(plan, {
     mode: 'all-details',
     tags: ['contents:__all__'],
     estimatedCloudflareUrls: 0,
-    cloudflareMode: 'everything',
   })
+})
+
+test('all-details 완료 확인은 Cloudflare prefix 모드만 허용한다', async () => {
+  const tags = ['contents:__all__']
+  let endpoint = ''
+  const result = await sendRevalidationTags({
+    tags,
+    dry: false,
+    webUrl: 'https://feelandnote.com',
+    secret: 'secret',
+    fetchImpl: async (input) => {
+      endpoint = String(input)
+      return Response.json({
+      revalidated: true,
+      complete: true,
+      tags,
+      cloudflare: {
+        ok: true,
+        status: 'purged',
+        mode: 'prefix',
+        prefixes: [
+          'feelandnote.com/content/',
+          'feelandnote.com/en/content/',
+          'feelandnote.com/celeb/',
+          'feelandnote.com/en/celeb/',
+        ],
+        urls: [],
+      },
+      })
+    },
+  })
+
+  assert.deepEqual(result, { plannedRequests: 1, completedRequests: 1, confirmedTags: 1 })
+  assert.equal(endpoint, 'https://feelandnote.com/api/revalidate/v2')
 })
 
 test('dry-run은 secret과 HTTP 호출 없이 예정 건수만 계산한다', async () => {
@@ -154,7 +191,6 @@ test('dry-run은 secret과 HTTP 호출 없이 예정 건수만 계산한다', as
     tags: Array.from({ length: 23 }, (_, index) => `contents:item-${index}`),
     dry: true,
     webUrl: null,
-    expectedCloudflareMode: 'targeted',
     fetchImpl: async () => {
       calls += 1
       throw new Error('호출되면 안 됨')
@@ -170,7 +206,6 @@ test('실실행은 secret을 필수로 요구한다', async () => {
       tags: ['contents:item-1'],
       dry: false,
       webUrl: 'https://feelandnote.com',
-      expectedCloudflareMode: 'targeted',
     }),
     /CRON_SECRET/,
   )
@@ -184,7 +219,6 @@ test('50개씩 보내고 모든 응답 태그가 확인된 경우에만 완료�
     dry: false,
     webUrl: 'https://feelandnote.com',
     secret: 'secret',
-    expectedCloudflareMode: 'targeted',
     fetchImpl: async (_input, init) => {
       const body = JSON.parse(String(init?.body)) as { tag: string[] }
       received.push(body.tag)
@@ -196,7 +230,13 @@ test('50개씩 보내고 모든 응답 태그가 확인된 경우에만 완료�
           ok: true,
           status: 'purged',
           mode: 'targeted',
-          urls: ['https://feelandnote.com/content/item'],
+          urls: body.tag.flatMap((tag) => {
+            const id = tag.slice('contents:'.length)
+            return [
+              `https://feelandnote.com/content/${id}`,
+              `https://feelandnote.com/en/content/${id}`,
+            ]
+          }),
         },
       })
     },
@@ -212,7 +252,6 @@ test('HTTP 오류와 non-JSON 응답을 실패시킨다', async () => {
     dry: false,
     webUrl: 'https://feelandnote.com',
     secret: 'secret',
-    expectedCloudflareMode: 'targeted' as const,
   }
 
   await assert.rejects(
@@ -237,7 +276,6 @@ test('HTTP 200이어도 complete나 Cloudflare 확인이 틀리면 실패시킨�
     dry: false,
     webUrl: 'https://feelandnote.com',
     secret: 'secret',
-    expectedCloudflareMode: 'targeted',
     fetchImpl: async () => Response.json(body),
   })
 
@@ -269,6 +307,17 @@ test('HTTP 200이어도 complete나 Cloudflare 확인이 틀리면 실패시킨�
     revalidated: true,
     complete: true,
     tags: ['contents:item-1', 'contents:item-1'],
+    cloudflare: {
+      ok: true,
+      status: 'purged',
+      mode: 'targeted',
+      urls: ['https://feelandnote.com/content/item-1'],
+    },
+  }), /완료 응답 계약/)
+  await assert.rejects(run({
+    revalidated: true,
+    complete: true,
+    tags: ['contents:item-1'],
     cloudflare: {
       ok: true,
       status: 'purged',

@@ -599,7 +599,7 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                                 onChange={p => patchCluster(gi, ci, p)}
                               />
                             )}
-                            {(c.people ?? []).map((pp, pi) => (
+                            {(c.people ?? []).map((pp, pi) => pp.isPerson === false ? null : (
                               <EffectTableRow
                                 key={`cp-${ci}-${pi}`}
                                 targetName={<span className="pl-8 text-[12px] text-text-secondary">↳ {pp.name || '(이름 없음)'}</span>}

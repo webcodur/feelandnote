@@ -108,6 +108,7 @@ export async function applyVoiceGainToPeople(
   const { data: peopleData, error: pErr } = await db
     .from('faction_people')
     .select('id, name, cluster_id, data')
+    .eq('is_person', true)
     .or(`data->>${koKey}.eq.${id},data->>${enKey}.eq.${id}`)
   if (pErr) throw new Error(`인물 조회 실패: ${pErr.message}`)
   const people = (peopleData ?? []) as unknown as Row[]

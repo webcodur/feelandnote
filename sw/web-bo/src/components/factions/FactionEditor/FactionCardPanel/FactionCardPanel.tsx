@@ -148,11 +148,12 @@ export function FactionCardPanel({ script: videoScript, episodeName, series, ini
   
   let personCi = 0
   for (let ci = 0, acc = 0; ci < clusters.length; ci++) {
-    const n = clusters[ci].people?.length ?? 0
+    const n = (clusters[ci].people ?? []).filter(entry => entry.isPerson !== false).length
     if (safePi < acc + n) { personCi = ci; break }
     acc += n
   }
-  const clusterFlatStart = clusters.slice(0, personCi).reduce((s, c) => s + (c.people?.length ?? 0), 0)
+  const clusterFlatStart = clusters.slice(0, personCi)
+    .reduce((s, c) => s + (c.people ?? []).filter(entry => entry.isPerson !== false).length, 0)
 
   const cards: { id: string; label: string; card: FactionCardSpec }[] = view === 'group'
     ? [
@@ -168,7 +169,7 @@ export function FactionCardPanel({ script: videoScript, episodeName, series, ini
     : view === 'cluster'
       ? [
         { id: 'shot', label: '그룹샷', card: { type: 'groupshot', groupIndex: safeGi, clusterIndex: personCi } as FactionCardSpec },
-        ...(clusters[personCi]?.people ?? []).flatMap((p, i) => {
+        ...(clusters[personCi]?.people ?? []).filter(entry => entry.isPerson !== false).flatMap((p, i) => {
           const flat = clusterFlatStart + i
           const name = p.name || `인물${i + 1}`
           const out: { id: string; label: string; card: FactionCardSpec }[] = [
@@ -349,7 +350,7 @@ export function FactionCardPanel({ script: videoScript, episodeName, series, ini
     let flat = 0
     clusters.forEach((cl, ci) => {
       out.push({ type: 'groupshot', groupIndex: safeGi, clusterIndex: ci })
-        ; (cl.people ?? []).forEach((p, i) => {
+        ; (cl.people ?? []).filter(entry => entry.isPerson !== false).forEach((p, i) => {
           out.push({ type: 'mystery', groupIndex: safeGi, personIndex: flat })
           if (i === 0) {
             out.push({ type: 'quote', groupIndex: safeGi, personIndex: flat, bg: 'photo' })

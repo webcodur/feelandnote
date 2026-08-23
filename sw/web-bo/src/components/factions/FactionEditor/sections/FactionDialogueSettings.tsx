@@ -68,7 +68,7 @@ export function FactionDialogueSettings({ script, onChange, onApplyAll, onClearO
       <span className="mx-1 hidden h-8 w-px self-end bg-border xl:block" aria-hidden="true" />
       <button type="button" onClick={onApplyAll} className="h-9 rounded-md border border-border px-3 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary">모든 인물 적용</button>
       <button type="button" onClick={onClearOverrides} className="h-9 rounded-md border border-border px-3 text-xs font-semibold text-text-secondary hover:bg-bg-hover hover:text-text-primary">개별값 지우기</button>
-      <p className="min-w-48 flex-1 self-center text-right text-[11px] text-text-tertiary">개별 장면 해설도 이 자막 모양을 상속합니다.</p>
+      <p className="min-w-48 flex-1 self-center text-right text-[11px] text-text-tertiary">서사 항목 해설도 이 자막 모양을 상속합니다.</p>
     </section>
   )
 }

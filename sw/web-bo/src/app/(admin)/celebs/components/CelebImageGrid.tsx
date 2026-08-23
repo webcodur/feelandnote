@@ -4,12 +4,16 @@ import { useEffect, useState, type MouseEvent } from 'react'
 import Link from 'next/link'
 import { Check, Copy, ImageIcon, Loader2, Star } from 'lucide-react'
 import type { Member } from '@/actions/admin/members'
-import { getCelebImageProcessingJobs } from '@/actions/admin/celeb-nobg'
+import {
+  enqueueCelebAvatarBackgroundRemovals,
+  getCelebImageProcessingJobs,
+} from '@/actions/admin/celeb-nobg'
 import type { ImageProcessingJob } from '@/lib/image-processing/types'
 import PersistedCelebAvatarEditor from '@/components/celeb/avatar/PersistedCelebAvatarEditor'
 import PersistedCelebPortraitEditor from '@/components/celeb/portrait/PersistedCelebPortraitEditor'
 import CelebAvatarNobgButton from '@/components/celeb/avatar/CelebAvatarNobgButton'
 import { useToast } from '@/contexts/ToastContext'
+import NobgBatchBar from './NobgBatchBar'
 import QuickImageBar from './QuickImageBar'
 import { useQuickImageInbox, type ImageSlot } from './useQuickImageInbox'
 
@@ -20,6 +24,7 @@ export default function CelebImageGrid({
   celebs: Member[]
   imageProcessingJobs: Record<string, ImageProcessingJob>
 }) {
+  const { showToast } = useToast()
   const [jobsByCeleb, setJobsByCeleb] = useState(imageProcessingJobs)
   const [activeImage, setActiveImage] = useState<{ celebId: string; slot: ImageSlot } | null>(null)
   const [avatarUrls, setAvatarUrls] = useState<Record<string, string | null>>(() =>
@@ -30,6 +35,8 @@ export default function CelebImageGrid({
   )
   const [quickImageOn, setQuickImageOn] = useState(true)
   const [avatarOnly, setAvatarOnly] = useState(false)
+  const [batchCelebIds, setBatchCelebIds] = useState<string[]>([])
+  const [batchSubmitting, setBatchSubmitting] = useState(false)
   const { nextTarget, incoming, clearIncoming } = useQuickImageInbox({
     celebs,
     avatarUrls,
@@ -37,6 +44,23 @@ export default function CelebImageGrid({
     avatarOnly,
     enabled: quickImageOn,
   })
+  // 얼굴 사진이 있고 지금 처리 중이 아닌 인물만 일괄 대상이다.
+  const nobgTargets = celebs.filter((celeb) => {
+    if (!avatarUrls[celeb.id]) return false
+    const status = jobsByCeleb[celeb.id]?.status
+    return status !== 'queued' && status !== 'running'
+  })
+  const batchSet = new Set(batchCelebIds)
+  const batchStats = batchCelebIds.reduce(
+    (totals, celebId) => {
+      const status = jobsByCeleb[celebId]?.status
+      if (status === 'done') totals.done += 1
+      else if (status === 'error') totals.error += 1
+      else totals.running += 1
+      return totals
+    },
+    { running: 0, done: 0, error: 0 }
+  )
   const activeJobIds = Object.values(jobsByCeleb)
     .filter((job) => job.status === 'queued' || job.status === 'running')
     .map((job) => job.id)
@@ -81,6 +105,44 @@ export default function CelebImageGrid({
     }
   }, [activeJobKey])
 
+  // 일괄 처리는 인물별로 알리지 않고 다 끝났을 때 한 번만 알린다.
+  useEffect(() => {
+    if (batchCelebIds.length === 0 || batchStats.running > 0) return
+    showToast(
+      batchStats.error > 0 ? 'error' : 'success',
+      batchStats.error > 0
+        ? `배경 제거 ${batchStats.done}명 완료, ${batchStats.error}명 실패했습니다.`
+        : `${batchStats.done}명의 배경 제거를 마쳤습니다.`
+    )
+    setBatchCelebIds([])
+  }, [batchCelebIds.length, batchStats.running, batchStats.done, batchStats.error, showToast])
+
+  async function handleRunAllNobg() {
+    if (batchSubmitting || nobgTargets.length === 0) return
+    const confirmed = window.confirm(
+      `목록에 보이는 ${nobgTargets.length}명의 얼굴 사진 배경을 제거합니다.
+결과가 기존 얼굴 사진을 덮어씁니다. 진행할까요?`
+    )
+    if (!confirmed) return
+
+    setBatchSubmitting(true)
+    try {
+      const jobs = await enqueueCelebAvatarBackgroundRemovals(nobgTargets.map((celeb) => celeb.id))
+      setJobsByCeleb((current) => {
+        const next = { ...current }
+        for (const job of jobs) next[job.celebId] = job
+        return next
+      })
+      setBatchCelebIds(jobs.map((job) => job.celebId))
+      showToast('success', `${jobs.length}명을 nobg 대기열에 넣었습니다.`)
+    } catch (error) {
+      console.error('nobg 일괄 접수 실패:', error)
+      showToast('error', error instanceof Error ? error.message : 'nobg 일괄 작업을 접수하지 못했습니다.')
+    } finally {
+      setBatchSubmitting(false)
+    }
+  }
+
   if (celebs.length === 0) {
     return <div className="px-4 py-16 text-center text-sm text-text-secondary">셀럽이 없습니다.</div>
   }
@@ -96,6 +158,14 @@ export default function CelebImageGrid({
         onToggle={() => setQuickImageOn((current) => !current)}
         onToggleAvatarOnly={() => setAvatarOnly((current) => !current)}
       />
+      <NobgBatchBar
+        targetCount={nobgTargets.length}
+        runningCount={batchStats.running}
+        doneCount={batchStats.done}
+        errorCount={batchStats.error}
+        submitting={batchSubmitting}
+        onRun={handleRunAllNobg}
+      />
       <div className="grid grid-cols-1 gap-px bg-border 2xl:grid-cols-2">
       {celebs.map((celeb, index) => (
         <CelebImageCard
@@ -104,6 +174,7 @@ export default function CelebImageGrid({
           avatarUrl={avatarUrls[celeb.id] ?? null}
           portraitUrl={portraitUrls[celeb.id] ?? null}
           imageJob={jobsByCeleb[celeb.id] ?? null}
+          quietJobNotice={batchSet.has(celeb.id)}
           activeImageSlot={activeImage?.celebId === celeb.id ? activeImage.slot : null}
           incomingSlot={incoming?.celebId === celeb.id ? incoming.slot : null}
           incomingFile={incoming?.celebId === celeb.id ? incoming.file : null}
@@ -134,6 +205,7 @@ function CelebImageCard({
   avatarUrl,
   portraitUrl,
   imageJob,
+  quietJobNotice,
   activeImageSlot,
   incomingSlot,
   incomingFile,
@@ -148,6 +220,7 @@ function CelebImageCard({
   avatarUrl: string | null
   portraitUrl: string | null
   imageJob: ImageProcessingJob | null
+  quietJobNotice: boolean
   activeImageSlot: ImageSlot | null
   incomingSlot: ImageSlot | null
   incomingFile: File | null
@@ -237,6 +310,7 @@ function CelebImageCard({
             avatarUrl={avatarUrl}
             job={imageJob}
             poll={false}
+            quiet={quietJobNotice}
             onJobChange={onImageJobChange}
             onCompleted={onAvatarUrlChange}
             className="mt-2 w-full"

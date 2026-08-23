@@ -214,6 +214,7 @@ async function main() {
     const { data, error } = await db
       .from('faction_people')
       .select('id,cluster_id,position,name,name_en,slug,celeb_id,mythical,image,epithet,epithet_en,lines,lines_en,disabled,longform_only')
+      .eq('is_person', true)
       .order('id')
       .range(from, to)
     return { data: data as unknown as PersonRow[] | null, error }

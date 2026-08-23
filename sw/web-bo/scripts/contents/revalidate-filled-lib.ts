@@ -4,6 +4,7 @@ import {
   isAllowedCacheTag,
   isCompleteCacheRevalidationResponse,
   itemTag,
+  revalidationApiPathForTags,
 } from '@feelandnote/shared/constants/cache-tags'
 
 export const CONTENT_TYPES = ['BOOK', 'VIDEO', 'GAME', 'MUSIC'] as const
@@ -33,7 +34,7 @@ export interface TargetedCliOptions extends CommonCliOptions {
 
 export interface AllDetailsCliOptions extends CommonCliOptions {
   mode: 'all-details'
-  confirmGlobalPurge: boolean
+  confirmBulkPurge: boolean
 }
 
 export type CliOptions = TargetedCliOptions | AllDetailsCliOptions
@@ -46,8 +47,8 @@ export const USAGE = `작품 소개 캐시 복구
 100태그 이하의 평상시 항목별 복구:
   pnpm contents:revalidate --type VIDEO --locale ko
 
-전체 릴리스 전용(모든 작품·의존 인물 상세 만료 + Cloudflare 전체 퍼지):
-  pnpm contents:revalidate --all-details --confirm-global-purge
+전체 릴리스 전용(모든 작품·의존 인물 상세 만료 + 해당 상세 경로 prefix 퍼지):
+  pnpm contents:revalidate --all-details --confirm-bulk-purge
 
 옵션:
   --type BOOK|VIDEO|GAME|MUSIC   항목별 복구에서는 필수
@@ -56,7 +57,7 @@ export const USAGE = `작품 소개 캐시 복구
   --dry                          DB 대상만 조회하고 재검증 HTTP는 보내지 않음
   --allow-large-targeted         장애 복구 때만 100개 초과 항목별 퍼지를 명시적으로 허용
   --all-details                  contents:__all__ 한 개를 보내는 전체 릴리스 모드
-  --confirm-global-purge         Cloudflare 전체 퍼지를 즉시 실행함을 확인`
+  --confirm-bulk-purge           작품·인물 상세 경로군 prefix 퍼지를 실행함을 확인`
 
 function requiredValue(args: readonly string[], index: number, flag: string): string {
   const value = args[index + 1]
@@ -102,7 +103,7 @@ export function parseCliOptions(
   let webRaw: string | undefined
   let dry = false
   let allDetails = false
-  let confirmGlobalPurge = false
+  let confirmBulkPurge = false
   let allowLargeTargeted = false
 
   for (let index = 0; index < args.length; index += 1) {
@@ -130,9 +131,13 @@ export function parseCliOptions(
       case '--all-details':
         allDetails = true
         break
-      case '--confirm-global-purge':
-        confirmGlobalPurge = true
+      case '--confirm-bulk-purge':
+        confirmBulkPurge = true
         break
+      case '--confirm-global-purge':
+        throw new Error(
+          '--confirm-global-purge는 폐기되었습니다. 상세 prefix 퍼지는 --confirm-bulk-purge를 사용하세요.',
+        )
       case '--allow-large-targeted':
         allowLargeTargeted = true
         break
@@ -147,16 +152,17 @@ export function parseCliOptions(
     if (typeRaw || localeRaw || allowLargeTargeted) {
       throw new Error('--all-details는 --type, --locale, --allow-large-targeted와 함께 쓸 수 없습니다.')
     }
-    if (!dry && !confirmGlobalPurge) {
+    if (!dry && !confirmBulkPurge) {
       throw new Error(
-        '--all-details는 Cloudflare 전체 캐시를 즉시 퍼지합니다. 실실행에는 --confirm-global-purge가 필요합니다.',
+        '--all-details는 작품·인물 상세 경로군 캐시를 prefix로 퍼지합니다. ' +
+        '실실행에는 --confirm-bulk-purge가 필요합니다.',
       )
     }
-    return { mode: 'all-details', dry, webUrl, confirmGlobalPurge }
+    return { mode: 'all-details', dry, webUrl, confirmBulkPurge }
   }
 
-  if (confirmGlobalPurge) {
-    throw new Error('--confirm-global-purge는 --all-details와 함께만 사용할 수 있습니다.')
+  if (confirmBulkPurge) {
+    throw new Error('--confirm-bulk-purge는 --all-details와 함께만 사용할 수 있습니다.')
   }
   if (!typeRaw || !(CONTENT_TYPES as readonly string[]).includes(typeRaw)) {
     throw new Error(`--type은 필수이며 ${CONTENT_TYPES.join('|')} 중 하나여야 합니다.`)
@@ -306,7 +312,6 @@ export interface RevalidationPlan {
   mode: 'targeted' | 'all-details'
   tags: string[]
   estimatedCloudflareUrls: number
-  cloudflareMode: 'targeted' | 'everything'
 }
 
 export function makeRevalidationPlan(
@@ -318,7 +323,6 @@ export function makeRevalidationPlan(
       mode: 'all-details',
       tags: [bulkTag(CACHE_TAGS.CONTENTS)],
       estimatedCloudflareUrls: 0,
-      cloudflareMode: 'everything',
     }
   }
 
@@ -326,7 +330,7 @@ export function makeRevalidationPlan(
   if (!options.dry && tags.length > MAX_TARGETED_TAGS && !options.allowLargeTargeted) {
     throw new Error(
       `항목 태그 ${tags.length}개는 Cloudflare 퍼지 호출이 너무 큽니다. ` +
-      '전체 릴리스라면 --all-details --confirm-global-purge를 사용하고, ' +
+      '전체 릴리스라면 --all-details --confirm-bulk-purge를 사용하고, ' +
       '정말 항목별 퍼지가 필요하면 --allow-large-targeted를 명시하세요.',
     )
   }
@@ -334,7 +338,6 @@ export function makeRevalidationPlan(
     mode: 'targeted',
     tags,
     estimatedCloudflareUrls: tags.length * 2,
-    cloudflareMode: 'targeted',
   }
 }
 
@@ -347,7 +350,6 @@ export interface SendRevalidationInput {
   secret?: string
   fetchImpl?: FetchLike
   chunkSize?: number
-  expectedCloudflareMode: 'targeted' | 'everything'
 }
 
 export interface SendRevalidationResult {
@@ -374,7 +376,6 @@ export async function sendRevalidationTags({
   secret,
   fetchImpl = fetch,
   chunkSize = TAGS_PER_REQUEST,
-  expectedCloudflareMode,
 }: SendRevalidationInput): Promise<SendRevalidationResult> {
   if (!Number.isInteger(chunkSize) || chunkSize <= 0) throw new Error('chunkSize는 양의 정수여야 합니다.')
   const uniqueTags = [...new Set(tags)]
@@ -391,9 +392,10 @@ export async function sendRevalidationTags({
 
   for (let index = 0; index < uniqueTags.length; index += chunkSize) {
     const chunk = uniqueTags.slice(index, index + chunkSize)
+    const endpoint = revalidationApiPathForTags(chunk)
     let response: Response
     try {
-      response = await fetchImpl(`${webUrl}/api/revalidate`, {
+      response = await fetchImpl(`${webUrl}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tag: chunk, secret }),
@@ -412,7 +414,7 @@ export async function sendRevalidationTags({
         `재검증 API 실패 HTTP ${response.status} (${confirmedTags}/${uniqueTags.length}): ${raw.slice(0, 500)}`,
       )
     }
-    if (!isCompleteCacheRevalidationResponse(body, chunk, expectedCloudflareMode)) {
+    if (!isCompleteCacheRevalidationResponse(body, chunk)) {
       throw new Error(`재검증 API 완료 응답 계약이 맞지 않습니다: ${raw.slice(0, 500)}`)
     }
 

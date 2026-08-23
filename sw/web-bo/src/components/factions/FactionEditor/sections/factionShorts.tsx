@@ -1,4 +1,4 @@
-import type { FactionGroup, FactionIndividualScene, FactionScript } from '@/lib/faction-types'
+import { factionEntryAt, type FactionGroup, type FactionScript } from '@/lib/faction-types'
 import {
   factionShortsPartNumbers,
   factionShortsSegments,
@@ -76,17 +76,22 @@ export function shortsPartSlicesOf(script: FactionScript, part: number): ShortsP
  * sequence의 clusterIndex는 원본 배열 좌표이므로 선택한 cluster만 모은 뒤 0부터 다시 매긴다.
  */
 export function materializeShortsSlice(slice: ShortsPartSlice): FactionGroup {
-  const clusters: FactionGroup['clusters'] = []
-  const sequence = factionShortsSliceItems<FactionIndividualScene>(
+  const items = factionShortsSliceItems(
     slice.group as unknown as Record<string, unknown>,
     slice.step,
-  ).map(item => {
-    if (item.kind !== 'cluster') return item
-    const cluster = slice.group.clusters?.[item.clusterIndex]
-    if (!cluster) throw new Error(`${slice.group.name}의 쇼츠 구간이 없는 묶음 ${item.clusterIndex + 1}을 가리킵니다`)
-    const clusterIndex = clusters.length
-    clusters.push(cluster)
-    return { kind: 'cluster' as const, clusterIndex }
+  )
+  const originalIndexes = [...new Set(items.flatMap(item => item.kind === 'cut' ? [] : [item.clusterIndex]))]
+  const indexMap = new Map(originalIndexes.map((original, index) => [original, index]))
+  const clusters: FactionGroup['clusters'] = originalIndexes.map(original => {
+    const cluster = slice.group.clusters?.[original]
+    if (!cluster) throw new Error(`${slice.group.name}의 쇼츠 구간이 없는 묶음 ${original + 1}을 가리킵니다`)
+    return cluster
+  })
+  const sequence = items.map(item => {
+    if (item.kind === 'cut') return item
+    const clusterIndex = indexMap.get(item.clusterIndex)
+    if (clusterIndex == null) throw new Error(`${slice.group.name}의 쇼츠 묶음 참조를 다시 매기지 못했습니다`)
+    return { ...item, clusterIndex }
   })
   return { ...slice.group, clusters, people: [], sequence }
 }
@@ -98,7 +103,7 @@ export function shortsPartScriptOf(script: FactionScript, part: number): Faction
 
 /** 편성 행에 보여줄 실제 구간명 — 장면과 묶음을 재생 순서대로 짧게 잇는다. */
 export function shortsSliceSummary(slice: ShortsPartSlice): string {
-  const items = factionShortsSliceItems<FactionIndividualScene>(
+  const items = factionShortsSliceItems(
     slice.group as unknown as Record<string, unknown>,
     slice.step,
   )
@@ -108,8 +113,8 @@ export function shortsSliceSummary(slice: ShortsPartSlice): string {
       const label = cluster?.label?.split('\n')[0]?.trim()
       return label ? [label] : []
     }
-    if (item.kind === 'scene') {
-      const title = typeof item.scene.title === 'string' ? item.scene.title.trim() : ''
+    if (item.kind === 'entry') {
+      const title = factionEntryAt(slice.group, item).name.trim()
       return title ? [title] : []
     }
     return []
@@ -160,8 +165,8 @@ export function FactionComposeRow({
   const color = group.color ?? '#92400e'
   const label = (group.name ?? '').split('\n')[0]?.trim() || '(이름 없음)'
   const people = group.clusters?.length
-    ? group.clusters.reduce((sum, cluster) => sum + cluster.people.length, 0)
-    : group.people?.length ?? 0
+    ? group.clusters.reduce((sum, cluster) => sum + cluster.people.filter(person => person.isPerson !== false).length, 0)
+    : (group.people ?? []).filter(person => person.isPerson !== false).length
   const current = group.disabled ? -1 : (group.part ?? 0)
 
   return (

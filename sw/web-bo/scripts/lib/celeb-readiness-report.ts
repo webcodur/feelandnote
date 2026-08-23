@@ -35,6 +35,11 @@ type ReadinessHtmlReport = {
     failureStatusCounts: Record<string, number>
   }
   gapCounts: Record<string, number>
+  qualityWarnings: {
+    celebs: number
+    readyCelebs: number
+    counts: Record<string, number>
+  }
   rows: unknown[]
 }
 
@@ -52,8 +57,8 @@ const DOMAIN_DEFINITIONS: Record<string, string> = {
   influence: '정치·전략·기술·사회·경제·문화·초역사 7축 점수·축별 설명(KO/EN)·총점.',
   spectrum: '능력·내덕·외덕·성향 16속성별 점수·사유(KO/EN) + 근거(KO/EN).',
   speech: '대사 행 + 명언 + 정해진 7개 상황별 대사(KO/EN).',
-  content: 'full은 연결 콘텐츠(도서·영상·게임·음악)가 상태 완료·리뷰(KO/EN)·출처 URL·KO/EN 로케일 메타(BOOK은 ISBN)를 갖춘 상태. light는 콘텐츠 0건이되 "조사 후 없음"이 확정된 상태도 완비로 친다.',
-  source: 'fiction 인물이 등장하는 원작품(소설·신화·전설 등)이 최소 1건 연결되어 있고, 그 원전 콘텐츠의 KO/EN 로케일 메타가 완비된 상태. "이 인물이 어느 작품에서 왔는지"를 가리키는 연결이며 fiction 티어에만 적용한다.',
+  content: 'full은 연결 콘텐츠(도서·영상·게임·음악)가 1건 이상이고 상태 완료·리뷰(KO/EN)·출처 URL을 갖춘 상태. light는 콘텐츠 0건이되 "조사 후 없음"이 확정된 상태도 완비로 친다. 콘텐츠 자체의 로케일 메타(제목·저자·표지·ISBN)는 품질 경고로 따로 센다.',
+  source: 'fiction 인물이 등장하는 원작품(소설·신화·전설 등)이 최소 1건 연결된 상태. "이 인물이 어느 작품에서 왔는지"를 가리키는 연결이며 fiction 티어에만 적용한다.',
 }
 const BAND_ORDER = ['100', '80-99', '60-79', '40-59', '20-39', '0-19']
 const BAND_LABELS: Record<string, string> = {
@@ -93,6 +98,12 @@ function gapLabel(gap: string): string {
     'basic:gender': '성별 누락',
     'basic:nationality': '국적 누락',
     'content:status': '콘텐츠 완료 상태 결손',
+    'content:title': '콘텐츠 제목 누락',
+    'content:review': '감상배경(KO) 누락',
+    'content:review_en': '감상배경(EN) 누락',
+    'content:source_url': '콘텐츠 출처 URL 누락',
+    'content:full_without_content': 'full인데 연결 콘텐츠 0건',
+    'content:light_has_content': 'light인데 연결 콘텐츠 존재',
   }
   if (labels[gap]) return labels[gap]
   const http = gap.match(/^content:source_http\((.+)\)$/)
@@ -144,11 +155,11 @@ function renderBreakdown(source: Record<string, Breakdown>, order: string[]): st
   }).join('')
 }
 
-function renderGaps(report: ReadinessHtmlReport): string {
-  const entries = Object.entries(report.gapCounts).slice(0, 14)
+function renderCounts(counts: Record<string, number>, extraClass = ''): string {
+  const entries = Object.entries(counts).slice(0, 14)
   const max = Math.max(...entries.map(([, count]) => count), 1)
   return entries.map(([gap, count], index) => `
-    <div class="gap-row">
+    <div class="gap-row${extraClass ? ` ${extraClass}` : ''}">
       <span class="gap-rank">${String(index + 1).padStart(2, '0')}</span>
       <span class="gap-name">${escapeHtml(gapLabel(gap))}</span>
       <span class="gap-line"><i style="width:${(count / max) * 100}%"></i></span>
@@ -253,6 +264,9 @@ function renderHtml(report: ReadinessHtmlReport, fonts: { regular: string; bold:
     .gap-line { height: 5px; background: var(--brick-soft); }
     .gap-line i { display: block; height: 100%; background: var(--brick); }
     .gap-count { color: var(--brick); text-align: right; font-size: 11px; }
+    .warn-row .gap-line { background: var(--ochre-soft); }
+    .warn-row .gap-line i { background: var(--ochre); }
+    .warn-row .gap-count { color: var(--ochre); }
     .interpretation { display: grid; grid-template-columns: auto 1fr; gap: 18px; margin-top: 20px; padding: 18px 21px; border-left: 6px solid var(--ochre); background: var(--ochre-soft); }
     .interpretation strong { font-size: 12px; }
     .interpretation p { margin: 0; font-size: 11px; line-height: 1.75; }
@@ -322,12 +336,14 @@ function renderHtml(report: ReadinessHtmlReport, fonts: { regular: string; bold:
         <section class="panel"><header class="panel-head"><h2>공개 상태별</h2><small>publication_status</small></header><div class="table-wrap"><table><thead><tr><th>상태</th><th>전체</th><th>완비</th><th>완비율</th><th>평균 보유율</th></tr></thead><tbody>${renderBreakdown(report.readinessByPublicationStatus, ['active', 'inactive', 'deleted'])}</tbody></table></div></section>
       </div>
 
-      <section class="panel gap-panel"><header class="panel-head"><h2>주요 결손 항목</h2><small>한 인물의 중복 결손 포함</small></header><div class="gap-list">${renderGaps(report)}</div></section>
+      <section class="panel gap-panel"><header class="panel-head"><h2>주요 결손 항목</h2><small>활성화 탈락 사유 · 한 인물의 중복 결손 포함</small></header><div class="gap-list">${renderCounts(report.gapCounts)}</div></section>
+
+      <section class="panel gap-panel"><header class="panel-head"><h2>품질 경고 · 콘텐츠 메타</h2><small>활성화를 막지 않음 · 대상 ${number(report.qualityWarnings.celebs)}명 (그중 완비 후보 ${number(report.qualityWarnings.readyCelebs)}명)</small></header><div class="gap-list">${renderCounts(report.qualityWarnings.counts, 'warn-row')}</div></section>
 
       <aside class="interpretation"><strong>한 줄 판정</strong><p>전체 인물은 평균적으로 필수영역의 ${percent(report.coverage.averagePercentage)}를 갖췄지만, 모든 조건을 통과한 인물은 ${percent(report.readyPercentage)}입니다. 가장 큰 병목은 ${escapeHtml(DOMAIN_LABELS[weakestDomain.domain])} 영역이며, 공개 중인 active 인물도 ${number(activeIncomplete)}명이 현행 기준에서 하나 이상의 결손을 갖습니다.</p></aside>
     </main>
 
-    <footer><strong>판정 범위:</strong> 필수 필드와 데이터 구조의 보유 여부입니다. 내용의 사실성·문체 품질을 사람 눈으로 검증했다는 뜻은 아닙니다. full/light는 기본정보·영향력·스펙트럼·발화·콘텐츠 5영역, fiction은 기본정보·대표 원전 2영역을 동일 가중치로 계산합니다. 콘텐츠 조사 대상은 코드 SSoT에 따라 light이면서 active 또는 inactive인 인물만 셉니다.</footer>
+    <footer><strong>판정 범위:</strong> 필수 필드와 데이터 구조의 보유 여부입니다. 내용의 사실성·문체 품질을 사람 눈으로 검증했다는 뜻은 아닙니다. full/light는 기본정보·영향력·스펙트럼·발화·콘텐츠 5영역, fiction은 기본정보·대표 원전 2영역을 동일 가중치로 계산합니다. 연결된 콘텐츠 자체의 로케일 메타(제목·저자·표지·ISBN) 결손은 인물 데이터가 아니므로 완비 판정에서 빼고 품질 경고로만 집계합니다. 콘텐츠 조사 대상은 코드 SSoT에 따라 light이면서 active 또는 inactive인 인물만 셉니다.</footer>
   </div>
 </body>
 </html>`

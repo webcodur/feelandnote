@@ -1,6 +1,6 @@
 // 세력도감 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
 
-import { factionSequenceOf, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionIndividualScene } from '@/lib/faction-types'
+import { factionEntryAt, factionSequenceOf, factionSceneBeats, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter } from '@/lib/faction-types'
 import {
   FACTION_SCENE_DEFAULT_SEC,
   factionSceneTiming,
@@ -24,11 +24,15 @@ export const CHAPTER_BLACK_SEC = 0.25
 export const CHAPTER_COVER_SEC = 3.5
 export const CHAPTER_VOICE_DELAY_SEC = 0.45
 export const CHAPTER_VOICE_TAIL_SEC = 0.8
-/** 인물·대사 없는 개별 장면 기본 길이 — Remotion timing.ts 와 동기화. */
+/** 인물 카드가 아닌 서사 항목 기본 길이 — Remotion timing.ts 와 동기화. */
 export const SCENE_SEC = FACTION_SCENE_DEFAULT_SEC
 
-export function sceneSecOf(scene: FactionIndividualScene, captionIdHoldSec?: number): number {
-  return factionSceneTiming({ ...scene, captionIdHoldSec }).durationSec
+export function sceneSecOf(scene: FactionPerson, captionIdHoldSec?: number): number {
+  return factionSceneTiming({
+    ...scene,
+    captionIdHoldSec,
+    beats: factionSceneBeats(scene).map(beat => ({ speaker: beat.speaker, text: beat.text })),
+  }).durationSec
 }
 
 /** 챕터명 음성이 있으면 실제 렌더와 같이 표지 컷을 음성 끝까지 연장한다. */
@@ -138,13 +142,13 @@ function sequenceClusters(g: FactionScript['groups'][number]) {
 function groupPeople(g: FactionScript['groups'][number]): FactionPerson[] {
   const list = sequenceClusters(g).flatMap(c => c.people ?? [])
   // 영상에서 제외된 인물은 길이·카운트 계산에서 뺀다 (렌더와 일치)
-  return list.filter(p => !p.disabled)
+  return list.filter(p => p.isPerson !== false && !p.disabled)
 }
 
-/** 세력의 수평 이야기 순서에 놓인 개별 장면 길이 합계. */
+/** 세력의 수평 이야기 순서에 놓인 서사 항목 길이 합계. */
 function groupScenesSec(g: FactionScript['groups'][number], script: FactionScript): number {
   return factionSequenceOf(g).reduce(
-    (sum, item) => item.kind === 'scene' ? sum + sceneSecOf(item.scene, script.captionIdHoldSec) : sum,
+    (sum, item) => item.kind === 'entry' ? sum + sceneSecOf(factionEntryAt(g, item), script.captionIdHoldSec) : sum,
     0,
   )
 }
@@ -168,7 +172,7 @@ export function totalPeople(script: FactionScript): number {
 function groupClusterCards(g: FactionScript['groups'][number]): number {
   if (g.solo) return 0
   return sequenceClusters(g).filter(c => {
-    const shown = (c.people ?? []).filter(p => !p.disabled)
+    const shown = (c.people ?? []).filter(p => p.isPerson !== false && !p.disabled)
     return !(shown.length === 1 && !c.image)
   }).length
 }
@@ -208,7 +212,7 @@ export function cueCount(script: FactionScript): number {
   const groupCards = groups.filter(g => g.logoVid || g.logoImg).length
   const clusterCards = groups.reduce((s, g) => s + groupClusterCards(g), 0)
   const sceneCards = groups.reduce(
-    (sum, g) => sum + factionSequenceOf(g).filter(item => item.kind === 'scene').length,
+    (sum, g) => sum + factionSequenceOf(g).filter(item => item.kind === 'entry').length,
     0,
   )
   return 1 + groupCards + clusterCards + totalPeople(script) + sceneCards
@@ -231,7 +235,7 @@ export function longformSliceGroup(
   const clusters = (group.clusters ?? []).map((cluster, clusterIndex) =>
     includedClusters.has(clusterIndex) ? cluster : { ...cluster, disabled: true },
   )
-  return { ...group, openingScenes: undefined, clusters, sequence }
+  return { ...group, clusters, sequence }
 }
 
 /** 롱폼 편 개수 — longformLayout의 바깥 편 경계만 센다. group.sequence cut은 쇼츠 전용이다. */

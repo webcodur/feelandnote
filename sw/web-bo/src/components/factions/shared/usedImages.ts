@@ -4,7 +4,7 @@ import { makePathRemapper } from '@feelandnote/shared/bo/editor'
 /**
  * FactionScript 데이터에서 영상에 연결된 이미지 경로를 모두 수집한다.
  * 수집 대상: group.logoVid·logoImg·image, cluster.image, person.image,
- *   시작 화면 이미지(heroes/heroesByPart/heroesByLvPart 의 'logo:<경로>'), 종료 이미지, 챕터·개별 장면 미디어.
+ *   시작 화면 이미지(heroes/heroesByPart/heroesByLvPart 의 'logo:<경로>'), 종료 이미지, 챕터·서사 항목 미디어.
  * heroes 의 인물 slug 는 person.image 로 이미 잡히므로 'logo:' 항목만 별도로 더한다.
  * 외부 URL(http로 시작)은 풀(로컬 파일)과 무관하므로 제외한다.
  */
@@ -46,12 +46,13 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
   for (const group of script.groups ?? []) {
     add(group.logoVid)
     add(group.logoImg)
-    for (const item of factionSequenceOf(group)) {
-      if (item.kind === 'scene') add(item.scene.media)
-    }
     for (const cluster of group.clusters ?? []) {
       add(cluster.image)
-      for (const person of cluster.people ?? []) addPerson(person)
+      for (const person of cluster.people ?? []) {
+        addPerson(person)
+        for (const change of person.mediaChanges ?? []) add(change.media)
+        for (const beat of person.beats ?? []) add(beat.media)
+      }
     }
   }
 
@@ -74,13 +75,15 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
     if (next !== img) changed++
     return next
   }
-  const mapPerson = <T extends { image?: string; imageChanges?: { chunk: number; image: string }[] }>(p: T): T => ({
+  const mapPerson = <T extends { image?: string; imageChanges?: { chunk: number; image: string }[]; mediaChanges?: { paragraph: number; media: string; crop?: unknown }[]; beats?: { media?: string }[] }>(p: T): T => ({
     ...p,
     image: m(p.image),
     imageChanges: p.imageChanges?.map(ic => {
       const next = m(ic.image)
       return next === ic.image ? ic : { ...ic, image: next ?? ic.image }
     }),
+    mediaChanges: p.mediaChanges?.map(change => ({ ...change, media: m(change.media) ?? change.media })),
+    beats: p.beats?.map(beat => ({ ...beat, media: m(beat.media) })),
   })
   const mapHero = (h: string): string => {
     if (!h.startsWith('logo:')) return h // 일반 인물 slug — 경로 아님
@@ -92,14 +95,10 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
     ...g,
     logoVid: m(g.logoVid),
     logoImg: m(g.logoImg),
-    openingScenes: undefined,
-    sequence: factionSequenceOf(g).map(item => item.kind === 'scene'
-      ? { ...item, scene: { ...item.scene, media: m(item.scene.media) } }
-      : item),
+    sequence: factionSequenceOf(g),
     clusters: (g.clusters ?? []).map(c => ({
       ...c,
       image: m(c.image),
-      scenesAfter: undefined,
       people: (c.people ?? []).map(mapPerson),
     })),
   }))

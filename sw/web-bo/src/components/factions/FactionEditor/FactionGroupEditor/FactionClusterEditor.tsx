@@ -52,7 +52,9 @@ export function FactionClusterEditor({
   celebExisting,
   celebLoaded,
 }: Props) {
-  const people = cluster.people ?? []
+  const entries = cluster.people ?? []
+  const people = entries.filter(entry => entry.isPerson !== false)
+  const narrativeEntries = entries.filter(entry => entry.isPerson === false)
   const localizedLabel = editLang === 'en' ? cluster.labelEn ?? cluster.label : cluster.label
   const title = localizedLabel?.split('\n')[0]?.trim()
     || people[0]?.name?.trim()
@@ -61,7 +63,7 @@ export function FactionClusterEditor({
   const personList = (
     <PersonList
       people={people}
-      onPeopleChange={next => onChange({ ...cluster, people: next })}
+      onPeopleChange={next => onChange({ ...cluster, people: [...next, ...narrativeEntries] })}
       onAddCeleb={onAddCeleb}
       series={series}
       episodeName={episodeName}
