@@ -9,7 +9,6 @@
 | 전체 | [`celeb-pipeline.md`](celeb-pipeline.md) | 전체 파이프라인과 작업 큐 |
 | 1 | [`celeb-1-basic-profile.md`](celeb-1-basic-profile.md) | 기본 정보. 한 줄 정의 전량 개편 호출은 `celeb-headline-rewrite` 스킬, 원장은 `data/celeb/headline-rewrite/` |
 | 2 | [`celeb-2-content-collector.md`](celeb-2-content-collector.md) | 콘텐츠 수집 |
-| 3 | [`retire/celeb-3-cultural-journey.md`](retire/celeb-3-cultural-journey.md) | 폐기된 감상 여정 단계. 번호는 이력 보존을 위해 비워 두지 않음 |
 | 4 | [`celeb-4-influence.md`](celeb-4-influence.md) | 영향력 평가 |
 | 5 | [`celeb-5-spectrum.md`](celeb-5-spectrum.md) | 스펙트럼 |
 
@@ -39,5 +38,4 @@
 
 | 문서 | 성격 |
 |---|---|
-| [`retire/`](retire/README.md) | 비활성인 감상 여정·가상 독백 보존 규칙. 신규 작업 기준으로 사용하지 않음 |
 | [`docs/todo/celeb/`](../../todo/celeb/README.md) | 보이스 생성·아바타·읽어보기 등 아직 남은 인물 작업 |
