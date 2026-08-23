@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { PenTool, Eye, Save, Loader2, Star, Plus, X } from "lucide-react";
+import { PenTool, Eye, Save, Loader2, Star, Plus, X, Check } from "lucide-react";
 import FormattedText from "@/components/ui/FormattedText";
 import StarRatingInput from "@/components/ui/StarRatingInput";
 import ReviewPresetModal from "./ReviewPresetModal";
@@ -30,6 +30,8 @@ interface MyReviewPanelProps {
   isRecommendation?: boolean;
   onSave: () => void;
   isSubmitting: boolean;
+  /** 방금 저장에 성공했다. 잠깐 체크 표시로 알린다 */
+  justSaved?: boolean;
   hideHeader?: boolean;
   contentType: CategoryId; // 필수
 }
@@ -48,6 +50,7 @@ export default function MyReviewPanel({
   setViewMode,
   onSave,
   isSubmitting,
+  justSaved = false,
   contentTitle,
   contentCreator,
   isRecommendation,
@@ -176,17 +179,22 @@ export default function MyReviewPanel({
 
             {/* 우측: 저장 버튼 */}
             <div className="flex-1 flex items-center justify-end">
-                  <button 
-                    onClick={onSave} 
+                  {/* 저장이 끝나면 잠깐 체크로 바뀐다 — 눌렀는데 아무 반응이 없으면 됐는지 알 수 없다 */}
+                  <button
+                    onClick={onSave}
                     disabled={!isDirty || isSubmitting}
-                    className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${
-                        isDirty 
-                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]' 
+                    className={`flex items-center justify-center w-9 h-9 rounded-lg ${
+                        justSaved
+                        ? 'bg-emerald-500/20 text-emerald-300'
+                        : isDirty
+                        ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]'
                         : 'bg-white/5  cursor-not-allowed'
                     }`}
-                    title={t("save")}
+                    title={justSaved ? t("saved") : t("save")}
                   >
-                    {isSubmitting ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                    {isSubmitting ? <Loader2 size={18} className="animate-spin" />
+                      : justSaved ? <Check size={18} />
+                      : <Save size={18} />}
                   </button>
             </div>
           </div>
@@ -317,15 +325,19 @@ export default function MyReviewPanel({
               <button
                   onClick={onSave}
                   disabled={!isDirty || isSubmitting}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                      isDirty
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+                      justSaved
+                      ? 'bg-emerald-500/20 text-emerald-300'
+                      : isDirty
                       ? 'bg-accent/15 hover:bg-accent/25 text-accent shadow-[0_0_15px_rgba(212,175,55,0.15)]'
                       : 'bg-white/5  cursor-not-allowed'
                   }`}
-                  title={t("save")}
+                  title={justSaved ? t("saved") : t("save")}
               >
-                  {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                  <span className="text-sm font-bold">{t("save")}</span>
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin" />
+                    : justSaved ? <Check size={16} />
+                    : <Save size={16} />}
+                  <span className="text-sm font-bold">{justSaved ? t("saved") : t("save")}</span>
               </button>
           </div>
       </div>

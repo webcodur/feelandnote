@@ -29,6 +29,12 @@ interface AddContentParams {
 interface AddContentData {
   contentId: string
   userContentId: string
+  /** 이미 기록해 둔 작품일 때만 채워진다. 새로 담은 작품에는 없다 */
+  existingRecord?: {
+    rating: number
+    review: string
+    reviewPresets: string[]
+  }
 }
 
 export async function addContent(params: AddContentParams): Promise<ActionResult<AddContentData>> {
@@ -138,9 +144,10 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
   if (userContentError) {
     // 중복 에러(23505)인 경우 기존 레코드 조회
     if (userContentError.code === '23505') {
+      // 이미 기록해 둔 작품이다. 별점·감상·프리셋까지 함께 돌려줘야 편집기가 빈 칸으로 열리지 않는다
       const { data: existing, error: fetchError } = await supabase
         .from('member_contents')
-        .select('id')
+        .select('id, rating, review, review_presets')
         .eq('member_id', user.id)
         .eq('content_id', contentId)
         .single()
@@ -153,6 +160,11 @@ export async function addContent(params: AddContentParams): Promise<ActionResult
       return success({
         contentId,
         userContentId: existing.id,
+        existingRecord: {
+          rating: existing.rating ?? 0,
+          review: existing.review ?? '',
+          reviewPresets: existing.review_presets ?? [],
+        },
       })
     }
 

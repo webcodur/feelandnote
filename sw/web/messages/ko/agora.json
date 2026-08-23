@@ -120,7 +120,8 @@
       "koreanVersion": "한국어",
       "englishVersion": "영어",
       "pinLabel": "상단에 고정",
-      "deleteConfirm": "공지사항을 삭제하시겠습니까?"
+      "deleteConfirm": "공지사항을 삭제하시겠습니까?",
+      "viewDetail": "공지 페이지에서 보기"
     },
     "feedback": {
       "write": "피드백 작성",

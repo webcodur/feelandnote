@@ -10,7 +10,6 @@ import type { SuggestionProps, ArchiveProps } from "./HomeEditorArea";
 import FeaturedWorkModal, { type ModalType, type SelectionTab } from "./FeaturedWorkModal";
 import FeaturedWorkMetadata from "./FeaturedWorkMetadata";
 
-import ClassicalBox from "@/components/ui/ClassicalBox";
 import { useTranslations } from "next-intl";
 
 interface FeaturedWorkInfoProps {
@@ -72,7 +71,9 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
 
     return (
         <div className="w-fit mx-auto mb-8">
-            <ClassicalBox className="bg-gradient-to-br from-white/5 to-transparent backdrop-blur-[2px]">
+            {/* 장식 액자(ClassicalBox) 대신 단순 테두리. 안에 표지·별점·버튼이 이미 많아
+                액자까지 겹치면 시선 둘 곳이 없다 */}
+            <div className="rounded-2xl border border-white/10 bg-white/[0.02]">
                 <div className="flex flex-col md:flex-row gap-8 items-center md:items-start p-6">
                      {/* Thumbnail (Link to Detail) */}
                     {/* Left Column: Thumbnail & Select Button */}
@@ -179,7 +180,7 @@ export default function FeaturedWorkInfo({ targetContent, suggestionProps, archi
                         </div>
                     </div>
                 </div>
-            </ClassicalBox>
+            </div>
 
             {/* Modals */}
             {activeModal && (

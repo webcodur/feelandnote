@@ -122,10 +122,7 @@
         "moreResources": "Browse More Resources",
         "moreResourcesDesc": "Explore the echoes left by notable figures"
       },
-      "tabs": {
-        "todayFigure": "Today's Figure",
-        "quickRecord": "Quick Record",
-        "freeBoard": "Free Board",
+      "intro": {
         "intro": "[[Alexander the Great]] kept Homer's 《Iliad》 at his side on the battlefield.\n[[Napoleon]] read 《The Sorrows of Young Werther》 seven times and carried it on his Egyptian campaign.\n[[Lincoln]] was immersed in 《Shakespeare's Plays》, reciting lines and frequenting the theater.\n\nWhat works captured the hearts of great figures, and what single line changed their lives? Those traces continue to inspire us thousands of years later.\n\nSo we set out to follow those traces.",
         "inspirationChainTitle": "Chain of Inspiration",
         "inspirationChains": [
@@ -165,10 +162,24 @@
           ]
         ],
         "inspirationConclusion": "One person's inspiration becomes another's creation. That creation transforms yet another's life.",
-        "introSub": "A Single Line Recorded\nA Thousand Years of Echoes",
-        "introClose": "Close intro",
-        "introReopen": "About Feel&Note"
+        "introSub": "A Single Line Recorded\nA Thousand Years of Echoes"
+      },
+      "quickRecordDock": {
+        "title": "Quick Record",
+        "unreviewed": "{count} unreviewed"
       }
+    },
+    "hub": {
+      "todayFigure": "Today's Figure",
+      "todayFigureSub": "A new figure every day, with the works they loved",
+      "figureLinks": "Most Documented Figures",
+      "figureLinksSub": "Start with the figures who left the most behind",
+      "youtube": "Video Hall",
+      "youtubeSub": "Library tours and faction chronicles — meet the figures on screen",
+      "viewAll": "View all",
+      "aboutLink": "What is Feel&Note?",
+      "notice": "Announcements",
+      "noticeSub": "Service news and updates"
     }
   },
   "banner": {
@@ -178,21 +189,15 @@
   "todayFigure": {
     "dateLabel": "Today's Figure · {month}/{day}",
     "subtitle": "Discover a new figure and the content they enjoyed every day",
-    "newsSelected": "Selected for being mentioned in {count} news articles in the last 48 hours",
-    "birthdaySelected": "Today is this figure's birthday",
-    "guestbookCta": "Leave your thoughts in the guestbook.",
     "leaveSignature": "Leave a note",
     "emptyCategory": "No records in this category",
     "viewAll": "View all",
     "libraryLabelEmpty": "{profession} {nickname}'s collection",
-    "libraryLabelFull": "{profession} {nickname}'s collection:\n<colored>{items}</colored>",
-    "bookCount": "{count, plural, one {# book} other {# books}}",
-    "videoCount": "{count, plural, one {# movie} other {# movies}}",
-    "musicCount": "{count, plural, one {# track} other {# tracks}}",
-    "gameCount": "{count, plural, one {# game} other {# games}}",
     "greet": "Say Hello",
     "browseLibrary": "Browse Library",
-    "viewContent": "View Details"
+    "viewContent": "View Details",
+    "birthdayChip": "Birthday",
+    "newsChip": "{count} in news"
   },
   "landing": {
     "factions": "Factions",
@@ -262,8 +267,9 @@
       "writeMode": "Write",
       "readMode": "Read",
       "recommendPlaceholder": "Figures highly recommend 《{title}》.\nIf you've experienced it, leave an honest review.",
-      "defaultPlaceholder": "Freely record the inspiration you found.\n\n Format your text with these symbols:\n \n • 《Title》 : Emphasize titles or big themes (Bold)\n • \"Quote\" : Highlight important sentences (Accent)\n • '<'Keyword'>' : Emphasize specific words (Serif)",
-      "formatTitle": "Title emphasis: 《Work title》"
+      "defaultPlaceholder": " Format your text with these symbols:\n \n • 《Title》 : Emphasize titles or big themes (Bold)\n • \"Quote\" : Highlight important sentences (Accent)\n • '<'Keyword'>' : Emphasize specific words (Serif)",
+      "formatTitle": "Title emphasis: 《Work title》",
+      "saved": "Saved"
     },
     "search": {
       "noPresets": "No search presets available for this content type.",

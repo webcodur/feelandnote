@@ -34,7 +34,6 @@ export default async function NoticePage({ params, searchParams }: NoticePagePro
   return (
     <NoticeList
       notices={notices}
-      total={total}
       currentPage={currentPage}
       totalPages={totalPages}
       isAdmin={admin}

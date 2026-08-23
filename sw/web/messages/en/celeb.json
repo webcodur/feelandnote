@@ -16,6 +16,7 @@
     "serviceIntroduction": "Profile",
     "reading": "Read",
     "personGuide": "Figure Guide",
+    "wikipediaLink": "{name} on Wikidata",
     "personExplore": "Figure Exploration",
     "serviceDialogueVoice": "Voice",
     "serviceMonologueVoice": "Narration",
@@ -263,6 +264,8 @@
     "dispositionReasonHint": "Tap a leaning to see why it sits there.",
     "dispositionReasonEmpty": "No background is recorded for this leaning yet.",
     "virtueReasonHint": "Tap a virtue to see why it scored that way.",
-    "virtueReasonEmpty": "No background is recorded for this virtue yet."
+    "virtueReasonEmpty": "No background is recorded for this virtue yet.",
+    "relatedLinksTitle": "Connected Figures",
+    "relatedLinksDesc": "Explore the reading records of figures connected to {name}"
   }
 }

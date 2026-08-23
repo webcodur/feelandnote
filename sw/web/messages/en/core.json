@@ -324,7 +324,7 @@
     "aboutVision1Title": "Bringing back faces and voices",
     "aboutVision1Body": "Many of these figures survive only as busts or imagined portraits. We build each face anew from what remains, and add a first-person monologue in which they look back on their life and philosophy in their own terms.",
     "aboutVision2Title": "No one rose alone",
-    "aboutVision2Body": "Meet the people who shared a stage, gathered in one place in the faction collections. From aviation, games, and finance to the gods of myth, dozens of collections are ready to browse.",
+    "aboutVision2Body": "Meet the people who shared a stage, gathered in one place in the faction collections. From aviation and games to finance, dozens of collections are ready to browse.",
     "aboutVision3Title": "Trace the deeper story behind each work",
     "aboutVision3Body": "A list of titles shows little of the person. We trace the situation they were in when a work reached them, and what changed after. Once you know the background, even a familiar work reads differently.",
     "aboutVision4Title": "Your record becomes part of the history",
@@ -488,7 +488,10 @@
       "platform": "Platform",
       "albumType": "Album type",
       "tracks": "{count} tracks",
-      "artist": "Artists"
+      "artist": "Artists",
+      "celebNameAria": "{name} — see figures with this name",
+      "celebNameHeading": "Figures with this name",
+      "celebNameNote": "These figures share this name. They may be different people, so please check before selecting."
     },
     "celeb": {
       "info": "Info",

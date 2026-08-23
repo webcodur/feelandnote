@@ -16,6 +16,7 @@
     "serviceIntroduction": "프로필",
     "reading": "읽어보기",
     "personGuide": "인물 안내",
+    "wikipediaLink": "{name} 위키데이터",
     "personExplore": "인물 탐구",
     "serviceDialogueVoice": "음성",
     "serviceMonologueVoice": "낭독",
@@ -263,6 +264,8 @@
     "dispositionReasonHint": "성향을 누르면 그 치우침이 나온 배경이 나옵니다.",
     "dispositionReasonEmpty": "이 성향의 배경이 아직 없습니다.",
     "virtueReasonHint": "덕목을 누르면 그 점수가 나온 배경이 나옵니다.",
-    "virtueReasonEmpty": "이 덕목의 배경이 아직 없습니다."
+    "virtueReasonEmpty": "이 덕목의 배경이 아직 없습니다.",
+    "relatedLinksTitle": "이어지는 인물",
+    "relatedLinksDesc": "{name}와(과) 얽힌 인물의 감상 기록으로 이동합니다"
   }
 }

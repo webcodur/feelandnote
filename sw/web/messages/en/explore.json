@@ -217,7 +217,11 @@
       "navTimeline": "Timeline by Country",
       "navYoutube": "Video Archive",
       "navToday": "Today's Figure",
-      "navOthers": "Other Figures"
+      "navOthers": "Other Figures",
+      "figureLinks": {
+        "title": "Figures in the Spotlight",
+        "description": "Meet the figures most visited over the past month"
+      }
     },
     "youtube": {
       "metaTitle": "Video Archive | Library Tour & Faction Atlas",
@@ -272,7 +276,14 @@
     "directory": {
       "metaTitle": "Celebrity Directory - 1,000+ Figures",
       "metaDescription": "Browse the complete directory of 1,000+ celebrities with their book recommendations, movie picks, and reading lists.",
-      "totalCount": "{count} figures in total"
+      "totalCount": "{count} figures in total",
+      "professionMetaTitle": "{profession} Figures | Books, Films & Music They Loved",
+      "professionMetaDescription": "Browse the books, films, and music cherished by {count} {profession} figures.",
+      "professionHeading": "{profession} Figures",
+      "professionCount": "{count} figures",
+      "professionIndexTitle": "Browse by Field",
+      "backToDirectory": "Full directory",
+      "otherProfessions": "Other fields"
     },
     "celebFeed": {
       "metaTitle": "Celebrity Feed - Latest Recommendations | Figures",

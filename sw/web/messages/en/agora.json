@@ -120,7 +120,8 @@
       "koreanVersion": "Korean",
       "englishVersion": "English",
       "pinLabel": "Pin to top",
-      "deleteConfirm": "Are you sure you want to delete this announcement?"
+      "deleteConfirm": "Are you sure you want to delete this announcement?",
+      "viewDetail": "Open full page"
     },
     "feedback": {
       "write": "Write Feedback",
