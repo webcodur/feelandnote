@@ -29,17 +29,11 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - `birth_date` / `death_date`는 BC 표기(`-384`)를 담기 위한 **text**다
   - `claimed_by_member_id`는 인수 회원의 `user_accounts.id`를 참조한다. 셀럽 자신의 로그인
     계정이 아니다
-  - 감상여정 저장 열은 `cultural_journey` / `cultural_journey_en`이다. `consumption_philosophy*`는 레거시 호환 열이다.
-    `cultural_journey` / `cultural_journey_en`은 감상여정 정식 저장 열이므로 직접 사용한다.
+  - `cultural_journey` / `cultural_journey_en`이 정식 저장 열이다. `consumption_philosophy*`는 레거시 호환 열이므로 직접 쓰지 않는다
   - `speech_tone` (text): 말투 6종. **`celebs` 테이블에 직접 존재** (celeb_persona 아님)
     - CHECK 제약 있음: `loyal`|`composed`|`bold`|`humble`|`gentle`|`free`
   - `wikidata_qid` (text): Wikidata 엔티티 ID (예: Q762 = 다빈치). 창작 서가 실시간 SPARQL 조회에 사용
   - `slug`: `nickname_en` 기반 generated column (아래 참조)
-  - `virtual_monologue` (text): 가상 독백 (2026-07-14 `add_virtual_monologue_column`). 서비스 노출과 신규 작성은 중단됐으며 보존 규칙은 `docs/project/celeb/retire/virtual-monologue.md`를 따른다
-  - `virtual_monologue_en` (text): 가상 독백 영문본 (2026-07-21 `add_virtual_monologue_en_column`)
-    - fiction 데이터 연결 단계에서는 둘 다 null이어도 active·검색 노출을 허용한다.
-      원전 검토를 거치지 않은 대량 독백으로 빈칸을 메우지 않는다
-  - `virtual_monologue_locked_at` (timestamptz): **가상 독백 확정 잠금** (2026-08-02 `add_virtual_monologue_lock`). 값이 있으면 트리거 `guard_virtual_monologue_lock`이 어떤 경로(관리자 폼·게시 RPC·스크립트)로 오든 `virtual_monologue` UPDATE를 거부한다. 해제(null 세팅)와 본문 수정은 반드시 별도 문장 — 한 문장에 섞어도 차단된다. 잠금·해제·목록 CLI: `sw/web-bo/scripts/fiction/monologue-lock.ts`
   - `youtube_videos` (jsonb): 셀럽 유튜브 영상 목록 (2026-04-14)
   - 음성 관련: `has_voice`(bool), `voice_id_ko`, `voice_id_en`, `voice_v`(smallint), `voice_speed`(numeric, 기본 1.0)
   - `portrait_url` (text): 인물 상세 PC 상단 대표사진 URL. 옛 Portrait 기능의 잔류 컬럼을 재사용한다. 옛 값은 **2026-07-31 전량 비움(817건 → 0)** — 815건이 가리키던 Supabase Storage `avatars` 버킷에 실제 portrait 파일은 0개였다. 같은 날 정사각 대표사진으로 재도입했고, 2026-08-05부터 공용 규격 상수에 따라 세로로 표시·편집한다
@@ -67,7 +61,7 @@ Supabase 프로젝트 ID: `wouqtpvfctednlffross`
   - 실측(2026-07-22): 방향 간선 1,972 — thought 1,110 / rivalry 456 / family 148 / friendship 140 / career(P112 조직 매개) 118
   - rivalry·friendship은 위키데이터에 사실상 없어 GPT 제안+전수 훑기(1,692명) → 병렬 검증 → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
   - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
-- **`celeb_relations_external`**: 명단 밖 인물 (2026-07-22 `add_celeb_relations_external`). 짝이 셀럽이 아니면 명단 안 간선만으로는 텅 빈다 — 위키데이터 등재 인물을 이름·사진만 받아 이동 불가 노드로 띄운다
+- **`celeb_relations_external`**: 명단 밖 인물 (2026-07-22 `add_celeb_relations_external`). 짝이 셀럽이 아니면 명단 안 간선만으로는 텅 빈다 — 위키데이터 등재 인물을 이름·사진만 받아 이동 불가 노드로 띄운다. **본짝이 명단 밖이라고 다른 셀럽을 그 칸에 넣지 않는다.** 맞수·지기는 이 테이블, 스승·영향·창업은 비운다.
   - 실측: family 7,435 / rivalry 214 / friendship 158 행 · UNIQUE(from_id, qid, rel_type)
   - 가족은 위키데이터 속성 수집, 라이벌·지기는 전수 훑기 결과를 이름→QID 대조(wbsearchentities)로 적재. **접두 검색이라 수식어 넣으면 오배정된다** — 곤충 속(屬)·동명이인 사고로 라이벌 23건·지기 23건을 사후 교정했다(설명·생몰 검증 필수)
   - 실측 커버리지(내부+외부 합산): 관계 보유 셀럽 1,303/1,692(77%)

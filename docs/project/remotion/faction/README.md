@@ -84,6 +84,20 @@ AI·기술 분야의 주요 인물을 **진영(세력)별로 묶어 보여주는
 
 챕터명은 `FactionChapter.narrate`가 있으면 그 값을, 없으면 전역 `readChapterTitle`을 따른다. 음원은 제목 해시 기반 `chapter-<key>.wav`라 챕터를 재배치해도 다른 음성이 붙지 않고, 제목이나 언어가 바뀌면 새 파일로 분리된다. 챕터별 `voice.quoteDuration`이 있으면 표지 컷은 `0.45초 지연 + 실제 재생시간 + 0.8초 여유`를 모두 담도록 자동 연장된다. BGM 덕킹과 SRT 챕터 자막도 같은 큐를 따른다.
 
+### 서사 항목의 덩어리(beats)
+
+서사 항목(`cluster.people[]`의 `isPerson:false`, `sequence`의 `{kind:'entry'}` 참조)은 **덩어리(`beats`)가 순서대로 흐르는 컨테이너**다. 덩어리에 화자(`speaker`)가 있으면 그 인물이 말하는 대사이고, 없으면 나레이터가 읽는 해설이다. 해설만·대사만·둘 다·여러 인물이 주고받기·말 없는 이미지 컷이 전부 이 배열 하나로 표현된다.
+
+화자는 셀럽 등록과 무관한 자유 문자열이다. 그래서 **인물 카드로 세우기엔 가벼운 배역(괴물·유혹자·단역)이 `celebs` 등록 없이 서사 항목 안에서 직접 말한다.** 같은 `faction_people` 테이블을 쓰더라도 `is_person=true` 개인샷만 `celeb_id`가 필수이고, `is_person=false` 서사 항목은 `celeb_id`가 없어야 한다.
+
+화면에서는 덩어리가 넘어갈 때 이름 자리가 함께 바뀐다 — 해설 덩어리는 장면 제목이, 대사 덩어리는 화자 이름이 뜬다. 같은 화자가 이어 말하면 이름을 다시 띄우지 않고 본문만 교차로 교체한다. 덩어리마다 `media`로 배경을 갈아 끼울 수 있다.
+
+`beats`가 비어 있으면 구 데이터의 `caption` 한 벌을 해설 덩어리 하나로 승격한다. 이는 이전 데이터 읽기 호환이며 새 항목은 `beats`를 쓴다.
+
+음원은 챕터명과 같은 해시 명명 `scene-<key>.wav`(`vnSceneBeat`)이며 해시 입력은 **화자 + 본문**이다. 장면을 세력 사이에서 옮기거나 순서를 바꿔도 음원이 따라오고, 본문을 고치면 새 파일로 갈려 옛 음원이 남지 않는다. 같은 말을 다른 인물이 하면 목소리가 달라야 하므로 파일도 갈린다. 화자·본문이 완전히 같은 덩어리 둘은 같은 음원을 공유한다. 언어별 본문이 다르면 파일도 자동 분리된다(`textEn`·`speakerEn`).
+
+길이는 덩어리의 `voiceDuration`에 기록되며, 있으면 **글자 점등 속도와 컷 길이를 그 음성에 맞춘다** — 문단 사이 정지·교차 시간을 먼저 빼고 남은 시간을 문단별 글자 수에 비례해 나누므로 마지막 문단 완독 시점이 발화 끝과 맞는다. 없으면 글자 수 추정(12자/초)으로 점등하고 음성은 재생하지 않는다. 음량·배속·화자 보이스·스타일은 `voiceGainDb`·`voicePlaybackRate`·`voiceSpeaker`·`voiceStyle`이며, 인물 대사와 같은 규칙으로 스타일이 합성 텍스트 앞에 prefix로 붙는다. 길이 산식 SSoT는 `@feelandnote/shared/lib/faction-scene-timing`이라 렌더러와 BO가 같은 값을 본다.
+
 BO는 인물 행에 **「수식어」 음성 패널**을 둔다(대사 음성 패널과 동일 — 엔진·보이스·스타일·감정·미리듣기·트림·들숨 제거). 패널은 슬롯(`QUOTE_SLOT`/`EPITHET_SLOT`)으로 같은 컴포넌트를 공유하며, 읽고 쓰는 인물 필드(`quote*`/`epithet*`)와 음원 파일만 다르다. 합성 설정은 `epithetEngine`·`epithetSpeaker`·`epithetStyle`·`epithetElevenlabsVoiceId`·`epithetEleOptions`·`epithetEleEmotions`·`epithetEleTrail`.
 
 ### ELE 보이스 캐스팅
@@ -170,12 +184,11 @@ sw/remotion/public/factions/<에피소드>/
   faction-data.json   # 렌더용 빌드 산출물 (DB에서 내보낸다 — 직접 편집 금지). data.ko.json / data.json 폐기
   00-발주서-인덱스.md  # 이미지 착수 시 (스킬 faction-image)
   00-<group-slug>.md  # 세력별 발주서 (또는 NN-slug/00-발주서.md)
-  NN-<slug>/          # 세력 폴더 (groups[] 순서 = 01, 02 …)
+  <asset-folder>/     # 선택적 정리 폴더. 이름·깊이는 DB 세력/묶음 순서와 무관
     _logo.png         # 세력 로고 → group.logoImg
     _logo.mp4         # 선택 → group.logoVid
-    <cluster>/        # 1, 2, … (묶음 1개여도 1/ 필수)
-      _group.png      # 단체 화보 → cluster.image
-      <slug>.png      # 개인샷 → person.image
+    <asset-name>.png  # 단체·개인·장면 확정본. DB에 연결한 상대경로가 역할을 정한다
+    _scenes/          # 선택 · 장면 컷 정리용
   _refs/              # 생성용 REF
   voice/              # TTS 산출
   data.timing.pN.ko.json  # 쇼츠 편별 발화 시각
@@ -185,9 +198,9 @@ sw/remotion/public/music/  # 배경음악
 - Remotion 등록: `sw/remotion/src/Root.tsx` Faction Folder. composition id = `Faction-<KEY>`(폴더명 대문자화). `public/factions/*/faction-data.json` 자동 스캔(`Faction/script.ts`).
 - **이미지 경로 규칙** (`Faction.tsx`의 `imgSrc`):
   - `http`로 시작 → 외부 URL 그대로
-  - 슬래시 포함(폴더 경로, 예 `01-greeks/1/agamemnon.png`) → `factions/<에피소드>/<경로>` 직접
+  - 슬래시 포함(폴더 경로, 예 `02-homeward/circe.png`) → `factions/<에피소드>/<경로>` 직접
   - basename만(레거시 BO 업로드) → `factions/<에피소드>/images/<basename>` (신규 비권장)
-- **세력 폴더 규칙**: `NN-<영문슬러그>/` = `groups[]` 배열 순서와 1:1. 인물·단체 파일명 정본은 folder-rules §3·§8 (`_group.png`, `_logo.png`, `<slug>.png`). 레거시 별칭(`group.png`, `group_shot.png`)은 §12 대응표.
+- **자산 폴더 규칙**: 에피소드 루트 `<에피소드>/`만 DB `faction_episodes.folder`와 일치해야 한다. 그 아래 폴더는 정리용이며 `groups[]`·`clusters[]`·음성 순번과 무관하다. 그룹샷·개인샷·장면은 DB에 연결된 상대경로를 export가 그대로 내보낸다. 상세는 folder-rules §3·§8.
 
 ## faction-data.json은 산출물이다 — 직접 편집 금지
 
@@ -224,7 +237,7 @@ sw/remotion/public/music/  # 배경음악
 
 편집기 상단 탭은 **정비 / 편성**이고, 편성은 하위에 **쇼츠 · 롱폼**을 둔다.
 
-- **정비 탭**(`info`) — 세력·인물의 실체(이름·이력·대사·음성·컷 효과)와 전역 설정(영상 명칭·시작문구·intro/outro·전역 배경음악·덕킹·효과음·움직임 효과 기본값). 세력은 배열 순서로 전체 평면 나열하고, 각 세력 안의 그룹·개별 장면은 `sequence` 수평 레일에서 같은 층위로 배치한다(활성 + 「재료」 접이식으로 영상 제외 세력).
+- **정비 탭**(`info`) — 세력·공통 개인 항목의 실체(개인샷 또는 서사 항목, 이름·이력·대사·음성·컷 효과)와 전역 설정. 각 세력 안의 그룹과 `isPerson=false` 서사 항목은 `sequence` 수평 레일에서 같은 층위로 배치한다.
 - **편성 > 쇼츠**(`shorts`) — 사용자가 지정하는 `shortsPartCount` + 편별 영상 명칭·시작문구·통합화면 + 세력의 편 배정·편 안 순서 + **세력별 쇼츠 곡**. 편수 조절기 또는 세력 배정 드롭다운의 `+ 다음 편 추가`로 N편을 늘린다.
 - **편성 > 롱폼**(`longform`) — `FactionLongformPanel`: 세력 순서 + 시대 문구 카드 + **편 경계(롱폼 편 분할)** + **세력별 롱폼 곡**.
 
@@ -239,7 +252,7 @@ sw/remotion/public/music/  # 배경음악
 1. **기획·명단** — *어디서: 조사·웹 검색, 셀럽 파이프라인(web-bo `/celebs`).*
    진영별로 인물을 추리고 현직 여부를 웹으로 교차 확인한다(편성 원칙 1). 미등록 인물은 티어를 나눠 먼저 등록한다. 동명이인 주의. 티어 기준(상세 `docs/project/celeb/celeb-pipeline.md`):
    - 실존 인물 → `light`(콘텐츠 확보 시 `full` 승격). 관계 때문에 나오는 조연도 같은 기준을 쓴다.
-   - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 현행 셀럽 등록 경로로 기본 정보만 만들며 `celebs.virtual_monologue`는 요구하거나 신규 작성하지 않는다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
+   - **신화·전설·허구 속 존재**(신·영웅·괴물·서사 속 집단) → `fiction`(basic 최소, 실존 아님). 현행 셀럽 등록 경로로 기본 정보만 만든다. 얼굴은 없어도 된다. 인물 데이터에는 `mythical: true`를 함께 박는다.
 
    등록 여부·티어는 편집기 인물 행 배지로 확인한다: **✓ DB**(실존 등록·연결) / **⚠ 없음**(키는 있는데 DB 부재) / **미연결**(키 없음) / **신화**(fiction, `mythical` 플래그 — DB 연결 시 초록).
 2. **편 만들기·구성 입력** — *어디서: web-bo `/factions`(편 생성) → `/factions/<편>/ko/info` 정비 탭. 쓰는 곳은 DB다.*
@@ -247,12 +260,12 @@ sw/remotion/public/music/  # 배경음악
 3. **사진 발주·배치** — *어디서: 발주서 `sw/remotion/public/factions/<편>/*.md` + 편집기 사진 풀. 파일은 로컬.*
    스킬 `faction-image` + `00-발주서-*.md`. **단체샷 승인 → 크롭(`<slug>-crop`) → 개인샷(`<slug>.png`)** 순서(folder-rules §8). `person-prompts.md`/`group-prompts.md` 신규 금지. 파일을 세력 폴더 정본 경로에 두고 `logoImg` / `clusters[].image` / `people[].image`를 실제 파일과 동일 문자열로 맞춘다(유저 승인 후).
 4. **대사·수식어 작성** — *어디서: 편집기 정비 탭 인물 행. 쓰는 곳은 DB다.*
-   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 대표 원전과 기존 조사 자료를 근거로 쓰며, 보존된 가상 독백이 있으면 참고 재료로만 사용할 수 있다. 독백을 먼저 만들거나 대사 내용을 독백 칼럼에 백필하지 않는다. `quoteOrigin`은 출처 필수칸이 아니라 자유 메모칸이며 비어 있어도 정상이다.
+   대사(`quote`)·자막 덩어리(`quoteChunks`)·수식어(`epithet`)를 채운다. fiction 인물 대사는 대표 원전과 기존 조사 자료를 근거로 쓴다. `quoteOrigin`은 출처 필수칸이 아니라 자유 메모칸이며 비어 있어도 정상이다.
    스킬 `faction-dialogue-review`로 한국어 본문과 청크를 한 번 작성하고, 조건부 DB 반영 → export → drift·구조 검증으로 끝낸다. 영문은 현재 제작하지 않으며 별도 요청이 있을 때만 작성한다. 순환 장부·후보 상태·인물별 검토 문서는 만들지 않는다.
 5. **음성 합성** — *어디서: 터미널 `pnpm voice:faction`. 산출물은 `<편>/voice/`(로컬).*
    유저가 명시적으로 요청할 때만 돌린다(`gotchas.md` §6).
 6. **받아쓰기·발화 시각** — *어디서: 스킬 `/faction-voice-sync`(WhisperX + `pnpm voice:faction-align`). 산출물은 `data.timing.pN.<언어>.json`(로컬), 음성 길이는 DB.*
-   이어서 `pnpm faction:durations-pull`로 wav 실측 길이를 DB에 반영한다. 음성 길이(`quoteDuration`·`epithetDuration`)는 **음성 파이프라인 소유**라 사람이 입력하는 칸이 없다 — DB에 값이 있으면 편집기 저장이 덮지 않는다.
+   이어서 `pnpm faction:durations-pull`로 wav 실측 길이를 DB에 반영한다. 음성 길이(`quoteDuration`·`epithetDuration`·서사 덩어리 `voiceDuration`)는 **음성 파이프라인 소유**라 사람이 입력하는 칸이 없다. 개인샷 길이는 `faction_people` 컬럼에, 서사 덩어리 길이는 같은 `faction_people` 행의 `data.beats[].voiceDuration`에 적힌다.
 7. **내보내기** — *어디서: 편집기 저장 시 자동. 수동은 터미널 `pnpm faction:export`.*
    DB를 읽어 `faction-data.json`(+`_episodes.json`)을 다시 만든다. 렌더·자막·유튜브·음성 파이프라인은 전부 이 파일을 읽으므로, DB만 고치고 내보내기를 건너뛰면 영상에 반영되지 않는다.
 8. **렌더·자막·썸네일** — *어디서: 편집기 「렌더」 버튼, 또는 Remotion Studio에서 `Faction-<KEY>` 확인 후 직접.*

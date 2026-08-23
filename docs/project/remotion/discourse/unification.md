@@ -10,8 +10,8 @@
 
 1. **담화는 기획 단계가 아니라 실재하지만, 팩션보다 한 자릿수 작다** — 편집기 21파일 3,027줄(팩션 56/11,912), BO lib 3종 546줄, 전용 API 2개(팩션 16), 데이터 5편·9인물·66발언·67.9KB, **wav 0개·발화시각 파일 0개·렌더 CLI·SRT·유튜브 전무**.
 2. **음성 파이프라인이 아직 없다 → 팩션 최상위 위험 R1·R2가 담화엔 아직 존재하지 않는다.** `voice:discourse` 스크립트 부재, `duration` 필드 사용 0건. **음성 착수 전에 통합을 끝내면 그 위험 자체가 발생하지 않는다 — 이것이 최대 이득이자 착수 시점의 근거다.**
-3. **타입 드리프트가 없고 셀럽 연결이 100%다** — 렌더/BO 타입 diff는 목록 카드 6필드뿐, 선언 외 필드 0건(팩션의 사문 12종+와 대조). cast slug 8종 전부 `celebs`에 실재하고 virtual_monologue(ko·en)를 보유한다. `Turn.cast`·`to` 인덱스 이탈 0건.
-4. **원천 `celebs.virtual_monologue`는 런타임 의존이 아니다** — 사람이 읽고 재작문하는 사료다. `discourse_speakers.celeb_id`가 발언자 정체성의 단일 원천이며, web-bo의 「원천 독백 보기」도 같은 셀럽 행을 읽는다.
+3. **타입 드리프트가 없고 셀럽 연결이 100%다** — 렌더/BO 타입 diff는 목록 카드 6필드뿐, 선언 외 필드 0건(팩션의 사문 12종+와 대조). cast slug 8종 전부 `celebs`에 실재한다. `Turn.cast`·`to` 인덱스 이탈 0건.
+4. **발언자 정체성의 단일 원천은 `discourse_speakers.celeb_id`다** — 원고 텍스트는 런타임 의존이 아니다.
 
 **[`README.md`](README.md) 실효 항목**: "3편"→실제 5편(peter-thiel·qin-shi-huang-court 추가, 전부 등록·todo) · musk-altman 발언 14→13 · 이미지 "미착수"→71장 실재(musk-altman 30·peter-thiel 25·jensen-huang 16, qin 계열 2편은 0장) · remotion-bo 팩션 서술은 Phase 5 소멸로 무효(`SeriesDataModel = 'book'|'discourse'`, middleware.ts 삭제됨).
 

@@ -14,7 +14,7 @@
 | [`dev-xray-explain.md`](dev-xray-explain.md) | 개발 도구 아이디어 |
 | [`document-publishing.md`](document-publishing.md) | 문서·전자책·출판 파이프라인 메모 |
 | [`shared-repositories.md`](shared-repositories.md) | 대화에서 공유된 외부 저장소·도구 목록 |
-| [`korean-writing-quality.md`](korean-writing-quality.md) | 가상 독백 작성 기준으로 모델별 한국어 작문을 매긴 주관 평가(26.07.14 스냅샷) |
+| [`korean-writing-quality.md`](korean-writing-quality.md) | 인물 1인칭 산문 기준으로 모델별 한국어 작문을 매긴 주관 평가(26.07.14 스냅샷) |
 | `서비스 아이디어.md` | 서비스 개선 착안점 메모 |
 
 ## 텍스트 메모

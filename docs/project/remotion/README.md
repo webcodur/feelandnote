@@ -7,8 +7,10 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 | 시리즈 | 먼저 볼 문서 | 범위 |
 |---|---|---|
 | 서재 탐방 | [`book-recommend/`](book-recommend/README.md) | 인물의 추천 도서를 소개하는 롱폼·쇼츠·SOLO |
+| 책과 사람 | [`book-person/`](book-person/README.md) | 나레이터 단독 세로 쇼츠 |
 | 세력도감 | [`faction/`](faction/README.md) | 인물을 진영별로 묶는 시네마틱과 본서비스 세력도감 |
 | 가상 담화 | [`discourse/`](discourse/README.md) | 인물의 1인칭 독백·반박·대담 |
+| 랭킹 | [`ranking/`](ranking/README.md) | 한 축의 순위를 나레이터가 읽고, 인물마다 설명·이미지가 한 번씩 나온다 |
 
 세력도감의 제작 규칙은 [`faction/rules.md`](faction/rules.md), 데이터 단일화 설계는 [`faction/unification.md`](faction/unification.md), 화면 영상화 검토는 [`faction/video-clips.md`](faction/video-clips.md)가 나눠 맡는다. 가상 담화의 통합 설계는 [`discourse/unification.md`](discourse/unification.md)가 쥔다.
 
@@ -37,8 +39,10 @@ Remotion으로 만드는 영상 시리즈의 문서 허브다. 이 문서는 진
 | Remotion 앱 | `sw/remotion/src/` |
 | 제작 스크립트 | `sw/remotion/scripts/` |
 | 서재 탐방 데이터 | `sw/remotion/public/episodes/` |
+| 책과 사람 데이터 | `sw/remotion/public/book-person/` |
 | 세력도감 데이터 | `sw/remotion/public/factions/` |
 | 가상 담화 데이터 | `sw/remotion/public/discourses/` |
+| 랭킹 데이터 | `sw/remotion/public/rankings/` |
 | 제작 백오피스 | `sw/web-bo/` |
 
 에피소드 폴더 배치와 파일 SSoT는 각 시리즈 문서에서 확인한다. 이 허브에는 상태 폴더·파일 목록을 복제하지 않는다.

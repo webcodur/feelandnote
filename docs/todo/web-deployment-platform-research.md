@@ -1,10 +1,10 @@
 # 배포비·플랫폼 남은 작업
 
 사용자 웹과 백오피스의 실사용 비용·제약을 비교해 앱별 배포처와 비용 상한을
-결정한다. Vercel 유지, Cloudflare Workers, 혼합 배포, 정액 Node 서버 중 어느 안도
-선결론으로 두지 않는다.
+결정한다. 26.08.23 재측정으로 플랫폼 비교는 끝났고 **정액 서버(VM) 이전**으로
+방향을 확정했다. 남은 것은 아래 실행 계획이다.
 
-현재 규칙은 다음 문서가 쥐다.
+현재 규칙은 다음 문서가 쥔다.
 
 - 플랫폼 구조: `docs/project/platform/architecture.md`
 - 외부 서비스·전송 비용: `docs/project/platform/external-services.md`
@@ -26,23 +26,10 @@
 TypeScript, 관련 자동 테스트, 전체 프로덕션 빌드, 핵심 화면 육안 검수를 통과한 뒤만
 배포한다.
 
-## 2. 배포 후 비용 기준선 재측정
+## 2. R2 자산·사용량 인벤토리
 
-Vercel Usage를 사용자 웹과 백오피스로 나눠 적용 전·후 기울기를 비교한다.
-
-- ISR Writes
-- Fast Origin Transfer
-- Build CPU·배포 횟수
-- Function CPU·Memory
-- Observability Events
-- 상세 주소·검색 공유용 이미지·크롤러별 요청량
-
-단순 방문 수와 캐시 쓰기를 같은 원인으로 취급하지 않는다. 상세 화면의 최초 생성,
-명시적 무효화, 캐시 만료, 크롤러 재방문을 나눠 원인을 확정한다.
-
-## 3. R2 자산·사용량 인벤토리
-
-비밀값을 출력하지 않고 다음을 읽기 전용으로 실측한다.
+비밀값을 출력하지 않고 다음을 읽기 전용으로 실측한다. Phase 2의 DB 백업 보관
+설계(버킷·prefix·lifecycle)가 이 인벤토리를 전제한다.
 
 - 버킷별 저장량, 객체 수, Class A/B 작업량, 공개 도메인
 - CORS, lifecycle, Cache-Control, `?v=` 캐시 무효화 규칙
@@ -52,73 +39,15 @@ Vercel Usage를 사용자 웹과 백오피스로 나눠 적용 전·후 기울�
 영구 자산과 재생성 가능한 증분 캐시의 버킷·prefix·권한·삭제 경계를 비교한다.
 영구 자산을 전체 purge하거나 짧은 lifecycle에 넣을 수 있는 구조는 기각한다.
 
-## 4. 앱별 비용·제약 비교
-
-`sw/web`과 `sw/web-bo`를 별도로 판정한다.
-
-| 후보 | 사용자 웹 | 백오피스 |
-|---|---|---|
-| Vercel 유지 | 관리형 ISR·배포 편의와 최대 청구 | 저트래픽 앱의 팀·빌드 비용 |
-| Cloudflare Workers + OpenNext | Next 16 기능, CPU, 번들, 캐시, SEO | Node·파일시스템·이미지·자식 프로세스 제약 |
-| 혼합 배포 | 공개 웹만 이전했을 때의 이득 | Vercel·로컬·고정 서버 중 운영 부담 |
-| 정액 Node + Cloudflare CDN | 고정비, 복구, 보안 업데이트 | 관리자 접근 통제와 앱 분리 |
-| 정적화 확대 + 얇은 API | 비용 상한과 캐시 적중 | 재작성 범위가 이득을 넘는지 |
-
-각 안에 평시·크롤 급증·공격 시나리오의 월 비용, 하드캡 여부, 한도 초과 때의
-중단 동작, 추가 유료 상품, 운영 부담을 포함한다.
-
-## 5. Cloudflare/OpenNext 격리 미리보기
-
-운영 DNS·DB·R2 자산을 바꾸지 않고 `sw/web`을 실제로 빌드·배포한다. 증분 캐시는
-영구 자산과 격리된 시험 영역만 쓴다.
-
-- Next.js 16.1, Webpack 전처리기, `next-intl`, Middleware, Server Actions
-- Worker 압축 크기, 모듈 구성, CPU-ms, R2 Class A/B
-- 시간 기반 ISR, `revalidateTag`, `revalidatePath`, 지역 캐시 무효화
-- `sharp`, `ImageResponse`, `public` 폴더 탐색, `node:crypto`, AWS S3 SDK
-- Supabase SSR 쿠키, Google OAuth, 이메일 로그인·로그아웃·세션 갱신
-- 백오피스 저장 후 사용자 웹 캐시 무효화
-- `today-figure` 예약 실행과 실패 재시도
-
-## 6. SEO·인증·운영 연속성 비교
-
-현행 Vercel 배포와 미리보기를 같은 조건에서 비교한다.
-
-- `/`, `/en`, 인물·콘텐츠 상세, 디렉토리, 사이트맵, feed, robots
-- canonical, hreflang, 색인 차단, HTML·응답 헤더
-- 로그인, OAuth callback, 쿠키 보안 속성, 세션 갱신
-- 사용자 핵심 여정과 백오피스 저장 → 웹 반영 소요 시간
-
-미리보기 도메인은 검색 색인에서 차단하되 기능 테스트는 가능해야 한다.
-
-## 7. 최종 결정과 승인 뒤 전환
-
-다음 산출물을 한 안으로 묶어 사용자 승인을 받는다.
-
-- 앱별 배치도와 최종 권고안 하나
-- 평시·급증 시 월 비용 범위와 최대 청구·중단 동작
-- R2 영구 자산과 증분 캐시의 권한·삭제·lifecycle 경계
-- 기각안의 기능 결손·비용·운영 부담
-- DNS, 비밀값, Supabase Auth, Cron, 캐시 데우기, 모니터링, 롤백 절차
-- Vercel Production으로 복귀할 수 있는 검증 기간과 구독 해지·다운그레이드 조건
-
 ## 변경 금지선
 
-최종 안을 승인받기 전에는 다음을 바꾸지 않는다.
+각 Phase의 최종 안을 승인받기 전에는 다음을 바꾸지 않는다.
 
 - 운영 DNS, Vercel 구독, Cloudflare 플랜
 - R2 버킷·객체·CORS·lifecycle·공개 URL
 - Supabase Auth 설정과 운영 비밀값
 - 영구 자산의 복사·이동·삭제·전체 purge
 - 유료 부가 기능과 새 DB 테이블·컬럼
-
-## 종료 조건
-
-- 현재 배치와 자산 흐름, R2 사용량, 앱별 비용이 실측되었다.
-- 후보별 최대 비용, 기능 결손, 운영 부담이 같은 기준으로 비교되었다.
-- 선택한 후보의 핵심 기능·SEO·인증·캐시·Cron이 미리보기에서 통과했다.
-- 사용자가 최종 안과 예상 비용, 중단 동작, 롤백 절차를 승인했다.
-- 전환하는 경우 검증 기간 동안 Vercel Production으로 복귀할 수 있다.
 
 ## 26.08.16 결정 — Vercel 유지 + Cloudflare 앞단 캐시
 
@@ -136,9 +65,11 @@ Vercel Usage를 사용자 웹과 백오피스로 나눠 적용 전·후 기울�
 
 **비용** Cloudflare Free. Cache Reserve(롱테일 유지)는 월 $1 안팎, 적중률 보고 결정.
 
-**작업 순서** ① 도메인 추가·네임서버 변경(유저) ② SSL Full(strict)·캐시 규칙·봇 규칙 이관·`/api/revalidate` 퍼지 연결·배포 후 퍼지 판정 워크플로 ③ 검증(배포 뒤 상세가 Cloudflare에서 나오는지, 인물 수정 뒤 그 페이지만 갱신되는지, 로그인·OAuth·이미지 정상) ④ 되돌리기: 네임서버 원위치.
-
 ### 26.08.16 실행 결과 — Cloudflare 앞단 가동
+
+> 당시 스냅숏이다. 이후 개정된 **현행 운영 규칙**(ruleset v4, RSC 우회, 배포 후 퍼지의
+> diff 분류 재도입)은 `docs/project/platform/external-services.md`「Cloudflare 앞단 캐시」가
+> 쥔다. 아래 기록과 어긋나면 그쪽이 맞다.
 
 - Cloudflare 존 `feelandnote.com`(Free, zone id는 `sw/web/.env` `CLOUDFLARE_ZONE_ID`) 생성, 네임서버 `gabriella.ns.cloudflare.com`·`kobe.ns.cloudflare.com`으로 Vercel 등록 도메인의 NS 변경(전파 1분, Universal SSL 발급 ~1분 — 그 사이 HTTPS 30초 안팎 불통).
 - DNS: 루트 A `76.76.21.21`(프록시), `www` CNAME `cname.vercel-dns.com`(프록시), `admin` CNAME(백오피스, DNS만 — 캐시 안 탐), 구글 인증 CNAME, CAA 2건(pki.goog·sectigo) — Vercel DNS에 있던 것 전부 복제.
@@ -151,3 +82,77 @@ Vercel Usage를 사용자 웹과 백오피스로 나눠 적용 전·후 기울�
 - 변경 파일로 퍼지 여부를 판정하던 단계는 폐기했다(26.08.19). 배포는 Vercel ISR 사본도 함께 새로 만들어 판정으로 아끼는 것이 Cloudflare HIT 유지뿐인데, 그 단계가 매번 매달려 퍼지가 한 번도 나가지 못했다.
 - 되돌리기: Vercel → Domains → feelandnote.com → Nameservers → "Restore Original Nameservers".
 
+## 26.08.23 재측정·결정 — 정액 VM 이전 (Phase 1 Vercel, Phase 2 Supabase)
+
+### 재측정 결과 (`vercel usage`·Supabase 실측, 8/1~8/23)
+
+- Cloudflare 앞단(8/16)이 Vercel 일 사용액을 $4.09 → $1.43으로 **65% 절감**했다. 그러나 남은 순수 종량이 월 환산 ~$23으로 Pro 포함 한도를 넘어, 8/19에 할당량이 소진되고 이후 일 $0.6~0.8 초과 청구가 발생 중이다(월 마감 예상 초과 ~$8). 앞단 캐시로 짜낼 수 있는 몫은 소진됐다.
+- 청구 항목의 실체는 **재생성 비용**이다 — ISR Writes·Fast Origin Transfer·Fluid CPU가 대부분이고, 사용자향 전송(Fast Data Transfer)·Edge Requests는 $0. 초과분 전액이 사용자 웹(`feelandnote`)에서 난다. 백오피스는 $0.
+- Vercel 유료 기능 실사용: 프리뷰 배포 0건(최근 20건 전부 Production), 이미지 최적화 미사용(`unoptimized: true`), 분석·방화벽·Blob 미사용, 시트 1인. 쓰는 것은 **빌드 자동화와 Node 호스팅+ISR 둘뿐**이다.
+- Supabase는 Pro 한도 내(egress 5%, DB 249MB/무제한, 초과 $0)지만, egress 실측 월 ~21GB가 Free 한도(5GB)의 4배라 **무료 다운그레이드는 불가**. 비용을 없애려면 셀프호스팅뿐이다.
+
+### 플랫폼 비교 종결
+
+| 안 | 판정 | 근거 |
+|---|---|---|
+| Vercel 유지 | 기각 | 고정 $20 + 초과. 유료 기능 실사용이 빌드·호스팅뿐 |
+| Cloudflare Workers + OpenNext | 기각 | `runtime='nodejs'` 라우트 2개(seo-image), `node:fs` 사용(`/api/avatar` 등), 서버 액션 170파일, webpack 커스텀 로더, Next 16.1 어댑터 지원 불확실 — 호환성 도박 |
+| Cloud Run 등 stateless 컨테이너 | 기각 | ISR 디스크 캐시가 인스턴스 재시작마다 유실 — ISR 중심 사이트에 부적합 |
+| **정액 VM + Cloudflare CDN** | **채택** | standalone 빌드·기동 검증 통과(아래). 호환성 리스크 0, 재생성 비용 0 |
+
+### 검증된 사실 (26.08.23 실측)
+
+- `NEXT_DIST_DIR=<별도> NEXT_PRIVATE_STANDALONE=true pnpm build`로 **config 무수정·개발 서버 무간섭** standalone 빌드 성공. 산출물 143MB, 모노레포(`packages/`) 포함, 전 라우트·미들웨어 포함.
+- 산출물 기동 검증: Ready 106ms, `robots.txt` 200, 상세 경로 307(next-intl 로케일 리다이렉트 정상 = 미들웨어 작동).
+- DB 무효화 사슬은 도메인 기준이다 — `web_revalidate_send()`가 `https://feelandnote.com/api/revalidate`를 pg_net으로 호출. **DNS만 VM으로 바꾸면 무수정 유지**된다.
+- Vercel 고유 종속은 둘뿐: 크론 1개(`/api/cron/today-figure`, 매일 15:05 UTC)와 모노레포 빌드 필터(`vercel.json` `ignoreCommand`). 크론은 VM crontab + curl로 대체(함수 시간 한도 `maxDuration=300`은 VM에서 소멸), 빌드 필터는 수동 배포에선 불필요.
+- 서버 후보: **Oracle Always Free가 26.06.15부로 2 OCPU/12GB로 감축**(공지 없이, 유휴 회수 정책 존재). Phase 1(웹 2개)은 12GB로 충분하나 확보 경쟁·정책 신뢰가 약점. **Hetzner CAX21(ARM 4vCPU/8GB, ~€6.5/월)을 공동 1순위**로 둔다 — 유럽 리전이지만 Cloudflare 앞단 캐시가 지연을 흡수한다.
+
+### 최종 인프라 개괄 (Phase 2 완료 시점)
+
+Phase 2까지 끝나면 유료 관리형 서비스가 전부 빠지고 아래만 남는다. 이전 완료 후 이
+개괄을 `docs/project/platform/architecture.md`로 승격하고 여기서 지운다.
+
+```
+사용자·크롤러
+  → Cloudflare (Free) — DNS, CDN 캐시(상세·명부·SEO 이미지 30일), 방화벽·봇차단, TLS
+    → VM 1대 (Oracle Always Free 2C/12GB, 대안 Hetzner CAX21 ~€6.5)
+        ├ Caddy/Nginx — 리버스 프록시, Cloudflare Origin Cert, CF IP 대역만 허용
+        ├ web      :3000  Next.js standalone, PM2 fork 단일 (ISR 캐시 = 로컬 디스크)
+        ├ web-bo   :3001  Next.js standalone, PM2 fork 단일 (admin.feelandnote.com)
+        ├ Supabase 셀프호스팅 (docker-compose)
+        │    Postgres·PostgREST·GoTrue·Realtime·Storage·Kong·Studio + pg_net
+        └ crontab — today-figure(매일 15:05 UTC), pg_dump→R2 백업(매일), 배포 스크립트
+  → Cloudflare R2 — 영구 자산(이미지·음성) + DB 백업 보관 (기존 유지)
+```
+
+- **GitHub**: 저장소 + `cloudflare-purge.yml`(배포 스크립트가 workflow_dispatch로 발화).
+- **외부 API**(카카오·OpenLibrary·TMDB·IGDB·네이버뉴스·iTunes 등)와 메일용 SMTP는 그대로.
+- **무효화 사슬**(무수정 유지): DB 트리거 → pg_net → `feelandnote.com/api/revalidate` → Next 태그 만료 + Cloudflare 퍼지.
+- **로컬 전용**(배포 안 함): remotion(3002·8001), lab(3004), audio-bo(3005). android는 web을 감싸는 TWA.
+- **소멸**: Vercel 전부(Phase 1), Supabase 클라우드(Phase 2), `keep-alive.yml` 크론.
+- **월 비용**: Cloudflare $0 + VM $0(Oracle) 또는 ~€6.5(Hetzner) + R2 무료 한도 내 + 도메인비 = **$0~7**. 관리형이 해주던 일 중 직접 지는 것: 서버 보안 패치, PM2·docker 감시, 백업 성공 확인.
+
+### Phase 1 — Vercel → VM (절감 $20+초과/월)
+
+1. 서버 확보(유저): Oracle 무료 신청을 걸어두되, 확보 지연 시 Hetzner로 간다.
+2. VM 구성: Node 24 + pnpm, PM2 **fork 단일 인스턴스**(클러스터 금지 — ISR 인메모리 캐시 정합), Caddy/Nginx 리버스 프록시, Cloudflare Origin Certificate, 방화벽은 Cloudflare IP 대역만 허용. web(3000)·web-bo(3001) 동거, `admin` CNAME도 VM으로.
+3. 배포: 서버에서 직접 빌드(`git pull → pnpm build → pm2 reload`). GitHub Actions 불필요(아키텍처 불일치 회피, Build CPU 비용 소멸).
+4. 크론: crontab에서 `curl -H "Authorization: Bearer $CRON_SECRET" https://feelandnote.com/api/cron/today-figure`.
+5. 전환: Cloudflare DNS A 레코드만 VM IP로 변경. **Vercel 프로젝트는 지우지 않는다** — 문제 시 DNS 원복으로 즉시 복귀.
+6. 검증(기존 6절 흡수): `/`·`/en`·인물·콘텐츠 상세·디렉토리·사이트맵·feed·robots, canonical·hreflang, 로그인·OAuth callback·쿠키 보안 속성·세션 갱신, ISR 생성·태그 무효화(`/api/revalidate` 종단), `seo-image`(sharp/ImageResponse), `/api/avatar`(fs), 백오피스 저장→웹 반영, today-figure 크론 실행.
+7. 안정 1~2주 후 Vercel Pro 해지.
+
+### Phase 2 — Supabase → 셀프호스팅 (절감 $25/월, Phase 1 안정 후)
+
+1. 공식 docker-compose로 전체 스택 기동(Postgres·PostgREST·GoTrue·Realtime·Storage·Kong). API 경로가 `/rest/v1`·`/auth/v1` 동일 — **앱 코드 무수정**, env의 URL·키만 교체. pg_net 확장 필요(트리거 사슬용).
+2. **백업 체계를 먼저 만들고 검증한 뒤** 이전한다: 매일 pg_dump → R2, 성공·실패 알림 포함. Pro의 일일 백업을 대체하는 장치가 없으면 전환하지 않는다.
+3. 이전: 스키마·데이터·RLS·트리거(`web_reval_*`)·함수·`auth` 스키마, Storage 객체, Vault 시크릿(`web_revalidate_secret`).
+4. 알려진 함정: JWT 시크릿 변경으로 기존 세션 전원 만료, Auth 메일용 외부 SMTP 별도 설정, Storage 공개 URL 도메인 변경에 따른 DB 내 URL 참조 점검, Realtime 설정 난도.
+5. 클라우드와 한 달 병행 운영 후 해지.
+
+### 종료 조건
+
+- Phase 1: 위 6번 검증 전 항목 통과, 2주 무사고, Vercel 청구 $0.
+- Phase 2: 백업 자동화가 복원 리허설까지 통과, 병행 한 달 무사고, Supabase 청구 $0.
+- 전 기간 Vercel Production·Supabase 클라우드로 복귀 경로가 살아 있다.
