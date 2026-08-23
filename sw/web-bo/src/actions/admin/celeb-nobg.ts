@@ -20,6 +20,20 @@ export async function enqueueCelebAvatarBackgroundRemoval(
   return enqueueImageProcessingJob('nobg-avatar', celebId)
 }
 
+export async function enqueueCelebAvatarBackgroundRemovals(
+  celebIds: string[]
+): Promise<ImageProcessingJob[]> {
+  await requireAdmin()
+  const targets = [...new Set(celebIds)].slice(0, 100)
+  targets.forEach(assertUuid)
+  const jobs: ImageProcessingJob[] = []
+  // 큐 순서를 목록 순서와 맞추려면 순차로 접수해야 한다.
+  for (const celebId of targets) {
+    jobs.push(await enqueueImageProcessingJob('nobg-avatar', celebId))
+  }
+  return jobs
+}
+
 export async function getCelebImageProcessingJobs(
   jobIds: string[]
 ): Promise<ImageProcessingJob[]> {
