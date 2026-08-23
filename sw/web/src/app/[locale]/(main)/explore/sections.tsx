@@ -16,6 +16,7 @@ import { RetryBlock } from "@/components/ui/pending";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import SpectrumDistribution from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistribution";
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
+import FigureLinkGrid from "@/components/features/celeb/FigureLinkGrid";
 
 const HUB_SPECTRUM_MIN_INFLUENCE = 40;
 
@@ -66,6 +67,25 @@ export async function SpectrumSection() {
   if (people === null) return <RetryBlock />;
   if (people.length === 0) return <EmptyLine />;
   return <SpectrumDistribution people={people} />;
+}
+
+/* 주목받는 인물 링크 — 홈(기록순 고정)과 달리 최근 30일 조회순이라 집합이 흘러
+   크롤러가 방문할 때마다 다른 인물 상세로 가는 길이 열린다. 실패하면 조용히 접는다 */
+export async function FigureLinksSection() {
+  const t = await getTranslations("explore.hub.figureLinks");
+  const celebs = await load("주목 인물 링크", () =>
+    getCelebs({ sortBy: "trending", limit: 24 }).then((r) => r.celebs),
+  );
+
+  if (!celebs || celebs.length === 0) return null;
+  return (
+    <FigureLinkGrid
+      headingId="explore-figure-links"
+      title={t("title")}
+      description={t("description")}
+      figures={celebs}
+    />
+  );
 }
 
 /* 세력도감 */

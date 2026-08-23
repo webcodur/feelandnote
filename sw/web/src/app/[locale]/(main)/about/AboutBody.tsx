@@ -66,7 +66,7 @@ export default async function AboutBody({ showcase }: { showcase: AboutShowcase 
     next: tNav("next"),
   };
   // 첫인사 액자는 홈(HomeIntroPanel)이 맡는다. 여기서는 표어만 받아 페이지 끝에 찍는다
-  const introSub = (await getTranslations("home.ui.tabs"))("introSub");
+  const introSub = (await getTranslations("home.ui.intro"))("introSub");
 
   return (
     <div className="space-y-20 md:space-y-28 text-text-primary">

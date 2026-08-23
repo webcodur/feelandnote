@@ -15,6 +15,8 @@ interface Props {
   description: ReactNode; // 설명 문구 (줄바꿈 가능)
   className?: string;
   descriptionClassName?: string;
+  /** 제목 글자 크기 재정의. 상위 구획 제목보다 커지면 위계가 뒤집히므로 그때 낮춘다 */
+  titleClassName?: string;
   as?: "h1" | "h2" | "h3"; // 제목 태그 (기본: h2)
 }
 
@@ -24,6 +26,7 @@ export default function SectionHeader({
   description,
   className = "",
   descriptionClassName,
+  titleClassName,
   as: Tag = "h2",
 }: Props) {
   return (
@@ -43,7 +46,12 @@ export default function SectionHeader({
       )}
 
       {/* 메인 타이틀 */}
-      <Tag className="text-2xl sm:text-3xl font-serif font-black text-text-primary mb-5 md:mb-6 whitespace-pre-line leading-[1.4]">
+      <Tag
+        className={cn(
+          "text-2xl sm:text-3xl font-serif font-black text-text-primary mb-5 md:mb-6 whitespace-pre-line leading-[1.4]",
+          titleClassName,
+        )}
+      >
         {title}
       </Tag>
 

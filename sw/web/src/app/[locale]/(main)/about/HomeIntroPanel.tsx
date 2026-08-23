@@ -11,7 +11,7 @@ import IntroFrame from "@/components/features/home/IntroFrame";
 
 /** 첫인사 액자에 들어갈 자료 — 사례 본문과 영감의 연쇄 인물 얼굴 */
 async function buildIntroLabels(locale: string) {
-  const t = await getTranslations("home.ui.tabs");
+  const t = await getTranslations("home.ui.intro");
   const rawChains = t.raw("inspirationChains") as { reader: string; author: string; text: string }[][];
   const slugSet = new Set<string>();
   rawChains.forEach((chain) =>

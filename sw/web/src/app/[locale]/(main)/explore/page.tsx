@@ -20,10 +20,11 @@ import {
   withoutMore,
 } from "@/components/shared/hubSectionUtils";
 import { PendingBlock } from "@/components/ui/pending";
+import { FigureLinkGridPending } from "@/components/features/celeb/FigureLinkGrid";
 import Lane from "@/components/ui/pending/Lane";
 import PopularBooks from "@/components/features/home/PopularBooks";
 
-import { FactionSection, ProfileSection, SpectrumSection } from "./sections";
+import { FactionSection, FigureLinksSection, ProfileSection, SpectrumSection } from "./sections";
 
 /* 콜드 상태에서 봇이 받는 완성 HTML이 중간에 잘리지 않게 상한을 넉넉히 둔다 */
 export const maxDuration = 30;
@@ -60,7 +61,17 @@ export default function ExplorePage() {
         {/* 프로필 — 인기 · 기록왕 · 랜덤 탭. 전체 링크는 탭 안에서 따로 걸어 래퍼에서 뗀다.
             헤더는 레인 밖이라 기다림 없이 뜨고, 본문만 채워진다 */}
         <HubSection {...withoutMore(sec("ranking"))}>
-          <Lane fallback={<PendingBlock variant="grid" count={12} label={loading} />}>
+          {/* 열 구성은 HubCelebGrid와 같아야 한다 — 어긋나면 자료가 들어올 때 격자가 다시 짜인다 */}
+          <Lane
+            fallback={
+              <PendingBlock
+                variant="grid"
+                cols="grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
+                count={12}
+                label={loading}
+              />
+            }
+          >
             <ProfileSection />
           </Lane>
         </HubSection>
@@ -82,6 +93,14 @@ export default function ExplorePage() {
             <FactionSection />
           </Lane>
         </HubSection>
+      </div>
+
+      {/* 주목받는 인물 링크 — 0건이면 스스로 접는 보조 구획이라 목차에 넣지 않는다.
+          기다림은 홈과 같은 격자 모양으로 세운다 */}
+      <div className="mt-12 md:mt-16">
+        <Lane fallback={<FigureLinkGridPending count={24} label={loading} />}>
+          <FigureLinksSection />
+        </Lane>
       </div>
 
       {/* 제휴 도서 — 링크가 걸린 책이 없거나 영문 화면이면 컴포넌트가 스스로 접는다.

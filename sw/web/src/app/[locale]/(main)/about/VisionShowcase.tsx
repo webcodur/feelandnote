@@ -60,7 +60,8 @@ export default function VisionShowcase({ index, data, labels }: Props) {
     if (!faces.length) return null;
     return (
       <div className="pt-3 space-y-3">
-        <div className="flex gap-4 overflow-x-auto pb-2">
+        {/* 가운데로 모은다 — 가로 스크롤은 왼쪽 얼굴을 잘라 먹으므로 줄바꿈으로 흘린다 */}
+        <div className="flex flex-wrap justify-center gap-4 pb-2">
           {faces.map((f) => (
             <Face
               key={f.slug ?? f.name}
@@ -86,8 +87,9 @@ export default function VisionShowcase({ index, data, labels }: Props) {
   if (index === 3) {
     const j = data.journey;
     if (!j) return null;
+    // 얼굴은 목록 높이의 한가운데 선다 — 위에 붙으면 오른쪽 목록과 짝이 맞지 않는다
     return (
-      <div className="pt-3 flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5">
+      <div className="pt-3 flex flex-col items-center sm:flex-row sm:items-center gap-4 sm:gap-5">
         <div className="shrink-0">
           <Face name={j.name} avatarUrl={j.avatarUrl} info={j.face} size="lg" />
         </div>
@@ -128,7 +130,7 @@ export default function VisionShowcase({ index, data, labels }: Props) {
   const some = data.faces.slice(4, 8);
   if (!some.length) return null;
   return (
-    <div className="pt-3 flex items-start gap-4 overflow-x-auto pb-2">
+    <div className="pt-3 flex flex-wrap items-start justify-center gap-4 pb-2">
       {some.map((f) => (
         <Face key={f.slug ?? f.name} name={f.name} avatarUrl={f.avatarUrl} info={f.info} />
       ))}

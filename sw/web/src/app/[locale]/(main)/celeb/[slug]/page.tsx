@@ -12,6 +12,7 @@ import { getDisplayDialogueQuote } from "@/lib/utils/celeb-dialogues";
 import { resolveCelebWorld } from "@/lib/celeb/world";
 import { getWorldBannerImages } from "@/lib/celeb/worldImages";
 import CelebPageContent from "./CelebPageContent";
+import RelatedFigureLinks from "./RelatedFigureLinks";
 import CelebAffiliateBooks from "@/components/features/celeb/CelebAffiliateBooks";
 import { buildCelebTitle } from "@/lib/celeb/meta";
 import { buildCelebPageJsonLd, serializeJsonLd } from "./celebPageJsonLd";
@@ -184,6 +185,16 @@ export default async function CelebPage({ params }: PageProps) {
         worldId={worldId}
         worldBannerImages={worldBannerImages}
       >
+        {/* 관계 인물 링크 — 관계 그래프는 모달 전용이라 크롤러가 못 따라간다.
+            서버가 이미 든 relations로 실제 링크를 세워 인물 상세끼리 잇는다 */}
+        <RelatedFigureLinks
+          displayName={
+            locale === "en" && profile.nickname_en
+              ? profile.nickname_en
+              : profile.nickname
+          }
+          relations={profile.relations}
+        />
         {profile.celeb_tier === "full" && <CelebAffiliateBooks userId={userId} />}
       </CelebPageContent>
     </>

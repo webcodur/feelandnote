@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { INDEXABLE_TIERS } from '@feelandnote/shared/constants/celeb-tiers'
+import { CELEB_PROFESSIONS } from '@feelandnote/shared/constants/celeb-professions'
 
 export const SITEMAP_REVALIDATE_SECONDS = 86400
 
@@ -138,6 +139,14 @@ const staticPaths: [string, SitemapEntry['changeFrequency'], number][] = [
   ['/explore/spectrum', 'weekly', 0.6],
   ['/explore/today', 'daily', 0.7],
   ['/explore/directory', 'weekly', 0.8],
+  // 직군별 명부 — 인물 상세로 가는 중간 허브. 직군 목록은 CELEB_PROFESSIONS 상수가 쥔다
+  ...CELEB_PROFESSIONS.map(
+    (prof): [string, SitemapEntry['changeFrequency'], number] => [
+      `/explore/directory/${prof.value}`,
+      'weekly',
+      0.7,
+    ],
+  ),
   ['/explore/feed', 'daily', 0.7],
   ['/library', 'daily', 0.8],
   ['/library/popular', 'weekly', 0.8],

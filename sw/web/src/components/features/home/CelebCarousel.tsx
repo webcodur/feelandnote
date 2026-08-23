@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Search, X } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { BustIcon as UserXIcon } from "@/components/ui/icons/neo-pantheon";
 import { Pagination } from "@/components/ui";
 import CelebCard from "@/components/shared/CelebCard";
@@ -336,15 +337,17 @@ function CarouselMode({ celebs, total }: { celebs: CelebProfile[]; total: number
 
 function MoreLink() {
   return (
-    <a
+    /* 배경 강조는 즉각 축이다(ui-hover). 확대되는 화살표 원만 연출 축으로 남긴다.
+       Link는 @/i18n/navigation 것이어야 영문 화면에서 /en 접두사가 붙는다 */
+    <Link
       href="/explore"
-      className="group flex flex-col items-center justify-center gap-2 bg-accent/5 border-dashed border-2 border-accent/20 hover:bg-accent/10 rounded-sm aspect-[13/19] w-full transition-colors"
+      className="group flex flex-col items-center justify-center gap-2 bg-accent/5 border-dashed border-2 border-accent/20 hover:bg-accent/10 rounded-sm aspect-[13/19] w-full"
     >
       <div className="w-8 h-8 rounded-full border border-accent/30 flex items-center justify-center group-hover:scale-110 transition-transform">
         <span className="text-accent text-lg">→</span>
       </div>
       <span className="text-[9px] font-bold text-accent tracking-widest uppercase">MORE</span>
-    </a>
+    </Link>
   );
 }
 // #endregion
