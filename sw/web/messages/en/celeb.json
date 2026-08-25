@@ -147,6 +147,7 @@
     "relType_influence": "Influence",
     "relType_influenced": "Influenced",
     "relType_cofounder": "Co-founder",
+    "relType_colleague": "Same group",
     "relType_friend": "Friend",
     "relType_rival": "Rival",
     "videos": "Videos",

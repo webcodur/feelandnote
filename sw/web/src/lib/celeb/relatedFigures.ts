@@ -15,6 +15,8 @@ const REL_WEIGHT: Record<string, number> = {
   father: 1,
   mother: 1,
   cofounder: 1,
+  // 같은 그룹·팀·단체에 함께 속한 사이. 아이돌 멤버끼리가 여기 걸린다
+  colleague: 0.95,
   partner: 0.95,
   relative: 0.9,
   teacher: 0.95,
@@ -58,14 +60,19 @@ export interface RelatedRelationInput {
   relType: string;
   relGroup: string;
   slug: string | null;
+  /** 관계의 근거 한 줄 — 「방탄소년단 소속」처럼 짧으면 관계 이름보다 이게 낫다 */
+  note?: string | null;
+  noteEn?: string | null;
 }
 
 export interface RelatedFigureRanked {
   candidate: RelatedCandidate;
   /** relation = 근거 있는 사이, similar = 직군·시대·나라로 계산한 결과 */
   kind: "relation" | "similar";
-  /** kind가 relation일 때만 채워진다 */
+  /** 아래 셋은 kind가 relation일 때만 채워진다 */
   relGroup?: string;
+  note?: string | null;
+  noteEn?: string | null;
 }
 
 interface SelfInput {
@@ -135,6 +142,8 @@ export function rankRelatedFigures({
       candidate: byId.get(id)!,
       kind: "relation" as const,
       relGroup: entry.relation.relGroup,
+      note: entry.relation.note,
+      noteEn: entry.relation.noteEn,
     }));
 
   if (ranked.length >= limit) return ranked.slice(0, limit);

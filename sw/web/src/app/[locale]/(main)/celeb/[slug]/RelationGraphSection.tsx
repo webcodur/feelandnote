@@ -39,6 +39,8 @@ const TYPE_VISUAL: Record<string, { color: string; Icon: LucideIcon }> = {
   sibling: { color: "#9a916b", Icon: Users },
   rival: { color: "#a65b5b", Icon: Swords },
   friend: { color: "#a2905e", Icon: Handshake },
+  cofounder: { color: "#8f9a6b", Icon: Users },
+  colleague: { color: "#8f9a6b", Icon: Users },
 };
 const typeVisual = (types: string[]) => TYPE_VISUAL[types[0]] ?? { color: "#8a8f98", Icon: User };
 
@@ -58,6 +60,7 @@ const SOCIAL_BAND_OF: Record<string, SocialBand> = {
   teacher: "up", influence: "up",
   student: "down", influenced: "down",
   cofounder: "sideL",
+  colleague: "sideL",
   friend: "sideL",
   rival: "sideR",
 };
@@ -227,7 +230,9 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     const filtered = filter === "all" ? socialResolved : socialResolved.filter((p) => p.group === filter);
     const allBands: Record<SocialBand, PersonNode[]> = { up: [], sideL: [], sideR: [], down: [] };
     for (const p of filtered) {
-      const band = p.types.includes("rival") ? "sideR" : (SOCIAL_BAND_OF[p.types[0]] ?? "sideR");
+      // 표에 없는 관계는 맞수 띠로 보내지 않는다. 적대는 rival 이 명시됐을 때만이다 —
+      // 예전 기본값이 sideR 이라 새로 들어온 「같은 소속」이 통째로 맞수 자리에 섰다.
+      const band = p.types.includes("rival") ? "sideR" : (SOCIAL_BAND_OF[p.types[0]] ?? "sideL");
       allBands[band].push(p);
     }
     const featuredSocialIds = pickBalancedIds([
@@ -296,14 +301,16 @@ export default function RelationGraphSection({ centerName, centerAvatarUrl, rela
     };
   }, [showAllRelations]);
 
-  // 짧은 근거(공동 창업 조직명)는 딱지에 직접 쓴다 — "공동 창업"이 아니라 "페이팔 공동 창업".
+  // 짧은 근거(소속·창업 조직명)는 딱지에 직접 쓴다 — "공동 창업"이 아니라 "페이팔 공동 창업",
+  // "같은 소속"이 아니라 "방탄소년단 소속". 어느 집단인지가 관계 자체보다 먼저 읽힌다.
   // 긴 근거(맞수의 사건 한 줄)는 딱지를 유지하고 호버 설명으로 남긴다.
   const noteLabelMax = locale === "en" ? 40 : 24; // 같은 내용이라도 영문이 길어 자릿수를 달리 잡는다
   const label = (p: PersonNode) =>
     p.types
       .map((ty) => {
         const n = p.notesByType[ty];
-        return ty === "cofounder" && n && n.length <= noteLabelMax ? n : t(`relType_${ty}`);
+        const usesNote = ty === "cofounder" || ty === "colleague";
+        return usesNote && n && n.length <= noteLabelMax ? n : t(`relType_${ty}`);
       })
       .join(" · ");
   const relationLabel = (p: PersonNode) =>
