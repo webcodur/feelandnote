@@ -56,10 +56,13 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  // ECC 서명 JWT는 getClaims()로 로컬 검증한다. getUser()는 요청마다 Auth 서버를
+  // 왕복하므로 로컬 관리 작업 중 하루 수만 건의 불필요한 egress를 만들었다.
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const userId = claimsData?.claims?.sub
 
   // 로그인 안 됨 → 로그인 페이지로
-  if (!user) {
+  if (claimsError || !userId) {
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(loginUrl)

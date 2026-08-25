@@ -11,7 +11,7 @@
 |---|---|
 | [`celeb/README.md#확정-작업`](celeb/README.md#확정-작업) | 읽어보기, 연표, 아바타 결함 |
 | [`external-api-migration-2026-08-01.md`](external-api-migration-2026-08-01.md) | 영문판이 확인된 레거시 도서의 EN locale 보완 |
-| [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | VM 이전 실행(Phase 1 Vercel 탈출 → Phase 2 Supabase 셀프호스팅), R2 인벤토리 |
+| [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | Supabase 비용·이전, R2 인벤토리 |
 | [`document-audit.md`](document-audit.md) | 현역 문서와 코드·DB 대조 |
 | [`web-section-lanes.md`](web-section-lanes.md) | 회원 기록 첫 화면, 인물 목록, 인물 상세 스크롤·실화면 검수 |
 

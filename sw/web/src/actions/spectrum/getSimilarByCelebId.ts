@@ -1,7 +1,7 @@
 'use server'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { cachedList, cachedDetail } from '@/lib/cache'
+import { STATIC_REVALIDATE, cachedList, cachedDetail } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 import { selectAllPages } from '@feelandnote/shared/lib/paginate'
 import { getReviewCelebIdsCached } from './reviewCelebIds'
@@ -189,7 +189,10 @@ async function fetchAllSpectrumVectors(): Promise<SpectrumVectorRow[]> {
 
 /* 성향 벡터 전량 — 한 명이 바뀌어도 비교 대상 전체가 달라지므로 목록으로 다룬다 */
 const getAllSpectrumVectorsCached = () =>
-  cachedList(CACHE_TAGS.SPECTRUM, ['all-spectrum-vectors'], fetchAllSpectrumVectors)
+  cachedList(CACHE_TAGS.SPECTRUM, ['all-spectrum-vectors'], fetchAllSpectrumVectors, {
+    revalidate: STATIC_REVALIDATE,
+    extraTags: [CACHE_TAGS.CELEBS],
+  })
 
 // 대상 셀럽 1명분: 레이더 근거(rationale/reason) 표시를 위해 spectrum jsonb 원본과
 // 생몰일·title까지 포함해 단건 조회한다. 1행이라 캐시 한도와 무관하다.

@@ -9,19 +9,35 @@
 ## Supabase (MCP 서버)
 DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - **프로젝트 ID**: `wouqtpvfctednlffross`
-- **플랜**: Pro (Egress 250GB/월, 청구 주기 매월 3일 시작. 26.08.23 실측 사용률 5% — Free 복귀는 egress 실측 월 ~21GB로 불가, 절감 경로는 `docs/todo/web-deployment-platform-research.md` Phase 2)
+- **플랜**: Pro (Egress 250GB/월, 청구 주기 매월 3일 시작. 26.08.25 현재 주기는 Oracle 웹 이전 전 사용량이 섞여 있어 판정에 쓰지 않는다. 추가 구조 변경 없이 유지하고 9월 3일에 비용 결정을 다시 논의한다. 이전안은 `docs/todo/web-deployment-platform-research.md`)
+- **키**: 브라우저·서버는 각각 `sb_publishable_...`·`sb_secret_...` 형식을 쓴다. JWT 기반 구형 API 키는 비활성화했고 Auth는 ECC 서명키로 회전했으며, 구형 Legacy HS256 키는 폐기했다. 코드의 환경변수 이름은 호환을 위해 그대로다.
+- **서버 인증 확인**: ECC JWT는 `getClaims()`로 검증한다. 관리자 권한은 별도 `is_admin` RPC와 계정 조회로 확인하며, 요청마다 Auth 서버를 왕복하는 `getUser()`를 백오피스 경로에 다시 넣지 않는다.
 
 ### Cloudflare 앞단 캐시 (2026-08-16 가동)
 
-- 요청 경로: 브라우저·로봇 → **Cloudflare**(캐시·방화벽) → Vercel(캐시·함수) → Supabase. Vercel은 그대로 빌드·배포·실행. 설정 내역·검증·되돌리기는 `docs/todo/web-deployment-platform-research.md`「26.08.16 실행 결과」.
+- 요청 경로: 브라우저·로봇 → **Cloudflare**(캐시·방화벽·TLS) → Oracle VM의 Caddy → Next.js `feelandnote-web.service` → Supabase.
+- Oracle UFW의 80·443은 Cloudflare 공식 IPv4·IPv6 대역만 허용한다. Cloudflare에는 이 존 전용 Authenticated Origin Pulls 인증서를 연결했고 Caddy가 해당 CA의 클라이언트 인증서를 필수 검증하므로, Cloudflare를 거치지 않은 원본 HTTPS 요청은 TLS 단계에서 거부된다.
+- 이 이중 검증 뒤에만 Caddy가 `CF-Connecting-IP`를 `X-Forwarded-For`·`X-Real-IP`로 넘겨 익명 게시판의 IP 제한이 엣지 전체를 한 사용자로 묶지 않게 한다. AOP 인증서는 2028-08-23 만료이며 갱신용 CA는 로컬 `C:\Users\webco\.feelandnote\cloudflare-aop\`에만 보관한다.
 - 캐시 대상: 인물·작품 상세, 명부·연표, SEO 이미지(30일). 로그인 쿠키 요청은 우회. 홈·탐색·회원·광장·API·auth는 캐시 안 함.
 - **현행 운영 규칙(Cloudflare ruleset v4)**: 인물·작품 상세는 익명의 비-RSC HTML만 30일 캐시한다. 이 HTML 캐시 키는 쿼리를 무시하고, `RSC` 헤더가 있거나 `_rsc` 쿼리가 있는 요청은 우회한다. 인증 쿠키 요청도 계속 우회하고, SEO 이미지는 이미지 변형값이 섞이지 않도록 쿼리를 캐시 키에 유지한다.
 - 데이터 변경: DB 트리거 → `/api/revalidate` → Next 태그 즉시 만료 + Cloudflare 퍼지(`lib/cloudflarePurge.ts`) → **다음 방문이 ISR 페이지를 한 번만 재생성**. 사용자 방문 때마다 무효화하지 않는다.
-- 코드 배포: 실제 public web 프로덕션 배포가 성공하면 `cloudflare-purge.yml`이 직전 성공 배포 SHA부터의 누적 diff를 분류해 바뀐 경로군만 비운다. 인물은 `/celeb`·`/en/celeb`, 작품은 `/content`·`/en/content`, 전역 레이아웃·헤더·번역·공유 런타임은 Cloudflare가 보관하는 상세·명부·연표 HTML 전체가 대상이다. 이 전역 범위도 `_next/static`과 변경 없는 SEO 응답은 비우지 않는다. 기준 실행·GitHub API·분류·Cloudflare HTTP/본문 검증이 실패하면 워크플로를 실패시키며 자동 전체 존 퍼지는 하지 않는다. 수동 실행은 `none|celeb|content|seo|cached-html|emergency-zone`을 명시하고, `emergency-zone`만 `PURGE-ENTIRE-FEELANDNOTE-ZONE` 확인문을 정확히 입력해야 한다.
-- 봇 차단은 Cloudflare 방화벽이 1차(UA 22종), 미들웨어 403·Vercel 방화벽은 2차. Cloudflare 뒤에서는 Vercel 쪽에 방문자 IP·통신사가 Cloudflare로 보이므로 IP·ASN 규칙은 Cloudflare에서 건다.
+- 코드 배포 뒤에는 `cloudflare-purge.yml`을 필요한 범위(`none|celeb|content|seo|cached-html`)로 수동 실행한다. `emergency-zone`은 `PURGE-ENTIRE-FEELANDNOTE-ZONE` 확인문을 정확히 입력한 경우에만 전체 존을 비운다.
+- 학습·대량수집 봇 차단은 Cloudflare 방화벽이 1차(UA 22종), 미들웨어 403이 2차다. IP·ASN 규칙은 방문자 주소를 직접 보는 Cloudflare에서 건다.
 - 확인 명령: `curl -sI https://feelandnote.com/celeb/<slug> | grep cf-cache-status` (HIT/MISS/DYNAMIC).
 - **이관 직후 DNS 전파 편차(2026-08-17):** 이관 다음날 일부 국내 ISP 리졸버가 구 경로를 캐싱해 접속 실패(PWA 오프라인 화면) 신고 있었음. Cloudflare DNS(1.1.1.1) 직접 조회로 신규 엣지 정상 확인 — 신·구 경로 둘 다 응답 정상이라 서버 장애가 아니라 리졸버별 전파 편차로 판정. 봇 차단 UA(`blocked-crawlers.ts`)는 구체 문자열 매칭이라 오탐 원인 아님.
-- **같은 날 재발 확인:** 몇 시간 뒤 같은 사용자가 재차 접속 실패 보고. 재진단 결과 해당 ISP 리졸버가 **조회할 때마다** 구 IP(`216.150.x.x`)와 신규 Cloudflare 엣지 IP(`172.67.x.x`/`104.21.x.x`) 사이를 오락가락(5회 중 2~3회꼴로 뒤바뀜). 두 경로 각각은 10연속 200 OK로 개별 안정 — 서버·Cloudflare·Vercel 쪽 문제는 배제, 원인은 ISP 리졸버 클러스터의 캐시 미정렬이며 우리 쪽에서 고칠 수 있는 지점이 아니다. **즉시 우회책**: 기기·공유기 DNS를 `1.1.1.1` 또는 `8.8.8.8`로 수동 지정하면 오락가락 없이 항상 정상 접속됨(모바일 데이터 전환도 우회됨). 언제 완전히 정착될지는 해당 ISP 쪽 일정이라 예측 불가 — 재발 신고가 오면 이 항목부터 참조하고 신규 원인부터 찾지 않는다.
+- **같은 날 재발 확인:** 몇 시간 뒤 같은 사용자가 재차 접속 실패 보고. 재진단 결과 해당 ISP 리졸버가 **조회할 때마다** 구 IP(`216.150.x.x`)와 신규 Cloudflare 엣지 IP(`172.67.x.x`/`104.21.x.x`) 사이를 오락가락(5회 중 2~3회꼴로 뒤바뀜). 두 경로 각각은 10연속 200 OK로 개별 안정 — 신·구 원본 서버와 Cloudflare 장애는 배제, 원인은 ISP 리졸버 클러스터의 캐시 미정렬이며 우리 쪽에서 고칠 수 있는 지점이 아니다. **즉시 우회책**: 기기·공유기 DNS를 `1.1.1.1` 또는 `8.8.8.8`로 수동 지정하면 오락가락 없이 항상 정상 접속됨(모바일 데이터 전환도 우회됨). 언제 완전히 정착될지는 해당 ISP 쪽 일정이라 예측 불가 — 재발 신고가 오면 이 항목부터 참조하고 신규 원인부터 찾지 않는다.
+
+### Oracle 사용자 웹 운영
+
+- 운영 앱은 `sw/web` 하나다. `web-bo`·`remotion`·`lab`·`audio-bo`는 로컬에서만 실행한다.
+- Oracle VM은 `ubuntu@168.107.58.90`, SSH 키는 로컬 `C:\Users\webco\.ssh\feelandnote_oracle`이다.
+- Next.js standalone은 `feelandnote-web.service`가 실행하며, 작업 경로는 `/opt/feelandnote/web/current/sw/web`이다.
+- 배포본은 `/opt/feelandnote/web/releases/<release>`에 두고 `/opt/feelandnote/web/current` 심볼릭 링크로 활성 버전을 고른다.
+- 운영 환경변수는 `/etc/feelandnote/web.env`가 쥔다. 값을 저장소나 문서에 복사하지 않는다.
+- VM은 1GB이므로 운영 서버에서 Next.js 빌드를 돌리지 않는다. 로컬에서 개발 서버와 겹치지 않는 별도 `NEXT_DIST_DIR`로 standalone을 빌드해 새 release로 올린다.
+- Windows에서 만든 standalone의 pnpm junction은 로컬 workspace 절대경로를 가리키므로 그대로 복사하지 않는다. release 안의 대응 `.pnpm` 경로를 가리키는 상대 심볼릭 링크로 복원하고 `.env`가 없는지 확인한 뒤, 별도 canary 포트에서 대표 URL이 200인 release만 전환한다.
+- `feelandnote-web.service`는 `Restart=always`, `RestartSec=5s`, `TimeoutStopSec=15s`, Node heap 512MB, `MemoryHigh=700M`, `MemoryMax=850M`이다. 메모리 압력이 높아 정상 종료가 멈춰도 15초 뒤 프로세스를 정리하고 다시 기동한다.
+- 새 release 전환 뒤 `sudo systemctl restart feelandnote-web.service`로 반영하고, `systemctl status`·`journalctl -u feelandnote-web.service`·실제 URL로 확인한다. 현재 이 과정을 묶은 자동 배포 명령은 없으며 다음 작업은 `docs/todo/web-deployment-platform-research.md`가 쥔다.
 
 ### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
 
@@ -29,11 +45,11 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - 일반 변경은 항목 태그로 Next 캐시와 Cloudflare URL을 같이 비운다. 대량 반영은 `domain:__all__`(예: `celebs:__all__`, `contents:__all__`)로 해당 도메인의 Next 상세 캐시를 전량 만료시키고 Cloudflare `purge_everything`을 딱 한 번 호출한다. 인물·작품 페이지는 `revalidate = false`이므로 변경 후 첫 방문이 한 번 재생성하고 그 다음부터 재사용한다. 조회수(`celebs.view_count`)·시각 갱신만 있는 문장은 리스트를 비우지 않는다.
 - `/api/revalidate`는 Next 태그를 먼저 만료시키고 Cloudflare 퍼지를 수행한다. 퍼지 대상이 있는데 자격증명이 없으면 503, Cloudflare HTTP·본문 응답이 실패하면 502이며 둘 다 `revalidated: true`, `complete: false`를 반환한다. 이 응답은 성공이 아니므로 호출자는 재시도·운영 조치를 해야 한다. 앞단 퍼지가 필요 없는 태그만 받으면 `not_needed`로 완료할 수 있다.
 - 확인: `select * from net._http_response order by id desc limit 5;`에서 status 200과 응답 본문의 `complete: true`를 같이 본다. 백오피스의 `revalidateWebCache()` 호출은 DB 트리거와 중복되어도 무해하지만, 호출했다면 반드시 `complete: true`까지 검증한다.
-- 새 표를 웹이 읽게 되면 주석 파일을 복사하지 말고 새 migration에 태그 매핑과 트리거를 재현 가능하게 추가한다. 비밀키는 Vault `web_revalidate_secret`(=CRON_SECRET) — 키를 돌리면 Vercel·로컬 `.env`·Vault를 함께 바꾼다.
+- 새 표를 웹이 읽게 되면 주석 파일을 복사하지 말고 새 migration에 태그 매핑과 트리거를 재현 가능하게 추가한다. 비밀키는 Vault `web_revalidate_secret`(=CRON_SECRET) — 키를 돌리면 Oracle `/etc/feelandnote/web.env`·로컬 `.env`·Vault를 함께 바꾼다.
 
 ### 공개 조회 문장 제한·인덱스 (2026-08-16)
 
-- **증상**: 탐색·서가·홈·성향 화면의 조회가 콜드에서 `canceling statement due to statement timeout`(57014)으로 실패해 구획이 통째로 빠졌다(Vercel 로그 24h 40건+).
+- **증상**: 탐색·서가·홈·성향 화면의 조회가 콜드에서 `canceling statement due to statement timeout`(57014)으로 실패해 구획이 통째로 빠졌다(당시 운영 로그 24시간 40건+).
 - **원인(실측)**: anon 역할 `statement_timeout`이 **3초**였고, 하나씩은 0.2~2.2초로 통과하지만 캐시가 한 시각에 같이 식어 조회 15종이 동시에 몰리면 서로 밀려 3초를 넘겼다(3벌 동시 실행으로 재현). DB 유휴 후 첫 조회는 5~11배 느리다(Free 플랜).
 - **조치**: ① `alter role anon set statement_timeout='15s'` ② `celeb_contents`(감상문 정렬·필터)·`celeb_influence`(순위)·`content_locales`(제휴)·`celebs`(생년) 부분 인덱스 5개 — `sw/web/supabase/migrations/20260816040000_*.sql` ③ 코드: 기질별 서재 조회를 짝(celeb_id, content_id)만 받고 뽑힌 작품에만 메타를 붙이게(5.4MB·13.5초 → 1.4MB·5.7초 + 0.3MB), 성향 분포·닮은 인물이 같은 명단 캐시(`celeb_metrics`) 공유, `cachedList/cachedDetail` 만료 시각을 키별 ±10%로 어긋나게(`spreadRevalidate`).
 - **남은 것**: `get_celebs_sorted`(전 컬럼 2,406행 실체화)·`get_chosen_scriptures`(전량 집계 후 LIMIT 12)·`get_celeb_feed_type_counts` RPC 재작성 — 반환 형태를 건드려 별도 작업.
@@ -79,7 +95,7 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 
 ### 사고 후속 4차 정리 (2026-05-09)
 
-전수 점검 + Vercel React/Next.js 베스트 프랙티스 적용으로 안정 상태 확보. **자동화 안전망 도입**으로 동일 패턴 재발 차단.
+전수 점검 + React/Next.js 베스트 프랙티스 적용으로 안정 상태 확보. **자동화 안전망 도입**으로 동일 패턴 재발 차단.
 
 **자동화 검사 스크립트** (`sw/web/scripts/check-egress-patterns.mjs`)
 - 4가지 위험 패턴 정적 검사: lines 통째 select / RSC 직접 supabase 호출 / 캐시 누락 server action / 페이지네이션 풀스캔
@@ -152,7 +168,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 **핵심 정정 2건**:
 - 이미지는 Supabase egress와 **무관**(아바타·음성=R2, 표지=외부 URL). Storage 다운로드 호출 0건. egress 본체는 DB REST/RPC 응답이다.
 - ~~**프로덕션 `CRON_SECRET` 미설정** 확인. `revalidate-web.ts`가 키 없으면 호출을 스킵하므로 **자동 무효화가 안 돌고 있다** → "저장마다 전역 퍼지로 터진다"는 현재 주범이 아니다.~~ 대신 `/api/revalidate`가 무방비(`undefined===undefined` 통과)라 외부 무단 퍼지가 가능했다.
-  > **🔴 2026-07-15 정정 — 이 판정은 폐기됐다.** 유저가 ④를 이행해 프로덕션 web·web-bo 양쪽에 `CRON_SECRET`을 동일 값으로 설정했다(실측: 라이브 `POST /api/revalidate` 401 — 미설정이면 코드상 503). **따라서 "저장마다 전역 퍼지"는 다시 참이 됐고, ⑤ 태그 국소화 전까지 활성 상태였다.** 9차에서 해소.
+  > **🔴 2026-07-15 정정 — 이 판정은 폐기됐다.** 당시 web·web-bo 실행 환경에 `CRON_SECRET`을 동일 값으로 설정했다(실측: 라이브 `POST /api/revalidate` 401 — 미설정이면 코드상 503). **따라서 "저장마다 전역 퍼지"는 다시 참이 됐고, ⑤ 태그 국소화 전까지 활성 상태였다.** 9차에서 해소.
 
 **적용 (main)**:
 - `robots.ts` AI 크롤러(GPTBot·ClaudeBot·Bytespider 등) 전면 차단 + 검색봇 `crawlDelay 10`; `explore` persona·ranking·timeline `revalidate` 300→3600 (`b1155cea`)
@@ -178,7 +194,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 > **26.07.16 실측 재확인**: RPC 정의에 `quotes` 참조 없음, 호출 시 후보 225건 정상 반환. 이 문서가 26.07.16까지 "항상 실패·토큰 갱신 후 교정 필요"로 남아 있어 정정했다.
 
-**잔여 과제**: ~~④ `CRON_SECRET` 설정(유저 액션, Vercel 대시보드) → ⑤ 캐시 태그 국소화~~ → **둘 다 완료(9차 참조).** 일별 egress 관찰은 계속(평시 1GB/일 미만이 수정 효과 판정 기준).
+**잔여 과제**: ~~④ `CRON_SECRET` 설정 → ⑤ 캐시 태그 국소화~~ → **둘 다 완료(9차 참조).** 일별 egress 관찰은 계속(평시 1GB/일 미만이 수정 효과 판정 기준).
 
 ### 사고 후속 9차 — AdSense 색인 교정 + 태그 국소화 (2026-07-15)
 
@@ -196,11 +212,11 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 **결과**: 최악 시나리오(시간당 전수 스윕) 약 78GB/월 → **약 1GB/월**. 현실 시나리오(하루 2,000 URL 크롤) 약 660MB/월 = Pro 250GB의 0.26%.
 
-**잔여**: `all-persona-vectors` 5.32MB/미스(persona JSONB 전수 수신 후 JS에서 16개 점수만 추출 — 8차가 분포 쪽만 RPC화했고 `getSimilarByCelebId`에 같은 결함 잔존), `CL_SELECT`가 미사용 locale `description` 수신, `?category=` 무검증 캐스트로 캐시 키 분화. tracker RPC 교정은 8차 그대로.
+**잔여**: `getSimilarByCelebId`의 5.32MB JSONB 전수 수신 기록은 낡았다. 현재 응답은 평면 점수 16개, 2,802행, 1.525MiB이며 `all-spectrum-vectors`의 7일 캐시와 persona·celeb 변경 시 즉시 무효화를 운영에 반영했다. `spectrum` 무효화 응답과 재워밍도 정상이다. 그 밖에는 `CL_SELECT`의 미사용 locale `description` 수신과 `?category=` 무검증 캐스트에 따른 캐시 키 분화가 남았다. tracker RPC 교정은 8차 그대로.
 
 ### 사고 후속 3차 정리 (2026-05-09)
 
-전수 점검(Vercel 베스트 프랙티스 가이드 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.
+전수 점검(React/Next.js 베스트 프랙티스 적용 포함)으로 추가 누수·waterfall 패턴 15곳 정리.
 
 **추가 캐시 적용 (10개)**:
 - `getCelebDirectory` (신규, `explore/directory` 페이지의 RSC 직접 supabase 호출 분리)
@@ -226,37 +242,6 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - [ ] TimelineSection 등 lucide 아이콘 dynamic import (bundle-dynamic-imports)
 - [ ] CelebDetailModal 같은 클라 모달에 SWR 도입 (client-swr-dedup)
 - [ ] Pro 업그레이드 검토 ($25/월, 250GB egress)
-
-## Vercel Fast Origin Transfer (2026-08-04)
-
-- **사고**: Hobby 최근 30일 Fast Origin Transfer 10.12/10GB, Fluid Active CPU 7시간 35분/4시간. Fast Data Transfer는 9.96/100GB라 일반 대역폭 한도 문제가 아니다.
-- **뜻**: Fast Origin은 Function·Middleware·ISR 등 compute와 CDN 사이의 입력·출력 바이트다. Supabase PostgREST egress와 별도이며, Supabase 캐시가 적중해도 동적 SSR HTML 응답은 Vercel Origin 사용량이 된다.
-- **원인·조치**: `[locale]` root layout의 요청 header 의존 제거(루트 전체 정적 강제 금지), 셀럽·콘텐츠 공개 ISR/개인화 분리, 익명 Middleware auth 생략, web-bo 한도 문구 교정.
-- **운영 주의**: 로컬 수정·재배포가 이미 누적된 최근 30일 사용량을 초기화하지 않는다. Hobby 프로젝트 중지 위험은 기간 만료 또는 플랜 전환 전까지 남는다. 배포 후 route별 `X-Vercel-Cache`와 Usage 기울기를 확인해야 해소 판정한다.
-- **공식 문서**: [CDN usage](https://vercel.com/docs/manage-cdn-usage), [Fluid compute](https://vercel.com/docs/functions/usage-and-pricing), [ISR usage](https://vercel.com/docs/incremental-static-regeneration/limits-and-pricing).
-
-### ISR 쓰기 비용 규칙 (2026-08-16)
-
-- ISR 쓰기는 **8KB당 1단위**로 센다. 상세 한 장은 HTML+RSC 0.5~1.2MB(작품 323+239KB, 인물 804+449KB 실측)라 생성 한 번에 70~156단위다. 사이트맵 15,884장을 크롤러가 한 바퀴 돌면 약 110만 단위 ≈ $6 — 8월 12일 `detail-tags-v2` 키 교체 직후 실측 1,167,485단위와 일치한다.
-- 배포가 빌드 시점에 상세를 전량 선생성하지는 않는다. 자동 배포 퍼지가 `celeb`·`content`이면 해당 KO·EN 상세 경로군만 cold가 되고, 크롤러·사용자가 다시 연 페이지만 ISR 쓰기가 발생한다. `cached-html`로 분류되는 전역 레이아웃·공유 런타임 변경일 때만 Cloudflare가 보관하는 상세·명부·연표 HTML 전체가 cold가 된다. 기존 한 경로군을 실제로 한 바퀴 다시 만든 비용 추정은 다이어트 뒤 약 $2.7이므로 **코드 배포는 모아서 하루 1~2회 이하**로 한다. 문서·데이터만 바뀐 커밋은 빌드 게이트가 건너뛴다.
-- **상세 캐시 키(`DETAIL_CACHE_KEY_VERSION`·`celebs-public-*` 등)를 바꾸면 전량 재생성 한 바퀴 = 약 $6.** 반환 모양이 정말 바뀌었을 때만 올리고, 문구·필드 추가 수준이면 올리지 않는다.
-- 인물·작품 상세의 segment 설정은 `revalidate = false`지만 초기 렌더가 숫자형 상세 데이터 캐시를 소비하므로 실효 route TTL에는 약 1주의 상한이 생긴다. 키별로 만료를 분산한 초기 TTL은 약 6.3~7.7일이며, 이는 이벤트 누락에 대비한 안전망이다. 정상 갱신의 주 경로는 DB 변경 이벤트가 보내는 항목·aggregate 태그의 즉시 만료다. 배포·태그 만료·데이터 TTL 만료 뒤에는 첫 요청이 한 번 생성하고 다음 요청부터 사본을 재사용한다. Cloudflare의 익명 HTML 30일 보관은 별도 앞단 계층이며 DB 태그와 배포 영향 경로군 퍼지로 비운다.
-- 명부(`/explore/directory`)·연표(`/explore/timeline`)는 ISR(7일, `generateStaticParams`로 정적 진입)이다. `[locale]` 아래 화면은 `generateStaticParams`가 없으면 동적으로 취급되고, 레이아웃에서 `getMessages`/`getTranslations`를 부르기 전에 `setRequestLocale`을 해야 정적이 깨지지 않는다.
-- 크롤러가 하루 1만 장을 연다(작품 5,725·인물 3,710·SEO 이미지 2,759 / 24h 실측). 동적 렌더로 바꾸면 이 트래픽이 Supabase egress로 옮겨가 더 나쁘다. 줄이는 순서는 ① 상세 페이지 바이트 다이어트 ② 학습·대량 수집 크롤러 미들웨어 403(`lib/blocked-crawlers.ts`, robots.txt와 명단 공유) ③ Vercel Firewall의 AI Bots 관리 규칙(대시보드).
-
-### Git 배포 빌드 게이트
-
-- 두 Vercel 프로젝트의 Root Directory는 각각 `sw/web`, `sw/web-bo`다. 각 디렉터리의 `vercel.json`이
-  저장소 루트 `scripts/vercel-ignore-build.mjs`를 `ignoreCommand`로 실행한다.
-- 판정은 커밋 메시지가 아니라 직전 성공 배포 SHA와 현재 SHA 사이의 변경 파일을 사용한다. Git diff나
-  환경변수 확인에 실패하면 종료 코드 1로 빌드를 계속해, 필요한 배포를 잘못 건너뛰지 않는다.
-- 사용자 웹은 `sw/web`의 런타임·설정 파일과 `packages/`, 루트 의존성 파일이 바뀔 때만 빌드한다.
-  백오피스는 같은 공통 범위에 `sw/web-bo` 런타임·설정과 직접 import하는 `sw/remotion/src`를 더한다.
-  문서, 로컬 제작 데이터, 다른 앱, Remotion 대용량 `public` 자산만 바뀐 커밋은 둘 다 건너뛴다.
-- 영향도 SSoT와 회귀 검사는 각각 `scripts/lib/vercel-build-impact.mjs`,
-  `scripts/vercel-build-impact.test.mjs`다. 새 공유 패키지나 빌드 입력을 추가하면 이 둘을 함께 갱신한다.
-- Vercel 규약상 `ignoreCommand` 종료 코드 0은 빌드 취소, 1은 빌드 계속이다. 같은 SHA를 환경변수 변경
-  때문에 강제 재배포할 때는 대시보드 Redeploy에서 Ignore Build Step 사용을 해제한다.
 
 ## 외부 콘텐츠 검색 API
 
@@ -372,11 +357,13 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 ## Cloudflare R2 (이미지 저장소)
 셀럽 아바타 이미지를 Cloudflare R2에 저장한다. S3 호환 API 사용.
 - **버킷명**: `feelandnote`
-- **Public URL**: `https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev`
+- **Public URL**: `https://assets.feelandnote.com`. 26.08.25 custom domain 연결과 실제 `MISS → HIT` 캐시를 확인했다. 웹 배포와 참조 전환 뒤 R2 개발용 `r2.dev` 공개 URL은 껐다.
 - **오브젝트 경로**: `celebs/{celebId}/avatar.webp`
 - **URL 형식**: `{R2_PUBLIC_URL}/celebs/{celebId}/avatar.webp?v={timestamp}`
-- **환경변수**: `sw/web-bo/.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`
-- **캐시 정책(26.07.25)**: 전 오브젝트 `Cache-Control: public, max-age=31536000, immutable`. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 성향 분석 등 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다(기존 2,461건 일괄 교체 완료, 업로드 코드 10곳 수정). `pub-*.r2.dev` 주소는 개발용이라 CDN 캐시 미적용·속도 제한이 있다 — 근본 개선은 커스텀 도메인 연결(DNS가 Vercel이라 Cloudflare 존 이전 필요, 미결정)
+- **환경변수**: 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`
+- **캐시 정책(26.08.25 전수 확인)**: 9,609개 전 오브젝트가 `Cache-Control: public, max-age=31536000, immutable`이다. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). 해시·timestamp가 들어간 새 키를 쓰는 로고와 회원 아바타도 같은 원칙이다. **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다.
+- **호스트 전환(26.08.25)**: DB 원본 4개 테이블을 custom domain으로 바꿨고 public 텍스트 필드 306개의 옛 호스트 참조가 0건임을 확인했다. 클라이언트 음성 URL과 SEO 이미지 허용 호스트도 custom domain으로 배포했고, SEO 이미지 캐시를 경로 단위로 비운 뒤 실제 이미지의 `MISS → HIT`를 확인했다. 사용량과 백업 여지는 `docs/todo/web-deployment-platform-research.md`가 쥔다.
+- **DB 백업 버킷**: `feelandnote-backups`. 외부 공개 경로와 CORS가 없고 `postgres/`은 30일 뒤 만료된다. 덤프·복원 실행 상태는 위 TODO가 쥔다.
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 
@@ -398,22 +385,17 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 
 # 크론잡
 
-## Vercel Cron (sw/web/vercel.json)
+## Oracle systemd timer
 
 | 경로 | 스케줄 | 설명 |
 |------|--------|------|
 | `/api/cron/today-figure` | `5 15 * * *` (매일 00:05 KST) | 오늘의 인물 선정 (뉴스 기반 + seed fallback) |
 
-- Vercel Hobby(무료) 플랜: 크론 **하루 1회** 제한
-- 인증: `CRON_SECRET` 환경변수 (Vercel에서 자동 주입)
+- `feelandnote-today-figure.timer`가 `feelandnote-today-figure.service`를 실행한다. `Persistent=true`라 예약 시각에 VM이 꺼져 있었으면 복구 뒤 누락 실행을 보완한다.
+- 인증: `/etc/feelandnote/web.env`의 `CRON_SECRET`
 
 ## GitHub Actions (.github/workflows/)
 
 | 워크플로우 | 스케줄 | 설명 |
 |-----------|--------|------|
-| `keep-alive.yml` | `0 */6 * * *` (6시간 간격) | Supabase Free 플랜 자동 일시정지 방지 — **Pro 전환으로 목적 소멸(26.08.23). 삭제 후보, 지시 대기** |
-| `warm-web.yml` | `17 * * * *` (매시) | 허브 화면 6개(`/`, `/explore`, `/explore/spectrum`, `/explore/ranking`, `/explore/figures`, `/library`)를 한 번씩 열어 데이터 캐시를 데운다. 배포로 캐시 키가 바뀐 뒤 최대 1시간 안에 회복. Vercel Hobby 크론이 하루 1회라 여기서 돈다 |
-
-- Supabase REST API에 간단한 SELECT 쿼리를 보내 프로젝트를 깨운 상태로 유지
-- GitHub Secrets 필요: `SUPABASE_ANON_KEY`
-- 월 소모량: ~4분 (GitHub Actions 무료 한도 2,000분/월)
+| `warm-web.yml` | `17 * * * *` (매시) | 공개 허브의 데이터 캐시를 데우면서 핵심 화면·인물·SEO 경로가 모두 2xx인지 확인한다. 하나라도 실패하면 작업 자체를 실패시켜 별도 유료 모니터링 없이 GitHub Actions 알림을 쓸 수 있다 |

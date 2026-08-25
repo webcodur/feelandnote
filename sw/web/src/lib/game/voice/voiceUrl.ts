@@ -9,7 +9,7 @@
 
 import type { Locale } from "@/types/locale";
 
-const R2_PUBLIC_URL = "https://pub-048f29057fc54fa5b2927db8f167b305.r2.dev";
+const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL!;
 
 /** DialogueType → 파일 접두사 매핑 */
 const TYPE_PREFIX: Record<string, string> = {

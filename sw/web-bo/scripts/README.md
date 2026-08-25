@@ -73,6 +73,7 @@ scripts/
 | `avatar:upload` | 한 명 등록. Commons 이미지 기준 |
 | `avatar:sm` | 작은 판(96px) 생성 후 나란히 업로드 |
 | `avatar:find-unnobg` | 배경이 안 지워진 아바타를 순서대로 한 명씩 찾는다 |
+| `avatar:nobg-backfill` | 등록 아바타 전수 검사 → 원본 백업 → 미처리분 배경 제거 → 검증·복원 |
 | `avatar:measure` | 얼굴 위치·크기 측정과 합격 판정 |
 | `avatar:contact-sheet` | 검수용 격자 이미지 생성 |
 

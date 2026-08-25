@@ -118,8 +118,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 // #region processExtractedItems - 검색 (titleKo 우선, 실패 시 원본)
 export async function processExtractedItems(input: ProcessItemsInput): Promise<ProcessItemsResult> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  if (claimsError || !claimsData?.claims?.sub) {
     return { success: false, items: [], processedCount: 0, error: '인증이 필요합니다.' }
   }
 
@@ -174,11 +174,9 @@ export async function processExtractedItems(input: ProcessItemsInput): Promise<P
 // #region saveCollectedContents
 export async function saveCollectedContents(input: SaveCollectedInput): Promise<SaveResult> {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
 
-  if (!user) {
+  if (claimsError || !claimsData?.claims?.sub) {
     return { success: false, error: '인증이 필요합니다.' }
   }
 

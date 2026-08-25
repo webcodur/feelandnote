@@ -5,8 +5,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   // 개발 서버가 .next를 쓰는 동안에도 빌드 검증을 하려면 NEXT_DIST_DIR로 산출 위치를 분리한다
   distDir: process.env.NEXT_DIST_DIR || '.next',
+  env: {
+    NEXT_PUBLIC_R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
+  },
   webpack(config, { dev }) {
     if (!dev) {
       config.module.rules.unshift({

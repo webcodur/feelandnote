@@ -5,6 +5,7 @@ export const SITE_URL = 'https://feelandnote.com';
 export const SITE_NAME = 'Feel&Note';
 export const SITE_ALTERNATE_NAMES = [
   '필앤노트',
+  'feelandnote',
   'Feel and Note',
   'feelandnote.com',
 ] as const;

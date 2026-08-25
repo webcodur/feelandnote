@@ -17,12 +17,13 @@ interface ManagedAccount {
 /** service-role 작업 전에 반드시 거치는 활성 관리자 확인 — 서버 액션 공용. */
 export async function requireAdmin(): Promise<AdminIdentity> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('로그인이 필요합니다')
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const userId = claimsData?.claims?.sub
+  if (claimsError || !userId) throw new Error('로그인이 필요합니다')
 
   const [{ data: isAdmin, error }, { data: account, error: accountError }] = await Promise.all([
     supabase.rpc('is_admin'),
-    supabase.from('user_accounts').select('role').eq('id', user.id).maybeSingle(),
+    supabase.from('user_accounts').select('role').eq('id', userId).maybeSingle(),
   ])
 
   if (
@@ -35,7 +36,7 @@ export async function requireAdmin(): Promise<AdminIdentity> {
     throw new Error('관리자 권한이 필요합니다')
   }
 
-  return { userId: user.id, role: account.role as AdminRole }
+  return { userId, role: account.role as AdminRole }
 }
 
 export async function requireSuperAdmin(): Promise<AdminIdentity> {

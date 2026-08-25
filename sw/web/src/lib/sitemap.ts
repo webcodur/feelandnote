@@ -46,7 +46,7 @@ async function fetchCelebs(): Promise<{
       publication_status: 'eq.active',
       celeb_tier: INDEXABLE_TIER_FILTER,
       slug: 'not.is.null',
-      order: 'created_at.asc',
+      order: 'created_at.asc,id.asc',
       offset: String(offset),
       limit: String(pageSize),
     })

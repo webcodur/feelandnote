@@ -291,11 +291,10 @@ export async function getContentResearchWorkspace(
 
 async function assertAdmin(): Promise<{ id: string }> {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const userId = claimsData?.claims?.sub
 
-  if (!user) throw new Error('인증이 필요합니다.')
+  if (claimsError || !userId) throw new Error('인증이 필요합니다.')
 
   const { data: isAdmin, error } = await supabase.rpc('is_admin')
 
@@ -303,7 +302,7 @@ async function assertAdmin(): Promise<{ id: string }> {
     throw new Error('관리자 권한이 필요합니다.')
   }
 
-  return { id: user.id }
+  return { id: userId }
 }
 
 export async function setContentResearchConfirmedEmpty(

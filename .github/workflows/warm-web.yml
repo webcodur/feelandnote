@@ -1,7 +1,7 @@
 name: Warm Web Caches
 
-# 배포로 캐시 키가 바뀌면 허브 화면의 데이터 캐시가 전부 식는다. 매시 허브 6개를 한 번씩 열어
-# 다음 방문자가 콜드를 맞지 않게 한다. Vercel Hobby는 크론이 하루 1회라 여기서 돈다.
+# 배포로 캐시 키가 바뀌면 허브 화면의 데이터 캐시가 전부 식는다. 매시 공개 핵심 경로를 열어
+# 캐시를 데우고, 어느 하나라도 2xx가 아니면 실패시켜 기본 가동 감시도 겸한다.
 on:
   schedule:
     - cron: '17 * * * *'
@@ -11,10 +11,47 @@ jobs:
   warm:
     runs-on: ubuntu-latest
     steps:
-      - name: Visit hub pages
+      - name: Warm caches and verify public routes
+        shell: bash
         run: |
-          for path in / /explore /explore/spectrum /explore/ranking /explore/figures /library; do
-            code=$(curl -s -o /dev/null -w "%{http_code} %{time_total}s" \
-              -A "feelandnote-warm/1.0" "https://feelandnote.com$path")
-            echo "$path -> $code"
+          failures=0
+
+          for path in \
+            / \
+            /en \
+            /explore \
+            /explore/spectrum \
+            /explore/ranking \
+            /explore/figures \
+            /library \
+            /celeb/bill-gates \
+            /robots.txt \
+            /sitemap.xml; do
+            if result=$(curl \
+              --silent \
+              --show-error \
+              --output /dev/null \
+              --write-out "%{http_code} %{time_total}s" \
+              --connect-timeout 10 \
+              --max-time 60 \
+              --retry 2 \
+              --retry-all-errors \
+              --user-agent "feelandnote-warm/1.0" \
+              "https://feelandnote.com$path"); then
+              status="${result%% *}"
+              if [[ "$status" == 2* ]]; then
+                echo "$path -> $result"
+              else
+                echo "::error title=Public route returned non-2xx::$path -> $result"
+                failures=$((failures + 1))
+              fi
+            else
+              echo "::error title=Public route request failed::$path"
+              failures=$((failures + 1))
+            fi
           done
+
+          if (( failures > 0 )); then
+            echo "::error::$failures public route check(s) failed"
+            exit 1
+          fi
