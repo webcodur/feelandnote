@@ -14,7 +14,6 @@ import {
   Route,
   Sparkles,
   User,
-  Users,
 } from "lucide-react";
 
 export const CELEB_SERVICE_ICONS = {
@@ -28,7 +27,6 @@ export const CELEB_SERVICE_ICONS = {
   connections: Network,
   relations: Network,
   timeline: Route,
-  contemporaries: Users,
   analysis: ChartNoAxesCombined,
   influence: Radar,
   spectrum: ChartSpline,

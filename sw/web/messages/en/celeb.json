@@ -24,7 +24,7 @@
     "servicePreparing": "Coming soon",
     "serviceContentPreparing": "Content coming soon",
     "serviceFaction": "Faction",
-    "connections": "People & Their Times",
+    "connections": "Connections",
     "profileAxes": "Spectrum",
     "mediaDialogues": "Lines",
     "mediaVideos": "Video",
@@ -149,7 +149,6 @@
     "relType_cofounder": "Co-founder",
     "relType_friend": "Friend",
     "relType_rival": "Rival",
-    "contemporaries": "Same Era",
     "videos": "Videos",
     "videosLongform": "Feature",
     "videosShorts": "Vignette",
@@ -266,6 +265,7 @@
     "virtueReasonHint": "Tap a virtue to see why it scored that way.",
     "virtueReasonEmpty": "No background is recorded for this virtue yet.",
     "relatedLinksTitle": "Connected Figures",
-    "relatedLinksDesc": "Explore the reading records of figures connected to {name}"
+    "relatedLinksDesc": "Explore the reading records of figures close to {name}",
+    "relatedLinksSimilar": "Similar figure"
   }
 }

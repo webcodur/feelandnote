@@ -3,41 +3,33 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
-import type { ContemporaryCeleb } from "@/actions/celebs/getContemporaries";
 import type { FeaturedTag } from "@/actions/home/getFeaturedTags";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 
 import ArchiveTabsHeader, { type ArchiveTabItem } from "./ArchiveTabsHeader";
 import type { ServiceItem } from "./celebServiceItems";
-import ContemporariesSection from "./ContemporariesSection";
 import FactionSection from "./FactionSection";
 import RelationGraphSection from "./RelationGraphSection";
 
-type PeopleAndEraTab = "relations" | "contemporaries" | "faction";
+type PeopleAndEraTab = "relations" | "faction";
 
 interface Props {
   item: ServiceItem;
   centerName: string;
   centerAvatarUrl: string | null;
   relations: CelebRelationItem[];
-  contemporaries: ContemporaryCeleb[];
   factions: FeaturedTag[];
   currentCelebId: string;
   isFiction: boolean;
 }
 
-const TAB_KEYS: readonly PeopleAndEraTab[] = [
-  "relations",
-  "contemporaries",
-  "faction",
-];
+const TAB_KEYS: readonly PeopleAndEraTab[] = ["relations", "faction"];
 
 export default function PeopleAndEraTabs({
   item,
   centerName,
   centerAvatarUrl,
   relations,
-  contemporaries,
   factions,
   currentCelebId,
   isFiction,
@@ -87,10 +79,6 @@ export default function PeopleAndEraTabs({
             relations={relations}
             isFiction={isFiction}
           />
-        )}
-
-        {activeKey === "contemporaries" && (
-          <ContemporariesSection contemporaries={contemporaries} />
         )}
 
         {activeKey === "faction" && (

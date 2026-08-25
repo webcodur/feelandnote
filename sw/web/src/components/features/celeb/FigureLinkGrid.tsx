@@ -10,6 +10,7 @@ import { getLocale } from "next-intl/server";
 import { User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import CelebAvatarImage from "@/components/ui/CelebAvatarImage";
+import CenteredSectionHeading from "@/components/ui/CenteredSectionHeading";
 import { PendingBlock } from "@/components/ui/pending";
 
 /** 격자 열 구성. 기다림 표시가 같은 모양으로 서도록 카드와 한 규칙을 쓴다.
@@ -93,17 +94,12 @@ export default async function FigureLinkGrid({
   return (
     <section aria-labelledby={headingId}>
       {title && (
-        <>
-          <h2
-            id={headingId}
-            className="mb-1 font-serif text-lg font-bold text-text-primary"
-          >
-            {title}
-          </h2>
-          {description && (
-            <p className="mb-4 text-sm text-text-secondary">{description}</p>
-          )}
-        </>
+        <CenteredSectionHeading
+          id={headingId}
+          title={title}
+          description={description}
+          className="mb-4 md:mb-7"
+        />
       )}
 
       <ul className={`grid gap-3 ${colsFor(linkable.length)}`}>

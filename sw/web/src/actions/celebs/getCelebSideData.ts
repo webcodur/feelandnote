@@ -9,7 +9,6 @@
         조회 자체는 기존 캐시 함수를 그대로 재사용한다.
 */ // ------------------------------
 
-import { getContemporaries, type ContemporaryCeleb } from '@/actions/celebs/getContemporaries'
 import { getCelebInfluence, type CelebInfluenceDetail } from '@/actions/home/getCelebInfluence'
 import { getInfluenceExplorer, type InfluenceExplorerData } from '@/actions/home/getInfluenceExplorer'
 import { getFactionTagsByIds, type FeaturedTag } from '@/actions/home/getFeaturedTags'
@@ -19,7 +18,6 @@ import type { CelebRelationItem } from '@/actions/user/getCelebBySlug'
 
 export interface CelebConnectionsData {
   relations: CelebRelationItem[]
-  contemporaries: ContemporaryCeleb[]
   factions: FeaturedTag[]
 }
 
@@ -36,19 +34,15 @@ export async function getCelebConnections(
 ): Promise<CelebConnectionsData> {
   const result = await getCelebBySlug(slug, locale)
   if (!result.success || !result.data) {
-    return { relations: [], contemporaries: [], factions: [] }
+    return { relations: [], factions: [] }
   }
 
   const profile = result.data
-  const isFiction = profile.celeb_tier === 'fiction'
-  const [contemporaries, factions] = await Promise.all([
-    !isFiction && profile.birth_date
-      ? getContemporaries(profile.id, profile.birth_date, profile.death_date, locale)
-      : Promise.resolve([]),
-    getFactionTagsByIds(profile.factionTags.map((tag) => tag.id)),
-  ])
+  const factions = await getFactionTagsByIds(
+    profile.factionTags.map((tag) => tag.id),
+  )
 
-  return { relations: profile.relations, contemporaries, factions }
+  return { relations: profile.relations, factions }
 }
 
 /** 분석 구획 — 성향 스펙트럼·영향력 */

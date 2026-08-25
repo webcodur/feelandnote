@@ -21,7 +21,6 @@ import { getLocalizedCelebVideos } from "./celebDetailData";
  */
 export interface CelebSideAvailability {
   relations: boolean;
-  contemporaries: boolean;
   faction: boolean;
   influence: boolean;
   spectrum: boolean;
@@ -72,7 +71,6 @@ export function useCelebServiceModel({
     reading: Boolean(profile.reading),
     relations: sideAvailability.relations,
     timeline: timelineEvents.length > 0,
-    contemporaries: sideAvailability.contemporaries,
     faction: sideAvailability.faction,
     videos: longform.length > 0 || shorts.length > 0,
     dialogues: hasDialogues,

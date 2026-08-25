@@ -100,8 +100,6 @@ export default async function CelebPage({ params }: PageProps) {
     getCelebSidePresence({
       celebId: userId,
       tier: profile.celeb_tier,
-      birthDate: profile.birth_date,
-      deathDate: profile.death_date,
     }),
     profile.celeb_tier === "full" ? getCelebJsonLdContents(userId) : Promise.resolve([]),
     getCelebDialogueFull(userId),
@@ -144,7 +142,6 @@ export default async function CelebPage({ params }: PageProps) {
 
   const sideAvailability = {
     relations: profile.relations.length > 0,
-    contemporaries: sidePresence.contemporaries,
     faction: profile.factionTags.length > 0,
     influence: sidePresence.influence,
     spectrum: sidePresence.spectrum,
@@ -193,6 +190,11 @@ export default async function CelebPage({ params }: PageProps) {
               ? profile.nickname_en
               : profile.nickname
           }
+          celebId={userId}
+          profession={profile.profession}
+          nationality={profile.nationality}
+          birthDate={profile.birth_date}
+          celebTier={profile.celeb_tier}
           relations={profile.relations}
         />
         {profile.celeb_tier === "full" && <CelebAffiliateBooks userId={userId} />}
