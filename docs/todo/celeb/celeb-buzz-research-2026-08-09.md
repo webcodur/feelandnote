@@ -94,21 +94,14 @@ Wikipedia 수집기와 Google 수집기를 서로 다른 제품 시스템으로 
 
 ## 6. 현재 저장소에서 확인한 자동화 현황
 
-### Vercel Cron
+### Oracle systemd timer
 
-- `sw/web/vercel.json`에 `/api/cron/today-figure`를 매일 호출하는 작업이 이미 있다.
-- 실제 처리 코드는 `sw/web/src/app/api/cron/today-figure/route.ts`다.
-- `Authorization: Bearer CRON_SECRET`을 검사하고, 서버의 Supabase 관리자 키로 `daily_figures`를 갱신한다.
-- 프로젝트 문서에는 이 크론의 **동작 모니터링·실패 알림이 아직 미구현**이라고 기록돼 있다.
-- 과거 이 작업은 시간대 불일치와 인증 설정 문제를 겪었고, 인증 문제는 해결됐지만 시간대 문제는 문서상 남아 있다.
+- `feelandnote-today-figure.timer`가 매일 15:05 UTC(한국시각 00:05)에 `feelandnote-today-figure.service`를 실행한다.
+- 서비스는 `Authorization: Bearer CRON_SECRET`으로 `sw/web/src/app/api/cron/today-figure/route.ts`를 호출하고, 이 라우트가 `daily_figures`를 갱신한다.
+- `Persistent=true`라 예약 시각에 VM이 꺼져 있었으면 복구 뒤 누락 실행을 보완한다.
+- 실행 결과는 `journalctl -u feelandnote-today-figure.service`에서 확인한다.
 
-Vercel 공식 문서상 중요한 제약은 다음과 같다.
-
-- 실패한 Cron 호출을 Vercel이 자동 재시도하지 않는다.
-- 동일한 이벤트가 간혹 중복 전달될 수 있으므로 작업은 멱등적이어야 한다.
-- Hobby 플랜의 일일 Cron은 지정한 시각이 아니라 해당 시간대 안에서 실행될 수 있다.
-
-따라서 현재의 Vercel Cron 엔드포인트 형식을 그대로 복사하는 것만으로 화제성 수집의 안정성이 확보되지는 않는다.
+화제성 수집을 같은 서버에 추가하더라도 예약 호출 성공만으로 데이터 공개를 확정하지 않는다. 부분 실패를 견디는 스냅샷 검증과 멱등성이 별도로 필요하다.
 
 ### Supabase Cron
 
@@ -123,8 +116,8 @@ Vercel 공식 문서상 중요한 제약은 다음과 같다.
 
 ### GitHub Actions
 
-- 저장소에는 이미 `.github/workflows/keep-alive.yml`이 있으며 6시간마다 Supabase를 확인한다.
-- `workflow_dispatch`도 설정돼 있어 수동 실행이 가능하다.
+- 저장소의 `.github/workflows/warm-web.yml`은 공개 핵심 경로를 매시간 확인하며 수동 실행도 지원한다.
+- 화제성 수집 전용 GitHub Actions 작업은 아직 없다.
 - GitHub Actions는 실행 로그를 확인하고 실패한 작업을 다시 실행하기 쉽다.
 
 다만 GitHub 공식 문서도 예약 작업이 부하 시 지연될 수 있고, 부하가 매우 높으면 일부 작업이 누락될 수 있다고 명시한다. 따라서 GitHub Actions 역시 스케줄만 믿으면 완전한 보장이 되지 않는다.
@@ -177,7 +170,7 @@ celeb_buzz_scores
 - 예약 실행이 누락돼도 다음 실행이 미처리 구간을 다시 계산하도록 한다.
 - 수동 실행과 실패 실행 재시도 경로를 항상 둔다.
 
-이 구조라면 스케줄이 조금 늦거나 한 번 빠져도 서비스 데이터가 깨지지 않는다. 반대로 이 구조 없이 Supabase Cron이나 Vercel Cron만 붙이면 호출 성공 여부가 곧 데이터 정합성 문제가 된다.
+이 구조라면 스케줄이 조금 늦거나 한 번 빠져도 서비스 데이터가 깨지지 않는다. 반대로 이 구조 없이 예약 실행기만 붙이면 호출 성공 여부가 곧 데이터 정합성 문제가 된다.
 
 ## 9. 권장 도입 순서
 
@@ -338,12 +331,9 @@ celeb_buzz_scores
 - [Wikimedia Analytics API — Page views](https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/reference/page-views.html)
 - [Google Trends Trending Now RSS (KR)](https://trends.google.com/trending/rss?geo=KR)
 - [Supabase Cron](https://supabase.com/docs/guides/cron)
-- [Vercel Cron Jobs](https://vercel.com/docs/cron-jobs)
-- [Vercel Cron 관리와 신뢰성 주의사항](https://vercel.com/docs/cron-jobs/manage-cron-jobs)
 - [GitHub Actions schedule 이벤트](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 - [GitHub Actions 수동 실행](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)
 - [GitHub Actions 실패 작업 재실행](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs)
-- 프로젝트 내부: `sw/web/vercel.json`
 - 프로젝트 내부: `sw/web/src/app/api/cron/today-figure/route.ts`
-- 프로젝트 내부: `.github/workflows/keep-alive.yml`
+- 프로젝트 내부: `.github/workflows/warm-web.yml`
 - 프로젝트 내부: `docs/project/platform/external-services.md`

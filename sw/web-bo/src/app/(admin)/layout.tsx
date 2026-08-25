@@ -13,16 +13,19 @@ export default async function AdminLayout({
 }) {
   const supabase = await createClient()
 
-  const { data: { user }, error: userError } = await supabase.auth.getUser()
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const userId = claimsData?.claims?.sub
 
-  if (userError || !user) {
+  if (claimsError || !userId) {
     redirect('/login')
   }
 
+  const email = typeof claimsData.claims.email === 'string' ? claimsData.claims.email : ''
+
   // 이름은 사람 기록에, 권한은 계정 기록에 있다(26.08.07 분리).
   const [profileResult, accountResult, adminResult] = await Promise.all([
-    supabase.from('member_profiles').select('nickname').eq('id', user.id).maybeSingle(),
-    supabase.from('user_accounts').select('role').eq('id', user.id).maybeSingle(),
+    supabase.from('member_profiles').select('nickname').eq('id', userId).maybeSingle(),
+    supabase.from('user_accounts').select('role').eq('id', userId).maybeSingle(),
     supabase.rpc('is_admin'),
   ])
 
@@ -56,7 +59,7 @@ export default async function AdminLayout({
           <div className="flex min-h-0 flex-1 flex-col min-w-0">
             <Header
               user={{
-                email: user.email || '',
+                email,
                 nickname: profile.nickname,
                 role: account.role,
               }}

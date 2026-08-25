@@ -11,10 +11,10 @@
  */
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://wouqtpvfctednlffross.supabase.co";
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!SUPABASE_KEY) {
-  console.error("SUPABASE_SERVICE_ROLE_KEY 환경변수 필요");
+if (!SUPABASE_URL || !SUPABASE_KEY) {
+  console.error("NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY 환경변수 필요");
   process.exit(1);
 }
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);

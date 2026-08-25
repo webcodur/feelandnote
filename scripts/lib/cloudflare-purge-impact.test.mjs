@@ -9,13 +9,9 @@ import {
   CLOUDFLARE_EMERGENCY_CONFIRMATION,
   createCloudflarePurgePlan,
   createManualCloudflarePurgePlan,
-  hasSuccessfulPurgeJob,
-  selectCompletedDeploymentCandidates,
 } from './cloudflare-purge-impact.mjs'
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
-const CURRENT_SHA = 'b'.repeat(40)
-const PREVIOUS_SHA = 'a'.repeat(40)
 
 test('current celeb-detail UI release evicts only the celeb detail family', () => {
   const plan = classifyCloudflarePurgeImpact([
@@ -288,70 +284,23 @@ test('emergency zone purge is manual-only and requires an exact typed confirmati
   )
 })
 
-test('baseline pages skip same-SHA reruns, continue pagination, and reject skipped BO jobs', () => {
-  const sameShaPage = Array.from({ length: 100 }, (_, index) => ({
-    id: index + 1,
-    event: 'deployment_status',
-    status: 'completed',
-    conclusion: 'success',
-    head_sha: CURRENT_SHA,
-  }))
-  const firstPage = selectCompletedDeploymentCandidates(sameShaPage, CURRENT_SHA)
-  assert.deepEqual(firstPage.candidates, [])
-  assert.equal(firstPage.hasMore, true)
-
-  const secondPage = selectCompletedDeploymentCandidates([
-    {
-      id: 101,
-      event: 'workflow_dispatch',
-      status: 'completed',
-      conclusion: 'success',
-      head_sha: PREVIOUS_SHA,
-    },
-    {
-      id: 102,
-      event: 'deployment_status',
-      status: 'completed',
-      conclusion: 'success',
-      head_sha: PREVIOUS_SHA,
-    },
-  ], CURRENT_SHA)
-  assert.deepEqual(secondPage, {
-    candidates: [{ id: '102', headSha: PREVIOUS_SHA }],
-    hasMore: false,
-  })
-
-  assert.equal(hasSuccessfulPurgeJob([
-    { name: 'purge', status: 'completed', conclusion: 'skipped' },
-  ]), false)
-  assert.equal(hasSuccessfulPurgeJob([
-    { name: 'purge', status: 'completed', conclusion: 'success' },
-  ]), true)
-})
-
-test('workflow keeps automatic runs scoped and selects only prior completed deploy runs', () => {
+test('workflow is manual-only and keeps purge targets constrained', () => {
   const workflow = readFileSync(
     path.join(repositoryRoot, '.github/workflows/cloudflare-purge.yml'),
     'utf8',
   )
 
-  assert.match(workflow, /status=completed&event=deployment_status/)
-  assert.match(workflow, /--baseline-candidates/)
-  assert.match(workflow, /--has-successful-purge-job/)
-  assert.match(workflow, /github\.event\.deployment_status\.state == 'success'/)
-  assert.match(
-    workflow,
-    /github\.event\.deployment\.environment == 'Production – feelandnote'/,
-  )
-  assert.doesNotMatch(workflow, /startsWith\(github\.event\.deployment\.environment/u)
-  assert.doesNotMatch(workflow, /endsWith\(github\.event\.deployment\.environment/u)
+  assert.match(workflow, /^  workflow_dispatch:/mu)
+  assert.doesNotMatch(workflow, /deployment_status/u)
+  assert.match(workflow, /MANUAL_SCOPE: \$\{\{ inputs\.scope \}\}/u)
+  assert.match(workflow, /--scope "\$MANUAL_SCOPE"/u)
   assert.match(workflow, /fetch-depth: 0/u)
   assert.match(workflow, /sparse-checkout: scripts\/lib\/cloudflare-purge-impact\.mjs/u)
   assert.match(workflow, /sparse-checkout-cone-mode: false/u)
   assert.doesNotMatch(workflow, /^concurrency:/mu)
   assert.match(
     workflow,
-    /jobs:\n  purge:[\s\S]*?\n    concurrency:\n      group: \$\{\{ github\.event_name == 'deployment_status' && 'cloudflare-purge-production-auto' \|\| format\('cloudflare-purge-manual-\{0\}', github\.run_id\) \}\}\n      cancel-in-progress: false/u,
+    /jobs:\n  purge:[\s\S]*?\n    concurrency:\n      group: \$\{\{ format\('cloudflare-purge-manual-\{0\}', github\.run_id\) \}\}\n      cancel-in-progress: false/u,
   )
   assert.match(workflow, /cancel-in-progress: false/)
   assert.match(workflow, /--connect-timeout 10 --max-time 30/)

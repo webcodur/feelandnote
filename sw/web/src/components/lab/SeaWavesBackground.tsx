@@ -307,7 +307,7 @@ export default function SeaWavesBackground() {
       <canvas ref={canvasRef} className="w-full h-full block" />
       
       {/* Noise Texture Overlay for film grain look (optional) */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-repeat mix-blend-overlay"></div>
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/noise.svg')] bg-repeat mix-blend-overlay"></div>
     </div>
   );
 }

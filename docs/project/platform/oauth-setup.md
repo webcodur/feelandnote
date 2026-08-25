@@ -36,14 +36,14 @@ Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더�
 #### Google
 | 항목 | 값 |
 |------|-----|
-| Client ID | Google Cloud Console에서 발급 |
-| Client Secret | Google Cloud Console에서 발급 |
+| Client ID | Google Cloud Console에서 발급해 Supabase Providers에 등록 |
+| Client Secret | Google Cloud Console에서 발급해 Supabase Providers에 등록. 값을 문서에 적지 않는다 |
 
 #### Kakao
 | 항목 | 값 |
 |------|-----|
-| Client ID | `71f1e68e2d8d0c7f8218259357912e2c` (REST API 키) |
-| Client Secret | `CG9wIsVORxCiKho5qwEWuQRGyW1Lwhxw` |
+| Client ID | Kakao Developers의 REST API 키를 Supabase Providers에 등록 |
+| Client Secret | Kakao Developers에서 발급해 Supabase Providers에 등록. 값을 문서에 적지 않는다 |
 
 ---
 
@@ -82,8 +82,8 @@ https://wouqtpvfctednlffross.supabase.co/auth/v1/callback
 
 | 항목 | 값 |
 |------|-----|
-| REST API 키 | `71f1e68e2d8d0c7f8218259357912e2c` |
-| 클라이언트 시크릿 (카카오 로그인) | `CG9wIsVORxCiKho5qwEWuQRGyW1Lwhxw` |
+| REST API 키 | Kakao Developers와 Supabase Providers에서 확인 |
+| 클라이언트 시크릿 (카카오 로그인) | Kakao Developers와 Supabase Providers에서 확인 |
 | 클라이언트 시크릿 활성화 | ON |
 | Redirect URI | `https://wouqtpvfctednlffross.supabase.co/auth/v1/callback` |
 
@@ -97,12 +97,15 @@ https://wouqtpvfctednlffross.supabase.co/auth/v1/callback
 
 ### 로컬 개발 (.env)
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://wouqtpvfctednlffross.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-### 프로덕션 (Vercel 환경변수)
+### 프로덕션 (Oracle)
+
+운영값은 Oracle의 `/etc/feelandnote/web.env`에서 관리한다. 실제 값은 이 문서나 저장소에 적지 않는다.
+
 ```env
 NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 ```
@@ -135,7 +138,7 @@ NEXT_PUBLIC_SITE_URL=https://feelandnote.com
 
 ### 로컬에서 로그인 후 프로덕션으로 리다이렉트됨
 - **원인**: `.env`에 `NEXT_PUBLIC_SITE_URL`이 프로덕션 URL로 설정됨
-- **해결**: 로컬용 값(`http://localhost:3000`)만 남기고 프로덕션은 Vercel 환경변수로 관리
+- **해결**: 로컬 `.env`에는 `http://localhost:3000`을 두고, 운영값은 Oracle `/etc/feelandnote/web.env`에서 관리
 
 ### 로컬 OAuth 테스트 시 필요한 설정
 1. Supabase Redirect URLs에 `http://localhost:3000/**` 추가
@@ -151,4 +154,4 @@ Preview/Staging 환경 추가 시:
 - [ ] Supabase Redirect URLs에 새 URL 패턴 추가
 - [ ] Google Cloud Console 승인된 JavaScript 원본에 새 도메인 추가
 - [ ] (필요시) Kakao Redirect URI 추가 (보통 Supabase URL만 있으면 됨)
-- [ ] Vercel 환경변수에 `NEXT_PUBLIC_SITE_URL` 설정
+- [ ] 해당 실행 환경에 `NEXT_PUBLIC_SITE_URL` 설정

@@ -176,7 +176,7 @@ async function fetchFigureContents(
 ): Promise<TodayFigureResult> {
   const defaultSource: TodayFigureSource = { type: 'seed', newsCount: 0 }
 
-  const [{ data: profile }, { data: celebContents }, { data: dialogue }, userCountMap] = await Promise.all([
+  const [{ data: profile }, { data: celebContents }, { data: dialogue }] = await Promise.all([
     supabase
       .from('celebs')
       .select('id, slug, nickname, nickname_en, avatar_url, profession, title, bio, bio_en, speech_tone, voice_v')
@@ -195,7 +195,6 @@ async function fetchFigureContents(
       .eq('celeb_id', celebId)
       .single()
       .overrideTypes<DialogueBrief, { merge: false }>(),
-    fetchUserContentCounts(supabase),
   ])
 
   if (!profile) {
@@ -204,6 +203,10 @@ async function fetchFigureContents(
 
   const profileRow: FigureProfileRow = profile
   const ucRows = (celebContents || []) as unknown as FigureUserContentRow[]
+  const contentIds = [...new Set(ucRows
+    .map(item => (Array.isArray(item.contents) ? item.contents[0] : item.contents)?.id)
+    .filter((id): id is string => Boolean(id)))]
+  const userCountMap = await fetchUserContentCounts(supabase, undefined, contentIds)
 
   const contents: LibraryContent[] = ucRows.map(item => {
     const content = Array.isArray(item.contents) ? item.contents[0] : item.contents

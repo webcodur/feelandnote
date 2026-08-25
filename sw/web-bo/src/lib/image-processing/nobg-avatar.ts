@@ -23,6 +23,11 @@ export interface NobgAvatarResult {
   error?: string
 }
 
+export interface ProcessNobgAvatarsOptions {
+  /** 대량 처리기는 마지막에 캐시를 한 번에 비우므로 인물별 호출을 끌 수 있다. */
+  revalidate?: boolean
+}
+
 function terminateProcessTree(child: ChildProcess): Promise<void> {
   if (!child.pid) {
     child.kill('SIGKILL')
@@ -116,23 +121,30 @@ async function downloadAvatar(url: string): Promise<Buffer> {
 
   const metadata = await sharp(input).metadata()
   if (!metadata.width || !metadata.height) throw new Error('유효한 이미지 파일이 아닙니다.')
-  return sharp(input).rotate().webp({ quality: 98 }).toBuffer()
+  // 누끼 전에 손실 압축하면 머리카락·피부 경계가 먼저 깎이고 결과에서 복구되지 않는다.
+  return sharp(input).rotate().webp({ lossless: true }).toBuffer()
 }
 
 async function publishNobgAvatar(
   celeb: { id: string; slug: string | null },
-  result: Buffer
+  result: Buffer,
+  revalidate: boolean
 ): Promise<string> {
-  const stats = await sharp(result).stats()
+  // 파이썬 결과는 무손실 중간본이다. 서비스 등록 단계에서만 800px·q95로 한 번 인코딩한다.
+  const finalAvatar = await sharp(result)
+    .resize(800, 800, { fit: 'fill' })
+    .webp({ quality: 95 })
+    .toBuffer()
+  const stats = await sharp(finalAvatar).stats()
   const alpha = stats.channels[3]
   if (!alpha || alpha.min >= 255) {
     throw new Error('배경 제거 결과에 투명 영역이 없습니다. 다른 원본으로 다시 시도하세요.')
   }
 
   const key = `celebs/${celeb.id}/avatar.webp`
-  await uploadToR2(key, result, 'image/webp')
+  await uploadToR2(key, finalAvatar, 'image/webp')
   // 배경을 지운 새 얼굴로 작은 판도 다시 만든다 — 안 하면 그 인물만 옛 얼굴이 남는다
-  await uploadToR2(smallAvatarKey(celeb.id), await buildSmallAvatar(result), 'image/webp')
+  await uploadToR2(smallAvatarKey(celeb.id), await buildSmallAvatar(finalAvatar), 'image/webp')
 
   const url = `${R2_PUBLIC_URL}/${key}?v=${Date.now()}`
   const admin = createAdminClient()
@@ -145,7 +157,9 @@ async function publishNobgAvatar(
   if (updateError) throw new Error(`아바타 주소 갱신 실패: ${updateError.message}`)
   if (!updated) throw new Error('아바타 주소를 갱신할 셀럽을 찾을 수 없습니다.')
 
-  await revalidateWebCeleb(celeb.id, celeb.slug, [CACHE_TAGS.CELEBS])
+  if (revalidate) {
+    await revalidateWebCeleb(celeb.id, celeb.slug, [CACHE_TAGS.CELEBS])
+  }
   return url
 }
 
@@ -155,7 +169,8 @@ async function publishNobgAvatar(
  */
 export async function processNobgAvatars(
   celebIds: string[],
-  onResult?: (celebId: string, result: NobgAvatarResult) => void
+  onResult?: (celebId: string, result: NobgAvatarResult) => void,
+  options: ProcessNobgAvatarsOptions = {}
 ): Promise<Map<string, NobgAvatarResult>> {
   const results = new Map<string, NobgAvatarResult>()
   const record = (celebId: string, result: NobgAvatarResult) => {
@@ -223,7 +238,9 @@ export async function processNobgAvatars(
         if (!output) {
           throw new Error(failures.get(celeb.id) || '배경 제거 결과가 나오지 않았습니다. 다른 원본으로 다시 시도하세요.')
         }
-        record(celeb.id, { url: await publishNobgAvatar(celeb, output) })
+        record(celeb.id, {
+          url: await publishNobgAvatar(celeb, output, options.revalidate !== false),
+        })
       } catch (publishError) {
         record(celeb.id, { error: fail(publishError) })
       }

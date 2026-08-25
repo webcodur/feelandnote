@@ -57,7 +57,7 @@ export default function ContentDetailPage({ initialData }: ContentDetailPageProp
     const hydrateViewer = async () => {
       try {
         // getSession은 브라우저 저장소만 확인한다. 익명 방문자는 여기서 끝나므로
-        // 정적 페이지를 다시 Vercel Function으로 요청하지 않는다.
+        // 익명 방문자의 정적 페이지가 원본 서버에 추가 요청을 보내지 않게 한다.
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) return;
 

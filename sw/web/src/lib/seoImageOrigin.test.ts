@@ -9,6 +9,7 @@ test('allows configured cover providers and Open Library archive redirects', () 
     'https://archive.org/download/example/page/n0_w400.jpg',
     'https://ia801234.us.archive.org/view_archive.php?archive=/example.zip',
     'https://assets.example.r2.dev/cover.webp',
+    'https://assets.feelandnote.com/celebs/example/avatar.webp',
   ]) {
     assert.equal(isAllowedSeoImageUrl(new URL(value)), true, value)
   }

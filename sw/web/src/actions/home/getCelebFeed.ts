@@ -22,6 +22,7 @@ const EMPTY_RESPONSE: CelebFeedResponse = { reviews: [], nextCursor: null, hasMo
 interface FeedContentRow {
   id: string
   type: string
+  celeb_count: number | null
   user_count: number | null
   content_locales: ContentLocaleRow[] | null
 }
@@ -71,7 +72,7 @@ async function fetchCelebFeed(
       source_url,
       updated_at,
       content:contents!celeb_contents_content_id_fkey!inner(
-        id, type, user_count:record_count,
+        id, type, celeb_count, user_count:record_count,
         content_locales(${CL_SELECT_LIST})
       ),
       celeb:celebs!celeb_contents_celeb_id_fkey!inner(
@@ -116,25 +117,6 @@ async function fetchCelebFeed(
   const filtered = sliced.filter((row): row is FeedRow & { content: FeedContentRow | FeedContentRow[]; celeb: FeedCelebRow | FeedCelebRow[]; review: string } =>
     Boolean(row.content && row.celeb && row.review))
 
-  const contentIds = [...new Set(filtered.map(row => {
-    const c = Array.isArray(row.content) ? row.content[0] : row.content
-    return c.id
-  }))]
-
-  const celebCountMap = new Map<string, number>()
-  if (contentIds.length > 0) {
-    const { data: counts } = await supabase
-      .from('celeb_contents')
-      .select('content_id')
-      .in('content_id', contentIds)
-
-    if (counts) {
-      for (const row of counts as { content_id: string }[]) {
-        celebCountMap.set(row.content_id, (celebCountMap.get(row.content_id) ?? 0) + 1)
-      }
-    }
-  }
-
   const reviews: CelebReview[] = filtered.map(row => {
     const content = Array.isArray(row.content) ? row.content[0] : row.content
     const celeb = Array.isArray(row.celeb) ? row.celeb[0] : row.celeb
@@ -153,7 +135,7 @@ async function fetchCelebFeed(
         creator: flat.creator,
         thumbnail_url: flat.thumbnail_url,
         type: content.type as ContentType,
-        celeb_count: celebCountMap.get(content.id) ?? 0,
+        celeb_count: content.celeb_count ?? 0,
         user_count: content.user_count ?? 0,
         title_ko: flat.title_ko,
         title_en: flat.title_en,

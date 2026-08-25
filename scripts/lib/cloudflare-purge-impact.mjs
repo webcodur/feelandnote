@@ -75,7 +75,6 @@ const WEB_CONFIG_FILES = new Set([
   'sw/web/package.json',
   'sw/web/postcss.config.mjs',
   'sw/web/tsconfig.json',
-  'sw/web/vercel.json',
 ])
 
 const NON_RUNTIME_WEB_ROOT_FILES = new Set([
@@ -313,10 +312,6 @@ function unique(items) {
   return [...new Set(items)]
 }
 
-function isSha(value) {
-  return typeof value === 'string' && /^[0-9a-fA-F]{40}$/u.test(value)
-}
-
 export function createCloudflarePurgePlan(rawScopes) {
   if (!Array.isArray(rawScopes)) {
     throw new TypeError('Purge scopes must be an array.')
@@ -390,43 +385,6 @@ export function createManualCloudflarePurgePlan(scope, confirmation = '') {
   return createCloudflarePurgePlan([scope])
 }
 
-export function selectCompletedDeploymentCandidates(workflowRuns, currentSha, pageSize = 100) {
-  if (!Array.isArray(workflowRuns)) {
-    throw new TypeError('workflow_runs must be an array.')
-  }
-  if (!isSha(currentSha)) {
-    throw new Error(`Invalid current deployment SHA: ${currentSha}`)
-  }
-
-  const candidates = workflowRuns
-    .filter((run) => (
-      run?.event === 'deployment_status'
-      && run?.status === 'completed'
-      && run?.conclusion === 'success'
-      && isSha(run?.head_sha)
-      // 수동 재배포/재시도에서 같은 SHA를 기준으로 잡으면 실제 누적 diff가 사라진다.
-      && run.head_sha.toLowerCase() !== currentSha.toLowerCase()
-    ))
-    .map((run) => ({ id: String(run.id), headSha: run.head_sha }))
-
-  return {
-    candidates,
-    hasMore: workflowRuns.length === pageSize,
-  }
-}
-
-export function hasSuccessfulPurgeJob(jobs) {
-  if (!Array.isArray(jobs)) {
-    throw new TypeError('jobs must be an array.')
-  }
-
-  return jobs.some((job) => (
-    job?.name === 'purge'
-    && job?.status === 'completed'
-    && job?.conclusion === 'success'
-  ))
-}
-
 function argumentValue(name) {
   const index = process.argv.indexOf(name)
   return index === -1 ? undefined : process.argv[index + 1]
@@ -435,9 +393,7 @@ function argumentValue(name) {
 function runCli() {
   const manualScope = argumentValue('--scope')
   const filesPath = argumentValue('--files-z')
-  const runsPath = argumentValue('--baseline-candidates')
-  const jobsPath = argumentValue('--has-successful-purge-job')
-  const modes = [manualScope, filesPath, runsPath, jobsPath].filter(Boolean)
+  const modes = [manualScope, filesPath].filter(Boolean)
 
   if (modes.length !== 1) {
     throw new Error('Select exactly one classifier mode.')
@@ -456,21 +412,7 @@ function runCli() {
     const changedFiles = readFileSync(filesPath, 'utf8').split('\0').filter(Boolean)
     const plan = classifyCloudflarePurgeImpact(changedFiles)
     process.stdout.write(`${JSON.stringify(plan)}\n`)
-    return
   }
-
-  if (runsPath) {
-    const payload = JSON.parse(readFileSync(runsPath, 'utf8'))
-    const result = selectCompletedDeploymentCandidates(
-      payload.workflow_runs,
-      argumentValue('--current-sha') ?? '',
-    )
-    process.stdout.write(`${JSON.stringify(result)}\n`)
-    return
-  }
-
-  const payload = JSON.parse(readFileSync(jobsPath, 'utf8'))
-  process.exitCode = hasSuccessfulPurgeJob(payload.jobs) ? 0 : 1
 }
 
 const invokedPath = process.argv[1] ? pathToFileURL(path.resolve(process.argv[1])).href : ''

@@ -1,5 +1,6 @@
 const ALLOWED_IMAGE_HOSTS = new Set([
   'archive.org',
+  'assets.feelandnote.com',
   't1.daumcdn.net',
   'image.tmdb.org',
   'covers.openlibrary.org',

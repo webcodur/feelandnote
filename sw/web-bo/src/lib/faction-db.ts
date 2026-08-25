@@ -14,13 +14,14 @@ import type { FactionRowSource } from '@feelandnote/shared/lib/faction-assemble'
 /** 관리자 확인 — 로그인 + 활성 관리자 계정. 아니면 던진다 */
 export async function requireFactionAdmin(): Promise<{ userId: string }> {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('로그인이 필요합니다')
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims()
+  const userId = claimsData?.claims?.sub
+  if (claimsError || !userId) throw new Error('로그인이 필요합니다')
   const { data: isAdmin, error } = await supabase.rpc('is_admin')
   if (error || !isAdmin) {
     throw new Error('관리자 권한이 필요합니다')
   }
-  return { userId: user.id }
+  return { userId }
 }
 
 /** service role 클라이언트 — 조용한 폴백 금지: 키가 없으면 즉시 던진다 */

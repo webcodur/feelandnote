@@ -1164,12 +1164,11 @@ interface AddCelebContentInput {
 export async function addCelebContent(input: AddCelebContentInput): Promise<{ id: string; isExisting?: boolean }> {
   const supabase = await createClient()
 
-  // 현재 관리자 정보 가져오기
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser()
+  // 서명 검증된 현재 관리자 식별자 확인
+  const { data: claimsData, error: authError } = await supabase.auth.getClaims()
   if (authError) throw authError
+  const userId = claimsData?.claims?.sub
+  if (!userId) throw new Error('인증이 필요합니다.')
 
   // 이미 등록된 콘텐츠인지 확인
   const { data: existing, error: existingError } = await supabase
@@ -1195,7 +1194,7 @@ export async function addCelebContent(input: AddCelebContentInput): Promise<{ id
       review: input.review || null,
       is_spoiler: input.is_spoiler || false,
       visibility: 'public',
-      contributor_member_id: user?.id || null,
+      contributor_member_id: userId,
       source_url: input.source_url || null,
     })
     .select('id')

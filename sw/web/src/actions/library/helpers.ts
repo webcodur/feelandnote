@@ -177,10 +177,17 @@ export async function fetchGlobalCelebCounts(
 // 콘텐츠 ID별 일반 유저(USER, FINISHED) 카운트 — RPC로 카운트만 수신
 export async function fetchUserContentCounts(
   supabase: StaticSupabase,
-  category?: string
+  category?: string,
+  contentIds?: string[]
 ): Promise<Map<string, number>> {
-  const countMap = new Map<string, number>()
-
+  if (contentIds !== undefined && !contentIds.length) return new Map()
+  if (contentIds?.length) {
+    const { data, error } = await supabase.rpc('get_content_celeb_user_counts', {
+      p_content_ids: contentIds,
+    })
+    throwOnQueryError('fetchUserContentCounts', error)
+    return new Map<string, number>((data ?? []).map((row: { content_id: string; user_count: number }) => [row.content_id, Number(row.user_count)] as [string, number]))
+  }
   const { data, error } = await supabase.rpc('get_user_content_counts', {
     p_category: category ?? undefined,
   })
@@ -188,10 +195,6 @@ export async function fetchUserContentCounts(
   // 여기서 빈 값을 돌려주면 감상 인원 수가 전부 0 으로 굳는다.
   throwOnQueryError('fetchUserContentCounts', error)
 
-  for (const row of data ?? []) {
-    countMap.set(row.content_id, Number(row.user_count))
-  }
-
-  return countMap
+  return new Map<string, number>((data ?? []).map((row: { content_id: string; user_count: number }) => [row.content_id, Number(row.user_count)] as [string, number]))
 }
 // #endregion
