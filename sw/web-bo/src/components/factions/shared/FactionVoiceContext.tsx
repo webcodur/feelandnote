@@ -29,7 +29,7 @@ export interface FactionVoiceCtx {
   episodeName?: string
   /** 시리즈 id — preview·save 라우트용 */
   series?: string
-  /** 제목·시작문구와 각 인물 수식어가 함께 상속하는 공용 낭독 목소리 */
+  /** 장면의 나레이터 해설·제목·시작문구·챕터명·인물 수식어가 함께 상속하는 공용 목소리 */
   commonNarrationVoice?: FactionNarratorVoice
 }
 

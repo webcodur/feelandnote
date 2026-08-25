@@ -1,11 +1,11 @@
 import React from 'react'
 import { AbsoluteFill, interpolate, Easing } from 'remotion'
 import type { FactionScript, Orientation } from '../types'
-import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, CHAPTER_FADE_SEC, personQuoteEndSec, f, type TimedCue } from '../timing'
+import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, CHAPTER_FADE_SEC, factionSceneCaptionPosition, personOfCue, personQuoteEndSec, personQuoteVoiceFile, f, type TimedCue } from '../timing'
 import { HEADER_H, SAFE_BOTTOM, BG } from '../constants'
 import { imgSrc, clustersOf, personCutKind, resolveHoldMotion, resolveGroupHoldMotion, resolveGlitchHold, resolveHoldShake, resolveZoomSpeed, resolveEnterMotion, resolveOutroImage, resolveEdgeEffects, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom, isVideoSrc } from '../utils'
 import { CutEnter, transitionEnterSec, isSlideKind, slideDir } from '../transitions'
-import { vnPersonQuote, vnTimingKey } from '../voice-names'
+import { vnTimingKey } from '../voice-names'
 import { IntroCard } from './IntroCard'
 import { GroupCard, ClusterCard } from './GroupCard'
 import { PersonCard } from './PersonCard'
@@ -74,6 +74,12 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   // 자기 컷 전환(진입 효과) 종류 — 세로 쇼츠 인물 컷만.
   const cutKind = personCutKind(script, cue, orientation)
 
+  // 다음 컷이 이 컷 끝보다 앞당겨 들어오는 시간. 본문이 있는 카드들은 이 시점 전에 글자를 걷는다.
+  const nextEnterSec = nextKind === 'chapterBlack' ? CHAPTER_FADE_SEC
+    : nextKind === 'outro' ? OUTRO_CROSSFADE_SEC
+      : nextCutKind ? transitionEnterSec(nextCutKind)
+        : CROSSFADE_SEC
+
   // 진입: 자기 컷 전환이면 이전 컷 끝보다 앞당겨 시작(이전 인물 위로). 아니면 크로스페이드.
   const enterSec = cutKind ? transitionEnterSec(cutKind) : crossSec
   const enterStart = start - f(enterSec)
@@ -91,17 +97,18 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
   // start부터로 잡으면 페이드인 구간엔 영상이 아직 없어 교차 없이 툭 나타난다.
   else if (cue.kind === 'outro') content = <OutroCard script={script} episodeName={episodeName} isShorts={isShorts} part={part} startFrame={enterStart} frame={frame} cueStart={start} />
   else if (cue.kind === 'era') content = <EraCard label={cue.label} />
-  else if (cue.kind === 'entry') content = (
+  else if (cue.kind === 'scene') content = (
     <NarrativeEntryCard
-      scene={cue.entry}
+      scene={cue.scene}
       episodeName={episodeName}
       cueStart={start}
       cueDuration={duration}
       orientation={orientation}
-      captionPosition={script.quoteCaptionPos}
+      captionPosition={cue.scene.quoteCaptionPos ?? script.quoteCaptionPos}
       captionSize={script.quoteCaptionSize}
       captionFont={script.quoteCaptionFont}
       captionIdHoldSec={script.captionIdHoldSec}
+      nextEnterSec={nextEnterSec}
     />
   )
   // 챕터 전환 검정 브릿지 — 순수 검정 컷. 앞뒤 크로스페이드가 이전 챕터를 검정으로 닫고 표지를 검정에서 연다(검정 경유 전환).
@@ -115,11 +122,13 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     const g = script.groups[cue.groupIndex]
     const cl = clustersOf(g)[cue.clusterIndex]
     // 그룹샷 지지직 — 미지정이면 전 세력 기본 켜짐
-    content = <ClusterCard episodeName={episodeName} group={g} cluster={cl} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script, cl)} shake={resolveHoldShake(cl.holdShake, g, script)} enter={resolveEnterMotion(cl.enterMotion, g, script)} glitch={resolveGlitchHold(cl.holdGlitch, g, script, true)} zoomSpeed={resolveZoomSpeed(cl.zoomSpeed, g, script)} />
+    content = <ClusterCard episodeName={episodeName} group={g} cluster={cl} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} captionPosition={factionSceneCaptionPosition(cl.labelPosition, script.quoteCaptionPos)} noZoom={noZoom} hold={resolveGroupHoldMotion(g, script, cl)} shake={resolveHoldShake(cl.holdShake, g, script)} enter={resolveEnterMotion(cl.enterMotion, g, script)} glitch={resolveGlitchHold(cl.holdGlitch, g, script, true)} zoomSpeed={resolveZoomSpeed(cl.zoomSpeed, g, script)} />
   } else if (cue.kind === 'person') {
     const g = script.groups[cue.groupIndex]
-    const person = clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
-    const stem = vnTimingKey(vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex))
+    const person = personOfCue(script, cue)
+    if (!person) return null
+    const quoteVoiceFile = personQuoteVoiceFile(cue)
+    const stem = vnTimingKey(quoteVoiceFile)
     // 마지막 인물 컷이면 대사 끝 시점부터 줌인을 멈추고 종료 꼬리 동안 정지시킨다.
     const zoomFreezeSec = isLast ? personQuoteEndSec(person, cue.steps, isShorts, { script }) : undefined
     // 지속 효과 — 인물→세력→에피소드 계승(레거시 zoom 승계 포함)을 여기서 풀어 카드에 넘긴다.
@@ -136,11 +145,7 @@ export const CueLayer: React.FC<{ tc: TimedCue; script: FactionScript; episodeNa
     const quoteCaptionFont = person.quoteCaptionFont ?? script.quoteCaptionFont ?? 'default'
     // 다음 컷이 이 컷 끝보다 앞당겨 들어오는 시간 — 전환이 지정된 컷은 그 전환 길이, 아니면 크로스페이드 길이.
     // 인물 컷의 글자를 이 시점 전에 다 걷어, 다음 인물 신원과 겹쳐 읽히지 않게 한다.
-    const nextEnterSec = nextKind === 'chapterBlack' ? CHAPTER_FADE_SEC
-      : nextKind === 'outro' ? OUTRO_CROSSFADE_SEC
-        : nextCutKind ? transitionEnterSec(nextCutKind)
-          : CROSSFADE_SEC
-    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} quoteCaptionSize={quoteCaptionSize} quoteCaptionFont={quoteCaptionFont} nextEnterSec={nextEnterSec} captionIdHoldSec={script.captionIdHoldSec} />
+    content = <PersonCard episodeName={episodeName} group={g} person={person} frame={frame} cueStart={start} cueDuration={end - start} orientation={orientation} groupIndex={cue.sourceGroupIndex ?? cue.groupIndex} personIndex={cue.personIndex} clusterIndex={cue.clusterIndex} voiceClusterIndex={cue.sourceClusterIndex ?? cue.clusterIndex} quoteVoiceFile={quoteVoiceFile} steps={cue.steps} voiceTiming={script.voiceTimings?.[stem]} zoomFreezeSec={zoomFreezeSec} isShorts={isShorts} isLast={isLastPerson} noZoom={noZoom} hold={hold} enter={enter} glitch={glitch} shake={shake} zoomSpeed={zoomSpeed} quoteDisplay={quoteDisplay} quoteCaptionPos={quoteCaptionPos} quoteCaptionSize={quoteCaptionSize} quoteCaptionFont={quoteCaptionFont} nextEnterSec={nextEnterSec} captionIdHoldSec={script.captionIdHoldSec} />
   }
 
   // 종료: 다음 컷이 슬라이드면 이 컷도 함께 그 방향으로 밀려난다(두 인물 동시 슬라이드).

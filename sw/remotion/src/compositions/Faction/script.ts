@@ -12,6 +12,7 @@
 
 import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionCluster, type FactionPerson, type FactionNarratorVoice } from './types'
 import { normalizeFactionGroupEntries } from '@feelandnote/shared/lib/faction-sequence'
+import { factionSceneSpeakerPeople, resolveFactionSceneVoice } from '@feelandnote/shared/lib/faction-scene-speaker'
 import type { VoiceTimings, VoiceTimingSegment } from '../../lib/voice-timing'
 import { clampRate, vnTimingKey, vnPersonQuote } from './voice-names'
 // 등록 에피소드 화이트리스트 — 폴더에 faction-data.json이 있어도 이 목록에 없으면 컴포지션으로 노출하지 않는다.
@@ -94,6 +95,12 @@ function resolveCluster(c: FactionCluster, en: boolean, commonVoice?: FactionNar
     ...c,
     // 단체 명칭 — 통합형(앞부분\n뒷부분) 그대로. 영문판은 labelEn 폴백.
     label: en ? (c.labelEn ?? c.label) : c.label,
+    beats: c.beats?.map(beat => ({
+      ...beat,
+      label: en ? (beat.labelEn ?? beat.label) : beat.label,
+      speaker: en ? (beat.speakerEn ?? beat.speaker) : beat.speaker,
+      text: en ? (beat.textEn ?? beat.text) : beat.text,
+    })),
     // 개인샷이 비었거나 그룹 화보와 같은 파일이면 렌더용 객체에 그룹 화보·맞춤을 펼친다.
     // 원본 JSON에는 중복 저장하지 않으면서 인트로·인물 컷·카드뉴스 등 모든 소비자가 같은 사진을 본다.
     people: c.people?.map(p => {
@@ -113,6 +120,28 @@ function resolveGroup(g: FactionGroup, en: boolean, commonVoice?: FactionNarrato
     sequence: factionSequenceOf(normalized),
     clusters: normalized.clusters.map(c => resolveCluster(c, en, commonVoice, !normalized.solo)),
   }
+}
+
+/** 장면 대사를 에피소드 인물 UUID에 연결해 현재 이름·기본 음성을 펼친다. */
+function resolveSceneSpeakers(
+  groups: FactionGroup[],
+  en: boolean,
+  commonVoice?: FactionNarratorVoice,
+): FactionGroup[] {
+  const people = factionSceneSpeakerPeople(groups)
+  return groups.map(group => ({
+    ...group,
+    clusters: group.clusters.map(cluster => ({
+      ...cluster,
+      beats: cluster.beats?.map(beat => resolveFactionSceneVoice(beat, people, commonVoice, en ? 'en' : 'ko')),
+      people: cluster.people.map(person => person.isPerson !== false || !person.beats?.length
+        ? person
+        : {
+            ...person,
+            beats: person.beats.map(beat => resolveFactionSceneVoice(beat, people, commonVoice, en ? 'en' : 'ko')),
+          }),
+    })),
+  }))
 }
 
 /** voiceTimings 한 인물 분량을 배속(rate)만큼 1/rate 스케일 — 음원을 빠르게 돌리면 점등·페이지 시각도 당겨진다. */
@@ -160,6 +189,11 @@ function resolveNarratorVoice(v: FactionNarratorVoice | undefined, en: boolean):
 /** faction-data.json → 단일 언어 스크립트. en=false는 원본 그대로 반환한다. */
 function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTimings): FactionScript {
   const commonVoice = resolveNarratorVoice(data.narrator?.logline, en)
+  const groups = resolveSceneSpeakers(
+    data.groups.map(g => resolveGroup(g, en, commonVoice)),
+    en,
+    commonVoice,
+  )
   return {
     ...data,
     // 나레이터(옵션) — 이름·소개·낭독 3종의 영문 폴백 치환
@@ -191,7 +225,7 @@ function resolveScript(data: FactionScript, en: boolean, voiceTimings?: VoiceTim
       }
       : it,
     ),
-    groups: data.groups.map(g => resolveGroup(g, en, commonVoice)),
+    groups,
     voiceTimings,
   }
 }

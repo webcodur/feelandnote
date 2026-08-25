@@ -71,7 +71,13 @@ export function FactionShortsPartHeader({
   const outroValue = part === 0 ? script.outroImage : script.outroImageByPart?.[part]
   const introInherited = part > 0 && !introValue
   const outroInherited = part > 0 && !outroValue
-  const groupNames = groups.map(group => group.name).join(' · ')
+  const seenGroupIndexes = new Set<number>()
+  const uniqueGroups = groups.filter(group => {
+    if (seenGroupIndexes.has(group.index)) return false
+    seenGroupIndexes.add(group.index)
+    return true
+  })
+  const groupNames = uniqueGroups.map(group => group.name).join(' · ')
 
   return (
     <div
@@ -125,15 +131,15 @@ export function FactionShortsPartHeader({
         <div>
           <div className="text-base font-bold text-text-primary">{label}</div>
           <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] text-text-dim">
-            <span>세력 {groups.length}</span>
+            <span>세력 {uniqueGroups.length}</span>
             <span>인물 {peopleCount}</span>
             <span className="font-mono">{formatMmss(durationSec)}</span>
           </div>
         </div>
 
-        {groups.length ? (
+        {uniqueGroups.length ? (
           <div className="flex flex-wrap items-center gap-1" title={groupNames}>
-            {groups.map(group => (
+            {uniqueGroups.map(group => (
               <button
                 key={group.index}
                 type="button"
@@ -176,7 +182,7 @@ export function FactionShortsPartHeader({
         <PartTextField
           part={part}
           label="시작문구"
-          keys={{ common: 'logline', byPart: 'loglineByPart', en: 'loglineEn' }}
+          keys={{ common: 'logline', byPart: 'loglineByPart', en: 'loglineEn', byPartEn: 'loglineByPartEn' }}
           multiline
           multilineHint="시작문구 (개행하면 위·아래 두 줄)"
           compact

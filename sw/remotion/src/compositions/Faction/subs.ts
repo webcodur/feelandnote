@@ -11,8 +11,8 @@
  *  - credit(직함만) 컷은 대사가 없어 자막을 만들지 않는다.
  */
 import type { FactionScript } from './types'
-import { buildCues, f, personQuoteEnterSec, personQuoteEndSec, narratorOutroVoice, narratorVoiceText, narratorSpeakSec, NARRATOR_ENTER_SEC } from './timing'
-import { vnPersonQuote, vnTimingKey } from './voice-names'
+import { buildCues, f, personOfCue, personQuoteEnterSec, personQuoteEndSec, personQuoteVoiceFile, narratorOutroVoice, narratorVoiceText, narratorSpeakSec, NARRATOR_ENTER_SEC } from './timing'
+import { vnTimingKey } from './voice-names'
 import { clustersOf } from './utils'
 import { splitSub, type Sub } from '../../lib/voice-timing'
 
@@ -89,13 +89,12 @@ export function buildFactionSubs(script: FactionScript, isShorts: boolean, part?
     // ── 인물 대사 ──
     if (c.kind === 'person') {
       if (!c.steps.voice) continue // 음성 스텝 꺼짐 — 대사 없음(자막 없음)
-      const g = script.groups[c.groupIndex]
-      const person = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
+      const person = personOfCue(script, c)
       if (!person) continue
       // 화면은 덩어리를 한 흐름으로 이어 표시 — 자막 원고도 공백으로 잇는다(분할은 발화 시각이 담당).
       const text = person.quoteChunks?.length ? person.quoteChunks.join(' ') : (person.quote ?? '')
       if (!text.trim()) continue
-      const stem = vnTimingKey(vnPersonQuote(c.groupIndex, c.personIndex, c.clusterIndex))
+      const stem = vnTimingKey(personQuoteVoiceFile(c))
       const timings = script.voiceTimings?.[stem]
       // 영상과 동일 — 대사 등장 시점부터. 켜진 리드 스텝(직함·수식어)을 다 보여준 뒤라 그만큼 늦게 시작.
       const startFrame = cutStart + f(personQuoteEnterSec(person, c.steps, isShorts, { script }))

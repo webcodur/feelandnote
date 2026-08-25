@@ -27,7 +27,7 @@ export function FactionDialogueSettings({ script, onChange, onApplyAll, onClearO
             aria-pressed={!caption}
             onClick={() => onChange({ quoteDisplay: 'box' })}
             className={`px-3 text-xs font-bold focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-accent ${!caption ? 'bg-accent text-bg-main' : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'}`}
-            title="인물 정보와 대사를 박스로 표시"
+            title="화자 정보와 대사를 박스로 표시"
           >
             대사형
           </button>
@@ -68,7 +68,7 @@ export function FactionDialogueSettings({ script, onChange, onApplyAll, onClearO
       <span className="mx-1 hidden h-8 w-px self-end bg-border xl:block" aria-hidden="true" />
       <button type="button" onClick={onApplyAll} className="h-9 rounded-md border border-border px-3 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary">모든 인물 적용</button>
       <button type="button" onClick={onClearOverrides} className="h-9 rounded-md border border-border px-3 text-xs font-semibold text-text-secondary hover:bg-bg-hover hover:text-text-primary">개별값 지우기</button>
-      <p className="min-w-48 flex-1 self-center text-right text-[11px] text-text-tertiary">서사 항목 해설도 이 자막 모양을 상속합니다.</p>
+      <p className="min-w-48 flex-1 self-center text-right text-[11px] text-text-tertiary">미할당 해설은 에피소드 기본값, 인물 할당 대사는 그 인물의 개별값을 우선합니다.</p>
     </section>
   )
 }

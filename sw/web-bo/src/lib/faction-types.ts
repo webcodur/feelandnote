@@ -5,7 +5,7 @@
  * 한 파일(data.json)에 한국어 필드 + 영문 필드(*En)를 함께 둔다. 렌더 로더가 언어별로 펼친다.
  */
 
-import { factionSequenceOf as rawFactionSequenceOf, normalizeFactionGroupEntries } from '@feelandnote/shared/lib/faction-sequence'
+import { factionSequenceOf as rawFactionSequenceOf } from '@feelandnote/shared/lib/faction-sequence'
 
 /**
  * 사진 맞춤 — 화면 비율과 안 맞는 사진(가로 사진 등)을 화면에 채울(cover) 때
@@ -305,10 +305,14 @@ export interface FactionCluster {
   label?: string
   /** 단체 명칭 영문 (한 필드, 개행) */
   labelEn?: string
+  /** 대표화면과 해설 화면에서 장면명·본문이 뜨는 세로 위치. 미지정은 에피소드 quoteCaptionPos 상속. */
+  labelPosition?: 'bottom' | 'center'
   /** 묶음 그룹 화보 이미지 basename 또는 URL */
   image?: string
   /** 화보 맞춤 — 비율 유지(contain) 위에서 보일 위치·확대. 미지정이면 기본 정렬(가로 가운데·세로 위) */
   imageCrop?: FactionImageCrop
+  /** 장면 안의 해설·인물 대사를 화자 종류와 무관한 항목 배열 하나로 보관한다. */
+  beats?: FactionSceneBeat[]
   /** 이 묶음 인물 (등장 순서) */
   people: FactionPerson[]
   /** 이 그룹샷 지속 효과(머무는 동안 카메라 움직임). 미지정이면 세력→에피소드 설정을 따른다. 'zoomin'=다가가는 줌 */
@@ -499,14 +503,21 @@ export interface FactionChapter {
 }
 
 /**
- * 장면 안에서 순서대로 흐르는 한 덩어리. 화자가 있으면 그 인물의 대사, 없으면 나레이터 해설이다.
- * 화자는 셀럽 등록과 무관한 자유 문자열이라, 인물 카드로 세우기엔 가벼운 배역도 장면 안에서 말한다.
+ * 장면 안에서 순서대로 흐르는 한 컷. speakerCelebId가 있으면 할당된 인물의 대사,
+ * 본문만 있으면 해설, 둘 다 없고 minimumSec가 있으면 말 없는 화면 컷이다.
+ * 구 자유 문자열 speaker는 재배정 전까지 미할당 상태로만 보존한다.
  * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionSceneBeat.
  */
 export interface FactionSceneBeat {
-  /** 화자 이름. 없으면 해설이며 장면 제목이 이름 자리를 지킨다 */
+  /** 할당된 실제 인물의 CELEB UUID. 있으면 이름·기본 음성을 해당 인물에서 상속한다 */
+  speakerCelebId?: string
+  /** 렌더용 화자 이름 스냅샷. 할당이 있으면 현재 인물 이름으로 덮고, 없으면 해설이다 */
   speaker?: string
   speakerEn?: string
+  /** 할당 대사: undefined=영상 안 첫 대사만 자동 표시, false=강제 표시, true=숨김. 미할당 컷은 true만 숨김이다. */
+  hideIdentity?: boolean
+  /** 이 인물의 기본 대사이자 웹팩션 대표 대사로 투영할 컷. */
+  primaryQuote?: boolean
   /** 화면에 뜨고 낭독되는 본문. 빈 줄로 나누면 같은 덩어리 안에서 화면이 넘어간다 */
   text: string
   textEn?: string
@@ -515,6 +526,17 @@ export interface FactionSceneBeat {
   /** 배경 교체 시점. 기본은 덩어리 시작, text면 본문·음성 시작 */
   mediaAt?: 'beat' | 'text'
   mediaCrop?: FactionImageCrop
+  /** Filter/focus settings for the image active at the start of this beat. */
+  mediaFilter?: string
+  mediaZoomFocus?: ZoomFocus
+  /** Screen replacements inside this newline-delimited dialogue beat. */
+  mediaChanges?: {
+    chunk: number
+    media: string
+    crop?: FactionImageCrop
+    filter?: string
+    zoomFocus?: ZoomFocus
+  }[]
   /** 음성 길이(초) — 파이프라인 소유. 사람이 입력하지 않는다 */
   voiceDuration?: number
   voiceGainDb?: number
@@ -524,8 +546,26 @@ export interface FactionSceneBeat {
   /** 인물 카드로도 등장하는 사람은 카드와 같은 ELE 보이스를 적어 목소리를 맞춘다 */
   voiceElevenlabsVoiceId?: string
   voiceElevenlabsVoiceIdEn?: string
+  /** 장면 대사 ElevenLabs 감정·강도 */
+  voiceEleOptions?: { stability?: number; style?: number }
+  /** 장면 대사 ElevenLabs 감정 태그 */
+  voiceEleEmotions?: string[]
+  /** 장면 대사 ElevenLabs 끝 패딩 (미지정=켜짐) */
+  voiceEleTrail?: boolean
   /** 발화 스타일 지시 — 합성 시 "<지시>: " prefix 로 붙는다 */
   voiceStyle?: string
+  /** 구 독립 장면 제목을 별도 카드로 만들지 않고 항목 문맥으로 보존한다. */
+  label?: string
+  labelEn?: string
+  /** 구 장면의 최소 길이·효과음. 평평한 항목으로 승격해도 값이 사라지지 않는다. */
+  minimumSec?: number
+  sfx?: string
+  /** 같은 장면 안에서 다음 쇼츠 편이 시작되는 경계 flag. */
+  shortsCutBefore?: boolean
+  /** 승격 전 인물 좌표의 기존 음원을 재사용한다. 본문·화자 수정 시 제거한다. */
+  legacyPersonVoice?: boolean
+  /** 렌더 단계에서만 펼치는 실제 음원 파일명. */
+  voiceFile?: string
 }
 
 /**
@@ -534,7 +574,9 @@ export interface FactionSceneBeat {
  * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/timing.ts 의 sceneBeatsOf.
  */
 export function factionSceneBeats(scene: FactionPerson): FactionSceneBeat[] {
-  const beats = scene.beats?.filter(b => !!b && (!!b.text?.trim() || !!b.speaker?.trim()))
+  const beats = scene.beats?.filter(b => !!b && (
+    !!b.text?.trim() || !!b.speaker?.trim() || !!b.label?.trim() || !!b.media || !!b.minimumSec || !!b.sfx
+  ))
   if (beats?.length) return beats
   if (!scene.caption?.trim()) return []
   return [{
@@ -548,32 +590,15 @@ export function factionSceneBeats(scene: FactionPerson): FactionSceneBeat[] {
   }]
 }
 
-/** 세력 안의 수평 이야기 순서 — 단체샷과 공통 개인 항목 참조가 같은 층위에 놓인다. */
+/** 정규화된 세력 이야기 순서. 최상위에는 장면과 장면 사이 쇼츠 경계만 둔다. */
 export type FactionSequenceItem =
-  | { kind: 'cluster'; clusterIndex: number }
-  | { kind: 'entry'; clusterIndex: number; entryIndex: number }
+  | { kind: 'cluster'; clusterIndex: number; beatStart?: number; beatEnd?: number }
   /** 쇼츠 편 경계. 롱폼에서는 재생 항목 없이 건너뛴다. */
   | { kind: 'cut' }
 
-/** 구/신 데이터를 모두 같은 수평 시퀀스로 읽는 BO 측 타입 래퍼. */
+/** 구 entry/개인 대사를 장면 beats로 승격하고 장면·쇼츠 경계만 돌려주는 BO 타입 래퍼. */
 export function factionSequenceOf(group: FactionGroup): FactionSequenceItem[] {
-  const raw = group as unknown as Record<string, unknown>
-  const hasLegacy = Array.isArray(raw.openingScenes)
-    || (Array.isArray(raw.sequence) && raw.sequence.some(item => (item as Record<string, unknown>)?.kind === 'scene'))
-    || (group.clusters ?? []).some(cluster => Array.isArray((cluster as unknown as Record<string, unknown>).scenesAfter))
-  if (hasLegacy) {
-    const normalized = normalizeFactionGroupEntries(raw) as unknown as FactionGroup
-    group.clusters = normalized.clusters
-    group.sequence = normalized.sequence
-  }
   return rawFactionSequenceOf(group as unknown as Record<string, unknown>) as unknown as FactionSequenceItem[]
-}
-
-/** sequence 참조가 가리키는 서사 항목. */
-export function factionEntryAt(group: FactionGroup, item: Extract<FactionSequenceItem, { kind: 'entry' }>): FactionPerson {
-  const entry = group.clusters?.[item.clusterIndex]?.people[item.entryIndex]
-  if (!entry || entry.isPerson !== false) throw new Error('sequence entry 참조가 유효한 서사 항목이 아니다')
-  return entry
 }
 
 /**
@@ -601,8 +626,8 @@ export type FactionNarratorVoice = Pick<FactionPerson,
 >
 
 /**
- * 공용 낭독자(옵션) — 화면에 등장하는 인물이 아니라 제목·시작문구·수식어를 읽는 목소리.
- * logline 음성 설정은 모든 인물 수식어의 기본값이며, 인물 epithet* 값이 있으면 그쪽이 우선한다.
+ * 공용 나레이터(옵션) — 출연진에 들어가지 않고 장면 해설·제목·시작문구·수식어를 읽는 목소리.
+ * logline 음성 설정은 화자 없는 장면 해설과 모든 인물 수식어의 기본값이며, 항목별 값이 있으면 그쪽이 우선한다.
  * name·label·image·intro·show*는 인격형 나레이터 초기 데이터의 하위 호환 필드다.
  * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/types.ts 의 FactionNarrator.
  */

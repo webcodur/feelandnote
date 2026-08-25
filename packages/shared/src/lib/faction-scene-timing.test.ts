@@ -152,6 +152,18 @@ test("화자가 바뀌는 덩어리에서만 이름 자리를 새로 띄운다",
   );
 });
 
+test("이름 표시를 끈 미할당 컷은 장면명을 자동으로 띄우지 않는다", () => {
+  const timing = factionSceneTiming({
+    beats: [{ text: "동료 여섯이 잡아먹힌다.", hideIdentity: true }],
+  } as any);
+
+  assert.equal(timing.beats[0].showsIdentity, false);
+  assert.equal(
+    timing.beats[0].textStartSec,
+    FACTION_SCENE_PARAGRAPH_TRANSITION_SEC,
+  );
+});
+
 test("덩어리가 여럿이면 장면 길이가 마지막 덩어리까지 담는다", () => {
   const timing = factionSceneTiming({
     beats: [
@@ -184,8 +196,17 @@ test("어느 덩어리의 음성도 컷 끝에서 잘리지 않는다", () => {
   );
 });
 
-test("말 없는 이미지 컷은 덩어리 0개로 기본 길이를 쓴다", () => {
-  const timing = factionSceneTiming({ beats: [] });
-  assert.equal(timing.beats.length, 0);
-  assert.equal(timing.durationSec, FACTION_SCENE_DEFAULT_SEC);
+test("말 없는 화면 컷도 독립 덩어리로 유지해 지정한 시간만큼 재생한다", () => {
+  const timing = factionSceneTiming({
+    beats: [
+      { text: "", minimumSec: 4.5 },
+      { speaker: "키르케", text: "먹고 마셔요." },
+    ],
+  });
+
+  assert.equal(timing.beats.length, 2);
+  assert.equal(timing.beats[0].text, "");
+  assert.equal(timing.beats[0].startSec, 0);
+  assert.ok(timing.beats[1].startSec >= 4.5);
+  assert.ok(timing.durationSec > timing.beats[1].completeSec);
 });

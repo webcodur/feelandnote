@@ -3,15 +3,20 @@ import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame
 import type { FactionPerson, Orientation } from "../types";
 import { BG } from "../constants";
 import {
+  activeFactionMediaLayers,
   f,
+  narrativeEntryTextExitFrames,
+  narrativeMediaCutsOf,
   sceneBeatAudioPlaySec,
-  sceneBeatMediaStartSec,
+  sceneBeatCaptionMode,
   sceneBeatsOf,
+  sceneBeatTextExitFrames,
   sceneTimingInputOf,
 } from "../timing";
 import { clampRate, dbToLinear, vnSceneBeat, voiceRelPath } from "../voice-names";
 import { imgSrc } from "../utils";
 import { Typewriter } from "../../../components/caption/Typewriter";
+import { ShortCaption } from "../../../components/caption/ShortCaption";
 import {
   CaptionIdentityText,
   CaptionSwapSlot,
@@ -19,7 +24,6 @@ import {
 } from "./CaptionSwapSlot";
 import { FilledImage } from "./FilledImage";
 import {
-  FACTION_SCENE_EXIT_FADE_SEC,
   factionSceneBeatTimings,
   type FactionSceneCaptionPageTiming,
 } from "@feelandnote/shared/lib/faction-scene-timing";
@@ -120,6 +124,7 @@ export const NarrativeEntryCard: React.FC<{
   captionSize?: "default" | "large";
   captionFont?: "default" | "serif";
   captionIdHoldSec?: number;
+  nextEnterSec?: number;
 }> = ({
   scene,
   episodeName,
@@ -130,6 +135,7 @@ export const NarrativeEntryCard: React.FC<{
   captionSize,
   captionFont,
   captionIdHoldSec,
+  nextEnterSec = 0,
 }) => {
   const frame = useCurrentFrame();
   const end = cueStart + cueDuration;
@@ -143,46 +149,29 @@ export const NarrativeEntryCard: React.FC<{
     size: captionSize,
     font: captionFont,
   });
-  const textOut = interpolate(
-    frame,
-    [end - f(FACTION_SCENE_EXIT_FADE_SEC), end - f(0.12)],
-    [1, 0],
-    CLAMP,
-  );
+  const textOut = interpolate(frame, narrativeEntryTextExitFrames(end, nextEnterSec), [1, 0], CLAMP);
   const zoom = interpolate(frame, [cueStart, end], [1.01, 1.065], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
   const objPos = `${scene.imageCrop?.x ?? 50}% ${scene.imageCrop?.y ?? 50}%`;
 
-  // 배경 교체 — 덩어리를 쓰면 덩어리가 시작될 때, 구 데이터면 지정한 문단이 뜰 때 다음 사진이 겹쳐 떠오른다.
-  const mediaCuts = React.useMemo(() => {
-    const cuts: { at: number; media: string; crop?: FactionPerson["imageCrop"] }[] = [];
-    if (scene.beats?.length) {
-      beatTimings.forEach((timing, index) => {
-        const media = beats[index]?.media;
-        if (media) cuts.push({
-          at: cueStart + f(sceneBeatMediaStartSec(beats[index], timing)),
-          media,
-          crop: beats[index]?.mediaCrop,
-        });
-      });
-    } else {
-      const first = beatTimings[0];
-      for (const change of scene.mediaChanges ?? []) {
-        if (!change.media) continue;
-        const page = first?.pages[change.paragraph];
-        const atSec = (first?.textStartSec ?? 0) + (page ? page.revealStartSec : 0);
-        cuts.push({ at: cueStart + f(atSec), media: change.media, crop: change.crop });
-      }
-    }
-    return cuts.filter(c => c.at > cueStart && c.at < end).sort((a, b) => a.at - b.at);
-  }, [scene, beats, beatTimings, cueStart, end]);
+  // 배경 교체 — 전환 중에는 현재 사진과 다음 사진만 겹치고, 완료 즉시 이전 사진을 렌더 트리에서 뺀다.
+  const mediaCuts = React.useMemo(
+    () => narrativeMediaCutsOf(scene, cueStart, cueDuration, beatTimings),
+    [scene, cueStart, cueDuration, beatTimings],
+  );
   const MEDIA_FADE_SEC = 0.5;
+  const activeMedia = activeFactionMediaLayers(
+    mediaCuts.map(cut => cut.at),
+    frame,
+    f(MEDIA_FADE_SEC),
+  );
+  const activeMediaIndexes = new Set(activeMedia.indexes);
 
   return (
     <AbsoluteFill style={{ backgroundColor: BG }}>
-      {scene.image ? (
+      {activeMedia.showBase && scene.image ? (
         <FilledImage
           src={imgSrc(episodeName, scene.image)}
           objPos={objPos}
@@ -190,15 +179,16 @@ export const NarrativeEntryCard: React.FC<{
           startFrame={cueStart}
           onError={() => {}}
         />
-      ) : (
+      ) : activeMedia.showBase ? (
         <AbsoluteFill
           style={{
             background:
               "radial-gradient(ellipse 90% 70% at 50% 44%, rgba(36,70,82,0.44) 0%, rgba(11,24,31,0.35) 42%, rgba(10,10,15,1) 82%)",
           }}
         />
-      )}
+      ) : null}
       {mediaCuts.map((c, i) => {
+        if (!activeMediaIndexes.has(i)) return null;
         const op = interpolate(
           frame,
           [c.at - f(MEDIA_FADE_SEC), c.at],
@@ -214,6 +204,7 @@ export const NarrativeEntryCard: React.FC<{
               objPos={`${c.crop?.x ?? scene.imageCrop?.x ?? 50}% ${c.crop?.y ?? scene.imageCrop?.y ?? 50}%`}
               scale={(c.crop?.scale ?? 1) * cZoom}
               startFrame={c.at}
+              filter={c.filter}
               onError={() => {}}
             />
           </AbsoluteFill>
@@ -236,16 +227,18 @@ export const NarrativeEntryCard: React.FC<{
         const hasText = !!timing.text.trim();
         const next = beatTimings[index + 1];
         // 다음 덩어리가 뜨기 시작하면 이 덩어리는 그 자리를 내준다. 마지막 덩어리는 컷 끝 페이드를 따른다.
+        const handOffFrames = next ? sceneBeatTextExitFrames(cueStart, next) : undefined;
         const handOff = next
           ? interpolate(
               frame,
-              [cueStart + f(next.startSec), cueStart + f(next.textStartSec)],
+              handOffFrames!,
               [1, 0],
               CLAMP,
             )
           : 1;
         // 화자가 없으면 장면 제목이 이름 자리를 지킨다.
-        const identity = timing.speaker || scene.name;
+        const identity = timing.speaker || beats[index]?.label || scene.name;
+        const wholeCaption = sceneBeatCaptionMode(beats[index]) === 'whole';
 
         return (
           <CaptionSwapSlot
@@ -260,12 +253,25 @@ export const NarrativeEntryCard: React.FC<{
             identity={<CaptionIdentityText>{identity}</CaptionIdentityText>}
             caption={
               hasText ? (
-                <SceneBeatText
-                  pages={timing.pages}
-                  textStartFrame={cueStart + f(timing.textStartSec)}
-                  fontSize={captionAppearance.fontSize}
-                  fontFamily={captionAppearance.fontFamily}
-                />
+                wholeCaption ? (
+                  <ShortCaption
+                    text={timing.text}
+                    startFrame={cueStart + f(timing.textStartSec)}
+                    spreadFrames={Math.max(1, f(timing.completeSec - timing.textStartSec))}
+                    fontSize={captionAppearance.fontSize}
+                    fontFamily={captionAppearance.fontFamily}
+                    fontWeight={700}
+                    maxPanelWidth={760}
+                    chrome="shadow"
+                  />
+                ) : (
+                  <SceneBeatText
+                    pages={timing.pages}
+                    textStartFrame={cueStart + f(timing.textStartSec)}
+                    fontSize={captionAppearance.fontSize}
+                    fontFamily={captionAppearance.fontFamily}
+                  />
+                )
               ) : undefined
             }
           />
@@ -286,7 +292,7 @@ export const NarrativeEntryCard: React.FC<{
             durationInFrames={Math.max(f(playSec), end - from)}
           >
             <Audio
-              src={staticFile(voiceRelPath(episodeName, vnSceneBeat(beat.speaker, beat.text)))}
+              src={staticFile(voiceRelPath(episodeName, beat.voiceFile ?? vnSceneBeat(beat.speaker, beat.text)))}
               volume={dbToLinear(beat.voiceGainDb)}
               playbackRate={clampRate(beat.voicePlaybackRate)}
             />

@@ -48,5 +48,8 @@ test('내부 쇼츠 경계 두 개가 legacy group.part보다 우선해 3편을 
   const part3 = shortsPartScriptOf(script, 3)
   assert.equal(part3.groups.length, 1)
   assert.deepEqual(part3.groups[0]?.clusters?.map(cluster => cluster.label), ['뒤-2'])
-  assert.deepEqual(part3.groups[0]?.sequence, [{ kind: 'cluster', clusterIndex: 0 }])
+  assert.deepEqual(part3.groups[0]?.clusters?.[0]?.people.map(person => person.name), ['D'])
+  assert.deepEqual(part3.groups[0]?.sequence, [
+    { kind: 'cluster', clusterIndex: 0 },
+  ])
 })

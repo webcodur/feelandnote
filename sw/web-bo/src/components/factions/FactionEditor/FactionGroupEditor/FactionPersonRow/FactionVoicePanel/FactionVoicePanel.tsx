@@ -14,7 +14,7 @@ import { folderToParam } from '@/lib/faction-edit-route'
 /**
  * 인물 한 명의 대사 음성 패널 — 펼친 폼 안에 놓이는 음성 설정 진입부 + 인라인 재생바.
  *
- * 설정 본체는 모달(FactionVoiceSettingsModal)에 있으며 행(FactionPersonRow)이 소유한다.
+ * 설정 본체는 모달(FactionVoiceSettingsModal)에 있으며 장면의 인물 발화 항목이 소유한다.
  * 헤더 버튼은 onOpenModal 로 그 모달을 연다(아코디언 헤더의 음성 버튼과 같은 모달).
  * meta·activeFile 은 행에서 한 번 계산해 내려준다.
  */

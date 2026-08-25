@@ -14,7 +14,7 @@ import {
   ENTER_MOTION_SEC, ENTER_ZOOM_OUT_SEC, ENTER_ZOOM_OUT_START, ENTER_ZOOM_IN_START,
   EDGE_HOLD_DEFAULT,
 } from './constants'
-import { f } from './timing'
+import { f, personOfCue } from './timing'
 
 /** 전환 설정 해석 — auto면 인물 순번으로 순환, 미지정이면 zoomout */
 export const resolveTransition = (t: FactionTransition | undefined, idx: number): Exclude<FactionTransition, 'auto'> =>
@@ -252,7 +252,8 @@ export const clustersOf = (g: FactionGroup): FactionCluster[] => {
 export const personCutKind = (script: FactionScript, cue: TimedCue['cue'], orientation: Orientation): string | null => {
   if (cue.kind !== 'person' || orientation !== 'portrait') return null
   const g = script.groups[cue.groupIndex]
-  const person = clustersOf(g)[cue.clusterIndex].people[cue.personIndex]
+  const person = personOfCue(script, cue)
+  if (!person) return null
   // 전환을 한 단계도 지정하지 않으면 크로스페이드(기본). 잠금(lockEffects) 시엔 전역 전환만 따른다.
   const raw = script.lockEffects ? script.transition : (person.transition ?? g.transition ?? script.transition)
   if (raw == null) return null

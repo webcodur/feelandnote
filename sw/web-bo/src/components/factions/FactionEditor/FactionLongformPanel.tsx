@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { type FactionScript, type FactionLongformItem, type FactionChapter, type FactionNarratorVoice, type FactionPerson } from '../../../lib/faction-types'
+import { type FactionScript, type FactionLongformItem, type FactionChapter, type FactionEra, type FactionNarratorVoice, type FactionPerson } from '../../../lib/faction-types'
 import type { VoiceFile } from '@feelandnote/shared/bo/voice-utils'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { totalPeople, totalSec, longformPartCount, longformSegments, longformSliceGroup, ERA_SEC, CHAPTER_BLACK_SEC, chapterCoverSecOf } from '../shared/timing'
@@ -83,8 +83,8 @@ export function FactionLongformPanel({
   const addEra = () => setLayout([...layout, { era: { label: '시대\n문구' } }])
   const addCut = () => setLayout([...layout, { cut: true }])
   const addChapter = () => setLayout([...layout, { chapter: { title: '챕터 2\n부제' } }])
-  const setEra = (i: number, label: string) =>
-    setLayout(layout.map((it, k) => (k === i && 'era' in it ? { era: { ...it.era, label } } : it)))
+  const setEra = (i: number, patch: Partial<FactionEra>) =>
+    setLayout(layout.map((it, k) => (k === i && 'era' in it ? { era: { ...it.era, ...patch } } : it)))
   // 챕터 전환 한 항목 필드 갱신 — 제목·미디어·곡·효과음
   const setChapter = (i: number, patch: Partial<FactionChapter>) =>
     setLayout(layout.map((it, k) => (k === i && 'chapter' in it ? { chapter: { ...it.chapter, ...patch } } : it)))
@@ -225,16 +225,30 @@ export function FactionLongformPanel({
                 }
                 if ('era' in it) {
                   return (
-                    <div key={i} className="flex items-center gap-1.5 rounded border-l-2 border-amber-500 bg-amber-500/10 px-2 py-1">
+                    <div key={i} className="flex items-start gap-1.5 rounded border-l-2 border-amber-500 bg-amber-500/10 px-2 py-1">
                       <span className="shrink-0 text-[10px] font-bold text-amber-600">시대 문구</span>
-                      <textarea
-                        value={it.era.label}
-                        onChange={e => setEra(i, e.target.value)}
-                        rows={2}
-                        placeholder={'4강\n패권을 다투다'}
-                        className="min-w-0 flex-1 resize-none rounded border border-border bg-bg-card px-2 py-1 text-xs leading-tight focus:border-accent focus:outline-none"
-                        title="시대 문구 (첫 줄=앞부분/크게, 둘째 줄=뒷부분/강조색)"
-                      />
+                      <div className={`grid min-w-0 flex-1 gap-1.5 ${editLang === 'both' ? 'sm:grid-cols-2' : ''}`}>
+                        {editLang !== 'en' ? (
+                          <textarea
+                            value={it.era.label}
+                            onChange={e => setEra(i, { label: e.target.value })}
+                            rows={2}
+                            placeholder={'4강\n패권을 다투다'}
+                            className="min-w-0 resize-none rounded border border-border bg-bg-card px-2 py-1 text-xs leading-tight focus:border-accent focus:outline-none"
+                            title="한국어 시대 문구 (첫 줄=앞부분/크게, 둘째 줄=뒷부분/강조색)"
+                          />
+                        ) : null}
+                        {editLang !== 'ko' ? (
+                          <textarea
+                            value={it.era.labelEn ?? ''}
+                            onChange={e => setEra(i, { labelEn: e.target.value || undefined })}
+                            rows={2}
+                            placeholder={'Top Four\nContending for Hegemony'}
+                            className="min-w-0 resize-none rounded border border-border/60 bg-bg-card/70 px-2 py-1 text-xs leading-tight text-text-secondary focus:border-accent focus:outline-none"
+                            title="English era caption"
+                          />
+                        ) : null}
+                      </div>
                       <MoveBtns onUp={() => move(i, -1)} onDown={() => move(i, 1)} onRemove={() => removeAt(i)} />
                     </div>
                   )
@@ -251,14 +265,28 @@ export function FactionLongformPanel({
                     <div key={i} className="space-y-1.5 rounded border-l-2 border-purple-500 bg-purple-500/10 px-2 py-2">
                       <div className="flex items-start gap-1.5">
                         <span className="shrink-0 pt-1 text-[10px] font-bold text-purple-500">챕터 전환</span>
-                        <textarea
-                          value={titleVal}
-                          onChange={e => setChapter(i, editLang === 'en' ? { titleEn: e.target.value } : { title: e.target.value })}
-                          rows={2}
-                          placeholder={'챕터 2\n감시에 맞서다'}
-                          className="min-w-0 flex-1 resize-none rounded border border-border bg-bg-card px-2 py-1 text-xs leading-tight focus:border-accent focus:outline-none"
-                          title="챕터 제목 (첫 줄=챕터 표식/크게, 둘째 줄=부제/강조색)"
-                        />
+                        <div className={`grid min-w-0 flex-1 gap-1.5 ${editLang === 'both' ? 'sm:grid-cols-2' : ''}`}>
+                          {editLang !== 'en' ? (
+                            <textarea
+                              value={a.title}
+                              onChange={e => setChapter(i, { title: e.target.value })}
+                              rows={2}
+                              placeholder={'챕터 2\n감시에 맞서다'}
+                              className="min-w-0 resize-none rounded border border-border bg-bg-card px-2 py-1 text-xs leading-tight focus:border-accent focus:outline-none"
+                              title="한국어 챕터 제목 (첫 줄=챕터 표식/크게, 둘째 줄=부제/강조색)"
+                            />
+                          ) : null}
+                          {editLang !== 'ko' ? (
+                            <textarea
+                              value={a.titleEn ?? ''}
+                              onChange={e => setChapter(i, { titleEn: e.target.value || undefined })}
+                              rows={2}
+                              placeholder={'Chapter 2\nResisting Surveillance'}
+                              className="min-w-0 resize-none rounded border border-border/60 bg-bg-card/70 px-2 py-1 text-xs leading-tight text-text-secondary focus:border-accent focus:outline-none"
+                              title="English chapter title"
+                            />
+                          ) : null}
+                        </div>
                         <MoveBtns onUp={() => move(i, -1)} onDown={() => move(i, 1)} onRemove={() => removeAt(i)} />
                       </div>
                       <label className="inline-flex items-center gap-1.5 text-[11px] text-text-secondary">
@@ -283,13 +311,27 @@ export function FactionLongformPanel({
                           slot={{ ...QUOTE_SLOT, label: '챕터명 낭독', hasSync: false }}
                         />
                       )}
-                      <input
-                        value={a.media ?? ''}
-                        onChange={e => setChapter(i, { media: e.target.value || undefined })}
-                        placeholder="배경 이미지·영상 경로 (예: _chapters/ch2.mp4)"
-                        className="w-full rounded border border-border bg-bg-card px-2 py-1 text-[11px] focus:border-accent focus:outline-none"
-                        title="챕터 표지 배경 미디어 — 이미지 또는 영상(mp4). 시작·종료 화면과 같은 경로 규칙"
-                      />
+                      <div className="flex items-center gap-2">
+                        <CoverPickerButton
+                          value={a.media}
+                          onChange={media => setChapter(i, { media, ...(!media ? { mediaCrop: undefined } : {}) })}
+                          crop={a.mediaCrop}
+                          onCropChange={mediaCrop => setChapter(i, { mediaCrop })}
+                          cropFit="cover"
+                          label="챕터 배경"
+                          emptyText="배경 선택"
+                          series={series}
+                          episodeName={episodeName}
+                          className="h-20 w-32"
+                        />
+                        <input
+                          value={a.media ?? ''}
+                          onChange={e => setChapter(i, { media: e.target.value || undefined, ...(!e.target.value ? { mediaCrop: undefined } : {}) })}
+                          placeholder="배경 이미지·영상 경로 (예: _chapters/ch2.mp4)"
+                          className="min-w-0 flex-1 rounded border border-border bg-bg-card px-2 py-1 text-[11px] focus:border-accent focus:outline-none"
+                          title="챕터 표지 배경 미디어 — 이미지 또는 영상(mp4). 시작·종료 화면과 같은 경로 규칙"
+                        />
+                      </div>
                       <div className="flex items-center gap-2">
                         <span className="w-8 shrink-0 text-[10px] text-text-dim">챕터 곡</span>
                         <FactionMusicPicker
@@ -308,6 +350,27 @@ export function FactionLongformPanel({
                         className="w-full rounded border border-border bg-bg-card px-2 py-1 text-[11px] focus:border-accent focus:outline-none"
                         title="검정 브릿지 진입 시 1회 울리는 효과음 (public/common/sfx/ 하위)"
                       />
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded border border-border/60 bg-bg-main/35 px-2 py-1.5">
+                        <span className="text-[10px] font-bold text-text-dim">암전 브릿지</span>
+                        <label className="inline-flex cursor-pointer items-center gap-1.5 text-[11px] text-text-secondary hover:text-text-primary" title="이전 챕터를 검정으로 닫고 챕터 표지로 들어갑니다. 기본값은 켜짐입니다.">
+                          <input
+                            type="checkbox"
+                            checked={a.blackBefore !== false}
+                            onChange={e => setChapter(i, { blackBefore: e.target.checked ? undefined : false })}
+                            className="accent-purple-500"
+                          />
+                          표지 앞 암전
+                        </label>
+                        <label className="inline-flex cursor-pointer items-center gap-1.5 text-[11px] text-text-secondary hover:text-text-primary" title="챕터 표지를 검정으로 닫은 뒤 다음 장면으로 들어갑니다. 기본값은 꺼짐입니다.">
+                          <input
+                            type="checkbox"
+                            checked={a.blackAfter === true}
+                            onChange={e => setChapter(i, { blackAfter: e.target.checked || undefined })}
+                            className="accent-purple-500"
+                          />
+                          표지 뒤 암전
+                        </label>
+                      </div>
                       {chapterVoiceOpen === i && (
                         <FactionVoiceSettingsModal
                           person={person}
@@ -378,7 +441,7 @@ export function FactionLongformPanel({
                       <span className="font-mono text-[10px] text-text-dim">{formatMmss(lvPartSec(p))}</span>
                     </div>
                     <PartTextField part={p} label="영상 명칭" keys={{ common: 'title', byPart: 'titleByLvPart' }} multiline script={script} update={onChange} editLang={editLang} />
-                    <PartTextField part={p} label="시작문구" keys={{ common: 'logline', byPart: 'loglineByLvPart' }} multiline multilineHint="시작문구 (개행하면 위·아래 두 줄)" script={script} update={onChange} editLang={editLang} />
+                    <PartTextField part={p} label="시작문구" keys={{ common: 'logline', byPart: 'loglineByLvPart', en: 'loglineEn', byPartEn: 'loglineByLvPartEn' }} multiline multilineHint="시작문구 (개행하면 위·아래 두 줄)" script={script} update={onChange} editLang={editLang} />
                     <FactionHeroPicker
                       script={{ ...script, heroesByPart: script.heroesByLvPart }}
                       candidates={heroCandidates}

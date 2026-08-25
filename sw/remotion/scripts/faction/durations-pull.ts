@@ -12,8 +12,8 @@
  * 흐름: buildVoiceJobs(렌더와 동일 인덱싱) → voice/<stem>.wav 실측 → faction_people UPDATE.
  * 수식어 음원(`-epithet.wav`)이 있으면 epithet_duration 도 함께 갱신한다.
  *
- * 서사 항목 덩어리 음성(`scene-<화자·본문해시>.wav`)은 해당 `faction_people.data`
- * 안 덩어리의 voiceDuration에 적는다. 파일명이 화자·본문만으로 정해지므로 위치 좌표가 필요 없다.
+ * 통합 장면 대사 음성은 해당 `faction_clusters.data.beats[]`의 voiceDuration에 적는다.
+ * 명시 voiceFile이 있으면 그것을 우선하고, 없으면 화자·실제 발화문 해시 파일을 쓴다.
  */
 
 import { existsSync } from 'fs'
@@ -24,6 +24,7 @@ import {
 import {
   loadPersonSlots, updateDurations, slotKeyFromIndices, round2,
   loadNarrativeEntries, updateNarrativeEntryData,
+  loadSceneClusters, updateSceneClusterData,
 } from './db-durations.js'
 import { vnPersonEpithet, vnSceneBeat } from '../../src/compositions/Faction/voice-names.js'
 
@@ -153,9 +154,8 @@ async function pullEpisode(
 }
 
 /**
- * 서사 항목 덩어리(해설·대사) 음성 길이를 faction_people.data에 적어 넣는다.
- * 파일명이 화자 + 본문 해시(vnSceneBeat)라 위치 좌표가 필요 없다. 덩어리를 쓰지 않는 구 데이터는
- * caption 한 벌을 해설 덩어리로 보고 scene 의 레거시 voiceDuration 에 적는다.
+ * 통합 장면의 해설·인물 대사 음성 길이를 faction_clusters.data.beats에 적어 넣는다.
+ * 이관 전 is_person=false 행이 남아 있으면 그 data도 호환 처리한다.
  */
 async function pullSceneNarrations(
   db: ReturnType<typeof adminClient>,
@@ -165,6 +165,48 @@ async function pullSceneNarrations(
   dryRun: boolean,
   st: Stat,
 ): Promise<void> {
+  // 현행 통합 구조: 장면의 모든 대사 항목은 faction_clusters.data.beats가 소유한다.
+  const clusters = await loadSceneClusters(db, ep.folder)
+  for (const cluster of clusters) {
+    const beats = Array.isArray(cluster.data.beats)
+      ? cluster.data.beats as Record<string, unknown>[]
+      : []
+    let dirty = false
+    for (const beat of beats) {
+      const text = beat.text
+      if (typeof text !== 'string' || !text.trim()) continue
+      const speaker = typeof beat.speaker === 'string' ? beat.speaker : undefined
+      const file = typeof beat.voiceFile === 'string' && beat.voiceFile.trim()
+        ? beat.voiceFile
+        : vnSceneBeat(speaker, text)
+      const wavPath = path.join(voiceDir, file)
+      if (!existsSync(wavPath)) { st.missing++; continue }
+
+      let measured: number
+      try {
+        measured = round2(await measureWavDuration(wavPath))
+      } catch (e) {
+        st.missing++
+        st.details.push(`${file}: wav 손상 — ${e instanceof Error ? e.message : String(e)}`)
+        continue
+      }
+      st.measured++
+
+      const current = typeof beat.voiceDuration === 'number' ? beat.voiceDuration : null
+      if (current === null || Math.abs(current - measured) > 0.005) {
+        beat.voiceDuration = measured
+        st.sceneChanged++
+        dirty = true
+        const who = speaker ? `${cluster.name} / ${speaker}` : cluster.name || file
+        st.details.push(`${file} (장면 ${who}): DB ${current ?? '없음'} → ${measured}`)
+      } else {
+        st.same++
+      }
+    }
+    if (dirty && !dryRun) await updateSceneClusterData(db, cluster.id, cluster.data)
+  }
+
+  // 아직 DB에 남은 구 is_person=false 행도 이관 전 호환으로 처리한다.
   const entries = await loadNarrativeEntries(db, ep.folder)
   for (const entry of entries) {
     const scene = entry.data

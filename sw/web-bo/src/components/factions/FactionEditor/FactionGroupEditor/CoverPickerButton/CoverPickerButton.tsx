@@ -7,7 +7,7 @@ import { ImageIcon } from '@feelandnote/shared/bo/icons'
 import { useImageDrop, MediaThumb, ImagePicker, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 
 export function CoverPickerButton({
-  value, previewValue, onChange, series, episodeName, crop, onCropChange, zoomFocus, onZoomFocusChange, className,
+  value, previewValue, onChange, series, episodeName, crop, onCropChange, zoomFocus, onZoomFocusChange, cropFit = 'contain', className,
   label = '화보', emptyText,
 }: {
   value?: string
@@ -20,6 +20,8 @@ export function CoverPickerButton({
   onCropChange?: (crop: FactionImageCrop | undefined) => void
   zoomFocus?: ZoomFocus
   onZoomFocusChange?: (focus: ZoomFocus | undefined) => void
+  /** 편집 미리보기 맞춤. 로고는 contain, 화면을 채우는 화보는 cover를 쓴다. */
+  cropFit?: 'contain' | 'cover'
   className?: string
   /** 칸 정체성 — 하단 띠 텍스트. 기본 '화보' */
   label?: string
@@ -72,7 +74,7 @@ export function CoverPickerButton({
           onChange={onChange}
           crop={crop}
           onCropChange={onCropChange}
-          cropFit="contain"
+          cropFit={cropFit}
           focus={zoomFocus}
           onFocusChange={onZoomFocusChange}
           series={series}

@@ -77,7 +77,10 @@ function narrationTextKey(text: string): string {
  * ⚠ 동기화 대상: sw/remotion/src/compositions/Faction/voice-names.ts 의 vnSceneBeat 와 규칙이 100% 일치해야 한다.
  */
 export function vnSceneBeat(speaker: string | undefined, text: string): string {
-  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${text}`)}.wav`
+  // 합성기는 화면 조판용 줄바꿈·빈 줄을 한 흐름으로 펴서 읽는다. 파일 신원도 실제 발화문을
+  // 따라야 줄바꿈이나 화면 전환만 고쳤을 때 이미 만든 음원이 사라지지 않는다.
+  const spokenText = text.replace(/\s+/g, ' ').trim()
+  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${spokenText}`)}.wav`
 }
 
 /** 제목 기반 안정 키 — 챕터 재배치에는 유지되고 제목 수정 시 옛 음원을 잘못 재생하지 않는다. */
@@ -197,6 +200,29 @@ export function factionVoiceFile(
 
 /** 음원 재배치 한 쌍 — from 파일명을 to 파일명으로 옮긴다. */
 export type FactionRename = { from: string; to: string }
+
+/** 위치형 파일을 실제로 rename할 때 대사 항목이 쥔 명시적 voiceFile도 같은 이름으로 옮긴다. */
+export function remapFactionSceneVoiceFiles(
+  groups: FactionGroup[],
+  renames: readonly FactionRename[],
+): FactionGroup[] {
+  const targetBySource = new Map(renames.map(rename => [rename.from, rename.to]))
+  if (!targetBySource.size) return groups
+  let changed = false
+  const next = groups.map(group => ({
+    ...group,
+    clusters: (group.clusters ?? []).map(cluster => ({
+      ...cluster,
+      beats: (cluster.beats ?? []).map(beat => {
+        const voiceFile = beat.voiceFile ? targetBySource.get(beat.voiceFile) : undefined
+        if (!voiceFile || voiceFile === beat.voiceFile) return beat
+        changed = true
+        return { ...beat, voiceFile }
+      }),
+    })),
+  }))
+  return changed ? next : groups
+}
 
 const KINDS = ['quote', 'epithet'] as const
 

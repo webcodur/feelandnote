@@ -76,6 +76,7 @@ export function QuoteEditor({
   onOpenAnchor,
   onCursorChunk,
   placeholder,
+  ariaLabel,
   anchors,
   className = '',
   minHeight,
@@ -92,6 +93,7 @@ export function QuoteEditor({
   /** 글자 커서가 놓인 줄 */
   onCursorChunk?: (chunkIndex: number | null) => void
   placeholder?: string
+  ariaLabel?: string
   anchors?: Map<number, QuoteAnchor>
   className?: string
   minHeight?: number
@@ -150,6 +152,7 @@ export function QuoteEditor({
         onKeyUp={updateCursor}
         onMouseUp={updateCursor}
         placeholder={placeholder}
+        aria-label={ariaLabel}
         rows={1}
         spellCheck={false}
         style={minHeight ? { minHeight } : undefined}

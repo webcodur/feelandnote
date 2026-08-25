@@ -26,7 +26,7 @@ import type {
 } from '@/lib/faction-types'
 
 export const MUSIC_DIR = path.join(REMOTION_ROOT, 'public', 'music')
-const SFX_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'sfx')
+export const SFX_DIR = path.join(REMOTION_ROOT, 'public', 'common', 'sfx')
 
 /* ── 댓글 (편별 해설 텍스트) ── */
 

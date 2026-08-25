@@ -54,7 +54,6 @@ export interface FactionGroupMeta {
   clusters?: Array<{ people?: FactionPersonMeta[]; disabled?: boolean; longformOnly?: boolean }>
   sequence?: Array<
     | { kind: 'cluster'; clusterIndex: number }
-    | { kind: 'entry'; clusterIndex: number; entryIndex: number }
     | { kind: 'cut' }
   >
 }

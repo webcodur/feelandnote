@@ -19,6 +19,7 @@ import {
   buildFactionRows, IN_CHUNK, type DurationLookup,
 } from '@feelandnote/shared/lib/faction-assemble'
 import { assertIndividualFactionSubject } from '@feelandnote/shared/lib/faction-person-subject'
+import { assertFactionSceneSpeakerAssignments } from '@feelandnote/shared/lib/faction-scene-speaker'
 
 type Row = Record<string, unknown>
 
@@ -42,6 +43,7 @@ export async function replaceFactionEpisode(
   expectedUpdatedAt: string | null,
 ): Promise<ReplaceEpisodeResult> {
   if (!folder) throw new Error('에피소드 폴더명이 필요합니다')
+  assertFactionSceneSpeakerAssignments((script.groups ?? []) as Row[])
 
   const { data: epRow, error: epErr } = await db
     .from('faction_episodes')

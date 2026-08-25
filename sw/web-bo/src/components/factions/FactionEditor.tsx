@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import type { FactionScript, FactionGroup, FactionTrack, FactionPerson, HoldMotion } from '@/lib/faction-types'
+import type { FactionScript, FactionGroup, FactionTrack, FactionPerson, FactionSceneBeat, HoldMotion } from '@/lib/faction-types'
 import { HOLD_MOTION_OPTIONS } from './shared/holdMotion'
-import { factionVoiceFile, buildGroupMoveRenames, buildPersonCrossMoveRenames, reorderFactionVoice } from '@/lib/faction-voice'
+import { factionVoiceFile, vnSceneBeat, buildGroupMoveRenames, buildPersonCrossMoveRenames, remapFactionSceneVoiceFiles, reorderFactionVoice } from '@/lib/faction-voice'
 import { totalSec, totalPeople, cueCount } from './shared/timing'
 import {
   FloatingSaveButton, useEpisodeEditor, type EditLang,
 } from '@feelandnote/shared/bo/editor'
+import { projectFactionPrimaryQuotesToGroups } from '@feelandnote/shared/lib/faction-scene-unification'
 
 /** 음악 파일 길이(초) 측정 — 브라우저 Audio 메타데이터 */
 function measureDuration(url: string): Promise<number> {
@@ -31,6 +32,7 @@ function measureDuration(url: string): Promise<number> {
     a.src = url
   })
 }
+
 import { ChevronsUpDown, ChevronsDownUp } from '@feelandnote/shared/bo/icons'
 import { ImagePool, FACTION_IMAGE_DND } from '@feelandnote/shared/bo/media'
 import { FactionShortsPartHeader } from './FactionEditor/sections/FactionShortsPartHeader'
@@ -74,18 +76,19 @@ import type { FactionEditTab } from '@/lib/faction-edit-route'
 import { useCelebExists } from '@/lib/useCelebExists'
 import { loadFactionScript, saveFactionScript, type CelebVoiceEntry } from '@/actions/admin/factions/script'
 import { folderToParam } from '@/lib/faction-edit-route'
+import { materializeFactionSceneVoiceFiles } from './FactionEditor/FactionGroupEditor/faction-speaker-edit'
 
 /** 편집 화면 주소 뿌리 — 목록도 상세도 이 아래에 있다 */
 const EDIT_BASE = '/factions'
 
 /** 신규 세력 기본형 — 항상 그룹(clusters) 1개를 갖는다. 호출마다 새 객체(참조 공유 방지) */
-const newGroup = (): FactionGroup => ({ name: '', color: '#92400e', clusters: [{ people: [] }], people: [] })
+const newGroup = (): FactionGroup => ({ name: '', color: '#92400e', clusters: [{ people: [], beats: [] }], people: [] })
 
 export function FactionEditor({ series, name, initialLang, initialTab = 'info', cardTarget }: { series: string; name: string; initialLang?: EditLang; initialTab?: FactionEditTab; cardTarget?: FactionCardInitialTarget }) {
   const [script, setScript] = useState<FactionScript | null>(null)
   const [celebVoices, setCelebVoices] = useState<Record<string, CelebVoiceEntry>>({})
-  // 이미지 풀 — 진입 시 기본 펼침 + Ctrl+Q 토글(북리커맨드와 공통)
-  const { open: showPool, setOpen: setShowPool } = useImagePoolToggle()
+  // 이미지 풀 — 정비 본문 폭을 우선하고 필요할 때 도구막대·Ctrl+Q로 연다.
+  const { open: showPool, setOpen: setShowPool } = useImagePoolToggle({ defaultOpen: false })
   const [showYouTube, setShowYouTube] = useState(false)
   const [showPublish, setShowPublish] = useState(false)
   const [rendering, setRendering] = useState(false)
@@ -309,6 +312,15 @@ ${res.exported.reason}`)
 
   const updateGroups = useCallback((groups: FactionGroup[]) => update({ groups }), [update])
 
+  // 구 위치형 음원은 실제 파일을 확인한 뒤 각 대사 항목의 명시 파일로 한 번만 고정한다.
+  // 이후 다른 출연 인물이나 장면 데이터를 지워도 이 대사의 음원 연결은 배열 위치를 따라 흔들리지 않는다.
+  useEffect(() => {
+    if (!script?.groups?.length || !voiceFiles.length) return
+    const available = new Map(voiceFiles.map(file => [file.file, file]))
+    const materialized = materializeFactionSceneVoiceFiles(script.groups, available)
+    if (materialized.changed > 0) update({ groups: materialized.groups })
+  }, [script?.groups, voiceFiles, update])
+
   // DB 출간도 디스크의 최신 데이터를 읽으므로 호출 전 변경분을 먼저 저장한다(렌더와 동일 패턴).
   const ensurePublishSaved = useCallback(async () => {
     if (scriptRef.current && dirty) await save()
@@ -397,9 +409,31 @@ ${res.exported.reason}`)
         }
         return p
       }
+      const fixBeat = (
+        beat: FactionSceneBeat,
+        gi: number,
+        ci: number,
+        people: FactionPerson[],
+      ): FactionSceneBeat => {
+        const personIndex = beat.speakerCelebId
+          ? people.findIndex(person => person.celebId === beat.speakerCelebId)
+          : -1
+        const file = beat.voiceFile
+          ?? (beat.legacyPersonVoice && personIndex >= 0
+            ? factionVoiceFile(gi, personIndex, ci)
+            : vnSceneBeat(beat.speaker, beat.text))
+        const meta = byFile.get(file)
+        if (!meta || meta.duration <= 0 || Math.abs((beat.voiceDuration ?? 0) - meta.duration) <= 0.05) return beat
+        changed++
+        return { ...beat, voiceDuration: meta.duration }
+      }
       const groups = cur.groups.map((g, gi) => {
         if (g.clusters?.length) {
-          return { ...g, clusters: g.clusters.map((c, ci) => ({ ...c, people: c.people.map((p, pi) => fix(p, gi, pi, ci)) })) }
+          return { ...g, clusters: g.clusters.map((c, ci) => ({
+            ...c,
+            beats: c.beats?.map(beat => fixBeat(beat, gi, ci, c.people)),
+            people: c.people.map((p, pi) => fix(p, gi, pi, ci)),
+          })) }
         }
         return { ...g, people: (g.people ?? []).map((p, pi) => fix(p, gi, pi, 0)) }
       })
@@ -574,19 +608,21 @@ ${res.exported.reason}`)
     update({ groups: groups.map(stripHold), holdMotion: m, noZoom: undefined })
   }
 
-  // 대사 화면 표시 일괄 — 세력 people·clusters.people 모두 순회.
-  const mapAllPeople = (fn: (p: FactionPerson) => FactionPerson): FactionGroup[] =>
-    groups.map(g => ({
-      ...g,
-      people: (g.people ?? []).map(p => p.isPerson === false ? p : fn(p)),
-      clusters: g.clusters?.map(c => ({ ...c, people: (c.people ?? []).map(p => p.isPerson === false ? p : fn(p)) })),
+  // 대사 표시 일괄값은 인물 신원이 계속 소유한다. 장면 beat가 그 인물로 할당되면 같은 값을 상속한다.
+  const mapAllPeople = (fn: (person: FactionPerson) => FactionPerson): FactionGroup[] =>
+    groups.map(group => ({
+      ...group,
+      people: (group.people ?? []).map(person => person.isPerson === false ? person : fn(person)),
+      clusters: group.clusters?.map(cluster => ({
+        ...cluster,
+        people: (cluster.people ?? []).map(person => person.isPerson === false ? person : fn(person)),
+      })),
     }))
-  // 인물 개별 설정을 비워 에피소드 기본만 쓰게 한다.
   const bulkClearQuoteDisplay = () => {
     if (!confirm('모든 인물의 대사 표시 개별 설정을 지웁니다. 이후 에피소드 기본값만 따릅니다. 계속할까요?')) return
     update({
-      groups: mapAllPeople(p => {
-        const next = { ...p }
+      groups: mapAllPeople(person => {
+        const next = { ...person }
         delete next.quoteDisplay
         delete next.quoteCaptionPos
         delete next.quoteCaptionSize
@@ -595,22 +631,17 @@ ${res.exported.reason}`)
       }),
     })
   }
-  // 현재 에피소드 기본값을 전 인물 필드에 직접 박는다(개별 덮어쓰기도 같은 값으로 통일).
   const bulkStampQuoteDisplay = () => {
     const display = script.quoteDisplay ?? 'box'
-    const pos = script.quoteCaptionPos ?? 'bottom'
+    const position = script.quoteCaptionPos ?? 'bottom'
     const size = script.quoteCaptionSize ?? 'default'
     const font = script.quoteCaptionFont ?? 'default'
-    const displayLabel = display === 'caption' ? '작은 자막' : '박스'
-    const posLabel = display === 'caption' ? (pos === 'center' ? ' · 중하단' : ' · 하단') : ''
-    const sizeLabel = display === 'caption' ? (size === 'large' ? ' · 큰 글씨' : '') : ''
-    const fontLabel = display === 'caption' ? (font === 'serif' ? ' · 세리프' : '') : ''
-    if (!confirm(`모든 인물의 대사 표시를 "${displayLabel}${posLabel}${sizeLabel}${fontLabel}"(으)로 박습니다. 개별 설정이 이 값으로 덮어씌워집니다. 계속할까요?`)) return
+    if (!confirm(`모든 인물의 대사 표시를 "${display === 'caption' ? '작은 자막' : '박스'}"(으)로 덮어씁니다. 계속할까요?`)) return
     update({
-      groups: mapAllPeople(p => ({
-        ...p,
+      groups: mapAllPeople(person => ({
+        ...person,
         quoteDisplay: display,
-        quoteCaptionPos: display === 'caption' ? pos : undefined,
+        quoteCaptionPos: display === 'caption' ? position : undefined,
         quoteCaptionSize: display === 'caption' ? size : undefined,
         quoteCaptionFont: display === 'caption' ? font : undefined,
       })),
@@ -618,7 +649,9 @@ ${res.exported.reason}`)
   }
 
   // 세력 조작
-  const setGroup = (i: number, g: FactionGroup) => updateGroups(groups.map((x, idx) => (idx === i ? g : x)))
+  const setGroup = (i: number, g: FactionGroup) => updateGroups(
+    projectFactionPrimaryQuotesToGroups(groups.map((x, idx) => (idx === i ? g : x))) as FactionGroup[],
+  )
   // 출간 패널의 tagSlug 인라인 편집 반영 — DB celeb_tags.slug 연결 키. 저장은 기존 Ctrl+S/저장 버튼 경로를 그대로 따른다.
   const setGroupTagSlug = (i: number, tagSlug: string) => setGroup(i, { ...groups[i], tagSlug: tagSlug || undefined })
   const deleteGroup = (i: number) => {
@@ -638,7 +671,7 @@ ${res.exported.reason}`)
       alert('세력 순서를 바꾸지 못했습니다. 음성 파일 이동에 실패했습니다.')
       return
     }
-    const next = [...groups]
+    const next = [...remapFactionSceneVoiceFiles(groups, renames)]
     ;[next[i], next[j]] = [next[j], next[i]]
     updateGroups(next)
     loadVoices()
@@ -716,9 +749,7 @@ ${res.exported.reason}`)
     const person = sourceCluster.people[fromPi]
     if (!person || person.isPerson === false) return
 
-    // 인물은 항상 서사 항목 앞에 둔다. 그래야 인물 음성의 P번호가 서사 항목 추가와 무관하게 안정적이다.
-    const targetInsertIndex = targetCluster.people.findIndex(entry => entry.isPerson === false)
-    const toPi = targetInsertIndex < 0 ? targetCluster.people.length : targetInsertIndex
+    const toPi = targetCluster.people.length
 
     const renames = buildPersonCrossMoveRenames(
       fromGi, fromCi, fromPi,
@@ -734,25 +765,12 @@ ${res.exported.reason}`)
       return
     }
 
-    const nextGroups = JSON.parse(JSON.stringify(groups)) as FactionGroup[]
-    
-    // 삭제·삽입으로 바뀌는 공통 배열 위치를 sequence의 entry 참조에도 동일하게 반영한다.
-    const shiftEntryRefs = (group: FactionGroup, clusterIndex: number, pivot: number, delta: -1 | 1) => ({
-      ...group,
-      sequence: group.sequence?.map(item => {
-        if (item.kind !== 'entry' || item.clusterIndex !== clusterIndex) return item
-        if (delta < 0) return item.entryIndex > pivot ? { ...item, entryIndex: item.entryIndex - 1 } : item
-        return item.entryIndex >= pivot ? { ...item, entryIndex: item.entryIndex + 1 } : item
-      }),
-    })
-
-    nextGroups[fromGi] = shiftEntryRefs(nextGroups[fromGi], fromCi, fromPi, -1)
-    nextGroups[toGi] = shiftEntryRefs(nextGroups[toGi], toCi, toPi, 1)
+    const nextGroups = JSON.parse(JSON.stringify(remapFactionSceneVoiceFiles(groups, renames))) as FactionGroup[]
 
     // remove from source
     const movedPerson = nextGroups[fromGi].clusters![fromCi].people.splice(fromPi, 1)[0]
     
-    // add to target, before narrative entries
+    // add to target scene cast
     nextGroups[toGi].clusters![toCi].people.splice(toPi, 0, movedPerson)
 
     updateGroups(nextGroups)
@@ -901,14 +919,14 @@ ${res.exported.reason}`)
             />
           )}
 
-          {/* 정비 — 세력·묶음·인물·서사 항목 데이터 그 자체. */}
+          {/* 정비 — 세력·장면·대사 항목 데이터 그 자체. */}
           {tab === 'info' && (
             <FactionInfoPanel
               script={script}
               series={series}
               episodeName={name}
-              musicList={musicList}
               editLang={editLang}
+              sfxList={sfxList}
               showPeopleImages={showPeopleImages}
               celebExisting={celeb.existing}
               celebLoaded={celeb.loaded}
@@ -1320,7 +1338,7 @@ ${res.exported.reason}`)
 
         {/* 이미지 풀 사이드바 — 편집 화면에서만. main 스크롤 영역의 맨 위에 붙는다. */}
         {showPool && (
-          <aside className="sticky top-0 hidden max-h-[calc(100vh-5rem)] w-[30rem] shrink-0 overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[34rem] [overflow-anchor:none]">
+          <aside className="sticky top-0 hidden max-h-[calc(100vh-5rem)] w-[24rem] shrink-0 overflow-y-auto rounded-xl border border-border bg-bg-card p-3 xl:block 2xl:w-[28rem] [overflow-anchor:none]">
             <ImagePool
               series={series}
               episodeName={name}
@@ -1357,7 +1375,6 @@ ${res.exported.reason}`)
       {voiceModalOpen && (
         <FactionVoiceModal onClose={() => setVoiceModalOpen(false)} onGenerate={generateVoice} />
       )}
-      {/* 대사 처리 단계 일괄 편집 모달 */}
       {quoteModeOpen && script && (
         <FactionQuoteModeModal
           script={script}

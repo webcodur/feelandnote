@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import { Audio, Sequence, Easing, interpolate, staticFile, useVideoConfig } from 'remotion'
 import type { FactionScript } from './types'
-import { CHAPTER_VOICE_DELAY_SEC, buildCues, chapterNarrationVoice, f, narratorVoicePlaySec, personQuoteEnterSec } from './timing'
+import { CHAPTER_VOICE_DELAY_SEC, buildCues, chapterNarrationVoice, f, narratorVoicePlaySec, personOfCue, personQuoteEnterSec } from './timing'
 import { clampRate } from './voice-names'
 // 선곡(어느 곡이 언제부터)은 따로 뺐다 — 렌더 창고가 담을 곡을 정할 때 같은 함수를 쓴다.
 import {
@@ -50,8 +50,7 @@ const FactionBgmInner: React.FC<{ script: FactionScript; total: number; portrait
         }
         // 음성 스텝이 켜진 컷만 BGM 덕킹(음량 낮추기) 대상.
         if (c.kind !== 'person' || !c.steps.voice) continue
-        const g = script.groups[c.groupIndex]
-        const p = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
+        const p = personOfCue(script, c)
         if (!p?.quoteDuration || p.quoteDuration <= 0) continue
         const s = tc.start + f(personQuoteEnterSec(p, c.steps, portrait, { script }))
         const playF = f(p.quoteDuration / clampRate(p.quotePlaybackRate))

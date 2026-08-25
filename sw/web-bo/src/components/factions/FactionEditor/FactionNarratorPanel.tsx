@@ -18,6 +18,7 @@ import { QUOTE_SLOT, type FactionVoiceSlot } from './FactionGroupEditor/FactionP
  *
  * 화면에 등장하는 별도 나레이터 인물을 만들지 않는다. 이곳의 한 목소리가
  *  - 선택한 영상 제목·시작문구를 시작 화면에서 읽고,
+ *  - 장면에서 실제 인물이 맡지 않은 해설을 읽고,
  *  - 롱폼 챕터명과 각 인물 수식어 음성의 기본 목소리가 된다.
  *
  * 인물별 epithet* 음성 설정이 있으면 그 인물만 공용값보다 우선한다.
@@ -27,9 +28,9 @@ type NarrationSlotKey = 'opening'
 
 const SLOT_DEFS: Record<NarrationSlotKey, { label: string; file: string; slot: FactionVoiceSlot }> = {
   opening: {
-    label: '팩션 낭독 음성',
+    label: '나레이터 공용 음성',
     file: vnNarratorLogline(),
-    slot: { ...QUOTE_SLOT, label: '팩션 낭독 음성', hasSync: false },
+    slot: { ...QUOTE_SLOT, label: '나레이터 공용 음성', hasSync: false },
   },
 }
 
@@ -55,19 +56,19 @@ export function FactionNarratorPanel({
 
   if (!n) {
     return (
-      <section className="rounded-xl border border-border bg-bg-card p-4">
+      <section id="faction-narrator-voice" className="rounded-xl border border-border bg-bg-card p-4">
         <div className="flex flex-wrap items-center gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-bold uppercase tracking-wider text-accent">공용 음성</p>
-            <h2 className="mt-1 text-lg font-bold text-text-primary">팩션 낭독</h2>
-            <p className="mt-1 text-sm text-text-secondary">제목·시작문구·챕터명과 인물 수식어가 한 목소리를 공유합니다.</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-accent">공용 화자</p>
+            <h2 className="mt-1 text-lg font-bold text-text-primary">나레이터</h2>
+            <p className="mt-1 text-sm text-text-secondary">장면 해설·제목·시작문구·챕터명·인물 수식어가 한 목소리를 공유합니다.</p>
           </div>
           <button
             type="button"
             onClick={() => update({ narrator: { readLogline: true, logline: {} } })}
             className="rounded-lg border border-border px-3 py-2 text-sm font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover hover:text-text-primary"
           >
-            + 낭독 음성 추가
+            + 나레이터 추가
           </button>
         </div>
       </section>
@@ -85,7 +86,7 @@ export function FactionNarratorPanel({
       ...(n.logline ?? {}),
       quote: readText,
     })
-    return { ...v, name: '팩션 낭독 음성' } as unknown as FactionPerson
+    return { ...v, name: '나레이터' } as unknown as FactionPerson
   }
 
   const saveVoice = (key: NarrationSlotKey) => (next: FactionPerson) => {
@@ -114,17 +115,17 @@ export function FactionNarratorPanel({
     || Object.keys(script.loglineByPart ?? {}).length
   )
   return (
-    <section className="space-y-4 rounded-xl border border-border bg-bg-card p-4">
+    <section id="faction-narrator-voice" className="space-y-4 rounded-xl border border-border bg-bg-card p-4">
       <header className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-bold uppercase tracking-wider text-accent">공용 음성</p>
-          <h2 className="mt-1 text-lg font-bold text-text-primary">팩션 낭독</h2>
-          <p className="mt-1 text-sm text-text-secondary">제목·시작문구·챕터명·수식어가 같은 목소리를 공유합니다.</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-accent">공용 화자</p>
+          <h2 className="mt-1 text-lg font-bold text-text-primary">나레이터</h2>
+          <p className="mt-1 text-sm text-text-secondary">장면 해설·제목·시작문구·챕터명·수식어가 같은 목소리를 공유합니다.</p>
         </div>
         <button
           type="button"
           onClick={() => {
-            if (confirm('팩션 낭독 음성 설정을 제거할까? (만든 음원 파일은 남는다)')) update({ narrator: undefined })
+            if (confirm('나레이터 음성 설정을 제거할까? (만든 음원 파일은 남는다)')) update({ narrator: undefined })
           }}
           className="rounded-lg border border-border px-3 py-2 text-sm text-text-secondary hover:bg-danger/15 hover:text-danger-text"
         >
@@ -133,7 +134,7 @@ export function FactionNarratorPanel({
       </header>
 
       <fieldset className="space-y-3 rounded-lg border border-border bg-bg-main p-3">
-        <legend className="sr-only">팩션 낭독 설정</legend>
+        <legend className="sr-only">나레이터 설정</legend>
         <div className="flex flex-wrap items-center gap-4">
           <span className="text-sm font-bold text-text-primary">낭독 대상</span>
           <label className="inline-flex items-center gap-2 text-sm text-text-secondary">

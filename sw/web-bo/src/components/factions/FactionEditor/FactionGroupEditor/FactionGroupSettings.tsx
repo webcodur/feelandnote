@@ -6,12 +6,10 @@ import { GroupThemePanel } from './GroupThemePanel'
 type Props = {
   group: FactionGroup
   groupIndex: number
-  split: boolean
   onChange: (next: FactionGroup) => void
-  onToggleSplit: () => void
 }
 
-export function FactionGroupSettings({ group, groupIndex, split, onChange, onToggleSplit }: Props) {
+export function FactionGroupSettings({ group, groupIndex, onChange }: Props) {
   const color = group.color ?? '#92400e'
   const disabled = !!group.disabled
 
@@ -44,17 +42,6 @@ export function FactionGroupSettings({ group, groupIndex, split, onChange, onTog
           </div>
         </div>
 
-        {!group.solo ? (
-          <div className="flex items-center gap-3">
-            <span className="w-16 shrink-0 text-right text-xs font-semibold text-text-dim">화보 구조 -</span>
-            <div className="flex flex-wrap items-center gap-3">
-              <button type="button" onClick={onToggleSplit} title="한 팀의 단체사진을 한 장으로 합칠지, 인물군별 여러 장으로 나눌지 정합니다." className="rounded-md border border-border bg-bg-secondary px-3 py-1.5 text-xs font-semibold text-text-secondary hover:border-accent hover:bg-bg-hover">
-                {split ? '화보 합치기 (단일)' : '화보 나누기 (그룹)'}
-              </button>
-              <span className="text-[10px] text-text-dim">{split ? '여러 장으로 나뉜 팀 화보를 하나로 합칩니다.' : '인물이 많을 경우 팀 화보를 여러 장으로 분리합니다.'}</span>
-            </div>
-          </div>
-        ) : null}
       </section>
     </>
   )
