@@ -75,6 +75,11 @@ export const CELEB_MESSAGE_PATHS = [
 export const CONTENT_MESSAGE_PATHS = [
   "contentDetail",
   "library.curated",
+  // 감상 카드의 인물 얼굴을 누르면 CelebDetailModal이 열린다. 이 모달과 그 안의
+  // 감상 카드·키워드 모달이 통째로 기댄다. 빠지면 버튼에 home.ui.followLabel
+  // 같은 키 이름이 그대로 뜬다.
+  "home.ui",
+  "celebPage.personGuide",
 ] as const;
 
 const isPlainObject = (value: unknown): value is AbstractIntlMessages =>
