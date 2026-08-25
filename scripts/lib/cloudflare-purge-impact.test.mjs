@@ -97,6 +97,7 @@ test('docs, workflow, scripts, and test fixtures require no Cloudflare purge', (
     'sw/web/eslint.config.mjs',
     'sw/web/build_output.txt',
     'sw/web/check_missing_images.js',
+    'sw/web/vercel.json',
     'sw/web/src/components/shared/WorldGlobe/globeLayout.test.ts',
     'sw/web/src/components/features/user/contentLibrary/expand/documentScroll.test.ts',
   ])
@@ -228,6 +229,30 @@ test('cache-tag aggregate contract and revalidation API changes do not evict HTM
   ])
 
   assert.deepEqual(plan.scopes, ['none'])
+})
+
+test('uncached login, home, library, spectrum, lab, and game runtime require no purge', () => {
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/actions/auth/login.ts',
+    'sw/web/src/actions/home/getCelebFeed.ts',
+    'sw/web/src/actions/library/helpers.ts',
+    'sw/web/src/actions/library/today-figure.ts',
+    'sw/web/src/actions/spectrum/getSimilarByCelebId.ts',
+    'sw/web/src/components/lab/SeaWavesBackground.tsx',
+    'sw/web/src/lib/game/voice/voiceUrl.ts',
+  ])
+
+  assert.deepEqual(plan.scopes, ['none'])
+})
+
+test('root Open Graph route and SEO image origin changes evict only SEO outputs', () => {
+  const plan = classifyCloudflarePurgeImpact([
+    'sw/web/src/app/opengraph-image/route.tsx',
+    'sw/web/src/lib/seoImageOrigin.ts',
+  ])
+
+  assert.deepEqual(plan.scopes, ['seo'])
+  assert.equal(plan.files.includes('https://feelandnote.com/opengraph-image'), true)
 })
 
 test('shared celeb-tier changes evict cached HTML and the dependent SEO outputs', () => {

@@ -21,22 +21,11 @@
 불필요한 `feelnnote.com`은 자동 갱신을 껐고 서비스용 DNS 레코드도 제거했다. 별도로
 이전하지 않고 2027년 1월 9일 만료시킨다.
 
-## 2. Oracle 배포 자동화
+## 2. Oracle 배포 첫 실전 검증
 
-현재 프로덕션은 정상 실행 중이지만 새 코드를 올리는 과정은 아직 한 명령으로 묶이지
-않았다. 다음 코드 배포 전에 아래 절차를 자동화한다.
-
-1. 로컬 개발 서버와 겹치지 않는 별도 `NEXT_DIST_DIR`에서 Next.js standalone 빌드
-2. Windows pnpm junction을 release 내부의 상대 심볼릭 링크로 복원하고 `.env` 제외 확인
-3. 빌드 산출물을 `/opt/feelandnote/web/releases/<release>`에 업로드
-4. 별도 canary 포트에서 대표 URL 확인
-5. `/opt/feelandnote/web/current`를 새 release로 전환하고 `feelandnote-web.service` 재시작
-6. 서비스 상태·로그와 대표 URL 확인
-7. 실패하면 직전 release로 링크를 되돌리고 재시작
-8. 변경 범위에 맞춰 `cloudflare-purge.yml` 수동 실행
-
-Oracle E2 Micro는 1GB이므로 서버에서 Next.js 빌드를 실행하지 않는다. 자동화는 비밀값을
-출력하지 않고, 업로드나 전환이 실패하면 성공으로 보고하지 않아야 한다.
+`pnpm deploy:web:oracle`과 `oracle-web-deploy` 스킬로 빌드·비밀 파일 차단·junction 복원·canary·
+release 전환·실패 롤백을 자동화했고 plan과 package-only를 통과시켰다. 다음 코드 배포에서 대상
+커밋을 push한 뒤 실제 execute와 Cloudflare 퍼지까지 한 회 완주해 현행 운영 절차를 확정한다.
 
 장시간 실행된 Next 프로세스에서 물리 메모리 약 `620MB`와 swap 약 `828MB`가 누적돼 정상
 종료가 63초 넘게 멈춘 사례를 재현했다. OOM·자동 재시작은 없었고 재기동 뒤 홈과 기존 워밍
