@@ -92,6 +92,7 @@ const NON_RUNTIME_WEB_ROOT_FILES = new Set([
   'sw/web/split_json.mjs',
   'sw/web/temp_spotify_result.json',
   'sw/web/ts_to_json.js',
+  'sw/web/vercel.json',
 ])
 
 const SEO_PREFIXES = [
@@ -102,8 +103,10 @@ const SEO_PREFIXES = [
 
 const SEO_FILES = new Set([
   'sw/web/src/app/feed.xml/route.ts',
+  'sw/web/src/app/opengraph-image/route.tsx',
   'sw/web/src/app/opengraph-image.tsx',
   'sw/web/src/app/robots.ts',
+  'sw/web/src/lib/seoImageOrigin.ts',
   'sw/web/src/lib/sitemap.ts',
 ])
 
@@ -161,6 +164,14 @@ const NON_HTML_RUNTIME_FILES = new Set([
   // Remotion과 web-bo만 소비하며 public web HTML에는 들어오지 않는 공유 타이밍 계약이다.
   'packages/shared/src/lib/faction-scene-timing.ts',
   'sw/web/src/lib/cloudflarePurge.ts',
+  // 아래 경로는 Cloudflare가 보관하지 않는 로그인·홈·서재·성향·실험실 런타임만 바꾼다.
+  'sw/web/src/actions/auth/login.ts',
+  'sw/web/src/actions/home/getCelebFeed.ts',
+  'sw/web/src/actions/library/helpers.ts',
+  'sw/web/src/actions/library/today-figure.ts',
+  'sw/web/src/actions/spectrum/getSimilarByCelebId.ts',
+  'sw/web/src/components/lab/SeaWavesBackground.tsx',
+  'sw/web/src/lib/game/voice/voiceUrl.ts',
 ])
 
 const CACHED_HTML_PREFIXES = [

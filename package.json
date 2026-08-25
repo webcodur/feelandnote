@@ -12,6 +12,8 @@
     "browser:plan-b": "node scripts/browser/backend.mjs check-b",
     "browser:fetch-a": "node scripts/browser/backend.mjs fetch-a",
     "check:agents": "node scripts/check-agents-md.mjs",
+    "deploy:web:oracle": "node scripts/oracle-web-deploy.mjs",
+    "test:deploy:web:oracle": "node --test scripts/lib/oracle-web-remote.test.mjs",
     "build:web": "pnpm --filter @feelandnote/web build",
     "build:bo": "pnpm --filter @feelandnote/web-bo build",
     "build:audio-bo": "pnpm --filter @feelandnote/audio-bo build",
