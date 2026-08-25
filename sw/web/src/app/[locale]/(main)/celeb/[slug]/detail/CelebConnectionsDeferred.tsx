@@ -82,7 +82,6 @@ export default function CelebConnectionsDeferred({
       centerName={centerName}
       centerAvatarUrl={centerAvatarUrl}
       relations={data.relations}
-      contemporaries={data.contemporaries}
       factions={data.factions}
       currentCelebId={currentCelebId}
       isFiction={isFiction}

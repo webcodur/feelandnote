@@ -135,7 +135,7 @@ export default function CelebPageContent({
         serviceModel={serviceModel}
       />
 
-      {children}
+      {children ? <div className={styles.trailing}>{children}</div> : null}
     </div>
   );
 }

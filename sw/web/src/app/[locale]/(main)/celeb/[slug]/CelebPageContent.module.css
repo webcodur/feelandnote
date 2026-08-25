@@ -210,6 +210,14 @@
   margin: 96px auto 0;
 }
 
+/* 본문 격자 뒤에 붙는 딸림 구획(이어지는 인물·이 인물이 읽은 책)이 서는 자리.
+   격자 밖이라 폭 제한이 없어 화면 전체로 퍼졌고, 1340px부터 본문 바깥에 절대 배치되는
+   왼쪽 목차 레일을 덮었다. 본문과 같은 기둥에 세운다. */
+.trailing {
+  width: min(calc(100% - 32px), 1024px);
+  margin-inline: auto;
+}
+
 .sectionStack {
   display: grid;
   min-width: 0;
@@ -266,6 +274,10 @@
   .recordsGrid {
     width: 100%;
     margin: 72px 0 0;
+  }
+
+  .trailing {
+    width: 100%;
   }
 
   .identityPanel {

@@ -32,7 +32,6 @@ export interface CelebServiceAvailability {
   reading: boolean;
   relations: boolean;
   timeline: boolean;
-  contemporaries: boolean;
   faction: boolean;
   videos: boolean;
   dialogues: boolean;
@@ -96,6 +95,14 @@ export function useCelebServiceItems({
         ],
       },
       {
+        key: "timeline",
+        chapter: CELEB_SERVICE_CHAPTERS.timeline,
+        label: tier === "fiction" ? t("fictionTimeline") : t("timeline"),
+        icon: CELEB_SERVICE_ICONS.timeline,
+        ready: availability.timeline,
+        target: { sectionId: "timeline" },
+      },
+      {
         key: tier === "fiction" ? "sourceWorks" : "library",
         chapter: CELEB_SERVICE_CHAPTERS.library,
         label: tier === "fiction" ? t("sourceWorks") : t("library"),
@@ -107,51 +114,6 @@ export function useCelebServiceItems({
             ? availability.sourceWorks
             : showLibrary && availability.library,
         target: { sectionId: tier === "fiction" ? "source-works" : "library" },
-      },
-      {
-        key: "timeline",
-        chapter: CELEB_SERVICE_CHAPTERS.timeline,
-        label: tier === "fiction" ? t("fictionTimeline") : t("timeline"),
-        icon: CELEB_SERVICE_ICONS.timeline,
-        ready: availability.timeline,
-        target: { sectionId: "timeline" },
-      },
-      {
-        key: "connections",
-        chapter: CELEB_SERVICE_CHAPTERS.connections,
-        label: t("connections"),
-        icon: CELEB_SERVICE_ICONS.connections,
-        ready:
-          availability.relations
-          || (tier !== "fiction" && availability.contemporaries)
-          || availability.faction,
-        target: { sectionId: "connections" },
-        children: [
-          {
-            key: "relations",
-            chapter: "05-A",
-            label: t("relationGraph"),
-            icon: CELEB_SERVICE_ICONS.relations,
-            ready: availability.relations,
-            target: { sectionId: "connections" },
-          },
-          ...(tier === "fiction" ? [] : [{
-              key: "contemporaries",
-              chapter: "05-B",
-              label: t("contemporaries"),
-              icon: CELEB_SERVICE_ICONS.contemporaries,
-              ready: availability.contemporaries,
-              target: { sectionId: "connections" },
-            }]),
-          {
-            key: "faction",
-            chapter: "05-C",
-            label: t("serviceFaction"),
-            icon: CELEB_SERVICE_ICONS.faction,
-            ready: availability.faction,
-            target: { sectionId: "connections" },
-          },
-        ],
       },
       {
         key: "analysis",
@@ -177,6 +139,33 @@ export function useCelebServiceItems({
             icon: CELEB_SERVICE_ICONS.influence,
             ready: availability.influence,
             target: { sectionId: "analysis" },
+          },
+        ],
+      },
+      {
+        key: "connections",
+        chapter: CELEB_SERVICE_CHAPTERS.connections,
+        label: t("connections"),
+        icon: CELEB_SERVICE_ICONS.connections,
+        ready:
+          availability.relations || availability.faction,
+        target: { sectionId: "connections" },
+        children: [
+          {
+            key: "relations",
+            chapter: "05-A",
+            label: t("relationGraph"),
+            icon: CELEB_SERVICE_ICONS.relations,
+            ready: availability.relations,
+            target: { sectionId: "connections" },
+          },
+          {
+            key: "faction",
+            chapter: "05-C",
+            label: t("serviceFaction"),
+            icon: CELEB_SERVICE_ICONS.faction,
+            ready: availability.faction,
+            target: { sectionId: "connections" },
           },
         ],
       },
@@ -240,7 +229,6 @@ export function useCelebServiceItems({
         };
       }),
     [
-      availability.contemporaries,
       availability.dialogueVoice,
       availability.dialogues,
       availability.faction,

@@ -140,6 +140,15 @@ export default function CelebRecordSections({
           </section>
         )}
 
+        {serviceItemsByKey.has("timeline") && (
+          <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("timeline")}
+            <SectionSurface>
+              <JourneySection events={timelineEvents} />
+            </SectionSurface>
+          </section>
+        )}
+
         {serviceItemsByKey.has(isFiction ? "sourceWorks" : "library") && (
           <section
             id={isFiction ? "source-works" : "library"}
@@ -167,11 +176,22 @@ export default function CelebRecordSections({
           </section>
         )}
 
-        {serviceItemsByKey.has("timeline") && (
-          <section id="timeline" tabIndex={-1} className={SECTION_CLASS_NAME}>
-            {renderSectionHeading("timeline")}
-            <SectionSurface>
-              <JourneySection events={timelineEvents} />
+        {serviceItemsByKey.has("analysis") && (
+          <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
+            {renderSectionHeading("analysis")}
+            {/* 점수와 그래프는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다 */}
+            <SectionSurface className={TAB_BOX_CLASS_NAME}>
+              <Deferred
+                fallback={
+                  <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
+                }
+              >
+                <CelebAnalysisDeferred
+                  celebId={userId}
+                  locale={locale}
+                  item={serviceItemsByKey.get("analysis")!}
+                />
+              </Deferred>
             </SectionSurface>
           </section>
         )}
@@ -195,26 +215,6 @@ export default function CelebRecordSections({
                   centerAvatarUrl={profile.avatar_url}
                   currentCelebId={profile.id}
                   isFiction={isFiction}
-                />
-              </Deferred>
-            </SectionSurface>
-          </section>
-        )}
-
-        {serviceItemsByKey.has("analysis") && (
-          <section id="analysis" tabIndex={-1} className={SECTION_CLASS_NAME}>
-            {renderSectionHeading("analysis")}
-            {/* 점수와 그래프는 첫 화면 밖이고 검색 본문이 아니라 화면이 다가올 때 불러온다 */}
-            <SectionSurface className={TAB_BOX_CLASS_NAME}>
-              <Deferred
-                fallback={
-                  <PendingBlock variant="panel" minHeight="min-h-64" className="py-7" />
-                }
-              >
-                <CelebAnalysisDeferred
-                  celebId={userId}
-                  locale={locale}
-                  item={serviceItemsByKey.get("analysis")!}
                 />
               </Deferred>
             </SectionSurface>

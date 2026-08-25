@@ -226,7 +226,7 @@ function MaterialPreview({ sample }: { sample: MaterialSample }) {
               <p>긴 본문이 올라오는 안쪽 표면의 밝기와 결을 확인한다.</p>
             </div>
             <div className={styles.innerSurface}>
-              <span>인물과 시대</span>
+              <span>인연</span>
               <strong>관계와 행적</strong>
               <p>테두리가 정보보다 먼저 보이지 않는지 함께 살핀다.</p>
             </div>

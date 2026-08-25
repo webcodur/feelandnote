@@ -20,7 +20,7 @@ test('가상 인물은 DB 조회 전에 존재 여부를 모두 끈다', () => {
     presenceSource,
     /if \(tier === 'fiction'\) return EMPTY_SIDE_PRESENCE/,
   )
-  assert.match(presenceSource, /EMPTY_SIDE_PRESENCE[\s\S]*?contemporaries: false[\s\S]*?influence: false[\s\S]*?spectrum: false/)
+  assert.match(presenceSource, /EMPTY_SIDE_PRESENCE[\s\S]*?influence: false[\s\S]*?spectrum: false/)
 })
 
 test('초기 존재 조회는 ID 한 칸과 7일 상세 캐시만 사용한다', () => {

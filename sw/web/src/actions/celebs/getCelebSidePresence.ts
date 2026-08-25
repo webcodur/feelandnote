@@ -1,12 +1,10 @@
 import 'server-only'
 
 import { CACHE_TAGS } from '@feelandnote/shared/constants/cache-tags'
-import { hasContemporaries } from '@/actions/celebs/getContemporaries'
 import { cachedDetail, throwOnQueryError } from '@/lib/cache'
 import { createStaticClient } from '@/lib/supabase/static'
 
 export interface CelebSidePresence {
-  contemporaries: boolean
   influence: boolean
   spectrum: boolean
 }
@@ -14,8 +12,6 @@ export interface CelebSidePresence {
 interface CelebSidePresenceInput {
   celebId: string
   tier: string | null | undefined
-  birthDate: string | null
-  deathDate: string | null
 }
 
 interface PresenceRow {
@@ -23,7 +19,6 @@ interface PresenceRow {
 }
 
 const EMPTY_SIDE_PRESENCE: CelebSidePresence = {
-  contemporaries: false,
   influence: false,
   spectrum: false,
 }
@@ -75,18 +70,13 @@ function hasSpectrumCached(celebId: string): Promise<boolean> {
 export async function getCelebSidePresence({
   celebId,
   tier,
-  birthDate,
-  deathDate,
 }: CelebSidePresenceInput): Promise<CelebSidePresence> {
   if (tier === 'fiction') return EMPTY_SIDE_PRESENCE
 
-  const [influence, spectrum, contemporaries] = await Promise.all([
+  const [influence, spectrum] = await Promise.all([
     hasInfluenceCached(celebId),
     hasSpectrumCached(celebId),
-    birthDate
-      ? hasContemporaries(celebId, birthDate, deathDate)
-      : Promise.resolve(false),
   ])
 
-  return { contemporaries, influence, spectrum }
+  return { influence, spectrum }
 }

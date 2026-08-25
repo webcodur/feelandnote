@@ -2,7 +2,7 @@ import Link from 'next/link'
 import ContentImage from '@/components/ui/ContentImage'
 import { AFFILIATE_PLATFORMS } from '@/constants/affiliatePlatforms'
 import { BookOpenText, ExternalLink } from 'lucide-react'
-import Logo from '@/components/ui/Logo'
+import CenteredSectionHeading from '@/components/ui/CenteredSectionHeading'
 import type { AffiliateBook } from '@/actions/home/getAffiliateBooks'
 
 interface AffiliateBookListProps {
@@ -26,11 +26,7 @@ export default function AffiliateBookList({ books, heading, buyLabel, detailLabe
 
   return (
     <section className="w-full mt-12 md:mt-20 pt-6 md:pt-10 pb-6 md:pb-10 border-t border-white/5">
-      <div className="flex flex-col items-center text-center mb-4 md:mb-7 gap-2">
-        <div className="w-8 h-[2px] bg-[#d4af37] rounded-full shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
-        <Logo size="md" asLink={false} />
-        <h2 className="text-base font-bold tracking-tight text-text-secondary md:text-xl">{heading}</h2>
-      </div>
+      <CenteredSectionHeading title={heading} className="mb-4 md:mb-7" />
 
       {/* 좁은 화면: 한 줄로 옆으로 넘김 · 넓은 화면: 가운데 정렬해 줄바꿈 */}
       <div className="flex gap-3 md:gap-5 overflow-x-auto px-4 pb-2 snap-x snap-mandatory md:flex-wrap md:justify-center md:overflow-visible md:px-0 md:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
