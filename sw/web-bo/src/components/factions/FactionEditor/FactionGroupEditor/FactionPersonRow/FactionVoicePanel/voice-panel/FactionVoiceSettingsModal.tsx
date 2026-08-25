@@ -15,7 +15,7 @@ import type { EditLang } from '@feelandnote/shared/bo/editor'
 /**
  * 인물 한 명의 음성 설정 창 — 공용 편집 창 껍데기(VoiceEditorShell)에 세력도감 본체를 얹는다.
  *
- * 아코디언을 펼치지 않고도 인물 행 헤더에서 바로 열 수 있도록 행(FactionPersonRow) 레벨에서 소유한다.
+ * 아코디언을 펼치지 않고도 장면의 인물 발화 헤더에서 바로 열 수 있도록 발화 항목 레벨에서 소유한다.
  * 펼친 폼 안의 음성 패널(FactionVoicePanel) 헤더 버튼도 같은 창을 연다.
  */
 export function FactionVoiceSettingsModal({

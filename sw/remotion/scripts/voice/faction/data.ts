@@ -12,8 +12,9 @@
 
 import { readFile, writeFile } from 'fs/promises'
 import { factionSceneCaptionPages } from '@feelandnote/shared/lib/faction-scene-timing'
-import { buildCues, sceneBeatsOf, type Cue } from '../../../src/compositions/Faction/timing.js'
-import { factionEntryAt, factionSequenceOf } from '../../../src/compositions/Faction/types.js'
+import { factionSceneSpeakerPeople, resolveFactionSceneVoice } from '@feelandnote/shared/lib/faction-scene-speaker'
+import { buildCues, type Cue } from '../../../src/compositions/Faction/timing.js'
+import { factionSequenceOf } from '../../../src/compositions/Faction/types.js'
 import type { FactionScript, FactionPerson, FactionSceneBeat } from '../../../src/compositions/Faction/types.js'
 import { vnPersonQuote, vnSceneBeat } from '../../../src/compositions/Faction/voice-names.js'
 import { DATA_PATH, LANG } from './cli.js'
@@ -97,6 +98,21 @@ function styledBeatTextOf(beat: FactionSceneBeat, text: string): string {
   return style ? `${style}: ${text}` : text
 }
 
+function sceneBeatFileOf(
+  beat: FactionSceneBeat,
+  group: FactionScript['groups'][number],
+  groupIndex: number,
+  clusterIndex: number,
+): string {
+  if (beat.voiceFile) return beat.voiceFile
+  if (beat.legacyPersonVoice && beat.speakerCelebId) {
+    const personIndex = (group.clusters?.[clusterIndex]?.people ?? [])
+      .findIndex(person => person.isPerson !== false && person.celebId === beat.speakerCelebId)
+    if (personIndex >= 0) return vnPersonQuote(groupIndex, personIndex, clusterIndex)
+  }
+  return vnSceneBeat(beatSpeakerOf(beat), beatTextOf(beat))
+}
+
 /**
  * buildCues 의 person 컷을 순회하며 음성 잡을 만든다.
  * disabled 세력·disabled 인물은 buildCues 가 이미 컷을 안 만들므로 자동 제외된다(렌더와 동일 기준).
@@ -107,6 +123,7 @@ function styledBeatTextOf(beat: FactionSceneBeat, text: string): string {
  */
 export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {
   const jobs: FactionVoiceJob[] = []
+  const personFiles = new Set<string>()
   // part 지정 시 그 편 세력 인물만(buildCues 가 group.part 로 필터). 미지정이면 전체.
   const cues = buildCues(script, false, part)
   for (const tc of cues) {
@@ -121,9 +138,13 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
     if (!person) continue
     const text = quoteTextOf(person)
     if (!text) continue
+    const file = vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex)
+    // 통합 장면 안에서 같은 사람이 여러 번 말해도 구 인물 quote 잡은 한 파일당 한 번만 만든다.
+    if (personFiles.has(file)) continue
+    personFiles.add(file)
     const rawChunks = (LANG === 'en' ? person.quoteEnChunks : person.quoteChunks)?.filter(c => c.trim())
     jobs.push({
-      file: vnPersonQuote(cue.groupIndex, cue.personIndex, cue.clusterIndex),
+      file,
       // 발화 스타일 prefix 를 텍스트에 합쳐 합성·해시 양쪽에 반영한다(BO 미리듣기와 동일 규칙).
       text: styledTextOf(person, text),
       // 자막 덩어리는 원문(prefix 제외) 기준 — 빈 덩어리(연속 개행=페이지 경계)는 제외해 발화 시각 정렬과 1:1. 없으면 통대사 1개.
@@ -138,8 +159,11 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
       clusterIndex: cue.clusterIndex,
     })
   }
-  jobs.push(...buildSceneVoiceJobs(script, part))
-  return jobs
+  const sceneJobs = buildSceneVoiceJobs(script, part)
+  const sceneFiles = new Set(sceneJobs.map(job => job.file))
+  // cluster.beats가 같은 FxxCxxPxx 파일을 직접 소유하면 그 대사가 최종 원천이다.
+  // 구 person quote 잡까지 남기면 같은 파일을 서로 다른 텍스트로 두 번 합성·덮어쓸 수 있다.
+  return [...jobs.filter(job => !sceneFiles.has(job.file)), ...sceneJobs]
 }
 
 /**
@@ -151,20 +175,25 @@ export function buildVoiceJobs(script: FactionScript, part?: number): FactionVoi
 function buildSceneVoiceJobs(script: FactionScript, part?: number): FactionVoiceJob[] {
   const jobs: FactionVoiceJob[] = []
   const seen = new Set<string>()
-  for (const group of script.groups) {
+  const speakerPeople = factionSceneSpeakerPeople(script.groups)
+  for (const [groupIndex, group] of script.groups.entries()) {
     if (group.disabled) continue
     if (part != null && group.part != null && group.part !== part) continue
-    for (const item of factionSequenceOf(group)) {
-      if (item.kind !== 'entry') continue
-      const entry = factionEntryAt(group, item)
-      // 구 데이터의 caption 한 벌도 sceneBeatsOf 가 해설 덩어리 하나로 승격해 준다.
-      for (const beat of sceneBeatsOf(entry)) {
+    factionSequenceOf(group)
+    for (const [clusterIndex, cluster] of (group.clusters ?? []).entries()) {
+      for (const rawBeat of cluster.beats ?? []) {
+        const beat = resolveFactionSceneVoice(
+          rawBeat,
+          speakerPeople,
+          script.narrator?.logline,
+          LANG === 'en' ? 'en' : 'ko',
+        )
         const raw = beatTextOf(beat)
         if (!raw) continue
         const text = beatNarrationTextOf(raw)
         if (!text) continue
         // 렌더(NarrativeEntryCard)가 부르는 것과 똑같이 화자 + 본문 원문으로 파일명을 만든다.
-        const file = vnSceneBeat(beatSpeakerOf(beat), raw)
+        const file = sceneBeatFileOf(beat, group, groupIndex, clusterIndex)
         if (seen.has(file)) continue
         seen.add(file)
         jobs.push({
@@ -199,28 +228,21 @@ function findPerson(
  */
 function writeSceneDuration(script: FactionScript, file: string, rounded: number): number {
   let changed = 0
-  for (const group of script.groups) {
-    for (const item of factionSequenceOf(group)) {
-      if (item.kind !== 'entry') continue
-      const scene = factionEntryAt(group, item)
-      const targets: { get: () => number | undefined; set: (v: number) => void }[] = []
-
-      if (scene.beats?.length) {
-        for (const beat of scene.beats) {
-          const raw = beatTextOf(beat)
-          if (!raw || vnSceneBeat(beatSpeakerOf(beat), raw) !== file) continue
-          targets.push({ get: () => beat.voiceDuration, set: v => { beat.voiceDuration = v } })
-        }
-      } else {
-        const raw = LANG === 'en' ? (scene.captionEn ?? scene.caption) : scene.caption
-        if (raw?.trim() && vnSceneBeat(undefined, raw) === file) {
-          targets.push({ get: () => scene.voiceDuration, set: v => { scene.voiceDuration = v } })
-        }
-      }
-
-      for (const target of targets) {
-        if (target.get() === rounded) continue
-        target.set(rounded)
+  const speakerPeople = factionSceneSpeakerPeople(script.groups)
+  for (const [groupIndex, group] of script.groups.entries()) {
+    factionSequenceOf(group)
+    for (const [clusterIndex, cluster] of (group.clusters ?? []).entries()) {
+      for (const rawBeat of cluster.beats ?? []) {
+        const beat = resolveFactionSceneVoice(
+          rawBeat,
+          speakerPeople,
+          script.narrator?.logline,
+          LANG === 'en' ? 'en' : 'ko',
+        )
+        const raw = beatTextOf(beat)
+        if (!raw || sceneBeatFileOf(beat, group, groupIndex, clusterIndex) !== file) continue
+        if (rawBeat.voiceDuration === rounded) continue
+        rawBeat.voiceDuration = rounded
         changed++
       }
     }

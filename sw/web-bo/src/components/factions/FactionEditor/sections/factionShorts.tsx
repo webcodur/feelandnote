@@ -1,4 +1,4 @@
-import { factionEntryAt, type FactionGroup, type FactionScript } from '@/lib/faction-types'
+import type { FactionGroup, FactionScript } from '@/lib/faction-types'
 import {
   factionShortsPartNumbers,
   factionShortsSegments,
@@ -112,10 +112,6 @@ export function shortsSliceSummary(slice: ShortsPartSlice): string {
       const cluster = slice.group.clusters?.[item.clusterIndex]
       const label = cluster?.label?.split('\n')[0]?.trim()
       return label ? [label] : []
-    }
-    if (item.kind === 'entry') {
-      const title = factionEntryAt(slice.group, item).name.trim()
-      return title ? [title] : []
     }
     return []
   })

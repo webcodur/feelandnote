@@ -35,7 +35,6 @@ test('세력 헤더 그룹은 그룹 화보가 없으면 첫 유효한 개인 �
       borderColor="#2c5f6f"
       onChange={() => {}}
       onJumpCluster={() => {}}
-      onJumpNarrativeEntry={() => {}}
     />,
   )
 
@@ -72,7 +71,6 @@ test('세력 헤더는 쇼츠 편 경계를 이야기 순서 사이에 표시한
       borderColor="#2c5f6f"
       onChange={() => {}}
       onJumpCluster={() => {}}
-      onJumpNarrativeEntry={() => {}}
     />,
   )
 

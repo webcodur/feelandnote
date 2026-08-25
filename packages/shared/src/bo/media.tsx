@@ -795,26 +795,35 @@ export function ImagePicker({
               </p>
             ) : (
               <div className="grid grid-cols-4 gap-2">
-                {shown.map(f => (
-                  <div key={f} className="group relative">
-                    <button
-                      onClick={() => onChange(f)}
-                      title={f}
-                      className={`block w-full overflow-hidden rounded-md border ${value === f ? 'border-accent' : 'border-border'}`}
-                    >
-                      <MediaThumb src={imageSrc(series, episodeName, f)!} alt="" showExt className="aspect-square w-full" />
-                      <span className="block truncate bg-bg-main/85 px-1 py-0.5 text-[9px] text-text-secondary">
-                        {f.split('/').pop()}
-                      </span>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteImage(f)}
-                      className="absolute end-1 top-1 rounded bg-danger px-1.5 py-px text-[11px] text-danger-text opacity-0 group-hover:opacity-100"
-                    >
-                      지우기
-                    </button>
-                  </div>
-                ))}
+                {shown.map(f => {
+                  const isCurrent = value === f
+                  return (
+                    <div key={f} className="group relative">
+                      <button
+                        onClick={() => onChange(f)}
+                        title={`${f}${isCurrent ? ' · 쓰는 중' : ''}`}
+                        aria-pressed={isCurrent}
+                        className={`block w-full overflow-hidden rounded-md border hover:border-accent hover:bg-bg-hover ${isCurrent ? 'border-accent bg-accent/10 ring-2 ring-accent/30' : 'border-border'}`}
+                      >
+                        <MediaThumb src={imageSrc(series, episodeName, f)!} alt="" showExt className="aspect-square w-full" />
+                        <span className="block truncate bg-bg-main/85 px-1 py-0.5 text-[9px] text-text-secondary">
+                          {f.split('/').pop()}
+                        </span>
+                      </button>
+                      {isCurrent ? (
+                        <span className="pointer-events-none absolute start-1 top-1 z-10 rounded bg-accent/95 px-1.5 py-0.5 text-[10px] font-black text-bg-main shadow-sm">
+                          쓰는 중
+                        </span>
+                      ) : null}
+                      <button
+                        onClick={() => handleDeleteImage(f)}
+                        className="absolute end-1 top-1 rounded bg-danger px-1.5 py-px text-[11px] text-danger-text opacity-0 group-hover:opacity-100"
+                      >
+                        지우기
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
             )}
           </div>

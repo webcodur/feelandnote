@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { AbsoluteFill, Sequence, Audio, interpolate, useCurrentFrame, staticFile, Easing } from 'remotion'
 import type { FactionGroup, FactionPerson, FactionImageCrop, ZoomFocus, HoldMotion, EnterMotion, Orientation, GlitchLevel } from '../types'
 import type { ImageFilter } from '../image-filters'
-import { CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, linesTypingOf, f, type PersonSteps } from '../timing'
+import { activeFactionMediaLayers, CROSSFADE_SEC, OUTRO_CROSSFADE_SEC, ENTER_NAME_SEC, ENTER_FADE_SEC, CREDIT_LINE_STAGGER_SEC, personEntryMediaOf, personLeadTiming, personAudioPlaySec, creditLinesOf, creditLineOffsetsSec, creditListSpanSec, epithetIsNarrated, epithetSpeakSec, linesTypingOf, f, type PersonSteps } from '../timing'
 import { BG, FG, FONT, FONT_SERIF, TEXT_PAINT, DEFAULT_ACCENT, CONTENT_PAD, L_PHOTO_W, L_TEXT_PAD, PANEL_SLIDE_X, PANEL_SLIDE_SEC, accentClarityPaint } from '../constants'
 import { imgSrc, initials, sliceLocalTimings, holdAndShakeParts, enterMotionScale, enterMotionSec, isPushinZoom } from '../utils'
 import { vnPersonQuote, vnPersonEpithet, voiceRelPath, dbToLinear, clampRate } from '../voice-names'
@@ -246,6 +246,10 @@ const CreditLines: React.FC<{ items: string[]; accent: string; fontSize: number;
 export const PersonCard: React.FC<{
   episodeName: string; group: FactionGroup; person: FactionPerson; frame: number; cueStart: number; cueDuration: number
   orientation: Orientation; groupIndex: number; personIndex: number; clusterIndex?: number; steps: PersonSteps
+  /** 인물 신원 음성의 원래 장면 좌표. 통합 beat가 다른 장면에 놓여도 수식어 음원은 원래 파일을 쓴다. */
+  voiceClusterIndex?: number
+  /** 통합 beat가 실제로 사용할 대사 음원. 없으면 구 인물 위치 음원을 쓴다. */
+  quoteVoiceFile?: string
   voiceTiming?: VoiceTimingSegment[]; zoomFreezeSec?: number; isShorts?: boolean; isLast?: boolean; noZoom?: boolean
   hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number
   /** 대사 화면 표시 — CueLayer 가 인물→에피소드 기본을 풀어 넘긴다. 'box'(기본) | 'caption'(작은 자막) */
@@ -262,15 +266,14 @@ export const PersonCard: React.FC<{
   nextEnterSec?: number
   /** 자막형에서 대사 전 이름·직함 노출 시간(초) — CueLayer 가 편 설정을 풀어 넘긴다. 컷 길이 계산과 같은 값이어야 한다 */
   captionIdHoldSec?: number
-}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionSize = 'default', quoteCaptionFont = 'default', nextEnterSec = 0, captionIdHoldSec }) => {
+}> = ({ episodeName, group, person, frame, cueStart, cueDuration, orientation, groupIndex, personIndex, clusterIndex, voiceClusterIndex, quoteVoiceFile, steps, voiceTiming, zoomFreezeSec, isShorts = false, isLast = false, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1, quoteDisplay = 'box', quoteCaptionPos = 'bottom', quoteCaptionSize = 'default', quoteCaptionFont = 'default', nextEnterSec = 0, captionIdHoldSec }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   const local = frame - cueStart
-  const cluster = group.clusters?.[clusterIndex ?? 0]
-  // 개인샷이 비었거나 그룹 화보와 같은 파일이면 중복값 대신 그룹 화보·맞춤을 상속한다.
-  const inheritsClusterImage = !group.solo && !!cluster?.image && (!person.image || person.image === cluster.image)
-  const baseImage = inheritsClusterImage ? cluster?.image : person.image
-  const baseImageCrop = inheritsClusterImage ? cluster?.imageCrop : person.imageCrop
+  const showIdentity = steps.identity !== false
+  const entryMedia = personEntryMediaOf(person, group, clusterIndex ?? 0)
+  const baseImage = entryMedia.image
+  const baseImageCrop = entryMedia.crop
   // 롱폼은 사진을 기다리지 않고 텍스트가 컷과 거의 동시에 바로 등장 — 등장 타이밍을 ENTER_NAME_SEC만큼 앞당긴다(세로 쇼츠는 기존 그대로)
   const lt = orientation === 'landscape' ? local + f(ENTER_NAME_SEC) : local
   // 대사 소스 — 덩어리(quoteChunks)가 있으면 그 배열을, 없으면 통째 quote를 단일 덩어리로.
@@ -460,7 +463,7 @@ export const PersonCard: React.FC<{
   const audioEl = hasQuote && person.quoteDuration && person.quoteDuration > 0 ? (
     <Sequence from={cueStart + f(quoteEnterSec)} durationInFrames={audioWindowFrames}>
       <Audio
-        src={staticFile(voiceRelPath(episodeName, vnPersonQuote(groupIndex, personIndex, clusterIndex)))}
+        src={staticFile(voiceRelPath(episodeName, quoteVoiceFile ?? vnPersonQuote(groupIndex, personIndex, voiceClusterIndex ?? clusterIndex)))}
         volume={dbToLinear(person.quoteGainDb)}
         playbackRate={clampRate(person.quotePlaybackRate)}
       />
@@ -475,7 +478,7 @@ export const PersonCard: React.FC<{
     return (
       <Sequence from={cueStart + epithetStartF} durationInFrames={f(playSec) + f(0.4)}>
         <Audio
-          src={staticFile(voiceRelPath(episodeName, vnPersonEpithet(groupIndex, personIndex, clusterIndex)))}
+          src={staticFile(voiceRelPath(episodeName, vnPersonEpithet(groupIndex, personIndex, voiceClusterIndex ?? clusterIndex)))}
           volume={dbToLinear(person.epithetGainDb)}
           playbackRate={clampRate(person.epithetPlaybackRate)}
         />
@@ -614,21 +617,34 @@ export const PersonCard: React.FC<{
       const before = realChunks.slice(0, ri).join(' ').length
       return audioStart + Math.round(spread * before / totalChars)
     }
-    // 사진 전환 목록 — quoteImage(직함→대사, 대사 시작 시점) + imageChanges(대사 도중 덩어리별 교체)를 합쳐 한 번에 깐다.
+    // 사진 전환 목록 — quoteImage와 imageChanges를 합치되 현재+다음 두 레이어만 렌더한다.
     const changes: { start: number; image: string; crop?: FactionImageCrop; filter?: ImageFilter; zoomFocus?: ZoomFocus }[] = []
-    if (person.quoteImage && hasQuote) changes.push({ start: audioStart, image: person.quoteImage, crop: person.quoteImageCrop, filter: person.quoteImageFilter, zoomFocus: person.quoteZoomFocus })
+    if (
+      person.quoteImage
+      && !entryMedia.quoteImageUsedAsBase
+      && (hasQuote || person.quoteImageAt === 'cue')
+    ) changes.push({
+      start: person.quoteImageAt === 'cue' ? cueStart : audioStart,
+      image: person.quoteImage,
+      crop: person.quoteImageCrop,
+      filter: person.quoteImageFilter,
+      zoomFocus: person.quoteZoomFocus,
+    })
     for (const ic of imgChanges) changes.push({ start: chunkFrame(ic.chunk), image: ic.image, crop: ic.crop, filter: ic.filter, zoomFocus: ic.zoomFocus })
     const localOf = (abs: number) => Math.max(0, abs - cueStart)
     // 단일 사진: 대사 전체 길이로 줌 늘림. 다중: stretch 생략 → 정속 + 사진마다 재시작.
     if (!changes.length) {
-      return <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, holdSpanFrames)} />
+      return <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, holdSpanFrames, entryMedia.zoomFocus)} filter={entryMedia.filter} />
     }
-    const base = <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0)} />
+    const base = <FactionMedia src={imgSrc(episodeName, baseImage)} startFrame={cueStart} onError={() => setImgErr(true)} style={styleFor(baseImageCrop, 0, undefined, entryMedia.zoomFocus)} filter={entryMedia.filter} />
     const cf = f(CROSSFADE_SEC)
+    const activeMedia = activeFactionMediaLayers(changes.map(change => change.start), frame, cf)
+    const activeMediaIndexes = new Set(activeMedia.indexes)
     return (
       <>
-        <AbsoluteFill>{base}</AbsoluteFill>
+        {activeMedia.showBase ? <AbsoluteFill>{base}</AbsoluteFill> : null}
         {changes.map((c, idx) => {
+          if (!activeMediaIndexes.has(idx)) return null
           const op = interpolate(frame, [c.start - cf, c.start], [0, 1], clamp)
           if (op <= 0) return null
           // 교체 사진 — 뜬 시점부터 줌 재시작, 기본 정속(stretch 없음).
@@ -677,6 +693,7 @@ export const PersonCard: React.FC<{
       captionEnterSec={quoteEnterSec}
       exitOpacity={boxExitOp}
       hasCaption={hasQuote}
+      showIdentity={showIdentity}
       captionSlotStyle={captionSlotPos}
       captionMinHeight={captionMinH}
       identity={(
@@ -883,12 +900,12 @@ export const PersonCard: React.FC<{
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', gap: 28, padding: `300px ${L_TEXT_PAD}px 0`, opacity: boxExitOp * captionLeadExitOp }}>
           {/* 이름 + 직함 1번(이름 옆 고정) — 아래에서 떠오르며 등장. 직함만 있는 인물은 1번째 줄도 아래 리스트로 내린다. */}
           {/* 수식어가 뜨는 동안에는 이름·직함을 거둔다(수식어가 화면 한가운데를 통째로 쓴다). */}
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)`, opacity: 1 - epiVis }}>
+          {showIdentity ? <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, flexWrap: 'wrap', transform: `translateY(${nameRise}px)`, opacity: 1 - epiVis }}>
             <div style={{ color: '#ffffff', fontFamily: FONT, fontSize: 88, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1, textAlign: 'left', opacity: nameOp }}>{person.name}</div>
             {creditHead && !creditListFull ? (
               <div style={{ color: accent, fontFamily: FONT, fontSize: 50, fontWeight: 700, letterSpacing: 0.3, lineHeight: 1.1, opacity: creditOp, whiteSpace: 'nowrap', ...accentClarityPaint(accent) }}>{creditHead}</div>
             ) : null}
-          </div>
+          </div> : null}
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)은 직함 순차 → 대사로 교차(겹쳐 두고 페이드) */}
           <div style={{ display: 'grid', alignItems: 'start' }}>
             {/* 수식어는 이 슬롯이 아니라 우측 화면 한가운데(epithetStage)에 따로 선다. */}
@@ -966,10 +983,10 @@ export const PersonCard: React.FC<{
           borderLeft: `4px solid ${accent}`,
           fontFamily: FONT_SERIF,
           transform: `translateX(${panelSlideX}px)`,
-          opacity: panelOp * boxExitOp,
+          opacity: (showIdentity ? panelOp : quoteOp) * boxExitOp,
         }}>
           {/* 이름(세력색) + 직함 1번(이름 옆 고정, 전원) */}
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
+          {showIdentity ? <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
             <div style={{
               color: accent, fontFamily: FONT_SERIF,
               fontSize: 52, fontWeight: 800, letterSpacing: 0.5, lineHeight: 1.1,
@@ -982,7 +999,7 @@ export const PersonCard: React.FC<{
                 opacity: creditHeadOp, transform: `translateY(${creditHeadTy}px)`, whiteSpace: 'nowrap', ...TEXT_PAINT,
               }}>{creditHead}</div>
             ) : null}
-          </div>
+          </div> : null}
           {/* 아래 슬롯 — voice·text는 바로 대사 / credit은 직함 2번부터 순차 / full(통합)·수식어 리드인은 앞 내용 순차 → 대사로 교차(겹쳐 두고 페이드) */}
           <div style={{ display: 'grid', alignItems: 'start', alignSelf: 'stretch' }}>
             {hasEpithet ? (

@@ -16,17 +16,21 @@ export const FACTION_ENTER_FADE_SEC = 0.35;
 export const FACTION_SCENE_CAPTION_ID_HOLD_SEC = 1;
 
 /**
- * 장면 안에서 순서대로 흐르는 한 덩어리.
- * 화자(speaker)가 있으면 그 인물이 말하는 대사, 없으면 나레이터 해설이다.
+ * 장면 안에서 순서대로 흐르는 한 컷.
+ * 화자(speaker)가 있으면 그 인물이 말하는 대사, 본문만 있으면 나레이터 해설이다.
  * 해설만·대사만·둘 다·여러 인물이 주고받기·말 없는 이미지 컷이 전부 이 배열 하나로 표현된다.
  */
 export type FactionSceneBeatInput = {
   /** 화자 이름. 없으면 해설이며 장면 제목이 이름 자리를 지킨다. 셀럽 등록과 무관한 자유 문자열이다. */
   speaker?: string;
+  /** true면 이 컷에서는 화자명·장면명을 이름 자리에 띄우지 않는다. */
+  hideIdentity?: boolean;
   /** 화면에 뜨고 낭독되는 본문. 빈 줄로 나누면 같은 덩어리 안에서 화면이 넘어간다. */
   text?: string;
   /** 이 덩어리 음성의 재생 길이(초, 배속 반영 후). 있으면 글자 점등을 이 길이에 맞춘다. */
   voiceSec?: number;
+  /** 말 없는 화면 컷 또는 구 장면 한 벌에서 승격된 항목의 최소 노출 시간. */
+  minimumSec?: number;
 };
 
 export type FactionSceneTimingInput = {
@@ -176,7 +180,9 @@ export function factionSceneBeatsOf(
   input: FactionSceneTimingInput,
 ): FactionSceneBeatInput[] {
   const beats = input.beats?.filter(
-    (b) => !!b && (!!b.text?.trim() || !!b.speaker?.trim()),
+    // minimumSec가 있는 빈 항목은 말 없는 화면 컷이다. 본문이 없다는 이유로 버리면
+    // 다음 대사의 사진·타이밍 인덱스가 당겨지고 컷 자체도 재생되지 않는다.
+    (b) => !!b && (!!b.text?.trim() || !!b.speaker?.trim() || !!b.minimumSec),
   );
   if (beats?.length) return beats;
   if (!input.caption?.trim()) return [];
@@ -200,12 +206,13 @@ export function factionSceneBeatTimings(
     FACTION_ENTER_NAME_SEC + FACTION_ENTER_FADE_SEC + captionIdHoldSec;
 
   let cursorSec = 0;
-  let previousSpeaker: string | null = null;
+  let lastShownSpeaker: string | null = null;
 
   return beats.map((beat, index) => {
     const speaker = (beat.speaker ?? "").trim();
-    const showsIdentity = index === 0 || speaker !== previousSpeaker;
-    previousSpeaker = speaker;
+    const showsIdentity = beat.hideIdentity !== true
+      && (index === 0 || speaker !== lastShownSpeaker);
+    if (showsIdentity) lastShownSpeaker = speaker;
 
     const startSec = cursorSec;
     const textStartSec =
@@ -213,7 +220,10 @@ export function factionSceneBeatTimings(
       (showsIdentity ? identityLeadSec : FACTION_SCENE_PARAGRAPH_TRANSITION_SEC);
     const pages = factionSceneCaptionPageTimings(beat.text, beat.voiceSec);
     const completeSec = textStartSec + (pages.at(-1)?.completeSec ?? 0);
-    cursorSec = completeSec + FACTION_SCENE_PARAGRAPH_HOLD_SEC;
+    cursorSec = Math.max(
+      completeSec + FACTION_SCENE_PARAGRAPH_HOLD_SEC,
+      startSec + finiteAtLeast(beat.minimumSec, FACTION_SCENE_MIN_SEC, 0),
+    );
 
     return {
       speaker,

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Audio, Sequence, staticFile } from 'remotion'
-import { f, ENTER_NAME_SEC, type TimedCue } from './timing'
+import { factionSceneBeatTimings } from '@feelandnote/shared/lib/faction-scene-timing'
+import { f, ENTER_NAME_SEC, sceneBeatsOf, sceneTimingInputOf, type TimedCue } from './timing'
 
 /**
  * 세력도감 효과음(SFX).
@@ -20,7 +21,7 @@ const CHAPTER_VOL = 0.6
 /** 서사 항목은 선택한 환경음·효과음만 사용한다. */
 const SCENE_VOL = 0.5
 
-export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean }> = ({ cues, defaults = false }) => (
+export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean; captionIdHoldSec?: number }> = ({ cues, defaults = false, captionIdHoldSec }) => (
   <>
     {cues.map((tc, i) => {
       if (tc.cue.kind === 'group' && defaults) {
@@ -38,11 +39,23 @@ export const FactionSfx: React.FC<{ cues: TimedCue[]; defaults?: boolean }> = ({
           </Sequence>
         )
       }
-      if (tc.cue.kind === 'entry' && tc.cue.entry.sfx) {
+      if (tc.cue.kind === 'scene') {
+        const scene = tc.cue.scene
+        const beats = sceneBeatsOf(scene)
+        const timings = factionSceneBeatTimings(sceneTimingInputOf(scene, captionIdHoldSec))
         return (
-          <Sequence key={`sfx-s-${i}`} from={tc.start} durationInFrames={Math.min(tc.duration, f(8))}>
-            <Audio src={staticFile(`common/sfx/${tc.cue.entry.sfx}`)} volume={SCENE_VOL} />
-          </Sequence>
+          <React.Fragment key={`sfx-s-${i}`}>
+            {scene.sfx ? (
+              <Sequence from={tc.start} durationInFrames={Math.min(tc.duration, f(8))}>
+                <Audio src={staticFile(`common/sfx/${scene.sfx}`)} volume={SCENE_VOL} />
+              </Sequence>
+            ) : null}
+            {beats.map((beat, beatIndex) => beat.sfx ? (
+              <Sequence key={`${beatIndex}-${beat.sfx}`} from={tc.start + f(timings[beatIndex]?.startSec ?? 0)} durationInFrames={Math.min(tc.duration, f(8))}>
+                <Audio src={staticFile(`common/sfx/${beat.sfx}`)} volume={SCENE_VOL} />
+              </Sequence>
+            ) : null)}
+          </React.Fragment>
         )
       }
       // 챕터 전환 효과음 — 그 챕터의 첫 컷(검정 브릿지, 없으면 표지)에서 1회. 사용자 지정 파일만.

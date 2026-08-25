@@ -484,17 +484,29 @@ export function FactionEffectsSheet({ script, onChange, series, episodeName, onC
                 </tbody>
               </table>
             </div>
-            {/* 전체 고정 토글 — 켜면 하위 개별값을 무시하고 전역값으로 렌더 */}
-            <label className="flex items-center gap-2 border-t border-accent/30 pt-2 text-xs text-text-secondary">
-              <input
-                type="checkbox"
-                checked={locked}
-                onChange={e => onChange({ ...script, lockEffects: e.target.checked || undefined })}
-                className="h-3.5 w-3.5 accent-accent"
-              />
-              <span className="font-semibold text-text-primary">전체 고정 — 전역값으로 잠금</span>
-              <span className="text-[11px] text-text-dim">켜면 아래 세력·그룹샷·인물 개별 설정이 비활성화되고 전역값으로 렌더됨</span>
-            </label>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-accent/30 pt-2">
+              {/* 전체 고정 — 켜면 하위 개별값을 무시하고 전역값으로 렌더 */}
+              <label className="flex items-center gap-2 text-xs text-text-secondary">
+                <input
+                  type="checkbox"
+                  checked={locked}
+                  onChange={e => onChange({ ...script, lockEffects: e.target.checked || undefined })}
+                  className="h-3.5 w-3.5 accent-accent"
+                />
+                <span className="font-semibold text-text-primary">전체 고정 — 전역값으로 잠금</span>
+                <span className="text-[11px] text-text-dim">하위 개별값을 보존하되 무시</span>
+              </label>
+              <label className="flex items-center gap-2 text-xs text-text-secondary" title="전환 설정은 보존하고, 렌더에서 줌·패닝·시작 임팩트·흔들림을 모두 끕니다">
+                <input
+                  type="checkbox"
+                  checked={!!script.noZoom}
+                  onChange={e => onChange({ ...script, noZoom: e.target.checked || undefined })}
+                  className="h-3.5 w-3.5 accent-accent"
+                />
+                <span className="font-semibold text-text-primary">모든 화면 움직임 끄기</span>
+                <span className="text-[11px] text-text-dim">정지 화면 검수·정적 연출</span>
+              </label>
+            </div>
           </section>
 
           {/* 세력 점프 네비 + 전체 접기/펼치기 */}

@@ -21,7 +21,6 @@ type Props = {
   onMoveUp: () => void
   onMoveDown: () => void
   onJumpCluster: (clusterIndex: number) => void
-  onJumpNarrativeEntry: (entryId: string) => void
 }
 
 function foregroundFor(background: string) {
@@ -37,7 +36,7 @@ function foregroundFor(background: string) {
 
 export function FactionGroupHeader({
   group, groupIndex, series, episodeName, editLang, expanded, onExpandedChange, onChange,
-  onDelete, onMoveUp, onMoveDown, onJumpCluster, onJumpNarrativeEntry,
+  onDelete, onMoveUp, onMoveDown, onJumpCluster,
 }: Props) {
   const [logoOpen, setLogoOpen] = useState(false)
   const [logoImgOpen, setLogoImgOpen] = useState(false)
@@ -97,7 +96,6 @@ export function FactionGroupHeader({
             borderColor={onColorDim}
             onChange={onChange}
             onJumpCluster={onJumpCluster}
-            onJumpNarrativeEntry={onJumpNarrativeEntry}
           />
         </div>
 

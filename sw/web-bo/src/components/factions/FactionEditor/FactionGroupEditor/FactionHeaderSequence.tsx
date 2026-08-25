@@ -1,9 +1,9 @@
 'use client'
 
 import { Fragment } from 'react'
-import { ChevronLeft, ChevronRight, Film, Plus, Trash2 } from '@feelandnote/shared/bo/icons'
+import { ChevronLeft, ChevronRight, Plus, Trash2 } from '@feelandnote/shared/bo/icons'
 import { cropToStyle, MediaThumb } from '@feelandnote/shared/bo/media'
-import { factionEntryAt, factionSequenceOf, type FactionCluster, type FactionGroup, type FactionPerson, type FactionSequenceItem } from '@/lib/faction-types'
+import { factionSequenceOf, type FactionCluster, type FactionGroup, type FactionSequenceItem } from '@/lib/faction-types'
 import { imageSrc } from '../../shared/timing'
 
 type Props = {
@@ -14,11 +14,10 @@ type Props = {
   borderColor: string
   onChange: (next: FactionGroup) => void
   onJumpCluster: (ci: number) => void
-  onJumpNarrativeEntry: (entryId: string) => void
 }
 
-function newNarrativeEntry(): FactionPerson {
-  return { isPerson: false, name: '새 서사 항목' }
+function newScene(): FactionCluster {
+  return { label: '새 장면', people: [], beats: [] }
 }
 
 /** 그룹 화보가 없는 개인 컷 구성에서는 첫 유효 개인 화보를 헤더 대표로 쓴다. */
@@ -33,7 +32,7 @@ function clusterHeaderMedia(cluster: FactionCluster) {
 }
 
 export function FactionHeaderSequence({
-  group, groupIndex, series, episodeName, borderColor, onChange, onJumpCluster, onJumpNarrativeEntry,
+  group, groupIndex, series, episodeName, borderColor, onChange, onJumpCluster,
 }: Props) {
   const sequence = factionSequenceOf(group)
   const setSequence = (next: FactionSequenceItem[]) => onChange({
@@ -41,16 +40,10 @@ export function FactionHeaderSequence({
     sequence: next,
   })
   const insertScene = (index: number) => {
-    if (!group.clusters?.length) return
-    const previousCluster = [...sequence.slice(0, index)].reverse().find(item => item.kind === 'cluster')
-    const clusterIndex = previousCluster?.kind === 'cluster' ? previousCluster.clusterIndex : 0
-    const cluster = group.clusters[clusterIndex]
-    const entryIndex = cluster.people?.length ?? 0
-    const clusters = group.clusters.map((candidate, ci) => ci === clusterIndex
-      ? { ...candidate, people: [...(candidate.people ?? []), newNarrativeEntry()] }
-      : candidate)
+    const clusters = [...(group.clusters ?? []), newScene()]
+    const clusterIndex = clusters.length - 1
     const next = [...sequence]
-    next.splice(index, 0, { kind: 'entry', clusterIndex, entryIndex })
+    next.splice(index, 0, { kind: 'cluster', clusterIndex })
     onChange({ ...group, clusters, sequence: next })
   }
   const insertCut = (index: number) => {
@@ -70,21 +63,6 @@ export function FactionHeaderSequence({
     if (!validCutPositions(next)) return
     setSequence(next)
   }
-  const removeScene = (index: number) => {
-    const item = sequence[index]
-    if (item?.kind !== 'entry') return
-    const entry = factionEntryAt(group, item)
-    if (!confirm(`「${entry.name || '서사 항목'}」을 삭제할까요? 문장과 이미지 연결도 함께 사라집니다.`)) return
-    const clusters = group.clusters!.map((cluster, ci) => ci === item.clusterIndex
-      ? { ...cluster, people: (cluster.people ?? []).filter((_, ei) => ei !== item.entryIndex) }
-      : cluster)
-    const next = sequence.flatMap((candidate, itemIndex) => {
-      if (itemIndex === index) return []
-      if (candidate.kind !== 'entry' || candidate.clusterIndex !== item.clusterIndex) return [candidate]
-      return [{ ...candidate, entryIndex: candidate.entryIndex > item.entryIndex ? candidate.entryIndex - 1 : candidate.entryIndex }]
-    })
-    onChange({ ...group, clusters, sequence: next })
-  }
   const removeCut = (index: number) => {
     if (sequence[index]?.kind !== 'cut') return
     setSequence(sequence.filter((_, itemIndex) => itemIndex !== index))
@@ -102,8 +80,8 @@ export function FactionHeaderSequence({
               type="button"
               onClick={event => { event.stopPropagation(); insertScene(sequenceIndex) }}
               className="flex h-7 items-center justify-center rounded border border-dashed border-teal-300/70 bg-black/15 text-teal-100 hover:border-teal-100 hover:bg-teal-500/25"
-              title={`${sequenceIndex + 1}번째 항목 앞에 서사 항목 추가`}
-              aria-label={`${sequenceIndex + 1}번째 항목 앞에 서사 항목 추가`}
+              title={`${sequenceIndex + 1}번째 항목 앞에 장면 추가`}
+              aria-label={`${sequenceIndex + 1}번째 항목 앞에 장면 추가`}
             >
               <Plus size={14} />
             </button>
@@ -142,17 +120,16 @@ export function FactionHeaderSequence({
             >
               <ChevronRight size={12} />
             </button>
-            {item.kind === 'entry' || item.kind === 'cut' ? (
+            {item.kind === 'cut' ? (
               <button
                 type="button"
                 onClick={event => {
                   event.stopPropagation()
-                  if (item.kind === 'entry') removeScene(sequenceIndex)
-                  else removeCut(sequenceIndex)
+                  removeCut(sequenceIndex)
                 }}
                 className="flex h-5 w-5 items-center justify-center rounded text-danger-text hover:bg-danger/15"
-                title={item.kind === 'entry' ? '서사 항목 삭제' : '쇼츠 편 경계 삭제'}
-                aria-label={item.kind === 'entry' ? '서사 항목 삭제' : '쇼츠 편 경계 삭제'}
+                title="쇼츠 편 경계 삭제"
+                aria-label="쇼츠 편 경계 삭제"
               >
                 <Trash2 size={11} />
               </button>
@@ -182,7 +159,7 @@ export function FactionHeaderSequence({
                   <span className="flex h-[4.5rem] items-center justify-center bg-bg-card text-[10px] font-semibold text-text-tertiary">화보 없음</span>
                 )}
                 <span className="block truncate px-2 pb-7 pt-1 text-[10px] font-bold text-text-primary">{label}</span>
-                <span className="absolute left-1 top-1 rounded border border-amber-200 bg-amber-400 px-1.5 py-0.5 font-mono text-[9px] font-black tabular-nums text-amber-950 shadow-sm">{groupIndex + 1}-{sequenceIndex + 1}</span>
+                <span className="absolute left-1 top-1 rounded border border-slate-300 bg-slate-100 px-1.5 py-0.5 font-mono text-[9px] font-black tabular-nums text-slate-900 shadow-sm">{groupIndex + 1}-{sequenceIndex + 1}</span>
               </button>
               {controls}
             </div>
@@ -205,39 +182,15 @@ export function FactionHeaderSequence({
           )
         }
 
-        const entry = factionEntryAt(group, item)
-        const src = imageSrc(series, episodeName, entry.image)
-        return (
-          <Fragment key={`entry-${item.clusterIndex}-${item.entryIndex}`}>
-          {insertBefore}
-          <div className="relative w-28 shrink-0 overflow-hidden rounded border border-teal-400/70 bg-bg-main/90">
-            <button
-              type="button"
-              onClick={event => { event.stopPropagation(); onJumpNarrativeEntry(`${item.clusterIndex}-${item.entryIndex}`) }}
-              className="block h-full w-full text-left hover:bg-teal-500/15"
-              title={`${entry.name || '제목 없음'} 편집 위치로 이동`}
-            >
-              {src ? <MediaThumb src={src} alt={entry.name} showExt className="h-[4.5rem] w-full" /> : (
-                <span className="flex h-[4.5rem] flex-col items-center justify-center gap-1 bg-teal-950/35 text-teal-300">
-                  <Film size={18} />
-                  <span className="text-[9px] font-semibold">텍스트 배경</span>
-                </span>
-              )}
-              <span className="block line-clamp-2 px-2 pb-7 pt-1 text-[10px] font-bold leading-tight text-text-primary">{entry.name || '제목 없음'}</span>
-              <span className="absolute left-1 top-1 rounded border border-cyan-200 bg-cyan-400 px-1.5 py-0.5 font-mono text-[9px] font-black tabular-nums text-cyan-950 shadow-sm">{groupIndex + 1}-{sequenceIndex + 1}</span>
-            </button>
-            {controls}
-          </div>
-          </Fragment>
-        )
+        return null
       })}
 
       <button
         type="button"
         onClick={event => { event.stopPropagation(); insertScene(sequence.length) }}
         className="flex w-7 shrink-0 items-center justify-center rounded border border-dashed border-teal-300/70 bg-black/15 text-teal-100 hover:border-teal-100 hover:bg-teal-500/25"
-        title="맨 뒤에 서사 항목 추가"
-        aria-label="맨 뒤에 서사 항목 추가"
+        title="맨 뒤에 장면 추가"
+        aria-label="맨 뒤에 장면 추가"
       >
         <Plus size={14} />
       </button>

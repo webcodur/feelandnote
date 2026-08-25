@@ -5,7 +5,7 @@
  * 음원은 쓰지 않는다 — 인물 컷 길이는 직함 읽기 시간 + 대사 글자 수 읽기 시간으로 잡는다.
  */
 
-import { factionEntryAt, factionSequenceOf, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionSceneBeat, type FactionNarratorVoice } from './types'
+import { factionSequenceOf, type FactionScript, type FactionGroup, type FactionPerson, type FactionEra, type FactionChapter, type FactionSceneBeat, type FactionNarratorVoice } from './types'
 import {
   factionLongformPartCount,
   factionLongformSegments,
@@ -24,12 +24,21 @@ import {
   factionSceneTiming,
   type FactionSceneBeatTiming,
 } from '@feelandnote/shared/lib/faction-scene-timing'
-import { clampRate, vnPersonQuote } from './voice-names'
+import { clampRate, vnPersonQuote, vnSceneBeat } from './voice-names'
+import { factionSceneSpeakerPeople, resolveFactionSceneVoice } from '@feelandnote/shared/lib/faction-scene-speaker'
 
 export const FPS = 60
 
 /** 초 → 프레임 */
 export const f = (sec: number) => Math.round(sec * FPS)
+
+/** 장면별 값이 없으면 에피소드 「대사·장면 자막」 위치를 따르고, 둘 다 없으면 하단이다. */
+export function factionSceneCaptionPosition(
+  scenePosition?: 'bottom' | 'center',
+  episodePosition?: 'bottom' | 'center',
+): 'bottom' | 'center' {
+  return scenePosition ?? episodePosition ?? 'bottom'
+}
 
 /* ── 컷 길이 (초) ── */
 /** 오프닝 타이틀 */
@@ -65,7 +74,9 @@ export const SCENE_SEC = FACTION_SCENE_DEFAULT_SEC
  * `caption` 한 벌을 해설 덩어리 하나로 승격한다(음성 설정도 함께 옮겨 옛 음원이 그대로 재생된다).
  */
 export function sceneBeatsOf(scene: FactionPerson): FactionSceneBeat[] {
-  const beats = scene.beats?.filter(b => !!b && (!!b.text?.trim() || !!b.speaker?.trim()))
+  const beats = scene.beats?.filter(b => !!b && (
+    !!b.text?.trim() || !!b.speaker?.trim() || !!b.label?.trim() || !!b.media || !!b.minimumSec || !!b.sfx
+  ))
   if (beats?.length) return beats
   if (!scene.caption?.trim()) return []
   return [{
@@ -88,12 +99,197 @@ export function sceneBeatAudioPlaySec(beat: FactionSceneBeat): number {
   return beat.voiceDuration / clampRate(beat.voicePlaybackRate)
 }
 
+export type SceneBeatCaptionMode = 'progressive' | 'whole'
+
+/** 서사 덩어리 본문 표시 방식. 음성 화자 대사는 인물 대사처럼 한 덩어리 자막을 쓴다. */
+export function sceneBeatCaptionMode(beat: FactionSceneBeat): SceneBeatCaptionMode {
+  return beat.speaker?.trim() && sceneBeatAudioPlaySec(beat) > 0
+    ? 'whole'
+    : 'progressive'
+}
+
 /** 서사 덩어리의 배경 교체 시각. 화자 표식은 전경에 남기고 실제 대사부터 클로즈업할 수 있다. */
 export function sceneBeatMediaStartSec(
   beat: FactionSceneBeat,
   timing: FactionSceneBeatTiming,
 ): number {
   return beat.mediaAt === 'text' ? timing.textStartSec : timing.startSec
+}
+
+/** 다음 덩어리가 들어올 때 현재 본문이 퇴장할 프레임 구간. NarrativeEntryCard의 전환 계산 SSoT. */
+export function sceneBeatTextExitFrames(
+  cueStart: number,
+  next: FactionSceneBeatTiming,
+): [start: number, end: number] {
+  const nextStart = cueStart + f(next.startSec)
+  if (next.showsIdentity) {
+    return [
+      nextStart - f(FACTION_ENTER_FADE_SEC),
+      nextStart,
+    ]
+  }
+  return [
+    nextStart,
+    cueStart + f(next.textStartSec),
+  ]
+}
+
+/** 서사 항목의 마지막 본문이 컷 끝에서 퇴장하는 프레임 구간. */
+export function narrativeEntryTextExitFrames(
+  cueEnd: number,
+  nextEnterSec: number,
+): [start: number, end: number] {
+  const end = cueEnd - f(Math.max(0, nextEnterSec))
+  return [
+    end - f(FACTION_ENTER_FADE_SEC),
+    end,
+  ]
+}
+
+export type NarrativeMediaCut = {
+  at: number
+  media: string
+  crop?: FactionPerson['imageCrop']
+  filter?: FactionSceneBeat['mediaFilter']
+}
+
+export type ActiveFactionMediaLayers = {
+  showBase: boolean
+  indexes: number[]
+}
+
+/**
+ * 현재 프레임에 렌더할 배경 교체 레이어를 고른다.
+ * 전환 중에는 현재+다음 두 장만 두고, 다음 사진이 완전히 들어온 프레임부터 이전 사진을 제거한다.
+ */
+export function activeFactionMediaLayers(
+  starts: readonly number[],
+  frame: number,
+  fadeFrames: number,
+): ActiveFactionMediaLayers {
+  const scheduled = starts
+    .map((start, index) => ({ start, index }))
+    .sort((a, b) => a.start - b.start || a.index - b.index)
+  if (!scheduled.length) return { showBase: true, indexes: [] }
+
+  let currentScheduleIndex = -1
+  for (let index = 0; index < scheduled.length; index++) {
+    if (scheduled[index].start > frame) break
+    currentScheduleIndex = index
+  }
+
+  const lastAtSameStart = (scheduleIndex: number): number => {
+    let last = scheduleIndex
+    while (
+      last + 1 < scheduled.length
+      && scheduled[last + 1].start === scheduled[scheduleIndex].start
+    ) last++
+    return last
+  }
+
+  if (currentScheduleIndex < 0) {
+    const incomingIndex = lastAtSameStart(0)
+    return {
+      showBase: true,
+      indexes: frame >= scheduled[incomingIndex].start - fadeFrames
+        ? [scheduled[incomingIndex].index]
+        : [],
+    }
+  }
+
+  currentScheduleIndex = lastAtSameStart(currentScheduleIndex)
+  const indexes = [scheduled[currentScheduleIndex].index]
+  const nextScheduleIndex = currentScheduleIndex + 1
+  if (nextScheduleIndex < scheduled.length) {
+    const incomingIndex = lastAtSameStart(nextScheduleIndex)
+    if (frame >= scheduled[incomingIndex].start - fadeFrames) {
+      indexes.push(scheduled[incomingIndex].index)
+    }
+  }
+  return {
+    showBase: false,
+    indexes,
+  }
+}
+
+/** 줄 사이 이미지 앵커를 해설 beat의 실제 글자 점등 시각으로 바꾼다. */
+function narrativeMediaChangeStartSec(
+  beat: FactionSceneBeat,
+  timing: FactionSceneBeatTiming,
+  chunk: number,
+): number {
+  const lines = beat.text.replace(/\r\n?/g, '\n').split('\n')
+  let target = Math.min(Math.max(0, Math.trunc(chunk)), Math.max(0, lines.length - 1))
+  while (target < lines.length - 1 && !lines[target]?.trim()) target++
+
+  let pageIndex = -1
+  let insidePage = false
+  let charsBefore = 0
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    const line = lines[lineIndex] ?? ''
+    if (!line.trim()) {
+      insidePage = false
+      charsBefore = 0
+      continue
+    }
+    if (!insidePage) {
+      pageIndex++
+      insidePage = true
+      charsBefore = 0
+    }
+    if (lineIndex === target) {
+      const page = timing.pages[pageIndex]
+      if (!page) return timing.textStartSec
+      const revealProgress = page.charCount > 0
+        ? Math.min(1, charsBefore / page.charCount)
+        : 0
+      return timing.textStartSec + page.revealStartSec + page.revealSec * revealProgress
+    }
+    charsBefore += Array.from(line.trim()).length
+  }
+  return timing.completeSec
+}
+
+/** NarrativeEntryCard가 실제로 쌓을 장면 배경 교체 목록. 프레임 단위다. */
+export function narrativeMediaCutsOf(
+  scene: FactionPerson,
+  cueStart: number,
+  cueDuration: number,
+  beatTimings: FactionSceneBeatTiming[],
+): NarrativeMediaCut[] {
+  const end = cueStart + cueDuration
+  const beats = sceneBeatsOf(scene)
+  const cuts: NarrativeMediaCut[] = []
+  if (scene.beats?.length) {
+    beatTimings.forEach((timing, index) => {
+      const beat = beats[index]
+      const media = beat?.media
+      if (media) cuts.push({
+        at: cueStart + f(sceneBeatMediaStartSec(beat, timing)),
+        media,
+        crop: beat.mediaCrop,
+        filter: beat.mediaFilter,
+      })
+      for (const change of beat?.mediaChanges ?? []) {
+        if (!change.media) continue
+        cuts.push({
+          at: cueStart + f(narrativeMediaChangeStartSec(beat, timing, change.chunk)),
+          media: change.media,
+          crop: change.crop,
+          filter: change.filter,
+        })
+      }
+    })
+  } else {
+    const first = beatTimings[0]
+    for (const change of scene.mediaChanges ?? []) {
+      if (!change.media) continue
+      const page = first?.pages[change.paragraph]
+      const atSec = (first?.textStartSec ?? 0) + (page ? page.revealStartSec : 0)
+      cuts.push({ at: cueStart + f(atSec), media: change.media, crop: change.crop })
+    }
+  }
+  return cuts.filter(cut => cut.at >= cueStart && cut.at < end).sort((a, b) => a.at - b.at)
 }
 
 /**
@@ -106,9 +302,11 @@ export function sceneTimingInputOf(scene: FactionPerson, captionIdHoldSec?: numb
     durationSec: scene.durationSec,
     captionIdHoldSec,
     beats: sceneBeatsOf(scene).map(b => ({
-      speaker: b.speaker,
+      speaker: b.speaker ?? b.label,
+      hideIdentity: b.hideIdentity,
       text: b.text,
       voiceSec: sceneBeatAudioPlaySec(b),
+      minimumSec: b.minimumSec,
     })),
   }
 }
@@ -307,6 +505,8 @@ export const PERSON_MIN_SEC = ENTER_NAME_SEC + ENTER_FADE_SEC + CREDIT_READ_MIN_
 
 /** 대사 처리 스텝(신모델) — 직함·수식어·음성 3개 독립 토글 */
 export interface PersonSteps {
+  /** 이름·직함·수식어 신원 리드. 통합 beat에서는 첫 발화 자동 판정과 대사별 오버라이드를 푼 런타임 값이다. */
+  identity?: boolean
   /** 직함 2·3번 줄 리드 */
   credit: boolean
   /** 수식어 타이핑 리드(세로 롱폼 전용) */
@@ -396,10 +596,11 @@ export type LeadTimingOpts = {
 }
 
 export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = false, opts?: LeadTimingOpts): LeadTiming {
+  const identityOn = steps.identity !== false
   const creditRestN = Math.max(0, creditLinesOf(p).length - 1) // 직함 2·3번 줄
-  const creditOn = steps.credit && creditRestN > 0
+  const creditOn = identityOn && steps.credit && creditRestN > 0
   // 수식어 리드는 이제 명시적 스텝 설정(steps.epithet)을 따른다.
-  const epiOn = steps.epithet && !!p.epithet
+  const epiOn = identityOn && steps.epithet && !!p.epithet
 
   // 직함 리드 — 이름 등장(ENTER_NAME) 뒤 한 박자(stagger) 늦게 리스트 시작, 줄마다 가변 체류(긴 줄=길게).
   // 마지막 줄까지 다 뜬 뒤 CREDIT_HOLD_SEC 만큼 멈췄다 다음(수식어·대사)으로 넘어간다.
@@ -412,12 +613,14 @@ export function personLeadTiming(p: FactionPerson, steps: PersonSteps, shorts = 
     ? epithetStartSec + epithetSpeakSec(p, shorts) + EPITHET_HOLD_SEC
     : epithetStartSec
   // 대사 등장 — 마지막 리드(수식어→직함→없음) 종료 시점. 리드가 없으면 등장 페이드 직후.
-  let quoteEnterSec = epiOn ? epithetEndSec : (creditOn ? creditEndSec : ENTER_NAME_SEC + ENTER_FADE_SEC)
+  let quoteEnterSec = identityOn
+    ? (epiOn ? epithetEndSec : (creditOn ? creditEndSec : ENTER_NAME_SEC + ENTER_FADE_SEC))
+    : 0
   // 작은 자막 모드: 이름·직함1행이 페이드인 끝난 뒤 CAPTION_ID_HOLD_SEC 동안 완전 표시 → 그다음 대사.
   // (이름 등장 직후 페이드인·대사 직전 페이드아웃을 홀드에 넣지 않는다 — 넣으면 체감 0.3~0.4초로 줄어든다)
   // 음성 스텝이 꺼져 대사가 없으면 적용 불필요.
   const captionMode = opts?.captionMode ?? resolveQuoteDisplay(p, opts?.script) === 'caption'
-  if (captionMode && steps.voice) {
+  if (identityOn && captionMode && steps.voice) {
     const minEnter = ENTER_NAME_SEC + ENTER_FADE_SEC + captionIdHoldSecOf(opts?.script, opts?.captionIdHoldSec)
     quoteEnterSec = Math.max(quoteEnterSec, minEnter)
   }
@@ -644,8 +847,21 @@ export type Cue =
   | { kind: 'narrator' }
   | { kind: 'group'; groupIndex: number }
   | { kind: 'cluster'; groupIndex: number; clusterIndex: number }
-  | { kind: 'person'; groupIndex: number; personIndex: number; clusterIndex: number; steps: PersonSteps }
-  | { kind: 'entry'; entry: FactionPerson; groupIndex: number; clusterIndex: number; entryIndex: number }
+  | {
+      kind: 'person'
+      groupIndex: number
+      personIndex: number
+      clusterIndex: number
+      steps: PersonSteps
+      /** 통합 장면 beat가 인물로 할당됐을 때, 인물 신원 위에 해당 beat의 본문·화보·음성을 얹은 렌더용 값. */
+      personOverride?: FactionPerson
+      /** 인물 신원에 딸린 수식어 음성의 원래 좌표. 대상 장면과 다른 장면의 인물을 할당해도 음원을 잃지 않는다. */
+      sourceGroupIndex?: number
+      sourceClusterIndex?: number
+      /** 대사 음원은 구 FxxCxxPxx 또는 통합 scene-<hash>.wav 중 실제로 존재하는 쪽을 명시한다. */
+      quoteVoiceFile?: string
+    }
+  | { kind: 'scene'; scene: FactionPerson; groupIndex: number; clusterIndex: number }
   | { kind: 'era'; label: string }
   | { kind: 'chapterBlack'; chapter: FactionChapter }
   | { kind: 'chapter'; chapter: FactionChapter }
@@ -659,6 +875,101 @@ export interface TimedCue {
   duration: number
 }
 
+type PersonCue = Extract<Cue, { kind: 'person' }>
+
+/** 인물 cue가 실제로 그릴 값. 통합 beat cue는 원본 인물 대신 beat가 덮인 렌더용 인물을 쓴다. */
+export function personOfCue(script: FactionScript, cue: PersonCue): FactionPerson | undefined {
+  return cue.personOverride
+    ?? script.groups[cue.groupIndex]?.clusters?.[cue.clusterIndex]?.people[cue.personIndex]
+}
+
+export type PersonEntryMedia = {
+  image?: string
+  crop?: FactionPerson['imageCrop']
+  filter?: FactionPerson['quoteImageFilter']
+  zoomFocus?: FactionPerson['quoteZoomFocus']
+  quoteImageUsedAsBase: boolean
+}
+
+/** PersonCard가 컷 진입 크로스페이드 밑바닥에 놓을 미디어를 결정한다. */
+export function personEntryMediaOf(
+  person: FactionPerson,
+  group: Pick<FactionGroup, 'solo' | 'clusters'>,
+  clusterIndex = 0,
+): PersonEntryMedia {
+  // 컷 시작용 대사 화보는 바깥 cue 크로스페이드가 시작되는 순간부터 이미 보여야 한다.
+  // 이를 교체 레이어로만 두면 그 아래의 인물 기본 화보가 페이드 동안 잠깐 노출된다.
+  if (person.quoteImage && person.quoteImageAt === 'cue') {
+    return {
+      image: person.quoteImage,
+      crop: person.quoteImageCrop,
+      filter: person.quoteImageFilter,
+      zoomFocus: person.quoteZoomFocus,
+      quoteImageUsedAsBase: true,
+    }
+  }
+  const cluster = group.clusters?.[clusterIndex]
+  const inheritsClusterImage = !group.solo
+    && !!cluster?.image
+    && (!person.image || person.image === cluster.image)
+  return {
+    image: inheritsClusterImage ? cluster?.image : person.image,
+    crop: inheritsClusterImage ? cluster?.imageCrop : person.imageCrop,
+    quoteImageUsedAsBase: false,
+  }
+}
+
+/** 인물 cue의 실제 대사 음원. 통합 beat는 본문 해시 음원, 구 인물 대사는 위치 음원을 쓴다. */
+export function personQuoteVoiceFile(cue: PersonCue): string {
+  return cue.quoteVoiceFile
+    ?? vnPersonQuote(
+      cue.sourceGroupIndex ?? cue.groupIndex,
+      cue.personIndex,
+      cue.sourceClusterIndex ?? cue.clusterIndex,
+    )
+}
+
+type PersonRef = {
+  person: FactionPerson
+  groupIndex: number
+  clusterIndex: number
+  personIndex: number
+}
+
+/** 인물 신원 필드에 통합 beat의 대사 전용 필드만 덮어 PersonCard가 예전 연출을 그대로 쓰게 한다. */
+function personFromSceneBeat(person: FactionPerson, beat: FactionSceneBeat): FactionPerson {
+  const quoteChunks = beat.text.split(/\r?\n/)
+  return {
+    ...person,
+    quote: quoteChunks.map(chunk => chunk.trim()).filter(Boolean).join(' '),
+    quoteChunks,
+    quoteEn: undefined,
+    quoteEnChunks: undefined,
+    quoteImage: beat.media,
+    quoteImageAt: beat.media ? (beat.mediaAt === 'text' ? 'quote' : 'cue') : undefined,
+    quoteImageCrop: beat.mediaCrop,
+    quoteImageFilter: beat.mediaFilter,
+    quoteZoomFocus: beat.mediaZoomFocus,
+    imageChanges: beat.mediaChanges?.map(change => ({
+      chunk: change.chunk,
+      image: change.media,
+      ...(change.crop ? { crop: change.crop } : {}),
+      ...(change.filter ? { filter: change.filter } : {}),
+      ...(change.zoomFocus ? { zoomFocus: change.zoomFocus } : {}),
+    })),
+    quoteDuration: beat.voiceDuration ?? person.quoteDuration,
+    quoteGainDb: beat.voiceGainDb ?? person.quoteGainDb,
+    quotePlaybackRate: beat.voicePlaybackRate ?? person.quotePlaybackRate,
+    quoteSpeaker: beat.voiceSpeaker ?? person.quoteSpeaker,
+    quoteStyle: beat.voiceStyle ?? person.quoteStyle,
+    quoteElevenlabsVoiceId: beat.voiceElevenlabsVoiceId ?? person.quoteElevenlabsVoiceId,
+    quoteElevenlabsVoiceIdEn: beat.voiceElevenlabsVoiceIdEn ?? person.quoteElevenlabsVoiceIdEn,
+    quoteEleOptions: beat.voiceEleOptions ?? person.quoteEleOptions,
+    quoteEleEmotions: beat.voiceEleEmotions ?? person.quoteEleEmotions,
+    quoteEleTrail: beat.voiceEleTrail ?? person.quoteEleTrail,
+  }
+}
+
 /** 롱폼 편 개수 — longformLayout의 바깥 편 경계만 센다. */
 export function longformPartCount(script: Pick<FactionScript, 'groups' | 'longformLayout'>): number {
   return factionLongformPartCount(
@@ -670,7 +981,7 @@ export function longformPartCount(script: Pick<FactionScript, 'groups' | 'longfo
 /**
  * 롱폼 배치를 편 경계(cut)로 가른 편 구간들.
  * 편성에 빠진 활성 세력은 누락 방지로 마지막 구간 맨 뒤에 자동으로 붙는다.
- * 인물 카드가 아닌 서사 항목은 group.sequence에서 묶음과 같은 층위의 순서 항목으로 재생된다.
+ * 묶음 장면의 인물 대사는 cluster 안에서 재생되고, 독립 장면만 entry로 같은 이야기 순서에 놓인다.
  */
 export type FactionLongformStep =
   | { era: FactionEra }
@@ -730,6 +1041,23 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
   // 세력 로고와 레거시 수장 판정은 세력의 첫 등장에 한 번만 적용한다.
   const groupIntroShown = new Set<number>()
   const groupLeaderAssigned = new Set<number>()
+  // 렌더 변형 하나 안에서 인물별 첫 발화만 신원을 자동 표시한다. 쇼츠·분할 롱폼은 buildCues가
+  // 각 변형마다 새로 호출되므로 해당 영상 안의 첫 발화가 다시 첫 소개가 된다.
+  const introducedSpeakerIds = new Set<string>()
+  const sceneSpeakerPeople = factionSceneSpeakerPeople(script.groups)
+  const personRefs: PersonRef[] = script.groups.flatMap((group, groupIndex) =>
+    (group.clusters ?? []).flatMap((cluster, clusterIndex) =>
+      (cluster.people ?? []).flatMap((person, personIndex) => person.isPerson === false ? [] : [{
+        person,
+        groupIndex,
+        clusterIndex,
+        personIndex,
+      }]),
+    ),
+  )
+  const personRefOf = (beat: FactionSceneBeat): PersonRef | undefined => beat.speakerCelebId
+    ? personRefs.find(ref => ref.person.celebId === beat.speakerCelebId)
+    : personRefs.find(ref => !!beat.speaker && ref.person.name === beat.speaker)
   const groupVisible = (gi: number) => {
     const group = script.groups[gi]
     if (!group || group.disabled) return false
@@ -741,29 +1069,114 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       && group.part !== part) return false
     return true
   }
-  const pushCluster = (gi: number, ci: number) => {
-    if (!groupVisible(gi)) return
+  const clusterVisible = (gi: number, ci: number) => {
+    if (!groupVisible(gi)) return false
+    const cluster = script.groups[gi]?.clusters?.[ci]
+    return !!cluster && !cluster.disabled && !(portrait && cluster.longformOnly)
+  }
+  const ensureGroupIntro = (gi: number) => {
+    if (groupIntroShown.has(gi)) return
     const group = script.groups[gi]
-    const cluster = group.clusters?.[ci]
-    if (!cluster || cluster.disabled || (portrait && cluster.longformOnly)) return
-    if (!groupIntroShown.has(gi)) {
-      if (group.logoVid || group.logoImg) push({ kind: 'group', groupIndex: gi }, groupSecOf(script))
-      groupIntroShown.add(gi)
-    }
+    if (group.logoVid || group.logoImg) push({ kind: 'group', groupIndex: gi }, groupSecOf(script))
+    groupIntroShown.add(gi)
+  }
+  const pushCluster = (gi: number, ci: number, beatStart?: number, beatEnd?: number) => {
+    if (!clusterVisible(gi, ci)) return
+    const group = script.groups[gi]
+    const cluster = group.clusters![ci]
+    ensureGroupIntro(gi)
     const people = cluster.people ?? []
     const shotCount = people.filter(p => p.isPerson !== false && !p.disabled && !(portrait && p.longformOnly)).length
     if (!group.solo && cluster.image) {
       push({ kind: 'cluster', groupIndex: gi, clusterIndex: ci }, clusterSecOf(script, shotCount))
     }
-    people.forEach((person, pi) => {
+    if (cluster.beats?.length) {
+      const selectedBeats = cluster.beats.slice(beatStart ?? 0, beatEnd ?? cluster.beats.length)
+      let narrativeBeats: FactionSceneBeat[] = []
+      const flushNarrative = () => {
+        if (!narrativeBeats.length) return
+        const firstBeat = narrativeBeats[0]
+        const firstBeatMediaAtEntry = firstBeat?.media && firstBeat.mediaAt !== 'text'
+        const scene: FactionPerson = {
+          isPerson: false,
+          name: cluster.label?.split('\n')[0]?.trim()
+            || firstBeat?.label?.trim()
+            || firstBeat?.speaker?.trim()
+            || group.name.split('\n')[0]?.trim()
+            || '장면',
+          // 다음 scene 레이어는 본 시작보다 크로스페이드만큼 먼저 들어온다. 첫 beat 사진을
+          // 장면 기본 사진으로도 써야 그 진입 구간에 cluster 단체샷이 잠깐 되살아나지 않는다.
+          image: firstBeatMediaAtEntry ? firstBeat.media : cluster.image,
+          imageCrop: firstBeatMediaAtEntry ? firstBeat.mediaCrop ?? cluster.imageCrop : cluster.imageCrop,
+          quoteCaptionPos: factionSceneCaptionPosition(cluster.labelPosition, script.quoteCaptionPos),
+          beats: narrativeBeats,
+        }
+        push(
+          { kind: 'scene', scene, groupIndex: gi, clusterIndex: ci },
+          sceneSecOf(scene, script.captionIdHoldSec),
+        )
+        narrativeBeats = []
+      }
+
+      for (const rawBeat of selectedBeats) {
+        const beat = resolveFactionSceneVoice(rawBeat, sceneSpeakerPeople, script.narrator?.logline)
+        const ref = personRefOf(beat)
+        // 화자 이름만 남아 현재 인물과 정확히 일치하는 구 데이터도 렌더에서는 인물 대사로 복구한다.
+        // 저장 데이터의 UUID 연결은 BO에서 별도로 확정한다.
+        if (!ref) {
+          narrativeBeats.push(beat.legacyPersonVoice ? { ...beat, legacyPersonVoice: undefined } : beat)
+          continue
+        }
+        if (ref.person.disabled || (portrait && ref.person.longformOnly)) continue
+
+        flushNarrative()
+        const renderedPerson = personFromSceneBeat(ref.person, beat)
+        const isLeader = !groupLeaderAssigned.has(gi)
+        groupLeaderAssigned.add(gi)
+        const identityKey = ref.person.celebId ?? `${ref.groupIndex}:${ref.clusterIndex}:${ref.personIndex}`
+        const firstSpeech = !introducedSpeakerIds.has(identityKey)
+        const showIdentity = beat.hideIdentity === true
+          ? false
+          : beat.hideIdentity === false
+            ? true
+            : firstSpeech
+        introducedSpeakerIds.add(identityKey)
+        const steps = {
+          ...personSteps(renderedPerson, portrait, isLeader),
+          identity: showIdentity,
+        }
+        const quoteVoiceFile = beat.legacyPersonVoice
+          ? vnPersonQuote(ref.groupIndex, ref.personIndex, ref.clusterIndex)
+          : beat.voiceFile ?? vnSceneBeat(beat.speaker, beat.text)
+        push(
+          {
+            kind: 'person',
+            groupIndex: gi,
+            clusterIndex: ci,
+            personIndex: ref.personIndex,
+            sourceGroupIndex: ref.groupIndex,
+            sourceClusterIndex: ref.clusterIndex,
+            personOverride: renderedPerson,
+            quoteVoiceFile,
+            steps,
+          },
+          personDurationSec(renderedPerson, steps, portrait, { script }),
+        )
+      }
+      flushNarrative()
+      return
+    }
+    people.forEach((person, personIndex) => {
       if (person.isPerson === false || person.disabled || (portrait && person.longformOnly)) return
       const isLeader = !groupLeaderAssigned.has(gi)
       groupLeaderAssigned.add(gi)
-      const personStep = personSteps(person, portrait, isLeader)
-      push({ kind: 'person', groupIndex: gi, personIndex: pi, clusterIndex: ci, steps: personStep }, personDurationSec(person, personStep, portrait, { script }))
+      const steps = personSteps(person, portrait, isLeader)
+      push(
+        { kind: 'person', groupIndex: gi, personIndex, clusterIndex: ci, steps },
+        personDurationSec(person, steps, portrait, { script }),
+      )
     })
   }
-
   steps.forEach((step) => {
     // 시대 문구 카드 — 세력 블록 사이에 끼우는 장(章) 표지.
     if ('era' in step) { push({ kind: 'era', label: step.era.label }, ERA_SEC); return }
@@ -773,7 +1186,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       const prevCue = cues[cues.length - 1]
       if (prevCue?.cue.kind === 'person') {
         const pc = prevCue.cue
-        const person = script.groups[pc.groupIndex]?.clusters?.[pc.clusterIndex]?.people[pc.personIndex]
+        const person = personOfCue(script, pc)
         if (person) {
           const held = f(personQuoteEndSec(person, pc.steps, portrait, { script })) + f(CHAPTER_HOLD_SEC)
           if (held > prevCue.duration) { cursor += held - prevCue.duration; prevCue.duration = held }
@@ -796,13 +1209,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
       ? factionShortsSliceItems(group as unknown as Record<string, unknown>, step)
       : factionLongformSliceItems(group as unknown as Record<string, unknown>, step)
     for (const item of items) {
-      if (item.kind === 'entry') {
-        const entry = factionEntryAt(group, item)
-        if (!entry.disabled && !(portrait && entry.longformOnly)) {
-          push({ kind: 'entry', entry, groupIndex: gi, clusterIndex: item.clusterIndex, entryIndex: item.entryIndex }, sceneSecOf(entry, script.captionIdHoldSec))
-        }
-      }
-      else if (item.kind === 'cluster') pushCluster(gi, item.clusterIndex)
+      if (item.kind === 'cluster') pushCluster(gi, item.clusterIndex, item.beatStart, item.beatEnd)
     }
   })
   // 엔딩 카드는 두지 않는다. 마지막 인물 컷은 대사 끝부터 종료 꼬리(endHold)만큼 화면을 정지한 채 유지하고,
@@ -812,8 +1219,7 @@ export function buildCues(script: FactionScript, portrait = false, part?: number
     const holdF = f(endHoldSecOf(script))
     if (lastCue.cue.kind === 'person') {
       const c = lastCue.cue
-      const g = script.groups[c.groupIndex]
-      const person = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
+      const person = personOfCue(script, c)
       // 대사 끝 시점 + 종료 꼬리. (person 못 찾는 예외 시엔 기존 길이에 꼬리만 덧댄다)
       lastCue.duration = person ? f(personQuoteEndSec(person, c.steps, portrait, { script })) + holdF : lastCue.duration + holdF
     } else {
@@ -888,8 +1294,7 @@ export function analyzeTiming(script: FactionScript, portrait = false, part?: nu
     // 음성 스텝이 켜진 컷만 정합성 검사 대상.
     if (tc.cue.kind !== 'person' || !tc.cue.steps.voice) continue
     const c = tc.cue
-    const g = script.groups[c.groupIndex]
-    const person: FactionPerson | undefined = g.clusters?.[c.clusterIndex]?.people[c.personIndex]
+    const person = personOfCue(script, c)
     if (!person) continue
     const cutSec = tc.duration / FPS
     const audioPlaySec = personAudioPlaySec(person)
@@ -897,7 +1302,7 @@ export function analyzeTiming(script: FactionScript, portrait = false, part?: nu
     const audioEndSec = audioStartSec + audioPlaySec
     voiceChecks.push({
       name: person.name ?? '?',
-      file: vnPersonQuote(c.groupIndex, c.personIndex, c.clusterIndex),
+      file: personQuoteVoiceFile(c),
       cutSec,
       quoteDuration: person.quoteDuration ?? null,
       rate: clampRate(person.quotePlaybackRate),

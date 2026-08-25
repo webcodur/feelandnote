@@ -1,4 +1,9 @@
-import { factionSequenceOf, type FactionScript } from '@/lib/faction-types'
+import {
+  factionSequenceOf,
+  type FactionPerson,
+  type FactionSceneBeat,
+  type FactionScript,
+} from '@/lib/faction-types'
 import { makePathRemapper } from '@feelandnote/shared/bo/editor'
 
 /**
@@ -17,9 +22,16 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
     used.add(img)
   }
 
-  const addPerson = (p: { image?: string; imageChanges?: { image: string }[] }) => {
+  const addBeat = (beat: Pick<FactionSceneBeat, 'media' | 'mediaChanges'>) => {
+    add(beat.media)
+    for (const change of beat.mediaChanges ?? []) add(change.media)
+  }
+
+  const addPerson = (p: FactionPerson) => {
     add(p.image)
     for (const ic of p.imageChanges ?? []) add(ic.image)
+    for (const change of p.mediaChanges ?? []) add(change.media)
+    for (const beat of p.beats ?? []) addBeat(beat)
   }
 
   // 시작 화면 이미지 — heroes 항목 중 'logo:<경로>' 만 경로부를 더한다(인물 slug 는 제외).
@@ -46,13 +58,12 @@ export function collectUsedImages(script: FactionScript | null): Set<string> {
   for (const group of script.groups ?? []) {
     add(group.logoVid)
     add(group.logoImg)
+    add(group.image)
+    for (const person of group.people ?? []) addPerson(person)
     for (const cluster of group.clusters ?? []) {
       add(cluster.image)
-      for (const person of cluster.people ?? []) {
-        addPerson(person)
-        for (const change of person.mediaChanges ?? []) add(change.media)
-        for (const beat of person.beats ?? []) add(beat.media)
-      }
+      for (const beat of cluster.beats ?? []) addBeat(beat)
+      for (const person of cluster.people ?? []) addPerson(person)
     }
   }
 
@@ -75,7 +86,15 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
     if (next !== img) changed++
     return next
   }
-  const mapPerson = <T extends { image?: string; imageChanges?: { chunk: number; image: string }[]; mediaChanges?: { paragraph: number; media: string; crop?: unknown }[]; beats?: { media?: string }[] }>(p: T): T => ({
+  const mapBeat = (beat: FactionSceneBeat): FactionSceneBeat => ({
+    ...beat,
+    media: m(beat.media),
+    mediaChanges: beat.mediaChanges?.map(change => ({
+      ...change,
+      media: m(change.media) ?? change.media,
+    })),
+  })
+  const mapPerson = (p: FactionPerson): FactionPerson => ({
     ...p,
     image: m(p.image),
     imageChanges: p.imageChanges?.map(ic => {
@@ -83,7 +102,7 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
       return next === ic.image ? ic : { ...ic, image: next ?? ic.image }
     }),
     mediaChanges: p.mediaChanges?.map(change => ({ ...change, media: m(change.media) ?? change.media })),
-    beats: p.beats?.map(beat => ({ ...beat, media: m(beat.media) })),
+    beats: p.beats?.map(mapBeat),
   })
   const mapHero = (h: string): string => {
     if (!h.startsWith('logo:')) return h // 일반 인물 slug — 경로 아님
@@ -95,10 +114,13 @@ export function remapFactionImages(script: FactionScript, from: string, to: stri
     ...g,
     logoVid: m(g.logoVid),
     logoImg: m(g.logoImg),
+    image: m(g.image),
+    people: (g.people ?? []).map(mapPerson),
     sequence: factionSequenceOf(g),
     clusters: (g.clusters ?? []).map(c => ({
       ...c,
       image: m(c.image),
+      beats: c.beats?.map(mapBeat),
       people: (c.people ?? []).map(mapPerson),
     })),
   }))

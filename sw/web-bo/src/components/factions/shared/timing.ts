@@ -1,6 +1,6 @@
 // 세력도감 미리보기용 길이·컷 계산. 실제 렌더 타이밍과 별개의 추정치.
 
-import { factionEntryAt, factionSequenceOf, factionSceneBeats, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter } from '@/lib/faction-types'
+import { factionSequenceOf, factionSceneBeats, type FactionScript, type FactionPerson, type FactionEra, type FactionChapter, type FactionSceneBeat } from '@/lib/faction-types'
 import {
   FACTION_SCENE_DEFAULT_SEC,
   factionSceneTiming,
@@ -120,11 +120,11 @@ const TYPE_FRAMES_PER_CHAR = 3
 const PERSON_HOLD_SEC = 1.2
 const PERSON_MIN_SEC = 2.0
 
-/** 인물 한 명 컷 길이(초) */
-function personDurationSec(p: FactionPerson): number {
-  const desc = (p.lines?.join('') ?? '') + (p.epithet ?? '')
+/** 인물 한 명 컷 길이(초). 반복 발화에서 신원을 생략하면 이름·직함·수식어 읽기 시간도 뺀다. */
+function personDurationSec(p: FactionPerson, showIdentity = true): number {
+  const desc = showIdentity ? (p.lines?.join('') ?? '') + (p.epithet ?? '') : ''
   const quote = p.quote ?? ''
-  const chars = (p.name?.length ?? 0) + desc.length + quote.length
+  const chars = (showIdentity ? p.name?.length ?? 0 : 0) + desc.length + quote.length
   const typeSec = (chars * TYPE_FRAMES_PER_CHAR) / FPS
   return Math.max(PERSON_MIN_SEC, typeSec + PERSON_HOLD_SEC)
 }
@@ -133,7 +133,7 @@ function personDurationSec(p: FactionPerson): number {
 function sequenceClusters(g: FactionScript['groups'][number]) {
   const clusters = g.clusters ?? []
   return factionSequenceOf(g).flatMap(item => {
-    if (item.kind !== 'cluster') return []
+    if (item.kind === 'cut') return []
     const cluster = clusters[item.clusterIndex]
     return cluster && !cluster.disabled ? [cluster] : []
   })
@@ -145,12 +145,91 @@ function groupPeople(g: FactionScript['groups'][number]): FactionPerson[] {
   return list.filter(p => p.isPerson !== false && !p.disabled)
 }
 
-/** 세력의 수평 이야기 순서에 놓인 서사 항목 길이 합계. */
-function groupScenesSec(g: FactionScript['groups'][number], script: FactionScript): number {
-  return factionSequenceOf(g).reduce(
-    (sum, item) => item.kind === 'entry' ? sum + sceneSecOf(factionEntryAt(g, item), script.captionIdHoldSec) : sum,
-    0,
-  )
+type ScenePersonRef = { person: FactionPerson }
+
+function scenePersonRefs(script: FactionScript): ScenePersonRef[] {
+  return script.groups.flatMap(group => (group.clusters ?? []).flatMap(cluster =>
+    (cluster.people ?? []).flatMap(person => person.isPerson === false ? [] : [{ person }]),
+  ))
+}
+
+function scenePersonRefOf(beat: FactionSceneBeat, refs: ScenePersonRef[]): ScenePersonRef | undefined {
+  return beat.speakerCelebId
+    ? refs.find(ref => ref.person.celebId === beat.speakerCelebId)
+    : refs.find(ref => !!beat.speaker && ref.person.name === beat.speaker)
+}
+
+function personFromBeat(person: FactionPerson, beat: FactionSceneBeat): FactionPerson {
+  const quoteChunks = beat.text.split(/\r?\n/)
+  return {
+    ...person,
+    quote: quoteChunks.map(chunk => chunk.trim()).filter(Boolean).join(' '),
+    quoteChunks,
+    quoteDuration: beat.voiceDuration ?? person.quoteDuration,
+    quotePlaybackRate: beat.voicePlaybackRate ?? person.quotePlaybackRate,
+  }
+}
+
+type BeatCueStats = { durationSec: number; count: number }
+
+/**
+ * 장면은 대사 목록 하나만 소유한다. 인물 할당 대사는 인물 카드가 되고,
+ * 할당되지 않은 연속 대사는 한 장면으로 남는다. Remotion buildCues와 같은 경계다.
+ */
+function groupBeatCueStats(
+  g: FactionScript['groups'][number],
+  script: FactionScript,
+  introducedSpeakerIds = new Set<string>(),
+): BeatCueStats {
+  const refs = scenePersonRefs(script)
+  return sequenceClusters(g).reduce<BeatCueStats>((total, cluster) => {
+    if (!cluster.beats?.length) return total
+
+    let narrativeBeats: FactionSceneBeat[] = []
+    const flushNarrative = () => {
+      if (!narrativeBeats.length) return
+      total.durationSec += sceneSecOf({
+        isPerson: false,
+        name: cluster.label?.split('\n')[0]?.trim()
+          || narrativeBeats[0]?.label?.trim()
+          || narrativeBeats[0]?.speaker?.trim()
+          || '장면',
+        image: cluster.image,
+        imageCrop: cluster.imageCrop,
+        beats: narrativeBeats,
+      }, script.captionIdHoldSec)
+      total.count += 1
+      narrativeBeats = []
+    }
+
+    for (const beat of cluster.beats) {
+      const ref = scenePersonRefOf(beat, refs)
+      if (!ref) {
+        narrativeBeats.push(beat)
+        continue
+      }
+      if (ref.person.disabled) continue
+      flushNarrative()
+      const identityKey = ref.person.celebId ?? ref.person.name
+      const firstSpeech = !introducedSpeakerIds.has(identityKey)
+      const showIdentity = beat.hideIdentity === true
+        ? false
+        : beat.hideIdentity === false
+          ? true
+          : firstSpeech
+      introducedSpeakerIds.add(identityKey)
+      total.durationSec += personDurationSec(personFromBeat(ref.person, beat), showIdentity)
+      total.count += 1
+    }
+    flushNarrative()
+    return total
+  }, { durationSec: 0, count: 0 })
+}
+
+/** beats가 없는 구 데이터에서만 인물 카드가 직접 재생된다. */
+function groupLegacyPeople(g: FactionScript['groups'][number]): FactionPerson[] {
+  return sequenceClusters(g).flatMap(cluster => cluster.beats?.length ? [] : cluster.people ?? [])
+    .filter(person => person.isPerson !== false && !person.disabled)
 }
 
 /** 한 세력의 인물 수 */
@@ -165,16 +244,10 @@ export function totalPeople(script: FactionScript): number {
     .reduce((sum, g) => sum + groupPeopleCount(g), 0)
 }
 
-/**
- * 한 세력의 화보(그룹샷) 카드 수 — 렌더(buildCues)와 동일 규칙.
- * solo는 0(화보 컷 생략). 그 외는 그룹마다 1장 — 단 "노출 인원 1명 && 그룹 화보 없음"인 그룹은 생략.
- */
+/** 한 세력의 화보(그룹샷) 카드 수 — 렌더(buildCues)와 같이 실제 화보가 있는 묶음만 센다. */
 function groupClusterCards(g: FactionScript['groups'][number]): number {
   if (g.solo) return 0
-  return sequenceClusters(g).filter(c => {
-    const shown = (c.people ?? []).filter(p => p.isPerson !== false && !p.disabled)
-    return !(shown.length === 1 && !c.image)
-  }).length
+  return sequenceClusters(g).filter(c => !!c.image).length
 }
 
 /** 영상 총 길이(초) 추정 */
@@ -189,14 +262,15 @@ export function clusterSecOf(script: FactionScript): number {
 
 export function totalSec(script: FactionScript): number {
   const groups = (script.groups ?? []).filter(g => !g.disabled)
+  const introducedSpeakerIds = new Set<string>()
   const groupsSec = groups.reduce((sum, g) => {
     // 타이틀 카드(로고)는 로고(logoVid 또는 logoImg)가 있는 세력만. groupSec 오버라이드 지원
     const head = (g.logoVid || g.logoImg) ? groupSecOf(script) : 0
     // 화보(그룹샷) 카드 — solo 생략, 1명+화보 없음 그룹 생략. clusterSec 오버라이드 지원
     const clusterCardsSec = groupClusterCards(g) * clusterSecOf(script)
     // 인물 컷은 텍스트 양에 따라 길이가 다르다 — 사람마다 합산
-    const peopleSec = groupPeople(g).reduce((s, p) => s + personDurationSec(p), 0)
-    return sum + head + clusterCardsSec + peopleSec + groupScenesSec(g, script)
+    const peopleSec = groupLegacyPeople(g).reduce((s, p) => s + personDurationSec(p), 0)
+    return sum + head + clusterCardsSec + peopleSec + groupBeatCueStats(g, script, introducedSpeakerIds).durationSec
   }, 0)
   // 엔딩 카드 없음. 마지막 인물 컷은 대사 끝부터 대사 후 대기(endHold)만큼 유지된다.
   // 추정: 인물 합산에는 PERSON_HOLD가 이미 포함되므로, 마지막 인물 hold를 대사 후 대기로 치환한다(렌더와 근사).
@@ -211,11 +285,9 @@ export function cueCount(script: FactionScript): number {
   const groups = (script.groups ?? []).filter(g => !g.disabled)
   const groupCards = groups.filter(g => g.logoVid || g.logoImg).length
   const clusterCards = groups.reduce((s, g) => s + groupClusterCards(g), 0)
-  const sceneCards = groups.reduce(
-    (sum, g) => sum + factionSequenceOf(g).filter(item => item.kind === 'entry').length,
-    0,
-  )
-  return 1 + groupCards + clusterCards + totalPeople(script) + sceneCards
+  const beatCards = groups.reduce((sum, group) => sum + groupBeatCueStats(group, script).count, 0)
+  const legacyPeopleCards = groups.reduce((sum, group) => sum + groupLegacyPeople(group).length, 0)
+  return 1 + groupCards + clusterCards + legacyPeopleCards + beatCards
 }
 
 export type FactionLongformStep = SharedLongformStep<FactionEra, FactionChapter>

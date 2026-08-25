@@ -7,9 +7,10 @@ import { imgSrc, nameHead, nameTail, holdAndShakeParts, enterMotionScale, enterM
 import { FilledImage } from './FilledImage'
 import { HoldGlitch } from '../transitions'
 import { CaptionBackdrop } from './CaptionBackdrop'
+import { resolveFactionCaptionAppearance } from './CaptionSwapSlot'
 
 /**
- * 세력 전환(로고)·그룹샷 카드 공통 하단 캡션.
+ * 세력 전환(로고)·그룹샷 카드 공통 캡션. 장면은 에피소드 자막 위치를 상속하고 필요할 때만 덮어쓴다.
  * 통합 명칭 한 필드(caption)를 받아 앞부분(첫 줄, 흰색)과 뒷부분(나머지, 세력색)으로 쪼개 쌓는다.
  * 앞부분을 항상 같은 위치(하단 360 위)에 고정하고, 뒷부분은 그 위에 둔다.
  * 뒷부분의 유무·길이와 무관하게 앞부분 위치가 동일하게 유지된다.
@@ -36,9 +37,15 @@ import { CaptionBackdrop } from './CaptionBackdrop'
  *     </AbsoluteFill>
  *   )
  */
-const CardCaption: React.FC<{ accent: string; caption: string; orientation: Orientation; sub?: string }> = ({ accent, caption, orientation, sub }) => {
+const CardCaption: React.FC<{
+  accent: string
+  caption: string
+  orientation: Orientation
+  position?: 'bottom' | 'center'
+  sub?: string
+}> = ({ accent, caption, orientation, position = 'center', sub }) => {
   const isLand = orientation === 'landscape'
-  // [개편] 중앙 배치(대사 중앙 자막 슬롯과 동일: 정중앙 + 56px 아래) + 중앙자막 크기로 축소.
+  // 대사 자막과 같은 중단·하단 슬롯을 사용하고, 글자 크기는 장면명 규격을 유지한다.
   // [기존-하단배치 롤백용] pad = isLand ? '0 80px 120px' : '0 60px 56px' / size = isLand ? 55 : 62 / subSize = isLand ? 34 : 40 / justifyContent: 'flex-end'
   const pad = isLand ? '0 80px' : '0 60px'
   const size = isLand ? 56 : 62
@@ -46,8 +53,12 @@ const CardCaption: React.FC<{ accent: string; caption: string; orientation: Orie
   const subSize = isLand ? 38 : 42
   const head = nameHead(caption)
   const tail = nameTail(caption)
+  const captionSlot = resolveFactionCaptionAppearance(orientation, { position }).slotStyle
   return (
-    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center', padding: pad, transform: 'translateY(56px)' }}>
+    <AbsoluteFill
+      data-faction-card-caption-position={position}
+      style={{ ...captionSlot, flexDirection: 'row', padding: pad }}
+    >
       {/* 앞부분(위, 흰색) / 뒷부분(아래, 세력색) — 개행 기준으로 갈린다 */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', gap: 14 }}>
         {/* 시작문구와 동일한 글로우를 텍스트 단위로 — 각 글줄 뒤만 어둡게 */}
@@ -135,13 +146,13 @@ export const GroupCard: React.FC<{ episodeName: string; group: FactionGroup; fra
       {/* 그룹샷·인물 컷과 동일한 상·하단 그라데이션 — 텍스트가 로고 위에 확실히 보이게 */}
       <AbsoluteFill style={{ background: `linear-gradient(to bottom, ${BG}aa 0%, transparent 22%)` }} />
       <AbsoluteFill style={{ background: `linear-gradient(to top, ${BG}e6 0%, ${BG}b3 22%, ${BG}66 40%, transparent 58%)` }} />
-      {/* 텍스트 — 그룹샷과 동일한 공통 캡션(하단 중앙). 세력 명칭 한 필드 + (생략된 화보의) 소제목 흡수 */}
+      {/* 텍스트 — 그룹샷과 동일한 공통 캡션. 세력 명칭 한 필드 + (생략된 화보의) 소제목 흡수 */}
       <CardCaption accent={accent} caption={group.name} orientation={orientation} sub={soloSub} />
     </AbsoluteFill>
   )
 }
 
-export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; cluster: FactionCluster; frame: number; cueStart: number; cueDuration?: number; orientation: Orientation; noZoom?: boolean; hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number }> = ({ episodeName, group, cluster, frame, cueStart, cueDuration, orientation, noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1 }) => {
+export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; cluster: FactionCluster; frame: number; cueStart: number; cueDuration?: number; orientation: Orientation; captionPosition?: 'bottom' | 'center'; noZoom?: boolean; hold?: HoldMotion; enter?: EnterMotion; glitch?: false | GlitchLevel; shake?: boolean; zoomSpeed?: number }> = ({ episodeName, group, cluster, frame, cueStart, cueDuration, orientation, captionPosition = 'bottom', noZoom = false, hold = 'none', enter = 'none', glitch = false, shake = false, zoomSpeed = 1 }) => {
   const accent = group.color ?? DEFAULT_ACCENT
   const [imgErr, setImgErr] = React.useState(false)
   // 그룹샷 시작 0.5초 뒤부터 절반 시간에 걸쳐 자막을 페이드아웃
@@ -173,7 +184,12 @@ export const ClusterCard: React.FC<{ episodeName: string; group: FactionGroup; c
       {/* 묶음 캡션 — 단체 명칭 한 필드(앞부분\n뒷부분). 명칭이 있을 때만 (로고 세력도감 표시) */}
       {cluster.label?.trim() && (
         <div style={{ opacity: captionOp }}>
-          <CardCaption accent={accent} caption={cluster.label} orientation={orientation} />
+          <CardCaption
+            accent={accent}
+            caption={cluster.label}
+            orientation={orientation}
+            position={captionPosition}
+          />
         </div>
       )}
     </AbsoluteFill>

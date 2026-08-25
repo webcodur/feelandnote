@@ -5,20 +5,21 @@
 > **26.07.27 — 영상에서 도감으로 넘기는 작업을 대대적으로 진행했다.** 도감 테마 40→76개, 대분류 10개로 재편, 인물 소개문 300여 건 신규. 편 상태는 두 값(`ready`/`blocked`)으로 축소했다. 현행 도감 운영·편집 규격은 `docs/project/apps/web-bo.md` 「세력도감」 절이 쥔다.
 > **이 문서가 앞선 다리 방식 설계를 대체한다.** 다리(양방향 동기화)는 폐기 개념이고, 목표는 집 하나다. faction-sync 코드는 이관·이미지 배관 도구로 개조되어 살아남는다.
 > **26.08.03 — 단일화(§4-3).** 텍스트 투영(출간의 복사)마저 폐기됐다. 인물 텍스트의 유일 원천은 `faction_people`이고 웹·BO는 DB 뷰 `faction_atlas_members`를 직독한다. 제작 인물의 도감 한줄은 직함 첫 항목으로 고정하며 별도 웹 한줄 손질은 폐기했다.
-> **공통 타임라인 항목.** `faction_people`는 개인샷과 서사 항목이 공유한다. `is_person=true` 개인샷은 DB CELEB UUID가 필수이고 자연인·개별 허구 인물 주체 검사를 받는다. `is_person=false` 서사 항목은 CELEB 연결 없이 사건·장소·괴물·재난을 표현하며 도감 인물에서 제외된다.
+> **장면 안의 컷.** `faction_groups.data.sequence` 최상위에는 장면 `cluster`와 장면 사이 쇼츠 경계 `cut`만 놓는다. 한 장면의 화면·해설·인물 대사는 `faction_clusters.data.beats[]` 배열 하나를 실제 컷 순서대로 함께 쓰며 `speakerCelebId` 할당 여부로만 갈린다. 말 없는 화면 컷은 빈 `text`와 `minimumSec`로 유지한다. 구 `is_person=true`의 `quote`와 `is_person=false` 독립 장면은 로드할 때 같은 장면의 beats로 실제 순서대로 승격한다. 장면 내부의 쇼츠 경계는 다음 beat의 `shortsCutBefore` flag다. 할당된 대사는 인물의 현재 이름·기본 음성을 상속하고 대사 항목의 음성값은 오버라이드다. 기존 인물 대사의 줄 분할 편집과 위치 음원 재생·생성·싱크·후처리 도구는 별도 인물 카드가 아니라 해당 beat 안에서 연다. 실제 구 위치 음원이 확인되면 beat의 `voiceFile`로 고정하며, 다른 출연 인물·장면 데이터를 지워도 이 연결은 유지한다. 실제 발화문·화자를 고친 beat만 옛 음원 연결에서 분리하고, 화면 조판용 줄바꿈·빈 줄·화면 전환을 바꿔도 같은 음원명을 쓴다. 음성 작업은 같은 `voiceFile`을 한 번만 만든다. `primaryQuote`로 고른 beat 하나가 인물 기본 대사와 웹팩션 대표 대사로 투영된다. 이름 표시는 대표 대사 선택과 별개다. 할당 대사의 `hideIdentity`는 값 없음=각 렌더 영상에서 그 인물의 첫 대사만 자동 표시, `false`=강제 표시, `true`=숨김이다. 미할당 beat의 자유 화자명은 직접 고치며 `hideIdentity=true`로 이름·장면명 표시를 끈다. 장면 대표화면과 미할당 해설의 위치는 cluster `labelPosition`이 있으면 우선하고, 없으면 에피소드 `quoteCaptionPos`, 둘 다 없으면 `bottom`을 쓴다.
+> **공용 나레이터.** `speakerCelebId`와 자유 화자명이 모두 없는 본문 beat는 출연진 행을 만들지 않는 에피소드 가상 화자다. 다른 인물 대사와 같은 음성·길이·자막 경로를 쓰되 `narrator.logline`의 공용 목소리를 상속하고, beat 음성값이 있으면 그것만 우선한다. 저장된 speaker와 기존 scene 음원명은 바꾸지 않는다.
 
 ## 확정 방향 (유저 지시 — 재론 금지)
 
 - **텍스트·구성 데이터의 단일 원천 = Supabase DB.** 로컬 `faction-data.json`은 렌더용 빌드 산출물로 강등(수정 금지).
 - **편집 화면 = web-bo 하나.** 팩션에 관해 remotion-bo는 **렌더·유튜브 버튼까지 포함해 전체 폐기**(26.07.25 결정 — "출고만 remotion-bo 잔류" 절충안은 기각, 플랫폼 소거가 목적). 담화·북리커맨드는 후속 단계에서 같은 길을 밟아 remotion-bo를 최종 소멸시킨다.
 - **후속 완료(26.07.29):** 담화와 북리커맨드도 같은 길을 밟아 remotion-bo 앱 전체가 폐기됐다.
-- **개인샷과 서사 항목을 플래그로 구분한다.** 회사·기관·제품·기계·집단을 `is_person=true`로 만들지 않는다. 독립 도감 인물이 아닌 이야기 컷은 `is_person=false`로 두고 CELEB 계정을 만들지 않는다.
+- **`is_person`은 실제 출연 인물 여부만 표시한다.** 회사·기관·제품·기계·집단을 `is_person=true`로 만들지 않는다. 이야기 본문은 인물 행이 아니라 장면의 beats가 소유한다.
 - Remotion(렌더 엔진)은 플랫폼이 아니라 빌드 도구. 대용량 미디어(wav 443개 297MB·이미지 2,245장)는 로컬 유지.
 - 미등록 9개 에피소드도 `registered=false`로 이관. 사문 필드는 보존. 구버전 중복 에피소드(Path-of-Kings·Iliad-Odyssey 등)도 이관하되 미등록 유지.
 
 ## 0. 실측이 뒤집은 전제 3개
 
-1. **공통 개인 항목은 배치(placement) 단위다** — `faction_people`은 `(cluster_id, position)` 배치 행이다. 개인샷은 `is_person=true`와 필수 `celeb_id`, 서사 항목은 `is_person=false`와 null `celeb_id`를 쓴다. 같은 CELEB의 여러 개인샷은 배치마다 대사가 달라도 된다.
+1. **인물은 배치, 본문은 장면 단위다** — `faction_people`은 `(cluster_id, position)`의 실제 출연 인물 배치이고 `faction_clusters.data.beats`가 장면 본문과 화자 할당을 소유한다. 구 `is_person=false` 서사 행은 읽기 호환 입력일 뿐 저장 시 beats로 승격한다.
 2. **초기 파일에는 `celebId`가 0건이었다** — 연결 키는 `slug`(534/537)뿐이었다. 이관 당시 미해소를 허용했지만 26.08.03 정비 뒤 폐기했다. 현재 저장·가져오기는 UUID/slug와 **개별 인물 여부**를 전수 선검증하고 한 명이라도 실패하면 쓰기 전에 중단한다. CELEB UUID가 있다는 사실만으로 사람이라는 뜻은 아니다.
 3. **타입 선언이 데이터를 못 따라간다** — 선언에 없는 실데이터 필드 12종+(`outroTitle` 23/23, `group.musicLongform`은 선언 없이 `FactionBgm.tsx:17`이 사용). 렌더/BO 타입 두 벌도 서로 어긋남(79 vs 71+9 필드). → **롱테일은 jsonb 통째 보존**(블랙리스트 방식)이 왕복 동일성을 구조적으로 보장한다.
 
@@ -32,7 +33,7 @@
 **읽기 = 21곳**. 핵심:
 - **R1 렌더 로더** `Faction/script.ts:20` — **webpack `require.context` 빌드타임 정적 스캔 + 동기**, `_episodes.json` static import(:17). R2 `Root.tsx` — `calcFactionFrames` 동기 호출로 duration 확정, 컴포지션 ID 집합이 쇼츠 `part`와 롱폼의 바깥 `longformLayout` cut·세력 `sequence` 내부 cut에 의존. → **DB 직접 fetch 불가의 구조적 근거.**
 - R5 SRT(`faction-srt.ts:87`, `scaleVoiceTimings` 복제본 보유) · R6 음성 잡(`buildVoiceJobs` — `buildCues` 재사용) · R8 WhisperX(`3-transcribe.py:631`, `F{g:02d}C{c:02d}P{p:02d}-quote` 키 재현) · R9 유튜브(`youtube-faction.ts:43`) · R12 렌더 트리거 · R15 faction-sync · R16 카드뉴스(`person-cards/*.json` 이름 키 병합).
-- **인물 위치(FxxCxxPxx)가 음성 자산의 물리적 신원** — `faction-voice/[episode]/reorder` 라우트가 wav + `data.timing.pN.*.json` 키 + `voice/2-word-timings.json` targets 3곳을 함께 옮긴다. DB 편집기의 순서 변경도 이 3중 동기를 재현해야 한다(web-bo 로컬 실행이 요구사항인 이유).
+- **인물 위치(FxxCxxPxx)가 음성 자산의 물리적 파일명** — `faction-voice/[episode]/reorder` 라우트가 wav + `data.timing.pN.*.json` 키 + `voice/2-word-timings.json` targets 3곳을 함께 옮긴다. DB 편집기의 순서 변경도 이 3중 동기를 재현하고, 통합 beat의 명시적 `voiceFile`도 같은 rename 표로 갱신한다(web-bo 로컬 실행이 요구사항인 이유).
 - 발화시각(`data.timing.*`)·단어타이밍은 별도 파일 — **DB 이관 범위 밖(로컬 유지)**.
 
 ## 2. 필드 규모
@@ -51,8 +52,8 @@ FactionPerson 79종(채움율 ≥90% 11종 / <5% 34종, `minedQuotes` 68인물=3
   - 렌더·음성·출간에 딸려 가지 않는 근거는 예전과 같이 **`registered=false`** 다(렌더 대상은 `_episodes.json`, 그 파일은 `registered=true`만 담는다). 26.07.29 현재 등록 13편·미등록 80편이다.
   - **folder 는 한 단계짜리 고유 슬러그다.** 모든 편은 `sw/remotion/public/factions/<folder>`에 나란히 있고 주소도 같은 값을 그대로 인코딩한다. 폴더 위치에 활성·비활성 의미를 싣지 않는다.
   - **활성 여부의 단일 원천은 `registered`다(26.07.29).** `registered=true`만 `_episodes.json`에 실리고 렌더·음성·출간 대상이 된다. `status=ready|blocked`는 도감 테마로 옮길 수 있는지의 판단일 뿐 활성 여부가 아니다.
-- `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data(`sequence`: 그룹 참조·서사 항목 위치 참조·쇼츠 편 경계를 나열한다. 본문은 중복 저장하지 않는다). unique(episode_id, position)
-- `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data. 그룹·인물 실체는 관계형 행으로 유지하고 `faction_groups.data.sequence`의 `clusterIndex`가 position-1을 가리킨다. unique(group_id, position)
+- `faction_groups` — episode_id·position(1-based = 음성 파일명 F{pos:02d})·name(+en)·color·**tag_id(celeb_tags N:1)**·part·disabled·longform_only·data(`sequence`: 장면 `cluster`와 장면 사이 쇼츠 편 경계 `cut`). unique(episode_id, position)
+- `faction_clusters` — group_id·position(C{pos:02d})·label(+en)·image·disabled·longform_only·data(`beats`: 장면의 모든 대사 항목과 화자 할당). 인물 실체는 관계형 행으로 유지하고 `faction_groups.data.sequence`의 `clusterIndex`가 position-1을 가리킨다. unique(group_id, position)
 - `faction_people` — cluster_id·position(P{pos:02d})·**is_person**·name(+en)·slug·celeb_id·org·mythical·epithet(+en)·lines(+en)·image·quote(+en)·음성 길이·disabled·longform_only·mined·data. `is_person=true`만 celeb_id/slug/도감 필드를 쓰고, `false`는 name/image/beats/durationSec/sfx를 공통 행에 둔다. unique(cluster_id, position)
   - `mythical=true` 인물은 `celebs.celeb_tier='fiction'` 프로필에 연결한다.
     2026-08-05 이후 신규 active 전환에는 fiction도 아바타가 필수다. 기존
@@ -141,7 +142,7 @@ faction_episodes                               celeb_tags (40행, slug unique �
 - 이관 실적: 에피소드 23(등록 14)·세력 123(태그 연결 21)·클러스터 184·인물 537(셀럽 연결 435)·편 댓글 6·quoteDuration 301·longformLayout 6. 멱등(2회차 동일 행수·에러 0).
 - **왕복 검증 6종 — 23/23편 전부 통과**: ① 정규화 JSON 비교(키순 무시·undefined≡부재·빈배열≡부재·duration 2자리, 불일치 JSON Pointer 전량) ② `factionVariants` fileSuffix 집합 ③ `analyzeTiming` totalFrames 전 편 ④ `buildVoiceJobs` file·text·chunks ⑤ SRT 바이트 ⑥ 한글 U+FFFD. 검증기 자체를 10종 변조 주입으로 반증 시험(오탐 0·미탐 0).
 - 이관 구현 규칙: NOT NULL boolean의 false ≡ 키 부재 · numeric은 Number() 복원(PostgREST 문자열 함정) · `.in()` 200개 청크(462개 실패 실측 이력) · tagSlug 원문은 data에 보존(tag_id는 파생) · sort_order=_episodes.json 순번.
-- **연결 불변조건:** `is_person=true` 행은 삭제되지 않은 CELEB와 정규 slug에 연결돼야 한다. `is_person=false` 행은 celeb_id·slug가 null이어야 한다. UI·저장 코어·RPC·DB 체크/트리거가 같은 조건을 적용한다.
+- **연결 불변조건:** 실제 출연 인물 행은 삭제되지 않은 CELEB와 정규 slug에 연결돼야 한다. 읽기 호환으로 남은 `is_person=false` 행은 celeb_id·slug가 null이어야 하며 저장 정규화에서 장면 beats로 승격된다. UI·저장 코어·RPC·DB 체크/트리거가 같은 조건을 적용한다.
 
 ## 6. 렌더 경로 — 내보내기(export) 방식 확정
 
@@ -155,7 +156,7 @@ DB → pnpm faction:export → faction-data.json(+_episodes.json 재생성) → 
 
 ## 7. quoteDuration 3단 처리 — 파이프라인 코드 무수정 원칙
 
-① **export 병합(영구 안전망)**: DB 값 null이면 기존 JSON의 quoteDuration/epithetDuration 이어받음(Phase 1 export에 구현됨). ② **역흡수**: `pnpm faction:durations-pull` — wav 실측 길이를 DB UPDATE(buildVoiceJobs·measureWavDuration 재사용). **faction-voice-sync 스킬 Step 3 으로 편입 완료(26.07.26)** — 그전까지 스킬이 이 단계를 빠뜨려, 대사를 새로 쓴 인물의 화면 유지 시간이 옛 음원 기준으로 남아 목소리가 잘리는 사고가 있었다(Gods-Greek 아폴론 8.21초 화면 / 13.92초 음성). ③ **감시**: `voice:faction --verify`에 DB↔JSON duration 열 추가. **금지: 편집기가 quoteDuration을 사람 입력으로 받는 것**(파이프라인 소유. 현행 BO save 응답 기록 경로는 DB UPDATE로 전환).
+① **export 병합(영구 안전망)**: DB 값 null이면 기존 JSON의 quoteDuration/epithetDuration 이어받음(Phase 1 export에 구현됨). ② **역흡수**: `pnpm faction:durations-pull` — wav 실측 길이를 DB UPDATE(buildVoiceJobs·measureWavDuration 재사용). 인물 음원은 `faction_people` 길이 컬럼, 통합 장면 대사는 `faction_clusters.data.beats[].voiceDuration`에 기록한다. **faction-voice-sync 스킬 Step 3 으로 편입 완료(26.07.26)** — 그전까지 스킬이 이 단계를 빠뜨려, 대사를 새로 쓴 인물의 화면 유지 시간이 옛 음원 기준으로 남아 목소리가 잘리는 사고가 있었다(Gods-Greek 아폴론 8.21초 화면 / 13.92초 음성). ③ **감시**: `voice:faction --verify`에 DB↔JSON duration 열 추가. **금지: 편집기가 quoteDuration을 사람 입력으로 받는 것**(파이프라인 소유. 현행 BO save 응답 기록 경로는 DB UPDATE로 전환).
 `gotchas.md` 폐기 3방향(wav2vec2 원고 직접·silence 분할·자동 청크 분할) 재제안 금지.
 
 ## 8. web-bo 이식
@@ -175,7 +176,7 @@ faction-sync 개조: `collectEpisode` 입력을 DB로, 진단은 이미지·연�
 
 | Phase | 내용 | 상태 |
 |---|---|---|
-| 0 | 팩션 WIP 커밋 정착(기준 SHA) + web-bo 배포본 확인 | P3 착수 전 필수 |
+| 0 | 팩션 WIP 커밋 정착(기준 SHA) + web-bo 로컬 실행본 확인 | P3 착수 전 필수 |
 | 1 | 마이그레이션 + schema lib + import/export/verify + 왕복 검증 | **완료 26.07.25 (23/23)** |
 | 2 | export 발효: `_generated` 마커·checksum 가드·`_episodes.json` 재생성·durations-pull·verify duration 열 | **완료 26.07.25** — 실측 확인: 파일 첫 키 `_generated{from,at,episodeId,checksum}` 실재 · `faction-export.ts` 의 손 편집 감지·`force` 요구 · `pnpm faction:durations-pull` · `faction:verify --drift` · `voice:faction` 의 quoteDuration↔DB 대조. 현행은 DB를 정본으로 삼고 별도 export 이력을 남기지 않는다. |
 | 3 | 공유 부품 4종+Task Queue shared 승격(~2,900줄, import ~60곳) | **완료 26.07.25** — `packages/shared/src/bo/` 22파일 4,425줄. 4종만으로는 컴파일이 안 돼 의존 폐포까지 올렸다(icons·voice-utils·audio-wave-player·time-ruler·gain + `EleSettings`·`GenEngine`·`TempPreview`·`playDing`). remotion-bo 의 shared 참조 168줄/109파일, 껍데기 재export 0, tsc 3종(remotion-bo·remotion·web-bo) 0, 화면 5종 브라우저 실측(콘솔 오류 0) |
@@ -193,7 +194,7 @@ faction-sync 개조: `collectEpisode` 입력을 DB로, 진단은 이미지·연�
 
 ## 12. 미확인
 
-web-bo 프로덕션 배포본 유무 · remotion-bo 디자인 토큰 목록 · 사문 필드 최종 폐기 여부(현재 보존) · fiction 티어 vs mythical 98건 정합.
+web-bo 로컬 빌드 검증 여부 · remotion-bo 디자인 토큰 목록 · 사문 필드 최종 폐기 여부(현재 보존) · fiction 티어 vs mythical 98건 정합.
 
 ## 진행 로그
 

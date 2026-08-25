@@ -3,8 +3,11 @@
 import dynamic from 'next/dynamic'
 import type { EditLang } from '@feelandnote/shared/bo/editor'
 import { Plus } from '@feelandnote/shared/bo/icons'
-import type { FactionGroup, FactionScript } from '@/lib/faction-types'
+import type { FactionGroup, FactionPerson, FactionScript } from '@/lib/faction-types'
+import { factionSceneSpeakerPeople } from '@feelandnote/shared/lib/faction-scene-speaker'
+import { projectFactionPrimaryQuotesToGroups } from '@feelandnote/shared/lib/faction-scene-unification'
 import { FactionGroupEditor } from '../FactionGroupEditor'
+import { factionSpeakerVoiceFiles, updateFactionSpeakerPerson } from '../FactionGroupEditor/faction-speaker-edit'
 import { FactionNarratorPanel } from '../FactionNarratorPanel'
 import { FactionDialogueSettings } from './FactionDialogueSettings'
 import { FactionTimingSettings } from './FactionTimingSettings'
@@ -24,8 +27,8 @@ type Props = {
   script: FactionScript
   series: string
   episodeName: string
-  musicList: string[]
   editLang: EditLang
+  sfxList: string[]
   showPeopleImages: boolean
   celebExisting: Set<string>
   celebLoaded: boolean
@@ -43,8 +46,8 @@ export function FactionInfoPanel({
   script,
   series,
   episodeName,
-  musicList,
   editLang,
+  sfxList,
   showPeopleImages,
   celebExisting,
   celebLoaded,
@@ -58,6 +61,27 @@ export function FactionInfoPanel({
   onAddGroup,
 }: Props) {
   const groups = script.groups ?? []
+  const speakerPeople = factionSceneSpeakerPeople(groups)
+  const speakerVoiceFiles = factionSpeakerVoiceFiles(groups)
+  const changeSpeakerPerson = (celebId: string, nextPerson: FactionPerson) => {
+    const nextGroups = updateFactionSpeakerPerson(groups, celebId, nextPerson)
+    if (nextGroups !== groups) onChange({ groups: nextGroups })
+  }
+  const setPrimaryQuote = (groupIndex: number, clusterIndex: number, beatIndex: number, celebId: string) => {
+    const nextGroups = groups.map((group, nextGroupIndex) => ({
+      ...group,
+      clusters: (group.clusters ?? []).map((cluster, nextClusterIndex) => ({
+        ...cluster,
+        beats: (cluster.beats ?? []).map((beat, nextBeatIndex) => beat.speakerCelebId !== celebId ? beat : {
+          ...beat,
+          primaryQuote: nextGroupIndex === groupIndex && nextClusterIndex === clusterIndex && nextBeatIndex === beatIndex
+            ? true
+            : undefined,
+        }),
+      })),
+    }))
+    onChange({ groups: projectFactionPrimaryQuotesToGroups(nextGroups) as FactionGroup[] })
+  }
 
   if (showPeopleImages) {
     return <FactionPeoplePanel groups={groups} series={series} episodeName={episodeName} />
@@ -72,9 +96,11 @@ export function FactionInfoPanel({
         onClearOverrides={onClearDialogueOverrides}
       />
 
+      <FactionTimingSettings script={script} onChange={onChange} />
+
       <section className="space-y-4 rounded-xl border border-border bg-bg-card/40 p-4 sm:p-5">
         <header className="flex h-9 items-center justify-between gap-3 border-b border-border/60 px-1 pb-3">
-          <span className="text-xs text-text-tertiary">세력 · 묶음 · 인물 · 서사 항목</span>
+          <span className="text-xs text-text-tertiary">세력 · 장면 · 대사 항목 · 화자 할당</span>
           <span className="rounded border border-border bg-bg-card px-2.5 py-1 text-xs font-bold text-text-secondary">{groups.length}개 세력</span>
         </header>
 
@@ -84,18 +110,22 @@ export function FactionInfoPanel({
               <FactionGroupEditor
                 groupIndex={groupIndex}
                 group={group}
+                inheritedSceneCaptionPosition={script.quoteCaptionPos ?? 'bottom'}
                 onChange={next => onSetGroup(groupIndex, next)}
                 onDelete={() => onDeleteGroup(groupIndex)}
                 onMoveUp={() => onMoveGroup(groupIndex, -1)}
                 onMoveDown={() => onMoveGroup(groupIndex, 1)}
                 series={series}
                 episodeName={episodeName}
-                musicList={musicList}
                 editLang={editLang}
+                sfxList={sfxList}
                 onMoveCrossGroup={(clusterIndex, personIndex) => onMovePersonCrossGroup(groupIndex, clusterIndex, personIndex)}
                 celebExisting={celebExisting}
                 celebLoaded={celebLoaded}
-                captionIdHoldSec={script.captionIdHoldSec}
+                speakerPeople={speakerPeople}
+                speakerVoiceFiles={speakerVoiceFiles}
+                onSpeakerPersonChange={changeSpeakerPerson}
+                onSetPrimaryQuote={(clusterIndex, beatIndex, celebId) => setPrimaryQuote(groupIndex, clusterIndex, beatIndex, celebId)}
               />
             </div>
           ))}
@@ -114,7 +144,6 @@ export function FactionInfoPanel({
         </div>
       </section>
 
-      <FactionTimingSettings script={script} onChange={onChange} />
       <FactionNarratorPanel script={script} update={onChange} series={series} episodeName={episodeName} />
     </div>
   )

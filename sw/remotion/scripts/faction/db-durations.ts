@@ -98,6 +98,49 @@ export async function loadPersonSlots(
 /** 소수 2자리 — 파이프라인 기록 관례와 동일 */
 export const round2 = (n: number) => Math.round(n * 100) / 100
 
+/** 통합 구조의 장면 행. 모든 화면·해설·인물 대사는 cluster.data.beats에 산다. */
+export interface SceneClusterRow {
+  id: string
+  name: string
+  data: Record<string, unknown>
+}
+
+/** 한 에피소드의 장면 data를 전부 읽는다. */
+export async function loadSceneClusters(
+  db: SupabaseClient, folder: string,
+): Promise<SceneClusterRow[]> {
+  const { data: ep, error: epErr } = await db
+    .from('faction_episodes').select('id').eq('folder', folder).single()
+  if (epErr) throw new Error(`에피소드 조회 실패(${folder}): ${epErr.message}`)
+
+  const { data: groups, error: gErr } = await db
+    .from('faction_groups').select('id').eq('episode_id', ep.id)
+  if (gErr) throw new Error(`세력 조회 실패(${folder}): ${gErr.message}`)
+  const groupIds = (groups ?? []).map(group => group.id as string)
+  if (!groupIds.length) return []
+
+  const out: SceneClusterRow[] = []
+  for (let index = 0; index < groupIds.length; index += 200) {
+    const { data, error } = await db
+      .from('faction_clusters').select('id,label,data').in('group_id', groupIds.slice(index, index + 200))
+    if (error) throw new Error(`장면 조회 실패(${folder}): ${error.message}`)
+    out.push(...(data ?? []).map(cluster => ({
+      id: cluster.id as string,
+      name: (cluster.label as string | null) ?? '',
+      data: (cluster.data as Record<string, unknown>) ?? {},
+    })))
+  }
+  return out
+}
+
+/** 통합 장면 data jsonb에 실측 voiceDuration을 기록한다. */
+export async function updateSceneClusterData(
+  db: SupabaseClient, id: string, data: Record<string, unknown>,
+): Promise<void> {
+  const { error } = await db.from('faction_clusters').update({ data }).eq('id', id)
+  if (error) throw new Error(`장면 음성 길이 갱신 실패(${id}): ${error.message}`)
+}
+
 /** 사람 카드가 아닌 서사 타임라인 항목. 해설 음성 설정은 이 행의 data jsonb에 산다. */
 export interface NarrativeEntryRow {
   id: string

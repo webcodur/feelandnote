@@ -77,7 +77,10 @@ export function vnChapterTitle(title: string): string {
  *   워크스페이스 경계상 import 불가라 복제한다. 한쪽을 바꾸면 반드시 다른 쪽도 함께 바꾼다.
  */
 export function vnSceneBeat(speaker: string | undefined, text: string): string {
-  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${text}`)}.wav`
+  // 합성기는 화면 조판용 줄바꿈·빈 줄을 한 흐름으로 펴서 읽는다. 파일 신원도 실제 발화문을
+  // 따라야 줄바꿈이나 화면 전환만 고쳤을 때 이미 만든 음원이 사라지지 않는다.
+  const spokenText = text.replace(/\s+/g, ' ').trim()
+  return `scene-${narrationTextKey(`${(speaker ?? '').trim()}\n${spokenText}`)}.wav`
 }
 
 /**

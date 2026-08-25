@@ -29,6 +29,8 @@
     "./lib/faction-voice-provider": "./src/lib/faction-voice-provider.ts",
     "./lib/faction-team-image": "./src/lib/faction-team-image.ts",
     "./lib/faction-scene-timing": "./src/lib/faction-scene-timing.ts",
+    "./lib/faction-scene-speaker": "./src/lib/faction-scene-speaker.ts",
+    "./lib/faction-scene-unification": "./src/lib/faction-scene-unification.ts",
     "./lib/faction-sequence": "./src/lib/faction-sequence.ts",
     "./lib/faction-longform": "./src/lib/faction-longform.ts",
     "./lib/faction-shorts": "./src/lib/faction-shorts.ts",
