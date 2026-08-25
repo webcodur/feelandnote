@@ -59,7 +59,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const desc = toSeoDescription(
     description || reviewDescription || t("metaFallback", { title }),
   );
-  const hasReview = data.initialReviews.length > 0;
   const seoLocale = locale === "en" ? "en" : "ko";
   const seoImageUrl = getSeoImageUrl("content", contentId, seoLocale, thumbnail);
   const seoImageAlt = locale === "en" ? `${title} cover` : `${title} 표지`;
@@ -67,7 +66,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description: desc,
-    ...(!hasReview && { robots: { index: false, follow: true } }),
+    // 작품 상세는 색인 대상이 아니다. 본문이 출판사 소개문이라 서점·나무위키에 같은 글이 있고,
+    // 주소도 UUID라 검색어와 이어질 단서가 없다. 네이버 실측에서 작품명 질의로는 한 건도 잡히지
+    // 않으면서 브랜드 질의의 인물 페이지 자리만 가져갔다(2026-08-25). 사이트맵 제외(2026-08-14)
+    // 만으로는 이미 색인된 URL이 빠지지 않는다. 페이지는 그대로 열려 있고 내부 링크로 닿는다.
+    robots: { index: false, follow: true },
     alternates,
     openGraph: {
       title,
