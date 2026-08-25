@@ -85,7 +85,6 @@ async function createFallbackImage(variant: SeoImageVariant): Promise<Buffer> {
       <g fill="none" stroke="#d4af37" stroke-width="12" stroke-linejoin="round" opacity=".72">
         ${symbol}
       </g>
-      <text x="400" y="735" text-anchor="middle" fill="#d4af37" font-family="Arial, sans-serif" font-size="30" letter-spacing="8">FEEL &amp; NOTE</text>
     </svg>
   `)
 

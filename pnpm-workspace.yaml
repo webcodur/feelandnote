@@ -6,6 +6,17 @@ packages:
   - 'sw/audio-bo'
   - 'packages/*'
 
+# 사용자 웹은 Windows에서 빌드한 standalone을 Oracle Linux x64에서 실행한다.
+# sharp의 배포 대상 네이티브 optional dependency도 로컬 install에 함께 둔다.
+supportedArchitectures:
+  os:
+    - current
+    - linux
+  cpu:
+    - x64
+  libc:
+    - glibc
+
 overrides:
   undici: '>=7.24.0'
 

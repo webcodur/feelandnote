@@ -468,14 +468,14 @@ curl -s -I "https://feelandnote.com/robots.txt" | grep Content-Type # 예상: te
 - **원인 3**: `FormattedText`가 직선 따옴표와 내부 문장을 여러 React 텍스트 노드로 출력했다. SSR HTML의 엔티티와 노드 경계 주석을 네이버가 평문으로 복원하지 못했다. DB 원문에는 HTML 엔티티가 없음을 전수 집계로 확인했다.
 - **해결**:
   1. 인물·작품 메타가 자체 도메인의 `/seo-image/celeb/[slug]`, `/seo-image/content/[contentId]`를 명시적으로 가리키게 했다. 규격·캐시·허용 원본 호스트의 SSoT는 `sw/web/src/lib/seoImage.ts`다.
-  2. 인물은 아바타(없으면 대표 초상), 작품은 locale별 원본 표지를 자르지 않고 정사각 PNG 안에 담는다. 원본이 없거나 응답하지 않아도 깨진 URL 대신 유형별 기본 이미지를 반환한다.
+  2. 인물은 아바타(없으면 대표 초상), 작품은 locale별 원본 표지를 자르지 않고 정사각 JPEG 안에 담는다. 원본이 없거나 응답하지 않아도 깨진 URL 대신 유형별 기본 이미지를 반환한다.
   3. `middleware.ts`의 `SEO_PATH_PREFIXES`가 이미지 라우트를 locale 미들웨어에서 제외한다. HTML 페이지에는 같은 URL을 Open Graph·Twitter·JSON-LD 이미지로 함께 선언한다.
   4. `FormattedText`는 인용부호와 문장을 한 텍스트 노드의 유니코드 따옴표로 출력하며, 작품 메타 설명도 `toSeoDescription()`으로 평문화한다.
 - **현행 비용 방어**: SEO 이미지의 Supabase 원본 URL 조회는 `cachedDetail`로 UUID·slug별 태그를 붙인다.
   목록 캐시 무효화가 모든 SEO 이미지 조회를 함께 비우지 않으며, 해당 인물·콘텐츠 수정 때만 그 항목이 갱신된다.
   OpenLibrary가 `archive.org`와 `*.archive.org`로 보내는 HTTPS 리다이렉트는 허용하되 HTTP·로컬 주소·도메인
   접미사 위장은 거부한다. 허용 규칙과 검사는 `seoImageOrigin.ts`, `seoImageOrigin.test.ts`가 맡는다.
-- **검증**: 프로덕션 빌드 후 인물·책·원본 없음 표본 모두 직접 200 PNG 응답, 네이버 공식 이미지 조건 충족, 공개 HTML에서 기존 엔티티·노드 경계 주석 제거를 확인했다. 기존 검색 결과는 재수집 뒤 바뀌므로 즉시 교체되지는 않는다.
+- **검증**: 프로덕션 빌드 후 인물·책·원본 없음 표본 모두 직접 200 JPEG 응답, 네이버 공식 이미지 조건 충족, 공개 HTML에서 기존 엔티티·노드 경계 주석 제거를 확인했다. 기존 검색 결과는 재수집 뒤 바뀌므로 즉시 교체되지는 않는다.
 - **참고**: [네이버 서치어드바이저 콘텐츠 마크업 — 오픈 그래프 이미지](https://searchadvisor.naver.com/guide/markup-content)
 
 ### Google 색인 거부 "크롤링됨 - 현재 색인이 생성되지 않음" (2026-03-26)
