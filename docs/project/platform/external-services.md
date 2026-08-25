@@ -34,8 +34,8 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - Next.js standalone은 `feelandnote-web.service`가 실행하며, 작업 경로는 `/opt/feelandnote/web/current/sw/web`이다.
 - 배포본은 `/opt/feelandnote/web/releases/<release>`에 두고 `/opt/feelandnote/web/current` 심볼릭 링크로 활성 버전을 고른다.
 - 운영 환경변수는 `/etc/feelandnote/web.env`가 쥔다. 값을 저장소나 문서에 복사하지 않는다.
-- VM은 1GB이므로 운영 서버에서 Next.js 빌드를 돌리지 않는다. 로컬에서 개발 서버와 겹치지 않는 별도 `NEXT_DIST_DIR`로 standalone을 빌드해 새 release로 올린다.
-- Windows에서 만든 standalone의 pnpm junction은 로컬 workspace 절대경로를 가리키므로 그대로 복사하지 않는다. release 안의 대응 `.pnpm` 경로를 가리키는 상대 심볼릭 링크로 복원하고 `.env`가 없는지 확인한 뒤, 별도 canary 포트에서 대표 URL이 200인 release만 전환한다.
+- VM은 1GB이므로 운영 서버에서 Next.js 빌드를 돌리지 않는다. 로컬에서 개발 서버와 겹치지 않는 별도 `NEXT_DIST_DIR`로 standalone을 빌드해 새 release로 올린다. `pnpm build:web` 끝의 `check-standalone-runtime.mjs`가 Oracle Linux용 sharp·libvips 포함을 확인해야 한다.
+- Windows에서 만든 standalone의 pnpm junction은 로컬 workspace 절대경로를 가리키므로 그대로 복사하지 않는다. release 안의 대응 `.pnpm` 경로를 가리키는 상대 심볼릭 링크로 복원하고 `.env`가 없는지 확인한 뒤, 별도 canary 포트에서 대표 페이지와 `/seo-image/celeb/<slug>`·이미지 없는 fallback이 모두 200 JPEG인 release만 전환한다.
 - `feelandnote-web.service`는 `Restart=always`, `RestartSec=5s`, `TimeoutStopSec=15s`, Node heap 512MB, `MemoryHigh=700M`, `MemoryMax=850M`이다. 메모리 압력이 높아 정상 종료가 멈춰도 15초 뒤 프로세스를 정리하고 다시 기동한다.
 - 새 release 전환 뒤 `sudo systemctl restart feelandnote-web.service`로 반영하고, `systemctl status`·`journalctl -u feelandnote-web.service`·실제 URL로 확인한다. 현재 이 과정을 묶은 자동 배포 명령은 없으며 다음 작업은 `docs/todo/web-deployment-platform-research.md`가 쥔다.
 

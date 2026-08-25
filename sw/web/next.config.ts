@@ -6,6 +6,14 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  // Windows 빌드에서도 Oracle Linux용 sharp 네이티브 파일을 standalone에 넣는다.
+  // pnpm-workspace.yaml의 supportedArchitectures가 설치를, 이 trace가 복사를 맡는다.
+  outputFileTracingIncludes: {
+    '/*': [
+      './node_modules/@img/sharp-linux-x64/**/*',
+      './node_modules/@img/sharp-libvips-linux-x64/**/*',
+    ],
+  },
   // 개발 서버가 .next를 쓰는 동안에도 빌드 검증을 하려면 NEXT_DIST_DIR로 산출 위치를 분리한다
   distDir: process.env.NEXT_DIST_DIR || '.next',
   env: {
