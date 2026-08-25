@@ -66,6 +66,9 @@ export const CELEB_MESSAGE_PATHS = [
   "moderation",
   "home.ui",
   "profilePage.influence",
+  // 세력도감(FactionShowcase)과 게임 갈무리 화면이 통째로 기댄다. 빠지면 화면에
+  // LANDING.FACTIONROSTER 같은 키 이름이 그대로 뜬다.
+  "landing",
 ] as const;
 
 /** 작품 상세가 공통 뼈대에 더해 필요로 하는 문구 */
