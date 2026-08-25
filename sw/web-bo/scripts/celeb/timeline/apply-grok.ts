@@ -9,7 +9,7 @@
  * 이미 사건이 있는 인물은 덮어쓰지 않고 SKIPPED 처리한다. life(실존) 티어만 지원한다.
  *
  * 실행:
- *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --auto --total 40 --lanes 12 --stage
+ *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --auto --deceased --total 35 --lanes 12 --stage
  *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts review   # 대기열을 읽고 판단
  *   pnpm exec tsx scripts/celeb/timeline/apply-grok.ts commit   # 승인분만 DB 반영
  */
@@ -139,7 +139,11 @@ const SKEPTIC_SCHEMA = {
   required: ['defects', 'zero_defects_indices', 'sources'],
 }
 
-type GrokResult = { structuredOutput: any; usage: { reasoning_tokens?: number }; num_turns?: number }
+type GrokResult = {
+  structuredOutput?: Record<string, unknown>
+  usage: { reasoning_tokens?: number }
+  num_turns?: number
+}
 
 /**
  * 호출 규약(셸 우회·비동기 spawn·effort·작업 폴더 격리)은 grok-cli 스킬의 헬퍼가 쥔다.
@@ -416,6 +420,10 @@ async function processCeleb(
   for (const n of enforceDateInvariants(kept)) say(`  ${n}`)
 
   const broken = inspectStructure(kept)
+  if (celeb.death_date) {
+    if (!kept.some((e) => e.kind === 'birth')) broken.push('사망자인데 출생 사건 없음')
+    if (!kept.some((e) => e.kind === 'death')) broken.push('사망자인데 사망 사건 없음')
+  }
   if (broken.length > 0) {
     for (const v of broken) say(`  구조 결함: ${v}`)
     say(`FAILED ${slug} — 필수값 누락 ${broken.length}건. 반영 보류`)
@@ -609,7 +617,7 @@ async function main() {
   let slugs = (argOf('slugs') ?? '').split(',').map((s) => s.trim()).filter(Boolean)
 
   if (process.argv.includes('--auto')) {
-    slugs = await fetchEmptyCelebSlugs()
+    slugs = await fetchEmptyCelebSlugs(process.argv.includes('--deceased'))
     console.log(`연표가 빈 인물 ${slugs.length}명을 후보로 잡았다.`)
   }
   if (slugs.length === 0) throw new Error('--slugs 또는 --auto 가 필요하다')
@@ -647,21 +655,43 @@ async function main() {
 }
 
 /** 연표가 한 건도 없는 공개 실존 인물을 한 번에 모은다. 인물마다 count를 날리면 느리다. */
-async function fetchEmptyCelebSlugs(): Promise<string[]> {
-  const page = async <T>(table: string, cols: string, build: (q: any) => any): Promise<T[]> => {
+async function fetchEmptyCelebSlugs(deceasedOnly = false): Promise<string[]> {
+  type PageFilter = {
+    column: string
+    operator: 'eq' | 'neq'
+    value: string
+  }
+  const page = async <T>(table: string, cols: string, filters: readonly PageFilter[] = []): Promise<T[]> => {
     const rows: T[] = []
     for (let from = 0; ; from += 1000) {
-      const { data, error } = await build(supabase.from(table).select(cols)).order('id').range(from, from + 999)
+      let query = supabase.from(table).select(cols)
+      for (const filter of filters) {
+        query = filter.operator === 'eq'
+          ? query.eq(filter.column, filter.value)
+          : query.neq(filter.column, filter.value)
+      }
+      const { data, error } = await query.order('id').range(from, from + 999)
       if (error) throw new Error(`${table} 조회 실패: ${error.message}`)
       rows.push(...((data ?? []) as T[]))
       if (!data || data.length < 1000) return rows
     }
   }
-  const celebs = await page<{ id: string; slug: string }>('celebs', 'id,slug', (q) =>
-    q.eq('publication_status', 'active').neq('celeb_tier', 'fiction'))
-  const events = await page<{ celeb_id: string }>('celeb_timeline_events', 'id,celeb_id', (q) => q)
+  const celebs = await page<{ id: string; slug: string; death_date: string | null }>(
+    'celebs',
+    'id,slug,death_date',
+    [
+      { column: 'publication_status', operator: 'eq', value: 'active' },
+      { column: 'celeb_tier', operator: 'neq', value: 'fiction' },
+    ],
+  )
+  const events = await page<{ celeb_id: string }>('celeb_timeline_events', 'id,celeb_id')
   const filled = new Set(events.map((e) => e.celeb_id))
-  return celebs.filter((c) => !filled.has(c.id)).map((c) => c.slug)
+  const empty = celebs.filter((c) => !filled.has(c.id))
+  const picked = deceasedOnly ? empty.filter((c) => !!c.death_date) : empty
+  // 사망자가 생존자보다 먼저다. 머리글에 생몰이 보이면 연표도 생부터 몰까지여야 한다.
+  return picked
+    .toSorted((a, b) => Number(!!b.death_date) - Number(!!a.death_date))
+    .map((c) => c.slug)
 }
 
 main().catch((e) => { console.error(e); process.exit(1) })
