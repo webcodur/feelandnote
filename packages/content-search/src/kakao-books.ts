@@ -86,31 +86,59 @@ function formatPubDate(datetime: string): string {
   return datetime.slice(0, 10) // 2019-04-17T00:00:00.000+09:00 → 2019-04-17
 }
 
+function normalizeCreatorName(name: string): string {
+  return decodeHtmlEntities(name)
+    .trim()
+    .replace(/[?？]+$/u, '')
+    .replace(/\s*\([^)]*[A-Za-z][^)]*\)\s*$/u, '')
+    .replace(/^([가-힣·.\s]+?)\s+[A-Za-z][A-Za-zÀ-ÖØ-öø-ÿ.'’\-\s]+$/u, '$1')
+    .trim()
+}
+
 // 저자 + 번역자 표기 (번역자는 원저자와 구분해 붙인다)
-function formatCreator(authors: string[], translators: string[]): string {
-  const written = (authors || []).filter(Boolean).join(', ')
+export function normalizeKakaoBookCreator(authors: string[], translators: string[]): string {
+  const normalizedAuthors = (authors || [])
+    .map(normalizeCreatorName)
+    .filter(Boolean)
+    .filter((name, index, names) => names.indexOf(name) === index)
+  const written = normalizedAuthors.join(', ')
   if (written) return written
-  const translated = (translators || []).filter(Boolean).join(', ')
+  const translated = (translators || [])
+    .map(normalizeCreatorName)
+    .filter(Boolean)
+    .filter((name, index, names) => names.indexOf(name) === index)
+    .join(', ')
   return translated ? `${translated} (역)` : ''
 }
 
 // 본제목만 추출 (부제목 분리)
-function extractMainTitle(title: string): string {
+export function normalizeKakaoBookTitle(title: string, creator = ''): string {
   let mainTitle = title
+  // 일부 데이터는 한국어 제목 뒤에 원제와 저자를 한 덩어리로 붙인다.
+  mainTitle = mainTitle.replace(/\s+(?:_|[|｜])\s+[A-Za-z][\s\S]*?\s+by\s+[A-Za-z][\s\S]*$/iu, '')
+  mainTitle = mainTitle.replace(/(?<=[가-힣])\.\s*[A-Za-z][\s\S]*?,?\s+by\s+[A-Za-z][\s\S]*$/iu, '')
+  mainTitle = mainTitle.replace(/^(.+?)[,，]\s*[가-힣·.\s]{2,}:\s*[A-Za-z][\s\S]*$/u, '$1')
+  mainTitle = mainTitle.replace(/^(.+?)\.\s+[A-Z][a-zÀ-ÖØ-öø-ÿ.'’\-]+(?:\s+[A-Z][a-zÀ-ÖØ-öø-ÿ.'’\-]+)+$/u, '$1')
   mainTitle = mainTitle.replace(/\s*\([^)]+\)\s*$/, '')
-  mainTitle = mainTitle.replace(/\s*[-–—]\s+.+$/, '')
+  const subtitle = mainTitle.match(/^(.+?)\s*[-–—]\s+(.+)$/u)
+  if (subtitle) {
+    const compact = (value: string) => value.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '')
+    // 하이픈 앞이 저자명뿐인 선집은 잘라내면 제목 대신 저자명만 남으므로 원문을 보존한다.
+    if (!creator || compact(subtitle[1]) !== compact(creator)) mainTitle = subtitle[1]
+  }
   return mainTitle.trim()
 }
 
 function toResult(book: KakaoBook): KakaoBookSearchResult {
   const isbn = pickIsbn(book.isbn)
+  const creator = normalizeKakaoBookCreator(book.authors, book.translators)
 
   return {
     externalId: isbn || book.url,
     externalSource: 'kakao_book',
     category: 'book',
-    title: extractMainTitle(book.title),
-    creator: formatCreator(book.authors, book.translators),
+    title: normalizeKakaoBookTitle(book.title, creator),
+    creator,
     coverImageUrl: toCoverUrl(book.thumbnail),
     metadata: {
       publisher: book.publisher,
