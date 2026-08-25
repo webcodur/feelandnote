@@ -123,9 +123,15 @@ const CELEB_FILES = new Set([
   'sw/web/src/actions/celebs/getCelebSideData.ts',
   'sw/web/src/actions/celebs/getCelebSidePresence.ts',
   'sw/web/src/actions/celebs/getContemporaries.ts',
+  'sw/web/src/actions/celebs/getRelatedFigures.ts',
   'sw/web/src/actions/user/getCelebBySlug.ts',
   'sw/web/src/components/features/celeb/CelebAffiliateBooks.tsx',
   'sw/web/src/components/features/celeb/CelebAffiliateBooksLoadGate.ts',
+  // 인물 링크 격자·제휴 도서 목록·구획 제목은 홈과 탐색에서도 쓰이지만, Cloudflare가
+  // 보관하는 화면 중에서는 인물 상세만 이들을 그린다.
+  'sw/web/src/components/features/celeb/FigureLinkGrid.tsx',
+  'sw/web/src/components/features/home/AffiliateBookList.tsx',
+  'sw/web/src/components/ui/CenteredSectionHeading.tsx',
   // Only the celeb archive consumes these presenter-gating changes among the
   // Cloudflare-cached route families. Keep this allow-list exact so any other
   // future ContentCard runtime edit fails closed instead of widening a purge.
@@ -133,6 +139,8 @@ const CELEB_FILES = new Set([
   'sw/web/src/components/ui/cards/ContentCard/sections/ReviewLayout.tsx',
   'sw/web/src/components/ui/cards/ContentCard/types.ts',
   'sw/web/src/components/ui/cards/ContentCard/useContentCardState.ts',
+  // 이어지는 인물의 순위 계산. 소비자는 인물 상세의 링크 구획뿐이다.
+  'sw/web/src/lib/celeb/relatedFigures.ts',
 ])
 
 const CONTENT_PREFIXES = [
@@ -170,6 +178,8 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/actions/library/helpers.ts',
   'sw/web/src/actions/library/today-figure.ts',
   'sw/web/src/actions/spectrum/getSimilarByCelebId.ts',
+  'sw/web/src/components/lab/CelebMaterialsPreview.tsx',
+  'sw/web/src/components/lab/CelebWorldsPreview.tsx',
   'sw/web/src/components/lab/SeaWavesBackground.tsx',
   'sw/web/src/lib/game/voice/voiceUrl.ts',
 ])
