@@ -24,6 +24,8 @@
 배정받은 인물 하나만 처리한다. 신원(이름·직군·국적·생몰)을 먼저 확신하고 동명이인을 섞지 않는다.
 검색으로 사실을 교차 확인한 사건 6~10개(출생 포함, 사망일이 있을 때만 사망 포함)를 연도순
 JSON 배열로만 출력한다. DB에 넣지 않는다.
+몰년이 있는 실존 인물은 출생과 사망을 빼면 안 된다. 범위는
+[`celeb-timeline.md`](celeb-timeline.md) 「생부터 몰까지」가 쥔다.
 
 서술 규칙과 견본은 [`celeb-timeline.md`](celeb-timeline.md)의 「서술 쓰기」가 쥔다. 여기에 옮겨 적지
 않는다. 조사자도 의심자도 그 견본을 읽고 같은 수준으로 쓴다. 검색으로 재확인되는 사실만 쓴다.
@@ -91,7 +93,7 @@ JSON 배열로만 출력한다. DB에 넣지 않는다.
 
 ```bash
 # 1~4단계. 결과는 DB가 아니라 대기열로 간다
-pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --auto --total 40 --lanes 12 --stage
+pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --auto --deceased --total 35 --lanes 12 --stage
 
 # 5단계. 제목과 본문을 나란히 세워 대조한다. 행을 하나씩 읽으면 겹침이 안 보인다
 pnpm exec tsx scripts/celeb/timeline/apply-grok.ts review
@@ -108,7 +110,8 @@ pnpm exec tsx scripts/celeb/timeline/apply-grok.ts commit
 읽어서 잡히는 것은 자기가 이미 아는 사실과 충돌하는 오류뿐이고 무명 인물에서는 0건이다. 반대로
 **문장이 쓸만한지는 검색 없이 읽으면 알 수 있다.** 그래서 사실은 2단계가, 문장은 5단계가 쥔다.
 
-- 사건이 이미 있는 인물은 건너뛴다. `fiction` 티어는 받지 않는다.
+- 사건이 이미 있는 인물은 건너뛴다. `fiction` 티어는 이 스크립트가 받지 않는다.
+  허구는 `apply-fiction-grok.ts`가 원전 순서·서사 단계로 채운다.
 - 의심자는 실제로 연 출처를 `sources`에 2곳 이상 적어야 한다. 미달이면 검색을 안 한 것으로 보고
   최대 5회까지 다시 시킨다. 이 게이트가 없으면 `evidence: "placeholder"` 같은 시늉이 `결함 0`으로 통과한다.
 - **의심자에게 최종 문장을 쓰게 하지 않는다.** 사실 판정자에게 서비스 문장을 맡기면
