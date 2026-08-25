@@ -32,8 +32,9 @@ pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB
    `--purge-scopes <scope[,scope]>`를 명시한다. `emergency-zone`을 배포 편의로 선택하지 않는다.
 4. 실제 배포 권한이 있으면 execute를 한 번 실행한다. 스크립트가 build·비밀 파일 차단·junction
    복원·업로드·canary·원자적 전환·검증·실패 롤백을 소유하므로 같은 절차를 임시 명령으로 다시 쓰지 않는다.
-5. 성공 출력의 `cloudflarePurgeRequired` 각 범위를 `.github/workflows/cloudflare-purge.yml`로
-   비운다. `none`이면 실행하지 않는다.
+5. 성공 출력의 `cloudflarePurgeRequired` 각 범위를 `pnpm purge:web:cloudflare -- --scope <범위> --execute`로
+   비운다. `none`이면 실행하지 않는다. GitHub에서 돌릴 때는 `.github/workflows/cloudflare-purge.yml`을
+   같은 범위로 수동 실행한다. 전체 존 퍼지는 워크플로에만 있다.
 
 ## 완료 판정
 

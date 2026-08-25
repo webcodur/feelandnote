@@ -612,12 +612,17 @@ async function main() {
       ], { releaseId, inherit: true })
       throw new Error(`Public verification failed; rolled back to ${previousReleaseId}: ${error.message}`)
     }
+    const requiredPurgeScopes = purgePlan.scopes.filter((scope) => scope !== 'none')
     printPlan({
       ...plan,
       deployed: true,
       activation,
       publicSeoImage,
-      cloudflarePurgeRequired: purgePlan.scopes.filter((scope) => scope !== 'none'),
+      cloudflarePurgeRequired: requiredPurgeScopes,
+      // 배포는 여기서 끝나지 않는다. 남은 범위를 비우는 명령을 바로 손에 쥐여 준다.
+      cloudflarePurgeCommands: requiredPurgeScopes.map(
+        (scope) => `pnpm purge:web:cloudflare -- --scope ${scope} --execute`,
+      ),
       cloudflareWorkflow: '.github/workflows/cloudflare-purge.yml',
     })
   } finally {
