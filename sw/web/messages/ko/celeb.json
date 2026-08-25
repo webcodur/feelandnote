@@ -147,6 +147,7 @@
     "relType_influence": "영향을 줌",
     "relType_influenced": "영향을 받음",
     "relType_cofounder": "공동 창업",
+    "relType_colleague": "같은 소속",
     "relType_friend": "지기",
     "relType_rival": "라이벌",
     "videos": "영상",
@@ -265,7 +266,7 @@
     "virtueReasonHint": "덕목을 누르면 그 점수가 나온 배경이 나옵니다.",
     "virtueReasonEmpty": "이 덕목의 배경이 아직 없습니다.",
     "relatedLinksTitle": "이어지는 인물",
-    "relatedLinksDesc": "{name}와(과) 가까운 인물의 감상 기록으로 이동합니다",
+    "relatedLinksDesc": "{name} 가까운 인물의 감상 기록으로 이동합니다",
     "relatedLinksSimilar": "비슷한 인물"
   }
 }

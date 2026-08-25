@@ -173,7 +173,8 @@ export default function DialogueSection({ lines, hasVoice, celebId, voiceV = 0, 
   if (visibleTypes.length === 0) return null;
 
   return (
-    <div className="space-y-5">
+    // 게임용 창작 대사다. 실제 발언이 아니므로 검색 스니펫·AI 답변 인용에서 제외한다.
+    <div className="space-y-5" data-nosnippet>
       <div className="flex items-center justify-center gap-1.5">
         <Info size={13} className="shrink-0 text-text-secondary/70" aria-hidden />
         <p className="max-w-3xl break-keep text-center text-xs leading-relaxed text-text-secondary/70">

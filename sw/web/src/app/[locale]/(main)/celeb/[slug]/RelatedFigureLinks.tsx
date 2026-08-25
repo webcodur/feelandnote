@@ -8,10 +8,11 @@
         카드는 FigureLinkGrid가 그린다.
 */
 
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { getRelatedFigures } from "@/actions/celebs/getRelatedFigures";
 import type { CelebRelationItem } from "@/actions/user/getCelebBySlug";
 import FigureLinkGrid from "@/components/features/celeb/FigureLinkGrid";
+import { withParticle } from "@/lib/korean-particle";
 
 /** 세울 링크 상한 — 관계가 수십이면 다 걸지 않고 가까운 순으로 앞을 취한다 */
 const MAX_LINKS = 12;
@@ -41,13 +42,20 @@ export default async function RelatedFigureLinks({
     nationality,
     birthDate,
     celebTier,
-    relations,
+    // 관계 원본은 note_en으로 오고 순위 함수는 noteEn을 읽는다 — 여기서 맞춰 넘긴다
+    relations: relations.map((relation) => ({
+      ...relation,
+      noteEn: relation.note_en,
+    })),
     limit: MAX_LINKS,
   });
   if (figures.length === 0) return null;
 
   const t = await getTranslations("celebPage");
   const tp = await getTranslations("profession");
+  const locale = await getLocale();
+  // 카드 한 줄에 들어갈 길이. 같은 뜻이라도 영문이 길어 자릿수를 달리 잡는다
+  const noteMax = locale === "en" ? 40 : 24;
 
   // 여백·구분선을 아래 「읽은 책」 구획과 같은 값으로 맞춘다 — 둘이 같은 리듬으로 서야 한다
   return (
@@ -55,23 +63,32 @@ export default async function RelatedFigureLinks({
       <FigureLinkGrid
         headingId="related-figure-links"
         title={t("relatedLinksTitle")}
-        description={t("relatedLinksDesc", { name: displayName })}
-        figures={figures.map(({ candidate, kind, relGroup }) => ({
-          id: candidate.id,
-          slug: candidate.slug,
-          nickname: candidate.nickname,
-          nickname_en: candidate.nickname_en,
-          avatar_url: candidate.avatar_url,
-          title: null,
-          // 왜 이 사람이 섰는지를 부제로 밝힌다. 근거 있는 사이는 관계 이름,
-          // 계산으로 채운 자리는 직군을 적는다 — 직군이 비면 계산이라고만 말한다.
-          subtitle:
-            kind === "relation"
-              ? t(`relFilter_${relGroup}`)
-              : candidate.profession && tp.has(candidate.profession)
-                ? tp(candidate.profession)
-                : t("relatedLinksSimilar"),
-        }))}
+        // 이름 받침에 따라 조사를 골라 붙인다 — 화면에 「정국와(과)」가 남지 않게 한다
+        description={t("relatedLinksDesc", {
+          name: locale === "en" ? displayName : withParticle(displayName, "with"),
+        })}
+        figures={figures.map(({ candidate, kind, relGroup, note, noteEn }) => {
+          // 왜 이 사람이 섰는지를 부제로 밝힌다. 근거 한 줄이 짧으면 그것부터 —
+          // 「동료」보다 「방탄소년단 소속」이 먼저 읽힌다. 길면 관계 이름으로 물러난다.
+          // 계산으로 채운 자리는 직군을 적고, 직군이 비면 계산이라고만 말한다.
+          const reason = locale === "en" ? noteEn ?? note : note;
+          return {
+            id: candidate.id,
+            slug: candidate.slug,
+            nickname: candidate.nickname,
+            nickname_en: candidate.nickname_en,
+            avatar_url: candidate.avatar_url,
+            title: null,
+            subtitle:
+              kind === "relation"
+                ? reason && reason.length <= noteMax
+                  ? reason
+                  : t(`relFilter_${relGroup}`)
+                : candidate.profession && tp.has(candidate.profession)
+                  ? tp(candidate.profession)
+                  : t("relatedLinksSimilar"),
+          };
+        })}
       />
     </div>
   );
