@@ -54,6 +54,7 @@ pnpm check:agents
 ```
 
 Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 쥔다. 음성 파이프라인은 `pronounce → tts → transcribe → align → chunk`이며 TTS는 유료 수동 단계다. TTS 뒤에는 `/voice-sync <에피소드명>`으로 3~5단계를 실행한다.
+Oracle 사용자 웹 운영 배포는 `pnpm deploy:web:oracle`, 그 출력이 남긴 앞단 캐시 비우기는 `pnpm purge:web:cloudflare`가 실행점이다. 퍼지까지 끝나야 배포가 끝난다. 절차는 `oracle-web-deploy` 스킬과 `docs/project/platform/external-services.md`의 「Oracle 사용자 웹 운영」을 따른다.
 
 ## 기술·환경
 
@@ -67,7 +68,6 @@ Remotion의 음성·렌더·R2 명령은 `docs/project/remotion/README.md`가 �
 ### DB 스키마 추가 금지
 
 - **AI가 혼자 “새로 필요하다”고 생각한 테이블과 컬럼은 99% 쓰레기다. 만들지 마라.**
-- 최근 AI가 혼자 필요하다고 판단해 만든 조사 테이블과 그 모든 컬럼을 전부 폐기했다.
 - 새 테이블·컬럼은 사용자가 명시적으로 만들라고 지시한 경우에만 만든다. 큐·진행률·작업 상태·후보·원장·인계는 오케스트레이터가 맡는다.
 
 ### UI 상호작용
