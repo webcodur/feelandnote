@@ -1,17 +1,22 @@
 /*
-  파일명: /app/opengraph-image.tsx
+  파일명: /app/opengraph-image/route.tsx
   기능: OG 이미지 동적 생성
   책임: 카카오톡·SNS 링크 공유 시 미리보기 이미지를 생성한다.
+  비고: metadata 파일 컨벤션(`app/opengraph-image.tsx`)을 쓰지 않는다. 컨벤션은 루트
+        세그먼트의 metadata에 og:image를 자동 주입하는데, 루트에는 layout이 없어
+        metadataBase가 없다. 그래서 Next가 매 기동마다 주소를 localhost:3000으로
+        해석한다는 경고를 냈다. og:image는 [locale]/layout.tsx가 metadataBase 위에서
+        직접 선언하므로 자동 주입이 필요 없고, 이 라우트는 주소를 그대로 유지한다.
 */ // ------------------------------
 
 import { ImageResponse } from "next/og";
 import { loadPretendardBold } from "@/lib/og-font";
 
-export const alt = "Feel&Note";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const dynamic = "force-static";
 
-export default async function Image() {
+const size = { width: 1200, height: 630 };
+
+export async function GET() {
   const fontData = await loadPretendardBold();
 
   return new ImageResponse(
