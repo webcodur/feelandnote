@@ -13,6 +13,7 @@
     "browser:fetch-a": "node scripts/browser/backend.mjs fetch-a",
     "check:agents": "node scripts/check-agents-md.mjs",
     "deploy:web:oracle": "node scripts/oracle-web-deploy.mjs",
+    "purge:web:cloudflare": "node scripts/cloudflare-purge.mjs",
     "test:deploy:web:oracle": "node --test scripts/lib/oracle-web-remote.test.mjs",
     "build:web": "pnpm --filter @feelandnote/web build",
     "build:bo": "pnpm --filter @feelandnote/web-bo build",
