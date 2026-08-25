@@ -21,22 +21,11 @@
 불필요한 `feelnnote.com`은 자동 갱신을 껐고 서비스용 DNS 레코드도 제거했다. 별도로
 이전하지 않고 2027년 1월 9일 만료시킨다.
 
-## 2. Oracle 배포 첫 실전 검증
+## 2. Oracle 메모리 재확인
 
-`pnpm deploy:web:oracle`과 `oracle-web-deploy` 스킬로 빌드·비밀 파일 차단·junction 복원·canary·
-release 전환·실패 롤백을 자동화했고 plan과 package-only를 통과시켰다. 다음 코드 배포에서 대상
-커밋을 push한 뒤 실제 execute와 Cloudflare 퍼지까지 한 회 완주해 현행 운영 절차를 확정한다.
-
-장시간 실행된 Next 프로세스에서 물리 메모리 약 `620MB`와 swap 약 `828MB`가 누적돼 정상
-종료가 63초 넘게 멈춘 사례를 재현했다. OOM·자동 재시작은 없었고 재기동 뒤 홈과 기존 워밍
-경로 6개를 5회 반복했을 때는 약 `459MB`·swap 0으로 안정돼 워밍 한 번을 원인으로 확정하지
-않았다. 이후 요청을 다시 받은 상태에서는 서비스 메모리 약 `489MB`·swap 약 `156MB`였고
-OOM·제한 초과·재시작은 여전히 0이었다. `vm.swappiness=10`도 이미 낮아 지금 한 번의 관측으로
-누수나 튜닝 필요성을 확정하지 않는다. systemd의 `TimeoutStopSec`은 15초로 줄였다. 다음 배포
-자동화 검증 때 swap `613MB` 상태에서 실제 재시작해 15초 뒤 SIGKILL, 총 17.4초 만에 새
-프로세스가 뜨고 공개 URL이 모두 200으로 복구되는 것도 확인했다. 기동 직후와 1시간 뒤
-`MemoryCurrent`·`MemorySwapCurrent`를 비교하고, 계속 증가할 때만 경로별 메모리를 다시
-추적한다.
+장시간 실행 뒤 메모리와 swap이 늘어난 사례가 있었지만 누수로 확정할 근거는 아직 없다. 새 release
+기동 직후 `MemoryCurrent`는 약 `256MiB`, `MemorySwapCurrent`와 재시작은 0이다. 1시간 뒤 같은
+값을 다시 비교하고 계속 증가했을 때만 경로별 메모리를 추적한다.
 
 ## 3. 사용자 웹 변경 마감
 
