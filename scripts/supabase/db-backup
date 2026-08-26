@@ -1,0 +1,301 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+exec 9>/run/lock/feelandnote-db-backup.lock
+flock -n 9 || {
+  echo 'A database backup is already running.' >&2
+  exit 1
+}
+
+deploy_dir=/opt/feelandnote/supabase
+backup_env=/etc/feelandnote/db-backup.env
+recipient_file=/etc/feelandnote/db-backup-recipient
+work_dir=$(mktemp -d /var/tmp/feelandnote-db-backup.XXXXXX)
+
+cleanup() {
+  find "$work_dir" -type f -exec shred -u {} + 2>/dev/null || true
+  rm -rf "$work_dir"
+}
+trap cleanup EXIT
+
+set -a
+source "$backup_env"
+set +a
+recipient=$(tr -d '\r\n' < "$recipient_file")
+[[ "$recipient" == age1* ]] || {
+  echo 'Invalid age recipient.' >&2
+  exit 1
+}
+
+export RCLONE_CONFIG_BACKUP_TYPE=s3
+export RCLONE_CONFIG_BACKUP_PROVIDER=Cloudflare
+export RCLONE_CONFIG_BACKUP_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID"
+export RCLONE_CONFIG_BACKUP_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY"
+export RCLONE_CONFIG_BACKUP_ENDPOINT="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+
+db_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' supabase-db)
+db_url=$(python3 - "$deploy_dir/.env" "$db_ip" <<'PY'
+import pathlib
+import sys
+import urllib.parse
+
+env_path = pathlib.Path(sys.argv[1])
+db_ip = sys.argv[2]
+values = {}
+for line in env_path.read_text(encoding="utf-8").splitlines():
+    if "=" in line and not line.startswith("#"):
+        name, value = line.split("=", 1)
+        values[name] = value
+password = urllib.parse.quote(values["POSTGRES_PASSWORD"], safe="")
+print(f"postgresql://supabase_admin:{password}@{db_ip}:5432/postgres")
+PY
+)
+
+supabase db dump --db-url "$db_url" --file "$work_dir/roles.sql" --role-only
+supabase db dump --db-url "$db_url" --file "$work_dir/schema.sql"
+supabase db dump \
+  --db-url "$db_url" \
+  --file "$work_dir/data.sql" \
+  --use-copy \
+  --data-only \
+  --exclude 'storage.*'
+unset db_url
+
+python3 - "$work_dir/data.sql" "$work_dir/table-rows.tsv" <<'PY'
+import pathlib
+import re
+import sys
+
+copy_line = re.compile(
+    r'^COPY "((?:[^"]|"")+)"\."((?:[^"]|"")+)" .* FROM stdin;$'
+)
+counts = {}
+current = None
+
+with pathlib.Path(sys.argv[1]).open(encoding="utf-8") as source:
+    for raw_line in source:
+        line = raw_line.rstrip("\n")
+        if current is None:
+            match = copy_line.match(line)
+            if match is None:
+                continue
+            schema = match.group(1).replace('""', '"')
+            table = match.group(2).replace('""', '"')
+            current = f"{schema}.{table}"
+            counts.setdefault(current, 0)
+            continue
+        if line == r"\.":
+            current = None
+            continue
+        counts[current] += 1
+
+if current is not None:
+    raise SystemExit(f"unterminated COPY section: {current}")
+
+selected = {
+    name: count
+    for name, count in counts.items()
+    if name.split(".", 1)[0] in {"public", "auth", "private"}
+}
+pathlib.Path(sys.argv[2]).write_text(
+    "".join(f"{name}|{selected[name]}\n" for name in sorted(selected)),
+    encoding="utf-8",
+)
+PY
+
+created_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+postgres_version=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres \
+  -c "select current_setting('server_version')")
+public_tables=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres \
+  -c "select count(*) from pg_tables where schemaname='public'")
+public_policies=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres \
+  -c "select count(*) from pg_policies where schemaname='public'")
+public_functions=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres \
+  -c "select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'")
+public_triggers=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres \
+  -c "select count(*) from information_schema.triggers where trigger_schema='public'")
+auth_users=$(awk -F '|' '$1 == "auth.users" { print $2 }' "$work_dir/table-rows.tsv")
+auth_identities=$(awk -F '|' '$1 == "auth.identities" { print $2 }' "$work_dir/table-rows.tsv")
+[[ "$auth_users" =~ ^[0-9]+$ && "$auth_identities" =~ ^[0-9]+$ ]] || {
+  echo 'Auth row counts are missing from data.sql.' >&2
+  exit 1
+}
+
+python3 - \
+  "$work_dir/table-rows.tsv" \
+  "$work_dir/baseline.json" \
+  "$created_at" \
+  "$postgres_version" \
+  "$public_tables" \
+  "$public_policies" \
+  "$public_functions" \
+  "$public_triggers" \
+  "$auth_users" \
+  "$auth_identities" <<'PY'
+import json
+import pathlib
+import sys
+
+rows = {}
+for line in pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").splitlines():
+    table, count = line.split("|", 1)
+    rows[table] = int(count)
+baseline = {
+    "created_at": sys.argv[3],
+    "postgres_version": sys.argv[4],
+    "public_tables": int(sys.argv[5]),
+    "public_policies": int(sys.argv[6]),
+    "public_functions": int(sys.argv[7]),
+    "public_triggers": int(sys.argv[8]),
+    "auth_users": rows.get("auth.users", 0),
+    "auth_identities": rows.get("auth.identities", 0),
+    "table_rows": rows,
+}
+pathlib.Path(sys.argv[2]).write_text(
+    json.dumps(baseline, ensure_ascii=False, indent=2) + "\n",
+    encoding="utf-8",
+)
+PY
+shred -u "$work_dir/table-rows.tsv"
+
+vault_secret=$(docker exec supabase-db psql -X -qAt -U supabase_admin -d postgres \
+  -c "select decrypted_secret from vault.decrypted_secrets where name='web_revalidate_secret'")
+[[ -n "$vault_secret" && "$vault_secret" != *$'\n'* && "$vault_secret" != *$'\r'* ]] || {
+  echo 'Vault recovery secret is missing or malformed.' >&2
+  exit 1
+}
+VAULT_SECRET="$vault_secret" python3 - "$work_dir/restore-manual.sql" <<'PY'
+import os
+import pathlib
+import sys
+
+secret = os.environ["VAULT_SECRET"].replace("'", "''")
+sql = f"""DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+AFTER INSERT ON auth.users
+FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+REVOKE ALL ON FUNCTION public.delete_auth_user(uuid)
+FROM public, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.delete_auth_user(uuid) TO service_role;
+
+REVOKE ALL ON FUNCTION public.delete_my_account()
+FROM public, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.delete_my_account() TO authenticated;
+
+REVOKE ALL ON FUNCTION public.admin_delete_auth_user(uuid)
+FROM public, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.admin_delete_auth_user(uuid) TO authenticated;
+
+REVOKE ALL ON FUNCTION public.handle_new_user()
+FROM public, anon, authenticated, service_role;
+
+DO $acl$
+DECLARE
+  function_signature text;
+  function_oid regprocedure;
+BEGIN
+  FOREACH function_signature IN ARRAY ARRAY[
+    'public.assert_celeb_content_research_run_ready(uuid)',
+    'public.complete_celeb_content_research_run(uuid)',
+    'public.claim_next_celeb_philosophy_rewrite(text,integer)',
+    'public.enqueue_missing_celeb_philosophy_rewrite_jobs()',
+    'public.faction_replace_episode(text,jsonb,jsonb,jsonb,jsonb,jsonb,timestamp with time zone)',
+    'public.discourse_replace_episode(text,jsonb,jsonb,jsonb,timestamp with time zone)',
+    'public.set_celeb_quote(uuid,text,text)',
+    'public.set_fiction_narrative_events(uuid,jsonb)',
+    'public.set_fiction_source_characters(text,uuid[])',
+    'public.update_influence(uuid)'
+  ]
+  LOOP
+    function_oid := pg_catalog.to_regprocedure(function_signature);
+    IF function_oid IS NULL THEN
+      CONTINUE;
+    END IF;
+
+    EXECUTE pg_catalog.format(
+      'REVOKE ALL ON FUNCTION %s FROM public, anon, authenticated, service_role',
+      function_oid
+    );
+    EXECUTE pg_catalog.format(
+      'GRANT EXECUTE ON FUNCTION %s TO service_role',
+      function_oid
+    );
+  END LOOP;
+END;
+$acl$;
+
+DELETE FROM vault.secrets WHERE name = 'web_revalidate_secret';
+SELECT vault.create_secret(
+  '{secret}',
+  'web_revalidate_secret',
+  'Web cache revalidation secret'
+);
+"""
+pathlib.Path(sys.argv[1]).write_text(sql, encoding="utf-8")
+PY
+unset vault_secret VAULT_SECRET
+
+python3 - "$work_dir" "$created_at" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+files = {}
+for name in ["roles.sql", "schema.sql", "data.sql", "baseline.json", "restore-manual.sql"]:
+    path = root / name
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    files[name] = {"bytes": path.stat().st_size, "sha256": digest}
+manifest = {
+    "created_at": sys.argv[2],
+    "format": "supabase-cli-logical-v1",
+    "supabase_cli": "2.115.0",
+    "storage_data_excluded": True,
+    "files": files,
+}
+(root / "manifest.json").write_text(
+    json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+    encoding="utf-8",
+)
+PY
+
+stamp=$(date -u +%Y-%m-%dT%H%M%SZ)
+plain_archive="$work_dir/feelandnote-db-$stamp.tar.gz"
+encrypted_archive="$plain_archive.age"
+tar -C "$work_dir" -czf "$plain_archive" \
+  roles.sql schema.sql data.sql baseline.json restore-manual.sql manifest.json
+age -r "$recipient" -o "$encrypted_archive" "$plain_archive"
+shred -u "$plain_archive"
+
+object_key="postgres/daily/$(basename "$encrypted_archive")"
+local_hash=$(sha256sum "$encrypted_archive" | cut -d' ' -f1)
+local_size=$(stat -c %s "$encrypted_archive")
+rclone copyto "$encrypted_archive" "backup:$BACKUP_BUCKET/$object_key" --no-traverse
+remote_hash=$(rclone cat "backup:$BACKUP_BUCKET/$object_key" | sha256sum | cut -d' ' -f1)
+[[ "$local_hash" == "$remote_hash" ]] || {
+  echo 'R2 round-trip SHA256 mismatch.' >&2
+  exit 1
+}
+
+python3 - "$object_key" "$created_at" "$local_size" "$local_hash" \
+  "$public_tables" "$auth_users" <<'PY'
+import json
+import sys
+
+print(
+    json.dumps(
+        {
+            "object_key": sys.argv[1],
+            "created_at": sys.argv[2],
+            "encrypted_bytes": int(sys.argv[3]),
+            "sha256": sys.argv[4],
+            "public_tables": int(sys.argv[5]),
+            "auth_users": int(sys.argv[6]),
+            "r2_round_trip_verified": True,
+        }
+    )
+)
+PY

@@ -19,6 +19,7 @@ test('rejects insecure, local, and suffix-confusion URLs', () => {
   for (const value of [
     'http://archive.org/download/example.jpg',
     'https://archive.org.attacker.example/cover.jpg',
+    'https://old-project.supabase.co/storage/v1/object/public/avatar.webp',
     'https://localhost/cover.jpg',
     'https://127.0.0.1/cover.jpg',
   ]) {

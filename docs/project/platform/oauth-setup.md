@@ -17,11 +17,9 @@ Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더�
 
 ---
 
-## 1. Supabase 설정
+## 1. Supabase Auth 설정
 
-### 대시보드 위치
-- URL: https://supabase.com/dashboard/project/wouqtpvfctednlffross
-- 메뉴: Authentication → URL Configuration
+Auth는 Oracle self-hosted 스택의 `/opt/feelandnote/supabase/.env`로 설정한다. 클라이언트 ID·secret과 SMTP 비밀값은 문서나 저장소에 적지 않는다.
 
 ### 현재 설정값
 
@@ -31,7 +29,7 @@ Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더�
 | Redirect URLs | `https://feelandnote.com/auth/callback` |
 | | `http://localhost:3000/**` |
 
-### Providers 설정 (Authentication → Providers)
+### Providers 설정
 
 #### Google
 | 항목 | 값 |
@@ -58,14 +56,13 @@ Supabase가 중간에서 OAuth flow를 처리하므로, 소셜 프로바이더�
 #### 승인된 JavaScript 원본
 ```
 https://feelandnote.com
-http://feelandnote.com
-https://localhost:3000
+https://www.feelandnote.com
 http://localhost:3000
 ```
 
 #### 승인된 리디렉션 URI
 ```
-https://wouqtpvfctednlffross.supabase.co/auth/v1/callback
+https://db.feelandnote.com/auth/v1/callback
 ```
 
 > Supabase를 거치므로 Supabase callback URL만 등록하면 된다.
@@ -85,7 +82,7 @@ https://wouqtpvfctednlffross.supabase.co/auth/v1/callback
 | REST API 키 | Kakao Developers와 Supabase Providers에서 확인 |
 | 클라이언트 시크릿 (카카오 로그인) | Kakao Developers와 Supabase Providers에서 확인 |
 | 클라이언트 시크릿 활성화 | ON |
-| Redirect URI | `https://wouqtpvfctednlffross.supabase.co/auth/v1/callback` |
+| Redirect URI | `https://db.feelandnote.com/auth/v1/callback` |
 
 ### 카카오 로그인 동의항목 (필요시 확인)
 - 메뉴: 카카오 로그인 → 동의항목
@@ -97,8 +94,8 @@ https://wouqtpvfctednlffross.supabase.co/auth/v1/callback
 
 ### 로컬 개발 (.env)
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+NEXT_PUBLIC_SUPABASE_URL=https://db.feelandnote.com
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<self-hosted-publishable-key>
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 

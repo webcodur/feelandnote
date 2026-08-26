@@ -1,0 +1,14 @@
+[Unit]
+Description=Cloudflare Tunnel for Feel&Note self-hosted Supabase
+After=network-online.target docker.service
+Wants=network-online.target
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cloudflared tunnel --no-autoupdate run --token-file /etc/cloudflared/feelandnote-db.token
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

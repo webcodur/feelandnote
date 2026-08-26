@@ -16,7 +16,6 @@ const ALLOWED_IMAGE_HOSTS = new Set([
 const ALLOWED_IMAGE_HOST_SUFFIXES = [
   '.archive.org',
   '.r2.dev',
-  '.supabase.co',
   '.mzstatic.com',
   '.imgix.net',
   '.bigcommerce.com',

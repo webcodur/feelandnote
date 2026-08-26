@@ -36,8 +36,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
-      { protocol: 'https', hostname: 'wouqtpvfctednlffross.supabase.co' },
-      { protocol: 'https', hostname: '**.supabase.co' },
       { protocol: 'https', hostname: 'image.tmdb.org' },
       { protocol: 'https', hostname: 'images.igdb.com' },
       { protocol: 'https', hostname: 'shopping-phinf.pstatic.net' },

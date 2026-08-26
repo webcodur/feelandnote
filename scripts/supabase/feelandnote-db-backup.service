@@ -1,0 +1,16 @@
+[Unit]
+Description=Encrypted Feel&Note Supabase database backup to R2
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/feelandnote-db-backup
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+Environment=DO_NOT_TRACK=1
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,357 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+if [[ $# -ne 1 ]]; then
+  echo 'usage: test-feelandnote-db-backup-restore AGE_IDENTITY_FILE' >&2
+  exit 2
+fi
+
+identity_source=$1
+deploy_dir=/opt/feelandnote/supabase
+backup_env=/etc/feelandnote/db-backup.env
+test_db=feelandnote-restore-test-db
+test_auth=feelandnote-restore-test-auth
+test_storage=feelandnote-restore-test-storage
+test_network=feelandnote-restore-test-net
+test_config_volume=feelandnote-restore-test-config
+work_dir=$(mktemp -d /var/tmp/feelandnote-restore-test.XXXXXX)
+created_db=0
+created_auth=0
+created_storage=0
+created_network=0
+created_volume=0
+
+for resource in "$test_db" "$test_auth" "$test_storage"; do
+  if docker container inspect "$resource" >/dev/null 2>&1; then
+    echo "Refusing to replace an existing container: $resource" >&2
+    exit 1
+  fi
+done
+if docker network inspect "$test_network" >/dev/null 2>&1; then
+  echo "Refusing to replace an existing network: $test_network" >&2
+  exit 1
+fi
+if docker volume inspect "$test_config_volume" >/dev/null 2>&1; then
+  echo "Refusing to replace an existing volume: $test_config_volume" >&2
+  exit 1
+fi
+
+cleanup() {
+  if (( created_storage )); then docker rm -f "$test_storage" >/dev/null 2>&1 || true; fi
+  if (( created_auth )); then docker rm -f "$test_auth" >/dev/null 2>&1 || true; fi
+  if (( created_db )); then docker rm -f "$test_db" >/dev/null 2>&1 || true; fi
+  if (( created_network )); then docker network rm "$test_network" >/dev/null 2>&1 || true; fi
+  if (( created_volume )); then docker volume rm "$test_config_volume" >/dev/null 2>&1 || true; fi
+  find "$work_dir" -type f -exec shred -u {} + 2>/dev/null || true
+  rm -rf "$work_dir"
+  if [[ "$identity_source" == /home/ubuntu/feelandnote-restore-age.key ]] && [[ -f "$identity_source" ]]; then
+    shred -u "$identity_source" 2>/dev/null || rm -f "$identity_source"
+  fi
+}
+trap cleanup EXIT
+
+install -m 600 "$identity_source" "$work_dir/identity.key"
+shred -u "$identity_source"
+
+set -a
+source "$backup_env"
+set +a
+export RCLONE_CONFIG_BACKUP_TYPE=s3
+export RCLONE_CONFIG_BACKUP_PROVIDER=Cloudflare
+export RCLONE_CONFIG_BACKUP_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID"
+export RCLONE_CONFIG_BACKUP_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY"
+export RCLONE_CONFIG_BACKUP_ENDPOINT="https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+
+object_name=$(rclone lsf "backup:$BACKUP_BUCKET/postgres/daily" \
+  --files-only --include 'feelandnote-db-*.tar.gz.age' | sort | tail -n 1)
+[[ -n "$object_name" ]] || {
+  echo 'No encrypted daily backup found.' >&2
+  exit 1
+}
+
+encrypted_archive="$work_dir/$object_name"
+plain_archive=${encrypted_archive%.age}
+restore_dir="$work_dir/restore"
+mkdir -p "$restore_dir" "$work_dir/db-data"
+rclone copyto \
+  "backup:$BACKUP_BUCKET/postgres/daily/$object_name" \
+  "$encrypted_archive"
+download_hash=$(sha256sum "$encrypted_archive" | cut -d' ' -f1)
+remote_hash=$(rclone cat "backup:$BACKUP_BUCKET/postgres/daily/$object_name" | sha256sum | cut -d' ' -f1)
+[[ "$download_hash" == "$remote_hash" ]] || {
+  echo 'Downloaded archive SHA256 mismatch.' >&2
+  exit 1
+}
+
+age -d -i "$work_dir/identity.key" -o "$plain_archive" "$encrypted_archive"
+tar -xzf "$plain_archive" -C "$restore_dir"
+shred -u "$plain_archive" "$encrypted_archive" "$work_dir/identity.key"
+
+python3 - "$restore_dir" <<'PY'
+import hashlib
+import json
+import pathlib
+import sys
+
+root = pathlib.Path(sys.argv[1])
+manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+if manifest.get("format") != "supabase-cli-logical-v1":
+    raise SystemExit("unexpected backup format")
+if manifest.get("storage_data_excluded") is not True:
+    raise SystemExit("storage exclusion flag is missing")
+for name, expected in manifest["files"].items():
+    path = root / name
+    if path.stat().st_size != expected["bytes"]:
+        raise SystemExit(f"size mismatch: {name}")
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual != expected["sha256"]:
+        raise SystemExit(f"sha256 mismatch: {name}")
+PY
+
+python3 - "$deploy_dir/.env" "$work_dir/db.env" <<'PY'
+import pathlib
+import sys
+
+source = {}
+for line in pathlib.Path(sys.argv[1]).read_text(encoding="utf-8").splitlines():
+    if "=" in line and not line.startswith("#"):
+        name, value = line.split("=", 1)
+        source[name] = value
+output = {
+    "POSTGRES_HOST": "/var/run/postgresql",
+    "PGPORT": source["POSTGRES_PORT"],
+    "POSTGRES_PORT": source["POSTGRES_PORT"],
+    "PGPASSWORD": source["POSTGRES_PASSWORD"],
+    "POSTGRES_PASSWORD": source["POSTGRES_PASSWORD"],
+    "PGDATABASE": source["POSTGRES_DB"],
+    "POSTGRES_DB": source["POSTGRES_DB"],
+    "JWT_SECRET": source["JWT_SECRET"],
+    "JWT_EXP": source["JWT_EXPIRY"],
+}
+pathlib.Path(sys.argv[2]).write_text(
+    "".join(f"{name}={value}\n" for name, value in output.items()),
+    encoding="utf-8",
+)
+PY
+
+docker network create "$test_network" >/dev/null
+created_network=1
+docker volume create "$test_config_volume" >/dev/null
+created_volume=1
+
+docker run -d \
+  --name "$test_db" \
+  --network "$test_network" \
+  --network-alias db \
+  --memory 650m \
+  --shm-size 128m \
+  --env-file "$work_dir/db.env" \
+  -v "$deploy_dir/volumes/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:ro" \
+  -v "$deploy_dir/volumes/db/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:ro" \
+  -v "$deploy_dir/volumes/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:ro" \
+  -v "$deploy_dir/volumes/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:ro" \
+  -v "$deploy_dir/volumes/db/_supabase.sql:/docker-entrypoint-initdb.d/migrations/97-_supabase.sql:ro" \
+  -v "$deploy_dir/volumes/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:ro" \
+  -v "$deploy_dir/volumes/db/pooler.sql:/docker-entrypoint-initdb.d/migrations/99-pooler.sql:ro" \
+  -v "$work_dir/db-data:/var/lib/postgresql/data" \
+  -v "$test_config_volume:/etc/postgresql-custom" \
+  -v "$restore_dir:/restore:ro" \
+  supabase/postgres:17.6.1.136 \
+  postgres \
+  -c config_file=/etc/postgresql/postgresql.conf \
+  -c log_min_messages=fatal \
+  >/dev/null
+created_db=1
+
+for _ in $(seq 1 90); do
+  if docker exec "$test_db" pg_isready -U postgres -h localhost >/dev/null 2>&1; then
+    break
+  fi
+  sleep 2
+done
+docker exec "$test_db" pg_isready -U postgres -h localhost >/dev/null
+
+docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' supabase-auth \
+  > "$work_dir/auth.env"
+docker run -d \
+  --name "$test_auth" \
+  --network "$test_network" \
+  --memory 96m \
+  --env-file "$work_dir/auth.env" \
+  supabase/gotrue:v2.196.0 \
+  >/dev/null
+created_auth=1
+
+for _ in $(seq 1 60); do
+  if docker exec "$test_auth" wget -q --spider http://127.0.0.1:9999/health >/dev/null 2>&1; then
+    break
+  fi
+  sleep 2
+done
+docker exec "$test_auth" wget -q --spider http://127.0.0.1:9999/health >/dev/null
+docker rm -f "$test_auth" >/dev/null
+created_auth=0
+shred -u "$work_dir/auth.env"
+
+docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' supabase-storage \
+  > "$work_dir/storage.env"
+docker run -d \
+  --name "$test_storage" \
+  --network "$test_network" \
+  --memory 128m \
+  --env-file "$work_dir/storage.env" \
+  supabase/storage-api:v1.71.0 \
+  >/dev/null
+created_storage=1
+
+for _ in $(seq 1 60); do
+  storage_ready=$(docker exec "$test_db" psql -X -qAt -U supabase_admin -d postgres \
+    -c "select to_regclass('storage.buckets') is not null
+      and exists(select 1 from information_schema.columns where table_schema='storage' and table_name='buckets' and column_name='type')
+      and exists(select 1 from information_schema.columns where table_schema='storage' and table_name='buckets' and column_name='versioning_status')")
+  if [[ "$storage_ready" == t ]]; then
+    break
+  fi
+  sleep 2
+done
+[[ "$storage_ready" == t ]]
+docker rm -f "$test_storage" >/dev/null
+created_storage=0
+shred -u "$work_dir/storage.env" "$work_dir/db.env"
+
+docker exec "$test_db" psql \
+  --single-transaction \
+  --variable ON_ERROR_STOP=1 \
+  --file /restore/roles.sql \
+  --file /restore/schema.sql \
+  --command 'SET session_replication_role = replica' \
+  --file /restore/data.sql \
+  --username supabase_admin \
+  --dbname postgres \
+  >/dev/null
+docker exec "$test_db" psql \
+  --variable ON_ERROR_STOP=1 \
+  --file /restore/restore-manual.sql \
+  --username supabase_admin \
+  --dbname postgres \
+  >/dev/null
+
+docker exec -i "$test_db" psql -X -qAt -F '|' -U supabase_admin -d postgres \
+  > "$work_dir/restored-table-rows.tsv" <<'SQL'
+SELECT format(
+  'SELECT %L, count(*)::bigint FROM %I.%I;',
+  schemaname || '.' || tablename,
+  schemaname,
+  tablename
+)
+FROM pg_tables
+WHERE schemaname IN ('public', 'auth', 'private')
+  AND NOT (schemaname = 'auth' AND tablename = 'schema_migrations')
+ORDER BY schemaname, tablename
+\gexec
+SQL
+
+docker exec "$test_db" psql -X -qAt -U supabase_admin -d postgres \
+  -c "select json_build_object(
+    'public_tables', (select count(*) from pg_tables where schemaname='public'),
+    'public_policies', (select count(*) from pg_policies where schemaname='public'),
+    'public_functions', (select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public'),
+    'public_triggers', (select count(*) from information_schema.triggers where trigger_schema='public'),
+    'auth_users', (select count(*) from auth.users),
+    'auth_identities', (select count(*) from auth.identities),
+    'manual_trigger', exists(select 1 from pg_trigger where tgname='on_auth_user_created' and not tgisinternal),
+    'delete_auth_user_acl',
+      not has_function_privilege('anon', 'public.delete_auth_user(uuid)', 'EXECUTE')
+      and not has_function_privilege('authenticated', 'public.delete_auth_user(uuid)', 'EXECUTE')
+      and has_function_privilege('service_role', 'public.delete_auth_user(uuid)', 'EXECUTE'),
+    'delete_my_account_acl',
+      not has_function_privilege('anon', 'public.delete_my_account()', 'EXECUTE')
+      and has_function_privilege('authenticated', 'public.delete_my_account()', 'EXECUTE'),
+    'admin_delete_auth_user_acl',
+      not has_function_privilege('anon', 'public.admin_delete_auth_user(uuid)', 'EXECUTE')
+      and has_function_privilege('authenticated', 'public.admin_delete_auth_user(uuid)', 'EXECUTE'),
+    'handle_new_user_acl',
+      not has_function_privilege('anon', 'public.handle_new_user()', 'EXECUTE')
+      and not has_function_privilege('authenticated', 'public.handle_new_user()', 'EXECUTE')
+      and not has_function_privilege('service_role', 'public.handle_new_user()', 'EXECUTE'),
+    'vault_secret_decryptable', exists(select 1 from vault.decrypted_secrets where name='web_revalidate_secret' and decrypted_secret is not null),
+    'invalid_indexes', (select count(*) from pg_index where not indisvalid),
+    'unvalidated_constraints', (select count(*) from pg_constraint where not convalidated)
+  )::text" > "$work_dir/restored-critical.json"
+
+python3 - \
+  "$restore_dir/baseline.json" \
+  "$work_dir/restored-table-rows.tsv" \
+  "$work_dir/restored-critical.json" \
+  "$object_name" \
+  "$download_hash" <<'PY'
+import json
+import pathlib
+import sys
+
+baseline = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+restored_rows = {}
+for line in pathlib.Path(sys.argv[2]).read_text(encoding="utf-8").splitlines():
+    table, count = line.split("|", 1)
+    restored_rows[table] = int(count)
+critical = json.loads(pathlib.Path(sys.argv[3]).read_text(encoding="utf-8"))
+
+row_mismatches = {
+    name: {"expected": expected, "actual": restored_rows.get(name)}
+    for name, expected in baseline["table_rows"].items()
+    if restored_rows.get(name) != expected
+}
+unexpected_tables = sorted(set(restored_rows) - set(baseline["table_rows"]))
+critical_fields = [
+    "public_tables",
+    "public_policies",
+    "public_functions",
+    "public_triggers",
+    "auth_users",
+    "auth_identities",
+]
+critical_mismatches = {
+    name: {"expected": baseline[name], "actual": critical[name]}
+    for name in critical_fields
+    if baseline[name] != critical[name]
+}
+passed = (
+    not row_mismatches
+    and not unexpected_tables
+    and not critical_mismatches
+    and critical["manual_trigger"]
+    and critical["delete_auth_user_acl"]
+    and critical["delete_my_account_acl"]
+    and critical["admin_delete_auth_user_acl"]
+    and critical["handle_new_user_acl"]
+    and critical["vault_secret_decryptable"]
+    and critical["invalid_indexes"] == 0
+    and critical["unvalidated_constraints"] == 0
+)
+result = {
+    "object_name": sys.argv[4],
+    "encrypted_sha256": sys.argv[5],
+    "checked_table_count": len(baseline["table_rows"]),
+    "row_mismatch_count": len(row_mismatches),
+    "unexpected_table_count": len(unexpected_tables),
+    "critical_mismatch_count": len(critical_mismatches),
+    "manual_trigger": critical["manual_trigger"],
+    "delete_auth_user_acl": critical["delete_auth_user_acl"],
+    "delete_my_account_acl": critical["delete_my_account_acl"],
+    "admin_delete_auth_user_acl": critical["admin_delete_auth_user_acl"],
+    "handle_new_user_acl": critical["handle_new_user_acl"],
+    "vault_secret_decryptable": critical["vault_secret_decryptable"],
+    "invalid_indexes": critical["invalid_indexes"],
+    "unvalidated_constraints": critical["unvalidated_constraints"],
+    "restore_verified": passed,
+}
+print(json.dumps(result))
+if not passed:
+    print(json.dumps({
+        "row_mismatches": row_mismatches,
+        "unexpected_tables": unexpected_tables,
+        "critical_mismatches": critical_mismatches,
+    }), file=sys.stderr)
+    raise SystemExit(1)
+PY

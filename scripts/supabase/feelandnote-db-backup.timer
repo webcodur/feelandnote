@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily encrypted Feel&Note Supabase database backup
+
+[Timer]
+OnCalendar=*-*-* 18:20:00 UTC
+Persistent=true
+Unit=feelandnote-db-backup.service
+
+[Install]
+WantedBy=timers.target

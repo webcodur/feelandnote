@@ -2,6 +2,8 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { getAccountAccessState } from '@/lib/auth/account-access'
+import { resolveAuthCallbackUrl } from '@/lib/auth/callback-url'
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export type LoginErrorCode =
@@ -16,6 +18,15 @@ export type SignupErrorCode =
   | 'passwordTooShort'
   | 'alreadyRegistered'
   | 'unknown'
+
+export type PasswordResetRequestErrorCode =
+  | 'missingEmail'
+  | 'rateLimited'
+  | 'unknown'
+
+async function authCallbackUrl(): Promise<string> {
+  return resolveAuthCallbackUrl(await headers())
+}
 
 // #region 이메일 로그인/회원가입
 export async function loginWithEmail(formData: FormData) {
@@ -69,12 +80,13 @@ export async function signupWithEmail(formData: FormData) {
   }
 
   const supabase = await createClient()
+  const callbackUrl = await authCallbackUrl()
 
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      emailRedirectTo: callbackUrl,
       data: {
         nickname
       }
@@ -104,16 +116,43 @@ export async function signupWithEmail(formData: FormData) {
 
   return { success: 'verificationSent' as const }
 }
+
+export async function requestPasswordReset(formData: FormData) {
+  const email = formData.get('email') as string
+
+  if (!email) {
+    return { error: 'missingEmail' as const }
+  }
+
+  const supabase = await createClient()
+  const callbackUrl = new URL(await authCallbackUrl())
+  callbackUrl.searchParams.set('next', '/reset-password')
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: callbackUrl.toString(),
+  })
+
+  if (error) {
+    if (error.status === 429 || error.code === 'over_email_send_rate_limit') {
+      return { error: 'rateLimited' as const }
+    }
+    console.error('[requestPasswordReset]', error)
+    return { error: 'unknown' as const }
+  }
+
+  return { success: 'resetEmailSent' as const }
+}
 // #endregion
 
 // #region OAuth 로그인
 export async function loginWithGoogle() {
   const supabase = await createClient()
+  const callbackUrl = await authCallbackUrl()
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+      redirectTo: callbackUrl,
     }
   })
 
@@ -126,11 +165,12 @@ export async function loginWithGoogle() {
 
 export async function loginWithKakao() {
   const supabase = await createClient()
+  const callbackUrl = await authCallbackUrl()
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      redirectTo: callbackUrl,
       scopes: 'profile_nickname profile_image'
     }
   })
