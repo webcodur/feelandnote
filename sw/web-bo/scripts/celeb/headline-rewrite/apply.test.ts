@@ -6,6 +6,7 @@ import test from 'node:test'
 import {
   APPLY_CHUNK_SIZE,
   APPLY_CHUNK_PAUSE_MS,
+  bindSqlParameters,
   chunkItems,
   createHeadlineStore,
   runHeadlineApply,
@@ -18,6 +19,20 @@ import {
 } from './apply'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { LedgerEntry } from './lib'
+
+test('self-hosted SQL parameters are bound without changing their contents', () => {
+  const payload = JSON.stringify([{ headline: "Apostrophe ' and $fn_parameter_1_$" }])
+  const sql = bindSqlParameters('select $1::jsonb, $2::integer', [payload, 7])
+
+  assert.match(sql, /select \$fn_parameter_1__\$/)
+  assert.ok(sql.includes(payload))
+  assert.match(sql, /, 7::integer$/m)
+})
+
+test('self-hosted SQL binding rejects missing or unused parameters', () => {
+  assert.throws(() => bindSqlParameters('select $2', ['only-one']), /parameter \$2 is missing/)
+  assert.throws(() => bindSqlParameters('select 1', ['unused']), /used 0/)
+})
 
 function patch(index: number): HeadlinePatch {
   return {
