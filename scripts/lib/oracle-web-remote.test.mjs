@@ -12,16 +12,85 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 import {
+  assertCommitHash,
   assertReleaseId,
+  assertUnixAccountName,
+  chooseInactiveSlot,
+  deploymentTargetForPath,
+  legacyReleasesRootRemoveArgs,
   normalizeManifestPath,
   parseJpegDimensions,
+  resolveDeploymentTarget,
   restoreStandaloneLinks,
+  slotNameForPath,
+  slotsRootInstallArgs,
 } from './oracle-web-remote.mjs'
 
 test('release id accepts deploy names and rejects path traversal', () => {
   assert.equal(assertReleaseId('bdd7d8ed-web-20260825t091917z'), 'bdd7d8ed-web-20260825t091917z')
   assert.throws(() => assertReleaseId('../current'), /Unsafe release id/u)
   assert.throws(() => assertReleaseId('WEB release'), /Unsafe release id/u)
+})
+
+test('commit metadata accepts only a full lowercase Git hash', () => {
+  const commit = '0e2e154e47bb6c7535dd14d22a4676b508f3f39f'
+  assert.equal(assertCommitHash(commit), commit)
+  assert.throws(() => assertCommitHash('0e2e154e'), /Unsafe commit hash/u)
+  assert.throws(() => assertCommitHash('../HEAD'), /Unsafe commit hash/u)
+})
+
+test('slot bootstrap grants only the fixed directory to a validated deployment account', () => {
+  assert.equal(assertUnixAccountName('ubuntu'), 'ubuntu')
+  assert.deepEqual(
+    slotsRootInstallArgs('ubuntu', 'ubuntu'),
+    [
+      'install',
+      '-d',
+      '-o',
+      'ubuntu',
+      '-g',
+      'ubuntu',
+      '-m',
+      '0750',
+      '--',
+      '/opt/feelandnote/web/slots',
+    ],
+  )
+  assert.throws(() => slotsRootInstallArgs('ubuntu;id', 'ubuntu'), /Unsafe Unix user/u)
+  assert.throws(() => slotsRootInstallArgs('ubuntu', '../root'), /Unsafe Unix group/u)
+})
+
+test('legacy cleanup removes only the empty fixed releases root with rmdir', () => {
+  assert.deepEqual(
+    legacyReleasesRootRemoveArgs(),
+    ['rmdir', '--', '/opt/feelandnote/web/releases'],
+  )
+})
+
+test('Blue/Green deployment always selects the inactive fixed slot', () => {
+  const root = path.join(tmpdir(), 'feelandnote-slots')
+  const legacyRoot = path.join(tmpdir(), 'feelandnote-releases')
+  const blue = path.join(root, 'blue')
+  const green = path.join(root, 'green')
+  const legacy = path.join(legacyRoot, '0e2e154e-web-20260826t171456z')
+
+  assert.equal(slotNameForPath(blue, root), 'blue')
+  assert.equal(slotNameForPath(green, root), 'green')
+  assert.equal(slotNameForPath(legacy, root), null)
+  assert.equal(chooseInactiveSlot(blue, root), 'green')
+  assert.equal(chooseInactiveSlot(green, root), 'blue')
+  assert.equal(chooseInactiveSlot(legacy, root), 'blue')
+  assert.equal(deploymentTargetForPath(blue, root, legacyRoot), 'blue')
+  assert.equal(
+    deploymentTargetForPath(legacy, root, legacyRoot),
+    '0e2e154e-web-20260826t171456z',
+  )
+  assert.equal(resolveDeploymentTarget('green', root, legacyRoot), green)
+  assert.equal(resolveDeploymentTarget('0e2e154e-web-20260826t171456z', root, legacyRoot), legacy)
+  assert.throws(
+    () => deploymentTargetForPath(path.join(tmpdir(), 'outside'), root, legacyRoot),
+    /outside slots and legacy releases/u,
+  )
 })
 
 test('standalone link paths stay relative to the extracted release', () => {
