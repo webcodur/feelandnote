@@ -152,12 +152,29 @@ function runSsh(config, remoteArgs, options = {}) {
 }
 
 function readRemoteStatus(config) {
+  const currentPath = runSsh(config, [
+    'readlink',
+    '-f',
+    '/opt/feelandnote/web/current',
+  ]).stdout
+  const metadataResult = runSsh(config, [
+    'cat',
+    '/opt/feelandnote/web/current/.feelandnote-release.json',
+  ], { allowFailure: true })
+  let metadata = null
+  if (metadataResult.status === 0 && metadataResult.stdout) {
+    try {
+      metadata = JSON.parse(metadataResult.stdout)
+    } catch (error) {
+      throw new Error(`Current Oracle release metadata is invalid: ${error.message}`)
+    }
+  }
+
   return {
-    currentRelease: runSsh(config, [
-      'readlink',
-      '-f',
-      '/opt/feelandnote/web/current',
-    ]).stdout,
+    currentRelease: metadata?.releaseId ?? currentPath,
+    currentCommit: metadata?.commit ?? null,
+    currentPath,
+    currentSlot: metadata?.slot ?? null,
     service: runSsh(config, [
       'sudo',
       'systemctl',
@@ -167,8 +184,9 @@ function readRemoteStatus(config) {
   }
 }
 
-function resolveDeployedCommit(repoRoot, currentRelease) {
-  const prefix = path.posix.basename(currentRelease).split('-')[0]
+function resolveDeployedCommit(repoRoot, remote) {
+  const candidate = remote.currentCommit ?? path.posix.basename(remote.currentRelease).split('-')[0]
+  const prefix = candidate
   if (!/^[0-9a-f]{5,40}$/u.test(prefix)) return null
   const resolved = run('git', ['rev-parse', '--verify', `${prefix}^{commit}`], {
     cwd: repoRoot,
@@ -534,7 +552,7 @@ async function main() {
   }
 
   const remote = readRemoteStatus(config)
-  const deployedCommit = resolveDeployedCommit(repoRoot, remote.currentRelease)
+  const deployedCommit = resolveDeployedCommit(repoRoot, remote)
   const purgePlan = createPurgePlan(repoRoot, deployedCommit, commit, config.purgeScopes)
   const remoteBranchContainsCommit = isOnRemoteBranch(repoRoot, commit)
   const plan = {
@@ -542,6 +560,9 @@ async function main() {
     targetCommit: commit,
     releaseId,
     currentRelease: remote.currentRelease,
+    currentCommit: remote.currentCommit,
+    currentPath: remote.currentPath,
+    currentSlot: remote.currentSlot,
     service: remote.service,
     canaryPort: config.canaryPort,
     probeSlug: config.probeSlug,
@@ -599,6 +620,7 @@ async function main() {
 
     uploaded = uploadRelease(config, build, releaseId)
     runRemoteHelper(config, uploaded, 'prepare', [
+      '--commit', commit,
       '--archive', uploaded.remoteArchive,
       '--manifest', uploaded.remoteManifest,
     ], { releaseId, inherit: true })
@@ -616,18 +638,28 @@ async function main() {
       publicSeoImage = await verifyPublicSeoImage(releaseId, config.probeSlug)
       deployed = true
     } catch (error) {
-      const previousReleaseId = path.posix.basename(activation.previousRelease)
       runRemoteHelper(config, uploaded, 'rollback', [
-        '--target-release-id', previousReleaseId,
+        '--target', activation.previousTarget,
         '--probe-slug', config.probeSlug,
       ], { releaseId, inherit: true })
-      throw new Error(`Public verification failed; rolled back to ${previousReleaseId}: ${error.message}`)
+      throw new Error(`Public verification failed; rolled back to ${activation.previousTarget}: ${error.message}`)
+    }
+    let finalization
+    try {
+      const finalizationOutput = runRemoteHelper(config, uploaded, 'finalize', [
+        '--previous-target', activation.previousTarget,
+        '--previous-commit', deployedCommit,
+      ], { releaseId, inherit: false }).stdout
+      finalization = JSON.parse(finalizationOutput)
+    } catch (error) {
+      throw new Error(`Deployment is live and publicly verified, but Blue/Green finalization failed: ${error.message}`)
     }
     const requiredPurgeScopes = purgePlan.scopes.filter((scope) => scope !== 'none')
     printPlan({
       ...plan,
       deployed: true,
       activation,
+      finalization,
       publicSeoImage,
       cloudflarePurgeRequired: requiredPurgeScopes,
       // 배포는 여기서 끝나지 않는다. 남은 범위를 비우는 명령을 바로 손에 쥐여 준다.
@@ -655,7 +687,7 @@ async function main() {
     removeBuildWorktree(repoRoot, build)
     if (build && !config.keepArtifacts) removeTaskRoot(build)
     if (!deployed && config.mode === 'execute') {
-      process.stderr.write(`[oracle-web-deploy] Deployment did not complete. Existing current release was preserved or rollback was attempted.\n`)
+      process.stderr.write(`[oracle-web-deploy] Deployment did not complete. The active deployment was preserved or rollback was attempted.\n`)
     }
   }
 }
