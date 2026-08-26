@@ -15,7 +15,7 @@ description: 셀럽 한 줄 정의(headline) 전량 개편 오케스트레이터
 - 초안: `data/celeb/headline-rewrite/drafts/lane-NN.json`
 - 원장: `data/celeb/headline-rewrite/ledger/lane-NN.json`
 - 조회 env: `sw/web-bo/.env`
-- 실제 DB apply용 Management API 토큰: `sw/web/.env`
+- 실제 DB apply 접속: `docs/project/platform/external-services.md`의 `Supabase self-hosted`
 
 레인 = `celebs.id` MD5 앞 4바이트 % 20. 한 인물 한 레인. 다른 레인 대기 없음.
 한 순환 10명: claim → 생성 → (부모가 띄운 새 에이전트) 개편 → record. 첫 순환은 원장만.

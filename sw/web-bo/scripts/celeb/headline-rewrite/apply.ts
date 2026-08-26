@@ -1,5 +1,6 @@
 import {
   closeSync,
+  existsSync,
   fsyncSync,
   mkdirSync,
   openSync,
@@ -7,6 +8,7 @@ import {
   rmSync,
   writeFileSync,
 } from 'node:fs'
+import { spawn } from 'node:child_process'
 import path from 'node:path'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { config } from 'dotenv'
@@ -177,48 +179,103 @@ export function createHeadlineStore(
   }
 }
 
-export function createManagementSqlExecutor(
-  supabaseUrl: string,
-  accessToken: string,
-): ManagementSqlExecutor {
-  const hostname = new URL(supabaseUrl).hostname
-  const projectRef = hostname.split('.')[0]
-  if (!projectRef || !hostname.endsWith('.supabase.co')) {
-    throw new Error(`Management API용 Supabase 프로젝트 주소가 아니다: ${hostname}`)
+function sqlLiteral(value: unknown, parameterIndex: number): string {
+  if (value === null) return 'NULL'
+  if (typeof value === 'boolean') return value ? 'TRUE' : 'FALSE'
+  if (typeof value === 'number') {
+    if (!Number.isFinite(value)) throw new Error(`SQL parameter ${parameterIndex} is not finite`)
+    return String(value)
   }
-  const endpoint = `https://api.supabase.com/v1/projects/${projectRef}/database/query`
 
-  return async (query, parameters) => {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query, parameters, read_only: false }),
-      signal: AbortSignal.timeout(30_000),
-    })
-    const body = await response.text()
-    if (!response.ok) {
-      throw new Error(`Supabase Management SQL 실패 (${response.status}): ${body.slice(0, 500)}`)
-    }
-    try {
-      return JSON.parse(body) as unknown
-    } catch {
-      throw new Error(`Supabase Management SQL 응답 해석 실패: ${body.slice(0, 500)}`)
-    }
-  }
+  const text = typeof value === 'string' ? value : JSON.stringify(value)
+  if (text === undefined) throw new Error(`SQL parameter ${parameterIndex} is undefined`)
+  let tag = `fn_parameter_${parameterIndex}_`
+  while (text.includes(`$${tag}$`)) tag += '_'
+  return `$${tag}$${text}$${tag}$`
 }
 
-export function connectManagementSqlExecutor(): ManagementSqlExecutor {
-  // SUPABASE_ACCESS_TOKEN은 프로젝트 환경 규약상 sw/web/.env가 보관한다.
+export function bindSqlParameters(query: string, parameters: unknown[]): string {
+  const used = new Set<number>()
+  const bound = query.replace(/\$(\d+)\b/gu, (_match, rawIndex: string) => {
+    const index = Number(rawIndex)
+    if (!Number.isSafeInteger(index) || index < 1 || index > parameters.length) {
+      throw new Error(`SQL parameter $${rawIndex} is missing`)
+    }
+    used.add(index)
+    return sqlLiteral(parameters[index - 1], index)
+  })
+  if (used.size !== parameters.length) {
+    throw new Error(`SQL received ${parameters.length} parameter(s), but used ${used.size}`)
+  }
+  return `${bound.trim()}\n`
+}
+
+type SelfHostedSqlOptions = {
+  host?: string
+  sshKey?: string
+  container?: string
+}
+
+export function createSelfHostedSqlExecutor(
+  options: SelfHostedSqlOptions = {},
+): ManagementSqlExecutor {
+  const host = options.host ?? process.env.FEELANDNOTE_DB_SSH_HOST ?? 'ubuntu@152.67.216.40'
+  const sshKey = options.sshKey
+    ?? process.env.FEELANDNOTE_DB_SSH_KEY
+    ?? path.join(process.env.USERPROFILE ?? '', '.ssh', 'feelandnote_oracle')
+  const container = options.container ?? 'supabase-db'
+  if (!existsSync(sshKey)) throw new Error(`Oracle DB SSH key is missing: ${sshKey}`)
+  if (!/^[a-zA-Z0-9_.@:-]+$/u.test(host)) throw new Error(`Unsafe Oracle DB SSH host: ${host}`)
+  if (!/^[a-zA-Z0-9_.-]+$/u.test(container)) throw new Error(`Unsafe DB container: ${container}`)
+
+  return async (query, parameters) => new Promise((resolve, reject) => {
+    const child = spawn('ssh', [
+      '-i', sshKey,
+      '-o', 'BatchMode=yes',
+      '-o', 'ConnectTimeout=10',
+      host,
+      'sudo', 'docker', 'exec', '-i', container,
+      'psql', '-X', '-qAt', '--single-transaction', '--set', 'ON_ERROR_STOP=1',
+      '--username', 'postgres', '--dbname', 'postgres',
+    ], { windowsHide: true })
+    let stdout = ''
+    let stderr = ''
+    let settled = false
+    const finish = (error?: Error) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timeout)
+      if (error) reject(error)
+      else resolve(stdout)
+    }
+
+    const timeout = setTimeout(() => {
+      child.kill()
+      finish(new Error('Self-hosted PostgreSQL query timed out after 30 seconds'))
+    }, 30_000)
+
+    child.stdout.setEncoding('utf8')
+    child.stderr.setEncoding('utf8')
+    child.stdout.on('data', (chunk: string) => { stdout += chunk })
+    child.stderr.on('data', (chunk: string) => { stderr += chunk })
+    child.on('error', (error) => finish(error))
+    child.on('close', (code) => {
+      if (code === 0) finish()
+      else finish(new Error(`Self-hosted PostgreSQL query failed (${code}): ${stderr.slice(0, 500)}`))
+    })
+    child.stdin.end(bindSqlParameters(query, parameters))
+  })
+}
+
+export function connectSelfHostedSqlExecutor(): ManagementSqlExecutor {
   config({ path: path.resolve(process.cwd(), '../web/.env'), quiet: true })
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const accessToken = process.env.SUPABASE_ACCESS_TOKEN
-  if (!supabaseUrl || !accessToken) {
-    throw new Error('NEXT_PUBLIC_SUPABASE_URL / SUPABASE_ACCESS_TOKEN 없음')
+  if (!supabaseUrl) throw new Error('NEXT_PUBLIC_SUPABASE_URL is missing')
+  const hostname = new URL(supabaseUrl).hostname
+  if (hostname !== 'db.feelandnote.com') {
+    throw new Error(`Headline apply requires the self-hosted DB URL: ${hostname}`)
   }
-  return createManagementSqlExecutor(supabaseUrl, accessToken)
+  return createSelfHostedSqlExecutor()
 }
 
 export function writeJsonAtomically(file: string, value: unknown): void {
@@ -340,7 +397,7 @@ export async function apply(): Promise<void> {
     : [parseLane(laneArg)]
   const write = hasFlag('apply')
   const store = write
-    ? createHeadlineStore(connectDb(), connectManagementSqlExecutor())
+    ? createHeadlineStore(connectDb(), connectSelfHostedSqlExecutor())
     : undefined
   const result = await runHeadlineApply(lanes, write, store)
 
