@@ -5,6 +5,7 @@ import {
   existsSync,
   mkdtempSync,
   mkdirSync,
+  readFileSync,
   readdirSync,
   readlinkSync,
   realpathSync,
@@ -25,6 +26,7 @@ import { parseJpegDimensions } from './lib/oracle-web-remote.mjs'
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const WEB_RELATIVE_PATH = 'sw/web'
 const DIST_DIR = '.next-verify'
+const PRODUCTION_SITE_URL = 'https://feelandnote.com'
 const DEFAULT_HOST = 'ubuntu@168.107.58.90'
 const DEFAULT_CANARY_PORT = 3100
 const EXECUTE_CONFIRMATION = 'DEPLOY-FEELANDNOTE-WEB'
@@ -231,6 +233,15 @@ function copyBuildEnvironment(sourceRepo, worktreeRoot) {
   }
   const targetEnv = path.join(worktreeRoot, WEB_RELATIVE_PATH, '.env')
   copyFileSync(sourceEnv, targetEnv)
+  const lines = readFileSync(targetEnv, 'utf8').replace(/\r/gu, '').split('\n')
+  let replaced = false
+  const productionLines = lines.map((line) => {
+    if (!line.startsWith('NEXT_PUBLIC_SITE_URL=')) return line
+    replaced = true
+    return `NEXT_PUBLIC_SITE_URL=${PRODUCTION_SITE_URL}`
+  })
+  if (!replaced) productionLines.push(`NEXT_PUBLIC_SITE_URL=${PRODUCTION_SITE_URL}`)
+  writeFileSync(targetEnv, productionLines.join('\n'), 'utf8')
 }
 
 function removeSecretFiles(rootPath) {

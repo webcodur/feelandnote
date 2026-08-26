@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bell, Shield, Database, Palette, Server, HardDrive, FolderOpen, ExternalLink, Wifi } from 'lucide-react'
+import { Bell, Shield, Database, Palette, Server, HardDrive, FolderOpen } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: '설정',
@@ -203,75 +203,6 @@ export default async function SettingsPage() {
           </div>
         )}
 
-        {/* Egress (대역폭) 안내 */}
-        <div className="mt-3 md:mt-4">
-          <div className="bg-bg-secondary/50 border border-border rounded-lg p-3 md:p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Wifi className="w-4 h-4 text-amber-400" />
-              <h3 className="text-sm font-semibold text-text-primary">Egress (대역폭)</h3>
-            </div>
-            <div className="space-y-2 text-xs text-text-secondary">
-              <p>Supabase API는 Egress 사용량 조회 API를 제공하지 않는다. 대시보드에서 직접 확인해야 한다.</p>
-              <div className="flex items-center justify-between pt-2 border-t border-border">
-                <span>Free 플랜 한도</span>
-                <span className="text-sm font-medium text-text-primary">5.5 GB / 월</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Pro 플랜 한도</span>
-                <span className="text-sm font-medium text-text-primary">250 GB / 월</span>
-              </div>
-              <div className="pt-2 p-2 bg-amber-500/5 border border-amber-500/20 rounded text-amber-300 text-[11px]">
-                ⚠️ 2026-03-18 Egress 초과 사고 (15.59GB/5.5GB). SSR 캐싱 미적용이 원인.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Supabase 대시보드 바로가기 */}
-        <div className="mt-3 md:mt-4 flex flex-wrap gap-2">
-          <a
-            href="https://supabase.com/dashboard/project/wouqtpvfctednlffross"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-bg-secondary/50 border border-border rounded-lg text-xs text-text-secondary hover:text-accent hover:border-accent/50 transition-colors"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            Supabase 대시보드
-          </a>
-          <a
-            href="https://supabase.com/dashboard/project/wouqtpvfctednlffross/settings/billing/usage"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-2 bg-bg-secondary/50 border border-border rounded-lg text-xs text-text-secondary hover:text-accent hover:border-accent/50 transition-colors"
-          >
-            <Wifi className="w-3.5 h-3.5" />
-            Usage (Egress 확인)
-          </a>
-        </div>
-
-        {/* 확장 안내 */}
-        <div className="mt-4 space-y-3">
-          {/* Supabase 용량 확장 */}
-          <div className="p-3 bg-accent/5 border border-accent/20 rounded-lg">
-            <h4 className="text-sm font-semibold text-text-primary mb-2">💡 Supabase 용량 확장</h4>
-            <div className="space-y-1.5 text-xs text-text-secondary">
-              <p>• <strong>Pro 플랜</strong> (월 $25): DB 8GB, 스토리지 100GB</p>
-              <p>• <strong>Team 플랜</strong> (월 $599): Pro + 팀 협업, SSO, 확장 가능</p>
-              <p>• <strong>최대 확장</strong>: DB 60TB, 스토리지 무제한 (사용량 기반 과금)</p>
-              <p className="pt-1">
-                <a
-                  href="https://supabase.com/pricing"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-accent hover:underline"
-                >
-                  자세한 요금제 보기 →
-                </a>
-              </p>
-            </div>
-          </div>
-
-        </div>
       </div>
 
       {/* System Info */}

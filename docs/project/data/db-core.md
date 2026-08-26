@@ -4,7 +4,7 @@
 > 점수·알림 테이블과 현역 RPC·트리거의 운영 적용을 대조했다. 레거시 테이블 제거는 새 앱
 > 배포 뒤의 마지막 게이트라 아직 적용하지 않았다.
 
-Supabase 프로젝트 ID: `wouqtpvfctednlffross`
+운영 위치와 접속 경로는 [`external-services.md`](../platform/external-services.md)의 `Supabase self-hosted` 절이 쥔다.
 
 이 문서는 실제 스키마와 1:1 대조해 갱신한다.
 

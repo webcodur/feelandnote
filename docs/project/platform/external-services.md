@@ -1,17 +1,21 @@
 # 외부 서비스
 
-> **최종 실측 체크: 26.07.16** — `get_tracker_candidates` RPC 실측 재확인(정상 동작, 후보 225건). 이 RPC 건만 확인했고 문서의 나머지는 실측 대조하지 않았다
+> **최종 실측 체크: 26.08.26** — Oracle self-hosted Auth·REST, OAuth 시작 경로, 웹 캐시 webhook, 암호화 백업과 격리 복원을 확인했다. 아래 과거 사고 기록은 당시 상태를 보존한다
 >
 > **스키마 이름 주의(26.08.10):** 아래 날짜별 장애 기록은 사고 당시의 `profiles`·
 > `user_contents` 같은 옛 이름을 그대로 보존한다. 현재 운영 원천은 `celebs`·
 > `celeb_contents` 등 물리 도메인이며, 과거 SQL을 현행 절차로 복사하지 않는다.
 
-## Supabase (MCP 서버)
-DB 스키마 조회, 마이그레이션, SQL 실행 가능.
-- **프로젝트 ID**: `wouqtpvfctednlffross`
-- **플랜**: Pro (Egress 250GB/월, 청구 주기 매월 3일 시작. 26.08.25 현재 주기는 Oracle 웹 이전 전 사용량이 섞여 있어 판정에 쓰지 않는다. 추가 구조 변경 없이 유지하고 9월 3일에 비용 결정을 다시 논의한다. 이전안은 `docs/todo/web-deployment-platform-research.md`)
+## Supabase self-hosted
+
+- 공개 Auth·REST 주소는 `https://db.feelandnote.com`이다. Cloudflare Tunnel이 Oracle DB VM의 Envoy로 연결하며 PostgreSQL 포트는 외부에 열지 않는다.
+- DB VM은 `ubuntu@152.67.216.40`, SSH 키는 로컬 `C:\Users\webco\.ssh\feelandnote_oracle`이다. 배포 루트는 `/opt/feelandnote/supabase`이고 PostgreSQL·Auth·PostgREST·Envoy만 상시 실행한다.
+- 이전 관리형 프로젝트는 삭제하지 않고 조직을 Free로 내린 뒤 DB read-only 상태로 보존한다. 앱·MCP·스크립트는 이 프로젝트를 운영 원천으로 사용하지 않는다.
+- 관리형 Supabase의 Management API와 MCP는 사용하지 않는다. SQL은 SSH를 거쳐 `supabase-db` 컨테이너의 PostgreSQL에 실행한다. 헤드라인 일괄 반영 도구도 이 경로를 쓴다.
 - **키**: 브라우저·서버는 각각 `sb_publishable_...`·`sb_secret_...` 형식을 쓴다. JWT 기반 구형 API 키는 비활성화했고 Auth는 ECC 서명키로 회전했으며, 구형 Legacy HS256 키는 폐기했다. 코드의 환경변수 이름은 호환을 위해 그대로다.
 - **서버 인증 확인**: ECC JWT는 `getClaims()`로 검증한다. 관리자 권한은 별도 `is_admin` RPC와 계정 조회로 확인하며, 요청마다 Auth 서버를 왕복하는 `getUser()`를 백오피스 경로에 다시 넣지 않는다.
+- Google·Kakao OAuth의 프로바이더 callback은 `https://db.feelandnote.com/auth/v1/callback`이다. 자체 Auth 설정과 SMTP 값은 서버의 `/opt/feelandnote/supabase/.env`에만 둔다.
+- `/usr/local/sbin/feelandnote-db-backup`을 `feelandnote-db-backup.timer`가 매일 실행한다. 논리 덤프를 `age`로 암호화해 R2 `feelandnote-backups/postgres/daily/`에 올리고 업로드 뒤 SHA256을 다시 읽어 대조한다. 설치 원본과 격리 복원 검증기는 `scripts/supabase/`가 쥔다. 복구용 age 비밀키는 로컬 `C:\Users\webco\.feelandnote\supabase-backup-age.key`에만 있으며 서버에는 공개 recipient만 둔다.
 
 ### Cloudflare 앞단 캐시 (2026-08-16 가동)
 
@@ -37,6 +41,7 @@ DB 스키마 조회, 마이그레이션, SQL 실행 가능.
 - VM은 1GB이므로 운영 서버에서 Next.js 빌드를 돌리지 않는다. `pnpm deploy:web:oracle`이 기본 plan이며, 실제 배포는 커밋을 격리 worktree의 별도 `NEXT_DIST_DIR`에서 빌드한다. `pnpm build:web` 끝의 `check-standalone-runtime.mjs`가 Oracle Linux용 sharp·libvips 포함을 확인해야 한다.
 - 배포 스크립트는 Windows pnpm junction을 release 내부 상대 심볼릭 링크로 복원하고 `.env*`를 차단한다. 별도 canary에서 대표 상세 페이지와 실제 셀럽 SEO 이미지·fallback이 모두 200 JPEG이고 800×800이며 서로 다른 이미지인 release만 전환한다. 에이전트 실행 규칙은 `.agents/skills/oracle-web-deploy/SKILL.md`가 맡는다.
 - `feelandnote-web.service`는 `Restart=always`, `RestartSec=5s`, `TimeoutStopSec=15s`, Node heap 512MB, `MemoryHigh=700M`, `MemoryMax=850M`이다. 메모리 압력이 높아 정상 종료가 멈춰도 15초 뒤 프로세스를 정리하고 다시 기동한다.
+- standalone이 절대 redirect를 내부 리슨 주소(`localhost`·`127.0.0.1`·`0.0.0.0`:3000)로 만들면 Caddy가 `Location`을 `https://feelandnote.com`으로 교정한다. Auth 소스도 허용된 forwarded host만 callback origin으로 받는다.
 - 실제 배포는 `pnpm deploy:web:oracle -- --execute --confirm DEPLOY-FEELANDNOTE-WEB`로 실행한다. 스크립트가 `/opt/feelandnote/web/current`를 원자적으로 전환하고 `feelandnote-web.service`와 공개 SEO 이미지를 확인하며, 활성화가 실패하면 직전 release로 되돌린다. Cloudflare 퍼지 범위가 자동 분류되지 않으면 `--purge-scopes` 결정 전에는 실행하지 않는다.
 
 ### 웹 캐시 무효화 단일 창구 — DB 트리거 (2026-08-16)
@@ -190,7 +195,7 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - `getTrackerRound` 폴백 후보 목록에서 `cultural_journey`/`bio` 전문 수신 차단 — 선정 1명만 1행 별도 수신, 비어있지 않음 필터는 DB단 `neq`로 이동 (`4464ab07`)
 - `feat/celeb-page-static` 머지 완료 — 셀럽 상세 정적/ISR 전환 (`c39465ed`)
 
-**발견 결함 → 해소(26.07.15)**: RPC `get_tracker_candidates`가 제거된 열 `p.quotes`를 참조해 항상 실패했고, 게임 등용이 폴백 경로로만 동작했다. 당시 `SUPABASE_ACCESS_TOKEN` 만료로 DDL이 막혀 미조치로 남았으나 26.07.15에 RPC를 재정의해 교정했다.
+**발견 결함 → 해소(26.07.15)**: RPC `get_tracker_candidates`가 제거된 열 `p.quotes`를 참조해 항상 실패했고, 게임 등용이 폴백 경로로만 동작했다. 당시 관리형 DB의 DDL 접근 수단 만료로 미조치로 남았으나 26.07.15에 RPC를 재정의해 교정했다.
 
 > **26.07.16 실측 재확인**: RPC 정의에 `quotes` 참조 없음, 호출 시 후보 225건 정상 반환. 이 문서가 26.07.16까지 "항상 실패·토큰 갱신 후 교정 필요"로 남아 있어 정정했다.
 
@@ -362,8 +367,8 @@ check-egress-patterns 적발 41건 → 6건(WARN 1 + INFO 5, exit 0)으로 정�
 - **URL 형식**: `{R2_PUBLIC_URL}/celebs/{celebId}/avatar.webp?v={timestamp}`
 - **환경변수**: 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`에 `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME`, `R2_PUBLIC_URL`
 - **캐시 정책(26.08.25 전수 확인)**: 9,609개 전 오브젝트가 `Cache-Control: public, max-age=31536000, immutable`이다. URL의 `?v=` 버전 표식이 캐시를 깨므로 안전하다(이미지는 업로드마다 `Date.now()`, 음성은 `voice_v` 증가). 해시·timestamp가 들어간 새 키를 쓰는 로고와 회원 아바타도 같은 원칙이다. **`no-cache, must-revalidate`로 되돌리지 마라** — 아바타가 접속마다 재검증 왕복을 강제당해 대량 노출 화면에서 매번 로딩이 걸리던 원인이었다.
-- **호스트 전환(26.08.25)**: DB 원본 4개 테이블을 custom domain으로 바꿨고 public 텍스트 필드 306개의 옛 호스트 참조가 0건임을 확인했다. 클라이언트 음성 URL과 SEO 이미지 허용 호스트도 custom domain으로 배포했고, SEO 이미지 캐시를 경로 단위로 비운 뒤 실제 이미지의 `MISS → HIT`를 확인했다. 사용량과 백업 여지는 `docs/todo/web-deployment-platform-research.md`가 쥔다.
-- **DB 백업 버킷**: `feelandnote-backups`. 외부 공개 경로와 CORS가 없고 `postgres/`은 30일 뒤 만료된다. 덤프·복원 실행 상태는 위 TODO가 쥔다.
+- **호스트 전환(26.08.25)**: DB 원본 4개 테이블을 custom domain으로 바꿨고 public 텍스트 필드 306개의 옛 호스트 참조가 0건임을 확인했다. 클라이언트 음성 URL과 SEO 이미지 허용 호스트도 custom domain으로 배포했고, SEO 이미지 캐시를 경로 단위로 비운 뒤 실제 이미지의 `MISS → HIT`를 확인했다.
+- **DB 백업 버킷**: `feelandnote-backups`. 외부 공개 경로와 CORS가 없고 `postgres/`은 30일 뒤 만료된다. `postgres/daily/`에는 위 self-hosted 백업 서비스가 만든 age 암호문만 둔다.
 - **클라이언트**: `sw/web-bo/src/lib/r2.ts` — `uploadToR2()`, `deleteFromR2()`
 - **업로드 로직**: `sw/web-bo/src/actions/admin/storage.ts`
 

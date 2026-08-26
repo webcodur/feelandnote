@@ -1,6 +1,6 @@
 # 환경변수 · 비밀값 SSoT
 
-> **최종 실측 체크: 26.08.22** — 저장소 내 `.env` 3종·`credentials/` 3곳·`.mcp.json` 전량 대조, 앱별 `process.env` 참조 실측
+> **최종 실측 체크: 26.08.27** — 저장소 내 `.env` 3종과 자격증명 파일, 사용자 홈의 Oracle·백업·Cloudflare 키, `.mcp.json`을 전량 대조했다. 세 앱의 self-hosted DB 주소·서버 키·R2 설정 일치도 확인했다
 
 **이 저장소는 비밀값을 커밋하지 않는다.** `.gitignore`가 `.env`·`.env.*`·`.mcp.json`·`**/credentials/`를 모두 제외한다.
 그래서 `git clone`만으로는 어떤 앱도 뜨지 않는다. **아래 파일 7종을 사람이 직접 옮겨야 한다.**
@@ -18,18 +18,20 @@
 | 3 | `.env` | `sw/remotion/` | 영상 음성 합성·R2 업로드·DB 조회 전부 실패 |
 | 4 | `sw/web/credentials/ga-service-account.json` | `sw/web/credentials/` | 유입 통계(GA4) 조회 불가. 웹 구동 자체는 됨 |
 | 5 | `client_secret.json`·`youtube_token.json`·`youtube_token_en.json` | `sw/remotion/credentials/` | 🔴 **유튜브 업로드·메타 갱신·삭제 전부 불가** (KO·EN 채널 OAuth. `scripts/youtube/youtube-core.ts`가 읽는다) |
-| 6 | `.mcp.json` | 저장소 루트 | AI 도구에서 Supabase·검색 콘솔 조회 불가. 서비스 구동과 무관 |
+| 6 | `.mcp.json` | 저장소 루트 | AI 도구의 검색 콘솔 등 로컬 MCP 연결 불가. 서비스 구동과 무관 |
 | 7 | `.claude/settings.local.json` | 저장소 루트 | Claude Code 개인 설정만. 서비스와 무관 |
 
 루트 `credentials/ga-service-account.json`도 남아 있으나 **참조처가 없는 사본**이다(전부 `sw/web/credentials/` 경로만 읽는다). 옮기지 않아도 된다.
 
-저장소 **밖** 파일도 3종 있다.
+저장소 **밖** 파일도 5종 있다.
 
 | 파일 | 위치 | 용도 |
 |------|------|------|
 | `ga-credentials.json` | `C:/Users/<사용자>/.claude/` | 검색 콘솔 MCP 인증 |
 | `obscura.exe` | `C:\Tools\obscura\<버전>\` | 브라우저 MCP 실행 파일 (비밀값 아님, 재설치로 대체 가능) |
 | `rootca.key`·`rootca.crt`·`rootca.srl` | `C:/Users/<사용자>/.feelandnote/cloudflare-aop/` | Cloudflare Authenticated Origin Pulls 갱신용 CA. `rootca.key`는 비밀값이며 Oracle에는 올리지 않는다. 로컬 사본이 없어도 현재 서비스는 계속 뜨지만 인증서 갱신 때 새 CA로 교체해야 한다 |
+| `feelandnote_oracle`·`feelandnote_oracle.pub` | `C:/Users/<사용자>/.ssh/` | Oracle 웹·DB VM SSH. 비밀키는 공개 저장소나 서버에 복사하지 않는다 |
+| `supabase-backup-age.key` | `C:/Users/<사용자>/.feelandnote/` | R2의 self-hosted DB 암호화 백업 복구키. 서버에는 공개 recipient만 둔다 |
 
 **`.env`가 필요 없는 앱**: `sw/lab`(환경변수 참조 0건), `sw/android`(Gradle 프로젝트), `packages/*`(자체 파일 없이 각 앱의 값을 물려받음).
 **`sw/audio-bo`는 `.env`가 없다** — 로컬 작업 폴더 경로를 코드 기본값(`D:\audios\...`·`D:\GPT-SoVITS\...`)으로 박아 뒀다. 다른 컴퓨터에서 폴더 위치가 다르면 §5를 본다.
@@ -73,10 +75,8 @@ pnpm dev:bo      # :3001 — 로그인 후 대시보드 숫자가 나오면 성�
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | web, web-bo | 브라우저용 `sb_publishable_...` 공개 키. 변수명만 과거 호환 이름을 유지한다 |
 | `SUPABASE_SERVICE_ROLE_KEY` | web, web-bo, remotion | 🔴 서버용 `sb_secret_...` 전권 키. 접근 규칙(RLS)을 전부 무시하며 브라우저로 새면 안 된다. 변수명만 과거 호환 이름을 유지한다 |
 | `SUPABASE_URL` | remotion | 위 URL과 같은 값. remotion만 `NEXT_PUBLIC_` 접두어 없이 쓴다 |
-| `SUPABASE_ACCESS_TOKEN` | web | 🔴 계정 단위 관리 토큰. CLI·MCP와 `web-bo`의 헤드라인 전량 적용 도구가 Management API의 다건 SQL에 사용한다. 헤드라인 도구는 `sw/web/.env`에서 이 값을 읽으므로 운영 URL·service-role과 같은 프로젝트인지 적용 전에 확인한다 |
 
-발급: Supabase 대시보드 → Project Settings → API Keys. 26.08.25부터 JWT 기반 구형
-`anon`·`service_role`은 비활성화돼 있고, Auth JWT는 ECC 서명키를 쓴다.
+공개·서버 키는 self-hosted 배포의 `/opt/feelandnote/supabase/.env`가 원본이다. 값을 교체하면 세 앱의 로컬 `.env`와 Oracle 웹의 `/etc/feelandnote/web.env`도 함께 바꾼다. 관리형 Supabase 계정 토큰은 사용하지 않는다.
 
 ### 3-2. 사이트 주소
 
@@ -171,15 +171,14 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 ## 4. AI 도구용 설정 (`.mcp.json`)
 
-서비스 구동과 무관하다. Claude·Codex 등에서 DB와 검색 콘솔을 직접 조회하려 할 때만 필요하다.
+서비스 구동과 무관하다. Claude·Codex 등에서 검색 콘솔과 로컬 브라우저 도구를 연결할 때만 필요하다.
 
 | 서버 | 담고 있는 것 |
 |------|-------------|
-| `supabase` | 🔴 Supabase 개인 접근 토큰(실행 인자에 평문) |
 | `google-search-console` | `GOOGLE_APPLICATION_CREDENTIALS` — 구글 인증 파일 경로(`C:/Users/<사용자>/.claude/ga-credentials.json`, 저장소 밖) |
 | `obscura` | 비밀값 없음. 로컬 실행 파일 경로(`C:\Tools\obscura\`)만 가리킨다 |
 
-> 이 파일이 커밋되면 **깃허브가 토큰을 감지해 자동 폐기**시킨다. `.gitignore`에 이미 들어 있으니 해제하지 않는다.
+> 사용자별 절대 경로가 들어가는 로컬 설정이므로 `.gitignore`에 둔다. 저장소에 올리지 않는다.
 
 ---
 
@@ -205,11 +204,10 @@ ElevenLabs 두 값에는 콘솔의 API Key ID가 아니라 키 생성·회전 �
 
 ## 6. 유출 시 처리 순서
 
-1. Supabase → API Keys에서 새 `sb_secret_...` 키를 만든 뒤 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`를 모두 교체하고, 노출된 secret key를 폐기
+1. Self-hosted Supabase의 노출된 `sb_secret_...` 키를 회전한 뒤 세 앱의 `.env`와 Oracle `/etc/feelandnote/web.env`를 모두 교체하고 기존 키를 폐기
 2. Cloudflare R2 → 액세스 키 삭제 후 재발급
 3. ElevenLabs·Gemini·TMDB 등 → 각 콘솔에서 키 폐기 후 재발급
 4. 구글 서비스 계정 → 키 삭제 후 새 키 내려받아 `sw/web/credentials/ga-service-account.json` 교체
-5. Supabase 개인 접근 토큰 → 폐기 후 `.mcp.json` 갱신
-6. 유튜브 OAuth → 구글 클라우드 콘솔에서 OAuth 클라이언트 비밀 재발급, `sw/remotion/credentials/client_secret.json` 교체 후 KO·EN 채널 토큰 재인증
+5. 유튜브 OAuth → 구글 클라우드 콘솔에서 OAuth 클라이언트 비밀 재발급, `sw/remotion/credentials/client_secret.json` 교체 후 KO·EN 채널 토큰 재인증
 
 과금이 붙는 것은 ElevenLabs·Gemini 유료 키·구글 TTS다. 유출 시 여기부터 잠근다.

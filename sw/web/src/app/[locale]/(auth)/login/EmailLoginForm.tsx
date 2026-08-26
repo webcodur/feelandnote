@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, useActionState } from 'react'
+import { useState, useActionState } from 'react'
 import { loginWithEmail, type LoginErrorCode } from '@/actions/auth'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
 import { Link } from '@/i18n/navigation'
 import { ArrowLeft, Mail, Eye, EyeOff } from 'lucide-react'
+import PasswordResetRequestForm from './PasswordResetRequestForm'
 
 type State = { error?: LoginErrorCode } | undefined
 
@@ -20,24 +21,23 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
   const [email, setEmail] = useState('')
   const [saveEmail, setSaveEmail] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [isResetMode, setIsResetMode] = useState(false)
   const t = useTranslations('auth.login')
 
   // 저장된 이메일 불러오기
-  useEffect(() => {
+  const handleExpand = () => {
     const savedEmail = localStorage.getItem(STORAGE_KEY)
     if (savedEmail) {
       setEmail(savedEmail)
       setSaveEmail(true)
     }
-  }, [])
-
-  const handleExpand = () => {
     setIsExpanded(true)
     onExpandChange?.(true)
   }
 
   const handleCollapse = () => {
     setIsExpanded(false)
+    setIsResetMode(false)
     onExpandChange?.(false)
   }
 
@@ -68,6 +68,15 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
         <Mail className="h-5 w-5" />
         <span>{t('email')}</span>
       </Button>
+    )
+  }
+
+  if (isResetMode) {
+    return (
+      <PasswordResetRequestForm
+        initialEmail={email}
+        onBack={() => setIsResetMode(false)}
+      />
     )
   }
 
@@ -109,6 +118,16 @@ export default function EmailLoginForm({ onExpandChange }: Props) {
             className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary hover:text-white"
           >
             {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
+          </Button>
+        </div>
+        <div className="text-right">
+          <Button
+            unstyled
+            type="button"
+            onClick={() => setIsResetMode(true)}
+            className="text-sm text-accent hover:underline"
+          >
+            {t('forgotPassword')}
           </Button>
         </div>
       </div>

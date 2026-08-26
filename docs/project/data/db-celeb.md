@@ -4,7 +4,7 @@
 > `celeb_contents`·`celeb_metrics`, 현역 RPC·트리거를 운영 DB와 대조했다. 옛
 > `profiles`·`user_contents`와 호환 구조는 26.08.10 운영 DB에서 최종 제거됐다.
 
-Supabase 프로젝트 ID: `wouqtpvfctednlffross`
+운영 위치와 접속 경로는 [`external-services.md`](../platform/external-services.md)의 `Supabase self-hosted` 절이 쥔다.
 
 ## 셀럽 테이블
 
