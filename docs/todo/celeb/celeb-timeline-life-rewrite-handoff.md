@@ -1,25 +1,27 @@
 # 실존 인물 연표 전면 개편 인수인계
 
-전면 개편을 진행 중이다. 라이브 DB의 473명은 아직 더 고치지 않았다. 표본상 기존 문장을 수선하는
-사실 감사보다 처음부터 재생성하는 편이 낫다. 감사 없는 `life-rewrite/out/` 파일과 국문 진단본을
-다시 반영하지 않는다.
+전면 개편을 진행 중이다. 라이브 DB에 먼저 들어간 473명 가운데 국문 진단을 끝낸 292명은
+`title`·`description`만 중간 개선본으로 갱신했다. 사실 감사까지 끝난 최종본은 아니며, 표본상
+기존 사건을 결함별로 수선하기보다 처음부터 재생성하는 편이 낫다는 판단은 그대로다.
 
 ## 현재 상태
 
 | 대상 | 확인 결과 |
 |---|---|
 | 반영된 실존 인물 | 473명 (`full` 285명, `light` 188명). 라이브 DB에는 사건 5,407건이 있고 모두 `source='manual'`이다 |
-| 로컬 결과 | [`out/`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/out/)의 472명은 라이브 DB의 연도·종류·국영문 제목·서술·장소와 일치한다. 좌표 차이는 DB 숫자 자릿수 반올림뿐이다 |
+| 중간 국문 개선 | 국문 진단 `revised` 294명에서 후속 감사로 문제가 확인된 캐리 앤 모스·백문오를 제외한 292명을 반영했다. 3,378개 사건을 왕복 검증했고, 그중 3,137개의 국문 제목·서술이 바뀌었다 |
+| 국문 개선 보류 | `fact_check` 48명과 캐리 앤 모스·백문오, 합계 50명은 기존 DB 값을 유지한다. 아직 진단하지 않은 로컬 결과는 130명이다 |
+| 로컬 결과 | [`out/`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/out/) 472명은 중간 개선 전 원본이다. 292명은 현재 DB와 국문 제목·서술이 다르므로 더 이상 라이브 복제본으로 보면 안 된다 |
 | 헤로도토스 | 라이브 DB는 9건이지만 [`herodotus.json`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/herodotus.json)은 이전 4건이다. 라이브에 들어간 최종 9건 파일은 로컬에 없다 |
 | 남은 기존 1~16건 실존 인물 | 1,157명 (`full` 961명, `light` 196명). [`queue-all.json`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/queue-all.json)의 나머지 256명은 `fiction`이며 이번 실존 인물 작업 대상이 아니다 |
 | 마지막 16명 | [`next-real-16.json`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/next-real-16.json)에 있다. 16명 모두 라이브 DB와 [`current/`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/current/) 입력 스냅샷이 같고, `out/` 결과가 없으므로 반영되지 않았다. 케빈 파이기만 장소 조회 파일이 하나 남았다 |
 | `current/`의 성격 | 489개가 있으나 473명 구간은 반영 전·후 파일이 섞여 있다. 캐리 앤 모스는 `out/`·라이브와 같고 에런 스워츠는 옛 연표다. 473명의 일괄 원복본으로 쓸 수 없다. 마지막 16명만 라이브와 같은 미처리 입력이다 |
-| 푸시한 중간 데이터 | [`data/celeb/timeline-life-rewrite/`](../../../data/celeb/timeline-life-rewrite/)에 최근 473명 명단, 국문 진단 342명, 캐리 앤 모스·백문오 사실 감사 표본을 보존했다. 모두 DB 승인본은 아니다 |
+| 중간 데이터 원장 | [`data/celeb/timeline-life-rewrite/`](../../../data/celeb/timeline-life-rewrite/)에 최근 473명 명단, 국문 진단 342명, 두 표본, 중간 반영 전 DB 백업과 반영 결과를 보존한다 |
 
 `done.json`, `out/`, `current/`, 작업 규칙과 임시 스크립트는 모두 `.gitignore`의 `.tmp-*` 또는
 `**/_tmp-*` 규칙에 걸린다. 삭제하거나 임시 폴더를 정리하면 복구 근거가 사라진다.
 
-## 바로 재개하면 안 되는 이유
+## 남은 품질 한계
 
 현행 규칙은 조사자·독립 의심자·수정자를 거친 뒤 `stage → 사람 검토 → commit`으로 반영한다.
 이번 작업은 별도 [`REWRITE-RULES.md`](../../../sw/web-bo/.tmp-celeb-timeline-grok/life-rewrite/REWRITE-RULES.md)와
@@ -54,12 +56,17 @@ Codex GPT 한국어 편집자를 둔다. 편집자는 국문과 영문을 사건
 
 로컬 최종본 472명의 국문 감사 결과는
 [`korean-reviewed-life-rewrite/`](../../../sw/web-bo/.tmp-celeb-timeline-grok/korean-reviewed-life-rewrite/)에
-재실행 가능하게 쌓는다. 이 결과만으로 DB를 고치지는 않는다. 473명은 라이브 배열을 새 그록 세션의
-의심자에게 전건 사실 감사시켜 출처·결함 목록을 남긴 뒤 같은 한국어 편집을 다시 거친다.
+재실행 가능하게 쌓는다. 중간 개선은 [`apply-korean-diagnostic.ts`](../../../sw/web-bo/scripts/celeb/timeline/apply-korean-diagnostic.ts)로
+원본과 현재 DB가 사건별로 같을 때만 국문 두 필드를 갱신한다. 반영 전 원본은
+[`db-before-korean-prose-update.json`](../../../data/celeb/timeline-life-rewrite/db-before-korean-prose-update.json),
+왕복 검증 결과는 [`db-korean-prose-update-result.json`](../../../data/celeb/timeline-life-rewrite/db-korean-prose-update-result.json)에 있다.
+473명은 이후 라이브 배열을 새 그록 세션의 의심자에게 전건 사실 감사시키거나 처음부터 재생성해
+출처·결함 목록을 남긴 뒤 같은 한국어 편집을 다시 거친다.
 
 국문 감사는 342명에서 중단해 점검했다. 294명은 문장을 고쳤고 48명은 문장만으로 뜻을 확정할 수 없어
 사실 확인으로 보류했다. 3,946개 사건 중 국문 제목이나 서술이 바뀐 사건은 3,657개이며, 연도·종류·영문·
-장소·좌표가 달라진 사건은 없다. 남은 130명과 사실 보류분은 재개 전까지 그대로 둔다.
+장소·좌표가 달라진 사건은 없다. `revised` 가운데 후속 표본에서 사실 문제가 확인된 두 명을 빼고
+292명·3,137개 사건의 국문 두 필드를 DB에 반영했다. 나머지 50명과 미진단 130명은 기존 값을 유지한다.
 
 전체 관문 표본으로 캐리 앤 모스 13개 사건을 감사했을 때 세 번째 시도에서 출처 40곳과 결함 31건을
 얻었지만, 수정자가 촬영 연도를 2001년으로 고친 뒤 「첫째 아들이 그해 태어났다」를 남겨 2003년 출생과
@@ -77,5 +84,5 @@ Codex GPT 한국어 편집자를 둔다. 편집자는 국문과 영문을 사건
 부실한 인물만 재생성한다. 모든 교체 stage는 조사 시작 때의 라이브 원본과 지문을 보존한다. 승인
 시점에 라이브가 바뀌었으면 보류하고, 저장 실패 때는 원본을 복구한다.
 
-현재 현행 관문을 끝까지 통과해 DB에 반영할 수 있는 인물은 0명이다. 실행 중인 배치는 없고 DB도
-중간점검 뒤 바뀌지 않았다.
+현재 292명은 국문 번역투를 줄인 중간 개선 상태다. 현행 사실·국문 관문을 모두 통과한 최종 개편본은
+아직 0명이며, 이 292명도 이후 재생성·사실 감사 대상에서 제외하지 않는다. 실행 중인 배치는 없다.
