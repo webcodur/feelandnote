@@ -119,6 +119,18 @@ pnpm exec tsx scripts/celeb/timeline/apply-grok.ts commit
 stage에 보존하며, 승인 시점의 라이브 값이 지문과 다르면 교체하지 않는다. 교체 직전 원본은
 stage 옆 `backups/`에 남기고, 새 배열 삽입이나 왕복 검증이 실패하면 원본을 복구한다.
 
+사실 재조사보다 먼저 기존 연표의 번역투를 줄이는 중간 개선을 명시적으로 선택한 경우에는
+`apply-korean-diagnostic.ts`를 쓴다. `revised` 결과만 받고 `fact_check`·`research_needed`는 보류한다.
+진단 시작 때의 원본과 현재 DB가 사건별로 같고, 국문 제목·서술 외 필드가 진단 전후에 같아야 쓸 수
+있다. 실제 반영 전 `--dry`를 실행하며, 반영기는 원본 백업을 만든 뒤 국문 두 필드만 저장하고 전체
+대상을 다시 읽어 검증한다. 이 반영은 사실 관문 통과가 아니므로 이후 재생성·사실 감사 대상에서 빼지
+않는다.
+
+```bash
+pnpm exec tsx scripts/celeb/timeline/apply-korean-diagnostic.ts --dry
+pnpm exec tsx scripts/celeb/timeline/apply-korean-diagnostic.ts --apply
+```
+
 ```bash
 # 최근 개편 473명은 기존 배열을 보지 않고 처음부터 다시 조사한다
 pnpm exec tsx scripts/celeb/timeline/apply-grok.ts run --include-file data/celeb/timeline-life-rewrite/recent-473-slugs.json --replace-existing --lanes 4 --stage --dir .tmp-celeb-timeline-grok/rewrite-recent-473/staged

@@ -1,0 +1,1769 @@
+{
+ "status": "applied_and_verified",
+ "quality": "intermediate_korean_prose_update",
+ "profiles": [
+  {
+   "slug": "aaron-d'souza",
+   "celeb_id": "f09425b7-6b31-448e-8eff-e35373ba89a2",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "aaron-swartz",
+   "celeb_id": "9475b6cb-95c2-4783-bb45-bf7f10fb2502",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "abigail-johnson",
+   "celeb_id": "f777965d-d249-4faf-8ede-85c6ab540f55",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "abraham-karem",
+   "celeb_id": "ae16f9b5-2d68-440d-8c56-f9f2f54884c3",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "adam-back",
+   "celeb_id": "afdca104-8c93-4f51-aada-619dc08c28a0",
+   "event_count": 10,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "adam-bry",
+   "celeb_id": "3059c305-22c1-4572-b7ca-685376903f13",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "adam-grant",
+   "celeb_id": "4968803c-ff2a-4892-a0c2-2d89415a4945",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "adam-neumann",
+   "celeb_id": "8c40e091-c80b-45af-baea-aafff1c3e2c5",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "adrian-dalsey",
+   "celeb_id": "6b5a3a67-d181-4e3f-a5cd-0a95029d75af",
+   "event_count": 9,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "adrien-brody",
+   "celeb_id": "4bf72536-3807-4417-b240-5e9079922883",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "ahn-chae-yeon",
+   "celeb_id": "217d77ef-b178-4a8b-81b2-89b46ac59187",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "ahn-hee-yeon",
+   "celeb_id": "881faea1-ce9d-4bcf-9a8f-c9599571c7ed",
+   "event_count": 9,
+   "changed_event_count": 7
+  },
+  {
+   "slug": "ahn-hye-jin",
+   "celeb_id": "459f1f2c-dd03-4b9b-90e7-9a97907f4d55",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "ahn-hyo-jin",
+   "celeb_id": "addfa269-5439-4517-86ca-c346d1e4c333",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "ahn-so-hee",
+   "celeb_id": "a2a7f37b-419d-455e-8a01-ce4db0009f62",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "ahyeon",
+   "celeb_id": "e7c89da0-3379-4245-ad48-1e30066334ae",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "ajay-banga",
+   "celeb_id": "852c0a6d-b71b-4c95-9fd2-d4c8b80a808c",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "akio-toyoda",
+   "celeb_id": "2303caab-e55b-455c-b0f4-e5a0e829b804",
+   "event_count": 11,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "al-alcorn",
+   "celeb_id": "20df04bb-0b31-4506-9ed8-620b87027f1a",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "al-capone",
+   "celeb_id": "efcedc7b-0d86-4a0a-822b-36d1b9ea7eeb",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "al-farabi",
+   "celeb_id": "caebd611-0404-43d9-8044-89fea2cd9e00",
+   "event_count": 8,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "al-khwarizmi",
+   "celeb_id": "f512ef4c-4ec2-4743-b77e-ba7d44c0ce09",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "al-kindi",
+   "celeb_id": "2ffe22f7-9a30-4f76-a4a5-1e0e592ae6f4",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "al-pacino",
+   "celeb_id": "adc41b8e-416a-405b-91ca-7c50cf98d15d",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "alec-radford",
+   "celeb_id": "bc80a3ee-189d-4543-9002-6d6e62443df5",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "alex-graves",
+   "celeb_id": "40fea5f9-ad2e-4dd2-9b4e-21bbb116130f",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "alex-karp",
+   "celeb_id": "aa4dee1d-3a8d-4bbc-92ab-07ebe17f2f71",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "alex-kendall",
+   "celeb_id": "c884182b-3ab5-4667-95ba-2c0d51c818d3",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "alex-spiro",
+   "celeb_id": "4d2958ed-824b-460e-b572-64a6129567bb",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "alexander-kolesnikov",
+   "celeb_id": "7cdad2b4-d534-4b78-a95b-0a2572a05fb8",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "alfred-bloomingdale",
+   "celeb_id": "5525fa0c-cd28-46a7-a642-a18610cfeea7",
+   "event_count": 11,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "ali-ghodsi",
+   "celeb_id": "1ce0b508-5bd5-4695-8a34-f17000329a74",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "alice",
+   "celeb_id": "31f24465-38a9-4c86-97bc-ca6d4185d29f",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "allen-zhang",
+   "celeb_id": "69c7bdbb-5a35-4db3-931f-e5866370ebc6",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "amancio-ortega",
+   "celeb_id": "f558cb28-a403-4494-aaff-3b67f96edc2b",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "amartya-sen",
+   "celeb_id": "ef2aae04-c7a5-463d-b226-de43b0d9cead",
+   "event_count": 14,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "amber-liu",
+   "celeb_id": "eb530389-998b-4007-ab34-3645f0e0dcb2",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "amin-nasser",
+   "celeb_id": "9d3d84fa-990f-4d28-ba0c-ca957299fd50",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "amnon-shashua",
+   "celeb_id": "6a69891a-2283-4473-bfe2-1330fbd3b342",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "amy-adams",
+   "celeb_id": "197a5a22-49a6-4b96-a2a9-f5736f101c79",
+   "event_count": 14,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "an-yujin",
+   "celeb_id": "7fbb6eef-55d8-43bf-8969-b11b762d1708",
+   "event_count": 12,
+   "changed_event_count": 6
+  },
+  {
+   "slug": "andrew-feldman",
+   "celeb_id": "7d064f46-b19c-45e8-ac07-4c6488b43aac",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "andrew-lincoln",
+   "celeb_id": "dbb4286e-a2d0-45a0-854c-a0b5e7e4bd65",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "andrew-milich",
+   "celeb_id": "70c4ee9e-bf20-453d-b0c4-2f00a1706392",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "andrew-musk",
+   "celeb_id": "caa2dd42-1eea-49b1-921d-0df3d261fe98",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "andrew-tulloch",
+   "celeb_id": "70e397c6-94f2-407e-a5f7-3be5adab8861",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "andrew-weinreich",
+   "celeb_id": "8cc12a34-e897-4b3b-97c3-a9afb8c2d227",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "andy-serkis",
+   "celeb_id": "977ba723-b6f4-49a7-8909-9639d3d25489",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "andy",
+   "celeb_id": "43797ae3-28e0-420a-a615-350b63f94986",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "angelina-jolie",
+   "celeb_id": "df25c2dd-bf97-4922-a528-7c39378cf1da",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "anne-bonny",
+   "celeb_id": "5cb8d398-aa37-4bc1-b0b7-4c2c076c226f",
+   "event_count": 9,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "annie-ernaux",
+   "celeb_id": "9d5a91ea-0e4b-4054-9b44-e4fd0f0a1618",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "anthony-armstrong",
+   "celeb_id": "e4531a0d-7b26-4160-8e10-c4ffee40092b",
+   "event_count": 14,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "anthony-hopkins",
+   "celeb_id": "46cf03ab-2dca-40a6-9e83-2d3e75da448b",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "antisthenes",
+   "celeb_id": "6037e5d9-12a6-4b7d-962d-48f64a12fabe",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "anton",
+   "celeb_id": "dde3bbc5-8c84-4b31-a47d-9b4f7b4aab1f",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "antoni-gaudi",
+   "celeb_id": "49d36f18-a94e-474b-b5c0-c1cf33eba8ed",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "antonio-gracias",
+   "celeb_id": "b6c72107-04ef-4434-973e-0fdf148f1a12",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "anya-taylor-joy",
+   "celeb_id": "7f327892-73c3-4e8b-85d4-4360a3d1cf44",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "archimedes",
+   "celeb_id": "63fbb09c-de95-4cbf-b594-b322b8c1f45c",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "armin-papperger",
+   "celeb_id": "a9e967c8-ef2d-4794-946b-607d2d11a25f",
+   "event_count": 12,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "arthur-blank",
+   "celeb_id": "2bc412b9-0695-4064-8dc9-854bbbf810c4",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "arthur-mensch",
+   "celeb_id": "492a347d-18fe-46b6-9f31-4bcf067a1f3f",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "arvind-krishna",
+   "celeb_id": "e7daacde-a99e-4e8e-a06c-877483a886fb",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "ashish-vaswani",
+   "celeb_id": "2a1fc7e7-6776-40d2-88a2-eefb477e39f6",
+   "event_count": 13,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "ashok-elluswamy",
+   "celeb_id": "e47b270c-af2a-4368-a0ce-ce77a2eb5d2b",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "ayoung",
+   "celeb_id": "0f320d9e-b63d-435f-8095-b0c6eac6762b",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bad-bunny",
+   "celeb_id": "46eca472-892b-42a6-aa9e-fb49c330e32a",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "bae-su-ji",
+   "celeb_id": "1c3b313b-93f7-450c-874d-84abe477a165",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bae",
+   "celeb_id": "c79f77df-b028-43f3-83e3-af247e4bd7a3",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "baekhyun",
+   "celeb_id": "36eb3462-8002-4c86-99a5-cf4e64e728db",
+   "event_count": 13,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bambam",
+   "celeb_id": "dac30ad7-934d-415f-9244-fe0f77c5cb5a",
+   "event_count": 9,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "bang-chan",
+   "celeb_id": "4472d6f7-9ac9-4f2e-a142-617330e985be",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "bang-min-ah",
+   "celeb_id": "f3a3b8f8-d346-4d82-a96c-ef8375907256",
+   "event_count": 13,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "bang-si-hyuk",
+   "celeb_id": "2222c088-8b4c-4d50-bb0d-44ead16ab33b",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bartholomew-roberts",
+   "celeb_id": "8dbf63fb-9272-4e04-b9fe-8c1f06242525",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "batu-khan",
+   "celeb_id": "18c68975-db36-406b-9e4a-9d240fe52896",
+   "event_count": 14,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bayezid-ii",
+   "celeb_id": "10f2ce07-aefe-4cbe-8240-d918c581f6ba",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "beeple",
+   "celeb_id": "6ed9e464-c1b3-4422-96e1-e8bf04abede2",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "ben-horowitz",
+   "celeb_id": "4e91e6bc-d76a-47ba-bcfa-35b6a05785c8",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "ben-mann",
+   "celeb_id": "4be4e058-f50a-4d85-8ef5-1abeb2a8d630",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "benedict-cumberbatch",
+   "celeb_id": "8eca68d2-1427-4334-b465-e198eae3aaaa",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "bennett-golub",
+   "celeb_id": "9dd90c2b-a520-48bf-a541-9d3094b4deef",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "beomgyu",
+   "celeb_id": "18ce66c9-4a3b-40ec-88c4-82d3b3786f62",
+   "event_count": 10,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "bernard-arnault",
+   "celeb_id": "8b40ddab-d50c-4762-b132-94bb4fb2f7c0",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bernard-madoff",
+   "celeb_id": "486d7998-6e89-4d07-a9c5-1ee0e7b787a5",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bernard-werber",
+   "celeb_id": "160cf916-a55a-4faa-a316-fdfa8602dba6",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bernt-bornich",
+   "celeb_id": "1308defb-71ba-4113-8596-016d43a3e6ec",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "beto-orourke",
+   "celeb_id": "62589502-b667-422f-80d5-e334e04335cb",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bill-ackman",
+   "celeb_id": "049a521c-7803-4c70-8ff5-ea231bab0170",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "bill-dally",
+   "celeb_id": "fb903a29-6da6-46b2-b8b5-528c748478e3",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bill-gurley",
+   "celeb_id": "0f43cd61-3fb7-4186-8c80-3d9fa6a2c6e0",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bill-riley",
+   "celeb_id": "f430945c-0f63-4fd1-831e-e5fcf6c51e7d",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "billie-eilish",
+   "celeb_id": "27b5884c-a231-4235-8bcf-26e9a8e9cc48",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "billy-joel",
+   "celeb_id": "3d8ef8eb-1032-4684-9d51-14488bacfdce",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "billy-the-kid",
+   "celeb_id": "d43b3bcd-7f2d-4849-b08c-7bd072cd6a25",
+   "event_count": 11,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "bini",
+   "celeb_id": "1ff63a9d-a0de-432f-9368-b57bb4693ea5",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "blackbeard",
+   "celeb_id": "94a9240e-7ea9-4fe5-aae6-fbf845e393e9",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "blake-masters",
+   "celeb_id": "1ff8e327-b82a-4106-ad9b-b0efd3269b7c",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "bob-dylan",
+   "celeb_id": "2b20c95b-9c1a-404f-a049-babf2926dca2",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "bob-iger",
+   "celeb_id": "71964809-118c-4117-8c2b-5d66d78044a9",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "bob-mumgaard",
+   "celeb_id": "6e6484a4-4a83-4df6-8f97-850ca8074f4b",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bob-odenkirk",
+   "celeb_id": "8b00b911-f690-4f3d-b363-fe41af3d0914",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bobby",
+   "celeb_id": "a9bc8b5a-ae3e-4797-b910-00437a978c79",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "boethius",
+   "celeb_id": "088c7eee-98f7-4aad-b918-5675b5905054",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bom-kim",
+   "celeb_id": "d312f01b-8512-4cfa-a805-515382abcd73",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bong-jin-kim",
+   "celeb_id": "4886d0ac-e220-4f48-9ee3-6c1bbf8d84da",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "borte",
+   "celeb_id": "57c7411d-7763-4fae-88d6-8a66ab81f5a7",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "brad-lightcap",
+   "celeb_id": "b592c599-3b1d-468d-bddf-b867de6cbd0f",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "brad-pitt",
+   "celeb_id": "1af74ca7-04a4-4dd8-9632-5ed7c187dfd0",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "brandon-tseng",
+   "celeb_id": "da4e9ca1-fe5d-44e6-90c5-66d176f957a9",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "brett-adcock",
+   "celeb_id": "511f42fa-300b-427e-98a3-8396acd308dc",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "brian-armstrong",
+   "celeb_id": "6eb78f1c-b826-4d85-b9dd-c7acc3d64b5d",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "brian-chesky",
+   "celeb_id": "5dbd5614-72dd-4fea-8c16-4308c7b98f61",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "brian-singerman",
+   "celeb_id": "e24a5b35-61d4-44e9-a2b9-e9354c5adc55",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "bruce-willis",
+   "celeb_id": "bcc59bb8-addb-4704-a327-3c1c1314088a",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "bruno-mars",
+   "celeb_id": "8fe7d74d-b743-4d4b-bfbc-167889e4dc45",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "bugsy-siegel",
+   "celeb_id": "d488c583-b5a0-46a3-a706-e76f295e7907",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "bumpy-johnson",
+   "celeb_id": "4c9fb132-e204-47be-a0c1-b18ebae8cb51",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "burton-malkiel",
+   "celeb_id": "90f61e9b-cb22-4e0d-832e-dda134ff2462",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "byun-young-joo",
+   "celeb_id": "db90b9a6-5eb4-4eb4-9a00-44b107da2883",
+   "event_count": 11,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "cafu",
+   "celeb_id": "1bec20f0-4da7-4dbd-a577-61fbb200ca54",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "cai-wenji",
+   "celeb_id": "76ea42d9-d685-4b53-a99e-408280733d08",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cameron-diaz",
+   "celeb_id": "bac00959-fc51-4464-80d6-2c616681d909",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cameron-winklevoss",
+   "celeb_id": "0696b103-58a7-401e-87d0-a81374649156",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "candarli-halil-pasha",
+   "celeb_id": "2d693519-1868-4569-8576-758b5f39d3f0",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cao-hong",
+   "celeb_id": "786f85a9-77d7-49bc-b542-4babd3f28694",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "cao-ren",
+   "celeb_id": "b6c2a337-c95b-4eab-b75c-190eb576a4fc",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "cao-xueqin",
+   "celeb_id": "cd1ed863-6fa2-4394-97ed-1cc11eeba34c",
+   "event_count": 9,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "carl-icahn",
+   "celeb_id": "cada2aa9-0957-4d50-8af3-e536301346db",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "carlo-ancelotti",
+   "celeb_id": "58873892-a0e9-4049-aaa3-361b34674db2",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "carlo-gambino",
+   "celeb_id": "72d46a77-ef15-4d17-ba9c-8abc0bd506f8",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cassander",
+   "celeb_id": "314bcf1c-7dad-47cd-bda4-9de5110a9d86",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "cate-blanchett",
+   "celeb_id": "c7744fdb-bbba-425f-bde4-cf39caee8771",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "cathie-wood",
+   "celeb_id": "b50116cb-50a8-4551-bbc3-64fe893d7afb",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cha-bum-kun",
+   "celeb_id": "343535a8-17e0-40f7-b2b5-74d73338ecde",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "cha-eun-woo",
+   "celeb_id": "0ae2170a-c4f5-4122-b4db-ba2ca83aaa5c",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "chaeryeong",
+   "celeb_id": "1e59a543-1f41-4b39-b02e-cabcd6b8955d",
+   "event_count": 11,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "chaeyoung",
+   "celeb_id": "e1771406-0232-4874-ad83-eb0095cf2d4c",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "chagatai-khan",
+   "celeb_id": "dd58c8fa-12fc-4509-86f0-b5f39ac41f3b",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "chamath-palihapitiya",
+   "celeb_id": "8333ef65-0e4b-4d81-94c2-ebd6b0c40080",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "chan-sung-jung",
+   "celeb_id": "dfb5d72e-d5ff-4b9a-8fcc-6007a4b00d46",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "chandragupta-maurya",
+   "celeb_id": "38450700-d87a-4185-9f2b-f77481ca911e",
+   "event_count": 11,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "changbin",
+   "celeb_id": "186ab4d7-cec8-4c67-a15a-bfddec1016b0",
+   "event_count": 9,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "changpeng-zhao",
+   "celeb_id": "a135616e-0456-46e5-bee1-7356b9c92d41",
+   "event_count": 14,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "charlize-theron",
+   "celeb_id": "eaaeaff8-15a0-4bc3-b7f3-26ac038839e5",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "chelsea-manning",
+   "celeb_id": "611fbfdd-b34a-40e4-a872-05debf4dc0dd",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "chen-shou",
+   "celeb_id": "64acaafe-0a7a-48eb-a3ee-df5d7b97a90e",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "cheng-pu",
+   "celeb_id": "f962a4ad-23a4-47f4-bd22-684cdaf710ee",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "chenle",
+   "celeb_id": "10998cba-feb7-467f-83ad-b559268cc74e",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "ching-shih",
+   "celeb_id": "b289dbf5-14fb-4172-b896-c5705ca5a753",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "chiwetel-ejiofor",
+   "celeb_id": "67bc0275-e36f-43bd-9fd7-6842d2ebceba",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "chloe-grace-moretz",
+   "celeb_id": "5f1089ac-1cde-4bb5-9112-945f1f352e13",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cho-mi-yeon",
+   "celeb_id": "43994695-dc10-4326-82b1-660135f3280d",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cho-yeo-jeong",
+   "celeb_id": "725b46ba-175c-4746-bafe-626147931fbd",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "choi-dong-hoon",
+   "celeb_id": "c3860ef8-7ca3-45f1-adfa-d8cec0a5ff8b",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "choi-jin-ri",
+   "celeb_id": "44461846-6886-479e-9835-3abd3c45088a",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "choi-woo-shik",
+   "celeb_id": "55e25343-24e8-4721-93c7-9f978287043c",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "choi-yeon-sung",
+   "celeb_id": "5c69e185-f82d-4e4f-ab11-64021dd2d4e4",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "chris-bumstead",
+   "celeb_id": "9cbe16f8-3bf2-4c7a-9faf-75906ab8120e",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "chris-levesque",
+   "celeb_id": "2d6ec78e-d992-417b-8b64-b413f28db08f",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "chris-malachowsky",
+   "celeb_id": "ce490d6d-2137-40e8-905d-922af04753c4",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "chris-olah",
+   "celeb_id": "7ca63aa0-ee77-4ce3-82cb-d632654ddd07",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "chris-pine",
+   "celeb_id": "0816bd2e-df40-45ed-8820-95ab0b633c36",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "christian-szegedy",
+   "celeb_id": "e9ca6194-2a3a-4689-a3b3-2f97297d7282",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "christina-aguilera",
+   "celeb_id": "9c5c226e-bce2-49ae-99bb-6eebbf83bd21",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "christine-lagarde",
+   "celeb_id": "ba10bcc0-ecd0-46eb-9df5-f5dfdca9bcf9",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "christoph-waltz",
+   "celeb_id": "f1d22f7c-0705-4159-91c7-0eb3fcd30d2f",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "christopher-nolan",
+   "celeb_id": "672320f1-e61e-4fc2-a65f-943dbea05b1f",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "chung-eui-sun",
+   "celeb_id": "da72c7b5-ff8f-4b93-8425-40e169fdb614",
+   "event_count": 13,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "chung-hyun-jong",
+   "celeb_id": "bf4da732-fbfe-49b9-9825-e105847896d2",
+   "event_count": 12,
+   "changed_event_count": 6
+  },
+  {
+   "slug": "chung-ji-young",
+   "celeb_id": "d8b3687c-8b82-426e-8c94-5defe9c70614",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cillian-murphy",
+   "celeb_id": "b2723dbb-29c9-4c26-aae7-d3e2e8d3bdd1",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "claudio-abbado",
+   "celeb_id": "e981898c-6ae5-4680-bf12-d6c526a7a666",
+   "event_count": 14,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cleitus-the-black",
+   "celeb_id": "a1409516-ad26-4581-aa0b-3002f8224872",
+   "event_count": 8,
+   "changed_event_count": 6
+  },
+  {
+   "slug": "cliff-asness",
+   "celeb_id": "02509028-15c8-4a50-9717-71cb11726081",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "clint-eastwood",
+   "celeb_id": "1fa51ad6-9ba1-4f93-b5f5-1f19e90c5726",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "clive-owen",
+   "celeb_id": "a7f37d61-b908-4d27-afca-effb6fd782d5",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "coen-brothers",
+   "celeb_id": "7990c321-d82b-4db2-ba8e-00649feb5b56",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "colonel-sanders",
+   "celeb_id": "16b5270d-04cc-4c92-97b1-1fb763a2bc0e",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "consort-yu",
+   "celeb_id": "07b87a13-001b-4fb1-90c3-ca06fb7609df",
+   "event_count": 8,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "constantine-xi-palaiologos",
+   "celeb_id": "6a688fef-4e68-428d-a32b-03384fce6f3a",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "count-alessandro-di-cagliostro",
+   "celeb_id": "d7d6155a-2e1d-4f3f-bb56-1d7939b790ca",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "cristiano-ronaldo",
+   "celeb_id": "5895d65a-ef7a-42e7-af1d-3725d2b65c68",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "dahyun",
+   "celeb_id": "17870b07-c7e8-4bd3-9686-985390e09429",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "dai-vernon",
+   "celeb_id": "f1b6c225-b055-46f8-bca6-b74cc2165dd5",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "dalai-lama",
+   "celeb_id": "42396e8b-c074-4d48-a264-259f1a9f9635",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "dan-brown",
+   "celeb_id": "2e6c1174-dcc2-4f44-a4d2-bf9390c0faeb",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "daniel-bruhl",
+   "celeb_id": "b5b2f158-d9b6-4c35-82ca-bf1fb36a1f31",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "daniel-de-freitas",
+   "celeb_id": "edc2e751-e7e2-4512-a4eb-f7e9fa8e7609",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "daniel-levy",
+   "celeb_id": "b0ab8b88-e7b5-4834-9e89-ef449feb38ac",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "daniela-amodei",
+   "celeb_id": "80ae6dae-18f0-4ed3-ac46-e6513ea04258",
+   "event_count": 10,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "danielle-steel",
+   "celeb_id": "87795b7f-d007-4ca5-bbbc-590c92322f76",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "danielle",
+   "celeb_id": "37d7e0d2-bd99-43da-8a95-f86e621cba6f",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "dave-thomas",
+   "celeb_id": "c717ed3f-a48e-4427-9ae8-f8fe21b1c86b",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "david-goggins",
+   "celeb_id": "c02cc1c9-996a-49ac-8998-3e4b55289f18",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "dean-o'banion",
+   "celeb_id": "d4630e67-bdb8-42dd-9a49-7bf9df709b6b",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "devendra-singh-chaplot",
+   "celeb_id": "27986934-b5c8-413b-b6c4-32d0f0089fef",
+   "event_count": 13,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "dian-wei",
+   "celeb_id": "633926d3-1607-4cdf-9030-b63c253f0095",
+   "event_count": 8,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "dietrich-mateschitz",
+   "celeb_id": "7585022c-b57c-451d-baa8-9f84484364de",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "dino",
+   "celeb_id": "99032b02-fd68-47c8-b2d5-c70dd39d8a2f",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "diogenes",
+   "celeb_id": "eb0aa2b6-89e2-484c-8648-4e7c71141ea0",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "dmitry-khoroshev",
+   "celeb_id": "005191aa-39e1-42c8-96ed-1f8de1b477ec",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "dolph-lundgren",
+   "celeb_id": "a3ee8a39-258d-4289-994b-2044dd2b6dd6",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "don-estridge",
+   "celeb_id": "8b5da7be-68c2-4392-9557-28d9f2b445ab",
+   "event_count": 13,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "dong-zhuo",
+   "celeb_id": "1d9ee31b-cc2c-4049-82a6-a6c0fd2e2729",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "duke-xiao-of-qin",
+   "celeb_id": "07274841-01a0-4df6-8b7f-bb0e0ca88c75",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "edward-c-johnson-ii",
+   "celeb_id": "f47f6157-07f5-4715-b7a8-272959174f12",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "emperor-hirohito",
+   "celeb_id": "2f1a1e88-279e-4365-96f7-6270ef78508a",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "enheduanna",
+   "celeb_id": "926b75c9-564a-43ea-9caf-f555b39a04a7",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "epicurus",
+   "celeb_id": "57b1cb45-79bb-4171-ad58-e714a89c6b2f",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "eratosthenes",
+   "celeb_id": "16320a5c-b172-4859-9818-9f6bebcacfaf",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "eulji-mundeok",
+   "celeb_id": "b4e5ff19-1001-42c0-ae4e-c943cee2e65f",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "fa-zheng",
+   "celeb_id": "f6c220b8-6cdf-4c08-bc29-5cb174d1150d",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "fan-li",
+   "celeb_id": "eee98002-3376-4f84-9cd6-f8624ae56c38",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "fan-zeng",
+   "celeb_id": "97396b52-a513-4c39-8a56-5f5a30d5120a",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "frank-x-mcnamara",
+   "celeb_id": "e433556a-ad68-4b5e-a22c-86a77aab2751",
+   "event_count": 8,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "frederick-w-smith",
+   "celeb_id": "62cc226c-1a99-4b1a-aab1-98c601ca834e",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "fusu",
+   "celeb_id": "7e3192f9-0496-4dac-beff-5ab76e5e56b5",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "gaius-cassius-longinus",
+   "celeb_id": "def56120-9e98-400a-95a1-0189a1e0e16d",
+   "event_count": 12,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "gan-ning",
+   "celeb_id": "0449bf63-d9f9-41e0-85d8-b1143d53024b",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "gedik-ahmed-pasha",
+   "celeb_id": "25541610-2b64-4993-9d6d-8f7a8877e52d",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "george-washington-casey",
+   "celeb_id": "b46fe485-77eb-4686-b565-e72311ce35fa",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "gerald-tsai-jr",
+   "celeb_id": "9929084c-380c-4704-9c0d-db7328d9b370",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "gongsun-zan",
+   "celeb_id": "dc0e0c7c-95f9-49ef-9742-566b0796c31b",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "goo-ha-ra",
+   "celeb_id": "d64838be-3c01-43bc-9f0b-6cce67b34e1f",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "gordon-moore",
+   "celeb_id": "423198f9-10cc-4165-94ee-3f7f1c44d9a0",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "gunpei-yokoi",
+   "celeb_id": "5be47ae7-391a-4fa8-81b3-6fdcefbe4df4",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "guo-si",
+   "celeb_id": "199e80b7-20ae-4dae-bf86-7377ed3ee209",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "h.-l.-hunt",
+   "celeb_id": "f4671813-a8a0-44dd-ae73-bd9ab0397352",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "hal-finney",
+   "celeb_id": "84613e39-c64d-472a-895f-ea0d70798f49",
+   "event_count": 12,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "hamilcar-barca",
+   "celeb_id": "a9d9e397-a0cf-4dfa-b5b2-45a2736f95a5",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "harry-houdini",
+   "celeb_id": "09669ced-1ab1-4783-b5ed-4b271ea7fcf5",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "harvey-c.-jones",
+   "celeb_id": "9bd0737b-bc85-40cd-adf0-4538f9f8866f",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "hatshepsut",
+   "celeb_id": "70478a88-146b-4380-95b0-ae269ce3eb88",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "henry-morgan",
+   "celeb_id": "0aeb49db-ce69-4444-8c07-11f4bf766a53",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "henry-varnum-poor",
+   "celeb_id": "2c7183b5-3b0a-46ec-9c08-514591e3d654",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "henry-wells",
+   "celeb_id": "80e6446c-d255-4126-b345-16a7f3b9b66c",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "heo-young-ji",
+   "celeb_id": "009ec91c-ae19-4a0b-972a-3d22e25d6660",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "herbert-von-karajan",
+   "celeb_id": "ffd310fe-4e31-42e6-aaf0-30ea174ccf5e",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "herta-muller",
+   "celeb_id": "34d34606-4e61-479a-bb94-cf99d82bc7d9",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "hippocrates",
+   "celeb_id": "661a6679-447f-43cf-bcc9-1b2b474921f0",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "hiroshi-yamauchi",
+   "celeb_id": "bef7ad1d-2b0a-4457-8114-21706d9ee9e1",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "hoan-ton-that",
+   "celeb_id": "211a82d1-7d54-4f6b-b8ad-06136c8dd5b6",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "homer",
+   "celeb_id": "5397f779-2dcb-4712-aca0-c7cb1dde4923",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "hongyu-ren",
+   "celeb_id": "08691687-3510-4d43-ac88-82539f67c048",
+   "event_count": 11,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "hozier",
+   "celeb_id": "06703df0-52b0-411c-afcc-01f6e57cfc15",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "hu-hai",
+   "celeb_id": "e25d9a87-fe74-4f6b-a38a-35345e969133",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "huang-zhong",
+   "celeb_id": "b7b83276-109e-4af1-a49a-f4090e0899c4",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "hugh-grant",
+   "celeb_id": "a0e7c676-c16e-436e-b071-df823fef91a6",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "hypatia",
+   "celeb_id": "119c2040-72b6-4e29-b320-2083dca13c2c",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "hyun-jin-ryu",
+   "celeb_id": "bd04ee3a-3965-4123-b4af-9fe99d8150f5",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "ian-fleming",
+   "celeb_id": "3fda8d7c-8935-4f59-8aba-7069c923241c",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "ian-mckellen",
+   "celeb_id": "3744b4ec-33ff-44b5-ae0c-b06397db5451",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "indra-nooyi",
+   "celeb_id": "4ee3ea7f-fd81-4bbf-ab4b-3e33283e9bd4",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "isaiah-berlin",
+   "celeb_id": "a602ad94-d112-4713-b3a6-bf092d76ff4b",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "isser-harel",
+   "celeb_id": "a16b000f-161e-4469-9eeb-9a490f055541",
+   "event_count": 13,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "jack-tramiel",
+   "celeb_id": "b642681b-0a3d-40df-8a06-b56618fe037a",
+   "event_count": 14,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "james-c-fargo",
+   "celeb_id": "ddae2ddd-8067-4302-a64a-2f77dd85cadb",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "james-e-casey",
+   "celeb_id": "a95076a8-0d44-485b-924e-ab51338ca824",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "james-jesus-angleton",
+   "celeb_id": "c1e6f31a-82ec-4b21-a19c-e21c7876a9ae",
+   "event_count": 13,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "james-mattis",
+   "celeb_id": "7b7c2e66-7914-47df-b434-5ed3d0af25d4",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "james-peng",
+   "celeb_id": "1282f7fb-eeeb-4c26-a2e0-286e96ef57e1",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "jamukha",
+   "celeb_id": "003d8f9e-0137-4fc6-9c80-965b2f778f40",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "jan-koum",
+   "celeb_id": "2eb15717-bde7-443c-baff-7e39e905f259",
+   "event_count": 14,
+   "changed_event_count": 14
+  },
+  {
+   "slug": "jang-yeong-sil",
+   "celeb_id": "be8a42dd-841a-4378-8620-f76fa703677e",
+   "event_count": 10,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "jason-ginsberg",
+   "celeb_id": "1505d9ed-4557-4c98-a79c-209aaef3befc",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "jason-statham",
+   "celeb_id": "8a974bbb-e5fd-4844-81e9-6a0f2e6352fe",
+   "event_count": 14,
+   "changed_event_count": 13
+  },
+  {
+   "slug": "jb-straubel",
+   "celeb_id": "86fdd57a-e937-4602-81cd-053a01d7319d",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "jean-de-meun",
+   "celeb_id": "2bdd190c-9247-40b3-9012-3fe04dd7d227",
+   "event_count": 9,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "jean-eugene-robert-houdin",
+   "celeb_id": "3178cf1d-04a9-4e55-b379-7351ee42eae8",
+   "event_count": 11,
+   "changed_event_count": 9
+  },
+  {
+   "slug": "jebe",
+   "celeb_id": "21c5feb7-a239-48c5-b0f5-be2bf07cefe3",
+   "event_count": 11,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "jeremy-stoppelman",
+   "celeb_id": "ef117e5d-e66c-433b-bc40-1874ee7b5f0b",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "jesse-james",
+   "celeb_id": "540ea15b-c806-474d-ac40-75b7ccc17f38",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "jet-li",
+   "celeb_id": "a1888d28-6904-4e77-82ab-16dc67e41150",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "ji-kang",
+   "celeb_id": "23e9dd94-38e3-449e-bf4e-089a3b949536",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "jim-simons",
+   "celeb_id": "171e9b97-bb71-4548-b570-efcbfb5afcf0",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "jim-taiclet",
+   "celeb_id": "b909f08f-5924-49bf-afce-b6d4af34fc5c",
+   "event_count": 13,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "jin-seon-kyu",
+   "celeb_id": "df42ee40-3bdc-4f29-be1b-538db0ad5346",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "jing-ke",
+   "celeb_id": "7a594c44-7e61-4d27-8296-28d5349d0ec1",
+   "event_count": 10,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "jocko-willink",
+   "celeb_id": "2a51e61a-604c-4d9c-be9b-4d15d018ee26",
+   "event_count": 12,
+   "changed_event_count": 10
+  },
+  {
+   "slug": "john-bogle",
+   "celeb_id": "365b8930-bbc6-4d66-96be-38390ecfc116",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "john-gotti",
+   "celeb_id": "2c651009-0f3d-459a-8faf-985daa843382",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "john-hering",
+   "celeb_id": "02431479-7229-4218-8768-9aea37a5c783",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "john-j-phelan-jr",
+   "celeb_id": "7a4c988e-67b9-4322-b505-cb69fc715e9d",
+   "event_count": 12,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "john-krasinski",
+   "celeb_id": "65a86a84-1940-4b8c-ac1f-f5a40e6b6bd8",
+   "event_count": 12,
+   "changed_event_count": 8
+  },
+  {
+   "slug": "john-moody",
+   "celeb_id": "601db3d0-f8a8-44e0-a9c3-ffc79bce4488",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "john-travolta",
+   "celeb_id": "dbc188eb-d6eb-44d7-92f6-dd2f668f5681",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "johnny-torrio",
+   "celeb_id": "eeebd03a-dfbc-42ce-b043-1c4e83b78d16",
+   "event_count": 11,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "jon-bon-jovi",
+   "celeb_id": "ad70d0d8-31e3-43d1-b593-c4400a47ee13",
+   "event_count": 13,
+   "changed_event_count": 12
+  },
+  {
+   "slug": "jon-fosse",
+   "celeb_id": "8e23ccc7-1e4e-48ff-8299-c996cdda386e",
+   "event_count": 12,
+   "changed_event_count": 11
+  },
+  {
+   "slug": "jonathan-hurst",
+   "celeb_id": "7baf4cd8-c633-47bc-b73a-8ae8d4b3c119",
+   "event_count": 13,
+   "changed_event_count": 13
+  }
+ ],
+ "totals": {
+  "updated_profiles": 292,
+  "verified_profiles": 292,
+  "verified_events": 3378,
+  "updated_events": 3137,
+  "held_by_status": 48,
+  "explicitly_held": [
+   "baek-mun-oh",
+   "carrie-anne-moss"
+  ]
+ }
+}

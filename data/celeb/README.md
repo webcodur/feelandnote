@@ -16,7 +16,8 @@ data/celeb/
 │   └── drafts/
 ├── timeline-life-rewrite/
 │   ├── korean-diagnostic/
-│   └── pilots/
+│   ├── pilots/
+│   └── db-*.json
 └── viewing-research/
     └── YYYY-MM-DD-<scope>.md
 ```
@@ -38,9 +39,8 @@ data/celeb/
 
 ### `timeline-life-rewrite/`
 
-실존 인물 연표 전면 개편의 DB 반영 전 국문 진단과 사실 감사 표본이다. 재개 근거는 이 폴더의
-`README.md`, 실행 규칙은 `docs/project/celeb/celeb-timeline-grok-relay.md`가 쥔다. JSON은 승인된
-서비스 값이 아니며 DB에 그대로 반영하지 않는다.
+실존 인물 연표 전면 개편의 국문 진단, 사실 감사 표본, 중간 반영 전 백업과 결과다. 재개 근거는
+이 폴더의 `README.md`, 실행 규칙은 `docs/project/celeb/celeb-timeline-grok-relay.md`가 쥔다.
 
 ## 타임라인
 
