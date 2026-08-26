@@ -1,0 +1,183 @@
+{
+ "slug": "frank-x-mcnamara",
+ "events": [
+  {
+   "year": 1917,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브루클린에서 태어나다",
+   "title_en": "Is born in Brooklyn",
+   "description": "브루클린에서 자랐다. 훗날 에블린 업튼과 결혼해 딸 패트리샤와 아들 로버트를 두었다.",
+   "description_en": "He grew up there. He later married Evelyn Upton and had a daughter, Patricia, and a son, Robert.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1941,
+   "year_end": 1945,
+   "kind": "other",
+   "title": "육군으로 복무하다",
+   "title_en": "Serves in the Army",
+   "description": "제2차 세계대전 중 육군에서 복무했다. 소속 부대와 계급을 확인할 수 있는 기록은 남아 있지 않다. 제대한 뒤 뉴욕으로 돌아와 돈을 빌려주는 일을 시작했다.",
+   "description_en": "It was the Second World War. No unit or rank survives in the record. After discharge he returned to New York and began lending money.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1949,
+   "year_end": null,
+   "kind": "work",
+   "title": "해밀턴 크레딧을 운영하다",
+   "title_en": "Runs Hamilton Credit",
+   "description": "장부에는 회수하지 못한 대출금 3만 5천 달러가 남아 있었다. 한 단골 고객은 신용이 없는 사람들에게 자신의 약국 외상 결제용 명판을 빌려줬다가 자신도 빚에 빠졌다. 변호사 랠프 슈나이더와 백화점 창업자의 손자인 앨프리드 블루밍데일도 맥나마라와 함께 이 문제를 논의했다. 가게마다 고객에게 별도의 외상 거래를 허용하는 대신, 한 회사가 여러 가게의 외상 거래를 중개하자는 쪽으로 이야기가 모였다. 회사는 훗날 맥나마라가 지갑을 다른 정장에 두고 저녁 식사에 나왔다가 이 사업을 구상했다는 이야기를 퍼뜨렸다. 홍보 담당자 매티 시먼스는 그런 저녁 식사는 없었다고 말했다.",
+   "description_en": "The books still carried thirty-five thousand dollars in bad loans. One regular had lent his drugstore charge plate to people with no credit and fallen into debt himself. Attorney Ralph Schneider and Alfred Bloomingdale, grandson of the department-store founder, sat with him over that problem. Talk settled on a middleman who would carry tabs at many shops instead of each shop opening its own. The company later spread a story that the idea came from a dinner where he left his wallet in another suit. Press agent Matty Simmons said that dinner never happened.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1950,
+   "year_end": null,
+   "kind": "work",
+   "title": "다이너스 클럽을 세우다",
+   "title_en": "Founds Diners Club",
+   "description": "2월 8일, 슈나이더와 회사를 설립하고 엠파이어스테이트빌딩에 사무실을 두었다. 같은 날 33번가의 마요르스 캐빈 그릴에서 종이 카드를 내밀고 서명했다. 카드에는 1000번이 적혀 있었다. 가맹 식당은 27곳이었고, 처음 카드를 받은 회원은 지인 200명이었다. 다이너스 클럽이라는 이름에는 회원들이 한 달에 한 번 식사비를 결제하는 모임이라는 뜻이 담겨 있었다.",
+   "description_en": "It was February 8. He opened the company with Schneider and put the office in the Empire State Building. That same day at Major’s Cabin Grill on Thirty-third Street he handed over a cardboard card and signed. The number on it was one thousand. Twenty-seven restaurants took it, and the first two hundred holders were friends. The name meant a club of diners who settled once a month.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1950,
+   "year_end": null,
+   "kind": "work",
+   "title": "시먼스를 불러 회원을 모으다",
+   "title_en": "Brings in Simmons to recruit members",
+   "description": "나이트클럽 홍보 경력이 있는 시먼스를 영입해 신문과 잡지에 광고를 내고 홍보 편지를 우편으로 보냈다. 처음에는 연회비를 받지 않았다. 적자가 나자 시먼스가 3달러의 연회비를 받자고 제안했고, 연회비는 나중에 5달러가 됐다. 가맹점은 결제액의 7퍼센트를 냈다. 그해 말 회원 수는 2만 명에 이르렀다.",
+   "description_en": "He brought in Simmons, who had done publicity for nightclubs, to advertise in papers and magazines and mail letters. At first there was no annual fee. When the books ran red Simmons pushed a three-dollar charge; it later became five. Merchants paid seven percent of the bill. By year’s end membership was twenty thousand.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1951,
+   "year_end": null,
+   "kind": "work",
+   "title": "카드 사용처를 식당 밖으로 넓히다",
+   "title_en": "Takes the card beyond restaurants",
+   "description": "호텔과 렌터카 업체, 꽃집도 카드를 받기 시작했다. 회원 수는 4만 명을 넘었고, 미국의 다른 대도시에서도 가맹점이 늘었다. 블루밍데일은 캘리포니아에서 다인 앤드 사인을 열어 비슷한 카드를 판매했지만 사업은 부진했다.",
+   "description_en": "Hotels, car rentals, and flower shops began to take it. Membership passed forty thousand and merchants signed on in other American cities. Bloomingdale opened Dine and Sign in California to sell a similar card and it went badly.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1952,
+   "year_end": null,
+   "kind": "other",
+   "title": "지분을 넘기고 떠나다",
+   "title_en": "Sells his stake and leaves",
+   "description": "블루밍데일 측에 지분을 넘기고 목재 영업직으로 옮겼다. 그는 카드가 한때의 유행으로 끝날 것이라고 생각했다. 블루밍데일이 사장이 되었고 슈나이더는 회사에 남았다. 뉴욕타임스는 훗날 맥나마라가 2년도 되지 않아 회사를 연간 600만 달러 규모의 사업으로 키웠다고 전했다.",
+   "description_en": "He sold his shares to the Bloomingdale side and took a lumber-sales job. He thought the card would burn out as a fad. Bloomingdale sat as president and Schneider stayed. The New York Times later wrote that he had built a six-million-dollar-a-year business inside two years.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "death",
+   "title": "맨해셋에서 죽다",
+   "title_en": "Dies in Manhasset",
+   "description": "11월 9일, 쇼어헤이븐의 자택에서 심장마비로 쓰러져 숨졌다. 마흔 살이었다. 유족으로 아내 에블린 업튼과 딸 패트리샤, 아들 로버트가 있었다.",
+   "description_en": "On November 9 he collapsed of a heart attack at his Shorehaven house. He was forty. His wife Evelyn Upton, daughter Patricia, and son Robert survived him.",
+   "place_name": "맨해셋",
+   "place_name_en": "Manhasset",
+   "lat": 40.792777777778,
+   "lng": -73.693333333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제공하는 세부 정보는 그대로 보존하면서, 모호한 지시어와 직역 표현, 생략된 목적어, 부자연스러운 서술어를 고쳤다. 사건들이 창업 전 금융업부터 다이너스 클럽의 설립과 확장, 지분 매각과 사망까지 자연스럽게 이어지도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 동네」가 브루클린을 간접적으로 가리키고 「뒤에」도 부자연스러워, 지명을 명시하고 가족 관계를 자연스럽게 서술했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「2차대전 때였다」가 앞 제목에 의존하는 단편적인 문장이며, 「부대와 계급은 남은 기록이 없다」도 주어와 서술어의 관계가 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「단골 하나」, 「그 자리를 같이 봤다」, 「이 생각이 났다고 퍼뜨렸다」처럼 뜻을 짐작해야 하는 표현이 이어졌고, 외상 거래를 통합 관리한다는 사업 구상의 주체와 행동 관계가 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서른셋 거리」는 Thirty-third Street를 단어 순서대로 옮긴 표현이며, 카드 번호와 최초 회원, 회사 이름의 의미를 설명하는 문장도 한국어 문맥에서 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「편지를 돌렸다」는 모집 방법을 모호하게 만들고, 3달러와 5달러가 연회비라는 점이 뒤 문장에서는 생략되어 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「가맹」은 무엇을 넓혔는지 바로 드러나지 않았고, 「호텔과 렌터카, 꽃집도 받기 시작했다」는 목적어가 빠져 있었다. 「비슷한 카드를 팔다 잘 안 됐다」도 지나치게 구어적이고 모호했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「목재 회사 영업으로 갔다」와 「사장 자리에 앉고」가 직역에 가까웠으며, 마지막 문장의 「그」가 누구인지 다시 짚어야 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "사망 사건에서 가족이 「남았다」고 한 표현을 유족 관계가 분명하게 드러나는 서술로 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ]
+ }
+}

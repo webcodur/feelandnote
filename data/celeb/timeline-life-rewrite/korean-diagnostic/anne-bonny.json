@@ -1,0 +1,196 @@
+{
+ "slug": "anne-bonny",
+ "events": [
+  {
+   "year": 1697,
+   "year_end": null,
+   "kind": "birth",
+   "title": "코크 근처에서 태어났다고 전한다",
+   "title_en": "Is said to have been born near Cork",
+   "description": "아버지는 변호사였고 어머니는 그 집 하녀 메리였다. 동시대 세례 장부는 없다. 1724년 『해적의 일반사』가 이 출생을 처음 적었고, 뒤에 붙은 부모의 성은 20세기 소설에서 나왔다.",
+   "description_en": "Her father was an attorney and her mother Mary a servant in his house. No contemporary baptismal record survives. A General History of the Pyrates first set down this birth in 1724, and the surnames later attached to the parents come from a twentieth-century novel.",
+   "place_name": "코크",
+   "place_name_en": "Cork",
+   "lat": 51.9,
+   "lng": -8.473056
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지가 캐롤라이나로 데려갔다고 전한다",
+   "title_en": "Is said to have been taken to Carolina by her father",
+   "description": "스캔들이 나자 아버지와 어머니, 아이가 함께 건너갔다고 『해적의 일반사』는 적었다. 아버지는 변호사 일을 접고 상인이 되어 농장을 샀다고 한다. 찰스턴 쪽 토지와 유언 기록에서는 앤 보니의 아버지를 특정하지 못했다. 같은 전승은 앤 보니가 선원과 결혼한 뒤 나소로 떠났다고 하나, 선원의 이름은 초판에 없고 사면 명단에도 없다.",
+   "description_en": "The same book says that after a scandal the father crossed with the mother and child. He is said to have left the law, become a merchant, and bought a plantation. Land and probate records around Charleston do not identify that man. The same tradition has her marrying a sailor and leaving for Nassau, but the sailor is unnamed in the first edition and absent from the pardon lists.",
+   "place_name": "찰스턴",
+   "place_name_en": "Charleston",
+   "lat": 32.783333,
+   "lng": -79.931944
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "프로비던스 섬에 살다",
+   "title_en": "Lives on the island of Providence",
+   "description": "재판 기록은 프로비던스 섬에 살던 미혼 여성으로 적었다. 프로비던스 섬의 항구가 나소다. 도착 시점은 남아 있지 않다. 1718년 우즈 로저스가 총독으로 부임한 뒤에도 사면받은 선원과 해적이 한곳에 섞여 있었다.",
+   "description_en": "The trial record lists her as a spinster late of the island of Providence. Nassau is the port on that island. The date of her arrival is not recorded. After Woodes Rogers arrived as governor in 1718, pardoned sailors and pirates still shared the settlement.",
+   "place_name": "나소",
+   "place_name_en": "Nassau",
+   "lat": 25.078056,
+   "lng": -77.338611
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "other",
+   "title": "래컴 일당과 슬루프를 훔쳐 나가다",
+   "title_en": "Steals a sloop with Rackham's company",
+   "description": "8월 22일 나소 항구에 있던 존 햄의 슬루프 윌리엄을 타고 나갔다. 배에 오른 사람은 존 래컴과 남자 선원 열두 명가량, 그리고 메리 리드였다. 배는 대포 네 문과 선회포를 달고 있었다.",
+   "description_en": "On 22 August they took John Ham's sloop William from Nassau harbour. Those aboard were John Rackham, about a dozen men, and Mary Read. The vessel carried four carriage guns and a swivel gun.",
+   "place_name": "나소",
+   "place_name_en": "Nassau",
+   "lat": 25.078056,
+   "lng": -77.338611
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "other",
+   "title": "총독 포고문에 이름이 오르다",
+   "title_en": "Is named in the governor's proclamation",
+   "description": "9월 5일 우즈 로저스는 일당을 영국 왕실의 적으로 선포했다. 포고문은 앤 풀퍼드 일명 보니, 메리 리드를 함께 적었다. 그해 10월 보스턴 가제트에 이 포고가 실렸다.",
+   "description_en": "On 5 September Woodes Rogers proclaimed the company enemies of the British crown. The text names Ann Fulford alias Bonny together with Mary Read. The Boston Gazette printed the proclamation that October.",
+   "place_name": "나소",
+   "place_name_en": "Nassau",
+   "lat": 25.078056,
+   "lng": -77.338611
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "other",
+   "title": "자메이카 앞바다에서 배를 털다",
+   "title_en": "Robs vessels off Jamaica",
+   "description": "일당은 두 달 남짓 서인도에서 작은 배를 덮쳤다. 도러시 토머스는 카누를 빼앗기며 두 여자가 남자 재킷과 바지를 입고 권총과 마체테를 들었다고 증언했다. 토머스 스펜로는 스쿠너를 빼앗겼고, 토머스 딜런은 두 여성 가운데 한 사람이 갑판에서 권총을 들고 있는 모습을 보았다고 했다. 프랑스인 증인들은 앤 보니가 남자 선원들에게 화약을 건네주었다고 했다.",
+   "description_en": "For about two months the company took small craft in the West Indies. Dorothy Thomas, robbed in a canoe, testified that the two women wore men's jackets and trousers and carried pistols and machetes. Thomas Spenlow lost a schooner. Thomas Dillon saw one of them with a pistol on deck. French witnesses said she handed powder to the men.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "battle",
+   "title": "네그릴 곶 앞에서 붙잡히다",
+   "title_en": "Is captured off Negril Point",
+   "description": "10월 22일 밤, 조너선 바넷의 슬루프가 자메이카 서쪽 끝 한 리그 밖에서 래컴의 배를 가로막았다. 일당은 선회포를 쏘았고 바넷은 함포를 일제히 쏘아 붐을 부러뜨렸다. 재판 기록은 두 여자가 그 싸움에서 어떻게 싸웠는지를 따로 적지 않았다.",
+   "description_en": "On the night of 22 October Jonathan Barnet's sloop stopped Rackham's vessel about a league off Jamaica's western tip. The company fired a swivel gun; Barnet's broadside broke the boom. The trial record does not say how the two women fought in that engagement.",
+   "place_name": "네그릴",
+   "place_name_en": "Negril",
+   "lat": 18.273056,
+   "lng": -78.345833
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "other",
+   "title": "해적 혐의로 유죄 판결을 받다",
+   "title_en": "Is convicted of piracy",
+   "description": "11월 28일 세인트자고델라베가 부해사법원에서 메리 리드와 함께 재판을 받았다. 증인들이 증언한 뒤 두 사람에게 교수형이 선고됐다. 두 사람은 임신했다고 밝혀 형 집행이 미뤄졌다. 래컴은 열흘 앞서 포트로열에서 이미 교수형에 처해졌다.",
+   "description_en": "On 28 November she was tried with Mary Read at the vice-admiralty court in St Jago de la Vega. After the witnesses spoke, both were sentenced to hang. They said they were pregnant, and the executions were stayed. Rackham had already been hanged at Port Royal ten days earlier.",
+   "place_name": "스패니시타운",
+   "place_name_en": "Spanish Town",
+   "lat": 17.996111,
+   "lng": -76.954722
+  },
+  {
+   "year": 1721,
+   "year_end": null,
+   "kind": "other",
+   "title": "교수형이 집행되지 않은 채 기록에서 사라지다",
+   "title_en": "Is not hanged, then drops from the record",
+   "description": "메리 리드는 이듬해 4월 세인트캐서린 교구 장부에 해적으로 묻혔다. 1724년 『해적의 일반사』는 앤 보니를 출산 때까지 감옥에 두었고 여러 차례 형 집행을 미뤘으며, 끝내 교수형에 처하지 않았다고만 적었다. 석방 기록은 없다. 찰스턴에서 오래 살다 죽었다는 이야기는 후대에 붙었고, 문서로는 확인되지 않았다.",
+   "description_en": "Mary Read was buried in April the next year in the St Catherine parish register as a pirate. A General History of the Pyrates, in 1724, says only that she was kept in prison until she gave birth, reprieved from time to time, and not executed. No release record survives. The story that she lived on and died in Charleston was added later and is not confirmed in documents.",
+   "place_name": "스패니시타운",
+   "place_name_en": "Spanish Town",
+   "lat": 17.996111,
+   "lng": -76.954722
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대체로 자연스럽고 생애의 흐름도 이어지지만, 일부 서술에서 영문보다 의미가 넓어진 표현, 바로 앞 사건에 의존하는 지시어, 증언의 행위자가 불분명한 문장을 고쳤다. 영문만으로 안전하게 바로잡을 수 없는 사실 문제는 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 surnames를 「부모 성명」으로 옮겨 이름 전체를 뜻하게 되었으므로 「부모의 성」으로 바로잡았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 책」과 「그 사람」은 이 사건만 읽으면 각각 어떤 책과 인물을 가리키는지 알 수 없어 『해적의 일반사』와 앤 보니의 아버지를 직접 밝혔다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「총독으로 들어온」은 부임을 나타내는 한국어로 어색해 「총독으로 부임한」으로 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 about a dozen men을 「열댓 명」으로 옮기면 인원이 약 15명으로 늘어나므로 「열두 명가량」으로 바로잡았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "토머스 딜런이 누구의 모습을 보았는지 불분명했고, 프랑스인 증언에서는 화약을 받은 대상이 빠져 있었다. 영문에 맞춰 두 여성 가운데 한 사람과 남자 선원들을 명시했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "broadside를 단순히 「함포」라고 옮겨 일제사격이라는 행동이 사라졌으므로 「함포를 일제히 쏘아」로 보완했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "sentenced to hang이 단순한 「사형」으로 축약되어 교수형이라는 세부가 사라졌으므로 이를 복원하고, 「교수됐다」를 자연스러운 표현으로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「교수되지 않았다」는 한국어로 부자연스러워 집행되지 않았다는 뜻을 명확히 했다. 본문에서는 『해적의 일반사』가 감옥에 두었다고 기록한 대상이 생략되어 앤 보니를 명시했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

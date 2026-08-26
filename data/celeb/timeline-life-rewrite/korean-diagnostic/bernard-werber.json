@@ -1,0 +1,248 @@
+{
+ "slug": "bernard-werber",
+ "events": [
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "birth",
+   "title": "코트 파베에서 태어나다",
+   "title_en": "Is born in Côte Pavée",
+   "description": "어머니는 피아니스트였으며 집에서 지냈다. 그는 누이와 함께 의자와 담요로 움막을 지었다. 그 안에는 새 둥지와 손으로 만든 비행기를 모아 두었다.",
+   "description_en": "His mother was a pianist and stayed at home. He and his sister built dens out of chairs and blankets. They stacked bird nests and homemade planes inside.",
+   "place_name": "툴루즈",
+   "place_name_en": "Toulouse",
+   "lat": 43.604444,
+   "lng": 1.443333
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "education",
+   "title": "교지에 개미 만화를 싣다",
+   "title_en": "Puts ant comics in the school paper",
+   "description": "시내 오젠 고등학교에서 교지 《유포리》를 냈다. 친구 파브리스 코제가 그림을 그리고 그는 이야기를 썼다. 향수 장인 앙리 베르두에게 교지 지면에 향을 입히는 법을 배웠다. 다른 학교에서도 그 교지를 사 갔다.",
+   "description_en": "At Lycée Ozenne downtown he put out the school paper Euphorie. Fabrice Coget drew and he wrote the stories. The perfumer Henri Berdoues taught them how to scent the pages. Other schools bought the paper too.",
+   "place_name": "툴루즈",
+   "place_name_en": "Toulouse",
+   "lat": 43.604444,
+   "lng": 1.443333
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "other",
+   "title": "개미 소설을 쓰기 시작하다",
+   "title_en": "Takes hold of a novel about ants",
+   "description": "졸업 뒤 코제와 함께 그리려던 일곱 장짜리 만화의 줄거리를 소설로 바꾸었다. 매일 아침 여덟 시 반부터 네 시간 동안 그 원고를 썼다. 첫 번째 원고는 개미가 알루미늄 호일 속에 사는 이야기였고, 실제 개미의 습성을 따르면서 분량이 늘어났다.",
+   "description_en": "After the baccalauréat he turned a seven-page comic outline he had meant to draw with Coget into a novel. He wrote four hours every morning from half past eight. The first version had ants living in aluminum foil. When he kept to real behavior, the book grew.",
+   "place_name": "툴루즈",
+   "place_name_en": "Toulouse",
+   "lat": 43.604444,
+   "lng": 1.443333
+  },
+  {
+   "year": 1979,
+   "year_end": 1982,
+   "kind": "education",
+   "title": "법학을 접고 파리로 올라가다",
+   "title_en": "Drops law and goes up to Paris",
+   "description": "툴루즈 법대에 들어갔으나 1학년 과정을 다시 밟아야 했다. 툴루즈의 범죄학 연구소에도 등록했다. 법대 2학년 시험에 떨어진 뒤 파리 고등저널리즘학교로 옮겼다. 그 무렵 개미 원고는 열여덟 번 고쳐 쓴 끝에 천 쪽을 넘었다.",
+   "description_en": "He entered the law faculty in Toulouse but had to repeat the first year. He also enrolled at the city’s Institute of Criminology. After failing the second year he moved to the École Supérieure de Journalisme in Paris. By then the ant manuscript had been rewritten eighteen times and ran past a thousand pages.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856667,
+   "lng": 2.352222
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "travel",
+   "title": "랑토에서 군대개미를 따라가다",
+   "title_en": "Follows army ants at Lamto",
+   "description": "뉴스 재단이 젊은 기자상을 수여하며 여비를 댔다. 랑토 생태 연구소에서 르루 교수와 함께 이동하는 군대개미 행렬을 따라갔다. 바울레 마을에 머물렀다.",
+   "description_en": "The News Foundation’s young-reporter prize paid for the trip. At the Lamto ecology station he followed migrating columns of army ants with Professor Leroux. He stayed in a Baoulé village.",
+   "place_name": "타보",
+   "place_name_en": "Taabo",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1983,
+   "year_end": 1990,
+   "kind": "work",
+   "title": "과학 기자로 일곱 해를 보내다",
+   "title_en": "Spends seven years as a science journalist",
+   "description": "가을부터 《르 누벨 옵세르바퇴르》와 《르 포인트》, 《사 맹테레스》에 글을 팔았다. 뒤에는 《르 누벨 옵세르바퇴르》의 과학면을 정기적으로 담당했다. 우주, 의학, 인공지능, 사회학에 관한 글을 썼다. 개미를 관찰하려고 원룸에 나무개미 집을 들여놓았다.",
+   "description_en": "From the autumn he sold pieces to Le Nouvel Observateur, Le Point, and Ça m’intéresse. He later held a regular science desk at the Observateur. He wrote on space, medicine, artificial intelligence, and sociology. To watch them he kept a wood-ant nest in his studio.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856667,
+   "lng": 2.352222
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "publish",
+   "title": "알뱅 미셸에서 《개미》를 내다",
+   "title_en": "Publishes The Ants with Albin Michel",
+   "description": "편집부를 떠난 뒤 일자리가 끊겼다. 알뱅 미셸은 원고를 검토한 뒤 분량을 줄이라고 했다. 천사백 쪽이 넘던 마지막 원고를 삼백오십 쪽으로 줄였다. 삼월에 책이 나왔고, 입소문을 타며 천천히 팔렸다.",
+   "description_en": "After leaving the newsroom he was out of work. Albin Michel saw the manuscript and told him to cut it. The last draft, more than fourteen hundred pages, came down to three hundred and fifty. The book appeared in March and sold slowly by word of mouth.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856667,
+   "lng": 2.352222
+  },
+  {
+   "year": 1992,
+   "year_end": 1996,
+   "kind": "publish",
+   "title": "출판사가 청한 속편을 쓰다",
+   "title_en": "Writes the sequels the publisher asked for",
+   "description": "열린 결말 때문에 알뱅 미셸이 속편 집필을 요청했다. 이듬해 《개미의 날》을 냈고, 사 년 뒤 《개미 혁명》으로 연작을 마쳤다. 그는 개미 소설 작가로만 남고 싶지는 않았다.",
+   "description_en": "The open ending made Albin Michel ask for a sequel. He published The Day of the Ants the next year and closed the cycle four years later with The Revolution of the Ants. He did not care to be kept as the ant novelist.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856667,
+   "lng": 2.352222
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "publish",
+   "title": "한국어판이 서점에 나가다",
+   "title_en": "The Korean edition reaches bookstores",
+   "description": "이세욱이 원고를 읽고 열린책들에 출간을 제안했다. 번역본은 출간 한 달 만에 종합 베스트셀러 1위에 올랐다. 프랑스에서 한 해에 오만 부가량 팔리던 책이 서울 서점에서도 팔리기 시작했다.",
+   "description_en": "Lee Se-uk read the manuscript and told Open Books to take it. Within a month of the translation the book sat at number one. A novel that moved about fifty thousand copies a year in France began to sell in Seoul bookstores as well.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1994,
+   "year_end": 2004,
+   "kind": "publish",
+   "title": "죽음 이후를 묻기 시작하다",
+   "title_en": "Begins asking what comes after death",
+   "description": "티베트와 이집트의 사자를 위한 책을 바탕으로 《타나토노트》를 냈다. 육 년 뒤에는 《타나토노트》의 주인공이 천사가 된 이야기를 다룬 《천사들의 제국》을 냈고, 다시 사 년 뒤 《우리는 신》을 출간했다.",
+   "description_en": "Using the Tibetan and Egyptian books of the dead as a base, he published The Thanatonauts. Six years later Empire of the Angels moved the same character into the role of an angel. Four years after that he published We the Gods.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856667,
+   "lng": 2.352222
+  },
+  {
+   "year": 2016,
+   "year_end": 2021,
+   "kind": "other",
+   "title": "파리에 살며 해마다 한 권을 내다",
+   "title_en": "Lives in Paris and brings out a book each year",
+   "description": "교보문고가 십 년간의 소설 판매량을 집계했을 때 베르베르가 1위에 올랐다. 열린책들은 그의 한국어판 판매량이 천이백오십만 부를 넘었고, 세계 판매량의 절반 이상이 한국에서 나왔다고 밝혔다. 그는 파리에 살며 가을마다 새 책을 낸다.",
+   "description_en": "When Kyobo Book Centre tallied a decade of novel sales, his name stood first. Open Books said the Korean editions had passed 12.5 million copies and that more than half of his worldwide sales were in Korea. He lives in Paris and brings out a new book each autumn.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856667,
+   "lng": 2.352222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미와 세부는 그대로 보존하면서, 직역투와 모호한 지시어, 어색한 목적어·행동 관계를 바로잡았다. 특히 법학 과정, 한국어판 판매, 《타나토노트》 이후 작품의 연결이 자연스럽게 읽히도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "지명 표기를 자연스럽게 띄어 쓰고, 피아니스트였던 어머니가 집에서 지냈다는 내용을 한국어 어순에 맞게 다듬었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "향수 장인에게 배운 일이 향기 나는 교지 제작으로 이어진다는 관계가 더 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「소설을 붙잡다」와 「네 시간을 원고에 썼다」가 직역투여서, 소설을 쓰기 시작하고 매일 네 시간 동안 집필했다는 뜻으로 바로잡았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일 년을 다시 다녔다」「이 년에서 떨어지자」「판을 열여덟 번 갈아」가 뜻을 짐작해야 하는 표현이어서 학년과 원고 개작의 관계를 명확히 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지나가는 곳마다 훑어 가는」은 영문보다 의미가 확장되고 군대개미 행렬의 이동을 부자연스럽게 묘사해, 원문 범위 안에서 바로잡았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「과학면을 고정으로 맡았다」가 어색해 정기적으로 담당했다는 자연스러운 표현으로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "출판사가 원고를 검토하고 축약을 요구한 주어·행동 관계를 더 분명하게 정리했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤를 청했다」와 「개미 전문 작가로만 남는 일」이 직역투여서 속편 집필 요청과 작가 자신의 뜻이 명확하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「열린책들에 내자고 했다」「오만 부쯤 움직이던 책」이 어색하고, 영문의 베스트셀러 1위 정보가 약화되어 있어 정확하고 자연스럽게 바로잡았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「죽음 다음」이 어색하고 「같은 인물」은 앞 문장만으로 대상을 알 수 없어, 《타나토노트》의 주인공이라는 지시 대상을 밝혔다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 이름」의 대상과 판매량 집계 결과를 명시하고, 영문의 「세계 판매량의 절반 이상」이 국문에서 단순히 「절반」으로 축소된 부분을 바로잡았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

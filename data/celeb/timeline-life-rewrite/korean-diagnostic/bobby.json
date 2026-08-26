@@ -1,0 +1,251 @@
+{
+ "slug": "bobby",
+ "events": [
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서울에서 태어나다",
+   "title_en": "Born in Seoul",
+   "description": "김지원이라는 이름으로 태어났다. 어린 시절 가족은 일 때문에 미국으로 이주했고, 부모는 그곳에서 계속 일했다.",
+   "description_en": "He was born Kim Ji-won. His family later moved to the United States for work while he was a child. His parents kept working there.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "education",
+   "title": "와이지 뉴욕 오디션에 합격하다",
+   "title_en": "Passes YG’s New York audition",
+   "description": "연습생 계약을 맺고 한국으로 돌아왔다. 오디션 영상에서는 스타가 되어 집안을 일으키겠다고 말했다. 부모는 미국에 남아 있었다.",
+   "description_en": "A trainee contract brought him back to Korea. In his audition tape he said he would become a star and lift his family. His parents were still in the United States.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "《윈》에서 비팀으로 데뷔 대결에 패하다",
+   "title_en": "Loses the debut battle as Team B on WIN",
+   "description": "에이팀은 위너로 데뷔했지만, 그가 속한 비팀은 연습생으로 남았다. 회사는 패한 팀을 곧바로 해체하지 않고 다음 기회를 찾겠다고 밝혔다.",
+   "description_en": "Team A debuted as Winner. Team B stayed as trainees. The company said it would not break up the losing team at once and would look for another chance.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "《쇼미더머니 3》에서 우승하다",
+   "title_en": "Wins Show Me the Money 3",
+   "description": "연습생 신분으로 일리네어 팀에 합류했다. 아이돌 연습생이 이 프로그램에서 우승한 것은 처음이었다. 결승에서 아이언을 꺾었고, 우승 직후 어머니에게 집을 사 드릴 테니 짐을 싸 두라고 말했다.",
+   "description_en": "He entered Team Illionaire as a trainee. He was the first idol trainee to win the show. He beat Iron in the final. Right after winning he told his mother to pack, saying he would buy her a house.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "아이콘 데뷔 멤버로 확정되다",
+   "title_en": "Is locked in as an iKON member",
+   "description": "《쇼미더머니》 결승 방송 직후 《믹스앤매치》가 이어졌다. 그와 비아이, 김진환은 이미 데뷔가 확정된 상태였다. 프로그램에서는 나머지 데뷔 멤버를 선발했고, 팀 이름은 아이콘으로 정해졌다.",
+   "description_en": "Mix & Match followed as soon as the Show Me the Money final aired. He, B.I, and Kim Jin-hwan were already locked for debut. The show filled the remaining spots, and the group was named iKON.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "아이콘으로 데뷔 콘서트를 열다",
+   "title_en": "Opens iKON’s debut concert",
+   "description": "선공개곡 〈취향저격〉이 음원 차트 정상에 올랐다. 아이콘은 올림픽공원 체조경기장에서 데뷔 콘서트 《쇼타임》을 열었다. 그는 무대에서 어머니를 한국으로 모셔올 수 있게 해 줘서 고맙다고 관객에게 말했다.",
+   "description_en": "The pre-release single My Type reached the top of the digital charts. They held Showtime at Olympic Gymnastics Arena. On stage he thanked the crowd for making it possible to bring his mother over.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "송민호와 몹을 결성하다",
+   "title_en": "Forms MOBB with Mino",
+   "description": "《윈》에서 맞섰던 위너의 래퍼 송민호와 유닛을 결성했다. 두 사람은 〈빨리 전화해〉와 〈붐벼〉를 같은 주에 발표했다. 그의 솔로곡 〈괄라〉도 그 주에 나왔다.",
+   "description_en": "He formed a unit with Winner’s rapper, the rival from WIN. They released Hit Me and Full House in the same week. His solo track Holup! came out that week as well.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 솔로 정규 앨범을 내다",
+   "title_en": "Releases his first solo studio album",
+   "description": "수록된 열 곡 모두 작사와 작곡에 이름을 올렸다. 타이틀곡은 〈사랑해〉와 〈런어웨이〉였다. 위너의 송민호와 아이콘의 동혁이 피처링으로 참여했다.",
+   "description_en": "He is credited as a writer and composer on all ten songs. The title tracks were I Love You and Runaway. Mino from Winner and iKON’s Donghyuk appeared as featured artists.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "아이콘을 6인조로 이어 가다",
+   "title_en": "Continues iKON as a six-member group",
+   "description": "리더 비아이가 팀을 떠났지만, 남은 멤버들은 그룹을 해체하지 않았다. 그는 아이콘의 메인 래퍼로 활동을 이어 갔다.",
+   "description_en": "Leader B.I left the group. The remaining members did not disband. He stayed on as main rapper.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "other",
+   "title": "결혼을 발표하고 아버지가 되다",
+   "title_en": "Announces his marriage and becomes a father",
+   "description": "1월에 솔로 정규 앨범 《럭키 맨》을 냈다. 8월에는 사랑하는 사람과 결혼하기로 했다고 알렸고, 9월에 아들이 태어났다.",
+   "description_en": "In January he released the solo studio album Lucky Man. In August he announced that he had promised to marry the person he loved. In September he had a son.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": 2023,
+   "kind": "office",
+   "title": "와이지를 떠나 143과 계약하다",
+   "title_en": "Leaves YG and signs with 143",
+   "description": "아이콘 멤버 여섯 명이 와이지와의 전속 계약을 함께 마쳤다. 이튿날 여섯 명 모두 143엔터테인먼트와 계약했다. 완전체로 활동을 이어 간다는 조건으로 그룹을 유지했다.",
+   "description_en": "All six iKON members ended their exclusive contracts together. The next day they signed with 143 Entertainment. They kept the group on the condition of working as a complete unit.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 어색한 직역, 불분명한 지시어, 부자연스러운 동사와 사건 사이의 끊긴 연결을 다듬었다. 사실 확인이 필요한 모호한 대목은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "미국을 가리키는 「그 땅」이 부자연스럽고, 가족의 이주와 부모의 체류가 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연습생 계약이 그를 한국으로 데려왔다」는 영문 어순을 따른 사물 주어 문장이라, 본인의 행동을 중심으로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「비팀으로 데뷔 대결에서 지다」는 조사와 행동 관계가 어색했고, 본문도 세 문장이 단절되어 앞뒤 사건의 관계가 약했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "팀에 「들어갔다」와 집을 「살 테니」라는 표현을 각각 합류와 어머니에게 집을 사 드리겠다는 뜻이 분명하게 드러나도록 다듬었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「고정 멤버로 남다」는 데뷔 확정의 의미를 정확히 전달하지 못했고, 「프로그램은 나머지 자리를 가렸다」도 무엇을 선발했다는 것인지 즉시 이해하기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "공연의 주체가 생략되어 있었고, 「어머니를 데려오다」도 어디로 모셔왔다는 뜻인지 앞 사건과 이어 읽을 때 모호했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "유닛을 「만들다」「짜다」라고 한 표현과 솔로곡이 「나갔다」는 표현이 음악 활동을 서술하는 문장으로 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 정규 앨범이라는 대상이 생략되었고, 「타이틀」과 「피처링에 참여했다」를 자연스러운 음악 용어와 문장으로 정리할 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여섯 명으로 아이콘을 이어 가다」가 다소 불분명했고, 마지막 문장도 메인 래퍼로 활동을 계속했다는 뜻이 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「결혼을 알리다」와 「결혼을 약속했다고 알리다」가 어색했고, 「아들을 얻었다」도 출생 사건을 직접 서술하는 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "누구와 전속 계약을 끝냈는지와 누가 새 소속사와 계약했는지가 생략되어 있었고, 완전체 활동과 팀 유지의 관계도 직역투로 읽혔다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

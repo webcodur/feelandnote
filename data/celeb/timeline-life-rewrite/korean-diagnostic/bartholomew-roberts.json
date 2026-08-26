@@ -1,0 +1,245 @@
+{
+ "slug": "bartholomew-roberts",
+ "events": [
+  {
+   "year": 1682,
+   "year_end": null,
+   "kind": "birth",
+   "title": "캐스뉴이드 바흐에서 태어나다",
+   "title_en": "Is born in Casnewydd Bach",
+   "description": "본명은 존 로버츠였다. 마을은 피시가드와 하버퍼드웨스트 사이 펨브룩셔에 있다. 웨일스 인명사전은 출생을 1682년 무렵으로만 적고 물음표를 붙였다. 뒤에 5월 17일이라는 날짜가 퍼졌으나 교구 장부로 확인되지 않는다.",
+   "description_en": "His original name was John Roberts. The village sits in Pembrokeshire between Fishguard and Haverfordwest. The Dictionary of Welsh Biography dates the birth only to about 1682, with a query. A later tradition gives 17 May, but no parish register confirms that day.",
+   "place_name": "캐스뉴이드 바흐",
+   "place_name_en": "Little Newcastle",
+   "lat": 51.923,
+   "lng": -4.939
+  },
+  {
+   "year": 1719,
+   "year_end": null,
+   "kind": "other",
+   "title": "노예선 이등항해사로 일하다 붙잡히다",
+   "title_en": "Is taken while second mate on a slaver",
+   "description": "플럼 선장의 프린세스호에서 이등항해사로 일했다. 배는 서인도 제도로 보낼 노예를 싣고 골드코스트 아노마부에 정박해 있었다. 같은 펨브룩셔 출신 하월 데이비스가 로열 로버와 로열 제임스로 들어와 배를 빼앗았다. 몇 사람이 강제로 해적 선원이 되었다.",
+   "description_en": "He was second mate on the Princess under Captain Plumb. The ship lay at Anomabu on the Gold Coast, taking enslaved people for the West Indies. Howell Davis, another Pembrokeshire man, came in with the Royal Rover and the Royal James and seized her. Several of the crew were forced into the pirate company.",
+   "place_name": "아노마부",
+   "place_name_en": "Anomabu",
+   "lat": 5.17394,
+   "lng": -1.12019
+  },
+  {
+   "year": 1719,
+   "year_end": null,
+   "kind": "office",
+   "title": "합류한 지 여섯 주 만에 선장으로 뽑히다",
+   "title_en": "Is elected captain six weeks after joining",
+   "description": "데이비스는 영국 군함인 척 항구에 들어와 총독을 잡으려다 포르투갈 쪽에 매복당해 죽었다. 선원 가운데 스스로를 ‘귀족들’이라 칭한 무리가 항해 실력을 이유로 로버츠를 선장으로 추천했다. 1724년 찰스 존슨은 로버츠가 이미 흙탕물에 손을 담갔으니 평선원으로 남느니 지휘하는 편이 낫다는 말로 선장직을 받아들였다고 적었다.",
+   "description_en": "Davis entered the harbour under English warship colours, meaning to seize the governor, and was shot in a Portuguese ambush. The men styled Lords put him forward for his skill as a navigator. Charles Johnson in 1724 has him accept with the remark that, having already dipped his hands in muddy water, it was better to command than to remain a common man.",
+   "place_name": "산투안토니우",
+   "place_name_en": "Santo António",
+   "lat": 1.636667,
+   "lng": 7.417778
+  },
+  {
+   "year": 1719,
+   "year_end": null,
+   "kind": "battle",
+   "title": "요새를 태우고 대포를 바다에 밀어 넣다",
+   "title_en": "Burns the fort and throws its guns into the sea",
+   "description": "약 서른 명이 죽은 선장의 복수를 위해 상륙했다. 포르투갈 수비대는 언덕 위 요새를 버리고 마을로 달아났다. 해적들은 요새에 불을 지르고 대포를 언덕 아래 바다로 굴려 떨어뜨렸다. 떠날 때 포르투갈 배 두 척에도 불을 질렀다.",
+   "description_en": "About thirty men went ashore to avenge the dead captain. The Portuguese left the hill fort and fled into the town. The landing party fired the fort and rolled the guns down into the sea. As they stood out they also set two Portuguese ships alight.",
+   "place_name": "산투안토니우",
+   "place_name_en": "Santo António",
+   "lat": 1.636667,
+   "lng": 7.417778
+  },
+  {
+   "year": 1719,
+   "year_end": null,
+   "kind": "work",
+   "title": "리스본행 선단에서 가장 값진 배를 빼앗다",
+   "title_en": "Cuts the richest ship out of a Lisbon-bound fleet",
+   "description": "브라질 앞바다에서 아홉 주를 떠돌았지만 배 한 척도 만나지 못했다. 떠나려던 중 토두스오스산투스만 밖에서 포르투갈 배 마흔두 척을 만났다. 선단은 대포 일흔 문을 갖춘 군함 두 척의 호위를 기다리고 있었다. 한 선장에게 가장 값진 배를 가리키게 한 뒤, 대포 마흔 문을 갖춘 그 배에 올라탔다. 존슨은 금화 4만 모이도르와 포르투갈 왕에게 갈 다이아몬드 십자가가 실려 있었다고 적었다.",
+   "description_en": "They cruised off Brazil for nine weeks without seeing a sail. As they stood in to leave they fell in with forty-two Portuguese ships off Todos os Santos Bay, waiting for two seventy-gun escorts. They made one master point out the richest hull, then boarded a ship of forty guns. Johnson writes that she carried forty thousand moidores and a diamond cross meant for the king of Portugal.",
+   "place_name": "살바도르",
+   "place_name_en": "Salvador",
+   "lat": -12.983056,
+   "lng": -38.492778
+  },
+  {
+   "year": 1719,
+   "year_end": null,
+   "kind": "other",
+   "title": "남겨 둔 부하가 본선과 전리품을 몰고 달아나다",
+   "title_en": "Is deserted by the lieutenant left in charge",
+   "description": "기아나 해안에서 브리그를 쫓느라 슬루프에 마흔 명을 태우고 나갔다. 역풍에 막혀 여드레를 허비했다. 돌아오니 월터 케네디가 로버호와 포르투갈 배를 몰고 가 버렸다. 남은 사람들은 슬루프 이름을 포춘으로 바꾸고 규약을 맹세했다. 존슨이 뒤에 적은 조항은 선원 진술을 바탕으로 한 것이고, 원본은 바다에 던졌다고 한다.",
+   "description_en": "Off Guiana he took forty men in a sloop to chase a brigantine. Contrary winds held them eight days. When they got back Walter Kennedy had sailed off with the Rover and the Portuguese prize. The remainder renamed their sloop Fortune and swore a set of articles. Johnson later printed a version from pirate testimony and said the signed original had been thrown overboard.",
+   "place_name": "기아나 해안",
+   "place_name_en": "Guiana coast",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "battle",
+   "title": "항구의 선원들이 배를 버리고 뭍으로 뛰다",
+   "title_en": "Finds a harbour emptied without a fight",
+   "description": "검은 기와 북과 나팔만 보고 스물두 척의 선원들이 뭍으로 달아났다. 영국 군함은 세인트존스와 플라센시아에 있어 이 항구는 비어 있었다. 브리스틀 갤리 한 척만 남기고 나머지를 불태우거나 가라앉혔다. 달아난 선장들을 매일 아침 자기 배로 불러 모았다.",
+   "description_en": "Twenty-two crews fled ashore at the sight of black colours, drums, and trumpets. The navy ships assigned to the coast were at St Johns and Placentia, leaving the harbour unguarded. The company kept one Bristol galley and burned or sank the rest. Each morning the runaway captains were summoned on board his ship.",
+   "place_name": "트레패시",
+   "place_name_en": "Trepassey",
+   "lat": 46.7367,
+   "lng": -53.3633
+  },
+  {
+   "year": 1720,
+   "year_end": null,
+   "kind": "work",
+   "title": "바스테르 정박지의 배들이 기를 내리다",
+   "title_en": "Sails into Basseterre Road under black flags",
+   "description": "뉴펀들랜드를 떠난 뒤 기함 이름을 로열 포춘으로 바꿨다. 세인트키츠 정박지에 북과 나팔을 울리며 들어가자 거기 있던 배들이 바로 항복했다. 이듬해 봄까지 카리브 해상 무역은 거의 멈췄다.",
+   "description_en": "After leaving Newfoundland they renamed the flagship Royal Fortune. They entered the road at St Kitts with drums and trumpets, and the ships there struck at once. By the following spring seaborne trade in the West Indies had almost stopped.",
+   "place_name": "바스테르",
+   "place_name_en": "Basseterre",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1721,
+   "year_end": null,
+   "kind": "travel",
+   "title": "자기를 쫓던 영국 군함들이 강을 떠났다는 말을 듣다",
+   "title_en": "Learns that the navy ships hunting him have left the river",
+   "description": "시에라리온에 6월 말에 닿았다. 정박지에서 스왈로호와 웨이머스호가 한 달 전에 떠났고 크리스마스 전에 돌아올 예정이라는 소식을 들었다. 그 말을 믿고 해안을 따라 남하하며 배들을 나포했다.",
+   "description_en": "They reached Sierra Leone at the end of June. There they heard that HMS Swallow and HMS Weymouth had left a month earlier and meant to return before Christmas. Trusting that news they worked down the coast, taking ships as they went.",
+   "place_name": "시에라리온",
+   "place_name_en": "Sierra Leone",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1721,
+   "year_end": null,
+   "kind": "work",
+   "title": "왕립아프리카회사 배를 빼앗아 기함으로 고치다",
+   "title_en": "Takes a Royal African Company frigate for a new flagship",
+   "description": "세스토스에서 물을 보급하던 온슬로호를 덮쳤다. 선원 상당수가 뭍에 있었고, 케이프코스트로 가던 병사 가운데 일부도 합류했다. 배 이름을 로열 포춘으로 바꾸고 대포 마흔 문으로 무장했다.",
+   "description_en": "They took the Onslow as she watered at Cestos. Many of her sailors were ashore, and some of the soldiers bound for Cape Coast joined the company. The ship was renamed Royal Fortune and mounted with forty guns.",
+   "place_name": "세스토스",
+   "place_name_en": "Cestos",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1722,
+   "year_end": null,
+   "kind": "battle",
+   "title": "정박한 열한 척이 싸우지 않고 기를 내리다",
+   "title_en": "Takes eleven ships at anchor without a fight",
+   "description": "1월 우이다 로드에 들어갔다. 영국·프랑스·포르투갈 배의 선장들은 관례대로 뭍에서 화물을 받고 있었다. 여덟 파운드의 사금씩을 몸값으로 받고 돌려주려 했다. 한 선장이 거절하자 포큐파인호에 불을 질렀고, 사슬에 묶인 노예 여든 명가량이 불에 타거나 상어에게 잡아먹혔다.",
+   "description_en": "In January they stood into Whydah Road. The English, French, and Portuguese captains were ashore, as was the custom, receiving cargo. The company meant to restore the ships for eight pounds of gold dust each. When one master refused they fired the Porcupine, and about eighty enslaved people still chained aboard burned or were taken by sharks.",
+   "place_name": "우이다",
+   "place_name_en": "Ouidah",
+   "lat": 6.366667,
+   "lng": 2.083333
+  },
+  {
+   "year": 1722,
+   "year_end": null,
+   "kind": "death",
+   "title": "스왈로호의 포도탄에 목을 맞아 숨지고 바다에 던져지다",
+   "title_en": "Is killed by grapeshot and thrown overboard",
+   "description": "닷새 전 레인저호가 스왈로호를 상선으로 보고 쫓다 잡혔다. 전날 넵튠호를 잡아 선원 상당수가 취해 있었다. 존슨은 로버츠가 진홍 다마스크 조끼를 입고 깃털 달린 모자를 쓴 채, 금목걸이와 다이아몬드 십자가를 걸고 갑판에 섰다고 적었다. 포도탄이 목을 맞혔고, 선원들은 로버츠가 생전에 부탁한 대로 무기와 장식을 그대로 둔 채 시신을 바다에 던졌다.",
+   "description_en": "Five days earlier the Ranger had chased HMS Swallow, taking her for a merchantman, and been captured. The day before they had taken the Neptune, and many of the crew were drunk. Johnson has him on deck in a crimson damask waistcoat, a feathered hat, a gold chain, and a diamond cross. Grapeshot struck him in the throat, and the crew threw the body overboard with his arms and ornaments, as he had asked in life.",
+   "place_name": "로페스곶",
+   "place_name_en": "Cape Lopez",
+   "lat": -0.624444,
+   "lng": 8.708056
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 뜻이 어긋나거나 한국어 문장 관계가 무너진 대목을 바로잡았다. 사실 판단이 필요한 모호성은 없어 fact_check 항목은 없다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title"
+    ],
+    "problem": "「이등항해사로 있다」가 부자연스러워, 당시 맡고 있던 직책과 피랍 사건의 관계가 분명하도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「귀족이라 불리던 무리」와 「그가 이렇게 받았다」는 영문 구조를 그대로 따른 표현이라 주체와 행동을 이해하기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「복수를 결의한 쪽은 약 서른 명을 올렸다」는 주어·목적어·행동 관계가 무너진 문장이며, 대포를 바다에 굴려 넣었다는 영문의 세부도 빠져 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "함대를 습격해 배를 빼내는 cut out을 「잘라 내다」로 직역했고, boarded를 「들이받았다」로 잘못 옮겨 행동이 달라졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "contrary winds를 옮긴 「바람이 막혀」가 자연스러운 한국어가 아니어서 역풍에 항해가 지체됐다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "여러 영국 군함이 강을 떠났다는 말을 「전함이 강을 떴다」로 어색하게 옮겼고, taking ships as they went를 「배를 훑었다」라고 써 나포 행위가 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「물 받으러 와 있던」과 「대포를 실었다」를 선박의 급수와 무장 상태에 맞는 표현으로 다듬었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여든 명가량」에 조사가 잘못 붙어 있었고, taken by sharks를 단순히 「물렸다」고 옮겨 희생의 의미가 약해졌다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 병렬 관계가 어색했고, struck him in the throat를 근거보다 강한 「목을 관통했다」로 확장했으며 갑판에 선 인물도 문장 안에서 명시되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,228 @@
+{
+ "slug": "al-khwarizmi",
+ "events": [
+  {
+   "year": 780,
+   "year_end": null,
+   "kind": "birth",
+   "title": "출생지는 화레즘으로 전해지다",
+   "title_en": "Birth is placed in Khwarazm",
+   "description": "이름은 무함마드 이븐 무사다. 이름에 붙은 출신지명은 아랄해 남쪽의 화레즘, 오늘날 히바 일대를 가리킨다. 이븐 알 나딤은 그의 출생지를 화레즘으로 적었고, 다른 기록들은 가문의 뿌리만 그곳에 있었다고 전한다. 타바리는 바그다드 근처 쿠트루불 출신이며 조로아스터교도였음을 나타내는 이름을 덧붙였으나, 후대 연구자들은 필사자가 서로 다른 두 인물의 기록을 한 줄로 합쳤을 가능성을 제기했다. 정확한 출생 연도는 전하지 않는다.",
+   "description_en": "His given name is Muhammad ibn Musa. The nisba points to Khwarazm, south of the Aral Sea, the district around present-day Khiva. Ibn al-Nadim puts the birthplace in Khwarazm; other notices say only that his stock came from there. Al-Tabari adds epithets that would tie him to Qutrubbul near Baghdad and to Zoroastrianism, but later scholars argue a copyist may have run two men into one line. The exact year is not recorded.",
+   "place_name": "히바",
+   "place_name_en": "Khiva",
+   "lat": 41.381388888888885,
+   "lng": 60.361111111111114
+  },
+  {
+   "year": 813,
+   "year_end": 833,
+   "kind": "work",
+   "title": "알마문 치세의 바그다드에서 일하다",
+   "title_en": "Works under al-Ma'mun in Baghdad",
+   "description": "하룬 알 라시드가 죽은 뒤 두 아들이 싸웠고, 동생 알마문이 칼리프가 되었다. 이븐 알 나딤은 알콰리즈미가 칼리프의 서고인 이른바 지혜의 집에 소속되었다고 적었다. 알콰리즈미는 대수서와 천문서를 알마문에게 바쳤으며, 과학 저술은 모두 아랍어로 썼다. 연대를 확인할 수 있는 저작의 대부분은 알마문의 재위 기간에 나왔다.",
+   "description_en": "After Harun al-Rashid died, his two sons fought and the younger became caliph. Ibn al-Nadim lists him as attached to the caliphal library, the House of Wisdom. He dedicated his algebra and his astronomical treatise to the caliph. He wrote his scientific books in Arabic. Most of the works that can be dated fall in this reign.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 820,
+   "year_end": null,
+   "kind": "publish",
+   "title": "복원과 균형의 계산법을 책으로 엮다",
+   "title_en": "Writes the book on completion and balancing",
+   "description": "칼리프의 권유로 상속, 유산 분할, 거래, 소송, 토지 측량에 쓰는 계산을 한 권으로 모았다. 일차방정식과 이차방정식을 여섯 가지 꼴로 나누고, 빠진 항을 채우는 복원과 같은 항을 양쪽에서 지우는 균형으로 풀었다. 숫자까지 말로 적었고 기호는 쓰지 않았다. 뒤쪽은 도형 넓이와 부피, 이슬람 상속법 문제로 채웠다. 후대는 책 제목의 알자브르에서 대수학이라는 말을 가져갔다.",
+   "description_en": "At the caliph's urging he gathered into one book the calculations people used for inheritance, the division of estates, trade, lawsuits, and land survey. He reduced linear and quadratic equations to six standard forms and solved them by completion, filling a missing term, and by balancing, cancelling like terms on both sides. He wrote even the numerals in words and used no symbols. The later parts treat areas and volumes and problems from Islamic inheritance law. Later readers took the word algebra from al-jabr in the title.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 820,
+   "year_end": null,
+   "kind": "publish",
+   "title": "인도 천문표를 아랍어로 다시 엮다",
+   "title_en": "Recasts Indian astronomical tables in Arabic",
+   "description": "770년 무렵 인도 사절이 만수르 궁에 가져온 싯단타 계열 계산을 바탕으로 해와 달과 다섯 행성의 위치, 일식과 월식, 사인값을 표로 만들었다. 기본 수치는 대부분 인도 천문학에서 왔고, 표의 형식은 프톨레마이오스의 천문표를 닮았다. 아랍어로 쓰인 두 판본은 모두 사라졌다. 코르도바의 마스라마 알 마즈리티가 고친 짧은 판본의 라틴어 번역본이 남아 있다.",
+   "description_en": "Using Siddhanta methods brought to al-Mansur's court by an Indian mission around 770, he compiled tables for the positions of the sun, moon, and five planets, for eclipses, and for sines. Most of the parameters come from Indian astronomy; the layout of the tables resembles Ptolemy. Both Arabic recensions are lost. A Latin version of the shorter recension, revised in Cordoba by Maslama al-Majriti, survives.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 823,
+   "year_end": 824,
+   "kind": "publish",
+   "title": "유대력 계산법을 책으로 쓰다",
+   "title_en": "Writes a treatise on the Jewish calendar",
+   "description": "열아홉 해 윤달 주기와 티슈리 초하루가 무슨 요일에 떨어지는지를 적었다. 유대력 창세기원과 셀레우코스 기원 사이 간격을 계산하고, 그 달력으로 해와 달의 평균 경도를 구하는 규칙도 붙였다. 본문의 계산이 집필 시점을 드러낸다.",
+   "description_en": "He set out the nineteen-year intercalation cycle and the rules for the weekday of the first of Tishri. He calculated the interval between the Jewish era of creation and the Seleucid era, and added rules for the mean longitudes of the sun and moon on that calendar. An internal calculation dates the writing.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 825,
+   "year_end": null,
+   "kind": "publish",
+   "title": "인도식 숫자 계산법을 적다",
+   "title_en": "Explains calculation with Indian numerals",
+   "description": "이 책에서 대수서를 인용한 것으로 보아 대수서보다 뒤에 썼다. 1부터 9까지의 숫자와 0을 사용하는 십진 자리값 체계로 더하고 빼고 곱하고 나누는 절차를 설명했다. 아랍어 원본은 전하지 않는다. 12세기 라틴어 번역본은 「알고리즈미가 말하였다」라는 말로 시작한다. 유럽에서는 그의 라틴어식 이름으로 새로운 인도식 계산법을 부르다가, 훗날 알고리즘이라는 말을 남겼다.",
+   "description_en": "He wrote it after the algebra, which it cites. He set out addition, subtraction, multiplication, and division with the decimal place-value digits 1 through 9 and 0. The Arabic original is lost. A twelfth-century Latin version opens with the words Dixit Algorizmi. Europe used that Latinized name for the new arithmetic and later kept it as algorithm.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "도시와 지형의 경위도를 다시 정리하다",
+   "title_en": "Reworks a gazetteer of longitudes and latitudes",
+   "description": "도시는 일곱 기후대와 경도 순으로 나열하고, 산·바다·섬·강은 별도의 구획으로 나누어 경위도를 적었다. 프톨레마이오스의 지리서와 겹치는 지명이 많지만 배열은 다르며, 지중해의 길이를 더 짧게 잡고 이슬람권 지역의 좌표를 개선했다. 날리노는 알마문의 세계지도에서 좌표를 읽었을 것으로 보았다. 또한 본문에 잘 알려지지 않은 이집트 마을 키만이 등장한다는 점을 근거로 816년 직후에 쓴 책이라고 추정하기도 했다. 그 연도는 확실하지 않다. 아랍어 사본 한 부가 스트라스부르에 남아 있다.",
+   "description_en": "He listed cities by the seven climes and by longitude, and treated mountains, seas, islands, and rivers in separate sections. Many names overlap with Ptolemy's Geography, but the order differs, and he shortened the Mediterranean and improved the lands under Islam. Nallino judged that the figures were read from al-Ma'mun's world map, and tentatively dated the book soon after 816 from the obscure Egyptian village of Qiman. That year is not secure. One Arabic copy survives in Strasbourg.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 826,
+   "year_end": null,
+   "kind": "publish",
+   "title": "연대기를 남겨 후대에 인용되다",
+   "title_en": "Leaves a chronicle later writers cite",
+   "description": "키타브 알 타릭은 사본이 남아 있지 않다. 타바리는 826년에 일어난 사건을 기록하면서 이 책을 인용했다. 니시비스의 엘리아스는 예언자의 죽음부터 이슬람력 169년까지를 다룬 기록을 이 연대기에서 발췌했다.",
+   "description_en": "The Kitab al-Tarikh does not survive. Al-Tabari used it for an event of this year. Elias of Nisibis excerpted it from the death of the Prophet through 169 AH.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "아스트롤라베와 해시계를 글로 남기다",
+   "title_en": "Writes on the astrolabe and the sundial",
+   "description": "아스트롤라베의 제작법과 사용법을 다룬 책을 두 권 썼다. 해시계에 관한 책은 제목만 전한다. 아스트롤라베로 태양의 고도와 지상의 위도를 구하는 대목은 파르가니가 인용하여 오늘날까지 남았다.",
+   "description_en": "He wrote two books on making and using the astrolabe. A work on the sundial is known only by its title. A passage on finding the sun's altitude and terrestrial latitude with an astrolabe survives as a quotation in al-Farghani.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 850,
+   "year_end": null,
+   "kind": "death",
+   "title": "사망 연도는 전하지 않다",
+   "title_en": "The year of death is unrecorded",
+   "description": "타바리는 알와티크가 죽기 직전 병상으로 불러들인 점성가들 가운데 알콰리즈미와 같은 이름을 지닌 사람을 기록했다. 그 기록이 이 인물을 가리킨다면 알콰리즈미는 847년 이후까지 살아 있었다. 학자들은 관례적으로 사망 시점을 850년 무렵으로 적는다. 정확한 날짜와 장소는 확인되지 않는다.",
+   "description_en": "Al-Tabari names this form of the name among the astrologers summoned to al-Wathiq's sickbed, so if that notice is the same man he was still alive after 847. Scholars conventionally write about 850. The exact date and place are not known.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조한 결과 사실관계를 새로 판단해야 할 대목은 없었다. 모호한 지시어, 번역투 표현, 원문의 관계를 잘못 옮긴 문장을 바로잡고 사건들이 생애 순서에 따라 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「화레즘 쪽으로 전하는 출생」은 한국어의 수식 관계가 어색했다. 본문의 「별칭」은 무엇을 가리키는지 불분명하고, 「다른 인물과 한 줄로 붙었을 가능성을 든다」도 필사 오류에 관한 설명으로 자연스럽지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 알마문이 빠져 영문보다 대상과 시기가 흐려졌다. 앞에서 알마문을 이름으로 밝히지 않은 채 「그를」이라고 이어서, 이 지시어가 알마문과 알콰리즈미 중 누구를 가리키는지 모호했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title"
+    ],
+    "problem": "「계산서」는 계산 내용을 다룬 책이 아니라 청구서나 명세서처럼 읽힐 수 있어, 저술 행위를 자연스럽게 드러내도록 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「프톨레마이오스 쪽을 닮았다」는 비교 대상이 모호하고 구어적이었으며, 「두 판」은 서로 다른 판본을 뜻한다는 점이 분명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title"
+    ],
+    "problem": "「달력 계산서」가 청구서처럼 읽힐 수 있어, 유대력의 계산 규칙을 다룬 저술이라는 뜻으로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대수서 뒤에 썼다」는 영문에 있는 근거인 대수서 인용 사실을 생략했다. 「1부터 9와 0의 십진 자리값」도 숫자와 자리값의 관계가 어색하게 연결되어 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 이슬람권 지역의 좌표를 개선하고 지중해의 길이를 줄였다고 구분하지만, 국문은 「이슬람 땅과 지중해 길이는 더 짧게 잡았다」라고 하여 둘 다 짧게 계산한 것처럼 관계가 무너져 있었다. 「키만 때문에」도 연대 추정의 근거를 지나치게 축약한 표현이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 해의 일을 그 책에서 끌어 썼다」와 「기사를 그 연대기에서 따 적었다」는 후대 저자들이 연대기를 인용하거나 발췌했다는 관계를 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제작과 사용을 다룬 아스트롤라베 책이 둘이다」는 저자와 저술 행위가 드러나지 않아 번역문처럼 읽혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「사망 해」는 「사망 연도」보다 부자연스러웠다. 본문의 「이 이름」과 「이 사람」은 문장 안에서 대상을 바로 알기 어려워, 기록에 나온 이름과 알콰리즈미의 동일인 여부가 문제라는 점을 명시했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

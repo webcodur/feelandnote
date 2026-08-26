@@ -1,0 +1,204 @@
+{
+ "slug": "fusu",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "진왕 정의 장남으로 태어나다",
+   "title_en": "Born as the eldest son of King Zheng of Qin",
+   "description": "《사기》는 그가 태어난 해와 장소, 어머니의 이름을 적지 않는다. 「이사열전」에는 훗날 황제에게 아들이 스무 명 넘게 있었다고 나온다. 그는 장남이었지만 태자로 책봉된 해는 기록되어 있지 않다.",
+   "description_en": "The Records of the Grand Historian gives no birth year, birthplace, or mother’s name. The biography of Li Si says the emperor later had more than twenty sons. He was the eldest, but the text never records a year when he was installed as heir apparent.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -221,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 황제를 칭하다",
+   "title_en": "His father takes the title of emperor",
+   "description": "육국을 멸한 뒤였다. 도읍은 함양이었다. 《사기》는 이때도 부소가 태자로 책봉된 해를 기록하지 않는다.",
+   "description_en": "This was after the six states had been destroyed. The capital was Xianyang. The Records still give no year in which the eldest son was named heir apparent.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.32972222222222,
+   "lng": 108.70916666666666
+  },
+  {
+   "year": -212,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "함양의 유생들을 묻은 일을 두고 간하다",
+   "title_en": "Remonstrates against burying the scholars of Xianyang",
+   "description": "한 해 전, 이사의 건의로 진나라 것이 아닌 역사서와 《시》·《서》, 백가의 글이 불탔다. 방사 후생과 노생은 선약을 만들어 내지 못하고 달아났다. 시황은 함양의 유생들을 조사하게 했고, 이들은 서로를 고발했다. 금령을 어긴 사백육십여 명이 그곳에 묻혔다. 부소는 천하가 이제 막 평정되어 먼 지방의 백성들이 아직 따르지 않고 있다고 간했다. 유생들이 공자를 암송하고 본받는데 법으로만 얽어매면 천하가 불안해질 것이라고도 했다. 시황은 노했다.",
+   "description_en": "The year before, on Li Si’s advice, historical records other than Qin’s, along with the Songs, the Documents, and the writings of the Hundred Schools, had been burned. The fangshi Hou Sheng and Lu Sheng fled after failing to produce an elixir. The emperor had the scholars in Xianyang investigated; they implicated one another, and more than four hundred sixty who had broken the ban were buried there. The eldest son remonstrated. The empire had only just been settled and people in distant regions had not yet come in, he said; the scholars recited and followed Confucius, and binding them by law alone would leave the realm unquiet. The emperor was angry.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.32972222222222,
+   "lng": 108.70916666666666
+  },
+  {
+   "year": -212,
+   "year_end": null,
+   "kind": "office",
+   "title": "상군에서 몽염의 군대를 감독하다",
+   "title_en": "Sent to supervise Meng Tian’s army in Shang Commandery",
+   "description": "진시황은 화가 나 부소를 북쪽 상군으로 보내 장군 몽염의 군대를 감독하게 했다. 「이사열전」은 부소가 여러 차례 직언했기 때문이라고 적는다.",
+   "description_en": "In anger his father sent him north to supervise General Meng Tian. The biography of Li Si says it was because he had remonstrated frankly more than once.",
+   "place_name": "상군",
+   "place_name_en": "Shang Commandery",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -212,
+   "year_end": -210,
+   "kind": "work",
+   "title": "몽염의 삼십만 대군을 감독하다",
+   "title_en": "Supervises Meng Tian’s army of three hundred thousand",
+   "description": "몽염이 삼십만 병력을 지휘했고 부소는 감군을 맡았다. 이 군대는 흉노를 막으며 기존 장성들을 잇고 있었다.",
+   "description_en": "Meng Tian commanded and he was the army supervisor. The force numbered three hundred thousand. That army was holding the Xiongnu and joining the long walls.",
+   "place_name": "상군",
+   "place_name_en": "Shang Commandery",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "other",
+   "title": "호해만 마지막 순행에 오르다",
+   "title_en": "Huhai alone joins the last imperial tour",
+   "description": "시황은 회계로 갔다가 바다를 따라 북쪽으로 올라가 낭야로 향했다. 이사와 조고가 동행했다. 막내아들 호해도 따라가기를 청해 허락받았다. 다른 아들들은 동행하지 않았고, 장남 부소는 상군에 남아 있었다.",
+   "description_en": "The emperor set out for Kuaiji and then north along the sea to Langya. Li Si and Zhao Gao went with him. The youngest son, Huhai, asked to follow and was allowed. None of the other sons went. The eldest remained in Shang Commandery.",
+   "place_name": "상군",
+   "place_name_en": "Shang Commandery",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "other",
+   "title": "함양으로 오라는 봉서를 받지 못하다",
+   "title_en": "Never receives the sealed order to return to Xianyang",
+   "description": "사구에서 병세가 깊어지자 시황은 부소에게 보낼 봉서를 쓰게 했다. 병권을 몽염에게 맡기고 함양으로 와 장례에 참석해 매장을 치르라는 내용이었다. 봉서는 완성되었지만 사자에게 전달되기 전에 시황이 죽었다. 조고는 봉서와 인장을 쥔 채 전하지 않았다. 이사는 황제가 도성 밖에서 죽었고 정식 태자가 없다는 이유로 그의 죽음을 숨겼다.",
+   "description_en": "When the illness deepened at Shaqiu, the emperor had a sealed letter written. It told him to leave the troops with Meng Tian and come to Xianyang to meet the funeral and conduct the burial. The letter was sealed but not given to a messenger before the emperor died. Zhao Gao kept the letter and the seal and did not send them. Li Si hid the death, saying the emperor had died away from the capital and there was no true heir apparent.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "other",
+   "title": "조고와 이사가 거짓 조서를 꾸미다",
+   "title_en": "Zhao Gao and Li Si forge an edict",
+   "description": "조고는 호해에게 장남이 돌아오면 황제가 되고 호해에게는 한 치의 땅도 남지 않을 것이라고 말했다. 이사에게는 장남이 굳세고 용맹하며 사람을 신임하고 선비를 등용하므로, 황제가 되면 몽염을 승상으로 삼을 것이라고 했다. 조고와 호해, 이사는 시황의 조서인 것처럼 꾸며 호해를 태자로 세웠다. 부소에게 보낸 글에는 그가 변경에서 공을 세우지 못했고 아버지가 한 일을 비방했으며 태자가 되지 못한 것을 원망했으니, 칼로 스스로 목숨을 끊으라는 내용이 담겼다.",
+   "description_en": "Zhao Gao told Huhai that if the eldest son arrived he would become emperor and Huhai would have not an inch of land. To Li Si he said the eldest was firm and brave, trusted men and raised up gentlemen, and would make Meng Tian chancellor if he took the throne. The three forged an edict as if from the First Emperor and named Huhai heir apparent. The letter sent to the eldest said he had won no merit on the frontier, had slandered his father’s deeds, and resented not being made heir, and therefore must kill himself with a sword.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "death",
+   "title": "거짓 조서를 받고 스스로 목숨을 끊다",
+   "title_en": "Receives the forged edict and takes his own life",
+   "description": "사자가 상군에 도착해 조서를 펼쳐 보이자 부소는 울면서 안채로 들어가 죽으려 했다. 몽염이 그를 말렸다. 황제는 도성 밖에 나가 있었고 태자를 세우지 않았으며, 자신에게는 국경을 지킬 삼십만 병력을 맡기고 부소에게는 그 군대를 감독하게 했으니 이는 천하의 중임이라고 말했다. 사자 한 명의 말만 듣고 두 사람이 죽는다면 그것이 속임수가 아닌지 어떻게 알겠느냐며, 다시 확인한 뒤 죽어도 늦지 않다고 했다. 사자는 거듭 죽음을 재촉했다. 《사기》는 부소를 어질다고 평한다. 부소는 아버지가 아들에게 죽음을 명했는데 다시 무엇을 묻겠느냐고 말하고 곧 스스로 목숨을 끊었다. 몽염은 죽지 않고 양주에 갇혔다.",
+   "description_en": "When the envoy reached Shang Commandery and opened the letter, he wept, went into the inner quarters, and prepared to die. Meng Tian stopped him. The emperor was away and had named no heir, he said; he had been given three hundred thousand men to hold the border and the prince had been made supervisor—that was the weight of the realm. If they died at one envoy’s word, how would they know it was not a fraud? Ask again, and it would not be too late to die after that. The envoy pressed them. The Records call him humane. A father who orders his son to die—what is there to ask again, he said, and he killed himself at once. Meng Tian refused to die and was imprisoned at Yangzhou.",
+   "place_name": "상군",
+   "place_name_en": "Shang Commandery",
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 말한 사실과 세부는 그대로 보존하면서, 주어가 빠지거나 행동 관계가 흐릿한 문장과 한문투·직역투 표현을 고쳤다. 부소가 간언으로 상군에 보내진 뒤 호해·조고·이사의 모의로 거짓 조서를 받고 죽기까지의 흐름도 자연스럽게 이어지도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「생년과 난 곳」이 부자연스럽고, 아들이 스무 명 넘었다는 문장의 주체가 드러나지 않았다. 태자 관련 문장도 영문이 말하는 ‘책봉된 해가 기록되지 않았다’는 범위보다 단정적이었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「해를 대지 않는다」가 자연스러운 현대 한국어 표현이 아니며, 태자로 책봉된 인물이 누구인지 문장 안에서 분명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「생자」, 「서로 끌어대어」, 「먼 곳 백성이 아직 모이지 않았다」 등의 표현은 뜻을 짐작해야 했고, 조사·고발·간언의 주체와 행동 관계도 매끄럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「노한 아버지가 그를」은 카드 단독으로 읽을 때 두 인물을 바로 식별하기 어렵고, 「곧은 간언」도 어색한 한문투였다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「몽염이 장수이고 그가 감군이었다」는 직역한 듯한 문장 구조로 두 사람의 직책 관계가 부자연스러웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회계와 바다를 따라 낭야로 나갔다」는 이동 경로가 불분명했고, 「다른 아들은 따라가지 못했다」는 영문의 ‘동행하지 않았다’를 불가능이나 배제의 의미로 넓힐 여지가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「장례에 모여 장사하라」와 「밖에서 죽어 진짜 태자가 없다며」가 직역투라서 지시 내용과 이사가 죽음을 숨긴 이유를 즉시 이해하기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사람을 믿고 선비를 일으키니」와 「자리에 오르면」은 조고가 이사에게 제시한 논리를 자연스럽게 전달하지 못했고, 일부 주어와 목적어 관계가 흐릿했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「그」가 사자와 부소 중 누구인지 바로 판별하기 어려웠다. 몽염의 말도 삼십만 병력과 감군 임무를 누가 맡았는지, 누가 함께 죽는다는 뜻인지 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

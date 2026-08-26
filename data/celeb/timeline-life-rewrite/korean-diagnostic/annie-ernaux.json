@@ -1,0 +1,290 @@
+{
+ "slug": "annie-ernaux",
+ "events": [
+  {
+   "year": 1940,
+   "year_end": null,
+   "kind": "birth",
+   "title": "노동계층의 마을에서 태어나다",
+   "title_en": "Born in a working-class town",
+   "description": "르아브르에서 스물다섯 킬로미터 떨어진 작은 공장 마을에서 태어났다. 부모는 알퐁스 뒤셴과 블랑슈 뒤셴이었다. 두 사람은 이미 여섯 살 된 딸을 잃은 뒤였다. 에르노는 그 뒤 외동딸로 자랐고, 전쟁과 폭격을 생애 최초의 기억으로 간직했다.",
+   "description_en": "She was born in a small mill town twenty-five kilometres from Le Havre. Her parents, Alphonse and Blanche Duchesne, had already lost a six-year-old daughter. After that she grew up an only child. She kept the war and the bombings as her first memories.",
+   "place_name": "릴본",
+   "place_name_en": "Lillebonne",
+   "lat": 49.520833333333,
+   "lng": 0.5375
+  },
+  {
+   "year": 1945,
+   "year_end": null,
+   "kind": "other",
+   "title": "부모의 고향으로 돌아가다",
+   "title_en": "Returns to her parents’ hometown",
+   "description": "전쟁이 끝나자 부모는 두 사람 모두 태어나 공장에서 일했던 마을로 돌아갔다. 부부는 마을 변두리의 노동자 동네에서 식료품점을 겸한 카페를 열었다. 에르노는 그 가게와 시내의 가톨릭 기숙학교를 오가며 자랐다. 학교 친구들은 중산층이었다. 에르노는 학교에서 처음으로 부모가 살아온 세계를 부끄러워했다.",
+   "description_en": "After the war her parents went back to the town where both had been born and worked in a factory. They opened a café-grocery on the working-class edge of town. She grew up between that shop and a private Catholic boarding school in the centre. The other girls were middle-class. There she first felt shame for her parents’ world.",
+   "place_name": "이브토",
+   "place_name_en": "Yvetot",
+   "lat": 49.616944444444,
+   "lng": 0.75305555555556
+  },
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "travel",
+   "title": "오페어로 일하러 런던에 가다",
+   "title_en": "Goes to work as an au pair",
+   "description": "열아홉 살에 루앙 사범학교에 들어갔지만 학년 중간에 그만두었다. 핀칠리에서는 오전에 집안일을 하고 오후에는 자유롭게 시간을 보냈다. 시립 도서관에서 현대 프랑스 소설을 읽으며 자신도 소설을 쓰고 싶어졌다. 프랑스로 돌아온 뒤 루앙 대학 문학부에 등록했다.",
+   "description_en": "At nineteen she entered the teacher-training school in Rouen and left mid-year. In Finchley she cleaned house in the morning and had the afternoons free. She read contemporary French novels in the public library. There she wanted to write a novel. She returned to France and enrolled in the arts faculty at Rouen.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1964,
+   "year_end": null,
+   "kind": "other",
+   "title": "불법 임신중지 시술을 받다",
+   "title_en": "Undergoes an illegal abortion",
+   "description": "루앙에서 현대문학 학위를 받은 뒤 임신한 사실을 알게 되었다. 당시 프랑스 법은 임신중지를 범죄로 다뤘다. 학업을 마치기로 결심한 에르노는 뒷골목에서 시술하는 사람을 찾아갔다. 그해 겨울 임신중지 시술을 받았다.",
+   "description_en": "After taking her degree in modern literature in Rouen she found she was pregnant. French law then treated abortion as a crime. Determined to finish her studies, she went to a back-street abortionist. She underwent the procedure that winter.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 1964,
+   "year_end": null,
+   "kind": "other",
+   "title": "필리프와 결혼하다",
+   "title_en": "Marries Philippe Ernaux",
+   "description": "남편 필리프는 정치학을 공부하고 있었다. 두 사람은 아직 학생이었고 살림은 빠듯했다. 맏아들 에릭이 크리스마스에 태어났다. 에르노는 아그레가시옹 시험에 떨어졌고, 남편은 정치학 과정을 마쳤다.",
+   "description_en": "The groom was a political-science student. They were still students and money was tight. Their first son, Éric, was born on Christmas Day. She failed the agrégation. He finished his degree.",
+   "place_name": "보르도",
+   "place_name_en": "Bordeaux",
+   "lat": 44.837777777778,
+   "lng": -0.57944444444444
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "travel",
+   "title": "남편의 임지를 따라 알프스로 가다",
+   "title_en": "Follows her husband to the Alps",
+   "description": "남편이 알프스의 관광 도시에 행정직을 얻어 부부는 그곳으로 이주했다. 에르노는 문학 중등 교원 선발시험을 준비했다.",
+   "description_en": "Her husband took an administrative post in an Alpine tourist town. She prepared for the competitive exam to teach literature.",
+   "place_name": "안시",
+   "place_name_en": "Annecy",
+   "lat": 45.899166666667,
+   "lng": 6.1294444444444
+  },
+  {
+   "year": 1967,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 심장마비로 죽다",
+   "title_en": "Her father dies of a heart attack",
+   "description": "교원 시험에 합격한 뒤 부모를 만나러 갔다. 다음 날 아침 아버지가 심장마비를 일으켰고 사흘 뒤 세상을 떠났다. 그해 가을 에르노는 집에서 마흔 킬로미터 떨어진 중등학교에 발령받았다. 훗날 에르노는 아버지의 죽음을 자신의 삶에서 가장 날카로운 단절이었다고 썼다.",
+   "description_en": "After passing the teaching exam she went to see her parents. The next morning her father had a heart attack. He died three days later. That autumn she was posted to a secondary school forty kilometres from home. She later wrote that this was the sharpest break of her life.",
+   "place_name": "이브토",
+   "place_name_en": "Yvetot",
+   "lat": 49.616944444444,
+   "lng": 0.75305555555556
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 책 《빈 옷장》을 내다",
+   "title_en": "Publishes her first book, Cleaned Out",
+   "description": "현대문학 아그레가시옹에 합격한 뒤 수업이 없는 오후마다 남몰래 글을 썼다. 갈리마르는 그 원고를 받아 출간했다. 에르노는 계층의 경계를 넘어선 딸의 처지와 불법 임신중지를 소설에 담았다. 당시 나이는 서른세 살이었다.",
+   "description_en": "After passing the agrégation in modern literature she wrote in secret on afternoons without classes. Gallimard took the manuscript. She put a daughter’s class crossing and an illegal abortion into a novel. She was thirty-three.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "travel",
+   "title": "건설 중인 신도시로 옮기다",
+   "title_en": "Moves to a new town still being built",
+   "description": "가족과 함께 아직 공사 중이던 파리 근교의 신도시로 이사했다. 두 해 뒤부터 에르노는 그 집에서 글을 썼다. 교실에서 학생들을 가르치는 일을 그만두고 국립 원격교육센터에서 스물세 해 동안 가르쳤다.",
+   "description_en": "The family moved to a new town still under construction outside Paris. Two years later she began writing in the same house. She left classroom teaching and taught for twenty-three years at the national distance-education centre.",
+   "place_name": "세르지",
+   "place_name_en": "Cergy",
+   "lat": 49.052222222222,
+   "lng": 2.0361111111111
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《남자의 자리》를 내다",
+   "title_en": "Publishes A Man’s Place",
+   "description": "마흔을 갓 넘긴 무렵 남편과 갈라섰다. 에르노는 아버지의 삶을 소설이 아닌 담담한 문장으로 적었다. 이듬해 이 책으로 르노도상을 받았다. 책 판매 수입에 의존하지 않으려고 교직도 계속 유지했다.",
+   "description_en": "Just past forty she left her husband. She wrote her father’s life in plain sentences, not as a novel. The next year the book won the Prix Renaudot. She kept her teaching job so she would not depend on sales.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《사건》을 내다",
+   "title_en": "Publishes Happening",
+   "description": "국립 원격교육센터 교직에서 물러난 해에 이 책을 냈다. 에르노는 루앙에서 학생으로 지내던 시절 겪은 불법 임신중지를 당시의 법과 주변의 시선까지 함께 기록했다. 베유법이 임신중지를 합법화한 지 스물다섯 해가 지난 뒤였다.",
+   "description_en": "She published it the year she left her teaching post. She recorded the illegal abortion of her student years in Rouen, together with the law and the stares around it. A quarter century had passed since the Veil law legalized abortion.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《세월》을 내다",
+   "title_en": "Publishes The Years",
+   "description": "1인칭 서술을 버리고 한 세대가 살아온 육십 년을 썼다. 일기와 거리의 말, 광고와 뉴스를 나란히 작품에 담았다. 이 책은 마르게리트 뒤라스상과 프랑수아 모리아크상을 받았다.",
+   "description_en": "She dropped the first person. She wrote sixty years as a generation had lived them. She put diaries beside street talk, advertisements, and the news. The book received the Marguerite Duras Prize and the François Mauriac Prize.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "노벨문학상을 받다",
+   "title_en": "Is awarded the Nobel Prize in Literature",
+   "description": "한림원은 개인적 기억의 뿌리와 소외, 집단적 제약을 드러낸 용기와 냉철한 예리함을 선정 이유로 들었다. 에르노는 프랑스 여성으로는 처음으로 노벨문학상을 받았다. 수상 뒤에도 세르지의 집에서 계속 살았다.",
+   "description_en": "The Academy cited the courage and clinical acuity with which she uncovers the roots, estrangements, and collective restraints of personal memory. She was the first French woman to receive it. After the prize she stayed in her house in Cergy.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조하고 연표 전체를 이어 읽어, 뜻이 불분명한 직역과 모호한 대명사, 사건 사이의 연결을 끊는 표현을 고쳤다. 사실 확인이 필요한 충돌은 없었으며 영문이 제공한 의미와 세부는 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「노동 마을」은 working-class town을 단어 단위로 옮긴 듯한 부자연스러운 표현이고, 「부모는 뒤셴 가였다」와 「그들 사이에는 언니가 있었다」는 부모의 이름과 먼저 세상을 떠난 딸의 관계를 명확하게 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 자리에서」만으로는 학교를 가리키는지 가게를 가리키는지 알 수 없었고, 「부모의 계층을 부끄러워했다」도 영어의 parents’ world가 뜻하는 대상을 지나치게 어색하게 표현했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「건너가다」에는 목적지가 없었고, 「오후는 제 시간이었다」는 had the afternoons free의 직역이라 뜻을 짐작해야 했다. 소설을 쓰고 싶어진 계기도 앞 문장과 자연스럽게 연결되지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「금지된 임신중지를 하다」는 불법으로 규정된 시술을 받았다는 뜻을 자연스럽게 전달하지 못했고, 「뒷골목 시술자」도 한국어에서 사람을 가리키는 표현으로 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "필리프를 먼저 언급한 뒤 「그는 아그레가시옹에서 떨어졌다」라고 해 시험에 떨어진 사람이 아내인지 남편인지 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "남편을 주어로 쓴 직후 「그는 문학 중등 교원 시험을 준비했다」라고 이어져 시험을 준비한 사람이 누구인지 모호했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 그는」과 「가장 센 균열」은 later와 sharpest break를 직역한 듯한 표현으로, 회고의 주체와 의미가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「갈리마르가 그 원고를 받아 냈다」는 원고를 출간했다는 뜻이 불분명했고, 「계층을 건너온 딸의 자리」는 class crossing과 daughter’s position의 단어를 그대로 엮은 표현이라 의미 관계가 흐려졌다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「신도시로 가족을 옮겼다」는 이주를 부자연스럽게 표현했고, 「같은 집」은 무엇과 같은지 분명하지 않았다. national distance-education centre의 국립 기관이라는 세부도 빠져 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상업적 성공에 묶이지 않으려 교직은 붙들었다」는 책 판매 수입에 의존하지 않으려고 교직을 유지했다는 영어의 의미를 추상적이고 부자연스럽게 옮겼다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「원격교육 교직」은 자연스럽지 않은 결합이고, 「그때의 법과 시선」은 누구의 시선인지 불명확했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일인칭을 버렸다」는 무엇의 일인칭인지 생략되어 있었고, 「같이 넣었다」는 서로 다른 기록과 언어를 작품에 병치했다는 관계를 충분히 드러내지 못했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「개인 기억」과 「집단의 제약」은 명사 관계가 다소 거칠었고, 「수상 뒤에도 세르지 집에 남았다」는 그 집에서 계속 살았다는 뜻을 어색하게 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

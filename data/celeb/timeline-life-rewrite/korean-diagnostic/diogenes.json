@@ -1,0 +1,238 @@
+{
+ "slug": "diogenes",
+ "events": [
+  {
+   "year": -412,
+   "year_end": null,
+   "kind": "birth",
+   "title": "밀레토스 식민도시에서 태어나다",
+   "title_en": "Born in a Milesian colony",
+   "description": "시노페는 흑해 남쪽 파플라고니아 해안의 그리스 도시였다. 아버지 히케시아스는 외국 주화를 시노페 주화로 바꿔 주는 환전상이었다. 어머니 이름은 전하지 않는다. 후대 전기는 그가 기원전 5세기 말 무렵 태어났다고 본다.",
+   "description_en": "It was a Greek city on the Paphlagonian shore of the Black Sea. His father Hicesias was a money-changer who converted foreign coin into the city’s own. His mother’s name does not survive. Later biographies place the birth near the end of the fifth century BCE.",
+   "place_name": "시노페",
+   "place_name_en": "Sinope",
+   "lat": 42.025776,
+   "lng": 35.143037
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "주화 훼손 뒤 고향을 떠나다",
+   "title_en": "Leaves home after a coinage scandal",
+   "description": "훼손된 시노페 주화 실물이 지금도 남아 있다. 누가 주화를 깎았는지, 디오게네스가 추방당했는지 스스로 달아났는지는 고대 기록마다 다르다. 어떤 전승은 공금을 맡았던 아버지가 주화를 훼손했다고 하고, 다른 전승은 디오게네스가 직접 했다고 한다. 사라진 저서에서 그가 스스로 주화를 훼손했다고 고백했다는 말도 있다. 델포이 신탁이 관습의 화폐를 고치라고 했는데 그 말을 글자 그대로 받아들여 주화를 깎았다는 이야기는 후대에 덧붙은 전승이다.",
+   "description_en": "Defaced coins from that city survive. Ancient accounts disagree on who cut them, and on whether he was banished or fled. One tradition blames the father, who handled the public money. Another says the son did it. A lost treatise is said to have contained his own confession. The story that a Delphic oracle told him to alter the currency, and that he took the words literally, is a later overlay.",
+   "place_name": "시노페",
+   "place_name_en": "Sinope",
+   "lat": 42.025776,
+   "lng": 35.143037
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "안티스테네스를 스승으로 삼았다고 전해지다",
+   "title_en": "Tradition attaches him to Antisthenes",
+   "description": "고향을 떠난 뒤 소크라테스가 죽었던 아테네로 갔다. 후대 전기는 소크라테스의 제자 안티스테네스를 따라다니며 가르침을 받았다고 적는다. 안티스테네스는 제자를 받지 않으려 했지만 디오게네스가 날마다 찾아왔다는 이야기다. 두 사람의 연대를 맞추기 어려워 직접적인 사제 관계는 확실하지 않다.",
+   "description_en": "After leaving home he went to the city where Socrates had died. Later biography says he attached himself to Antisthenes, a companion of Socrates. The story is that Antisthenes tried not to take pupils, yet this newcomer kept showing up. The dates are hard to reconcile, so a direct teacher-student bond is uncertain.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.97222222222222,
+   "lng": 23.72222222222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "메트론의 항아리를 거처로 삼았다고 전해지다",
+   "title_en": "Tradition puts him in a storage jar",
+   "description": "후대 전기는 그가 부탁한 오두막이 좀처럼 마련되지 않자 메트론의 큰 저장 항아리를 거처로 삼았다고 전한다. 후세에는 욕조나 통으로 옮겨졌지만 원전에는 피토스라고 되어 있다. 그는 시장에서 밥을 먹고 구걸하며 살았다. 이런 생활을 관습보다 자연을 앞세우는 훈련이라고 불렀다.",
+   "description_en": "Later biography says that when a cottage he had asked for was slow to come, he moved into a large storage jar at the Metroon. Later ages rendered it as a tub or barrel, but the sources say a pithos. He ate in the marketplace and lived by begging. He called this training that put nature ahead of custom.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.97222222222222,
+   "lng": 23.72222222222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "대낮에 등불을 들고 사람을 찾았다고 전해지다",
+   "title_en": "Tradition has him hunting a human with a lamp",
+   "description": "후대 기록은 그가 대낮에 등불을 켜고 거리를 다니며 사람을 찾고 있다고 말했다고 전한다. 여기서 사람이란 현명한 사람을 뜻했다. 언제 어디서 한 말인지는 확인할 수 없다.",
+   "description_en": "Later sources say he walked the streets in daylight with a lamp lit, claiming to be looking for a human being. By that he meant a wise one. When and where he said it cannot be verified.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.97222222222222,
+   "lng": 23.72222222222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "플라톤이 그를 미친 소크라테스라 불렀다고 전해지다",
+   "title_en": "Plato is said to have called him a Socrates gone mad",
+   "description": "후대 전승은 플라톤이 그를 미친 소크라테스라고 불렀다고 전한다. 플라톤이 사람을 깃 없는 두 발 짐승으로 정의하자, 그는 닭의 깃을 뽑아 강의실에 들고 들어갔다고도 한다. 둘이 실제로 마주쳤는지는 다른 사료가 없다.",
+   "description_en": "Later tradition has Plato calling him a Socrates gone mad. When Plato defined a human as a featherless biped, this visitor is said to have plucked a fowl and carried it into the lecture room. No independent source confirms that the two men met.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.97222222222222,
+   "lng": 23.72222222222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "출신을 묻자 세계시민이라 답했다고 전해지다",
+   "title_en": "Answers that he is a citizen of the world",
+   "description": "후대 전기 작가는 출신을 묻자 그가 세계시민이라고 답했다고 적는다. 정확한 자리와 문구는 검증할 수 없다.",
+   "description_en": "A later biographer writes that, asked where he came from, he answered that he was a citizen of the world. The exact place and wording cannot be checked.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "해적에게 잡혀 노예로 팔렸다고 전해지다",
+   "title_en": "Tradition sells him to a Corinthian household",
+   "description": "후대 전기는 그가 아이기나로 가던 길에 해적에게 붙잡혀 크레타의 노예 시장에서 코린토스 출신 크세니아데스에게 팔렸다고 전한다. 무엇을 할 수 있느냐는 물음에는 사람을 다스릴 수 있다고 답했다는 이야기다. 크세니아데스의 아이들을 가르쳤다는 기록과 그가 풀려난 경위는 전승마다 다르다. 일화 자체가 창작일 수도 있다.",
+   "description_en": "Later biography says pirates took him on a voyage to Aegina and sold him on Crete to Xeniades of that city. Asked what he could do, he is said to have answered that he could govern men. Accounts of teaching that household’s children, and of how he was freed, do not agree. The episode itself may have been invented.",
+   "place_name": "코린토스",
+   "place_name_en": "Corinth",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "왕에게 햇빛을 가리지 말라고 했다고 전해지다",
+   "title_en": "Tells the king not to block the sun",
+   "description": "플루타르코스는 코린토스 교외의 사이프러스 숲에서 알렉산드로스가 다가왔을 때 디오게네스가 일어나지 않았다고 적는다. 알렉산드로스가 무엇을 해 주기를 바라느냐고 묻자, 그는 햇빛을 가리지 말라고 답했다. 전승은 알렉산드로스가 자신이 알렉산드로스가 아니었다면 디오게네스가 되고 싶다고 말했다고 덧붙인다. 둘이 실제로 마주쳤는지는 다른 사료가 없다.",
+   "description_en": "Plutarch writes that when Alexander came up to him in a cypress grove outside the city, he did not rise. Asked what favor he wanted, he told the king only to stop blocking the sun. Tradition adds that the king said that if he were not himself he would wish to be that man. No independent source confirms the meeting.",
+   "place_name": "코린토스",
+   "place_name_en": "Corinth",
+   "lat": 37.905785,
+   "lng": 22.878741
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "테바이의 크라테스가 그를 따랐다고 전해지다",
+   "title_en": "Crates of Thebes is said to have followed him",
+   "description": "후대 기록은 테바이의 부자 크라테스가 재산을 버리고 그를 따랐다고 전한다. 크라테스는 훗날 키티온의 제논을 가르쳤다. 디오게네스와 크라테스를 스승과 제자 관계로 잇는 자료는 후대 전기뿐이다.",
+   "description_en": "Later accounts say that Crates, a wealthy man from Thebes, gave up his property and followed him. Crates later taught Zeno of Citium. Only later biography joins the two as teacher and pupil.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -323,
+   "year_end": null,
+   "kind": "death",
+   "title": "고령으로 숨진 것으로 전해지다",
+   "title_en": "Dies, by tradition, in old age",
+   "description": "후대 전승은 그가 고령으로 코린토스에서 죽었다고 본다. 스스로 숨을 참아 죽었다거나, 날문어를 먹고 죽었다거나, 개에게 물려 죽었다는 이야기가 서로 엇갈린다. 알렉산드로스와 같은 날 죽었다는 말은 후대에 두 사람의 죽음을 같은 날로 맞춘 전승이다. 서기 2세기 파우사니아스는 코린토스 성문 근처에서 그의 무덤을 보았다고 적었다.",
+   "description_en": "Later tradition holds that he died in old age in that city. Accounts split among holding his breath, eating a raw octopus, and a dog bite. The claim that he died on the same day as Alexander is a later alignment. In the second century CE Pausanias recorded seeing his tomb near the city gate.",
+   "place_name": "코린토스",
+   "place_name_en": "Corinth",
+   "lat": 37.905785,
+   "lng": 22.878741
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미 범위를 넘지 않으면서 지시 대상이 불분명한 표현, 목적어가 빠진 제목, 직역투와 어색한 동사를 고쳤다. 시노페에서 아테네와 코린토스로 이어지는 이동도 사건 전체를 순서대로 읽을 때 자연스럽게 드러나도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 없고 「그 도시 돈」의 대상도 바로 알기 어려웠다. 시노페를 명시하고 환전상이 한 일을 자연스러운 한국어로 풀었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시 주화」는 사건을 따로 읽으면 어느 도시인지 불분명하고, 「국가 돈을 맡았다가 주화를 섞었다」는 표현은 영문과의 대응 관계도 흐렸다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소크라테스가 죽은 도시」만으로 목적지를 돌려 말해 고향을 떠난 뒤의 이동이 선명하지 않았다. 아테네를 직접 밝혀 앞 사건과 연결했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부탁이 늦어지자」는 무엇이 지체되었다는 뜻인지 모호했고, 마지막 문장의 「훈련」이 무엇을 가리키는지도 분명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사람을 찾는다고 말했다」는 진행 중인 행동을 부자연스럽게 옮긴 표현이라 「찾고 있다고 말했다」로 바로잡았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "목적어가 빠져 플라톤이 불린 것처럼 읽힐 수 있었다. 플라톤이 디오게네스를 그렇게 불렀다는 관계를 명확히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아이기나로 가던 배가 해적에게 잡혔다」는 디오게네스보다 배를 앞세운 직역투였고, 「그곳의 크세니아데스」가 크레타와 코린토스 중 어디를 가리키는지도 불분명했다. 「놓여난」도 자연스러운 동사로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「해만 가리지 말라」와 「바깥 사이프러스 숲」이 어색했고, 「자기 이름으로 살지 않는다면 저 사람이 되고 싶다」는 영문 단어를 따라 옮겨 뜻을 짐작해야 했다. 장소와 두 인물을 직접 밝혀 관계를 복원했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「후대 전기만 두 사람을 사제로 잇는다」는 조사와 서술어의 결합이 딱딱해, 자료의 한계를 같은 의미로 자연스럽게 풀었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」의 대상이 본문 첫 문장만으로 드러나지 않았고, 「숨을 참고 죽었다」와 「후대에 맞춰 붙인 전승」도 뜻이 매끄럽게 전달되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

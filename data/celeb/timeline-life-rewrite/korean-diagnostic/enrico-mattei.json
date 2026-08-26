@@ -1,0 +1,253 @@
+{
+ "slug": "enrico-mattei",
+ "events": [
+  {
+   "year": 1906,
+   "year_end": null,
+   "kind": "birth",
+   "title": "아쿠알라냐에서 태어나다",
+   "title_en": "Is born in Acqualagna",
+   "description": "카라비니에리 하사관 안토니오와 안젤라 갈바니의 다섯 아이 가운데 맏이였다. 동생은 움베르토, 마리아, 이탈로, 에스테리나였다. 외할머니 에스테르 마르코니는 그 마을에서 유치원을 열었고, 그는 한동안 그 집에서 자랐다.",
+   "description_en": "He was the eldest of five children of Antonio, a carabinieri NCO, and Angela Galvani. The younger ones were Umberto, Maria, Italo, and Esterina. His maternal grandmother Ester Marconi taught kindergarten in that town, and he spent part of his childhood in her house.",
+   "place_name": "아쿠알라냐",
+   "place_name_en": "Acqualagna",
+   "lat": 43.6167,
+   "lng": 12.6712
+  },
+  {
+   "year": 1923,
+   "year_end": null,
+   "kind": "work",
+   "title": "피오레 가죽공장에 들어가다",
+   "title_en": "Enters the Fiore tannery",
+   "description": "가족이 그 마을로 옮긴 뒤 철제 침대에 페인트를 칠하는 일을 하다가 마을에서 가장 큰 가죽공장의 견습공이 되었다. 스무 살에 기술 책임자가 되었고, 어머니가 옷감 가게를 여는 일도 도왔다. 사르데냐 척탄병 부대에서 짧게 복무하고 돌아왔을 때 공장은 이미 경영난에 빠져 있었다.",
+   "description_en": "After the family moved to that town he painted iron beds, then apprenticed at the largest tannery there. At twenty he became technical director and helped his mother open a cloth shop. After a short spell with the Grenadiers of Sardinia he came back to a factory already in trouble.",
+   "place_name": "마텔리카",
+   "place_name_en": "Matelica",
+   "lat": 43.256586111111,
+   "lng": 13.009594444444
+  },
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "work",
+   "title": "밀라노로 올라가 도료를 팔다",
+   "title_en": "Goes to Milan and sells paints",
+   "description": "막스 마이어 도료 회사의 판매원으로 일하기 시작했다. 동생 움베르토가 합류한 뒤 직원 두 명과 유화제 작업장을 열었고, 이후 롬바르디아 화학공업을 세웠다. 빈 출신의 그레타 파울라스와 결혼했다.",
+   "description_en": "He started as a salesman for the Max Mayer paint firm. After his brother Umberto joined him he opened an emulsifier shop with two workers, then built Industria Chimica Lombarda. He married Greta Paulas, who was from Vienna.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1943,
+   "year_end": 1945,
+   "kind": "other",
+   "title": "기독교민주당 계열 파르티잔을 지휘하다",
+   "title_en": "Commands the Christian Democrat partisans",
+   "description": "휴전 뒤 고향 집에 무기를 숨기고 마르코니라는 암호명으로 활동했다. 밀라노에서 북부해방위원회를 위해 무기와 자금을 모았고, 비밀 사무실에서 붙잡혀 코모에 갇혔다가 탈출했다. 해방 행렬에서는 페루초 파리, 루이지 롱고와 나란히 걸었다.",
+   "description_en": "After the armistice he hid weapons in the family house and moved under the name Marconi. In Milan he raised arms and money for the northern liberation committee, was seized in a secret office, and escaped from Como. At the liberation parade he walked beside Ferruccio Parri and Luigi Longo.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1945,
+   "year_end": null,
+   "kind": "office",
+   "title": "아집 특별위원이 되다",
+   "title_en": "Becomes special commissioner of AGIP",
+   "description": "해방 사흘 뒤 북부해방위원회는 그에게 국영 석유회사 아집을 맡겼다. 재무부는 시추를 중단하라고 지시했다. 그러나 그는 로디 인근의 우물에서 가스가 나왔다는 말을 듣고 후속 시추를 재개하도록 했다.",
+   "description_en": "Three days after liberation the northern committee put him over the state oil firm AGIP. The treasury told him to stop drilling. He heard that gas had come from a well near Lodi and ordered the next holes opened again.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1948,
+   "year_end": null,
+   "kind": "office",
+   "title": "기독교민주당 소속 하원의원이 되다",
+   "title_en": "Enters parliament for the Christian Democrats",
+   "description": "밀라노·파비아 선거구에서 하원의원으로 선출되었다. 그해 여름에는 아집 부사장이 되어 포강 유역의 시추와 가스관 건설을 밀어붙였다. 그는 의원직을 활용해 아집을 폐쇄하려는 움직임을 막았다.",
+   "description_en": "He was elected for Milan and Pavia. That summer he became AGIP vice president and pushed wells and gas lines in the Po Valley. He used the seat to block the hands that still wanted the company shut.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 1949,
+   "year_end": null,
+   "kind": "work",
+   "title": "코르테마조레의 석유 발견을 발표하다",
+   "title_en": "Announces oil at Cortemaggiore",
+   "description": "포강 평야에서 석유와 메탄이 발견됐다고 발표했다. 발견된 양은 적었지만 아집 주가는 뛰었고, 데 가스페리도 현장을 찾았다. 의회는 포강 평야의 유전 개발을 국가가 맡는 쪽으로 기울었다.",
+   "description_en": "He announced that the Po plain held oil and methane. The find was small, yet AGIP shares jumped and De Gasperi came to the well. Parliament began to tilt toward keeping those fields in state hands.",
+   "place_name": "코르테마조레",
+   "place_name_en": "Cortemaggiore",
+   "lat": 45,
+   "lng": 9.9333333333333
+  },
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "office",
+   "title": "에니 초대 사장이 되다",
+   "title_en": "Becomes the first president of ENI",
+   "description": "아집을 중심으로 한 국영 에너지 공사 에니가 법률에 따라 설립되었다. 그는 초대 사장을 맡아 메탄 판매 수익으로 회사를 운영했다. 국내 가스만으로는 부족해지자 산유국을 직접 찾아 나섰다.",
+   "description_en": "A state energy trust was created by law around AGIP. He took the presidency and ran the firm on methane revenue. Home gas was not enough, so he went looking for producing countries himself.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "work",
+   "title": "이란과 이익 배분 계약을 맺다",
+   "title_en": "Signs a profit-sharing deal with Iran",
+   "description": "기존의 50대 50 배분 방식 대신 이란이 이익의 4분의 3을 가져가도록 했다. 시추에 실패했을 때 드는 비용은 에니가 부담하고, 석유가 발견된 경우에만 이란이 비용을 냈다. 그는 대형 석유회사들을 일곱 자매라고 불렀다.",
+   "description_en": "He opened three quarters of the take to Iran instead of the old fifty-fifty split. ENI would carry the dry-hole costs; Iran paid only if oil appeared. He called the major oil firms the Seven Sisters.",
+   "place_name": "테헤란",
+   "place_name_en": "Tehran",
+   "lat": 35.68888888888889,
+   "lng": 51.389722222222225
+  },
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "work",
+   "title": "모스크바에서 소련 석유를 사다",
+   "title_en": "Buys Soviet oil in Moscow",
+   "description": "나토가 반대하는 가운데 소련 대외무역장관과 물물교환 계약을 맺었다. 값싼 원유를 들여오는 대신 대구경 강관과 합성고무를 넘겼다. 그는 원유를 가장 싼 곳에서 사는 것뿐이라고 답했다.",
+   "description_en": "Over NATO objections he signed a barter deal with the Soviet foreign-trade minister. Cheap crude came in; large-diameter pipe and synthetic rubber went out. He said he bought from the cheapest source.",
+   "place_name": "모스크바",
+   "place_name_en": "Moscow",
+   "lat": 55.75055555555556,
+   "lng": 37.6175
+  },
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "death",
+   "title": "제트기 추락 사고로 숨지다",
+   "title_en": "Dies when his jet comes down in the fields",
+   "description": "카타니아에서 밀라노 리나테로 향하던 제트기가 착륙을 위해 접근하던 중 들판에 추락했다. 조종사 이르네리오 베르투치와 미국 기자 윌리엄 맥헤일도 함께 숨졌다. 당시 수사 당국은 악천후로 인한 사고로 결론 내리고 사건을 종결했다.",
+   "description_en": "A jet from Catania toward Milan Linate came down in the fields on approach. The pilot Irnerio Bertuzzi and the American reporter William McHale died with him. The inquiry at the time closed the case as an accident in bad weather.",
+   "place_name": "바스카페",
+   "place_name_en": "Bascapè",
+   "lat": 45.3,
+   "lng": 9.3166666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역 때문에 행위 관계가 흐려지거나 뜻이 모호해진 문장, 영어와 달리 범위를 넓힌 문장을 자연스러운 한국어로 바로잡았다. 다만 외할머니 에스테르 마르코니가 유치원을 열었다는 국문과 유치원에서 가르쳤다는 영문이 서로 달라 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "국문은 외할머니가 유치원을 열었다고 하지만 영문은 그 마을에서 유치원 교육을 했다고만 서술해 두 언어의 사실관계가 다르다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어머니 옷감 가게를 열게 했다」는 본인이 어머니에게 가게를 열도록 시켰다는 뜻으로 읽혀, 개점을 도왔다는 영문의 행위 관계와 어긋난다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일꾼 둘로 유화제 공장을 열었고」는 조사와 수단 관계가 부자연스럽고, 영문의 소규모 shop을 공장으로 단정한다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 기독교민주당과 파르티잔의 관계가 불분명하고, 「암호명 마르코니로 움직였다」는 활동의 뜻을 불필요하게 짐작하게 한다. 국문의 「군사령부에서」는 영문에 없는 소속·장소 관계까지 단정한다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「북부해방위원회가 국영 석유회사 아집을 맡겼다」에는 누구에게 맡겼는지가 빠져 있고, 「구멍을 다시 뚫게 했다」는 시추 재개를 지나치게 직역한 표현이다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「기독교민주당 하원」은 정당과 의회의 관계를 잘못 묶으며, 「의원 자리로 회사 문을 닫으려는 손을 막았다」는 영문의 비유를 그대로 옮겨 뜻이 불분명하다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「석유를 알리다」는 발견 사실을 발표했다는 뜻이 약하며, 「데 가스페리가 그 우물을 찾았다」는 우물을 발견했다는 뜻으로도 읽힌다. 「그 평야 시추를 국가 손에 두다」도 영어식 결합이다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아집을 품에 안은」은 조직 관계를 비유로 흐리고, 「메탄 수입」은 methane revenue가 아니라 메탄을 외국에서 들여왔다는 뜻으로 오해될 수 있다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이란 몫을 넷 가운데 셋으로 열었다」는 이익의 4분의 3을 이란에 배분했다는 뜻을 알아보기 어렵게 직역했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「값싼 원유를 받고 대구경 강관과 합성고무를 넘겼다」는 물물교환의 방향은 전달되지만 문장 연결이 거칠고, 마지막 문장은 무엇을 샀는지 목적어가 빠져 있다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「들에 떨어져 죽다」는 항공기 추락과 사망의 관계를 거칠고 부자연스럽게 표현하며, 「수사는 악천후 속 사고로 닫았다」는 영어식 서술이라 주체와 결론이 불분명하다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 0,
+    "reason": "에스테르 마르코니가 유치원을 직접 개원했는지, 기존 유치원에서 아이들을 가르쳤는지 국문과 영문의 진술이 다르다. 문장 편집만으로 어느 쪽이 사실인지 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

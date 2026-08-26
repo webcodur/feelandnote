@@ -1,0 +1,260 @@
+{
+ "slug": "ali-ghodsi",
+ "events": [
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "birth",
+   "title": "이란에서 태어나다",
+   "title_en": "Born in Iran",
+   "description": "그해 이란에 혁명이 났다. 집안은 새 정권에 반대하는 쪽에 서 있었다. 영국 기업등기소는 출생을 12월로만 적어 두었다.",
+   "description_en": "Iran was in revolution that year. His family stood with the opposition to the new regime. The UK company registry records only the month of December.",
+   "place_name": "이란",
+   "place_name_en": "Iran",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 스웨덴으로 떠나다",
+   "title_en": "Family leaves for Sweden",
+   "description": "이란-이라크 전쟁이 한창이었다. 반대파로 찍힌 부모는 하루 안에 집을 비우라는 통보를 받았다. 이란에서 중상류층이었던 가족은 스웨덴 비자를 받아 스톡홀름으로 갔다. 학생 기숙사를 전전했고, 방 하나에 온 가족이 산다는 사실을 집주인이 알게 되면 쫓겨났다. 그는 여동생과 함께 이사할 때마다 학교를 옮겼다. 훗날 부모가 카세트 데크가 고장 난 중고 코모도어 64를 구해 주자 직접 게임을 만들기 시작했다.",
+   "description_en": "The Iran–Iraq War was at its height. His parents, marked as opposition, were told they had a day to empty the house. A family that had been upper-middle-class in Iran took Swedish visas and went to Stockholm. They moved from one student dorm to another and were evicted when landlords found a whole family in a single room. He and his younger sister changed schools as they moved. Later his parents found a used Commodore 64 with a broken cassette deck, and he began writing his own games.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  },
+  {
+   "year": 2002,
+   "year_end": 2003,
+   "kind": "education",
+   "title": "순스발에서 공학과 경영학을 공부하다",
+   "title_en": "Studies engineering and business in Sundsvall",
+   "description": "미드스웨덴대학교에서 컴퓨터공학 석사를 받았다. 한 해 더 머물며 물류와 마케팅을 전공해 경영학 석사도 받았다.",
+   "description_en": "He earned a master’s in computer engineering at Mid Sweden University. He stayed one more year and added an MBA in logistics and marketing.",
+   "place_name": "순스발",
+   "place_name_en": "Sundsvall",
+   "lat": 62.395509191965,
+   "lng": 17.285994257166
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "education",
+   "title": "왕립공과대학교에서 박사를 받다",
+   "title_en": "Receives a doctorate from KTH",
+   "description": "지도교수는 세이프 하리디였다. 논문에서는 분산 해시 테이블 알고리즘을 다뤘고, 이 연구는 나중에 디스트리뷰티드 k-ary 시스템이라는 미들웨어로 구현됐다. 같은 계열의 연구는 스웨덴 컴퓨터과학연구소에서도 이어졌다.",
+   "description_en": "His adviser was Seif Haridi. The dissertation covered algorithms for distributed hash tables and was later implemented as middleware called the Distributed k-ary System. The same research line ran through the Swedish Institute of Computer Science.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "피어리얼리즘을 공동 설립하다",
+   "title_en": "Co-founds Peerialism",
+   "description": "스톡홀름에서 피어투피어 연결로 데이터를 전송하는 회사를 세웠다. 기술은 왕립공과대학교와 스웨덴 컴퓨터과학연구소의 연구에서 나왔고, 하리디가 고문으로 남았다.",
+   "description_en": "In Stockholm he helped start a company that moved data over peer-to-peer links. The technology came out of research at KTH and the Swedish Institute of Computer Science, and Haridi stayed on as an adviser.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "office",
+   "title": "왕립공과대학교 조교수가 되다",
+   "title_en": "Becomes an assistant professor at KTH",
+   "description": "왕립공과대학교에서 분산 시스템 연구를 이어 갔다. 이듬해 버클리로 떠나기 전까지 그 직에 있었다.",
+   "description_en": "He continued distributed-systems research on the same campus. He held the post until he left for Berkeley the next year.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "버클리 방문연구원이 되다",
+   "title_en": "Becomes a visiting researcher at Berkeley",
+   "description": "앰프랩에서 스콧 셴커, 이온 스토이카, 마이클 프랭클린, 마테이 자하리아와 함께 일했다. 연구실에서는 대규모 데이터 세트를 분할하고 클러스터 자원을 배분하는 문제를 연구했다.",
+   "description_en": "At AMPLab he worked with Scott Shenker, Ion Stoica, Michael Franklin, and Matei Zaharia. The lab’s work was splitting large data sets and carving up cluster resources.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "메소스와 우세 자원 공정성 논문을 발표하다",
+   "title_en": "Publishes Mesos and Dominant Resource Fairness",
+   "description": "메소스 논문의 공저자였고, 같은 해 우세 자원 공정성(Dominant Resource Fairness) 논문의 제1저자였다. 여러 종류의 자원을 공정하게 나누는 규칙을 제시했으며, 이 규칙은 메소스와 이후의 하둡 스케줄러에 적용됐다. 같은 연구실에서는 스파크도 개발되고 있었고, 그는 그 엔진을 함께 키운 연구자 가운데 한 명이었다.",
+   "description_en": "He coauthored the Mesos paper and, the same year, was first author of Dominant Resource Fairness. The rule split several kinds of resources fairly and later went into Mesos and Hadoop schedulers. Spark grew in the same lab, and he was one of the researchers who built that engine up.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "데이터브릭스를 공동 설립하다",
+   "title_en": "Co-founds Databricks",
+   "description": "기업들이 스파크를 실제로 사용하도록 만들기 위해 스토이카와 자하리아를 포함한 버클리 연구자 일곱 명이 회사를 세웠다. 그는 처음에는 시간제 엔지니어로 일했고, 나중에는 엔지니어링과 제품을 맡았다. 앤드리슨 호로위츠가 1천4백만 달러를 투자했다.",
+   "description_en": "Seven Berkeley researchers, including Stoica and Zaharia, started a company so businesses would actually run Spark. He first joined as a part-time engineer and later ran engineering and product. Andreessen Horowitz put in fourteen million dollars.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "office",
+   "title": "데이터브릭스 최고경영자가 되다",
+   "title_en": "Becomes chief executive of Databricks",
+   "description": "스토이카는 교수직으로 돌아가면서 이사회 의장이 됐다. 이사회는 외부 전문 경영인을 영입하는 대신 엔지니어링·제품 부사장이던 그에게 최고경영자직을 시험적으로 1년간 맡겼다. 그는 판매 조직을 키우고 스파크를 기반으로 회사가 판매할 제품을 만들었다. 그해 매출은 1천2백만 달러에 이르렀다.",
+   "description_en": "Stoica returned to his professorship and became executive chairman. Instead of hiring an outside chief executive, the board gave the engineering and product vice president a one-year trial. He expanded the sales force and built products on top of Spark that the company could sell. Revenue reached twelve million dollars that year.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "애저 데이터브릭스를 내놓다",
+   "title_en": "Launches Azure Databricks",
+   "description": "마이크로소프트가 데이터브릭스를 애저 포털의 자사 서비스로 올렸다. 스파크 분석 플랫폼을 애저 저장소 및 계정과 하나의 콘솔에서 연동하는 협업이었다.",
+   "description_en": "Microsoft put Databricks on the Azure portal as a first-party service. The collaboration wired the Spark analytics platform to Azure storage and accounts in one console.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "publish",
+   "title": "레이크하우스 논문을 내다",
+   "title_en": "Publishes the lakehouse paper",
+   "description": "마이클 암브루스트, 레이놀드 신, 마테이 자하리아와 함께 데이터 레이크와 데이터 웨어하우스를 하나의 계층으로 통합하는 논문을 썼다. 이에 앞서 델타 레이크를 공개해 저렴한 객체 저장소에 트랜잭션 기능을 추가했다.",
+   "description_en": "With Michael Armbrust, Reynold Xin, and Matei Zaharia he wrote a paper that put the data lake and the warehouse on one layer. They had already released Delta Lake, which added transactions on top of cheap object storage.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 담고 있는 세부와 의미의 범위를 유지하면서, 주어와 행동의 관계가 어긋난 문장, 직역투 표현, 앞 사건에 기대야만 이해되는 지시 표현을 바로잡았다. 사실 확인이 필요한 모호성은 없었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "부모가 퇴거를 명령한 것처럼 주어와 행동의 관계가 뒤집혀 있었고, 「중산층 위쪽」「뒤에는」 등의 표현이 부자연스러웠다. 방 하나에 온 가족이 살았다는 영문의 세부도 불분명했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학문을 「읽다」라고 한 제목과 「한 해를 더 남아」라는 서술이 영어 어순을 따른 직역투였다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "논문 자체를 알고리즘이라고 표현해 논문과 연구 대상의 관계가 흐려졌고, 「연구 줄기」「뒤에」가 부자연스러웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「피어투피어로 데이터를 나르는」이 기술 회사의 활동을 설명하는 표현으로 다소 구어적이고 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 캠퍼스」가 앞 사건을 읽지 않으면 어느 장소인지 알 수 없는 지시 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「큰 데이터를 나누고」「자원을 쪼개는 일」「그 방의 과제」가 연구 내용을 지나치게 직역해 뜻을 짐작하게 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "논문을 「내놓다」라고 한 제목과 규칙을 「적었다」고 한 서술이 학술 활동을 정확히 나타내지 못했고, 「뒤의 하둡」도 부자연스러웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연구자 일곱」「시간제 엔지니어로 들어갔다」가 다소 거칠고, 회사 설립부터 담당 업무로 이어지는 흐름이 매끄럽지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그를 시험 삼아 일 년 맡겼다」는 무엇을 맡겼는지 빠져 있었고, 「스파크 위에 팔 수 있는 제품을 붙였다」는 영어 구조를 그대로 옮긴 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「애저 저장소·계정과 한 화면에서 붙이는」이 서비스와 자원의 연동 관계를 자연스러운 한국어로 전달하지 못했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 층으로 묶는」「트랜잭션을 얹어 두었다」가 기술 개념을 기계적으로 옮긴 표현이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

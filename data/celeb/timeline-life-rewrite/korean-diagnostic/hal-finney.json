@@ -1,0 +1,245 @@
+{
+ "slug": "hal-finney",
+ "events": [
+  {
+   "year": 1956,
+   "year_end": null,
+   "kind": "birth",
+   "title": "콜링가에서 태어나다",
+   "title_en": "Born in Coalinga",
+   "description": "아버지는 해럴드 토머스 피니였고, 유니온오일의 석유 기술자였다. 어머니 이름은 버지니아였다.",
+   "description_en": "His father, Harold Thomas Finney, was a petroleum engineer for Union Oil. His mother was Virginia.",
+   "place_name": "콜링가",
+   "place_name_en": "Coalinga",
+   "lat": 36.139722222222,
+   "lng": -120.36027777778
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "education",
+   "title": "아카디아 고등학교를 마치다",
+   "title_en": "Finishes Arcadia High School",
+   "description": "가족은 센트럴밸리의 유전 소읍을 떠나 아카디아로 이사했다. 고등학교를 졸업한 뒤 칼텍에 진학했다.",
+   "description_en": "The family left the Central Valley oil town for this city. After graduating he went to Caltech.",
+   "place_name": "아카디아",
+   "place_name_en": "Arcadia",
+   "lat": 34.132777777778,
+   "lng": -118.03638888889
+  },
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "education",
+   "title": "칼텍에서 공학 학위를 받다",
+   "title_en": "Earns a Caltech engineering degree",
+   "description": "전기공학을 전공했다. 학부에서 프랜을 만났고 그해 결혼했다.",
+   "description_en": "He studied electrical engineering. He met Fran as an undergraduate and married her that year.",
+   "place_name": "패서디나",
+   "place_name_en": "Pasadena",
+   "lat": 34.1475,
+   "lng": -118.1438888888889
+  },
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "work",
+   "title": "콘솔 게임을 개발하다",
+   "title_en": "Writes console games",
+   "description": "졸업에 필요한 학점 몇 단위를 남겨 둔 채, 칼텍 동문들이 세운 작은 공학회사에 정규직으로 들어갔다. 매텔 인텔리비전과 아타리용 게임을 개발했고, 1986년경까지 그곳에서 일했다. 그는 자신이 게임 디자이너보다는 어셈블리 프로그래머에 가까웠다고 말했다.",
+   "description_en": "Short a few units, he took a full-time job at a small engineering firm founded by Caltech classmates. He wrote games for Mattel Intellivision and Atari and stayed until about 1986. He said he was closer to an assembly programmer than a game designer.",
+   "place_name": "패서디나",
+   "place_name_en": "Pasadena",
+   "lat": 34.1475,
+   "lng": -118.1438888888889
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "work",
+   "title": "짐머만의 PGP 개발에 참여하다",
+   "title_en": "Joins Zimmermann on PGP",
+   "description": "아내와 두 아이와 함께 산타바바라로 이사한 해였다. 필 짐머만의 공개키 암호 기술인 PGP 개발에 자원해 코드를 작성했다. 연방 수사가 시작되자 짐머만은 그의 이름을 공개하지 않았다.",
+   "description_en": "He moved that year with his wife and two children. He volunteered on Phil Zimmermann’s public-key encryption and wrote code. When a federal investigation began, Zimmermann kept his name quiet.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "work",
+   "title": "익명 재전송기를 돌리다",
+   "title_en": "Runs an anonymous remailer",
+   "description": "사이퍼펑크 메일링 리스트에 글을 올렸다. 보낸 사람의 흔적을 지운 뒤 메일을 전달하는 컴퓨터를 직접 운영했다. PGP 2.0 코드의 상당 부분을 작성한 해이기도 했다.",
+   "description_en": "He posted on the Cypherpunks list. He ran a machine that stripped a sender’s traces and forwarded the mail. That was also the year he wrote much of the PGP 2.0 code.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "work",
+   "title": "피지피 회사에 들어가다",
+   "title_en": "Joins the PGP company",
+   "description": "수사가 끝난 뒤 짐머만이 회사를 세웠다. 그는 초기 직원으로 들어갔고, 은퇴할 때까지 그 코드를 업으로 삼았다.",
+   "description_en": "After the investigation closed, Zimmermann formed a company. He was among the first hires and made that code his job until he retired.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "재사용 가능한 작업증명을 만들다",
+   "title_en": "Builds reusable proofs of work",
+   "description": "애덤 백의 해시캐시 토큰을 한 번만 쓰고 버리지 않아도 되게 했다. 완성된 작업증명을 다음 보유자에게 넘길 수 있게 했지만, 이중 사용 여부는 여전히 중앙 서버가 확인했다.",
+   "description_en": "He would not let an Adam Back Hashcash token be spent only once. A finished proof could pass to the next holder. A central server still watched for double-spending.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "사토시에게서 첫 비트코인을 받다",
+   "title_en": "Receives the first bitcoin from Satoshi",
+   "description": "암호학 메일링 리스트에 소프트웨어가 공개되자 곧바로 내려받아 실행했다. 그는 나중에 자신이 사토시를 제외하고 이 소프트웨어를 실행한 첫 사람이라고 생각한다고 썼다. 시험 삼아 비트코인 열 개를 받았고, 발견한 버그를 사토시에게 알려 주었다. 초기 블록 일부도 채굴했다.",
+   "description_en": "When the software appeared on the cryptography list, he grabbed it and ran it. He later wrote that he thought he was the first person besides Satoshi to do so. Ten coins arrived as a test, and he mailed back bugs. He also mined some of the earliest blocks.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "other",
+   "title": "루게릭병 진단을 받다",
+   "title_en": "Is diagnosed with ALS",
+   "description": "그해 초에는 하프마라톤을 뛰며 풀코스 마라톤을 준비했다. 8월에 근위축성 측삭경화증 진단을 받았다. 공개 블로그에 글을 올려, 몸을 움직일 수 없게 되더라도 계속 코드를 작성하고 싶다고 밝혔다.",
+   "description_en": "Early that year he was running half marathons and training for a full one. In August he was told he had amyotrophic lateral sclerosis. He wrote on a public blog that he hoped to keep writing code even from an immobile body.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "other",
+   "title": "피지피 회사에서 조기 은퇴하다",
+   "title_en": "Leaves the PGP company",
+   "description": "피로와 목소리 문제로 회사에서 조기 은퇴했다. 이후 거의 전신이 마비되었고, 시선 추적기로 컴퓨터를 조작했다. 비트코인 지갑의 보안을 강화하는 코드 작업도 계속했다.",
+   "description_en": "Fatigue and his voice forced him to retire early. He later became almost fully paralyzed and moved the computer with an eye tracker. He kept working on code to harden Bitcoin wallets.",
+   "place_name": "산타바바라",
+   "place_name_en": "Santa Barbara",
+   "lat": 34.425833333333,
+   "lng": -119.71416666667
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "death",
+   "title": "스코츠데일에서 숨지다",
+   "title_en": "Dies in Scottsdale",
+   "description": "의사소통할 수 없게 되자 아내와 함께 항공 구급편으로 스코츠데일에 왔다. 생명유지 장치를 뗀 뒤에도 서른여덟 시간 동안 더 숨을 쉬었다. 알코르는 그날 그의 시신을 냉동 보존했다.",
+   "description_en": "When he could no longer communicate, he came by air ambulance with his wife. After life support was withdrawn he breathed for thirty-eight more hours. Alcor cryopreserved the body that day.",
+   "place_name": "스코츠데일",
+   "place_name_en": "Scottsdale",
+   "lat": 33.493055555556,
+   "lng": -111.92611111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 의미는 유지하면서, 대상을 알기 어려운 지시어와 직역·오역·어색한 호응을 바로잡았다. 사건들이 학업, 암호 기술 개발, 비트코인 참여, 투병과 죽음으로 자연스럽게 이어지도록 문장을 정리했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이곳」이 제목과 장소 정보를 확인해야만 가리키는 곳을 알 수 있어, 도시 이름을 문장 안에 명시했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「콘솔 게임을 짜다」와 「학점을 남긴 채」가 지나치게 구어적이거나 뜻이 불분명해, 게임 개발과 졸업 학점 부족의 관계가 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「피지피에 뛰어들다」는 역할이 모호하고, 「공개키 암호에 자원해서」와 「이름을 낮춰 적었다」는 한국어의 목적어·행동 관계가 부자연스러워 원문의 의미에 맞게 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「피지피 이점」은 PGP 2.0을 잘못 옮긴 표현이며, 익명 재전송기의 작동 방식도 자연스러운 한국어로 정리했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 번 쓰고 버리게 두지 않았다」는 영어 문장 구조를 그대로 따른 표현이라, 작업증명을 다음 보유자에게 넘길 수 있다는 핵심이 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「암호학 명단」, 「받아 돌렸다」, 「버그를 적어 보냈다」, 「초반 블록을 캤다」가 메일링 리스트, 소프트웨어 실행, 버그 보고, 채굴을 부정확하거나 어색하게 나타내 자연스러운 기술 문맥으로 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "질병의 정식 진단과 블로그에 밝힌 바람을 나타내는 표현이 다소 구어적이어서 의미가 선명하도록 다듬었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 퇴사가 아니라 조기 은퇴를 뜻하며, 「컴퓨터를 움직였다」와 「지갑을 단단히 하는 코드를 끝까지 만졌다」는 직역투이므로 시선 추적기 조작과 지갑 보안 강화 작업으로 명확히 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「왔다」는 목적지가 문장 안에 없어 생애 흐름을 따라 읽을 때 이동 관계가 끊기므로 스코츠데일을 명시하고, communication의 의미도 단순히 말하지 못하는 상태보다 넓은 「의사소통」으로 옮겼다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

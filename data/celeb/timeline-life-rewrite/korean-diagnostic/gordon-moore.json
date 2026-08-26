@@ -1,0 +1,260 @@
+{
+ "slug": "gordon-moore",
+ "events": [
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "birth",
+   "title": "샌프란시스코에서 태어나다",
+   "title_en": "Born in San Francisco",
+   "description": "페스카데로라는 해안 마을에서 자랐다. 페스카데로에는 병원이 없어 어머니가 가장 가까운 도시로 가서 그를 낳았다. 아버지는 샌머테이오군 보안관보였고, 어머니는 페스카데로 출신이었다. 아버지가 승진하자 가족은 그가 열 살 때 레드우드시티로 이사했다.",
+   "description_en": "He grew up in the coastal town of Pescadero. The town had no hospital, so his mother went to the nearest city to give birth. His father was a San Mateo County deputy sheriff, and his mother came from that town. When his father was promoted, the family moved to Redwood City at age ten.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1950,
+   "year_end": null,
+   "kind": "education",
+   "title": "버클리에서 화학 학위를 받다",
+   "title_en": "Earns a chemistry degree at Berkeley",
+   "description": "샌호세 주립에서 화학을 공부하기 시작한 뒤 버클리로 옮겼다. 졸업 후 베티 휘태커와 결혼했고, 다음 날 대학원에 진학하기 위해 패서디나로 떠났다.",
+   "description_en": "He had started chemistry at San Jose State and then transferred here. After graduating he married Betty Whitaker. The next day he left for graduate school in Pasadena.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 1954,
+   "year_end": null,
+   "kind": "education",
+   "title": "칼텍에서 화학 박사 학위를 받다",
+   "title_en": "Earns a chemistry Ph.D. at Caltech",
+   "description": "아질산과 클로라민류, 이산화질소의 적외선 연구를 학위논문에 담았다. 학위 요건을 마친 뒤 일자리를 찾아 동부로 갔다.",
+   "description_en": "His thesis covered infrared work on nitrous acid, the chloramines, and nitrogen dioxide. After finishing the degree requirements he looked east for a job.",
+   "place_name": "패서디나",
+   "place_name_en": "Pasadena",
+   "lat": 34.1475,
+   "lng": -118.1438888888889
+  },
+  {
+   "year": 1954,
+   "year_end": 1956,
+   "kind": "work",
+   "title": "존스홉킨스 응용물리연구소에 들어가다",
+   "title_en": "Joins the Johns Hopkins Applied Physics Laboratory",
+   "description": "화염의 스펙트럼과 적외선 흡수선의 형태를 연구했다. 그 연구에서 나온 논문에 실린 단어 하나당 납세자의 비용이 얼마인지 계산하기도 했다. 민간 산업에서 하는 일이 더 시급해 보였다.",
+   "description_en": "He studied the spectra of flames and the shapes of infrared absorption lines. He found himself calculating the taxpayer cost per word in the papers coming out of that work. Private industry looked more urgent.",
+   "place_name": "실버스프링",
+   "place_name_en": "Silver Spring",
+   "lat": 39.002441,
+   "lng": -77.020791
+  },
+  {
+   "year": 1956,
+   "year_end": null,
+   "kind": "work",
+   "title": "쇼클리 반도체 연구소에 들어가다",
+   "title_en": "Joins Shockley Semiconductor",
+   "description": "윌리엄 쇼클리는 그에게 실리콘에 불순물을 첨가하는 일을 맡겼다. 쇼클리는 사층 다이오드에 매달렸지만, 연구진은 실리콘 트랜지스터를 개발하기를 원했다. 아널드 벡먼이 쇼클리를 교체하지 않자 일곱 동료와 함께 연구소를 떠났다.",
+   "description_en": "William Shockley put him on doping impurities into silicon. The boss clung to the four-layer diode, while the staff wanted silicon transistors. When Arnold Beckman would not replace the boss, he left with seven colleagues.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "work",
+   "title": "페어차일드 반도체를 세우다",
+   "title_en": "Co-founds Fairchild Semiconductor",
+   "description": "셔먼 페어차일드가 자금을 댔다. 쇼클리는 이들을 ‘배신자 여덟 명’이라고 불렀다. 무어는 확산로를 설치하고 실리콘 트랜지스터를 생산했다. 이후 연구개발을 이끌었고, 그 연구실에서 평면 공정과 집적회로가 나왔다.",
+   "description_en": "Sherman Fairchild put up the money. Shockley called the group the Traitorous Eight. He set up diffusion furnaces and pulled silicon transistors. He later ran research, and the planar process and the integrated circuit came out of that lab.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "publish",
+   "title": "칩 위 부품이 해마다 두 배가 된다고 쓰다",
+   "title_en": "Writes that components on a chip double each year",
+   "description": "일렉트로닉스 잡지가 향후 십 년에 대한 전망을 청탁했다. 무어는 집적회로에 집적된 소자 수가 거의 해마다 두 배로 늘어난 추이를 그래프로 그렸다. 그는 그 추세가 한동안 이어질 것이라고 썼다. 이 글은 훗날 무어의 법칙으로 불렸다.",
+   "description_en": "Electronics magazine asked him for a ten-year outlook. He plotted how the number of components on an integrated circuit had nearly doubled each year. He wrote that the pace would hold for a while. The piece was later called Moore’s law.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "work",
+   "title": "인텔을 세우다",
+   "title_en": "Co-founds Intel",
+   "description": "로버트 노이스와 함께 엔엠 일렉트로닉스라는 이름으로 회사를 출범시켰다. 아서 록이 자금을 모았고, 앤디 그로브가 세 번째 직원으로 합류했다. 이들은 실리콘 게이트 메모리 개발부터 시작했다.",
+   "description_en": "He and Robert Noyce started as NM Electronics. Arthur Rock raised the money, and Andy Grove was the third employee. They began with silicon-gate memory.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "office",
+   "title": "인텔 사장을 맡다",
+   "title_en": "Becomes president of Intel",
+   "description": "같은 해 소자 수가 두 배로 늘어나는 주기를 이 년으로 수정했다. 사 년 뒤에는 이사회 의장과 최고경영자 직책도 맡았다.",
+   "description_en": "That same year he revised the doubling period to two years. Four years later he added chairman and chief executive.",
+   "place_name": "샌타클래라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "메모리에서 손을 떼기로 하다",
+   "title_en": "Agrees to leave the memory business",
+   "description": "일본 회사들이 더 저렴한 디램을 시장에 쏟아냈다. 그로브는 새 사장이 온다면 어떻게 하겠느냐고 물었다. 무어는 새 사장이라면 메모리 사업에서 철수할 것이라고 답했다. 두 사람은 그 결정을 직접 실행했다.",
+   "description_en": "Japanese firms were flooding the market with cheaper DRAM. Grove asked what a new chief would do. He said the new man would get out of memory. The two of them did that themselves.",
+   "place_name": "샌타클래라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "other",
+   "title": "아내와 재단을 세우다",
+   "title_en": "Founds a foundation with his wife",
+   "description": "두 사람은 환경 보전과 과학, 샌프란시스코만 지역을 재단의 지원 대상으로 삼았다. 인텔에서 얻은 재산의 상당 부분을 재단에 기부했다.",
+   "description_en": "They aimed the money at conservation, science, and the San Francisco Bay Area. A large share of the Intel fortune went into the gift.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "death",
+   "title": "와이메아 집에서 세상을 떠나다",
+   "title_en": "Dies at home in Waimea",
+   "description": "가족이 그의 곁을 지켰다. 은퇴한 뒤에는 캘리포니아와 하와이를 오가며 살았다.",
+   "description_en": "His family was with him. After retiring he had split his time between California and Hawaii.",
+   "place_name": "와이메아",
+   "place_name_en": "Waimea",
+   "lat": 20.020277777778,
+   "lng": -155.66777777778
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 지시 대상이 불분명한 표현, 기술 용어의 어색한 직역, 주어가 빠진 문장과 부자연스러운 서술을 바로잡았다. 생애의 흐름과 세부 내용은 원문대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 마을」과 생략된 주어가 반복되어 출생지와 이주 주체를 바로 파악하기 어려웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이리로」는 앞 문장만으로 가리키는 장소가 분명하지 않아 버클리로 명시할 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「적외선을 논문에 올렸다」는 적외선 연구를 학위논문에 담았다는 영문의 의미를 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「논문 한 편에 들어가는 세금」은 논문에 실린 단어당 납세자 비용을 계산했다는 의미와 달랐고, 「민간 쪽」도 대상이 모호했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「불순물을 심는 일」과 「사장을 갈지 않자」가 기술적·인적 관계를 지나치게 구어적으로 표현해 의미가 불명확했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「실리콘 트랜지스터를 뽑았다」는 생산을 뜻하는 영문을 문자 그대로 옮겨 한국어로는 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집적회로에 올라간 소자」와 「그 속도가 간다」는 집적된 소자 수와 증가 추세를 가리키는 표현으로는 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「메모리부터 만들었다」를 회사가 처음 개발한 제품 분야라는 의미가 분명하게 드러나도록 다듬었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이사회 의장과 최고경영자를 겸했다」만으로는 기존 사장직에 두 직책을 더 맡았다는 영문의 관계가 충분히 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "문답의 주어가 연이어 생략되어 누가 질문하고 누가 답했는지 생애 전체를 이어 읽을 때 혼동될 수 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「환경 보전과 과학, 샌프란시스코 만 연안을 넣었다」는 무엇의 지원 대상으로 삼았다는 것인지 빠져 있었고, 「재산을 기부금으로 옮겼다」도 자연스러운 한국어가 아니었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

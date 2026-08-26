@@ -1,0 +1,249 @@
+{
+ "slug": "bob-mumgaard",
+ "events": [
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "birth",
+   "title": "네브래스카에서 태어나다",
+   "title_en": "Is born in Nebraska",
+   "description": "오마하 바로 바깥의 파피리온에서 자랐다. 네브래스카에서는 날씨와 기후가 늘 생활의 일부였다. 학부도 네브래스카에서 마쳤다.",
+   "description_en": "He grew up in Papillion, just outside Omaha. In Nebraska weather and climate were ordinary facts of life. He finished undergraduate school in the same state.",
+   "place_name": "파피리온",
+   "place_name_en": "Papillion",
+   "lat": 41.155833333333,
+   "lng": -96.040833333333
+  },
+  {
+   "year": 2003,
+   "year_end": 2008,
+   "kind": "education",
+   "title": "네브래스카 대학교에서 기계공학과 공학물리를 공부하다",
+   "title_en": "Studies mechanical engineering and physics in Nebraska",
+   "description": "링컨에서 기계공학과 공학물리 학사 학위를 받았다. 그곳의 기계공학자들은 콤바인과 트랙터 제작에 능했지만, 그는 그 일을 하고 싶지 않았다. 물리에 관심을 둔 것은 늦었지만 학부 시절 핵융합에 눈을 떴다.",
+   "description_en": "In Lincoln he earned bachelor’s degrees in mechanical engineering and engineering physics. Mechanical engineers there were skilled at building combines and tractors, and he did not want that work. He came to physics late. As an undergraduate he became interested in fusion.",
+   "place_name": "링컨",
+   "place_name_en": "Lincoln",
+   "lat": 40.80916666666667,
+   "lng": -96.67805555555556
+  },
+  {
+   "year": 2008,
+   "year_end": 2015,
+   "kind": "education",
+   "title": "알케이터 C-모드에서 플라스마 속 자기장을 재다",
+   "title_en": "Measures magnetic fields inside Alcator C-Mod",
+   "description": "핵융합 실험 연구에 참여했다. 플라스마 과학·핵융합 센터에서 브랜든 소봄, 댄 브루너, 잭 하트윅을 만났다. 알케이터 C-모드는 구리 코일로 자기장을 만들었기 때문에 몇 초 동안만 가동할 수 있었다. 그는 운동 스타크 효과 진단 장치를 재구축해 토카막 내부의 자기장 피치각을 측정했다. 로어 하이브리드 전류 구동이 전류 분포를 어떻게 바꾸는지 처음으로 체계적으로 연구했다. 원자력공학 석사와 응용 플라스마 물리 박사 학위를 같은 해에 받았다.",
+   "description_en": "He joined a fusion experiment. At the Plasma Science and Fusion Center he met Brandon Sorbom, Dan Brunner, and Zach Hartwig. Alcator C-Mod made its magnetic field with copper coils and could run for only a few seconds. He rebuilt the motional Stark effect diagnostic to measure the magnetic-field pitch angle inside the tokamak. He carried out the first systematic study of how lower-hybrid current drive changed the current profile. In the same year he received a master’s in nuclear engineering and a doctorate in applied plasma physics.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2015,
+   "year_end": 2016,
+   "kind": "education",
+   "title": "실험실 기술을 시장으로 옮길 길을 찾다",
+   "title_en": "Looks for a path from the lab to the market",
+   "description": "박사 학위를 받은 뒤에도 박사후연구원으로 남았다. 11월에는 MIT 사업화 펠로십에 선발됐다. 소봄이 이끈 학생 논문은 이트륨바륨구리산화물 테이프를 사용하는 소형 발전소 ARC를 구상했다. 그러나 여기에 필요한 자석은 아직 존재하지 않았다. 그는 하트윅, 소봄, 브루너와 함께 SPARC 언더그라운드를 결성했다. 이듬해 초에는 센터에서 민간 자금 조달 방안과 최소 기능 제품을 제시했다. 데니스 화이트와 마틴 그린월드는 이들의 계획을 지지했다.",
+   "description_en": "After the doctorate he stayed as a postdoctoral fellow. In November he was chosen for the Translational Fellows Program. A student paper led by Sorbom sketched a compact plant called ARC that used yttrium-barium-copper-oxide tape. Those magnets did not yet exist. With Hartwig, Sorbom, and Brunner he formed the SPARC Underground. Early the next year they presented private finance and a minimum viable product at the center. Dennis Whyte and Martin Greenwald took their side.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "알케이터 C-모드가 마지막 운전을 하다",
+   "title_en": "Alcator C-Mod runs for the last time",
+   "description": "에너지부는 2012년 이터에 투입할 예산을 확보하기 위해 이 장치에 대한 지원을 중단하려 했다. 의회가 운용 기간을 3년 연장했고, 9월 30일 마지막 운전에서 플라스마 압력 기록을 세웠다. 그가 촬영한 사진은 MIT 뉴스에 실렸다. 구리 코일을 사용한 이 실험은 여기서 끝났다.",
+   "description_en": "In 2012 the Department of Energy moved to end support for the machine to free money for ITER. Congress added three more years, and on September 30, the last run set a plasma-pressure record. A photograph he took ran in MIT News. The copper-coil experiment ended there.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "커먼웰스 퓨전 시스템스를 세우고 대표를 맡다",
+   "title_en": "Founds Commonwealth Fusion Systems and becomes CEO",
+   "description": "소봄과 브루너는 그와 함께 회사를 이끌었고, 화이트와 그린월드, 하트윅은 대학에 남았다. 이탈리아 에너지 기업 에니가 5천만 달러를 투자했다. 이 자금 가운데 3천만 달러 이상을 3년에 걸쳐 MIT의 자석 연구에 지원하기로 했다. MIT는 3월에 이 협력을 발표했다.",
+   "description_en": "Sorbom and Brunner led the company with him, while Whyte, Greenwald, and Hartwig stayed at the university. The Italian energy firm Eni put in $50 million. That money was to fund more than $30 million of magnet research at MIT over three years. MIT announced the collaboration in March.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "데번스에 핵융합 캠퍼스 부지를 정하다",
+   "title_en": "Chooses a fusion campus in Devens",
+   "description": "3월 3일 회사는 47에이커 규모의 부지를 선정했다. SPARC와 자석 공장, 본사를 같은 부지에 두기로 했다. 1단계 공사비는 약 3억 달러로 추산됐다.",
+   "description_en": "On March 3 the company chose a 47-acre site. SPARC, a magnet factory, and headquarters were to share the ground. The first phase of construction was put at about $300 million.",
+   "place_name": "데번스",
+   "place_name_en": "Devens",
+   "lat": 42.537222222222,
+   "lng": -71.615555555556
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "대형 고온초전도 자석으로 20테슬라를 달성하다",
+   "title_en": "Takes a large high-temperature superconducting magnet to 20 tesla",
+   "description": "9월 5일 MIT 플라스마 과학·핵융합 센터에서 대구경 코일에 전력을 공급했다. 판 16장을 쌓아 만든 자석은 목표 자기장에 도달했다. 그는 3년 전에 약속한 자석이 예정대로 완성됐다고 말했다. 그해 12월 회사는 SPARC를 건설하고 가동하는 데 필요한 18억 달러 이상의 투자 유치를 마무리했다.",
+   "description_en": "On September 5, at MIT’s Plasma Science and Fusion Center, they powered a large-bore coil. Sixteen plates were stacked, and the magnet reached the target field. He said the magnet promised three years earlier had arrived on schedule. In December the company closed more than $1.8 billion to build and run SPARC.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "상원에서 핵융합 상용화를 증언하다",
+   "title_en": "Testifies in the Senate on commercial fusion",
+   "description": "9월 15일 상원 에너지·천연자원위원회에 출석했다. 당시 회사의 직원은 300명이었다. 그는 핵융합산업협회 창립 이사의 자격으로도 발언했다.",
+   "description_en": "On September 15 he appeared before the Committee on Energy and Natural Resources. The company then had 300 employees. He also spoke as a founding board member of the Fusion Industry Association.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 상업 발전소 부지를 버지니아에 정하다",
+   "title_en": "Chooses Virginia for the first commercial plant",
+   "description": "12월 17일 체스터필드군의 제임스 리버 산업단지에 ARC를 건설하겠다고 발표했다. 발전 용량은 약 400메가와트이며, 2030년대 초에 전력 생산을 시작할 계획이었다. 도미니언 에너지는 부지를 임대하고 기술 지원을 제공하기로 했다. 발표는 리치먼드의 주 의사당에서 이루어졌다.",
+   "description_en": "On December 17 he said ARC would be built at the James River Industrial Center in Chesterfield County. The plant was put at about 400 megawatts, with power in the early 2030s. Dominion Energy would lease the land and give technical help only. He announced it at the state capitol in Richmond.",
+   "place_name": "체스터",
+   "place_name_en": "Chester",
+   "lat": 37.3533,
+   "lng": -77.4358
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "SPARC 홀에 첫 핵융합 자석을 설치하다",
+   "title_en": "Sets the first SPARC fusion magnet in place",
+   "description": "1월 회사는 24톤짜리 D자형 자석을 토카막 홀의 조립대에 설치했다고 밝혔다. SPARC를 둘러쌀 자석 18개 가운데 첫 번째였다. 그는 나머지 자석도 그해 상반기에 차례로 설치하겠다고 말했다.",
+   "description_en": "In January the company said it had set a 24-ton D-shaped magnet on an assembly stand in Tokamak Hall. It was the first of 18 that would ring SPARC. He said the rest would go in, one after another, in the first half of the year.",
+   "place_name": "데번스",
+   "place_name_en": "Devens",
+   "lat": 42.537222222222,
+   "lng": -71.615555555556
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조하며 전 사건을 이어 읽은 결과, 사실관계의 충돌이나 별도 확인이 필요한 대목은 없었다. 뜻은 유지하되 직역투, 어색한 기술 용어, 불분명한 연결, 부자연스러운 서술어를 바로잡았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「날씨와 기후가 일상의 조건이었다」가 영어 표현을 그대로 옮긴 문장처럼 들리고, 「그 주」가 앞 문장과 느슨하게 연결됐다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「기계와 물리」가 실제 전공을 지나치게 뭉뚱그렸고, 「그곳 기계공학도는」과 「물리는 늦게 좋아졌다」의 주어와 의미 관계가 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「핵융합 실험에 붙었다」, 「진단을 고쳐」, 「하부 하이브리드」가 각각 의미를 짐작해야 하는 직역 또는 부정확한 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「작은 발전소 아크를 그렸다」, 「민간 자금과 최소 기능 제품을 꺼냈다」, 「그 편을 들었다」가 원문의 행동 관계를 자연스러운 한국어로 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이터 예산을 위해」는 예산과 지원 중단의 관계가 불분명했고, 「마지막 운전에 기록을 냈다」와 「MIT 소식」도 자연스럽지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「돈을 넣었다」와 「자석 연구를 대기로 했다」가 투자와 연구비 지원의 관계를 거칠고 부정확하게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「핵융합 캠퍼스를 정하다」와 「한곳에 두기로 했다」가 선정 대상과 공간 관계를 구체적으로 드러내지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「자석을 20테슬라까지 올리다」, 「구경이 큰 코일을 돌렸다」, 「자석 일정이 맞았다」가 모두 영어 표현을 순서대로 치환한 듯 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「위원회에 나왔다」와 「직원 300명이었다」를 청문회 출석과 당시 직원 규모라는 의미가 분명하도록 다듬을 필요가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가동은 2030년대 초로 잡았다」는 원문의 전력 생산 시점을 정확히 드러내지 못했고, 「땅을 빌려 주고 기술만 돕기로 했다」도 역할 관계가 어색했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「자석을 올리다」와 「나머지를 잇달아 끼우다」가 대형 설비의 설치 과정을 지나치게 구어적이고 모호하게 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

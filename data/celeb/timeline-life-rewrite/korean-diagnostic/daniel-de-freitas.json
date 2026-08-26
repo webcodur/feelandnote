@@ -1,0 +1,290 @@
+{
+ "slug": "daniel-de-freitas",
+ "events": [
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브라질에서 태어나다",
+   "title_en": "Born in Brazil",
+   "description": "브라질 상파울루주 출신이다. 부모는 그가 컴퓨터를 다루는 것을 막지 않았다.",
+   "description_en": "He is from the state of São Paulo. His parents did not stop him from working with computers.",
+   "place_name": "상파울루",
+   "place_name_en": "São Paulo",
+   "lat": -23.550394444444,
+   "lng": -46.633947222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "아홉 살에 챗봇을 만들다",
+   "title_en": "Builds a chatbot at age nine",
+   "description": "부모의 권유로 인공지능 분야에 발을 들였다. 데이터를 처음부터 모았지만 당시 기술로는 규모를 키울 수 없었다. 그는 훗날 이 작업이 이미 막다른 길에 이르렀다고 말했다.",
+   "description_en": "His parents steered him toward artificial intelligence. He gathered data from scratch, but the technology of the time could not scale. He later said the work had already reached a dead end.",
+   "place_name": "상파울루",
+   "place_name_en": "São Paulo",
+   "lat": -23.550394444444,
+   "lng": -46.633947222222
+  },
+  {
+   "year": 2007,
+   "year_end": 2011,
+   "kind": "education",
+   "title": "상파울루 대학교에서 컴퓨터공학을 공부하다",
+   "title_en": "Studies computer engineering at the University of São Paulo",
+   "description": "공학 과정을 마치고 곧바로 미국에서 일자리를 찾았다. 브라질에 남아 연구자의 길을 걷지는 않았다.",
+   "description_en": "He finished the engineering course and looked for work in the United States. He did not stay on for a research career in Brazil.",
+   "place_name": "상파울루",
+   "place_name_en": "São Paulo",
+   "lat": -23.550394444444,
+   "lng": -46.633947222222
+  },
+  {
+   "year": 2012,
+   "year_end": 2016,
+   "kind": "work",
+   "title": "마이크로소프트에서 일하다",
+   "title_en": "Works at Microsoft",
+   "description": "처음에는 기업용 회계 소프트웨어를 개발했다. 마지막 해에는 빙 검색을 위한 언어 기술과 인공지능을 다루었다.",
+   "description_en": "He first wrote accounting software for businesses. In his last year he worked on language and artificial intelligence for Bing.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글에서 유튜브 기계학습을 맡다",
+   "title_en": "Takes on machine learning for YouTube at Google",
+   "description": "구글 채용 담당자의 제안을 받아 입사했다. 실무에서는 텍스트와 영상을 처리하는 모델을 실제 서비스에 적용했다.",
+   "description_en": "A Google recruiter brought him in. On the job he put models that read text and video into the live service.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "미나를 사이드 프로젝트로 시작하다",
+   "title_en": "Starts Meena as a side project",
+   "description": "회사는 근무 시간 일부를 본업 외 프로젝트에 쓸 수 있도록 허용했다. 영화 자막으로 챗봇을 훈련한 논문을 읽은 뒤 다시 대화형 모델을 만들었다. 미나라는 이름은 꿈에서 얻었다. 구글 브레인의 노암 셰이저가 나중에 프로젝트에 합류했다.",
+   "description_en": "The company let him spend part of his hours outside his main job. After reading a paper on chatbots trained on movie subtitles, he built a conversational machine again. He took the name from a dream. Noam Shazeer of Google Brain later joined him.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "미나 논문을 내다",
+   "title_en": "Publishes the Meena paper",
+   "description": "구글 브레인 팀이 발표한 논문의 제1저자로 이름을 올렸다. 이 모델은 소셜미디어에서 걸러 낸 대화를 바탕으로 26억 개의 매개변수를 학습했다. 연구팀은 사람들이 답변이 말이 되는지, 구체적인지를 평가하도록 했다. 논문에는 다니엘 아디와르다나라는 이름으로 실렸다.",
+   "description_en": "He was first author for the Google Brain team. The model learned 2.6 billion parameters from filtered social-media conversations. They asked people to score whether replies were sensible and specific. The paper listed him as Daniel Adiwardana.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "람다 개발을 이끌다",
+   "title_en": "Leads the development of LaMDA",
+   "description": "람다는 미나를 이은 대화 모델이었다. 순다르 피차이는 람다가 명왕성과 종이비행기의 목소리로 대화하는 시연을 선보이며 이 연구를 공개했다. 경영진은 안전 기준을 이유로 외부 공개를 막았다.",
+   "description_en": "It was the conversational model that followed Meena. Sundar Pichai put the research on stage with talks in the voices of Pluto and a paper airplane. Executives blocked a public release, citing safety standards.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "노암 셰이저와 캐릭터에이아이를 세우다",
+   "title_en": "Co-founds Character.AI with Noam Shazeer",
+   "description": "두 사람은 챗봇을 외부 연구자와 일반 이용자에게 공개해 달라고 여러 차례 요청했다. 경영진은 그때마다 거절했다. 그해 두 사람은 구글을 떠나, 이용자가 캐릭터를 만들고 각 캐릭터의 목소리로 대화할 수 있는 서비스를 개발하기 시작했다.",
+   "description_en": "The two men asked more than once to open the chatbot to outside researchers and the public. Executives refused each time. They left Google that year and began building a service where people could make characters and talk in those voices.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "publish",
+   "title": "람다 논문에 이름을 올리다",
+   "title_en": "Appears as an author on the LaMDA paper",
+   "description": "그와 셰이저는 논문에 동등 기여자로 표시되었다. 모델은 대화용으로 조정한 트랜스포머였으며, 매개변수는 최대 1,370억 개에 이르렀다.",
+   "description_en": "He and Shazeer shared an equal-contribution mark. The model was a transformer tuned for dialogue, with up to 137 billion parameters.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "캐릭터에이아이 공개 베타를 열다",
+   "title_en": "Opens the Character.AI public beta",
+   "description": "이용자는 언어 교사나 유명인 캐릭터와 대화하고 텍스트 모험을 즐길 수 있었다. 공개 후 첫 3주 동안 수십만 건의 대화가 오갔다.",
+   "description_en": "Users could talk with language tutors, text adventures, and celebrity characters. They left hundreds of thousands of conversations in the first three weeks.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "시리즈 A 투자를 유치하다",
+   "title_en": "Raises a Series A",
+   "description": "앤드리슨 호로위츠가 투자 라운드를 주도했다. 투자자들은 회사 가치를 10억 달러로 평가했다. 같은 날 회사는 C1.2 모델을 미리 공개했다. 이메일 초안 작성과 시험공부 같은 작업을 돕도록 만든 버전이었다.",
+   "description_en": "Andreessen Horowitz led the round. Investors valued the company at one billion dollars. The same day the company previewed its C1.2 model. That version was meant to help with tasks such as drafting mail and studying for exams.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글 딥마인드로 돌아가다",
+   "title_en": "Returns to Google DeepMind",
+   "description": "회사는 당시 보유한 언어 모델 기술의 비독점적 사용권을 구글에 제공했다. 알파벳은 이 거래를 27억 달러로 회계 처리했다. 셰이저와 연구팀 일부도 그와 함께 구글 딥마인드에 합류했다.",
+   "description_en": "The company licensed its then-current language-model technology to Google on a non-exclusive basis. Alphabet booked the deal at 2.7 billion dollars. Shazeer and part of the research team joined with him.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 직역투, 불분명한 대상, 어색한 동사와 기술 용어를 바로잡았다. 출생부터 캐릭터에이아이 창업과 구글 딥마인드 복귀까지의 생애 흐름도 자연스럽게 이어진다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상파울루 주 사람이다」와 「컴퓨터를 만지는 일」이 각각 출신과 컴퓨터 사용을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「대화 프로그램」보다 원문의 chatbot을 분명히 나타내는 표현이 필요했고, 「인공지능에 손을 대다」와 「더 키우다」는 시작한 일과 기술적 확장의 의미가 모호했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「브라질에서 연구실을 이어 가는 길은 고르지 않았다」는 연구 경력을 택하지 않았다는 원문의 주어·행동 관계가 무너진 직역이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「빙 검색에 붙일 말과 인공지능」은 language and artificial intelligence for Bing의 업무 대상을 알아보기 어려웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「구글 유튜브」는 회사와 담당 서비스의 관계가 불분명했고, 「불러 들였다」와 「글과 영상을 알아보는 모델을 서비스에 올렸다」도 채용과 실제 서비스 적용을 어색하게 표현했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「본업 밖에 쓸 수 있었다」는 무엇을 쓸 수 있었는지 빠져 있었고, 「대화 기계」와 「이름」은 각각 모델과 미나를 구체적으로 가리키지 못했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「첫째 저자」는 한국어 학술 문맥에 맞지 않았고, 매개변수 학습과 사람의 답변 평가를 나타내는 문장도 주체와 평가 항목이 매끄럽지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「명왕성과 종이비행기를 상대로 대화」는 람다가 두 대상의 목소리로 대화했다는 원문의 관계를 바꾸었고, 「연구를 무대에 올렸다」도 시연 행위를 불필요하게 비유했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「바깥 연구자와 이용자에게 열다」와 「그 목소리로 이야기하게 하다」는 공개 대상과 캐릭터 기반 대화 방식이 불분명했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「별표를 달았다」만으로는 두 사람이 동등 기여자로 표시되었다는 뜻을 알 수 없었고, 「대화에 맞춘 변환기」는 기술 용어를 지나치게 직역했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "언어 교사·텍스트 모험·유명인 캐릭터를 모두 「이야기할 수 있는」 대상으로 묶어, 텍스트 모험을 이용하는 행동이 부자연스러웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「투자를 받다」보다 투자 유치가 사건의 성격을 정확히 나타내며, 「판을 이끌다」, 「회사 값을 매기다」, 「씨원점이라는 모델」은 투자와 C1.2 모델을 알아보기 어렵게 표현했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "기술 라이선스를 「비독점으로 빌려 주었다」고 표현해 계약의 의미가 흐려졌고, 「장부에 올렸다」와 마지막 문장의 합류 대상도 더 명확히 쓸 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

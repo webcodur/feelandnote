@@ -1,0 +1,171 @@
+{
+ "slug": "chen-gong",
+ "events": [
+  {
+   "year": 150,
+   "year_end": null,
+   "kind": "birth",
+   "title": "동군 무양에서 태어나다",
+   "title_en": "Is born in Wuyang, Dong Commandery",
+   "description": "자는 공대다. 성품이 강직하고 어려서부터 천하의 이름난 선비들과 사귀었다.",
+   "description_en": "His courtesy name was Gongtai. The records call him upright and fierce, and say that as a youth he already kept company with well-known men of the realm.",
+   "place_name": "신현",
+   "place_name_en": "Shen County",
+   "lat": 36.21056,
+   "lng": 115.5725
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "office",
+   "title": "조조를 연주목으로 맞이하자고 설득하다",
+   "title_en": "Persuades Yan to receive Cao Cao as governor",
+   "description": "유대가 황건에게 패해 죽자 연주에는 주인이 없다며 별가와 치중을 설득했다. 조조를 주목으로 맞이하면 백성이 평안할 것이라고 했다. 포신과 만잠이 동군으로 가서 조조를 맞이했다. 정사에 처음 이름이 오른 대목이다. 뒤에 나온 소설은 그를 중모현령으로 설정해 조조를 놓아주고 여백사의 집에서 조조와 갈라서는 것으로 그렸다.",
+   "description_en": "After Inspector Liu Dai fell to the Yellow Turbans, he told the provincial aides that Yan had no head. Invite Cao Cao as governor, he said, and the people would have peace. Bao Xin and Wan Qian went to Dong Commandery and brought Cao Cao in. This is his first appearance in the official histories. The later novel makes him the magistrate of Zhongmou who frees Cao Cao and then leaves him at Lü Boshe’s house.",
+   "place_name": "견성",
+   "place_name_en": "Juancheng",
+   "lat": 35.566667,
+   "lng": 115.5
+  },
+  {
+   "year": 194,
+   "year_end": null,
+   "kind": "office",
+   "title": "장막에게 여포를 맞아들이라고 권하다",
+   "title_en": "Urges Zhang Miao to receive Lü Bu",
+   "description": "조조가 서주를 치러 나가자 연주가 비었다. 이미 의심을 품고 있던 진궁은 장초·허사·왕해와 함께 장막을 설득했다. 여포는 맞설 자가 없는 장사이니 우선 그를 맞아들여 연주를 함께 지키면서 천하의 형세를 살피자고 했다. 견성·동아·범을 제외한 모든 군현이 호응했다.",
+   "description_en": "While Cao Cao was away attacking Xu, Yan stood empty. Already nursing doubts, he joined Zhang Chao, Xu Si, and Wang Kai in pressing Zhang Miao. Lü Bu, he said, was a fighter no one could match: receive him for now, hold Yan together, and watch the realm. Every commandery and county answered except Juancheng, Dong’e, and Fan.",
+   "place_name": "개봉",
+   "place_name_en": "Kaifeng",
+   "lat": 34.795,
+   "lng": 114.345
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "battle",
+   "title": "동민에서 역공하다 패하고 서주로 달아나다",
+   "title_en": "Fails a counterattack at Dongmin and flees to Xu",
+   "description": "여포와 함께 군사 1만을 이끌고 동민에서 역공하려 했으나 복병에 걸렸다. 정도가 함락되자 남아 있던 여러 현도 잃었다. 두 사람은 유비에게 몸을 의탁했다.",
+   "description_en": "He and Lü Bu led ten thousand from Dongmin and walked into an ambush. When Dingtao fell, the remaining counties went with it. They took refuge with Liu Bei.",
+   "place_name": "허쩌",
+   "place_name_en": "Heze",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 196,
+   "year_end": null,
+   "kind": "other",
+   "title": "학맹의 난에 연루되다",
+   "title_en": "Is implicated in Hao Meng’s revolt",
+   "description": "여포가 서주를 빼앗은 해에 학맹이 원술을 등에 업고 반란을 일으켰다. 조성이 진궁도 반란을 함께 꾀했다고 고발하자 진궁의 얼굴이 붉어졌다. 여포는 진궁이 매우 중요한 장수라며 더는 문책하지 않았다.",
+   "description_en": "The year Lü Bu seized Xu, Hao Meng rose with Yuan Shu behind him. Cao Xing said Chen Gong had shared the plot, and his face went red. Lü Bu called him too important a captain to question.",
+   "place_name": "비주",
+   "place_name_en": "Pizhou",
+   "lat": 34.311389,
+   "lng": 117.950278
+  },
+  {
+   "year": 198,
+   "year_end": null,
+   "kind": "battle",
+   "title": "팽성에서 역격을 건의하다",
+   "title_en": "Urges a strike at Pengcheng",
+   "description": "조조가 팽성에 이르자 지친 조조군을 즉시 공격하자고 건의했다. 여포는 듣지 않았다. 조조군이 하비 앞에 이르러서야 여포가 나가 싸웠으나 패했다.",
+   "description_en": "When Cao Cao reached Pengcheng, he asked to strike the tired army at once. Lü Bu would not. Only when the enemy was at Xiapi did Lü Bu ride out, and he was beaten.",
+   "place_name": "서주",
+   "place_name_en": "Xuzhou",
+   "lat": 34.261111,
+   "lng": 117.185833
+  },
+  {
+   "year": 198,
+   "year_end": null,
+   "kind": "battle",
+   "title": "하비에서 기각 방어를 진언하다",
+   "title_en": "Proposes a pincer defense at Xiapi",
+   "description": "여포가 항복을 생각하자 달걀로 바위를 치는 격이라며 말렸다. 여포가 성 밖에 주둔하고 자신이 성 안을 지키면 열흘 안에 적의 군량이 떨어질 것이라고 했다. 여포의 아내가 막아서 실행하지 못했다.",
+   "description_en": "When Lü Bu thought of surrender, he said it would be eggs against a rock. Let Lü Bu camp outside and he would hold the city: in ten days the attackers’ grain would be gone. Lü Bu’s wife stopped it, and the plan was never run.",
+   "place_name": "비주",
+   "place_name_en": "Pizhou",
+   "lat": 34.311389,
+   "lng": 117.950278
+  },
+  {
+   "year": 199,
+   "year_end": null,
+   "kind": "death",
+   "title": "하비가 함락된 뒤 처형되다",
+   "title_en": "Is executed after the fall of Xiapi",
+   "description": "후성·송헌·위속이 진궁을 묶어 조조에게 넘겼다. 조조는 평소 지혜가 남는다고 하더니 지금은 어떻게 되었느냐고 물었다. 진궁은 여포를 가리키며 이 사람이 자기 말을 듣지 않아 여기까지 왔으며, 말을 들었다면 붙잡히지 않았을 것이라고 답했다. 효로 천하를 다스리는 사람이라면 남의 제사를 끊지 않을 것이라며 노모와 처자를 조조에게 맡겼다. 자신을 끌고 나가 죽여 달라고 한 뒤에는 돌아보지 않았다. 여포·고순과 함께 목 졸려 죽었고, 세 사람의 머리는 허도로 보내졌다. 조조는 진궁의 어머니가 세상을 떠날 때까지 봉양하고 아들을 가르쳤으며 딸은 시집보냈다.",
+   "description_en": "Hou Cheng, Song Xian, and Wei Xu bound him and handed him over. Cao Cao asked what had become of the surplus of wit he used to claim. He pointed at Lü Bu and said this man had not listened, and that if he had, they might not have been taken. He left his mother and his wife and children to a ruler who governed by filial duty and would not cut off another man’s sacrifices. He asked to be led out and killed, and did not look back. He was strangled with Lü Bu and Gao Shun, and the heads went to Xu. Cao Cao kept the mother until she died, taught the son, and married off the daughter.",
+   "place_name": "비주",
+   "place_name_en": "Pizhou",
+   "lat": 34.311389,
+   "lng": 117.950278
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "대부분의 사건은 영문의 세부를 보존하면서 자연스러운 한국어로 다듬을 수 있었다. 다만 index 6의 비유가 무엇을 가리키는지는 영문만으로 확정할 수 없어 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "연주에 주인이 없다는 말과 별가·치중을 설득한 행동의 연결이 어색했고, 여백사의 집에서 누구와 갈라섰는지가 분명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스스로 의심을 품고」는 누가 누구를 의심했다는 뜻인지 불분명했고, 「연주를 나눠 갖고」는 연주를 함께 유지하자는 영문과 의미가 어긋났다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 주어가 생략되어 진궁 혼자 유비에게 의탁했다는 뜻으로 읽힐 수 있었으나, 영문은 진궁과 여포가 함께 피신했다고 서술한다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공모를 고하자」만으로는 조성이 진궁의 공모 사실을 고발했다는 관계가 선명하지 않았고, 「묻지 않았다」는 조사나 문책을 하지 않았다는 의미를 충분히 전달하지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「하비 앞에 와서야」는 누가 하비에 왔는지 앞 문장만으로 분명하지 않았고, 출전하고 패한 주체도 생략되어 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 사람」이 여포를 가리킨다는 사실이 문장 안에 드러나지 않았고, 여포가 말을 들었다면 붙잡히지 않았을 것이라는 조건절과 어머니를 죽을 때까지 봉양했다는 세부가 빠져 있었다. 「나가 죽임을 받겠다고 하고」도 한국어 행동 관계가 어색했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 6,
+    "reason": "영문의 「it would be eggs against a rock」에서 it이 항복, 저항, 또는 다른 행동 가운데 무엇을 가리키는지 분명하지 않다. 국문은 여포가 항복하려 하자 진궁이 이 비유로 만류했다고 해석하지만, 문장 편집만으로 그 해석을 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   7
+  ]
+ }
+}

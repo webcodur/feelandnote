@@ -1,0 +1,305 @@
+{
+ "slug": "jack-tramiel",
+ "events": [
+  {
+   "year": 1928,
+   "year_end": null,
+   "kind": "birth",
+   "title": "우치에서 태어나다",
+   "title_en": "Born in Łódź",
+   "description": "유대인 집안의 외아들이었다. 아버지는 아브람 요제프, 어머니는 리프카였다. 가족은 구르니악 지구의 나피오르코프스키에 거리에 살았다. 이름은 이데크 트슈미엘이었다.",
+   "description_en": "He was the only child of a Jewish family. His father was Abram Josef and his mother was Rifka. They lived on Napiórkowskiego Street in the Górniak district. His given name was Idek Trzmiel.",
+   "place_name": "우치",
+   "place_name_en": "Łódź",
+   "lat": 51.75,
+   "lng": 19.466666666667
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "other",
+   "title": "게토로 몰리다",
+   "title_en": "Is forced into the ghetto",
+   "description": "독일군이 폴란드를 점령하자 가족과 함께 유대인 거주구역으로 강제 이주당했다. 그곳의 의류 공장에서 일했다.",
+   "description_en": "When German troops occupied Poland, he and his family were moved into the Jewish ghetto. He worked in a garment factory.",
+   "place_name": "우치",
+   "place_name_en": "Łódź",
+   "lat": 51.75,
+   "lng": 19.466666666667
+  },
+  {
+   "year": 1944,
+   "year_end": null,
+   "kind": "other",
+   "title": "아우슈비츠로 실려 가다",
+   "title_en": "Is sent to Auschwitz",
+   "description": "게토가 비워지자 가족과 함께 아우슈비츠 수용소로 이송됐다. 멩겔레의 선별을 거쳐 노동 인원으로 분류됐다. 트라미엘과 아버지는 알레름으로 옮겨졌고, 어머니는 아우슈비츠에 남았다.",
+   "description_en": "When the ghetto was emptied he was shipped to the camp with his family. Mengele's selection sent him to a work party. He and his father were moved on to Ahlem, while his mother stayed behind.",
+   "place_name": "오시비엥침",
+   "place_name_en": "Oświęcim",
+   "lat": 50.03805555555556,
+   "lng": 19.22138888888889
+  },
+  {
+   "year": 1945,
+   "year_end": null,
+   "kind": "other",
+   "title": "미군에게 구출되다",
+   "title_en": "Is liberated by the U.S. Army",
+   "description": "미군 제84보병사단이 알레름 수용소를 해방했다. 그러나 아버지는 이미 숨진 뒤였다. 수용소 기록에는 사인이 발진티푸스로 적혀 있었지만, 트라미엘은 아버지가 휘발유 주사를 맞아 숨졌다고 믿었다.",
+   "description_en": "The 84th Infantry Division opened Ahlem. His father was already dead. The camp record said typhus. The son believed it was a gasoline injection.",
+   "place_name": "하노버",
+   "place_name_en": "Hanover",
+   "lat": 52.374444444444,
+   "lng": 9.7386111111111
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "other",
+   "title": "헬렌과 결혼하다",
+   "title_en": "Marries Helen",
+   "description": "헬렌은 베르겐벨젠에서 살아남은 우치 출신이었다. 두 사람은 해방 뒤 하노버에서 만났고, 그해 여름 독일에서 결혼식을 올렸다.",
+   "description_en": "She was a Łódź native who had survived Bergen-Belsen. They met in Hanover after liberation and married in Germany that summer.",
+   "place_name": "하노버",
+   "place_name_en": "Hanover",
+   "lat": 52.374444444444,
+   "lng": 9.7386111111111
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "travel",
+   "title": "미국으로 들어가다",
+   "title_en": "Enters the United States",
+   "description": "11월 엘리스 섬에 발을 디뎠다. 히아스 숙소에 머물며 5번가 창고에서 일했다. 아내는 이듬해 따라왔다.",
+   "description_en": "He landed at Ellis Island in November. He stayed at a HIAS hostel and worked in a Fifth Avenue warehouse. His wife followed the next year.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "work",
+   "title": "타자기 수리점을 열다",
+   "title_en": "Opens a typewriter repair shop",
+   "description": "미군에서 타자기 수리를 배웠다. 제대 뒤 제대 군인 대상 대출을 받아 가게를 샀다. 아직 쓰이지 않던 해군 계급명인 코모도어를 상호로 정했다. 낮에는 사무기기를 고치고 밤에는 택시를 몰았다.",
+   "description_en": "He learned to repair typewriters in the U.S. Army. After discharge he bought a shop with a GI loan. He named it Commodore, a navy rank that was still free. He repaired office machines by day and drove a taxi at night.",
+   "place_name": "브롱크스",
+   "place_name_en": "The Bronx",
+   "lat": 40.846666666666664,
+   "lng": -73.87333333333333
+  },
+  {
+   "year": 1955,
+   "year_end": null,
+   "kind": "work",
+   "title": "토론토에서 회사를 세우다",
+   "title_en": "Founds the company in Toronto",
+   "description": "아내의 친척들이 캐나다에 살고 있어 토론토로 옮겼다. 시어스는 그에게 타자기 조립을 맡겼고, 그는 체코슬로바키아 측과 면허 계약을 맺었다. 미국으로 직접 수입할 수 없었기 때문에 국경 북쪽인 캐나다에서 사업을 시작했다.",
+   "description_en": "His wife's relatives were in Canada, so he moved there. Sears asked him to assemble typewriters, and he took a license from Czechoslovakia. Direct imports into the United States were blocked, so he started north of the border.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "other",
+   "title": "굴드를 회장으로 앉히다",
+   "title_en": "Brings Gould in as chairman",
+   "description": "대출기관인 애틀랜틱 액셉턴스가 무너지자 빚을 한꺼번에 갚아야 했다. 트라미엘은 굴드에게 지분 일부를 넘기고 그를 회장으로 앉혔다. 자신은 사장으로 남았다.",
+   "description_en": "When the lender Atlantic Acceptance collapsed, the debts came due at once. He sold a stake and made Gould chairman. He stayed on as president.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "work",
+   "title": "PET를 출시하다",
+   "title_en": "Launches the PET",
+   "description": "텍사스 인스트루먼츠가 계산기 칩을 자사의 완제품 계산기보다 비싸게 팔자, 트라미엘은 반도체 회사 모스(MOS)를 인수했다. 척 페들이 계산기의 시대는 끝났다고 말하자 그에게 여섯 달 안에 컴퓨터를 만들라고 지시했다. 시카고 가전쇼에서 공개한 PET는 학교와 사무실을 중심으로 팔리기 시작했다.",
+   "description_en": "When Texas Instruments priced calculator chips above its own finished machines, he bought the chip firm MOS. Chuck Peddle said calculators were finished, so he gave him six months to build a computer. The machine shown at the Chicago electronics show sold first to schools and offices.",
+   "place_name": "웨스트체스터",
+   "place_name_en": "West Chester",
+   "lat": 39.9586,
+   "lng": -75.605
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "work",
+   "title": "코모도어 64를 팔다",
+   "title_en": "Sells the Commodore 64",
+   "description": "앞서 출시한 VIC-20은 이미 판매량 백만 대를 넘겼다. 뒤이어 나온 코모도어 64는 이천만 대 넘게 출하됐다. 타임은 컴퓨터를 '올해의 기계'로 선정하고, 이 컴퓨터와 관련된 여섯 인물 가운데 한 명으로 트라미엘을 조명했다.",
+   "description_en": "The VIC-20 before it had already passed a million units. This model shipped more than twenty million. Time named the computer Machine of the Year and singled him out as one of six people around it.",
+   "place_name": "웨스트체스터",
+   "place_name_en": "West Chester",
+   "lat": 39.9586,
+   "lng": -75.605
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "work",
+   "title": "아타리를 인수하다",
+   "title_en": "Buys Atari",
+   "description": "1월 이사회에서 굴드와 충돌한 뒤 자신이 세운 회사를 떠났다. 그해 여름 워너의 컴퓨터·게임기 부문을 인수하고, 현금 대신 장기 어음으로 대금을 지급했다. 회사 이름을 아타리로 바꾸고 이듬해 ST를 출시했다.",
+   "description_en": "After a fight with Gould at a January board meeting he left the company he had founded. That summer he took Warner's computer and console division for no cash, paying with long-term notes. He renamed the firm Atari and shipped the ST the next year.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "other",
+   "title": "홀로코스트 기념관을 돕다",
+   "title_en": "Helps fund the Holocaust Memorial Museum",
+   "description": "기념관이 문을 열 때 창립 후원자로 돈을 댔다. 수용소에서 살아남은 뒤에는 학교와 대학에서 수용소 시절을 이야기했다.",
+   "description_en": "When the museum opened he put up money as a founding donor. After the camps he spoke about that time in schools and universities.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "death",
+   "title": "스탠퍼드에서 세상을 떠나다",
+   "title_en": "Dies in Stanford",
+   "description": "심부전으로 세상을 떠났다. 사망 전까지 몬테세레노에서 살았다. 유족으로 아내와 세 아들이 남았다.",
+   "description_en": "He died of heart failure. He had been living in Monte Sereno. His wife and three sons survived him.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 대상과 행동이 흐려진 문장, 자발적인 이동처럼 읽히는 수용소 관련 표현, 앞 사건과의 연결이 불분명한 지시어를 바로잡았다. 영문에 없는 평가나 인과는 보태지 않고 인명·회사명·제품명을 명확히 드러냈다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "거주지를 나타내는 지구명과 거리명이 조사 없이 이어졌고, given name을 본명으로 단정해 영문의 의미보다 넓게 옮겼다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "가족이 유대인 거주구역에 자발적으로 들어간 것처럼 서술해 영문의 강제 이주 의미가 약해졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "수용소로 강제 이송된 일을 스스로 간 것처럼 적었고, 노동 인원으로 분류된 일을 구어적인 표현으로 옮겼다. 어머니가 남은 장소도 바로 알기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "미군 부대가 수용소를 해방한 일을 '알레름을 열었다'고 직역했고, 기록과 트라미엘의 믿음을 각각 누가 말한 것인지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 없어 베르겐벨젠 생존자이자 우치 출신인 사람이 헬렌이라는 사실을 앞 문장만으로 알 수 없었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "제대군인을 위한 대출과 아직 쓰이지 않던 상호를 직역한 표현이 어색해 창업 과정이 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "아내의 친척이 어디에 있었는지 생략됐고, 면허를 받은 상대와 미국 직수입 제한 때문에 캐나다에서 사업을 시작한 관계가 어색하게 연결됐다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'대주'와 '그'만으로는 애틀랜틱 액셉턴스와 굴드를 바로 식별하기 어려웠고, 회장 선임 과정도 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제품명 PET를 일반 명사처럼 '펫'으로 적었고, 텍사스 인스트루먼츠의 칩 가격 정책과 MOS 인수, 컴퓨터 개발 지시 사이의 주어·목적어 관계가 흐렸다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'육십사', '그 앞에', '이번 기종' 같은 표현 때문에 제품명이 분명하지 않았고, 출하량과 타임의 선정 내용을 모호하게 옮겼다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "기업 부문을 사들인 사건에는 '사다'보다 '인수하다'가 자연스럽고, 장기 어음으로 대금을 지급한 거래와 이듬해 제품 출시가 불분명하게 표현됐다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "'그 일을 이야기했다'만으로는 학교와 대학에서 무엇을 이야기했는지 앞 문장만으로 알기 어려웠다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'몬테세레노에서 살던 뒤였다'는 시간 관계를 짐작해야 하는 직역이며, 유족을 나타내는 마지막 문장도 한국어답지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

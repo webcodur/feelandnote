@@ -1,0 +1,218 @@
+{
+ "slug": "cameron-winklevoss",
+ "events": [
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "birth",
+   "title": "쌍둥이로 태어나다",
+   "title_en": "Born a twin",
+   "description": "아버지 하워드는 펜실베이니아대학교 와튼스쿨에서 보험수학을 가르쳤고, 어머니의 이름은 캐럴이었다. 캐머런은 쌍둥이 형제 타일러와 함께 롱아일랜드 해안이 아닌 코네티컷주 그리니치에서 자랐다.",
+   "description_en": "His father, Howard, taught actuarial science at the Wharton School of the University of Pennsylvania. His mother was Carol. He grew up with his twin, Tyler, in Greenwich, Connecticut, not on the Long Island shore.",
+   "place_name": "사우샘프턴",
+   "place_name_en": "Southampton",
+   "lat": 40.8853,
+   "lng": -72.3953
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "other",
+   "title": "조정을 시작하다",
+   "title_en": "Takes up rowing",
+   "description": "그리니치 컨트리데이 학교를 다니다가 브런즈윅 학교로 옮겼다. 열세 살에 타일러와 함께 지역 업체의 웹페이지를 만드는 법을 독학했다. 고등학교에 조정부가 없어서 3학년 때 타일러와 함께 조정부를 만들었고, 사우거턱 조정 클럽에서도 노를 저었다.",
+   "description_en": "He went to Greenwich Country Day and then Brunswick School. At thirteen he and Tyler taught themselves to build websites for local businesses. Their high school had no crew, so in his junior year they started one, and he took a seat at the Saugatuck Rowing Club.",
+   "place_name": "그린위치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  },
+  {
+   "year": 2000,
+   "year_end": 2004,
+   "kind": "education",
+   "title": "하버드에서 경제학을 배우다",
+   "title_en": "Studies economics at Harvard",
+   "description": "해리 파커 감독이 이끄는 남자 헤비급 조정 대표팀에서 선수로 뛰었다. 마지막 시즌에는 소속 팀이 무패를 기록하며 동부 스프린트와 대학조정선수권, 하버드-예일 레가타에서 우승했다.",
+   "description_en": "He rowed in the men’s varsity heavyweight boat under coach Harry Parker. In his last season the crew went unbeaten and won the Eastern Sprints, the IRA championship, and the Harvard–Yale Regatta.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "하버드커넥션을 만들다",
+   "title_en": "Builds HarvardConnection",
+   "description": "타일러, 동기 디브야 나렌드라와 함께 하버드 학생만 이용하는 소셜 네트워크를 개발하기 시작했다. 산제이 마빈쿠르베가 첫 코드를 작성했지만 졸업과 함께 구글로 떠났고, 빅터 가오가 개발을 이어받았다. 그해 11월 세 사람은 마크 저커버그에게 남은 프로그램 개발을 맡겼다.",
+   "description_en": "With Tyler and classmate Divya Narendra he began building a Harvard-only social network. Sanjay Mavinkurve wrote the first code and left for Google at graduation. Victor Gao took over, and in November the three asked Mark Zuckerberg to finish the programming.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "other",
+   "title": "페이스북을 고소하다",
+   "title_en": "Sues Facebook",
+   "description": "저커버그는 그해 2월 더페이스북을 먼저 열었다. 세 사람은 자신들의 사이트 이름을 커넥트유로 바꾸고 5월에 공개한 뒤, 저커버그가 아이디어를 도용하고 구두 계약을 어겼다며 소송을 제기했다. 하버드 기숙사에서 시작된 분쟁은 연방법원으로 이어졌다.",
+   "description_en": "Zuckerberg opened TheFacebook in February. They renamed their site ConnectU, launched it in May, and sued him for taking their idea and breaking an oral contract. The fight left the Harvard houses for federal court.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "other",
+   "title": "페이스북과 합의하다",
+   "title_en": "Settles with Facebook",
+   "description": "현금과 페이스북 주식을 합쳐 약 6천5백만 달러 규모의 합의서에 서명했다. 타일러와 나렌드라도 이 합의서에 함께 서명했다. 이후 주식 가치가 낮게 평가됐다며 합의를 뒤집으려 했지만, 2011년 항소법원은 기존 합의를 유지했다.",
+   "description_en": "They signed a deal worth about 65 million dollars in cash and Facebook stock. Tyler and Narendra signed the same paper. They later tried to unwind it, saying the shares had been undervalued; in 2011 an appeals court held them to the agreement.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "other",
+   "title": "베이징 올림픽 무타페어에 출전하다",
+   "title_en": "Rows the pair in Beijing",
+   "description": "타일러와 함께 남자 무타페어 종목에 미국 대표로 출전했다. 한 해 전 리우 팬아메리칸 경기에서는 에이트 금메달과 포어 은메달을 땄다. 베이징 올림픽 결승에서는 두 사람이 6위를 기록했다.",
+   "description_en": "He and Tyler raced the men’s pair for the United States. The year before, in Rio, he had taken gold in the eight and silver in the four at the Pan American Games. In the Beijing final they finished sixth.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "education",
+   "title": "옥스퍼드에서 경영학 석사를 받다",
+   "title_en": "Earns an MBA at Oxford",
+   "description": "한 해 앞서 사이드경영대학원에 입학했다. 크라이스트처치 소속으로 조정하며 옥스퍼드 블루 보트의 에이트 선수로 출전했고, 제156회 보트 레이스에서 케임브리지에 패했다.",
+   "description_en": "He had entered the Saïd Business School the year before. Rowing for Christ Church he sat in the Oxford Blue Boat and lost the 156th Boat Race to Cambridge.",
+   "place_name": "옥스퍼드",
+   "place_name_en": "Oxford",
+   "lat": 51.751944444444,
+   "lng": -1.2577777777778
+  },
+  {
+   "year": 2012,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "비트코인을 사기 시작하다",
+   "title_en": "Begins buying bitcoin",
+   "description": "타일러와 윙클보스 캐피털을 세우고, 한 개에 10달러가 안 되던 비트코인을 직접 사들였다. 이듬해 뉴욕타임스에 유통량의 약 1퍼센트, 당시 1천1백만 달러어치를 갖고 있다고 밝혔다. 7월에는 증권거래위원회에 비트코인 신탁 상장을 신청했다.",
+   "description_en": "With Tyler he founded Winklevoss Capital and began buying bitcoin when a coin still cost less than ten dollars. The next year they told The New York Times they held about one percent of the supply, then worth some 11 million dollars. In July they filed with the SEC to list a bitcoin trust.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2014,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "제미니를 열다",
+   "title_en": "Opens Gemini",
+   "description": "타일러와 암호화폐 거래소 제미니를 세웠다. 그는 사장을, 타일러는 최고경영자를 맡았다. 2015년 10월 뉴욕주 금융 규제 당국이 신탁회사 인가를 내줬고, 제미니는 10월 5일 개인과 기관에 문을 연 뒤 8일에 거래를 시작했다.",
+   "description_en": "He and Tyler founded the cryptocurrency exchange Gemini. He took the presidency; Tyler took the chief executive’s chair. In October 2015 New York’s financial regulator granted a trust-company charter. They opened to individuals and institutions on the 5th and started trading on the 8th.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부 사항은 그대로 유지하면서, 직역된 동사와 불분명한 주어·대상을 바로잡았다. 하버드 재학과 창업 분쟁, 조정 선수 경력, 비트코인 투자와 제미니 설립으로 이어지는 생애 흐름도 자연스럽게 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어머니는 캐럴이었다」와 「집은 롱아일랜드가 아니라」가 직역투였고, 영문에 있는 롱아일랜드 해안과 그리니치의 대조 관계가 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「노를 잡기 시작하다」는 조정을 시작했다는 뜻을 간접적으로 표현했고, 「3학년 때 부를 새로 세웠다」는 무엇을 만들었다는 것인지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대표팀에 앉았다」와 「그 배는 … 대회를 가져갔다」가 영어 표현을 순서대로 옮긴 문장이라 선수·팀·우승의 관계가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "웹서비스와 프로그램 개발을 반복해서 「짜다」라고 표현하고 「남은 코딩」이라고 적어, 각 개발자가 맡은 과정이 다소 거칠고 불분명하게 읽혔다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아이디어를 가져갔다」는 아이디어 도용을 뜻하는 직역 표현이었고, 「싸움은 … 옮겨 갔다」도 분쟁이 연방법원으로 이어졌다는 관계를 간접적으로 나타냈다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 문서에 이름을 썼다」는 합의서에 함께 서명했다는 뜻을 짐작해야 했고, 「뒤에」는 시간 연결 표현으로 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「올림픽 조정에 나서다」보다 출전 종목을 밝히는 편이 명확하며, 본문의 「메달을 받았다」와 「여섯 번째로 들어왔다」도 경기 결과를 나타내는 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「옥스퍼드 대표 에이트에 앉았다」가 영어의 좌석 표현을 그대로 옮겨, 크라이스트처치 소속 조정 선수로 옥스퍼드 블루 보트에 출전했다는 관계가 흐려졌다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「금융감독이 … 인가를 냈다」는 주체의 명칭과 동사 결합이 어색했고, 5일과 8일이 어느 달인지 앞 문장에 기대야 알 수 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9
+  ]
+ }
+}

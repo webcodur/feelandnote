@@ -1,0 +1,226 @@
+{
+ "slug": "ahn-hye-jin",
+ "events": [
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "birth",
+   "title": "전주에서 태어나다",
+   "title_en": "Is born in Jeonju",
+   "description": "전라북도 전주에서 태어나 부모와 두 언니와 함께 살았다. 전주초등학교를 다녔고, 초등학생 때 뮤지컬 무대에 섰다.",
+   "description_en": "She was born in Jeonju, in North Jeolla. She lived there with her parents and two older sisters. She went to Jeonju Elementary School and stood on a musical stage as a child.",
+   "place_name": "전주",
+   "place_name_en": "Jeonju",
+   "lat": 35.82388888888889,
+   "lng": 127.1475
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "전주성심여중에서 휘인을 만나다",
+   "title_en": "Meets Wheein at Jeonju Seongsim Girls’ Middle School",
+   "description": "1학년 때 휘인과 같은 반이 되었다. 처음에는 서로 거리를 두었지만, 곧 함께 듀엣을 부르고 화음을 맞추며 놀았다. 둘 다 가수를 꿈꾸어 서울의 기획사 오디션을 함께 보러 다녔다.",
+   "description_en": "They were in the same first-year class. They kept their distance at first, then started singing duets and stacking harmonies. Both wanted to be singers and went together to agency auditions in Seoul.",
+   "place_name": "전주",
+   "place_name_en": "Jeonju",
+   "lat": 35.82388888888889,
+   "lng": 127.1475
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "travel",
+   "title": "서울로 올라가 연습생이 되다",
+   "title_en": "Moves to Seoul and becomes a trainee",
+   "description": "고등학교 1학년 때 홀로 서울로 올라갔다. 휘인과 함께 본 오디션에서는 휘인만 먼저 합격했고, 자신은 외모를 이유로 탈락했다. 한두 달 뒤 합격해 김도훈이 세운 와엔터테인먼트에서 연습을 시작했다. 이후 휘인과 3년 반 동안 함께 연습생 생활을 했다. 원광정보예술고등학교 음악과를 졸업했다.",
+   "description_en": "She went up alone in her first year of high school. At the audition they took together, Wheein was accepted first; the staff turned her down over her looks. A month or two later she passed and began training at WA Entertainment, which Kim Do-hoon had set up. She and Wheein spent three and a half years as trainees. She graduated from the music department at Wonkwang Information Arts High School.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "본명으로 다른 가수들의 곡에 참여하다",
+   "title_en": "Appears on other artists’ songs under her real name",
+   "description": "솔비의 〈오뚜기〉 클럽 하우스 버전에서 랩을 맡았고, 안혜진이라는 본명으로 크레딧에 이름을 올렸다. 이어 팬텀의 〈손톱〉에는 에이치제이라는 이름으로 참여했으며, 스탠딩 에그의 〈넌 이별 난 아직〉 박신혜 버전에서도 랩을 맡았다.",
+   "description_en": "She rapped on Solbi’s club-house version of “Ottogi,” credited as Ahn Hye-jin. She then appeared as HJ on Phantom’s “Fingernail,” and rapped on the Park Shin-hye version of Standing Egg’s “You’re Breaking Up, I’m Not.”",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "마마무로 데뷔하다",
+   "title_en": "Debuts with MAMAMOO",
+   "description": "솔라, 문별, 휘인과 함께 네 명으로 마마무를 꾸렸다. 마마무는 와엔터테인먼트가 프로듀서 김도훈과 함께 만든 첫 걸그룹이었다. 범키와 〈행복하지마〉를 먼저 발표한 뒤, 미니음반 〈헬로〉에 실린 〈미스터 애매모호〉로 정식 데뷔 무대에 섰다. 같은 음반의 〈내맘이야〉는 직접 작사·작곡했다.",
+   "description_en": "The four were Solar, Moonbyul, Wheein, and herself. It was the first girl group WA Entertainment built with producer Kim Do-hoon. They first put out “Don’t Be Happy” with Bumkey, then took the official stage with “Mr. Ambiguous” from the EP Hello. She wrote and composed “My Heart” on the same record.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "로꼬와 〈주지마〉를 내다",
+   "title_en": "Releases Don’t with Loco",
+   "description": "KBS 〈건반 위의 하이에나〉에서 로꼬와 짝을 이뤘다. 두 사람이 함께 작사·작곡한 곡은 방송 다음 날 음원으로 발매됐고, 주요 음원 차트 정상에 올랐다.",
+   "description_en": "They were paired on KBS’s Hyena on the Keyboard. The song she helped write and compose came out the day after the broadcast and reached the top of the major digital charts.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "〈멍청이〉를 첫 솔로곡으로 내다",
+   "title_en": "Puts her own name on Twit",
+   "description": "김도훈, 박우상과 함께 작사·작곡했다. 자신만 바라보던 연인을 보듬지 못한 스스로를 멍청이라고 부르는 곡이다. 마마무로 활동하는 동안 화사의 이름만으로 발표한 첫 곡이었다.",
+   "description_en": "She wrote and made it with Kim Do-hoon and Park Woo-sang. The song calls herself a fool for failing to hold a lover who looked only at her. It was the first track issued under her name alone while the group was still active.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 솔로 미니음반 〈마리아〉를 내다",
+   "title_en": "Releases her first solo EP, María",
+   "description": "타이틀곡에는 자신의 세례명인 마리아를 붙였다. 박우상과 함께 작사·작곡했으며, 바깥에서 들려오는 말과 그 앞에서 마주한 자신의 모습을 노래했다. 일곱 곡 가운데 여러 곡의 작사 또는 작곡에 참여했다.",
+   "description_en": "The title track took her baptismal name. She wrote and made it with Park Woo-sang, and put in the talk that came from outside and the self she faced. Her name went on the writing or composing credits of several of the seven tracks.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "알비더블유를 떠나 피네이션과 계약하다",
+   "title_en": "Leaves RBW and signs with P Nation",
+   "description": "와엔터테인먼트 시절부터 이어 온 알비더블유와의 전속계약이 만료됐다. 싸이가 세운 피네이션과 계약을 논의하던 중, 서울에서 열린 싸이 흠뻑쇼 무대 위에서 계약서에 서명했다. 소속사를 옮긴 뒤에도 마마무 활동은 계속하기로 했다.",
+   "description_en": "The exclusive contract with RBW, which had continued from WA Entertainment, expired. While talks with PSY’s P Nation were still underway, she signed the contract onstage at PSY’s Summer Swag in Seoul. They agreed she would keep working as a member of MAMAMOO.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "〈아이 러브 마이 보디〉를 내다",
+   "title_en": "Releases I Love My Body",
+   "description": "피네이션에서 처음 발표한 곡이다. 싸이가 전속계약을 맺기 전에 보내 준 곡이기도 했다. 성균관대학교 축제 무대를 두고 공연 외설 혐의로 고발이 제기된 해에 발표됐다.",
+   "description_en": "It was her first release at P Nation. PSY had sent her the song before the contract. It came out in the year a complaint of public indecency was filed over her Sungkyunkwan University festival stage.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 말하는 사실 범위는 유지하면서 어색한 직역, 불완전한 서술, 행위 관계가 흐릿한 표현을 바로잡았다. 전주에서의 성장과 휘인과의 만남, 연습생 생활, 마마무 데뷔, 솔로 활동과 소속사 이적이 차례로 이어지도록 사건 전체의 흐름도 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부모와 언니 둘이 있었다」는 가족의 존재만 열거해 함께 살았다는 영문의 의미와 생활상이 제대로 드러나지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일 학년」을 자연스러운 표기로 고치고, 누구와 무엇을 했는지 더 매끄럽게 이어지도록 문장을 다듬었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「담당자는 외모를 이유로 떨어뜨렸다」와 「삼 년 반을 함께 연습생으로 보냈다」가 어색해 오디션 탈락과 연습생 생활의 주체·행동 관계를 분명히 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「다른 가수 곡에 들어가다」와 반복되는 「랩을 넣었다」는 음악 참여를 가리키는 한국어 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「솔라, 문별, 휘인과 네 명이었다」는 무엇을 네 명이 함께했는지 빠져 있었고, 「직접 쓰고 만들었다」는 작사·작곡 관계가 흐릿했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「만났다」는 두 사람이 방송에서 한 조로 짝지어졌다는 영문의 구체적인 관계를 충분히 전달하지 못했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「솔로 이름을 걸다」는 발매 사실을 우회적으로 표현했고, 「쓰고 만들었다」와 「자기 이름만 올린」은 작사·작곡과 단독 명의 발매의 의미를 선명하게 전달하지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「밖에서 오는 말과 자기를 마주하는 내용을 넣었다」는 영문 단어를 순서대로 옮긴 듯해 무엇을 노래했다는 뜻인지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「와엔터테인먼트에서 이어진 알비더블유와의 전속계약」과 「논의를 이어 가던 중」은 계약 관계와 진행 상황을 한 번에 이해하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「축제 무대 뒤 외설 고발이 들어온 해」는 사건의 대상과 고발 관계가 불명확하고 한국어 어순도 부자연스러웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

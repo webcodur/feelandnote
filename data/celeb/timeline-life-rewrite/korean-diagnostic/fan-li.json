@@ -1,0 +1,250 @@
+{
+ "slug": "fan-li",
+ "events": [
+  {
+   "year": -536,
+   "year_end": null,
+   "kind": "birth",
+   "title": "초나라 완에서 태어나다",
+   "title_en": "Is born in Wan of Chu",
+   "description": "《사기》는 범려가 태어난 해와 장소를 기록하지 않았다. 후대 주석과 《오월춘추》는 그를 초나라 완의 삼호 사람이며 자는 소백이라고 전한다. 당시 완현의 현령이던 문종이 범려를 찾아왔다는 이야기도 같은 후대 전승에 속한다. 《사기》 본문은 범려가 이미 월왕 곁에서 일하는 대목부터 시작한다. 기원전 536년이라는 출생 연도 역시 후대 기록에서 나온 것이다.",
+   "description_en": "The Records of the Grand Historian give no birth year or birthplace. Later notes and the Spring and Autumn Annals of Wu and Yue call him a man of Sanhu in Wan of Chu, courtesy name Shaobo. The story that Wen Zhong, then magistrate of Wan, sought him out belongs to that later line. The Shiji itself begins with him already at the Yue king’s side. The year 536 BCE is a later tradition.",
+   "place_name": "남양",
+   "place_name_en": "Nanyang",
+   "lat": 32.99871,
+   "lng": 112.52921
+  },
+  {
+   "year": -494,
+   "year_end": null,
+   "kind": "battle",
+   "title": "구천의 선공을 말리다",
+   "title_en": "Warns Goujian not to strike first",
+   "description": "월왕 구천 3년, 부차는 아버지의 원수를 갚으려고 병사들을 훈련하고 있었다. 구천이 먼저 오나라를 치려 하자 범려는 병기는 흉한 도구이며 전쟁은 덕을 거스르는 일이라고 말렸다. 구천은 듣지 않았다. 오나라의 정예군은 후초에서 월나라 군대를 무찔렀다. 살아남은 병사 오천 명이 회계산으로 올라가자 오군이 그들을 포위했다. 범려는 몸을 낮춰 예물을 보내고, 그것마저 통하지 않으면 구천 자신을 바치라고 했다. 문종은 무릎으로 기어 나아가 오나라의 신하가 되겠다고 청했다. 오자서는 이를 반대했지만, 태재 비는 재물을 받고 부차를 설득했다. 오나라는 월나라를 놓아주고 군대를 거두었다.",
+   "description_en": "In Goujian’s third year Fuchai was drilling to avenge his father. Fan Li warned that weapons were instruments of ill omen and that war went against virtue. Goujian would not listen. Wu’s picked troops broke Yue at Fujiao. Five thousand survivors climbed Mount Kuaiji, and Wu closed around them. Fan Li said to send humble gifts, and if those failed, to offer his own person. Wen Zhong crawled on his knees and asked to serve as a vassal. Wu Zixu opposed it. Grand Steward Bo Pi took the bribes and talked Fuchai around. Wu spared Yue and pulled back.",
+   "place_name": "후초",
+   "place_name_en": "Fujiao",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -493,
+   "year_end": -491,
+   "kind": "travel",
+   "title": "오나라에 인질로 가다",
+   "title_en": "Goes to Wu as a hostage",
+   "description": "구천이 돌아온 뒤 범려에게 나라의 정사를 맡기려 했다. 범려는 전쟁에서는 문종이 자신만 못하지만, 백성을 안정시키는 일에서는 자신이 문종만 못하다고 답했다. 내정은 문종에게 맡기고, 자신은 절계와 함께 화친 사절이자 인질로 오나라에 머물렀다. 《사기》는 오나라가 2년 뒤 범려를 돌려보냈다고만 기록한다. 구천과 함께 오나라에서 3년을 살았다는 이야기는 후대 전승이다.",
+   "description_en": "After Goujian came home he wanted Fan Li to run the state. Fan Li said Wen Zhong was weaker in arms and he himself weaker at settling the people. He left the government to Wen Zhong and went to Wu with Zhe Ji as a peace envoy and hostage. The Shiji says only that Wu sent him back after two years. The story that he spent three years in Wu with Goujian is later tradition.",
+   "place_name": "쑤저우",
+   "place_name_en": "Suzhou",
+   "lat": 31.3,
+   "lng": 120.61944444444444
+  },
+  {
+   "year": -491,
+   "year_end": null,
+   "kind": "work",
+   "title": "내정은 문종에게 넘기다",
+   "title_en": "Leaves domestic rule to Wen Zhong",
+   "description": "《화식열전》은 회계산에서 포위된 뒤 구천이 범려와 계연을 기용했다고 전한다. 계연이 사람의 이름인지 글의 이름인지는 후대에도 의견이 갈리지만, 《사기》는 사람처럼 기록했다. 구천이 그 방책을 10년 동안 시행하자 나라는 부유해졌고 병사들에게도 넉넉한 식량을 줄 수 있었다. 구천은 자리 위에 쓸개를 매달아 두고 앉거나 눕거나 밥을 먹을 때마다 맛보며 회계산의 치욕을 되새겼다. 범려는 군사를 맡고 문종은 백성을 다스리는 식으로 일을 나누었다.",
+   "description_en": "The Treatise on the Money-makers says that after the siege at Kuaiji Goujian used Fan Li and Jiran. Later readers still argue whether Jiran was a man or a text. The Shiji writes him as a man. After ten years of that program the state grew rich and paid its soldiers well. Goujian kept a gallbladder over his seat and tasted it when he sat, lay down, or ate, so he would not forget Kuaiji. Fan Li took the army; Wen Zhong took the people.",
+   "place_name": "사오싱",
+   "place_name_en": "Shaoxing",
+   "lat": 30,
+   "lng": 120.58333333333
+  },
+  {
+   "year": -482,
+   "year_end": null,
+   "kind": "battle",
+   "title": "부차가 황지에 간 틈에 오를 치다",
+   "title_en": "Strikes Wu while Fuchai is at Huangchi",
+   "description": "부차가 오자서를 죽인 뒤 구천은 오나라를 칠 때가 되었는지 범려에게 물었다. 범려는 아직 때가 아니라고 답했다. 이듬해 봄, 부차가 정예군을 이끌고 황지로 북상하자 범려는 이제 때가 되었다고 했다. 월나라는 훈련된 수군 이천 명과 병사 사만 명, 군자 육천 명, 장교 천 명을 내보냈다. 월군은 오나라 태자를 죽였다. 부차는 패배를 다른 제후들에게 숨긴 채 예물을 보내 화친을 청했다. 월나라도 아직 오나라를 완전히 멸할 힘은 없었으므로 그 제안을 받아들였다.",
+   "description_en": "After Fuchai killed Wu Zixu, Goujian asked if they could move. Fan Li said not yet. The next spring, when Fuchai took the picked troops north to Huangchi, he said now. They sent two thousand trained boatmen, forty thousand drilled soldiers, six thousand gentlemen, and a thousand officers. They killed the Wu heir. Fuchai hid the defeat from the other lords and asked for peace with gifts. Yue took the offer. It still lacked the strength to finish Wu.",
+   "place_name": "쑤저우",
+   "place_name_en": "Suzhou",
+   "lat": 31.3,
+   "lng": 120.61944444444444
+  },
+  {
+   "year": -473,
+   "year_end": null,
+   "kind": "battle",
+   "title": "고소산에서 부차를 무너뜨리다",
+   "title_en": "Finishes Fuchai on Mount Gusu",
+   "description": "월나라는 그로부터 4년 뒤 다시 오나라를 공격했다. 오나라의 날랜 병사들은 제나라와 진나라를 상대로 싸우다가 이미 죽은 뒤였다. 월군은 3년 동안 오나라를 포위한 끝에 부차를 고소산으로 몰아넣었다. 공손웅은 웃옷을 벗고 무릎으로 기어 나아가, 오나라가 회계산에서 월나라를 살려주었던 것처럼 이번에는 부차를 용서해 달라고 청했다. 구천이 마음이 흔들리자 범려는 북을 울리고 군사를 진격시켰다. 그는 22년 동안 오나라를 무너뜨릴 계책을 세웠는데 하루아침에 이를 버릴 수는 없다고 말했다. 부차는 얼굴을 가리고 자살했다. 구천은 오왕을 장사 지내고 태재 비를 죽였다. 범려는 상장군에 올랐다.",
+   "description_en": "Four years later they attacked again. Wu’s sharp troops had already died fighting Qi and Jin. After a three-year siege they drove Fuchai onto Mount Gusu. Gongsun Xiong bared his torso, crawled forward, and asked for the same pardon Yue had received at Kuaiji. Goujian wavered. Fan Li beat the drum and advanced. Twenty-two years of planning, he said, could not be thrown away in a day. Fuchai covered his face and killed himself. Goujian buried the Wu king and put Bo Pi to death. Fan Li was named senior general.",
+   "place_name": "쑤저우",
+   "place_name_en": "Suzhou",
+   "lat": 31.3,
+   "lng": 120.61944444444444
+  },
+  {
+   "year": -473,
+   "year_end": null,
+   "kind": "travel",
+   "title": "배를 타고 월을 떠나다",
+   "title_en": "Leaves Yue by boat",
+   "description": "월나라가 회수를 건너 서주에서 제나라와 진나라의 제후들을 만나 회맹하고, 구천이 패자가 된 뒤였다. 범려는 큰 명성을 얻은 자리에 오래 머물기 어렵고, 구천은 환난은 함께 견딜 수 있어도 평안은 함께 누릴 수 없는 사람이라고 판단했다. 그는 회계산의 치욕을 갚았으니 당시 죽지 않고 미뤄 두었던 죄의 대가를 이제 받겠다는 편지를 남겼다. 구천은 나라를 나누어 주겠다고 회유하다가 떠나면 죽이겠다고 협박했다. 범려는 군주는 명령을 지킬 뿐이고 신하는 자신의 뜻을 지킨다고 답했다. 가벼운 보물만 챙겨 가족과 함께 배를 타고 바다로 나간 뒤 다시는 돌아오지 않았다. 구천은 회계산을 범려의 봉읍으로 정해 표시했다. 《월절서》와 《오월춘추》는 범려가 서시를 데리고 떠났다고 전하지만, 《사기》에는 그 이야기가 없다.",
+   "description_en": "After Yue crossed the Huai, met the lords of Qi and Jin at Xuzhou, and Goujian stood as hegemon, Fan Li judged that a great name was a hard place to linger, and that Goujian could share trouble but not ease. He wrote that the shame of Kuaiji was paid, so he now asked for the death he had postponed. Goujian offered to split the state, then threatened to kill him. Fan Li said the ruler keeps the command and the minister keeps his own intent. He packed light jewels, boarded a boat with his household, and did not come back. Goujian marked Mount Kuaiji as his fief. The Yuejue shu and the Spring and Autumn Annals of Wu and Yue say he took Xi Shi with him. The Shiji does not.",
+   "place_name": "사오싱",
+   "place_name_en": "Shaoxing",
+   "lat": 30,
+   "lng": 120.58333333333
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "제나라 재상의 인장을 돌려주다",
+   "title_en": "Returns the Qi chancellor’s seal",
+   "description": "제나라에 도착한 범려는 이름을 치이자피로 바꾸고 아들들과 함께 바닷가의 땅을 일구었다. 얼마 지나지 않아 집안의 재산이 수십만에 이르렀다. 제나라 사람들은 그를 재상으로 삼았다. 범려는 평민으로서 집에 천금의 재산을 쌓고 벼슬길에서는 가장 높은 자리에 올랐으니, 베옷을 입던 사람이 닿을 수 있는 끝까지 갔다고 말했다. 높은 명성을 오래 누리는 것은 상서롭지 않다며 재상의 인장을 돌려주고 재산을 친구와 이웃들에게 나누어 주었다. 제나라에서 문종에게도 편지를 보냈다. 새를 모두 잡으면 좋은 활을 거두어 두고, 토끼를 모두 잡으면 사냥개를 삶는다고 경고했다. 목이 길고 새의 부리 같은 얼굴을 한 구천은 곁을 떠나야 할 사람이라고도 했다. 문종은 병을 핑계로 조정에 나가지 않았다. 그러자 구천은 오나라를 멸하는 데 쓴 일곱 가지 계책 가운데 아직 네 가지가 문종에게 남아 있다는 말과 함께 검을 보냈다. 문종은 그 검으로 죽었다.",
+   "description_en": "In Qi he took the name Chiyi Zipi and farmed the seashore with his sons. Before long the household was worth hundreds of thousands. The men of Qi made him chancellor. He said that a commoner who piled up a thousand gold at home and reached the highest office had gone as far as cloth-wearing men can go, and that a long hold on a high name was unlucky. He gave back the seal and scattered the fortune among friends and neighbors. From Qi he wrote Wen Zhong that when the birds are gone the good bow is stored, and when the hares are dead the hounds are boiled. Goujian, long-necked and beak-faced, was a man to leave. Wen Zhong claimed illness and stopped attending court. Goujian sent a sword: of the seven arts for destroying Wu, four were still in Wen Zhong. Wen Zhong died on that sword.",
+   "place_name": "임치",
+   "place_name_en": "Linzi",
+   "lat": 36.816666666667,
+   "lng": 118.3
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "도에 자리 잡아 도주공이라 칭하다",
+   "title_en": "Settles in Tao and takes the name Tao Zhugong",
+   "description": "범려는 남몰래 제나라를 떠나 도에 정착했다. 도는 천하의 한가운데에 있고 물건이 오가는 길목이어서 재산을 불리기에 알맞다고 판단했다. 아들들과 함께 농사를 짓고 가축을 기르면서, 때를 기다려 물건을 사고팔아 십분의 일 이익을 남겼다. 얼마 지나지 않아 재산이 수억에 이르렀다. 《화식열전》은 범려가 19년 동안 세 차례 천금의 재산을 모았고, 그때마다 가난한 친구와 먼 친척들에게 나누어 주었다고 기록한다.",
+   "description_en": "He slipped away and stopped at Tao. He judged it the center of the world, a road where goods changed hands, and a place where a household could grow rich. He bound his sons to farm and raise stock, waited on the season, turned goods, and chased a tenth in profit. Before long the fortune ran to hundreds of millions. The Treatise on the Money-makers says that in nineteen years he made a thousand gold three times and gave it to poor friends and distant kin.",
+   "place_name": "정도",
+   "place_name_en": "Dingtao",
+   "lat": 35.1425,
+   "lng": 115.59111111111
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "둘째를 초에서 잃다",
+   "title_en": "Loses his middle son in Chu",
+   "description": "범려는 도에 사는 동안 막내아들을 낳았다. 둘째 아들이 사람을 죽이고 초나라에 갇히자, 범려는 살인자는 죽음으로 죗값을 치르는 것이 마땅하지만 천금의 재산을 가진 집안의 아들이 저자에서 처형되어서는 안 된다고 말했다. 그는 막내아들을 보내려 했다. 그러나 장남은 자신이 집안을 맡은 장자인데도 동생을 구하러 가지 못한다면 죽겠다며 나섰고, 아내까지 말리자 결국 장남을 보냈다. 범려는 오랜 친구 장생에게 전할 편지와 황금 천 일(鎰)을 주면서 그와 다투지 말라고 당부했다. 장남은 따로 쓸 황금도 몰래 더 챙겼다. 장생은 덕을 베풀어 재앙을 풀어야 한다고 초왕에게 말해 사면을 준비하게 했다. 그러나 장남이 맡겨 둔 황금을 도로 가져가자, 장생은 초왕에게 이번 사면이 뇌물로 이루어졌다는 말이 돌 것이라고 고했다. 둘째가 참수된 다음 날에야 사면령이 내려졌다. 장남은 동생의 주검을 가지고 돌아왔다. 아내와 고을 사람들이 울었지만 범려는 웃었다. 고생을 겪으며 자란 장남은 재물을 버리지 못하고, 부유한 집에서 자란 막내는 재물을 아끼지 않을 줄 안다고 말했다. 그래서 범려는 둘째의 장례를 치르게 되리라고 밤낮으로 예상하고 있었다.",
+   "description_en": "While he lived at Tao a youngest son was born. The middle son killed a man and was jailed in Chu. Fan Li said a killer’s duty was to die, but that a son of a thousand-gold house should not die in the marketplace. He meant to send the youngest. The eldest called himself the family overseer, threatened suicide, and after the mother pleaded was sent instead, with a letter and a thousand yi of gold for an old friend, Zhuang Sheng, and orders not to argue. The eldest also packed extra gold on his own. Zhuang Sheng got the king to plan an amnesty as a deed of virtue. When the eldest took the gold back, Zhuang Sheng told the king the pardon was a bribe. The middle son was beheaded, and the amnesty followed the next day. The eldest brought the corpse home. The mother and the town wept. Fan Li laughed. The eldest, he said, had known hardship and could not let gold go; the youngest had grown up rich and could. He had been waiting day and night for that funeral.",
+   "place_name": "정도",
+   "place_name_en": "Dingtao",
+   "lat": 35.1425,
+   "lng": 115.59111111111
+  },
+  {
+   "year": -448,
+   "year_end": null,
+   "kind": "death",
+   "title": "도에서 늙어 죽다",
+   "title_en": "Dies of old age in Tao",
+   "description": "《사기》는 범려가 죽은 해를 기록하지 않고, 도에서 늙어 죽었다고만 전한다. 후대 기록은 그해를 기원전 448년으로 잡는다. 사마천은 범려가 세 차례 거처를 옮겼고 그때마다 명성을 남겼다고 적었다. 후대 사람들이 그를 재물의 신으로 받든 것은 그보다 뒤의 일이다.",
+   "description_en": "The Shiji gives no year. It says only that he grew old and died in Tao. Later accounts put the year at 448 BCE. Sima Qian wrote that he moved three times and left a name each time. Later ages treated him as a god of wealth. That cult is later than the history.",
+   "place_name": "정도",
+   "place_name_en": "Dingtao",
+   "lat": 35.1425,
+   "lng": 115.59111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 의미가 빠지거나 달라진 대목을 복원하고, 고전 한문을 단어 단위로 옮긴 듯한 표현과 불분명한 주어·대상을 자연스러운 한국어로 고쳤다. 사건의 세부와 사료 사이의 차이는 그대로 보존했으며 별도의 사실 확인이 필요한 대목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「난 해와 난 곳」「뒤 주석」「그 계통」이 구어적이거나 가리키는 범위가 모호해, 출생 기록과 후대 전승의 관계가 바로 읽히지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「군을 갈아 놓고 있었다」「먼저 치자고 하자」「몸까지 바치라고 했다」는 행동의 주체와 대상이 불분명했고, 「예물을 보내고」에는 영문의 humble에 해당하는 굴욕적인 조건이 빠져 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「오로 질이 되다」는 현대 한국어에서 뜻을 즉시 알아보기 어렵고, 본문은 그가 화친 사절뿐 아니라 인질로 오나라에 갔다는 영문의 정보를 빠뜨렸다. 「병갑」「백성을 달래는 일은 자기가 문종만 못하다」도 문장 관계가 거칠었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「계연을 썼다」「그 술을 써서」「병사를 맡고」가 고전 원문을 직역한 표현이라, 구천이 사람 또는 방책을 기용하고 범려가 군사를 담당했다는 뜻을 자연스럽게 드러낼 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「황지가 비운 오」는 황지가 오나라를 비운 것처럼 읽혔다. 본문에서는 병력 명칭을 한문식 어휘로만 나열했고, 부차가 다른 제후들에게 숨긴 대상도 영문의 defeat와 달리 「회맹」으로 잘못 옮겨져 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「부차를 끝내다」는 부자연스러운 번역투이고, 「구천이 마음이 약해지자 북을 울려 진군했다」는 북을 울린 주체인 범려가 드러나지 않았다. 「스물두 해를 도모해 놓고」도 목적어가 빠져 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장이 「뒤였다」로 끝나는 불완전한 연결이었고, 「큰 이름 아래 오래 머물 수 없다」「군주는 명령을 행하고 신하는 뜻을 행한다」「무리와 바다로 나갔다」는 영문 어순과 고전 표현을 그대로 좇아 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 어떤 인장인지 드러나지 않았고, 「父子가」「집에 있으면 천금, 벼슬하면 경상」「높은 이름을 오래 받으면」「오를 친 일곱 술 중 네 술이 아직 네 안에 있다」는 한문식 직역이라 현대 한국어의 주어·목적어 관계가 무너져 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「父子로 농사와 가축을 약정하고」「물건을 돌리며」「재산이 거만에 이르렀다」는 한문식 표현이어서, 아들들과 농사·목축을 하고 물건을 거래해 재산을 불렸다는 행동을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「살인자는 죽는 것이 직분」「집안의 장자는 가독」「사면을 이끌어 놓고」「재를 못 버리고」처럼 고전 용어와 축약된 목적어가 이어졌다. 황금의 수량 단위도 「천 일」로만 적혀 일반 명사처럼 읽혔고, 마지막의 「둘째의 주검을 기다렸다」는 영문의 funeral보다 뜻이 좁았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤 기록」「세 번 옮겨 갈 때마다 이름을 남겼다」「재신으로 받든 것은 그 뒤의 일」이 모두 후대 기록과 신앙을 가리키지만, 표현이 압축되어 사마천의 평가와 후대 숭배의 시간적 차이가 매끄럽게 이어지지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

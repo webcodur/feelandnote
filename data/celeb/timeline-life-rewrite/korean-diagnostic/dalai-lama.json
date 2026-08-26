@@ -1,0 +1,282 @@
+{
+ "slug": "dalai-lama",
+ "events": [
+  {
+   "year": 1935,
+   "year_end": null,
+   "kind": "birth",
+   "title": "라모 톤둡으로 태어나다",
+   "title_en": "Born Lhamo Thondup",
+   "description": "아버지는 최키용 체링, 어머니는 데키 체링이었다. 부부는 스무 집 남짓한 마을에서 보리와 메밀, 감자를 재배하며 살았다. 어머니는 열여섯 자녀를 낳았고, 그중 일곱이 살아남았다. 맏언니 체링 돌마가 그의 출산을 도왔다. 맏형 툽텐 직메 노르부는 이미 높은 라마의 환생으로 인정받아 사원에서 살고 있었다.",
+   "description_en": "His father was Choekyong Tsering and his mother was Dekyi Tsering. The couple farmed barley, buckwheat, and potatoes in a hamlet of about twenty households. She gave birth to sixteen children, and seven survived. His eldest sister, Tsering Dolma, delivered him. His eldest brother, Thubten Jigme Norbu, had already been recognized as a high lama reincarnation and lived at a monastery.",
+   "place_name": "탁체르",
+   "place_name_en": "Taktser",
+   "lat": 36.378083333333,
+   "lng": 101.86588888889
+  },
+  {
+   "year": 1937,
+   "year_end": null,
+   "kind": "other",
+   "title": "제13대 달라이 라마의 환생으로 인정받다",
+   "title_en": "Identified as the previous Dalai Lama reincarnation",
+   "description": "라싸에서 온 탐색단은 제13대 달라이 라마의 유품과 그와 닮은 물건을 나란히 내놓았다. 아이는 선대 달라이 라마의 염주와 지팡이를 집어 들고 자기 것이라고 말했다. 탐색단장이 하인으로 위장해 앉아 있자 아이는 그를 세라 사원의 라마라고 불렀다. 군벌 마부팡은 몸값을 받기 전까지 아이를 쿰붐 사원 밖으로 내보내지 않았다.",
+   "description_en": "A search party from Lhasa laid out objects that had belonged to the thirteenth Dalai Lama beside look-alikes. The boy picked up the predecessor's rosary and walking stick and said they were his. When the party's leader sat disguised as a servant, the child called him a Sera lama. The warlord Ma Bufang kept him at Kumbum Monastery until a ransom was paid.",
+   "place_name": "탁체르",
+   "place_name_en": "Taktser",
+   "lat": 36.378083333333,
+   "lng": 101.86588888889
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "travel",
+   "title": "몸값을 치르고 수도로 가다",
+   "title_en": "Travels to the capital after the ransom",
+   "description": "은화로 몸값을 치른 뒤에야 일행은 출발할 수 있었다. 네 살이던 그는 형 롭상 삼덴과 함께 가마를 타고 석 달 동안 이동했다. 일행이 마부팡의 영지를 벗어나자 카샤그는 그를 제14대 달라이 라마로 선포했다. 이들은 라싸 성문 밖 평원에 도착했다.",
+   "description_en": "The party left only after the silver ransom was paid. The four-year-old rode in a palanquin with his brother Lobsang Samten for three months. Once they were out of Ma Bufang's territory, the Kashag proclaimed him the fourteenth Dalai Lama. They arrived on the plain outside the capital's gates.",
+   "place_name": "라싸",
+   "place_name_en": "Lhasa",
+   "lat": 29.6457567,
+   "lng": 91.1408186
+  },
+  {
+   "year": 1940,
+   "year_end": null,
+   "kind": "office",
+   "title": "포탈라에서 즉위하다",
+   "title_en": "Enthroned at the Potala Palace",
+   "description": "겨울에 포탈라궁에서 영적 수장으로 즉위했다. 곧이어 조캉에서 머리를 깎고 사미계를 받았다. 본명을 버리고 잠펠 아왕 롭상 예셰 텐진 갸초라는 법명을 받았다. 이후 논리와 중관, 계율을 배우는 승려 교육을 시작했다.",
+   "description_en": "They seated him as spiritual head in winter. Soon after, at the Jokhang, his hair was cut and he took novice vows. He gave up his birth name and received the monastic name Jamphel Ngawang Lobsang Yeshe Tenzin Gyatso. He began a monk's curriculum of logic, Madhyamaka, and monastic discipline.",
+   "place_name": "라싸",
+   "place_name_en": "Lhasa",
+   "lat": 29.6457567,
+   "lng": 91.1408186
+  },
+  {
+   "year": 1950,
+   "year_end": null,
+   "kind": "office",
+   "title": "세속 통치의 전권을 맡다",
+   "title_en": "Assumes full temporal power",
+   "description": "인민해방군이 창두를 점령한 뒤였다. 네충 신탁은 그의 무릎에 흰 스카프를 올려놓고 때가 왔다고 말했다. 그는 열다섯 살에 노르불링카에서 정치 수장으로 취임했다. 당시 티베트 군대는 8,500명을 넘지 못했다.",
+   "description_en": "This followed the People's Liberation Army capture of Chamdo. The Nechung oracle laid a white scarf on his lap and said the time had come. At fifteen he was installed as political head at Norbulingka. The Tibetan army numbered no more than 8,500.",
+   "place_name": "라싸",
+   "place_name_en": "Lhasa",
+   "lat": 29.6457567,
+   "lng": 91.1408186
+  },
+  {
+   "year": 1954,
+   "year_end": 1955,
+   "kind": "meeting",
+   "title": "마오쩌둥을 만나다",
+   "title_en": "Meets Mao Zedong",
+   "description": "십세 판첸 라마와 함께 갔고 저우언라이와 덩샤오핑도 그 자리에 있었다. 전국인민대표대회에 참석해 상무위원회 부위원장에 올랐다. 작별 자리에서 마오는 종교가 독이라고 속삭였다.",
+   "description_en": "He went with the tenth Panchen Lama, and Zhou Enlai and Deng Xiaoping were also present. He attended the National People's Congress and was named a vice-chairman of its Standing Committee. At their last meeting Mao whispered that religion was poison.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1956,
+   "year_end": 1957,
+   "kind": "meeting",
+   "title": "인도에 머물 수 있는지 네루에게 묻다",
+   "title_en": "Asks Nehru if he may stay",
+   "description": "붓다 탄생 2,500주년 기념행사에 초청받아 인도로 갔다. 그는 네루 총리에게 동부 티베트에서 유혈 사태가 번지고 있다고 말했다. 네루는 인도와 중국 사이의 조약을 이유로 티베트로 돌아가라고 했다. 그는 이듬해 봄 라싸로 돌아왔다.",
+   "description_en": "He came at the invitation of the 2,500th anniversary of the Buddha's birth. He told the prime minister that bloodshed was spreading in eastern Tibet. Nehru, citing India's treaty with China, told him to go back. He returned to Lhasa the following spring.",
+   "place_name": "뉴델리",
+   "place_name_en": "New Delhi",
+   "lat": 28.613888888888887,
+   "lng": 77.2088888888889
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "education",
+   "title": "게셰 라람파 시험을 마치다",
+   "title_en": "Completes the Geshe Lharampa examination",
+   "description": "조캉에서 몬람 대법회가 열렸다. 드레풍과 세라, 간덴의 학승들은 논리와 중관, 계율에 관해 그에게 질문을 쏟아냈다. 그는 우등으로 시험에 합격했다. 시험이 끝나자 중국 측의 무용 공연 초청을 둘러싼 소문이 라싸 시내에 돌았다.",
+   "description_en": "The Great Prayer Festival opened at the Jokhang. Scholars from Drepung, Sera, and Ganden pressed him on logic, Madhyamaka, and monastic discipline. He passed with honors. After the exam, rumors spread through the city about a Chinese invitation to a dance performance.",
+   "place_name": "라싸",
+   "place_name_en": "Lhasa",
+   "lat": 29.6457567,
+   "lng": 91.1408186
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "travel",
+   "title": "군복을 입고 밤을 틈타 탈출하다",
+   "title_en": "Escapes at night in a soldier's uniform",
+   "description": "수만 명이 노르불링카를 에워싸고 그가 중국 측의 무용 공연에 가지 못하게 했다. 신탁은 그에게 나라를 떠나라고 했다. 그는 밤 10시가 되기 직전 병사로 변장해 키추강으로 향했다. 그달 말 타왕 북쪽의 국경을 넘었다.",
+   "description_en": "Tens of thousands ringed Norbulingka to keep him from going to a Chinese stage. The oracle told him to leave the country. Just before ten at night he disguised himself as a soldier and headed for the Kyichu River. At the end of the month he crossed the border north of Tawang.",
+   "place_name": "라싸",
+   "place_name_en": "Lhasa",
+   "lat": 29.6457567,
+   "lng": 91.1408186
+  },
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "office",
+   "title": "망명 행정부를 다람살라로 옮기다",
+   "title_en": "Moves the exile administration here",
+   "description": "무시리에 있던 망명 행정부를 80여 명의 관리와 함께 다람살라로 옮겼다. 떠나기 전날인 티베트 봉기 1주년에 그는 난민 정착과 문화의 지속을 우선하라고 말했다. 정보와 교육, 내무 부서는 이미 무시리에서 만들어 둔 상태였다. 앞서 기자회견에서 파기한다고 선언한 17조 협정도 다시 받아들이지 않았다.",
+   "description_en": "He moved the administration from Mussoorie with some eighty officials. The day before leaving, on the uprising's first anniversary, he told exiles to put resettlement and cultural continuity first. The departments of information, education, and home affairs had already been set up in Mussoorie. He did not restore the Seventeen-Point Agreement he had repudiated at a press conference.",
+   "place_name": "다람살라",
+   "place_name_en": "Dharamshala",
+   "lat": 32.21527777777778,
+   "lng": 76.31861111111111
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "other",
+   "title": "티베트 다섯 가지 평화안을 내놓다",
+   "title_en": "Presents a Five-Point Peace Plan for Tibet",
+   "description": "의회 인권코커스에서 인도 밖에서는 처음으로 정치 성명을 발표했다. 그는 티베트 전역을 평화지대로 만들고 정착민을 티베트로 이주시키는 정책을 중단하라고 요구했다. 또한 인권과 환경을 보호하고 티베트의 장래 지위를 협상하자고 제안했다. 이듬해 스트라스부르에서는 장래 지위에 관한 제안을 중국 안에서의 자치로 구체화했다.",
+   "description_en": "At the Congressional Human Rights Caucus he issued his first political statement outside India. He called for turning all of Tibet into a zone of peace and for stopping the transfer of settlers. He asked for human-rights protections, environmental safeguards, and talks on Tibet's future status. The next year in Strasbourg he framed that last point as autonomy inside China.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "other",
+   "title": "노벨평화상을 받다",
+   "title_en": "Receives the Nobel Peace Prize",
+   "description": "위원회는 티베트의 자유를 추구하면서 폭력을 사용하지 않은 점을 수상 이유로 들었다. 관용과 상호 존중에 바탕을 둔 해결책을 모색한 점도 높이 평가했다. 그는 세계 환경 문제에 대한 관심을 인정받은 최초의 노벨상 수상자이기도 했다. 시상식에서는 자신을 여전히 점령 아래 있는 동포들의 대변자라고 말했다.",
+   "description_en": "The committee cited his refusal to use violence in the struggle for Tibet's liberation. It praised his search for solutions based on tolerance and mutual respect. He was also the first laureate recognized for concern about the global environment. At the ceremony he called himself a spokesman for countrymen still under occupation.",
+   "place_name": "오슬로",
+   "place_name_en": "Oslo",
+   "lat": 59.913333333333334,
+   "lng": 10.738888888888889
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "office",
+   "title": "정치 권한을 선출 지도부에 넘기다",
+   "title_en": "Hands political authority to elected leadership",
+   "description": "망명 헌장에 따라 여전히 국가원수로 남아 있던 그는 의회에 그 직위에서 물러나게 해 달라고 요청했다. 5월에는 정치 권한 이양 문서에 서명했다. 이로써 달라이 라마가 종교와 정치 권한을 함께 행사해 온 368년의 관행이 막을 내렸다. 이후 가덴 포드랑은 영적 사무만 맡았다.",
+   "description_en": "Still head of state under the exile charter, he asked parliament to relieve him. In May he signed the transfer document. That ended a 368-year custom in which Dalai Lamas held both spiritual and political authority. The Gaden Phodrang thereafter handled spiritual affairs only.",
+   "place_name": "다람살라",
+   "place_name_en": "Dharamshala",
+   "lat": 32.21527777777778,
+   "lng": 76.31861111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문에 담긴 세부 정보는 유지하면서, 대상을 짐작해야 하는 표현과 직역투, 부자연스러운 서술을 바로잡았다. 사건들이 출생과 환생 인정, 즉위, 통치, 망명, 정치 권한 이양으로 자연스럽게 이어지도록 인물과 장소를 명시했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「열여섯을 낳았고 일곱이 남았다」와 「아이를 받았다」는 목적어와 행동의 뜻이 불분명해 자연스러운 출산 서술로 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「선대」와 「열세 번째」만으로는 누구를 가리키는지 바로 알기 어려워 제13대 달라이 라마를 명시했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「네 살 아이가 … 석 달을 갔다」와 「수도 문 앞 평원」이 부자연스러워 인물과 이동 장소의 관계를 분명하게 다듬었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「영적 수장으로 앉혔다」는 즉위 사건을 어색하게 표현하고 있어 능동적인 한국어 문장으로 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "도시를 「무너뜨렸다」거나 정치 수장으로 「앉았다」는 표현이 사건의 의미를 정확히 전달하지 못해 점령과 취임을 나타내는 말로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「잔류」는 어디에 머무는지 드러나지 않고, 첫 문장도 어떤 행사와 장소에 갔는지 불분명해 인도 체류 요청과 방문 목적을 명시했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "학승들이 시험에서 그를 「몰아붙였다」는 표현은 영문의 문답 상황보다 공격적으로 들려 시험 과목에 관한 질문을 받았다는 뜻으로 다듬었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중국 무대로 보내지 않으려 했다」는 말은 공연 초청과 군중의 행동 관계를 알아보기 어려우며, 「밤열 시」에는 띄어쓰기 오류가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목과 본문의 「이곳」은 해당 문장만으로 장소를 알 수 없어 다람살라를 명시했다. 마지막 문장도 협정을 파기한 주체와 이후의 태도가 드러나도록 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이주민 정책」은 무엇을 중단하라는 것인지 모호하고, 「그 안」과 「그 마지막 제안」은 지시 대상이 흐려 평화안의 구체적 내용을 명시했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「환경 문제를 이유로 꼽힌 첫 수상자」는 수상자와 선정 이유의 관계가 무너진 표현이어서 환경 문제에 대한 관심을 인정받았다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「의회에 면직을 요청했다」는 한국어에서 해임을 요구한 것처럼 들리고, 「관행이 여기서 끊겼다」는 지시 대상이 모호해 국가원수직 사임과 관행의 종료를 분명히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

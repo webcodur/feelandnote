@@ -1,0 +1,301 @@
+{
+ "slug": "jason-statham",
+ "events": [
+  {
+   "year": 1967,
+   "year_end": null,
+   "kind": "birth",
+   "title": "셔브룩에서 태어나다",
+   "title_en": "Born in Shirebrook",
+   "description": "어머니 아일린은 댄서였고, 아버지 배리는 노점에서 물건을 팔았다. 아버지는 광부와 주택 도장공으로도 일했으며, 카나리아 제도에서는 노래를 불렀다. 제이슨은 둘째 아들이었다.",
+   "description_en": "His mother, Eileen, was a dancer, and his father, Barry, sold goods on street stalls. Barry also worked as a coal miner and house painter, and sang in the Canary Islands. He was the second son.",
+   "place_name": "셔브룩",
+   "place_name_en": "Shirebrook",
+   "lat": 53.2048,
+   "lng": -1.2197
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 그레이트야머스로 옮기다",
+   "title_en": "The family moves to Great Yarmouth",
+   "description": "아버지는 그레이트야머스의 시장에서 값싼 장신구를 팔았다. 제이슨은 중국 무술과 축구를 익혔고, 노점 일도 거들었다.",
+   "description_en": "His father sold cheap jewelry at the local market. The son learned Chinese martial arts and football, and helped at the stalls.",
+   "place_name": "그레이트야머스",
+   "place_name_en": "Great Yarmouth",
+   "lat": 52.60777777777778,
+   "lng": 1.7330555555555556
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "마이애미에서 고공 다이빙을 보다",
+   "title_en": "Sees a high dive in Miami",
+   "description": "부모와 플로리다에 머무는 동안, 정오마다 호텔에서 고공 다이빙을 하는 남자를 보았다. 집에 돌아가면 자신도 해 보겠다고 말했고, 열한두 살에 수영 클럽에 들어갔다.",
+   "description_en": "On a family stay in Florida he watched a man high-dive from a hotel at noon. He said he would do that when they got home, and joined a swimming club at eleven or twelve.",
+   "place_name": "마이애미",
+   "place_name_en": "Miami",
+   "lat": 25.783333333333,
+   "lng": -80.216666666667
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "education",
+   "title": "영국 국립 다이빙 학교에 들다",
+   "title_en": "Enters the British National Diving School",
+   "description": "크리스탈 팰리스에서 국가대표 선수들과 훈련했다. 서울과 바르셀로나 올림픽 선발전에는 나갔으나 대표에는 들지 못했다.",
+   "description_en": "He trained with the national squad at Crystal Palace. He went to the Olympic trials for Seoul and Barcelona but did not make the team.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "영연방 경기대회 다이빙에 나서다",
+   "title_en": "Competes in diving at the Commonwealth Games",
+   "description": "잉글랜드 대표로 1미터·3미터·10미터 종목에 출전해 각각 8위, 11위, 11위를 기록했다. 이후 세계선수권 플랫폼 종목에서는 12위에 올랐다.",
+   "description_en": "He dived for England in the 1-metre, 3-metre, and 10-metre events. He finished eighth, eleventh, and eleventh. He later placed twelfth in platform at the world championships.",
+   "place_name": "오클랜드",
+   "place_name_en": "Auckland",
+   "lat": -36.84916666666667,
+   "lng": 174.76527777777778
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "프렌치 커넥션의 모델이 되다",
+   "title_en": "Models for French Connection",
+   "description": "크리스탈 팰리스에서 다이빙을 훈련하던 중 스포츠 모델 에이전시에 발탁됐다. 토미 힐피거와 리바이스 광고를 찍은 뒤에도 거리에서는 가짜 향수와 장신구를 팔았다. 프렌치 커넥션은 지나치게 모델처럼 보이지 않는 얼굴을 원했다.",
+   "description_en": "A sports-model agency spotted him while he trained at Crystal Palace. He shot ads for Tommy Hilfiger and Levi’s, and still sold fake perfume and jewelry on street corners. The brand wanted a face that did not look too much like a model.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "work",
+   "title": "《록 스탁 앤 투 스모킹 배럴즈》로 영화에 데뷔하다",
+   "title_en": "Makes his film debut in Lock, Stock and Two Smoking Barrels",
+   "description": "프렌치 커넥션 관계자가 그를 가이 리치에게 소개했다. 노점에서 물건을 팔았다는 이력을 들은 리치는 사기꾼 베이컨 역을 맡겼다. 오디션에서는 가짜 장신구를 팔아 보라는 요구를 받았다. 출연료는 5천 파운드였다.",
+   "description_en": "Someone at French Connection introduced him to Guy Ritchie. Ritchie heard he had sold goods on stalls and cast him as the con man Bacon. At the audition he was told to sell fake jewelry. The fee was five thousand pounds.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "《스내치》에서 터키를 연기하다",
+   "title_en": "Plays Turkish in Snatch",
+   "description": "가이 리치와 두 번째 범죄 영화를 만들었다. 이 작품은 전작보다 더 큰 흥행을 거뒀고, 이듬해에는 할리우드 영화의 조연을 잇달아 맡았다.",
+   "description_en": "He made a second crime film with Ritchie. It outgrossed their first, and Hollywood supporting parts followed the next year.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "《트랜스포터》의 프랭크 마틴을 맡다",
+   "title_en": "Stars as Frank Martin in The Transporter",
+   "description": "뤽 베송이 각본을 쓰고 제작을 맡았다. 제이슨은 이 배역을 계기로 영국 범죄 영화의 조연에서 액션 영화의 주연으로 자리를 옮겼다. 이후 속편도 두 편 나왔다.",
+   "description_en": "Luc Besson wrote and produced the film. The role moved him from supporting parts in British crime films to a named action lead. Two sequels followed.",
+   "place_name": "니스",
+   "place_name_en": "Nice",
+   "lat": 43.701944444444,
+   "lng": 7.2683333333333
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "《익스펜더블》에서 리 크리스마스를 맡다",
+   "title_en": "Plays Lee Christmas in The Expendables",
+   "description": "실베스터 스탤론이 여러 액션 배우를 한자리에 모았다. 제이슨은 칼을 다루는 데 능한 전직 영국 특전 요원을 연기했다. 영화는 여러 나라에서 개봉 첫 주말 흥행 1위에 올랐다.",
+   "description_en": "Sylvester Stallone gathered action actors into one company. He played a former British special-forces soldier whose specialty was knives. The film opened at number one in several countries.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2013,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "《분노의 질주》의 데커드 쇼를 맡다",
+   "title_en": "Plays Deckard Shaw in the Fast & Furious films",
+   "description": "여섯 번째 영화의 엔딩 크레디트 뒤에 카메오로 등장했다. 일곱 번째 영화에서는 주요 악역을 맡았고, 이후에도 시리즈에 계속 등장했다.",
+   "description_en": "He appeared in a post-credits cameo in the sixth film. The seventh made him the main antagonist and a regular in the franchise.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "other",
+   "title": "로지 헌팅턴화이틀리와 약혼하다",
+   "title_en": "Becomes engaged to Rosie Huntington-Whiteley",
+   "description": "로지 헌팅턴화이틀리가 골든글로브 시상식에 약혼반지를 끼고 나오면서 두 사람의 약혼이 알려졌다. 이듬해 아들 잭이 태어났고, 훗날 딸 이사벨라도 태어났다. 두 사람은 런던의 한 파티에서 만났으며, 아이들을 영국에서 키우기 위해 다시 영국으로 거처를 옮겼다.",
+   "description_en": "Her engagement ring appeared at the Golden Globe Awards. Their son Jack was born the next year, and later a daughter, Isabella. They had met at a party in London, and later moved back so the children would grow up in England.",
+   "place_name": "베벌리힐스",
+   "place_name_en": "Beverly Hills",
+   "lat": 34.073055555556,
+   "lng": -118.39944444444
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "《메그》의 조나스 테일러를 맡다",
+   "title_en": "Stars as Jonas Taylor in The Meg",
+   "description": "다이빙 선수 시절에 단련한 몸을 다시 활용했고, 고공 다이빙 장면도 대역 없이 직접 촬영했다. 영화는 전 세계에서 5억 달러가 넘는 흥행 수익을 올렸다.",
+   "description_en": "He used his diving body again and filmed the high-dive scenes without a double. The film grossed more than five hundred million dollars worldwide.",
+   "place_name": "오클랜드",
+   "place_name_en": "Auckland",
+   "lat": -36.84916666666667,
+   "lng": 174.76527777777778
+  },
+  {
+   "year": 2022,
+   "year_end": 2024,
+   "kind": "work",
+   "title": "펀치 팰리스 프로덕션을 세우다",
+   "title_en": "Founds Punch Palace Productions",
+   "description": "제작사를 설립하고 《비키퍼》를 직접 제작하며 주연도 맡았다. 데이비드 에이어가 연출했고, 제이슨은 은퇴한 비밀 요원 애덤 클레이를 연기했다.",
+   "description_en": "He started the company and produced The Beekeeper while starring in it. David Ayer directed, and he played retired secret agent Adam Clay.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부 사실은 유지하면서 직역투, 모호한 지시어, 부자연스러운 배역·경력 표현을 바로잡았다. 다이빙 경험이 모델 활동과 영화 데뷔를 거쳐 액션 배우 경력으로 이어지는 흐름도 자연스럽게 읽히도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도색일로도 벌었고」와 「형 아래로 둘째였다」는 목적어와 가족관계가 부자연스러워 영문의 의미를 바로 파악하기 어렵다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아들은」은 대상 인물을 갑자기 일반명사로 바꾸어 앞뒤 사건의 연결을 끊는다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「호텔에서 뛰어내리는 사람」은 고공 다이빙이라는 행동을 정확히 드러내지 않아 다른 뜻으로 읽힐 수 있다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 세계선수권 플랫폼에서」는 시간 관계와 종목을 직역한 표현이라 한국어 문장으로 매끄럽지 않다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "무슨 훈련을 하다 발탁됐는지 앞 사건에 기대야 알 수 있고, 마지막 문장의 「회사」도 프렌치 커넥션을 바로 가리키지 않는다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「작품에 데뷔하다」보다 「작품으로 영화에 데뷔하다」가 데뷔의 성격을 정확히 드러낸다. 본문의 「프렌치 커넥션 쪽」과 「팔아 보라고 시켰다」도 구어적이고 주체가 불분명하다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「흥행이 컸고」와 「할리우드 조연이 이어졌다」는 무엇이 흥행했고 누가 배역을 맡았는지 행동 관계가 흐릿하다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「영국 범죄물의 조연이 자기 이름을 건 액션 주연으로 자리를 옮겼다」는 사람과 배역의 관계가 뒤섞인 직역이다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「주말 흥행 1위」만으로는 개봉 첫 주말의 성적이라는 영문의 의미가 충분히 드러나지 않는다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「주적」과 「고정 인물」은 게임식·분류식 표현이라 영화 속 주요 악역과 이후의 계속된 출연을 자연스럽게 전달하지 못한다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「약혼 반지가 공개됐다」는 누가 반지를 착용했는지 빠져 있고, 「딸을 얻었다」와 「거처를 다시 옮겼다」도 출생과 이동 목적지를 간접적으로 표현한다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다이빙 시절의 몸을 다시 썼다」는 영어 표현을 그대로 옮겨 구체적인 의미를 짐작해야 한다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사를 내고」는 제작사 설립을 설명하는 연표 문장으로는 지나치게 구어적이다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

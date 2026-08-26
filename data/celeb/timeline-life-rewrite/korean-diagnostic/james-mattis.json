@@ -1,0 +1,280 @@
+{
+ "slug": "james-mattis",
+ "events": [
+  {
+   "year": 1950,
+   "year_end": null,
+   "kind": "birth",
+   "title": "풀먼에서 태어나다",
+   "title_en": "Born in Pullman",
+   "description": "아버지는 상선 선원이었다. 어머니는 유아 때 캐나다를 떠났고, 남아프리카에서 육군 정보 업무를 했다. 가족은 리치랜드로 이주했다. 아버지는 한퍼드 핵시설의 발전소를 운영했다. 집에는 텔레비전이 없었고 책이 많았다.",
+   "description_en": "His father was a merchant mariner. His mother had come from Canada as an infant and had done Army intelligence work in South Africa. The family moved to Richland. His father ran a power plant at the Hanford nuclear site. The house had no television and many books.",
+   "place_name": "풀먼",
+   "place_name_en": "Pullman",
+   "lat": 46.733333333,
+   "lng": -117.166666666
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "education",
+   "title": "컬럼비아고등학교를 마치다",
+   "title_en": "Graduates from Columbia High School",
+   "description": "리치랜드는 한퍼드 노동자들을 위해 정부가 세운 도시였다. 학교 교표에는 버섯구름이 그려져 있었다. 동기 졸업생은 600명에 가까웠다. 그는 상위 10퍼센트 안에 들지 못했다. 형은 이미 해병대에서 복무하고 있었다.",
+   "description_en": "The town had been built by the government for Hanford workers. The school crest carried a mushroom cloud. His class numbered nearly six hundred. He did not finish in the top tenth. His older brother was already in the Marines.",
+   "place_name": "리치랜드",
+   "place_name_en": "Richland",
+   "lat": 46.280277777,
+   "lng": -119.275277777
+  },
+  {
+   "year": 1971,
+   "year_end": 1972,
+   "kind": "education",
+   "title": "센트럴워싱턴대학교를 나와 해병 소위로 임관하다",
+   "title_en": "Leaves Central Washington University and is commissioned a Marine second lieutenant",
+   "description": "해군 학군단을 거쳤다. 당시에는 징병제가 시행 중이라 군 복무가 거의 정해진 수순이었다. 그때만 해도 평생 군인으로 살 생각은 없었다.",
+   "description_en": "He went through the naval ROTC. A draft was still in force, so military service was nearly a given. He did not yet mean to wear the uniform for life.",
+   "place_name": "엘렌스버그",
+   "place_name_en": "Ellensburg",
+   "lat": 46.997064,
+   "lng": -120.545119
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "battle",
+   "title": "걸프전에서 제7해병연대 제1대대를 지휘하다",
+   "title_en": "Commands 1st Battalion, 7th Marines in the Gulf War",
+   "description": "중령으로 리퍼 기동부대의 돌격 대대 가운데 하나를 맡았다. 사막방패 작전과 사막폭풍 작전에서 대대를 이끌고 쿠웨이트로 진격했다.",
+   "description_en": "As a lieutenant colonel he led one of Task Force Ripper's assault battalions. He took the battalion into Kuwait in Operations Desert Shield and Desert Storm.",
+   "place_name": "쿠웨이트시티",
+   "place_name_en": "Kuwait City",
+   "lat": 29.375,
+   "lng": 47.98
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "education",
+   "title": "국립전쟁대학에서 석사 학위를 받다",
+   "title_en": "Earns a master's degree at the National War College",
+   "description": "국제안보 문제를 공부했다. 걸프전에서 대대를 지휘한 뒤 받은 학위였다. 졸업한 그해 제7해병연대 지휘를 맡았다.",
+   "description_en": "He studied international security affairs. The degree came after his Gulf War battalion command. That same year he took command of the 7th Marine Regiment.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666
+  },
+  {
+   "year": 2001,
+   "year_end": 2002,
+   "kind": "battle",
+   "title": "아프가니스탄에서 제58임무부대를 지휘하다",
+   "title_en": "Commands Task Force 58 in Afghanistan",
+   "description": "준장으로 제1해병원정여단도 함께 이끌었다. 그가 이끈 부대는 남부 사막의 활주로를 먼저 장악하고 칸다하르를 고립시킨 뒤, 칸다하르 공항도 확보했다.",
+   "description_en": "As a brigadier general he also led the 1st Marine Expeditionary Brigade. His force first seized a desert airstrip in the south. He isolated the city. He also secured its airport.",
+   "place_name": "칸다하르",
+   "place_name_en": "Kandahar",
+   "lat": 31.62068,
+   "lng": 65.71588
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "battle",
+   "title": "제1해병사단을 이끌고 바그다드로 진격하다",
+   "title_en": "Leads the 1st Marine Division in the drive to Baghdad",
+   "description": "소장으로 사단을 맡았다. 출전에 앞서 병력에게 편지를 보냈다. 로마 술라의 묘비명을 빌려 더 좋은 친구도, 더 무서운 적도 없다고 적었다.",
+   "description_en": "He commanded the division as a major general. Before the attack he sent a letter to his Marines. He borrowed Sulla's epitaph and wrote that there was no better friend and no worse enemy.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.315277777,
+   "lng": 44.366111111
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "battle",
+   "title": "1차 팔루자 전투에서 사단을 지휘하다",
+   "title_en": "Commands the division in the First Battle of Fallujah",
+   "description": "미국 민간 경호원 네 명이 살해된 뒤 상부가 도시 공격을 명령했다. 현장 지휘관들은 정밀 타격을 원했다. 그는 도시 안의 반군 지도자들과도 협상했다. 그가 지휘한 해병대는 곧 도시에서 철수했다.",
+   "description_en": "After four American contractors were killed, higher command ordered an assault on the city. Commanders on the ground had wanted surgical raids. He also negotiated with insurgent leaders inside the city. His Marines soon pulled back out.",
+   "place_name": "팔루자",
+   "place_name_en": "Fallujah",
+   "lat": 33.35,
+   "lng": 43.783333333
+  },
+  {
+   "year": 2007,
+   "year_end": 2010,
+   "kind": "office",
+   "title": "합동전력사령부와 나토 변혁최고사령관을 겸하다",
+   "title_en": "Commands U.S. Joint Forces Command and NATO Allied Command Transformation",
+   "description": "제1해병원정군 지휘권을 넘기고 대장으로 진급했다. 나토 직책은 뒤에 프랑스 공군 장군에게 넘겼다. 중부사령부로 옮길 때까지 합동전력사령관직을 맡았다.",
+   "description_en": "He handed over I Marine Expeditionary Force and rose to four-star general. He later passed the NATO post to a French air force general. He kept Joint Forces Command until he moved to Central Command.",
+   "place_name": "노퍽",
+   "place_name_en": "Norfolk",
+   "lat": 36.846944444,
+   "lng": -76.285277777
+  },
+  {
+   "year": 2010,
+   "year_end": 2013,
+   "kind": "office",
+   "title": "중부사령부 사령관을 맡다",
+   "title_en": "Serves as commander of U.S. Central Command",
+   "description": "오바마 대통령이 지명했다. 맥딜 공군기지에서 취임했다. 아프가니스탄과 이라크 전쟁을 총괄했다. 이란에 더 강경하게 대응해야 한다고 백악관에 요구했다. 이후 전역해 군을 떠났다.",
+   "description_en": "President Obama nominated him. He took command at MacDill Air Force Base. He oversaw the wars in Afghanistan and Iraq. He pressed the White House for a harder line on Iran. He then retired and left the service.",
+   "place_name": "탬파",
+   "place_name_en": "Tampa",
+   "lat": 27.9475,
+   "lng": -82.458611111
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "후버연구소 펠로가 되다",
+   "title_en": "Becomes a fellow at the Hoover Institution",
+   "description": "전역한 뒤 후버연구소에서 아넨버그 특별 초빙 펠로로 활동하기 시작했다. 이후 직함은 데이비스 가문 특별 펠로로 바뀌었다.",
+   "description_en": "After leaving the service he came here. He started as an Annenberg Distinguished Visiting Fellow. The title later changed to Davies Family Distinguished Fellow.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2017,
+   "year_end": 2019,
+   "kind": "office",
+   "title": "국방장관에 취임하고 사임하다",
+   "title_en": "Serves as U.S. Secretary of Defense and then resigns",
+   "description": "현역에서 물러난 지 7년이 되지 않았다. 의회는 그를 위해 한 차례의 예외를 허용했다. 이런 예외가 허용된 것은 조지 마셜 이후 처음이었다. 상원은 98대 1로 인준했다. 대통령이 시리아 주둔 병력을 철수하기로 하자 반대했다. 사임서를 냈다. 대통령은 그의 퇴임일을 사임서에 적힌 날짜보다 앞당겼다.",
+   "description_en": "He had been out of uniform for less than seven years. Congress opened a one-time exception. It was the first such waiver since George Marshall. The Senate confirmed him ninety-eight to one. He opposed the president's decision to pull troops from Syria. He submitted his resignation. The president moved his last day forward.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "publish",
+   "title": "회고록 《호출부호 카오스》를 내다",
+   "title_en": "Publishes the memoir Call Sign Chaos",
+   "description": "빙 웨스트와 함께 썼다. 책은 해병 소위 시절부터 중동 전구 사령관 시절까지를 다뤘다. 책에서 동맹을 유지해야 한다고 주장했다. 국방장관으로 재임한 시절은 거의 다루지 않았다.",
+   "description_en": "He wrote it with Bing West. The book runs from Marine second lieutenant to theater commander in the Middle East. He used it to argue for keeping alliances. He wrote almost nothing about his years as secretary of defense.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위를 유지하면서 주체와 대상이 불분명한 표현, 군 부대명 순서, 직역투와 부자연스러운 연결을 바로잡았다. 이미 자연스러운 사건은 그대로 두었으며, 별도의 사실 확인이 필요한 항목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "어머니가 어디로 건너왔는지 알 수 없고, 「발전 운전을 맡았다」는 표현도 한국어로 뜻이 분명하지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 마을」은 이 사건만 읽으면 리치랜드를 가리키는지 알 수 없으며, 약 600명 규모의 졸업 동기를 「학급」이라고 한 표현도 부정확했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 있는 해군 학군단이라는 세부가 빠졌고, 징병제로 군 복무가 거의 정해져 있었다는 관계가 어색하게 서술되어 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "연대와 대대의 소속 순서가 뒤집혀 있었으며, 리퍼 기동부대의 여러 돌격 대대 가운데 하나였다는 의미와 작전명이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대대장 자리를 지나 온 뒤의 공부」라는 표현이 직역투이고, 학위 취득과 앞선 걸프전 지휘 경력의 관계가 불분명했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」와 「공항」의 대상이 앞 문장만으로 분명하지 않았고, 「활주로를 잡았다」도 지나치게 구어적이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시내 반군 쪽」은 협상 상대가 반군 지도자들이었다는 영문의 의미를 흐렸고, 마지막 문장의 병력도 누구의 병력인지 명확하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제1해병원정군을 넘기다」와 「합동전력사령부를 유지하다」는 지휘권과 사령관직을 가리킨다는 점이 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전장을 관할했다」와 「군복을 벗었다」가 각각 전쟁 총괄과 전역이라는 구체적인 행동을 우회적으로 표현하고 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이곳」은 후버연구소를 가리키는지 해당 문장만으로 알 수 없고, 바뀐 것은 사람의 이름이 아니라 펠로 직함이었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「예외를 열었다」와 「앞당겨 내보냈다」가 직역투였으며, 조지 마셜 이후 처음 허용된 예외와 실제 퇴임일 변경의 의미가 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중동 전구 사령관까지를 적었다」와 「주장을 책에 남겼다」가 부자연스러워 회고록이 다룬 기간과 동맹에 관한 주장이 명료하게 전달되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

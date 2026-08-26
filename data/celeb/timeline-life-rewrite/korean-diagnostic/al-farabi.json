@@ -1,0 +1,182 @@
+{
+ "slug": "al-farabi",
+ "events": [
+  {
+   "year": 872,
+   "year_end": null,
+   "kind": "birth",
+   "title": "파라브에서 태어나다",
+   "title_en": "Is born in Farab",
+   "description": "시르다리야 중류의 도시에서 태어났다. 관개 농업이 이루어지는 오아시스였고, 뒤에는 오트라르로 불렸다. 이름은 아부 나스르 무함마드 이븐 무함마드였다. 당대 지리학자 이븐 하우칼은 그가 파라브 인근의 바시즈 출신이라고 적었다.",
+   "description_en": "He was born in a city on the middle Syr Darya. It was an irrigated oasis, later called Otrar. His name was Abu Nasr Muhammad ibn Muhammad. The contemporary geographer Ibn Hawqal wrote that he came from Vasij, on that city’s side.",
+   "place_name": "파라브",
+   "place_name_en": "Farab",
+   "lat": 42.8514829,
+   "lng": 68.3029696
+  },
+  {
+   "year": 908,
+   "year_end": 932,
+   "kind": "education",
+   "title": "바그다드에서 논리를 배우다",
+   "title_en": "Studies logic in Baghdad",
+   "description": "네스토리우스파 성직자 유하나 이븐 하일란에게 포르피리오스의 이사고게부터 아리스토텔레스의 분석론 후서까지 읽었다. 스승은 칼리프 알 묵타디르 재위 중 바그다드에서 죽었다. 당시 바그다드의 그리스도교 논리학자들은 알렉산드리아에서 이어진 교과에 따라 아리스토텔레스를 가르치고 있었다.",
+   "description_en": "He read from Porphyry’s Isagoge through Aristotle’s Posterior Analytics with the Nestorian cleric Yuhanna ibn Haylan. The teacher died in that city during the caliphate of al-Muqtadir. Christian logicians there were teaching Aristotle from the syllabus that had come down from Alexandria.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 934,
+   "year_end": 940,
+   "kind": "work",
+   "title": "칼리프의 재상을 위해 음악서를 쓰다",
+   "title_en": "Writes the Great Book of Music for the caliph’s vizier",
+   "description": "칼리프 알 라디의 재상 아부 자파르 무함마드 이븐 카심 알 카르키가 그리스 이론가들이 정리한 음악 이론을 설명해 달라고 청했다. 그는 그리스 음악서의 아랍어 번역본은 내용이 빈약하다고 보았고, 킨디와 이스하크 알 마우실리의 글도 충분하지 않다고 적었다. 바그다드에서는 야흐야 이븐 아디가 그의 제자가 되어 논리를 배웠다.",
+   "description_en": "Abu Jaafar Muhammad ibn al-Qasim al-Karkhi, vizier to caliph al-Radi, asked him for the science of music as the Greek theorists had set it out. He judged the Greek books in Arabic translation thin, and wrote that al-Kindi and Ishaq al-Mawsili fell short as well. In the same city Yahya ibn Adi came as a student and learned logic from him.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 942,
+   "year_end": null,
+   "kind": "travel",
+   "title": "바그다드를 떠나 시리아로 가다",
+   "title_en": "Leaves Baghdad for Syria",
+   "description": "이슬람력 330년 말까지 바그다드에 머물렀다. 그곳에서 《덕성 도시 주민의 견해》를 쓰기 시작했고, 원고를 가지고 시리아로 떠났다. 이로써 오랫동안 이어진 바그다드 생활을 마쳤다.",
+   "description_en": "He was still in the city at the end of AH 330. He had begun The Opinions of the People of the Virtuous City there and took the draft with him. He closed a long residence there.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 943,
+   "year_end": null,
+   "kind": "work",
+   "title": "다마스쿠스에서 덕성 도시론을 마치다",
+   "title_en": "Finishes The Virtuous City in Damascus",
+   "description": "바그다드에서 가져온 글을 이듬해인 이슬람력 331년까지 다마스쿠스에서 완성했다. 필사본에 남은 주기가 그 날짜를 기록하고 있다. 덕 있는 도시의 주민이 무엇을 알아야 하는지를 차례로 적었다.",
+   "description_en": "He finished here, by AH 331, the book he had brought from Baghdad. A note in the manuscripts records that date. He set out, in order, what the people of a virtuous city must know.",
+   "place_name": "다마스쿠스",
+   "place_name_en": "Damascus",
+   "lat": 33.513,
+   "lng": 36.292
+  },
+  {
+   "year": 944,
+   "year_end": 948,
+   "kind": "work",
+   "title": "알레포에서 제자에게 분석론을 구술하다",
+   "title_en": "Dictates a commentary on the Posterior Analytics in Aleppo",
+   "description": "함단 왕조의 사이프 알 다울라가 알레포를 차지한 뒤, 그는 그곳에서 살며 가르쳤다. 야흐야 이븐 아디의 아우인 이브라힘 이븐 아디에게 분석론 후서 주석을 구술했다. 최초의 안달루시아 전기에는 사이프 알 다울라가 그를 보호했다고 기록되어 있다.",
+   "description_en": "After the Hamdanid Sayf al-Dawla took the city, he lived and taught here. He dictated a commentary on the Posterior Analytics to Ibrahim ibn Adi, Yahya’s brother. The first Andalusian life says Sayf al-Dawla gave him protection.",
+   "place_name": "알레포",
+   "place_name_en": "Aleppo",
+   "lat": 36.2,
+   "lng": 37.16
+  },
+  {
+   "year": 948,
+   "year_end": 949,
+   "kind": "work",
+   "title": "이집트에서 덕성 도시론을 여섯 절로 줄이다",
+   "title_en": "Abridges The Virtuous City into six sections in Egypt",
+   "description": "이슬람력 337년에 이집트로 갔다. 이집트에서 《덕성 도시 주민의 견해》를 여섯 절로 줄여 썼다. 어느 도시에 머물렀는지는 관련 주기에도 기록되어 있지 않다.",
+   "description_en": "In AH 337 he went to Egypt. There he wrote six sections that abridge The Opinions of the People of the Virtuous City. The notes do not name the city where he stayed.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 950,
+   "year_end": null,
+   "kind": "death",
+   "title": "다마스쿠스에서 사망하다",
+   "title_en": "Dies in Damascus",
+   "description": "이집트에서 시리아로 돌아온 뒤 다마스쿠스에서 죽었다. 마스우디는 사망 후 오 년 안에 기록을 남기며 그 시점을 이슬람력 339년 라자브월로 잡았다. 그달은 12월 14일부터 이듬해 1월 12일 사이다. 사이드 알 안달루시는 그가 사이프 알 다울라의 보호를 받던 중 사망했다고 적었다.",
+   "description_en": "After Egypt he returned to Syria and died here. Al-Masudi, writing within five years, placed the death in Rajab AH 339. That month runs from 14 December to 12 January of the next year. Said al-Andalusi wrote that he died under the protection of Sayf al-Dawla.",
+   "place_name": "다마스쿠스",
+   "place_name_en": "Damascus",
+   "lat": 33.513,
+   "lng": 36.292
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조했을 때 핵심 사실과 세부 내용은 대체로 일치했다. 다만 장소를 가리키는 지시어가 앞 문장이나 제목에 의존하고, 일부 표현이 영문 어순을 따라 어색해 사건 전체의 흐름이 끊기는 부분을 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「관개로 밭을 대는 오아시스」와 「그 도시 쪽 바시즈 사람」은 뜻을 짐작해야 하는 직역투였다. 오아시스의 성격과 바시즈의 위치 관계가 자연스럽게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」와 「그곳」이 바그다드를 가리키지만 문장만 읽으면 대상을 바로 알기 어려웠다. 장소명을 밝혀 생애의 이동 경로가 끊기지 않게 했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그리스 이론으로 음악을 알고 싶어 청했다」와 「음악서를 허술하다 보았다」는 목적어와 행동 관계가 어색했다. 재상이 무엇을 요청했고 알파라비가 기존 문헌을 어떻게 평가했는지 분명하게 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」「거기서」「여기서」가 모두 바그다드를 가리키면서도 지시 대상이 문장 안에 드러나지 않았다. 바그다드에서 원고를 쓰기 시작해 이를 가지고 떠났다는 흐름을 명확히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여기서」가 다마스쿠스를 가리키지만 앞 문장만으로는 장소를 알 수 없었고, 「필사본 주기가 그 날짜를 적었다」도 한국어 어순이 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 도시」「여기서」의 대상이 불분명했고, 주석을 「불러 주었다」거나 전기가 내용을 「남긴다」는 표현도 자연스럽지 않았다. 알레포 정착, 주석 구술, 전기의 기록 관계를 분명히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 땅」과 「주기에도 없다」는 각각 장소와 기록의 대상을 즉시 알기 어려운 표현이었다. 이집트와 관련 주기를 직접 밝혀 썼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여기서」가 다마스쿠스를 가리키지만 문장 안에 장소가 없었고, 「마스우디가 오 년 안에 적어」는 기록 시점과 행동 관계가 무너진 표현이었다. 사망 장소와 기록 내용을 자연스럽게 연결했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ]
+ }
+}

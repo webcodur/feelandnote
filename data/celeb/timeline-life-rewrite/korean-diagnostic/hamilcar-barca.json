@@ -1,0 +1,249 @@
+{
+ "slug": "hamilcar-barca",
+ "events": [
+  {
+   "year": -275,
+   "year_end": null,
+   "kind": "birth",
+   "title": "카르타고에서 태어나다",
+   "title_en": "Born in Carthage",
+   "description": "그의 가문은 바르카라 불렸으며, 그 이름은 번개를 뜻했다. 태어난 해는 기록에 남아 있지 않다. 후대 저술가들은 그가 시칠리아 지휘권을 맡았을 때 스물여덟 살이었다고 계산해 출생 연도를 이 해로 잡았다. 훗날 한니발, 하스드루발, 마고와 이름이 전해지지 않는 딸 셋을 두었다.",
+   "description_en": "His house was called Barca, a name that means lightning. No record gives the year of his birth. Later writers set this year by counting him as twenty-eight when he took the Sicilian command. He later had Hannibal, Hasdrubal, Mago, and three daughters whose names are lost.",
+   "place_name": "카르타고",
+   "place_name_en": "Carthage",
+   "lat": 36.855,
+   "lng": 10.330555555556
+  },
+  {
+   "year": -247,
+   "year_end": null,
+   "kind": "office",
+   "title": "시칠리아에서 지휘권을 맡다",
+   "title_en": "Takes command in Sicily",
+   "description": "제1차 포에니 전쟁이 시작된 지 열여덟째 해였다. 함대를 지휘해 브루티움과 로크리 해안을 습격한 뒤, 파노르무스 북쪽의 헤르크테산에 올랐다. 로마군이 릴리바이움과 드레파나를 포위하는 동안 그 배후에서 소규모 습격을 이어 가며 버텼다. 한니발이 훗날 아홉 살에 이베리아로 갔다는 기록을 거꾸로 계산하면, 한니발은 이 해에 태어난 셈이다.",
+   "description_en": "It was the eighteenth year of the First Punic War. He took the fleet, raided the coasts of Bruttium and Locri, then climbed Mount Hercte north of Panormus. Behind the Roman sieges of Lilybaeum and Drepana he held on with small raids. The count that puts Hannibal’s birth in this year comes from the later report that the boy was nine when taken to Iberia.",
+   "place_name": "팔레르모",
+   "place_name_en": "Palermo",
+   "lat": 38.115658055556,
+   "lng": 13.361261944444
+  },
+  {
+   "year": -244,
+   "year_end": null,
+   "kind": "battle",
+   "title": "에뤽스 산으로 옮기다",
+   "title_en": "Moves to Mount Eryx",
+   "description": "밤에 배로 군대를 옮겼다. 로마군이 빼앗았던 산허리 마을을 되찾고, 산 정상의 로마군과 산기슭의 로마 진영 사이에 자리 잡았다. 드레파나 수비대와는 도로를 통해 연락을 유지했다.",
+   "description_en": "He moved the army by sea at night. He took back the hillside town the Romans had seized, and sat between the Roman force on the summit and their camp at the foot. A road kept him in touch with the garrison at Drepana.",
+   "place_name": "에리체",
+   "place_name_en": "Erice",
+   "lat": 38.0375,
+   "lng": 12.5875
+  },
+  {
+   "year": -241,
+   "year_end": null,
+   "kind": "other",
+   "title": "강화 뒤 군대를 데리고 돌아오다",
+   "title_en": "Brings the army home after the peace",
+   "description": "아이가테스 해전에서 카르타고 함대가 패배했다. 본국 정부는 그에게 강화 협상을 맡겼으나, 그는 이를 릴리바이움의 기스코에게 넘겼다. 무장을 해제하라는 로마의 요구를 거절하고 병사들을 온전히 이끌고 철수했다. 시칠리아는 조약에 따라 로마에 넘어갔다.",
+   "description_en": "The Carthaginian fleet broke at the Aegates. The home government handed him the peace talks, and he passed them to Gisco at Lilybaeum. He refused the Roman demand to lay down arms and led the soldiers out intact. Sicily passed by the treaty.",
+   "place_name": "카르타고",
+   "place_name_en": "Carthage",
+   "lat": 36.855,
+   "lng": 10.330555555556
+  },
+  {
+   "year": -240,
+   "year_end": null,
+   "kind": "battle",
+   "title": "바그라다스에서 용병을 꺾다",
+   "title_en": "Defeats the mercenaries at the Bagradas",
+   "description": "밀린 급료 때문에 용병과 리비아인들이 봉기했다. 한노가 이들을 막지 못하자 그는 다시 군대를 지휘했다. 강어귀의 모래톱을 밤에 건너 스펜디우스의 봉쇄를 무너뜨렸다. 훗날 골짜기에 갇혔을 때는 누미디아인 나라바스가 기병 이천 명을 이끌고 그의 편으로 넘어와 위기에서 구해 주었다.",
+   "description_en": "Unpaid mercenaries and Libyans rose. When Hanno failed to stop them, he took an army again. He crossed a sandbar at the river mouth by night and broke Spendius’s blockade. Later, trapped in a valley, the Numidian Naravas came over with two thousand horsemen and got him out.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -238,
+   "year_end": null,
+   "kind": "battle",
+   "title": "톱 골짜기에 반란군을 가두다",
+   "title_en": "Traps the rebels in the Saw",
+   "description": "스펜디우스의 군대를 삼면이 산으로 막힌 골짜기에 가두고 굶긴 끝에 전멸시켰다. 반란군 지도자들을 튀니스 앞에서 십자가에 달았다. 마토의 남은 세력은 그해 렙티스 근처에서 무너졌다.",
+   "description_en": "He penned Spendius’s army in a valley walled on three sides, starved them, then wiped them out. He crucified the leaders before Tunis. Matho’s remaining force collapsed near Leptis that same year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -237,
+   "year_end": null,
+   "kind": "other",
+   "title": "사르데냐마저 빼앗기다",
+   "title_en": "Loses Sardinia as well",
+   "description": "사르데냐의 용병들이 먼저 반란을 일으켰고, 로마는 그 틈을 타 사르데냐와 코르시카를 차지했다. 카르타고가 항의하자 로마는 은 천이백 탈란톤을 추가로 물렸다. 시칠리아에 이어 해상 거점들마저 잃었다.",
+   "description_en": "The mercenaries on the island rose first, and Rome took Sardinia and Corsica in the opening. When Carthage protested, Rome added twelve hundred talents of silver. After Sicily the sea bases were gone as well.",
+   "place_name": "카르타고",
+   "place_name_en": "Carthage",
+   "lat": 36.855,
+   "lng": 10.330555555556
+  },
+  {
+   "year": -237,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "한니발에게 맹세를 받았다고 전하다",
+   "title_en": "Is said to have taken Hannibal’s oath",
+   "description": "아홉 살 아들을 제물 앞에 세웠다. 폴리비오스는 한니발 자신이 제물에 손을 얹고 로마의 친구가 되지 않겠다고 맹세했다고 전한다. 리비우스는 훗날 이를 로마와 영원히 원수가 되겠다는 맹세로 바꾸어 기록했다.",
+   "description_en": "He stood his nine-year-old son before the victim. Polybius reports Hannibal’s own words: he laid his hand on the offering and swore he would never be a friend of Rome. Livy later rewrote that as eternal enmity.",
+   "place_name": "카르타고",
+   "place_name_en": "Carthage",
+   "lat": 36.855,
+   "lng": 10.330555555556
+  },
+  {
+   "year": -237,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가데스에 내리다",
+   "title_en": "Lands at Gades",
+   "description": "시칠리아와 사르데냐를 잃으면서 생긴 영토와 은의 손실을 이베리아에서 보충하려 했다. 옛 페니키아 식민지 가데스를 기지로 삼아 투르데타니를 꺾고, 과달키비르 지역의 은 광맥을 장악했다.",
+   "description_en": "He meant to replace in Iberia the land and silver lost with Sicily and Sardinia. From the old Phoenician colony he beat the Turdetani and took the silver veins of the Guadalquivir.",
+   "place_name": "카디스",
+   "place_name_en": "Cádiz",
+   "lat": 36.535,
+   "lng": -6.2975
+  },
+  {
+   "year": -235,
+   "year_end": -231,
+   "kind": "work",
+   "title": "아크라 레우케를 세웠다고 전해지다",
+   "title_en": "Is said to have founded Akra Leuke",
+   "description": "가데스에서 출발해 사 년 동안 동쪽으로 진군하며 싸웠고, 나오곶까지 진출했다. 전승에 따르면 그는 ‘흰 곶’이라 불리는 요새를 세웠으며, 그 위치는 보통 알리칸테로 비정된다. 로마 사절이 그가 무엇을 하고 있느냐고 묻자, 배상금을 갚기 위해 싸우고 있다고 답했다는 전승도 있다.",
+   "description_en": "From Gades he fought east for four years and pushed as far as Cape Nao. Tradition says he founded a stronghold called the White Promontory, usually placed at Alicante. One tradition also has a Roman embassy asking what he was doing, and his answer that he was fighting to pay the indemnity.",
+   "place_name": "알리칸테",
+   "place_name_en": "Alicante",
+   "lat": 38.345277777778,
+   "lng": -0.48305555555556
+  },
+  {
+   "year": -228,
+   "year_end": null,
+   "kind": "death",
+   "title": "헬리케를 포위하던 중 죽다",
+   "title_en": "Dies during the siege of Helike",
+   "description": "오레타니의 오리수스가 원주민 지원군을 이끌고 왔다. 아피아노스는 그가 말에서 떨어져 강에 빠져 죽었다고 기록했고, 폴리비오스는 이름이 전해지지 않는 부족과 싸우다가 전사했다고 기록했다. 헬리케를 오늘날의 엘체로 비정하는 견해는 엘체가 아크라 레우케와 너무 가깝다는 이유로 의심받는다. 그의 뒤는 사위 하스드루발이 이었다.",
+   "description_en": "Orissus of the Oretani brought native reinforcements. Appian says he fell from his horse and drowned in a river. Polybius says he fell in battle against an unnamed tribe. Identifying the town with Elche is doubted because it sits too near Akra Leuke. His successor was his son-in-law Hasdrubal.",
+   "place_name": "헬리케",
+   "place_name_en": "Helike",
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 넘지 않는 범위에서 주어와 행동의 관계가 흐릿한 표현, 대상을 바로 알기 어려운 지시어, 직역투와 부자연스러운 연결을 바로잡았다. 사건의 세부 내용과 생애의 시간순 흐름은 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘별명은 번개였다’는 바르카라는 이름과 번개의 관계가 불분명하고, ‘후대 계산으로 이 해를 잡는다’도 판단 주체와 계산 근거가 매끄럽게 드러나지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 시칠리아의 지휘권 전반을 말하는데 제목이 육군으로 범위를 좁혔고, ‘포위 뒤에서’와 한니발의 출생 연도 계산 문장이 한국어로 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘꼭대기 로마군과 산기슭 진영 사이에 끼었다’는 의도적으로 그 위치에 자리 잡았다는 영문의 행동 관계를 수동적인 상황처럼 보이게 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘함대가 깨졌다’, ‘강화를 그에게 넘겼다’, ‘시칠리아는 조약으로 넘어갔다’가 직역투이거나 행위 주체와 상대가 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘군대를 받았다’는 지휘권을 맡았다는 뜻을 정확히 전달하지 못하고, 나라바스가 어느 편으로 넘어왔는지도 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘세 면이 산인 골짜기’가 직역투이고, 영문에서 복수인 반란군 지도자들이 국문에서는 단수인 ‘우두머리’로 축소되어 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘섬의 용병’은 해당 사건만 읽으면 어느 섬인지 알 수 없고, 로마와 카르타고의 행동 관계도 일부 생략되어 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "폴리비오스가 전한 내용과 한니발의 직접 발언 사이의 관계가 어색했고, ‘이를 영원한 원수로 바꿔 적었다’는 무엇을 어떻게 바꾸었다는 뜻인지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘잃은 땅과 은을 메우다’, ‘은맥을 잡다’가 뜻은 짐작할 수 있으나 한국어 서술로는 거칠고, 가데스가 기지였다는 관계도 분명히 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘동쪽으로 네 해를 싸워 나오 곶까지 밀었다’는 목적어와 이동 관계가 무너져 있었고, White Promontory를 ‘흰 언덕’으로 옮겨 영문의 지형 의미와 달라졌다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 ‘둘러싸다가’는 siege의 뜻을 모호하게 만들고, ‘도시를 엘체로 보는 설’은 어느 도시를 가리키는지 앞 문장만으로 분명하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

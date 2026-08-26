@@ -1,0 +1,265 @@
+{
+ "slug": "cai-wenji",
+ "events": [
+  {
+   "year": 177,
+   "year_end": null,
+   "kind": "birth",
+   "title": "진류 어현에서 태어나다",
+   "title_en": "Is born in Yu County, Chenliu",
+   "description": "이름은 염이고 자는 문희다. 이현의 주석이 인용한 《열녀후전》에서는 자를 소희라 한다. 아버지 채옹은 경전과 금석문을 연구한 진류의 학자였다. 정사에는 출생 연도가 기록되어 있지 않으며, 흔히 쓰이는 연도는 후대의 추정치다. 어현은 오늘날 카이펑 남쪽의 치현과 위스현 사이에 있었던 것으로 본다.",
+   "description_en": "Her given name was Yan and her courtesy name Wenji. Li Xian's commentary quotes the Later Biographies of Exemplary Women as calling her Zhaoji. Her father Cai Yong was a Chenliu scholar of the classics and inscriptions. The official history does not record her birth year; the date commonly used is a later estimate. Yu County is placed between present-day Qi County and Weishi County, south of Kaifeng.",
+   "place_name": "진류 어현, 오늘날 카이펑",
+   "place_name_en": "Yu County, Chenliu, modern Kaifeng",
+   "lat": 34.795,
+   "lng": 114.345
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "글과 음률을 익히다",
+   "title_en": "Learns letters and music",
+   "description": "《후한서》는 그가 박학하고 논변에 능했으며 음률에도 뛰어났다고 적는다. 이현의 주석이 인용한 유소의 《유동전》에는 다음과 같은 일화가 전한다. 채옹이 거문고를 켜다가 줄 하나가 끊어지자 채문희는 둘째 줄이라고 알아맞혔고, 채옹이 다시 다른 줄을 끊자 넷째 줄이라고 했다. 이 일화는 본문이 아니라 후대의 주석에 남은 전승이다.",
+   "description_en": "The Hou Hanshu says she was widely learned, quick in argument, and skilled in music. Li Xian quotes Liu Zhao's Accounts of Childhood: when a string broke as Cai Yong played the zither, she named the second string, and when he broke another she named the fourth. That anecdote is later commentary, not the main biography.",
+   "place_name": "카이펑",
+   "place_name_en": "Kaifeng",
+   "lat": 34.795,
+   "lng": 114.345
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 장안의 옥에서 죽다",
+   "title_en": "Her father dies in a Chang'an prison",
+   "description": "동탁이 죽자 채옹은 사도 왕윤 앞에서 탄식했다. 왕윤은 그를 동탁의 편으로 보고 옥에 가두었다. 채옹은 신체를 훼손하는 형벌을 받고서라도 한서를 마치게 해 달라고 빌었으나, 예순한 살에 옥에서 죽었다. 이 죽음은 채옹의 본전에 기록되어 있으며, 훗날 조조가 채옹 집안의 대가 끊긴 것을 안타까워한 배경이 된다.",
+   "description_en": "After Dong Zhuo was killed, Cai Yong sighed in the presence of the minister Wang Yun. Wang treated him as Dong's partisan and imprisoned him. Cai Yong begged to finish the Han history even under mutilating punishment, but he died in jail at sixty-one. That death is recorded in his own biography and later explains Cao Cao's grief that the line had no heir.",
+   "place_name": "장안, 오늘날 시안",
+   "place_name_en": "Chang'an, modern Xi'an",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "위중도와 혼인했다가 친정으로 돌아오다",
+   "title_en": "Marries Wei Zhongdao and returns to her family",
+   "description": "하동 사람 위중도와 혼인했으나 남편이 일찍 죽고 자식이 없었다. 정사는 혼인과 사별의 해를 적지 않는다. 과부가 된 뒤 진류의 친정으로 돌아갔다.",
+   "description_en": "She married Wei Zhongdao of Hedong, but he died young and they had no children. The official history does not date the marriage or his death. As a widow she returned to her family in Chenliu.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 194,
+   "year_end": 195,
+   "kind": "travel",
+   "title": "흥평의 난리에 호인 기병에게 붙잡히다",
+   "title_en": "Is seized by Hu cavalry during the Xingping chaos",
+   "description": "흥평 연간에 중원이 혼란에 빠졌을 때 호인 기병에게 붙잡혔다. 이후 남흉노의 좌현왕에게 넘겨졌다. 정사는 그 왕의 이름도, 채문희가 붙잡힌 고을도 밝히지 않는다. 후대에는 이 좌현왕을 유표(劉豹)로 보기도 한다.",
+   "description_en": "During the Xingping years, as the Central Plains collapsed, Hu cavalry seized her. She was given to the Southern Xiongnu's Wise Prince of the Left. The official history names neither the prince nor the place of capture. Later tradition sometimes identifies the prince as Liu Bao.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 195,
+   "year_end": 207,
+   "kind": "other",
+   "title": "호인들 사이에서 열두 해를 살며 두 아들을 낳다",
+   "title_en": "Lives twelve years among the Hu and bears two sons",
+   "description": "《후한서》는 채문희가 호인들 사이에서 열두 해를 지내며 두 아들을 낳았다고 적는다. 그가 머문 곳의 지명은 전하지 않는다.",
+   "description_en": "The Hou Hanshu says she spent twelve years among the Hu and bore two sons. It does not name the place where she lived.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 207,
+   "year_end": null,
+   "kind": "travel",
+   "title": "조조가 금과 옥벽을 보내 데려오다",
+   "title_en": "Cao Cao ransoms her with gold and jade",
+   "description": "조조는 채옹과 가까운 사이였으며, 채옹 집안의 대가 끊긴 것을 안타까워했다. 조조는 사자에게 금과 옥벽을 주어 채문희를 남흉노에서 데려오게 했다. 채문희는 두 아들을 북쪽에 남겨 두었고, 《후한서》 본전에 실린 《비분시》는 그 이별을 노래한다. 돌아온 뒤에는 진류 사람 동사와 다시 혼인했다. 흥평 연간부터 열두 해를 헤아리면 귀환 시점은 건안 12년 무렵이 된다.",
+   "description_en": "Cao Cao had been close to Cai Yong and grieved that the family line had no heir. He sent an envoy with gold and jade disks to bring her back from the Southern Xiongnu. She left the two sons in the north; the Poem of Lament and Resentment later recorded in her biography tells that parting. After her return she married Dong Si of Chenliu. Counting twelve years from Xingping points to about the twelfth year of Jian'an.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "조조에게 간청해 동사의 사형을 막다",
+   "title_en": "Saves Dong Si from execution before Cao Cao",
+   "description": "동사가 둔전교위로 있다가 법을 어겨 사형을 선고받자 채문희는 조조를 찾아갔다. 당시 자리에는 공경과 이름난 선비들, 먼 곳에서 온 사신들이 가득했다. 조조는 손님들에게 채옹의 딸이 밖에 와 있다고 알렸다. 채문희는 머리를 풀고 맨발로 들어와 머리를 조아렸다. 말은 또렷했고 그 안에는 슬픔이 배어 있었다. 자리에 있던 사람들은 모두 안색이 달라졌다. 조조가 사형 집행 영장이 이미 떠났다고 하자, 채문희는 말 만 필과 범처럼 용맹한 병사들을 거느리고도 어찌 빠른 말 한 필을 아끼느냐고 물었다. 조조는 그 말에 마음이 움직여 사람을 급히 보내 사형 집행을 취소했다. 날이 추웠으므로 채문희에게 머릿수건과 신발, 버선도 내렸다. 정사는 이 일이 어느 성에서 벌어졌는지 밝히지 않는다. 건안 중기 조조의 근거지는 업이었다.",
+   "description_en": "When Dong Si, then an agricultural colony commandant, was sentenced to death, she went to Cao Cao. Ministers, famous scholars, and envoys from afar filled the hall. Cao Cao told the guests that Cai Yong's daughter was outside. She entered with hair unbound and barefoot, kowtowed, and spoke clearly and bitterly; the room changed color. When he said the warrant had already gone out, she asked why a man with ten thousand stallions and a forest of tiger soldiers would spare one fast horse. He was moved and sent a rider to cancel the sentence. The day was cold; he gave her a headcloth, shoes, and stockings. The official history does not name the city. In mid-Jian'an Cao Cao's seat was Ye.",
+   "place_name": "업",
+   "place_name_en": "Ye",
+   "lat": 36.2748,
+   "lng": 114.4002
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "아버지의 책을 기억으로 다시 적다",
+   "title_en": "Recopies her father's books from memory",
+   "description": "같은 자리에서 조조는 채문희에게 집안의 책들을 아직 기억하는지 물었다. 채문희는 선친에게서 물려받은 책이 사천 권에 가까웠지만 난리로 한 권도 남지 않았으며, 암송할 수 있는 것은 사백여 편뿐이라고 답했다. 조조가 관리 열 명을 보내 받아 적게 하겠다고 하자, 채문희는 남녀가 직접 물건을 주고받아서는 안 된다는 예법을 들어 거절하고 종이와 붓만 달라고 했다. 이어 조조가 원하는 대로 해서나 초서로 쓰겠다고 했으며, 그가 써서 보낸 글에는 빠진 대목이 없었다.",
+   "description_en": "In the same audience Cao Cao asked whether she still remembered the family's books. She said her late father had given her some four thousand scrolls, that war had left none, and that she could recite just over four hundred. When he offered to send ten clerks to take dictation, she refused on the rule that men and women should not hand things to each other and asked only for paper and brush. She wrote in regular or cursive script as ordered, and the copies she sent had no omissions.",
+   "place_name": "업",
+   "place_name_en": "Ye",
+   "lat": 36.2748,
+   "lng": 114.4002
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "《비분시》 두 편을 짓다",
+   "title_en": "Writes two poems of lament and resentment",
+   "description": "《후한서》는 채문희가 난리를 겪은 일을 슬퍼하며 시 두 편을 지었다고 적는다. 본전에는 오언체 작품 한 편과 초사체 작품 한 편의 전문이 실려 있다. 훗날 소식은 동한에는 이런 시 형식이 없었다며 두 작품의 진위를 의심했다. 그러나 본전은 두 작품을 채문희의 시로 싣는다.",
+   "description_en": "The Hou Hanshu says that, grieving over the wars, she wrote two poems. It copies in full one pentasyllabic poem and one in the Chu sao form. Su Shi later doubted their authenticity, saying the Eastern Han had no such style. The official biography still presents them as hers.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "《호가십팔박》이 후대에 그의 귀환 이야기와 결부되다",
+   "title_en": "Later ages attach the Eighteen Songs to her story",
+   "description": "거문고곡 《호가십팔박》은 후대에 채문희의 귀환 이야기와 결부되어 전해졌다. 《후한서》의 채문희 본전에는 이 작품이 없다. 당대의 유상 등이 같은 제목의 작품을 남겼으며, 그 가운데 일부라도 채문희가 지었는지를 두고 현대 학자들의 견해도 갈린다.",
+   "description_en": "The qin cycle Eighteen Songs of a Nomad Flute is a later tradition attached to her return. It is not in the Hou Hanshu biography. Tang writers such as Liu Shang wrote pieces under that title, and modern scholars still disagree on whether any of it is hers.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 249,
+   "year_end": null,
+   "kind": "death",
+   "title": "몰년은 전하지 않는다",
+   "title_en": "Her death year is unrecorded",
+   "description": "《후한서》는 채문희가 언제 어디서 죽었는지 기록하지 않는다. 그의 몰년으로 흔히 거론되는 249년은 후대 연표에서 추정한 연도다.",
+   "description_en": "The Hou Hanshu does not say when or where she died. The year commonly attached to her is a later chronological estimate.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건은 영문과 사실관계가 맞았지만, 일부 문장에 직역투·불분명한 지시어·어색한 한자어가 남아 있었다. 영문이 제시한 세부를 유지하면서 사건 사이의 연결과 주어·행동 관계가 자연스럽게 읽히도록 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이현 주가 인용한」과 「어현의 자리는」이 부자연스럽고, 출생 연도와 지리 설명도 한국어 문장으로 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이현이 끌어온」은 인용 관계를 어색하게 표현했고, 줄을 알아맞히는 장면에서 행동 주체와 순서가 선명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「왕윤의 자리에서」는 영문의 in the presence of를 순서대로 옮긴 표현이고, 「그 집 후사」는 어느 집안을 가리키는지 바로 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「호족 기병」은 유력한 토착 세력을 뜻하는 호족(豪族)으로 오해될 수 있어 Hu cavalry의 의미가 흐려졌다. 「중원이 무너질 때」와 「대지 않는다」도 문맥에 맞는 자연스러운 표현으로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「호중」은 뜻을 짐작해야 하는 한자어라서 among the Hu의 의미가 바로 드러나지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「벽옥」은 jade disks의 형태를 제대로 전달하지 못했고, 「그 집 후사」와 「뒤에 실린 비분시」는 대상을 앞 문장만으로 분명히 알기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「먼 곳 사신」「뜻은 슬펐다」「죄장이 이미 나갔다」「그 말에 움직여 죄를 거두었다」 등 여러 구절이 영문 어순과 한자어에 기대어 뜻을 짐작해야 했다. 조조에게 간청하고 사형 집행을 취소시키는 행동 관계가 선명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「선대의 서적」「죽은 아버지가 준 책」「외는 것은」「남녀가 직접 주고받지 않는다고」가 딱딱하거나 목적어가 불분명해, 책의 소실과 기억에 따른 복원의 과정이 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "시를 세는 단위로 「장」을 썼고, 「난리를 겪었다고 슬퍼하며」「동한 시에 없는 격」「본전은 그의 시로 수록한다」가 부자연스럽거나 주체가 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그의 이야기로 붙다」는 attach를 직역한 표현이며, 마지막 문장의 「그가」가 유상과 채문희 가운데 누구를 가리키는지 모호했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「흔히 붙는 숫자」는 연도를 가리키는 표현으로 부자연스럽고, 누구의 몰년을 말하는지도 문장 안에서 드러나지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,227 @@
+{
+ "slug": "alex-kendall",
+ "events": [
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴질랜드에서 태어나다",
+   "title_en": "Is born in New Zealand",
+   "description": "남섬 크라이스트처치에서 자랐다. 아버지는 엔지니어였고 어머니는 작은 가게를 운영했다. 캔터베리의 가족 농장에서 회로를 납땜하고 컴퓨터 게임을 만들며 드론을 조립했다. 열두 살에는 실제로 작동하는 조력 발전기 시제품을 만들었고, 열네 살에는 낡은 건물을 체육·기술 복합시설로 바꾸자는 안을 학교 이사회에 냈다.",
+   "description_en": "He grew up in Christchurch on the South Island. His father was an engineer and his mother ran a small business. On the family farm in Canterbury he soldered circuits, wrote computer games, and built drones. At twelve he made a working tidal-electricity prototype, and at fourteen he took a plan to the school board to turn an old building into a sports and technology complex.",
+   "place_name": "크라이스트처치",
+   "place_name_en": "Christchurch",
+   "lat": -43.53111111111111,
+   "lng": 172.63611111111112
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "education",
+   "title": "크라이스트 칼리지를 수석 졸업하다",
+   "title_en": "Finishes Christ's College as academic dux",
+   "description": "학생 대표를 맡았고 학교 하키 1군에서 뛰어 대표 선수에게 주는 교내 표창을 받았다. 토론 대회에는 전국 수준까지 진출했다. 열일곱 살에는 듀크 오브 에든버러 금장을 받았다.",
+   "description_en": "He served as a school prefect and earned school colours in the first XI hockey side. He also debated at national level. At seventeen he received the Duke of Edinburgh's Gold Award.",
+   "place_name": "크라이스트처치",
+   "place_name_en": "Christchurch",
+   "lat": -43.53111111111111,
+   "lng": 172.63611111111112
+  },
+  {
+   "year": 2011,
+   "year_end": 2013,
+   "kind": "education",
+   "title": "오클랜드대학교 메카트로닉스 과정 2학년으로 바로 진학하다",
+   "title_en": "Enters Auckland mechatronics in the second year",
+   "description": "고등학교를 졸업한 뒤 1학년을 건너뛰고 입학했다. 오러크 홀에서 생활하다가 기숙사 조교가 되었고, 공학회 임원을 3년간 맡았으며 대학 하키 대표로도 뛰었다. 메카트로닉스 실험실에서 밤늦게까지 로봇을 출력하고 드론을 만들었으며, 때로는 책상 밑에서 잠을 잤다. 졸업 연구로는 쿼드콥터가 탑재 장비만으로 물체를 추적하게 하는 제어 시스템을 개발했다. 학과 수석으로 우등 졸업했고, 울프 피셔 장학금을 받아 케임브리지대학교 박사과정에 진학했다.",
+   "description_en": "He skipped the first year straight from high school. He lived at O'Rorke Hall, later became a resident adviser, sat on the engineering society executive for three years, and played university hockey. He spent nights in the mechatronics lab printing robots and building drones, sometimes sleeping under the desks. His final-year project was onboard object-tracking control for a quadcopter. A Woolf Fisher Scholarship sent him to Cambridge, and he graduated first in his class with honours.",
+   "place_name": "오클랜드",
+   "place_name_en": "Auckland",
+   "lat": -36.84916666666667,
+   "lng": 174.76527777777778
+  },
+  {
+   "year": 2014,
+   "year_end": 2017,
+   "kind": "education",
+   "title": "케임브리지에서 컴퓨터 비전 박사과정을 밟다",
+   "title_en": "Takes a computer-vision doctorate at Cambridge",
+   "description": "울프 피셔 장학생으로 로베르토 치폴라의 기계지능 연구실에 들어갔다. 포즈넷을 통해 카메라의 위치와 자세를 실시간으로 추정했고, 세그넷과 불확실성 추정 연구로 장면 이해 연구를 이어 갔다. 학위논문에서는 컴퓨터 비전을 위한 딥러닝의 기하학과 불확실성을 다뤘다. 트리니티 칼리지 소속이었으며, 캘리포니아의 신생기업 스카이디오에서 드론 알고리즘을 개발한 뒤 벤처 투자를 바탕으로 성장하는 로봇 기업에 관심을 두게 됐다.",
+   "description_en": "He entered Roberto Cipolla's machine-intelligence laboratory as a Woolf Fisher Scholar. PoseNet estimated camera pose in real time, and SegNet and uncertainty work continued the scene-understanding line. His thesis treated geometry and uncertainty in deep learning for computer vision. He was a member of Trinity College. Time at the California startup Skydio, working on drone algorithms, pulled him toward venture-backed robotics.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "웨이브를 공동 창업하다",
+   "title_en": "Co-founds Wayve",
+   "description": "박사과정 동료 아마르 샤와 케임브리지의 한 차고에서 회사를 세웠다. 샤는 최고경영자, 켄들은 최고기술책임자를 맡았다. 두 사람은 고정밀 지도와 사람이 작성한 규칙 목록 대신 카메라와 학습으로 운전을 익히는 방식을 택했다. 같은 해 트리니티 칼리지 주니어 연구펠로로 선발되어 연구직을 유지하며 회사를 키울 수 있었다. 창업한 지 6개월도 되지 않아 재규어 아이페이스를 개조해 차고 주변 블록을 주행하게 했다.",
+   "description_en": "With doctoral colleague Amar Shah he started the company in a Cambridge garage. Shah took the chief executive seat and he took the technical one. They chose cameras and learning over high-definition maps and hand-written rule lists. The same year Trinity elected him a junior research fellow, so he could keep the research post while building the firm. Within six months they had a modified Jaguar I-Pace circling the block.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "실제 차에 차선 따라가기를 가르치다",
+   "title_en": "Teaches a real car to follow a lane",
+   "description": "카메라 한 대와 강화학습만을 이용해 전용 도로에서 차량을 훈련했다. 안전 운전자가 운전에 개입한 순간을 학습 신호로 삼았고, 차량은 15분에서 30분 만에 차선을 따라 주행하는 법을 익혔다. 논문 제목은 《하루 만에 운전 배우기》였으며, 이듬해 로봇·자동화 학술대회에서 발표됐다.",
+   "description_en": "With a single camera and reinforcement learning, the team used safety-driver takeovers as the training signal on a private road. Lane following came in fifteen to thirty minutes. The paper was titled Learning to Drive in a Day and appeared the next year at the robotics automation conference.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "런던 중심부에서 도로 시험을 열다",
+   "title_en": "Opens road trials in central London",
+   "description": "봄에는 카메라와 2차원 지도만으로 이전에 주행한 적 없는 공공도로를 달리는 모습을 공개했다. 11월에는 이클립스 벤처스가 주도한 2천만 달러 규모의 투자를 받아 본사를 런던으로 옮기고 시험 차량을 꾸렸다. 개조한 재규어 아이페이스 차량들은 런던 중심부의 좁은 도로를 달리기 시작했다. 실리콘밸리 벤처투자사가 유럽 자율주행 기업의 대규모 투자를 주도한 첫 사례였다.",
+   "description_en": "In the spring the company showed a car driving public roads it had never seen, using cameras and a two-dimensional map. In November an Eclipse Ventures-led twenty-million-dollar round paid for the move of headquarters and a pilot fleet. Modified Jaguar I-Pace vehicles began working the city's tight streets. It was the first large autonomous-driving raise in Europe led by Silicon Valley venture capital.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "office",
+   "title": "최고경영자를 맡다",
+   "title_en": "Becomes chief executive",
+   "description": "공동창업자 아마르 샤가 회사를 떠나자 켄들이 최고경영자 자리를 이어받았다. 창업 당시 두 사람이 나눠 맡았던 최고경영자와 최고기술책임자 역할을 모두 맡게 됐다.",
+   "description_en": "Co-founder Shah left the company, and he took over as chief executive. The two seats split at founding, chief executive and chief technology officer, now sat with him.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "소프트뱅크가 이끈 투자를 받다",
+   "title_en": "Closes a SoftBank-led funding round",
+   "description": "2년 전 이클립스가 주도한 2억 달러 규모의 투자를 받은 데 이어, 소프트뱅크가 이끌고 엔비디아와 마이크로소프트가 참여한 10억 5천만 달러 규모의 투자를 유치했다. 당시 영국 인공지능 기업이 한 번에 유치한 투자 가운데 가장 큰 규모였다. 켄들은 오클랜드대학교 동문 인터뷰에서 이를 연구 중심 회사에서 제품 회사로 전환하는 출발점이라고 말했다.",
+   "description_en": "Two years earlier Eclipse had already led a two-hundred-million-dollar round. SoftBank led a one-point-zero-five-billion-dollar close, with Nvidia and Microsoft in the syndicate. No British AI company had raised that much in one go. In an Auckland alumni interview he called it the start line from a research shop to a product company.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "닛산 양산차에 웨이브 소프트웨어를 적용하기로 하다",
+   "title_en": "Agrees to put the software in Nissan production cars",
+   "description": "닛산은 차세대 프로파일럿에 웨이브의 인공지능 운전 소프트웨어를 적용하겠다고 밝혔다. 일본에서 2027 회계연도에 첫 모델을 선보이는 것이 목표였다. 같은 해 켄들은 인공지능 분야에 기여한 공로로 신년 서훈에서 대영제국훈장 4등급을 받았다.",
+   "description_en": "Nissan said it would put Wayve's AI driver into the next ProPILOT generation. The first model was aimed at Japan in fiscal year 2027. In the New Year Honours the same year he was appointed Officer of the Order of the British Empire for services to artificial intelligence.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮긴 듯한 표현과 한국어에서 뜻이 불분명한 직역을 바로잡았다. 학업에서 연구와 창업으로 이어지는 흐름은 유지하되, 영문에 없는 평가나 인과는 보태지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「캔터베리 집 농장」은 장소와 소유 관계가 무너진 표현이고, 「체육·기술 건물」은 sports and technology complex의 의미를 충분히 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「수석으로 마치다」보다 졸업 사건임을 명시하는 편이 자연스럽고, 「하키 일번 팀으로 학교 색깔을 받았다」는 first XI와 school colours를 단어 순서대로 옮겨 뜻을 알아보기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「2학년으로 들어가다」와 「건너뛴 입학」이 부자연스러웠고, 「로봇을 찍고」와 「반은 수석으로」는 각각 printing robots와 first in his class의 뜻을 제대로 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "포즈넷·세그넷 연구를 설명하는 문장의 주어와 행동 관계가 불명확했고, venture-backed robotics를 단순히 「벤처」로 줄여 분야와 운영 방식이 사라졌다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「최고경영과 최고기술 자리」와 「블록을 돌렸다」는 영어 표현을 직역해 직책과 차량 주행의 의미가 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「카메라 한 장」은 장비를 세는 표현으로 어색했고, 학습 신호와 차선 주행 학습의 관계가 한 문장에 뒤엉켜 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공도를 통과한 결과」는 실제 도로 주행을 부자연스럽게 표현했고, 투자금으로 본사를 옮겼다는 서술에서 목적지와 시험 차량 편성 내용이 분명하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리가 한쪽으로 모였다」는 두 직책을 한 사람이 맡게 됐다는 사실을 간접적으로 표현해 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「라운드를 닫았다」와 「연구회사에서 제품회사로 건너가는 출발선」은 영어식 표현을 그대로 옮겨 한국어 문장으로 자연스럽지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「양산 차에 인공지능을 넣기로 하다」와 「인공지능 운전자를 얹다」는 소프트웨어 적용 관계를 지나치게 구어적으로 표현했고, 「대영제국훈장 장교」는 훈장 등급을 직책처럼 읽히게 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

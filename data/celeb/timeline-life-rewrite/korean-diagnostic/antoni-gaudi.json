@@ -1,0 +1,206 @@
+{
+ "slug": "antoni-gaudi",
+ "events": [
+  {
+   "year": 1852,
+   "year_end": null,
+   "kind": "birth",
+   "title": "레우스에서 태어나다",
+   "title_en": "Born in Reus",
+   "description": "구리 솥을 만드는 집안의 다섯 남매 중 막내로 태어났다. 아버지는 리우돔스 출신의 프란세스크 가우디 이 세라였고, 어머니 안토니아 코르넷 이 베르트란도 같은 업에 종사하던 레우스 집안 출신이었다. 이튿날 성 베드로 본당에서 안토니 플라시트 기옘이라는 이름으로 세례를 받았다. 어릴 적 류머티즘으로 오랫동안 학교에 나가지 못했고, 그동안 가족 농장인 마스 데 라 칼데레라에서 풀과 벌레를 관찰하며 시간을 보냈다. 출생지를 이웃 리우돔스의 이 농장으로 적은 기록도 있다.",
+   "description_en": "He was the youngest of five in a family of coppersmiths. His father, Francesc Gaudí i Serra, came from Riudoms; his mother, Antònia Cornet i Bertran, came from a Reus family in the same trade. The next day he was baptized Antoni Plàcid Guillem at the parish church of Sant Pere. Childhood rheumatism kept him out of school for long stretches, which he spent watching plants and insects at the family farmhouse, Mas de la Calderera. Some records place the birth at that farmhouse in neighbouring Riudoms.",
+   "place_name": "레우스",
+   "place_name_en": "Reus",
+   "lat": 41.15487,
+   "lng": 1.10871
+  },
+  {
+   "year": 1868,
+   "year_end": null,
+   "kind": "travel",
+   "title": "바르셀로나로 이주하다",
+   "title_en": "Moves to Barcelona",
+   "description": "레우스의 피아리스트 학교 과정을 마친 뒤 중등 과정을 이어가기 위해, 형이 의학을 공부하던 바르셀로나로 갔다. 과학부에 적을 둔 뒤 1873년 건축학교에 들어갔다. 여러 건축사무소에서 제도 일을 하며 학비를 마련했다.",
+   "description_en": "After finishing the Piarist school in Reus he went to the city where his brother was studying medicine, to continue secondary school. He enrolled in the Faculty of Sciences and entered the School of Architecture in 1873. Drafting work for several architects paid his fees.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  },
+  {
+   "year": 1876,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니와 형을 잃다",
+   "title_en": "Loses his mother and brother",
+   "description": "의대를 갓 마친 형 프란세스크가 스물다섯 살에 죽었고, 어머니 안토니아도 쉰일곱 살에 세상을 떠났다. 당시 가우디는 아직 건축학교 학생이었으며 보병연대에서 군복무도 하고 있었다. 복무 기간 대부분을 병가로 보낸 덕분에 제도 일을 하고 수업에 나가며 학업을 이어갈 수 있었다.",
+   "description_en": "His brother Francesc, just out of medical school, died at twenty-five. Their mother, Antònia, followed at fifty-seven. He was still an architecture student and was also serving in an infantry regiment. Most of that service was spent on sick leave, which let him keep drafting and attending class.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "education",
+   "title": "건축학위를 받다",
+   "title_en": "Receives his architecture degree",
+   "description": "교장 엘리에스 로젠트는 교무진에게 이 학위를 바보에게 주었는지 천재에게 주었는지는 시간이 알려 줄 것이라는 말을 남겼다고 전해진다. 가우디는 조각가 료렌스 마타말라에게 사람들이 이제 자신을 건축가라고 부른다고 말했다. 졸업 작품은 대학 강당 설계였다.",
+   "description_en": "The school director, Elies Rogent, is said to have told the staff that time would show whether they had given the title to a fool or a genius. Gaudí told the sculptor Llorenç Matamala that people were now calling him an architect. His final project was a university auditorium.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "에우세비 구엘을 만나다",
+   "title_en": "Meets Eusebi Güell",
+   "description": "파리 만국박람회 스페인관에 출품된 코멜라 장갑점의 진열장이 구엘의 눈에 들었다. 바르셀로나로 돌아온 구엘은 푼티 공방을 찾아가 진열장을 설계한 가우디를 찾아냈다. 두 사람 사이에서 사십 년 가까이 이어진 의뢰와 후원은 이 만남에서 시작됐다.",
+   "description_en": "A display case Gaudí designed for the Comella glove shop at the Spanish pavilion of the Paris World Fair caught Güell’s eye. Back in the city, Güell tracked the designer down at the Puntí workshop. Nearly forty years of commissions and patronage began there.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  },
+  {
+   "year": 1883,
+   "year_end": null,
+   "kind": "work",
+   "title": "사그라다 파밀리아 공사를 맡다",
+   "title_en": "Takes over the Sagrada Família",
+   "description": "서적상 호셉 마리아 보카베야가 건립을 의뢰한 속죄성당에서 건축가 프란시스코 데 파울라 델 비야르가 물러났다. 자문 건축가 호안 마르토렐은 후임 자리를 거절하고 자신의 제자인 가우디를 추천했다. 가우디는 11월 3일 공식 건축가로 임명됐다. 이곳은 그가 학생 시절 비야르 밑에서 제도 일을 했던 현장이었으며, 지하 성당의 기초 위에는 이미 네오고딕 양식의 설계가 올라가 있었다.",
+   "description_en": "Francisco de Paula del Villar stepped down from the expiatory church commissioned by the bookseller Josep Maria Bocabella. The consulting architect, Joan Martorell, refused the post and recommended his pupil. Gaudí was named official architect on 3 November. It was a site where he had once drafted under Villar, and a neo-Gothic plan already stood on the crypt foundations.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  },
+  {
+   "year": 1911,
+   "year_end": null,
+   "kind": "other",
+   "title": "푸이그세르다에서 유언을 남기다",
+   "title_en": "Writes his will in Puigcerdà",
+   "description": "몰타열로 쓰러진 뒤 피레네의 푸이그세르다로 요양을 갔다. 6월 9일 공증인 앞에서 유언장을 작성했다. 병상에서는 십자가의 성 요한이 쓴 글을 들으며 수난 파사드의 밑그림을 그렸다. 훗날 그는 사람들이 자신을 목욕물에 눕히는 동안 누군가 자신이 죽었다고 속삭이는 소리를 들었다고 말했다.",
+   "description_en": "Malta fever sent him to this Pyrenean town to recover. On 9 June he made his will before a notary. In bed he listened to readings of St John of the Cross and sketched the Passion façade. He later said that as he was lowered into a bath he heard someone whisper that he was gone.",
+   "place_name": "푸이그세르다",
+   "place_name_en": "Puigcerdà",
+   "lat": 42.431666666667,
+   "lng": 1.9283333333333
+  },
+  {
+   "year": 1914,
+   "year_end": null,
+   "kind": "work",
+   "title": "다른 의뢰를 받지 않다",
+   "title_en": "Stops taking other commissions",
+   "description": "콜로니아 구엘 성당과 구엘 공원 공사가 그해 중단됐다. 가우디는 새로운 일을 받지 않고 사그라다 파밀리아 공사에만 전념했다. 이미 아버지와 조카 로사를 잃은 뒤였으며, 사그라다 파밀리아 현장의 작업장에서 잠을 잤다.",
+   "description_en": "Work on the Colònia Güell church and Park Güell halted that year. He refused new jobs and stayed with the Sagrada Família alone. His father and his niece Rosa were already gone, and he slept in the site workshop.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  },
+  {
+   "year": 1926,
+   "year_end": null,
+   "kind": "death",
+   "title": "전차에 치여 세상을 떠나다",
+   "title_en": "Dies after being struck by a tram",
+   "description": "산 펠립 네리 성당에서 기도하고 고해하기 위해 매일 걷던 길에 그란비아에서 30번 전차에 치였다. 사람들이 낡은 옷차림의 그를 거지로 여겨 치료가 늦어졌다. 사흘 뒤 산타크레우 병원에서 숨졌고, 12일 사그라다 파밀리아 지하 성당의 카르멜 성모 경당에 묻혔다.",
+   "description_en": "On his daily walk to Sant Felip Neri for prayer and confession he was struck by a number 30 tram on the Gran Via. Worn clothes led people to take him for a beggar, and care came late. He died three days later at the Hospital de la Santa Creu and was buried on the 12th in the chapel of Our Lady of Carmel in the temple crypt.",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.1769444444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 전하는 세부와 의미의 범위는 유지하면서, 주체나 대상이 불분명한 표현과 직역투·구어체를 바로잡았다. 사건들이 출생과 수학, 건축가로서의 출발, 사그라다 파밀리아 전념, 죽음으로 자연스럽게 이어지도록 인물명과 장소명을 필요한 곳에 밝혀 썼다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다섯 남매 막내로 났다」와 「집안의 칼데레라 농가」가 어색하고, 어머니 자신이 같은 업에 종사했다는 국문은 같은 업종의 집안 출신이라는 영문의 뜻과 달랐다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「올라가다」는 이동을 불필요하게 한국식 방향 감각으로 표현했으며, 첫 문장의 「도시」는 문장 자체만으로 바르셀로나를 가리키는지 분명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "앞 사건들과 이어 읽을 때 「본인」이 누구인지 순간적으로 끊기므로 가우디를 주어로 밝혔고, 병가 덕분에 학업과 제도 일을 계속할 수 있었다는 관계를 자연스럽게 정리했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「바보에게 준 것인지 천재에게 준 것인지」에는 무엇을 주었다는 말인지 빠져 있었고, 「건축가라는 소리를 듣게 됐다」도 인용의 뜻을 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「구엘은 돌아와」만으로는 어디로 돌아왔는지 알 수 없었고, 「의뢰와 후원이 여기서 시작됐다」의 「여기」도 가리키는 대상이 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「보카베야가 짓던」은 그가 성당 건축을 직접 했다는 뜻으로 읽혔고, 「제자를 추천했다」는 문장만으로는 추천받은 사람이 가우디인지 알기 어려웠다. 마지막 문장도 수식 관계가 엉켜 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「이 마을」이 앞 문장 없이 장소명을 확정할 수 없었고, 「밑그림을 잡았다」와 목욕 장면의 문장 구조가 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「다른 의뢰를 끊다」와 「사그라다 파밀리아에만 붙었다」가 거칠고 구어적이어서, 새 의뢰를 받지 않고 해당 공사에만 전념했다는 영문의 의미가 또렷하게 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "기도가 빠져 있었고, 「거지로 보여 치료가 늦어졌다」는 누가 그를 거지로 보았는지 불분명했다. 마지막의 「성당」도 어느 성당인지 문장 안에서 알 수 없었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

@@ -1,0 +1,261 @@
+{
+ "slug": "jb-straubel",
+ "events": [
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "아이오와에서 태어났다. 이름은 제프리 브라이언이었다. 이름 대신 이니셜만 사용하기로 했다. 어머니의 이름은 캐럴이었고, 가족은 뒤에 위스콘신으로 이주했다.",
+   "description_en": "He was born in Iowa. His given name was Jeffrey Brian. He chose to go by the initials only. His mother was Carol, and the family later moved to Wisconsin.",
+   "place_name": "디모인",
+   "place_name_en": "Des Moines",
+   "lat": 41.590833,
+   "lng": -93.620833
+  },
+  {
+   "year": 1989,
+   "year_end": 1994,
+   "kind": "other",
+   "title": "녹슨 골프카트를 끌어오다",
+   "title_en": "Hauls home a junkyard golf cart",
+   "description": "열네 살이었다. 에그하버 고철장에서 삼십 년 된 전동 골프카트를 찾아냈다. 어머니 캐럴은 그를 태우고 주 전역을 다니며 배터리와 모터를 구했다. 엣지우드 고등학교를 졸업했다.",
+   "description_en": "He was fourteen. He found a thirty-year-old electric golf cart in an Egg Harbor junkyard. His mother Carol drove him across the state for batteries and motors. He graduated from Edgewood High School.",
+   "place_name": "매디슨",
+   "place_name_en": "Madison",
+   "lat": 43.074722,
+   "lng": -89.384167
+  },
+  {
+   "year": 1994,
+   "year_end": 2000,
+   "kind": "education",
+   "title": "에너지 전공을 스스로 짜다",
+   "title_en": "Designs his own energy major",
+   "description": "스탠퍼드에는 전동기 수업이 없었다. 길 마스터스의 수업을 들으며 에너지에 빠졌다. 에너지시스템공학 학사 과정을 직접 설계했다. 태양전지 자동차 팀에 들어갔다. 여가 시간에는 폐차장에서 산 포르셰를 납축전지 전기차로 개조했다. 그 차로 이백사십 볼트급 전기차 경주 기록을 세웠다. 석사는 에너지공학으로 받았다.",
+   "description_en": "The campus had no electric-motor class. Gil Masters’s courses pulled him into energy. He designed his own bachelor’s in energy systems engineering. He joined the solar-car team. In spare hours he converted a junkyard Porsche to lead-acid electric drive. That car set a 240-volt class electric racing record. He took a master’s in energy engineering.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 1998,
+   "year_end": 2003,
+   "kind": "work",
+   "title": "하이브리드 구동계와 비행기를 개발하다",
+   "title_en": "Works on hybrids and an airplane",
+   "description": "학위를 받은 뒤 해럴드 로젠과 함께 터빈·플라이휠 구동계를 개발했다. 로젠모터스가 문을 닫자 로젠과 함께 볼라콤을 세웠다. 버트 루턴의 스케일드 컴포지츠와 수소 전기 추진 방식의 고고도 비행기 개발을 추진했다. 이 추진 기술은 뒤에 보잉에 라이선스됐다.",
+   "description_en": "After the degree he worked beside Harold Rosen on a turbine-and-flywheel drivetrain. When Rosen Motors folded he co-founded Volacom with him. They pushed a hydrogen-electric high-altitude aircraft with Burt Rutan’s Scaled Composites. The propulsion idea was later licensed to Boeing.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "머스크와 점심을 먹다",
+   "title_en": "Lunches with Elon Musk",
+   "description": "스페이스엑스를 둘러본 뒤 해럴드 로젠과 함께 일론 머스크를 만났다. 무인 수소 비행기를 팔려 했지만 머스크는 관심을 보이지 않았다. 대화는 노트북용 리튬이온 전지를 묶어 만든 장거리 전기차로 넘어갔다.",
+   "description_en": "After a tour of SpaceX he sat down with Harold Rosen. He tried to sell an unmanned hydrogen airplane and found no interest. The talk turned to a long-range electric car built from laptop lithium-ion cells.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "테슬라의 다섯 번째 직원이 되다",
+   "title_en": "Joins Tesla as its fifth employee",
+   "description": "마틴 에버하드와 마크 타페닝이 막 세운 회사에 구동계 담당 수석 엔지니어로 채용됐다. 로드스터의 전력전자 장치와 모터를 맡았다. 이후 법정 합의에 따라 다섯 명의 공동창업자 중 한 명으로 이름을 올렸다.",
+   "description_en": "Martin Eberhard and Marc Tarpenning’s new company hired him as principal engineer for drive systems. He took the Roadster’s power electronics and motor. A later court settlement put his name among the five co-founders.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454167,
+   "lng": -122.178611
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "office",
+   "title": "최고기술책임자가 되다",
+   "title_en": "Becomes chief technology officer",
+   "description": "배터리와 전동기, 공급망을 맡았다. 노트북용 원통형 전지 수천 개를 묶어 로드스터의 배터리 팩을 설계했다. 뒤에는 네바다 기가팩토리 구상과 모델 3 증산에 이르기까지 기술 부문을 이끌었다.",
+   "description_en": "He took batteries, motors, and the supply chain. He packed thousands of laptop-format cells into the Roadster pack. He later led the technical side through the Nevada Gigafactory plan and the Model 3 production ramp.",
+   "place_name": "샌카를로스",
+   "place_name_en": "San Carlos",
+   "lat": 37.499167,
+   "lng": -122.263333
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "other",
+   "title": "보리아나 디네바와 결혼하다",
+   "title_en": "Marries Boryana Dineva",
+   "description": "테슬라 인사 부문에서 일하던 보리아나 디네바와 가정을 꾸렸다. 두 해 뒤 쌍둥이가 태어났다.",
+   "description_en": "He made a household with her while she worked in Tesla human resources. Twins were born two years later.",
+   "place_name": "우드사이드",
+   "place_name_en": "Woodside",
+   "lat": 37.429722,
+   "lng": -122.254167
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "레드우드 머티리얼스를 세우다",
+   "title_en": "Founds Redwood Materials",
+   "description": "아직 테슬라에 몸담은 채 폐전지에서 리튬과 니켈을 회수하는 일을 시작했다. 회수한 자원을 새 전지 생산에 다시 공급하는 순환형 공급망을 만드는 것이 목적이었다.",
+   "description_en": "While still at Tesla he started pulling lithium and nickel back out of spent batteries. The aim was a circular supply chain that would feed new cells.",
+   "place_name": "카슨시티",
+   "place_name_en": "Carson City",
+   "lat": 39.160833,
+   "lng": -119.753889
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "office",
+   "title": "테슬라 경영진에서 물러나다",
+   "title_en": "Leaves the executive ranks",
+   "description": "최고기술책임자 자리에서 내려와 고문으로 남았다. 가족과 함께 네바다로 옮겨 레드우드 머티리얼스 경영에 전념했다.",
+   "description_en": "He stepped down as chief technology officer and stayed as an adviser. The family moved to Nevada so he could run the recycling company full time.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429167,
+   "lng": -122.138056
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "other",
+   "title": "아내를 잃다",
+   "title_en": "Loses his wife",
+   "description": "아내는 워쇼 카운티의 시골길에 표시된 자전거 전용차로에서 자전거를 타고 있었다. 중앙선을 넘은 차가 아내를 치어 숨지게 했다. 운전자는 면허가 없었다.",
+   "description_en": "His wife was riding in a marked bike lane on a rural Washoe County road. A car crossed the double yellow line and struck her. The driver had no license.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "테슬라 이사로 돌아가다",
+   "title_en": "Returns to Tesla as a director",
+   "description": "기가팩토리에서 열린 주주총회에서 사외이사로 뽑혔다. 미즈노 히로미치가 비운 자리였다.",
+   "description_en": "Shareholders at the Gigafactory meeting elected him an independent director. He took the seat Hiromichi Mizuno left.",
+   "place_name": "오스틴",
+   "place_name_en": "Austin",
+   "lat": 30.3,
+   "lng": -97.733333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제공하는 사실 범위 안에서 주어와 대상이 불분명하거나 직역·구어 표현이 남은 사건을 다듬었다. 이미 자연스럽고 생애 흐름이 분명한 문장은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이니셜만 붙여 부르는 쪽을 택했다」와 「어머니는 캐럴이었다」가 영어 어순을 따른 듯 어색해 이름 사용 방식과 가족 관계가 자연스럽게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "어머니가 누구를 태우고 이동했는지가 빠져 행동 관계가 흐렸고, 「고등학교를 나왔다」보다 「졸업했다」가 원문의 뜻을 정확하게 전달한다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「그곳」은 해당 사건만 읽으면 가리키는 곳을 알 수 없으며, 일부 동사와 수식 관계도 자연스럽게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「하이브리드와 비행기를 만지다」와 「수소로 도는 고고도 비행기를 밀었다」는 개발 업무를 뜻하는 직역·구어 표현이어서 구체적인 대상과 행동으로 바꿨다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리에 앉았다」와 「상대」만으로는 누구를 만났고 누가 관심을 보이지 않았는지 분명하지 않아 인물 관계를 명시했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「다섯 번째로 들어가다」는 입사 순번의 뜻이 어색하게 전달되고, 「공동창업자 다섯 명 안에 이름이 올랐다」도 부자연스러워 원문의 고용 관계와 법정 합의 내용을 명확하게 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기술 쪽」은 앞선 구체적인 기술 업무에 비해 지나치게 구어적이어서 「기술 부문」으로 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인사를 맡던 이」는 앞 문장 없이 대상을 특정하기 어렵고 배우자를 지나치게 우회해 가리켜, 이름과 근무 부문을 명시했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다시 뽑는 일」과 「새 전지에 다시 넣으려는」의 반복과 구어성이 강해, 폐전지에서 자원을 회수해 새 전지 생산에 공급한다는 관계를 자연스럽게 정리했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목만으로는 어느 조직의 임원인지 알 수 없고, 「그 순환 회사」도 앞 사건에 의존하는 지시어라 테슬라와 레드우드 머티리얼스를 각각 명시했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자전거 도로에서 달렸다」는 아내가 달리기를 했다는 뜻으로 읽힐 수 있어 자전거를 타고 있었다는 원문의 행동을 분명히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

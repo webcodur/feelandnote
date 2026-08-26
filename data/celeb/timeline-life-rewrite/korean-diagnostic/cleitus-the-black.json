@@ -1,0 +1,166 @@
+{
+ "slug": "cleitus-the-black",
+ "events": [
+  {
+   "year": -375,
+   "year_end": null,
+   "kind": "birth",
+   "title": "드로피데스의 아들로 태어나다",
+   "title_en": "Is born the son of Dropides",
+   "description": "전승에 따르면 그는 이 무렵 태어났다. 태어난 곳은 전하지 않는다. 누이 라니케는 어린 알렉산드로스의 유모였다. 후대 저술가들은 동명이인인 다른 장교와 구별하려고 그를 검은 클레이토스라고 불렀다.",
+   "description_en": "Tradition places the birth around this time. No source names his birthplace. His sister Lanike was nurse to the young Alexander. Later writers called him Cleitus the Black to distinguish him from another officer of the same name.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -334,
+   "year_end": null,
+   "kind": "battle",
+   "title": "그라니코스 강에서 왕의 목숨을 구하다",
+   "title_en": "Saves the king's life at the Granicus",
+   "description": "알렉산드로스가 페르시아 기병과 맞붙을 때 그는 왕 가까이에서 말을 달리고 있었다. 아리아노스의 전승에 따르면, 스피트리다테스가 뒤에서 왕을 향해 칼을 치켜들자 클레이토스가 그의 팔을 잘라냈다. 플루타르코스는 클레이토스가 공격자를 창으로 꿰뚫었다고 전한다. 디오도로스는 공격자를 로에사케스로 적는다.",
+   "description_en": "He rode close to Alexander as the king closed with the Persian cavalry. In Arrian's tradition he cut off the arm of Spithridates as the satrap raised his sword from behind. Plutarch says he ran the man through with a spear. Diodorus names the attacker Rhoesaces.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -331,
+   "year_end": null,
+   "kind": "battle",
+   "title": "왕실 기병대를 이끌고 우익 선두에 서다",
+   "title_en": "Commands the royal squadron at the head of the right wing",
+   "description": "친위기병대 전체는 아직 필로타스가 쥐고 있었다. 그는 그중 왕실 기병대를 맡아 알렉산드로스가 직접 이끄는 우익의 맨 앞에 배치되었다. 아르벨라 서쪽 평원에서 다리우스 3세의 본대와 맞섰다.",
+   "description_en": "Philotas still held overall command of the Companion cavalry. He took the royal squadron and stood at the front of the right wing that Alexander led in person. They met Darius III's main army on the plain west of Arbela.",
+   "place_name": "아르벨라",
+   "place_name_en": "Arbela",
+   "lat": 36.191111111111,
+   "lng": 44.009444444444
+  },
+  {
+   "year": -331,
+   "year_end": null,
+   "kind": "travel",
+   "title": "수사에서 병으로 본대에 뒤처지다",
+   "title_en": "Falls ill and is left behind at Susa",
+   "description": "알렉산드로스가 페르세폴리스와 에크바타나로 더 나아갈 때 그는 겨울 도읍인 수사에 남았다. 아리아노스는 그가 병 때문에 본대에 뒤처졌다고 적었다.",
+   "description_en": "When Alexander pressed on toward Persepolis and Ecbatana, he remained in this winter capital. Arrian records that illness kept him behind.",
+   "place_name": "수사",
+   "place_name_en": "Susa",
+   "lat": 32.18944444444445,
+   "lng": 48.25611111111111
+  },
+  {
+   "year": -330,
+   "year_end": null,
+   "kind": "travel",
+   "title": "에크바타나 수비대를 이끌고 파르티아로 향하다",
+   "title_en": "Leads the Ecbatana garrison toward Parthia",
+   "description": "알렉산드로스는 병에서 회복한 그에게 전갈을 보내, 재물을 지키도록 남겨 둔 마케도니아 병력을 인수해 데려오라고 했다. 그는 그 병력을 이끌고 파르티아로 향했다. 그해 9월 본대와 다시 만났다.",
+   "description_en": "Alexander sent word that he should take over the Macedonian troops left to guard the treasure and bring them on. He led those men toward Parthia. In September he rejoined the main army.",
+   "place_name": "에크바타나",
+   "place_name_en": "Ecbatana",
+   "lat": 34.8065,
+   "lng": 48.516247
+  },
+  {
+   "year": -330,
+   "year_end": null,
+   "kind": "office",
+   "title": "친위기병대를 헤파이스티온과 나눠 맡다",
+   "title_en": "Shares command of the Companion cavalry with Hephaestion",
+   "description": "필로타스가 반역 혐의로 처형되었다. 알렉산드로스는 그 많은 기병을 한 친구의 지휘 아래 두고 싶지 않아 최정예 기병대를 둘로 나누었다. 노련한 클레이토스와 왕의 친구 헤파이스티온이 공동 지휘관이 되었다.",
+   "description_en": "Philotas was executed on a charge of treason. Alexander split the elite cavalry because he did not want so many horsemen under a single friend. The veteran and the king's companion Hephaestion became joint commanders.",
+   "place_name": "프라다",
+   "place_name_en": "Phrada",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -328,
+   "year_end": null,
+   "kind": "office",
+   "title": "박트리아 총독으로 지명되다",
+   "title_en": "Is named satrap of Bactria",
+   "description": "아르타바조스가 자리를 내놓자 알렉산드로스가 후임으로 그를 지명했다. 그는 부임하기 전날 연회에 참석했다. 통치는 시작하지 못했다.",
+   "description_en": "When Artabazus laid down the post, Alexander named him to succeed as satrap of Bactria. He went to the banquet on the eve of departure. He never took up the government.",
+   "place_name": "마라칸다",
+   "place_name_en": "Maracanda",
+   "lat": 39.65472222222222,
+   "lng": 66.97583333333333
+  },
+  {
+   "year": -328,
+   "year_end": null,
+   "kind": "death",
+   "title": "연회에서 알렉산드로스의 창에 찔려 죽다",
+   "title_en": "Is stabbed to death by Alexander at a banquet",
+   "description": "술에 취한 연회에서 측근들이 필리포스 2세와 마케도니아 병사들의 공을 깎아내렸다. 그는 필리포스의 업적과 자신이 그라니코스에서 왕의 목숨을 구한 일을 내세우며 알렉산드로스와 맞섰다. 연회 참석자들이 두 사람을 떼어 놓으려 했으나 알렉산드로스는 창을 집어 그의 가슴을 찔렀다. 계절은 여름 또는 가을로 전하며 정확한 날은 전하지 않는다.",
+   "description_en": "At a drunken gathering, courtiers belittled Philip II and the deeds of the Macedonian soldiers. He confronted the king, citing Philip's achievements and the life he had saved at the Granicus. Those present tried to pull them apart, but Alexander seized a pike and drove it into his chest. Sources place the season in summer or autumn, and the exact day is unknown.",
+   "place_name": "마라칸다",
+   "place_name_en": "Maracanda",
+   "lat": 39.65472222222222,
+   "lng": 66.97583333333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전체 사건의 사실관계와 세부 내용은 영문과 대체로 일치한다. 다만 일부 서술에서 직역투, 불분명한 대명사, 어색한 목적어·행동 관계를 바로잡아 생애가 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전승은 이 무렵으로 잡는다」는 무엇을 이 무렵으로 잡는지 목적어가 빠져 있고, 「사람들은 뒤에」는 영문의 later writers를 불분명하게 옮겼다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「맞붙는 자리에 가까이 타고 있었다」는 위치와 행동 관계가 어색하고, 「그 팔」과 「같은 자리」는 바로 앞 문장에 의존해야 대상을 알 수 있다. 또한 cut off와 ran the man through의 구체적인 동작을 더 분명하게 살릴 필요가 있다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 겨울 도읍」은 영어 어순을 따른 표현이라 수사가 겨울 도읍이라는 관계가 곧바로 드러나지 않는다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재물을 지키던 마케도니아 병력을 받아 오게 했다」는 누가 병력을 인수하고 어디로 데려오는지 행동 관계가 흐릿하다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「경험 많은 그」는 한국어에서 부자연스럽고, 한 사건씩 읽을 때 누구를 가리키는지도 즉시 분명하지 않다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그라니코스에서 구한 목숨을 들이밀었다」는 지나치게 구어적이며 무엇을 주장했다는 뜻인지 거칠게 전달된다. 「주위」도 두 사람을 떼어 놓으려 한 사람들을 구체적으로 가리키지 못한다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   7
+  ]
+ }
+}

@@ -1,0 +1,268 @@
+{
+ "slug": "john-j-phelan-jr",
+ "events": [
+  {
+   "year": 1931,
+   "year_end": null,
+   "kind": "birth",
+   "title": "맨해튼에서 태어나다",
+   "title_en": "Is born in Manhattan",
+   "description": "5월 7일이었다. 아버지 존은 거래소 회원이었으며, 개별 종목의 매수·매도 호가를 제시해 시장을 조성하는 스페셜리스트였다.",
+   "description_en": "It was May 7. His father John was an exchange member and a specialist who made the market in individual stocks.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "work",
+   "title": "아버지 회사에서 주문 전표를 나르다",
+   "title_en": "Runs tickets for his father’s firm",
+   "description": "여름 방학 동안 거래소 객장에서 일했다. 롱아일랜드에서 오가는 차비와 점심값을 내고 나면 주말에는 남는 돈이 없었다. 여름이 끝나자 아버지는 일을 해 본 소감을 물었고, 그는 월스트리트에서는 절대 일하지 않겠다고 답했다.",
+   "description_en": "He went onto the exchange floor for the summer. After the fare from Long Island and lunch he had no money left by the weekend. When his father asked what he thought, he said he would never work on Wall Street.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1951,
+   "year_end": 1954,
+   "kind": "other",
+   "title": "해병대원으로 한국 전선에서 복무하다",
+   "title_en": "Serves with the Marines in Korea",
+   "description": "대학을 2년 다니다 그만두고 해병대에 입대했다. 3년 동안 복무했으며, 그중 1년은 전투에 참여했다. 체중이 줄자 군의관이 의병 제대를 권했지만, 그는 차라리 죽겠다며 부대에 남았다.",
+   "description_en": "He left college after two years and enlisted. He served three years, one of them in combat. When a medical officer offered a discharge after he lost weight, he said he would rather die and stayed.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "work",
+   "title": "거래소 회원이 되다",
+   "title_en": "Becomes a member of the exchange",
+   "description": "해병대에서 제대한 뒤 아버지 회사가 자리 잡은 거래소 객장에서 일하기 시작했다. 회원 자격을 얻었을 때 그는 스물여섯 살이었으며, 거래소 회원 가운데 두 번째로 젊었다.",
+   "description_en": "After the Marines he went onto the floor of his father’s firm. When he took a seat he was twenty-six, the second youngest member on the exchange.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "work",
+   "title": "아버지 회사를 맡다",
+   "title_en": "Takes over his father’s firm",
+   "description": "아버지가 세상을 떠나자 펠런 앤드 코의 운영을 맡았다. 펠런 앤드 코는 개별 종목의 시장을 조성하는 스페셜리스트 회사였다. 그는 훗날 자신의 회사가 거래 부문을 전산화한 최초의 스페셜리스트 회사였다고 말했다.",
+   "description_en": "When his father died, the running of Phelan & Co. fell to him. The firm was a specialist house that made markets in individual stocks. He later said theirs was the first specialist firm to automate the trading side.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1970,
+   "year_end": null,
+   "kind": "education",
+   "title": "아델피에서 경영학 학사를 받다",
+   "title_en": "Earns a business degree at Adelphi",
+   "description": "계속 일하면서 야간 수업으로 학위 과정을 마쳤다. 제대 뒤에는 컴퓨터를 배우려고 몇 과목만 들을 생각이었지만, 학부 과정을 처음부터 다시 시작해 졸업까지 6년을 보냈다. 그는 최우등에 준하는 성적으로 졸업했다.",
+   "description_en": "He finished the degree at night while still working. After the service he had meant to take a few computer courses, then started over and spent six years. He graduated magna cum laude.",
+   "place_name": "가든시티",
+   "place_name_en": "Garden City",
+   "lat": 40.7269,
+   "lng": -73.6497
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "office",
+   "title": "거래소 부회장이 되다",
+   "title_en": "Becomes vice chairman of the exchange",
+   "description": "이사로 두 차례 재임한 뒤 부회장으로 선출됐다. 보수는 받지 않는 자리였다. 그는 스페셜리스트로 10년 넘게 일하며 거래 체결부터 후선 사무까지 이어지는 업무 절차를 이미 익히고 있었다.",
+   "description_en": "He sat on the board twice, then was elected. The post was unpaid. After a decade as a specialist he already knew the steps from execution through the back office.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "office",
+   "title": "뉴욕선물거래소 회장을 맡다",
+   "title_en": "Chairs the New York Futures Exchange",
+   "description": "뉴욕증권거래소가 선물거래 자회사를 설립하자 그 작업을 이끌었다. 이듬해 봄에도 뉴욕선물거래소 회장으로서 개장을 기다리고 있었다.",
+   "description_en": "When the stock exchange built a futures subsidiary, he led the work. The following spring he was still its chairman, waiting for the open.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "office",
+   "title": "거래소 사장 겸 최고운영책임자가 되다",
+   "title_en": "Becomes president and chief operating officer",
+   "description": "이사회의 요청을 받아 직책을 맡았다. 거래량이 폭증해 이를 감당하기 어려웠던 거래소 객장에 전자 주문 전달 체계를 도입하는 일을 밀어붙였다.",
+   "description_en": "The board asked him to take the job. On a floor drowning in volume he pushed through electronic order routing.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "office",
+   "title": "거래소 회장 겸 최고경영자가 되다",
+   "title_en": "Becomes chairman and chief executive",
+   "description": "거래소 사장에서 회장 겸 최고경영자로 승진했다. 그의 사무실은 거래소 객장 위층에 있었으며, 주말이면 롱아일랜드의 집으로 돌아갔다.",
+   "description_en": "He moved up from the presidency. His office sat above the floor, and on weekends he went back to the house on Long Island.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "other",
+   "title": "검은 월요일에도 장을 닫지 않다",
+   "title_en": "Keeps the market open on Black Monday",
+   "description": "다우지수가 하루 만에 약 23퍼센트 떨어졌지만, 그는 거래를 중단하라는 요구를 받아들이지 않았다. 월요일 개장 전에는 부서장들에게 거래소를 열겠다고 밝혔고, 그날 폐장 종도 직접 울렸다. 이튿날 아침 지수가 다시 하락하자 오전 11시에 거래소 객장으로 내려갔으며, 장이 끝나기 전 시장은 반등했다. 이후 시카고상업거래소와 함께 급격한 폭락을 늦추는 서킷브레이커 제도를 도입했다.",
+   "description_en": "When the Dow fell about 23 percent in a day he refused calls to halt trading. Before the Monday open he told department heads the exchange would stay open, and he rang the closing bell himself. On Tuesday morning the index fell again; he went to the floor at eleven, and by the close the market had come back. Afterward, with the Chicago Mercantile Exchange, he put in circuit breakers to slow a crash.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "death",
+   "title": "맨해튼에서 죽다",
+   "title_en": "Dies in Manhattan",
+   "description": "전립선암 합병증으로 여든한 살에 세상을 떠났다. 아들 피터가 사인을 밝혔다. 유족으로는 아내 조이스와 세 아들 존, 피터, 데이비드가 있었다.",
+   "description_en": "He died at eighty-one from complications of prostate cancer. His son Peter gave the cause. He was survived by his wife, Joyce, and their sons John, Peter, and David.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미 범위와 세부사항을 유지하면서 거래소 업무를 직역한 표현, 모호한 지시어, 부자연스러운 문장 연결을 바로잡았다. 출생부터 거래소 경영과 검은 월요일 대응, 사망까지 생애의 흐름이 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "날짜 표기가 부자연스럽고, 스페셜리스트가 개별 종목의 「호가를 맞춘다」는 표현으로는 업무 내용이 분명하게 전달되지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "무엇에 관한 전표인지 제목만으로 알기 어려웠고, 「한 주가 끝날 때」가 영문의 by the weekend를 어색하게 직역한 표현이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「해병대로 한국 전선에 가다」는 소속과 행동의 관계가 어색했고, 「몸이 말랐을 때」와 「차라리 죽겠다고 하고 남았다」도 자연스러운 한국어로 읽히지 않았다. 영문에 없는 대학 입학 나이는 제외했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아버지 회사 바닥으로 들어갔다」와 「자리를 얻었다」는 거래소 객장과 회원 자격을 뜻하는 영문을 단어 순서대로 옮겨 의미가 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「운영이 그에게 떨어졌다」와 「거래 쪽 전산을 먼저 들인 스페셜리스트 쪽」이 부자연스럽고, 회사의 성격과 전산화 성과가 명확히 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「야간으로 학위를 마쳤다」, 「우등으로 끝냈다」가 학업 방식과 우등 졸업을 모호하게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이사회에 두 번 앉은 뒤」와 「체결부터 사무까지 순서」가 직역투였고, 영문의 after a decade를 정확히 10년으로 단정하고 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 일을 그가 이끌었다」는 가리키는 대상이 선명하지 않았고, 「그 자리로 개장을 기다렸다」는 직책과 행동의 관계가 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이사회가 그를 불렀다」와 「설비를 밀어 넣었다」가 직책 수락과 전자 주문 전달 체계 도입을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사장에서 자리를 옮겼다」는 회장 겸 최고경영자로 승진했다는 의미를 충분히 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지수는 되밀렸다」와 「서킷브레이커를 넣었다」가 시장 반등과 제도 도입을 어색하게 표현했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아내는 조이스였고, 아들은」이라는 나열이 영문의 유족 관계를 정확하고 자연스럽게 전달하지 못했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

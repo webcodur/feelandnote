@@ -1,0 +1,263 @@
+{
+ "slug": "choi-dong-hoon",
+ "events": [
+  {
+   "year": 1971,
+   "year_end": null,
+   "kind": "birth",
+   "title": "전주에서 태어나다",
+   "title_en": "Born in Jeonju",
+   "description": "초등학생 때부터 소설을 읽었다. 밥상머리에서 책을 보다가 아버지에게 꾸중을 들었다.",
+   "description_en": "He read novels from elementary school. His father scolded him for opening a book at the dinner table.",
+   "place_name": "전주",
+   "place_name_en": "Jeonju",
+   "lat": 35.82388888888889,
+   "lng": 127.1475
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "education",
+   "title": "국문과에 들어가 영화로 눈을 돌리다",
+   "title_en": "Enters Korean literature and turns to film",
+   "description": "서강대학교 국어국문학과에 들어갔다. 아버지 뜻에 따라 경영학과와 경제학과를 첫째·둘째 지망으로, 국문과를 셋째 지망으로 썼다. 신촌 헌책방을 단골로 드나들었고, 이듬해부터 교내 영화 동아리에서 활동했다. 기자 시험을 준비하다가 4학년 때 감독을 직업으로 정했다.",
+   "description_en": "He entered the Korean language and literature department at Sogang University. Following his father, he had listed business and economics first, and literature was his third choice. He became a regular at used bookstores in Sinchon and joined the campus film club the next year. He had been preparing for the journalist exam, then decided in his senior year to become a director.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "학원에서 입학금을 모으다",
+   "title_en": "Teaches to pay film-school tuition",
+   "description": "대학을 마치고 부모에게 손을 벌리지 않으려고 목동 보습학원에서 국어를 가르쳤다. 여덟 달 동안 일해 영화아카데미 입학금을 마련했다.",
+   "description_en": "After graduation he taught Korean at a cram school in Mok-dong so he would not ask his parents for money. Eight months of pay covered the Korean Academy of Film Arts tuition.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "education",
+   "title": "홍릉에서 연출을 배우다",
+   "title_en": "Studies directing at KAFA in Hongneung",
+   "description": "한국영화아카데미 연출 전공 15기로 입학했다. 홍릉에서 1년 반 동안 배웠고, 단편 《간결한 여행》을 찍었다.",
+   "description_en": "He entered the Korean Academy of Film Arts as a directing student in the 15th class. He trained for a year and a half in Hongneung and shot the short film A Short Trip.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "가출 청소년을 찾아 거리를 돌다",
+   "title_en": "Joins the Tears directing team",
+   "description": "임상수의 《눈물》에서 조감독으로 일했다. 구로와 가리봉 거리를 돌며 가출 청소년을 만났다. 석 달 동안 팀이 인터뷰한 사람은 칠백 명이 넘었다. 보조출연자 관련 업무와 의상, 분장을 맡았다.",
+   "description_en": "He worked as an assistant director on Im Sang-soo’s Tears. The team walked the streets of Guro and Garibong to meet runaway teenagers. In three months they interviewed more than seven hundred of them. He handled extras, costumes, and makeup.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "사기꾼을 취재해 장편으로 데뷔하다",
+   "title_en": "Debuts with a heist built from real swindles",
+   "description": "서점에서 보험 사기를 다룬 책을 본 뒤 혼자 각본을 썼다. 사기 전과자들을 만나고 경마장을 돌며 은어를 모았다. 각본을 스물두 달에 걸쳐 열여섯 번 고쳤다. 《범죄의 재구성》이 극장에 걸렸고 이백십삼만 명이 보았다. 대종상과 청룡영화상에서 모두 신인감독상과 각본상을 받았다.",
+   "description_en": "After seeing a book on insurance fraud in a bookstore, he wrote the screenplay alone. He met convicted swindlers and collected slang at racetracks. He rewrote it sixteen times over twenty-two months. The Big Swindle reached theaters and drew 2.13 million admissions. He won Best New Director and Best Screenplay at both the Grand Bell and Blue Dragon awards.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "화투판을 스크린에 올리다",
+   "title_en": "Adapts Tazza for the screen",
+   "description": "허영만의 만화를 각색했다. 육백팔십오만 명이 보았고, 영화는 이듬해 백상예술대상에서 영화 부문 대상과 감독상을 받았다.",
+   "description_en": "He adapted Huh Young-man’s comic. The film drew 6.85 million admissions, and the next year it won the Baeksang Grand Prize and Best Director in film.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "other",
+   "title": "프로듀서 안수현과 결혼하다",
+   "title_en": "Marries producer Ahn Soo-hyun",
+   "description": "싸이더스에서 그는 시나리오 작가로, 안수현은 제작부장으로 만났다. 결혼한 뒤에도 각자 다른 촬영 현장을 다녀 얼굴을 보기 어려워지자, 이후 케이퍼필름을 함께 세웠다.",
+   "description_en": "They met at Sidus, where he was a screenwriter and she was a production manager. After marriage they were so often on separate sets that they later founded Caper Film together.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "고전 《전우치》를 스크린에 옮기다",
+   "title_en": "Releases Jeon Woo-chi: The Taoist Wizard",
+   "description": "작자 미상의 고전을 바탕으로, 강동원이 연기한 도사를 중심에 둔 이야기로 다시 썼다. 오백 년 동안 이어진 봉인이 풀리는 이야기는 육백십사만 명을 모았다.",
+   "description_en": "He rewrote an anonymous classic around a Taoist wizard played by Kang Dong-won. The story of a five-hundred-year seal breaking drew 6.14 million admissions.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "《도둑들》로 마카오 금고를 노리다",
+   "title_en": "Stages a Macao heist with The Thieves",
+   "description": "부부가 함께 차린 회사에서 첫 장편을 만들었다. 아카데미 동기 이기철과 각본을 여덟 번 고쳤다. 홍콩과 마카오에서 찍었고, 한동안 한국 영화 역대 최다 관객 기록을 보유했다. 천이백구십팔만 명이 보았다.",
+   "description_en": "The couple’s company made its first feature. He rewrote the script eight times with KAFA classmate Lee Gi-cheol. They shot in Hong Kong and Macao, and the film briefly held the Korean admissions record. It drew 12.98 million viewers.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "《암살》로 다시 천만 관객을 넘다",
+   "title_en": "Crosses ten million again with Assassination",
+   "description": "일제강점기의 독립운동가들을 그렸다. 윤제균에 이어 천만 관객 영화 두 편을 연출한 두 번째 감독이 됐다. 천이백칠십만 명이 보았다.",
+   "description_en": "He filmed independence fighters under Japanese rule. After Yoon Je-kyun, he was the second director to make two films with more than ten million admissions. Assassination drew 12.71 million viewers.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": 2024,
+   "kind": "work",
+   "title": "고려와 오늘을 한 이야기로 잇다",
+   "title_en": "Completes the two-part Alienoid",
+   "description": "홍콩 영화 《오버허드》의 리메이크작 《도청》은 김우빈이 투병에 들어가면서 제작이 중단됐다. 김우빈이 회복한 뒤 그를 다시 캐스팅해 외계인이 고려와 현대를 오가는 2부작 장편을 찍었다. 7년 만의 연출작이었고, 그의 첫 다섯 장편이 기록한 관객 수에는 미치지 못했다.",
+   "description_en": "A remake of the Hong Kong film Overheard, Wiretap, halted when Kim Woo-bin fell ill. After the actor recovered, Choi recast him in a two-part film about aliens moving between Goryeo and the present. It was his first directing work in seven years, and it did not reach the admissions of his first five features.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "생애의 흐름과 사건별 세부 내용은 대체로 잘 이어졌지만, 일부 제목과 서술에 목적어가 빠지거나 영어식 관계를 그대로 옮긴 표현이 있었다. 영문과 다른 관객 수를 바로잡고, 영문이 말한 범위 안에서 자연스러운 한국어로 고쳤다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「국문과에 들어가 영화를 보다」는 전공 선택 뒤 영화로 진로를 돌린 관계가 충분히 드러나지 않았고, 「아버지 뜻으로 학과를 먼저 썼다」와 「4학년에」는 한국어 연결이 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여덟 달을 벌어」는 일한 기간과 돈을 마련한 행동의 관계가 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「15기 연출로 들어갔다」는 과정과 전공을 사람의 역할처럼 표현해 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「보조출연을 맡았다」는 직접 보조출연을 했다는 뜻으로도 읽혀, 보조출연자 관련 업무를 담당했다는 영문의 의미가 불분명했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영화에 「장편을 내다」를 쓴 제목이 어색했고, 「전과자」는 영문의 사기 전과자보다 범위가 넓었다. 각본을 고친 문장에는 목적어가 없었으며, 관객 수도 영문의 213만 명과 달랐다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "관객 수가 영문의 685만 명과 달랐고, 「백상」은 시상식 이름을 지나치게 줄여 썼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에」가 무엇보다 뒤인지 불분명해 결혼 이후 두 사람이 회사를 세운 흐름이 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「고전을 강동원이 연기하는 도사로 다시 썼다」는 원작·배우·배역의 관계가 무너진 문장이었다. 「오늘로 불러내다」도 시대 이동을 뜻하는 표현으로 어색했고, 관객 수는 영문의 614만 명과 달랐다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 열 명은 영문 제목이 말하지 않은 세부였고, 「역대 최고 관객을 잠시 가졌다」는 최다 관객 기록을 보유했다는 뜻을 영어식으로 옮긴 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 광복절은 영문이 말하지 않은 세부였고, 「일제 아래」와 「윤제균 다음으로 천만 영화를 두 편 연출했다」는 시대와 기록의 관계가 어색하게 표현됐다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「촬영이 멈췄다」는 실제 촬영이 시작된 뒤 중단됐다는 뜻으로 범위를 좁혔고, 「회복한 배우를 다시 캐스팅해」는 배우가 누구인지 앞 문장에 의존했다. 외계인·고려·현대의 관계와 첫 다섯 장편과의 관객 수 비교도 더 분명하게 연결할 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

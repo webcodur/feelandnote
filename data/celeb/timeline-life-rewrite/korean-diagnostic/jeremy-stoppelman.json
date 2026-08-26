@@ -1,0 +1,283 @@
+{
+ "slug": "jeremy-stoppelman",
+ "events": [
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "birth",
+   "title": "알링턴에서 태어나다",
+   "title_en": "Born in Arlington",
+   "description": "어머니 린은 영어 교사였고, 아버지 존은 증권 변호사였다. 밀리터리로드 근처에서 자랐다. 테일러 초등학교에 다녔고 도널드슨런 수영팀에서 활동했다.",
+   "description_en": "His mother, Lynn, taught English, and his father, John, was a securities lawyer. He grew up near Military Road. He went to Taylor Elementary and swam for the Donaldson Run team.",
+   "place_name": "알링턴",
+   "place_name_en": "Arlington",
+   "lat": 38.880277777778,
+   "lng": -77.108333333333
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "6학년을 마치고 그레이트폴스로 옮기다",
+   "title_en": "Moves to Great Falls after sixth grade",
+   "description": "집에는 더 넓은 땅이 딸렸지만 이웃집과는 멀어졌다. 그는 훗날 그 교외 생활의 사교성을 별 세 개 정도라고 표현했다. 매클린의 랭리 고등학교에 다녔다. 열네 살에 포브스를 구독하고 주식을 샀다. 비디오 게임을 만들고 싶어 터보 파스칼을 배웠다.",
+   "description_en": "The house had more land, but the neighbors were farther away. He later called that suburban stretch a three-star social life. He attended Langley High School in McLean. At fourteen he subscribed to Forbes and bought stocks. He wanted to make video games and learned Turbo Pascal.",
+   "place_name": "그레이트폴스",
+   "place_name_en": "Great Falls",
+   "lat": 38.9972,
+   "lng": -77.2875
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "other",
+   "title": "형이 고등학교 졸업을 앞두고 쓰러져 숨지다",
+   "title_en": "His older brother collapses and dies before graduation",
+   "description": "형 앤디는 랭리 고등학교 졸업을 며칠 앞두고 쓰러졌다. 희귀한 심장 리듬 장애가 사인이었다.",
+   "description_en": "Andy collapsed days before Langley High School graduation. The cause was a rare heart-rhythm disorder.",
+   "place_name": "매클린",
+   "place_name_en": "McLean",
+   "lat": 38.928333333333,
+   "lng": -77.175277777778
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "education",
+   "title": "일리노이 대학교에서 컴퓨터공학 학위를 받다",
+   "title_en": "Earns a computer-engineering degree from the University of Illinois",
+   "description": "게임 개발자를 목표로 프로그래밍을 먼저 익혔다. 방학이면 북버지니아의 초기 인터넷 회사 유유넷에서 인턴을 했다. 졸업하자 실리콘밸리로 향했다.",
+   "description_en": "He learned to program first, aiming to make games. In the summers he interned at UUNET, an early internet company in Northern Virginia. After graduating he headed for Silicon Valley.",
+   "place_name": "어배너",
+   "place_name_en": "Urbana",
+   "lat": 40.109722222222,
+   "lng": -88.204166666667
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "앳홈 네트워크에 엔지니어로 들어가다",
+   "title_en": "Joins @Home Network as an engineer",
+   "description": "대학을 마치자마자 얻은 첫 직장이었다. 네 달 만에 떠났다.",
+   "description_en": "It was the first job he took right after college. He left after four months.",
+   "place_name": "레드우드시티",
+   "place_name_en": "Redwood City",
+   "lat": 37.482777777778,
+   "lng": -122.23611111111
+  },
+  {
+   "year": 1999,
+   "year_end": 2003,
+   "kind": "work",
+   "title": "엑스닷컴에 세 번째 엔지니어로 합류하다",
+   "title_en": "Joins X.com as its third engineer",
+   "description": "일론 머스크와 면접을 본 뒤 회사에 합류했다. 당시 스물여덟 살이던 머스크는 비자와 마스터카드를 꺾겠다고 말했다. 회사가 페이팔로 이름을 바꾼 뒤 그는 엔지니어링 담당 부사장까지 올랐다. 이베이는 페이팔을 십오억 달러에 인수했다. 그는 이듬해 여름 학교에 가기 위해 회사를 떠났다.",
+   "description_en": "He interviewed with Elon Musk and joined. The twenty-eight-year-old chief said the company would take down Visa and Mastercard. After the firm became PayPal he rose to vice president of engineering. eBay bought PayPal for one and a half billion dollars. The next summer he left for school.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2003,
+   "year_end": 2004,
+   "kind": "education",
+   "title": "하버드 경영대학원에 들어가다",
+   "title_en": "Enters Harvard Business School",
+   "description": "페이팔에서 상사였던 머스크에게 입학할 수 있도록 도와달라고 부탁했다. 일 년만 다닌 뒤 그해 여름 샌프란시스코로 돌아왔다. 피터 틸의 헤지펀드에 들어가려다가 맥스 레브친의 창업 인큐베이터로 방향을 틀었다.",
+   "description_en": "He asked his PayPal boss, Musk, to help him get in. He stayed only a year, then went back to San Francisco that summer. He had been headed for Peter Thiel’s hedge fund, then turned toward Max Levchin’s incubator instead.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777778,
+   "lng": -71.057777777778
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "러셀 시먼스와 옐프를 창업하다",
+   "title_en": "Co-founds Yelp with Russel Simmons",
+   "description": "독감에 걸린 뒤 근처 의사를 찾으려 했지만 마땅한 정보를 구하지 못했다. 기존 사이트들은 의사의 이름과 출신 학교 정도만 보여 주었다. 그는 페이팔 동료였던 시먼스와 함께 친구들에게 추천을 묻는 일을 온라인으로 옮기려 했다. 레브친은 초기 자금 백만 달러를 댔다. 그는 처음에 요컬이라는 이름을 원했지만 도메인을 구하지 못했다. 인큐베이터의 한 동료가 옐프닷컴 도메인을 오천 달러에 사자고 권했고, 그해 가을 첫 버전이 공개됐다.",
+   "description_en": "He caught the flu and could not find a nearby doctor. The sites that existed showed a name and a school, little else. With former PayPal colleague Simmons he tried to put asking friends online. Levchin put up one million dollars in seed money. He first wanted the name Yocal but could not get the domain. A colleague at the incubator urged them to buy Yelp.com for five thousand dollars, and the first version went live that fall.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "리뷰 쓰기를 중심으로 사이트를 다시 열다",
+   "title_en": "Relaunches the site around writing reviews",
+   "description": "친구에게 추천을 묻는 첫 버전은 번잡했고 질문은 답을 얻지 못하는 경우가 많았다. 대신 이용자들은 눈에 잘 띄지 않던 리뷰 쓰기 칸으로 몰렸다. 그는 그 칸을 화면 전면에 배치했다. 팀은 초기 자금 백만 달러로 먼저 샌프란시스코에서 사이트를 키웠다.",
+   "description_en": "The first version, which asked friends for tips, was noisy and often went unanswered. Users piled into a buried Write a Review box. He pulled that box to the front. With a million dollars in seed money they grew the site in San Francisco first.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글의 인수 제안을 거절하다",
+   "title_en": "Turns down an acquisition offer from Google",
+   "description": "오억 달러가 넘는 인수 협상이 거의 타결된 상태였다. 더 높은 인수 제안이 들어오자 논의의 초점이 회사의 앞날에서 매각 대금으로 옮겨갔다. 그는 매각을 거부하고 독자 상장을 추진하는 쪽으로 방향을 잡았다.",
+   "description_en": "A buyout of more than five hundred million dollars was nearly set. When a higher offer arrived, the talk shifted from the company’s future to the sale price. He refused to sell and turned toward an independent public offering.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "other",
+   "title": "상원에서 구글에 관해 증언하다",
+   "title_en": "Testifies about Google before the Senate",
+   "description": "에릭 슈미트와 같은 반독점 청문회에 출석했다. 그는 구글이 브라우저와 휴대전화의 기본값으로 자리 잡기 위해 비용을 지불했다고 말했다.",
+   "description_en": "He sat on the same antitrust panel as Eric Schmidt. He said Google had paid to be the default on browsers and phones.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "옐프를 뉴욕증권거래소에 상장하다",
+   "title_en": "Takes Yelp public on the New York Stock Exchange",
+   "description": "공모가는 주당 십오 달러로 정해졌다. 그는 개장 종을 울렸다. 오바마 대통령이 축하 전화를 걸었다.",
+   "description_en": "Shares were priced at fifteen dollars. He rang the opening bell. President Obama called to congratulate him.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777778,
+   "lng": -74.006111111111
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "처음으로 분기 흑자를 기록하다",
+   "title_en": "Posts the company’s first quarterly profit",
+   "description": "상장 후에도 회사는 적자를 내고 있었다. 그해 봄 해당 분기의 순이익은 이백칠십만 달러였다. 그는 계속 최고경영자를 맡았다.",
+   "description_en": "The company had still been losing money after the public offering. Net income for that spring quarter was two point seven million dollars. He remained chief executive.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부와 의미 범위는 그대로 유지하면서 직역투, 불분명한 행위 관계, 어색한 직업·사업 용어를 바로잡았다. 사건 사이의 연결이 자연스럽도록 이미 나온 인물과 회사를 분명히 지칭했으며, 별도의 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "부모의 이름과 직업을 나열한 어순이 다소 딱딱하고, 수영팀에서 활동한 일을 「헤엄쳤다」라고 옮겨 한국어 문맥이 어색했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여섯 학년」은 자연스럽지 않은 학년 표기이며, more land를 「집은 넓어졌다」로 옮겨 집 자체가 커졌다는 뜻으로 달라졌다. 「게임 만드는 사람」도 직업과 행동의 관계가 불분명했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「죽다」가 연표 문체에서 지나치게 직설적이고, 본문은 앤디가 앞서 말한 형이라는 관계를 바로 드러내지 않았다. 사인을 설명하는 어순도 직역투였다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "직장을 뜻하는 job을 「자리」라고 옮겨 무엇을 가리키는지 불필요하게 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일론 머스크 면접을 보고」는 누가 누구를 면접했는지 불분명했다. 「공학 부사장」과 「학교를 택하고」도 각각 직책과 퇴사 이유를 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "help him get in을 근거 없이 「입학 추천」으로 한정했고, incubator를 「창업 보육실」이라고 옮겨 실제 조직이 아닌 방을 가리키는 듯했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「의사를 찾다 막혔다」, 「친구에게 물어보는 방식을 웹으로 옮기다」, 「첫 판이 열렸다」처럼 영문 표현을 순서대로 치환해 행동과 결과가 부자연스러웠다. incubator 역시 「보육실」로 옮겨져 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시끄럽고 답이 없었다」는 사이트가 내는 소리처럼 읽히며, 「구석의 칸」과 「앞으로 끌어냈다」도 화면 기능과 배치를 뜻한다는 점이 분명하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「매수 조건이 거의 맞춰져 있었다」와 「독립 상장 쪽으로 틀었다」가 인수 협상과 독자 상장 추진을 기계적으로 옮긴 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「구글을 증언하다」는 목적어와 행동의 관계가 성립하지 않는다. 「청문회에 섰다」와 「기본값 자리를 사 두었다」도 출석과 비용 지불을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "shares were priced를 「주식을 풀었다」라고 옮겨 공모가가 정해졌다는 의미가 제대로 드러나지 않았다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「분기 흑자를 내다」보다 기업 실적에는 「분기 흑자를 기록하다」가 자연스럽다. 적자 상태와 해당 분기의 순이익도 한 흐름으로 이어지지 않았고, 「자리에 그대로 있었다」는 직책 유지 표현이 구어적이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

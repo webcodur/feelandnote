@@ -1,0 +1,242 @@
+{
+ "slug": "cha-bum-kun",
+ "events": [
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "birth",
+   "title": "화성에서 태어나다",
+   "title_en": "Born in Hwaseong",
+   "description": "빈농 집안에서 났다. 화산초등학교에서는 키가 크고 달리기를 잘해 육상을 했다.",
+   "description_en": "He was born into a poor farming family. At Hwasan Elementary School he was tall and fast, so he ran track.",
+   "place_name": "화성",
+   "place_name_en": "Hwaseong",
+   "lat": 37.2,
+   "lng": 126.76666666667
+  },
+  {
+   "year": 1967,
+   "year_end": null,
+   "kind": "education",
+   "title": "경신중에서 축구를 시작하다",
+   "title_en": "Starts football at Kyungshin Middle School",
+   "description": "서울 영도중학교에 들어갔으나 축구부가 없어 필드하키를 했다. 2학년 때 경신중으로 옮기며 뒤늦게 공을 찼다. 경신고 3학년 때 청소년 대표에 뽑혔다.",
+   "description_en": "He entered Yeongdo Middle School in Seoul, but the football club was gone, so he played field hockey. In his second year he transferred to Kyungshin and began football late. As a Kyungshin High School senior he was picked for the youth national team.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "열여덟에 성인 대표가 되다",
+   "title_en": "Joins the senior national team at eighteen",
+   "description": "고려대 1학년이었다. 아시안컵에서 이라크를 상대로 첫 A매치를 뛰었다. 그 뒤 몇 해 동안 한국 대표로 여러 아시아 대회에 출전해 골을 넣었다.",
+   "description_en": "He was a first-year student at Korea University. He won his first senior cap against Iraq at the Asian Cup. In the years that followed he scored as Korea moved through Asian tournaments.",
+   "place_name": "방콕",
+   "place_name_en": "Bangkok",
+   "lat": 13.75,
+   "lng": 100.51666666667
+  },
+  {
+   "year": 1976,
+   "year_end": null,
+   "kind": "work",
+   "title": "동대문에서 여섯 분 만에 세 골을 넣다",
+   "title_en": "Scores three times in six minutes at Dongdaemun",
+   "description": "신탁은행에서 사회인 무대를 시작한 뒤 공군에 입대했다. 공군은 복무를 여섯 달 줄여 주겠다고 했다. 대통령배 개막전에서 말레이시아에 4대1로 뒤지던 83분부터 세 골을 넣어 경기를 비겼다.",
+   "description_en": "He began senior club football at Korea Trust Bank, then enlisted in the Air Force. The Air Force promised to cut six months off his service. In the President's Cup opener, trailing Malaysia 1-4, he scored three times from the 83rd minute and drew the match.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "work",
+   "title": "다름슈타트에서 한 경기를 뛰고 소환되다",
+   "title_en": "Plays one match for Darmstadt, then is recalled",
+   "description": "공군은 전역을 앞당겨 주기로 했다가 여론이 나빠지자 말을 바꿨다. 아시안게임이 끝난 뒤 특별 휴가로 서독에 가 여섯 달 계약을 맺고 보훔전에서 데뷔했다. 팀은 3대1로 이겼다. 닷새 뒤 공군이 그를 불러들였고, 이듬해 오월 말에야 남은 군 복무를 마쳤다.",
+   "description_en": "The Air Force had promised an early discharge, then reversed itself when public opinion turned. After the Asian Games he used special leave to sign a six-month deal in West Germany and made his debut against Bochum. The team won 3-1. Five days later the Air Force called him back, and the rest of his service lasted until the end of May the next year.",
+   "place_name": "다름슈타트",
+   "place_name_en": "Darmstadt",
+   "lat": 49.866666666667,
+   "lng": 8.65
+  },
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "work",
+   "title": "프랑크푸르트에 다시 가다",
+   "title_en": "Returns to Frankfurt",
+   "description": "전역한 뒤 스물여섯에 아인트라흐트와 계약했다. 첫 시즌부터 주전 공격수로 뛰며 골을 넣었고, 독일 팬은 성을 줄여 차붐이라 불렀다. 키커는 전반기가 끝나기 전에 그를 세계적 선수로 분류했다.",
+   "description_en": "After discharge, at twenty-six, he signed with Eintracht. He scored as a first-team forward from the first season, and German fans shortened his name to Cha Boom. Before the first half of the season ended, kicker listed him as world class.",
+   "place_name": "프랑크푸르트",
+   "place_name_en": "Frankfurt",
+   "lat": 50.11055555555556,
+   "lng": 8.682222222222222
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "work",
+   "title": "레버쿠젠으로 옮기다",
+   "title_en": "Moves to Leverkusen",
+   "description": "프랑크푸르트를 떠나 새 구단 유니폼을 입었다. 한 시즌에 열일곱 골을 넣었고, 그해 레버쿠젠은 유럽 대회에 처음 나갔다.",
+   "description_en": "He left Frankfurt and put on a new club shirt. He scored seventeen goals in one season, and that year Leverkusen reached a European competition for the first time.",
+   "place_name": "레버쿠젠",
+   "place_name_en": "Leverkusen",
+   "lat": 51.033333333333,
+   "lng": 6.9833333333333
+  },
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "work",
+   "title": "한국 대표로 삼십이 년 만의 월드컵 본선에 서다",
+   "title_en": "Reaches a World Cup after thirty-two years",
+   "description": "한국이 1954년 이후 처음으로 본선에 복귀한 대회였다. 예선은 뛰지 않았고 본선 세 경기에 나왔다. 이탈리아전이 마지막 A매치가 되었다. 골은 없었다.",
+   "description_en": "It was Korea's first return to the finals since 1954. He skipped the qualifiers and played all three group games. The match against Italy was his last cap. He did not score.",
+   "place_name": "멕시코시티",
+   "place_name_en": "Mexico City",
+   "lat": 19.353773,
+   "lng": -99.13589
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "other",
+   "title": "현역을 접고 돌아오다",
+   "title_en": "Retires and comes home",
+   "description": "분데스리가에서 삼백여덟 경기를 뛰고 아흔여덟 골을 넣었다. 페널티킥 골은 한 골도 없었다. 가족과 함께 김포공항으로 들어왔다.",
+   "description_en": "He played 308 Bundesliga matches and scored ninety-eight goals. None came from a penalty. He flew home through Gimpo Airport with his family.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "office",
+   "title": "울산 현대 감독을 맡다",
+   "title_en": "Takes charge of Ulsan Hyundai",
+   "description": "선수 생활을 접은 뒤 처음 맡은 감독직이었다. 첫해 리그를 준우승으로 마쳤고, 재계약 첫해에 성적이 떨어지자 구단이 그를 내보냈다.",
+   "description_en": "It was his first job after playing. The league finished as runners-up in his first year, and when results slipped in the first year of a new contract the club let him go.",
+   "place_name": "울산",
+   "place_name_en": "Ulsan",
+   "lat": 35.55,
+   "lng": 129.31666666667
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "office",
+   "title": "월드컵 도중 해임되다",
+   "title_en": "Sacked during the World Cup",
+   "description": "최종예선 도쿄 원정 경기에서 역전승을 거두고 본선에 올랐다. 리옹에서 멕시코에 지고 마르세유에서 네덜란드에 0대5로 졌다. 협회는 파리 숙소에서 기술위원회를 열어 대회가 끝나기 전에 그를 해임했다.",
+   "description_en": "He overturned a Tokyo away match in the final qualifiers and reached the finals. Korea lost to Mexico in Lyon and 0-5 to the Netherlands in Marseille. The association met at the Paris lodging, convened its technical committee, and changed managers before the tournament ended.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "office",
+   "title": "수원 삼성 감독으로 돌아오다",
+   "title_en": "Returns as Suwon Samsung manager",
+   "description": "경질 뒤 선전에서 한동안 감독 생활을 했고, 협회는 국내에서 지도자로 활동할 자격을 다섯 해 동안 정지했다. 정지가 풀린 뒤 김호의 뒤를 이어 수원 벤치에 앉았다.",
+   "description_en": "After the sacking he coached for a time in Shenzhen, and the association banned him from domestic coaching for five years. When the ban ended he took the Suwon bench after Kim Ho.",
+   "place_name": "수원",
+   "place_name_en": "Suwon",
+   "lat": 37.285833333333,
+   "lng": 127.01
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실 범위와 세부는 그대로 두고, 어색한 동사 결합과 불분명한 행동 관계를 고쳤다. 출생부터 수원 삼성 감독 부임까지의 생애 흐름은 자연스럽게 이어지며, 별도의 사실 확인이 필요한 사건은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「육상으로 뛰었다」는 종목을 나타내는 조사와 동사의 결합이 어색해 자연스러운 표현으로 바로잡았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아시아 대회를 돌며」는 여러 대회에 출전했다는 뜻을 구어적으로 옮긴 표현이라 행동 관계가 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「4대1로 뒤진 채 후반을 보내다 83분부터」는 경기 상황과 득점 시점의 연결이 어색해, 뒤지고 있던 시점부터 세 골을 넣었다는 관계가 바로 읽히도록 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「보훔전에서 처음 나갔다」와 「남은 복무는 … 끝났다」가 각각 데뷔와 군 복무 종료를 부자연스럽게 표현해 자연스러운 한국어 동사로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「주전 공격수로 골을 넣었다」는 역할과 행동의 연결이 다소 뻣뻣해, 주전으로 뛰면서 득점했다는 관계가 드러나도록 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title"
+    ],
+    "problem": "기존 제목만으로는 32년 만의 본선 진출이 차범근 개인의 복귀인지 한국 대표팀의 복귀인지 불분명해, 한국 대표로 출전했다는 대상을 밝혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「처음 벤치에 앉았다」와 「첫해 리그는 준우승으로 끝났다」는 감독 부임과 준우승의 주체가 간접적으로 드러나, 차범근이 처음 감독직을 맡아 리그를 준우승으로 마쳤다는 문장으로 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도쿄 원정을 뒤집고」는 무엇을 어떻게 뒤집었다는 뜻인지 모호하고, 「감독을 바꿨다」는 차범근의 해임을 간접적으로 표현해 각각 역전승과 해임으로 명확히 했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「선전에서 한동안 지휘했고」는 지휘 대상을 밝히지 않아 문장만으로 행동을 파악하기 어렵고, 「국내 지도자 자격」도 한국어 결합이 어색해 감독 활동과 자격 정지의 뜻을 분명하게 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   7,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,219 @@
+{
+ "slug": "dai-vernon",
+ "events": [
+  {
+   "year": 1894,
+   "year_end": null,
+   "kind": "birth",
+   "title": "오타와에서 태어나다",
+   "title_en": "Is born in Ottawa",
+   "description": "본명은 데이비드 프레더릭 윙필드 버너였다. 아버지 제임스는 정부 관리였고 아마추어 마술사였다. 어머니는 헬렌이었다. 일곱 살에 아버지에게 처음 마술을 배웠다.",
+   "description_en": "His name was David Frederick Wingfield Verner. His father, James, was a government worker and an amateur magician. His mother was Helen. He learned his first trick from his father at seven.",
+   "place_name": "오타와",
+   "place_name_en": "Ottawa",
+   "lat": 45.424722222222,
+   "lng": -75.695
+  },
+  {
+   "year": 1907,
+   "year_end": null,
+   "kind": "education",
+   "title": "《카드 탁자의 전문가》를 외우다",
+   "title_en": "Memorizes Erdnase",
+   "description": "에르드네이스라는 필명으로 출간된 《카드 탁자의 전문가》를 처음 손에 넣었다. 열세 살 무렵에는 그 책을 통째로 외웠다.",
+   "description_en": "He first got hold of The Expert at the Card Table, written under a pen name. By thirteen he had memorized the book.",
+   "place_name": "오타와",
+   "place_name_en": "Ottawa",
+   "lat": 45.424722222222,
+   "lng": -75.695
+  },
+  {
+   "year": 1915,
+   "year_end": null,
+   "kind": "education",
+   "title": "왕립사관학교에 들어가다",
+   "title_en": "Enters the Royal Military College",
+   "description": "기계공학을 배웠다. 그러나 마술을 생업으로 삼기로 하고 학교를 떠났다.",
+   "description_en": "He studied mechanical engineering. He chose magic as a living and left the college.",
+   "place_name": "킹스턴",
+   "place_name_en": "Kingston",
+   "lat": 44.230555555555554,
+   "lng": -76.4811111111111
+  },
+  {
+   "year": 1915,
+   "year_end": null,
+   "kind": "travel",
+   "title": "뉴욕으로 건너가다",
+   "title_en": "Crosses to New York",
+   "description": "클라이드 파워스 마술 가게 뒷방에서 켈러와 라이프치히를 만났다. 한 신문이 데이비드의 웨일스식 약칭인 다이로 이름을 적자 그 이름을 계속 썼다. 미국인들이 그의 성을 버논이라고 부르자 그 이름도 받아들였다.",
+   "description_en": "In the back room of Clyde Powers’s magic shop he met Kellar and Leipzig. A newspaper wrote Dai, the Welsh short form of David, and he kept that name. Americans called him Vernon, and he accepted that too.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1922,
+   "year_end": null,
+   "kind": "work",
+   "title": "카드 마술로 후디니를 속이다",
+   "title_en": "Fools Houdini with cards",
+   "description": "미국마술사협회 연회에서 같은 카드 마술을 일곱 번 보여 주었다. 후디니는 어떤 수법이든 세 번 보면 알아낼 수 있다고 장담해 왔다. 후디니의 아내와 곁에 있던 사람들은 그가 속았다고 말했다. 그 뒤로 버논은 자신을 ‘후디니를 속인 사람’이라고 광고했다.",
+   "description_en": "At a Society of American Magicians banquet he showed the same card feat seven times. Houdini had boasted he could name any method after three views. His wife and the others told him he was fooled. Vernon billed himself afterwards as the man who fooled Houdini.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1924,
+   "year_end": null,
+   "kind": "other",
+   "title": "잔 헤이스와 결혼하다",
+   "title_en": "Marries Jeanne Hayes",
+   "description": "잔 헤이스는 마술사의 조수였다. 두 사람은 두 아들을 두었다. 버논은 실루엣 초상을 오려 생계를 꾸렸다. 초상 한 장을 오리는 데는 몇 분밖에 걸리지 않았다. 그 돈으로 가족을 먹여 살리면서 카드 도박꾼들을 찾아다녔다.",
+   "description_en": "She was a magician’s assistant. They had two sons. He earned their keep by cutting silhouette portraits. A portrait took a few minutes. That money fed the family while he hunted card cheats.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1932,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "찾던 카드 도박꾼을 만나다",
+   "title_en": "Finds the cardsharp he sought",
+   "description": "카드 한 벌의 가운데에서 패를 나누는 사람이 있다는 말을 듣고 그 일대의 마을들을 뒤졌다. 앨런 케네디의 흰 집에서 그가 패를 나누는 손기술을 직접 보았다. 에르드네이스의 책에도 나오지 않는 수법이었다.",
+   "description_en": "He heard of a man who could deal from the middle of the pack and searched the towns around. He watched that handling in Allen Kennedy’s white house. Even Erdnase had not written that move.",
+   "place_name": "플레전트힐",
+   "place_name_en": "Pleasant Hill",
+   "lat": 38.7906,
+   "lng": -94.2661
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "publish",
+   "title": "간슨과 마술책을 내다",
+   "title_en": "Publishes a magic book with Ganson",
+   "description": "루이스 간슨은 버논에게 들은 내용을 받아 적었고, 해리 스탠리는 이를 자신의 작업실에서 인쇄했다. 수십 년 동안 말로만 전해지던 손기술이 활자로 남았다. 이후 카드 비법을 다룬 책들이 더 출간됐다.",
+   "description_en": "Lewis Ganson wrote down what he heard and Harry Stanley printed it. Hands that had been taught only by mouth went into type. More card volumes followed.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "work",
+   "title": "매직 캐슬의 상주 마술사가 되다",
+   "title_en": "Becomes magician-in-residence at the Magic Castle",
+   "description": "라슨 형제가 문을 연 할리우드 클럽으로 거처를 옮겼다. 후배 마술사들은 그를 교수라고 부르며 버논의 방으로 모여들었다. 그는 아흔여섯 살까지 공연했다.",
+   "description_en": "He moved his home to the Hollywood club the Larsen brothers had opened. Younger magicians called him the Professor and gathered in that room. He kept performing until he was ninety-six.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "death",
+   "title": "라모나에서 세상을 떠나다",
+   "title_en": "Dies in Ramona",
+   "description": "아들의 집에서 눈을 감았다. 마지막 두 해를 그 집에서 보냈다. 화장한 유해는 매직 캐슬로 옮겨졌다.",
+   "description_en": "He died at a son’s house. He had spent his last two years there. His ashes were taken back to the Magic Castle.",
+   "place_name": "라모나",
+   "place_name_en": "Ramona",
+   "lat": 33.03583,
+   "lng": -116.87056
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 의미와 세부 사항은 그대로 두고, 대상이 불분명한 지시어와 직역투 표현을 고쳤다. 생애 전체를 이어 읽을 때 인물과 행동의 관계가 분명하도록 최소한으로 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「에르드네이스」가 사람인지 책인지 불분명했고, 「익명의 저자가 쓴」은 영문의 필명 출간이라는 정보를 정확히 드러내지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 자리에서」가 장소를 가리키는지 시점을 가리키는지 모호했고, 「마술을 직업으로 정하다」도 자연스럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "신문이 무엇을 어떻게 적었는지 문장 구조가 불분명했고, 「그것도 받아들였다」의 대상도 명확하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「같은 수법」만으로는 무엇을 반복했는지 바로 알기 어려웠고, 「아내」가 누구의 아내인지 명시할 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상대」가 잔 헤이스를 가리킨다는 사실이 문장만으로 분명하지 않았고, 「생계는 실루엣 초상으로 이었다」「한 장을 잘랐다」는 영어식 결합이라 행동의 뜻이 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「가운데에서 패를 나누다」「그 손을 보았다」는 카드 한 벌과 손기술의 관계를 짐작해야 이해할 수 있는 표현이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「듣고 적어」에는 누구에게 들었는지가 없었고, 「손이 활자로 남았다」는 손기술이 책으로 기록됐다는 뜻을 직역해 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 방」의 주인이 문장 안에서 분명하지 않았고, 「공연은 아흔여섯까지 이어졌다」는 사람의 행동을 공연이 대신하는 어색한 구조였다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재를 매직 캐슬로 옮겼다」는 주체가 없고 화장한 유해를 뜻하는 표현으로도 지나치게 축약돼 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

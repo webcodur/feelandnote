@@ -1,0 +1,271 @@
+{
+ "slug": "eulji-mundeok",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "가계를 알 수 없다",
+   "title_en": "Lineage is not recorded",
+   "description": "열전 첫머리는 가계를 알 수 없다고 했다. 자질이 침착하고 용맹스러우며 지략과 술수가 뛰어났고, 글을 읽고 시를 지을 수 있었다고 적었다. 조선 후기의 해동명장전은 평양 석다산 사람이라 전한다. 신증동국여지승람은 평양부 인물로 올렸다. 태어난 해는 전하지 않는다.",
+   "description_en": "The biography opens by saying his lineage is unknown. It describes him as calm, fierce, shrewd, and able to read and write verse. The late Joseon Haedong Myeongjangjeon later calls him a man of Seokda Mountain near Pyongyang. The Sinjeung Dongguk Yeoji Seungnam lists him among Pyongyang natives. No birth year survives.",
+   "place_name": "평양",
+   "place_name_en": "Pyongyang",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "office",
+   "title": "수 양제가 을지문덕을 지목해 붙잡으라 명하다",
+   "title_en": "Emperor Yang orders him seized by name",
+   "description": "우문술과 우중문은 밀지를 미리 받아 두었다. 고구려 왕이나 을지문덕이 진영에 오면 붙잡으라는 명령이었다. 수나라는 왕과 나란히 을지문덕의 이름을 적었다. 삼국사기는 그의 관등을 밝히지 않았다.",
+   "description_en": "Yuwen Shu and Yu Zhongwen already carried a secret order. If the Goguryeo king or this general entered their camp, they were to seize him. Sui wrote his name beside the king’s. Samguk Sagi does not give his rank.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "battle",
+   "title": "수나라가 요동에서 멈추다",
+   "title_en": "Sui stalls at Liaodong",
+   "description": "양제가 조서를 내리고 군을 움직였다. 고구려본기는 출정 병력을 113만 3800명이라 적었다. 본진은 요동성에서 막혔다. 좌익위대장군 우문술은 부여도로, 우익위대장군 우중문은 낙랑도로 나갔다. 아홉 군대가 압록수에 이르렀다.",
+   "description_en": "Emperor Yang issued an edict and moved the army. The Goguryeo Annals put the expedition at 1,133,800 men. The main force stalled at Liaodong Fortress. Left Guard general Yuwen Shu took the Buyeo route, Right Guard general Yu Zhongwen the Lelang route. Nine armies reached the Yalu.",
+   "place_name": "요양",
+   "place_name_en": "Liaoyang",
+   "lat": 41.26432,
+   "lng": 123.1772
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "거짓 항복으로 적진에 들어가다",
+   "title_en": "Enters the enemy camp under false surrender",
+   "description": "왕의 명을 받고 압록수 서쪽에 있는 수나라 진영으로 갔다. 적군의 허실을 살피기 위해서였다. 우중문 등이 을지문덕을 붙잡으려 했으나 위무사 유사랑이 막았다. 그들은 을지문덕을 돌려보낸 뒤 후회하여, 다시 의논할 일이 있으니 돌아오라고 꾀었다. 을지문덕은 돌아보지 않고 압록수를 건넜다.",
+   "description_en": "On the king’s order he went into the Sui camp west of the Yalu. He wanted to see how strong they really were. Yu Zhongwen and the others meant to hold him, but the pacification envoy Liu Shilong stopped them. After letting him go they regretted it and sent word that more talks remained, asking him to return. He did not look back and crossed the Yalu.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "battle",
+   "title": "우중문이 압록수를 건너 추격하다",
+   "title_en": "Yu Zhongwen crosses the river in pursuit",
+   "description": "우문술은 양식이 떨어져 돌아가려 했다. 우중문은 정예병으로 을지문덕을 추격하면 공을 세울 수 있다고 했고, 10만 병력으로 작은 적을 무찌르지 못하면 황제를 볼 면목이 없다고 했다. 우문술 등은 마지못해 압록수를 건넜다. 수나라 병사들에게는 이미 굶주린 기색이 나타났다.",
+   "description_en": "Yuwen Shu wanted to turn back; the grain was gone. Yu Zhongwen said a picked force could still win merit by chasing him, and that a general with a hundred thousand men could not face the emperor if he failed to crush a small enemy. Yuwen Shu and the others crossed the Yalu against their will. The Sui soldiers already looked starved.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "battle",
+   "title": "싸울 때마다 물러나다",
+   "title_en": "Withdraws after every clash",
+   "description": "을지문덕은 수나라군을 지치게 하려고 맞붙을 때마다 곧바로 물러났다. 수나라 쪽은 하루에 일곱 번 싸워 모두 이겼다고 적었다. 수나라군은 잇따른 승리를 믿고 진영 안의 의견에 떠밀려 살수를 건넜다. 평양성에서 30리 떨어진 산에 진을 쳤다.",
+   "description_en": "He fell back at every clash to wear them down. The Sui side recorded seven victories in a single day. Trusting that sudden run of wins, and pushed by talk in camp, they crossed the Salsu and camped in the hills thirty li from Pyongyang Fortress.",
+   "place_name": "평양",
+   "place_name_en": "Pyongyang",
+   "lat": 39.016666666666666,
+   "lng": 125.7475
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "publish",
+   "title": "우중문에게 시를 보내다",
+   "title_en": "Sends a poem to Yu Zhongwen",
+   "description": "을지문덕은 “신통한 계책은 하늘을 다 헤아렸고, 묘한 계산은 땅을 다 살폈다. 싸움에 이겨 공이 이미 높으니, 만족할 줄 알고 그만두라”고 했다. 우중문은 답서를 보내 을지문덕을 타일렀다.",
+   "description_en": "Your divine plans have plumbed the heavens, your subtle reckoning has spanned the earth; you have won, and the merit is already high—know enough, and stop. Yu Zhongwen sent a letter back and admonished him.",
+   "place_name": "평양",
+   "place_name_en": "Pyongyang",
+   "lat": 39.016666666666666,
+   "lng": 125.7475
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "철군하면 왕을 데려가겠다고 속이다",
+   "title_en": "Offers a false surrender and the king",
+   "description": "을지문덕은 사신을 보내 우문술에게 제안했다. 군사를 돌리면 왕을 황제가 머무는 곳으로 모시고 가겠다고 했다. 우문술이 보기에 병사들은 지쳐 다시 싸울 수 없었다. 평양성은 견고하여 단번에 함락하기도 어려웠다. 우문술은 거짓 제안을 받아들이고 철수했다.",
+   "description_en": "He sent an envoy to Yuwen Shu. If the army turned back, he would bring the king to the emperor’s camp. Yuwen Shu saw that his men were too worn to fight again. Pyongyang Fortress was too strong to take at a stroke. He accepted the lie and withdrew.",
+   "place_name": "평양",
+   "place_name_en": "Pyongyang",
+   "lat": 39.016666666666666,
+   "lng": 125.7475
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "battle",
+   "title": "사면에서 치며 쫓다",
+   "title_en": "Attacks from all sides as they withdraw",
+   "description": "수나라군이 방진을 짜고 물러났다. 을지문덕은 군사를 내보내 사방에서 공격했다. 우문술 등은 싸우며 물러났다.",
+   "description_en": "The Sui formed a square and pulled back. He sent troops out and struck them on all four sides. Yuwen Shu and the others fought as they marched.",
+   "place_name": "평양",
+   "place_name_en": "Pyongyang",
+   "lat": 39.016666666666666,
+   "lng": 125.7475
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "battle",
+   "title": "살수에서 후군을 치다",
+   "title_en": "Strikes the rear at the Salsu",
+   "description": "수나라군이 강을 반쯤 건넜을 때 을지문덕이 후군을 공격했다. 우둔위장군 신세웅이 죽었다. 아홉 군대가 한꺼번에 무너졌다. 장수와 병사들은 하룻낮 하룻밤에 450리를 달려 압록수에 이르렀다. 요하를 건널 때 30만 5천 명이던 아홉 군대 가운데 요동성으로 돌아온 병력은 2천 7백 명이었다. 살수는 오늘날 청천강으로 본다.",
+   "description_en": "He struck the rear when the army was halfway across the river. Right Garrison general Xin Shixiong was killed. The nine armies collapsed at once. Officers and men ran 450 li in a day and a night to the Yalu. The nine armies had been 305,000 when they crossed the Liao; 2,700 reached Liaodong Fortress. The river is now taken to be the Chongchon.",
+   "place_name": "안주",
+   "place_name_en": "Anju",
+   "lat": 39.616666666667,
+   "lng": 125.66666666667
+  },
+  {
+   "year": 612,
+   "year_end": null,
+   "kind": "other",
+   "title": "수 양제가 요동에서도 군을 거두다",
+   "title_en": "Emperor Yang withdraws from Liaodong as well",
+   "description": "별동대가 무너진 뒤 양제는 요동 전선에 남은 군대도 철수시켰다. 열전은 이 전투 이후 을지문덕이 한 일을 기록하지 않았다.",
+   "description_en": "After the striking force collapsed, Emperor Yang pulled the rest of the army out of Liaodong as well. The biography records nothing that he did after this battle.",
+   "place_name": "요양",
+   "place_name_en": "Liaoyang",
+   "lat": 41.26432,
+   "lng": 123.1772
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "death",
+   "title": "죽은 해와 장소가 전하지 않는다",
+   "title_en": "Year and place of death are not recorded",
+   "description": "열전은 살수 전투 뒤에서 기록을 끝냈다. 흔히 적는 550년 출생과 618년 사망은 후대의 추산이다. 을지문덕이 부모를 잃고 자랐다는 해동명장전의 기록도 뒷받침할 근거가 없다.",
+   "description_en": "The biography stops after the Salsu. The dates often given, birth in 550 and death in 618, are later guesses. The Haedong Myeongjangjeon claim that he grew up an orphan has no supporting record.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 뜻을 짐작해야 했던 표현, 불분명한 주어와 대상, 직역투와 어색한 서술을 바로잡았다. 살수대첩에 이르는 전개와 이후 기록의 단절도 위에서 아래로 자연스럽게 이어지도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 주술 관계가 어색했고, ‘세계’와 ‘난 해’는 현대 독자가 뜻을 바로 파악하기 어려웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘이름을 찍어’는 부자연스러운 직역이며, ‘이 장수’가 누구인지 사건 안에서 분명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘요동성을 두고 막혔다’는 조사와 행동 관계가 어색해 수나라 본진이 어디에서 진격을 멈췄는지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘붙들려 했다’는 목적과 행동 관계가 잘못되었고, 을지문덕을 돌려보내고 다시 불러들이려 한 주체가 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 건넌 강이 생략되었고, ‘정예로 쫓다’와 ‘병사에게 굶주린 기색이 있었다’는 한국어 결합이 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘갑작스러운 승리에 기대고 여론에 밀려’는 무엇을 믿고 누구의 의견에 떠밀렸는지 불분명했으며, 살수를 건넌 주체도 드러나지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "시의 내용을 서술한 문장이 인용과 본문으로 구분되지 않았고, 마지막 문장만 현재형 어미로 끝나 사건 서술의 시제가 어긋났다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 을지문덕이 직접 항복한 것처럼 읽힐 수 있었고, ‘평양성을 갑자기 빼다’와 ‘그 거짓을 받아 돌아가다’는 뜻을 짐작해야 하는 직역투였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘싸우면서 갔다’는 이동 방향과 전황이 불분명해 철수하면서 싸웠다는 의미가 제대로 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘장사들’, ‘요동성에 돌아온 수’, ‘이 강’은 각각 현대 한국어로 어색하거나 대상이 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘이 싸움 다음의 일’이 누구의 이후 행적을 가리키는지 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "죽은 ‘자리’는 사망 장소를 가리키는 표현으로 부자연스러웠고, 마지막 문장은 조사와 인용 관계가 어색했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,256 @@
+{
+ "slug": "emperor-xian-of-han",
+ "events": [
+  {
+   "year": 181,
+   "year_end": null,
+   "kind": "birth",
+   "title": "낙양에서 태어나다",
+   "title_en": "Born in Luoyang",
+   "description": "영제의 둘째 아들로 태어났다. 생모인 왕미인은 하황후에게 독살당했다. 《후한서》 황후기는 왕미인이 임신 중 약을 먹었으나 아이는 살아남았다고 전한다. 할머니인 동태후가 그를 길렀고, 궁에서는 동후라고 불렀다. 장번의 기록에 따르면 영제는 아이가 자신을 닮았다고 하여 이름을 협이라 지었다.",
+   "description_en": "He was Emperor Ling’s middle son. Empress He poisoned his mother, Beauty Wang. The empresses’ annals say she took a drug while pregnant and the child stayed. Empress Dowager Dong raised him. The palace called him Marquis Dong. Zhang Fan’s record says Ling named him Xie because the boy looked like him.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 189,
+   "year_end": null,
+   "kind": "office",
+   "title": "동탁이 유협을 황제로 세우다",
+   "title_en": "Dong Zhuo puts him on the throne",
+   "description": "영제가 죽자 이복형 유변이 황위에 올랐다. 유협은 발해왕에 봉해졌다가 진류왕으로 옮겨졌다. 하진이 죽은 뒤 동탁이 도성에 들어왔다. 《동탁전》은 유변이 말을 제대로 잇지 못하자 동탁이 진류왕을 불러 정황을 물었다고 전한다. 유협은 아홉 살에 황제가 되었고, 동탁은 이튿날 하태후를 죽였다.",
+   "description_en": "When Emperor Ling died, his half-brother Liu Bian took the throne. He was made Prince of Bohai, then Prince of Chenliu. After He Jin’s death Dong Zhuo entered the capital. The Dong Zhuo biography says Bian could not keep up a conversation, so Dong called the Prince of Chenliu. He was nine when he took the seat. The next day Dong killed Empress Dowager He.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 190,
+   "year_end": null,
+   "kind": "travel",
+   "title": "장안으로 천도하다",
+   "title_en": "The court is moved to Chang’an",
+   "description": "관동의 여러 군이 동탁을 치려고 군사를 일으켰다. 동탁은 낙양 백성을 서쪽 관중으로 몰아냈고, 헌제는 미앙궁에 들어갔다. 동탁은 뒤에 남아 궁궐과 사당, 민가를 불태웠다. 그해 초에는 폐위된 홍농왕 유변도 죽었다.",
+   "description_en": "The eastern commanderies rose against Dong Zhuo. He drove Luoyang’s people west into Guanzhong. The emperor entered Weiyang Palace. Dong stayed behind and burned the palaces, temples, and houses. Early that year the deposed Prince of Hongnong, Liu Bian, was also killed.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "other",
+   "title": "이각과 곽사가 장안을 점령하다",
+   "title_en": "Li Jue and Guo Si take Chang’an",
+   "description": "왕윤과 여포가 동탁을 죽였다. 두 달 뒤 이각·곽사·번조·장제가 장안을 함락했다. 왕윤과 황완이 죽었고, 관리와 백성 가운데 죽은 이가 만 명이 넘었다. 헌제는 다시 서량 장수들의 손에 놓였다.",
+   "description_en": "Wang Yun and Lü Bu killed Dong Zhuo. Two months later Li Jue, Guo Si, Fan Chou, and Zhang Ji stormed the city. Wang Yun and Huang Wan died. Officials and townsfolk killed numbered more than ten thousand. He was again in the hands of the Liang officers.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "travel",
+   "title": "장안을 빠져나오다",
+   "title_en": "Leaves Chang’an",
+   "description": "이각은 헌제를 자기 진영으로 끌고 갔다. 궁궐은 불탔고, 곽사가 이각을 공격하자 화살이 황제가 머무는 전각 앞까지 날아왔다. 그해 가을 헌제는 양봉·동승과 함께 동쪽으로 빠져나갈 길을 열었다.",
+   "description_en": "Li Jue dragged him into his own camp. The palaces were burned. When Guo Si attacked Li, arrows reached the front of the emperor’s hall. In autumn he opened an eastward road with Yang Feng and Dong Cheng.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": 196,
+   "year_end": null,
+   "kind": "travel",
+   "title": "조조가 헌제를 허현으로 옮기다",
+   "title_en": "Cao Cao moves him to Xu",
+   "description": "헌제는 안읍에서 연호를 건안으로 바꾸었다. 낙양에 도착했을 때 궁궐은 이미 불타 없어진 뒤였다. 그는 중상시 조충이 살던 옛집에 머물렀고, 낭관 이하의 관리들은 들판에서 곡식 이삭을 주웠다. 굶어 죽거나 병사들에게 살해된 사람도 있었다. 조조는 사예교위에 올라 도읍을 자신의 근거지인 허현으로 옮겼다. 백관은 그때부터 조조의 명을 따랐다.",
+   "description_en": "At Anyi he changed the era name to Jian’an. In Luoyang the palaces were already burned. He stayed in the former house of the regular palace attendant Zhao Zhong. Gentlemen of the secretariat and below gleaned wild grain. Some starved or were killed by soldiers. Cao Cao took the colonel director of the retainers and moved the capital onto his own ground. The hundred offices then took their orders from him.",
+   "place_name": "허창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 200,
+   "year_end": null,
+   "kind": "other",
+   "title": "동승의 밀조가 드러나다",
+   "title_en": "Dong Cheng’s secret edict is exposed",
+   "description": "동승과 왕복·종집은 밀조를 받아 조조를 제거하려 했으나 계획이 발각되었다. 조조는 동승의 일족을 멸했다. 《선주전》은 동승이 띠 속에 감춘 밀조를 받았다고 전한다. 유비는 이미 도성을 떠난 뒤였다. 《후한서》 황후기에 따르면 헌제는 임신 중이던 동승의 딸조차 살리지 못했다. 《삼국지연의》에 나오는, 혈서로 쓴 밀조를 띠에 꿰매 넣는 장면은 정사 본문에 없다.",
+   "description_en": "Dong Cheng, Wang Fu, and Zhong Ji took a secret edict to kill Cao Cao, and the plot leaked. Cao wiped out Dong’s clan. The First Sovereign’s biography says Dong claimed an edict hidden in a belt. Liu Bei had already left the capital. The empresses’ annals say the emperor could not save Dong’s pregnant daughter. The Romance’s scene of a blood edict sewn into a sash is not in the official main text.",
+   "place_name": "허창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 214,
+   "year_end": null,
+   "kind": "other",
+   "title": "복황후가 죽다",
+   "title_en": "Empress Fu is killed",
+   "description": "복수는 아버지 복완에게 조조의 핍박을 적은 편지를 보냈지만, 복완은 아무 행동도 취하지 못했다. 편지가 드러나자 조조는 헌제에게 황후를 폐위하도록 강요하고 화흠을 보내 복황후를 끌어냈다. 《후한서》 황후기에 따르면 복황후는 맨발로 끌려가면서 자신을 살려 줄 수 없느냐고 물었다. 헌제는 자신도 언제 죽을지 모른다고 답했다. 복황후와 두 황자, 복씨 일족이 죽었다. 이듬해 조조의 딸 조절이 황후가 되었다.",
+   "description_en": "Fu Shou wrote to her father Fu Wan about Cao Cao’s pressure. Fu Wan did not move. When the letter came out, Cao forced a deposition and sent Hua Xin to drag her out. The empresses’ annals say she passed barefoot and asked if he could still keep her alive. He said he did not know when his own life would end. The Fu clan, her two sons, and her kin were killed. The next year Cao’s daughter Cao Jie became empress.",
+   "place_name": "허창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 220,
+   "year_end": null,
+   "kind": "office",
+   "title": "조비에게 자리를 넘기다",
+   "title_en": "Hands the throne to Cao Pi",
+   "description": "조조가 죽자 조비가 위왕의 자리를 이었다. 연호는 연강으로 바뀌었다. 헌제는 시월에 황위를 넘겼다. 《헌제춘추》는 번양의 옛 성에 선양을 위한 단을 쌓았다고 전한다. 《후한서》 황후기에 따르면 조절은 인장을 난간 아래로 던지며 하늘이 너희를 돕지 않을 것이라고 말했다.",
+   "description_en": "When Cao Cao died, Cao Pi took Wei. The era name was changed to Yankang. In the tenth month he gave up the throne. The Annals of Emperor Xian say an altar was raised at the old city of Fanyang. Cao Jie threw the seal at the railing and said Heaven would not aid them. That is the Book of the Later Han, empresses’ annals.",
+   "place_name": "허창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 220,
+   "year_end": null,
+   "kind": "office",
+   "title": "산양공으로 탁록에 살다",
+   "title_en": "Lives at Zhuolu as Duke of Shanyang",
+   "description": "만 호를 식읍으로 받고 제후왕보다 높은 지위를 얻었다. 글을 올릴 때 자신을 신하라고 일컫지 않아도 되었다. 한나라의 수레와 의례를 사용해 천지에 제사를 지냈다. 왕에 봉해졌던 네 아들은 열후로 강등되었다. 《선주전》은 촉이 헌제가 살해되었다는 소식을 듣고 효민황제라는 시호를 올렸다고 전한다.",
+   "description_en": "He received a fief of ten thousand households and ranked above the princes. He did not have to call himself a subject in memorials. He sacrificed to Heaven and Earth with Han carriages and rites. His four sons who had been princes were reduced to marquises. The First Sovereign’s biography says Shu heard he had been killed and gave him the posthumous name Emperor Xiaomin.",
+   "place_name": "수무",
+   "place_name_en": "Xiuwu",
+   "lat": 35.2269,
+   "lng": 113.4435
+  },
+  {
+   "year": 234,
+   "year_end": null,
+   "kind": "death",
+   "title": "탁록에서 죽다",
+   "title_en": "Dies at Zhuolu",
+   "description": "선양한 뒤 14년을 더 살고 54세에 죽었다. 위 명제 조예는 효헌황제라는 시호를 올렸다. 그해 8월 한나라 천자의 예에 따라 선릉에 장사했다. 후계자는 먼저 죽었고, 손자 유강이 뒤를 이었다.",
+   "description_en": "He lived fourteen years after the abdication and died at fifty-four. Emperor Ming of Wei, Cao Rui, gave him the posthumous name Emperor Xiaoxian. In the eighth month he was buried at Chanling with Han imperial rites. The heir had already died; his grandson Liu Kang succeeded.",
+   "place_name": "수무",
+   "place_name_en": "Xiuwu",
+   "lat": 35.2269,
+   "lng": 113.4435
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "국문 전편을 영문과 대조해 주어·목적어가 빠진 문장, 직역 표현, 불분명한 지시어를 바로잡았다. 다만 9·10번은 제목의 「탁록」과 장소 필드의 「수무」가 서로 달라 문장 편집만으로 실제 장소를 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「황후기는」과 「장번기는」이 자료명과 문장의 주어처럼 뒤섞였고, 「태가 그대로였다」와 「자기를 닮았다」도 뜻을 곧바로 파악하기 어려웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「발해왕을 받았다」와 「자리에 올랐다」가 직역투였으며, 제목에는 동탁이 누구를 황제로 세웠는지가 빠져 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "동탁이 주어인 문장 뒤에 「미앙궁에 들었다」가 이어져, 미앙궁에 들어간 사람이 동탁인지 헌제인지 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「관리와 백성 죽은 이가 만여다」의 문장 구조가 무너져 있었고, 마지막 문장의 「그」도 앞 문장만으로 대상을 알아보기 어려웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "연속된 문장에 주어가 빠져 이각에게 끌려간 사람과 동쪽으로 탈출한 사람이 누구인지 바로 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「모시다」는 목적어가 없고 행위도 모호했다. 「낭관 이하는」과 「자기 땅」도 한국어 문맥에 맞게 구체화할 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일이 샜다」는 지나치게 구어적이었고, 혈서와 띠를 다룬 마지막 문장은 무엇을 어떻게 만들었다는 뜻인지 불분명했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「복완은 움직이지 못했다」와 「폐후를 강요했다」가 영문의 단어를 그대로 옮긴 표현이었고, 「그는 자기 목숨도 언제인지」는 주어와 서술 관계가 무너져 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「위를 이었다」와 「자리를 내놓았다」만으로는 각각 위왕의 지위와 황위를 가리킨다는 사실이 분명하지 않았다. 인장을 던진 위치와 자료 출전도 자연스러운 한국어 문장으로 정리할 필요가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제후왕 위에 두었다」와 「봉왕했던」이 직역투였고, 「한이 죽은 줄 알고」는 죽었다고 잘못 알려진 대상이 헌제라는 사실을 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「선양 뒤 십사 년」과 「한 천자 예」가 명사를 그대로 이어 붙인 문장이었고, 손자 유강이 무엇을 이었는지도 드러나지 않았다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 9,
+    "reason": "국·영문 제목은 모두 산양공이 탁록에서 살았다고 하지만 place_name은 수무로 되어 있다. 탁록과 수무 가운데 어느 곳이 이 사건의 실제 장소인지 문장 대조만으로 확정할 수 없다."
+   },
+   {
+    "index": 10,
+    "reason": "국·영문 제목은 모두 탁록에서 죽었다고 하지만 place_name은 수무로 되어 있다. 사망 장소가 탁록인지 수무인지 문장 편집만으로 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

@@ -1,0 +1,252 @@
+{
+ "slug": "guo-jia",
+ "events": [
+  {
+   "year": 170,
+   "year_end": null,
+   "kind": "birth",
+   "title": "영천 양책에서 태어나다",
+   "title_en": "Is born in Yangdi of Yingchuan",
+   "description": "정사는 태어난 해를 적지 않는다. 사망 당시 나이가 서른여덟이었다는 기록을 바탕으로, 후대 기록은 거슬러 계산해 이 해를 출생년으로 본다. 자는 봉효다. 부모의 이름은 전하지 않는다. 같은 군에서 순욱과 희지재가 나왔다. 조조는 뒤에 여남과 영천에 뛰어난 인물이 많다고 적었다.",
+   "description_en": "The official history gives no birth year. It says he died at thirty-eight, and later accounts count back to this year. His courtesy name was Fengxiao. No parents’ names survive. Xun Yu and Xi Zhicai came from the same commandery. Cao Cao later wrote that Runan and Yingchuan held many remarkable men.",
+   "place_name": "위저우",
+   "place_name_en": "Yuzhou",
+   "lat": 34.15113,
+   "lng": 113.47334
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "원소를 만나고 떠나다",
+   "title_en": "Sees Yuan Shao and leaves",
+   "description": "북쪽으로 원소를 만나러 갔다. 본전에는 곽가가 신평과 곽도에게 원소를 평한 말이 실려 있다. 원소는 주공의 예법만 본뜨고 사람을 쓸 줄 모르며, 벌이는 일은 많으나 중심이 없다고 보았다. 계책을 좋아하면서도 결정을 내리지 못한다고도 했다. 곽가는 그런 인물과 천하의 난을 함께 헤쳐 갈 수 없다며 떠났다. 《부자》는 그가 스무 살을 넘긴 뒤 숨어 지내며 뛰어난 인물들과만 사귀었다고 전한다.",
+   "description_en": "He went north to see Yuan Shao. The biography records what he told Xin Ping and Guo Tu. Yuan copied the Duke of Zhou’s courtesy and did not know how to use men. He had many threads and no core. He liked plans and would not decide. Guo Jia said he could not ride out the realm’s trouble with such a man, and left. The Fu Zi says that after twenty he lived hidden and kept company only with men of mark.",
+   "place_name": "린장",
+   "place_name_en": "Linzhang",
+   "lat": 36.33518,
+   "lng": 114.60843
+  },
+  {
+   "year": 196,
+   "year_end": null,
+   "kind": "office",
+   "title": "조조의 사공군제주가 되다",
+   "title_en": "Is made libationer of Cao Cao’s Sikong army",
+   "description": "희지재가 죽자 조조는 순욱에게 편지를 보내, 여남과 영천에 뛰어난 인물이 많으니 희지재의 뒤를 이을 사람을 추천해 달라고 했다. 순욱은 곽가를 천거했다. 조조는 곽가를 불러 천하의 일을 논한 뒤, 대업을 이루게 해 줄 사람이 바로 그라고 말했다. 곽가도 자리를 나서며 조조가 참으로 자신의 주군이라고 했다. 이어 사공군제주가 됐다. 곽가가 죽은 뒤 올린 표문에는 종군한 기간이 11년이라고 적혀 있어, 임명 시점은 조조가 사공이 된 이 해 무렵으로 잡힌다.",
+   "description_en": "When Xi Zhicai died, Cao Cao wrote to Xun Yu. Runan and Yingchuan held many remarkable men; who could take his place? Xun Yu named Guo Jia. Cao Cao summoned him and they talked over the realm. Cao Cao said this was the man who would let him finish the great work. Guo Jia left saying this was truly his lord. He was made libationer of the Sikong’s army. The memorial after his death counted eleven years in the field, so the appointment sits around the year Cao Cao became Sikong.",
+   "place_name": "쉬창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 198,
+   "year_end": null,
+   "kind": "work",
+   "title": "십승십패를 들고 여포를 먼저 치라 하다",
+   "title_en": "Sets out ten wins and ten losses and urges striking Lü Bu first",
+   "description": "배송지의 주석이 인용한 《부자》의 기록으로, 본전에는 나오지 않는다. 조조는 원소보다 병력이 약한 상황에서 어떻게 그를 칠 수 있겠느냐고 물었다. 곽가는 유방과 항우를 예로 들며 원소에게는 열 가지 패인이 있고 조조에게는 열 가지 승인이 있다고 답했다. 원소는 예법에 얽매이고 결단이 늦으며 가까운 친족만 쓴다고 보았다. 이어 원소가 북쪽에서 공손찬을 치는 동안 여포부터 공격해야 한다고 했다. 여포를 그대로 두면 원소가 쳐들어올 때 후방에서 호응할 수 있다는 판단이었다.",
+   "description_en": "This is the Fu Zi in Pei’s notes. It is not in the main biography. Cao Cao asked how to attack Yuan Shao when the strength was not equal. Guo Jia pointed to Liu Bang and Xiang Yu and said Yuan had ten losses and Cao ten wins. Yuan was heavy with rite, slow to decide, and used only kin. While Yuan struck Gongsun Zan in the north, he said, take Lü Bu first. Leave Lü Bu and Yuan would have a rear ally when he came.",
+   "place_name": "쉬창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 198,
+   "year_end": null,
+   "kind": "battle",
+   "title": "하비를 급히 치라 하여 여포를 사로잡다",
+   "title_en": "Urges a rapid assault on Xiapi and Lü Bu is taken",
+   "description": "세 차례 싸운 끝에 여포를 성안으로 몰아넣었다. 병사들이 지치자 조조는 군대를 물리려 했다. 곽가의 본전은 그가 급히 공격하라고 했다는 사실만 적고, 구체적인 말은 순유전에 있다고 밝힌다. 순유전에서 순유와 곽가는 여포가 용맹하지만 계책이 없고, 세 번 패해 기세가 꺾였으며, 진궁도 행동이 굼뜨다고 판단했다. 적의 기세가 회복되기 전에 공격하면 성을 함락시킬 수 있다고 했다. 조조군은 이강과 사강의 물을 끌어 성을 물에 잠기게 했고, 여포를 산 채로 사로잡았다.",
+   "description_en": "After three fights they drove Lü Bu into the city. The men were worn out and Cao Cao meant to pull the army back. The biography says only that Guo Jia urged a rapid assault, and sends the words to Xun You’s life. That life has Xun You and Guo Jia together: Lü Bu was brave and without plans, three losses had broken his edge, and Chen Gong was slow. Strike before the spirit returned and the city would fall. They drew the Yi and Si onto the walls. Lü Bu was taken alive.",
+   "place_name": "피저우",
+   "place_name_en": "Pizhou",
+   "lat": 34.342222222222,
+   "lng": 118.00972222222
+  },
+  {
+   "year": 199,
+   "year_end": null,
+   "kind": "work",
+   "title": "유비를 둘러싸고 《위서》와 《부자》의 기록이 엇갈리다",
+   "title_en": "The Wei Shu and the Fu Zi split over Liu Bei",
+   "description": "본전에는 없는 일로, 배송지의 주석이 두 책을 인용한다. 《위서》는 곤궁한 처지에 찾아온 이름난 인물을 죽이면 천하의 인심이 조조에게서 돌아설 것이라고 했다고 전한다. 반면 《부자》는 유비가 끝내 남의 아래에 머물 사람이 아니므로 일찍 처분해야 한다고 했다고 전한다. 당시 영웅들을 모으고 있던 조조는 《부자》에 실린 조언을 따르지 않았다. 뒤에 조조가 원술을 막도록 유비를 동쪽으로 보내자, 곽가는 정욱과 함께 변고가 일어날 것이라고 경고했다. 그러나 유비는 이미 길을 떠난 뒤였다.",
+   "description_en": "This is not in the main biography. Pei’s notes cite two books. The Wei Shu says that killing a famous man who came in distress would turn the realm’s hearts away. The Fu Zi says Liu Bei would never stay under another man and should be dealt with early. Cao Cao was then gathering heroes and did not follow the Fu Zi. When Liu Bei was sent east to block Yuan Shu, Guo Jia and Cheng Yu said trouble would follow. He had already gone.",
+   "place_name": "쉬창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 200,
+   "year_end": null,
+   "kind": "work",
+   "title": "손책이 필부의 손에 죽을 것이라 하다",
+   "title_en": "Says Sun Ce will die by a common man’s hand",
+   "description": "조조가 관도에서 원소와 맞서던 때, 손책은 강을 건너 허를 공격하려 했다. 여러 사람이 이를 두려워했다. 곽가는 손책이 강동을 막 평정했고, 그 과정에서 죽인 이들이 모두 주군을 위해 목숨을 바칠 만한 호걸들이라고 했다. 그런데도 손책은 가볍게 다니며 경비를 두지 않으므로, 자객이 덮치면 군대가 아니라 손책 한 사람만 상대하면 된다고 보았다. 곽가는 손책이 필부의 손에 죽을 것이라고 내다봤다. 손책은 강을 건너기 전에 허공의 식객들에게 살해됐다. 이 내용은 본전에 실려 있다.",
+   "description_en": "While Cao Cao faced Yuan Shao at Guandu, Sun Ce meant to cross the river and strike Xu. Many were afraid. Guo Jia said Sun had just taken the Jiangdong and killed men who would die for their lords, yet he rode light and kept no guard. An assassin would meet one man, not an army. He would die by a common hand. Before he crossed, retainers of Xu Gong killed him. This is in the main biography.",
+   "place_name": "쉬창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": 202,
+   "year_end": 203,
+   "kind": "work",
+   "title": "원담과 원상이 싸우기를 기다리게 하다",
+   "title_en": "Has Cao Cao wait for Yuan Tan and Yuan Shang to fight",
+   "description": "곽가는 원소를 격파하는 전투에 종군했다. 원소가 죽은 뒤 조조군은 여양에서 원담과 원상을 공격해 여러 차례 이겼다. 장수들은 승세를 몰아 계속 진격하자고 했다. 곽가는 원소가 두 아들을 모두 아껴 후계자를 정하지 못했고, 곽도와 봉기가 두 형제를 서로 싸우게 만들 것이라고 보았다. 계속 몰아붙이면 형제가 힘을 합치지만 압박을 늦추면 다툼이 시작될 것이라고 했다. 조조에게 형주로 남하하는 척하면서 기다리라고 권했다. 조조군이 서평에 이르자 두 형제는 기주를 두고 싸웠다. 패한 원담은 평원으로 달아난 뒤 신비를 보내 항복을 청했다.",
+   "description_en": "He had followed the breaking of Yuan Shao. When Yuan died they struck Yuan Tan and Yuan Shang at Liyang and won several times. The generals wanted to press the win. Guo Jia said Yuan had loved both sons and named no heir, and that Guo Tu and Pang Ji would set them on each other. Press them and they hold; ease them and the quarrel starts. Feint south at Jing and wait. At Xiping the brothers fought over Ji. Tan lost, fled to Pingyuan, and sent Xin Pi to offer surrender.",
+   "place_name": "쉰현",
+   "place_name_en": "Xun County",
+   "lat": 35.67157,
+   "lng": 114.54399
+  },
+  {
+   "year": 205,
+   "year_end": null,
+   "kind": "office",
+   "title": "기주를 평정하고 위양정후가 되다",
+   "title_en": "Ji is settled and he is made Marquis of Weiyang Village",
+   "description": "조조군은 돌아와 업을 평정하고 남피에서 원담을 공격했다. 이로써 기주가 평정됐다. 곽가는 위양정후에 봉해졌다.",
+   "description_en": "They turned back, settled Ye, and struck Yuan Tan at Nanpi. Ji was pacified. He was made Marquis of Weiyang Village.",
+   "place_name": "난피",
+   "place_name_en": "Nanpi",
+   "lat": 38.0405,
+   "lng": 116.6965
+  },
+  {
+   "year": 207,
+   "year_end": null,
+   "kind": "battle",
+   "title": "치중을 버리고 오환을 급히 치다",
+   "title_en": "Drops the baggage and strikes the Wuhuan at speed",
+   "description": "조조가 원상과 세 군의 오환을 치려 하자 휘하 사람들은 유표가 유비를 보내 허를 습격할까 두려워했다. 곽가는 오환이 먼 거리를 믿고 대비하지 않을 것이므로 갑자기 공격하면 격파할 수 있다고 했다. 원소가 오환에 은혜를 베푼 데다 원상과 원희 형제가 살아 있으므로, 그들을 남겨 둔 채 남쪽으로 돌아서면 청주와 기주를 잃을 수 있다고 보았다. 유표는 앉아서 말만 할 뿐인 사람이라고 평했다. 유비를 중용하면 통제하지 못하고, 낮게 쓰면 유비가 따르지 않을 것이므로 허를 공격하게 만들 수 없다고 했다. 역에 이르러서는 치중을 남겨 두고 병력을 가볍게 꾸려 강행군하라고 권했다. 조조군은 노룡새를 몰래 빠져나가 선우가 있는 곳으로 향했다. 답돈과 유력한 왕들을 베었고, 원상과 원희는 요동으로 달아났다.",
+   "description_en": "When Cao Cao meant to strike Yuan Shang and the three-commandery Wuhuan, those below feared Liu Biao would send Liu Bei against Xu. Guo Jia said the Wuhuan trusted the distance and would not prepare, so a sudden blow could break them. Yuan Shao had done the Wuhuan kindness, and if the Shang brothers lived, a turn south would lose Qing and Ji. Liu Biao was a talker in a seat. Give Liu Bei too much and Biao could not hold him; give too little and Bei would not serve. At Yi he said leave the baggage and go light by forced marches. They slipped out Lulong Pass and pointed at the chanyu’s court. They cut down Tadun and the named kings. Yuan Shang and Yuan Xi fled to Liaodong.",
+   "place_name": "링위안",
+   "place_name_en": "Lingyuan",
+   "lat": 41.24067,
+   "lng": 119.39572
+  },
+  {
+   "year": 207,
+   "year_end": null,
+   "kind": "death",
+   "title": "유성에서 돌아오다 서른여덟에 죽다",
+   "title_en": "Dies at thirty-eight on the return from Liucheng",
+   "description": "병이 깊어지자 문병객의 행렬이 길에서 서로 마주칠 만큼 이어졌다. 장례 자리에서 조조는 순유 등에게 자신과 그들은 나이가 비슷하고 봉효만 가장 젊었다고 말했다. 천하의 일이 끝나면 뒷일을 맡기려 했는데 중년에 세상을 떠났다고 애도했다. 사후의 표문에는 곽가가 11년 동안 종군하며 큰일을 논할 때마다 조조가 결단을 내리기 전에 이미 계책을 정리해 두었다고 적혔다. 식읍 800호를 더해 모두 1,000호로 했고, 시호는 정후였다. 아들 곽혁이 작위를 이었다. 뒤에 조조는 형주 원정에서 돌아오다 파구에서 전염병을 만나 배를 불태운 뒤, 봉효가 있었다면 배를 불태우는 지경에 이르지는 않았을 것이라고 말했다. 생전에 진군이 곽가의 행실을 여러 차례 조정에 고발했지만 곽가는 개의치 않고 평소대로 지냈다. 조조는 곽가를 더욱 중히 여기면서도 진군의 강직함을 기뻐했다. 《삼국지연의》에서는 곽가가 죽은 뒤 공개된 편지가 요동을 평정한 것으로 그리지만, 정사 《무제기》에는 그 판단이 조조 자신의 말로 기록돼 있다.",
+   "description_en": "The illness grew grave. Visitors asking after him crossed in the lanes. At the mourning Cao Cao told Xun You and the others that they were of his own years and only Fengxiao had been the youngest. When the realm was finished he had meant to leave later affairs to him, and the man had died in midlife. The memorial said that for eleven years, in every great debate, before Cao Cao had decided, Guo Jia had already closed it. Eight hundred households were added, a thousand in all. The posthumous name was the Faithful Marquis. His son Yi succeeded. Later, returning from Jing, Cao Cao burned ships in plague at Baqiu and said that if Fengxiao had been there he would not have come to this. In life Chen Qun had charged his conduct before the court again and again; Guo Jia stayed as he was. Cao Cao prized him more, and also took pleasure in Chen Qun’s straightness. The Romance has a letter after death settle Liaodong. The Wu Di annals give those words to Cao Cao himself.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역 때문에 주어·대상·행동 관계가 흐려진 문장과 사건 사이의 연결이 끊긴 대목을 자연스러운 한국어로 고쳤다. 다만 출생지가 국문 제목의 ‘양책’, 영문의 ‘Yangdi’, place_name의 ‘위저우’로 서로 달라 문장 편집만으로 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘난 해’와 ‘뒤를 이 해로 잡는다’가 뜻을 바로 파악하기 어려운 표현이다. 출생지는 국문·영문·place_name이 서로 일치하지 않는다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "원소를 평한 대목에서 주어가 빠졌고, ‘가닥은 많고 요는 적다’가 영문의 비유를 어순대로 옮긴 직역이라 의미가 불분명하다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘대업을 이루게 할 사람은 이라고 했다’에서 목적어가 빠졌고, 조조와 곽가의 말이 연달아 나오면서 발화 주체가 흐려졌다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘배주가 인용한 부자다’는 자료의 관계를 알아보기 어렵고, 원소에 대한 평가와 여포를 먼저 쳐야 하는 이유에서 주어와 조건 관계가 생략됐다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘순유전은 순유와 함께’, ‘진궁은 늦다’, ‘성을 뺄 수 있다’가 문장 성분과 행동을 분명하게 드러내지 못한다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "두 사료의 견해가 ‘갈리다’로만 제시됐고, ‘동쪽을 맡기자’는 누가 누구를 보냈는지 알기 어렵다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘죽인 이가 모두 사람을 위해 죽을 호걸’과 ‘자객이 일어나면 한 사람의 적’은 주군·손책·자객의 관계가 무너진 직역이다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘이기며 들이치자’, ‘곽도와 봉기가 사이에 있어’, ‘급하면 붙고 느슨하면 다툼이 난다’에서 행위 주체와 형제의 대립 관계가 흐려졌다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주체가 생략돼 이 사건만 읽으면 누가 업과 남피에서 군사 행동을 벌였는지 분명하지 않다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘아래가 두려워했다’, ‘유표는 자리의 객’, ‘가볍게 겸행하라’, ‘선우의 뜰을 가리켰다’ 등 영문 어순을 따른 표현이 인물의 판단과 군사 행동을 알아보기 어렵게 한다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "조조의 추도 발언과 표문의 내용에서 주어·목적어가 여러 차례 빠졌고, ‘여기까지 오지 않았다’가 무엇을 가리키는지 앞 문장만으로 분명하지 않다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 0,
+    "reason": "출생지가 국문 제목에는 ‘영천 양책’, 영문에는 ‘Yangdi of Yingchuan’, place_name에는 ‘위저우’로 적혀 있다. ‘양책’을 고쳐야 하는지, place_name이 별도 지리 단위인지 문장 편집만으로 확정할 수 없어 기존 제목을 유지했다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

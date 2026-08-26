@@ -1,0 +1,248 @@
+{
+ "slug": "antonio-gracias",
+ "events": [
+  {
+   "year": 1970,
+   "year_end": null,
+   "kind": "birth",
+   "title": "디트로이트에서 태어나다",
+   "title_en": "Born in Detroit",
+   "description": "아버지는 인도에서 온 신경외과 의사였고, 어머니는 스페인에서 온 약사로 가게를 운영했다. 형제들은 의사가 되었고 누이는 치과의사가 되었다. 가족은 그를 변호사로 키우려 했다.",
+   "description_en": "His father was a neurosurgeon from India, and his mother was a pharmacist from Spain who ran a shop. His brothers became doctors and his sister a dentist. The family meant for him to be the lawyer.",
+   "place_name": "디트로이트",
+   "place_name_en": "Detroit",
+   "lat": 42.331666666667,
+   "lng": -83.0475
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "education",
+   "title": "조지타운에서 국제금융 과정을 마치다",
+   "title_en": "Completes international finance at Georgetown",
+   "description": "외교대학원에서 국제금융·경제학 학사와 석사 학위를 함께 받았다. 도쿄 와세다대학교에서 기업 구조와 경제개발을 공부했고, 석사 과정을 마치기 전에 닛코증권 펠로로 일본에 다시 갔다.",
+   "description_en": "He earned a joint bachelor's and master's in international finance and economics at the School of Foreign Service. He studied corporate structures and economic development at Waseda University in Tokyo, and returned to Japan as a Nikko Securities fellow before finishing the master's.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "work",
+   "title": "법학 공부 중에 엠지캐피털을 세우다",
+   "title_en": "Founds MG Capital while in law school",
+   "description": "골드만삭스에서 2년을 보낸 뒤 시카고대학교 법학전문대학원에 들어갔다. 재학 중에 가족·지인과 본인 자금 40만 달러로 제조업체를 사들여 직접 운영했다. 그중 한 회사는 매출이 1억 2500만 달러까지 성장한 뒤 매각됐다.",
+   "description_en": "After two years at Goldman Sachs he entered the University of Chicago Law School. While still a student he used $400,000 from family, friends, and his own savings to buy manufacturing companies and run them himself. One of those companies was sold after growing to $125 million in revenue.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "education",
+   "title": "법무박사 학위를 받다",
+   "title_en": "Receives a Juris Doctor",
+   "description": "시카고대학교 법학전문대학원은 그를 1998년 졸업생으로 기록하고 있다. 학위는 받았지만, 당시 이미 제조업체를 인수하는 일을 하고 있었다.",
+   "description_en": "The University of Chicago Law School lists him in the class of 1998. He took the degree, but his work was already in buying factories.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "work",
+   "title": "밸러이퀴티파트너스를 시카고에 설립하다",
+   "title_en": "Sets up Valor Equity Partners in Chicago",
+   "description": "엠지캐피털 팀은 펀드형 투자사로 전환했다. 그는 가족 곁에 머물기 위해 본사를 시카고에 두고 최고경영자와 최고투자책임자를 맡았다.",
+   "description_en": "The MG Capital team became a fund-based investment firm. He headquartered it in this city to stay near his family. He took the roles of chief executive and chief investment officer.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "테슬라 시리즈 B에 참여하다",
+   "title_en": "Joins Tesla's Series B",
+   "description": "밸러는 머스크가 이끈 1300만 달러 규모의 투자 라운드에 참여해 테슬라의 초기 기관투자자 중 하나가 되었다. 당시 테슬라는 아직 판매할 차량을 내놓지 못한 상태였다.",
+   "description_en": "Valor joined the $13 million round led by Musk. It was an early institutional check. The car company did not yet have a vehicle to sell.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2007,
+   "year_end": 2021,
+   "kind": "office",
+   "title": "테슬라 이사회에 들어가다",
+   "title_en": "Joins Tesla's board",
+   "description": "5월에 테슬라 이사회에 합류했다. 2010년 테슬라의 상장을 도왔고, 그해 9월부터 2019년 4월까지 선임 독립이사를 맡았다. 솔라시티 이사도 겸했으며, 테슬라가 솔라시티를 인수한 2016년까지 그 이사직을 유지했다.",
+   "description_en": "He joined in May. He helped take the company public in 2010 and served as lead independent director from September 2010 to April 2019. He also sat on SolarCity's board until Tesla bought that company in 2016.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "office",
+   "title": "스페이스엑스 이사가 되다",
+   "title_en": "Joins the SpaceX board",
+   "description": "밸러는 테슬라에 투자한 뒤 몇 년 안에 스페이스엑스에도 투자했다. 그는 2010년 스페이스엑스 이사회에 합류했으며 지금도 이사직을 맡고 있다.",
+   "description_en": "Valor put money into the rocket company within a few years of the Tesla investment. He joined the board that year and still holds the seat.",
+   "place_name": "호손",
+   "place_name_en": "Hawthorne",
+   "lat": 33.917214,
+   "lng": -118.348607
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "모델 3 증산 때 공장에 머물다",
+   "title_en": "Stays at the factory for the Model 3 ramp",
+   "description": "머스크와 함께 공급망과 생산 문제를 해결했다. 밤에는 두 사람이 공장 작업장 옆 회의실에서 잤다. 그는 훗날 이 일이 자신이 해본 일 중 가장 힘들었다고 말했다.",
+   "description_en": "He worked with Musk on supply-chain and production problems. At night they slept in conference rooms off the factory floor. He later called it the hardest thing he had done.",
+   "place_name": "프리몬트",
+   "place_name_en": "Fremont",
+   "lat": 37.548611111111114,
+   "lng": -121.98833333333333
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "사회보장국에서 정부효율 업무를 맡다",
+   "title_en": "Takes a government-efficiency post at Social Security",
+   "description": "머스크가 이끈 정부효율부의 일원으로 사회보장국에 들어갔다. 무급 특별정부직원으로 일했으며 7월 1일에 업무를 마쳤다.",
+   "description_en": "He entered the Social Security Administration as part of the Musk-led Department of Government Efficiency. He served as an unpaid special government employee and stopped on July 1.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "other",
+   "title": "모교의 연구를 위해 2천만 달러를 기부하다",
+   "title_en": "Gives $20 million for research at his university",
+   "description": "가족재단은 경제학과 양자과학 분야의 교수직과 학부생 연구 기금을 만들었다. 그는 2021년 5월부터 모교 이사로도 활동하고 있다.",
+   "description_en": "The family foundation created professorships in economics and quantum science and a fund for undergraduate research. He has also sat on the university board since May 2021.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실과 세부를 유지하면서 직역투, 모호한 지시어, 부자연스러운 서술어를 바로잡았다. 학업에서 투자사 설립, 테슬라·스페이스엑스 이사회 활동, 정부 업무와 모교 기부로 이어지는 생애의 흐름도 끊기지 않도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「형제는 의사」는 복수 관계와 의사가 되었다는 변화를 충분히 드러내지 못하고, 「집에서는」은 가족의 의도를 나타내는 주어로 어색했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「국제금융을 마치다」는 무엇을 마쳤는지 불분명했고, 「석사를 끝내기 전에」는 석사 과정과 학위를 가리키는 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「매출 1억 2500만 달러 규모가 된 뒤 팔렸다」는 성장과 매각의 관계를 번역 순서대로 옮겨 한국어가 다소 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일은 이미 제조업체 인수에 가 있었다」는 영어의 의미를 단어 단위로 치환해 행동 주체와 실제 업무가 분명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「투자사를 시카고에 두다」와 「본사를 이 도시에 둔 이유는 가족 옆이었다」가 모두 직역투였으며, 「이 도시」도 문장 자체만으로 대상을 바로 알기 어려웠다. 「최고투자책임」에는 직책을 나타내는 말이 빠져 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기관 투자자로는 이른 편이었다」는 투자 주체가 흐릿했고, 「팔 차를 내놓지 못한 상태」는 판매할 차량이 없었다는 뜻을 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사」와 「그 회사」가 각각 테슬라와 솔라시티를 번갈아 가리켜 대상을 짐작해야 했고, 「그 자리는 끝났다」도 어떤 이사직이 끝났는지 명확하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「로켓 회사」와 「그 자리」가 각각 스페이스엑스와 이사직을 에둘러 가리켜 사건의 핵심 대상이 흐려졌다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에서는 두 사람이 회의실에서 잤다고 했으나 국문은 주어가 빠져 있었고, 「그때를 가장 힘든 일이었다고 말했다」는 목적어와 서술어의 관계가 맞지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「정부효율부 인력으로」는 소속 관계가 부자연스럽고, 「손을 뗐다」는 어떤 업무를 언제 끝냈는지 정확히 드러내지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「모교 연구에 돈을 내다」는 기부 목적과 행동을 거칠게 표현했고, 「이 대학」은 앞 문장만으로 대상을 분명히 파악하기 어려웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

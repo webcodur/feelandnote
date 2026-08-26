@@ -1,0 +1,228 @@
+{
+ "slug": "bernt-bornich",
+ "events": [
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "birth",
+   "title": "노르웨이에서 태어나다",
+   "title_en": "Born in Norway",
+   "description": "어릴 때부터 소프트웨어로 움직이는 기계를 만들고 싶었다. 처음 눈에 들어온 것은 굴착기였다. 이후에는 혼다 아시모와 일본에서 개발되던 휴머노이드 로봇을 지켜봤다.",
+   "description_en": "From childhood he wanted to build machines that software could move. Excavators caught his eye first. Later he followed Honda Asimo and the humanoid robots coming out of Japan.",
+   "place_name": "노르웨이",
+   "place_name_en": "Norway",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "오슬로대학교에서 로봇공학과 나노전자를 공부하다",
+   "title_en": "Studies robotics and nanoelectronics at the University of Oslo",
+   "description": "아주 작은 회로를 다루는 분야에 들어갔다가 로봇공학을 주력 분야로 삼았다. 로봇을 쓸모 있는 물리적 작업을 수행하는 몸으로 보았다.",
+   "description_en": "He went into very small circuits, then took robotics as the main line. He treated a robot as a body that does useful physical work.",
+   "place_name": "오슬로",
+   "place_name_en": "Oslo",
+   "lat": 59.913333333333334,
+   "lng": 10.738888888888889
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "할로디 로보틱스를 세우다",
+   "title_en": "Founds Halodi Robotics",
+   "description": "프엉 응우옌, 요르겐 순델과 회사를 공동 창업했고 폴 뢰켄이 투자했다. 사람과 부딪혀도 부드럽게 반응하는 구동기부터 만들기로 했다.",
+   "description_en": "He opened the company with Phuong Nguyen and Jørgen Sundell, and Pål Løken put in the money. They decided to start with actuators that stay soft when they hit a person.",
+   "place_name": "모스",
+   "place_name_en": "Moss",
+   "lat": 59.433888888889,
+   "lng": 10.6575
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "레보1을 만들고 이브를 선보이다",
+   "title_en": "Builds Revo1 and brings out EVE",
+   "description": "힘줄처럼 당기는 구동 방식을 염두에 두고 무게 대비 토크가 큰 모터를 만들었다. 그 모터를 바퀴 달린 안드로이드 이브에 적용했다. 물류와 경비, 의료 현장을 겨냥했다.",
+   "description_en": "With tendon-like drive in mind he made a motor with high torque for its weight. Those motors went into EVE, a wheeled android. He aimed it at logistics, guarding, and medical sites.",
+   "place_name": "모스",
+   "place_name_en": "Moss",
+   "lat": 59.433888888889,
+   "lng": 10.6575
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "이브를 공장에 배치하다",
+   "title_en": "Puts EVE into factories",
+   "description": "바퀴형 이브를 여러 나라의 고객 시설에 배치했다. 이브는 실험실 밖의 일터에서 자율적으로 작업하기 시작했다.",
+   "description_en": "He placed the wheeled EVE in customer facilities in several countries. The robot began doing work on its own outside the lab.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "회사 이름을 1엑스로 바꾸다",
+   "title_en": "Renames the company 1X",
+   "description": "안드로이드가 사람들 사이에서 실제 속도로 일해야 한다는 뜻을 회사 이름에 담았다. 로봇 지능을 키우기에는 공장 현장만으로 부족하다고 보고 가정을 다음 무대로 삼았다. 같은 달 오픈AI 스타트업 펀드가 2,350만 달러 규모의 투자를 주도했다. 투자금으로 이브 생산을 늘리고 두 발로 걷는 네오를 만들기로 했다.",
+   "description_en": "He put into the name the idea that the androids should work at real speed among people. Factory sites were not enough for intelligence, so he took the home as the next stage. The same month the OpenAI Startup Fund led a $23.5 million round. He would use the money to scale EVE and build the bipedal NEO.",
+   "place_name": "모스",
+   "place_name_en": "Moss",
+   "lat": 59.433888888889,
+   "lng": 10.6575
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "1억 달러 투자를 유치하다",
+   "title_en": "Raises $100 million",
+   "description": "EQT 벤처스가 시리즈 B 투자를 이끌었다. 가정용 네오를 내놓는 한편 물류와 경비 분야의 고객도 유지하겠다고 했다. 다음 단계는 로봇 자체에서 나오는 데이터를 모으는 일이라고 말했다.",
+   "description_en": "EQT Ventures led the Series B. He said he would bring NEO to homes and keep logistics and guarding clients. The next step, he said, was collecting data from the robots themselves.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "가정용 네오 베타를 공개하다",
+   "title_en": "Unveils NEO Beta for the home",
+   "description": "두 발로 걷는 시제품을 가정에 배치하려 했다. 몸체는 모스 공장에서 대량생산할 수 있도록 설계했다. 소수 가정에 먼저 배치해 로봇이 사람 곁에서 어떻게 작동하는지 살피겠다고 했다.",
+   "description_en": "He meant to send a two-legged prototype into houses. The body was designed to be made in volume at the Moss plant. A few homes would get units so the team could watch them beside people.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "본사를 팔로알토로 옮기다",
+   "title_en": "Moves headquarters to Palo Alto",
+   "description": "1월에 카인드 휴머노이드를 인수하고 크리스토프 코슈탈을 베이 지역 팀에 합류시켰다. 여름에는 서니베일과 모스의 인력을 팔로알토의 한 건물로 모았다.",
+   "description_en": "In January he bought Kind Humanoid and brought Christoph Kohstall onto the Bay team. In summer he pulled people from Sunnyvale and Moss into a Palo Alto building.",
+   "place_name": "팔로알토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "네오 선주문을 열다",
+   "title_en": "Opens NEO pre-orders",
+   "description": "구매가는 2만 달러였고 월 구독료는 499달러였다. 미국 가정에 보내는 첫 제품은 이듬해 배송하기로 했다.",
+   "description_en": "A purchase was $20,000, a subscription $499 a month. First deliveries to U.S. homes were set for the next year.",
+   "place_name": "팔로알토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮긴 듯한 표현과 한국어에서 뜻이 불분명한 동사·지시 관계를 바로잡았다. 영문이 제공하는 사실과 세부 사항은 그대로 보존했으며, 별도의 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에는」과 「일본에서 나오던 사람 모양 로봇을 따라갔다」가 영어 어순과 동사를 그대로 옮긴 표현이라 관심의 대상과 행동이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학문을 공부했다는 뜻을 「읽다」로 옮겼고, 「본줄기는 로봇으로 잡았다」도 한국어에서 전공 선택을 설명하는 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "회사를 공동 창업하고 투자를 받았다는 내용을 「같이 열었고」「돈을 댔다」로 표현해 관계와 행동이 지나치게 구어적이고 불명확했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제품을 개발하고 공개했다는 내용을 「모터를 냈다」「이브를 조립했다」로 옮겨 영문이 말하는 개발·적용 관계가 흐려졌다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "로봇을 공장에 배치했다는 내용을 「공장에 넣다」로 표현했고, 로봇의 자율 작업을 사람이 「일을 시키기 시작했다」고 서술해 행위 관계가 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "회사명에 담긴 뜻과 공장에서 가정으로 무대를 옮긴 판단이 직역체로 이어져 문장 사이의 관계가 매끄럽지 않았고, 마지막 문장의 「그 돈」도 투자금으로 명시하는 편이 분명했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "투자 라운드를 유치한 사건이 단순히 투자를 「받다」로 표현되어 있었고, 「몸에서 나오는 데이터」는 데이터가 로봇 자체에서 나온다는 영문의 대상을 명확히 보여주지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "대량생산 설계를 「대량으로 찍을 설계」라고 표현했고, 가정에서 로봇의 작동을 관찰한다는 내용을 「사람 옆에서 반응을 받겠다」로 옮겨 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「베이 쪽에 합류시켰다」와 「팔로알토 건물로 모았다」는 지역과 조직의 관계가 모호해, 어느 팀에 합류하고 어디로 인력을 모았는지 분명하게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "구매가와 월 구독료를 설명하는 문장이 지나치게 구어적이었고, 「배송은 이듬해로 잡았다」도 첫 배송 시점을 정했다는 의미가 선명하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

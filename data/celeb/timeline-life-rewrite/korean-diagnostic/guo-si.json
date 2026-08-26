@@ -1,0 +1,226 @@
+{
+ "slug": "guo-si",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "장액군에서 태어나다",
+   "title_en": "Is born in Zhangye Commandery",
+   "description": "양주 사람이다. 정사 열전은 태어난 해를 적지 않았다. 『영웅기』에는 이름이 ‘다’로도 기록되어 있다.",
+   "description_en": "He is a man of Liang Province. The official biographies give no year of birth. The Yingxiong Ji also records his name as Duo.",
+   "place_name": "장액",
+   "place_name_en": "Zhangye",
+   "lat": 38.93545,
+   "lng": 100.45529
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "battle",
+   "title": "중모에서 주준을 깨다",
+   "title_en": "Defeats Zhu Jun at Zhongmu",
+   "description": "동탁의 사위 우보가 섬에 주둔해 있을 때 교위로 출전했다. 이각·장제와 함께 하남윤을 물리쳤다. 이어서 진류와 영천의 여러 현을 약탈했다.",
+   "description_en": "He rides out as a colonel while Dong Zhuo’s son-in-law Niu Fu holds Shan. With Li Jue and Zhang Ji he beats the Henan intendant. They then raid the counties of Chenliu and Yingchuan.",
+   "place_name": "중모",
+   "place_name_en": "Zhongmu",
+   "lat": 34.72634,
+   "lng": 114.01074
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "battle",
+   "title": "장안을 함락하다",
+   "title_en": "Takes Chang’an",
+   "description": "동탁과 우보가 죽은 뒤 왕윤에게 사면을 청했다. 거절당하자 가후의 권유에 따라 수도를 공격했다. 여러 날 성을 포위한 끝에 여포를 몰아냈다. 왕윤은 며칠 뒤 살해되었다.",
+   "description_en": "After Dong Zhuo and Niu Fu die, he asks Wang Yun for a pardon. When it is refused, Jia Xu tells them to strike the capital. They invest the walls for days and drive Lü Bu out. Wang Yun is killed a few days later.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833,
+   "lng": 108.85833
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "office",
+   "title": "후장군이 되어 미양후에 봉해지다",
+   "title_en": "Is made Rear General and Marquis of Meiyang",
+   "description": "이각은 거기장군, 번조는 우장군이 되었다. 장제는 홍농으로 나가 인사에는 관여하지 않았다. 곽사·이각·번조 세 사람이 조정을 나누어 쥐었다.",
+   "description_en": "Li Jue becomes General of Chariots and Cavalry, Fan Chou General of the Right. Zhang Ji goes out to Hongnong and stays out of the appointments. The three of them hold the court.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833,
+   "lng": 108.85833
+  },
+  {
+   "year": 194,
+   "year_end": null,
+   "kind": "battle",
+   "title": "장평관에서 마등을 꺾다",
+   "title_en": "Defeats Ma Teng at Changping Pavilion",
+   "description": "한수가 마등에게 가세하자 번조와 함께 출전했다. 지양 남쪽에서 만여 급을 베고 종소와 유범을 죽였다. 그해 가을에는 빙익의 강족도 함께 깨뜨렸다. 승리한 뒤 번조와 함께 관부를 열 권한을 받고 삼공과 인사권을 나누어 행사했다.",
+   "description_en": "When Han Sui joins Ma Teng, he rides out with Fan Chou. South of Chiyang they take more than ten thousand heads and kill Zhong Shao and Liu Fan. That autumn they also break the Qiang in Pingyi. After the victory he and Fan Chou receive the right to open offices and share appointments with the Three Excellencies.",
+   "place_name": "징양",
+   "place_name_en": "Jingyang",
+   "lat": 34.53056,
+   "lng": 108.83525
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "other",
+   "title": "아내가 이각을 의심하게 만들다",
+   "title_en": "His wife turns him against Li Jue",
+   "description": "이각이 번조를 죽인 뒤에도 곽사와 이각은 술자리를 함께했다. 곽사의 아내는 이각 집안의 여자들을 경계했다. 이각이 보낸 음식에서 발효된 콩을 집어 들고, 그것을 독이라고 했다. 다음 잔치에서 술에 취한 곽사는 토하려고 똥물을 마셨다.",
+   "description_en": "Even after Li Jue kills Fan Chou, the two still drink together. His wife fears the women in Li Jue’s household. She picks fermented beans from a gift of food and shows them as poison. At the next banquet he gets drunk, then drinks dung water to make himself vomit.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833,
+   "lng": 108.85833
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "battle",
+   "title": "장안 거리에서 이각과 싸우다",
+   "title_en": "Fights Li Jue in the streets of Chang’an",
+   "description": "이각은 황제를 자기 진영으로 옮기고 궁궐을 불태웠다. 곽사 진영은 화해를 권하러 온 대신들을 붙잡았다. 이각은 사신 앞에서 곽사를 말 도둑이라고 불렀다. 시가전은 여러 달 이어졌고 죽은 사람이 만 명을 넘었다.",
+   "description_en": "Li Jue moves the emperor into his own camp and burns the palaces. The other camp seizes the ministers sent to make peace. Before an envoy Li Jue calls him a horse thief. Street fighting lasts for months, and the dead number more than ten thousand.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833,
+   "lng": 108.85833
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "office",
+   "title": "거기장군이 되어 헌제를 호송하다",
+   "title_en": "Is made General of Chariots and Cavalry and escorts the emperor",
+   "description": "장제가 섬에서 와 이각과 곽사를 화해시켰다. 헌제가 옛 수도로 떠나자 곽사가 호송을 맡았다.",
+   "description_en": "Zhang Ji comes from Shan and talks the two into a truce. When Emperor Xian leaves for the old capital, he is given the escort.",
+   "place_name": "장안",
+   "place_name_en": "Chang’an",
+   "lat": 34.30833,
+   "lng": 108.85833
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "battle",
+   "title": "헌제를 미로 끌어가려다 저지당하다",
+   "title_en": "Tries to drag the emperor to Mei and is driven off",
+   "description": "양정·양봉·동승이 막아서자 곽사는 군대를 버리고 이각에게 돌아갔다. 이후 이각과 다시 합세해 헌제 일행을 홍농 조양까지 추격했지만, 헌제는 황하를 건너 빠져나갔다.",
+   "description_en": "Yang Ding, Yang Feng, and Dong Cheng block him, so he abandons his army and goes back to Li Jue. The two join again and chase the party as far as Caoyang in Hongnong, but the emperor crosses the Yellow River and gets away.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 197,
+   "year_end": null,
+   "kind": "death",
+   "title": "미현에서 부하에게 죽다",
+   "title_en": "Is killed by a subordinate in Mei",
+   "description": "부하 오습이 곽사를 습격해 죽였다. 남은 병력은 이각에게 넘어갔다.",
+   "description_en": "Wu Xi ambushes him. The remnant force passes to Li Jue.",
+   "place_name": "미현",
+   "place_name_en": "Mei",
+   "lat": 34.27439,
+   "lng": 107.74416
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 주어와 행동 주체가 뒤섞인 문장, 뜻이 불분명한 직역, 사건 사이의 연결이 끊기는 표현을 바로잡았다. 사실 판단이 필요한 충돌이나 영문 자체의 중대한 모호성은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이름을 다라고도 한다」는 기록의 주체와 문장 구조가 어색해, 『영웅기』에 다른 이름이 기록되어 있다는 뜻이 분명하도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「섬에 둔쳐 있을 때 교위로 나갔다」와 「하남윤을 이겼다」가 직역투이고 행동의 성격도 흐릿해, 주둔과 출전 및 격파의 관계를 자연스럽게 정리했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「성을 여러 날 두른 뒤」는 포위를 뜻하는 부자연스러운 직역이며, 왕윤이 살해되었다는 영문의 의미도 국문에서 약해져 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「세 사람」이 바로 앞에 열거된 이각·번조·장제를 가리키는 것처럼 읽혀 조정을 장악한 인물 관계가 불분명했다. 인사에 관여하지 않았다는 뜻도 자연스럽게 다듬었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "한수가 누구에게 가세했는지 문장만으로 분명하지 않았고, 「개부를 받아 삼공과 인사를 나누었다」는 권한과 행동의 관계를 뜻을 짐작해 읽어야 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「아내가 이각을 갈라놓다」는 목적어가 잘못되어 누구와 누구의 사이가 벌어졌는지 드러나지 않았다. 음식과 독에 관한 문장 및 구토를 위한 행동도 직역투여서 사건의 흐름을 분명하게 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "이각의 행동을 서술한 직후 주어 없이 「공경을 붙잡았다」고 이어져, 이각이 붙잡은 것처럼 읽혔다. 「그」가 누구인지도 곽사로 명시했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「둘」과 호송의 주체가 앞 사건에 기대어 있어 단독으로 읽을 때 불분명했다. 장제가 화해시킨 두 사람과 헌제를 호송한 곽사를 명시했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문의 ‘is driven off’를 「달아나다」로 단정해 옮긴 제목을 「저지당하다」로 바로잡았다. 본문의 「둘」과 추격 대상도 명시해 사건의 연결을 분명하게 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "습격한 인물과 죽은 인물의 관계를 본문에서도 명확히 밝히고, 「남은 무리」를 군사 집단을 뜻하는 자연스러운 표현으로 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

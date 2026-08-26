@@ -1,0 +1,285 @@
+{
+ "slug": "anthony-armstrong",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "미국에서 태어나다",
+   "title_en": "Born in the United States",
+   "description": "해로즈 홀딩스 이사회 등기에는 국적이 미국으로 기재됐다. 공개된 기록에는 출생 도시와 출생 연도가 나오지 않는다.",
+   "description_en": "A Harrods Holdings board filing listed his nationality as American. Public records do not name a birth city or year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "콜로라도주립대에서 학사를 받다",
+   "title_en": "Earns a bachelor's degree at Colorado State",
+   "description": "학부를 마친 뒤 시카고 근교의 경영대학원에 진학했다.",
+   "description_en": "He finished his undergraduate studies. He then moved on to a business school near Chicago.",
+   "place_name": "포트콜린스",
+   "place_name_en": "Fort Collins",
+   "lat": 40.566666666,
+   "lng": -105.083333333
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "노스웨스턴에서 경영학 석사를 우등으로 받다",
+   "title_en": "Completes an MBA with honors at Northwestern",
+   "description": "캘로그에서 석사를 우등으로 마쳤다. 직후 중견기업 거래를 다루는 자문사에 들어갔다.",
+   "description_en": "He finished the Kellogg MBA with honors. He went straight into mid-market deal advising.",
+   "place_name": "에번스턴",
+   "place_name_en": "Evanston",
+   "lat": 42.047222222,
+   "lng": -87.685
+  },
+  {
+   "year": 1996,
+   "year_end": 1999,
+   "kind": "work",
+   "title": "볼스 할로웰 코너에서 인수합병을 시작하다",
+   "title_en": "Starts out in mergers at Bowles Hollowell Conner",
+   "description": "중견기업 매각과 사모펀드 자문을 하는 회사였다. 퍼스트유니언이 그 회사를 사들인 뒤에도 그 조직에 남았다.",
+   "description_en": "The firm advised mid-market sales and private-equity deals. He stayed on after First Union bought the house.",
+   "place_name": "샬럿",
+   "place_name_en": "Charlotte",
+   "lat": 35.226944444,
+   "lng": -80.843333333
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "도널드슨 러프킨 젠레트를 거쳐 크레디트스위스로 들어가다",
+   "title_en": "Moves from DLJ into Credit Suisse",
+   "description": "인수합병 조직의 임원이었다. 은행이 크레디트스위스 퍼스트보스턴에 흡수되며 그 안으로 들어갔다.",
+   "description_en": "He was an officer in the mergers group. When the bank was absorbed into Credit Suisse First Boston, he went in with it.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2000,
+   "year_end": 2008,
+   "kind": "work",
+   "title": "미주 서부 인수합병을 맡다",
+   "title_en": "Runs western U.S. mergers",
+   "description": "미주 인수합병 부문 전무로 미국 서부 지역을 이끌었다. 미국과 중동을 잇는 국경 간 거래도 자문했다.",
+   "description_en": "As a managing director in Americas M&A he led the western region. He also advised cross-border deals between the United States and the Middle East.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "office",
+   "title": "크레디트스위스 중동·북아프리카 인수합병을 맡다",
+   "title_en": "Takes Credit Suisse's MENA mergers brief",
+   "description": "유럽·중동·아프리카 인수합병 부문장과 중동·북아프리카 투자은행 부문장에게 보고했다. 그전까지는 미국 서부의 인수합병 거래를 맡고 있었다.",
+   "description_en": "He reported to the EMEA mergers head and to the MENA investment-banking head. Until then he had been running western U.S. deals.",
+   "place_name": "두바이",
+   "place_name_en": "Dubai",
+   "lat": 25.269722222,
+   "lng": 55.309444444
+  },
+  {
+   "year": 2010,
+   "year_end": 2011,
+   "kind": "work",
+   "title": "카타르 홀딩에서 인수를 지휘하다",
+   "title_en": "Runs acquisitions for Qatar Holding",
+   "description": "국부펀드의 인수 조직을 이끌었다. 모하메드 알파예드에게서 해로즈를 사들이는 거래를 맡았고, 잠시 해로즈 지주회사 이사회에도 참여했다. 폭스바겐과 포르셰에 투자할 때도 펀드를 대표했다.",
+   "description_en": "He led the sovereign fund's buyout team. He handled the purchase of Harrods from Mohamed Al-Fayed and sat briefly on the holding company's board. He also represented the fund on its investment in Volkswagen and Porsche.",
+   "place_name": "도하",
+   "place_name_en": "Doha",
+   "lat": 25.286111111,
+   "lng": 51.529444444
+  },
+  {
+   "year": 2011,
+   "year_end": 2015,
+   "kind": "office",
+   "title": "크레디트스위스 미주 인수합병 공동책임자로 돌아오다",
+   "title_en": "Returns as co-head of Americas M&A",
+   "description": "도하에서 돌아온 뒤 미주 인수합병을 공동으로 맡았다. 델 경영진의 회사 인수와 마이크렐 매각을 자문했고, 이후 미주 기술기업 금융 업무까지 맡았다.",
+   "description_en": "Back from Doha he jointly ran Americas mergers. He advised Dell's management buyout and the sale of Micrel, then took Americas technology banking as well.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2016,
+   "year_end": 2025,
+   "kind": "office",
+   "title": "모건스탠리 글로벌 기술 인수합병을 공동 지휘하다",
+   "title_en": "Co-leads global technology M&A at Morgan Stanley",
+   "description": "은행은 그를 영입해 마이크 와이어트와 함께 글로벌 기술기업 인수합병을 이끌게 했다. 그는 대형 기술기업들의 거래를 자문했다.",
+   "description_en": "The bank hired him to pair with Mike Wyatt. He advised large technology-company deals.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454166666,
+   "lng": -122.178611111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "일론 머스크의 트위터 인수를 자문하다",
+   "title_en": "Advises Elon Musk on the Twitter purchase",
+   "description": "모건스탠리 기술 인수합병 책임자로서 440억 달러 규모의 인수 자문팀에 참여했다. 자문팀은 그해 가을 거래를 마무리했다. 머스크는 이후 서비스 이름을 엑스(X)로 바꿨다.",
+   "description_en": "As Morgan Stanley's technology M&A lead he joined the team on the $44 billion buyout. They closed the deal that autumn. Musk later renamed the service X.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "인사관리처에서 정부효율부 고문으로 일하다",
+   "title_en": "Serves as a DOGE adviser at the Office of Personnel Management",
+   "description": "무보수 선임 고문으로 합류했다. 머스크가 이끄는 효율화 조직과 공직 관료 조직 사이에서 일했다.",
+   "description_en": "He came in as a volunteer senior adviser. He worked between Musk's efficiency operation and the civil-service bureaucracy.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "엑스AI와 엑스의 재무를 맡다",
+   "title_en": "Takes finance at xAI and X",
+   "description": "두 회사의 재무를 함께 총괄했다. 앞선 재무책임자들이 떠나며 빈 자리를 맡았고, 정식으로 선임되기 전부터 몇 주 동안 엑스AI와 함께 일하고 있었다.",
+   "description_en": "He ran finance for both companies. He stepped into seats left by the previous finance chiefs and had already been working with the AI company for several weeks.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666,
+   "lng": -122.138055555
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "office",
+   "title": "엑스AI 재무 책임자에서 물러나다",
+   "title_en": "Leaves the xAI finance post",
+   "description": "재무 책임을 맡은 지 약 6개월 만에 회사를 떠났다. 스페이스엑스가 엑스AI를 흡수한 뒤에는 브렛 존슨에게 보고했다. 로이터는 디인포메이션을 인용해 고위 임원들이 잇달아 떠나는 가운데 그도 퇴사했다고 전했다. 회사는 즉시 논평하지 않았다.",
+   "description_en": "He left about six months after taking the job. After SpaceX absorbed the AI company he had been reporting to Bret Johnsen. Reuters, citing The Information, said he departed in a wave of senior exits. The company did not comment at once.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666,
+   "lng": -122.138055555
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대체로 경력의 흐름은 이어지지만, 출생 기록의 의미가 달라진 문장과 인수합병·재무 경력을 영문 어순대로 옮긴 표현이 여러 곳에 있었다. 영문에 담긴 세부와 범위를 유지하면서 주체와 행동이 바로 드러나도록 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문은 출생 도시와 출생 연도가 공개 기록에 없다고 했지만, 국문은 출생 연도를 빠뜨리고 유년기에 관한 서술로 의미를 바꿨다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「경영대학원으로 넘어갔다」는 진학을 물리적인 이동처럼 표현해 경력의 연결이 매끄럽지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "cross-border deals를 「국경 거래」라고 옮겨 거래의 성격이 자연스럽게 전달되지 않았고, western U.S.의 범위도 더 분명히 드러낼 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "조직명과 직책의 수식 관계가 불분명했고, 「그 전엔 미주 서부 거래」라는 표현도 앞선 보직을 정확하게 가리키지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지주회사 이사로 올랐다」는 승진처럼 읽히며, 「투자를 대변했다」도 무엇을 대표했다는 뜻인지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "Dell's management buyout을 「델의 경영진 매수」라고 옮겨 델이 경영진을 매수한 것처럼 주체와 목적어의 관계가 뒤집혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「마이크 와이어트와 짝을 맞췄다」는 pair with의 직역으로, 두 사람이 함께 기술기업 인수합병을 지휘했다는 관계가 분명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기술 인수합병 책임으로」는 직책과 행동의 관계가 어색하고, 「그들은 거래를 닫았다」는 주체가 모호한 직역이었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "volunteer senior adviser를 「자원 고문」이라고 옮겨 직책의 의미가 무너졌으며, senior의 의미도 빠졌다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재무를 함께 돌렸다」와 「빠져나간 자리에 들어갔다」가 지나치게 구어적이었고, 영문에 있는 선임 전 몇 주간의 근무 기간도 빠졌다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「오른 지」와 「브렛 존슨 아래 있었다」는 어떤 직책을 맡았고 누구에게 보고했는지 뜻을 짐작해야 했다. 로이터가 전한 고위 임원 연쇄 이탈이라는 세부도 국문에서 빠졌다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

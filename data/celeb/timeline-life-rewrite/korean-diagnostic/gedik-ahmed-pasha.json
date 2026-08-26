@@ -1,0 +1,273 @@
+{
+ "slug": "gedik-ahmed-pasha",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "세르비아에서 태어나 내궁으로 들어가다",
+   "title_en": "Born in Serbia and taken into the inner palace",
+   "description": "동시대인 안졸렐로는 그가 세르비아 태생이라고 적었다. 알바니아 출신이라는 후대의 설도 있지만, 당대의 목격담은 세르비아 출신이라는 쪽을 뒷받침한다. 한 세기 뒤에 작성된 타흐리르 장부는 브란예 인근의 푸누셰브체 마을을 그의 이름을 딴 명칭으로도 기록했고, 후대 연구는 이 기록을 그의 출생지를 가리키는 것으로 해석한다. 그는 무라드 2세 때 소년으로 내궁에 들어갔다. 아시크파샤자데는 게딕이라는 별칭이 성을 공략하는 솜씨에서 유래했다고 전한다.",
+   "description_en": "The contemporary Angiolello called him a native of Serbia. A later claim of Albanian origin exists, but the eyewitness of his own time points to Serbia. A tahrir register compiled a century later also named the nearby village of Punuševce after him, and later research reads that entry as his birthplace. He entered the inner palace as a boy under Murad II. Aşıkpaşazade traces the epithet Gedik to his skill at taking fortresses.",
+   "place_name": "브란예",
+   "place_name_en": "Vranje",
+   "lat": 42.554166666667,
+   "lng": 21.897222222222
+  },
+  {
+   "year": 1461,
+   "year_end": null,
+   "kind": "battle",
+   "title": "첫 주요 요새를 점령하다",
+   "title_en": "Takes his first major fortress",
+   "description": "메흐메드 2세 때 무관으로 내궁을 나온 뒤 코율히사르를 점령했다. 사료에 기록된 그의 첫 주요 전공이다. 이후 잠시 룸 베이레르베이를 지냈다.",
+   "description_en": "After leaving the palace with a military rank under Mehmed II, he took this fortress. It is the first major success that the sources record. He then held the beylerbeylik of Rum for a short time.",
+   "place_name": "코율히사르",
+   "place_name_en": "Koyulhisar",
+   "lat": 40.305277777778,
+   "lng": 37.830555555556
+  },
+  {
+   "year": 1462,
+   "year_end": null,
+   "kind": "office",
+   "title": "아나톨리아 지휘권을 넘겨받다",
+   "title_en": "Takes over the Anatolian command",
+   "description": "이샤크 파샤의 뒤를 이었다. 이 직책은 옛 셀주크의 심장부를 오스만의 직할 통치 아래 두는 자리였다. 이 무렵 아내 파흐리 하툰이 퀴타히아에서 죽었다. 그는 그 뒤에야 이샤크 파샤의 사위가 되었다.",
+   "description_en": "He succeeded Ishak Pasha. The post folded the old Seljuk heartland into direct Ottoman rule. Around then his wife Fahri Hatun died here. He became Ishak Pasha's son-in-law only after that.",
+   "place_name": "퀴타히아",
+   "place_name_en": "Kütahya",
+   "lat": 39.424166666667,
+   "lng": 29.983333333333
+  },
+  {
+   "year": 1470,
+   "year_end": null,
+   "kind": "office",
+   "title": "베지르가 되어 에그리보즈 원정에 나서다",
+   "title_en": "Becomes a vizier and joins the island campaign",
+   "description": "아나톨리아 직책에서 물러나 베지르가 되었다. 같은 해 에그리보즈를 점령한 원정에 참가했다. 오루치 베이에 따르면 그는 그 전해에 에레글리와 악사라이를 점령하고 왕자 무스타파를 코니아에 앉혔다.",
+   "description_en": "He left the Anatolian post and rose to the vizierate. The same year he joined the expedition that took Negroponte. According to Oruç Bey, the year before he had taken Ereğli and Aksaray and seated Prince Mustafa in Konya.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1471,
+   "year_end": 1473,
+   "kind": "battle",
+   "title": "해안 요새들을 점령하고 카라만 세력을 내륙으로 몰다",
+   "title_en": "Takes the coast forts and drives the Karamanids inland",
+   "description": "먼저 알라이예를 점령했다. 이듬해에는 실리프케와 고리고스, 귈레크와 륄리에를 점령하고 피르 아흐메드와 카심 베이를 물리쳤다. 오틀루크벨리에서는 아크코윤루를 상대로 거둔 승리에 크게 기여했다. 하니발다누스와 네슈리는 그가 오틀루크벨리 전투에서 왕자 바이예지드와 다툰 일도 전한다.",
+   "description_en": "He first took Alaiye. The next year he seized Silifke, Corycus, Gülek and Lüle and defeated Pir Ahmed and Kasım Bey. At Otlukbeli he had a large share in the victory over the Aq Qoyunlu. Hanivaldanus and Neşri also report a quarrel there with Prince Bayezid.",
+   "place_name": "알라니아",
+   "place_name_en": "Alanya",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1474,
+   "year_end": null,
+   "kind": "office",
+   "title": "처형된 대재상의 자리에 오르다",
+   "title_en": "Takes the vacant grand vizierate",
+   "description": "마흐무드 파샤가 처형된 뒤 대재상직을 이었다. 에르메넥과 만얀, 실리프케를 탈환하며 남은 카라만 세력을 몰아붙였다. 그의 대재상 재임이 언제 끝났는지는 출처마다 다르다.",
+   "description_en": "He took the office after Mahmud Pasha was put to death. He pressed the last Karamanids by retaking Ermenek, Manyan and Silifke. Sources disagree on when the tenure ended.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1475,
+   "year_end": null,
+   "kind": "battle",
+   "title": "카파를 점령하고 칸을 석방하다",
+   "title_en": "Takes Caffa and frees the khan",
+   "description": "술탄이 보낸 함대를 이끌고 흑해로 향했다. 6월에 카파를 먼저 점령한 뒤 수다크와 아자크를 차례로 점령하고 망구프를 포위했다. 제노바의 감옥에 갇혀 있던 멩글리 기라이를 석방했고, 크림 칸국은 오스만의 보호를 받아들였다.",
+   "description_en": "The sultan sent the fleet into the Black Sea. In June Caffa fell first, then Sudak and Azak. Mangup was put under siege. He brought Meñli Giray out of a Genoese prison, and the Crimean Khanate accepted Ottoman protection.",
+   "place_name": "페오도시야",
+   "place_name_en": "Feodosia",
+   "lat": 45.04609,
+   "lng": 35.378768
+  },
+  {
+   "year": 1477,
+   "year_end": null,
+   "kind": "office",
+   "title": "슈코더르 출병을 거부하고 갇히다",
+   "title_en": "Refuses the Shkodra march and is imprisoned",
+   "description": "알바니아 원정을 지휘하라는 명령에 군대가 반발하자 그도 원정 지휘를 거부했다. 그 결과 대재상직에서 물러나 루멜리히사르에 갇혔다.",
+   "description_en": "When he was told to lead a campaign into Albania, he refused, following the army's hostility to the order. He lost the grand vizierate and was held in Rumelihisarı.",
+   "place_name": "이스탄불",
+   "place_name_en": "Istanbul",
+   "lat": 41.01,
+   "lng": 28.960277777778
+  },
+  {
+   "year": 1478,
+   "year_end": 1479,
+   "kind": "office",
+   "title": "석방되어 함대와 아블로냐를 맡다",
+   "title_en": "Released to the fleet and Avlonya",
+   "description": "헤르세크자데 아흐메드의 중재로 석방됐다. 카푸단 데르야 직과 아블로냐 산자크베이 직을 함께 받았다. 이듬해에는 케팔로니아와 잔테, 아야마브라를 점령했다. 이 섬들을 다스리던 레오나르도 3세 토코는 나폴리로 달아났다.",
+   "description_en": "Hersekzade Ahmed mediated his release. He received the kapudanlık and the sanjak of Avlonya together. The next year he took Cephalonia, Zante and Santa Maura. Leonardo III Tocco, prince of those islands, fled to Naples.",
+   "place_name": "블로러",
+   "place_name_en": "Vlorë",
+   "lat": 40.45,
+   "lng": 19.483333333333
+  },
+  {
+   "year": 1480,
+   "year_end": null,
+   "kind": "battle",
+   "title": "풀리아 해안에 상륙하다",
+   "title_en": "Lands on the Apulian coast",
+   "description": "7월 28일 아블로냐에서 바다를 건넜다. 오트란토는 8월 11일 함락됐다. 그는 아블로냐로 돌아가 겨울을 나면서 이듬해 북상할 준비를 했고, 하이레딘 베이를 오트란토 요새에 남겨 두었다. 술탄이 죽으면서 원정은 중단됐다.",
+   "description_en": "On 28 July he crossed from Avlonya. The town fell on 11 August. He returned to Avlonya to winter and prepare a march north the next year, leaving Hayreddin Bey in the fortress. The campaign stopped when the sultan died.",
+   "place_name": "오트란토",
+   "place_name_en": "Otranto",
+   "lat": 40.147825,
+   "lng": 18.485933
+  },
+  {
+   "year": 1481,
+   "year_end": null,
+   "kind": "battle",
+   "title": "왕위 싸움에 늦게 도착하다",
+   "title_en": "Arrives late to the succession battle",
+   "description": "제므는 부르사에서 즉위를 선포한 뒤 예니셰히르에서 바이예지드에게 패했다. 하니발다누스에 따르면 게딕 아흐메드는 전투 막판에 합류해 바이예지드의 승리를 도왔다. 그는 제므를 에레글리까지 추격했지만 붙잡지 못했고, 제므를 놓친 일은 그가 제므 편이라는 소문을 키웠다. 새 술탄은 그를 불러들이고, 오트란토로 돌아갈 함대를 보내 달라는 요청도 거절했다.",
+   "description_en": "After proclaiming himself in Bursa, Cem lost here to Bayezid. Hanivaldanus says he arrived at the last moment and helped win the day. He pursued Cem as far as Ereğli but did not catch him, and that gap fed the rumor that he was Cem's man. The new sultan recalled him and refused his request for a fleet back to Otranto.",
+   "place_name": "예니셰히르",
+   "place_name_en": "Yenişehir",
+   "lat": 40.264444444444,
+   "lng": 29.653055555556
+  },
+  {
+   "year": 1482,
+   "year_end": null,
+   "kind": "death",
+   "title": "연회가 끝난 뒤 교살되다",
+   "title_en": "Strangled after a palace banquet",
+   "description": "새 술탄 아래서 다시 베지르가 되었지만 한 차례 투옥됐다가 카프쿨루가 들고일어나자 석방됐다. 카라만 반란을 진압하라는 명을 받고 라렌데에서 겨울을 났다. 네슈리는 카심 베이가 그의 이름으로 제므의 귀환을 권하는 가짜 편지를 돌렸다고 전한다. 처형일은 셰왈 6일이었으며 양력으로는 11월 18일이다. 새 궁전에서 대신들을 위해 연 잔치가 끝난 뒤 교살됐다. 시신은 에디르네에 묻혔다.",
+   "description_en": "Under the new sultan he became a vizier again, was imprisoned once, and was released when the kapıkulu rose. He wintered at Larende after being sent to put down a Karaman revolt. Neşri reports that Kasım Bey circulated forged letters in his name inviting Cem back. The date given is 6 Shawwal, 18 November in the solar calendar. After a banquet for the viziers at the New Palace he was strangled. He was buried in this city.",
+   "place_name": "에디르네",
+   "place_name_en": "Edirne",
+   "lat": 41.67304,
+   "lng": 26.57361
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부를 유지하면서 직역투, 불분명한 지시어, 어색한 정복 표현과 생애 연결이 끊기는 문장을 바로잡았다. 문장 편집만으로 확정할 수 없는 추가 사실 문제는 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「당대 목격은 세르비아 쪽이다」의 주어와 판단 관계가 어색하고, 「이 고을」과 「그 기록」의 대상이 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "요새 점령을 「성을 열다」「성을 떨어뜨리다」라고 표현해 뜻을 바로 알아보기 어려웠고, 「이 성」이 코율히사르를 가리킨다는 점도 본문에 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문의 command를 「전선」으로 넓혀 옮겼고, 「여기서」「그 다음」 같은 지시어가 각각 퀴타히아와 혼인 시점을 불분명하게 만들었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「보직을 놓고」「그의 손으로 적힌다」가 번역 어순에 가까워, 직책에서 물러난 뒤 베지르가 되고 원정에 참가한 순서와 행동 주체가 선명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "여러 요새와 도시를 점령한 일을 「열다」「취하다」로 달리 표현해 흐름이 고르지 않았고, 카라만 세력을 내륙으로 몰았다는 영문 제목의 뜻이 국문 제목에 충분히 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "대재상직을 잇는 일을 「그 일을 이었다」라고 써서 대상이 불분명했고, 영문의 retaking을 「다시 열다」로 옮겨 탈환의 뜻이 약해졌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "카파·수다크·아자크 점령을 「떨어지다」「열리다」로 표현해 행위 주체가 흐려졌고, 카파의 표기가 본문에서 「카페」로 달라졌다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「군 안의 반감을 따라 거절했다」는 군대의 반발과 그의 거부 사이의 관계를 뜻을 짐작해야 알 수 있었고, 「대재상에서 떨어지고」도 직책 변화를 나타내는 표현으로 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「풀려나 함대와 아블로냐를 맡다」는 석방과 보직 부여의 관계가 거칠고, 섬들을 점령한 일을 「열었다」라고 표현해 의미가 즉시 전달되지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「성」과 「거기」가 각각 오트란토와 원정을 가리킨다는 점이 불명확했고, 아블로냐에서 겨울을 나며 북상을 준비한 시간 관계도 한 번에 읽히지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여기서」「승리에 보탰다」「그 빈틈」이 장소·승리의 주체·소문의 계기를 충분히 밝혀 주지 않아 왕위 계승전의 흐름이 끊겼다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "처형 날짜가 주어 없는 문장으로 떨어져 있었고, 「목을 조였다」「이 도시」는 각각 피살자와 매장지를 문장 안에서 분명히 밝히지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

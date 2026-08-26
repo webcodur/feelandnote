@@ -1,0 +1,268 @@
+{
+ "slug": "harry-houdini",
+ "events": [
+  {
+   "year": 1874,
+   "year_end": null,
+   "kind": "birth",
+   "title": "부다페스트에서 태어나다",
+   "title_en": "Is born in Budapest",
+   "description": "본명은 에리크 바이스였다. 아버지 마이어 샤무엘은 랍비였고 어머니는 세실리아 슈타이너였다. 일곱 남매 가운데 넷째였다. 당시 부다페스트는 오스트리아-헝가리에 속해 있었다.",
+   "description_en": "His name was Erik Weisz. His father, Mayer Sámuel, was a rabbi, and his mother was Cecelia Steiner. He was the fourth of seven children. The city still belonged to Austria-Hungary.",
+   "place_name": "부다페스트",
+   "place_name_en": "Budapest",
+   "lat": 47.498333333333,
+   "lng": 19.040833333333
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "travel",
+   "title": "애플턴의 아버지에게 합류하다",
+   "title_en": "Joins his father in Appleton",
+   "description": "아버지는 2년 먼저 건너가 시온 개혁 유대 회당의 랍비가 되었다. 어머니와 형제들은 함부르크에서 출항한 배를 타고 뉴욕에 도착한 뒤 애플턴으로 갔다. 가족의 성은 바이스에서 와이스로 바뀌었고, 그의 이름도 에리히가 되었다. 훗날 그는 애플턴을 자신의 출생지라고 말했다.",
+   "description_en": "His father had crossed two years earlier and become rabbi of Zion Reform Jewish Congregation. His mother and brothers landed in New York from a Hamburg steamer and went on to that post. The family name became Weiss, and he became Ehrich. He later called this town his birthplace.",
+   "place_name": "애플턴",
+   "place_name_en": "Appleton",
+   "lat": 44.282222222222,
+   "lng": -88.418333333333
+  },
+  {
+   "year": 1887,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지와 동부로 오다",
+   "title_en": "Comes east with his father",
+   "description": "아버지가 회당의 랍비직을 잃은 뒤 가족은 밀워키에서 굶주렸다. 아버지는 그를 뉴욕으로 데려가 79번가의 하숙집에서 함께 살았다. 나머지 가족은 거처가 마련된 뒤 합류했다. 그는 넥타이 재단 같은 일을 하며 집안 살림을 도왔다.",
+   "description_en": "After the rabbi’s post was lost they went hungry in Milwaukee. His father brought him to a boarding house on Seventy-ninth Street. The rest of the family followed once they had a place. He took jobs such as necktie cutting to help the house.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1891,
+   "year_end": null,
+   "kind": "work",
+   "title": "후디니라는 이름을 쓰다",
+   "title_en": "Takes the name Houdini",
+   "description": "친구 제이컵 하이먼과 2인조 ‘후디니 형제’로 무대에 섰다. 후디니라는 이름은 그가 회고록을 읽었던 프랑스 마술사 로베르 우댕에게서 가져왔다. 두 사람은 값싼 오락관과 서커스를 전전했다. 카드 마술만으로는 관객을 붙잡지 못했다.",
+   "description_en": "He teamed with his friend Jacob Hyman as the Brothers Houdini. The name came from the French magician Robert-Houdin, whose memoir he had read. They worked cheap museums and circuses. Cards alone did not hold a crowd.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1894,
+   "year_end": null,
+   "kind": "other",
+   "title": "베스와 결혼하다",
+   "title_en": "Marries Bess",
+   "description": "베스의 본명은 빌헬미나 라너였다. 후디니의 동생이 먼저 그녀에게 구애했지만, 그녀는 후디니와 가정을 꾸렸다. 베스는 동생을 대신해 후디니의 조수가 되었고, 두 사람은 ‘후디니 부부’라는 이름으로 공연했다.",
+   "description_en": "She was Wilhelmina Rahner. His brother had courted her first, but she made a household with him. She took his brother’s place as assistant, and the billing became The Houdinis.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1899,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "마틴 벡을 만나다",
+   "title_en": "Meets Martin Beck",
+   "description": "그는 이미 무대를 떠날 생각을 하고 있었다. 오페움 순회공연의 섭외 담당자 마틴 벡은 후디니가 수갑을 푸는 모습을 보고 전보를 보냈다. 오마하에서 공연하면 60달러를 주겠다는 제안이었다. 몇 달 뒤 후디니는 미국의 일류 버라이어티 극장 무대에 섰다.",
+   "description_en": "He was already thinking of quitting the stage. The Orpheum circuit booker saw him open handcuffs and sent a wire. It offered sixty dollars to open in Omaha. Within months he stood in the country’s top variety houses.",
+   "place_name": "세인트폴",
+   "place_name_en": "Saint Paul",
+   "lat": 44.944166666667,
+   "lng": -93.093611111111
+  },
+  {
+   "year": 1900,
+   "year_end": null,
+   "kind": "work",
+   "title": "유럽에서 이름을 얻다",
+   "title_en": "Makes his name in Europe",
+   "description": "처음에는 공연 계약을 따내지 못했다. 그러다 알함브라 극장이 그를 6개월 동안 섭외했다. 이후 그는 독일과 영국의 경찰서 유치장에서 탈출하는 묘기를 선보였다. 후디니의 명성은 미국보다 유럽에서 먼저 커졌다.",
+   "description_en": "At first no contract stuck. The Alhambra Theatre booked him for six months. He then walked out of police cells in Germany and Britain. The name grew here before it grew at home.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1904,
+   "year_end": null,
+   "kind": "other",
+   "title": "할렘에 집을 사다",
+   "title_en": "Buys a house in Harlem",
+   "description": "유럽에서 번 돈으로 113번가의 갈색 석조 주택을 샀다. 어머니와 동생들도 그 집으로 들어왔다. 이후 순회공연을 떠날 때마다 그 집에서 출발했다.",
+   "description_en": "With money from Europe he bought a brownstone on 113th Street. His mother and brothers moved in. Later tours left from that door.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1913,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니의 죽음을 전해 듣다",
+   "title_en": "Learns of his mother’s death",
+   "description": "공연을 마친 뒤 동생이 보낸 전보를 읽었다. 어머니가 애즈베리파크에서 쓰러져 숨졌다는 소식이었다. 그는 그 자리에서 쓰러졌고 북유럽 순회공연을 취소했다. 이후 죽은 이들과 대화할 수 있다고 주장하는 강령회장을 찾아다녔다.",
+   "description_en": "After a show he opened a cable from his brother. His mother had collapsed and died in Asbury Park. He fell to the floor and cancelled the northern tour. After that he hunted rooms that claimed to speak with the dead.",
+   "place_name": "코펜하겐",
+   "place_name_en": "Copenhagen",
+   "lat": 55.676111111111,
+   "lng": 12.568888888889
+  },
+  {
+   "year": 1922,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "도일 부인과 강령회를 하다",
+   "title_en": "Sits with Lady Doyle at a séance",
+   "description": "아서 코넌 도일의 초대를 받아 바닷가에서 쉬던 중이었다. 도일 부인은 후디니의 어머니가 보냈다는 메시지를 받아 적었다. 글은 영어로 쓰였고 십자가 표시가 있었다. 그러나 그의 어머니는 독일어를 썼으며 유대인이었다. 후디니는 메시지를 믿지 않았고, 그 일을 계기로 후디니와 도일의 우정은 깨졌다.",
+   "description_en": "Arthur Conan Doyle had invited him to rest by the sea. Lady Doyle took down a message she said was from his mother. The pages were in English and marked with a cross. His mother wrote German and was Jewish. He did not believe it, and the friendship broke here.",
+   "place_name": "애틀랜틱시티",
+   "place_name_en": "Atlantic City",
+   "lat": 39.3625,
+   "lng": -74.425
+  },
+  {
+   "year": 1924,
+   "year_end": null,
+   "kind": "publish",
+   "title": "영매를 폭로하는 책을 내다",
+   "title_en": "Publishes a book exposing mediums",
+   "description": "하퍼 형제 출판사에서 《영혼들 사이의 마술사》를 출간했다. 같은 해 그는 과학 잡지가 꾸린 심사단에 참여해 보스턴의 영매 미나 크랜던을 사기꾼으로 판단했다. 후디니는 현장에서 그 속임수를 지적했다.",
+   "description_en": "Harper & Brothers printed A Magician Among the Spirits. That year he sat on a scientific magazine’s jury and judged Boston’s Mina Crandon a fraud. He pointed to the trick in the room.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1926,
+   "year_end": null,
+   "kind": "death",
+   "title": "마지막 공연을 마치고 숨지다",
+   "title_en": "Gives a last show and dies",
+   "description": "몬트리올에서 복부를 여러 차례 맞은 뒤에도 고열이 난 채 무대에 올랐다. 개릭 극장의 공연이 끝나자 그레이스 병원으로 옮겨졌다. 맹장이 파열되어 복막염이 번졌고, 그는 52세에 숨졌다.",
+   "description_en": "After blows to the abdomen in Montreal he still took the stage with a high fever. When the curtain fell at the Garrick Theatre he was taken to Grace Hospital. His appendix had ruptured and peritonitis spread. He died at fifty-two.",
+   "place_name": "디트로이트",
+   "place_name_en": "Detroit",
+   "lat": 42.331666666667,
+   "lng": -83.0475
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 넘지 않는 범위에서 불분명한 지시어, 직역된 동작과 직함, 어색한 주어·목적어 관계를 바로잡았다. 사건 사이의 흐름이 출생과 이주, 무명 시절, 유럽에서의 성공, 영매 조사와 죽음으로 자연스럽게 이어지도록 국문을 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 「그 도시」는 바로 앞 문장만으로 부다페스트를 가리키는지 알기 어려워 도시명을 명시했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「먼저 자리를 잡은 곳」과 본문의 「그 자리」가 애플턴과 아버지의 랍비직 가운데 무엇을 뜻하는지 불분명했고, 「그도 에리히가 되었다」도 개명 사실을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에는 굶주린 주체가 빠져 있었고, 「넥타이 공장 같은 일」은 necktie cutting의 구체적인 작업을 제대로 옮기지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「후디니 형제로 올랐다」와 「읽은 자서전의 프랑스 마술사」는 주어와 수식 관계가 어색했고, cards는 단순한 카드가 아니라 카드 마술을 뜻하므로 바로잡았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상대」라는 지칭과 「그녀는 그와 살림을 합쳤다」가 결혼 상대와 행동의 관계를 딱딱하고 모호하게 만들었으며, billing을 「간판」으로 옮긴 표현도 공연명으로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "Orpheum circuit booker를 「회로를 쥔 극장 지배인」으로 옮긴 표현과 「예순 달러로 열라」는 문장이 직역투여서 섭외와 공연 제안의 관계를 명확히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「계약이 안 붙었다」「여섯 달을 열었다」「경찰서 문을 열고 나왔다」「그 이름이 커졌다」가 모두 영어 표현을 그대로 치환한 문장이어서 계약, 장기 공연, 유치장 탈출, 명성의 확립으로 뜻을 분명히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "brownstone을 벽돌집으로 옮긴 표현이 영문과 어긋났고, 「순회는 그 문을 출발점으로 삼았다」는 사람이 아닌 순회공연을 주어로 세운 직역투였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「동생 전갈을 열었다」와 「죽은 자와 말하는 자리를 찾아다녔다」가 구체적인 행동을 알아보기 어려운 직역이어서 전보를 읽은 일과 강령회장을 찾아다닌 일을 명확히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 없는 자동서 세부를 제거하고, 「두 사람」이 후디니와 도일을 뜻하도록 이름을 밝혀 우정이 깨진 대상을 분명히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "출판사를 사람처럼 주어로 세운 「하퍼 형제가 책을 찍었다」와 「과학 잡지 심사에 앉다」「가짜로 보다」가 부자연스러워 출간과 심사 활동의 의미를 명확히 했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "with a high fever를 「열을 내린 채」로 반대로 옮긴 중대한 오역을 고쳤고, 제목의 「공연을 하고 죽다」는 지나치게 직선적이어서 마지막 공연과 사망의 순서를 자연스럽게 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

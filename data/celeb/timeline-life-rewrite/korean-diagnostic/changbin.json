@@ -1,0 +1,196 @@
+{
+ "slug": "changbin",
+ "events": [
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "본명은 서창빈이다. 8월 11일 기흥구 보라동에서 태어났다. 공세초등학교, 보라중학교, 보라고등학교에 다녔다.",
+   "description_en": "His birth name is Seo Chang-bin. He was born on August 11 in Bora-dong, Giheung-gu. He attended Gongse Elementary School, Bora Middle School, and Bora High School.",
+   "place_name": "용인",
+   "place_name_en": "Yongin",
+   "lat": 37.236111111111,
+   "lng": 127.20111111111
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "JYP 연습생이 되다",
+   "title_en": "Joins JYP as a trainee",
+   "description": "자작곡을 들고 오디션을 봤다. 합격한 뒤 연습실에서 랩과 작곡을 익혔다.",
+   "description_en": "He auditioned with a song he had written himself. After passing, he trained in rap and composition at the practice rooms.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "쓰리라차로 믹스테이프를 올리다",
+   "title_en": "Uploads a mixtape as 3RACHA",
+   "description": "방찬, 한과 유닛을 결성했다. 예명은 스피어비였다. 사운드클라우드에 일곱 곡짜리 첫 믹스테이프를 올렸다. 여섯 번째 곡 〈와우〉는 그가 프로듀싱했다.",
+   "description_en": "He formed a unit with Bang Chan and Han. His alias was SpearB. They uploaded a seven-track first mixtape to SoundCloud. He produced the sixth track, WOW.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "서바이벌에서 데뷔조가 되다",
+   "title_en": "Makes the debut lineup on the survival show",
+   "description": "엠넷 프로그램에서 방찬이 꾸린 아홉 명이 데뷔조로 뽑혔다. 박진영은 방찬과 창빈이 특히 돋보였다고 말했다. 이들은 방송 전에 〈헬리베이터〉 영상을 올렸고, 쓰리라차가 그 곡의 작사와 작곡에 참여했다. 12월에는 아홉 명 전원의 데뷔가 확정됐다.",
+   "description_en": "On the Mnet show, the nine members assembled by Bang Chan were chosen as the debut team. J. Y. Park said Bang Chan and he stood out in particular. They posted the Hellevator video before the broadcast, and 3RACHA took part in writing and composing it. In December all nine were confirmed to debut.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "스트레이 키즈로 데뷔하다",
+   "title_en": "Debuts with Stray Kids",
+   "description": "1월 8일 프리데뷔 음반이 먼저 나왔다. 3월 25일 장충체육관에서 쇼케이스를 열었다. 다음 날 미니 음반이 공개됐다. 쓰리라차 이름으로 타이틀곡 〈디스트릭트 나인〉을 비롯한 수록곡을 작사·작곡했다.",
+   "description_en": "A pre-debut EP came out first on January 8. On March 25 they held a showcase at Jangchung Arena. The mini-album followed the next day. Under the 3RACHA name he wrote lyrics and music for District 9 and other tracks on the release.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "솔로곡 〈스트리트라이트〉를 올리다",
+   "title_en": "Posts the solo song Streetlight",
+   "description": "방찬이 피처링했다. 혼자 아파하면서도 웃는 사람을 가로등에 비겼다. 가사를 쓰고 녹음하면서 마침내 누군가에게 속마음을 털어놓은 듯했다고 밝혔다. 2년 뒤 디지털 음반에 실렸다.",
+   "description_en": "Bang Chan featured on it. He likened a person who smiles while hurting alone to a streetlight. He said that writing the lyrics and recording felt like finally telling someone. Two years later the track appeared on a digital album.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 정규 음반을 내다",
+   "title_en": "Releases the first studio album",
+   "description": "음반 이름은 〈고생〉이었다. 쓰리라차가 전곡 작사와 작곡에 참여했다. 타이틀곡은 〈신메뉴〉였다. 9월에는 리패키지 음반 〈인 라이프〉를 냈다.",
+   "description_en": "The album was titled Go Live. 3RACHA took part in writing and composing every track. The title song was God's Menu. In September they followed it with the repackage In Life.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "음악저작권협회 정회원이 되다",
+   "title_en": "Becomes a full KOMCA member",
+   "description": "방찬, 한과 함께 준회원에서 정회원으로 승격됐다. 협회는 해마다 저작권료가 가장 많은 준회원 가운데 대중음악 분야 작가 스물두 명을 정회원으로 선정한다.",
+   "description_en": "He moved up from associate member together with Bang Chan and Han. Each year the association selects twenty-two popular-music writers from associate members with the highest royalties.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "음반에 솔로곡 〈울트라〉를 싣다",
+   "title_en": "Adds the solo track Ultra",
+   "description": "음반 이름은 〈합〉이었다. 가사는 그가 썼고, 리스타트, 채강해와 함께 곡을 만들었다.",
+   "description_en": "The album was titled Hop. He wrote the lyrics and composed the track with Restart and Chae Kang-hae.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 주어와 서술어의 관계가 무너진 문장, 대상을 바로 알기 어려운 지시어, 어색한 작사·작곡 표현을 바로잡았다. 영문에 없는 평가나 인과는 보태지 않았으며 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "출생을 서술한 「났다」가 문맥에 비해 부자연스럽고, 영문의 attended를 「나왔다」로 옮기면 졸업했다는 뜻으로 좁혀질 수 있다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "유닛 결성을 「팀을 짰다」라고 표현한 부분과 곡 제작을 「프로듀스했다」라고 적은 부분을 자연스러운 한국어로 다듬을 필요가 있다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「박진영은 방찬과 그를 특히 돋보였다고 말했다」는 영문 단어를 순서대로 치환해 주어와 서술어의 관계가 무너졌으며, 「그」가 누구인지도 문장만으로 즉시 드러나지 않는다. 「아홉 전원 데뷔」도 조사가 빠져 어색하다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가사와 곡을 쓰리라차 명의로 썼다」는 목적어와 서술어의 결합이 어색해 작사·작곡 행위가 분명하게 드러나지 않는다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「혼자 아파하면서 웃는 사람」은 양립하는 두 상태의 관계가 흐리고, 「누구에게 털어놓은 것 같았다」는 영문의 finally가 나타내는 의미가 빠져 있다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「리패키지 〈인 라이프〉로 이었다」는 무엇을 어떻게 이었다는 것인지 뜻을 짐작해야 하는 직역형 표현이다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「준회원에서 올라갔다」는 도착한 회원 등급을 생략해 문장 자체의 정보가 불완전하고, 협회의 선발 기준을 설명한 뒤 문장이 다소 거칠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「솔로곡을 넣다」는 어디에 수록했다는 것인지 제목만으로 알기 어렵고, 「곡은 …와 만들었다」는 작곡 사실을 지나치게 두루뭉술하게 표현한다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

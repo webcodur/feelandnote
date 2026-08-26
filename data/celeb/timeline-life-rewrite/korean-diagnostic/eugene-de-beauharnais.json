@@ -1,0 +1,320 @@
+{
+ "slug": "eugene-de-beauharnais",
+ "events": [
+  {
+   "year": 1781,
+   "year_end": null,
+   "kind": "birth",
+   "title": "파리에서 태어나다",
+   "title_en": "Born in Paris",
+   "description": "아버지는 알렉상드르 드 보아르네였고, 어머니는 훗날 조제핀으로 불린 마리조제프 로즈였다. 부모는 모두 마르티니크에서 태어났으며, 여동생 오르탕스가 있었다. 외젠이 세 살 때 가정이 갈라졌고, 아버지는 그가 다섯 살이 된 뒤부터 여러 기숙학교에 보냈다.",
+   "description_en": "His father was Alexandre de Beauharnais, his mother Marie-Josèphe-Rose, later called Joséphine. Both parents had been born on Martinique, and he had a younger sister, Hortense. The household split when he was three, and from the age of five his father sent him to boarding schools.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 1794,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 단두대에서 처형되다",
+   "title_en": "His father is guillotined",
+   "description": "라인군을 지휘했던 알렉상드르는 마인츠를 구원하지 못했다는 혐의로 카르멜 감옥에 수감됐다. 혁명광장에서 사촌과 함께 참수됐으며, 로베스피에르가 몰락하기 닷새 전이었다. 외젠의 어머니도 같은 감옥에 갇혀 있었지만 테르미도르 이후 풀려났다. 외젠은 이후 방데에서 오슈 장군의 전령으로 복무했다.",
+   "description_en": "Alexandre, who had commanded the Army of the Rhine, was jailed in the Carmes on the charge that he had failed to relieve Mainz. He was beheaded with his cousin on the Place de la Révolution, five days before Robespierre fell. His mother sat in the same prison and walked out after Thermidor. The son then served as an orderly to General Hoche in the Vendée.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 1795,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "아버지의 검을 돌려 달라고 청하다",
+   "title_en": "Asks Bonaparte for his father's sword",
+   "description": "방데미에르 뒤 파리 수비 사령관이 된 보나파르트에게 압수된 아버지의 검을 돌려 달라고 청했다. 이 요청을 계기로 어머니와 보나파르트가 처음 만났다.",
+   "description_en": "After Vendémiaire he asked Bonaparte, then commander of the Army of the Interior, to return the seized sword. That request first brought his mother and the general together.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 1796,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니가 장군과 재혼하다",
+   "title_en": "His mother marries the general",
+   "description": "외젠과 오르탕스는 결혼식에 참석하지 않았고, 외젠은 처음에 이 결혼을 달가워하지 않았다. 이듬해 레오벤 평화가 체결된 뒤 제1경기병연대 소위로 임관해 의붓아버지의 부관이 되었다.",
+   "description_en": "Neither he nor Hortense attended the ceremony. He disliked the match at first. After the Peace of Leoben the next year he was commissioned a sub-lieutenant in the 1st Hussars and became his stepfather's aide-de-camp.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 1799,
+   "year_end": null,
+   "kind": "battle",
+   "title": "아크레에서 다치다",
+   "title_en": "Is wounded at Acre",
+   "description": "동방군 부관으로 이집트와 시리아 원정에 따라갔다. 야파 공격에 참여했고, 아크레 성벽 앞에서는 폭발로 머리를 다쳤다. 프랑스로 돌아가기로 한 의붓아버지는 외젠을 귀국선에 태워 함께 데려갔다.",
+   "description_en": "He followed the Army of the Orient into Egypt and Syria as an aide-de-camp. He stood at the storming of Jaffa, then took a head wound from an explosion before the walls. When his stepfather chose to leave, he put the young officer on the ship home.",
+   "place_name": "아코",
+   "place_name_en": "Acre",
+   "lat": 32.926111111111,
+   "lng": 35.083888888889
+  },
+  {
+   "year": 1799,
+   "year_end": null,
+   "kind": "other",
+   "title": "브뤼메르에 생클루로 따라가다",
+   "title_en": "Follows Bonaparte to Saint-Cloud",
+   "description": "이집트에서 돌아온 외젠은 오르탕스와 함께 어머니와 보나파르트가 다시 만나도록 도왔다. 쿠데타 당일에는 오백인회가 제압될 때 현장에 있었다. 제1집정이 된 의붓아버지는 외젠을 통령 근위대 엽기병대 대위로 진급시켰다.",
+   "description_en": "Back from Egypt he and Hortense helped bring their mother and the general together again. On the day of the coup he was there when the Council of Five Hundred was broken. The new First Consul made him captain of the Consular Guard chasseurs.",
+   "place_name": "생클루",
+   "place_name_en": "Saint-Cloud",
+   "lat": 48.846388888889,
+   "lng": 2.2152777777778
+  },
+  {
+   "year": 1800,
+   "year_end": null,
+   "kind": "battle",
+   "title": "마렝고에서 기병 돌격을 하다",
+   "title_en": "Charges with the Guard at Marengo",
+   "description": "베시에르가 이끄는 돌격에 근위대 기병으로 참여했다. 승리 뒤에는 기병대대장으로 진급했다.",
+   "description_en": "He rode as Guard cavalry in the charges led by Bessières. The victory earned him promotion to chef d'escadron.",
+   "place_name": "알레산드리아",
+   "place_name_en": "Alessandria",
+   "lat": 44.913330555556,
+   "lng": 8.62
+  },
+  {
+   "year": 1805,
+   "year_end": null,
+   "kind": "office",
+   "title": "이탈리아 왕국의 부왕이 되다",
+   "title_en": "Is named viceroy of Italy",
+   "description": "대관식에 앞서 제국 근위대를 이끌고 밀라노에 도착했다. 철관 대관식 날에는 왕의 반지와 망토를 넘겨받았다. 조제프와 루이가 이미 이탈리아 왕관을 거절한 뒤였다. 입법의회 앞에서 외젠의 부왕 임명이 선포되었고, 그는 법전과 도로, 요새를 정비하기 시작했다.",
+   "description_en": "He brought the Imperial Guard in ahead of the coronation. On the day the Iron Crown was set, the royal ring and mantle were passed to him. Joseph and Louis had already refused the Italian crown. The appointment as viceroy was announced to the Legislative Assembly, and he began overhauling the codes, roads, and forts.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1806,
+   "year_end": null,
+   "kind": "other",
+   "title": "황제의 양자가 되고 바이에른 공주와 결혼하다",
+   "title_en": "Is adopted and marries a Bavarian princess",
+   "description": "나폴레옹은 외젠을 양자로 삼았지만 프랑스 황위 계승권에서는 제외했다. 이틀 뒤 외젠은 막시밀리안 왕의 장녀 아우구스테와 혼인했다. 이 혼인은 바이에른과 프랑스의 동맹을 굳히기 위해 정해졌다. 그 뒤 외젠은 이탈리아 왕위의 추정 상속인으로 지정되었다.",
+   "description_en": "Napoleon adopted him but kept him out of the French imperial succession. Two days later he married Augusta, eldest daughter of King Maximilian, in a match meant to lock Bavaria to France. He was then named heir presumptive to the Italian throne.",
+   "place_name": "뮌헨",
+   "place_name_en": "Munich",
+   "lat": 48.1375,
+   "lng": 11.575
+  },
+  {
+   "year": 1809,
+   "year_end": null,
+   "kind": "battle",
+   "title": "죄르에서 오스트리아군을 꺾다",
+   "title_en": "Defeats the Austrians at Raab",
+   "description": "사칠레에서는 대공 요한에게 패했다. 피아베에서 전열을 회복한 뒤 죄르 앞에서 오스트리아군을 꺾었다. 이어 도나우강 방면의 본대에 합류해 바그람 전투에도 참전했다.",
+   "description_en": "He lost Sacile to Archduke John. He restored the line on the Piave, then won in front of this city. He joined the main army on the Danube and fought at Wagram.",
+   "place_name": "죄르",
+   "place_name_en": "Győr",
+   "lat": 47.684166666667,
+   "lng": 17.634444444444
+  },
+  {
+   "year": 1812,
+   "year_end": null,
+   "kind": "battle",
+   "title": "이탈리아군을 이끌고 러시아로 가다",
+   "title_en": "Leads the Army of Italy into Russia",
+   "description": "약 8만 명으로 편성된 제4군단을 이끌고 스몰렌스크와 보로디노까지 진군했다. 모스크바에서 퇴각하는 동안에도 대열을 유지했고, 뮈라가 떠난 뒤에는 남은 군대를 인수했다.",
+   "description_en": "He took the IV Corps, some eighty thousand strong, as far as Smolensk and this field. He held the column together on the road back from Moscow, then took what was left of the army when Murat left.",
+   "place_name": "보로디노",
+   "place_name_en": "Borodino",
+   "lat": 55.526944444444,
+   "lng": 35.821111111111
+  },
+  {
+   "year": 1814,
+   "year_end": null,
+   "kind": "battle",
+   "title": "민치오 강에서 버티다",
+   "title_en": "Holds the line on the Mincio",
+   "description": "장인이 연합국으로 넘어가고 뮈라가 나폴리를 버렸지만 외젠은 편을 바꾸지 않았다. 전향의 대가로 제안받은 이탈리아 왕관도 거절했다. 나폴레옹이 퇴위한 뒤에야 벨가르데와 정전을 맺고 이탈리아 왕국의 통치를 내려놓았다.",
+   "description_en": "His father-in-law went over to the Coalition and Murat abandoned Naples, but he still refused to defect. He also refused the Italian crown they offered him to switch sides. Only after Napoleon abdicated did he sign an armistice with Bellegarde and lay down the kingdom.",
+   "place_name": "고이토",
+   "place_name_en": "Goito",
+   "lat": 45.25,
+   "lng": 10.666666666667
+  },
+  {
+   "year": 1817,
+   "year_end": null,
+   "kind": "office",
+   "title": "로이히텐베르크 공작이 되다",
+   "title_en": "Becomes Duke of Leuchtenberg",
+   "description": "이탈리아 왕국이 무너진 뒤 장인의 궁정으로 갔다. 백일천하 동안에는 무기를 들지 않겠다고 약속하고 바이에른에 머물렀다. 막시밀리안 왕은 외젠에게 로이히텐베르크 공작과 아이히슈테트 공의 작위를 내렸다. 외젠은 복고된 부르봉 왕정 아래에서 굶주리던 옛 병사들을 도왔다.",
+   "description_en": "After the kingdom fell he went to his father-in-law's court. During the Hundred Days he gave his word not to take up arms and stayed in Bavaria. King Maximilian made him Duke of Leuchtenberg and Prince of Eichstätt, and he used the place to help old soldiers left hungry under the restored Bourbons.",
+   "place_name": "뮌헨",
+   "place_name_en": "Munich",
+   "lat": 48.1375,
+   "lng": 11.575
+  },
+  {
+   "year": 1824,
+   "year_end": null,
+   "kind": "death",
+   "title": "뮌헨에서 죽다",
+   "title_en": "Dies in Munich",
+   "description": "사망하기 한 해 전에 뇌졸중을 두 차례 겪었다. 마흔두 살에 그 병으로 세상을 떠났고, 성 미카엘 교회에 안장되었다.",
+   "description_en": "Apoplexy struck him twice the year before. It killed him at forty-two, and he was laid in St. Michael's Church.",
+   "place_name": "뮌헨",
+   "place_name_en": "Munich",
+   "lat": 48.1375,
+   "lng": 11.575
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "대부분의 사건은 영문 의미를 넘지 않는 범위에서 주어와 대상, 군사 행동, 지명 사이의 관계를 자연스럽게 바로잡았다. 다만 1795년 보나파르트의 직책은 국문과 영문이 다르고, 1817년 영문의 지시 대상은 불분명해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "부모가 마르티니크에서 태어났다는 영문의 구체적인 내용을 단순히 그곳에서 왔다고 옮겼고, 가정이 갈라진 시점과 기숙학교 생활의 주어도 다소 흐렸다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "단두대에서 처형된 사건을 단순히 죽었다고 표현했으며, 수감과 석방, 외젠의 방데 복무가 어색하게 이어졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 '찾으러 가다'는 보나파르트에게 압수된 검의 반환을 청했다는 행동을 정확히 드러내지 못했고, '그 청 뒤'는 두 사람이 만나게 된 계기를 부자연스럽게 표현했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "'자신과 누이'처럼 인물을 뒤늦게 짐작하게 하는 주어를 썼고, 결혼식 불참부터 이듬해 임관까지의 연결이 매끄럽지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "'야파 공성에도 섰다'와 '성벽 앞에서는'이 각각 외젠의 행동과 부상 장소를 분명하게 전달하지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "'다시 만나게 했다', '오백인회를 굴복시키는 자리에 있었다', '엽기병 대장으로 올렸다'가 만남의 주체와 쿠데타 당시 상황, 군 계급을 어색하게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "'돌격에 기병으로 섰다'가 실제 행동인 기병 돌격 참여를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'부왕을 맡다'와 '철관을 씌우는 날'이 직위 취임과 대관식 장면을 부자연스럽게 표현했고, 여러 사건의 선후 관계도 단절되어 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에서 양자로 삼은 주체가 빠졌고, '프랑스 제위는 열어 두지 않았다'와 '동맹을 굳히려고 정한 자리'는 황위 계승 제외와 혼인의 목적을 뜻을 짐작해야 하는 방식으로 옮겼다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "'이 도시'가 죄르를 앞 문장만으로 알아볼 수 없게 만들었고, '전열을 되돌렸다'와 '바그람에도 섰다'도 군사 행동을 어색하게 표현했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "'이 들판'이 보로디노를 직접 가리키지 않았고, 모스크바 퇴각 당시 대열을 유지한 행동도 단순히 군을 수습했다고 축소되어 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "편을 바꾸지 않았다는 영문을 '투항하지 않았다'로 옮겨 행동의 성격이 달라졌고, 이탈리아 왕관이 전향의 대가로 제안되었다는 관계도 충분히 드러나지 않았다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "'공작과 아이히슈테트 공을 주었다'가 서로 다른 두 작위를 수여받았다는 뜻을 부자연스럽게 표현했으며, 마지막 문장의 시대와 대상도 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "'뇌졸중이 왔다', '마흔두 살에 쓰러졌다', '시신을 교회에 두었다'가 발병과 사망, 안장을 각각 부자연스럽거나 불분명하게 표현했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 2,
+    "reason": "국문은 방데미에르 이후 보나파르트를 '파리 수비 사령관'이라고 하지만 영문은 'Army of the Interior의 사령관'이라고 한다. 두 직책을 같은 것으로 볼 수 있는지, 어느 명칭을 써야 하는지는 문장 편집만으로 확정할 수 없다."
+   },
+   {
+    "index": 12,
+    "reason": "영문의 'he used the place to help old soldiers'에서 'the place'가 작위에 따른 지위, 영지, 궁정 내 위치 또는 특정 장소 가운데 무엇을 가리키는지 분명하지 않다. 국문은 이 수단을 생략하고 있어 사실 확인 없이 특정 대상으로 복원할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

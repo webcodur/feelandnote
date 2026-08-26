@@ -1,0 +1,204 @@
+{
+ "slug": "danielle",
+ "events": [
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴캐슬에서 태어나다",
+   "title_en": "Is born in Newcastle",
+   "description": "호주인 아버지와 한국인 어머니 사이에서 태어났다. 한국 이름은 모지혜다. 언니 올리비아는 훗날 가수로 데뷔했다. 뉴캐슬은 시드니 북쪽 헌터강 하구에 자리한 항구 도시다.",
+   "description_en": "She was born to an Australian father and a Korean mother. Her Korean name is Mo Ji-hye. Her older sister Olivia later debuted as a singer. The city is a port at the mouth of the Hunter River, north of Sydney.",
+   "place_name": "뉴캐슬",
+   "place_name_en": "Newcastle",
+   "lat": -32.916666666667,
+   "lng": 151.75
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "travel",
+   "title": "파주로 옮기다",
+   "title_en": "Moves to Paju",
+   "description": "네 살 때 가족과 함께 경기도 파주로 이주했다. 문산 일대에 살았고, 그곳에서 초등학교에 다니기 시작했다.",
+   "description_en": "At four the family moved to Paju in Gyeonggi. They lived around Munsan, and she started elementary school there.",
+   "place_name": "파주",
+   "place_name_en": "Paju",
+   "lat": 37.832777777778,
+   "lng": 126.816944444445
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "어린이 프로그램에 나오다",
+   "title_en": "Appears on a children's television show",
+   "description": "한국 이름 모지혜로 카메라 앞에 섰다. tvN 《레인보우 유치원》이 첫 방송 출연이었다. 프로그램에서는 코미디언 지상렬이 아이들을 가르쳤다.",
+   "description_en": "She stood in front of the camera under her Korean name, Mo Ji-hye. tvN's Rainbow Kindergarten was the first. Comedian Ji Sang-ryul taught the children on the show.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "travel",
+   "title": "호주로 돌아가다",
+   "title_en": "Returns to Australia",
+   "description": "이듬해 《신화방송》과 《제시의 플레이 키친》에도 출연했다. 일곱 살 때 가족과 함께 다시 호주로 건너갔고, 그곳에서 초등학교를 다녔다. 성장기의 대부분을 호주에서 보냈다.",
+   "description_en": "The next year she also appeared on Shinhwa Broadcasting and Jesse's Play Kitchen. At seven the family went back to Australia for elementary school. Most of her growing years were spent there.",
+   "place_name": "뉴캐슬",
+   "place_name_en": "Newcastle",
+   "lat": -32.916666666667,
+   "lng": 151.75
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "education",
+   "title": "쏘스뮤직 연습생이 되다",
+   "title_en": "Becomes a Source Music trainee",
+   "description": "중학교 3학년 때 한국으로 돌아와 연습생이 됐다. 쏘스뮤직이 다니엘을 선발했고, 훗날 뉴진스로 데뷔한 멤버들과 함께 연습했다. 이들은 이듬해 민희진이 세운 레이블 어도어로 옮겼다.",
+   "description_en": "In the third year of middle school she returned to Korea as a trainee. Source Music signed her, and she trained with the lineup that later became NewJeans. The next year they moved to ADOR, the label Min Hee-jin built.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "뉴진스로 데뷔하다",
+   "title_en": "Debuts with NewJeans",
+   "description": "멤버를 공개하기 전에 《어텐션》 뮤직비디오가 먼저 올라왔다. 다니엘은 이 노래의 작사 크레디트에도 이름을 올렸다. 뉴진스는 하이브 자회사 어도어가 구성한 5인조 그룹이었다.",
+   "description_en": "The video for Attention went up before any member rollout. She is credited on the lyrics. They were the five assembled at ADOR, a Hybe subsidiary.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "실사 영화 《인어공주》 한국어 더빙에서 에리얼의 목소리를 맡다",
+   "title_en": "Voices Ariel in the Korean dub of The Little Mermaid",
+   "description": "디즈니 본사 오디션에서 노래를 부르고 대사를 즉석에서 읽었다. 실사 영화의 한국어 더빙에서 주인공 에리얼 역을 맡았고, 《저곳으로》도 불렀다.",
+   "description_en": "At a Disney headquarters audition she sang and read lines on the spot. She was cast as the lead in the Korean dub of the live-action film, and she also sang Part of Your World.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "other",
+   "title": "전속계약이 끝났다고 선언하다",
+   "title_en": "Declares the exclusive contract over",
+   "description": "다섯 멤버가 민희진 전 대표의 복귀 등을 요구하는 내용증명을 보냈다. 기한이 지나자 전속계약이 끝났다고 선언했다. 회사는 계약이 여전히 유효하다는 확인을 법원에 청구했다.",
+   "description_en": "The five members sent a certified letter demanding, among other things, Min Hee-jin's return as CEO. When the deadline passed they declared the exclusive contract over. The company asked the court to confirm the contract was still valid.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "other",
+   "title": "어도어가 전속계약을 해지하다",
+   "title_en": "ADOR terminates the exclusive contract",
+   "description": "법원은 어도어의 손을 들어줬다. 다른 멤버들이 복귀하는 사이, 어도어는 다니엘과의 전속계약만 해지하고 위약벌과 손해배상을 청구했다.",
+   "description_en": "The court sided with the company. While other members returned, the label cut only her exclusive contract and sued for a penalty and damages.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실의 범위를 유지하면서 모호한 지시어, 주체가 뒤섞인 문장, 직역투 표현을 바로잡았다. 사건 사이의 시간 흐름과 인물의 이동·활동이 자연스럽게 이어지도록 국문 서술만 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 「그 도시」가 바로 앞 문장만으로는 가리키는 대상을 알 수 없고, 「뒤에」도 시간 표현으로 어색했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "가족의 이동을 「파주로 왔다」라고 서술해 관찰자의 위치가 불분명했고, 거주와 취학의 관계도 다소 거칠게 이어졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「tvN 《레인보우 유치원》이 처음이었다」만으로는 무엇이 처음이었는지 분명하지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가족이 다시 호주로 건너가 초등학교를 다녔다」는 가족 전체가 학교에 다닌 것처럼 읽혔고, 「그쪽」이 가리키는 장소도 모호했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뉴진스가 되는 조」가 영문을 순서대로 옮긴 듯 어색했고, 「어도어로 넘어갔다」의 주체도 분명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 노래 가사에도 이름을 올렸다」와 「어도어가 만든 다섯 명이었다」가 각각 대상과 주체를 불분명하게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 실사 영화의 한국어 더빙에서 에리얼의 목소리를 맡았다는 뜻이지만 제목은 일반적인 배역 연기로 읽혔다. 「노래와 대사를 즉석으로 봤다」도 오디션에서 실제로 한 행동이 드러나지 않는 어색한 표현이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「법원에 확인을 구했다」는 회사가 법원에 무엇을 요구했는지 선명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사」와 「그」가 각각 어도어와 다니엘을 가리키지만 문장 안에서 대상을 명시하지 않아 마지막 사건의 당사자 관계가 흐릿했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

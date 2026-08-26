@@ -1,0 +1,241 @@
+{
+ "slug": "brian-armstrong",
+ "events": [
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "birth",
+   "title": "엔지니어 집안에서 태어나다",
+   "title_en": "Born to engineer parents",
+   "description": "부모는 둘 다 엔지니어였다. 가톨릭 남학교인 벨라민 고등학교에 다녔다. 운동장에서 사탕을 되팔다 교장실에 불려 가기도 했다.",
+   "description_en": "Both of his parents were engineers. He grew up at Bellarmine, a Catholic boys’ high school. He was once sent to the principal for reselling candy on the playground.",
+   "place_name": "산호세",
+   "place_name_en": "San Jose",
+   "lat": 37.304166666667,
+   "lng": -121.87277777778
+  },
+  {
+   "year": 2005,
+   "year_end": 2006,
+   "kind": "education",
+   "title": "라이스대에서 컴퓨터과학과 경제학을 공부하다",
+   "title_en": "Studies computers and economics at Rice",
+   "description": "컴퓨터과학과 경제학 학사 학위를 각각 받았다. 이듬해 컴퓨터과학 석사 과정까지 마쳤다. 재학 중에는 유니버시티튜터를 창업해 학생과 과외 교사를 연결했다.",
+   "description_en": "He earned bachelor’s degrees in computer science and economics. The next year he finished a master’s in computer science. While still a student he launched UniversityTutor, matching students with tutors.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777778,
+   "lng": -95.383055555556
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "travel",
+   "title": "부에노스아이레스에서 한 해를 살다",
+   "title_en": "Spends a year in Buenos Aires",
+   "description": "석사를 마친 뒤 남미에서 살아 보기로 했다. 과외 중개 회사를 원격으로 운영하면서 거리를 걸었다. 인플레이션이 계속되는 나라에서는 주택담보대출을 받기 어려웠고 상점 주인들은 지쳐 있었다.",
+   "description_en": "After the master’s he decided to live in South America. He ran the tutoring company remotely and walked the streets. In a country still living with inflation, mortgages were blocked and shopkeepers were worn down.",
+   "place_name": "부에노스아이레스",
+   "place_name_en": "Buenos Aires",
+   "lat": -34.599722222222,
+   "lng": -58.381944444444
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "other",
+   "title": "비트코인 백서를 읽다",
+   "title_en": "Reads the Bitcoin white paper",
+   "description": "연말에 부모의 집에서 사토시 나카모토라는 이름으로 발표된 논문을 처음 펼쳤다. 논문에는 은행을 거치지 않고 돈을 보내는 방법이 담겨 있었다. 개당 9달러였던 비트코인에 1,000달러를 넣었고, 가격은 2달러까지 떨어졌다. 그는 팔지 않았다.",
+   "description_en": "At his parents’ house over the holidays he first opened the paper published under the name Satoshi Nakamoto. It described a way to send money without a bank. He put a thousand dollars into bitcoin at nine dollars a coin, and the price fell to two. He did not sell.",
+   "place_name": "산호세",
+   "place_name_en": "San Jose",
+   "lat": 37.304166666667,
+   "lng": -121.87277777778
+  },
+  {
+   "year": 2011,
+   "year_end": 2012,
+   "kind": "work",
+   "title": "에어비앤비에서 해외 송금 문제를 마주하다",
+   "title_en": "Sees cross-border payments at Airbnb",
+   "description": "딜로이트에서 컨설턴트로 일한 뒤 에어비앤비에 소프트웨어 엔지니어로 입사했다. 회사가 우루과이로 돈을 보낼 때 실제로 얼마가 도착할지 아무도 알지 못했다. 수수료는 높았고 송금에는 오랜 시간이 걸렸다. 그는 주말과 밤마다 루비와 자바스크립트로 비트코인을 사고 보관할 수 있는 코드를 짰다.",
+   "description_en": "After working as a consultant at Deloitte he joined as a software engineer. When the company sent money to Uruguay, no one knew how much would arrive. Fees were high and delays were long. On nights and weekends he wrote Ruby and JavaScript to buy and store bitcoin.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "코인베이스를 공동 창업하다",
+   "title_en": "Cofounds Coinbase",
+   "description": "와이컴비네이터에서 15만 달러를 받았다. 해커 뉴스에 공동 창업자를 구한다는 글을 올렸다. 레딧에서 골드만삭스 트레이더 출신인 프레드 어삼을 만났다. 두 사람은 은행 이체로 비트코인을 사고팔 수 있는 서비스를 열었다.",
+   "description_en": "Y Combinator gave him 150,000 dollars. He posted on Hacker News looking for a cofounder. On Reddit he met Fred Ehrsam, a former Goldman Sachs trader. They opened a service that let people buy and sell bitcoin by bank transfer.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "사내 사회운동을 금지하다",
+   "title_en": "Shuts down workplace activism",
+   "description": "회사의 사명을 개방된 금융 시스템 구축에 두고, 직장에서 사회운동을 벌이는 일을 막았다. 이 방침을 받아들일 수 없는 직원에게는 퇴직 위로금을 제안했다. 60명이 그 제안을 받아들였다.",
+   "description_en": "He tied the company to an open financial system and blocked workplace social activism. Anyone who could not accept that was offered money to leave. Sixty people took the offer.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "리서치허브를 공동 창업하다",
+   "title_en": "Cofounds ResearchHub",
+   "description": "패트릭 조이스와 함께 깃허브에서 코드가 공유되듯 논문을 공유할 수 있는 서비스를 시작했다. 아이디어는 그가 예전에 쓴 과학 연구 개선에 관한 글에서 나왔다. 그는 코인베이스 밖에서 진행한 이 프로젝트에 자신의 돈을 댔다.",
+   "description_en": "With Patrick Joyce he set out to let papers move the way code moves on GitHub. The idea came from a post he had written on how to improve scientific research. Outside Coinbase he paid for the project himself.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "코인베이스를 나스닥에 직접 상장하다",
+   "title_en": "Lists Coinbase on Nasdaq by direct listing",
+   "description": "신주를 팔지 않고 클래스 A 보통주가 거래를 시작했다. 타임스스퀘어에서 개장 종이 울렸다. 미국 주식시장에 암호화폐 거래소가 이름을 올린 날이었다.",
+   "description_en": "Class A common stock began trading without a new share sale. The opening bell rang in Times Square. A cryptocurrency exchange had put its name on the U.S. public market.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "뉴리밋을 공동 창업하다",
+   "title_en": "Cofounds NewLimit",
+   "description": "블레이크 바이어스와 세포 노화의 후성유전학을 연구하는 회사를 세웠다. 창업자들이 먼저 1억 500만 달러를 넣었다. 목표는 사람들이 건강하게 사는 기간을 늘리는 것이었다.",
+   "description_en": "With Blake Byers he started a company to study the epigenetics of cellular aging. The founders first put in 105 million dollars. The aim was to extend the years people live in health.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": 2025,
+   "kind": "other",
+   "title": "증권거래위원회 소송이 끝나다",
+   "title_en": "Ends the SEC lawsuit",
+   "description": "증권거래위원회는 회사가 미등록 증권거래소로 운영됐다는 이유로 소송을 제기했다. 그는 합의금을 내지 않고 버텼다. 2년 뒤 위원회가 소송을 취하했다.",
+   "description_en": "The Securities and Exchange Commission sued the company as an unregistered securities exchange. He refused to pay a settlement. Two years later the commission dismissed the case.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부를 유지하면서 직역투, 불분명한 주체와 대상, 어색한 동사 결합을 바로잡았다. 이미 자연스러운 사건은 그대로 두고, 전체 연표를 이어 읽을 때 인물과 회사가 분명하게 드러나도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "고등학교에서 자랐다는 표현이 부자연스러워 재학 사실이 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "전공명이 제목에서 부정확했고, 두 학사 학위의 관계와 학생·과외 교사를 연결했다는 창업 내용이 어색하게 표현돼 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「남미를 살아 보다」와 「집 담보 대출이 막히다」가 한국어로 부자연스럽고, 상점 주인들의 상태도 직역투였다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "비트코인 백서를 「이름으로 나온 글」이라고 표현해 발표 주체와 문서의 성격이 흐렸고, 가격 표기도 읽기 불편했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「해외 송금을 보다」가 모호했고, 입사한 회사와 우루과이 송금의 주체가 본문에 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "프레드 어삼이 골드만삭스에서 맡았던 직무가 빠져 있었고, 일부 고유명사와 창업자 표기를 자연스럽게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「사회 운동을 말리다」와 「회사 사명을 열린 금융에 두다」가 뜻을 짐작해야 하는 표현이었고, 60명이 제안을 받았다는 문장은 제안을 받아들였다는 영문의 의미와 달랐다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「논문이 깃허브처럼 오가게 하다」와 「연구 공유를 자기 돈으로 밀다」가 영어 문장을 순서대로 옮긴 듯한 직역투였다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「세포 노화의 후성유전」과 「건강하게 사는 해」가 전문 개념과 목표를 부자연스럽게 표현하고 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 브라이언 암스트롱이 직접 소송을 끝낸 것처럼 읽혔지만 본문에서는 위원회가 소송을 취하했다. 또한 「미등록 증권거래소로 회사를 고소하다」가 한국어의 목적어·서술어 관계에 맞지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10
+  ]
+ }
+}

@@ -1,0 +1,260 @@
+{
+ "slug": "aaron-swartz",
+ "events": [
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "birth",
+   "title": "하이랜드파크에서 태어나다",
+   "title_en": "Born in Highland Park",
+   "description": "시카고에서 북쪽으로 약 40킬로미터 떨어진 호숫가 마을에서 유대인 집안의 장남으로 태어났다. 아버지 로버트는 마크 윌리엄스라는 소프트웨어 회사를 세웠다. 동생은 노아와 벤이었다.",
+   "description_en": "He was born the eldest son of a Jewish family in a lakeside town about 25 miles north of Chicago. His father, Robert, had founded a software firm called Mark Williams Company. His younger brothers were Noah and Ben.",
+   "place_name": "하이랜드파크",
+   "place_name_en": "Highland Park",
+   "lat": 42.1825,
+   "lng": -87.806944444
+  },
+  {
+   "year": 1999,
+   "year_end": 2000,
+   "kind": "work",
+   "title": "이용자가 쓰는 백과사전을 열다",
+   "title_en": "Launches a user-written encyclopedia",
+   "description": "열두 살에 더 인포 네트워크를 만들었다. 누구나 자신이 아는 내용을 올리고 고칠 수 있는 사이트였다. 이듬해에는 유용한 비상업 협업 사이트를 만든 청소년에게 주는 아르스디지타상을 받았다.",
+   "description_en": "At twelve he built The Info Network. Anyone could add and edit what they knew. The next year he received the ArsDigita Prize, given to young people who built useful, collaborative, noncommercial sites.",
+   "place_name": "하이랜드파크",
+   "place_name_en": "Highland Park",
+   "lat": 42.1825,
+   "lng": -87.806944444
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "RSS 1.0 규격 작성에 참여하다",
+   "title_en": "Joins the RSS 1.0 working group",
+   "description": "열네 살에 웹사이트의 새 글을 다른 곳에서도 받아볼 수 있게 하는 형식을 어른들과 함께 정했다. 이듬해에는 월드와이드웹 컨소시엄의 데이터 형식 작업에도 참여했다.",
+   "description_en": "At fourteen he sat with adults to fix a format that pushed a site's new posts onto other screens. The next year he also joined a World Wide Web Consortium group on data formats.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "크리에이티브 커먼즈 라이선스 설계에 참여하다",
+   "title_en": "Helps design Creative Commons licenses",
+   "description": "로런스 레시그를 만나 이용 허락 조건을 기계가 읽을 수 있게 만드는 일을 맡았다. 크리에이티브 커먼즈는 창작자가 복제와 이용 조건을 표준화된 방식으로 밝히게 하려 했다. 12월 첫 라이선스를 공개한 출범 행사에도 참석했다.",
+   "description_en": "He had already met Lawrence Lessig and taken on the job of making reuse terms readable by machines. The group wanted creators to state copying rules in a standard way. He stood at the December launch when the first licenses went out.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2004,
+   "year_end": 2005,
+   "kind": "education",
+   "title": "스탠퍼드에 들어가다",
+   "title_en": "Enrolls at Stanford",
+   "description": "로블 홀에서 생활했으며 2008년 졸업 예정 학년이었다. 지적 분위기를 찾지 못했다고 블로그에 적었고, 1학년을 마친 뒤 학교를 그만뒀다. 그사이 와이 콤비네이터의 첫 여름 프로그램에 출판용 위키로 지원했다.",
+   "description_en": "He lived in Roble Hall as a member of the class of 2008. He wrote on his blog that he could not find an intellectual atmosphere, and he left after freshman year. Meanwhile he applied to Y Combinator's first summer program with a publishing wiki.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "인포가미를 레딧과 합치다",
+   "title_en": "Merges Infogami with Reddit",
+   "description": "사이먼 카르스텐센과 출판 도구를 만들었지만 후속 투자를 받지 못했다. 프로그램 주최 측은 같은 기수의 레딧과 합치라고 했고, 두 팀은 한 회사가 됐다. 그는 공동 창업자라는 직함을 받았다. 네 사람은 작은 아파트에서 함께 살았고, 그는 옷장에서 잤다.",
+   "description_en": "He and Simon Carstensen built a publishing tool but did not get follow-on funding. The program organizers told them to merge with Reddit, a firm from the same batch, and the two teams became one company. He received the title of co-founder. The four of them shared a small apartment, and he slept in a closet.",
+   "place_name": "서머빌",
+   "place_name_en": "Somerville",
+   "lat": 42.3875,
+   "lng": -71.1
+  },
+  {
+   "year": 2006,
+   "year_end": 2007,
+   "kind": "work",
+   "title": "콘데 나스트에 회사를 넘기고 떠나다",
+   "title_en": "Sells the company to Condé Nast and leaves",
+   "description": "와이어드의 모회사가 레딧을 사들인 뒤 팀은 잡지사 사무실로 옮겼다. 그는 책상 앞에서 지내는 회사 생활을 견디지 못했고, 이듬해 1월 회사를 떠나 달라는 통보를 받았다.",
+   "description_en": "Wired's parent company bought Reddit. The team moved into the magazine's offices. He could not stand desk life, and in January of the next year he was asked to leave.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "other",
+   "title": "법원 기록을 내려받고 선언문을 쓰다",
+   "title_en": "Downloads court records and writes a manifesto",
+   "description": "칼 맬라머드의 호소에 응해 쪽당 이용료를 받는 연방 법원 기록 시스템에서 문서 약 270만 건을 내려받았다. 연방수사국이 조사했지만 기소하지는 않았다. 그해에는 학술 논문을 누구나 자유롭게 읽을 수 있게 하라고 촉구한 《게릴라 오픈 액세스 선언문》도 공개했다.",
+   "description_en": "Answering Carl Malamud's call, he downloaded about 2.7 million documents from the federal court records system that charged per page. The FBI looked into it and filed no charges. That year he also published the Guerilla Open Access Manifesto, which told readers to make scholarly papers free to read.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "디맨드 프로그레스를 세우다",
+   "title_en": "Founds Demand Progress",
+   "description": "로드아일랜드 의원 출신 데이비드 시걸과 온라인 시민운동 단체를 만들었다. 시민의 자유와 정부 개혁을 내걸고 의원들에게 연락했으며 서명을 모았다. 같은 해에는 하버드 윤리연구소 연구원으로 정치 부패를 조사했다.",
+   "description_en": "He and David Segal, a former Rhode Island legislator, built an online advocacy group. They contacted members of Congress and gathered signatures around civil liberties and government reform. That same year he also worked as a fellow at a Harvard ethics lab, studying political corruption.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "other",
+   "title": "JSTOR 자료를 대량으로 내려받은 일로 체포되다",
+   "title_en": "Arrested over JSTOR downloads",
+   "description": "하버드 연구원이던 그는 매사추세츠 공대 네트워크의 방문자 계정으로 학술지 논문을 대량으로 내려받았다. 1월 6일 학교 경찰과 비밀경호국 요원이 하버드 근처에서 그를 체포했다. 연방 검찰은 전산망을 이용한 사기와 컴퓨터 사기 혐의로 기소했다. 제이스토어는 자료를 돌려받은 뒤 민사 사건에 합의했다.",
+   "description_en": "While a Harvard fellow he used a guest account on the MIT network to pull down journal articles in bulk. On January 6, campus police and a Secret Service agent arrested him near Harvard. Federal prosecutors charged wire fraud and computer fraud. JSTOR took the files back and settled the civil side.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "other",
+   "title": "온라인 저작권 법안에 맞서다",
+   "title_en": "Fights the online copyright bills",
+   "description": "디맨드 프로그레스는 정부가 웹사이트 전체를 폐쇄할 수 있게 하는 법안에 반대해 청원을 돌렸다. 1월에는 수많은 사이트가 접속을 중단하며 항의했고, 의회는 법안 처리를 멈췄다. 5월에는 그 싸움을 돌아보는 기조연설을 했다.",
+   "description_en": "The group he had founded circulated a petition against bills that would let the government shut down whole sites. In January many sites went dark in protest, and Congress stopped the bills. In May he gave a keynote looking back on that fight.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "death",
+   "title": "브루클린 아파트에서 세상을 떠나다",
+   "title_en": "Dies in a Brooklyn apartment",
+   "description": "검찰은 유죄를 인정하면 짧은 기간만 복역하는 조건을 제시했지만 그는 거부했다. 여자친구 타렌 스타인브리크너카프먼이 그날 저녁 그를 발견했다. 검시 당국은 그가 목을 매 숨졌다고 밝혔고, 유서는 발견되지 않았다. 가족은 검찰과 매사추세츠 공대가 그의 죽음에 영향을 미쳤다고 밝혔다.",
+   "description_en": "Prosecutors offered a short prison term if he pleaded guilty. He refused. His girlfriend, Taren Stinebrickner-Kauffman, found him that evening. The medical examiner said he had hanged himself, and no note was found. His family said prosecutors and MIT had contributed to his death.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.650833333,
+   "lng": -73.949722222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 한국어의 행동 관계가 흐려진 표현과 지시 대상이 불분명한 문장을 바로잡았다. 영문이 제시한 세부는 유지하면서 앞뒤 사건이 자연스럽게 이어지도록 국문만 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「백과사전을 올리다」는 웹사이트를 공개했다는 뜻을 자연스럽게 전달하지 못하고, 수상 자격을 설명한 문장도 명사 결합이 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「새글을 다른 화면으로 흘려 보내는 형식」과 「작업에도 붙었다」가 영문 표현을 낱말 단위로 옮긴 문장처럼 읽혀 활동 내용을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「단체였다」가 앞 문장의 어떤 대상을 받는지 불분명했고, 「출범 자리에 그도 섰다」도 참석했다는 뜻을 에둘러 표현했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 class of 2008을 「08학번」으로 옮기면 2008년 입학생이라는 다른 뜻이 되며, 「학교를 접었다」와 「위키를 들고 지원했다」도 지나치게 구어적이거나 직역투였다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "후속 투자를 받지 못한 일과 합병 권유 사이의 연결을 분명히 하고, 「네 명」이 앞에 나온 두 팀의 네 사람을 가리킨다는 점이 자연스럽게 읽히도록 다듬을 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「책상 앞 생활」과 「나가 달라는 말을 들었다」가 회사 생활과 퇴사 통보를 지나치게 막연하게 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연방수사국이 들여다보았다」는 조사했다는 뜻을 불필요하게 비유했고, 선언문의 요구도 더 직접적인 한국어로 정리할 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시민의 자유와 정부 개혁을 걸고」는 무엇을 내걸고 어떤 행동을 했는지 관계가 어색했으며, 연락한 대상도 복수의 의원이라는 영문 의미가 충분히 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「자료를 받은 혐의」는 대량 다운로드 사건이라는 핵심을 흐렸고, 「손님 계정」「그를 잡았다」「혐의를 걸었다」「민사로는 합의했다」는 각각 한국어 법률·기술 문맥에서 부자연스러웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "정부가 사이트를 폐쇄할 수 있게 된다는 주체가 국문에서 빠졌고, 「의회는 처리를 멈췄다」는 무엇의 처리를 중단했는지 목적어가 불분명했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조건을 받지 않았다」는 제안을 거부했다는 뜻을 자연스럽게 전달하지 못했고, 「목맴이라고 밝혔다」와 「유서는 나오지 않았다」도 조사 결과를 전하는 문장으로 어색했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,225 @@
+{
+ "slug": "henry-varnum-poor",
+ "events": [
+  {
+   "year": 1812,
+   "year_end": null,
+   "kind": "birth",
+   "title": "이스트앤도버에서 태어나다",
+   "title_en": "Born in East Andover",
+   "description": "아버지 실베이너스는 마을 의사였고, 어머니는 메리 메릴이었다. 형 존이 있었으며, 집안에서 아직 대학에 진학한 사람은 없었다. 가족은 독립전쟁 장군 이녹 푸어의 후손이었다.",
+   "description_en": "His father Sylvanus was the village doctor. His mother was Mary Merrill. He had an older brother, John, and no one in the family had yet gone to college. They descended from Revolutionary War general Enoch Poor.",
+   "place_name": "앤도버",
+   "place_name_en": "Andover",
+   "lat": 44.635555555556,
+   "lng": -70.751111111111
+  },
+  {
+   "year": 1835,
+   "year_end": null,
+   "kind": "education",
+   "title": "보든 대학을 졸업하다",
+   "title_en": "Graduates from Bowdoin",
+   "description": "집안에서 처음으로 대학에 진학했다. 법률가로 살아갈 준비를 했다. 형은 이미 뱅고어에서 삼촌에게 법률을 배우고 있었다.",
+   "description_en": "He was the first in the family to attend college. He prepared to live by the law. His brother was already reading law under their uncle in Bangor.",
+   "place_name": "브런즈윅",
+   "place_name_en": "Brunswick",
+   "lat": 43.910833333333,
+   "lng": -69.963055555556
+  },
+  {
+   "year": 1838,
+   "year_end": null,
+   "kind": "office",
+   "title": "변호사 자격을 얻다",
+   "title_en": "Is called to the bar",
+   "description": "삼촌 제이컵 맥고의 사무소에서 일을 배웠다. 곧 형과 함께 변호사로 일했고, 두 사람은 목재 사업에도 돈을 투자했다. 형 존은 훗날 메인주에 철도를 건설했다.",
+   "description_en": "He trained in the office of his uncle Jacob McGaw. He soon practiced with his brother, and the two put money into timber. John later built railroads in Maine.",
+   "place_name": "뱅고어",
+   "place_name_en": "Bangor",
+   "lat": 44.803055555556,
+   "lng": -68.7675
+  },
+  {
+   "year": 1841,
+   "year_end": null,
+   "kind": "other",
+   "title": "메리 와일드 피어스와 결혼하다",
+   "title_en": "Marries Mary Wild Pierce",
+   "description": "회중교회에서 결혼식을 올렸다. 신부는 그 마을 목사 존 피어스의 딸이었다. 두 사람은 나중에 여섯 자녀를 두었고, 아들 헨리 윌리엄은 훗날 출판 사업에 합류했다.",
+   "description_en": "They married at the Congregational church. The bride was the daughter of the town’s minister, John Pierce. They later had six children, and their son Henry William joined the publishing work.",
+   "place_name": "브루클라인",
+   "place_name_en": "Brookline",
+   "lat": 42.331666666667,
+   "lng": -71.121666666667
+  },
+  {
+   "year": 1849,
+   "year_end": null,
+   "kind": "work",
+   "title": "미국 철도 저널을 맡다",
+   "title_en": "Takes over the American Railroad Journal",
+   "description": "전 주인이 금을 찾아 캘리포니아로 떠나자 형이 잡지를 샀다. 당시 구독자는 약 천이백 명이었다. 푸어는 선로와 철도 차량에 관한 기사 대신 회사들의 수치와 부채를 기록하기 시작했다.",
+   "description_en": "After the owner left for California gold, his brother bought the magazine. It had about twelve hundred subscribers. He began writing down companies’ numbers and debts instead of notes on tracks and rolling stock.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1851,
+   "year_end": null,
+   "kind": "other",
+   "title": "미국지리협회를 함께 세우다",
+   "title_en": "Helps found the American Geographical Society",
+   "description": "뉴욕 시민 서른한 명이 모였다. 북극에서 실종된 프랭클린 탐험대를 찾자는 제안이 출발점이었다.",
+   "description_en": "Thirty-one New Yorkers gathered. A proposal to search for Franklin’s lost Arctic expedition was the starting point.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1860,
+   "year_end": null,
+   "kind": "publish",
+   "title": "미국 철도와 운하의 역사를 내다",
+   "title_en": "Publishes History of Railroads and Canals in the United States",
+   "description": "각 회사의 실적과 자본을 한 권에 모았다. 회사들이 저마다 다른 방식으로 수치를 발표하던 시절이라, 투자자들은 여러 노선을 한 곳에서 비교할 수 없었다.",
+   "description_en": "He put each company’s results and capital into one volume. Firms published figures on their own terms, and investors had no single place to compare lines.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1862,
+   "year_end": null,
+   "kind": "office",
+   "title": "유니언퍼시픽 초대 서기가 되다",
+   "title_en": "Becomes first secretary of the Union Pacific",
+   "description": "연방 정부가 새로 인가한 대륙횡단 철도 회사의 정부 위원이 되었다. 잡지 편집을 그만두고 유니언퍼시픽의 초대 서기를 맡았다. 얼마 지나지 않아 회사를 떠났다.",
+   "description_en": "He became a government commissioner to the newly chartered transcontinental railroad. He left the journal and served as its first secretary. He left the company soon after.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1868,
+   "year_end": null,
+   "kind": "publish",
+   "title": "푸어스 철도편람을 내기 시작하다",
+   "title_en": "Begins Poor’s Manual of the Railroads",
+   "description": "아들이 철도 회사들의 수치를 해마다 한 권으로 묶어 내자고 제안했다. 두 사람은 회사를 세우고 봄마다 각 회사에서 자료를 받아 두꺼운 책을 펴냈다. 회사들도 자료 제공을 거부하면 좋지 않게 비칠 것을 알았다.",
+   "description_en": "His son proposed an annual book of railroad figures. They formed a firm and each spring collected the companies’ numbers for a thick volume. The companies knew that a refusal would look bad.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1905,
+   "year_end": null,
+   "kind": "death",
+   "title": "브루클라인에서 세상을 떠나다",
+   "title_en": "Dies in Brookline",
+   "description": "세상을 떠나기 세 주 전, 얼음 위에서 넘어져 발목이 부러졌다. 그 충격은 심장에까지 미쳤다. 아내와 아들 헨리 윌리엄, 딸 세 명이 유족으로 남았다.",
+   "description_en": "Three weeks earlier he had fallen on the ice and broken an ankle. The shock reached his heart. He was survived by his wife, his son Henry William, and three daughters.",
+   "place_name": "브루클라인",
+   "place_name_en": "Brookline",
+   "lat": 42.331666666667,
+   "lng": -71.121666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 주어·목적어가 빠진 문장, 직역된 표현, 부자연스러운 동사를 바로잡았다. 사건의 세부 내용과 생애의 시간순 연결은 그대로 보존했으며, 별도의 사실 확인이 필요한 항목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아버지는 실베이너스, 마을의 의사였다」는 이름과 직업을 쉼표로 잘못 연결해 문장 관계가 어색했다. 「독립전쟁 장수」도 Revolutionary War general의 뜻을 정확히 드러내도록 다듬었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「법률로 밥을 벌 준비를 했다」는 의미는 통하지만 원문의 표현을 순서대로 옮긴 듯한 직역체이고, 「삼촌 밑으로 법을 배우다」도 조사가 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목은 변호사 자격 취득을 뜻하는데 국문은 개업으로 범위를 넓혔다. 「곧 형과 함께 썼고」는 무엇을 함께 썼는지 목적어가 없어 practiced with his brother의 의미가 무너졌고, 「메인 철도를 놓았다」도 지역과 행동의 관계가 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 여섯 아이를 두었다」는 부자연스럽고, 「출판을 함께했다」는 무엇에 합류했는지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전 주인이 금을 찾아 캘리포니아로 떠난 뒤」는 수식 관계가 매끄럽지 않았고, 「선로와 차량 기사」는 tracks and rolling stock에 관한 기사를 뜻한다는 점이 분명하지 않았다. 회사의 수치와 부채를 기록한 주체도 다시 밝혔다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문은 단순히 New Yorkers라고 했는데 「뉴욕 유지」는 사회적 지위를 덧붙였다. 이를 영문이 허용하는 범위로 바로잡았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「투자자가 노선을 서로 견줄 자리가 없었다」는 compare lines를 직역해 장소가 없었다는 말처럼 들렸다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사의 위원이 되었다」는 그가 회사 소속 위원이 된 것처럼 읽힐 수 있어 government commissioner라는 지위를 분명히 했다. 이어지는 서기 취임과 퇴사도 주어와 회사를 밝혀 연결했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「철도 숫자」와 「회사들에 자료를 받다」가 부자연스러웠다. 「거절하면 나쁜 소문이 난다」는 a refusal would look bad를 소문 발생으로 잘못 확장한 표현이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「발목을 꺾었다」는 broken an ankle을 잘못 옮겨 발목을 고의로 비튼 것처럼 들렸다. 「충격이 심장으로 번졌다」도 한국어에서 뜻을 짐작해야 하는 직역이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

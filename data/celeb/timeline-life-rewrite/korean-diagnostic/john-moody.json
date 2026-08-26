@@ -1,0 +1,250 @@
+{
+ "slug": "john-moody",
+ "events": [
+  {
+   "year": 1868,
+   "year_end": null,
+   "kind": "birth",
+   "title": "저지시티에서 태어나다",
+   "title_en": "Born in Jersey City",
+   "description": "허드슨강 건너편에는 뉴욕 금융가가 자리하고 있었다. 아버지는 윌리엄 프랜시스 무디, 어머니는 세라 제인 니컬스였다. 다섯 자녀 중 한 명이었다.",
+   "description_en": "Across the Hudson sat New York’s financial district. His father was William Francis Moody and his mother Sarah Jane Nichols. He was one of five children.",
+   "place_name": "저지시티",
+   "place_name_en": "Jersey City",
+   "lat": 40.71,
+   "lng": -74.06
+  },
+  {
+   "year": 1890,
+   "year_end": 1900,
+   "kind": "work",
+   "title": "스펜서 트래스크에 들어가다",
+   "title_en": "Joins Spencer Trask",
+   "description": "우표를 붙이고 심부름하는 일로 한 달에 이십 달러를 받았다. 십 년 안에 증권과 기업을 조사하는 자리까지 올랐고, 주급은 육십 달러가 되었다. 철도뿐 아니라 산업회사의 수치도 한 권에 모으겠다는 구상은 이 자리에서 나왔다.",
+   "description_en": "He started as a stamp licker and errand man at twenty dollars a month. Within ten years he was investigating securities and firms at sixty dollars a week. The idea of a manual of industrial numbers, not just railroads, came from that desk.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1893,
+   "year_end": 1913,
+   "kind": "other",
+   "title": "크랜포드에 살다",
+   "title_en": "Settles in Cranford",
+   "description": "월스트리트에서 일하는 동안 뉴저지 교외에 집을 두었다. 크랜포드에서 이십 년을 살았다. 니스에서 태어난 안나 멀퍼드 애디슨과 결혼해 두 아들을 두었다.",
+   "description_en": "He kept a house in a New Jersey suburb while he worked on Wall Street. He stayed in the town for twenty years. He married Anna Mulford Addison, born in Nice, and they had two sons.",
+   "place_name": "크랜포드",
+   "place_name_en": "Cranford",
+   "lat": 40.6564,
+   "lng": -74.3048
+  },
+  {
+   "year": 1900,
+   "year_end": null,
+   "kind": "publish",
+   "title": "산업 증권 편람을 내다",
+   "title_en": "Publishes the industrial securities manual",
+   "description": "자기 이름을 내건 회사를 세우고 빌린 오백 달러로 편람을 만들었다. 천백여 쪽에 달했으며, 첫 항목은 아메리칸 바이시클이었다. 초판은 두 달 만에 매진됐다. 삼 년 뒤에는 전국에서 쓰이는 참고서가 되었다.",
+   "description_en": "He set up a firm in his own name and made the book with five hundred borrowed dollars. It ran to just over eleven hundred pages, opening with the American Bicycle Company. The first printing sold out in two months. In three years it was a national reference.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1904,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『트러스트에 관한 진실』을 쓰다",
+   "title_en": "Writes The Truth About the Trusts",
+   "description": "합병으로 몸집을 키운 미국 대기업들의 수치를 한 권에 모았다. 이듬해에는 투자자를 위한 월간지를 창간하고 편집을 맡았다.",
+   "description_en": "He put the American merger wave into one book of figures. The next year he founded and edited a monthly for investors.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1907,
+   "year_end": null,
+   "kind": "other",
+   "title": "공황으로 회사를 잃다",
+   "title_en": "Loses the firm in the panic",
+   "description": "광산 주식에 투자했고, 빌린 돈으로 키운 사업은 자금줄이 마르자 문을 닫았다. 편람의 이름과 판권도 팔렸다. 숫자를 모으는 데 그치던 일은 여기서 끝났다.",
+   "description_en": "He had put money into mining shares, and a business grown on borrowed cash folded when credit dried. The manual’s name and copyright were sold. Gathering figures alone was over.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1909,
+   "year_end": null,
+   "kind": "publish",
+   "title": "철도채권에 문자 등급을 매기다",
+   "title_en": "Grades railroad bonds with letters",
+   "description": "분석출판사를 세우고 『철도 투자 분석』을 펴냈다. 천삼백 개에 가까운 철도채권에 Aaa부터 E까지 문자 등급을 매겼다. 광고는 싣지 않았고, 투자자들이 구독료를 냈다.",
+   "description_en": "He set up Analyses Publishing and issued Analyses of Railroad Investments. He put letter grades from Aaa down to E on nearly thirteen hundred railroad bonds. There were no advertisements; investors paid the subscription.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1914,
+   "year_end": null,
+   "kind": "office",
+   "title": "무디스 인베스터스 서비스를 법인화하다",
+   "title_en": "Incorporates Moody's Investors Service",
+   "description": "한 해 앞서 분석 대상을 산업회사와 공익사업체로 넓혔다. 칠월에는 무디스 인베스터스 서비스라는 새 이름으로 법인을 세우고, 그해부터 시채와 지방채에도 등급을 매겼다. 십 년 안에 미국 채권 시장의 거의 전부에 이 등급이 적용됐다.",
+   "description_en": "The year before he had widened the books to industrials and utilities. In July he incorporated under a new name and began rating city and municipal bonds. Within a decade nearly the whole American bond market sat under those grades.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1926,
+   "year_end": null,
+   "kind": "other",
+   "title": "맏아들을 잃다",
+   "title_en": "Loses his elder son",
+   "description": "스물여섯 살의 존 에드먼드가 시칠리아 메시나에서 장티푸스로 죽었다. 남은 아들은 어니스트였다. 어니스트는 훗날 중세 철학을 가르쳤다.",
+   "description_en": "John Edmund, twenty-six, died of typhoid in Messina, Sicily. The surviving son was Ernest. He later taught medieval philosophy.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1931,
+   "year_end": null,
+   "kind": "other",
+   "title": "가톨릭교회에 입교하다",
+   "title_en": "Is received into the Catholic Church",
+   "description": "맏아들을 잃은 뒤 자신이 몸담을 교회를 더욱 깊이 찾았다. 성공회 저교회파 전통에서 자랐고, 이후 광교회파를 거쳤다. 견진성사를 받은 지 이 년 뒤에는 그 여정을 『집으로 가는 먼 길』에 적었다.",
+   "description_en": "After losing his elder son he looked harder for a church. He had been raised a Low Church Episcopalian and later passed through the Broad Church. After confirmation he wrote the road into The Long Road Home two years later.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "death",
+   "title": "라호야에서 죽다",
+   "title_en": "Dies in La Jolla",
+   "description": "전해 시월 뉴욕을 떠나 라호야로 왔다. 스크립스 기념병원에서 짧게 앓은 뒤 눈을 감았다. 향년 여든아홉이었으며, 그의 아내는 안나였다.",
+   "description_en": "He had left New York the previous October and come here. He died after a short illness at Scripps Memorial Hospital. He was eighty-nine; his wife was Anna.",
+   "place_name": "라호야",
+   "place_name_en": "La Jolla",
+   "lat": 32.84,
+   "lng": -117.27694444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 직역투, 불분명한 지시어, 어색한 동사와 사건 간 연결을 다듬었다. 이미 자연스러운 문장은 유지했으며 별도의 사실 확인이 필요한 사건은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「허드슨 강 건너가 뉴욕 금융가였다」는 장소와 서술어의 관계가 어색해 건너편에 금융가가 자리했다는 뜻으로 바로 읽히지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「철도 말고 산업회사 숫자」는 영문 어순을 좇은 표현이라 편람의 대상과 구상이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 마을」은 해당 문장만으로 어느 곳을 가리키는지 분명하지 않아 크랜포드를 직접 밝혔다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「초판은 두 달 만에 떨어졌다」는 sold out을 부자연스럽게 옮긴 표현이라 매진되었다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목은 저서명을 가리키지만 국문 제목은 트러스트의 실상을 일반적으로 서술한 것처럼 읽혔다. 본문도 「합병으로 커진 대기업을 숫자로 풀다」의 목적어와 행동 관계가 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「회사를 넘기다」는 자발적으로 양도했다는 뜻이 되어 loses the firm과 어긋났다. 본문의 「자금이 마르자 접혔다」와 「숫자만 모아 팔던 일」도 구어적이거나 영문보다 의미가 늘어나 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「철도채」와 「트리플에이부터 이까지 글자를 붙였다」는 대상과 등급 체계를 정확하고 자연스럽게 전달하지 못했고, 「값은 투자자 구독으로 받았다」도 주체와 행동 관계가 어색했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「새 간판으로 법인을 세우다」와 「채권 시장이 그 등급 아래 들어가다」는 영문 표현을 그대로 따라 뜻을 짐작해야 했다. 전년의 대상 확대에서 법인 설립과 등급 적용으로 이어지는 흐름도 분명하게 다듬었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스물여섯의 존 에드먼드」와 「뒤에 그 아들」은 한국어로 어색하고, 후자의 지시 대상도 한 번 더 해석해야 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「가톨릭으로 넘어가다」와 「교회를 더 깊게 찾았다」는 개종과 교회 탐색을 부자연스럽게 표현했다. 「그 길」도 앞선 종파 이력을 가리키는지 바로 드러나지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이곳」은 앞 문장만으로 라호야를 가리키는지 알 수 없었고, 「짧은 병 끝에」와 「아내는 안나였다」도 한국어 서술로 매끄럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

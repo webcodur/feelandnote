@@ -1,0 +1,280 @@
+{
+ "slug": "bong-jin-kim",
+ "events": [
+  {
+   "year": 1976,
+   "year_end": null,
+   "kind": "birth",
+   "title": "완도에서 태어나다",
+   "title_en": "Born in Wando",
+   "description": "완도는 전라남도 남해안 앞바다의 섬이었다. 그는 훗날 아주 작은 섬에서 출발했다고 적었다.",
+   "description_en": "It was an island off the south coast of Jeolla. He later wrote that he had started on a very small island.",
+   "place_name": "완도",
+   "place_name_en": "Wando",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "education",
+   "title": "서울예술대학에서 실내디자인을 배우다",
+   "title_en": "Studies interior design at Seoul Institute of the Arts",
+   "description": "화가를 꿈꾸었으나 예술고등학교에는 가지 못했다. 공간의 높이와 재료가 사람의 감정을 어떻게 바꾸는지 여기서 배웠다.",
+   "description_en": "He had wanted to paint but did not go to an art high school. Here he learned how the height of a room and its materials change how people feel.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "이모션에서 웹 디자인을 시작하다",
+   "title_en": "Begins web design at Emotion",
+   "description": "나이키와 현대카드 프로젝트를 맡으며 브랜드를 이끄는 법을 배웠다. 이후 네오위즈를 거쳐 NHN으로 옮겼다.",
+   "description_en": "Working on Nike and Hyundai Card jobs, he learned how to steer a brand. He later moved to Neowiz, then to NHN.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "가구점을 접다",
+   "title_en": "Closes his furniture shop",
+   "description": "직접 디자인한 가구를 팔았다. 잡지에 소개됐지만 가격이 비쌌고 임대료는 계속 나갔으며, 가구는 잘 팔리지 않았다. 가게를 접은 뒤 NHN으로 돌아가 디자이너로 다시 일했다.",
+   "description_en": "He sold furniture he had designed himself. Magazines featured the pieces, but the prices were high, the rent remained, and they did not sell. He closed the shop and went back to NHN as a designer.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "배달의민족을 열다",
+   "title_en": "Launches Baedal Minjok",
+   "description": "직장을 그만두고 국민대 시각디자인 대학원에 들어간 뒤였다. 강남 일대에서 전단지를 주워 스캔한 뒤 앱에 올렸다. 6월 25일 서비스를 열었고 이틀 만에 앱 장터 1위에 올랐다. 초기 모임은 답십리 카페베네에서 열렸다.",
+   "description_en": "He had quit his job and entered Kookmin University’s visual-design graduate school. He picked up flyers around Gangnam, scanned them, and put them in the app. The service opened on June 25 and reached the top of the app stores in two days. The first meetings were at a Caffe Bene in Dapsimni.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "우아한형제들을 법인으로 세우다",
+   "title_en": "Incorporates Woowa Brothers",
+   "description": "투자를 받으려면 회사가 필요하다는 사실을 그제야 알았다. 서비스를 연 지 한 해 만의 일이었다. 회사 이름은 2인조 용감한형제들에서 빌려 왔다.",
+   "description_en": "Only then did he learn that he needed a company to take investment. It was a year after the service had opened. The name was borrowed from the duo Brave Brothers.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "publish",
+   "title": "한나체를 무료로 풀다",
+   "title_en": "Releases the Hanna typeface for free",
+   "description": "큰딸의 이름을 붙였다. 글자는 1960~70년대 상점 간판처럼 칼로 오려 낸 모양이었다. 사람들이 길을 걷다가 상점 간판에서 이 글씨를 보게 하는 것이 광고의 목적이었다.",
+   "description_en": "He named it after his eldest daughter. The letters looked cut by knife, like 1960s and 1970s shop signs. The point of the ad was that people would see that lettering on storefronts as they walked.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "office",
+   "title": "코리아스타트업포럼 첫 의장을 맡다",
+   "title_en": "Becomes first chair of Korea Startup Forum",
+   "description": "스타트업 대표들이 그를 의장으로 세웠다. 출범 선언문에는 작은 회사들이 실험할 여건을 만들겠다고 적었다.",
+   "description_en": "Startup founders put him in the chair. In the founding statement he wrote that he would help small companies find room to experiment.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "100억 원을 기부하겠다고 약속하다",
+   "title_en": "Pledges 10 billion won in donations",
+   "description": "아내 설보미와 함께 3년 안에 기부를 마치겠다고 페이스북에 밝혔다. 두 사람은 사랑의열매와 초록우산어린이재단, 서울예술대학 등에 모두 100억 3100만 원을 나눠 주며 약속한 기한을 지켰다.",
+   "description_en": "He and his wife Bomi Sul posted a three-year deadline on Facebook. They gave 10.031 billion won to Community Chest of Korea, ChildFund Korea, Seoul Institute of the Arts and others, and met the deadline.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "딜리버리히어로와 결합 계약을 발표하다",
+   "title_en": "Announces a combination with Delivery Hero",
+   "description": "두 회사는 기업가치를 약 40억 달러로 정했다. 그는 싱가포르에 세울 아시아 합작회사의 이사회 의장 겸 집행이사를 맡을 예정이었다.",
+   "description_en": "The companies set the enterprise value at about four billion dollars. He was to become chairman and executive director of the Asian joint venture they would form in Singapore.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "other",
+   "title": "기빙 플레지에 서약하다",
+   "title_en": "Joins the Giving Pledge",
+   "description": "설보미와 함께 생전에 재산의 절반 이상을 기부하겠다고 서약했다. 김봉진은 한국인 최초 서약자였다. 큰딸 한나가 서약에 쓰인 사진을 찍었다.",
+   "description_en": "With Bomi Sul he wrote that they would give away more than half their wealth in their lifetimes. He was the first Korean signatory. Their eldest daughter Hanna took the photograph for the pledge.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "딜리버리히어로와의 거래를 마치다",
+   "title_en": "Closes the Delivery Hero transaction",
+   "description": "공정위는 요기요를 매각하는 조건으로 거래를 승인했다. 독일 측 회사인 딜리버리히어로는 3월에 거래를 마쳤다고 밝혔다.",
+   "description_en": "The Fair Trade Commission approved the deal on the condition that Yogiyo be sold. The German side said the transaction closed in March.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "대표와 의장직에서 물러나다",
+   "title_en": "Steps down as CEO and chairman",
+   "description": "2월에 대표직에서 물러나 이국환에게 회사를 맡겼다. 7월에는 우아한형제들과 우아DH아시아의 의장직에서도 물러나 고문으로 남았다. 직원들에게 보낸 메일에는 디자인에 다시 도전하고 싶다고 적었다.",
+   "description_en": "In February he left the CEO seat and handed the company to Lee Guk-hwan. In July he also resigned as chairman of Woowa Brothers and Woowa DH Asia and stayed on as an adviser. In a staff email he wrote that he wanted to try design again.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮긴 듯한 어색한 표현, 문장 안에서 대상이 흐려지는 지시어, 사건 사이의 연결을 끊는 문장을 바로잡았다. 영문에 없는 평가나 인과는 보태지 않았으며, 사실 판단이 따로 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 없어 무엇이 섬이었다는 뜻인지 바로 드러나지 않았고, 「그곳」도 앞 문장에 의존했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「나이키와 현대카드 일」과 「브랜드를 어떻게 이끄는지」가 번역투에 가까워 담당한 프로젝트와 배운 내용을 자연스럽게 연결했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「잡지에는 올랐으나」와 「임대는 남았고」는 무엇이 소개되고 어떤 비용이 계속됐는지 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「처음 모임」은 서비스 준비 과정의 모임이라는 대상과 시기가 흐려 「초기 모임」으로 명확히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서비스를 연 지 한 해 만이었다」가 앞 문장과 느슨하게 떨어져 있었고, 이름을 빌려 온 대상이 2인조라는 영문의 세부가 빠져 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「길을 걷다 상점 간판에서 그 글씨를 보게 하는 것이 광고였다」는 행동 주체와 광고의 목적이 불분명했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「출범 선언문에 적었다」보다 선언문의 내용을 먼저 받도록 어순을 다듬어 문장 연결을 자연스럽게 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「페이스북에 3년 기한을 올렸다」는 영어 단어를 그대로 치환한 표현이라 무엇을 언제까지 하겠다는 뜻인지 분명하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "기업가치를 정한 주체가 생략돼 있었고, 아직 맡지 않은 직책을 「맡기로 했다」보다 계약 당시의 예정으로 분명히 나타낼 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재산의 절반 이상을 내놓겠다고 적었다」는 무엇에 적었는지 불분명했고, 「한국인 첫 서약자」의 주어도 바로 드러나지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「독일 쪽」은 어느 회사를 가리키는지 독자가 앞뒤 정황으로 짐작해야 했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「대표와 의장에서」와 「대표를 내려놓고」가 직책을 다루는 한국어로 부자연스러웠고, 「디자일」은 「디자인」의 오기였다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

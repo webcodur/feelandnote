@@ -1,0 +1,270 @@
+{
+ "slug": "chan-sung-jung",
+ "events": [
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "birth",
+   "title": "포항에서 태어나다",
+   "title_en": "Born in Pohang",
+   "description": "3월 17일이었다. 포항의 바닷가에서 어린 시절을 보냈다. 훗날 자신은 공부를 잘하지 못했고, 초등학교 때는 싸움으로 또래 아이들에게 알려졌다고 말했다.",
+   "description_en": "The date was March 17. He spent his early years in that coastal city. He later said he was a poor student and that, in elementary school, the other children knew him for fighting.",
+   "place_name": "포항",
+   "place_name_en": "Pohang",
+   "lat": 36.032222222222,
+   "lng": 129.365
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "education",
+   "title": "남양주에서 합기도를 시작하다",
+   "title_en": "Starts hapkido in Namyangju",
+   "description": "십대 중반에 남양주로 옮겼다. 마른 몸에 사투리를 쓰던 전학생이었던 그는 학교에서 맞았다. 이모가 보다 못해 합기도 도장으로 데려갔다. 그때까지 운동을 배운 적은 없었다.",
+   "description_en": "He moved there in his mid-teens. A thin transfer student with a provincial accent, he was beaten at school. His aunt could not watch it and took him to a hapkido gym. Until then he had never trained.",
+   "place_name": "남양주",
+   "place_name_en": "Namyangju",
+   "lat": 37.636666666667,
+   "lng": 127.21416666667
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "education",
+   "title": "경북과학대 이종격투기과에 들어가다",
+   "title_en": "Enters the MMA program at Kyongbuk Science College",
+   "description": "고등학교 1학년 때 요리 학원 대신 킥복싱을 골랐다. 자정까지 체육관에 남아 있어 관장이 그를 좀비라고 불렀다. 격투기를 가르치는 대학을 찾아 칠곡으로 갔고, 학교에서 브라질리언 주짓수를 배웠다.",
+   "description_en": "In his first year of high school he chose kickboxing over cooking school. The gym owner called him a zombie because he stayed until midnight. He went to Chilgok for a college that taught fighting. There he learned Brazilian jiu-jitsu.",
+   "place_name": "칠곡",
+   "place_name_en": "Chilgok",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "프로 무대에 데뷔하다",
+   "title_en": "Turns professional",
+   "description": "6월 경주 슈퍼삼보 페스티벌에서 이형걸을 암바로 꺾었다. 그해 겨울에는 부산 판크라스 코리아 라이트급 토너먼트에서 유인석과 이형걸을 연달아 꺾고 우승했다. 케이블 방송 《스트리트 파이터》 70킬로그램급에서도 우승했다.",
+   "description_en": "In June at the Super Sambo Festival in Gyeongju he submitted Hyung Geol Lee with an armbar. That winter in Busan he beat In Seok Yoo and Lee again to win the Pancrase Korea lightweight tournament. He also took the 70-kilogram bracket of the cable show Street Fighter.",
+   "place_name": "경주",
+   "place_name_en": "Gyeongju",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "코리안탑팀으로 옮기다",
+   "title_en": "Joins Korean Top Team",
+   "description": "전찬열이 이끄는 코리안탑팀에 합류했다. 그해 여름 오카야마에서 오미가와 미치히로를 판정으로 이겼다. 이듬해에는 센고쿠 페더급 그랑프리에 출전했으나 가네하라 마사노리에게 져 탈락했다.",
+   "description_en": "Chan-yeol Jeon ran the team. That summer in Okayama he beat Michihiro Omigawa by decision. The next year he entered the Sengoku featherweight grand prix and was eliminated by Masanori Kanehara.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "가르시아와 3라운드까지 싸우다",
+   "title_en": "Fights Leonard Garcia for three rounds",
+   "description": "컵 스완슨이 빠지면서 레너드 가르시아가 상대가 됐다. 정찬성은 판정으로 졌지만, 현장 관중과 중계진도 그 판정에 수긍하지 못했다. 맞고도 계속 앞으로 나아가는 모습 때문에 코리안 좀비라는 별명이 굳어졌다.",
+   "description_en": "Cub Swanson withdrew and the opponent changed. Jung lost by decision, and the arena and the broadcast booth did not accept it. The name Korean Zombie stuck to the way he kept walking forward after being hit.",
+   "place_name": "새크라멘토",
+   "place_name_en": "Sacramento",
+   "lat": 38.575277777778,
+   "lng": -121.48611111111
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "가르시아를 트위스터로 꺾다",
+   "title_en": "Submits Garcia with a twister",
+   "description": "레너드 가르시아와 다시 맞붙었다. 2라운드가 끝나기 직전 목을 감은 채 척추를 비틀었고, 가르시아가 탭을 쳤다. 에디 브라보의 영상을 보고 익힌 기술이었다.",
+   "description_en": "He met the same opponent again. In the last second of the second round he wrapped the neck, cranked the spine, and Garcia tapped. He had learned the move from Eddie Bravo videos.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "알도의 벨트에 도전하다",
+   "title_en": "Challenges for Aldo’s belt",
+   "description": "앤서니 페티스가 무릎 부상으로 빠지자 정찬성이 대신 출전했다. 4라운드에 오른팔로 주먹을 휘두르다 어깨가 빠졌고, 이어진 공격을 받은 뒤 경기가 중단됐다. 그해 강남에 자신의 체육관을 열었다.",
+   "description_en": "Anthony Pettis withdrew with a knee injury, and Jung took the spot. In the fourth round his right shoulder came out as he threw a punch, and the fight was stopped after the shots that followed. That year he opened his own gym in Gangnam.",
+   "place_name": "리우데자네이루",
+   "place_name_en": "Rio de Janeiro",
+   "lat": -22.91111111111111,
+   "lng": -43.205555555555556
+  },
+  {
+   "year": 2014,
+   "year_end": 2016,
+   "kind": "other",
+   "title": "사회복무를 시작하다",
+   "title_en": "Begins social service",
+   "description": "3월에 박선영과 강남에서 결혼했다. 어깨 문제로 4급 판정을 받아 원주 36사단에서 기초군사훈련을 받은 뒤 서초구청에서 복무했다. 훈련소 입소 이틀 전에 첫째 딸이 태어났다. 서초구청에서 24개월간 복무를 마쳤으며, 그사이 둘째 딸이 태어났다.",
+   "description_en": "In March he married Park Sun-young in Gangnam. Graded 4 for the shoulder, he took basic training at the 36th Division in Wonju and then served at the Seocho district office. His first daughter was born two days before he reported. He spent twenty-four months at the office. A second daughter was born during that time.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "버뮤데스를 KO로 꺾고 복귀하다",
+   "title_en": "Returns by knocking out Bermudez",
+   "description": "3년 넘게 시합을 치르지 않은 뒤 돌아왔다. 1라운드에 주먹으로 데니스 버뮤데스를 쓰러뜨려 경기를 끝냈다. 이 승리로 다시 페더급 상위권에 자리했다.",
+   "description_en": "He had not fought in more than three years. He finished Dennis Bermudez with a punch in the first round. He was back among the top featherweights.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777778,
+   "lng": -95.383055555556
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "볼카노프스키의 벨트에 도전하다",
+   "title_en": "Challenges for Volkanovski’s belt",
+   "description": "조제 알도전 이후 다시 타이틀전에 나섰다. 여러 차례 다운을 당한 뒤 4라운드에 경기가 중단됐다.",
+   "description_en": "He stood in front of the belt again after Aldo. He was knocked down several times, and the fight was stopped in the fourth round.",
+   "place_name": "잭슨빌",
+   "place_name_en": "Jacksonville",
+   "lat": 30.316666666667,
+   "lng": -81.65
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "홀러웨이와 싸우고 은퇴하다",
+   "title_en": "Fights Holloway and retires",
+   "description": "3라운드에 공격을 받고 쓰러졌다. 케이지 안에서 앞으로는 경기에 나서지 않겠다고 말했다. 이후 강남의 체육관으로 돌아갔다.",
+   "description_en": "He went down in the third round. Inside the cage he said he would not fight again. He went back to the gym in Gangnam.",
+   "place_name": "싱가포르",
+   "place_name_en": "Singapore",
+   "lat": 1.3,
+   "lng": 103.8
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "직역투와 불분명한 지시어를 걷어 내고, 각 사건에서 대상과 행동이 바로 드러나도록 다듬었다. 영문에 없는 사실이나 해석은 보태지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 바닷가 도시」가 앞 문장만으로는 포항을 가리키는지 분명하지 않고, 「학교에서 알아줬다」도 또래 아이들에게 싸움으로 알려졌다는 뜻을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「그곳」이 가리키는 장소가 본문 안에 없고, 전학생의 특징과 학교에서 맞았다는 사건의 연결도 매끄럽지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자정까지 남는 그」가 부자연스럽고 어디에 남았는지도 분명하지 않았다. 영문에 명시된 브라질리언 주짓수도 국문에서 단순히 주짓수로 축약되어 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문의 프로 전향을 「프로 시합에 나가다」로 옮겨 의미가 약해졌고, 토너먼트와 체급 부문 우승을 「가져갔다」라고 표현해 한국어 문맥이 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전찬열이 팀을 이끌었다」가 제목의 코리안탑팀 합류와 단절되어 독립된 정보처럼 읽혔다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「상대가 바뀌었다」만으로는 새 상대가 누구인지 분명하지 않았고, 경기장과 중계석이 판정을 납득하지 못했다는 표현도 사람과 공간의 관계가 뒤바뀌어 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 상대」가 본문 안에서 누구인지 바로 드러나지 않았고, 「목을 감아 허리를 비틀었다」는 표현은 영문의 동작 관계를 정확하고 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대신 올라갔다」는 무엇에 출전했다는 뜻인지 모호하고, 「그 위에 맞은 뒤」는 지시 대상과 공격의 순서를 알아보기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어깨 4급」, 「기초를 받고」, 「24개월을 구청에서 보내고 나왔다」가 병역 판정과 기초군사훈련, 사회복무를 지나치게 압축해 뜻을 짐작하게 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「눕히고 돌아오다」와 「주먹으로 끝냈다」만으로는 복귀전에서 버뮤데스를 KO로 꺾었다는 행동과 대상이 선명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「벨트에 다시 올라가다」와 「벨트 앞에 섰다」가 타이틀전에 도전했다는 의미를 부자연스럽게 옮겼다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「맞다 쓰러졌다」가 문법적으로 어색하고, 은퇴 의사를 밝힌 문장도 자연스러운 경기 문맥으로 다듬을 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

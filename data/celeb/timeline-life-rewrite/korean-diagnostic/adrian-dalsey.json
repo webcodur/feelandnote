@@ -1,0 +1,199 @@
+{
+ "slug": "adrian-dalsey",
+ "events": [
+  {
+   "year": 1914,
+   "year_end": null,
+   "kind": "birth",
+   "title": "일리노이에서 태어나다",
+   "title_en": "Is born in Illinois",
+   "description": "일리노이에서 태어났다. 어느 도시인지는 후대 기록도 밝히지 않았다. 그 뒤 반세기 가까운 행적은 거의 남지 않았다.",
+   "description_en": "He was born in Illinois. Later records never name the town. The next half-century left almost no trace.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "work",
+   "title": "보험 서류를 항공 운송하는 회사에서 영업하다",
+   "title_en": "Sells for a firm that flies insurance papers",
+   "description": "마이클스·포·어소시에이츠에서 영업사원으로 일했다. 같은 회사에서 서류를 배달하던 래리 힐블롬이 로스쿨을 마친 뒤 달시를 찾아왔다. 힐블롬은 보험 서류를 항공 운송하던 일을 해운사와 은행으로 넓히자고 제안했다.",
+   "description_en": "He worked as a salesman at Michael's, Poe and Associates. Larry Hillblom, a courier at the same firm, came to him after law school. Hillblom wanted to take that air run beyond insurance papers, into shipping and banks.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "travel",
+   "title": "선하증권을 여객기에 싣다",
+   "title_en": "Puts bills of lading on a passenger plane",
+   "description": "첫 손님은 해운사 시트레인이었다. 화물선보다 먼저 선하증권이 항구에 닿아야 통관이 시작됐다. 달시는 힐블롬과 함께 여객기에 올라 서류를 샌프란시스코에서 호놀룰루로 날랐다.",
+   "description_en": "The first client was the shipping line Seatrain. Customs could not start until the bills of lading reached port ahead of the ship. He and Hillblom boarded commercial flights and carried the papers from San Francisco to Honolulu.",
+   "place_name": "호놀룰루",
+   "place_name_en": "Honolulu",
+   "lat": 21.30472222222222,
+   "lng": -157.85722222222222
+  },
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "work",
+   "title": "성의 앞글자를 모아 회사를 세우다",
+   "title_en": "Forms a company from three surnames",
+   "description": "힐블롬이 학자금 일부를 보탰고 로버트 린이 세 번째 이름으로 들어왔다. 세 사람은 직함을 두지 않고 자신들을 주주라고만 불렀다. 달시의 아내 마지는 식탁 위에서 장부를 적었다.",
+   "description_en": "Hillblom put in part of his student loans. Robert Lynn came in as the third name. They took no titles and called themselves shareholders. His wife Marge kept the books on the dining table.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1969,
+   "year_end": 1970,
+   "kind": "work",
+   "title": "폐차장 문짝을 단 차로 서류를 모으다",
+   "title_en": "Collects papers in a car with mismatched doors",
+   "description": "폐차장에서 떼어 온 문짝을 단 플리머스 더스터를 몰고 베이 에어리어를 돌며 여행가방에 서류를 담았다. 이듬해 고객은 마흔 곳으로 늘었고 상당수가 해운사였다.",
+   "description_en": "He drove a Plymouth Duster with doors pulled from a junkyard around the Bay Area, stuffing documents into suitcases. By the next year they had forty clients, many of them shipping lines.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1971,
+   "year_end": null,
+   "kind": "travel",
+   "title": "극동으로 서비스를 확대하다",
+   "title_en": "Pushes the service into the Far East",
+   "description": "고객의 요구가 늘자 극동과 환태평양 지역으로 서비스를 확대했다. 필리핀에서 먼저 서비스를 시작했다. 달시는 동남아시아와 미크로네시아, 하와이, 괌을 직접 다녔다.",
+   "description_en": "As clients asked for more, the service reached the Far East and the Pacific Rim. The Philippines opened first. He himself went through Southeast Asia, Micronesia, Hawaii, and Guam.",
+   "place_name": "마닐라",
+   "place_name_en": "Manila",
+   "lat": 14.595833333333333,
+   "lng": 120.97722222222222
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "홍콩에 국제법인을 세우다",
+   "title_en": "Puts the international firm in Hong Kong",
+   "description": "달시와 동료들은 홍콩에 사무실을 열고 국제법인을 세웠다. 도쿄와 싱가포르에도 같은 해 사무실을 열었다.",
+   "description_en": "He and his partners opened an office in Hong Kong and set up the international company. Tokyo and Singapore followed that same year.",
+   "place_name": "홍콩",
+   "place_name_en": "Hong Kong",
+   "lat": 22.278333333333,
+   "lng": 114.15861111111
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "other",
+   "title": "일선에서 손을 떼다",
+   "title_en": "Steps away from day-to-day work",
+   "description": "회사는 이미 런던에도 사무실을 연 상태였고, 달시는 여전히 주주로 이름을 올리고 있었다. 1980년대 중반 무렵 그는 회사의 일상적인 운영에서 물러났다.",
+   "description_en": "The company had already opened in London and still listed him as a shareholder. Sometime in the mid-1980s he left the daily running of the firm.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "death",
+   "title": "집 근처 병원에서 숨을 거두다",
+   "title_en": "Dies in a hospital near his home",
+   "description": "짧은 투병 끝에 세상을 떠났다. 회사가 그의 부고를 알렸다. 유족으로 아내 애니가 있었다.",
+   "description_en": "He died after a short illness. The company announced the death. His wife was Annie.",
+   "place_name": "월넛크리크",
+   "place_name_en": "Walnut Creek",
+   "lat": 37.9063131,
+   "lng": -122.064963
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조한 결과 사실 확인이 필요한 충돌은 없었다. 모호한 대명사, 영어식 표현, 부자연스러운 주어·행동 관계를 고치고 사건들이 달시의 창업과 국제 사업 확장, 경영 일선 은퇴로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「보험 서류 회사」는 회사가 보험 서류를 항공 운송했다는 뜻을 충분히 전달하지 못했다. 본문의 「같은 회사 서류 배달원」은 조사가 빠져 어색했고, 「그를 찾았다」는 대상이 달시임을 바로 알기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그와 힐블롬」의 「그」가 앞 문장에 나온 인물을 가리키지 않아 사건 하나만 읽으면 달시를 뜻하는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「직함은 두지 않고」의 주체가 생략됐고, 「아내 마지」가 누구의 아내인지 문장 안에서 분명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「고물 문짝」과 「정문짝이 다른」은 폐차장에서 가져온 서로 맞지 않는 문짝을 달았다는 영어의 뜻을 부자연스럽게 옮겼다. suitcase의 구체적인 뜻도 「가방」으로 약해졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「서비스를 뻗다」와 「필리핀이 먼저 열렸다」는 영어 어순과 표현을 따른 직역이라 무엇을 확대하고 시작했다는 것인지 한국어만으로 즉시 파악하기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「국제법인을 두다」는 법인을 설립했다는 뜻으로는 어색했고, 도쿄와 싱가포르에서 무엇이 문을 열었는지 본문에 명시되지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한가운데 무렵」은 mid-1980s를 잘못 옮긴 표현이다. 「그를 주주로 남겼다」와 「일상 경영」도 영어식 결합이라 달시가 주주로 등재돼 있었고 회사의 일상적인 운영에서 물러났다는 뜻이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「짧은 병 뒤에」와 「회사가 그 죽음을 알렸다」는 영어 표현을 순서대로 옮겨 한국어로 어색했다. 아내 애니에 관한 마지막 문장도 앞 문장과 연결되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

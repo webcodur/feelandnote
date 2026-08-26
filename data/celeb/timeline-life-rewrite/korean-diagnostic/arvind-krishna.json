@@ -1,0 +1,259 @@
+{
+ "slug": "arvind-krishna",
+ "events": [
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "birth",
+   "title": "웨스트고다바리에서 태어나다",
+   "title_en": "Born in West Godavari",
+   "description": "안드라프라데시주의 텔루구어권 행정구역에서 태어났다. 아버지는 인도 육군 장교였다. 가족은 아버지의 근무지가 바뀔 때마다 몇 년 간격으로 이사했다.",
+   "description_en": "He was born in a Telugu-speaking district of Andhra Pradesh. His father was an officer in the Indian Army. The family moved every few years with each new posting.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "쿠누르의 스탠스 학교에서 공부하다",
+   "title_en": "Studies at Stanes School in Coonoor",
+   "description": "닐기리 언덕의 산간 휴양지에 자리한 학교로, 육군 가족들이 자녀를 보내는 곳이었다. 그는 이곳에서 중등 과정을 마쳤다.",
+   "description_en": "It was a hill-station school used by army families. He finished his secondary studies there.",
+   "place_name": "쿠누르",
+   "place_name_en": "Coonoor",
+   "lat": 11.345,
+   "lng": 76.795
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "education",
+   "title": "칸푸르에서 전기공학을 마치다",
+   "title_en": "Finishes electrical engineering at Kanpur",
+   "description": "인도 공과대학에서 기술학사 학위를 받았다. 그해 가을에는 일리노이대학교에서 연구조교로 일하며 전기·컴퓨터공학을 공부하기 시작했다.",
+   "description_en": "He took a Bachelor of Technology from the Indian Institute of Technology. That fall he entered electrical and computer engineering at Illinois as a research assistant.",
+   "place_name": "칸푸르",
+   "place_name_en": "Kanpur",
+   "lat": 26.4725,
+   "lng": 80.331111111111
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "education",
+   "title": "오류정정 부호로 석사를 마치다",
+   "title_en": "Completes a master's on error-correcting codes",
+   "description": "딜립 사르와테의 지도로 논문을 썼다. 그해 8월부터는 브루스 하예크가 박사과정 지도교수를 맡았다.",
+   "description_en": "He wrote the thesis under Dilip Sarwate. That August, Bruce Hajek took over as his doctoral adviser.",
+   "place_name": "어배너",
+   "place_name_en": "Urbana",
+   "lat": 40.109722222222,
+   "lng": -88.204166666667
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "왓슨 연구소에 들어가다",
+   "title_en": "Joins the Watson Research Center",
+   "description": "박사논문을 쓰던 중 연구 직원으로 합류했다. 무선 네트워크 시제품을 만들었고, 제품 부서가 시장 규모를 1천 대로 예상했을 때 그는 10억 대라고 내다봤다.",
+   "description_en": "He joined as a research staff member while still writing his dissertation. He built wireless-network prototypes. The product side saw a market of a thousand units; he said the market was a billion.",
+   "place_name": "요크타운하이츠",
+   "place_name_en": "Yorktown Heights",
+   "lat": 41.2772,
+   "lng": -73.7814
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "education",
+   "title": "패킷 교환망으로 박사학위를 받다",
+   "title_en": "Earns a doctorate on packet-switching networks",
+   "description": "라우터에서 고속으로 패킷을 교환하는 데 쓰이는 상호연결망을 설계하고 분석한 논문이었다. 지도교수는 브루스 하예크였다.",
+   "description_en": "The dissertation designed and analyzed interconnection networks for high-speed packet switching in routers. Bruce Hajek was the adviser.",
+   "place_name": "어배너",
+   "place_name_en": "Urbana",
+   "lat": 40.109722222222,
+   "lng": -88.204166666667
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "work",
+   "title": "보안 소프트웨어 사업을 세우다",
+   "title_en": "Builds IBM's security software business",
+   "description": "로베르 르블랑은 티볼리 제품을 기반으로 보안 사업을 구축해 달라고 그에게 요청했다. 그는 무엇을 사들이고 무엇을 직접 만들지 결정했다.",
+   "description_en": "Robert LeBlanc asked him to build a security business on top of Tivoli. He decided what to buy and what to build.",
+   "place_name": "요크타운하이츠",
+   "place_name_en": "Yorktown Heights",
+   "lat": 41.2772,
+   "lng": -73.7814
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "office",
+   "title": "연구소를 총괄하다",
+   "title_en": "Takes charge of IBM Research",
+   "description": "존 켈리의 뒤를 이었다. 연구소 역사에서 열한 번째 책임자였고, 여섯 대륙의 연구소 열두 곳에서 일하는 과학자 약 3천 명을 맡았다.",
+   "description_en": "He succeeded John Kelly. He was the eleventh director in the lab's history, and he oversaw about three thousand scientists across twelve laboratories on six continents.",
+   "place_name": "요크타운하이츠",
+   "place_name_en": "Yorktown Heights",
+   "lat": 41.2772,
+   "lng": -73.7814
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "레드햇 인수를 이끌다",
+   "title_en": "Leads the acquisition of Red Hat",
+   "description": "클라우드·인지 소프트웨어 수석부사장으로서 이 거래를 설계했다. 인수 규모는 340억 달러로, 회사 역사상 가장 큰 소프트웨어 인수였다. 거래는 그해 7월 마무리됐다.",
+   "description_en": "As senior vice president of Cloud and Cognitive Software he designed the deal. It was valued at 34 billion dollars, the company's largest software purchase. The transaction closed that July.",
+   "place_name": "아몽크",
+   "place_name_en": "Armonk",
+   "lat": 41.128611111111,
+   "lng": -73.707777777778
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "office",
+   "title": "최고경영자에 취임하다",
+   "title_en": "Takes office as chief executive",
+   "description": "지니 로메티의 뒤를 이었다. 이사회는 1월에 그를 회사의 열 번째 최고경영자로 선임했고, 그는 4월 6일 업무를 시작했다. 하이브리드 클라우드와 인공지능을 향후 성장 계획의 중심에 두었다.",
+   "description_en": "He succeeded Ginni Rometty. The board elected him the company's tenth chief executive in January, and he started on April 6. He put hybrid cloud and artificial intelligence at the center of the next growth plan.",
+   "place_name": "아몽크",
+   "place_name_en": "Armonk",
+   "lat": 41.128611111111,
+   "lng": -73.707777777778
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "office",
+   "title": "이사회 의장을 겸하다",
+   "title_en": "Adds the chairmanship of the board",
+   "description": "이사회는 전해 12월 그를 의장으로 선임했다. 그는 1월 1일 이사회 의장에 취임했다.",
+   "description_en": "The board elected him chairman the previous December. He took the seat on January 1.",
+   "place_name": "아몽크",
+   "place_name_en": "Armonk",
+   "lat": 41.128611111111,
+   "lng": -73.707777777778
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "관리형 인프라 사업을 떼어 내다",
+   "title_en": "Spins off the managed infrastructure business",
+   "description": "전해 10월에 분사 계획을 발표했다. 카인드릴이라는 이름으로 독립한 회사는 11월 뉴욕 증권거래소에 상장됐다. 분사 뒤 IBM에는 하이브리드 클라우드와 인공지능 사업이 남았다.",
+   "description_en": "He had announced the split the previous October. The independent company, named Kyndryl, listed on the New York Stock Exchange that November. What remained of IBM stayed with hybrid cloud and artificial intelligence.",
+   "place_name": "아몽크",
+   "place_name_en": "Armonk",
+   "lat": 41.128611111111,
+   "lng": -73.707777777778
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미의 범위와 세부 사실은 유지하면서 직역투, 어색한 주어·목적어 관계, 불분명한 표현을 고쳤다. 출생지에서 학업과 연구, 사업 책임, 최고경영자 취임 이후의 조직 개편으로 이어지는 생애의 흐름도 자연스럽게 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「안드라프라데시 군에서 났다」는 행정구역과 출생의 관계가 어색하고 한국어 표현도 부자연스러워 출생 지역을 명확하게 풀어 썼다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「닐기리 언덕의 육군 자녀 학교」는 명사들이 기계적으로 이어져 학교의 위치와 이용자가 분명하게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전기·컴퓨터공학과에 연구조교로 들어갔다」는 대학원 진학과 연구조교 활동의 관계가 모호해 자연스럽게 정리했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「브루스 하예크가 박사 연구를 맡았다」는 무엇을 맡았다는 뜻인지 불분명해 지도교수를 맡았다는 관계를 명시했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제품 부서는 시장을 천 대로 봤지만」은 시장과 판매 대수의 관계가 압축돼 있어 시장 규모에 대한 전망임을 분명하게 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「라우터의 고속 패킷 교환용 상호연결망」은 명사가 겹쳐 논문의 설계 대상이 한 번에 읽히지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「보안 사업을 만들자고 불렀다」와 「살 것과 직접 만들 것」은 요청의 주체와 결정 대상이 어색하게 표현돼 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「거래가 닫혔다」는 영어 closed를 그대로 옮긴 표현이어서 거래가 마무리됐다는 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다음 성장축으로 올렸다」는 영문의 성장 계획과 두 사업의 관계를 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리를 이었다」만으로는 어떤 자리에 취임했는지 앞 문장을 다시 짚어야 하므로 이사회 의장 취임을 명시했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뉴욕 증권거래소에 올랐다」와 「남은 쪽은 하이브리드 클라우드와 인공지능에 남았다」는 상장과 분사 이후 IBM의 사업 구성을 직역해 의미가 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

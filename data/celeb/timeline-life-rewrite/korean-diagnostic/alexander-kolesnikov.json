@@ -1,0 +1,285 @@
+{
+ "slug": "alexander-kolesnikov",
+ "events": [
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "birth",
+   "title": "모스크바에서 태어나다",
+   "title_en": "Born in Moscow",
+   "description": "국적은 러시아다. 공식 연구자 소개에는 출생일이나 부모에 관한 정보가 공개되어 있지 않다. 이후 학업도 모스크바에서 이어졌다.",
+   "description_en": "His nationality is Russian. Official researcher profiles do not publish a birth date or his parents. The education that follows is in this city.",
+   "place_name": "모스크바",
+   "place_name_en": "Moscow",
+   "lat": 55.75055555555556,
+   "lng": 37.6175
+  },
+  {
+   "year": 2007,
+   "year_end": 2012,
+   "kind": "education",
+   "title": "모스크바 국립대학에서 응용수학을 배우다",
+   "title_en": "Studies applied mathematics at Moscow State University",
+   "description": "로모노소프 대학에서 계산·응용수학 석사과정을 마쳤다. 컴퓨터과학도 함께 공부했다.",
+   "description_en": "He completed a master's degree in computational and applied mathematics at Lomonosov University. He also trained in computer science.",
+   "place_name": "모스크바",
+   "place_name_en": "Moscow",
+   "lat": 55.75055555555556,
+   "lng": 37.6175
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "얀덱스에서 연구 소프트웨어 엔지니어로 일하다",
+   "title_en": "Works at Yandex as a research software engineer",
+   "description": "석사과정을 마칠 무렵 얀덱스에서 연구 소프트웨어 엔지니어로 일했다. 이듬해 오스트리아로 떠났다.",
+   "description_en": "He held that post around the time he finished the master's degree. The next year he left for Austria.",
+   "place_name": "모스크바",
+   "place_name_en": "Moscow",
+   "lat": 55.75055555555556,
+   "lng": 37.6175
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "education",
+   "title": "크리스토프 람페르트 연구실에서 박사과정을 시작하다",
+   "title_en": "Begins a doctorate in Christoph Lampert's group",
+   "description": "오스트리아 과학기술원의 크리스토프 람페르트 연구실에 들어갔다. 기계가 시각 정보를 읽도록 하는 분야를 전공으로 삼았다. 나중에 그는 기초 수학 지식은 이미 갖추고 있었지만 연구 기술은 이 연구소에서 익혔다고 말했다.",
+   "description_en": "He joined Christoph Lampert's group at the Institute of Science and Technology Austria. He specialized in getting machines to read visual information. He later said he already had foundational mathematics but acquired his research skills at this institute.",
+   "place_name": "클로스터노이부르크",
+   "place_name_en": "Klosterneuburg",
+   "lat": 48.304166666667,
+   "lng": 16.316666666667
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "publish",
+   "title": "이미지 단위 라벨만으로 물체를 분할하는 연구를 발표하다",
+   "title_en": "Publishes weakly supervised image segmentation research",
+   "description": "람페르트와 함께 시드·확장·제약 손실 함수를 제안했다. 픽셀 마스크 없이 이미지에 무엇이 있는지만 알려 줘도 물체 영역을 나누게 했다. 이 연구는 유럽컴퓨터비전학회에서 발표됐다.",
+   "description_en": "With Lampert he proposed a seed, expand, and constrain loss. The method segmented objects from image-level labels alone, without pixel masks. It appeared at the European Conference on Computer Vision.",
+   "place_name": "클로스터노이부르크",
+   "place_name_en": "Klosterneuburg",
+   "lat": 48.304166666667,
+   "lng": 16.316666666667
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "education",
+   "title": "컴퓨터과학 박사학위를 받다",
+   "title_en": "Receives a doctorate in computer science",
+   "description": "학위논문에서 약지도 분할과 자연 이미지의 비지도 모델링을 함께 다뤘다. 2월 26일 연구소에서 공개 심사를 통과했다. 람페르트가 지도교수를, 비토리오 페라리가 공동 지도교수를 맡았다.",
+   "description_en": "The dissertation combined weakly supervised segmentation with unsupervised modeling of natural images. He passed the public defense on 26 February at the institute. Lampert was the advisor and Vittorio Ferrari the co-advisor.",
+   "place_name": "클로스터노이부르크",
+   "place_name_en": "Klosterneuburg",
+   "lat": 48.304166666667,
+   "lng": 16.316666666667
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글 브레인에 합류하다",
+   "title_en": "Joins Google Brain",
+   "description": "박사 직후 구글 리서치 브레인 팀에 들어갔다. 샤오화 자하이, 루카스 베이어와 같은 실험실에서 시각 표현 학습을 이어 갔다. 이 팀은 뒤에 구글 딥마인드로 합쳐진다.",
+   "description_en": "Right after the doctorate he joined the Google Research Brain team. He continued visual representation learning in the same lab as Xiaohua Zhai and Lucas Beyer. That team was later folded into Google DeepMind.",
+   "place_name": "취리히",
+   "place_name_en": "Zurich",
+   "lat": 47.37444444444444,
+   "lng": 8.54111111111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "publish",
+   "title": "자기지도 시각 표현 학습을 재평가하다",
+   "title_en": "Reassesses self-supervised visual representation learning",
+   "description": "자하이, 베이어와 함께 공동 제1저자로 참여해 기존 자기지도 기법을 동일한 조건에서 다시 실행했다. 지도 학습용 네트워크 설계가 자기지도 학습에는 그대로 통하지 않는다는 점을 보였다. 이 연구는 컴퓨터비전패턴인식학회에서 발표됐다.",
+   "description_en": "As equal first authors with Zhai and Beyer, he reran existing self-supervised methods under matched conditions. They showed that network designs from supervised learning do not transfer unchanged to self-supervision. The paper appeared at the Conference on Computer Vision and Pattern Recognition.",
+   "place_name": "취리히",
+   "place_name_en": "Zurich",
+   "lat": 47.37444444444444,
+   "lng": 8.54111111111111
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "대규모 사전학습을 전이하는 방법을 발표하다",
+   "title_en": "Publishes the Big Transfer recipe",
+   "description": "자하이, 베이어와 함께 공동 제1저자로 참여해 대규모 데이터로 사전학습한 뒤 간단한 규칙에 따라 미세조정하는 방법을 제시했다. 이 모델은 이미지넷에서 87.5퍼센트의 1순위 정확도를 기록했다. 이 연구는 유럽컴퓨터비전학회에서 발표됐다.",
+   "description_en": "As equal first authors with Zhai and Beyer, he laid out a recipe that pretrains on large data and fine-tunes with a simple rule. The model reached 87.5 percent top-1 accuracy on ImageNet. It appeared at the European Conference on Computer Vision.",
+   "place_name": "취리히",
+   "place_name_en": "Zurich",
+   "lat": 47.37444444444444,
+   "lng": 8.54111111111111
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "비전 트랜스포머를 공동 발표하다",
+   "title_en": "Co-authors the Vision Transformer",
+   "description": "알렉세이 도소비츠키, 베이어, 디르크 바이센본, 자하이와 함께 동등하게 기여해 이미지를 패치 토큰의 수열로 입력하는 순수 트랜스포머를 제안했다. 수천만 장의 이미지로 사전학습하면 합성곱을 사용하지 않고도 합성곱 네트워크에 맞먹는 분류 성능을 냈다.",
+   "description_en": "With equal contribution from Alexey Dosovitskiy, Beyer, Dirk Weissenborn, and Zhai, he proposed a pure transformer that takes an image as a sequence of patch tokens. When pretrained on tens of millions of images, classification matched convolutional networks without using convolutions.",
+   "place_name": "취리히",
+   "place_name_en": "Zurich",
+   "lat": 47.37444444444444,
+   "lng": 8.54111111111111
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "모교 동문상을 받다",
+   "title_en": "Receives the ISTA Alumni Award",
+   "description": "6월 말 졸업식에서 그해 동문상을 받았다. 람페르트는 그가 박사학위를 받은 지 5년도 되지 않아 비전 트랜스포머를 비롯해 인용이 많이 된 시각 연구를 발표했다고 소개했다. 콜레스니코프는 이 연구소가 자신을 과학자로 만들었다고 말했다.",
+   "description_en": "He received that year's alumni award at the late-June graduation ceremony. Lampert introduced him as having, in under five years after the doctorate, produced highly cited vision work including the Vision Transformer. He said the institute had made him a scientist.",
+   "place_name": "클로스터노이부르크",
+   "place_name_en": "Klosterneuburg",
+   "lat": 48.304166666667,
+   "lng": 16.316666666667
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "오픈에이아이 사무소 개설에 참여하다",
+   "title_en": "Helps open OpenAI's office",
+   "description": "베이어, 자하이와 함께 구글 딥마인드를 떠나 오픈에이아이의 기술진으로 합류했다. 세 사람은 텍스트·이미지·소리를 하나의 모델로 다루는 연구를 맡았다. 새로 문을 연 사무소의 첫 연구진이었다.",
+   "description_en": "With Beyer and Zhai he left Google DeepMind for a member-of-technical-staff post at OpenAI. They were assigned research that lets one model handle text, images, and sound. They were the first research staff of the newly opened office.",
+   "place_name": "취리히",
+   "place_name_en": "Zurich",
+   "lat": 47.37444444444444,
+   "lng": 8.54111111111111
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "메타의 슈퍼인텔리전스 사업에 합류하다",
+   "title_en": "Joins Meta's superintelligence effort",
+   "description": "베이어, 자하이와 함께 오픈에이아이를 떠나 메타로 옮겼다. 월스트리트저널은 메타가 슈퍼인텔리전스 개발을 위해 세 사람을 영입했다고 전했다. 베이어는 공개 글에서 이적을 확인하고, 1억 달러의 계약금을 받았다는 보도는 허위라고 밝혔다.",
+   "description_en": "With Beyer and Zhai he left OpenAI for Meta. The Wall Street Journal reported that Meta hired the three for its superintelligence effort. Beyer confirmed the move in a public post and wrote that reports of a 100-million-dollar signing bonus were false.",
+   "place_name": "취리히",
+   "place_name_en": "Zurich",
+   "lat": 47.37444444444444,
+   "lng": 8.54111111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 넘지 않는 범위에서 불분명한 지시어, 직역투, 어색한 학술 표현을 바로잡고 사건 사이의 생애 흐름을 자연스럽게 이었다. 이미 자연스러운 문장과 세부 사실은 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤이은 학력은 이 도시다」는 학력이 도시에 있다는 식으로 관계가 어색해, 이후 학업도 모스크바에서 이어졌다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「컴퓨터과학도 같이 익혔다」를 학업 이력을 서술하는 문맥에 맞게 자연스럽게 다듬었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 자리에 있었다」만으로는 직책을 바로 알 수 없어 얀덱스의 연구 소프트웨어 엔지니어 직책을 명시했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 인물 이름을 온전히 밝히고, 「기계를 시각 정보에 맞추는 쪽」이라는 불분명한 직역을 기계가 시각 정보를 읽도록 하는 연구 분야로 풀었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「분할하는 연구를 내다」와 「학회에 실렸다」가 어색해 연구 발표와 학회 발표의 관계가 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "학위논문을 「한 권에 묶었다」고 표현한 부분과 「지도」「부지도」라는 직역투를 자연스러운 학술 용어로 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「다시 재다」와 「같은 조건에서 다시 돌렸다」가 구어적이고 의미 관계가 흐려, 재평가와 재실행의 뜻을 분명히 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "연구 방법을 「처방」이라고 한 직역투와 「큰 데이터」라는 어색한 표현을 대규모 사전학습과 전이 방법을 설명하는 문장으로 다듬었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「동등 기여로」의 문장 성분 관계와 「성능이 합성곱 네트워크와 나란히 갔다」라는 직역이 어색해 공동 기여와 성능 비교가 명확하도록 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「박사 뒤 5년도 안 돼」와 「인용 많은 시각 연구」를 자연스러운 한국어 문장으로 다듬고 마지막 문장의 주어를 명시했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 사무소 개설을 도왔다고 했는데 국문 제목은 본인이 사무소를 열었다고 단정했다. 개설 참여로 범위를 바로잡고, 「기술직원으로 옮겼다」와 주어가 불분명한 연구 배정 문장도 정리했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「메타 슈퍼인텔리전스」와 「슈퍼인텔리전스 인력」이 무엇을 뜻하는지 불분명해 메타의 관련 사업과 영입 목적이 드러나도록 고쳤다. 계약금 보도의 내용도 자연스럽게 풀었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

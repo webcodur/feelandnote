@@ -1,0 +1,291 @@
+{
+ "slug": "chen-shou",
+ "events": [
+  {
+   "year": 233,
+   "year_end": null,
+   "kind": "birth",
+   "title": "파서군 안한현에서 태어나다",
+   "title_en": "Is born in Anhan County of Baxi Commandery",
+   "description": "자는 승조이다. 파서군은 촉한의 북쪽 가장자리에 있었다. 같은 군 출신인 초주는 뒤에 그의 스승이 된다. 진서는 죽을 때 나이를 세는나이로 예순다섯이라 했으므로, 생년은 이를 역산한 것이다. 날짜는 전하지 않는다.",
+   "description_en": "His courtesy name was Chengzuo. The commandery sat on the northern edge of Shu Han. Qiao Zhou, from the same commandery, later became his teacher. The Book of Jin gives his age at death as sixty-five by East Asian reckoning, so the birth year is counted backward. The day is not recorded.",
+   "place_name": "난충",
+   "place_name_en": "Nanchong",
+   "lat": 30.79913,
+   "lng": 106.07843
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "같은 군 출신 초주에게 배우다",
+   "title_en": "Studies under Qiao Zhou of the same commandery",
+   "description": "상서와 춘추의 세 주석을 익혔다. 사기와 한서를 거듭 읽었다. 초주는 그가 재주로 이름을 얻고 꺾이리라 말했다. 배운 해는 전하지 않는다.",
+   "description_en": "He worked through the Classic of Documents and the three commentaries on the Spring and Autumn Annals. He read the Records of the Grand Historian and the Book of Han again and again. Qiao Zhou told him he would make a name by talent and then be broken. The year of the study is not recorded.",
+   "place_name": "난충",
+   "place_name_en": "Nanchong",
+   "lat": 30.79913,
+   "lng": 106.07843
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "촉한 조정에서 서기를 맡다",
+   "title_en": "Serves as a clerk at the Shu Han court",
+   "description": "화양국지는 위장군 주부, 동관 비서랑, 산기황문시랑을 차례로 적는다. 진서는 관각령사라고만 한다. 환관 황호가 권력을 쥐자 대신들은 그에게 빌붙었다. 진수는 굽히지 않았다. 그 때문에 여러 차례 강등되어 수도 밖으로 나갔다.",
+   "description_en": "The Chronicles of Huayang list him in turn as registrar to the General of the Guards, librarian of the Eastern Pavilion, and a gentleman of the Yellow Gate. The Book of Jin calls him only a clerk of the palace library. When the eunuch Huang Hao held power, the ministers attached themselves to him. Chen would not bow. He was demoted more than once and sent out of the capital.",
+   "place_name": "청두",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.06333333333333
+  },
+  {
+   "year": 263,
+   "year_end": null,
+   "kind": "other",
+   "title": "촉한이 멸망한 뒤 여러 해 관직에 나가지 못하다",
+   "title_en": "Is shut out of office after Shu Han falls",
+   "description": "위가 성도를 차지했다. 아버지의 상을 치르던 중 병이 나 여종에게 환약을 만들게 했는데, 방문객이 그 모습을 보았다. 고향 사람들은 그 일로 그를 헐뜯었다. 나라가 평정된 뒤에도 진수는 그 일 때문에 여러 해 관직에 나가지 못했다.",
+   "description_en": "Wei took Chengdu. During mourning for his father he fell ill and had a maid prepare pills; a visitor saw it. His townsmen spoke against him. After the state was pacified he still stayed out of office for years on that account.",
+   "place_name": "청두",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.06333333333333
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "장화의 천거로 진 조정에 들어가다",
+   "title_en": "Enters the Jin court on Zhang Hua's recommendation",
+   "description": "사공 장화는 그의 재주를 아꼈다. 진수가 의심을 살 만한 행동을 피하지는 못했지만 내칠 정도는 아니라고 보고, 그를 효렴으로 천거했다. 진수는 좌저작랑이 되었다. 진서는 양평령이라 하고, 화양국지와 진수가 직접 올린 표는 평양후 상이라 한다. 진 조정에 들어간 해는 전하지 않는다.",
+   "description_en": "Minister Zhang Hua valued his talent. He judged that Chen had not kept clear of suspicion, yet did not deserve to be cast aside, and recommended him as a xiaolian. Chen became an assistant compiler. The Book of Jin calls him prefect of Yangping; the Chronicles of Huayang and Chen's own memorial call him chancellor to the Marquis of Pingyang. The year he entered service is not recorded.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "익부 기로전을 다시 쓰다",
+   "title_en": "Rewrites the Biographies of Worthies of Yi Province",
+   "description": "후한 건무 연간 이래 파와 촉의 기로전이 편찬되어 왔다. 진수는 그 책들이 내용이 빈약해 오래 전하지 못하리라고 보고, 파와 한을 아울러 열 편으로 엮었다. 산기상시 문립이 무제에게 이 책을 올렸고, 무제는 좋게 평가했다.",
+   "description_en": "Lives of worthies from Ba and Shu had been compiled since the Jianwu era of the Eastern Han. He judged those books too thin to last and joined Ba and Han into ten chapters. The cavalier attendant Wen Li presented the work to Emperor Wu. The emperor approved it.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 269,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "본군의 인재 평가를 마치고 초주를 찾아가다",
+   "title_en": "Finishes commandery evaluations and visits Qiao Zhou",
+   "description": "본군의 인재 평가를 끝낸 뒤 휴가를 청하고 고향으로 돌아갔다. 초주는 공자와 유향, 양웅이 세상을 떠난 나이를 들며 자신도 이듬해를 넘기지 못하리라고 말했다. 진수는 초주가 점술로 알아낸 내용을 옛사람들의 나이에 빗대어 말한 것이라고 의심했다. 초주는 이듬해 겨울에 죽었다.",
+   "description_en": "After finishing the personnel ranking he asked for leave and went home. Qiao Zhou named the ages of Confucius, Liu Xiang, and Yang Xiong, and said he would not live past the next year. Chen suspected the remark was dressed as lore and came from a mantic calculation. Qiao Zhou died the following winter.",
+   "place_name": "난충",
+   "place_name_en": "Nanchong",
+   "lat": 30.79913,
+   "lng": 106.07843
+  },
+  {
+   "year": 274,
+   "year_end": null,
+   "kind": "publish",
+   "title": "제갈량의 글을 스물네 편으로 정리해 올리다",
+   "title_en": "Submits Zhuge Liang's writings in twenty-four chapters",
+   "description": "중서감 순욱과 중서령 화교가 진수에게 촉 승상의 글을 정리하는 일을 맡겼다. 진수는 중복된 글을 덜어 내고 종류에 따라 묶었다. 표의 날짜는 태시 십년 이월 초하루이다.",
+   "description_en": "The palace secretariat supervisor Xun Xu and the secretariat director He Qiao charged him with ordering the papers of the Shu chancellor. He cut repeats and grouped the pieces by kind. The memorial is dated the first day of the second month of the tenth year of Taishi.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 278,
+   "year_end": null,
+   "kind": "office",
+   "title": "두예의 추천으로 치서시어사가 되다",
+   "title_en": "Is appointed investigating censor on Du Yu's recommendation",
+   "description": "형주로 떠나기 전 두예는 진수에게 황문시랑이나 산기시랑을 맡길 만하다고 무제에게 아뢰었다. 무제는 진수를 치서시어사에 임명했다.",
+   "description_en": "Before leaving for Jing Province, Du Yu told Emperor Wu that Chen was fit for a gentleman of the Yellow Gate or of scattered cavalry. The emperor gave him an investigating censor's post.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 280,
+   "year_end": null,
+   "kind": "publish",
+   "title": "오가 평정된 뒤 삼국지를 엮다",
+   "title_en": "Compiles the Records of the Three Kingdoms after Wu falls",
+   "description": "위·촉·오의 역사를 기전체 예순다섯 편으로 엮었다. 화양국지는 오를 평정한 뒤에야 삼국의 역사를 모았다고 한다. 탈고한 해는 전하지 않는다. 당시 위서를 쓰고 있던 하후잠은 삼국지를 보고 자기 원고를 버렸다. 장화는 진서 편찬도 진수에게 맡기겠다고 했다. 순욱은 삼국지의 위서 부분을 마음에 들어 하지 않아 진수를 장광태수로 내보냈고, 진수는 어머니가 연로하다는 이유로 사양했다. 진서는 장광태수로 발령된 일을 두예의 추천보다 앞에 두지만, 화양국지는 사람들이 삼국지를 읽은 뒤의 일로 적는다. 진수의 아버지가 마속의 참군으로서 연좌되었고 제갈첨도 진수를 낮춰 보았다는 이유로, 진수가 제갈량과 제갈첨을 사사롭게 평가했다는 논의가 나왔다.",
+   "description_en": "He joined Wei, Shu, and Wu into sixty-five biographical chapters. The Chronicles of Huayang say he gathered the three histories only after Wu was pacified. The year he finished is not recorded. Xiahou Zhan, then writing a Book of Wei, saw this work and destroyed his own draft. Zhang Hua said the Book of Jin should be entrusted to him. Xun Xu disliked the Wei chapters and had him posted as administrator of Changguang; Chen declined, citing his mother's age. The Book of Jin places that posting before Du Yu's recommendation; the Chronicles of Huayang place it after the Records were read. Critics said his remarks on Zhuge Liang and Zhuge Zhan were personal, because his father had been punished as Ma Su's aide and Zhuge Zhan had slighted him.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니를 뤄양에 장사 지냈다가 파직되다",
+   "title_en": "Buries his mother in Luoyang and is censured",
+   "description": "진서는 어머니가 뤄양에 묻히기를 부탁했고 진수가 그 뜻을 따랐다고 한다. 화양국지는 계모가 진수의 아버지와 합장되기를 거부했다고 한다. 진수는 어머니를 고향으로 모시지 않았다는 이유로 다시 파직되었다.",
+   "description_en": "The Book of Jin says his mother asked to be buried here and he obeyed. The Chronicles of Huayang say it was his stepmother who refused joint burial with his father. He was stripped of office again for not taking her home.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "태자중서자에 임명되나 부임하지 않다",
+   "title_en": "Is named an aide to the crown prince but does not take the post",
+   "description": "진서는 몇 해 뒤 진수가 태자중서자에 임명되었으나 부임하지 않았다고만 한다. 화양국지는 태자가 폐위된 뒤 진수가 다시 산기상시를 겸했고, 혜제가 장화에게 진수에게 정식 관직을 주라고 했다고 적는다. 장화는 진수를 구경의 반열에 올리려 했지만 살해되었고, 이로써 진수의 승진 길도 막혔다. 장화가 죽은 해는 삼백 년이다.",
+   "description_en": "The Book of Jin says only that years later he was named an aide to the crown prince and did not assume the post. The Chronicles of Huayang say that after the prince was deposed he again served as a regular mounted attendant, that Emperor Hui told Zhang Hua to give him a full post, and that Zhang Hua moved to raise him among the Nine Ministers and then was killed, closing that path. Zhang Hua died in 300.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 297,
+   "year_end": null,
+   "kind": "death",
+   "title": "병으로 죽다",
+   "title_en": "Dies of illness",
+   "description": "진서는 진수가 원강 칠년에 병으로 죽었고 나이는 세는나이로 예순다섯이었다고 한다. 화양국지는 장화가 죽은 뒤에야 진수가 뤄양에서 죽었으며, 관직이 그의 재능에 미치지 못했다고 적는다. 두 전승의 몰년은 서로 어긋난다. 양주 대중정 범준 등은 조정에 삼국지를 거두어 보존하자고 아뢰었다. 조정은 하남윤과 뤄양령에게 진수의 집에서 삼국지를 베끼게 했다.",
+   "description_en": "The Book of Jin says he died of illness in the seventh year of Yuankang, at sixty-five by East Asian reckoning. The Chronicles of Huayang say he died here only after Zhang Hua was killed, and that his rank never matched his talent. The two transmissions disagree on the year of death. Fan Jun, impartial judge of Liang Province, and others asked the court to collect the Records of the Three Kingdoms. The court ordered the intendant of Henan and the prefect of Luoyang to copy the book from his house.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 정한 의미와 세부 사항은 그대로 보존하면서, 주체·대상·행동 관계가 불분명하거나 사건 사이의 연결을 끊는 국문 표현을 고쳤다. 두 사료가 서로 다르게 전하는 내용은 어느 한쪽으로 단정하지 않고 원문대로 병기했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 행정 단위인 파서군이 불완전하게 표기되었고, 본문의 「군」과 「같은 군 초주」는 각각 무엇과 누구를 가리키는지 바로 알기 어려웠다. 생년을 「거꾸로 센 값」이라고 한 표현도 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title"
+    ],
+    "problem": "「같은 군 초주」는 초주가 같은 군 출신이라는 관계를 조사 없이 이어 붙여 뜻이 매끄럽지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대신들은 붙었다」는 누구에게 어떻게 행동했다는 것인지 목적어가 빠져 있었고, 이어지는 「그」의 대상도 명시할 필요가 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「오래 밀려나다」는 관직에서 배제되었다는 핵심을 구체적으로 보여 주지 못했다. 「객」과 「낮춰 보았다」도 영문의 visitor와 spoke against him을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「혐의를 피하지 못한 일은 있으되」의 문장 구조가 어색했고, 마지막의 「들어온 해」는 어디에 들어왔다는 뜻인지 불분명했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "책이 「멀리 가지 못한다」는 표현은 too thin to last를 그대로 옮긴 듯해 뜻을 짐작해야 했고, 여러 전기와 편찬 대상을 가리키는 관계도 선명하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「본군 중정 일을 마치고」는 어떤 일을 끝냈는지 선명하지 않았고, 「술수로 안 일을 빌려 한 말」은 점술로 알아낸 내용을 옛사람들의 나이에 빗대었다는 영문의 관계가 무너져 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「정리하라 맡겼다」와 「겹친 글」은 목적어와 행동 관계가 부자연스러웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "어떤 인물에게 황문시랑이나 산기시랑을 맡길 만하다는 것인지 빠져 있었고, 「감찰 관직」은 실제로 받은 치서시어사 직을 지나치게 막연하게 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「삼국의 사」, 「이 책」, 「이 일」처럼 앞뒤를 되짚어야 대상을 알 수 있는 표현이 이어졌다. 또한 순욱이 마음에 들어 하지 않은 대상과 제갈량 부자에 대한 평가를 나타낸 구절이 모호했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「깎이다」는 censured와 stripped of office가 뜻하는 파직을 분명히 전달하지 못했다. 본문의 「이곳」도 해당 사건만 읽으면 뤄양을 가리킨다는 사실이 드러나지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리를 받고 나아가지 않았다」, 「태자가 폐한 뒤」, 「구경에 올리려다」는 임명·폐위·승진의 관계를 부자연스럽게 옮긴 표현이었다. 마지막의 「그 길」도 어떤 길이 막혔다는 뜻인지 불분명했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여기서」는 장소가 불분명했고, 「자리와 이름이 재주에 미치지 못했다」는 rank never matched his talent의 뜻을 자연스럽게 전달하지 못했다. 조정이 누구의 집에서 무엇을 베끼게 했는지도 명확하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

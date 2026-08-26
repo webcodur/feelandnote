@@ -1,0 +1,249 @@
+{
+ "slug": "jim-simons",
+ "events": [
+  {
+   "year": 1938,
+   "year_end": null,
+   "kind": "birth",
+   "title": "유대인 가정의 외아들로 태어나다",
+   "title_en": "Born the only child in a Jewish family",
+   "description": "아버지는 20세기폭스 영화를 뉴잉글랜드 지역 극장들에 판매하다가 장인의 구두 공장으로 옮겼다. 어머니는 그림을 배운 적이 있었다. 열네 살까지 이웃 마을 브루클라인의 아파트에서 살다가 작은 집으로 이사했다. 숫자를 두 배씩 늘려 가며 시간을 보냈다.",
+   "description_en": "His father sold Twentieth Century Fox films to New England theaters, then moved into his father-in-law’s shoe factory. His mother had studied painting. He lived in a Brookline apartment in the next town until he was fourteen, then moved into a small house. He passed time by doubling numbers.",
+   "place_name": "뉴턴",
+   "place_name_en": "Newton",
+   "lat": 42.336944444,
+   "lng": -71.209722222
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "education",
+   "title": "삼 년 만에 수학 학부를 마치다",
+   "title_en": "Finishes a mathematics degree in three years",
+   "description": "뉴턴 고등학교를 졸업하고 열일곱 살에 대학에 입학했다. 졸업한 뒤에는 친구와 함께 스쿠터를 타고 보스턴에서 보고타까지 내려갔다. 어떤 밤에는 유치장에서 자게 해 달라고 경찰에게 부탁하기도 했다.",
+   "description_en": "He left Newton High School and entered at seventeen. After graduating he rode a scooter from Boston to Bogotá with a friend. On some nights they asked the police to let them sleep in the jail.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "education",
+   "title": "홀로노미로 박사 논문을 마치다",
+   "title_en": "Finishes a doctorate on holonomy",
+   "description": "천싱선이 버클리에 온다는 말을 듣고 그곳으로 갔다. 천싱선은 한 해 늦게 도착했고, 버트럼 코스탄트가 지도교수를 맡았다. 리만 다양체의 홀로노미 분류를 새롭게 증명한 논문으로 스물세 살에 박사과정을 마쳤다. 그전에 바버라 블루스타인과 몰래 결혼했고, 함께 버클리로 왔다.",
+   "description_en": "He went there because he heard Shiing-Shen Chern was coming. Chern arrived a year late, and Bertram Kostant became his adviser. He finished at twenty-three with a new proof of the holonomy classification of Riemannian manifolds. He had already eloped with Barbara Bluestein and brought her with him.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777,
+   "lng": -122.268055555
+  },
+  {
+   "year": 1964,
+   "year_end": 1968,
+   "kind": "work",
+   "title": "암호 해독 연구소에 들어가다",
+   "title_en": "Joins a codebreaking institute",
+   "description": "매사추세츠공과대학교와 하버드대학교에서 잠시 가르친 뒤 연구소로 옮겼다. 같은 건물에서 국가안보국을 위한 암호 해독과 자신의 기하학 연구를 병행했다. 최소 다양체에 관한 논문을 《수학연보》에 발표하기도 했다.",
+   "description_en": "He taught briefly at MIT and Harvard, then moved. In the same building he broke National Security Agency codes and kept his own geometry research. He also published a paper on minimal varieties in the Annals of Mathematics.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222,
+   "lng": -74.656944444
+  },
+  {
+   "year": 1968,
+   "year_end": 1978,
+   "kind": "office",
+   "title": "스토니브룩 주립대 수학과를 맡다",
+   "title_en": "Takes the state-university math chair",
+   "description": "맥스웰 테일러가 베트남 전쟁을 옹호하자 《뉴욕 타임스》에 철수를 요구하는 편지를 보냈다. 이어 《뉴스위크》에 전쟁이 끝날 때까지 국방부 관련 일을 중단하겠다고 말했고, 연구소는 그를 해고했다. 서른 살에 아직 역사가 짧았던 스토니브룩 주립대 수학과의 학과장을 맡았다. 십 년 동안 연구자들을 영입해 학과를 연구 거점으로 키웠다. 학과에서 매릴린 호리스를 만나 훗날 결혼했다.",
+   "description_en": "After Maxwell Taylor defended the Vietnam War, he wrote the New York Times demanding withdrawal. He told Newsweek he would stop Defense Department work until the war ended, then the institute fired him. At thirty he was given a still-young state-university department. For ten years he hired people and built a research shop. He met Marilyn Hawrys in the department and later married her.",
+   "place_name": "스토니브룩",
+   "place_name_en": "Stony Brook",
+   "lat": 40.906388888,
+   "lng": -73.128333333
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "publish",
+   "title": "천싱선과 특성 형식 논문을 쓰다",
+   "title_en": "Writes characteristic forms with Chern",
+   "description": "버클리 시절 잠시 인연이 닿았던 천싱선과 다시 공동 연구를 시작했다. 주다발의 기하학적 불변량을 다룬 논문을 《수학연보》에 발표했다. 두 해 뒤 이 연구로 오스월드 베블런 기하학상을 받았다. 두 사람 모두 이 연구가 물리학에까지 쓰이게 될 줄은 예상하지 못했다.",
+   "description_en": "He teamed up again with the man he had only brushed past at Berkeley. They published a paper in the Annals of Mathematics on geometric invariants of principal bundles. Two years later that work brought him the Oswald Veblen Prize in Geometry. Neither of them expected it to spread into physics.",
+   "place_name": "스토니브룩",
+   "place_name_en": "Stony Brook",
+   "lat": 40.906388888,
+   "lng": -73.128333333
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "work",
+   "title": "캠퍼스 옆 상가에서 거래를 시작하다",
+   "title_en": "Starts trading in a strip mall beside campus",
+   "description": "학과장 자리에서 물러나 통화와 상품을 사고팔기 시작했다. 처음에는 가격 변동을 분석하는 데 수학을 적용하지 않았다. 데이터를 모으면서 모델을 만들기 시작했고, 암호 해독 연구소 시절 동료였던 레너드 바움을 불러들였다. 회사 이름은 훗날 르네상스 테크놀로지로 바뀌었다.",
+   "description_en": "He left the chair and traded currencies and commodities. At first he did not put mathematics on prices. Collecting data, he began to build models and brought in Leonard Baum, a colleague from the codebreaking years. He later renamed the firm Renaissance Technologies.",
+   "place_name": "세토킷",
+   "place_name_en": "Setauket",
+   "lat": 40.946388888,
+   "lng": -73.111388888
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "메달리온 펀드를 열다",
+   "title_en": "Opens the Medallion Fund",
+   "description": "제임스 액스와 함께 두 사람이 각각 받은 수학 메달에서 펀드 이름을 따왔다. 월가 경력이 없는 물리학자와 수학자들이 가격 사이의 상관관계를 찾았다. 몇 년 뒤부터 외부 투자자를 받지 않고 직원과 그 가족만 펀드에 남겼다.",
+   "description_en": "With James Ax he named it after the mathematics medals the two of them had won. Physicists and mathematicians without Wall Street résumés looked for correlations in prices. A few years later the fund stopped taking outside investors and kept only staff and families.",
+   "place_name": "세토킷",
+   "place_name_en": "Setauket",
+   "lat": 40.946388888,
+   "lng": -73.111388888
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "other",
+   "title": "기초과학 재단을 세우다",
+   "title_en": "Founds a foundation for basic science",
+   "description": "아내와 함께 수학과 기초과학을 지원하는 재단을 세웠다. 먼저 자폐 연구 프로그램을 만들었고, 뒤에는 맨해튼에 계산과학 연구기관인 플랫아이언 연구소를 설립했다. 스토니브룩에는 공립대학으로서는 이례적으로 큰 규모의 기부를 이어 갔다.",
+   "description_en": "With his wife he opened an organization that funded mathematics and basic science. An autism-research program came first, and later they placed the Flatiron Institute for computational science in Manhattan. Unusually large gifts for a public university followed at Stony Brook.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "office",
+   "title": "최고경영자 자리에서 물러나다",
+   "title_en": "Steps down as chief executive",
+   "description": "전년도 가을에 은퇴를 발표하고 새해 첫날 최고경영자 자리에서 물러났다. 이후에도 비상임 회장으로 남았으며, 재단 활동에 더 많은 시간을 쏟았다.",
+   "description_en": "He announced the retirement the previous autumn and left the post on New Year’s Day. He stayed as nonexecutive chairman. He put more time into the foundation.",
+   "place_name": "세토킷",
+   "place_name_en": "Setauket",
+   "lat": 40.946388888,
+   "lng": -73.111388888
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "death",
+   "title": "맨해튼 자택에서 숨지다",
+   "title_en": "Dies at home in Manhattan",
+   "description": "여든여섯 살이었다. 재단이 그의 죽음을 알렸으며 사인은 공개하지 않았다. 마지막까지 재단 업무를 계속했다.",
+   "description_en": "He was eighty-six. The foundation announced the death and did not give a cause. He kept foundation work until the end.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 뜻이 어긋난 표현, 대상이 빠진 문장, 부자연스러운 지시어와 직역을 바로잡았다. 영문에 없는 해석은 보태지 않고 사건 사이의 인물·장소·행동 관계가 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "아버지가 영화사 자체를 극장에 팔았다는 뜻으로 읽혔고, 영문에 없는 미술학교 정보가 추가되어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "열일곱 살에 어디에 들어갔는지 목적어가 빠져 있었고, jail을 단순히 경찰서에서 잔 것으로 옮겨 세부가 사라졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「따라갔다」「그 사람」「끝냈다」의 대상이 불분명해 천싱선의 도착, 논문 완성, 버클리행의 관계를 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「암호를 깨는 연구소」가 구어적이고, 「국가안보국 암호를 깨는 일」은 국가안보국의 암호를 공격했다는 뜻으로 오해될 수 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「주립대 학과를 받았다」가 직역투였으며, 학과장 취임과 연구자 영입의 주어·행동 관계가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「특성 형식을 쓰다」「스쳐 간 사람과 다시 붙었다」「물리학으로 번지다」가 뜻을 짐작해야 하는 표현이어서 공동 연구의 대상을 명시하고 자연스럽게 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수학을 시세에 대지 않았다」가 영어 단어를 순서대로 치환한 직역이어서 수학을 가격 분석에 적용하지 않았다는 뜻으로 바로잡았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "펀드 이름의 유래와 연구 인력의 행동이 어색하게 표현되었고, 「직원과 가족만 남겼다」는 투자자 구성을 설명하는 문장으로 자연스럽지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "재단과 연구 프로그램을 「열었다」「나왔다」「두었다」로 표현해 각 기관을 설립하고 지원한 행동이 분명하게 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "chief executive를 「운용 대표」로 좁혀 옮겼고, 「자리를 비웠다」는 어떤 직책에서 물러났는지 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재단 일을 손에서 놓지 않았다」를 영문의 사실 범위 안에서 더 직접적이고 자연스러운 표현으로 다듬었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

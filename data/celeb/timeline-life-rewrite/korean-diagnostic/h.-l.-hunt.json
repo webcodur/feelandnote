@@ -1,0 +1,293 @@
+{
+ "slug": "h.-l.-hunt",
+ "events": [
+  {
+   "year": 1889,
+   "year_end": null,
+   "kind": "birth",
+   "title": "카슨 타운십 농가에서 태어나다",
+   "title_en": "Born on a Carson Township farm",
+   "description": "페이엣군의 여덟 남매 가운데 막내였다. 아버지는 그와 이름이 같은 농부였고 어머니는 엘라 로즈 마이어스였다. 부모는 그를 학교에 보내지 않고 집에서 가르쳤다.",
+   "description_en": "He was the youngest of eight in Fayette County. His father, a farmer with the same name, and his mother, Ella Rose Myers, kept him out of school and taught him at home.",
+   "place_name": "램지",
+   "place_name_en": "Ramsey",
+   "lat": 39.1439,
+   "lng": -89.11
+  },
+  {
+   "year": 1905,
+   "year_end": null,
+   "kind": "travel",
+   "title": "서쪽으로 떠나다",
+   "title_en": "Leaves for the West",
+   "description": "열여섯 살에 집을 나와 콜로라도와 캘리포니아, 텍사스를 돌아다녔다. 설거지와 노새 몰이, 벌목으로 생계를 이었다. 숙소와 술집에서 카드놀이를 익혔다.",
+   "description_en": "At sixteen he left home and moved through Colorado, California, and Texas. He washed dishes, drove mule teams, and cut timber to eat. He learned cards in bunkhouses and saloons.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1912,
+   "year_end": null,
+   "kind": "other",
+   "title": "면화 농장을 사다",
+   "title_en": "Buys a cotton plantation",
+   "description": "아버지가 세상을 떠난 뒤 치코군에 정착했다. 미시시피 삼각주에서 면화 농장을 운영했고, 레이크빌리지 출신의 라이더 벙커와 결혼했다. 몇 해 뒤 홍수로 면화밭을 잃었다.",
+   "description_en": "After his father died he settled in Chicot County. He ran a cotton plantation in the Mississippi Delta and married Lyda Bunker of this town. Floodwater took the fields a few years later.",
+   "place_name": "레이크빌리지",
+   "place_name_en": "Lake Village",
+   "lat": 33.331666666667,
+   "lng": -91.283611111111
+  },
+  {
+   "year": 1921,
+   "year_end": null,
+   "kind": "work",
+   "title": "유전 붐에 뛰어들다",
+   "title_en": "Enters the oil boom",
+   "description": "뷰지-암스트롱 1호에서 석유가 나오자 엘도라도의 인구는 4천 명에서 2만 5천 명으로 불어났다. 광구 임차권을 사고팔며 기반을 잡았고, 첫 유정인 헌트-피커링 1호의 시추에 성공했다.",
+   "description_en": "After Busey-Armstrong No. 1 came in, the town swelled from four thousand to twenty-five thousand. He bought and sold leases and brought in his first well, Hunt-Pickering No. 1.",
+   "place_name": "엘도라도",
+   "place_name_en": "El Dorado",
+   "lat": 33.213611111111,
+   "lng": -92.6625
+  },
+  {
+   "year": 1925,
+   "year_end": null,
+   "kind": "other",
+   "title": "한 블록을 사고 집을 짓다",
+   "title_en": "Buys a city block and builds a house",
+   "description": "5년 만에 60만 달러를 벌었다고 훗날 말했다. 시내 한 블록 전체를 사서 가족이 살 3층집을 지었다. 스맥오버 유전은 과잉 시추로 곧 고갈됐다.",
+   "description_en": "He later said he had made six hundred thousand dollars in five years. He bought a whole city block and built a three-story house for the family. The Smackover field, overdrilled, soon ran dry.",
+   "place_name": "엘도라도",
+   "place_name_en": "El Dorado",
+   "lat": 33.213611111111,
+   "lng": -92.6625
+  },
+  {
+   "year": 1930,
+   "year_end": null,
+   "kind": "work",
+   "title": "조이너의 광구 임차권을 사다",
+   "title_en": "Buys Joiner's leases",
+   "description": "플로리다 땅값 폭락으로 빈털터리가 됐다. 데이지 브래드퍼드 3호의 시추관 시험을 지켜본 뒤 베이커 호텔에서 콜럼버스 조이너와 함께 밤을 새웠다. 의류상 피트 레이크에게 빌린 3만 달러와 앞으로 생산될 석유를 대가로 유정과 주변 광구 임차권을 넘겨받았다. 며칠 만에 패놀라 송유관도 그의 명의로 넘어갔다.",
+   "description_en": "The Florida land crash had emptied his pocket. After watching a drill-stem test at Daisy Bradford No. 3, he sat up at the Baker Hotel with Columbus Joiner. With thirty thousand dollars borrowed from clothier Pete Lake, plus oil still in the ground, he took the well and the surrounding leases. Within days the Panola pipeline ran in his name.",
+   "place_name": "댈러스",
+   "place_name_en": "Dallas",
+   "lat": 32.779166666667,
+   "lng": -96.808888888889
+  },
+  {
+   "year": 1932,
+   "year_end": null,
+   "kind": "work",
+   "title": "동텍사스 유정 900개를 보유하다",
+   "title_en": "Holds nine hundred East Texas wells",
+   "description": "조이너에게서 사들인 광구는 이미 ‘검은 거인’이라 불리던 동텍사스 유전의 한가운데에 있었다. 헌트 프로덕션은 그곳에 유정 900개를 보유했다. 대형 석유회사들이 거절한 땅이 회사의 기반이 됐다.",
+   "description_en": "The leases taken from Joiner sat in the middle of the East Texas field, already called the Black Giant. Hunt Production Company held those wells. Ground the majors had refused became the company's stake.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1934,
+   "year_end": null,
+   "kind": "office",
+   "title": "헌트 오일을 세우다",
+   "title_en": "Founds Hunt Oil",
+   "description": "델라웨어주에서 법인을 설립하고 타일러에 첫 사무실을 두었다. 2년 뒤에는 조이너 거래의 지분 일부를 보유한 레이크와 결별했다.",
+   "description_en": "He incorporated in Delaware. The first desk sat in this city. Two years later he split from Lake, who had held a share of the Joiner deal.",
+   "place_name": "타일러",
+   "place_name_en": "Tyler",
+   "lat": 32.350833333333,
+   "lng": -95.300555555556
+  },
+  {
+   "year": 1937,
+   "year_end": null,
+   "kind": "travel",
+   "title": "본사를 옮기다",
+   "title_en": "Moves the headquarters",
+   "description": "사업은 더 이상 동텍사스에만 머물지 않았고, 회사는 루이지애나와 아칸소의 유전에서도 일했다. 본사가 댈러스로 옮겨가자 가족도 함께 이주했다.",
+   "description_en": "East Texas alone no longer held the work. The company was also in Louisiana and Arkansas fields. The family came with the office.",
+   "place_name": "댈러스",
+   "place_name_en": "Dallas",
+   "lat": 32.779166666667,
+   "lng": -96.808888888889
+  },
+  {
+   "year": 1940,
+   "year_end": null,
+   "kind": "work",
+   "title": "롱레이크 유전에 가스를 재주입하다",
+   "title_en": "Recycles gas at Long Lake",
+   "description": "재주입 설비로 가스를 유층에 다시 넣어 석유 생산량을 늘렸다. 2년 뒤 동텍사스 염수처리회사 설립을 지원했다. 동텍사스 유전에서 생산된 석유는 연합국의 연료로 공급됐다.",
+   "description_en": "A recycling plant pushed gas back into the reservoir so more oil would come up. Two years later he backed the East Texas Salt Water Disposal Company, and oil from that field went to Allied fuel.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1951,
+   "year_end": null,
+   "kind": "other",
+   "title": "팩츠 포럼을 시작하다",
+   "title_en": "Launches Facts Forum",
+   "description": "라디오 방송과 칼럼을 통해 자신이 ‘건설적 정치’라 부른 견해를 퍼뜨렸다. 이듬해 팩츠 포럼 방송은 조지프 매카시를 지지했다. 뒤이어 라이프라인을 시작했다.",
+   "description_en": "On radio and in columns he pushed what he called constructive politics. The next year the program backed Joseph McCarthy. Life Line followed.",
+   "place_name": "댈러스",
+   "place_name_en": "Dallas",
+   "lat": 32.779166666667,
+   "lng": -96.808888888889
+  },
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "publish",
+   "title": "소설 《알파카》를 출간하다",
+   "title_en": "Publishes Alpaca",
+   "description": "나이와 납부한 세금액에 따라 추가 표를 주는 가상 공화국을 그렸다. 헌트 프레스에서 직접 인쇄했다.",
+   "description_en": "The novel pictured a republic where extra votes followed age and taxes paid. He printed it at Hunt Press.",
+   "place_name": "댈러스",
+   "place_name_en": "Dallas",
+   "lat": 32.779166666667,
+   "lng": -96.808888888889
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "death",
+   "title": "병원에서 세상을 떠나다",
+   "title_en": "Dies in hospital",
+   "description": "가을부터 베일러 대학교 의료원에 입원해 있다가 세상을 떠났다. 시신은 힐크레스트에서 라이더 곁에 안장됐다.",
+   "description_en": "He had been in Baylor University Medical Center since autumn. He was buried at Hillcrest beside Lyda.",
+   "place_name": "댈러스",
+   "place_name_en": "Dallas",
+   "lat": 32.779166666667,
+   "lng": -96.808888888889
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 사건별로 대조하고 생애 전체의 흐름을 이어 읽은 결과, 사실관계를 추가하지 않고 직역투·모호한 지시어·어색한 석유업 표현을 바로잡았다. 별도 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "부모가 학교에 보내지 않고 가르쳤다는 행동 관계가 「교실에는 나가지 않고 집에서 글을 배웠다」로 바뀌어 주체가 흐려졌다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「밥을 이었다」와 「카드를 익혔다」가 각각 생계 수단과 카드놀이를 가리키는 표현으로는 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 마을」이 앞 문장만으로 어느 곳인지 알 수 없었고, 「물이 밭을 삼켰다」는 홍수로 농지를 잃었다는 사실을 지나치게 비유적으로 옮겼다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "도시의 인구 증가가 「거리가 불어났다」로 잘못 표현됐고, 유정 개발 성공을 뜻하는 brought in을 「유정을 띄웠다」로 직역했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "돈을 벌었다는 내용을 「돈을 만졌다」로, 유전이 고갈됐다는 내용을 「밭이 말라 갔다」로 옮겨 의미가 불필요하게 구어적이고 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "leases의 뜻이 제목에서 충분히 드러나지 않았고, 시추관 시험이라는 세부가 빠졌다. 또한 유정과 임차권을 넘겨받은 일을 「넘겼다」라고 써 행동의 방향이 뒤바뀌었으며, 송유관의 명의 이전도 불분명하게 표현됐다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "유정 900개를 보유했다는 사실이 제목에서 「우물이 구백 개에 닿다」로 번역돼 주어와 행동의 관계가 무너졌다. 「흑거인」, 「우물들을 쥐었다」, 「메이저」도 맥락에 맞는 자연스러운 한국어가 아니었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 사무실을 둔 일을 「첫 책상은 이 도시에 두었다」로 직역했고, 장소를 가리키는 「이 도시」도 문장 안에서 대상을 바로 알 수 없었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "사업이 동텍사스를 넘어 다른 주의 유전에도 진출했다는 내용이 「일거리가 넘쳤다」와 「유전을 만졌다」로 옮겨져 의미가 불명확했고, 가족이 어디로 이주했는지도 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "가스를 유층에 재주입했다는 작업이 제목의 「되돌리다」만으로는 분명하지 않았고, 「그 밭」도 동텍사스 유전을 가리킨다는 사실을 앞 문장만으로 알기 어려웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "launches를 「돌리다」로 옮겨 팩츠 포럼을 시작했다는 뜻이 흐려졌고, 뒤이어 라이프라인을 시작했다는 행동도 「그 뒤를 이었다」라는 직역에 머물렀다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "출간을 뜻하는 제목의 「내다」가 작품명과 결합해 모호했고, extra votes가 나이와 납세액에 따라 추가 표를 부여한다는 제도를 더 분명하게 표현할 필요가 있었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "사망을 「죽다」와 「눈을 감았다」로 달리 표현해 문체가 고르지 않았고, 병원에 있었다는 내용을 「누워 있었다」로 불필요하게 구체화했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

@@ -1,0 +1,243 @@
+{
+ "slug": "blake-masters",
+ "events": [
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "birth",
+   "title": "덴버에서 태어나다",
+   "title_en": "Born in Denver",
+   "description": "어머니는 과외학원을 운영했고 아버지는 소프트웨어 업계에서 일했다. 생일은 8월 5일이다. 집안은 애리조나 투손으로 옮겨 그곳에서 자랐다. 투손의 사립학교 그린필즈 컨트리 데이 스쿨에서 농구를 했고, 2004년에 그 학교를 졸업했다.",
+   "description_en": "His mother ran a tutoring center and his father worked in software. His birthday is August 5. The family moved to Tucson, Arizona, and he grew up there. He played basketball at Green Fields Country Day School, a private school in Tucson, and graduated in 2004.",
+   "place_name": "덴버",
+   "place_name_en": "Denver",
+   "lat": 39.739166666667,
+   "lng": -104.98472222222
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "스탠퍼드에서 정치학 학위를 받다",
+   "title_en": "Finishes a political science degree at Stanford",
+   "description": "학부에서 정치학을 전공했다. 졸업 뒤에도 같은 캠퍼스에 남아 로스쿨에 진학했다.",
+   "description_en": "He majored in political science as an undergraduate. After graduating he stayed on the same campus and entered law school.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "publish",
+   "title": "피터 틸의 창업 강의 노트를 올리다",
+   "title_en": "Posts notes from Peter Thiel's startup class",
+   "description": "한 해 전 로스쿨 세미나에서 틸을 처음 만났고, 그해 여름에는 파운더스 펀드에서 일했다. 봄학기 컴퓨터과학 183 수업에서 틸이 스타트업 창업을 강의했고, 그는 매 강의가 끝날 때마다 내용을 다듬어 블로그에 올렸다. 이 노트는 해커 뉴스에 퍼져 기술업계 전반에서 읽혔다. 같은 해 로스쿨을 졸업했다.",
+   "description_en": "He first met Thiel at a law-school seminar the year before, and spent that summer at Founders Fund. In the spring Computer Science 183 course Thiel taught startups, and after each lecture he posted polished notes on his blog. The notes spread on Hacker News and were read across the tech industry. He graduated from law school the same year.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "법률 검색 회사 주디카타를 공동 창업하다",
+   "title_en": "Co-founds the legal-search company Judicata",
+   "description": "이타이 구라리, 애덤 한과 함께 판례와 법률 자료를 찾는 소프트웨어를 만들었다. 이듬해 샌프란시스코에서 2차 투자를 유치했고, 2014년에 이 사업에서 떠났다.",
+   "description_en": "With Itai Gurari and Adam Hahn he built software for searching case law and legal materials. The company raised a second funding round in San Francisco the following year, and he left the project in 2014.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "publish",
+   "title": "피터 틸과 《제로 투 원》을 출간하다",
+   "title_en": "Publishes Zero to One with Peter Thiel",
+   "description": "틸과 함께 강의 노트를 책으로 다듬었다. 무단 복제본이 유통되자 두 사람은 정식 출판사를 통해 책을 내기로 했다. 크라운이 9월에 책을 출간했고, 이 책은 뉴욕타임스 베스트셀러 1위에 올랐다.",
+   "description_en": "He and Thiel turned the class notes into a book. After unauthorized copies circulated, they chose a formal publisher. Crown released the book in September, and it reached number one on the New York Times bestseller list.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": 2022,
+   "kind": "office",
+   "title": "틸 재단 대표를 맡다",
+   "title_en": "Becomes president of the Thiel Foundation",
+   "description": "과학과 혁신을 내세운 비영리재단을 이끌었다. 2018년에는 같은 웨스트할리우드 사무실을 사용하던 틸 캐피털의 최고운영책임자도 맡았다. 2022년 3월 상원 선거운동에 집중하겠다고 밝히며 두 직책에서 물러났다.",
+   "description_en": "He led the nonprofit that promoted science and innovation. In 2018 he also became chief operating officer of Thiel Capital, based in the same West Hollywood offices. In March 2022 he said he was clearing his schedule to campaign for the Senate and left both posts.",
+   "place_name": "웨스트할리우드",
+   "place_name_en": "West Hollywood",
+   "lat": 34.087777777778,
+   "lng": -118.37222222222
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "travel",
+   "title": "투손으로 돌아오다",
+   "title_en": "Returns to Tucson",
+   "description": "2012년에 결혼한 캐서린 블랜턴과 함께 남부 애리조나로 거처를 옮겼다. 거주지만 옮겼을 뿐, 웨스트할리우드에 기반을 둔 틸 캐피털 업무는 계속했다.",
+   "description_en": "He moved back to southern Arizona with Catherine Blanton, whom he had married in 2012. He kept his Thiel Capital work in West Hollywood and changed only his residence.",
+   "place_name": "투손",
+   "place_name_en": "Tucson",
+   "lat": 32.221666666667,
+   "lng": -110.92638888889
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "other",
+   "title": "연방상원 선거 출마를 선언하다",
+   "title_en": "Announces a run for the U.S. Senate",
+   "description": "현직 민주당 상원의원 마크 켈리에게 도전하겠다고 7월 12일 밝혔다. 그의 첫 공직 선거 도전이었다. 틸은 세이빙 애리조나라는 정치행동위원회에 1,000만 달러를 기부해 그를 지원했다.",
+   "description_en": "On July 12 he said he would challenge incumbent Democratic senator Mark Kelly. It was his first campaign for public office. Thiel put ten million dollars into a political action committee called Saving Arizona to boost him.",
+   "place_name": "투손",
+   "place_name_en": "Tucson",
+   "lat": 32.221666666667,
+   "lng": -110.92638888889
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "office",
+   "title": "공화당 상원 후보가 되다",
+   "title_en": "Wins the Republican Senate nomination",
+   "description": "그해 6월 도널드 트럼프가 지지를 선언했다. 8월 2일 예비선거에서 32만 7,198표를 얻었으며, 약 40퍼센트의 득표율로 짐 레이먼과 검찰총장 마크 브르노비치를 제쳤다.",
+   "description_en": "Donald Trump endorsed him in June. In the August 2 primary he received 327,198 votes, about 40 percent, finishing ahead of Jim Lamon and Attorney General Mark Brnovich.",
+   "place_name": "애리조나주",
+   "place_name_en": "Arizona",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "상원 본선에서 마크 켈리에게 지다",
+   "title_en": "Loses the Senate general election to Mark Kelly",
+   "description": "11월 8일 투표에서 켈리는 132만 2,027표, 그는 119만 6,308표를 얻었다. 격차는 약 5퍼센트포인트였다. 15일에 패배를 인정했다.",
+   "description_en": "In the November 8 election Kelly received 1,322,027 votes and he received 1,196,308. The margin was about five percentage points. He conceded on November 15.",
+   "place_name": "애리조나주",
+   "place_name_en": "Arizona",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "제8선거구 하원 출마를 선언하다",
+   "title_en": "Announces a run for Arizona's 8th congressional district",
+   "description": "현직 데비 레스코가 불출마를 밝힌 뒤였다. 상원에 다시 도전하는 대신 피닉스 북서쪽 교외의 하원 선거구에 출마하기로 했다. 10월 26일 출마를 발표했다.",
+   "description_en": "Incumbent Debbie Lesko had just said she would not run again. Instead of a second Senate bid he chose the suburban district northwest of Phoenix. He announced on October 26.",
+   "place_name": "피닉스",
+   "place_name_en": "Phoenix",
+   "lat": 33.448333333333,
+   "lng": -112.07388888889
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "other",
+   "title": "하원 예비선거에서 에이브 하마데에게 지다",
+   "title_en": "Loses the House primary to Abraham Hamadeh",
+   "description": "7월 30일 공화당 예비선거에서 하마데는 3만 686표, 그는 2만 6,422표로 2위였다. 트럼프는 투표 직전 두 사람 모두를 지지했다.",
+   "description_en": "In the July 30 Republican primary Hamadeh received 30,686 votes and he finished second with 26,422. Trump endorsed both men shortly before the vote.",
+   "place_name": "피닉스",
+   "place_name_en": "Phoenix",
+   "lat": 33.448333333333,
+   "lng": -112.07388888889
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문에 담긴 세부 정보는 모두 보존하면서, 직역투와 어색한 조사·목적어 관계를 바로잡았다. 특히 출판, 투자 유치, 재단·회사 겸직, 거주지 이전, 선거 도전을 생애 흐름에 맞게 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title"
+    ],
+    "problem": "「정치학을 마치다」는 무엇을 마쳤는지 불분명해, 정치학 학위 취득을 분명하게 나타내도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스타트업을 가르쳤고」는 수업의 주제를 옮긴 표현으로 다소 어색하고, 「강의마다 다듬은 노트」는 노트를 누가 언제 다듬었는지 바로 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「투자 라운드를 받았다」와 「이 일을 떠났다」가 영어식 표현이라, 회사가 투자를 유치하고 그가 사업에서 떠났다는 관계를 분명히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「함께 내다」는 공동 저자와 출판 행위를 선명하게 나타내지 못했고, 「책으로 다듬는 일을 틸과 나눴다」와 「정식 출판으로 방향을 잡았다」도 직역투여서 자연스럽게 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 웨스트할리우드의 틸 캐피털」은 무엇이 같다는 뜻인지 불분명해, 두 조직이 같은 사무실을 사용했다는 의미를 명시했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「틸 캐피털 일은 웨스트할리우드에 남긴 채」는 일을 장소에 남겨 둔 것처럼 읽혀, 거주지만 옮기고 업무는 계속했다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「처음 나가는 공직 선거」와 「천만 달러를 넣어 그를 밀었다」가 거칠고 어색해, 첫 공직 선거 도전과 정치행동위원회를 통한 지원 관계를 자연스럽게 밝혔다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「약 40퍼센트로 … 앞질렀다」는 득표율과 후보 간 순위의 관계가 매끄럽지 않아, 해당 득표율로 경쟁자들을 제쳤다는 문장으로 정리했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상원을 한 번 더 도전하다」는 조사가 잘못된 표현이고, 「선거구를 골랐다」도 다소 부자연스러워 다시 상원에 도전하는 대신 해당 하원 선거구에 출마했다는 뜻으로 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   10
+  ]
+ }
+}

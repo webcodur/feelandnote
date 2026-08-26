@@ -1,0 +1,234 @@
+{
+ "slug": "asa",
+ "events": [
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "birth",
+   "title": "도쿄에서 태어나다",
+   "title_en": "Is born in Tokyo",
+   "description": "본명은 에나미 아사이며, 일본 국적이다.",
+   "description_en": "Her name is Enami Asa. She is a Japanese national.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.689444444444,
+   "lng": 139.691666666667
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "education",
+   "title": "춤 학원에서 처음 무대에 서다",
+   "title_en": "Takes the dance-school stage for the first time",
+   "description": "초등학교 2학년부터 춤을 배웠다. 일곱 살 때 학원 앞에서 블락비의 「베리 굿」을 췄다. 블락비는 어머니가 좋아하던 그룹이었다.",
+   "description_en": "She started dancing in the second year of elementary school. At seven she performed Block B’s “Very Good” in front of her dance school. Her mother liked that group.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.689444444444,
+   "lng": 139.691666666667
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "YG 일본 오디션에 합격하다",
+   "title_en": "Passes the YG audition in Japan",
+   "description": "블랙핑크 영상을 보고 YG의 힙합 스타일에 끌렸다. 당시 열두 살로 초등학교 6학년이었으며, 특기는 힙합 춤이었다. 오디션장에서 루카를 처음 만났다.",
+   "description_en": "A BLACKPINK video pulled her toward the label’s hip-hop. She was twelve, in the sixth year of elementary school, and hip-hop dance was her specialty. She first met Ruka at the audition site.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "한국으로 건너가 연습생이 되다",
+   "title_en": "Crosses to Korea as a trainee",
+   "description": "말도 통하지 않는 곳에 열두 살, 열세 살로 왔다. 먼저 한국에 와 있던 루카를 의지했다. 서울의 소속사에서 랩과 춤을 함께 익혔다.",
+   "description_en": "She arrived at twelve and thirteen in a place where she could not yet speak. Ruka, already there, was the person she leaned on. At the Seoul label she learned rap and dance together.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "네 번째 멤버로 공개되다",
+   "title_en": "Is revealed as the fourth member",
+   "description": "소속사가 소개 영상을 올렸다. 루카, 파리타, 로라 다음이었다. 영상에서 랩과 춤, 자작곡을 선보였고, 안무가 리정은 아사가 질문을 가장 많이 하는 아이라고 말했다.",
+   "description_en": "The label posted an introduction film. She came after Ruka, Pharita, and Rora. It showed rap, dance, and a song she had written, and choreographer Leejung said she asked the most questions.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "일곱 명 데뷔가 확정되다",
+   "title_en": "Is confirmed for the seven-member debut",
+   "description": "당초 일본에서 새 그룹을 만드는 프로젝트에 아사를 합류시킬 계획이었다. 양현석은 아사를 4년 9개월 차 연습생이자 팬들이 선택한 멤버라고 말했다. 로라도 같은 날 7인조 데뷔 명단에 남았다.",
+   "description_en": "The plan had been to pull her onto a new group project in Japan. Yang Hyun-suk called her a trainee of four years and nine months, and said the fans had chosen her. Rora stayed in the seven on the same day.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "publish",
+   "title": "데뷔곡을 쓰고 여섯 명으로 먼저 발표하다",
+   "title_en": "Writes the debut single and releases it with six",
+   "description": "곡 이름은 「배터 업」이다. 멤버 가운데 작사와 작곡에 모두 이름을 올린 사람은 아사뿐이었다. 아현이 건강 문제로 빠져, 여섯 멤버가 먼저 곡을 발표했다.",
+   "description_en": "The track is “Batter Up.” She was the only member credited for both lyrics and composition. Ahyeon sat out for health reasons, and six of them released it first.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 미니앨범으로 공식 데뷔하다",
+   "title_en": "Officially debuts with the first mini album",
+   "description": "양현석은 일곱 멤버가 모인 이 앨범을 정식 데뷔로 보겠다고 말했다. 타이틀곡은 「쉬시」였다. 아사는 루카와 함께 YG 최초의 일본인 여성 멤버로 무대에 섰다.",
+   "description_en": "Yang Hyun-suk said this seven-member album would count as the official debut. The title track was “Sheesh.” She and Ruka took the stage as the label’s first Japanese women.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "travel",
+   "title": "고향 도쿄에서 첫 팬미팅을 열다",
+   "title_en": "Holds the first fan meeting at home",
+   "description": "데뷔 뒤 처음 오른 해외 무대였다. 아리아케 아레나에서 이틀 동안 2만 6천 석을 채웠다. 관련 보도는 고향에 돌아온 멤버로 아사를 가장 먼저 언급했다.",
+   "description_en": "It was their first overseas stage after debut. Two days at Ariake Arena filled 26,000 seats. Reports named her first as the one who had come home.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.689444444444,
+   "lng": 139.691666666667
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 정규 앨범에 도쿄 유닛곡을 싣다",
+   "title_en": "Puts a Tokyo unit track on the first studio album",
+   "description": "첫 정규 앨범 「드립」이다. 루카와 함께 도쿄 유닛곡을 불렀고, 영어 데모에 일본어 가사를 넣었다. 비어 있던 비트에 「러브 인 마이 하트」의 랩을 써 그 곡의 크레디트에도 이름을 올렸다.",
+   "description_en": "It is the first studio album, Drip. She and Ruka sang a Tokyo unit track and put Japanese into an English demo. She wrote the rap for “Love In My Heart” on an empty beat and took a credit there too.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투, 불분명한 지시어, 어색한 서술어와 사건 간 연결을 다듬었다. 다만 한국에 온 나이를 열두 살과 열세 살로 함께 적은 3번 사건은 영문도 모호해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「에나미 아사다」가 이름 ‘에나미 아사’에 종결어미가 붙은 문장인지 ‘아사다’라는 성명인지 순간적으로 혼동될 수 있어 문장 구조를 분명히 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「춤 학원 무대」는 명사 결합이 어색해 장소와 행동의 관계를 풀어 썼고, 마지막 문장의 「그 그룹」도 블락비를 바로 가리키도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「오디션을 통과하다」와 「그 회사 힙합」이 번역투에 가까웠으며, 나이와 학년을 나열한 문장도 호흡이 끊겨 자연스럽게 다듬었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「말도 안 통하는 곳」과 「먼저 와 있던」은 대상이 바로 드러나지 않아 한국과 루카를 명시했다. 다만 입국 당시 나이는 국문과 영문 모두 열두 살과 열세 살을 함께 제시해 확정하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「영상은 … 보여 주었고」와 「질문이 가장 많은 아이」를 한국어에서 자연스러운 행동 중심 문장으로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「프로젝트로 빼려 했다」는 주체와 이동 관계가 불분명했고, 「일곱에 남았다」는 무엇에 남았다는 뜻인지 바로 알기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여섯이 먼저 내다」는 사람 수와 발표 행동의 관계가 어색했고, 「그뿐이었다」의 대상도 아사로 명시할 필요가 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 회사 첫 일본인 여자 멤버」는 영어식 명사 배열이어서 소속사와 ‘최초’의 관계가 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「고향」을 도쿄로 명시하고, 「아리아케 아레나 이틀에 2만 6천 석이 찼다」와 「그를 먼저 적었다」처럼 뜻을 짐작해야 하는 문장을 자연스럽게 풀었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「정규 음반에 도쿄 유닛을 싣다」는 곡이 아니라 유닛 자체를 수록했다는 뜻으로 읽혔다. 영어 데모에 넣은 것이 일본어 가사임을 문맥에 맞게 밝히고, 크레디트 서술도 자연스럽게 다듬었다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 3,
+    "reason": "국문은 한국에 「열두 살, 열세 살로 왔다」고 하고 영문도 “arrived at twelve and thirteen”이라고 적어 입국 당시 나이가 열두 살인지 열세 살인지 확정할 수 없다. 문장 편집만으로 한 나이를 선택하거나 ‘열두 살 무렵’으로 뭉뚱그리면 원문의 세부를 임의로 바꾸게 된다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

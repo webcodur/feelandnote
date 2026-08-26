@@ -1,0 +1,254 @@
+{
+ "slug": "homer",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어난 때와 장소는 전하지 않는다",
+   "title_en": "No contemporary record of his birth remains",
+   "description": "호메로스가 살았던 시대의 기록은 남아 있지 않다. 후대에는 이오니아의 여러 도시가 그의 고향을 자처했다. 헤로도토스는 호메로스와 헤시오도스가 자신보다 사백 년 이상 앞선 사람들은 아니라고 적었으며, 그 연대는 자신의 추정이라고 밝혔다.",
+   "description_en": "No record from his own time survives. Later Ionian cities claimed him as their own. Herodotus wrote that he and Hesiod lived no more than four hundred years before himself, and he marked that dating as his own guess.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "일곱 도시가 고향을 다투다",
+   "title_en": "Seven cities each claimed to be his birthplace",
+   "description": "후대의 시구들은 스미르나, 키오스, 콜로폰을 먼저 들고, 이타케 또는 퀴메와 필로스, 아르고스, 아테네를 보탠다. 핀다로스도 이미 호메로스를 스미르나와 키오스 모두에 연결했다. 그러나 어느 목록도 호메로스가 살았던 시대의 증언은 아니다.",
+   "description_en": "Later verses put Smyrna, Chios, and Colophon first, then add Ithaca or Cyme, Pylos, Argos, and Athens. Pindar already linked him to both Smyrna and Chios. No list is a contemporary witness.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "일리아스가 그의 이름으로 전해지다",
+   "title_en": "The Iliad is transmitted under his name",
+   "description": "『일리아스』는 트로이 전쟁 마지막 해에 일어난 아킬레우스의 분노를 육보격으로 노래한다. 작품의 언어는 이오니아 방언을 주된 바탕으로 삼은 인공적인 서사시 언어다. 처음에는 입에서 입으로 전해졌으며, 후대 학자들은 글로 기록된 시점을 기원전 8세기 말에서 7세기 초로 본다. 기원전 7세기의 시인들은 이미 이 작품의 어휘와 운율을 가져다 썼다.",
+   "description_en": "It sings, in hexameter, of Achilles' wrath in the last year of the Trojan War. The language is an artificial epic diction built mainly on Ionic. The poem first traveled by mouth; later scholars place its writing down in the late eighth or early seventh century BC. Seventh-century poets were already borrowing its words and meter.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "오디세이아도 같은 사람의 작품으로 전해지다",
+   "title_en": "The Odyssey is attached to the same name",
+   "description": "『오디세이아』는 트로이가 무너진 뒤 오디세우스가 고향으로 돌아가는 여정을 그린다. 고대 그리스에서는 두 서사시를 한 사람이 지은 작품으로 여겼다. 후대에는 두 작품의 저자를 달리 보는 이들도 나왔으며, 한 사람이 두 작품을 모두 지었는지는 확인되지 않는다.",
+   "description_en": "It follows Odysseus on the road home after Troy fell. Ancient Greece took both poems as one man's work. Later readers split them, and whether one person made both remains unconfirmed.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "키오스에 살던 눈먼 시인이라는 전승이 생기다",
+   "title_en": "A tradition grew that he was a blind man of Chios",
+   "description": "「아폴론 찬가」는 자신을 바위투성이 키오스에 사는 눈먼 사내의 노래라고 밝힌다. 투키디데스는 그 구절을 호메로스의 말로 인용했다. 『오디세이아』에 나오는 가인 데모도코스도 눈이 멀었다. 그러나 호메로스 자신이 실제로 눈이 멀었는지는 확인할 수 없다.",
+   "description_en": "The Hymn to Apollo claims to be the song of a blind man who lives on rocky Chios. Thucydides quoted those lines as this poet's words. Demodocus in the Odyssey is also a blind bard. Nothing confirms the body of the man himself.",
+   "place_name": "키오스",
+   "place_name_en": "Chios",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "키오스에서 후손을 자처한 무리가 시를 전하다",
+   "title_en": "On Chios a guild claiming his descent kept the poems",
+   "description": "호메리다이라 불린 음송인들은 자신들이 호메로스의 혈통을 이었다고 주장했다. 이들의 이름은 기원전 6세기 초에 이미 알려져 있었다. 이들은 시를 외워 다음 세대로 전했다.",
+   "description_en": "Reciters called the Homeridae claimed his blood. Their name is already known by the early sixth century BC. They are the ones who carried the poems by memory.",
+   "place_name": "키오스",
+   "place_name_en": "Chios",
+   "lat": 38.3725,
+   "lng": 26.1375
+  },
+  {
+   "year": -528,
+   "year_end": -514,
+   "kind": "other",
+   "title": "아테네 축전에서 시를 차례로 이어 부르게 했다는 전승",
+   "title_en": "Tradition says Athens made the poems be sung in sequence",
+   "description": "후대의 한 대화편은 페이시스트라토스의 아들 히파르코스가 호메로스의 시를 처음 아테네로 들여왔으며, 판아테나이아 축전에서 음송인들이 앞사람의 뒤를 이어 중단 없이 차례로 낭송하게 했다고 전한다. 축전에서 시를 순서대로 이어 낭송하는 관행은 후대의 기록으로 확인된다. 다만 이를 히파르코스가 처음 정했다는 주장은 논란이 있다.",
+   "description_en": "A later dialogue says Hipparchus, son of Peisistratus, first brought the poems to this land and made the reciters at the Panathenaea take them up in sequence without a break. The custom of sequential recitation at the festival is later confirmed. Whether that order was his doing is disputed.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.984167,
+   "lng": 23.728056
+  },
+  {
+   "year": -450,
+   "year_end": -425,
+   "kind": "other",
+   "title": "헤로도토스가 신들의 계보를 호메로스와 헤시오도스에게 돌리다",
+   "title_en": "Herodotus credited him with the genealogy of the gods",
+   "description": "헤로도토스는 그리스인들에게 신들의 혈통과 이름, 직분을 가르친 사람이 헤시오도스와 호메로스라고 적었다. 이들보다 앞선 것으로 알려진 시인들은 오히려 후대의 사람이라고 판단했다. 또한 자신이 제시한 연대는 스스로 추정한 것이라고 밝혔다.",
+   "description_en": "He wrote that Hesiod and this poet taught the Greeks the gods' descent, names, and offices. Poets said to be earlier he judged later. He marked the dating as his own.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "다른 시들도 한때 호메로스의 작품으로 여겨지다",
+   "title_en": "Other poems were hung on his name, then taken off",
+   "description": "신들에게 바친 찬가와 『키프리아』 같은 서사시환의 작품들, 『개구리와 쥐의 싸움』, 『마르기테스』까지 한때 호메로스가 지은 것으로 여겨졌다. 그러나 고대에도 모든 사람이 이러한 귀속을 믿은 것은 아니었다.",
+   "description_en": "Hymns to the gods, cycle poems such as the Cypria, the Battle of Frogs and Mice, and the Margites were once laid at his door. Even in antiquity not everyone believed it.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "death",
+   "title": "이오스에서 죽었다는 전승이 남다",
+   "title_en": "Tradition places his death on Ios",
+   "description": "헤라클레이토스가 살던 때에도 호메로스가 소년들이 낸 수수께끼에 속았다는 이야기가 이미 알려져 있었다. 소년들은 잡은 것은 두고 잡지 못한 것은 가져간다고 말했고, 호메로스는 그 수수께끼를 풀지 못했다고 한다. 그의 무덤이 이오스에 있다는 전승도 이어졌다. 그러나 호메로스가 살았던 시대의 기록은 남아 있지 않다.",
+   "description_en": "Heraclitus already knew the story that he was taken in by a riddle from boys. They said they left what they caught and carried what they did not. Tradition also puts his tomb here. No record from his own time survives.",
+   "place_name": "이오스",
+   "place_name_en": "Ios",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "호메로스가 한 사람이었는지는 지금도 확인되지 않는다",
+   "title_en": "Whether he was one person remains unconfirmed",
+   "description": "한 사람이 두 서사시를 모두 지었는지, 여러 세대의 음송인들이 남긴 작품이 호메로스라는 한 이름 아래 모였는지는 여전히 밝혀지지 않았다. 이름을 제외하면 호메로스가 살았던 시대에 기록된 그의 생애는 남아 있지 않다.",
+   "description_en": "Whether one person made both epics, or generations of reciters gathered under one name, is still open. Beyond the name, his own age left no life.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 그대로 유지하면서, 뜻이 모호한 지시어와 직역투, 주체가 흐려지는 표현을 바로잡았다. 출생 기록의 부재에서 작품 전승과 후대의 논쟁으로 이어지는 전체 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「태어난 해와 곳」, 「이오니아 쪽 도시들」이 다소 거칠고, 마지막 문장의 「그 말」이 무엇을 가리키는지 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "핀다로스가 호메로스를 두 도시에 연결했다는 뜻을 「스미르나와 키오스를 함께 이었다」라고 써서 주어와 대상의 관계가 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「일리아스가 그 이름으로 전하다」는 주어와 서술어가 맞지 않았고, 「글로 잡힌 때」와 「말」은 기록 시점과 작품의 언어를 가리키는 표현으로 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「같은 이름에 붙다」와 「한 사람의 손으로 보았다」가 영문의 구조를 따른 표현이라, 작품이 같은 저자의 것으로 전승되었다는 관계를 자연스럽게 드러내지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「본인의 몸은 확인할 길이 없다」는 무엇을 확인할 수 없다는 뜻인지 짐작해야 했으며, 실제 쟁점인 호메로스의 시각 장애 여부가 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 후손을 자처한 주체가 뒤늦게 드러났고, 「그의 피를 이었다고 내세웠다」와 「시를 외워 옮긴 것」의 표현을 전승 행위가 분명하게 보이도록 다듬을 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이 땅」은 앞 문장만으로 장소를 확정하기 어렵고, 「습속」과 「그 조처를 그가 했는지는 갈린다」는 지나치게 압축되어 의미가 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「그 시에 돌리다」는 신들의 계보를 시에 귀속했다는 뜻처럼 읽혔으며, 본문도 누가 기록하고 판단했는지 주체가 생략되어 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그 이름에 다른 시도 붙었다가 떨어지다」와 「그의 작품으로 돌렸다」는 작품 귀속 관계를 지나치게 직역한 표현이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소년들의 이 수수께끼」는 아직 소개되지 않은 대상을 지시했고, 「여기에 둔다」는 무덤의 장소가 이오스라는 사실을 문장 자체만으로 알기 어려웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「한 사람」이 누구인지 단독으로는 분명하지 않았고, 「여러 세대의 음송이 한 이름으로 모였다」와 「당대가 남긴 생애」는 사람과 기록의 관계가 부자연스러웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

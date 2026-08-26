@@ -1,0 +1,252 @@
+{
+ "slug": "bom-kim",
+ "events": [
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서울에서 태어나다",
+   "title_en": "Born in Seoul",
+   "description": "10월 7일에 태어났다. 아버지는 현대건설 해외 주재원이었다.",
+   "description_en": "He was born on October 7. His father was an expatriate with Hyundai Engineering and Construction.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "travel",
+   "title": "미국으로 건너가다",
+   "title_en": "Moves to the United States",
+   "description": "일곱 살에 아버지를 따라 미국으로 떠났다. 뒤에 미국 시민권을 얻었다.",
+   "description_en": "He left at age seven with his father. He later became a U.S. citizen.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "education",
+   "title": "디어필드에서 고등학교를 마치다",
+   "title_en": "Finishes high school at Deerfield",
+   "description": "매사추세츠의 기숙학교 디어필드 아카데미를 1996년에 졸업했다. 레슬링과 육상 대표팀에서 뛰었다.",
+   "description_en": "He graduated with the class of 1996 from Deerfield Academy, a boarding school in Massachusetts. He wrestled and ran track for the varsity teams.",
+   "place_name": "디어필드",
+   "place_name_en": "Deerfield",
+   "lat": 42.545,
+   "lng": -72.604444
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "education",
+   "title": "하버드에서 정부학을 배우다",
+   "title_en": "Studies government at Harvard",
+   "description": "하버드 칼리지에서 학사 학위를 받았다. 재학 중 시사지 뉴 리퍼블릭에서 인턴을 했고, 동기 대니얼 로스와 대학생 잡지 커런트를 냈다. 졸업 다음 해에 그 잡지를 뉴스위크에 팔았다.",
+   "description_en": "He earned an A.B. in government from Harvard College. While a student he interned at The New Republic and started the campus magazine Current with classmate Daniel Loss. The year after graduating he sold the magazine to Newsweek.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111
+  },
+  {
+   "year": 2000,
+   "year_end": 2002,
+   "kind": "work",
+   "title": "보스턴컨설팅그룹에서 일하다",
+   "title_en": "Works at Boston Consulting Group",
+   "description": "졸업 뒤 본사에서 컨설턴트로 약 2년을 보냈다. 잡지 사업을 다시 하려고 회사를 나왔다.",
+   "description_en": "After college he spent about two years as a consultant at the firm's headquarters. He left to return to magazine publishing.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360278,
+   "lng": -71.057778
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "하버드 동문 잡지를 내다",
+   "title_en": "Launches a Harvard alumni magazine",
+   "description": "빈티지미디어를 세워 케임브리지 우편번호 02138을 잡지 제호로 삼았다. 400만 달러를 조달했고 애틀랜틱 미디어도 참여시켰다. 2년 뒤 맨해튼 미디어가 애틀랜틱 미디어와 창업자들이 보유한 지분을 사들였다.",
+   "description_en": "He founded Vintage Media and named the magazine 02138 after the Cambridge ZIP code. He raised 4 million dollars and brought in Atlantic Media. Two years later Manhattan Media bought the stakes held by Atlantic and the founders.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "쿠팡을 창업하다",
+   "title_en": "Founds Coupang",
+   "description": "하버드 경영대학원에 입학한 지 두 학기 만에 중퇴하고 서울로 돌아왔다. 그해 5월부터 최고경영자와 이사회 의장을 맡았다. 회사는 그날그날 할인 상품을 모아 파는 소셜커머스로 시작했다. 하버드에서 알게 된 윤선주가 초기 이사로 함께했다.",
+   "description_en": "He left Harvard Business School in his second semester and returned to Seoul. He has been chief executive and board chair since May. The company started as a daily-deal social commerce site. Yun Seon-ju, whom he had known at Harvard, joined as an early director.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "로켓배송을 시작하다",
+   "title_en": "Launches Rocket Delivery",
+   "description": "3월 24일 대구와 대전, 울산에서 자체 배송 서비스를 시작했다. 재고를 보유하고 최종 배송까지 회사가 직접 맡아 다음 날 도착시키는 방식이었으며, 배송 기사는 쿠팡맨으로 직접 고용했다. 5월에는 서비스를 서울로 확대했다.",
+   "description_en": "On March 24 the company opened its own delivery service in Daegu, Daejeon, and Ulsan. It held inventory and the last mile itself and promised next-day arrival, hiring couriers directly as Coupang Men. The service reached Seoul in May.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2018,
+   "year_end": 2019,
+   "kind": "work",
+   "title": "멤버십을 출시하고 대규모 투자를 유치하다",
+   "title_en": "Opens a membership and takes a large investment",
+   "description": "10월 유료 멤버십 로켓와우를 출시했다. 한 달 뒤 소프트뱅크 비전펀드가 20억 달러를 투자했고 회사 가치는 90억 달러로 평가됐다. 이듬해에는 쿠팡이츠를 출시해 음식 배달을 시작했다.",
+   "description_en": "In October he launched the paid membership Rocket WOW. A month later SoftBank Vision Fund put in 2 billion dollars, valuing the company at 9 billion. The following year Coupang Eats began delivering restaurant meals.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "뉴욕증권거래소에 상장하다",
+   "title_en": "Lists Coupang on the New York Stock Exchange",
+   "description": "3월 11일 종목 코드 CPNG로 거래를 시작했다. 주당 35달러에 1억 3천만 주를 팔았고, 첫날 시초가는 63달러 50센트였다. 알리바바 이후 미국에서 이뤄진 비미국 기업의 최대 규모 상장이었다.",
+   "description_en": "Shares began trading as CPNG on March 11. The offering sold 130 million shares at 35 dollars each, and the stock opened at 63.50 dollars. It was the largest U.S. listing by a non-American company since Alibaba.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712778,
+   "lng": -74.006111
+  },
+  {
+   "year": 2023,
+   "year_end": 2024,
+   "kind": "work",
+   "title": "파페치를 사들이다",
+   "title_en": "Acquires Farfetch",
+   "description": "12월 파산 직전의 명품 플랫폼 인수를 발표했다. 쿠팡은 이듬해 1월 31일 거래를 마쳤고 운영 자금으로 5억 달러를 투입했다.",
+   "description_en": "In December he announced the purchase of the luxury platform as it neared collapse. The deal closed on January 31 the next year, and Coupang put in 500 million dollars of operating capital.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2025,
+   "year_end": 2026,
+   "kind": "other",
+   "title": "개인정보가 유출되고 동일인으로 지정되다",
+   "title_en": "Faces a data leak and a same-person designation",
+   "description": "11월 회원들의 이름과 연락처, 배송 정보가 유출됐다. 합동 조사는 관련 계정을 3,360만 건으로 집계했다. 이듬해 4월 공정위는 동생 김유석의 경영 참여를 근거로 그를 쿠팡의 동일인으로 지정했다. 7월 서울고법은 본안 판결이 나올 때까지 그 처분의 효력을 정지했다.",
+   "description_en": "In November members' names, contacts, and delivery details leaked. A joint probe counted 33.6 million accounts. The next April the Fair Trade Commission named him Coupang's same person, citing his brother Yoo-seok Kim's role in management. In July the Seoul High Court stayed that order until a ruling on the merits.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건은 영문 의미를 충실히 담고 있었으나, 일부 서술에 대상이 빠진 표현, 모호한 동사, 영문 구조를 따른 직역이 있었다. 영문에 없는 평가나 인과를 보태지 않고 사건 간 흐름과 행위 주체가 분명해지도록 고쳤다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「떠났다」만으로는 어디로 이동했는지 해당 사건의 본문만 읽어서는 알 수 없어 목적지를 밝혔다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「96학번으로 나왔다」는 class of 1996을 한국 대학의 입학 연도처럼 읽히게 하며, 「레슬링과 육상 대표로 뛰었다」도 두 종목의 대표팀 활동을 매끄럽게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「잡지를 뉴스위크에 넘겼다」는 매각했다는 영문의 구체적인 행동을 흐리므로 「팔았다」로 바로잡았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「애틀랜틱 미디어가 들어왔다」는 무엇에 어떻게 참여했는지 모호하고, 「창업자 지분」은 여러 창업자가 보유한 지분이라는 영문의 관계를 충분히 드러내지 못했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 학기째에 그만두고」는 무엇을 그만두었는지 바로 드러나지 않아 하버드 경영대학원을 중퇴했다는 대상으로 명확히 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자체 배송을 열었다」와 「재고와 마지막 구간을 회사가 직접 쥐는」은 영문 표현을 순서대로 옮긴 직역이라 서비스 개시와 물류 운영 방식이 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「큰돈을 받다」와 「20억 달러를 넣었다」는 투자 유치 사건을 지나치게 막연하고 구어적으로 표현했다. 쿠팡이츠도 무엇을 시작했는지 자연스럽게 드러나도록 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「씨피엔지로 거래를 시작했다」는 CPNG가 종목 코드라는 관계가 불분명하며, 「알리바바가 뉴욕에 나온 뒤」와 「해외 기업 공개」는 영문 구조를 따른 어색한 직역이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "거래 종결과 운영 자금 투입의 주체가 생략되어 앞 문장과 이어 읽을 때 행동 관계가 흐려졌다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「개인정보가 새고」는 구어적이며 서로 다른 두 사건의 관계도 흐렸다. 본문의 「처분 효력을 멈췄다」는 법원의 효력 정지 결정을 부자연스럽게 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

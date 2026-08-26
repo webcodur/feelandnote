@@ -1,0 +1,246 @@
+{
+ "slug": "chris-malachowsky",
+ "events": [
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "birth",
+   "title": "오크허스트에서 자라다",
+   "title_en": "Grows up in Oakhurst",
+   "description": "5월 2일에 태어나 몬머스 카운티 오션 타운십의 오크허스트에서 자랐다. 아버지는 산부인과 의사였고, 가족과 이웃은 그도 의사가 될 것으로 여겼다. 하지만 그는 목공과 가구 제작을 더 좋아했다. 친구들과 어울리다 말썽에 휘말리기 전에 학교를 일찍 마치려 했고, 1976년 오션 타운십 고등학교를 졸업했다. 겨울철 진창을 피해 따뜻한 지역의 학교를 찾다가 툴레인대학교에 합격했다. 형과 함께 차를 몰고 뉴올리언스까지 갔지만, 프렌치쿼터에서 더 큰 말썽을 일으킬 것 같다는 생각에 며칠 만에 진학을 포기했다. 집으로 돌아오는 길에는 사촌이 다니던 플로리다대학교에 들러 지원서를 작성한 뒤 우편으로 보냈다.",
+   "description_en": "He was born on May 2 and grew up in the Oakhurst section of Ocean Township, Monmouth County. His father was an obstetrician. Family and neighbors assumed he would become a doctor. He preferred carpentry and cabinetmaking. He wanted to leave school early before trouble with friends caught up with him, and he graduated from Ocean Township High School in 1976. He looked for a warm campus to escape the winter slush. He got into Tulane, drove there with his older brother, then dropped it after a few days, fearing the French Quarter would get him into worse trouble. On the way home he stopped to see a cousin at the University of Florida, filled out an application, and mailed it.",
+   "place_name": "오크허스트",
+   "place_name_en": "Oakhurst",
+   "lat": 40.26139,
+   "lng": -74.02639
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "education",
+   "title": "전기공학으로 전공을 바꾸다",
+   "title_en": "Switches to electrical engineering",
+   "description": "의예과 학생으로 입학했다. 2학년 무렵 의예과 상담 교수는 그에게 최근 누구를 도왔는지 묻더니, 아버지가 의사인지도 물었다. 룸메이트의 아버지는 변호사였다. 그가 공학을 생각하고 있다고 말하자 룸메이트는 그가 해내지 못할 것이라고 했다. 졸업을 앞두고 샌즈 병원에서 의대 입학시험을 봤다. 오전 물리 시험을 잘 치른 뒤 피크닉 테이블에 누워 아버지를 떠올렸다. 아버지는 닷새 내내 일하고 집에 한 시간만 머문 뒤에도 분만 연락이 오면 다시 나가곤 했다. 그는 오후 시험까지 마친 뒤 부모에게 전화했다. 시험은 쉬웠지만 더는 의사가 되고 싶지 않다고 말했다. 어머니는 곧바로 자신들도 그가 아버지를 위해 의사가 되려는 줄 알았다고 답했다. 그는 전기공학 학사 학위를 받았다.",
+   "description_en": "He entered as a pre-med student. Around sophomore year a pre-med adviser asked whom he had helped lately, then asked if his father was a doctor. His roommate’s father was a lawyer. He said he was thinking of engineering; the roommate said he would never make it. Before graduation he sat the medical-school entrance exam at Shands Hospital. After scoring well on the morning physics section he lay on a picnic table and thought of his father, who would work five days straight, come home for an hour, then leave again when someone went into labor. He finished the afternoon session and called his parents. The test had been easy, he said, and he no longer wanted to be a doctor. His mother answered at once that they had thought he was doing it for his father. He took a bachelor’s degree in electrical engineering.",
+   "place_name": "게인즈빌",
+   "place_name_en": "Gainesville",
+   "lat": 29.665277777778,
+   "lng": -82.336111111111
+  },
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "education",
+   "title": "휴렛팩커드에서 일하며 석사를 받다",
+   "title_en": "Earns a master’s while at Hewlett-Packard",
+   "description": "캘리포니아로 가 휴렛팩커드 생산 라인에서 일하기 시작했다. 제품 한 대를 만드는 것과, 여러 대를 생산하면서 검사와 수리가 가능하도록 만드는 일은 달랐다. 연구개발 부문으로 옮긴 뒤에는 마이크로프로세서를 설계했다. 당시 그는 이미 게인즈빌 출신 아내와 결혼한 상태였다. 산타클라라대학교에서 컴퓨터과학 석사 과정을 마쳤다.",
+   "description_en": "He went to California and joined a Hewlett-Packard manufacturing line. Building one unit was not the same as building many that could be tested and repaired. He moved into research and development and designed microprocessors. He had already married his wife, who was from Gainesville. He finished a master’s in computer science at Santa Clara University.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 1987,
+   "year_end": 1993,
+   "kind": "work",
+   "title": "썬에서 워크스테이션 그래픽을 만들다",
+   "title_en": "Builds workstation graphics at Sun",
+   "description": "휴렛팩커드의 브리스틀 연구소에서는 해외 근무 미국인에 맞는 급여를 받을 수 없었고, 노스캐롤라이나는 양가 어느 쪽에서도 차로 여섯 시간 거리였다. 그는 면접 연습 삼아 썬 마이크로시스템즈에서 면접을 봤다. 그곳에서 커티스 프림은 그래픽 아키텍처를 맡았고, 그는 칩을 설계했다. 두 사람은 6년 반 동안 썬 워크스테이션용 그래픽 가속 칩을 만들었다. 이 칩을 생산하던 지역 업체 엘에스아이 로직에서 젠슨 황을 만났다.",
+   "description_en": "Hewlett-Packard’s lab in Bristol would not pay him as an American abroad, and North Carolina was a six-hour drive from either family home. He practiced interviewing at Sun Microsystems. Curtis Priem owned the graphics architecture; he designed the chips. They spent six and a half years building accelerators for Sun workstations. He met Jensen Huang at LSI Logic, the local firm that fabricated their chips.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "work",
+   "title": "엔비디아를 세우다",
+   "title_en": "Founds NVIDIA",
+   "description": "프림과 황을 산호세 동부 베리에사 로드의 데니스 식당에서 만났다. 세 사람은 워크스테이션의 3차원 그래픽 기술을 개인용 컴퓨터와 게임에 적용하려 했다. 4월 5일 회사를 법인으로 설립했고, 그는 엔지니어링을 맡았다. 창업 후 6개월 동안은 월급을 받지 못했다. 성공하면 좋은 일이고, 실패하면 다른 일자리를 찾으면 된다고 생각했다.",
+   "description_en": "He met Priem and Huang at the Denny’s on Berryessa Road in east San Jose. They wanted to put workstation three-dimensional graphics on personal computers and into games. The three incorporated the company on April 5. He took engineering. They went six months without salaries. If it worked, fine; if not, he figured he could find another job.",
+   "place_name": "산호세",
+   "place_name_en": "San Jose",
+   "lat": 37.304166666667,
+   "lng": -121.87277777778
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "리바 128로 회사를 살리다",
+   "title_en": "Saves the company with the RIVA 128",
+   "description": "첫 번째 칩은 사각형으로 면을 그렸지만, 마이크로소프트의 다이렉트3디는 삼각형만 지원했다. 결국 칩은 팔리지 않았다. 직원 수는 약 100명에서 40명으로 줄었고, 남은 현금은 한 달 치 급여를 지급할 정도뿐이었다. 델과 게이트웨이가 잡지 성능평가에서 앞서려면 2차원 그래픽 처리 속도가 빨라야 했다. 엔비디아는 만들 수 있는 가장 빠른 2차원 그래픽 기능에 3차원 그래픽 기능을 더한 리바 128을 8월에 출시했다.",
+   "description_en": "The first chip drew surfaces as quadrilaterals. Microsoft’s Direct3D accepted only triangles. The chip did not sell. Headcount fell from about a hundred to forty. Cash left covered one month of payroll. Dell and Gateway needed to win magazine benchmarks, which measured two-dimensional speed. In August they shipped the RIVA 128, the fastest two-dimensional graphics they could build, with three-dimensional on top.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "지포스 256을 그래픽 처리 장치로 부르다",
+   "title_en": "Names the GeForce 256 a graphics processing unit",
+   "description": "회사는 1월 나스닥에 상장했다. 8월 31일에는 좌표 변환과 조명 계산을 칩이 직접 처리하도록 만든 지포스 256을 공개했다. 엔비디아는 이 제품을 세계 최초의 그래픽 처리 장치라고 불렀다. 그는 지포스 256의 제품 개발을 이끌었다.",
+   "description_en": "The company listed on Nasdaq in January. On August 31 it unveiled the GeForce 256, which moved transform and lighting onto the chip. The company called it the world’s first graphics processing unit. He led the product development behind it.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "other",
+   "title": "《상속》으로 에미를 받다",
+   "title_en": "Wins an Emmy for Inheritance",
+   "description": "아들 라이언과 함께 다큐멘터리의 제작 총괄을 맡았다. 영화는 아몬 괴트의 딸 모니카 헤르트비히가 괴트의 집에서 강제로 일했던 강제수용소 생존자 헬렌 요나스를 만나는 과정을 따라간다. 미국 공영방송 PBS의 《P.O.V.》를 통해 방영됐으며, 뉴스·다큐멘터리 에미상 최우수 인터뷰 부문을 수상했다.",
+   "description_en": "He and his son Ryan were executive producers on the documentary. It follows Monika Hertwig, the daughter of Amon Göth, as she meets Helen Jonas, a survivor who had been forced to work in Göth’s house. It aired on PBS’s P.O.V. and won the News and Documentary Emmy for Outstanding Interview.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "other",
+   "title": "플로리다 발명가 명예의 전당에 헌액되다",
+   "title_en": "Is inducted into the Florida Inventors Hall of Fame",
+   "description": "그래픽 처리 장치와 시각 컴퓨팅에 기여한 공로로 선정됐다. 당시 보유한 미국 특허는 35건이었다. 헌액식은 9월 20일 탬파에서 열렸다. 그는 캘리포니아와 플로리다를 오가며 지냈고, 모교 공과대학의 자문도 맡았다.",
+   "description_en": "He was chosen for the graphics processing unit and for visual computing. He held thirty-five U.S. patents at the time. The ceremony was in Tampa on September 20. He split his time between California and Florida and advised his old engineering college.",
+   "place_name": "탬파",
+   "place_name_en": "Tampa",
+   "lat": 27.9475,
+   "lng": -82.45861111111111
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "자기 이름을 딴 건물이 문을 열다",
+   "title_en": "A building that bears his name opens",
+   "description": "그와 엔비디아는 2020년 하이퍼게이터 인공지능 슈퍼컴퓨터에 6천만 달러에 조금 못 미치는 금액을 지원했다. 11월 3일에는 데이터과학·정보기술 홀 개관식이 열렸다. 주 정부가 건축비 1억 1천만 달러를 지원했고, 그는 건축가들과 외벽 설계 작업을 함께했다. 젠슨 황도 개관식에 참석했다. 모교는 같은 해 그에게 명예박사 학위를 수여했다.",
+   "description_en": "In 2020 he and NVIDIA put just under sixty million dollars into the HiPerGator AI supercomputer. The data-science and information-technology hall opened on November 3. The state put up one hundred ten million dollars, and he worked with the architects on the facade. Jensen Huang was there. The university gave him an honorary doctorate the same year.",
+   "place_name": "게인즈빌",
+   "place_name_en": "Gainesville",
+   "lat": 29.665277777778,
+   "lng": -82.336111111111
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "other",
+   "title": "노이스 메달을 받다",
+   "title_en": "Receives the Noyce Medal",
+   "description": "전기전자공학회는 병렬 컴퓨팅 아키텍처와 반도체 설계를 이끈 공로로 그에게 로버트 노이스 메달을 수여했다. 그는 엔비디아 창립 때부터 엔지니어링과 운영을 맡았고, 이후에는 연구 조직을 이끌었다. 현재도 엔비디아 펠로로 재직하고 있다.",
+   "description_en": "IEEE gave him the Robert N. Noyce Medal for parallel computing architectures and leadership in semiconductor design. He had run engineering and operations from the founding and later the research organization. He remains an NVIDIA Fellow.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전체 사건의 사실과 세부는 영문 범위 안에서 유지하되, 주어·목적어·행동 관계가 흐릿하거나 영어 문장 구조를 그대로 따른 국문을 자연스럽게 고쳤다. 특히 초기 진로 선택과 이직 과정, 엔비디아 창립 이후의 기술 개발과 수상 이력이 생애의 흐름으로 이어지도록 문장을 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "가족과 이웃이 의사가 되리라고 생각했다는 내용을 「의사로 키우려 했다」로 옮겨 행동의 주체와 의미가 달라졌고, 형과 함께 툴레인에 갔다가 진학을 포기한 과정도 「형을 따라」「접었다」처럼 모호하게 적혀 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아버지는 의사냐고 했다」「오전 물리에서 점수가 나오자」처럼 질문의 주체와 시험 상황이 어색했고, 아버지의 고된 근무를 일반적인 산부인과 의사의 일처럼 서술해 대상이 흐려졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제조 라인에 붙었다」는 입사와 배치 관계가 부자연스러웠고, 대량생산에서는 제품을 검사하고 수리할 수 있어야 한다는 영문의 세부가 국문에서 불명확했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "브리스틀 연구소의 급여 조건과 노스캐롤라이나의 거리를 직역해 누구의 집에서 멀다는 것인지 알기 어려웠고, 「칩을 짰다」「칩을 찍어 주던」도 업무 관계를 모호하게 만들었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "창업자들이 식당에서 만난 장면과 회사 설립 과정이 조사 생략식 문장으로 이어졌고, 「개인용 컴퓨터와 게임에 넣다」「그는 엔지니어링을 맡았다」도 적용 대상과 역할을 더 분명히 표현할 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "다이렉트3디가 지원한 도형과 잡지 성능평가에서 중요했던 항목의 관계가 짧게 끊겨 있었고, 직원 수와 남은 현금처럼 위기 상황을 보여 주는 세부도 자연스러운 문장으로 연결되지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「나스닥에 올렸다」는 상장을 뜻하는 부자연스러운 표현이었고, transform을 단순히 「변환」으로 옮겨 어떤 계산인지 분명하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "executive producer를 단순히 「제작을 맡았다」로 옮겼고, 헬렌 요나스가 괴트의 집에서 강제로 일했던 생존자라는 영문의 핵심 세부가 빠져 있었다. 방송 프로그램명과 수상 부문도 서로 구분되지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이유로 뽑혔다」「특허는 서른다섯 건이었다」「모교 공대를 도왔다」가 각각 선정 사유, 특허 보유, 대학 자문이라는 구체적인 관계를 충분히 드러내지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「자기 이름 건물이」는 관형 관계가 빠진 제목이었고, 투자와 건축비를 모두 「댔다」로 표현해 주체별 역할이 흐려졌다. 외벽에 관해서도 「건축가와 맞췄다」만으로는 함께 설계했다는 뜻을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "수상 사유의 두 요소가 병렬로 매끄럽게 이어지지 않았고, 「창립 때부터」「뒤에는」이 가리키는 회사와 시점이 문장만으로 명확하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

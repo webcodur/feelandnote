@@ -1,0 +1,224 @@
+{
+ "slug": "andrew-musk",
+ "events": [
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "birth",
+   "title": "제임스 머스크의 동생으로 태어나다",
+   "title_en": "Born as James Musk's younger brother",
+   "description": "정확한 날짜와 태어난 도시는 공개되지 않았다. 2016년 1월 학교 보도는 그를 열일곱으로 소개했다. 아버지는 에롤 머스크의 형제 중 한 명이다. 일론 머스크와는 친가 사촌이다.",
+   "description_en": "The exact date and city of birth were not published. A January 2016 school report identified him as 17. His father is one of Errol Musk's brothers. That makes Elon Musk a first cousin on the paternal side.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "education",
+   "title": "보울리외 칼리지 졸업시험에서 아홉 과목 우수 성적을 받다",
+   "title_en": "Earns nine distinctions in Beaulieu College finals",
+   "description": "론힐에 살았다. 고급수학과 수학, 물리에서 응시자 상위 1퍼센트에 들었다. 학생회에서 활동했고 골프·하키·크리켓·축구도 했다. 학교는 그를 그해 성적이 가장 뛰어난 졸업생으로 꼽았다. 마케팅 책임자 리넷 그레이는 유명한 사촌 일론 때문에 부담을 느끼지는 않았다고 전했다. 스탠퍼드나 버클리에서 응용수학 또는 정보기술을 공부할 계획이었다.",
+   "description_en": "He lived in Lonehill. He placed in the top 1 percent of candidates in advanced programme mathematics, mathematics, and physical science. He sat on the student representative council and played golf, hockey, cricket, and football. The school named him that year's top achiever. Marketing head Lynette Gray said he did not feel pressure because of his famous cousin Elon. He planned to study applied mathematics or information technology at Stanford or Berkeley.",
+   "place_name": "미드란드",
+   "place_name_en": "Midrand",
+   "lat": -26,
+   "lng": 28.133333
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "travel",
+   "title": "컴퓨터과학을 공부하러 미국으로 떠나다",
+   "title_en": "Leaves for computer science study in the United States",
+   "description": "다른 보도는 그가 컴퓨터과학과 물리학을 공부하기 위해 출국한다고 전했다. 스탠퍼드와 버클리 가운데 한 곳에 진학하려던 계획은 접혔다. 캘리포니아대학교 로스앤젤레스캠퍼스에 등록했다.",
+   "description_en": "Another report said he would leave the country to study computer science and physics. The plan to choose Stanford or Berkeley was dropped. He enrolled at the University of California, Los Angeles.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "education",
+   "title": "유씨엘에이 블록체인 학생 단체를 공동 창립하다",
+   "title_en": "Co-founds the blockchain student group at UCLA",
+   "description": "교내에 블록체인을 공식적으로 다룰 공간이 없다고 느꼈다. 제이슨 후안, 애덤 스파, 앤서니 휴메이, 더글러스 웡, 베로니카 레이놀즈와 함께 학생 단체를 만들었다. 컨설팅과 대외 소통을 맡았다.",
+   "description_en": "He felt the campus had no formal space for the subject. He started the group with Jason Huan, Adam Spar, Anthony Humay, Douglas Wong, and Veronica Reynolds. He headed consulting and communications.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "education",
+   "title": "공대의 블록체인 프로그래밍 과목 개설을 돕다",
+   "title_en": "Helps open a blockchain programming course in engineering",
+   "description": "전기공학 교수 존 비야세뇨르가 공학 188 과목을 맡았다. 그가 공동 창립한 학생 단체는 10월에 500명이 참석한 콘퍼런스를 열었고, 연방수사국과 마이크로소프트 소속 연사도 초청했다. 학부생을 대상으로 10주간의 교육 과정도 운영했다.",
+   "description_en": "Electrical engineering professor John Villasenor taught Engineering 188. The group held a 500-person conference in October. Speakers came from the FBI and Microsoft. It also ran a ten-week education series for undergraduates.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "레너드 클라인록에게 블록체인을 묻다",
+   "title_en": "Interviews Leonard Kleinrock about blockchain",
+   "description": "앤서니 휴메이와 함께 유씨엘에이 새뮤얼리 공과대학 영상에 출연해 레너드 클라인록을 인터뷰했다. 두 사람은 블록체인의 활용 분야와 새 커넥션 랩 계획을 물었다. 학교는 블록체인 학생 단체가 그해 겨울 학기 과목 개설을 도왔다고 밝혔다.",
+   "description_en": "He appeared with Anthony Humay in a UCLA Samueli School of Engineering video. They asked about applications and plans for the new Connection Lab. The school said the student group had helped get the winter-quarter course offered.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "education",
+   "title": "컴퓨터과학 학위를 마치다",
+   "title_en": "Completes a computer science degree",
+   "description": "블록체인 학생 단체의 공식 창립자 명단에는 그가 컴퓨터과학 졸업생으로 기록돼 있다.",
+   "description_en": "The official founders list of the blockchain student group records him as a computer science graduate.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "뉴럴링크에서 소프트웨어 엔지니어로 일하다",
+   "title_en": "Writes software at Neuralink",
+   "description": "월터 아이작슨은 그가 대학에서 블록체인을 연구한 뒤 일론 머스크의 뇌 칩 회사에 취직했다고 썼다. 이듬해 11월 포천이 공개한 조직도에는 소프트웨어 엔지니어이자 일론 머스크의 사촌으로 이름을 올렸다.",
+   "description_en": "Walter Isaacson wrote that after researching blockchain at university he took a job at Elon's brain-chip company. A Fortune org chart published the following November listed him as a software engineer and as Musk's cousin.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "형 제임스와 트위터 본사에서 일하다",
+   "title_en": "Joins Twitter headquarters work with his brother",
+   "description": "일론 머스크가 트위터를 인수한 뒤 형제는 샌프란시스코 본사에서 상근으로 일했다. 내부 소식통에 따르면 앤드루는 소프트웨어 엔지니어링 프로젝트를 맡았고, 제임스는 여러 실무 문제를 처리하는 역할에 가까웠다. 아이작슨은 기술에 밝은 앤드루가 제임스와 함께 코드 검토를 이끌고 수천 명을 해고하는 일에도 관여했다고 적었다.",
+   "description_en": "After Elon bought the company, the two worked full-time at the San Francisco headquarters. An insider said he was on software-engineering projects, while James was more of a fixer. Isaacson wrote that the tech-savvy younger brother spearheaded code reviews with James and took part in laying off thousands.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑스의 스포츠 제품 개발팀을 꾸리다",
+   "title_en": "Recruits a team to build sports products at X",
+   "description": "어떤 리그·팀·선수의 정보든 한곳에서 실시간으로 볼 수 있게 하는 것이 목표라고 밝혔다. 미식축구와 농구, 축구 관련 작업은 이미 시작했으며, 인도 프리미어리그와 미국 대학농구 토너먼트 관련 제품도 3월에 선보이겠다고 했다. 영상·판타지 스포츠·베팅·선수와 팬의 직접 소통을 다음 단계로 제시했다.",
+   "description_en": "He said the aim was a single place for real-time information on any league, team, or player. Work had already started for American football, basketball, and soccer, and he said the Indian Premier League and March Madness would launch in March. Video, fantasy, betting, and direct player-fan contact were listed as next steps.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건은 영문 의미를 충실히 담고 있었지만, 일부 제목이 당사자의 역할을 과장하거나 여러 표현의 대상과 행동 관계가 불분명했다. 영문이 말한 세부는 유지하면서 사건별 문장을 자연스럽게 다듬고, 학업에서 블록체인 활동을 거쳐 뉴럴링크와 트위터·엑스로 이어지는 흐름을 분명하게 정리했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "distinctions를 곧바로 「최우수」로 옮긴 제목은 의미가 지나치게 강하고, 학교가 그를 최우수 졸업생으로 「올렸다」거나 두 대학을 「고르려 했다」는 표현도 자연스럽지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "공부를 「배우다」로 표현했고, 스탠퍼드와 버클리 가운데 한 곳에 진학하려던 계획을 「스탠퍼드와 버클리를 고르려던 계획」이라고 써서 목적어와 행동의 관계가 어색했다. UCLA의 한국어 명칭도 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "공동 창립이라는 역할이 제목에 드러나지 않았고, 무엇을 위한 「공식 공간」인지 알 수 없었다. 「함께 만들었다」의 목적어도 문장 안에서 분명히 밝혔다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 과목 개설을 도왔다고 했지만 국문 제목은 본인이 직접 과목을 연 것처럼 단정했다. 「마이크로소프트 쪽 연사」와 「학부생에게 강의하는 교육 시리즈」도 소속과 운영 대상을 분명하게 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「응용」만으로는 무엇의 활용 분야를 질문했는지 알 수 없었고, 인터뷰를 「만나 묻다」로 표현해 사건의 성격이 흐릿했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공식 창립자 명단은 그를 … 적는다」가 번역문처럼 읽혀 자연스러운 기록 서술로 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「소프트웨어를 짜다」는 지나치게 구어적이었고, 「사촌이라고 밝혔다」는 누구의 사촌인지 문장만으로 확정하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「본사 일에 들어가다」가 부자연스러웠고, 본문은 「두 사람」과 「맡겼고」의 주체가 흐릿했다. 마지막 문장의 「기술에 밝은 동생」도 이름을 밝혀 형제의 역할을 바로 이해할 수 있게 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문의 team recruitment가 「사람을 모으다」로 다소 거칠게 옮겨졌고, launch를 「내다」라고 표현했다. 실시간 정보라는 세부가 빠졌으며, direct player-fan contact가 「직접 만남」으로 좁아지고 next steps가 「다음 일」로 어색하게 번역됐다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

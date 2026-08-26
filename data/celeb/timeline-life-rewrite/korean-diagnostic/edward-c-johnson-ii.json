@@ -1,0 +1,254 @@
+{
+ "slug": "edward-c-johnson-ii",
+ "events": [
+  {
+   "year": 1898,
+   "year_end": null,
+   "kind": "birth",
+   "title": "보스턴에서 태어나다",
+   "title_en": "Born in Boston",
+   "description": "백베이에서 태어났다. 아버지 새뮤얼은 포목상 호비 상회의 동업자였고, 어머니는 조제핀 포부시였다. 가족은 이후 밀턴으로 옮겨 살았다.",
+   "description_en": "He was born in Back Bay. His father Samuel was a partner in the dry-goods house C. F. Hovey, and his mother was Josephine Forbush. The family later lived in Milton.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1916,
+   "year_end": null,
+   "kind": "education",
+   "title": "밀턴 아카데미를 마치다",
+   "title_en": "Finished Milton Academy",
+   "description": "보스턴 남쪽 교외의 예비학교를 나왔다. 이듬해 그는 학업을 접고 군에 갔다.",
+   "description_en": "He finished the prep school in the suburb south of Boston. The next year he left his studies and went into the service.",
+   "place_name": "밀턴",
+   "place_name_en": "Milton",
+   "lat": 42.25,
+   "lng": -71.066666666667
+  },
+  {
+   "year": 1917,
+   "year_end": 1918,
+   "kind": "other",
+   "title": "해군 예비군 무전병으로 복무하다",
+   "title_en": "Served as a Naval Reserve radioman",
+   "description": "이등 무전병으로 열 달을 복무했다. 제대한 뒤에야 대학으로 돌아갔다.",
+   "description_en": "He served ten months as a second-class radioman. Only after discharge did he go back to college.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1920,
+   "year_end": null,
+   "kind": "education",
+   "title": "하버드 칼리지를 마치다",
+   "title_en": "Graduated from Harvard College",
+   "description": "전쟁으로 중단했던 학부 과정을 마쳤다. 이어 같은 교정에 있는 로스쿨에 진학했다.",
+   "description_en": "He finished the undergraduate years the war had interrupted. Law school on the same campus came next.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1924,
+   "year_end": null,
+   "kind": "education",
+   "title": "하버드 로스쿨을 마치다",
+   "title_en": "Graduated from Harvard Law",
+   "description": "같은 해 밀턴에서 엘시 리빙스턴과 결혼했다. 보스턴의 로펌 롭스 그레이에 들어가 14년 동안 변호사로 일했다.",
+   "description_en": "That same year he married Elsie Livingston in Milton. He joined the Boston firm Ropes Gray and spent fourteen years as a lawyer.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "work",
+   "title": "로펌을 떠나 펀드 임원이 되다",
+   "title_en": "Left the law firm for a fund",
+   "description": "피델리티가 아닌 보스턴의 작은 펀드에서 임원을 맡았다. 그는 법정 일을 접고 시장을 본업으로 삼았다.",
+   "description_en": "He became an officer of a small Boston fund that was not Fidelity. The market, not the courtroom, became his work.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1943,
+   "year_end": null,
+   "kind": "office",
+   "title": "피델리티 펀드 사장이 되다",
+   "title_en": "Became president of Fidelity Fund",
+   "description": "1930년에 설립된 펀드의 사장이 사임하자 이사회가 그를 영입했다. 당시 펀드의 자산은 300만 달러였고, 그는 한동안 인코퍼레이티드 인베스터스의 재무 담당자와 법률 고문도 겸했다. 그는 훗날 전임자가 그 자리의 수입으로는 가족을 부양할 수 없었다고 말했다.",
+   "description_en": "After the president of a fund founded in 1930 resigned, the directors called him in. Assets were three million dollars, and he kept his treasurer and counsel post at Incorporated Investors for a time. He later said the man before him could not feed a family on it.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1946,
+   "year_end": null,
+   "kind": "work",
+   "title": "피델리티 운용사를 세우다",
+   "title_en": "Founded Fidelity Management and Research",
+   "description": "기존 자문사와의 계약이 끝나자 직접 운용사를 설립했다. 같은 해 보통주에도 투자하는 소득형 펀드인 퓨리턴 펀드를 출시했으며, 직원은 세 명이었다.",
+   "description_en": "When the old advisory contract ran out, he opened his own firm. That year he also launched Puritan, an income fund that bought common stock, and the staff was three.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "work",
+   "title": "아들을 영입하고 차이에게 펀드를 맡기다",
+   "title_en": "Put his son and Tsai on funds",
+   "description": "1950년대 초 상하이 출신의 젊은 분석가 제럴드 차이를 채용했다. 스테이트 스트리트 은행에서 일하던 아들도 합류했고, 차이는 새로 출범한 캐피털 펀드를 맡았다.",
+   "description_en": "In the early fifties he hired Gerald Tsai, a young analyst from Shanghai. His son came over from State Street Bank, and Tsai took the new Capital Fund.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "office",
+   "title": "아들을 후계자로 선택하다",
+   "title_en": "Chose his son as successor",
+   "description": "후계자 후보는 차이와 아들이었다. 그는 아들을 선택했고, 차이는 그해 회사를 떠났다. 운용 자산은 그 무렵 20억 달러를 넘어섰다.",
+   "description_en": "The succession came down to Tsai or the son. He chose his son, and Tsai left that year. Assets under management had passed two billion dollars.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "office",
+   "title": "사장직을 아들에게 넘기다",
+   "title_en": "Handed the presidency to his son",
+   "description": "일상 경영에서 물러나 이사가 됐다. 같은 해 일가는 지주회사를 설립해 피델리티 계열을 한데 묶었다. 5년 뒤 아들은 회장과 최고경영자 자리도 맡았다.",
+   "description_en": "He stepped back from daily management and became a director. That year the family formed a holding company for the Fidelity group. Five years later his son also took the chair and the chief executive post.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "death",
+   "title": "커토밋에서 세상을 떠나다",
+   "title_en": "Died in Cataumet",
+   "description": "4월 2일 알츠하이머병으로 세상을 떠났다. 장례는 밀턴의 제일교회에서 치렀다.",
+   "description_en": "He died of Alzheimer's disease on April 2. The funeral was at First Parish in Milton.",
+   "place_name": "커토밋",
+   "place_name_en": "Cataumet",
+   "lat": 41.6662178,
+   "lng": -70.619753
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부 정보는 그대로 보존하면서 직역투, 어색한 직함 표현, 불분명한 행동 관계와 생애 연결을 다듬었다. 사실 판단이 별도로 필요한 사건은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「백베이에서 났다」와 「집안은 뒤에」가 현대 한국어의 인물 연표 문장으로 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title"
+    ],
+    "problem": "「해군 예비역 무전병으로 나가다」는 복무 당시의 신분과 행동을 부정확하고 어색하게 나타냈다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전쟁으로 끊긴 학부」와 「로스쿨로 이어졌다」가 학업을 중단했다가 재개한 주체와 행동을 분명하게 드러내지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「십사 년을 변호사로 보냈다」가 직역투여서 로펌에서 변호사로 근무했다는 뜻을 자연스럽게 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「삼십 년에 만들어진」은 연도를 지나치게 구어적으로 줄인 표현이고, 「재무와 법률도 겸했다」는 그가 겸임한 직책을 분명히 나타내지 못했다. 전임자의 말을 전하는 마지막 문장도 주체와 의미가 모호했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「운용사를 직접 열었다」와 「보통주에도 손을 대는」이 회사 설립과 펀드 투자를 지나치게 구어적으로 표현했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「아들과 차이를 펀드에 앉히다」는 두 사람이 각각 회사에 합류하고 펀드를 맡은 관계를 뭉뚱그려 뜻을 짐작하게 했다. 본문의 「상하이에서 온」도 출신지인지 이동 경로인지 불필요한 오해를 낳을 수 있어 영문 구조에 맞게 정리했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「후임은 차이와 아들 사이였다」는 후계자 후보가 두 사람이었다는 뜻을 직역한 문장이며, 자산이 이미 기준을 넘어섰다는 영문의 완료 의미도 충분히 살아나지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「사장 자리」와 「현업에서 손을 떼고」가 직책 승계와 일상 경영에서 물러난 상황을 다소 모호하고 구어적으로 나타냈다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「사월 이일 알츠하이머로 죽었다」는 날짜와 병명을 부자연스럽게 적었고, 제목의 「죽다」도 인물 연표 문체로 다듬을 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,264 @@
+{
+ "slug": "devendra-singh-chaplot",
+ "events": [
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "birth",
+   "title": "인도에서 태어나다",
+   "title_en": "Born in India",
+   "description": "집안은 라자스탄 출신이다. 아버지는 가우탐 프라카시 차플로트, 어머니는 사랄 차플로트다. 아버지는 시멘트 회사 선임회계로 일했고, 그 일로 가족은 프라야그라지에 살았다.",
+   "description_en": "The family came from Rajasthan. His father was Gautam Prakash Chaplot and his mother was Saral Chaplot. His father worked as a senior accountant at a cement company, and the family lived in Prayagraj for that job.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "파파마우 강가 구루쿨람에서 10학년을 마치다",
+   "title_en": "Finishes tenth grade at Ganga Gurukulam in Phaphamau",
+   "description": "산자이 싱에게 수학을 배웠다. 그해 중앙중등교육과정 10학년 시험에서 소속 지역 1위를 차지했다. 전국 영재검색시험 장학생으로도 뽑혔다.",
+   "description_en": "He studied mathematics under Sanjay Singh. That year he ranked first in his district on the Central Board tenth-grade exam. He was also named a National Talent Search Examination scholar.",
+   "place_name": "프라야그라지",
+   "place_name_en": "Prayagraj",
+   "lat": 25.45,
+   "lng": 81.85
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "education",
+   "title": "공대 입시 전국 25위로 인도 공과대학교 봄베이에 입학하다",
+   "title_en": "Enters IIT Bombay after ranking 25th nationwide",
+   "description": "그해 공과대학 입학시험에 응시한 사람은 오십만 명이 넘었다. 컴퓨터공학을 전공으로 골랐다.",
+   "description_en": "More than half a million people sat the engineering entrance exam that year. He chose computer science as his major.",
+   "place_name": "뭄바이",
+   "place_name_en": "Mumbai",
+   "lat": 19.075833333333332,
+   "lng": 72.8775
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "education",
+   "title": "인도 공과대학교 봄베이에서 학사를 마치다",
+   "title_en": "Completes a bachelor's degree at IIT Bombay",
+   "description": "컴퓨터공학 우등 학위를 받았다. 응용통계정보학을 부전공했다. 지도교수는 푸시팍 바타차리야였다.",
+   "description_en": "He received an honours degree in computer science and engineering. He finished a minor in applied statistics and informatics. His adviser was Pushpak Bhattacharyya.",
+   "place_name": "뭄바이",
+   "place_name_en": "Mumbai",
+   "lat": 19.075833333333332,
+   "lng": 72.8775
+  },
+  {
+   "year": 2014,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "삼성전자 본사 연구소에 들어가다",
+   "title_en": "Joins the research lab at Samsung headquarters",
+   "description": "소프트웨어 연구소 연구원이 되었다. 졸업 다음 달에 수원으로 갔다. 이듬해 여름까지 그곳에 있었다.",
+   "description_en": "He became a research associate at the Software R&D Center. He moved to Suwon the month after graduation. He stayed through the following summer.",
+   "place_name": "수원",
+   "place_name_en": "Suwon",
+   "lat": 37.285833333333,
+   "lng": 127.01
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "education",
+   "title": "카네기멜런에서 언어기술 석사를 마치다",
+   "title_en": "Completes a master's in language technologies at Carnegie Mellon",
+   "description": "언어기술연구소에서 케네스 쾨딩거의 지도를 받았다. 석사를 마친 뒤 같은 학교 기계학습학과로 옮겨 박사 과정을 이었다.",
+   "description_en": "He worked at the Language Technologies Institute under Kenneth Koedinger. After the master's he moved into the Machine Learning Department at the same university and began a doctorate.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666667,
+   "lng": -80
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "아널드 에이전트로 비주얼 둠 인공지능 대회에서 우승하다",
+   "title_en": "Wins the Doom competition with the Arnold agent",
+   "description": "기욤 랑플과 함께 화면 픽셀만 보고 싸우는 에이전트를 만들었다. 그 에이전트는 비주얼 둠 인공지능 대회 풀 데스매치에서 1등을 했다. 랑플과는 이때 처음 같이 일했다.",
+   "description_en": "With Guillaume Lample he built an agent that fought using only screen pixels. The agent took first place in the Visual Doom AI Competition full deathmatch. It was the first time the two worked together.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666667,
+   "lng": -80
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "education",
+   "title": "자율 탐색 에이전트 연구로 박사 학위를 받다",
+   "title_en": "Earns a doctorate on autonomous navigation agents",
+   "description": "루슬란 살라후트디노프와 아비나브 굽타의 지도를 받아, 시각과 언어를 이용해 실제 공간에서 스스로 길을 찾는 에이전트를 연구했다. 논문 제목은 지능형 자율 탐색 에이전트 구축이다. 그 전해에 페이스북 대학원 펠로십을 받았다.",
+   "description_en": "Under Ruslan Salakhutdinov and Abhinav Gupta he studied agents that find their way through physical space with vision and language. The dissertation was titled Building Intelligent Autonomous Navigation Agents. The year before, he received a Facebook Graduate Fellowship.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666667,
+   "lng": -80
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "페이스북 인공지능연구소 연구원이 되다",
+   "title_en": "Becomes a research scientist at Facebook AI Research",
+   "description": "박사 논문 심사를 마친 다음 달에 멘로파크로 갔다. 박사 과정 동안 그 연구소에서 인턴과 학생연구원을 이미 지냈다. 컴퓨터 비전과 로봇공학을 함께 연구했다.",
+   "description_en": "He moved to Menlo Park the month after defending his thesis. He had already been an intern and student researcher there during the doctorate. He worked on computer vision and robotics together.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454166666667,
+   "lng": -122.17861111111
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "미스트랄 창립 팀에 합류하다",
+   "title_en": "Joins the founding team of Mistral AI",
+   "description": "둠 에이전트를 함께 만들었던 랑플이 파리에서 새 회사를 세우고 있었다. 차플로트는 창립 팀에 합류해 대규모 언어모델을 훈련했다. 미스트랄 7B와 믹스트랄, 미스트랄 라지의 훈련에 참여했다.",
+   "description_en": "Lample, his Doom collaborator, was opening a new company in Paris. Chaplot joined the founding team and trained large language models. He helped train Mistral 7B, Mixtral, and Mistral Large.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "미스트랄 미국 지사를 열고 멀티모달 팀을 이끌다",
+   "title_en": "Opens Mistral's U.S. office and leads its multimodal team",
+   "description": "팰로앨토에 미국 거점을 세우고 그곳을 맡았다. 그해 가을 팀은 픽스트랄 12B를 공개했다. 두 달 뒤에는 더 큰 픽스트랄 라지를 내놓았다.",
+   "description_en": "He set up the U.S. office in Palo Alto and ran it. That autumn the team released Pixtral 12B. Two months later they released the larger Pixtral Large.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "싱킹 머신스 랩 창립 팀에 들어가다",
+   "title_en": "Joins the founding team of Thinking Machines Lab",
+   "description": "미라 무라티가 설립한 연구소에서 연구와 제품을 함께 맡았다. 이용자가 직접 언어모델을 훈련할 수 있게 하는 인터페이스 팅커를 만드는 일에 참여했다.",
+   "description_en": "At the lab Mira Murati had opened, he worked across research and product. He helped build Tinker, an interface that lets people train language models themselves.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "스페이스엑스와 xAI에 합류하다",
+   "title_en": "Joins SpaceX and xAI",
+   "description": "일론 머스크와 함께 초지능 시스템을 만들겠다고 밝혔다. 그록 사전학습을 맡았다.",
+   "description_en": "He said he would work with Elon Musk on building superintelligence. He took charge of Grok pretraining.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 어색해진 표현과 행위 주체가 흐릿한 문장을 바로잡았다. 영문에 없는 평가나 인과는 보태지 않고, 학업에서 연구·창업 팀으로 이어지는 생애 흐름을 자연스럽게 정리했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 지구 1등이었다」는 district를 기계적으로 옮긴 표현이라 어느 범위에서 1위를 했는지 자연스럽게 이해하기 어렵다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「전국 25등으로 봄베이에 들어가다」는 학교가 아닌 도시에 들어간 것처럼 읽히며, 「공대입학시험」도 한국어 문맥에서 지나치게 압축되어 있다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「응용통계정보학을 부전공으로 마쳤다」는 목적어와 서술어의 결합이 부자연스럽다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title"
+    ],
+    "problem": "「둠 경기」는 영문의 Visual Doom AI Competition을 지나치게 줄여 일반적인 게임 경기처럼 보인다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 사람 밑에서」는 학술 지도를 설명하는 표현으로 거칠고, 문장 안의 수식 관계도 길게 늘어져 있다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시각과 로봇을 같이 다루는 일을 했다」는 computer vision과 robotics라는 연구 분야를 모호한 일상어로 옮겨 뜻이 흐려졌다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「둠을 같이 만들던 랑플」은 두 사람이 둠 자체를 만들었다는 뜻으로 읽히며, 「대규모 언어모델 훈련에 붙었다」도 번역투가 강하다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "모델을 공개한 주체가 영문에서는 팀인데 국문에서는 생략되어 차플로트 개인이 공개한 것처럼 읽힌다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미라 무라티가 연 연구소」와 「이용자가 언어모델을 직접 훈련하게 하는 인터페이스」는 각각 설립 관계와 이용자의 행동을 어색하게 표현한다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일론 머스크 옆에서」는 work with를 위치 관계로 직역해 협업한다는 뜻을 부자연스럽게 전달한다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

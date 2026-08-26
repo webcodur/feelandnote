@@ -1,0 +1,231 @@
+{
+ "slug": "jean-eugene-robert-houdin",
+ "events": [
+  {
+   "year": 1805,
+   "year_end": null,
+   "kind": "birth",
+   "title": "시계공의 집에서 태어나다",
+   "title_en": "Born in a watchmaker’s house",
+   "description": "루아르 강변 시계공 마을에서 태어났다. 아버지 프로스페 로베르는 그 동네에서 이름난 시계공이었다. 어머니 마리 카트린 기용은 그가 어릴 때 죽었다. 집은 포르테샤르트렌 거리 4번지였다.",
+   "description_en": "He is born Jean-Eugène Robert in a Loire watchmaking town. His father, Prosper Robert, is a respected clockmaker there. His mother, Marie-Catherine Guillon, dies while he is still a child. The family house stands at 4 rue Porte-Chartraine.",
+   "place_name": "블루아",
+   "place_name_en": "Blois",
+   "lat": 47.593055555556,
+   "lng": 1.3272222222222
+  },
+  {
+   "year": 1816,
+   "year_end": 1823,
+   "kind": "education",
+   "title": "오를레앙 기숙학교에 들어가다",
+   "title_en": "Enters the boarding school at Orléans",
+   "description": "아버지가 법률가로 키우려고 루아르 상류 기숙학교에 보냈다. 그는 거기서 문학과 글을 배웠고, 열여덟에 집으로 돌아왔다. 공증인 서기가 되었으나 책상보다 기계에 손이 갔다.",
+   "description_en": "His father, who wants a lawyer, sends him up the Loire to board. He studies letters there and comes home at eighteen. He is placed as a notary’s clerk, but machines pull him off the desk.",
+   "place_name": "오를레앙",
+   "place_name_en": "Orléans",
+   "lat": 47.902222222222,
+   "lng": 1.9041666666667
+  },
+  {
+   "year": 1830,
+   "year_end": null,
+   "kind": "other",
+   "title": "처가 성을 이름에 붙이다",
+   "title_en": "Adds the Houdin name",
+   "description": "시계 일을 배운 뒤 파리로 올라갔다. 파리에 이미 자리 잡은 블루아 출신 시계공 자크 우댕의 딸 세실과 결혼했다. 로베르라는 이름을 쓰는 시계공이 워낙 많아 자신의 성에 아내의 성을 붙여 쓰기 시작했다.",
+   "description_en": "After learning the bench he moves to Paris. He marries Cécile, daughter of Jacques Houdin, a Blois clockmaker already settled there. Too many watchmakers share the name Robert, so he begins to hyphenate hers.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 1843,
+   "year_end": null,
+   "kind": "other",
+   "title": "아내를 잃고 개명을 청원하다",
+   "title_en": "Loses his wife and makes the name official",
+   "description": "세실이 오랜 투병 끝에 서른두 살로 죽었다. 집에는 어린 자녀들이 남았다. 그는 법적 이름을 로베르우댕으로 바꿔 달라고 청원했다.",
+   "description_en": "Cécile dies at thirty-two after a long illness. Young children remain in the house. He petitions to make Robert-Houdin his legal name.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 1844,
+   "year_end": null,
+   "kind": "work",
+   "title": "글을 쓰는 자동인형으로 은메달을 받다",
+   "title_en": "Wins a silver medal for a writing automaton",
+   "description": "글을 쓰고 그림을 그리는 자동인형을 산업박람회에 냈다. 바넘이 그 기계를 사 갔고, 수집가 레스칼로피에 백작이 극장을 열 돈을 대기로 했다. 같은 해 프랑수아즈 마르그리트 올랭프 브라코니에와 다시 결혼했다.",
+   "description_en": "He shows a writing-and-drawing automaton at the national industrial exhibition. Barnum buys the machine, and the collector Count de l’Escalopier agrees to back a theatre. The same year he remarries Françoise-Marguerite-Olympe Braconnier.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 1845,
+   "year_end": null,
+   "kind": "work",
+   "title": "《환상의 저녁》 공연을 시작하다",
+   "title_en": "Opens the Fantastic Evenings",
+   "description": "발루아 거리에 있는 팔레루아얄 건물 위층에 이백 석 규모의 극장을 열었다. 무대는 응접실처럼 꾸몄고, 장터 공연용 의상 대신 연미복을 입었다. 그는 나중에 개막 첫날에는 겁이 나서 말을 너무 빨리 했다고 적었다.",
+   "description_en": "He opens a two-hundred-seat theatre above the Palais-Royal, on rue de Valois. The stage is dressed like a drawing room, and he wears evening clothes instead of fairground robes. He later writes that opening night he talked too fast from fright.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.856666666667,
+   "lng": 2.3522222222222
+  },
+  {
+   "year": 1848,
+   "year_end": null,
+   "kind": "travel",
+   "title": "혁명 뒤 런던 무대로 건너가다",
+   "title_en": "Crosses to London after the revolution",
+   "description": "파리 극장들이 문을 닫자 세인트제임스 극장에서 일주일에 세 차례 공연했다. 빅토리아 여왕 앞에서도 공연했고, 영국 순회공연을 마친 뒤 파리로 돌아왔다.",
+   "description_en": "When Paris theatres shut he plays three nights a week at the St James’s Theatre. He also performs for Queen Victoria, then tours Britain before returning to Paris.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1852,
+   "year_end": null,
+   "kind": "work",
+   "title": "극장을 맡기고 고향 근처로 돌아가다",
+   "title_en": "Hands over the theatre and goes home",
+   "description": "두 번째 아내의 여동생과 결혼했으며 무대에서는 아밀통이라는 이름으로 활동한 피에르 에티엔 쇼카에게 극장을 넘겼다. 블루아 근처에 르 프리외레라는 집을 마련하고 그곳에 전기 장치와 기계 장치를 설치하기 시작했다.",
+   "description_en": "He leaves the theatre to Pierre Étienne Chocat, known on stage as Hamilton, who has married his second wife’s sister. He settles at Le Prieuré beside Blois and begins fitting the house with electric and mechanical devices.",
+   "place_name": "생제르베라포레",
+   "place_name_en": "Saint-Gervais-la-Forêt",
+   "lat": 47.568888888889,
+   "lng": 1.36
+  },
+  {
+   "year": 1856,
+   "year_end": null,
+   "kind": "travel",
+   "title": "정부가 은퇴한 그를 다시 부르다",
+   "title_en": "The government calls him out of retirement",
+   "description": "카빌리 지역 마라부트들이 기적으로 부족민들에게 행사하던 영향력을 약화하라는 명을 받았다. 그는 부족 지도자들 앞에서 공연했다. 정부는 그 공로로 그에게 훈장을 수여했다.",
+   "description_en": "He is ordered to undercut the Kabyle marabouts whose marvels move the tribes. He performs before the chiefs. The government decorates him for the work.",
+   "place_name": "알제",
+   "place_name_en": "Algiers",
+   "lat": 36.776388888889,
+   "lng": 3.0586111111111
+  },
+  {
+   "year": 1858,
+   "year_end": null,
+   "kind": "publish",
+   "title": "한 마술사의 고백을 내다",
+   "title_en": "Publishes A Conjurer’s Confidences",
+   "description": "은퇴한 뒤 두 권짜리 《한 마술사의 고백》을 썼다. 르센이 인쇄했으며, 머리말에는 그해 9월 날짜가 적혀 있다.",
+   "description_en": "From retirement he writes the two volumes of Confidences d’un prestidigitateur. Lecesne prints them, and the preface is dated that September.",
+   "place_name": "블루아",
+   "place_name_en": "Blois",
+   "lat": 47.593055555556,
+   "lng": 1.3272222222222
+  },
+  {
+   "year": 1871,
+   "year_end": null,
+   "kind": "death",
+   "title": "폐렴으로 세상을 뜨다",
+   "title_en": "Dies of pneumonia",
+   "description": "보불전쟁 중 아들 외젠 대위가 라이슈오펜에서 전사했다. 그 뒤 건강이 무너져 폐렴에 걸렸다. 블루아 시립묘지에 묻혔다.",
+   "description_en": "In the Franco-Prussian War his son, Captain Eugène, is killed at Reichshoffen. His health collapses into pneumonia. He is buried in the Blois town cemetery.",
+   "place_name": "생제르베라포레",
+   "place_name_en": "Saint-Gervais-la-Forêt",
+   "lat": 47.568888888889,
+   "lng": 1.36
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전체 생애의 사건 순서와 영문의 정보 범위는 유지했다. 모호한 지시어, 빠진 세부, 직역투 표현, 공연·개명·은퇴 생활을 부자연스럽게 서술한 문장을 자연스러운 한국어로 바로잡았다.",
+  "issues": [
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이미 그곳에 자리 잡은」은 바로 앞 문장을 거슬러 올라가야 장소를 알 수 있고, 「처가 성을 붙여 부르기 시작했다」는 누구의 어떤 이름에 붙였는지가 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「성을 공식으로 바꾸다」는 법적 이름 변경을 청원했다는 영문의 행위를 정확히 드러내지 못했다. 오랜 투병이라는 세부도 국문에서 빠졌고, 「어린아이들이 남았다」는 표현이 부자연스러웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "두 번째 아내의 이름이 영문의 전체 이름보다 축약되어 있었으며, Olympe가 「올리프」로 잘못 옮겨져 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "공연명인 Fantastic Evenings가 「환상 저녁」으로 어색하게 옮겨졌고, 「팔레 루아얄 발루아 거리 이층」과 「장터 옷」도 장소와 의상의 관계를 자연스럽게 이해하기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일주일에 세 번 올렸다」는 무엇을 올렸는지 목적어가 없고, 「빅토리아 여왕 앞에도 섰다」는 실제 행위인 공연을 막연하게 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "인물 이름과 무대 이름이 쉼표로 나열되어 관계가 매끄럽지 않았고, 「전기와 기계로 그 집을 손보다」는 집에 장치를 설치했다는 뜻을 분명하게 전달하지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「마라부트의 기적을 깨다」는 무엇을 약화하려 했는지 뜻을 짐작해야 했고, 「그 일로 훈장을 주었다」도 공로와 수훈자의 관계가 흐릿했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「은퇴한 집에서」는 은퇴와 집의 관계를 잘못 결합한 직역투였고, 두 권으로 이루어진 저술과 머리말의 날짜도 더 자연스럽게 서술할 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「몸이 무너져 폐렴이 왔다」는 주어와 질병의 관계가 부자연스럽고, 「장지는 …다」는 매장 사실을 명사로만 처리해 생애의 마지막 사건과 연결되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

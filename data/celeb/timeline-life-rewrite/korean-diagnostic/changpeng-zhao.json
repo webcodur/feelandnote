@@ -1,0 +1,285 @@
+{
+ "slug": "changpeng-zhao",
+ "events": [
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "birth",
+   "title": "간위에서 태어나다",
+   "title_en": "Born in Ganyu",
+   "description": "부모는 둘 다 학교 선생이었다. 아버지 자오성카이는 대학에서 가르치다 그가 태어난 직후 자산계급 지식인으로 몰려 농촌으로 쫓겨났다.",
+   "description_en": "Both parents were schoolteachers. His father, Zhao Shengkai, taught at a university, then was branded a pro-bourgeois intellectual and sent to the countryside shortly after the boy was born.",
+   "place_name": "롄윈강",
+   "place_name_en": "Lianyungang",
+   "lat": 34.59057,
+   "lng": 119.1801
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 캐나다로 건너가다",
+   "title_en": "Family emigrates to Canada",
+   "description": "열두 살이었다. 아버지는 1984년 브리티시컬럼비아대학교 박사과정으로 먼저 떠났고, 톈안먼 시위 뒤에 나머지 가족이 따라갔다. 그는 맥도날드와 주유소에서 일하며 집안에 보탰다. 아버지는 286 컴퓨터를 사서 아들 앞에 놓았다.",
+   "description_en": "He was twelve. His father had left in 1984 for a doctorate at the University of British Columbia, and the rest of the family followed after the Tiananmen protests. He worked at a McDonald’s and a gas station to help the household. His father bought a 286 computer and put it in front of him.",
+   "place_name": "밴쿠버",
+   "place_name_en": "Vancouver",
+   "lat": 49.26083333333333,
+   "lng": -123.1138888888889
+  },
+  {
+   "year": 1995,
+   "year_end": 2000,
+   "kind": "education",
+   "title": "맥길대학교에서 컴퓨터과학을 공부하다",
+   "title_en": "Studies computer science at McGill",
+   "description": "밴쿠버에서 고등학교를 마친 뒤 몬트리올로 왔다. 처음에는 생물학을 전공하다가 컴퓨터과학으로 전공을 바꿨다. 아버지는 한때 맥길대학교의 방문학자였다.",
+   "description_en": "He came after finishing high school in Vancouver. He started in biology, then switched majors. His father had once been a visiting scholar at the same university.",
+   "place_name": "몬트리올",
+   "place_name_en": "Montreal",
+   "lat": 45.5033426,
+   "lng": -73.5868411
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "도쿄증권거래소 계약업체에서 인턴으로 일하다",
+   "title_en": "Interns for a Tokyo Stock Exchange contractor",
+   "description": "주문 체결 소프트웨어를 짰다. 이후 블룸버그 트레이드북이 그를 정규직으로 뽑았다.",
+   "description_en": "He wrote software that matched trade orders. Bloomberg Tradebook later hired him full-time.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 2001,
+   "year_end": 2005,
+   "kind": "work",
+   "title": "블룸버그 트레이드북에서 선물 소프트웨어를 짜다",
+   "title_en": "Builds futures software at Bloomberg Tradebook",
+   "description": "선물거래 시스템을 개발했다. 이후 선물 연구개발 팀장을 맡았다.",
+   "description_en": "He developed futures-trading systems. He later headed the futures research and development team.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2005,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "상하이에서 퓨전 시스템스를 세우다",
+   "title_en": "Founds Fusion Systems in Shanghai",
+   "description": "증권사에 고빈도 거래 소프트웨어를 팔았다. 골드만삭스와 크레디트스위스가 고객이었다.",
+   "description_en": "He sold high-frequency trading software to brokerages. Goldman Sachs and Credit Suisse were among the clients.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2013,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "비트코인을 접하고 암호화폐 회사로 옮기다",
+   "title_en": "Encounters bitcoin and moves into crypto",
+   "description": "포커 자리에서 보비 리를 만났다. 리는 자산의 10퍼센트를 비트코인에 넣으라고 했고, 그는 블록체인닷인포의 개발 책임자로 합류했다. 여덟 달 뒤 이허의 권유로 오케이코인 최고기술책임자가 되었다. 얼마 뒤 상하이 아파트를 팔아 비트코인을 샀다.",
+   "description_en": "He met Bobby Lee at a poker table. Lee told him to put 10 percent of his money into bitcoin, and he joined Blockchain.info as head of development. Eight months later, at Yi He’s urging, he became chief technology officer of OKCoin. Soon after, he sold his Shanghai apartment and bought bitcoin.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2015,
+   "year_end": 2017,
+   "kind": "work",
+   "title": "거래소에 시스템을 파는 비지에테크를 세우다",
+   "title_en": "Founds BijieTech to sell exchange systems",
+   "description": "아시아의 거래소 30곳이 넘는 곳에 클라우드 거래 시스템을 공급했다. 첫해 매출은 3천610만 위안이었다. 중국이 국내 거래소를 닫기 시작하자 고객들이 이탈했다.",
+   "description_en": "He supplied cloud trading systems to more than thirty exchanges in Asia. First-year revenue was 36.1 million yuan. When China began shutting domestic exchanges, clients fell away.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "바이낸스를 창업하다",
+   "title_en": "Founds Binance",
+   "description": "이허와 함께 암호화폐 거래소를 열었다. 바이낸스 코인을 공개 판매해 1천5백만 달러를 모았고, 열하루 뒤에 거래가 시작됐다.",
+   "description_en": "He opened a cryptocurrency exchange with Yi He. They raised 15 million dollars by offering Binance Coin, and trading started eleven days later.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2017,
+   "year_end": 2018,
+   "kind": "travel",
+   "title": "중국이 거래소를 닫자 도쿄로 옮기다",
+   "title_en": "Moves to Tokyo after China shuts exchanges",
+   "description": "베이징과 상하이는 비트코인 거래소에 폐업 계획을 내라고 했다. 그는 알리바바 서버에 있던 데이터를 아마존 서버로 옮기고 사무실도 도쿄로 이전했다. 이듬해 바이낸스는 거래량 기준 세계 1위 거래소가 되었다.",
+   "description_en": "Beijing and Shanghai ordered bitcoin exchanges to file shutdown plans. He moved the data off Alibaba servers onto Amazon and pulled the office to Tokyo. The next year Binance was the world’s largest exchange by trading volume.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "미국 은행비밀법 위반에 유죄를 인정하다",
+   "title_en": "Pleads guilty to a U.S. Bank Secrecy Act violation",
+   "description": "바이낸스가 효과적인 자금세탁방지 프로그램을 유지하지 못하게 한 혐의였다. 같은 날 바이낸스는 43억 달러를 지급하기로 합의했고, 그는 벌금 5천만 달러를 내고 최고경영자 자리에서 물러났다. 리처드 텅이 후임 최고경영자를 맡았다.",
+   "description_en": "The charge was that he caused Binance to fail to keep an effective anti-money-laundering program. The same day Binance agreed to pay 4.3 billion dollars, and he paid a 50 million dollar fine and stepped down as chief executive. Richard Teng took the job.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "other",
+   "title": "징역 4개월을 선고받다",
+   "title_en": "Sentenced to four months in prison",
+   "description": "연방법원의 리처드 존스 판사가 징역 4개월을 선고했다. 검찰은 그보다 긴 형을 구형했다.",
+   "description_en": "U.S. District Judge Richard Jones set the sentence. Prosecutors had asked for a longer term.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "other",
+   "title": "저보안 교도소에서 복역하다",
+   "title_en": "Serves the sentence in a low-security prison",
+   "description": "복역을 위해 저보안 연방교정시설에 들어갔다. 그해 9월 27일 풀려났다.",
+   "description_en": "He reported to a federal correctional institution. He was released on September 27 that year.",
+   "place_name": "롬폭",
+   "place_name_en": "Lompoc",
+   "lat": 34.646111111111,
+   "lng": -120.46027777778
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "other",
+   "title": "미국 대통령의 사면을 받다",
+   "title_en": "Receives a U.S. presidential pardon",
+   "description": "도널드 트럼프가 전면적이고 무조건적인 사면장에 서명했다. 사면 대상은 그가 유죄를 인정한 은행비밀법 위반이었다.",
+   "description_en": "Donald Trump signed a full and unconditional pardon. It covered the Bank Secrecy Act offense to which he had pleaded guilty.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 의미와 세부 정보는 보존하면서, 한국어만 읽었을 때 대상이 불분명하거나 직역투·구어체로 보이는 문장을 다듬었다. 영문과 수치가 달랐던 첫해 매출과 거래소 수는 영문에 맞춰 바로잡았다.",
+  "issues": [
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고등학교를 마치고 왔다」는 어디로 왔다는 것인지 본문만으로 알기 어렵고, 「생물학을 듣다 전공을 바꿨다」는 전공 변경 관계가 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「도쿄증권거래소 하청에서」는 업체가 생략되어 뜻을 짐작해야 했고, 「뒤에」는 문어 서술에서 다소 거칠었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에」를 시간 관계가 자연스럽게 이어지도록 「이후」로 다듬었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「포커판」은 지나치게 구어적이고, 「블록체인닷인포 개발 책임으로 들어갔다」는 직책과 합류 행동의 관계가 어색했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "국문은 거래소 수를 정확히 서른 곳, 첫해 매출을 3천6백만 위안으로 적었지만 영문은 각각 30곳 초과, 3천610만 위안이라고 했다. 「고객이 줄었다」도 고객 이탈을 뜻하는 영문보다 의미가 약했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「바이낸스 코인을 공개해 돈을 모았다」는 코인을 어떤 방식으로 활용해 자금을 모았는지 행동 관계가 충분히 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「데이터를 아마존으로 옮기고」는 출발점과 도착점의 어순이 거칠고, 「사무실을 도쿄로 뺐다」는 구어적이었다. 마지막 문장에는 세계 1위가 된 주체가 명시되지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자금세탁방지 프로그램을 제대로 두지 못하게 했다」는 유지 의무와 행위의 관계가 어색했고, 합의와 후임 취임도 더 명확하게 표현할 필요가 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "판사가 「형을 정했다」는 표현은 법원의 선고를 서술하기에 부자연스럽고, 검찰의 요구는 「구형했다」로 쓰는 편이 정확했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연방교정시설에 들어갔다」만으로는 제목과 영문에 있는 저보안 시설 복역이라는 정보가 본문에서 충분히 이어지지 않았다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대상은 그가 유죄를 인정한」은 무엇의 대상인지 앞 문장에 기대어 읽어야 하므로 「사면 대상」을 명시했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   2,
+   3,
+   4,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

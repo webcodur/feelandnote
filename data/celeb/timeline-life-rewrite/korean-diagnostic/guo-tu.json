@@ -1,0 +1,232 @@
+{
+ "slug": "guo-tu",
+ "events": [
+  {
+   "year": 155,
+   "year_end": null,
+   "kind": "birth",
+   "title": "영천에서 태어나다",
+   "title_en": "Is born in Yingchuan",
+   "description": "《삼국지》와 《후한서》는 출생 연도를 기록하지 않았으며, 후대 기록은 155년으로 본다. 자는 공칙이다. 남양 출신의 음수가 영천태수로 있을 때 계리로 발탁됐다. 사승이 지은 《후한서》의 종요전에도 곽도의 이름이 남아 있다. 종요, 순욱, 순유도 같은 명부에서 함께 발탁됐다.",
+   "description_en": "The Records of the Three Kingdoms and the Book of the Later Han give no birth year. Later accounts put it at 155. His courtesy name was Gongze. When Yin Xiu of Nanyang governed Yingchuan he was taken as a census clerk. Xie Cheng’s Book of the Later Han keeps his name in Zhong Yao’s biography. Zhong Yao, Xun Yu, and Xun You rose from that same roster.",
+   "place_name": "위저우",
+   "place_name_en": "Yuzhou",
+   "lat": 34.15113,
+   "lng": 113.47334
+  },
+  {
+   "year": 191,
+   "year_end": null,
+   "kind": "other",
+   "title": "한복을 설득해 기주를 원소에게 넘기다",
+   "title_en": "Talks Han Fu into ceding Ji to Yuan Shao",
+   "description": "신평, 순심과 함께 기주목 한복을 찾아갔다. 공손찬이 남쪽에서 압박해 오는 상황을 들어 한복에게 기주를 원소에게 넘기라고 설득했다. 한복이 업을 떠난 뒤에는 원소의 막하에 들어갔다.",
+   "description_en": "With Xin Ping and Xun Chen he went to inspector Han Fu of Ji. Gongsun Zan was pressing from the south, and they told Han Fu to give up the seat. When Han Fu left Ye, Guo Tu entered Yuan Shao’s service.",
+   "place_name": "린장",
+   "place_name_en": "Linzhang",
+   "lat": 36.33518,
+   "lng": 114.60843
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "other",
+   "title": "헌제를 맞이할지를 두고 기록이 갈리다",
+   "title_en": "Records split on welcoming Emperor Xian",
+   "description": "헌제가 장안을 빠져나와 하동에 머물 때 원소가 사자를 보냈다. 《삼국지》 원소전은 곽도가 돌아와 헌제를 업으로 맞아들이자고 권했으나 원소가 거절했다고 전한다. 반면 《헌제전》과 《후한서》는 저수가 헌제를 맞이하자고 주장했고, 곽도와 순우경이 반대해 원소가 계획을 접었다고 기록한다. 배송지는 두 기록이 서로 모순된다고 지적했다. 그사이 조조는 헌제를 허로 맞아들였다.",
+   "description_en": "When Emperor Xian fled Chang’an to Hedong, Yuan Shao sent an envoy. The Records’ life of Yuan Shao says Guo Tu came back urging that the emperor be received at Ye, and that Shao refused. The Xiandi Zhuan and the Book of the Later Han say Ju Shou urged the reception and that Guo Tu and Chunyu Qiong opposed it until Shao dropped the plan. Pei Songzhi noted that the two accounts contradict each other. In the meantime Cao Cao took the emperor to Xu.",
+   "place_name": "린장",
+   "place_name_en": "Linzhang",
+   "lat": 36.33518,
+   "lng": 114.60843
+  },
+  {
+   "year": 199,
+   "year_end": null,
+   "kind": "other",
+   "title": "조조와의 속전을 주장하고 저수의 군권을 나누다",
+   "title_en": "Urges a quick war and splits Ju Shou’s command",
+   "description": "공손찬을 멸망시킨 뒤 저수와 전풍은 지구전을 주장했다. 곽도와 심배는 병력이 열 배면 포위하고 다섯 배면 공격하면 된다고 맞섰고, 원소는 이들의 의견을 따랐다. 곽도는 이어 저수가 안팎의 군권을 모두 쥐고 있다고 참소했다. 원소는 감군의 지휘권을 셋으로 나눠 저수, 순우경, 곽도에게 각각 한 군씩 맡겼다.",
+   "description_en": "After Gongsun Zan was destroyed, Ju Shou and Tian Feng asked for a war of endurance. Guo Tu and Shen Pei argued that ten surround and five attack, and Yuan Shao took their side. Guo Tu then slandered Ju Shou for holding the army inside and out. Shao split the inspectorate into three and gave one command each to Ju Shou, Chunyu Qiong, and Guo Tu.",
+   "place_name": "린장",
+   "place_name_en": "Linzhang",
+   "lat": 36.33518,
+   "lng": 114.60843
+  },
+  {
+   "year": 200,
+   "year_end": null,
+   "kind": "battle",
+   "title": "백마에서 안량과 함께 패하다",
+   "title_en": "Is beaten with Yan Liang at Baima",
+   "description": "원소는 안량을 보내 유연이 지키는 백마를 공격하게 하고, 곽도와 순우경에게 그 뒤를 받치게 했다. 조조가 경무장한 병력을 이끌고 구원에 나서자 안량이 죽고 군대가 무너졌다. 《삼국지》 관우전은 관우가 안량의 목을 베었다고 기록한다. 《삼국지연의》는 이를 관우가 단칼에 안량을 베는 장면으로 확대했다.",
+   "description_en": "Yuan Shao sent Yan Liang against Baima, held by Liu Yan. Guo Tu and Chunyu Qiong backed the attack. Cao Cao came in light force, Yan Liang was killed, and the army broke. Guan Yu’s biography in the Records says Guan Yu took the head. The Romance enlarges that one stroke.",
+   "place_name": "활현",
+   "place_name_en": "Hua County",
+   "lat": 35.57797,
+   "lng": 114.51894
+  },
+  {
+   "year": 200,
+   "year_end": null,
+   "kind": "battle",
+   "title": "관도에서 조조 본진을 치자고 하다",
+   "title_en": "Urges an attack on Cao Cao’s camp at Guandu",
+   "description": "조조가 오소의 군량을 불태우러 출병하자 장합과 고람은 오소를 구원하자고 주장했다. 곽도는 조조의 본진을 점령하면 조조가 돌아갈 곳이 없어질 것이라고 맞섰다. 원소는 곽도의 말을 따라 두 장수에게 조조의 본진을 공격하게 했다. 본진을 함락하지 못하자 곽도는 장합이 전력을 다하지 않았다고 참소했다. 장합과 고람은 처벌을 두려워해 조조에게 귀순했고, 원소의 군대는 무너졌다.",
+   "description_en": "Cao Cao rode to burn the stores at Wuchao. Zhang He and Gao Lan wanted to relieve Wuchao. Guo Tu said that if they took the main camp Cao would have nowhere to return. Yuan Shao sent them against the camp. When it did not fall, Guo Tu accused Zhang He of holding back. The two generals, afraid, went over to Cao. Yuan’s army collapsed.",
+   "place_name": "중모",
+   "place_name_en": "Zhongmu",
+   "lat": 34.72634,
+   "lng": 114.01074
+  },
+  {
+   "year": 202,
+   "year_end": null,
+   "kind": "office",
+   "title": "원소 사후 원담을 보좌하다",
+   "title_en": "Serves Yuan Tan after Yuan Shao’s death",
+   "description": "심배와 봉기 등은 원소의 셋째 아들 원상을 후계자로 세웠다. 곽도와 신평은 맏아들 원담의 편에 섰다. 원담은 거기장군을 자칭하고 여양으로 진군했다.",
+   "description_en": "Shen Pei, Pang Ji, and others raised the third son, Yuan Shang, as heir. Guo Tu and Xin Ping stood with the eldest, Yuan Tan. Tan styled himself general of chariots and cavalry and moved out to Liyang.",
+   "place_name": "준현",
+   "place_name_en": "Xun County",
+   "lat": 35.67157,
+   "lng": 114.54399
+  },
+  {
+   "year": 203,
+   "year_end": null,
+   "kind": "other",
+   "title": "원담을 부추겨 원상을 치게 하다",
+   "title_en": "Pushes Yuan Tan to attack Yuan Shang",
+   "description": "조조가 물러나자 원담은 원상에게 갑옷과 병력을 내달라고 요구했으나 원상은 거절했다. 곽도와 신평은 심배가 원소의 유언을 고쳐 썼다고 원담에게 말했다. 형제는 업의 외문에서 맞붙었고 원담이 패했다. 《후한서》는 원담이 남피로 물러났다고 기록하고, 《무제기》는 평원으로 달아났다고 전한다.",
+   "description_en": "When Cao Cao pulled back, Yuan Tan asked for armor and troops. Yuan Shang refused. Guo Tu and Xin Ping told Tan that Shen Pei had rewritten the will. The brothers met at Ye’s outer gate and Tan was broken. The Book of the Later Han has him fall back to Nanpi. The Annals of Emperor Wu have him flee to Pingyuan.",
+   "place_name": "린장",
+   "place_name_en": "Linzhang",
+   "lat": 36.33518,
+   "lng": 114.60843
+  },
+  {
+   "year": 203,
+   "year_end": null,
+   "kind": "other",
+   "title": "원담을 시켜 조조를 불러 원상을 치게 하다",
+   "title_en": "Has Yuan Tan call Cao Cao against Yuan Shang",
+   "description": "원상이 평원을 거세게 포위했다. 곽도는 조조를 부르면 원상이 업으로 돌아갈 것이며, 그사이 조 이북의 땅을 차지할 수 있다고 말했다. 원담은 신비를 사자로 보냈다. 《삼국지연의》는 곽도가 이 자리에서 원상을 죽인 뒤 어부지리를 취하자고 꾸몄다고 서술하지만, 정사는 조조에게 원상을 공격하게 하자는 계책만 기록한다.",
+   "description_en": "Yuan Shang pressed the siege of Pingyuan. Guo Tu said that if they called Cao Cao, Shang would run back to Ye and they could take the land north of Zhao in the interval. Tan sent Xin Pi as envoy. The Romance has him plot to kill Shang and take the leftover. The official histories record only the plan to have Cao strike Shang.",
+   "place_name": "핑위안",
+   "place_name_en": "Pingyuan",
+   "lat": 37.166666666667,
+   "lng": 116.43333333333
+  },
+  {
+   "year": 205,
+   "year_end": null,
+   "kind": "death",
+   "title": "남피가 함락되자 죽임을 당하다",
+   "title_en": "Is killed when Nanpi falls",
+   "description": "원담은 조조와 혼인 관계를 맺었다가 다시 등을 돌렸다. 건안 10년 정월에 남피가 함락됐다. 《후한서》는 원담이 말에서 떨어진 뒤 참수됐으며, 곽도와 그의 처자도 함께 죽임을 당했다고 전한다. 《삼국지연의》 33회는 악진이 성벽 위에서 원담을 활로 쏘아 말과 함께 해자에 빠뜨렸다고 서술하지만, 정사에는 그 장면이 없다.",
+   "description_en": "Yuan Tan bound himself to Cao Cao by marriage and then turned away. In the first month of Jian’an 10 Nanpi fell. The Book of the Later Han says Tan was unhorsed and beheaded, and that Guo Tu and his wives and children were killed with him. Romance chapter 33 has Yue Jin shoot him from the wall into the moat, horse and rider together. The official histories have no such scene.",
+   "place_name": "난피",
+   "place_name_en": "Nanpi",
+   "lat": 38.0405,
+   "lng": 116.6965
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "영문과 대조해 직역투, 모호한 지시 관계, 부자연스러운 전투·관직 표현을 바로잡고 사건 사이의 흐름을 정리했다. 다만 index 8의 ‘조 이북’은 영문 ‘the land north of Zhao’도 지명을 확정하기에 모호해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘뒤 기록이 155년으로 잡는다’, ‘같은 자리에서 함께 올랐다’가 각각 어떤 기록과 명부를 가리키는지 매끄럽게 전달되지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘남쪽에서 밀어붙이는 판에 자리를 내놓으라 했다’가 지나치게 구어적이고, 누가 무엇을 넘기도록 설득했는지 관계가 선명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "서로 모순되는 기록을 설명하는 대목에서 ‘모시자고 했다’가 반복돼 대상과 주장의 차이가 흐릿했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 ‘조조와 속전을 주장하다’는 곽도가 조조와 함께 주장했다는 뜻으로 읽힐 수 있었다. ‘열이 에우고 다섯이 치면 된다’, ‘삼군을 흔든다’도 한문을 직역한 형태라 병력과 군권의 관계를 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘조조가 가벼이 구원하다’와 ‘그 한 칼을 키워 쓰다’가 영문의 light force와 enlarges that one stroke를 어순대로 옮긴 표현이라 구체적인 행동이 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘성이 안 떨어지자’, ‘힘을 안 썼다’, ‘조조에게 넘어갔다’가 구어적이거나 대상을 뭉뚱그려 관도 전투의 진행을 정확히 따라가기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘셋째 원상’, ‘맏이 원담’이 부자연스러운 축약이어서 원소의 아들들 사이에 벌어진 후계 구도가 선명하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘유명을 고쳤다’, ‘원담이 깨졌다’가 뜻을 짐작해야 하는 표현이었고, 서로 다른 사서가 기록한 원담의 퇴각지를 자연스럽게 구분하지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목만으로는 조조를 부른 사람이 원담이라는 관계가 드러나지 않았다. ‘조 이북’은 국문과 영문 모두 정확한 지명 범위가 불분명하다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘남피가 떨어지다’, ‘그와 처자를 함께 죽이다’, ‘성호에서 활로 쏘다’가 각각 직역투이거나 지시 대상과 행동 관계가 모호했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 8,
+    "reason": "국문의 ‘조 이북’과 영문의 ‘the land north of Zhao’만으로는 ‘조’가 어떤 지명이나 지역을 가리키는지 확정할 수 없다. 정확한 한자 지명과 범위는 문장 편집만으로 판단할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

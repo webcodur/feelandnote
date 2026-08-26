@@ -1,0 +1,230 @@
+{
+ "slug": "billy-the-kid",
+ "events": [
+  {
+   "year": 1859,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴욕에서 태어나다",
+   "title_en": "Is born in New York",
+   "description": "아일랜드 이민 집안에서 헨리 매카티라는 이름으로 태어났다. 생일은 9월 17일과 11월 23일 설이 갈린다. 어머니는 캐서린, 동생은 조지프였다. 아버지 이름을 패트릭으로 적은 기록과, 신원을 단정하지 못하는 기록이 함께 남았다.",
+   "description_en": "He was born Henry McCarty in an Irish immigrant household. Historians split between September 17 and November 23. His mother was Catherine and his younger brother was Joseph. Some records name the father Patrick; others leave the father unidentified.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1873,
+   "year_end": null,
+   "kind": "other",
+   "title": "산타페에서 어머니가 재혼하다",
+   "title_en": "Mother remarries in Santa Fe",
+   "description": "캐서린이 윌리엄 앤트림과 장로교회에서 혼인했다. 헨리와 조지프가 증인으로 자리에 있었다. 집안은 곧 남서쪽 광산촌으로 내려갔다.",
+   "description_en": "Catherine married William Antrim at the Presbyterian church. Henry and Joseph stood as witnesses. The family soon moved south to a mining town.",
+   "place_name": "산타페",
+   "place_name_en": "Santa Fe",
+   "lat": 35.666666666667,
+   "lng": -105.96666666667
+  },
+  {
+   "year": 1874,
+   "year_end": null,
+   "kind": "other",
+   "title": "실버시티에서 어머니를 잃다",
+   "title_en": "Loses his mother in Silver City",
+   "description": "캐서린이 결핵으로 죽었다. 의붓아버지는 소년을 키우는 데 별 관심을 보이지 않았다. 헨리는 사라 브라운의 하숙집에서 일하는 조건으로 숙식을 해결했다.",
+   "description_en": "Catherine died of tuberculosis. The stepfather showed little interest in raising the boy. Henry stayed at Sarah Brown's boarding house in exchange for work.",
+   "place_name": "실버시티",
+   "place_name_en": "Silver City",
+   "lat": 32.7725,
+   "lng": -108.27936111111111
+  },
+  {
+   "year": 1875,
+   "year_end": null,
+   "kind": "other",
+   "title": "실버시티에서 처음 수감되다",
+   "title_en": "Is jailed for the first time in Silver City",
+   "description": "보안관 하비 화이트힐이 세탁물 절도 혐의로 그를 가두었다. 그는 구치소를 빠져나와 애리조나 준주로 갔다. 그레이엄군에서 마차꾼과 목동으로 일하며 키드 앤트림으로 불렸다.",
+   "description_en": "Sheriff Harvey Whitehill jailed him for stealing laundry. He left the jail and went to Arizona Territory. In Graham County he worked as a teamster and cowboy and was called Kid Antrim.",
+   "place_name": "실버시티",
+   "place_name_en": "Silver City",
+   "lat": 32.7725,
+   "lng": -108.27936111111111
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "work",
+   "title": "턴스털 목장에서 일하다",
+   "title_en": "Works on Tunstall's ranch",
+   "description": "애리조나에서 벌어진 싸움으로 한 사람이 죽자 수배자가 되어 뉴멕시코로 돌아왔다. 이름을 윌리엄 H. 보니로 바꾸고, 잉글랜드인 존 턴스털의 목장에서 일했다. 턴스털과 변호사 알렉산더 맥스윈은 로런스 머피와 제임스 돌런의 상점을 중심으로 한 세력과 포트스탠턴 소고기 납품 계약을 두고 맞섰다.",
+   "description_en": "After a fight in Arizona left a man dead, he became wanted and returned to New Mexico. He took the name William H. Bonney and worked on Englishman John Tunstall's ranch. Tunstall and lawyer Alexander McSween were challenging Lawrence Murphy and James Dolan's store faction over the Fort Stanton beef contract.",
+   "place_name": "링컨",
+   "place_name_en": "Lincoln",
+   "lat": 33.491944444444,
+   "lng": -105.38388888889
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "battle",
+   "title": "링컨 카운티 전쟁에 가담하다",
+   "title_en": "Joins the Lincoln County War",
+   "description": "2월 18일 브래디 보안관 편에 선 무장대가 턴스털을 죽였다. 그는 딕 브루어가 이끄는 레귤레이터스에 들어갔다. 치안판사 존 윌슨이 영장을 내주었고, 레귤레이터스는 이를 근거로 체포 권한이 있다고 주장했다. 4월 1일 브래디와 부보안관 조지 힌드먼이 링컨 거리에서 숨졌고, 그는 두 사람의 살해에 연루됐다. 7월 닷새 동안 이어진 전투에서 맥스윈의 집이 불타고 맥스윈이 죽었다. 그는 불타는 집에서 빠져나왔다.",
+   "description_en": "On February 18 a posse aligned with Sheriff Brady killed Tunstall. He joined the Regulators under Dick Brewer. Justice of the peace John Wilson issued warrants. The group claimed the power to make arrests. On April 1 Brady and deputy George Hindman died on Lincoln's street. He was implicated in that killing. In the five-day fight in July, McSween's house burned and McSween died. He got out of that house.",
+   "place_name": "링컨",
+   "place_name_en": "Lincoln",
+   "lat": 33.491944444444,
+   "lng": -105.38388888889
+  },
+  {
+   "year": 1879,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "주지사 월리스를 만나다",
+   "title_en": "Meets Governor Wallace",
+   "description": "새 주지사 루 월리스가 링컨에 내려와 그를 몰래 만났다. 변호사 휴스턴 채프먼 살해 사건에 관해 증언하면 사면해 주겠다고 약속했다. 그는 증언했지만 지방검사는 그를 풀어 주지 않았고, 약속한 사면도 이루어지지 않았다. 그는 구금 상태에서 벗어났다.",
+   "description_en": "New territorial governor Lew Wallace came down to Lincoln and met him in secret. Wallace promised a pardon if he testified about lawyer Huston Chapman's killing. He testified. The district attorney would not release him, and the pardon never came. He left custody.",
+   "place_name": "링컨",
+   "place_name_en": "Lincoln",
+   "lat": 33.491944444444,
+   "lng": -105.38388888889
+  },
+  {
+   "year": 1880,
+   "year_end": null,
+   "kind": "other",
+   "title": "팻 개럿에게 붙잡히다",
+   "title_en": "Is captured by Pat Garrett",
+   "description": "링컨 카운티 새 보안관 팻 개럿이 포트섬너에서 그의 동료 톰 오폴리어드를 죽였다. 며칠 뒤 개럿은 포트섬너에서 동쪽으로 스물다섯 마일 떨어진 오두막에서 그와 남은 일행을 붙잡았다. 주지사는 현상금 오백 달러를 걸어 둔 상태였다. 그는 브래디 살해 혐의로 재판을 받기 위해 남쪽의 메실라로 옮겨졌다.",
+   "description_en": "New Lincoln County sheriff Pat Garrett killed his companion Tom O'Folliard at Fort Sumner. Days later Garrett took him and the remaining men at a cabin twenty-five miles east. The governor had posted a five-hundred-dollar reward. He was moved south to stand trial in Mesilla for Brady's killing.",
+   "place_name": "포트섬너",
+   "place_name_en": "Fort Sumner",
+   "lat": 34.471666666666664,
+   "lng": -104.24527777777777
+  },
+  {
+   "year": 1881,
+   "year_end": null,
+   "kind": "other",
+   "title": "메실라에서 사형 선고를 받다",
+   "title_en": "Is sentenced to hang in Mesilla",
+   "description": "브래디 살해 혐의만 법정에 남았다. 배심은 유죄를 인정했고, 판사 워런 브리스톨은 그를 5월 13일 교수형에 처하라고 선고했다. 링컨 카운티 전쟁으로 유죄 판결을 받은 사람은 그가 유일했다. 그는 링컨 법원 구치소로 돌려보내졌다.",
+   "description_en": "Only the Brady charge remained in court. The jury found him guilty, and Judge Warren Bristol sentenced him to hang on May 13. He was the only person convicted from the Lincoln County War. He was sent back to the Lincoln courthouse jail.",
+   "place_name": "메실라",
+   "place_name_en": "Mesilla",
+   "lat": 32.272777777778,
+   "lng": -106.80083333333
+  },
+  {
+   "year": 1881,
+   "year_end": null,
+   "kind": "other",
+   "title": "링컨 법원 구치소에서 탈출하다",
+   "title_en": "Escapes the Lincoln courthouse jail",
+   "description": "4월 28일 구치소를 빠져나왔다. 경비 제임스 벨과 밥 올린저가 그날 숨졌다. 그는 다시 도망자가 됐다.",
+   "description_en": "On April 28 he left the jail. Guards James Bell and Bob Olinger died that day. He was a fugitive again.",
+   "place_name": "링컨",
+   "place_name_en": "Lincoln",
+   "lat": 33.491944444444,
+   "lng": -105.38388888889
+  },
+  {
+   "year": 1881,
+   "year_end": null,
+   "kind": "death",
+   "title": "포트섬너에서 사망하다",
+   "title_en": "Dies at Fort Sumner",
+   "description": "팻 개럿의 총에 맞아 죽었다. 나이는 스물하나였다. 옛 군 묘지에 톰 오폴리어드, 찰리 보우드 곁에 묻혔다. 검시 배심은 시신의 신원을 확인하고, 그를 죽인 행위가 정당하다고 평결했다.",
+   "description_en": "He was shot and killed by Pat Garrett. He was twenty-one. He was buried in the old military cemetery beside Tom O'Folliard and Charlie Bowdre. A coroner's jury identified the body and ruled the killing justifiable.",
+   "place_name": "포트섬너",
+   "place_name_en": "Fort Sumner",
+   "lat": 34.471666666666664,
+   "lng": -104.24527777777777
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부를 유지하면서 직역투와 불분명한 지시어, 잘못 옮긴 용어를 바로잡았다. 사건의 대상과 행동 관계가 이미 자연스러운 문장은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소년을 키울 뜻이 적었다」와 「일을 하며 머물렀다」가 영어 어순을 따라 옮긴 표현이라 의지와 숙식 조건의 관계가 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목은 첫 수감을 뜻하지만 국문 제목은 체포만 나타냈다. 구치소를 떠난 과정과 teamster의 직종도 한국어에서 더 분명하게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 사람이 죽은 싸움 뒤에」와 「상점 세력」이 영어 문장 구조를 그대로 따른 표현이라 사건의 인과와 세력 관계가 매끄럽게 읽히지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "posse를 「포대」로 잘못 옮겼고, 「그 일」과 「그 집」은 앞 문장을 되짚어야 대상을 알 수 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사면은 오지 않았다」와 「구금에서 빠져나갔다」가 영어 표현을 직역한 문장이라 한국어의 사건 관계가 어색했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그와 남은 동료들」의 지시 대상이 흐릿했고, 영문에 있는 메실라의 방향 정보가 국문에서 빠져 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「5월 13일 교수형을 선고했다」는 선고가 내려진 날짜인지 교수형 집행 예정일인지 모호하게 읽혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 날」의 띄어쓰기를 바로잡았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 identified the body를 「죽음을 확인하고」로 잘못 옮겼으며, justifiable을 근거 없이 「정당방위」로 좁혀 번역했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

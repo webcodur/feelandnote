@@ -1,0 +1,289 @@
+{
+ "slug": "jonathan-hurst",
+ "events": [
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "출생 도시는 공개된 기록에서 확인되지 않는다. 훗날 카네기멜런에서 기계공학과 로봇공학을 공부했다.",
+   "description_en": "No public record names the city. He later studied mechanical engineering and robotics at Carnegie Mellon.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "education",
+   "title": "카네기멜런에서 기계공학 학사를 받다",
+   "title_en": "Earns a B.S. in mechanical engineering at Carnegie Mellon",
+   "description": "로봇공학을 부전공했다. 그해 가을 미국과학재단 대학원 펠로십을 받아 로봇공학 석사과정에 진학했다.",
+   "description_en": "He minored in robotics. That fall a National Science Foundation graduate fellowship carried him into the robotics master's program.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666667,
+   "lng": -80
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "education",
+   "title": "로봇공학 석사를 받다",
+   "title_en": "Earns an M.S. in robotics",
+   "description": "지도교수는 앨프리드 리치였다. 기계적으로 직렬 탄성을 조절할 수 있는 액추에이터 아마스크를 만들고, 로봇 다리에 스프링을 어떻게 적용할지 계속 실험했다.",
+   "description_en": "Alfred Rizzi was his adviser. He built the Actuator with Mechanically Adjustable Series Compliance and kept testing how a spring belongs in a robot leg.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666667,
+   "lng": -80
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "로봇공학 박사학위를 받다",
+   "title_en": "Earns a Ph.D. in robotics",
+   "description": "제시카 호진스가 지도했다. 논문에서는 다리로 걷는 로봇에서 탄성이 맡는 역할을 정리했다. 전기식 케이블 차동 다리를 적용해 섬퍼와 마벨을 만들었다. 마벨은 그해 여름 미시간대 제시 그리즐 연구실에서 조립됐다.",
+   "description_en": "Jessica Hodgins was his adviser. The dissertation set out the role of compliance in legged locomotion. He built the electric cable-differential leg into Thumper and MABEL. That summer MABEL was assembled in Jessy Grizzle's laboratory at the University of Michigan.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666667,
+   "lng": -80
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "office",
+   "title": "오리건주립대 첫 로봇공학 교수로 부임하다",
+   "title_en": "Joins Oregon State as its first robotics professor",
+   "description": "당시 학교에는 로봇공학 과정이 없었다. 동적로봇연구실을 열고 이족보행을 연구하는 팀을 꾸리기 시작했다. 훗날 그는 첫해에 로봇 동아리 회원이 몇 명에서 거의 200명으로 늘었다고 말했다.",
+   "description_en": "The university had no robotics program yet. He opened the Dynamic Robotics Laboratory and began building a research group around legged locomotion. He later said the robotics club grew from a handful of students to nearly two hundred in that first year.",
+   "place_name": "코밸리스",
+   "place_name_en": "Corvallis",
+   "lat": 44.570780555,
+   "lng": -123.275997222
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "office",
+   "title": "오리건주립대에 로봇공학 석·박사 과정을 열다",
+   "title_en": "Opens master's and doctoral programs in robotics at Oregon State",
+   "description": "당시 미국에서 로봇공학 석사와 박사 학위를 모두 주는 대학은 몇 곳뿐이었다. 교수진은 그래프홀을 로봇공학 연구의 새 거점으로 삼았다.",
+   "description_en": "Only a few universities in the country offered both degrees. The faculty took Graf Hall as their new home.",
+   "place_name": "코밸리스",
+   "place_name_en": "Corvallis",
+   "lat": 44.570780555,
+   "lng": -123.275997222
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "아트리아스로 사람의 보행 역학을 재현하다",
+   "title_en": "Reproduces human walking dynamics with ATRIAS",
+   "description": "아트리아스는 이족보행 로봇으로는 처음으로 스프링-질량 보행의 지면반력을 구현했다. 그해 국방고등연구계획국 로봇 챌린지 현장에서 걷고 뛰는 모습을 시연했다.",
+   "description_en": "It was the first biped to implement the ground-reaction forces of spring-mass walking. That year ATRIAS walked and ran in a live demonstration at the DARPA Robotics Challenge.",
+   "place_name": "코밸리스",
+   "place_name_en": "Corvallis",
+   "lat": 44.570780555,
+   "lng": -123.275997222
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "어질리티 로보틱스를 공동 창업하다",
+   "title_en": "Co-founds Agility Robotics",
+   "description": "데미언 셸턴, 미하일 존스와 함께 동적로봇연구실에서 회사를 분사했다. 이듬해 이족보행 로봇 캐시가 첫걸음을 뗐다.",
+   "description_en": "With Damion Shelton and Mikhail Jones he spun the company out of the Dynamic Robotics Laboratory. The next year the biped Cassie took its first steps.",
+   "place_name": "코밸리스",
+   "place_name_en": "Corvallis",
+   "lat": 44.570780555,
+   "lng": -123.275997222
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "캐시를 공개하고 연구실에 팔기 시작하다",
+   "title_en": "Unveils Cassie and begins selling it to research labs",
+   "description": "캐시는 몸통 없이 두 다리로 이루어진 연구용 로봇이었다. 오리건주립대 연례 연설에서 시연했고, 미시간대와 칼텍을 비롯한 연구실들이 캐시를 구입했다.",
+   "description_en": "It was a research pair of legs with no torso. He demonstrated it at Oregon State's State of the University address, and labs including Michigan and Caltech bought units.",
+   "place_name": "포틀랜드",
+   "place_name_en": "Portland",
+   "lat": 45.515,
+   "lng": -122.67916666666666
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "휴머노이드 디짓을 내놓다",
+   "title_en": "Unveils the humanoid Digit",
+   "description": "캐시에 몸통과 팔, 인식 장치를 더했다. 연구용 다리였던 캐시를 짐을 나르고 계단을 오를 수 있는 몸체로 발전시킨 단계였다. 그해 IEEE 스펙트럼은 이 개발 이야기를 표지에 실었다.",
+   "description_en": "It added a torso, arms and a perception system to Cassie. The step took a research pair of legs toward a body meant to carry loads and climb stairs. That year IEEE Spectrum put the story on its cover.",
+   "place_name": "올버니",
+   "place_name_en": "Albany",
+   "lat": 44.630277777,
+   "lng": -123.096111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "캐시로 이족보행 로봇 100미터 기록을 세우다",
+   "title_en": "Sets a bipedal-robot 100-meter record with Cassie",
+   "description": "화이트 육상장에서 24초 73을 기록했다. 선 자세로 출발해 넘어지지 않았고, 멈출 때도 서 있었다. 달리기 동작은 강화학습으로 익혔다.",
+   "description_en": "At Whyte Track and Field Center the run clocked 24.73 seconds. The robot started from a stand, did not fall, and stopped standing. The gait had been learned by reinforcement learning.",
+   "place_name": "코밸리스",
+   "place_name_en": "Corvallis",
+   "lat": 44.570780555,
+   "lng": -123.275997222
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "세일럼에 디짓 공장을 열다",
+   "title_en": "Opens a Digit factory in Salem",
+   "description": "로보팹을 지어 디짓을 대량 생산할 거점을 마련했다. 그해 물류 현장에 맞게 몸체도 다시 설계했다.",
+   "description_en": "RoboFab gave the company a place to build Digit at scale. That same year the team redesigned the body for warehouse work.",
+   "place_name": "세일럼",
+   "place_name_en": "Salem",
+   "lat": 44.94,
+   "lng": -123.03888888888889
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "아마존 물류창고 시험에 디짓을 투입하다",
+   "title_en": "Puts Digit into an Amazon warehouse test",
+   "description": "시애틀 남쪽의 연구시설에서 빈 운반 상자를 회수하는 작업을 맡겼다. 아마존은 이미 산업혁신펀드를 통해 투자한 상태였다.",
+   "description_en": "At a research site south of Seattle the robot was assigned tote recycling. Amazon had already invested through its Industrial Innovation Fund.",
+   "place_name": "서머",
+   "place_name_en": "Sumner",
+   "lat": 47.205833333333,
+   "lng": -122.23583333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 말하는 범위와 세부는 그대로 두고, 직역으로 흐트러진 주어·목적어·행동 관계와 불명확한 지시어를 바로잡았다. 학업에서 연구실 설립, 로봇 개발, 창업과 양산으로 이어지는 생애의 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에」가 시간의 흐름을 잇는 표현으로 어색하고, 「공개 자료에 나오지 않는다」도 다소 거칠었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "부전공을 「달았다」고 하고 석사과정에 진학한 일을 「올라갔다」고 표현해 학업 관계가 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스프링이 다리에 들어가는 방식」을 그대로 옮긴 탓에 무엇을 연구했는지 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다리 보행」과 「케이블 차동기어 다리로」가 한국어 기술 서술로 어색해 연구 대상과 제작 관계가 흐려졌다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이족보행 연구 집단」이 부자연스럽고, 동아리가 성장한 주체와 규모를 더 분명하게 쓸 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 학위를 함께 주는 학교」는 바로 앞 문장만으로 두 학위가 무엇인지 파악해야 했고, 「새 자리로 잡았다」도 직역에 가까웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「사람 걸음 역학」이 어색했고, 본문에서는 지면반력을 구현하고 현장에서 시연한 주체가 명시되지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "연구실에서 회사를 분사한 일을 「회사를 떼어 냈다」고 표현해 뜻은 짐작할 수 있지만 자연스러운 한국어가 아니었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "캐시를 「상체 없는 연구용 다리」라고만 써서 로봇이라는 대상이 바로 드러나지 않았고, 판매 문장도 다소 거칠었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 없는 「완성형」이라는 평가가 들어갔고, 「몸체로 넘겼다」는 개발 단계의 의미를 알아보기 어려운 직역이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「24초 73을 찍었다」가 구어적이었고, 멈출 때까지 선 자세를 유지했다는 영문을 「다시 섰다」로 잘못 옮겼다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「양산 자리를 잡았다」는 공장이 대량 생산 거점을 제공했다는 뜻을 불분명하게 전달했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「창고 시험에 넣다」가 부자연스럽고, tote recycling을 단순히 「빈 상자를 나르는 일」이라고 표현해 작업의 대상과 행동이 흐려졌다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

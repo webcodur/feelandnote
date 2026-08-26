@@ -1,0 +1,162 @@
+{
+ "slug": "baek-mun-oh",
+ "events": [
+  {
+   "year": 1928,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Is born",
+   "description": "출생지는 공개된 기록에서 확인되지 않는다. 서른이 되던 해에는 대령으로서 전쟁 중 유격전과 첩보 활동에 참여했던 장병들을 한데 모았다.",
+   "description_en": "No public record gives a birthplace. In the year he turned thirty he stood as a colonel gathering men who had fought as guerrillas and intelligence soldiers in the war.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "office",
+   "title": "제1전투단 지휘를 맡다",
+   "title_en": "Takes command of the 1st Combat Group",
+   "description": "육군본부 특전감실은 휴전 뒤 육군 각 부대로 흩어진 유격·첩보 장병들을 다시 불러 모았다. 한국전쟁 당시 켈로부대와 제8240유격첩보부대에서 복무한 장병들이 중심을 이뤘다. 부대는 4월 1일 위장 부대번호 7725로 창설됐다.",
+   "description_en": "The Army Headquarters special-warfare staff recalled guerrilla and intelligence veterans scattered through the army after the armistice. Men from the Korean War KLO unit and the 8240th Combined Activities Group formed the core. The unit stood up on April 1 under the cover number 7725.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "work",
+   "title": "창설 요원을 오키나와로 보내다",
+   "title_en": "Sends founding personnel to Okinawa",
+   "description": "창설 요원들을 미 육군 제1특전단 교육대로 보내 공수 및 특수전 훈련을 받게 했다. 교육은 4월 15일 시작됐다. 오키나와로 건너간 이들은 새 부대를 세울 요원들이었다.",
+   "description_en": "He sent the founding cadre to the U.S. Army 1st Special Forces Group school for airborne and special-warfare training. The course began on April 15. The men who crossed were the new unit's founding personnel.",
+   "place_name": "오키나와",
+   "place_name_en": "Okinawa",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "work",
+   "title": "귀국 요원으로 자체 교육을 시작하다",
+   "title_en": "Starts domestic training with the returned cadre",
+   "description": "오키나와 교육을 마친 인원 가운데 일부가 교관과 조교를 맡았다. 이들은 1기 이후 새로 합류한 대원들에게 국내에서 공수 및 특수전 기술을 가르쳤다.",
+   "description_en": "Some of those who finished the Okinawa course became instructors and assistants. They taught airborne and special-warfare skills in Korea to men who joined after the first intake.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "office",
+   "title": "제1공수특전단으로 이름을 바꾸다",
+   "title_en": "The unit is renamed the 1st Airborne Special Forces Group",
+   "description": "창설 6개월 만에 부대 명칭에 공수가 붙었다. 오키나와 교육을 마친 뒤 부대는 공수특전단으로 불리게 됐다.",
+   "description_en": "Six months after stand-up the name took on airborne. After the Okinawa course the unit was called an airborne special-forces group.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "other",
+   "title": "육군특수전부대령이 제정되다",
+   "title_en": "The Army Special Forces Decree is issued",
+   "description": "법령 제1조는 특수전을 수행하기 위해 육군에 특전부대를 둔다고 규정했다. 그가 창설한 전투단은 이 법령으로 특전부대의 법적 근거를 갖추게 됐다.",
+   "description_en": "Article 1 of the decree said the Army would keep a special-forces unit in order to conduct special warfare. The combat group he had stood up now sat on a statutory footing.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "publish",
+   "title": "특수부대의 사명을 글로 정리하다",
+   "title_en": "Writes on the mission of special forces",
+   "description": "《군사평론》 22호에 〈현대전 특수부대의 사명〉을 실었다. 부대를 창설한 뒤 특수전의 임무와 운용 방식을 정리해 남긴 글이다.",
+   "description_en": "He published “The Mission of Special Forces in Modern Warfare” in issue 22 of Gunsa Pyeongnon. It is the record of how he set down the mission and employment of special warfare after standing the unit up.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "여러 문장에서 영문 어순을 따른 표현과 주체가 흐릿한 서술을 바로잡았다. 출생부터 부대 창설·교육·법제화·저술로 이어지는 흐름은 유지하되, 영문이 말하지 않은 사실이나 평가는 보태지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대령으로 … 모으는 자리에 선다」는 영문의 stood as a colonel gathering을 직역해 실제 행동이 선명하지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "국문 제목의 「초대」는 영문에 없으므로 삭제했다. 또한 7725가 단순한 번호가 아니라 위장 부대번호라는 관계를 분명히 했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「교육대에 공수와 특수전을 맡겼다」는 무엇을 누구에게 맡겼는지 불분명했고, 「건넌 쪽」은 사람을 가리키는 부자연스러운 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「오키나와를 마친 인원」은 장소 자체를 마쳤다는 뜻으로 읽혔다. 교육을 마친 사람들이 교관과 조교가 되었다는 관계를 명확히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부대 이름에 공수가 들어갔다」와 「공수 특수전 편제로 불렸다」는 명칭 변경을 어색하게 풀어 쓴 표현이었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「법령상 특전부대의 자리에 놓였다」는 statutory footing을 그대로 옮긴 듯한 추상적 표현이라 법적 근거를 갖추었다는 뜻으로 바로잡았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「글로 남긴 기록이다」는 같은 뜻을 겹쳐 쓴 표현이라, 실제로 무엇을 정리한 글인지 곧바로 드러나도록 다듬었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ]
+ }
+}

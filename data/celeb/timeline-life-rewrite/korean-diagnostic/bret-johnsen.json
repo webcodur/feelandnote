@@ -1,0 +1,272 @@
+{
+ "slug": "bret-johnsen",
+ "events": [
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "birth",
+   "title": "로스앤젤레스에서 태어나다",
+   "title_en": "Born in Los Angeles",
+   "description": "로스앤젤레스에서 태어나 남캘리포니아에서 자랐다. 정확한 생일은 공개되지 않았다.",
+   "description_en": "He was born in Los Angeles and grew up in Southern California. His exact birthday was not made public.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "남캘리포니아 대학교에서 회계를 배우다",
+   "title_en": "Studies accounting at USC",
+   "description": "레벤탈 회계대학에서 회계학 학사를 받았다. 졸업한 해는 공개되지 않았다. 훗날 아들과 딸도 같은 대학에서 회계와 경영을 배웠다.",
+   "description_en": "He earned a bachelor of science in accounting from the Leventhal School of Accounting. The graduation year was not published. His son and daughter later studied accounting and business at the same university.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "샌디에이고에서 재무학 석사 학위를 받다",
+   "title_en": "Earns a finance masters in San Diego",
+   "description": "샌디에이고 주립대학교에서 재무학 석사 학위를 받았다. 이후 캘리포니아주 공인회계사 자격을 취득했다.",
+   "description_en": "He earned a master of science in finance from San Diego State University. He became a certified public accountant licensed in California.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "work",
+   "title": "회계법인에서 일을 시작하다",
+   "title_en": "Starts at an accounting firm",
+   "description": "쿠퍼스 앤 라이브랜드에 들어갔다. 마인드스피드의 취임 발표에 따르면 그의 경력은 이곳에서 시작됐다. 2008년까지 기술 기업의 재무 분야에서 17년간 일했다.",
+   "description_en": "He joined Coopers and Lybrand. The Mindspeed appointment notice said his career began there. By 2008 he had spent seventeen years in technology-company finance.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "퀄컴에서 재무를 맡다",
+   "title_en": "Works in finance at Qualcomm",
+   "description": "무선 통신 칩 회사에서 3년간 재무 관리를 맡았다. 브로드컴 공시에는 이 경력이 클래시파이드 벤처스에 합류하기 직전의 이력으로 기재됐다.",
+   "description_en": "He spent three years in financial management at the wireless-chip company. The Broadcom filing listed this work immediately before Classified Ventures.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "신문사 합작회사에서 회계를 총괄하다",
+   "title_en": "Becomes controller at a newspaper joint venture",
+   "description": "맥클래치와 갠넷 등 신문사들이 만든 인터넷 분류광고 합작회사의 기업 회계책임자가 됐다. 이 회사는 중고차 사이트 카스닷컴과 임대 주택 사이트 아파트먼트닷컴을 운영했다.",
+   "description_en": "He became corporate controller at an internet classifieds joint venture backed by newspaper publishers including McClatchy and Gannett. The company operated Cars.com and Apartments.com.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1999,
+   "year_end": 2008,
+   "kind": "work",
+   "title": "브로드컴에 들어가 회계조직을 이끌다",
+   "title_en": "Joins Broadcom and leads its accounting",
+   "description": "10월에 기업 회계 관리자로 합류했다. 여러 사업 부문의 컨트롤러를 맡고 전 세계 제조 부문의 재무 업무를 거친 뒤, 2007년 9월 부사장 겸 기업 회계책임자가 됐다. 9개국에 걸친 80명 규모의 회계조직을 이끌었다.",
+   "description_en": "He joined in October as a corporate accounting manager. After serving as controller for several business groups and in worldwide manufacturing finance, he became vice president and corporate controller in September 2007. He oversaw an 80-person accounting organization in nine countries.",
+   "place_name": "어바인",
+   "place_name_en": "Irvine",
+   "lat": 33.684166666667,
+   "lng": -117.7925
+  },
+  {
+   "year": 2008,
+   "year_end": 2011,
+   "kind": "office",
+   "title": "마인드스피드 최고재무책임자가 되다",
+   "title_en": "Becomes chief financial officer of Mindspeed",
+   "description": "7월 7일 수석부사장 겸 최고재무책임자로 취임했다. 금융위기가 시작된 그해, 인력을 감축하고 부채를 재협상했으며 특허를 매각해 현금을 확보했다. 이듬해 오렌지카운티 비즈니스 저널이 그를 올해의 최고재무책임자로 선정했다. 그는 훗날 재임 3년 동안 회사 가치가 열다섯 배로 늘었다고 말했다.",
+   "description_en": "He took office on July 7 as senior vice president and chief financial officer. It was the year the financial crisis began. He cut staff. He renegotiated debt. He sold patents for cash. The next year the Orange County Business Journal named him CFO of the Year. He later said the company valuation rose fifteenfold during his three years there.",
+   "place_name": "뉴포트비치",
+   "place_name_en": "Newport Beach",
+   "lat": 33.616666666667,
+   "lng": -117.8975
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "office",
+   "title": "스페이스엑스 최고재무책임자에 취임하다",
+   "title_en": "Becomes chief financial officer of SpaceX",
+   "description": "엘론 머스크는 그가 상장기업에 필요한 재무 기준을 마련하도록 채용됐다고 밝혔다. 당시 스페이스엑스는 4년 연속 흑자를 내고 있었고, 나사 및 상업 발사 계약에 따른 비행 횟수는 40회를 넘었다. 직원도 1,300명이 넘었다. 그는 훗날 리크루터에게 처음 전화를 받았을 때 스페이스엑스를 창고 임대업체로 알았다고 말했다.",
+   "description_en": "Elon Musk said he was hired to put in place the financial standards a public company would need. SpaceX had posted four straight years of profit, and its NASA and commercial launch contracts exceeded 40 flights. Headcount was above 1,300. He later said that when a recruiter first called, he thought the company rented storage units.",
+   "place_name": "호손",
+   "place_name_en": "Hawthorne",
+   "lat": 33.917214,
+   "lng": -118.348607
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "office",
+   "title": "메리마운트 캘리포니아 대학교 이사회 의장이 되다",
+   "title_en": "Becomes chair of Marymount California University",
+   "description": "이사회 의장이 되기 전에는 재무위원장을 맡았다. 총장은 이사회가 성장을 이해하는 의장을 원했다고 밝혔다. 이 가톨릭 소규모 대학은 2022년 8월 31일 문을 닫았다.",
+   "description_en": "He had already chaired the finance committee. The president said the board wanted a chair who understood growth. The small Catholic university closed on August 31, 2022.",
+   "place_name": "랜초팔로스버디스",
+   "place_name_en": "Rancho Palos Verdes",
+   "lat": 33.758333333333,
+   "lng": -118.36416666667
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "모교 이사회에 들어가다",
+   "title_en": "Joins the USC Board of Trustees",
+   "description": "스페이스엑스 최고재무책임자 자격으로 이사에 임명됐다. 이사회 의장 수잔 노라 존슨은 그가 회계·경영·공학 졸업생들을 채용해 우주 산업으로 이끌었다고 말했다. 그는 자신이 재직한 회사들에서 USC 동문인 트로전을 수백 명 채용했다고 밝혔다.",
+   "description_en": "He was named a trustee as SpaceX chief financial officer. Board chair Suzanne Nora Johnson said he had recruited accounting, business, and engineering graduates into the space industry. He said he had hired hundreds of Trojans at the companies where he worked.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "스페이스엑스가 나스닥에 상장하다",
+   "title_en": "SpaceX lists on Nasdaq",
+   "description": "주식은 6월 12일 나스닥과 나스닥 텍사스에서 종목코드 SPCX로 거래를 시작했다. 공모가는 주당 135달러였다. 6월 15일 마감 기준으로 회사는 약 857억 달러를 조달했다. 증권신고서에는 그가 실질적으로 소유한 주식이 약 904만 주로 기재됐다. 포춘은 그 지분의 가치를 약 14억 달러로 평가했다.",
+   "description_en": "The shares began trading on June 12 on Nasdaq and Nasdaq Texas under the ticker SPCX. The offering price was 135 dollars a share. By the June 15 close the company had raised about 85.7 billion dollars. The registration statement listed about 9.05 million shares beneficially owned by him. Fortune put that stake at about 1.4 billion dollars.",
+   "place_name": "호손",
+   "place_name_en": "Hawthorne",
+   "lat": 33.917214,
+   "lng": -118.348607
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "대부분의 사건에서 영문 어순을 따른 직역, 불분명한 연결, 어색한 직함·업무 표현을 자연스러운 한국어로 바로잡았다. 다만 index 11의 보유 주식 수가 국문과 영문에서 달라 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「로스앤젤레스에서 났다」가 출생을 서술하는 문장으로 어색해 자연스럽게 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에」가 자녀들의 진학 시점을 잇는 표현으로 어색해 「훗날」로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「재무 석사」와 「공인회계사 면허를 땄다」가 학위와 전문 자격을 가리키는 표현으로 다소 거칠어 정확하고 자연스럽게 다듬었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기술 기업 재무를 열일곱 해째 맡아 왔다」는 무엇을 맡았다는 뜻인지 불분명하고 영문 구조를 직역한 표현이라 경력 기간이 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「클래시파이드 벤처스 앞 경력」은 시간적 선후 관계를 뜻으로 짐작해야 하는 직역이라, 해당 회사에 합류하기 직전의 경력이라는 의미를 명확히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "「신문사 합작」은 회사나 조직을 가리키는 제목으로 불완전해 「신문사 합작회사」로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여러 사업부 컨트롤러와 전 세계 제조 재무를 거친 뒤」는 직책과 업무의 관계가 무너져 있어, 맡았던 직책과 거친 업무를 구분해 서술했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "인력 감축, 부채 재협상, 특허 매각이 지나치게 짧은 문장으로 끊겨 재임 중 조치의 흐름이 단절됐고, 「현금을 만들었다」도 재무 활동을 설명하기에 어색해 문장을 연결했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상장 가능성에 맞춰 재무 기준을 세우다」는 상장기업에 필요한 기준을 마련했다는 영문의 뜻을 충분히 전달하지 못했고, 「발사 계약 40건」도 계약된 비행 횟수라는 세부가 흐려져 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 전」의 기준 시점이 문장만으로 분명하지 않고, 「사람을 의장으로 들였다」도 이사회 인선을 설명하는 표현으로 어색해 대상을 명시했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「졸업생을 우주 산업으로 끌어왔다」는 채용을 뜻하는 영문을 부자연스럽게 옮긴 표현이며, 「트러잔」만으로는 USC 동문을 가리킨다는 점이 불분명해 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수익적으로 가진 주식」은 beneficially owned를 단어 단위로 옮겨 소유 관계가 무너진 직역이라 「실질적으로 소유한 주식」으로 고쳤다. 보유 주식 수의 국문·영문 불일치는 편집만으로 해소할 수 없다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 11,
+    "reason": "증권신고서상 보유 주식 수가 국문에는 약 904만 주, 영문에는 약 905만 주로 서로 다르다. 어느 수치가 사실인지 문장 편집만으로 확정할 수 없어 기존 국문 수치를 유지했다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,268 @@
+{
+ "slug": "cao-hong",
+ "events": [
+  {
+   "year": 169,
+   "year_end": null,
+   "kind": "birth",
+   "title": "패국의 조씨로 태어나다",
+   "title_en": "Is Born into the Cao Clan of Pei",
+   "description": "같은 고을 출신인 조조의 종제였다. 자는 자렴이었다. 백부 조정이 상서령으로 재직할 때 조홍은 기춘장에 임명되었다.",
+   "description_en": "He was a younger cousin of Cao Cao from the same town. His courtesy name was Zilian. When his uncle Cao Ding served as Prefect of the Masters of Writing, he was appointed chief of Qichun.",
+   "place_name": "초",
+   "place_name_en": "Qiao",
+   "lat": 33.86264,
+   "lng": 115.77422
+  },
+  {
+   "year": 190,
+   "year_end": null,
+   "kind": "battle",
+   "title": "패전한 조조에게 말을 내주다",
+   "title_en": "Gives His Horse to Cao Cao After Defeat",
+   "description": "동탁의 장수 서영이 바짝 뒤쫓아오고 있었고, 조조는 말을 잃은 상태였다. 조홍은 말에서 내려 조조에게 내주었다. 조조가 사양하자 \"천하에 나는 없어도 되지만 그대는 없으면 안 된다\"고 말했다. 두 사람은 걸어서 변수에 닿았다. 물이 깊어 걸어서 건널 수 없자 조홍은 강가를 따라가 배를 구했고, 두 사람은 함께 강을 건너 초로 돌아갔다.",
+   "description_en": "Dong Zhuo's general Xu Rong was close behind. Cao Cao had lost his horse. He dismounted and offered the mount, and when Cao Cao declined he said the world could do without him but not without Cao Cao. The two walked to the Bian River. The water was too deep to wade, so he followed the bank, found a boat, and they crossed together before fleeing back to Qiao.",
+   "place_name": "형양",
+   "place_name_en": "Xingyang",
+   "lat": 34.7875,
+   "lng": 113.38388888888889
+  },
+  {
+   "year": 190,
+   "year_end": null,
+   "kind": "work",
+   "title": "여강과 단양에서 병력을 모으다",
+   "title_en": "Raises Troops in Lujiang and Danyang",
+   "description": "양주자사 진온은 평소 조홍과 친하게 지냈다. 조홍은 가병 천여 명을 이끌고 진온에게 가서 여강의 갑옷을 갖춘 정예병 이천 명을 얻었다. 이어 단양으로 동진해 다시 수천 명을 모았고, 용항에서 조조의 군대와 합류했다.",
+   "description_en": "Chen Wen, inspector of Yang Province, had long been a friend. He took more than a thousand household troops to Chen Wen and obtained two thousand armored elites from Lujiang. He then went east to Danyang, raised several thousand more, and rejoined Cao Cao at Longkang.",
+   "place_name": "용항",
+   "place_name_en": "Longkang",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 194,
+   "year_end": null,
+   "kind": "battle",
+   "title": "기근 속에 동평과 범을 점하다",
+   "title_en": "Seizes Dongping and Fan During Famine",
+   "description": "조조가 서주를 치는 사이 장막은 연주를 여포에게 넘겼다. 큰 기근까지 들자 조홍은 선봉에 서서 동평과 범을 먼저 점령하고, 곡식을 모아 군대에 식량을 댔다. 조조가 복양에서 여포를 몰아낸 뒤에는 조홍이 동아를 지키며 제음·산양·중모를 비롯한 십여 현을 차례로 함락했다. 이 공으로 응양교위와 양무중랑장 직을 받았다.",
+   "description_en": "While Cao Cao campaigned in Xu Province, Zhang Miao handed Yan Province to Lu Bu. A great famine had begun, so he took the vanguard, occupied Dongping and Fan first, and gathered grain to keep the army fed. After Cao Cao drove Lu Bu from Puyang, he held Donge and took more than ten counties including Jiyin, Shanyang, and Zhongmu. The posts of Soaring Eagle Colonel and General of the Household Who Spreads Martial Might followed those deeds.",
+   "place_name": "복양",
+   "place_name_en": "Puyang",
+   "lat": 35.76392,
+   "lng": 115.02996
+  },
+  {
+   "year": 196,
+   "year_end": null,
+   "kind": "office",
+   "title": "헌제를 맞으러 서쪽으로 가다",
+   "title_en": "Is Sent West to Receive the Emperor",
+   "description": "순욱과 정욱이 조조에게 천자를 맞아들이라고 권하자 조조는 조홍을 서쪽으로 보냈다. 그러나 동승과 원술의 장수 장노가 길을 막아 더 나아가지 못했다. 이후 조조는 낙양에서 헌제를 맞아 도읍을 허로 옮겼고, 헌제는 조홍을 간의대부로 삼았다.",
+   "description_en": "After Xun Yu and Cheng Yu urged him to receive the emperor, Cao Cao sent him west. Dong Cheng and Yuan Shu's officer Chang Nu blocked the road, and he could go no farther. Cao Cao later received Emperor Xian at Luoyang and moved the capital to Xu, where the emperor appointed him Counsellor Remonstrant.",
+   "place_name": "허창",
+   "place_name_en": "Xuchang",
+   "lat": 34.02444,
+   "lng": 113.82014
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "battle",
+   "title": "유표의 장수들을 격파하고 정후에 봉해지다",
+   "title_en": "Defeats Liu Biao's Officers and Receives a Marquisate",
+   "description": "무양·음엽·도양·박망에서 유표 휘하의 장수들을 격파했다. 여봉장군에 오르고 국명정후에 봉해졌다. 이후 여러 정벌에 종군해 도호장군에 임명되었다.",
+   "description_en": "He defeated Liu Biao's detached officers at Wuyang, Yinye, Duyang, and Bowang. He was promoted to General of Sharp Edge and enfeoffed as Marquis of Guoming Village. Further campaigns brought the post of Protector-General.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 200,
+   "year_end": null,
+   "kind": "battle",
+   "title": "관도 본영을 지키다",
+   "title_en": "Holds the Main Camp at Guandu",
+   "description": "조조가 오소의 군량을 치러 나가면서 조홍에게 본영을 맡겼다. 원소는 장합과 고람을 보내 본영을 공격하게 했다. 오소가 무너지자 두 장수는 자신들의 진영을 불태우고 조홍에게 투항했다. 조홍은 처음에 항복을 받아들이기를 주저했다. 순유가 장합은 자신의 계책이 받아들여지지 않은 데 화가 나서 온 것이라고 설명하자 그제야 두 장수의 항복을 받아들였다.",
+   "description_en": "Cao Cao left him in charge of the main camp while raiding the grain stores at Wuchao. Yuan Shao sent Zhang He and Gao Lan against that camp. After Wuchao fell, the two generals burned their own works and came to surrender. He hesitated to accept them until Xun You said Zhang He had come in anger because his plan had been ignored, and then he took the surrender.",
+   "place_name": "관도",
+   "place_name_en": "Guandu",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 218,
+   "year_end": null,
+   "kind": "battle",
+   "title": "하변에서 오란을 깨다",
+   "title_en": "Defeats Wu Lan at Xiabian",
+   "description": "유비가 장비·마초·오란을 하변에 두자 조조는 조홍을 보내 이들을 막게 했다. 조조는 참군 조휴에게 \"너는 이름만 참군이지 실제로는 장수다\"라고 말했고, 조홍은 군무를 조휴에게 맡겼다. 장비가 배후를 끊으려 하자 조휴는 그 움직임을 허장성세로 보고 오란을 먼저 치자고 했다. 조홍은 조휴의 판단을 따라 오란을 크게 무찔렀고, 장비는 달아났다. 승전 잔치에서 조홍이 기녀들에게 얇은 비단옷을 입혀 북을 밟으며 춤추게 하자 양부가 자리를 박차고 나갔다. 조홍은 곧 풍악을 멈추고 양부에게 돌아와 앉아 달라고 했다.",
+   "description_en": "When Liu Bei posted Zhang Fei, Ma Chao, and Wu Lan at Xiabian, Cao Cao sent him to stop them. Cao Cao told adviser Cao Xiu that he was an adviser in name and a commander in fact, and the army's business was left to Cao Xiu. Zhang Fei moved to cut the rear. Cao Xiu called it empty noise and urged a strike on Wu Lan first. He followed that counsel, routed Wu Lan, and Zhang Fei fled. At the victory banquet he had dancers in thin silk stamp drums. Yang Fu walked out, and he stopped the music and asked Yang Fu back to his seat.",
+   "place_name": "하변",
+   "place_name_en": "Xiabian",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 220,
+   "year_end": null,
+   "kind": "office",
+   "title": "표기장군에 오르다",
+   "title_en": "Is Appointed General of Agile Cavalry",
+   "description": "조비가 황제로 즉위하자 조홍을 먼저 위장군에 임명한 뒤 표기장군으로 승진시켰다. 이어 야왕후에 봉하고 식읍 이천백 호와 특진의 지위를 내렸다. 봉지는 뒤에 도양으로 옮겨져 도양후가 되었다.",
+   "description_en": "When Cao Pi took the imperial title he was first made General of the Guards, then raised to this command. He was advanced to Marquis of Yewang with 2,100 households and the rank of Specially Advanced. The fief was later moved to Marquis of Duyang.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 226,
+   "year_end": null,
+   "kind": "other",
+   "title": "빈객의 죄로 하옥되다",
+   "title_en": "Is Imprisoned Over a Retainer's Crime",
+   "description": "집안은 부유했지만 조홍은 재물을 아끼는 성품이었다. 조비가 동궁에 있을 때 비단 백 필을 빌리려 했으나 조홍은 응하지 않았고, 황제가 된 조비는 그 일을 잊지 않았다. 조홍의 빈객들이 법을 어기자 그는 하옥되어 죽을 처지가 되었다. 신하들이 구명을 청했지만 조비는 듣지 않았다. 변태후가 곽후에게 \"오늘 그가 죽으면 내일 황후를 폐하겠다\"고 말했고, 곽후가 울며 간청한 뒤에야 조홍은 목숨을 건지는 대신 관직과 작위를 잃었다. 재산도 한 차례 몰수되었으나 태후가 다시 나선 뒤 돌려받았다.",
+   "description_en": "His household was rich and he guarded that wealth closely. While Cao Pi was still heir he asked to borrow a hundred bolts of silk and was refused, and Cao Pi did not forget it after becoming emperor. When retainers broke the law he was jailed and faced execution. Ministers pleaded and were ignored. Empress Dowager Bian told Empress Guo that if he died that day she would have the empress deposed the next, and only after Guo wept and begged was he stripped of office and title instead of killed. His property was confiscated once, then returned after the dowager spoke again.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 227,
+   "year_end": null,
+   "kind": "office",
+   "title": "후장군으로 돌아오다",
+   "title_en": "Returns as General of the Rear",
+   "description": "조예가 즉위하자 조홍을 후장군에 임명하고, 낙성후의 작위와 식읍 천 호 및 특진의 지위를 돌려주었다. 당시 사람들은 선제의 공신을 서인으로 떨어뜨린 처사를 원망하고 있었다. 조홍은 뒤에 표기장군으로도 다시 임명되었다.",
+   "description_en": "When Cao Rui took the throne he was restored as Marquis of Lecheng with a thousand households and the rank of Specially Advanced. People at the time had resented the reduction of a late emperor's meritorious minister to commoner status. He was later again appointed General of Agile Cavalry.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": 232,
+   "year_end": null,
+   "kind": "death",
+   "title": "공후라는 시호를 받다",
+   "title_en": "Receives the Posthumous Title Marquis Gong",
+   "description": "위 명제 재위 중에 세상을 떠났다. 아들 조복이 낙성후의 작위를 이었다. 조홍이 살아 있을 때 조조는 조홍의 식읍에서 일부 호수를 떼어 또 다른 아들 조진을 열후에 봉한 바 있었다.",
+   "description_en": "He died during the reign of Emperor Ming of Wei. His son Cao Fu inherited the Lecheng marquisate. In his lifetime Cao Cao had already split off households to enfeoff another son, Cao Zhen, as a ranked marquis.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 말하는 범위 안에서 생략된 행위자와 불분명한 지시 대상을 밝혔고, 직역투와 지나치게 압축된 한문투를 자연스러운 한국어로 고쳤다. 사건의 세부와 전체 순서는 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조조보다 항렬이 아래인 종제」는 관계를 중복해 설명해 어색하고, 마지막 문장은 누가 임명되었는지 명시되지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "말에서 내려 말을 내준 주체가 생략되어 조조와 조홍의 행동을 바로 구별하기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여강의 갑옷 입은 정예 이천」은 영어 어순을 그대로 옮긴 듯한 표현이고 병력의 단위도 빠져 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연주를 들어 여포를 맞았다」와 「군을 이었다」는 뜻을 짐작해야 하는 한문투였고, 동아를 지킨 주체와 관직을 받은 주체도 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "순욱과 정욱이 누구에게 권했는지, 마지막에 간의대부가 된 사람이 누구인지 생략되어 행위 관계가 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "현대 한국어에서 「별장」은 별채로 읽히기 쉬워 유표 휘하 장수들을 가리킨다는 뜻이 드러나지 않았고, 「정벌에 따라다니며」도 종군을 뜻하는 표현으로는 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "장합과 고람이 불태운 진영과 항복을 받아들인 주체를 문맥으로 추정해야 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "조휴에게 지시한 사람, 군무를 맡긴 사람, 조휴의 판단을 따른 사람이 각각 생략되어 여러 인물의 행동이 한데 섞였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 자리로 올렸다」는 제목에 의존하는 지시 표현이고, 「야왕후에 식읍 이천백 호, 특진의 위가 붙었다」는 서술어와 행위자가 불분명했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "신하들의 간청을 듣지 않은 사람이 누구인지 빠져 있었고, 몰수된 재산이 돌아온 과정도 지나치게 압축되어 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "제목의 후장군 복귀가 본문에 나타나지 않았고, 「낙성후에 식읍 천 호를 다시 주었다」는 작위·식읍·관직 회복의 관계가 어색했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「공후의 시호」는 공후에게 별도의 시호가 내려졌다는 뜻으로도 읽힐 수 있었고, 「생전에」와 「그의 호수」 및 「다른 아들」의 대상이 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

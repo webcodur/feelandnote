@@ -1,0 +1,276 @@
+{
+ "slug": "jochi",
+ "events": [
+  {
+   "year": 1182,
+   "year_end": null,
+   "kind": "birth",
+   "title": "메르키트 포로 생활 뒤 태어나다",
+   "title_en": "Born after the Merkit captivity",
+   "description": "보르테가 메르키트에 붙잡혔다가 돌아온 뒤 그를 낳았다. 전승에 따르면 보르테가 포로로 잡혀 있던 기간은 거의 아홉 달이었다. 그의 이름은 손님이라는 뜻이다. 아버지는 그를 친아들로 대했다. 둘째 아우부터는 그를 메르키트의 자식이라고 불렀다고 한다.",
+   "description_en": "Börte gave birth after she returned from Merkit captivity. Tradition says she had been held for nearly nine months. The name means guest. The father treated him as his own son. From the second brother on, people called him a Merkit's child.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1204,
+   "year_end": null,
+   "kind": "other",
+   "title": "케레이트 가문의 조카와 혼인하다",
+   "title_en": "Takes a Kereit niece as wife",
+   "description": "그의 이름이 기록에 처음 등장한 무렵, 아버지는 그를 토그릴의 딸과 혼인시키려 했다. 케레이트 쪽은 이 혼담을 모욕으로 받아들였다. 토그릴이 몰락한 뒤 그는 토그릴 가문의 조카인 베그투트미시를 아내로 맞았다.",
+   "description_en": "Records first name him around the time his father tried to marry him to Toghrul's daughter. The Kereit took that match as an insult. After Toghrul fell, he received Begtütmish, a niece of that house.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1206,
+   "year_end": null,
+   "kind": "office",
+   "title": "이르티시 서쪽을 몫으로 받다",
+   "title_en": "Receives the lands west of the Irtysh",
+   "description": "아버지가 대칸으로 추대된 대집회에서 그는 구천 호의 백성을 받았다. 둘째 아들은 팔천 호를 받았고, 셋째 아들과 막내아들은 각각 오천 호를 받았다. 장남인 그는 본토에서 가장 먼 서쪽 초원을 맡았다.",
+   "description_en": "At the assembly that made his father Great Khan he received nine thousand households. The second son received eight thousand, the third and the youngest five thousand each. As the eldest he took the steppe farthest west.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1207,
+   "year_end": 1208,
+   "kind": "battle",
+   "title": "숲속 부족을 복속하다",
+   "title_en": "Subdues the forest peoples",
+   "description": "오이라트의 쿠투카 베키가 길을 안내했다. 예니세이 키르기스를 비롯한 호이인 이르겐이 항복했다. 그는 모피와 곡식과 금이 나오는 북쪽 지역을 자신의 울루스에 편입했다. 비밀역사는 그가 돌아오자 아버지가 높이 칭찬했다고 적는다.",
+   "description_en": "Qutuqa Beki of the Oirat showed the way. The Yenisei Kyrgyz and other Hoi-yin Irgen submitted. He attached the north's furs, grain, and gold to his own ulus. The Secret History says the father praised this return.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1211,
+   "year_end": 1213,
+   "kind": "battle",
+   "title": "금나라 원정의 우익을 지휘하다",
+   "title_en": "Commands the right wing against the Jin",
+   "description": "차가타이·오고타이와 함께 서쪽으로 내려갔다. 후허하오터와 다퉁 사이의 성들을 공격한 뒤 태항산맥을 따라 산시로 들어갔다. 그는 초원 밖에서 처음으로 큰 전쟁을 지휘했다.",
+   "description_en": "He rode west with Chagatai and Ögedei. They struck the towns between Hohhot and Datong, then followed the Taihang Mountains into Shanxi. It was the first large war he commanded beyond the steppe.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1218,
+   "year_end": 1219,
+   "kind": "battle",
+   "title": "키르기스 반란을 다시 진압하다",
+   "title_en": "Crushes the Kyrgyz rising again",
+   "description": "숲속 부족이 다시 일어났다. 아버지는 그를 예니세이로 돌려보냈다. 그는 키르기스를 다시 굴복시켰다.",
+   "description_en": "The forest peoples rose again. The father sent him back to the Yenisei. He brought the Kyrgyz to heel once more.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1219,
+   "year_end": null,
+   "kind": "other",
+   "title": "후계에서 밀려나다",
+   "title_en": "Pushed aside from the succession",
+   "description": "비밀역사는 호라즘 원정을 떠나기 전 예수이가 아버지에게 후계자를 정하라고 청했다고 적는다. 둘째 아들이 그를 메르키트의 사생아라고 불렀고, 두 사람은 서로 멱살을 잡았다. 결국 셋째 아들을 후계자로 정했다. 페르시아 연대기는 이 결정이 전쟁이 끝난 뒤에 내려졌다고 적는다.",
+   "description_en": "The Secret History says Yesui asked the father to name an heir before the Khwarazm campaign. The second son called him a Merkit bastard, and the two grabbed each other by the collar. They settled on the third son. Persian chronicles place this decision after the war.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1219,
+   "year_end": 1220,
+   "kind": "battle",
+   "title": "시르다리야 연안 성들을 취하다",
+   "title_en": "Takes the towns along the Syr Darya",
+   "description": "오트라르에서 갈라져 강을 따라 내려갔다. 상류의 성들과 아사나스는 저항하다가 주민들이 도륙당했다. 잔드와 양기켄트는 거의 싸우지 않고 성문을 열었다. 그는 잔드에 총독을 두고 북쪽 초원에 진을 쳤다. 아버지는 이 도시들을 그의 영지로 삼으려 했다.",
+   "description_en": "Detached at Otrar, he moved down the river. The upper towns and Asanas held out, then their people were slaughtered. Jand and Yangikent opened with little fighting. He placed a governor at Jand and camped on the northern steppe. The father meant those cities to become his land.",
+   "place_name": "시그나크",
+   "place_name_en": "Sighnaq",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1221,
+   "year_end": null,
+   "kind": "battle",
+   "title": "구르간즈를 몇 달 에워싸다",
+   "title_en": "Besieges Gurganj for months",
+   "description": "호라즘의 옛 수도는 그의 몫으로 예정된 도시였다. 페르시아 연대기는 도시를 어느 정도 파괴할지를 두고 그가 둘째 아우와 다투자 아버지가 셋째 아들을 총지휘관으로 세웠다고 적는다. 포위는 넉 달에서 일곱 달 동안 이어졌다. 도시가 함락된 뒤 주민들은 죽임을 당하거나 노예가 되었다. 그가 아버지에게 돌아갈 전리품을 보내지 않았다는 기록도 남아 있다.",
+   "description_en": "The old Khwarazm capital was to be his share. Persian chronicles say he quarreled with the second brother over how much to wreck, and the father put the third in overall command. The siege lasted four to seven months. After the fall the people were killed or enslaved. Some accounts say he did not send the father his share of the loot.",
+   "place_name": "코네우르겐치",
+   "place_name_en": "Konye-Urgench",
+   "lat": 42.316666666667,
+   "lng": 59.158611111111
+  },
+  {
+   "year": 1222,
+   "year_end": null,
+   "kind": "travel",
+   "title": "캉글리 초원으로 북상하다",
+   "title_en": "Turns north to the Qangli steppe",
+   "description": "아우들은 남쪽으로 잘랄 앗딘을 쫓아갔다. 그는 북쪽으로 올라가 추강 서쪽의 초원을 지켰다. 호라즘에는 총독들을 남겨 두었다. 아버지는 그에게 계속 진군해 킵차크와 불가르와 루스를 공격하라고 명했다. 그러나 그는 동쪽의 캉글리인들 사이에 머물렀다.",
+   "description_en": "The younger brothers rode south after Jalal al-Din. He turned north and held the steppe west of the Chu. He left governors in Khwarazm. The father ordered him on against the Qipchaq, the Bulghar, and the Rus. He stayed among the eastern Qangli.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1223,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "쿨란 바시에서 아버지와 만나다",
+   "title_en": "Meets his father at Qulan Bashi",
+   "description": "주바이니는 그가 사마르칸트 근처에서 열린 사냥을 위해 킵차크 초원의 야생 당나귀와 말을 몰고 왔다고 적는다. 사냥이 끝나자 아우들은 동쪽으로 돌아갔다. 그는 자신의 울루스로 돌아갔다.",
+   "description_en": "Juvaini writes that he brought wild asses and horses from the Qipchaq steppe to a hunt near Samarkand. When the hunt ended the brothers went east. He went back to his own ulus.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1227,
+   "year_end": null,
+   "kind": "death",
+   "title": "병으로 죽다",
+   "title_en": "Dies of illness",
+   "description": "전승에 따르면 그는 소환을 받고도 병을 이유로 응하지 않았다. 한 여행자는 그가 사냥만 하고 있다고 전했다. 그는 아버지가 출정하기 전에 죽었다. 주즈자니는 아버지가 그를 독살했다고 주장했지만, 다른 정사들은 이를 뒷받침하지 않는다. 둘째 아들 바투가 영지를 물려받았고, 맏아들 오르다는 한발 물러섰다. 그의 후손들은 울루스를 킵차크 칸국으로 이어 갔다.",
+   "description_en": "Tradition says he pleaded illness when summoned. A traveler reported he was only hunting. He died before the father could march. Juzjani's claim that the father had him poisoned is not backed by other official histories. The second son Batu took the lands. The eldest, Orda, stepped back. His descendants carried his ulus on as the Kipchak Khanate.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "영문이 허용하는 의미와 세부 사항을 유지하면서 주어·목적어 관계, 직역 표현, 불분명한 지시 대상, 사건 간 흐름을 다듬었다. 다만 0번 사건의 마지막 영문 문장은 누가 언제부터 그를 ‘메르키트의 자식’이라고 불렀다는 뜻인지 모호하여 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 ‘포로 뒤’가 부자연스럽고, 포로 기간을 말하는 문장에 대상이 빠져 있었다. 마지막 문장은 국문과 영문 모두 ‘둘째 아우부터’의 정확한 뜻이 불분명하다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘기록에 이름이 처음 뜨다’, ‘딸을 그에게 주다’가 영문 어순을 따른 표현이며, 마지막 문장의 혼인 대상도 자연스럽게 연결되지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘아홉 천 호’, ‘여덟 천’처럼 수량 표현이 부자연스럽고, 둘째·셋째·막내가 누구인지 문장 안에서 바로 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘모피와 곡식과 금이 나오는 북쪽을 붙였다’는 목적어와 행동의 관계가 어색하고, ‘이 귀환을 높이 샀다’는 무엇을 칭찬했다는 뜻인지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목만으로 금나라 원정에서 우익을 지휘했다는 뜻이 충분히 드러나지 않았고, 마지막 문장은 ‘전쟁을 맡다’보다 ‘전쟁을 지휘하다’가 영문 의미에 맞다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "‘반란을 다시 누르다’보다 재차 일어난 반란을 진압했다는 사건을 직접 드러내는 표현이 자연스럽다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘예수이가 후계를 물었다’는 누구에게 무엇을 요구했는지 불분명하고, ‘타협으로 셋째를 후계로 올렸다’도 결정 주체와 대상이 모호했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘위쪽 성들’, ‘열렸다’, ‘그의 영지에 붙이려 했다’가 각각 상류 지역, 성문을 연 행동, 영지 편입이라는 뜻을 간접적으로 전달했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘호라즘의 옛 서울’, ‘자기 몫이 될 성’, ‘성을 얼마나 부술지’가 번역투이거나 대상의 성격을 흐렸고, 보내지 않았다는 전리품이 누구의 몫인지 모호했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 단순히 ‘올라가다’보다 북상한 이동을 밝히는 편이 자연스럽고, 영문의 복수형 governors와 ‘on against’의 원정 명령이 국문에서 약해졌다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "‘아버지를 보다’와 ‘사냥에 보태다’가 직역투이며, 사건의 만남과 사냥을 위해 동물을 데려온 행동이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘병을 핑계로 응하지 못했다’는 의도적으로 응하지 않은 것과 능력이 없어 응하지 못한 것을 뒤섞었고, ‘지나던 사람’, ‘적은 독살’, ‘땅은 아들이 이었다’도 대상과 행동 관계가 불명확했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 0,
+    "reason": "영문의 ‘From the second brother on’은 둘째 아우와 그 아래 아우들이 그를 그렇게 불렀다는 뜻인지, 둘째 아우가 태어난 때부터 사람들이 그렇게 불렀다는 뜻인지 확정할 수 없다. 국문의 ‘둘째 아우부터는’도 같은 모호성을 해소하지 못하므로 문장 편집만으로 의미를 결정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

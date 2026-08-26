@@ -1,0 +1,292 @@
+{
+ "slug": "andrew-weinreich",
+ "events": [
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "birth",
+   "title": "웨스트체스터에서 태어나다",
+   "title_en": "Born in Westchester",
+   "description": "웨스트체스터는 뉴욕주의 교외다. 스티븐 레비는 페이스북 역사서에서 1997년 1월 식스디그리스 출시 당시 그를 스물여덟 살 변호사로 소개했다.",
+   "description_en": "Westchester is a New York suburb. Steven Levy’s Facebook history calls him a twenty-eight-year-old lawyer at the January 1997 SixDegrees launch.",
+   "place_name": "웨스트체스터",
+   "place_name_en": "Westchester",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "education",
+   "title": "펜실베이니아 대학에서 미국사 학위를 받다",
+   "title_en": "Finishes an American history degree at Penn",
+   "description": "1986년부터 필라델피아에서 학부를 다녔다. 우등으로 미국사 학사 학위를 받았다. 로스쿨에 들어가기 전 메릴린치에서 재무 분석가로 일했다.",
+   "description_en": "He studied in Philadelphia from 1986. He graduated cum laude with a bachelor’s degree in American history. Before law school he worked as a financial analyst at Merrill Lynch.",
+   "place_name": "필라델피아",
+   "place_name_en": "Philadelphia",
+   "lat": 39.952777777778,
+   "lng": -75.163611111111
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "education",
+   "title": "포드햄 로스쿨에서 법학 학위를 받다",
+   "title_en": "Earns a law degree from Fordham",
+   "description": "1991년부터 맨해튼에서 법학 과정을 밟았다. 졸업한 뒤 허츠 테크놀로지 그룹의 부사장이자 법률고문으로 일했다.",
+   "description_en": "He entered Fordham Law in Manhattan in 1991. After graduating he served as vice president and general counsel of Hertz Technology Group.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "work",
+   "title": "매크로뷰를 세우다",
+   "title_en": "Founds MacroView",
+   "description": "5월 뉴욕에서 온라인 인맥 회사를 시작했다. 명함철에 담긴 인맥을 컴퓨터로 옮겨, 상대가 관계를 확인하면 이용자가 아직 모르는 사람까지 볼 수 있게 하겠다는 생각이었다. 회사 이름은 뒤에 식스디그리스로 바뀌었다.",
+   "description_en": "In May he started an online-networking company in New York. The idea was to put Rolodex ties into a computer and, once the other person confirmed them, let users see people they did not know. The company was later renamed SixDegrees.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "식스디그리스를 공개하고 특허를 출원하다",
+   "title_en": "Launches SixDegrees and files the patent",
+   "description": "1월 소호의 퍽 빌딩에서 약 200명을 모아 사이트를 공개했다. 같은 달 17일 이용자가 서로의 관계를 확인해 데이터베이스를 구축하는 방법에 관한 미국 특허를 출원했다. 관계 확인은 이메일에 예(yes)라고 답장을 보내는 방식이었다. 사진은 우편으로 받아 스캔하는 방안을 이사회에서 논의했다.",
+   "description_en": "In January he unveiled the site to about two hundred people at the Puck Building in SoHo. On the 17th he filed a U.S. patent on building a database from confirmed user relationships. Confirmation meant replying yes by email. The board discussed receiving photos by mail and scanning them.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "식스디그리스를 유스스트림에 매각하다",
+   "title_en": "Sells SixDegrees to YouthStream",
+   "description": "12월 유스스트림 미디어 네트웍스가 1억 2,500만 달러에 회사를 사들였다. 직원은 약 100명, 정식 가입자는 약 350만 명이었다. 하드웨어와 오라클 라이선스 비용 부담이 커지자 추가 자금 조달 대신 매각을 택했다. 사이트는 이듬해 12월 30일 문을 닫았다. 특허는 2003년 경매에서 리드 호프먼과 마크 핀커스가 70만 달러에 낙찰받았다.",
+   "description_en": "In December YouthStream Media Networks bought the company for $125 million. It had about 100 employees and about 3.5 million fully registered members. Hardware and Oracle licenses were expensive, and he chose a sale over another raise. The site shut down on December 30 the next year. In a 2003 auction Reid Hoffman and Mark Pincus bought the patent for $700,000.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2001,
+   "year_end": 2003,
+   "kind": "work",
+   "title": "졸티지를 세우다",
+   "title_en": "Founds Joltage",
+   "description": "카페와 작은 호텔에 와이파이를 설치하고 이용자에게 접속료를 받는 회사를 뉴욕에서 시작했다. 월 24.99달러 또는 시간당 1.99달러를 받았다. 가입자가 예상보다 느리게 늘자 2003년 2월 서비스를 중단했다.",
+   "description_en": "He started a New York company that put Wi-Fi in cafes and small hotels and charged users for access. The fee was $24.99 a month or $1.99 an hour. Subscribers grew slower than expected, and he shut the service in February 2003.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2003,
+   "year_end": 2006,
+   "kind": "work",
+   "title": "아이스탠드포를 세우다",
+   "title_en": "Starts I Stand For",
+   "description": "정치 캠페인과 비영리단체가 온라인으로 후원금을 모을 수 있게 돕는 기술 회사를 시작했다. 엘리엇 스피처와 마리아 캔트웰의 선거 캠페인이 이 도구를 썼다. 2006년에 회사를 매각했다.",
+   "description_en": "He started a technology company that helped political campaigns and nonprofits raise money online. Eliot Spitzer and Maria Cantwell campaigns used the tool. He sold the company in 2006.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2006,
+   "year_end": 2014,
+   "kind": "work",
+   "title": "미트모이를 공동 창업하다",
+   "title_en": "Co-founds MeetMoi",
+   "description": "2월 제러미 레비와 함께 휴대전화 위치를 이용해 가까운 사람을 연결하는 만남 서비스를 뉴욕에서 시작했다. 2010년 안드로이드 앱은 1마일 안에 조건이 맞는 상대가 있으면 알림을 보냈다. 2014년 데이트 사업을 매치닷컴에 넘겼다.",
+   "description_en": "In February he and Jeremy Levy opened a New York service that used phone location to connect nearby people. A 2010 Android app pushed an alert when a matching person was within a mile. The dating business went to Match.com in 2014.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑스티파이를 분사하다",
+   "title_en": "Spins out Xtify",
+   "description": "레비와 함께 미트모이의 위치 추적과 알림 기술을 분리해, 기업이 앱 이용자에게 이용 상황에 맞는 메시지를 보낼 수 있는 별도 회사로 독립시켰다. IBM은 2013년 10월 3일 이 회사를 인수했다고 발표했다.",
+   "description_en": "He and Levy spun MeetMoi’s location-tracking and alerts into a separate company that let businesses send contextual messages to app users. IBM announced the acquisition on October 3, 2013.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "인디커티브를 공동 창업하다",
+   "title_en": "Co-founds Indicative",
+   "description": "엑스티파이가 매각된 2013년에 레비와 제품 분석 회사를 세웠다. 미트모이와 엑스티파이에서 쓰던 내부 분석 도구가 출발점이었다. 2014년 공개 출시와 함께 200만 달러를 조달했다.",
+   "description_en": "The same year Xtify was sold, he and Levy started a product-analytics company. It grew out of the internal analysis tools they had used at the earlier firms. Indicative launched publicly in 2014 and raised $2 million.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤드루즈 로드맵스를 열다",
+   "title_en": "Launches Andrew’s Roadmaps",
+   "description": "창업자에게 사업계획서 작성, 자금 조달, 채용에 필요한 서식을 가르치는 부트캠프를 맨해튼에서 열었다. 스폰서가 비용을 대 참가비는 받지 않았다.",
+   "description_en": "He opened a Manhattan boot camp that taught founders templates for business plans, financing, and hiring. Sponsors covered the cost, so there was no tuition.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "인디커티브가 엠파티클에 매각되다",
+   "title_en": "Indicative is sold to mParticle",
+   "description": "1월 12일 엠파티클이 인디커티브를 인수했다고 발표했다. 레비는 대표로서 팀과 함께 엠파티클에 합류했다. 인수 조건은 공개되지 않았다.",
+   "description_en": "On January 12 mParticle announced it had acquired Indicative. Levy joined with the team as CEO. The terms were not disclosed.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건과 세부 정보는 영문과 일치했지만, 학위·창업·매각을 부자연스럽게 표현한 제목과 영문 어순을 따라 목적 관계가 흐려진 서술이 여러 곳에 있었다. 영문이 제공하는 정보의 범위 안에서 주체와 행동을 분명히 하고, 사건들이 생애의 흐름으로 자연스럽게 이어지도록 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 없어 무엇이 뉴욕주의 교외인지 앞 문장만으로 알 수 없고, 두 번째 문장의 「발표 자리의 그를」도 한국어 어순이 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「미국사를 마치다」는 학위를 받았다는 뜻을 정확히 전달하지 못하며, 「재무 분석 일을 했다」는 직업을 나타내는 표현으로 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title"
+    ],
+    "problem": "「로스쿨을 나오다」는 구어적이고, 영문이 명시한 법학 학위 취득이 제목에서 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「명함철의 관계를 컴퓨터에 올리고」와 「모르는 사람까지 보이게」는 영문 단어를 직접 치환한 듯해 대상과 행동의 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "사이트를 「열다」보다 「공개하다」가 정확하며, 「그 사슬로 데이터베이스를 만드는 방법」은 영문에 없는 사슬을 끌어들여 특허 내용을 불분명하게 만들었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사 매각을 「넘기다」, 매각 결정을 「매각을 고르다」, 경매 낙찰을 「가져가다」라고 표현해 사업 사건의 의미가 흐려졌다. 하드웨어를 서버로 좁혀 쓴 부분도 영문의 범위에 맞게 바로잡았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "와이파이를 「깔고」 서비스를 「끊었다」는 표현이 구어적이어서 사업 연표의 서술로 자연스럽게 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "두 사람의 캠페인을 가리키는 관계가 느슨했고, 회사 매각을 「넘겼다」라고 표현해 행동이 구체적으로 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "서비스를 「열었다」와 사업이 「넘어갔다」는 표현이 각각 출시와 매각의 주체를 흐리게 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「따로 세우다」는 분사의 의미가 약하며, 영문에 명시된 공동 작업자 레비가 국문에서 빠져 있었다. 「상황별 메시지」도 무엇을 기준으로 한 상황인지 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「엑스티파이를 넘긴 해」는 매각 사건을 부정확하게 표현했고, 「앞선 두 회사」만으로는 어느 회사를 가리키는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사업계획·자금·고용 서식을 가르치다」는 수식 관계가 어색해 무엇에 필요한 서식을 가르쳤는지 즉시 이해하기 어려웠다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사 매각을 「넘기다」라고 표현했고, 「대표로 팀을 이끌고 합류했다」는 대표의 자격과 합류한 대상을 모호하게 만들었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

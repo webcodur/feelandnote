@@ -1,0 +1,273 @@
+{
+ "slug": "christian-szegedy",
+ "events": [
+  {
+   "year": 1971,
+   "year_end": null,
+   "kind": "birth",
+   "title": "부다페스트에서 태어나다",
+   "title_en": "Born in Budapest",
+   "description": "헝가리의 수도 부다페스트에서 태어났다. 헝가리어 이름은 세게디 크리스티안이다. 당시 부다페스트는 헝가리 인민공화국의 수도였다.",
+   "description_en": "He was born in the Hungarian capital. His Hungarian name is Szegedy Krisztián. The city was still the capital of the Hungarian People’s Republic.",
+   "place_name": "부다페스트",
+   "place_name_en": "Budapest",
+   "lat": 47.498333,
+   "lng": 19.040833
+  },
+  {
+   "year": 1990,
+   "year_end": 1992,
+   "kind": "education",
+   "title": "외트뵈시 로란드 대학에서 수학과 전산학을 공부하다",
+   "title_en": "Studies mathematics at Eötvös Loránd University",
+   "description": "수학과 전산학을 공부했다. 이후 본으로 옮겨 이산수학 박사 과정을 이어갔다.",
+   "description_en": "He studied mathematics and computer science. He later moved to Bonn and continued into discrete mathematics for his doctorate.",
+   "place_name": "부다페스트",
+   "place_name_en": "Budapest",
+   "lat": 47.498333,
+   "lng": 19.040833
+  },
+  {
+   "year": 1998,
+   "year_end": 2005,
+   "kind": "education",
+   "title": "본에서 조합 최적화를 연구하다",
+   "title_en": "Studies combinatorial optimization in Bonn",
+   "description": "베른하르트 코르테의 지도를 받으며 이산수학연구소에서 연구했다. 가중 조합 라플라시안을 이용해 매칭 이론을 새롭게 정식화하고 칩의 이차 배치 문제를 풀었다. 옌스 퓌겐이 두 번째 심사위원을 맡았으며, 박사학위 심사는 2월 22일에 열렸다. 본타임 프로젝트에서는 칩 타이밍을 연구했고, 발라주 세게디와 함께 얻은 결과를 논문에 포함했다.",
+   "description_en": "He worked at the Research Institute for Discrete Mathematics under Bernhard Korte. He used the weighted combinatorial Laplacian to recast matching theory and to solve quadratic placement for chips. Jens Vygen was the second examiner, and the doctoral defense was on 22 February. He worked on chip timing in the BonnTime project and included joint results with Balázs Szegedy.",
+   "place_name": "본",
+   "place_name_en": "Bonn",
+   "lat": 50.735278,
+   "lng": 7.102222
+  },
+  {
+   "year": 2005,
+   "year_end": 2010,
+   "kind": "work",
+   "title": "케이던스 연구소에서 칩 설계를 연구하다",
+   "title_en": "Studies chip design at Cadence Research Labs",
+   "description": "박사학위를 받은 직후 미국으로 건너갔다. 버클리 연구소에서 초대규모 집적회로의 물리 설계와 논리 합성을 연구했다. 필립 총과 함께 증분 배치 알고리즘을 발표했다.",
+   "description_en": "He left for the United States right after the doctorate. At the Berkeley lab he worked on VLSI physical design and logic synthesis. With Philip Chong he published an incremental placement algorithm.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870278,
+   "lng": -122.268056
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글에 소프트웨어 엔지니어로 들어가다",
+   "title_en": "Joins Google as a software engineer",
+   "description": "케이던스를 떠나 마운틴뷰의 구글 연구조직에 합류했다. 입사 당시 직함은 소프트웨어 엔지니어였다. 이후 컴퓨터 비전과 형식 추론 분야로 옮겨갔다.",
+   "description_en": "He left Cadence and joined the research organization in Mountain View. His first title was software engineer. He later moved into computer vision and formal reasoning.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392778,
+   "lng": -122.041944
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "publish",
+   "title": "신경망의 적대적 예제를 보고하다",
+   "title_en": "Reports adversarial examples in neural networks",
+   "description": "보이치에흐 자렘바, 일리야 수츠케버, 조안 브루나, 두미트루 에르한, 이안 굿펠로, 롭 퍼거스와 함께 초고를 공개했다. 사람의 눈에는 거의 보이지 않는 교란으로 신경망의 분류 결과를 뒤집었으며, 같은 교란은 다른 신경망도 오분류하게 했다. 이듬해 학습 표현 국제학회에서 이 연구를 발표했다.",
+   "description_en": "With Wojciech Zaremba, Ilya Sutskever, Joan Bruna, Dumitru Erhan, Ian Goodfellow, and Rob Fergus he posted a preprint. Barely visible perturbations flipped a network’s classification, and the same perturbations fooled other networks as well. They presented the work the next year at ICLR.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392778,
+   "lng": -122.041944
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "publish",
+   "title": "인셉션 구조로 이미지넷에 출전하다",
+   "title_en": "Enters ImageNet with the Inception architecture",
+   "description": "웨이 류, 자양칭, 피에르 세르마네, 빈센트 반후케 등과 함께 22층 합성곱 신경망을 구축했다. 한 블록 안에서 여러 크기의 합성곱을 나란히 실행해 계산량을 늘리지 않으면서 깊이와 폭을 키웠다. 이미지넷 분류 부문에서 톱5 오류율 6.67퍼센트로 1위를 차지했고, 외부 학습 데이터를 사용한 이미지 탐지 부문에서도 1위에 올랐다. 이듬해 보스턴에서 열린 컴퓨터 비전 학회에서 구글넷이라는 이름으로 발표했다.",
+   "description_en": "With Wei Liu, Yangqing Jia, Pierre Sermanet, Vincent Vanhoucke and others he built a 22-layer convolutional network. Each block ran convolutions of several sizes side by side, so depth and width grew without raising the compute budget. The entry placed first in ImageNet classification with 6.67 percent top-5 error, and first in detection with extra training data. They published it the next year at CVPR in Boston as GoogLeNet.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392778,
+   "lng": -122.041944
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "publish",
+   "title": "세르게이 이오페와 배치 정규화를 발표하다",
+   "title_en": "Publishes batch normalization with Sergey Ioffe",
+   "description": "미니배치마다 각 층의 입력을 정규화해 학습을 안정시켰다. 더 높은 학습률을 사용할 수 있었고 드롭아웃도 줄일 수 있었다. 배치 정규화를 적용한 인셉션 신경망 앙상블은 이미지넷 톱5 시험 오류율을 4.82퍼센트까지 낮췄다. 릴에서 열린 기계학습 국제학회에서 이 방법을 발표했다.",
+   "description_en": "They normalized each layer’s inputs per mini-batch and thereby stabilized training. Higher learning rates became usable, and dropout could be reduced. An ensemble of batch-normalized Inception networks reached 4.82 percent top-5 test error on ImageNet. They presented the method at ICML in Lille.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392778,
+   "lng": -122.041944
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "publish",
+   "title": "형식 증명에 신경망을 적용하다",
+   "title_en": "Applies neural networks to formal proofs",
+   "description": "알렉스 알레미, 프랑수아 숄레, 제프리 어빙, 요제프 우르반 등과 함께 미자르 정리 모음에서 전제 선택을 학습시켰다. 합성곱 모형은 수작업으로 설계한 특징 없이 공리의 순위를 매겼다. 같은 해 구글에서 형식수학 팀 엔투포멀을 꾸렸다.",
+   "description_en": "With Alex Alemi, François Chollet, Geoffrey Irving, Josef Urban and others he trained premise selection on the Mizar corpus. Convolutional models ranked axioms without hand-engineered features. That same year he formed the N2Formal team at Google.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392778,
+   "lng": -122.041944
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "publish",
+   "title": "큰 언어모형으로 자동형식화를 시험하다",
+   "title_en": "Tests autoformalization with large language models",
+   "description": "유후아이 우, 알버트 장, 웬다 리, 마르쿠스 라베 등과 함께 경시대회 문제를 이사벨의 형식 명제로 옮겼다. 코덱스는 전체 문제 가운데 4분의 1을 완벽하게 형식화했다. 이 형식 명제들로 증명기를 학습시키자 미니에프투에프 벤치마크 성공률이 29.6퍼센트에서 35.2퍼센트로 올랐다.",
+   "description_en": "With Yuhuai Wu, Albert Jiang, Wenda Li, Markus Rabe and others he translated contest problems into formal statements in Isabelle. Codex produced a perfect formalization for a quarter of the problems. Training a prover on those statements raised the MiniF2F success rate from 29.6 percent to 35.2 percent.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392778,
+   "lng": -122.041944
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글을 떠나 엑스에이아이 창립 팀에 합류하다",
+   "title_en": "Leaves Google for the xAI founding team",
+   "description": "7월 12일 발표된 창립 팀 명단에 이고르 바부시킨, 유후아이 우, 그레그 양 등과 함께 이름을 올렸다. 발표문은 배치 정규화, 인셉션, 적대적 예제, 자동형식화를 창립 팀의 연구 작업으로 소개했다. 이듬해 2월까지 엑스에이아이 팀에 남아 있었다.",
+   "description_en": "The 12 July announcement listed him with Igor Babuschkin, Yuhuai Wu, Greg Yang and others. The note cited batch normalization, Inception, adversarial examples, and autoformalization among the team’s work. He stayed through February of the following year.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429167,
+   "lng": -122.138056
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "매스 인을 설립하고 가우스를 공개하다",
+   "title_en": "Founds Math Inc and releases Gauss",
+   "description": "9월에 자동형식화 회사 매스 인을 공개했다. 매스 인의 에이전트 가우스는 테렌스 타오와 알렉스 콘토로비치가 제시한 강한 소수 정리 형식화 과제를 약 3주 만에 린 코드로 완성했다. 같은 프로젝트에 대한 인간의 작업은 18개월 동안 중간 단계에 머물러 있었다.",
+   "description_en": "In September he launched Math Inc, a company for autoformalization. Its agent Gauss finished, in about three weeks of Lean code, a formalization of the strong prime number theorem that Terence Tao and Alex Kontorovich had set. Human work on the same project had sat at an intermediate stage for eighteen months.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429167,
+   "lng": -122.138056
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 직역투, 불분명한 지시어, 어색한 전문용어와 행동 표현을 바로잡았다. 부다페스트 출생부터 수학 연구, 칩 설계, 구글의 인공지능 연구, 자동형식화 창업으로 이어지는 생애의 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「헝가리 수도에서 났다」는 지나치게 축약된 표현이고, 「그 도시」는 앞 문장만 읽었을 때 지칭 대상을 한 번 더 짐작하게 한다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「수학과 전산을 들었다」는 과목을 수강했다는 뜻처럼 읽혀 수학과 전산학을 공부했다는 영문의 의미를 정확히 전달하지 못하며, 「뒤에」도 생애의 다음 단계로 이어지는 연결이 약하다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「조합최적화」의 띄어쓰기가 어색하고, 「짝맞춤을 다시 적다」「칩 배치의 이차형식을 풀다」「공동 결과를 논문에 넣다」는 영문 용어를 문장 구조에 맞지 않게 치환해 연구 내용을 이해하기 어렵게 한다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「논리 합성을 했다」「알고리즘을 냈다」는 연구 활동과 논문 발표를 나타내는 표현으로 다소 거칠고 모호하다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「처음 직함」과 「뒤에 … 옮겼다」는 입사 당시의 직책과 이후 연구 분야의 변화를 나타내기에 어색하다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사람이 거의 못 보는 교란」과 「다른 신경망의 분류도 흔들었다」는 적대적 교란의 가시성과 다른 신경망의 오분류를 부정확하고 모호하게 표현한다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이미지넷에 나가다」「신경망을 짜다」「상위 5개 오류」「탐지」는 경진대회 출전, 신경망 구축, 톱5 오류율, 이미지 탐지라는 대상을 자연스럽게 드러내지 못한다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배치 정규화를 「내다」라고 한 제목과 인셉션에 배치 정규화를 「붙였다」고 한 서술이 논문 발표와 기법 적용을 지나치게 구어적으로 표현한다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「형식 증명에 신경망을 걸다」「전제 고르기」「손수 만든 특징」은 연구의 대상과 방법을 뜻을 짐작해야 하는 구어적 표현으로 옮겼다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「문제의 4분의 1을 그대로 맞췄다」는 완벽한 형식화에 성공했다는 뜻을 전달하지 못하고, 「그 명제로 증명을 학습시키다」는 학습 대상인 증명기를 빠뜨려 주어·목적어 관계가 불분명하다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「창립 팀에 서다」와 연구들을 「팀의 이력으로 적었다」는 표현은 창립 팀 합류와 발표문이 소개한 팀의 연구 작업을 자연스럽게 나타내지 못한다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사를 「세우고」 에이전트를 「내놓다」라는 제목은 다소 구어적이며, 「사람이 18개월째 중간 단계에 머물던 일이었다」는 무엇이 중간 단계에 머물렀는지 명확하지 않다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

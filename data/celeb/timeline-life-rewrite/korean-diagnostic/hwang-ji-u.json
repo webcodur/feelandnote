@@ -1,0 +1,283 @@
+{
+ "slug": "hwang-ji-u",
+ "events": [
+  {
+   "year": 1952,
+   "year_end": null,
+   "kind": "birth",
+   "title": "배다리 농가에서 태어나다",
+   "title_en": "Born in a farming household in Baedari",
+   "description": "북일면 신월리 마을의 농가에서 네 아들 가운데 셋째로 태어났다. 본명은 재우였다. 아버지는 황길주, 어머니는 선귀례였다. 형은 뒤에 중이 되었다.",
+   "description_en": "He was born the third of four sons in a farming household in Sinwol-ri, Bukil-myeon. His given name was Jae-u. His father was Hwang Gil-ju and his mother was Seon Gwi-rye. An older brother later became a Buddhist monk.",
+   "place_name": "해남",
+   "place_name_en": "Haenam",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1955,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 광주로 이주하다",
+   "title_en": "The family moves",
+   "description": "가족은 세간을 싣고 친척이 한 명도 없는 광주로 내려왔다. 그는 광주중앙국민학교에 들어갔다. 중학교 때 정음사 세계문학전집을 읽으며 글을 쓰기 시작했다.",
+   "description_en": "The family loaded their belongings and came down to a city where they had no kin. He entered Gwangju Jungang Elementary School. In middle school he read Jeong-eum-sa’s world literature set and began to write.",
+   "place_name": "광주",
+   "place_name_en": "Gwangju",
+   "lat": 35.166666666667,
+   "lng": 126.91666666667
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "education",
+   "title": "서울대 미학과에 들어가다",
+   "title_en": "Enters the Department of Aesthetics at Seoul National University",
+   "description": "광주제일고등학교를 나온 뒤 한 해 더 입시를 준비해 문리과대학 미학과에 들어갔다. 청량리 근처에서 방을 옮겨 다니며 살았다.",
+   "description_en": "After Gwangju Jeil High School he spent one more year preparing and entered the Department of Aesthetics in the College of Liberal Arts and Sciences. He moved from room to room near Cheongnyangni.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1973,
+   "year_end": 1976,
+   "kind": "other",
+   "title": "유신 반대 시위로 군에 끌려가다",
+   "title_en": "Forced into the army after an anti-Yusin protest",
+   "description": "유신에 반대하는 학내 시위에 연루되어 붙잡혔다. 군에 강제로 끌려갔다. 제대한 뒤에야 캠퍼스로 돌아왔다.",
+   "description_en": "He was seized over a campus protest against the Yusin regime. The army took him by force. Only after discharge did he return to campus.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "work",
+   "title": "중앙일보 신춘문예로 등단하다",
+   "title_en": "Debuts in the JoongAng Ilbo New Year’s Literary Contest",
+   "description": "시 「연혁」이 입선했다. 그해 같은 시기에 『문학과지성』에 「대답 없는 날들을 위하여」를 실었다.",
+   "description_en": "His poem Chronicle was selected in the contest. That same season he published For Days Without Answers in the journal Literature and Intelligence.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "other",
+   "title": "유인물을 뿌리다 붙잡히다",
+   "title_en": "Arrested after scattering leaflets",
+   "description": "5월 항쟁 소식을 듣고 종로에서 유인물을 뿌렸다. 청량리역에서 붙잡혀 합동수사본부로 끌려갔다. 거기서 고문을 당했다. 이듬해 대학원에서 제적됐다.",
+   "description_en": "After news of the May uprising he scattered leaflets in Jongno. He was seized at Cheongnyangni Station and taken to the joint investigation headquarters. He was tortured there. The next year the graduate school expelled him.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『새들도 세상을 뜨는구나』를 내다",
+   "title_en": "Publishes Even Birds Leave the World",
+   "description": "문학과지성사에서 첫 시집을 냈다. 물음표를 줄줄이 늘어놓고 시 대신 신문 만화를 싣는 등 기존 형식을 깨뜨렸다. 이 시집으로 제3회 김수영문학상을 받았다.",
+   "description_en": "Moonji published his first collection. He lined up question marks and put newspaper cartoons in the place of a poem, breaking the usual form. The third Kim Soo-young Literary Award went to the book.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『겨울-나무로부터 봄-나무에로』를 내다",
+   "title_en": "Publishes From Winter Trees to Spring Trees",
+   "description": "민음사에서 두 번째 시집을 냈다. 첫 시집에 이어 형식을 계속 깨뜨리며, 제자리에 남은 지식인이 처한 곤경을 썼다.",
+   "description_en": "Minumsa published his second collection. He kept breaking form and wrote the bind of an intellectual who stayed in place.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『나는 너다』를 내다",
+   "title_en": "Publishes I Am You",
+   "description": "풀빛에서 세 번째 시집을 냈다. 수록 시 제목을 숫자로만 적었다. 출가한 형과 노동운동을 하던 동생을 향해 쓴 시가 들어 있었다.",
+   "description_en": "Pulbit published his third collection. The poem titles were only numbers. The book held poems addressed to his monk brother and to a younger brother in the labor movement.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "office",
+   "title": "한예종 극작과 교수가 되다",
+   "title_en": "Becomes a playwriting professor at Korea National University of Arts",
+   "description": "한신대학교 문예창작과에서 가르치다 연극원 극작과로 옮겼다. 시를 쓰던 그가 희곡을 가르쳤다. 뒤에 연극원장을 맡았다.",
+   "description_en": "After teaching creative writing at Hanshin University he moved to the playwriting department of the School of Drama. A man who wrote poems taught playwriting. He later became dean of the School of Drama.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『어느 날 나는 흐린 주점에 앉아 있을 거다』를 내다",
+   "title_en": "Publishes One Day I Will Sit in a Dimly Lit Bar",
+   "description": "문학과지성사에서 여덟 해 만에 새 시집을 냈다. 출간한 지 한 달도 되지 않아 여러 차례 증쇄했다.",
+   "description_en": "Moonji bound a collection after eight years. Once it reached the shops it went through several printings within a month.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2006,
+   "year_end": 2009,
+   "kind": "office",
+   "title": "한국예술종합학교 총장에 임명되다",
+   "title_en": "Becomes president of Korea National University of Arts",
+   "description": "문화관광부가 제5대 총장에 임명했다. 이 학교에서 문인이 총장을 맡은 것은 처음이었다. 문화부가 종합감사에 나서자 사의를 밝혔다.",
+   "description_en": "The Ministry of Culture and Tourism named him the fifth president. He was the first literary figure to hold the post. When the ministry pressed a sweeping audit he resigned.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "other",
+   "title": "대법원이 교수 자리를 인정하다",
+   "title_en": "The Supreme Court recognizes his professorship",
+   "description": "학교가 총장직 중도 사퇴를 이유로 교수직을 인정하지 않자 국가를 상대로 소송을 냈다. 1심과 2심에서 패소했다. 대법원은 원심을 파기하고 교수직이 유지된다고 판단했다.",
+   "description_en": "The school refused to treat him as a professor after he left the presidency mid-term, so he sued the state. He lost at first instance and on appeal. The Supreme Court reversed those rulings and held that the professorship remained.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "travel",
+   "title": "정년을 마치고 내려가다",
+   "title_en": "Retires and returns south",
+   "description": "8월에 교수직에서 물러난 뒤 현산면 봉동 마을에 집을 짓고 그곳에서 살고 있다.",
+   "description_en": "He left the professorship in August. He built a house in Bongdong village, Hyeonsan-myeon, and lives there.",
+   "place_name": "해남",
+   "place_name_en": "Haenam",
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투와 불분명한 행위 관계를 바로잡고, 사건들이 생애의 흐름을 따라 자연스럽게 이어지도록 다듬었다. 다만 2009년 총장직과 관련해 국문은 사의 표명, 영문은 실제 사임을 뜻해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「짐을 옮기다」는 가족의 이주를 이삿짐 운반처럼 표현하고, 「피붙이 없는 땅」은 정착지가 광주라는 사실과 가족의 행동 관계를 바로 파악하기 어렵다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 해를 더 준비하고」는 무엇을 준비했는지가 빠져 있고, 「청량리 근처를 전전하며 살았다」는 실제로 방을 옮겨 다녔다는 영문의 세부를 흐린다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 철」은 영어의 same season을 순서대로 옮긴 듯한 어색한 표현이어서 두 작품을 발표한 시기 관계가 자연스럽게 읽히지 않는다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「신문 만화를 시 자리에 올려」는 뜻을 짐작해야 하고, 「문학상이 이 책에 갔다」는 award went to the book을 직역해 수상 주체와 행위가 무너진 표현이다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「첫 권에서 부순 형식을 이어 가며」와 「그 자리에 남는 지식인의 곤란」은 영어 어순과 표현을 좇아 형식 실험과 지식인의 처지를 불분명하게 전달한다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시를 쓰던 사람이 희곡을 가르쳤다」는 앞 문장과의 연결이 약하고 인물을 막연하게 다시 지칭한다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시집을 묶었다」와 「여러 쇄를 찍었다」는 출간과 증쇄의 주체가 연달아 생략되어 사건의 진행이 다소 흐릿하다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「총장에 오르다」는 임명 사실보다 의미가 넓고, 「종합감사를 들이밀자」는 지나치게 구어적이다. 또한 국문은 사의를 밝혔다고만 하지만 영문은 실제로 사임했다고 서술한다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학교 쪽」은 막연한 지칭이며, 「1심과 2심은 패소했다」는 재판 단계가 패소의 주체인 것처럼 읽힌다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "퇴임과 귀향을 각각 끊어 적어 두 행동의 시간적 연결이 약하고, 마지막 문장의 주어와 거주 장소도 앞 문장을 되짚어야 파악된다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 11,
+    "reason": "국문 description은 종합감사 뒤 「사의를 밝혔다」고 하여 사임 의사를 표명한 것으로 서술하지만, 영문 description은 he resigned라고 하여 실제 사임까지 이루어진 것으로 서술한다. 문장 편집만으로 어느 쪽이 사실인지 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   1,
+   2,
+   4,
+   6,
+   7,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

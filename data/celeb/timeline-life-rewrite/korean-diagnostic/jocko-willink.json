@@ -1,0 +1,252 @@
+{
+ "slug": "jocko-willink",
+ "events": [
+  {
+   "year": 1971,
+   "year_end": null,
+   "kind": "birth",
+   "title": "존 그레튼 주니어로 태어나다",
+   "title_en": "Born John Gretton Jr.",
+   "description": "형제가 둘 있었다. 고등학교에서 축구를 뛰었다. 어릴 때부터 군에 가고 싶어 했다.",
+   "description_en": "He had two siblings. He played soccer in high school. He wanted to join the military from an early age.",
+   "place_name": "토링턴",
+   "place_name_en": "Torrington",
+   "lat": 41.8,
+   "lng": -73.11666666666666
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "other",
+   "title": "해군에 입대하다",
+   "title_en": "Enlisted in the Navy",
+   "description": "열아홉 살이었다. 신병훈련과 통신병 초급학교를 먼저 마쳤다. 그다음에 특수전 훈련을 신청했다.",
+   "description_en": "He was nineteen. He finished recruit training and Radioman A School first. Then he applied for special warfare training.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "BUD/S 177기를 수료하다",
+   "title_en": "Completed BUD/S Class 177",
+   "description": "기초 수중 폭파·SEAL 훈련을 통과했다. SEAL 전술훈련과 여섯 달간의 수습 기간을 거쳐 트라이던트 휘장을 받았다. 사병 대원으로 SEAL 1팀에 배치됐다.",
+   "description_en": "He passed Basic Underwater Demolition/SEAL training. After SEAL tactical training and a six-month probation he received the Trident. He was assigned to SEAL Team One as an enlisted operator.",
+   "place_name": "코로나도",
+   "place_name_en": "Coronado",
+   "lat": 32.678055555556,
+   "lng": -117.1725
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "장교로 임관하다",
+   "title_en": "Commissioned as an officer",
+   "description": "사병으로 여덟 해 동안 복무한 뒤 장교후보생학교를 거쳤다. SEAL 2팀에서 소대장을 맡았고, 이후 SEAL 7팀에서도 소대장을 맡았다. 아시아와 중동, 유럽으로 여러 차례 파병됐다.",
+   "description_en": "After eight years enlisted he went through Officer Candidate School. He served as a platoon commander with SEAL Team Two and later SEAL Team Seven. He deployed repeatedly to Asia, the Middle East, and Europe.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "education",
+   "title": "영문학 학사를 받다",
+   "title_en": "Earned a B.A. in English",
+   "description": "입대할 때는 대학에 가지 않았다. 현역으로 복무하면서 샌디에이고 대학교에서 학업을 마쳤다.",
+   "description_en": "He did not go to college when he enlisted. He finished the University of San Diego while still on active duty.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "battle",
+   "title": "태스크 유닛 브루저를 지휘하다",
+   "title_en": "Commanded Task Unit Bruiser",
+   "description": "SEAL 3팀 소속이었다. 앞서 소대장으로 바그다드에 파병됐고, 그 파병 기간에는 소대원 가운데 전사자가 없었다. 그 공로로 전투 V가 딸린 청동성훈장을 받았다. 라마디에서는 미 육군 제1기갑사단 레디 퍼스트 여단과 함께 전투 전초기지 여섯 곳을 세웠다. 태스크 유닛 브루저는 저격 엄호와 기습, 소탕 작전을 이백 회 넘게 수행했다. 마크 리와 마이클 먼수어가 라마디 전투에서 전사했다. 그는 이 부대를 지휘한 공로로 은성훈장을 받았다.",
+   "description_en": "He was with SEAL Team Three. He had already gone to Baghdad as a platoon commander. None of his men were killed on that tour. He received a Bronze Star with a Combat V. This time he worked with the Ready First Brigade of the U.S. Army 1st Armored Division and emplaced six combat outposts. The unit ran more than two hundred sniper overwatch, raid, and clearance operations. Marc Lee and Michael Monsoor were killed in that fight. He received the Silver Star for this command.",
+   "place_name": "라마디",
+   "place_name_en": "Ramadi",
+   "lat": 33.42583333333334,
+   "lng": 43.299166666666665
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "미 서부 SEAL 팀 훈련을 맡다",
+   "title_en": "Took charge of West Coast SEAL training",
+   "description": "전선에서 돌아온 뒤 미 서부의 모든 SEAL 팀을 훈련하는 책임자가 됐다. 라마디에서 적용한 지휘 방식을 후임 장교 교육과정에 반영했다.",
+   "description_en": "He came back from the war and became officer-in-charge of training for all West Coast SEAL teams. He put the command methods used in Ramadi into the course for incoming officers.",
+   "place_name": "코로나도",
+   "place_name_en": "Coronado",
+   "lat": 32.678055555556,
+   "lng": -117.1725
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "전역하고 에셜론 프론트를 세우다",
+   "title_en": "Retired and founded Echelon Front",
+   "description": "이십 년간 복무한 뒤 해군 중령으로 전역했다. 라마디에서 함께 싸운 리프 바빈과 리더십 컨설팅 회사를 열었다.",
+   "description_en": "He left as a lieutenant commander after twenty years. With Leif Babin, who had fought with him in Ramadi, he opened a leadership consulting firm.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『극한의 책임』을 내다",
+   "title_en": "Published Extreme Ownership",
+   "description": "리프 바빈과 함께 썼다. 각 장에서 라마디 작전 하나를 풀어내 지휘 원칙으로 정리했다. 이 책은 뉴욕타임스 오디오 논픽션 목록에 올랐다.",
+   "description_en": "He wrote it with Leif Babin. Each chapter turned a Ramadi operation into a leadership rule. The New York Times put the book on its audio nonfiction list.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "조코 팟캐스트를 시작하다",
+   "title_en": "Launched Jocko Podcast",
+   "description": "책에 관해 이야기하려 팀 페리스, 조 로건, 샘 해리스의 방송에 출연한 뒤 자신의 주간 팟캐스트를 시작했다. 에코 찰스와 함께 빅토리 종합격투기 체육관에서 녹화했다.",
+   "description_en": "After going on the shows of Tim Ferriss, Joe Rogan, and Sam Harris to talk about the book, he started his own weekly show. He recorded it with Echo Charles at Victory MMA and Fitness.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『규율이 곧 자유다』를 내다",
+   "title_en": "Published Discipline Equals Freedom",
+   "description": "새벽 기상과 훈련, 식단을 야전교범 형식으로 묶었다. 혼자 썼다.",
+   "description_en": "He put early rising, training, and diet into a field-manual format. He wrote this one alone.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "프로축구단 소유 그룹에 들어가다",
+   "title_en": "Joined a pro soccer club ownership group",
+   "description": "새로 창단된 메이저리그 사커 구단의 파트너가 됐다. 군 공동체를 위한 프로그램을 기획하는 일을 맡았다.",
+   "description_en": "He became a partner of a new Major League Soccer club. His job was to help build programs for the military community.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "일부 사건에서 SEAL 관련 명칭이 불분명하게 음역됐고, 앞선 파병과 라마디 전투를 가리키는 표현이 모호해 생애의 연결이 끊겼다. 영문의 세부와 의미 범위를 유지하면서 대상과 사건의 관계가 바로 드러나도록 국문을 고쳤다.",
+  "issues": [
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "BUD/S와 SEAL을 각각 「버즈」와 「실」로만 적어 훈련 과정, 휘장, 소속 부대의 뜻을 알아보기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사병으로 여덟 해를 보낸 뒤」와 「실팀」이라는 표현이 어색하고, 두 SEAL 팀에서 차례로 복무했다는 시간 관계가 충분히 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「샌디에이고 대학교를 마쳤다」는 대학 자체를 끝냈다는 식으로 목적어와 행동의 관계가 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 전」과 「이번에는」이 각각 바그다드 파병과 라마디 전투를 가리킨다는 사실이 문장만으로 분명하지 않았고, 작전 수행의 주체도 빠져 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「서부 실팀」과 「서부 해안 실팀 전체」가 불분명한 음역과 어순 때문에 미 서부의 모든 SEAL 팀을 뜻한다는 점을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「해군 중령으로 나왔다」가 전역 당시 계급을 나타내는 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뉴욕타임스가 이 책을 순위에 올렸다」는 표현이 영문의 목록 등재 의미를 인위적인 행위처럼 전달했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「책을 알리려」는 영문의 책에 관해 이야기했다는 의미보다 홍보 목적을 강하게 단정했고, 「직접 주간 방송을 열었다」도 팟캐스트를 시작했다는 뜻이 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「먹을거리」는 diet를 옮긴 말로 문맥상 식단이라는 뜻을 정확히 전달하지 못했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「메이저리그 사커가 새로 만든 구단」은 리그가 직접 구단을 만들었다는 관계로 읽힐 수 있었고, 프로그램을 「짜는 일」이라는 표현도 다소 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

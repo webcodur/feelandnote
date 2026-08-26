@@ -1,0 +1,314 @@
+{
+ "slug": "alec-radford",
+ "events": [
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어났다",
+   "title_en": "Was born",
+   "description": "4월이었다. 댈러스와 포트워스 사이의 교외에서 자랐다.",
+   "description_en": "It was April. He grew up in the suburbs between Dallas and Fort Worth.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "education",
+   "title": "시스터시안 예비학교를 졸업했다",
+   "title_en": "Graduated from Cistercian Preparatory School",
+   "description": "어빙에 있는 가톨릭계 남자 중고등학교였다. 졸업반 학생의 절반가량이 이글 스카우트였고, 그도 이글 스카우트였다. 4년 동안 퀴즈볼 대회에 참가했다.",
+   "description_en": "It was a Catholic boys school in Irving. About half the graduating class were Eagle Scouts, and he was one of them. He also competed in quiz bowl for four years.",
+   "place_name": "어빙",
+   "place_name_en": "Irving",
+   "lat": 32.811666666,
+   "lng": -96.950833333
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "education",
+   "title": "올린 공대에 들어갔다",
+   "title_en": "Enrolled at Olin College",
+   "description": "학생이 400명쯤인 작은 공과대학이었다. 슬레이터 빅터로프와 루크 메츠를 만났다. 이듬해 토론토 팀이 알렉스넷으로 이미지 대회에서 우승하자, 이들은 기숙사에서 딥러닝을 연구하기 시작했다. 캐글 대회에도 함께 참가했다.",
+   "description_en": "It was a small engineering college of about four hundred students. He met Slater Victoroff and Luke Metz. The next year, when a Toronto team won an image contest with AlexNet, they took up deep learning in the dorm. They also entered Kaggle contests.",
+   "place_name": "니덤",
+   "place_name_en": "Needham",
+   "lat": 42.283333333,
+   "lng": -71.233333333
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "인디코를 키우려고 학교를 그만뒀다",
+   "title_en": "Left college to grow Indico",
+   "description": "기숙사에서 빅터로프, 다이애나 위안, 매디슨 메이와 함께 글과 그림을 분석하는 도구를 만들기 시작했다. 회사가 테크스타스 보스턴에 뽑히자 4학년 과정을 시작하지 않았다. 제너럴 캐털리스트와 보스턴의 다른 벤처 투자사들이 300만 달러를 투자했고, 이들은 레더 디스트릭트의 한 와인바 위층으로 사무실을 옮겼다.",
+   "description_en": "In the dorm he had started building text- and image-analysis tools with Victoroff, Diana Yuan, and Madison May. After Techstars Boston accepted the company he did not begin senior year. General Catalyst and other Boston venture firms put in three million dollars, and they moved the office above a wine bar in the Leather District.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777,
+   "lng": -71.057777777
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "publish",
+   "title": "생성적 적대 신경망을 안정적으로 훈련하는 구조를 발표했다",
+   "title_en": "Published a stable architecture for generative adversarial networks",
+   "description": "루크 메츠와 함께 썼고, 뉴욕에 있는 페이스북 연구소의 수미스 친탈라가 멘토를 맡았다. 모델을 라벨 없는 이미지로 훈련하자 물체의 부분부터 장면까지 이어지는 계층을 학습했다. 4월에는 엔비디아의 젠슨 황이 그 결과를 얀 르쿤 연구소의 연구로 소개했다.",
+   "description_en": "He wrote it with Luke Metz, and Soumith Chintala of Facebook's New York lab was the mentor. Trained on unlabeled images, the pair learned a hierarchy from object parts to scenes. In April, Nvidia's Jensen Huang presented the result as work from Yann LeCun's laboratory.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777,
+   "lng": -71.057777777
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "오픈AI에 들어갔다",
+   "title_en": "Joined OpenAI",
+   "description": "빅터로프는 훗날, 자신들이 보스턴에서는 연구 성과를 인정받기 어렵다고 느꼈다고 말했다. 투자자 그레이엄 브룩스는 연산 비용이 스타트업이 감당할 수 있는 규모를 넘어섰다고 했다. 래드퍼드는 모교 고등학교 잡지에서 오픈AI 합류를 대학원 과정에 들어가는 일에 비유했다.",
+   "description_en": "Victoroff later said they felt Boston would not credit the work. Investor Graham Brooks said the compute costs had outgrown a startup. In his old high-school magazine he compared the move to joining a graduate program.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "publish",
+   "title": "아마존 서평에서 감성 뉴런을 찾았다",
+   "title_en": "Found a sentiment neuron in Amazon reviews",
+   "description": "모델은 8,200만 건의 서평을 학습하면서 다음 글자만 예측했지만, 긍정과 부정의 극성을 추적하는 단일 신경망 단위가 저절로 생겼다. 라파우 요제포비치, 일리야 수츠케버와 함께 논문을 썼다. 수츠케버는 더 큰 모델을 더 다양한 글로 학습시키면 의미를 학습한 핵심 구조가 될 수 있다고 봤다.",
+   "description_en": "The model was trained only to predict the next character in eighty-two million reviews, yet a single unit that tracked polarity appeared on its own. He wrote the paper with Rafal Jozefowicz and Ilya Sutskever. Sutskever saw that a larger model on more diverse text might become a learned core of meaning.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "publish",
+   "title": "생성 사전학습을 이용한 언어 이해 논문을 발표했다",
+   "title_en": "Published a paper on generative pre-training for language",
+   "description": "카르틱 나라심한, 팀 살리먼스, 수츠케버와 함께 썼다. 모델을 대규모 비라벨 말뭉치로 먼저 학습한 뒤, 과제마다 조금씩 미세 조정했다. 감성 뉴런 연구에서 이어진 접근을 트랜스포머에 적용한 작업이었고, 훗날 최초의 GPT 논문으로 불렸다.",
+   "description_en": "He wrote it with Karthik Narasimhan, Tim Salimans, and Sutskever. The model first trained on a large unlabeled corpus, then received a light fine-tune for each task. It carried the sentiment-neuron path onto a transformer and was later called the first GPT paper.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "publish",
+   "title": "더 큰 생성 언어 모델을 단계적으로 공개했다",
+   "title_en": "Released a larger generative language model in stages",
+   "description": "제프리 우와 공동 제1저자였다. 모델은 약 800만 페이지로 구성된 웹텍스트를 학습하며 다음 단어를 예측했다. 과제별 학습을 하지 않고도 읽기·번역·요약 능력의 싹을 보였다. 연구소는 오용 가능성을 살피는 동안 전체 가중치를 단계적으로 공개했다.",
+   "description_en": "Jeffrey Wu was joint first author. The model predicted the next word on WebText, about eight million pages. Without task-specific training it showed the beginnings of reading, translation, and summarization. The lab released the full weights in stages while it studied possible misuse.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "publish",
+   "title": "클립을 공개했다",
+   "title_en": "Released CLIP",
+   "description": "김종욱과 공동 제1저자였다. 인터넷에서 모은 이미지와 텍스트 4억 쌍으로 학습했으며, 별도의 분류기를 만들지 않고 텍스트 프롬프트만으로 시각 과제를 수행했다. 이미지넷에서는 그 벤치마크의 학습용 데이터를 사용하지 않고도 기존 ResNet-50과 맞먹는 성능을 냈다.",
+   "description_en": "Jong Wook Kim was joint first author. Trained on four hundred million image-text pairs from the internet, it followed text prompts onto vision tasks without a separate classifier. On ImageNet it matched a ResNet-50 without using that benchmark's training set.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "publish",
+   "title": "위스퍼를 공개했다",
+   "title_en": "Released Whisper",
+   "description": "김종욱과 다시 공동 제1저자였다. 학습 데이터는 웹에서 모은 68만 시간의 다국어 음성이었다. 모델은 악센트와 소음에도 견고하게 작동했고, 다른 언어의 음성을 영어로 번역하기도 했다.",
+   "description_en": "Kim was again joint first author. The training set was six hundred eighty thousand hours of multilingual audio from the web. The model held up under accents and noise, and it also translated other languages into English.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "독립적으로 연구하기 위해 오픈AI를 떠났다",
+   "title_en": "Left OpenAI to research independently",
+   "description": "12월에 동료들에게 독립 연구가 다음 계획이라고 알렸다. 초기 GPT 연구부터 CLIP과 Whisper까지 이어진 8년 남짓한 오픈AI 재직을 마쳤다.",
+   "description_en": "In December he told colleagues that was the plan. It closed a little over eight years from the early GPT work through CLIP and Whisper.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "싱킹 머신스 랩의 고문이 됐다",
+   "title_en": "Became an advisor at Thinking Machines Lab",
+   "description": "미라 무라티가 세운 회사였다. 고문 명단에 밥 맥그루와 함께 이름을 올렸다. 웹사이트에는 3월 무렵 두 사람의 이름이 올라왔고, 4월에 관련 보도가 나왔다.",
+   "description_en": "It was the company Mira Murati had founded. His name appeared with Bob McGrew. The site listed them around March, and the press reported it in April.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "publish",
+   "title": "1931년 이전의 글로만 학습한 모델을 공개했다",
+   "title_en": "Released a model trained only on pre-1931 text",
+   "description": "닉 리바인, 데이비드 듀브노와 함께 썼다. 말뭉치는 책·신문·학술지·특허·판례에서 가져온 2,600억 토큰으로 이루어졌다. 미국에서 저작권이 만료되는 연도를 기준으로 데이터 범위를 끊었고, 앤트로픽이 연산 자원을 제공했다.",
+   "description_en": "He wrote it with Nick Levine and David Duvenaud. The corpus was two hundred sixty billion tokens of books, newspapers, journals, patents, and case law. They cut the data at the year U.S. copyright expires, and Anthropic supplied the compute.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 뜻이 흐려진 표현, 주체와 대상이 불분명한 문장, 사건 사이의 연결을 끊는 직역을 바로잡았다. 영문에 없는 평가나 성과는 보태지 않았으며 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「댈러스와 포트워스를 잇는 교외」가 두 도시 사이에 있는 교외라는 뜻을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그도 그 안에 있었다」가 무엇에 속했다는 말인지 바로 이해되지 않아 이글 스카우트였다는 사실을 직접 밝혔다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기숙사에서 딥러닝을 붙잡았다」가 took up deep learning을 직역한 표현이고, 이어지는 캐글 참가 문장에서도 행동 주체가 흐렸다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사학년」과 「보스턴 쪽 벤처 회사들」을 자연스럽게 고치고, Leather District를 뜻이 달라질 수 있는 「가죽지구」로 직역한 표현을 바로잡았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「구조를 냈다」가 발표 행위를 분명히 나타내지 못했다. 「표지 없는 그림」은 unlabeled images의 오역이며, 「물체에서 장면까지」는 object parts의 세부를 빠뜨렸다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "빅터로프 개인이 느꼈다는 문장처럼 읽혀 영문의 복수 주체가 사라졌고, 마지막 문장에서는 무엇을 대학원 진학에 비유했는지 드러나지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「팔천이백만 건의 다음 글자만 맞추게 했다」는 학습 데이터와 예측 과제의 관계가 무너진 문장이었다. polarity와 learned core of meaning도 한국어에서 뜻이 드러나도록 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「큰 글로 먼저 학습했다」가 large unlabeled corpus를 부정확하게 줄였고, 「조금만 다듬었다」는 fine-tune의 대상과 행위를 분명히 보여주지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "모델을 「풀었다」거나 가중치를 「나눠 내놓았다」는 표현이 staged release를 어색하게 직역했다. 웹텍스트와 다음 단어 예측의 관계도 문장 안에서 흐렸다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「글 지시만으로 그림 과제에 붙였다」는 주어·목적어·행동 관계가 무너져 CLIP이 텍스트 프롬프트로 시각 과제를 수행했다는 뜻을 알아보기 어려웠다. ImageNet 학습용 데이터가 필요 없었다는 세부도 명확히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「육십팔만 시간의 다국어 음성이었다」는 무엇이 음성이었다는 말인지 주어가 빠졌고, 다른 언어를 영어로 옮겼다는 문장에서도 번역 대상이 불분명했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "independently를 「혼자」로 단정한 제목을 바로잡았다. 「그렇게 알렸다」는 앞 문장만으로 계획의 내용을 알 수 없고, 마지막 문장도 퇴사와 재직 기간의 마무리를 충분히 연결하지 못했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「밥 맥그루와 같이 이름에 올랐다」는 고문 명단에 두 사람의 이름이 함께 실렸다는 관계를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "pre-1931을 「천구백삼십 년 이전」으로 옮겨 1930년 자료의 포함 여부가 달라졌고, 「미국 저작권이 풀리는 해를 끊었다」「계산은 앤트로픽이 댔다」는 직역으로 의미를 짐작해야 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

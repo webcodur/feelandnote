@@ -1,0 +1,283 @@
+{
+ "slug": "emperor-hirohito",
+ "events": [
+  {
+   "year": 1901,
+   "year_end": null,
+   "kind": "birth",
+   "title": "아오야마 별궁에서 태어나다",
+   "title_en": "Born at the Aoyama Detached Palace",
+   "description": "메이지 천황이 아직 재위 중이던 해였다. 아버지는 황태자 요시히토, 어머니는 구조 가문의 사다코였다. 어릴 적 이름은 미치노미야였다. 태어난 지 백일 남짓 만에 해군 중장 출신 가와무라 스미요시 백작의 집으로 보내져 자랐다. 가와무라가 죽자 세 살에 궁으로 돌아왔다.",
+   "description_en": "Meiji was still on the throne. His father was Crown Prince Yoshihito, his mother Sadako of the Kujō house. His childhood name was Michinomiya. About a hundred days after the birth he was raised in the house of Count Kawamura Sumiyoshi, a former vice-admiral. When Kawamura died, the boy, then three, returned to the palace.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1914,
+   "year_end": 1921,
+   "kind": "education",
+   "title": "동궁어학문소에 들어가다",
+   "title_en": "Enters the Crown Prince’s school",
+   "description": "학습원 초등과를 나온 뒤 황태자만을 위한 교실에 들어갔다. 원장은 쓰시마 해전의 도고 헤이하치로였다. 앞서 학습원을 맡았던 노기 마레스케는 메이지 천황의 장례 날 자결했다. 메이지 천황이 죽은 뒤 아버지가 즉위했고, 그는 다음 천황으로 길러졌다.",
+   "description_en": "After the elementary course at Gakushūin he entered a classroom kept for the crown prince alone. Admiral Tōgō Heihachirō, the victor of Tsushima, headed it. Nogi Maresuke, who had run Gakushūin before him, had killed himself on the day of Meiji’s funeral. After Meiji’s death his father took the throne, and they raised the boy as the next emperor.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1921,
+   "year_end": null,
+   "kind": "travel",
+   "title": "황태자로서 유럽을 돌다",
+   "title_en": "Tours Europe as crown prince",
+   "description": "일본 황태자가 바다를 건넌 것은 이때가 처음이었다. 영국에서 조지 5세를 만났고, 프랑스, 벨기에, 네덜란드, 이탈리아를 거쳤다. 여섯 달이 지나 돌아왔다.",
+   "description_en": "No Japanese crown prince had crossed the sea before. He met George V in Britain and passed through France, Belgium, the Netherlands, and Italy. Six months later he came home.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1921,
+   "year_end": null,
+   "kind": "office",
+   "title": "섭정이 되다",
+   "title_en": "Becomes regent",
+   "description": "아버지가 더는 정무를 볼 수 없었다. 그는 섭정이 되어 정무를 대신 맡았다. 유럽에서 돌아온 그해 겨울의 일이었다.",
+   "description_en": "His father could no longer handle state business. He took the court work as regent. It happened in the winter of the year he returned from Europe.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1924,
+   "year_end": null,
+   "kind": "other",
+   "title": "나가코와 혼인하다",
+   "title_en": "Marries Princess Nagako",
+   "description": "상대는 구니노미야 구니요시의 맏딸이었다. 야마가타 아리토모는 나가코의 외가에 색맹이 유전된다는 이유로 혼인을 반대했고, 약혼은 위기를 맞았다. 관동대지진으로 식이 미뤄진 뒤 도쿄에서 혼례를 올렸다. 두 사람은 일곱 자녀를 두었다.",
+   "description_en": "She was the eldest daughter of Prince Kuniyoshi of Kuni. Yamagata Aritomo opposed the match, saying color blindness ran in her mother’s line, and shook the engagement. The Great Kantō earthquake delayed the rite, and they married in Tokyo. Seven children were born to them.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1926,
+   "year_end": null,
+   "kind": "office",
+   "title": "쇼와 천황으로 즉위하다",
+   "title_en": "Accedes as the Shōwa emperor",
+   "description": "아버지가 죽자 자리를 이었다. 연호를 쇼와로 고쳤다. 이태 뒤 교토에서 즉위식을 올렸다.",
+   "description_en": "When his father died he took the throne. They changed the era name to Shōwa. Two years later he held the enthronement rites in Kyoto.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1936,
+   "year_end": null,
+   "kind": "other",
+   "title": "2·26 사건 진압을 명하다",
+   "title_en": "Orders the February 26 coup crushed",
+   "description": "청년 장교들이 도쿄 한복판을 점거하고 내대신 사이토 마코토, 대장대신 다카하시 고레키요, 교육총감 와타나베 조타로를 죽였다. 그는 그들을 폭도라 부르고 진압을 명했다. 사흘 만에 난은 끝났다.",
+   "description_en": "Young officers occupied the center of Tokyo and killed Lord Keeper Saitō Makoto, Finance Minister Takahashi Korekiyo, and Inspector General Watanabe Jōtarō. He called them rebels and ordered the rising crushed. In three days it was over.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1941,
+   "year_end": null,
+   "kind": "office",
+   "title": "미국과의 전쟁을 재가하다",
+   "title_en": "Sanctions war with the United States",
+   "description": "어전회의에서 미국, 영국, 네덜란드와의 전쟁을 결정했다. 그 자리에서 그는 한마디도 하지 않았다. 그달 일본군이 진주만을 쳤다.",
+   "description_en": "An imperial conference decided on war with the United States, Britain, and the Netherlands. He said nothing in that room. That month Japanese forces struck Pearl Harbor.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1945,
+   "year_end": null,
+   "kind": "work",
+   "title": "라디오로 전쟁의 종결을 알리다",
+   "title_en": "Announces the end of the war by radio",
+   "description": "히로시마와 나가사키에 원자폭탄이 떨어지고 소련이 참전한 뒤, 그는 포츠담 선언을 받아들이기로 결정했다. 그날 밤 장교들이 궁을 점거하고 녹음 원반을 빼앗으려 했다. 이튿날 정오에 그 녹음을 전국에 내보냈다. 사람들이 천황의 목소리를 들은 것은 이때가 처음이었다. 조서에는 항복이라는 글자가 없었다.",
+   "description_en": "After Hiroshima, Nagasaki, and the Soviet entry he resolved to accept the Potsdam Declaration. That night officers occupied the palace to seize the recording. At noon the next day the disc went out across the country. It was the first time the people heard an emperor’s voice. The rescript did not use the word surrender.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1946,
+   "year_end": null,
+   "kind": "office",
+   "title": "현인신이 아니라고 하다",
+   "title_en": "Denies that he is a living deity",
+   "description": "연합군 최고사령부의 요청으로 나온 정월 조서에서 천황이 현인신이라는 생각을 허구라고 했다. 다만 천황가가 아마테라스의 후손이라는 전승까지 부정하지는 않았다. 같은 달 맥아더는 그를 전범으로 재판에 세울 구체적 증거가 없다고 워싱턴에 전했다. 그는 재판정에 서지 않았다.",
+   "description_en": "In the New Year rescript issued at the request of the Allied occupation he called the idea of the emperor as a manifest deity a fiction. He did not cut the tradition that the line descends from Amaterasu. That same month MacArthur told Washington he had no specific evidence to put him in the dock as a war criminal. He did not stand trial.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "office",
+   "title": "상징 천황으로 황위에 남다",
+   "title_en": "Keeps the throne as a symbol",
+   "description": "새 헌법이 시행되었다. 주권은 국민에게 있고, 천황은 국가와 국민 통합의 상징이라고 적혔다. 그는 황위에 남았다.",
+   "description_en": "The new constitution took effect. It placed sovereignty in the people and wrote the emperor as the symbol of the State and of the unity of the people. He stayed in that seat.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1971,
+   "year_end": null,
+   "kind": "travel",
+   "title": "재위 중 처음으로 유럽을 순방하다",
+   "title_en": "Leaves for Europe while on the throne",
+   "description": "즉위한 뒤 처음 떠나는 해외 순방이었다. 오십 년 전 황태자 시절에 돌았던 나라들을 다시 찾았다. 벨기에, 영국, 서독을 공식 방문했다.",
+   "description_en": "It was his first journey abroad after accession. He returned to the countries he had toured fifty years earlier as crown prince. He made official visits to Belgium, Britain, and West Germany.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "death",
+   "title": "후키아게 어소에서 세상을 뜨다",
+   "title_en": "Dies at the Fukiage Palace",
+   "description": "십이지장암이었다. 궁중은 그가 살아 있는 동안 병명을 공개하지 않았다. 아들 아키히토가 그날 황위를 이었고, 이튿날부터 연호가 헤이세이로 바뀌었다.",
+   "description_en": "The cancer was in the duodenum. The court did not name the disease while he lived. His son Akihito took the throne that day, and the era name changed to Heisei the next morning.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건은 영문의 사실 범위를 충실히 보존했으나, 일부 문장에 직역투·모호한 지시어·부자연스러운 서술어가 남아 있었다. 사건의 세부 내용은 유지하면서 처음부터 끝까지 자연스럽게 이어 읽히도록 국문 표현만 바로잡았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「메이지가 아직 자리에 있던」은 사람과 지위를 모호하게 표현하고, 「백일 남짓에」는 출생 후 경과 시간을 자연스럽게 드러내지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「메이지가 죽은 뒤」는 연호와 인물을 혼동할 여지가 있고, 「순사했다」는 앞뒤 설명 없이 쓰여 실제 행동인 자결을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "여러 나라를 방문한 일을 「프랑스, 벨기에, 네덜란드, 이탈리아를 지냈다」라고 표현해 목적어와 서술어의 관계가 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어전 일을 맡았다」는 섭정으로서 맡은 역할이 무엇인지 뜻을 짐작해야 하는 직역투였다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「색맹이 돈다고」와 「약혼을 흔들었다」는 영어 표현을 한국어 어순에 맞지 않게 옮긴 문장이며, 「일곱 자녀가 났다」도 부자연스러웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "「쇼와로 즉위하다」는 연호 자체가 지위인 것처럼 읽혀, 사람과 지위의 관계가 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「이이육」은 2·26 사건을 가리키는 표기가 아니며, 「도쿄 한복판을 점하고」도 군사 행동을 서술하는 말로 부자연스러웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「전쟁을 끝내라고 알리다」는 종전 사실을 발표한 행위를 전쟁을 끝내라는 명령처럼 바꾸었다. 본문의 「뜻을 정했다」와 녹음 자체를 빼앗는다는 표현도 구체성이 부족했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지금 나타난 신」은 manifest deity를 단어 순서대로 옮긴 직역이며, 「전승을 거기에서 끊지는 않았다」와 「전범으로 세우다」도 한국어에서 의미가 선명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그 자리에 남았다」는 앞 문장만으로도 대상을 추론할 수는 있지만, 황위를 가리킨다는 사실을 직접 밝히는 편이 생애의 변화를 이어 읽기에 명확했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「유럽으로 나가다」와 「공식으로 방문했다」는 해외 순방을 나타내는 한국어 표현으로 어색했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리를 이었고」는 아키히토가 무엇을 계승했는지 모호하며, 연호 「헤이세이」가 「헤이세」로 잘못 적혀 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

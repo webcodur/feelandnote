@@ -1,0 +1,269 @@
+{
+ "slug": "bruce-willis",
+ "events": [
+  {
+   "year": 1955,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서독 이다어오버슈타인에서 태어나다",
+   "title_en": "Born in Idar-Oberstein, West Germany",
+   "description": "3월 19일, 미군이 주둔한 서독의 도시에서 태어났다. 어머니 마를렌은 카셀 출신이었고, 아버지 데이드는 미군 병사였다. 본명은 월터 브루스 윌리스다.",
+   "description_en": "He was born Walter Bruce Willis on March 19 in a West German town with a U.S. garrison. His mother, Marlene, came from Kassel. His father, David, was an American soldier.",
+   "place_name": "이다어오버슈타인",
+   "place_name_en": "Idar-Oberstein",
+   "lat": 49.701944444444,
+   "lng": 7.3252777777778
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지의 고향 카니스포인트로 건너가다",
+   "title_en": "Moves to his father’s hometown, Carneys Point",
+   "description": "아버지는 전역한 뒤 가족을 자신의 고향으로 데려갔다. 어머니는 은행에서 일했고, 아버지는 용접과 공장 일을 했다. 훗날 윌리스는 자기 집안이 대대로 생산직 노동자로 살아온 집안이라고 말했다.",
+   "description_en": "After leaving the Army his father took the family to his hometown. The mother worked in a bank. The father worked as a welder and in factories. Willis later called the family a long line of blue-collar people.",
+   "place_name": "카니스포인트",
+   "place_name_en": "Carneys Point",
+   "lat": 39.6948,
+   "lng": -75.4452
+  },
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "education",
+   "title": "펜스그로브 고등학교에서 무대에 서다",
+   "title_en": "Takes the stage at Penns Grove High School",
+   "description": "여섯 살 무렵부터 심하게 말을 더듬었다. 하지만 학교 연극 무대에 서면 말더듬이 사라졌고, 무대에서 내려오면 다시 말을 더듬었다. 연극부에 들어갔고 학생회장에도 뽑힌 뒤 졸업했다.",
+   "description_en": "He stuttered badly from about age six. In a school play the stutter vanished on stage and came back when he stepped off. He joined the drama club, was elected student council president, and graduated.",
+   "place_name": "카니스포인트",
+   "place_name_en": "Carneys Point",
+   "lat": 39.6948,
+   "lng": -75.4452
+  },
+  {
+   "year": 1974,
+   "year_end": 1977,
+   "kind": "education",
+   "title": "몬트클레어에서 연극을 배우다",
+   "title_en": "Studies drama in Montclair",
+   "description": "고등학교를 졸업한 뒤 세일럼 원자력 발전소 경비원과 듀폰 공장 노동자로 일했다. 몬트클레어 주립대학 연극과에 들어가 언어치료도 받았다. 졸업 전 학교를 그만두고 뉴욕으로 갔다.",
+   "description_en": "After high school he worked as a security guard at the Salem nuclear plant and at the DuPont factory. He entered the drama program at Montclair State College and saw a speech therapist there. He left before graduating and went to New York.",
+   "place_name": "몬트클레어",
+   "place_name_en": "Montclair",
+   "lat": 40.8244,
+   "lng": -74.2123
+  },
+  {
+   "year": 1977,
+   "year_end": 1984,
+   "kind": "work",
+   "title": "맨해튼에서 바텐더로 살다",
+   "title_en": "Tends bar in Manhattan",
+   "description": "헬스키친에 살면서 카미카제와 카페 센트럴 같은 곳에서 바텐더로 일했다. 샘 셰퍼드의 《풀 포 러브》에서는 에드 해리스와 윌 패튼에 이어 에디 역을 맡았다. 텔레비전 주연을 맡기 전 그의 마지막 무대 출연이었다.",
+   "description_en": "He lived in Hell’s Kitchen and tended bar at spots including Kamikaze and Cafe Central. He took over Eddie in Sam Shepard’s Fool for Love after Ed Harris and Will Patton. It was his last stage job before the television lead.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1985,
+   "year_end": 1989,
+   "kind": "work",
+   "title": "《문라이팅》의 데이비드 애디슨을 맡다",
+   "title_en": "Plays David Addison on Moonlighting",
+   "description": "시빌 셰퍼드의 상대역인 탐정 배역을 두고 약 삼천 명의 배우가 경쟁했다. 오디션을 보러 로스앤젤레스로 간 그는 하루 더 머문 끝에 배역을 따냈다. 두 배우가 주고받는 재치 있는 말다툼이 극을 이끌었고, 드라마는 다섯 시즌 동안 방영됐다.",
+   "description_en": "About three thousand actors competed for the detective opposite Cybill Shepherd. After flying west to audition he stayed an extra day and won the part. Their banter carried the show for five seasons.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "《다이 하드》에서 존 맥클레인을 맡다",
+   "title_en": "Plays John McClane in Die Hard",
+   "description": "폭스는 리처드 기어와 클린트 이스트우드가 거절한 뉴욕 경찰 역에 텔레비전 배우였던 윌리스를 캐스팅하고 오백만 달러를 지급했다. 업계는 이 출연료에 놀랐다. 영화는 거의 전부 폭스 플라자에서 촬영됐다.",
+   "description_en": "Fox paid a television actor five million dollars for a New York cop that Richard Gere and Clint Eastwood had turned down. The industry treated the figure as a shock. They shot almost the whole film at Fox Plaza.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "work",
+   "title": "《펄프 픽션》에서 부치 쿨리지를 맡다",
+   "title_en": "Plays Butch Coolidge in Pulp Fiction",
+   "description": "《허드슨 호크》가 미국에서 크게 실패한 뒤, 그는 출연료를 낮추고 타란티노의 영화에서 나이 들어 가는 복서를 연기했다. 맷 딜런과 미키 루크가 이미 거절한 배역이었다.",
+   "description_en": "This came after Hudson Hawk collapsed in the United States. He took a pay cut to play an aging boxer for Tarantino. Matt Dillon and Mickey Rourke had already passed on the part.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "《식스 센스》에서 말콤 크로우를 맡다",
+   "title_en": "Plays Malcolm Crowe in The Sixth Sense",
+   "description": "자신이 죽었다는 사실을 모른 채 아이를 상담하는 심리학자 역이었다. 《브로드웨이 브롤러》 제작이 무산된 뒤 출연하기로 한 세 편 가운데 하나였으며, 그 세 편에는 《아마겟돈》도 포함돼 있었다.",
+   "description_en": "He plays a psychologist who does not know he is dead and who counsels a child. The role was one of three films he took after Broadway Brawler fell apart. Armageddon was in the same package.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2020,
+   "year_end": 2022,
+   "kind": "work",
+   "title": "저예산 비디오 직행 영화에 잇달아 출연하다",
+   "title_en": "Stacks low-budget direct-to-video films",
+   "description": "에밋·펄라 오아시스 같은 제작사와 저예산 스릴러를 찍는 일이 늘었다. 일부 작품에서는 이틀 촬영의 대가로 약 이백만 달러를 받았고, 대사는 이어폰으로 전달받았다. 《아웃 오브 데스》 촬영 직전에는 각본가가 그의 대사를 줄이라는 지시를 받았다.",
+   "description_en": "He piled up low-budget thrillers with shops such as Emmett/Furla Oasis. Some paid about two million dollars for two days, with lines fed through an earpiece. Before Out of Death the screenwriter was told to cut his dialogue.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "실어증을 알리고 연기 활동에서 물러나다",
+   "title_en": "Announces aphasia and leaves acting",
+   "description": "가족은 인지 능력에 영향을 미치는 실어증 진단을 공개하며 그가 연기 활동에서 물러난다고 밝혔다. 데미 무어와 두 사람의 딸들이 인스타그램에 성명을 올렸다. 당시 완성된 영화 열한 편이 아직 개봉을 기다리고 있었다.",
+   "description_en": "The family announced an aphasia diagnosis that affected cognition and said he was stepping away. Demi Moore and their daughters posted the statement. Eleven finished films were still waiting for release.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "전두측두엽 치매 진단을 받다",
+   "title_en": "Receives a frontotemporal dementia diagnosis",
+   "description": "가족은 실어증이 진행된 뒤 전두측두엽 치매라는 더 구체적인 진단을 받았다고 밝혔다. 에마 헤밍과 데미 무어, 다섯 딸이 성명에 이름을 올렸다. 치료법은 없다고 적고, 사람들의 관심이 이 병에 모이기를 바랐다.",
+   "description_en": "They said the aphasia had progressed to a more specific diagnosis. Emma Heming, Demi Moore, and his five daughters signed the statement. They wrote that there is no treatment and asked that attention go to the disease.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부를 유지하면서 직역투, 불분명한 주어, 어색한 배역·촬영 표현을 바로잡았다. 출생과 노동자 가정의 성장기, 연극 수업과 무명 시절, 텔레비전·영화 활동, 은퇴와 진단까지 생애가 순서대로 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아버지는 미군 데이비드였다」는 이름과 신분의 관계가 어색해, 아버지의 이름과 미군 병사였다는 사실이 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자기 고향으로 가족을 데려갔다」와 「집안을 블루칼라의 긴 줄이라고 불렀다」가 영문 어순을 따른 직역이어서 자연스러운 가족 이주와 노동자 집안 서술로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 있는 연극부 가입 사실이 빠져 있었고, 학생회장 선출과 졸업의 연결도 다소 거칠어 보완했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「북부 뉴저지 연극과」만으로는 어느 학교에 들어갔는지 알 수 없어, 영문에 나온 몬트클레어 주립대학을 명시했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「술을 따랐다」와 「에디 역을 물려받았다」가 경력 서술로는 어색해 바텐더 근무와 후속 캐스팅의 관계가 바로 읽히도록 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배우 삼천 명이 줄을 섰다」, 「서부로 오디션을 보러 갔다」, 「말싸움이 방송을 잡아」가 비유적이거나 대상이 흐려, 오디션 경쟁과 두 배우의 대화가 극을 이끈 과정을 구체적으로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뉴욕 경찰 역에 텔레비전 배우를 쓰고」는 캐스팅의 주체와 대상이 거칠게 표현되어 윌리스가 그 배역에 캐스팅됐다는 관계를 명확히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 역을 거절한 자리였다」는 배역과 자리의 관계가 어색해, 앞선 배우들이 같은 배역을 거절했다는 뜻이 곧바로 읽히도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「죽은 줄 모르고」는 누가 누구의 죽음을 모르는지 불분명하고, 영문에 없는 「보상」이라는 해석이 더해져 있어 자신이 죽었다는 사실을 모른다는 설정과 세 편의 출연 계약만 남겼다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「값싼 직배급 영화」는 저예산과 비디오 직행이라는 배급 형태를 부정확하고 평가적으로 옮겼다. 「어떤 편은 이틀 촬영에 이백만 달러였다」도 지급 관계가 불분명해 출연료와 촬영 기간을 분명히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「연기를 접다」를 영문의 stepping away에 가까운 표현으로 고쳤으며, 개봉을 기다리던 열한 편이 이미 완성된 영화였다는 세부를 복원했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「진단이 나오다」는 당사자가 빠진 표현이고, 「관심을 이 병으로 돌려 달라」는 직역투여서 진단을 받은 주체와 가족 성명의 요청이 자연스럽게 드러나도록 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

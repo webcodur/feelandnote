@@ -1,0 +1,285 @@
+{
+ "slug": "chris-levesque",
+ "events": [
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "birth",
+   "title": "미국에서 태어나다",
+   "title_en": "Is born in the United States",
+   "description": "공개된 약력에는 출생 도시와 생일이 나와 있지 않다. 확인할 수 있는 그의 이력은 기계공학과 해군 원자력 분야에서 시작한다.",
+   "description_en": "Public biographies do not name a town or a birthday. The life that can be checked begins with mechanical engineering and naval nuclear power.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "렌셀러에서 기계공학을 배우다",
+   "title_en": "Studies mechanical engineering at Rensselaer",
+   "description": "허드슨강 변에 있는 공과대학에서 학사 학위를 받았다. 이후 기록은 해군 복무로 이어진다.",
+   "description_en": "He took a bachelor’s degree at the engineering school on the Hudson. The next record is the Navy.",
+   "place_name": "트로이",
+   "place_name_en": "Troy",
+   "lat": 42.731666666667,
+   "lng": -73.6925
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "work",
+   "title": "핵잠수함 장교로 복무를 시작하다",
+   "title_en": "Enters service as a nuclear submarine officer",
+   "description": "탄도미사일 잠수함 윌 로저스에서 복무했다. 윌 로저스는 폴라리스 세대의 마지막 잠수함 가운데 하나였고, 포세이돈 미사일을 탑재했다.",
+   "description_en": "He served on the ballistic-missile submarine Will Rogers. The boat was among the last of the Polaris generation and carried Poseidon missiles.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "work",
+   "title": "보이스호 원자로의 최초 임계를 감독하다",
+   "title_en": "Supervises initial criticality on Boise",
+   "description": "보이스호는 뉴포트뉴스에서 새로 건조한 공격원잠이었다. 그는 원자로 시동 시험을 감독하고 기관장 자격을 받았다.",
+   "description_en": "Boise was a new attack submarine built at Newport News. He supervised the startup tests and qualified as chief engineer.",
+   "place_name": "뉴포트뉴스",
+   "place_name_en": "Newport News",
+   "lat": 37.070833333333,
+   "lng": -76.484444444444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "매사추세츠 공대에서 해군공학을 마치다",
+   "title_en": "Completes naval engineering at MIT",
+   "description": "기계공학 석사와 해군공학 학위를 함께 받았다. 해군이 장교를 보내 선박의 설계와 수리를 배우게 하는 과정이다.",
+   "description_en": "He took a master’s in mechanical engineering and a Naval Engineer degree together. The Navy sends officers there to learn how ships are designed and repaired.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2001,
+   "year_end": 2005,
+   "kind": "work",
+   "title": "웨스팅하우스 뉴잉턴에서 생산을 맡다",
+   "title_en": "Takes charge of manufacturing at Westinghouse Newington",
+   "description": "원자로 내부 구조물과 제어봉 구동장치를 생산하는 공장이었다. 해군을 떠난 뒤 처음 맡은 민간 직책이었다.",
+   "description_en": "The plant made reactor internals and control-rod drive mechanisms. It was his first civilian post after leaving the Navy.",
+   "place_name": "뉴잉턴",
+   "place_name_en": "Newington",
+   "lat": 43.1,
+   "lng": -70.833611111111
+  },
+  {
+   "year": 2008,
+   "year_end": 2011,
+   "kind": "office",
+   "title": "아레바 뉴포트뉴스의 사장이 되다",
+   "title_en": "Becomes president of AREVA Newport News",
+   "description": "아레바 뉴포트뉴스는 아레바와 뉴포트뉴스 조선소가 세운 합작사였다. 그는 이사회 의장도 겸했으며, 합작사는 그 조선소에서 대형 원전 기기를 생산하는 것을 목표로 삼았다.",
+   "description_en": "It was a joint venture between AREVA and the Newport News shipyard. He also chaired the board, and the aim was to build heavy nuclear components at that yard.",
+   "place_name": "뉴포트뉴스",
+   "place_name_en": "Newport News",
+   "lat": 37.070833333333,
+   "lng": -76.484444444444
+  },
+  {
+   "year": 2011,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "올킬루오토 3의 부프로젝트 책임자가 되다",
+   "title_en": "Becomes deputy project director at Olkiluoto 3",
+   "description": "올킬루오토 3은 북유럽 최대의 산업 공사로 불린 유럽형 가압경수로였다. 공사는 이미 예정보다 수년 늦어진 상태였다.",
+   "description_en": "The European pressurized reactor was called the largest industrial project in northern Europe. The work was already years behind schedule.",
+   "place_name": "에우라요키",
+   "place_name_en": "Eurajoki",
+   "lat": 61.2,
+   "lng": 21.733333333333
+  },
+  {
+   "year": 2013,
+   "year_end": 2015,
+   "kind": "office",
+   "title": "서머 원전 건설 컨소시엄을 이끌다",
+   "title_en": "Leads the consortium building the Summer reactors",
+   "description": "웨스팅하우스 부사장으로 사우스캐롤라이나의 신규 원자로 공사를 총괄했다. 미국에서 수십 년 만에 시작된 첫 원자로 건설 사업 가운데 하나였다.",
+   "description_en": "As a Westinghouse vice president he directed the new-reactor work in South Carolina. It was one of the first reactor construction efforts in the United States in several decades.",
+   "place_name": "젠킨스빌",
+   "place_name_en": "Jenkinsville",
+   "lat": 34.2675,
+   "lng": -81.288333333333
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "office",
+   "title": "테라파워 사장이 되다",
+   "title_en": "Becomes president of TerraPower",
+   "description": "빌 게이츠가 세운 회사였다. 당시 주력 사업은 열화우라늄을 연료로 사용하는 이동파 원자로였고, 초대 최고경영자 존 길랜드는 여전히 그 설계를 추진하고 있었다.",
+   "description_en": "Bill Gates had founded the company. Its flag then was the traveling-wave reactor that would burn depleted uranium, and founding chief executive John Gilleland was still pushing that design.",
+   "place_name": "벨뷰",
+   "place_name_en": "Bellevue",
+   "lat": 47.614444444444445,
+   "lng": -122.1925
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "office",
+   "title": "테라파워 최고경영자에 오르다",
+   "title_en": "Is appointed chief executive of TerraPower",
+   "description": "사장직을 유지한 채 이사회에도 합류했다. 의료용 동위원소 사업도 맡았다. 이듬해 중국과 추진하던 이동파 원자로 계획은 기술 이전 규제로 중단됐다.",
+   "description_en": "He kept the presidency and joined the board. He also took charge of the medical-isotope venture. The next year the traveling-wave plan with China ended under technology-transfer limits.",
+   "place_name": "벨뷰",
+   "place_name_en": "Bellevue",
+   "lat": 47.614444444444445,
+   "lng": -122.1925
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "케머러를 나트륨 실증로 부지로 정하다",
+   "title_en": "Chooses Kemmerer for the Natrium demonstration plant",
+   "description": "에너지부가 선정한 차세대 원자로 실증 사업이었다. 폐쇄 예정인 퍼시피코프의 노턴 석탄발전소 옆에 지이히타치와 공동 설계한 나트륨 냉각로와 용융염 저장 시설을 건설하기로 했다.",
+   "description_en": "It was a next-generation demonstration the Energy Department had picked. Beside PacifiCorp’s Naughton coal plant, which was due to close, they would put a sodium-cooled reactor and molten-salt store designed with GE Hitachi.",
+   "place_name": "케머러",
+   "place_name_en": "Kemmerer",
+   "lat": 41.789444444444,
+   "lng": -110.54638888889
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "케머러에서 나트륨 공사의 첫 삽을 뜨다",
+   "title_en": "Breaks ground on the Natrium plant at Kemmerer",
+   "description": "착공식에는 게이츠와 와이오밍 주지사 마크 고든이 함께 참석했다. 원자력 시설의 허가를 받기 전에 비원자력 시설부터 짓기 시작했다. 원자로의 출력은 345메가와트이며, 저장 설비를 이용하면 500메가와트까지 높일 수 있는 설계였다.",
+   "description_en": "Gates stood there with Wyoming governor Mark Gordon. They started on the non-nuclear works before the nuclear license, on a design that holds 345 megawatts and can rise to 500 with storage.",
+   "place_name": "케머러",
+   "place_name_en": "Kemmerer",
+   "lat": 41.789444444444,
+   "lng": -110.54638888889
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 주어가 빠진 문장, 직역한 표현, 모호한 지시어와 어색한 직함·기술 용어를 바로잡았다. 학업에서 해군 복무, 민간 원자력 사업, 테라파워의 나트륨 실증로 사업으로 이어지는 생애 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도시와 날」과 「뒤에 확인되는 삶」은 영문을 낱말 단위로 옮긴 표현이라 출생 정보의 범위와 이후 이력의 뜻이 분명하지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학사를 받았다」와 「그 다음 기록은 해군이다」가 어색하고, 학업 다음에 해군 복무가 이어진다는 관계도 충분히 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「장교로 들어가다」는 복무 시작을 나타내기에 부자연스럽고, 잠수함에서 복무했다는 사실도 단순히 「탔다」라고 표현되어 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "initial criticality를 「원자로 초임계」로 옮겨 기술적 의미가 달라졌고, 첫 문장에는 주어가 없어 무엇이 새 공격원잠인지 바로 알기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "manufacturing을 「제작」으로 옮긴 표현보다 공장 운영 맥락에 맞는 「생산」이 정확하며, 「민간 자리」도 직책을 가리키는 말로는 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아레바와 뉴포트뉴스 조선소의 합작이었다」에는 합작의 주체가 빠져 있었고, 「만들려 했다」는 합작사의 사업 목표를 지나치게 막연하게 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「부프로젝트 디렉터」는 직함을 기계적으로 음역한 표현이고, 첫 문장도 원자로를 바로 주어로 세우지 않아 뜻이 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수십 년 만에 미국에서 다시 짓는 원전」은 reactor construction effort의 뜻을 직역해 문장 구조가 어색했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「당시 깃발」은 flagship을 그대로 옮긴 직역이며, 「열화우라늄을 때는」도 원자로가 열화우라늄을 연료로 사용한다는 뜻을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「치료용 동위원소」는 medical-isotope venture의 범위를 불필요하게 치료로 한정하고, 계획이 「끊겼다」는 표현도 사업 중단을 나타내기에 부자연스러웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "부지 선정을 「자리를 정하다」라고 표현해 사업 사건의 성격이 흐렸고, 「발전소가 문을 닫을 자리 옆에」와 「저장을 붙이다」도 대상과 행동 관계를 뜻을 짐작해야 할 정도로 어색하게 옮겼다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「함께 섰다」는 어디에 어떤 자격으로 참석했는지 불분명하고, 출력과 저장 설비의 관계도 「저장으로 500까지 올릴 설계」라고 축약되어 의미가 매끄럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

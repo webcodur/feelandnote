@@ -1,0 +1,268 @@
+{
+ "slug": "amin-nasser",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "사우디아라비아에서 태어났다",
+   "title_en": "Was born in Saudi Arabia",
+   "description": "공식 약력에는 생년과 고향이 나와 있지 않다. 이후 다란에서 석유공학을 공부한 뒤 아람코 현장에 들어갔다.",
+   "description_en": "Official biographies do not give his birth year or hometown. The path into a petroleum classroom in Dhahran and then into Aramco’s fields opened from here.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "education",
+   "title": "석유공학 학사 학위를 받았다",
+   "title_en": "Earned a bachelor’s degree in petroleum engineering",
+   "description": "다란의 킹파드석유광물대학교에서 석유공학을 공부했다. 앞선 아람코 사장들과 달리 서구의 주요 대학이 아닌 사우디 대학에서 공부한 엔지니어였다.",
+   "description_en": "He studied petroleum at King Fahd University of Petroleum and Minerals in Dhahran. Unlike earlier Aramco chiefs, he came out of a Saudi classroom rather than a major Western university.",
+   "place_name": "다란",
+   "place_name_en": "Dhahran",
+   "lat": 26.266666666667,
+   "lng": 50.15
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "work",
+   "title": "아람코에 석유 엔지니어로 들어갔다",
+   "title_en": "Joined Aramco as a petroleum engineer",
+   "description": "생산공학과 시추, 저류층 관리 부서를 차례로 거쳤다. 1991년부터는 공학·생산 부서에서 감독직을 맡았다.",
+   "description_en": "He rotated through production engineering, drilling, and reservoir management. From 1991 he took supervisory posts in the engineering and producing departments.",
+   "place_name": "다란",
+   "place_name_en": "Dhahran",
+   "lat": 26.266666666667,
+   "lng": 50.15
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "office",
+   "title": "라스탄누라 생산부서장이 됐다",
+   "title_en": "Became manager of the Ras Tanura Producing Department",
+   "description": "수출항이 자리한 반도의 생산을 지휘했다. 이후 북부 지역 생산공학 부서와 사파니야의 해상·육상 생산부서도 맡았다.",
+   "description_en": "He ran production on the peninsula that holds the export port. He later managed Northern Area production engineering and the Safaniya offshore and onshore producing departments.",
+   "place_name": "라스탄누라",
+   "place_name_en": "Ras Tanura",
+   "lat": 26.707417,
+   "lng": 50.067352
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "education",
+   "title": "컬럼비아 고위경영자 과정을 마쳤다",
+   "title_en": "Completed Columbia’s Senior Executive Program",
+   "description": "앞서 1999년에는 워싱턴에서 아람코 관리개발 세미나에 참가했고, 2000년에는 글로벌 비즈니스 프로그램을 이수했다. 현장 엔지니어였던 그가 유정을 벗어나 외부 교육과정을 밟은 시기였다.",
+   "description_en": "He had already taken Aramco’s management development seminar in Washington in 1999 and its global business program in 2000. Those were the years a field engineer left the wells for classrooms outside the company.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "office",
+   "title": "상류부문 수석부사장이 됐다",
+   "title_en": "Became senior vice president of Upstream",
+   "description": "2004년 수석 석유공학자, 이듬해 석유공학·개발 담당 전무, 2006년 부사장을 거쳤다. 2007년 8월 탐사·생산 부문장 대행을 맡은 뒤 이듬해 수석부사장에 올라 탐사와 생산, 처리 부문을 책임졌다.",
+   "description_en": "He had been chief petroleum engineer in 2004, executive director of petroleum engineering and development the next year, and vice president in 2006. After becoming acting head of exploration and producing in August 2007, he took the senior vice presidency the following year and held exploration, production, and processing.",
+   "place_name": "다란",
+   "place_name_en": "Dhahran",
+   "lat": 26.266666666667,
+   "lng": 50.15
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "office",
+   "title": "아람코 사장 겸 최고경영자가 됐다",
+   "title_en": "Became president and chief executive of Aramco",
+   "description": "그해 5월 칼리드 알팔리흐가 회장직과 보건장관직으로 옮기면서 사장 겸 최고경영자 대행을 맡았다. 9월 제다에서 열린 최고위원회의 첫 회의에서 정식으로 임명됐다. 유가가 전년 중반부터 절반으로 떨어진 때였으며, 그는 아람코의 네 번째 사우디인 수장이었다.",
+   "description_en": "In May he took the job on an acting basis when Khalid Al-Falih moved to chairman and health minister. The new Supreme Council’s first meeting, held in Jeddah in September, made the appointment permanent. Oil prices had been cut in half since mid-2014, and he was the fourth Saudi to head the company.",
+   "place_name": "제다",
+   "place_name_en": "Jeddah",
+   "lat": 21.529166666666665,
+   "lng": 39.16111111111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "아람코 최초의 국제채권 발행 조건을 확정했다",
+   "title_en": "Priced Aramco’s first international bond",
+   "description": "총 120억 달러 규모로 만기가 다른 다섯 종류의 채권을 내놓자 주문액이 1천억 달러를 넘었다. 맨해튼 세인트레지스 호텔에서 투자자들을 만났고, 아람코는 사우디 국채보다 낮은 수익률로 자금을 조달했다.",
+   "description_en": "Orders for the $12 billion five-tranche notes topped $100 billion. He met investors at the St. Regis in Manhattan, and the company borrowed at a lower yield than Saudi sovereign debt.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "아브카이크와 쿠라이스 공격을 수습했다",
+   "title_en": "Led the recovery after the Abqaiq and Khurais attacks",
+   "description": "드론과 미사일이 세계 최대 규모의 원유 처리시설과 유전을 공격해 하루 570만 배럴의 생산이 중단됐다. 사흘 뒤 그는 에너지 장관 곁에서 아브카이크의 화재 10건을 7시간 만에 진압했다고 밝히고, 이달 말까지 생산량을 전부 복구하겠다고 약속했다. 상장 일정도 그대로 유지된다고 말했다.",
+   "description_en": "Drones and missiles hit the world’s largest processing plant and an oil field and took 5.7 million barrels a day offline. Three days later he stood beside the energy minister, said ten fires at Abqaiq had been put out in seven hours, and promised full restoration by the end of the month. He said the listing timetable still held.",
+   "place_name": "제다",
+   "place_name_en": "Jeddah",
+   "lat": 21.529166666666665,
+   "lng": 39.16111111111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "아람코를 타다울에 상장했다",
+   "title_en": "Listed Aramco on Tadawul",
+   "description": "전체 지분의 1.5퍼센트를 팔아 256억 달러를 조달했다. 야세르 알루마이얀 회장과 함께 개장 종을 울렸다. 첫날 주가는 상한가까지 올라 시가총액이 1조 8800억 달러에 이르렀다.",
+   "description_en": "The offering sold 1.5 percent of the company for $25.6 billion. He rang the opening bell with chairman Yasir Al-Rumayyan. Shares hit the daily limit on the first day and the market value reached $1.88 trillion.",
+   "place_name": "리야드",
+   "place_name_en": "Riyadh",
+   "lat": 24.65,
+   "lng": 46.71
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "사빅 지분 70퍼센트를 샀다",
+   "title_en": "Bought a 70 percent stake in SABIC",
+   "description": "공공투자펀드와 691억 달러에 합의한 거래를 6월에 마무리했다. 정유와 화학 사업을 한 회사 안에 묶은 인수였다.",
+   "description_en": "The deal agreed with the Public Investment Fund for $69.1 billion closed in June. It pulled refining and chemicals into the same company.",
+   "place_name": "리야드",
+   "place_name_en": "Riyadh",
+   "lat": 24.65,
+   "lng": 46.71
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "블랙록 이사회에 들어갔다",
+   "title_en": "Joined the BlackRock board",
+   "description": "7월 17일 독립 이사로 합류했다. 아람코 이사로는 2010년부터 재직해 왔다. 블랙록은 이사회에 중동 사정에 밝은 이사를 계속 두고자 했다.",
+   "description_en": "He joined as an independent director on July 17. He had sat on Aramco’s board since 2010. BlackRock wanted a director who knew the Middle East to stay on the board.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 단어를 그대로 옮긴 표현과 행위 주체가 흐려진 문장을 바로잡고, 출생부터 최고경영자 취임과 대외 이사회 활동까지 생애가 자연스럽게 이어지도록 다듬었다. 영문에 없는 평가나 성과는 보태지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「길이 여기서 열렸다」는 추상적인 직역으로, 이후 실제로 무엇을 했는지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「석유를 배웠다」와 「사우디 교실에서 나온 엔지니어」가 전공과 교육 배경을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "여러 부서를 「돌았다」는 표현과 「부서의 감독을 맡았다」는 구성이 경력 이동과 보직의 관계를 선명하게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수출 항구가 붙은 반도」가 장소 관계를 어색하게 나타냈고, 여러 부서를 맡은 경력도 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "교육과정을 「들었다」고 한 표현이 가벼웠고, 「우물을 만지던 엔지니어가 회사 밖 교실로 나갔다」는 문장이 영문의 비유를 직역해 뜻이 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에 영문 직군명 「업스트림」이 그대로 남아 있었고, 「탐사·생산 사업선 대행」은 영어 조직 명칭을 잘못 옮겨 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "최고위원회가 그를 「정식으로 앉혔다」는 표현이 임명 행위를 지나치게 구어적으로 나타냈고, 마지막 문장도 연결이 다소 끊겼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "채권을 「찍었다」는 제목이 구어적이었고, 「다섯 만기 채권」은 five-tranche notes를 단어 순서대로 치환해 채권의 구성을 알아보기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아브카이크 불 열 곳」은 화재와 장소의 관계가 무너진 직역이며, 기존 문장은 나세르가 직접 불을 끈 것처럼 읽힐 수 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지분 1.5퍼센트, 256억 달러」가 문장 없이 수치만 나열되어 매각과 조달의 관계가 드러나지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「거래를 닫았다」는 closed the deal을 그대로 옮긴 표현이며, 「한 회사 안으로 끌어들이다」도 인수의 내용을 어색하게 전달했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "이사회에 「앉아 있었다」와 이사를 「남기려 했다」는 표현이 재직 관계와 블랙록의 의도를 부자연스럽게 나타냈다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

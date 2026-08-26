@@ -1,0 +1,271 @@
+{
+ "slug": "bumpy-johnson",
+ "events": [
+  {
+   "year": 1905,
+   "year_end": null,
+   "kind": "birth",
+   "title": "찰스턴에서 태어나다",
+   "title_en": "Born in Charleston",
+   "description": "엘즈워스 레이먼드 존슨으로 태어났다. 아버지는 윌리엄, 어머니는 마거릿 몰트리였다. 머리 뒤의 돌기 때문에 어릴 때부터 범피로 불렸다.",
+   "description_en": "He was born Ellsworth Raymond Johnson. His father was William and his mother was Margaret Moultrie. A bump on the back of his head gave him the childhood name Bumpy.",
+   "place_name": "찰스턴",
+   "place_name_en": "Charleston",
+   "lat": 32.78333333333333,
+   "lng": -79.93194444444444
+  },
+  {
+   "year": 1915,
+   "year_end": null,
+   "kind": "other",
+   "title": "가족이 형 윌리를 북부로 보내다",
+   "title_en": "Family sends brother Willie north",
+   "description": "열 살 때 형 윌리가 백인 살해 혐의를 받았다. 부모는 린치가 두려웠다. 집을 담보로 돈을 모아 윌리를 북쪽 친척에게 보냈다.",
+   "description_en": "At ten, his older brother Willie was accused of killing a white man. Their parents feared a lynch mob. They mortgaged the house and sent Willie to relatives in the North.",
+   "place_name": "찰스턴",
+   "place_name_en": "Charleston",
+   "lat": 32.78333333333333,
+   "lng": -79.93194444444444
+  },
+  {
+   "year": 1919,
+   "year_end": null,
+   "kind": "travel",
+   "title": "누나 메이블이 있는 북부로 보내지다",
+   "title_en": "Sent north to sister Mabel",
+   "description": "부모는 그가 백인들에게 거칠게 맞서는 성미를 걱정했다. 그래서 존슨을 북부에 사는 누나 메이블에게 보냈다. 그는 고등학교를 그만두고 임시직을 전전했다.",
+   "description_en": "His parents worried about his temper toward white people. They sent him to live with his older sister Mabel. He left high school and took casual jobs.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1932,
+   "year_end": null,
+   "kind": "work",
+   "title": "스테퍼니 세인트클레어 밑에서 일하다",
+   "title_en": "Joins Stephanie St. Clair",
+   "description": "중절도죄로 복역한 뒤 출소했다. 수중에 돈도 일자리도 없었다. 숫자 도박 사업을 운영하던 스테퍼니 세인트클레어 밑으로 들어갔다.",
+   "description_en": "He left prison after a grand-larceny conviction. He had no money and no job. He went to work for Stephanie St. Clair, who ran the numbers game.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1933,
+   "year_end": 1935,
+   "kind": "work",
+   "title": "세인트클레어 편에 서서 슐츠와 맞서다",
+   "title_en": "Stands with St. Clair against Dutch Schultz",
+   "description": "금주법이 끝나자 더치 슐츠 세력은 흑인 업자들이 운영하던 숫자 도박 사업을 노렸다. 세인트클레어는 슐츠에게 보호비를 내기를 거부했다. 존슨은 세인트클레어를 대신해 슐츠 세력과 맞섰다.",
+   "description_en": "After Prohibition ended, Dutch Schultz moved on the numbers banks run by Black operators. St. Clair refused to pay him protection. Johnson handled the fight for her.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1935,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "루치아노와 할렘 사업을 두고 협정을 맺다",
+   "title_en": "Cuts a Harlem deal with Luciano",
+   "description": "슐츠는 그해 뉴어크에서 총에 맞아 죽었다. 경찰을 피하던 세인트클레어는 사업을 존슨에게 넘겼다. 존슨은 럭키 루치아노 쪽과 협정을 맺고 거리의 불법 사업을 직접 운영했다. 할렘에서 문제가 생기면 마피아는 먼저 존슨을 찾았다.",
+   "description_en": "Schultz was shot dead that year in Newark. St. Clair, keeping clear of the police, handed the business over. Johnson made a deal with Lucky Luciano and ran the street rackets himself. The Mafia came to him first when trouble started in the neighborhood.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1948,
+   "year_end": null,
+   "kind": "other",
+   "title": "메이미 해처와 결혼하다",
+   "title_en": "Marries Mayme Hatcher",
+   "description": "존슨과 메이미 해처는 식당에서 처음 만났다. 두 사람은 여섯 달 뒤인 10월에 결혼했다. 존슨에게는 딸 둘이 있었으며, 그중 한 명은 이전 관계에서 태어났다.",
+   "description_en": "They first met in a restaurant. They married in October, six months later. He had two daughters, one from another relationship.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1952,
+   "year_end": null,
+   "kind": "other",
+   "title": "마약 공모로 15년형을 받다",
+   "title_en": "Gets fifteen years for a narcotics conspiracy",
+   "description": "헤로인 관련 공모 혐의로 유죄 판결을 받았다. 흑인 주간지 《제트》는 그해 인물란에 그의 이름을 실었다. 항소는 받아들여지지 않았고, 그는 2년 뒤 복역을 시작했다.",
+   "description_en": "He was convicted of a heroin-related conspiracy. Jet put his name in its people column that year. The appeal failed, and the sentence began two years later.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1954,
+   "year_end": 1963,
+   "kind": "other",
+   "title": "알카트라즈에서 형을 살다",
+   "title_en": "Serves the term at Alcatraz",
+   "description": "연방 기록에는 그가 수감자 1117번으로 올라 있다. 형기의 대부분을 샌프란시스코만의 알카트라즈섬에서 보냈다. 1963년에 가석방됐다.",
+   "description_en": "Federal records list him as inmate 1117. He served most of the term on the island in the bay. He left on parole in 1963.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가석방으로 돌아오다",
+   "title_en": "Returns on parole",
+   "description": "십 년 넘게 연방 교도소에 있었다. 가석방으로 출소했다. 이후 또 다른 연방 마약 사건이 뒤따랐다.",
+   "description_en": "He had spent more than a decade in federal prison. He came out on parole. Another federal narcotics case would follow.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "other",
+   "title": "경찰서에서 농성하다",
+   "title_en": "Stages a sit-down at a police station",
+   "description": "12월, 흑인 거주 지역을 겨냥한 감시에 항의하며 경찰서에서 나가기를 거부했다. 이 일로 퇴거 거부 혐의로 기소됐으나 판사는 무죄를 선고했다.",
+   "description_en": "In December he refused to leave a police station, protesting surveillance aimed at Black neighborhoods. He was charged with refusing to leave. A judge acquitted him.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "death",
+   "title": "웰스 레스토랑에서 쓰러지다",
+   "title_en": "Collapses at Wells Restaurant",
+   "description": "새벽 두 시가 되기 전, 커피와 닭다리, 그리츠를 받은 뒤 가슴을 부여잡고 쓰러졌다. 심장마비였다. 당시 연방 마약 공모 혐의로 기소되어 보석금 5만 달러를 내고 풀려난 상태였으며, 나이는 예순둘이었다. 무덤은 브롱크스의 우들론 묘지에 있다.",
+   "description_en": "Shortly before 2 a.m., after coffee, a chicken leg, and grits, he clutched his chest and fell. It was a heart attack. He was free on fifty thousand dollars bail under a federal narcotics indictment, and he was sixty-two. He is buried at Woodlawn Cemetery in the Bronx.",
+   "place_name": "할렘",
+   "place_name_en": "Harlem",
+   "lat": 40.809033333333,
+   "lng": -73.948372222222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 주체가 잘못 드러난 제목, 뜻이 불분명한 직역, 앞 문장에 기대야만 이해되는 지시어를 바로잡았다. 이미 자연스럽고 의미가 분명한 문장은 유지했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "출생명만 서술어 없이 단정한 첫 문장을 자연스러운 출생 서술로 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title"
+    ],
+    "problem": "기존 제목은 존슨이 형을 보낸 것처럼 읽혔으나, 영문에서 형을 보낸 주체는 가족이다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「누나에게 올려 보내다」「누나가 사는 곳으로 올렸다」는 이동 방향과 주체가 부자연스러워, 부모가 존슨을 북부의 누나에게 보냈다는 관계를 명확히 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목은 세인트클레어 밑에서 일하기 시작했다는 뜻이므로, 근거 없이 역할을 「집행자」로 한정한 제목을 고쳤다. 본문의 수감·출소 표현도 자연스럽게 다듬었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「숫자 판」「그 싸움의 집행을 맡았다」만으로는 무엇을 두고 누구와 맞섰는지 바로 이해하기 어려워, 숫자 도박 사업과 대립 관계를 구체적으로 밝혔다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「판을 넘겼다」「거리의 이권을 자기 손으로 돌렸다」「그 동네」가 각각 가리키는 대상이 불분명해, 사업·불법 사업·할렘을 명시했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 두 사람이 누구인지 본문만으로는 분명하지 않고, 「다른 관계에서 났다」가 직역투라 주체와 관계를 자연스럽게 밝혔다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공모로 유죄였다」는 판결 관계가 어색하고, people column을 「연예면」으로 옮긴 것은 의미가 좁아져 「인물란」으로 바로잡았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「만 한가운데 그 섬」은 장소를 짐작해야 하는 직역이므로 샌프란시스코만과 알카트라즈섬을 직접 밝혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사건은 나중에 다시 따라붙었다」가 구어적이고 관계가 모호해, 또 다른 연방 마약 사건이 뒤따랐다는 뜻으로 정리했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「앉아 버티다」는 행위의 성격이 불분명하고, 본문의 항의·퇴거 거부·무죄 선고 관계도 끊겨 보여 경찰서 농성과 그에 따른 기소 결과가 이어지도록 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "음식을 「받은 뒤」 쓰러졌다는 대목과 보석 상태를 설명하는 문장이 다소 끊겨 있어, 음식과 행동 및 기소·보석 관계를 자연스럽게 연결했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "slug": "chung-hyun-jong",
+ "events": [
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서울 용산에서 태어나다",
+   "title_en": "Is born in Yongsan, Seoul",
+   "description": "12월 17일이었다. 정재도와 방은련의 3남 1녀 중 셋째였다. 아버지는 관청에서 일했고, 집안은 천주교를 믿어 세례명은 알베르토였다. 일제강점기라 서울이 아직 경성으로 불리던 때였다.",
+   "description_en": "It was December 17. He was the third of four children of Jeong Jae-do and Bang Eun-ryeon. His father worked in a government office, and the family was Catholic; his baptismal name was Alberto. The city was still called Keijō under Japanese rule.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1942,
+   "year_end": null,
+   "kind": "travel",
+   "title": "고양 화전으로 옮겨 살다",
+   "title_en": "Moves to Hwajeon in Goyang",
+   "description": "세 살 때 아버지의 근무지를 따라 경기도 고양군 신도면 화전으로 갔다. 그 마을에서 학교를 다니며 전쟁을 지나 청년기까지 살았다.",
+   "description_en": "At age three he followed his father’s post to Hwajeon, in Sindo-myeon, Goyang County, Gyeonggi. He went to school in that village and lived there through the war and into his youth.",
+   "place_name": "고양",
+   "place_name_en": "Goyang",
+   "lat": 37.656388888889,
+   "lng": 126.835
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "education",
+   "title": "연세대학교 철학과에 들어가다",
+   "title_en": "Enters the philosophy department at Yonsei University",
+   "description": "대광고등학교를 나와 철학과를 선택했다. 중고등학교 때부터 문학과 음악, 발레에 관심을 두었고 사르트르와 카뮈를 읽었다.",
+   "description_en": "After Daegwang High School he chose philosophy. From middle and high school he had been looking into literature, music, and ballet, and he read Sartre and Camus.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1964,
+   "year_end": 1965,
+   "kind": "publish",
+   "title": "《현대문학》 추천을 마치다",
+   "title_en": "Completes the Hyundae Munhak recommendation",
+   "description": "대학 신문 《연세춘추》에 올린 시가 국문과 박두진의 눈에 들었다. 5월호에 「화음」과 「주검에게」가 추천됐고, 이듬해 졸업과 함께 「독무」와 「여름과 겨울의 노래」로 추천을 끝냈다.",
+   "description_en": "Poems he placed in the campus paper Yonsei Chunchu caught the eye of Park Du-jin in the Korean literature department. “Harmony” and “To a Corpse” were recommended in the May issue, and the next year, as he graduated, “Solo Dance” and “Song of Summer and Winter” completed the journal’s recommendation.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "work",
+   "title": "동인지 《사계》에 참여하다",
+   "title_en": "Joins the coterie magazine Sagye",
+   "description": "황동규, 박이도, 김화영, 김주연, 김현과 함께 시를 모았다. 동인지는 다섯 집을 낸 뒤 《68문학》으로 바뀌었고, 이후 해체됐다.",
+   "description_en": "He gathered poems with Hwang Tong-gyu, Park I-do, Kim Hwa-yeong, Kim Ju-yeon, and Kim Hyun. After five issues the magazine became 68 Literature and then dissolved.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 시집 《사물의 꿈》을 내다",
+   "title_en": "Publishes his first collection, Dreams of Things",
+   "description": "민음사에서 나왔다. 김병익, 김주연, 김치수, 김현, 이청준, 홍성원, 황동규, 황인철과 선배 고은이 제작비를 모아 책을 만들었고, 출판 기념회도 열어 주었다. 그 무렵 《서울신문》 문화부에서 기사를 쓰고 있었다.",
+   "description_en": "Minumsa issued it. Kim Byeong-ik, Kim Ju-yeon, Kim Chi-su, Kim Hyun, Lee Cheong-jun, Hong Sung-won, Hwang Tong-gyu, Hwang In-cheol, and the senior poet Ko Un pooled the production cost and threw a publication party. Around then he was writing for the culture desk at the Seoul Shinmun.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아이오와 국제창작프로그램에 가다",
+   "title_en": "Goes to the Iowa International Writing Program",
+   "description": "아이오와대학교가 운영하는 프로그램에 여섯 달 머물렀다. 김우창이 시 열다섯 편을 영어로 옮겼고, 같은 해 민음사에서 시선집 《고통의 축제》가 나왔다.",
+   "description_en": "He stayed six months in the University of Iowa program. Kim Uchang put fifteen of his poems into English, and that same year Minumsa issued the selected volume Festival of Suffering.",
+   "place_name": "아이오와시티",
+   "place_name_en": "Iowa City",
+   "lat": 41.655833333333,
+   "lng": -91.525
+  },
+  {
+   "year": 1977,
+   "year_end": 1982,
+   "kind": "office",
+   "title": "서울예술전문대학에서 시 창작을 가르치다",
+   "title_en": "Teaches poetry writing at Seoul Institute of the Arts",
+   "description": "《중앙일보》 월간부를 나와 문예창작과 교수가 됐다. 그 자리에서 다섯 해를 보냈다.",
+   "description_en": "He left the monthly desk at the JoongAng Ilbo and became a professor of creative writing. He stayed five years.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "publish",
+   "title": "시집 《나는 별아저씨》를 내다",
+   "title_en": "Publishes I’m Mr. Star",
+   "description": "「섬」은 두 줄이다. 사람들 사이에 섬이 있다, 그 섬에 가고 싶다. 같은 해 한국문학작가상을 받았다.",
+   "description_en": "“Island” is two lines: there is an island between people, and I want to go to that island. That same year he received the Korean Literature Writer Prize.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1982,
+   "year_end": 2005,
+   "kind": "office",
+   "title": "연세대학교 국문과로 돌아가다",
+   "title_en": "Returns to Yonsei to teach Korean literature",
+   "description": "철학을 공부했던 학교에서 이번에는 문학을 가르쳤다. 재직 중에 《떨어져도 튀는 공처럼》과 《사랑할 시간이 많지 않다》를 냈고, 네루다의 시를 우리말로 옮기기 시작했다.",
+   "description_en": "At the school where he had studied philosophy he now taught literature. While on the faculty he published Like a Ball That Bounces When It Falls and So Little Time to Love, and he began putting Neruda into Korean.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "other",
+   "title": "연세대학교에서 정년퇴임하다",
+   "title_en": "Retires from Yonsei University",
+   "description": "제자들이 평론집 《영원한 시작》을 바쳤다. 교수직에서 정년퇴임했을 뿐, 시인에게도 정년이 있느냐고 말했다.",
+   "description_en": "His students presented the critical volume Eternal Beginning. He said it was only the retirement of a teaching post, and asked whether a poet has a retirement age.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "publish",
+   "title": "열 번째 시집 《그림자에 불타다》를 내다",
+   "title_en": "Publishes his tenth collection, Burned by Shadows",
+   "description": "등단 50주년을 맞아 산문집 《두터운 삶을 향하여》도 함께 냈다. 그해 11월 은관문화훈장을 받았다. 수훈 사유로 창작 활동과 강단에서의 후학 양성이 꼽혔다.",
+   "description_en": "In the fiftieth year after his debut he also issued the prose book Toward a Thick Life. That November he received the Silver Crown Order of Cultural Merit. The citation named his writing and the students he had trained.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대체로 자연스럽고 생애의 흐름도 이어지지만, 일부 서술에 모호한 지시어와 영문 구조를 따른 어색한 표현이 있었다. 영문의 의미와 세부를 유지하면서 해당 문장만 자연스러운 한국어로 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 주어인 「도시」가 무엇을 가리키는지 문장만으로 분명하지 않고, 일제강점기라는 영문의 정보도 빠져 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「철학과를 골랐다」와 「문학과 음악, 발레를 들여다보았다」가 영문 표현을 그대로 따라간 듯 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「《68문학》으로 바뀌며 해체됐다」는 잡지의 변경과 해체가 동시에 일어난 것처럼 읽혀 영문이 밝힌 사건의 순서가 흐려졌다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「철학과를 나온 학교」가 학과를 학교처럼 목적어로 삼은 어색한 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「교수직의 정년일 뿐」은 명사들이 부자연스럽게 이어져 발언의 뜻이 바로 들어오지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「등단 쉰 해에」와 「창작과 강단의 후학 양성이 이유였다」가 한국어 문장으로 어색하고, 무엇의 이유인지도 바로 드러나지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   4,
+   9,
+   10,
+   11
+  ]
+ }
+}

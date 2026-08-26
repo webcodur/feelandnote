@@ -1,0 +1,252 @@
+{
+ "slug": "hwang-jini",
+ "events": [
+  {
+   "year": 1506,
+   "year_end": null,
+   "kind": "birth",
+   "title": "개성에서 태어났다고 전한다",
+   "title_en": "Is said to have been born in Kaesong",
+   "description": "당시 개성은 송도라고 불렸다. 본명은 황진이었고 진랑이라고도 불렸다. 뒤에 얻은 기명은 명월이다. 여러 기록이 일치하는 것은 그가 중종 때 살았다는 점뿐이다. 태어난 해를 밝힌 당대 문서는 없다. 후대 기록에서는 중종 원년으로 적기도 한다.",
+   "description_en": "The city was then called Songdo. Her given name was Hwang Jin; she was also called Jinrang. The gisaeng name that came later was Myeongwol. The sources agree only that she lived in King Jungjong’s reign. No contemporary document gives a birth year. Later writers sometimes put it in the first year of that reign.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "출생 전승이 둘로 갈리다",
+   "title_en": "Two birth traditions diverge",
+   "description": "황 진사의 서녀였다는 기록이 더 많다. 맹인 평민의 딸이었다는 전승도 함께 전한다. 한국민족문화대백과사전은 기생 신분을 근거로 후자를 더 유력하게 본다. 어머니의 이름은 진현금으로 전한다. 당대의 족보는 남아 있지 않다.",
+   "description_en": "More records call her the secondary daughter of Hwang Jinsa. Another tradition makes her the daughter of a blind commoner. The Encyclopedia of Korean Culture judges the second more likely, given her gisaeng status. Her mother is transmitted as Jin Hyeongeum. No contemporary genealogy survives.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "명월이라는 기명으로 불리다",
+   "title_en": "Is known by the gisaeng name Myeongwol",
+   "description": "열다섯 무렵, 황진이를 남몰래 연모하던 이웃 총각이 병으로 죽은 뒤 그가 기생이 되었다는 전승이 있다. 사실 여부는 알 수 없다. 황진이는 시와 글씨, 음률로 이름을 얻었다. 연회 자리에서 지은 글이 많았다고 한다.",
+   "description_en": "A tradition says she became a gisaeng at about fifteen after a neighbor youth, who had loved her alone, died of illness. Whether that happened is unknown. She made a name in verse, calligraphy, and music. Many pieces are said to have been written at banquets.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "벽계수 앞에서 시조를 불렀다고 전한다",
+   "title_en": "Is said to have sung a sijo before Byeokgyesu",
+   "description": "왕실 종친으로 전하는 벽계수가 황진이의 시조를 듣고 나귀에서 떨어졌다는 이야기다. 시조에서는 푸른 시냇물인 벽계수에게 서둘러 흘러가지 말라고 한다. 밝은 달이 산에 가득할 때 쉬어 가라고도 한다. 후대에는 이 벽계수를 벽계도정 이종숙으로 보기도 했다. 한국민족문화대백과사전은 벽계수의 신원을 확정하지 않는다.",
+   "description_en": "The story says a man transmitted as a royal relative fell from his donkey. The sijo tells the blue stream not to hurry away. It asks him to rest when the bright moon fills the hills. A later identification names Byeokgye Dojeong Yi Jongsuk. The Encyclopedia of Korean Culture does not fix that name.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "지족선사를 파계시켰다고 전한다",
+   "title_en": "Is said to have broken Jijok Seonsa’s vows",
+   "description": "지족선사는 천마산 지족암에서 10년 동안 수도한 승려였다. 사람들은 그를 살아 있는 부처라고 불렀다. 야담에서는 황진이가 지족선사를 유혹해 계율을 깨뜨렸다고 전한다. 이를 뒷받침할 당대의 승려 관련 기록은 남아 있지 않다.",
+   "description_en": "He was a monk who had practiced ten years at Jijok Hermitage on Cheonma Mountain. People called him a living Buddha. The unofficial tales say she tempted him into breaking his vows. No contemporary monastic record remains.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "서경덕을 사숙했다고 전한다",
+   "title_en": "Is said to have taken Seo Gyeongdeok as a model",
+   "description": "화담 서경덕은 1489년에 태어나 1546년에 죽었다. 그는 1519년 개성 화담에 서재를 짓고 벼슬을 사양했다. 황진이가 거문고와 술, 안주를 들고 그 서재에 자주 드나들며 당나라 시를 익혔다는 전승이 있다. 서경덕을 유혹하려다 뜻을 이루지 못하고 사제의 연을 맺었다는 이야기도 유명하다. 한국민족문화대백과사전은 황진이가 서경덕을 사숙했다고 적었다. 사숙은 직접 가르침을 받지 않고 그 사람을 본보기로 삼아 배우는 일이다.",
+   "description_en": "Hwadam was born in 1489 and died in 1546. In 1519 he built a study at Hwadam here and refused office. A tradition says she often visited that study with a geomungo, wine, and side dishes, and worked at Tang verse. The famous story has her fail to seduce him and then become his student. The Encyclopedia of Korean Culture calls this sasuk: learning by taking a person as a model, not by receiving lessons in person.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "소세양을 보내며 한시를 남겼다고 전한다",
+   "title_en": "Is said to have left a Chinese poem on seeing So Seyang off",
+   "description": "소세양은 호가 양곡이며, 1486년에 태어나 1562년에 죽었다. 익산 출신의 문신으로 여러 판서직을 지냈다. 그가 30일만 머물고 떠나겠다고 했다가 황진이의 이별시를 듣고 더 머물렀다는 설화가 전한다. 한시 「봉별소판서세양」이 당시의 이별시로 남아 있다. 익산 향토사전은 두 사람의 연애담을 설화로 분류한다.",
+   "description_en": "Yanggok was born in 1486 and died in 1562. He was an official from Iksan and held several ministerial posts. A tale says he vowed to stay only thirty days, then lingered after hearing a farewell poem. The Chinese poem “Seeing Off Minister So Seyang” is transmitted as that verse. The Iksan local encyclopedia classifies the love story as folklore.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "박연과 만월대를 한시로 남기다",
+   "title_en": "Leaves Chinese poems on Pakyon and Manwoldae",
+   "description": "「박연폭포」와 「만월대회고」가 전한다. 「박연폭포」는 송도 북쪽의 폭포를, 「만월대회고」는 고려의 옛 궁터를 담았다. 연회에서 지은 글은 대부분 사라졌다.",
+   "description_en": "“Pakyon Falls” and “Reflections at Manwoldae” survive. One looks at the falls north of Songdo; the other at the old Goryeo palace site. Most banquet pieces are lost.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "시조 다섯 수가 가집에 거듭 실리다",
+   "title_en": "Five sijo survive in songbooks",
+   "description": "황진이의 작품으로 전하는 시조는 여섯 수다. 「청산리 벽계수야」, 「동짓달 기나긴 밤을」, 「내 언제 신이 없어」, 「산은 옛 산이로되」, 「어져 내 일이여」 다섯 수는 김천택이 1728년에 편찬한 『청구영언』과 『해동가요』에 거듭 실렸다. 「청산은 내 뜻이요」는 『대동풍아』만 황진이의 작품으로 적었고, 『근화악부』는 작자를 밝히지 않았다.",
+   "description_en": "Six sijo are transmitted. Five—“Blue Stream in the Green Hills,” “The Long Night of the Winter Solstice Month,” “When Did I Ever Lack Faith,” “The Mountain Is the Old Mountain,” and “Alas, This Thing Called Me”—reappear in Kim Cheontaek’s 1728 Cheongguyeongeon and in Haedong Gayo. “The Green Hills Are My Will” is ascribed to her only in Daedong Punga; Geunhwa Akbu leaves it anonymous.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "송도삼절로 불리다",
+   "title_en": "Is named one of the Three Wonders of Songdo",
+   "description": "박연폭포와 화담 서경덕, 황진이를 한데 묶어 송도삼절이라고 불렀다. 서경덕을 다룬 백과사전 항목에도 같은 명칭이 나온다. 송도삼절이라는 이름을 누가 언제 처음 붙였는지는 당대 기록에 남아 있지 않다.",
+   "description_en": "Pakyon Falls, Hwadam, and this gisaeng were named as one set. Seo Gyeongdeok’s encyclopedia entry uses the same title. No contemporary record says who first attached it, or when.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  },
+  {
+   "year": 1567,
+   "year_end": null,
+   "kind": "death",
+   "title": "후대 기록에서 사망 연도를 선조 원년으로 적다",
+   "title_en": "Later writers put her death in Seonjo’s first year",
+   "description": "한국민족문화대백과사전은 황진이가 비교적 젊은 나이에 죽었다고 본다. 후대에 전하는 사망 연도는 당대 문서에서 확인되지 않는다. 2011년 조선중앙방송은 개성 선정리에 황진이의 묘를 복원했다고 전했다. 장단의 남정현 고개에 묘가 있다는 전승도 있다.",
+   "description_en": "The Encyclopedia of Korean Culture judges that she died relatively young. That later year does not appear in a contemporary document. In 2011 Korean Central Television said Kaesong had restored a grave at Seonjeong-ri. Another tradition places it at Namjeonghyeon Pass in Jangdan.",
+   "place_name": "개성",
+   "place_name_en": "Kaesong",
+   "lat": 37.971666666666664,
+   "lng": 126.55277777777778
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "영문과 대조해 직역투, 불분명한 지시어, 어색한 주술 관계를 고치고 사건들이 생애의 흐름을 이루도록 정리했다. 다만 index 10의 입력 연도와 국영문 제목의 기년 표기는 문장 편집만으로 어느 쪽이 맞는지 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「난 해」「적는 수가 있다」가 부자연스럽고, 첫 문장의 주어도 분명하지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기록이 숫자로는 많다」가 영문 어순을 따른 표현이라 기록들 사이의 비교 관계가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「혼자 연모하다」만으로는 이웃 총각의 일방적인 연모였다는 뜻이 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「종실로 전하는 사람」「그 이름」의 대상이 불분명하고, 시조의 벽계수와 밝은 달을 설명하는 문장이 서로 끊겨 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "문장마다 주어가 생략되어 지족선사에 관한 설명과 황진이의 행동이 매끄럽게 이어지지 않았으며, 「당대 승장」도 뜻이 불분명했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「1519년 여기 화담에」의 장소 관계가 무너져 있었고, 「당시(唐詩)」「사제 연」 등의 표현도 한국어 문장 안에서 자연스럽지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "제목의 소세양을 본문에서 곧바로 양곡이라고만 불러 인물 연결이 약했고, 「여러 판서를 지냈다」도 판서직을 뜻하는 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "시가 폭포와 궁터를 다룬다는 뜻을 「하나는 …을 본다」로 옮겨 직역투가 두드러졌다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목만 보면 전하는 시조가 모두 다섯 수인 것처럼 읽히지만, 본문과 영문은 여섯 수 가운데 다섯 수가 가집에 거듭 실렸다는 뜻이었다. 작품명과 가집명의 경계도 불분명했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 기생」「같은 이름」「붙였는지」가 각각 무엇을 가리키는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「죽은 해를 뒷날 선조 원년으로 적다」「그 숫자」가 어색하고 지시 대상도 불분명했다. 또한 입력 연도와 국영문 제목의 기년 표기를 함께 확인할 필요가 있다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 10,
+    "reason": "입력의 year는 1567이지만 국문과 영문 제목은 모두 사망 연도를 「선조 원년」으로 적고 있다. 두 표기가 같은 해를 뜻하는지, 어느 쪽을 기준으로 삼아야 하는지는 문장 편집만으로 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

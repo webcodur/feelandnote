@@ -1,0 +1,212 @@
+{
+ "slug": "adam-back",
+ "events": [
+  {
+   "year": 1970,
+   "year_end": null,
+   "kind": "birth",
+   "title": "런던에서 태어나다",
+   "title_en": "Is born in London",
+   "description": "태어난 달은 7월로만 기록돼 있다. 영국에서 자란 뒤 엑서터로 가 컴퓨터학을 공부했다.",
+   "description_en": "Only the month of July is recorded. He grew up in Britain and later went to Exeter to study computing.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "education",
+   "title": "엑서터에서 박사학위 논문을 제출하다",
+   "title_en": "Submits his doctoral thesis at Exeter",
+   "description": "스티븐 터너가 지도했다. 이산사건 시뮬레이션의 낙관적 기법을 활용해 범용 프로그램을 병렬화하는 논문을 12월에 제출했다. 2년 뒤 같은 학과의 주소로 해시캐시를 공개한다.",
+   "description_en": "Stephen Turner supervised the work. In December he submitted a thesis on parallelizing general-purpose programs with optimistic techniques from discrete-event simulation. Two years later he announced Hashcash from the same departmental address.",
+   "place_name": "엑서터",
+   "place_name_en": "Exeter",
+   "lat": 50.72555555555556,
+   "lng": -3.526944444444444
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "사이퍼펑크 목록에 해시캐시를 올리다",
+   "title_en": "Posts Hashcash to the cypherpunks list",
+   "description": "3월 28일 부분 해시 충돌을 우편 요금처럼 사용하는 구현을 공개했다. 발신자가 먼저 계산하도록 해 대량 스팸과 서비스 거부 공격에 연산 비용이 들게 했다. 엑서터 컴퓨터과학과 주소에서 보낸 글이었다.",
+   "description_en": "On 28 March he released an implementation that used partial hash collisions as postage. Senders had to compute first, so bulk spam and denial-of-service attacks would cost cycles. He sent it from the Exeter computer-science address.",
+   "place_name": "엑서터",
+   "place_name_en": "Exeter",
+   "lat": 50.72555555555556,
+   "lng": -3.526944444444444
+  },
+  {
+   "year": 1999,
+   "year_end": 2002,
+   "kind": "work",
+   "title": "몬트리올의 제로놀리지 시스템스에 합류하다",
+   "title_en": "Joins Zero-Knowledge Systems in Montreal",
+   "description": "오스틴 힐은 해시캐시 글을 읽고 그를 암호팀에 영입했다. 그는 이언 골드버그, 애덤 쇼스택과 익명 통신망 프리덤을 만들었다. 제로놀리지 시스템스는 힐 형제가 세운 프라이버시 회사였다.",
+   "description_en": "Austin Hill recruited him to the cryptography team after reading the Hashcash write-up. With Ian Goldberg and Adam Shostack he built the Freedom anonymous network. The Hill brothers had founded the privacy company.",
+   "place_name": "몬트리올",
+   "place_name_en": "Montreal",
+   "lat": 45.5033426,
+   "lng": -73.5868411
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "publish",
+   "title": "해시캐시 기술보고서를 내다",
+   "title_en": "Publishes the Hashcash technical report",
+   "description": "8월 1일 「서비스 거부 공격 대응책」으로 1997년 이후 응용과 실험을 한곳에 모았다. 사토시 나카모토가 뒤에 비트코인 백서에서 인용한 글이 이것이다.",
+   "description_en": "On 1 August he gathered the applications and experiments since 1997 under the title Hashcash - A Denial of Service Counter-Measure. This is the paper Satoshi Nakamoto later cited in the Bitcoin white paper.",
+   "place_name": "몬트리올",
+   "place_name_en": "Montreal",
+   "lat": 45.5033426,
+   "lng": -73.5868411
+  },
+  {
+   "year": 2003,
+   "year_end": 2008,
+   "kind": "work",
+   "title": "시애틀에서 파이를 공동 창업하다",
+   "title_en": "Co-founds Pi Corporation in Seattle",
+   "description": "폴 마리츠의 개인정보 관리 회사였다. 뒤에 이엠시가 이 회사를 샀고, 그는 소비자 부문 보안 책임자로 남았다.",
+   "description_en": "It was Paul Maritz's personal-information company. EMC later bought it, and he stayed as chief security officer of the consumer division.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "사토시 나카모토의 메일을 받다",
+   "title_en": "Receives email from Satoshi Nakamoto",
+   "description": "8월 20일 해시캐시 논문의 인용 표기를 확인해 달라는 이메일을 받았다. 다음 날 인용이 맞다고 답하고 웨이 다이의 비머니를 알려 주었다. 그해 10월 공개된 비트코인 백서는 본문에서 해시캐시를 언급했다.",
+   "description_en": "On 20 August a letter asked him to check the Hashcash citation. The next day he said it was correct and pointed to Wei Dai's b-money. The Bitcoin white paper that October named Hashcash in the body.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "몬트리올로 날아가 힐을 영입하다",
+   "title_en": "Flies to Montreal to recruit Hill",
+   "description": "과거에는 힐이 해시캐시 글을 읽고 애덤 백을 영입했다. 이번에는 반대로 애덤 백이 몬트리올로 날아가 함께 블록체인 회사를 세우자고 힐을 설득했다.",
+   "description_en": "Hill had once recruited him after reading Hashcash. This time he flew over and asked Hill to build a blockchain company with him.",
+   "place_name": "몬트리올",
+   "place_name_en": "Montreal",
+   "lat": 45.5033426,
+   "lng": -73.5868411
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "열 명의 동료와 블록스트림을 세우다",
+   "title_en": "Co-founds Blockstream with ten others",
+   "description": "연초에 힐이 몰타로 왔고, 두 사람은 칠판에 「악해질 수 없다」고 적었다. 이후 몇 달 동안 실리콘밸리의 여러 집에서 사이드체인을 검증했다. 10월 22일 사이드체인 논문을 공개했고, 11월에는 2천1백만 달러 규모의 시드 투자를 발표했다.",
+   "description_en": "Early in the year Hill flew to Malta and they wrote \"Can't be evil\" on a whiteboard. They then spent months in Silicon Valley houses testing sidechains. On 22 October they published the paper, and in November they announced a 21 million dollar seed round.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "office",
+   "title": "블록스트림 최고경영자가 되다",
+   "title_en": "Becomes chief executive of Blockstream",
+   "description": "이사회는 10월 3일 만장일치로 그를 최고경영자에 임명했다. 초대 최고경영자 오스틴 힐이 물러난 자리였다. 애덤 백은 이미 공동 창업자이자 사장을 맡고 있었다.",
+   "description_en": "The board appointed him unanimously on 3 October. Austin Hill, the first chief executive, stepped aside. He was already a co-founder and the company's president.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "핵심 사실과 생애의 흐름은 유지되어 있으나, 병렬화를 「나누는」 것으로 옮긴 문장, 영입을 「부르다」로 표현한 문장, 공동 창업자 수를 잘못 전달한 제목 등에서 의미 관계가 흐트러졌다. 영문이 밝힌 세부를 보존하면서 행위자와 대상을 분명히 하고 사건 사이의 연결을 자연스럽게 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「생일은 7월로만 남아 있다」는 기록된 정보가 생일인지 출생 월인지 불분명하고, 마지막 문장은 시제가 갑자기 현재형으로 바뀐다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학위 논문은 「내다」보다 「제출하다」가 정확하며, parallelizing을 「나누는」으로 옮겨 논문의 연구 대상과 행위 관계가 무너졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "부분 해시 충돌 자체로 우편 요금을 매긴다는 표현은 used as postage의 뜻을 흐리고, 공격을 막으려 했다는 요약은 발신자에게 연산 비용을 지운다는 영문의 구체적인 작동 방식을 충분히 전달하지 못한다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사 이름과 도시명이 붙어 있어 제목이 부자연스럽고, 「암호 팀으로 불렀다」는 영입 관계를 어색하게 옮겼다. 마지막 문장의 「프라이버시 회사」가 앞 문장의 익명 통신망을 가리키는 것처럼 읽힐 수도 있다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "이메일을 「편지」라고 부르고 비머니를 「가리켰다」고 표현해 연락 수단과 행동이 모호하다. 마지막 문장도 백서가 해시캐시를 「본문에 넣었다」고 해 한국어 표현이 자연스럽지 않다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "recruit를 「다시 부르다」로 옮겨 누가 누구를 영입했는지 흐려졌다. 두 시기의 영입 관계가 뒤바뀌는 사건이므로 행위자를 직접 밝혀야 생애의 연결이 드러난다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 애덤 백을 포함해 공동 창업자가 열한 명이라는 뜻인데, 「열한 명과 세우다」는 총 열두 명으로 읽힌다. 또한 칠판에 문구를 쓴 주체를 힐 한 명으로 좁혔고, 「그 논문」은 앞 문장만으로 대상을 바로 알기 어렵다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "이사회가 최고경영자 자리에 「그를 앉혔다」는 표현이 구어적이고, 마지막 두 문장에서 초대 최고경영자와 애덤 백을 잇달아 「그」라고 부르면 대상을 혼동할 수 있다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

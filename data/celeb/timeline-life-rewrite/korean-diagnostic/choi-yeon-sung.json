@@ -1,0 +1,239 @@
+{
+ "slug": "choi-yeon-sung",
+ "events": [
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "birth",
+   "title": "익산에서 태어나다",
+   "title_en": "Born in Iksan",
+   "description": "11월 5일이었다. 당시 익산의 이름은 이리였다. 오락실에서 던전 앤 드래곤을 즐겼다. 중학교 3학년 때 스타크래프트를 시작했다. 채팅이 버거워 따로 타자 연습도 했다.",
+   "description_en": "The date was November 5. The city was still called Iri then. He played Dungeon & Dragons in the arcade. He picked up StarCraft in his third year of middle school. Chat was hard, so he practiced typing on its own.",
+   "place_name": "익산",
+   "place_name_en": "Iksan",
+   "lat": 35.943888888889,
+   "lng": 126.95444444444
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "서울 연습실에서 임요환을 만나다",
+   "title_en": "Meets Lim Yo-hwan in a Seoul practice room",
+   "description": "익산 남성고등학교를 중퇴했다. 배틀넷에서는 맵핵을 쓴다는 소리가 돌았다. 그해 겨울 동양 오리온에 들어갔다. 연습실 문을 열어 준 사람이 임요환이었다. 비프로스트 맵에서 여섯 판을 내리 졌다.",
+   "description_en": "He left Iksan Namsung High School. On Battle.net people said he used map hacks. That winter he went up to Orion. Lim Yo-hwan opened the practice-room door. On Bifrost he lost six games in a row.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "공식전에 나가다",
+   "title_en": "Enters official play",
+   "description": "오리온 유니폼을 입고 프로리그에 섰다. 첫해에 가장 많이 이겼고 신인상도 받았다. 겨울에는 코엑스에서 홍진호와 결승전을 치렀다. 임요환은 유보트 맵에서 스타포트 두 개로 레이스를 생산하는 전략을 보여 줬다. 결승은 세 판 만에 끝났다. 그 겨울부터 사람들은 그를 괴물 테란이라고 불렀다.",
+   "description_en": "He took the field in an Orion jersey. In his first year he won the most games and the rookie award. That winter he met Hong Jin-ho in the final at COEX. Lim had shown him a two-starport Wraith line on U-Boat. It ended in three games. From that winter people called him the Monster Terran.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "대전에서 임요환을 꺾다",
+   "title_en": "Beats Lim Yo-hwan in Daejeon",
+   "description": "엠비씨게임 리그에서는 이미 세 대회를 연달아 우승한 뒤였다. 온게임넷 리그 결승에는 처음 올랐다. 상대는 같은 팀에서 자신을 가르친 임요환이었다. 무역전시관에서 열린 결승은 다섯 번째 경기까지 이어졌다. 마지막 맵은 비프로스트였고, 최연성이 3대 2로 이겼다. 시상식에서는 두 사람 모두 웃지 못했다.",
+   "description_en": "He had already taken the MBCGame league three times running that year. The Ongamenet final was his first. The opponent was his teacher on the same team. They played five games at the trade hall. The last map was Bifrost. The score was 3–2. Neither man smiled at the ceremony.",
+   "place_name": "대전",
+   "place_name_en": "Daejeon",
+   "lat": 36.35,
+   "lng": 127.385
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "몬차에서 박성준을 다시 만나다",
+   "title_en": "Meets Park Sung-joon again in Monza",
+   "description": "박성준에게 스타리그 결승 진출을 한 번 막힌 뒤였다. 신한은행 결승에서 같은 상대를 다시 만났다. 그해 가을 몬차 자동차 경기장에서 월드 사이버 게임이 열렸다. 결승 상대도 박성준이었다. 그는 결승을 두 판 만에 끝냈다. 더블 커맨드로 병력을 쌓는 운영은 그 시절 그의 경기 방식을 대표했다.",
+   "description_en": "Park Sung-joon had once stopped him short of a Starleague final. He met the same opponent again in the Shinhan Bank final. That autumn the World Cyber Games were held at the Monza racetrack. The final opponent was Park again. It ended in two games. Building armies off a double command was the shape of those years.",
+   "place_name": "몬차",
+   "place_name_en": "Monza",
+   "lat": 45.58361111111111,
+   "lng": 9.27361111111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "선수 생활을 접고 코치가 되다",
+   "title_en": "Stops playing and becomes a coach",
+   "description": "마우스를 쥐는 것이 아팠다. 1월에 선수 생활을 접고 팀에서 코치를 맡았다. 봄에는 선수 시절부터 교제한 여성과 결혼했다. 정명훈과 함께 저그전을 위한 메카닉 전략을 만들었다.",
+   "description_en": "Holding a mouse hurt. In January he stopped playing. The team made him a coach. That spring he married a woman he had been with since his playing years. With Jung Myung-hoon he built a mechanical line against Zerg.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2011,
+   "year_end": 2013,
+   "kind": "other",
+   "title": "상근예비역으로 입대하다",
+   "title_en": "Enters reserve service",
+   "description": "12월 20일이었다. 공군 게임단이 아니라 상근예비역으로 복무했다. 2013년 9월에 전역했다.",
+   "description_en": "The date was December 20. He went as a reservist, not to the Air Force game team. He came out in September 2013.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "office",
+   "title": "SK텔레콤 감독을 맡다",
+   "title_en": "Takes the SK Telecom bench",
+   "description": "임요환이 건강 문제로 감독직에서 물러났다. 당시 수석코치였던 최연성이 팀을 이어받았다. 11월에는 스타크래프트 2 팀 감독이 되었다.",
+   "description_en": "Lim stepped down as coach for health reasons. Choi took the team as chief coach. In November he became the StarCraft II head coach.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "office",
+   "title": "종목을 바꿔 아프리카 프릭스를 맡다",
+   "title_en": "Takes Afreeca Freecs in another game",
+   "description": "10월에 스타크래프트 2 팀이 사라졌다. 한 달 뒤 리그 오브 레전드 감독 계약을 했다.",
+   "description_en": "In October the StarCraft II team was dissolved. A month later he signed as League of Legends head coach.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "부산에서 8강까지 가다",
+   "title_en": "Reaches the quarterfinals in Busan",
+   "description": "팀을 스프링 결승까지 이끌었다. 그해 가을 월드 챔피언십 8강전은 벡스코에서 열렸다. 팀은 클라우드나인에 세 판 연속 패했다.",
+   "description_en": "He took the team to the spring final. The World Championship quarterfinals were at BEXCO that autumn. Cloud9 beat them in three straight games.",
+   "place_name": "부산",
+   "place_name_en": "Busan",
+   "lat": 35.18,
+   "lng": 129.075
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "아프리카 프릭스와 계약을 끝내다",
+   "title_en": "Ends his contract with Afreeca Freecs",
+   "description": "한 해 앞서 총감독으로 승진했다. 그해 봄에는 팀이 플레이오프에 나가지 못했다. 계약은 11월에 끝났다.",
+   "description_en": "The year before he had been made director. That spring the team missed the playoffs. The contract ended in November.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실 범위는 유지하면서 불분명한 지시어, 직역투, 빠진 목적어와 어색한 경기·군 복무 표현을 바로잡았다. 사실 확인이 따로 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」가 바로 앞 문장만으로는 익산을 가리키는지 알기 어렵고, 「스타크래프트를 잡았다」도 게임을 시작했다는 뜻을 간접적으로 표현했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「동양 오리온으로 올라갔다」는 소속팀에 들어갔다는 의미가 불분명하고, 마지막 문장에는 경기 장소가 맵 이름임을 드러낼 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「결승을 붙었다」와 「레이스 두 스타를 쓰는 수」가 한국어의 목적어·행동 관계와 게임 전략을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「리그를 세 번 연속 가져가다」「다섯 판을 가다」「상대는 같은 팀 스승이었다」가 직역투이거나 관계를 압축해, 누가 누구와 어떤 결승을 치렀는지 한 번에 이해하기 어려웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 몇 해의 판이었다」는 영문의 비유를 단어 순서대로 옮겨, 더블 커맨드 운영이 당시 경기 방식의 특징이었다는 뜻을 알아보기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「손목을 접다」는 선수 생활 중단을 잘못 결합한 표현이며, 「팀이 코치를 맡겼다」와 「정명훈을 두고」도 주어·목적어 관계가 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "군 복무를 「들어가다」「나오다」로만 표현해 입대와 전역이라는 사건이 모호했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수석코치로 팀을 받았다」는 직책과 팀을 맡은 관계를 부자연스럽게 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스프링 결승까지 올렸다」에는 무엇을 이끌었는지 목적어가 없고, 클라우드나인에게 패한 대상도 명시되지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한해」의 띄어쓰기가 잘못됐고, 직책 변경을 나타내는 「총감독으로 올랐다」가 어색했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10
+  ]
+ }
+}

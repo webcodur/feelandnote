@@ -1,0 +1,312 @@
+{
+ "slug": "carlo-ancelotti",
+ "events": [
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "birth",
+   "title": "레졸로에서 태어나다",
+   "title_en": "Born in Reggiolo",
+   "description": "아버지 주세페는 농사를 지으며 파르미자노 레지아노를 만들었다. 안첼로티는 집안 농장에서 소를 돌보며 자랐다. 열세 살 무렵 마을 축구단에 들어가 축구를 시작했다.",
+   "description_en": "His father was Giuseppe. He farmed and made Parmigiano-Reggiano. The boy grew up tending cattle on the family farm. Around thirteen he joined the village club and started playing.",
+   "place_name": "레졸로",
+   "place_name_en": "Reggiolo",
+   "lat": 44.916666666667,
+   "lng": 10.816666666667
+  },
+  {
+   "year": 1976,
+   "year_end": 1979,
+   "kind": "work",
+   "title": "파르마에서 프로 선수로 데뷔하다",
+   "title_en": "Makes his professional debut at Parma",
+   "description": "체사레 말디니는 그를 공격형 미드필더로 기용했다. 비첸차에서 열린 승격 플레이오프에서 트리에스티나를 상대했다. 안첼로티가 연장전에 넣은 프리킥으로 승부가 갈렸고, 파르마는 세리에 B로 승격했다.",
+   "description_en": "Cesare Maldini used him as an attacking midfielder. In the promotion play-off in Vicenza he faced Triestina. His extra-time free kick settled the match, and the club went up to Serie B.",
+   "place_name": "파르마",
+   "place_name_en": "Parma",
+   "lat": 44.801472222222,
+   "lng": 10.328
+  },
+  {
+   "year": 1979,
+   "year_end": 1987,
+   "kind": "work",
+   "title": "로마에서 세리에 A를 우승하다",
+   "title_en": "Wins Serie A with Roma",
+   "description": "닐스 리트홀름 감독 아래에서 중앙 미드필더로 뛰었다. 로마는 구단 역사상 두 번째 스쿠데토를 차지했다. 안첼로티는 무릎 부상으로 다음 시즌 유러피언컵 결승에 출전하지 못했고, 로마는 리버풀과의 그 경기에서 승부차기 끝에 졌다.",
+   "description_en": "Under Nils Liedholm he held the centre of midfield. The club lifted its second Scudetto. A bad knee kept him out of the next season's European Cup final. Roma lost that match to Liverpool on penalties.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 1987,
+   "year_end": 1992,
+   "kind": "work",
+   "title": "사키의 밀란에서 유러피언컵 2연패를 이루다",
+   "title_en": "Wins consecutive European Cups with Sacchi's Milan",
+   "description": "베를루스코니가 인수한 밀란에는 휠리트와 반 바스텐, 레이카르트가 있었다. 레알 마드리드를 5-0으로 꺾은 준결승에서 안첼로티는 중거리 슛으로 한 골을 넣었다. 왼쪽 무릎이 더는 버티지 못해 서른세 살에 은퇴했다. 마지막 홈경기에는 교체로 출전해 두 골을 넣었다.",
+   "description_en": "Berlusconi's side had Gullit, van Basten, and Rijkaard. In the 5-0 semi-final over Real Madrid he scored from distance. His left knee gave out and he retired at thirty-three. He came off the bench in his last home game and scored twice.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1992,
+   "year_end": 1995,
+   "kind": "office",
+   "title": "사키가 이끄는 이탈리아 대표팀 스태프에 합류하다",
+   "title_en": "Joins Sacchi on the Italy staff",
+   "description": "은퇴 후, 밀란에서 자신을 지도했던 사키의 부름을 받았다. 이탈리아는 미국 월드컵 결승까지 올라갔지만 브라질에 승부차기로 졌다.",
+   "description_en": "After he retired, the coach he had played under at Milan called him. They reached the World Cup final in the United States. Italy lost to Brazil on penalties.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 1995,
+   "year_end": 1996,
+   "kind": "work",
+   "title": "레자나에서 처음으로 감독을 맡다",
+   "title_en": "Takes his first head-coaching job at Reggiana",
+   "description": "세리에 B에서 한 시즌 만에 레자나를 1부 리그로 승격시켰다.",
+   "description_en": "In one Serie B season he took the side up to the first division.",
+   "place_name": "레조에밀리아",
+   "place_name_en": "Reggio Emilia",
+   "lat": 44.7,
+   "lng": 10.633333333333
+  },
+  {
+   "year": 1996,
+   "year_end": 1998,
+   "kind": "work",
+   "title": "파르마 감독으로 돌아가다",
+   "title_en": "Returns to Parma as head coach",
+   "description": "부폰과 칸나바로는 아직 젊었다. 안첼로티는 4-4-2를 고집하며 졸라를 측면에 배치했다. 로베르토 바조의 영입을 막았고, 바조는 볼로냐에서 리그 스물두 골을 넣었다. 안첼로티는 나중에 그 결정을 후회한다고 말했다. 파르마는 그의 첫 시즌에 리그 2위로 챔피언스리그 출전권을 얻었지만, 그는 이듬해 구단에서 경질됐다.",
+   "description_en": "Buffon and Cannavaro were still young. He stuck to a 4-4-2 and pushed Zola wide. He blocked the signing of Roberto Baggio, who then scored twenty-two league goals for Bologna. He later said he regretted that call. Parma finished second in his first season and reached the Champions League, but the club sacked him the next year.",
+   "place_name": "파르마",
+   "place_name_en": "Parma",
+   "lat": 44.801472222222,
+   "lng": 10.328
+  },
+  {
+   "year": 1999,
+   "year_end": 2001,
+   "kind": "work",
+   "title": "유벤투스 감독이 되다",
+   "title_en": "Becomes manager of Juventus",
+   "description": "지단이 공격형 미드필더로 뛸 수 있도록 포메이션을 바꿨다. 유벤투스는 두 시즌 연속 리그 2위로 마쳤다. 구단은 마지막 경기의 전반전이 끝나기도 전에 안첼로티의 경질을 발표했다. 후임으로 리피가 돌아왔다.",
+   "description_en": "He changed shape so Zidane could play as an attacking midfielder. Juventus finished second in the league two seasons running. The club announced his dismissal before half-time of the last match. Lippi came back.",
+   "place_name": "토리노",
+   "place_name_en": "Turin",
+   "lat": 45.079166666666666,
+   "lng": 7.676111111111111
+  },
+  {
+   "year": 2001,
+   "year_end": 2009,
+   "kind": "work",
+   "title": "밀란 감독으로 챔피언스리그를 두 번 들다",
+   "title_en": "Wins two Champions Leagues as Milan coach",
+   "description": "파티흐 테림이 경질되자 밀란은 안첼로티를 후임 감독으로 선임했다. 그는 피를로를 더 깊은 위치에 배치해 그곳에서 경기를 조율하게 했다. 맨체스터에서 열린 결승에서 유벤투스를 승부차기로 꺾고 감독으로서 첫 챔피언스리그 우승을 차지했다. 리버풀이 이스탄불 결승에서 밀란에 역전승을 거뒀지만, 2년 뒤 아테네에서는 밀란이 리버풀을 꺾었다. 안첼로티는 여덟 시즌 뒤 사임했다.",
+   "description_en": "After Fatih Terim was sacked, the club appointed him. He moved Pirlo deeper and let him run the game from there. In the Manchester final he beat Juventus on penalties for his first Champions League as coach. Liverpool overturned them in Istanbul; two years later Milan beat Liverpool in Athens. He resigned after eight seasons.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 2009,
+   "year_end": 2011,
+   "kind": "work",
+   "title": "첼시에서 프리미어리그와 FA컵을 함께 들다",
+   "title_en": "Wins the Premier League and FA Cup with Chelsea",
+   "description": "첼시는 안첼로티의 첫 시즌에 리그에서 백 골 넘게 넣었다. 그는 이탈리아인 감독으로는 처음으로 프리미어리그에서 우승했다. 첼시는 웸블리에서 포츠머스를 꺾고 FA컵도 차지했다. 이듬해 첼시가 리그 2위로 시즌을 마치자, 구단은 마지막 경기가 끝난 지 두 시간도 지나지 않아 그를 경질했다.",
+   "description_en": "In his first season Chelsea scored more than a hundred league goals. He was the first Italian manager to win that league. They beat Portsmouth at Wembley and took the FA Cup as well. After a second-place finish the next year, the club sacked him within two hours of the last match.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2011,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "파리 생제르맹 감독을 맡다",
+   "title_en": "Takes over Paris Saint-Germain",
+   "description": "시즌 도중 부임했다. 다음 시즌에는 구단에 십구 년 만의 리그 우승을 안겼다. 레알 마드리드의 제안을 받고 팀을 떠났다.",
+   "description_en": "He arrived mid-season. The next year he delivered the club's first league title in nineteen years. When Madrid called, he left.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2013,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "레알 마드리드의 열 번째 유러피언컵을 이끌다",
+   "title_en": "Delivers Real Madrid's tenth European Cup",
+   "description": "주제 무리뉴의 후임으로 부임했다. 리스본에서 열린 결승에서 아틀레티코를 연장전 끝에 꺾었다. 구단은 그 우승을 라 데시마라고 불렀다. 이듬해 레알 마드리드가 리그 2위로 시즌을 마치자, 플로렌티노 페레스 회장이 안첼로티의 경질을 발표했다.",
+   "description_en": "He came in after Mourinho. In the Lisbon final they beat Atlético in extra time. The club called that win La Décima. After a second-place league finish the next year, president Florentino Pérez announced the dismissal.",
+   "place_name": "마드리드",
+   "place_name_en": "Madrid",
+   "lat": 40.41694444444445,
+   "lng": -3.703333333333333
+  },
+  {
+   "year": 2021,
+   "year_end": 2025,
+   "kind": "work",
+   "title": "마드리드로 돌아와 챔피언스리그를 두 번 더 들다",
+   "title_en": "Returns to Madrid and wins two more Champions Leagues",
+   "description": "바이에른 뮌헨에서 분데스리가 우승을 차지했지만 경질됐다. 나폴리와 에버턴 감독을 거친 뒤, 지단이 떠난 레알 마드리드의 감독으로 돌아왔다. 파리에서 열린 결승에서 리버풀을 꺾었다. 이어 웸블리에서 열린 결승에서 도르트문트를 꺾고 감독으로서 다섯 번째 챔피언스리그 우승을 차지했다. 그 시즌이 끝난 뒤 구단을 떠났다.",
+   "description_en": "Bayern sacked him even after a Bundesliga title. He passed through Napoli and Everton, then took the seat Zidane left. They beat Liverpool in the Paris final. At Wembley they beat Dortmund, his fifth Champions League as coach. He left when the season ended.",
+   "place_name": "마드리드",
+   "place_name_en": "Madrid",
+   "lat": 40.41694444444445,
+   "lng": -3.703333333333333
+  },
+  {
+   "year": 2025,
+   "year_end": 2026,
+   "kind": "office",
+   "title": "브라질 남자 대표팀 감독을 맡다",
+   "title_en": "Takes charge of the Brazil national team",
+   "description": "브라질축구협회는 안첼로티를 남자 대표팀 감독으로 선임했다. 외국인이 브라질 남자 대표팀을 정식으로 맡은 것은 한 세기 만이었다. 브라질은 파라과이를 꺾고 월드컵 본선 진출권을 따냈다. 16강에서는 홀란이 두 골을 넣어 브라질을 탈락시켰다.",
+   "description_en": "The federation named him head coach. It was the first time in a century a foreigner had taken the men's team full-time. They beat Paraguay and booked a World Cup place. In the last sixteen Haaland scored twice and sent Brazil out.",
+   "place_name": "리우데자네이루",
+   "place_name_en": "Rio de Janeiro",
+   "lat": -22.91111111111111,
+   "lng": -43.205555555555556
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부 정보는 유지하면서 주어가 빠지거나 대상을 지시어로 대신한 문장, 영어 어순을 그대로 따른 표현, 축구 경력을 모호하게 서술한 부분을 고쳤다. 영문과 국문 사이에 별도의 사실 확인이 필요한 충돌은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그는」이 아버지를 가리키는지 안첼로티를 가리키는지 잠시 혼동될 수 있고, 「집 농장」은 자연스러운 한국어 표현이 아니다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목은 파르마에서의 프로 데뷔만 말하므로 「3부 리그」를 덧붙이지 않아야 한다. 플레이오프가 비첸차에서 열렸다는 장소 관계도 한국어 문장에 분명히 드러낼 필요가 있다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가운데를 지켰다」는 중앙 미드필더로 뛰었다는 뜻을 바로 알기 어렵다. 결승전 패배의 주체도 「그 경기」에 기대지 않고 로마로 밝혀야 한다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「베를루스코니가 사들인 그 팀」은 번역투이자 불필요한 지시 표현이다. 레알 마드리드전의 5-0 승리와 은퇴 사유도 더 직접적인 한국어로 고칠 필요가 있다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「벤치에 앉다」는 대표팀 스태프 합류보다 교체 선수나 감독 취임을 연상시킨다. 본문도 사키와 안첼로티의 관계 및 월드컵 결승 진출의 주체를 명시해야 한다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「레자나 감독을 처음 맡다」보다 레자나가 첫 감독직이었다는 관계를 자연스럽게 풀어 쓰는 편이 분명하다. 승격한 팀의 이름도 본문에 남겨야 한다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에」와 「구단이 잘랐다」가 거칠고 구어적이며, 「그 선수」와 생략된 주어가 이어지는 경력 서술을 흐린다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「리피가 다시 들어왔다」는 어디에 어떤 자격으로 돌아왔는지 모호하다. 지단의 역할과 유벤투스의 성적도 주체를 밝혀 이어 쓸 필요가 있다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「구단이 그를 앉혔다」와 「수비형 자리에서 게임을 만들게 했다」는 번역투이고, 이스탄불과 아테네의 두 결승은 승패의 주체와 2년의 간격이 충분히 드러나지 않는다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「리그에서 백 골이 넘게 넣었다」에는 득점한 주체가 빠져 있다. 「그 리그」와 「가져갔다」도 각각 구체적인 대회명과 자연스러운 우승 표현으로 바꿀 필요가 있다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시즌 중간에 들어갔다」와 「마드리드가 부르자」는 부임과 이적의 관계를 지나치게 구어적으로 표현한다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「후임으로 들어갔다」가 구어적이고, 이듬해 리그 2위를 차지한 주체가 생략되어 있다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「분데스리가를 들고도 잘렸다」와 「지단이 비운 자리에 앉았다」는 경질과 감독 복귀를 거칠고 모호하게 표현한다. 「다섯 번째 트로피」도 어떤 대회의 트로피인지 밝혀야 한다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「축구협회」와 「남자 대표팀」만으로는 브라질을 가리킨다는 사실이 문장 안에서 충분히 분명하지 않다. 「전임 감독」은 이전 감독이라는 뜻으로도 읽힐 수 있어 full-time의 의미를 자연스럽게 풀어야 한다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

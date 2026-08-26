@@ -1,0 +1,217 @@
+{
+ "slug": "jang-yeong-sil",
+ "events": [
+  {
+   "year": 1390,
+   "year_end": null,
+   "kind": "birth",
+   "title": "동래현에서 태어나다",
+   "title_en": "Born in Dongnae",
+   "description": "아버지는 원나라 소주·항주 사람이라고 훗날 세종이 실록에 남겼다. 어머니는 동래현 관기였고, 장영실은 어머니의 신분을 따라 동래현의 관노가 되었다. 출생 연도는 실록에 나오지 않는다. 훗날 제작된 주자소 현판에는 계유년으로 적혀 있으나 오류가 많아, 출생 시기는 흔히 이 무렵으로 본다.",
+   "description_en": "Sejong later records that his father came from Suzhou and Hangzhou in the Yuan realm. His mother is a government entertainer of Dongnae-hyeon, so he is born a government slave of that county. The annals give no birth year. A much later type-foundry plaque writes the gye-yu year, but it is full of errors, and the date is commonly placed about this time.",
+   "place_name": "부산",
+   "place_name_en": "Busan",
+   "lat": 35.18,
+   "lng": 129.075
+  },
+  {
+   "year": 1423,
+   "year_end": null,
+   "kind": "office",
+   "title": "상의원 별좌가 되다",
+   "title_en": "Is appointed to the royal clothing office",
+   "description": "태종은 장영실의 솜씨를 알아보고 보호했으며, 세종은 아직 관노였던 그를 명나라에 보내 천문기기 제도를 익히게 했다. 돌아온 장영실을 면천시켜 상의원에 올리려 하자, 허조는 기생의 소생이라는 이유로 반대했고 조말생은 그에게 맞는 자리라고 했다. 유정현 등이 임명에 동의하자 세종은 그 의견을 따랐다.",
+   "description_en": "Taejong has already protected him for his skill, and Sejong sends the still-enslaved craftsman to Ming to study astronomical instruments. After his return Sejong moves to free him and place him in the royal clothing office. Heo Jo objects that a courtesan’s son cannot sit there; Jo Mal-saeng says the post fits him. Yu Jeong-hyeon and others accept the appointment, and Sejong follows them.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1424,
+   "year_end": null,
+   "kind": "work",
+   "title": "청동 물시계를 주조하다",
+   "title_en": "Casts a bronze night-watch clock",
+   "description": "중국 제도를 참고해 밤의 경점을 알리는 청동 물시계를 주조했다. 그 공으로 행사직에 임명되었다.",
+   "description_en": "Working from Chinese models, he casts a bronze vessel that marks the night watches. The work raises him to acting military-director rank.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1432,
+   "year_end": 1433,
+   "kind": "work",
+   "title": "간의를 경회루에 올리다",
+   "title_en": "Raises the simplified armillary at Gyeonghoeru",
+   "description": "정초와 정인지는 문헌을 찾았고, 장영실은 이천과 함께 기술자들을 이끌었다. 먼저 나무로 간의를 만들어 북극의 고도를 측정한 뒤, 구리로 간의를 만들어 경회루 북쪽에 설치했다. 같은 해에는 혼천의도 두 차례 만들어 올렸다.",
+   "description_en": "Jeong Cho and Jeong In-ji search the books; he and Yi Cheon direct the craftsmen. They first build a wooden simplified armillary, measure the height of the pole, then raise a bronze one north of Gyeonghoeru. An armillary sphere is presented twice in the same year.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1433,
+   "year_end": null,
+   "kind": "office",
+   "title": "호군에 오르다",
+   "title_en": "Is made a military protector",
+   "description": "장영실이 자격궁루를 만든 뒤 세종은 황희와 맹사성에게 그의 관직을 더해 주자고 했다. 세종은 자신의 가르침을 받아 만든 것이지만, 장영실이 아니었다면 완성하지 못했을 것이라고 말했다. 또한 원 순제 때의 물시계보다 정밀하다고 평가하고 장영실을 정4품 호군에 올렸다.",
+   "description_en": "After he builds a self-striking palace clepsydra, Sejong asks Hwang Hui and Maeng Sa-seong to add a post. Sejong says the work followed his instruction, yet without this man it could not have been made. He judges it finer than the striking clock of the Yuan last emperor and adds the fourth rank.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1434,
+   "year_end": null,
+   "kind": "work",
+   "title": "자격루를 보루각에 두다",
+   "title_en": "Places the striking water clock in Borugak",
+   "description": "김빈과 함께 시각마다 종과 북과 징이 울리는 물시계를 완성했다. 경회루 남쪽 보루각에 설치하고, 음력 칠월 초하루부터 나라의 표준 시각이 이 시계를 따랐다.",
+   "description_en": "With Kim Bin he finishes a water clock that sounds the hours by bell, drum, and gong. It is installed in Borugak, south of Gyeonghoeru, and from the first day of the seventh lunar month the state’s standard time follows this clock.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1434,
+   "year_end": null,
+   "kind": "work",
+   "title": "앙부일구를 거리에 놓다",
+   "title_en": "Sets the bowl sundial in the street",
+   "description": "가마솥 모양의 해시계를 혜정교와 종묘 앞에 두었다. 길 가는 사람이 그림자만 보고 시각을 읽을 수 있는 공중 시계였다. 이천과 김조도 초기 제작에 함께했다.",
+   "description_en": "He places bowl-shaped sundials at Hyejeonggyo and before Jongmyo. Passers-by can read the hour from a shadow. Yi Cheon and Kim Jo also take part in the first making.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1434,
+   "year_end": null,
+   "kind": "work",
+   "title": "갑인자 주조에 참여하다",
+   "title_en": "Joins the casting of Gapinja type",
+   "description": "이천이 총책임을 맡은 구리 활자 주조에 참여했다. 하루에 마흔 장쯤을 찍어도 활자가 흐트러지지 않았다.",
+   "description_en": "He joins the copper type-casting whose overall charge is Yi Cheon’s. A press can now print some forty sheets a day without the characters shifting.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1438,
+   "year_end": null,
+   "kind": "work",
+   "title": "옥루를 흠경각에 올리다",
+   "title_en": "Installs the jade clepsydra in Heumgyeonggak",
+   "description": "해와 계절의 움직임을 모형으로 보여 주는 물시계를 경복궁 천추전 서쪽에 새로 지은 전각에 두었다. 그 공으로 대호군에 올랐다.",
+   "description_en": "He places in a new pavilion west of Cheonchujeon a water clock whose models show the sun and the seasons. The work raises him to great military protector.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1442,
+   "year_end": null,
+   "kind": "death",
+   "title": "안여가 부러진 뒤 기록이 끊기다",
+   "title_en": "After the royal carriage breaks, the record ends",
+   "description": "장영실이 제작을 감독한 어가가 견고하지 못해 부러졌다. 의금부가 곤장 백 대를 청하자 세종은 형벌을 두 등급 낮춰 팔십 대를 치게 하고 직첩을 거두었다. 그 뒤로는 실록에 그의 행적이 나오지 않는다. 죽은 해는 전하지 않지만, 흔히 이 해를 몰년으로 적는다.",
+   "description_en": "A royal carriage he supervised is not built firm and breaks. The State Tribunal asks for a hundred strokes; Sejong reduces the penalty two grades to eighty and takes back his patent of office. The annals then go silent. The year of death is not recorded; this year is commonly entered as it.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실 범위 안에서 직역투, 생략된 주어, 불분명한 대상과 어색한 서술어를 바로잡았다. 이미 자연스러운 사건은 유지했으며, 별도의 사실 확인이 필요한 충돌은 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「난 해」는 뜻을 바로 알아보기 어렵고, 「뒤에 올린 주자소 현판」도 현판이 언제 어떻게 만들어졌는지 불분명하게 표현되어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그를 명에 보내」에는 목적지를 나타내는 조사가 빠졌고, 「유정현 등이 임명을 받들자」는 누가 무엇에 동의했는지 행동 관계가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「부어 만들다」는 청동 기구 제작을 나타내는 제목으로 장황했고, 「행사직에 올랐다」는 관직에 임명되었다는 뜻이 선명하지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "둘째 절의 주어가 생략되어 이천과 함께 기술자들을 이끈 사람이 누구인지 불분명했고, 「구리로 경회루 북쪽에 올렸다」는 재료와 설치 장소의 관계가 무너져 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「세종이 말하기를」이라는 번역투가 문장 흐름을 끊었고, 마지막의 「정4품을 더했다」는 무엇을 더했다는 것인지 불분명했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가마솥을 엎은 듯한」은 영문의 bowl-shaped보다 방향을 구체화하면서도 형상을 모호하게 만들어, 영어가 보장하는 범위 안에서 가마솥 모양으로 정리했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이천이 총책임인」과 「주조에 들어갔다」가 어색하게 결합되어 있었고, 「자가 흐트러지지 않았다」는 대상이 활자인지 바로 알기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「해와 계절이 모형으로 움직이는」은 해와 계절 자체가 모형으로 변해 움직인다는 뜻처럼 읽혀, 물시계의 모형이 무엇을 보여 주는지 분명하게 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「감독한 어가」는 제작을 감독한 사람과 그 대상의 관계가 불분명했고, 마지막 기록이라는 생애상의 의미가 앞 문장과 매끄럽게 이어지지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

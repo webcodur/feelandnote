@@ -1,0 +1,232 @@
+{
+ "slug": "chandragupta-maurya",
+ "events": [
+  {
+   "year": -340,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Is born",
+   "description": "동시대 기록에는 출생 연도와 출생지가 전하지 않는다. 후대 저술가들은 대체로 이 무렵으로 본다. 로마의 유스티누스는 그가 미천한 집안에서 태어났다고 적었다. 불교 문헌은 히말라야 기슭 핍팔리바나의 모리야 가문 출신이라 하고, 자이나 문헌은 공작을 기르는 집안의 아이라고 한다. 세 전승은 서로 일치하지 않는다.",
+   "description_en": "No contemporary record gives his birth year or birthplace. Later writers usually place the year around this time. The Roman Justin wrote that he was born in a humble house. Buddhist texts call him a Moriya of Pipphalivana in the Himalayan foothills, and Jain texts call him a child of peacock-keepers. The three lines do not agree.",
+   "place_name": "",
+   "place_name_en": "",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -326,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "젊은 시절 알렉산드로스를 보았다고 전해지다",
+   "title_en": "Is later said to have seen Alexander as a youth",
+   "description": "알렉산드로스가 히다스페스강에서 포루스를 이긴 뒤 갠지스강 쪽으로 더 나아가지 못하고 돌아섰다. 몇 세기 뒤 플루타르코스는 소년 안드로코토스가 알렉산드로스를 직접 보았다고 적었다. 후대에 안드로코토스가 되풀이했다고 전해지는 말은 이렇다. 그 나라의 왕이 워낙 미움을 받아 알렉산드로스가 그 땅을 거의 차지할 뻔했다는 것이다. 유스티누스의 한 사본에는 알렉산드로스와 만났다는 구절이 있지만, 타당한 판독은 난다 왕을 가리키는 난드룸이다.",
+   "description_en": "After beating Porus on the Hydaspes, Alexander turned back and did not push on toward the Ganges. Centuries later Plutarch wrote that the boy Androcottus saw that king in person. The words he was said to repeat later were these: the king of that country was so hated that Alexander had nearly taken the land. A Justin manuscript has a line about a meeting with Alexander, but the sound reading is Nandrum, the Nanda king.",
+   "place_name": "",
+   "place_name_en": "",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -325,
+   "year_end": null,
+   "kind": "education",
+   "title": "후대 전승에서 탁실라의 차나키야에게 배우다",
+   "title_en": "Later tradition places him with Chanakya at Taxila",
+   "description": "후대 인도 문헌은 브라만 차나키야가 목동들 사이에서 그를 데려와 탁실라에서 베다와 병법을 가르쳤다고 한다. 차나키야를 《아르타샤스트라》의 카우틸랴와 동일 인물로 보는 견해는 그보다 더 뒤에 생겼다. 동시대 그리스 저술가들은 이 스승을 기록하지 않았다.",
+   "description_en": "Later Indian texts say the Brahmin Chanakya took him from among cowherds and taught him the Vedas and the art of war at Taxila. Identifying Chanakya with Kautilya of the Arthashastra is later still. Contemporary Greek writers did not record this teacher.",
+   "place_name": "탁실라",
+   "place_name_en": "Taxila",
+   "lat": 33.745833333333,
+   "lng": 72.7875
+  },
+  {
+   "year": -323,
+   "year_end": -317,
+   "kind": "battle",
+   "title": "알렉산드로스 사후 북서쪽 총독들을 밀어내다",
+   "title_en": "Drives out the northwestern governors after Alexander dies",
+   "description": "알렉산드로스가 바빌론에서 죽자 인더스 지역의 총독들은 하나둘 죽거나 떠났다. 2세기 저술가 유스티누스는 산드로코토스가 이 지역의 해방을 이끌었다고 적었지만, 그가 왕위에 오른 뒤에는 자신이 해방한 사람들을 다시 억압했다고도 했다. 그가 펀자브와 마가다 중 어디를 먼저 차지했는지를 두고는 학자들의 견해가 여전히 갈린다.",
+   "description_en": "When Alexander died in Babylon, the governors on the Indus were killed or left one by one. In the second century Justin named Sandrocottus as the author of that liberation, and wrote that once on the throne he oppressed the people he had freed. Scholars still split on whether he took the Punjab first or Magadha first.",
+   "place_name": "",
+   "place_name_en": "",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -321,
+   "year_end": null,
+   "kind": "office",
+   "title": "난다 왕조를 무너뜨리고 파탈리푸트라를 차지하다",
+   "title_en": "Overthrows the Nandas and takes Pataliputra",
+   "description": "마가다의 난다 왕조가 갠지스 중류를 잡고 있었다. 그는 그 왕조를 무너뜨리고 수도를 차지했다. 첫 공격이 실패하고 변방에서부터 밀고 들어갔다는 줄거리는 수 세기 뒤 불교·자이나 문헌에 처음 나온다. 마지막 왕을 다나난다라 부르는 것도 그 문헌들의 전승이다.",
+   "description_en": "The Nanda dynasty of Magadha held the middle Ganges. He overthrew that dynasty and took the capital. The story that a first attack failed and that he then pushed in from the frontier first appears in Buddhist and Jain texts written centuries later. Calling the last king Dhana Nanda is also those texts’ tradition.",
+   "place_name": "파탈리푸트라",
+   "place_name_en": "Pataliputra",
+   "lat": 25.611,
+   "lng": 85.144
+  },
+  {
+   "year": -305,
+   "year_end": -303,
+   "kind": "battle",
+   "title": "셀레우코스 1세와 맞서다",
+   "title_en": "Confronts Seleucus I",
+   "description": "알렉산드로스의 장군 셀레우코스 1세가 페르시아와 박트리아를 다시 묶은 뒤, 옛 인더스 총독령을 되찾으려 동쪽으로 왔다. 두 사람은 이 몇 해 사이에 맞섰다. 구체적인 싸움터와 승패의 장면은 남아 있지 않다.",
+   "description_en": "After Seleucus I, one of Alexander’s generals, bound Persia and Bactria together again, he came east to retake the old Indus satrapies. The two men faced each other in these years. No specific battlefield or scene of victory or defeat survives.",
+   "place_name": "",
+   "place_name_en": "",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -303,
+   "year_end": null,
+   "kind": "other",
+   "title": "땅과 코끼리와 혼인을 맞바꾸다",
+   "title_en": "Exchanges land, elephants, and a marriage alliance",
+   "description": "스트라본은 셀레우코스가 예전에 페르시아 땅이었던 인더스 연안 일부, 곧 파로파미사다이와 아라코시아, 게드로시아의 일부를 산드로코토스에게 넘겼다고 적었다. 대가는 혼인 동맹과 전투 코끼리 오백 마리였다. 학자들은 영토의 서쪽 경계를 두고 여전히 논쟁한다. 헤라트 쪽 아리아까지 포함하는 해석은 이제 거의 받아들여지지 않는다. 셀레우코스 왕조의 기록에는 누구의 딸이 누구에게 갔는지 이름이 남아 있지 않다. 이 코끼리들은 뒤이어 입소스 전투에서 셀레우코스 편에 섰다.",
+   "description_en": "Strabo wrote that Seleucus gave Sandrocottus some of the lands along the Indus that had once belonged to Persia—parts of the Paropamisadae, Arachosia, and Gedrosia. The price was intermarriage and five hundred war elephants. Scholars still argue over the western edge. A reading that reached Aria toward Herat is now mostly dropped. Seleucid records do not name whose daughter went to whom. Those elephants later stood with Seleucus at Ipsus.",
+   "place_name": "",
+   "place_name_en": "",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -303,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "메가스테네스가 궁에 오다",
+   "title_en": "Receives Megasthenes at court",
+   "description": "셀레우코스가 메가스테네스를 사절로 보냈다. 메가스테네스가 쓴 《인디카》는 전하지 않으며, 스트라본과 아리아노스가 그 일부를 남겼다. 메가스테네스는 파탈리푸트라를 팔리보트라라고 불렀다. 갠지스강과 손강이 만나는 곳에 자리한 이 도시는 긴 직사각형 모양이었고, 나무 성벽에는 탑 오백칠십 개와 문 예순네 개가 있었으며 그 앞에는 넓은 해자가 놓여 있었다. 《인디카》의 기록은 왕이 사냥을 좋아하고 살아 있는 동물을 제물로 바쳤다고도 전한다.",
+   "description_en": "Seleucus sent Megasthenes as envoy. The Indica he wrote is lost; Strabo and Arrian kept fragments. He saw the city he called Palibothra. It stood where the Ganges meets the Son. The city was a long rectangle, with a wooden wall of five hundred and seventy towers and sixty-four gates, and a wide ditch in front. The same record says the king loved the hunt and offered live animals in sacrifice.",
+   "place_name": "파탈리푸트라",
+   "place_name_en": "Pataliputra",
+   "lat": 25.611,
+   "lng": 85.144
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "총독 푸샤굽타가 사우라슈트라에 호수를 만들다",
+   "title_en": "His governor digs a lake in Saurashtra",
+   "description": "찬드라굽타 생전의 비문에는 이 일이 기록되어 있지 않다. 기원후 2세기에 새겨진 루드라다만의 주나가드 바위 비문은 과거를 돌아보며, 바이샤 푸샤굽타가 찬드라굽타의 총독으로서 수다르샤나 호수를 만들었다고 전한다. 손자 아소카의 치세에는 야바나 투샤스파가 수로를 보탰다.",
+   "description_en": "No inscription from his own lifetime records this. In the second century CE Rudradaman’s rock at Junagadh looked back and wrote that the Vaishya Pushyagupta, his governor, made the Sudarshana lake. Under his grandson Ashoka the Yavana Tushaspha added conduits.",
+   "place_name": "주나가드",
+   "place_name_en": "Junagadh",
+   "lat": 21.52,
+   "lng": 70.47
+  },
+  {
+   "year": -298,
+   "year_end": null,
+   "kind": "office",
+   "title": "빈두사라가 뒤를 잇다",
+   "title_en": "Bindusara succeeds him",
+   "description": "찬드라굽타의 통치는 이 무렵 끝났고, 아들 빈두사라가 왕위를 이었다. 디감바라 자이나 전승은 찬드라굽타가 왕위를 내려놓고 승려가 되었다고 한다. 이 이야기는 12세기 헤마찬드라의 문헌에서 처음으로 하나의 연속된 서사로 전한다.",
+   "description_en": "His reign ended around this time, and his son Bindusara took the seat. Digambara Jain tradition says he laid down the throne and became a monk. That story first survives as a connected tale in Hemachandra’s twelfth-century text.",
+   "place_name": "파탈리푸트라",
+   "place_name_en": "Pataliputra",
+   "lat": 25.611,
+   "lng": 85.144
+  },
+  {
+   "year": -298,
+   "year_end": null,
+   "kind": "death",
+   "title": "죽다",
+   "title_en": "Dies",
+   "description": "동시대 기록에는 사망 연도와 장소가 전하지 않는다. 후대 저술가들은 대체로 이 무렵으로 본다. 디감바라 전승은 그가 바드라바후를 따라 슈라바나벨라골라의 찬드라기리 언덕으로 가서 단식으로 생을 마쳤다고 한다. 7세기 그곳 비문에 나오는 프라바찬드라를 찬드라굽타와 동일 인물로 보는 해석은 처음부터 엇갈렸다.",
+   "description_en": "No contemporary record gives the year or place of his death. Later writers place the year around this time. Digambara tradition says he followed Bhadrabahu to Chandragiri hill at Shravanabelagola and ended his life by fasting. From the start, readers have split on whether Prabhacandra in a seventh-century inscription there is the same man.",
+   "place_name": "",
+   "place_name_en": "",
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부 내용은 대체로 영문과 일치했지만, 일부 서술에 뜻이 불분명한 표현과 모호한 지시어, 직역에 가까운 어순이 있었다. 영문이 제시한 범위 안에서 주체와 행동 관계를 분명히 하고, 사건들이 생애 순서대로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「태어난 해와 땅」「후대가 흔히 잡는 해」「세 줄」은 각각 출생 연도·출생지, 후대 저술가들의 추정, 서로 다른 세 전승을 가리키지만 한국어 표현만으로는 뜻이 바로 드러나지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「젊은 날」과 본문의 「뒤에 그가 자주 했다는 말」「옳은 읽기」가 번역문처럼 굳어 있었고, 「그 왕」「그 나라 왕」이 이어지면서 알렉산드로스와 난다 왕을 구별해 읽기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「후대 전승,」은 문장 성분과 연결되지 않았고, 「목동 사이에서 그를 데려가」「더 뒤의 일」은 관계와 시점을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「해방의 주인공」「왕위에 오르자 풀어 준 사람들을 다시 눌렀다」는 유스티누스가 기록한 두 행동의 주체와 관계가 불분명했고, 마지막 문장의 「먼저 잡았는지」도 구어적이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서쪽 끝을 아직도 놓고 다툰다」「아리아까지 넣던 읽기」「코끼리들이 셀레우코스 쪽에 섰다」는 영토 경계에 관한 견해와 코끼리의 전투 참여를 직역에 가까운 표현으로 전달했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그가 쓴」「그는 팔리보트라라 부른 이 도시」「같은 기록」처럼 지시어가 연달아 나와 메가스테네스, 파탈리푸트라, 《인디카》의 관계를 앞 문장만으로 즉시 파악하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서는 어느 총독인지 알 수 없었고, 「생전에 새긴 글은 없다」는 누가 무엇을 새겼다는 뜻인지 불분명했다. 「바위글이 뒤를 돌아보며 적었다」「만들었다고」도 번역투와 문장 파편에 가까웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리를 받았다」「한 편의 이야기로 남는다」는 왕위 계승과 전승의 문헌상 형태를 정확하고 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「죽은 해와 땅」「후대가 잡는 해」「그와 한 사람으로 읽는 해석」은 각각 사망 연도·장소, 후대의 연대 추정, 동일 인물 여부를 뜻하지만 한국어 표현이 불명확했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

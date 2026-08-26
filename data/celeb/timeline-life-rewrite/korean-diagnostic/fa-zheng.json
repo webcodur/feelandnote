@@ -1,0 +1,284 @@
+{
+ "slug": "fa-zheng",
+ "events": [
+  {
+   "year": 176,
+   "year_end": null,
+   "kind": "birth",
+   "title": "부풍 미현에서 태어나다",
+   "title_en": "Born in Mei County, Fufeng",
+   "description": "할아버지 법진은 오경에 밝았으나 관직을 마다했다. 미현은 장안 서쪽 위수 가에 있었고, 한실이 삼보라고 부른 기내에 속했다. 배송지가 인용한 《삼보결록》은 아버지 법연이 사도연과 정위좌감을 지냈다고 적는다.",
+   "description_en": "His grandfather Fa Zhen knew the Five Classics and still refused office. The county sat on the Wei River west of Chang’an, inside the capital belt the Han called the Three Adjuncts. Pei Songzhi’s note, citing the Sanfu Jielu, records that his father Fa Yan served as an aide to the Excellency over the Masses and as a supervisor in the Ministry of Justice.",
+   "place_name": "미현",
+   "place_name_en": "Mei County",
+   "lat": 34.27439,
+   "lng": 107.74416
+  },
+  {
+   "year": 196,
+   "year_end": null,
+   "kind": "travel",
+   "title": "기근을 피해 촉으로 들어가다",
+   "title_en": "Fled famine and entered Shu",
+   "description": "건안 초에 천하에 굶주림이 들자, 같은 군 사람 맹달과 함께 익주로 내려가 유장에게 의탁했다. 유장은 한실 종친으로 성도에 앉아 그 기름진 땅을 지키고 있었다.",
+   "description_en": "When famine spread at the start of the Jian’an era, he went down into Yi Province with Meng Da, a man of the same commandery, and took service under Liu Zhang. Liu Zhang, a kinsman of the Han house, held that rich land from Chengdu.",
+   "place_name": "성도",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.063333333333
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "신도현령과 군의교위가 되다",
+   "title_en": "Made magistrate of Xindu and Army Adviser",
+   "description": "오랜 기다림 끝에 신도현령이 되었고, 뒤에는 군의교위로 불려갔으나 실권을 맡을 만큼 중용되지는 못했다. 고향 군에서 함께 내려온 유민들이 그의 행실을 헐뜯어 뜻을 펼칠 자리도 없었다. 법정은 별가 장송과 가까이 지냈고, 두 사람은 유장에게 큰일을 맡길 수 없다며 함께 한숨지었다.",
+   "description_en": "Only after a long wait was he given a county, then summoned as a colonel who advised the army. He was not trusted with real power. Fellow refugees from his home commandery slandered his conduct, and he had no room to act. He stayed close to the provincial aide Zhang Song, and the two men sighed that Liu Zhang could not carry a great undertaking.",
+   "place_name": "신도",
+   "place_name_en": "Xindu",
+   "lat": 30.82464,
+   "lng": 104.16054
+  },
+  {
+   "year": 208,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "유비를 만나고 돌아와 장송과 밀모하다",
+   "title_en": "Met Liu Bei and plotted with Zhang Song",
+   "description": "장송이 형주에서 조조를 만나고 돌아온 뒤, 조조와 끊고 유비와 맺자고 유장에게 권했다. 장송의 천거로 사자가 된 법정은 처음에는 사양했으나 어쩔 수 없이 유비에게 갔다. 돌아온 법정은 유비에게 큰 뜻이 있다고 장송에게 말했고, 두 사람은 유비를 함께 받들기로 몰래 약속했다. 다만 아직 기회는 없었다.",
+   "description_en": "After Zhang Song returned from seeing Cao Cao in Jing Province, he urged Liu Zhang to break with Cao Cao and befriend Liu Bei. Recommended as the envoy, he declined, then went because he had no choice. He came back saying Liu Bei had a grand design, and he and Zhang Song secretly agreed to serve him. They still lacked an opening.",
+   "place_name": "공안",
+   "place_name_en": "Gong'an",
+   "lat": 30.06319,
+   "lng": 112.21917
+  },
+  {
+   "year": 211,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "유비에게 익주를 취하라고 은밀히 권하다",
+   "title_en": "Secretly urged Liu Bei to take Yi Province",
+   "description": "조조가 장로를 치려 한다는 소식에 유장이 두려워하자, 장송은 유비를 맞아 막자고 했다. 법정은 다시 사자로 유비에게 가서 유장의 명을 전한 뒤, 유장은 약하고 장송은 안에서 호응할 것이므로 익주의 부유함과 험준한 지세를 취하는 일이 손바닥을 뒤집듯 쉬울 것이라고 은밀히 말했다. 유비는 그 말을 따랐다. 《화양국지》는 법정이 손부인을 강동으로 돌려보내라고도 권했다고 적는다.",
+   "description_en": "When Liu Zhang grew afraid that Cao Cao meant to strike Zhang Lu, Zhang Song proposed inviting Liu Bei to block him. Sent as envoy again, he delivered the order, then privately said that Liu Zhang was weak, Zhang Song would answer from inside, and Yi Province’s wealth and natural barriers would fall as easily as turning a palm. Liu Bei took the advice. The Chronicles of Huayang add that he also urged Liu Bei to send Lady Sun back east.",
+   "place_name": "공안",
+   "place_name_en": "Gong'an",
+   "lat": 30.06319,
+   "lng": 112.21917
+  },
+  {
+   "year": 211,
+   "year_end": null,
+   "kind": "travel",
+   "title": "유비를 따라 부현 회합에 가다",
+   "title_en": "Followed Liu Bei to the meeting at Fu",
+   "description": "법정은 유비를 따라 강을 거슬러 서쪽으로 올라갔고, 유비는 부현에서 유장과 만났다. 유비는 군사를 가맹까지 북진시킨 뒤 남쪽으로 돌아서 유장에게서 익주를 빼앗기 시작했다.",
+   "description_en": "Liu Bei went upriver west and met Liu Zhang at Fu County. He marched north as far as Jiameng, then turned south and began to take the province from Liu Zhang.",
+   "place_name": "면양",
+   "place_name_en": "Mianyang",
+   "lat": 31.46688,
+   "lng": 104.73847
+  },
+  {
+   "year": 213,
+   "year_end": null,
+   "kind": "other",
+   "title": "정도의 청야책이 채택되지 않을 것으로 보다",
+   "title_en": "Dismissed Zheng Du’s scorched-earth plan",
+   "description": "종사 정도는 파서와 재동의 백성을 서쪽으로 옮기고 곡식을 태워 유비군의 식량을 끊자고 했다. 유비는 그 보고를 꺼려 법정에게 물었고, 법정은 유장이 결코 그 계책을 쓰지 못할 것이라고 답했다. 실제로 유장은 적을 막아 백성을 안전하게 한다는 말은 들어 보았어도 적을 피해 백성을 몰아낸다는 말은 듣지 못했다며 정도를 내쳤다. 유비군이 낙성을 포위하자 법정은 옛 주군 유장에게 편지를 보내, 형세가 이미 기울었으니 아직 가문을 보전할 수 있을 때 결단하라고 권했다.",
+   "description_en": "The aide Zheng Du wanted to move the people of Baxi and Zitong west, burn the grain, and starve Liu Bei out. Liu Bei disliked the report and asked him. He answered that Liu Zhang would never use that plan. Liu Zhang said he had heard of holding the enemy off to keep the people safe, not of driving the people away to dodge an enemy, and dismissed Zheng Du. When the army closed on Luo, he wrote to his former lord that the balance had already tipped, and that the house could still be saved.",
+   "place_name": "광한",
+   "place_name_en": "Guanghan",
+   "lat": 30.97932,
+   "lng": 104.28
+  },
+  {
+   "year": 214,
+   "year_end": null,
+   "kind": "office",
+   "title": "촉군태수와 양무장군이 되다",
+   "title_en": "Made Administrator of Shu and General Who Spreads Martial Might",
+   "description": "성도가 포위되자 유장의 촉군태수 허정은 성벽을 넘어 항복하려다 붙잡혔다. 이미 멸망을 앞둔 유장은 그를 죽이지 않았지만, 항복을 받은 유비는 허정을 낮춰 보았다. 법정은 허정의 명성이 실제보다 크기는 하나, 예우하지 않으면 천하 사람들이 새 주군이 현자를 업신여긴다고 말할 것이라고 했다. 이에 유비는 허정을 후하게 대했다. 수도권 행정과 수석 참모 역할을 함께 맡은 법정은 한 끼를 베푼 은혜부터 눈을 흘긴 원한까지 가리지 않고 갚았으며, 자신을 해친 여러 사람을 직접 죽였다. 제갈량은 이를 비판하는 사람들에게, 주군이 공안에서 조조와 손권과 손부인 사이에 갇혀 옴짝달싹하지 못할 때 법정이 날개를 달아 주었으니 이제 그의 손을 묶을 수는 없다고 말했다.",
+   "description_en": "As Chengdu was ringed, Xu Jing, Liu Zhang’s administrator of Shu, tried to slip over the wall and surrender, and was caught. Liu Zhang, already near ruin, spared him. After the surrender Liu Bei looked down on Xu Jing. He said Xu Jing’s name ran ahead of the man, but if the new lord withheld courtesy the empire would say he slighted worthies. Liu Bei then treated Xu Jing generously. Given the capital district and a seat as chief adviser, he repaid a meal’s kindness and a glare’s grudge alike, and killed several men who had harmed him. Zhuge Liang told critics that when their lord sat in Gong’an, boxed in by Cao Cao, Sun Quan, and Lady Sun, this man had given him wings, and he would not now bind his hands.",
+   "place_name": "성도",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.063333333333
+  },
+  {
+   "year": 217,
+   "year_end": null,
+   "kind": "battle",
+   "title": "한중을 치자고 건의하다",
+   "title_en": "Urged a campaign for Hanzhong",
+   "description": "법정은 조조가 장로를 항복시키고 한중을 얻은 뒤 곧바로 익주를 넘보지 않고 하후연과 장합만 남겨 둔 채 북쪽으로 돌아간 일을 짚었다. 이는 지모나 힘이 모자라서가 아니라 내부에 근심이 있기 때문이라고 보았다. 두 장수는 유비 휘하의 장수들을 당해 내지 못할 것이므로, 한중을 차지한 뒤 곡식을 쌓고 기회를 살피면 위로는 왕실을 돕고, 가운데로는 옹주와 양주를 잠식하며, 아래로는 험준한 요충지를 지킬 수 있다고 했다. 유비는 그 계책을 받아들여 여러 장수를 이끌고 북쪽으로 갔고, 법정도 함께 갔다.",
+   "description_en": "He pointed out that Cao Cao had forced Zhang Lu’s surrender and taken Hanzhong, then left Xiahou Yuan and Zhang He behind and turned north instead of pressing into Yi. That was not a failure of wit or strength, he said, but trouble at home. Those two generals would not outmatch this side’s commanders. If the commandery fell, grain could be stored and openings watched—to restore the house above, nibble at Yong and Liang in the middle, or hold the passes below. Liu Bei took the plan, led his generals north, and brought him along.",
+   "place_name": "성도",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.063333333333
+  },
+  {
+   "year": 219,
+   "year_end": null,
+   "kind": "battle",
+   "title": "정군산에서 칠 때를 가리다",
+   "title_en": "Chose the moment to strike at Mount Dingjun",
+   "description": "유비군이 양평에서 면수를 건너 정군과 흥세에 진을 치자, 하후연이 그 땅을 다투러 왔다. 법정은 이제 하후연을 칠 수 있다고 했고, 유비는 황충에게 높은 곳에서 북을 울리며 내려가게 했다. 하후연의 군대는 크게 무너졌고 하후연도 전사했다. 조조는 서쪽으로 구원하러 오다가 이 계책을 듣고, 유현덕이 혼자 이런 일을 해냈을 리 없다고 말했다. 배송지의 주는 화살이 비처럼 쏟아질 때 법정이 유비 앞을 막아서며 그를 물러나게 했다고 전한다.",
+   "description_en": "After the army crossed the Mian south of Yangping and camped at Dingjun and Xingshi, Xiahou Yuan came to contest the ground. He said the blow could be struck. Liu Bei sent Huang Zhong down from the heights with drums beating. Xiahou Yuan’s army broke and Xiahou Yuan was killed. Cao Cao, coming west to relieve the front, heard of the plan and said Xuande could not have done this alone. A note by Pei Songzhi says that when arrows fell like rain he stepped in front of his lord and made him withdraw.",
+   "place_name": "한중",
+   "place_name_en": "Hanzhong",
+   "lat": 33.07938,
+   "lng": 107.02598
+  },
+  {
+   "year": 219,
+   "year_end": null,
+   "kind": "office",
+   "title": "상서령과 호군장군이 되다",
+   "title_en": "Made Prefect of the Masters of Writing and General Who Protects the Army",
+   "description": "유비가 한중왕에 오르자 법정에게 문서 행정과 군무를 함께 맡겼다. 법정과 제갈량은 좋아하는 바가 달랐으나 국사를 위해 서로 협력했고, 제갈량은 법정의 계책에 자주 감탄했다.",
+   "description_en": "When Liu Bei took the title King of Hanzhong, he put both the secretariat and the protection of the army in this man’s hands. He and Zhuge Liang did not share the same tastes, yet they used each other for the state’s work, and Zhuge Liang often marveled at his devices.",
+   "place_name": "성도",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.063333333333
+  },
+  {
+   "year": 220,
+   "year_end": null,
+   "kind": "death",
+   "title": "마흔다섯에 죽다",
+   "title_en": "Died at forty-five",
+   "description": "유비는 여러 날 눈물을 흘렸다. 법정의 시호는 익후였다. 유비는 법정의 아들 법막에게 관내후 작위를 내렸고, 법막은 뒤에 봉거도위와 한양태수까지 올랐다. 조운전은 선주 때 시호를 받은 신하는 법정뿐이었다고 적는다.",
+   "description_en": "Liu Bei wept for days. The posthumous title was Marquis Yi. His son Fa Miao received a secondary marquisate and later served as Commandant of Equipage and Administrator of Hanyang. The biography of Zhao Yun records that in the First Sovereign’s time he was the only subject given a posthumous name.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 222,
+   "year_end": null,
+   "kind": "other",
+   "title": "이릉 패전 뒤 다시 언급되다",
+   "title_en": "Named again after the defeat at Yiling",
+   "description": "유비는 황제에 오른 뒤 관우의 죽음을 갚으려고 손권을 치러 갔으며, 여러 신하의 간언을 모두 물리쳤다. 대군이 패해 백제로 물러나자 제갈량은 법정이 살아 있었다면 동쪽 원정을 말렸거나, 출정했더라도 이릉의 참패까지 이르지는 않았을 것이라고 말했다.",
+   "description_en": "After taking the imperial title Liu Bei marched east against Sun Quan to avenge Guan Yu, and refused every minister’s protest. When the army broke and fell back to Baidi, Zhuge Liang said that if this man were still alive he could have stopped the eastern campaign, or at least kept it from ending in ruin.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 주체가 빠지거나 대상을 오해할 수 있는 문장, 직역투 표현, 사건 사이의 연결이 끊기는 대목을 바로잡았다. 영문만으로 확정할 수 없는 사실 충돌은 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「오경을 읽고도」가 단순 독서 행위처럼 들려 Five Classics에 정통했다는 영문의 뜻을 충분히 전달하지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「현을 맡겼고」와 「중용은 하지 않았다」에서 임명되거나 중용되지 않은 사람이 누구인지 문장 구조상 불분명했고, 「공적인 일로 서로를 썼다」에 이르기 전 생애의 주체도 안정적으로 이어지지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「유비를 보고」가 만남의 의미를 어색하게 전달했고, 본문의 「사자로 천거되자」와 「유비에게 큰 꾀가 있다고 말하고」는 누가 사자가 되었으며 누구에게 말했는지 오해할 수 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에는 권유를 받은 대상이 없었고, 본문도 장송에서 법정으로 주체가 바뀌는 지점이 드러나지 않아 연속해서 읽을 때 행동 주체가 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「유비와 유장의 부현 회합에 따르다」가 누구를 따라간 것인지 분명하지 않았고, 본문에는 법정이 동행했다는 제목의 핵심 사건이 나타나지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「청야를 걱정하지 않다」는 무엇을 판단했는지 모호했고, 「백성을 물리고 곡식을 태워 유비를 말리자」는 주민을 서쪽으로 옮겨 군량을 끊는다는 영문의 주어·목적어·행동 관계를 제대로 전달하지 못했다. 「옛 주인」과 「집안」도 대상을 바로 알기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 끼의 은혜와 흘겨본 원한」과 「그가 날게 했다」가 직역투였고, 후반부의 「그 손을 묶지 않았다」는 누구의 판단인지 불분명했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「장로를 내리고」가 항복시켰다는 뜻을 자연스럽게 전달하지 못했고, 「이기면」은 무엇을 이기는지 앞 문장만으로 확정하기 어려웠다. 마지막의 「그도」 역시 여러 인물이 나온 뒤라 법정을 가리킨다는 점이 흐려졌다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지금 칠 수 있다」는 공격 대상을 생략했고, 「하후연도 목을 잃었다」는 전사를 부자연스럽게 옮긴 표현이었다. 「주인 앞에 서서 함께 물러나게 했다」는 영문에 없는 동반 퇴각의 의미를 보탰고 보호 대상도 모호했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공적인 일로 서로를 썼다」와 「그의 꾀를 자주 기이하게 여겼다」가 영문 어순을 따른 직역투여서 두 사람의 협력 관계가 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「관내후를 내렸다」는 작위를 내렸다는 뜻이 생략되어 어색했고, 마지막의 「그뿐」은 바로 앞에 아들 법막이 나와 법정과 혼동될 수 있었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이릉이 깨진 뒤」는 패전을 부자연스럽게 옮긴 표현이었고, 「그가 살아 있었으면」과 「그 지경까지」는 각각 법정과 이릉의 참패를 명시하지 않아 단독 문장으로 대상이 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

@@ -1,0 +1,259 @@
+{
+ "slug": "al-alcorn",
+ "events": [
+  {
+   "year": 1948,
+   "year_end": null,
+   "kind": "birth",
+   "title": "샌프란시스코에서 태어났다",
+   "title_en": "Born in San Francisco",
+   "description": "전쟁이 막 끝난 뒤의 베이비붐 세대였다. 집안은 하위 중산층이었고 시내 여러 아파트를 옮겨 다녔다. 그가 어릴 때 부모가 이혼했고, 상선 선원이었던 아버지는 집에 거의 없었다. 나중에는 헤이트애시베리 모퉁이에서 반 블록 떨어진 애시베리 스트리트 520번지의 공동주택에 정착했다.",
+   "description_en": "He belonged to the postwar baby boom. The family was lower-middle class and moved among apartments across the city. His parents divorced while he was young, and his father, a merchant mariner, was rarely home. They later settled in a flat at 520 Ashbury Street, half a block from the Haight-Ashbury corner.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "education",
+   "title": "이웃 텔레비전 수리점에서 일을 배웠다",
+   "title_en": "Learned Television Repair at a Neighborhood Shop",
+   "description": "아버지는 그를 RCA의 라디오·텔레비전 수리 통신강좌에 등록시켰다. 그는 방과 후 길 건너편에 있는 에밋 마루호의 가게에서 진공관식 텔레비전을 고쳤다. 얼마 지나지 않아 진공관 수리함을 들고 다녔고, 현장 수리 기사들이 고치지 못한 섀시를 작업대에서 수리하는 일까지 맡았다. 로웰 고등학교에 다니며 미식축구부에서 뛰었다.",
+   "description_en": "His father enrolled him in an RCA correspondence course on radio and television repair. After school he worked at Emmett Marrujo’s shop across the street, fixing vacuum-tube sets. He was soon old enough to carry a tube caddy, and he advanced to the bench work of repairing chassis the field men could not fix. He attended Lowell High School and played on the football team.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1968,
+   "year_end": 1971,
+   "kind": "education",
+   "title": "버클리에서 전기공학을 공부했다",
+   "title_en": "Studied Electrical Engineering at Berkeley",
+   "description": "미식축구 실력으로 캘리포니아 대학교에 들어갔지만 일주일 만에 팀을 그만두고 공학을 택했다. 아버지가 심장마비를 겪은 뒤 더는 학비를 대지 못하자 텔레그래프 애비뉴의 수리점에서 일하며 등록금을 벌었다. 아날로그 회로를 좋아했지만 학교에서는 포트란과 디지털 기술도 의무적으로 배워야 했다.",
+   "description_en": "Football helped him into the University of California, but he quit the team after a week and chose engineering. After his father suffered a heart attack and could no longer pay tuition, he earned his fees repairing sets on Telegraph Avenue. He preferred analog circuits; the school forced Fortran and digital work on him anyway.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 1968,
+   "year_end": 1972,
+   "kind": "work",
+   "title": "암펙스 비디오파일에서 일했다",
+   "title_en": "Worked at Ampex Video File",
+   "description": "일자리를 구하기 어려웠던 때, 보험회사 비서로 일하던 어머니가 암펙스 사장과의 인맥을 이용해 면접을 잡아 주었다. 비디오파일 부서는 문서를 2인치 테이프에 저장했으며, 텔레비전 표준을 벗어난 초당 15프레임과 1,000개가 넘는 주사선으로 시스템을 운용했다. 그곳에서 놀런 부슈널과 테드 대브니를 만났다. 학위를 받은 뒤 주니어 엔지니어로 돌아왔을 때 부슈널은 이미 컴퓨터 스페이스를 만들기 위해 회사를 떠난 뒤였고, 앨콘은 그가 맡았던 자리를 넘겨받았다.",
+   "description_en": "Jobs were scarce until his mother, a secretary at an insurance firm, used a connection to the Ampex president to get him an interview. Video File stored documents on two-inch tape and ran at fifteen frames a second with more than a thousand scan lines, outside television standards. There he met Nolan Bushnell and Ted Dabney. When he returned as a junior engineer after graduating, Bushnell had already left to build Computer Space, and he took that vacant seat.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "시지지의 세 번째 직원으로 들어갔다",
+   "title_en": "Joined Syzygy as Its Third Employee",
+   "description": "부슈널은 회사 차에 그를 태워 점심을 먹으러 가서, 이전보다 적은 급여와 회사 지분 10퍼센트를 제안했다. 암펙스에서 하는 일은 이미 재미가 줄어 있었고, 새 사업이 실패하면 암펙스로 돌아가면 된다고 생각했다. 스콧 대로에 문을 연 회사는 아직 아타리라는 이름을 쓰기 전이었다. 첫날부터 맡은 일은 탁구 게임 개발이었다.",
+   "description_en": "Bushnell took him to lunch in a company car, offered a pay cut and ten percent of the stock. Ampex had already grown less fun, and he figured he could go back if the venture failed. The office on Scott Boulevard was not yet called Atari. From the first day his assignment was a table-tennis game.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "논리회로만으로 퐁을 만들었다",
+   "title_en": "Built Pong from Discrete Logic",
+   "description": "부슈널은 제너럴 일렉트릭과의 계약이 있다고 했지만 실제로는 연습 과제였다. 앨콘은 마이크로프로세서 없이 TTL 논리 칩만으로 공과 패들을 움직이게 했다. 그해 가을 앤디 캡스 선술집에 시제품을 설치했더니 동전함이 25센트짜리 동전으로 가득 차 기계가 멈췄다. 바텐더는 기계가 고장 났다며 그를 불렀지만, 문제는 회로가 아니었다.",
+   "description_en": "Bushnell said there was a General Electric contract; it was a training exercise. With no microprocessor, he moved the ball and paddles on TTL chips. That autumn he installed the prototype at Andy Capp’s Tavern, and the coin box filled with quarters until the machine stopped. The bartender called it broken. The circuit was not.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "스티브 잡스를 채용했다",
+   "title_en": "Hired Steve Jobs",
+   "description": "인사 담당자가 찾아와 히피처럼 생긴 청년이 채용될 때까지 나가지 않겠다며 로비에서 버티고 있다고 말했다. 잡스가 다닌 리드 칼리지는 공대가 아니었고, 잡스는 그마저 중퇴한 상태였다. 열여덟 살이라 낮은 임금으로 고용할 수 있었고 기술 이야기를 할 때 강한 열의를 보여 채용했다. 동료들이 그의 몸에서 나는 냄새와 태도를 견디지 못하자 밤 근무로 옮겼다.",
+   "description_en": "Personnel came in and said a hippie kid in the lobby would not leave until he was hired. Reed was not an engineering school, and he had dropped out. He was eighteen, so he would be cheap, and he caught fire talking about technology. After coworkers complained about his odor and manner, he was moved to the night shift.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "work",
+   "title": "가정용 퐁을 한 칩으로 줄였다",
+   "title_en": "Shrunk Home Pong onto One Chip",
+   "description": "해럴드 리가 텔레비전에 연결하는 가정용 퐁을 제안했고, 앨콘은 밥 브라운과 함께 아케이드 기판의 기능을 주문형 집적회로 하나에 압축했다. 시어스는 그해 크리스마스에 텔레게임스 상표로 15만 대를 발주했다. 앨콘은 아타리의 소비자 제품 부문도 신설했다.",
+   "description_en": "Harold Lee proposed a television version for the home. With Bob Brown he compressed the arcade board onto a custom chip. Sears ordered 150,000 units for Christmas under the Tele-Games label. He started the consumer-products division.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "work",
+   "title": "아타리를 떠났다",
+   "title_en": "Left Atari",
+   "description": "워너 커뮤니케이션스가 회사를 인수한 뒤 레이 카사르는 새 하드웨어 개발을 막았다. 홀로그램 영상을 덧씌우는 독립형 기기 코스모스는 주문까지 들어왔지만 생산되지 않았다. 앨콘은 구술사에서 일이 더는 즐겁지 않았다고 말했다. 그 뒤 몇 년 동안 부슈널이 세운 기술 인큐베이터 캐털리스트 테크놀로지스와 관계를 이어갔다.",
+   "description_en": "After Warner Communications bought the company, Ray Kassar blocked new hardware. Cosmos, a stand-alone machine with holographic overlays, had orders and still was not manufactured. In his oral history he said the work had ceased to be enjoyable. He then spent a few years around Bushnell’s Catalyst Technologies incubator.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1986,
+   "year_end": 1991,
+   "kind": "office",
+   "title": "애플 펠로로 합류했다",
+   "title_en": "Joined Apple as a Fellow",
+   "description": "잡스가 회사에서 쫓겨난 뒤 인사부는 그에게 공학 담당 부사장 자리를 제안했다. 그는 그 자리를 맡으면 사내 정치에 휘말릴 것으로 보고 거절했다. 대신 첨단기술 조직의 펠로로 일하며 디지털 영상 압축을 연구했다. 엠페그를 연구하던 여러 팀을 한자리에 모아 서로 연구 결과를 공유하게 했다.",
+   "description_en": "After Jobs was forced out, human resources offered the vice presidency of engineering. He declined, expecting the politics to chew up whoever took it. As a fellow in advanced technology he worked on digital video compression. He convened research groups already working on MPEG so they could show one another their results.",
+   "place_name": "쿠퍼티노",
+   "place_name_en": "Cupertino",
+   "lat": 37.3175,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1998,
+   "year_end": 2000,
+   "kind": "work",
+   "title": "조위 인터테인먼트를 공동 창업했다",
+   "title_en": "Co-founded Zowie Intertainment",
+   "description": "폴 앨런의 인터벌 리서치에서 쓰던 위치 감지 기술을 어린이 놀이세트로 옮겼다. 아이가 피규어를 옮기면 화면의 배와 대포가 같이 움직였다. 레고가 그 회사를 샀다.",
+   "description_en": "He helped spin location-sensing research from Paul Allen’s Interval Research into a children’s playset. When a child moved a figure, the ship and cannon on the screen moved with it. Lego bought the company.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "other",
+   "title": "컴퓨터역사박물관 펠로로 선정됐다",
+   "title_en": "Named a Computer History Museum Fellow",
+   "description": "박물관은 비디오게임과 개인용 컴퓨팅 분야에서 맡은 역할을 기려 그를 놀런 부슈널, 스티븐 메이어와 함께 펠로로 선정했다. 시상식은 그해 11월 마운틴뷰에서 열렸다.",
+   "description_en": "The museum chose him with Nolan Bushnell and Steven Mayer for their part in video games and personal computing. The ceremony was held in November in Mountain View.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 주어와 행동 관계가 흐려진 표현, 앞 사건과의 연결이 모호한 지시어, 한국어에서 뜻을 짐작해야 하는 직역을 바로잡았다. 영문에 없는 평가나 인과는 보태지 않았으며, 이미 자연스러운 사건은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집안은 중하층이었다」는 계층을 가리키는 한국어로 어색하고, 「부모가 어릴 때」는 부모가 어렸다는 뜻으로도 읽힌다. 지명 표기도 자연스럽게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "RCA가 국문에서 빠졌고, 「통신강좌에 넣어 주었다」「외근이 못 고친 섀시」처럼 행위 주체와 수리 업무의 관계가 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「포트란과 디지털을 강제로 먹였다」는 영어 표현을 직역한 비유라서 실제로 무엇을 배웠는지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "어머니가 면접을 마련한 인맥 관계가 복잡하게 뒤틀려 있었고, 「문서를 담는 조」「빈 자리를 이어받았다」가 업무와 직책을 분명하게 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사 차로 점심을 사며」는 회사 차를 이용해 함께 점심을 먹으러 갔다는 영문의 뜻을 잘못 전달한다. 실패하면 어디로 돌아간다는 것인지도 앞 문장을 다시 짚어야 알 수 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "탁구 게임의 ball을 「점」으로 옮겨 대상이 불분명했고, 동전함이 가득 찬 대목에는 불필요한 반복이 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「리드는 공대가 아니었고 중퇴였다」는 학교와 잡스 가운데 누가 중퇴했다는 것인지 문법적으로 무너져 있었다. 「값이 쌌고」「기술 이야기에서 불이 붙어」도 채용 판단을 설명하는 한국어로 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「텔레비전에 꽂는 가정용」은 무엇을 가정용으로 만들었다는 것인지 목적어가 빠졌고, 마지막 문장은 영문 어순을 그대로 따른 탓에 딱딱했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기술 인큐베이터 주변을 돌며 보냈다」는 실제로 무엇을 하며 지냈다는 뜻인지 짐작해야 하는 표현이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「펠로로 들어갔다」는 직책 합류를 나타내는 표현으로 어색했다. 「정치에 치일 자리」와 「결과를 공개하는 자리」도 영문의 사내 정치와 연구진 간 결과 공유를 정확하게 보여 주지 못했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공로로 그를 골랐다」는 무엇에 선정했는지가 본문 안에서 생략되어 있고, 세 사람을 함께 선정한 문장 구조도 매끄럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   11
+  ]
+ }
+}

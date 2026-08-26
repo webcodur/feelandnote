@@ -1,0 +1,315 @@
+{
+ "slug": "jan-koum",
+ "events": [
+  {
+   "year": 1976,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "유대인 집안의 외아들이었다. 파스티우에서 자랐다. 집에는 온수가 없었다. 전기도 들쭉날쭉했다. 어머니는 집안일을 했고, 아버지는 병원과 학교를 짓는 공사 일을 맡았다. 부모는 국가가 전화를 도청한다고 생각해 전화를 거의 쓰지 않았다.",
+   "description_en": "He was the only child in a Jewish family and grew up in Fastiv. The house had no hot water. Electricity came and went. His mother kept house; his father managed construction of hospitals and schools. His parents rarely used the phone, fearing the state was listening.",
+   "place_name": "키이우",
+   "place_name_en": "Kyiv",
+   "lat": 50.45,
+   "lng": 30.523611111111
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "travel",
+   "title": "어머니와 함께 건너오다",
+   "title_en": "Immigrated with his mother",
+   "description": "반유대주의와 정치적 불안을 피해 할머니도 함께 왔다. 정부는 이들에게 방 두 칸짜리 아파트를 내줬다. 어머니는 가방에 펜과 소련제 공책 스무 권을 넣었다. 아버지는 나중에 뒤따라오려 했으나 우크라이나에 남았다. 어머니는 아이를 돌보는 일을 했고, 그는 식료품점 바닥을 쓸었다. 식량배급을 받으러 북부 카운티 사회복지사무소에 줄을 섰다.",
+   "description_en": "His grandmother came too, fleeing a political and antisemitic climate. The government placed them in a two-bedroom apartment. His mother packed pens and twenty Soviet notebooks. His father meant to follow later but stayed in Ukraine. She babysat; he swept grocery-store floors. He stood in line for food stamps at the North County Social Services office.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "education",
+   "title": "중고 매뉴얼로 통신을 배우다",
+   "title_en": "Taught himself networking from used manuals",
+   "description": "열여덟이 되자 중고 서점에서 책을 사 컴퓨터 통신을 독학했다. 다 읽은 책은 반납해 값을 돌려받았다.",
+   "description_en": "At eighteen he bought used manuals and taught himself computer networking. He returned the books when he finished them to recoup the price.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "education",
+   "title": "대학에 다니며 보안을 점검하다",
+   "title_en": "Studied while testing security",
+   "description": "주립대에 다니면서 언스트앤영에서 보안 점검 업무를 했다. 그러다 야후 광고 시스템을 점검하는 일을 맡았다.",
+   "description_en": "He kept a place at the state university and worked as a security tester for Ernst & Young. An assignment sent him to inspect the Yahoo advertising system.",
+   "place_name": "산호세",
+   "place_name_en": "San Jose",
+   "lat": 37.304166666667,
+   "lng": -121.87277777778
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "브라이언 액턴과 마주 앉다",
+   "title_en": "Sat across from Brian Acton",
+   "description": "야후의 마흔네 번째 직원인 브라이언 액턴이 광고 시스템을 설명했다. 다른 보안 점검 담당자들은 와인을 선물로 가져왔지만, 코움은 먼저 정책부터 물었다. 두 사람 모두 돌려 말하는 것을 좋아하지 않았다.",
+   "description_en": "Yahoo employee number 44 walked him through the advertising system. Other auditors brought wine; he asked about policy first. Neither of them liked to hedge.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "야후의 인프라 엔지니어가 되다",
+   "title_en": "Joined Yahoo as an infrastructure engineer",
+   "description": "여섯 달 뒤 야후에 인프라 엔지니어로 채용됐다. 입사 이 주 만에 서버가 멈추자 공동창업자 데이비드 필로는 수업 중이던 그에게 전화해 사무실로 불렀다. 그는 얼마 지나지 않아 대학을 그만두었다. 이후 액턴과 약 아홉 해 동안 함께 일했다.",
+   "description_en": "Six months later he was hired as an infrastructure engineer. Two weeks in, a server died and co-founder David Filo called him out of class and told him to come in. He left school soon after. He and Acton worked together for about nine years.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니를 잃다",
+   "title_en": "Lost his mother",
+   "description": "어머니가 암으로 세상을 떠났다. 아버지도 삼 년 전 우크라이나에서 이미 세상을 떠난 뒤였다. 혼자 남게 된 그를 액턴이 집으로 초대했고, 두 사람은 스키와 축구, 얼티밋 프리스비를 함께했다.",
+   "description_en": "His mother died of cancer. His father had already died in Ukraine three years earlier. Left on his own, he was invited to Acton's house for skiing, soccer, and ultimate frisbee.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "travel",
+   "title": "야후를 나와 남아메리카를 돌다",
+   "title_en": "Left Yahoo and traveled through South America",
+   "description": "액턴과 함께 야후를 그만두었다. 일 년간 일을 쉬며 남아메리카를 여행했다. 두 사람 모두 페이스북에 지원했지만 떨어졌다. 그는 야후에서 모은 약 사십만 달러의 저축을 써 가며 다음에 할 일을 찾았다.",
+   "description_en": "He and Acton quit together. They took a year off and traveled through South America. Both applied to Facebook and were rejected. He burned through about four hundred thousand dollars saved from Yahoo while looking for what came next.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "왓츠앱 법인을 세우다",
+   "title_en": "Incorporated a status app",
+   "description": "아이폰을 산 뒤 주소록의 이름 옆에 상태를 표시하면 좋겠다고 생각했다. 친구 알렉스 피시먼의 집 부엌 조리대에서 몇 시간 동안 이 구상을 논의했다. 이름은 왓츠앱으로 정했고, 서른세 번째 생일에 캘리포니아에서 회사를 법인으로 설립했다. 앱은 아직 개발되지 않은 상태였다.",
+   "description_en": "After buying an iPhone he wanted statuses next to names in the address book. He talked it through for hours at his friend Alex Fishman's kitchen counter. He chose the name WhatsApp and incorporated the company in California on his thirty-third birthday. The app had not been written yet.",
+   "place_name": "산호세",
+   "place_name_en": "San Jose",
+   "lat": 37.304166666667,
+   "lng": -121.87277777778
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "앱이 메신저로 바뀌다",
+   "title_en": "The app became a messenger",
+   "description": "앱은 계속 멈췄고 사용자도 거의 없었다. 얼티밋 프리스비 경기를 마친 뒤, 코움은 앱을 접고 일자리를 찾아야겠다고 말했다. 액턴은 몇 달만 더 해 보라고 만류했다. 애플이 푸시 알림 기능을 개방하자 상태를 바꿀 때마다 주소록에 등록된 모든 사람의 휴대전화에 알림이 갔다. 코움은 타운하우스에 둔 맥 미니로 오가는 상태 업데이트를 지켜봤다. 사람들은 상태 기능을 이용해 대화를 나누고 있었다. 활성 사용자 수는 이십오만 명으로 뛰었다.",
+   "description_en": "The app kept crashing and almost nobody used it. After a game of ultimate frisbee he said he should fold and look for a job; Acton told him to give it a few more months. When Apple opened push notifications, a status change pinged everyone in the address book. He watched those updates on a Mac Mini in his townhouse. People were talking on it. Active users jumped to two hundred fifty thousand.",
+   "place_name": "산타클래라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "액턴이 공동창업자로 들어오다",
+   "title_en": "Acton joined as co-founder",
+   "description": "액턴은 옛 야후 동료 다섯 명에게서 초기 자금 이십오만 달러를 모았고, 그 대가로 지분을 받았다. 두 사람은 에버노트 건물의 일부 공간을 빌려 담요를 두른 채 이케아 책상에서 일했다. 간판은 달지 않았다.",
+   "description_en": "Acton rounded up two hundred fifty thousand dollars from five former Yahoo colleagues and received a stake. They sublet space in the Evernote building and worked at Ikea tables under blankets. They put up no sign.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "시쿼이아의 투자만 받다",
+   "title_en": "Took money only from Sequoia",
+   "description": "짐 게츠는 만남을 성사시키려고 여덟 달 동안 공을 들였다. 카페에서 질문이 쏟아진 뒤, 광고를 강요하지 않겠다는 약속을 전제로 팔백만 달러를 투자받았다. 당시 왓츠앱은 이미 법인세를 내고 있었다.",
+   "description_en": "Jim Goetz spent eight months chasing a meeting. After a barrage of questions at a cafe, they took eight million dollars on the promise that no one would push ads. The company was already paying corporate income tax.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "왓츠앱을 페이스북에 매각하다",
+   "title_en": "Sold WhatsApp to Facebook",
+   "description": "페이스북은 현금 사십억 달러, 주식 백이십억 달러, 양도제한주식 삼십억 달러를 합쳐 약 백구십억 달러를 지급했다. 거래 조건에는 이사회 자리와 독립 운영이 포함됐다. 짐 게츠와 함께 코움이 예전에 식량배급을 받던 북부 카운티 사회복지사무소를 찾아가, 사무소 문에 계약서류를 대고 서명했다.",
+   "description_en": "Facebook paid about nineteen billion dollars: four billion in cash, twelve billion in stock, and three billion in restricted stock units. A board seat and independent operations were part of the terms. Goetz took them to the old North County Social Services office where food stamps had once been collected, and the papers were signed on the door.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "최고경영자 자리에서 물러나다",
+   "title_en": "Stepped down as CEO",
+   "description": "워싱턴포스트는 사용자 데이터와 암호화를 두고 페이스북과 충돌했다고 전했다. 코움 자신은 글에서 이제 다른 일을 할 때가 됐다고만 밝혔다. 액턴은 일 년 전에 이미 회사를 떠났다. 코움은 이사직에서도 물러났다.",
+   "description_en": "The Washington Post reported clashes with Facebook over user data and encryption. His own post said only that it was time to move on. Acton had left a year earlier. He left the board as well.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "직역으로 주체·대상·행동 관계가 흐려진 문장과 앞뒤 사건의 연결이 끊기는 표현을 바로잡았다. 영문이 제공한 세부는 유지하고, 영문에서 확인되지 않는 정보는 덜어냈다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "국가가 무엇을 듣는다는 것인지 분명하지 않아 전화 도청에 대한 두려움이라는 의미를 명확히 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에는 할머니가 외할머니라고 나오지 않으며, 「아이를 봐 주고」는 직업과 행동의 주체가 모호했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문은 책을 다 읽은 뒤 반납해 비용을 회수했다고 했지만, 국문은 책을 다시 팔았다고 서술했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일이 떨어졌다」가 부자연스럽고, 대학 재학·보안 업무·야후 파견의 관계가 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "브라이언 액턴이 처음 등장하는 사건인데 이름이 충분히 소개되지 않았고, 「야후 사원 번호 마흔네 번」과 「다른 점검 팀」이 번역투였다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목이 인프라 엔지니어로 합류한 사건을 충분히 드러내지 못했고, 「학교를 접었다」와 일부 시간 표현이 지나치게 구어적이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「혼자 남자」는 문법적으로 잘못되었고, 액턴의 집과 스키·축구 등의 활동 관계도 어색하게 붙어 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일 년을 비우다」와 「저축을 깎다」가 영어 표현을 그대로 옮긴 듯한 부자연스러운 문장이었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「상태 앱을 법인으로 내다」는 설립 대상과 행동을 바로 이해하기 어려웠고, 부엌에서 나눈 이야기의 대상도 명시되지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "messenger를 「쪽지」로 옮겨 의미가 달라졌고, 무엇을 접으려 했는지와 무엇을 지켜봤는지가 앞 문장만으로 명확하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "투자금을 모으고 지분을 받은 주체가 빠져 있었으며, 사람들이 담요를 두르고 일했다는 내용이 책상에 담요를 덮었다는 뜻으로 바뀌어 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 투자 대상이 빠져 있었고, 「여덟 달을 쫓아왔다」와 「그 회사」가 각각 행동의 목적과 지시 대상을 분명히 보여 주지 못했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에 매각 대상이 빠져 있었고, 거래 조건과 사회복지사무소에서의 서명 장면이 주체 없이 연결되어 이해하기 어려웠다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「최고경영자를 내려놓다」는 목적어 관계가 잘못되었고, 「본인 글」과 「한 해 먼저 나갔다」가 번역투이면서 대상을 명확히 밝히지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

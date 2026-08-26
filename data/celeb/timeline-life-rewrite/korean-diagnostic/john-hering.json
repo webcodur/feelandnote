@@ -1,0 +1,267 @@
+{
+ "slug": "john-hering",
+ "events": [
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "남캘리포니아의 해안 도시에서 자랐다. 훗날에도 같은 지역에 머물며 대학을 다니고 무선 보안 연구를 시작했다.",
+   "description_en": "He grew up in a Southern California coastal city. He later stayed in the same region for university and wireless security research.",
+   "place_name": "뉴포트비치",
+   "place_name_en": "Newport Beach",
+   "lat": 33.616666666667,
+   "lng": -117.8975
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "education",
+   "title": "서던캘리포니아대학교에서 공부하다",
+   "title_en": "Studies at the University of Southern California",
+   "description": "공공정책·계획·개발을 배웠다. 같은 학교에 다니던 케빈 마하피, 제임스 버지스와 함께 휴대전화에 얼마나 쉽게 침입할 수 있는지 시험했다.",
+   "description_en": "He studied public policy, planning, and development. With classmates Kevin Mahaffey and James Burgess he tested how easily mobile phones could be broken into.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "플렉실리스를 세우다",
+   "title_en": "Founds Flexilis",
+   "description": "같은 학교 친구들과 무선 보안 연구 회사를 만들었다. 블루투스와 와이파이의 취약점을 찾아 제조사에 알리는 일을 했다.",
+   "description_en": "With classmates he started a wireless security research firm. They looked for holes in Bluetooth and Wi-Fi and told the manufacturers.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "1마일 떨어진 휴대전화에 침입하다",
+   "title_en": "Opens a phone from a mile away",
+   "description": "부두 주차장에서 패널 안테나를 이용해 1마일 떨어진 언덕 위의 개조하지 않은 노키아 전화에 블루버그 공격으로 접속했다. 전화에 저장된 주소록과 문자 메시지를 그대로 꺼냈다. 마틴 헤르푸르트와 마이크 아웃메스긴, 같은 학교 친구들이 실험에 참여했다.",
+   "description_en": "From the pier parking lot a panel antenna opened an unmodified Nokia phone on a hill through a BlueBug attack. The address book and text messages came out intact. Martin Herfurt, Mike Outmesguine, and his classmates were there.",
+   "place_name": "산타모니카",
+   "place_name_en": "Santa Monica",
+   "lat": 34.021944444444,
+   "lng": -118.48138888889
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "아카데미 시상식 레드카펫에서 휴대전화를 훑다",
+   "title_en": "Scans phones on the Academy Awards red carpet",
+   "description": "배낭에 노트북과 안테나를 넣고 코닥 극장 앞에서 취약한 휴대전화 50대에서 100대를 찾아냈다. 연구진은 단말기 안의 내용을 열어보지 않았다. 유명인의 휴대전화가 얼마나 쉽게 노출되는지만 알렸다.",
+   "description_en": "Carrying a laptop and antenna in a backpack, he found 50 to 100 vulnerable phones outside the Kodak Theatre. The team did not read the devices. They only showed how exposed celebrity phones were.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "룩아웃을 공동 창업하다",
+   "title_en": "Cofounds Lookout",
+   "description": "아이폰의 블루투스 구현에서 취약점을 찾았다. 케빈 마하피, 제임스 버지스와 함께 그동안 찾아낸 취약점을 막는 보안 앱을 만들기 시작했다.",
+   "description_en": "He found a hole in the iPhone’s Bluetooth implementation. With Kevin Mahaffey and James Burgess he began building a security app to close the holes they had shown.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "회사를 샌프란시스코로 옮기다",
+   "title_en": "Moves the company to San Francisco",
+   "description": "플렉실리스라는 이름을 더는 쓰지 않기로 했다. 코슬라 벤처스 등에서 550만 달러를 투자받아 회사를 북쪽의 샌프란시스코로 옮겼다. 연구진은 트위터가 사용하던 사무실에서 안드로이드와 윈도 모바일용 보안 앱을 시험했다.",
+   "description_en": "He dropped the Flexilis name. He moved north with $5.5 million from Khosla Ventures and others. In offices Twitter had used, the team tested security apps for Android and Windows Mobile.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "office",
+   "title": "룩아웃 최고경영자에서 물러나다",
+   "title_en": "Steps down as Lookout CEO",
+   "description": "짐 돌체에게 최고경영자 자리를 넘기고 집행위원장이 되었다. 회사의 일상 업무에도 계속 관여하면서 전략과 제품, 제휴, 보안 커뮤니티를 맡았다. 당시 룩아웃 제품의 이용자는 5천만 명이 넘었다.",
+   "description_en": "He handed the chief executive role to Jim Dolce and became executive chairman. He stayed in the company’s day-to-day work, taking strategy, product, partnerships, and the security community. More than 50 million people were using the product.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "바이캐피털 파트너가 되다",
+   "title_en": "Becomes a partner at Vy Capital",
+   "description": "알렉산더 타마스와 함께 소수의 기술 기업에 장기 투자하는 일을 맡았다. 증권 신고 문서에는 창립 파트너로 기재되었다.",
+   "description_en": "He joined Alexander Tamas in putting long-term money into a few technology companies. The securities filing listed him as a founding partner.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "코얼리션을 공동 창업하다",
+   "title_en": "Cofounds Coalition",
+   "description": "조슈아 모타와 사이버 보험 회사를 세웠다. 침해 사고가 난 뒤 보험금을 지급하는 데 그치지 않고, 공격을 미리 막는 도구를 보험 상품과 함께 판매했다.",
+   "description_en": "With Joshua Motta he started a cyber insurance company. Instead of only paying after a breach, they sold tools that tried to stop attacks alongside the policy.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2020,
+   "year_end": 2022,
+   "kind": "office",
+   "title": "바이 글로벌 그로스의 최고경영자를 맡다",
+   "title_en": "Serves as CEO of Vy Global Growth",
+   "description": "뉴욕증권거래소에서 5억 7500만 달러를 모아 비상장 기술 회사를 상장시키려 했다. 2년 동안 조건에 맞는 합병 대상을 찾지 못해 신탁 자금을 주주들에게 돌려주고 회사를 해산했다.",
+   "description_en": "He raised $575 million on the New York Stock Exchange to take a private technology company public. After two years with no deal that met their terms, he returned the trust money to shareholders and dissolved the company.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑스에이아이 자금 조달에 참여하다",
+   "title_en": "Takes part in xAI fundraising",
+   "description": "그가 파트너로 있던 투자사가 일론 머스크의 인공지능 회사 엑스에이아이의 투자 라운드에 참여했다. 이 투자사는 이미 스페이스엑스와 뉴럴링크, 보링컴퍼니의 지분도 보유하고 있었다.",
+   "description_en": "The investment firm where he was a partner put its name on a funding round for Elon Musk’s artificial intelligence company. The same firm already held stakes in SpaceX, Neuralink, and the Boring Company.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부를 유지하면서, 직역된 표현과 불분명한 주어·대상·행동 관계를 바로잡았다. 무선 보안 연구에서 창업과 경영을 거쳐 투자 활동으로 옮겨 가는 생애의 흐름이 자연스럽게 이어지도록 국문 서술만 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 같은 권역에서」가 영어 어순을 따른 표현이라 시간의 흐름과 지역의 범위가 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 학교 케빈 마하피, 제임스 버지스와」에는 동료를 나타내는 말이 빠져 있었고, 「휴대전화가 뚫리다」만으로는 무엇을 시험했는지 구체적인 행동 관계가 흐렸다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「블루투스와 와이파이의 구멍」은 보안 연구의 대상을 지나치게 직역한 표현이어서 「취약점」으로 바로잡았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "휴대전화를 「열다」라는 제목은 원격 침입을 뜻하는지 바로 알기 어려웠다. 본문도 안테나를 사용한 주체와 전화기의 위치 관계가 흐리고, 「주소록과 문자가 그대로 나왔다」는 표현은 누가 무엇을 꺼냈는지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「내용은 들여다보지 않았다」의 대상이 명시되지 않았고, 「유명인 전화」는 소유 관계가 빠진 부자연스러운 표현이었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아이폰 블루투스 구현」은 조사가 빠진 직역체였고, 「그 구멍」은 앞선 여러 보안 취약점과 앱 개발의 관계를 지나치게 좁게 만들었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이름을 버렸다」「550만 달러를 들고 북쪽으로 갔다」「트위터가 쓰던 자리에 앉아」가 영문 표현을 그대로 옮긴 문장이라 회사의 이름 변경, 투자 유치, 이전, 제품 시험이라는 실제 행동이 선명하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「최고경영자를 넘기다」「회사 일상에는 그대로 남았다」는 직역체였고, 이용자 수가 회사와 제품 중 무엇을 가리키는지도 분명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소수의 기술 회사에 오래 돈을 넣는 일」이 장기 투자 업무를 지나치게 구어적으로 풀어 의미가 어색했고, 「증권 신고서는」도 문서에 기록된 사실을 나타내는 표현으로 매끄럽지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사고 난 뒤에 돈을 주는 보험」은 사이버 침해 사고와 보험금 지급의 관계를 충분히 드러내지 못했고, 공격 방지 도구와 보험 상품을 함께 판매했다는 구조도 다소 거칠었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조건에 맞는 합병을 못 찾아」는 합병 거래가 아니라 합병 대상을 찾지 못했다는 뜻이므로 대상을 명시해 행동 관계를 분명히 했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「라운드에 이름을 올렸다」는 실제 자금 조달 참여를 에둘러 표현했고, 「같은 집」은 앞 문장만 읽어도 투자사를 가리킨다고 확정하기 어려운 지시 표현이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

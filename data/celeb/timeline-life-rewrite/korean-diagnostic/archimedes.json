@@ -1,0 +1,198 @@
+{
+ "slug": "archimedes",
+ "events": [
+  {
+   "year": -287,
+   "year_end": null,
+   "kind": "birth",
+   "title": "시라쿠사에서 태어나다",
+   "title_en": "Is born in Syracuse",
+   "description": "시칠리아 동쪽 항구의 그리스 도시국가에서 태어났다. 섬의 서쪽은 카르타고가 쥐고 있었다. 《모래알을 세는 자》에서 자신의 아버지가 천문학자 피디아스라고 밝혔다. 후대의 요한네스 체체스가 그가 일흔다섯 해를 살았다고 적은 데 따라, 태어난 해를 기원전 287년 무렵으로 잡는다. 플루타르코스는 왕 히에론 2세의 친척이라 했고, 키케로와 실리우스 이탈리쿠스는 미천한 집안 출신이라고 했다.",
+   "description_en": "He was born in a Greek polis on Sicily’s eastern harbor. Carthage held the west of the island. In The Sand-Reckoner he himself names his father as the astronomer Phidias. The birth year is set around 287 BCE from the later writer John Tzetzes, who said he lived seventy-five years. Plutarch calls him a kinsman of King Hiero II; Cicero and Silius Italicus say his origins were humble.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "알렉산드리아에서 수학했다고 전한다",
+   "title_en": "Is said to have studied in Alexandria",
+   "description": "젊은 날 이집트 알렉산드리아에서 유클리드의 후학들과 수학했다는 후대의 전승이 있다. 본인이 그 체류를 기록한 글은 없다. 디오도로스는 그가 나일강의 물을 끌어 올리는 나선식 양수기를 그곳에서 만들었다고 전한다. 확실한 것은 사모스의 코논을 친구라고 부르고, 펠루시움의 도시테오스와 키레네의 에라토스테네스에게 증명을 보냈다는 점이다.",
+   "description_en": "A later tradition says that as a young man he studied in Alexandria with the successors of Euclid. He left no writing that records such a stay. Diodorus reports that he made a water screw there to lift water from the Nile. What is certain is that he called Conon of Samos a friend and sent proofs to Dositheus of Pelusium and to Eratosthenes of Cyrene.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "히에론 곁에서 기계와 배를 다루다",
+   "title_en": "Works machines and ships for Hiero",
+   "description": "히에론 2세의 궁정과 가까이 지냈다. 플루타르코스는 왕이 그에게 전쟁 기계를 미리 만들도록 부탁했다고 적었다. 아테나이오스는 그가 히에론의 거선 시라쿠시아의 진수를 지휘하고, 배 밑바닥에 찬 물을 빼는 나선식 양수기도 맡았다고 전한다. 지렛대만 있으면 땅을 옮기겠다는 말은 후대에 그에게 붙은 것이다.",
+   "description_en": "He lived close to the court of Hiero II. Plutarch writes that the king asked him to build war engines in advance. Athenaeus reports that he directed the launch of Hiero’s great ship Syracusia and the screw that emptied its bilge. The boast that a lever could move the earth is a later attribution.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "히에론의 금관을 시험했다는 이야기가 전해지다",
+   "title_en": "A later story says he tested the king’s crown",
+   "description": "히에론이 봉헌한 금관이 순금인지 시험해 달라고 했고, 목욕을 하다가 방법을 알아내 벌거벗은 채 거리를 달렸다는 이야기는 두 세기 뒤 비트루비우스의 기록에만 나온다. 《부체론》에서는 물에 잠긴 물체가 받는 힘을 증명했다.",
+   "description_en": "The tale that Hiero asked him to test a votive crown of gold, and that he found the method in his bath and ran naked through the streets, survives only in Vitruvius two centuries later. In On Floating Bodies he proved the force on a body immersed in water.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "구와 원기둥의 비율을 증명하다",
+   "title_en": "Proves the ratio of sphere and cylinder",
+   "description": "구의 부피와 겉넓이가 외접하는 원기둥의 각각 3분의 2임을 증명했다. 《원의 측정》에는 원둘레와 지름의 비가 3과 10/71보다 크고 3과 1/7보다 작다는 한계도 남겼다. 플루타르코스는 그가 친구들에게 자신의 무덤에 구와 원기둥을 새겨 달라고 부탁했다고 전한다.",
+   "description_en": "He proved that the volume and surface of a sphere are two-thirds those of the circumscribed cylinder. In Measurement of a Circle he also left bounds showing that the circumference is greater than three and ten-seventy-firsts of the diameter and less than three and one-seventh. Plutarch says he asked friends to mark a sphere and cylinder on his tomb.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "겔론에게 모래알 논고를 보내다",
+   "title_en": "Addresses the Sand-Reckoner to Gelon",
+   "description": "히에론의 아들 겔론을 왕으로 부르며 《모래알을 세는 자》를 보냈다. 우주를 가득 채울 모래알의 수까지 셀 만큼 큰 수를 만들었고, 사모스의 아리스타르코스가 지구가 태양 주위를 돈다고 말했다는 내용도 이 글에 적었다. 겔론은 아버지보다 먼저 기원전 216년 무렵 죽었다.",
+   "description_en": "He sent The Sand-Reckoner to Hiero’s son Gelon, addressing him as king. He built a number large enough to count the grains of sand that would fill the universe, and there recorded that Aristarchus of Samos had said the earth goes around the sun. Gelon died around 216 BCE, before his father.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "코논이 죽은 뒤 도시테오스에게 쓰다",
+   "title_en": "Writes to Dositheus after Conon’s death",
+   "description": "코논이 죽은 뒤 도시테오스에게 《나선에 관하여》를 보냈다. 머리말에는 코논이 죽은 지 여러 해가 지났다고 적었다. 도시테오스에게는 구와 원기둥, 포물선의 넓이, 원뿔체와 구면체를 다룬 논고도 보냈다. 증명을 훔치는 이들을 가려내려고 거짓 정리 두 개를 섞어 보냈다고 스스로 적었다. 에라토스테네스에게는 결과를 처음 기계적으로 발견한 방법을 기록한 《방법》을 보냈다.",
+   "description_en": "After Conon’s death he sent On Spirals to Dositheus. The preface says many years had passed since Conon died. To the same correspondent he also sent On the Sphere and Cylinder, the quadrature of the parabola, and the treatises on conoids and spheroids. He writes that he mixed in two false theorems to expose those who stole proofs. To Eratosthenes he sent The Method, which records how he first found results mechanically.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": -214,
+   "year_end": -212,
+   "kind": "battle",
+   "title": "로마의 공성을 기계로 막다",
+   "title_en": "Holds the Roman siege with his engines",
+   "description": "히에론이 죽고 시라쿠사가 카르타고 쪽으로 기울자 로마가 도시를 포위했다. 폴리비오스는 마르켈루스의 함대와 육군이 투석기와 갈고리에 막혔다고 적었다. 거울로 배를 태웠다는 이야기는 훨씬 뒤에 생긴 전승이다.",
+   "description_en": "After Hiero died and Syracuse leaned toward Carthage, Rome closed around the city. Polybius writes that Marcellus’s fleet and the land army were stopped by catapults and grappling hooks. The story that mirrors burned the ships is a much later tradition.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  },
+  {
+   "year": -212,
+   "year_end": null,
+   "kind": "death",
+   "title": "시라쿠사 함락 때 살해되다",
+   "title_en": "Is killed when Syracuse falls",
+   "description": "로마군이 성안으로 들어온 날 병사에게 죽었다. 플루타르코스는 그가 도형을 연구하던 중 마르켈루스에게 가라는 명령을 거절하다 죽었다는 이야기와, 수학 기구를 보물로 오해한 병사에게 죽었다는 이야기를 나란히 적었다. 마르켈루스는 그를 살려 두고자 했다고 전한다. 기원전 75년 시칠리아 재무관이었던 키케로는 구와 원기둥이 새겨진 채 방치되어 있던 그의 무덤을 찾아냈다.",
+   "description_en": "He was killed by a soldier on the day Roman troops entered the city. Plutarch sets side by side the story that he refused an order to come to Marcellus while working on a diagram, and the story that a soldier slew him mistaking his instruments for treasure. Marcellus is said to have wanted him kept alive. In 75 BCE Cicero, then quaestor in Sicily, found the neglected tomb marked with a sphere and cylinder.",
+   "place_name": "시라쿠사",
+   "place_name_en": "Syracuse",
+   "lat": 37.069166666667,
+   "lng": 15.2875
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전체 생애의 흐름과 세부 사실은 대체로 잘 이어진다. 다만 일부 문장에 주어·목적어 관계가 어긋난 표현, 영어식 수학 표현, 모호한 지시어와 영문보다 구체적인 서술이 있어 국문 제목과 설명을 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집안이 낮다」는 영어 humble origins를 단어 단위로 옮긴 듯한 표현이라 출신 배경을 뜻하는 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "물을 끌어 올리는 장치를 「수차」라고만 하면 water screw의 형태가 드러나지 않으며, 「코논을 벗으로 삼고」와 「증명 편지를 보냈다」도 원문의 행동 관계를 정확하고 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「진수와 밑물 빼는 수차를 그가 맡겼다」는 문장에서 아테나이오스와 아르키메데스의 역할 및 목적어 관계가 무너져 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「왕관이 순금인지 가렸다」는 표현보다 금관을 시험했다는 행위가 자연스럽고, 「히에론이 바친 관」은 무엇을 어디에 바쳤는지 앞 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「원둘레가 지름의 세 배와 일흔한 분의 열보다 크다」는 표현은 비교 대상과 수의 결합 관계가 불분명했다. 원문이 말하는 원둘레와 지름의 비로 풀어 썼다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「우주를 모래로 채워도 셀 수 있는 수」는 무엇을 세는 수인지 한 번에 파악하기 어려워, 우주를 채울 모래알의 수를 센다는 관계를 분명히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 상대」는 도시테오스를 다시 가리키는 번역식 지시어이고, 여러 논고의 병렬 관계도 매끄럽지 않아 대상과 작품 관계를 명시했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도형을 보다가」는 working on a diagram의 의미를 충분히 전달하지 못했다. 또한 「가시덤불에 묻힌」은 영문에 없는 세부이므로, 영문이 말하는 방치된 무덤과 구·원기둥 표지만 남겼다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

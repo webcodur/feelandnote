@@ -1,0 +1,267 @@
+{
+ "slug": "al-capone",
+ "events": [
+  {
+   "year": 1899,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브루클린에서 태어나다",
+   "title_en": "Is born in Brooklyn",
+   "description": "나폴리 근처 앙그리 출신의 이탈리아 이민자 부부에게서 태어났다. 아버지 가브리엘레는 이발사였고 어머니 테레사는 재봉일을 했다. 가족은 1893년 배로 이주해 해군공창 옆 셋집에 자리 잡았다. 카포네가 열한 살이 되자 가족은 파크슬로프로 이사했다.",
+   "description_en": "He was born to Italian immigrants from Angri, near Naples. His father, Gabriele, was a barber and his mother, Teresa, a seamstress. The family had arrived by ship in 1893 and settled in a tenement by the Navy Yard. At eleven they moved the household to Park Slope.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1913,
+   "year_end": null,
+   "kind": "education",
+   "title": "열네 살에 학교를 그만두다",
+   "title_en": "Leaves school at fourteen",
+   "description": "가톨릭 학교에서 성적은 나쁘지 않았지만 규칙을 자주 어겼다. 교사가 불손하다며 그를 때리자 카포네도 교사를 때렸고, 그 뒤로 교실에 돌아가지 않았다. 사탕가게와 볼링장에서 일하며 부두와 거리 조직을 드나들었다.",
+   "description_en": "He did well enough at a Catholic school but kept breaking the rules. When a teacher struck him for insolence he struck back, and he never returned to the classroom. He worked in a candy store and a bowling alley and drifted among the docks and street gangs.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1917,
+   "year_end": null,
+   "kind": "work",
+   "title": "코니아일랜드 술집에서 얼굴을 베이다",
+   "title_en": "Is slashed in the face at a Coney Island saloon",
+   "description": "프랭키 예일이 운영하는 코니아일랜드 술집에서 문지기와 바텐더로 일했다. 손님의 여동생을 모욕하자 그녀의 오빠 프랭크 갈루초가 카포네의 왼쪽 얼굴을 칼로 그었다. 얼굴에 흉터 세 줄이 남았고 사람들은 그를 스카페이스라 불렀다. 카포네는 그 별명을 싫어했다.",
+   "description_en": "He worked the door and the bar at Frankie Yale’s Coney Island saloon. After he insulted a patron’s sister, her brother Frank Galluccio cut the left side of his face. Three scars remained, and people called him Scarface. He hated the name.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1918,
+   "year_end": null,
+   "kind": "other",
+   "title": "메이 코플린과 결혼하다",
+   "title_en": "Marries Mae Coughlin",
+   "description": "두 사람이 결혼한 달 초에는 아들 앨버트 프랜시스가 태어났다. 가족은 아이를 서니라 불렀고 조니 토리오가 대부를 맡았다. 카포네는 아직 스물한 살이 되지 않아 부모의 서면 동의를 받아야 했다. 메이는 아일랜드계 가톨릭 신자였다.",
+   "description_en": "Their son Albert Francis was born earlier that month. The family called the boy Sonny, and Johnny Torrio stood as godfather. Still under twenty-one, he needed his parents’ written consent. His wife was Irish Catholic.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1920,
+   "year_end": null,
+   "kind": "travel",
+   "title": "토리오의 부름을 받아 시카고로 가다",
+   "title_en": "Goes to Chicago at Torrio’s call",
+   "description": "금주법이 시작되던 해, 토리오의 부름을 받아 시카고로 갔다. 토리오는 이미 제임스 콜로시모 밑에서 일하고 있었다. 카포네는 매춘업소 문지기로 시작해 밀주 사업이 커지면서 토리오의 오른팔이 되었다. 콜로시모가 그해 죽은 뒤 조직은 토리오의 손에 들어갔다.",
+   "description_en": "Torrio sent for him the year Prohibition began. Torrio was already working under James Colosimo. He started as a brothel bouncer and became Torrio’s right hand as the liquor trade grew. After Colosimo died that year, the organization passed to Torrio.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1925,
+   "year_end": null,
+   "kind": "office",
+   "title": "토리오가 물러난 조직을 맡다",
+   "title_en": "Takes over after Torrio steps aside",
+   "description": "북부 조직의 습격으로 중상을 입은 토리오는 카포네에게 사업을 넘기고 물러났다. 카포네는 스물여섯 살에 밀주와 도박, 매춘을 운영하는 조직의 우두머리가 되었다. 거점을 시카고 교외 시세로로 옮기고 시청과 경찰의 보호를 돈으로 샀다.",
+   "description_en": "After a North Side ambush left Torrio badly wounded, he handed over the business and retired. At twenty-six he became boss of an organization that ran liquor, gambling, and prostitution. He moved the base to suburban Cicero and bought protection at city hall and in the police.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "other",
+   "title": "밸런타인데이에 북부 조직원 일곱이 죽다",
+   "title_en": "Seven North Side men are killed on Valentine’s Day",
+   "description": "벅스 모런의 북부 조직을 노린 습격이었다. 모런은 현장에 없었고 카포네는 플로리다 자택에 있었다. 대낮에 일곱 명이 숨진 현장 사진이 보도되자 시민과 신문은 연방 정부의 개입을 요구했다. 후버 대통령은 재무부와 법무부가 카포네를 추적하도록 했다.",
+   "description_en": "The raid targeted Bugs Moran’s North Side organization. Moran was not there, and he was at his Florida house. Photographs of seven men dead in daylight led citizens and newspapers to demand federal action. President Hoover set the Treasury and Justice Departments on him.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "other",
+   "title": "필라델피아에서 무기 은닉 소지 혐의로 체포되다",
+   "title_en": "Is arrested in Philadelphia for a concealed weapon",
+   "description": "5월에 경호원과 함께 무기를 숨겨 소지한 혐의로 체포되었다. 이튿날 유죄를 인정하고 징역 1년을 선고받았다. 필라델피아의 시립 교도소에서 약 아홉 달을 복역한 뒤 이듬해 3월에 풀려났다. 석방 직후 시카고범죄위원회는 그를 공공의 적 명단 맨 위에 올렸다.",
+   "description_en": "In May he and a bodyguard were arrested for carrying concealed weapons. The next day he pleaded guilty and received a one-year sentence. He served about nine months in a city prison and walked out the following March. Right after his release the Chicago Crime Commission put him at the top of its public-enemies list.",
+   "place_name": "필라델피아",
+   "place_name_en": "Philadelphia",
+   "lat": 39.952777777778,
+   "lng": -75.163611111111
+  },
+  {
+   "year": 1931,
+   "year_end": null,
+   "kind": "other",
+   "title": "소득세 포탈로 유죄 평결을 받다",
+   "title_en": "Is convicted of income-tax evasion",
+   "description": "연방 배심은 소득세 관련 다섯 건에 유죄 평결을 내렸다. 앞서 변호인이 제출한 소득 인정 서한이 증거로 쓰였다. 제임스 윌커슨 판사는 징역 11년을 선고하고 체납 세금과 벌금을 내도록 했다. 카포네는 밀주나 살인 혐의로는 법정에 서지 않았다.",
+   "description_en": "A federal jury found him guilty on five income-tax counts. A letter in which his lawyer had admitted income became evidence. Judge James Wilkerson sentenced him to eleven years and ordered back taxes and a fine. He never stood trial for bootlegging or murder.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1934,
+   "year_end": null,
+   "kind": "other",
+   "title": "앨커트래즈로 옮겨지다",
+   "title_en": "Is transferred to Alcatraz",
+   "description": "처음에는 애틀랜타 연방교도소에 수감되었다. 특별대우를 받는다는 의혹이 일자 당국은 그를 외부와 단절된 샌프란시스코 앞바다의 섬 교도소로 옮겼다. 수형자 악단에서 밴조를 연주했지만 신경매독으로 정신이 흐려졌다. 앨커트래즈에서 보낸 마지막 1년은 병동에서 지냈다.",
+   "description_en": "He first entered the federal penitentiary in Atlanta. After accusations of special treatment, authorities moved him to the island prison off San Francisco, cut off from the outside. He played banjo in the inmate band as neurosyphilis clouded his mind. He spent his last year there in the hospital ward.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "other",
+   "title": "연방 교도소에서 나와 치료를 받다",
+   "title_en": "Is released from federal prison and treated",
+   "description": "7년 반을 복역한 뒤 가석방되었다. 존스홉킨스는 치료를 거절했지만 유니언 메모리얼 병원은 그를 받아 신경매독을 치료했다. 이듬해 봄에는 팜아일랜드 자택으로 옮겨 갔다. 이후 시카고 조직으로 돌아가지 않았다.",
+   "description_en": "He was paroled after seven and a half years. Johns Hopkins refused to treat him; Union Memorial Hospital took the neurosyphilis case. The following spring he went down to the Palm Island house. He never returned to the Chicago organization.",
+   "place_name": "볼티모어",
+   "place_name_en": "Baltimore",
+   "lat": 39.286388888889,
+   "lng": -76.615
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "death",
+   "title": "팜아일랜드 집에서 숨지다",
+   "title_en": "Dies at the Palm Island house",
+   "description": "죽기 한 해 전 의사들은 그의 정신 상태를 열두 살 수준으로 판단했다. 1월에 뇌졸중을 앓은 뒤 기관지폐렴이 겹쳤다. 가족들이 곁을 지키는 가운데 심장이 멈췄다. 마흔여덟 살이었다.",
+   "description_en": "The year before he died, his doctors judged his mind that of a twelve-year-old. In January a stroke was followed by bronchopneumonia. His heart stopped with his family at the bedside. He was forty-eight.",
+   "place_name": "마이애미비치",
+   "place_name_en": "Miami Beach",
+   "lat": 25.81388888888889,
+   "lng": -80.1325
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미와 세부를 유지하면서 주어와 대상이 불분명한 문장, 직역투, 어색한 서술어를 바로잡았다. 출생부터 사망까지 생애가 끊기지 않도록 인물과 장소를 필요한 곳에서 명시했으며, 별도의 사실 확인이 필요한 대목은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배를 타고 들어와」는 도착 관계가 불완전하고, 마지막 문장의 주체가 인물인지 가족인지 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「성적은 났으나」와 「건방짐을 이유로」가 부자연스러웠고, 교사를 되받아쳤다는 행동 관계가 선명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「실례를 하자」는 insult의 의미가 지나치게 흐렸고, Scarface라는 실제 별명을 일반적인 설명으로 바꾸어 세부가 사라졌다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「그달」은 앞 문장만으로 어느 달을 가리키는지 알 수 없었고, 뒤 문장들의 주체도 명시할 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "시카고로 이동한 사실이 본문에서 생략되어 앞 사건과의 연결이 약했고, 「밀주가 커지자」는 사업의 성장을 나타내는 표현으로 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에서 사업을 넘긴 주체와 받은 대상이 불분명했고, 「시 바깥 시세」는 지명 시세로를 알아볼 수 없게 만든 잘못된 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「본인」이 누구인지 문장만으로 분명하지 않았고, 「사진이 나가자」와 「부처를 움직였다」는 사건의 의미를 모호하게 전달했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「숨긴 무기로 잡히다」는 concealed weapon을 직역한 표현이어서 체포 사유가 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "배심이 혐의를 「인정했다」는 표현은 유죄 평결을 내린 행위를 정확하게 나타내지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "앨커트래즈로 옮긴 주체와 「마지막 1년」을 보낸 장소가 불분명했고, 일부 표현이 직역투에 가까웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「유니언기념병원이 신경매독을 받았다」는 병원이 질환을 받은 것처럼 읽혀 주어·목적어 관계가 무너졌고, 「돌아가지는 못했다」는 영문에 없는 불가능의 의미를 더했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「정신 연령을 열두 살로 보았다」는 판단의 대상과 기준이 다소 거칠게 표현되어 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

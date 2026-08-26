@@ -1,0 +1,210 @@
+{
+ "slug": "alexandr-wang",
+ "events": [
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "birth",
+   "title": "로스앨러모스에서 태어나다",
+   "title_en": "Is born in Los Alamos",
+   "description": "중국에서 이주한 부모는 국립연구소에서 물리학자로 일했다. 이 연구소는 맨해튼 계획 당시 원자폭탄을 만들었고, 마을도 그 일을 위해 세워졌다.",
+   "description_en": "His parents, immigrants from China, worked as physicists at the national laboratory. The lab had built the atomic bomb in the Manhattan Project, and the town existed because of that work.",
+   "place_name": "로스앨러모스",
+   "place_name_en": "Los Alamos",
+   "lat": 35.891111111111,
+   "lng": -106.29777777778
+  },
+  {
+   "year": 2013,
+   "year_end": 2014,
+   "kind": "education",
+   "title": "미국 수학·물리 대표팀 선발 과정에 들다",
+   "title_en": "Reaches U.S. math and physics training teams",
+   "description": "로스앨러모스 고등학교에 다녔다. 수학올림피아드 여름프로그램에 뽑혔고, 이듬해 미국 물리팀에 이름을 올렸다. 프로그래밍 올림피아드에서도 결선까지 갔다.",
+   "description_en": "He attended Los Alamos High School. He qualified for the Math Olympiad Program and, the next year, made the U.S. Physics Team. He also reached the finals of the computing olympiad.",
+   "place_name": "로스앨러모스",
+   "place_name_en": "Los Alamos",
+   "lat": 35.891111111111,
+   "lng": -106.29777777778
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "열일곱에 애드파에 들어가다",
+   "title_en": "Joins Addepar at seventeen",
+   "description": "코딩 대회 성적으로 뽑혔고, 채용팀은 그가 아직 고등학생이라는 사실을 몰랐다. 뉴멕시코를 떠나 자산관리 소프트웨어를 개발한 뒤 쿼라에서 기술 리드를 맡았다.",
+   "description_en": "He was hired on his coding-contest record. The recruiters did not know he was still in high school. He left New Mexico to write wealth-management software, then became a tech lead at Quora.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2015,
+   "year_end": 2016,
+   "kind": "education",
+   "title": "MIT에서 기계학습을 배우다",
+   "title_en": "Studies machine learning at MIT",
+   "description": "1학년을 마쳤다. 초단타 매매 회사 허드슨 리버 트레이딩에서 알고리즘을 짠 적도 있다. 인턴 제안이 더 들어왔지만 그는 학교에 남지 않았다.",
+   "description_en": "He finished freshman year. He had written algorithms at the high-frequency firm Hudson River Trading. More internships came in. He did not stay for them.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "학교를 접고 스케일을 세우다",
+   "title_en": "Leaves school and founds Scale",
+   "description": "쿼라에서 함께 일했던 루시 궈와 시작했다. 와이콤비네이터가 처음으로 투자했다. 기계학습 팀이 사람이 일일이 해야 했던 학습 데이터 분류 작업을 호출 한 번으로 맡길 수 있게 하려 했다. 부모에게는 여름 동안만 해보겠다고 말했다.",
+   "description_en": "He started with Lucy Guo, whom he had worked with at Quora. Y Combinator put in the first money. They wanted machine-learning teams to hand off the grind of labeling training data with a single call. He told his parents it was only for the summer.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "기업가치 10억 달러를 넘기다",
+   "title_en": "Takes the company past a billion-dollar valuation",
+   "description": "피터 틸의 파운더스 펀드가 1억 달러 규모의 투자를 이끌었다. 자율주행과 로봇 개발팀들이 센서 영상을 회사로 보내기 시작했다. 창업한 지 3년째였다.",
+   "description_en": "Peter Thiel’s Founders Fund led a hundred-million-dollar round. Autonomous-driving and robotics teams were sending sensor footage to the company. It was the third year since founding.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "보유 지분으로 억만장자 반열에 오르다",
+   "title_en": "Enters the billionaire ranks on his equity",
+   "description": "시리즈 E 투자에서 회사 가치는 73억 달러로 매겨졌다. 그가 보유한 지분은 약 15퍼센트였다. 포브스는 스물넷인 그를 세계 최연소 자수성가 억만장자로 불렀다.",
+   "description_en": "A Series E round valued the company at $7.3 billion. His stake was about fifteen percent. At twenty-four Forbes called him the world’s youngest self-made billionaire.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "미 육군·공군과 계약을 맺다",
+   "title_en": "Signs contracts with the U.S. Army and Air Force",
+   "description": "정부의 이용 규모에 따라 계약액이 3억 5천만 달러를 넘을 수 있었다. 사람인 분석관보다 빠르게 위성 사진을 판독해 폭격 피해를 가늠하는 일이었다. 제너럴 모터스 같은 민간 고객도 같은 데이터 처리 체계를 이용했다.",
+   "description_en": "The contracts could exceed $350 million, depending on what the government used. The work read satellite images faster than human analysts to gauge bomb damage. Civilian customers such as General Motors used the same data pipe.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "메타 최고인공지능책임자로 옮기다",
+   "title_en": "Crosses to Meta as chief AI officer",
+   "description": "메타는 스케일에 143억 달러를 투자하고 의결권 없는 지분 49퍼센트를 가져갔다. 스케일의 기업가치는 290억 달러를 넘겼다. 그는 최고경영자 자리를 제이슨 드로지에게 넘기고 이사회에는 남았다. 메타에서는 첫 최고인공지능책임자가 되어 슈퍼인텔리전스 랩을 맡았다.",
+   "description_en": "Meta put in $14.3 billion for a 49 percent non-voting stake. The company was valued at more than $29 billion. He handed the chief executive role to Jason Droege and stayed on the board. At Meta he became the first chief AI officer and took Superintelligence Labs.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454166666667,
+   "lng": -122.17861111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투와 불분명한 주어·목적어, 사건 사이의 어색한 연결을 바로잡았다. 다만 index 3의 마지막 영문 문장은 무엇을 위해 어디에 남지 않았다는 뜻인지 자체적으로 모호해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중국에서 온 부모」와 「그 일 때문에 생겼다」가 뜻은 통하지만 옮긴 티가 나고, 연구소의 일과 마을의 성립 관계도 느슨하게 표현됐다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title"
+    ],
+    "problem": "「국가대표 선발에 오르다」는 한국어에서 자연스럽지 않고, 영문의 training teams가 가리키는 선발 과정도 분명하게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자산관리 소프트웨어를 짜다, 곧」에서 문장 연결이 끊기고 애드파에서 쿼라로 이어지는 경력 이동이 매끄럽게 읽히지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학교를 붙들지 않았다」는 자연스러운 한국어가 아니며, 영문의 불분명한 대명사와 생략된 장소를 특정한 의미로 단정하고 있다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학습 데이터에 사람 손을 붙이다 지치는 일」은 영문 단어를 순서대로 옮긴 표현이라 누가 어떤 작업을 맡기는지 바로 이해하기 어렵다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「센서 영상을 맡기는 회사가 됐다」는 목적어와 행동의 관계가 어색해 고객들이 회사로 영상을 보내고 있었다는 뜻이 흐려졌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「지분 값으로」는 지분 가치에 따라 억만장자로 평가됐다는 뜻을 부자연스럽게 옮겼고, 영문의 약 15퍼센트라는 수치도 국문에서는 확정값처럼 표현됐다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「정부가 쓰는 규모」와 「같은 데이터 파이프」가 직역투이며, 위성 사진을 판독하는 주체와 작업 내용도 자연스럽게 연결되지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「건너가다」는 직책 이동을 모호하게 표현하고, 「이사로 남겼다」는 주어와 목적어의 관계가 무너진 문장이다. 투자 대상과 기업가치의 대상도 국문만 읽으면 바로 드러나지 않았다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 3,
+    "reason": "영문의 「He did not stay for them」은 그가 인턴 제안을 위해 MIT에 남지 않았다는 뜻인지, 제안된 인턴 자리에 머물지 않았다는 뜻인지 문장만으로 확정할 수 없다. 현재 국문은 전자로 단정하므로 편집만으로 확정하기 어렵다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

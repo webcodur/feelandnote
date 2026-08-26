@@ -1,0 +1,184 @@
+{
+ "slug": "consort-yu",
+ "events": [
+  {
+   "year": -230,
+   "year_end": null,
+   "kind": "birth",
+   "title": "정사에는 출신 고을이 기록되지 않다",
+   "title_en": "Official histories name no hometown",
+   "description": "《사기》는 그녀의 어린 시절을 기록하지 않았다. 해하의 장막에 이르러서야 우라는 미인이 등장하며, 《한서》는 이를 우씨 성으로 고쳤다. 후대에 붙은 희라는 호칭은 여인을 이르는 말이지 본명이 아니다. 장쑤성의 수양과 창수가 각각 그녀의 고향이라고 주장하지만, 이는 후대에 생긴 지역 전승이다.",
+   "description_en": "The Shiji records nothing of her childhood. Only later, in the tent at Gaixia, does it name the beauty Yu; the Hanshu changes that to the surname Yu. The later title ji is an appellation for a woman, not a given name. The claim that Shuyang or Changshu in Jiangsu was her home is a later local tradition.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "항우의 총애를 받으며 늘 따르다",
+   "title_en": "Regularly accompanies Xiang Yu",
+   "description": "《사기》가 전하는 그녀의 유일한 신상은 항우의 총애를 받으며 늘 그를 따랐다는 것이다. 두 사람이 언제 만났는지는 기록되어 있지 않다. 항우가 회계에서 군사를 일으키고 유방과 4년 동안 전쟁을 벌이는 사이에도 《사기》는 그녀를 다시 언급하지 않는다.",
+   "description_en": "The only personal fact the Shiji leaves is that she regularly accompanied Xiang Yu as his favored consort. It does not say when they met. Through Xiang Yu’s rising at Kuaiji and the four years of war with Liu Bang, the Shiji does not name her again.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "battle",
+   "title": "해하에서 한군에 포위되다",
+   "title_en": "Is trapped with Xiang Yu at Gaixia",
+   "description": "한왕 유방이 한신·팽월과 병력을 합쳐 항우의 진영을 겹겹이 에워쌌다. 항우의 군사는 적었고 양식도 바닥났다. 《사기》가 그녀를 구체적인 장면에 등장시킨 것은 이 포위전이 처음이다. 전장은 지금의 쑤저우시 링비와 벙부시 구전 사이를 흐르는 타허강 연안으로 전해진다.",
+   "description_en": "Liu Bang, King of Han, joined forces with Han Xin and Peng Yue and ringed Xiang Yu’s camp. The army was small and the grain was gone. This siege is the first scene in which the Shiji places her. The field is traditionally identified with the Tuo River between Lingbi in Suzhou and Guzhen in Bengbu.",
+   "place_name": "숙주",
+   "place_name_en": "Suzhou, Anhui",
+   "lat": 33.63328,
+   "lng": 116.96833
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "other",
+   "title": "사방에서 초나라 노래가 들리다",
+   "title_en": "Hears Chu songs from every side",
+   "description": "밤중에 한군의 진영에서 초나라 노래가 울려 퍼졌다. 항우는 한나라가 이미 초나라를 차지했느냐고 놀라 물었다. 그러면서 초나라 사람이 어찌 이토록 많으냐고도 했다.",
+   "description_en": "At night Chu songs rose from the Han camps. Xiang Yu started and asked whether Han had already taken Chu. He also asked how there could be so many men of Chu.",
+   "place_name": "숙주",
+   "place_name_en": "Suzhou, Anhui",
+   "lat": 33.63328,
+   "lng": 116.96833
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "other",
+   "title": "장막에서 항우의 노래에 화답하다",
+   "title_en": "Answers Xiang Yu’s song in the tent",
+   "description": "항우가 밤중에 일어나 장막에서 술을 마셨다. 곁에는 늘 그를 따르던 그녀가 있었고, 항우가 늘 타던 준마 추도 있었다. 항우는 자신의 힘은 산을 뽑을 만하지만 운세가 불리하다며 노래하고, 그녀를 어찌해야 하느냐고 탄식했다. 그녀가 노래로 화답하자 항우는 눈물을 흘렸고, 곁에 있던 사람들도 고개를 들지 못했다.",
+   "description_en": "Xiang Yu rose at night and drank in the tent. The consort who always followed him was there, and so was the steed Zhui he always rode. He made a song: his strength could pull up a mountain, but the time was against him, and what was he to do with her. She answered him. He wept, and those around them could not lift their heads.",
+   "place_name": "숙주",
+   "place_name_en": "Suzhou, Anhui",
+   "lat": 33.63328,
+   "lng": 116.96833
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "other",
+   "title": "화답 가사는 《사기》 본문에 없다",
+   "title_en": "The reply verses are not in the Shiji",
+   "description": "《사기》 본문에는 그녀가 부른 노랫말이 기록되어 있지 않다. 당나라의 장수정은 《사기정의》에서 육가의 《초한춘추》를 인용해, 한나라 군대가 땅을 빼앗고 사방에서 초나라 노래가 울리며 왕의 기운마저 다했으니 미천한 첩이 어찌 살아남겠느냐는 가사를 전했다. 오언시는 한나라 초기에 드물었기 때문에 이를 후대에 가탁한 노래로 보는 이가 많다.",
+   "description_en": "The Shiji itself does not record the words she sang. In the Tang commentary Shiji Zhengyi, Zhang Shoujie quotes Lu Jia’s Chu-Han Chunqiu: Han troops have taken the land, Chu songs rise on every side, the king’s spirit is spent, why should his lowly consort live. The five-syllable form is rare for the early Han, and many treat the verses as a later attribution.",
+   "place_name": "숙주",
+   "place_name_en": "Suzhou, Anhui",
+   "lat": 33.63328,
+   "lng": 116.96833
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "other",
+   "title": "항우가 밤중에 포위를 뚫다",
+   "title_en": "Xiang Yu breaks out at night",
+   "description": "노래가 끝난 뒤 항우는 기병 800여 명을 이끌고 포위망을 뚫어 남쪽으로 달아났다. 날이 밝자 이를 알아챈 한군은 관영에게 기병 5천 명을 주어 뒤쫓게 했다. 《사기》는 이때부터 그녀를 다시 언급하지 않는다.",
+   "description_en": "After the song Xiang Yu took some eight hundred horsemen and broke south through the ring. At dawn the Han army learned of it and sent Guan Ying with five thousand horse in pursuit. The Shiji does not name her again.",
+   "place_name": "숙주",
+   "place_name_en": "Suzhou, Anhui",
+   "lat": 33.63328,
+   "lng": 116.96833
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "death",
+   "title": "정사는 그녀가 어떻게 죽었는지 기록하지 않다",
+   "title_en": "Official histories do not record how she died",
+   "description": "항우는 그날 밤 진영을 빠져나갔고, 이후 정사에서는 그녀의 이름이 더 이상 나오지 않는다. 후대 전승은 그녀가 진중에서 스스로 목을 그었다고 전하며, 《태평환우기》는 항우가 패전했을 때 그녀를 죽였다고도 기록했다. 정원과 영벽을 비롯한 여러 고을에는 저마다 그녀의 무덤이라고 전하는 곳이 있다.",
+   "description_en": "Xiang Yu left the camp that night, and her name ends there. Later tradition says she cut her throat in the camp; the Taiping Huanyuji instead writes that Xiang Yu killed her when he was defeated. Tombs are claimed by several counties, including Dingyuan and Lingbi.",
+   "place_name": "숙주",
+   "place_name_en": "Suzhou, Anhui",
+   "lat": 33.63328,
+   "lng": 116.96833
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 전하는 세부와 한계를 유지하면서, 직역으로 흐트러진 문장 관계와 불분명한 표현을 바로잡았다. 해하의 포위와 노래, 탈출 이후 기록이 끊기는 과정도 사건 전체를 따라 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「태어난 고을이 없다」는 출생지가 존재하지 않는다는 뜻으로 읽힐 수 있고, 「뒤에 해하 장막에서야」「여인을 부르는 뒤의 말」은 어순과 의미가 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「항우를 늘 총애받으며 따랐다」는 총애의 대상과 따르는 행동의 주체가 뒤엉켜 있었고, 만난 시기에 관한 기록이 없다는 문장도 서술어가 빠져 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그녀를 구체적인 자리에 세운」은 사서가 특정 장면에서 그녀를 처음 언급했다는 뜻을 영문 어순대로 옮긴 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한이 이미 초를 얻었느냐」는 국가와 세력의 관계를 단어 단위로 옮겨, 한나라가 초나라를 장악했느냐는 뜻이 바로 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「힘은 산을 뽑는데 때는 불리하다」「그녀를 어떻게 하냐고」는 조사와 종결이 어색해 항우가 노래로 드러낸 탄식과 질문이 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "후대 주석서가 다른 문헌에서 화답 가사를 인용했다는 관계가 「가사를 붙였다」로 표현되어, 주석자가 가사를 창작해 덧붙였다는 뜻으로 오해될 수 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「남쪽으로 포위를 뚫었다」「오천 기를 주어」는 이동 방향과 병력 지휘 관계를 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그녀의 이름은 거기에서 끊긴다」는 이름 자체가 사라진다는 표현처럼 읽혀, 이후 정사에서 더는 언급되지 않는다는 뜻을 분명히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ]
+ }
+}

@@ -1,0 +1,291 @@
+{
+ "slug": "gan-ning",
+ "events": [
+  {
+   "year": 175,
+   "year_end": null,
+   "kind": "birth",
+   "title": "파군 임강에서 태어나다",
+   "title_en": "Is born in Linjiang of Ba",
+   "description": "정사는 태어난 해를 적지 않으며, 후대 기록은 이 해로 잡는다. 자는 흥패다. 본전은 파군 임강 사람이라 하고, 배주에 인용된 오서는 선조가 남양에서 파로 왔다고 적는다. 군의 회계를 맡다가 촉군승이 되었으나, 곧 벼슬을 버리고 집으로 돌아왔다.",
+   "description_en": "The official history does not give a year. Later accounts put it here. His courtesy name was Xingba. The main biography calls him a man of Linjiang in Ba. The Wu Shu note says his ancestors came to Ba from Nanyang. He kept commandery accounts, was made assistant of Shu, then left office and went home.",
+   "place_name": "중현",
+   "place_name_en": "Zhong County",
+   "lat": 30.29916,
+   "lng": 108.03568
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "방울을 달고 무리를 이끌다",
+   "title_en": "Leads a gang with bells on",
+   "description": "젊어서 힘이 세고 유협을 좋아했다. 혈기 왕성한 젊은이들을 모아 우두머리가 됐다. 이들은 활과 쇠뇌를 들고 깃털과 방울을 달고 다녀, 방울 소리만 들려도 감녕이 온 줄 알았다. 오서는 수하들에게 수놓은 옷을 입히고 배를 비단으로 묶은 뒤, 떠날 때 그 비단을 잘라 버려 사치를 과시했다고 한다. 후하게 맞아 주는 이들과는 사귀고, 그렇지 않은 이들의 재물은 빼앗았다. 스무 살이 넘을 때까지 이렇게 살다가 약탈을 그만두고 제자백가의 글을 읽었다.",
+   "description_en": "As a youth he was strong and played the knight-errant. He gathered reckless young men and led them. They carried bows and crossbows, wore feathers and bells, and people knew him by the ringing. The Wu Shu says his followers wore embroidered clothes and tied their boats with silk, then cut the silk and left it when they sailed, to show they could waste it. He befriended those who received him well and robbed the rest. He lived this way until he was past twenty, then stopped raiding and read the philosophers.",
+   "place_name": "중현",
+   "place_name_en": "Zhong County",
+   "lat": 30.29916,
+   "lng": 108.03568
+  },
+  {
+   "year": 194,
+   "year_end": null,
+   "kind": "travel",
+   "title": "유장을 치다 패하고 남양으로 가다",
+   "title_en": "Fails against Liu Zhang and goes to Nanyang",
+   "description": "유언이 죽자 아들 유장이 익주를 이었다. 영웅기는 감녕이 형주 별가 유합, 유장 휘하의 장수 심미·누발과 함께 유장을 공격했다가 패해 형주로 달아났다고 한다. 이후 유표에게 의탁해 남양에 머물렀으나 중용되지 못했다. 유표는 선비였고 군사를 다루지 못했다.",
+   "description_en": "When Liu Yan died, his son Liu Zhang took Yi. The Yingxiong Ji says he rose with Liu He, a Jing aide, and Liu Zhang’s officers Shen Mi and Lou Fa, lost, and fled into Jing. He attached himself to Liu Biao and stayed in Nanyang, but was not advanced. Liu Biao was a scholar and did not handle armies.",
+   "place_name": "난양",
+   "place_name_en": "Nanyang",
+   "lat": 32.99871,
+   "lng": 112.52921
+  },
+  {
+   "year": 200,
+   "year_end": null,
+   "kind": "work",
+   "title": "하구에서 황조에게 막히다",
+   "title_en": "Is blocked at Xiakou and stays under Huang Zu",
+   "description": "감녕은 동객 팔백 명을 이끌고 동쪽의 오로 가려 했다. 그러나 황조가 하구를 지키고 있어 강을 건너지 못했다. 결국 황조 밑에 머물렀지만, 삼 년 동안 평범한 사람과 다름없는 대우를 받았다.",
+   "description_en": "He meant to take eight hundred retainers east into Wu. Huang Zu held Xiakou, so he could not cross. He stayed under Huang and for three years was treated like any common man.",
+   "place_name": "우한",
+   "place_name_en": "Wuhan",
+   "lat": 30.595,
+   "lng": 114.2975
+  },
+  {
+   "year": 203,
+   "year_end": null,
+   "kind": "battle",
+   "title": "황조를 구하려고 능조를 쏘다",
+   "title_en": "Shoots Ling Cao to save Huang Zu",
+   "description": "손권이 강하를 공격하자 황조의 군대가 무너져 달아났다. 활을 잘 쏘던 감녕은 후미를 지키다가 교위 능조를 죽였다. 황조는 목숨을 건지고도 감녕을 대하는 태도를 바꾸지 않았다. 오서는 능통이 아버지의 죽음 때문에 감녕을 원망해 그와 마주치려 하지 않았고, 손권도 능통에게 원수를 갚지 말라고 했다고 전한다. 두 사람을 화해시킨 이야기는 연의에만 나온다.",
+   "description_en": "When Sun Quan struck Jiangxia, Huang Zu’s army broke and fled. A good shot, he held the rear and killed Colonel Ling Cao. Huang Zu escaped and still treated him as before. The Wu Shu says Ling Tong hated him for his father and would not meet him, and Sun Quan told Ling not to take revenge. Only the Romance reconciles the two.",
+   "place_name": "우한",
+   "place_name_en": "Wuhan",
+   "lat": 30.595,
+   "lng": 114.2975
+  },
+  {
+   "year": 208,
+   "year_end": null,
+   "kind": "travel",
+   "title": "소비의 도움으로 손권에게 가다",
+   "title_en": "Reaches Sun Quan by Su Fei’s road",
+   "description": "도독 소비가 감녕을 여러 차례 천거했지만 황조는 그를 쓰지 않았고, 오히려 감녕의 객들을 꾀어 빼갔다. 소비는 술자리에서 감녕을 주현의 장으로 내보내 빠져나갈 길을 열어 주었다. 감녕은 흩어졌던 객들과 새로 따르는 이들을 모아 수백 명을 이끌고 강을 건넜다. 주유와 여몽이 감녕을 손권에게 천거했고, 손권은 오래 섬긴 신하처럼 그를 맞아들였다.",
+   "description_en": "Commander Su Fei recommended him again and again. Huang Zu would not use him and lured his retainers away. At a drinking table Su had him sent out as chief of Zhu. He gathered stray retainers and volunteers, a few hundred, and crossed the river. Zhou Yu and Lü Meng put his name before Sun Quan, who received him like an old vassal.",
+   "place_name": "황강",
+   "place_name_en": "Huanggang",
+   "lat": 30.45,
+   "lng": 114.875
+  },
+  {
+   "year": 208,
+   "year_end": null,
+   "kind": "battle",
+   "title": "황조를 먼저 치자고 건의해 무너뜨리다",
+   "title_en": "Urges the strike on Huang Zu and breaks him",
+   "description": "감녕은 유표가 앞날을 내다보지 못하고 아들들도 약하므로, 손권이 조조보다 먼저 형주 남부를 차지하려면 늙고 군대가 문란한 황조부터 무너뜨려야 한다고 말했다. 장소가 강동도 아직 불안하다고 반대하자, 감녕은 소하의 임무를 맡은 사람이 어찌 안의 혼란을 걱정하느냐고 맞받았다. 손권은 잔을 들고 그해의 서쪽 원정을 감녕에게 맡겼다. 이들은 황조를 사로잡고 그의 군사들을 거두었으며, 감녕은 당구에 주둔했다. 손권은 황조와 소비의 머리를 담을 궤를 두 개 마련해 두었지만, 감녕이 이마에서 피가 나도록 조아리며 소비의 목숨을 빌자 그를 놓아주었다.",
+   "description_en": "He said Liu Biao saw no farther than the day, his sons were weak, and if Sun Quan wanted the south of Jing before Cao Cao, he had to break old, disordered Huang Zu first. Zhang Zhao said the Wu lands were still unsettled. He answered that a man given Xiao He’s charge should not fear chaos at home. Sun Quan raised a cup and put that year’s western campaign in his hands. They captured Huang Zu and took his troops. He was posted at Dangkou. Sun Quan had prepared two boxes for the heads of Huang Zu and Su Fei. He kowtowed until blood ran and begged for Su’s life. Sun Quan let him live.",
+   "place_name": "우한",
+   "place_name_en": "Wuhan",
+   "lat": 30.595,
+   "lng": 114.2975
+  },
+  {
+   "year": 209,
+   "year_end": null,
+   "kind": "battle",
+   "title": "이릉을 지키고 조인의 포위를 견디다",
+   "title_en": "Holds Yiling under Cao Ren’s siege",
+   "description": "감녕은 주유를 따라 오림에서 조조를 격파한 뒤 남군에서 조인을 공격했다. 성이 좀처럼 함락되지 않자 이릉을 먼저 차지하자고 제안했다. 감녕의 병력은 본래 수백 명이었고 새로 모은 병사들을 합쳐도 천 명이 되지 않았다. 조인은 병력 오륙천 명으로 이릉을 포위하고 높은 누각을 세워 성 안에 화살을 비처럼 쏟아부었다. 병사들은 두려워했지만 감녕만은 태연히 웃으며 이야기했다. 소식을 받은 주유는 여몽의 계책에 따라 여러 장수를 이끌고 와 포위를 풀었다.",
+   "description_en": "He followed Zhou Yu, broke Cao Cao at Wulin, then pressed Cao Ren at Nan. The city would not fall, so he asked to take Yiling first. He had a few hundred, and even with new recruits not a full thousand. Cao Ren threw five or six thousand around him and built towers that rained arrows into the town. The men were afraid. He talked and laughed. Zhou Yu, told of it, used Lü Meng’s plan and led the other generals to lift the siege.",
+   "place_name": "이창",
+   "place_name_en": "Yichang",
+   "lat": 30.708333,
+   "lng": 111.280278
+  },
+  {
+   "year": 214,
+   "year_end": null,
+   "kind": "battle",
+   "title": "환성 벽을 먼저 오르다",
+   "title_en": "Is first up the wall at Huan",
+   "description": "감녕은 성벽을 오르는 일을 맡은 승성독으로서 환성을 공격했다. 비단 띠를 손에 잡고 병사들보다 앞서 성벽을 올라 태수 주광을 사로잡았다. 이 전투의 공로는 여몽이 첫째였고 감녕이 그다음이었다. 감녕은 절충장군이 됐다.",
+   "description_en": "As the officer for scaling the wall he attacked Huan. He took a strip of silk, climbed ahead of the men, and they captured Administrator Zhu Guang. Lü Meng took first credit, he the next. He was made General Who Breaks and Charges.",
+   "place_name": "첸산",
+   "place_name_en": "Qianshan",
+   "lat": 30.64117,
+   "lng": 116.56889
+  },
+  {
+   "year": 215,
+   "year_end": null,
+   "kind": "battle",
+   "title": "익양 여울에서 관우를 멈춰 세우다",
+   "title_en": "Stops Guan Yu at the Yiyang shallows",
+   "description": "감녕은 여숙을 따라 익양을 지켰다. 관우는 자신의 병력이 삼만이라고 내세우고, 정예 오천 명을 상류 십여 리 떨어진 얕은 여울에 배치한 뒤 밤에 강을 건너겠다고 했다. 당시 감녕의 수하는 삼백 명이었다. 감녕은 병사 오백 명을 더 주면 나가겠다며, 관우가 자신의 기침 소리만 들어도 건너지 못할 것이고 건너기만 하면 사로잡겠다고 말했다. 여숙은 감녕에게 천 명을 보태 주었다. 감녕이 밤에 출동하자 관우는 강을 건너지 않고 나무 울타리를 세웠다. 그곳은 이후 관우뢰라고 불렸다. 손권은 이 공을 기려 감녕을 서릉태수로 삼고 양신과 하치 두 현을 맡겼다.",
+   "description_en": "He joined Lu Su at Yiyang. Guan Yu claimed thirty thousand and put five thousand picked men at a shallow some ten li upstream, saying he would cross at night. He had three hundred. He asked for five hundred more, said Guan would not wade if he heard him cough, and that if Guan did cross he would take him. Lu Su gave him a thousand. He went by night. Guan Yu did not cross and built a palisade. The place came to be called Guan Yu’s Shallows. Sun Quan made him administrator of Xiling and gave him Yangxin and Xiazhi.",
+   "place_name": "이양",
+   "place_name_en": "Yiyang",
+   "lat": 28.583333333333,
+   "lng": 112.33333333333
+  },
+  {
+   "year": 215,
+   "year_end": null,
+   "kind": "battle",
+   "title": "소요진 북에서 장료를 막다",
+   "title_en": "Holds Zhang Liao north of Xiaoyao Ford",
+   "description": "손권군이 합비를 공격하던 중 역병이 돌아 군대가 이미 철수한 뒤였다. 손권의 수레 곁에 있던 호사 천여 명과 여몽·장흠·능통·감녕만 남았다. 이를 본 장료가 기병과 보병을 이끌고 달려들었다. 감녕은 활을 당겨 쏘며 능통과 함께 죽기를 각오하고 싸웠다. 그는 악사들에게 왜 북을 울리지 않느냐고 소리쳤다. 손권은 감녕의 기개를 특별히 높이 샀다.",
+   "description_en": "They were attacking Hefei when plague hit and the army had already pulled out. Only a thousand tiger soldiers by Sun Quan’s carriage remained, with Lü Meng, Jiang Qin, Ling Tong, and him. Zhang Liao saw it and came on with horse and foot. He drew his bow and fought to the death beside Ling Tong. He shouted at the musicians to start the drums. Sun Quan marked that spirit.",
+   "place_name": "허페이",
+   "place_name_en": "Hefei",
+   "lat": 31.86389,
+   "lng": 117.28083
+  },
+  {
+   "year": 217,
+   "year_end": null,
+   "kind": "battle",
+   "title": "유수에서 조조의 진영을 야습하다",
+   "title_en": "Raids Cao Cao’s camp at Ruxu",
+   "description": "조조가 유수로 진군하자 감녕은 전부독이 되어 적의 선봉 진영을 공격하라는 명을 받았다. 손권이 쌀과 술과 안주를 내리자 감녕은 이를 백여 명의 병사에게 나누어 먹였다. 감녕은 은사발로 술 두 잔을 먼저 마신 뒤 도독에게도 권했다. 도독이 엎드려 받지 않자 감녕은 칼집에서 뺀 칼을 무릎에 놓고, 주상께서 그대를 나보다 더 총애하시느냐고 물었다. 이어 자신도 목숨을 아끼지 않는데 왜 그대만 목숨을 아끼느냐고 질책했다. 이경에 감녕과 병사들은 입에 재갈을 물고 적진에 들어가 적을 뒤흔들었다. 강표전은 이들이 사슴뿔 모양의 방책을 뽑고 보루를 넘어 적 수십 명의 목을 벤 뒤, 북을 울리고 만세를 외치며 돌아왔다고 전한다. 손권은 맹덕에게 장료가 있다면 자신에게는 흥패가 있다고 말했다. 백 명의 기병이 출전해 한 명도 잃지 않았다는 이야기는 연의에만 나온다. 정사에 기록된 병력은 백여 명의 병사이지 기병이 아니다.",
+   "description_en": "When Cao Cao came to Ruxu he was vanguard inspector and was ordered to cut up the forward camp. Sun Quan sent rice, wine, and meat. He fed a little over a hundred men. He drank two silver bowls himself and offered one to his controller. The man knelt and would not take it. He laid a bare blade on his knee and asked whether the lord’s favor to that officer outstripped his own, and why a man who did not spare his own life should spare himself. At the second watch they went in with gags in their mouths and shook the enemy. The Jiang Biao Zhuan says they pulled up the deer-horn stakes, crossed the rampart, took several dozen heads, and came back beating drums and shouting wansui. Sun Quan said that if Mengde had Zhang Liao, he had Xingba. Only the Romance makes them a hundred horsemen who lost not one man. The official record is a hundred-odd soldiers, not cavalry.",
+   "place_name": "차오후",
+   "place_name_en": "Chaohu",
+   "lat": 31.678333333333,
+   "lng": 117.73527777778
+  },
+  {
+   "year": 220,
+   "year_end": null,
+   "kind": "death",
+   "title": "손권이 애통해하다",
+   "title_en": "Sun Quan mourns him",
+   "description": "본전은 감녕이 죽자 손권이 애통해했다고만 적는다. 건강실록은 감녕의 죽음을 건안 이십 년 겨울로 기록하지만, 그 뒤에 감녕이 유수를 야습한 기록이 있어 연대가 맞지 않는다. 반장전에는 관우를 사로잡은 뒤 반장이 감녕의 군대를 합쳤다고 되어 있어, 후대 기록은 감녕의 죽음을 이 무렵으로 본다. 감녕이 효정에서 만왕 사마가의 화살에 맞아 죽었다는 이야기는 연의에만 나오며 정사에는 없다. 죽은 장소도 전하지 않는다.",
+   "description_en": "The biography says only that he died and Sun Quan grieved. The Jiankang Shilu puts the death in the winter of Jian’an 20, but that year sits before the Ruxu raid, so the date does not hold. Pan Zhang’s biography has him absorb the troops after Guan Yu was taken, so later writers place the death around this year. The Romance has him fall to an arrow from the tribal king Shamoke at Xiaoting. The official histories do not. They also do not name the place.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 의미의 상한선으로 삼아 국문 전체를 대조했다. 대상을 알기 어려운 대명사, 주어와 행동의 관계가 흐린 문장, 뜻을 짐작해야 하는 직역 표현을 바로잡고 사건 사이의 생애 흐름이 이어지도록 최소한으로 교정했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤 기록」이 무엇을 가리키는지 불분명하고, 「회계를 보다」「촉군 승이 됐다」가 직역투라 관직 경력이 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "깃털과 방울을 단 주체가 감녕인지 무리 전체인지 흐렸고, 「배를 비단으로 맨 뒤」「제자서를 읽었다」가 한국어 문맥에서 바로 이해되지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "봉기에 가담하고 패한 주체가 생략되어 여러 인물이 등장하는 문장에서 행동 관계가 흐렸고, 「올려 쓰지 않았다」가 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 밑에 남았고, 삼 년을 범인처럼 부렸다」는 소속 대상과 뜻을 짐작해야 하는 직역이었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「능통이 아버지를 원망해」는 원망의 대상이 능조로 읽힐 수 있었고, 「마주치지 않게 했다」의 주체도 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「소비의 길로」는 소비가 탈출과 이동을 도왔다는 뜻을 자연스럽게 전달하지 못했다. 본문에서도 「손님을 꾀어 떼어 냈다」「주현장」「흩어진 객」 등의 표현이 대상과 행동을 모호하게 만들었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "장소의 반대와 감녕의 답변에서 화자가 분명하지 않았고, 「소하의 일을 맡기고도 난을 걱정하느냐고 받았다」는 뜻을 짐작해야 했다. 후반부의 대명사도 감녕을 명시하도록 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수백에 새로 모은 병까지 천 명이 못 됐다」「오륙천으로 에우고」「그만 웃으며」가 병력 관계와 행동 주체를 불분명하게 만들었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「승성독으로」「명주를 잡고 성을 기어」가 직책과 행동을 즉시 이해하기 어려웠고, 공적 순위를 가리키는 대명사도 모호했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「관우가 삼만이라 이르고」「수하는 삼백이었다」에서 병력과 소속 관계가 매끄럽지 않았고, 기침의 주체가 생략되어 감녕의 발언이 선명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「손권 수레 아래 호사 천여와 … 그만 남았다」는 인원과 주체의 관계가 무너져 있었고, 영문에 없는 피리까지 포함되어 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「조조 영」「앞 영을 베다」「주상의 알아줌이 자기만 못하다」 등의 직역 때문에 공격 대상과 감녕의 질책이 불분명했다. 야습 장면의 행동도 자연스러운 한국어로 정리했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그 뒤」「그 군」「뒤 기록」이 각각 어떤 사건·군대·기록을 가리키는지 한 문장만으로 알기 어려웠고, 제목의 보조용언 띄어쓰기도 바로잡을 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

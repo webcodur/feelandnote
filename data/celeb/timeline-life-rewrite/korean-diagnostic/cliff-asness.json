@@ -1,0 +1,272 @@
+{
+ "slug": "cliff-asness",
+ "events": [
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "birth",
+   "title": "퀸스에서 태어나다",
+   "title_en": "Is born in Queens",
+   "description": "아버지 배리는 맨해튼 지방검찰청 검사보였으며 골든글러브 복서 출신이었다. 어머니 캐럴은 퀸스칼리지에서 수학에 뛰어난 학생이었고 의학 교육 회사를 운영했다. 네 살 때 가족이 롱아일랜드의 로스린하이츠로 이사했다. 뉴하이드파크의 공립 헤릭스 고등학교에 다녔다.",
+   "description_en": "His father, Barry, was an assistant district attorney in Manhattan and a former Golden Gloves boxer. His mother, Carol, had been a strong math student at Queens College and ran a medical-education firm. At four the family moved to Roslyn Heights on Long Island. He went to the public Herricks High School in New Hyde Park.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.71361111111111,
+   "lng": -73.82805555555555
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "education",
+   "title": "재무와 컴퓨터과학을 함께 공부하다",
+   "title_en": "Studies finance and computing together",
+   "description": "와튼에서 재무를, 무어 공대에서 컴퓨터과학을 공부했다. 원래는 아버지처럼 변호사가 되려 했고 LSAT에도 응시 등록했다. 아버지는 경영과 공학을 함께 공부하는 과정을 찾아 주었고, 이후에는 숫자를 다루는 길을 계속 가라고 조언했다. 와튼 재무학과 연구조교로 일하며 시장 이론을 검증하는 코드를 짰다. 통상 5년이 걸리는 과정을 4년 만에 마치고 최우등으로 졸업했다.",
+   "description_en": "He took finance at Wharton and computer science at the Moore School. He had meant to become a lawyer like his father and even registered for the LSAT. His father pointed him to a dual business-and-engineering program, then told him to stay with numbers. As a research assistant in Wharton's finance department he coded tests of market theories. He finished the usual five-year course in four and graduated summa cum laude.",
+   "place_name": "필라델피아",
+   "place_name_en": "Philadelphia",
+   "lat": 39.952777777778,
+   "lng": -75.163611111111
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "education",
+   "title": "파마의 조교로 일하며 MBA를 받다",
+   "title_en": "Earns his MBA as Fama's teaching assistant",
+   "description": "이때 이미 유진 파마의 지도를 받아 박사 논문 초고를 쓰고 있었다. 케네스 프렌치와도 함께 일했다. 애스니스와 프렌치는 장부가치 기준으로 저평가된 주식과 고평가된 주식을 구분하는 모형을 만들고 있었다. MBA는 우등으로 받았다.",
+   "description_en": "He was already pushing the draft of a dissertation under Eugene Fama. He also worked with Kenneth French. The two men were building a model that split cheap book-value stocks from expensive ones. He took his MBA with high honors.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "work",
+   "title": "논문을 쓰며 골드만삭스로 가다",
+   "title_en": "Goes to Goldman while still writing the dissertation",
+   "description": "시카고대에 재학한 채 골드만삭스 자산운용에서 피셔 블랙 밑에서 일을 시작했다. 박사 논문을 마치지 않은 상태에서 1년간 휴학하고 주택담보부채권을 거래했다. 휴학 기간이 끝난 뒤에도 월스트리트에 남아 계량 리서치를 맡았다.",
+   "description_en": "He worked at Goldman Sachs Asset Management while still enrolled in Chicago. He started under Fischer Black. With the dissertation unfinished he took a year's leave to trade mortgage-backed bonds. When the year ended he stayed on Wall Street and took quantitative research.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "education",
+   "title": "주가 수익을 설명하는 논문으로 박사를 받다",
+   "title_en": "Completes a dissertation on what explains stock returns",
+   "description": "논문 제목은 「주식 수익률을 설명하는 변수들」이었다. 상승 중인 주식을 추종하는 모멘텀 요인을 가치 요인과 함께 다뤘다. 지도교수는 유진 파마였으며, 파마의 조교로 2년간 일했다.",
+   "description_en": "The dissertation was titled Variables that Explain Stock Returns. He set momentum—following stocks that had been rising—beside the value factor. Eugene Fama was the adviser. He had been Fama's teaching assistant for two years.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "work",
+   "title": "내부 헤지펀드 운용에 천만 달러를 받다",
+   "title_en": "Gets ten million to run an internal hedge fund",
+   "description": "골드만 파트너 몇 명이 초기 자금을 댔다. 저평가됐으면서 상승 중인 종목을 사고 반대편은 공매도하는 모형을 시장에 적용했다. 시카고대 동창인 존 리우와 로버트 크레일은 이미 같은 데스크에서 일하고 있었다. 펀드는 글로벌 알파로 불렸고, 2년 안에 이 조직이 운용하는 기관 자금은 약 70억 달러에 이르렀다.",
+   "description_en": "A few Goldman partners put up the seed money. He put into the market a model that bought what was cheap and rising and shorted the other side. Chicago classmates John Liew and Robert Krail were already on the desk. The fund was called Global Alpha, and within two years the group was running about seven billion dollars for institutions.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "work",
+   "title": "에이큐알을 공동 창업하다",
+   "title_en": "Co-founds AQR",
+   "description": "데이비드 카빌러, 로버트 크레일, 존 리우와 함께 골드만삭스를 떠났다. 회사명 AQR은 응용계량연구를 뜻했다. 직원은 10명이었고 운용 상품은 헤지펀드 하나였다. 5개월 만에 10억 달러를 유치했다.",
+   "description_en": "He left with David Kabiller, Robert Krail, and John Liew. The name meant Applied Quantitative Research. There were ten employees and one hedge fund. They raised a billion dollars in five months.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "시장 거품 속에서 저평가주 포지션이 무너지다",
+   "title_en": "Cheap-stock positions break in the bubble",
+   "description": "펀드는 2년 전인 1998년 8월 거래를 시작했다. 저평가주 포지션을 유지한 20개월 동안 펀드는 35%의 손실을 봤다. 3월에 나스닥이 하락세로 돌아서자 같은 포지션에서 수익이 나기 시작했다.",
+   "description_en": "Trading had started in August two years earlier. Holding the cheap side, the fund lost 35 percent over twenty months. When the Nasdaq turned in March, the same positions began to make money.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "본사를 그린위치로 옮기다",
+   "title_en": "Moves headquarters to Greenwich",
+   "description": "뉴욕에서 출발한 회사가 성장하면서 코네티컷으로 자리를 옮겼다. 그해 운용 자산은 120억 달러였다.",
+   "description_en": "The firm that had started in New York moved to Connecticut as it grew. That year it was running twelve billion dollars.",
+   "place_name": "그린위치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "금융위기에서 운용 자산이 반 토막 나다",
+   "title_en": "Assets are cut in half in the financial crisis",
+   "description": "2007년 가을 회사의 운용 자산은 390억 달러였다. 대표 펀드는 2년 동안 절반 넘는 손실을 냈다. 2008년 말 남은 운용 자산은 170억 달러였다.",
+   "description_en": "The autumn before, the firm had been running $39 billion. The flagship fund lost more than half over two years. By year-end $17 billion remained.",
+   "place_name": "그린위치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "헤지펀드 전략을 뮤추얼펀드로 내놓다",
+   "title_en": "Opens hedge-fund strategies as mutual funds",
+   "description": "기관 투자자만 살 수 있던 전략을 개인에게도 개방했다. 첫 상품은 분산 차익거래 펀드였다. 대체투자 운용사 가운데서는 이른 시도였다.",
+   "description_en": "Strategies that only institutions could buy were opened to individuals. The first product was a diversified arbitrage fund. Among alternative managers this was early.",
+   "place_name": "그린위치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "publish",
+   "title": "가치와 모멘텀이 시장 전반에 나타난다는 논문을 발표하다",
+   "title_en": "Publishes that value and momentum appear in every market",
+   "description": "토비아스 모스코위츠, 라세 페데르센과 공동 집필했다. 주식에 그치지 않고 8개 시장과 자산군 전반에서 가치와 모멘텀 프리미엄이 나타났으며, 두 프리미엄은 함께 움직였다. 박사 논문에서 다룬 두 요인에 관한 논문이 《저널 오브 파이낸스》에 실렸다.",
+   "description_en": "He wrote it with Tobias Moskowitz and Lasse Pedersen. Value and momentum premia showed up, and moved together, across eight markets and asset classes. The two factors from the dissertation appeared in the Journal of Finance.",
+   "place_name": "그린위치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 넘지 않는 범위에서 주어와 대상이 불분명하거나 직역투가 남은 문장을 고쳤다. 사건 사이의 시간 관계와 AQR의 설립·운용 흐름도 자연스럽게 이어지도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아버지는 배리로」의 조사와 어순이 어색했고, 어머니의 수학 경력과 고등학교 재학 사실이 영문보다 부정확하게 옮겨져 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「컴퓨터를 배우다」는 전공 분야를 지나치게 줄였고, 「뒤에는 숫자 다루는 일로 돌리라고 했다」는 주어·행동 관계가 무너진 직역이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「논문의 초고를 밀었다」가 뜻을 짐작해야 하는 직역이었고, 「두 사람」이 파마와 프렌치인지 애스니스와 프렌치인지 바로 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시카고에 적을 둔 채」와 「그 해가 끝나자」가 각각 재학 상태와 휴학 기간의 종료를 불필요하게 에둘러 표현했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「모멘텀을 값 요인 옆에 놓았다」와 「조교는 이 년을 했다」가 영문 구조를 따라 옮긴 표현이라 연구 내용과 경력이 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「돌리다」와 「그 조직에 들어와 있었다」가 운용과 근무 관계를 모호하게 만들었고, 기관 자금 규모를 설명하는 마지막 문장의 어순도 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같이 나왔다」만으로는 어느 회사를 떠났는지 알 수 없었고, 회사명과 초기 상품·자금 모집을 설명하는 문장도 지나치게 축약돼 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「포지션이 거품에 깨지다」와 「본전을 35퍼센트 잃었다」가 부자연스러웠고, 「이 년 전」이 어느 시점을 가리키는지 연표를 거슬러 확인해야 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「코네티컷으로 갔다」와 「굴리는 돈」이 본사 이전과 운용 자산을 설명하는 문장으로는 지나치게 구어적이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「간판 펀드는 이 년 사이 반 이상이 날아갔다」는 펀드와 손실의 관계가 문법적으로 무너져 있었고, 기준 시점도 상대 연도로만 적혀 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "전략을 뮤추얼펀드로 「열다」는 표현이 어색했고, 기관과 개인이 무엇을 살 수 있었는지 목적어가 선명하지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "금융 용어인 value를 「값」으로 옮겨 의미가 흐려졌고, 「박사 논문에서 밀던」도 연구 주제를 설명하기에 부자연스러운 구어 표현이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,212 @@
+{
+ "slug": "daniela-amodei",
+ "events": [
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "birth",
+   "title": "샌프란시스코에서 태어나다",
+   "title_en": "Is born in San Francisco",
+   "description": "아버지는 토스카나 마사마리티마 출신의 이탈리아계 미국인 가죽 공예가 리카르도 아모데이였다. 어머니 엘레나 엥겔은 시카고에서 태어난 유대계 미국인으로, 버클리와 샌프란시스코에서 도서관 개보수 사업을 맡았다. 오빠 다리오는 네 살 위였다. 다니엘라는 로웰 고등학교를 다녔다. 아버지는 오랜 투병 끝에 2006년 세상을 떠났다.",
+   "description_en": "Her father was Riccardo Amodei, an Italian American leather craftsman from Massa Marittima in Tuscany. Her mother, Elena Engel, was a Jewish American from Chicago who ran library renovation projects in Berkeley and San Francisco. Dario, four years older, was her brother. She went to Lowell High School. Their father died in 2006 after years of illness.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "education",
+   "title": "산타크루즈에서 문학 학위를 받다",
+   "title_en": "Finishes a literature degree in Santa Cruz",
+   "description": "캘리포니아 대학교 산타크루즈에서 문학을 전공하고 정치학을 부전공했다. 어니스트와 진 크레치머 음악 장학금을 받아 플루트를 배웠다. 졸업은 금융위기 다음 해였다. 훗날 자신은 아무 기술도 없이 문학 학위만 들고 졸업했다고 말했다.",
+   "description_en": "She took a literature degree and a politics minor at the University of California, Santa Cruz. She held the Ernest and Jean Kretschmer music scholarship and studied the flute. She graduated the year after the financial crash. She later said she left with a literature degree and no skills.",
+   "place_name": "산타크루즈",
+   "place_name_en": "Santa Cruz",
+   "lat": 36.97205,
+   "lng": -122.026252
+  },
+  {
+   "year": 2010,
+   "year_end": 2011,
+   "kind": "work",
+   "title": "아이리스 센터에서 보조금과 채용을 맡다",
+   "title_en": "Works development grants at the IRIS Center",
+   "description": "아이리스 센터는 메릴랜드 대학교 경제학과에 속한 연구소로, 제도 개혁을 연구했다. 다니엘라는 빈곤 조사, 분쟁 관련 사업, 소액금융, 현금 지급 사업의 보조금과 채용을 맡았다. 이 시기에는 국제개발과 세계 보건 분야에서 일했다.",
+   "description_en": "The IRIS Center sat in Maryland’s economics department and worked on institutional reform. She handled grants and hiring for poverty surveys, conflict work, microfinance, and cash transfers. International development and global health were the work of those months.",
+   "place_name": "칼리지파크",
+   "place_name_en": "College Park",
+   "lat": 38.9967,
+   "lng": -76.9275
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "스크랜턴에서 하원 선거 운동에 참여하다",
+   "title_en": "Works a House race in Scranton",
+   "description": "맷 카트라이트 선거운동본부의 스크랜턴 사무실에서 현장 조직 업무를 맡았다. 카트라이트는 예비선거에서 승리한 뒤 본선에서도 당선됐다. 선거가 끝난 뒤 다니엘라는 워싱턴 의원실의 일정 담당자가 되었다.",
+   "description_en": "She ran field work out of Matt Cartwright’s Scranton campaign office. Cartwright won the primary and then the seat. After the election her name went up as the Washington scheduler.",
+   "place_name": "스크랜턴",
+   "place_name_en": "Scranton",
+   "lat": 41.408969,
+   "lng": -75.6624122
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "office",
+   "title": "하원 의원실에서 일정을 맡다",
+   "title_en": "Schedules a House office",
+   "description": "카트라이트 의원실의 워싱턴 일정 담당이었다. 입법 서한도 처리했다. 몇 달 만에 의원실을 떠나 기술 회사로 갔다.",
+   "description_en": "She was the Washington scheduler in Cartwright’s House office. She also handled legislative correspondence. After a few months she left politics for a technology firm.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2013,
+   "year_end": 2018,
+   "kind": "work",
+   "title": "스트라이프 초기 팀에 들어가다",
+   "title_en": "Joins Stripe’s early team",
+   "description": "당시 회사에는 직원이 마흔 명쯤 있었다. 의회에서 일하던 친구들은 왜 결제 회사로 가느냐고 물었다. 처음에는 채용을 맡았고, 뒤에는 위험 관리 업무로 옮겨 사기와 신용, 이용 정책을 다뤘다. 스트라이프에서 거의 6년 동안 일했다.",
+   "description_en": "The company had about forty people. Friends on the Hill asked why she was going into payments. She started in recruiting, then moved to risk operations and worked on fraud, credit, and user policy. She stayed nearly six years.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "홀든 카노프스키와 결혼하다",
+   "title_en": "Marries Holden Karnofsky",
+   "description": "홀든 카노프스키는 기브웰과 오픈 필랜스로피를 세운 사람이다. 홀든은 다니엘라의 오빠 다리오와 한때 한집에서 살았다. 다니엘라와 홀든 사이에는 아들이 있다.",
+   "description_en": "He had founded GiveWell and Open Philanthropy. He and Dario had been roommates. They have a son.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2018,
+   "year_end": 2020,
+   "kind": "work",
+   "title": "오픈AI로 옮기다",
+   "title_en": "Moves to OpenAI",
+   "description": "자연어 처리와 음악 생성 팀을 관리했다. 그 시기에 연구소는 지피티 2를 만들고 있었다. 뒤에는 안전·정책 부사장을 맡았고 인사도 겸했다.",
+   "description_en": "She managed natural-language and music-generation teams. That was the period of GPT-2. She later became vice president of safety and policy, and also ran people operations.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤트로픽을 공동 창업하다",
+   "title_en": "Co-founds Anthropic",
+   "description": "전해 12월, 다니엘라는 오빠 다리오와 동료 다섯 명과 함께 오픈AI를 나왔다. 일곱 명은 공익기업을 세웠다. 다니엘라는 훗날 안전과 책임을 앞세우는 조직을 만들려 했다고 말했다. 다리오는 최고경영자가 되었고, 다니엘라는 사장을 맡았다.",
+   "description_en": "The previous December she, her brother, and five colleagues left OpenAI. The seven incorporated a public-benefit company. She later said they were trying to put safety and responsibility at the front. Dario became chief executive; she became president.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "publish",
+   "title": "클로드를 공개하다",
+   "title_en": "Opens Claude to the public",
+   "description": "노션, 쿼라, 덕덕고와 비공개 시험을 거친 뒤 3월에 대화형 인공지능 클로드를 공개했다. 그해 가을 타임은 다니엘라와 오빠 다리오를 인공지능 분야에서 가장 영향력 있는 인물로 선정했다. 다니엘라는 사장으로서 일상적인 회사 운영을 맡았고, 경영진은 다니엘라에게 보고했다.",
+   "description_en": "After a closed trial with Notion, Quora, and DuckDuckGo, the company released the chatbot in March. That autumn Time named her and her brother among the most influential people in AI. As president she ran day-to-day operations; the senior team reported to her.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "일부 제목이 사건의 성격을 정확히 드러내지 못했고, 여러 서술에서 주어와 대상이 불분명하거나 영어식 표현이 남아 있었다. 영문의 정보 범위는 유지하면서 인물과 행동의 관계가 바로 읽히도록 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "어머니의 출신과 업무가 어색하게 이어졌고, 「네 살 위 오빠는 다리오였다」는 가족 관계를 번역문 어순으로 제시했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「문학을 마치다」는 학위 취득을 뜻하는 제목으로 부자연스러웠고, 마지막 문장은 영문에 있는 ‘기술 없이 졸업했다’는 의미를 충분히 전달하지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「개발 사업」은 맡은 업무가 무엇인지 모호했고, 첫 문장에는 주어가 없었다. 「그 무렵 일은」도 영어 문장 구조를 옮긴 듯 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「선거를 뛰다」는 구어적인 표현이고, 「일정 담당으로 이름이 올랐다」는 당선 뒤 맡은 직책을 뜻하는지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「의사당 쪽 친구들」은 누구를 가리키는지 모호했고, 「결제 회사로 간다고 물었다」와 「여섯 해를 있었다」는 행동 관계와 서술어가 부자연스러웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에 주어가 없었고, 이어지는 「오빠 다리오와는」과 「둘」의 대상도 명시되지 않아 관계를 짐작해야 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "다니엘라를 「그」로 지칭해 인물 관계가 흔들렸고, 마지막 문장도 두 남매 가운데 누가 최고경영자이고 누가 사장인지 대명사만으로 구분하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「바깥으로 열다」는 제품 공개를 옮긴 직역이었고, 「오빠와 그」와 「사장은」은 각각 다니엘라를 가리키는 표현으로 부자연스럽고 모호했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   8,
+   9
+  ]
+ }
+}

@@ -1,0 +1,275 @@
+{
+ "slug": "doc-holliday",
+ "events": [
+  {
+   "year": 1851,
+   "year_end": null,
+   "kind": "birth",
+   "title": "그리핀에서 태어나다",
+   "title_en": "Is born in Griffin",
+   "description": "존 헨리라는 이름으로 태어났다. 아버지 헨리 버로스는 약사이자 멕시코 전쟁 참전 군인이었고, 훗날 남군 제27조지아보병연대의 소령이 되었다. 어머니 앨리스 제인 매키는 목화 지주의 맏딸이었다. 누이 마사 엘리노라는 한 살이 되기 전인 전년에 죽었다. 이듬해 3월 21일 제1장로교회에서 세례를 받았다.",
+   "description_en": "He was born John Henry. His father Henry Burroughs was a pharmacist and a Mexican War veteran, later a major in the 27th Georgia Infantry. His mother Alice Jane McKey was the eldest daughter of a cotton planter. A sister, Martha Eleanora, had died before her first birthday the year before. The First Presbyterian Church baptized him on March 21 the next year.",
+   "place_name": "그리핀",
+   "place_name_en": "Griffin",
+   "lat": 33.2475,
+   "lng": -84.2708
+  },
+  {
+   "year": 1864,
+   "year_end": 1866,
+   "kind": "travel",
+   "title": "밸도스타 근처로 내려가다",
+   "title_en": "Moves south near Valdosta",
+   "description": "셔먼의 행군 경로를 피하려고 가족은 밸도스타 북쪽 베미스 근처의 농장으로 내려갔다. 어머니는 1866년 9월 16일 결핵으로 죽었다. 석 달 뒤 아버지는 레이첼 마틴과 재혼했다. 가족은 곧 밸도스타 읍내로 옮겼고, 아버지는 훗날 시장에 선출되었다. 밸도스타 학원에서 수사학·문법·수학과 라틴어·프랑스어·그리스어를 배웠다.",
+   "description_en": "To get off Sherman’s path the family moved to a farm near Bemiss, north of Valdosta. His mother died of tuberculosis on September 16, 1866. Three months later his father married Rachel Martin. They soon moved into town, and his father was later elected mayor. At the Valdosta Institute he studied rhetoric, grammar, mathematics, and Latin, French, and Greek.",
+   "place_name": "밸도스타",
+   "place_name_en": "Valdosta",
+   "lat": 30.846666666667,
+   "lng": -83.283055555556
+  },
+  {
+   "year": 1870,
+   "year_end": 1872,
+   "kind": "education",
+   "title": "펜실베이니아 치과대학에 진학하다",
+   "title_en": "Goes to the Pennsylvania College of Dental Surgery",
+   "description": "열아홉 살이었다. 전쟁이 끝난 뒤 남부에는 새로 세워진 치과대학이 없었다. 1872년 3월 1일 치의학 박사 학위를 받았다. 학교는 학위를 수여했지만, 개업할 수 있는 최저 연령인 스물한 살이 될 때까지 졸업장을 내주지 않았다.",
+   "description_en": "He was nineteen. After the war no new dental school stood in the South. On March 1, 1872 he received a Doctor of Dental Surgery degree. The school held the diploma until he turned twenty-one, the minimum age to practice.",
+   "place_name": "필라델피아",
+   "place_name_en": "Philadelphia",
+   "lat": 39.952777777778,
+   "lng": -75.163611111111
+  },
+  {
+   "year": 1872,
+   "year_end": 1873,
+   "kind": "work",
+   "title": "아서 포드의 의원에서 일을 시작하다",
+   "title_en": "Begins at Arthur Ford’s office",
+   "description": "졸업한 뒤 애틀랜타에 있는 아서 포드의 의원에서 일하기 시작했다. 얼마 지나지 않아 고향으로 돌아가 자신의 의원을 열었다. 이듬해 폐결핵 진단을 받았다. 의사들은 몇 달밖에 살지 못할 것이라며, 건조한 서부로 가면 병의 진행을 늦출 수 있다고 했다. 어머니도 같은 병으로 죽었다.",
+   "description_en": "After the degree he took a place in Atlanta. Soon he opened his own office back in his hometown. The next year he was diagnosed with pulmonary tuberculosis. Doctors gave him months and said a drier West might slow the disease. His mother had died of the same illness.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 1873,
+   "year_end": 1875,
+   "kind": "work",
+   "title": "댈러스에서 개업하다",
+   "title_en": "Opens a practice in Dallas",
+   "description": "9월에 도착해 아버지의 지인 존 시거와 동업했다. 두 사람은 엘름가에 의원을 두었고, 카운티 박람회에서 금 의치와 가황고무 의치로 상을 받았다. 기침 때문에 진료를 계속하기 어려워지자 도박이 수입원이 되었다. 1874년 불법 도박 혐의로 기소되었다. 이듬해에는 술집 주인 찰스 오스틴과 총격전을 벌였으나 아무도 다치지 않았다. 무죄 판결을 받은 뒤 텍사스를 떠났다.",
+   "description_en": "He arrived in September and partnered with John Seegar, a friend of his father’s. Their office was on Elm Street, and they took prizes at the county fair for gold and vulcanized-rubber dentures. Coughing broke the practice, and gambling became the income. In 1874 he was indicted for illegal gaming. The next year he and saloon keeper Charles Austin exchanged fire; no one was hit, and he was found not guilty. He then left Texas.",
+   "place_name": "댈러스",
+   "place_name_en": "Dallas",
+   "lat": 32.779166666667,
+   "lng": -96.808888888889
+  },
+  {
+   "year": 1877,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "케이트와 와이어트 어프를 만나다",
+   "title_en": "Meets Kate and Wyatt Earp",
+   "description": "덴버와 샤이엔, 데드우드를 떠돌다가 브라조스강 변방의 포트그리핀에 정착했다. 존 샨시의 술집에서 카드 딜러로 일하던 중 메리 캐서린 호로니를 만났다. 사람들은 그녀를 큰코 케이트라고 불렀다. 그해 가을 와이어트 어프가 기차강도 데이브 루다보를 쫓아 남쪽으로 왔다. 샨시는 루다보와 카드놀이를 한 적이 있는 홀리데이를 어프에게 소개했다. 홀리데이는 루다보가 캔자스로 돌아갔을 것이라고 말했다.",
+   "description_en": "After drifting through Denver, Cheyenne, and Deadwood he settled in the frontier town on the Brazos. Dealing cards at John Shanssey’s saloon he met Mary Katherine Horony. People called her Big Nose Kate. That fall Wyatt Earp came south tracking train robber Dave Rudabaugh. Shanssey pointed him to Holliday, who had played cards with the man, and Holliday said Rudabaugh had likely headed back to Kansas.",
+   "place_name": "포트그리핀",
+   "place_name_en": "Fort Griffin",
+   "lat": 32.927222,
+   "lng": -99.232222
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "work",
+   "title": "닷지시티에서 다시 간판을 걸다",
+   "title_en": "Hangs a dental shingle again in Dodge City",
+   "description": "홀리데이와 케이트는 「존 H. 홀리데이 박사 부부」라는 이름으로 하숙했다. 그는 지역 신문에 치과 광고를 내고, 환자가 만족하지 않으면 돈을 돌려주겠다고 약속했다. 그가 치과 진료를 했다는 마지막 기록이다. 당시 어프는 보조 시 보안관이었다. 어프는 그해 여름 술집에서 홀리데이가 자신을 구해 주었다고 훗날 회고했다. 그러나 당시 닷지시티 신문에는 이 싸움에 관한 보도가 없다.",
+   "description_en": "He and Kate boarded as Dr. and Mrs. John H. Holliday. He advertised dentistry in the local paper and promised money back if a patient was not satisfied. It is the last record of him practicing. Earp was assistant city marshal. Earp later said Holliday had saved him in a saloon that summer. No Dodge newspaper reported the fight at the time.",
+   "place_name": "닷지시티",
+   "place_name_en": "Dodge City",
+   "lat": 37.759722222222,
+   "lng": -100.01833333333
+  },
+  {
+   "year": 1879,
+   "year_end": null,
+   "kind": "work",
+   "title": "뉴멕시코에서 술집을 열다",
+   "title_en": "Opens a saloon in New Mexico",
+   "description": "크리스마스 직전 케이트와 함께 뉴멕시코 준주 라스베이거스에 도착했다. 결핵 환자들이 인근 온천에서 요양하려고 모여드는 곳이었다. 치과 의원도 다시 열고 도박도 계속했다. 준주에서 도박을 금지하자 벌금을 냈다. 그해 가을 어프가 톰스톤의 은광 붐을 따라가자 홀리데이도 함께 애리조나로 향했다. 그는 도박판의 사정이 더 나은 프레스콧에 남았고, 어프 형제는 먼저 톰스톤으로 떠났다.",
+   "description_en": "Just before Christmas he and Kate reached Las Vegas in New Mexico Territory. People with tuberculosis came for the hot springs nearby. He opened a dental office again and kept gambling. When the territory banned gaming he was fined. That fall Earp headed for the Tombstone silver boom, and Holliday went with him into Arizona. He stayed in Prescott, where the tables were better, and the Earp brothers went on ahead.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 35.596944444444,
+   "lng": -105.2225
+  },
+  {
+   "year": 1880,
+   "year_end": 1881,
+   "kind": "travel",
+   "title": "톰스톤 은광 마을에 합류하다",
+   "title_en": "Joins the Earps in Tombstone",
+   "description": "9월이었다. 코치스군 카우보이 패거리와 어프 일행의 갈등은 이미 깊어져 있었다. 이듬해 3월 케이트는 홀리데이를 역마차 강도 미수에 연루시키는 진술서에 서명했다. 보안관 조니 베한과 술집 주인 밀트 조이스가 술에 취한 케이트에게서 받아 낸 진술서였다. 술이 깬 케이트는 문서의 내용을 이해하지 못했다고 말했다. 검사는 혐의가 터무니없다고 보고 기소를 취하했다.",
+   "description_en": "It was September. The fight between the Cochise County Cowboys and the Earps was already deep. The next March Kate signed an affidavit tying him to an attempted stagecoach robbery. Sheriff Johnny Behan and saloon man Milt Joyce had gotten it from her while she was drunk. Once sober she said she had not understood the paper, and the prosecutor dropped the charge as ridiculous.",
+   "place_name": "톰스톤",
+   "place_name_en": "Tombstone",
+   "lat": 31.715833333333,
+   "lng": -110.06472222222
+  },
+  {
+   "year": 1881,
+   "year_end": null,
+   "kind": "battle",
+   "title": "오케이 목장 근처에서 총격전을 벌이다",
+   "title_en": "Stands in the fight near the O.K. Corral",
+   "description": "시 보안관 버질 어프는 홀리데이를 임시 부관으로 선서시켰다. 홀리데이는 와이어트, 모건과 함께 시 조례를 어기고 무장한 클랜턴·매클로리 일행을 무장 해제하러 갔다. 프리몬트 거리의 공터에서 총격전이 벌어졌다. 톰 매클로리, 프랭크 매클로리, 빌리 클랜턴이 죽었다. 예비 심리는 이들이 치안관의 직무를 수행한 것으로 판단했다.",
+   "description_en": "City marshal Virgil Earp swore him in as a temporary deputy. With Wyatt and Morgan he went to disarm the Clantons and McLaurys, who were armed against a city ordinance. The fight took place in a lot on Fremont Street. Tom McLaury, Frank McLaury, and Billy Clanton died. A preliminary hearing held that the lawmen had acted in the line of duty.",
+   "place_name": "톰스톤",
+   "place_name_en": "Tombstone",
+   "lat": 31.715833333333,
+   "lng": -110.06472222222
+  },
+  {
+   "year": 1882,
+   "year_end": null,
+   "kind": "other",
+   "title": "콜로라도가 신병 인도를 거부하다",
+   "title_en": "Colorado refuses extradition",
+   "description": "그해 겨울 버질은 습격을 받아 한쪽 팔을 제대로 쓸 수 없게 되었고, 3월에는 모건이 암살당했다. 연방 부보안관이 된 와이어트는 홀리데이를 다시 부관으로 임명했다. 투손에서 프랭크 스틸웰이 철로 옆에서 죽은 채 발견된 뒤 체포 영장이 발부되었다. 홀리데이는 5월 덴버에서 붙잡혔다. 뱃 마스터슨이 개입했고, 주지사 프레더릭 핏킨은 홀리데이를 애리조나로 넘기지 않았다.",
+   "description_en": "That winter Virgil was maimed in an ambush, and in March Morgan was assassinated. Wyatt, now a deputy U.S. marshal, deputized him again. After Frank Stilwell was found dead beside the tracks in Tucson, warrants were issued. Holliday was arrested in Denver in May. Bat Masterson intervened, and Governor Frederick Pitkin refused to send him back to Arizona.",
+   "place_name": "덴버",
+   "place_name_en": "Denver",
+   "lat": 39.739166666667,
+   "lng": -104.98472222222
+  },
+  {
+   "year": 1887,
+   "year_end": null,
+   "kind": "death",
+   "title": "온천 호텔에서 죽다",
+   "title_en": "Dies at the Hotel Glenwood",
+   "description": "온천이 폐 증상을 덜어 줄 것이라고 믿고 글렌우드 호텔에 묵었다. 11월 8일 오전 10시에 결핵으로 죽었다. 서른여섯 살이었다. 린우드 묘지에 묻혔지만 정확한 묘지는 알려져 있지 않다. 어프는 두 달이 지나서야 홀리데이의 죽음을 알았다.",
+   "description_en": "He checked into the Hotel Glenwood believing the springs would ease his lungs. He died of tuberculosis at ten in the morning on November 8. He was thirty-six. He was buried in Linwood Cemetery; the exact grave is not known. Earp did not hear of the death until two months later.",
+   "place_name": "글렌우드스프링스",
+   "place_name_en": "Glenwood Springs",
+   "lat": 39.55,
+   "lng": -107.31666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투, 모호한 지시어, 부정확한 행위 표현을 바로잡고 사건들이 출생부터 사망까지 자연스럽게 이어지도록 다듬었다. 다만 7번 사건은 라스베이거스 도착 시점과 애리조나 출발 시점의 선후 관계가 영문 자체에서도 모호해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「존 헨리로 났다」와 「소령을 달았다」가 부자연스럽고, 누이의 출생 시점은 영문이 말하지 않은 내용까지 단정하고 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "가족이 이동한 사건인데 주어가 없었고, 「뒤에 시장이 되었다」는 선출되었다는 영문의 구체적인 의미를 충분히 살리지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「대학으로 올라가다」와 「학위를 묶어 두었다」가 구어적이거나 뜻을 짐작해야 하는 표현이었고, 학위 수여와 졸업장 교부 보류의 구별도 흐려져 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리를 잡았다」가 어떤 일을 시작했다는 것인지 모호했고, 서부로 가라는 의사의 권고도 자연스럽게 연결되지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "동업을 「짝을 이뤘다」로 표현했고, county fair를 군사 의미로 읽힐 수 있는 「군 박람회」로 옮겼으며, 의원의 위치와 진료 중단 과정도 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그를 큰코 케이트라 불렀다」의 지시 대상이 홀리데이로 오인될 수 있었고, 샨시·어프·홀리데이·루다보 사이의 행동 관계도 अस्पष्ट했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부부 이름으로 하숙했다」와 「이후로는 치과 기록이 없다」가 원문의 행동과 기록의 성격을 자연스럽게 전달하지 못했고, 술집 사건의 주체도 바로 드러나지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「온천을 결핵에 쓰려는 사람들이 모이는 곳」과 「도박이 나은 프레스콧」이 영어 단어를 순서대로 치환한 듯한 표현이었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「싸움이 이미 깊어 있었다」와 「진술서가 나왔다」가 구체적인 갈등과 서명의 주체를 제대로 보여 주지 못했고, sober를 「깨어난 뒤」로 옮긴 표현도 부정확했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「오케이 목장 골목」은 영문의 near 및 본문의 프리몬트 거리 공터와 맞지 않았고, 「임시 부관을 시켰다」와 예비 심리 결과도 부자연스러웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「인도」는 무엇을 넘기지 않았다는 뜻인지 불분명했고, 「팔이 망가졌다」와 「부관으로 세웠다」도 사건의 의미를 거칠거나 모호하게 전달했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "온천이 폐를 낫게 할 것이라고 믿었다는 국문은 증상을 완화하리라 믿었다는 영문보다 의미가 강했고, 「호텔로 들었다」도 부자연스러웠다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 7,
+    "reason": "영문은 크리스마스 직전에 라스베이거스에 도착했다고 한 뒤 다시 「그해 가을」 어프를 따라 애리조나로 향했다고 서술한다. 같은 해라면 사건의 선후가 거꾸로이므로, 도착 연도와 애리조나 출발 연도 가운데 무엇이 맞는지 문장 편집만으로 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

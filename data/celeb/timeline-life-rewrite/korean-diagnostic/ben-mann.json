@@ -1,0 +1,239 @@
+{
+ "slug": "ben-mann",
+ "events": [
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "birth",
+   "title": "펜실베이니아에서 자라다",
+   "title_en": "Grows up in Pennsylvania",
+   "description": "펜실베이니아에서 자라던 시절, 학교에서는 학생들에게 고속도로변의 쓰레기를 줍게 했다. 그는 도서관에 전단을 붙이고 노인들에게 컴퓨터 사용법을 가르쳤다.",
+   "description_en": "Growing up there, school sent students to pick up trash along the highways. He put up a flyer at the library and taught older people how to use a computer.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2004,
+   "year_end": 2007,
+   "kind": "education",
+   "title": "케이프코드에서 고등학교를 마치다",
+   "title_en": "Finishes high school on Cape Cod",
+   "description": "팔머스 아카데미에 다녔다. 펜실베이니아에서 케이프코드 해안으로 학교를 옮긴 뒤였다.",
+   "description_en": "He attended Falmouth Academy. That was after he moved his schooling from Pennsylvania to the Cape Cod coast.",
+   "place_name": "팔머스",
+   "place_name_en": "Falmouth",
+   "lat": 41.551388888889,
+   "lng": -70.615277777778
+  },
+  {
+   "year": 2007,
+   "year_end": 2011,
+   "kind": "education",
+   "title": "컬럼비아에서 컴퓨터를 배우다",
+   "title_en": "Studies computer science at Columbia",
+   "description": "공학대학에서 학사 학위를 받았다. 우등으로 졸업했다. 뉴욕 취업 설명회에서 구글은 중요하면서도 멋진 일을 하자고 제안했다.",
+   "description_en": "He took a bachelor’s degree from the engineering school. He graduated magna cum laude. At a New York career fair, Google’s pitch was to do cool work that mattered.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2013,
+   "year_end": 2016,
+   "kind": "work",
+   "title": "구글에서 수십억 명이 쓰는 기능을 만들다",
+   "title_en": "Builds a feature used by billions at Google",
+   "description": "여덟 명으로 이뤄진 팀이 하루 수십억 명이 쓰는 기능을 만들었다. 절약한 시간을 사람의 수명으로 환산해도 그는 그 일이 실제로 누구의 삶을 바꾸는지 계속 물었다. 결국 그 팀을 떠나 경제학자 마이클 슈바르츠와 웨이즈 카풀을 시작했다.",
+   "description_en": "A team of eight built a feature used by billions of people a day. Even after converting the seconds saved into years of human life, he kept asking whose lives the work actually changed. He left that team to start Waze Carpool with the economist Michael Schwarz.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "other",
+   "title": "구글을 나와 창업을 보류하다",
+   "title_en": "Leaves Google and shelves a startup",
+   "description": "큰 회사의 절차와 이윤이 손을 묶는다고 적었다. 닉 보스트롬의 『초지능』을 읽고, 목표를 잘못 잡은 기계가 사람을 밀어낼 수 있다고 보았다. 창업을 미루고 연구실로 방향을 틀었다.",
+   "description_en": "He wrote that process and profit at a large company tied his hands. After reading Nick Bostrom’s Superintelligence, he saw how a machine given the wrong goal could push people aside. He paused the startup and turned toward a research lab.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "오픈AI에 들어가다",
+   "title_en": "Joins OpenAI",
+   "description": "1월에 오픈AI에서 일주일간 시험 근무를 했다. 당시 연구소에는 연구원과 엔지니어가 약 쉰 명 있었다. 이틀 만에 작업 실패를 알리는 서비스를 만들었고, 회사 전체가 이를 쓰기 시작했다. 인간 수준의 지능을 만들기 위해 합류한다는 글을 올렸다.",
+   "description_en": "In January he spent a trial week there. The lab had about fifty researchers and engineers. In two days he built a service that told people when their jobs failed, and the whole company started using it. He posted that he was going in to build human-level intelligence.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "소수 예시만으로 배우는 모델을 보고하다",
+   "title_en": "Reports a model that learns from a few examples",
+   "description": "톰 브라운, 닉 라이더, 멜라니 수비야와 함께 별표가 붙은 공동 제1저자로 이름을 올렸다. 훈련 데이터를 수집하고 걸러 중복을 제거했으며, 데이터 간 겹침을 측정하고 비복원 추출을 구현했다. 마이크로소프트를 상대로 시연하고 모델을 애저로 이전하는 일도 도왔다.",
+   "description_en": "He was a starred co-first author with Tom Brown, Nick Ryder, and Melanie Subbiah. He collected, filtered, and deduplicated the training data, measured overlap, and implemented sampling without replacement. He also ran demos for Microsoft and helped move the model onto Azure.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "안전이 최우선이 아니어서 떠나다",
+   "title_en": "Leaves because safety is not first",
+   "description": "오픈AI에서는 안전·연구·스타트업 세 집단이 서로를 견제하도록 한다는 말이 있었다. 그는 이런 균형이 임무와 어긋난다고 보았다. 안전팀 책임자들도 그와 함께 회사를 떠났다. 그는 연말까지 오픈AI를 떠났다.",
+   "description_en": "Inside, people talked about keeping the safety, research, and startup tribes in check with one another. He saw that balance as a mismatch with the mission. The leads of the safety teams left with him. He was gone by the end of the year.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤트로픽을 공동 창업하다",
+   "title_en": "Co-founds Anthropic",
+   "description": "다리오 아모데이, 다니엘라 아모데이를 비롯한 동료들과 샌프란시스코에 새 회사를 세웠다. 신뢰할 수 있고 조정 가능한 인공지능을 연구 목표로 삼았다. 그는 제품 엔지니어링을 맡았다.",
+   "description_en": "He and colleagues including Dario Amodei and Daniela Amodei set up a new company in San Francisco. They took as their research aim reliable, steerable artificial intelligence. He took product engineering.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "publish",
+   "title": "도움이 되고 해롭지 않은 조수를 훈련하다",
+   "title_en": "Trains a helpful and harmless assistant",
+   "description": "사람의 피드백으로 언어 모델을 미세조정한 결과를 4월에 공개했다. 그는 피드백 인터페이스와 이를 뒷받침하는 인프라의 설계와 구축을 이끌었다. 크라우드 워커 관리와 사전학습도 지원했다.",
+   "description_en": "In April the lab released results on fine-tuning language models with human feedback. He led the design and construction of the feedback interface and the infrastructure under it. He also helped manage crowdworkers and supported pretraining.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "제품 엔지니어링을 이끌다",
+   "title_en": "Leads product engineering",
+   "description": "연구실에서 개발한 조수들을 제품으로 만드는 일을 맡았다. 제품은 도움이 되고 해롭지 않으며 정직하게 행동해야 한다는 기준을 세웠다.",
+   "description_en": "He took the work of turning the lab’s assistants into products. Helpful, harmless, and honest behavior became the standard those products had to meet.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미와 세부는 유지하면서 모호한 지시어, 영문식 어순, 빠진 행동 관계와 부자연스러운 직역을 바로잡았다. 사실 판단이 추가로 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 땅」은 앞 문장 없이 장소를 알 수 없고, 학교가 누구에게 쓰레기를 줍게 했는지도 드러나지 않았다. 영문의 복수형 older people도 국문에 충분히 반영되지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "구글의 제안에서 영문이 말한 mattered의 의미가 빠졌고, 「구글은 멋진 일을 하라고 말했다」는 취업 설명회의 제안을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여덟 명이 하루 수십억 명이 쓰는」은 두 인원 표현이 맞붙어 주어와 목적어 관계가 흐렸다. 웨이즈 카풀을 시작하기 전에 기존 팀을 떠났다는 영문의 행동도 빠져 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title"
+    ],
+    "problem": "「창업을 접다」는 완전히 그만두었다는 뜻에 가까워, 창업을 잠시 보류했다는 shelves와 paused의 의미보다 단정적이었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그곳」은 바로 앞 문장만으로 대상을 알 수 없고, 「전사가 쓰기 시작했다」는 한자어식 사내 용어라 문맥상 부자연스러웠다. 마지막 문장도 합류 목적을 드러내도록 다듬을 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "훈련 데이터의 중복 제거와 데이터 간 겹침 측정이 「걸러 겹친 부분을 쟀고」에 뭉쳐 서로 다른 작업이라는 점이 사라졌다. 「마이크로소프트 앞에서」와 「애저로 넘기는」도 영문 어순을 따른 직역이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「안전을 우선할 수 없어」는 누가 왜 우선하지 못했는지 모호했다. 본문의 「그곳」, 「세 부족」, 「함께 나왔다」, 「자리를 비웠다」도 각각 대상과 행동을 즉시 파악하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조종할 수 있는 인공지능을 연구 목표로 걸었다」는 steerable과 took as their research aim을 단어 순서대로 옮긴 표현이라 한국어의 목적어와 행동 관계가 어색했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「피드백을 받는 화면과 그 밑의 기반시설」은 feedback interface와 underlying infrastructure를 형태대로 옮긴 직역이며, 설계와 구축을 이끌었다는 역할도 약하게 표현됐다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조수를 제품으로 올리는 쪽」은 turning assistants into products의 부자연스러운 직역이다. 제품이 충족해야 할 행동 기준도 한국어 문장으로 명확히 풀어 쓸 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

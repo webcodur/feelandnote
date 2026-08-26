@@ -1,0 +1,261 @@
+{
+ "slug": "andrew-feldman",
+ "events": [
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "birth",
+   "title": "스탠퍼드 교수 부부의 아들로 태어나다",
+   "title_en": "Born to Stanford faculty parents",
+   "description": "부모는 1960년대 중반 박사과정을 마치기 위해 스탠퍼드에 왔고, 이후 교수로 남았다. 그는 스탠퍼드 캠퍼스에서 자랐다. 집안의 직업이 교수였기에 자신도 같은 길을 갈 것이라고 생각했다.",
+   "description_en": "His parents had come in the mid-1960s to finish their doctorates and stayed on the faculty. He grew up on the campus. A professor was the family trade, so he assumed that path was his as well.",
+   "place_name": "팔로알토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "education",
+   "title": "경제학과 정치학을 전공하고 학부를 마치다",
+   "title_en": "Completes a bachelor's degree in economics and political science",
+   "description": "1987년에 들어갔다. 졸업 무렵 목표는 개발경제학 교수였다. 부모와 같은 길을 가려 했다.",
+   "description_en": "He entered in 1987. By graduation his aim was to become a professor of development economics. He meant to follow the same path as his parents.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 1995,
+   "year_end": 1997,
+   "kind": "education",
+   "title": "박사과정을 접고 경영대학원에 들어가다",
+   "title_en": "Leaves a doctoral program and enters business school",
+   "description": "버클리에서 수업을 모두 마치고 자격시험까지 치렀다. 그러나 논문을 쓰며 사는 것이 자신을 행복하게 하지 않을 것이라고 판단했다. 스탠퍼드 경영대학원으로 옮겨 석사 학위를 받았다.",
+   "description_en": "At Berkeley he finished the coursework and sat the qualifying exams. He decided that writing papers would not make him happy. He moved to the Stanford Graduate School of Business and received a master's.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 1996,
+   "year_end": 1998,
+   "kind": "work",
+   "title": "야고 시스템즈에 합류하다",
+   "title_en": "Joins Yago Systems",
+   "description": "함께 살던 친구들은 인텔에 다녔고, 기가비트 이더넷 스위치를 만들려 했다. 그는 야고의 첫 비공학계 직원으로 합류해 사업개발을 맡았다. 시쿼이아가 투자했고, 케이블트론은 약 2억 5천만 달러어치의 주식으로 회사를 인수했다.",
+   "description_en": "Housemates who worked at Intel wanted to build a Gigabit Ethernet switch. He joined as the first non-engineer and ran business development. Sequoia put in money, and Cabletron bought the company for about 250 million dollars in stock.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2000,
+   "year_end": 2003,
+   "kind": "office",
+   "title": "리버스톤 네트웍스 부사장이 되다",
+   "title_en": "Becomes a vice president at Riverstone Networks",
+   "description": "리버스톤은 케이블트론이 야고와 자이트넷을 합쳐 분사한 회사였다. 그는 기업 마케팅과 사업개발을 맡았다. 이듬해 2월 회사는 나스닥에 상장해 주당 12달러에 주식을 발행하고 1억 2천만 달러를 조달했다.",
+   "description_en": "Cabletron had spun the company out of Yago and Zeitnet. He ran corporate marketing and business development. The following February it listed on Nasdaq, priced at 12 dollars a share, and raised 120 million dollars.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 2003,
+   "year_end": 2006,
+   "kind": "office",
+   "title": "포스텐 네트웍스에서 제품과 마케팅을 맡다",
+   "title_en": "Takes product and marketing at Force10 Networks",
+   "description": "다시 작은 회사로 옮겨 마케팅 및 제품관리 부사장이 됐다. 네트워크 업계는 시스코를 중심으로 재편되고 있었다. 대형 고객들이 호소하는 더 큰 문제는 이제 데이터센터의 전력 소비였다.",
+   "description_en": "He went back to a smaller company as vice president of marketing and product management. Networking was consolidating around Cisco. The pain he heard from large customers had shifted to data-center power.",
+   "place_name": "산호세",
+   "place_name_en": "San Jose",
+   "lat": 37.304166666667,
+   "lng": -121.87277777778
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "other",
+   "title": "리버스톤 회계 통제 위반으로 유죄를 인정하다",
+   "title_en": "Pleads guilty to violating Riverstone accounting controls",
+   "description": "마케팅 부사장 시절 매출로 인식해서는 안 되는 거래를 승인한 혐의였다. 연방법원은 보호관찰 3년과 벌금 5천 달러를 선고했다. 증권거래위원회가 제기한 민사소송에서도 약 28만 9천 달러를 반환하라는 명령을 받았다.",
+   "description_en": "The charge was that, as vice president of marketing, he had approved deals that should not have been booked as revenue. A federal court gave him three years of probation and a 5,000-dollar fine. In the SEC civil case he was ordered to disgorge about 289,000 dollars.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2007,
+   "year_end": 2012,
+   "kind": "office",
+   "title": "시마이크로를 공동 창업하고 최고경영자가 되다",
+   "title_en": "Co-founds SeaMicro and becomes its chief executive",
+   "description": "게리 로터바흐와 함께 소형 프로세서를 대량으로 연결해 전력 소비를 줄이는 서버를 만들었다. 금융위기 당시 시리즈 B 투자를 유치하기 위해 60차례 넘게 설명한 끝에 피에르 라몽의 투자를 받았다. 회사 이름은 수많은 소형 프로세서가 바다처럼 모인 구조에서 따왔다.",
+   "description_en": "With Gary Lauterbach he built servers that used a sea of smaller processors to cut power. During the financial crisis they pitched a Series B more than sixty times before Pierre Lamond put in money. The name came from that sea of small processors.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2012,
+   "year_end": 2014,
+   "kind": "work",
+   "title": "시마이크로를 에이엠디에 매각하고 사업부를 맡다",
+   "title_en": "Sells SeaMicro to AMD and runs the new unit",
+   "description": "에이엠디의 인수는 3월 23일 약 3억 3천4백만 달러에 마무리됐다. 시마이크로 팀은 데이터센터 서버 솔루션 사업부가 됐고, 그는 그 사업부와 서버용 중앙처리장치 사업을 이끌었다. 2년 뒤인 6월에 회사를 떠났다.",
+   "description_en": "The purchase closed on March 23 for about 334 million dollars. The SeaMicro team became the Data Center Server Solutions group, and he led that unit and the server CPU business. He left two years later, in June.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "시마이크로 동료들과 세레브라스를 세우다",
+   "title_en": "Founds Cerebras with SeaMicro colleagues",
+   "description": "게리 로터바흐, 마이클 제임스, 숀 리, 장필리프 프리커와 다시 모였다. 이들은 픽셀 처리에 맞춰진 그래픽 처리장치가 인공지능 연산에도 정말 적합한 장치인지 물었고, 웨이퍼 전체 크기의 프로세서를 만드는 구상으로 방향을 잡았다. 그는 이듬해 4월부터 최고경영자와 사장, 이사를 맡았다.",
+   "description_en": "He gathered again with Gary Lauterbach, Michael James, Sean Lie, and Jean-Philippe Fricker. They asked whether a graphics processor, tuned for pixels, could really be the right machine for artificial-intelligence work, and they turned toward a processor the size of a whole wafer. He became chief executive, president, and director the following April.",
+   "place_name": "로스앨토스",
+   "place_name_en": "Los Altos",
+   "lat": 37.3681,
+   "lng": -122.098
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "웨이퍼 스케일 엔진을 핫칩스에서 공개하다",
+   "title_en": "Unveils the Wafer-Scale Engine at Hot Chips",
+   "description": "칩에는 4만 6천225제곱밀리미터의 실리콘 면적에 트랜지스터 1조 2천억 개가 들어갔다. 실리콘 면적은 당시 시장에서 가장 큰 그래픽 처리장치의 50배가 넘었다. 공동창업자 숀 리가 오후 발표를 맡았고, 세레브라스는 이날 비공개 개발 단계에서 벗어나 제품을 처음 공개했다.",
+   "description_en": "The chip held 1.2 trillion transistors on 46,225 square millimeters of silicon. That was more than fifty times the area of the largest graphics processor then on the market. Co-founder Sean Lie gave the afternoon talk, and the company left stealth that day.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "세레브라스를 나스닥에 상장하다",
+   "title_en": "Takes Cerebras public on Nasdaq",
+   "description": "상장 전날 회사는 주당 185달러에 3천만 주를 팔아 55억 5천만 달러를 조달했다. 주가는 350달러에 거래를 시작해 311.07달러로 마감했고, 하루 동안 68퍼센트 올랐다. 그는 나스닥 마켓사이트에서 회사의 상장을 맞았다.",
+   "description_en": "The night before, the company sold 30 million shares at 185 dollars and raised 5.55 billion dollars. Trading opened at 350 dollars and closed at 311.07, up 68 percent on the day. He stood at the MarketSite for the listing.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부 사항을 유지하면서 직역투, 불분명한 주어와 대상, 어색한 업계·법률 표현을 바로잡았다. 사건들이 출생과 진학, 네트워크 업계 경력, 창업과 매각, 세레브라스 창업과 상장으로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「교수 부부 집에서」는 교수 부부의 집에서 태어났다는 뜻으로 읽혀 부모와의 관계를 잘못 나타냈다. 본문의 「그 대학」은 대상을 바로 알기 어렵고, 「집의 직업이 교세라」는 오자와 직역 때문에 뜻이 무너졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「논문 쓰는 삶이 자기를 행복하게 하지 않는다」는 영어 어순과 대명사를 그대로 옮긴 듯해 한국어로 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시쿼이아가 돈을 넣었다」와 「주식 약 2억 5천만 달러에 사들였다」는 투자 및 주식 인수의 관계가 정확히 드러나지 않는 구어적 표현이었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「야고와 자이트넷을 묶어 스핀오프한 회사」는 영어 용어와 문장 구조를 그대로 가져와 회사가 만들어진 관계를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「네트워킹은 시스코 쪽으로 기울고 있었다」와 「큰 고객들이 더 아파하는 문제」는 업계 재편과 고객의 문제를 영문 표현에 기대어 직역한 문장이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「유죄 인정하다」에는 목적격 조사가 빠졌다. 「약 29만 달러를 토해 내라」는 법원의 환수 명령을 지나치게 구어적으로 표현해 법률적 의미가 흐려졌다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 번째 투자를 60번 넘게 설명하다」는 Series B 투자 유치 활동을 단어별로 치환한 표현이라 무엇을 누구에게 했는지 짐작해야 했다. 회사 이름의 유래도 영어의 sea를 그대로 설명해 한국어 연결이 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「에이엠디에 넘기다」는 기업 매각을 지나치게 구어적으로 표현했다. 본문은 인수의 주체가 생략됐고 「서버 중앙처리장치 사업」도 자연스러운 업계 용어로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "기존 국문은 그래픽 처리장치가 픽셀 처리에 맞춰진 장치라는 영문의 세부를 빠뜨렸고, 「웨이퍼 전체를 한 프로세서로 쓰는 쪽으로 기울었다」도 구상의 의미가 매끄럽게 전달되지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「50배가 넘는 실리콘」은 비교 대상이 실리콘의 면적이라는 점을 정확히 드러내지 못했다. 「숨겨 온 제품을 내놓았다」는 회사가 비공개 개발 단계에서 벗어났다는 의미를 부자연스럽게 옮겼다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전날」은 무엇을 기준으로 한 날인지 문장만으로 알기 어렵고, 「시가 350달러」는 시가총액으로 오해될 수 있었다. 「상장식을 했다」도 마켓사이트에서 상장을 맞았다는 영문의 의미보다 넓은 행동을 단정했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

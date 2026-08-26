@@ -1,0 +1,282 @@
+{
+ "slug": "gerald-tsai-jr",
+ "events": [
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "birth",
+   "title": "상하이에서 태어나다",
+   "title_en": "Is born in Shanghai",
+   "description": "3월 10일이었다. 아버지 제럴드 시니어는 미시간대학에 다녔고 포드자동차 상하이 지점장을 맡았다. 어머니 루스는 증권 중개인이었다. 이후 세인트존스 중학교와 세인트존스대학에 다녔다.",
+   "description_en": "It was March 10. His father, Gerald Sr., had gone to the University of Michigan and was Ford Motor’s Shanghai district manager. His mother, Ruth, was a stockbroker. He later attended St. John’s Middle School and St. John’s University.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "travel",
+   "title": "미국으로 건너오다",
+   "title_en": "Crosses to the United States",
+   "description": "열여덟이었다. 웨슬리안에서 한 학기를 다닌 뒤 보스턴대학으로 옮겼다.",
+   "description_en": "He was eighteen. After one semester at Wesleyan he transferred to Boston University.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1949,
+   "year_end": null,
+   "kind": "education",
+   "title": "경제학 학사와 석사 학위를 같은 해에 받다",
+   "title_en": "Takes a bachelor’s and a master’s in economics",
+   "description": "교양학부 학사 과정과 대학원 석사 과정을 같은 해에 마쳤다. 경영대학원 수업도 몇 과목 들었다.",
+   "description_en": "He finished the College of Liberal Arts bachelor’s and the graduate master’s in the same year. He also sat a few courses at the business school.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1952,
+   "year_end": null,
+   "kind": "work",
+   "title": "피델리티에 증권 분석가로 들어가다",
+   "title_en": "Joins Fidelity as a securities analyst",
+   "description": "피델리티에 들어가기 한 해 전에는 베시에서 증권 분석을 시작했다. 1960년에는 피델리티 부사장이 되었다.",
+   "description_en": "The year before he had begun securities analysis at Bache. In 1960 he was named a vice president.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "work",
+   "title": "피델리티 캐피털 펀드를 맡다",
+   "title_en": "Takes the Fidelity Capital Fund",
+   "description": "회사 최초의 공모형 공격적 성장 펀드였다. 제록스와 폴라로이드처럼 당시 주목받던 소수 종목에 자금을 집중했다. 스물아홉이었다. 1963년에는 수석부사장이 되었다.",
+   "description_en": "It was the firm’s first publicly sold aggressive growth fund. He concentrated money in a short list of glamour names such as Xerox and Polaroid. He was twenty-nine. In 1963 he became executive vice president.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "work",
+   "title": "맨해튼 펀드를 열다",
+   "title_en": "Opens the Manhattan Fund",
+   "description": "피델리티 지분을 정리하고 차이 매니지먼트 앤드 리서치를 세웠다. 어머니 루스가 독립을 권했다. 당초 250만 주를 공모할 계획이었지만 실제 공모에는 2,700만 주, 2억 4,700만 달러가 몰렸다. 당시 투자회사 공모로는 최대 규모였다. 이듬해 2월부터 거래가 시작됐다.",
+   "description_en": "He sold his Fidelity stock and set up Tsai Management and Research. His mother, Ruth, urged him to go out on his own. He meant to take 2.5 million shares. The offering brought in 27 million shares and $247 million, then the largest for an investment company. Trading began the following February.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "work",
+   "title": "차이 매니지먼트를 CNA에 넘기다",
+   "title_en": "Sells Tsai Management to CNA",
+   "description": "가족이 보유한 지분을 CNA 주식과 맞바꾸고 사장으로 남았다. 직후 강세장이 끝났다. 그는 내셔널 스튜던트 마케팅과 포 시즌스 너싱 투자에서 손실을 냈다. 타임은 1973년 기사에서 1966년 공모 당시 1,000달러어치였던 주식의 가치가 배당금을 제외하면 절반가량으로 줄었다고 전했다.",
+   "description_en": "He exchanged the family stake for stock and stayed on as president. The bull market then broke. He lost money in National Student Marketing and Four Seasons Nursing. Time wrote in 1973 that $1,000 of the 1966 offering was left at about half, not counting dividends.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "work",
+   "title": "CNA를 떠나 증권사를 인수하다",
+   "title_en": "Leaves CNA and buys a brokerage",
+   "description": "차이 매니지먼트 사장직을 내려놓았다. 뉴욕증권거래소 회원권을 사고 회사 이름을 지 차이 앤드 컴퍼니로 바꿨다. 타임은 그가 인수한 증권사가 나이트 캐리 블리스라고 전했다.",
+   "description_en": "He stepped down as president of Tsai Management. He bought a New York Stock Exchange seat and renamed the firm G. Tsai and Company. Time wrote that the brokerage he bought was Knight, Carry, Bliss.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1978,
+   "year_end": 1982,
+   "kind": "office",
+   "title": "어소시에이티드 매디슨 회장이 되다",
+   "title_en": "Becomes chairman of Associated Madison",
+   "description": "어소시에이티드 매디슨은 생명보험 지주회사였다. 1982년 4월 아메리칸 캔이 이 회사를 흡수했다. 그는 아메리칸 캔의 금융서비스 담당 수석부사장으로 자리를 옮겼다.",
+   "description_en": "It was a life-insurance holding company. In April 1982 American Can absorbed it. He moved over as executive vice president for financial services at the can company.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1986,
+   "year_end": 1987,
+   "kind": "office",
+   "title": "아메리칸 캔 최고경영자가 되다",
+   "title_en": "Becomes chief executive of American Can",
+   "description": "5월에 윌리엄 우드사이드의 뒤를 이었다. 이듬해 회사 이름을 프라이메리카로 바꾸고 스미스바니를 7억 5천만 달러에 인수했다. 당시 언론은 그를 다우존스 산업평균지수 구성 회사를 이끈 최초의 중국계 미국인이라고 보도했다.",
+   "description_en": "In May he succeeded William Woodside. The next year he renamed the firm Primerica and bought Smith Barney for $750 million. Papers at the time called him the first Chinese American to run a Dow industrials company.",
+   "place_name": "그리니치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "프라이메리카를 웨일의 커머셜 크레딧과 합치다",
+   "title_en": "Combines Primerica with Weill",
+   "description": "프라이메리카를 샌퍼드 웨일의 커머셜 크레딧과 16억 5천만 달러 규모의 거래로 합병했다. 웨일이 최고경영자를 맡았고, 그는 최대 주주로 남아 집행위원회 의장을 맡았다.",
+   "description_en": "He combined Primerica with Sanford Weill’s Commercial Credit in a $1.65 billion deal. Weill took the chief executive’s chair. He stayed the largest shareholder and chaired the executive committee.",
+   "place_name": "그리니치",
+   "place_name_en": "Greenwich",
+   "lat": 41.02649,
+   "lng": -73.62846
+  },
+  {
+   "year": 1993,
+   "year_end": 1997,
+   "kind": "work",
+   "title": "델타 라이프 최고경영자를 맡다",
+   "title_en": "Takes the top job at Delta Life",
+   "description": "델타 라이프는 멤피스에 있는 생명보험·연금 회사였다. 1997년 디모인의 아메루스 라이프 홀딩스가 이 회사를 현금 1억 6,290만 달러에 인수하기로 했다.",
+   "description_en": "It was a Memphis life-insurance and annuity company. In 1997 Des Moines–based AmerUs Life Holdings agreed to buy it for $162.9 million in cash.",
+   "place_name": "멤피스",
+   "place_name_en": "Memphis",
+   "lat": 35.14611111111111,
+   "lng": -90.05194444444444
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "death",
+   "title": "맨해튼에서 세상을 뜨다",
+   "title_en": "Dies in Manhattan",
+   "description": "사인은 다발성 장기부전이었다. 아들 크리스토퍼가 그의 사망 소식을 알렸다. 일흔아홉이었다.",
+   "description_en": "The cause was multiple organ failure. His son Christopher announced it. He was seventy-nine.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 넘지 않는 범위에서 직역투, 불분명한 주어와 대상, 미국 기업 직함의 부자연스러운 번역을 고쳤다. 사건 사이의 연결이 드러나도록 필요한 문장만 다듬었으며 별도의 사실 확인이 필요한 항목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미시간대학을 나오고」는 졸업했다는 뜻으로 읽혀 영문의 had gone to보다 의미가 강하며, 「뒤에」도 시간 연결이 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「학사와 석사를 같이 받다」와 「교양학부 학사와 대학원 석사」는 한국어의 수식 관계와 과정 구분이 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "피델리티 입사보다 앞선 베시 경력이 별개의 문장으로 놓여 두 직장 사이의 시간 관계가 바로 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이름이 난 주식 몇 종목에 돈을 몰았다」는 glamour names와 concentrated money를 기계적으로 옮긴 표현이며, executive vice president를 「전무」로 옮겨 미국 기업 직함의 단계가 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「250만 주를 받으려 했다」와 「실제 모집은 2,700만 주」는 공모 주식 수와 모집 결과의 관계를 이해하기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가족 지분을 주식으로 넘기고」는 무엇과 맞바꿨는지 불분명했고, 타임이 전한 투자 가치 하락 문장도 주어와 비교 기준이 어색했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "증권사를 산 행위를 「인수」가 아닌 「사다」로 표현했고, New York Stock Exchange seat를 「뉴욕증권거래소 자리」로 직역해 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에 회사명이 없어 대상이 바로 드러나지 않았고, 「캔 회사」는 아메리칸 캔을 부자연스럽게 줄인 표현이었다. executive vice president도 「부사장」보다 「수석부사장」이 원문의 직급을 더 정확히 보존한다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다우지수 구성 회사를 중국계 미국인이 이끈 첫 사례로 당시 신문이 적었다」는 주어와 서술 관계가 어색하고, 무엇이 최초였는지 한 번에 파악하기 어려웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「웨일과 합치다」는 사람과 회사를 합친 것처럼 읽혔고, 거래 금액을 사용한 「16억 5천만 달러에 합쳤다」도 합병 규모를 나타내는 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「멤피스의 생명보험·연금 회사였다」는 바로 앞 제목을 참조해야만 주어를 알 수 있어 회사명을 밝혀 주었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다발성 장기부전이었다」는 무엇이 다발성 장기부전이었는지 주어가 빠졌고, 「아들 크리스토퍼가 알렸다」도 알린 대상을 생략했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

@@ -1,0 +1,239 @@
+{
+ "slug": "david-goggins",
+ "events": [
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "birth",
+   "title": "버펄로에서 태어나다",
+   "title_en": "Is born in Buffalo",
+   "description": "2월 17일이었다. 아버지는 트러니스, 어머니는 재키였다. 형은 트러니스 주니어였다. 여섯 살 때 이미 아버지가 운영하는 이스트버펄로의 스케이트장 스케이트랜드에서 야간 근무를 하며 스케이트를 줄지어 정리했다. 1981년에는 윌리엄스빌의 파라다이스 로드에 살았다. 집 안에서 아버지는 아내와 두 아들을 때렸다.",
+   "description_en": "It was February 17. His father was Trunnis and his mother was Jackie. His older brother was Trunnis Jr. At six he was already working the night shift at his father’s East Buffalo rink, Skateland, lining up skates. In 1981 they lived on Paradise Road in Williamsville. Inside the house his father beat his wife and the boys.",
+   "place_name": "버펄로",
+   "place_name_en": "Buffalo",
+   "lat": 42.88638888888889,
+   "lng": -78.87805555555556
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "travel",
+   "title": "외가로 달아나다",
+   "title_en": "Flees to his grandparents",
+   "description": "여덟 살 때였다. 어머니는 두 아들을 데리고 친정으로 갔다. 형은 곧 아버지 곁으로 돌아갔다. 3학년 때 학습장애 진단을 받았다. 말을 더듬기 시작했고, 공책과 자동차 문에는 인종차별 낙서가 나타났다. 이후 고등학교 때 치른 군 적성검사에서는 20점을 받았다.",
+   "description_en": "He was eight. His mother took both sons to her parents. His brother soon went back to their father. In third grade he was diagnosed with a learning disability. He developed a stutter, and racist graffiti showed up on his notebook and on the door of his car. In high school his armed-services aptitude score was 20.",
+   "place_name": "브라질",
+   "place_name_en": "Brazil",
+   "lat": 39.525,
+   "lng": -87.1275
+  },
+  {
+   "year": 1994,
+   "year_end": 1999,
+   "kind": "work",
+   "title": "공군 전술항공통제반에 들어가다",
+   "title_en": "Serves in the Air Force tactical air-control field",
+   "description": "외할아버지도 공군에서 복무했다. 구조대 훈련에 들어갔지만 검사에서 겸상적혈구 형질이 확인돼 훈련에서 제외됐다. 수영을 싫어했던 그는 그 훈련 과정으로 돌아가지 않았다. 전술항공통제반 훈련을 마치고 1999년까지 복무했다.",
+   "description_en": "His maternal grandfather had been in the Air Force too. He entered pararescue training, then was pulled when a sickle-cell trait diagnosis came back. He disliked the swimming and did not return to that pipeline. He completed tactical air-control training and served through 1999.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "other",
+   "title": "해충 방제 일을 접고 체중을 줄이다",
+   "title_en": "Quits pest control and cuts the weight",
+   "description": "공군에서 제대한 뒤 해충 방제 일을 했고, 몸무게는 297파운드까지 불었다. 디스커버리 채널에서 지옥주를 다룬 영상을 보다가 해군 특수전을 다시 떠올렸다. 입대 기준인 191파운드에 맞추려고 석 달 만에 106파운드를 뺐다.",
+   "description_en": "After leaving the Air Force his weight rose to 297 pounds. A Discovery Channel film of Hell Week brought Navy special warfare back to mind. The entry limit was 191 pounds, and he dropped 106 pounds in three months.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "work",
+   "title": "해군 기본수중폭파·특수전 과정 235기를 수료하다",
+   "title_en": "Completes BUD/S Class 235",
+   "description": "지옥주를 세 번 거쳤다. 스트레스 골절과 폐렴, 슬개골 골절 때문에 두 차례 후속 기수로 밀려났다. 전투수영병 자격을 받고 네이비실 5팀에 배속됐다. 이후 이라크에 한 차례 파병됐다.",
+   "description_en": "He went through Hell Week three times. Stress fractures, pneumonia, and a fractured kneecap sent him back twice. He qualified as a combatant swimmer and was assigned to SEAL Team 5. He later served a tour in Iraq.",
+   "place_name": "코로나도",
+   "place_name_en": "Coronado",
+   "lat": 32.678055555556,
+   "lng": -117.1725
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "education",
+   "title": "육군 레인저 스쿨을 마치다",
+   "title_en": "Finishes Army Ranger School",
+   "description": "그 기수의 사병 명예졸업생으로 뽑혔다. 동료 평가에서도 만점을 받았다. 해군 기사에는 공군 전술항공통제반 훈련과 해군 특수전 훈련, 육군 레인저 스쿨을 모두 마친 군인은 그뿐이라고 기록됐다.",
+   "description_en": "He was Enlisted Honor Man of his class. His peer evaluation was a perfect score. A Navy article recorded him as the only service member to have completed Air Force tactical air-control training, SEAL training, and Army Ranger School.",
+   "place_name": "콜럼버스",
+   "place_name_en": "Columbus",
+   "lat": 32.492222222222,
+   "lng": -84.940277777778
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "other",
+   "title": "스물네 시간 달리기에 나서다",
+   "title_en": "Runs a 24-hour ultramarathon",
+   "description": "그해 아프가니스탄에서 레드윙스 작전 중 헬기가 추락했다. 그는 전사한 특수작전부대원 자녀를 위한 장학 기금을 모으려 했다. 별다른 준비 없이 샌디에이고에서 열린 24시간 울트라마라톤에 나가 100마일을 18시간 56분에 달렸다.",
+   "description_en": "That year a helicopter went down in Afghanistan during Operation Red Wings. He wanted to raise scholarship money for the children of the fallen special-operations troops. With little preparation he entered this city’s 24-hour ultra and ran 100 miles in 18 hours 56 minutes.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2006,
+   "year_end": 2007,
+   "kind": "other",
+   "title": "배드워터 135를 달리다",
+   "title_en": "Runs the Badwater 135",
+   "description": "데스밸리에서 출발하는 135마일 경주였다. 첫해는 30시간 18분 54초로 전체 5위였다. 이듬해는 25시간 49분 40초로 3위였다.",
+   "description_en": "The race is 135 miles, starting in Death Valley. The first year he finished fifth in 30 hours 18 minutes 54 seconds. The next year he finished third in 25 hours 49 minutes 40 seconds.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "other",
+   "title": "열일곱 시간 동안 턱걸이 4030회를 하다",
+   "title_en": "Completes 4,030 pull-ups in 17 hours",
+   "description": "브렌트우드힐스 크로스핏에서 도전했다. 앞선 두 번의 도전에서는 손목과 손바닥이 찢어져 기록 경신에 실패했다. 세 번째 도전에서 기네스 24시간 턱걸이 기록을 깼다.",
+   "description_en": "It was at CrossFit Brentwood Hills. The first two attempts ended when his wrist and palm tore and he fell short. On the third try he broke the Guinness 24-hour pull-up record.",
+   "place_name": "브렌트우드",
+   "place_name_en": "Brentwood",
+   "lat": 35.998194,
+   "lng": -86.792619
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "publish",
+   "title": "회고록 《캔트 허트 미》를 내다",
+   "title_en": "Publishes the memoir Can’t Hurt Me",
+   "description": "자신의 어린 시절과 군 복무, 울트라마라톤 경험을 담았다. 그는 2016년 해군에서 전역했다. 2022년에는 후속작 《네버 피니시드》도 출간했다.",
+   "description_en": "He wrote the childhood, the service, and the ultras. He had left the Navy in 2016. A sequel, Never Finished, followed in 2022.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "공군에 다시 입대하다",
+   "title_en": "Reenlists in the Air Force",
+   "description": "특수전 훈련단에 배속됐다. 입대 나이 제한은 면제받았다. 공군은 훈련 진행 상황을 공개하지 않았다. 계급은 마스터 서전트였다.",
+   "description_en": "He was assigned to the Special Warfare Training Wing. The enlistment age limit was waived. The Air Force would not discuss a trainee’s progress. His rank was master sergeant.",
+   "place_name": "샌안토니오",
+   "place_name_en": "San Antonio",
+   "lat": 29.425,
+   "lng": -98.49388888888889
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문에 담긴 세부 내용은 유지하면서 직역투, 불분명한 대상, 어색한 군사 용어와 생애 연결을 바로잡았다. 외부 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「밤 교대로 스케이트를 정리했다」가 야간 근무와 실제 행동을 자연스럽게 전달하지 못하고, 「아이들」은 영문의 두 아들을 구체적으로 옮기지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「외가에 왔다」는 서술 시점이 불분명하고, 「말은 더듬어졌다」는 사람이 말을 더듬기 시작했다는 관계가 어색하게 표현됐다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「겸상적혈구 형질이 나와 잠시 빠졌다」는 검사 결과와 훈련 제외의 관계가 어색하며, 영문에 없는 「잠시」가 추가돼 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「해충방제」는 띄어쓰기가 필요하고 「살을 빼다」보다 체중 감량을 뜻하는 표현이 문맥에 알맞다. 본문은 제대 후 해충 방제 일을 했다는 연결이 빠져 제목과 생애 흐름이 끊겼다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「특수전 235기」만으로는 수료한 과정이 드러나지 않는다. 「두 번 밀렸다」「실 5팀」「이라크에 나갔다」도 각각 후속 기수 이동, 네이비실 부대 배속, 파병이라는 뜻을 정확히 전달하지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사병 명예졸」과 「동료 평가가 만점이었다」가 한국어 문장으로 어색하고, 마지막 문장도 기사의 기록과 인물을 연결하는 방식이 직역투였다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「헬기가 떨어졌다」와 「죽은 특수전부대원」이 사건의 성격을 부자연스럽게 전달하며, 「이 도시」는 앞 문장만으로 어느 도시인지 알 수 없었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "앞선 두 도전과 실패의 관계가 매끄럽지 않고, 「기록을 못 넘겼다」가 기록 경신 실패를 구어적으로 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어린 시절과 군 복무, 울트라 경주를 적었다」는 목적어와 행동의 관계가 어색하고, 「해군에서는 2016년에 나왔다」는 전역을 장소에서 나온 일처럼 옮긴 직역이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 master sergeant를 「선임원사」로 옮기면 senior master sergeant와 혼동될 수 있어, 영문 계급명을 그대로 식별할 수 있게 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10
+  ]
+ }
+}

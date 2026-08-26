@@ -1,0 +1,239 @@
+{
+ "slug": "chenle",
+ "events": [
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "birth",
+   "title": "종천러로 태어나다",
+   "title_en": "Born Zhong Chenle",
+   "description": "상하이 황푸에서 자랐다. 부모, 열세 살 많은 형과 함께 살았다. 형은 뒤에 결혼했다.",
+   "description_en": "He grew up in Huangpu, Shanghai. He lived with his parents and a brother thirteen years older. The brother later married.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2006,
+   "year_end": 2008,
+   "kind": "education",
+   "title": "소영성 예술단에서 노래를 배우다",
+   "title_en": "Studies voice with the Little Star Art Troupe",
+   "description": "상하이 텔레비전 소영성 예술학교 가무반에 들어갔다. 2년 뒤 예술단에 합격했고, 황징에게 성악을 배웠다.",
+   "description_en": "He entered the song-and-dance class at the Shanghai Television Little Star art school. Two years later he was admitted to the troupe. He studied voice with Huang Jing.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 음반 《투모로》를 내다",
+   "title_en": "Releases his first album, Tomorrow",
+   "description": "린텅 문화매체와 계약했다. 그해 여름 동방위성 《중국 달인쇼》에서 뮤지컬 《캣츠》의 〈메모리〉를 불렀다.",
+   "description_en": "He signed with Lin Teng Culture Media. That summer on Dragon TV’s China’s Got Talent he sang Memory from the musical Cats.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "빈 황금홀에서 〈메모리〉를 부르다",
+   "title_en": "Sings Memory at Vienna’s Golden Hall",
+   "description": "오스트리아와 중국의 수교 40주년을 기념해 오중문화교류협회가 연 중국 신년음악회였다. 당시 천러는 아홉 살이었다. 그해 여름 두 번째 음반 《나의 날개》를 냈다.",
+   "description_en": "It was forty years since Austria and China had established diplomatic ties. The Austrian-Chinese Cultural Exchange Association held a Chinese New Year concert. He was nine. That summer he released his second album, My Wings.",
+   "place_name": "빈",
+   "place_name_en": "Vienna",
+   "lat": 48.208333333333336,
+   "lng": 16.3725
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "상하이 음악당에서 첫 단독 공연을 열다",
+   "title_en": "Holds his first solo concert at the Shanghai Concert Hall",
+   "description": "공연은 〈메모리〉로 시작했고, 천러는 스무 곡이 넘는 노래를 불렀다. 성악 스승 황징도 함께 무대에 올랐다. 그해 가을 공연 실황이 음반으로 나왔다.",
+   "description_en": "It opened with Memory. He sang more than twenty songs. His voice teacher Huang Jing stood on stage with him. That autumn the live recording came out as an album.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "other",
+   "title": "에스엠과 계약하고 서울로 오다",
+   "title_en": "Signs with SM and moves to Seoul",
+   "description": "에스엠은 그가 《중국 신성대》에 출연한 모습을 보고 부모에게 연락했다. 천러는 3월에 비공개 연습생으로 입사했고, 공개 루키 명단에는 이름이 오르지 않았다.",
+   "description_en": "The company saw him on Let’s Sing Kids and called his parents. In March he entered as an unlisted trainee. His name was not on the public rookie list.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "엔시티 드림으로 데뷔하다",
+   "title_en": "Debuts with NCT Dream",
+   "description": "엠넷 《엠 카운트다운》에서 〈츄잉검〉을 처음 불렀다. 마크, 런쥔, 제노, 해찬, 재민, 지성과 함께 팀을 이뤘다. 멤버들의 평균 나이는 열다섯이었고, 천러는 입사 5개월 만에 데뷔했다. 메인 보컬을 맡았다.",
+   "description_en": "He first sang Chewing Gum on Mnet’s M Countdown. The team was Mark, Renjun, Jeno, Haechan, Jaemin, and Jisung. Their average age was fifteen. It had been five months since he joined the company. His position was main vocal.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": 2020,
+   "kind": "education",
+   "title": "베이징 현대음악학교 고등부를 마치다",
+   "title_en": "Finishes the Beijing Contemporary Music School high-school program",
+   "description": "런쥔과 함께 2017년에 입학했다. 졸업을 앞두고 두 사람은 《새로운 시작》을 함께 만들었고, 학교가 이를 공개했다.",
+   "description_en": "He and Renjun entered as the class of 2017. Before graduation the two wrote A New Beginning, and the school released it.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "엔시티 드림의 졸업제가 폐지되다",
+   "title_en": "The graduation system is dropped",
+   "description": "멤버가 만 스물이 되면 팀을 떠나는 규칙이었고, 마크는 이미 팀을 떠난 상태였다. 에스엠은 《리로드》 활동을 끝으로 이 규칙을 폐지한다고 밝혔다. 마크가 돌아오면서 일곱 명 모두 팀에 남게 됐다.",
+   "description_en": "The rule was that members left the team at age twenty. Mark had already gone. SM said the rule would end after the Reload promotions. Mark came back. All seven stayed.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "〈마린 터틀〉을 작곡하다",
+   "title_en": "Composes Marine Turtle",
+   "description": "엔시티 랩의 아홉 번째 곡이었다. 쿤, 샤오쥔, 런쥔과 함께 불렀다. 밍지션과 공동 작곡했고, 마크는 한국어 가사 작업에 참여했다.",
+   "description_en": "It was the ninth NCT Lab track. He sang it with Kun, Xiaojun, and Renjun. He wrote the music with minGtion. Mark worked on the Korean lyrics.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "publish",
+   "title": "중국어 특별 음반 《찬》을 내다",
+   "title_en": "Releases the Chinese special album Lucid",
+   "description": "중국에서 자기 이름으로 음반을 낸 지 10년이 넘은 뒤였다. 텐센트 뮤직과 에스엠이 공동 제작했다. 선공개곡 〈누교〉는 우바이의 노래를 리메이크한 곡이었다. 〈우주의 농담〉에는 과거 후난위성 자선 방송에 천러와 함께 출연했던 저우비창이 참여했다.",
+   "description_en": "It had been more than ten years since he last released an album under his own name in China. Tencent Music and SM made it together. The pre-release Tear Bridge was a remake of a Wu Bai song. Cosmic Joke featured Zhou Bichang, who had appeared with him years earlier on a Hunan TV charity show.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문에 담긴 사실과 세부는 그대로 두고, 주어와 행동의 관계가 흐릿하거나 문장이 지나치게 끊긴 대목을 자연스럽게 이었다. 졸업제 폐지와 마크의 복귀처럼 앞뒤 사건의 연결이 필요한 부분도 명확히 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "가족과 함께 살았다는 내용을 「한집에 있었다」로 표현해 사람의 생활 관계가 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 년 뒤」를 일반적인 연도 표기로 고치고, 입학·입단·성악 수업이 순서대로 이어지도록 문장을 정리했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "수교 40주년, 음악회 개최, 당시 나이가 각각 단문으로 끊겨 공연의 배경과 인물의 관계가 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스무 곡이 넘었다」「황징이 같이 섰다」는 무엇이 스무 곡을 넘었는지, 어디에 함께 섰는지가 문장 안에서 선명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사」와 「들어갔다」의 대상이 제목에 의존했고, 연습생 입사와 공개 루키 명단 제외의 관계가 느슨했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "멤버들을 열거한 뒤 「한 팀이었다」라고 맺어 천러와 다른 멤버들의 관계가 어색했고, 입사 5개월 뒤의 일이 데뷔였다는 연결도 약했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 2017학번이었다」보다 두 사람이 함께 입학했다는 행동을 직접 밝히는 편이 자연스럽고, 작품 제작과 학교 공개의 목적어도 더 분명히 연결할 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「졸업제가 없어지다」는 제도의 폐지를 지나치게 구어적으로 표현했다. 또한 마크가 복귀한 뒤 「일곱 명이 그대로 남았다」고 해 인원 변화의 흐름이 맞지 않게 읽혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "노래, 공동 작곡, 한국어 가사 작업을 각각 더 정확한 음악 활동 표현으로 정리할 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「중문 특집」과 「노래를 다시 부른 것이었다」가 직역투에 가까웠고, 저우비창과 천러가 과거 같은 방송에 출연했다는 관계도 문장 후반까지 읽어야 드러났다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

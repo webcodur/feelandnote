@@ -1,0 +1,270 @@
+{
+ "slug": "chelsea-manning",
+ "events": [
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "birth",
+   "title": "오클라호마시티에서 태어나다",
+   "title_en": "Born in Oklahoma City",
+   "description": "브래들리 에드워드 매닝으로 태어났다. 어머니 수전 폭스는 웨일스 사람이었다. 아버지 브라이언은 열아홉 살에 해군에 입대해 정보분석병으로 일했으며, 웨일스 기지에 주둔할 때 수전을 만났다. 부부는 처음 캘리포니아에 살다가 크레센트 외곽의 5에이커 땅에 자리 잡아 돼지를 키웠다. 아버지는 허츠의 전산 관리자로 일하며 자주 출장을 다녔고, 밤중에는 언니가 젖병을 데웠다.",
+   "description_en": "He was born Bradley Edward Manning. His mother, Susan Fox, was Welsh. His father, Brian, enlisted in the Navy at nineteen, worked as an intelligence analyst, and met her while stationed in Wales. They settled first in California, then on five acres outside Crescent, where they kept pigs. Brian traveled as an IT manager for Hertz. The older sister warmed the night bottles.",
+   "place_name": "오클라호마시티",
+   "place_name_en": "Oklahoma City",
+   "lat": 35.48222222222222,
+   "lng": -97.53527777777778
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "travel",
+   "title": "어머니와 웨일스로 가다",
+   "title_en": "Moves to Wales with his mother",
+   "description": "열한 살 때 언니가 어머니를 차로 병원에 데려갔다. 부모가 헤어진 뒤 열네 살에 어머니의 고향인 웨일스로 갔다. 태스커 밀워드 학교에 다녔으며, 전교에서 유일한 미국인 학생이었다. 학생들은 억양을 놀렸고, 한 번은 야영 중 친구들이 혼자 남겨 두고 떠나기도 했다. 이미 열 살 때 홈페이지를 만들었던 그는 웨일스에서도 컴퓨터를 계속 붙들고 지냈다.",
+   "description_en": "At eleven his sister drove their mother to the hospital. After the parents split he left at fourteen for his mother’s hometown. He attended Tasker Milward, the only American in the school. Students mocked his accent, and once left him behind on a camping trip. He had built a website at ten and stayed at the computer here too.",
+   "place_name": "하버포드웨스트",
+   "place_name_en": "Haverfordwest",
+   "lat": 51.801111111111,
+   "lng": -4.9694444444444
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "travel",
+   "title": "숙모 집에 머물다",
+   "title_en": "Moves in with his aunt",
+   "description": "학교를 마친 뒤, 몸이 좋지 않은 어머니가 자신까지 돌보기는 어렵다고 생각해 오클라호마시티의 아버지 집으로 돌아갔다. 소프트웨어 회사 조토에서 개발자로 일했지만 네 달 만에 해고됐다. 새어머니와의 갈등이 커져 집을 나왔고, 털사와 시카고를 떠돌다가 돈이 떨어졌다. 어머니는 포토맥에서 변호사로 일하던 숙모 데브라 밴앨스타인에게 그를 맡아 달라고 부탁했다. 숙모 집에서 열다섯 달을 지냈고, 몽고메리 칼리지에서 한 학기 동안 역사와 영어 수업을 들었으나 시험에 떨어진 뒤 학교를 그만뒀다.",
+   "description_en": "After finishing school he went back to his father’s house in Oklahoma City, fearing his mother was too ill to cope. He lasted four months as a developer at Zoto before he was fired. Conflict with his stepmother pushed him out. He drifted through Tulsa and Chicago until the money ran out. His mother asked Brian’s sister, Debra Van Alstyne, a lawyer in Potomac, to take him in. He stayed fifteen months, took a semester of history and English at Montgomery College, and left after failing an exam.",
+   "place_name": "포토맥",
+   "place_name_en": "Potomac",
+   "lat": 39.018055555555556,
+   "lng": -77.20861111111111
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "정보분석병이 되다",
+   "title_en": "Becomes an intelligence analyst",
+   "description": "아버지는 몇 주 동안 입대를 권했다. 그는 제대군인 학자금 지원으로 대학에 다니고 싶었다. 미주리주의 포트레너드우드에서 기초 군사훈련을 시작했으나 제대 대기 부대로 보내졌다. 이듬해 훈련을 다시 시작해 수료한 뒤, 시에라비스타의 포트와추카에서 정보분석병 과정을 마쳤다. 이후 포트드럼의 제10산악사단 제2여단전투단에 배치됐다.",
+   "description_en": "His father spent weeks urging him to enlist. He wanted college through the G.I. Bill. He began basic training at Fort Leonard Wood in Missouri, was sent to the discharge unit, then restarted and passed the next year. He finished intelligence-analyst training at Fort Huachuca in Sierra Vista and joined the 2nd Brigade Combat Team, 10th Mountain Division, at Fort Drum.",
+   "place_name": "시에라비스타",
+   "place_name_en": "Sierra Vista",
+   "lat": 31.545555555556,
+   "lng": -110.27555555556
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "바그다드 동쪽에서 근무하다",
+   "title_en": "Serves east of Baghdad",
+   "description": "전진작전기지 해머에 도착했다. 두 상관은 그를 이라크에 데려가지 않는 방안을 논의하기도 했지만, 육군에는 분석병이 부족했다. 그는 한 번에 열네댓 시간씩 야간 교대 근무를 했고, 그해 11월 상등병으로 진급했다.",
+   "description_en": "He arrived at Forward Operating Base Hammer. Two superiors had talked about leaving him behind. The Army was short of analysts. Night shifts ran fourteen or fifteen hours. In November he was promoted to specialist.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "other",
+   "title": "위키리크스 공개 뒤 체포되다",
+   "title_en": "Arrested after WikiLeaks publications",
+   "description": "위키리크스는 4월에 2007년 바그다드 공습 영상을 공개했다. 그 공습으로 로이터 카메라맨 두 명이 숨졌다. 5월에는 전직 해커 에이드리언 라모가 매닝과 나눈 대화 내용을 육군에 전달했고, 매닝은 이라크에서 체포됐다. 7월에는 혐의가 공식적으로 제기됐다. 체포된 뒤에도 아프가니스탄·이라크 전쟁 기록과 수십만 건의 외교 전문이 뉴욕타임스, 가디언, 슈피겔과 함께 공개됐다.",
+   "description_en": "In April WikiLeaks released video of a 2007 Baghdad airstrike. Two Reuters cameramen died in that attack. In May a former hacker, Adrian Lamo, took their conversations to the Army, and Manning was arrested in Iraq. Charges were preferred in July. After the arrest, the Afghan and Iraq war logs and hundreds of thousands of diplomatic cables still came out with the New York Times, the Guardian, and Der Spiegel.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 2010,
+   "year_end": 2011,
+   "kind": "other",
+   "title": "콴티코 영창에 갇히다",
+   "title_en": "Held at the Quantico brig",
+   "description": "쿠웨이트를 거쳐 7월에 콴티코 해병대 영창으로 옮겨졌다. 부상 방지 감시 대상으로 지정돼 5분마다 확인을 받았고, 창문 없는 독방에서 하루 23시간을 보냈다. 유엔 고문 특별보고관 후안 멘데스는 이 처우가 잔혹하고 비인도적이며 굴욕적이라고 지적했다. 국무부 대변인 필립 크롤리는 이를 터무니없고 어리석은 처사라고 말했다가 사임했다. 이듬해 4월에는 포트리븐워스의 재판 전 구금시설로 옮겨졌다.",
+   "description_en": "After Kuwait he was moved in July to the Marine Corps brig. Under prevention-of-injury status guards checked every five minutes, and he spent twenty-three hours a day in a windowless cell. UN special rapporteur Juan Méndez called the treatment cruel, inhuman, and degrading. State Department spokesman P. J. Crowley called it ridiculous and stupid, then resigned. In April 2011 he was moved to pretrial detention at Fort Leavenworth.",
+   "place_name": "콴티코",
+   "place_name_en": "Quantico",
+   "lat": 38.521871,
+   "lng": -77.289757
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "other",
+   "title": "군사재판에서 유죄 판결을 받다",
+   "title_en": "Convicted at court-martial",
+   "description": "판사인 데니스 린드 대령은 이적 혐의에 대해서는 무죄를 선고하고, 간첩법 위반을 포함한 20개 혐의에 유죄 판결을 내렸다. 매닝은 2월에 이미 10개 혐의에 대해 유죄를 인정했지만, 검찰은 나머지 혐의에 대해서도 재판을 계속했다. 8월 21일에는 징역 35년과 이등병 강등, 불명예 제대를 선고받았다. 다음 날 발표한 성명에서 “나는 첼시 매닝이고 여성이다”라고 밝히고 호르몬 치료를 받게 해 달라고 요청했다. 육군은 군 교도소에서 그 치료를 제공하지 않는다고 밝혔다.",
+   "description_en": "Judge Col. Denise Lind acquitted her of aiding the enemy and convicted her on twenty specifications, including Espionage Act counts. She had pleaded guilty to ten in February; prosecutors still pressed the rest. On August 21 she received 35 years, reduction to private, and a dishonorable discharge. The next day a statement said, I am Chelsea Manning, I am a female, and asked for hormone therapy. The Army said it did not provide that treatment in its prisons.",
+   "place_name": "포트미드",
+   "place_name_en": "Fort Meade",
+   "lat": 39.105,
+   "lng": -76.7414
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "감형을 받고 석방되다",
+   "title_en": "Sentence commuted, then released",
+   "description": "오바마 대통령은 남은 형기의 대부분을 감형했다. 매닝이 책임을 인정했고 이미 오랫동안 복역했으며, 35년형은 다른 정보 유출 사건에 견줘 지나치게 무겁다고 밝혔다. 다만 사면하지는 않았다. 5월 17일 새벽 2시쯤 포트리븐워스 군교도소에서 석방됐다.",
+   "description_en": "President Obama commuted nearly all of the remaining sentence. He said she had taken responsibility, had already served a long stretch, and that 35 years was disproportionate next to other leak cases. He did not pardon her. She left the disciplinary barracks at Fort Leavenworth around 2 a.m. on May 17.",
+   "place_name": "리븐워스",
+   "place_name_en": "Leavenworth",
+   "lat": 39.3111,
+   "lng": -94.9225
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "office",
+   "title": "메릴랜드주 연방 상원 선거에 출마하다",
+   "title_en": "Runs for the U.S. Senate in Maryland",
+   "description": "민주당 경선에서 현역 연방 상원의원 벤 카딘에게 도전했다. 연방 선거 신고서에는 노스베세즈다의 아파트가 주소로 기재됐다. 석방된 뒤에는 숙모가 살던 메릴랜드주에 유권자로 등록했다. 6월 26일 경선에서 5.8퍼센트를 얻었고, 카딘은 80퍼센트를 득표해 민주당 후보로 다시 선출됐다.",
+   "description_en": "She challenged incumbent Democrat Ben Cardin. Federal filings listed a North Bethesda apartment. After release she had registered to vote in the state where her aunt lived. On June 26 she took 5.8 percent in the primary; Cardin won renomination with 80 percent.",
+   "place_name": "노스베세즈다",
+   "place_name_en": "North Bethesda",
+   "lat": 39.0367,
+   "lng": -77.1203
+  },
+  {
+   "year": 2019,
+   "year_end": 2020,
+   "kind": "other",
+   "title": "대배심 증언 거부로 수감되다",
+   "title_en": "Jailed for refusing to testify",
+   "description": "위키리크스 창립자 줄리언 어산지를 수사하던 대배심은 출석해 증언하라고 명령했다. 이를 거부해 법정모독으로 알렉산드리아 구치소 여성 수용동에 수감됐다. 대배심 임기가 끝나 석방됐지만, 새 소환에도 응하지 않아 다시 수감됐다. 날마다 부과된 벌금은 모두 25만 6천 달러에 이르렀다. 이듬해 3월 새 대배심의 활동이 끝나면서 석방됐다.",
+   "description_en": "A grand jury investigating WikiLeaks founder Julian Assange ordered her to appear. She was jailed for contempt in the women’s wing of the Alexandria detention center. She was released when that jury expired, then refused a new subpoena and went back. Daily fines reached 256,000 dollars. She left in March 2020 when the new jury ended.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 38.804722222222,
+   "lng": -77.047222222222
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "publish",
+   "title": "회고록을 내다",
+   "title_en": "Publishes a memoir",
+   "description": "패러, 스트라우스 앤드 지루가 《리드미닷텍스트》를 출간했다. 어린 시절과 이라크 근무, 위키리크스에 기밀 기록을 넘긴 뒤 수감된 세월, 여성으로 살아온 세월을 담았다.",
+   "description_en": "Farrar, Straus and Giroux published README.txt. It covers her childhood, the Iraq posting, the years in prison after she gave classified records to WikiLeaks, and the years she lived as a woman.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부 범위를 유지하면서 직역투, 빠진 문장 성분, 불명확한 지시어와 사건 사이의 끊긴 연결을 바로잡았다. 사실 판단이 필요한 충돌은 없어 fact_check 대상은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「크레센트 밖 오 에이커」와 「허츠의 전산 관리」가 영어 어순을 그대로 옮긴 표현이라 장소·면적·직업의 관계가 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "차로 병원에 데려간 일을 「실어 날랐다」라고 썼고, 억양을 놀린 주체가 빠졌으며, 「여기서도」가 어느 장소를 가리키는지 불분명했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어머니 몸이 버겁다 싶어」는 누가 누구를 돌보기 어렵다고 판단했는지 알기 어렵고, 「시험을 떨어졌다」는 조사가 잘못된 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기초훈련을 시작하다 제대 대기조로 갔고, 이듬해 다시 받아 통과했다」에서 목적어와 행동 관계가 무너져 어떤 훈련을 다시 시작하고 수료했는지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "상관들이 논의한 조치와 분석병 부족으로 실제 파병된 사정이 단절된 짧은 문장으로 나뉘어 사건의 흐름이 끊겼다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대화 내용을 육군에 알렸다」는 누구와 나눈 대화인지 빠져 있었고, 「혐의가 올라갔다」는 charges were preferred를 뜻이 통하지 않게 옮긴 표현이었다. 외교 전문의 규모도 영문보다 축약돼 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부상방지 처분」과 「미결 구금시설」이 행정 용어를 기계적으로 붙인 표현이었고, 유엔 특별보고관이 지적한 degrading의 의미가 빠져 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「유죄를 받다」, 「이적 혐의는 무죄로 두고」, 「스무 개 공소사실을 유죄로 판단했다」가 한국어 법률 서술로 부자연스러웠다. 형량·강등·제대도 서술어 없이 나열돼 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「감형되어 나오다」와 「남은 형을 거의 다 감형했다」가 부자연스러웠고, 석방 시각과 35년형을 비교한 대상이 영문보다 불분명했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「메릴랜드 상원」은 메릴랜드주 의회 상원으로 오해될 수 있어 연방 상원 선거임을 밝혀야 했다. 「숙모가 있는 주」도 장소가 불명확하고 「재지명」은 한국어 선거 문맥에서 어색했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에 수감 결과가 드러나지 않았고, 「새 소환장에 다시 거부하고 돌아갔다」는 목적어와 이동 대상이 무너져 새 소환을 거부한 뒤 다시 수감됐다는 뜻이 바로 전달되지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "출판사 이름의 단어 경계가 사라져 있었고, 「기밀을 넘긴 뒤의 수감」과 「여성으로 산 날」이 원문의 대상과 시간 범위를 어색하게 압축했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

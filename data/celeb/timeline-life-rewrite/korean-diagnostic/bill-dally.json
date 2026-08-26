@@ -1,0 +1,225 @@
+{
+ "slug": "bill-dally",
+ "events": [
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "birth",
+   "title": "전자와 컴퓨터를 만지며 자라다",
+   "title_en": "Grows up among electronics and computers",
+   "description": "메릴랜드에서 자랐고, 어릴 때부터 전자기기와 컴퓨터를 만졌다. 학비를 감당할 수 있는 우수한 기술학교라고 판단해 집에서 네 시간 반 거리에 있는 버지니아텍을 선택했다.",
+   "description_en": "He grew up in Maryland. He handled electronics and computers from a young age. He chose Virginia Tech because it was a strong technical school he could afford, four and a half hours from home.",
+   "place_name": "실버스프링",
+   "place_name_en": "Silver Spring",
+   "lat": 39.002441,
+   "lng": -77.020791
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "education",
+   "title": "버지니아텍에서 전기공학을 배우다",
+   "title_en": "Studies electrical engineering at Virginia Tech",
+   "description": "전자기기와 컴퓨터가 어떻게 작동하는지 배우려고 전기공학을 전공했다. 미적분 수업에서 섀런 킨셀을 만나 훗날 결혼했다. 학위를 마친 뒤 벨 연구소에 들어갔다.",
+   "description_en": "He picked the major to learn how electronics and computers work. He met Sharon Kinsel in calculus class and later married her. After the degree he joined Bell Laboratories.",
+   "place_name": "블랙스버그",
+   "place_name_en": "Blacksburg",
+   "lat": 37.23,
+   "lng": -80.4178
+  },
+  {
+   "year": 1980,
+   "year_end": 1982,
+   "kind": "work",
+   "title": "벨 연구소에서 칩을 검증하다",
+   "title_en": "Tests chips at Bell Labs",
+   "description": "기술 스태프로 일하며 설계 검증과 실제 칩 시험을 맡았다. 벨맥32 마이크로프로세서 설계에 참여하고, 시제품용 32비트 비트슬라이스 에뮬레이터와 MARS 가속기를 만들었으며 제도 프로그램도 작성했다. 이 기간에 스탠퍼드에서 전기공학 석사학위도 받았다.",
+   "description_en": "As a member of technical staff he handled design verification and physical testing. He contributed to the Bellmac 32 microprocessor. He built a 32-bit bit-slice emulator for the prototype, designed the MARS accelerator, and wrote drafting programs. During those years he earned a master's degree in electrical engineering from Stanford.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1983,
+   "year_end": 1986,
+   "kind": "education",
+   "title": "칼텍에서 라우팅 칩을 만들다",
+   "title_en": "Builds a routing chip at Caltech",
+   "description": "찰스 자이츠의 지도를 받아 컴퓨터과학 박사학위를 받았다. 논문은 동시성 자료구조를 위한 초고밀도 집적회로 구조를 다뤘고, 리처드 파인만도 심사위원으로 참여했다. 토러스 라우팅 칩에 웜홀 라우팅과 가상 채널 흐름 제어를 구현했으며, 그해 칼텍 최우수 박사논문에 주는 클라우저상을 받았다. MOSSIM 시뮬레이션 엔진도 이 시기에 설계했다.",
+   "description_en": "He earned a Ph.D. in computer science under Charles Seitz. The dissertation was A VLSI Architecture for Concurrent Data Structures. Richard Feynman sat on the committee. He put wormhole routing and virtual-channel flow control into the Torus Routing Chip, and that year won Caltech's Clauser Prize for the outstanding dissertation. He also designed the MOSSIM simulation engine in this period.",
+   "place_name": "패서디나",
+   "place_name_en": "Pasadena",
+   "lat": 34.1475,
+   "lng": -118.1438888888889
+  },
+  {
+   "year": 1986,
+   "year_end": 1997,
+   "kind": "work",
+   "title": "MIT에서 J-머신을 만들다",
+   "title_en": "Builds the J-Machine at MIT",
+   "description": "조교수로 부임해 정교수까지 올랐다. 인텔과 함께 메시지 구동 프로세서와 메모리를 결합한 노드를 만들었다. J는 값싼 칩을 뜻하는 ‘젤리빈’에서 따온 이름으로, 많은 칩을 3차원 그물망으로 연결하려는 구상이었다. 노드들은 웜홀 라우팅 방식의 통신망으로 연결됐고, 1,024개 노드로 이루어진 시스템이 MIT와 칼텍, 아르곤 국립연구소에 설치됐다. 같은 연구진은 이후 M-머신도 만들었다.",
+   "description_en": "He rose from assistant professor to full professor. With Intel he built nodes that joined a message-driven processor to memory. The J stood for jellybean: cheap chips scattered through a three-dimensional mesh. A wormhole-routed network tied the nodes together, and 1,024-node machines went to MIT, Caltech, and Argonne National Laboratory. The same group later built the M-Machine.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1997,
+   "year_end": 2004,
+   "kind": "work",
+   "title": "스탠퍼드에서 스트림 프로세서를 짜다",
+   "title_en": "Designs stream processors at Stanford",
+   "description": "전기공학과 컴퓨터과학 교수로 스탠퍼드에 옮겼다. 연구진은 그래픽과 신호 처리 작업을 데이터 스트림 방식으로 수행하는 이매진 프로세서를 설계했다. 텍사스 인스트루먼트가 제작한 시제품 칩은 2002년 4월 캠퍼스에 도착했다. 스탠퍼드로 옮긴 뒤에는 고속 직렬 입출력 기술을 칩에 구현하기 위해 벨리오 커뮤니케이션을 공동 창업했고, LSI 로직이 2003년에 회사를 인수했다.",
+   "description_en": "He joined the electrical engineering and computer science faculty. His group designed the Imagine processor, which ran graphics and signal processing as streams. Texas Instruments fabricated the prototype chip, which reached campus in April 2002. After the move he co-founded Velio Communications to put high-speed serial I/O on chips, and LSI Logic bought the company in 2003.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2005,
+   "year_end": 2009,
+   "kind": "office",
+   "title": "컴퓨터과학과장을 맡다",
+   "title_en": "Chairs the computer science department",
+   "description": "윌러드 앤 이네즈 커 벨 석좌교수로 임명된 이듬해 컴퓨터과학과장을 맡았다. 그보다 1년 전에는 스트림 프로세서스를 공동 창업하고 이사회 의장을 맡았다. 회사는 임베디드 분야에 쓰이는 스트림 프로세서를 판매하려 했으나 2009년에 문을 닫았다.",
+   "description_en": "It was the year after he was named the Willard R. and Inez Kerr Bell Professor. A year earlier he had co-founded Stream Processors and taken that company chairmanship. The company tried to sell stream processors for embedded work, then folded in 2009.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "엔비디아 수석과학자가 되다",
+   "title_en": "Becomes NVIDIA chief scientist",
+   "description": "엔비디아는 1월에 그의 영입을 발표했다. 젠슨 황은 스탠퍼드에서 진행한 스트림 프로세서 연구가 이미 엔비디아의 기술에 활용되고 있다고 말했다. 데이비드 커크는 수석과학자직에서 물러나 엔비디아 펠로가 됐다. 빌 댈리는 엔비디아로 자리를 옮겨 상근하면서도 스탠퍼드 대학원생 약 열두 명을 계속 지도했다. 같은 해 미국 공학한림원 회원으로 선출됐고, 이듬해에는 상호연결망과 병렬 컴퓨터 구조에 기여한 공로로 ACM과 IEEE의 에커트-모클리상을 받았다.",
+   "description_en": "The company announced the hire in January. Jensen Huang said the Stanford stream-processor work was already inside NVIDIA's own work. David Kirk left the chief-scientist post and became an NVIDIA Fellow. He moved full-time and still advised about a dozen Stanford graduate students. The same year he was elected to the National Academy of Engineering, and the next year ACM and IEEE gave him the Eckert-Mauchly Award for interconnection networks and parallel-computer architecture.",
+   "place_name": "산타클라라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "office",
+   "title": "대통령 과학기술자문회의에 들어가다",
+   "title_en": "Joins the presidential science council",
+   "description": "바이든 대통령이 30명으로 구성된 자문단을 발표했을 때 그의 이름도 명단에 올랐다. 백악관은 그를 병렬 컴퓨터와 인공지능용 하드웨어를 개발한 컴퓨터과학자로 소개했다. 엔비디아 수석과학자 자격으로 자문단에 합류했으며, 스탠퍼드에서는 겸임교수직을 유지했다.",
+   "description_en": "His name was on the list when President Biden announced a 30-member council. The White House introduced him as a computer scientist who built hardware for parallel computers and artificial intelligence. He joined as NVIDIA's chief scientist and remained an adjunct professor at Stanford.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "other",
+   "title": "기계학습 하드웨어로 공학상을 받다",
+   "title_en": "Receives engineering prizes for machine-learning hardware",
+   "description": "현대 기계학습에 기여한 일곱 명이 엘리자베스 여왕 공학상을 공동 수상했다. 빌 댈리는 요슈아 벤지오, 제프리 힌튼, 존 홉필드, 얀 르쿤, 젠슨 황, 페이페이 리와 함께 상을 받았다. 재단은 빌 댈리와 젠슨 황이 GPU 하드웨어 발전에 기여했다고 밝혔다. 같은 해 프랭클린 연구소는 비용 부담이 적은 고성능 병렬 컴퓨터를 설계한 공로로 그에게 벤저민 프랭클린 메달을 수여했다.",
+   "description_en": "The Queen Elizabeth Prize for Engineering went to seven people for modern machine learning. He shared it with Yoshua Bengio, Geoffrey Hinton, John Hopfield, Yann LeCun, Jensen Huang, and Fei-Fei Li. The foundation credited him and Huang with the GPU hardware. The same year the Franklin Institute gave him the Benjamin Franklin Medal for designing affordable high-performance parallel computers.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 사실과 세부는 그대로 보존하면서, 직역투와 모호한 지시어, 부자연스러운 기술 표현을 고쳤다. 특히 연구·창업·수상 경력이 위에서 아래로 자연스럽게 이어지도록 문장 주체와 시점을 분명히 했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집과 네 시간 반이면 닿는」과 「감당할 수 있는 기술학교 가운데 낫다」가 영문 어순을 따른 표현이라 학교를 선택한 이유와 이동 거리의 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전자와 컴퓨터가 어떻게 도는지」가 기계 장치의 작동을 설명하는 문장으로는 지나치게 구어적이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「실물 시험」과 「제도를 돕는 프로그램」이 각각 physical testing과 drafting programs를 어색하게 직역해 담당 업무가 선명하게 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「심사 위원에 리처드 파인만이 있었다」의 조사와 어순이 부자연스러웠고, 고유 명칭인 MOSSIM이 국문에서 불분명하게 표기돼 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「프로세서를 메모리에 붙인 노드를 짰다」, 「J는 젤리빈으로」, 「1024개 노드 장치」가 기술 구조와 명칭의 뜻을 직역투로 전달해 이해하기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「교수로 옮긴 뒤」는 어디로 옮겼는지 앞 문장에 기대야 했고, 「그래픽과 신호 처리를 스트림으로 돌리다」도 처리 방식을 정확히 읽기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 한 해 앞서」와 「회사가 접혔다」가 각각 부자연스러운 시간 표현과 지나치게 구어적인 폐업 표현이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「연구 수장」은 chief scientist라는 직책보다 의미가 넓었다. 본문의 「회사 일에 이미 들어가 있다」, 「자리를 비우고 펠로가 되었다」도 주체와 직책 이동의 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「하드웨어를 짠 컴퓨터과학자」가 공식 소개의 기술적 의미를 지나치게 구어적으로 옮겼고, 자문단 합류 당시의 두 직책을 더 분명하게 연결할 필요가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「함께였다」와 「GPU 쪽 하드웨어를 이끈 사람」이 수상자 관계와 공로를 어색하게 전달했으며, 같은 해 받은 두 상의 구분도 매끄럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

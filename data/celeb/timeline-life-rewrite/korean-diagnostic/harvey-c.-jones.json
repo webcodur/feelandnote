@@ -1,0 +1,218 @@
+{
+ "slug": "harvey-c.-jones",
+ "events": [
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "국적은 미국이다. 태어난 도시는 공개된 기록이 없다.",
+   "description_en": "He is a United States citizen. No published record names the city of birth.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "education",
+   "title": "조지타운에서 수학과 컴퓨터과학을 전공하다",
+   "title_en": "Studies mathematics and computer science at Georgetown",
+   "description": "고등학교 때 시분할 시스템에 연결된 전신타자기로 베이식을 독학했고, 그때부터 컴퓨터에 빠졌다. 반 친구들에게 화학 숙제를 팔아 본 일이 그의 첫 장사였다. 수학은 컴퓨터과학으로 들어가는 길로 여겼다.",
+   "description_en": "In high school he taught himself BASIC on a teletype tied to a timesharing system and locked onto computers from then on. Selling chemistry homework to classmates was his first bit of business. He treated mathematics as the path into computer science.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "work",
+   "title": "칼마에 응용 엔지니어로 들어가다",
+   "title_en": "Joins Calma as an application engineer",
+   "description": "아이비엠 초창기에 근무한 삼촌은 그에게 워싱턴의 항공사 예약 시스템에서 보조 엔지니어로 일해 보라고 권했다. 지하실에서 일한다는 생각은 그에게 악몽처럼 느껴졌다. 대신 마케팅 본부가 레스턴에 있는 컴퓨터 지원 설계 회사 칼마에 들어갔다. 당시에는 인쇄회로와 집적회로도 구분하지 못했지만, 화면에 나타나는 그래픽만으로 충분히 마음이 끌렸다. 인텔은 전자업계의 첫 고객이었고, 모토로라는 가장 큰 고객이었다. 그는 개발 업무를 거쳐 영업과 마케팅으로 옮겼다.",
+   "description_en": "An uncle who had been at IBM in its early years steered him toward a job as an assistant engineer on an airline reservation system in Washington. The thought of that basement still gave him nightmares. He joined a computer-aided design firm whose marketing headquarters sat in Reston instead. He did not yet know a printed circuit from an integrated circuit. The graphics on the screen were enough. Intel was the first electronics customer, and Motorola was the largest. He moved from development into sales and marketing.",
+   "place_name": "레스턴",
+   "place_name_en": "Reston",
+   "lat": 38.958888888888886,
+   "lng": -77.35861111111112
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "education",
+   "title": "슬론에서 경영을 공부하다",
+   "title_en": "Studies management at Sloan",
+   "description": "영업만으로 남은 경력을 이어갈 수는 없다고 느꼈다. 사표를 내자 칼마는 연락만 이어 간다면 다른 조건 없이 학비를 대 주겠다고 제안했다. 그는 경영학 이학석사 학위를 받고 졸업했다.",
+   "description_en": "He felt sales alone would not carry the rest of a career. When he resigned, Calma offered to pay the tuition if he stayed in touch with no strings attached. He came out with a master of science in management.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "work",
+   "title": "캘리포니아로 돌아와 전자사업 마케팅을 맡다",
+   "title_en": "Returns to California to run electronics marketing",
+   "description": "경쟁사 컴퓨터비전도 그에게 전자사업 마케팅 책임자 자리를 제안했다. 집적회로용 컴퓨터 지원 설계 시장은 사실상 칼마가 독점하고 있었고, 그는 독점 기업에서 그 사업을 맡는 편이 낫다고 판단했다. 제너럴일렉트릭은 설계 도면과 공장 로봇을 연결하려고 칼마를 인수했다. 이는 잭 웰치가 그린 미래 공장 구상이었지만, 그가 하고 싶던 일은 아니었다.",
+   "description_en": "Computervision offered him the same post. Integrated-circuit CAD was effectively a Calma monopoly, and he judged it better to run the monopoly than to fight it. General Electric then bought Calma to stitch factory robots to engineering drawings. That was Jack Welch’s picture, and it was not the work he wanted.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 1981,
+   "year_end": 1987,
+   "kind": "work",
+   "title": "데이지 시스템을 함께 세우다",
+   "title_en": "Co-founds Daisy Systems",
+   "description": "인텔을 나온 엔지니어들은 마스크 단계가 아니라 논리와 회로도 단계에서 칩을 설계하려 했다. 아리에 파인골드와 데이비드 스탐은 그에게 영업과 마케팅을 맡아 달라고 요청했다. 그는 창업 멤버로 합류했고, 뒤에는 사장과 최고경영자까지 맡았다. 첫 제품들은 회로도와 넷리스트를 작성하는 도구였다. 뒤이어 시뮬레이터와 배치·배선 도구, 하드웨어 가속기가 나왔다. 데이터제너럴 반도체 사업부와 썬, 실리콘그래픽스가 고객이 되었다.",
+   "description_en": "Engineers leaving Intel wanted to design chips at the logic and schematic layer, not the mask. Aryeh Finegold and David Stamm asked him to take sales and marketing. He joined the founding team and later became president and chief executive. The first products drew schematics and netlists. Simulators, place-and-route, and hardware accelerators followed. Data General’s semiconductor division, Sun, and Silicon Graphics came in as customers.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1987,
+   "year_end": 1998,
+   "kind": "office",
+   "title": "시놉시스 사장 겸 최고경영자에 취임하다",
+   "title_en": "Becomes president and CEO of Synopsys",
+   "description": "데이지를 떠난 뒤 샌드힐로드에서 차세대 설계 도구를 찾았다. 합성 관련 논문을 읽고 벨연구소의 커트 코이처를 찾아갔다. 코이처는 회사를 세울 생각이 없었지만, 제너럴일렉트릭을 떠나려던 아트 드휴스와 그의 팀을 소개했다. 투자자들은 사업 경영을 맡을 최고경영자를 영입하라고 요구했다. 그는 데이브 그레고리도 만났다. 처음 아홉 달 동안은 영업을 직접 맡았다. 영업에서는 새 회로를 설계해 준다고 하지 않고, 고객이 이미 가진 설계를 바탕으로 더 나은 회로를 만들어 준다고 설명했다. 썬은 같은 사무단지에 있어 첫 핵심 고객이 되었다. 1992년에는 회사를 상장했다. 최고경영자는 1994년 1월까지, 이사회 의장은 1998년 2월까지 맡았다. 창업자에게 이사회 의장직을 넘긴 뒤에도 2001년 4월까지 이사로 남았다.",
+   "description_en": "After Daisy he hunted the next design tools from Sand Hill Road. He read the synthesis papers and flew to Bell Labs to see Kurt Keutzer. Keutzer would not start a company, but he pointed to Aart de Geus and the team leaving General Electric. Their financing required a commercial chief executive. He also met Dave Gregory. For the first nine months he ran sales himself. The pitch was not a new circuit but a better one from the design they already had. Sun sat in the same office complex and became the first critical customer. The company went public in 1992. He remained chief executive through January 1994 and chairman through February 1998, then stayed on the board until April 2001 after handing the chair to the founder.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "office",
+   "title": "엔비디아 이사회에 들어가다",
+   "title_en": "Joins the NVIDIA board",
+   "description": "시놉시스의 첫 고객들 가운데에는 엔비디아를 세운 썬의 그래픽 엔지니어들이 있었다. 서터힐과 세쿼이어는 이사회에 현장 경영 경험이 있는 인사를 원했고, 창업자들은 그에게 이사를 맡아 달라고 요청했다. 그는 이후에도 계속 이사직을 지켰다. 마이크로소프트가 초기 고객들에게 엔비디아를 지원하지 않겠다고 알렸을 때도 이사회에 있었다. 젠슨 황은 소송을 철회하고 인원을 다섯 명으로 줄인 뒤 다시 시작했다.",
+   "description_en": "Among Synopsys’s first customers were the Sun graphics engineers who started the new company. Sutter Hill and Sequoia wanted an operating executive on the board, and the founders asked him. He has kept that seat. He was still there when Microsoft told early customers it would not support the firm. Jensen Huang dropped a lawsuit, cut the company to five people, and started over.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1997,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "텐실리카를 함께 세우다",
+   "title_en": "Co-founds Tensilica",
+   "description": "크리스 로웬과 함께 내장형 프로세서 코어를 설계하고 사용권을 판매하는 회사를 세웠다. 엔지니어들이 새 칩을 직접 설계하는 대신 설정 가능한 코어를 바탕으로 시스템을 구축하도록 하는 것이 목표였다. 그는 창업 때부터 케이던스가 회사를 인수할 때까지 이사회 의장을 맡았다.",
+   "description_en": "With Chris Rowen he started a firm that designed and licensed embedded processor cores. The point was to let engineers build systems on configurable cores instead of cutting new silicon themselves. He chaired the board from the founding until Cadence bought the company.",
+   "place_name": "산타클래라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "스퀘어 웨이브 벤처스를 세우다",
+   "title_en": "Founds Square Wave Ventures",
+   "description": "매니징 파트너가 되어 벤처 투자를 시작했다. 기업 운영직에서 물러난 뒤에도 젊은 창업자들과 함께 일했다. 엔비디아 이사직은 계속 유지했다.",
+   "description_en": "He became managing partner and began venture investing. After leaving operating jobs he kept working with younger founders. He held the NVIDIA board seat.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 보니 사건의 뼈대와 세부 사실은 대체로 보존되어 있었지만, 일부 문장에 직역투와 불분명한 지시어, 어색한 직무 표현이 남아 있었다. 영문이 말하는 범위 안에서 주어·행동·대상을 분명히 하고, 사건들이 생애의 흐름으로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 뒤로 컴퓨터를 붙잡았다」는 영어 표현을 그대로 옮긴 듯한 문장이라 무엇을 뜻하는지 바로 드러나지 않았고, 「처음 장사」와 「길로 삼았다」도 문맥에 맞게 주어와 대상을 분명히 할 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「응용공학자」는 application engineer의 직무를 자연스럽게 전달하지 못했다. 본문에도 「그 소개로」처럼 실제 소개가 있었던 것으로 읽히는 표현과 「화면 위 그래픽이 좋았다」「전자 쪽 첫 손님」처럼 관계가 모호하거나 직역에 가까운 표현이 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「끈은 없이, 학교만 다녀 오라는 조건이었다」는 no strings attached와 stayed in touch의 관계를 제대로 전달하지 못해, 회사가 요구한 연락 유지와 별도 조건이 없었다는 뜻이 흐려졌다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 자리」「독점 쪽」「그가 마음에 둔 일」은 각각 어느 직책·회사·일을 가리키는지 앞 문장만으로 분명하지 않았다. 인수 목적을 설명하는 「공장을 도면에서 로봇으로 잇겠다」도 영어 어순이 남아 있어 행동 관계를 다시 세웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「마스크가 아니라 논리와 회로도 층에서 칩을 짜려 했다」는 설계 단계를 설명하는 문장이 어색했고, 「첫 제품은 회로도와 넷리스트였다」는 제품이 회로도와 넷리스트를 작성한다는 관계를 뒤바꾸었다. 고객사를 두고 「손님으로 왔다」고 한 표현도 기업 연표 문장에 맞지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "직책에는 「들어가다」보다 「취임하다」가 자연스럽다. 본문의 「상업 최고경영자」는 commercial chief executive의 기계적인 번역이었고, 「영업 부사장까지 겸했다」는 영문에 없는 직함을 보탰다. 영문이 밝힌 범위대로 처음 아홉 달 동안 영업을 직접 맡았다고 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「새 회사」와 「이 자리」의 대상이 문장 안에서 충분히 분명하지 않았고, 「초기 고객을 흔들 때」는 마이크로소프트가 고객들에게 엔비디아를 지원하지 않겠다고 알렸다는 구체적인 행동을 모호하게 바꾸었다. 「인원을 다섯으로 줄인 채」도 사람 수임을 명확히 할 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「칩을 직접 짜기보다」「설정 가능한 코어 위에 시스템을 올리게 하려는 쪽이었다」는 영어 구조를 따른 표현이라 회사가 무엇을 하려 했는지 한 번에 이해하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「운영 직에서 손을 뗀 뒤에도 젊은 창업자와 같이 일하는 쪽을 남겼다」는 직역투로, 운영직에서 물러난 뒤에도 창업자들과 계속 일했다는 행동 관계가 무너져 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

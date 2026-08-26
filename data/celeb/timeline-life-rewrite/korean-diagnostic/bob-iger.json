@@ -1,0 +1,286 @@
+{
+ "slug": "bob-iger",
+ "events": [
+  {
+   "year": 1951,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴욕에서 태어나다",
+   "title_en": "Born in New York",
+   "description": "맏아들이었다. 아버지 아서는 제2차 세계대전 때 해군에서 복무했고, 이후 광고와 홍보를 가르쳤다. 어머니 미미는 오션사이드 중학교에서 일했다. 가족은 롱아일랜드 오션사이드에서 살았다. 아버지는 조울증 때문에 한 직장을 오래 유지하지 못했다.",
+   "description_en": "He was the oldest son. His father, Arthur, served in the Navy in World War II and later taught advertising and public relations. His mother, Mimi, worked at a junior high school in Oceanside. The family lived in Oceanside on Long Island. Arthur's manic depression kept him from holding a job for long.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "education",
+   "title": "이타카에서 방송을 공부하고 일기예보를 전하다",
+   "title_en": "Studies broadcasting in Ithaca and reads the weather",
+   "description": "텔레비전과 라디오를 전공하고 우등으로 학사 학위를 받았다. 교내 프로그램 캠퍼스 프로브를 진행했다. 졸업 뒤에는 지역 방송국에서 몇 달 동안 일기예보를 전했다. 그 일은 잘되지 않았고, 그는 뉴스 앵커가 되겠다는 계획을 접었다.",
+   "description_en": "He studied television and radio. He graduated with honors. On campus he hosted Campus Probe. After graduation he spent several months reading the weather at a local station. The work did not go well. He gave up the plan to become a news anchor.",
+   "place_name": "이타카",
+   "place_name_en": "Ithaca",
+   "lat": 42.443333333333,
+   "lng": -76.5
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "work",
+   "title": "에이비씨 스튜디오 촬영 현장에서 일하기 시작하다",
+   "title_en": "Starts on the studio floor at ABC",
+   "description": "주급 150달러를 받으며 맨해튼에서 촬영하는 연속극과 퀴즈 프로그램의 현장 업무를 맡았다. 그는 훗날 그 일을 잡일이라고 불렀다.",
+   "description_en": "He earned a hundred and fifty dollars a week. He worked the floors of soap operas and game shows shot in Manhattan. He later called the work menial labor.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "에이비씨 스포츠에서 캘거리 올림픽 중계를 편성하다",
+   "title_en": "Programs the Calgary Olympics for ABC Sports",
+   "description": "스포츠 편성 분야에서 여러 해 일했다. 캘거리의 따뜻한 날씨로 경기 일정이 밀리자, 그는 비어 버린 중계 시간을 자메이카 봅슬레이 팀과 에디 더 이글 등의 이야기로 채웠다. 캘거리 대회 중계는 에이비씨의 역대 올림픽 중계 가운데 가장 높은 시청률을 기록했다. 캐피털시티스의 대니얼 버크와 토머스 머피는 이때부터 그를 눈여겨보기 시작했다.",
+   "description_en": "He spent years in sports programming. Warm weather in Calgary pushed events off the schedule. He filled the empty hours with stories like the Jamaican bobsled team and Eddie the Eagle. The Games set a ratings record for ABC's Olympic coverage. Daniel Burke and Thomas Murphy of Capital Cities began to watch him.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1989,
+   "year_end": 1994,
+   "kind": "work",
+   "title": "에이비씨 오락 편성을 맡다",
+   "title_en": "Takes charge of ABC Entertainment",
+   "description": "로스앤젤레스로 옮겨 오락 프로그램 편성을 맡았다. 트윈 픽스와 미국의 재미있는 홈 비디오가 이 시기에 방송을 시작했다. 몇 년 뒤에는 뉴욕으로 돌아와 모회사 캐피털시티스 에이비씨의 일상적인 운영을 맡았다.",
+   "description_en": "He moved to Los Angeles and chose entertainment programs. Twin Peaks and America's Funniest Home Videos went on the air in that stretch. A few years later he returned to New York and ran the day-to-day business of the parent company, Capital Cities/ABC.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1996,
+   "year_end": 2000,
+   "kind": "work",
+   "title": "디즈니의 에이비씨 인수 뒤에도 회사에 남다",
+   "title_en": "Stays on after Disney buys ABC",
+   "description": "월트 디즈니 컴퍼니가 캐피털시티스 에이비씨를 인수하자, 그는 회사 내부에서 합병 작업을 이끌었다. 마이클 에이즈너 아래에서 해외 사업과 에이비씨 그룹을 맡았고, 이후 디즈니 전체의 일상적인 운영을 책임지는 자리로 올라갔다.",
+   "description_en": "The Walt Disney Company bought Capital Cities/ABC. He steered the merger from inside. Under Michael Eisner he ran international operations and the ABC group, then moved up to run Disney's day-to-day business.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "office",
+   "title": "에이즈너의 뒤를 이어 디즈니를 맡다",
+   "title_en": "Succeeds Eisner at Disney",
+   "description": "로이 디즈니와 스탠리 골드가 에이즈너를 끌어내리려 했다. 이사회는 안팎 후보를 비교한 뒤 그를 골랐다. 그는 9월 30일부터 회사를 이끌기 시작했다.",
+   "description_en": "Roy Disney and Stanley Gold tried to push Eisner out. The board compared inside and outside candidates and chose him. He began running the company on September 30.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "픽사를 사들이다",
+   "title_en": "Buys Pixar",
+   "description": "디즈니 애니메이션은 과거의 활력을 잃고 있었다. 그는 스티브 잡스와 전액 주식으로 치르는 인수 거래를 협상했다. 거래액은 74억 달러였다. 잡스는 디즈니 최대 개인 주주가 되었다. 에드윈 캣멀과 존 래시터가 픽사와 디즈니 애니메이션을 함께 맡았다.",
+   "description_en": "Disney animation had lost its old force. He negotiated an all-stock deal with Steve Jobs. The price was 7.4 billion dollars. Jobs became Disney's largest individual shareholder. Edwin Catmull and John Lasseter took charge of both Pixar and Disney animation.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2009,
+   "year_end": 2012,
+   "kind": "work",
+   "title": "마블과 루카스필름을 잇달아 인수하다",
+   "title_en": "Buys Marvel and then Lucasfilm",
+   "description": "픽사를 인수한 뒤에도 디즈니에는 자체적으로 활용할 새로운 이야기가 여전히 부족했다. 그는 마블 엔터테인먼트를 40억 달러에 사들였고, 이어 조지 루카스로부터 루카스필름을 인수했다. 이로써 스타워즈와 인디아나 존스가 디즈니의 자산이 되었다.",
+   "description_en": "Even after Pixar, Disney still lacked new stories of its own. He bought Marvel Entertainment for 4 billion dollars. George Lucas sold Lucasfilm. Star Wars and Indiana Jones came inside Disney.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "폭스 자산을 인수하고 디즈니플러스를 출시하다",
+   "title_en": "Buys Fox assets and switches on Disney+",
+   "description": "넷플릭스는 이미 가정의 거실을 장악하고 있었다. 그는 콘텐츠 목록을 늘리기 위해 21세기 폭스의 영화와 방송 자산을 사들였다. 인수 거래는 3월에 완료됐다. 11월 12일에는 미국과 캐나다, 네덜란드에서 디즈니플러스 서비스를 시작했다. 픽사와 마블, 스타워즈 콘텐츠가 하나의 구독 서비스에서 제공됐다.",
+   "description_en": "Netflix already held the living room. He bought 21st Century Fox's film and television assets to enlarge the library. The deal closed in March. On November 12 Disney+ went live in the United States, Canada, and the Netherlands. Pixar, Marvel, and Star Wars went out on one subscription.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2020,
+   "year_end": 2021,
+   "kind": "office",
+   "title": "차펙에게 경영을 넘기고 디즈니를 떠나다",
+   "title_en": "Hands the company to Chapek and leaves",
+   "description": "이사회는 공원 사업을 맡아 온 밥 차펙을 후임자로 선임했다. 그는 창작 부문을 총괄하는 자리로 회사에 남았다. 코로나로 공원 운영이 멈추자 이사회는 그를 한 해 더 붙잡았다. 그는 2021년 마지막 날에 회사를 떠났다.",
+   "description_en": "The board named Bob Chapek, who had run the parks, as his successor. He stayed on over the creative side. When the pandemic shut the parks, the board kept him another year. He left the company on the last day of that year.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "office",
+   "title": "이사회가 그를 다시 불러들이다",
+   "title_en": "The board brings him back",
+   "description": "스트리밍 사업은 적자를 내고 있었고, 주주들의 압박은 거세지고 있었다. 이사회는 차펙을 해임했다. 그는 2년 안에 후임자를 찾겠다고 약속하고 디즈니로 돌아왔다. 계약 기간은 이후 2026년까지 연장됐다.",
+   "description_en": "Streaming was losing money, and shareholders were shaking the company. The board dismissed Chapek. He came back on a two-year promise to find a successor. The contract later stretched through 2026.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "office",
+   "title": "조시 다마로에게 경영을 넘기다",
+   "title_en": "Hands the company to Josh D'Amaro",
+   "description": "주주총회가 열린 날 다마로가 회사를 맡았다. 아이거는 고문으로 남았고, 그해 마지막 날까지 이사직을 유지하기로 했다.",
+   "description_en": "D'Amaro took over the company on the day of the annual meeting. Iger stayed on as an advisor. He was to remain on the board through the last day of the year.",
+   "place_name": "버뱅크",
+   "place_name_en": "Burbank",
+   "lat": 34.180277777778,
+   "lng": -118.32833333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "직역 때문에 한국어의 행동 관계가 흐려지거나 뜻을 짐작해야 했던 문장을 고쳤다. 특히 스튜디오 현장 업무, 합병 작업, 폭스 인수와 디즈니플러스 출시, 차펙 이후 복귀 과정을 자연스럽고 구체적으로 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에는」이 시간의 흐름을 어색하게 나타냈고, 「직장을 자주 잃었다」는 원문의 ‘한 직장을 오래 유지하지 못했다’보다 의미가 단정적으로 바뀌어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「방송을 배우다」와 「날씨를 읽다」가 영어 표현을 그대로 옮긴 말이라 방송 전공과 일기예보 전달이라는 실제 행동이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「스튜디오에서 바닥 일을 시작하다」는 studio floor를 글자대로 옮겨 무슨 일을 했는지 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「올림픽을 짜다」는 편성 업무의 목적어와 행동 관계가 부자연스러웠고, 경기 일정이 밀린 원인인 따뜻한 날씨가 국문에서 단순히 「날씨」로 축약돼 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「오락 프로그램을 골랐다」와 「일상 경영을 맡았다」가 각각 방송 편성 및 회사 운영이라는 맥락을 충분히 드러내지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그 안에 남다」와 「합병을 현장에서 넘겼다」는 대상과 행동이 불분명한 직역이었고, 「일상 경영을 보는 자리」도 직책의 의미가 모호했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「예전 힘」은 뜻이 막연했고, all-stock deal을 옮긴 「주식 교환」은 거래 방식이 충분히 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「새 이야기가 모자랐다」와 「디즈니 안으로 들어왔다」가 직역투였고, 루카스필름을 누가 인수했는지 문장 안에서 명확하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「거래가 닫혔다」, 「디즈니플러스가 켜졌다」, 「한 구독으로 나갔다」는 영어 동사를 순서대로 치환한 표현이라 인수 완료와 서비스 출시 및 콘텐츠 제공 관계가 무너져 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「창작을 보는 자리」는 맡은 역할이 모호했고, 「그해 마지막 날」은 2020~2021년 사건 안에서 어느 해인지 앞 문장만으로 확정하기 어려웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「주주들은 회사를 흔들었다」는 영어 표현을 직역해 주주 압박이라는 의미가 부자연스러웠고, 「2년만 맡기로 하고」는 후임자를 찾겠다는 복귀 조건을 생략했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이사회에는 그해 마지막 날까지 앉기로 했다」는 이사직을 유지한다는 뜻을 글자대로 옮겨 한국어에서 부자연스러웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

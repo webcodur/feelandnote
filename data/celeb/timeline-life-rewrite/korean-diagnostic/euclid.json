@@ -1,0 +1,234 @@
+{
+ "slug": "euclid",
+ "events": [
+  {
+   "year": -325,
+   "year_end": null,
+   "kind": "birth",
+   "title": "기원전 325년 무렵 태어나다",
+   "title_en": "Born around 325 BC",
+   "description": "후대 기록에는 그의 출생지와 부모에 관한 내용이 없다. 학자들은 출생 연도만 추정한다. 프로클로스는 그를 플라톤의 제자들보다 조금 뒤이자 아르키메데스보다 앞선 시대의 인물로 본다. 그는 소크라테스학파의 철학자인 메가라의 유클리드와는 다른 사람이다. 중세 필사자들은 두 사람을 한 인물로 뒤섞었다. 아랍 저자들은 그를 티레에서 난 나우크라테스의 아들이라고 했다. 후대 수학사가들은 그 이야기를 창작으로 본다.",
+   "description_en": "Later writers left no birthplace and no parents. Scholars only estimate the year. Proclus places him a little after Plato's pupils and before Archimedes. He is not Euclid of Megara, the Socratic philosopher. Medieval copyists mixed the two men into one. Arabic writers called him the son of Naucrates, born in Tyre. Later historians of mathematics treat that story as invention.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "앞선 기하를 익히다",
+   "title_en": "He learned the geometry that came before him",
+   "description": "그는 에우독소스와 테아이테토스의 정리를 알고 있었다. 후대 저자들은 그가 아테네의 아카데미아에서 배웠다고 추정한다. 그가 실제로 어디에서 배웠는지는 기록에 없다. 그는 아테네 아카데미아 학파의 기하학을 저술에 남겼다.",
+   "description_en": "He knew the theorems of Eudoxus and Theaetetus. Later writers guess that he studied at the Academy in Athens. No record says where he sat and learned. He left that school's geometry in his books.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -300,
+   "year_end": null,
+   "kind": "work",
+   "title": "알렉산드리아에서 가르치다",
+   "title_en": "He taught in Alexandria",
+   "description": "당시 이집트는 프톨레마이오스 1세가 다스렸다. 알렉산드로스가 알렉산드리아를 세운 지 한 세대도 지나지 않은 때였다. 프로클로스는 유클리드를 프톨레마이오스 1세 시대의 인물로 본다. 후대 저자들은 그가 알렉산드리아에서 가르쳤다고 보았다. 다만 그가 무세이온의 초기 학자 가운데 한 명이었다는 말은 추정이다.",
+   "description_en": "Ptolemy I then ruled Egypt. Alexander had founded this city less than a generation earlier. Proclus places him in that king's time. Later writers take him to have taught here. That he was among the first scholars of the Mouseion is a conjecture.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "『원론』 열세 권을 쓰다",
+   "title_en": "He wrote the thirteen books of the Elements",
+   "description": "그는 에우독소스의 정리들을 모아 배열하고 테아이테토스의 증명들을 다듬었다. 앞선 저자들이 느슨하게 제시한 내용을 정의와 공준, 증명으로 연결했다. 평면도형과 수, 입체, 다섯 정다면체를 하나의 순서로 배열했다. 후대 독자들은 그가 처음 증명한 정리가 거의 없다고 본다. 그는 한 점을 지나 주어진 직선과 평행한 직선은 하나뿐이라는 다섯 번째 공준을 증명하지 않고 출발점으로 삼았다.",
+   "description_en": "He gathered theorems of Eudoxus and tightened proofs of Theaetetus. Where earlier writers had shown things loosely, he joined them by definitions, postulates, and proofs. He set plane figures, numbers, solids, and the five regular polyhedra in one order. Later readers judge that he first proved almost none of the theorems. He left the fifth postulate unproved, as a starting point: through a point there is one parallel.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "왕에게 기하학에는 왕도가 없다고 답하다",
+   "title_en": "He told the king there was no royal road",
+   "description": "전승에 따르면 프톨레마이오스 1세는 『원론』보다 짧게 기하학을 배우는 길이 있는지 물었다. 유클리드는 기하학에는 왕도가 없다고 답했다고 한다. 프로클로스가 이 말을 기록한 때는 유클리드가 죽은 지 700년 뒤였다. 후대 저자들은 알렉산드로스와 메나이크모스 사이에도 같은 유형의 일화가 있었다고 전한다.",
+   "description_en": "Tradition says Ptolemy I asked for a shorter path than the Elements. He is said to have answered that there was no royal road to geometry. Proclus wrote the words seven hundred years after he died. Later writers also tell the same kind of story about Alexander and Menaechmus.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "이득을 묻는 제자에게 동전을 주다",
+   "title_en": "He gave a coin to a student who asked what he would gain",
+   "description": "전승에 따르면 기하학의 첫 정리를 배운 사람이 이것을 배워 무엇을 얻을 수 있느냐고 물었다. 유클리드는 노예에게 그 사람에게 동전 세 닢을 주게 했다. 배운 것에서 반드시 이익을 얻어야 한다면 그 동전이라도 가지라고 했다. 스토바이오스는 세레노스의 이름으로 이 전승을 남겼다.",
+   "description_en": "Tradition says a beginner, after the first theorem, asked what he would gain from this. Euclid had a slave give him three coins. If he had to profit from what he learned, he could take that. Stobaeus preserved the story in the name of Serenus.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "『데이터』와 『광학』, 『현상』을 남기다",
+   "title_en": "He left Data, Optics, and Phaenomena",
+   "description": "그는 『데이터』에서 어떤 조건들이 주어졌을 때 무엇이 정해지는지를 따졌다. 『광학』에서는 사물이 보이는 방식과 거리를 기하학으로 설명했다. 『현상』에서는 별이 뜨고 지는 시각을 구면 위에서 다루었다. 『도형 분할에 관하여』는 일부만 아랍어로 전해졌다. 후대 독자들은 거울을 다룬 『반사광학』이 유클리드의 저작인지를 두고 논쟁했다.",
+   "description_en": "In the Data he asked what is fixed once other things are given. In the Optics he wrote seeing and distance as geometry. In the Phaenomena he treated the rising and setting of stars on a sphere. Later copyists passed on On Divisions only in part, and only in Arabic. Later readers dispute whether the Catoptrics on mirrors is his.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "『포리즘』과 『원뿔곡선론』을 쓰다",
+   "title_en": "He wrote Porisms and Conics",
+   "description": "후대 저자들은 『포리즘』을 정리와 작도 사이에 놓이는 명제들을 모은 책으로 설명한다. 파포스는 정리 171개와 보조정리 38개를 헤아렸다. 『원뿔곡선론』은 네 권으로 이루어졌다. 『곡면 궤적』과 오류를 가리는 책은 제목만 전해진다. 두 저작의 본문은 전해지지 않는다.",
+   "description_en": "Later writers describe the Porisms as propositions that sit between theorems and constructions. Pappus counted 171 theorems and 38 lemmas. The Conics ran to four books. Later writers pass on only the titles of the Surface Loci and the book on fallacies. They do not pass on the texts.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "제자들이 뒤를 잇다",
+   "title_en": "His pupils remained",
+   "description": "파포스는 아폴로니오스가 유클리드의 제자들과 오랫동안 공부했다고 적었다. 유클리드의 학파가 존재했다고 직접 증언한 이는 파포스뿐이다. 아폴로니오스는 원뿔곡선에 관한 앞선 연구의 일부를 이어받아 고쳤다.",
+   "description_en": "Pappus writes that Apollonius studied a long time with his pupils. Pappus alone directly attests that a school was there. Apollonius took up part of the earlier work on conics and corrected it.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": -265,
+   "year_end": null,
+   "kind": "death",
+   "title": "기원전 265년 무렵 죽다",
+   "title_en": "He died around 265 BC",
+   "description": "후대 저자들은 그의 사망 연도도 추정할 뿐이다. 그보다 몇 년 앞선 때로 잡는 이들도 있다. 사망 장소와 사인은 기록에 남아 있지 않다. 사람들은 프로클로스가 유클리드를 아르키메데스보다 앞선 시대의 인물로 본 것을 근거로 그의 생애가 끝난 때를 가늠한다.",
+   "description_en": "Later writers only estimate the year of death. Some pull that year a few years earlier. They left no place and no cause. They gauge the end from the place Proclus gave him, before Archimedes.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역 때문에 주어·대상·행동 관계가 흐려진 문장과 사건 간 연결이 끊기는 대목을 자연스러운 한국어로 바로잡았다. 다만 출생 전승에서 티레 출생자가 유클리드인지 나우크라테스인지 영문만으로 확정할 수 없어 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "기록을 남긴 주체와 기록에 남은 정보가 뒤섞였고, 시대적 선후 관계와 후대 수학사가들의 판단도 직역투로 서술되어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어디에 앉아 배웠는지」가 영문 어순을 그대로 옮긴 표현이었고, 「그 학파」가 가리키는 대상도 바로 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 도시」「그 왕」이 가리키는 대상이 문장만으로 명확하지 않았고, 「그 왕의 시대로 놓는다」는 한국어 표현이 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "저작명이 일반 명사처럼 적혀 있었고, 「한 차례에 넣었다」「새 정리를 처음 낸 사람이 거의 아니다」처럼 배열과 증명의 의미가 불분명한 직역이 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 왕도가 무엇에 관한 것인지 빠져 있었고, 「원론보다 짧은 길」과 「같은 꼴의 일화」가 뜻을 짐작해야 하는 표현이었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이것」「그거」의 지시 대상이 흐리고 구어적인 데다, 세레노스의 이름으로 전승을 기록했다는 관계가 「입을 빌려」로 모호하게 표현되어 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "저작명들이 일반 명사처럼 이어졌고, 「눈으로 보는 원근을 기하로 적었다」와 전승·저자 논쟁에 관한 문장이 직역투였다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "저작명이 명확히 구분되지 않았고, 「앞선 사람의 일부」처럼 대상이 빠진 표현과 「후대는 본문을 전하지 않는다」처럼 주체가 부자연스러운 문장이 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「제자들이 남다」라는 제목만으로는 무엇이 이어졌는지 알기 어려웠고, 「학파가 있었다」「앞선 사람의 일부」도 대상과 의미가 불명확했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「장소와 사인을 남긴 사람은 없다」는 기록과 기록자를 뒤섞은 표현이었고, 마지막 문장도 사망 시기를 추정하는 근거가 명확히 드러나지 않았다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 0,
+    "reason": "영문의 「the son of Naucrates, born in Tyre」에서 「born in Tyre」가 유클리드를 수식하는지 나우크라테스를 수식하는지 문장만으로 확정할 수 없다. 국문도 이 관계가 모호하므로 자료 확인 없이는 어느 한쪽으로 고쳐 쓸 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

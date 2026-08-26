@@ -1,0 +1,225 @@
+{
+ "slug": "dong-zhuo",
+ "events": [
+  {
+   "year": 139,
+   "year_end": null,
+   "kind": "birth",
+   "title": "농서 임조에서 태어나다",
+   "title_en": "Is born in Lintao, Longxi",
+   "description": "정사 삼국지와 후한서는 생년을 적지 않는다. 후대 기록은 그가 139년에 태어났다고 전한다. 자는 중영이다. 아버지는 동군아, 동생은 동민이었다. 젊어서 강족 땅을 돌아다니며 현지 우두머리들과 사귀었다. 말을 타고 좌우로 활을 쏠 수 있었다. 밭으로 돌아온 뒤 강족 사람들이 찾아오자 밭을 갈던 소를 잡아 잔치를 열었다.",
+   "description_en": "The Records of the Three Kingdoms and the Book of the Later Han do not record a birth year. Later accounts put it at 139. His courtesy name was Zhongying. His father was Dong Junya and his younger brother was Dong Min. As a youth he traveled the Qiang country and befriended local chiefs. He could shoot left and right from horseback. After he returned to the fields, Qiang visitors came and he slaughtered his plow ox to feast them.",
+   "place_name": "임조",
+   "place_name_en": "Lintao",
+   "lat": 34.4375,
+   "lng": 104.03916666666667
+  },
+  {
+   "year": 167,
+   "year_end": null,
+   "kind": "office",
+   "title": "장환 밑에서 강족을 치다",
+   "title_en": "Fights the Qiang under Zhang Huan",
+   "description": "환제 말년, 양주 여섯 군의 양가 자제 가운데 뽑혀 우림랑이 됐다. 흉노중랑장 장환의 사마로 한양에서 강족을 쳤다. 낭중이 되고 비단 구천 필을 받았다. 비단은 부하에게 나눠 주었다. 뒤에 광무 현령, 촉군 북부도위, 서역 무기교위, 병주 자사, 하동 태수를 거쳤다.",
+   "description_en": "Late in Emperor Huan's reign he was chosen as a gentleman of the Feathered Forest from a good family of the six Liang commanderies. As Sima under Zhang Huan, colonel of the Xiongnu, he fought the Qiang in Hanyang. He was made a gentleman of the palace and given nine thousand bolts of silk, which he divided among his men. He later served as magistrate of Guangwu, northern commandant of Shu, Wu-and-Ji colonel of the Western Regions, inspector of Bing, and administrator of Hedong.",
+   "place_name": "천수",
+   "place_name_en": "Tianshui",
+   "lat": 34.58083333333333,
+   "lng": 105.7311111111111
+  },
+  {
+   "year": 184,
+   "year_end": null,
+   "kind": "battle",
+   "title": "장각을 공격했다가 패하다",
+   "title_en": "Attacks Zhang Jue and is defeated",
+   "description": "황건이 일어나자 동중랑장으로 노식의 뒤를 이었다. 장각을 공격했다가 패해 벌을 받았다. 연의는 여기서 유비·관우·장비가 그를 구해 준다고 쓰지만, 정사에는 그 장면이 없다.",
+   "description_en": "When the Yellow Turbans rose he took over from Lu Zhi as gentleman-general of the east. He attacked Zhang Jue, lost, and was punished. Romance of the Three Kingdoms has Liu Bei, Guan Yu, and Zhang Fei rescue him here. The official histories do not.",
+   "place_name": "거록",
+   "place_name_en": "Julu",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 185,
+   "year_end": 189,
+   "kind": "battle",
+   "title": "양주 반란에서 군을 지키다",
+   "title_en": "Keeps his army intact in the Liang rebellion",
+   "description": "한수와 변장이 강족과 함께 일어났다. 파로장군이 되어 장온 밑에서 싸웠다. 수만 강족에게 포위되자 둑을 쌓아 고기를 잡는 척한 뒤, 병사들을 이끌고 그 아래로 빠져나왔다. 다른 부대가 무너질 때 동탁의 군대만 온전히 부풍으로 돌아왔다. 태향후에 봉해지고 뒤에 전장군이 됐다. 진창을 구하러 황보숭과 함께 갔으나 의견이 갈렸다. 황보숭이 승리하자 동탁은 그를 미워했다. 조정은 동탁을 소부로 불러들인 뒤 병주목에 임명했으나, 그는 병사들을 두고 떠나려 하지 않았다.",
+   "description_en": "Han Sui and Bian Zhang rose with the Qiang. As general who smashes the caitiffs he fought under Zhang Wen. Surrounded by tens of thousands of Qiang, he built a dike, pretended to fish, and led his men under it. When the other columns collapsed, only his army returned whole to Fufeng. He was made marquis of Tai and later general of the vanguard. He went with Huangfu Song to relieve Chencang and they disagreed. Huangfu won, and he resented him. The court named him lesser treasurer and then shepherd of Bing. He would not leave his troops.",
+   "place_name": "부풍",
+   "place_name_en": "Fufeng",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 189,
+   "year_end": null,
+   "kind": "travel",
+   "title": "하진의 부름을 받아 낙양에 들어가다",
+   "title_en": "Enters Luoyang at He Jin's summons",
+   "description": "영제가 죽자 하진은 환관들을 제압하려고 동탁을 불렀다. 동탁이 도착하기 전에 하진은 환관에게 죽었다. 장양과 단규가 소제와 진류왕을 소평진으로 끌고 달아났다. 동탁은 북망산에서 황제 일행을 맞았다. 그가 거느린 병력은 삼천 명이었다. 밤에 군대를 성 밖으로 내보냈다가 아침에 북을 울리며 다시 들어오게 해 대군처럼 보이게 했다. 하진과 하묘가 남긴 군대를 거두고, 여포를 시켜 집금오 정원을 죽인 뒤 정원의 군대까지 흡수했다.",
+   "description_en": "After Emperor Ling died, He Jin called him in to overawe the eunuchs. He Jin was killed before he arrived. Zhang Rang and Duan Gui fled toward Xiaoping Ford with Emperor Shao and the Prince of Chenliu. He met the imperial party at Beimang. He had three thousand men. At night he marched them out and at dawn he brought them back with drums, so the city took him for a larger force. He took over the leftover troops of He Jin and He Miao, then had Lu Bu kill Ding Yuan, the bearer of the golden mace, and absorbed that army too.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65861111111111,
+   "lng": 112.42444444444445
+  },
+  {
+   "year": 189,
+   "year_end": null,
+   "kind": "office",
+   "title": "소제를 폐하고 헌제를 세우다",
+   "title_en": "Deposes Emperor Shao and installs Emperor Xian",
+   "description": "가뭄을 이유로 사공 유홍을 해임하고 그 자리에 올랐다. 원소에게 소제의 폐위를 제안했으나 원소는 기주로 달아났다. 아홉 살 유협을 황제로 즉위시키고 유변은 폐위해 홍농왕으로 삼았다. 하태후를 죽였다. 태위를 거쳐 스스로 상국이 되고 미후에 봉했다. 조정에서는 그를 이름 없이 호칭했고, 그는 칼을 찬 채 전각에 올랐다.",
+   "description_en": "Citing drought he dismissed Liu Hong from the works excellency and took the post. He floated the deposition to Yuan Shao. Yuan fled to Ji. He put nine-year-old Liu Xie on the throne and reduced Liu Bian to King of Hongnong. He killed Empress Dowager He. He moved to grand commandant, then made himself chancellor of state and marquis of Mei. He was announced at court without his name and climbed the hall with his sword on.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65861111111111,
+   "lng": 112.42444444444445
+  },
+  {
+   "year": 190,
+   "year_end": null,
+   "kind": "other",
+   "title": "낙양 궁실과 민가를 태우다",
+   "title_en": "Burns the palaces and houses of Luoyang",
+   "description": "관동의 자사와 태수들이 원소를 맹주로 삼아 군을 일으켰다. 동탁은 이유를 시켜 홍농왕을 독살했다. 태위 황완과 사도 양표가 반대했지만 천도를 강행했다. 궁궐과 민가를 태웠다. 이백 리 안에 남은 것이 없었다.",
+   "description_en": "Inspectors and administrators east of the passes rose with Yuan Shao as leader. He had Li Ru poison the King of Hongnong. Grand Commandant Huang Wan and Minister over the Masses Yang Biao objected. He pushed the move of the capital anyway. He burned the palaces and the houses. Nothing was left for two hundred li.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65861111111111,
+   "lng": 112.42444444444445
+  },
+  {
+   "year": 190,
+   "year_end": null,
+   "kind": "travel",
+   "title": "헌제를 장안으로 옮기다",
+   "title_en": "Moves Emperor Xian to Chang'an",
+   "description": "동탁은 군대를 동원해 낙양 백성 수백만 명을 몰아 서쪽으로 이주시켰다. 짓밟히거나 굶어 죽은 사람들의 시체가 길을 메웠다. 낙양에 남은 원외와 원기 일족을 죽였다. 오수전을 녹여 작은 동전으로 다시 주조하자 곡식 한 곡 값이 수십만 전까지 올랐다.",
+   "description_en": "He drove millions of Luoyang people west under the army. Bodies of those crushed or starved filled the roads. He killed Yuan Wei, Yuan Ji, and the Yuan kin who had stayed in Luoyang. He melted the wuzhu coins and recast small cash. A hu of grain rose to hundreds of thousands of cash.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.26111111111111,
+   "lng": 108.94222222222223
+  },
+  {
+   "year": 191,
+   "year_end": null,
+   "kind": "other",
+   "title": "미현에 만세오를 쌓다",
+   "title_en": "Builds the Ten-Thousand-Year Fortress at Mei",
+   "description": "태사라 칭하고 황태자급 수레를 썼다. 동생 동민에게 좌장군을, 조카 동황에게 시중을 주었다. 미현에 높이 일곱 장의 요새를 쌓고 삼십 년치 양식을 넣었다. 일이 뜻대로 풀리면 천하를 차지하고, 그렇지 않으면 이곳에서 늙겠다고 말했다. 여포를 시켜 낙양의 황제릉을 파헤치게 했다.",
+   "description_en": "He took the title grand preceptor and used a carriage of the crown prince's rank. He made his brother Dong Min general of the left and his nephew Dong Huang a palace attendant. At Mei he raised a fortress seven zhang high and stored thirty years of grain. He said that if things went well he would hold the realm, and if not he would grow old there. He sent Lu Bu to open the Han imperial tombs at Luoyang.",
+   "place_name": "미현",
+   "place_name_en": "Mei",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "death",
+   "title": "왕윤과 여포에게 죽다",
+   "title_en": "Is killed by Wang Yun and Lu Bu",
+   "description": "여포를 양아들로 삼고 곁에 두었다. 동탁은 화가 나 여포에게 수극을 던졌으나 여포는 피했다. 정사에는 여포가 동탁을 시중들던 여종과 몰래 관계를 맺었다고 나온다. 연의의 초선은 후대 소설에서 만들어진 인물이다. 왕윤과 사손서가 여포를 거사에 끌어들였다. 헌제가 병에서 나아 미앙전에서 큰 모임을 열었다. 기도위 이숙은 호위병 복장으로 협문을 지켰다. 첫 공격은 동탁의 갑옷에 막혀 팔에만 상처를 입혔다. 동탁이 여포를 부르자 여포는 조서를 받들어 역적을 친다고 말하고 동탁을 죽였다. 시신은 장안 거리에 버려졌다. 시신을 지키던 사람이 배꼽에 심지를 꽂아 며칠 동안 태웠다.",
+   "description_en": "He took Lu Bu as a sworn son and kept him close. In a rage he threw a hand-halberd. Lu dodged it. The official histories say Lu had been with a maid who served Dong. Diaochan in the Romance is a later invention. Wang Yun and Shisun Rui brought Lu over. Emperor Xian had just recovered and held a gathering in Weiyang Hall. Cavalry captain Li Su waited at the side gate in a guard's dress. The first thrust hit armor and only the arm. Dong called for Lu. Lu said he was acting on an edict against a traitor and killed him. The corpse was left in a Chang'an street. A watcher put a wick in the navel and let it burn for days.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.26111111111111,
+   "lng": 108.94222222222223
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "직역투, 모호한 지시어, 주체가 불분명한 문장과 사건 사이의 끊긴 연결을 바로잡았다. 영문이 담은 사실과 세부는 그대로 보존했으며 별도의 사실 확인이 필요한 대목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤 기록」이 무엇을 가리키는지 불분명하고, 「말에 올라」「밭갈이 소」가 직역투여서 행동 관계가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「양주 육군의 양갓집 자제로 우림랑에 뽑혔다」의 수식 관계가 어색해 선발 범위와 임명 결과가 한눈에 들어오지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title"
+    ],
+    "problem": "「장각을 치다 패하다」는 두 행동의 연결이 지나치게 축약되어 자연스럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 아래」「그의 군」「그 사람」의 대상이 불분명하고, 관직 임명과 병력을 떠나지 않은 일이 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「낙양에 들어서다」와 본문의 「다시 들이밀어」「그 군까지 받았다」가 어색했으며, 환관을 상대로 한 행동과 병력 흡수 과정도 더 명확히 드러낼 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「폐립을 말하다」「홍농왕으로 내리다」가 뜻을 짐작해야 하는 표현이고, 마지막 문장은 이름을 부르지 않은 주체와 전각에 오른 주체가 뒤섞여 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「천도를 밀었다」가 영어 표현을 그대로 옮긴 듯 어색하고, 첫 문장의 인물 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사람 수백만을 군으로 몰아」는 백성을 군대에 편입했다는 뜻으로 오해될 수 있고, 「소전을 찍다」도 주화 재주조를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「높이 일곱 장의 오」「삼십 년 양식」「일이 되면 천하를 갖고」가 직역투여서 요새의 규모와 동탁의 발언을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "여포와 동탁이 번갈아 등장하면서 수극을 던진 사람, 여종과 관계를 맺은 사람, 팔을 다친 사람, 죽임을 당한 사람이 불분명해졌다. 「대회」「위사 복장」「지키는 이」도 문맥에 맞게 다듬을 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

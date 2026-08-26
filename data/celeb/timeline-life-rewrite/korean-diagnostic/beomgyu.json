@@ -1,0 +1,208 @@
+{
+ "slug": "beomgyu",
+ "events": [
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "birth",
+   "title": "대구에서 태어나다",
+   "title_en": "Born in Daegu",
+   "description": "본명은 최범규다. 3월 13일에 태어났으며 부모와 형이 있는 가정에서 자랐다.",
+   "description_en": "His birth name is Choi Beom-gyu. He was born on March 13. He had parents and an older brother.",
+   "place_name": "대구",
+   "place_name_en": "Daegu",
+   "lat": 35.87166666666667,
+   "lng": 128.60166666666666
+  },
+  {
+   "year": 2014,
+   "year_end": 2016,
+   "kind": "other",
+   "title": "아버지에게 기타를 배우다",
+   "title_en": "Learns guitar from his father",
+   "description": "아버지 차에서 아바와 에어 서플라이를 들었다. 그 노래들이 자신의 기분을 바꾸는 것을 보고 음악을 해야겠다고 생각했다. 아버지가 기타 기초를 가르쳤다. 중학교 밴드에서 처음으로 사람들 앞에서 연주했다. 박수를 받은 뒤 음악을 직업으로 삼아야겠다고 생각했다.",
+   "description_en": "He listened to ABBA and Air Supply in his father’s car. Hearing those songs change his mood made him want to make music. His father taught him the basics of guitar. He first played in front of people in a middle-school band. The applause made him treat music as work.",
+   "place_name": "대구",
+   "place_name_en": "Daegu",
+   "lat": 35.87166666666667,
+   "lng": 128.60166666666666
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "길에서 캐스팅을 받다",
+   "title_en": "Street-cast in Daegu",
+   "description": "수업을 마치고 아버지 차에 올랐다. 창문을 두드린 사람은 빅히트 캐스팅 담당자였다. 시험 기간이라 서울 오디션에 가지 못하자 담당자가 다음 날 다시 찾아와 오디션을 진행했다. 합격한 뒤 부모와 형을 떠나 서울로 갔다. 처음부터 아이돌이 되고 싶었던 것은 아니었다. 데뷔하면 자기 이야기를 할 수 있겠다고 생각했다.",
+   "description_en": "After school he got into his father’s car. The person knocking on the window was a Big Hit casting manager. He could not go to Seoul for an audition because it was exam season. The manager came back the next day and held the audition there. After he passed, he left his parents and brother and moved to Seoul. He had not set out to become an idol. He thought a debut would let him tell his own story.",
+   "place_name": "대구",
+   "place_name_en": "Daegu",
+   "lat": 35.87166666666667,
+   "lng": 128.60166666666666
+  },
+  {
+   "year": 2017,
+   "year_end": 2019,
+   "kind": "work",
+   "title": "빅히트에서 연습하다",
+   "title_en": "Trains at Big Hit",
+   "description": "약 2년을 연습했다. 노래와 춤은 입사한 뒤에 본격적으로 배웠다. 작곡도 이 시기에 익혔다.",
+   "description_en": "He trained for about two years. He began learning singing and dancing in earnest after joining. He also picked up songwriting in that period.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "투모로우바이투게더로 데뷔하다",
+   "title_en": "Debuts with Tomorrow X Together",
+   "description": "1월 21일 다섯 번째이자 마지막 멤버로 공개됐다. 3월 4일 미니 앨범 《꿈의 장: STAR》로 데뷔했다.",
+   "description_en": "On January 21 he was revealed as the fifth and final member. On March 4 the group debuted with the EP The Dream Chapter: STAR.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《거울 속의 미로》를 공동 프로듀싱하다",
+   "title_en": "Co-produces Maze in the Mirror",
+   "description": "미니 앨범 《꿈의 장: ETERNITY》에 실렸다. 다섯 멤버 모두가 가사를 썼다. 연습실 거울을 마주 보던 연습생 시절을 담았다.",
+   "description_en": "The song appeared on the EP The Dream Chapter: ETERNITY. All five members wrote the lyrics. It held their trainee days facing one another in the practice-room mirror.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "education",
+   "title": "한림연예예술고등학교를 졸업하다",
+   "title_en": "Graduates from Hanlim Multi Art School",
+   "description": "실용무용과에서 공부했으며 데뷔한 뒤에도 학업을 이어 갔다. 태현과 휴닝카이도 같은 해 졸업했다.",
+   "description_en": "He finished the practical dance department. He completed school after debut. Taehyun and Hueningkai graduated the same year.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《Blue Spring》을 만들다",
+   "title_en": "Makes Blue Spring",
+   "description": "투모로우바이투게더는 월드투어 《Act: Sweet Mirage》 개막 공연에서 아직 발표하지 않은 이 곡을 먼저 불렀다. 범규는 멤버들이 팬에게 주는 선물로 곡을 만들었다고 말했다. 작곡에도 참여했다. 그해 정규 앨범 《이름의 장: FREEFALL》에 실렸다.",
+   "description_en": "They first sang the still-unreleased song at the opening shows of the Act: Sweet Mirage world tour. He said they made it as a gift for fans. He took part in the composition. It later appeared on the studio album The Name Chapter: FREEFALL.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": 2025,
+   "kind": "work",
+   "title": "《범이디오》를 진행하다",
+   "title_en": "Hosts Beomedio",
+   "description": "1월부터 개인 라디오 프로그램을 시작했다. 이듬해 2월 7일 한성대학교 낙산관에서 첫 오프라인 방송을 열었다. 멤버들이 게스트로 나왔다.",
+   "description_en": "He began a personal radio series in January. On February 7 of the following year he held the first offline broadcast at Hansung University’s Naksan Hall. The other members appeared as guests.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 솔로 믹스테이프 《Panic》을 내다",
+   "title_en": "Releases his first solo mixtape, Panic",
+   "description": "록 밴드 사운드를 바탕으로 한 자작곡이다. 작사와 작곡에 참여했고 허회경과 함께 가사를 썼다. 3월 27일 발표했다.",
+   "description_en": "It is a self-written song built on a rock-band sound. He took part in the writing and composing and wrote the lyrics with Heo Hoe-kyung. It came out on March 27.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전체 생애의 흐름은 자연스럽게 이어지며 사실 확인이 필요한 충돌은 없다. 주체가 뒤바뀌거나 생략된 문장, 직역투와 어색한 표현만 영문의 의미 범위 안에서 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부모와 형이 있었다」는 가족의 존재를 사후적으로 서술하는 듯해 출생 당시의 가족 관계가 자연스럽게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사람들 앞에 섰다」는 실제로 연주했다는 영문의 세부를 충분히 전달하지 못하고, 「음악을 직업으로 생각했다」도 한국어 결합이 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「담당자가 다음 날 다시 와 오디션을 봤다」는 캐스팅 담당자가 지원자로서 오디션을 본 것처럼 주어와 행동의 관계가 뒤바뀌어 읽힌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다섯 멤버가」를 자연스러운 표현으로 다듬고, 「마주보던」의 띄어쓰기를 바로잡았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「실용무용과를 나왔다」는 구어적이고, 뒤의 「학교를 마쳤다」와 졸업 사실이 겹쳤다. 전공과 데뷔 후 학업 지속이 각각 드러나도록 정리했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주체가 생략돼 범규가 혼자 노래한 것처럼 읽힐 수 있었고, 팬을 위한 선물로 곡을 만든 주체도 분명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「개인 라디오」만으로는 방송인지 수신기인지 불분명해 영문의 radio series에 맞춰 「개인 라디오 프로그램」으로 명확히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「록 밴드 사운드의 자작곡」은 수식 관계가 다소 뻣뻣하고, 「허회경과 가사를 함께 썼다」는 어순을 자연스럽게 다듬을 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

@@ -1,0 +1,248 @@
+{
+ "slug": "huang-zhong",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "남양에서 태어나다",
+   "title_en": "Is born in Nanyang",
+   "description": "자는 한승이다. 정사 열전은 형주 남양군 사람이라고만 적었다. 태어난 해는 남아 있지 않다. 후대에 제시된 생년은 정사에 기록된 연도가 아니다.",
+   "description_en": "His courtesy name was Hansheng. The official biography names him only as a man of Nanyang Commandery in Jing Province. It does not give a year of birth. Later dates attached to his birth are estimates, not a record in that history.",
+   "place_name": "난양",
+   "place_name_en": "Nanyang",
+   "lat": 32.99871,
+   "lng": 112.52921
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "유표 휘하에서 유현을 지키다",
+   "title_en": "Guards You County under Liu Biao",
+   "description": "유표가 황충을 중랑장으로 삼았다. 황충은 유표의 조카 유반과 함께 유현을 지켰다. 임명된 해는 열전에 없다.",
+   "description_en": "Liu Biao made him General of the Household. He held that county with Liu Pan, the governor’s nephew. The biography does not say in which year.",
+   "place_name": "유현",
+   "place_name_en": "Youxian",
+   "lat": 27.00775,
+   "lng": 113.34097
+  },
+  {
+   "year": 208,
+   "year_end": null,
+   "kind": "office",
+   "title": "한현 휘하에서 비장군을 대행하다",
+   "title_en": "Serves as acting Major-General under Han Xuan",
+   "description": "유표가 죽고 조조가 형주를 차지했다. 황충은 중랑장 직을 유지한 채 장사태수 한현의 휘하로 들어갔다.",
+   "description_en": "Liu Biao died and Cao Cao took Jing Province. He kept his old post and came under the Changsha administrator.",
+   "place_name": "창사",
+   "place_name_en": "Changsha",
+   "lat": 28.19874,
+   "lng": 112.97087
+  },
+  {
+   "year": 209,
+   "year_end": null,
+   "kind": "other",
+   "title": "한현과 함께 유비에게 투항하다",
+   "title_en": "Surrenders to Liu Bei with Han Xuan",
+   "description": "적벽 전투 뒤 유비가 형주 남쪽의 여러 군을 차지했다. 장사태수 한현이 항복하자 황충도 함께 유비에게 투항했다.",
+   "description_en": "After Red Cliffs, Liu Bei took the southern commanderies of Jing. When the Changsha administrator surrendered, he pledged himself as well.",
+   "place_name": "창사",
+   "place_name_en": "Changsha",
+   "lat": 28.19874,
+   "lng": 112.97087
+  },
+  {
+   "year": 211,
+   "year_end": null,
+   "kind": "travel",
+   "title": "유비를 따라 익주로 들어가다",
+   "title_en": "Follows Liu Bei into Yi Province",
+   "description": "유장이 도움을 청하자 유비의 군대는 가맹에 머물렀다. 훗날 유장을 공격한 군사 행동은 이 진영에서 시작되었다.",
+   "description_en": "Liu Zhang had asked for help, and the army halted at Jiameng. The later campaign against him started from that camp.",
+   "place_name": "소화",
+   "place_name_en": "Zhaohua",
+   "lat": 32.32475,
+   "lng": 105.96038
+  },
+  {
+   "year": 212,
+   "year_end": 214,
+   "kind": "battle",
+   "title": "가맹에서 군을 돌려 유장을 치다",
+   "title_en": "Turns from Jiameng to attack Liu Zhang",
+   "description": "유비와 유장이 갈라서자 황충은 가맹에서 공격 명령을 받았다. 적의 성채를 넘을 때마다 맨 앞에 섰다. 삼군에서 누구도 그의 용맹을 따르지 못했다.",
+   "description_en": "After the break with Liu Zhang he received his command there. He was always first up the enemy works. No one in the three armies matched his ferocity.",
+   "place_name": "소화",
+   "place_name_en": "Zhaohua",
+   "lat": 32.32475,
+   "lng": 105.96038
+  },
+  {
+   "year": 214,
+   "year_end": null,
+   "kind": "office",
+   "title": "익주가 평정되자 토로장군이 되다",
+   "title_en": "Is named General Who Attacks Rebels after Yi Province falls",
+   "description": "성도가 유비에게 문을 열었다. 황충은 여러 해 전선에서 싸운 뒤 토로장군에 임명되었다.",
+   "description_en": "Chengdu opened. The office followed the years he had spent at the front.",
+   "place_name": "청두",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.063333
+  },
+  {
+   "year": 219,
+   "year_end": null,
+   "kind": "battle",
+   "title": "정군산에서 하후연군을 무너뜨리다",
+   "title_en": "Breaks Xiahou Yuan’s army at Mount Dingjun",
+   "description": "유비가 양평에서 면수를 건너 산지에 진을 쳤다. 하후연은 그 진지를 빼앗으려고 산을 올라왔다. 법정이 공격할 때가 왔다고 말했다. 유비는 높은 곳에서 북을 울리며 아래로 공격하라고 명했다. 하후연의 군대는 정예병이었고, 유비군의 함성은 골짜기를 흔들었다. 그 싸움에서 하후연과 조조가 임명한 익주자사 조옹이 죽었다. 화살 한 발로 하후연을 쓰러뜨렸다는 이야기는 연의의 창작이다. 황충은 이 승리로 정서장군에 올랐다.",
+   "description_en": "Liu Bei crossed the Mian south from Yangping and camped along the mountain. Xiahou Yuan came up to take the ground. Fa Zheng said the blow could be struck. Liu Bei ordered a downhill attack with drums and shouts. Yuan’s troops were elite, and the roar shook the valley. Yuan died in that fight, as did Zhao Yong, Cao Cao’s appointed inspector of Yi. The tale of a single arrow cutting him down is a Romance invention. The victory brought the title General Who Conquers the West.",
+   "place_name": "면현",
+   "place_name_en": "Mianxian",
+   "lat": 33.1567,
+   "lng": 106.67448
+  },
+  {
+   "year": 219,
+   "year_end": null,
+   "kind": "office",
+   "title": "후장군에 임명되고 관내후에 봉해지다",
+   "title_en": "Is named General of the Rear and Secondary Marquis",
+   "description": "유비는 한중왕을 칭한 뒤 황충을 관우·장비·마초와 같은 반열에 올리려 했다. 제갈량은 황충의 이름이 관우와 마초에 미치지 못하는데 지금 나란히 두면 멀리 있는 관우가 달가워하지 않을 것이라고 말했다. 유비는 자신이 직접 해결하겠다고 했다. 비시는 관우에게 전장군의 인수를 전달하러 형주로 갔다. 관우는 자신이 노병과 같은 반열에 설 수 없다며 노했지만, 비시가 달래자 인수를 받아들였다.",
+   "description_en": "Liu Bei took the title King of Hanzhong and meant to place him on the same rank as Guan Yu, Zhang Fei, and Ma Chao. Zhuge Liang warned that his name had never stood with Guan Yu and Ma Chao, and that Guan Yu, far away, would resent the pairing. Liu Bei said he would handle that himself. Fei Shi carried the Front General’s seal to Jing and found Guan Yu refusing to stand in the same rank as an “old soldier.” Fei Shi talked him down, and Guan Yu accepted the seal.",
+   "place_name": "한중",
+   "place_name_en": "Hanzhong",
+   "lat": 33.07938,
+   "lng": 107.02598
+  },
+  {
+   "year": 220,
+   "year_end": null,
+   "kind": "death",
+   "title": "재직 중에 죽다",
+   "title_en": "Dies while still in office",
+   "description": "사인은 전하지 않는다. 이릉 싸움에서 화살을 맞고 쓰러졌다는 이야기는 연의의 창작이다. 아들 황서는 일찍 죽어 후사가 없었다.",
+   "description_en": "No cause is recorded. The story that he fell to an arrow in the Yiling campaign is a Romance invention. His son Huang Xu had already died young, leaving no heir.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 260,
+   "year_end": null,
+   "kind": "other",
+   "title": "후주가 시호를 내리다",
+   "title_en": "Receives a posthumous title from the Later Sovereign",
+   "description": "관우·장비·마초·방통과 함께 시호를 받았다. 황충의 시호는 강후였다. 조운은 이듬해 시호를 받았다.",
+   "description_en": "Guan Yu, Zhang Fei, Ma Chao, Pang Tong, and he were named together. His title was Marquis Gang. Zhao Yun received his the following year.",
+   "place_name": "청두",
+   "place_name_en": "Chengdu",
+   "lat": 30.66,
+   "lng": 104.063333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 모호한 지시어, 어색한 직역, 불분명한 주어·행동 관계를 바로잡았다. 사건 사이의 인물·장소·행동을 명시해 황충의 생애가 처음부터 끝까지 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 붙은 생년」이 무엇에 붙었다는 뜻인지 모호해, 후대에 제시된 생년이라는 의미를 분명히 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「유표 밑에서」는 다소 구어적이고 「그 고을」과 「조카」는 대상을 문맥으로 짐작해야 하므로 유현과 유표의 조카를 직접 밝혔다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「한현 밑에서」를 자연스러운 관직 서술로 고치고, 「옛 자리」가 앞 사건의 중랑장 직을 가리킨다는 점을 명시했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「형주 남쪽 여러 군을 받았다」와 「그 또한 몸을 맡겼다」가 직역투이고 행동 주체가 흐려, 유비가 여러 군을 차지하고 황충이 투항했다는 관계를 분명히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤의 싸움」이 누구를 상대로 한 어떤 사건인지 바로 알 수 없어, 유장을 공격한 뒤이은 군사 행동임을 밝혔다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이곳」과 「명령」의 관계를 구체화하고, 마지막 문장을 황충이 주어인 자연스러운 한국어로 다듬었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「성도가 열렸다」는 뜻을 짐작해야 하는 직역이고 「선봉을 섰던 공으로 직을 받았다」는 표현도 어색해, 성도가 문을 연 뒤 전선에서 싸운 황충이 관직을 받았다는 흐름으로 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "공격 명령과 함성의 주체를 분명히 했으며, 영문은 하후연을 화살 한 발로 쓰러뜨렸다는 이야기만 전하는데 국문이 「목을 베었다」는 세부를 덧붙이고 있어 영문의 의미 범위에 맞게 바로잡았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 두 관직 변화를 병렬 구조로 다듬고, 본문에서 같은 반열에 오르는 사람이 황충임을 밝혔다. 또한 「인수」가 관우에게 전달할 전장군의 인수라는 점을 명시해 앞 문장 없이도 대상을 알 수 있게 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아들은 황서가」의 조사 결합이 부자연스러워 「아들 황서는」으로 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 묶음이었다」가 구어적이고 무엇을 함께 받았는지 불분명해, 다른 인물들과 함께 시호를 받았다고 명시했다. 「그 다음 해에 받았다」도 시호를 받았다는 뜻이 드러나도록 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

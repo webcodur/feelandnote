@@ -1,0 +1,252 @@
+{
+ "slug": "james-c-fargo",
+ "events": [
+  {
+   "year": 1829,
+   "year_end": null,
+   "kind": "birth",
+   "title": "워터베일 촌에서 태어나다",
+   "title_en": "Born in the hamlet of Watervale",
+   "description": "아버지는 코네티컷 뉴런던에서 온 윌리엄 콩델 파고였다. 어머니는 스테이시 채펄 스트롱이었다. 맏형 윌리엄과는 열한 살 터울이었다.",
+   "description_en": "His father, William Congdell Fargo, had come from New London, Connecticut. His mother was Stacy Chappel Strong. The eldest brother, William, was eleven years older.",
+   "place_name": "포피",
+   "place_name_en": "Pompey",
+   "lat": 42.898888888889,
+   "lng": -76.015833333333
+  },
+  {
+   "year": 1845,
+   "year_end": null,
+   "kind": "work",
+   "title": "형의 특송 상회에 들어가다",
+   "title_en": "Joined his brother's express firm",
+   "description": "열다섯에 웰스 상회 서기가 되었다. 형은 그 상회의 동업자였고 디트로이트와 올버니로 화물을 보내고 있었다. 나중에는 돈이 든 소포를 직접 운반했다.",
+   "description_en": "At fifteen he became a clerk at Wells and Company. His brother was a partner and was sending freight to Detroit and Albany. He was later given the money packages to carry himself.",
+   "place_name": "버팔로",
+   "place_name_en": "Buffalo",
+   "lat": 42.88638888888889,
+   "lng": -78.87805555555556
+  },
+  {
+   "year": 1847,
+   "year_end": null,
+   "kind": "office",
+   "title": "서부 지사를 맡다",
+   "title_en": "Took charge of the western office",
+   "description": "형이 서부로 보낸 화물을 디트로이트에서 받았다. 호수 운송로와 철도가 만나는 이곳을 거쳐 특송망이 중서부로 뻗어 나갔다.",
+   "description_en": "He received the freight his brother pushed west. Lake and rail met here, and the express line crossed into the Midwest.",
+   "place_name": "디트로이트",
+   "place_name_en": "Detroit",
+   "lat": 42.331666666667,
+   "lng": -83.0475
+  },
+  {
+   "year": 1855,
+   "year_end": null,
+   "kind": "office",
+   "title": "중서부 대리인이 되다",
+   "title_en": "Named the Midwest agent",
+   "description": "아메리칸 익스프레스의 시카고 대리인으로 임명되었다. 중서부의 화물은 디어본가 사무소를 통해 회사 특송망에 들어왔다.",
+   "description_en": "He was named the city agent for American Express. Midwest freight now entered the company line through the Dearborn Street office.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1867,
+   "year_end": null,
+   "kind": "office",
+   "title": "본사 총감독이 되다",
+   "title_en": "Became general superintendent at headquarters",
+   "description": "형이 사장에 오른 이듬해 본사로 옮겼다. 특송망 전체를 운영했다.",
+   "description_en": "The year after his brother became president, he moved to headquarters. He now ran the whole express network.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1881,
+   "year_end": null,
+   "kind": "office",
+   "title": "아메리칸 익스프레스 사장이 되다",
+   "title_en": "Became president of American Express",
+   "description": "형이 버팔로에서 죽은 뒤 이사회가 그를 후임 사장으로 선출했다. 내셔널 익스프레스와 웨스트콧 익스프레스 사장도 맡았다. 웰스파고 이사에도 올랐다.",
+   "description_en": "After his brother died in Buffalo, the directors elected him to the vacancy. He also became president of National Express and Westcott Express. He was elected a Wells Fargo director as well.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1882,
+   "year_end": null,
+   "kind": "work",
+   "title": "송금환을 내놓다",
+   "title_en": "Launched the money order",
+   "description": "우체국 송금환 때문에 현금 운송 수요가 줄고 있었다. 마셀러스 베리에게 금액을 변조할 수 없는 양식을 만들게 했다. 첫해에 이십오만 장이 발행되었다.",
+   "description_en": "The post office was taking cash traffic with its money order. He had Marcellus Berry design a form that could not be altered. A quarter of a million were issued in the first year.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1888,
+   "year_end": 1890,
+   "kind": "travel",
+   "title": "유럽에서 신용장을 현금으로 바꾸지 못하다",
+   "title_en": "Could not cash a letter of credit in Europe",
+   "description": "사장 명의의 신용장을 들고도 큰 도시 밖에서는 현금을 받지 못했다. 지정된 은행에서 영업시간에만 현금으로 바꿀 수 있었다. 귀국한 뒤 베리에게 다른 방법을 찾으라고 했다.",
+   "description_en": "Even with a letter of credit in the president's name, he could not get cash outside the large cities. Only named banks, and only in banking hours, would honor it. He came home and told Berry to find another way.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1891,
+   "year_end": null,
+   "kind": "work",
+   "title": "여행자수표를 내놓다",
+   "title_en": "Launched the traveler's cheque",
+   "description": "베리는 서명과 대조 서명이 일치해야 현금으로 바꿀 수 있는 수표를 만들었다. 십·이십·오십·백 달러권으로 판매되기 시작했다. 수표를 잃어버리면 회사가 소지인에게 금액을 보상했다.",
+   "description_en": "Berry made a cheque that needed a signature and a matching countersignature. It went on sale in ten, twenty, fifty, and one hundred dollar notes. If it was lost, the company paid the holder back.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1895,
+   "year_end": null,
+   "kind": "work",
+   "title": "유럽 첫 사무소를 열다",
+   "title_en": "Opened the first European office",
+   "description": "여행자수표를 현지에서 현금으로 바꾸려면 현지 창구가 필요했다. 이듬해에는 잉글랜드에, 그다음에는 독일에 사무소를 열었다.",
+   "description_en": "The traveler's cheque needed a local counter if it was to be cashed on the spot. An office in England followed the next year, then one in Germany.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 1914,
+   "year_end": null,
+   "kind": "office",
+   "title": "사장직에서 물러나다",
+   "title_en": "Resigned the presidency",
+   "description": "이사회는 그가 회사에서 칠십 년간 일했다고 기록했다. 조지 채드번 테일러가 사장직을 이었다. 파고는 맡고 있던 이사직을 유지했다.",
+   "description_en": "The board wrote that he had been with the company for seventy years. George Chadbourne Taylor took the chair. He kept his directorships.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1915,
+   "year_end": null,
+   "kind": "death",
+   "title": "파크 애비뉴 집에서 죽다",
+   "title_en": "Died at his Park Avenue house",
+   "description": "사장직에서 물러난 지 한 해 만에 죽었다. 아들 윌리엄은 세 회사의 서기로, 제임스 프랜시스는 세 회사의 재무로 계속 일했다.",
+   "description_en": "It was a year after he stepped down. His son William remained secretary, and James Francis remained treasurer, of the three companies.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 직역투, 불분명한 지시어, 어색한 직함·운송 표현을 바로잡았다. 입사에서 지사 운영, 본사 총감독, 사장 취임, 금융상품과 유럽 사무소 확장, 퇴임과 사망으로 이어지는 생애의 흐름도 자연스럽게 정리했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 집 동업자」는 상회를 집으로 옮긴 직역투이고, 「돈 꾸러미를 들고 다녔다」는 money packages의 의미가 불분명했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "western office를 「서쪽 창구」로 옮겨 지사를 맡았다는 뜻이 흐려졌고, 「형이 밀어 온 짐」과 「특송망이 중서부로 넘어갔다」도 영어 어순과 동사를 그대로 따른 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 도시」는 해당 문장만으로 어느 도시인지 알 수 없고, 「중서부 짐이 회사 노선에 실렸다」는 화물이 특송망에 편입되었다는 의미를 부자연스럽게 전달했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "이사회가 누구를 어떤 자리의 후임으로 뽑았는지가 생략되어 사장 취임 과정이 선명하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「우체국이 현금 운송을 빼앗고 있었다」는 cash traffic을 기계적으로 옮긴 표현이며, could not be altered는 위조 방지보다 변조 방지에 가깝다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 현금으로 바꾸지 못한 대상이 신용장이라는 핵심이 빠졌고, 지정 은행과 영업시간이라는 두 제약도 문장 사이에서 느슨하게 연결되어 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이중 서명 수표」만으로는 서명과 대조 서명이 일치해야 한다는 작동 방식이 드러나지 않았고, 「값을 물어 주었다」도 금융상품 설명으로는 모호했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「현지에서 통하려면」은 여행자수표를 현지에서 현금으로 바꾼다는 구체적인 행동을 흐렸고, 뒤 문장의 사무소 개설 순서도 다소 끊겨 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사에 있었다고 이사회가 적었다」와 「뒤를 이었다」는 직역투이고, 마지막 문장의 이사직 주체도 생략되어 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「물러난 지 한 해였다」는 무엇이 한 해 뒤에 일어났는지 문장 안에서 드러나지 않았고, 두 사람이 세 회사에서 각각 어떤 직책을 유지했는지도 어색하게 연결되어 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

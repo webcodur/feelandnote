@@ -1,0 +1,260 @@
+{
+ "slug": "hugh-grant",
+ "events": [
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "birth",
+   "title": "해머스미스에서 태어나다",
+   "title_en": "Born in Hammersmith",
+   "description": "둘째 아들로 태어나 치스윅에서 자랐다. 아버지는 시포스 하이랜더스 장교를 지낸 뒤 카펫 사업을 했다. 어머니는 서런던 공립학교에서 라틴어와 프랑스어와 음악을 가르쳤다. 형은 뒤에 뉴욕에서 투자은행원으로 일했다.",
+   "description_en": "He was the second son and grew up in Chiswick. His father served as an officer in the Seaforth Highlanders, then ran a carpet business. His mother taught Latin, French and music in west London state schools. His older brother later worked as an investment banker in New York.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1969,
+   "year_end": 1978,
+   "kind": "education",
+   "title": "래티머 어퍼에 장학생으로 입학하다",
+   "title_en": "Enters Latymer Upper on a scholarship",
+   "description": "당시 해머스미스에 있던 직접지원제 그래머 스쿨이었다. 럭비 1군에서 뛰었고 크리켓과 축구도 했다. 학교를 대표해 퀴즈 방송 「톱 오브 더 폼」에도 나갔다.",
+   "description_en": "It was then a direct-grant grammar school in Hammersmith. He played first-XV rugby, cricket and football. He also represented the school on the quiz show Top of the Form.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1979,
+   "year_end": 1982,
+   "kind": "education",
+   "title": "옥스퍼드에서 영문학을 전공하다",
+   "title_en": "Reads English at Oxford",
+   "description": "골즈워디 장학금으로 뉴 칼리지에 들어갔다. 재학 중 옥스퍼드대학교 영화재단이 제작한 학생 영화 《프리빌리지드》로 스크린에 데뷔했다. 영문학에서 우등 2급 상위 학위를 받았다.",
+   "description_en": "He entered New College on a Galsworthy scholarship. While there he made his screen debut in the student film Privileged, produced by the Oxford University Film Foundation. He left with an upper-second in English.",
+   "place_name": "옥스퍼드",
+   "place_name_en": "Oxford",
+   "lat": 51.751944444444,
+   "lng": -1.2577777777778
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "work",
+   "title": "노팅엄 플레이하우스에서 무대에 서다",
+   "title_en": "Joins the Nottingham Playhouse",
+   "description": "에쿼티 조합원 자격을 얻기 위해 한 시즌 동안 레퍼토리 공연에 참여했다. 작은 배역에 지쳐 친구 크리스 랭, 앤디 테일러와 스케치 희극단 자키스 오브 노퍽을 만들었다. 그해 에든버러 프린지에서 예수 탄생을 다룬 이들의 스케치가 주목받았다.",
+   "description_en": "He spent a repertory season there to get his Equity card. Tired of small parts, he formed the sketch troupe the Jockeys of Norfolk with Chris Lang and Andy Taylor. Their Nativity sketch drew notice at the Edinburgh Fringe that year.",
+   "place_name": "노팅엄",
+   "place_name_en": "Nottingham",
+   "lat": 52.955,
+   "lng": -1.1491666666667
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "work",
+   "title": "《모리스》로 볼피컵을 받다",
+   "title_en": "Wins the Volpi Cup for Maurice",
+   "description": "제임스 아이보리 영화에서 클라이브 더럼을 연기했다. 제임스 윌비와 베네치아 영화제 남우주연상을 함께 받았다. 이때 처음으로 국제적으로 이름을 알렸다.",
+   "description_en": "He played Clive Durham in James Ivory's film. He shared the Venice Best Actor prize with James Wilby. It was the first time his name travelled internationally.",
+   "place_name": "베네치아",
+   "place_name_en": "Venice",
+   "lat": 45.439722222222,
+   "lng": 12.331944444444
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "work",
+   "title": "《네 번의 결혼식과 한 번의 장례식》에 출연하다",
+   "title_en": "Stars in Four Weddings and a Funeral",
+   "description": "리처드 커티스가 쓴 각본에서 신랑 들러리 찰스를 연기했다. 이 연기로 골든글로브와 영국 아카데미 남우주연상을 받았다. 이후 10년 동안 맡은 배역은 이 역할의 영향을 받았다.",
+   "description_en": "He played Charles, the best man, in Richard Curtis's screenplay. A Golden Globe and a BAFTA for Best Actor followed. The next decade of parts turned on this role.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "《노팅힐》에서 서점 주인을 연기하다",
+   "title_en": "Plays the bookshop owner in Notting Hill",
+   "description": "줄리아 로버츠와 함께 출연해 윌리엄 새커를 연기했다. 리처드 커티스가 각본을 쓰고 로저 미첼이 연출했다. 앞선 영화가 열어 놓은 길을 런던에서 다시 걸었다.",
+   "description_en": "Opposite Julia Roberts he played William Thacker. Curtis wrote it again and Roger Michell directed. He walked the path the earlier film had opened, in the same city.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "《어바웃 어 보이》에서 윌을 연기하다",
+   "title_en": "Plays Will in About a Boy",
+   "description": "닉 혼비 소설을 각색한 영화에서 약혼녀도 아이도 없이 사는 남자를 맡았다. 골든글로브 남우주연상 후보에 올랐다. 윌은 앞서 연기했던, 말을 더듬는 신랑 들러리 찰스와는 다른 인물이었다.",
+   "description_en": "In the Nick Hornby adaptation he played a man with neither fiancée nor child. He was nominated for a Golden Globe for Best Actor. It was a different face from the stammering best man.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2011,
+   "year_end": 2012,
+   "kind": "other",
+   "title": "타블로이드 도청을 폭로하다",
+   "title_en": "Exposes tabloid phone hacking",
+   "description": "길가에서 전 「뉴스 오브 더 월드」 기자 폴 맥멀런을 만난 뒤 그를 다시 찾아가 대화를 몰래 녹음했다. 「뉴 스테이츠먼」에 녹취록을 실었다. 그해 가을 레브슨 조사에서 증언했고, 이듬해 해크드 오프 이사회에 들어갔다.",
+   "description_en": "After a roadside meeting with former News of the World journalist Paul McMullan, he went back and secretly recorded their talk. He published the transcript in the New Statesman. That autumn he testified at the Leveson Inquiry, and the next year he joined the board of Hacked Off.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2016,
+   "year_end": 2018,
+   "kind": "work",
+   "title": "《플로렌스 포스터 젠킨스》에서 동반자를 연기하다",
+   "title_en": "Plays the companion in Florence Foster Jenkins",
+   "description": "스티븐 프리어스 영화에서 메릴 스트립이 연기한 플로렌스의 동반자 세인트 클레어 베이필드를 맡았다. 이듬해 《패딩턴 2》에서 피닉스 뷰캐넌을 연기했다. 이어 프리어스 감독과 다시 작업한 《아주 영국적인 스캔들》에서 제러미 소프를 맡았다.",
+   "description_en": "In Stephen Frears's film he played St. Clair Bayfield, companion to Meryl Streep's title role. The next year he played Phoenix Buchanan in Paddington 2. Under Frears again he played Jeremy Thorpe in A Very English Scandal.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "other",
+   "title": "안나 에베르스타인과 결혼하다",
+   "title_en": "Marries Anna Eberstein",
+   "description": "스웨덴 출신 프로듀서와 첼시 등기소에서 식을 올렸다. 두 사람에게는 이미 세 자녀가 있었고, 그랜트에게는 다른 관계에서 태어난 두 자녀도 있었다. 이번이 그의 첫 혼인이었다.",
+   "description_en": "He married the Swedish producer at Chelsea Register Office. They already had three children, and he had two more from another relationship. It was his first marriage.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "《언두잉》에서 의사인 남편을 연기하다",
+   "title_en": "Plays the doctor husband in The Undoing",
+   "description": "니콜 키드먼과 함께 출연해 뉴욕의 소아암 전문의 조너선 프레이저를 맡았다. 데이비드 E. 켈리가 쓰고 수잔네 비에르가 연출한 한정 시리즈였다. 프라임타임 에미상 남우주연상 후보에 올랐다.",
+   "description_en": "Opposite Nicole Kidman he played Jonathan Fraser, a paediatric oncologist in New York. David E. Kelley wrote the limited series and Susanne Bier directed. He was nominated for a Primetime Emmy for lead actor.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮긴 듯한 표현, 대상을 바로 알기 어려운 지시어와 비유, 빠진 고유명사와 수상 부문을 바로잡았다. 영문에 없는 평가나 인과는 보태지 않고 사건의 세부와 생애의 흐름을 유지했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「들어가다」를 학교 입학 사건에 맞는 동사로 고치고, 학교를 대표해 방송에 출연했다는 행동 관계를 분명히 했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 있는 첫 출연작 《프리빌리지드》가 빠져 있었고, 「상급 이등 학위」는 영국 학위 등급을 기계적으로 옮긴 표현이라 자연스럽게 바로잡았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배우 조합 카드」와 희극 단체명 「노퍽의 기수들」이 직역투였으며, 「성탄 스케치」만으로는 스케치의 소재가 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「국제 무대에 처음 이름이 올랐다」가 영어식 비유를 그대로 옮긴 문장이어서 같은 의미를 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "수상 결과를 나타낸 「따라왔다」와 이후 경력을 설명한 「배역이 여기서 갈렸다」가 영어식 비유라서 주어와 관계가 분명한 문장으로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「커티스가 다시 썼다」는 각본을 고쳐 썼다는 뜻으로 오해될 수 있었고, 「같은 도시」는 앞 문장만으로 런던을 가리키는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「앞선 배역의 더듬는 신랑 들러리와는 다른 얼굴」은 수식 관계와 비교 대상이 불분명해, 앞서 연기한 찰스와 이번 인물을 직접 비교하도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고장 난 차」는 영문에 없는 세부였으며, 「기록」은 몰래 녹음한 대화를 공개했다는 의미를 충분히 전달하지 못해 「녹취록」으로 바로잡았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「메릴 스트립의 동반자」는 실제 인물 관계처럼 읽힐 수 있었고, 「프리어스 밑에서」는 부자연스러운 직역투였다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그와 이미 아이 셋이 있었고, 다른 사이에서도」는 각 자녀가 누구와의 관계에서 태어났는지 문장 구조가 불분명했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「의사 남편」을 자연스러운 관형 구조로 고치고, 영문에 명시된 프라임타임 에미상과 남우주연 부문을 국문에도 보존했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

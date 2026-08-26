@@ -1,0 +1,260 @@
+{
+ "slug": "amnon-shashua",
+ "events": [
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "birth",
+   "title": "기바타임에서 태어나다",
+   "title_en": "Is born in Givatayim",
+   "description": "오르트 테크니쿰에서 컴퓨터공학을 배웠다. 고등학교 영재 과정은 훗날 수학과 전산학을 공부하는 출발점이 되었다.",
+   "description_en": "He studied computer engineering at the ORT Technikum. A high-school program for gifted students became the door to later work in mathematics and computing.",
+   "place_name": "기바타임",
+   "place_name_en": "Givatayim",
+   "lat": 32.069722222222,
+   "lng": 34.811666666667
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "education",
+   "title": "텔아비브대학교에서 수학과 컴퓨터과학을 배우다",
+   "title_en": "Studies mathematics and computer science at Tel Aviv University",
+   "description": "기갑부대 장교로 제1차 레바논 전쟁에 참전한 뒤 제대했다. 일주일 만에 학부 수업에 앉았다. 수학적 사고방식이 그의 관심을 사로잡았다.",
+   "description_en": "He left the army after serving as an armored-corps officer in the First Lebanon War. A week later he sat down in undergraduate classes. The habits of mathematical thinking held him.",
+   "place_name": "텔아비브",
+   "place_name_en": "Tel Aviv",
+   "lat": 32.08,
+   "lng": 34.78
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "education",
+   "title": "바이츠만과학연구소에서 석사학위를 받다",
+   "title_en": "Earns a master's degree at the Weizmann Institute",
+   "description": "시몬 울만 아래에서 컴퓨터과학을 전공했다. 눈이 장면을 어떻게 인식하는지가 연구 주제가 되었다.",
+   "description_en": "He studied computer science under Shimon Ullman. How the eye makes sense of a scene became his research question.",
+   "place_name": "레호보트",
+   "place_name_en": "Rehovot",
+   "lat": 31.891388888889,
+   "lng": 34.807777777778
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "education",
+   "title": "MIT 인공지능연구소에서 박사학위를 받다",
+   "title_en": "Earns a doctorate at the MIT Artificial Intelligence Laboratory",
+   "description": "뇌·인지과학 박사논문에서 삼차원 시각 인식의 기하와 광도를 다루었다. 이듬해 토마소 포조 연구실에서 박사후 과정을 마쳤다.",
+   "description_en": "His thesis in brain and cognitive sciences treated geometry and photometry in three-dimensional visual recognition. The next year he finished a postdoctoral stay in Tomaso Poggio's laboratory.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "work",
+   "title": "코그니텐스를 세우다",
+   "title_en": "Founds CogniTens",
+   "description": "공장 부품을 삼차원 광학 방식으로 측정하는 회사를 세웠다. 같은 해 테크니온에서 강의를 시작했다. 이 회사는 뒤에 헥사곤에 인수되었다.",
+   "description_en": "He opened a company that measured factory parts with three-dimensional optical scanning. That same year he began teaching at the Technion. Hexagon later bought the firm.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "office",
+   "title": "히브리대학교 교수진에 합류하다",
+   "title_en": "Joins the Hebrew University faculty",
+   "description": "컴퓨터과학 전임강사로 자리를 잡았다. 뒤에 부교수와 정교수를 거쳐 작스 석좌를 맡았다. 2000년대 초에는 공학·컴퓨터과학대학을 이끌었다.",
+   "description_en": "He took a senior-lecturer post in computer science. He later became associate professor, full professor, and holder of the Sachs chair. In the early 2000s he headed the school of engineering and computer science.",
+   "place_name": "예루살렘",
+   "place_name_en": "Jerusalem",
+   "lat": 31.776679,
+   "lng": 35.234156
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "모빌아이를 공동 창업하다",
+   "title_en": "Co-founds Mobileye",
+   "description": "지브 아비람과 함께 회사를 세웠다. 값싼 카메라 한 대와 소프트웨어로 앞차를 인식한다는 연구 구상을 운전자 보조 사업으로 옮겼다.",
+   "description_en": "He opened the company with Ziv Aviram. They turned a research idea—seeing the car ahead with one cheap camera and software—into a driver-assistance business.",
+   "place_name": "예루살렘",
+   "place_name_en": "Jerusalem",
+   "lat": 31.776679,
+   "lng": 35.234156
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "오캠을 공동 창업하다",
+   "title_en": "Co-founds OrCam",
+   "description": "같은 시각 기술을 시각장애인용 보조기기에 적용했다. 착용형 장치는 글과 얼굴을 인식해 음성으로 알려 주었다.",
+   "description_en": "He put the same visual technology onto a device for people who could not see well. A wearable camera read text and faces aloud.",
+   "place_name": "예루살렘",
+   "place_name_en": "Jerusalem",
+   "lat": 31.776679,
+   "lng": 35.234156
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "모빌아이를 뉴욕 증권거래소에 상장하다",
+   "title_en": "Takes Mobileye public on the New York Stock Exchange",
+   "description": "이스라엘 기업으로는 당시 미국에서 가장 큰 기업공개였다. 약 10억 달러를 조달했고 시가총액은 53억 달러로 매겨졌다.",
+   "description_en": "It was then the largest U.S. listing by an Israeli company. The offering raised about a billion dollars and valued the firm at $5.3 billion.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "office",
+   "title": "인텔 인수 뒤 모빌아이를 이끌다",
+   "title_en": "Leads Mobileye after the Intel acquisition",
+   "description": "인텔이 153억 달러에 회사를 샀다. 공동창업자 지브 아비람이 자리에서 내려왔다. 샤슈아는 최고경영자와 최고기술책임자를 맡았고 인텔 수석부사장도 겸했다.",
+   "description_en": "Intel bought the company for $15.3 billion. Co-founder Ziv Aviram stepped down. He took over as chief executive and chief technology officer and also became an Intel senior vice president.",
+   "place_name": "예루살렘",
+   "place_name_en": "Jerusalem",
+   "lat": 31.776679,
+   "lng": 35.234156
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "모빌아이를 나스닥에 다시 상장하다",
+   "title_en": "Returns Mobileye to the public market on Nasdaq",
+   "description": "인텔 아래 비상장으로 있던 주식이 다시 공개시장에서 거래되기 시작했다. 최고경영자 자리는 그대로 유지했다.",
+   "description_en": "Shares that had gone private under Intel began trading in the open market again. He stayed on as chief executive.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "office",
+   "title": "최고경영자직에서 물러나겠다고 이사회에 알리다",
+   "title_en": "Tells the board he will leave the chief executive post",
+   "description": "후임이 정해지면 자리에서 내려오겠다고 이사회에 전했다. 이사회는 신임 최고경영자가 오면 의장직을 제안했다. 후임이 정해질 때까지는 회사를 계속 이끈다.",
+   "description_en": "He said he would step down once a successor was named. The board offered him the chair once the new chief executive arrived. Until then he keeps running the company.",
+   "place_name": "예루살렘",
+   "place_name_en": "Jerusalem",
+   "lat": 31.776679,
+   "lng": 35.234156
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 의미의 상한선으로 삼아 사건 전체를 대조한 결과, 직역투와 모호한 주어, 부자연스러운 비유, 기관명 누락, 숫자 표기 오류를 바로잡았다. 사실 확인이 필요한 충돌이나 영문 자체의 중대한 모호성은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 이어질 … 공부의 입구」가 영어의 비유를 그대로 옮긴 표현이라 한국어의 시간 관계와 의미가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수학이 주는 사고법이 그를 붙잡았다」는 주어와 행동 관계가 어색한 직역이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「눈이 장면을 알아보다」라는 결합이 시각 인식 연구를 설명하는 문장으로는 다소 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "국문 제목에서 영문에 명시된 MIT가 빠졌고, 「뇌인지과학으로」는 박사논문과 연구 내용의 관계를 분명하게 보여 주지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자동차 공장의 치수를 재는」은 회사가 공장 자체의 치수를 측정했다는 뜻으로 읽힐 수 있었고, 「회사에 넘어갔다」는 인수 관계를 불분명하게 표현했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이천이 년대」는 잘못된 연대 표기였고, 영문의 공학·컴퓨터과학 조직 가운데 컴퓨터과학이 국문에서 누락되어 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「앞차를 보게 하자」는 시각 인식 기술의 작동 대상을 지나치게 구어적으로 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "기술을 기기에 「얹었다」거나 얼굴을 「읽어 귀에 들려주었다」는 표현이 직역투여서 장치가 수행한 행동을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "큰 금액을 한글로 이어 쓴 표기가 한눈에 읽히지 않아 숫자 관계를 파악하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "아비람을 주어로 둔 문장 다음에 주어 없이 직책을 나열해, 누가 최고경영자와 최고기술책임자를 맡았는지 순간적으로 모호했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 통보 대상인 이사회가 빠졌고, 「그때까지는 회사를 그대로 이끈다」는 시점과 지속 관계가 모호했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   11
+  ]
+ }
+}

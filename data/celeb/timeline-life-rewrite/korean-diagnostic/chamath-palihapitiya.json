@@ -1,0 +1,218 @@
+{
+ "slug": "chamath-palihapitiya",
+ "events": [
+  {
+   "year": 1976,
+   "year_end": null,
+   "kind": "birth",
+   "title": "싱할라 집안에서 태어나다",
+   "title_en": "Is born into a Sinhalese family",
+   "description": "스리랑카 남부 해안 도시에서 태어났다. 어머니는 간호사였고 아버지는 보건부에서 일했다.",
+   "description_en": "He was born in a coastal city in the south of Sri Lanka. His mother was a nurse and his father worked in the health ministry.",
+   "place_name": "갈레",
+   "place_name_en": "Galle",
+   "lat": 6.032777777777778,
+   "lng": 80.21555555555555
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지를 따라 캐나다로 가다",
+   "title_en": "Follows his father to Canada",
+   "description": "아버지가 스리랑카 고등판무관실에 발령받았다. 체류 기간은 4년으로 예정돼 있었다. 차마스와 나머지 가족도 아버지를 따라갔다.",
+   "description_en": "His father was posted to the Sri Lankan High Commission. The stay was meant to last four years. The son and the rest of the family went with him.",
+   "place_name": "오타와",
+   "place_name_en": "Ottawa",
+   "lat": 45.424722222222,
+   "lng": -75.695
+  },
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "other",
+   "title": "가족이 난민을 신청하다",
+   "title_en": "His family applies for refugee status",
+   "description": "아버지의 임기가 끝났지만 가족에게는 스리랑카로 돌아갈 곳이 없었다. 내전이 벌어지고 있었고 아버지는 정부에서 일자리를 잃었다. 다섯 식구는 세탁소 위에 있는 방 두 칸에서 살았고, 어머니는 가정부로 일하다가 간호조무사가 되었다.",
+   "description_en": "When the posting ended there was no place left for them back in Sri Lanka. A civil war was on, and his father lost his government job. Five people lived in two rooms above a laundry. His mother worked as a housekeeper and then a nurse's aide.",
+   "place_name": "오타와",
+   "place_name_en": "Ottawa",
+   "lat": 45.424722222222,
+   "lng": -75.695
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "education",
+   "title": "전기공학 학위를 받다",
+   "title_en": "Earns a degree in electrical engineering",
+   "description": "오타와에서 학교를 다닌 뒤 워털루대학교에 들어갔다. 응용과학 학사 학위를 받았다.",
+   "description_en": "After school in Ottawa he entered the University of Waterloo. He finished a bachelor of applied science.",
+   "place_name": "워털루",
+   "place_name_en": "Waterloo",
+   "lat": 43.466666666667,
+   "lng": -80.516666666667
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "은행에서 금리 파생상품을 다루다",
+   "title_en": "Trades interest-rate derivatives at a bank",
+   "description": "졸업 직후 몬트리올은행 계열 투자은행에 들어갔다. 금리 파생상품을 설계하고 거래했다.",
+   "description_en": "Right after graduation he joined the investment bank of the Bank of Montreal. He built and traded interest-rate derivatives.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2000,
+   "year_end": 2005,
+   "kind": "work",
+   "title": "윈앰프에 들어가다",
+   "title_en": "Joins Winamp",
+   "description": "에이오엘이 인수한 음악 재생기 회사에서 제품 및 사업 업무를 맡았다. 사무실은 미션 지구의 창고에 있었다. 이후 에이오엘의 메신저 부문을 이끌며 부사장이 되었다.",
+   "description_en": "He took product and business work at the music-player company AOL had bought. The office was a warehouse in the Mission. He later ran AOL's messaging division and became a vice president.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2007,
+   "year_end": 2011,
+   "kind": "work",
+   "title": "페이스북 성장 조직을 맡다",
+   "title_en": "Takes charge of Facebook growth",
+   "description": "메이필드펀드를 잠시 거친 뒤 페이스북에서 가입자 성장, 해외 사업, 모바일 부문을 맡았다. 다른 사이트의 구매 내역을 추적하는 비콘을 출시했지만 반발이 일자 폐지했다. 가입자 수가 계속 늘던 시기에 회사를 떠났다.",
+   "description_en": "After a short stretch at Mayfield Fund he took user growth, international, and mobile. He rolled out Beacon, which followed purchases across other sites, then shut it after the backlash. He left while the user count was still climbing.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "소셜 캐피털을 세우다",
+   "title_en": "Founds Social Capital",
+   "description": "당시 아내였던 브리제트 라우와 함께 벤처 펀드를 설립했다. 그가 최대 유한책임출자자였고 페이스북도 출자했다. 의료·교육·금융과 기업용 소프트웨어에 투자했으며, 야머의 투자 라운드를 이끌었다.",
+   "description_en": "He opened a venture fund with his then-wife Brigette Lau. He was the largest limited partner, and Facebook put in money too. The firm put money into health, education, finance, and enterprise software, and he led a Yammer round.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "외부 자금 조달을 중단하고 자기 자본으로 투자하다",
+   "title_en": "Stops raising outside money and invests his own",
+   "description": "파트너들이 회사를 떠났다. 그는 유한책임출자자들로부터 더는 자금을 모으지 않고 자기 자본으로 회사를 운영하겠다고 밝혔다. 앞서 상장한 기업인수목적회사는 그대로 유지했다.",
+   "description_en": "Partners left. He said he would stop raising money from limited partners and run the firm on his own capital. The blank-check company he had already taken public stayed in place.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "버진 갤럭틱과 합병을 발표하다",
+   "title_en": "Announces a merger with Virgin Galactic",
+   "description": "소셜 캐피털 헤도소피아가 리처드 브랜슨의 우주여행 회사와 합병 계약을 맺었다. 그는 1억 달러를 추가로 투자하고 합병 회사의 이사회 의장을 맡기로 했다. 그해 가을 합병 절차가 마무리되면서 버진 갤럭틱은 뉴욕증권거래소에 상장됐다.",
+   "description_en": "Social Capital Hedosophia signed a merger with Richard Branson's spaceflight company. He committed another hundred million dollars and was to chair the combined board. When the deal closed that autumn, Virgin Galactic listed on the New York Stock Exchange.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미와 세부 사항은 유지하면서 직역투, 어색한 술어, 불분명한 지칭, 사건 사이의 연결이 끊기는 표현을 다듬었다. 사실 확인이 필요한 충돌이나 모호성은 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「체류는 사년으로 잡혀 있었다」가 영어식 피동 표현이고, 「아들과 나머지 식구」는 대상 인물을 불필요하게 우회해 지칭한다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「내전이 나고 있었다」가 부자연스럽고, 어머니가 가정부로 일한 뒤 간호조무사가 된 순서가 국문에서 흐려졌다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「학사를 받다」와 「응용과학 학사로 마쳤다」는 학위 취득을 나타내는 한국어 표현으로 어색하다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "금융상품을 「만들었다」고 한 표현이 파생상품을 설계했다는 의미를 정확하고 자연스럽게 전달하지 못한다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제품과 사업을 맡았다」, 「사무실은 창고였다」, 「뒤에」가 문맥에 비해 거칠고 직역투로 읽힌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가입자 성장과 해외·모바일을 맡았다」는 담당 영역의 관계가 모호하고, 「광고를 폈다가 반발에 접었다」는 비콘을 출시한 뒤 폐지했다는 행동을 부자연스럽게 표현한다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "벤처 펀드를 「열었다」거나 투자처에 돈을 「넣었다」는 표현이 가볍고, 유한책임출자자와 투자 라운드의 관계도 충분히 분명하지 않다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「외부 돈을 끊고 자기 돈으로 돌리다」는 무엇을 중단하고 무엇으로 회사를 운영했는지 불분명하며, 「띄워 둔」은 기업인수목적회사를 이미 상장했다는 뜻을 전달하지 못한다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「거래가 닫히자」와 「증권거래소에 올랐다」가 영어 표현을 순서대로 옮긴 직역투다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

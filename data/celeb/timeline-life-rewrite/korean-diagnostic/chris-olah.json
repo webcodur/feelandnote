@@ -1,0 +1,225 @@
+{
+ "slug": "chris-olah",
+ "events": [
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "birth",
+   "title": "토론토에서 자라다",
+   "title_en": "Grows up in Toronto",
+   "description": "캐나다에서 태어났다. 에이블라드 스쿨을 2010년에 마쳤다. 대학 수준 과목 여섯 개를 미리 이수하고 AP 내셔널 스칼러로 선정됐다. 2009년부터 해커스페이스 해크랩닷티오에서 시간을 보냈다.",
+   "description_en": "He was born in Canada. He finished The Abelard School in 2010. He completed six university-level courses early and was named an AP National Scholar. From 2009 he spent time at the hackerspace hacklab.to.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2010,
+   "year_end": 2012,
+   "kind": "education",
+   "title": "토론토 대학교를 떠나다",
+   "title_en": "Leaves the University of Toronto",
+   "description": "수학을 공부하려고 토론토 대학교에 입학했다. 주요 20개국 정상회의를 앞두고 해크랩 동료 바이런 손이 체포됐다. 경찰은 그를 폭발물 관련 혐의로 기소했다. 올라가 1학년이라 재판을 방청할 시간이 있었다. 이듬해에는 휴학하고 재판이 끝날 때까지 방청했다. 심문 내용을 받아 적어 유튜브에 올렸다. 주변 어른들은 그러지 말라고 말렸다. 2012년 5월 손은 모든 혐의에 대해 무죄 판결을 받았다.",
+   "description_en": "He enrolled to study mathematics. Ahead of the G20 summit, hacklab colleague Byron Sonne was arrested. Police charged him over explosives. As a first-year student he had time to sit in court. The next year he took leave and stayed through the trial. He transcribed an interrogation and put it on YouTube. The adults around him told him not to. In May 2012 Sonne was acquitted of all charges.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "other",
+   "title": "틸 펠로십을 받다",
+   "title_en": "Receives a Thiel Fellowship",
+   "description": "열아홉 살이었다. 10만 달러를 받아 학교로 돌아갈지 스스로 선택할 수 있게 됐다. 당시 3차원 인쇄용 물체를 설계하는 언어인 임플리싯캐드를 만들고 있었다. 비자가 없어 캐나다에 머물며 베이 지역에는 방문만 했다. 약 1년 뒤 마이클 닐슨의 신경망 세미나를 계기로 기계학습으로 방향을 틀었다. 그즈음 대학원생이던 다리오 아모데이를 만났다.",
+   "description_en": "He was nineteen. The hundred thousand dollars let him choose whether to go back to school. He was writing ImplicitCAD, a language for designing objects to 3D-print. Without a visa he stayed in Canada and only visited the Bay Area. About a year later Michael Nielsen’s neural-network seminar turned him toward machine learning. Around then he met Dario Amodei, still a graduate student.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2014,
+   "year_end": 2018,
+   "kind": "work",
+   "title": "구글 브레인에서 신경망을 들여다보다",
+   "title_en": "Looks inside neural networks at Google Brain",
+   "description": "구글에서 강연한 뒤 제프 딘이 그를 인턴으로 받아들였다. 이듬해에는 그레그 코라도 밑에서 다시 인턴으로 일했다. 알렉산더 모르드빈체프가 딥드림을 보여 주자 다른 프로젝트를 접고 연구에 합류했다. 뉴런이 활성화될 때까지 입력 이미지를 조정하는 방법이었다. 2015년 딥드림을 소개한 글의 제2저자로 이름을 올렸다. 그해 가을에는 연구직으로 남았다. 당시 구글 브레인에는 서른 명가량이 있었다.",
+   "description_en": "After a talk at Google, Jeff Dean took him on as an intern. The next year he interned again under Greg Corrado. When Alexander Mordvintsev showed DeepDream, he dropped his other projects and joined in. The method pushed the input image until neurons fired. In 2015 he was second author on that post. That fall he stayed on the research track. Brain then had about thirty people.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "디스틸을 열다",
+   "title_en": "Opens Distill",
+   "description": "샨 카터와 함께 기계학습을 그림과 웹으로 설명하는 저널을 만들었다. 디스틸은 3월에 문을 열었다. 그해 가을에는 모르드빈체프, 루트비히 슈베르트와 함께 〈특징 시각화〉를 발표했다. 모델이 학습한 특징을 사람이 살펴볼 수 있는 이미지로 바꾸는 방법을 정리한 글이었다.",
+   "description_en": "With Shan Carter he made a journal that explained machine learning in pictures and on the web. It opened in March. That fall he published Feature Visualization with Mordvintsev and Ludwig Schubert. The article laid out how to turn features a model had learned into images a person could inspect.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2018,
+   "year_end": 2020,
+   "kind": "work",
+   "title": "오픈AI에서 클라리티 팀을 만들다",
+   "title_en": "Founds the Clarity team at OpenAI",
+   "description": "그는 제프 딘 및 자신의 관리자와 구글이 해석 가능성 연구를 추진하기에 적합한 곳이 아니라는 데 뜻을 같이했다. 10월에 오픈AI 기술진으로 옮겼다. 신경망 내부를 회로처럼 읽는 팀을 이끌었다. 대중이 연구 과정을 따라갈 수 있도록 노트를 공개하며 연구하려 했다.",
+   "description_en": "He, Jeff Dean, and his manager agreed Google was not the right place to push interpretability. In October he joined the technical staff. He led a team that read neural networks as circuits. He wanted the work done in the open, as notes the public could follow.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "신경망을 회로로 읽을 수 있다고 쓰다",
+   "title_en": "Writes that neural networks can be read as circuits",
+   "description": "닉 카마라타, 가브리엘 고 등과 함께 디스틸에 〈줌 인〉을 발표했다. 연구진은 뉴런에는 사람이 알아볼 수 있는 특징이 담기고, 뉴런 사이의 연결은 알고리즘을 이루며, 비슷한 회로가 여러 모델에서 되풀이된다고 썼다. 곡선 검출기 같은 요소가 나타나는 초기 층부터 직접 해부했다.",
+   "description_en": "With Nick Cammarata, Gabriel Goh and others he published Zoom In in Distill. They wrote that neurons hold recognizable features, that the connections form algorithms, and that similar circuits recur across models. They dissected early layers by hand, starting with things like curve detectors.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤트로픽을 함께 세우다",
+   "title_en": "Co-founds Anthropic",
+   "description": "전년도 12월 오픈AI를 떠났다. 다리오·다니엘라 아모데이, 재러드 카플란, 잭 클라크 등과 1월 26일 회사를 세웠다. 해석 가능성 연구를 맡았다. 신경망을 회로로 읽던 방식으로 대규모 언어 모델 내부도 읽으려 했다.",
+   "description_en": "He left OpenAI the previous December. With Dario and Daniela Amodei, Jared Kaplan, Jack Clark and others he opened the company on January 26. He took interpretability. The aim was to read large language models the same way.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "publish",
+   "title": "희소 오토인코더로 특징을 쪼개다",
+   "title_en": "Splits features with sparse autoencoders",
+   "description": "연구팀은 뉴런 하나가 여러 개념에 동시에 반응하는 중첩 문제를 풀려 했다. 뉴런 512개로 이루어진 층을 4천 개가 넘는 특징으로 나눴다. DNA 서열, 히브리어, 영양에 관한 문장처럼 서로 다른 패턴이 따로 분리됐다.",
+   "description_en": "They tried to undo superposition, in which one neuron answers to several ideas at once. A 512-neuron layer split into more than four thousand features. Separate patterns came apart, such as DNA sequences, Hebrew, and nutrition sentences.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "publish",
+   "title": "클로드 안에서 금문교 특징을 찾다",
+   "title_en": "Finds a Golden Gate Bridge feature inside Claude",
+   "description": "연구팀은 같은 방법을 클로드 3 소넷 규모로 확장했다. 5월 21일 연구 결과를 발표했다. 금문교 특징의 활성값을 높게 고정하자 답변이 금문교 쪽으로 치우쳤다. 이틀 뒤에는 같은 상태의 모델과 대화할 수 있는 시연을 하루 동안 공개했다.",
+   "description_en": "The team scaled the same method to Claude 3 Sonnet. They published on May 21. Clamping a Golden Gate Bridge feature high tilted answers toward that bridge. Two days later they left a chat demo in that state up for a day.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위를 유지하면서 직역으로 무너진 행위 관계, 빠진 대상, 어색한 기술 표현을 바로잡았다. 사건 사이에서는 해크랩 활동에서 대학·틸 펠로십·구글 브레인·오픈AI·앤트로픽으로 이어지는 흐름이 끊기지 않도록 지시 대상을 분명히 했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대학 과목을 듣다」「장학생으로 불리다」「해커 공간에서 보냈다」가 원문의 이수·선정·체류 관계를 정확하고 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수학을 들으러 들어갔다」「폭발물 혐의를 걸었다」「법정에 나갔다」「재판을 지켰다」가 입학·기소·방청의 대상을 불분명하게 만들었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「임플리싯캐드로 설계 언어를 짜다」는 임플리싯캐드 자체가 설계 언어라는 관계를 뒤틀었고, 비자와 베이 지역 방문을 잇는 문장도 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인턴으로 들였다」「입력 그림을 밀어 뉴런을 켜다」「연구원 트랙으로 남다」가 영문 표현을 직역해 구체적인 행동과 연구 방법을 이해하기 어려웠다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "논문을 「실었다」고 한 표현과 특징을 이미지로 「뽑는다」는 표현이 뜻은 통하지만 출판과 시각화의 관계를 거칠게 전달했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연구를 밀 자리」「의견을 맞췄다」「기술진으로 옮겼다」가 누구와 무엇에 합의했고 어디로 옮겼는지 한 문장만으로 명확하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「읽자고 쓰다」는 제안인지 가능성에 관한 주장인지 모호했고, 본문의 「뉴런이 알아볼 수 있는 특징」은 뉴런이 특징을 인식한다는 뜻으로 잘못 읽힐 수 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사를 열었다」「해석가능성을 맡았다」「큰 언어모델의 속」이 창업·연구 책임·연구 대상을 부자연스럽게 표현했고, 앞선 회로 연구와의 연결도 흐릿했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「512개 뉴런 층」「영양 문장」이 영어 명사를 순서대로 옮긴 표현이라 층의 구성과 분리된 패턴의 뜻을 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수법을 키워 올렸다」「특징을 세게 켜 두다」「답이 다리 쪽으로 기울다」「시연을 열어 두다」가 기술적 조작과 공개 시연을 지나치게 직역했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

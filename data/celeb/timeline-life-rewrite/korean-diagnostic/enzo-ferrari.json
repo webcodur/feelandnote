@@ -1,0 +1,265 @@
+{
+ "slug": "enzo-ferrari",
+ "events": [
+  {
+   "year": 1898,
+   "year_end": null,
+   "kind": "birth",
+   "title": "모데나에서 태어나다",
+   "title_en": "Born in Modena",
+   "description": "눈 때문에 출생 신고가 이틀 늦었다. 아버지 알프레도는 집 옆에서 철도 부품을 만드는 금속 공방을 운영했다. 어머니는 아달지사 비스비니였고, 위로 형 알프레도가 있었다.",
+   "description_en": "Snow delayed the birth registration by two days. His father Alfredo ran a metal shop beside the house that made parts for the railways. His mother was Adalgisa Bisbini, and his older brother Alfredo came first.",
+   "place_name": "모데나",
+   "place_name_en": "Modena",
+   "lat": 44.64582,
+   "lng": 10.92572
+  },
+  {
+   "year": 1908,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지와 형과 함께 볼로냐 근처에서 경주를 보다",
+   "title_en": "Sees a race near Bologna with his father and brother",
+   "description": "열 살이었다. 도로 위로 자동차들이 사람들 앞을 지나쳐 달리는 모습을 처음 보고, 자신도 운전자가 되겠다고 마음먹었다.",
+   "description_en": "He was ten. He saw cars pass people on the road for the first time and decided he would drive.",
+   "place_name": "볼로냐",
+   "place_name_en": "Bologna",
+   "lat": 44.493888888889,
+   "lng": 11.342777777778
+  },
+  {
+   "year": 1916,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지와 형을 잇달아 잃다",
+   "title_en": "Loses his father and brother in succession",
+   "description": "아버지가 먼저 세상을 떠났고, 맏아들인 형도 뒤를 이었다. 그는 산악포병으로 징집되었으나 이 년 뒤 자신도 같은 병으로 쓰러져 제대했다. 결국 집안의 공방을 이어받지 못했다.",
+   "description_en": "The head of the shop fell first, then the eldest son. He was drafted into the mountain artillery and two years later the same illness discharged him. He did not take over the family shop.",
+   "place_name": "모데나",
+   "place_name_en": "Modena",
+   "lat": 44.64582,
+   "lng": 10.92572
+  },
+  {
+   "year": 1920,
+   "year_end": null,
+   "kind": "work",
+   "title": "알파 로메오 경주 부문에 들어가다",
+   "title_en": "Joins Alfa Romeo’s racing department",
+   "description": "토리노의 피아트는 그를 받아 주지 않았다. 밀라노의 작은 자동차 공장에서 시험 운전사로 생계를 잇다가, 그해 알파 로메오 소속 경주 운전사로 자리를 옮겼다.",
+   "description_en": "Fiat in Turin turned him down. He earned his keep as a test driver at a small Milan works, then moved that year to Alfa as a works driver.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1923,
+   "year_end": null,
+   "kind": "work",
+   "title": "라벤나에서 첫 그랑프리를 이기다",
+   "title_en": "Wins his first Grand Prix in Ravenna",
+   "description": "사비오 서킷에서 거둔 승리였다. 그곳에서 전사한 비행사 프란체스코 바락카의 어머니는 아들이 비행기에 그렸던 도약하는 말 문양을 그에게 맡겼다. 그해 라우라 가렐로와 혼인했다.",
+   "description_en": "It was the Savio circuit. There the mother of the fallen flyer Francesco Baracca entrusted him with the prancing horse her son had painted on his plane. That year he married Laura Garello.",
+   "place_name": "라벤나",
+   "place_name_en": "Ravenna",
+   "lat": 44.416111111111,
+   "lng": 12.201666666667
+  },
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "work",
+   "title": "스쿠데리아 페라리를 세우다",
+   "title_en": "Founds Scuderia Ferrari",
+   "description": "공증인 델라 폰타나의 사무실에서 회사를 세웠다. 알파 로메오의 경주차를 사들여 그 차들로 경주에 출전하는 것이 목적이었다. 카니아토 형제와 타디니도 그와 함께 서류에 이름을 올렸다.",
+   "description_en": "He formed the company in notary Della Fontana’s office. Its purpose was to buy Alfa Romeo racing cars and enter them in races. The Caniato brothers and Tadini put their names on the papers with him.",
+   "place_name": "모데나",
+   "place_name_en": "Modena",
+   "lat": 44.64582,
+   "lng": 10.92572
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "work",
+   "title": "알파를 떠나 아우토 아비오를 차리다",
+   "title_en": "Leaves Alfa and founds Auto Avio",
+   "description": "설계 주도권을 두고 고바토와 갈라섰다. 몇 해 동안 자기 이름으로 차를 만들지 않겠다는 약정 아래, 부품을 대는 회사를 모데나에 열었다. 이듬해 밀레 밀리아에 815 두 대를 내보냈다.",
+   "description_en": "He split with Gobbato over who would control design. Bound not to build cars under his own name for several years, he opened a parts shop in Modena. The next year he sent two 815s to the Mille Miglia.",
+   "place_name": "모데나",
+   "place_name_en": "Modena",
+   "lat": 44.64582,
+   "lng": 10.92572
+  },
+  {
+   "year": 1943,
+   "year_end": null,
+   "kind": "travel",
+   "title": "공장을 마라넬로로 옮기다",
+   "title_en": "Moves the factory to Maranello",
+   "description": "연합군의 폭격을 피해 공장 설비를 모데나 남쪽의 마라넬로로 옮겼다. 전쟁 중 공장에서는 연마기를 만들고 군수 작업을 맡았다. 새 공장도 연합군의 폭격을 두 차례 맞았다.",
+   "description_en": "To escape Allied bombing he moved the plant south of Modena. During the war the works turned out grinding machines and military work. The Allies hit the new factory twice.",
+   "place_name": "마라넬로",
+   "place_name_en": "Maranello",
+   "lat": 44.526388888889,
+   "lng": 10.866666666667
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "work",
+   "title": "자기 이름을 단 첫 차를 달리게 하다",
+   "title_en": "Runs the first car that bears his name",
+   "description": "콜롬보가 설계한 열두 기통 엔진을 얹은 125 에스가 포르미지네로 향하는 도로에서 처음 달렸다. 피아첸차에서는 연료 펌프 고장으로 멈췄지만, 보름 뒤 코르테제가 로마에서 이 차의 첫 승리를 거뒀다.",
+   "description_en": "The 125 S, with Colombo’s twelve-cylinder, first ran on the road toward Formigine. At Piacenza a fuel pump stopped it. A fortnight later Cortese took its first win in Rome.",
+   "place_name": "마라넬로",
+   "place_name_en": "Maranello",
+   "lat": 44.526388888889,
+   "lng": 10.866666666667
+  },
+  {
+   "year": 1956,
+   "year_end": null,
+   "kind": "other",
+   "title": "아들 디노를 잃다",
+   "title_en": "Loses his son Dino",
+   "description": "그는 아들이 태어난 해에 이미 경주 운전을 그만두었다. 아들의 병명은 뒤셴 근이영양증이었다. 병실에서도 그는 야노와 새 여섯 기통 엔진을 논의했고, 훗날 그 엔진과 이를 탑재한 차들에 아들의 이름을 붙였다.",
+   "description_en": "He had already hung up his helmet the year the boy was born. The illness was Duchenne muscular dystrophy. From the hospital room he talked through a new six-cylinder with Jano, and later put his son’s name on that engine and the cars that used it.",
+   "place_name": "모데나",
+   "place_name_en": "Modena",
+   "lat": 44.64582,
+   "lng": 10.92572
+  },
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "work",
+   "title": "피아트에 지분 절반을 넘기다",
+   "title_en": "Sells a half share to Fiat",
+   "description": "아넬리와 토리노에서 계약서에 서명했다. 일반 도로용 자동차 부문은 피아트가 맡고, 경주 부문은 그가 끝까지 맡는 조건이었다. 몇 해 전에는 포드가 경주 부문까지 넘겨받으려 해 협상이 결렬된 적이 있었다.",
+   "description_en": "He signed with Agnelli in Turin. Fiat would take the road cars; he would keep the racing to the end. A few years earlier a deal with Ford collapsed when Ford would not leave him the racing department.",
+   "place_name": "토리노",
+   "place_name_en": "Turin",
+   "lat": 45.079166666667,
+   "lng": 7.676111111111
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "death",
+   "title": "모데나 자택에서 죽다",
+   "title_en": "Dies at his home in Modena",
+   "description": "신부전으로 투석을 받으며 아흔을 넘겼다. 가족만 참석한 장례가 끝난 뒤에야 부고를 내라고 했다. 산 카탈도 묘지에서 아버지 곁에 묻혔다.",
+   "description_en": "Kidney failure kept him on dialysis past his ninetieth year. He asked that the death be announced only after a family burial. He was laid beside his father in the San Cataldo cemetery.",
+   "place_name": "모데나",
+   "place_name_en": "Modena",
+   "lat": 44.64582,
+   "lng": 10.92572
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "대부분의 사건은 영문이 담은 세부를 유지하면서 주어·목적어·행동 관계와 생애의 흐름이 자연스럽게 이어지도록 고쳤다. 다만 index 2의 「같은 병」은 영문에도 병명과 선행 대상이 드러나지 않아 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「철도용 쇠붙이를 깎는 공방」은 공방의 생산품을 부자연스럽게 표현하고, 「형 알프레도가 먼저 있었다」는 영어의 어순을 따라 옮겨 형제 관계가 어색하게 드러났다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에서 「볼로냐 근처」와 「경주」의 관계가 매끄럽지 않았고, 「자동차가 사람을 앞질러 가는 것」과 「운전수를 하다」는 한국어의 행동 관계와 표현이 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공방의 가장」은 아버지와 공방 책임자의 의미가 뒤섞인 표현이고, 가족의 죽음과 징집·제대가 짧은 문장 안에서 끊겨 있었다. 「같은 병」은 가리키는 병이 불분명하다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시험 운전으로 밥을 벌다」와 「알파의 운전수」는 직업과 소속 관계를 지나치게 구어적으로 표현해 경력 이동이 선명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아들의 비행기에 그리던 뛰어오르는 말 문장을 맡겼다」는 수식 관계가 어색하고, 여기서 「문장」이 상징 문양을 뜻한다는 점도 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「알파 로메오 경주차를 사서 대신 출전하는 일」은 누구를 대신해 출전한다는 뜻인지 불분명했으며, 영문은 구입한 차를 경주에 출전시키는 일을 말한다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「설비를 뺐다」, 「연마기와 군수용 일을 맡겼다」, 「공장을 때렸다」는 직역하거나 목적어 관계가 무너진 표현이라 공장의 이전·생산·피폭이 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이름 달린」은 조사가 빠져 있었고, 「열두 기통을 얹다」와 「연료 펌프로 멈추다」는 각각 엔진과 고장의 관계를 분명히 드러내지 못했다. 마지막 문장도 무엇의 첫 승리인지 모호했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「운전은 … 그만둔 뒤였다」는 시간 관계가 어색하고, 「새 여섯 기통을 이야기하다」와 「차 줄」은 엔진 논의와 차종 계보를 영어 어순대로 옮긴 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시판차는 피아트가 맡고, 경주는 그가 끝까지 쥐다」는 회사의 두 사업 부문과 경영 권한의 관계를 구어적이고 모호하게 표현했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「산 카탈도 묘지에 아버지 옆에 묻혔다」는 장소를 나타내는 조사가 겹쳐 문장이 어색했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 2,
+    "reason": "영문의 「the same illness」도 어떤 병을 가리키는지, 아버지와 형 가운데 누구의 병과 같다는 뜻인지 밝히지 않는다. 병명이나 선행 대상을 특정하려면 문장 편집을 넘어 사실 확인이 필요하다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

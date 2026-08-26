@@ -1,0 +1,240 @@
+{
+ "slug": "anton",
+ "events": [
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Is born",
+   "description": "매사추세츠 보스턴에서 태어났다. 아버지는 작곡가 윤상이었고 버클리 음악대학 유학 중이었다. 어머니는 배우 심혜진이었다. 두 사람은 서울에 신혼집을 들이는 대신 보스턴에서 살림을 시작했다. 한국 이름은 이찬영이다.",
+   "description_en": "He was born in Boston, Massachusetts. His father, the composer Yoon Sang, was studying at Berklee College of Music. His mother was the actress Shim Hye-jin. Instead of setting up a newlywed home in Seoul, the couple began married life in Boston. His Korean name is Lee Chan-young.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "뉴저지로 옮기다",
+   "title_en": "Moves to New Jersey",
+   "description": "보스턴을 떠나 뉴욕과 이웃한 뉴저지에서 자랐다. 아버지는 버클리 음악대학을 마친 뒤 뉴욕대학교 대학원에서 음악 기술 공부를 이어 갔다.",
+   "description_en": "He left Boston and grew up in New Jersey, next to New York. After Berklee, his father continued in music technology at New York University.",
+   "place_name": "잉글우드",
+   "place_name_en": "Englewood",
+   "lat": 40.893343,
+   "lng": -73.975801
+  },
+  {
+   "year": 2010,
+   "year_end": 2020,
+   "kind": "education",
+   "title": "드와이트 잉글우드 재학 중 수영을 하다",
+   "title_en": "Swims while at Dwight-Englewood",
+   "description": "뉴저지의 사립학교인 드와이트 잉글우드에 다녔다. 10년 가까이 주니어 수영 선수로 활동했고 피아노와 첼로도 익혔다. 직업 선수가 되려던 것은 아니었으며, 좋은 학교에 진학하기 위해 수영을 했다.",
+   "description_en": "He attended Dwight-Englewood School, a private school in New Jersey. He swam as a junior for nearly ten years and also learned piano and cello. He did not pursue swimming as a profession. He swam to get into a good school.",
+   "place_name": "잉글우드",
+   "place_name_en": "Englewood",
+   "lat": 40.893343,
+   "lng": -73.975801
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "가수가 되겠다고 부모에게 말하다",
+   "title_en": "Tells his parents he wants to sing",
+   "description": "코로나19로 수영장이 문을 닫자 혼자 품어 오던 가수의 꿈을 부모에게 털어놓았다. 아버지는 아들이 더 넓은 무대에서 꿈꾸게 하려고 가족과 떨어져 지냈지만, 아이돌이 되기 위해 한국에 가겠다는 말에는 한동안 반대했다. 이 문제를 놓고 약 1년간 의견이 엇갈렸다.",
+   "description_en": "When the pandemic closed the pools, he told his parents he wanted to be a singer, a wish he had kept to himself. His father had lived apart from the family so that his son could dream on a wider stage. When the son said he would come to Korea as an idol, his father tried for a time to stop him. The argument lasted about a year.",
+   "place_name": "잉글우드",
+   "place_name_en": "Englewood",
+   "lat": 40.893343,
+   "lng": -73.975801
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "travel",
+   "title": "한국에 와 에스엠 오디션을 보다",
+   "title_en": "Comes to Korea and auditions for SM",
+   "description": "학교를 중퇴하고 서울로 왔다. 에스엠 엔터테인먼트 오디션에는 스스로 지원해 응시했으며, 아버지가 오디션 기회를 마련해 준 것은 아니었다.",
+   "description_en": "He left school and came to Seoul. He took the SM Entertainment audition himself. His father did not arrange the place for him.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "education",
+   "title": "검정고시에 합격하다",
+   "title_en": "Passes the high-school equivalency exam",
+   "description": "한국에서 고등학교 졸업 학력 검정고시에 응시해 합격했다. 미국에서 다니던 학교의 학적은 중퇴로 남았다.",
+   "description_en": "In Korea he sat the high-school graduation equivalency exam and passed. The American school remained a withdrawal.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "라이즈 멤버로 공개되다",
+   "title_en": "Is revealed as a member of RIIZE",
+   "description": "에스엠은 새 보이그룹 라이즈의 일곱 멤버를 공개했다. 쇼타로와 성찬은 엔시티 출신이었고, 그는 원빈·소희와 함께 처음 공개된 멤버 가운데 막내였다. 소속사는 그를 작곡가 윤상의 아들로 소개했다.",
+   "description_en": "SM revealed the seven members of its new boy group RIIZE. Shotaro and Sungchan came from NCT. He was the youngest, shown for the first time with Wonbin and Sohee. The company introduced him as the son of the composer Yoon Sang.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "라이즈로 데뷔하다",
+   "title_en": "Debuts with RIIZE",
+   "description": "첫 싱글 음반 《겟 어 기타》를 내고 서울에서 쇼케이스를 열었다. 그는 무대에서 데뷔가 어떤 기분일지 상상만 해 왔는데 마침내 그 순간을 맞았다고 말했다. 팬들은 데뷔 음반을 100만 장 넘게 예약 구매했다.",
+   "description_en": "The group released its first single album Get A Guitar and held a showcase in Seoul. On that stage he said he had only imagined what debut would feel like, and that it was finally happening. Fans pre-ordered more than a million copies.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "싱글 《러브 119》를 내다",
+   "title_en": "Releases the single Love 119",
+   "description": "이듬해 초 디지털 싱글 《러브 119》를 냈다. 승한이 활동을 쉬고 있어 여섯 멤버가 노래했다. 이 곡은 이후 첫 미니음반에도 수록됐다.",
+   "description_en": "Early the next year the group released the digital single Love 119. Seunghan was on hiatus, so six members sang it. The song later went onto the first mini album.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 미니음반 《라이징》을 내다",
+   "title_en": "Releases the first mini album RIIZING",
+   "description": "라이즈는 데뷔 후 차례로 발표한 곡들을 첫 미니음반에 모았다. 타이틀곡은 《붐 붐 베이스》였다.",
+   "description_en": "Songs released one by one after debut were gathered into the first mini album. The title track was Boom Boom Bass.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "정규 1집 《오디세이》를 내다",
+   "title_en": "Releases the first studio album Odyssey",
+   "description": "타이틀곡은 《플라이 업》이었다. 회사는 음반의 곡들을 이어 줄 음악이 필요해 그의 아버지에게 연락했고, 윤상은 짧은 연주곡 《패시지》를 만들었다. 다른 멤버들은 그 사실을 나중에야 알았다.",
+   "description_en": "The title track was Fly Up. The company needed a piece to bridge the album’s songs and called his father. Yoon Sang wrote the short instrumental Passage. The other members learned of it only later.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "일부 문장에 영문 어순을 따른 직역과 어색한 서술어가 남아 있어 바로잡았다. 출생지에서 성장지로 옮긴 과정, 수영을 그만두고 가수를 택한 계기, 한국행과 데뷔로 이어지는 생애의 흐름은 영문의 범위 안에서 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「음악 기술을 이었다」는 무엇을 이어 갔다는 뜻인지 바로 이해하기 어려워, 뉴욕대학교 대학원에서 공부를 계속했다는 관계가 드러나도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「학교에서 수영하다」는 재학과 수영 경력의 관계가 흐렸고, 「선수 직업을 노린 길」은 영문 단어를 직역한 듯한 표현이라 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「가수를 하다」는 직업을 나타내는 서술어로 어색했다. 「전부터 혼자 꾸던」과 「밀고 당기기」도 가수의 꿈을 밝힌 일과 부모의 반대가 약 1년간 이어졌다는 관계를 선명하게 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「한국으로 와」보다 「한국에 와」가 자연스럽고, 「자리를 만들어 주다」는 아버지가 오디션 기회를 마련하지 않았다는 뜻을 모호하게 전달했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미국 학교는 중퇴로 남았다」는 학교 자체가 중퇴 상태라는 듯 읽혀, 미국에서 다니던 학교의 학적이 중퇴로 남았다는 뜻을 분명히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「엔시티에서 왔다」와 「처음 얼굴을 알린 막내」는 이전 소속과 최초 공개라는 관계를 어색하게 표현해, 엔시티 출신 멤버와 처음 공개된 멤버를 구분해 서술했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상상만 하다가 이제 하게 됐다」는 데뷔를 목적어 없이 반복해 뜻이 뭉개져, 데뷔의 순간을 마침내 맞았다는 발언으로 자연스럽게 옮겼다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여섯이 불렀다」와 「뒤에 첫 미니음반에도 실렸다」는 대상을 생략한 구어적 표현이라, 여섯 멤버가 노래했고 해당 곡이 이후 음반에 수록됐다는 뜻을 명확히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「데뷔 뒤 하나씩 내던 노래」는 주체와 발표 방식이 흐려, 라이즈가 차례로 발표한 곡들을 음반에 모았다는 관계가 드러나도록 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「곡과 곡 사이를 잇는 연주」는 회사가 필요로 한 것이 연주 행위인지 음반에 넣을 음악인지 모호해, 곡들을 이어 줄 음악이 필요했다는 뜻으로 다듬었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

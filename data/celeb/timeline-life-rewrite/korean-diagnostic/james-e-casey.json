@@ -1,0 +1,249 @@
+{
+ "slug": "james-e-casey",
+ "events": [
+  {
+   "year": 1888,
+   "year_end": null,
+   "kind": "birth",
+   "title": "은광촌에서 태어나다",
+   "title_en": "Born in a silver camp",
+   "description": "픽핸들 걸치의 은광촌에서 태어났다. 아버지는 아일랜드에서 건너와 은을 찾고 주점을 운영했다. 어머니 애니도 아일랜드 이민 가정 출신이었다. 광산이 쇠퇴하자 아버지는 가족을 시애틀로 옮겼다.",
+   "description_en": "He was born in the Pickhandle Gulch camp. His father had come from Ireland, prospected for silver, and kept a saloon. His mother was Annie, from another Irish immigrant family. When the mines faded, his father moved the family to Seattle.",
+   "place_name": "캔델라리아",
+   "place_name_en": "Candelaria",
+   "lat": 38.1589,
+   "lng": -118.089
+  },
+  {
+   "year": 1899,
+   "year_end": null,
+   "kind": "work",
+   "title": "학교를 그만두고 짐을 나르다",
+   "title_en": "Left school and hauled parcels",
+   "description": "열한 살에 학교를 그만두었다. 백화점 배달 마차를 도우며 골목과 번지를 익혔다. 아버지는 폐가 나빠져 일을 하기 어려워졌고, 그는 형제들과 함께 가족의 생계를 꾸렸다.",
+   "description_en": "He left the classroom at eleven. He learned the alleys and house numbers helping a department-store wagon. His father's lungs were failing, and he and his brothers kept the household going.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1907,
+   "year_end": null,
+   "kind": "work",
+   "title": "아메리칸 메신저 컴퍼니를 열다",
+   "title_en": "Opened the American Messenger Company",
+   "description": "친구 클로드 라이언과 함께 백 달러를 빌렸다. 술집 아래 지하실에 사무실을 두고 메시지 전달과 심부름 주문을 받았다. 동생 조지와 다른 십 대 직원들은 걷거나 자전거를 타고 시내를 누볐다. 당시 시애틀에는 이미 비슷한 업체가 아홉 곳 있었다.",
+   "description_en": "He borrowed a hundred dollars with his friend Claude Ryan. They took messages and errands from a basement room under a saloon. His brother George and other teenagers ran on foot or by bicycle. Nine similar firms already worked the city.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1913,
+   "year_end": null,
+   "kind": "work",
+   "title": "경쟁 업체와 합쳐 소포 배달 회사로 바꾸다",
+   "title_en": "Merged into a parcel firm",
+   "description": "경쟁자 에버트 매케이브가 운영하던 오토바이 메신저 업체와 회사를 합쳤다. 상호를 머천츠 파셀 딜리버리로 바꾸고 소포 배달을 주력 사업으로 삼았다. 회사의 첫 자동차는 포드 모델 T였다.",
+   "description_en": "He joined his company to rival Evert McCabe's motorcycle messenger outfit. They took the name Merchants Parcel Delivery and made packages the main work. Their first car was a Ford Model T.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1919,
+   "year_end": null,
+   "kind": "work",
+   "title": "시애틀 밖으로 나가며 사명을 바꾸다",
+   "title_en": "Left Seattle and changed the name",
+   "description": "오클랜드의 모터 파셀 딜리버리를 인수했다. 만 건너 샌프란시스코의 한 업체가 기존 상호를 이미 사용하고 있었기 때문에 유나이티드 파셀 서비스라는 이름을 쓰기 시작했다. 창업 동료 클로드 라이언은 그보다 앞서 지분을 팔고 회사를 떠난 상태였다.",
+   "description_en": "They bought Motor Parcel Delivery. A firm across the bay in San Francisco already used the old name, so they began calling themselves United Parcel Service. Founding partner Ryan had already sold his shares and left.",
+   "place_name": "오클랜드",
+   "place_name_en": "Oakland",
+   "lat": 37.8,
+   "lng": -122.25
+  },
+  {
+   "year": 1922,
+   "year_end": null,
+   "kind": "work",
+   "title": "모든 고객의 소포를 운송할 권리를 얻다",
+   "title_en": "Won the right to carry anyone's parcels",
+   "description": "로스앤젤레스에서 인수한 회사에는 일반 운송업 면허가 있었다. 이 면허로 백화점 물품뿐 아니라 어느 주소로든 고객의 소포를 운송할 수 있게 되었다. 본사도 로스앤젤레스로 옮겼다.",
+   "description_en": "A company they bought here held a common-carrier license. They could now haul packages to any address, not only department stores. They also moved the headquarters to this city.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1930,
+   "year_end": null,
+   "kind": "work",
+   "title": "본사를 뉴욕으로 옮기고 동부 배송을 맡다",
+   "title_en": "Moved headquarters and entered eastern stores",
+   "description": "본사를 뉴욕으로 옮기고 맨해튼 일대 대형 상점들의 배송을 맡았다. 서부에서 운영하던 통합 배송 노선도 맨해튼 거리로 확대했다.",
+   "description_en": "They took over delivery for large stores around Manhattan. The consolidated routes they had used in the West now ran on these streets.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1948,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니 이름으로 재단을 세우다",
+   "title_en": "Founded a foundation in his mother's name",
+   "description": "형제 조지와 해리, 여동생 마거리트와 함께 애니 E. 케이시 재단을 설립했다. 홀로 네 자녀를 키운 어머니의 이름을 재단에 붙였다. 첫 지원금은 집 근처에서 형편이 어려운 아이들을 돕는 캠프에 전달했다.",
+   "description_en": "With brothers George and Harry and sister Marguerite he created the Annie E. Casey Foundation. They named it for the mother who had raised four children on her own. The first grants went to a camp for disadvantaged children near their home.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "office",
+   "title": "최고경영에서 물러나다",
+   "title_en": "Stepped down from the top job",
+   "description": "사장과 회장 자리에서 물러났다. 이후에도 이사회에 남아 명예회장을 맡았다.",
+   "description_en": "He left the posts of president and chairman. He stayed on the board as honorary chairman.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "other",
+   "title": "위탁 아동을 위한 프로그램을 열다",
+   "title_en": "Opened a program for children in foster care",
+   "description": "친부모와 함께 살 수 없는 아이들을 직접 돌보는 케이시 패밀리 프로그램을 설립했다. 형제자매도 이 일에 동참했으며, 본부는 시애틀에 두었다.",
+   "description_en": "He founded Casey Family Programs to care directly for children who could not live with their birth parents. His siblings joined him, and they put the headquarters here.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "death",
+   "title": "병원 겸 요양원에서 세상을 떠나다",
+   "title_en": "Died in a hospital-nursing home",
+   "description": "향년 아흔다섯이었다. 그해 봄까지 명예회장으로 이사회에 참여했으며, 이후 명예이사가 되었다. 소년 시절부터 살아온 시애틀의 병원 겸 요양원에서 세상을 떠났다.",
+   "description_en": "He was ninety-five. He had sat on the board as honorary chairman until that spring, then became an honorary director. He died in a hospital-nursing home in the city he had lived in since boyhood.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 전하는 사실과 세부는 그대로 보존하면서, 직역투와 불분명한 지시어를 걷어내고 사건들이 생애의 흐름을 따라 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「캠프에서 났다」「주점을 했다」「같은 이민 집안」이 어색하거나 원문의 인물 관계를 정확히 드러내지 못했고, 「은광이 식자」도 지나치게 축약적이었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「교실을 나왔다」「집 살림을 이었다」가 학교 중퇴와 가족의 생계를 책임진 상황을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전갈과 심부름을 받았다」「비슷한 집이 아홉이었다」가 메신저 사업의 업무와 경쟁 업체를 뜻하는 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「소포 회사로 합치다」「오토바이 전갈 집과 붙였다」가 두 회사를 합병했다는 행동 관계를 제대로 나타내지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 상호」가 무엇을 가리키는지 앞 문장만으로 분명하지 않았고, 회사가 새 이름을 사용하게 된 흐름도 매끄럽지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여기서 산 회사」「이 도시」는 해당 문장만으로 장소를 알 수 없는 지시어였고, 「누구의 짐이든」과 「아무 주소로도 짐을 나르다」도 운송 면허의 의미를 지나치게 구어적으로 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목에 있는 본사 이전이 국문 서술에서 빠졌고, 「동부 상점에 들어가다」「이 거리에도 깔았다」는 사업 진출과 배송 노선 운영을 뜻하는 표현으로 불분명했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「첫 돈」「어려운 아이 캠프」가 재단의 첫 지원금과 지원 대상을 자연스럽게 설명하지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사를 지켜 보았다」는 영문에 없는 해석을 덧붙였고, 이사회에 남아 명예회장을 맡았다는 사실을 정확히 옮기지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「본부는 여기에 두었다」는 앞 문장만으로 장소를 알 수 없는 지시어였다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「병원 요양원」은 시설의 성격을 이해하기 어려운 직역이었고, 「명예 이사로 내려왔다」는 직위 변경을 부자연스럽게 서열화했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

@@ -1,0 +1,302 @@
+{
+ "slug": "amartya-sen",
+ "events": [
+  {
+   "year": 1933,
+   "year_end": null,
+   "kind": "birth",
+   "title": "비스바바라티 캠퍼스에서 태어나다",
+   "title_en": "Born on the Visva-Bharati campus",
+   "description": "아버지는 다카대학교에서 화학을 가르쳤다. 어머니는 그 학교에서 공부했다. 외조부 크시티 모한 센은 산스크리트와 인도 고전을 가르쳤다. 가족의 고향은 지금의 방글라데시 다카 와리였다. 타고르는 어머니에게 편지를 보내 아이에게 불멸을 뜻하는 이름을 지어 주었다.",
+   "description_en": "His father taught chemistry at Dhaka University. His mother had studied at the same school. His maternal grandfather, Kshiti Mohan Sen, taught Sanskrit and classical Indian culture. The family came from Wari in what is now Dhaka, Bangladesh. Tagore wrote to the mother and gave the child a name that means immortal.",
+   "place_name": "산티니케탄",
+   "place_name_en": "Santiniketan",
+   "lat": 23.6776,
+   "lng": 87.6852
+  },
+  {
+   "year": 1943,
+   "year_end": null,
+   "kind": "other",
+   "title": "벵골 기근을 보다",
+   "title_en": "Watches the Bengal famine",
+   "description": "타고르가 세운 학교에서 기근을 지켜보았다. 이삼백만 명이 굶어 죽었다. 학교 친구나 친척 가운데 굶주린 사람은 없었다. 굶어 죽은 사람들은 땅 없는 농촌 일꾼들이었다.",
+   "description_en": "He watched it from Tagore's school. Two to three million people starved to death. No one in his school or among his relatives went hungry. The dead were landless rural laborers.",
+   "place_name": "산티니케탄",
+   "place_name_en": "Santiniketan",
+   "lat": 23.6776,
+   "lng": 87.6852
+  },
+  {
+   "year": 1944,
+   "year_end": null,
+   "kind": "other",
+   "title": "카데르 미아가 비틀거리며 대문 안으로 들어오다",
+   "title_en": "Kader Mia stumbles through the gate",
+   "description": "열한 살이었다. 방학을 맞아 와리의 집에 돌아와 정원에 있을 때였다. 무슬림 일용직 노동자 카데르 미아가 등에 칼을 맞은 채 대문 안으로 들어왔다. 힌두교도가 많은 동네에서 얼마 안 되는 품삯을 구하다 칼에 찔렸다. 아내는 나가지 말라고 했지만 집에는 먹을 것이 없었다. 아버지가 병원으로 급히 데려갔으나 카데르 미아는 살아남지 못했다.",
+   "description_en": "He was eleven, home from school, in the garden of the family house in Wari. A Muslim day laborer came through the gate, stabbed in the back. He had entered a largely Hindu neighborhood looking for a tiny wage. His wife had told him not to go out. There was no food at home. The father rushed him to hospital. He did not survive.",
+   "place_name": "다카",
+   "place_name_en": "Dhaka",
+   "lat": 23.728888888889,
+   "lng": 90.394444444444
+  },
+  {
+   "year": 1951,
+   "year_end": 1953,
+   "kind": "education",
+   "title": "프레지던시 칼리지에서 경제학을 배우다",
+   "title_en": "Studies economics at Presidency College",
+   "description": "경제학을 전공하고 수학을 부전공했다. 바바토시 닷타와 타파스 마줌다르에게 배웠다. 친구 수카모이 차크라바르티와 칼리지 스트리트 커피하우스에서 애로의 불가능성 정리를 놓고 이야기했다. 열여덟에 구강암 진단을 받고 방사선 치료를 견뎠다.",
+   "description_en": "He took economics as his major and mathematics as his minor. Bhabatosh Datta and Tapas Majumdar taught him. With his friend Sukhamoy Chakravarty he sat in the College Street Coffee House and talked through Arrow's impossibility theorem. At eighteen he was diagnosed with cancer of the mouth and endured radiation treatment.",
+   "place_name": "콜카타",
+   "place_name_en": "Kolkata",
+   "lat": 22.5675,
+   "lng": 88.37
+  },
+  {
+   "year": 1956,
+   "year_end": 1958,
+   "kind": "work",
+   "title": "자도푸르대학교 경제학과를 세우다",
+   "title_en": "Founds the economics department at Jadavpur University",
+   "description": "케임브리지에서 학사학위를 받은 뒤 스물두 살에 신설 학과의 초대 교수이자 학과장이 되었다. 박사 논문은 아직 제출할 수 없었다. 당시 규정상 연구자로 등록한 뒤 3년이 지나야 논문을 제출할 수 있었다. 벽에는 새 교수를 ‘요람에서 꺼내 온 아이’라고 부르는 낙서가 적혔다.",
+   "description_en": "After a bachelor's degree at Cambridge he became, at twenty-two, the first professor and first head of the new department. He could not yet submit his doctoral thesis. Cambridge still required three years of registered research. Graffiti on the walls called the new professor a child snatched from the cradle.",
+   "place_name": "콜카타",
+   "place_name_en": "Kolkata",
+   "lat": 22.5675,
+   "lng": 88.37
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "education",
+   "title": "기술 선택을 다룬 논문으로 박사학위를 받다",
+   "title_en": "Earns a doctorate on the choice of techniques",
+   "description": "논문 지도는 조앤 로빈슨이 맡았다. 케임브리지 교수들 사이에서는 사회선택이론이 거의 관심을 받지 못했다. 트리니티 칼리지의 프라이즈 펠로십을 받아 철학을 공부했다. 논리학과 인식론을 읽고 도덕철학과 정치철학으로 넘어갔다.",
+   "description_en": "Joan Robinson supervised the thesis. Social choice theory drew almost no interest among the faculty there. A Prize Fellowship at Trinity College let him study philosophy. He read logic and epistemology, then moved into moral and political philosophy.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 1963,
+   "year_end": 1971,
+   "kind": "work",
+   "title": "델리경제대학원에서 가르치다",
+   "title_en": "Teaches at the Delhi School of Economics",
+   "description": "케이 엔 라지와 함께 델리경제대학원을 수준 높은 경제학 교육기관으로 키웠다. 학생들이 사회선택이론을 연구하도록 이끌었다. 프라산타 파타나이크는 투표 이론으로 논문을 썼다. 런던정경대학으로 옮길 때까지 델리경제대학원에서 가르쳤다.",
+   "description_en": "With K. N. Raj he helped build an advanced school of economics. He drew students into social choice theory. Prasanta Pattanaik wrote a thesis on voting theory. He stayed until he left for the London School of Economics.",
+   "place_name": "델리",
+   "place_name_en": "Delhi",
+   "lat": 28.666666666667,
+   "lng": 77.216666666667
+  },
+  {
+   "year": 1970,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《집단적 선택과 사회복지》를 내다",
+   "title_en": "Publishes Collective Choice and Social Welfare",
+   "description": "개인의 선호를 모아 사회의 결정을 내릴 수 있는지 물었다. 책의 대부분은 델리에서 썼다. 하버드에서 케네스 애로, 존 롤스와 사회정의를 주제로 공동 강의를 하면서 책을 마지막으로 다듬었다.",
+   "description_en": "He asked whether individual preferences can be gathered into a social decision. He wrote most of the book here. A joint course on social justice at Harvard with Kenneth Arrow and John Rawls helped him finish it.",
+   "place_name": "델리",
+   "place_name_en": "Delhi",
+   "lat": 28.666666666667,
+   "lng": 77.216666666667
+  },
+  {
+   "year": 1971,
+   "year_end": 1977,
+   "kind": "work",
+   "title": "런던정경대학 교수로 옮기다",
+   "title_en": "Joins the London School of Economics",
+   "description": "런던으로 옮긴 직후 첫째 아내 나바니타 데브와의 결혼 생활이 끝났다. 열여덟 살 때 받은 방사선 치료로 입천장뼈가 괴사해, 일곱 시간 가까이 수술을 받았다. 암은 재발하지 않았다. 뒤에 옥스퍼드로 자리를 옮겼다.",
+   "description_en": "His marriage to Nabaneeta Dev ended soon after the move. Radiation he had received at eighteen had killed the bones in his hard palate. The operation lasted nearly seven hours. The cancer had not returned. He later moved to a chair at Oxford.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《빈곤과 기근》을 내다",
+   "title_en": "Publishes Poverty and Famines",
+   "description": "국제노동기구 세계고용프로그램의 의뢰를 받아 쓰기 시작했다. 기근을 나라 전체의 식량 부족이 아니라, 사람이 식량을 확보할 권원을 잃는 일로 보았다. 벵골에서는 도시의 호황으로 쌀값이 뛰었고, 임금이 따라가지 못한 농촌 노동자들이 굶었다.",
+   "description_en": "He began the book for the International Labour Organization's World Employment Programme. He treated famine as the collapse of a person's entitlement to food, not as a shortage in the country's total supply. In Bengal an urban boom had driven up the price of rice. Rural wages did not keep up, and rural laborers starved.",
+   "place_name": "옥스퍼드",
+   "place_name_en": "Oxford",
+   "lat": 51.751944444444,
+   "lng": -1.2577777777778
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "work",
+   "title": "하버드대학교 라몬트 석좌교수가 되다",
+   "title_en": "Becomes Thomas W. Lamont University Professor at Harvard",
+   "description": "둘째 아내 에바 콜로르니가 위암으로 죽었다. 어린 두 아이를 데리고 미국으로 갔다. 케임브리지 동창 마흐붑 울 하크와 함께 유엔개발계획의 인간개발보고서를 만드는 데 참여했다. 두 사람은 나라의 발전을 소득만으로 평가하지 않고, 사람들이 실제로 무엇을 할 수 있는지도 함께 살폈다.",
+   "description_en": "His second wife, Eva Colorni, had died of stomach cancer. He took their two young children to the United States. With Mahbub ul Haq, a Cambridge classmate, he helped shape the United Nations Development Programme's Human Development Reports. They measured a country's progress by what people can actually do, not by income alone.",
+   "place_name": "캠브리지",
+   "place_name_en": "Cambridge, Massachusetts",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1998,
+   "year_end": 2004,
+   "kind": "office",
+   "title": "트리니티 칼리지 학장이 되다",
+   "title_en": "Becomes Master of Trinity College",
+   "description": "1월에 취임했다. 옥스브리지 칼리지를 이끈 첫 아시아인이었다. 하버드와의 인연은 끊지 않았다.",
+   "description_en": "He took office in January. He was the first Asian to head an Oxbridge college. He did not cut his tie with Harvard.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "other",
+   "title": "노벨 경제학상을 받다",
+   "title_en": "Receives the Nobel Prize in Economic Sciences",
+   "description": "스웨덴 왕립과학원은 복지경제학에 대한 공헌을 수상 이유로 들었다. 사회선택과 복지 분배, 빈곤과 기근에 관한 연구를 하나의 연구 성과로 평가했다. 당시 소속은 트리니티 칼리지였다. 상금 일부로 인도와 방글라데시의 문해 교육과 기초 보건을 지원하는 프라티치 재단을 세웠다.",
+   "description_en": "The Royal Swedish Academy of Sciences cited his contributions to welfare economics. Social choice, the distribution of welfare, and the study of poverty and famine were read as one line of work. His affiliation at the time was Trinity College. With part of the prize money he set up the Pratichi Trust for literacy and basic health care in India and Bangladesh.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《자유로서의 발전》을 내다",
+   "title_en": "Publishes Development as Freedom",
+   "description": "발전을 국민소득의 증가가 아니라 사람들이 실제로 누리는 자유의 확장으로 보았다. 정치적 자유, 경제적 기회, 교육과 건강, 투명성, 사회 안전망을 함께 제시했다. 제대로 기능하는 민주주의에서는 기근이 일어나지 않는다고 썼다.",
+   "description_en": "He treated development as the expansion of freedoms people actually enjoy, not as a rise in national income. He listed political freedoms, economic facilities, education and health, transparency, and social safety nets together. He wrote that no famine has taken place in a functioning democracy.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 사실과 세부는 보존하면서, 앞 문장만으로 대상을 알 수 없는 지시어와 영문 어순을 따른 표현, 기관·직책·행동 관계가 어색한 문장을 고쳤다. 출생지와 가족 배경에서 시작해 기근과 종교 폭력의 목격, 경제학·철학 연구, 빈곤과 자유에 관한 저술로 이어지는 생애 흐름도 자연스럽게 연결된다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집안은 …에서 왔다」가 영어 표현을 그대로 옮긴 듯 어색하고, 마지막 문장의 이름을 받은 대상도 명시하는 편이 자연스럽다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「그 광경」은 바로 앞 문장에 선행 대상이 없으며, 「식량이 끊기지 않았다」는 영문의 ‘굶주리지 않았다’보다 의미가 달라질 수 있다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「대문을 넘어오다」는 대문을 타고 넘었다는 뜻으로 읽힐 수 있고, 「방학을 나와」와 「쓰러져 들어왔다」도 행동 관계가 어색하다. 마지막 「그」는 직전 문장의 아버지를 가리키는 것으로 오해될 수 있다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「벽에 … 낙서가 붙었다」는 표현이 부자연스럽고, 누가 무엇에 빗대어졌는지 한 번에 이해하기 어렵다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「기술 선택으로」는 박사학위 논문의 주제를 분명하게 전달하지 못한다. 「그곳 교수들」도 앞 문장만으로 장소를 확정하기 어렵고, 「상금 펠로십」은 직역투가 강하다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고급 경제학 학교」는 영어 어순을 따른 표현이며, 「학생들을 끌어들였다」와 「그 자리를 지켰다」도 연구·재직 관계를 모호하게 만든다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여기서」는 앞 문장만으로 장소를 알 수 없고, 「강의를 열며 마지막 손질을 했다」는 공동 강의와 집필의 관계가 다소 뻣뻣하다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 직후」와 「뒤였다」가 무엇을 기준으로 한 시점인지 본문만 읽으면 흐릿하며, 방사선 치료와 입천장뼈 괴사, 수술의 관계도 더 직접적으로 연결할 필요가 있다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「식량을 살 권원」은 전문 개념을 지나치게 압축해 한국어 문장으로 바로 이해하기 어렵다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「보고서를 만들었다」는 영문의 ‘형성하는 데 기여했다’보다 단독 제작처럼 읽힐 수 있고, 「사람이 실제로 할 수 있는 일로 재었다」는 목적어와 기준의 관계가 다소 어색하다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「옥스브리지 칼리지 학장에 처음 앉았다」는 영어 표현을 순서대로 옮긴 직역투다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연구를 한 줄로 묶었다」는 누가 어떤 판단을 했는지 드러나지 않으며, 추상적인 번역투로 읽힌다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「교육과 건강 …을 함께 적었다」는 저술의 내용을 단순히 목록에 기록했다는 뜻처럼 들리고, 「기능하는 민주주의」도 영어 어순을 따른 표현이다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

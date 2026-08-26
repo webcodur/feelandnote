@@ -1,0 +1,281 @@
+{
+ "slug": "hyun-jin-ryu",
+ "events": [
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "birth",
+   "title": "인천에서 태어나다",
+   "title_en": "Born in Incheon",
+   "description": "인천 동구에서 태어났다. 아버지는 류재천, 어머니는 박승순, 형은 류현수였다. 삼미 슈퍼스타즈 팬이었던 아버지는 아들을 야구장에 데려갔다. 집에 있던 유일한 글러브가 오른손잡이용이어서 공을 받을 때는 왼손에 끼고, 던질 때도 왼손으로 던졌다.",
+   "description_en": "He was born in Dong-gu. His father was Ryu Jae-cheon, his mother Park Seung-soon, and his older brother Ryu Hyun-soo. His father, a Sammi Superstars fan, took him to the ballpark. The only glove at home was for a right-hander, so he caught with it on his left hand and threw with his left.",
+   "place_name": "인천",
+   "place_name_en": "Incheon",
+   "lat": 37.463888888,
+   "lng": 126.648611111
+  },
+  {
+   "year": 2004,
+   "year_end": 2005,
+   "kind": "education",
+   "title": "팔꿈치 수술을 받다",
+   "title_en": "Has elbow surgery",
+   "description": "창영초와 동산중을 거쳐 동산고에 진학했다. 2학년 초에 수술을 받고 1년간 경기에 나서지 못했다. 이듬해 동산고는 청룡기에서 39년 만에 우승했고, 류현진은 성남고와의 8강전에서 삼진 17개를 잡아내며 완봉승을 거뒀다.",
+   "description_en": "He went from Changyeong Elementary and Dongsan Middle to Dongsan High. Early in his second year he had the surgery and sat out a year. The next year Dongsan won the Blue Dragon tournament for the first time in thirty-nine years, and he shut out Seongnam High in the quarterfinal with seventeen strikeouts.",
+   "place_name": "인천",
+   "place_name_en": "Incheon",
+   "lat": 37.463888888,
+   "lng": 126.648611111
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "한화의 지명을 받다",
+   "title_en": "Hanwha drafts him",
+   "description": "인천 연고 구단 SK는 1차 지명에서 포수 이재원을 선택했다. 롯데는 2차 1순위로 나승현을 지명했다. 다음 순서였던 한화가 류현진을 지명했고, 계약금은 2억 5천만 원이었다.",
+   "description_en": "Incheon club SK took catcher Lee Jae-won with its first-round pick. Lotte called Na Seung-hyun first in the second round. Hanwha took him next and paid a 250 million won signing bonus.",
+   "place_name": "대전",
+   "place_name_en": "Daejeon",
+   "lat": 36.35,
+   "lng": 127.385
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "잠실에서 첫 승을 거두다",
+   "title_en": "Wins his first game at Jamsil",
+   "description": "김인식은 고졸 신인 류현진을 선발투수로 내세웠다. 류현진은 7이닝 넘게 LG 타선을 무실점으로 막았고, 사람들은 그날부터 그를 괴물이라 불렀다.",
+   "description_en": "Kim In-sik started the high-school rookie. He held LG scoreless for more than seven innings, and people began calling him a monster that day.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "베이징에서 캐나다를 완봉하다",
+   "title_en": "Shuts out Canada in Beijing",
+   "description": "정근우가 기록한 1득점이 경기의 유일한 득점이었다. 류현진은 쿠바와의 결승전에도 선발로 나섰고, 대표팀이 금메달을 따면서 병역을 면제받았다.",
+   "description_en": "Jung Keun-woo's single run was the only score. He also started the gold-medal game against Cuba, and the team gold exempted him from military service.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "다저스와 계약하다",
+   "title_en": "Signs with the Dodgers",
+   "description": "한화가 류현진을 포스팅했고, 다저스가 이적료를 냈다. 류현진은 한국 프로야구에서 메이저리그로 바로 진출한 첫 선수였다. 계약 기간은 6년, 총액은 3천6백만 달러였다.",
+   "description_en": "Hanwha posted him and the Dodgers paid the fee. He was the first player to go straight from the Korean majors to Major League Baseball. The contract ran six years and 36 million dollars.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "다저 스타디움에서 첫 공을 던지다",
+   "title_en": "Throws his first pitch at Dodger Stadium",
+   "description": "첫 상대는 샌프란시스코였다. 6이닝 넘게 던지며 1자책점으로 막았고, 닷새 뒤 피츠버그를 상대로 메이저리그 첫 승을 거뒀다.",
+   "description_en": "The opponent was San Francisco. He lasted more than six innings and allowed one earned run, then took his first major-league win against Pittsburgh five days later.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "other",
+   "title": "왼쪽 어깨 관절와순을 수술하다",
+   "title_en": "Has left shoulder labrum surgery",
+   "description": "시범경기부터 통증이 가시지 않았다. 닐 엘라트래치가 집도했고, 그해는 한 경기도 던지지 못했다.",
+   "description_en": "The pain did not clear from spring training. Neal ElAttrache operated, and he did not pitch in a game that year.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "other",
+   "title": "배지현과 결혼하다",
+   "title_en": "Marries Bae Ji-hyun",
+   "description": "신라호텔에서 식을 올렸다. 한화 시절 감독 김인식이 주례를 맡았고, 유재석이 사회를 맡았다. 두 사람은 정민철의 소개로 만나 한국과 미국을 오가며 교제했다.",
+   "description_en": "They held the ceremony at the Shilla Hotel. Kim In-sik, his former Hanwha manager, officiated, and Yoo Jae-suk hosted. Jung Min-chul had introduced them, and they dated across Korea and the United States.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "올스타전 선발로 나서다",
+   "title_en": "Starts the All-Star Game",
+   "description": "커쇼가 빠진 개막전에도 선발로 나섰다. 올스타전을 보기 위해 아내와 부모, 형이 클리블랜드까지 왔다. 류현진은 한국에서 태어난 투수로는 처음으로 올스타전 선발을 맡았다.",
+   "description_en": "With Kershaw out, he also started Opening Day. His wife, parents, and brother came to Cleveland. He was the first pitcher born in Korea to take that start.",
+   "place_name": "클리블랜드",
+   "place_name_en": "Cleveland",
+   "lat": 41.499166666,
+   "lng": -81.694722222
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "토론토로 옮기다",
+   "title_en": "Moves to Toronto",
+   "description": "다저스와의 계약이 끝난 뒤 자유계약선수로 토론토와 4년 8천만 달러에 계약했다. 이듬해부터 아메리칸리그에서 선발투수로 뛰었다.",
+   "description_en": "After the Dodgers deal ended he signed as a free agent for four years and 80 million dollars. The next year he started in the American League.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777,
+   "lng": -79.386666666
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "다시 팔꿈치 수술을 받다",
+   "title_en": "Has elbow surgery again",
+   "description": "화이트삭스전에서 마운드를 내려온 뒤 검사에서 척골측부인대 손상이 확인됐다. 고교 시절 받았던 것과 같은 수술을 다시 받았다.",
+   "description_en": "After leaving a start against the White Sox he was found to have ulnar collateral ligament damage. He had the same surgery he first had in high school.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777,
+   "lng": -79.386666666
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "한화로 돌아오다",
+   "title_en": "Returns to Hanwha",
+   "description": "포스팅을 통해 떠났기 때문에 한국으로 돌아오려면 원소속 구단인 한화로 복귀해야 했다. 8년 170억 원에 계약했고 오키나와 캠프에 합류했다.",
+   "description_en": "Because he had left through posting, a return to Korea had to be with his original club. He signed for eight years and 17 billion won and joined the Okinawa camp.",
+   "place_name": "대전",
+   "place_name_en": "Daejeon",
+   "lat": 36.35,
+   "lng": 127.385
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실의 범위를 유지하면서 어색한 직역, 불분명한 주어와 대상, 부자연스러운 야구 표현을 바로잡았다. 수술과 지명, 메이저리그 진출, 부상과 복귀로 이어지는 생애의 흐름이 끊기지 않도록 사건 사이의 표현도 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「동구에서 났다」가 지나치게 축약되어 있고, 「삼미 슈퍼스타즈를 따라」는 아버지가 구단의 팬이었다는 영문의 관계를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 해를 비웠다」는 무엇을 하지 못했는지가 드러나지 않았고, 「삼진을 잡으며 완봉했다」는 투구 결과를 나타내는 표현으로 다소 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「한화가 지명하다」는 연표의 주인공보다 구단을 앞세운 표현이었고, 본문의 「불렀다」와 「데려갔다」는 공식 지명 절차를 설명하기에 모호했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「첫 승을 내다」는 승리를 뜻하는 한국어 표현으로 부자연스러웠고, 「일곱 이닝 넘게」의 조사도 투구 내용을 매끄럽게 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「정근우의 한 점」은 득점의 주체와 의미가 불분명했고, 「결승 쿠바전」은 한국어 어순이 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「포스팅을 열었다」는 영어 표현을 기계적으로 옮긴 듯한 말이었고, 계약 기간과 금액의 관계도 매끄럽지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여섯 이닝을 넘기며 자책 한 점으로 막았다」와 「첫 승을 가져갔다」가 야구 경기의 투구와 승리를 나타내는 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「주례는 … 섰고」의 호응을 다듬고, 정민철의 소개와 두 사람의 교제가 자연스럽게 이어지도록 주어를 명확히 할 필요가 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 「그 자리」가 개막전 선발과 올스타전 선발 가운데 무엇을 가리키는지 앞 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자유계약으로 … 사인했다」는 영어식 표현이었고, 어느 구단과 계약했는지가 문장 안에서 명시되지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「손상을 확인했다」는 류현진 자신이 진단한 것처럼 주체가 어긋났고, 「한 번 받은 수술을 다시 받았다」는 중복된 표현이었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한국에 돌아올 때는 원소속 구단으로 가야 했다」가 다소 직역투였고, 계약 금액에 화폐 단위가 빠져 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

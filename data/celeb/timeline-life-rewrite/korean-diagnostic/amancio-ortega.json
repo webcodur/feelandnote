@@ -1,0 +1,238 @@
+{
+ "slug": "amancio-ortega",
+ "events": [
+  {
+   "year": 1936,
+   "year_end": null,
+   "kind": "birth",
+   "title": "레온의 철도역 마을에서 태어나다",
+   "title_en": "Born in a railway village in León",
+   "description": "네 남매 가운데 막내였다. 아버지 안토니오 오르테가 로드리게스는 철도원이었고, 어머니 호세파 가오나 에르난데스는 바야돌리드 지방 출신이었다. 아버지가 다른 철도역으로 발령 나면서 가족도 곧 이사했다.",
+   "description_en": "He was the youngest of four. His father, Antonio Ortega Rodríguez, was a railway worker; his mother, Josefa Gaona Hernández, came from the province of Valladolid. The family soon moved when the railway reassigned him.",
+   "place_name": "부스동고데아르바스",
+   "place_name_en": "Busdongo de Arbas",
+   "lat": 42.983556,
+   "lng": -5.717833
+  },
+  {
+   "year": 1944,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지 전근을 따라 갈리시아로 오다",
+   "title_en": "Moves to Galicia with his father’s transfer",
+   "description": "가족은 먼저 기푸스코아의 톨로사에서 살았다. 여덟 살에 가족과 함께 아코루냐로 옮겨 왔고, 이후 아코루냐에서 자랐다.",
+   "description_en": "They lived first in Tolosa, in Gipuzkoa. At eight he arrived here with the family and grew up in the city.",
+   "place_name": "아코루냐",
+   "place_name_en": "A Coruña",
+   "lat": 43.373857,
+   "lng": -8.400027
+  },
+  {
+   "year": 1950,
+   "year_end": null,
+   "kind": "work",
+   "title": "열네 살에 맞춤 셔츠 가게에서 일을 시작하다",
+   "title_en": "Starts work at a shirt shop at fourteen",
+   "description": "학교를 그만두고 갈라 셔츠점에 심부름꾼으로 들어갔다. 진열창을 닦고 소포를 나르며 손으로 재단하고 바느질하는 법을 배웠다. 삼 년 뒤 형 안토니오와 누나 호세파가 일하던 라마하 옷가게로 옮겼다.",
+   "description_en": "He left school and joined Gala, a made-to-measure shirt shop, as an errand boy. He washed windows, carried parcels, and learned to cut and sew by hand. Three years later he moved to La Maja, where his brother Antonio and sister Josefa already worked.",
+   "place_name": "아코루냐",
+   "place_name_en": "A Coruña",
+   "lat": 43.373857,
+   "lng": -8.400027
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "work",
+   "title": "목욕가운 작업장을 열다",
+   "title_en": "Opens a dressing-gown workshop",
+   "description": "로살리아 메라와 형수 프리미티바, 어머니 호세파가 산로센도 거리 작업장에서 재봉틀을 돌렸다. 첫 제품은 아기 싸개였으며 라마하에서 팔렸다. 훗날 메라와 결혼했다.",
+   "description_en": "Rosalía Mera, his sister-in-law Primitiva, and his mother Josefa ran the sewing machines in a workshop on Calle San Rosendo. Their first piece was a baby wrap sold at La Maja. He later married Mera.",
+   "place_name": "아코루냐",
+   "place_name_en": "A Coruña",
+   "lat": 43.373857,
+   "lng": -8.400027
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "콘페시오네스 고아를 법인으로 세우다",
+   "title_en": "Incorporates Confecciones Goa",
+   "description": "회사 이름은 자신의 이니셜을 거꾸로 배열해 지었다. 공장은 도매상에 목욕가운을 대량으로 공급할 만큼 성장했다. 형은 장부 정리를, 누나는 회계 업무를 맡았다.",
+   "description_en": "He reversed his own initials for the name. The factory supplied dressing gowns to wholesalers in volume. His brother kept the books; his sister handled the accounts.",
+   "place_name": "아코루냐",
+   "place_name_en": "A Coruña",
+   "lat": 43.373857,
+   "lng": -8.400027
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 자라 매장을 열다",
+   "title_en": "Opens the first Zara store",
+   "description": "십이 년 동안 다른 가게에 옷을 납품한 뒤 직접 판매하기로 했다. 조르바라는 이름을 간판에 쓰려 했으나 이미 사용 중이어서 자라로 바꿨다. 아내 메라와 함께 후안플로레스 거리에 매장을 열었다.",
+   "description_en": "After twelve years selling to other shops, he chose to sell the clothes himself. He wanted the sign to read Zorba, but that name was taken, so he changed it to Zara. Mera opened the shop with him on Calle Juan Flórez.",
+   "place_name": "아코루냐",
+   "place_name_en": "A Coruña",
+   "lat": 43.373857,
+   "lng": -8.400027
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "office",
+   "title": "제조와 매장을 인디텍스로 묶다",
+   "title_en": "Groups the factories and shops under Inditex",
+   "description": "여러 공장과 가게를 한 지주회사 아래로 모았다. 호세 마리아 카스테야노는 이미 매장 수요를 전산으로 집계해 생산에 반영하는 일을 맡고 있었다. 오르테가는 이사회 의장으로 그룹을 이끌었다.",
+   "description_en": "He gathered the factories and stores under one holding company. José María Castellano was already feeding store demand into production by computer. He chaired the board.",
+   "place_name": "아코루냐",
+   "place_name_en": "A Coruña",
+   "lat": 43.373857,
+   "lng": -8.400027
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "스페인 밖 첫 자라를 열다",
+   "title_en": "Opens the first Zara outside Spain",
+   "description": "스페인 밖에 연 첫 매장이었다. 이듬해에는 뉴욕에, 그다음 해에는 파리에 매장을 열었다.",
+   "description_en": "It was the first shop outside Spain. New York followed the next year, then Paris the year after.",
+   "place_name": "포르투",
+   "place_name_en": "Porto",
+   "lat": 41.15,
+   "lng": -8.610833
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "work",
+   "title": "인디텍스를 증권거래소에 올리다",
+   "title_en": "Lists Inditex on the stock exchange",
+   "description": "오월 이십삼 일 인디텍스 주식이 증권거래소에 상장됐다. 주식 매각 뒤에도 회사 지분 약 오분의 삼을 보유했다. 그때까지 언론에 공개된 그의 사진은 거의 없었으나, 상장을 계기로 대중 앞에 나서야 했다.",
+   "description_en": "Shares were listed on May 23. He still held about three-fifths of the company after the sale. Until then almost no photograph of him had been published; the listing forced him into public view.",
+   "place_name": "마드리드",
+   "place_name_en": "Madrid",
+   "lat": 40.416944,
+   "lng": -3.703333
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "office",
+   "title": "인디텍스 회장직을 내려놓다",
+   "title_en": "Steps down as chairman of Inditex",
+   "description": "부회장 겸 최고경영자이던 파블로 이슬라에게 자리를 넘겼다. 이사회에는 남았고 지분 과반은 그대로 쥐었다. 설계실과 구내식당에는 계속 나왔다.",
+   "description_en": "He handed the chair to Pablo Isla, then deputy chairman and chief executive. He stayed on the board and kept a majority stake. He still came to the design rooms and the staff canteen.",
+   "place_name": "아르테이쇼",
+   "place_name_en": "Arteixo",
+   "lat": 43.3,
+   "lng": -8.5
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "딸 마르타가 이사회 의장이 되다",
+   "title_en": "Daughter Marta takes the chair",
+   "description": "마르타는 사월 일 일부터 비상임 의장을 맡았다. 오스카르 가르시아 마세이라스는 최고경영자가 됐다. 오르테가는 아코루냐의 아파트에 계속 살면서 최대주주로 남았다.",
+   "description_en": "She took the non-executive chair on April 1. Óscar García Maceiras became chief executive. He remained the largest shareholder and kept living in an apartment in A Coruña.",
+   "place_name": "아르테이쇼",
+   "place_name_en": "Arteixo",
+   "lat": 43.3,
+   "lng": -8.5
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문에 없는 내용을 보탠 표현, 지시 대상이 불분명한 문장, 주체와 행동 관계가 어긋난 문장, 직역투를 바로잡았다. 사건 사이의 세부 관계는 유지하고 이미 자연스러운 문장은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문에 없는 ‘산골’을 제목에서 덜어냈다. ‘역 발령을 따라’는 무엇이 누구에게 발령되었는지 불분명해 아버지가 다른 철도역으로 발령받았다는 관계를 분명히 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘이곳’과 ‘여기’만으로는 이동한 도시가 바로 드러나지 않아 아코루냐를 직접 밝혔다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 ‘carried parcels’와 ‘learned to cut and sew by hand’가 각각 ‘옷을 나르며’, ‘손으로 옷을 만드는 법’으로 뭉뚱그려져 있어 소포 운반과 재단·바느질이라는 세부 행동을 복원했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘첫 물건’과 ‘뒤에 결혼했다’가 구어적이고 흐름이 거칠어 각각 ‘첫 제품’과 ‘훗날 결혼했다’로 다듬었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘이니셜을 거꾸로 붙였다’와 ‘목욕가운을 대량으로 넘기는’은 뜻은 짐작되지만 한국어 행동 관계가 어색해 이름을 짓고 제품을 공급하는 행위로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 없는 ‘영화 속’이라는 설명을 삭제하고, ‘남의 가게에 옷을 대 오다’를 다른 가게에 납품했다는 자연스러운 표현으로 바꾸었다. 이름이 ‘등록되어 있다’는 단정도 영문의 범위에 맞춰 ‘이미 사용 중’으로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘매장 반응을 전산으로 생산에 붙이다’는 영문 어순을 따른 직역으로, 매장 수요를 전산으로 집계해 생산에 반영했다는 뜻이 드러나도록 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘포르투갈 쪽 첫 가게’는 무엇을 기준으로 처음인지 불분명해 스페인 밖에 처음 연 매장임을 밝혔다. 뒤이은 뉴욕·파리 진출도 완결된 문장으로 연결했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘주식을 공개했다’와 ‘지분 대략 육 할’이 부자연스러워 상장과 보유 지분의 관계를 명확히 했다. 또한 영문의 ‘그때까지 공개된 사진이 거의 없었다’는 세부가 빠지고 ‘처음으로 언론에 모습을 보였다’는 더 강한 단정으로 바뀌어 있어 원래 의미를 복원했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘비상임 의장을 맡겼다’는 오르테가가 딸에게 직책을 부여한 것처럼 주체와 행동 관계가 달라진다. 마르타가 취임했다는 문장으로 고치고, ‘본인’이 가리키는 사람도 오르테가로 명시했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   10
+  ]
+ }
+}

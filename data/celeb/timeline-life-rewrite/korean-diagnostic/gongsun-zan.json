@@ -1,0 +1,271 @@
+{
+ "slug": "gongsun-zan",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "요서 영지에서 태어나다",
+   "title_en": "Is born in Lingzhi of Liaoxi",
+   "description": "정사 『삼국지』와 『후한서』는 출생 연도를 적지 않는다. 『선주전』은 그가 유비보다 나이가 많아 유비가 형처럼 섬겼다고만 전한다. 유비는 161년생이다. 자는 백규다. 집안은 대대로 이천석 관직자를 배출했으나 어머니의 신분이 낮아, 그는 군의 문하서좌로 관직을 시작했다. 용모가 수려하고 목소리가 우렁찼으며, 여러 부서의 일을 한꺼번에 아뢰면서도 빠뜨리거나 틀리는 일이 없었다.",
+   "description_en": "The Records of the Three Kingdoms and the Book of the Later Han give no birth year. Liu Bei’s biography says only that he was older and that Liu Bei treated him as an elder brother. Liu Bei was born in 161. His courtesy name was Bogui. The family had held two-thousand-stone offices, but his mother was of low rank, so he began as a commandery clerk. He was striking in looks and loud of voice. He could report several bureaus’ business at once without omission or error.",
+   "place_name": "첸안",
+   "place_name_en": "Qian'an",
+   "lat": 40.00591,
+   "lng": 118.6973
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "노식에게 경전을 배우다",
+   "title_en": "Studies the classics under Lu Zhi",
+   "description": "태수는 그의 재주를 남다르게 여겨 자기 딸과 혼인시키고, 탁군 구씨산에 있던 노식에게 보냈다. 『삼국지』의 일부 판본은 태수의 성을 후씨로 적지만, 다른 판본은 해당 구절을 ‘옛 태수’라는 뜻으로 풀이한다. 공손찬은 유비와 함께 노식에게 배웠다. 『삼국지연의』는 두 사람이 어린 시절부터 한집에서 자란 벗이었다고 하지만, 정사는 같은 스승에게 배웠다는 사실만 전한다.",
+   "description_en": "The administrator, struck by his talent, married a daughter to him and sent him to Lu Zhi at Mount Goushi in Zhuo. Some copies of the Records read the administrator’s surname as Hou; others take it as “the former administrator.” He and Liu Bei shared that teacher. The Romance has them grow up under one roof as boyhood friends. The official histories record only that they studied together.",
+   "place_name": "줘저우",
+   "place_name_en": "Zhuozhou",
+   "lat": 39.48873,
+   "lng": 115.99176
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "함거에 실린 태수를 낙양까지 따르다",
+   "title_en": "Escorts the caged administrator to Luoyang",
+   "description": "후임 태수 유씨가 죄를 지어 함거에 실린 채 소환됐다. 관리들은 수레 가까이 따라갈 수 없었으므로 공손찬은 병사로 변장하고 수레 곁을 지켰다. 유씨가 일남으로 유배되자 공손찬은 북망에서 돼지고기와 술을 선조에게 올리고 작별을 고했다. 그러나 남쪽으로 가던 도중 유씨가 사면됐다.",
+   "description_en": "The next administrator, a Liu, was summoned in a prisoner’s cart. Clerks were forbidden to stay close, so he dressed as a soldier and walked beside the wagon. When the sentence was exile to Rinan he offered pork and wine to his ancestors at Beimang and took leave. On the road south the man was pardoned.",
+   "place_name": "뤄양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "battle",
+   "title": "요새 밖에서 선비족을 뚫고 나오다",
+   "title_en": "Breaks through the Xianbei outside the fort",
+   "description": "효렴으로 천거돼 낭이 된 뒤 요동속국장사에 올랐다. 수십 기를 이끌고 나갔다가 수백 명의 선비족과 마주쳤다. 빈 역참으로 물러난 그는 지금 돌격하지 않으면 모두 죽는다고 부하들에게 말했다. 창 양쪽에 날을 달고 말을 몰아 적진을 뚫으며 수십 명을 죽이거나 다치게 했다. 함께 나간 기병도 절반을 잃었다. 이후 탁현령이 됐다.",
+   "description_en": "Nominated as a filial and incorrupt candidate, he became a gentleman and then chief clerk of the Liaodong Dependent State. Riding out with a few dozen horsemen he met hundreds of Xianbei. He pulled back into an empty post-station and told his men that if they did not charge they would all die. He fixed blades at both ends of a spear, rode through, and killed or wounded dozens. He also lost half the riders who followed him. He was made magistrate of Zhuo.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 187,
+   "year_end": 189,
+   "kind": "battle",
+   "title": "장순을 격파하고 관자성에 갇히다",
+   "title_en": "Beats Zhang Chun and is trapped at Guanzi",
+   "description": "양주에서 난이 일어나자 유주의 돌격 기병 3천을 이끌고 계에 도착했다. 장순은 오환의 우두머리 구력거와 함께 성읍을 약탈하고 있었다. 공손찬은 기도위가 되어 석문에서 장순을 격파했으나, 지나치게 깊이 추격하다가 관자성에서 200여 일 동안 포위됐다. 말까지 다 먹은 뒤에는 활과 방패마저 먹었다. 눈비가 이어지는 동안 구덩이에서 죽은 병사가 열 명 가운데 대여섯 명에 이르렀다. 왕정은 뒤에 장순의 머리를 유우에게 보냈다.",
+   "description_en": "When Liang Province rose he was given three thousand You shock cavalry and reached Ji. Zhang Chun and the Wuhuan leader Qiuliju plundered the towns. He was made commandant of cavalry. He broke Zhang Chun at Stone Gate, pursued too far, and was besieged at Guanzi for more than two hundred days. When the horses were gone they ate bows and shields. In rain and snow five or six in ten died in the ditches. Wang Zheng later sent Zhang Chun’s head to Liu Yu.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "백마의종을 이끌다",
+   "title_en": "Leads the White Horse Volunteers",
+   "description": "먼지가 이는 낌새만 보이면 흰 말을 타고 출동했다. 활을 잘 쏘는 기병도 흰 말에 태우고 스스로 백마의종이라 불렀다. 『후한서』는 그 수가 수십 명이었다고 하고, 『영웅기』는 수천 명이었다고 전한다. 오환은 공손찬을 백마장사라고 부르며 피했다. 그의 모습을 그려 놓고 활을 쏘아 맞히면 만세를 외치기도 했다. 『삼국지연의』는 오환이 흰 말을 신성하게 여겨 달아났다고 쓰지만, 정사는 그들이 공손찬을 두려워해 피했다고 기록한다. 유우는 재물을 주어 오환을 달래려 했으나, 공손찬은 그 재물을 가로채고 무력으로 소탕해야 한다고 주장했다.",
+   "description_en": "He always rode a white horse and rode out at the first dust. He put his best archers on white horses and called them the White Horse Volunteers. The Book of the Later Han says several dozen; the Records of Heroes says several thousand. The Wuhuan named him the White Horse Clerk, kept clear, and cheered when they hit a painted likeness of him. The Romance says the tribes held white horses sacred and fled. The official histories say they feared him. Liu Yu wanted to buy them off with gifts. He seized those gifts and argued for a sweep.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 191,
+   "year_end": null,
+   "kind": "battle",
+   "title": "동광에서 황건을 깨다",
+   "title_en": "Breaks the Yellow Turbans at Dongguang",
+   "description": "청주와 서주의 황건 잔당이 발해를 건너 흑산 세력과 합류하려 했다. 공손찬은 보병과 기병 2만을 이끌고 나가 3만여 명의 목을 베었다. 적이 강을 건너는 도중 다시 공격해 수만 명을 죽였고, 강물은 붉게 물들었다. 포로로 잡은 사람도 7만여 명에 이르렀다. 이 승리로 분무장군이 되고 계후에 봉해졌다. 『삼국지연의』는 이 무렵 그를 반동탁 연합의 일원으로 호뢰관에 등장시키지만, 정사에 따르면 그는 하북에 있었다.",
+   "description_en": "Yellow Turban remnants from Qing and Xu tried to cross Bohai and join the Black Mountain bands. He took twenty thousand foot and horse, took more than thirty thousand heads, and hit them again while they were midstream, killing tens of thousands. The river ran red and he captured more than seventy thousand. He was made general who uplifts martial might and marquis of Ji. The Romance puts him in the anti-Dong Zhuo coalition at Hulao. In the official histories he was in Hebei.",
+   "place_name": "동광",
+   "place_name_en": "Dongguang",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 191,
+   "year_end": null,
+   "kind": "battle",
+   "title": "계교에서 국의에게 패하다",
+   "title_en": "Is broken by Qu Yi at Jieqiao",
+   "description": "종제 공손월은 양성에서 날아온 화살에 맞아 죽었다. 『삼국지연의』는 원소가 동탁의 병사로 가장한 자들을 보내 공손월을 암살했다고 하지만, 정사는 공손월이 손견을 도와 주앙과 싸우던 중 화살에 맞았다고 전한다. 공손찬은 보병 3만 명으로 방진을 치고, 기병 1만 명을 좌우에 나눠 배치했으며, 백마의종을 중앙에 세웠다. 국의는 정예병 800명과 강노병 1천 명으로 기병의 돌격에 맞섰다. 엄강이 사로잡히고 공손찬의 아문까지 빼앗겼다. 『삼국지연의』에서는 조운이 국의의 진을 무너뜨리지만, 정사가 전하는 이 전투에는 조운이 등장하지 않는다.",
+   "description_en": "His cousin Gongsun Yue died of a stray arrow at Yangcheng. The Romance has Yuan Shao kill him with men dressed as Dong Zhuo’s soldiers. The official histories say the arrow came while he fought Zhou Ang beside Sun Jian. Gongsun Zan set thirty thousand foot in a square, ten thousand horse on the wings, and the White Horse Volunteers in the center. Qu Yi met the charge with eight hundred picked men and a thousand heavy crossbows. Yan Gang was taken and the camp gate was lost. The Romance has Zhao Yun smash Qu Yi’s line. Zhao Yun is not in the official account of this fight.",
+   "place_name": "광종",
+   "place_name_en": "Guangzong",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 192,
+   "year_end": null,
+   "kind": "battle",
+   "title": "거마수에서 최거업을 깨다",
+   "title_en": "Breaks Cui Juye at the Juma River",
+   "description": "원소의 장수 최거업이 고안을 포위했다가 물러났다. 공손찬은 보병과 기병 3만 명을 이끌고 추격해 7천에서 8천 명을 죽였다. 승세를 타고 평원까지 내려갔지만 용주에서 다시 패해 유주로 물러났다. 전해를 청주에 남겨 두었으나, 이어진 2년간의 공방으로 양쪽 모두 피폐해졌다.",
+   "description_en": "Yuan Shao’s general Cui Juye invested Gu’an and then pulled back. Gongsun Zan chased with thirty thousand foot and horse and killed seven or eight thousand. He pushed as far as Pingyuan, was broken again at Longcou, and fell back to You. He left Tian Kai in Qing. Two years of raids wore both sides down.",
+   "place_name": "줘저우",
+   "place_name_en": "Zhuozhou",
+   "lat": 39.48873,
+   "lng": 115.99176
+  },
+  {
+   "year": 193,
+   "year_end": null,
+   "kind": "other",
+   "title": "유우를 죽이다",
+   "title_en": "Kills Liu Yu",
+   "description": "유우가 10만 명을 이끌고 기습했다. 공손찬이 같은 성씨라는 이유로 가까이 두었던 공손기가 밤중에 습격을 알렸다. 유우가 병사들에게 민가를 불태우지 말라고 명령한 틈을 타, 공손찬은 바람을 따라 불을 놓고 정예병 수백 명으로 유우군을 무너뜨렸다. 사흘 만에 거용을 함락하고 유우와 그 가족을 계로 끌고 왔다. 이어 사자 단훈을 위협해 유우가 황제의 자리를 차지하려 했다는 혐의를 인정하게 했다. 공손찬은 유우를 저자에 세워 놓고, 그에게 황제가 될 자격이 있다면 하늘이 비를 내려 구해 달라고 빌었다. 무더운 날이었지만 하루 종일 비는 내리지 않았다. 공손찬은 유우를 참수한 뒤 전장군에 임명되고 역후에 봉해졌다.",
+   "description_en": "Liu Yu led a hundred thousand in a surprise attack. Gongsun Ji, kept close because they shared a surname, warned him at night. Liu Yu had ordered his men not to burn houses. Gongsun Zan set fire with the wind and broke them with a few hundred picked troops. He took Juyong in three days and brought Liu Yu and his family back to Ji. He forced the envoy Duan Xun to accept the charge that Liu Yu had meant to take a throne. Liu Yu was stood in the market; Gongsun Zan asked Heaven for rain if the man deserved to be emperor. It was a hot day and no rain fell. He had him beheaded and was made general of the vanguard and marquis of Yi.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 195,
+   "year_end": null,
+   "kind": "other",
+   "title": "역현에 역경의 누대를 세우다",
+   "title_en": "Raises the towers of Yijing in Yi",
+   "description": "포구수에서 병사 2만 명을 잃은 뒤 역현으로 옮겼다. 아이들 사이에서는 ‘연나라 남쪽과 조나라 북쪽, 숫돌만 한 그 한가운데라야 몸을 숨길 수 있다’는 노래가 돌았다. 공손찬은 해자를 열 겹으로 파고 높이 5~6장인 언덕을 쌓았다. 그 한가운데 세운 높이 10장의 누대에서 살며 곡식 300만 곡을 저장했다. 철문을 달고 일곱 살이 넘은 남자는 안으로 들이지 않았다. 문서는 우물의 두레박처럼 위로 끌어올려 받았다. 점쟁이 유위대, 비단 장수 이이자, 상인 악하당과 형제를 맺고 자신을 맏형이라 불렀다.",
+   "description_en": "After losing twenty thousand at the Baoqiu he moved there. A children’s rhyme spoke of the southern edge of Yan, the northern edge of Zhao, and a whetstone-sized middle where one could hide from the age. He dug ten moats, raised mounds five or six zhang high, lived in a ten-zhang tower in the center, and stored three million hu of grain. He set an iron door and admitted no male older than seven. Papers were hauled up as from a well. He swore brotherhood with the diviner Liu Weitai, the silk dealer Li Yizi, and the merchant Yue Hedang, and called himself the eldest.",
+   "place_name": "슝현",
+   "place_name_en": "Xiong",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 199,
+   "year_end": null,
+   "kind": "death",
+   "title": "역경에서 분신하다",
+   "title_en": "Burns himself at Yijing",
+   "description": "아들 공손속에게 흑산의 장연을 데려와 북쪽에 봉화를 올리라고 지시한 편지가 원소에게 가로채였다. 원소가 봉화를 올리자 공손찬은 성 밖으로 나왔다가 패해 다시 안으로 들어갔다. 원소군은 땅굴을 파서 누대 아래로 들어간 뒤 버팀목에 불을 붙여 누대를 무너뜨렸다. 『후한서』는 공손찬이 누이들과 아내들, 자녀들을 목매달아 죽인 뒤 불길에 뛰어들었다고 전한다. 『삼국지』는 가족을 죽인 뒤 스스로 목숨을 끊었다고만 기록한다. 병사들이 그의 목을 베었다. 건안 4년 3월이었다.",
+   "description_en": "A letter to his son Gongsun Xu, telling him to bring Zhang Yan of the Black Mountain and raise a beacon to the north, was captured. Yuan Shao lit a fire. Gongsun Zan rode out, was beaten, and went back in. Yuan’s men tunneled under the towers, set the props alight, and brought them down. The Book of the Later Han says he hanged his sisters, wives, and children and then jumped into the fire. The Records of the Three Kingdoms say only that he killed his family and died by his own hand. Soldiers took his head. It was the third month of Jian’an 4.",
+   "place_name": "슝현",
+   "place_name_en": "Xiong",
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실 범위 안에서 주어와 행동 관계가 흐릿한 문장, 직역투, 앞뒤 연결이 끊기는 대목을 바로잡았다. 생애가 출사와 변방 전투, 원소·유우와의 대립, 역경 농성, 죽음으로 이어지도록 사건별 세부는 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「유비보다 많아」, 「어머니가 천해 군 문하서좌로 시작했다」처럼 나이와 관직의 주체가 무너져 있었다. 유비가 그를 형처럼 섬겼다는 관계와, 어머니의 낮은 신분 때문에 공손찬이 군리로 출발했다는 뜻을 분명히 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「딸을 주고」, 「동문한 일」 등 한문을 그대로 옮긴 표현이 이어졌고, 판본에 따른 해석 차이도 매끄럽게 읽히지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「함거의 태수」는 함거에 실린 사람이라는 관계가 모호했다. 본문도 병사로 변장하고 수레를 따른 사람과 유배·사면된 사람이 구별되지 않아 각 행동의 주체를 밝혔다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「선비를 뚫다」, 「빈 정」, 「지금 부딪치지 않으면」이 직역투여서 전투 상황을 곧바로 이해하기 어려웠다. 선비족에게 포위된 뒤 빈 역참에서 돌격을 결심해 빠져나온 흐름으로 정리했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「양주가 어지러워」, 「말이 떨어지자」, 「눈비에 구덩이로 죽은 이」처럼 사건과 결과의 관계가 불분명했다. 장순 추격, 장기 포위, 식량 고갈과 병력 손실이 차례로 읽히도록 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "먼지가 일어난 상황과 출동한 주체, 유우가 재물로 달래려 한 대상이 생략돼 있었다. 오환이 공손찬의 초상을 과녁으로 삼은 대목도 주어와 행동을 분명히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「급을 취했다」, 「강을 건너는 적을 다시 덮쳤다」 같은 기록체 표현을 자연스러운 전투 서술로 바꿨다. 영문에 없는 반동탁 연합의 진영 수는 최종 국문에서 확정하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「손견과 주앙을 겨루다 흐른 화살」은 공손월이 누구의 편에서 누구와 싸웠는지 알기 어려웠다. 병력 배치와 국의의 대응도 주체별로 나누고, 「깨지다」는 문맥에 맞게 「패하다」로 다듬었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고안을 에워쌌다 물러났다」처럼 연결어가 빠졌고, 승리 뒤 남하했다가 다시 패한 과정과 이후 2년간의 소모전이 단절돼 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "공손기를 가까이 둔 사람과 경고를 받은 사람이 명시되지 않았고, 「비가 내리면 구하라고 빌었다」는 문장만으로는 공손찬이 하늘에 무엇을 요구했는지 알기 어려웠다. 유우에게 씌운 혐의와 처형 과정도 영문의 행위 관계에 맞게 바로잡았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「역경을 쌓다」, 「숫돌만 한 한가운데」, 「문서는 우물처럼 끌어올렸다」가 건축물과 행동의 모습을 충분히 전달하지 못했다. 해자·언덕·누대의 배치를 분명히 하고, 일곱 살을 넘은 남자를 들이지 않았다는 영문의 연령 조건도 정확히 반영했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서가 새었다」, 「나가 깨지고」, 「땅굴로 누 아래를 뚫고」처럼 편지 탈취부터 패전과 누대 붕괴까지의 주체가 연달아 생략돼 있었다. 원소군의 기만과 공성, 사서별 죽음 기록이 순서대로 읽히도록 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

@@ -1,0 +1,268 @@
+{
+ "slug": "hoan-ton-that",
+ "events": [
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "birth",
+   "title": "멜버른에서 태어나다",
+   "title_en": "Born in Melbourne",
+   "description": "풋스크레이에서 초등학교를 다녔다. 어머니는 태즈메이니아 출신 간호사였다. 아버지 퀸두는 열여덟 살에 콜롬보 플랜 장학생으로 베트남에서 건너와 문학 번역가로 일했다. 집에는 텔레비전이 없었다. 그의 집안은 베트남 옛 왕조의 방계인 톤텃 가문이다.",
+   "description_en": "He went to primary school in Footscray. His mother was a nurse from Tasmania. His father, Quynh-Du, arrived from Vietnam at eighteen on a Colombo Plan scholarship and worked as a literary translator. The house had no television. The family belongs to Ton That, a cadet branch of Vietnam's former ruling house.",
+   "place_name": "멜버른",
+   "place_name_en": "Melbourne",
+   "lat": -37.814166666667,
+   "lng": 144.963055555556
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 캔버라로 옮기다",
+   "title_en": "The family moved to Canberra",
+   "description": "아버지가 오스트레일리아 국립대에 자리를 얻어, 열 살 때 가족과 함께 캔버라로 옮겼다. 새집에는 인터넷이 들어왔다. 숙제는 수요일에 끝내고 남은 날에는 프로그램을 짜거나 운동을 했다. 이사 전에도 아버지는 모나시대학교 사무실의 컴퓨터를 쓰게 해주었다.",
+   "description_en": "He followed at ten when his father took a post at the Australian National University. The new house had internet. He finished homework on Wednesdays and spent the rest of the week writing programs or playing sport. Before the move his father had already let him use the computer in a Monash University office.",
+   "place_name": "캔버라",
+   "place_name_en": "Canberra",
+   "lat": -35.293055555556,
+   "lng": 149.12694444444
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "education",
+   "title": "오스트레일리아 국립대 전산학과를 중퇴하다",
+   "title_en": "Left the computer science course at ANU",
+   "description": "열여덟 살에 앱 회사를 차렸지만 투자자를 찾지 못했다. 학과장은 아버지를 불러 특별 과정을 밟아서라도 졸업할 수 있게 해주겠다고 제안했다. 그는 3년을 더 보내면 늦는다고 말하고 학교를 떠났다.",
+   "description_en": "At eighteen he started an app company first, but found no investors. The department head called his father and offered a special program to keep him through graduation. He said three more years would be too late, and left.",
+   "place_name": "캔버라",
+   "place_name_en": "Canberra",
+   "lat": -35.293055555556,
+   "lng": 149.12694444444
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "travel",
+   "title": "샌프란시스코로 건너가다",
+   "title_en": "Moved to San Francisco",
+   "description": "해커 뉴스에 글을 올린 나발 라비칸트에게 회사를 차리고 싶다고 말했다. 라비칸트는 샌프란시스코로 오라고 했다. 도착해서는 집을 구하기도 전에 아이폰부터 샀다. 라비칸트가 첫 투자자가 되었다.",
+   "description_en": "He told Naval Ravikant, who had posted on Hacker News, about wanting to start a company. Ravikant told him to come there. On arrival he bought an iPhone before he even found an apartment. Ravikant became his first investor.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "메신저로 퍼지는 사이트를 만들다",
+   "title_en": "Built a site that spread over instant messenger",
+   "description": "해피애피 명의로 등록된 비디호는 지메일 로그인 정보를 받아 사용자의 연락처에 같은 메시지를 무차별 전송했다. 경찰은 도메인 등록자를 추적했다. 사이트가 폐쇄되자 다른 주소로 비슷한 사이트를 다시 열었다.",
+   "description_en": "ViddyHo, registered to HappyAppy, took Gmail logins and blasted the same message to a user's contacts. Police looked for the domain registrant. After it was shut down he opened a similar site under another address.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "travel",
+   "title": "뉴욕으로 옮기다",
+   "title_en": "Moved to New York",
+   "description": "아이폰 게임은 자리를 잡지 못했다. 샌프란시스코에서 8년을 보낸 뒤 그곳 생활에 싫증이 났다. 엔젤리스트에서 일하다 뉴욕으로 옮겼고, 인공지능과 이미지 인식에 관한 논문을 읽기 시작했다.",
+   "description_en": "His iPhone games never took hold. After eight years the place wore thin. He worked at AngelList, then went east. He began reading papers on artificial intelligence and image recognition.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777778,
+   "lng": -74.006111111111
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "리처드 슈워츠를 만나다",
+   "title_en": "Met Richard Schwartz",
+   "description": "맨해튼연구소의 책 행사에서 뉴욕시장 시절 줄리아니를 보좌했던 리처드 슈워츠를 만났다. 두 사람은 한 시간 동안 이야기했고, 다음 주에는 커피를 마시며 세 시간을 더 이야기했다. 한 명이 서버 비용을 대고 다른 한 명이 얼굴 대조 프로그램을 만들기로 했다.",
+   "description_en": "At a book event at the Manhattan Institute he met a former aide to Mayor Giuliani. They talked for an hour, then spent three more hours over coffee the next week. One would cover server costs, the other would write the face-matching software.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777778,
+   "lng": -74.006111111111
+  },
+  {
+   "year": 2017,
+   "year_end": 2018,
+   "kind": "work",
+   "title": "얼굴 검색 회사를 세우다",
+   "title_en": "Founded a face-search company",
+   "description": "2월에 스마트체커를 등록하고 이듬해 회사 이름을 클리어뷰로 바꿨다. 프로그램은 공개 웹에서 얼굴 이미지를 수집해 입력된 사진과 대조했다. 피터 틸과 라비칸트가 댄 자금은 나중에 지분 투자로 전환됐다.",
+   "description_en": "In February he registered Smartcheckr. The next year he renamed it Clearview. The tool scraped faces from the public web and matched them to a photo. Cash from Peter Thiel and Ravikant later converted into equity.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777778,
+   "lng": -74.006111111111
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "뉴욕타임스가 회사를 폭로하다",
+   "title_en": "The New York Times exposed the company",
+   "description": "카슈미르 힐은 이미 수백 곳의 수사기관이 사용하던 얼굴 검색 도구를 1면 기사로 보도했다. 구글과 유튜브, 벤모, 링크드인은 웹에서의 이미지 수집을 중단하라고 요구했다. 그는 아침 방송에 출연해 회사를 변호했다.",
+   "description_en": "Kashmir Hill put the face-search tool already used by hundreds of police agencies on the front page. Google, YouTube, Venmo, and LinkedIn demanded that the scraping stop. He went on morning television to defend the company.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777778,
+   "lng": -74.006111111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "우크라이나에 얼굴 검색 서비스를 무료로 제공하다",
+   "title_en": "Opened face search to Ukraine at no charge",
+   "description": "침공 직후 키이우에 있는 우크라이나 정부에 편지를 보냈다. 편지에는 회사가 브콘탁테에서 수집한 사진을 20억 장 넘게 보유하고 있다고 적었다. 그는 우크라이나 국방부가 얼굴 검색 도구를 사용하기 시작했다고 로이터에 밝혔다.",
+   "description_en": "Right after the invasion he wrote to the government in Kyiv. The letter said the company had more than two billion photos scraped from VKontakte. He told Reuters that the defense ministry had begun using the tool.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": 2025,
+   "kind": "other",
+   "title": "창업한 회사에서 밀려나다",
+   "title_en": "Was pushed out of the company he founded",
+   "description": "2024년 12월 최고경영자직에서 물러나 사장을 맡았다. 2025년 2월에는 사장직에서도 물러났고, 핼 램버트와 리처드 슈워츠가 공동 최고경영자가 됐다. 4월에는 주주들이 표결로 그를 이사회에서 해임했다.",
+   "description_en": "In December he stepped down from chief executive to president. In February he left the president role as well. Hal Lambert and Schwartz became co-chief executives. In April shareholders voted him off the board.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777778,
+   "lng": -74.006111111111
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "자산운용사의 기술책임자가 되다",
+   "title_en": "Became chief technology officer at an asset manager",
+   "description": "아키텍트 캐피털이 그를 기술책임자로 영입했다. 이 회사는 기술 자산을 담보로 대출하는 사모신용 운용사다.",
+   "description_en": "Architect Capital took him in. The firm is a private-credit house that lends against technology assets.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 뜻이 흐릿한 지시어, 직역한 표현, 행위 주체와 대상이 불분명한 문장을 고쳤다. 유년기의 컴퓨터 경험에서 창업과 얼굴 검색 사업, 경영권 상실과 새 직책으로 이어지는 생애 흐름은 영문의 정보 범위 안에서 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "아버지의 이주 자격과 직업을 「콜롬보 플랜으로 왔다」, 「문학을 번역했다」라고 옮겨 관계가 흐릿했고, 톤텃 가문에 관한 마지막 문장도 한국어 어순이 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「열 살에 따라갔다」는 누구를 따라 어디로 갔는지 문장만으로 분명하지 않았고, 영문의 office가 근거 없이 「연구실」로 바뀌어 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「전산학을 중퇴하다」는 중퇴의 대상을 부자연스럽게 표현했고, 「앱 회사를 먼저」와 「자리를 떴다」도 창업과 학교 중퇴의 관계를 선명하게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「창업 이야기를 했다」는 그가 라비칸트에게 무엇을 말했는지 흐릿했고, 「그 사람이 그쪽으로 오라고 했다」는 인물과 장소를 모두 지시어에 의존했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「해피애피 명의의 비디호」와 「주소록에 같은 글을 뿌렸다」는 등록 관계와 전송 행위를 직역해 의미가 매끄럽지 않았고, 폐쇄 뒤 다른 주소로 사이트를 다시 열었다는 내용도 분명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그곳이 질렸다」와 「동쪽 해안으로 갔다」가 각각 샌프란시스코와 뉴욕을 지시하지만, 앞 문장만으로 대상을 바로 파악하기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "제목에 나온 리처드 슈워츠가 본문에서는 익명의 전직 보좌관으로만 나타났고, 「세 시간을 더 썼다」와 「얼굴 맞추는 프로그램」도 한국어 표현이 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공개된 웹에서 얼굴을 긁어 사진과 맞췄다」는 웹 이미지 수집과 사진 대조 과정을 단어별로 옮긴 직역이었고, 투자금이 지분으로 전환됐다는 문장도 다듬을 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「얼굴 검색을 1면에 올렸다」는 도구를 다룬 기사가 1면에 실렸다는 뜻을 정확히 전달하지 못했고, 무엇의 수집을 중단하라는 요구였는지도 빠져 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「얼굴 검색을 무상으로 열다」는 서비스를 무료로 제공했다는 뜻을 어색하게 옮겼고, 「키이우 정부」와 「그 도구」도 대상을 충분히 드러내지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "2024년 12월부터 2025년 4월까지 이어진 직책 변동에서 연도가 생략돼 순서가 흐릿했고, 「최고경영자에서 사장으로 내려왔다」와 「이사회에서 그를 빼냈다」도 직역에 가까웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사가 그를 들였다」와 「사모 신용 하우스」가 영문 표현을 그대로 따른 번역투여서 영입 사실과 회사의 사업 성격이 자연스럽게 읽히지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

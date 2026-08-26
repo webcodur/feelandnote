@@ -1,0 +1,251 @@
+{
+ "slug": "andrew-tulloch",
+ "events": [
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "birth",
+   "title": "퍼스에서 자라다",
+   "title_en": "Grows up in Perth",
+   "description": "서호주 퍼스에서 자랐다. 훗날 본인이 정리한 이력에서도 퍼스를 자신의 출발점으로 삼았다. 출생일은 공개하지 않았다.",
+   "description_en": "He grew up in Perth, Western Australia. That city is also the starting point he later wrote down for himself. He has not published a date of birth.",
+   "place_name": "퍼스",
+   "place_name_en": "Perth",
+   "lat": -31.955833333333334,
+   "lng": 115.85972222222222
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "education",
+   "title": "크라이스트처치 그래머를 졸업하다",
+   "title_en": "Graduates from Christ Church Grammar",
+   "description": "퍼스 서쪽 클래어몬트의 남학교에서 부총학생회장을 맡았다. 서호주 대입시험에서 99.95점을 받아 그해 응시생 약 만 명 가운데 두 번째였다.",
+   "description_en": "He was vice-captain at the boys school in Claremont, west of Perth. He scored 99.95 in the Western Australian university-entrance exam, second among about ten thousand candidates that year.",
+   "place_name": "퍼스",
+   "place_name_en": "Perth",
+   "lat": -31.955833333333334,
+   "lng": 115.85972222222222
+  },
+  {
+   "year": 2007,
+   "year_end": 2011,
+   "kind": "education",
+   "title": "시드니대에서 수학 최우등으로 졸업하다",
+   "title_en": "Takes a first in mathematics at Sydney",
+   "description": "고급수학 학사 과정에서 수학과 통계를 전공했다. 이학부 최고 평점을 기록하며 최우등 학위를 받고 대학 메달을 수상했다.",
+   "description_en": "He read mathematics and statistics in the advanced-mathematics bachelor course. He finished with first-class honours, the University Medal, and the highest grade-point average in the Faculty of Science.",
+   "place_name": "시드니",
+   "place_name_en": "Sydney",
+   "lat": -33.867777777777775,
+   "lng": 151.21
+  },
+  {
+   "year": 2010,
+   "year_end": 2012,
+   "kind": "work",
+   "title": "골드만삭스에서 거래 모형을 만들다",
+   "title_en": "Builds trading models at Goldman Sachs",
+   "description": "학부를 마치던 무렵 시드니 사무실에서 전략 담당으로 일했다. 시장 주문이 더 효율적으로 체결되도록 학습 모형을 만들었고, 현물주식과 파생상품에 걸친 통계적 차익거래 전략도 개발했다. 이 일은 이듬해 2월까지 이어졌다.",
+   "description_en": "Around the end of his undergraduate years he worked as a strategist in the Sydney office. He built learning models to improve the execution of market orders and statistical-arbitrage strategies across cash equities and derivatives. The job ran through February of the following year.",
+   "place_name": "시드니",
+   "place_name_en": "Sydney",
+   "lat": -33.867777777777775,
+   "lng": 151.21
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "페이스북에 들어가다",
+   "title_en": "Joins Facebook",
+   "description": "골드만을 나온 직후 머신러닝 엔지니어로 합류했다. 이후 십 년 넘게 대규모 학습 시스템을 만드는 일이 본업이었다.",
+   "description_en": "He joined as a machine-learning engineer right after leaving Goldman. Building large-scale training systems remained his main work for more than a decade.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2013,
+   "year_end": 2014,
+   "kind": "education",
+   "title": "케임브리지에서 수리통계를 배우다",
+   "title_en": "Reads mathematical statistics at Cambridge",
+   "description": "페이스북에 재직한 채 트리니티 칼리지로 갔다. 수학 트라이포스 3부에서 수리통계와 기계학습을 배웠다. 시험에서 최고 등급인 최우수(Distinction)를 받고 칼리지 상도 수상했다.",
+   "description_en": "He kept his Facebook role and went to Trinity College. In Part III of the Mathematical Tripos he studied mathematical statistics and machine learning. He took a distinction, the top examination grade, and a college prize.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "이미지넷을 한 시간에 학습시키다",
+   "title_en": "Helps train ImageNet in one hour",
+   "description": "페이스북 인공지능연구소와 응용머신러닝 팀이 이미지넷 학습 시간을 며칠에서 한 시간으로 줄이는 논문을 냈다. 카페2와 256개 그래픽 처리 장치로 레스넷-50을 돌렸고, 미니배치를 8,192장까지 키우고도 정확도를 유지하기 위해 학습률을 선형으로 높이고 초반에 워밍업을 적용했다. 허카이밍, 로스 거식, 자양칭, 프리야 고얄 등과 공동 저자로 이름을 올렸다.",
+   "description_en": "Facebook AI Research and the applied machine-learning group published a paper that cut ImageNet training from days to one hour. They ran ResNet-50 on Caffe2 across 256 graphics processors and kept accuracy at a minibatch of 8,192 images by scaling the learning rate linearly and adding a warmup. He is a co-author with Kaiming He, Ross Girshick, Yangqing Jia, and Priya Goyal.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2018,
+   "year_end": 2023,
+   "kind": "work",
+   "title": "메타에서 추천 시스템 학습 규모를 키우다",
+   "title_en": "Scales recommendation training at Meta",
+   "description": "이후에는 광고와 추천에 쓰이는 거대 모형을 파이토치 기반으로 여러 기계에 나눠 학습시키는 일을 맡았다. 지온이엑스 논문은 매개변수 12조 개 규모의 모형을 이전 시스템보다 마흔 배 빠르게 학습시켰다고 보고했다. 이듬해 엠트레인에스 논문에서는 이종 메모리를 활용해 학습 노드를 4분의 1에서 8분의 1 수준으로 줄이는 설계를 선보였다. 직급도 회사 내 최고위 기술직급 가운데 하나인 디스팅귀시드 엔지니어까지 올랐다.",
+   "description_en": "What remained was training the huge models behind ads and recommendations on PyTorch, split across many machines. The ZionEX paper reported training models of up to 12 trillion parameters forty times faster than earlier systems, and the next year the MTrainS paper showed a heterogeneous-memory design that cut the number of training nodes by four to eight times. His rank rose to distinguished engineer, among the company's highest technical grades.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "오픈AI로 옮기다",
+   "title_en": "Moves to OpenAI",
+   "description": "9월에 메타를 떠나 다음 달 샌프란시스코의 오픈AI에 기술진으로 합류했다. 학습 시스템을 구축하고 대규모 언어 모형과 멀티모달 모형을 사전학습하는 일을 맡았다.",
+   "description_en": "He left Meta in September. The next month he joined OpenAI in San Francisco as a member of the technical staff. The work was machine-learning systems and the pretraining of large language and multimodal models.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "지피티-4오 데이터 시스템을 맡다",
+   "title_en": "Leads data systems for GPT-4o",
+   "description": "오픈AI가 발표한 시스템 카드는 그를 데이터 시스템 책임자로 명시했다. 공식 기여자 명단에도 이름이 있다. 훗날 본인은 지피티-4오와 지피티-4.5의 학습을 비롯해 오3를 포함한 오 시리즈 개발에도 기여했다고 정리했다.",
+   "description_en": "The OpenAI system card lists him as data-systems lead. His name is also on the official contributor list. He later summarised the work as helping train GPT-4o and GPT-4.5 and the o-series, including o3.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "싱킹 머신스 랩을 공동 창업하다",
+   "title_en": "Co-founds Thinking Machines Lab",
+   "description": "미라 무라티가 오픈AI 최고기술책임자 자리에서 물러난 뒤 샌프란시스코에 새 연구회사를 세울 때 공동창업자로 합류했다. 창립 팀에는 오픈AI를 떠난 연구자들이 모였다. 회사는 2월에 공개됐지만, 그는 1월부터 회사에 몸담았다.",
+   "description_en": "After Mira Murati left the OpenAI chief-technology post, he joined her as a co-founder of a new research company in San Francisco. The founding team drew researchers who had left OpenAI. The company was announced in February, and he was on the books from January.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "메타 TBD 랩으로 돌아가다",
+   "title_en": "Returns to Meta TBD Lab",
+   "description": "10월에 싱킹 머신스 랩을 떠났다. 회사 대변인은 그가 개인 사정으로 다른 길을 택했다고 밝혔다. 이후 최고인공지능책임자 알렉산드르 왕이 이끄는 메타의 새 조직 TBD 랩에 합류했다. 자신의 소개에는 초지능을 개발하는 일을 한다고 적었으며, 샌프란시스코에 거주한다.",
+   "description_en": "He left the company in October. A Thinking Machines spokesperson said he had chosen a different path for personal reasons. He rejoined Meta in the new TBD Lab, under chief AI officer Alexandr Wang. His own page says he works on superintelligence and lives in San Francisco.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부 사실은 유지하면서 직역투, 어색한 서술어, 불분명한 지시 관계를 고쳤다. 특히 메타 재직기의 연구 성과와 이후 이직·창업 과정이 위에서 아래로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「본인이 뒤에 적은 출발점도 이 도시다」가 영어 어순을 옮긴 듯 어색하고, 무엇을 어디에 적었다는 뜻인지 바로 들어오지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일등 우등」은 first-class honours를 단어 단위로 옮긴 표현이라 한국어 학위·성적 서술로 자연스럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시장 주문 체결을 낫게 하는」이 부자연스럽고, cash equities를 단순히 「주식」으로 옮겨 세부 구분이 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「페이스북 적을 유지한 채」는 재직 상태를 뜻하는 표현으로 자연스럽지 않고, 「시험은 디스팅션이었다」「칼리지가 상을 줬다」도 영어 문장 구조가 남아 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공동 저자에 … 함께 이름이 있다」는 조사와 서술어의 결합이 어색해 공동 저자 관계가 매끄럽게 읽히지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「추천 학습 스택」은 불필요한 외래어 표현이고, 본문의 「일이 남았다」는 What remained was를 직역해 앞 사건과의 연결이 끊겼다. 또한 「노드를 네 배에서 여덟 배 줄이다」는 감소 폭을 직관적으로 이해하기 어려웠으며, distinguished engineer를 회사의 단일 최고 기술직처럼 과장했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「오픈AI 기술직원」은 member of the technical staff를 기계적으로 옮긴 표현이라 직책과 합류 관계가 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「데이터 시스템 책임으로 적었다」와 「본인 소개는 … 정리한다」의 주어·서술어 관계가 어색했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공동창업자로 들어갔다」와 「1월부터 적을 두었다」가 직역투여서 창업 합류 시점과 회사 공개 시점의 관계가 매끄럽게 읽히지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 랩」은 새 조직의 이름을 다시 확인해야 이해할 수 있고, 「본인 소개는 초지능을 만든다고 적으며, 거처는 …」은 주어와 서술어의 연결이 부자연스러웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

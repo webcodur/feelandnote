@@ -1,0 +1,217 @@
+{
+ "slug": "hypatia",
+ "events": [
+  {
+   "year": 350,
+   "year_end": 370,
+   "kind": "birth",
+   "title": "테온의 딸로 태어나다",
+   "title_en": "Is born as Theon’s daughter",
+   "description": "태어난 해는 사료에 없다. 아버지 테온은 유클리드 《원론》의 필사 오류를 바로잡아 후대 독자들이 사용한 판본을 만들었다. 어머니의 이름은 어떤 기록에도 남아 있지 않다. 학자들은 출생 연도를 350년에서 370년 사이로 잡을 뿐이다. 알렉산드리아는 로마 제국의 이집트 속주에 속한 항구였고, 사람들은 그리스어로 철학과 수학을 가르쳤다.",
+   "description_en": "No surviving source records the year of her birth. Her father was Theon, who corrected scribal errors in Euclid’s Elements and produced the edition later readers used. No source names her mother. Scholars place the birth only between 350 and 370. The port belonged to the Roman province of Egypt, and people taught philosophy and mathematics in Greek.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "아버지의 학교에서 수학을 익히다",
+   "title_en": "Learns mathematics in her father’s school",
+   "description": "동시대 역사가 필로스토르기오스는 히파티아가 아버지보다 수학에 뛰어났다고 적었다. 테온은 《알마게스트》 3권 주석의 제목에서 딸을 철학자라고 부르며, 딸이 해당 판본을 교정했다고 밝혔다. 소크라테스는 히파티아가 플라톤과 플로티노스의 학파를 이었다고 썼다. 히파티아의 학파는 세라페움에서 가르치던 이암블리코스 계열과 달랐다.",
+   "description_en": "The contemporary historian Philostorgius wrote that she surpassed her father in mathematics. In the title of his commentary on Book III of the Almagest, Theon called his daughter a philosopher and said she had prepared that edition. Socrates wrote that she succeeded to the school of Plato and Plotinus. That household was not the Iamblichean circle that taught at the Serapeum.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 391,
+   "year_end": 400,
+   "kind": "work",
+   "title": "멀리서 온 청중에게 철학을 설명하다",
+   "title_en": "Explains philosophy to hearers from afar",
+   "description": "소크라테스는 히파티아가 당대 철학자들을 앞질렀다고 적었다. 제자들은 멀리서 찾아왔고, 히파티아는 남자들의 집회도 꺼리지 않고 관리들 앞에 나섰다. 주교 테오필루스는 세라페움을 허물었지만 히파티아의 학파는 건드리지 않았다. 후대의 다마시우스는 히파티아가 철학자의 겉옷을 입고 거리를 걸으며 그곳에서 강의했다고 전한다.",
+   "description_en": "Socrates wrote that she surpassed the philosophers of her own time. Students came from a distance, and she appeared before magistrates without shrinking from assemblies of men. Bishop Theophilus demolished the Serapeum but left this school untouched. Damascius, writing later, says she walked the streets in a philosopher’s cloak and lectured there.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 393,
+   "year_end": 395,
+   "kind": "education",
+   "title": "키레네에서 온 시네시오스를 가르치다",
+   "title_en": "Teaches Synesius from Cyrene",
+   "description": "시네시오스는 키레네의 부유한 집안 아들로, 형 에웁티오스와 함께 바다를 건너왔다. 그는 철학과 수학을 배웠고, 친구 헤르쿨리아누스에게 히파티아가 철학의 비의를 주관한다고 썼다. 뒤에 프톨레마이스의 주교가 되었으나, 히파티아에게 보낸 편지는 일곱 통만 남아 있다. 히파티아가 보낸 답장은 전하지 않는다.",
+   "description_en": "A son of a wealthy Cyrenean family crossed the sea with his brother Euoptius. He studied philosophy and mathematics, and told his friend Herculianus that his teacher presided over the mysteries of philosophy. He later became bishop of Ptolemais. Seven of his letters to her survive. None of her replies do.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "디오판토스와 아폴로니오스에 주석을 달다",
+   "title_en": "Writes commentaries on Diophantus and Apollonius",
+   "description": "비잔틴 사전 《수다》는 디오판토스 《산술》, 페르가의 아폴로니오스 《원뿔곡선》, 천문 목록에 주석을 달았다고 전한다. 원문은 거의 남지 않았다. 아랍어 《산술》에 끼어 있는 풀이를 그 주석으로 보는 학자도 있으나, 확정되지 않았다.",
+   "description_en": "The Byzantine lexicon Suda reports commentaries on Diophantus’s Arithmetica, Apollonius of Perga’s Conics, and an astronomical canon. Almost none of that text survives. Some scholars treat extra solutions in the Arabic Arithmetica as her commentary. That identification is not settled.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 398,
+   "year_end": 402,
+   "kind": "work",
+   "title": "시네시오스에게 평면 아스트롤라베 제작을 가르치다",
+   "title_en": "Teaches Synesius to build a plane astrolabe",
+   "description": "시네시오스는 은으로 만든 평면 아스트롤라베를 콘스탄티노플의 관리 파이오니오스에게 바쳤다. 자신이 설계했다고 하면서도 스승이 설계에 기여했다고 밝혔다. 이 기구는 히파티아가 태어나기 수백 년 전부터 쓰였다. 전승에 따르면 히파티아의 아버지도 작은 아스트롤라베에 관한 글을 남겼다. 뒤에 시네시오스는 물의 무게를 재는 관을 황동으로 만들어 달라는 편지를 히파티아에게 보냈고, 기구의 생김새를 처음부터 차근차근 설명했다.",
+   "description_en": "Synesius presented a silver plane astrolabe to Paeonius, an official in Constantinople. He called it his own design, yet said his teacher had contributed to it. The instrument had been in use for centuries before her birth. Tradition also credits her father with a treatise on the little astrolabe. Later Synesius asked her to have a brass tube cast to weigh water, and he described the device from the start.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 400,
+   "year_end": 412,
+   "kind": "office",
+   "title": "학파를 이끌며 도시의 유력자들과 교류하다",
+   "title_en": "Leads her school and meets the city’s powerful men",
+   "description": "테오필루스는 제자 시네시오스의 혼인을 주례할 만큼 히파티아의 학파와 가깝게 지냈고, 히파티아가 로마 장관들과 교류하는 것도 막지 않았다. 히파티아가 이교 철학자라는 이유로 학파를 닫지도 않았다. 시네시오스는 철학자라면 자신이 가진 힘으로 시민을 도와야 한다고 스승이 가르쳤음을 훗날 히파티아에게 상기시켰다.",
+   "description_en": "Theophilus was close enough to this circle to preside at Synesius’s marriage, and he did not bar her from the Roman prefects. He did not close the school because she was a pagan philosopher. Synesius later reminded her that she had taught him a philosopher must use power to help fellow citizens.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 412,
+   "year_end": 413,
+   "kind": "other",
+   "title": "시네시오스가 재산 분쟁의 중재를 부탁하다",
+   "title_en": "Synesius asks her to intervene in a property dispute",
+   "description": "테오필루스가 갑자기 죽자 조카 키릴로스와 경쟁자 티모테오스가 주교직을 놓고 싸웠고, 키릴로스가 이겼다. 아들들을 잃은 시네시오스는 니카이오스와 필롤라오스가 재산을 되찾도록 도와 달라는 편지를 히파티아에게 보냈다. 개인이든 관리든 친구들을 움직여 달라고 부탁했다. 그 무렵 시네시오스도 죽었다.",
+   "description_en": "When Theophilus died suddenly, his nephew Cyril and a rival, Timothy, fought for the bishopric. Cyril won. After losing his sons, Synesius wrote asking her to help Nicaeus and Philolaus recover their property. He told her to move her friends, private men or magistrates. Synesius died around the same time.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 414,
+   "year_end": 415,
+   "kind": "other",
+   "title": "장관 오레스테스와 자주 만나다",
+   "title_en": "Meets often with the prefect Orestes",
+   "description": "이집트 장관 오레스테스는 기독교로 개종한 뒤에도 히파티아를 자주 찾아와 의견을 물었다. 키릴로스가 유대인 회당을 닫고 주민들을 내쫓자 오레스테스는 황제에게 보고했다. 주교를 따르는 무리가 장관을 거의 죽일 뻔했고, 오레스테스는 폭동을 일으킨 수도사 암모니오스를 고문해 죽였다. 히파티아가 화해를 막고 있다는 소문이 기독교 주민들 사이에 퍼졌다. 근거 없는 소문이었다.",
+   "description_en": "Orestes, the prefect of Egypt, had converted to Christianity, yet he still came often to ask her advice. After Cyril closed the synagogues and expelled Jewish residents, Orestes reported the act to the emperor. Men under the bishop nearly killed the prefect, and Orestes had the monk Ammonius, who started the riot, tortured to death. A rumor spread among Christian townspeople that she was blocking a reconciliation. It had no grounds.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": 415,
+   "year_end": null,
+   "kind": "death",
+   "title": "귀가길에 붙잡혀 살해되다",
+   "title_en": "Is seized on her way home and murdered",
+   "description": "사순절 기간인 3월, 낭독자 베드로가 앞장선 군중이 히파티아를 마차에서 끌어내 카이사레움으로 끌고 갔다. 카이사레움은 예전에 황제 숭배 신전이었으나 당시에는 교회로 쓰이고 있었다. 소크라테스는 군중이 히파티아의 옷을 벗긴 뒤 기와 조각으로 살해했다고 적었다. 군중은 시신을 찢어 도시 밖 키나론에서 불태웠다. 키릴로스가 주교가 된 지 4년째이자, 호노리우스가 열 번째로 집정관을 지내고 테오도시우스가 여섯 번째로 집정관을 지낸 해의 일이었다. 소크라테스는 이 일이 키릴로스와 알렉산드리아 교회에 오명을 남겼다고 썼다. 키릴로스가 직접 지시했다는 기록은 동시대 사료에 없다.",
+   "description_en": "In March, during Lent, a mob led by a lector named Peter dragged her from her carriage to the Caesareum, a former temple of the imperial cult then used as a church. Socrates wrote that they stripped her and killed her with tiles. They tore the body apart and burned it at Cinaron, outside the city. It was the fourth year of Cyril’s episcopate, in the tenth consulship of Honorius and the sixth of Theodosius. Socrates said the deed brought disgrace on Cyril and the Alexandrian church. No contemporary source says Cyril himself gave the order.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건과 세부 내용은 영문에 맞게 보존되어 있었다. 다만 일부 문장에서 주어가 앞 문장의 다른 인물로 잘못 이어지거나 지시 대상이 불분명했고, 직역투와 생애 연결을 방해하는 표현이 있어 국문만 바로잡았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "테온이 만든 판본의 성격이 영문과 달라졌고, 어머니에 관한 문장과 「이 항구」라는 지시 표현이 자연스럽지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「그」가 누구인지 바로 드러나지 않았고, 학파를 「다른 집」이라고 한 표현이 household를 그대로 옮긴 직역투였다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제자들은 멀리서 왔고」 다음에 주어를 밝히지 않아 남자들의 집회에 나가 관리들을 만난 사람이 제자들처럼 읽혔다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "본문 첫머리에 시네시오스의 이름이 없어 사건의 주체를 제목에 의존해야 했고, 뒤의 「스승」도 반복해서 모호하게 쓰였다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그가 태어나기」와 「아버지도」의 대상이 히파티아인지 시네시오스인지 불분명했고, 「기구 생김새를 처음부터 적어 보냈다」가 직역투였다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「시의 유력자」가 중의적이었고, 「이 집안」은 가리키는 집단이 불분명했다. 마지막 문장은 영문의 주어·목적어·행동 관계가 무너져 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재산을 되찾게 해 달라」는 표현이 누구에게 어떤 도움을 요청했는지 다소 불명확했고, private men을 「시민」으로 옮겨 영문의 구분이 흐려졌다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "오레스테스가 누구를 찾아갔는지 생략되어 있었고, 「화해를 그가 막고 있다」의 「그」가 바로 앞의 오레스테스로 읽힐 수 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사순절 3월」과 「키릴로스 주교 4년」이 한국어 문장으로 어색했고, 살해 과정의 여러 행동에서 행위자가 생략되어 문장 연결이 불안정했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

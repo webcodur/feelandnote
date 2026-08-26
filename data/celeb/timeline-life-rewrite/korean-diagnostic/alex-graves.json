@@ -1,0 +1,228 @@
+{
+ "slug": "alex-graves",
+ "events": [
+  {
+   "year": 1976,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Is born",
+   "description": "출생지를 밝힌 공개 기록은 거의 없다. 공개된 기록에서 처음 확인되는 학업 이력은 에든버러의 수리물리학과 캠브리지의 수학이다.",
+   "description_en": "Almost no public record names a birthplace. The first documented studies are mathematical physics in Edinburgh and mathematics in Cambridge.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "에든버러에서 수리물리학을 배우다",
+   "title_en": "Studies mathematical physics in Edinburgh",
+   "description": "대학에서 수리물리학 학사 학위를 일급 우등으로 취득했다. 같은 학위를 이론물리학 학위로 적은 기록도 있다.",
+   "description_en": "He took a first-class bachelor’s degree in mathematical physics. Some accounts list the same degree as theoretical physics.",
+   "place_name": "에든버러",
+   "place_name_en": "Edinburgh",
+   "lat": 55.95333333333333,
+   "lng": -3.1891666666666665
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "캠브리지에서 수학 고급과정을 마치다",
+   "title_en": "Completes the Cambridge maths certificate",
+   "description": "캠브리지 수학 우등시험 제3부를 고급연구 수료증 과정으로 이수했으며, 우등으로 통과했다.",
+   "description_en": "He completed Part III of the Mathematical Tripos as a Certificate of Advanced Study. He passed with distinction.",
+   "place_name": "캠브리지",
+   "place_name_en": "Cambridge",
+   "lat": 52.208055555556,
+   "lng": 0.1225
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "연결주의 시간 분류를 내놓다",
+   "title_en": "Introduces connectionist temporal classification",
+   "description": "루가노의 달레몰레 인공지능연구소에서 산티아고 페르난데스, 파우스티노 고메스, 위르겐 슈미트후버와 함께 일했다. 입력 시점과 정답의 대응 관계를 미리 정하지 않아도 순환 신경망이 음성과 손글씨를 인식하도록 훈련하는 방법을 논문에 담았다. 피츠버그에서 열린 기계학습 학회에서 이를 발표했다. 구글은 이후 스마트폰 음성 인식에 이 학습법을 사용했다.",
+   "description_en": "At the Dalle Molle Institute for Artificial Intelligence in Lugano he worked with Santiago Fernández, Faustino Gomez, and Jürgen Schmidhuber. They wrote a training method that let a recurrent network read speech and handwriting without a pre-set alignment. They presented it at the machine-learning conference in Pittsburgh. Google later used the method for speech recognition on phones.",
+   "place_name": "루가노",
+   "place_name_en": "Lugano",
+   "lat": 46.010277777778,
+   "lng": 8.9625
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "순차 데이터에 표지를 붙이는 연구로 박사학위를 받다",
+   "title_en": "Receives a doctorate on sequence labelling",
+   "description": "위르겐 슈미트후버의 지도 아래 논문을 썼다. 뮌헨공과대학교와 루가노 연구소가 공동으로 인정한 학위 과정이었다. 자연과학 박사학위를 최우등으로 받았으며, 논문에는 순환 신경망으로 순차 데이터의 각 요소에 표지를 붙이는 방법을 정리했다.",
+   "description_en": "He wrote the thesis under Jürgen Schmidhuber. The Technical University of Munich and the Lugano institute jointly recognized the degree. He received a doctorate in natural sciences with highest honors. The thesis set out how recurrent networks can label sequential data.",
+   "place_name": "뮌헨",
+   "place_name_en": "Munich",
+   "lat": 48.1375,
+   "lng": 11.575
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "연결 필기 인식 대회에서 우승하다",
+   "title_en": "Wins connected handwriting contests",
+   "description": "장단기기억 신경망에 연결주의 시간 분류 학습법을 적용해 아랍어, 페르시아어, 프랑스어 연결 필기 인식 대회에서 우승했다. 순환 신경망이 공식 패턴 인식 경진대회에서 우승한 첫 사례였다.",
+   "description_en": "He put the training method on a long short-term memory network and won contests in connected Arabic, Persian, and French handwriting. It was the first time a recurrent network won an official pattern-recognition competition.",
+   "place_name": "루가노",
+   "place_name_en": "Lugano",
+   "lat": 46.010277777778,
+   "lng": 8.9625
+  },
+  {
+   "year": 2011,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "제프리 힌턴 연구진에 합류하다",
+   "title_en": "Goes to Toronto under Hinton",
+   "description": "뮌헨공과대학교 로봇·임베디드시스템 연구실에서 박사후 과정을 마친 뒤 제프리 힌턴의 연구진으로 자리를 옮겼다. 캐나다고등연구소 연구원으로 일했다. 압델라흐만 모하메드와 함께 여러 층으로 쌓은 순환 신경망으로 음성을 인식하는 연구를 했고, 순차 데이터에 표지를 붙이는 방법을 다룬 교과서도 출간했다.",
+   "description_en": "After finishing a postdoctoral post in robotics and embedded systems at the Technical University of Munich, he moved under Geoffrey Hinton. He held a Canadian Institute for Advanced Research fellowship. With Abdel-rahman Mohamed he read speech with stacked recurrent networks, and he published a textbook on sequence labelling.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "신경 튜링 기계를 제안하다",
+   "title_en": "Proposes the neural Turing machine",
+   "description": "그레그 웨인, 이보 다니헬카와 함께 신경망이 외부 기억장치에서 정보를 읽고 쓰도록 하는 구조를 논문에 담았다. 당시 소속은 런던의 딥마인드였다. 복사, 정렬, 연상 검색 같은 간단한 절차를 예시만으로 학습하도록 만든 구조였다.",
+   "description_en": "With Greg Wayne and Ivo Danihelka he wrote an architecture that let a neural network read from and write to external memory. The affiliation was DeepMind in London. The device was meant to learn simple procedures such as copying, sorting, and associative recall from examples alone.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "미분 가능 신경 컴퓨터를 내놓다",
+   "title_en": "Publishes the differentiable neural computer",
+   "description": "신경망이 외부 기억장치를 읽고 쓰는 방식을 확장한 구조를 네이처에 발표했다. 연구진은 이 기계에 런던 지하철 노선에서 경로를 찾는 과제를 맡겼다.",
+   "description_en": "He published in Nature an architecture that extended how a network reads and writes external memory. The group set the machine the task of finding routes on the London Underground.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "베이지안 흐름망을 내놓다",
+   "title_en": "Introduces Bayesian flow networks",
+   "description": "루페시 쿠마르 스리바스타바, 티머시 앳킨슨, 파우스티노 고메스와 함께 나이센스 소속으로 논문을 발표했다. 이 모형은 확산 모형과 달리 정방향 잡음 추가 과정을 사용하지 않았다. 베이즈 갱신으로 분포의 매개변수를 바꾼 뒤 그 매개변수를 신경망에 입력했다. 이후 인스타딥에서 책임 연구과학자로 일하고 있으며, 같은 모형을 단백질 서열에 적용한 논문에도 이름을 올렸다.",
+   "description_en": "With Rupesh Kumar Srivastava, Timothy Atkinson, and Faustino Gomez he published the paper from NNAISENSE. Unlike a diffusion model, it did not use a forward noising process. Bayesian updates changed the parameters of a distribution, then those parameters went into a neural network. He later works as a staff research scientist at InstaDeep. His name is on papers that apply the same model to protein sequences.",
+   "place_name": "루가노",
+   "place_name_en": "Lugano",
+   "lat": 46.010277777778,
+   "lng": 8.9625
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 담은 세부 정보는 그대로 보존하면서 직역투, 불분명한 지시어, 어색한 학위·연구 용어를 자연스러운 한국어로 고쳤다. 학업에서 순차 데이터 연구, 음성·필기 인식, 외부 기억장치 연구, 베이지안 흐름망으로 이어지는 흐름도 끊기지 않도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 남는 공부」는 무엇이 기록으로 확인된다는 뜻인지 불분명해, 공개 기록에서 처음 확인되는 학업 이력이라는 의미로 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학사를 1등으로 받았다」는 영문의 first-class degree를 단어 순서대로 옮긴 듯한 표현이어서 학위와 성적의 관계가 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수학 3부를 수료증 과정으로 마쳤다」만으로는 과정의 정식 성격과 우등 통과 사실이 매끄럽게 읽히지 않아 문장 구조를 바로잡았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 전문 용어 띄어쓰기를 바로잡고, 「입력과 정답을 미리 맞추다」를 입력 시점과 정답의 대응 관계를 미리 정한다는 뜻으로 명확히 풀었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「순환망 순차학습」과 「순차 자료에 이름을 붙이다」는 sequence labelling의 대상과 행동이 불분명해, 순차 데이터의 각 요소에 표지를 붙이는 연구라는 뜻으로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이어 쓴 글씨」가 자연스럽지 않고 「그 학습법」은 바로 앞 사건만으로 대상을 알기 어려워, 연결 필기 인식과 연결주의 시간 분류 학습법을 각각 명시했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「힌턴 아래로 가다」와 「여러 층의 순환망으로 음성을 읽다」는 사람의 소속 이동과 음성 인식 연구를 어색하게 직역한 표현이어서 자연스럽게 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「바깥 기억」과 「보기만 하고 익히게 하다」는 external memory와 from examples alone의 의미를 짐작해야 하는 표현이어서 외부 기억장치와 예시만을 통한 학습으로 명확히 옮겼다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「바깥 기억의 읽기와 쓰기를 더 늘린 구조」는 무엇을 어떻게 확장했다는 뜻인지 모호해, 신경망이 외부 기억장치를 읽고 쓰는 방식을 확장했다는 관계를 분명히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「앞 과정」과 「분포의 인자」는 각각 정방향 잡음 추가 과정과 분포의 매개변수를 가리킨다는 점이 드러나지 않았고, 후속 경력의 시제도 앞 사건과 자연스럽게 이어지지 않아 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

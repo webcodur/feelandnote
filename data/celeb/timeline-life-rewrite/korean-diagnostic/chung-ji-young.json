@@ -1,0 +1,249 @@
+{
+ "slug": "chung-ji-young",
+ "events": [
+  {
+   "year": 1946,
+   "year_end": null,
+   "kind": "birth",
+   "title": "청주에서 태어나다",
+   "title_en": "Born in Cheongju",
+   "description": "충북 청주에서 태어났다. 본적은 석교동이었다. 집에서는 책방을 했다. 그는 그 책방 덕분에 일찍부터 책을 접했다.",
+   "description_en": "He was born in Cheongju, in North Chungcheong Province. The family register listed Seokgyo-dong. His family ran a bookstore. He met books early because of that shop.",
+   "place_name": "청주",
+   "place_name_en": "Cheongju",
+   "lat": 36.637222222222,
+   "lng": 127.48972222222
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "other",
+   "title": "《오발탄》을 보고 감독이 되기로 결심하다",
+   "title_en": "Sees Aimless Bullet and decides to direct",
+   "description": "고등학교 1학년이었다. 중학교 때 이범선의 소설을 읽었고, 시나리오도 이미 보았다. 상영 금지가 풀린 뒤 유현목의 영화를 보았다. 글로만 읽었던 장면들이 화면에 펼쳐지는 모습을 보았다. 그는 영화를 만드는 사람이 감독이라는 사실을 알았고, 감독이 되기로 마음먹었다.",
+   "description_en": "He was a first-year high school student. He had read Yi Beom-seon’s story in middle school. He had already seen the screenplay too. He watched Yu Hyun-mok’s film after it returned from a ban. He saw scenes he had only read now standing on the screen. He understood that the person who makes a film is the director. He decided that would be his work.",
+   "place_name": "청주",
+   "place_name_en": "Cheongju",
+   "lat": 36.637222222222,
+   "lng": 127.48972222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "동국대에서 고려대 불문과로 옮기다",
+   "title_en": "Leaves Dongguk for French literature at Korea University",
+   "description": "영문과 입시에 두 번 떨어졌다. 집안의 반대를 무릅쓰고 동국대 연극영화과에 들어갔다. 기자재 없이 이론만 가르치는 수업에 회의를 느꼈다. 프랑스식 영화를 만들고 싶어 고려대 불어불문과로 옮겼다.",
+   "description_en": "He failed the English-literature entrance exam twice. He entered Dongguk University’s film department against his family’s wishes. Classes taught theory with no cameras, and he lost faith in them. He transferred to French literature at Korea University because he wanted to make films in the French style.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "work",
+   "title": "김수용 감독의 연출부에 들어가다",
+   "title_en": "Joins Kim Soo-yong’s crew",
+   "description": "이만희 감독의 연출부에 들어가려 했지만, 이만희가 촬영 도중 세상을 떠났다. 지인의 권유로 김수용 감독의 촬영 현장에 들어갔다. 유신 시절이라 시위 장면조차 찍을 수 없었다. 스크립터로 시작해 열 편이 넘는 영화에서 조감독을 맡았다.",
+   "description_en": "He had meant to join Lee Man-hee’s crew. That director died during a shoot. A friend steered him onto Kim Soo-yong’s set. Under the Yushin regime they could not even film a protest scene. He began as a script supervisor and served as assistant director on more than ten films.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1982,
+   "year_end": 1983,
+   "kind": "work",
+   "title": "장편 감독으로 데뷔하다",
+   "title_en": "Makes his feature-directing debut",
+   "description": "신일룡과 오수미가 출연한 미스터리 영화로 장편 연출에 데뷔했다. 고교 시절 결심한 때로부터 스무 해가 지나 있었다. 당시 이미 아내와 아들이 있었다. 각본도 직접 썼다. 영화는 이듬해 봄에 개봉했다.",
+   "description_en": "He directed his first feature, a mystery with Shin Il-ryong and Oh Su-mi. Twenty years had passed since the decision in high school. He already had a wife and a son. He wrote the screenplay himself. The film opened the following spring.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1988,
+   "year_end": 1989,
+   "kind": "other",
+   "title": "할리우드 직배에 맞서다",
+   "title_en": "Confronts Hollywood direct distribution",
+   "description": "미국 영화사들이 국내 배급사를 거치지 않고 한국 극장에 영화를 걸기 시작했다. 그는 첫 직배작을 상영하는 서울의 극장들에 뱀을 풀도록 했다. 이듬해 가을 포항 촬영장에서 체포되었다. 보석으로 풀려난 뒤 곧바로 촬영 현장에 돌아갔다.",
+   "description_en": "Hollywood studios began booking Korean theaters without a local distributor. He arranged for snakes to be released in Seoul theaters showing the first directly distributed film. The next autumn he was arrested on a set in Pohang. He returned to the shoot as soon as he was released on bail.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "《남부군》을 연출하다",
+   "title_en": "Directs North Korean Partisan in South Korea",
+   "description": "6월 항쟁 뒤 이태의 빨치산 수기가 책으로 출간되었다. 그는 세상이 열렸다고 판단하고 그 책을 영화로 옮겼다. 충무로 평균 제작비의 일곱 배를 들였다. 실패하면 영화계를 떠나야 했다. 서울에서 37만 명이 관람했다. 그해 흥행 2위였다. 빨치산들을 저마다 개별적인 인간으로 그렸다.",
+   "description_en": "After the June Struggle, Yi Tae’s partisan memoir reached print. He judged that the country had opened and put the book on film. He spent seven times Chungmuro’s average budget. Failure would have forced him out of the business. Three hundred and seventy thousand people saw it in Seoul. It finished second at the box office that year. He drew the partisans as individual people.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "work",
+   "title": "《하얀 전쟁》으로 도쿄 그랑프리를 받다",
+   "title_en": "Wins the Tokyo Grand Prix with White Badge",
+   "description": "안성기가 안정효의 베트남전 소설을 영화로 만들자고 권했다. 그는 현지 촬영으로 영화를 완성했다. 전우회는 파월 용사의 명예를 훼손한다며 장면 삭제를 요구했다. 그는 그랑프리와 함께 감독상도 받았다.",
+   "description_en": "Ahn Sung-ki urged him to adapt Ahn Jung-hyo’s Vietnam War novel. He shot on location. Veterans’ groups demanded cuts, saying the film stained the honor of Korean soldiers sent to Vietnam. He also received the best-director prize.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "other",
+   "title": "스크린쿼터 사수 투쟁을 이끌다",
+   "title_en": "Leads the fight to keep the screen quota",
+   "description": "《까》를 끝으로 장편 연출이 멈췄다. 장편을 연출하지 않던 동안 영화인대책위원회 공동위원장을 맡았다. 광화문 농성이 146일을 넘긴 뒤 청와대 앞 1인 시위의 첫 번째 주자로 나섰다. 다음 날에는 아들 정상민이 1인 시위를 이어갔다.",
+   "description_en": "Feature directing stopped after Naked Being. In those empty years he served as co-chair of the filmmakers’ emergency committee. After a 146-day sit-in at Gwanghwamun he took the first shift of a one-person protest outside the Blue House. The next day he passed the turn to his son, Chung Sang-min.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2011,
+   "year_end": 2012,
+   "kind": "work",
+   "title": "《부러진 화살》로 연출에 복귀하다",
+   "title_en": "Returns to directing with Unbowed",
+   "description": "김산의 일대기를 영화로 만들기 위해 8년을 들였지만 결국 접었다. 문성근이 석궁 사건을 다룬 르포를 건넸다. 완성한 영화는 부산국제영화제에서 처음 공개했다. 이듬해 극장에서 340만 명이 관람했다. 같은 해 그는 김근태가 당한 고문을 다룬 다음 장편을 만들었다.",
+   "description_en": "He spent eight years on a Kim San biopic and then dropped it. Moon Sung-keun handed him a report on the crossbow case. The film premiered at the Busan International Film Festival. The next year 3.4 million people saw it in theaters. That same year he put Kim Geun-tae’s torture on his next feature.",
+   "place_name": "부산",
+   "place_name_en": "Busan",
+   "lat": 35.18,
+   "lng": 129.075
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "런던에서 평생공로상을 받다",
+   "title_en": "Receives a lifetime achievement award in London",
+   "description": "데뷔 40년을 기리는 회고전이 함께 열렸다. 영화제는 그의 장편 여덟 편을 영국 관객에게 다시 선보였다. 같은 날 밤 새 장편이 개막작으로 상영되었다. 그는 계속 영화를 만들겠다고 말했다.",
+   "description_en": "A retrospective marked forty years since his debut. The festival put eight of his features back in front of British audiences. That same night a new feature opened the festival. He said he would keep making films.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미 범위와 세부를 유지하면서 직역투, 모호한 지시어, 부자연스러운 서술어를 고쳤다. 사건들이 출생과 진로 선택, 현장 입문, 감독 데뷔, 사회적 활동, 연출 복귀와 평생공로상 수상으로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 books를 「글」로 옮겨 대상이 달라졌고, 「글을 만났다」도 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「장면이 화면에 서는 것을 보았다」와 「그 일을 하겠다고 정했다」가 영문 어순을 따른 직역이라 장면을 본 경험과 감독이 되기로 한 결심의 관계가 선명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수업에 회의가 났다」는 한국어 서술어 결합이 어색했고, 「프랑스 영화를 찍고 싶어」는 프랑스식 영화를 만들고 싶었다는 영문의 뜻을 정확히 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그 감독」은 이만희를 다시 짐작하게 했고, 「김수용의 현장」과 「십여 편에서 조감독을 맡았다」는 수식 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미스터리로 장편을 처음 찍었다」는 작품과 장르의 관계가 어색했고, film opened를 「극장이 열렸다」로 옮겨 개봉의 주체가 극장으로 바뀌었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「극장을 차지하게 되었다」는 직배의 구체적인 의미가 흐렸고, 「서울 극장」은 서울에 있는 여러 극장인지 특정 극장 이름인지 모호했다. 「뱀을 풀도록 일을 꾸몄다」와 「보석으로 나온 뒤」도 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "제작비를 「넣었다」고 한 표현과 관객 수 표기가 어색했고, 「빨치산을 한 사람 한 사람으로 그렸다」는 목적어와 서술어의 관계가 부자연스러웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "소설을 권했다는 문장만으로는 영화화를 권했다는 뜻이 충분히 드러나지 않았고, 「현지에서 카메라를 돌렸다」는 직역투였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "작품명 「까」가 일반 문장처럼 보여 의미가 불분명했고, 「그 빈 해」는 장편 연출이 중단된 기간을 부자연스럽게 가리켰다. 「바통이 넘어갔다」도 실제 행동을 비유로 대신했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「연출석에 돌아오다」와 「일대기를 팔 년이나 밀다가」는 의미를 짐작해야 하는 표현이었다. 고문을 「다음 장편으로 옮겼다」는 문장도 작품이 해당 사건을 다뤘다는 관계를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "영화들을 영국 관객 앞에 「다시 올렸다」는 표현이 상영과 소개의 의미를 자연스럽게 전달하지 못했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

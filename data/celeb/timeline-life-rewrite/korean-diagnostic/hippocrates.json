@@ -1,0 +1,273 @@
+{
+ "slug": "hippocrates",
+ "events": [
+  {
+   "year": -460,
+   "year_end": null,
+   "kind": "birth",
+   "title": "코스에서 의사 집안에 태어나다",
+   "title_en": "Born on Cos into a family of physicians",
+   "description": "도리아계 폴리스였던 코스에서 태어났다. 코스섬은 아테네 동맹에 속해 공물을 바쳤다. 에페소스의 소라노스는 그가 제80회 올림피아드 원년에 태어났다고 기록했다. 아버지 헤라클레이데스는 의사였다. 그의 집안은 아스클레피아데스라 불렸으며, 아스클레피오스의 혈통을 이었다고 주장하는 의사 길드였다. 할아버지도 헤라클레이데스라는 이름의 의사였다. 어머니에 관한 전승은 서로 다르다. 소라노스는 티자네의 딸 프락시텔라라고 했고, 다른 전승은 파이나레테라고 전한다.",
+   "description_en": "He was born in a Dorian polis on the island. The island belonged to the Athenian alliance and paid tribute. Soranus of Ephesus wrote that it was the first year of the eightieth Olympiad. His father, Heraclides, was a physician. The family was called Asclepiadae, a physicians' guild that claimed the blood of Asclepius. His grandfather was a physician of the same name. Traditions split on his mother. Soranus named Praxitela, daughter of Tizane; another tradition names Phaenarete.",
+   "place_name": "코스",
+   "place_name_en": "Cos",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "아버지와 할아버지에게 의술을 배우다",
+   "title_en": "He learned medicine from his father and grandfather",
+   "description": "소라노스는 그가 아버지와 할아버지에게 의술을 배웠다고 기록했다. 후대 저술가들은 그가 트라케의 셀림브리아 출신인 헤로디코스에게 식이요법과 운동을 배웠다고 전한다. 고르기아스와 데모크리토스에게 다른 학문을 배웠다는 이야기도 후대에 생긴 전승이다. 그가 아스클레피오스 신전에서 자랐다는 추정도 후대에 나왔다. 그러나 그 신전의 큰 건물들은 그가 죽은 뒤에야 세워졌다.",
+   "description_en": "Soranus said he learned medicine from his father and grandfather. Later writers say he learned diet and exercise from Herodicus of Selymbria in Thrace. That he studied other subjects with Gorgias and Democritus is also a later tradition. Later writers guess that he grew up at the sanctuary of Asclepius. The great buildings of that sanctuary went up after he died.",
+   "place_name": "코스",
+   "place_name_en": "Cos",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "돈을 받고 제자를 가르치다",
+   "title_en": "He taught pupils for fees",
+   "description": "플라톤은 아테네에서 그의 이름을 언급했다. 한 젊은이는 코스의 아스클레피아데스인 히포크라테스에게 돈을 내면 의사가 될 수 있다고 답했다. 플라톤은 히포크라테스를 아르고스의 폴리클레이토스와 아테네의 피디아스에 견주었다. 그가 살아 있을 때 이미 그 이름이 아테네까지 알려졌던 것이다.",
+   "description_en": "Plato spoke his name in Athens. A young man answered that if you paid the Asclepiad of Cos, he would make you a physician. Plato set him beside Polyclitus of Argos and Phidias of Athens. His name had already reached Athens while he lived.",
+   "place_name": "코스",
+   "place_name_en": "Cos",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "몸의 본성을 알려면 전체를 알아야 한다고 하다",
+   "title_en": "He said the body could not be known without the whole",
+   "description": "플라톤은 『파이드로스』에서 코스의 아스클레피아데스가 한 말을 전한다. 몸의 본성을 이해하려면 전체를 알아야 한다는 말이었다. 후대의 독자들은 여기서 말한 전체가 몸 전체인지 우주 전체인지를 두고 의견을 달리했다. 아리스토텔레스는 뒤에 히포크라테스가 자신보다 몸집이 큰 사람보다도 의사로서는 더 위대했다고 적었다.",
+   "description_en": "In the Phaedrus Plato reports the Asclepiad's words. He said you could not understand the nature of the body without knowing the whole. Later readers dispute whether that whole is the whole body or the universe. Aristotle later wrote that the physician was greater than the man who exceeded him in size.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "테살리아와 트라케까지 다니며 가르치고 환자를 보다",
+   "title_en": "He traveled as far as Thessaly and Thrace to treat patients",
+   "description": "후대 저술가들은 그가 테살리아와 트라케, 마르마라해까지 다니며 가르치고 환자를 진료했다고 전한다. 『유행병』의 증례 기록에는 타소스와 라리사, 압데라에서 환자들이 머물던 집이 나온다. 그러나 그 기록을 히포크라테스가 직접 썼는지는 확인되지 않는다. 그가 어느 해에 어느 곳에 머물렀는지를 밝혀 주는 동시대 기록도 없다.",
+   "description_en": "Later writers say he taught and treated patients as far as Thessaly, Thrace, and the Sea of Marmara. Case notes in the Epidemics name houses on Thasos and in Larissa and Abdera. No one can confirm that he wrote those notes himself. No contemporary record fixes the year or the stop of each stay.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "성스러운 병은 신의 벌이 아니라고 하다",
+   "title_en": "He treated the sacred disease as no divine punishment",
+   "description": "그의 이름으로 전해지는 한 의학서는 간질을 다른 질병과 마찬가지로 다룬다. 이 글의 저자는 사람들이 병의 원인을 모르기 때문에 간질을 신성한 병이라고 부른다고 적었다. 또한 발작은 바람과 추위, 몸에서 비롯된다고 했다. 후대의 독자들은 이 글과 공기·물·장소를 다룬 글을 같은 저자의 저술로 묶었다. 히포크라테스가 직접 썼는지를 두고는 의견이 갈린다.",
+   "description_en": "A treatise that bears his name treats epilepsy like any other disease. The writer said men called it sacred because they did not know its cause. He said wind, cold, and the body produced the fits. Later readers pair this treatise with the one on airs, waters, and places, as one author. Whether he wrote it himself is disputed.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "공기와 물과 사는 곳으로 질병을 설명하다",
+   "title_en": "He explained disease by air, water, and place",
+   "description": "같은 전집에 실린 한 글은 바람과 물, 사는 곳이 몸을 변화시킨다고 설명한다. 저자는 아시아인과 유럽인의 몸과 기질을 기후에 따라 비교했다. 후대의 독자들은 이 글을 코스 학파의 핵심 저술로 여겼다. 그러나 히포크라테스가 직접 썼다는 확증은 없다.",
+   "description_en": "A treatise in the same collection says wind, water, and dwelling change the body. The writer compared the bodies and temperaments of Asia and Europe by climate. Later readers take this text as a core work of the school of Cos. There is no proof that he wrote it with his own hand.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "유행병 기록이 타소스 환자들의 날들을 남기다",
+   "title_en": "Epidemic case notes recorded days of patients on Thasos",
+   "description": "『유행병』 1권과 3권은 타소스의 가을비와 남풍을 먼저 기록한다. 저자는 성벽 옆에 있던 필리스코스와 대로에 있던 실레노스를 날마다 살폈다. 열과 땀, 대변의 상태를 기록하고 병세의 위기가 닥치는 날을 헤아렸다. 후대 학자들은 이 기록의 시기를 기원전 410년 무렵으로 본다. 기록을 남긴 의사가 히포크라테스였다고 보는 이도 있고, 같은 학파에 속한 다른 의사였다고 보는 이도 있다.",
+   "description_en": "Epidemics I and III first record autumn rains and south winds on Thasos. The writer saw Philiscus by the wall and Silenus on the main street day after day. He noted fever, sweat, and stools, and counted the days of crisis. Later scholars place those seasons around 410 BC. Some take that physician to be him; others take him to be of the same school.",
+   "place_name": "타소스",
+   "place_name_en": "Thasos",
+   "lat": 40.778056,
+   "lng": 24.709444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "아들들과 사위가 의술을 이어 가다",
+   "title_en": "His sons and son-in-law carried on the medicine",
+   "description": "전승에 따르면 두 아들 테살로스와 드라콘, 사위 폴리보스가 그의 제자였다. 갈레노스는 폴리보스를 히포크라테스의 진정한 계승자라고 했다. 아리스토텔레스는 사람의 본성을 다룬 의학서를 폴리보스의 저술로 인용했다. 이 글은 사람이 피, 가래, 노란 담즙, 검은 담즙의 네 체액으로 이루어진다는 설명을 처음으로 정립했다. 일부 후대 학자들은 폴리보스가 그의 사위였다는 이야기 자체를 알렉산드리아 시대 이후에 만들어진 전승으로 본다.",
+   "description_en": "Tradition says his two sons, Thessalus and Draco, and his son-in-law Polybus were his pupils. Galen said Polybus was the true successor. Aristotle quotes the treatise on the nature of man as the work of Polybus. That treatise first fixed man as blood, phlegm, yellow bile, and black bile. Some later scholars treat the son-in-law story itself as an invention after Alexandria.",
+   "place_name": "코스",
+   "place_name_en": "Cos",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "후대가 왕들과 철학자 이야기를 붙이다",
+   "title_en": "Later writers attached stories of kings and a philosopher",
+   "description": "후대 저술가들은 그가 마케도니아의 페르디카스를 치료했다고 전한다. 압데라 사람들은 데모크리토스가 미쳤다고 생각해 히포크라테스를 불렀다고도 한다. 그가 페르시아 왕 아르타크세르크세스의 초대를 거절했다는 이야기도 있다. 또 다른 전승에서는 그가 불을 이용해 아테네의 역병을 막았다고 한다. 이 이야기들을 뒷받침하는 동시대 기록은 없다.",
+   "description_en": "Later writers say he cured Perdiccas of Macedon. They say the people of Abdera called him because they thought Democritus mad. They say he refused an invitation from the Persian king Artaxerxes. Another tale has him stopping the plague of Athens with fire. No contemporary record supports these stories.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "그의 이름 아래 의학서가 모이다",
+   "title_en": "Medical books gathered under his name",
+   "description": "약 예순 편의 의학서가 그의 이름으로 전해진다. 후대 저술가들은 알렉산드리아 도서관이 이 문헌들을 하나의 전집으로 모았다고 보았다. 전집에는 코스와 크니도스에서 나온 글뿐 아니라 저자를 알 수 없는 글도 함께 들어 있다. 의사 선서 역시 이 전집에 포함되었다. 선서는 제자에게 스승을 부모처럼 대하고 누구에게도 독약을 주지 말라고 가르친다. 후대의 독자들은 이 선서를 히포크라테스가 죽은 뒤 학파가 정리한 글로 본다.",
+   "description_en": "About sixty medical books survive under his name. Later writers take the library at Alexandria to have gathered the collection. Writings from Cos and Cnidus sit with unnamed authors. The physicians' oath is in that collection. It tells a pupil to treat his teacher as a parent and never to give poison. Later readers take the oath as a text the school shaped after he died.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -370,
+   "year_end": null,
+   "kind": "death",
+   "title": "라리사에서 죽다",
+   "title_en": "He died at Larissa",
+   "description": "전승에 따르면 그는 테살리아의 라리사에서 죽었다. 사망 연도는 추정에 불과하다. 어떤 전승은 그가 여든세 살까지 살았다고 하고, 다른 전승은 백 살을 넘겼다고 한다. 『수다』는 사망 연도를 기원전 377년으로 기록했다. 후대의 참고 문헌 가운데에는 기원전 375년 무렵으로 보는 것도 있다. 무덤의 위치는 전승으로만 전해진다.",
+   "description_en": "Tradition says he died at Larissa in Thessaly. The year is an estimate. One tradition gives eighty-three years; another says he lived past a hundred. The Suda gives 377 BC. Later reference works also give about 375 BC. Only tradition remains for the site of the tomb.",
+   "place_name": "라리사",
+   "place_name_en": "Larissa",
+   "lat": 39.638493,
+   "lng": 22.413061
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 세부 정보는 그대로 보존하면서, 주어와 대상이 불분명하거나 직역투·압축투로 읽히는 국문을 자연스럽게 고쳤다. 출생부터 사후 문헌 전승까지 생애의 흐름이 이어지도록 사건 간 표현도 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도리아 섬의 폴리스」와 반복되는 「그 섬」이 코스와의 관계를 불분명하게 만들고, 여러 전승을 나열한 문장도 지나치게 압축되어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "후대 전승과 추정을 같은 표현으로 반복해 문장 사이의 관계가 뻣뻣했고, 신전 건물의 건립 시점도 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "돈을 내는 사람과 의사로 만들어 주는 사람이 누구인지 주어와 목적어의 관계가 불분명했고, 「한 자리에 놓았다」도 비교의 뜻이 모호했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「전체」와 본문의 논지가 다소 뻣뻣하게 연결되었고, 「의사로서의 그가 몸집보다 크다」는 문장은 비교 대상과 의미를 짐작해야 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 환자 진료만 나타냈지만 영문에는 가르쳤다는 내용도 있었고, 「환자 집을 적는다」와 「어디를 머물렀는지」는 자연스럽지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「신의 벌을 아니라 하다」에 가까운 제목의 조사가 어색했고, 저술과 저자를 가리키는 표현이 반복되면서 문장의 대상이 흐려졌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「거처」와 「몸과 성정을 기후로 견준다」가 직역투로 읽혔고, 같은 묶음이 무엇을 가리키는지 앞 사건에 지나치게 의존했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「환자의 하루」는 여러 환자를 여러 날 관찰했다는 영문의 뜻과 맞지 않았고, 마지막 문장의 「그 의사」가 누구인지 바로 알기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「의술을 잇다」와 「넷이 사람을 이룬다고 처음 고정한다」가 지나치게 압축되어 있었고, 사위 전승이 구체적으로 누구에 관한 것인지 불분명했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 두 왕과 한 철학자에 관한 전승을 다루지만 국문 제목은 왕을 단수로 적었고, 본문은 같은 종결을 반복해 사건들의 구분이 흐렸다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「글과 이름 없는 저자가 섞여 있다」는 저술과 저자를 같은 단위로 병렬한 표현이었고, 선서의 주체와 사후 편찬 관계도 다소 모호했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여든셋이라 한다」는 나이인지 다른 수치인지 문장만으로 분명하지 않았고, 여러 사망 연도 전승과 무덤 전승의 연결도 매끄럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

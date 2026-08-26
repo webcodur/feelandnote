@@ -1,0 +1,238 @@
+{
+ "slug": "bugsy-siegel",
+ "events": [
+  {
+   "year": 1906,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브루클린 윌리엄스버그에서 태어나다",
+   "title_en": "Born in Williamsburg, Brooklyn",
+   "description": "유대인 가정에서 태어났다. 부모 맥스와 제니(리헨탈)는 갈리치아에서 온 이주민이었고, 그는 다섯 아이 가운데 둘째였다. 부모는 낮은 임금을 받으며 일했다.",
+   "description_en": "He was born into a Jewish household. His parents, Max and Jennie (Riechenthal), had come from Galicia, and he was the second of five children. They worked for low wages.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1918,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "메이어 랜스키와 손을 잡다",
+   "title_en": "Partners with Meyer Lansky",
+   "description": "로어이스트사이드에서 만난 랜스키와 벅스 앤드 메이어 갱을 꾸렸다. 금주법 시대에는 동부에서 밀주 유통과 도박에 뛰어들었다. 두 사람의 동업 관계는 훗날 머더 주식회사로 불린 집행 조직의 바탕이 되었다.",
+   "description_en": "On the Lower East Side he joined Meyer Lansky and they formed the Bugs and Meyer Mob. Under Prohibition they took on East Coast bootlegging and gambling. The same partnership later became the seed of the enforcement group called Murder, Inc.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "other",
+   "title": "에스타 크라코워와 결혼하다",
+   "title_en": "Marries Esta Krakower",
+   "description": "소꿉친구와 가정을 꾸렸다. 뒤에 밀리센트와 바버라가 태어났다. 혼인은 1946년에 끝났다.",
+   "description_en": "He married his childhood sweetheart. They later had two daughters, Millicent and Barbara. The marriage ended in 1946.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1929,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "애틀랜틱시티 회의에 참석하다",
+   "title_en": "Attends the Atlantic City Conference",
+   "description": "랜스키와 함께 벅스 앤드 메이어 갱을 대표해 참석했다. 찰스 루치아노와 조니 토리오가 소집한 회의에서 유대계 조직과 이탈리아계 조직은 더 이상 서로 싸우지 않기로 합의했다.",
+   "description_en": "He sat with Lansky as a representative of the Bugs and Meyer Mob. Charles Luciano and Johnny Torrio convened the meeting, and the Jewish and Italian outfits agreed to stop fighting each other.",
+   "place_name": "애틀랜틱시티",
+   "place_name_en": "Atlantic City",
+   "lat": 39.3625,
+   "lng": -74.425
+  },
+  {
+   "year": 1931,
+   "year_end": null,
+   "kind": "work",
+   "title": "전국 범죄 조직에 들어가다",
+   "title_en": "Joins the National Crime Syndicate",
+   "description": "루치아노와 랜스키가 유대계와 이탈리아계 조직을 결합한 뒤, 그 집행 조직인 머더 주식회사에 이름을 올렸다. 금주법이 폐지되자 불법 도박으로 넘어갔다.",
+   "description_en": "After Luciano and Lansky bound the Jewish and Italian outfits together, he was named in their enforcement arm, Murder, Inc. When Prohibition ended he moved into illegal gambling.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1936,
+   "year_end": null,
+   "kind": "travel",
+   "title": "로스앤젤레스로 근거를 옮기다",
+   "title_en": "Moves his base to Los Angeles",
+   "description": "뉴욕 경찰이 그를 주시하자 랜스키는 서부로 근거지를 옮기라고 권했다. 잭 드라냐와 구역을 나누어 맡고 미키 코언을 부관으로 두었다. 도박장과 경마 정보 전신망, 해상 도박선 사업을 키웠다.",
+   "description_en": "New York police were watching him, and Lansky urged a move west. He shared the territory with Jack Dragna and used Mickey Cohen as his lieutenant. He built up gambling rooms, a race wire, and offshore gambling ships.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1937,
+   "year_end": null,
+   "kind": "work",
+   "title": "할리우드 사교계에 들어가다",
+   "title_en": "Enters Hollywood society",
+   "description": "어린 시절부터 알고 지낸 배우 조지 래프트를 통해 스튜디오 관계자들과 어울렸다. 세금 신고서에는 산타아니타 경마장의 합법적인 베팅 수입으로 생계를 유지한다고 적었다. 홈비힐스에 집을 짓기 시작했다.",
+   "description_en": "A childhood tie to the actor George Raft put him at tables with studio people. On tax returns he listed legal betting at Santa Anita as his living. He began building a house in Holmby Hills.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1941,
+   "year_end": 1942,
+   "kind": "other",
+   "title": "해리 그린버그 살인 혐의로 재판받다",
+   "title_en": "Stands trial for the Harry Greenberg killing",
+   "description": "옛 동료 해리 그린버그가 살해된 뒤 기소됐다. 신문들은 그를 벅시라는 별명으로 불렀지만, 그는 벤이나 미스터 시겔로 불리기를 원했다. 제리 기슬러가 변론을 맡았고, 증거 부족으로 무죄 판결을 받았다.",
+   "description_en": "He was charged after an old associate was killed. Newspapers printed the nickname Bugsy; he wanted to be called Ben or Mr. Siegel. Jerry Giesler defended him, and he was acquitted for lack of evidence.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1945,
+   "year_end": null,
+   "kind": "work",
+   "title": "플라밍고 호텔 공사를 넘겨받다",
+   "title_en": "Takes over the Flamingo hotel project",
+   "description": "플라밍고 건설을 처음 추진한 사람은 할리우드 리포터의 윌리엄 윌커슨이었다. 사업 자금이 바닥나자 랜스키 측이 자금을 대고 시겔을 현장에 보냈다. 시겔이 윌커슨을 사업에서 밀어낸 뒤 예산은 약 600만 달러까지 불어났고, 동부의 후원자들은 공사 자금 일부가 빼돌려지고 있다고 의심했다.",
+   "description_en": "William Wilkerson of the Hollywood Reporter had started the building. When the money ran out, Lansky’s side put in funds and sent him to the site. After he pushed Wilkerson aside the budget swelled to about six million dollars, and the eastern backers suspected money was being skimmed.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 36.16722222222222,
+   "lng": -115.14861111111111
+  },
+  {
+   "year": 1946,
+   "year_end": 1947,
+   "kind": "work",
+   "title": "미완공 플라밍고를 먼저 열다",
+   "title_en": "Opens the unfinished Flamingo",
+   "description": "12월 26일 카지노를 열었지만 객실은 완성되지 않았고 로비에는 공사용 덮개가 걸려 있었다. 조지 래프트와 몇몇 배우가 찾아왔으나 카지노 테이블에서는 손실이 났다. 이듬해 2월 문을 닫았다가 3월 1일 호텔과 함께 다시 열었고, 그때부터 장부에 흑자가 기록되기 시작했다.",
+   "description_en": "The casino opened on December 26, but the rooms were unfinished and drop cloths hung in the lobby. George Raft and a few other actors came, yet the tables lost money. It closed in February and reopened with the hotel on March 1, and from then the books began to show a profit.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 36.16722222222222,
+   "lng": -115.14861111111111
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "death",
+   "title": "비벌리힐스에서 총격을 받고 죽다",
+   "title_en": "Shot and killed in Beverly Hills",
+   "description": "버지니아 힐이 사용하던 집에서 총을 맞았다. 이 사건으로 기소된 사람은 없었다. 같은 날 랜스키 측 사람들이 플라밍고에 들어가 경영권을 넘겨받았다. 시신은 할리우드 포에버 묘지의 베트 올람 구역에 묻혔다.",
+   "description_en": "He was shot in the house Virginia Hill was using. No one was charged. That same day Lansky’s people walked into the Flamingo and took over the management. He was buried at Beth Olam in Hollywood Forever.",
+   "place_name": "비벌리힐스",
+   "place_name_en": "Beverly Hills",
+   "lat": 34.073055555556,
+   "lng": -118.39944444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 사건별로 대조하고 생애 전체의 흐름을 이어 읽은 결과, 주요 사실은 보존되어 있으나 여러 서술에 직역투와 불분명한 주어·목적어 관계가 남아 있었다. 영문이 밝힌 범위 안에서 사건의 대상과 행동이 바로 이해되도록 국문을 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「유대인 집」과 「저임금 일을 했다」가 영어 단어를 그대로 옮긴 듯한 표현이어서, 가정 배경과 부모의 노동 형편이 자연스럽게 읽히도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "밀주와 도박을 「맡았다」는 표현은 어떤 활동을 했다는 것인지 모호하고, 「이 짝에서 나왔다」는 주어와 인과 관계를 짐작해야 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "국문 제목의 「전국 조직을 논하다」는 영문 제목보다 의미가 넓었다. 본문의 「자리에 앉았다」와 「모은 회의」도 영어식 결합이어서 참석자와 회의의 성격이 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 집행 조직 머더 주식회사」는 수식 관계가 매끄럽지 않아 머더 주식회사가 집행 조직의 이름임을 바로 알 수 있도록 조사와 문장 구조를 정리했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서부로 보내자고 했다」, 「자리를 나눴다」, 「부관으로 썼다」는 인물과 행동의 관계가 어색했다. 또한 「경마 전신」만으로는 race wire가 무엇인지 이해하기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「어릴 적 인연으로」는 누구와 맺은 인연인지 문장 구조상 불분명했고, 「합법 도박을 생계로 적었다」와 「집을 올리기 시작했다」도 직역투에 가까웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「신문이 별명을 박았다」와 「무죄가 났다」가 지나치게 구어적이고 행위 관계도 거칠었다. 살해된 옛 동료의 이름을 밝혀 제목과 본문이 자연스럽게 이어지도록 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「처음 짓기 시작한 사람」은 사업의 최초 추진자를 설명하는 표현으로 어색했고, 「랜스키 쪽」과 「돈이 새고 있다」는 대상과 의심의 내용이 선명하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공사 천」은 drop cloths의 뜻을 알아보기 어려웠고, 「테이블은 적자를 냈다」와 「흑자가 잡히기 시작했다」도 카지노의 손실과 장부상 흑자를 부자연스럽게 옮긴 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 「아무도 기소되지 않았다」가 국문에서는 「범인은 잡히지 않았다」로 달라져 있었다. 매장 장소도 묘지와 구역의 관계가 바로 보이도록 정리했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

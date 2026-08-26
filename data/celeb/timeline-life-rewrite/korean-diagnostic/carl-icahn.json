@@ -1,0 +1,275 @@
+{
+ "slug": "carl-icahn",
+ "events": [
+  {
+   "year": 1936,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브루클린에서 태어나다",
+   "title_en": "Is born in Brooklyn",
+   "description": "퀸스 파로커웨이에서 자랐다. 아버지 마이클은 회당에서 성가를 이끌었고, 이후에는 대체 교사로 일했다. 어머니 벨라는 학교에서 아이들을 가르쳤다. 그는 부모의 외아들로 자라 파로커웨이 고등학교를 다녔다.",
+   "description_en": "He grew up in Far Rockaway, Queens. His father, Michael, led the singing in a synagogue. He later worked as a substitute teacher. His mother, Bella, taught schoolchildren. His parents raised him as an only child. He went to Far Rockaway High School.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "education",
+   "title": "프린스턴대학교에서 철학 학위를 받다",
+   "title_en": "Finishes philosophy at Princeton",
+   "description": "철학 학사 학위를 받았다. 졸업 논문에서는 경험주의의 의미 기준을 어떻게 설명할 수 있는지 다뤘다. 파로커웨이 고등학교 출신으로는 처음으로 프린스턴대학교에 입학한 학생이었다.",
+   "description_en": "He received a bachelor’s degree in philosophy. His senior thesis asked how to explain the empiricist criterion of meaning. He was the first student from Far Rockaway High School to enter the university.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222222,
+   "lng": -74.656944444444
+  },
+  {
+   "year": 1957,
+   "year_end": 1959,
+   "kind": "education",
+   "title": "뉴욕 의대를 그만두다",
+   "title_en": "Leaves medical school in New York",
+   "description": "어머니의 권유로 뉴욕대학교 의과대학에 들어갔다. 2년 만에 학교를 그만두고 육군 예비군에 입대했다.",
+   "description_en": "At his mother’s urging he entered New York University School of Medicine. He left after two years. He joined the Army Reserve.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "work",
+   "title": "드레이퍼스에서 증권 중개인이 되다",
+   "title_en": "Becomes a stockbroker at Dreyfus",
+   "description": "드레이퍼스에서 주식을 사고팔았다. 이후 테셀 패트릭으로 옮겨 옵션 거래를 맡았고, 그룬탈에서도 같은 업무를 했다.",
+   "description_en": "He bought and sold stocks at Dreyfus. He later moved to Tessel, Patrick to handle options. He did the same work at Gruntal.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "work",
+   "title": "자기 증권사를 세우다",
+   "title_en": "Founds his own securities firm",
+   "description": "자기 돈 15만 달러와 삼촌 엘리엇 슈날의 40만 달러로 뉴욕증권거래소 좌석을 샀다. 위험 차익거래와 옵션을 다루었다.",
+   "description_en": "With $150,000 of his own money and $400,000 from his uncle Elliot Schnall, he bought a seat on the New York Stock Exchange. He handled risk arbitrage and options.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1978,
+   "year_end": 1979,
+   "kind": "work",
+   "title": "태펀 지분을 모아 매각을 밀어붙이다",
+   "title_en": "Pushes Tappan into a sale",
+   "description": "스토브 회사 태펀의 주식을 모았다. 그 지분을 바탕으로 이사회에 들어갔다. 이듬해 스웨덴의 일렉트로룩스가 회사를 인수했고, 그는 투자금을 두 배로 불렸다.",
+   "description_en": "He accumulated stock in the stove maker Tappan. That stake put him on the board. The next year Sweden’s Electrolux bought the company. He doubled his money.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1985,
+   "year_end": 1988,
+   "kind": "work",
+   "title": "트랜스월드항공의 지배권을 쥐다",
+   "title_en": "Takes control of Trans World Airlines",
+   "description": "자기 자금과 은행 대출로 주식의 절반을 모았다. 이듬해 회장이 되었고, 차입매수로 회사를 비상장사로 전환했다. 사무실에서 조종사 재킷을 입고 이제 자신들에게도 항공사가 생겼다고 외쳤다.",
+   "description_en": "He assembled half the shares with his own money and bank loans. The next year he became chairman. He took the company private in a leveraged buyout. In his office he put on a pilot’s jacket and shouted that they had themselves an airline.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "office",
+   "title": "아메리칸 리얼 에스테이트 파트너스의 회장이 되다",
+   "title_en": "Becomes chairman of American Real Estate Partners",
+   "description": "11월부터 합자회사의 무한책임사원인 법인에서 이사회 의장을 맡았다. 이후 이 회사를 자신의 공개 투자회사로 활용했다.",
+   "description_en": "From November he chaired the board of the partnership’s general partner. He later used the company as his public investing vehicle.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1991,
+   "year_end": 1993,
+   "kind": "work",
+   "title": "트랜스월드항공에서 손을 떼다",
+   "title_en": "Leaves Trans World Airlines",
+   "description": "런던 노선을 아메리칸항공에 4억 4500만 달러에 팔았다. 이듬해 항공사는 파산 보호를 신청했다. 그는 회장직을 내려놓았다. 항공사에 2억 달러를 넣었다.",
+   "description_en": "He sold the London routes to American Airlines for $445 million. The next year the airline filed for bankruptcy protection. He stepped down as chairman. He put $200 million into the airline.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "공개회사의 이름을 아이칸 엔터프라이즈로 바꾸다",
+   "title_en": "Renames the public company Icahn Enterprises",
+   "description": "아메리칸 리얼 에스테이트 파트너스는 그가 운용하던 펀드의 운용사를 인수했다. 회사는 사명을 아이칸 엔터프라이즈로 바꿨고, 그는 계속 회장을 맡았다.",
+   "description_en": "The partnership bought the management company of the funds he ran. They changed the name to Icahn Enterprises. He stayed on as chairman.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "other",
+   "title": "마운트 시나이 의과대학이 그의 이름을 따르다",
+   "title_en": "Gives his name to Mount Sinai’s medical school",
+   "description": "이사회는 그의 누적 기부액이 약 2억 달러에 이른다는 점을 들어 의과대학의 개명을 승인했다. 그는 11월 맨해튼 사무실에서 약정에 서명했다. 이듬해 의과대학은 아이칸 의과대학으로 이름을 바꿨다.",
+   "description_en": "The trustees approved renaming the medical school, citing nearly $200 million in lifetime gifts. He signed the agreement in November at his Manhattan office. The next year they changed the school’s name to the Icahn School of Medicine.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "office",
+   "title": "대통령의 규제개혁 특별고문으로 활동하다",
+   "title_en": "Serves as special adviser on regulatory reform",
+   "description": "트럼프 대통령 취임일부터 비공식 자격으로 규제 정비에 관해 조언했다. 8월 18일에는 그 역할에서 물러나겠다는 편지를 공개했다.",
+   "description_en": "From Inauguration Day he advised on regulatory overhaul in an unofficial capacity. On August 18 he published a letter saying he was ending that role.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "travel",
+   "title": "본사를 플로리다로 옮기다",
+   "title_en": "Moves headquarters to Florida",
+   "description": "맨해튼 제너럴모터스 빌딩을 떠나 서니아일스비치의 밀턴 타워로 사무실을 옮겼다. 공개회사 아이칸 엔터프라이즈도 그 건물을 본사로 쓴다.",
+   "description_en": "He left the General Motors Building in Manhattan. He moved into Milton Tower in Sunny Isles Beach. Icahn Enterprises uses that building as its headquarters.",
+   "place_name": "서니아일스비치",
+   "place_name_en": "Sunny Isles Beach",
+   "lat": 25.941666666667,
+   "lng": -80.125
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 밝힌 사실과 세부는 그대로 보존하면서, 직역투와 불분명한 주어·지시 대상, 어색한 금융·기관 표현을 고쳤다. 사실 확인이 필요한 충돌이나 모호함은 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에는」의 시간 관계가 어색하고, 부모가 외아들로 키웠다는 문장이 번역투로 읽혔다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「철학을 마치다」는 무엇을 마쳤는지 불분명하고, 「이 대학」은 해당 문장만 읽을 때 프린스턴대학교를 바로 가리키지 못했다. 졸업 논문이 무엇을 했는지도 자연스러운 한국어로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「육군 예비역에 들어갔다」는 조직에 가입한 일을 예비역 신분이 된 것처럼 표현해 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에」와 「같은 일」이 이어지면서 이직 순서와 담당 업무가 흐릿하게 읽혔다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스웨덴 일렉트로룩스」는 회사와 국가의 관계가 조사 없이 나열되어 있고, 「투자금을 두 배로 회수했다」도 자연스러운 투자 성과 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자기 돈과 은행 돈」은 차입 관계가 흐릿한 구어체이고, 「우리가 항공사를 가졌다」는 영어 표현을 그대로 옮긴 듯한 문장이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 합자회사 무한책임사원의 이사회 의장」은 명사들이 그대로 이어져 직책과 조직의 관계를 한 번에 파악하기 어려웠다. 「공개 투자 회사로 썼다」도 용도와 행동의 관계가 어색했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사의 이름을 바꾼 일을 「공개회사를 … 바꾸다」라고 표현해 회사 자체를 다른 대상으로 전환한 것처럼 읽혔다. 복수 대명사 「그들은」도 합자회사를 가리키는 주어로 맞지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이름을 남기다」는 학교가 그의 이름을 따르게 된 구체적인 사건을 충분히 드러내지 못했다. 「기부 약 2억 달러를 들어」도 조사의 관계가 어색했고, 마지막 문장의 주체가 불분명했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 직책 관계가 다소 압축되어 있었고, 「취임일부터」와 「역할을 접는다고 편지를 공개했다」는 한국어 어순과 서술어가 어색했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「밀턴 타워로 들어갔다」는 본사 이전 사건에서 무엇을 옮겼는지 분명하게 드러내지 못했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

@@ -1,0 +1,276 @@
+{
+ "slug": "jim-taiclet",
+ "events": [
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "birth",
+   "title": "피츠버그에서 태어나다",
+   "title_en": "Born in Pittsburgh",
+   "description": "아버지는 독일 비스바덴 공군기지에서 미 육군으로 복무한 뒤 보일러 제작공 조합 154지부 소속으로 일했다. 어머니 메리 앤 폴리는 집에서 아이들을 돌봤다.",
+   "description_en": "His father served in the U.S. Army at Wiesbaden Air Base in Germany, then worked as a boilermaker in Local 154. His mother, Mary Ann Foley, stayed home to raise the children.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.441666666667,
+   "lng": -80
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "education",
+   "title": "공군사관학교를 우등으로 졸업하다",
+   "title_en": "Graduates from the Air Force Academy with distinction",
+   "description": "공학과 국제관계 학위를 받았다. 사관생도 시절 내내 럭비를 했고, 졸업 학년에는 팀 주장을 맡았다.",
+   "description_en": "He earned degrees in engineering and international relations. He played rugby through his cadet years and captained the side as a first classman.",
+   "place_name": "콜로라도스프링스",
+   "place_name_en": "Colorado Springs",
+   "lat": 38.863333333333,
+   "lng": -104.79194444444
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "education",
+   "title": "프린스턴에서 공공정책 석사를 받다",
+   "title_en": "Earns a master’s in public affairs at Princeton",
+   "description": "우드로 윌슨 스쿨 펠로십을 받았다. 공군사관학교를 졸업한 뒤 공공정책 분야에서 이어간 교육이었다.",
+   "description_en": "He held a fellowship at the Woodrow Wilson School. It was the public-affairs training he took after the Academy.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222222,
+   "lng": -74.656944444444
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "work",
+   "title": "공군 수송기 조종을 시작하다",
+   "title_en": "Begins flying Air Force transports",
+   "description": "기장과 교관 조종사, 부대 표준화·평가 책임자를 맡았다. 주로 록히드 C-141B를 조종했다. 순환 보직으로 합동참모본부와 공군참모본부에서도 근무했다.",
+   "description_en": "He served as aircraft commander, instructor pilot, and unit chief of standardization and evaluation. Most of the flying was in a Lockheed C-141B. Rotational tours also put him on the Joint Staff and the Air Staff.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "사막방패 작전에서 수송기를 조종하다",
+   "title_en": "Flies a transport into Operation Desert Shield",
+   "description": "작전 초기 C-141B를 조종해 미군 병력을 사우디아라비아로 수송했다. 이 임무는 5,000시간이 넘는 그의 공군 비행 경력 가운데 하나였다.",
+   "description_en": "In the opening days he piloted a C-141B that carried U.S. forces into Saudi Arabia. The mission sat inside an Air Force flying career of more than 5,000 hours.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "work",
+   "title": "맥킨지에서 통신·항공우주 분야를 자문하다",
+   "title_en": "Joins McKinsey to advise on telecom and aerospace",
+   "description": "공군을 나온 뒤 처음 맡은 민간 부문 일이었다. 통신과 항공우주 분야의 전략과 운영을 자문했다.",
+   "description_en": "It was his first private-sector job after leaving the Air Force. He advised on telecommunications and aerospace strategy and operations.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "office",
+   "title": "프랫 앤 휘트니 엔진 서비스 부사장이 되다",
+   "title_en": "Becomes vice president of engine services at Pratt & Whitney",
+   "description": "군용기와 민항기 엔진 정비를 총괄했다. 이 직책을 맡으며 컨설턴트에서 제조 현장으로 자리를 옮겼다.",
+   "description_en": "He oversaw military and commercial jet-engine overhaul. The job took a consultant onto the factory floor.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "office",
+   "title": "얼라이드시그널 항공우주 서비스 사장이 되다",
+   "title_en": "Becomes president of AlliedSignal Aerospace Services",
+   "description": "세계 각지의 엔진·부품 정비와 우주 운용, 기술 지원을 맡았다. 회사가 허니웰과 합쳐진 뒤에도 그 자리를 유지했다.",
+   "description_en": "He ran worldwide engine and component overhaul, space operations, and technical services. He kept the post after the company combined with Honeywell.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "office",
+   "title": "아메리칸 타워 최고운영책임자가 되다",
+   "title_en": "Becomes chief operating officer of American Tower",
+   "description": "허니웰 항공우주 서비스를 그만두고 통신 타워 회사로 옮겼다. 사장직을 함께 맡았다.",
+   "description_en": "He left Honeywell Aerospace Services for a communications-tower company. He took the presidency at the same time.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777778,
+   "lng": -71.057777777778
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "office",
+   "title": "아메리칸 타워 최고경영자가 되다",
+   "title_en": "Becomes chief executive of American Tower",
+   "description": "창립자 스티븐 도지의 뒤를 이었고, 이듬해 이사회 의장도 맡았다. 회사가 19개국으로 사업을 확대하는 동안 시가총액은 약 20억 달러에서 1천억 달러 이상으로 늘었다.",
+   "description_en": "He succeeded founder Steven Dodge and became chairman the next year. Market value rose from about two billion dollars to more than one hundred billion as the company expanded into nineteen countries.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777778,
+   "lng": -71.057777777778
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "office",
+   "title": "록히드 마틴 최고경영자가 되다",
+   "title_en": "Becomes chief executive of Lockheed Martin",
+   "description": "마릴린 휴슨의 뒤를 이었다. 그는 이미 이 방산업체의 이사로 재직하고 있었으며, 록히드 마틴은 그가 공군 시절 조종했던 수송기를 만든 회사이기도 했다. 휴슨은 같은 날 이사회 집행의장으로 자리를 옮겼다.",
+   "description_en": "He succeeded Marillyn Hewson. He had already sat on the board of the defense company that built the transport he once flew. Hewson moved that day to executive chairman.",
+   "place_name": "베세스다",
+   "place_name_en": "Bethesda",
+   "lat": 38.9848265,
+   "lng": -77.0946459
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "office",
+   "title": "록히드 마틴 이사회 의장을 겸하다",
+   "title_en": "Adds the Lockheed Martin chairmanship",
+   "description": "휴슨이 이사회 집행의장과 이사직에서 물러난 뒤 의장직을 이어받았다. 사장 겸 최고경영자 직책도 계속 맡았다.",
+   "description_en": "He took the seat after Hewson stepped down as executive chairman and as a director. He kept the president and chief executive posts.",
+   "place_name": "베세스다",
+   "place_name_en": "Bethesda",
+   "lat": 38.9848265,
+   "lng": -77.0946459
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "office",
+   "title": "미·인도 CEO 포럼 미국 측 민간 공동의장이 되다",
+   "title_en": "Named U.S. private-sector co-chair of the U.S.–India CEO Forum",
+   "description": "상무장관 지나 러몬도가 그를 임명했다. 인도 측 공동의장은 타타 선즈 회장 나타라잔 찬드라세카란이었다.",
+   "description_en": "Commerce Secretary Gina Raimondo named him. His Indian counterpart was Tata Sons chairman Natarajan Chandrasekaran.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위를 유지하면서 직역투, 모호한 직무 표현, 부자연스러운 주어·행동 관계를 바로잡았다. 공군 복무에서 민간 기업 경영으로 이어지는 경력의 흐름도 사건 순서대로 자연스럽게 읽히도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "아버지가 보일러공 조합 지부에서 어떤 자격으로 일했는지가 빠져 있었고, 어머니가 집에 머물렀다는 표현도 한국어에서 다소 직역투였다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「졸업반 해」가 부자연스러워 사관학교의 마지막 학년을 가리키는 문장으로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "public affairs를 「행정학」「공공 행정」으로 좁혀 옮겨 영문과 의미 범위가 달라졌고, 「더 배운 자리였다」도 직역투였다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "수송기를 「몰다」와 참모 조직에 「앉다」라는 표현이 직무 서술에 어울리지 않았으며, standardization and evaluation의 관계도 더 분명히 옮길 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「작전이 열리던 초」「그 작전이 한 축이었다」는 영어 문장 구조를 따라가 뜻을 짐작해야 했고, 수송기를 「몰고 가다」라는 표현도 부자연스러웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "통신과 항공을 「보다」라는 제목은 구체적인 행동을 알기 어려웠고, 자문 업무를 「맡았다」로만 표현해 직무 관계가 흐려졌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「컨설턴트가 제조 현장으로 넘어간 자리였다」는 주어와 행동의 관계가 어색해 당사자의 이직을 직접 서술하도록 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "사업 지역 확대와 시가총액 변화를 한 문장에 배열한 방식이 다소 뻣뻣해 두 변화의 동시적 흐름이 자연스럽게 읽히도록 순서를 조정했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "회사의 이사로 「앉아 있었다」는 표현이 부자연스러웠고, 뒤따르는 두 사실과의 연결도 매끄럽지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "후임으로 의장직을 맡은 일을 「자리를 받았다」라고 표현했고, 직책을 계속 맡은 사람을 주어로 삼지 않아 「대표와 최고경영자는 그대로 두었다」라는 잘못된 행동 관계가 생겼다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목에 있는 미국 측 역할이 국문에서 불분명했고, 「인도 쪽 상대」는 공동의장 관계를 지나치게 구어적으로 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

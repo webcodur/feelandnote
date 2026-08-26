@@ -1,0 +1,260 @@
+{
+ "slug": "beto-orourke",
+ "events": [
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "birth",
+   "title": "엘패소에서 태어나다",
+   "title_en": "Is born in El Paso",
+   "description": "호텔 디외 병원에서 태어났다. 본명은 로버트 프랜시스 오로크다. 가족은 이름이 같은 할아버지와 구별하기 위해 그에게 베토라는 별명을 붙였다. 아버지 팻은 엘패소 카운티 커미셔너와 카운티 판사를 지냈고, 어머니 멜리사는 가구점을 운영했다. 아일랜드계 미국인 4세였다. 열두 살 때 제시 잭슨이 커른 플레이스에 있는 가족의 집 응접실에서 기자회견을 열었다.",
+   "description_en": "He was born at Hotel Dieu Hospital. His given name was Robert Francis O’Rourke. The family nicknamed him Beto to tell him apart from his grandfather of the same name. His father, Pat, served as El Paso county commissioner and county judge; his mother, Melissa, ran a furniture store. He was a fourth-generation Irish American. When he was twelve, Jesse Jackson held a press conference in the den of the family’s Kern Place house.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "other",
+   "title": "컬트 오브 더 데드 카우에 글을 올리다",
+   "title_en": "Writes for the Cult of the Dead Cow",
+   "description": "아버지가 사 준 애플 컴퓨터와 모뎀으로 게시판에 접속했다. 펑크를 다루는 타코랜드라는 게시판을 직접 운영했고, 컬트 오브 더 데드 카우에는 사이키델릭 워로드라는 이름으로 글을 올렸다. 온라인 접속을 이어가기 위해 장거리 전화 서비스를 무단으로 사용한 사실은 나중에 본인이 인정했다.",
+   "description_en": "He got onto bulletin boards with an Apple computer and modem his father bought. He ran a board of his own, TacoLand, devoted to punk, and posted for the Cult of the Dead Cow under the name Psychedelic Warlord. He later admitted stealing long-distance phone service to stay online.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "education",
+   "title": "우드베리 포레스트 학교를 졸업하다",
+   "title_en": "Graduates from Woodberry Forest School",
+   "description": "엘패소 고등학교를 2년 다니다가 버지니아의 남자 기숙학교로 옮겼고, 그 학교에서 과정을 마쳤다.",
+   "description_en": "After two years at El Paso High School he transferred to the all-male boarding school in Virginia and finished there.",
+   "place_name": "우드베리 포레스트",
+   "place_name_en": "Woodberry Forest",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "education",
+   "title": "컬럼비아대학교를 졸업하다",
+   "title_en": "Graduates from Columbia University",
+   "description": "영문학 학사를 받았다. 3학년 때 헤비급 조정팀의 공동 주장을 맡았다. 엘패소 친구들과 포스라는 밴드를 만들어 베이스를 쳤고, 세드릭 빅슬러사발라가 드럼을 맡았다. 여름에는 미국과 캐나다를 돌며 공연했다.",
+   "description_en": "He took a bachelor’s degree in English literature. In his junior year he co-captained the heavyweight rowing crew. With friends from El Paso he formed the band Foss, played bass, and had Cedric Bixler-Zavala on drums. In the summers they toured the United States and Canada.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "other",
+   "title": "엘패소로 돌아오다",
+   "title_en": "Returns to El Paso",
+   "description": "졸업 뒤에는 입주 돌봄과 미술품 운반 일을 했고, 삼촌이 운영하는 인터넷 업체에서 근무한 뒤 출판사에서 교열자로 일했다. 엘패소로 돌아와서는 어머니의 가구점에서 재고를 관리했다. 그해 9월 10번 주간고속도로에서 음주운전으로 체포됐고, 이듬해 법원 프로그램을 마친 뒤 기소가 취하됐다.",
+   "description_en": "After graduation he worked as a live-in caretaker, an art mover, at an internet firm run by his uncle, and as a proofreader at a publisher. Back home he tracked inventory at his mother’s furniture store. That September he was arrested for driving while intoxicated on Interstate 10. The charge was dismissed the next year after he finished a court program.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "스탠턴 스트리트 테크놀로지를 세우다",
+   "title_en": "Founds Stanton Street Technology",
+   "description": "친구들과 웹 제작 회사를 열었다. 오로크가 대출을 받지 못하자 아버지가 자금을 댔다. 같은 이름의 온라인 잡지는 약 15호를 낸 뒤 폐간했고, 웹 회사는 그가 연방 하원의원이 될 때까지 운영됐다.",
+   "description_en": "He opened a web-design firm with friends. He could not get a loan, so his father put up the money. An online magazine of the same name folded after about fifteen issues. The web company lasted until he went to Congress.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 자전거 사고로 숨지다",
+   "title_en": "His father is killed on a bicycle",
+   "description": "팻은 뉴멕시코주 경계 바로 너머에서 자전거를 타다가 뒤에서 오던 차에 받혀 현장에서 숨졌다. 오로크는 성 패트릭 대성당에서 열린 장례식에서 추도사를 했다.",
+   "description_en": "Pat was riding just across the New Mexico line when a car struck him from behind. He died at the scene. His son delivered the eulogy at St. Patrick Cathedral.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 2005,
+   "year_end": 2011,
+   "kind": "office",
+   "title": "엘패소 시의원이 되다",
+   "title_en": "Joins the El Paso City Council",
+   "description": "에이미 샌더스와 결혼한 해에 현직 앤서니 코보스를 꺾고 8선거구 시의원에 당선됐다. 첫 회의에서 시의회는 그를 만장일치로 시장 직무대행에 선출했다. 도심 재개발을 추진했고, 재임 중에는 대마 단속을 재검토하는 결의안을 발의했으나 시장이 거부권을 행사했다.",
+   "description_en": "The year he married Amy Sanders he beat incumbent Anthony Cobos and took District 8. At his first meeting the council named him mayor pro tem by unanimous vote. He pushed downtown redevelopment and, while in office, sponsored a resolution to reexamine marijuana enforcement. The mayor vetoed it.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 2013,
+   "year_end": 2019,
+   "kind": "office",
+   "title": "연방 하원의원이 되다",
+   "title_en": "Enters the U.S. House",
+   "description": "민주당 경선에서 과반을 얻어 8선 현역 실베스트레 레예스를 꺾었다. 텍사스 16선거구를 대표해 제113대부터 제115대까지 연방의회에서 활동했다.",
+   "description_en": "He took a majority in the Democratic primary against eight-term incumbent Silvestre Reyes. He represented Texas’s 16th district in the 113th through 115th Congresses.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "other",
+   "title": "텍사스 상원 선거에서 지다",
+   "title_en": "Loses the Texas Senate race",
+   "description": "도심의 한 옥상에서 테드 크루즈에게 도전하겠다고 발표했다. 텍사스의 254개 카운티를 모두 돌며 선거운동을 했고, 정치행동위원회 자금은 받지 않았다. 득표율 48.33퍼센트로 패했지만, 당시 텍사스 선거에 출마한 민주당 후보 가운데 가장 많은 표를 얻었다.",
+   "description_en": "He announced the challenge to Ted Cruz from a downtown rooftop. He campaigned in all 254 counties and took no PAC money. He lost with 48.33 percent, the most votes a Democrat had then received in a Texas election.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "other",
+   "title": "대통령 선거 경선에 나서다",
+   "title_en": "Enters the presidential race",
+   "description": "집에서 촬영한 영상으로 대통령 선거 출마를 알렸다. 8월에 고향 엘패소의 월마트에서 총격이 벌어졌다. 당시 라스베이거스에 있던 오로크는 예정된 일정을 취소하고 엘패소로 돌아왔다. 11월 1일 선거운동을 중단했다.",
+   "description_en": "He announced the bid in a video from home. In August a gunman attacked a Walmart in his hometown. He was in Las Vegas, canceled his events, and went back. He ended the campaign on November 1.",
+   "place_name": "엘패소",
+   "place_name_en": "El Paso",
+   "lat": 31.759166666667,
+   "lng": -106.48861111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "텍사스 주지사 선거에서 지다",
+   "title_en": "Loses the Texas governor’s race",
+   "description": "현직 그레그 애벗에게 도전했다. 유밸디 총격 뒤 열린 기자회견에서 애벗 주지사에게 다음 총격을 막을 때는 바로 지금이라고 말했다. 본선에서 43.86퍼센트를 득표했지만 패했다.",
+   "description_en": "He challenged incumbent Greg Abbott. After the Uvalde shooting he confronted the governor at a press conference and said the time to stop the next shooting was now. He took 43.86 percent in the general election and lost.",
+   "place_name": "텍사스",
+   "place_name_en": "Texas",
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 사실과 세부는 그대로 보존하면서, 직역으로 뜻이 흐려진 표현과 주어·목적어 관계가 불분명한 문장을 고쳤다. 사건 전체를 이어 읽을 때 인물과 장소가 바로 드러나도록 지시어와 생략된 주어도 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집안에서 같은 이름인 할아버지와 구별하려고」는 주체와 수식 관계가 어색하고, 「아일랜드계 이민 4대째」는 fourth-generation Irish American의 뜻을 정확히 전달하지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "단체명 Cult of the Dead Cow를 일반 명사처럼 직역했고, stealing long-distance phone service를 「전화 요금을 빼돌리다」로 옮겨 행동의 의미가 달라졌다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조정 헤비급 크루 공동 주장」은 영어 명사를 나열한 형태여서 소속과 역할의 관계가 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「입주 돌봄, 미술품 운반, 삼촌의 인터넷 업체, 출판사 교열을 했다」는 서로 다른 직업과 일터를 같은 문법적 단위로 나열해 무슨 일을 어디에서 했는지 알아보기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「십수 호 만에 접었다」는 영문의 약 15호라는 세부를 흐렸고, 「웹 회사는 하원에 갈 때까지 남겼다」는 회사가 존속했다는 뜻을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「자전거 사고로 죽다」를 연표 문체에 맞게 다듬고, 마지막 문장의 「아들」을 오로크로 밝혀 사건의 중심인물이 바뀌지 않도록 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「8선거구에 들어갔다」는 선거구의 시의원으로 당선됐다는 뜻을 짐작해야 했으며, 결의안과 시장의 거부권 행사도 행위 관계가 충분히 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「과반으로 눌렀다」는 득표와 승리의 관계가 거칠게 표현됐고, 어느 의회를 대표했는지 국문만으로는 다소 모호했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「테드 크루즈 도전을 알렸다」는 목적어와 행동의 관계가 무너졌고, 「주의 카운티 254곳」과 「정치행동위원회 돈」도 영어식 명사 배열에 가까웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고향 월마트」는 어느 도시의 월마트인지 앞 문장만으로 바로 알기 어려웠고, 「경선을 접었다」는 영문의 ended the campaign보다 대상이 불분명했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "기자회견장에서 누구에게 어떤 말을 했는지 문장을 매끄럽게 정리하고, 득표와 패배를 자연스럽게 연결했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

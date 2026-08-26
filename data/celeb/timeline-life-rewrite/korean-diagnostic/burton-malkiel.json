@@ -1,0 +1,309 @@
+{
+ "slug": "burton-malkiel",
+ "events": [
+  {
+   "year": 1932,
+   "year_end": null,
+   "kind": "birth",
+   "title": "보스턴에서 태어나다",
+   "title_en": "Born in Boston",
+   "description": "매사추세츠의 항구 도시 보스턴에서 태어났다. 보스턴에는 식민지 시대부터 이어져 온 공립 시험학교가 있었다.",
+   "description_en": "He was born in the Massachusetts port city. The public exam school there had stood since the colonial period.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1949,
+   "year_end": null,
+   "kind": "education",
+   "title": "보스턴 라틴 스쿨을 마치다",
+   "title_en": "Finishes Boston Latin School",
+   "description": "1635년에 설립된 보스턴의 공립 시험학교다. 열한 살에 입학해 여섯 해를 다녔다.",
+   "description_en": "It is the city public exam school founded in 1635. He attended for six years, starting at eleven.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "education",
+   "title": "하버드 칼리지를 졸업하다",
+   "title_en": "Graduates from Harvard College",
+   "description": "경제학 학사 학위를 받았다. 파이베타카파 회원으로 선출되었고, 이어 하버드 경영대학원에 진학했다.",
+   "description_en": "He received a bachelor’s degree in economics. He was elected to Phi Beta Kappa, then moved on to the same university’s business school.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1955,
+   "year_end": null,
+   "kind": "education",
+   "title": "하버드 경영대학원을 마치다",
+   "title_en": "Completes Harvard Business School",
+   "description": "재무를 전공해 경영학 석사 학위를 받았다. 졸업한 뒤 육군 재무병과에서 복무를 시작했다.",
+   "description_en": "The master’s degree was in business administration, with a major in finance. After graduating he entered the Army Finance Corps.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 1955,
+   "year_end": 1958,
+   "kind": "work",
+   "title": "육군 재무병과에서 복무하다",
+   "title_en": "Serves in the Army Finance Corps",
+   "description": "중위로 3년간 복무했다. 육군 재무병과는 급여와 회계를 담당했다.",
+   "description_en": "He spent three years as a first lieutenant. The corps handled pay and accounting.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1958,
+   "year_end": 1960,
+   "kind": "work",
+   "title": "스미스바니에서 일하다",
+   "title_en": "Works at Smith Barney",
+   "description": "월가의 투자은행 부서에서 일했고 주식 거래도 맡았다. 2년 뒤 다시 학업으로 돌아갔다.",
+   "description_en": "He worked in the investment-banking department on Wall Street. He also traded equities. After two years he went back to school.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1964,
+   "year_end": null,
+   "kind": "education",
+   "title": "박사 학위를 받고 교수진에 합류하다",
+   "title_en": "Earns a doctorate and joins the faculty",
+   "description": "박사 논문에서는 금융시장 구조의 문제를 다뤘다. 학위를 받은 뒤 곧바로 프린스턴 경제학과 조교수가 되었다.",
+   "description_en": "The dissertation treated problems in the structure of financial markets. As soon as he received the degree he became an assistant professor in the same economics department.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222222,
+   "lng": -74.656944444444
+  },
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "work",
+   "title": "금융연구센터를 맡다",
+   "title_en": "Takes over the Financial Research Center",
+   "description": "같은 해 금리의 기간구조를 다룬 첫 책을 출간했다. 이후 정교수가 되었고 렌츨러 석좌교수로 임명되었다.",
+   "description_en": "The same year he published his first book, on the term structure of interest rates. He later became a full professor and received the Rentschler chair.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222222,
+   "lng": -74.656944444444
+  },
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《월가의 랜덤워크》를 내다",
+   "title_en": "Publishes A Random Walk Down Wall Street",
+   "description": "W. W. 노턴이 책을 출간했다. 자산 수익률과 자산운용사 성과에 관한 연구를 근거로, 일반 투자자는 인덱스펀드를 포트폴리오의 중심에 둬야 한다고 썼다. 당시에는 일반인이 살 수 있는 인덱스펀드가 없었다.",
+   "description_en": "W. W. Norton printed it. Citing research on asset returns and manager performance, he wrote that ordinary investors should put index funds at the core of their portfolios. No index fund was yet available for the public to buy.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1975,
+   "year_end": 1977,
+   "kind": "office",
+   "title": "대통령 경제자문위원으로 일하다",
+   "title_en": "Serves on the Council of Economic Advisers",
+   "description": "경제학과장 임기를 막 마친 뒤 포드 행정부 경제자문위원회에서 펠너의 후임이 되었다. 밴가드가 첫 인덱스 뮤추얼펀드를 출시할 당시 그는 워싱턴 D.C.에 있었다.",
+   "description_en": "Having just finished a term as department chair, he succeeded Fellner on the Ford administration council. He was in the capital while Vanguard launched the first index mutual fund.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1977,
+   "year_end": 1981,
+   "kind": "office",
+   "title": "경제학과장을 다시 맡다",
+   "title_en": "Chairs the economics department again",
+   "description": "워싱턴에서 돌아온 해에 밴가드 이사회에도 합류했다. 보글이 그에게 이사직을 제안했다. 이듬해에는 미국재무학회 회장을 지냈다.",
+   "description_en": "The year he returned from Washington he also joined the Vanguard board. Bogle asked him to take the seat. The next year he served as president of the American Finance Association.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222222,
+   "lng": -74.656944444444
+  },
+  {
+   "year": 1981,
+   "year_end": 1987,
+   "kind": "office",
+   "title": "예일 조직경영대학원 학장을 맡다",
+   "title_en": "Serves as dean at Yale",
+   "description": "샤론 오스터를 교수진으로 영입했다. 석사 과정 등록 인원은 약 절반 늘었다. 비영리기관에 취업한 졸업생의 학자금 대출 부담을 덜어 주는 제도도 도입했다.",
+   "description_en": "He recruited Sharon Oster to the faculty. Master’s enrollment rose by about half. He added a program that eased student-loan debt for graduates who took nonprofit jobs.",
+   "place_name": "뉴헤이븐",
+   "place_name_en": "New Haven",
+   "lat": 41.308333333333,
+   "lng": -72.925
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "프린스턴으로 돌아오다",
+   "title_en": "Returns to Princeton",
+   "description": "케미컬뱅크 경제학 석좌교수가 되었다. 같은 해 프린스턴 학부대학장이던 낸시 와이스와 결혼했다.",
+   "description_en": "He became the Chemical Bank Chairman’s Professor of Economics. That same year he married Nancy Weiss, the dean of the college.",
+   "place_name": "프린스턴",
+   "place_name_en": "Princeton",
+   "lat": 40.352222222222,
+   "lng": -74.656944444444
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "웰스프론트 최고투자책임자가 되다",
+   "title_en": "Becomes chief investment officer at Wealthfront",
+   "description": "웰스프론트는 소프트웨어를 활용해 자산을 운용하는 회사였다. 그는 그에 앞서 밴가드 이사로 28년간 재직한 뒤 물러났다. 프린스턴에서는 수석 연구경제학자로 계속 일했다.",
+   "description_en": "The firm managed assets with software. He had already stepped down after twenty-eight years as a Vanguard director. At Princeton he remained a senior research economist.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부를 유지하면서 직역투, 불분명한 지시어, 어색한 서술어를 바로잡았다. 학업에서 군 복무, 월가 경력, 학계 복귀, 공직과 대학 행정, 자산운용업계 활동으로 이어지는 생애 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 곳」만으로는 공립 시험학교가 있는 장소를 곧바로 알기 어렵고, 「식민지 때부터 남아 있었다」도 학교의 존속을 나타내는 표현으로 어색했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「1635년에 세운 시 공립 시험학교」는 누가 무엇을 세웠는지 관계가 불분명하고, 입학 시점도 「열한 살부터」보다 구체적인 행동으로 나타내는 편이 자연스럽다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 대학 경영대학원으로 넘어갔다」는 학교 진학을 나타내는 표현으로 구어적이고, 앞 문장과의 연결도 매끄럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「재무를 전공한 경영학 석사였다」는 사람과 학위의 관계가 뒤섞여 있으며, 「병과에 들어갔다」도 복무 경력을 설명하는 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중위로 세 해를 보냈다」는 복무 사실을 우회적으로 표현했고, 둘째 문장의 주어인 「병과」도 해당 조직을 명확히 가리키도록 보완할 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 해 만에 학교를 다시 찾았다」는 실제로 학업에 복귀했다는 뜻을 문학적으로 우회해 전달했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「박사학위」의 띄어쓰기를 바로잡고, 「교수진에 들어가다」를 자연스러운 표현으로 고쳤다. 「논문은 … 문제였다」는 논문과 연구 주제의 관계가 무너져 있었고, 「같은 경제학과」는 앞 문장만으로 대상을 알기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 정교수가 되고 렌츨러 석좌를 받았다」는 시간 연결과 직위 표현이 모두 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "출판사의 출간을 「인쇄했다」로 옮겨 의미가 축소됐고, 「연구를 근거로 했다」는 영문의 관계도 국문에서 충분히 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학과장을 막 마친 뒤」는 임기를 마쳤다는 뜻이 빠져 있었고, 「펠너의 자리를 이었다」와 「수도에 있었다」는 소속과 장소를 문장만으로 분명히 알기 어려웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 자리를 권했다」는 보글이 제안한 대상이 밴가드 이사직이라는 사실을 앞 문장에 의존해야만 알 수 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "교수를 영입한 일을 「교수로 불렀다」라고 표현했고, 「석사 과정 등록」과 「비영리 직장」도 각각 등록 인원과 비영리기관 취업을 뜻하도록 구체화할 필요가 있었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "석좌교수직의 경제학 분야가 국문에서 빠져 있었고, 「학부 학장」이 어느 대학의 직위인지 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자산을 굴리는 회사」와 「이사를 … 지내고 내려놓은 뒤」는 구어적이거나 부자연스러웠고, 프린스턴에서 직위를 계속 유지했다는 의미도 매끄럽게 전달되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

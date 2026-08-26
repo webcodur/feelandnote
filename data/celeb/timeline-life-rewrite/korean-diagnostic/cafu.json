@@ -1,0 +1,280 @@
+{
+ "slug": "cafu",
+ "events": [
+  {
+   "year": 1970,
+   "year_end": null,
+   "kind": "birth",
+   "title": "이타쿠아케세투바에서 태어나다",
+   "title_en": "Born in Itaquaquecetuba",
+   "description": "여섯 남매 가운데 한 명이었다. 아버지는 시 공무원으로 일했고, 가족은 곧 상파울루 남쪽의 자르징이레네로 옮겨 방 한 칸에서 함께 살았다. 이타쿠아의 유소년팀에서 뛰던 시절, 동료들은 그가 옛 윙어 카푸링가를 닮았다고 했다. 이후 그 별명의 끝 음절들이 떨어져 ‘카푸’가 되었다.",
+   "description_en": "He was one of six children. His father worked for the city, and the family soon moved to Jardim Irene on the south side of São Paulo, sharing a single room. At a youth side in Itaquá, teammates likened him to the old winger Cafuringa. The nickname then lost its last syllables.",
+   "place_name": "이타쿠아케세투바",
+   "place_name_en": "Itaquaquecetuba",
+   "lat": -23.486388888889,
+   "lng": -46.348611111111
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "education",
+   "title": "상파울루 유스에 들어가다",
+   "title_en": "Joins the São Paulo youth ranks",
+   "description": "코린치안스와 파우메이라스, 산투스의 유스 입단 시험에서 모두 탈락했다. 고향 아마추어팀에서 다시 뛰고 나서야 상파울루 유스에 들어갔다. 그해 상파울루 유스와 함께 코파 상파울루 유스 대회에서 우승했다.",
+   "description_en": "Youth trials at Corinthians, Palmeiras, and Santos all failed. He played again for an amateur side in his hometown, and only then did this club take him. That same year he won the Copa São Paulo youth tournament with that academy.",
+   "place_name": "상파울루",
+   "place_name_en": "São Paulo",
+   "lat": -23.550394444444,
+   "lng": -46.633947222222
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "work",
+   "title": "1군 데뷔전을 치르다",
+   "title_en": "Makes his first-team debut",
+   "description": "첫 출전은 일본에서 열린 친선경기였으며, 수비형 미드필더로 뛰었다. 국내 리그 데뷔전에서는 모룸비에서 열린 플루미넨시전에 넷티뉴와 교체돼 투입됐다. 텔레 산타나는 오른쪽 미드필더였던 그에게 윙백으로 자리를 옮기라고 했다.",
+   "description_en": "His first appearance was a friendly in Japan. He lined up there as a defensive midfielder. His first league game at home was a substitute appearance for Netinho against Fluminense at the Morumbi. Tele Santana told him to move from right midfield to wing-back.",
+   "place_name": "상파울루",
+   "place_name_en": "São Paulo",
+   "lat": -23.550394444444,
+   "lng": -46.633947222222
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "대표팀 첫 경기를 치르다",
+   "title_en": "Earns his first cap for Brazil",
+   "description": "상대는 스페인이었고, 브라질은 세 골 차로 졌다. 파울루 로베르투 팔캉 감독이 그를 대표팀 명단에 넣었으며, 카푸는 후반에 교체되어 경기장을 나왔다.",
+   "description_en": "The opponent was Spain, and Brazil lost by three goals. Paulo Roberto Falcão put him in the squad. He came off in the second half.",
+   "place_name": "히혼",
+   "place_name_en": "Gijón",
+   "lat": 43.52931,
+   "lng": -5.67732
+  },
+  {
+   "year": 1992,
+   "year_end": 1993,
+   "kind": "work",
+   "title": "바르셀로나를 꺾다",
+   "title_en": "Beats Barcelona",
+   "description": "텔레 산타나의 팀에서 등번호 11번을 달고 공격수로 나서 크루이프의 바르셀로나를 만났다. 라이가 결승골을 넣으며 2대1로 이겼다. 이듬해에도 상파울루는 코파 리베르타도레스와 인터콘티넨털컵에서 잇달아 우승했다.",
+   "description_en": "He faced Cruyff’s Barcelona as the number 11 attacker in Telê Santana’s side. Raí scored the winner, and the score was 2–1. The next year the club again won the Copa Libertadores and the Intercontinental Cup in succession.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.689444444444,
+   "lng": 139.69166666667
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "work",
+   "title": "결승전에 교체 출전해 월드컵을 들다",
+   "title_en": "Wins the World Cup after coming on in the final",
+   "description": "조르지뉴가 다친 뒤 전반 이른 시간에 들어갔다. 경기는 연장까지 비겼고, 승부차기에서 이탈리아를 눌렀다. 그해 남아메리카 올해의 선수로도 뽑혔다.",
+   "description_en": "He came on early in the first half after Jorginho was hurt. The match stayed level through extra time, and Brazil beat Italy on penalties. That year he was also named South American Footballer of the Year.",
+   "place_name": "패서디나",
+   "place_name_en": "Pasadena",
+   "lat": 34.1475,
+   "lng": -118.14388888889
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "work",
+   "title": "라이벌 파우메이라스로 옮기다",
+   "title_en": "Moves to rival Palmeiras",
+   "description": "상파울루가 그를 사라고사로 이적시킬 때 맺은 계약에는 이후 파우메이라스로 옮기면 벌금을 물린다는 조항이 있었다. 그는 주벤투지에서 20일을 보낸 뒤 파르말랏의 후원을 받던 파우메이라스의 초록 유니폼을 입었다. 이듬해 파우메이라스 공격진은 파울리스타 대회에서 100골 넘게 넣었다.",
+   "description_en": "When São Paulo sold him to Zaragoza, the deal fined a move to Palmeiras. He spent twenty days at Juventude and then put on the green shirt backed by Parmalat. The next year that attack scored more than a hundred goals in the Campeonato Paulista.",
+   "place_name": "상파울루",
+   "place_name_en": "São Paulo",
+   "lat": -23.550394444444,
+   "lng": -46.633947222222
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "로마에 입단하다",
+   "title_en": "Signs for Roma",
+   "description": "제만 감독 아래 세리에 A 첫 경기는 엠폴리전이었다. 그 경기에서 크로스로 도움을 줬다. 팬들은 오른쪽을 오가는 그를 급행열차라고 불렀다.",
+   "description_en": "Under Zdeněk Zeman his first Serie A match was against Empoli. He provided an assist from a cross in that game. Fans called him the express train for the runs he kept making down the right.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "work",
+   "title": "두 번째 월드컵 결승에 나서다",
+   "title_en": "Starts a second World Cup final",
+   "description": "선발로 오른쪽을 지켰다. 지단이 코너킥에서 헤더로 두 골을 넣었고, 프티가 한 골을 보탰다. 경기는 프랑스의 3대0 승리로 끝났다.",
+   "description_en": "He started at right-back. Zidane scored two headers from corners, and Petit added one more. France finished the match with three goals.",
+   "place_name": "생드니",
+   "place_name_en": "Saint-Denis",
+   "lat": 48.935555555556,
+   "lng": 2.3538888888889
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "work",
+   "title": "로마에서 세리에 A 우승을 차지하다",
+   "title_en": "Wins Serie A with Roma",
+   "description": "파비오 카펠로 감독의 팀에서 토티, 바티스투타와 함께 뛰었다. 로마는 라치오, 유벤투스와 접전을 벌인 끝에 스쿠데토를 차지했다.",
+   "description_en": "In Fabio Capello’s side he stood in the same line as Totti and Batistuta. After a tight race with Lazio and Juventus, they took the Scudetto.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "주장으로 월드컵 트로피를 들다",
+   "title_en": "Lifts the World Cup as captain",
+   "description": "스콜라리는 처음에 에메르송에게 주장 완장을 맡겼다. 에메르송이 훈련에서 골키퍼 역할을 맡았다가 어깨가 빠져 대회에서 이탈하자, 선수단은 카푸에게 완장을 넘겼다. 독일을 2대0으로 꺾은 뒤 단상에 올라 아내 레지나를 사랑한다고 외쳤다. 유니폼 안에는 ‘자르징이레네 100%’라고 적어 두었다.",
+   "description_en": "Scolari had given the armband to Emerson. When that player dislocated a shoulder playing in goal at training and left the tournament, the squad passed the armband on. After a 2-0 win over Germany he climbed the podium and shouted that he loved his wife Regina. Under the jersey he had written 100 percent Jardim Irene.",
+   "place_name": "요코하마",
+   "place_name_en": "Yokohama",
+   "lat": 35.450333333333,
+   "lng": 139.63422222222
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "밀란으로 옮기다",
+   "title_en": "Joins Milan",
+   "description": "요코하마 F. 마리노스의 제의를 거절한 뒤 자유계약으로 밀란에 합류했다. 첫 시즌에 다시 세리에 A 우승을 차지했다.",
+   "description_en": "He turned down Yokohama F. Marinos and arrived on a free transfer. In his first season he won Serie A again.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "other",
+   "title": "마지막 골을 넣고 유니폼을 벗다",
+   "title_en": "Scores in his last match and retires",
+   "description": "마지막 경기인 우디네세전에서 카카의 크로스를 오른발로 마무리해 득점했다. 경기는 4대1로 끝났다. 세르지뉴와 함께 그 시즌을 끝으로 밀란을 떠났다. 브라질 대표팀의 노란 유니폼은 모두 142차례 입었다.",
+   "description_en": "Against Udinese he finished a Kaká cross with his right foot. The score was 4–1. He left at the end of that season with Serginho. He had worn the yellow shirt one hundred and forty-two times.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "직역투와 불분명한 지시어, 어색한 축구 표현을 바로잡고 각 사건의 주체와 행동이 분명하게 이어지도록 다듬었다. 영문이 전하는 세부 정보는 빠뜨리거나 확장하지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시 공무를 했다」와 「별명에서 뒷글자가 떨어졌다」가 직역투여서 아버지의 직업과 카푸라는 별명이 생긴 과정을 자연스럽게 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 클럽」과 「그 유스」가 각각 상파울루와 상파울루 유스를 가리킨다는 사실을 앞 문장만으로 즉시 파악하기 어려웠고, 대회를 「들었다」는 표현도 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「첫 경기는 일본 친선이었다」와 「넷티뉴를 대신한 교체였다」가 축구 경기와 교체 출전 상황을 불완전하게 표현하고 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「후반에 교체되어 나왔다」는 문장이 교체 투입됐다는 뜻인지 경기장을 나왔다는 뜻인지 모호했다. 영문의 came off에 맞춰 후반에 교체 아웃된 상황을 분명히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「열한 번 공격수」가 등번호와 포지션의 관계를 부자연스럽게 표현했고, 「연달아 들었다」도 두 대회 우승을 뜻하는 문장으로 매끄럽지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "「결승 교체로」는 결승전 교체 출전을 지나치게 압축한 표현이라 사건의 의미가 곧바로 드러나지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「파우메이라스행에 벌금을 걸었다」는 이적 계약의 위약 조항을 뜻하는 직역투였고, 「초록 유니폼」의 소속도 문장 안에서 분명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「프랑스는 세 골을 넣고 끝냈다」가 경기 결과를 부자연스럽게 서술하고 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "세리에 A 우승을 「들다」라고 표현한 제목이 어색했고, 「토티, 바티스투타와 한 줄에 섰다」는 직역 때문에 같은 팀에서 함께 뛰었다는 관계가 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「훈련 중 골키퍼를 보다가」는 에메르송이 골키퍼 역할을 맡았다는 뜻을 짐작해야 했고, 선수들이 누구에게 주장 완장을 넘겼는지도 명시되지 않았다. 독일전 결과와 유니폼 안쪽 문구도 자연스럽게 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "자유계약으로 어느 팀에 들어갔는지가 본문에서 생략됐고, 세리에 A 우승을 「들었다」라고 표현해 어색했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「크로스를 오른발로 넣었다」가 득점 동작을 어색하게 표현했고, 「노란 유니폼」만으로는 밀란 유니폼과 브라질 대표팀 유니폼 가운데 어느 쪽인지 바로 알기 어려웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

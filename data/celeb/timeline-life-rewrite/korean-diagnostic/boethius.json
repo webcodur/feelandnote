@@ -1,0 +1,260 @@
+{
+ "slug": "boethius",
+ "events": [
+  {
+   "year": 480,
+   "year_end": null,
+   "kind": "birth",
+   "title": "아니키우스 가문에서 태어나다",
+   "title_en": "Born into the Anicii",
+   "description": "그가 태어날 무렵에는 서로마의 마지막 황제가 막 폐위된 뒤였다. 아버지는 뒤에 집정관이 되었으나 그가 어릴 때 죽었다. 퀸투스 아우렐리우스 멤미우스 심마쿠스가 그를 데려다 키우며 철학과 문학을 가르쳤다. 그는 당시 서방에서는 드물게 그리스어를 익혔다. 뒤에 양아버지의 딸 루스티키아나와 혼인했고, 두 아들 가운데 한 명에게는 심마쿠스라는 이름을, 다른 한 명에게는 자신의 이름을 붙였다. 정확한 생년은 전하지 않는다. 학자들은 475년에서 480년 사이에 태어난 것으로 본다.",
+   "description_en": "The last western emperor had just been deposed. His father later held the consulship but died while the boy was young. Quintus Aurelius Memmius Symmachus took him in and taught him philosophy and letters. He acquired Greek, a rare skill in the West. He later married his foster father's daughter Rusticiana and named their two sons Symmachus and after himself. The exact birth year does not survive. Scholars place it between 475 and 480.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 500,
+   "year_end": null,
+   "kind": "work",
+   "title": "니코마코스의 산술을 라틴어로 옮기다",
+   "title_en": "Adapts Nicomachus into Latin",
+   "description": "게라사의 니코마코스가 쓴 산술 입문을 바탕으로 『산술 입문』을 엮었다. 헌정 편지는 양아버지 심마쿠스에게 보냈다. 그리스 원문을 줄이거나 늘리며 자유롭게 옮겼다. 산술·음악·기하·천문으로 이루어진 네 수학 학문 가운데 산술을 첫째로 두었다. 뒤에 쓴 『음악 입문』도 같은 작업의 연장선에 놓였다.",
+   "description_en": "He shaped On Arithmetic from Nicomachus of Gerasa's introduction. The dedicatory letter went to his foster father Symmachus. He shortened or expanded the Greek as he saw fit. He set arithmetic first among the four mathematical disciplines, ahead of music, geometry, and astronomy. A treatise on music followed on the same path.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 500,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "테오도리쿠스를 처음 만나다",
+   "title_en": "First meets Theodoric during the king's stay",
+   "description": "동고트 왕 테오도리쿠스는 로마에 여섯 달 동안 머물렀다. 두 사람의 초기 교분이 어떠했는지는 기록에 남아 있지 않다. 테오도리쿠스는 이후 그를 여러 일에 기용했다.",
+   "description_en": "The Ostrogothic king stayed in the city for six months. No record survives of their early dealings. The king later put him to use.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 507,
+   "year_end": null,
+   "kind": "office",
+   "title": "왕을 위해 시계와 악사를 마련하다",
+   "title_en": "Prepares clocks and a lyre player for the king",
+   "description": "카시오도루스가 기초한 왕명에 따라 부르군트의 군도바드에게 보낼 물시계와 해시계를 마련했다. 프랑크의 클로비스에게 보낼 수금 연주자도 골랐다. 근위대 급료 담당자가 병사들에게 지급할 주화의 품질을 떨어뜨렸다는 혐의도 조사했다. 이 무렵에는 이미 파트리키우스라는 귀족 칭호로 불렸다.",
+   "description_en": "By royal letters drafted by Cassiodorus he was to make a water clock and a sundial for Gundobad of the Burgundians. He was also to choose a lyre player for Clovis the Frank. He investigated a charge that the paymaster of the royal guard had debased the soldiers' coin. By then he was already addressed as patrician.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 509,
+   "year_end": null,
+   "kind": "work",
+   "title": "아리스토텔레스의 논리를 라틴어로 옮기다",
+   "title_en": "Translates Aristotle's logic into Latin",
+   "description": "포르피리오스의 『이사고게』에 두 차례 주석을 썼다. 아리스토텔레스의 『범주론』과 『해석론』도 번역하고 풀이했다. 뒤에 『해석론』의 두 번째 주석에서 플라톤과 아리스토텔레스의 모든 저작을 옮기겠다고 밝혔다. 그러나 그 계획을 완수하지는 못했다.",
+   "description_en": "He wrote two commentaries on Porphyry's Isagoge. He also translated and explained Aristotle's Categories and On Interpretation. In the second commentary on On Interpretation he later announced that he would render all of Plato and Aristotle. That plan never reached the end.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 510,
+   "year_end": null,
+   "kind": "office",
+   "title": "동료 없이 집정관에 오르다",
+   "title_en": "Holds the consulship without a colleague",
+   "description": "그해 서방 집정관은 그 한 사람뿐이었다. 집정관에게 실권은 거의 없었지만, 그해 작성된 문서에는 그의 이름을 기준으로 날짜를 기록했다. 그의 가문은 집정관 취임 의식을 치르는 데 사재를 썼다.",
+   "description_en": "He was the only western consul that year. The office held little power, but documents of the year dated themselves by his name. The family spent its own fortune on the ceremonies.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 513,
+   "year_end": null,
+   "kind": "work",
+   "title": "에우티케스와 네스토리우스를 반박하다",
+   "title_en": "Writes against Eutyches and Nestorius",
+   "description": "동방 주교들이 보낸 그리스도론 서한이 계기가 되었다. 그는 위격을 이성적 본성의 개별 실체로 정의했다. 삼위일체와 가톨릭 신앙을 다룬 짧은 논문들도 이 무렵 이어졌다. 라틴 교회와 그리스 교회를 가른 아카키우스 분열이 아직 풀리지 않은 때였다.",
+   "description_en": "A Christological letter from eastern bishops gave the occasion. He defined a person as the individual substance of a rational nature. Short treatises on the Trinity and the Catholic faith followed around the same years. The Acacian schism between the Latin and Greek churches had not yet been healed.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 522,
+   "year_end": null,
+   "kind": "office",
+   "title": "두 아들이 함께 집정관이 되다",
+   "title_en": "Sees both sons installed as consuls",
+   "description": "그해 두 집정관직은 각각 그의 두 아들에게 돌아갔다. 그는 원형 경기장에서 두 아들 사이에 앉았다. 뒤에 감방에서 이날을 자기 생애에서 가장 큰 영예를 누린 날로 적었다.",
+   "description_en": "Both consulships that year belonged to his two sons. He sat between them in the circus. Later, in his cell, he wrote that this day was the greatest honor of his life.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 522,
+   "year_end": null,
+   "kind": "office",
+   "title": "왕실 사무와 행정을 총괄하다",
+   "title_en": "Becomes Master of the Offices",
+   "description": "왕실 사무와 행정 조직을 총괄하는 자리를 맡았다. 그는 뒤에 왕실 집사 트리굴라의 음모를 막았다고 적었다. 고트 관리 쿠니가스트가 가난한 사람들의 재산을 빼앗으려 하자 맞섰다. 기근에 시달리던 캄파니아 밖으로 곡물을 반출하려는 일도 왕의 권위로 막았다. 그러는 동안 궁정 안의 적들은 늘어났다.",
+   "description_en": "The post governed palace business and the civil offices. He later wrote that he had blocked a plot by Triguilla, steward of the royal house. He confronted the Gothic official Cunigast, who tried to swallow the goods of the poor. By the king's authority he also stopped a shipment of grain out of famine-struck Campania. Enemies at court multiplied.",
+   "place_name": "라벤나",
+   "place_name_en": "Ravenna",
+   "lat": 44.416111111111,
+   "lng": 12.201666666667
+  },
+  {
+   "year": 523,
+   "year_end": null,
+   "kind": "other",
+   "title": "알비누스를 변호하다가 붙잡히다",
+   "title_en": "Defends Albinus and is arrested",
+   "description": "왕실 회의에서 공문 담당관 키프리아누스가 전 집정관 알비누스를 고발했다. 동로마 황제 유스티누스에게 왕을 해치는 편지를 보냈다는 혐의였다. 그는 왕 앞에서 그 고발은 거짓이며, 알비누스가 그런 편지를 보냈다면 자신과 원로원 전체도 함께한 셈이라고 말했다. 키프리아누스는 증인 세 명을 내세워 보에티우스에게도 같은 죄를 씌웠다. 그는 관직을 잃고 교회의 세례당에 갇혔다. 로마 원로원은 그가 없는 자리에서 유죄를 선언했다.",
+   "description_en": "At a royal council the referendary Cyprianus accused the former consul Albinus of sending the emperor Justin a letter hostile to the king. He told the king the charge was false, and that if Albinus had done it, he and the whole senate had done it with him. Cyprianus then produced three witnesses and laid the same charge on the defender. He lost his office and was held in a church baptistery. The Roman senate condemned him in his absence.",
+   "place_name": "베로나",
+   "place_name_en": "Verona",
+   "lat": 45.438611111111,
+   "lng": 10.992777777778
+  },
+  {
+   "year": 523,
+   "year_end": 524,
+   "kind": "work",
+   "title": "감방에서 『철학의 위안』을 쓰다",
+   "title_en": "Writes the Consolation of Philosophy in prison",
+   "description": "왕은 로마의 도시 장관을 파비아로 불러 보에티우스에게 심리도 거치지 않은 채 유죄를 선고했다. 전승에 따르면 그는 뒤에 칼벤티아누스 영지로 옮겨졌다. 그곳에서 산문과 운문을 섞고 철학을 여성으로 의인화한 대화를 썼다. 행운의 바퀴, 악인의 번영, 자유의지와 신의 예지를 따졌다. 그리스도의 이름은 한 번도 언급하지 않았다.",
+   "description_en": "The king summoned the prefect of Rome here and condemned him without a hearing. Tradition says he was then moved to the Calventian estate. He wrote a dialogue in prose mixed with verse, giving Philosophy the form of a woman. He examined the wheel of fortune, the prosperity of the wicked, free will, and divine foreknowledge. He never named Christ.",
+   "place_name": "파비아",
+   "place_name_en": "Pavia",
+   "lat": 45.185280555556,
+   "lng": 9.155
+  },
+  {
+   "year": 524,
+   "year_end": null,
+   "kind": "death",
+   "title": "왕의 명령으로 죽임을 당하다",
+   "title_en": "Is put to death on the king's order",
+   "description": "그의 사망 연도는 통상 524년으로 본다. 일부 연구는 525년이나 526년을 제시한다. 『발레스 익명 연대기』는 이마에 줄을 세게 동여매 두 눈이 터지게 한 뒤 몽둥이로 때려 죽였다고 전한다. 다른 전승은 목을 베거나 목매달았다고 한다. 장인 심마쿠스도 얼마 지나지 않아 같은 왕에게 죽임을 당했다. 그들의 재산은 몰수되었고 아내 루스티키아나는 가난해졌다.",
+   "description_en": "The conventional year is this one. Some studies prefer the next year or the year after that. The Anonymous Valesianus says a cord bound about his forehead cracked his eyes, and that a cudgel finished him. Other traditions say he was beheaded or hanged. His father-in-law Symmachus soon died by the same king. Their property was seized, and his wife Rusticiana was left poor.",
+   "place_name": "파비아",
+   "place_name_en": "Pavia",
+   "lat": 45.185280555556,
+   "lng": 9.155
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 담은 세부 사실은 유지하면서, 지시 대상이 불분명하거나 영어식 결합이 남은 문장과 사건 사이의 연결을 바로잡았다. 사실 확인이 필요한 충돌은 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 없어 무엇이 서로마 황제 폐위 직후였다는 뜻인지 불분명했고, 두 아들의 이름을 설명한 문장도 각각 누구의 이름을 붙였는지 바로 드러나지 않았다. 생년 범위도 영문의 475~480년보다 좁게 요약되어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「네 갈래 학과의 첫 자리」와 「같은 줄기로 이어졌다」가 영어 표현을 압축해 옮긴 말이라 학문의 구성과 후속 저술의 관계가 선명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「처음 마주하다」가 만남을 가리키는 제목으로 어색했고, 「이 도시」는 해당 문장만으로 로마를 가리키는지 알 수 없었다. 「가까이 썼다」도 왕이 그를 여러 일에 기용했다는 뜻을 분명하게 전달하지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「왕명으로 … 만들게 했다」는 누가 누구에게 제작을 시켰는지 모호했고, 주화를 깎았다는 표현은 급료 담당자가 주화의 품질을 떨어뜨렸다는 혐의를 정확히 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전작을 옮기다」는 모든 저작을 번역한다는 뜻이 불명확했고, 「계획은 끝까지 가지 못했다」는 영어식 비유에 가까워 자연스러운 서술로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "문서가 스스로 그의 이름으로 날짜를 적었다는 구조와 「가문이 … 자리였다」라는 결합이 어색해, 당시 문서의 연대 표기와 가문의 의식 비용 부담을 각각 분명히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 자리가 두 아들의 것이었다」가 직역투였고, 마지막 문장의 「이 날」을 앞 사건과 자연스럽게 연결하도록 다듬었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「궁정 관직의 장」은 실제로 어떤 일을 맡았는지 알기 어려웠다. 재산을 「삼키다」와 곡식을 빼내려는 「선적」도 영어 어휘를 직접 옮긴 표현이라 행위 관계를 명확히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "알비누스가 편지를 보냈다면 누가 함께 책임지겠다고 했는지 빠져 있었고, 「변호인」과 「그 자리에 없는 그」의 대상도 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이곳」과 「그를 유죄로 돌렸다」는 장소와 행위 관계가 모호했고, 「철학을 여인으로 내세운」과 「그리스도는 부르지 않았다」는 표현도 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「통상 이 해로 잡는다」는 무엇의 연도를 말하는지 빠져 있었고, 처형 방식과 장인의 죽음을 설명한 일부 문장이 영어식으로 결합되어 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

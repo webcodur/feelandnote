@@ -1,0 +1,250 @@
+{
+ "slug": "epicurus",
+ "events": [
+  {
+   "year": -341,
+   "year_end": null,
+   "kind": "birth",
+   "title": "사모스에서 태어나다",
+   "title_en": "Is born in the city of Samos",
+   "description": "사모스는 아테네 정착민들에게 분배된 섬의 도시였다. 아폴로도로스는 소시게네스가 집정관이던 해 가멜리온월 7일에 태어났다고 적었다. 플라톤이 죽은 지 일곱 해째였다. 아버지는 네오클레스, 어머니는 카이레스트라테였다. 가문은 가르게토스 데모에 속했다. 메트로도로스는 이들이 필라이다이 혈통이라고 적었다.",
+   "description_en": "It was a city on an island allotted to Athenian settlers. Apollodorus dated the birth to the archonship of Sosigenes, on the seventh of Gamelion. It was the seventh year after Plato died. His father was Neocles and his mother Chaerestrate. The family belonged to the deme Gargettos. Metrodorus wrote that they were of the Philaid line.",
+   "place_name": "사모스, 오늘날 피타고리오",
+   "place_name_en": "Samos, modern Pythagoreio",
+   "lat": 37.69,
+   "lng": 26.942555555556
+  },
+  {
+   "year": -327,
+   "year_end": null,
+   "kind": "education",
+   "title": "열네 살에 철학을 시작했다고 스스로 말하다",
+   "title_en": "Says he first turned to philosophy at fourteen",
+   "description": "같은 학파의 아폴로도로스는 스승들이 헤시오도스에 나오는 혼돈을 설명하지 못하자 에피쿠로스가 철학에 눈을 돌렸다고 전한다. 아리스톤은 에피쿠로스가 사모스의 플라톤주의자 팜필로스에게 배웠다고 적었다. 열두 살부터 철학을 시작했다는 말도 아리스톤의 전승이다.",
+   "description_en": "Apollodorus the Epicurean reports that he turned away when his teachers could not explain chaos in Hesiod. Ariston wrote that he studied with the Platonist Pamphilus in this city. The claim that he began at twelve is also Ariston’s tradition.",
+   "place_name": "사모스, 오늘날 피타고리오",
+   "place_name_en": "Samos, modern Pythagoreio",
+   "lat": 37.69,
+   "lng": 26.942555555556
+  },
+  {
+   "year": -323,
+   "year_end": -321,
+   "kind": "education",
+   "title": "아테네에서 시민 군사 훈련을 마치다",
+   "title_en": "Completes civic military training in Athens",
+   "description": "열여덟이었다. 크세노크라테스가 아카데미아에서 강의하고 아리스토텔레스는 칼키스에 머물던 때였다. 알렉산드로스가 그해 죽었다. 데메트리오스 마그네스는 에피쿠로스가 크세노크라테스의 강의도 들었다고 한다.",
+   "description_en": "He was eighteen. Xenocrates was lecturing at the Academy, and Aristotle was in Chalcis. Alexander died that year. Demetrius of Magnesia says he also sat at Xenocrates’ lectures.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -321,
+   "year_end": null,
+   "kind": "travel",
+   "title": "추방된 아버지를 따라 콜로폰으로 가다",
+   "title_en": "Goes to Colophon after his father is expelled",
+   "description": "페르디카스가 사모스의 아테네 정착민들을 쫓아냈다. 디오게네스는 에피쿠로스가 아테네를 떠나 아버지와 합류했다고 적는다. 에피쿠로스가 콜로폰에 한동안 머물며 추종자들을 모았다는 전승도 있다.",
+   "description_en": "Perdiccas drove the Athenian settlers off Samos. Diogenes writes that he left Athens and joined his father. He is also said to have stayed there for a time and gathered followers.",
+   "place_name": "콜로폰",
+   "place_name_en": "Colophon",
+   "lat": 38.11555556,
+   "lng": 27.14222222
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "나우시파네스에게 배웠다는 전승이 남다",
+   "title_en": "Is said to have studied with Nausiphanes",
+   "description": "아폴로도로스는 에피쿠로스가 나우시파네스와 프락시파네스에게 배웠다고 적었다. 그러나 에피쿠로스는 에우리로코스에게 보낸 편지에서 이들에게 배웠다는 말을 부인하고 자신은 독학했다고 밝혔다. 나우시파네스는 데모크리토스를 따르던 사람이었다. 아리스톤은 에피쿠로스의 『정전』이 나우시파네스의 『세발솥』에서 뼈대를 가져왔다고 전한다.",
+   "description_en": "Apollodorus wrote that he studied with Nausiphanes and Praxiphanes. In a letter to Eurylochus he denied this and said he was self-taught. Nausiphanes followed Democritus. Ariston reports that the Canon drew its frame from Nausiphanes’ Tripod.",
+   "place_name": "콜로폰",
+   "place_name_en": "Colophon",
+   "lat": 38.11555556,
+   "lng": 27.14222222
+  },
+  {
+   "year": -311,
+   "year_end": null,
+   "kind": "work",
+   "title": "미틸레네에서 먼저 학파를 열다",
+   "title_en": "First opens a school in Mytilene",
+   "description": "서른둘이었다. 이 연대는 아폴로도로스의 『연대기』에 따른 것이다. 헤르마르코스는 미틸레네 출신이었다. 에피쿠로스는 다섯 해 안에 람프사코스를 거쳐 아테네로 옮겨 갔다.",
+   "description_en": "He was thirty-two. The date is from Apollodorus’s Chronology. Hermarchus was a man of this city. Within five years he moved through Lampsacus to Athens.",
+   "place_name": "미틸레네",
+   "place_name_en": "Mytilene",
+   "lat": 39.1047,
+   "lng": 26.5536
+  },
+  {
+   "year": -310,
+   "year_end": -306,
+   "kind": "work",
+   "title": "람프사코스에서 핵심 동료를 모으다",
+   "title_en": "Gathers his inner circle in Lampsacus",
+   "description": "메트로도로스는 에피쿠로스를 처음 만난 뒤 여섯 달 동안 한 차례 떨어져 있었던 것을 빼면 줄곧 그의 곁을 지켰다. 폴뤼아이노스, 이도메네우스, 콜로테스는 람프사코스 출신이었다. 레온테우스와 그의 아내 테미스타도 이곳에서 에피쿠로스의 학파에 합류했다.",
+   "description_en": "After they first met, Metrodorus left his side only once, for six months. Polyaenus, Idomeneus, and Colotes were men of this city. Leonteus and his wife Themista also joined him here.",
+   "place_name": "람프사코스",
+   "place_name_en": "Lampsacus",
+   "lat": 40.343889,
+   "lng": 26.683611
+  },
+  {
+   "year": -306,
+   "year_end": null,
+   "kind": "work",
+   "title": "아테네에 정원을 사다",
+   "title_en": "Buys the Garden in Athens",
+   "description": "아낙시크라테스가 집정관이던 해였다. 아폴로도로스는 정원의 값을 여든 미나로 적었다. 정원은 스토아와 아카데미아 사이에 있었다. 필로데모스는 에피쿠로스의 형제 네오클레스, 카이레데모스, 아리스토불로스도 그와 함께 공부했다고 한다. 노예 미스도 학파에 들어왔다. 에피쿠로스는 피타고라스가 요구한 것처럼 구성원들의 재산을 공동 재산으로 합치지는 않았다.",
+   "description_en": "It was the archonship of Anaxicrates. Apollodorus recorded the price as eighty minae. The garden stood between the Stoa and the Academy. Philodemus says his three brothers, Neocles, Chaeredemus, and Aristobulus, studied with him. The slave Mys also entered the school. He did not pool property as Pythagoras required.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『자연에 대하여』와 세 통의 편지를 남기다",
+   "title_en": "Leaves On Nature and three letters",
+   "description": "『자연에 대하여』는 서른일곱 권으로 이루어졌다. 디오게네스는 헤로도토스, 메노이케우스, 퓌토클레스에게 보낸 편지와 『주요 교설』을 옮겨 적었다. 에피쿠로스가 남긴 두루마리는 거의 삼백 권에 이르렀다고 한다. 헤르쿨라네움의 별장에서는 그 저작의 일부가 발견되었다.",
+   "description_en": "On Nature ran to thirty-seven books. Diogenes copied the letters to Herodotus, Menoeceus, and Pythocles, and the Principal Doctrines. The rolls are said to have numbered nearly three hundred. Parts of the work came out of the villa at Herculaneum.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -277,
+   "year_end": null,
+   "kind": "other",
+   "title": "죽기 일곱 해 전에 가장 가까운 동료를 잃다",
+   "title_en": "Loses his closest companion seven years earlier",
+   "description": "메트로도로스가 쉰셋에 죽었다. 디오게네스가 전한 나이다. 에피쿠로스는 유언에서 메트로도로스를 먼저 세상을 떠난 사람으로 언급하고, 그의 아들과 딸을 학파 안에서 돌보라고 했다. 또한 매달 20일에 모여 메트로도로스와 자신을 함께 기리도록 했다.",
+   "description_en": "Metrodorus died at fifty-three. That is how Diogenes reports it. The will already names him as gone and tells the school to care for his son and daughter. It also orders a meeting on the twentieth of each month to remember the two of them together.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -270,
+   "year_end": null,
+   "kind": "death",
+   "title": "요로 결석으로 아테네에서 죽다",
+   "title_en": "Dies in Athens of a stone in the urinary tract",
+   "description": "퓌타라토스가 집정관이던 해였다. 아폴로도로스는 에피쿠로스의 나이를 일흔둘로 적었다. 헤르마르코스는 병을 앓은 기간이 보름이었다고 편지에 썼다. 에피쿠로스는 마지막 날 이도메네우스에게 편지를 보내 메트로도로스의 아이들을 돌봐 달라고 부탁했다. 유언으로 정원과 책을 헤르마르코스에게 넘기고 미스, 니키아스, 리콘, 파이드리온을 풀어 주었다. 헤르미포스는 에피쿠로스가 청동 욕조에 들어가 물을 섞지 않은 포도주를 마신 뒤 죽었다고 전한다.",
+   "description_en": "It was the archonship of Pytharatus. Apollodorus gave his age as seventy-two. Hermarchus wrote that the illness lasted a fortnight. On the last day he wrote to Idomeneus and asked him to watch over Metrodorus’s children. The will handed the garden and the books to Hermarchus and freed Mys, Nicias, Lycon, and Phaedrium. Hermippus reports that he entered a bronze bath, drank unmixed wine, and died.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 세부와 의미 범위를 유지하면서 직역투, 불분명한 지시어, 어색한 서술어를 고쳤다. 사건들이 출생부터 죽음까지 자연스럽게 이어지도록 장소와 인물을 필요한 곳에서 명시했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「사모스의 도시」는 장소를 중복해 표현했고, 「아테네인이 나눠 받은 섬」과 날짜 표기는 한국어로 뜻이 바로 들어오지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「설명하지 못해 돌아섰다」는 무엇에서 무엇으로 돌아섰는지 불분명했고, 「이 도시」만으로는 사모스를 바로 알기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 시민 군사 훈련을 완료했다는 뜻인데 국문 제목은 단순히 훈련을 받았다고만 했고, 「강의에 앉았다」는 영어 표현을 옮긴 직역투였다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아버지와 합쳤다」는 사람과 합류했다는 뜻을 부자연스럽게 옮긴 표현이며, 「그곳」도 장소를 직접 밝혀 주는 편이 명확했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「본인은 … 부인했다」는 부인한 대상이 문장 안에서 흐릿했고, 「그의 세발솥」은 누구의 저작인지 모호했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 도시 사람이었다」는 미틸레네 출신이라는 정보를 번역 순서대로 옮겨 어색하게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 도시 사람이었다」와 「여기서 합쳤다」는 각각 출신지와 학파 합류를 부자연스럽게 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「세 형제」는 에피쿠로스까지 포함한 세 사람처럼 읽힐 수 있었고, 「재산을 하나로 모으다」는 공동 재산 제도를 설명하는 표현으로 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "저작명을 일반 명사처럼 적어 문장 구조가 흐릿했고, 「저작의 일부가 나왔다」는 유적에서 문헌이 발견되었다는 뜻을 지나치게 직역했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「일곱 해 앞서」는 기준 시점이 제목 안에 없고, 「뒤에 남긴 글」과 「이미 떠난 사람」은 유언과 사망을 모호하게 표현했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「요도의 돌」은 질환을 낱말 단위로 옮긴 직역이며, 「마지막 날을 쓰며」는 편지를 썼다는 행동 관계가 무너진 표현이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

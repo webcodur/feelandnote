@@ -1,0 +1,277 @@
+{
+ "slug": "chung-se-rang",
+ "events": [
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서울에서 태어나다",
+   "title_en": "Born in Seoul",
+   "description": "서울에서 태어났다.",
+   "description_en": "She was born in Seoul.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "일산 신도시에서 자라다",
+   "title_en": "Grows up in Ilsan New Town",
+   "description": "서울 밖의 고양시 일산에서 자랐다. 신도시가 커지는 모습을 지켜보며 성장했다.",
+   "description_en": "She grew up in Ilsan, in Goyang, outside Seoul. She watched the new town expand as she came of age.",
+   "place_name": "고양",
+   "place_name_en": "Goyang",
+   "lat": 37.656388888889,
+   "lng": 126.835
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "education",
+   "title": "고려대 역사교육과에 들어가다",
+   "title_en": "Enters Korea University to study history education",
+   "description": "사범대 역사교육과 03학번으로 들어갔다. 문과대 앞 벤치에서 책을 읽고 여러 문화권의 문학 수업을 찾아 들었다. 필수과목을 미뤄 한 학기를 더 다녔다. 교수들은 국문학이 더 맞겠다고 했고, 3학년부터 국어국문학을 복수전공했다. 수업 시연을 해 보고 하루 네 시간씩 강의하는 일은 못 하겠다고 느꼈다. 읽고 쓰는 일을 하려고 출판사를 택했다.",
+   "description_en": "She entered the College of Education as a history-education student in the class of 2003. She read on a bench outside the College of Liberal Arts and followed literature classes from many cultures. She put off required courses and stayed an extra semester. Professors said Korean literature suited her better, and from her third year she added that as a second major. A teaching demonstration convinced her she could not lecture four hours a day. She chose a publishing house so she could read and write.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "민음사에서 편집을 시작하다",
+   "title_en": "Begins editing at Minumsa",
+   "description": "어린이책 부서를 바랐으나 한국문학 담당으로 발령받았다. 계간지 《세계의 문학》 팀에서 갓 발표된 단편들을 읽었다. 김애란과 황정은의 새 작품을 편집부에서 접했다. 정세랑도 직접 써 보겠다고 마음먹었다.",
+   "description_en": "She had wanted the children’s-book desk, but the house assigned her to Korean literature. On the staff of the quarterly World Literature she read stories as they appeared. She met the new work of Kim Ae-ran and Hwang Jung-eun in the office. She decided to try writing herself.",
+   "place_name": "파주",
+   "place_name_en": "Paju",
+   "lat": 37.832777777778,
+   "lng": 126.81694444444
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《판타스틱》에 첫 단편을 싣다",
+   "title_en": "Publishes her first story in Fantastic",
+   "description": "신춘문예와 문학상 최종심에 여러 차례 올랐다. 장르에 가깝다는 이유로 떨어졌다. 심사위원들이 장르 잡지에 내 보라고 했다. 《판타스틱》에 〈드림, 드림, 드림〉을 보냈고 다음 날 연락이 왔다.",
+   "description_en": "She reached the finals of spring literary contests and prizes more than once. Judges dropped her for being too close to genre. They told her to send the work to a genre magazine. She submitted “Dream, Dream, Dream” to Fantastic and heard back the next day.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2011,
+   "year_end": 2012,
+   "kind": "publish",
+   "title": "첫 장편 두 권이 초판에서 멈추다",
+   "title_en": "First two novels stall at the first printing",
+   "description": "난다에서 《덧니가 보고 싶어》를 냈다. 이듬해 네오픽션에서 《지구에서 한아뿐》을 출간했다. 두 권 모두 초판이 다 팔리지 않았다. 편집자로 일했던 그는 그 판매 실적이 세 번째 책 출간을 막을 수 있다는 사실을 알고 있었다.",
+   "description_en": "Nanda published I Want to See Your Snaggletooth. The next year Neofiction published Only Han-ah on Earth. Neither first printing sold out. As an editor she knew those numbers could block a third book.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "other",
+   "title": "문학동네를 나와 전업으로 쓰다",
+   "title_en": "Leaves Munhakdongne to write full time",
+   "description": "장편을 쓰면서 편집 일을 병행하기에는 체력적으로 버거웠다. 문학상에 도전해 보겠다고 전업을 선언했다. 회사를 나오며 조금 울었다. 자신의 책을 선택한 독자들이 당당할 수 있도록 살아남겠다고 다짐했다.",
+   "description_en": "Writing a novel while editing proved too heavy. She declared she would write full time and try for a literary prize. She cried a little as she left the company. She promised herself to survive so the readers who had chosen her could hold their heads up.",
+   "place_name": "파주",
+   "place_name_en": "Paju",
+   "lat": 37.832777777778,
+   "lng": 126.81694444444
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "other",
+   "title": "창비장편소설상을 받다",
+   "title_en": "Wins the Changbi Prize for the Novel",
+   "description": "우정과 성장, 상실을 그린 원고로 제7회 상을 받았다. 이듬해 창비가 그 원고를 《이만큼 가까이》로 펴냈다. 원제는 《하주》였다.",
+   "description_en": "She won the seventh Changbi Prize for the Novel with a manuscript about friendship, growing up, and loss. Changbi published it the next year as As Close as This. The working title had been Haju.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《보건교사 안은영》을 내다",
+   "title_en": "Publishes School Nurse Ahn Eun-young",
+   "description": "민음사 〈오늘의 젊은 작가〉 시리즈 아홉 번째 책으로 나왔다. 다른 사람에게는 보이지 않는 존재를 볼 수 있는 보건교사가 기이한 존재들을 쫓아내며 학교를 지키는 이야기였다.",
+   "description_en": "Minumsa issued it as the ninth book in the Today’s Young Writer series. A school nurse who can see what others cannot drives strange beings out of the school.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": 2017,
+   "kind": "publish",
+   "title": "병원을 둘러싼 쉰 명의 삶을 한 권에 담다",
+   "title_en": "Puts fifty lives around a hospital into one book",
+   "description": "창비 블로그에 연재한 뒤 《피프티 피플》로 묶었다. 수도권의 한 대학병원을 둘러싼 쉰 명의 삶이 서로 교차하는 이야기였다. 이듬해 이 책으로 제50회 한국일보문학상을 받았다.",
+   "description_en": "After a serial run on the Changbi blog she collected the chapters as Fifty People. Fifty people around a suburban university hospital cross one another. The next year the book won the fiftieth Hankook Ilbo Literary Award.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "넷플릭스 시리즈 각본을 쓰다",
+   "title_en": "Writes the Netflix series screenplay",
+   "description": "이경미와 함께 자신의 소설을 6부작 시리즈로 옮겼다. 원작의 세계관과 인물 가운데 무엇을 남길지 정하고, 전체 대본의 절반이 조금 넘는 분량을 썼다. 시리즈는 그해 9월 공개됐다.",
+   "description_en": "With Lee Kyoung-mi she moved her novel into a six-episode series. She chose what to keep in the world and characters and wrote a little more than half the scripts. The series appeared in September.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《시선으로부터,》를 내다",
+   "title_en": "Publishes From Sisun Onward",
+   "description": "구상에 오 년이 걸렸다. 화가 심시선과 그에게서 모계로 이어진 여성들이 하와이에 모이는 이야기다. 웹진 〈주간 문학동네〉에 연재한 뒤 문학동네에서 나왔다.",
+   "description_en": "The book took five years to shape. It follows painter Shim Sisun and the women of her line as they gather in Hawai‘i. After a run in the Weekly Munhakdongne webzine, Munhakdongne published the novel.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "《스타워즈: 비전스》 각본을 쓰다",
+   "title_en": "Writes a Star Wars: Visions episode",
+   "description": "시즌 2 〈어둠의 머리를 벨 수 있다면〉을 썼다. 스튜디오 미르가 애니메이션을 제작하고 박형근이 연출했다. 예지력을 지닌 정비공과 스승을 잃은 제다이가 함께 떠나는 이야기였다.",
+   "description_en": "She wrote the Season 2 episode “Journey to the Dark Head.” Studio Mir animated it and Park Hyeong-geun directed. A mechanic with foresight and a Jedi who has lost his master travel together.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투와 불분명한 주어·행동 관계를 고치고 영문에 있는 세부를 복원했다. 다만 민음사에서 편집을 시작한 뒤 문학동네를 나오는 과정이 설명되지 않아, 두 직장 사이의 이력을 사실 확인해야 한다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서울 바깥 고양 일산」은 조사와 행정구역 관계가 불분명하고, 「보며 컸다」는 앞의 「자랐다」와 어색하게 겹쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여러 문화권 문학 수업을 따라다녔다」와 「읽고 쓰는 쪽으로 출판사를 택했다」가 영문 어순을 좇은 듯해 행동의 뜻이 선명하지 않았다. 국어국문학이 제2전공이었다는 세부도 분명하게 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「막 발표되는 단편」과 「글을 현장에서 만났다」가 자연스럽지 않았고, 마지막 문장의 주어가 생략되어 누가 쓰기로 마음먹었는지 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「《지구에서 한아뿐》을 이었다」는 출간을 뜻하는 동사로 부자연스럽고, 「그 숫자가 다음 책을 막는지」는 판매 실적과 세 번째 책 출간의 관계를 뜻짐작해야 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「편집과 겸업이 체력으로 버겁했다」와 「자기를 고른 독자들이 의기양양할 수 있게」가 부자연스러워, 영문의 범위 안에서 행위와 대상을 분명하게 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문이 밝힌 원고의 주제인 우정·성장·상실 가운데 우정이 국문에서 「친구들의」라는 수식 관계로 축소되어 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에 있는 시리즈의 아홉 번째 책이라는 세부가 빠졌고, 「눈에만 보이는 존재」는 누구의 눈에 보인다는 뜻인지 불분명했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「병원 둘레의 쉰 명을 한 권에 넣다」와 「쉰 명이 서로를 만났다」는 인물들의 삶이 병원을 중심으로 교차한다는 뜻을 충분히 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자기 소설을 여섯 편 영상으로 옮겼다」와 「세계관과 인물을 고르고 대본의 절반을 넘겼다」가 직역투여서, 6부작 각색과 실제 집필 범위가 모호했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「모계 가족들」은 관계가 불분명하고 영문의 ‘심시선에게서 모계로 이어지는 여성들’이라는 범위를 정확히 보여 주지 못했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스튜디오 미르가 그리고」는 무엇을 어떻게 했다는 뜻인지 불분명해 애니메이션 제작 관계를 명시했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 6,
+    "reason": "앞선 직장 사건은 민음사에서 편집을 시작했다고 기록하지만 이 사건은 문학동네를 나왔다고 한다. 두 기록이 모두 맞는지, 맞다면 언제 어떤 경위로 직장을 옮겼는지 국·영문 어디에도 없어 문장 편집만으로 생애의 연결을 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

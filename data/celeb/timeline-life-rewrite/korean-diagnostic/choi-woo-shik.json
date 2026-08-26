@@ -1,0 +1,251 @@
+{
+ "slug": "choi-woo-shik",
+ "events": [
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서울에서 태어나다",
+   "title_en": "Is born in Seoul",
+   "description": "3월 26일 태어났다. 두 아들 중 막내였다. 영어 이름은 에드워드였다.",
+   "description_en": "He was born on March 26. He was the younger of two sons. His English name was Edward.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "travel",
+   "title": "코퀴틀럼으로 가다",
+   "title_en": "Moves to Coquitlam",
+   "description": "열 살이었다. 가족이 브리티시컬럼비아로 이민했다. 알파벳도 모른 채 도착했고, 한동안 영어 때문에 애를 먹었다. 파인트리 중등학교에 다녔다. 영어에 익숙해지자 한국어가 잘 나오지 않았고, 훗날 그는 그 시절에 자신이 누구인지 혼란스러웠다고 말했다.",
+   "description_en": "He was ten. The family immigrated to British Columbia. He arrived without knowing the alphabet and struggled with English for a while. He went to Pinetree Secondary. Once English came easily, Korean slipped, and he later said that stretch left him unsure who he was.",
+   "place_name": "코퀴틀럼",
+   "place_name_en": "Coquitlam",
+   "lat": 49.28388888888889,
+   "lng": -122.79194444444444
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "사이먼 프레이저에서 무대 연출을 배우다",
+   "title_en": "Studies stage directing at Simon Fraser",
+   "description": "고등학교를 마치고 사이먼 프레이저대학교 예술 과정에 들어갔다. 전공은 무대 연출이었다. 성적은 대부분 에이와 에이플러스였다. 카메라 앞에 서기보다 직접 다루는 일에 더 마음이 갔다.",
+   "description_en": "After high school he entered the university arts program. He majored in stage directing. Most of his marks were As and A-pluses. He was more drawn to working the camera than standing in front of it.",
+   "place_name": "버나비",
+   "place_name_en": "Burnaby",
+   "lat": 49.25,
+   "lng": -122.949167
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "travel",
+   "title": "오디션을 보러 한국에 오다",
+   "title_en": "Comes to Korea for an audition",
+   "description": "가까이 지내던 사람이 연기를 알면 연출에도 도움이 될 것이라며 그의 프로필을 한국 기획사에 제출했다. 그는 학교를 그만뒀다. 부모는 내키지 않았지만 비행기값을 빌려 주었다. 드라마 《드림하이》 글로벌 오디션에 합격했으나 제작 사정으로 출연이 무산됐다. 그는 캐나다로 돌아가지 않았다.",
+   "description_en": "Someone close to him put his profile into a Korean agency, saying that knowing how to act would help him direct. He left school. His parents disliked the plan but lent him the airfare. He passed the global audition for the drama Dream High, then the role fell through in production. He did not go back to Canada.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "《짝패》에서 어린 귀동 역을 맡다",
+   "title_en": "Plays young Gwi-dong in The Duo",
+   "description": "이상윤이 성인 역을 맡은 귀동의 어린 시절을 연기했다. 전문적으로 연기를 배운 적이 없어 처음에는 감독에게 자주 혼났다고 훗날 말했다. 그해 《뿌리깊은 나무》에도 출연했다. 한국 문화가 멀게 느껴져 중앙대학교 아시아문화학과에 다시 1학년으로 입학했다.",
+   "description_en": "He played the younger years of Gwi-dong, the part Lee Sang-yoon had as an adult. He had never trained as an actor and later said the director scolded him often at first. That year he also appeared in Deep Rooted Tree. Korean culture felt distant, so he enrolled again as a first-year in Asian cultural studies at Chung-Ang University.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "《거인》에서 영재 역을 맡다",
+   "title_en": "Plays Young-jae in Set Me Free",
+   "description": "김태용 감독의 작품이었다. 공동생활가정에서 자란 고등학생이 시설에 남기 위해 신부가 되려는 듯 행동하는 역할이었다. 2월에 스무 날 동안 촬영했다. 봉준호 감독은 이 영화를 보고 그를 기억해 두었다.",
+   "description_en": "It was Kim Tae-yong's film. He played a high-schooler raised in a group home who acts as if he will become a priest so he can stay. They shot for twenty days in February. Bong Joon-ho saw the film and kept him in mind.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "《부산행》에서 영국 역을 맡다",
+   "title_en": "Plays Yong-guk in Train to Busan",
+   "description": "연상호 감독의 좀비 영화였다. 서울에서 부산으로 가는 열차에 탄 야구부 학생을 연기했다. 영화는 그해 칸영화제 심야 상영 부문에서 처음 상영됐고, 여름에는 한국 극장에서 관객 천만 명을 넘겼다.",
+   "description_en": "It was Yeon Sang-ho's zombie film. He played a high-school baseball player on the train from Seoul to Busan. The film first screened in the midnight section at Cannes that year, and that summer it passed ten million admissions in Korean theaters.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "봉준호의 《옥자》에서 김군 역을 맡다",
+   "title_en": "Plays Kim in Bong Joon-ho's Okja",
+   "description": "《거인》을 본 봉준호 감독이 그에게 비정규직 운전기사 김군 역을 맡겼다. 촬영 중에는 마른 모습을 그대로 유지하라고 했다. 네 달 뒤 봉준호 감독은 다음 시나리오 이야기를 꺼냈다. 극 중 아버지 역은 송강호가 맡을 것이라고만 알려 주었다.",
+   "description_en": "Bong, having seen Set Me Free, gave him the part of a contract truck driver. During the shoot he told him not to lose the thin look. Four months later he brought up the next script. He said only that the father would be Song Kang-ho.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "《기생충》의 기우로 칸에 서다",
+   "title_en": "Stands at Cannes as Ki-woo in Parasite",
+   "description": "가난한 집 아들 기우 역을 맡았다. 봉준호 감독은 《옥자》를 찍으며 그를 송강호의 마른 아들로 떠올렸고, 시나리오를 쓸 때부터 두 사람을 부자로 설정했다. 기우는 영어 과외를 명목으로 부잣집에 들어간다. 영화는 제72회 칸영화제 경쟁 부문에서 처음 상영됐고, 그는 그때 칸의 레드카펫을 처음 밟았다.",
+   "description_en": "He played Ki-woo, the son of a poor family. While shooting Okja, Bong pictured him as Song Kang-ho's thin son, and he wrote the two as father and son from the start. Ki-woo enters a rich house on the pretext of tutoring English. The film premiered in competition at the 72nd Cannes Film Festival, and that was the first time he walked the red carpet there.",
+   "place_name": "칸",
+   "place_name_en": "Cannes",
+   "lat": 43.5525,
+   "lng": 7.0213888888889
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "《그 해 우리는》에서 최웅 역을 맡다",
+   "title_en": "Plays Choi Woong in Our Beloved Summer",
+   "description": "4년 만에 텔레비전 드라마로 돌아왔다. 고등학생 때 다큐멘터리에 찍힌 연인이 어른이 되어 다시 만나는 이야기였다. 넷플릭스에도 공개됐다.",
+   "description_en": "He returned to television after four years. The story follows a couple filmed in a high-school documentary who meet again as adults. It also went out on Netflix.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "《살인자ㅇ난감》에서 이탕 역을 맡다",
+   "title_en": "Plays Lee Tang in A Killer Paradox",
+   "description": "넷플릭스 시리즈였다. 우발적으로 사람을 죽인 뒤 악인을 알아보게 되는 대학생 역이었다. 손석구는 그를 쫓는 형사 역을 맡았다.",
+   "description_en": "It was a Netflix series. He played a university student who, after a killing he did not plan, begins to see which people are evil. Son Suk-ku played the detective who hunts him.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "배역을 「하다」로 서술한 제목과 본문, 영문 동사를 그대로 옮긴 표현, 주체와 대상이 불분명한 문장을 바로잡았다. 사건의 세부 내용은 유지하면서 유학·귀국·배우 데뷔·영화와 드라마 활동이 순서대로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「3월 26일에 났다」는 출생을 서술하는 표현으로 어색해 자연스러운 문장으로 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「파인트리 중등학교를 나왔다」는 영문의 attended보다 졸업을 강하게 암시하며, 「그 시절을 정체성이 흔들린 때로 말했다」는 목적어와 서술어의 관계가 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 대학」은 대상을 다시 짚어야 이해할 수 있고, 「카메라는 앞에 서는 쪽보다 다루는 쪽에 마음이 있었다」는 주어와 행동 관계가 무너져 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기획사에 프로필을 넣었다」와 「오디션에는 붙었으나」가 지나치게 구어적이어서 제출과 합격의 관계를 분명하게 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배역을 「하다」라고 쓴 제목을 고쳤다. 본문의 「귀동의 어린 시절이었다」도 누가 그 역할을 맡았는지 바로 드러나지 않았고, 연기 교육과 대학 입학을 설명한 문장도 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배역을 「하다」라고 쓴 제목, 「신부가 될 것처럼 구는 역할」이라는 거친 표현, 「촬영은 2월에 스무 날이었다」라는 직역체를 바로잡았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배역을 「하다」라고 쓴 제목과 영화가 「처음 열렸다」고 한 부정확한 동사 선택을 고쳤으며, 천만 관객을 넘긴 대상도 분명히 밝혔다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배역을 「하다」라고 쓴 제목을 고쳤다. 「거인을 본 봉」은 작품과 인물을 축약해 대상을 짐작하게 했고, 「살을 빼지 말라고, 말라 있으라고 했다」는 서로 충돌하는 표현이었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "배역을 「했다」고 쓴 표현, 감독을 성으로만 부른 표현, 「두 사람을 아버지와 아들로 두었다」라는 직역체를 고쳤다. 레드카펫도 칸의 레드카펫임을 분명히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배역을 「하다」라고 쓴 제목을 고쳤다. 「다시 드라마로 돌아왔다」는 중복되고, 「넷플릭스로도 나갔다」는 went out을 그대로 옮긴 듯한 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "배역을 「하다」라고 쓴 제목과 본문을 고쳤다. 「살인 뒤에 악한 사람을 알아보는 눈을 갖게 된」도 행동 관계가 장황하고 부자연스러웠다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

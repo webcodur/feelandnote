@@ -1,0 +1,261 @@
+{
+ "slug": "bae",
+ "events": [
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "birth",
+   "title": "부산에서 태어나다",
+   "title_en": "Is born in Busan",
+   "description": "본명은 배진솔이다. 가족은 이후 양산으로 이사했고, 배진솔은 그곳에서 학교를 다녔다.",
+   "description_en": "Her given name is Bae Jin-sol. The family later moved to Yangsan, and she went to school there.",
+   "place_name": "부산",
+   "place_name_en": "Busan",
+   "lat": 35.18,
+   "lng": 129.075
+  },
+  {
+   "year": 2011,
+   "year_end": 2018,
+   "kind": "education",
+   "title": "양산에서 학교를 다니다",
+   "title_en": "Goes to school in Yangsan",
+   "description": "서남초등학교와 물금동아중학교를 졸업했다. 양산여자고등학교에 재학 중이던 때 양산을 떠났다.",
+   "description_en": "She finished Seonam Elementary School and Mulgeum Dong-a Middle School. She was still on the roll at Yangsan Girls' High School when she left the city.",
+   "place_name": "양산",
+   "place_name_en": "Yangsan",
+   "lat": 35.338611111111,
+   "lng": 129.03861111111
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "하굣길에 JYP 직원이 말을 걸다",
+   "title_en": "A JYP scout stops her on the way home",
+   "description": "무더운 여름날, 하복 상의에 체육복 바지를 입고 친구들과 걷고 있었다. JYP 직원이 노래나 춤을 좋아하느냐고 묻자 친구들은 배진솔이 둘 다 잘한다고 거들었다. 오디션을 본 뒤 곧바로 계약했다. 나중에 데뷔한 멤버 가운데 길거리에서 발탁된 사람은 배이뿐이었다.",
+   "description_en": "It was a hot summer. She was walking with friends in a summer uniform top and gym pants. A staff member asked if she liked singing or dancing, and her friends said she was good at both. She auditioned and signed at once. Among the members who later debuted, she was the only one found on the street.",
+   "place_name": "양산",
+   "place_name_en": "Yangsan",
+   "lat": 35.338611111111,
+   "lng": 129.03861111111
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "신인 걸그룹 다섯 번째 멤버로 공개되다",
+   "title_en": "Is revealed as the fifth member of a new girl group",
+   "description": "자정에 소속사 유튜브 채널에 커버 영상이 올라왔다. 두아 리파의 〈브레이크 마이 하트〉를 노래하고 춤췄다. 소속사는 성에서 따온 활동명 ‘배이’를 지어 주었고, 배이는 이 이름이 영어로 ‘사랑하는 사람’을 뜻한다는 점도 마음에 들어 했다.",
+   "description_en": "At midnight the agency posted a cover video. She sang and danced Dua Lipa's Break My Heart. The company gave her a stage name from her family name, and she liked that in English it also means a beloved person.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "그룹 이름이 엔믹스가 되다",
+   "title_en": "The group is named NMIXX",
+   "description": "소속사는 ‘만나서 반갑다’라는 영어 표현을 비튼 영상으로 그룹명을 공개했다. 멤버는 지니·지우·규진·설윤·해원·릴리와 배이까지 일곱 명이었다. 데뷔를 한 달도 채 남겨 두지 않은 때였다.",
+   "description_en": "The agency announced the name with a video that played on nice to meet you. The seven were Jinni, Jiwoo, Kyujin, Sullyoon, Haewon, Lily, and her. Debut was less than a month away.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "코로나로 데뷔 쇼케이스가 미뤄지다",
+   "title_en": "Covid postpones the debut showcase",
+   "description": "인후통으로 검사를 받았고 양성 판정을 받았다. 싱글은 예정대로 발매됐지만 쇼케이스는 다음 달 1일로 미뤄졌다. 검사에서 음성이 나온 나머지 여섯 멤버도 격리에 들어갔다.",
+   "description_en": "A sore throat sent her for a test, and it came back positive. The single still came out as planned. Only the showcase moved to the first of the next month. The six who tested negative went into isolation too.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "엔믹스로 데뷔하다",
+   "title_en": "Debuts with NMIXX",
+   "description": "싱글 이름은 라틴어로 바다를 향한다는 뜻이었다. 타이틀 〈오오〉와 수록 〈탱크〉가 함께 나왔다. 미뤄진 쇼케이스 무대에 오르자 눈물이 났다.",
+   "description_en": "The single's name is Latin for to the sea. The title track O.O came with Tank. When she finally stepped onto the postponed showcase stage, she cried.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "publish",
+   "title": "〈다이스〉를 내다",
+   "title_en": "Returns with Dice",
+   "description": "두 번째 싱글의 이름은 독일어로 ‘설계’를 뜻했다. 〈다이스〉는 멤버 일곱 명이 함께한 마지막 타이틀곡이 됐다.",
+   "description_en": "The second single's name is German for a design. It became the last title track while the seven were still together.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "education",
+   "title": "한림예고를 졸업하다",
+   "title_en": "Graduates from Hanlim Arts School",
+   "description": "설윤과 같은 날 장지동에서 열린 졸업식에 참석해 공로상을 받았다. 첫 미니앨범 발매를 한 달 앞둔 때였다.",
+   "description_en": "She stood at the Jangji-dong graduation with Sullyoon on the same day. She received a merit award, and the first mini album was a month away.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "publish",
+   "title": "여섯 멤버로 첫 미니앨범을 내다",
+   "title_en": "Releases the first mini album as six",
+   "description": "지니가 전년도 겨울에 팀을 떠났다. 앨범은 《엑스페르고》였고, 타이틀곡은 〈러브 미 라이크 디스〉였다.",
+   "description_en": "Jinni had left the group the winter before. The album was expérgo, and the title track was Love Me Like This.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 정규 앨범을 내다",
+   "title_en": "Releases the first studio album",
+   "description": "타이틀곡은 앨범과 이름이 같은 〈블루 발렌타인〉이었다.",
+   "description_en": "The title track shared the album's name, Blue Valentine.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 월드투어를 인천에서 열다",
+   "title_en": "Opens the first world tour in Incheon",
+   "description": "투어 이름은 〈에피소드 1: 제로 프론티어〉였다. 인스파이어 아레나에서 이틀 동안 공연했고, 이듬해에는 유럽과 북미에서 투어를 이어 갔다.",
+   "description_en": "The tour was called Episode 1: Zero Frontier. They played two nights at Inspire Arena, then went on to Europe and North America the next year.",
+   "place_name": "인천",
+   "place_name_en": "Incheon",
+   "lat": 37.463888888889,
+   "lng": 126.64861111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 어색한 직역, 불분명한 지시어, 빠진 주어와 목적어를 바로잡았다. 특히 양산을 떠난 시점, 길거리 캐스팅, 그룹명 공개 이후의 흐름이 위에서 아래로 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집은 뒤에 양산으로 옮겨」는 가족이 이사했다는 뜻을 부자연스럽게 표현해 행동의 주체를 바로잡았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「양산 학교」는 장소와 학교의 관계가 불분명하고, 「그 도시에 살았다」는 지시 대상과 양산을 떠난 시점이 선명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문은 여러 친구와 함께 걸었다고 했으나 국문은 친구 한 명으로 축소했고, 「그뿐이었다」가 누구를 가리키는지도 바로 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뜻을 알고 마음에 들어 했다」는 무엇의 뜻을 알았는지 한 번에 파악하기 어려워 활동명과 의미의 관계를 분명히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「일곱은 … 그리고 그였다」는 명단을 옮긴 직역투이고 「그」의 대상도 불분명했다. 그룹명 발표와 데뷔가 임박한 시점의 연결도 자연스럽게 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다음 달 하루」는 날짜 표현이 어색하고, 「음성인 여섯」은 무엇에 대한 음성인지 생략되어 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「다시 나오다」는 발매 사건을 모호하게 표현하고, 「일곱이 그대로인」은 멤버 일곱 명이 함께했다는 뜻을 부자연스럽게 옮겼다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「장지동 졸업식에 섰다」는 졸업식에 참석했다는 행동을 어색하게 표현했고, 다음 앨범과의 시간 관계도 문장으로 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여섯으로」는 여섯 명의 멤버로 앨범을 냈다는 뜻을 불완전하게 표현했고, 「전 해 겨울」도 자연스러운 시간 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「타이틀이 앨범 이름과 같은」은 타이틀곡과 앨범의 관계를 어색하게 표현했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「유럽과 북미로 넘어갔다」는 무엇이 이동하거나 이어졌는지 불분명해 월드투어의 다음 일정을 명시했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

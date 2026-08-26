@@ -1,0 +1,272 @@
+{
+ "slug": "brian-singerman",
+ "events": [
+  {
+   "year": 1976,
+   "year_end": null,
+   "kind": "birth",
+   "title": "미국에서 태어나다",
+   "title_en": "Born in the United States",
+   "description": "로스앤젤레스에서 자랐다. 아버지는 의사였고 어머니는 교사였다. 어릴 때부터 프로그래밍과 게임을 즐겼으며, 1990년대에는 보드게임 《카탄의 개척자》 전국 규모 대회에서 여러 차례 우승했다.",
+   "description_en": "He grew up in Los Angeles, the son of a doctor and a teacher. He took to programming and games early, and in the 1990s he won national tournaments for the board game Settlers of Catan.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "education",
+   "title": "스탠퍼드에서 컴퓨터과학을 배우다",
+   "title_en": "Studies computer science at Stanford",
+   "description": "수업보다 온라인 역할수행게임 《에버퀘스트》에 더 많은 시간을 썼다. 게임을 끊으려는 뜻도 있어 여름 한 철을 유럽에서 보냈다. 학사 학위를 받고 졸업했다.",
+   "description_en": "He spent more time on the online role-playing game EverQuest than on his classes. He spent a summer in Europe in part to quit. He left with a bachelor's degree.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 1999,
+   "year_end": 2004,
+   "kind": "work",
+   "title": "가상세계 스타트업 데어에 들어가다",
+   "title_en": "Joins the virtual-world startup There",
+   "description": "소프트웨어 엔지니어로 일했다. 데어는 사람들이 아바타로 모여 노는 3차원 가상세계를 만들던 회사였다. 이후 회사가 분할되면서 소비자용 서비스는 다른 소유주에게 넘어갔다.",
+   "description_en": "He worked as a software engineer. There was building a three-dimensional world where people gathered as avatars. The company later split, and the consumer service passed to other hands.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454166666667,
+   "lng": -122.17861111111
+  },
+  {
+   "year": 2004,
+   "year_end": 2008,
+   "kind": "work",
+   "title": "구글에서 개인화 홈페이지를 만들다",
+   "title_en": "Helps build a personalized homepage at Google",
+   "description": "엔지니어로 합류해 이용자가 원하는 모듈을 배치할 수 있는 시작 페이지의 출시를 도왔다. 이 서비스는 뒤에 아이구글로 이름이 바뀌었다. 동료들과 격투게임 《소울칼리버 2》 대결에 돈을 걸었는데, 기업공개 전이라 현금이 부족했던 동료들에게서는 주식으로 표시한 차용증을 받았다.",
+   "description_en": "He joined as an engineer and helped launch a start page users could fill with modules. It was later renamed iGoogle. Colleagues challenged him at the fighting game Soulcalibur II; they were short on cash before the IPO, so he took IOUs in stock.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑스지와이시 펀드를 만들다",
+   "title_en": "Starts the XGYC Fund",
+   "description": "구글에 재직하면서 개인 자금 100만 달러를 들여 엑스구글과 와이콤비네이터의 이름을 딴 펀드를 만들었다. 주로 와이콤비네이터 출신 회사에 투자했고, 론 콘웨이와 스티브 앤더슨에게 초기 단계 투자법을 배웠다. 첫 대형 성공 사례는 히로쿠였다. 세일즈포스가 2010년 히로쿠를 2억 1,200만 달러에 인수했다.",
+   "description_en": "While still at Google he put $1 million of his own money into a fund named for ex-Google and Y Combinator. He mostly backed Y Combinator companies. Ron Conway and Steve Anderson taught him seed investing. His first major win was Heroku, which Salesforce bought in 2010 for $212 million.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "파운더스 펀드에 합류하다",
+   "title_en": "Joins Founders Fund",
+   "description": "구글과의 연결고리를 원한 숀 파커가 단기 시험 조건으로 그를 영입했다. 파운더스 펀드가 스페이스엑스 투자를 검토하고 있다는 점에 끌려 합류했다. 두 명뿐이던 주니어 투자자 가운데 한 명으로서 첫해에 1,000곳이 넘는 회사를 만났다.",
+   "description_en": "Sean Parker recruited him on a short trial, wanting a line into Google. He went because the firm was weighing a bet on SpaceX. As one of two junior investors he met more than a thousand companies in his first year.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "office",
+   "title": "파트너가 되다",
+   "title_en": "Becomes a partner",
+   "description": "숀 파커가 다른 일에 집중하기 위해 물러나자 그 자리를 맡았다. 파운더스 펀드 최초의 비창립 제너럴 파트너였다. 동료들에게 생명공학 분야에 투자하자고 설득했다. 오스카 헬스 창업자들을 만난 날에는 그들이 하룻밤 더 도시에 머물도록 붙잡고 맥주를 마시며 투자 협상의 물꼬를 텄다. 파운더스 펀드는 에어비앤비와 스트라이프에도 투자했다.",
+   "description_en": "He took the seat Sean Parker left as Parker stepped back. He was the firm's first non-founding general partner. He pushed colleagues into biotech, and after meeting Oscar Health's founders he kept them in town overnight over beers to open a deal. Fund money also went into Airbnb and Stripe.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "오큘러스 투자에 먼저 나서다",
+   "title_en": "Commits first to Oculus",
+   "description": "가상현실 헤드셋이 게임 전용 기기를 넘어설 수 있다고 보고 다른 투자자들보다 먼저 투자를 약정했다. 페이스북의 인수 발표를 하루 앞둔 밤에는 공개할 인수 금액의 표현을 조정해 거래가 무산되지 않도록 도왔다. 그는 뒤에 파운더스 펀드가 오큘러스 지분을 훨씬 더 많이 확보할 수 있었다며 아쉬워했다.",
+   "description_en": "He committed before others, seeing the headset as more than a gaming rig. The night before Facebook bought the company he helped recast the announced price so the deal would hold. He later said the firm could have owned much more.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "스템센트릭스가 애브비에 매각되다",
+   "title_en": "Stemcentrx is sold to AbbVie",
+   "description": "2011년 말 집 근처 카페에서 공동 창업자 브라이언 슬링거랜드를 만났다. 그날은 슬링거랜드의 결혼기념일이었지만, 싱어먼은 그를 피터 틸의 연말 파티로 데려가 암 줄기세포에 관한 대화를 이어 갔다. 2012년부터 후속 투자 라운드를 이끌어 파운더스 펀드가 총 3억 달러를 투자하게 했다. 애브비는 스템센트릭스를 최대 102억 달러에 인수했으며, 이는 당시 파운더스 펀드가 기록한 포트폴리오 기업 매각 가운데 최대 규모였다.",
+   "description_en": "In late 2011 he met co-founder Brian Slingerland at a café near his house and pulled him to Peter Thiel's holiday party that night, on Slingerland's wedding anniversary, to talk cancer stem cells. From 2012 he led later rounds until the firm had put in $300 million. AbbVie bought the company for up to $10.2 billion, the largest portfolio exit Founders Fund had recorded.",
+   "place_name": "사우스샌프란시스코",
+   "place_name_en": "South San Francisco",
+   "lat": 37.656111111111,
+   "lng": -122.42555555556
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "스템센트릭스 주력 신약의 임상 3상이 중단되다",
+   "title_en": "Stemcentrx's lead drug fails in the clinic",
+   "description": "애브비는 중간 분석에서 주력 신약 로바-티가 위약보다 생존 기간을 늘리지 못한 것으로 나타나자 임상 3상 시험을 중단했다. 인수 3년 뒤 로바-티 연구 프로그램도 폐기됐다.",
+   "description_en": "AbbVie halted the Phase 3 trial of the lead drug Rova-T after an interim look showed no survival benefit over placebo. Three years after the acquisition the research program was shut down.",
+   "place_name": "사우스샌프란시스코",
+   "place_name_en": "South San Francisco",
+   "lat": 37.656111111111,
+   "lng": -122.42555555556
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "office",
+   "title": "명예 파트너가 되다",
+   "title_en": "Becomes partner emeritus",
+   "description": "12월 3일 파운더스 펀드의 유한책임사원들에게 편지를 보냈다. 새로운 일과 삶의 균형을 찾기 위해 일상적인 업무에서 물러나되, 투자자이자 전략 고문으로 남겠다고 밝혔다. 또한 스페이스엑스가 자신이 파운더스 펀드에 합류한 이유였다고 썼다.",
+   "description_en": "On December 3 he wrote limited partners that he was leaving day-to-day work for a new work-life balance. He would stay as an investor and strategic adviser. He wrote that SpaceX was why he had joined.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "리 린든과 지피엑스를 공동 설립하다",
+   "title_en": "Co-founds GPx",
+   "description": "리 린든과 새 투자사를 세웠다. 운용 자금의 약 20퍼센트는 신생 벤처펀드에 투자하고, 나머지는 그 운용사들이 발굴한 유망 기업의 후속 투자 라운드에 공동 투자할 계획이었다. 계획을 아는 관계자들은 피터 틸도 일부 자금을 출자할 것이라고 전했다. 조성 목표액은 5억 달러를 넘었다.",
+   "description_en": "He opened a new firm with Lee Linden. About 20 percent of the capital would go into emerging venture funds; the rest would follow those managers into later rounds of their breakout companies. People familiar with the plan said Peter Thiel would put in a share. The target was more than $500 million.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 직역투, 불분명한 지시 대상, 부자연스러운 투자·직무 표현을 고쳤다. 출생부터 GPx 공동 설립까지 사건 사이의 흐름이 자연스럽게 이어지도록 다듬었으며, 별도의 사실 확인이 필요한 항목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「프로그래밍과 게임에 붙었다」가 took to의 어순과 표현을 그대로 옮긴 듯 부자연스럽고, 복수형인 national tournaments의 세부가 단일 대회처럼 축소되어 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「게임에 더 오래 앉아 있었다」「유럽으로 여름을 나갔다」「학사로 나왔다」가 모두 영문 어순을 따른 직역이어서 행동과 목적이 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 사업은 쪼개졌다」「다른 손으로 넘어갔다」가 회사 분할과 서비스 소유권 이전을 불명확하게 표현했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「칸을 채워 넣는 시작 페이지를 띄웠다」가 제품의 기능과 그의 역할을 모호하게 만들고, 주식으로 표시된 차용증을 받은 사정도 자연스럽게 연결되지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "펀드 이름이 「엑구글 와이콤비네이터」로 풀려 고유 명칭을 알아보기 어려웠고, 본문에 의미 없는 「syn.」이 끼어 있었다. 「뒤의 큰 건」도 첫 대형 투자 성공을 제대로 나타내지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「구글 쪽 인맥을 보고」「회사 천 곳을 넘겼다」가 각각 영입 목적과 실제로 만난 회사 수를 불분명하게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 자리를 이었다」「바이오텍으로 동료들을 밀었다」「거래를 열었다」가 영문의 단어를 직접 치환한 표현이라 파트너 승진, 생명공학 투자 설득, 투자 협상 개시의 관계가 흐려졌다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「먼저 돈을 넣다」「게임기를 넘기다」「발표 금액 표현을 고쳐 거래를 살렸다」가 투자 약정, 제품에 대한 판단, 인수 발표 직전의 조정을 지나치게 구어적이거나 모호하게 나타냈다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "능동형 제목은 그가 직접 회사를 넘긴 것처럼 읽힐 수 있었다. 본문의 「결혼기념일 밤」도 누구의 결혼기념일인지 바로 알 수 없었고, 파운더스 펀드가 투자한 금액이라는 점이 빠져 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「약이 임상을 넘지 못하다」가 임상 3상 중단을 어색하게 표현했고, 「그 프로그램」은 앞 문장만으로 로바-티 연구 프로그램을 가리킨다는 점이 충분히 명확하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「명예 파트너로 자리를 바꾸다」가 직위 변경을 어색하게 표현했다. 영문에 있는 일과 삶의 균형에 관한 내용이 빠졌고, 「그 회사」가 파운더스 펀드를 가리킨다는 점도 불명확했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "공동 설립이라는 의미가 제목에 충분히 드러나지 않았고, 「돈」「그 펀드가 키운 회사」「큰손으로 들어오다」가 각각 운용 자금의 배분, 출자 운용사와 후속 투자 대상의 관계, 피터 틸의 출자 계획을 부정확하거나 평가적으로 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

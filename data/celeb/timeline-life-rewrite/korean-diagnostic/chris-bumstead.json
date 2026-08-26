@@ -1,0 +1,290 @@
+{
+ "slug": "chris-bumstead",
+ "events": [
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "birth",
+   "title": "오타와에서 태어나다",
+   "title_en": "Born in Ottawa",
+   "description": "오타와 서쪽에 있는 스티츠빌에서 자랐다. 누나 멜리사와 함께 컸고, 학교에서는 미식축구와 하키를 했다.",
+   "description_en": "He grew up in Stittsville, on the west side of the city. He was raised with his sister Melissa and played football and hockey at school.",
+   "place_name": "오타와",
+   "place_name_en": "Ottawa",
+   "lat": 45.424722222222,
+   "lng": -75.695
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "other",
+   "title": "미식축구를 하려고 바벨을 잡다",
+   "title_en": "Picks up a barbell for football",
+   "description": "열네 살 때부터 체육관에 빠졌다. 네 해 만에 몸무게가 77킬로에서 102킬로로 늘었고, 특히 다리가 많이 커졌다. 누나의 남자친구 이언 발리에르가 그의 체격을 보고 대회 출전을 준비시켰다.",
+   "description_en": "He fell into the gym at fourteen. In four years his weight rose from 77 to 102 kilograms, mostly in his legs. His sister’s boyfriend, Iain Valliere, saw that body and prepared him to compete.",
+   "place_name": "오타와",
+   "place_name_en": "Ottawa",
+   "lat": 45.424722222222,
+   "lng": -75.695
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 대회에서 주니어급과 종합 우승을 차지하다",
+   "title_en": "Takes junior and overall at his first show",
+   "description": "발리에르가 첫 대회를 코치했다. 누나도 같은 날 자신이 출전한 부문에서 종합 우승을 차지했다.",
+   "description_en": "Valliere coached him through that first contest. His sister took the overall in her own division on the same day.",
+   "place_name": "서드베리",
+   "place_name_en": "Sudbury",
+   "lat": 46.49,
+   "lng": -81.01
+  },
+  {
+   "year": 2015,
+   "year_end": 2017,
+   "kind": "education",
+   "title": "댈하우지 대학에서 건강과학을 전공하다",
+   "title_en": "Studies health science at Dalhousie",
+   "description": "다섯 명의 룸메이트와 살았고, 그들에게 그는 프로 선수가 아니라 그저 덩치 큰 동거인이었다. 프로가 된 뒤에도 한동안 수업을 계속 들었다.",
+   "description_en": "He lived with five roommates who treated him as the large housemate, not a pro. He kept taking classes even after he turned professional.",
+   "place_name": "핼리팩스",
+   "place_name_en": "Halifax",
+   "lat": 44.647777777777776,
+   "lng": -63.57138888888889
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "캐나다 주니어 정상에 오르다",
+   "title_en": "Wins the Canadian junior title",
+   "description": "같은 대회의 오픈 헤비급에서는 3위에 그쳤다. 전국 대회 무대에는 올랐지만 프로 카드는 아직 얻지 못했다.",
+   "description_en": "In the open heavyweight class at the same nationals he finished third. The national stage was open, but a pro card was not yet his.",
+   "place_name": "에드먼턴",
+   "place_name_en": "Edmonton",
+   "lat": 53.53333333333333,
+   "lng": -113.5
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "북미 챔피언십 헤비급을 이겨 프로 카드를 받다",
+   "title_en": "Wins North American heavyweight and earns a pro card",
+   "description": "첫 프로전인 다야나 카도 클래식에서는 3위를 차지했다. 큰 키와 발달한 다리에 맞춰 오픈 보디빌딩 대신 클래식 피지크를 선택했다.",
+   "description_en": "At his first pro show, the Dayana Cadeau Classic, he placed third. Height and leg size pushed him toward Classic Physique instead of Open bodybuilding.",
+   "place_name": "피츠버그",
+   "place_name_en": "Pittsburgh",
+   "lat": 40.44166666666666,
+   "lng": -80
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 올림피아에서 브리온 앤슬리에 밀리다",
+   "title_en": "Finishes second to Breon Ansley in his Olympia debut",
+   "description": "그해 봄 피츠버그 프로와 토론토 프로에서 이미 우승한 뒤 올림피아 무대에 올랐다. 올림피아 클래식 피지크 부문은 두 번째 대회를 맞았고, 그는 2위를 차지했다.",
+   "description_en": "He arrived having already won the Pittsburgh Pro and the Toronto Pro that spring. Classic Physique was in its second Olympia year, and he took second.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 36.16722222222222,
+   "lng": -115.14861111111112
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "other",
+   "title": "신장 조직 검사에서 자가면역 질환을 확인하다",
+   "title_en": "A kidney biopsy confirms an autoimmune disease",
+   "description": "올림피아를 네 주 앞두고 수분이 차 몸이 부었다. 의사들은 면역글로불린 A(IgA) 신병증이라고 진단하고 이뇨제를 처방한 뒤 귀가시켰다. 그는 그런 상태로 무대에 올라 다시 2위를 차지했다.",
+   "description_en": "Four weeks out from the Olympia his body swelled with water. Doctors named it IgA nephropathy, sent him home on a diuretic, and he still took the stage, finishing second again.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤슬리를 꺾고 클래식 피지크 정상에 오르다",
+   "title_en": "Beats Ansley to take the Classic Physique title",
+   "description": "앤슬리는 앞선 두 해 동안 그보다 높은 순위에 올랐던 상대였다. 올림피아 클래식 피지크 네 번째 대회에서 우승자가 바뀌었다.",
+   "description_en": "Ansley had stood in front of him for two years. In the division’s fourth Olympia the title changed hands.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 36.16722222222222,
+   "lng": -115.14861111111112
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "로 뉴트리션의 공동 소유주가 되다",
+   "title_en": "Joins Raw Nutrition as a part-owner",
+   "description": "자신의 이름을 내건 보충제 제품군을 출시했다. 대회 출전을 이어가면서 무대 밖에서는 사업도 병행하기 시작했다.",
+   "description_en": "He launched a signature line of supplements. Work offstage began to stand beside the contest calendar.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "코트니 킹에게 청혼하다",
+   "title_en": "Proposes to Courtney King",
+   "description": "2016년 비키니 올림피아 우승자인 코트니 킹과 2018년부터 함께했다. 산을 배경으로 반지를 건넸다.",
+   "description_en": "He had been with the 2016 Bikini Olympia champion since 2018. He offered the ring in front of the mountains.",
+   "place_name": "세도나",
+   "place_name_en": "Sedona",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "여섯 번째 우승을 거두고 올림피아 무대에서 물러나다",
+   "title_en": "Wins a sixth title and leaves the Olympia stage",
+   "description": "2019년부터 한 해도 우승을 내주지 않았다. 시상식 인터뷰에서 이번이 자신의 마지막 올림피아 무대라고 밝혔다. 그해 봄에는 첫아이가 태어났다.",
+   "description_en": "He had not given up the title since 2019. In the awards interview he said this stage would be his last. Their first child had been born that spring.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 36.16722222222222,
+   "lng": -115.14861111111112
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "남자 오픈에 한 번 더 올라 2위로 마치다",
+   "title_en": "Steps into Men’s Open once and finishes second",
+   "description": "클래식 피지크 대회를 막 마친 몸 상태로 남자 오픈 무대에 섰다. 마틴 피츠워터에 이어 2위를 차지했고, 은퇴 의사를 다시 확인했다.",
+   "description_en": "He stepped onstage still carrying the Classic Physique condition. Martin Fitzwater stood ahead of him, and he confirmed the retirement again.",
+   "place_name": "프라하",
+   "place_name_en": "Prague",
+   "lat": 50.087500000000006,
+   "lng": 14.421388888888888
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "한영 의미 범위는 유지하면서 직역투, 모호한 지시어, 부자연스러운 수상·순위 표현을 고쳤다. 첫 대회부터 프로 전향, 올림피아 연속 우승과 은퇴까지 생애의 흐름이 이어지도록 문장 관계도 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도시 서쪽」이 어느 도시를 가리키는지 본문만으로 바로 드러나지 않아 오타와를 명시했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 몸」은 사람의 체격을 가리키는 표현으로 어색해 「그의 체격」으로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "우승을 「가져가다」라고 표현해 수상 관계가 부자연스러웠다. 주니어급과 종합 우승을 각각 명확하게 밝혔다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그들 앞에서 그는」의 어순과 「학교를 병행했다」는 표현이 어색했다. 룸메이트들이 그를 어떻게 대했는지와 프로 전향 뒤에도 수업을 계속 들었다는 사실을 자연스럽게 풀었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전국 무대는 열렸지만 프로 카드는 아직 아니었다」는 영문을 단어 순서대로 옮긴 표현이라, 전국 대회 출전과 프로 카드 미획득의 관계를 분명히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 프로전 성적을 「3위로 내려왔다」고 써 이전 순위에서 하락한 것처럼 읽혔다. 또한 「키와 다리 때문에」가 생략이 심해 체급 선택의 기준을 알아보기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부문이 생긴 지 두 해째」는 영문의 「두 번째 올림피아 대회」보다 범위가 넓었다. 올림피아 클래식 피지크가 두 번째 대회를 맞았다는 뜻으로 바로잡았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「몸이 물로 부었다」와 「이뇨제를 준 뒤 집으로 보냈다」가 직역투였다. 수분으로 몸이 부은 상태와 처방 후 귀가 조치를 자연스러운 의료 문맥으로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 해 동안 그 뒤에 섰던 상대」는 누가 누구보다 앞섰는지 즉시 알기 어렵고, 「부문이 생긴 지 네 해」는 영문의 올림피아 개최 횟수와 정확히 맞지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「공동 소유로 들어가다」와 「무대 밖 일이 선수 생활과 나란히 서기 시작했다」가 영문 구조를 따른 직역이었다. 공동 소유주가 된 사실과 사업 병행을 구체적인 행동으로 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「산 앞에서 반지를 건넸다」가 공간 관계를 어색하게 옮긴 표현이어서 산을 배경으로 청혼했다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 여섯 번째 우승을 말하지만 국문 제목은 근거가 더 필요한 「벨트」를 내세웠다. 또한 마지막 무대의 범위가 전체 선수 생활이 아니라 올림피아임을 분명히 했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「클래식 피지크를 막 끝낸 몸」과 「그보다 앞에 섰다」는 뜻을 짐작해야 하는 직역이었다. 직전 체급의 몸 상태로 출전해 피츠워터에 이어 2위를 했다는 관계를 명확히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

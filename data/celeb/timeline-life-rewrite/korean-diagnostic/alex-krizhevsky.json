@@ -1,0 +1,226 @@
+{
+ "slug": "alex-krizhevsky",
+ "events": [
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "birth",
+   "title": "소련 우크라이나에서 태어나다",
+   "title_en": "Born in Soviet Ukraine",
+   "description": "소련 우크라이나에서 태어났다. 성장기는 캐나다에서 보냈다.",
+   "description_en": "He was born in Soviet Ukraine. He grew up in Canada.",
+   "place_name": "우크라이나",
+   "place_name_en": "Ukraine",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "education",
+   "title": "토론토에서 소형 이미지 데이터셋을 만들다",
+   "title_en": "Builds tiny-image datasets in Toronto",
+   "description": "코딩 일자리를 구하는 시기를 미루려고 제프리 힌턴에게 대학원 자리가 있는지 물었다. 석사 논문에서는 웹에서 긁어 온 작은 컬러 사진으로 다층 생성 모델을 학습했다. 사진에는 믿을 만한 분류명이 없었다. 그는 직접 두 개의 부분집합을 골라 분류명을 붙였다. 캐나다 고등연구소가 자금을 댄 CIFAR-10은 열 개 분류에 각각 6천 장을 담았다. CIFAR-100은 백 개 분류에 각각 6백 장을 담았다. 비노드 나이르와 힌턴도 그와 함께 두 데이터셋을 만들었다.",
+   "description_en": "He asked Geoffrey Hinton for a graduate place to delay taking a coding job. His master’s thesis trained a multilayer generative model on tiny color photos scraped from the web. Those photos had no reliable class names. He picked and labeled two subsets himself. CIFAR-10, funded by the Canadian Institute for Advanced Research, held six thousand images in each of ten classes. CIFAR-100 held six hundred images in each of one hundred classes. Vinod Nair and Hinton collected them with him.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "그래픽 처리 장치로 이미지넷을 학습하기로 하다",
+   "title_en": "Decides to train ImageNet on graphics processors",
+   "description": "일리야 수츠케버는 이미지넷을 보고, 이미 작성해 둔 cuda-convnet 코드로 이 데이터셋을 학습할 수 있겠다고 말했다. 그 코드는 그래픽 처리 장치 한 장으로 CIFAR-10을 학습하던 것이었다. 힌턴은 처음에는 사진마다 사람이 분류명을 붙여야 한다는 점을 마음에 들어 하지 않았다. 그래도 지도교수로 남았다.",
+   "description_en": "Ilya Sutskever saw ImageNet and said the cuda-convnet code already written could train on it. That code had been training CIFAR-10 on a single graphics processor. Hinton at first disliked that every photo still needed a human-given name. He stayed on as the faculty adviser anyway.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "침실에서 알렉스넷을 학습시켜 이미지넷에서 우승하다",
+   "title_en": "Trains AlexNet in a bedroom and wins ImageNet",
+   "description": "부모의 집에 있는 침실에 지포스 GTX 580 두 장을 놓고 학습을 진행했다. 한 장당 3기가바이트인 메모리에는 신경망 전체가 들어가지 않아 두 장에 절반씩 나눠 올렸다. 120만 장의 이미지를 닷새에서 엿새 동안 90회 반복해 학습했다. 슈퍼비전 팀의 상위 5개 오류율은 15.3퍼센트였다. 2위의 오류율은 26.2퍼센트였다. 신경망에는 매개변수 6천만 개와 뉴런 65만 개가 있었다. 완전연결층에는 드롭아웃을 적용했다. 그해 가을 논문을 발표하고 피렌체에서 열린 컴퓨터 비전 학회에서 연구 결과를 소개했다. 힌턴은 나중에 이렇게 말했다. 일리야가 하자고 했고, 알렉스가 실제로 작동하게 했다.",
+   "description_en": "He ran two GeForce GTX 580 cards in his bedroom at his parents’ house. A single 3-gigabyte card could not hold the net, so he split it in half. He sent 1.2 million images through ninety passes in five to six days. Team SuperVision’s top-five error was 15.3 percent. Second place was 26.2 percent. The net had 60 million parameters and 650,000 neurons. He put dropout on the fully connected layers. That fall he published the paper and presented it at a computer-vision meeting in Florence. Hinton later said Ilya thought they should do it, and Alex made it work.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "DNNresearch를 법인으로 설립하다",
+   "title_en": "Incorporates DNNresearch",
+   "description": "힌턴, 수츠케버와 함께 회사를 법인으로 설립했다. 대회가 끝나자 곧바로 인수 제안이 들어왔다.",
+   "description_en": "He incorporated the company with Hinton and Sutskever. Acquisition offers arrived as soon as the contest ended.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글이 DNNresearch를 사다",
+   "title_en": "Google buys DNNresearch",
+   "description": "구글은 그 회사의 딥러닝 연구를 인수하려고 DNNresearch를 샀다. 인수 금액은 공개되지 않았다. 그와 수츠케버는 마운틴뷰로 갔다. 힌턴은 토론토 연구실과 구글 본사를 오가기로 했다. 토론토대학교는 힌턴의 학생들이 연구 자율성을 유지할 것이라고 밝혔다.",
+   "description_en": "Google bought the company for its deep-learning research. The price was not disclosed. He and Sutskever went to Mountain View. Hinton would split time between the Toronto lab and Google headquarters. The University of Toronto said Hinton’s students would keep their research autonomy.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "publish",
+   "title": "합성곱 신경망을 여러 그래픽 처리 장치에 나누는 방법을 발표하다",
+   "title_en": "Publishes a way to split convolutional nets across cards",
+   "description": "구글에서 단독 저자로 짧은 글을 발표했다. 계산량이 많은 합성곱층에서는 데이터를 여러 장치에 나누고, 통신량이 많은 완전연결층에서는 모델을 나눴다. 같은 해 cuda-convnet2에 이 혼합 방식을 적용했다.",
+   "description_en": "At Google he posted a short single-author note. He split data across the compute-heavy convolutional layers and split the model across the communication-heavy fully connected layers. The same year he put that hybrid scheme into cuda-convnet2.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글을 떠나다",
+   "title_en": "Leaves Google",
+   "description": "구글 포토에서 일한 뒤 자율주행차 프로젝트에 깊이 관여했다. 그는 그 일에 흥미를 잃었다고 말했다. 마운틴뷰에서 보낸 시간은 4년 반이었다.",
+   "description_en": "He worked on Google Photos and then went deep into the self-driving car project. He said he had lost interest in the work. He had spent four and a half years in Mountain View.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "office",
+   "title": "데사의 기술고문이 되다",
+   "title_en": "Becomes technical adviser at Dessa",
+   "description": "토론토의 한 인공지능 회사가 회사명을 데사로 바꾸고 그를 전속 기술고문으로 선임했다. 그는 기업을 위한 학습 시스템을 만드는 팀의 멘토를 맡았다.",
+   "description_en": "A Toronto artificial-intelligence firm renamed itself Dessa and made him exclusive technical adviser. He mentored the team that built learning systems for companies.",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777778,
+   "lng": -79.386666666667
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "other",
+   "title": "알렉스넷 원본 코드가 박물관에 보존되다",
+   "title_en": "The original AlexNet code is preserved at a museum",
+   "description": "컴퓨터역사박물관이 원본 코드를 공개하자고 그에게 요청한 것은 5년 전이었다. 지식재산권은 이미 구글에 넘어가 있었다. 그는 힌턴에게 길을 열어 주었다. 2012년 코드와 학습된 매개변수 파일이 공개됐다.",
+   "description_en": "The Computer History Museum had asked him five years earlier to release the original code. The intellectual property had already passed to Google. He opened the path to Hinton. The 2012 code and the trained parameter files were made public.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투와 불분명한 주어·행동 관계를 바로잡고, 사건들이 연구·창업·구글 재직·자문 활동으로 자연스럽게 이어지도록 다듬었다. 다만 9번 사건의 영문도 힌턴과 관련해 어떤 조치를 했다는 뜻인지 모호해 문장 편집만으로는 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「작은 이미지 데이터셋을 만들다」는 무엇을 했는지 드러나지 않았고, 「갈래 이름」「두 벌을 골라 붙였다」는 class와 subset의 관계 및 이름표를 붙인 행동을 알아보기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이미지넷을 그래픽 처리 장치로 돌리다」는 학습 대상을 단순히 실행했다는 뜻처럼 들렸고, 「이 데이터를 학습할 수 있겠다」는 코드와 데이터의 관계가 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「한 장 메모리 3기가」「아흔 바퀴 돌렸다」「상위 다섯 오류」「되게 했다」처럼 기술적 행동과 수치를 뜻을 짐작해 읽어야 하는 표현이 이어졌다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「법인을 냈다」는 회사를 법인으로 설립했다는 뜻을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「딥러닝 연구를 이유로 그 회사를 샀다」는 인수 대상과 목적의 관계가 어색했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「여러 장에 나누는 법」「계산이 큰 합성곱층」「통신이 병목인 전결합층」은 무엇을 여러 그래픽 처리 장치에 어떻게 분산했는지 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자율주행 차에 깊이 들어갔다」는 프로젝트에 깊이 관여했다는 뜻을 단어 순서대로 옮긴 직역투였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그를 전속 기술고문으로 앉혔다」는 선임 행위를 부자연스럽게 표현했고, 「기업에 맞춘」도 learning systems for companies의 뜻을 매끄럽게 전달하지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그는 힌턴에게 길을 열어 주었다」는 무엇을 누구에게 넘기거나 허용했다는 뜻인지 앞뒤 문장만으로 알 수 없다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 9,
+    "reason": "영문 「He opened the path to Hinton」 자체가 구체적인 행동과 목적어를 밝히지 않는다. 박물관의 공개 요청, 구글이 보유한 지식재산권, 힌턴 사이에서 크리제브스키가 어떤 조치를 했는지는 문장 편집만으로 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

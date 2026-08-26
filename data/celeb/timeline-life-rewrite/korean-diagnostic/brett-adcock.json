@@ -1,0 +1,239 @@
+{
+ "slug": "brett-adcock",
+ "events": [
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "birth",
+   "title": "일리노이주 모웨쿠아에서 태어나다",
+   "title_en": "Born in Moweaqua, Illinois",
+   "description": "4월 6일, 가족이 3대째 운영해 온 농장에서 태어났다. 옥수수와 콩을 재배하는 농장이었다.",
+   "description_en": "He was born on April 6 on his family’s third-generation farm. The land grew corn and soybeans.",
+   "place_name": "모웨쿠아",
+   "place_name_en": "Moweaqua",
+   "lat": 39.6253,
+   "lng": -89.0178
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "플로리다 대학교를 졸업하다",
+   "title_en": "Graduates from the University of Florida",
+   "description": "센트럴 A&M 고등학교를 수석으로 졸업한 뒤 플로리다 대학교에 진학했다. 열여섯 살부터 야외용 전자기기 판매점을 비롯한 여러 웹 회사를 운영해 왔다. 처음에는 산업공학을 공부하다가 경영학으로 전공을 바꾸었고, 워링턴 경영대학에서 경영학 학사 학위를 받았다.",
+   "description_en": "He arrived after graduating as valedictorian of Central A&M High School. From the age of sixteen he had already run web companies, including an outdoor-electronics store. He first studied industrial engineering, then switched to business, and earned a bachelor’s degree in business administration from the Warrington College of Business.",
+   "place_name": "게인즈빌",
+   "place_name_en": "Gainesville",
+   "lat": 29.665277777778,
+   "lng": -82.336111111111
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "베터리를 공동 창업하다",
+   "title_en": "Co-founds Vettery",
+   "description": "애덤 골드스타인과 함께 회사를 세웠다. 구직자는 기업의 제안을 살펴보고 면접 일정을 잡을 수 있었으며, 취업하면 입사 보너스를 받았다. 뉴욕대학교 배릭 스트리트 인큐베이터에서 사업을 시작했고, 2015년 6월 미국에서 서비스를 열었다.",
+   "description_en": "He started the company with Adam Goldstein. Candidates browsed offers and booked interviews, and received a signing bonus when they took a job. They began in NYU’s Varick Street Incubator. The U.S. service opened in June 2015.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "베터리를 아데코 그룹에 매각하다",
+   "title_en": "Sells Vettery to the Adecco Group",
+   "description": "2월 20일 스위스 인력 서비스 기업 아데코 그룹이 베터리 인수를 발표했다. 인수 조건은 공개되지 않았으나, 인수액이 1억 달러를 조금 넘는다는 보도가 나왔다. 애덤 골드스타인과 함께 인수 뒤에도 회사를 운영했다.",
+   "description_en": "On February 20 the Swiss staffing firm Adecco announced the acquisition. Official terms were not disclosed; reporting put the price at a little over $100 million. He and Goldstein stayed on to run the business.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "아처 에비에이션을 공동 창업하다",
+   "title_en": "Co-founds Archer Aviation",
+   "description": "10월 16일 골드스타인과 전기 수직이착륙기를 만드는 회사를 세웠다. 두 사람은 공동 최고경영자를 맡았다.",
+   "description_en": "On October 16 he and Goldstein started a company to build electric vertical takeoff and landing aircraft. The two served as co-chief executives.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "아처를 뉴욕증권거래소에 상장하다",
+   "title_en": "Lists Archer on the New York Stock Exchange",
+   "description": "2월 유나이티드항공이 기체를 조건부로 주문한 데 이어, 아처는 기업인수목적회사 아틀라스 크레스트와의 합병을 발표했다. 9월 17일 뉴욕증권거래소에서 거래를 시작했다.",
+   "description_en": "In February, United Airlines placed a conditional aircraft order. He announced a merger with the blank-check company Atlas Crest. Trading began on September 17.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "office",
+   "title": "아처 공동 최고경영자에서 물러나다",
+   "title_en": "Steps down as Archer co-chief executive",
+   "description": "4월 13일 자리에서 물러나면서 골드스타인이 단독 최고경영자가 되었다. 5월 9일에는 이사회에서도 물러났다. 회사에 대한 자신의 비전이 이사회의 비전과 달랐다고 밝혔다.",
+   "description_en": "He left the post on April 13, and Goldstein became sole chief executive. On May 9 he also left the board. He said his vision for the company was not the same as the board’s.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "피겨를 세우다",
+   "title_en": "Founds Figure",
+   "description": "범용 인간형 로봇을 만드는 회사를 세우고 창업자 겸 최고경영자를 맡았다. 보스턴 다이내믹스, 테슬라, 구글 딥마인드, 애플 출신 인재들을 영입했다. 자신의 돈 1억 달러를 투자했다.",
+   "description_en": "He started the company as founder and chief executive to build general-purpose humanoid robots. He hired people from Boston Dynamics, Tesla, Google DeepMind, and Apple. He put in $100 million of his own money.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "피겨 01을 공개하다",
+   "title_en": "Unveils Figure 01",
+   "description": "3월 2일 그동안 비공개로 운영하던 회사를 처음 공개했다. 실물 크기의 인간형 로봇 시제품을 선보였으며, 시제품의 알파 본체는 전년도 12월에 조립을 마친 상태였다. 제리 프랫이 최고기술책임자를 맡았다.",
+   "description_en": "On March 2 he brought the company out of stealth. He showed a full-size humanoid prototype. The alpha body had been assembled the previous December. Jerry Pratt was chief technology officer.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "BMW와 첫 상용 계약을 맺다",
+   "title_en": "Signs first commercial deal with BMW",
+   "description": "인간형 로봇을 사우스캐롤라이나주 스파턴버그에 있는 BMW 공장에 배치하기로 했다. 창업 이후 처음 맺은 상용 계약이었다. 로봇은 차체·판금·창고 작업에 투입될 예정이었다.",
+   "description_en": "The robots were to go into BMW’s plant in Spartanburg, South Carolina. It was the company’s first commercial contract. They were slated for the body shop, sheet metal, and warehouse.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "하크를 세우다",
+   "title_en": "Founds Hark",
+   "description": "사람과 기계를 잇는 범용 인터페이스를 목표로 인공지능 연구소를 세웠다. 자신의 자금으로 회사를 운영했다.",
+   "description_en": "He started an artificial-intelligence lab aimed at a universal interface between people and machines. He funded the company himself.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전반적인 사실관계와 생애의 흐름은 분명하지만, 일부 서술에 직역투·불분명한 주어·어색한 용어가 남아 있었다. 영문의 의미와 세부를 유지하면서 국문 제목과 서술만 자연스럽게 바로잡았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집안의 3대째 농장에서 났다」는 수식 관계와 표현이 어색하고, 「땅이 옥수수와 콩을 키운다」는 영문의 문장 구조가 그대로 남아 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수석으로 마치고 들어왔다」는 어디에 들어왔는지 문장만으로 바로 드러나지 않았고, 전공 변경과 학위 취득의 연결도 다소 끊겨 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제안을 보고」는 제안의 주체와 성격이 불분명하며, 「서명 보너스」는 signing bonus를 기계적으로 옮긴 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사를 「넘기다」는 표현은 기업 매각 사건의 성격을 정확히 전달하지 못했다. 또한 영문은 2월 20일 인수 발표가 있었다고 서술하므로, 매각 완료일로 단정하지 않도록 본문을 조정할 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「스팩 회사」라는 외국어 약칭이 설명 없이 쓰였고, 주문·합병 발표·거래 개시가 각각 짧게 끊겨 상장까지의 흐름이 잘 이어지지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자신의 비전과 이사회가 같지 않다」는 비전과 조직을 직접 비교해 주어와 비교 대상의 관계가 무너진 문장이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사를 창업자 겸 최고경영자로 시작했다」는 회사와 직책의 관계를 부자연스럽게 결합한 직역투였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사를 처음 공개했다」는 비공개 운영을 끝냈다는 뜻이 충분히 드러나지 않았고, 「전해 12월에 맞췄다」는 시점과 조립 행위를 뜻을 짐작해 해석해야 하는 표현이었다. 「전신」도 full-size의 의미를 정확히 전달하지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "기업명 「비엠베」는 통용 표기와 거리가 있었고, 「로봇을 넣다」와 「차체 공장과 판금, 창고 일」은 배치 장소와 작업 용도를 불분명하게 전달했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인공지능 실험실을 시작했다」와 「자기 돈으로 회사를 돌렸다」는 뜻은 통하지만 설립과 자금 조달을 설명하는 문장으로는 다소 거칠었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

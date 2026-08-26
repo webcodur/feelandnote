@@ -1,0 +1,265 @@
+{
+ "slug": "anthony-bourdain",
+ "events": [
+  {
+   "year": 1956,
+   "year_end": null,
+   "kind": "birth",
+   "title": "맨해튼에서 태어나다",
+   "title_en": "Born in Manhattan",
+   "description": "아버지는 카메라 가게와 음반 가게에서 일하다가 컬럼비아의 클래식 음반 부문에 들어갔다. 어머니는 그가 십 대가 된 뒤 타임스의 교정 업무로 복귀했다. 그는 뉴저지주 레오니아에서 자랐다. 아버지의 가족은 프랑스 아르카숑 출신이었고, 그는 아르카숑 해안에서 처음으로 생굴을 삼켰다.",
+   "description_en": "His father worked in camera and record shops before joining Columbia on the classical side. His mother returned to copy-editing at the Times when he was a teenager. He grew up in Leonia, New Jersey. His father's family came from Arcachon, and he swallowed his first raw oyster on that coast.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "work",
+   "title": "해산물 식당에서 설거지를 시작하다",
+   "title_en": "Starts washing dishes at a seafood house",
+   "description": "그는 고등학교 시절 여자친구를 따라 바사 대학에 진학했다. 어느 여름, 방세를 내지 않고 지내던 그에게 룸메이트들이 비어 있던 설거지 자리를 맡겼다. 그는 그 해산물 식당의 요리사들을 지켜보다가 대학을 그만두고 요리 학교로 갔다.",
+   "description_en": "He followed his high-school girlfriend to Vassar. One summer he was not paying rent, and his roommates put him on the empty dishwasher shift. Watching the cooks at that seafood house, he left college and went to cooking school.",
+   "place_name": "프로빈스타운",
+   "place_name_en": "Provincetown",
+   "lat": 42.058333333,
+   "lng": -70.179166666
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "education",
+   "title": "미국요리학교를 졸업하다",
+   "title_en": "Graduates from the Culinary Institute of America",
+   "description": "그는 그곳에서 칼 쓰는 법을 배웠다. 졸업 뒤 거의 이십 년 동안 뉴욕의 여러 주방 조리 라인에서 일했다. 레인보우룸과 서퍼클럽, 설리번스 등의 주방을 거쳤다.",
+   "description_en": "He learned the knife at that school. For nearly twenty years after that he worked New York lines. He passed through kitchens such as the Rainbow Room, the Supper Club, and Sullivan's.",
+   "place_name": "하이드파크",
+   "place_name_en": "Hyde Park",
+   "lat": 41.784722222,
+   "lng": -73.933333333
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "work",
+   "title": "레 알 주방을 맡다",
+   "title_en": "Takes over the kitchen at Les Halles",
+   "description": "신문 구인 광고를 보고 지원했다. 파크 애비뉴 사우스에 있는 그 브라세리는 스테이크와 감자튀김을 내는 식당이었다. 그는 그 주방에서 일하며 글도 계속 썼다.",
+   "description_en": "He answered a newspaper ad. The Park Avenue South brasserie served steak and fries. He kept writing from that kitchen.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "publish",
+   "title": "뉴요커에 주방 에세이를 싣다",
+   "title_en": "Publishes a kitchen essay in The New Yorker",
+   "description": "처음에는 무료 주간지에 글을 보냈지만 실리지 않았다. 어머니가 타임스 동료를 통해 그 글을 『뉴요커』 편집장에게 전달했다. 그는 손님들에게 감춰져 있던 주방의 관행을 적었다.",
+   "description_en": "He first sent the piece to a free weekly, which did not run it. His mother passed it to the magazine's editor through a Times colleague. He wrote down the kitchen habits diners were not meant to see.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "publish",
+   "title": "키친 컨피덴셜을 내다",
+   "title_en": "Publishes Kitchen Confidential",
+   "description": "고급 식당의 주방이 실제로 어떻게 돌아가는지 썼다. 블룸스베리가 미국판을 출간했다. 책이 나온 뒤 방송계에서 저자인 요리사를 찾기 시작했다.",
+   "description_en": "He wrote how high-end kitchens actually ran. Bloomsbury brought out the American edition. After the book, television came looking for the chef.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "쿡스 투어를 시작하다",
+   "title_en": "Begins A Cook's Tour",
+   "description": "그는 먼저 여행기를 책으로 출간했다. 푸드 네트워크는 그 여행을 카메라에 담았다. 그는 주방을 떠나 나라별로 현지 음식을 찾아다녔다.",
+   "description_en": "He published the travel book first. The Food Network put those trips on camera. He left the kitchen and went looking for local food country by country.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "노 리저베이션을 시작하다",
+   "title_en": "Begins No Reservations",
+   "description": "그는 트래블 채널로 옮겼다. 음식과 여행을 한 프로그램에 담았다. 그해 첫 번째 결혼 생활이 끝났다.",
+   "description_en": "He moved to the Travel Channel. He put food and the road in one show. His first marriage ended that year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "other",
+   "title": "재혼하고 딸을 얻다",
+   "title_en": "Remarries and has a daughter",
+   "description": "이탈리아 출신 오타비아 부시아와 결혼했다. 같은 해 딸 아리안이 태어났다. 그는 일 년에 이백오십 일을 여행하며 지냈고, 두 사람은 훗날 별거했다.",
+   "description_en": "He married Ottavia Busia, who was from Italy. Their daughter Ariane was born the same year. He spent two hundred fifty days a year on the road, and the marriage later went to a separation.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "파츠 언노운을 시작하다",
+   "title_en": "Begins Parts Unknown",
+   "description": "그는 CNN으로 옮겼다. 각 나라에 더 오래 머물렀다. 거리 음식과 함께 그 나라의 전쟁과 정치를 다뤘다.",
+   "description_en": "He moved to CNN. He stayed longer in each country. He put street food beside that country's wars and politics.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "하노이에서 오바마와 분짜를 먹다",
+   "title_en": "Eats bun cha with Obama in Hanoi",
+   "description": "하노이 구시가지의 분짜 식당에 앉아 숯불 돼지고기와 쌀국수를 주문했다. 현직 대통령인 오바마가 플라스틱 의자에 앉았다. 계산서는 여섯 달러였고, 그가 값을 냈다.",
+   "description_en": "He ordered grilled pork and rice noodles at a bun cha shop in the Old Quarter. The sitting president sat on a plastic stool. The bill was six dollars, and he paid it.",
+   "place_name": "하노이",
+   "place_name_en": "Hanoi",
+   "lat": 21.0245,
+   "lng": 105.84117
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "death",
+   "title": "촬영 중 호텔에서 세상을 떠나다",
+   "title_en": "Dies in a hotel while filming",
+   "description": "알자스 편을 찍는 중이었다. 친구 에릭 리페르가 방에서 그를 발견했다. 스스로 목숨을 끊었다.",
+   "description_en": "He was filming the Alsace episode. His friend Eric Ripert found him in the hotel room. He took his own life.",
+   "place_name": "카이저스베르크",
+   "place_name_en": "Kaysersberg",
+   "lat": 48.139166666,
+   "lng": 7.260833333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투와 불분명한 지시어, 부자연스러운 사건 연결을 바로잡았다. 다만 2016년 사건은 영문에서도 계산한 사람이 누구인지 모호해 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「카메라 가게와 음반 가게를 겸하다」「클래식 음반 쪽」「타임스 교정석」「그 근해」가 영문 구조를 그대로 옮긴 표현이어서, 근무 경력과 장소의 관계가 자연스럽게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「방값을 안 내던 여름」「빈 설거지 자리를 맡겼다」가 상황과 행동 주체를 바로 이해하기 어려운 표현이어서 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「칼을 배웠다」「뉴욕 라인에서 일했다」가 영어 표현을 단어 단위로 옮긴 문장이어서, 칼 쓰는 법과 주방 조리 라인이라는 의미를 분명히 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "고유 지명인 Park Avenue South를 「공원대로」로 잘못 옮겼고, 「그 주방에서 글을 병행했다」도 부자연스러워 바로잡았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「주방 글」이 essay의 의미를 충분히 살리지 못했고, 본문의 「그 잡지」가 어느 잡지를 가리키는지 앞 문장만으로 분명하지 않아 『뉴요커』를 명시했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고급 식당 주방이 실제로 어떻게 돌아가는지를 적었다」「방송이 요리사를 찾기 시작했다」가 어색한 직역이어서 출간 이후 방송계가 저자인 요리사를 찾았다는 관계를 자연스럽게 정리했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여행기를 먼저 책으로 냈다」「나라마다 현지 음식을 찾아 다녔다」의 어색한 어순과 띄어쓰기를 고치고, 주방을 떠나 여행 프로그램으로 옮겨 가는 흐름을 분명히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「음식과 길을 한 프로그램에 묶었다」가 영어의 road를 기계적으로 옮긴 표현이어서 음식과 여행을 함께 다뤘다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「둘째 혼인을 하다」「딸을 보다」「그 혼인은 뒤에 별거로 갔다」가 낡거나 직역투인 표현이어서 재혼, 딸의 출생, 훗날의 별거가 자연스럽게 이어지도록 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 나라에 더 오래 머물렀다」「거리 음식 옆에 그 나라의 전쟁과 정치를 올렸다」가 영어 문장 구조를 그대로 따른 표현이어서 각 나라에서 음식과 전쟁·정치를 함께 다뤘다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「구시가지 분짜 집」과 「현직 대통령이」를 자연스럽게 다듬고 대통령이 오바마임을 분명히 했다. 마지막 문장의 「그」는 영문에서도 선행 대상이 모호해 그대로 확정할 수 없다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 10,
+    "reason": "영문 마지막 문장 \"The bill was six dollars, and he paid it.\"의 he가 앤서니 부르댕과 버락 오바마 중 누구를 가리키는지 문장만으로 확정할 수 없다. 계산한 사람을 명시하려면 사실 확인이 필요하다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

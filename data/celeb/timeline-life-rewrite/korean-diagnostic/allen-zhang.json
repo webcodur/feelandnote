@@ -1,0 +1,271 @@
+{
+ "slug": "allen-zhang",
+ "events": [
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "birth",
+   "title": "후난 사오양에서 태어났다",
+   "title_en": "Born in Shaoyang, Hunan",
+   "description": "둥커우현 가오사진에서 태어났다. 본적은 같은 시의 사오둥이었다. 가족은 후난 서남부에 살았고, 그는 우한으로 진학하기 전까지 그곳에서 자랐다.",
+   "description_en": "He was born in Gaosha Town, Dongkou County. The family ancestral home was Shaodong, in the same prefecture. The household sat in southwestern Hunan, and he grew up there until he left for school in Wuhan.",
+   "place_name": "사오양",
+   "place_name_en": "Shaoyang",
+   "lat": 27.24176,
+   "lng": 111.47247
+  },
+  {
+   "year": 1987,
+   "year_end": 1994,
+   "kind": "education",
+   "title": "화중공학원 전신계에 들어갔다",
+   "title_en": "Entered the telecom department at Huazhong",
+   "description": "둥커우에서 고등학교를 마친 뒤 우한으로 갔다. 이 학교는 훗날 화중과기대학이 되었다. 전신공학을 전공해 학사와 석사 학위를 차례로 받았다.",
+   "description_en": "After high school in Dongkou he went to Wuhan. The school later became Huazhong University of Science and Technology. He completed a bachelor's degree and then a master's in telecommunications.",
+   "place_name": "우한",
+   "place_name_en": "Wuhan",
+   "lat": 30.595,
+   "lng": 114.2975
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "work",
+   "title": "광저우로 내려가 소프트웨어를 짰다",
+   "title_en": "Moved to Guangzhou to write software",
+   "description": "국가가 졸업생의 직장을 배정하던 때였다. 낮에는 통신 관련 직장에서 코드를 짰다. 그런 생활이 맞지 않아 퇴근 뒤 혼자 전자우편 프로그램을 만들기 시작했다.",
+   "description_en": "The state still assigned graduates to jobs. By day he wrote code at a telecom workplace. The rhythm did not suit him, so after hours he began building an email client alone.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "폭스메일을 혼자 공개했다",
+   "title_en": "Released Foxmail on his own",
+   "description": "가볍게 쓸 수 있는 무료 프로그램이었다. 개인용 컴퓨터가 아직 드물던 시절이었지만 사용자 수는 몇 년 만에 200만 명에 이르렀다. 이용자들은 언어 파일을 받아 열 개가 넘는 언어로 번역했다. 그는 광고를 넣으라는 권유를 거절했다.",
+   "description_en": "It was a light, free program. Personal computers were still scarce, yet users reached two million within a few years. Fans took the language files and translated them into more than ten tongues. He refused requests to put ads in it.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "office",
+   "title": "폭스메일을 보대에 매각하고 부사장이 됐다",
+   "title_en": "Sold Foxmail to Boda and became vice president",
+   "description": "인터넷 거품이 꺼지던 해인 4월, 보대가 폭스메일을 1,200만 위안에 인수했다. 그는 베이징 기자회견에서 부사장 겸 기술총감으로 소개됐다. 광저우에 본사를 둔 보대는 기업용 서버에서 수익을 내려 했고, 개인용 프로그램은 계속 무료로 제공했다.",
+   "description_en": "In April, as the internet bubble burst, Boda bought the program for 12 million yuan. A Beijing press conference presented him as vice president and technical director. The company's base was Guangzhou, and it meant to make money from a corporate server. The personal client stayed free.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "office",
+   "title": "텐센트가 폭스메일 팀을 사들였다",
+   "title_en": "Tencent bought the Foxmail team",
+   "description": "보대가 흔들리자 텐센트는 상장 후 첫 인수로 폭스메일과 20명 규모의 개발팀을 함께 사들였다. 그는 광저우 연구개발 부문 총경리가 되어 큐큐메일을 맡았다. 당시 큐큐메일은 무겁고 느렸다.",
+   "description_en": "As Boda faltered, Tencent's first acquisition after listing took both the program and a team of twenty. He became general manager of the Guangzhou research division and took charge of QQ Mail. That mail service was heavy and slow.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2007,
+   "year_end": 2008,
+   "kind": "work",
+   "title": "큐큐메일을 중국 최대 메일 서비스로 키웠다",
+   "title_en": "Rebuilt QQ Mail into China's largest service",
+   "description": "기존 큐큐메일을 전면 개편해 가벼운 새 버전으로 바꿨다. 사용자는 서서히 늘었고, 이듬해 중국에서 가장 많이 쓰이는 전자우편 서비스가 됐다.",
+   "description_en": "He tore down the heavy mailer and put up a lighter build. Users grew slowly, and the next year it became the most used email service in the country.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "마화텅에게 키크와 같은 앱을 제안했다",
+   "title_en": "Proposed a Kik-like app to Ma Huateng",
+   "description": "큐큐메일의 구독 피드를 통해 캐나다 학생들이 만든 키크를 알게 됐다. 휴대전화 주소록을 이용해 무료로 메시지를 보내는 앱이었다. 그는 이런 앱이 큐큐를 위협할 수 있다고 보고 마화텅에게 메일을 보냈다. 마화텅은 곧바로 개발하라고 답했고, 광저우 팀이 그 일을 맡았다.",
+   "description_en": "Through a feed attached to QQ Mail he saw Kik, built by Canadian students. It sent free texts through the phone address book. He wrote that such a tool could threaten QQ. Ma Huateng told him to do it at once, and the Guangzhou team took the job.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "웨이신 첫 버전을 출시했다",
+   "title_en": "Launched the first version of Weixin",
+   "description": "1월에 나온 아이폰용 첫 버전은 문자 메시지만 지원했다. 하루 신규 사용자는 수천 명 수준이었고, 한 달 먼저 출시된 미랴오가 더 빠르게 성장했다. 5월에 버튼을 누른 채 말하는 음성 기능을 추가하자 사용자 증가 속도가 달라졌다.",
+   "description_en": "The January iPhone build carried only text. Daily new users numbered in the thousands. Michat, out a month earlier, grew faster. In May he added hold-to-talk voice, and the growth rate changed.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "친구권을 열었다",
+   "title_en": "Opened Moments",
+   "description": "4월 버전에 사진을 올리고 지인끼리만 볼 수 있는 소식 기능을 넣었다. 문자만 오가던 대화창에 일상을 나눌 공간이 생겼다. 해외판에는 위챗이라는 이름을 붙였다. 같은 해 가을 그는 수석부사장이 되어 웨이신과 큐큐메일을 함께 총괄했다.",
+   "description_en": "The April build added photos and a feed visible only to acquaintances. Daily life entered a window that had carried only text. The overseas name became WeChat. That autumn he was named senior vice president and held both Weixin and QQ Mail.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "office",
+   "title": "웨이신 사업군을 맡았다",
+   "title_en": "Took charge of the Weixin Group",
+   "description": "텐센트는 조직을 개편하면서 웨이신 사업군을 신설했다. 그는 고급집행부총재로서 사업군 전체를 맡았다. 메시지에서 결제와 공개 계정까지 확장된 서비스를 한 조직에서 총괄하는 자리였다.",
+   "description_en": "Tencent split its organization and created the Weixin Group. As senior executive vice president he received the whole group. The post bound together a service that had already spread from messages into payments and public accounts.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "미니프로그램을 공개했다",
+   "title_en": "Opened Mini Programs",
+   "description": "내려받지 않고 필요할 때 바로 쓸 수 있는 작은 앱을 채팅 안에 넣었다. 1월 공개 수업에서 첫 미니프로그램들을 선보였다. 상점과 각종 서비스 창구를 별도로 설치하지 않고 대화창에서 이용할 수 있게 됐다.",
+   "description_en": "He put small apps inside the chat that could be used and left without a download. The first batch went up at the January open class. Shops and counters entered the conversation window without an install list.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부는 그대로 두고, 직역투와 모호한 지시어, 부자연스러운 동사 결합을 바로잡았다. 광저우에서 폭스메일을 개발한 일이 텐센트 합류와 큐큐메일 개편, 웨이신 개발로 이어지는 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가오사진에서 났다」「집은 후난 서남쪽이었다」가 출생과 거주지를 부자연스럽게 표현하고 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학교는 뒤에 … 된다」「학사에 이어 석사까지 마쳤다」의 시제와 학위 표현이 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「통신 직장에서」「그 리듬이 맞지 않아」만으로는 직장과 생활 방식의 관계가 선명하게 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「개인용 컴퓨터가 아직 드문 해」「십여 개 말로 옮겼다」가 영문 표현을 그대로 옮긴 듯한 한국어였다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "매각 사건을 「넘기다」로 표현해 의미가 가벼웠고, 「기업용 서버로 돈을 벌려 했다」「계속 공짜로 두었다」도 사업 내용을 거칠게 전달했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "인수 대상을 「프로그램과 스무 명을 함께 데려왔다」라고 표현해 기업 인수의 주어·목적어 관계가 흐려졌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「국내 1위」는 어느 나라를 가리키는지 제목만으로 불분명했고, 「가벼운 새 판으로 갈아엎었다」는 개편 내용을 지나치게 구어적으로 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「구독 피드로 키크를 봤다」「이런 물건」이 앱을 발견하고 제안한 과정을 부자연스럽고 모호하게 전달했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「첫 판을 올렸다」「아이폰용은 글자 메시지뿐이었다」「미랴오가 더 빠르게 불었다」가 소프트웨어 출시와 사용자 증가를 어색하게 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사진과 지인에게만 보이는 피드」「해외판 이름은 위챗으로 달렸다」「함께 쥐었다」가 기능, 명칭, 직책의 관계를 거칠게 전달했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 군 전체를 받았다」는 맡은 조직을 뜻을 짐작해야 알 수 있었고, 마지막 문장도 직책의 책임 범위를 추상적으로 표현했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「쓰고 나가는 작은 앱」「첫 배치를 올렸다」「설치 목록 없이 대화 창으로 들어왔다」가 미니프로그램의 사용 방식과 공개 내용을 직역투로 전달했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

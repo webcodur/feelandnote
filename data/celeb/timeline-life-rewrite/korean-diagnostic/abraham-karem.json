@@ -1,0 +1,270 @@
+{
+ "slug": "abraham-karem",
+ "events": [
+  {
+   "year": 1937,
+   "year_end": null,
+   "kind": "birth",
+   "title": "바그다드에서 태어나다",
+   "title_en": "Born in Baghdad",
+   "description": "유대인 부부의 네 아들 중 셋째로 태어났다. 바그다드는 당시 이라크 왕국의 수도였다.",
+   "description_en": "He was the third child of a Jewish couple. There were four sons. The city was the capital of the Kingdom of Iraq.",
+   "place_name": "바그다드",
+   "place_name_en": "Baghdad",
+   "lat": 33.31527777777778,
+   "lng": 44.36611111111111
+  },
+  {
+   "year": 1951,
+   "year_end": null,
+   "kind": "travel",
+   "title": "이스라엘로 옮기다",
+   "title_en": "Moves to Israel",
+   "description": "가족과 함께 이라크를 떠났다. 그해 이라크 유대인들이 대거 고국을 떠났다. 열네 살에 모형 비행기를 만들기 시작했고, 2년 뒤에는 학교 항공부의 교관이 됐다. 이후 자가용 조종사 면허도 땄다.",
+   "description_en": "He left with his family. That year Iraqi Jews departed in large numbers. At fourteen he began building model aircraft, and two years later he was the instructor in the school aero club. He later earned a private pilot license.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "education",
+   "title": "테크니온에서 항공공학을 마치다",
+   "title_en": "Finishes aeronautical engineering at the Technion",
+   "description": "하이파의 공과대학에서 항공을 배웠다. 졸업 후 이스라엘 공군에 들어갔다.",
+   "description_en": "He studied aeronautics at the institute of technology in Haifa. On graduating he went into the air force.",
+   "place_name": "하이파",
+   "place_name_en": "Haifa",
+   "lat": 32.81916666666667,
+   "lng": 34.99916666666667
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "work",
+   "title": "이스라엘 공군에서 전투기를 개조하다",
+   "title_en": "Modifies fighters in the Israeli Air Force",
+   "description": "장교로 9년간 복무했다. 맡은 일은 필요에 따라 전투기를 신속하게 개조하는 것이었다. 복무 중에는 자유비행 모형 항공기 대회에도 참가했다.",
+   "description_en": "He spent nine years as an officer. The work was quick-reaction modification of fighter aircraft. In between he also entered free-flight model competitions.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1970,
+   "year_end": null,
+   "kind": "work",
+   "title": "이스라엘항공우주산업에 들어가다",
+   "title_en": "Joins Israel Aircraft Industries",
+   "description": "공군을 나와 예비설계 책임자가 됐다. 4년 안에 공학 담당 수석부사장 후보로 거론됐다. 당시에도 30대였다.",
+   "description_en": "After the air force he became director of preliminary design. Within four years he was in line to be named executive vice president for engineering. He was still in his thirties.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "work",
+   "title": "항공우주산업을 떠나 무인기 회사를 세우다",
+   "title_en": "Leaves IAI to start a UAV company",
+   "description": "전년 가을 전쟁에서 팀과 함께 레이더를 속이는 활공 기만기를 한 달 만에 만들어 실전에 투입했다. 이후 정부 조달은 미국산 기만기 쪽으로 기울었다. 상부의 만류를 뿌리치고 무인 항공기를 설계하는 회사를 차렸다. 3년 동안 이스라엘군에 설계를 제안했지만 한 건도 팔지 못했다.",
+   "description_en": "In the war the previous autumn he and a team built a radar-fooling glide decoy in a month and put it in the field. Official purchases then tilted toward American decoys. He pushed past warnings from above and started a company to design unmanned aircraft. For three years he offered designs to the Israeli military and sold none.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "travel",
+   "title": "미국으로 건너가다",
+   "title_en": "Moves to the United States",
+   "description": "이스라엘에서는 더 나아갈 길이 막혔다고 판단했다. 로스앤젤레스의 소규모 항공우주업체에 들어갔다. 그 회사는 전쟁 당시 이스라엘에 무인 기만기를 제안했던 곳이었다. 그는 곧 회사를 나와 다시 독자적으로 나섰다.",
+   "description_en": "He judged that the path in Israel was closed. He joined a small Los Angeles aerospace firm. That company had offered Israel a drone decoy during the war. He soon struck out on his own again.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "work",
+   "title": "차고에서 앨버트로스를 띄우다",
+   "title_en": "Flies the Albatross from a garage",
+   "description": "1979년에 리딩 시스템스를 세웠다. 하시엔다하이츠 언덕에 있는 집의 차고가 작업장이었다. 예전에 함께 일했던 잭 헤르텐슈타인과 모형 항공기 대회에서 만난 의대 진학 준비생 짐 머친이 합류했다. 이들은 200파운드짜리 기체의 기수에 카메라를 달았고, 시제기는 56시간을 비행했다. 국방고등연구계획국이 비행 시험 비용을 대기 시작했다.",
+   "description_en": "He founded Leading Systems in 1979. The workshop was the garage of a house on a hill in Hacienda Heights. Jack Hertenstein, whom he had worked with before, and Jim Machin, a pre-med student he had met at a modeling meet, joined him. They put a camera in the nose of a 200-pound airframe, and the prototype flew for 56 hours. The Defense Advanced Research Projects Agency began paying for flight tests.",
+   "place_name": "하시엔다하이츠",
+   "place_name_en": "Hacienda Heights",
+   "lat": 34.000555555556,
+   "lng": -117.96944444444
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "앰버로 서른여덟 시간을 날다",
+   "title_en": "Keeps Amber aloft for 38 hours",
+   "description": "국방고등연구계획국은 1985년에 더 큰 장기 체공기 개발을 맡겼다. 회사는 기체에 앰버라는 이름을 붙였다. 어바인에 산업용 공간을 마련하고 엘미라지 건호수 옆 비행장과 사용 계약을 맺었다. 1987년에 의회가 원격조종 항공기 예산을 동결하면서 해군과 육군의 구매가 끊겼다. 이듬해 6월, 앰버는 5,500피트 상공에서 38시간 동안 비행했다. 프로그램이 끝날 때까지 총 650시간을 비행했으며 기체 손실은 없었다.",
+   "description_en": "In 1985 the agency contracted a larger long-endurance aircraft. They named it Amber. The company took industrial space in Irvine and a contract on an airfield beside El Mirage Dry Lake. In 1987 Congress froze remotely piloted vehicle funds, and Navy and Army purchases fell away. The following June it stayed up 38 hours at 5,500 feet. By the end of the program it had flown 650 hours without a loss.",
+   "place_name": "엘미라지",
+   "place_name_en": "El Mirage",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "리딩 시스템스 파산 뒤 제너럴 아토믹스에 합류하다",
+   "title_en": "Joins General Atomics after bankruptcy",
+   "description": "500만 달러짜리 은행 대출의 만기가 돌아왔다. 닐 블루와 린든 블루 형제가 파산한 회사의 자산을 사들였다. 두 사람은 그와 직원 8명을 고용하고 앰버와 그낫 750의 설계도 인수했다.",
+   "description_en": "A five-million-dollar bank loan came due. Brothers Neal and Linden Blue bought the bankrupt assets. They hired him and eight of his people, and took the Amber and Gnat 750 designs.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "work",
+   "title": "제너럴 아토믹스의 프레데터 계약 수주를 지켜보다",
+   "title_en": "Sees the Predator delivery contract awarded",
+   "description": "발칸반도를 감시할 수단을 찾던 제임스 울시 중앙정보국장은 그낫 750 두 대를 샀다. 기체들은 알바니아에서 이륙해 보스니아 상공을 비행했다. 1월에 제너럴 아토믹스는 프레데터 세 대와 지상통제소 납품 계약을 따냈다. 그는 프레데터의 첫 비행을 한 달 앞두고 회사를 떠났다. 이어 회전 속도를 바꿀 수 있는 로터를 갖춘 무인 헬기 개발에 착수했다.",
+   "description_en": "CIA director James Woolsey, looking for a way to watch the Balkans, bought two Gnat 750s. They launched from Albania and flew over Bosnia. In January General Atomics won a contract for three Predators and a ground-control station. He left the company a month before the first flight. He then began work on an unmanned helicopter whose rotor could change speed.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "프론티어를 보잉에 팔고 카렘 에어크래프트를 세우다",
+   "title_en": "Sells Frontier to Boeing and founds a new company",
+   "description": "육군은 대기업에만 대량 생산을 맡기겠다고 했다. 그는 에이160 허밍버드를 만들던 프론티어 시스템즈를 보잉에 매각했다. 매각 대금으로 레이크포레스트에 카렘 에어크래프트를 세우고 틸트로터 개발을 추진했다. 이후 육군은 비용과 기술적 위험을 이유로 허밍버드 사업을 취소했다.",
+   "description_en": "The Army said it would trust only a major company with production. He sold Frontier Systems, which had been building the A160 Hummingbird, to Boeing. With the proceeds he founded Karem Aircraft in Lake Forest and pushed a tiltrotor. The Army later cancelled the Hummingbird program, citing cost and technical risk.",
+   "place_name": "레이크포레스트",
+   "place_name_en": "Lake Forest",
+   "lat": 33.641666666667,
+   "lng": -117.69083333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 말하는 사실과 세부는 유지하면서, 지시 대상이 불분명한 표현과 직역투·구어체·행위 주체가 빠진 문장을 고쳤다. 출생부터 무인기 개발과 회사 설립으로 이어지는 생애의 흐름도 국문만으로 이해되도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「셋째로 났다」가 부자연스럽고, 「형제가 넷이었다」는 네 아들 중 셋째라는 관계를 정확히 전달하지 못했다. 「그 도시」도 앞 문장에 지명이 없어 지시 대상이 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가족과 함께 떠났다」는 어디를 떠났는지가 본문에서 분명하지 않았고, 「자가용 조종 면허」는 private pilot license를 옮긴 표현으로 부자연스러웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공군으로 갔다」가 소속과 행동을 모호하게 표현해, 졸업 후 이스라엘 공군에 입대한 사실이 바로 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문의 modifies를 제목에서 「고치다」로 옮겨 전투기를 개조했다는 뜻이 약해졌고, 「자유비행 모형 대회」도 참가 대상을 분명히 밝히지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리까지 거론됐다」는 어떤 직책인지 불완전했고, 「서른을 넘긴 때였다」는 still in his thirties를 막 30세를 넘긴 것처럼 읽히게 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「현장에 냈다」, 「나라 쪽 구매」, 「윗선의 만류를 밀고」, 「설계를 들이밀었으나」가 뜻을 짐작해야 하는 구어적 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "aerospace firm을 「항공사」로 옮겨 여객·운송 회사처럼 읽혔고, 「다시 독립했다」만으로는 회사를 나와 독자적으로 나섰다는 행동이 충분히 드러나지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "연도를 한글 수사로 적어 읽기 어려웠고, 두 동료가 「붙었다」는 표현이 거칠었다. 짐 머친이 의대 진학 준비생이었다는 영문의 세부도 빠져 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「더 큰 장기 체공기를 맡겼다」와 「이름을 앰버라고 했다」에 행위 주체가 없었다. industrial space를 「공장」으로 단정했고, airfield contract와 without a loss의 의미도 충분히 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "어느 회사가 파산했는지 제목에서 드러나지 않았고, 「은행 빚이 만기가 됐다」, 「파산 자산」, 「그와 부하 여덟」, 「설계를 가져갔다」가 부자연스럽거나 주체가 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「납품 계약을 보다」는 영어 표현을 순서대로 옮긴 직역투였다. 「기체는 알바니아에서 떠」도 항공기의 이륙을 나타내는 문장으로 자연스럽지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「새 회사」가 본문의 카렘 에어크래프트를 가리킨다는 점을 바로 알기 어려웠고, 「틸트로터를 밀었다」는 개발을 추진했다는 뜻을 짐작해야 하는 표현이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

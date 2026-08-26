@@ -1,0 +1,268 @@
+{
+ "slug": "bob-dylan",
+ "events": [
+  {
+   "year": 1941,
+   "year_end": null,
+   "kind": "birth",
+   "title": "덜루스에서 태어나다",
+   "title_en": "Born in Duluth",
+   "description": "세인트메리 병원에서 로버트 앨런 지머먼이라는 이름으로 태어났다. 아버지 에이브럼과 어머니 베아트리스는 덜루스의 작은 유대인 공동체에 속했다. 친조부모는 1905년 유대인 학살을 피해 러시아 제국 오데사에서 건너왔고, 외조부모는 리투아니아계 유대인이었다.",
+   "description_en": "He arrived at St. Mary's Hospital as Robert Allen Zimmerman. His father Abram and mother Beatrice belonged to the town's small Jewish community. His father's parents had left Odessa in the Russian Empire after the 1905 pogroms. His mother's parents were Lithuanian Jews.",
+   "place_name": "덜루스",
+   "place_name_en": "Duluth",
+   "lat": 46.784444444444446,
+   "lng": -92.10527777777777
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "travel",
+   "title": "히빙으로 옮기다",
+   "title_en": "Moves to Hibbing",
+   "description": "아버지가 소아마비에 걸리자 가족은 어머니의 고향 히빙으로 이주했다. 아버지와 삼촌들은 가구와 가전을 파는 가게를 운영했다. 그는 철광 지대의 라디오에서 흘러나오는 블루스를 들었고, 고등학교에 다니며 여러 밴드를 꾸렸다.",
+   "description_en": "After his father contracted polio, the family went to his mother's hometown. His father and uncles ran a furniture and appliance store. Blues came over the iron-range radio, and he formed bands in high school.",
+   "place_name": "히빙",
+   "place_name_en": "Hibbing",
+   "lat": 47.41722222,
+   "lng": -92.93833333
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "education",
+   "title": "미네소타 대학에 등록하다",
+   "title_en": "Enrolls at the University of Minnesota",
+   "description": "히빙 고등학교를 졸업한 뒤 미니애폴리스로 갔다. 캠퍼스 근처 딘키타운의 커피하우스에서 포크 음악을 부르며 예명을 쓰기 시작했다. 입학 첫해를 마친 뒤 학교를 그만두었다.",
+   "description_en": "After Hibbing High School he went to Minneapolis. He sang folk in Dinkytown coffeehouses near campus and began using a stage name. He left after that first year.",
+   "place_name": "미니애폴리스",
+   "place_name_en": "Minneapolis",
+   "lat": 44.981944444444444,
+   "lng": -93.26916666666666
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "travel",
+   "title": "우디 거스리를 찾아 뉴욕으로 가다",
+   "title_en": "Goes to New York to find Woody Guthrie",
+   "description": "뉴저지의 정신병원에서 병을 앓고 있던 우디 거스리를 만났다. 그리니치빌리지의 클럽 무대에 섰고, 그해 가을 존 해먼드의 주선으로 컬럼비아 레코드와 녹음 계약을 맺었다.",
+   "description_en": "He met his ailing idol in a New Jersey psychiatric hospital. He took stages in Greenwich Village clubs, and that autumn John Hammond signed him to Columbia Records.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 음반을 내다",
+   "title_en": "Releases his first album",
+   "description": "수록곡 대부분은 다른 이들의 포크와 블루스 곡이었다. 자작곡은 「우디에게 바치는 노래」와 「토킹 뉴욕」뿐이었다. 음반사 안에서는 이 음반을 해먼드의 실수라고 부르는 이들도 있었다. 그해 여름에는 법원에서 절차를 밟아 성을 딜런으로 바꿨다.",
+   "description_en": "Most of the tracks were other people's folk and blues. The only originals were Song to Woody and Talkin' New York. Inside the company some called the record Hammond's folly. That summer he changed his surname to Dylan in court.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "work",
+   "title": "워싱턴 행진에서 자작곡을 부르다",
+   "title_en": "Sings his own songs at the March on Washington",
+   "description": "두 번째 음반에 「바람만이 아는 대답」을 실었다. 링컨 기념관 앞에서 그 노래와 「그들의 게임 속 졸」을 불렀다. 그날 같은 연단에서 마틴 루서 킹이 연설했다.",
+   "description_en": "He put Blowin' in the Wind on his second album. From the steps of the Lincoln Memorial he sang that song and Only a Pawn in Their Game. That day Martin Luther King Jr. spoke from the same platform.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "work",
+   "title": "뉴포트에서 전기 기타를 연주하다",
+   "title_en": "Plugs in an electric guitar at Newport",
+   "description": "폴 버터필드 블루스 밴드 멤버들과 함께 「매기의 농장」을 큰 음량으로 연주하며 공연을 시작했다. 객석에서는 야유가 터져 나왔고, 피트 시거는 귀가 찢어질 듯한 음량에 화를 냈다. 닷새 전 싱글로 발표한 「라이크 어 롤링 스톤」도 그 무대에서 불렀다.",
+   "description_en": "With members of the Paul Butterfield Blues Band he opened loud on Maggie's Farm. Boos rose from the crowd, and Pete Seeger was angry that the volume tore at the ear. Five days after its single release he sang Like a Rolling Stone on that stage.",
+   "place_name": "뉴포트",
+   "place_name_en": "Newport",
+   "lat": 41.49166666666667,
+   "lng": -71.31194444444445
+  },
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "other",
+   "title": "우드스톡 근처에서 오토바이 사고를 당하다",
+   "title_en": "Falls from a motorcycle near Woodstock",
+   "description": "트라이엄프 오토바이를 타고 가다 도로에서 넘어졌다. 기록에는 경추를 다쳤다고 적혀 있다. 이후 몇 년 동안 대규모 순회공연을 하지 않았다.",
+   "description_en": "He came off a Triumph on the road. Records say he injured a vertebra in his neck. For several years afterward he did not mount a major tour.",
+   "place_name": "우드스톡",
+   "place_name_en": "Woodstock",
+   "lat": 42.042778,
+   "lng": -74.1175
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "work",
+   "title": "《블러드 온 더 트랙스》를 내다",
+   "title_en": "Releases Blood on the Tracks",
+   "description": "아내 세라와의 결혼 생활이 무너지던 무렵 녹음했다. 뉴욕에서 먼저 녹음했지만, 형제인 데이비드가 소리가 너무 빈약하다고 하자 미니애폴리스에서 음반의 절반을 다시 녹음했다. 아들 제이콥은 훗날 이 노래들을 부모가 나누는 대화라고 했다.",
+   "description_en": "He recorded it as his marriage to Sara was coming apart. After the first New York takes, his brother David said the sound was too thin, so he recut half the album in Minneapolis. Their son Jakob later called the songs his parents talking.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "콩코드에서 다시 순회를 시작하다",
+   "title_en": "Resumes touring in Concord",
+   "description": "지 이 스미스, 케니 애런슨, 크리스토퍼 파커와 4인조로 무대에 올랐다. 그날 이후 공연은 거의 해마다 이어졌고, 언론은 이를 끝나지 않는 투어라고 불렀다. 본인은 그 이름을 달가워하지 않았다.",
+   "description_en": "He walked on with G. E. Smith, Kenny Aaronson, and Christopher Parker as a four-piece. Shows continued almost every year after that night, and the press called it the Never Ending Tour. He did not like the name.",
+   "place_name": "콩코드",
+   "place_name_en": "Concord",
+   "lat": 37.978055555556,
+   "lng": -122.03111111111
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "《타임 아웃 오브 마인드》를 내다",
+   "title_en": "Releases Time Out of Mind",
+   "description": "그해 봄 히스토플라스마증으로 심낭에 염증이 생겨 유럽 순회공연을 취소했다. 가을에는 대니얼 라누아가 프로듀싱한 음반이 나왔다. 이듬해 그래미 올해의 앨범상을 받았다.",
+   "description_en": "In the spring histoplasmosis inflamed the sac around his heart, and he cancelled a European run. In the autumn an album produced by Daniel Lanois came out. The next year it won the Grammy for Album of the Year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "other",
+   "title": "노벨문학상을 받다",
+   "title_en": "Receives the Nobel Prize in Literature",
+   "description": "스웨덴 한림원은 미국의 위대한 노래 전통에 새로운 시적 표현을 창조했다는 점을 수상 이유로 들었다. 그는 12월 시상식에 참석하지 않았고, 패티 스미스가 「폭풍우가 몰아치리라」를 대신 불렀다. 이듬해 공연을 위해 스톡홀름에 들렀을 때 비공개로 메달을 받았다.",
+   "description_en": "The Academy cited new poetic expressions within the great American song tradition. He did not attend the December ceremony, and Patti Smith sang A Hard Rain's a-Gonna Fall in his place. The next year he stopped in Stockholm on tour and received the medal in private.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부를 유지하면서 직역투, 모호한 지시어, 부자연스러운 동사와 어순을 바로잡았다. 사건의 순서와 생애 흐름은 유지했으며 별도 사실 확인이 필요한 대목은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「병원에서 나왔다」는 출생을 기계적으로 옮긴 표현이고, 「그곳의」는 바로 앞의 병원을 가리키는 것처럼 읽혀 지역 공동체라는 뜻이 흐려졌다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「철광 도시 라디오에서 블루스가 흘러들었다」는 장소와 매체의 관계가 불분명하며, 영문의 복수형 bands도 충분히 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 해를 채운 뒤」가 재학 기간을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「병든 우상」은 대상을 간접적으로 가리켜 앞 문장만으로 인물을 바로 알아보기 어렵고, 「녹음 계약을 맺어 주었다」도 계약 당사자와 행동 관계가 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「남의 포크와 블루스」와 「회사 안에서는」이 구어적이거나 대상이 불분명하고, 「법정에서 성을 바꿨다」는 재판을 받은 것처럼 읽힐 수 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "「자작곡을 들고 행진에 서다」는 실제 행동인 노래를 부른 일을 간접적으로 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「전기 기타를 켜다」는 plug in을 그대로 옮긴 표현이며, 「큰 소리로 시작했다」는 무엇을 시작했는지 분명하지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 오토바이를 주어로 삼아 정작 사고를 당한 인물이 흐려졌고, 「길에서 떨어졌다」는 오토바이에서 넘어진 상황을 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사이가 기울다」와 「뉴욕에서 먼저 뽑다」는 결혼 생활과 녹음 작업을 모호하게 표현했고, 「소리가 헐겁다」도 음향에 어울리지 않았다. 영문은 데이비드를 brother로만 밝혀 「동생」이라는 국문의 세부도 그대로 확정할 수 없었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「네 명으로 무대에 올랐다」가 공연 편성을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「유럽 일정」은 취소된 대상이 순회공연이라는 점을 충분히 밝히지 않았고, 「프로듀서를 맡은 음반」도 수식 관계가 어색했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미국 노래 전통 안에서」가 영문의 전치사 구조를 그대로 따른 표현이고, 수상 이유를 밝히는 문장도 자연스럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

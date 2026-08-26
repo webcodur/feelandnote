@@ -1,0 +1,283 @@
+{
+ "slug": "bad-bunny",
+ "events": [
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "birth",
+   "title": "바야몬에서 태어나다",
+   "title_en": "Born in Bayamón",
+   "description": "아버지 티토는 트럭 운전사였고, 어머니 리사우리는 학교 교사였다. 그에게는 베르니와 비사엘이라는 두 남동생이 있었다. 집은 베가바하의 알미란테 수르에 있었다. 어머니는 매주 성당에 다녔고, 그는 열세 살까지 성가대에서 노래했다. 부모는 집에서 살사와 메렝게, 발라드를 틀었다.",
+   "description_en": "His father Tito drove trucks. His mother Lysaurie taught school. He had two younger brothers, Bernie and Bysael. The family house stood in Almirante Sur, Vega Baja. His mother went to church every week, and he sang in the choir until he was thirteen. His parents played salsa, merengue, and ballads at home.",
+   "place_name": "바야몬",
+   "place_name_en": "Bayamón",
+   "lat": 18.383333333333,
+   "lng": -66.15
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "education",
+   "title": "아레시보에서 방송을 배우다",
+   "title_en": "Studies broadcasting in Arecibo",
+   "description": "고등학교를 마친 뒤 푸에르토리코 대학교에서 시청각 커뮤니케이션을 공부했다. 그는 라디오 진행자가 되고 싶어 했다. 같은 시기 베가바하의 에코노 슈퍼마켓에서 손님이 산 물건을 봉투에 담고 계산대를 맡았다. 쉬는 시간에는 사운드클라우드에 곡을 올렸다.",
+   "description_en": "After high school he took audiovisual communication at the University of Puerto Rico. He wanted to host radio. In the same years he bagged groceries and ran a register at an Econo supermarket in Vega Baja. On breaks he uploaded songs to SoundCloud.",
+   "place_name": "아레시보",
+   "place_name_en": "Arecibo",
+   "lat": 18.470555555556,
+   "lng": -66.720833333333
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "〈디레스〉를 계기로 계약하다",
+   "title_en": "Signs after Diles",
+   "description": "디제이 루이안은 사운드클라우드에 올라온 〈디레스〉를 들었다. 배드 버니는 히어 디스 뮤직과 계약했다. 오수나와 파루코, 아르칸헬, 넹고 플로우가 리믹스에 참여했다. 그는 슈퍼마켓에서 이와 관련된 전화들을 받았다. 토끼 옷을 입고 심통 난 표정을 지은 어린 시절 사진에서 예명을 지었다.",
+   "description_en": "DJ Luian heard the SoundCloud track. He signed with Hear This Music. Ozuna, Farruko, Arcángel, and Ñengo Flow joined the remix. He took those calls from the supermarket. He took his stage name from a childhood photo of himself in a bunny suit, looking annoyed.",
+   "place_name": "베가바하",
+   "place_name_en": "Vega Baja",
+   "lat": 18.446111111111,
+   "lng": -66.3875
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "카디 비의 곡으로 핫 100 정상에 오르다",
+   "title_en": "Hits No. 1 on the Hot 100 with Cardi B",
+   "description": "제이 발빈과 함께 카디 비의 〈아이 라이크 잇〉에 참여했다. 세 사람 모두 빌보드 핫 100에서 처음으로 1위에 올랐다. 스페인어 구절도 그대로 담긴 이 곡은 미국 팝 차트 정상에 섰다.",
+   "description_en": "He joined Cardi B on I Like It with J Balvin. All three earned their first Billboard Hot 100 No. 1. The Spanish verses stayed in the song at the top of U.S. pop.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 정규 음반을 내다",
+   "title_en": "Releases his debut studio album",
+   "description": "그는 크리스마스이브에 리마스 엔터테인먼트를 통해 《영원히》(X 100PRE)를 발매했다. 제목은 ‘포르 시엠프레’를 줄인 말이다. 드레이크가 참여한 〈미아〉 외에는 피처링을 거의 넣지 않았다. 그는 음반을 내지 않은 채 그해를 마치고 싶지 않았다고 말했다.",
+   "description_en": "On Rimas Entertainment he put out X 100PRE, short for por siempre, on Christmas Eve. Aside from Mía with Drake he kept features scarce. He said he did not want the year to end without the album.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "other",
+   "title": "주지사 사퇴 시위에 나서다",
+   "title_en": "Joins the protests that ousted the governor",
+   "description": "리카르도 로세요의 텔레그램 대화가 유출된 뒤, 그는 고속도로를 가득 메운 시위대에 합류했다. 그날 레시덴테와 함께 〈칼을 갈며〉를 발표했다. 리키 마틴도 같은 시위에 참여했다. 주지사는 그달 사임을 발표했다.",
+   "description_en": "After Ricardo Rosselló’s Telegram chats leaked, he stood in the crowd that filled a highway. He and Residente released Afilando los Cuchillos that day. Ricky Martin was on the same road. The governor announced his resignation that month.",
+   "place_name": "산후안",
+   "place_name_en": "San Juan",
+   "lat": 18.465277777778,
+   "lng": -66.116666666667
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "《나는 하고 싶은 대로 한다》를 내다",
+   "title_en": "Releases YHLQMDLG",
+   "description": "지미 팰런 쇼에서 음반을 윤일인 2월 29일에 발매한다고 밝혔다. 대디 양키와 조웰 앤 랜디가 음반에 참여했다. 〈요 페레오 솔라〉 영상에서는 드래그 차림으로 춤췄다. 이 음반은 전곡이 스페인어인 음반 가운데 당시 빌보드 200 최고 순위인 2위에 올랐다. 스포티파이는 그를 그해 세계에서 가장 많이 재생된 아티스트로 집계했다.",
+   "description_en": "On The Tonight Show he said the album would drop on leap day. Daddy Yankee and Jowell & Randy appear on it. In the Yo Perreo Sola video he danced in drag. It reached No. 2 on the Billboard 200, then the high for an all-Spanish album. Spotify counted him as the world’s most-streamed artist that year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "빌보드 200 정상에 오르다",
+   "title_en": "Tops the Billboard 200",
+   "description": "《세상의 마지막 투어》(El Último Tour del Mundo)는 전곡 스페인어 음반 최초로 빌보드 200 1위에 올랐다. 제이코와 함께한 〈다키티〉는 빌보드 글로벌 200 정상에 올랐다.",
+   "description_en": "El Último Tour del Mundo became the first all-Spanish album to reach No. 1 on the Billboard 200. Dákiti, with Jhayco, topped the Billboard Global 200.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "《너 없는 여름》을 내다",
+   "title_en": "Releases Un Verano Sin Ti",
+   "description": "빌보드 200에서 비연속 13주를 1위로 보냈다. 국제음반산업협회는 그해 세계 앨범 차트 1위로 집계했다. 전곡 스페인어 음반으로는 처음 그래미 올해의 음반 후보에 올랐다. 스포티파이는 그를 3년 연속 세계 최다 재생 아티스트로 올렸다.",
+   "description_en": "It spent 13 nonconsecutive weeks at No. 1 on the Billboard 200. IFPI named it the world’s top album of the year. It was the first all-Spanish album nominated for the Grammy for Album of the Year. Spotify ranked him the world’s most-streamed artist for a third straight year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "콜리세오에서 데미안 프리스트를 꺾다",
+   "title_en": "Beats Damian Priest at the Coliseo",
+   "description": "WWE는 콜리세오에서 백래시를 열었다. 그는 진행자로 예고됐지만, 대신 스트리트 파이트에 출전해 데미안 프리스트를 꺾었다. 칼리토와 사비오 베가도 링사이드에 나타났다.",
+   "description_en": "WWE staged Backlash in that arena. He had been billed as host, then took a street fight instead. He beat Damian Priest. Carlito and Savio Vega appeared at ringside.",
+   "place_name": "산후안",
+   "place_name_en": "San Juan",
+   "lat": 18.465277777778,
+   "lng": -66.116666666667
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "푸에르토리코에서 31회 상주 공연을 열다",
+   "title_en": "Plays a 31-night residency on the island",
+   "description": "새해 첫 주에 《사진을 더 찍었어야 했다》를 발매했다. 푸에르토리코 전통 리듬을 음반의 중심에 뒀다. 호세 미겔 아그렐롯 콜리세오에서 〈여기 떠나기 싫다〉 공연을 열었다. 첫 9회 공연은 푸에르토리코 주민만을 대상으로 했다. 미국 본토는 공연 일정에서 제외했다. 스포티파이는 그를 통산 네 번째로 세계 최다 재생 아티스트에 올렸다.",
+   "description_en": "In the first week of the year he released Debí Tirar Más Fotos. He put Puerto Rican traditional rhythms at the center of the record. He staged No Me Quiero Ir de Aquí at the José Miguel Agrelot Coliseum. The first nine nights were for island residents only. He left the U.S. mainland off the itinerary. Spotify ranked him the world’s most-streamed artist for a fourth time.",
+   "place_name": "산후안",
+   "place_name_en": "San Juan",
+   "lat": 18.465277777778,
+   "lng": -66.116666666667
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "전곡 스페인어 음반으로 올해의 음반을 받다",
+   "title_en": "Wins Album of the Year for an all-Spanish record",
+   "description": "제68회 그래미 시상식이었다. 수상 무대에서 처음 꺼낸 말은 ‘푸에르토리코’였다. 그는 이민자들에게 상을 바친다고 말했다. 같은 날 밤 최우수 우르바나 음반상도 받았다.",
+   "description_en": "It was the 68th Grammy Awards. His first word onstage was Puerto Rico. He dedicated the prize to immigrants. The same night he also took Best Música Urbana Album.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "슈퍼볼 하프타임 쇼를 이끌다",
+   "title_en": "Headlines the Super Bowl halftime show",
+   "description": "리바이스 스타디움에서 주로 스페인어로 노래했다. 그는 슈퍼볼 하프타임 쇼를 이끈 최초의 솔로 라틴계 가수였다. 레이디 가가와 리키 마틴도 함께 출연했다. 닐슨은 미국의 평균 시청자 수를 1억 2,820만 명으로 집계했다. 공연이 끝난 뒤 〈사진을 더 찍었어야 했다〉가 핫 100 1위에 올랐다. 솔로 가수가 부른 전곡 스페인어 노래로는 처음이었다.",
+   "description_en": "At Levi’s Stadium he sang mostly in Spanish. He was the first solo Latino artist to take that slot. Lady Gaga and Ricky Martin came out. Nielsen counted 128.2 million U.S. viewers on average. After the set, DtMF reached No. 1 on the Hot 100. It was the first all-Spanish solo song to do so.",
+   "place_name": "샌타클래라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 의미와 세부는 유지하면서, 직역된 동사와 불분명한 지시어를 바로잡고 사건들이 생애 순서대로 자연스럽게 이어지도록 다듬었다. 사실 판단이 추가로 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "부모의 직업과 형제 관계를 영문 어순대로 옮겨 문장이 다소 끊겼고, 매주 성당에 갔다는 표현도 자연스러운 한국어 문맥에 맞게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "과목을 「들었다」거나 슈퍼마켓에서 「물건을 담았다」는 표현만으로는 무엇을 공부하고 어떤 일을 했는지 한국어에서 구체적으로 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「계약을 받다」「리믹스에 붙었다」「그 전화들을 받았다」가 영어 문장을 단어 단위로 옮긴 표현이었고, 「그는」이 디제이 루이안과 배드 버니 중 누구를 가리키는지도 모호했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "노래에 「들어갔다」거나 차트 1위를 「밟았다」는 표현보다 참여와 차트 성과를 직접 밝히는 편이 자연스럽고 명확했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "음반을 「올렸다」거나 피처를 「두었다」고 한 표현, 음반을 「닫고 싶었다」는 표현이 모두 영어 동사를 직역해 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "시위 행렬에 「섰다」거나 리키 마틴이 「같은 길에 있었다」는 표현만으로는 두 사람이 시위에 참여했다는 관계가 선명하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「윤년 하루」「음반을 올리다」「드래그로 춤추다」「가장 많이 튼 아티스트」처럼 영어 표현을 그대로 따라간 구절이 이어져 의미 전달이 매끄럽지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 자리」가 제목을 함께 보지 않으면 어느 차트의 몇 위인지 알 수 없는 지시어였다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「콜리세오 링」은 장소 관계가 부자연스러웠고, 호스트에서 경기를 「바꿨다」는 문장도 누가 무엇을 했는지 분명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "31회 상주 공연을 「서른한 밤을 채우다」라고 표현해 사건의 성격이 불분명했고, 「처음 아홉 밤은 섬 주민만 받았다」「네 번째 세계 최다 재생으로 그를 다시 올렸다」는 문장도 영어 구조를 그대로 옮겨 뜻이 무너졌다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「예순여덟 번째 그래미였다」는 시상식 회차를 가리킨다는 점이 불분명했고, 상을 「가져갔다」는 표현도 수상 사실을 직접 밝히도록 다듬을 필요가 있었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "헤드라이너를 단순히 무대에 「섰다」고 축소했고, 「그 무대」「나왔다」「솔로 가수의 전곡 스페인어 곡」 등의 표현은 대상과 문장 관계가 충분히 분명하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

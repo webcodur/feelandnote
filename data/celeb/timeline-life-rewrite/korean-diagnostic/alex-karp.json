@@ -1,0 +1,227 @@
+{
+ "slug": "alex-karp",
+ "events": [
+  {
+   "year": 1967,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴욕에서 태어나다",
+   "title_en": "Is born in New York",
+   "description": "아버지는 유대인 소아과 의사 로버트 조셉 카프였고, 어머니는 흑인 예술가 리아 제인스 카프였다. 동생 벤과 함께 필라델피아에서 자랐다. 부모는 그를 민권운동 집회에 데려갔다.",
+   "description_en": "His father, Robert Joseph Karp, was a Jewish pediatrician. His mother, Leah Jaynes Karp, was a Black artist. He grew up in Philadelphia with his younger brother Ben. His parents took him to civil-rights rallies.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "education",
+   "title": "필라델피아 센트럴 고등학교를 졸업하다",
+   "title_en": "Finishes Central High School in Philadelphia",
+   "description": "아버지도 같은 학교를 다녔다. 그는 어릴 때부터 난독증으로 어려움을 겪었다고 말했다.",
+   "description_en": "His father had gone to the same school. He has said he struggled with dyslexia from an early age.",
+   "place_name": "필라델피아",
+   "place_name_en": "Philadelphia",
+   "lat": 39.952777777778,
+   "lng": -75.163611111111
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "education",
+   "title": "해버퍼드에서 철학을 공부하다",
+   "title_en": "Studies philosophy at Haverford",
+   "description": "사회이론가가 되고 싶었다. 필라델피아 외곽의 작은 퀘이커 대학에서 학부 과정을 마쳤다.",
+   "description_en": "He wanted to become a social theorist. He finished his bachelor's at a small Quaker college outside Philadelphia.",
+   "place_name": "해버퍼드",
+   "place_name_en": "Haverford",
+   "lat": 40.013055555556,
+   "lng": -75.294444444444
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "education",
+   "title": "스탠퍼드 로스쿨에서 틸을 만나다",
+   "title_en": "Meets Thiel at Stanford Law",
+   "description": "카프는 훗날 스탠퍼드 로스쿨에서 보낸 3년을 성인이 된 뒤 가장 싫었던 시절이라고 말했다. 피터 틸은 카프가 사회주의자에 더 가까웠고 자신은 자본주의자에 더 가까웠다고 기억했다. 둘 다 법대 생활에 질려 있었고 정치 문제를 두고 논쟁했다.",
+   "description_en": "He later called those three years the worst of his adult life. Peter Thiel remembered him as closer to a socialist and himself as closer to a capitalist. Both were sick of law school and argued about politics.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "education",
+   "title": "프랑크푸르트에서 사회이론 박사 학위를 받다",
+   "title_en": "Takes a doctorate in social theory in Frankfurt",
+   "description": "1990년대 중반부터 프랑크푸르트에서 살았다. 카롤라 브레데의 지도 아래 독일어로 논문을 썼다. 탈콧 파슨스의 공격성 개념을 전문용어와 문화의 맥락으로 확장했다. 프랑크푸르트의 프로이트 연구소에서 연구조교로도 일했다.",
+   "description_en": "He had lived in the city since the mid-1990s. He wrote the dissertation in German under Karola Brede. It stretched Talcott Parsons's idea of aggression through jargon and culture. He also worked as a research associate at the Freud Institute there.",
+   "place_name": "프랑크푸르트",
+   "place_name_en": "Frankfurt",
+   "lat": 50.11055555555556,
+   "lng": 8.682222222222222
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "팔란티어를 공동 창업하다",
+   "title_en": "Co-founds Palantir",
+   "description": "피터 틸, 스티븐 코언, 조 론즈데일, 네이선 게팅스와 함께 창업했다. 회사 이름은 톨킨 작품에 나오는 ‘보는 돌’에서 따왔다. 카프는 이사가 되었다. 그전에는 런던의 카에드몬 그룹을 운영하며 유럽의 부유층 고객 자산을 관리했다.",
+   "description_en": "He did it with Peter Thiel, Stephen Cohen, Joe Lonsdale, and Nathan Gettings. The name came from Tolkien's seeing-stones. He took a board seat. Before that he had run the London firm Caedmon Group for wealthy European clients.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "office",
+   "title": "팔란티어 최고경영자를 맡다",
+   "title_en": "Becomes Palantir's chief executive",
+   "description": "그 무렵 중앙정보국의 벤처 투자 부문인 인큐텔이 약 200만 달러를 투자했다. 정보기관들이 첫 고객이 되었고, 팔란티어는 분석가들의 요구에 맞춰 소프트웨어를 고쳐 나갔다.",
+   "description_en": "Around then In-Q-Tel, the CIA's venture arm, put in about two million dollars. The intelligence services became the first customers. The software was rewritten to what the analysts asked for.",
+   "place_name": "팰로앨토",
+   "place_name_en": "Palo Alto",
+   "lat": 37.429166666667,
+   "lng": -122.13805555556
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "팔란티어를 뉴욕증권거래소에 직상장하다",
+   "title_en": "Lists Palantir on the New York Stock Exchange",
+   "description": "새 주식을 발행해 자금을 조달하지 않고 기존 주주들이 보유 주식을 팔 수 있게 했다. 카프와 틸, 코언은 창업자 의결권을 유지했다.",
+   "description_en": "No new shares were sold to raise cash. Existing holders could sell. He, Thiel, and Cohen kept the founders' voting power.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "침공 뒤 키이우에서 젤렌스키를 만나다",
+   "title_en": "Meets Zelenskyy in Kyiv after the invasion",
+   "description": "폴란드 국경을 걸어서 넘었다. 대통령 관저의 벙커에서 에스프레소를 마시며 키이우에 사무실을 열고 팔란티어의 소프트웨어를 활용하겠다고 제안했다. 타임은 그를 침공 이후 우크라이나를 방문한 첫 서방 대기업 최고경영자라고 소개했다.",
+   "description_en": "He crossed the Polish border on foot. In the presidential bunker, over espresso, he offered to open a Kyiv office and put the software to work. TIME called him the first chief executive of a major Western company to visit after the invasion.",
+   "place_name": "키이우",
+   "place_name_en": "Kyiv",
+   "lat": 50.45,
+   "lng": 30.523611111111
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《기술 공화국》을 출간하다",
+   "title_en": "Publishes The Technological Republic",
+   "description": "니컬러스 자미스카와 공동 집필했다. 두 사람은 실리콘밸리가 국가를 등지고 사진 공유 앱에 몰두해 왔다고 비판하고, 소프트웨어가 다시 서방의 힘과 결합해야 한다고 주장했다.",
+   "description_en": "He wrote it with Nicholas Zamiska. They argued Silicon Valley had left the state for photo-sharing apps, and that software had to bind itself again to Western power.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮긴 듯한 표현, 지시 대상이 불분명한 표현, 국문이 영문보다 의미를 넓힌 부분을 바로잡았다. 사실 확인이 필요한 충돌은 없었으며, 영문이 제공하는 세부를 유지하면서 생애 전체가 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 artist를 화가로 한정해 옮겼고, civil-rights rallies를 옮긴 「민권 집회」도 한국어로 다소 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학교를 「나오다」보다 「졸업하다」로 쓰는 편이 정확하며, 난독증에 관한 본인의 회고가 단정적인 사실처럼 바뀌어 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 Quaker college가 「퀘이커들이 세운 대학」으로 확대되어 설립 주체가 추가되어 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 삼 년」은 대상을 바로 알기 어렵고, 틸의 회고에서 「그」와 「자신」이 연이어 나와 두 사람의 관계가 선명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「박사를 받다」, 「그 도시」, 「지도는 카롤라 브레데가 맡았다」, 「같은 도시 프로이트 연구소」가 어색하거나 지시 대상이 불분명했고, aggression과 jargon을 각각 「공격」과 「속어」로 옮겨 의미가 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「함께였다」, 「이사회에 앉았다」가 영문 구조를 따른 표현이었고, 톨킨 작품과 회사 이름의 관계도 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중앙정보국 쪽 벤처」와 「첫 손님으로 붙었다」가 구어적이고 관계가 불분명했으며, 소프트웨어를 누가 고쳤는지도 드러나지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「있던 주주가 팔 수 있게 했다」와 「그와 틸과 코언」이 부자연스럽고, 무엇을 팔 수 있었는지와 세 사람의 주어 관계가 선명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 Kyiv office가 「우크라이나에 사무실」로 넓어졌고, 「소프트웨어를 대겠다」는 뜻을 짐작해야 하는 직역이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「국가를 떠나 사진 공유 앱에 머물렀다」와 「서방의 힘과 붙어야 한다」가 영문 단어를 순서대로 치환한 듯해 비판의 대상과 행동 관계가 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

@@ -1,0 +1,224 @@
+{
+ "slug": "akio-toyoda",
+ "events": [
+  {
+   "year": 1956,
+   "year_end": null,
+   "kind": "birth",
+   "title": "나고야에서 태어나다",
+   "title_en": "Born in Nagoya",
+   "description": "아버지는 쇼이치로, 어머니는 미쓰이 가문의 히로코였다. 할아버지는 자동차 회사를 세운 기이치로였고, 증조부는 자동직기를 만든 사키치였다. 집안은 방직에서 자동차로 전환한 사업체를 계속 소유하고 있었다.",
+   "description_en": "His father was Shoichiro and his mother was Hiroko of the Mitsui family. His grandfather Kiichiro had founded the motor company, and his great-grandfather Sakichi had built automatic looms. The family still held the works that had moved from textiles to cars.",
+   "place_name": "나고야",
+   "place_name_en": "Nagoya",
+   "lat": 35.18138888888889,
+   "lng": 136.9063888888889
+  },
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "education",
+   "title": "게이오 법학부를 졸업하다",
+   "title_en": "Graduates from Keio with a law degree",
+   "description": "법률학과를 나왔다. 하키부에 들어 남자 국가대표팀에 선발됐다. 일본이 모스크바 올림픽을 보이콧해 출전은 무산됐다.",
+   "description_en": "He finished in the law department. He joined the hockey club and was selected for the men's national team. Japan boycotted the Moscow Olympics, so he never took the field.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "education",
+   "title": "뱁슨에서 경영학 석사를 받다",
+   "title_en": "Earns an MBA at Babson",
+   "description": "대학을 마치고 미국으로 건너갔다. 경영대학원에서 석사를 마쳤다.",
+   "description_en": "He crossed to the United States after university. He completed a graduate business degree.",
+   "place_name": "웰즐리",
+   "place_name_en": "Wellesley",
+   "lat": 42.296388888889,
+   "lng": -71.293055555556
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "work",
+   "title": "토요타자동차에 입사하다",
+   "title_en": "Joins Toyota Motor",
+   "description": "미국의 투자은행을 떠나 토요타자동차에 입사했다. 당시 사장은 아버지였다. 이후 생산과 영업, 제품 개발 부문을 차례로 거쳤다.",
+   "description_en": "He left an American investment bank and returned to the company. His father was president at the time. He rotated through production, sales, and product development.",
+   "place_name": "토요타시",
+   "place_name_en": "Toyota City",
+   "lat": 35.08241666666667,
+   "lng": 137.15633333333332
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "office",
+   "title": "누미 부사장을 맡다",
+   "title_en": "Takes the NUMMI vice presidency",
+   "description": "토요타가 제너럴모터스와 함께 운영하던 캘리포니아 합작공장에서 이사도 맡았다. 공장 현장에서 해외 생산을 직접 지휘했다.",
+   "description_en": "He also sat on the board of the California plant Toyota ran with General Motors. He took charge of overseas production on the factory floor.",
+   "place_name": "프리몬트",
+   "place_name_en": "Fremont",
+   "lat": 37.548611111111114,
+   "lng": -121.98833333333333
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "office",
+   "title": "이사회에 들어가다",
+   "title_en": "Joins the board of directors",
+   "description": "일본으로 돌아와 가주닷컴을 만들고 감독했다. 사이트는 새 차와 중고차 정보, 생활용품 가게를 한곳에 모았다. 국내 마케팅과 미주 사업도 맡았다.",
+   "description_en": "He came back to Japan and built and supervised Gazoo.com. The site gathered new- and used-car listings with shops for household goods. He also oversaw domestic marketing and operations in the Americas.",
+   "place_name": "토요타시",
+   "place_name_en": "Toyota City",
+   "lat": 35.08241666666667,
+   "lng": 137.15633333333332
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "other",
+   "title": "가명으로 24시간 내구 레이스에 출전하다",
+   "title_en": "Enters a 24-hour race under an alias",
+   "description": "부사장이던 그는 직함에 얽매이지 않고 자동차에 관해 이야기하려고 모리조라는 이름을 썼다. 마스터 테스트 드라이버 나루세 히로무와 가주 레이싱을 꾸려 대회에 출전했다. 나루세는 도로가 자동차를 만든다고 말했다.",
+   "description_en": "As vice president he took the name Morizo so he could talk about cars without the title getting in the way. He entered the race with master test driver Hiromu Naruse and GAZOO Racing. Naruse said roads make cars.",
+   "place_name": "뉘르부르크",
+   "place_name_en": "Nürburg",
+   "lat": 50.342222222222,
+   "lng": 6.9522222222222
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "office",
+   "title": "사장에 취임하다",
+   "title_en": "Takes the presidency",
+   "description": "회사가 사상 최악의 적자를 낸 직후 최고경영자 자리에 올랐다. 주주들이 인선을 승인했고, 전임자 와타나베 가쓰아키는 부회장으로 물러났다. 다쓰로 이후 14년 만에 도요다 가문 출신이 다시 사장에 올랐다.",
+   "description_en": "He took the top job just after the company posted its worst loss. Shareholders approved the appointment. Predecessor Katsuaki Watanabe moved to vice chairman. A Toyoda had not held the presidency since Tatsuro, fourteen years earlier.",
+   "place_name": "토요타시",
+   "place_name_en": "Toyota City",
+   "lat": 35.08241666666667,
+   "lng": 137.15633333333332
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "other",
+   "title": "미 의회에서 리콜을 사과하다",
+   "title_en": "Apologizes for the recalls before Congress",
+   "description": "급가속 의혹으로 수백만 대가 리콜된 뒤 하원 감독위원회 앞에 섰다. 성장 속도가 사람과 조직을 앞질렀다고 말했다. 안전·품질·대수 순서가 흔들렸다고 인정했다.",
+   "description_en": "He stood before the House oversight committee after millions of vehicles were recalled over sudden-acceleration fears. He said growth had outrun people and the organization. He admitted the old order of safety, quality, then volume had slipped.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "모빌리티 기업으로 전환하겠다고 선언하다",
+   "title_en": "Pledges to become a mobility company",
+   "description": "가전쇼 무대에서 이팔레트 콘셉트를 공개했다. 아마존, 디디, 우버와 손잡고 이동 서비스용 전기 밴을 만들겠다고 했다. 다른 완성차 업체뿐 아니라 구글과 애플도 경쟁 상대로 꼽았다.",
+   "description_en": "He unveiled the e-Palette concept on the consumer-electronics stage. He said Toyota would build an electric van for mobility services with Amazon, DiDi, and Uber. He counted Google and Apple, not only other carmakers, as rivals.",
+   "place_name": "라스베이거스",
+   "place_name_en": "Las Vegas",
+   "lat": 36.16722222222222,
+   "lng": -115.14861111111111
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "회장에 취임하다",
+   "title_en": "Takes the chairmanship",
+   "description": "사장과 최고경영자 자리를 사토 고지에게 넘겼다. 사토는 렉서스와 가주 레이싱을 맡아 온 브랜딩 책임자였다. 자신은 대표이사 회장으로 이사회에 남았다.",
+   "description_en": "He handed the presidency and the chief executive role to Koji Sato. Sato had been the branding officer who ran Lexus and GAZOO Racing. He stayed on as representative chair of the board.",
+   "place_name": "토요타시",
+   "place_name_en": "Toyota City",
+   "lat": 35.08241666666667,
+   "lng": 137.15633333333332
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건별 영문과 대조하고 연표 전체를 이어 읽어, 뜻은 유지하면서 번역투와 모호한 표현을 바로잡았다. 사실 확인이 필요한 충돌이나 모호성은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「방직에서 자동차로 옮긴 공장을 그대로 쥐고 있었다」는 사업 분야의 전환과 집안의 소유 관계를 부자연스럽게 표현해 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「남자 대표」만으로는 국가대표팀에 선발됐다는 영문의 의미가 분명하게 드러나지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 입사 사건인데 「회사로 돌아왔다」고 써서 앞선 경력과의 관계가 모호했으며, 「생산과 영업, 제품개발을 차례로 맡았다」는 여러 부문을 순환했다는 뜻이 충분히 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「부사장으로 건너가다」는 직책을 맡았다는 핵심이 흐렸고, 「합작공장에서 이사도 겸했다」는 어느 회사들이 운영한 공장인지 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「내구레이스에 나가다」와 「서킷에 올랐다」는 출전 행위를 모호하게 표현했고, 「직함으로는 말하기 어려운 차 이야기를 꺼내기 위해」는 직함이 대화를 가로막는다는 영문의 관계를 어색하게 옮겼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「최고경영을 맡았다」와 「창업 집안이 사장 자리를 다시 받았다」가 부자연스러웠고, 특히 후자는 도요다 가문 출신이 다시 사장에 올랐다는 의미를 정확히 전달하지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「모빌리티 회사로 옮기다」는 다른 회사로 이동한다는 뜻처럼 읽혔으며, 실제로는 토요타를 모빌리티 기업으로 전환하겠다는 선언이었다. 「경쟁 상대를 …까지로 보았다」도 한국어 어순이 어색했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이사회 대표로 남았다」는 대표이사 회장으로 이사회에 남았다는 직책과 행동 관계를 충분히 전달하지 못했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   6,
+   7,
+   9,
+   10
+  ]
+ }
+}

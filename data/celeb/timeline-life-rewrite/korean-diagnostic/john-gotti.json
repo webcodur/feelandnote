@@ -1,0 +1,264 @@
+{
+ "slug": "john-gotti",
+ "events": [
+  {
+   "year": 1940,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브롱크스에서 태어나다",
+   "title_en": "Born in the Bronx",
+   "description": "남부 브롱크스에서 열세 남매 가운데 다섯째로 태어났다. 그중 둘은 태어나자마자 숨졌다. 아버지는 존 조지프, 어머니는 필로메나였다. 부모는 모두 이탈리아 이민자의 자녀였고, 아버지는 일용직 노동자로 일했다.",
+   "description_en": "He was the fifth of thirteen children in the South Bronx. Two died at birth. His father was John Joseph and his mother Philomena. Both were children of Italian immigrants, and his father did day labor.",
+   "place_name": "브롱크스",
+   "place_name_en": "The Bronx",
+   "lat": 40.846666666,
+   "lng": -73.873333333
+  },
+  {
+   "year": 1952,
+   "year_end": null,
+   "kind": "travel",
+   "title": "이스트뉴욕으로 옮기다",
+   "title_en": "Moves to East New York",
+   "description": "열두 살 무렵 가족이 브루클린 이스트뉴욕에 자리 잡았다. 아버지는 일거리가 들쭉날쭉했다. 그는 동네 패거리를 이끌었고, 열여섯 살에 고등학교를 그만뒀다.",
+   "description_en": "Around age twelve the family settled in East New York in Brooklyn. His father’s work came and went. He led a neighborhood gang and left high school at sixteen.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.650833333,
+   "lng": -73.949722222
+  },
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "other",
+   "title": "빅토리아와 결혼하다",
+   "title_en": "Marries Victoria",
+   "description": "술집에서 만난 빅토리아 디조르지오와 결혼했다. 코트 공장에서 프레스공으로 일하고 트럭 운전사 조수도 잠깐 했다. 스물여섯 살이 되기 전에 경찰에 아홉 차례 체포됐고, 카마인 파티코가 이끄는 공항 화물 강탈 조직에 가담했다.",
+   "description_en": "He married Victoria DiGiorgio, whom he had met in a bar. He briefly worked as a coat-factory presser and a truck driver’s helper. Police arrested him nine times before he turned twenty-six, and he joined Carmine Fatico’s airport hijacking crew.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.650833333,
+   "lng": -73.949722222
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "other",
+   "title": "화물 강탈로 수감되다",
+   "title_en": "Jailed for hijacking",
+   "description": "유나이티드항공 직원들은 도난 화물을 인수하며 서명한 사람이 그라고 지목했다. FBI가 그를 체포했다. 보석으로 풀려나 있는 동안 뉴저지 턴파이크에서 담배 화물을 또 강탈하다 붙잡혔다. 노스웨스트 화물 트럭을 강탈한 혐의를 인정하고 루이스버그에서 3년을 복역했다.",
+   "description_en": "United Airlines workers identified the man who had signed for stolen cargo. The FBI arrested him. While out on bail he was caught again hijacking a load of cigarettes on the New Jersey Turnpike. He pleaded guilty to hijacking Northwest cargo trucks and served three years in Lewisburg.",
+   "place_name": "루이스버그",
+   "place_name_en": "Lewisburg",
+   "lat": 40.9639,
+   "lng": -76.8881
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "버긴 조직을 맡다",
+   "title_en": "Takes the Bergin crew",
+   "description": "가석방된 뒤 오존파크의 버긴 클럽으로 돌아왔다. 파티코는 사채 사건에 발이 묶이자, 아직 정식 조직원이 아니었던 그를 대행 캡틴으로 지명했다. 그는 맨해튼의 래버나이트로 가 부보스인 아니엘로 델라크로체에게 보고했다.",
+   "description_en": "Paroled, he returned to the Bergin club in Ozone Park. When Fatico was tied up on a loansharking case, he named him acting captain though he was not yet a made man. He went to the Ravenite in Manhattan to report to underboss Aniello Dellacroce.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.713611111,
+   "lng": -73.828055555
+  },
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "other",
+   "title": "맥브래트니를 습격하다",
+   "title_en": "Goes after McBratney",
+   "description": "카를로 감비노의 조카가 납치되어 살해됐다. 조직은 그를 아일랜드계 갱단원 제임스 맥브래트니에게 보냈다. 그와 동료 두 명은 스태튼아일랜드의 술집에서 형사로 가장해 맥브래트니를 덮쳤고, 맥브래트니는 그 자리에서 총에 맞아 죽었다. 이듬해 목격자가 그를 범인으로 지목했다. 그는 고의 살인을 인정하지 않은 채 징역 4년형을 받는 데 합의했다.",
+   "description_en": "Carlo Gambino’s nephew was kidnapped and killed. The family sent him after the Irish gangster James McBratney. With two associates he jumped McBratney in a Staten Island bar while posing as detectives, and McBratney was shot dead there. A witness picked him out the next year. He refused to admit intentional murder and took a four-year plea.",
+   "place_name": "스태튼아일랜드",
+   "place_name_en": "Staten Island",
+   "lat": 40.571944444,
+   "lng": -74.146944444
+  },
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "office",
+   "title": "입회하고 캡틴이 되다",
+   "title_en": "Is made and named captain",
+   "description": "출소한 뒤 감비노 패밀리에 정식으로 입회했다. 파티코의 자리를 이어 버긴 조직의 캡틴이 되었다. 버긴 조직은 델라크로체에게 보고했으며, 당시 보스는 이미 폴 카스텔라노였다.",
+   "description_en": "After his release he was initiated into the Gambino family. He took Fatico’s place as captain of the Bergin crew. The crew reported to Dellacroce, and Paul Castellano was already boss.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.713611111,
+   "lng": -73.828055555
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "other",
+   "title": "카스텔라노 살해를 지시하다",
+   "title_en": "Has Castellano killed",
+   "description": "델라크로체가 암으로 죽었다. 카스텔라노는 그의 빈소에 나타나지 않았고 토머스 빌로티를 부보스로 임명했다. 그는 스파크스 스테이크하우스 앞에 총잡이들을 배치했다. 카스텔라노와 빌로티는 식당 앞 거리에서 총에 맞았다. 그는 길 건너편에 세운 차 안에서 현장을 지켜봤다. 이듬해 초 캡틴들이 그를 보스로 지명했다.",
+   "description_en": "Dellacroce died of cancer. Castellano stayed away from the wake and raised Thomas Bilotti to underboss. He posted gunmen outside Sparks Steak House. Castellano and Bilotti were shot in the street. He watched from a car across the way. Early the next year the captains named him boss.",
+   "place_name": "맨해튼",
+   "place_name_en": "Manhattan",
+   "lat": 40.728333333,
+   "lng": -73.994166666
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "other",
+   "title": "연방 재판에서 무죄를 받다",
+   "title_en": "Wins a federal acquittal",
+   "description": "배심원단은 공갈과 살인 혐의 모두에 무죄 평결을 내렸다. 앞서 폭행 사건의 증인이 기억나지 않는다고 주장했고, 신문들은 그에게 ‘테플론 돈’이라는 별명을 붙였다. 나중에 배심원 한 명이 돈을 받고 무죄 평결을 고집한 사실이 드러났다.",
+   "description_en": "A jury acquitted him of all racketeering and murder charges. An assault witness had already claimed he could not remember, and the papers nicknamed him the Teflon Don. It later came out that one juror had been paid to hold out for acquittal.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.650833333,
+   "lng": -73.949722222
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "other",
+   "title": "래버나이트에서 체포되다",
+   "title_en": "Arrested at the Ravenite",
+   "description": "그해 초 배심원단은 노동조합 간부 폭행을 지시한 혐의에도 무죄 평결을 내렸다. 12월에는 FBI와 경찰이 멀베리 거리의 래버나이트에서 그와 새미 그라바노, 프랭크 로카시오를 체포했다. FBI 요원들은 이미 클럽과 위층 아파트를 도청하고 있었다. 이듬해 그라바노가 정부 측 증인으로 돌아섰다.",
+   "description_en": "Early that year a jury also acquitted him of ordering an assault on a union official. In December the FBI and police arrested him at the Ravenite on Mulberry Street, along with Sammy Gravano and Frank Locascio. Agents had already been listening in the club and the upstairs apartment. The next year Gravano turned government witness.",
+   "place_name": "맨해튼",
+   "place_name_en": "Manhattan",
+   "lat": 40.728333333,
+   "lng": -73.994166666
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "other",
+   "title": "살인과 공갈로 종신형을 받다",
+   "title_en": "Gets life for murder and racketeering",
+   "description": "브루클린 연방법원 배심원단은 열세 개 혐의 모두에 유죄 평결을 내렸다. 그 가운데에는 카스텔라노와 빌로티를 살해한 혐의도 있었다. 그는 가석방 없는 종신형을 선고받고 일리노이주 매리언 연방교도소에 수감됐다.",
+   "description_en": "In Brooklyn federal court the jury convicted him on all thirteen counts. The killings of Castellano and Bilotti were among them. He received life without parole and went to the federal prison in Marion, Illinois.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.650833333,
+   "lng": -73.949722222
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "death",
+   "title": "교도소 병원에서 죽다",
+   "title_en": "Dies in a prison hospital",
+   "description": "인후암에 걸려 미주리주 스프링필드의 연방 교도소 병원으로 옮겨졌다. 수술로 종양을 제거했지만 암이 재발했다. 그는 그 병원에서 죽었다.",
+   "description_en": "Throat cancer sent him to the federal prison hospital in Springfield, Missouri. Surgeons removed a tumor, but the cancer returned. He died in that hospital.",
+   "place_name": "스프링필드",
+   "place_name_en": "Springfield",
+   "lat": 37.195,
+   "lng": -93.286111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 불분명한 지시어, 직역투, 누락된 세부 정보와 범죄 조직식 은어를 자연스러운 한국어로 바로잡았다. 사건들이 출생부터 수감과 사망까지 끊기지 않고 이어지도록 문장 관계도 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「둘」이 부모를 가리키는 것처럼 읽힐 수 있어, 태어나자마자 숨진 두 자녀를 명확히 가리키도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 혼인 사실을 명시하지만 제목의 「살림을 차리다」는 결혼 여부가 불분명했다. 직업과 체포 경력도 「코트 공장 프레스」, 「트럭 조수」처럼 명사만 이어져 있어 자연스러운 문장으로 풀었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「훔친 짐에 사인한 사람」은 누가 무엇을 했는지 뜻을 짐작해야 했고, 유죄 인정과 형 복역의 관계도 드러나지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「패거리」와 「입회하지 않은」은 범죄 조직 내 지위와 역할을 선명하게 전달하지 못했고, 「부보스 아니엘로 델라크로체」에는 자연스러운 서술 관계가 빠져 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「쫓다」는 실제로 벌어진 습격을 충분히 나타내지 못했다. 영문에 있는 동료 수와 목격자의 지목도 복원하고, 「사 년형에 합의했다」라는 직역투를 다듬었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「델라크로체 쪽으로 붙었다」는 영문의 보고 체계를 자의적인 파벌 선택처럼 바꾼 표현이어서, 델라크로체에게 보고했다는 원래 의미로 바로잡았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「카스텔라노를 치다」는 뜻이 모호한 은어였고, 「그 길」과 「그 자리를 지켜봤다」도 앞 문장에 의존하는 불분명한 표현이었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배심이 전부 무죄를 냈다」와 「무죄를 밀어붙였다」가 영어 어순을 따른 거친 표현이어서 배심원단의 평결과 매수된 배심원의 행동을 분명하게 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「클럽과 위층 아파트를 이미 듣고 있었다」는 도청을 단어 순서대로 옮긴 직역이었고, 그라바노가 어느 쪽 증인이 되었는지도 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「열세 개 혐의가 모두 유죄로 남았다」는 주체와 행동 관계가 무너진 표현이어서 배심원단의 유죄 평결로 명확히 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「암이 다시 왔다」는 재발을 부자연스럽게 직역한 표현이어서 일반적인 한국어 의료 서술로 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

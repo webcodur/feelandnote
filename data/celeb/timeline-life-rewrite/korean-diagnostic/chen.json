@@ -1,0 +1,256 @@
+{
+ "slug": "chen",
+ "events": [
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "birth",
+   "title": "대전에서 태어나다",
+   "title_en": "Is born in Daejeon",
+   "description": "대전에서 태어났다. 훗날 라디오에서 고향은 대전이고 자란 곳은 시흥 정왕동이라고 말했다. 형이 한 명 있다.",
+   "description_en": "He was born in Daejeon. He later said on the radio that Daejeon was his hometown and that he grew up in Jeongwang-dong, Siheung. He has one older brother.",
+   "place_name": "대전",
+   "place_name_en": "Daejeon",
+   "lat": 36.35,
+   "lng": 127.385
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "시흥에서 자라다",
+   "title_en": "Grows up in Siheung",
+   "description": "시흥 정왕동에서 자랐다. 예명과 외모 때문에 그를 중국인으로 오해하는 사람들이 생기자, 방송에서 자신은 정왕동 출신이라고 밝혔다.",
+   "description_en": "He grew up in Jeongwang-dong, Siheung. When people took him for Chinese because of his stage name and face, he said on air that he was from that neighborhood.",
+   "place_name": "시흥",
+   "place_name_en": "Siheung",
+   "lat": 37.380252,
+   "lng": 126.802951
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "SM 연습생이 되다",
+   "title_en": "Becomes an SM trainee",
+   "description": "연습생 기간은 짧았다. 그해 겨울 SBS 가요대전에서 엑소의 네 번째 멤버로 처음 모습을 드러냈다. 이수만이 지어 준 예명은 샛별이라는 뜻이다. 훗날 SM에 들어오기 전에는 춤을 춰 본 적이 없었다고 말했다.",
+   "description_en": "His trainee period was short. That winter, at the SBS Gayo Daejeon, he first appeared as the fourth member of EXO. Lee Soo-man gave him his stage name, which means the morning star. He later said he had never danced before joining the company.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑소엠으로 데뷔하다",
+   "title_en": "Debuts with EXO-M",
+   "description": "회사가 한국 팀과 중국 팀 가운데 어느 쪽에서 활동하고 싶은지 묻자, 망설이지 않고 중국 팀을 골랐다. 부모님과 상의하지 않은 채 내린 결정이라 부모님은 걱정했다. 선전에서 열린 음악풍운방 시상식에서 첫 무대에 섰다.",
+   "description_en": "When the company asked whether he wanted the Korean or the Chinese unit, he chose China without hesitation. His parents worried, because he had spoken before consulting them. He took the first stage at the Music Radio China Awards in Shenzhen.",
+   "place_name": "선전",
+   "place_name_en": "Shenzhen",
+   "lat": 22.546666666666667,
+   "lng": 114.05444444444444
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑소 1집이 백만 장을 넘다",
+   "title_en": "EXO’s first album passes a million copies",
+   "description": "정규 1집과 리패키지를 합쳐 백만 장이 넘었다. 김건모와 지오디 이후 12년 만의 기록이었다. 그룹은 데뷔 이듬해에 판매량 백만 장을 달성했다.",
+   "description_en": "The first studio album and its repackage together passed a million copies. It was the first time in twelve years since Kim Gun-mo and g.o.d. The group hit that number the year after debut.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "publish",
+   "title": "그룹 밖에서 처음 노래하다",
+   "title_en": "Sings outside the group for the first time",
+   "description": "디오가 출연한 《괜찮아, 사랑이야》의 OST로 「최고의 행운」을 녹음했다. 그룹 이름이 아닌 자신의 이름으로 노래를 발표한 것은 이때가 처음이었다.",
+   "description_en": "He recorded Best Luck for It’s Okay, That’s Love, the drama his bandmate D.O. starred in. From then on his voice also went out without the group’s name.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "publish",
+   "title": "드라마 노래가 1위에 오르다",
+   "title_en": "A drama song reaches number one",
+   "description": "펀치와 「에브리타임」을 불렀다. 《태양의 후예》 삽입곡이었고, 주간 음원 차트 1위에 올랐다.",
+   "description_en": "He sang Everytime with Punch. It was for Descendants of the Sun and reached number one on the weekly digital chart.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "백현, 시우민과 유닛을 만들다",
+   "title_en": "Forms a subunit with Baekhyun and Xiumin",
+   "description": "백현, 시우민과 엑소의 첫 유닛을 꾸렸다. 세 사람은 앞서 드라마 OST 「너를 위해」를 함께 불렀다. 미니 음반 제목은 「헤이 마마」였다.",
+   "description_en": "He formed EXO’s first subunit with Baekhyun and Xiumin. The three had already sung For You for a drama. The mini-album was titled Hey Mama.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 솔로 음반을 내다",
+   "title_en": "Releases his first solo album",
+   "description": "그룹으로 일곱 해를 보낸 뒤 자기 이름만 단 음반을 냈다. 수록곡 「꽃」의 가사를 썼다. 타이틀은 「사월이 지나면 우리 헤어져요」였다.",
+   "description_en": "After seven years in the group he put out a record under his own name. He wrote the lyrics for Flower. The title track was Beautiful Goodbye.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "결혼을 알리다",
+   "title_en": "Announces his marriage",
+   "description": "팬클럽에 손편지를 올려 결혼을 알렸다. 신부는 연예인이 아니었다. 회사는 결혼식에 양가 가족만 참석하며 비공개로 진행된다고 밝혔다. 그해 봄 첫 딸이 태어났다.",
+   "description_en": "He announced the marriage in a handwritten letter on the fan club. The bride was not a celebrity. The company said the ceremony would be private, with only the two families present. Their first daughter was born that spring.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": 2022,
+   "kind": "other",
+   "title": "군에 입대하다",
+   "title_en": "Enlists in the army",
+   "description": "가을에 입대했다. 상근예비역으로 복무한 뒤 전역했다. 복무 중에는 둘째 딸이 태어났다.",
+   "description_en": "He enlisted in the autumn. He served as a full-time reserve soldier and was discharged. Their second daughter was born during his service.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "솔로 활동을 다른 레이블로 옮기다",
+   "title_en": "Moves his solo work to another label",
+   "description": "백현이 세운 레이블에 시우민과 함께 들어갔다. 솔로와 유닛 활동은 새 레이블이 맡고, 엑소 활동은 기존 소속사가 맡았다. 그해 봄 네 번째 미니 음반을 냈다.",
+   "description_en": "He joined the label Baekhyun had set up, together with Xiumin. Solo and subunit work went there, while EXO work stayed with the old company. That spring he released his fourth mini-album.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "여러 사건에서 직역투, 불분명한 주체와 대상, 부자연스러운 연결을 바로잡았다. 다만 index 3의 첫 무대 행사명이 국문과 영문에서 서로 달라 문장 편집만으로는 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 라디오에서」와 「고향은 대전이요」가 부자연스럽고, 형제 관계를 나타내는 「형이 하나 있다」도 한국어 문장으로 매끄럽지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「예명과 얼굴 때문에 중국인으로 오해받자」의 주체와 상황이 어색하고, 「그 동네」가 앞 문장에 기대야만 뜻이 분명해졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「멤버로 처음 섰다」만으로는 처음 공개된 것인지 첫 무대에 섰다는 것인지 관계가 불분명했고, morning star를 옮긴 「새벽의 별」도 자연스러운 한국어 표현이 아니었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "회사가 무엇을 물었는지가 빠져 있었고, 「상의도 없이 말한 아들」은 아들이 무엇을 말했는지 알 수 없었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 숫자를 만들었다」가 앞서 나온 판매량을 모호한 지시어로 받아 의미가 불필요하게 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "드라마에 노래를 「넣었다」는 표현과 「자기 목소리만 나가는 일이 이때부터였다」는 문장이 음원 녹음과 개인 명의 발표의 관계를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「드라마 노래」와 「같이 부른 뒤였다」가 뜻은 통하지만 음원 경력과 유닛 결성의 선후 관계를 다소 거칠게 전달했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사는 비공개 예식을 발표했다」는 목적어와 행동의 결합이 부자연스러웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「복무를 마치고 전역했다」가 같은 뜻을 겹쳐 썼고, 둘째 딸의 출생과 복무 기간의 관계가 앞 문장과 단절되어 보였다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「솔로를 다른 레이블로 옮기다」는 옮겨 간 대상이 사람인지 활동인지 불분명했고, 「그쪽에서 맡고」와 「예전 회사에 남겼다」도 각 활동을 어느 회사가 담당하는지 자연스럽게 드러내지 못했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 3,
+    "reason": "국문은 첫 무대 장소를 「음악풍운방 시상식」이라고 하지만 영문은 「Music Radio China Awards」라고 적고 있어 행사명이 서로 다르다. 어느 명칭이 사실인지 주어진 문장만으로 판단할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   9,
+   10,
+   11
+  ]
+ }
+}

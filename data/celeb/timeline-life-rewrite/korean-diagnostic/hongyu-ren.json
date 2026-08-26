@@ -1,0 +1,226 @@
+{
+ "slug": "hongyu-ren",
+ "events": [
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "birth",
+   "title": "중국에서 태어나다",
+   "title_en": "Born in China",
+   "description": "정확한 날짜와 도시는 공개되지 않았다.",
+   "description_en": "The exact date and city were never made public.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "education",
+   "title": "치바오고등학교에서 베이징대 추천 후보가 되다",
+   "title_en": "Recommended from Qibao High School to Peking University",
+   "description": "치바오고등학교 졸업반에서 가장 어린 학생이었다. 학급의 수학 대표를 맡았고 교과 시험에서 모두 A를 받았다. 가축 분뇨 속 비소를 광촉매로 처리하는 환경 연구 과제를 이끌어 ‘내일의 과학 유망주’로 선정됐다. 학교는 그를 베이징대 학교장 추천 후보로 올렸다.",
+   "description_en": "He was the youngest student in Qibao High School’s graduating class. He served as the class math representative and earned all A’s on subject exams. He led a project on photocatalytic treatment of arsenic in livestock waste and was named a Rising Star of Tomorrow’s Science. The school put him forward for Peking University’s principal recommendation.",
+   "place_name": "상하이",
+   "place_name_en": "Shanghai",
+   "lat": 31.2325,
+   "lng": 121.46916666666667
+  },
+  {
+   "year": 2014,
+   "year_end": 2018,
+   "kind": "education",
+   "title": "베이징대에서 컴퓨터과학 우등 학사를 받다",
+   "title_en": "Earns an honors B.S. in computer science at Peking University",
+   "description": "컴퓨터과학을 전공했다. 학부 말에 마이크로소프트 아시아연구원에서 인턴을 했다.",
+   "description_en": "He studied computer science. Near the end of the degree he interned at Microsoft Research Asia.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 2018,
+   "year_end": 2023,
+   "kind": "education",
+   "title": "스탠퍼드에서 그래프 추론을 연구하며 박사 과정을 밟다",
+   "title_en": "Pursues a computer science Ph.D. on graph reasoning at Stanford",
+   "description": "유레 레스코벡 연구실에서 지식 그래프와 다단계 논리 추론을 연구했다. 박사 과정 동안 엔비디아와 구글, 애플 연구소에서 인턴으로 일했다. 마사손재단 펠로십에도 선정됐다.",
+   "description_en": "He worked on knowledge graphs and multi-hop logical reasoning in Jure Leskovec’s group. During the doctorate he interned at NVIDIA, Google, and Apple. He also received a Masason Foundation fellowship.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "상자 임베딩으로 지식 그래프의 논리 질의를 풀다",
+   "title_en": "Publishes Query2box for logical queries over knowledge graphs",
+   "description": "후웨이화와 함께 지식 그래프의 질의를 상자 형태의 벡터로 표현하는 방법을 발표했다. 논리곱과 논리합 연산을 각각 상자의 교집합과 합집합으로 계산했다. 논문은 국제학습표현학회에 실렸다.",
+   "description_en": "With Weihua Hu he represented knowledge-graph queries as box-shaped vectors. Conjunction and disjunction became intersection and union of those boxes. The paper appeared at ICLR.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "질문과 지식 그래프를 하나로 연결해 추론하는 모델을 발표하다",
+   "title_en": "Publishes QA-GNN and is named an Apple Scholar",
+   "description": "미키히로 야스나가 등과 함께 질문과 지식 그래프를 하나의 그래프로 구성해 추론하는 모델을 발표했다. 논문은 북미전산언어학회에 실렸다. 그래프 표현 학습 연구로 애플의 인공지능·머신러닝 장학생에 선정됐고, 같은 해 바이두 펠로십도 받았다.",
+   "description_en": "With Michihiro Yasunaga and others he released a model that reasons over a question and a knowledge graph on one graph. It appeared at NAACL. Apple named him a Scholar in AIML for graph representation learning. Baidu awarded him its fellowship the same year.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "오픈AI에 연구과학자로 합류하다",
+   "title_en": "Joins OpenAI as a research scientist",
+   "description": "박사 학위를 마친 그해 여름에 합류해 챗지피티 연구를 맡았다.",
+   "description_en": "He joined in the summer after finishing the doctorate. The post put him on ChatGPT.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "지피티-4오를 함께 만들다",
+   "title_en": "Helps create GPT-4o",
+   "description": "글과 그림과 소리를 한 모델에서 다루는 일에 참여했다. 오픈AI는 기여자 목록에 그를 올렸다.",
+   "description_en": "He took part in building a model that handles text, images, and sound together. OpenAI listed him among the contributors.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "지피티-4오 미니 개발을 이끌다",
+   "title_en": "Leads development of GPT-4o mini",
+   "description": "회사는 공식 글에서 그를 개발 책임자 중 한 명으로 소개했다. 그는 비용이 낮은 모델이 더 많은 후속 활용을 가능하게 할 것이라고 썼다.",
+   "description_en": "The company named him one of the leads on the official post. He wrote that a cheaper model would unlock more downstream uses.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "오1과 오1 미니를 함께 만들다",
+   "title_en": "Helps build o1 and presents o1-mini",
+   "description": "오픈AI는 오1 기여자 목록에 그를 올렸다. 그는 공개 포럼에서 오1 미니를 소개하며, 더 작은 모델로 더 낮은 비용에 추론할 수 있다고 설명했다.",
+   "description_en": "OpenAI listed him among o1 contributors. At a public forum he introduced o1-mini. He explained the smaller model as a cheaper way to reason.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "office",
+   "title": "메타 슈퍼인텔리전스 랩에 합류하다",
+   "title_en": "Joins Meta Superintelligence Labs",
+   "description": "마크 저커버그는 내부 메모에서 그를 지피티-4오와 오 시리즈 미니 모델, 오3의 공동 개발자로 소개했다. 당시 그는 오픈AI에서 사후 학습 그룹을 이끌고 있었다. 위자후이, 비수차오, 자오성자와 함께 메타로 옮겼다.",
+   "description_en": "In an internal memo Mark Zuckerberg introduced him as a co-creator of GPT-4o, the o-series mini models, and o3. He had been leading a post-training group at OpenAI. He moved with Jiahui Yu, Shuchao Bi, and Shengjia Zhao.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454166666667,
+   "lng": -122.17861111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "학업에서 그래프 추론 연구를 거쳐 오픈AI와 메타의 인공지능 모델 개발로 이어지는 생애 흐름은 유지했다. 직역투와 모호한 역할 표현, 영문보다 의미가 달라진 대목을 자연스러운 한국어로 바로잡았다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학교명과 교내 역할, 연구 과제 및 선발 명칭이 직역돼 뜻이 매끄럽게 이어지지 않았고, 베이징대 추천의 주체와 방식도 불분명했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그래프 추론으로 박사과정을 밟다」는 그래프 추론이 연구 주제인지 박사 과정의 수단인지 관계가 모호했고, 펠로십을 단순히 받았다는 표현도 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「상자 모양 벡터로 나타내는 방법을 냈다」와 「그리고와 또는 연산」이 직역투였고, 학회 이름도 자연스러운 한국어 명칭으로 읽히지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「한 그래프에서 잇다」는 무엇을 어떻게 연결해 추론했는지 불분명했고, 학회·장학생·펠로십 관련 표현도 한국어 문장으로 매끄럽지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「연구과학자로 들어가다」와 「채팅지피티를 다루는 연구 자리였다」가 직역에 가까워 합류 시점과 담당 업무의 관계가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「리드 가운데 한 명」과 「아래쪽 응용」은 영어 표현을 그대로 옮긴 말이며, 영문의 cheaper를 「더 가벼운」으로 옮겨 비용이 낮다는 의미가 달라졌다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「작은 모델로 추론 비용을 낮추는 쪽을 설명했다」는 행동과 설명 내용이 모호해, 작은 모델로 더 낮은 비용에 추론한다는 영문의 관계를 분명히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "모델 개발자를 「공동 창작자」라고 한 표현이 어색했고, 「사후학습 그룹을 이끈 뒤였다」는 앞뒤 문장과의 연결이 끊겼다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10
+  ]
+ }
+}

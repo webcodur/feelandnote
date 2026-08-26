@@ -1,0 +1,237 @@
+{
+ "slug": "benji-taylor",
+ "events": [
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "birth",
+   "title": "런던에서 태어나다",
+   "title_en": "Born in London",
+   "description": "영국 국적이다. 이후 영국의 외딴 지역에서 자랐다.",
+   "description_en": "He is British. He later grew up in a remote part of the country.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "정규 교육과 충돌하다",
+   "title_en": "Breaks with school",
+   "description": "열두 살 무렵부터 정규 수업과 충돌하기 시작했다. 여러 학교를 옮겨 다녔다. 과목을 따라가지 못한 것이 아니라 자신에게 필요하지 않다고 판단했다. 그때부터 자신의 프로젝트를 진짜 해야 할 일로 여기기 시작했다.",
+   "description_en": "Around age twelve he began to clash with ordinary classes. He moved through several schools. It was not that he could not do the subjects; he decided he had no use for them. That was when he started treating his own projects as the real work.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "아이폰 게임 스퀘어스를 출시하다",
+   "title_en": "Releases the iPhone game Squares",
+   "description": "학교 그래픽 수업에서는 앱스토어 게임을 가상으로 만들어 보라는 과제가 나왔다. 그는 약 석 달 동안 색을 맞추는 게임을 개발해 실제 앱스토어에 출시했다. 광고가 붙은 무료 앱이었고, 정작 그 수업에서는 낙제했다.",
+   "description_en": "A school graphics class asked for a fake App Store game. He spent about three months building a colour-matching game and put the real thing on the store. It was free with ads, and he failed the class.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "넥스트 엑시트를 설립하다",
+   "title_en": "Opens Next Exit",
+   "description": "음악 관련 비주얼과 웹사이트, 브랜딩을 제작하는 디자인 스튜디오였다. 램 리들즈, 에이셉 앤트, 케빈 앱스트랙트가 작업을 의뢰했고, 미드나잇 스튜디오스의 웹사이트도 새로 만들었다. 《데이즈드》는 당시 열여섯 살이던 그를 디자이너로 인터뷰했다.",
+   "description_en": "It was a design studio for music visuals, websites, and branding. Ramriddlz, A$AP Ant, and Kevin Abstract hired him, and he also rebuilt the Midnight Studios site. Dazed interviewed him as a sixteen-year-old designer.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "로스펠리스 엔지니어링을 세우다",
+   "title_en": "Founds Los Feliz Engineering",
+   "description": "로스앤젤레스로 옮겨 소비자용 소프트웨어 회사를 세웠다. 회사 이름은 미국에서 처음 살았던 동네에서 따왔다. 원격으로 일하는 팀이 아이오에스 앱을 개발했다.",
+   "description_en": "He moved to Los Angeles and started a consumer software company. He named it after the first neighbourhood he lived in in the United States. The team built iOS apps remotely.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "혼크를 출시하다",
+   "title_en": "Launches Honk",
+   "description": "보내기 버튼이 없는 실시간 메신저였다. 메시지는 저장되지 않았고, 첫 홍보는 틱톡에서 했다. 출시 당일 메시지 수가 100만 건을 넘었다. 네이벌 라비칸트, 엘라드 길, 라이언 후버는 이미 엔젤 투자자로 참여하고 있었다.",
+   "description_en": "It was a real-time messenger with no send button. Messages did not stay, and the first push was on TikTok. On launch day the count passed a million. Naval Ravikant, Elad Gil, and Ryan Hoover were already in as angels.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2022,
+   "year_end": 2023,
+   "kind": "work",
+   "title": "패밀리와 커넥트킷을 개발하다",
+   "title_en": "Builds Family and ConnectKit",
+   "description": "혼크를 종료한 뒤 이더리움 분야로 방향을 돌렸다. 디앱에 지갑을 연결하는 라이브러리인 커넥트킷이 먼저 안정 버전을 출시했다. 이듬해에는 아이오에스용 자기수탁 지갑 패밀리가 프로덕트 헌트에 올랐다. 사용자가 자신의 키를 직접 보관하는 방식이었다.",
+   "description_en": "He shut Honk and turned toward Ethereum. ConnectKit, a library for attaching wallets to dapps, shipped a stable release first. The next year the iOS self-custody wallet landed on Product Hunt. Users kept their own keys.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2023,
+   "year_end": 2025,
+   "kind": "work",
+   "title": "아바라에 회사를 매각하다",
+   "title_en": "Sells the company to Avara",
+   "description": "에이브 컴퍼니즈는 사명을 아바라로 바꾸면서 로스펠리스 엔지니어링을 인수했다고 발표했다. 팀 전원이 아바라에 합류했고, 그는 제품·디자인 담당 수석부사장이 됐다. 이후 최고제품책임자로 승진했으며, 이듬해 10월 그 직책에서 물러났다.",
+   "description_en": "Aave Companies, renaming itself Avara, announced it had bought Los Feliz Engineering. The whole team followed, and he became senior vice president of product and design. He later rose to chief product officer and left that post the following October.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2025,
+   "year_end": 2026,
+   "kind": "office",
+   "title": "베이스에서 디자인을 이끌다",
+   "title_en": "Leads design at Base",
+   "description": "코인베이스의 이더리움 레이어 2인 베이스에서 디자인을 총괄했다. 제품 디자인과 크리에이티브, 리서치를 함께 맡았다. 6개월이 채 지나기 전에 그 직책에서 물러났다.",
+   "description_en": "He took design at Coinbase’s Ethereum layer two. He oversaw product design, creative, and research together. He left the post after a little under half a year.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "office",
+   "title": "엑스의 디자인 책임자로 합류하다",
+   "title_en": "Joins X as design lead",
+   "description": "엑스와 엑스에이아이, 스페이스엑스의 디자인을 이끌겠다고 밝혔다. 제품 책임자 니키타 비어가 영입을 추진했다. 엑스 머니의 결제 기능 확대를 앞둔 시점이었다. 본인 웹사이트에는 스페이스엑스 소속으로 엑스와 스페이스엑스에이아이의 디자인을 이끈다고 적혀 있다.",
+   "description_en": "He said he would lead design for X, xAI, and SpaceX. Product lead Nikita Bier had pushed the hire. It came as X Money payments were about to widen. His own site says he leads design for X and SpaceXAI from SpaceX.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투와 빠진 대상을 바로잡고, 각 사업과 직책이 다음 사건으로 자연스럽게 이어지도록 다듬었다. 다만 마지막 사건의 영문에 나온 ‘SpaceXAI’가 무엇을 가리키는지는 문장만으로 확정할 수 없어 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에는 외진 고장」은 later와 remote part of the country를 순서대로 치환한 표현이라 시점과 장소가 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「학교와 갈라서다」는 정규 수업과 충돌했다는 의미를 충분히 전달하지 못했고, 「혼자 하는 일을 본업처럼 밀었다」는 자신의 프로젝트를 진짜 일로 여겼다는 원문의 주체와 판단을 흐렸다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "게임을 스토어에 「올리다」보다 출시 과정이 드러나는 제목이 자연스럽고, 「가짜 앱스토어 게임」은 수업용 가상 과제와 실제 출시작의 대비를 알아보기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "디자인 스튜디오를 「열다」와 웹사이트를 「다시 짰다」는 표현이 구어적이고, 의뢰인과 작업의 관계도 더 분명하게 드러낼 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미국에 와서 처음 산 동네」는 lived in을 주택 구매처럼 읽히게 하며, 원격으로 일한 주체가 팀이라는 점도 흐렸다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제품 출시는 「내다」보다 「출시하다」가 분명하며, 「글은 남지 않았다」와 「엔젤로 들어와 있었다」는 메시지 저장 여부와 엔젤 투자 참여를 정확히 나타내지 못했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "기존 서술은 이듬해 프로덕트 헌트에 오른 제품이 패밀리라는 사실을 생략했고, 사용자가 자신의 키를 보관한다는 자기수탁 방식도 구어적으로 표현했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사를 「넘기다」와 팀이 「따라갔다」는 표현은 매각과 인수 회사 합류의 관계를 모호하게 만들었고, 직책 변화도 자연스럽게 이어지지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「코인베이스의 이더리움 레이어투에서 디자인을 맡았다」는 베이스라는 대상을 문장 안에서 생략했고, 「반 년 남짓 뒤」는 6개월보다 조금 짧았다는 영문의 기간과 어긋났다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "합류한 조직과 맡은 직책을 제목에서 분명히 하고, 「영입을 밀었다」와 「결제 확대」 같은 압축된 표현을 자연스럽게 풀었다. 마지막 문장의 조직 관계는 영문 자체의 모호성을 보존했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 9,
+    "reason": "영문은 먼저 X·xAI·SpaceX의 디자인을 맡는다고 적은 뒤, 본인 사이트의 표현을 ‘leads design for X and SpaceXAI from SpaceX’라고 전한다. ‘SpaceXAI’가 별도 명칭인지 SpaceX와 xAI를 붙여 쓴 것인지, ‘from SpaceX’가 소속을 뜻하는지도 문장 편집만으로 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

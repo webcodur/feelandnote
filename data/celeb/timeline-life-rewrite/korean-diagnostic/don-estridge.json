@@ -1,0 +1,268 @@
+{
+ "slug": "don-estridge",
+ "events": [
+  {
+   "year": 1937,
+   "year_end": null,
+   "kind": "birth",
+   "title": "잭슨빌에서 태어나다",
+   "title_en": "Born in Jacksonville",
+   "description": "아버지는 직업 사진사였다. 그는 어린 시절 잭슨빌의 가톨릭 초등학교에 다녔다.",
+   "description_en": "His father worked as a photographer. He spent his early years at a Catholic grade school in the same city.",
+   "place_name": "잭슨빌",
+   "place_name_en": "Jacksonville",
+   "lat": 30.316666666667,
+   "lng": -81.65
+  },
+  {
+   "year": 1955,
+   "year_end": null,
+   "kind": "education",
+   "title": "비숍 케니 고등학교를 마치다",
+   "title_en": "Graduates from Bishop Kenny High School",
+   "description": "잭슨빌의 가톨릭 고등학교를 나왔다. 곧이어 게인즈빌의 주립대학에 진학했다.",
+   "description_en": "He finished a Catholic high school in the same city. He then went on to the state university in Gainesville.",
+   "place_name": "잭슨빌",
+   "place_name_en": "Jacksonville",
+   "lat": 30.316666666667,
+   "lng": -81.65
+  },
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "other",
+   "title": "메리 앤 헬리어와 결혼하다",
+   "title_en": "Marries Mary Ann Hellier",
+   "description": "대학을 마치기 한 해 전이었다. 두 사람은 훗날 세 딸을 두었다.",
+   "description_en": "He married a year before finishing college. They later had three daughters.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "education",
+   "title": "플로리다 대학교에서 전기공학 학위를 받다",
+   "title_en": "Earns an electrical engineering degree at Florida",
+   "description": "학위를 받자마자 아이비엠에 들어갔다. 그 뒤로 맡은 일과 근무지 이동은 모두 아이비엠 안에서 이루어졌다.",
+   "description_en": "He joined IBM as soon as he graduated. After that every job and transfer stayed inside the company.",
+   "place_name": "게인즈빌",
+   "place_name_en": "Gainesville",
+   "lat": 29.665277777778,
+   "lng": -82.336111111111
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "work",
+   "title": "킹스턴에서 아이비엠 생활을 시작하다",
+   "title_en": "Starts at IBM in Kingston",
+   "description": "연방시스템 사업부의 신입 기술자였다. 방공망 세이지의 레이더와 컴퓨터를 다뤘다.",
+   "description_en": "He entered the Federal Systems Division as a junior engineer. He worked on the radar and computers of the SAGE air-defense network.",
+   "place_name": "킹스턴",
+   "place_name_en": "Kingston",
+   "lat": 41.925,
+   "lng": -74
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "work",
+   "title": "고다드 우주비행센터에서 나사를 지원하다",
+   "title_en": "Supports NASA at Goddard",
+   "description": "유인·무인 비행을 위한 프로그래밍 지원 업무를 맡았다. 워싱턴 인근으로 옮긴 뒤에도 아이비엠 소속으로 일했다.",
+   "description_en": "He took on programming support for manned and unmanned flights. He remained an IBM employee after the move toward Washington.",
+   "place_name": "그린벨트",
+   "place_name_en": "Greenbelt",
+   "lat": 38.99467,
+   "lng": -76.885399
+  },
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "work",
+   "title": "보카레이턴 사업장으로 옮기다",
+   "title_en": "Moves to IBM Boca Raton",
+   "description": "일반시스템 사업부로 자리를 바꿨다. 본사에서 먼 플로리다 사업장이 뒤에 개인용 컴퓨터 팀의 일터가 되었다.",
+   "description_en": "He joined the General Systems Division. The Florida site, far from headquarters, later became the workplace of the personal-computer team.",
+   "place_name": "보카레이턴",
+   "place_name_en": "Boca Raton",
+   "lat": 26.368611111111,
+   "lng": -80.1
+  },
+  {
+   "year": 1975,
+   "year_end": 1979,
+   "kind": "work",
+   "title": "시리즈/1 미니컴퓨터를 맡다",
+   "title_en": "Manages the Series/1 minicomputer",
+   "description": "시리즈/1의 프로그래밍 업무를 관리했다. 이 일을 마친 뒤에는 스테이트팜 보험을 비롯한 대형 고객의 맞춤형 시스템 입찰을 이끌었다.",
+   "description_en": "He ran programming for the machine. After that he led custom bids for large accounts, including State Farm Insurance.",
+   "place_name": "보카레이턴",
+   "place_name_en": "Boca Raton",
+   "lat": 26.368611111111,
+   "lng": -80.1
+  },
+  {
+   "year": 1980,
+   "year_end": null,
+   "kind": "work",
+   "title": "개인용 컴퓨터 프로젝트를 맡다",
+   "title_en": "Takes over the personal-computer project",
+   "description": "빌 로우가 본사의 승인을 받아 꾸린 소규모 팀을 이어받았다. 기한은 일 년이었다. 부품은 회사 외부에서 조달해야 했다.",
+   "description_en": "He took over the small team Bill Lowe had gotten approved at headquarters. The deadline was one year. The parts had to come from outside the company.",
+   "place_name": "보카레이턴",
+   "place_name_en": "Boca Raton",
+   "lat": 26.368611111111,
+   "lng": -80.1
+  },
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "work",
+   "title": "아이비엠 개인용 컴퓨터를 내놓다",
+   "title_en": "Launches the IBM Personal Computer",
+   "description": "인텔 칩과 마이크로소프트 도스를 아이비엠 외부에서 조달했다. 설계를 공개했다. 다른 회사도 같은 규격의 기계를 만들 수 있게 되었다.",
+   "description_en": "He bought the Intel chip and Microsoft DOS from outside IBM. He published the design. Other companies could then build machines to the same specification.",
+   "place_name": "보카레이턴",
+   "place_name_en": "Boca Raton",
+   "lat": 26.368611111111,
+   "lng": -80.1
+  },
+  {
+   "year": 1983,
+   "year_end": null,
+   "kind": "office",
+   "title": "개인용 컴퓨터 사업부 사장이 되다",
+   "title_en": "Becomes president of the PC division",
+   "description": "스티브 잡스가 애플 사장 자리를 수백만 달러에 제안했다. 그는 거절하고 아이비엠에 남았다.",
+   "description_en": "Steve Jobs offered him the presidency of Apple for several million dollars. He declined and stayed at IBM.",
+   "place_name": "보카레이턴",
+   "place_name_en": "Boca Raton",
+   "lat": 26.368611111111,
+   "lng": -80.1
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "office",
+   "title": "전 세계 제조를 감독하다",
+   "title_en": "Oversees IBM manufacturing worldwide",
+   "description": "보카레이턴을 떠나 코네티컷으로 집을 옮겼다. 그가 키운 사업부는 이미 직원이 만 명에 이르렀고, 개인용 컴퓨터 판매량도 백만 대를 넘어선 뒤였다.",
+   "description_en": "He left Boca Raton and moved the household to Connecticut. The division he had built already had ten thousand people and had sold more than a million machines.",
+   "place_name": "뉴캐넌",
+   "place_name_en": "New Canaan",
+   "lat": 41.1468,
+   "lng": -73.4949
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "kind": "death",
+   "title": "델타 항공 191편 추락으로 숨지다",
+   "title_en": "Dies in the crash of Delta Flight 191",
+   "description": "아내와 함께 포트로더데일에서 댈러스로 가는 비행기에 탔다. 비행기는 착륙을 위해 접근하던 중 하강풍에 휘말려 활주로에 미치지 못한 지점에 추락했다. 같은 비행기에는 아이비엠 직원과 그 가족도 여럿 타고 있었다.",
+   "description_en": "He and his wife boarded a flight from Fort Lauderdale to Dallas. A downdraft caught the plane on approach and it struck short of the runway. Other IBM employees and their families were on the same flight.",
+   "place_name": "어빙",
+   "place_name_en": "Irving",
+   "lat": 32.811666666667,
+   "lng": -96.950833333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 지시 대상이 불분명한 표현, 직역투, 어색한 서술어와 사건 사이의 연결을 바로잡았다. 별도의 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「유년은」이라는 주어가 부자연스럽고, 「그 도시」가 본문만으로는 잭슨빌을 가리키는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학교 이름의 띄어쓰기를 바로잡았고, 앞 사건을 읽어야만 알 수 있는 「같은 도시」를 잭슨빌로 명시했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 딸 셋을 두었다」는 시점과 주체가 흐릿해, 부부를 주어로 세우고 시간 관계를 분명히 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "전기공학을 「마치다」라는 표현이 학위 취득을 정확히 나타내지 못했고, 「직장과 이직은 그 회사 안에서만 이뤄졌다」는 주어와 행동 관계가 어색했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「센터를 지원하다」는 무엇을 어떻게 지원했는지 모호했고, 「비행의 프로그램 일」과 「워싱턴 쪽」은 직역투에 가까웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제품명 표기를 영문과 맞췄고, 「프로그래밍 관리를 했다」와 「끝난 뒤에는」은 관리 대상과 앞뒤 관계가 불분명했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문 제목에 없는 프로젝트명을 제거했고, 영문의 small team을 「십여 명 팀」으로 구체화한 부분을 의미의 상한선에 맞게 고쳤다. 「본사에서 허가받은 팀」과 「회사 밖에서 사 오다」도 자연스러운 한국어로 다듬었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「밖에서 샀다」는 조달 주체와 회사 안팎의 경계가 흐릿해 IBM 외부에서 조달했다는 뜻을 분명히 했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「직원 만 명에 판매 백만 대를 넘긴 뒤」는 서로 다른 수치를 조사 하나로 잇고 있어 문장 관계가 어색했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「하강풍에 말려」와 「활주로 앞에서 떨어졌다」는 항공기 사고의 움직임을 부자연스럽게 옮긴 표현이었고, 「같은 기」도 한국어 문장에 어울리지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   7,
+   8,
+   9,
+   11,
+   12
+  ]
+ }
+}

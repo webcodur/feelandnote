@@ -1,0 +1,228 @@
+{
+ "slug": "adam-bry",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어났다",
+   "title_en": "Was Born",
+   "description": "공개된 기관 약력에는 출생일과 출생지가 나와 있지 않다. 다섯 살 때부터 날아다니는 물건을 만들기 시작했다.",
+   "description_en": "Public institutional biographies do not give a birth date or birthplace. He started building things that fly at the age of five.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "무선조종 비행기 곡예비행 전국대회에서 우승했다",
+   "title_en": "Won National Radio-Control Aerobatics Titles",
+   "description": "열여덟 살이 되기 전에 무선조종 비행기 곡예비행 전국대회에서 두 차례 우승했다.",
+   "description_en": "He won two national radio-control airplane aerobatics championships before he turned eighteen.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "올린 공대에서 기계공학 학위를 받았다",
+   "title_en": "Earned a Mechanical Engineering Degree at Olin College",
+   "description": "재단의 지원으로 설립된 신생 공과대학에서 학부 과정을 마쳤다. 이후 자율비행을 공부하기 위해 대학원에 진학했다.",
+   "description_en": "He finished his undergraduate years at a new engineering college endowed by a foundation. He then went to graduate school to study autonomous flight.",
+   "place_name": "니덤",
+   "place_name_en": "Needham",
+   "lat": 42.283333333333,
+   "lng": -71.233333333333
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "education",
+   "title": "닉 로이의 연구실에 들어갔다",
+   "title_en": "Joined Nick Roy's Robotics Lab",
+   "description": "취미용 비행기에 센서와 컴퓨터를 다는 일이 처음으로 현실적인 선택지가 된 해에 항공우주공학 대학원에 진학했다. 닉 로이가 이끄는 강건 로봇공학 그룹에서 에이브러햄 바크라크를 만났고, 미디어랩의 맷 도나호도 알게 됐다. 바크라크는 그해 모의 원자로 노심용융 사고 현장을 비행한 소형 헬리콥터로 무인기 경진대회에서 우승한 팀의 일원이었다.",
+   "description_en": "He arrived at graduate school in aeronautics in the year it first became practical to put sensors and computers on a hobby airplane. In Nick Roy's Robust Robotics Group he met Abraham Bachrach, and he also came to know Matt Donahoe at the Media Lab. That same year Bachrach was on a team that won an unmanned-vehicle contest with a small helicopter that navigated a mock nuclear-meltdown site.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "고정익기를 GPS 없이 실내에서 자율비행시켰다",
+   "title_en": "Flew a Fixed-Wing Plane Indoors Without GPS",
+   "description": "고정익기는 레이저 거리계와 관성센서로 자신의 위치와 자세, 속도를 파악했다. 스타타 센터 지하주차장의 기둥 사이를 빠져나간 뒤 존슨 체육관 안을 가로질러 날았다. 그는 짧은 날개 설계에 관해 마크 드레라에게 물었고, 바크라크·로이와 함께 비행 알고리듬을 다룬 논문을 로봇공학 학술대회에서 발표했다.",
+   "description_en": "A laser rangefinder and inertial sensors gave the plane its position, attitude, and speed. It threaded pillars in the parking garage under the Stata Center and flew through the Johnson Athletic Center. He asked Mark Drela about a short-wing design and, with Bachrach and Roy, published the algorithms at a robotics conference.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글의 무인 배송기 팀에 합류했다",
+   "title_en": "Joined Google's Unmanned Delivery Team",
+   "description": "졸업 뒤 바크라크와 함께 구글 엑스의 무인 배송기 사업 창립팀에 합류했다. 소프트웨어 엔지니어로서 비행 알고리듬을 맡았으며, 합류한 지 1년 반 만에 회사를 떠났다.",
+   "description_en": "After graduation he and Bachrach joined the founding team of Google X's unmanned delivery project. He worked there as a software engineer on flight algorithms and left after a year and a half.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "스카이디오를 공동 창업하고 최고경영자를 맡았다",
+   "title_en": "Co-founded Skydio and Became Its Chief Executive",
+   "description": "바크라크, 도나호와 함께 저렴한 카메라와 칩만으로 스스로 비행하는 드론을 만들기로 했다. 첫 1년은 바크라크 아버지의 지하실에서 일했고, 마당 일을 해주는 것으로 임대료를 대신했다. 덕트테이프를 붙여 만든 시제품은 이듬해 앤드리슨 호로위츠와 액셀의 시드 투자로 이어졌다.",
+   "description_en": "With Bachrach and Donahoe he set out to build drones that could fly themselves using cheap cameras and chips. For the first year they worked in Bachrach's father's basement and paid the rent by doing yard work. A duct-taped prototype led the next year to a seed round from Andreessen Horowitz and Accel.",
+   "place_name": "샌머테이오",
+   "place_name_en": "San Mateo",
+   "lat": 37.554166666667,
+   "lng": -122.31305555556
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "스스로 따라오며 찍는 드론을 내놓았다",
+   "title_en": "Released a Self-Flying Camera Drone",
+   "description": "13개의 카메라로 주변을 살피며 지정한 한 사람을 따라갔다. 앱 화면을 위로 쓸어 올리면 드론이 이륙했고, 배터리가 부족해지면 평평한 곳을 찾아 스스로 착륙했다. 가격은 2,500달러였고, 암벽 등반가와 주자들이 초기 구매자에 포함됐다.",
+   "description_en": "Thirteen cameras watched the scene and stayed with one chosen person. A swipe up on the app lifted it off; if the battery ran low it found flat ground and landed itself. It sold for twenty-five hundred dollars, and climbers and runners were among the first buyers.",
+   "place_name": "샌머테이오",
+   "place_name_en": "San Mateo",
+   "lat": 37.554166666667,
+   "lng": -122.31305555556
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "office",
+   "title": "연방항공청 드론 자문위원으로 임명됐다",
+   "title_en": "Appointed to the FAA Drone Advisory Committee",
+   "description": "교통장관 일레인 차오가 임명했다. 그는 2년 임기 동안 무인기를 국가 공역에 어떻게 편입할지 연방항공청에 조언하는 위원회에서 활동했다. 같은 날 아마존 프라임 에어의 데이비드 카본도 위원으로 임명됐다.",
+   "description_en": "Transportation Secretary Elaine Chao made the appointment. The two-year term was on the committee that advises the Federal Aviation Administration on how to put unmanned aircraft into national airspace. David Carbon of Amazon Prime Air was named the same day.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "소비자용 드론 판매를 중단했다",
+   "title_en": "Ended Consumer Drone Sales",
+   "description": "스카이디오는 일반 소비자용 스카이디오 2 플러스 키트의 판매를 중단했다. 기업 및 공공 부문 고객은 1,500곳을 넘어섰고, 그는 회사의 사업 방향을 점검·공공안전·국방 분야로 돌렸다. 기존 구매자를 위한 보증과 수리 서비스는 유지했다.",
+   "description_en": "The company stopped selling Skydio 2+ consumer kits. Enterprise and public-sector customers had passed fifteen hundred, and he turned the company toward inspection, public safety, and defense. Warranties and repairs for existing owners remained.",
+   "place_name": "샌머테이오",
+   "place_name_en": "San Mateo",
+   "lat": 37.554166666667,
+   "lng": -122.31305555556
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위를 유지하면서 직역투, 불분명한 행동 관계, 부자연스러운 용언을 고쳤다. 사실 판단이 추가로 필요한 사건은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「나는 것을 만들기 시작했다」는 영어 단어를 그대로 치환한 표현이라 무엇을 만들었다는 뜻인지 바로 이해하기 어렵다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「전국 우승을 했다」는 대회 종목과 두 차례 우승했다는 사실이 제목에서 흐릿하며, 본문의 「대회를 두 번 이겼다」도 한국어 경기 서술로는 어색하다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문은 기계공학 학위를 받았다고 명시하지만 국문 제목은 전공 사실만 전했다. 「학부를 마쳤다」「배우러 대학원으로 갔다」도 학위 취득과 대학원 진학의 연결을 충분히 드러내지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「항공우주 대학원에 왔다」와 「모의 원자로 사고 현장을 나는 소형 헬기」는 진학과 비행의 주체·대상을 자연스럽게 전달하지 못한다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "국문 제목에는 영문의 핵심 조건인 실내 비행과 GPS 미사용이 빠져 있었다. 본문의 「위치와 자세와 속도를 잡았다」「짧은 날개 설계를 물었다」「알고리듬을 논문으로 냈다」도 행동 관계가 부자연스럽다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사업 창설 팀」과 「일 년 반 만에 나왔다」는 각각 조직의 성격과 회사를 떠난 행동을 어색하고 불분명하게 표현한다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「지하실에서 지냈다」는 그곳에서 일했다는 영문의 뜻을 생활했다는 의미로 오해하게 만들며, yard work를 잔디 깎기로만 좁혀 옮겼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "카메라를 「대」로 세고, 앱을 쓸어 올리면 무엇이 떠오르는지 생략해 드론의 작동 과정이 선명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「임기는 이 년이었고, 위원회는」이라는 연결 때문에 임명된 인물이 위원회에서 어떤 역할을 했는지 흐려졌으며, 같은 날 임명된 인물도 「이름을 올렸다」로 간접적으로 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「판매를 끊었다」「회사를 돌렸다」「이미 산 사람 보증과 수리는 남겼다」가 구어적이거나 목적어와 행동 관계가 불분명해 사업 전환과 사후 지원의 뜻이 흐려졌다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

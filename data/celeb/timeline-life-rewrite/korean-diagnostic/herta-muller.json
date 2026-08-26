@@ -1,0 +1,260 @@
+{
+ "slug": "herta-muller",
+ "events": [
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "birth",
+   "title": "바나트 독일계 마을에서 태어나다",
+   "title_en": "Born in a Banat Swabian village",
+   "description": "바나트의 가톨릭 슈바벤 농가에서 태어났다. 할아버지는 부유한 농민이자 상인이었으나 공산 정권이 재산을 몰수했다. 아버지는 히틀러의 무장친위대에 자원했고, 전쟁이 끝난 뒤에는 트럭을 몰았다. 어머니는 열일곱 살에 소련 강제노동수용소로 끌려갔다가 5년 뒤 돌아왔다. 집에서는 바나트 슈바벤 방언을 썼다.",
+   "description_en": "She was born to Catholic Banat Swabian farmers. Her grandfather had been a wealthy farmer and merchant. The communist regime confiscated his property. Her father volunteered for Hitler’s Waffen-SS. After the war he drove a truck. Her mother was deported to a Soviet labor camp at seventeen. She returned five years later. At home they spoke Banat Swabian.",
+   "place_name": "니치도르프",
+   "place_name_en": "Nițchidorf",
+   "lat": 45.5825,
+   "lng": 21.530833333333
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "education",
+   "title": "열다섯에 도시로 나가 고등학교에 다니다",
+   "title_en": "Leaves the village for high school in the city",
+   "description": "마을을 떠나 니콜라우스 레나우 고등학교에 다녔다. 루마니아어는 마을 학교에서 과목으로만 배웠다. 말하기는 도시에 와서야 익혔다. 루마니아인 친구를 사귀었다. 집에서 듣던 편견이 도시에선 통하지 않았다.",
+   "description_en": "She left the village for Nikolaus Lenau High School. Romanian had been only a school subject in the village. She learned to speak it after arriving in the city. She made Romanian friends. The prejudices she had heard at home did not hold there.",
+   "place_name": "티미쇼아라",
+   "place_name_en": "Timișoara",
+   "lat": 45.759722222222,
+   "lng": 21.23
+  },
+  {
+   "year": 1973,
+   "year_end": 1976,
+   "kind": "education",
+   "title": "서부대학에서 독일문학과 루마니아 문학을 공부하다",
+   "title_en": "Studies German and Romanian literature",
+   "description": "독일문학과 루마니아 문학을 전공했다. 검열에 반대하며 독일어로 글을 쓰던 작가 모임 악치온스그루페 바나트의 작가들과 교류했지만, 정식 구성원은 아니었다. 이후 비밀경찰이 이 모임을 해체했다.",
+   "description_en": "She studied German and Romanian literature. She befriended writers from Aktionsgruppe Banat, a German-language circle opposed to censorship. She was not a member of the group. The secret police broke it up.",
+   "place_name": "티미쇼아라",
+   "place_name_en": "Timișoara",
+   "lat": 45.759722222222,
+   "lng": 21.23
+  },
+  {
+   "year": 1977,
+   "year_end": 1979,
+   "kind": "work",
+   "title": "공장에서 번역가로 일하다 밀고를 거부해 해고되다",
+   "title_en": "Fired from factory translating after refusing to inform",
+   "description": "테흐노메탈 공장에서 동독·오스트리아·스위스 기계의 설명서를 번역했다. 사전에 여러 번역어가 나오면 현장 노동자들에게 물어 그들이 쓰는 루마니아어 용어를 골랐다. 비밀경찰 장교는 동료와 외국 손님을 밀고하라고 두 차례 요구했지만, 그녀는 거부했다. 장교는 강에 빠뜨려 죽이겠다고 협박했다. 결국 일자리를 잃은 뒤 유치원에서 일하고 독일어 개인 교습을 하며 생계를 이었다. 해고된 뒤에는 첫 산문을 쓰기 시작했다.",
+   "description_en": "At the Tehnometal factory she translated manuals for machines from East Germany, Austria, and Switzerland. When the dictionary offered several terms she asked the workers on the floor and chose the Romanian word they used. A Securitate officer twice demanded that she inform on colleagues and foreign visitors. She refused. He said they would drown her in the river. She lost the job. She lived on kindergarten work and private German lessons. After the dismissal she began her first prose.",
+   "place_name": "티미쇼아라",
+   "place_name_en": "Timișoara",
+   "lat": 45.759722222222,
+   "lng": 21.23
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『저지대』 검열본을 출간하다",
+   "title_en": "Publishes a censored edition of Niederungen",
+   "description": "크리테리온 출판사에서 원고를 심하게 잘라낸 판이 나왔다. 소녀의 눈으로 바나트 마을의 폭력과 침묵을 그렸다. 마을의 독일계 주민들은 제 둥지를 더럽혔다며 그녀를 비난했다.",
+   "description_en": "Kriterion issued a heavily cut edition. She wrote the violence and silence of a Banat village through a girl’s eyes. Fellow German villagers accused her of fouling her own nest.",
+   "place_name": "부쿠레슈티",
+   "place_name_en": "Bucharest",
+   "lat": 44.41336111111111,
+   "lng": 26.09777777777778
+  },
+  {
+   "year": 1984,
+   "year_end": null,
+   "kind": "publish",
+   "title": "검열 없는 『저지대』가 서독에서 나오다",
+   "title_en": "Uncensored Niederungen appears in West Germany",
+   "description": "로트부흐 출판사가 검열하지 않았지만 분량을 줄인 판을 냈다. 서독 신문들의 보도로 책이 알려졌다. 같은 해 루마니아에서는 『억누르는 탱고』가 나왔다. 독일 언론에서 독재 정권을 공개적으로 비판했고, 그 뒤 루마니아에서는 출판을 금지당했다. 비밀경찰은 그녀를 소환해 매춘부이자 암거래상이라고 부르며 살해하겠다고 협박했다.",
+   "description_en": "Rotbuch issued an uncensored but abridged edition. West German newspapers made the book known. The same year Drückender Tango appeared in Romania. She criticized the dictatorship in the German press. Publishing at home was then banned. The Securitate summoned her, called her a prostitute and a black-marketeer, and threatened to kill her.",
+   "place_name": "베를린",
+   "place_name_en": "Berlin",
+   "lat": 52.516666666667,
+   "lng": 13.383333333333
+  },
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『사람은 세상에서 큰 꿩이다』를 내다",
+   "title_en": "Publishes The Passport",
+   "description": "출국 허가를 기다리는 한 가족을 그렸다. 그녀 자신도 한 해 전 서독으로 떠나기 위해 출국을 신청했지만 거절당했다.",
+   "description_en": "She wrote of a family waiting for an exit permit. A year earlier her own application to leave for West Germany had been refused.",
+   "place_name": "베를린",
+   "place_name_en": "Berlin",
+   "lat": 52.516666666667,
+   "lng": 13.383333333333
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "travel",
+   "title": "출국 허가를 받아 서베를린으로 떠나다",
+   "title_en": "Leaves for West Berlin with an exit permit",
+   "description": "당시 남편인 작가 리하르트 바그너와 함께 떠났다. 비밀경찰은 그녀가 정착한 뒤에도 협박을 멈추지 않았다. 훗날 입수한 비밀경찰 문건에는 그녀를 외국 첩자로 재판에 넘길 준비가 이미 끝났다는 기록이 있었다. 독일에서 그녀의 이름이 이미 알려져 있어 재판은 열리지 않았다.",
+   "description_en": "She left with her then-husband, the writer Richard Wagner. The Securitate kept threatening her after she settled. The file she later obtained showed a trial as a foreign agent had already been prepared. Her name in Germany kept that trial from opening.",
+   "place_name": "베를린",
+   "place_name_en": "Berlin",
+   "lat": 52.516666666667,
+   "lng": 13.383333333333
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『한쪽 다리로 여행하는 사람』을 내다",
+   "title_en": "Publishes Traveling on One Leg",
+   "description": "독일에서 처음 쓴 책이다. 낯선 도시에 발붙이지 못하는 여자를 그렸다.",
+   "description_en": "It was the first book she wrote in Germany. She portrayed a woman who could not find a foothold in a strange city.",
+   "place_name": "베를린",
+   "place_name_en": "Berlin",
+   "lat": 52.516666666667,
+   "lng": 13.383333333333
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『심장짐승』을 내다",
+   "title_en": "Publishes The Land of Green Plums",
+   "description": "티미쇼아라에서 독일어를 쓰던 젊은 친구들이 비밀경찰의 추적 속에 차례로 무너지는 이야기를 썼다. 가까운 친구 두 명이 숨진 뒤였고, 뮐러는 비밀경찰이 그들의 죽음에 관여했다고 믿었다. 작품은 클라이스트상을 받았다. 영어판이 출간되면서 독일어권 밖 독자들에게도 알려졌다.",
+   "description_en": "She wrote of young German-speaking friends in Timișoara as the secret police picked them off. Two close friends had died. She believed the secret police were involved. The novel won the Kleist Prize. The English edition reached readers beyond the German-speaking world.",
+   "place_name": "라인베크",
+   "place_name_en": "Reinbek",
+   "lat": 53.508888888889,
+   "lng": 10.248333333333
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『숨그네』로 수용소 기억을 남기다",
+   "title_en": "Publishes The Hunger Angel",
+   "description": "시인 오스카르 파스티오르에게 수용소에서 겪은 일을 듣고 기록했다. 소련 강제노동수용소로 끌려간 루마니아의 독일계 청년이 겪는 굶주림을 그렸다. 두 사람은 함께 책을 쓰려 했지만 파스티오르는 책이 나오기 전에 세상을 떠났다. 어머니가 강제노동을 겪은 기억도 작품에 담았다.",
+   "description_en": "She took down what the poet Oskar Pastior told her about the camps. She wrote the hunger of a Romanian-German youth deported to a Soviet labor camp. They had meant to write the book together. He died before it appeared. She also put in her mother’s forced labor.",
+   "place_name": "뮌헨",
+   "place_name_en": "Munich",
+   "lat": 48.1375,
+   "lng": 11.575
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "노벨 문학상을 받다",
+   "title_en": "Awarded the Nobel Prize in Literature",
+   "description": "한림원은 시의 응축과 산문의 솔직함으로 빼앗긴 이들의 풍경을 그려냈다고 선정 이유를 밝혔다. 같은 해에는 자신에 관한 비밀경찰 문건을 바탕으로 『크리스티나와 그 가짜』를 냈다. 12월에 노벨 문학상을 받았다. 그 뒤에도 베를린에서 독일어로 작품을 써 왔다.",
+   "description_en": "The Academy cited the concentration of poetry and the frankness of prose with which she depicted the landscape of the dispossessed. The same year she published Cristina und ihre Attrappe from her Securitate file. She received the prize in December. She has gone on writing in German in Berlin.",
+   "place_name": "스톡홀름",
+   "place_name_en": "Stockholm",
+   "lat": 59.329444444444,
+   "lng": 18.068611111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 보니 사건의 핵심 사실은 대체로 보존되어 있었지만, 일부 문장에는 번역어를 기계적으로 이어 붙인 표현, 불분명한 지시어, 사건 사이의 연결이 끊기는 문제가 있었다. 사실 판단이 필요한 대목은 없어 국문 title과 description만 자연스럽게 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "가족 구성원의 이력을 짧은 문장으로 잘게 나열해 관계와 시간의 흐름이 끊겼으며, 「열일곱에」와 「오 년」도 자연스러운 한국어 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「작가 모임의 글쓴이들과 사귀었다」는 표현이 부자연스럽고, 모임의 성격과 본인의 관계가 문장 사이에서 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "설명서 번역을 「옮겼다」라고 해 업무가 불분명했고, 「사전에서 말이 여러 개 나오면」과 「강에 빠뜨리겠다는 말로 보냈다」는 영문 단어를 순서대로 치환한 듯해 뜻을 바로 이해하기 어려웠다. 해고 뒤의 생계 활동도 「유치원과 사설 독일어 수업으로 살았다」라고 어색하게 표현되어 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「검열본으로 내다」는 조사 결합이 어색했고, 「같은 독일계 주민들」은 누구와 같은 주민들인지 바로 드러나지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「검열은 없으나 줄인 판」과 「서독 신문이 그 책을 알렸다」가 직역투였으며, 비밀경찰의 소환과 살해 협박도 자연스러운 행동 관계로 정리할 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 해 전 서독으로 떠나겠다는 신청은 거절당한 뒤였다」는 주어와 서술 관계가 불명확해, 누가 무엇을 신청했는지 문장을 다시 읽어야 알 수 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 받은 서류철」과 「외국 간첩 혐의로 재판을 준비했다」가 부자연스러웠고, 「독일에서 이미 이름이 있어」도 그녀가 알려진 작가였다는 뜻을 간접적으로만 전달했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문은 독일에서 처음 쓴 ‘책’이라고만 하는데 국문은 이를 ‘장편’으로 한정했다. 사실 확인 없이 장르를 확정하지 않도록 영문의 범위에 맞췄으며, 「도시에 발을 붙이지 못하는」의 조사도 자연스럽게 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 죽음에 비밀경찰이 있었다고 보았다」는 목적어와 행동 관계가 무너져 의미를 짐작해야 했다. 「독일 밖 독자」도 영문의 ‘독일어권 밖 독자’보다 범위가 좁아 의미를 정확히 살리지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "앞 문장만으로 누구인지 알기 어려운 「상대」를 사용했고, 「루마니아 독일계 청년」과 「강제노동 기억을 넣었다」도 한국어 어순과 결합이 부자연스러웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이유를 밝혔다」와 「비밀경찰 서류철을 풀어」가 어색했으며, 노벨상 수상과 비밀경찰 문건을 다룬 책의 출간, 이후의 집필 활동이 단절된 문장처럼 이어졌다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

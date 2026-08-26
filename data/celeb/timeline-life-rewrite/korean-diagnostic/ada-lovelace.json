@@ -1,0 +1,252 @@
+{
+ "slug": "ada-lovelace",
+ "events": [
+  {
+   "year": 1815,
+   "year_end": null,
+   "kind": "birth",
+   "title": "런던에서 태어나다",
+   "title_en": "Born in London",
+   "description": "시인 바이런 경과 앤 이사벨라 밀뱅크 사이에서 유일한 적출 자녀로 태어났다. 아버지는 사내아이를 바랐다. 이름은 아버지의 이복누이 오거스타 리에게서 따왔고, 아버지는 아이를 에이다라고 불렀다. 당시 가족의 집은 피카딜리 테라스에 있었다.",
+   "description_en": "She was the only legitimate child of the poet Lord Byron and Anne Isabella Milbanke. Her father had wanted a boy. She was named after his half-sister Augusta Leigh, and he called the child Ada. The house stood on Piccadilly Terrace.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1816,
+   "year_end": null,
+   "kind": "travel",
+   "title": "어머니를 따라 커크비맬러리로 가다",
+   "title_en": "Is taken to Kirkby Mallory",
+   "description": "태어난 지 다섯 주 만에 어머니가 에이다를 외가인 커크비홀로 데려갔다. 그해 4월 아버지는 별거 증서에 서명하고 영국을 떠났다. 에이다는 이후 아버지를 다시 만나지 못했다. 외할머니 주디스 밀뱅크가 에이다를 키웠고, 어머니는 집을 자주 비웠다. 어머니는 에이다가 아버지를 시인으로 이끈 길을 따르지 않게 하려고 산수와 기하를 배우게 했다.",
+   "description_en": "At five weeks her mother took her to the maternal grandparents’ house, Kirkby Hall. In April her father signed the deed of separation and left England. They never met again. Her grandmother Judith Milbanke raised her, and her mother was often away. Lady Byron had her taught arithmetic and geometry to keep her off the path that had made her father a poet.",
+   "place_name": "커크비맬러리",
+   "place_name_en": "Kirkby Mallory",
+   "lat": 52.6,
+   "lng": -1.31667
+  },
+  {
+   "year": 1824,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 그리스에서 죽다",
+   "title_en": "Her father dies in Greece",
+   "description": "여덟 살 때 아버지가 미소롱기에서 죽었다. 어머니는 에이다가 스무 살이 될 때까지 아버지의 초상화를 보여 주지 않았다. 외할머니가 세상을 떠난 뒤 커크비홀을 떠난 지 이미 2년이 지난 때였다.",
+   "description_en": "Her father died at Missolonghi when she was eight. Her mother did not show her his portrait until she turned twenty. They had already left Kirkby Hall two years earlier, after her grandmother died.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1828,
+   "year_end": 1831,
+   "kind": "other",
+   "title": "날개를 만들고 홍역으로 눕다",
+   "title_en": "Builds wings, then is laid up by measles",
+   "description": "열두 살에 새의 뼈대를 살피고 종이·철사·깃으로 날개를 만들었다. 비행술을 그림과 함께 설명하는 책을 쓰려 했고, 나중에는 증기력도 더할 생각이었다. 이듬해 6월 홍역을 앓은 뒤 다리가 마비되어 거의 1년을 침대에서 지냈다. 1831년에야 목발을 짚고 걸었다.",
+   "description_en": "At twelve she studied bird anatomy and built wings of paper, wire, and feathers. She meant to write a book of flying, with plates, and then to add steam. In June the next year measles left her legs paralyzed, and she spent nearly a year in bed. She walked on crutches only in 1831.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1833,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "찰스 배비지를 만나다",
+   "title_en": "Meets Charles Babbage",
+   "description": "열일곱 살에 궁정에 정식으로 소개되었다. 가정교사 메리 소머빌은 6월 5일 에이다와 어머니를 배비지가 토요일마다 열던 저녁 모임에 데려갔다. 그달 배비지는 두 사람에게 작동하는 차분기관 모형을 보여 주었다. 손으로 돌리는 이 기계는 수의 거듭제곱을 계산하고 이차방정식을 풀었다.",
+   "description_en": "At seventeen she was presented at court. On 5 June her tutor Mary Somerville took her, with her mother, to one of Charles Babbage’s Saturday evenings. Later that month he showed them a working model of the Difference Engine. The hand-cranked machine raised numbers to powers and extracted a quadratic equation.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1835,
+   "year_end": null,
+   "kind": "other",
+   "title": "윌리엄 킹과 결혼하다",
+   "title_en": "Marries William King",
+   "description": "어머니의 집 포드훅에서 제8대 킹 남작 윌리엄 킹과 결혼했다. 요크셔에서 내려온 목사 새뮤얼 갬런이 주례를 맡았고, 들러리는 한 명이었다. 이튿날 두 사람은 오컴을 거쳐 서머싯의 애슐리콤으로 신혼여행을 갔다. 이후 서리의 오컴파크와 스코틀랜드 토리돈 호숫가의 영지, 런던의 집에 거처를 두었다.",
+   "description_en": "She married William King, 8th Baron King, at Fordhook, her mother’s house. The Rev. Samuel Gamlen came down from Yorkshire to officiate, and there was one bridesmaid. The next day they went by Ockham to Ashley Combe in Somerset for the honeymoon. Their households were Ockham Park in Surrey, an estate on Loch Torridon in Scotland, and a house in London.",
+   "place_name": "일링",
+   "place_name_en": "Ealing",
+   "lat": 51.5111,
+   "lng": -0.3058
+  },
+  {
+   "year": 1838,
+   "year_end": 1839,
+   "kind": "office",
+   "title": "러브레이스 백작부인이 되다",
+   "title_en": "Becomes Countess of Lovelace",
+   "description": "남편이 러브레이스 백작과 오컴 자작 작위를 받으면서 에이다는 러브레이스 백작부인이 되었다. 러브레이스라는 작위명은 에이다가 후손으로 이어진, 당시에는 대가 끊긴 러브레이스 남작 가문에서 따왔다. 두 사람 사이에서는 1836년에 아들, 1837년에 딸, 1839년에 막내아들이 태어났다. 에이다는 딸을 낳은 뒤 몇 달 동안 앓았다.",
+   "description_en": "Her husband was created Earl of Lovelace and Viscount Ockham. The title was taken from the extinct Barons Lovelace, from whom she descended. A son was born in 1836, a daughter in 1837, and a younger son in 1839. After the daughter’s birth she was ill for months.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1840,
+   "year_end": 1841,
+   "kind": "education",
+   "title": "드모건에게 미적분을 배우다",
+   "title_en": "Studies calculus with De Morgan",
+   "description": "런던 유니버시티칼리지의 오거스터스 드모건과 편지를 주고받으며 미적분을 배웠다. 베르누이 수도 학습 내용에 포함되었다. 드모건은 에이다의 어머니에게 에이다가 독창적인 수학 연구자가 될 가능성이 있다고 썼다.",
+   "description_en": "She studied calculus by letter with Augustus De Morgan of University College, London. The numbers of Bernoulli were part of that work. De Morgan wrote to her mother that the pupil might become an original mathematical investigator.",
+   "place_name": "오컴",
+   "place_name_en": "Ockham",
+   "lat": 51.298,
+   "lng": -0.461
+  },
+  {
+   "year": 1842,
+   "year_end": 1843,
+   "kind": "publish",
+   "title": "해석기관 주석을 발표하다",
+   "title_en": "Publishes notes on the Analytical Engine",
+   "description": "배비지가 1840년 토리노에서 한 강연을 루이지 메나브레아가 프랑스어로 정리해 1842년 제네바에서 발표했다. 찰스 휘트스톤은 에이다에게 이 글의 영어 번역을 맡겼다. 에이다는 아홉 달 동안 이를 영어로 번역하고 주석 일곱 편을 덧붙였다. 주석은 번역문보다 길었다. 주석 A에서는 음높이의 관계를 연산으로 표현할 수 있다면 해석기관이 악곡을 작곡할 수도 있다고 썼다. 주석 G에는 베르누이 수를 계산하는 단계별 표를 넣었다. 배비지는 1837년부터 이미 해석기관용 계산표를 작성해 두었지만, 그 표들은 출판되지 않았다. 번역문과 주석은 1843년 9월 테일러의 《사이언티픽 메모이어스》에 AAL이라는 이니셜로 실렸다. 해석기관이 완성되지 않았기 때문에 표를 실제로 실행할 수는 없었다. 한 세기 뒤인 1953년 보든이 주석을 다시 출판하면서, 후대에 「최초의 프로그래머」라는 표현이 널리 퍼졌다. 표의 수학적 내용 가운데 어느 부분을 에이다와 배비지가 각각 얼마나 작성했는지를 두고는 학계의 견해가 갈린다.",
+   "description_en": "Luigi Menabrea wrote up in French a lecture Babbage gave at Turin in 1840, and published it in Geneva in 1842. Charles Wheatstone asked her to translate it. Over nine months she rendered it into English and added seven notes, longer than the translation. Note A said the engine might compose music if the relations of pitch could be expressed as operations. Note G set out a step-by-step table for the numbers of Bernoulli. Babbage had already written calculation tables for the Analytical Engine from 1837; those tables were not published. The translation and notes appeared in September 1843 in Taylor’s Scientific Memoirs under the initials AAL. The engine was never finished, so the table never ran. A century later, in 1953, B. V. Bowden reprinted the notes, and the later label “first programmer” spread from that revival. Scholars still divide how much of the mathematics in the table is hers and how much is Babbage’s.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1852,
+   "year_end": null,
+   "kind": "death",
+   "title": "런던에서 죽다",
+   "title_en": "Dies in London",
+   "description": "몇 달을 앓다가 메리러본의 그레이트컴벌랜드플레이스에서 죽었다. 당시 기록은 사인을 자궁암이라고 했다. 그 전 몇 년 동안 경마에 돈을 걸었고, 1851년에는 거액의 내기에 사용할 수학 모형을 만들려다가 신디케이트에 빚을 졌다. 어머니는 병간호를 맡은 뒤 친구들의 출입을 막고, 자신을 유언 집행인으로 지정하게 했다. 8월 30일 에이다는 남편에게 무언가를 말했고, 그 말을 들은 남편은 병상을 떠났다. 무슨 말을 했는지는 기록에 남지 않았다.",
+   "description_en": "After months of illness she died at Great Cumberland Place in Marylebone. Contemporary accounts called the disease uterine cancer. In the years before, she had bet on horses, and in 1851 an attempt to build a mathematical model for large bets left her in debt to a syndicate. Her mother took the sickroom, kept friends out, and had herself made executor. On 30 August she told her husband something that made him leave the bedside. What she said was not recorded.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1852,
+   "year_end": null,
+   "kind": "other",
+   "title": "허크널에서 아버지 옆에 묻히다",
+   "title_en": "Is buried beside her father in Hucknall",
+   "description": "본인의 뜻에 따라 아버지 옆에 묻혔다. 묘는 허크널의 성 마리아 막달레나 성당에 있다. 세상을 떠날 당시 서른여섯 살이었으며, 아버지도 같은 나이에 죽었다.",
+   "description_en": "At her request she was buried beside her father. The grave is at the Church of St Mary Magdalene in Hucknall. She was thirty-six, the same age at which her father had died.",
+   "place_name": "허크널",
+   "place_name_en": "Hucknall",
+   "lat": 53.0339,
+   "lng": -1.2013
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "대부분의 사건은 영문의 세부를 유지하면서 주어·대상·행동 관계와 생애의 흐름이 분명하도록 다듬었다. 다만 1833년 사건에서 차분기관이 이차방정식에 관해 무엇을 했다는 뜻인지 영문과 국문이 일치하지 않아 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「적출 외동딸」이 유일한 적출 자녀라는 뜻을 자연스럽게 전달하지 못했고, 마지막 문장의 집이 누구의 집인지 불분명했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목만 보면 에이다가 스스로 이동한 것처럼 읽혔다. 「이후 두 사람」은 누구를 가리키는지 불분명했고, 「아버지가 시인이 된 길」은 영어 표현을 그대로 옮긴 듯한 문장이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이태 전 외할머니가 죽자 커크비홀을 이미 떠난 뒤였다」는 사건들의 시간 관계가 뒤엉켜 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「증기를 붙이려 했다」와 「홍역 뒤에」는 영어 표현을 직선적으로 옮겨 한국어에서 행동과 시간 관계가 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「궁정에 선을 보였다」와 「배비지의 토요 저녁」은 영어식 표현이라 의미를 바로 파악하기 어려웠다. 차분기관의 작동을 설명한 마지막 문장은 영문과 국문의 의미도 일치하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「살림은 … 오갔다」는 세 곳에 거처를 두었다는 뜻을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「작위를 받았다」만으로는 에이다가 백작부인이 된 제목과의 연결이 약했고, 「끊긴 러브레이스 남작 가계」는 혈통과 작위명의 관계를 알아보기 어려웠다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「베르누이 수도 이 수업 안에 있었다」는 영문 단어를 순서대로 치환한 듯한 직역이었다. 「이 학생」도 앞 문장만으로는 지칭 대상이 선명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「제네바에서 실었다」는 무엇을 어디에 발표했는지 불완전했고, 「주석 에이」와 「표는 돌아가지 않았다」 등 여러 표현이 영어 어순이나 비유를 그대로 옮겨 부자연스러웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「큰 판」은 지나치게 구어적이고, 「병실을 맡아」는 어머니가 실제로 한 행동을 분명하게 전달하지 못했다. 남편이 병상을 떠난 계기도 문장 구조상 약하게 연결되어 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자기 청대로」와 「그 나이로 죽었다」는 뜻은 통하지만 인물 연표의 문장으로는 어색했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 4,
+    "reason": "영문은 차분기관이 “extracted a quadratic equation”이라고 하지만 국문은 「이차방정식을 풀었다」고 되어 있다. 영문 표현 자체가 모호하며, 방정식을 산출했다는 뜻인지 해를 구했다는 뜻인지 문장 편집만으로 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

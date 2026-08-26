@@ -1,0 +1,279 @@
+{
+ "slug": "danielle-steel",
+ "events": [
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴욕에서 태어나다",
+   "title_en": "Born in New York City",
+   "description": "외동으로 태어났다. 아버지 존 슐라인스틸은 독일계 유대인 이민자이자 뢰벤브로이 맥주 가문의 후손이었다. 어머니 노르마 다카마라 스톤 도스 레이스는 포르투갈 외교관의 딸이었다. 본명은 다니엘 페르난드스 도미니크 슐라인스틸이었다.",
+   "description_en": "She was born an only child. Her father, John Schuelein-Steel, was a German-Jewish immigrant. He was a descendant of the Löwenbräu beer family. Her mother, Norma da Camara Stone dos Reis, was the daughter of a Portuguese diplomat. Her given name was Danielle Fernandes Dominique Schuelein-Steel.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1955,
+   "year_end": null,
+   "kind": "other",
+   "title": "부모가 갈라선 뒤 아버지를 따라 자라다",
+   "title_en": "Grows up with her father after the divorce",
+   "description": "여덟 살 무렵 부모가 이혼했다. 아버지를 따라 자랐고 어머니는 거의 보지 못했다. 친척과 집안 사람들이 그를 돌봤다. 파리와 뉴욕을 오가던 어린 시절에는 만찬 자리에 함께 앉아 부유한 손님들의 습관을 지켜봤다. 가톨릭으로 자라며 수녀가 되고 싶다고 생각했다.",
+   "description_en": "Her parents divorced when she was about eight. She was raised by her father and rarely saw her mother. Relatives and household staff looked after her. She was seated at dinner parties as she moved between Paris and New York. There she watched how the rich behaved. Raised Catholic, she thought of becoming a nun.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 1963,
+   "year_end": 1967,
+   "kind": "education",
+   "title": "리세 프랑세를 마치고 디자인 학교에 들어가다",
+   "title_en": "Finishes the French lycée and enters design school",
+   "description": "열다섯이 되기 전에 프랑스식 중등학교를 마쳤다. 파슨스 디자인 학교에 들어가 문학과 패션을 공부했다. 병이 나 그 학교를 떠난 뒤 뉴욕대학교로 옮겨 학업을 이어 갔다. 열아홉에 첫 원고를 다 썼다.",
+   "description_en": "She finished the French lycée before she turned fifteen. She entered Parsons School of Design to study literature and fashion. Illness forced her to leave. She continued at New York University. At nineteen she finished her first manuscript.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1965,
+   "year_end": null,
+   "kind": "other",
+   "title": "열여덟에 프랑스 은행가와 결혼하다",
+   "title_en": "Marries a French banker at eighteen",
+   "description": "신랑은 클로드에리크 라자르였다. 딸 베아트릭스가 태어났다. 살림은 넉넉했다. 그는 데뷔탕트 생활에 싫증이 나 바깥일을 하겠다고 고집을 부렸다.",
+   "description_en": "The groom was the French banker Claude-Éric Lazard. Their daughter Beatrix was born. Money was not scarce. She grew bored with debutante life and insisted on taking a job.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "work",
+   "title": "홍보 회사 부사장이 되다",
+   "title_en": "Becomes a vice president at a public-relations firm",
+   "description": "슈퍼걸스에서 홍보를 맡았다. 고객이던 레이디스 홈 저널 편집장 존 맥 카터는 스틸의 글을 읽고 책을 쓰라고 권했다. 회사는 세 해 뒤 문을 닫았다.",
+   "description_en": "She handled public relations at Supergirls. A client, Ladies' Home Journal editor John Mack Carter, read her writing and told her to write a book. The firm closed three years later.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "travel",
+   "title": "샌프란시스코로 옮기다",
+   "title_en": "Moves to San Francisco",
+   "description": "첫 남편과 별거한 뒤 서부로 갔다. 석 달 동안 방에 틀어박혀 첫 장편을 끝냈다.",
+   "description_en": "She left for the West after separating from her first husband. She shut herself in a room for three months and finished her first novel.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 소설 《고잉 홈》을 내다",
+   "title_en": "Publishes her first novel, Going Home",
+   "description": "델에서 문고본으로 책을 냈다. 판매는 보통이었다. 광고 문안을 쓰면서 다음 원고들을 출판사에 계속 보냈지만, 출판사들은 그 가운데 다섯 편을 거절했다.",
+   "description_en": "Dell issued it as a paperback. Sales were modest. She wrote advertising copy and pushed the next manuscripts. Publishers rejected five of them.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1975,
+   "year_end": null,
+   "kind": "other",
+   "title": "교도소 식당에서 결혼하다",
+   "title_en": "Marries in a prison canteen",
+   "description": "취재차 캘리포니아 교도소에 들어갔다가 수감자 대니 주겔더를 만났다. 라자르와 이혼한 뒤 교도소 식당에서 주겔더와 결혼식을 올렸다. 유산을 여러 번 겪었고, 두 사람은 세 해 뒤 갈라섰다.",
+   "description_en": "She entered a California prison on an assignment. There she met inmate Danny Zugelder. After her divorce from Lazard she married him in the prison canteen. She suffered several miscarriages. They parted three years later.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《약속》을 내다",
+   "title_en": "Publishes The Promise",
+   "description": "네 번째 장편이었다. 개리 마이클 화이트의 각본을 소설로 옮긴 책이었다. 이듬해 이백만 부가 넘게 팔렸다. 그는 델과 십만 달러대 계약을 맺었다. 윌리엄 토스와 결혼했고 둘 사이에서 아들 닉이 태어났다.",
+   "description_en": "It was her fourth novel. She novelized a screenplay by Garry Michael White. More than two million copies sold the next year. She signed a six-figure contract with Dell. She married William Toth. Their son Nick was born.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "other",
+   "title": "존 트레이나와 결혼하다",
+   "title_en": "Marries John Traina",
+   "description": "신랑은 선박업을 했다. 트레이나는 닉을 양자로 들였고, 둘 사이에 다섯 아이가 더 태어났다. 스틸은 낮에는 아이들과 지내고 밤에는 네 시간만 자며 글을 썼다. 그 아홉 해 동안 열일곱 권을 냈다.",
+   "description_en": "The groom worked in shipping. He adopted Nick. Five more children were born to them. She stayed with the children by day and wrote at night on four hours of sleep. She published seventeen books in those nine years.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "other",
+   "title": "열아홉 살 아들을 잃다",
+   "title_en": "Loses her nineteen-year-old son",
+   "description": "닉 트레이나는 양극성 장애를 앓고 있었다. 플레전트힐의 한 집에서 약물 과다복용으로 죽었다. 장례는 그레이스 대성당에서 치렀다. 스틸은 신문에 아들이 문제아가 아니라 아픈 아이였다고 말했다.",
+   "description_en": "Nick Traina lived with bipolar disorder. He died of an overdose in a Pleasant Hill house. The funeral was held at Grace Cathedral. She told the newspaper he was a sick child, not a wild one.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "publish",
+   "title": "《히즈 브라이트 라이트》를 내다",
+   "title_en": "Publishes His Bright Light",
+   "description": "아들이 앓은 병과 그의 죽음을 논픽션으로 썼다. 델라코트가 책을 냈고, 뉴욕 타임스 논픽션 목록에 올랐다. 그는 인세로 정신질환과 아동 학대, 자살 예방을 위한 재단을 세우고 아들의 이름을 붙였다.",
+   "description_en": "She wrote her son's illness and death as nonfiction. Delacorte published the book. It reached the New York Times nonfiction list. She used the royalties to start a foundation for mental illness, child abuse, and suicide prevention. She gave the foundation her son's name.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "other",
+   "title": "레지옹 도뇌르 슈발리에를 받다",
+   "title_en": "Is named a Knight of the Legion of Honour",
+   "description": "프랑스 정부가 레지옹 도뇌르 슈발리에로 서훈했다. 십이 해 전에는 문예공로훈장 오피시에를 받았다. 그는 파리와 샌프란시스코를 오가며 타자기로 소설을 계속 썼다.",
+   "description_en": "The French government made her a knight of the Legion of Honour. Twelve years earlier she had been named an Officer of the Order of Arts and Letters. She kept writing novels on a typewriter while splitting her time between that city and San Francisco.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대체로 사실관계와 세부는 보존되어 있었으나, 일부 문장에 모호한 대명사와 영문 직역 표현이 남아 있었다. 영문이 말한 범위 안에서 행위 주체와 대상을 분명히 하고, 사건들이 생애 순서대로 자연스럽게 이어지도록 국문 서술을 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "아버지의 출신과 가계를 짧은 문장으로 분리하면서 두 번째 문장의 주어가 생략되어 생애의 첫 사건이 연혁 메모처럼 끊겨 읽혔다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「만찬 자리에 앉혀졌다」가 영어 수동태를 그대로 옮긴 표현이고, 이어지는 「그 자리」도 불필요한 지시어였다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "뉴욕대학교에서 「계속 배웠다」는 표현이 무엇을 계속했는지 모호해 학업을 이어 갔다는 뜻을 분명히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그의 글」은 바로 앞에 나온 존 맥 카터를 가리키는 것으로도 읽힐 수 있어 글을 쓴 사람이 다니엘 스틸임을 분명히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「석 달을 방에 붙어 앉아」는 뜻을 짐작해야 하는 부자연스러운 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다음 원고를 밀어 넣었다」는 원고를 출판사에 계속 보냈다는 뜻을 영어 표현에 기대어 옮긴 직역이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 prison canteen을 제목에서는 「교도소 식당」, 본문에서는 「교도소 매점」으로 달리 옮겼고, 마지막 문장에는 갈라선 두 사람이 명시되지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "결혼 직후 나온 「아들 닉이 태어났다」의 부모가 누구인지 문장 안에서 분명하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "존 트레이나를 주어로 삼은 문장 뒤에 「그는」이 이어져 열일곱 권을 출간한 사람이 누구인지 혼동될 수 있었고, 「아이들과 있었다」도 직역투였다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「플레전트힐 집」이 부자연스러웠으며, 영문의 wild child를 「미친 아이」로 옮겨 의미가 달라졌다. 마지막 문장의 「어머니」도 갑작스러운 호칭 전환이었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아들의 병과 죽음을 논픽션으로 적었다」와 「인세를 단체에 넣는 재단」이 한국어답지 않고, 후자는 영문에 없는 재단 운영 방식을 암시했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그곳」은 바로 앞 문장만으로 파리를 가리킨다고 알 수 없어 장소를 명시했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

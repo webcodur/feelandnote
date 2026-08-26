@@ -1,0 +1,234 @@
+{
+ "slug": "gaius-cassius-longinus",
+ "events": [
+  {
+   "year": -86,
+   "year_end": null,
+   "kind": "birth",
+   "title": "카시아 가문에서 태어나다",
+   "title_en": "Born into the gens Cassia",
+   "description": "정확한 날과 태어난 곳은 전하지 않는다. 집안은 오래전부터 원로원에 사람을 냈다. 뒤에 평민 호민관직을 맡은 것으로 보아 그 무렵 가문은 평민이었다. 학교 시절 술라의 아들과 다퉜다는 이야기는 플루타르코스가 전한다.",
+   "description_en": "The exact day and birthplace are not recorded. The family had long sent men into the Senate. That he later held the tribunate of the plebs shows the house was then plebeian. Plutarch transmits a story that he quarreled at school with Sulla's son.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -53,
+   "year_end": null,
+   "kind": "battle",
+   "title": "카르헤에서 살아남은 군단을 거두다",
+   "title_en": "Gathers the surviving legions at Carrhae",
+   "description": "크라수스의 재무관으로 유프라테스를 건넜다. 파르티아 기병이 군단을 부쉈다. 디오는 병사들이 지휘를 넘기려 했으나 그가 받지 않았다고 적었다. 남은 기병과 보병을 모아 시리아로 물러났다.",
+   "description_en": "He crossed the Euphrates as Crassus's quaestor. Parthian cavalry wrecked the legions. Dio writes that the soldiers offered him the command and he refused it. He gathered the remaining horse and foot and fell back into Syria.",
+   "place_name": "카르헤",
+   "place_name_en": "Carrhae",
+   "lat": 36.87083333333333,
+   "lng": 39.025
+  },
+  {
+   "year": -52,
+   "year_end": -51,
+   "kind": "battle",
+   "title": "안티오케이아 성벽 뒤에서 파르티아를 끌어내다",
+   "title_en": "Draws the Parthians out from behind Antioch's walls",
+   "description": "후임 총독이 오기 전까지 속주를 재무관 자격으로 맡았다. 파코루스와 오사케스가 유프라테스를 다시 넘자 성안에 들어앉아 포위를 버텼다. 적이 들판으로 쏟아져 나오자 가짜 후퇴로 유인해 매복에 걸었다. 오사케스는 상처를 입고 뒤이어 죽었다. 키케로는 인접한 킬리키아에서 그 소식을 편지로 남겼다.",
+   "description_en": "He held the province as proquaestor until the next governor arrived. When Pacorus and Osaces recrossed the Euphrates, he sat behind the walls and waited out the siege. When the enemy spilled into the fields, he lured them with a feigned retreat and sprang an ambush. Osaces took a wound and later died. Cicero, next door in Cilicia, put the news in a letter.",
+   "place_name": "안티오케이아",
+   "place_name_en": "Antioch",
+   "lat": 36.20472222222222,
+   "lng": 36.181666666666665
+  },
+  {
+   "year": -49,
+   "year_end": null,
+   "kind": "office",
+   "title": "호민관으로 폼페이우스 편에 서다",
+   "title_en": "Stands with Pompey as tribune of the plebs",
+   "description": "시리아에서 돌아온 뒤 민회가 그를 뽑았다. 동생 루키우스는 카이사르 편에 섰다. 카이사르가 루비콘을 건너자 그는 1월에 로마를 떠나 3월에 그리스로 건너갔다. 폼페이우스는 그에게 시리아·페니키아·킬리키아 함대를 맡겼다.",
+   "description_en": "After he returned from Syria the assembly elected him. His brother Lucius took Caesar's side. When Caesar crossed the Rubicon he left the city in January and crossed to Greece in March. Pompey gave him the Syrian, Phoenician, and Cilician fleets.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": -48,
+   "year_end": null,
+   "kind": "battle",
+   "title": "메시나 앞바다에서 함대를 불태우다",
+   "title_en": "Burns a fleet off Messana",
+   "description": "가연물을 가득 실은 상선을 폼포니우스의 함대 쪽으로 밀어 보내 배 서른다섯 척을 모두 태웠다. 수비 군단이 있는데도 메시나는 거의 넘어갈 뻔했다. 파르살로스 전투의 승전 소식이 파발마를 통해 전해지자 메시나는 버텼다. 비보로 이동해 배 다섯 척을 더 태웠고, 카시우스는 오단노선에서 작은 배로 갈아타 빠져나왔다. 이 숫자는 카이사르가 『내전기』에 남겼다.",
+   "description_en": "He sent merchantmen packed with fire into Pomponius's ships and burned all thirty-five. A garrison legion was there, yet the town nearly fell. News of the victory at Pharsalus, carried by relays of horse, held the town. He moved on to Vibo, burned five more ships, and escaped from a quinquereme in a small boat. Caesar set those numbers down in his Civil War.",
+   "place_name": "메시나",
+   "place_name_en": "Messana",
+   "lat": 38.19361111111111,
+   "lng": 15.554166666666667
+  },
+  {
+   "year": -48,
+   "year_end": -45,
+   "kind": "other",
+   "title": "내전을 접고 로마로 돌아오다",
+   "title_en": "Ends the fighting and returns to Rome",
+   "description": "파르살로스 패전이 사실로 확인되자 함대를 거두고 시칠리아를 떠났다. 카이사르는 그를 부장으로 삼았다. 헬레스폰트에서 누가 항복했는지는 수에토니우스와 디오가 동생 루키우스라고 적어, 기록이 갈린다. 아프리카에서 옛 동료와 싸우라는 부름은 거절하고 시내에 머물렀다. 키케로에게 보낸 편지에서 에피쿠로스의 쾌락과 덕을 말했다.",
+   "description_en": "When the defeat at Pharsalus was confirmed he pulled the fleet and left Sicily. Caesar made him a legate. Suetonius and Dio assign the Hellespont surrender to his brother Lucius, so the records split. He refused the call to fight old comrades in Africa and stayed in the city. In a letter to Cicero he spoke of Epicurus on pleasure and virtue.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": -44,
+   "year_end": null,
+   "kind": "office",
+   "title": "외인법무관에 오르다",
+   "title_en": "Takes office as praetor peregrinus",
+   "description": "이듬해 시리아 속주가 약속되어 있었다. 아내는 세르빌리아의 딸 유니아 테르티아였다. 처남은 브루투스였다. 도시법무관 자리는 그보다 어린 처남에게 갔다. 플루타르코스는 그가 이 인사에 분을 품었다고 적었다.",
+   "description_en": "Syria was promised to him for the next year. His wife was Junia Tertia, daughter of Servilia. His brother-in-law was Brutus. The urban praetorship went to that younger kinsman. Plutarch writes that the appointment rankled him.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": -44,
+   "year_end": null,
+   "kind": "other",
+   "title": "원로원 회의에서 카이사르를 찌르다",
+   "title_en": "Stabs Caesar in a Senate meeting",
+   "description": "음모를 짜고 처남을 끌어들인 쪽은 그였다. 수에토니우스는 가담자가 예순이 넘었고 주모자가 그와 두 브루투스라고 적었다. 폼페이우스 극장 안의 회의장에서 가슴을 찔렀다. 안토니우스까지 죽이자는 말은 전승으로 남았고, 처남이 말렸다고 한다.",
+   "description_en": "He was the one who built the plot and brought in his brother-in-law. Suetonius writes that more than sixty joined and that he and the two Brutuses led them. He struck Caesar in the chest in the meeting hall inside Pompey's theatre. A tradition survives that he wanted Antony killed as well, and that his brother-in-law stopped him.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": -43,
+   "year_end": null,
+   "kind": "office",
+   "title": "시리아 군단을 자기 아래로 모으다",
+   "title_en": "Brings the Syrian legions under his command",
+   "description": "암살 뒤 동쪽으로 빠져 예전에 맡았던 속주로 들어갔다. 현지 총독들이 거느리던 군단이 그의 휘하로 모였다. 원로원은 안토니우스와 갈라선 뒤 그의 지휘권을 인정했다. 아피아노스는 병력이 열두 개 군단까지 불었다고 적었다.",
+   "description_en": "After the killing he slipped east into the province he had once held. Legions of the local governors gathered to him. The Senate, having broken with Antony, confirmed that command. Appian writes that the force rose to twelve legions.",
+   "place_name": "안티오케이아",
+   "place_name_en": "Antioch",
+   "lat": 36.20472222222222,
+   "lng": 36.181666666666665
+  },
+  {
+   "year": -43,
+   "year_end": null,
+   "kind": "battle",
+   "title": "라오디케이아에서 돌라벨라를 가두다",
+   "title_en": "Shuts Dolabella up in Laodicea",
+   "description": "카이사르의 옛 측근은 트레보니우스를 죽이고 반도로 달아났다. 카시우스는 육지로 이어지는 길목을 흙더미로 막고 바닷길도 함대로 봉쇄했다. 배신이 일어났다는 소문이 퍼지자 돌라벨라는 사로잡히기 전에 스스로 죽었다. 디오가 그 포위를 적었다.",
+   "description_en": "Caesar's former ally killed Trebonius and fled onto the peninsula. Cassius sealed the landward neck with a mound and shut the sea with a fleet. When word spread of betrayal, Dolabella killed himself rather than be taken. Dio recorded the siege.",
+   "place_name": "라오디케이아",
+   "place_name_en": "Laodicea",
+   "lat": 35.518923,
+   "lng": 35.77663
+  },
+  {
+   "year": -43,
+   "year_end": null,
+   "kind": "other",
+   "title": "로도스를 점령하고 재물을 걷다",
+   "title_en": "Occupies Rhodes and takes its treasure",
+   "description": "섬은 돌라벨라에게 배를 빌려 준 적이 있었다. 젊은 날 여기서 그리스 글을 배웠다는 전승이 있다. 성벽이 뚫린 뒤 유력자들을 죽이고 공공 재산과 사유 재산을 실어 냈다. 아피아노스가 그 전투를 길게 적었다.",
+   "description_en": "The island had lent ships to Dolabella. A tradition holds that he had studied Greek letters there as a young man. After the walls fell he killed leading men and carried off public and private wealth. Appian wrote that campaign at length.",
+   "place_name": "로도스",
+   "place_name_en": "Rhodes",
+   "lat": 36.433333333333,
+   "lng": 28.216666666667
+  },
+  {
+   "year": -42,
+   "year_end": null,
+   "kind": "death",
+   "title": "먼지 속에서 스스로 목숨을 끊다",
+   "title_en": "Takes his own life in the dust",
+   "description": "안토니우스가 진영을 뚫고 들어왔다. 맞은편에서는 처남이 옥타비아누스 진영을 점령하고 있었으나, 먼지가 전장을 가렸다. 패했다고 판단한 그는 해방노예 핀다로스에게 칼을 건넸다. 아피아노스는 승전 소식을 듣고 부끄러워 죽었다고도 적는다. 처남은 그를 마지막 로마인이라 부르며 타소스에 묻었다. 플루타르코스는 그날이 생일이었다고 전한다.",
+   "description_en": "Antony broke into his camp. Across the field his brother-in-law had taken Octavian's camp, but dust hid the battle. Judging the day lost, he handed the sword to his freedman Pindarus. Appian also writes that he heard of the victory and died of shame. His brother-in-law called him the last of the Romans and buried him on Thasos. Plutarch transmits that the day was his birthday.",
+   "place_name": "필리피",
+   "place_name_en": "Philippi",
+   "lat": 41.012072,
+   "lng": 24.284576
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대부분의 사건은 영문이 전하는 세부를 빠뜨리지 않고 자연스럽게 옮겼다. 다만 일부 문장에는 잘못 결합된 단어, 불분명한 지시 대상, 영어식 동작 표현이 있어 한국어의 행위 관계와 생애 흐름이 분명해지도록 고쳤다.",
+  "issues": [
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "적이 들판으로 나온 장면을 「빠지자」라고 표현해 이동 방향이 어색했고, 마지막 문장의 장소 관계도 자연스럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「카이사르 쪽에 붙었다」는 표현이 불필요하게 구어적이었고, 「시내」가 로마를 가리킨다는 점을 앞 문장에 의존해야 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「화공을 실은 상선」은 전술을 배에 싣는 것처럼 읽혔고, 「승전 소식이 말에 실려 오자」와 「본인은 오단노선에서」도 영어의 표현 순서를 따른 어색한 문장이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 인사에 그가 분을 품었다」는 목적어와 주어의 배열이 부자연스러웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "속주를 관할했다는 뜻을 「예전에 지켜 본 속주」로 잘못 표현했고, 군단이 누구의 지휘 아래 모였는지도 문장만으로 선명하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「바다도 함대로 잠갔다」는 영어 동작을 그대로 치환한 표현이었고, 「배신 소문」도 어떤 상황이 벌어졌다는 뜻인지 불분명했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「성벽을 넘긴 뒤」는 성벽이 함락되었다는 원문의 행위 관계를 잘못 나타냈고, 「공금고와 사유 재산」은 서로 대응하지 않는 대상을 나란히 놓은 표현이었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「칼을 맡겼다」는 칼을 건넸다는 행위를 다른 사람에게 보관이나 책임을 맡긴 것처럼 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   2,
+   3,
+   4,
+   6,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

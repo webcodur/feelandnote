@@ -1,0 +1,245 @@
+{
+ "slug": "bae-su-ji",
+ "events": [
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "birth",
+   "title": "광주 북구에서 태어나다",
+   "title_en": "Is born in Buk-gu, Gwangju",
+   "description": "한 남 두 여 가운데 둘째로 태어났다. 어머니는 분식집을 운영했고, 아버지는 태권도 관장이었다. 무등초등학교 4학년 때부터 보아의 춤을 따라 했다. 부모가 말렸지만 댄스 학원에 다녔고, 문화중학교에서는 교내 댄스부에 들어갔다.",
+   "description_en": "She was the second of three children, with an older sister and a younger brother. Her mother ran a snack shop; her father ran a taekwondo gym. From fourth grade she copied BoA’s dancing. She went to a dance academy against her parents’ wishes, and joined the dance club at Munhwa Middle School.",
+   "place_name": "광주",
+   "place_name_en": "Gwangju",
+   "lat": 35.166666666667,
+   "lng": 126.91666666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "other",
+   "title": "《슈퍼스타K》 광주 예선에서 캐스팅되다",
+   "title_en": "Is scouted at the Superstar K Gwangju preliminary",
+   "description": "중학교 3학년 때 경험 삼아 오디션에 참가했다. 화장실을 찾던 중 JYP 직원의 눈에 띄었고, 윤하의 〈사랑하다〉를 조금 불렀다. 방송에는 출연하지 않았지만 서울 오디션을 통과해 연습생이 됐다. 이후 주말마다 고속버스를 타고 연습실을 오갔다. 전남여고에서 서울공연예술고 실용음악과로 전학하면서 광주 집을 떠났다.",
+   "description_en": "She was in her third year of middle school. She entered the audition for the experience. A JYP staffer noticed her while she was looking for a restroom, and she sang a little of Younha’s “Saranghada.” She never appeared on the broadcast. After passing a Seoul audition she became a trainee and rode the express bus to the practice room on weekends. She left Gwangju when she transferred from Jeonnam Girls’ High School to the applied-music track at Seoul Performing Arts High School.",
+   "place_name": "광주",
+   "place_name_en": "Gwangju",
+   "lat": 35.166666666667,
+   "lng": 126.91666666667
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "미쓰에이로 데뷔하다",
+   "title_en": "Debuts with Miss A",
+   "description": "먼저 페이, 지아와 함께 중국에서 삼성 광고에 출연했고, 민이 합류하면서 네 명이 됐다. 데뷔곡 〈배드 걸 굿 걸〉은 공개된 지 3주 만에 음악방송 1위에 올랐다. 이 곡은 박진영이 썼다.",
+   "description_en": "She first appeared with Fei and Jia in a Samsung campaign in China; Min joined and they became four. The debut single “Bad Girl Good Girl” took a music-show first place in three weeks. J.Y. Park wrote the song.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "《드림하이》에서 고혜미를 맡다",
+   "title_en": "Plays Go Hye-mi in Dream High",
+   "description": "고혜미는 예술고로 전학해 가수를 꿈꾸는 학생이었다. 촬영에 들어가기 전에는 연극배우 백원길에게 연기를 배웠다. 방송 초반에는 수지의 연기력을 두고 논란이 일었다. 수지는 극중 노래 〈겨울 아이〉도 불렀다.",
+   "description_en": "The role was a transfer student at an arts high school who wanted to sing. Before filming, the actor Baek Won-gil drilled her in acting. Early episodes drew fire for her performance. She also sang the soundtrack song “Winter Child.”",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "《건축학개론》에서 스무 살 서연을 연기하다",
+   "title_en": "Plays the young Seo-yeon in Architecture 101",
+   "description": "한가인이 연기한 서연의 대학 시절을 맡았고, 이제훈이 상대역으로 출연했다. 영화는 관객 410만 명을 넘겼다. 사람들은 수지를 국민 첫사랑이라 부르기 시작했다.",
+   "description_en": "She played the college years of Seo-yeon, the part Han Ga-in took as an adult. Lee Je-hoon was her counterpart. The film passed 4.1 million admissions. People started calling her the nation’s first love.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "《구가의 서》에서 담여울을 맡다",
+   "title_en": "Plays Dam Yeo-ul in Gu Family Book",
+   "description": "수지의 첫 사극이었다. 담여울은 무형도관의 교관이었고, 이승기가 상대역을 맡았다. 방송은 10주 동안 같은 시간대 시청률 1위를 지켰다.",
+   "description_en": "It was her first period drama. She played an instructor at a martial hall opposite Lee Seung-gi. The show held first place in its time slot for ten weeks.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "publish",
+   "title": "솔로 음반 《Yes? No?》를 내다",
+   "title_en": "Releases the solo EP Yes? No?",
+   "description": "선공개곡 〈행복한 척〉이 먼저 공개됐다. 타이틀곡 〈예스 노 메이비〉는 박진영이 썼다. 수지는 수록곡 〈취향〉과 〈난로 마냥〉의 가사를 썼다. 당시 미쓰에이의 단체 무대는 이미 드물어져 있었다.",
+   "description_en": "The pre-release single “Pretend” went out first. J.Y. Park wrote the title track “Yes No Maybe.” She wrote the lyrics for two songs on the album. Group stages had already grown scarce.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "미쓰에이가 해체되다",
+   "title_en": "Miss A disbands",
+   "description": "지아와 민이 JYP와 재계약하지 않았다. 수지와 페이는 회사에 남았지만, 두 명만으로 팀을 유지하지 않기로 했다. 데뷔한 지 7년 만이었다.",
+   "description_en": "Jia and Min did not renew. She and Fei stayed at the company, but they chose not to keep the group as a duo. Seven years had passed since debut.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "other",
+   "title": "JYP를 떠나 매니지먼트 숲과 계약하다",
+   "title_en": "Leaves JYP and signs with Management SOOP",
+   "description": "JYP와 함께한 지 9년 만에 회사를 떠났다. 새로 계약한 매니지먼트 숲은 배우 전문 기획사였다. 그해 수지는 드라마 《배가본드》와 영화 《백두산》에 출연했다.",
+   "description_en": "Nine years had passed. SOOP was an actors’ agency. Vagabond and the film Ashfall followed that year.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "《안나》에서 유미와 안나를 함께 연기하다",
+   "title_en": "Plays both Yumi and Anna in Anna",
+   "description": "쿠팡플레이 작품으로, 수지의 첫 단독 주연이었다. 정한아의 소설 《친밀한 이방인》을 원작으로 삼았으며, 사소한 거짓말을 계기로 다른 사람의 인생을 살게 된 여자를 연기했다. 수지는 처음부터 이 배역을 맡고 싶었다고 말했다.",
+   "description_en": "It was her first solo lead, for Coupang Play. Jeong Han-ah’s novel was the source: a woman who slips into another life after a small lie. She said she had wanted the part first.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "《이두나!》에서 은퇴한 아이돌을 맡다",
+   "title_en": "Plays a retired idol in Doona!",
+   "description": "넷플릭스가 민송아의 웹툰을 원작으로 만든 작품이었다. 이두나는 갑자기 무대를 떠난 뒤 대학가의 셰어하우스에서 숨어 지내는 인물이었다. 수지는 두나가 자신과 닮았다고 느껴 출연을 결심했다.",
+   "description_en": "Netflix adapted Min Song-ah’s webtoon. The character left the stage without warning and hid in a campus share house. She took the part because Doona felt close to her.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부 내용은 유지하면서 모호한 대명사, 직역투, 어색한 배역 설명과 사건 간 연결을 바로잡았다. 영문보다 의미를 확장하거나 별도의 사실 확인이 필요한 내용은 추가하지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "학교명과 학년을 붙여 쓴 부분이 구어적으로 축약되어 있었고, 부모의 직업과 어린 시절의 춤 경험을 설명하는 문장도 다소 거칠었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "오디션 방송에 출연하지 않았다는 내용을 「본방송에는 나가지 않았다」라고 표현해 뜻은 통하지만 다소 부자연스러웠고, 연습생이 된 뒤의 이동과 전학 과정이 짧은 문장으로 끊겨 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중국 삼성 광고에 나갔다」와 「음악방송 1위를 했다」가 어색했고, 영문의 포괄적인 작곡·작사 표현을 국문이 가사로 한정하고 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 배역이라는 점이 분명하지 않았고, 「연기 논란이 붙었다」가 부자연스러웠으며 마지막 문장의 「그」가 수지인지 배역인지 모호했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한가인이 맡은 서연의 대학 시절이었다」는 배역과 시간대의 관계가 어색했고, 「짝」은 상대 배우를 가리키는 표현으로 부정확했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「무형도관 교관으로 이승기와 짝을 이뤘다」는 배역의 신분과 상대역의 관계를 한 구절에 압축해 자연스럽지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "음원이 「나갔다」는 표현과 수지를 가리키는 「그」가 어색했고, 마지막 문장도 어느 그룹의 무대인지 바로 드러나지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그와 페이」의 지시 대상이 앞 문장만으로 분명하지 않았고, 「데뷔부터 칠 년이었다」가 직역투였다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「구 년 만이었다」가 무엇을 기준으로 한 기간인지 불분명했고, 작품이 「이어졌다」는 표현만으로는 그해 수지가 두 작품에 출연했다는 관계가 선명하지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "원작과 배역 설명의 주어가 한 문장 안에서 느슨하게 이어졌고, 「배역을 먼저 욕심냈다」가 번역투에 가까웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "웹툰을 「옮긴 작품」이라는 표현이 직역투였고, 「셰어하우스로 숨은 인물」과 「마음이 쓰여」도 영문의 인물 설정과 출연 이유를 정확히 전달하지 못했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

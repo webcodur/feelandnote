@@ -1,0 +1,253 @@
+{
+ "slug": "alice",
+ "events": [
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "birth",
+   "title": "대전에서 태어나다",
+   "title_en": "Born in Daejeon",
+   "description": "본명은 송주희다. 열두 살 위의 언니가 있었다. 이후 가족은 강원도 원주로 옮겨 살았다.",
+   "description_en": "Her birth name is Song Joo-hee. She had an older sister twelve years her senior. The family later lived in Wonju, Gangwon.",
+   "place_name": "대전",
+   "place_name_en": "Daejeon",
+   "lat": 36.35,
+   "lng": 127.385
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "횡성여자고등학교를 졸업하다",
+   "title_en": "Graduates from Hoengseong Girls High School",
+   "description": "원주에 살면서 이웃 군인 횡성에 있는 고등학교를 다녔다.",
+   "description_en": "She lived in Wonju and attended high school in the neighboring county of Hoengseong.",
+   "place_name": "횡성",
+   "place_name_en": "Hoengseong",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "work",
+   "title": "〈배틀신화〉에 출연하다",
+   "title_en": "Appears on Battle Shinhwa",
+   "description": "열다섯 살에 Mnet 오디션에 참가했다. 그룹 신화가 심사를 맡은 프로그램이었다.",
+   "description_en": "At fifteen she entered an Mnet audition. The group Shinhwa judged the contest.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "오라라는 이름으로 솔로 데뷔하다",
+   "title_en": "Debuts solo as Ora",
+   "description": "엘소 엔터테인먼트에서 싱글 〈Naughty Face〉를 냈다. 홍대 인디밴드 보컬 출신이라고 소개됐다.",
+   "description_en": "Under Elso Entertainment she released the single Naughty Face. She was introduced as a former indie-band vocalist from Hongdae.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "헬로비너스의 앨리스로 데뷔하다",
+   "title_en": "Debuts as Alice of Hello Venus",
+   "description": "헬로비너스는 플레디스와 판타지오가 만든 트라이셀미디어 소속이었다. 나라, 라임, 유영, 유아라, 윤조와 함께 미니음반 〈비너스〉를 냈다. 앨리스는 보컬을 맡았다.",
+   "description_en": "The group belonged to Tricell Media, a Pledis–Fantagio joint venture. She released the mini-album Venus with Nara, Lime, Yooyoung, Yooara, and Yoonjo. She sang as a vocalist.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "김진표와 〈사로잡아요〉를 내다",
+   "title_en": "Releases Capture It with Kim Jin-pyo",
+   "description": "컬러 오브 시티 프로젝트의 듀엣이었다. 헬로비너스의 곡이 아닌 음원에 참여했다.",
+   "description_en": "It was a Color of City project duet. She put her voice on a track outside the group catalog.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "work",
+   "title": "판타지오 소속 헬로비너스를 이어가다",
+   "title_en": "Continues Hello Venus under Fantagio",
+   "description": "트라이셀미디어의 합작 프로젝트가 끝났다. 유아라와 윤조는 플레디스로 돌아갔고, 앨리스는 나라·라임·유영과 함께 판타지오에 남았다. 가을에 서영과 여름이 합류하면서 헬로비너스는 다시 여섯 명이 됐다.",
+   "description_en": "The Tricell joint project ended. Yooara and Yoonjo returned to Pledis. She stayed with Nara, Lime, and Yooyoung. Seoyoung and Yeoreum joined in the autumn and the group was six again.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "본명으로 뮤지컬 〈올슉업〉에 서다",
+   "title_en": "Stars in All Shook Up under her birth name",
+   "description": "산드라 역이었다. 대학로 무대에는 앨리스가 아니라 송주희로 올랐다. 6월부터 8월까지 홍익대 대학로 아트센터 대극장에서 공연했다.",
+   "description_en": "She played Sandra. On the Daehakro stage she used Song Joo-hee, not Alice. The run lasted from June to August at the Hongik Daehakro Art Center Grand Theater.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "헬로비너스 활동을 마치고 판타지오를 떠나다",
+   "title_en": "Ends Hello Venus and leaves Fantagio",
+   "description": "전속계약이 5월 8일에 끝났다. 나라와 함께 소속사를 떠났고, 헬로비너스는 활동을 마쳤다.",
+   "description_en": "Her exclusive contract expired on May 8. She left the agency with Nara, and the group stopped working.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "킹스랜드와 전속계약을 맺다",
+   "title_en": "Signs with Kingsland",
+   "description": "킹스랜드와 본명 송주희로 배우 전속계약을 맺었다. TV조선 〈복수해라〉에서 연비서 역을 맡았다. 그 무렵 홍익대 대학원에서 사진을 배우고 있었다.",
+   "description_en": "She signed again, this time as an actress under her birth name. She played Secretary Yeon in TV Chosun’s Get Revenge. Around then she was studying photography at Hongik University graduate school.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "팝뮤직과 전속계약을 맺다",
+   "title_en": "Signs with PopMusic",
+   "description": "가수와 배우 활동을 모두 아우르는 계약이었다. 신곡 〈널 사랑해〉를 냈고, tvN 〈어느 날 우리 집 현관으로 멸망이 들어왔다〉에서 조예지 역을 맡았다.",
+   "description_en": "The contract covered both singing and acting. She released I Love You and played Jo Ye-ji in tvN’s Doom at Your Service.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "other",
+   "title": "비연예인 남성과 결혼하다",
+   "title_en": "Marries a non-celebrity",
+   "description": "10월 21일 서울 모처에서 가족들만 참석한 결혼식을 올렸다. 같은 달 임신 소식도 알려졌다.",
+   "description_en": "On October 21 she held a private family wedding in Seoul. The same month her pregnancy was also announced.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 넘지 않는 범위에서 직역투, 불분명한 주어, 어색한 서술어를 바로잡고 사건 사이의 연결을 정리했다. 이미 자연스러운 사건은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「언니가 열두 살 위였다」는 누구보다 열두 살 많은지 생략되어 있고, 「뒤에는」은 시간의 흐름을 나타내는 표현으로 어색했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「학교를 나오다」보다 졸업 사실을 분명히 밝히는 서술어가 적절하며, 「옆 고을 학교」는 현대 인물 연표의 문체로 부자연스럽고 학교가 있는 지역도 불명확했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "방송 프로그램 출연을 「나가다」라고 표현해 문체가 지나치게 구어적이었고, 「그룹 신화가 심사하는 프로그램」도 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 생략되어 무엇이 트라이셀미디어 소속인지 바로 알기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그룹 곡이 아닌 자리에 자기 목소리를 올렸다」는 영어 문장을 순서대로 옮긴 듯한 표현으로, 어떤 활동을 했다는 뜻인지 짐작해야 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「트라이셀 합작이 끊겼다」는 합작 프로젝트의 종료를 자연스럽게 설명하지 못했고, 「함께 남았다」에는 남은 소속이 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「헬로비너스를 마치다」는 그룹 활동 종료를 나타내는 표현으로 어색했고, 「활동을 접었다」는 다소 구어적이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배우 이름으로 다시 계약을 맺었다」는 본명을 사용했다는 영문의 핵심이 빠져 있으며, 어느 회사와 어떤 계약을 맺었는지도 문장만으로 분명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가수와 배우 활동을 함께 받기로 한 계약」은 주어와 행동의 관계가 무너져 계약의 범위를 이해하기 어려웠다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가족끼리 식을 올렸다」는 결혼식 참석 범위를 설명하는 표현으로 다소 모호하고 구어적이었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

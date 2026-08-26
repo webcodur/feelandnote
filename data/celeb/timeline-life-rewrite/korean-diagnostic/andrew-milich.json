@@ -1,0 +1,242 @@
+{
+ "slug": "andrew-milich",
+ "events": [
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴욕에서 태어나다",
+   "title_en": "Is born in New York",
+   "description": "고향은 뉴욕이다. 다섯 살에 프로그래밍을 배웠다.",
+   "description_en": "New York was home. He learned to program at five.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "스페이스엑스에서 드래곤 2 화면을 만들다",
+   "title_en": "Builds Dragon 2 displays at SpaceX",
+   "description": "호손에서 비행 소프트웨어 인턴으로 일했다. 유인 드래곤 2 캡슐의 승무원용 화면을 맡았다. 그가 작업한 화면은 이후 우주비행사들이 탑승한 드래곤 2와 함께 비행했다.",
+   "description_en": "He interned in flight software in Hawthorne. He worked on crew displays for the crewed Dragon 2 capsule. Those screens later flew with astronauts.",
+   "place_name": "호손",
+   "place_name_en": "Hawthorne",
+   "lat": 33.917214,
+   "lng": -118.348607
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "주익스에서 여름 인턴으로 일하다",
+   "title_en": "Spends a summer at Zoox",
+   "description": "자율주행차 회사의 경로 계획 및 제어 팀에서 인턴으로 일했다. 인턴십은 여름 한 철 동안 이어졌다.",
+   "description_en": "He interned on the planning and controls team at an autonomous-vehicle company. The stint lasted a summer.",
+   "place_name": "포스터시티",
+   "place_name_en": "Foster City",
+   "lat": 37.551388888889,
+   "lng": -122.26638888889
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "education",
+   "title": "국제안보 우등 논문을 쓰다",
+   "title_en": "Writes an honors thesis on international security",
+   "description": "컴퓨터과학을 전공하고 수학을 부전공했으며, 공부의 중심은 인공지능이었다. 에이미 저가트의 지도 아래 딥페이크와 국가 안보를 다룬 우등 논문을 썼다. 헨리 포드 2세 장학생으로 졸업했다. 해커톤을 준비하던 중 제이슨 긴즈버그를 만났다.",
+   "description_en": "He majored in computer science, minored in mathematics, and kept the work centered on artificial intelligence. Under Amy Zegart he wrote an honors thesis on deepfakes and national security. He graduated as a Henry Ford II Scholar. He met Jason Ginsberg while organizing a hackathon.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "스키프를 공동 창업하다",
+   "title_en": "Co-founds Skiff",
+   "description": "대학원생 시절 러시아를 여행하면서 기존 도구만으로는 부족하다고 느꼈다. 시베리아에서 버스를 타고 가던 중 이 일을 해야겠다고 결심했다고 훗날 말했다. 해커톤에서 알게 된 동급생 제이슨 긴즈버그에게 먼저 연락했다. 두 사람은 만우절에 회사를 공식 출범시켰다. 이용자가 업무 데이터의 통제권을 갖게 하는 것이 목표였다.",
+   "description_en": "Traveling in Russia as a graduate student, he found the tools he had were not enough. He later said he decided the work had to be done on a bus in Siberia. He called Ginsberg first, the classmate from the hackathon. They made the company official on April Fools' Day. The aim was to put control of work data in the user's hands.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "세쿼이아에서 시드 투자를 받다",
+   "title_en": "Raises a Sequoia seed",
+   "description": "구글 문서처럼 사용할 수 있지만 스키프 측에서도 내용을 읽을 수 없는 편집기를 초대제로 공개했다. 기자와 인권 변호사를 포함한 수천 명이 매일 사용했고, 대기 명단에는 8천 명이 더 있었다. 세쿼이아가 주도한 370만 달러 규모의 시드 투자를 유치했다. 그해 미션 지구에 있는 노션의 옛 사무실로 옮겼다.",
+   "description_en": "They opened an invite-only editor that worked like Google Docs but could not be read by the company itself. Thousands used it daily, including journalists and human-rights lawyers, and eight thousand more sat on a waitlist. Sequoia led a $3.7 million seed. That year they moved into Notion's old office in the Mission.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "암호화 메일과 업무용 제품군을 선보이다",
+   "title_en": "Opens an encrypted mail and workspace suite",
+   "description": "세쿼이아로부터 1,050만 달러 규모의 시리즈 A 투자를 받으면서 누적 투자금은 약 1,400만 달러가 됐다. 5월에는 스키프 메일을 공개했다. 연말에는 문서·메일·달력·드라이브를 아우르는 제품군을 갖췄으며, 보도된 이용자 수는 30만 명이었다.",
+   "description_en": "Sequoia came back with a $10.5 million Series A, bringing total funding to about $14 million. They opened Skiff Mail in May. By the end of the year the suite covered documents, mail, calendar, and drive, and reporting put users at 300,000.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "스키프 팀과 함께 노션에 합류하다",
+   "title_en": "Joins Notion with the Skiff team",
+   "description": "노션이 스키프를 인수한다고 발표했다. 두 공동창업자는 노션 블로그에 스키프 창업 초기의 이야기를 남겼다. 스키프 서비스는 이용자에게 이전 기간을 제공한 뒤 종료될 예정이었다.",
+   "description_en": "Notion announced it was acquiring Skiff. The two co-founders told the early story on Notion's blog. Skiff's own services were set to close after a migration window.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "노션 메일을 내놓다",
+   "title_en": "Ships Notion Mail",
+   "description": "지메일에 연결해 사용하는 메일함이었다. 인공지능이 메일 분류와 초안 작성을 맡았다. 스키프 메일처럼 별도로 암호화된 메일함이 아니라 노션 작업 공간에 연결되는 클라이언트였다. 웹과 맥에서 먼저 공개됐다.",
+   "description_en": "It was an inbox that connected to Gmail. Artificial intelligence handled sorting and drafts. Unlike Skiff Mail, it was a client attached to Notion's workspace, not a separately encrypted mailbox. It opened first on the web and on Mac.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "커서에서 제품 엔지니어링을 맡다",
+   "title_en": "Takes product engineering at Cursor",
+   "description": "긴즈버그와 함께 커서로 옮겼다. 두 사람의 직함은 제품 엔지니어링 책임자였다.",
+   "description_en": "He moved with Ginsberg. Their title was Head of Engineering, Product.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "엑스에이아이와 스페이스엑스로 옮기다",
+   "title_en": "Goes to xAI and SpaceX",
+   "description": "다시 긴즈버그와 함께 옮겼다. 두 사람이 머스크에게 직접 보고하게 될 것이라는 보도가 나왔다. 그는 거의 10년 전 드래곤 2 인턴으로 스페이스엑스에서 처음 일했다고 적었다.",
+   "description_en": "He moved with Ginsberg again. Reporting said they would report directly to Musk. He wrote that he had first entered SpaceX almost ten years earlier as a Dragon 2 intern.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부 정보는 유지하면서 직역투, 불분명한 지시 대상, 어색한 배역·직함 표현과 사건 사이의 연결을 다듬었다. 영문만으로 확정할 수 없는 사실관계는 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 화면은 뒤에 우주비행사와 함께 올라갔다」는 시간 표현과 행동 관계가 어색하고, 화면이 어디에 실려 비행했는지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「한 여름」은 한여름이라는 계절 표현으로 읽힐 수 있고, 「짧은 여름이었다」는 인턴 기간을 설명하는 문장으로 부자연스러웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인공지능을 중심에 두었다」는 무엇의 중심인지 불분명했고, 「에이미 저가트 밑에서」「논문을 냈다」는 학업과 논문 지도를 서술하기에 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「대학원생으로 러시아를 다니다」「그 일을 해야겠다고」는 이동 상황과 결심의 대상을 짐작해야 했고, 「회사를 공식으로 열었다」도 창업 사건을 나타내기에 부자연스러웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사명이 어색하게 표기됐고, 「시드 370만 달러가 들어왔다」는 투자 유치의 주체와 행동 관계가 흐릿했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「작업 제품군」「한 벌이 되었다」는 workspace suite를 직역한 표현에 가까웠고, 「다시 들어와」「돈을 넣었다」는 투자 사건을 지나치게 구어적으로 서술했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「초기와 제품 이야기」는 무엇의 초기인지 불분명했고 영문보다 의미가 넓었다. 「이용자 이전 기간을 두고 닫히기로 했다」도 서비스 종료 순서를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자체 암호화 우편함」「노션 작업 공간에 붙는 클라이언트」는 제품의 차이를 설명하는 표현으로 딱딱하고 직역투에 가까웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「커서의 제품 공학」과 「공학·제품 책임자」는 Head of Engineering, Product의 업무 영역과 직함을 자연스러운 한국어로 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「가다」「다시 같이 옮겼다」는 이직 사건을 서술하기에 구어적이었고, 머스크에게 보고하는 주체와 과거 스페이스엑스 경력의 연결을 더 명확히 할 필요가 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

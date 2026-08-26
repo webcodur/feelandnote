@@ -1,0 +1,234 @@
+{
+ "slug": "john-krasinski",
+ "events": [
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴턴에서 태어나다",
+   "title_en": "Born in Newton",
+   "description": "내과 의사인 아버지와 간호사인 어머니 사이에서 태어났다. 아일랜드계와 폴란드계 가톨릭 가정의 삼형제 중 막내로 자랐으며, 형들은 케빈과 폴이었다.",
+   "description_en": "His father was an internist and his mother a nurse. He grew up the youngest after Kevin and Paul, in an Irish and Polish Catholic family.",
+   "place_name": "뉴턴",
+   "place_name_en": "Newton",
+   "lat": 42.336944444444,
+   "lng": -71.209722222222
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "education",
+   "title": "뉴턴사우스고등학교를 졸업하다",
+   "title_en": "Graduates from Newton South High School",
+   "description": "리틀리그 팀 동료였던 비제이 노박이 졸업 공연을 위한 풍자 희극을 썼다. 그는 영어 교사를 익살스럽게 흉내 내는 역할을 맡았다. 이 공연을 마친 뒤부터 연기를 직업으로 생각하기 시작했다.",
+   "description_en": "B. J. Novak, a Little League teammate, wrote the senior-class satire. He played a send-up of an English teacher. Only after that show did he start treating acting as work.",
+   "place_name": "뉴턴",
+   "place_name_en": "Newton",
+   "lat": 42.336944444444,
+   "lng": -71.209722222222
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "travel",
+   "title": "코스타리카에서 영어를 가르치다",
+   "title_en": "Teaches English in Costa Rica",
+   "description": "대학 입학을 한 학기 미루고 여섯 달을 현지 가정에서 살며 가르쳤다.",
+   "description_en": "He deferred his first college semester and spent six months living with a local family while teaching.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "education",
+   "title": "브라운 대학교를 졸업하다",
+   "title_en": "Graduates from Brown University",
+   "description": "형 폴은 앞서 이 학교에서 농구 선수로 뛰었다. 영어를 전공하고 우등으로 학사 학위를 받았다. 교내 스케치 코미디 동아리에서 공연했고, 졸업 논문으로 희곡 《압력 주의》를 썼다. 재학 중 어느 여름에는 코난 오브라이언의 심야 프로그램에서 대본 부문 인턴으로 일했다.",
+   "description_en": "His older brother Paul had already played basketball there. He majored in English and earned his bachelor's with honors. He performed with a campus sketch-comedy group. His honors thesis was the play Contents Under Pressure. One summer during college he interned as a script intern on Late Night with Conan O'Brien.",
+   "place_name": "프로비던스",
+   "place_name_en": "Providence",
+   "lat": 41.82399,
+   "lng": -71.41283
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "education",
+   "title": "국립연극연구소에 들어가다",
+   "title_en": "Enters the National Theater Institute",
+   "description": "브라운을 나온 뒤 유진 오닐 시어터센터의 단기 과정에 들어갔다. 그 과정이 끝나자 뉴욕으로 향했다.",
+   "description_en": "After Brown he entered the short program at the Eugene O'Neill Theater Center. When it ended he headed to New York.",
+   "place_name": "워터퍼드",
+   "place_name_en": "Waterford",
+   "lat": 41.349722222222,
+   "lng": -72.146944444444
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "travel",
+   "title": "배우가 되려고 뉴욕으로 가다",
+   "title_en": "Moves to New York to act",
+   "description": "웨이터로 생계를 꾸리면서 광고에 출연하고 오프브로드웨이 낭독 공연에 참여했다. 단역을 몇 차례 맡았지만 연기만으로 먹고살 수는 없었다.",
+   "description_en": "He waited tables while doing commercials and off-Broadway readings. He landed a few bit parts, but not enough to live on acting alone.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2005,
+   "year_end": 2013,
+   "kind": "work",
+   "title": "《더 오피스》의 짐 할퍼트를 맡다",
+   "title_en": "Plays Jim Halpert on The Office",
+   "description": "배역을 따냈을 때도 웨이터로 일하고 있었다. 아홉 시즌의 모든 회에 출연해 종이 회사 영업사원을 연기했다. 촬영에 앞서 스크랜턴의 실제 종이 회사들을 찾아가 직원들을 만났고, 오프닝에 쓰인 거리 장면도 직접 찍었다. 후반에는 여러 에피소드의 제작과 연출도 맡았다.",
+   "description_en": "He was still waiting tables when he got the part. He played a paper-company salesman in every episode across nine seasons. Before filming he visited real paper companies in Scranton and talked with the staff. He also shot the street footage used in the opening credits. In later seasons he produced and directed episodes as well.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 장편을 선댄스영화제에서 공개하다",
+   "title_en": "Premieres his first feature at Sundance",
+   "description": "데이비드 포스터 월리스의 단편소설들을 각색했다. 영화는 미국 극영화 경쟁 부문에서 상영됐다.",
+   "description_en": "He adapted short stories by David Foster Wallace. The film played in the U.S. Dramatic Competition.",
+   "place_name": "파크시티",
+   "place_name_en": "Park City",
+   "lat": 40.659444444444,
+   "lng": -111.49972222222
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "other",
+   "title": "에밀리 블런트와 결혼하다",
+   "title_en": "Marries Emily Blunt",
+   "description": "사귀기 시작한 이듬해 약혼했다. 코모호의 빌라 데스테에서 식을 올렸다.",
+   "description_en": "They got engaged the year after they started dating. They married at Villa d'Este on Lake Como.",
+   "place_name": "체르노비오",
+   "place_name_en": "Cernobbio",
+   "lat": 45.838055555556,
+   "lng": 9.0758333333333
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "《홀러스》를 선댄스에서 공개하다",
+   "title_en": "Premieres The Hollars at Sundance",
+   "description": "어머니가 아프다는 소식을 듣고 고향으로 돌아가는 아들을 그렸다. 프리미어 부문에서 처음 상영됐다. 소니 픽처스 클래식이 미국 판권을 샀다.",
+   "description_en": "He told the story of a son who goes home after word that his mother is ill. It screened first in the Premieres section. Sony Pictures Classics bought the U.S. rights.",
+   "place_name": "파크시티",
+   "place_name_en": "Park City",
+   "lat": 40.659444444444,
+   "lng": -111.49972222222
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "《콰이어트 플레이스》를 사우스바이사우스웨스트에서 공개하다",
+   "title_en": "Premieres A Quiet Place at SXSW",
+   "description": "브라이언 우즈와 스콧 벡의 각본 초안을 고친 뒤 연출과 주연을 맡았다. 아내는 상대역으로 출연했다. 소리로 먹잇감을 찾는 괴물들을 피해 침묵 속에 살아야 하는 가족을 그렸다. 개봉 뒤 전 세계에서 3억 달러가 넘는 흥행 수입을 올렸다. 타임은 그를 세계에서 가장 영향력 있는 인물 목록에 올렸다.",
+   "description_en": "He reworked a draft by Bryan Woods and Scott Beck, then directed and starred. His wife played opposite him. The story follows a family that must live in silence before creatures that hunt by sound. It grossed more than $300 million worldwide. Time put him on its list of the world's most influential people.",
+   "place_name": "오스틴",
+   "place_name_en": "Austin",
+   "lat": 30.3,
+   "lng": -97.733333333333
+  },
+  {
+   "year": 2018,
+   "year_end": 2023,
+   "kind": "work",
+   "title": "《잭 라이언》의 주인공을 맡다",
+   "title_en": "Stars as Jack Ryan",
+   "description": "알렉 볼드윈, 해리슨 포드, 벤 애플렉, 크리스 파인에 이어 잭 라이언을 연기한 다섯 번째 배우였다. 이 아마존 시리즈는 네 시즌 동안 방영됐다.",
+   "description_en": "He was the fifth actor to play Jack Ryan, after Alec Baldwin, Harrison Ford, Ben Affleck, and Chris Pine. The Amazon series ran four seasons.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미 범위와 세부 정보는 유지하면서, 주어와 행위 관계가 흐릿하거나 직역투가 남은 여덟 사건을 고쳤다. 연표는 출생과 학업, 뉴욕 무명 시절, 《더 오피스》 출연, 영화 연출과 주연 활동으로 자연스럽게 이어진다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「케빈과 폴 밑으로 막내가 자랐다」는 형제 관계와 성장의 주체를 어색하게 옮긴 표현이라, 부모의 직업과 삼형제 중 막내라는 관계가 바로 이해되도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 리틀리그에서 뛰던」은 누구와 함께 뛰었다는 말인지 주체가 생략되어 있었고, 영문에 없는 「주연」이라는 정보도 들어가 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「우등으로 학사를 받았다」「한 여름」「대본 인턴을 했다」가 직역투이거나 어색한 결합이라 학위, 시기, 인턴 업무가 자연스럽게 읽히도록 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「광고와 오프브로드웨이 리딩을 전전하며 웨이터로 살았다」는 서로 다른 활동을 한 동사에 묶어 생계와 연기 활동의 관계가 흐릿했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아홉 시즌 전 회에 연기했다」는 조사와 목적어 관계가 무너진 문장이어서, 모든 회에 출연해 배역을 연기했다는 뜻을 분명히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문은 여러 단편소설을 각색했다고 했으나 국문은 단수인 「단편」으로 세부를 축소했고, 경쟁 부문에 「올랐다」는 표현도 영화가 그 부문에서 상영됐다는 뜻을 선명하게 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소리를 듣는 괴물 앞에서 입을 다물고 살아야 하는 가족」은 영어의 단어 배열을 좇은 표현이라, 괴물의 사냥 방식과 가족이 침묵해야 하는 상황이 자연스럽게 이어지도록 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「다섯 번째 잭 라이언이다」는 배우와 배역을 동일시하며, 「아마존에서 네 시즌을 이어 갔다」는 무엇이 이어졌는지 주어가 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   5,
+   6,
+   7,
+   10,
+   11
+  ]
+ }
+}

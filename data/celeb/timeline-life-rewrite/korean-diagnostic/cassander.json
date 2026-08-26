@@ -1,0 +1,279 @@
+{
+ "slug": "cassander",
+ "events": [
+  {
+   "year": -355,
+   "year_end": null,
+   "kind": "birth",
+   "title": "안티파트로스의 아들로 태어나다",
+   "title_en": "Born as a son of Antipater",
+   "description": "전승은 그의 출생 시기를 이 무렵으로 잡는다. 아버지는 알렉산드로스가 아시아로 나간 뒤 마케도니아와 그리스를 맡긴 섭정이었다. 그는 원정군에 따라가지 않고 유럽에 남았다. 동생 이올라스는 왕의 술잔을 드는 사람이 되었다.",
+   "description_en": "Tradition places the birth around this time. His father was the regent Alexander left in charge of Macedon and Greece during the Asian campaign. Cassander stayed in Europe and did not join the expedition. His brother Iolaus became the king's cupbearer.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -323,
+   "year_end": null,
+   "kind": "travel",
+   "title": "아버지 대신 바빌론 궁정에 가다",
+   "title_en": "Sent to the Babylon court in his father's place",
+   "description": "알렉산드로스가 안티파트로스를 부르자 아버지는 아들을 보냈다. 플루타르코스의 전승에 따르면 그는 페르시아인들이 왕 앞에 엎드리는 것을 보고 웃었다. 알렉산드로스는 그의 머리를 잡아 벽에 부딪쳤다. 왕은 그해 여름에 죽었다. 안티파트로스 가문이 왕을 독살했다는 주장은 훗날 적대적인 전승으로 남았다.",
+   "description_en": "When Alexander summoned Antipater, the father sent his son instead. In Plutarch's tradition, Cassander laughed when he saw Persians prostrate themselves before the king. Alexander seized his hair and dashed his head against the wall. The king died that summer. A hostile tradition later claimed that Antipater's house had poisoned him.",
+   "place_name": "바빌론",
+   "place_name_en": "Babylon",
+   "lat": 32.5425,
+   "lng": 44.42111111111111
+  },
+  {
+   "year": -320,
+   "year_end": null,
+   "kind": "office",
+   "title": "트리파라디소스에서 천인대장이 되다",
+   "title_en": "Appointed chiliarch at Triparadisus",
+   "description": "제국을 다시 나눈 회의에서 그는 안티고노스 휘하의 천인대장으로 임명되었다. 아버지는 마케도니아 섭정을 계속 맡았다. 카산드로스는 아직 자기 군대를 거느리지 못했다.",
+   "description_en": "At the conference that redivided the empire he was appointed chiliarch under Antigonus. His father kept the Macedonian regency. Cassander still had no army of his own.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -319,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 폴리페르콘을 후계 섭정으로 지명하다",
+   "title_en": "Antipater names Polyperchon as successor regent",
+   "description": "안티파트로스는 아들이 너무 젊다고 보고 나이가 더 많은 장수를 골랐다. 카산드로스는 그 결정을 거부했다. 안티고노스와 프톨레마이오스, 리시마코스를 자기 편으로 끌어들였다.",
+   "description_en": "Antipater judged his son too young and chose an older general. Cassander rejected the decision. He brought Antigonus, Ptolemy, and Lysimachus over to his side.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -317,
+   "year_end": null,
+   "kind": "office",
+   "title": "아테네를 장악하고 섭정을 자처하다",
+   "title_en": "Seizes Athens and claims the regency",
+   "description": "그는 폴리페르콘의 함대를 부수고 아테네에 팔레론의 데메트리오스를 앉혔다. 에우리디케 왕비는 그를 섭정으로 인정했다. 그해 올림피아스가 필리포스 3세를 죽이고 마케도니아로 들어왔다.",
+   "description_en": "He broke Polyperchon's fleet and installed Demetrius of Phalerum in Athens. Queen Eurydice recognized him as regent. That year Olympias killed Philip III and entered Macedon.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -316,
+   "year_end": null,
+   "kind": "battle",
+   "title": "피드나에서 올림피아스를 굴복시키다",
+   "title_en": "Forces Olympias to surrender at Pydna",
+   "description": "알렉산드로스의 어머니는 록사네와 어린 왕을 데리고 피드나 성으로 들어갔다. 카산드로스는 해상과 육상 통로를 봉쇄했다. 봄에 성문이 열렸다. 카산드로스의 병사들은 올림피아스 처형을 거부했다. 올림피아스에게 가족을 잃은 사람들이 그녀를 돌로 쳤다.",
+   "description_en": "Alexander's mother entered the city with Roxana and the child king. Cassander blocked sea and land. The city opened in the spring. His soldiers refused to carry out the execution. Relatives of people Olympias had killed stoned her.",
+   "place_name": "피드나",
+   "place_name_en": "Pydna",
+   "lat": 40.397465,
+   "lng": 22.617359
+  },
+  {
+   "year": -316,
+   "year_end": null,
+   "kind": "other",
+   "title": "필리포스 2세의 딸 테살로니케와 결혼하다",
+   "title_en": "Marries Thessalonike, daughter of Philip II",
+   "description": "테살로니케는 알렉산드로스의 이복 누이였다. 카산드로스는 아이가이 왕릉에 필리포스 3세와 에우리디케를 묻었다. 팔레네 반도의 포티다이아 자리에 자기 이름을 딴 카산드레이아를 세웠다.",
+   "description_en": "She was Alexander's half-sister. He buried Philip III and Eurydice in the royal tombs at Aegae. On the site of Potidaea on Pallene he founded Cassandreia and gave it his own name.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -316,
+   "year_end": null,
+   "kind": "work",
+   "title": "알렉산드로스가 부순 테베를 다시 세우다",
+   "title_en": "Rebuilds Thebes after Alexander had destroyed it",
+   "description": "그는 살아남은 테베인들을 불러 모았다. 디오도로스는 카산드로스가 오래 남을 명성을 얻으려고 테베를 재건했다고 적었다. 파우사니아스는 알렉산드로스를 미워했기 때문에 재건한 것이라고 보았다.",
+   "description_en": "He gathered the surviving Thebans. Diodorus wrote that he sought lasting fame. Pausanias judged that hatred of Alexander drove the act.",
+   "place_name": "테베",
+   "place_name_en": "Thebes",
+   "lat": 38.32083333333333,
+   "lng": 23.317777777777778
+  },
+  {
+   "year": -315,
+   "year_end": null,
+   "kind": "work",
+   "title": "아내 이름으로 테살로니카를 세우다",
+   "title_en": "Founds Thessalonica and names it after his wife",
+   "description": "테르마 만의 옛 테르마와 주변 마을을 한 도시로 모았다. 이름을 아내에게서 땄다.",
+   "description_en": "He gathered old Therma and the neighboring settlements on the Thermaic Gulf into one city. He took the name from his wife.",
+   "place_name": "테살로니카",
+   "place_name_en": "Thessalonica",
+   "lat": 40.640277777777776,
+   "lng": 22.935555555555556
+  },
+  {
+   "year": -310,
+   "year_end": null,
+   "kind": "other",
+   "title": "록사네와 알렉산드로스 4세를 죽이다",
+   "title_en": "Kills Roxana and Alexander IV",
+   "description": "전해에 맺은 강화 조약은 알렉산드로스 4세가 성년이 되면 제국을 맡는다고 정했다. 카산드로스는 암피폴리스 성채에 가둬 두었던 록사네와 알렉산드로스 4세를 비밀리에 죽였다. 전승은 두 사람이 독살되었다고 한다. 이듬해에는 폴리페르콘에게 뇌물을 주어 바르시네의 아들 헤라클레스도 죽이게 했다.",
+   "description_en": "The peace of the previous year had said the boy would take the empire when he came of age. Cassander secretly killed the mother and son he had confined in the citadel at Amphipolis. Tradition says they were poisoned. The next year he bribed Polyperchon to do away with Heracles, Barsine's son.",
+   "place_name": "암피폴리스",
+   "place_name_en": "Amphipolis",
+   "lat": 40.823773,
+   "lng": 23.847767
+  },
+  {
+   "year": -305,
+   "year_end": null,
+   "kind": "office",
+   "title": "마케도니아인의 왕을 칭하다",
+   "title_en": "Takes the title king of the Macedonians",
+   "description": "안티고노스가 살라미스에서 승리한 뒤 왕호를 사용하자 프톨레마이오스와 리시마코스도 뒤따랐다. 카산드로스 역시 왕호를 사용했다.",
+   "description_en": "After Antigonus took the royal title following his victory at Salamis, Ptolemy and Lysimachus did the same. Cassander followed and used the royal title himself.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -301,
+   "year_end": null,
+   "kind": "other",
+   "title": "입소스 연합에 아우의 군대를 보내다",
+   "title_en": "Sends his brother's army to the Ipsus coalition",
+   "description": "그는 테살리아에서 데메트리오스를 막았다. 전투에는 나가지 않았다. 아우 플라이스타르코스가 리시마코스와 셀레우코스 편에 섰다. 안티고노스는 입소스 전투에서 죽었다.",
+   "description_en": "He held Demetrius in Thessaly. He did not go to the battle. His brother Pleistarchus stood with Lysimachus and Seleucus. Antigonus died in that fight.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -297,
+   "year_end": null,
+   "kind": "death",
+   "title": "수종으로 죽다",
+   "title_en": "Dies of dropsy",
+   "description": "파우사니아스는 몸에 물이 차고 살에서 벌레가 나왔다고 전한다. 맏아들 필리포스 4세가 왕위를 이었으나 몇 달 만에 죽었다. 남은 두 아들은 서로 싸웠다. 데메트리오스가 마케도니아를 차지했다.",
+   "description_en": "Pausanias reports that his body filled with fluid and that worms came from the flesh. His eldest son Philip IV took the throne and died within months. The two remaining sons fought each other. Demetrius seized Macedon.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부를 유지하면서, 대상이 불분명한 지시어와 직역투 표현을 바로잡았다. 사건들이 출생부터 사후 왕위 다툼까지 자연스럽게 이어지도록 인물명과 사건명을 필요한 곳에 명시했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전승은 이 무렵으로 잡는다」는 무엇을 이 무렵으로 잡는지 목적어가 빠져 있어 출생 시기를 명시했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「독을 썼다는 말」은 독살의 대상과 적대 전승이라는 성격이 흐려, 왕을 독살했다는 적대적인 전승임을 분명히 했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「섭정을 그대로 쥐었다」와 「자기 군대를 가진 사람이 아니었다」가 직역투에 가까워, 직책을 계속 맡고 군대를 거느리지 못했다는 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문의 older general을 「늙은 장수」로 옮겨 불필요하게 낮춰 부르는 느낌이 생겨, 아들보다 나이가 많은 장수를 골랐다는 관계로 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title"
+    ],
+    "problem": "「아테네를 잡고」가 구어적이고 의미가 느슨해, 도시의 지배권을 확보했다는 뜻의 「장악하고」로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 성」은 앞 문장만으로 어느 곳인지 알 수 없고, 「바다와 육지를 막았다」와 「성이 열렸다」도 뜻을 짐작해야 해 피드나 성과 봉쇄·성문 개방을 구체적으로 밝혔다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 제목에만 의존하고, 이어지는 「그는」이 테살로니케와 카산드로스 중 누구를 가리키는지 문법적으로 흐려 두 인물의 이름을 명시했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「명성을 노린 일」은 영문의 lasting fame이라는 세부가 빠지고, 「알렉산드로스에 대한 미움이라고 보았다」는 무엇의 원인인지 흐려 두 사가가 제시한 동기를 자연스럽게 풀었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 해 앞의 강화」가 직역투이고 「소년」과 「모자」가 문맥에 기대고 있어, 강화 조약과 알렉산드로스 4세·록사네를 명시했다. 「없앴다」도 살해를 뜻하는 문맥에 맞게 구체화했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「왕호를 쓰자」「왕을 칭했다」「왕호를 썼다」가 짧은 구간에서 기계적으로 반복돼, 왕호 채택의 순서를 유지하면서 자연스럽게 연결했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막의 「그 싸움」이 앞 문장만으로는 전투를 특정하기 어려워 입소스 전투를 명시했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「몸이 물로 차고」가 영문 어순을 따른 부자연스러운 표현이어서 「몸에 물이 차고」로 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

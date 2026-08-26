@@ -1,0 +1,255 @@
+{
+ "slug": "ashish-vaswani",
+ "events": [
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "birth",
+   "title": "인도에서 태어나다",
+   "title_en": "Born in India",
+   "description": "아버지는 건축가이고 어머니는 의사였다.",
+   "description_en": "His father was an architect and his mother was a doctor.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "나고푸르로 옮겨 학교를 마치다",
+   "title_en": "Moves to Nagpur and finishes school",
+   "description": "어린 시절을 오만에서 보냈다. 열다섯 살에 가족이 마하라슈트라의 나고푸르로 옮겼고, 그곳에서 학교를 마쳤다. 학교에 다니던 시절 빌 게이츠와 폴 앨런이 마이크로소프트를 세운 이야기를 접하고 컴퓨터에 끌리게 되었다고 훗날 말했다.",
+   "description_en": "He spent his childhood in Oman. At fifteen his family moved to Nagpur in Maharashtra, and he finished school there. He later said that the story of Bill Gates and Paul Allen founding Microsoft drew him toward computers while he was still in school.",
+   "place_name": "나고푸르",
+   "place_name_en": "Nagpur",
+   "lat": 21.149722222222223,
+   "lng": 79.08055555555555
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "education",
+   "title": "메스라에서 컴퓨터공학을 마치다",
+   "title_en": "Completes computer engineering at Mesra",
+   "description": "비를라 공과대학 메스라에서 컴퓨터과학·공학을 전공했다.",
+   "description_en": "He studied computer science and engineering at the Birla Institute of Technology, Mesra.",
+   "place_name": "란치",
+   "place_name_en": "Ranchi",
+   "lat": 23.355555555556,
+   "lng": 85.334722222222
+  },
+  {
+   "year": 2002,
+   "year_end": 2004,
+   "kind": "work",
+   "title": "델리에서 엔지니어로 일하다",
+   "title_en": "Works as an engineer in Delhi",
+   "description": "정보기술 업계에서 컴퓨터 엔지니어로 몇 해를 보냈다. 알고리즘과 계산 이론, 자료구조에 더 끌려 직장을 그만두고 연구로 방향을 틀었다.",
+   "description_en": "He spent a few years as a computer engineer in the information-technology industry. Drawn more to algorithms, the theory of computation, and data structures, he left the job and turned toward research.",
+   "place_name": "델리",
+   "place_name_en": "Delhi",
+   "lat": 28.666666666667,
+   "lng": 77.216666666667
+  },
+  {
+   "year": 2004,
+   "year_end": 2006,
+   "kind": "education",
+   "title": "USC에서 석사학위를 받다",
+   "title_en": "Completes a master’s at USC",
+   "description": "서던캘리포니아대학교 컴퓨터과학 석사과정에 들어갔다. 석사를 마친 뒤 같은 학교에서 박사과정으로 이어졌다.",
+   "description_en": "He entered the computer science master’s program at the University of Southern California. After the master’s he continued there as a doctoral student.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "education",
+   "title": "정보과학연구소에서 박사연구를 시작하다",
+   "title_en": "Begins doctoral research at ISI",
+   "description": "데이비드 치앙과 량 황의 지도를 받았다. 케빈 나이트가 이끈 자연어처리 그룹에서 통계적 기계번역과 신경 언어모형을 다루었다. 치앙은 훗날 그를 자신의 첫 박사과정 제자이자, 딥러닝이 이 분야에 활용될 가능성을 가장 먼저 내다본 사람 가운데 한 명으로 기억했다.",
+   "description_en": "He was advised by David Chiang and Liang Huang. In Kevin Knight’s natural language processing group he worked on statistical machine translation and neural language models. Chiang later recalled him as his first doctoral student and one of the first to see that deep learning could serve this field.",
+   "place_name": "마리나델레이",
+   "place_name_en": "Marina del Rey",
+   "lat": 33.979444444444,
+   "lng": -118.45277777778
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "travel",
+   "title": "고로카에서 소멸 위기 언어를 기록하다",
+   "title_en": "Documents endangered languages in Goroka",
+   "description": "지도교수 데이비드 치앙의 연구진과 함께 고로카대학교에서 언어 보존 워크숍을 열었다. 해당 언어를 모어로 쓰는 사람들이 구전 이야기를 컴퓨터로 전사하고 번역하도록 도왔다.",
+   "description_en": "With David Chiang’s group he ran a language-preservation workshop at the University of Goroka. They helped mother-tongue speakers transcribe and translate oral stories on computers.",
+   "place_name": "고로카",
+   "place_name_en": "Goroka",
+   "lat": -6.0833333333333,
+   "lng": 145.38333333333
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "education",
+   "title": "박사학위를 받고 연구소에 남다",
+   "title_en": "Receives his doctorate and stays at ISI",
+   "description": "학위논문은 통계적 기계번역 모형을 더 작고 빠르고 정확하게 만드는 작업이었다. 학위를 받은 뒤 같은 연구소에서 컴퓨터과학자로 일했다.",
+   "description_en": "His dissertation was on making statistical machine translation models smaller, faster, and more accurate. After the degree he stayed at the same institute as a computer scientist.",
+   "place_name": "마리나델레이",
+   "place_name_en": "Marina del Rey",
+   "lat": 33.979444444444,
+   "lng": -118.45277777778
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "구글 브레인에 합류하다",
+   "title_en": "Joins Google Brain",
+   "description": "연구과학자로 들어갔다. 모든 모달리티를 하나의 구조로 묶는 범용 모형을 찾고 있었다고 훗날 말했다. 니키 파마르는 이미 구글에 있었고, 두 사람은 바스와니가 로스앤젤레스에서 신경망 특강을 했을 때 처음 만났다.",
+   "description_en": "He joined as a research scientist. He later said he was looking for a universal model that would bind every modality into one structure. Niki Parmar was already at Google; the two had first met when he gave a guest lecture on neural networks in Los Angeles.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "publish",
+   "title": "트랜스포머 논문을 내다",
+   "title_en": "Publishes the Transformer paper",
+   "description": "노암 셰이저, 니키 파마르, 야코프 우슈코라이트 등 일곱 명과 〈필요한 것은 어텐션뿐이다〉를 발표했다. 저자 여덟 명은 기여를 동등하다고 적었고, 그와 일리야 폴로수힌이 최초의 트랜스포머 모형들을 설계하고 구현했다. 순환층과 합성곱 없이 어텐션만으로 문장을 번역하는 구조였다. 영어-독일어 번역에서 단일 모형이 기존 앙상블을 넘어섰다.",
+   "description_en": "With seven others, including Noam Shazeer, Niki Parmar, and Jakob Uszkoreit, he published Attention Is All You Need. The eight authors marked their contributions as equal; he and Illia Polosukhin designed and implemented the first Transformer models. The architecture moved sentences with attention alone, without recurrent or convolutional layers. On English-to-German translation a single model surpassed prior ensembles.",
+   "place_name": "롱비치",
+   "place_name_en": "Long Beach",
+   "lat": 33.768055555555556,
+   "lng": -118.19555555555556
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "에이뎁트를 공동 창업하다",
+   "title_en": "Cofounds Adept",
+   "description": "데이비드 루안, 니키 파마르와 함께 연구소를 세웠다. 루안은 최고경영자, 파마르는 최고기술책임자, 그는 최고과학자였다. 사람들이 이미 사용하는 소프트웨어를 그대로 사용할 수 있는 신경망을 만드는 것을 목표로 내걸었다. 그해 4월 비공개 운영을 마치고 6천5백만 달러의 투자 유치를 발표했다. 열 달 만에 회사를 떠났다.",
+   "description_en": "He opened a research lab with David Luan and Niki Parmar. Luan was chief executive, Parmar chief technology officer, and he chief scientist. They set out to train a neural network that would use the same software people already use. In April the lab left stealth and announced sixty-five million dollars in funding. He left after ten months.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2022,
+   "year_end": 2026,
+   "kind": "work",
+   "title": "에센셜 AI를 공동 창업하다",
+   "title_en": "Cofounds Essential AI",
+   "description": "니키 파마르와 기업용 인공지능 회사를 설립하고 최고경영자를 맡았다. 이듬해 12월 마치 캐피털이 이끈 5천6백50만 달러 규모의 시리즈 A 투자를 발표했다. 구글과 엔비디아, AMD도 이 투자 라운드에 참여했다.",
+   "description_en": "He started an enterprise AI company with Niki Parmar and took the role of chief executive. The next December it announced a 56.5 million dollar Series A led by March Capital. Google, Nvidia, and AMD also joined that round.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "엔비디아에 합류하다",
+   "title_en": "Joins Nvidia",
+   "description": "에센셜 AI 최고경영자직을 내려놓고 엔비디아의 컴퓨터과학자가 됐다.",
+   "description_en": "He left the Essential AI chief-executive role and became a computer scientist at Nvidia.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "대체로 자연스러웠으나 일부 사건에서 영문의 세부 의미가 빠지거나, 주어가 모호하거나, 기술 용어와 직책·투자 관련 표현이 직역투로 남아 있었다. 사건의 사실관계와 세부 정보는 유지하면서 국문 title·description을 자연스럽게 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "마이크로소프트 창업 이야기가 그를 컴퓨터로 이끌었다는 영문의 핵심 대상이 국문에서 빠져 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title"
+    ],
+    "problem": "영문 제목은 석사학위 취득을 말하지만 국문 제목은 석사과정을 밟았다는 데 그쳐 사건의 도달점이 달랐다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "치앙의 첫 박사과정 제자였다는 사실과 딥러닝의 가능성을 일찍 본 사람 가운데 한 명이었다는 평가가 한 덩어리로 엉켜 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「모어 화자」와 「컴퓨터에 전사하다」가 직역투여서 참여자와 행동의 관계를 자연스럽게 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "modality를 「양식」으로 옮겨 기술적 의미가 불분명했고, 마지막 문장의 「그가」가 두 사람 중 누구를 가리키는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "복수형인 Transformer models의 수가 국문에서 사라졌고, 기계번역 구조를 「문장을 옮기는 구조」라고 표현해 의미를 짐작해야 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「최고과학자를 맡았다」와 「은밀 운영을 끝내다」가 한국어 직책·기업 문맥에 맞지 않았고, 신경망이 기존 소프트웨어를 사용한다는 목표도 불분명하게 표현되어 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "시리즈 A 투자를 「공개했다」고만 해 무엇을 발표했는지 불분명했고, 「그 라운드」가 직역투였다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「엔비디아 컴퓨터과학자」에서 소속 관계가 어색하게 생략되어 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

@@ -1,0 +1,231 @@
+{
+ "slug": "chaeryeong",
+ "events": [
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "birth",
+   "title": "논산에서 태어나다",
+   "title_en": "Born in Nonsan",
+   "description": "본명은 이채령이다. 세 자매 가운데 둘째였다. 언니는 이채연이고, 아래에 여동생이 한 명 더 있다.",
+   "description_en": "Her birth name is Lee Chae-ryeong. She was the second of three daughters. Her older sister is Lee Chae-yeon, and she has a younger sister as well.",
+   "place_name": "논산",
+   "place_name_en": "Nonsan",
+   "lat": 36.203888888889,
+   "lng": 127.08472222222
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "other",
+   "title": "용인으로 옮겨 자라다",
+   "title_en": "Moves to Yongin and grows up there",
+   "description": "가족은 곧 용인으로 이사했다. 용인서천초등학교와 서천중학교를 졸업했다.",
+   "description_en": "The family soon moved here. She graduated from Yongin Seocheon Elementary School and Seocheon Middle School.",
+   "place_name": "용인",
+   "place_name_en": "Yongin",
+   "lat": 37.236111111111,
+   "lng": 127.20111111111
+  },
+  {
+   "year": 2013,
+   "year_end": 2014,
+   "kind": "work",
+   "title": "언니와 《K팝 스타 3》에 나가다",
+   "title_en": "Appears on K-pop Star 3 with her sister",
+   "description": "이채령과 언니 이채연은 완전채라는 이름으로 심사 무대에 섰다. 박진영은 두 사람의 재능과 소질이 무서울 정도라고 평했다. 생방송 톱10에는 들지 못했다.",
+   "description_en": "They stood on the audition stage as Wanjeonchae. Park Jin-young said their talent was intimidating. They did not reach the live top 10.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "other",
+   "title": "JYP 연습생이 되다",
+   "title_en": "Becomes a JYP trainee",
+   "description": "《K팝 스타 3》가 끝난 뒤 JYP와 계약을 맺었다. 언니 이채연도 함께 입사했다. 이후 방송에서 캐스팅된 뒤 회사에 들어왔다고 말했다.",
+   "description_en": "After the show they signed with the company. Her sister entered with her. She later said on camera that she had been cast and then joined.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "《식스틴》 최종 선발에서 탈락하다",
+   "title_en": "Is cut from Sixteen",
+   "description": "《식스틴》은 트와이스 멤버를 뽑는 프로그램이었다. 언니와 함께 마지막까지 남았지만 둘 다 탈락했다.",
+   "description_en": "The show was choosing the members of Twice. She and her sister lasted until the end, and both were eliminated.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "언니가 떠난 뒤 JYP에 남다",
+   "title_en": "Stays after her sister leaves",
+   "description": "이채연은 3월에 JYP를 나와 WM엔터테인먼트로 옮겼다. 그해 가을 이채령은 《스트레이 키즈》 첫 회에 예지, 류진, 유나와 함께 여자 연습생으로 출연했다. 알아보는 사람은 있어도 인기는 없다고 카메라 앞에서 말했다.",
+   "description_en": "Lee Chae-yeon left JYP in March and moved to WM Entertainment. That autumn she appeared on the first episode of Stray Kids with Yeji, Ryujin, and Yuna as girl trainees. In front of the camera she said people recognized her but she had no popularity.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "있지 멤버로 데뷔하다",
+   "title_en": "Debuts as a member of Itzy",
+   "description": "1월 21일 다섯 명의 멤버가 공개됐다. 2월 12일 디지털 싱글 《잇츠 디퍼런트》와 타이틀곡 〈달라달라〉를 발표했다. 《식스틴》에서 탈락한 참가자 가운데 JYP에서 데뷔한 사람은 이채령이 유일했다.",
+   "description_en": "The five members were revealed on January 21. On February 12 they released the digital single IT'z Different and the title track Dalla Dalla. Among those cut from Sixteen, she was the only one who debuted from this company.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "education",
+   "title": "한림연예예술고등학교를 졸업하다",
+   "title_en": "Graduates from Hanlim Multi Art School",
+   "description": "뮤지컬과였다. 같은 팀의 류진도 같은 날 졸업장을 받았다. 데뷔한 지 일 년이 지난 때였다.",
+   "description_en": "She studied musical theatre. Ryujin, from the same group, received her diploma the same day. It was a year after debut.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "스튜디오 춤에서 단독 무대를 선보이다",
+   "title_en": "Dances alone on Studio Choom",
+   "description": "8월 이달의 아티스트로 선정됐다. 다른 멤버들 없이 홀로 카밀라 카베요의 〈크라이 포 미〉에 맞춰 춤을 췄다.",
+   "description_en": "She was named Artist of the Month for August. She danced Camila Cabello's Cry for Me without the other members.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "《유니버스 티켓》에서 멘토를 맡다",
+   "title_en": "Mentors on Universe Ticket",
+   "description": "SBS 걸그룹 오디션이었다. 예지와 함께 심사와 조언을 맡았다. 11월에 방송이 시작됐다.",
+   "description_en": "It was an SBS girl-group audition. She and Yeji judged and advised the contestants. The show began airing in November.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 솔로곡 〈마인〉을 내다",
+   "title_en": "Releases her first solo song, Mine",
+   "description": "〈마인〉은 있지의 미니 음반 《본 투 비》에 실린 여덟 번째 트랙이다. 작사와 작곡에 이름을 올렸다. 뮤직비디오는 전년도 크리스마스에 먼저 공개됐다.",
+   "description_en": "It is the eighth track on Itzy's mini-album Born to Be. She is credited as lyricist and composer. The music video came out the previous Christmas.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제시한 사실과 세부는 그대로 보존하면서, 단독으로 읽으면 대상이 불분명한 지시어와 직역투·생략투를 바로잡았다. 연습생 선발부터 데뷔와 솔로곡 발표까지의 흐름이 자연스럽게 이어지도록 사건 사이의 연결도 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「이곳」이 앞 문장만으로는 용인을 가리키는지 알 수 없어 지명을 명시했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 「둘」이 누구인지 바로 드러나지 않아 이채령과 언니 이채연을 명시했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「방송」「회사」「언니」가 각각 무엇과 누구를 가리키는지 불분명하고, 「뒤에 방송에서」가 부자연스러워 고유명사와 인명을 밝혀 썼다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「최종에서 떨어지다」는 선발 결과를 나타내는 한국어로 어색하며, 본문 첫 문장의 주어도 생략돼 있어 「최종 선발에서 탈락하다」와 「《식스틴》은」으로 고쳤다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title"
+    ],
+    "problem": "제목의 「그」가 이채령을 가리키는지 즉시 알기 어렵고 표현도 번역투여서, 언니가 떠난 뒤 이채령이 JYP에 남았다는 관계를 분명히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 「이 회사」가 단독으로 읽을 때 불분명해 JYP를 명시하고, 반복되는 「사람」을 자연스러운 표현으로 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그날」이 가리키는 날짜가 문장 안에 제시되지 않아 「같은 날」로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「혼자 추다」「멤버 없이 췄다」는 뜻은 통하지만 한국어 서술로 다소 거칠어, 단독 무대였다는 의미를 유지하면서 자연스럽게 다듬었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장이 주어 없는 명사문이고 「전해 크리스마스」가 어색해, 곡명을 주어로 밝히고 「전년도 크리스마스」로 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   10
+  ]
+ }
+}

@@ -1,0 +1,248 @@
+{
+ "slug": "bennett-golub",
+ "events": [
+  {
+   "year": 1958,
+   "year_end": null,
+   "kind": "birth",
+   "title": "브루클린에서 태어나다",
+   "title_en": "Is born in Brooklyn",
+   "description": "아버지 아하론은 폴란드에서 온 홀로코스트 생존자였다. 작은 금속 압착 공장의 구매 담당으로 일했으며, 전쟁 중 입은 동상으로 발이 불편했다. 어머니 루스는 채혈사로 일했다. 가족은 브루클린에 살다가 롱아일랜드 올드베스페이지로 이주했다. 훗날 아버지와 함께 《카디셸, 다시 태어난 삶》을 썼다.",
+   "description_en": "His father, Aharon, was a Polish immigrant and Holocaust survivor. He worked as a purchasing agent for a small metal-stamping company and had frostbitten feet from the war. His mother, Ruth, worked as a phlebotomist. The family lived in Brooklyn, then moved to Old Bethpage on Long Island. He later wrote Kaddishel: A Life Reborn with his father.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  },
+  {
+   "year": 1978,
+   "year_end": 1984,
+   "kind": "education",
+   "title": "MIT에서 세 학위를 받다",
+   "title_en": "Earns three degrees from MIT",
+   "description": "슬론 경영대학에서 경영학 학사학위를 받은 뒤 같은 학교에서 석사학위와 응용경제·금융 박사학위를 받았다. 대학원 장학금이 한동안 끊겨 생활비가 부족해진 적도 있었다. 이 경험은 훗날 자기 이름을 딴 장학금을 만든 계기가 됐다.",
+   "description_en": "He took a bachelor’s in management at the Sloan School, then a master’s and a doctorate in applied economics and finance at the same school. His graduate fellowship was cut for a time, and money ran short. That later led him to endow a fellowship in his own name.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 1984,
+   "year_end": 1985,
+   "kind": "work",
+   "title": "작은 투자은행에서 주택저당증권을 모형화하다",
+   "title_en": "Models mortgage securities at a small investment bank",
+   "description": "르페르크 드뇌플리즈에 선임직으로 입사했다. 에이피엘 언어로 주택저당증권 담보부 채권 모형을 만들었다. 몇 달 뒤 퍼스트보스턴으로 옮겼다.",
+   "description_en": "He joined Lepercq, de Neuflize as a senior associate. He built collateralized-mortgage-obligation models in APL. Within months he moved to First Boston.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1985,
+   "year_end": 1988,
+   "kind": "work",
+   "title": "퍼스트보스턴 금융공학팀을 세우다",
+   "title_en": "Builds First Boston’s financial-engineering group",
+   "description": "래리 핑크가 그를 영입했다. 주택금융부 부사장으로 금융공학그룹을 만들고 이끌었다. 팀이 구조화한 채권은 250억 달러를 넘었으며, 여기에는 담보부 주택저당증권과 자산유동화증권이 포함됐다.",
+   "description_en": "Larry Fink hired him. As a vice president in mortgage finance he set up and ran the financial-engineering group. The group structured more than $25 billion of bonds, including collateralized mortgage obligations and asset-backed securities.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "work",
+   "title": "블랙스톤 금융운용을 공동 창업하다",
+   "title_en": "Co-founds Blackstone Financial Management",
+   "description": "하와이에서 연말 휴가를 보내던 중, 아내가 월스트리트저널에서 핑크가 회사를 떠났다는 소식을 읽고 알려줬다. 롭 카피토가 전화해 함께 가자고 했다. 여덟 명의 창업 파트너 가운데 한 명으로 블랙스톤 금융운용을 세웠고, 이 회사는 훗날 블랙록이 됐다. 첫 직원 찰리 할락과 함께 냉장고와 커피머신 사이에 썬 워크스테이션을 설치하고, 포트폴리오와 위험을 한곳에서 추적하는 체계를 만들기 시작했다. 이 체계가 알라딘이 됐다.",
+   "description_en": "On holiday in Hawaii, his wife read in The Wall Street Journal that Fink had left the firm. Rob Kapito called and asked him to come along. He became one of eight founding partners of Blackstone Financial Management, the firm that later became BlackRock. With Charlie Hallac, the first employee, he put a Sun workstation between the refrigerator and the coffee machine and began building a system that tracked portfolios and risk in one place. That system became Aladdin.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "work",
+   "title": "블랙록 솔루션스를 세우다",
+   "title_en": "Founds BlackRock Solutions",
+   "description": "할락과 함께 외부 고객을 대상으로 위험 자문 사업을 시작했다. 자체 펀드에 쓰던 포트폴리오 관리 기술과 위험 분석을 외부 기관에도 판매하기 시작한 것이다. 이듬해에는 블랙록 계열사 트렙의 임시 최고경영자를 맡아 상업용 부동산저당증권의 데이터와 모형을 판매했다.",
+   "description_en": "With Hallac he opened a risk-advisory business to outside clients. The firm began selling portfolio technology and risk analysis beyond its own funds. The next year he served as acting chief executive of Trepp, a BlackRock affiliate that sold data and models for commercial mortgage-backed securities.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "publish",
+   "title": "고정수익 시장의 위험관리서를 내다",
+   "title_en": "Publishes a book on fixed-income risk",
+   "description": "레오 틸먼과 함께 《위험관리: 고정수익 시장을 다루는 방법》을 와일리에서 출간했다. 뒤이어 일본어판과 중국어판도 나왔다. 이듬해 《리스크》는 그와 할락을 올해의 자산운용 위험관리자로 선정했다.",
+   "description_en": "With Leo Tilman he published Risk Management: Approaches for Fixed Income Markets at Wiley. Japanese and Chinese editions followed. The next year Risk named him and Hallac asset-management risk managers of the year.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "리먼 붕괴 뒤 시장 유동성 고갈을 계산하다",
+   "title_en": "Counts cash as Lehman falls",
+   "description": "3월의 어느 주말, 솔루션스 팀은 밤새 베어스턴스 장부의 가치를 산정했다. 그 평가 수치는 제이피모건의 인수와 뉴욕 연준의 메이든레인 기구에 활용됐다. 몇 달 뒤에는 뉴욕 연준으로부터 에이아이지의 부실자산을 정리하는 일도 맡았다. 9월 리먼이 무너지자 투자자들은 기관 현금펀드에서 돈을 빼기 시작했다. 그는 수치를 계산해 개입이 없으면 시장 유동성이 고갈된다는 결론을 내렸다. 맨해튼 미드타운의 한 블록을 두 바퀴 돈 뒤 다시 자리로 돌아왔다.",
+   "description_en": "On a March weekend a Solutions team valued the Bear Stearns book overnight. Those figures fed JPMorgan’s purchase and the New York Fed’s Maiden Lane vehicle. Months later the New York Fed hired the firm to wind down AIG’s bad assets. After Lehman fell in September, investors pulled money from institutional cash funds. He ran the numbers, saw that without intervention market liquidity would dry up, walked twice around the midtown block, and went back to his desk.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2009,
+   "year_end": 2022,
+   "kind": "office",
+   "title": "블랙록 최고위험책임자를 맡다",
+   "title_en": "Becomes BlackRock’s chief risk officer",
+   "description": "투자·거래상대방·기술·운영·규제·모형 위험을 총괄했다. 전사 위험관리위원회를 만들고 의장을 맡았다. 같은 해 할락은 최고운영책임자로 취임했다. 2016년 《리스크》는 그에게 평생공로상을 수여했다.",
+   "description_en": "He oversaw investment, counterparty, technology, operational, regulatory, and model risk. He set up BlackRock’s enterprise risk-management committee and chaired it. Hallac became chief operating officer the same year. In 2016 Risk gave him its lifetime achievement award.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "other",
+   "title": "MIT 금융정책센터가 그의 이름을 따르다",
+   "title_en": "Has MIT’s finance-and-policy center named for him",
+   "description": "그의 기부금은 규제와 시스템 위험에 관한 센터의 연구를 지원했다. 센터는 베넷 W. 골럽 금융정책센터로 이름을 바꿨다. 그는 센터 자문위원회 의장도 맡았다.",
+   "description_en": "His gift funded the center’s research on regulation and systemic risk. The center was renamed the Bennett W. Golub Center for Finance and Policy. He also chaired its advisory board.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111111
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "office",
+   "title": "선임고문으로 자리를 옮기다",
+   "title_en": "Moves to a senior advisory role",
+   "description": "창업 파트너로 일한 지 34년 만이었다. 글로벌 경영위원회 위원직과 위험·계량분석그룹 공동 책임자 자리에서 물러났다.",
+   "description_en": "It followed thirty-four years as a founding partner. He stepped down from the global executive committee and from co-heading the risk and quantitative analysis group.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위와 세부를 유지하면서 직역투, 불분명한 행위 관계, 어색한 직함·금융 용어를 바로잡았다. 출생과 학업에서 금융공학, 블랙록 창업, 위험관리 책임자로 이어지는 생애 흐름은 유지했으며 별도의 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전쟁 때 얻은 동상」과 「집은 브루클린을 거쳐」가 자연스럽지 않아, 동상을 입은 시점과 가족의 이주 관계가 분명하게 읽히도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "학위를 「이었다」고 표현한 부분이 어색하고, 「생활이 흔들렸다」가 영문의 생활비 부족을 막연하게 옮겨 구체적인 학위 취득과 경제 상황으로 바로잡았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「선임으로 들어갔다」는 직함과 입사 관계가 불분명하고 「에이플로」는 APL을 잘못 옮긴 표현이어서 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 안에 있었다」의 대상이 추상적이고 채권 종류와 구조화 실적의 관계가 매끄럽지 않아 포함 관계를 명확히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "창업 파트너와 첫 직원의 관계가 한 문장 안에서 엉켜 있었고, 포트폴리오와 위험을 「보는 체계」라는 표현도 기능을 충분히 전달하지 못해 행위 주체와 시스템의 역할을 분명히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「위험 자문 사업을 바깥에 열었다」와 「외부 기관에도 팔기 시작했다」가 직역투였으며, 상업용 모기지 증권의 대상도 자연스러운 한국어 금융 용어로 다듬었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「고정수익 위험관리 책」은 명사 결합이 어색했고, 수상 표현도 누가 누구를 어떤 명칭으로 선정했는지 분명하지 않아 바로잡았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「유동성을 세다」와 장부를 「값매겼다」는 표현이 직역투였다. 또한 「뉴욕 연준의 메이든레인 인수」는 영문에 나온 메이든레인 기구와 인수의 관계를 잘못 연결했고, 「맨해튼 한가운데를 두 바퀴」는 미드타운의 한 블록을 돌았다는 공간 관계를 흐렸다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "여러 위험을 「한자리에 묶었다」거나 최고운영책임자로 「갔다」는 표현이 역할 변화를 모호하게 만들어, 총괄 범위와 취임 관계가 바로 읽히도록 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「이름을 남기다」는 센터가 그의 이름을 따랐다는 사실을 간접적으로 표현했고, 기부가 연구를 「받쳤다」는 문장도 어색해 명명과 지원 관계를 명확히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「서른네 해를 일한 뒤였다」는 앞 제목에 의존하는 불완전한 문장이었고, 위원회와 공동 책임에서 「내려왔다」는 표현도 직책 관계가 불분명해 정확히 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

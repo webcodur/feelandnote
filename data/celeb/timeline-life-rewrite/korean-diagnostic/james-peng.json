@@ -1,0 +1,272 @@
+{
+ "slug": "james-peng",
+ "events": [
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어나다",
+   "title_en": "Born",
+   "description": "본명은 펑쥔이다. 둥팅호가 있는 중국 후난성의 도시에서 태어났다. 이후 베이징에서 토목공학을 공부했다.",
+   "description_en": "His Chinese name is Peng Jun. He was born in a Hunan city on Dongting Lake. He later studied civil engineering in Beijing.",
+   "place_name": "웨양",
+   "place_name_en": "Yueyang",
+   "lat": 29.36472,
+   "lng": 113.1309
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "education",
+   "title": "칭화대학교에서 토목공학 학사 학위를 받다",
+   "title_en": "Earns a civil engineering bachelor's at Tsinghua",
+   "description": "학위를 받은 뒤 미국으로 건너가 같은 전공으로 석사 과정을 밟았다.",
+   "description_en": "He took the degree and left for the United States. He stayed with the same field for a master's.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "education",
+   "title": "뉴욕주립대 버펄로에서 석사 학위를 받다",
+   "title_en": "Earns a master's at SUNY Buffalo",
+   "description": "토목공학 석사 학위를 받은 뒤 곧바로 미국 서부로 옮겨 박사 과정을 시작했다.",
+   "description_en": "The degree was a master's in civil engineering. He then moved west and began doctoral work.",
+   "place_name": "버펄로",
+   "place_name_en": "Buffalo",
+   "lat": 42.88638888888889,
+   "lng": -78.87805555555556
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "education",
+   "title": "스탠퍼드에서 박사 학위를 받다",
+   "title_en": "Earns a doctorate at Stanford",
+   "description": "토목환경공학과에서 킨초 로 교수의 지도를 받았다. 여러 연구자가 인터넷을 통해 구조해석 프로그램을 공동 개발할 수 있는 소프트웨어 체계를 박사 논문에서 제시했다.",
+   "description_en": "He worked under Kincho Law in civil and environmental engineering. His dissertation left a software framework that let researchers jointly write a structural analysis program over the internet.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2005,
+   "year_end": 2011,
+   "kind": "work",
+   "title": "구글에 들어가다",
+   "title_en": "Joins Google",
+   "description": "광고 시스템의 앞단과 뒷단을 모두 개발했다. 사내 최고 포상인 창립자상을 받았으며, 구글에서 7년간 일했다.",
+   "description_en": "He built front-end and back-end advertising systems. He received the Founders' Award, the company's highest internal honor. He spent seven years there.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "바이두 미국 연구소에 합류하다",
+   "title_en": "Joins Baidu's U.S. research lab",
+   "description": "전 부사장 왕진은 전년도 말에 문을 연 미국 연구소로 그를 영입했다. 연구소가 처음으로 영입한 고위급 인재로서 광고, 기반 시설, 대규모 데이터, 클라우드 컴퓨팅의 기술 방향을 정했다.",
+   "description_en": "Former vice president Wang Jing brought him into the newly opened U.S. lab at the end of the previous year. As the lab's first senior hire he set the technical direction for ads, infrastructure, large-scale data, and cloud computing.",
+   "place_name": "쿠퍼티노",
+   "place_name_en": "Cupertino",
+   "lat": 37.3175,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "office",
+   "title": "바이두 자율주행 수석 아키텍트가 되다",
+   "title_en": "Becomes Baidu's autonomous-driving chief architect",
+   "description": "왕진이 4단계 자율주행 사업부를 맡자 펑을 다시 불러 합류시켰다. 바이두를 떠날 당시 그의 기술 직급은 T11이었으며, 사내에서 이 직급을 보유한 사람은 몇 명뿐이었다.",
+   "description_en": "When Wang Jing took charge of the level-four autonomous-driving unit he pulled him over again. At departure his technical grade was T11. Only a handful of people in the company held that rank.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "work",
+   "title": "포니에이아이를 공동 창업하다",
+   "title_en": "Co-founds Pony.ai",
+   "description": "바이두 동료 러우톈청과 함께 인간 운전자 없이 달리는 자동차를 만드는 회사를 세웠다. 중국어 회사명에는 이동을 상징하는 말(馬)을 넣었다. 반년 뒤 캘리포니아 차량국에서 공개 도로 시험 허가를 받았다.",
+   "description_en": "With Baidu colleague Tiancheng Lou he started a company to build cars that drive without a human at the wheel. The Chinese name put in a horse, a symbol of travel. Half a year later the California DMV issued a permit for public-road testing.",
+   "place_name": "프리몬트",
+   "place_name_en": "Fremont",
+   "lat": 37.548611111111114,
+   "lng": -121.98833333333333
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "난사에서 일반인 대상 시승을 시작하다",
+   "title_en": "Opens public trial rides in Nansha",
+   "description": "광저우에 중국 본부를 두었다. 연구진은 링컨 차량과 광저우에서 두 번째로 큰 완성차 업체의 차량에 자율주행 소프트웨어를 탑재했다. 일반인을 태우고 짧은 도심 구간을 운행했으며, 연말 무렵에는 직원과 초대 손님이 쓰는 차량 호출 앱을 내놓았다.",
+   "description_en": "He put the China headquarters here. The team mounted its software on Lincoln cars and on vehicles from the city's second-largest automaker. It gave the public short city rides. Around year's end a hail app for employees and invited guests appeared.",
+   "place_name": "광저우",
+   "place_name_en": "Guangzhou",
+   "lat": 23.13,
+   "lng": 113.26
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "무인 자율주행 택시를 일반에 개방하다",
+   "title_en": "Opens driverless taxis to the public",
+   "description": "포니에이아이와 바이두가 중국 최초의 허가를 각각 받았다. 당시에는 조수석에 안전 요원이 남아 있었다. 이듬해 1월 눈이 오는 날, 펑은 앞좌석이 모두 빈 차에 혼자 타고 상업 운행이 이뤄지는지 직접 확인했다.",
+   "description_en": "He and Baidu each won China's first permits. A safety officer still sat in the front passenger seat. The following January, on a snowy day, he rode alone in a car with empty front seats to confirm commercial operation.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "포니에이아이를 나스닥에 상장하다",
+   "title_en": "Lists on Nasdaq",
+   "description": "종목 코드는 PONY였다. 회사는 미국예탁주식 2천만 주를 주당 13달러에 매각했다.",
+   "description_en": "The ticker was PONY. The company sold twenty million American depositary shares at thirteen dollars each.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "포니에이아이를 홍콩거래소에 추가 상장하다",
+   "title_en": "Adds a Hong Kong listing",
+   "description": "회사는 창업 10년째에 두 번째 상장을 마쳤다. 펑은 회사의 본거지가 중국이어서 아시아 투자자가 참여하기 쉬워졌다고 말했다.",
+   "description_en": "He completed the second listing in the company's tenth year. He said a China home base made it easier for Asian investors to come in.",
+   "place_name": "홍콩",
+   "place_name_en": "Hong Kong",
+   "lat": 22.278333333333,
+   "lng": 114.15861111111
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부 사항은 그대로 보존하면서 직역투, 불분명한 지시어, 생략된 행위 주체를 바로잡았다. 학업에서 구글과 바이두를 거쳐 포니에이아이를 창업하고 두 차례 상장하기까지의 흐름이 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「호남 도시에서 났다」와 「토목을 배웠다」가 지명과 전공을 지나치게 줄여 써서 뜻이 매끄럽게 전달되지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「토목공학 학사를 받다」는 명사 결합이 어색하고, 「학위를 들고」와 「같은 전공을 석사로 이었다」는 영어 문장 구조를 따른 직역이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목에 「학위」가 빠져 있었으며, 「토목공학 석사였다」는 학위의 종류를 서술하는 한국어로 자연스럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「교수를 따랐다」와 「소프트웨어 틀을 논문으로 남겼다」는 지도 관계와 박사 논문의 내용을 정확한 한국어 동작으로 표현하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「앞단과 뒷단을 짰다」는 개발 업무를 지나치게 구어적으로 줄였고, 「그곳」은 바로 앞 문장만으로 구글을 가리키는지 즉시 분명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한 해 전 연말에 막 연 연구소로 그를 데려왔다」는 수식 관계가 복잡하고, 「미국 쪽 첫 고급 인력」은 senior hire를 직역해 직책과 역할이 불분명했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그를 다시 그쪽으로 불렀다」와 「떠나던 해」의 대상이 불분명했으며, 기술 직급 T11을 「열한 번째 단계」로 먼저 풀어 써 고유한 직급명이 흐려졌다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「길을 상징하는 말」은 travel을 길로 좁혀 옮긴 표현이어서, 중국어 회사명에 말을 넣은 뜻이 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「일반인 시승을 열다」는 한국어 동사 결합이 어색했다. 「링컨과 시 2위 완성차 업체의 차」는 링컨과 업체의 관계를 잘못 읽을 수 있고, 「일반인에게 태웠다」는 무엇에 태웠는지가 빠져 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「택시를 손님에게 열다」는 opens to the public을 그대로 옮긴 직역이었다. 「그는 앞좌석이 빈 차에 혼자 타 영업 운행을 확인했다」도 무엇을 어떻게 확인했는지 부자연스러웠다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목만 읽으면 제임스 펑 개인이 상장된 것처럼 보였고, 「거래 기호를 포니로 달았다」는 ticker를 한국어 동작으로 옮긴 표현이 어색했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 행위 대상이 빠져 제임스 펑 개인의 주식을 올렸다는 뜻으로 읽힐 수 있었다. 「본거지가 중국이라 아시아 투자자가 들어오기 쉬워진다」도 투자자의 참여를 지나치게 직역했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

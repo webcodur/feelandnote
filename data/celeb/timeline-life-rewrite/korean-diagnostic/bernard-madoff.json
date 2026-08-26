@@ -1,0 +1,241 @@
+{
+ "slug": "bernard-madoff",
+ "events": [
+  {
+   "year": 1938,
+   "year_end": null,
+   "kind": "birth",
+   "title": "퀸스에서 태어나다",
+   "title_en": "Born in Queens",
+   "description": "아버지 랠프는 배관공으로 일하다 증권업으로 옮겼다. 어머니는 결혼 전 성이 문트너인 실비아였다. 조부모는 폴란드와 루마니아, 오스트리아에서 온 유대인 이민자였다. 동생 피터가 있었고, 집안은 로럴턴에 자리를 잡았다. 파 로커웨이 고등학교를 나왔다.",
+   "description_en": "His father, Ralph, worked as a plumber before moving into the securities business. His mother was Sylvia, née Muntner. His grandparents were Jewish immigrants from Poland, Romania, and Austria. He had a younger brother, Peter, and the family settled in Laurelton. He graduated from Far Rockaway High School.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.71361111111111,
+   "lng": -73.82805555555555
+  },
+  {
+   "year": 1959,
+   "year_end": null,
+   "kind": "other",
+   "title": "루스 앨펀과 결혼하다",
+   "title_en": "Marries Ruth Alpern",
+   "description": "두 사람은 고등학교 때부터 사귀었다. 훗날 그가 회사를 차릴 때도 루스는 곁에 있었다. 그 뒤 아들 마크와 앤드루가 태어났다.",
+   "description_en": "They had been together since high school. She was with him when he later started the firm. Their sons Mark and Andrew were born afterward.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.71361111111111,
+   "lng": -73.82805555555555
+  },
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "education",
+   "title": "호프스트라에서 정치학 학위를 받다",
+   "title_en": "Finishes a political-science degree at Hofstra",
+   "description": "앨라배마 대학교에 다니다 호프스트라 대학교로 편입했다. 정치학 학사 학위를 받은 뒤 브루클린 로스쿨에 들어갔으나 오래 다니지 않았다.",
+   "description_en": "He had started at the University of Alabama before transferring. After the bachelor’s degree he enrolled at Brooklyn Law School but did not stay long.",
+   "place_name": "헴프스테드",
+   "place_name_en": "Hempstead",
+   "lat": 40.706111111111,
+   "lng": -73.618611111111
+  },
+  {
+   "year": 1960,
+   "year_end": null,
+   "kind": "work",
+   "title": "증권회사를 세우다",
+   "title_en": "Founds his securities firm",
+   "description": "인명구조원과 스프링클러 설치 일을 하며 모은 돈으로 시작했다. 값싼 주식을 중개하는 일에서 출발했다. 동생 피터에 이어 훗날 두 아들도 시장조성 사업에 합류했다.",
+   "description_en": "He started with money saved from lifeguarding and installing sprinklers. The firm began by brokering inexpensive stocks. His brother Peter and later his two sons joined the market-making side.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1990,
+   "year_end": 1993,
+   "kind": "office",
+   "title": "나스닥 회장을 맡다",
+   "title_en": "Chairs Nasdaq",
+   "description": "그의 증권회사가 전자 거래 시장을 구축하는 데 관여한 뒤였다. 각 임기는 1년이었고 서로 이어지지 않았다. 시장조성 부문은 월가에 이름이 알려져 있었으며, 고객 자금을 맡는 투자자문 사업은 별도로 운영했다.",
+   "description_en": "That followed the firm’s role in building an electronic trading market. Each term lasted a year, and the terms were not consecutive. The market-making side was a known Wall Street firm; the advisory business that took in client money was kept separate.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "other",
+   "title": "아들들이 당국에 알린 뒤 체포되다",
+   "title_en": "Arrested after his sons alert authorities",
+   "description": "투자자문 사업이 사기라고 가족에게 털어놓았다. 마크와 앤드루는 변호사를 찾아갔고, 변호사가 수사 당국에 연락했다. 이튿날 연방수사국 요원들이 그의 아파트를 찾아왔다. 그는 증권사기 혐의로 체포되었고, 증권거래위원회도 같은 날 그와 회사를 제소했다.",
+   "description_en": "He told his family the investment-advisory business was a fraud. Mark and Andrew went to a lawyer, who contacted investigators. FBI agents came to the apartment the next day. He was arrested on a securities-fraud charge, and the SEC sued him and the firm the same day.",
+   "place_name": "맨해튼",
+   "place_name_en": "Manhattan",
+   "lat": 40.728333333333,
+   "lng": -73.994166666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "other",
+   "title": "연방 중범죄 11건에 유죄를 인정하다",
+   "title_en": "Pleads guilty to eleven federal felonies",
+   "description": "혐의는 증권사기와 투자자문사기, 우편·전신사기, 자금세탁, 허위 진술, 위증, 증권거래위원회 허위 제출, 종업원 복지제도 자금 절도였다. 형량에 관한 유죄 인정 합의는 없었다. 데니 친 판사는 가택연금 중이던 그를 선고 때까지 구금하도록 명령했다.",
+   "description_en": "The counts were securities fraud, investment-adviser fraud, mail and wire fraud, money laundering, false statements, perjury, a false SEC filing, and theft from an employee benefit plan. There was no plea agreement on sentence. Judge Denny Chin remanded him from house arrest to custody until sentencing.",
+   "place_name": "맨해튼",
+   "place_name_en": "Manhattan",
+   "lat": 40.728333333333,
+   "lng": -73.994166666667
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "other",
+   "title": "징역 150년을 선고받다",
+   "title_en": "Sentenced to 150 years in prison",
+   "description": "법정 최고형이었다. 검찰은 사기로 인해 수천 명의 투자자가 수십억 달러의 손실을 입었다고 밝혔다. 판사는 1,707억 9,900만 달러의 몰수도 명령했다. 피해자 아홉 명이 법정에서 발언했다.",
+   "description_en": "It was the statutory maximum. Prosecutors said the fraud caused billions of dollars in losses to thousands of investors. The judge also ordered forfeiture of $170.799 billion. Nine victims spoke in court.",
+   "place_name": "맨해튼",
+   "place_name_en": "Manhattan",
+   "lat": 40.728333333333,
+   "lng": -73.994166666667
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "other",
+   "title": "맏아들 마크가 스스로 목숨을 끊다",
+   "title_en": "Eldest son Mark dies by suicide",
+   "description": "아버지가 체포된 지 꼭 2년이 되는 날이었다. 마크는 마흔여섯 살이었다.",
+   "description_en": "It was exactly two years after the arrest. He was 46.",
+   "place_name": "맨해튼",
+   "place_name_en": "Manhattan",
+   "lat": 40.728333333333,
+   "lng": -73.994166666667
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "인도적 석방 신청이 기각되다",
+   "title_en": "Compassionate release is denied",
+   "description": "말기 신장병과 짧은 기대수명을 이유로 법원에 석방을 신청했다. 그에게 형을 선고했던 판사가 신청을 기각했다. 검찰은 범죄의 규모를 이유로 석방에 반대했다.",
+   "description_en": "He asked the court for release, citing end-stage kidney disease and a short life expectancy. The judge who had sentenced him denied the motion. Prosecutors opposed it on the scale of the crimes.",
+   "place_name": "버트너",
+   "place_name_en": "Butner",
+   "lat": 36.1383,
+   "lng": -78.7589
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "death",
+   "title": "연방 교도소 의료센터에서 사망하다",
+   "title_en": "Dies at a federal prison medical center",
+   "description": "연방교정국이 확인했다. 만성 신장병을 앓고 있었고, 향년 여든둘이었다. 150년형을 복역 중이었다.",
+   "description_en": "The Bureau of Prisons confirmed the death. He had been living with chronic kidney disease and was 82. He was still serving the 150-year sentence.",
+   "place_name": "버트너",
+   "place_name_en": "Butner",
+   "lat": 36.1383,
+   "lng": -78.7589
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮겨 주어·목적어 관계가 흐려진 문장과 한국어로 부자연스러운 표현을 바로잡았다. 영문에 없는 사실이나 인과는 보태지 않았으며, 이미 자연스러운 사건은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "아버지가 배관공에서 증권업으로 옮겼다는 사실이 「아버지는 … 랠프였다」라는 어순에 묶여 부자연스러웠고, 어머니의 결혼 전 성을 나타내는 표현도 한국어답지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤에 회사를 차릴 때도 함께였다」는 시점과 행동 주체가 흐릿해 루스가 회사 설립 당시 곁에 있었다는 뜻이 바로 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「정치학을 마치다」는 학위 취득을 나타내기에 어색했고, 「옮겨 왔다」는 편입한 학교를 제목에 의존해야 알 수 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「자기 증권회사」는 제목으로 어색했고, 마지막 문장은 가족들이 시장조성 부문에 합류한 순서가 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「증권사로서 관여한 뒤였다」와 「알려진 회사이고」는 영문 구조를 따른 어색한 문장이었으며, 임기들이 연속되지 않았다는 의미도 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「마크와 앤드루는 변호사를 통해 수사 당국에 넘겼다」는 무엇을 넘겼는지 알 수 없고, 실제 문장 관계상 수사 당국에 연락한 주체가 변호사라는 점도 무너져 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "혐의에 대한 유죄 인정이라는 관계가 제목에서 빠졌고, 「종업원 복지 자금 절취」와 「보석으로 집에 있던 그를 … 구금하라고 했다」는 법률 행위와 신병 상태를 부자연스럽게 옮겼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「몰수금을 함께 명했다」와 「법정에서 말했다」는 몰수 명령과 피해자 진술을 나타내기에 어색했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「체포로부터」는 한국어로 부자연스러웠고, 「마흔여섯이었다」는 바로 앞 문장만으로 나이의 주체를 확인해야 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「인도적 석방을 기각당하다」는 석방 자체와 석방 신청을 구별하지 않았고, 본문도 무엇을 법원에 신청했는지 목적어가 빠져 있었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

@@ -1,0 +1,274 @@
+{
+ "slug": "bill-gurley",
+ "events": [
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "birth",
+   "title": "딕킨슨에서 태어나다",
+   "title_en": "Is born in Dickinson",
+   "description": "딕킨슨은 휴스턴 남동쪽에 있는 텍사스 해안 도시였다. 5월 10일에 태어났으며, 아버지는 인근 존슨 우주센터의 항공공학자였다. 어머니는 대체 교사로 일했다. 이름은 존 윌리엄이었으며, 중간 이름의 줄임말로 불렸다.",
+   "description_en": "It was a Texas coastal town southeast of Houston. He was born on May 10. His father was an aeronautical engineer at nearby Johnson Space Center, and his mother worked as a substitute teacher. His given name was John William; he went by the short form of the middle name.",
+   "place_name": "딕킨슨",
+   "place_name_en": "Dickinson",
+   "lat": 29.4606,
+   "lng": -95.0539
+  },
+  {
+   "year": 1989,
+   "year_end": null,
+   "kind": "education",
+   "title": "플로리다대학교에서 컴퓨터과학 학위를 받다",
+   "title_en": "Finishes a computer-science degree at the University of Florida",
+   "description": "미시시피주 잭슨의 밀캡스대학교에 2년간 다닌 뒤, 농구부에서 뛰기 위해 플로리다대학교로 편입했다. 키는 206센티미터였고 등번호는 52번이었다. 1988년 NCAA 토너먼트에서 1분을 뛰었으며, 전공 평점은 3.77이었다.",
+   "description_en": "He spent two years at Millsaps in Jackson, Mississippi, then transferred to play basketball. He was 6 feet 9 inches and wore number 52. He played one minute in the 1988 NCAA tournament and held a 3.77 grade-point average in the major.",
+   "place_name": "게인즈빌",
+   "place_name_en": "Gainesville",
+   "lat": 29.665277777,
+   "lng": -82.336111111
+  },
+  {
+   "year": 1989,
+   "year_end": 1991,
+   "kind": "work",
+   "title": "컴팩에서 설계 엔지니어로 일하다",
+   "title_en": "Works as a design engineer at Compaq",
+   "description": "컴팩에 들어가기 전에는 AMD의 임베디드 프로세서 부문에서 기술 마케팅을 담당했다. 누나는 이미 컴팩에서 일하고 있었으며, 기업공개로 스톡옵션에서 큰 수익을 거뒀다. 그도 누나를 따라 컴팩에 들어가 486/50과 회사 최초의 다중 프로세서 서버 개발을 맡았다.",
+   "description_en": "Before that he worked in technical marketing for AMD’s embedded-processor group. His older sister was already at Compaq, and her IPO stock options had paid off. He followed her and worked on the 486/50 and the company’s first multiprocessor server.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777,
+   "lng": -95.383055555
+  },
+  {
+   "year": 1993,
+   "year_end": null,
+   "kind": "education",
+   "title": "텍사스대학교에서 경영학 석사를 받다",
+   "title_en": "Earns an MBA from the University of Texas",
+   "description": "월스트리트로 가려고 재무를 파고들었다. 졸업 뒤 여러 투자은행에 직접 전화를 걸었다.",
+   "description_en": "He threw himself into finance with Wall Street in mind. After graduating he cold-called investment banks.",
+   "place_name": "오스틴",
+   "place_name_en": "Austin",
+   "lat": 30.3,
+   "lng": -97.733333333
+  },
+  {
+   "year": 1993,
+   "year_end": 1996,
+   "kind": "work",
+   "title": "퍼스트보스턴에서 기술 기업을 분석하다",
+   "title_en": "Analyzes technology companies at First Boston",
+   "description": "개인용 컴퓨터 하드웨어와 소프트웨어를 담당했으며, 분석 대상에는 델, 컴팩, 마이크로소프트가 포함됐다. 1995년과 1996년 『인스티튜셔널 인베스터』의 전미 리서치팀에 선정됐다.",
+   "description_en": "He covered personal-computer hardware and software, including Dell, Compaq, and Microsoft. In 1995 and 1996 he made the Institutional Investor All-American Research Team.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "아마존 기업공개를 맡다",
+   "title_en": "Leads coverage of the Amazon IPO",
+   "description": "한 해 전 실리콘밸리로 옮겨 프랭크 쿼트론이 이끄는 도이체 모건 그렌펠의 기술팀에 합류했다. 제프 베이조스는 빌 걸리가 아마존의 사업 모델을 이해하고 있다고 판단해 도이체 모건 그렌펠을 주관사로 골랐다. 5월에는 뉴욕 포시즌스 호텔 로비에서 공모가를 주당 18달러로 정했다.",
+   "description_en": "The year before he had moved to Silicon Valley to join Frank Quattrone’s technology group at Deutsche Morgan Grenfell. Jeff Bezos chose the bank after deciding he understood the business model. In May, from the lobby of the Four Seasons in New York, the shares were priced at $18.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1997,
+   "year_end": 1999,
+   "kind": "office",
+   "title": "허머 윈블라드 파트너가 되다",
+   "title_en": "Becomes a partner at Hummer Winblad",
+   "description": "도이체 모건을 떠나 샌프란시스코 벤처투자사의 네 번째 파트너로 들어갔다. 뉴욕타임스는 그해 7월 그 이직을 전했다.",
+   "description_en": "He left Deutsche Morgan and joined the San Francisco venture firm as its fourth partner. The New York Times reported the move in July.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "office",
+   "title": "벤치마크 파트너가 되다",
+   "title_en": "Becomes a partner at Benchmark",
+   "description": "벤치마크는 소수의 파트너가 동등하게 운영하는 투자사로, 이베이의 기업공개를 막 마친 참이었다. 그는 곧 오픈테이블 이사회에 합류했고, 오픈테이블은 이후 프라이스라인에 인수됐다.",
+   "description_en": "It was a small equal-partnership firm that had just taken eBay public. He soon joined the OpenTable board; Priceline later bought the company.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2005,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "질로 이사회에 들어가다",
+   "title_en": "Joins the Zillow board",
+   "description": "질로는 아직 출시 전인 부동산 사이트였다. 벤치마크가 시리즈 A에 투자했고, 그는 제이 호그와 함께 이사회에 합류했다.",
+   "description_en": "The real-estate site had not yet launched. Benchmark put in Series A money, and he joined the board with Jay Hoag.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "우버의 시리즈 A 투자를 이끌고 이사회에 들어가다",
+   "title_en": "Leads Uber’s Series A and joins the board",
+   "description": "우버는 휴대전화로 검은색 차량을 호출하는 서비스였으며, 전해 여름 샌프란시스코에서 유료 운행을 시작했다. 벤치마크는 투자 후 기업가치 6,000만 달러를 기준으로 1,100만 달러를 투자했다.",
+   "description_en": "It was a service for hailing black cars from a phone, and paid rides had started in San Francisco the previous summer. Benchmark put in $11 million at a $60 million post-money valuation.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "other",
+   "title": "우버 이사회에서 물러나다",
+   "title_en": "Leaves the Uber board",
+   "description": "수전 파울러의 폭로 이후 최고경영자 교체를 밀어붙였다. 트래비스 칼라닉이 사임한 다음 날 이사회에서 물러났으며, 벤치마크 측 이사 자리는 동료 맷 콜러가 이어받았다.",
+   "description_en": "After Susan Fowler’s account he pushed for a change of chief executive. He left the board the day after Travis Kalanick resigned, and his Benchmark seat went to colleague Matt Cohler.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "other",
+   "title": "벤치마크의 차기 펀드에서 물러나다",
+   "title_en": "Steps back from Benchmark’s next fund",
+   "description": "21년간 파트너로 일한 뒤 신규 투자를 중단했다. 기존 포트폴리오와 이사회 직책은 그대로 유지했다.",
+   "description_en": "After twenty-one years as a partner he stopped writing new checks. He kept the existing portfolio and his board seats.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "publish",
+   "title": "『꿈을 쫓아 달리다』를 내다",
+   "title_en": "Publishes Runnin’ Down a Dream",
+   "description": "크라운 커런시에서 출간됐으며, 경력에 대한 후회를 피하는 여섯 가지 원칙을 담았다. 그는 대학을 졸업하고 컴팩에 들어갔을 때 일이 지루했다고 이 책에 썼다.",
+   "description_en": "Crown Currency published it. The book lays out six principles for avoiding career regret. He wrote that the job at Compaq after college had bored him.",
+   "place_name": "오스틴",
+   "place_name_en": "Austin",
+   "lat": 30.3,
+   "lng": -97.733333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 인물과 대상이 불분명한 표현, 영어식 직역, 부자연스러운 투자·경력 용어를 바로잡았다. 영문에 없는 평가나 인과는 보태지 않았으며, 편집만으로 확정할 수 없는 사실 문제는 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장의 주어가 없어 무엇이 텍사스 해안 도시인지 바로 알기 어렵고, 「5월 10일에 났고」와 「중간 이름을 줄여 불렀다」가 부자연스러웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「컴퓨터과학을 마치다」는 학위 취득을 분명히 나타내지 못하며, 「농구 선수로 옮겨 왔다」는 편입한 사람과 행동의 관계가 무너진 표현이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 전에」가 기준 사건을 분명히 밝히지 않았고, 누나의 스톡옵션 수익을 「크게 올랐다」로 표현했으며, 빌 걸리를 「동생」이라고 지칭해 문장의 주체가 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「커버 대상」은 영어 업무 용어를 그대로 옮긴 표현이고, Institutional Investor라는 고유 명칭을 일반명사인 「기관투자가」로 잘못 읽을 여지가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「실리콘밸리에 왔다」는 서술의 기준 위치가 없고, 「사업 모델 이해를 보고 주관사를 골랐다」는 누가 누구의 이해도를 판단해 어느 은행을 골랐는지 불분명했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이베이 공개」와 「소규모 동업 투자사」가 기업공개와 동등한 파트너십 구조를 정확하고 자연스럽게 전달하지 못했으며, 「그 회사」의 대상도 명시할 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "웹사이트 출시 전 상태를 「문을 열기 전」이라고 하고 이사회 합류를 「이사로 앉았다」라고 표현해 지나치게 구어적이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「돈을 넣고」가 시리즈 A 투자를 주도했다는 영문의 구체적 의미를 살리지 못했고, 투자액과 투자 후 기업가치의 관계도 더 분명히 표현할 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「자리를 비웠고」가 이사회 사임을 간접적으로 표현해 행동이 불분명했고, 후임자가 맡은 자리가 벤치마크 측 이사석이라는 점도 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「다음 펀드에서 빠지다」와 「신규 투자는 접었다」가 경력 연표에 비해 구어적이며, 기존 포트폴리오와 이사회 직책을 유지했다는 의미도 다듬을 필요가 있었다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「직업 후회」는 career regret를 단어 순서대로 치환한 듯한 표현이어서 자연스러운 한국어 의미가 드러나지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   4,
+   5,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

@@ -1,0 +1,307 @@
+{
+ "slug": "aravind-srinivas",
+ "events": [
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "birth",
+   "title": "마드라스에서 태어나다",
+   "title_en": "Born in Madras",
+   "description": "유월 칠 일이었다. 마드라스는 뒤에 첸나이로 이름이 바뀌었다. 버스를 타고 인도 공과대학교 마드라스 앞을 지날 때마다 어머니는 캠퍼스를 가리키며 “너는 저기서 공부하게 될 거야”라고 말했다.",
+   "description_en": "It was the seventh of June. The city later took the name Chennai. Whenever their bus passed the Indian Institute of Technology Madras, his mother pointed at the campus and said he would study there.",
+   "place_name": "첸나이",
+   "place_name_en": "Chennai",
+   "lat": 13.0825,
+   "lng": 80.275
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "education",
+   "title": "인도 공과대학교 마드라스 전기공학에 들어가다",
+   "title_en": "Entered electrical engineering at IIT Madras",
+   "description": "컴퓨터과학을 원했으나 공동입학시험 성적으로는 그 전공에 들어가지 못했다. 함께 입시를 준비한 친구들은 모두 컴퓨터과학을 전공했다. 첫 학기를 마친 뒤에는 전과에 필요한 평점 기준에 0.01점이 모자랐다. 뒤에 그는 한동안 우울했다고 말했다. 이후 파이썬과 기계학습을 혼자 익혔다.",
+   "description_en": "He wanted computer science but did not get a seat in that major on the joint entrance exam. The friends he had prepared with all went into computer science. After the first semester he missed the grade-point cutoff to change majors by 0.01. He later said he was depressed for a time. He then taught himself Python and machine learning.",
+   "place_name": "첸나이",
+   "place_name_en": "Chennai",
+   "lat": 13.0825,
+   "lng": 80.275
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "education",
+   "title": "요슈아 벤지오 실험실에서 인턴으로 일하다",
+   "title_en": "Interned in Yoshua Bengio's laboratory",
+   "description": "마드라스에서 기계에게 아타리 게임을 가르치는 연구에 참여했다. 논문 몇 편을 발표한 뒤 몬트리올 학습알고리듬연구소로 갔다. 벤지오는 그에게 딥러닝을 소개하고 박사과정 지원에 필요한 추천서를 써 주었다.",
+   "description_en": "At Madras he joined a project that taught machines to play Atari games. After publishing a few papers he went to the Montreal Institute for Learning Algorithms. Bengio showed him deep learning and wrote a recommendation for his doctoral applications.",
+   "place_name": "몬트리올",
+   "place_name_en": "Montreal",
+   "lat": 45.5033426,
+   "lng": -73.5868411
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "education",
+   "title": "전기공학 학사와 석사를 함께 받다",
+   "title_en": "Received a dual degree in electrical engineering",
+   "description": "오 년 과정을 마치고 학사와 석사 학위를 한꺼번에 받았다. 전공은 전기공학을 그대로 유지했다.",
+   "description_en": "He finished the five-year program and received the bachelor's and master's degrees together. He remained in electrical engineering.",
+   "place_name": "첸나이",
+   "place_name_en": "Chennai",
+   "lat": 13.0825,
+   "lng": 80.275
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "education",
+   "title": "컴퓨터과학 박사과정에 들어가다",
+   "title_en": "Began a doctorate in computer science",
+   "description": "매사추세츠공대에는 떨어졌고 버클리에만 합격했다. 지도교수는 피터 애빌이었다. 뒤에 그는 존 슐먼이 이곳 연구실에서 논문을 발표하고 코드를 공개하는 모습을 보고 버클리를 선택했다고 말했다.",
+   "description_en": "The Massachusetts Institute of Technology rejected him and only this campus admitted him. His adviser was Pieter Abbeel. He later said he chose the place after watching John Schulman publish papers and release code from the lab.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "오픈에이아이에서 인턴으로 일하다",
+   "title_en": "Interned at OpenAI",
+   "description": "슐먼은 그의 버클리 연구를 보고 오픈에이아이 인턴으로 초대했다. 그는 정책 기울기 알고리듬을 다루었다. 당시 오픈에아이 연구소에서는 생성 사전학습 모형의 핵심 발상이 구체화되고 있었다.",
+   "description_en": "Schulman saw his Berkeley work and invited him in. He worked on policy-gradient algorithms. The lab was then forming the core idea of generative pre-trained models.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "딥마인드에서 대조학습을 연구하다",
+   "title_en": "Researched contrastive learning at DeepMind",
+   "description": "여름 인턴으로 갔다. 올리비에 에나프 등과 함께 레이블이 없는 이미지로 인식 성능을 높이는 대조예측부호화 논문을 썼다.",
+   "description_en": "He went as a summer intern. With Olivier J. Hénaff and others he wrote a contrastive predictive coding paper that improved recognition from unlabeled images.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2020,
+   "year_end": 2021,
+   "kind": "work",
+   "title": "구글에서 비전 트랜스포머를 개발하다",
+   "title_en": "Built a vision transformer at Google",
+   "description": "구글 브레인에서 인턴으로 일했다. 잔차 신경망의 마지막 병목 블록들에 자기주의를 적용하고, 이 설계를 병목 트랜스포머라고 이름 붙였다. 아시시 바스와니와 함께 이 연구를 발표했다.",
+   "description_en": "He was a Google Brain intern. He put self-attention into the last bottleneck blocks of a residual network and called the design a bottleneck transformer. He published it with Ashish Vaswani.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "education",
+   "title": "지각과 제어를 위한 표현학습으로 박사학위를 받다",
+   "title_en": "Received a doctorate on representation learning for perception and control",
+   "description": "논문은 대조학습과 강화, 자기주의 시각 모형을 묶었다. 팔월에 기술보고서로 제출했다.",
+   "description_en": "The dissertation brought together contrastive learning, reinforcement, and self-attention vision models. He filed it as a technical report in August.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "오픈에이아이 연구원이 되다",
+   "title_en": "Became a research scientist at OpenAI",
+   "description": "생성 모형과 언어를 연구했다. 일 년 동안 연구 결과가 실제로 활용되는 과정을 지켜봤다. 이후 회사를 창업하기로 했다.",
+   "description_en": "He worked on generative models and language. For a year he watched research turn into real use. He then decided to start a company.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "퍼플렉시티를 공동 창업하다",
+   "title_en": "Co-founded Perplexity",
+   "description": "데니스 야라츠, 조니 호, 앤디 콘윈스키와 함께 창업했다. 이들은 박사학위 논문처럼 문장마다 출처를 밝히는 검색을 만들기로 했다. 그는 최고경영자를 맡았다.",
+   "description_en": "He started it with Denis Yarats, Johnny Ho, and Andy Konwinski. They set out to build search that cited a source for every sentence, the way a doctoral paper does. He took the role of chief executive.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "출처를 밝히는 검색 서비스를 공개하다",
+   "title_en": "Launched cited search",
+   "description": "십이월 칠 일이었다. 이 서비스는 링크 목록을 보여 주는 대신 웹 문서를 인용해 질문에 바로 답했다.",
+   "description_en": "It was the seventh of December. Instead of a list of links, the product answered questions by citing web documents.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "나렌드라 모디를 만나다",
+   "title_en": "Met Narendra Modi",
+   "description": "십이월 이십팔 일이었다. 두 사람은 인도가 인공지능을 어떻게 활용할 수 있을지 이야기했다. 모디는 인공지능의 활용법과 발전 방향을 논의했다고 밝혔다.",
+   "description_en": "It was the twenty-eighth of December. They talked about how India might use artificial intelligence. Modi said they had discussed its uses and its evolution.",
+   "place_name": "뉴델리",
+   "place_name_en": "New Delhi",
+   "lat": 28.613888888888887,
+   "lng": 77.2088888888889
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "other",
+   "title": "인도 공과대학교 마드라스 젊은 동문상을 받다",
+   "title_en": "Received the IIT Madras Young Alumni Achiever Award",
+   "description": "학교는 신뢰할 수 있는 정보에 대한 접근을 위해 그가 해 온 일을 선정 이유로 들었다.",
+   "description_en": "The institute cited his work on access to trustworthy information.",
+   "place_name": "첸나이",
+   "place_name_en": "Chennai",
+   "lat": 13.0825,
+   "lng": 80.275
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역투, 불분명한 지시어, 어색한 기술 용어와 행위 관계를 바로잡고 사건들이 생애 순서대로 자연스럽게 이어지도록 다듬었다. 다만 index 8의 영문 \"reinforcement\"가 강화학습을 뜻하는지는 문장 편집만으로 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「도시는 뒤에」가 어색하고 무엇을 가리키는지 즉시 드러나지 않았으며, 어머니의 말도 인용 관계가 흐릿했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 전공 자리는 얻지 못했다」와 「같이 수험 준비한 친구들」이 영문 어순을 따른 표현이라 입학과 전과 과정을 자연스러운 한국어로 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연구에 붙었다」와 「딥러닝을 보여 주고」는 참여와 소개의 관계를 뜻으로 짐작해야 하는 표현이었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「전기공학으로 남았다」가 전공을 유지했다는 뜻을 부자연스럽게 직역한 문장이었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「매사추세츠공대는 거절하고 여기만 받았다」는 입학 주체와 대상의 관계가 무너졌고 「여기」의 대상도 문장 안에서 분명하지 않았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「불러들였다」가 인턴으로 초대했다는 구체적인 관계를 충분히 드러내지 못했고, 「실험실」도 어느 조직인지 문장 안에서 명확하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「정답을 붙이지 않은 그림」은 unlabeled images를 단어 순서대로 옮긴 표현이라 기술적 의미가 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「시각용 변환기」와 「병목변환기를 짰다」가 기술 용어를 어색하게 직역했고, 설계에 이름을 붙였다는 영문의 행위도 빠져 있었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「연구가 실제 쓰임으로 넘어가는 것」이 research turn into real use를 그대로 옮긴 추상적인 표현이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "공동 창업자들이 함께 정한 목표가 「만들자고 했다」로 적혀 주체와 행동 관계가 약했고, doctoral paper도 「박사과정 논문」으로 부정확하게 옮겨졌다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「출처를 다는 검색」이 cited search의 직역이었고, 본문에는 질문에 답한 주체가 드러나지 않았다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인공지능의 쓰임과 변화」는 uses and evolution을 단어 단위로 옮겨 논의한 내용이 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「신뢰할 수 있는 정보 접근을 이유로 들었다」는 무엇을 수상 이유로 평가했는지 목적어와 행위 관계가 불분명했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 8,
+    "reason": "영문은 논문의 한 축을 \"reinforcement\"라고만 적었다. 이를 자연스러운 한국어인 「강화학습」으로 고치려면 실제 논문이 reinforcement learning을 다뤘는지 확인해야 하며, 현재 국문 「강화」는 어색하지만 영문만으로는 의미를 확장해 확정할 수 없다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

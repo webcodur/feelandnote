@@ -1,0 +1,263 @@
+{
+ "slug": "eratosthenes",
+ "events": [
+  {
+   "year": -276,
+   "year_end": null,
+   "kind": "birth",
+   "title": "아글라오스의 아들로 태어나다",
+   "title_en": "Is born the son of Aglaos",
+   "description": "수다는 아버지를 아글라오스라 하고, 다른 전승은 암브로시오스라 한다. 태어난 해는 제126회 올림피아드로만 적혀 있다. 키레네는 테라 사람들이 세운 그리스 식민시였고, 알렉산드로스 사후의 내전을 거쳐 프톨레마이오스 1세의 땅이 되었다.",
+   "description_en": "The Suda names his father Aglaos; another tradition names Ambrosius. His birth is given only as the 126th Olympiad. The city was a Greek colony founded from Thera. After Alexander died it passed, through a civil war, to Ptolemy I.",
+   "place_name": "키레네",
+   "place_name_en": "Cyrene",
+   "lat": 32.816666666667,
+   "lng": 21.85
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "리사니아스에게 문법을 배우다",
+   "title_en": "Studies grammar with Lysanias",
+   "description": "수다는 키레네의 문법학자 리사니아스를 스승으로 적는다. 시인 칼리마코스도 스승 명단에 넣는다. 칼리마코스 역시 키레네 출신이지만, 정식으로 사사했는지를 두고는 후대의 견해가 갈린다.",
+   "description_en": "The Suda names Lysanias of Cyrene, a grammarian, as his teacher. It also lists the poet Callimachus. Callimachus too came from that city, but later writers disagree on whether the teaching was formal.",
+   "place_name": "키레네",
+   "place_name_en": "Cyrene",
+   "lat": 32.816666666667,
+   "lng": 21.85
+  },
+  {
+   "year": -260,
+   "year_end": -246,
+   "kind": "education",
+   "title": "아테네에서 여러 학파의 가르침을 받다",
+   "title_en": "Hears several schools in Athens",
+   "description": "260년대 후반에 아테네로 갔다. 스트라본은 아르케실라오스, 키오스의 아리스톤, 보리스테네스의 비온을 스승으로 적는다. 키티온의 제논에게 배웠다고도 하나, 제논은 그가 도착할 무렵 이미 죽었거나 곧 죽었다. 스트라본은 그가 어느 한 학파에도 속하지 않았다고 나무랐다. 이 무렵 『헤르메스』와 『에리고네』를 썼다고 전한다.",
+   "description_en": "He went there in the late 260s. Strabo names Arcesilaus, Ariston of Chios, and Bion of Borysthenes as his teachers. Some call him a pupil of Zeno of Citium, but Zeno was already dead or dying when he arrived. Strabo blamed him for not binding himself to one school. Tradition places the poems Hermes and Erigone in these years.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -245,
+   "year_end": null,
+   "kind": "travel",
+   "title": "프톨레마이오스 3세가 아테네에서 불러오다",
+   "title_en": "Ptolemy III summons him from Athens",
+   "description": "왕이 아테네에 있던 그를 알렉산드리아로 불러들였다. 수다는 그가 프톨레마이오스 5세 때까지 머물렀다고 적는다. 그 무렵 그의 고향 키레네는 마가스의 딸 베레니케가 왕과 혼인하면서 다시 프톨레마이오스 왕가의 땅으로 돌아간 직후였다.",
+   "description_en": "The king summoned him from Athens. The Suda says he stayed through the reign of Ptolemy V. His home city had just returned to the Ptolemaic house, when Berenice, daughter of Magas, married the king.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": -245,
+   "year_end": null,
+   "kind": "office",
+   "title": "왕자의 스승이 되어 도서관을 맡다",
+   "title_en": "Becomes royal tutor and takes charge of the library",
+   "description": "왕자 필로파토르를 가르치고 도서관을 맡았다. 전임자가 누구인지를 두고는 기록이 갈린다. 옥시린코스 파피루스는 로도스의 아폴로니오스 다음이라고 적고, 다른 전승은 칼리마코스 다음이라고 한다. 수다는 모든 학문에서 최고인 사람 다음가는 인물이라는 뜻으로 그를 베타라 불렀다고 전한다. 어떤 이들은 다섯 종목에 출전하는 선수라는 뜻으로 펜타틀로스라 불렀다.",
+   "description_en": "He taught the prince Philopator and took charge of the library. Sources disagree on his predecessor. An Oxyrhynchus papyrus places him after Apollonius of Rhodes; another tradition places him after Callimachus. The Suda says he was called Beta, second in every field to those at the top. Others called him Pentathlos, a man who competes in five events.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "아르키메데스가 편지를 보내다",
+   "title_en": "Archimedes sends him letters",
+   "description": "시라쿠사의 아르키메데스는 『기계적 정리의 방법』을 그에게 보내는 편지 형식으로 썼다. 태양의 소 문제도 알렉산드리아의 수학자들에게 전하도록 그에게 맡겼다.",
+   "description_en": "Archimedes of Syracuse wrote The Method of Mechanical Theorems as a letter to him. He also entrusted him with the Cattle Problem, to pass to the mathematicians in Alexandria.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "시에네와 알렉산드리아의 그림자로 지구 둘레를 재다",
+   "title_en": "Measures the earth by the shadow at Syene",
+   "description": "클레오메데스가 전하는 방법은 이렇다. 하지 정오에 시에네의 우물에는 그림자가 없었고, 알렉산드리아에서는 막대와 그 그림자가 이루는 각도가 원 한 바퀴의 50분의 1이었다. 두 도시 사이의 거리인 5천 스타디온에 50을 곱해 지구 둘레를 25만 스타디온으로 계산했다. 뒤에 25만 2천 스타디온으로 고친 수치도 전한다. 스타디온의 길이를 두고는 후대 학자들의 견해가 일치하지 않는다. 헤론은 이 계산이 『땅의 측정에 관하여』라는 별도 저술에 담겼다고 기록한다.",
+   "description_en": "Cleomedes preserves the method. At noon on the summer solstice a well at Syene cast no shadow; at Alexandria a rod’s shadow was one-fiftieth of a circle. He took the five thousand stadia between the cities, multiplied by fifty, and reached two hundred and fifty thousand stadia. A later figure of two hundred and fifty-two thousand is also transmitted. Later writers do not agree on the length of the stadion. Heron records the calculation as a separate book, On the Measurement of the Earth.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "알려진 땅을 세 권으로 그리다",
+   "title_en": "Draws the known world in three books",
+   "description": "스트라본이 인용한 『지리학』은 세 권이다. 가로줄과 세로줄을 겹쳐 도시를 놓고, 땅을 다섯 기후띠로 나눴다. 원본은 없고 스트라본과 플리니우스가 인용한 조각만 남았다.",
+   "description_en": "The Geography that Strabo quotes ran to three books. He laid cities on a grid of parallels and meridians and divided the earth into five climate zones. The original is lost. Only fragments quoted by Strabo and Pliny remain.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "트로이 함락부터 해를 헤아리다",
+   "title_en": "Counts the years from the fall of Troy",
+   "description": "알렉산드리아의 클레멘스는 그가 계산한 연대 간격을 전한다. 트로이 함락에서 헤라클레이다이의 귀환까지를 80년으로 잡고, 이어 이오니아 건설과 리쿠르고스를 거쳐 첫 올림피아드에 이르는 연대를 계산했다. 트로이 함락을 기원전 1183년 또는 1184년으로 잡은 수치는 뒤에 널리 통용되었다. 『올림피아 승리자 명단』도 같은 계열의 저술이다.",
+   "description_en": "Clement of Alexandria preserves the intervals. From the fall of Troy to the return of the Heraclidae, eighty years; then through the founding of Ionia and Lycurgus to the first Olympiad. The date he fixed for that fall, 1183 or 1184 BCE, later became the common figure. Olympic Victors belongs to the same line of work.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "소수를 가려내는 체와 정육면체를 두 배로 만드는 장치를 남기다",
+   "title_en": "Leaves the sieve of primes and the doubled cube",
+   "description": "니코마코스가 전한 소수를 가려내는 방법은 그의 이름으로 남았다. 정육면체 제단을 두 배로 만드는 기계 장치도 그의 것으로 전해진다. 프톨레마이오스에게 청동 모형을 바친 편지의 원문은 남아 있으나, 진위를 두고는 견해가 갈린다.",
+   "description_en": "The method of sifting primes that Nicomachus records survives under his name. A mechanical device for doubling a cubic altar is also transmitted as his. A letter offering a bronze model to Ptolemy survives in Greek, but its authenticity is disputed.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": -204,
+   "year_end": null,
+   "kind": "other",
+   "title": "왕비 아르시노에의 조언자가 되다",
+   "title_en": "Stands with Queen Arsinoe",
+   "description": "말년에는 필로파토르의 누이이자 아내인 아르시노에의 조언자였다. 왕이 죽은 뒤 왕비가 살해당하자 아르시노에의 전기를 썼고, 아테나이오스가 그 가운데 한 토막을 인용한다. 이 전기 이후로는 연대가 확인되는 저작이 없다.",
+   "description_en": "In his last years he was adviser to Arsinoe, sister and wife of Philopator. After the king died and the queen was murdered, he wrote her life. Athenaeus quotes a fragment. No later work of his carries a date.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  },
+  {
+   "year": -194,
+   "year_end": null,
+   "kind": "death",
+   "title": "눈이 어두워져 음식을 끊었다고 전한다",
+   "title_en": "Is said to have given up food when his sight failed",
+   "description": "수다는 여든에 죽었다고 적는다. 켄소리누스는 여든하나, 위(僞) 루키아노스는 여든둘이라고 한다. 키지코스의 디오니시오스가 남긴 묘비문은 어머니 키레네가 그를 선조들의 무덤에 받아들이지 못했고, 그가 프로테우스의 해안에 묻혔다고 전한다. 수다는 그가 남긴 뛰어난 제자로 비잔티온의 아리스토파네스를 꼽는다.",
+   "description_en": "The Suda says he died at eighty. Censorinus gives eighty-one, Pseudo-Lucian eighty-two. The epitaph recorded by Dionysios of Kyzikos says mother Cyrene did not receive him into the paternal tombs, and that he was buried on the shore of Proteus. The Suda names Aristophanes of Byzantium as the distinguished pupil he left.",
+   "place_name": "알렉산드리아",
+   "place_name_en": "Alexandria",
+   "lat": 31.1975,
+   "lng": 29.8925
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미를 벗어나지 않는 범위에서 대상이 불분명한 지시어와 직역투, 어색한 주어·목적어·행동 관계를 바로잡았다. 사실 판단이 필요한 불일치는 없어 별도 사실 확인 대상으로 남긴 사건은 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」가 바로 앞 문장만으로 키레네를 가리킨다고 알기 어려워 도시 이름을 명시했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 도시」와 「이 도시」의 기준점이 문장 안에 분명하지 않고, 「문법가」도 한국어로 어색해 키레네와 문법학자를 명시했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "학파를 「듣다」라는 제목과 「그 도시」라는 지시어가 어색했고, 「제논 문인」과 「한 학파에 몸을 붙이다」도 직역투여서 자연스럽게 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "왕이 사람을 「불러냈다」는 표현이 이동 방향을 모호하게 만들고, 「고향」이 어느 도시인지 문장 안에 드러나지 않아 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「왕자의 스승이자 도서관 일을 맡다」는 서술어 연결이 맞지 않고, 「앞사람」과 「모든 학문에서 최고 다음」은 뜻을 짐작해야 하는 표현이어서 역할과 별명의 의미를 분명히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "저술을 「그에게 보내는 편지로 썼다」는 표현이 어색해 편지 형식으로 집필했다는 관계를 명확히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「시에네와 그림자로」는 두 도시와 그림자의 관계가 무너진 표현이고, 막대 그림자 자체가 원의 50분의 1이라는 서술도 뜻이 성립하지 않아 관측 각도와 계산 과정을 분명히 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「클레멘스가 남긴 간격」과 「첫 올림피아드까지를 이었다」가 직역투라서 전승된 연대 간격과 계산 범위가 자연스럽게 이어지도록 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「소수 체와 두 배 정육면체」는 대상과 행동의 관계가 불분명하고, 「소수 가려내기 법」과 「그의 이름으로 전한다」도 어색해 두 업적을 구체적으로 풀어 썼다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「왕비의 곁에 있다」는 조언자라는 실제 역할을 흐리고, 「해가 찍힌 저작」은 연대가 기록된 저작을 옮긴 직역투여서 명확하게 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「위루키아노스」는 Pseudo-Lucian의 의미가 드러나지 않고, 키레네가 그를 「아버지의 무덤으로 받지 못했다」거나 제자를 「남겼다」는 문장도 한국어의 대상 관계가 어색해 바로잡았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

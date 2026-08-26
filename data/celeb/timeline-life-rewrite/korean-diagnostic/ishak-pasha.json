@@ -1,0 +1,254 @@
+{
+ "slug": "ishak-pasha",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "태어난 해가 전하지 않는다",
+   "title_en": "Year of birth is not recorded",
+   "description": "기부 증서에는 그가 이네골 출신이라고 적혀 있다. 그의 집안은 찬다를르 가문처럼 오래된 터키계 가문이며, 아버지는 이브라힘이다. 같은 시대에는 압둘라의 아들인 또 다른 이샤크도 있었다. 후대 저술가들은 두 사람의 관직 경력을 한 사람의 것으로 뒤섞어 전했다. 전승에서는 콘스탄티노폴리스 남쪽 성벽을 그의 업적으로 돌린다. 그해 아나톨리아 총독은 다른 이샤크였다.",
+   "description_en": "The waqf deed records him as a man of İnegöl. The family is an old Turkish house, like the Çandarlı. His father is Ibrahim. Another Ishak, son of Abdullah, lived in the same years, and later writers stuck the two careers onto one body. Tradition gives him the southern walls of Constantinople. The Anatolian governor that year was the other Ishak.",
+   "place_name": "이네골",
+   "place_name_en": "İnegöl",
+   "lat": 40.080555555556,
+   "lng": 29.509722222222
+  },
+  {
+   "year": 1463,
+   "year_end": 1464,
+   "kind": "office",
+   "title": "아나톨리아 총독으로 기록에 처음 남다",
+   "title_en": "First appears in the record as governor of Anatolia",
+   "description": "연대기와 기부 증서가 그에게 처음으로 돌리는 관직이다. 그 이전의 관직 기록은 다른 이샤크의 경력과 구별할 수 없다. 총독부가 어느 도시에 있었는지는 확인되지 않는다.",
+   "description_en": "This is the first post the chronicles and the deed assign to this man. Earlier offices cannot be told apart from the other Ishak. Which city held the governor’s seat is not confirmed.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1468,
+   "year_end": null,
+   "kind": "work",
+   "title": "사원과 무덤을 세우다",
+   "title_en": "Builds a mosque and a tomb",
+   "description": "기부 증서는 사원이 이미 끝나 있었다고 한다. 아내는 이스펜디야르 집안의 타준니사다. 육각 무덤은 아내를 위해 지었다. 뒤에 신학교가 붙고, 자기 무덤은 사원 남쪽에 두었다.",
+   "description_en": "The deed says the mosque was already finished. His wife is Tacünnisa of the Isfendiyar house. The hexagonal tomb was built for her. A madrasa was added later, and he placed his own grave south of the mosque.",
+   "place_name": "이네골",
+   "place_name_en": "İnegöl",
+   "lat": 40.080555555556,
+   "lng": 29.509722222222
+  },
+  {
+   "year": 1469,
+   "year_end": 1472,
+   "kind": "office",
+   "title": "룸 메흐메드의 뒤를 잇다",
+   "title_en": "Takes the place of Rum Mehmed",
+   "description": "후세인 후사메딘은 이보다 앞서 그가 셋째 재상을 지냈다고 적는다. 케말파샤자데는 이 임기가 2년 뒤에 끝났다고 기록하고, 후세인 후사메딘은 그보다 1년 뒤로 잡는다. 연대기는 에레글리와 악사라이를 점령한 이샤크가 두 사람 중 누구인지 밝히지 않는다.",
+   "description_en": "Hüseyin Hüsamettin writes that he was third vizier first. Kemalpaşazade ends this term two years later; Hüseyin puts it a year after that. The chronicles do not say which Ishak took Ereğli and Aksaray.",
+   "place_name": "콘스탄티노폴리스",
+   "place_name_en": "Constantinople",
+   "lat": 41.01224,
+   "lng": 28.976018
+  },
+  {
+   "year": 1472,
+   "year_end": null,
+   "kind": "other",
+   "title": "메흐메드가 이샤크의 땅을 몰수하다",
+   "title_en": "Mehmed seizes his land",
+   "description": "아마시아에 있던 셰흐자데 바예지드 편에 섰다는 혐의를 받았다. 술 시종 자아노스에게서 사들인 땅을 술탄이 몰수해 봉토로 바꾸었다. 아들 피리 베이는 바예지드의 장부를 맡았다. 이 땅은 바예지드가 왕위에 오른 뒤에야 돌아왔다.",
+   "description_en": "He is accused of standing with Şehzade Bayezid in Amasya. The sultan seizes land he had bought from the cupbearer Zağanos and turns it into a fief. His son Piri Bey keeps Bayezid’s registers. The land returns only after Bayezid takes the throne.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1481,
+   "year_end": null,
+   "kind": "office",
+   "title": "메흐메드가 죽자 수도를 지키다",
+   "title_en": "Holds the capital when Mehmed dies",
+   "description": "술탄이 진중에서 죽었다. 대재상 카라마니 메흐메드는 예니체리에게 살해됐다. 이샤크는 수도 수비를 맡아 남았고, 아마시아의 바예지드에게 편지를 보냈다. 전령을 20명에서 30명이나 보냈지만 한 명도 돌아오지 않았다. 그는 시내 병사들을 붙들어 두기가 이제 어렵다고 썼다.",
+   "description_en": "The sultan dies in camp. The janissaries kill the grand vizier Karamani Mehmed. He stays as guardian of the capital and writes to Bayezid in Amasya. He sends twenty or thirty messengers; none come back. He writes that holding the soldiers in the city is now hard.",
+   "place_name": "콘스탄티노폴리스",
+   "place_name_en": "Constantinople",
+   "lat": 41.01224,
+   "lng": 28.976018
+  },
+  {
+   "year": 1481,
+   "year_end": null,
+   "kind": "office",
+   "title": "바예지드의 아들을 왕좌에 앉히다",
+   "title_en": "Seats Bayezid’s son on the throne",
+   "description": "코니아의 젬이 길을 끊을 수 있는 상황이었다. 이샤크는 궁에 있던 코르쿠트를 불러 아버지를 대신해 왕좌에 앉혔다. 투르순 베이는 병사들이 겉으로는 아이를 기다렸지만 속으로는 아버지를 기다렸다고 적는다. 바예지드가 위스퀴다르에서 건너오려 하자, 이샤크는 예니체리를 앞세워 그를 압박하고 대재상 인장을 받아 냈다.",
+   "description_en": "Cem could cut the road from Konya. He calls Korkut from the palace and seats him in his father’s place. Tursun Bey writes that the soldiers waited outwardly for the boy and inwardly for the father. At Üsküdar he uses the janissaries to force the seal from Bayezid as Bayezid tries to cross.",
+   "place_name": "콘스탄티노폴리스",
+   "place_name_en": "Constantinople",
+   "lat": 41.01224,
+   "lng": 28.976018
+  },
+  {
+   "year": 1482,
+   "year_end": null,
+   "kind": "other",
+   "title": "사위 게디크 아흐메드가 교살되다",
+   "title_en": "Son-in-law Gedik Ahmed is strangled",
+   "description": "예니체리는 사위 게디크 아흐메드를 지지했다. 무스타파가 게디크 아흐메드를 가두자 이샤크는 그를 빼내고 무스타파를 내쫓았다. 바예지드는 젬과 싸울 때 그를 후위에 배치했다. 에디르네 연회가 끝난 뒤 게디크 아흐메드에게 검은 카프탄을 입히고 그를 교살했다.",
+   "description_en": "The janissaries stand with the son-in-law. When Mustafa jails him, he pulls him out and drives Mustafa off. Bayezid puts him in the rear in the fight with Cem. After a banquet in Edirne the son-in-law is dressed in a black kaftan and strangled.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1483,
+   "year_end": null,
+   "kind": "office",
+   "title": "병과 나이를 들어 인장을 내려놓다",
+   "title_en": "Lays down the seal, citing age and illness",
+   "description": "케말파샤자데는 그 시점을 그해 여름으로 적는다. 바예지드는 지난 공로를 감안해 셀라닉 주를 맡겼다.",
+   "description_en": "Kemalpaşazade puts it in the summer. Bayezid, counting past service, gives him the province of Selanik.",
+   "place_name": "테살로니키",
+   "place_name_en": "Thessaloniki",
+   "lat": 40.640277777777776,
+   "lng": 22.935555555555556
+  },
+  {
+   "year": 1484,
+   "year_end": null,
+   "kind": "work",
+   "title": "알라자 이마레트를 짓다",
+   "title_en": "Builds the Alaca Imaret",
+   "description": "문 위의 아랍어 명문에는 그해 무하렘월이 적혀 있다. 옆방을 둔 평면은 이네골 사원과 같다. 2년 뒤에는 기부 증서로 운영 인력과 수입을 정했다.",
+   "description_en": "The Arabic inscription over the door names Muharram of that year. The plan matches the mosque in İnegöl, with side rooms. Two years later a deed sets the staff and the income.",
+   "place_name": "테살로니키",
+   "place_name_en": "Thessaloniki",
+   "lat": 40.640277777777776,
+   "lng": 22.935555555555556
+  },
+  {
+   "year": 1487,
+   "year_end": null,
+   "kind": "death",
+   "title": "묘석에 사파르월 4일이 새겨지다",
+   "title_en": "The tombstone keeps the fourth of Safar",
+   "description": "그의 유언에 따라 시신을 이네골로 옮겼다. 사원 남쪽에 묻혔으나, 길을 막는다는 이유로 1937년에 묘석을 아내의 무덤으로 옮겼다.",
+   "description_en": "After he dies, the body goes to İnegöl by his will. He was buried south of the mosque; in 1937 the stones were moved to his wife’s tomb because they blocked the way.",
+   "place_name": "테살로니키",
+   "place_name_en": "Thessaloniki",
+   "lat": 40.640277777777776,
+   "lng": 22.935555555555556
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "직역으로 주어·목적어 관계가 흐려지거나 지시 대상이 불분명한 문장을 자연스러운 한국어로 고쳤다. 다만 0번의 연도 지시어와 6·7번의 대상이 영문만으로 확정되지 않아 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "두 이샤크의 관계와 후대 기록의 혼동을 설명하는 문장이 직역투였고, 성벽을 이 사람에게 '맡긴다'는 표현도 무엇을 뜻하는지 불분명했다. 마지막 문장의 '그해'는 앞에서 특정 연도를 제시하지 않아 가리키는 시점이 분명하지 않다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "'첫 자리다', '다른 이샤크와 가려지지 않는다'가 영어 단어를 순서대로 옮긴 문장처럼 읽혀, 처음 확인되는 관직과 두 사람의 경력을 구별할 수 없다는 뜻이 바로 드러나도록 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'자리에 오르다'는 어떤 관계로 룸 메흐메드의 자리를 이었는지 흐렸고, '그 앞서 셋째 재상이었다', '그 이듬해'도 문장 관계가 불분명했다. 두 이샤크 중 어느 사람이 두 도시를 점령했는지 구별되지 않는다는 뜻도 명확히 했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 '그의'가 카드만 읽을 때 대상을 흐렸고, '잔을 올리던 자아노스'는 cupbearer를 직역한 표현이었다. 토지 몰수와 봉토 전환의 주체·대상을 분명히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'수도를 붙들다', '사자를 스무 명, 서른 명 보냈다'가 자연스럽지 않았다. 수도 수비를 맡은 상황과 전령을 20명에서 30명이나 보냈지만 돌아오지 않았다는 관계를 명확히 했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "'코니아에서 길을 막다', '예니체리로 밀어 인장을 받아 내다'가 대상과 행동을 바로 이해하기 어려웠다. 코르쿠트를 왕좌에 앉힌 목적과 바예지드에게서 인장을 받아 낸 행동은 명확히 고쳤지만, 젬이 끊을 수 있었다는 길의 정확한 대상은 영문에도 나오지 않는다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "여러 문장에서 '사위', '그', '그를'이 반복되어 이샤크와 게디크 아흐메드 중 누가 행동하거나 처분된 것인지 흐려졌다. 안전하게 확인되는 문장에는 이름을 밝혔지만, 후위에 배치된 인물은 영문의 대명사만으로 확정할 수 없다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "'지난 일을 헤아려'가 counting past service를 그대로 옮긴 표현이어서, 지난 공로를 고려했다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "'명문이 무하렘을 적는다', '같은 옆방을 둔 집이다'가 직역투였으며, 이네골 사원과 같은 것은 건물 자체가 아니라 옆방을 둔 평면이라는 관계가 드러나지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "'묘석이 사파르 나흘을 남기다', '시신은 이네골로 갔다'가 사물에 부자연스러운 행동을 맡긴 직역 문장이었다. 묘석의 날짜와 유언에 따른 시신 이장을 자연스럽게 고쳤다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 0,
+    "reason": "영문의 'that year'가 어느 사건의 연도를 가리키는지 앞 문장만으로 확정되지 않는다. 출생 연도도 미상이므로 해당 시점을 국문 편집만으로 명시할 수 없다."
+   },
+   {
+    "index": 6,
+    "reason": "영문의 'Cem could cut the road from Konya'는 젬이 어느 길을 누구에게서 끊을 수 있었다는 뜻인지 밝히지 않는다. 바예지드의 상경로라고 단정하려면 별도의 사실 확인이 필요하다."
+   },
+   {
+    "index": 7,
+    "reason": "영문의 'Bayezid puts him in the rear'에서 'him'이 이샤크 파샤와 사위 게디크 아흐메드 중 누구를 가리키는지 문장만으로 확정되지 않는다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

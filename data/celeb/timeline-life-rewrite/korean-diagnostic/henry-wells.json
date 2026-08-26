@@ -1,0 +1,243 @@
+{
+ "slug": "henry-wells",
+ "events": [
+  {
+   "year": 1805,
+   "year_end": null,
+   "kind": "birth",
+   "title": "버몬트 셋퍼드에서 태어나다",
+   "title_en": "Born in Thetford, Vermont",
+   "description": "아버지는 시플리 웰스였다. 어머니는 도로시 랜들이었다. 아버지는 장로교 목사였다. 집안은 뉴잉글랜드를 떠나 뉴욕주 중부 세네카폴스 쪽으로 옮겼다. 그는 페이엣의 농장에서 일했다. 그곳 학교에도 다녔다.",
+   "description_en": "His father was Shipley Wells. His mother was Dorothy Randall. His father was a Presbyterian minister. The family left New England for the Seneca Falls area of central New York. He worked on a farm in Fayette. He also went to school there.",
+   "place_name": "셋퍼드",
+   "place_name_en": "Thetford",
+   "lat": 43.8352997,
+   "lng": -72.2480633
+  },
+  {
+   "year": 1822,
+   "year_end": null,
+   "kind": "education",
+   "title": "무두질과 제화 도제로 들어가다",
+   "title_en": "Apprenticed to tanners and shoemakers",
+   "description": "제섭과 파머 밑에서 무두질과 제화를 배웠다. 그들의 작업장은 운하가 막 개통되어 화물이 오가기 시작한 마을에 있었다. 기술을 익힌 뒤 그는 화물 운송업으로 옮겨갔다.",
+   "description_en": "He learned tanning and shoemaking under Jessup and Palmer. Their shop sat in a town the canal had just opened to freight. After he had a trade, he turned to cargo work.",
+   "place_name": "팔마이라",
+   "place_name_en": "Palmyra",
+   "lat": 43.063888888889,
+   "lng": -77.233333333333
+  },
+  {
+   "year": 1827,
+   "year_end": null,
+   "kind": "other",
+   "title": "사라 대깃과 혼인하다",
+   "title_en": "Married Sarah Daggett",
+   "description": "사라 대깃은 팔마이라 출신이었다. 둘은 네 자녀를 두었다.",
+   "description_en": "His wife was a woman from the same town. They had four children.",
+   "place_name": "팔마이라",
+   "place_name_en": "Palmyra",
+   "lat": 43.063888888889,
+   "lng": -77.233333333333
+  },
+  {
+   "year": 1841,
+   "year_end": null,
+   "kind": "work",
+   "title": "하든을 떠나 독자적인 속달 회사를 세우다",
+   "title_en": "Left Harnden and started his own express",
+   "description": "이리 운하에서 화물을 다루다 윌리엄 하든 밑으로 들어갔다. 그는 버펄로 서쪽까지 서비스를 연장하자고 제안했다. 하든이 거절하자 조지 포머로이, 크로퍼드 리빙스턴과 회사를 세웠다. 그는 사흘 낮과 나흘 밤 동안 기차와 역마차로 돈과 짐을 직접 운송했다. 이들은 우편보다 싼값에 편지를 운송했다. 정부는 우편 요금을 낮췄다.",
+   "description_en": "After handling freight on the Erie Canal, he went to work for William Harnden. He proposed extending the service west of Buffalo. When Harnden refused, he formed a firm with George Pomeroy and Crawford Livingston. He himself carried money and parcels by train and stagecoach for three days and four nights. They carried letters cheaper than the post. The government cut its rates.",
+   "place_name": "올버니",
+   "place_name_en": "Albany",
+   "lat": 42.65,
+   "lng": -73.766666666667
+  },
+  {
+   "year": 1845,
+   "year_end": null,
+   "kind": "work",
+   "title": "버펄로 서쪽에 속달 노선을 열다",
+   "title_en": "Opened express service west of Buffalo",
+   "description": "윌리엄 파고, 대니얼 더닝과 함께 버펄로 서쪽 지역을 잇는 최초의 속달 서비스를 시작했다. 노선은 처음에 디트로이트까지 이어졌다. 이어 시카고와 세인트루이스, 신시내티까지 확장되었다.",
+   "description_en": "With William Fargo and Daniel Dunning he opened the first express beyond that city. The line first reached Detroit. It then stretched to Chicago, St. Louis, and Cincinnati.",
+   "place_name": "버펄로",
+   "place_name_en": "Buffalo",
+   "lat": 42.88638888888889,
+   "lng": -78.87805555555556
+  },
+  {
+   "year": 1846,
+   "year_end": null,
+   "kind": "work",
+   "title": "서부 지분을 팔고 대서양 횡단 속달에 집중하다",
+   "title_en": "Sold his western share and turned to transatlantic express",
+   "description": "서부 회사의 지분을 윌리엄 리빙스턴에게 넘겼다. 그 회사는 리빙스턴·파고 회사가 되었다. 그는 대서양 횡단 속달 사업에 집중했다. 크로퍼드 리빙스턴이 이듬해 세상을 떠나자 동부 회사의 이름은 웰스 회사가 되었다.",
+   "description_en": "He sold his western share to William Livingston. That firm became Livingston, Fargo and Company. He turned to the transatlantic express. After Crawford died the next year, the eastern name became Wells and Company.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1850,
+   "year_end": null,
+   "kind": "work",
+   "title": "아메리칸 익스프레스를 세우다",
+   "title_en": "Founded American Express",
+   "description": "웰스 회사와 리빙스턴·파고 회사, 버터필드의 회사를 합쳤다. 그는 초대 사장을 맡았다. 동부와 중서부 노선을 십팔 년간 이끌었다.",
+   "description_en": "He merged Wells and Company with Livingston, Fargo and Company and Butterfield’s firm. He took the first presidency. He ran the eastern and midwestern lines for eighteen years.",
+   "place_name": "버펄로",
+   "place_name_en": "Buffalo",
+   "lat": 42.88638888888889,
+   "lng": -78.87805555555556
+  },
+  {
+   "year": 1850,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족과 함께 카유가 호반에 정착하다",
+   "title_en": "Moved his family to the Cayuga lakeshore",
+   "description": "아메리칸 익스프레스가 출범할 무렵 가족과 함께 그곳에 정착했다. 처음 지은 집은 불에 타 없어졌다. 그는 그 자리에 글렌파크를 지었다. 글렌파크 부지는 뒤에 여자대학이 들어선 터가 되었다.",
+   "description_en": "He settled there with his family around the time the company was formed. The first house burned. He built Glen Park in its place. That ground later became the site of a women’s college.",
+   "place_name": "오로라",
+   "place_name_en": "Aurora",
+   "lat": 42.74666667,
+   "lng": -76.69944444
+  },
+  {
+   "year": 1852,
+   "year_end": null,
+   "kind": "work",
+   "title": "웰스 파고를 세우다",
+   "title_en": "Founded Wells Fargo",
+   "description": "아메리칸 익스프레스 이사회가 태평양 연안으로 사업을 확장하려는 계획을 막았다. 그는 파고와 함께 새 회사를 조직했다. 새 회사는 금가루와 돈을 운송하고 은행업도 했다. 그의 이웃 에드윈 모건이 초대 사장을 맡았다.",
+   "description_en": "The board blocked a Pacific coast expansion. He and Fargo organized a new company. It carried gold dust and money and also ran a bank. Neighbor Edwin Morgan became the first president.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1868,
+   "year_end": null,
+   "kind": "work",
+   "title": "사장직에서 물러나 여자대학을 열다",
+   "title_en": "Left the presidency and opened a women’s college",
+   "description": "아메리칸 익스프레스가 경쟁 속달 회사와 합쳐지자 파고가 사장을 맡았다. 그는 한 해 앞서 웰스 파고 이사회에서도 물러나 있었다. 그는 여성 고등교육을 위해 신학교를 열었다. 신학교는 주 의회에서 인가를 받았다. 그는 이를 평생의 꿈이라고 불렀다.",
+   "description_en": "When the company merged with a rival express, Fargo took the presidency. He had already left the western company’s board the year before. He opened a seminary for the higher education of women. The state legislature granted the charter. He called it the dream of his life.",
+   "place_name": "오로라",
+   "place_name_en": "Aurora",
+   "lat": 42.74666667,
+   "lng": -76.69944444
+  },
+  {
+   "year": 1878,
+   "year_end": null,
+   "kind": "death",
+   "title": "글래스고에서 세상을 떠나다",
+   "title_en": "Died in Glasgow",
+   "description": "스코틀랜드를 여행하던 중 숨졌다. 시신은 기선 에티오피아호에 실려 오로라로 돌아왔다. 오크 글렌 묘지에 묻혔다. 장례는 그의 집에서 치렀다.",
+   "description_en": "He died while traveling in Scotland. His body came home to Aurora on the steamer Ethiopia. He was buried at Oak Glen Cemetery. The funeral was held at his house.",
+   "place_name": "글래스고",
+   "place_name_en": "Glasgow",
+   "lat": 55.861111111111114,
+   "lng": -4.25
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 옮긴 듯한 표현, 지시 대상이 불분명한 말, 한국어에 맞지 않는 동사와 연결이 끊기는 대목을 바로잡았다. 영문에 없는 사실이나 평가는 보태지 않았으며, 별도의 사실 확인이 필요한 사건은 없었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「밑으로 들어가다」는 도제 관계를 정확하게 드러내지 못하고, 「운하가 막 열린 마을」과 「손을 쓰는 일」은 영문 구조를 따라가 뜻이 흐려졌다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아내는 이 마을 사람이었다」는 어느 마을인지 앞 문장만으로 알 수 없고, 「아이 넷이 났다」는 혼인 관계와 출산을 서술하는 표현으로 부자연스럽다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「스스로 속달을 열다」는 독자적인 회사를 세웠다는 의미를 분명하게 전달하지 못한다. 「편지를 날랐다」와 「정부는 요금을 낮췄다」도 구어적이거나 어떤 요금인지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「버펄로 서쪽으로 속달을 열다」는 노선을 개설했다는 뜻이 어색하게 표현되었고, 「그 도시」는 해당 문장만으로 버펄로를 가리키는지 알 수 없었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「대서양 건너 일」과 「동부 쪽 이름」은 사업과 회사 이름을 가리키는 표현으로 모호하다. 「크로퍼드」도 앞 사건에 나온 크로퍼드 리빙스턴임을 밝혀 생애의 연결을 보완할 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「버터필드 쪽 회사」는 소유 관계를 불분명하게 만들고, 「동부와 중서부 노선을 십팔 년 이끌었다」는 기간을 나타내는 조사가 빠져 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「가족을 옮기다」는 이주를 나타내는 제목으로 부자연스럽다. 「회사 출범」과 「그 땅」도 각각 아메리칸 익스프레스와 글렌파크 부지를 가리킨다는 점을 문장 안에서 밝혀야 했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이사회」가 어느 회사의 이사회인지 앞 문장만으로 알 수 없고, 「은행 일도 하게 했다」는 주어와 행동의 관계가 어색했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「사장직을 놓고」는 사장직에서 물러났다는 의미를 정확히 전달하지 못한다. 「회사」와 「서부 회사」도 각각 아메리칸 익스프레스와 웰스 파고를 가리키도록 밝혀 사건 사이의 연결을 보완할 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시신은 기선을 타고」는 시신의 운구를 표현하는 말로 부자연스럽고, 「집」은 누구의 집인지 문장 안에서 분명하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

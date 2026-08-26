@@ -1,0 +1,290 @@
+{
+ "slug": "james-jesus-angleton",
+ "events": [
+  {
+   "year": 1917,
+   "year_end": null,
+   "kind": "birth",
+   "title": "보이시에서 태어나다",
+   "title_en": "Born in Boise",
+   "description": "기병 장교인 아버지와 멕시코계 미국인 어머니 사이에서 맏이로 태어났다. 출생지는 성 알폰수스 병원이었다. 아버지는 퍼싱 휘하에서 복무하던 중 노갈레스에서 어머니를 만났다. 동생은 휴, 카르멘, 돌로레스였다.",
+   "description_en": "He was the eldest child of a cavalry officer and a Mexican-American mother. He was born at St. Alphonsus Hospital. His father had met his mother in Nogales while serving under Pershing. His siblings were Hugh, Carmen, and Dolores.",
+   "place_name": "보이시",
+   "place_name_en": "Boise",
+   "lat": 43.613611111111,
+   "lng": -116.23777777778
+  },
+  {
+   "year": 1933,
+   "year_end": null,
+   "kind": "travel",
+   "title": "밀라노로 건너가다",
+   "title_en": "Moves to Milan",
+   "description": "아버지가 내셔널 캐시 레지스터의 이탈리아 판매권을 사들였고, 가족은 밀라노에 자리를 잡았다. 아버지는 이후 로마에서 미국상공회의소 회장을 맡았다.",
+   "description_en": "His father bought the National Cash Register franchise for Italy. The family settled in Milan. His father later headed the American Chamber of Commerce in Rome.",
+   "place_name": "밀라노",
+   "place_name_en": "Milan",
+   "lat": 45.466944444444,
+   "lng": 9.19
+  },
+  {
+   "year": 1933,
+   "year_end": 1936,
+   "kind": "education",
+   "title": "몰번 칼리지에 들어가다",
+   "title_en": "Enters Malvern College",
+   "description": "잉글랜드의 기숙학교에서 3년간 생활했다. 당시 이미 이탈리아어를 구사할 줄 알았다.",
+   "description_en": "He boarded there for three years. He already spoke Italian.",
+   "place_name": "몰번",
+   "place_name_en": "Malvern",
+   "lat": 52.108,
+   "lng": -2.325
+  },
+  {
+   "year": 1941,
+   "year_end": null,
+   "kind": "education",
+   "title": "예일을 졸업하다",
+   "title_en": "Graduates from Yale",
+   "description": "리드 휘트모어와 함께 시 잡지 『퓨리오소』를 창간해 파운드와 커밍스의 시를 실었다. 졸업 논문에서는 엘리엇을 다뤘다. 처음에는 하버드 로스쿨 입학을 거절당했지만, 노먼 홈스 피어슨의 추천을 받아 입학했다.",
+   "description_en": "He founded the poetry magazine Furioso with Reed Whittemore. It printed poems by Pound and Cummings. His thesis was on Eliot. Harvard Law first rejected him. It took him on Pearson's recommendation.",
+   "place_name": "뉴헤이븐",
+   "place_name_en": "New Haven",
+   "lat": 41.308333333333,
+   "lng": -72.925
+  },
+  {
+   "year": 1943,
+   "year_end": null,
+   "kind": "other",
+   "title": "배틀크리크에서 결혼하다",
+   "title_en": "Marries in Battle Creek",
+   "description": "투손 출신의 배서대 학생 시실리 도트르몽과 결혼했다. 두 사람은 하버드에서 만났다. 앵글턴은 그해 봄 육군에 입대했다.",
+   "description_en": "He married Cicely d'Autremont, a Vassar student from Tucson. They had met at Harvard. He had enlisted in the Army that spring.",
+   "place_name": "배틀크리크",
+   "place_name_en": "Battle Creek",
+   "lat": 42.312222222222,
+   "lng": -85.204166666667
+  },
+  {
+   "year": 1943,
+   "year_end": null,
+   "kind": "work",
+   "title": "런던의 X-2에 배치되다",
+   "title_en": "Posted to X-2 in London",
+   "description": "하버드 로스쿨 학업을 중단하고 전략사무국 방첩부 X-2로 들어갔다. 이듬해에는 이탈리아 담당을 맡았다. 영국 측 연락관이었던 킴 필비도 이때 만났다.",
+   "description_en": "He left Harvard Law for the OSS counterintelligence branch. The next year he ran the Italy desk. He met Kim Philby as his British liaison.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1944,
+   "year_end": null,
+   "kind": "work",
+   "title": "로마에서 이탈리아 방첩을 맡다",
+   "title_en": "Takes over X-2 in Italy",
+   "description": "특수방첩부대 Z를 지휘했다. 당시 이탈리아에서 울트라 전문을 읽을 권한이 있는 미국인은 앵글턴뿐이었다. 이듬해 봄에는 이탈리아 전역의 X-2를 총괄하게 됐다. 전략사무국이 해체된 뒤에도 로마에 남았다.",
+   "description_en": "He commanded SCI Unit Z. He was the only American in Italy cleared to read Ultra traffic. By the next spring he headed X-2 for all of Italy. He stayed in Rome after OSS was dissolved.",
+   "place_name": "로마",
+   "place_name_en": "Rome",
+   "lat": 41.893055555556,
+   "lng": 12.482777777778
+  },
+  {
+   "year": 1947,
+   "year_end": null,
+   "kind": "work",
+   "title": "신설 중앙정보국으로 옮기다",
+   "title_en": "Moves into the new CIA",
+   "description": "특수작전부에서 우방 정보기관과의 연락 업무를 맡았다. 중앙정보국이 창설된 지 2년 뒤에는 A참모부장이 됐다.",
+   "description_en": "He handled liaison with allied services in the Office of Special Operations. Two years after the agency opened he became head of Staff A.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1951,
+   "year_end": null,
+   "kind": "work",
+   "title": "이스라엘 담당을 맡다",
+   "title_en": "Takes the Israel desk",
+   "description": "모사드와 신베트의 연락 업무를 맡았다. 같은 해 워싱턴에서 근무하던 필비는 버지스와 매클린이 모스크바로 달아난 뒤 본국으로 돌아갔다. 이후 신베트는 스탈린을 비판한 흐루쇼프의 비밀 연설문을 앵글턴에게 전달했다.",
+   "description_en": "He held the liaison with Mossad and Shin Bet. That same year Philby, then in Washington, was sent home after Burgess and Maclean fled to Moscow. Shin Bet later passed him Khrushchev's secret speech denouncing Stalin.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1954,
+   "year_end": null,
+   "kind": "office",
+   "title": "방첩 참모장을 맡다",
+   "title_en": "Becomes chief of counterintelligence",
+   "description": "앨런 덜레스가 앵글턴에게 방첩 참모장 자리를 맡겼다. 리처드 헬름스는 훗날 그를 비공산권에서 가장 영향력 있는 방첩 인사라고 평했다. 앵글턴은 20년 넘게 이 직책을 지켰다.",
+   "description_en": "Allen Dulles gave him the post. Richard Helms later called him the dominant counterintelligence figure in the non-communist world. He held the job for more than twenty years.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1961,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "고리친을 심문하다",
+   "title_en": "Questions Golitsyn",
+   "description": "소련 국가보안위원회 장교 아나톨리 고리친이 헬싱키를 거쳐 미국에 왔다. 중앙정보국 내부에 소련 요원이 있다는 고리친의 경고를 받아들인 앵글턴은 색출 작업에 나섰다. 이후 망명한 유리 노센코는 소련이 보낸 위장 망명자로 판단했다.",
+   "description_en": "KGB officer Anatoliy Golitsyn reached the United States via Helsinki. He took the warning that a Soviet agent sat inside the agency and opened a search. He treated the later defector Yuri Nosenko as a plant.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "office",
+   "title": "사임하다",
+   "title_en": "Resigns",
+   "description": "시모어 허시가 『뉴욕 타임스』에 국내 사찰을 보도했다. 윌리엄 콜비는 앵글턴을 퇴진시켰고, 그의 사임은 크리스마스이브에 발표됐다. 앵글턴은 한 통신사에 자신의 쓰임은 이제 끝났다고 말했다.",
+   "description_en": "Seymour Hersh wrote in the New York Times about domestic surveillance. William Colby pushed him out. The resignation was announced on Christmas Eve. He told a wire service that his usefulness had ended.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "death",
+   "title": "워싱턴에서 죽다",
+   "title_en": "Dies in Washington",
+   "description": "폐암으로 시블리 기념병원에서 숨을 거뒀다. 고향 보이시의 모리스 힐 묘지에 묻혔다.",
+   "description_en": "He died of lung cancer. The death was at Sibley Memorial Hospital. He was buried at Morris Hill Cemetery in Boise.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 순서대로 치환해 생긴 어색한 문장, 담당 부서를 사물인 책상처럼 표현한 직역, 불분명한 대명사와 행위 관계를 바로잡았다. 영문에 없는 평가나 인과는 보태지 않고 13개 사건의 세부 내용과 생애 흐름을 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사이 맏이었다」「병원에서 났다」는 필수 성분이 빠지거나 지나치게 축약되어 출생 배경과 행위 관계가 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "회사명이 붙어 있어 경계가 불분명했고, 「판매권을 샀다」와 「뒤에」를 문맥에 맞게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기숙학교에서 삼 년을 보냈다」는 원문의 기숙 생활을 충분히 드러내지 못했고 두 문장의 시간 관계도 매끄럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「졸업 논문은 엘리엇이었다」는 논문의 주제와 인물을 등치했고, 「다시 들어갔다」는 어느 학교에 어떤 경위로 입학했는지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배서 출신」은 영문의 ‘투손 출신 배서대 학생’이라는 관계를 잘못 옮겼고, 배우자를 「상대」라고 부른 표현도 부자연스러웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「런던 엑스투」는 조직과 장소의 관계가 불분명했고, Italy desk를 「이탈리아 책장」으로 직역했다. 필비가 누구의 연락관이었는지도 문장에 분명히 드러나지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「특수방첩부대 제트」는 부대명 Z를 일반 명사처럼 음역했고, 「이탈리아 엑스투 전체」도 담당 범위를 자연스럽게 나타내지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「중앙정보국 창설 요원으로 옮기다」는 이동 대상보다 신분을 앞세워 원문의 의미가 흐려졌고, 「참모 에이의 장」은 영어 조직명을 어순대로 옮겨 이해하기 어려웠다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "Israel desk를 「이스라엘 책장」으로 직역했고, 「연락을 그가 쥐었다」는 한국어의 목적어와 행동 관계가 부자연스러웠다. 필비가 ‘sent home’ 된 일을 「추방됐다」고 옮긴 것도 의미가 지나치게 강했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「비공산권 방첩의 중심에 있다고 했다」는 인물을 추상적인 위치에 놓아 dominant figure라는 평가가 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "고리친을 소개한 직후 「그는」이 이어져 경고를 받아들이고 수색한 사람이 고리친인지 앵글턴인지 혼동될 수 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「국내 사찰을 썼다」는 기사 보도를 글쓰기 행위로 직역했고, 「그를 내보냈다」와 「내 쓰임은 끝났다」도 퇴진 경위와 발언의 뜻을 지나치게 구어적으로 표현했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「폐암이었다」는 앞뒤 문장과 분리되어 사망 원인과 사망 행위의 연결이 끊겨 보였다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

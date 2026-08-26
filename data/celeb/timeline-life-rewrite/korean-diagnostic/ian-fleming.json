@@ -1,0 +1,283 @@
+{
+ "slug": "ian-fleming",
+ "events": [
+  {
+   "year": 1908,
+   "year_end": null,
+   "kind": "birth",
+   "title": "메이페어에서 태어나다",
+   "title_en": "Born in Mayfair",
+   "description": "은행가 집안의 둘째 아들이었다. 아버지는 헨리 지역을 대표하는 의원 발렌타인이었고, 어머니는 이블린이었다. 할아버지 로버트는 스코틀랜드에서 상인은행을 세웠다. 아버지는 1917년 솜 전선에서 독일군의 포격으로 숨졌고, 윈스턴 처칠이 더 타임스에 실린 부고를 썼다.",
+   "description_en": "He was the second son of a banking family. His father, Valentine, sat in Parliament for Henley; his mother was Evelyn. His grandfather Robert had founded a merchant bank in Scotland. Valentine was killed by German shellfire on the Somme in 1917, and Winston Churchill wrote the Times obituary.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1921,
+   "year_end": 1926,
+   "kind": "education",
+   "title": "이튼에 들어가다",
+   "title_en": "Enters Eton",
+   "description": "형은 학업에서 앞서 나갔지만, 그는 육상에서 두각을 나타냈다. 교내 육상대회 우승을 두 해 연속 차지했다. 사감과 마찰이 커지자 어머니는 그를 한 학기 일찍 학교에서 빼내 사관학교 입시를 준비시켰다.",
+   "description_en": "His elder brother pulled ahead in class; he held on through athletics. He won the school games title two years running. After a clash with his housemaster, his mother took him out a term early to cram for Sandhurst.",
+   "place_name": "이튼",
+   "place_name_en": "Eton",
+   "lat": 51.4881,
+   "lng": -0.6092
+  },
+  {
+   "year": 1927,
+   "year_end": 1931,
+   "kind": "education",
+   "title": "알프스에서 외국어를 배우다",
+   "title_en": "Studies languages in the Alps",
+   "description": "사관학교를 임관 없이 나온 뒤, 어머니는 그를 알프스의 작은 학교로 보냈다. 전직 영국 첩보원이 운영하는 집에서 독일어를 익혔다. 뮌헨과 제네바에서도 잠시 공부했고, 외무부 시험에 합격했지만 자리를 얻지는 못했다.",
+   "description_en": "He left Sandhurst without a commission, and his mother sent him to a small alpine school. He learned German in a house run by a former British intelligence officer. He also studied briefly in Munich and Geneva, then passed the Foreign Office exam without winning a post.",
+   "place_name": "키츠뷜",
+   "place_name_en": "Kitzbühel",
+   "lat": 47.446388888889,
+   "lng": 12.391944444444
+  },
+  {
+   "year": 1931,
+   "year_end": null,
+   "kind": "work",
+   "title": "통신사에 들어가다",
+   "title_en": "Joins the news agency",
+   "description": "어머니가 로이터 사장에게 청탁해 자리를 얻었다. 부고를 고쳐 쓰며 짧은 문장을 배웠다. 얼마 뒤 모스크바로 파견되었다.",
+   "description_en": "His mother lobbied the head of Reuters and got him a desk. He learned short sentences by rewriting obituaries. Before long he was sent to Moscow.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1933,
+   "year_end": null,
+   "kind": "travel",
+   "title": "영국 기술자 재판을 취재하다",
+   "title_en": "Covers the British engineers trial",
+   "description": "소련이 메트로폴리탄 비커스 기술자 여섯 명을 파괴 공작과 간첩 혐의로 법정에 세웠다. 그는 마감에 맞춰 기사를 송고했다. 런던으로 돌아온 뒤에는 집안의 권유로 금융가에 들어갔다.",
+   "description_en": "The Soviets put six Metropolitan-Vickers engineers on trial for sabotage and espionage. He filed on deadline. Back in London, family pressure pushed him into the City.",
+   "place_name": "모스크바",
+   "place_name_en": "Moscow",
+   "lat": 55.75055555555556,
+   "lng": 37.6175
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "office",
+   "title": "해군정보부장의 보좌관이 되다",
+   "title_en": "Becomes aide to Naval Intelligence",
+   "description": "존 고드프리 해군 소장이 그를 개인 보좌관으로 불렀다. 그는 해군 자원예비역 중위로 해군성에서 근무했다. 해군정보부와 전시 행정부의 다른 부문을 연결하는 연락 업무를 맡았다.",
+   "description_en": "Rear Admiral John Godfrey took him as personal assistant. He entered the Admiralty as an RNVR lieutenant. His job was to link Naval Intelligence with the rest of the wartime government.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1942,
+   "year_end": null,
+   "kind": "work",
+   "title": "문서 탈취 특공대를 꾸리다",
+   "title_en": "Forms a document-seizing commando unit",
+   "description": "진격하는 부대보다 앞서 적 사령부의 문서와 암호를 빼내는 부대를 꾸렸다. 자신은 현장에 나가지 않고 후방에서 목표를 골랐다. 독일이 스페인을 점령하더라도 정보망을 유지하기 위한 골든아이 작전도 맡았다.",
+   "description_en": "He assembled a unit to seize enemy papers and codes ahead of the advancing line. He picked the targets from the rear and did not go into the field. He also ran Operation Goldeneye, a plan to keep an intelligence net alive if Germany took Spain.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1945,
+   "year_end": null,
+   "kind": "work",
+   "title": "신문그룹의 해외 업무를 맡다",
+   "title_en": "Takes over a Sunday paper foreign desk",
+   "description": "제대 뒤 켐즐리 신문그룹의 해외 업무 책임자가 되었다. 특파원망을 지휘했고, 계약에는 매년 겨울 석 달 동안 쉴 수 있다는 조건이 들어 있었다.",
+   "description_en": "After demobilisation he became foreign manager for the Kemsley newspapers. He ran the correspondent network, and his contract gave him three months off each winter.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1946,
+   "year_end": null,
+   "kind": "other",
+   "title": "해안에 집을 짓다",
+   "title_en": "Builds a house on the coast",
+   "description": "전시 임무 중 보았던 바나나 수출항의 해안에 땅을 샀다. 전시 작전의 이름을 따서 집을 골든아이라고 불렀다. 이후 해마다 겨울을 그곳에서 보냈다.",
+   "description_en": "He bought land on a banana-port shore he had seen on wartime duty. He named the house Goldeneye after a wartime operation. He spent every winter there afterwards.",
+   "place_name": "오라카베사",
+   "place_name_en": "Oracabessa",
+   "lat": 18.404722222222222,
+   "lng": -76.9475
+  },
+  {
+   "year": 1952,
+   "year_end": null,
+   "kind": "other",
+   "title": "앤 차터리스와 결혼하다",
+   "title_en": "Marries Ann Charteris",
+   "description": "두 사람은 오랫동안 함께해 왔고, 앤은 전 남편과 막 이혼한 뒤였다. 결혼식을 올리기 전 겨울, 그는 골든아이에서 첩보 장편소설을 쓰기 시작했다. 그해 여름 아들 캐스퍼가 태어났다.",
+   "description_en": "They had been together for years, and she had just divorced her husband. The winter before the wedding he began a spy novel at Goldeneye. Their son Caspar was born that summer.",
+   "place_name": "포트마리아",
+   "place_name_en": "Port Maria",
+   "lat": 18.370277777778,
+   "lng": -76.890277777778
+  },
+  {
+   "year": 1953,
+   "year_end": null,
+   "kind": "publish",
+   "title": "첫 첩보 장편을 내다",
+   "title_en": "Publishes the first spy novel",
+   "description": "소련 은행의 자금을 바닥내기 위해 카지노에 들어간 요원을 그렸다. 요원의 암호명은 007이었다. 초판은 한 달도 되지 않아 매진되었다.",
+   "description_en": "He sent an agent into a casino to break a Soviet bank. The code number was 007. The first printing sold out within a month.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1962,
+   "year_end": null,
+   "kind": "work",
+   "title": "첩보원이 영화에 등장하다",
+   "title_en": "The agent reaches the screen",
+   "description": "책은 이미 팔리고 있었고, 미국 대통령이 그중 한 권을 애독서 목록에 올리자 판매량이 더욱 뛰었다. 그 전해 그는 신문사 회의 도중 심장마비로 쓰러졌다. 영화화가 시작되자 그의 첩보원은 영국 밖에서도 더 빠르게 알려졌다.",
+   "description_en": "The books were already selling, and sales jumped further after a US president put one on a favourite-books list. The year before, he had collapsed with a heart attack at a newspaper meeting. Once the films began, the agent travelled faster outside Britain.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1964,
+   "year_end": null,
+   "kind": "death",
+   "title": "심장마비로 죽다",
+   "title_en": "Dies of a heart attack",
+   "description": "켄트 골프장에서 점심을 먹고 돌아온 뒤 쓰러졌다. 이튿날 새벽 병원에서 쉰여섯에 죽었다. 그날은 아들의 열두 번째 생일이었다.",
+   "description_en": "He collapsed after lunch at a Kent golf club. He died before dawn in hospital, aged fifty-six. It was his son's twelfth birthday.",
+   "place_name": "캔터베리",
+   "place_name_en": "Canterbury",
+   "lat": 51.278333333333,
+   "lng": 1.0775
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미와 세부 사항은 그대로 보존하면서, 직역 때문에 주어·행동 관계가 불분명하거나 한국어답지 않았던 표현을 고쳤다. 특히 해군정보부 근무, 골든아이 작전, 자메이카 해안의 집, 첫 소설의 줄거리, 영화화 과정이 생애의 흐름 속에서 자연스럽게 이어지도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「헨리 지역 의원 발렌타인」은 이름과 직책의 관계가 불분명하고, 「타임스」도 신문 이름임을 분명하게 나타낼 필요가 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「육상에서 버텼다」와 「학교 경기 우승」은 무엇을 잘했고 어떤 우승을 했는지 뜻을 짐작해야 하는 직역이었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「합격선만 넘긴 채 자리가 나지 않았다」는 시험 합격과 임용 실패의 관계를 부자연스럽게 표현했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「모스크바 특파를 받았다」는 파견 행위를 명사처럼 옮긴 부자연스러운 표현이었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「기사를 보냈다」만으로는 통신사 기자가 마감에 맞춰 기사를 송고했다는 행동이 선명하지 않았고, 「증권가」는 영문의 City보다 의미가 좁았다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「해군 정보부 보좌」는 누구를 보좌했는지 불분명하고, 「해군성 방에 앉았다」는 직역으로 인해 계급과 근무 관계가 무너졌다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "기존 국문은 골든아이 작전이 독일의 스페인 점령에 대비해 정보망을 유지하려는 계획이었다는 영문의 세부를 빠뜨렸다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「일요신문 해외망」은 켐즐리 신문그룹의 해외 업무를 맡았다는 내용보다 범위가 좁고, 「해외 담당이 되었다」도 직책의 성격이 충분히 드러나지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「바나나 항구 땅」은 명사들을 순서대로 치환해 장소의 관계가 불분명한 직역이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아들 캐스퍼를 보았다」는 출생을 부자연스럽게 표현해 사건의 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소련 자금을 터는」과 「초판이 떨어졌다」는 각각 소설 속 목표와 초판 매진을 불명확하게 옮긴 표현이었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「영화로 나가다」와 「화면이 붙자」는 영화화를 기계적으로 옮긴 직역이며, 「요원이 영국 밖으로 퍼졌다」도 작품과 인물의 해외 확산 관계가 불분명했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

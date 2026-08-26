@@ -1,0 +1,268 @@
+{
+ "slug": "andrew-lincoln",
+ "events": [
+  {
+   "year": 1973,
+   "year_end": null,
+   "kind": "birth",
+   "title": "런던에서 태어나다",
+   "title_en": "Is born in London",
+   "description": "본명은 앤드루 제임스 클러터벅이다. 어머니는 남아프리카 출신의 정신과 간호사였다. 자신보다 열여덟 달 먼저 태어난 형이 있었다. 아버지의 일자리 때문에 가족은 헐로 이사했다.",
+   "description_en": "His birth name is Andrew James Clutterbuck. His mother was a psychiatric nurse from South Africa. He had a brother eighteen months older. The family moved to Hull for his father’s work.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 배스로 옮기다",
+   "title_en": "Family moves to Bath",
+   "description": "당시 그는 여덟 살이나 아홉 살이었다. 아버지는 가족을 배스에 정착시킨 뒤 랭커스터에서 일하며 오랫동안 집을 비우곤 했다.",
+   "description_en": "He was eight or nine. After his father settled the family there, the work took him to Lancaster and left the house empty for long stretches.",
+   "place_name": "배스",
+   "place_name_en": "Bath",
+   "lat": 51.381388888888885,
+   "lng": -2.359722222222222
+  },
+  {
+   "year": 1987,
+   "year_end": null,
+   "kind": "education",
+   "title": "학교 공연 《올리버!》에서 아트풀 도저를 맡다",
+   "title_en": "Plays the Artful Dodger in a school Oliver!",
+   "description": "스크라인이라는 교사가 그를 럭비장에서 불러냈다. 그는 열네 살에 처음 무대에 섰다. 그해 여름을 국립청소년극단에서 보낸 뒤 수의사가 되려던 막연한 계획을 접었다.",
+   "description_en": "A teacher named Scrine pulled him off the rugby pitch. He first stood on a stage at fourteen. A summer with the National Youth Theatre ended a vague plan to become a vet.",
+   "place_name": "배스",
+   "place_name_en": "Bath",
+   "lat": 51.381388888888885,
+   "lng": -2.359722222222222
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "education",
+   "title": "왕립연극학교를 마치다",
+   "title_en": "Graduates from RADA",
+   "description": "아버지는 연극학교 다섯 곳 이상에서 입학 제안을 받아야 보내 주겠다고 했다. 그는 그 조건을 채워 입학했다. 학비는 조리 보조와 바텐더로 일하고 아버지의 배기관 공장에서 일해 마련했다. 배우로 활동할 때 쓸 성은 링컨으로 바꿨다. 채널4 시트콤의 「출생과 죽음」 편에서 테리 역으로 텔레비전에 처음 출연했다.",
+   "description_en": "His father would send him only if five or more drama schools offered a place. He met that bar and enrolled. He paid his way as a commis chef, a barman, and in his father’s exhaust factory. He took Lincoln as a stage name. He first appeared on television as Terry in the Channel 4 sitcom episode Births and Deaths.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1996,
+   "year_end": 1997,
+   "kind": "work",
+   "title": "디스 라이프에서 에그를 맡다",
+   "title_en": "Plays Egg in This Life",
+   "description": "젊은 법률가들이 한집에 사는 BBC 드라마였다. 그는 배역을 맡았다는 소식을 듣고 환호했다. 극중 에그는 법률가 일을 그만두고 요리를 시작했다.",
+   "description_en": "It was a BBC drama about young lawyers sharing a house. He whooped when the part came through. On screen he quit the law and cooked.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2001,
+   "year_end": 2003,
+   "kind": "work",
+   "title": "티처스에서 교사를 연기하고 연출하다",
+   "title_en": "Stars in and directs Teachers",
+   "description": "채널4 작품에서 수습 교사 사이먼 케이시를 맡았다. 세 번째 시즌의 에피소드 두 편을 연출했다. 이 연출로 이듬해 영국아카데미상 신인 연출 부문 후보에 올랐다. 촬영 현장에서 러너로 일하던 게일 앤더슨도 만났다.",
+   "description_en": "On Channel 4 he played probationary teacher Simon Casey. He directed two episodes of the third series. That work put him on the next year’s BAFTA ballot for Best New Director. On set he met Gael Anderson, who was working as a runner.",
+   "place_name": "브리스틀",
+   "place_name_en": "Bristol",
+   "lat": 51.45361111111111,
+   "lng": -2.5975
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "러브 액츄얼리에서 마크를 맡다",
+   "title_en": "Plays Mark in Love Actually",
+   "description": "마크는 친구의 신부를 사랑하는 남자였다. 큐 카드로 마음을 알리는 장면은 사람들의 기억에 남았다. 영국 밖의 관객들은 이 역할을 통해 그를 처음 보았다.",
+   "description_en": "He was the man who wanted his friend’s bride. The cue-card scene stayed with people. Audiences outside Britain first saw him in that part.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 2005,
+   "year_end": 2006,
+   "kind": "work",
+   "title": "애프터라이프에서 심리학 강사를 맡다",
+   "title_en": "Plays a psychology lecturer in Afterlife",
+   "description": "ITV 작품에서 회의적인 심리학 강사 로버트 브리지를 연기했다. 이야기는 그가 자란 배스와 이웃한 브리스틀을 배경으로 했다. 촬영 중에는 부모의 집에 묵기도 했다.",
+   "description_en": "On ITV he played the sceptical Robert Bridge. The story was set in the city next to the one where he grew up. During the shoot he stayed at his parents’ house.",
+   "place_name": "브리스틀",
+   "place_name_en": "Bristol",
+   "lat": 51.45361111111111,
+   "lng": -2.5975
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "other",
+   "title": "게일 앤더슨과 결혼하다",
+   "title_en": "Marries Gael Anderson",
+   "description": "게일 앤더슨은 제스로 툴의 이언 앤더슨의 딸이다. 두 사람은 앤드루 링컨이 「티처스」를 연출하던 촬영 현장에서 만났다. 두 아이를 두었고 영국에 계속 집을 두었다.",
+   "description_en": "She is the daughter of Jethro Tull’s Ian Anderson. They met on the Teachers set while he was directing. They had two children and kept their home in England.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2010,
+   "year_end": null,
+   "kind": "work",
+   "title": "워킹 데드의 릭 그라임스를 맡다",
+   "title_en": "Takes the role of Rick Grimes in The Walking Dead",
+   "description": "AMC는 프랭크 다라본트가 연출한 좀비 드라마의 주인공으로 그를 선택했다. 그가 맡은 릭 그라임스는 혼수상태에서 깨어나 생존자들을 이끄는 보안관보였다. 촬영은 애틀랜타에서 시작됐고 첫 회는 핼러윈에 방송됐다.",
+   "description_en": "AMC chose him as the lead of Frank Darabont’s zombie drama. A sheriff’s deputy wakes from a coma and leads a group of survivors. Shooting began in that city, and the first episode went out on Halloween.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "정규 출연을 마치고 영국으로 돌아가다",
+   "title_en": "Ends his regular run and returns to England",
+   "description": "아홉 시즌 동안 그는 해마다 절반이 넘는 시간을 조지아에서 보냈다. 아이들을 더는 쉽게 데리고 오갈 수 없었다. 11월 방영분에서 릭은 이야기의 중심에서 떠났다.",
+   "description_en": "Nine seasons kept him in Georgia for more than half of each year. The children were no longer easy to move. In a November episode Rick left the show’s centre.",
+   "place_name": "세노이아",
+   "place_name_en": "Senoia",
+   "lat": 33.3019,
+   "lng": -84.5533
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "더 원스 후 리브로 릭을 다시 맡다",
+   "title_en": "Returns as Rick in The Ones Who Live",
+   "description": "영화 3부작으로 만들려던 계획은 대유행으로 미뤄진 뒤 여섯 시간짜리 시리즈로 바뀌었다. 그는 다나이 구리라와 함께 이 시리즈를 만들고 출연했다. 릭과 미숀이 서로 떨어지게 된 뒤의 이야기를 다룬다. 첫 회는 2월에 방송됐다.",
+   "description_en": "A planned trilogy of films was delayed by the pandemic and became a six-hour series. He created and starred in it with Danai Gurira. It follows Rick and Michonne after they were pulled apart. The first episode went out in February.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 의미의 상한선으로 삼아 전체 연표를 대조한 결과, 대상을 알 수 없는 지시어와 직역투, 어색한 배역 표현, 앞뒤 사건의 연결을 끊는 문장을 바로잡았다. 사실 확인이 필요한 불일치는 없었으며, 자연스러운 제목과 서술은 그대로 두었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「열여덟 달 위 형」은 한국어 어순이 어색하고, 「아버지가 일자리를 따라 가족이」는 문장의 주어와 행동 관계가 무너져 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「여덟아홉 살」과 「그곳을 집으로 정한 뒤」가 지나치게 압축되어 있었고, 아버지가 가족을 배스에 정착시킨 뒤 일 때문에 집을 비웠다는 관계가 분명하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「올리버의 도저」만으로는 작품과 배역의 관계가 분명하지 않았다. 「럭비장에서 끌어냈다」와 「그 여름 국립청소년극단에서 보내고」도 영어 표현을 그대로 옮긴 듯 어색했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "아버지가 제시한 입학 조건이 누구에게 적용되는지 흐렸고, 「보조 요리와 바 일」과 「배기관 일」은 직업과 행동을 자연스러운 한국어로 나타내지 못했다. 텔레비전 첫 출연이라는 의미도 빠져 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「캐스팅 소식을 듣고 소리를 질렀다」는 whooped의 뜻을 부자연스럽게 옮겼고, 「법률 일을 그만두고 요리를 했다」는 극중 인물의 행동 변화를 충분히 분명하게 전달하지 못했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시즌 3의 에피소드」와 「그 연출로」가 다소 번역투였고, 촬영 현장의 runner가 무슨 일을 하는 사람인지 한국어 문장만으로 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「친구의 신부를 향한 남자」는 목적어와 행동의 관계가 빠져 뜻을 짐작해야 했고, 「장면이 남았다」도 무엇에 남았다는 것인지 불분명했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「배스 옆 도시」라고만 써서 해당 사건의 장소인 브리스틀을 본문만으로 바로 알 수 없었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에 주어가 없어 누가 이언 앤더슨의 딸인지 앞 제목에 의존해야 했고, 부부의 만남과 가족에 관한 문장도 주어가 생략되어 연결이 매끄럽지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 도시」는 앞 문장에 도시가 나오지 않아 애틀랜타를 가리킨다는 사실을 본문만으로 알 수 없었다. 「보안관 조수」와 「첫 회가 나갔다」도 각각 배역과 방송을 나타내는 표현으로 어색했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「정규 출연을 접고」와 「조지아에 묶여 있었다」는 부자연스럽거나 원문보다 강한 표현이었다. 아이들을 더는 쉽게 이동시킬 수 없었다는 의미와 11월 방영분에서 릭이 이야기의 중심을 떠났다는 내용도 직역투로 서술되어 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「극장용 세 편 계획」은 영화 3부작을 뜻하는 표현으로 부자연스러웠고, 「함께 만들고 출연했다」와 「떨어진 뒤의 이야기」는 공동 제작·출연과 두 인물의 분리 관계를 모호하게 전달했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

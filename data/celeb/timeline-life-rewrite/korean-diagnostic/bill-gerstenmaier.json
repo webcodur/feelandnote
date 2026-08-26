@@ -1,0 +1,262 @@
+{
+ "slug": "bill-gerstenmaier",
+ "events": [
+  {
+   "year": 1954,
+   "year_end": null,
+   "kind": "birth",
+   "title": "오하이오 애크런에서 태어나다",
+   "title_en": "Born in Akron, Ohio",
+   "description": "아버지 하워드는 파이어스톤 타이어의 기술자였고, 어머니 이블린은 회계사였다. 세 살 무렵 이웃들과 밖으로 나가 스푸트니크가 집 위를 지나가는 모습을 봤다. 물건을 분해하고 제미니 모형을 만들며 머큐리·제미니·아폴로 계획의 진행을 지켜봤다.",
+   "description_en": "His father, Howard, was a technician at Firestone Tire and Rubber, and his mother, Evelyn, was an accountant. Around age three he went outside with the neighbors to watch Sputnik pass over the house. He took things apart, built a Gemini model, and followed Mercury, Gemini, and Apollo.",
+   "place_name": "애크런",
+   "place_name_en": "Akron",
+   "lat": 41.073055555556,
+   "lng": -81.517777777778
+  },
+  {
+   "year": 1973,
+   "year_end": 1975,
+   "kind": "education",
+   "title": "시험비행사를 꿈꾸며 해군사관학교에 들어가다",
+   "title_en": "Enters the Naval Academy to become a test pilot",
+   "description": "애크런 이스트 고등학교를 마치고 아나폴리스로 갔다. 베트남에서 돌아온 조종사가 많아 비행 기회가 없을 거라 판단했다. 항공우주를 배우려고 퍼듀로 옮겼다.",
+   "description_en": "After Akron East High School he went to Annapolis. So many pilots were coming back from Vietnam that he judged he would not get a chance to fly. He transferred to Purdue to study aeronautics and astronautics.",
+   "place_name": "아나폴리스",
+   "place_name_en": "Annapolis",
+   "lat": 38.978611111111114,
+   "lng": -76.49194444444444
+  },
+  {
+   "year": 1977,
+   "year_end": null,
+   "kind": "work",
+   "title": "퍼듀를 졸업하고 나사 풍동에서 일하다",
+   "title_en": "Leaves Purdue for NASA wind tunnels",
+   "description": "항공공학 학사를 받은 해에 루이스 연구센터로 갔다. 초음속 풍동에서 왕복선 재진입용 대기자료 탐침의 교정 곡선을 만들었다. 해석 결과를 실측값과 맞추는 일은 그의 적성에 맞았다.",
+   "description_en": "The year he earned a bachelor's in aeronautical engineering, he went to Lewis Research Center. In the supersonic wind tunnels he built the calibration curves for the shuttle's entry air-data probes. Matching analysis to physical tests suited him.",
+   "place_name": "클리블랜드",
+   "place_name_en": "Cleveland",
+   "lat": 41.49916666666667,
+   "lng": -81.69472222222223
+  },
+  {
+   "year": 1980,
+   "year_end": 1985,
+   "kind": "work",
+   "title": "휴스턴에서 왕복선 추진 관제를 맡다",
+   "title_en": "Takes shuttle propulsion in Houston",
+   "description": "운용 업무를 몇 해만 경험한 뒤 연구로 돌아갈 생각이었다. 미션 관제에서 왕복선 추진제와 그 밖의 소모품을 감시했다. 톨레도대학교에서 기계공학 석사과정을 마쳤고, 클리어레이크에서 조깅하다 만난 우주복 기술자 마샤 앤 존슨과 결혼했다.",
+   "description_en": "He meant to look at operations for a couple of years and go back to research. In Mission Control he watched shuttle propellants and other consumables. He finished a mechanical-engineering master's from the University of Toledo and married Marsha Ann Johnson, a spacesuit engineer he met while jogging in Clear Lake.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777778,
+   "lng": -95.383055555556
+  },
+  {
+   "year": 1988,
+   "year_end": 1992,
+   "kind": "office",
+   "title": "궤도기동비행체 운용을 맡다",
+   "title_en": "Heads Orbital Maneuvering Vehicle operations",
+   "description": "관제 콘솔을 떠나 처음으로 관리직을 맡았다. 이어 왕복선과 우주정거장 프리덤의 조립 운용을 지휘했다.",
+   "description_en": "He left the console for his first management post. He then directed assembly operations for the shuttle and Space Station Freedom.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777778,
+   "lng": -95.383055555556
+  },
+  {
+   "year": 1992,
+   "year_end": 1994,
+   "kind": "education",
+   "title": "나사 펠로십으로 퍼듀 박사과정에 돌아가다",
+   "title_en": "Returns to Purdue on a NASA fellowship",
+   "description": "동역학과 제어를 공부하고 추진공학을 부전공으로 택했다. 수업과 자격시험까지는 마쳤으나 학위를 받지 않고 나사로 돌아갔다.",
+   "description_en": "He took dynamics and control, with a minor in propulsion. He finished the coursework and qualifiers but went back to NASA without the doctorate.",
+   "place_name": "웨스트 라피엣",
+   "place_name_en": "West Lafayette",
+   "lat": 40.441944444444,
+   "lng": -86.9125
+  },
+  {
+   "year": 1995,
+   "year_end": 1997,
+   "kind": "office",
+   "title": "러시아에서 셔틀-미르 운용을 조정하다",
+   "title_en": "Coordinates Shuttle-Mir operations in Russia",
+   "description": "러시아 우주국과 운용 절차를 조율하는 창구였다. 이듬해 상반기에는 러시아에 머물며 섀넌 루시드의 미르 장기 체류를 지원했다.",
+   "description_en": "He was the operations liaison to the Russian space agency. For the first half of the next year he stayed in Russia to support Shannon Lucid's long tour on Mir.",
+   "place_name": "모스크바",
+   "place_name_en": "Moscow",
+   "lat": 55.75055555555556,
+   "lng": 37.6175
+  },
+  {
+   "year": 2002,
+   "year_end": 2005,
+   "kind": "office",
+   "title": "국제우주정거장 프로그램 책임자가 되다",
+   "title_en": "Becomes ISS program manager",
+   "description": "왕복선 프로그램 통합을 맡은 뒤 국제우주정거장 부책임자를 거쳐 프로그램 책임자가 됐다. 상주 승무원이 이미 정거장에 들어가 있었고, 미국 궤도 구간은 한창 조립 중이었다. 컬럼비아호 사고 뒤 왕복선 운항이 중단되자 소유즈를 이용해 정거장 운영을 이어 갔다.",
+   "description_en": "After managing shuttle-program integration he became deputy ISS manager, then program manager. Resident crews were already aboard, and the U.S. orbital segment was still being assembled. After Columbia the shuttle stopped, and he kept the station flying with Soyuz.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777778,
+   "lng": -95.383055555556
+  },
+  {
+   "year": 2005,
+   "year_end": 2011,
+   "kind": "office",
+   "title": "나사 우주운용 부문을 이끌다",
+   "title_en": "Takes over NASA space operations",
+   "description": "마이클 그리핀 국장이 그를 본부 우주운용 부국장으로 임명했다. 마지막 21차례의 왕복선 비행을 지휘하고 정거장 조립을 마쳤다. 왕복선 퇴역이 다가오자 스페이스엑스와 오비탈에 국제우주정거장 화물 운송 계약을 맡겼다.",
+   "description_en": "Administrator Michael Griffin named him associate administrator for space operations at headquarters. He directed the last 21 shuttle flights and the completion of station assembly. With shuttle retirement coming, he awarded station cargo contracts to SpaceX and Orbital.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2011,
+   "year_end": 2019,
+   "kind": "office",
+   "title": "통합된 유인탐사·운용 조직을 이끌다",
+   "title_en": "Heads the merged human exploration directorate",
+   "description": "찰스 볼든 국장 아래에서 탐사국과 운용국이 통합되자 그 조직의 책임자를 맡았다. 국제우주정거장과 상업 화물·승무원 수송, 오리온과 우주발사체계가 한 포트폴리오에 놓였다. 보잉만 선정하라는 로비에 맞서 상업 승무원 계약을 두 업체에 맡기는 방식을 유지했다.",
+   "description_en": "Under Administrator Charles Bolden the exploration and operations directorates merged, and he took the combined post. The station, commercial cargo and crew, Orion, and the Space Launch System sat in one portfolio. He resisted a Boeing-only lobby and kept commercial crew as a two-provider award.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "office",
+   "title": "유인탐사 책임자에서 특별보좌관으로 옮겨지다",
+   "title_en": "Reassigned from human exploration leadership",
+   "description": "짐 브라이든스틴 국장은 그를 특별보좌관으로 옮겼다. 2024년까지 달에 가려면 새로운 리더십이 필요하다고 했다. 그해 12월 나사를 떠났다.",
+   "description_en": "Administrator Jim Bridenstine moved him to a special-advisor post. He said new leadership was needed to reach the Moon by 2024. In December he left NASA.",
+   "place_name": "워싱턴 D.C.",
+   "place_name_en": "Washington, D.C.",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "스페이스엑스의 신뢰성 조직에 합류하다",
+   "title_en": "Joins SpaceX reliability",
+   "description": "한스 쾨닉스만 아래에서 컨설턴트로 일하기 위해 호손 본사에 합류했다. 나사의 첫 상업 승무원 발사가 몇 달 앞으로 다가온 시점이었다. 이듬해 쾨닉스만이 물러나자 제작 및 비행 신뢰성 담당 부사장직을 넘겨받았다.",
+   "description_en": "He started at the Hawthorne headquarters as a consultant under Hans Koenigsmann. NASA's first commercial crew launch was months away. When Koenigsmann stepped down the next year, he took over as vice president of build and flight reliability.",
+   "place_name": "호손",
+   "place_name_en": "Hawthorne",
+   "lat": 33.917214,
+   "lng": -118.348607
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "영문을 순서대로 옮긴 듯한 표현과 행위 주체가 어긋난 제목을 바로잡고, 사건들이 생애의 흐름을 따라 자연스럽게 이어지도록 다듬었다. 다만 index 10의 영문에서 새로운 리더십이 필요하다고 말한 사람이 누구인지는 대명사만으로 확정할 수 없어 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「집 위를 지나가는 스푸트니크를 봤다」와 「머큐리·제미니·아폴로를 따라갔다」가 영어 표현을 그대로 옮긴 듯해, 무엇을 어떻게 보거나 따라갔는지가 자연스럽게 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「나사 풍동에 들어가다」는 취업과 업무 시작을 어색하게 표현했고, 「해석과 실측을 맞추는 일이 맞았다」는 무엇이 누구에게 맞았다는 뜻인지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「운용을 몇 해만 보고」와 「석사를 이었고」가 부자연스러웠다. 특히 후자는 석사과정을 마쳤다는 영문의 행동 관계를 제대로 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「궤도기동비행체 운용실」은 영문의 operations를 특정한 방이나 조직으로 좁혔고, 「관리 자리에 앉았다」는 첫 관리직을 맡았다는 사실을 불필요하게 비유했다. Space Station Freedom도 통용되는 고유명에 맞게 정리할 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「추진을 부전공으로 달았다」는 영어 문장 구조를 그대로 옮긴 표현으로, 부전공을 선택했다는 뜻이 자연스럽게 전달되지 않았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「컬럼비아호가 떨어진 뒤」는 우주왕복선 사고를 지나치게 구어적이고 모호하게 표현했고, 「왕복선이 멈추자」도 운항 중단의 의미가 분명하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「조직을 맡다」는 직책의 범위가 흐릿했고, 「남은 왕복선 21회를 보내고」와 「화물 계약을 줬다」는 각각 비행 지휘와 계약 체결을 부자연스럽게 표현했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「한 조직으로 합치다」는 조직을 통합한 주체가 그였다는 뜻이 되지만, 영문은 통합된 조직의 책임자가 되었다고만 말한다. 「그 자리를 이어받았다」도 앞 문장만으로는 어떤 자리를 가리키는지 분명하지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「물러나다」는 자발적인 사임으로 읽힐 수 있지만 영문은 특별보좌관으로 재배치되었다고 말한다. 「달을 2024년까지 가려면」도 한국어 목적어와 부사어의 관계가 어색했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「신뢰성 조직에 들어가다」는 합류의 의미가 다소 거칠고, 「제작·비행 신뢰성 부사장을 이어받았다」는 직책과 인계받은 행동의 관계가 자연스럽지 않았다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 10,
+    "reason": "영문의 「He said new leadership was needed」에서 He가 짐 브라이든스틴을 가리키는지 빌 거스텐마이어를 가리키는지 두 남성 인물이 모두 선행해 문장만으로 확정하기 어렵다. 국문에서도 발언자를 특정하려면 사실 확인이 필요하다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

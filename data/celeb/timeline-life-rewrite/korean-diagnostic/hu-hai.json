@@ -1,0 +1,241 @@
+{
+ "slug": "hu-hai",
+ "events": [
+  {
+   "year": -229,
+   "year_end": null,
+   "kind": "birth",
+   "title": "시황제의 막내아들로 태어나다",
+   "title_en": "Born the First Emperor’s youngest son",
+   "description": "시황제에게는 황자가 스무 명 넘게 있었다. 맏아들 부소는 선비들을 형벌과 법으로 다스리는 일에 반대해 간언했다가 상군으로 보내져 몽염의 군대를 감독했다. 《사기》 「진시황본기」는 이세황제 원년 당시 호해가 스물한 살이었다고 기록하지만, 같은 책 「진본기」는 열두 살에 즉위했다고 적었다. 호해의 어머니와 출생지는 전하지 않는다.",
+   "description_en": "There were more than twenty princes. The eldest, Fusu, remonstrated against ruling the scholars by penal law and was sent to Shangjun to supervise Meng Tian. The Annals of Qin Shi Huang give his age as twenty-one in the first year of the Second Emperor; the Qin Annals in the same book say he took the throne at twelve. His mother and birthplace are not recorded.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "조고에게 글과 옥률을 배우다",
+   "title_en": "Learns writing and the penal statutes from Zhao Gao",
+   "description": "중거부령은 부절과 인장을 맡는 관직이었다. 《사기》는 중거부령 조고가 호해에게 글과 옥률·법령을 가르쳤고, 호해도 그를 가까이했다고 전한다. 훗날 선제의 봉서도 조고의 손에 들어갔다.",
+   "description_en": "The prefect of the palace carriages kept the tallies and the seals. Shiji says Zhao Gao taught him writing and the penal statutes, and that the prince kept him close. The late emperor’s sealed edict later sat in that hand.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "travel",
+   "title": "다섯 번째 순행에 따라나서다",
+   "title_en": "Joins the fifth imperial tour",
+   "description": "시황제가 허락했다. 좌승상 이사가 따르고 우승상 거질은 도성을 지켰다. 운몽에서 구의산을 바라보고 회계에 올라 우를 제사했다. 평원진에서 황제가 병들었다.",
+   "description_en": "The First Emperor allowed it. Chancellor Li Si came along; the right chancellor, Feng Quji, stayed to hold the capital. They looked toward Mount Jiuyi from Yunmeng and sacrificed to Yu on Kuaiji. At Pingyuan Ford the emperor fell ill.",
+   "place_name": "사구",
+   "place_name_en": "Shaqiu",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "other",
+   "title": "사구에서 유서가 바뀌다",
+   "title_en": "The testament is altered at Shaqiu",
+   "description": "칠월 병인에 황제가 평대에서 죽었다. 맏아들 부소에게 함양으로 와 장례를 치르라고 명한 봉서는 조고의 손에 있었다. 황제의 죽음을 아는 사람은 호해와 조고·이사, 측근 환관 대여섯뿐이었다. 《사기》는 조고가 호해를 설득하고 이사와 짜서 호해를 태자로 세운 뒤 부소와 몽염에게 죄를 씌워 죽게 했다고 전한다. 출토 죽간 《조정서》는 호해가 형을 죽였다고 달리 전한다. 더위에 시신에서 냄새가 나자 수레 행렬에 절인 생선 한 석을 실었다.",
+   "description_en": "On the bingyin day of the seventh month the emperor died at the Pingtai terrace. The sealed order telling the eldest son to come to Xianyang for the burial sat in Zhao Gao’s hand. Only the prince, Zhao Gao, Li Si, and five or six trusted eunuchs knew. Shiji says Zhao Gao talked the prince round, enlisted Li Si, named him heir, and framed Fusu and Meng Tian for death. The excavated Zhao Zheng Shu instead says the prince killed his brother. In the heat the corpse stank, so they loaded a shi of salted fish onto the train.",
+   "place_name": "사구",
+   "place_name_en": "Shaqiu",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -210,
+   "year_end": null,
+   "kind": "office",
+   "title": "이세황제에 오르다",
+   "title_en": "Takes the throne as Second Emperor",
+   "description": "일행은 직도를 따라 돌아와 황제의 죽음을 알렸다. 구월에 선제를 여산에 묻었다. 자식이 없는 후궁들에게 선제를 따라 죽게 해 많은 이가 목숨을 잃었고, 장인들도 무덤 통로 안에 가두었다.",
+   "description_en": "They came back by the straight road and announced the mourning. In the ninth month they buried the late emperor at Lishan. Childless consorts were sent to follow him in death, and many died. The artisans were sealed inside the tomb passages.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -209,
+   "year_end": null,
+   "kind": "other",
+   "title": "형제와 대신을 베다",
+   "title_en": "Cuts down brothers and ministers",
+   "description": "조고와 함께 군현의 관리들에게 죄를 씌웠다. 황자 여섯이 두에서 죽었다. 장려와 두 아우는 내궁에서 하늘을 세 번 부른 뒤 칼로 자결했다. 「이사열전」은 황자 고가 먼저 죽여 달라고 청해 집안을 살렸다고 전한다. 종실은 두려움에 떨었고, 간언하는 사람은 비방한 자로 다스렸다.",
+   "description_en": "With Zhao Gao he charged the commandery and county officers with crimes. Six princes were killed at Du. Jianglu and his two brothers called on Heaven three times in the inner palace and fell on their swords. The biography of Li Si says Prince Gao asked to die first and so spared his household. The clan shook, and anyone who remonstrated was treated as a slanderer.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -209,
+   "year_end": null,
+   "kind": "other",
+   "title": "아방궁 공사를 재개하다",
+   "title_en": "Restarts work on Epang Palace",
+   "description": "여산 공사가 끝난 뒤에도 선제의 사업을 버렸다는 말을 듣지 않으려고 아방궁을 그대로 내버려 두지 않았다. 도성에 정예병 오만 명을 주둔시키고 개와 말을 훈련하게 했다. 도성 반경 삼백 리 안에서는 그 지역에서 난 곡식을 먹지 못하게 했다.",
+   "description_en": "Once Lishan was finished he would not leave Epang standing, lest it look as if he had dropped his father’s work. He stationed fifty thousand picked troops in the capital to train dogs and horses. Within three hundred li no one was allowed to eat the local grain.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -209,
+   "year_end": null,
+   "kind": "other",
+   "title": "대택의 봉기를 듣다",
+   "title_en": "Hears of the rising at Daze",
+   "description": "옛 초나라 땅에서 징발된 병사 진승과 오광이 정해진 기한을 넘긴 뒤 대택향에서 봉기했다. 진승은 작은아들이 제위에 오를 자격이 없다고 말했다. 뒤이어 온 사신들이 도적들이 붙잡히고 있다고만 보고하자 호해는 더 묻지 않았다.",
+   "description_en": "Chen Sheng and Wu Guang, conscripts from the old Chu lands, rose at Dazexiang after they missed their deadline. Chen Sheng said a younger son had no right to the throne. When later envoys reported only that the bandits were being caught, he asked no more.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -208,
+   "year_end": null,
+   "kind": "other",
+   "title": "이사를 저잣거리에서 허리째 베게 하다",
+   "title_en": "Has Li Si cut in half at the market",
+   "description": "우승상 풍거질과 장군 풍겁이 아방궁 공사를 중단하고 변방의 부역을 줄이라고 간언했다. 두 사람은 장수는 치욕을 당하지 않는다며 자결했다. 이사는 오형을 받은 뒤 저잣거리에서 허리가 잘렸다. 조고가 중승상에 올랐다.",
+   "description_en": "The right chancellor Feng Quji and the general Feng Jie asked him to halt Epang and ease the frontier corvée. The two killed themselves, saying a general must not be disgraced. Li Si suffered the five punishments and was cut in half at the waist in the market. The office of middle chancellor went to Zhao Gao.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -207,
+   "year_end": null,
+   "kind": "other",
+   "title": "조고가 사슴을 말이라 부르다",
+   "title_en": "Zhao Gao calls a deer a horse",
+   "description": "이세는 웃으며 승상이 사슴을 말이라고 부른다고 했다. 사슴이라고 답한 이들은 뒤에 법에 걸려 죽었다. 《사기》에 실린 이 장면은 한나라 때의 전승이다. 그해 왕리가 거록에서 사로잡혔고 장한은 항우에게 항복했다.",
+   "description_en": "The Second Emperor laughed and said the chancellor was calling a deer a horse. Those who said deer were later destroyed by the law. Shiji’s scene is a Han tradition. That year Wang Li was taken at Julu and Zhang Han surrendered to Xiang Yu.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  },
+  {
+   "year": -207,
+   "year_end": null,
+   "kind": "death",
+   "title": "망이궁에서 자결하다",
+   "title_en": "Kills himself at Wangyi Palace",
+   "description": "흰 호랑이가 수레 왼쪽의 끌말을 무는 꿈을 꾸고 경수에 제사하려고 망이궁으로 갔다. 함양령 염락이 군사를 이끌고 궁에 들어왔다. 호해는 군 하나를 다스리게 해 달라고 청한 뒤 만호후 자리를 달라고 했고, 마지막에는 처자와 함께 평민으로 살게 해 달라고 했다. 염락은 어느 청도 받아들이지 않았다. 호해는 스스로 목숨을 끊었고, 두현 남쪽의 의춘원에 평민 신분으로 묻혔다.",
+   "description_en": "He dreamed a white tiger bit the left trace-horse and went to Wangyi Palace to sacrifice to the Jing. Yan Le, magistrate of Xianyang, led troops in. He asked for a single commandery, then a marquisate of ten thousand households, then to live as a commoner with his wife and children. Yan Le would not take the words back. He was buried as a commoner in Yichun Park, south of Du.",
+   "place_name": "함양",
+   "place_name_en": "Xianyang",
+   "lat": 34.413889,
+   "lng": 108.857778
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 의미가 어긋나지 않는 범위에서 주어와 행동 관계가 흐릿한 문장, 뜻을 짐작해야 하는 한문투 표현, 사건 사이의 연결을 끊는 서술을 바로잡았다. 출전 사이의 나이·즉위 경위 차이는 원문이 제시한 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「막내」만으로는 아들이라는 정보가 빠지고, 「공자」·「생을 법으로 다스림」·「열둘에 섰다」 같은 표현은 현대 한국어만 읽어서는 사람과 행동을 바로 파악하기 어려웠다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "중거부령과 조고의 관계가 드러나지 않았고, 「봉서가 그 손에 머물렀다」는 표현도 다음 사건에서 조고가 봉서를 장악했다는 뜻을 지나치게 에둘러 말했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "무엇을 아는 사람들인지 대상이 생략되었고, 「공자」가 누구인지 불분명했다. 특히 「더위에 시신이 나자」는 시신에서 냄새가 났다는 영문의 의미를 전달하지 못했으며 절인 생선의 분량도 빠져 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「발상했다」와 「묘도」는 뜻을 짐작해야 하는 한문투 표현이어서 상을 알리고 장인들을 무덤 통로에 가둔 사건으로 풀어 썼다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「죄로 걸었다」·「칼을 들었다」·「종실이 떨고」·「간하는 자를 비방으로 보았다」는 처벌과 자결의 주체·행동이 선명하지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「공사를 다시 열다」는 직역투였고, 본문은 무엇을 그대로 두지 않으려 했는지 생략했다. 「재사」와 곡식 금지 조치도 현대 독자가 바로 이해할 수 있는 말로 고쳤다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「초 땅 수졸」과 「작은아들은 자리에 오를 수 없었다」가 인물의 신분과 제위를 둘러싼 발언을 불분명하게 전달했고, 뒤이어 온 사신들의 보고라는 시간 연결도 약했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「저자에서 허리를 자르다」는 장소와 처형 방식의 결합이 부자연스러웠다. 본문에는 풍거질의 성이 빠졌고, 「중승상은 조고에게 갔다」는 조고가 관직에 올랐다는 뜻을 짐작해야 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사슴이라 한 자는 법으로 걸려 죽었다」는 누가 어떤 답을 했다가 처벌받았는지 자연스럽게 읽히지 않았다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「왼쪽 곁말」·「한 군을 달라」·「두 남쪽 의춘원」은 각각 꿈속의 말, 행정구역을 달라는 청, 매장 장소의 관계를 알아보기 어려웠다. 호해가 청한 사람이고 염락이 이를 거절했다는 주어 관계도 분명히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

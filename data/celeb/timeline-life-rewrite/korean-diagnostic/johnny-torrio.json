@@ -1,0 +1,245 @@
+{
+ "slug": "johnny-torrio",
+ "events": [
+  {
+   "year": 1882,
+   "year_end": null,
+   "kind": "birth",
+   "title": "몬테펠로소에서 태어나다",
+   "title_en": "Born in Montepeloso",
+   "description": "본명은 도나토였다. 몬테펠로소는 뒤에 이르시나로 이름이 바뀌었다. 아버지 토마소는 철도에서 일했고, 어머니 마리아 카를루초는 풀리아의 알타무라 출신이었다.",
+   "description_en": "His birth name was Donato. The town later took the name Irsina. His father Tommaso worked on the railway, and his mother Maria Carluccio came from Altamura in Apulia.",
+   "place_name": "이르시나",
+   "place_name_en": "Irsina",
+   "lat": 40.75,
+   "lng": 16.233333333333
+  },
+  {
+   "year": 1884,
+   "year_end": null,
+   "kind": "travel",
+   "title": "어머니와 뉴욕으로 건너오다",
+   "title_en": "Crossed to New York with his mother",
+   "description": "두 살 때 아버지가 철도 사고로 죽었다. 어머니는 그를 데리고 로어이스트사이드에 자리를 잡았다. 어머니는 뒤에 식료품상 살바토레 카푸토와 다시 결혼했다.",
+   "description_en": "His father died in a railway accident when he was two. His mother settled with him on the Lower East Side. She later married the grocer Salvatore Caputo.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1904,
+   "year_end": null,
+   "kind": "work",
+   "title": "제임스 스트리트 패거리를 이끌다",
+   "title_en": "Led the James Street Boys",
+   "description": "짐꾼과 술집 문지기로 일을 시작했다. 같은 거리의 로베르토 바넬라와 패거리를 만들고 당구장을 열었다. 파이브 포인츠의 폴 켈리가 그를 끌어들였고, 그는 브루클린의 불법 사업까지 세력을 넓혔다. 켈리의 클럽에서 일하던 알 카포네는 그를 스승으로 여겼다.",
+   "description_en": "He started as a porter and saloon bouncer. With Robert Vanella from the same street he formed a gang and opened a billiard hall. Paul Kelly of the Five Points took him in, and he pushed into Brooklyn vice. Al Capone, working at Kelly's club, looked to him as a mentor.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1909,
+   "year_end": null,
+   "kind": "travel",
+   "title": "콜로시모의 부름으로 시카고에 가다",
+   "title_en": "Went to Chicago at Colosimo's call",
+   "description": "빅 짐 콜로시모는 사창가와 도박장으로 이루어진 사업망을 넓히고 있었다. 콜로시모는 뉴욕에서 그를 불러 업소망을 맡겼다. 두 사람이 친척이라는 말이 떠돌았으나 이를 뒷받침할 증거는 없다. 그는 부두목 자리까지 올랐다.",
+   "description_en": "Big Jim Colosimo was growing a chain of brothels and gambling houses. Colosimo called him from New York to run the vice houses. Talk of kinship circulated, but no evidence has held. He rose to underboss.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1919,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "카포네를 뉴욕에서 불러오다",
+   "title_en": "Brought Capone from New York",
+   "description": "금주법이 시행되기 직전이었다. 그는 브루클린에서 알던 알 카포네를 불러 와배시 애비뉴의 업소에서 문지기와 바텐더로 일하게 했다. 카포네는 그의 곁에 남았다.",
+   "description_en": "Prohibition was about to open. He sent for Al Capone, whom he knew from Brooklyn, and put him on the door and behind the bar at a Wabash Avenue house. Capone stayed at his side.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1920,
+   "year_end": null,
+   "kind": "office",
+   "title": "콜로시모가 죽은 뒤 조직을 잇다",
+   "title_en": "Took the outfit after Colosimo's death",
+   "description": "금주법이 시행되자 그는 밀주 사업을 벌이자고 했지만 콜로시모는 거절했다. 그해 봄 콜로시모는 자신의 카페에서 총에 맞아 죽었다. 아무도 기소되지 않았다. 그는 조직을 이어받아 밀주와 도박으로 세력을 키웠다.",
+   "description_en": "When Prohibition took effect he pushed for bootlegging, and Colosimo refused. That spring Colosimo was shot dead in his own cafe. No one was charged. He took the outfit and grew it through liquor and gambling.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1924,
+   "year_end": null,
+   "kind": "other",
+   "title": "지벤 양조장에서 오배니언에게 속다",
+   "title_en": "Was set up by O'Banion at Sieben brewery",
+   "description": "노스사이드의 딘 오배니언이 지분을 팔고 손을 떼겠다고 했다. 그는 대금을 치른 뒤 양조장으로 갔다. 그날 아침 경찰이 양조장을 급습했다. 이전에도 주류법 위반으로 유죄판결을 받은 적이 있던 그는 이번 혐의로 실형을 피하기 어려운 처지가 됐다.",
+   "description_en": "Dean O'Banion of the North Side said he would sell his share and walk away. He paid and went to the brewery. Police raided that morning. With a prior liquor conviction he faced a charge that meant jail.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1925,
+   "year_end": null,
+   "kind": "other",
+   "title": "저격당한 뒤 조직을 카포네에게 넘기다",
+   "title_en": "Handed the outfit to Capone after a shooting",
+   "description": "오배니언이 꽃가게에서 죽은 뒤, 하이미 와이스와 벅스 모란의 일당이 그와 아내 안나를 집 앞에서 기다렸다. 그는 여러 발의 총탄을 맞았지만 살아남았다. 와케건 감옥에서 아홉 달을 복역한 뒤 조직의 수장 자리를 알 카포네에게 넘겼다. 그는 어머니와 아내를 데리고 이탈리아로 떠났다.",
+   "description_en": "After O'Banion was killed in his flower shop, Hymie Weiss and Bugs Moran's side waited for him and his wife Anna outside their house. He took several bullets and lived. After nine months in the Waukegan jail he handed the seat to Al Capone. He left for Italy with his mother and wife.",
+   "place_name": "시카고",
+   "place_name_en": "Chicago",
+   "lat": 41.88194444444444,
+   "lng": -87.62777777777778
+  },
+  {
+   "year": 1928,
+   "year_end": null,
+   "kind": "travel",
+   "title": "뉴욕으로 돌아오다",
+   "title_en": "Returned to New York",
+   "description": "이탈리아에서 몇 해를 보낸 뒤 그는 뉴욕으로 돌아왔다. 시카고 조직의 수장 자리는 이미 카포네의 것이었다. 그는 부동산업에 종사했다.",
+   "description_en": "After several years in Italy he came back to New York. The Chicago seat already belonged to Capone. He dealt in real estate.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1939,
+   "year_end": null,
+   "kind": "other",
+   "title": "맨해튼 법정에서 탈세를 인정하다",
+   "title_en": "Pleaded guilty to tax evasion in Manhattan",
+   "description": "그는 소득세 포탈 혐의로 맨해튼 법정에 섰다. 재판 도중 유죄를 인정하고 2년 남짓 복역했다.",
+   "description_en": "He stood in a Manhattan courtroom on an income-tax charge. Mid-trial he pleaded guilty and served a little over two years.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "death",
+   "title": "브루클린에서 심장마비로 죽다",
+   "title_en": "Died of a heart attack in Brooklyn",
+   "description": "이발소 의자에 앉아 있다가 쓰러졌고, 몇 시간 뒤 인근 병원에서 숨졌다. 그의 사망 소식은 3주가 지나서야 신문에 보도됐다. 유해는 그린우드 묘지에 묻혔다.",
+   "description_en": "He collapsed in a barber's chair and died a few hours later in a nearby hospital. The newspapers learned of the death only three weeks later. He was buried at Green-Wood Cemetery.",
+   "place_name": "브루클린",
+   "place_name_en": "Brooklyn",
+   "lat": 40.65083333333333,
+   "lng": -73.94972222222222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부 사항은 그대로 두고, 직역으로 뜻이 흐려진 표현과 행위 관계가 불분명한 문장을 고쳤다. 특히 금주법 시행, 범죄 조직의 운영권, 양조장 급습과 수감 위험, 카포네에게 넘긴 조직 내 지위를 자연스러운 한국어로 명확히 했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「마을은 뒤에 이르시나로 바뀌었다」는 마을 자체가 다른 곳으로 바뀌었다는 뜻처럼 읽혀, 몬테펠로소의 지명이 이르시나로 변경됐다는 의미를 분명히 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title"
+    ],
+    "problem": "영문 제목은 단순히 어머니와 뉴욕으로 건너갔다고 서술하므로, 불필요하게 관계를 규정한 「홀어머니」를 덜어냈다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「브루클린 업소까지 손을 넓혔다」는 어떤 사업을 확장했는지 불분명해, 영문의 vice가 가리키는 불법 사업과 세력 확장을 명시했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사창가와 도박을 키우고 있었다」는 시설과 행위를 나란히 놓은 어색한 표현이어서, 사창가와 도박장으로 이루어진 사업망을 넓혔다는 뜻으로 바로잡았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「금주법이 열리기 직전」은 Prohibition was about to open을 단어 순서대로 옮긴 직역이며, 「문지기와 바텐더를 시켰다」도 배역이나 직무를 목적어로 삼은 부자연스러운 표현이었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「범인은 법정에 서지 않았다」는 아무도 기소되지 않았다는 영문보다 의미가 좁고 단정적이었다. 밀주 사업을 제안한 대목도 자연스럽게 다듬었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「양조장에 나갔다」와 「징역을 피할 수 없는 기소를 받았다」는 행위와 결과의 관계가 어색했다. 대금을 치르고 양조장으로 간 뒤 경찰 급습을 당했고, 앞선 유죄판결 때문에 실형을 피하기 어려웠다는 순서로 정리했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「벅스 모란 쪽」과 「자리를 알 카포네에게 넘겼다」는 각각 집단과 지위가 불분명했다. 모란의 일당과 조직 수장 자리를 명시했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시카고 앞자리」와 「부동산을 만졌다」는 뜻을 짐작해야 하는 표현이어서, 시카고 조직의 수장 자리와 부동산업 종사로 구체화했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이 년 남짓을 살았다」는 어디에서 무엇을 했다는 것인지 목적어가 빠져 있어, 2년 남짓 복역했다고 명확히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「죽음은 삼 주가 지나서야 신문에 났다」는 구어적이고 주어도 부자연스러워, 사망 소식이 3주 뒤에야 보도됐다는 문장으로 다듬었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

@@ -1,0 +1,275 @@
+{
+ "slug": "arthur-mensch",
+ "events": [
+  {
+   "year": 1992,
+   "year_end": null,
+   "kind": "birth",
+   "title": "세브르에서 태어나다",
+   "title_en": "Born in Sèvres",
+   "description": "바로 옆 빌다브레에서 자랐다. 아버지는 사업을 했고, 어머니는 물리 교사였다.",
+   "description_en": "He grew up in neighbouring Ville-d’Avray. His father was a businessman, and his mother taught physics.",
+   "place_name": "세브르",
+   "place_name_en": "Sèvres",
+   "lat": 48.823055555556,
+   "lng": 2.2108333333333
+  },
+  {
+   "year": 2011,
+   "year_end": 2015,
+   "kind": "education",
+   "title": "에콜 폴리테크니크에 들어가다",
+   "title_en": "Enters École Polytechnique",
+   "description": "베르사유 리세 오슈에서 준비반을 마친 뒤 에콜 폴리테크니크에 입학했다. 응용수학을 배웠고, 같은 기수에 기욤 랑플이 있었다. 이후 텔레콤 파리에서 공부하고 파리사클레의 수학·비전·학습 석사과정도 밟았다.",
+   "description_en": "He arrived after the preparatory class at Lycée Hoche in Versailles. He studied applied mathematics, and Guillaume Lample was in the same class. He later added Télécom Paris and the Mathematics, Vision, Learning master’s at Paris-Saclay.",
+   "place_name": "팔레조",
+   "place_name_en": "Palaiseau",
+   "lat": 48.718333333333,
+   "lng": 2.2497222222222
+  },
+  {
+   "year": 2015,
+   "year_end": 2018,
+   "kind": "education",
+   "title": "기능적 뇌영상으로 박사논문을 쓰다",
+   "title_en": "Writes a doctorate on functional brain imaging",
+   "description": "박사과정 연구는 인리아 파리에탈 팀과 원자력청 뉴로스핀에서 시작했다. 베르트랑 티리옹, 가엘 바루코, 쥘리앵 메랄이 연구를 지도했다. 수백 건의 기능적 자기공명영상에서 희소 행렬분해로 뇌 네트워크를 뽑았다. 여러 과제의 영상을 묶어 디코딩 모형 하나를 학습했다. 파리사클레에서 박사논문 심사를 통과했다.",
+   "description_en": "He started at Inria’s Parietal team and CEA NeuroSpin. Bertrand Thirion, Gaël Varoquaux, and Julien Mairal supervised the work. Sparse matrix factorization pulled brain networks out of hundreds of functional MRI recordings. He also trained one decoding model across scans from different tasks. He passed the thesis at Paris-Saclay.",
+   "place_name": "지프쉬르이베트",
+   "place_name_en": "Gif-sur-Yvette",
+   "lat": 48.701388888889,
+   "lng": 2.1336111111111
+  },
+  {
+   "year": 2018,
+   "year_end": 2020,
+   "kind": "work",
+   "title": "고등사범학교에서 박사후과정을 하다",
+   "title_en": "Takes a postdoctoral post at the École normale supérieure",
+   "description": "울름 캠퍼스 응용수학과에서 최적수송과 확률적 최적화를 다뤘다.",
+   "description_en": "In the applied-mathematics department on the Ulm campus he worked on optimal transport and stochastic optimization.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "travel",
+   "title": "쿠랑 연구소에 가다",
+   "title_en": "Goes to the Courant Institute",
+   "description": "조안 브루나의 지도를 받으며 여러 달 방문연구원으로 머물렀다. 연구 주제는 다중 에이전트 강화학습이었다.",
+   "description_en": "He spent several months as a visiting researcher under Joan Bruna. The work was multi-agent reinforcement learning.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2020,
+   "year_end": 2023,
+   "kind": "work",
+   "title": "딥마인드 파리 팀에 합류하다",
+   "title_en": "Joins DeepMind in Paris",
+   "description": "구글 산하 연구소의 파리 팀에 합류했다. 대규모 언어모형과 검색을 결합한 생성 기법을 연구했다. 약 3년간 일한 뒤 5월에 떠났다.",
+   "description_en": "He joined the Paris team of Google’s research lab. He worked on large language models and on generation tied to retrieval. He stayed nearly three years and left in May.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "레트로 논문을 내다",
+   "title_en": "Publishes the RETRO paper",
+   "description": "외부 문단을 검색해 그 내용을 조건으로 사용하는 트랜스포머를 제안했다. 지피티-3의 스물다섯 분의 일 크기였는데도 같은 공개 말뭉치 평가에서 비슷한 점수를 냈다. 공동 1저자는 세바스티앙 보르조, 조던 호프만, 로랑 시프르였다.",
+   "description_en": "The paper proposed a transformer that looks up outside passages and conditions on them. At one twenty-fifth the size of GPT-3 it still reached similar scores on the same public corpus. Equal first authors were Sebastian Borgeaud, Jordan Hoffmann, and Laurent Sifre.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "친칠라 논문을 내다",
+   "title_en": "Publishes the Chinchilla paper",
+   "description": "계산량을 고정하면 모형 크기와 학습 토큰을 함께 늘려야 한다고 적었다. 매개변수가 7백억 개인 친칠라는 고퍼와 같은 계산량을 사용하면서 네 배 많은 데이터로 학습했다. 고퍼와 지피티-3를 앞섰다. 공동 1저자는 조던 호프만, 세바스티앙 보르조, 로랑 시프르였다.",
+   "description_en": "The paper said that for a fixed compute budget, model size and training tokens should grow together. Chinchilla, with 70 billion parameters, used the same compute as Gopher and four times the data. It beat Gopher and GPT-3. Equal first authors were Jordan Hoffmann, Sebastian Borgeaud, and Laurent Sifre.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "미스트랄을 세우다",
+   "title_en": "Founds Mistral",
+   "description": "기욤 랑플, 티모테 라크루아와 함께 창업했다. 두 사람은 메타에서 라마 개발에 참여했다. 회사 이름은 지중해에서 부는 북서풍에서 가져왔다. 최고경영자를 맡았다.",
+   "description_en": "He set it up with Guillaume Lample and Timothée Lacroix. The other two had built Llama at Meta. The company name came from the north-westerly wind on the Mediterranean. He took the chief executive’s seat.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "시드 투자로 1억 5백만 유로를 유치하다",
+   "title_en": "Raises a €105 million seed",
+   "description": "라이트스피드가 투자를 주도했다. 에릭 슈미트와 그자비에 니엘도 투자자로 참여했다. 당시 회사에는 아직 출시할 모형이 없었다.",
+   "description_en": "Lightspeed led the round. Eric Schmidt and Xavier Niel came in. There was still no model to ship.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "office",
+   "title": "생성형 인공지능 위원회에 들어가다",
+   "title_en": "Joins the generative-AI committee",
+   "description": "엘리자베트 보른이 마티뇽에서 위원회를 꾸렸다. 얀 르쿤과 박사과정을 지도했던 가엘 바루코도 위원으로 함께 참여했다.",
+   "description_en": "Élisabeth Borne assembled the committee at Matignon. Yann LeCun sat there too, as did Gaël Varoquaux, who had supervised the doctorate.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "미스트랄 7비를 공개하다",
+   "title_en": "Releases Mistral 7B",
+   "description": "가중치를 아파치 라이선스로 공개했다. 토렌트와 허깅페이스에서 내려받을 수 있었다. 회사는 이 모형이 매개변수 130억 개의 메타 라마 2보다 뛰어나다고 밝혔다.",
+   "description_en": "The weights went out under an Apache licence. They could be taken from a torrent or from Hugging Face. The company said the model beat Meta’s 13-billion-parameter Llama 2.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "르샤를 공개하고 미스트랄 라지를 애저에 출시하다",
+   "title_en": "Opens Le Chat and puts a model on Azure",
+   "description": "대화형 서비스 르샤를 베타로 공개했다. 같은 날 상용 모형 미스트랄 라지를 출시해 마이크로소프트 애저에 먼저 제공했다.",
+   "description_en": "He opened the chat window Le Chat as a beta. The same day the company shipped the commercial model Mistral Large and put it on Microsoft Azure first.",
+   "place_name": "파리",
+   "place_name_en": "Paris",
+   "lat": 48.85666666666667,
+   "lng": 2.352222222222222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 사실 범위를 유지하면서 직역투, 불분명한 대상, 어색한 연구·투자 표현을 고쳤다. 출생부터 미스트랄 창업과 제품 출시까지 생애 흐름이 자연스럽게 이어지도록 사건 사이의 연결도 다듬었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「텔레콤 파리와 석사를 더했다」는 교육기관과 학위과정을 목적어 없이 나열한 직역투여서, 이후 두 교육과정을 밟았다는 관계가 분명하도록 고쳤다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인리아 파리에탈 팀과 원자력청 뉴로스핀에서 시작했다」는 무엇을 시작했는지 드러나지 않았고, 「지도는 …였다」「박사논문을 통과했다」도 한국어의 행위 관계가 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조안 브루나 밑에서」「일은 다중 에이전트 강화학습이었다」가 구어적이거나 직역투여서 방문 연구와 연구 주제의 관계를 자연스럽게 정리했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「딥마인드 파리에 들어가다」「거의 3년을 있고」가 부자연스럽고, 「검색을 붙인 생성」은 retrieval과 generation의 관계를 기계적으로 옮긴 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「외부 문장 덩어리를 찾아 붙이는」「비슷한 점수에 닿았다」가 기술 내용과 성과를 부자연스럽게 전달해, 검색한 외부 문단을 조건으로 사용하는 방식과 평가 결과를 분명히 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「데이터는 네 배를 넣었다」는 학습 주체와 행동 관계가 어색해, 같은 계산량과 네 배 많은 학습 데이터의 관계가 드러나도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「메타에서 라마를 만든 쪽이었다」는 두 공동 창업자의 경력을 막연하게 가리켰고, 「지중해 북서풍」도 회사 이름의 유래를 부자연스럽게 압축했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "투자를 「받다」「들어왔다」라고만 표현해 투자 유치와 투자자 참여의 관계가 흐렸고, 「내놓을 모형」도 출시 대상을 가리키는 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "위원들이 「같이 앉았다」는 표현은 영어의 sat there를 그대로 옮긴 직역투여서 위원으로 함께 참여했다는 뜻으로 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "모델을 「풀다」와 「130억짜리」로 표현한 부분이 지나치게 구어적이어서 공개와 매개변수 규모를 정확히 드러내도록 고쳤다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「르샤를 열다」「애저에 올리다」「대화 창구」가 서비스 공개와 모델 제공을 직역한 표현이어서, 두 제품과 각각의 출시 방식을 명확히 구분했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

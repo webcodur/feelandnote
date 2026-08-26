@@ -1,0 +1,196 @@
+{
+ "slug": "cao-xueqin",
+ "events": [
+  {
+   "year": 1715,
+   "year_end": null,
+   "kind": "birth",
+   "title": "강녕에서 태어나다",
+   "title_en": "Is born in Jiangning",
+   "description": "강녕 직조부 집에서 태어났다. 집안은 내무부 정백기 포의였다. 증조 조새가 강녕직조를 맡아 황실에 비단을 댔고, 조부 조인이 그 자리를 이었다. 증조모 손씨는 강희제의 유모였고, 조인은 황제의 여섯 차례 남순 가운데 네 차례를 맞이했다. 본명은 조점이다. 생년은 학계에서 갈린다. 조옹이 죽은 뒤 과부 마씨가 낳은 유복자로 보는 쪽은 1715년을 쓰고, 돈성의 만시에서 마흔 해를 살았다고 한 구절을 거꾸로 세는 쪽은 1724년을 쓴다. 아버지가 조옹(曹顒)인지 조부(曹頫)인지도 정해지지 않았다. 족보에는 조천우가 조옹의 유복자로 적혀 있으나, 조천우와 조점이 같은 사람인지는 확인되지 않는다.",
+   "description_en": "He was born in the Jiangning textile commissioner’s household. The family were bondservants of the Imperial Household Department’s Plain White Banner. Great-grandfather Cao Xi held the Jiangning textile post that supplied silk to the court, and grandfather Cao Yin succeeded him. Lady Sun, the great-grandmother, had been Kangxi’s wet nurse, and Cao Yin hosted four of the emperor’s six southern tours. His given name was Cao Zhan. Scholars split on the birth year. Those who take him as the posthumous son of Cao Yong’s widow Lady Ma use 1715. Those who count backward from Dun Cheng’s elegy that he lived forty years use 1724. Whether the father was Cao Yong or Cao Fu is also unsettled. The clan register lists Cao Tianyou as that posthumous son, but it is not confirmed that he and Cao Zhan were the same person.",
+   "place_name": "난징",
+   "place_name_en": "Nanjing",
+   "lat": 32.060833333333335,
+   "lng": 118.77888888888889
+  },
+  {
+   "year": 1723,
+   "year_end": 1727,
+   "kind": "other",
+   "title": "직조 적자를 기한 안에 메우지 못하다",
+   "title_en": "Fails to clear the textile-office deficit in time",
+   "description": "강희제가 죽자 새 황제는 직조 적자를 기한 안에 메우라고 명했다. 조부(曹頫)는 삼 년에 걸쳐 나누어 갚겠다고 청해 허락받았다. 기한이 지나도 빚이 남았지만 당장 파직되지는 않았다. 황제의 남순을 맞이하던 집안은 이미 기울고 있었다.",
+   "description_en": "After Kangxi died, the new emperor ordered the textile-office deficit paid on a deadline. Cao Fu asked to repay over three years and was allowed. The debt remained after the term, but he was not dismissed at once. The household that had hosted southern tours was already shrinking.",
+   "place_name": "난징",
+   "place_name_en": "Nanjing",
+   "lat": 32.060833333333335,
+   "lng": 118.77888888888889
+  },
+  {
+   "year": 1727,
+   "year_end": 1728,
+   "kind": "other",
+   "title": "강녕 가산이 적몰되다",
+   "title_en": "The Jiangning estate is confiscated",
+   "description": "옹정 5년 섣달, 조부(曹頫)는 역참을 괴롭히고 적자를 갚지 않았으며 재물을 빼돌렸다는 죄로 파직됐다. 이듬해 후임 수혜덕은 집 열세 곳 사백팔십삼 칸, 땅 여덟 곳 십구 경 육십칠 무, 가인 백십사 명을 적어 올렸다. 은은 거의 없고 전표만 백여 장이었다. 가산 적몰이 정치적 숙청이었는지 재정 적자 때문이었는지는 학계에서 견해가 갈린다.",
+   "description_en": "In the twelfth month of Yongzheng 5, Cao Fu was dismissed for harassing postal stations, leaving deficits unpaid, and moving property aside. The next year the new commissioner Sui Hede inventoried thirteen compounds totaling 483 rooms, eight plots of about 19 qing and 67 mu, and 114 people. There was little silver, and more than a hundred pawn tickets. Whether the purge was political or fiscal remains split.",
+   "place_name": "난징",
+   "place_name_en": "Nanjing",
+   "lat": 32.060833333333335,
+   "lng": 118.77888888888889
+  },
+  {
+   "year": 1728,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족과 베이징으로 돌아가다",
+   "title_en": "Returns to Beijing with the family",
+   "description": "강남에 있던 집과 하인들은 수혜덕에게 넘어갔다. 옹정 7년 형부의 공문에는 숭문문 밖 산시커우의 집 열일곱 칸 반과 하인 세 쌍을 조인의 과부에게 돌려주어 살게 했다고 적혀 있다. 조설근은 아직 아이였다.",
+   "description_en": "Jiangnan houses and servants passed to Sui Hede. A Board of Punishments communication in Yongzheng 7 records that seventeen and a half rooms at Suanshikou outside Chongwen Gate, with three pairs of servants, were given back to Cao Yin’s widow. He was still a child.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1754,
+   "year_end": null,
+   "kind": "work",
+   "title": "《돌의 이야기》를 고쳐 쓰다",
+   "title_en": "Revises The Story of the Stone",
+   "description": "갑술년 사본 표지에 지염재가 다시 평했다는 기록이 남아 있다. 그 무렵 초고가 가까운 사람들 사이에서 필사되고 있었다. 범례에는 십 년의 고생이라는 구절이 있다. 지염재가 누구인지는 정해지지 않았다. 사본의 제목은 《돌의 이야기》였고, 《홍루몽》으로도 불렸다.",
+   "description_en": "A Jiaxu manuscript still bears the note that Zhiyanzhai reviewed The Story of the Stone again. By then a draft was being copied among people close to him. The preface speaks of ten years of hard work. Who Zhiyanzhai was remains unsettled. Manuscripts used the title The Story of the Stone, and the book was also called Dream of the Red Chamber.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1757,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "종실 형제와 시를 주고받다",
+   "title_en": "Exchanges poems with the imperial-clan brothers",
+   "description": "희봉구에 있던 돈성이 그를 떠올리며 시를 보냈다. 시에는 두 사람이 호문에서 아침저녁으로 함께 지냈다고 적혀 있다. 그 호문을 서단 석호호동의 우익종학으로 보는 해석이 있으나 확정된 것은 아니다. 돈성은 부잣집 문을 두드리지 말고 황엽촌에서 책을 쓰라고 권했다. 다른 시에는 온 집안이 죽을 먹고 술은 외상으로 산다는 구절이 있다. 말년에 베이징 서쪽 교외에서 살았다는 전승은 이 시들에 기대고 있다. 그곳이 향산인지 백가탄인지는 견해가 갈린다.",
+   "description_en": "From Xifengkou, Dun Cheng sent a poem remembering him. It says they spent mornings and evenings at Humen. Some read Humen as the Right Wing Imperial Clan School on Shihu Hutong in Xidan, but that is an interpretation. Dun Cheng told him not to knock on rich men’s doors and to write in a village of yellow leaves. Another poem says the whole household ate gruel and often bought wine on credit. The tradition that his last years were spent in the western suburbs of Beijing rests on these poems. Whether the place was Xiangshan or Baijiatan remains split.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1760,
+   "year_end": null,
+   "kind": "work",
+   "title": "여든 회 정본이 전해지다",
+   "title_en": "An eighty-chapter recension remains",
+   "description": "경진년 가을에 정본으로 확정했다고 적힌 사본이 전해진다. 지염재가 네 번 평했다는 표시가 있고, 여든 회 가운데 두 회가 빠져 있다. 뒤에 나온 사본들도 여든 회에서 끊긴다. 후반부 삼십여 회가 빌려 간 사람에게서 흩어졌다는 주석이 있으나, 그 원고의 실물은 확인되지 않았다.",
+   "description_en": "A manuscript marked as fixed in the autumn of Gengchen survives. It notes that Zhiyanzhai had reviewed it four times, and two of the eighty chapters are missing. Later copies also stop there. A comment says some thirty later chapters were lost after being borrowed, but that manuscript itself has not been found.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1762,
+   "year_end": 1763,
+   "kind": "other",
+   "title": "어린 아들을 잃다",
+   "title_en": "Loses a young son",
+   "description": "돈성의 만시 주석에는 조설근이 죽기 몇 달 전 어린 아들이 세상을 떠났고, 그가 상심한 나머지 병이 났다고 적혀 있다. 아내가 남았다는 전승도 그 시에 기대고 있다. 아이의 이름과 정확한 사망월은 전하지 않는다. 조설근의 사망 연도가 달라지면 아들이 죽은 시점도 함께 달라진다.",
+   "description_en": "Dun Cheng’s elegy notes that a few months before the death a son died young, and grief brought on illness. The tradition that a wife survived also rests on that poem. The child’s name and the exact month are not recorded. If the death year shifts, these months shift with it.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  },
+  {
+   "year": 1763,
+   "year_end": null,
+   "kind": "death",
+   "title": "책이 끝나기 전에 죽다",
+   "title_en": "Dies before the book is finished",
+   "description": "갑술본의 지비에는 임오년 섣달그믐에 책을 끝내지 못한 채 조설근이 눈물을 다하고 세상을 떠났다고 적혀 있다. 그날을 건륭 27년 섣달그믐, 곧 1763년 2월 12일로 보는 설이 있다. 돈민이 계미년 봄에 조설근을 부르는 시를 남겼다는 점을 들어 그 섣달그믐을 한 해 뒤로 미루는 설도 있다. 여든 회가 필사본으로 돌았고, 정위원과 고악은 뒤에 백스무 회짜리 활자본을 냈다. 마지막 마흔 회의 작자는 별도의 논쟁거리다.",
+   "description_en": "A Jiaxu comment says that on the Renwu New Year’s Eve the book was unfinished and Qin died having exhausted his tears. One reading takes that night as the last of Qianlong 27, 12 February 1763. Another, citing Dun Min’s spring poem of the following year that still invites him, moves the New Year’s Eve one year later. Eighty chapters circulated in manuscript. Cheng Weiyuan and Gao E later issued a 120-chapter printed edition. Authorship of the last forty chapters is a separate debate.",
+   "place_name": "베이징",
+   "place_name_en": "Beijing",
+   "lat": 39.90403,
+   "lng": 116.407526
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사건의 세부와 불확실성은 그대로 보존하면서, 인명 ‘조부(曹頫)’가 친족 호칭으로 읽히는 문제와 지시 대상이 불분명한 문장, 직역투 표현을 고쳤다. 영문과 국문만으로 확정할 수 없는 새로운 사실 문제는 발견되지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘조부’가 인명 Cao Fu가 아니라 할아버지를 뜻하는 친족 호칭처럼 읽혔고, ‘그 유복자’가 누구의 유복자인지 앞 문장만으로 분명하지 않았다. 일부 문장도 한국어 어순에 맞게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "인명 ‘조부’가 친족 호칭처럼 읽혔으며, 마지막 문장의 ‘남순을 맞던 집’은 무엇을 맞았던 어느 집안인지 홀로 읽을 때 다소 불분명했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "인명 ‘조부’가 친족 호칭처럼 읽혔고, 사람 수를 나타내는 ‘가인 백십사 구’가 현대 한국어에서 부자연스러웠다. ‘숙청인지 재정 적자인지’는 사건과 원인을 같은 층위에서 나열해 관계가 흐려졌다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘강남의 집과 사람’은 영문의 houses and servants를 모호하게 옮겼고, ‘형부 이회’는 형부의 공문을 사람 이름처럼 읽게 했다. 마지막 문장의 ‘그’도 바로 앞에 나온 조인의 과부를 가리키는 것처럼 보였다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘희봉구에서 그를 그리는 시를 보냈다’는 장소와 행동의 관계가 어색했고, ‘호문에서 아침저녁을 함께했다’와 ‘만년 거처’도 자연스러운 한국어 표현으로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 ‘정본이 남다’가 부자연스러웠고, ‘경진년 가을 정본이라고 적힌 사본’은 무엇이 언제 정본으로 표시되었는지 매끄럽게 읽히지 않았다. ‘여기’와 ‘뒤 삼십여 회’도 대상을 구체적으로 밝혀야 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘죽기 몇 달 전 아이가’에서 누가 죽기 전인지, 누구의 아이인지 문장 자체만으로 분명하지 않았다. ‘이 몇 달도 함께 움직인다’도 연대 불확실성을 직역한 듯한 표현이었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "‘근이 눈물을 다하고 갔다’는 ‘근’이 조설근을 가리킨다는 사실을 독자가 추측해야 했고, ‘그 날짜’와 ‘제야’가 가리키는 시점을 더 분명히 연결할 필요가 있었다. ‘백스무 회 활인본’도 현대 한국어에서 자연스럽지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   5,
+   6,
+   7,
+   8
+  ]
+ }
+}

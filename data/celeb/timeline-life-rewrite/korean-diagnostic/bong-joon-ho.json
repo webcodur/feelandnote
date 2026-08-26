@@ -1,0 +1,264 @@
+{
+ "slug": "bong-joon-ho",
+ "events": [
+  {
+   "year": 1969,
+   "year_end": null,
+   "kind": "birth",
+   "title": "대구에서 태어나다",
+   "title_en": "Born in Daegu",
+   "description": "남구 봉덕동에서 2남 2녀 중 막내로 태어났다. 아버지는 국립영화제작소 미술실장을 지낸 그래픽 디자이너 봉상균이었다. 어머니는 소설가 박태원의 둘째 딸 박소영이었다. 외할아버지 박태원은 한국전쟁 때 북으로 넘어갔다. 초등학교 때 가족이 서울 잠실로 이사했다.",
+   "description_en": "He was the youngest of four children, born in Bongdeok-dong. His father, Bong Sang-gyun, was a graphic designer who had headed the art department at the National Film Institute. His mother, Park So-young, was the novelist Park Tae-won's second daughter. That grandfather crossed north during the Korean War. In elementary school the family moved to Jamsil in Seoul.",
+   "place_name": "대구",
+   "place_name_en": "Daegu",
+   "lat": 35.871666666667,
+   "lng": 128.60166666667
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "education",
+   "title": "연세대학교 사회학과에 들어가다",
+   "title_en": "Enters Yonsei University to Study Sociology",
+   "description": "잠실에서 고등학교를 마쳤다. 입학 뒤 민주화 시위에 나갔고 최루탄을 맞았다. 학보 연세춘추에 만평을 그렸다. 병역을 마치고 돌아와 이웃 학교 학생들과 영화 동아리 노란문을 만들었다. 거기서 16밀리 단편 《백색인》을 찍었다.",
+   "description_en": "He finished high school in Jamsil. After enrolling he joined pro-democracy protests and was hit with tear gas. He drew cartoons for the campus paper Yonsei Chunchu. After military service he came back and started the film club Yellow Door with students from nearby schools. There he shot the 16 mm short White Man.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1994,
+   "year_end": null,
+   "kind": "education",
+   "title": "한국영화아카데미 11기로 들어가다",
+   "title_en": "Enters the Korean Academy of Film Arts",
+   "description": "학교는 남산 옛 방송국 건물에 있었다. 그는 16밀리 단편을 여러 편 찍었다. 졸업작 《지리멸렬》은 홍콩과 밴쿠버 영화제에 초청됐다. 동기 장준환의 단편에서는 카메라를 잡았다.",
+   "description_en": "The school sat in the old broadcasting building on Namsan. He shot several 16 mm shorts. His graduation film Incoherence was invited to festivals in Hong Kong and Vancouver. On classmate Jang Joon-hwan's short he ran the camera.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 장편 《플란다스의 개》를 내놓다",
+   "title_en": "Releases His First Feature, Barking Dogs Never Bite",
+   "description": "우노필름에서 박기용의 《모텔 선인장》 조감독을 거친 뒤였다. 결혼 후 살던 아파트 단지에서 개를 둘러싼 소동을 찍었다. 국내에서는 관객이 거의 들지 않았다. 산세바스티안 영화제 경쟁 부문에 초청됐고, 해외 판매로 수지를 맞췄다.",
+   "description_en": "He had already been assistant director on Park Ki-yong's Motel Cactus at Uno Film. He shot a farce about missing dogs in the apartment complex where he lived after marriage. At home almost no one came. The film entered competition at San Sebastián and later broke even on overseas sales.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "《살인의 추억》을 내놓다",
+   "title_en": "Releases Memories of Murder",
+   "description": "1980년대 화성 연쇄살인을 바탕으로 했다. 범인이 잡히지 않는 이야기라 투자자들이 물러서기도 했다. 송강호가 형사를 맡았다. 국내 관객은 510만 명을 넘겼다. 대종상에서 작품상과 감독상을 받았고, 산세바스티안에서도 감독상을 받았다.",
+   "description_en": "He drew on the Hwaseong serial murders of the 1980s. Investors pulled back because the killer is never caught. He put Song Kang-ho in the detective's seat. More than 5.1 million people came. The film took Best Picture and Best Director at the Grand Bell Awards, and Best Director again at San Sebastián.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "work",
+   "title": "《괴물》로 한강을 무대로 삼다",
+   "title_en": "Sets The Host on the Han River",
+   "description": "강에서 올라온 괴수와 맞서는 한 가족을 그렸다. 미완성본을 칸 감독주간에서 선보였다. 국내 관객은 천만 명을 넘겼고, 당시 한국영화 최고 흥행작이 됐다.",
+   "description_en": "He followed a family fighting a creature that came out of the river. He took an unfinished print to Cannes Directors' Fortnight. More than ten million tickets were sold at home, and it became Korea's highest-grossing film at the time.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "《마더》를 칸 주목할 만한 시선에서 선보이다",
+   "title_en": "Takes Mother to Un Certain Regard",
+   "description": "김혜자가 아들을 살인 혐의에서 벗어나게 하려는 어머니를 연기했다. 김혜자가 출연을 거절했다면 영화를 만들지 않을 생각이었다. 김혜자는 로스앤젤레스 비평가협회 여우주연상을 받았다.",
+   "description_en": "Kim Hye-ja played a mother trying to clear her son of a murder charge. He would not have made the film if she had said no. She won the Los Angeles Film Critics Association award for Best Actress.",
+   "place_name": "칸",
+   "place_name_en": "Cannes",
+   "lat": 43.5525,
+   "lng": 7.0213888888889
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "영어 장편 《설국열차》를 만들다",
+   "title_en": "Makes His English-Language Feature Snowpiercer",
+   "description": "프랑스 만화를 원작으로 삼았다. 국내에는 그만한 기차 세트를 둘 스튜디오가 없었다. 그는 바란도프 스튜디오에 100미터짜리 열차를 세웠다. 크리스 에반스와 틸다 스윈튼이 한국 배우들과 함께 출연했다.",
+   "description_en": "He adapted a French graphic novel. No studio at home could hold a train set of that size. He built a 100-meter train at Barrandov Studios. Chris Evans and Tilda Swinton rode it with his Korean cast.",
+   "place_name": "프라하",
+   "place_name_en": "Prague",
+   "lat": 50.0875,
+   "lng": 14.421388888889
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "《옥자》로 공식 경쟁에 오르다",
+   "title_en": "Competes at Cannes with Okja",
+   "description": "넷플릭스가 제작한 한국어·영어 영화였다. 스트리밍 영화가 경쟁 부문에 들어오자 극장 업계가 반발했다. 공식 상영이 끝난 뒤 관객들이 기립박수를 보냈다.",
+   "description_en": "Netflix produced the Korean- and English-language film. Theater owners pushed back when a streaming title entered the main competition. After the official screening the hall stood and clapped.",
+   "place_name": "칸",
+   "place_name_en": "Cannes",
+   "lat": 43.5525,
+   "lng": 7.0213888888889
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "《기생충》으로 황금종려상을 받다",
+   "title_en": "Wins the Palme d'Or for Parasite",
+   "description": "가난한 가족 구성원들이 부잣집에 하나씩 들어가는 이야기였다. 송강호가 다시 한 가족의 가장을 맡았다. 한국 영화가 이 상을 받은 것은 처음이었다. 심사위원 9명이 만장일치로 선택했다. 국내 관객은 천만 명을 넘겼다.",
+   "description_en": "A poor family works its way into a rich house. He put Song Kang-ho back at the head of a household. No Korean film had won this prize before. All nine jurors voted the same way. More than ten million people saw it at home.",
+   "place_name": "칸",
+   "place_name_en": "Cannes",
+   "lat": 43.5525,
+   "lng": 7.0213888888889
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "아카데미 작품상과 감독상을 받다",
+   "title_en": "Wins Academy Awards for Best Picture and Directing",
+   "description": "《기생충》은 작품상, 감독상, 각본상, 국제장편영화상까지 네 부문을 수상했다. 영어가 아닌 언어로 제작된 영화가 작품상을 받은 것은 처음이었다. 그는 감독상을 직접 받았고, 각본상은 한진원과 함께 받았다.",
+   "description_en": "Parasite took Best Picture, Directing, Original Screenplay, and International Feature. No non-English-language film had won Best Picture before. He collected the directing prize and shared the screenplay prize with Han Jin-won.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "《미키 17》을 내놓다",
+   "title_en": "Releases Mickey 17",
+   "description": "《기생충》 이후 처음 만든 장편이었다. 에드워드 애슈턴의 소설을 각색했다. 로버트 패틴슨이 죽을 때마다 새 몸으로 출력되는 노동자를 연기했다. 워너브러더스가 배급했고, 독일에서는 베를린국제영화제 특별 갈라를 통해 처음 상영됐다.",
+   "description_en": "It was his first feature since Parasite. He adapted Edward Ashton's novel. Robert Pattinson played a worker who dies and is printed again. Warner Bros. released it, and the German premiere ran as a Berlinale Special Gala.",
+   "place_name": "베를린",
+   "place_name_en": "Berlin",
+   "lat": 52.516666666667,
+   "lng": 13.383333333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "대체로 생애의 흐름과 세부 사실은 유지되어 있으나, 일부 문장에 직역투와 부자연스러운 배역·흥행 표현이 남아 있어 바로잡았다. 한국영화아카데미 ‘11기’라는 국문 정보는 영문에 없어 문장 편집만으로 확정할 수 없다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「막내로 났다」가 부자연스럽고, 외할아버지를 이름 없이 지칭해 앞 문장과의 관계를 한 번 더 짚어야 했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title"
+    ],
+    "problem": "국문 제목의 「11기」가 영문 제목에는 없어 두 언어가 담고 있는 정보의 범위가 다르다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「장편을 내다」는 첫 장편 발표를 나타내기에 어색하고, 「국내에서 거의 팔리지 않았다」는 관객이 들지 않았다는 영문의 뜻을 영화 판매량처럼 옮겼다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「송강호를 형사의 자리에 세웠다」가 배역을 맡겼다는 뜻을 우회적으로 표현해 한국어만 읽으면 관계가 즉시 드러나지 않는다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「미완 프린트를 칸 감독주간에 올렸다」가 영어 어순과 표현을 좇아 무엇을 했는지 모호하다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「주목할 만한 시선에 올리다」가 영화제 부문 참가를 직역한 표현이며, 「이 배우」 대신 김혜자의 이름과 출연 여부를 명시하는 편이 관계가 분명하다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "배우들이 열차에 「함께 탔다」는 표현은 출연진을 설명하는 문장으로는 지나치게 비유적이다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「한영 합작」은 한국과 영국의 합작처럼 읽히지만 영문은 한국어와 영어로 제작된 영화라고 설명한다. 「극장 쪽」과 「본상영」도 뜻은 통하지만 서비스 서술로는 거칠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「송강호를 가장으로 세웠다」가 배역 관계를 부자연스럽게 우회하고, 「아홉 심사위원의 표가 하나로 모였다」도 만장일치라는 사실을 불필요하게 풀어 썼다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "상을 「가져갔다」는 표현이 구어적이며, 「영어가 아닌 영화」는 작품의 언어를 설명하는 문장으로 매끄럽지 않다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「죽었다가 다시 만들어지는 노동자」는 인물 설정을 모호하게 옮겼고, 초연을 「가졌다」는 표현도 영어식이다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 2,
+    "reason": "국문 제목은 한국영화아카데미 「11기」라고 특정하지만 영문에는 기수 정보가 없다. 해당 기수가 맞는지는 주어진 문장만으로 확인할 수 없으므로 기존 정보를 유지하되 사실 확인이 필요하다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

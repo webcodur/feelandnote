@@ -1,0 +1,264 @@
+{
+ "slug": "alex-spiro",
+ "events": [
+  {
+   "year": 1982,
+   "year_end": null,
+   "kind": "birth",
+   "title": "뉴욕에서 태어나다",
+   "title_en": "Born in New York City",
+   "description": "네 남매 가운데 맏이였다. 어머니는 임상심리학자였고 아버지는 치과의사였다. 가족은 뒤에 보스턴 근교 웰즐리로 옮겨 살았다.",
+   "description_en": "He was the eldest of four children. His mother was a clinical psychologist and his father a dentist. The family later moved to Wellesley, a Boston suburb.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2005,
+   "year_end": null,
+   "kind": "education",
+   "title": "터프츠대에서 생물심리학 과정을 마치다",
+   "title_en": "Finishes biopsychology at Tufts",
+   "description": "학부를 최우등으로 졸업하고 파이 베타 카파 회원으로 선출됐다. 정신과 의사가 되려 했으며, 인근 벨몬트의 맥린병원에서 청소년 병동과 자폐 아동 프로그램을 운영했다.",
+   "description_en": "He graduated summa cum laude and was elected to Phi Beta Kappa. He had been aiming for psychiatry and, at nearby McLean Hospital in Belmont, ran adolescent wards and a program for children with autism.",
+   "place_name": "메드퍼드",
+   "place_name_en": "Medford",
+   "lat": 42.418333333,
+   "lng": -71.106666666
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "하버드 로스쿨에서 법무박사를 받다",
+   "title_en": "Receives a J.D. from Harvard Law",
+   "description": "의대 대신 법을 골랐다. 재학 중 중앙정보국에서 단기 펠로우십을 했다. 졸업 뒤 맨해튼 지방검찰청에 들어갔다.",
+   "description_en": "He chose law over medical school. During the program he did a short fellowship at the Central Intelligence Agency. After graduation he joined the Manhattan District Attorney's Office.",
+   "place_name": "케임브리지",
+   "place_name_en": "Cambridge",
+   "lat": 42.375,
+   "lng": -71.106111111
+  },
+  {
+   "year": 2012,
+   "year_end": null,
+   "kind": "work",
+   "title": "데이트 게임 살인범의 뉴욕 살인 사건을 맡다",
+   "title_en": "Handles the New York cases against the Dating Game Killer",
+   "description": "맨해튼 검사로 일하며 경범죄부터 살인까지 맡았다. 이미 캘리포니아에서 사형을 선고받은 로드니 알칼라는 1970년대 뉴욕에서 저지른 살인 두 건에 유죄를 인정했다. 스피로는 알칼라를 기소하고 유죄 판결을 받는 과정에 참여했다.",
+   "description_en": "As a Manhattan prosecutor he moved from misdemeanors to murders. Rodney Alcala, already sentenced to death in California, pleaded guilty to two 1970s New York killings. He took part in that indictment and conviction.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "work",
+   "title": "검찰을 떠나 형사 변호로 돌아서다",
+   "title_en": "Leaves the prosecutor's office for criminal defense",
+   "description": "벤저민 브래프먼의 로펌에 들어갔다. 4년 반의 검사 생활을 마치고 운동선수와 음악가의 형사 사건을 맡기 시작했다.",
+   "description_en": "He joined Benjamin Brafman's New York firm. After four and a half years as a prosecutor, he began representing athletes and musicians in criminal cases.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "타보 세폴로샤의 무죄 평결을 이끌다",
+   "title_en": "Wins an acquittal for Thabo Sefolosha",
+   "description": "애틀랜타 호크스 선수 타보 세폴로샤는 맨해튼의 한 클럽 앞에서 경찰과 충돌한 뒤 체포됐고, 그 과정에서 다리가 부러졌다. 검찰은 그를 체포 방해와 소란 혐의로 기소했다. 배심원은 한 시간도 지나지 않아 모든 혐의에 무죄를 평결했다. 스피로는 경찰관들이 범죄 현장에서 떨어진 곳에서 세폴로샤의 다리를 부러뜨렸다고 배심원단에 주장했다.",
+   "description_en": "An Atlanta Hawks player was arrested after a clash with police outside a Manhattan club. His leg was broken, and prosecutors charged him with resisting arrest and disorderly conduct. The jury acquitted him of every count in under an hour. Counsel told the jury the officers had broken the leg away from the crime scene.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "애런 에르난데스 이중 살인 사건의 변호인단에 합류하다",
+   "title_en": "Joins Aaron Hernandez's double-murder defense",
+   "description": "호세 바에스, 로널드 설리번과 함께 보스턴 법정에 섰다. 배심원은 나이트클럽 앞 총격과 관련된 살인 혐의 두 건에 에르난데스의 무죄를 평결하고, 불법 총기 소지 혐의에만 유죄를 선고했다. 에르난데스는 이미 다른 살인 사건으로 무기징역을 복역하고 있었다.",
+   "description_en": "He stood in a Boston courtroom with Jose Baez and Ronald Sullivan. The jury acquitted Hernandez of both nightclub shooting murders. It convicted him only of illegal gun possession. Hernandez was already serving a life sentence for another killing.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777,
+   "lng": -71.057777777
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "office",
+   "title": "퀸 이매뉴얼 파트너가 되다",
+   "title_en": "Becomes a partner at Quinn Emanuel",
+   "description": "브래프먼 로펌을 나와 대형 소송 로펌에 합류했다. 뒤에 수사·정부 법 집행·기업 및 경제범죄 변호 부문의 공동 의장을 맡았다. 같은 해 뉴욕시는 세폴로샤에게 400만 달러를 지급하기로 합의했다.",
+   "description_en": "He left Brafman's firm for a large trial practice. He later became co-chair of investigations, government enforcement, and white-collar defense. That same year New York City agreed to pay Sefolosha four million dollars.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York City",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "일론 머스크 명예훼손 재판에서 이기다",
+   "title_en": "Wins Elon Musk's defamation trial",
+   "description": "영국 동굴 구조 전문가 버넌 언스워스가 명예훼손 소송을 제기했다. 로스앤젤레스 연방 배심원은 머스크에게 손해배상 책임이 없다고 평결했다. 스피로는 이 평결 뒤에도 머스크의 재판 업무를 계속 맡았다.",
+   "description_en": "British cave rescuer Vernon Unsworth sued for defamation. A federal jury in Los Angeles found Musk not liable for damages. After the verdict he kept Musk's trial work.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "트위터 인수 뒤 법률 업무를 맡다",
+   "title_en": "Takes charge of Twitter's legal work after the takeover",
+   "description": "머스크는 회사를 인수한 직후 스피로에게 법률과 정책 업무를 맡겼다. 대량 해고가 이어지는 동안 스피로는 연방거래위원회 동의명령의 준수 책임은 트위터에 있으며 직원 개인에게 있는 것이 아니라고 직원들에게 알렸다.",
+   "description_en": "After Musk bought the company he put him in charge of legal and policy. During the mass layoffs he told staff that the FTC consent decree bound Twitter, not individual employees.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "work",
+   "title": "테슬라 주주 소송에서 머스크를 변호하다",
+   "title_en": "Defends Musk in the Tesla shareholder trial",
+   "description": "주주들은 테슬라를 비상장사로 전환하겠다는 트윗이 투자자들을 속였다고 주장했다. 샌프란시스코 연방 배심원은 머스크에게 증권사기 책임이 없다고 평결했다. 퀸 이매뉴얼 팀이 3주간의 재판을 이끌었다.",
+   "description_en": "Shareholders said tweets about taking Tesla private had misled investors. A San Francisco federal jury found no securities-fraud liability. A Quinn Emanuel team led the three-week trial.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "앨릭 볼드윈 과실치사 사건의 기각을 이끌다",
+   "title_en": "Wins dismissal of Alec Baldwin's manslaughter case",
+   "description": "영화 러스트 촬영장에서 촬영감독 할리나 허친스가 실탄에 맞아 숨졌다. 재판 사흘째 스피로는 검찰과 보안관이 실탄 증거를 숨겼다고 주장했다. 판사는 사건을 재기소할 수 없도록 기각했다.",
+   "description_en": "Cinematographer Halyna Hutchins was killed by a live round on the set of Rust. On the third day of trial he argued that prosecutors and the sheriff had withheld live ammunition. The judge dismissed the case with prejudice.",
+   "place_name": "산타페",
+   "place_name_en": "Santa Fe",
+   "lat": 35.666666666,
+   "lng": -105.966666666
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "전체 사건을 영문과 대조해 읽은 결과, 사실관계는 국문 편집만으로 정리할 수 있었다. 모호한 지시어, 직역투, 불분명한 주어와 목적어, 부자연스러운 법률 표현을 고치고 사건 사이의 흐름을 자연스럽게 이었다.",
+  "issues": [
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「생물심리학을 마치다」와 「학부를 끝냈다」가 한국어 학력 서술로 어색했고, 파이 베타 카파 가입과 병원 업무도 영문의 선출·운영 관계가 충분히 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「중앙정보국에 짧은 펠로우십을 다녀왔다」는 장소와 활동의 관계가 어색해, 중앙정보국에서 단기 펠로우십을 했다는 뜻으로 바로 읽히게 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「그곳 살인 두 건」은 바로 앞의 캘리포니아를 가리키는 것처럼 읽혔고, 「그 기소와 유죄에 참여했다」도 무엇을 했는지 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「검사로 보낸 4년 반을 접고」가 직역투에 가까워 경력 전환을 자연스럽게 이어 읽기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "누구의 다리가 부러졌는지 주어가 분명하지 않았고, 「전부 무죄로 돌렸다」와 「현장을 벗어나 다리를 부러뜨렸다」가 부자연스럽고 의미 관계도 모호했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「변호인단에 서다」와 「살인 혐의 두 건을 무죄로 돌렸다」가 어색했으며, 마지막의 「피고인」도 앞 사건들과 이어 읽을 때 대상을 다시 확인해야 했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수사와 정부 집행, 기업·경제범죄 변호의 공동 의장」은 병렬 관계와 직책의 범위가 불분명했고, 합의금 지급 표현도 자연스럽게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「소를 냈다」는 사건의 종류를 본문에서 다시 파악해야 했고, 「머스크 쪽 재판」은 구어적이고 업무의 대상을 분명하게 나타내지 못했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「회사 법률을 맡다」가 어색했고, 머스크와 스피로가 함께 등장하는 문장에서 「그에게」가 누구인지 즉시 알기 어려웠다. 연방거래위원회 합의의 책임 관계도 자연스러운 한국어로 정리할 필요가 있었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "변호 업무를 「머스크를 지키다」라고 표현해 법률 사건의 성격이 흐려졌고, 영문의 securities-fraud liability가 단순한 「사기 책임」으로 축소돼 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「기각시키다」가 부자연스러웠고, 영문에 명시된 사망 사실이 「실탄에 맞았다」로 약화돼 있었다. 또한 「그는」의 선행 대상이 모호했으며, with prejudice의 의미가 자연스럽게 전달되지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

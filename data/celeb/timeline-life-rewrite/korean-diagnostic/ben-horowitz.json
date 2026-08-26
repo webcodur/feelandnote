@@ -1,0 +1,271 @@
+{
+ "slug": "ben-horowitz",
+ "events": [
+  {
+   "year": 1966,
+   "year_end": null,
+   "kind": "birth",
+   "title": "런던에서 태어나다",
+   "title_en": "Born in London",
+   "description": "미국인 부모 사이에서 태어났다. 아버지 데이비드 호로위츠는 그 전해 런던에서 미국 냉전 외교를 비판하는 책을 냈고, 이 책을 통해 신좌파 진영에 이름을 알렸다. 어머니는 엘리사 크라우트해머였다. 증조부모는 제정 러시아에서 온 유대인 이민자였다.",
+   "description_en": "He was born to American parents. The year before, his father, David Horowitz, published a critique of U.S. Cold War policy in London, and that book made his name on the New Left. His mother was Elissa Krauthamer. His great-grandparents were Jewish immigrants from the Russian Empire.",
+   "place_name": "런던",
+   "place_name_en": "London",
+   "lat": 51.507222222222,
+   "lng": -0.1275
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "travel",
+   "title": "가족이 버클리로 가다",
+   "title_en": "Family moves to Berkeley",
+   "description": "부모는 버클리에 집을 사 네 아이를 키웠다. 아버지는 신좌파 잡지 램파츠의 공동 편집인이 되었다.",
+   "description_en": "His parents bought a house and raised four children there. His father became co-editor of the New Left magazine Ramparts.",
+   "place_name": "버클리",
+   "place_name_en": "Berkeley",
+   "lat": 37.870277777778,
+   "lng": -122.26805555556
+  },
+  {
+   "year": 1988,
+   "year_end": null,
+   "kind": "education",
+   "title": "컬럼비아에서 컴퓨터과학을 마치다",
+   "title_en": "Finishes computer science at Columbia",
+   "description": "학사를 받았다. 같은 해 펠리샤 와일리와 결혼했다.",
+   "description_en": "He received a bachelor’s degree. The same year he married Felicia Wiley.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "education",
+   "title": "로스앤젤레스에서 석사를 받다",
+   "title_en": "Receives a master’s in Los Angeles",
+   "description": "캘리포니아대학교 로스앤젤레스에서 컴퓨터과학 석사를 받았다.",
+   "description_en": "He earned a master’s in computer science at the University of California, Los Angeles.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1990,
+   "year_end": null,
+   "kind": "work",
+   "title": "실리콘 그래픽스에서 엔지니어가 되다",
+   "title_en": "Joins Silicon Graphics as an engineer",
+   "description": "그래픽 워크스테이션을 만드는 회사로, 엔지니어들이 몰려들었다. 뒤에 인터뷰에서 그곳을 그 시절의 구글에 비겼다.",
+   "description_en": "It was the company engineers flocked to for graphics workstations. In a later interview he compared it to the Google of that time.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1995,
+   "year_end": 1998,
+   "kind": "work",
+   "title": "넷스케이프로 옮기다",
+   "title_en": "Moves to Netscape",
+   "description": "로터스에서 제품 마케팅을 하다가 그해 7월 합류했다. 마크 앤드리슨이 이미 몸담고 있던 회사였다. 제품 관리자로 들어갔고, 1997년부터 1998년까지 디렉터리와 보안 제품군 부사장을 맡았다.",
+   "description_en": "He left product marketing at Lotus and joined in July. Marc Andreessen was already there. He started as a product manager and from 1997 to the next year ran the directory and security product line as a vice president.",
+   "place_name": "마운틴뷰",
+   "place_name_en": "Mountain View",
+   "lat": 37.392777777778,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "work",
+   "title": "아메리카 온라인에서 전자상거래를 맡다",
+   "title_en": "Takes over e-commerce at America Online",
+   "description": "아메리카 온라인이 넷스케이프를 샀다. 그는 전자상거래 부문 부사장으로 숍앳아올을 이끌었다.",
+   "description_en": "America Online bought Netscape. He became vice president of the e-commerce division and ran Shop@AOL.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "kind": "work",
+   "title": "라우드클라우드를 공동 창업하다",
+   "title_en": "Co-founds Loudcloud",
+   "description": "마크 앤드리슨, 팀 하우즈, 인식 리와 인터넷 인프라 회사를 세웠다. 델라웨어에 먼저 브이셀러로 등기했다가 그해 11월 라우드클라우드로 이름을 바꿨다. 포드, 나이키, 미 육군 같은 큰 고객의 인터넷 운영을 대행했다. 최고경영자는 그가 맡았다.",
+   "description_en": "With Marc Andreessen, Tim Howes, and In Sik Rhee he started an internet infrastructure company. They first incorporated in Delaware as VCellar and renamed it Loudcloud that November. The firm ran internet operations for large customers such as Ford, Nike, and the U.S. Army. He was chief executive.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "kind": "work",
+   "title": "라우드클라우드를 상장하다",
+   "title_en": "Takes Loudcloud public",
+   "description": "주당 6달러에 2천5백만 주를 팔아 1억 5천만 달러를 모았다. 당초 10~12달러였던 공모가 범위를 두 차례 낮춘 끝에 정해진 가격이었다. 나스닥 종목 기호는 엘디씨엘이었다.",
+   "description_en": "The company sold 25 million shares at 6 dollars each and raised 150 million dollars. The price had been cut twice from an original range of 10 to 12 dollars. The Nasdaq ticker was LDCL.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "work",
+   "title": "옵스웨어로 사업을 바꾸다",
+   "title_en": "Turns the company into Opsware",
+   "description": "관리 서비스 사업을 전자데이터시스템스에 현금 6천350만 달러를 받고 넘겼다. 이 거래로 상장사의 매출 전부도 함께 넘어갔다. 남은 회사는 데이터센터 자동화 소프트웨어 기업 옵스웨어가 되었고, 전자데이터시스템스가 첫 소프트웨어 고객이 되었다.",
+   "description_en": "He sold the managed-services business to Electronic Data Systems for 63.5 million dollars in cash. All of the public company’s revenue went with it. What remained became Opsware, a data-center automation software firm, and EDS was its first software customer.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "옵스웨어를 휴렛팩커드에 넘기다",
+   "title_en": "Sells Opsware to Hewlett-Packard",
+   "description": "휴렛팩커드는 주당 14달러 25센트, 약 16억 달러에 회사를 사기로 했다. 공개매수가 끝난 뒤 그해 9월 21일 합병 절차가 마무리됐다. 그는 휴렛팩커드 소프트웨어에서 1년간 부사장 겸 총괄책임자로 일했다.",
+   "description_en": "Hewlett-Packard agreed to buy the company at 14.25 dollars a share, about 1.6 billion dollars. After the tender offer, the merger closed on September 21. He spent a year as vice president and general manager in HP Software.",
+   "place_name": "서니베일",
+   "place_name_en": "Sunnyvale",
+   "lat": 37.368888888889,
+   "lng": -122.03694444444
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤드리슨 호로위츠를 공동 설립하다",
+   "title_en": "Co-founds Andreessen Horowitz",
+   "description": "마크 앤드리슨과 벤처투자사를 세웠다. 첫 펀드는 3억 달러였다. 사무실은 샌드힐로드에 두었고, 초기 아이디어 단계에는 5만 달러부터 기업이 성장한 뒤에는 5천만 달러까지 투자하겠다는 구조를 공개했다.",
+   "description_en": "He opened a venture firm with Marc Andreessen. The first fund was 300 million dollars. They put the office on Sand Hill Road and said they would put in as little as 50,000 dollars on an early idea and as much as 50 million once a company grew.",
+   "place_name": "멘로파크",
+   "place_name_en": "Menlo Park",
+   "lat": 37.454166666667,
+   "lng": -122.17861111111
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "publish",
+   "title": "하드씽을 내다",
+   "title_en": "Publishes The Hard Thing About Hard Things",
+   "description": "하퍼비즈니스에서 나왔다. 회사를 세운 뒤 맞닥뜨리는, 쉬운 답이 없는 결정들을 다뤘다. 라우드클라우드를 이끌기 시작해 옵스웨어를 매각하기까지 최고경영자로 겪은 일도 본문에 담았다.",
+   "description_en": "Harper Business published it. He wrote about the decisions that remain after a company is started, the ones with no easy answers. The years he spent as chief executive from Loudcloud through the sale of Opsware are in the book.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "사실관계는 영문 범위 안에서 모두 대응하며 별도 확인이 필요한 충돌은 없었다. 직역투, 불명확한 지시어, 어색한 사업·인수 표현을 고치고 생애의 흐름이 자연스럽게 이어지도록 국문 서술을 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「신좌파 쪽에서 그의 이름을 알렸다」는 조사와 주체 관계가 어색해, 책을 통해 아버지가 신좌파 진영에 알려졌다는 뜻이 바로 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「거기서」가 집과 버클리 가운데 무엇을 가리키는지 모호해 장소를 명시했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그래픽 워크스테이션으로 엔지니어가 몰리던 회사」는 무엇 때문에 어디로 몰렸는지가 자연스럽게 읽히지 않아 회사와 엔지니어의 관계를 분명히 했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「마크 앤드리슨이 있는 회사」는 인물과 회사의 관계를 막연하게 나타내며, 「이듬해까지」도 기준 연도가 흐릿해 구체적으로 고쳤다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「부사장이 되어 … 맡았다」의 반복을 줄이고 직책과 담당 사업의 관계가 자연스럽게 이어지도록 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「인터넷 운영을 대신 돌렸다」는 구어적이고 뜻이 거칠어 기업 고객의 인터넷 운영을 대행했다는 의미로 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「두 번 내려온 가격」은 공모가 범위를 두 차례 낮췄다는 의미를 정확히 전달하지 못해 가격 결정 과정을 자연스럽게 풀었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상장사 매출 전부가 같이 넘어갔다」는 구어적이고 거래와 매출 이전의 관계가 느슨해 이를 분명하게 고쳤다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「합병이 닫혔다」는 merger closed를 그대로 옮긴 직역이며, 「부사장 겸 총괄을 일 년 맡았다」도 직책 표현이 부자연스러워 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「벤처투자사를 열었다」와 「초기 아이디어에 5만 달러부터」가 어색해 회사 설립과 성장 단계별 투자 방침을 자연스러운 한국어로 정리했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "「창업 뒤에 남는 결정, 쉬운 답이 없는 쪽」은 영문 어순을 따라 뜻을 짐작해야 하며, 최고경영자로 겪은 기간도 매끄럽게 연결되지 않아 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

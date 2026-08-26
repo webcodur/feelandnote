@@ -1,0 +1,183 @@
+{
+ "slug": "dian-wei",
+ "events": [
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "birth",
+   "title": "진류 기오에서 태어나다",
+   "title_en": "Is born in Jiwu of Chenliu",
+   "description": "태어난 해는 정사에 전하지 않는다. 출생지는 오늘날 허난성 닝링 일대였다. 《삼국지》는 그가 몸집이 크고 남보다 힘이 세며 협객으로 살고자 했다고만 적었다. 부모의 이름과 자는 전하지 않는다.",
+   "description_en": "The official history gives no birth year. The place is around today’s Ningling in Henan. The Records of the Three Kingdoms say only that he was huge, stronger than other men, and meant to live as a knight-errant. No parents’ names and no courtesy name survive.",
+   "place_name": "상추",
+   "place_name_en": "Shangqiu",
+   "lat": 34.42592,
+   "lng": 115.64673
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "수양에서 이영을 죽이다",
+   "title_en": "Kills Li Yong in Suiyang",
+   "description": "양읍의 유씨 집안과 수양의 이영은 원수 사이였다. 이영은 옛 부춘장으로 경비를 삼엄하게 세우고 있었다. 전위는 수레에 닭과 술을 싣고 문안하러 온 사람처럼 꾸며 안으로 들어간 뒤, 문이 열리자 옷에 숨긴 비수로 이영과 그의 아내를 죽였다. 천천히 밖으로 나와 수레에 둔 칼과 극을 집어 들고 걸어서 떠났다. 이영의 집이 시장 옆에 있어 장터 전체가 혼란에 빠졌다. 수백 명이 뒤쫓았지만 아무도 가까이 다가오지 못했다. 전위는 4~5리를 걸어가 동료들과 합류한 뒤 추격자들과 싸우며 빠져나왔다. 이 일로 주변의 호걸들에게 이름이 알려졌다.",
+   "description_en": "The Liu family of Xiangyi had a feud with Li Yong of Suiyang. Li Yong had been chief of Fuchun and kept a tight guard. Dian Wei rode up with chicken and wine, posing as a caller. When the gate opened he stabbed Li Yong and Li Yong’s wife with a dagger hidden in his clothes. He walked out, took a sword and a ji from the cart, and left on foot. Li Yong lived by the market, and the whole market panicked. Hundreds chased him; none came close. After four or five li he met his companions, fought clear, and escaped. Local strongmen knew his name after that.",
+   "place_name": "상추",
+   "place_name_en": "Shangqiu",
+   "lat": 34.42592,
+   "lng": 115.64673
+  },
+  {
+   "year": 190,
+   "year_end": 193,
+   "kind": "work",
+   "title": "장막 휘하에서 거병에 참여하다",
+   "title_en": "Raises the banner under Zhang Miao",
+   "description": "초평 연간에 장막이 동탁을 치려고 군사를 일으키자, 전위는 사마 조총 휘하의 병졸로 복무했다. 군문의 깃대가 크고 무거워 여러 사람이 붙어도 세우지 못했지만, 전위는 한 손으로 세웠다. 조총은 그의 힘에 놀랐다. 이후 전위는 하후돈 휘하로 옮겨 여러 전투에서 적의 목을 베었고 사마로 승진했다. 《삼국지연의》는 하후돈이 사냥길에서 그를 발견했다고 그렸지만, 정사는 휘하를 옮긴 사실만 기록했다.",
+   "description_en": "In the Chuping years Zhang Miao raised troops against Dong Zhuo. Dian Wei served as a soldier under the major Zhao Chong. The yamen banner was so tall and heavy that the others could not hold it. He set it up with one hand. Zhao Chong was struck by the strength. He later served under Xiahou Dun, took heads in several fights, and was made a major. The Romance has Xiahou Dun find him on a hunt; the official history records only the transfer.",
+   "place_name": "카이펑",
+   "place_name_en": "Kaifeng",
+   "lat": 34.795,
+   "lng": 114.345
+  },
+  {
+   "year": 194,
+   "year_end": null,
+   "kind": "battle",
+   "title": "복양 서쪽에서 여포군을 막다",
+   "title_en": "Holds Lü Bu’s men west of Puyang",
+   "description": "조조는 서쪽으로 40~50리 떨어진 여포의 별영을 밤에 습격해 새벽 무렵 무너뜨렸다. 조조군이 돌아오기 전에 여포의 구원군이 세 방향에서 덮쳐 왔다. 여포도 직접 나서 아침부터 해가 기울 때까지 수십 차례 맞붙었다. 조조가 적진을 돌파할 사람을 모으자 전위가 가장 먼저 나섰다. 전위와 지원자 수십 명은 갑옷을 두 겹으로 입고 방패를 버린 채 창과 극만 들었다. 서쪽에서 화살이 비처럼 쏟아졌지만 전위는 적을 바라보지도 않고, 적이 열 걸음 앞까지 오면 알려 달라고 했다. 이어 다섯 걸음까지 오면 알리라고 하자 병사들은 겁에 질려 적이 코앞에 왔다고 외쳤다. 전위는 극 열여 자루를 들어 적을 맞혔고, 그가 맞힌 자는 모두 쓰러졌다. 여포군이 물러난 뒤 해가 저물어서야 조조군은 전장에서 빠져나왔다.",
+   "description_en": "Cao Cao night-raided Lü Bu’s camp forty to fifty li to the west and broke it by dawn. Before they could return, Lü Bu’s relief hit them on three sides. Lü Bu fought in person from morning until the sun declined, dozens of clashes. Cao Cao called for men to storm the line; Dian Wei stepped forward first. He and several dozen volunteers put on two layers of armour, threw away their shields, and took only spears and ji. Arrows from the west came like rain. He did not look, and told his men to speak when the enemy was ten paces off, then five. They cried out in fear that the enemy was on them. He rose with a dozen ji; every man he struck went down. Lü Bu’s troops fell back, and only after dusk could Cao Cao pull away.",
+   "place_name": "푸양",
+   "place_name_en": "Puyang",
+   "lat": 35.76392,
+   "lng": 115.02996
+  },
+  {
+   "year": 194,
+   "year_end": null,
+   "kind": "office",
+   "title": "도위가 되어 장막을 지키다",
+   "title_en": "Is made commandant and guards the tent",
+   "description": "조조는 전위를 가까이 두고 정예병 수백 명을 맡겨 큰 장막 둘레를 지키게 했다. 전위는 뒤에 교위로 승진했다. 낮에는 해가 질 때까지 서서 호위했고, 밤에는 장막 곁에서 잠들어 자신의 숙소로 돌아가는 일이 드물었다. 술과 음식을 여러 사람 몫만큼 먹어, 조조 앞에서 식사할 때마다 여러 사람이 계속 음식을 날라야 했다. 군영에서는 이런 말이 돌았다. “장막 아래 용사로 전위가 있으니, 한 쌍의 극이 여든 근이라네.”",
+   "description_en": "Cao Cao kept him close, gave him several hundred picked men, and had them circle the great tent. He was later made a colonel. By day he stood watch until dusk. At night he slept beside the tent and rarely went to his own quarters. He ate and drank for several men; when food was served in front of Cao Cao, extra hands had to keep the dishes coming. The camp saying ran: among the braves under the tent is Dian, who lifts a pair of ji of eighty jin.",
+   "place_name": "푸양",
+   "place_name_en": "Puyang",
+   "lat": 35.76392,
+   "lng": 115.02996
+  },
+  {
+   "year": 197,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "완의 잔치에서 도끼를 들다",
+   "title_en": "Stands with an axe at the banquet in Wan",
+   "description": "조조가 형주를 공격하러 완에 이르자 장수가 나와 항복했다. 조조는 기뻐하며 장수와 그의 휘하 장수들을 불러 잔치를 열었다. 조조가 사람들에게 술을 권하는 동안 전위는 날 길이가 한 자에 이르는 큰 도끼를 들고 뒤에 서 있었다. 조조가 술을 권하러 다가가는 사람마다 전위는 도끼를 치켜들고 노려보았다. 잔치가 끝날 때까지 장수와 그의 휘하 장수들은 감히 고개를 들지 못했다.",
+   "description_en": "Cao Cao marched on Jing Province and reached Wan. Zhang Xiu came out and surrendered. Cao Cao, pleased, called Zhang Xiu and his officers to a banquet. While Cao Cao poured wine, Dian Wei stood behind him with a great axe whose blade was a chi long. At every man Cao Cao approached, he raised the axe and stared. Until the drinking ended, Zhang Xiu and his officers did not dare look up.",
+   "place_name": "난양",
+   "place_name_en": "Nanyang",
+   "lat": 32.99871,
+   "lng": 112.52921
+  },
+  {
+   "year": 197,
+   "year_end": null,
+   "kind": "death",
+   "title": "완성 문에서 전사하다",
+   "title_en": "Dies fighting in the gate of Wan",
+   "description": "열흘 넘게 지난 뒤 장수는 항복을 번복하고 다시 조조를 공격했다. 앞서 조조는 장수의 숙부 장제의 과부를 받아들인 상태였다. 진영이 습격당하고 싸움이 불리해지자 조조는 소수의 경기병만 거느리고 빠져나갔다. 전위는 성문 안쪽을 지켜 적이 그 문으로 들어오지 못하게 막았다. 적군은 다른 문들로 흩어져 들어왔다. 전위 곁에는 병사 십여 명만 남아 있었고, 이들은 저마다 열 사람 몫을 감당하며 싸우다 죽었다. 전위가 긴 극을 좌우로 휘두르자 한 번에 적의 창 십여 자루가 부러졌다. 곁의 병사들이 거의 모두 쓰러졌을 때 전위도 이미 수십 군데에 상처를 입은 뒤였다. 짧은 병기를 들고 맞붙은 전위가 양팔에 적 두 명을 끼워 죽이자 나머지는 감히 다가오지 못했다. 그는 다시 적진으로 뛰어들어 몇 명을 더 죽였다. 마침내 상처가 터지자 눈을 부릅뜨고 적을 꾸짖으며 죽었다. 그제야 적군은 전위의 머리를 베어 서로 돌려 보았고, 온 군사가 그의 시신을 구경하러 몰려왔다. 조조의 맏아들 조앙과 조카 조안민도 그날 함께 죽었다.",
+   "description_en": "More than ten days later Zhang Xiu turned again. Cao Cao had taken the widow of Zhang Xiu’s uncle Zhang Ji. When the camp was stormed, the fight went against Cao Cao and he rode out with a few light horsemen. Dian Wei held the gate so the enemy could not come in that way. They broke in through the other gates. A dozen of his men were still with him; each fought as ten and died. He swept a long ji left and right and broke a dozen spears at a stroke. When those beside him were almost all down he had dozens of wounds. At close quarters he clamped two enemies under his arms and killed them; the rest would not come on. He charged again, killed several more, and when the wounds burst open he died glaring and cursing. Only then did they take his head and pass it around; the whole army came to look at the body. Cao Cao’s eldest son Cao Ang and his nephew Cao Anmin also died that day.",
+   "place_name": "난양",
+   "place_name_en": "Nanyang",
+   "lat": 32.99871,
+   "lng": 112.52921
+  },
+  {
+   "year": 197,
+   "year_end": null,
+   "kind": "other",
+   "title": "양읍에 묻히다",
+   "title_en": "Is buried at Xiangyi",
+   "description": "무음으로 물러나 있던 조조는 전위가 죽었다는 소식을 듣고 울었다. 사람들을 모아 시신을 수습하게 하고 직접 곡한 뒤, 양읍으로 보내 장사 지냈다. 전위의 아들 전만은 낭중에 임명됐다. 장례 행렬이 지날 때마다 중뢰의 예로 제사를 올렸다. 조조는 뒤에 전만을 사마로 승진시켜 가까이 두었다. 조비가 왕위에 오르자 전만은 도위가 되고 관내후에 봉해졌다.",
+   "description_en": "Cao Cao had fallen back to Wuyin. When he heard of the death he wept. He gathered men to recover the body, mourned in person, and sent it there for burial. He made the son Dian Man a gentleman of the household. Whenever the cortege passed, they offered a mid-rank sacrifice. Cao Cao later made Dian Man a major and kept him close. When Cao Pi took the royal title he made Dian Man a commandant and a Secondary Marquis.",
+   "place_name": "상추",
+   "place_name_en": "Shangqiu",
+   "lat": 34.42592,
+   "lng": 115.64673
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 정한 의미와 세부는 그대로 보존하면서, 뜻이 불분명한 직역과 주어·목적어 관계가 흐려진 표현을 자연스러운 한국어로 바로잡았다. 장막 휘하의 병졸에서 조조의 호위 장수로 발탁되고 완에서 전사하기까지의 흐름도 끊기지 않도록 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「난 해」는 한국어에서 쓰이지 않는 직역투이며, 지명과 인적 사항을 나열한 문장도 다소 거칠었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「칼과 극을 집어 걸었다」는 무기를 들고 걸어서 떠났다는 행동 관계가 무너져 있었고, 거리와 추격 장면의 문장도 매끄럽지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「기병을 들다」는 cavalry로 오해될 수 있고, 전위가 직접 군사를 일으킨 것처럼 읽혔다. 본문의 「초평 중」과 「여러 차례 목을 베고」도 자연스러운 한국어로 다듬을 필요가 있었다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수십 합이었다」, 「함진할 사람」, 「열 걸음에 알리라 했다」처럼 영문 어순과 한문 표현을 그대로 옮겨 전투의 주체와 행동을 짐작해야 하는 문장이 이어졌다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상을 내릴 때마다 몇 사람이 더 날라야 했다」는 조조 앞에서 음식을 먹는 장면을 포상 장면처럼 잘못 읽히게 했다. 군영에서 돌던 말도 직역되어 뜻과 운율이 불분명했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「조조가 가는 자리마다」와 「장수 쪽」은 각각 누구에게 다가갔는지, 어느 사람들을 가리키는지 바로 알기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「장수가 다시 배반했다」는 무엇을 번복했는지 빠져 있었고, 「한 사람이 열을 감당하며 죽었다」와 「적 둘을 끼고 쳐 죽이자」 등은 행동 관계가 부자연스러웠다. 조조가 데려간 병력과 전위가 지킨 문의 위치도 더 명확히 할 필요가 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그곳으로 보내」는 바로 앞의 무음을 가리키는 것처럼 읽혀 매장지인 양읍이 불분명했다. 「수레가 지나갈 때마다」도 장례 행렬을 가리킨다는 점이 드러나지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ]
+ }
+}

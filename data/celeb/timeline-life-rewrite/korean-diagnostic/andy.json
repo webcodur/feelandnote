@@ -1,0 +1,251 @@
+{
+ "slug": "andy",
+ "events": [
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "birth",
+   "title": "서울에서 태어나다",
+   "title_en": "Born in Seoul",
+   "description": "본명은 이선호다. 영등포 신길동에서 1남 1녀 중 막내로 태어났다. 이후 가족이 로스앤젤레스로 이민했고, 그는 그곳에서 자랐다.",
+   "description_en": "His Korean name is Lee Sun-ho. He was the younger of two children, born in Singil-dong, Yeongdeungpo. The family later emigrated to Los Angeles, and he grew up there.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1996,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "공원에서 이수만 오디션을 보다",
+   "title_en": "Auditions for Lee Soo-man in a park",
+   "description": "토니 안과 같은 댄스팀에서 활동했다. 미국까지 찾아온 이수만이 공원에서 두 사람에게 춤을 춰 보라고 했다. 토니 안이 뛰어난 춤을 선보이자 앤디도 브레이크댄스를 췄다. 노래방으로 자리를 옮긴 뒤 이수만은 계약하러 가자고 했다. 한국에서 H.O.T. 연습생으로 훈련받았으나, 부모가 아직 어리다며 반대해 다시 미국으로 돌아갔다.",
+   "description_en": "He and Tony Ahn were on the same dance team. Lee Soo-man came to the United States and asked them to dance in a park. Tony danced so well that he threw in breakdancing too. After they moved to a karaoke room, Lee said they should go sign a contract. He trained in Korea for H.O.T., but his parents said he was too young and sent him back to the United States.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "work",
+   "title": "에스이에스 데뷔곡에 랩을 넣다",
+   "title_en": "Raps on the S.E.S. debut song",
+   "description": "다시 한국으로 돌아와 에스엠 연습생이 됐다. 에릭과 함께 에스이에스의 데뷔곡 「아임 유어 걸」에 랩을 넣었다. 두 사람은 정식으로 데뷔하기 전부터 에스이에스와 함께 무대에 올랐다.",
+   "description_en": "He returned to Korea as an SM trainee. With Eric, he added a rap to the first S.E.S. single, I'm Your Girl. They appeared on stage with the group before their own debut.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 1998,
+   "year_end": null,
+   "kind": "work",
+   "title": "신화의 막내로 데뷔하다",
+   "title_en": "Debuts as Shinhwa's youngest member",
+   "description": "랩과 춤을 맡았다. 신화는 KMTV 「쇼 뮤직탱크」에서 「해결사」를 처음 공연했다. 다른 멤버는 에릭, 이민우, 김동완, 신혜성, 전진이었다. 에스엠은 H.O.T.에 이어 이들 여섯 명으로 남성 그룹 신화를 결성했다.",
+   "description_en": "He took rap and dance. The six of them first performed Resolver on KMTV's Show Music Tank. The others were Eric, Lee Min-woo, Kim Dong-wan, Shin Hye-sung, and Jun Jin. SM put the boy group together after H.O.T.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2003,
+   "year_end": null,
+   "kind": "work",
+   "title": "여섯 명이 함께 회사를 옮기다",
+   "title_en": "All six move to a new company",
+   "description": "에스엠과의 계약이 끝났다. 멤버 전원이 에스엠 출신 매니저들이 세운 굿 엔터테인먼트로 옮겼다. 같은 해 훗날 군에 입대하기 위해 미국 영주권을 포기했다.",
+   "description_en": "The SM contract ended. The whole group went to Good Entertainment, set up by managers from that company. The same year he gave up his U.S. green card so he could enlist later.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2004,
+   "year_end": null,
+   "kind": "work",
+   "title": "시트콤 「논스톱 4」에 나오다",
+   "title_en": "Appears on the sitcom Nonstop 4",
+   "description": "고시생 역을 맡았다. 다른 형 멤버들보다 개인 활동을 늦게 시작했지만, 이 시트콤으로 대중에게 얼굴을 알렸다. 이듬해 「프라하의 연인」에서 주인공의 이복동생 지승우 역을 맡았다.",
+   "description_en": "He played a civil-service exam student. Solo work had come later for him than for the older members. This sitcom put his face on television. The next year he played Ji Seung-woo, the hero's half-brother, in Lovers in Prague.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "work",
+   "title": "엔디 엔터테인먼트를 세우다",
+   "title_en": "Founds ND Entertainment",
+   "description": "굿이엠지와 맺은 신화의 음반 계약은 유지했다. 새로 세운 회사는 그의 개인 활동과 음반 업무를 맡았다. 그해 11월 첫 솔로 디지털 싱글 「엉뚱한 상상」을 냈다.",
+   "description_en": "He kept the Shinhwa album contract with Good EMG. The new company took his solo work and records. In November he released his first solo digital single, Extraordinary Imagination.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2010,
+   "year_end": 2011,
+   "kind": "other",
+   "title": "현역으로 입대하다",
+   "title_en": "Enlists on active duty",
+   "description": "신화 멤버 가운데 처음으로 현역 입대했다. 논산 육군훈련소에 들어간 뒤 국방홍보원 홍보지원대에 배치됐다. 위문열차에서 공연하고 국군방송을 진행했다. 이듬해 10월 용산에서 전역했다.",
+   "description_en": "He was the first Shinhwa member to do so. He entered the Army training camp in Nonsan and was posted to the Defense Media Agency publicity unit. He performed on the consolation train and hosted Korea Armed Forces Broadcasting. He was discharged in Yongsan the following October.",
+   "place_name": "논산",
+   "place_name_en": "Nonsan",
+   "lat": 36.20389,
+   "lng": 127.08472
+  },
+  {
+   "year": 2011,
+   "year_end": 2012,
+   "kind": "work",
+   "title": "멤버들과 신화컴퍼니를 세우다",
+   "title_en": "Helps found Shinhwa Company",
+   "description": "에릭과 이민우가 공동대표를 맡고 나머지는 이사가 됐다. 개인 소속사는 그대로 두고 그룹 일만 이 회사가 맡았다. 이듬해 3월 열 번째 정규 음반 「더 리턴」을 내고 투어를 시작했다.",
+   "description_en": "Eric and Lee Min-woo became co-CEOs and the rest became directors. Each man kept his own agency; the new company handled only group work. The following March they released their tenth studio album, The Return, and started a tour.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2013,
+   "year_end": null,
+   "kind": "other",
+   "title": "불법 도박으로 활동을 멈추다",
+   "title_en": "Stops work after an illegal gambling case",
+   "description": "사설 스포츠토토에 판돈을 건 혐의로 약식 기소됐다. 서울중앙지법은 벌금 500만 원을 약식 명령했다. 소속사는 공식 활동을 접겠다고 밝혔다.",
+   "description_en": "He was summarily indicted for betting on a private sports toto site. The Seoul Central District Court issued a summary order for a 5 million won fine. His agency said he would halt official activities.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "신화와 함께 방송에 복귀하다",
+   "title_en": "Returns to television with Shinhwa",
+   "description": "엠비씨가 출연 정지를 풀었다. 인기가요 특집 무대에 신화 멤버들과 함께 다시 섰다. 그해 신화의 열두 번째 정규 음반 「위」 활동에 합류했다.",
+   "description_en": "MBC lifted its broadcast ban. He stood on Inkigayo again with the members for a special. He joined the group's twelfth studio album, WE, that year.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "other",
+   "title": "이은주와 결혼하다",
+   "title_en": "Marries Lee Eun-joo",
+   "description": "이은주는 제주 엠비씨 아나운서였다. 1월에 손편지를 올려 평생 함께하고 싶은 사람이 생겼다고 알렸다. 서울에서 결혼식을 올렸고, 신화 멤버들이 「퍼펙트 맨」을 축가로 불렀다.",
+   "description_en": "She was a Jeju MBC announcer. In January he posted a handwritten letter saying he had found someone he wanted to spend his life with. They held the wedding in Seoul, and the Shinhwa members sang Perfect Man as a congratulatory song.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문을 의미의 상한선으로 삼아 전체 연표를 이어 읽고, 모호한 지시어와 직역투, 부자연스러운 배역·공연 표현을 고쳤다. 사실 확인이 필요한 충돌은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「막내로 났다」가 부자연스럽고, 「그 도시」가 앞 문장의 로스앤젤레스를 다시 짐작하게 했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「춤을 보라고 했다」와 「옆에서 토니가 잘 춰서 자기도」는 누가 누구에게 무엇을 시켰고 누가 브레이크댄스를 췄는지 관계가 흐렸다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 무대」가 S.E.S.의 무대를 가리킨다는 점을 앞 문장에 의존해 짐작해야 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "노래를 공연한 일을 「해결사를 처음 췄다」라고 표현했고, 다른 멤버를 열거하는 문장과 그룹 결성 문장도 한국어로 매끄럽게 이어지지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그곳 매니저들」이 SM을 가리킨다는 점이 불분명했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "배역을 「고시생 역이었다」라고 서술하고 개인 활동을 「개인 일」이라고 표현해 자연스럽지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "회사가 담당한 업무를 「개인 일과 음반」이라고 표현해 의미가 거칠고 불분명했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「신화 멤버 가운데 처음이었다」만으로는 무엇을 처음 했다는 뜻인지 제목을 다시 보아야 했고, 공연 활동도 「무대를 맡았다」로 어색하게 표현됐다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「방송을 타다」가 구어적이고 복귀의 의미가 약했으며, 「인기가요 특집에서」는 무대에 섰다는 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "첫 문장에 주어가 없어 제주MBC 아나운서였던 사람이 누구인지 제목에 의존해야 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   10,
+   11
+  ]
+ }
+}

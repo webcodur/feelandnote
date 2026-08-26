@@ -1,0 +1,254 @@
+{
+ "slug": "brandon-tseng",
+ "events": [
+  {
+   "year": 1986,
+   "year_end": null,
+   "kind": "birth",
+   "title": "카를로스와 재키의 아들로 태어나다",
+   "title_en": "Is born the son of Carlos and Jackie",
+   "description": "텍사스에서 태어났다. 할아버지 에드윈 프랫은 1949년 해군사관학교를 졸업했다. 가족은 이후 플로리다에 정착했다.",
+   "description_en": "He was born in Texas. His grandfather Edwin Pratt had graduated from the Naval Academy in 1949. The family later settled in Florida.",
+   "place_name": "휴스턴",
+   "place_name_en": "Houston",
+   "lat": 29.762777777778,
+   "lng": -95.383055555556
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "kind": "education",
+   "title": "수구 주 선수권에서 우승하다",
+   "title_en": "Wins a state water polo title",
+   "description": "레이크브랜틀리 고등학교에서 수구를 했다. 소속 팀은 한 경기도 지지 않고 주 선수권에서 우승했다. 학교 대표팀 선수에게 주는 바시티 레터를 세 차례 받았다.",
+   "description_en": "He played water polo at Lake Brantley High School. The team went unbeaten and took the state championship with him on it. He earned three varsity letters.",
+   "place_name": "롱우드",
+   "place_name_en": "Longwood",
+   "lat": 28.701944444444,
+   "lng": -81.345
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "education",
+   "title": "할아버지가 다닌 해군사관학교를 졸업하다",
+   "title_en": "Finishes the academy his grandfather had attended",
+   "description": "기계공학을 전공했다. 1학년 때 수구부에서 뛰었다. 졸업 직후 해군 함정에 배치됐다.",
+   "description_en": "He studied mechanical engineering. He played water polo as a freshman. As soon as he graduated he went to a ship.",
+   "place_name": "애나폴리스",
+   "place_name_en": "Annapolis",
+   "lat": 38.978611111111114,
+   "lng": -76.49194444444444
+  },
+  {
+   "year": 2008,
+   "year_end": 2009,
+   "kind": "work",
+   "title": "진주만함에서 수상전 장교로 근무하다",
+   "title_en": "Becomes a surface warfare officer on USS Pearl Harbor",
+   "description": "도크형 상륙함에서 기관장 보좌로 약 1년을 보냈다. 이 함정과 함께 아라비아만에 파병됐다.",
+   "description_en": "He spent about a year as assistant chief engineer on a dock landing ship. He deployed with it to the Arabian Gulf.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2009,
+   "year_end": 2015,
+   "kind": "work",
+   "title": "네이비실로 옮기다",
+   "title_en": "Crosses over to the Navy SEALs",
+   "description": "함정 근무를 마친 뒤 특수작전부대로 옮겼다. 아프가니스탄에 두 차례, 태평양 지역에 한 차례 파병됐다. 건물을 수색할 때는 문 너머에 누가 있는지 모른 채 안으로 들어가야 했다.",
+   "description_en": "After the ship he moved to special operations. He deployed to Afghanistan twice and once to the Pacific. Clearing buildings meant going through doors without knowing who stood behind them.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "형과 함께 실드 AI를 세우다",
+   "title_en": "Founds Shield AI with his brother",
+   "description": "형 라이언은 무선충전 회사 와이파워를 퀄컴에 매각한 경험이 있었다. 앤드루 라이터가 합류하면서 창업자는 세 명이 됐다. 실리콘밸리 투자자 30명에게 거절당했다. 군인과 민간인을 지능형 시스템으로 보호하는 것이 목표였다.",
+   "description_en": "Ryan was the older brother who had already sold a wireless charging company, WiPower, to Qualcomm. Andrew Reiter made three. Thirty Silicon Valley investors said no. The aim was to protect service members and civilians with intelligent systems.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2015,
+   "year_end": 2017,
+   "kind": "education",
+   "title": "회사를 세운 해에 경영대학원에 들어가다",
+   "title_en": "Enters business school the year he starts the company",
+   "description": "가을 학기 시작을 두 주 앞두고 투자 유치에 나섰다. 해군을 나온 뒤 일반 기업에서 일해 본 경험이 없었다.",
+   "description_en": "Two weeks before the fall term he went to raise money. After the Navy he had never worked inside a regular company.",
+   "place_name": "보스턴",
+   "place_name_en": "Boston",
+   "lat": 42.360277777777775,
+   "lng": -71.05777777777777
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "노바가 특수작전부대에 보급되다",
+   "title_en": "Nova reaches special operations units",
+   "description": "노바는 건물 안으로 먼저 들어가 지도를 만들고 영상을 전송하는 소형 쿼드콥터였다. 사람이 문을 열기 전에 방 안을 확인하도록 만든 기체였다.",
+   "description_en": "It was a small quadcopter that went into a building first, drew a map, and sent the video back. The point was to see a room before a person opened the door.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "전투기를 조종하는 인공지능을 사들이다",
+   "title_en": "Buys an AI that can fly a fighter",
+   "description": "헤론시스템스의 소프트웨어는 다르파 모의 공중전에서 공군 조종사를 이겼다. 같은 달 마틴 UAV도 회사에 합류하면서 V-BAT이 회사 기체가 됐다.",
+   "description_en": "Heron Systems software had beaten an Air Force pilot in a DARPA simulated dogfight. The same month Martin UAV came in, and V-BAT became a company aircraft.",
+   "place_name": "샌디에이고",
+   "place_name_en": "San Diego",
+   "lat": 32.715,
+   "lng": -117.1625
+  },
+  {
+   "year": 2023,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "상원 인공지능 포럼에서 말하다",
+   "title_en": "Speaks at a Senate forum on artificial intelligence",
+   "description": "국가안보를 주제로 열린 아홉 번째 모임이었다. 국가안보용 인공지능에 규제 면제를 적용하고, 계약 제도를 개혁해 안정적인 재원을 마련하자고 제안했다.",
+   "description_en": "It was the ninth session, and the subject was national security. He asked for regulatory waivers on national-security AI and for more stable funding through contracting reform.",
+   "place_name": "워싱턴",
+   "place_name_en": "Washington",
+   "lat": 38.895,
+   "lng": -77.036666666667
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "other",
+   "title": "하원 군사위원회에서 증언하다",
+   "title_en": "Testifies before the House Armed Services Committee",
+   "description": "미 의회 의사당이 아닌 실리콘밸리 캠퍼스에서 열린 현장 청문회였다. 국방부가 고정된 요구사항이 아니라 해결해야 할 문제를 중심으로 무기를 조달해야 한다고 주장했다. 팔란티어와 스카이디오 관계자들도 같은 자리에 앉았다.",
+   "description_en": "The hearing was held on a Silicon Valley campus, not in the Capitol. He argued that the Pentagon should buy weapons around problems to solve, not around fixed requirements. People from Palantir and Skydio sat at the same table.",
+   "place_name": "샌타클래라",
+   "place_name_en": "Santa Clara",
+   "lat": 37.35,
+   "lng": -121.96666666667
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 제공하는 사실 범위 안에서 직역투와 불분명한 주어·행동 관계를 바로잡고, 학창 시절부터 해군 복무와 네이비실 경력, 실드 AI 창업과 방위 기술 사업으로 이어지는 흐름이 자연스럽게 읽히도록 다듬었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「해군사관학교를 1949년에 나왔다」와 「뒤에」가 어색해 졸업 연도와 가족의 이주 순서가 자연스럽게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「수구로 주 우승을 하다」와 「그 안에 있었다」가 직역투였고, varsity letters를 단순히 세 시즌 출전으로 옮겨 원문의 세부 의미가 사라져 있었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「졸업하자 함정으로 나갔다」만으로는 졸업 후 해군 함정에 배치됐다는 행동 관계가 분명하지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "함정 이름과 근무 관계가 제목에서 붙어 보여 조사를 보완했고, 「그 배로 아라비아만에 나갔다」를 함정과 함께 파병됐다는 뜻이 분명하게 고쳤다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「네이비실로 넘어가다」가 지나치게 구어적이었고, 건물 소탕 임무를 설명한 마지막 문장의 대상과 행동을 더 분명하게 다듬을 필요가 있었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「라이언은 … 형이었다」와 「앤드루 라이터가 셋에 들었다」는 영어 어순을 그대로 옮겨 가족 관계와 세 번째 창업자의 합류를 알아보기 어려웠다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「가을 학기가 열리기」와 「정식 회사를 다녀 본 적」이 부자연스러웠으며, 투자 유치에 나선 일과 일반 기업 근무 경험이 없었다는 사실을 명확히 연결할 필요가 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「특수작전부대에 들어가다」와 「영상을 돌려보내는」이 장비의 보급과 영상 전송을 사람의 행동처럼 표현했고, 「물건」도 기체를 가리키는 말로 부정확했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「전투기 인공지능 조종을 사들이다」는 목적어와 행동 관계가 무너진 문장이었고, 「마틴무인항공기도 들어와」도 회사의 합류 관계를 알아보기 어려웠다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「규제 면제를 두고」와 「계약 방식을 고쳐 예산을 안정시키자」가 직역투여서 규제 면제와 계약 제도 개혁에 관한 제안의 뜻이 흐렸다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "무기 조달의 주체인 국방부가 빠져 있었고, 「팔란티어와 스카이디오 쪽 사람들」이 지나치게 구어적이어서 청문회 참석 관계를 명확히 고쳤다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10
+  ]
+ }
+}

@@ -1,0 +1,255 @@
+{
+ "slug": "bayezid-ii",
+ "events": [
+  {
+   "year": 1448,
+   "year_end": null,
+   "kind": "birth",
+   "title": "디메토카에서 태어나다",
+   "title_en": "Born in Dimetoka",
+   "description": "기록에 따라 출생 연도가 한 해씩 앞뒤로 엇갈린다. 아버지는 메흐메드 2세였고 어머니는 귈바하르 하툰이었다. 에디르네에 딸린 디메토카에는 술탄의 궁이 있었다.",
+   "description_en": "The records place the birth a year either way. His father was Mehmed II and his mother was Gülbahar Hatun. The town, attached to Edirne, held a sultanic palace.",
+   "place_name": "디메토카",
+   "place_name_en": "Didymoteicho",
+   "lat": 41.35,
+   "lng": 26.5
+  },
+  {
+   "year": 1455,
+   "year_end": null,
+   "kind": "office",
+   "title": "아마시아 산자크베이로 파견되다",
+   "title_en": "Sent as sanjak-bey of Amasya",
+   "description": "일곱 살에 어머니와 함께 아마시아 산자크로 갔다. 무아리프자데에게 글을 배우고 셰이흐 함둘라에게 글씨를 익혔다. 찬다를르 이브라힘과 야흐야 파샤가 그의 랄라로 배정되었다. 아마시아 산자크에 스무 해 넘게 머물렀다.",
+   "description_en": "At seven he went to that sanjak with his mother. He studied letters with Muarrifzade and calligraphy with Sheikh Hamdullah. Çandarlı İbrahim and Yahya Pasha were assigned as his lalas. He remained in that sanjak for more than twenty years.",
+   "place_name": "아마시아",
+   "place_name_en": "Amasya",
+   "lat": 40.678674,
+   "lng": 35.8278
+  },
+  {
+   "year": 1473,
+   "year_end": null,
+   "kind": "battle",
+   "title": "오틀루크벨리에서 우익을 맡다",
+   "title_en": "Commands the right wing at Otlukbeli",
+   "description": "카조바에서 본대에 합류했다. 아크코윤루의 우준 하산과 맞선 날 우익을 맡았다. 이 승리가 아나톨리아에서 우준 하산의 군세를 꺾었다.",
+   "description_en": "He joined the main army at Kazova. On the day they met Uzun Hasan of the Aq Qoyunlu he stood on the right wing. The victory broke Uzun Hasan’s pressure in Anatolia.",
+   "place_name": "오틀루크벨리",
+   "place_name_en": "Otlukbeli",
+   "lat": 39.97,
+   "lng": 40.01872
+  },
+  {
+   "year": 1481,
+   "year_end": null,
+   "kind": "office",
+   "title": "이스탄불에서 술탄으로 인정받다",
+   "title_en": "Recognized as sultan in Istanbul",
+   "description": "아버지가 죽자 대재상 카라마니 메흐메드는 바예지드의 동생 젬 편에 섰다. 수도를 지키던 이스하크 파샤와 예니체리는 바예지드를 불러들였다. 당시 수도에 있던 그의 아들 코르쿠트가 잠시 왕좌를 지켰고, 뒤이어 디반이 바예지드에게 왕위를 넘겼다.",
+   "description_en": "When his father died, Grand Vizier Karamani Mehmed sided with his brother Cem. Ishak Pasha, who held the capital, and the Janissaries called for him. His son Korkut, then in the capital, held the seat briefly until the Imperial Council transferred the throne.",
+   "place_name": "이스탄불",
+   "place_name_en": "Istanbul",
+   "lat": 41.01,
+   "lng": 28.960277777
+  },
+  {
+   "year": 1481,
+   "year_end": null,
+   "kind": "battle",
+   "title": "예니셰히르에서 젬을 꺾다",
+   "title_en": "Defeats Cem at Yenişehir",
+   "description": "동생 젬은 부르사에서 자기 이름으로 후트베를 읽게 하고 주화를 발행했다. 제국을 나누자는 젬의 제안을 바예지드는 거절했다. 패한 젬은 이집트로 달아났고 이듬해 로도스 기사단에 몸을 맡겼다. 젬이 유럽에 붙잡혀 있는 동안 바예지드는 서방에서 벌일 대규모 전쟁을 미뤘다.",
+   "description_en": "His brother had the Friday sermon read and coin struck in his own name at Bursa. He refused a proposal to split the empire. The defeated brother fled to Egypt and the next year put himself in the hands of the Knights of Rhodes. With his brother held in Europe, he put off a major war in the west.",
+   "place_name": "예니셰히르",
+   "place_name_en": "Yenişehir",
+   "lat": 40.264444444,
+   "lng": 29.653055555
+  },
+  {
+   "year": 1484,
+   "year_end": null,
+   "kind": "battle",
+   "title": "킬리를 점령하다",
+   "title_en": "Takes Kili",
+   "description": "직접 군대를 이끌고 몰다비아로 들어갔다. 다뉴브강 어귀의 킬리 요새가 함락된 뒤 아키르만도 함락되었다. 크리미아로 가는 육로가 열렸고 슈테판은 그 뒤 여러 해 동안 조공을 바쳤다.",
+   "description_en": "He led the army into Moldavia in person. After this fortress at the Danube mouth opened, Akkerman fell as well. A land route to Crimea opened, and Stephen paid tribute in the years that followed.",
+   "place_name": "킬리",
+   "place_name_en": "Kiliia",
+   "lat": 45.440806,
+   "lng": 29.265056
+  },
+  {
+   "year": 1492,
+   "year_end": null,
+   "kind": "other",
+   "title": "스페인에서 쫓겨난 유대인을 받다",
+   "title_en": "Receives Jews expelled from Spain",
+   "description": "알함브라 칙령 뒤 세파르디 가문이 제국으로 들어왔다. 유럽 산자크베이에게 이들을 막지 말라고 명했다. 케말 레이스의 배는 안달루스 무슬림 일부를 북아프리카와 오스만 땅으로 실어 날랐다.",
+   "description_en": "After the Alhambra Decree, Sephardi households entered the empire. He ordered the sanjak-beys of Europe not to turn them away. Kemal Reis’s ships carried some Andalusian Muslims to North Africa and Ottoman land.",
+   "place_name": "이스탄불",
+   "place_name_en": "Istanbul",
+   "lat": 41.01,
+   "lng": 28.960277777
+  },
+  {
+   "year": 1499,
+   "year_end": 1503,
+   "kind": "battle",
+   "title": "모돈과 코론을 점령하다",
+   "title_en": "Takes Modon and Coron",
+   "description": "젬이 죽은 뒤 베네치아 항구를 폐쇄하고 전쟁을 시작했다. 케말 레이스가 존키오에서 함대를 물리쳤고, 이듬해 ‘모레아의 두 눈’으로 불린 모돈과 코론을 점령했다. 몇 년 뒤 베네치아는 해마다 다시 조공을 바치기로 했다.",
+   "description_en": "After Cem died he closed Venetian ports and opened war. Kemal Reis beat the fleet at Zonchio and the next year took the two eyes of the Morea. Venice agreed a few years later to pay the yearly tribute again.",
+   "place_name": "메토니",
+   "place_name_en": "Methoni",
+   "lat": 36.821666666,
+   "lng": 21.706944444
+  },
+  {
+   "year": 1509,
+   "year_end": null,
+   "kind": "other",
+   "title": "작은 심판이라 불린 지진을 겪다",
+   "title_en": "Survives the earthquake called the Little Judgment",
+   "description": "마르마라에서 땅이 흔들렸다. 침소 천장이 내려앉았으나 그는 이미 일어나 나가 있었다. 정원 천막에서 열흘을 보낸 뒤 옛 수도 에디르네로 피했다. 그가 짓던 모스크의 돔도 부서졌다.",
+   "description_en": "The ground shook in the Sea of Marmara. The ceiling of his bedchamber fell, but he had already risen and left. After ten days in a tent in the garden he took refuge in the old capital, Edirne. The dome of the mosque he was building also broke.",
+   "place_name": "이스탄불",
+   "place_name_en": "Istanbul",
+   "lat": 41.01,
+   "lng": 28.960277777
+  },
+  {
+   "year": 1511,
+   "year_end": null,
+   "kind": "battle",
+   "title": "테케에서 일어난 샤쿨루 반란에 맞서다",
+   "title_en": "Faces the Şahkulu rising from Teke",
+   "description": "코르쿠트가 안탈리아를 비운 틈에 누레딘 알리가 깃발을 들었다. 바예지드가 보낸 군대는 패했고 반란군은 부르사 가까이까지 진격했다. 토카트에서는 샤 이스마일의 이름으로 후트베가 읽혔다. 큰아들 아흐메드가 반란 진압에 실패하자 예니체리는 셀림을 지지했다.",
+   "description_en": "When Korkut left Antalya empty, Nureddin Ali raised his banner. The troops sent against him lost, and the rebels came near Bursa. In Tokat the Friday sermon was read in the name of Shah Ismail. After his eldest son Ahmed failed to put the rising down, the Janissaries pushed for Selim.",
+   "place_name": "안탈리아",
+   "place_name_en": "Antalya",
+   "lat": 36.90812,
+   "lng": 30.69556
+  },
+  {
+   "year": 1512,
+   "year_end": null,
+   "kind": "office",
+   "title": "셀림에게 왕위를 넘기다",
+   "title_en": "Abdicates in favor of Selim",
+   "description": "과거 바예지드를 옹립했던 예니체리는 이제 그의 아들 셀림을 지지했다. 바예지드는 우그라슈데레에서 셀림을 한 차례 물리쳤으나, 예니체리는 셀림을 총사령관으로 불러들이도록 강요했다. 그는 셀림의 손을 잡고 왕위에서 물러났다.",
+   "description_en": "The Janissaries who had raised him now pushed his son. He once beat that son at Uğraşdere, yet they forced him to call the son in as commander-in-chief. He took his son’s hand and stepped down.",
+   "place_name": "이스탄불",
+   "place_name_en": "Istanbul",
+   "lat": 41.01,
+   "lng": 28.960277777
+  },
+  {
+   "year": 1512,
+   "year_end": null,
+   "kind": "death",
+   "title": "디메토카로 가던 길에 숨을 거두다",
+   "title_en": "Dies on the road to Dimetoka",
+   "description": "가마를 타고 하루에 몇 킬로미터씩 움직였다. 아발라르 마을에 이르러 열과 기침이 심해졌다. 후대의 일부 사료는 아들이 그를 독살했다고 전한다. 여정에 동행한 메흐메드의 보고와 사건에 가까운 시기의 연대기는 그가 오래 앓은 통풍과 당시 여정을 기록했다. 시신은 그가 세운 모스크 곁으로 운구되었다.",
+   "description_en": "He traveled by palanquin a few kilometers a day. At the village of Abalar his fever and cough worsened. Some later sources say his son had him poisoned. A report by Mehmed on the same road, and chronicles close to the event, record long-standing gout and the journey. His body was brought back beside the mosque he had built.",
+   "place_name": "하프사",
+   "place_name_en": "Havsa",
+   "lat": 41.55,
+   "lng": 26.816666666
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "여러 사건에서 지시어와 직역 표현 때문에 주체·대상·행동의 관계가 흐려졌다. 영문이 제시한 세부 범위 안에서 인물과 장소를 명시하고, 사건들이 생애의 흐름을 따라 자연스럽게 이어지도록 고쳤다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「생년을 한 해 앞뒤로 적는다」는 기록마다 출생 연도가 엇갈린다는 뜻을 바로 이해하기 어렵고, 「이 고을」도 앞 문장만으로는 디메토카를 가리키는지 분명하지 않았다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "영문의 파견 의미가 제목에서 빠졌고, 「그 산자」와 「랄라로 붙었다」가 대상과 임명 관계를 불분명하게 만들었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「오른쪽 날개에 섰다」는 전투에서 우익을 맡았다는 뜻을 다소 직역투로 전달했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수도 수비 이스하크 파샤」와 「디반이 왕권을 넘겼다」의 어순이 어색하고, 누구를 불렀으며 누구에게 왕위를 넘겼는지 문장 안에서 선명하지 않았다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「돈을 찍었다」는 주화 발행을 부정확하게 표현했고, 형제를 가리키는 지시어가 반복되어 각 행동의 주체가 흐려졌다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「군을 몰았다」가 같은 뜻을 되풀이했고, 「성이 열린 뒤」와 「해를 넘기며 세금을 바쳤다」는 점령과 조공의 의미를 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「항구를 닫고 전쟁을 열었다」와 「두 눈을 취했다」가 영문 표현을 그대로 옮긴 직역이었다. ‘두 눈’이 모돈과 코론을 가리키는 비유라는 점도 드러나지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목이 바예지드가 반란에 맞섰다는 영문의 관점을 충분히 살리지 못했다. 본문에서도 「보낸 군대」의 주체가 빠졌고, 「셀림을 밀었다」가 지지했다는 뜻을 모호하게 전달했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그를 세웠던 것과 같이 이제 아들을 밀었다」와 뒤이은 「그 아들」·「그들」 때문에 바예지드·셀림·예니체리의 관계를 여러 번 추론해야 했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「쓰러지다」는 영문에 명시된 죽음을 정확히 전달하지 못했다. 「독을 넣었다」는 대상이 빠졌고, 「오래 앓던 통풍과 여정을 적는다」도 무엇을 기록했다는 것인지 어색했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   7,
+   9,
+   10,
+   11
+  ]
+ }
+}

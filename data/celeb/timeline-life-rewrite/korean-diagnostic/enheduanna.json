@@ -1,0 +1,228 @@
+{
+ "slug": "enheduanna",
+ "events": [
+  {
+   "year": -2285,
+   "year_end": null,
+   "kind": "birth",
+   "title": "사르곤의 딸로 태어나다",
+   "title_en": "Is born as Sargon's daughter",
+   "description": "출생 연도와 출생지는 당대 기록에 남아 있지 않다. 이 연표에서 사용하는 연도는 후대 연구에서 제시한 수치다. 아버지는 아카드의 왕 사르곤이었다. 아카드는 도시로 전해지지만, 그 유적지는 아직 발견되지 않았다. 본래 이름은 전하지 않는다. 오늘날 전하는 이름은 「하늘의 장식」으로 풀이되는 직함이다. 사르곤의 아내 가운데 이름이 확인되는 이는 타슐툼뿐이지만, 그 왕비를 어머니로 밝힌 비문은 없다.",
+   "description_en": "Neither the year nor the place of birth is recorded in contemporary sources. The year used later in this timeline is a figure attached by later scholarship. Her father was Sargon, king of Akkad. Akkad is remembered as a city, but its site has never been found. Her birth name is not preserved. The name that survives is a title, read as \"Ornament of Heaven.\" Tashlultum is the only attested wife of Sargon, but no inscription names her as the mother.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "난나의 엔이 되다",
+   "title_en": "Becomes the en of Nanna",
+   "description": "사르곤이 우루크의 루갈자게시를 꺾고 남쪽을 차지한 뒤, 달의 신 난나를 섬기는 엔 여사제 자리에 딸을 앉힌 것으로 본다. 그 직위는 명예 면에서 왕과 맞먹는 것으로 해석된다. 그녀는 난나의 아내로 불렸고, 의례에서는 닌갈의 자리에 섰던 것으로 본다. 거처는 성역 안의 기파루였다. 취임 연도는 남아 있지 않다.",
+   "description_en": "After Sargon defeated Lugal-zage-si of Uruk and took the south, he is thought to have installed his daughter as en-priestess of the moon god Nanna. The office is read as equal in honor to a king's. She was called Nanna's wife and is thought to have stood in ritual in Ningal's place. She lived in the Giparu in the sacred precinct. The year of the appointment is not preserved.",
+   "place_name": "우르",
+   "place_name_en": "Ur",
+   "lat": 30.962222,
+   "lng": 46.104444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "이난나에게 「안의 상」을 봉헌하다",
+   "title_en": "Dedicates the Table of An to Inanna",
+   "description": "이난나-자자 신전에 제단을 만들고 이름을 「안의 상」이라 했다. 설화석고 원판 뒷면에는 난나의 아내이자 사르곤의 딸이라고 새겨져 있다. 앞면에는 수행원들보다 크게 묘사된 여사제가 관주 의식을 지켜보는 모습이 새겨졌다. 원판은 조각난 채 기파루에서 발견됐으며, 당대에 엔헤두안나의 이름을 기록한 몇 안 되는 유물이다.",
+   "description_en": "She built an altar in the temple of Inanna-Zaza and named it the Table of An. The reverse of an alabaster disk calls her the wife of Nanna and the daughter of Sargon. The front places a priestess, larger than her attendants, watching a libation. The disk was found in pieces in the Giparu and is one of the few contemporary objects that name her.",
+   "place_name": "우르",
+   "place_name_en": "Ur",
+   "lat": 30.962222,
+   "lng": 46.104444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "기파루에서 시종들을 거느리다",
+   "title_en": "Keeps a household in the Giparu",
+   "description": "이발사 일룸팔릴, 재산 관리인 아다, 서기 사가두와 이름 일부가 훼손된 서기 키투슈두의 원통 인장은 모두 사르곤 시대의 것으로 확인된다. 각 인장에는 그 주인이 엔헤두안나의 시종이라고 적혀 있다. 일룸팔릴의 무덤도 같은 성역에서 확인됐다.",
+   "description_en": "Cylinder seals of her hairdresser Ilum-palil, her estate manager Adda, and her scribes Sagadu and the partly broken name Kitushdu date to the Sargonic period. Each seal names its owner as her servant. Ilum-palil's grave was also identified in the same sacred precinct.",
+   "place_name": "우르",
+   "place_name_en": "Ur",
+   "lat": 30.962222,
+   "lng": 46.104444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "루갈아네에게 직을 빼앗기다",
+   "title_en": "Is driven from office by Lugal-Ane",
+   "description": "후대의 재구성에서는 나람신 치세에 옛 도시국가들이 아카드에 반기를 든 것으로 본다. 「이난나의 찬양」은 우르를 장악한 루갈아네가 난나의 아내에게 자신의 통치를 인정하라고 요구했고, 사르곤 왕가의 여사제가 이를 거절하자 직을 빼앗아 도시에서 내쫓았다고 1인칭으로 전한다. 현존 필사본은 여섯 세기 뒤 바빌론 서기학교에서 작성됐으며, 엔헤두안나를 원작자로 볼 수 있는지는 의견이 갈린다.",
+   "description_en": "Later reconstructions place a revolt of former city-states against Akkad in the reign of Naram-Sin. In the first-person voice of The Exaltation of Inanna, Lugal-Ane, holding the city, demanded that Nanna's wife confirm his rule, then stripped the Sargonid priestess of office and drove her from the city when she refused. The surviving copies were written in Babylonian scribal schools six centuries later, and whether she composed the song remains disputed.",
+   "place_name": "우르",
+   "place_name_en": "Ur",
+   "lat": 30.962222,
+   "lng": 46.104444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "travel",
+   "title": "기르수로 피했다고 전한다",
+   "title_en": "Is said to have taken refuge in Girsu",
+   "description": "같은 노래에는 에에시담쿠라는 이름이 나온다. 이 이름은 기르수의 이난나 신전을 가리키는 것으로 해석된다. 추방된 뒤 엔헤두안나가 그 신전에서 이난나의 개입을 빌며 노래를 지었다고 보는 이들이 있다. 당대의 행정 문서는 이 피난을 뒷받침하지 않는다.",
+   "description_en": "The same hymn names the E-eshdam-ku. That name is read as Inanna's temple here. Some scholars reconstruct her composing the song in that temple after the expulsion, asking Inanna to intervene. No contemporary administrative text confirms the refuge.",
+   "place_name": "기르수",
+   "place_name_en": "Girsu",
+   "lat": 31.56526,
+   "lng": 46.18964
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "「이난나의 찬양」에 이름이 남다",
+   "title_en": "Is named in The Exaltation of Inanna",
+   "description": "백쉰네 줄로 된 이 노래는 이난나에게 신성한 권능을 모아 주고, 반란을 일으킨 우르와 루갈아네를 심판해 달라고 청한다. 옛 바빌론 서기 교육의 고급 교재에 들어가 많은 필사본이 남았다. 엔헤두안나가 직접 지었다고 보는 이들도 있고, 후대 서기관들이 글에 권위를 더하려고 그녀의 이름을 붙였다고 보는 이들도 있다.",
+   "description_en": "The hymn of a hundred and fifty-four lines gathers divine powers for Inanna and asks her to judge rebellious Ur and Lugal-Ane. It entered the advanced Old Babylonian scribal curriculum and survives in many copies. Some read it as the priestess's own composition; others think later scribes attached her name to give the text authority.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "office",
+   "title": "엔 자리를 되찾았다고 전한다",
+   "title_en": "Is said to have been restored as en",
+   "description": "나람신은 루갈아네와 다른 왕들의 반란을 진압했다. 이 노래와 후대 연구에서는 여사제가 엔의 자리로 돌아왔다고 본다. 복귀 시점과 복귀 의례를 기록한 당대 비문은 없다. 그 뒤에도 아카드의 왕들과 우르 제3왕조의 왕들은 왕의 딸을 난나의 엔으로 앉혔다.",
+   "description_en": "Naram-Sin put down the revolt of Lugal-Ane and the other rebel kings. The hymn and later studies take the priestess as returning to her office. No contemporary inscription records the year or the rite of restoration. After her, the Akkadian kings and the Third Dynasty of Ur still seated royal daughters as Nanna's en.",
+   "place_name": "우르",
+   "place_name_en": "Ur",
+   "lat": 30.962222,
+   "lng": 46.104444
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "「신전 찬가」에 이름이 남다",
+   "title_en": "Is credited in the Temple Hymns",
+   "description": "마흔두 편의 신전 찬가가 우르와 니푸르에서 나온 서판에 남아 있다. 마지막 두 줄을 편찬자 표기로 해석하는 이들이 있다. 반면 그 두 줄도 마지막 찬가의 일부이며, 슐기의 신전을 노래한 찬가는 아카드 시대에 쓰일 수 없었다는 반론도 있다. 필사본은 우르 제3왕조와 옛 바빌론 시대의 것이다.",
+   "description_en": "Forty-two temple hymns survive on tablets from Ur and Nippur. Some read the last two lines as a credit for compilation. Others take those lines as part of the final hymn, and note that a hymn to Shulgi's temple cannot have been written in the Akkadian period. The copies belong to the Ur III and Old Babylonian periods.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -2250,
+   "year_end": null,
+   "kind": "death",
+   "title": "사망 연도가 후대에 제시되다",
+   "title_en": "Dies in a year counted by later scholars",
+   "description": "사망 시점과 장소는 당대 기록에 남아 있지 않다. 이 연표에서 사용하는 연도는 후대 연구에서 제시한 수치다. 기파루에는 역대 엔 여사제들을 묻는 장소가 있었고 그들에게 제물을 바쳤다고 전하지만, 엔헤두안나 자신의 무덤은 확인되지 않았다.",
+   "description_en": "No contemporary record gives the time or place of death. The year used in this timeline is a figure attached by later scholarship. The Giparu is said to have held a burial place for former en-priestesses and to have received offerings for them, but her own grave has not been identified.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미의 범위를 넘지 않도록 사건 10건을 처음부터 끝까지 대조했다. 대상이 불분명한 지시어, 번역투 표현, 주어와 행동의 관계가 흐린 문장, 연표의 흐름을 끊는 표현을 고쳤으며 이미 자연스러운 내용은 유지했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「뒤 연표의 해」가 현재 연표를 가리키는 표현으로 부자연스럽고, 「도시로 전하나, 자리만 찾지 못했다」와 「뒤에 남는 이름은 직함으로」는 영문 어순을 따라가 뜻을 짐작해야 했다. 영문에 없는 「수도」는 삭제하고 인명 표기도 영문과 맞췄다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「왕에 맞먹는 자리로 읽히며」와 「닌갈의 자리로 의례에 섰다」가 번역투여서 직위의 명예와 의례에서 맡은 역할을 자연스럽게 풀었다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「이난나 신전에 안의 상을 세우다」는 조사와 목적 관계가 어색했다. 본문의 「앞면은 … 여사제를 가운데 크게 두었다」와 「당대에 그를 적는」도 대상과 행동이 불분명해 조각의 구도와 엔헤두안나의 이름을 명시했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「기파루에 시종을 두다」는 영문의 household와 본문의 복수 시종을 충분히 드러내지 못했다. 「이름 앞이 깨진 키투슈두」와 「사르곤 시대 물건으로 나왔다」도 의미가 불분명해 이름 일부의 훼손과 인장의 연대를 분명하게 썼다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "반란을 나람신 치세에 배치한 주체가 후대 연구라는 점이 흐려져 있었다. 또한 「이 도시」는 앞 문장만으로 우르를 가리키는지 알 수 없고, 루갈아네의 요구·여사제의 거절·추방 사이의 주어와 목적어 관계도 불안정했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 노래가 … 부른다」는 한국어에서 부자연스럽고, 「이곳 이난나 신전」은 장소명이 본문에 없어 대상을 바로 알 수 없었다. 에에시담쿠가 기르수의 이난나 신전으로 해석된다는 관계를 명시했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「후대가 권위를 빌리려 이름을 붙였다」는 누가 무엇에 누구의 이름을 붙였는지 흐렸다. 영문에 따라 후대 서기관들이 글에 권위를 더하려고 엔헤두안나의 이름을 붙였다는 견해로 정리했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「노래와 뒤 연구」, 「성으로 돌아가 직을 이었다」, 「복귀 해와 의례」가 번역투이거나 영문의 범위보다 모호했다. 엔의 자리로 돌아왔다는 내용과 기록되지 않은 복귀 시점·의례를 분리해 썼다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 「편찬자로 적다」는 주어가 뒤바뀐 문장이며, 편찬자 여부가 논쟁 중인데도 확정된 사실처럼 보였다. 본문의 「편찬 표시」와 「신전을 부르는 편」도 어색해 편찬자 표기와 신전을 노래한 찬가로 고쳤다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「죽은 해를 후대가 헤아리다」와 「사망 시점과 장소는 당대 기록이 없다」가 부자연스러웠다. 사망 연도는 후대 연구에서 제시되었고 당대 기록에는 시점과 장소가 남아 있지 않다는 관계를 분명히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

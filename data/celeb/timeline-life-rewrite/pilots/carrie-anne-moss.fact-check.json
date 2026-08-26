@@ -1,0 +1,1152 @@
+{
+ "slug": "carrie-anne-moss",
+ "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+ "mode": "replace",
+ "before_fingerprint": "bd08744ff2d2cdf6a0574443c14e7882f5eeeaa8bb3caee641b69b0bf729f0aa",
+ "before_events": [
+  {
+   "id": "c95ab220-51b2-4412-b67b-9db528245a9a",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1967,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "버너비에서 태어나다",
+   "title_en": "Is born in Burnaby",
+   "description": "8월 21일에 났다. 어머니 바버라는 그해 봄에 나온 홀리스의 노래 제목을 붙였다. 아버지 멜빈과 형 브룩이 있었다. 부모는 아이들이 어릴 때 갈라졌고, 어머니는 밴쿠버에서 두 아이를 키웠다. 어머니는 뮤지컬 무대에 섰다.",
+   "description_en": "She was born on August 21. Her mother, Barbara, took the name from a Hollies song that had come out that spring. Her father was Melvyn and her older brother was Brooke. The parents split while the children were young, and her mother raised both in Vancouver. Her mother appeared in musical theatre.",
+   "kind": "birth",
+   "place_name": "버너비",
+   "place_name_en": "Burnaby",
+   "lat": 49.25,
+   "lng": -122.949167,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 10,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "bf7b3355-1b63-436f-aa64-c95ba6dd86f3",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1978,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "밴쿠버 어린이 뮤지컬 극단에 들어가다",
+   "title_en": "Joins Vancouver children’s musical theatre",
+   "description": "열한 살이었다. 십대가 되자 연극과를 쓰려고 시내를 가로질러 매기 중등학교에 다녔다. 합창단에서 불렀고 졸업반 해에 유럽을 돌았다. 12학년 뮤지컬 주역을 놓쳤을 때 어머니는 조연이 더 나을 때도 있다고 했다. 스코틀랜드 춤 대회에도 나갔고, 어릴 때부터 식당에서 일했다.",
+   "description_en": "She was eleven. As a teenager she crossed town to Magee Secondary for its drama department. She sang in the choir and toured Europe with it in her senior year. When she lost the lead in the grade-12 musical, her mother told her the supporting part is often better. She also entered Scottish-dancing contests and had worked in restaurants from a young age.",
+   "kind": "education",
+   "place_name": "밴쿠버",
+   "place_name_en": "Vancouver",
+   "lat": 49.260833333,
+   "lng": -123.113888888,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 20,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "d6657c72-cb5f-4fd5-9f88-10c406b88bef",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1985,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "토론토로 가 모델을 시작하다",
+   "title_en": "Leaves for Toronto to model",
+   "description": "열여덟이었다. 캐나다에서 잡힌 일로 일본에도 갔다. 스무 살에 유럽으로 나간 친구들을 따라 바르셀로나 에이전시에 사진을 보냈다. 받겠다는 답이 왔다.",
+   "description_en": "She was eighteen. Jobs booked in Canada also took her to Japan. At twenty she sent pictures to a Barcelona agency, following friends who had already gone to Europe. The agency said it would represent her.",
+   "kind": "travel",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777,
+   "lng": -79.386666666,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 30,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "16470e50-b180-4751-9f6f-8c26c0ba94dc",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1987,
+   "year_end": 1990,
+   "month": null,
+   "day": null,
+   "title": "바르셀로나에서 카탈로그를 찍다",
+   "title_en": "Shoots catalogues in Barcelona",
+   "description": "광고와 카탈로그가 일이었다. 성공한 모델은 아니었다고 뒤에 말했다. 스페인에 사 년을 두었다. 그 도시에서 광고에 나왔고 연기를 다시 시작했다.",
+   "description_en": "The work was commercials and catalogues. She later said she was never a successful model. She stayed in Spain for four years. She appeared in commercials in that city and started acting again.",
+   "kind": "work",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.176944444,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 40,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "13345c79-4d11-4d2e-a8d4-d3bef9025778",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1991,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "《다크 저스티스》의 타라를 맡다",
+   "title_en": "Plays Tara on Dark Justice",
+   "description": "CBS가 그 도시에서 드라마 첫 시즌을 찍었다. 판사 니컬러스 마셜의 서기 타라 맥도널드였다. 처음으로 여러 회에 걸쳐 같은 인물을 했다.",
+   "description_en": "CBS shot the first season of the series in that city. She played Tara McDonald, clerk to Judge Nicholas Marshall. It was the first time she held the same part across multiple episodes.",
+   "kind": "work",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.176944444,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 50,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "8da3ed2e-d20f-4f71-af0c-279f6d18aa23",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1992,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "로스앤젤레스로 따라가다",
+   "title_en": "Follows the series to Los Angeles",
+   "description": "제작진이 북미 방송을 노리고 촬영지를 옮겼다. 3시즌이 시작되기 전에 하차했다. 패서디나 아메리칸 아카데미 오브 드라마틱 아츠에 등록했다. 아는 사람이 없었다. 스물넷에 그 도시에 혼자 남았다.",
+   "description_en": "The producers moved the shoot to chase the North American market. She left before the third season began. She enrolled at the American Academy of Dramatic Arts in Pasadena. She knew no one. At twenty-four she was alone in that city.",
+   "kind": "travel",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 60,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "17d915f3-a68b-4be5-87d2-fb079732a2df",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1994,
+   "year_end": 1997,
+   "month": null,
+   "day": null,
+   "title": "《모델스 잉크》에서 캐리 스펜서를 하다",
+   "title_en": "Plays Carrie Spencer on Models Inc.",
+   "description": "폭스가 《멜로즈 플레이스》에서 갈라 낸 연속극이었다. 그 전 해에 캐나다 시리즈 《매트릭스》에서 리즈 틸을 했다. 나중에 같은 제목의 영화를 오디션할 때 워쇼스키 남매가 그 이름을 알아봤다. 극장 영화 오디션에는 잘 들어가지 못했다. 비디오로 가는 영화를 찍었고, 뒤에 그 대사가 가장 어려웠다고 말했다.",
+   "description_en": "It was a Fox soap spun off from Melrose Place. The year before she had played Liz Teel in a Canadian series called Matrix. When she later auditioned for a film of the same name, the Wachowskis noticed the coincidence. She rarely got into the room for theatrical features. She shot films that went to video and later said that dialogue was the hardest she ever had to deliver.",
+   "kind": "work",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 70,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "547c5fab-36bf-4365-89d4-cb705e51d3d3",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1999,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "《매트릭스》에서 트리니티를 하다",
+   "title_en": "Plays Trinity in The Matrix",
+   "description": "캐스팅 디렉터 말리 핀이 워쇼스키 남매 앞에 세웠다. 오디션을 여섯일곱 번 봤다. 서른 생일날 키아누 리브스와 스크린 테스트를 했다. 무술과 와이어를 몇 달 익히고 시드니에서 찍었다. 해커이자 저항군이었다. 나오기 전에는 경력이 없었다고 뒤에 말했다.",
+   "description_en": "Casting director Mali Finn brought her in for the Wachowskis. She auditioned six or seven times. She screen-tested with Keanu Reeves on her thirtieth birthday. After months of martial-arts and wire work they shot in Sydney. The part was a hacker and a fighter in the resistance. She later said she had had no career before it came out.",
+   "kind": "work",
+   "place_name": "시드니",
+   "place_name_en": "Sydney",
+   "lat": -33.867777777,
+   "lng": 151.21,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 80,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "373aa1ad-bd7e-4b2b-9796-edc5fb4abd1d",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 1999,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "스티븐 로이와 결혼하다",
+   "title_en": "Marries Steven Roy",
+   "description": "할리우드 연기 수업에서 만났다. 둘 다 캐나다에서 온 배우였다. 11월 11일이었다.",
+   "description_en": "They met in a Hollywood acting class. Both were actors from Canada. The wedding was on November 11.",
+   "kind": "other",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 90,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "e3fbe2ec-19b9-4084-8d91-b7b7fbe23e22",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 2000,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "《메멘토》에서 내털리를 하다",
+   "title_en": "Plays Natalie in Memento",
+   "description": "제작자 제니퍼 토드가 트리니티를 보고 그 이름을 올렸다. 크리스토퍼 놀런은 대본에 없던 것을 그 배역에 보탰다고 했다. 기억나지 않는 남자를 이용하는 바텐더였다.",
+   "description_en": "Producer Jennifer Todd put her name forward after seeing Trinity. Christopher Nolan said she added a great deal to the part that was not on the page. Natalie was a bartender who used a man who could not form new memories.",
+   "kind": "work",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 100,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "2dcfb694-2c1f-44f2-8253-d4870a13649e",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 2003,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "《매트릭스》 속편을 연달아 찍다",
+   "title_en": "Shoots the Matrix sequels back to back",
+   "description": "훈련 중 다리가 부러졌다. 오토바이를 두 달 몰았다. 시드니에 있는 동안 미국에서 납치된 비행기가 뉴욕과 워싱턴에 떨어졌다. 배역을 맡은 알리야는 다른 비행기 사고로 죽었고, 오라클 역 글로리아 포스터도 세상을 떴다. 첫째 아들이 그해 태어났다. 둘째는 2005년, 딸은 2009년에 났다. 삼부작이 끝난 뒤 쿵푸 영화는 다시 안 하겠다고 말했다.",
+   "description_en": "She broke her leg in training. She rode a motorcycle for nearly two months. While the company was in Sydney, hijacked planes hit New York and Washington. Aaliyah, who had been cast, died in a separate plane crash, and Gloria Foster, who played the Oracle, also died. Her first son was born that year. A second son followed in 2005 and a daughter in 2009. After the trilogy she said she would not make another kung fu film.",
+   "kind": "work",
+   "place_name": "시드니",
+   "place_name_en": "Sydney",
+   "lat": -33.867777777,
+   "lng": 151.21,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 110,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "6caab189-653a-4559-8ea3-b90639afb843",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 2015,
+   "year_end": 2019,
+   "month": null,
+   "day": null,
+   "title": "《제시카 존스》에서 제리 호가스를 하다",
+   "title_en": "Plays Jeri Hogarth in Jessica Jones",
+   "description": "넷플릭스 마블 시리즈였다. 원작 만화의 남자 변호사를 여자로, 레즈비언으로 다시 썼다. 제프 로브와 멜리사 로젠버그가 배역을 설명했고, 대본 두 편을 읽고 맡았다. 세 시즌을 갔고, 같은 세계관의 다른 시리즈에도 그 인물로 나왔다.",
+   "description_en": "It was a Marvel series for Netflix. The comics lawyer, a man, was rewritten as a woman and a lesbian. Jeph Loeb and Melissa Rosenberg pitched the part, and she took it after reading the first two scripts. She stayed for three seasons and played the same figure in other series in that shared world.",
+   "kind": "work",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 120,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  },
+  {
+   "id": "fb0b09fd-37e9-495b-b68f-281381776eef",
+   "celeb_id": "98b02246-0144-4cc5-a7e4-bf9c64ebccb8",
+   "year": 2021,
+   "year_end": null,
+   "month": null,
+   "day": null,
+   "title": "트리니티로 돌아오다",
+   "title_en": "Returns as Trinity",
+   "description": "라나 워쇼스키가 혼자 연출한 《매트릭스: 리저렉션》이었다. 샌프란시스코에서 찍었다. 키아누 리브스와 손을 잡고 몽고메리 거리 44번 건물에서 뛰어내렸다. 열아홉 번, 스무 번을 반복했다. 누가 그 배역을 물었을 때 트리니티가 아니면 난 누구인가고 답했다.",
+   "description_en": "It was The Matrix Resurrections, directed by Lana Wachowski alone. They shot in San Francisco. She and Keanu Reeves held hands and jumped from 44 Montgomery. They did it nineteen or twenty times. Asked about the part, she said she was nobody if not Trinity.",
+   "kind": "work",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444,
+   "place_qid": null,
+   "source": "manual",
+   "source_url": null,
+   "sort_order": 130,
+   "created_at": "2026-08-25T17:09:19.056721+00:00",
+   "updated_at": "2026-08-25T17:09:19.056721+00:00",
+   "sequence_label": null,
+   "sequence_label_en": null
+  }
+ ],
+ "events": [
+  {
+   "year": 1967,
+   "year_end": null,
+   "title": "버너비에서 태어나다",
+   "title_en": "Is born in Burnaby",
+   "description": "8월 21일에 태어났다. 어머니 바버라는 그해 봄에 나온 홀리스의 노래 제목에서 이름을 따왔다. 아버지는 멜빈이었고 형은 브룩이었다. 부모는 두 아이가 어릴 때 헤어졌고, 어머니가 밴쿠버에서 두 아들을 키웠다.",
+   "description_en": "She was born on August 21. Her mother, Barbara, took the name from a Hollies song that had come out that spring. Her father was Melvyn and her older brother was Brooke. The parents split while the children were young, and her mother raised both in Vancouver.",
+   "kind": "birth",
+   "place_name": "버너비",
+   "place_name_en": "Burnaby",
+   "lat": 49.25,
+   "lng": -122.949167
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "title": "밴쿠버 어린이 뮤지컬 극단에 들어가다",
+   "title_en": "Joins Vancouver children’s musical theatre",
+   "description": "열한 살이었다. 십대에는 연극과에 다니기 위해 시내를 가로질러 매기 중등학교에 통학했다. 합창단에서 노래했고 졸업반 때는 합창단과 함께 유럽을 돌았다. 어린 시절부터 식당에서 일했다.",
+   "description_en": "She was eleven. As a teenager she crossed town to Magee Secondary for its drama department. She sang in the choir and toured Europe with it in her senior year. She had worked in restaurants from a young age.",
+   "kind": "education",
+   "place_name": "밴쿠버",
+   "place_name_en": "Vancouver",
+   "lat": 49.260833333,
+   "lng": -123.113888888
+  },
+  {
+   "year": 1985,
+   "year_end": null,
+   "title": "토론토로 떠나 모델 일을 시작하다",
+   "title_en": "Leaves for Toronto to model",
+   "description": "열여덟이었다. 캐나다에서 계약한 일로 일본에서도 모델로 일했다.",
+   "description_en": "She was eighteen. Jobs booked in Canada also took her to Japan.",
+   "kind": "travel",
+   "place_name": "토론토",
+   "place_name_en": "Toronto",
+   "lat": 43.670277777,
+   "lng": -79.386666666
+  },
+  {
+   "year": 1987,
+   "year_end": 1991,
+   "title": "바르셀로나에서 카탈로그를 찍다",
+   "title_en": "Shoots catalogues in Barcelona",
+   "description": "광고와 카탈로그 촬영이 주된 일이었고, 스페인에서 4년을 지냈다. 훗날 자신은 성공한 모델이 아니었다고 말했다. 바르셀로나에서 CBS 《다크 저스티스》 오디션을 봤다.",
+   "description_en": "The work was commercials and catalogues. She later said she was never a successful model. She stayed in Spain for four years. She did commercials and catalogues in Barcelona and auditioned there for Dark Justice.",
+   "kind": "work",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.176944444
+  },
+  {
+   "year": 1991,
+   "year_end": null,
+   "title": "《다크 저스티스》의 타라를 맡다",
+   "title_en": "Plays Tara on Dark Justice",
+   "description": "CBS는 바르셀로나에서 드라마의 첫 시즌을 촬영했다. 모스는 니컬러스 마셜 판사의 서기인 타라 맥도널드를 맡았다. 여러 회에 걸쳐 같은 배역을 맡은 것은 처음이었다.",
+   "description_en": "CBS shot the first season of the series in that city. She played Tara McDonald, clerk to Judge Nicholas Marshall. It was the first time she held the same part across multiple episodes.",
+   "kind": "work",
+   "place_name": "바르셀로나",
+   "place_name_en": "Barcelona",
+   "lat": 41.3825,
+   "lng": 2.176944444
+  },
+  {
+   "year": 1992,
+   "year_end": null,
+   "title": "《다크 저스티스》를 따라 로스앤젤레스로 가다",
+   "title_en": "Follows the series to Los Angeles",
+   "description": "제작진은 북미 시장을 겨냥해 촬영지를 로스앤젤레스로 옮겼다. 모스는 세 번째 시즌이 시작되기 전에 하차했다. 아는 사람이 하나도 없는 로스앤젤레스에 스물넷의 나이로 혼자 남았다.",
+   "description_en": "The producers moved the shoot to chase the North American market. She left before the third season began. She knew no one. At twenty-four she was alone in that city.",
+   "kind": "travel",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1994,
+   "year_end": 1995,
+   "title": "《모델스 잉크》에서 캐리 스펜서를 맡다",
+   "title_en": "Plays Carrie Spencer on Models Inc.",
+   "description": "폭스가 《멜로즈 플레이스》에서 파생시켜 만든 연속극이었다. 모스는 전년도에 캐나다 시리즈 《매트릭스》에서 리즈 틸을 맡았다. 훗날 같은 제목의 영화 오디션을 봤을 때 워쇼스키 남매는 두 작품의 제목이 같다는 우연에 주목했다.",
+   "description_en": "It was a Fox soap spun off from Melrose Place. The year before she had played Liz Teel in a Canadian series called Matrix. When she later auditioned for a film of the same name, the Wachowskis noticed the coincidence.",
+   "kind": "work",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "title": "《매트릭스》에서 트리니티를 맡다",
+   "title_en": "Plays Trinity in The Matrix",
+   "description": "오디션을 여섯 번이나 일곱 번 봤다. 서른 번째 생일에는 키아누 리브스와 스크린 테스트를 했다. 몇 달 동안 무술과 와이어 액션을 훈련한 뒤 시드니에서 촬영했다. 트리니티는 해커이자 저항군 전사였다. 모스는 훗날 영화가 개봉하기 전까지는 자신에게 경력다운 경력이 없었다고 말했다.",
+   "description_en": "She auditioned six or seven times. She screen-tested with Keanu Reeves on her thirtieth birthday. After months of martial-arts and wire work they shot in Sydney. The part was a hacker and a fighter in the resistance. She later said she had had no career before it came out.",
+   "kind": "work",
+   "place_name": "시드니",
+   "place_name_en": "Sydney",
+   "lat": -33.867777777,
+   "lng": 151.21
+  },
+  {
+   "year": 1999,
+   "year_end": null,
+   "title": "스티븐 로이와 결혼하다",
+   "title_en": "Marries Steven Roy",
+   "description": "1999년에 캐나다 배우 스티븐 로이와 결혼했다.",
+   "description_en": "She married Canadian actor Steven Roy in 1999.",
+   "kind": "other",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2000,
+   "year_end": null,
+   "title": "《메멘토》에서 내털리를 맡다",
+   "title_en": "Plays Natalie in Memento",
+   "description": "제작자 제니퍼 토드는 《매트릭스》의 트리니티 역을 본 뒤 모스를 추천했다. 크리스토퍼 놀런은 모스가 대본에 없던 많은 요소를 내털리 역에 보탰다고 말했다. 내털리는 새로운 기억을 형성하지 못하는 남자를 이용하는 바텐더였다.",
+   "description_en": "Producer Jennifer Todd put her name forward after seeing Trinity. Christopher Nolan said she added a great deal to the part that was not on the page. Natalie was a bartender who used a man who could not form new memories.",
+   "kind": "work",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2001,
+   "year_end": null,
+   "title": "《매트릭스》 속편을 연달아 찍다",
+   "title_en": "Shoots the Matrix sequels back to back",
+   "description": "훈련 중 다리가 부러졌다. 고속도로 추격 장면의 오토바이 촬영은 오클랜드에서 진행했다. 모스는 훗날 속편 촬영으로 집을 떠나 있던 중 9·11 테러가 일어났다고 말했다. 출연 예정이던 알리야는 별도의 비행기 사고로 숨졌고, 오라클 역의 글로리아 포스터도 세상을 떠났다. 첫째 아들이 그해 태어났고, 둘째 아들은 2005년, 딸은 2009년에 태어났다. 삼부작이 끝난 뒤에는 쿵푸 영화를 다시 찍지 않겠다고 말했다.",
+   "description_en": "She broke her leg in training. The freeway motorcycle work was shot in Oakland. She later said 11 September happened while they were away from home. Aaliyah, who had been cast, died in a separate plane crash, and Gloria Foster, who played the Oracle, also died. Her first son was born that year. A second son followed in 2005 and a daughter in 2009. After the trilogy she said she would not make another kung fu film.",
+   "kind": "work",
+   "place_name": "시드니",
+   "place_name_en": "Sydney",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": 2019,
+   "title": "《제시카 존스》에서 제리 호가스를 맡다",
+   "title_en": "Plays Jeri Hogarth in Jessica Jones",
+   "description": "넷플릭스의 마블 시리즈였다. 원작 만화에서 남성이었던 변호사는 여성 레즈비언 변호사로 각색됐다. 제프 로브와 멜리사 로젠버그가 배역을 제안했고, 모스는 첫 두 편의 대본을 읽은 뒤 출연을 결정했다. 세 시즌 동안 출연했으며, 같은 세계관의 다른 시리즈에서도 제리 호가스를 맡았다.",
+   "description_en": "It was a Marvel series for Netflix. The comics lawyer, a man, was rewritten as a woman and a lesbian. Jeph Loeb and Melissa Rosenberg pitched the part, and she took it after reading the first two scripts. She stayed for three seasons and played the same figure in other series in that shared world.",
+   "kind": "work",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.712777777,
+   "lng": -74.006111111
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "title": "트리니티로 돌아오다",
+   "title_en": "Returns as Trinity",
+   "description": "라나 워쇼스키가 단독으로 연출한 《매트릭스: 리저렉션》이었다. 샌프란시스코에서 촬영했으며, 모스와 키아누 리브스는 44 몽고메리 건물에서 뛰어내렸다. 촬영 횟수는 출처마다 약 19~20회, 15회, 배우가 직접 뛴 3회로 서로 다르게 전한다. 트리니티 역에 관한 질문을 받자 모스는 자신이 트리니티가 아니라면 아무도 아니라고 말했다.",
+   "description_en": "It was The Matrix Resurrections, directed by Lana Wachowski alone. They shot in San Francisco. They jumped from 44 Montgomery. Take counts disagree across sources (about 19–20 vs 15 vs 3 actor takes). Asked about the part, she said she was nobody if not Trinity.",
+   "kind": "work",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.419444444
+  }
+ ],
+ "fact_review": {
+  "defects": [
+   {
+    "index": 0,
+    "field": "description",
+    "current_value": "어머니는 뮤지컬 무대에 섰다.",
+    "correct_value": "비움",
+    "evidence": "캐나다백과(thecanadianencyclopedia.ca)만 어머니 바버라가 뮤지컬에 관여했다고 한다. 위키피디아·이브닝 스탠더드·IMDb trivia는 이혼·밴쿠버 양육만 확인하고 무대 출연을 두 번째로 내지 않는다."
+   },
+   {
+    "index": 0,
+    "field": "description_en",
+    "current_value": "Her mother appeared in musical theatre.",
+    "correct_value": "비움",
+    "evidence": "TCE 한 곳뿐이다. 독립 출처 두 곳이 같은 사실을 내지 못한다."
+   },
+   {
+    "index": 1,
+    "field": "description",
+    "current_value": "12학년 뮤지컬 주역을 놓쳤을 때 어머니는 조연이 더 나을 때도 있다고 했다. 스코틀랜드 춤 대회에도 나갔고",
+    "correct_value": "비움",
+    "evidence": "12학년 조연 일화는 TCE가 Georgia Straight 2015를 인용한 한 사슬뿐이다. 스코틀랜드 춤은 Evening Standard 인터뷰 한 곳뿐이다. 열한 살 어린이 뮤지컬·매기 중등·합창단 유럽 순회는 위키피디아와 Tribute.ca가 교차한다."
+   },
+   {
+    "index": 1,
+    "field": "description_en",
+    "current_value": "When she lost the lead in the grade-12 musical, her mother told her the supporting part is often better. She also entered Scottish-dancing contests",
+    "correct_value": "비움",
+    "evidence": "국문과 같은 두 구절이 출처 두 곳에서 같은 숫자·같은 말로 나오지 않는다."
+   },
+   {
+    "index": 2,
+    "field": "description",
+    "current_value": "스무 살에 유럽으로 나간 친구들을 따라 바르셀로나 에이전시에 사진을 보냈다. 받겠다는 답이 왔다.",
+    "correct_value": "비움",
+    "evidence": "에이전시 사진·수락은 Evening Standard 본인 회고 한 곳이다. TCE·Chatelaine·본인 유튜브는 18세 토론토 모델·일본·스페인만 확인하고 그 송신 장면을 반복하지 않는다."
+   },
+   {
+    "index": 2,
+    "field": "description_en",
+    "current_value": "At twenty she sent pictures to a Barcelona agency, following friends who had already gone to Europe. The agency said it would represent her.",
+    "correct_value": "비움",
+    "evidence": "Evening Standard 단독. 18세 토론토 이주는 TCE(age 18)와 노르웨이어 위키(1985)가 교차한다."
+   },
+   {
+    "index": 3,
+    "field": "year_end",
+    "current_value": "1990",
+    "correct_value": "1991",
+    "evidence": "Evening Standard: 스페인에 4년을 두었고 떠날 때 1991 Dark Justice를 잡았다. 위키피디아·Encyclopedia.com도 1991년 바르셀로나 체류를 확인한다. 1990년에 끝나지 않는다."
+   },
+   {
+    "index": 3,
+    "field": "description",
+    "current_value": "그 도시에서 광고에 나왔고 연기를 다시 시작했다.",
+    "correct_value": "바르셀로나에서 광고·카탈로그를 찍었고 CBS Dark Justice 오디션을 봤다.",
+    "evidence": "Encyclopedia.com은 바르셀로나 광고 뒤 CBS 오디션을 말한다. ‘다시 시작했다’는 조사자 해석이다. 카탈로그·‘성공한 모델이 아니었다’는 Evening Standard 한 곳이다."
+   },
+   {
+    "index": 3,
+    "field": "description_en",
+    "current_value": "She appeared in commercials in that city and started acting again.",
+    "correct_value": "She did commercials and catalogues in Barcelona and auditioned there for Dark Justice.",
+    "evidence": "‘started acting again’은 두 출처가 같은 말로 확인하지 않는다."
+   },
+   {
+    "index": 5,
+    "field": "description",
+    "current_value": "패서디나 아메리칸 아카데미 오브 드라마틱 아츠에 등록했다.",
+    "correct_value": "비움",
+    "evidence": "위키피디아·Sunday Times·Encyclopedia.com은 1992년 LA 이주 뒤 패서디나 AADA 등록을 말한다. IMDb trivia와 Wikidata P69는 AADA 1988 졸업이다. 출처가 갈리면 조사자 손을 들지 않는다."
+   },
+   {
+    "index": 5,
+    "field": "description_en",
+    "current_value": "She enrolled at the American Academy of Dramatic Arts in Pasadena.",
+    "correct_value": "비움",
+    "evidence": "1992 등록과 1988 졸업이 충돌한다. 위키피디아·The Times vs IMDb trivia·Wikidata."
+   },
+   {
+    "index": 6,
+    "field": "year_end",
+    "current_value": "1997",
+    "correct_value": "1995",
+    "evidence": "위키피디아: Models Inc.는 1994–1995, 1995년 7월 취소. Encyclopedia.com·NNDB도 1994–95. 1996–97은 F/X: The Series다."
+   },
+   {
+    "index": 6,
+    "field": "description",
+    "current_value": "극장 영화 오디션에는 잘 들어가지 못했다. 비디오로 가는 영화를 찍었고, 뒤에 그 대사가 가장 어려웠다고 말했다.",
+    "correct_value": "비움",
+    "evidence": "B급·비디오 영화는 위키피디아가 제목을 나열한다. ‘극장 오디션에 못 들어갔다’와 ‘그 대사가 가장 어려웠다’는 두 출처에서 같은 말로 나오지 않는다. 워쇼스키가 Matrix 시리즈 제목을 알아본 것은 Evening Standard가 본인 말로 확인한다."
+   },
+   {
+    "index": 6,
+    "field": "description_en",
+    "current_value": "She rarely got into the room for theatrical features. She shot films that went to video and later said that dialogue was the hardest she ever had to deliver.",
+    "correct_value": "비움",
+    "evidence": "국문과 같은 미확인 구절이다."
+   },
+   {
+    "index": 7,
+    "field": "description",
+    "current_value": "캐스팅 디렉터 말리 핀이 워쇼스키 남매 앞에 세웠다.",
+    "correct_value": "비움",
+    "evidence": "Mali Finn이 오디션에 넣었다는 말은 IMDb 전기 한 곳이다. 위키피디아 Mali Finn 항목은 Matrix를 적지 않는다. 여섯일곱 번 오디션·30세 생일 키아누 스크린테스트는 Collider 2024와 Evening Standard가 교차한다."
+   },
+   {
+    "index": 7,
+    "field": "description_en",
+    "current_value": "Casting director Mali Finn brought her in for the Wachowskis.",
+    "correct_value": "비움",
+    "evidence": "IMDb 단독. 교차 출처가 없다."
+   },
+   {
+    "index": 8,
+    "field": "description",
+    "current_value": "할리우드 연기 수업에서 만났다. 둘 다 캐나다에서 온 배우였다. 11월 11일이었다.",
+    "correct_value": "1999년에 캐나다 배우 스티븐 로이와 결혼했다.",
+    "evidence": "결혼 연도 1999는 위키피디아·IMDb가 교차한다. 11월 11일은 IMDb(본인·로이 페이지) 한 계열이다. 연기 수업에서 만났다는 IMDb 전기는 Memento·Red Planet·The Crew 배역을 받은 주(2000 작품)와 묶어 1999년 결혼과 충돌한다. 결혼식 장소를 LA로 고정하는 출처는 없다."
+   },
+   {
+    "index": 8,
+    "field": "description_en",
+    "current_value": "They met in a Hollywood acting class. Both were actors from Canada. The wedding was on November 11.",
+    "correct_value": "She married Canadian actor Steven Roy in 1999.",
+    "evidence": "월일은 IMDb 한 계열. 만남 장소·시점은 IMDb 전기가 2000년 배역 주와 모순된다."
+   },
+   {
+    "index": 8,
+    "field": "place_name",
+    "current_value": "로스앤젤레스",
+    "correct_value": "비움",
+    "evidence": "위키피디아·IMDb·Manchester Evening News는 1999년 결혼만 확인하고 예식 도시를 적지 않는다."
+   },
+   {
+    "index": 8,
+    "field": "place_name_en",
+    "current_value": "Los Angeles",
+    "correct_value": "비움",
+    "evidence": "예식지가 LA라는 독립 출처가 없다. 장소는 국문·영문·좌표를 한 묶음으로 비운다."
+   },
+   {
+    "index": 8,
+    "field": "lat",
+    "current_value": "34.05223",
+    "correct_value": "비움",
+    "evidence": "장소가 비면 좌표도 비운다. 확인되지 않은 예식에 로스앤젤레스 P625를 붙이면 안 된다."
+   },
+   {
+    "index": 8,
+    "field": "lng",
+    "current_value": "-118.24368",
+    "correct_value": "비움",
+    "evidence": "위와 같다."
+   },
+   {
+    "index": 9,
+    "field": "lat",
+    "current_value": "34.05223",
+    "correct_value": "비움",
+    "evidence": "Memento는 샌퍼낸도밸리에서 찍혔다. Tujunga(LA)와 Burbank·Glendale(별도 시)이 함께 나온다(seeing-stars.com, movie-locations.com). 한 사건이 두 도시이면 좌표를 비운다."
+   },
+   {
+    "index": 9,
+    "field": "lng",
+    "current_value": "-118.24368",
+    "correct_value": "비움",
+    "evidence": "촬영지가 로스앤젤레스 시 P625 한 점이 아니다."
+   },
+   {
+    "index": 10,
+    "field": "year",
+    "current_value": "2003",
+    "correct_value": "2001",
+    "evidence": "제목은 속편을 연달아 ‘찍은’ 일이다. Reloaded 주요 촬영은 2001년 3월에 시작됐다. 다리 골절·9/11·알리야(2001-08)·글로리아 포스터(2001-10)는 모두 2001년이다. 2003은 개봉연도다(위키피디아, Guardian, IGN)."
+   },
+   {
+    "index": 10,
+    "field": "description",
+    "current_value": "오토바이를 두 달 몰았다. … 시드니에 있는 동안",
+    "correct_value": "고속도로 추격의 오토바이는 오클랜드에서 찍었다. 시드니 체류 중 9/11을 겪었다고 뒤에 말했다.",
+    "evidence": "IGN: 프리웨이 추격은 오클랜드. Slashfilm: 약 7주. 장소란은 시드니인데 오토바이 일은 다른 도시다. 다리 골절은 IGN·Dark Horizons, 쿵푸 영화 거부는 DH/Les Sports+, 자녀 2003·2005·2009는 위키피디아·IMDb trivia가 교차한다."
+   },
+   {
+    "index": 10,
+    "field": "description_en",
+    "current_value": "She rode a motorcycle for nearly two months. While the company was in Sydney…",
+    "correct_value": "The freeway motorcycle work was shot in Oakland. She later said 11 September happened while they were away from home.",
+    "evidence": "시드니와 오클랜드를 한 문장에 섞으면 장소가 틀린다."
+   },
+   {
+    "index": 10,
+    "field": "lat",
+    "current_value": "-33.867777777",
+    "correct_value": "비움",
+    "evidence": "속편 촬영은 시드니와 오클랜드(프리웨이) 두 도시다. 한 사건이 두 도시이면 좌표를 비운다."
+   },
+   {
+    "index": 10,
+    "field": "lng",
+    "current_value": "151.21",
+    "correct_value": "비움",
+    "evidence": "위와 같다."
+   },
+   {
+    "index": 12,
+    "field": "description",
+    "current_value": "키아누 리브스와 손을 잡고 몽고메리 거리 44번 건물에서 뛰어내렸다. 열아홉 번, 스무 번을 반복했다.",
+    "correct_value": "샌프란시스코 44 Montgomery에서 키아누 리브스와 손을 잡고 뛰어내렸다. 반복 횟수는 출처가 갈린다.",
+    "evidence": "건물 자체는 SFGATE·Atlas of Wonders가 교차한다. 횟수: Atlas of Wonders 19–20, Reeves(Colbert) 19, VFX 감독 Dan Glass는 15, matrix4locations는 배우 3회·나머지는 스턴트. 같은 숫자가 두 곳에서 나오지 않으면 그 값은 결함이다."
+   },
+   {
+    "index": 12,
+    "field": "description_en",
+    "current_value": "She and Keanu Reeves held hands and jumped from 44 Montgomery. They did it nineteen or twenty times.",
+    "correct_value": "They jumped from 44 Montgomery. Take counts disagree across sources (about 19–20 vs 15 vs 3 actor takes).",
+    "evidence": "횟수는 출처가 갈린다. 라나 단독 연출·‘트리니티가 아니면 난 누구인가’는 위키피디아·GQ가 교차한다."
+   }
+  ],
+  "zero_defects_indices": [
+   4,
+   11
+  ],
+  "checks": [
+   {
+    "index": 0,
+    "evidence": "출생 1967-08-21 버너비는 위키피디아·Wikidata P569/P19·TCE·TMDB가 교차한다. 부모 바버라·멜빈(Melvyn), 형 브룩, 홀리스 ‘Carrie Anne’(그해 봄 발표)은 위키피디아·IMDb trivia. 어릴 때 이혼·어머니 양육은 IMDb trivia·이탈리아 위키. 어머니 무대 출연은 TCE 단독이라 서술 결함. 버너비 P625는 Wikidata Q244025 49.25, -122.949167.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.wikidata.org/wiki/Q206890",
+     "https://thecanadianencyclopedia.ca/en/article/carrie-anne-moss",
+     "https://www.imdb.com/name/nm0005251/trivia/",
+     "https://www.wikidata.org/wiki/Q244025"
+    ]
+   },
+   {
+    "index": 1,
+    "evidence": "열한 살 밴쿠버 어린이 뮤지컬·매기 중등 연극과·졸업반 합창 유럽은 위키피디아·Tribute.ca·TCE. 식당일은 Evening Standard와 E!/Movieline 인용이 교차. 12학년 조연 충고는 TCE←Georgia Straight 한 사슬, 스코틀랜드 춤은 Evening Standard 단독. 밴쿠버 P625 Wikidata Q24639 49.260833333, -123.113888889.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://thecanadianencyclopedia.ca/en/article/carrie-anne-moss",
+     "https://www.tribute.ca/people/biography/carrie-anne-moss/2673/",
+     "https://www.standard.co.uk/culture/film/the-sweet-smell-of-success-6311662.html",
+     "https://www.wikidata.org/wiki/Q24639"
+    ]
+   },
+   {
+    "index": 2,
+    "evidence": "18세 토론토 모델은 TCE와 노르웨이어 위키(1985). 일본 일은 TCE·Chatelaine·본인 유튜브. 스무 살 바르셀로나 에이전시 사진 송신은 Evening Standard 단독. 토론토 P625 Wikidata Q172 43.670277778, -79.386666667.",
+    "source_urls": [
+     "https://thecanadianencyclopedia.ca/en/article/carrie-anne-moss",
+     "https://no.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://chatelaine.com/living/cover-girl-carrie-anne-moss-opens-up/",
+     "https://www.standard.co.uk/culture/film/the-sweet-smell-of-success-6311662.html",
+     "https://www.wikidata.org/wiki/Q172"
+    ]
+   },
+   {
+    "index": 3,
+    "evidence": "광고·카탈로그·‘성공한 모델이 아니었다’·스페인 4년은 Evening Standard 본인 회고. Encyclopedia.com은 스페인·일본 모델과 바르셀로나 광고를 확인. 4년의 끝은 1991 Dark Justice이지 1990이 아니다. 바르셀로나 P625 Wikidata Q1492 41.3825, 2.176944444.",
+    "source_urls": [
+     "https://www.standard.co.uk/culture/film/the-sweet-smell-of-success-6311662.html",
+     "https://www.encyclopedia.com/books/culture-magazines/moss-carrie-anne",
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.wikidata.org/wiki/Q1492"
+    ]
+   },
+   {
+    "index": 4,
+    "evidence": "1991 CBS Dark Justice 시즌1 바르셀로나, 타라 맥도널드, 판사 니컬러스 마셜 서기, 첫 고정 배역은 위키피디아·Encyclopedia.com·Tribute.ca가 같은 연도·역할·장소로 교차한다. kind=work. 바르셀로나 P625 일치.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.encyclopedia.com/books/culture-magazines/moss-carrie-anne",
+     "https://www.tribute.ca/people/biography/carrie-anne-moss/2673/",
+     "https://www.wikidata.org/wiki/Q1492"
+    ]
+   },
+   {
+    "index": 5,
+    "evidence": "시리즈를 따라 1992 LA 이주·시즌3 전 하차는 위키피디아. 스물넷 무연고는 The Times·Encyclopedia.com. AADA 시점은 1992 등록(위키·Times)과 1988 졸업(IMDb trivia·Wikidata P69)이 갈린다. LA P625 Wikidata Q65 지도값 34.05223, -118.24368.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.encyclopedia.com/books/culture-magazines/moss-carrie-anne",
+     "https://www.thetimes.com/culture/tv-radio/article/just-for-kicks-qf0s258nc86",
+     "https://www.imdb.com/name/nm0005251/trivia/",
+     "https://www.wikidata.org/wiki/Q65"
+    ]
+   },
+   {
+    "index": 6,
+    "evidence": "Models Inc. 캐리 스펜서, 폭스·멜로즈 플레이스 스핀오프는 위키피디아·Encyclopedia.com. 방영은 1994–95이지 1997이 아니다. 1993 캐나다 Matrix 리즈 틸과 제목 우연은 위키피디아·Evening Standard. 극장 오디션·‘대사 가장 어려웠다’는 교차 실패.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.encyclopedia.com/education/news-wires-white-papers-and-books/moss-carrie-anne-1967",
+     "https://www.standard.co.uk/culture/film/the-sweet-smell-of-success-6311662.html",
+     "https://collider.com/carrie-anne-moss-die-alone-matrix/"
+    ]
+   },
+   {
+    "index": 7,
+    "evidence": "1999 《매트릭스》 트리니티·시드니 촬영·무술/와이어 훈련은 위키피디아. 6–7회 오디션·30세 생일 스크린테스트는 Collider와 Evening Standard. Mali Finn은 IMDb 단독. ‘나오기 전 경력 없었다’는 위키피디아가 Daily News를 인용. 시드니 좌표는 위키 33°52′4″S 151°12′36″E = -33.86778, 151.21.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://collider.com/carrie-anne-moss-die-alone-matrix/",
+     "https://www.standard.co.uk/culture/film/the-sweet-smell-of-success-6311662.html",
+     "https://www.imdb.com/name/nm0005251/",
+     "https://en.wikipedia.org/wiki/Sydney"
+    ]
+   },
+   {
+    "index": 8,
+    "evidence": "1999년 스티븐 로이 결혼은 위키피디아·IMDb. 로이도 캐나다 배우(IMDb). 11월 11일은 IMDb만. 연기 수업 만남은 IMDb 전기가 2000년 배역 주와 모순. 예식 도시 미확인이므로 장소·좌표는 무죄가 아니다.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.imdb.com/name/nm0005251/",
+     "https://www.imdb.com/name/nm1027493/",
+     "https://www.imdb.com/es-es/name/nm0005251/bio/",
+     "https://www.manchestereveningnews.co.uk/news/tv/carrie-anne-moss-husband-life-31839884"
+    ]
+   },
+   {
+    "index": 9,
+    "evidence": "2000 《메멘토》 내털리, 제니퍼 토드 추천, 놀런 ‘대본에 없던 것을 보탰다’, 기억 장애 남자를 이용하는 바텐더는 위키피디아. 촬영은 로스앤젤레스 시와 버뱅크·글렌데일이 섞인다. 좌표는 두 도시 규칙으로 무죄가 아니다.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://en.wikipedia.org/wiki/Memento_(film)",
+     "https://www.seeing-stars.com/Locations/Memento2.shtml",
+     "https://www.movie-locations.com/movies/m/Memento.php"
+    ]
+   },
+   {
+    "index": 10,
+    "evidence": "속편 백투백·2003 개봉은 위키피디아. 훈련 중 다리 골절은 IGN·Dark Horizons. 오토바이는 오클랜드(IGN). 시드니에서 9/11·알리야·글로리아 포스터는 DH와 Guardian. 쿵푸 거부는 DH. 자녀 2003·2005·2009는 위키피디아·IMDb trivia. 제목의 ‘촬영’ 연도는 2001이지 2003이 아니다. 시드니+오클랜드는 좌표를 비운다.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.ign.com/articles/2003/05/13/interview-with-carrie-anne-moss",
+     "https://www.theguardian.com/uk/2003/apr/29/filmnews.film1",
+     "https://www.dhnet.be/medias/cinema/2003/05/10/plus-jamais-de-kung-fu-XCLUHUX24JGCBP2EDQPHYCJS6I/",
+     "https://www.darkhorizons.com/carrie-ann-moss-for-the-matrix-reloaded/"
+    ]
+   },
+   {
+    "index": 11,
+    "evidence": "넷플릭스 마블 《제시카 존스》 2015–2019 제리 호가스, 원작 남성을 여성·레즈비언으로 재설정, 로브·로젠버그 설명 후 대본 두 편, 세 시즌, 데어데블·아이언 피스트·디펜더스는 위키피디아·TCE·Marvel.com. 뉴욕 촬영은 위키피디아. NYC 좌표 40°42′46″N 74°00′22″W = 40.712778, -74.006111.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Jessica_Jones_(TV_series)",
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://thecanadianencyclopedia.ca/en/article/carrie-anne-moss",
+     "https://www.marvel.com/articles/tv-shows/creating-the-looks-and-the-world-of-marvel-s-jessica-jones-season-3",
+     "https://en.wikipedia.org/wiki/New_York_City"
+    ]
+   },
+   {
+    "index": 12,
+    "evidence": "라나 단독 《매트릭스: 리저렉션》 2021, 샌프란시스코, 44 Montgomery 점프, ‘트리니티가 아니면 난 누구인가’는 위키피디아·GQ·SFGATE. 반복 횟수는 19–20(Atlas)·15(Glass)·배우 3회(locations 가이드)로 갈린다. SF P625 우선값은 Wikidata Q62 37.775, -122.419444444.",
+    "source_urls": [
+     "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+     "https://www.gq.com/story/carrie-anne-moss-the-matrix-resurrections",
+     "https://www.sfgate.com/sf-culture/article/matrix-resurrections-filming-locations-sf-16723731.php",
+     "https://www.atlasofwonders.com/2021/12/where-was-matrix-resurrections-filmed.html",
+     "https://www.wikidata.org/wiki/Q62"
+    ]
+   }
+  ],
+  "sources": [
+   {
+    "name": "Wikipedia: Carrie-Anne Moss",
+    "url": "https://en.wikipedia.org/wiki/Carrie-Anne_Moss",
+    "used_for": "출생·가족·Dark Justice·LA 이주·Models Inc.·Matrix TV·매트릭스·메멘토·속편·제시카 존스·리저렉션·결혼·자녀"
+   },
+   {
+    "name": "Wikidata Q206890",
+    "url": "https://www.wikidata.org/wiki/Q206890",
+    "used_for": "생년월일 P569, 출생지 Burnaby P19, AADA P69(1988)"
+   },
+   {
+    "name": "The Canadian Encyclopedia",
+    "url": "https://thecanadianencyclopedia.ca/en/article/carrie-anne-moss",
+    "used_for": "출생 버너비, 어머니 뮤지컬, 매기 중등, 18세 토론토, Dark Justice, 제시카 존스"
+   },
+   {
+    "name": "TMDB",
+    "url": "https://www.themoviedb.org/person/530-carrie-anne-moss",
+    "used_for": "출생 1967-08-21 버너비"
+   },
+   {
+    "name": "Encyclopedia.com (Contemporary Theatre, Film and Television)",
+    "url": "https://www.encyclopedia.com/education/news-wires-white-papers-and-books/moss-carrie-anne-1967",
+    "used_for": "Dark Justice 1991–93, Matrix TV 1993, Models Inc. 1994–95"
+   },
+   {
+    "name": "Encyclopedia.com (Newsmakers)",
+    "url": "https://www.encyclopedia.com/books/culture-magazines/moss-carrie-anne",
+    "used_for": "AADA early 1990s, 24세 LA, 바르셀로나 광고, Dark Justice 후 LA"
+   },
+   {
+    "name": "Evening Standard",
+    "url": "https://www.standard.co.uk/culture/film/the-sweet-smell-of-success-6311662.html",
+    "used_for": "스코틀랜드 춤, 식당, 바르셀로나 에이전시, 카탈로그, 스페인 4년, Matrix 오디션 6회, 동명 시리즈"
+   },
+   {
+    "name": "The Times",
+    "url": "https://www.thetimes.com/culture/tv-radio/article/just-for-kicks-qf0s258nc86",
+    "used_for": "24세 직후 LA, AADA 패서디나, 무연고"
+   },
+   {
+    "name": "Chatelaine",
+    "url": "https://chatelaine.com/living/cover-girl-carrie-anne-moss-opens-up/",
+    "used_for": "토론토 모델, 일본, 스페인, Dark Justice 후 LA"
+   },
+   {
+    "name": "Tribute.ca",
+    "url": "https://www.tribute.ca/people/biography/carrie-anne-moss/2673/",
+    "used_for": "11세 어린이 뮤지컬, 매기 합창 유럽, Dark Justice 타라"
+   },
+   {
+    "name": "IMDb Carrie-Anne Moss",
+    "url": "https://www.imdb.com/name/nm0005251/",
+    "used_for": "결혼 1999-11-11, Mali Finn, Matrix TV 제목 우연"
+   },
+   {
+    "name": "IMDb trivia",
+    "url": "https://www.imdb.com/name/nm0005251/trivia/",
+    "used_for": "이름 유래, 부모 이혼, AADA 1988, 자녀 연월"
+   },
+   {
+    "name": "IMDb Steven Roy",
+    "url": "https://www.imdb.com/name/nm1027493/",
+    "used_for": "결혼일 1999-11-11"
+   },
+   {
+    "name": "IMDb Spanish biography",
+    "url": "https://www.imdb.com/es-es/name/nm0005251/bio/",
+    "used_for": "연기 수업에서 만남 — 2000년 배역 주와 충돌"
+   },
+   {
+    "name": "Norwegian Wikipedia",
+    "url": "https://no.wikipedia.org/wiki/Carrie-Anne_Moss",
+    "used_for": "1985 밴쿠버→토론토"
+   },
+   {
+    "name": "Italian Wikipedia",
+    "url": "https://it.wikipedia.org/wiki/Carrie-Anne_Moss",
+    "used_for": "부모 이혼 후 어머니와 밴쿠버"
+   },
+   {
+    "name": "Collider",
+    "url": "https://collider.com/carrie-anne-moss-die-alone-matrix/",
+    "used_for": "6–7회 오디션, 30세 생일 스크린테스트"
+   },
+   {
+    "name": "ScreenRant",
+    "url": "https://screenrant.com/the-matrix-movie-carrie-anne-moss-trinity-audition-story/",
+    "used_for": "같은 오디션 횟수·생일 테스트"
+   },
+   {
+    "name": "IGN",
+    "url": "https://www.ign.com/articles/2003/05/13/interview-with-carrie-anne-moss",
+    "used_for": "속편 훈련 중 다리 골절, 오클랜드 오토바이"
+   },
+   {
+    "name": "Dark Horizons",
+    "url": "https://www.darkhorizons.com/carrie-ann-moss-for-the-matrix-reloaded/",
+    "used_for": "와이어 착지 다리 골절"
+   },
+   {
+    "name": "The Guardian",
+    "url": "https://www.theguardian.com/uk/2003/apr/29/filmnews.film1",
+    "used_for": "알리야·글로리아 포스터 사망, 시드니 촬영 부상"
+   },
+   {
+    "name": "La DH / Les Sports+",
+    "url": "https://www.dhnet.be/medias/cinema/2003/05/10/plus-jamais-de-kung-fu-XCLUHUX24JGCBP2EDQPHYCJS6I/",
+    "used_for": "쿵푸 영화 거부, 시드니에서 9/11"
+   },
+   {
+    "name": "Wikipedia: Jessica Jones (TV series)",
+    "url": "https://en.wikipedia.org/wiki/Jessica_Jones_(TV_series)",
+    "used_for": "제리 호가스 설정, 로브·로젠버그, 뉴욕 촬영, 2015–2019"
+   },
+   {
+    "name": "Marvel.com",
+    "url": "https://www.marvel.com/articles/tv-shows/creating-the-looks-and-the-world-of-marvel-s-jessica-jones-season-3",
+    "used_for": "시즌3 뉴욕 세트·제리 사무실"
+   },
+   {
+    "name": "GQ",
+    "url": "https://www.gq.com/story/carrie-anne-moss-the-matrix-resurrections",
+    "used_for": "Who am I if not Trinity"
+   },
+   {
+    "name": "SFGATE",
+    "url": "https://www.sfgate.com/sf-culture/article/matrix-resurrections-filming-locations-sf-16723731.php",
+    "used_for": "44 Montgomery 실사 점프, 샌프란시스코 촬영"
+   },
+   {
+    "name": "Atlas of Wonders",
+    "url": "https://www.atlasofwonders.com/2021/12/where-was-matrix-resurrections-filmed.html",
+    "used_for": "44 Montgomery, 19–20회 반복 주장"
+   },
+   {
+    "name": "Animation Magazine / Dan Glass",
+    "url": "https://www.animationmagazine.net/2022/02/simulating-an-imperfect-reality-vfx-supe-dan-glass-details-the-matrix-resurrections/",
+    "used_for": "점프 15회 — 횟수 충돌"
+   },
+   {
+    "name": "Seeing-Stars Memento locations",
+    "url": "https://www.seeing-stars.com/Locations/Memento2.shtml",
+    "used_for": "메멘토 버뱅크·선랜드 촬영지"
+   },
+   {
+    "name": "Movie-Locations: Memento",
+    "url": "https://www.movie-locations.com/movies/m/Memento.php",
+    "used_for": "메멘토 샌퍼낸도밸리 다도시 촬영"
+   },
+   {
+    "name": "Wikidata Q244025 Burnaby",
+    "url": "https://www.wikidata.org/wiki/Q244025",
+    "used_for": "P625 49.25, -122.949167"
+   },
+   {
+    "name": "Wikidata Q24639 Vancouver",
+    "url": "https://www.wikidata.org/wiki/Q24639",
+    "used_for": "P625 49.260833333, -123.113888889"
+   },
+   {
+    "name": "Wikidata Q172 Toronto",
+    "url": "https://www.wikidata.org/wiki/Q172",
+    "used_for": "P625 43.670277778, -79.386666667"
+   },
+   {
+    "name": "Wikidata Q1492 Barcelona",
+    "url": "https://www.wikidata.org/wiki/Q1492",
+    "used_for": "P625 41.3825, 2.176944444"
+   },
+   {
+    "name": "Wikidata Q65 Los Angeles",
+    "url": "https://www.wikidata.org/wiki/Q65",
+    "used_for": "P625 지도값 34.05223, -118.24368"
+   },
+   {
+    "name": "Wikidata Q62 San Francisco",
+    "url": "https://www.wikidata.org/wiki/Q62",
+    "used_for": "P625 preferred 37.775, -122.419444444"
+   },
+   {
+    "name": "Wikipedia: Sydney",
+    "url": "https://en.wikipedia.org/wiki/Sydney",
+    "used_for": "시드니 좌표 33°52′4″S 151°12′36″E"
+   },
+   {
+    "name": "Wikipedia: New York City",
+    "url": "https://en.wikipedia.org/wiki/New_York_City",
+    "used_for": "뉴욕 좌표 40°42′46″N 74°00′22″W"
+   },
+   {
+    "name": "Manchester Evening News",
+    "url": "https://www.manchestereveningnews.co.uk/news/tv/carrie-anne-moss-husband-life-31839884",
+    "used_for": "1999년 결혼, 자녀 연도 — 예식 도시 없음"
+   },
+   {
+    "name": "NNDB",
+    "url": "https://www.nndb.com/people/234/000026156/",
+    "used_for": "AADA 1988, Models Inc. 1994–95 — AADA 연도 충돌"
+   }
+  ],
+  "attempt": 3
+ },
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "국영문 대조와 전체 생애 흐름 검토를 거쳐 안전하게 고칠 수 있는 번역투와 지시 대상의 모호함을 바로잡았다. 다만 3번은 감사 기록에서 제외하도록 한 세부가 국영문에 남아 있고, 10번은 변경된 연도와 첫째 아들의 출생 연도가 충돌하며, 12번은 촬영 횟수를 확정할 수 없어 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「토론토로 가 모델을 시작하다」와 「캐나다에서 계약한 모델 일로 일본에도 갔다」는 한국어의 이동과 활동 관계가 매끄럽지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "광고와 카탈로그 촬영이 앞뒤에서 반복됐다. 또한 감사 기록은 교차 확인된 바르셀로나 촬영과 오디션만 남기도록 했지만, 현재 국영문에는 성공 여부에 관한 회고와 스페인 체류 기간이 계속 들어 있다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「같은 배역으로 여러 회에 걸쳐 출연한 것」보다 「여러 회에 걸쳐 같은 배역을 맡은 것」이 행동 관계를 더 분명하게 나타낸다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「《멜로즈 플레이스》에서 갈라 낸 연속극」은 영어의 spun off를 어색하게 직역한 표현이었다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「트리니티를 보고」만으로는 배우의 연기를 보았다는 뜻이 불분명했고, 「대본에 없던 많은 것을 배역에 더했다」도 목적어와 행동의 관계가 추상적이었다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "사건 연도가 2001년으로 수정됐는데도 국문은 첫째 아들이 「그해」 태어났다고 하고 영문도 같은 주장을 유지한다. 감사 기록의 첫째 아들 출생 연도는 2003년이다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "서로 다른 촬영 횟수를 한 문장에 나열해 확정되지 않은 수치의 모순을 그대로 드러낸다. 마지막 문장의 「배역」도 트리니티 역으로 대상을 명시하는 편이 분명하다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 3,
+    "reason": "감사 기록은 최종 국영문을 바르셀로나의 광고·카탈로그 촬영과 《다크 저스티스》 오디션으로 한정했지만, 입력의 국영문에는 단일 회고에 의존하는 모델 성공 여부와 4년 체류가 남아 있다. 국문만 삭제하면 국영문 의미가 달라지므로 편집만으로 확정할 수 없다."
+   },
+   {
+    "index": 10,
+    "reason": "사건 연도는 2001년인데 국영문 모두 첫째 아들이 그해 태어났다고 적었다. 감사 기록은 첫째 아들의 출생 연도를 2003년으로 확인하고 있어 국문만 고치면 영문과 달라지므로 사실 확인 뒤 양쪽을 함께 바로잡아야 한다."
+   },
+   {
+    "index": 12,
+    "reason": "44 몽고메리 건물에서 뛰어내린 사실은 확인됐지만 촬영 횟수는 약 19~20회, 15회, 배우가 직접 뛴 3회로 출처마다 다르다. 영문도 이 수치들을 계속 주장하므로 국문에서만 덜어내지 않고 보류한다."
+   }
+  ],
+  "research_needed_reason": null,
+  "changed_indices": [
+   2,
+   3,
+   4,
+   6,
+   9,
+   12
+  ]
+ }
+}

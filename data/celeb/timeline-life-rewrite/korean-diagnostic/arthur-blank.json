@@ -1,0 +1,312 @@
+{
+ "slug": "arthur-blank",
+ "events": [
+  {
+   "year": 1942,
+   "year_end": null,
+   "kind": "birth",
+   "title": "플러싱에서 태어나다",
+   "title_en": "Born in Flushing",
+   "description": "유대인 약사 맥스와 몰리의 둘째 아들로 태어났다. 형 마이클과 방을 함께 썼고, 부모는 현관에 놓인 접이식 소파에서 잤다. 아버지는 동네 약국을 운영하면서 우편 주문 의약품 사업도 시작했다.",
+   "description_en": "He was the second son of Max, a Jewish pharmacist, and Molly. He shared a bedroom with his older brother Michael, and their parents slept on a pull-out sofa in the foyer. His father ran a neighborhood drugstore and also started a mail-order drug business.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.71361111111111,
+   "lng": -73.82805555555555
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 심장마비로 세상을 떠나다",
+   "title_en": "Father dies of a heart attack",
+   "description": "아버지 맥스는 마흔넷이었고, 아서 블랭크는 열다섯이었다. 서른일곱 살의 어머니 몰리가 의약품 사업을 물려받았다. 몰리는 회사를 운영해 본 적이 없었지만 두 아들을 계속 길러야 했다.",
+   "description_en": "Max was forty-four. His son was fifteen. Molly, thirty-seven, took over the drug business. She had never run a company, and she still had two sons to raise.",
+   "place_name": "퀸스",
+   "place_name_en": "Queens",
+   "lat": 40.71361111111111,
+   "lng": -73.82805555555555
+  },
+  {
+   "year": 1963,
+   "year_end": null,
+   "kind": "education",
+   "title": "뱁슨에서 회계를 배우다",
+   "title_en": "Studies accounting at Babson",
+   "description": "스터이베선트 고등학교를 졸업한 뒤였다. 형 마이클은 미시간에서 약학을 공부했고, 블랭크는 가업의 회계를 맡기 위해 뱁슨의 3년 과정에 들어갔다. 말더듬이 있었지만 졸업반 회장과 학생회장을 맡았다. 조경 일과 세탁물 수거 일을 하며 학비와 생활비를 보탰다.",
+   "description_en": "He had come from Stuyvesant High School. Michael studied pharmacy at Michigan, and he took Babson’s three-year course to handle the books of the family firm. He stuttered, yet served as senior-class president and student-government president. He paid expenses with a landscaping job and a laundry pickup route.",
+   "place_name": "웰즐리",
+   "place_name_en": "Wellesley",
+   "lat": 42.296388888889,
+   "lng": -71.293055555556
+  },
+  {
+   "year": 1968,
+   "year_end": null,
+   "kind": "work",
+   "title": "어머니가 가업을 데일린에 매각하다",
+   "title_en": "Mother sells the family firm to Daylin",
+   "description": "졸업 후 아서 영에서 선임회계사로 거의 5년 동안 일했다. 이후 어머니의 회사로 옮겼지만, 그가 합류한 지 몇 달 만에 어머니는 회사를 데일린에 매각했다. 데일린은 이미 할인약국 체인들을 보유한 소매 그룹이었다.",
+   "description_en": "After graduation he spent nearly five years as a senior accountant at Arthur Young. He went back to his mother’s company, and within a few months she sold it to Daylin. Daylin was a retail group that already owned discount drugstore chains.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 1972,
+   "year_end": null,
+   "kind": "work",
+   "title": "엘리엇 약국 체인을 이끌다",
+   "title_en": "Leads Elliott’s drugstore chain",
+   "description": "데일린은 그를 그리핀에 있는 할인약국 사업부로 보냈다. 그는 재무 업무로 시작해 사장이 되었고, 아내 다이애나와 함께 조지아에 정착했다.",
+   "description_en": "Daylin sent him to its discount drugstore unit in Griffin. He started in finance, became president, and settled in Georgia with his wife Diana.",
+   "place_name": "그리핀",
+   "place_name_en": "Griffin",
+   "lat": 33.2475,
+   "lng": -84.2708
+  },
+  {
+   "year": 1974,
+   "year_end": null,
+   "kind": "work",
+   "title": "핸디댄 본사로 옮기다",
+   "title_en": "Moves to Handy Dan headquarters",
+   "description": "데일린이 약국 사업부를 매각하자 그는 로스앤젤레스의 주택 개량 체인 핸디댄으로 옮겼다. 당시 사장은 버니 마커스였고, 블랭크는 이후 재무 부문을 맡았다.",
+   "description_en": "Daylin sold the drugstore unit. He joined the home-improvement chain in Los Angeles. Bernie Marcus was the president, and he later took over finance.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1978,
+   "year_end": null,
+   "kind": "work",
+   "title": "핸디댄에서 해고되다",
+   "title_en": "Fired from Handy Dan",
+   "description": "모회사에서 샌퍼드 시걸로프와 마커스가 갈등을 빚고 있었다. 마커스와 블랭크는 5개년 계획을 들고 본사를 찾아갔다가 그날 해고됐다. 투자자 켄 랭고니는 두 사람에게 직접 창고형 매장을 열자고 제안했다. 그해 6월 이들은 델라웨어에 홈디포 법인을 설립했다.",
+   "description_en": "Sanford Sigoloff at the parent company was fighting Marcus. The two men walked into headquarters with a five-year plan and were fired that day. Investor Ken Langone told them to open warehouse stores of their own. That June they incorporated Home Depot in Delaware.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1979,
+   "year_end": null,
+   "kind": "work",
+   "title": "첫 홈디포 매장 두 곳을 열다",
+   "title_en": "Opens the first two Home Depot stores",
+   "description": "전국을 물색한 끝에 이들은 애틀랜타를 선택했다. 옛 트레저아일랜드 매장 자리를 빌려 도라빌과 디케이터에 창고형 매장을 열었다. 팻 패러가 상품 구성을 맡았고, 한 매장 안에 공구와 건축 자재를 함께 갖췄다.",
+   "description_en": "After a nationwide search they chose Atlanta. They leased old Treasure Island spaces and opened warehouses in Doraville and Decatur. Pat Farrah built the assortment, and they put tools and building materials in a single store.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 1981,
+   "year_end": null,
+   "kind": "work",
+   "title": "홈디포를 나스닥에 상장하다",
+   "title_en": "Takes Home Depot public on Nasdaq",
+   "description": "주식 발행가는 주당 12달러였다. 이들은 상장으로 마련한 자금으로 매장을 더 열었다. 블랭크는 계속 사장직을 맡았다.",
+   "description_en": "The shares priced at twelve dollars. They used the proceeds to open more stores. He stayed on as president.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 1995,
+   "year_end": null,
+   "kind": "other",
+   "title": "가족재단을 세우다",
+   "title_en": "Establishes the family foundation",
+   "description": "블랭크가 아직 홈디포에 재직하던 때였다. 재단은 청소년 프로그램과 학교, 녹지 조성, 지역사회 사업을 지원했다.",
+   "description_en": "He was still at Home Depot. The foundation funded youth programs, schools, green space, and neighborhood work.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 1997,
+   "year_end": 2001,
+   "kind": "office",
+   "title": "최고경영자를 맡은 뒤 물러나다",
+   "title_en": "Becomes CEO, then steps aside",
+   "description": "마커스가 회장직으로 옮기면서 블랭크에게 최고경영자 자리를 넘겼다. 블랭크는 이미 19년 동안 사장으로 일한 뒤였다. 홈디포가 제너럴일렉트릭 출신의 로버트 나르델리를 영입한 뒤에는 공동회장직에서도 물러났다.",
+   "description_en": "Marcus moved to chairman and handed him the job. He had already spent nineteen years as president. After they brought in Robert Nardelli from General Electric, he left the co-chairman’s seat as well.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 2002,
+   "year_end": null,
+   "kind": "office",
+   "title": "애틀랜타 팰컨스를 인수하다",
+   "title_en": "Buys the Atlanta Falcons",
+   "description": "애틀랜타 팰컨스는 랭킨 스미스 가문이 36년 동안 소유해 온 구단이었다. 리그 구단주들은 5억 4천5백만 달러 규모의 매각을 승인했다. 블랭크는 가족재단을 세운 해부터 스미스 가문과 구단 매각을 논의해 왔다.",
+   "description_en": "The Rankin Smith family had held the club for thirty-six years. League owners approved the sale at five hundred forty-five million dollars. He had been talking with the Smiths since the year he started the foundation.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 2014,
+   "year_end": null,
+   "kind": "office",
+   "title": "메이저리그사커 확장 구단 유치권을 얻다",
+   "title_en": "Wins an MLS expansion club",
+   "description": "블랭크는 6년 동안 메이저리그사커를 상대로 구단 유치 활동을 벌였다. 새 경기장에서 미식축구와 축구 경기를 함께 열겠다고 약속했다. 구단은 이후 애틀랜타 유나이티드라는 이름을 얻었다.",
+   "description_en": "He had been courting the league for six years. He promised football and soccer would share a new stadium. They later named the club Atlanta United.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  },
+  {
+   "year": 2017,
+   "year_end": null,
+   "kind": "work",
+   "title": "메르세데스벤츠 스타디움을 열다",
+   "title_en": "Opens Mercedes-Benz Stadium",
+   "description": "개폐식 지붕 공사가 지연되면서 개장을 세 차례 미뤘다. 애틀랜타 유나이티드는 그해 봄을 바비 도드 스타디움에서 보낸 뒤 가을에 새 경기장으로 옮겼다. 이듬해에는 이 경기장에서 MLS컵 우승컵을 들어 올렸다.",
+   "description_en": "The retractable roof slipped, and they postponed the opening three times. Atlanta United spent that spring at Bobby Dodd Stadium and moved in that fall. The next year the club lifted the MLS Cup in that building.",
+   "place_name": "애틀랜타",
+   "place_name_en": "Atlanta",
+   "lat": 33.754444444444445,
+   "lng": -84.38972222222222
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문 의미와 세부사항은 그대로 보존하면서, 주체가 뒤섞이거나 대상을 바로 알기 어려운 문장과 직역투·부자연스러운 표현을 바로잡았다. 사건이 이어질 때 인물과 조직의 관계가 분명하게 드러나도록 국문 서술을 정리했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「우편주문 약업」이 한국어에서 부자연스러워 사업의 성격이 분명하게 드러나도록 고쳤다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아들」「어머니」만으로 인물을 지칭해 주체가 흐릿했고, 「약업을 물려받았다」「장사를 배운 적이 없었다」가 영문의 회사 인수·경영 경험과 정확히 대응하지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가업의 숫자 쪽을 맡다」「학생회장을 했다」「잔디깎이와 세탁 수거」가 직역투이거나 구체적인 업무 관계를 충분히 드러내지 못했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「집으로 돌아와」는 영문의 회사 복귀를 물리적인 귀가처럼 읽히게 했고, 회사 매각과 이직의 관계도 다소 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그리핀의 할인약국 사업부」와 「재무를 맡다가」를 더 자연스럽고 구체적인 한국어로 다듬었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "마지막 문장의 「그는 뒤에 재무를 맡았다」가 어색하고, 누가 언제 재무 책임자가 되었는지 흐릿했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "앞 문장에 시걸로프와 마커스가 나온 직후 「둘」이라고 해고된 두 사람이 누구인지 잘못 읽힐 수 있었다. 법인 설립이라는 의미도 분명하게 다듬었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「상품을 짰다」가 영어 단어를 그대로 치환한 듯한 표현이라 상품 구성 업무를 뜻하도록 고쳤다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「나스닥에 올리다」를 일반적인 상장 표현으로 고치고, 마지막 문장의 주체를 명시했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "지원 대상을 단어만 나열한 문장을 자연스럽게 연결하고 「지역」이 지역사회 사업을 뜻함을 분명히 했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「회장으로 물러나며」「공동회장에서도 물러났다」가 직책 이동 관계를 모호하게 만들었고, 나르델리 영입의 주체도 불분명했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「이야기를 트고 있었다」가 뜻을 짐작해야 하는 표현이었고, 매각을 승인한 이들이 해당 리그의 구단주들이라는 관계가 흐릿했다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「구단을 따내다」「연맹을 찾아다니다」「풋볼과 축구를 같이 치다」가 구어적이거나 직역투라 확장 구단 유치와 경기장 공동 사용의 뜻을 분명히 했다."
+   },
+   {
+    "index": 13,
+    "fields": [
+     "description"
+    ],
+    "problem": "「접는 지붕이 늦어」가 무엇이 지연됐는지 불분명했고, 「리그컵」은 영문의 고유 대회명인 MLS컵과 정확히 대응하지 않았다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ }
+}

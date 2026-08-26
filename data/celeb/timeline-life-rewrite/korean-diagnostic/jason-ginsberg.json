@@ -1,0 +1,272 @@
+{
+ "slug": "jason-ginsberg",
+ "events": [
+  {
+   "year": 1997,
+   "year_end": null,
+   "kind": "birth",
+   "title": "미국에서 태어나다",
+   "title_en": "Born in the United States",
+   "description": "출생 연도만 공개되어 있다. 십대에 뉴욕으로 가서 고등학교를 다녔다.",
+   "description_en": "Only the year is public. As a teenager he went to New York for high school.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "education",
+   "title": "호러스 만 스쿨에서 디자인을 배우다",
+   "title_en": "Trains as a designer at Horace Mann",
+   "description": "브롱크스 리버데일에 있는 사립 학교를 다녔다. 졸업하던 해 영아츠 디자인 부문 결선에 올라 마이애미와 모마 PS1에서 작품을 선보였다.",
+   "description_en": "He attended the private school in Riverdale in the Bronx. In his final year he reached the YoungArts design finals and showed work in Miami and at MoMA PS1.",
+   "place_name": "뉴욕",
+   "place_name_en": "New York",
+   "lat": 40.71277777777778,
+   "lng": -74.00611111111111
+  },
+  {
+   "year": 2015,
+   "year_end": 2020,
+   "kind": "education",
+   "title": "스탠퍼드에서 전기공학과 컴퓨터과학을 배우다",
+   "title_en": "Studies electrical engineering and computer science at Stanford",
+   "description": "전기공학 학사과정과 컴퓨터과학 석사과정을 밟았다. 교내 해커톤을 준비하던 중 앤드루 밀리치를 만났고, 두 사람은 훗날 이 만남을 계기로 함께 회사를 세웠다.",
+   "description_en": "He took a bachelor's in electrical engineering and a master's in computer science. While planning a campus hackathon he met Andrew Milich, and the two later opened a company from that meeting.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "publish",
+   "title": "이동형 형상 디스플레이 논문을 발표하다",
+   "title_en": "Publishes a paper on a mobile shape display",
+   "description": "션 폴머 연구실에서 셰이프시프트 제작에 참여했다. 닐 모바와 함께 맨눈으로 보는 라이트필드 디스플레이의 시야를 넓히는 논문을 써 SMPTE 학생논문상을 받았다.",
+   "description_en": "In Sean Follmer's lab he helped build shapeShift. With Neil Movva he wrote on widening the view of a glasses-free light field display and won SMPTE's student paper award.",
+   "place_name": "스탠퍼드",
+   "place_name_en": "Stanford",
+   "lat": 37.424109,
+   "lng": -122.166079
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "애플에서 비전 프로 개발에 참여하다",
+   "title_en": "Works on Vision Pro at Apple",
+   "description": "컴퓨터 비전 업무를 맡았다. 그는 훗날 헤드셋이 더 이상 단순한 기계가 아니었다고 말했다. 이 일을 하던 중 앤드루에게서 전화를 받았다.",
+   "description_en": "He worked on computer vision. He later said the headset was no longer just a machine, and Andrew called him while he was on that work.",
+   "place_name": "쿠퍼티노",
+   "place_name_en": "Cupertino",
+   "lat": 37.3175,
+   "lng": -122.04194444444
+  },
+  {
+   "year": 2020,
+   "year_end": null,
+   "kind": "work",
+   "title": "앤드루 밀리치와 스키프를 세우다",
+   "title_en": "Founds Skiff with Andrew Milich",
+   "description": "만우절에 앤드루와 함께 회사를 공식 출범시켰다. 회사도 문서 내용을 읽을 수 없는 편집기를 먼저 만들었고, 기술 책임을 맡았다.",
+   "description_en": "They made the company official on April Fool's Day. He took the technical lead and started with a document editor the company itself could not read.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2021,
+   "year_end": null,
+   "kind": "work",
+   "title": "시쿼이아의 시드 투자를 받고 팀을 키우다",
+   "title_en": "Raises a Sequoia seed and grows the team",
+   "description": "370만 달러를 투자받아 팀을 꾸렸다. 미션 지구에 있던 노션의 옛 작업실로 옮겼고, 그해 가을 암호화 문서 서비스를 베타 단계에서 벗어나 공개했다.",
+   "description_en": "They took $3.7 million and used it to hire. They moved into Notion's old Mission workshop, and that fall they opened the encrypted documents beyond beta.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2022,
+   "year_end": null,
+   "kind": "work",
+   "title": "암호화 메일을 내놓다",
+   "title_en": "Launches encrypted mail",
+   "description": "시쿼이아가 추가로 투자한 1,050만 달러를 바탕으로 문서 편집기를 넘어 이메일 서비스까지 사업을 넓혔다. 5월에는 지메일을 떠나려는 이용자를 위한 서비스를 모두에게 공개했다.",
+   "description_en": "Sequoia returned with $10.5 million, and they pushed past documents into the inbox. In May they opened a service aimed at people leaving Gmail.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2024,
+   "year_end": null,
+   "kind": "work",
+   "title": "스키프를 노션에 넘기고 노션 메일로 옮기다",
+   "title_en": "Hands Skiff to Notion and moves onto Notion Mail",
+   "description": "사용자가 200만 명에 가까워진 회사를 노션에 넘겼다. 기존 서비스는 종료 절차에 들어갔고, 그는 노션에서 암호화 메일 개발을 이어갔다.",
+   "description_en": "They handed over a company that had grown to nearly two million users. The old services began shutting down, and he kept working on encrypted mail inside Notion.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "커서의 제품 엔지니어링을 맡다",
+   "title_en": "Takes product engineering at Cursor",
+   "description": "앤드루와 함께 커서에 합류해 제품 엔지니어링을 공동으로 이끌었다. 엔지니어들은 자신에게 필요한 기능을 먼저 만들고, 사내에서 실제로 쓰이기 시작하면 외부에 출시했다.",
+   "description_en": "He joined with Andrew and they shared the product engineering lead. Engineers first built what they themselves needed, and shipped it once people inside used it.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2025,
+   "year_end": null,
+   "kind": "work",
+   "title": "추수감사절에 디버그 모드를 만들다",
+   "title_en": "Builds Debug Mode over Thanksgiving",
+   "description": "자신이 쓰고 싶은 기능이어서 추수감사절 연휴를 들여 만들었다. 에이전트가 런타임 로그를 읽을 수 있게 되자 회사는 이 모드를 제품에 넣었다.",
+   "description_en": "He spent the holiday on it because he wanted it himself. Once the agent could read runtime logs, the company put the mode into the product.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  },
+  {
+   "year": 2026,
+   "year_end": null,
+   "kind": "work",
+   "title": "xAI와 스페이스X에 합류하다",
+   "title_en": "Joins xAI and SpaceX",
+   "description": "커서를 떠나 그록의 제품 업무를 맡았다. 머스크가 로켓 회사와 인공지능 회사를 한 조직 아래 둔 직후였다.",
+   "description_en": "He left Cursor and took product work on Grok. Musk had just put the rocket company and the AI company under one roof.",
+   "place_name": "샌프란시스코",
+   "place_name_en": "San Francisco",
+   "lat": 37.775,
+   "lng": -122.41944444444445
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문의 의미와 세부는 유지하면서 직역투, 불분명한 지시어, 어색한 서술어를 바로잡았다. 학업에서 스키프 창업과 매각, 커서와 xAI·SpaceX 합류로 이어지는 생애의 흐름도 자연스럽게 연결했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「생일과 도시」는 공개된 정보가 출생 연도뿐이라는 영문의 범위를 불필요하게 나누어 표현했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "호러스 만이 학교라는 점이 제목에서 드러나지 않았고, 「졸업 해」와 전시 장소 표기가 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「학사로 회로와 장치를 익히고」「석사로 컴퓨터과학을 밟았다」「뒤에서 둘이 그 인연으로」가 영문 단어를 순서대로 옮긴 듯해 학위와 창업의 관계가 분명하지 않았다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「논문으로 내다」와 「시야를 넓히는 글을 쓰다」가 출판된 논문과 수상 경력을 정확하고 자연스럽게 전달하지 못했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「비전 프로를 다루다」「그 일을 할 때」가 맡은 업무와 전화가 온 시점을 모호하게 표현했다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「회사를 공식으로 열었다」와 「회사조차 내용을 읽지 못하는 문서 편집기」가 창업과 암호화 편집기의 성격을 부자연스럽게 전달했다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「시쿼이아 시드」「미션의 옛 노션 작업실」「베타 밖으로 내놓았다」가 투자, 장소, 공개 단계의 관계를 한국어답게 드러내지 못했다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「시쿼이아가 다시 넣은」「문서 너머 편지함까지 넓혔다」가 투자와 제품 확장을 지나치게 직역했고, 서비스의 대상도 영문보다 불분명했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "회사를 넘긴 상대와 이후 옮겨 간 업무가 제목과 서술에서 충분히 명시되지 않았다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「제품 쪽을 공동으로 이끌었다」「안에서 쓰이면 밖으로 냈다」가 제품 엔지니어링의 역할과 사내 사용 후 출시하는 방식을 모호하게 표현했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "description"
+    ],
+    "problem": "「휴일에 붙었다」는 뜻을 짐작해야 하는 표현이고, runtime logs도 단순한 「실행 로그」보다 구체적으로 옮길 필요가 있었다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그록 쪽 제품 일」과 「로켓 회사와 인공지능 회사를 묶었다」가 담당 업무와 합류 당시의 상황을 다소 거칠고 모호하게 표현했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

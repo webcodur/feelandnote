@@ -1,0 +1,307 @@
+{
+ "slug": "empress-lu-zhi",
+ "events": [
+  {
+   "year": -241,
+   "year_end": null,
+   "kind": "birth",
+   "title": "단부에서 태어나다",
+   "title_en": "Is born in Shanfu",
+   "description": "사기와 한서는 생년을 적지 않는다. 후대 기록은 기원전 241년으로 잡는다. 한서 안사고 주는 이름을 치, 자를 아구라고 한다. 사기 본기는 여후와 여태후로만 부른다. 여후는 단부 사람 여공의 딸이다. 여공은 원수를 피해 패로 왔다. 패현의 현령이 잔치를 열자 소하는 천 전 미만을 낸 손님은 당 아래에 앉히라고 했다. 당시 정장이던 유방은 만 전이라고 적고도 한 푼도 내지 않은 채 들어왔다. 여공은 유방의 관상을 보고 딸을 주었다. 여후는 유영과 노원공주를 낳았다. 사기는 여후가 두 아이와 함께 밭을 매던 중 지나가던 노인이 세 사람에게서 귀한 상을 보았다고 전한다. 유방이 망탕산에 숨었을 때 여후가 구름을 보고 찾아갔다고도 적는다. 여후가 옥에 갇혔을 때는 임오가 옥리를 때렸다.",
+   "description_en": "The Shiji and the Book of Han do not record a birth year. Later accounts put it at 241 BCE. Yan Shigu’s note to the Book of Han gives the name Zhi and the courtesy name Exu. The Shiji annals call her only Empress Lü or Empress Dowager Lü. She was the daughter of Lü Gong of Shanfu. Lü Gong fled enemies and settled in Pei. When the Pei magistrate held a banquet, Xiao He seated guests who brought less than a thousand cash below the hall. Liu Bang, then a pavilion chief, wrote ten thousand and came with nothing. Lü Gong read his face and gave him his daughter. She bore Liu Ying and Princess Yuan of Lu. The Shiji says an old man passing while she weeded with the two children read noble signs on them. It also says that when Liu Bang hid in the Mang-Dang hills she found him by a cloud, and that Ren Ao struck a jailer when she was locked up.",
+   "place_name": "단부",
+   "place_name_en": "Shanfu",
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": -205,
+   "year_end": -203,
+   "kind": "other",
+   "title": "팽성에서 초군에 잡히다",
+   "title_en": "Is taken by Chu at Pengcheng",
+   "description": "한 2년 여름, 유방은 팽성을 빼앗았다가 수수에서 패했다. 여후는 유방의 아버지 태공과 함께 초군에 붙잡혔다. 한 4년 가을, 홍구를 경계로 땅을 나누기로 하자 항우가 두 사람을 돌려보냈다.",
+   "description_en": "In the summer of the second Han year Liu Bang took Pengcheng and then broke at the Sui. She and the Grand Sire were seized by Chu. In the autumn of the fourth year Xiang Yu sent them back when the Hong Canal split the land.",
+   "place_name": "팽성",
+   "place_name_en": "Pengcheng",
+   "lat": 34.26104,
+   "lng": 117.18587
+  },
+  {
+   "year": -202,
+   "year_end": null,
+   "kind": "office",
+   "title": "한나라 황후가 되다",
+   "title_en": "Becomes empress of Han",
+   "description": "유방은 사수 북쪽에서 황제에 즉위했다. 조정은 처음 낙양에 있었고, 유영을 태자로 세웠다. 뒤에는 도읍을 장안으로 옮겼다.",
+   "description_en": "Liu Bang took the imperial title north of the Si. The court sat first at Luoyang. Their son was named heir. The seat later moved to Chang’an.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": -196,
+   "year_end": null,
+   "kind": "other",
+   "title": "장락궁에서 한신을 죽이다",
+   "title_en": "Has Han Xin killed in Changle Palace",
+   "description": "고조가 진희를 치러 나갔다. 한신 휘하 사인의 아우가 한신이 반란을 꾀한다고 고했다. 소하는 진희가 이미 죽었다고 말하며 한신에게 궁으로 들어와 축하하라고 했다. 여후는 한신을 결박해 장락궁 종실에서 베고 그의 삼족을 멸했다. 사기 회음후열전은 한신이 여후와 태자를 습격하려 했다고 적는다. 고조는 돌아와 한신이 죽은 것을 알고 기뻐하면서도 불쌍히 여겼다.",
+   "description_en": "Gaozu left to strike Chen Xi. A retainer’s brother reported that Han Xin was plotting revolt. Xiao He said Chen was already dead and told him to come in and congratulate. She had him bound and cut down in the bell room of Changle Palace, then wiped out three clans. The Shiji memoir of the Marquis of Huaiyin says Han meant to strike the empress and the heir. Gaozu came back, saw he was dead, and was both glad and sorry.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -196,
+   "year_end": null,
+   "kind": "other",
+   "title": "팽월을 낙양에서 죽이다",
+   "title_en": "Has Peng Yue killed in Luoyang",
+   "description": "고조가 한단에서 팽월에게 군사를 재촉하자 팽월은 병을 핑계로 장수들만 보냈다. 태복이 팽월의 반란을 고발하자 고조는 그를 낙양에 가두었다가 서인으로 낮추고 촉의 청의로 보냈다. 서쪽으로 가던 팽월은 정 땅에서 장안에서 낙양으로 오던 여후를 만났다. 팽월이 울며 창읍에서 살게 해 달라고 청하자 여후는 이를 받아들이고 그와 함께 낙양으로 돌아왔다. 여후는 고조에게 팽월 같은 장사를 촉으로 보내면 후환이 된다고 말했다. 이어 한 사인에게 팽월의 반란을 다시 고발하게 했다. 정위 왕념개가 팽월의 삼족을 멸하자고 청하자 고조가 허락했다. 사기 경포열전은 그해 여름 팽월의 살을 잘게 다져 제후들에게 보냈다고 전한다.",
+   "description_en": "Gaozu pressed him for troops at Handan. He pleaded illness and sent only officers. A coachman charged revolt. Gaozu jailed him in Luoyang, reduced him to a commoner, and sent him to Qingyi in Shu. West at Zheng he met her coming from Chang’an to Luoyang. He wept and asked to live in Changyi. She agreed and took him east to Luoyang. She told Gaozu that sending a strong man to Shu left a later threat. She had a retainer charge revolt again. Commandant Wang Tiankai asked for the clan. Gaozu allowed it. The Shiji memoir of Qing Bu says that summer they minced the flesh and sent it to the lords.",
+   "place_name": "낙양",
+   "place_name_en": "Luoyang",
+   "lat": 34.65867,
+   "lng": 112.42447
+  },
+  {
+   "year": -195,
+   "year_end": null,
+   "kind": "other",
+   "title": "태자의 자리를 지키다",
+   "title_en": "Keeps the heir in place",
+   "description": "고조는 유여의가 자신을 닮았다며 태자를 여러 번 바꾸려 했다. 척희는 고조가 관동으로 갈 때 따라다니며 울었고, 나이가 많았던 여후는 도성에 남았다. 여후는 장량의 조언에 따라 상산사호를 태자 곁에 세웠다. 고조는 잔치 자리에서 네 사람을 보고 척희에게 태자의 날개가 다 자랐다고 말했다. 사기 유후세가는 고조가 「여후가 참주인이로다」라고 말했다고 전한다.",
+   "description_en": "Gaozu said Liu Ruyi was like him and several times moved to change the heir. Consort Qi followed him east of the passes and wept. The older wife stayed in the capital. On Zhang Liang’s advice the Four Whiteheads of Mount Shang were set beside the heir. Gaozu saw the four at a banquet and told Qi the wings were grown. The Shiji house of the Marquis of Liu records him saying Empress Lü was the true master.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -195,
+   "year_end": null,
+   "kind": "office",
+   "title": "태후가 되다",
+   "title_en": "Becomes empress dowager",
+   "description": "고조 12년 4월 갑진일, 고조가 장락궁에서 죽었다. 죽기 전에는 소하의 뒤를 조참이 잇고, 그다음에는 왕릉과 진평이 맡으며, 유씨를 지킬 사람은 주발이라고 말했다. 유영이 황제로 즉위했다. 사기는 죽은 대신 가운데 여후의 손에 죽은 이가 많았다고 쓴다.",
+   "description_en": "On the jiachen day of the fourth month in Gaozu’s twelfth year he died in Changle Palace. Before that he said Cao Shen should follow Xiao He, then Wang Ling with Chen Ping, and that Zhou Bo would keep the Liu house. Liu Ying took the throne. The Shiji says many of the slain ministers fell by her hand.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -194,
+   "year_end": null,
+   "kind": "other",
+   "title": "유여의를 독살하고 척희를 해치다",
+   "title_en": "Poisons Liu Ruyi and mutilates Consort Qi",
+   "description": "혜제 원년 12월이다. 주창이 조왕 유여의를 보내지 않자 여후는 먼저 주창을 장안으로 불렀다. 혜제는 패상에서 유여의를 맞아 늘 곁에 두었다. 어느 날 새벽 혜제가 사냥을 나갔을 때 유여의는 늦게 일어나 혼자 남았다. 여후는 그에게 짐독을 탄 술을 억지로 먹였다. 이어 척희의 손발을 자르고 눈을 뽑고 귀를 지진 뒤, 말하지 못하게 하는 약을 먹여 변소에 가두었다. 여후는 척희를 사람 돼지라고 불렀다. 혜제에게 척희의 모습을 보여주자 혜제는 사람이 할 일이 아니라며 정사를 돌보지 않았다.",
+   "description_en": "It was the twelfth month of Hui’s first year. Zhou Chang would not send the King of Zhao, so she called Chang to Chang’an first. Hui met the king at Bashang and kept him close. One dawn Hui went hunting. The boy rose late and was left alone. She had poisoned wine forced on him. She cut off Qi’s hands and feet, took out the eyes, seared the ears, gave a mute drug, and put her in a privy. She named her the human pig. Hui was shown the body, said this was not a human act, and left the government.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -192,
+   "year_end": null,
+   "kind": "other",
+   "title": "묵돌의 혼인 제안을 거절하다",
+   "title_en": "Turns down Modu’s marriage letter",
+   "description": "한서 흉노전은 연도를 적지 않고 혜제와 고후 때라고만 한다. 후대 편년은 기원전 192년으로 잡는다. 묵돌은 두 사람이 모두 홀몸이라며 서로 가진 것과 없는 것을 바꾸자고 편지를 보냈다. 번쾌는 기병 십만을 이끌고 흉노를 치겠다고 했다. 계포는 고조도 평성의 포위를 풀지 못했다고 지적했다. 여후는 자신이 늙어 이가 빠졌다고 답하고 수레와 말을 보냈다. 묵돌도 말을 보내왔고 혼인 화친은 이어졌다.",
+   "description_en": "The Book of Han Xiongnu memoir gives no year, only the time of Hui and the empress dowager. Later chronologies put it at 192 BCE. Modu wrote that both lived alone and offered to trade what each had. Fan Kuai asked for a hundred thousand to ride through the Xiongnu. Ji Bu said Gaozu himself had not broken the siege at Pingcheng. She answered that she was old and her teeth were gone, and sent carriages and horses. Modu sent horses back and the marriage peace held.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -188,
+   "year_end": null,
+   "kind": "office",
+   "title": "혜제가 죽자 칭제하다",
+   "title_en": "Issues edicts after Hui dies",
+   "description": "혜제 7년 가을 8월, 여후의 아들 혜제가 죽었다. 사기는 여후가 곡하면서도 눈물을 흘리지 않았다고 쓴다. 장벽강은 승상에게 여대·여산·여록을 남북군의 지휘관으로 세우라고 했다. 새 태자를 황제 자리에 앉혔지만 명령은 태후에게서 나왔다. 왕릉이 고조의 백마 맹약을 들어 반대하자 여후는 그를 태부로 옮겼다. 진평을 우승상으로, 심이기를 좌승상으로 삼았다. 사기는 심이기가 태후의 총애를 받아 정사를 끊었다고 쓴다.",
+   "description_en": "In the eighth month of Hui’s seventh autumn the son died. The Shiji says she wailed and no tears fell. Zhang Pijiang told the chancellor to put Lü Tai, Lü Chan, and Lü Lu over the northern and southern armies. The heir was seated. Orders came from the dowager. Wang Ling cited Gaozu’s white-horse oath and was moved to grand tutor. Chen Ping became right chancellor and Shen Yiji left chancellor. The Shiji says Shen held her favor and cut the business of state.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -184,
+   "year_end": null,
+   "kind": "other",
+   "title": "전소제를 폐위하고 죽이다",
+   "title_en": "Deposes and kills Emperor Qianshao",
+   "description": "장황후는 자식이 없어 한 미인의 아들을 데려와 태자로 삼고 그 어머니를 죽였다. 소제는 자라서 어머니가 죽었다는 사실을 알고, 자신이 더 자라면 상황을 바꾸겠다고 했다. 여후는 소제를 영항에 가둔 뒤 병이 깊다고 알리고, 폐위한 다음 죽였다. 상산왕 의를 황제로 세우고 이름을 홍으로 바꾸었다. 새 원년을 선포하지 않은 것은 태후가 천하의 일을 맡고 있었기 때문이다. 그해 여희를 임광후에 봉했다.",
+   "description_en": "Empress Zhang had no child. A beauty’s son was taken, the mother killed, and the boy named heir. When the young emperor grew and learned his mother was dead, he said he would change things once grown. She locked him in the Yongxiang, said he was badly ill, then deposed and killed him. She raised Yi, King of Changshan, and renamed him Hong. No new first year was proclaimed because she held the realm. That year she made her sister Lü Xu marquise of Linguang.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -181,
+   "year_end": null,
+   "kind": "other",
+   "title": "조왕 유우를 굶겨 죽이다",
+   "title_en": "Starves Liu You, King of Zhao",
+   "description": "유우는 여씨 집안의 딸을 왕후로 맞았지만 다른 후궁을 사랑했다. 왕후는 유우가 여씨 왕들을 치려 한다고 모함했다. 여후는 유우를 장안의 관저에 가두고 음식을 끊었다. 몰래 음식을 건넨 신하들도 붙잡아 벌했다. 유우는 노래를 남기고 죽었으며 평민들의 무덤 사이에 묻혔다. 그해 양에서 옮겨 온 유회도 여산의 딸에게 억눌려 자결했다.",
+   "description_en": "He had taken a Lü daughter as queen and loved another concubine. The queen charged that he would strike the Lü kings. He was shut in a Chang’an lodge and cut off from food. Ministers who slipped him meals were seized and punished. Liu You left a song and died. He was buried among common graves. That year Liu Hui, moved from Liang, was hemmed in by Lü Chan’s daughter and killed himself.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  },
+  {
+   "year": -180,
+   "year_end": null,
+   "kind": "death",
+   "title": "장안에서 죽다",
+   "title_en": "Dies in Chang’an",
+   "description": "고후 8년 3월, 사기는 여후가 지도에서 제사를 마치고 돌아오던 길에 검푸른 개 같은 것이 나타나 겨드랑이를 들이받았다고 전한다. 점괘는 그것이 조왕 유여의의 혼령이라고 했다. 7월에 병이 깊어지자 여후는 여록에게 북군을, 여산에게 남군을 맡기고 장례 행렬을 따라가지 말라고 했다. 신미일에 죽었다. 유언에 따라 제후왕들에게 각각 황금 천 근을 주고 대사면을 내렸다. 고조와 함께 장릉에 묻혔다. 사기는 형벌을 드물게 썼고 백성은 농사에 힘썼다고 적었다. 장례가 끝나기 전에 주발과 진평이 여씨 세력을 베고 대왕 유항을 황제로 세웠다.",
+   "description_en": "In the third month of the eighth high-empress year the Shiji says that coming back from a rite at Zhidao a thing like a dark dog struck her armpit. The divination named the spirit of Liu Ruyi, King of Zhao. In the seventh month the illness deepened. She gave Lü Lu the northern army and Lü Chan the southern, and told them not to follow the funeral. She died on the xinsi day. The will gave each king a thousand catties of gold and a general pardon. She was buried with Gaozu at Changling. The Shiji says punishments were rare and the people worked the fields. Before the funeral was over Zhou Bo and Chen Ping cut down the Lü and raised Liu Heng, King of Dai.",
+   "place_name": "장안",
+   "place_name_en": "Chang'an",
+   "lat": 34.30833333333333,
+   "lng": 108.85833333333333
+  }
+ ],
+ "korean_prose_review": {
+  "status": "fact_check",
+  "summary": "주어와 목적어가 빠지거나 영문 어순을 그대로 따른 문장을 자연스러운 한국어로 고쳤고, 사건 사이의 인물과 행동 관계도 명확히 이었다. 다만 인명·행정 표현·사망일에서 국문과 영문이 충돌하거나 영문 자체가 모호한 네 사건은 사실 확인이 필요하다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "여공이 유방에게 딸을 준 과정과 밭·망탕산·투옥 일화에서 주어와 행동 대상이 자주 빠져 있었고, 「상으로 그를 보고」처럼 뜻을 짐작해야 하는 표현이 있었다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「수수에서 깨졌다」는 패전의 주체가 모호했고, 초군에 붙잡힌 사람이 여후라는 점도 문장에 드러나지 않았다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「황제에 올랐다」와 「아들을 태자로 세웠다」를 각각 자연스러운 즉위 표현과 구체적인 인물명으로 고쳤다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "한신을 고발한 사람, 궁으로 불러들인 대상, 처형과 삼족 멸문을 명한 주체가 생략되어 사건의 행동 관계가 불분명했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "description"
+    ],
+    "problem": "팽월·여후·고조가 연달아 등장하지만 문장마다 주어가 생략되어 누가 군사를 보내고, 유배되고, 여후를 만나고, 재고발을 꾸몄는지 알아보기 어려웠다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「태자를 지키다」는 자리를 유지시켰다는 뜻이 충분히 드러나지 않았고, 「나이 많은 쪽」과 「잔에서 네 사람을 본」은 인물과 장소를 직역한 부자연스러운 표현이었다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "「죽인 대신 가운데 여후의 힘이 많았다」는 영문의 인물·행동 관계가 무너져, 대신 다수가 여후의 손에 죽었다는 의미로 바로잡았다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "유여의와 척희에게 각각 가해진 일이 한 흐름에 섞여 있었고, 「혜제에게 보이자」는 무엇을 보여주었는지 앞 문장만으로 명확하지 않았다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「혼인 글」과 「십만으로 치겠다」, 「평성에서 고조도 풀리지 못했다」가 직역투여서 혼인 제안, 병력, 평성 포위라는 대상을 분명히 밝혔다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "죽은 아들과 새로 자리에 앉힌 태자가 누구인지 모호했고, 남북군 인사와 왕릉의 인사 이동도 영문 어순을 좇아 부자연스러웠다. 마지막의 「정사를 끊었다」는 뜻을 확정할 수 없다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "미인의 아들을 데려와 태자로 삼은 순서와 소제를 가두고 폐위한 순서를 자연스럽게 정리했고, 제목의 「폐하다」를 「폐위하다」로 고쳤다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "유우가 왕후를 맞은 일과 왕후가 모함한 내용에서 주어가 생략되었고, 「백성 무덤 곁」과 「여산의 딸에게 묶여」도 직역투였다."
+   },
+   {
+    "index": 12,
+    "fields": [
+     "description"
+    ],
+    "problem": "제사를 마치고 돌아오던 장소와 푸른 개 형상의 행동, 군권을 맡긴 뒤 내린 지시, 유언의 집행 대상을 자연스럽게 연결했다."
+   }
+  ],
+  "fact_check": [
+   {
+    "index": 4,
+    "reason": "국문은 정위의 이름을 「왕념개」라고 하지만 영문은 「Wang Tiankai」라고 적어 서로 대응하지 않는다. 어느 표기가 맞는지는 문장 편집만으로 확정할 수 없다."
+   },
+   {
+    "index": 9,
+    "reason": "국문의 「심이기가 태후의 총애를 받아 정사를 끊었다」와 영문의 「Shen held her favor and cut the business of state」가 모두 의미가 불분명하다. 심이기가 정사를 처리했다는 뜻인지, 정사를 막거나 단절했다는 뜻인지 원문 확인 없이는 고칠 수 없다."
+   },
+   {
+    "index": 10,
+    "reason": "국문은 봉작된 인물을 「여희」라고 하고 영문은 여후의 자매 「Lü Xu」라고 한다. 동일 인물의 표기인지 국문 인명이 잘못된 것인지 문장 편집만으로 판단할 수 없다."
+   },
+   {
+    "index": 12,
+    "reason": "국문은 사망일을 「신미일」이라고 하지만 영문은 「xinsi day」로 적어 간지가 서로 다르다. 어느 날짜가 맞는지는 사실 확인이 필요하다."
+   }
+  ],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12
+  ]
+ }
+}

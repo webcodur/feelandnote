@@ -1,0 +1,267 @@
+{
+ "slug": "goo-ha-ra",
+ "events": [
+  {
+   "year": 1991,
+   "year_end": null,
+   "kind": "birth",
+   "title": "광주에서 태어나다",
+   "title_en": "Born in Gwangju",
+   "description": "서구 치평동에서 태어났다. 운천초등학교와 전남중학교를 다녔고, 육상부에서 2년 동안 뛰었다.",
+   "description_en": "She was born in Chipyeong-dong, Seo-gu. She went to Uncheon Elementary and Jeonnam Middle School, and ran track for two years.",
+   "place_name": "광주",
+   "place_name_en": "Gwangju",
+   "lat": 35.166666666667,
+   "lng": 126.91666666667
+  },
+  {
+   "year": 2006,
+   "year_end": null,
+   "kind": "education",
+   "title": "전주예술고등학교에 입학하다",
+   "title_en": "Enters Jeonju Fine Arts High School",
+   "description": "전주예술고등학교 방송문화예술과에 입학했다. 연예 활동을 위해 서울의 동명여자정보산업고등학교로 전학했다. 그동안 인터넷 옷가게 모델로 일했고, SM 청소년 선발대회에도 참가했다.",
+   "description_en": "She entered the broadcasting-arts course at Jeonju Fine Arts High School. She later transferred to Dongmyeong Girls Information Industry High School in Seoul for entertainment work. She modeled for online clothing shops and also entered an SM youth contest.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2007,
+   "year_end": null,
+   "kind": "other",
+   "title": "JYP 오디션 결선에서 탈락하다",
+   "title_en": "Falls at the last JYP audition round",
+   "description": "JYP 오디션 결선까지 진출했지만 최종 탈락했다. 이후 라디오스타에서 이 경험을 직접 이야기했다.",
+   "description_en": "She reached the final round and was cut. She later told that story herself on Radio Star.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2008,
+   "year_end": null,
+   "kind": "work",
+   "title": "카라 멤버로 데뷔하다",
+   "title_en": "Debuts with Kara",
+   "description": "김성희가 팀을 떠난 뒤 DSP 오디션을 통과했다. 강지영과 함께 5인조 카라의 일원으로 엠 카운트다운 무대에 섰고, 첫 곡은 락유였다.",
+   "description_en": "After Kim Sung-hee left, she passed the DSP audition. She stood on M Countdown with Kang Ji-young in a five-member lineup. The first song was Rock U.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2009,
+   "year_end": null,
+   "kind": "work",
+   "title": "청춘불패에 고정 출연하다",
+   "title_en": "Joins Invincible Youth as a regular",
+   "description": "지상파 예능에 고정 출연해 카메라 앞에서 농사일을 했다. 이듬해 KBS 연예대상 쇼·오락 부문 여자 우수상을 받았다.",
+   "description_en": "She joined a terrestrial variety show and did farm work on camera. The next year she won the KBS Entertainment Awards prize for women in show and variety.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2010,
+   "year_end": 2011,
+   "kind": "work",
+   "title": "일본에서 미스터를 발매하다",
+   "title_en": "Releases Mister in Japan",
+   "description": "카라의 일본 데뷔 싱글로 오리콘 주간 차트 5위에 올랐다. 아시아 걸그룹의 데뷔 싱글이 이 차트 10위 안에 든 것은 처음이었다. 이듬해 홍백가합전 후반부의 첫 무대에 올랐다.",
+   "description_en": "Kara reached number five on the weekly Oricon chart with their Japanese debut single. It was the first debut single by an Asian girl group to enter the top ten. The next year they opened the second half of Kohaku.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 2011,
+   "year_end": null,
+   "kind": "work",
+   "title": "시티헌터에 출연하다",
+   "title_en": "Appears in City Hunter",
+   "description": "대통령의 딸 최다혜 역을 맡았다. 음악 활동과 드라마 촬영을 병행했고, 그해 SBS 연기대상 뉴스타상을 받았다. 이에 앞서 성신여대 미디어영상연기학과에 합격한 상태였다.",
+   "description_en": "She played Choi Da-hye, the president's daughter. She took the drama between music dates and won the SBS Drama Awards New Star prize that year. She had already been admitted to Sungshin Women's University in media and acting.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2015,
+   "year_end": null,
+   "kind": "work",
+   "title": "솔로 EP 알로하라를 발매하다",
+   "title_en": "Releases the solo EP Alohara",
+   "description": "그룹 활동을 이어가면서 자신의 이름으로 미니 음반을 발매했다. 기리보이가 타이틀곡 초코칩 쿠키의 랩을 맡았고, 음반은 국내 차트 4위까지 올랐다.",
+   "description_en": "She released a mini-album under her own name while still in the group. Giriboy rapped on the title track Choco Chip Cookies, and the record reached number four at home.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2016,
+   "year_end": null,
+   "kind": "office",
+   "title": "키이스트와 계약하다",
+   "title_en": "Signs with KeyEast",
+   "description": "DSP와의 계약이 끝났다. 박규리, 한승연과 함께 회사를 떠났고, 사흘 뒤 키이스트와 전속 계약을 맺었다.",
+   "description_en": "Her DSP contract ended. She left with Park Gyu-ri and Han Seung-yeon, and three days later she signed with KeyEast.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  },
+  {
+   "year": 2018,
+   "year_end": null,
+   "kind": "work",
+   "title": "일본 디지털 싱글 와일드를 발매하다",
+   "title_en": "Releases the Japanese digital single Wild",
+   "description": "일본에서 자신의 이름으로 노래를 발매했다. 오다이바 축제 무대에도 올랐다.",
+   "description_en": "She put out a song in Japan under her own name. She also played the Odaiba festival stage.",
+   "place_name": "도쿄",
+   "place_name_en": "Tokyo",
+   "lat": 35.68944444444445,
+   "lng": 139.69166666666666
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "work",
+   "title": "미드나잇 퀸을 발매하고 네 도시를 돌다",
+   "title_en": "Releases Midnight Queen and tours four cities",
+   "description": "프로덕션 오기와 계약한 뒤 일본에서 CD 싱글을 발매했다. 후쿠오카에서 도쿄까지 네 도시를 돌았고, 19일에 투어를 마쳤다.",
+   "description_en": "After signing with Production Ogi she released a Japanese CD single. She toured four cities from Fukuoka to Tokyo and closed the run on the nineteenth.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 2019,
+   "year_end": null,
+   "kind": "death",
+   "title": "청담동 자택에서 숨지다",
+   "title_en": "Dies at her Cheongdam home",
+   "description": "오후 6시께 자택에서 발견됐다. 유족은 강남세브란스병원에서 장례를 치렀고, 팬들을 위한 별도 조문 공간은 서울성모병원에 마련됐다. 유해는 분당 스카이캐슬 추모공원에 안치됐다.",
+   "description_en": "She was found at home around six in the evening. The family funeral was at Gangnam Severance, and a separate memorial for fans opened at Seoul St. Mary's. The family placed her remains at Skycastle Memorial Park in Bundang.",
+   "place_name": "서울",
+   "place_name_en": "Seoul",
+   "lat": 37.56,
+   "lng": 126.99
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문이 담고 있는 사실과 세부는 그대로 두고, 직역투와 모호한 목적어, 부자연스러운 동사, 끊어진 문장 연결을 고쳤다. 사실 판단이 필요한 충돌이나 영문을 넘어서는 수정은 없었다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「났다」와 한글로 풀어 쓴 기간 표현이 연표 서술로는 어색해 출생과 육상부 활동을 자연스럽게 정리했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목의 학교명이 지나치게 줄어 있었고, 「에스엠이 연 청소년 선발」은 어떤 행사에 참가했는지 바로 이해하기 어려웠다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「결선에서 떨어지다」와 「그 자리를 직접 말했다」가 구어적이거나 대상을 알기 어려워, 결선 탈락과 방송에서 그 경험을 이야기한 관계를 분명히 했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「카라로 데뷔하다」보다 멤버로 데뷔했다는 관계가 자연스럽고, 「다섯 명으로 무대에 섰다」는 표현도 5인조 카라의 일원이었다는 뜻이 드러나도록 고칠 필요가 있었다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「고정으로 나가다」와 「농촌 일에 붙었다」가 뜻을 짐작해야 하는 표현이어서 고정 출연과 농사일을 구체적으로 밝혔다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「내다」, 「오 위」, 「열 위」, 「후반 첫 무대를 받았다」가 부자연스럽거나 영어 어순을 따른 표현이어서 발매·순위·공연 순서를 자연스럽게 옮겼다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "description"
+    ],
+    "problem": "배역을 「맡았다」고만 해 역할임이 선명하지 않았고, 「가수 일정 사이에 연속극에 섰다」와 마지막 문장이 직역투로 끊겨 있었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「자기 이름으로 미니음반을 냈다」와 「국내 차트는 사 위까지 갔다」가 구어적이고 주어 관계가 어색해 솔로 발매와 음반 순위를 명확히 했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "음원을 「올렸다」거나 무대를 「잡았다」는 표현이 발매와 공연의 의미를 정확히 전달하지 못했다."
+   },
+   {
+    "index": 10,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "발매 대상을 「싱글 시디」라고 옮긴 표현과 「열아흐레에 투어를 마쳤다」가 어색해, 영문의 CD 싱글과 19일 종료를 자연스럽게 보존했다."
+   },
+   {
+    "index": 11,
+    "fields": [
+     "description"
+    ],
+    "problem": "「가족 장례」와 「팬 조문이 따로 열렸다」가 한국어에서 부자연스러워 장례와 별도 조문 공간의 관계를 분명히 했다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ }
+}

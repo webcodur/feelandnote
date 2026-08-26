@@ -1,0 +1,240 @@
+{
+ "slug": "antisthenes",
+ "events": [
+  {
+   "year": -445,
+   "year_end": null,
+   "kind": "birth",
+   "title": "아테네에서 태어나다",
+   "title_en": "Is born in Athens",
+   "description": "아버지도 안티스테네스라는 이름의 아테네 시민이었다. 어머니는 트라키아 출신이라고 전하며, 프리지아 출신이라는 기록도 있다. 당시 아테네에서는 부모가 모두 시민이어야 완전한 시민권을 얻을 수 있었다. 후대 저술가들은 그를 노토스, 곧 아테네 시민과 비시민 사이에서 태어난 자로 기록했다.",
+   "description_en": "His father, also named Antisthenes, was an Athenian citizen. Ancient sources say his mother was Thracian, though some call her Phrygian. Under Athenian law a man needed two citizen parents for full citizenship. Later writers recorded him as a nothos, a child of mixed or illegitimate parentage.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "고르기아스에게 수사학을 배우다",
+   "title_en": "Studies rhetoric under Gorgias",
+   "description": "레온티노이 출신 수사학자 고르기아스 밑에서 먼저 배웠다고 전한다. 고르기아스는 사절로 아테네에 온 적이 있다. 안티스테네스가 언제 그의 제자가 되었는지는 전하지 않는다. 후대 저술가들은 고르기아스에게서 익힌 수사학적 문체가 《진리》와 《권고》에 남았다고 보았다.",
+   "description_en": "Later biographies say he first studied under the rhetorician Gorgias of Leontini. Gorgias once came to Athens as an envoy. The date of the apprenticeship is not recorded. Later writers said that rhetorical manner remained in his Truth and Exhortations.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -426,
+   "year_end": null,
+   "kind": "battle",
+   "title": "타나그라 전투에 참전했다고 전한다",
+   "title_en": "Is said to have fought at Tanagra",
+   "description": "니키아스와 히포니코스, 에우리메돈이 이끈 아테네군이 타나그라와 테바이 병력을 물리쳤다. 투키디데스가 이 전투를 기록한다. 디오게네스 라에르티오스는 안티스테네스가 타나그라 전투에서 공을 세웠으며, 소크라테스가 그를 두고 부모가 모두 아테네인이었다면 이토록 용감하지 못했을 것이라고 말했다고 전한다. 다만 안티스테네스의 참전 자체는 후대 전기에만 전해진다.",
+   "description_en": "Athenian forces under Nicias, Hipponicus, and Eurymedon defeated troops from Tanagra and Thebes. Thucydides records the battle. Diogenes Laertius says Antisthenes distinguished himself there and that Socrates remarked he would not have been so brave had both parents been Athenians. His presence in the fight is known only from that later biography.",
+   "place_name": "타나그라",
+   "place_name_en": "Tanagra",
+   "lat": 38.32738,
+   "lng": 23.53655
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "education",
+   "title": "소크라테스의 제자가 되다",
+   "title_en": "Becomes a pupil of Socrates",
+   "description": "소크라테스 곁에서 배웠다. 크세노폰은 《향연》과 《소크라테스 회상》에서 그를 소크라테스의 대화 상대로 그린다. 후대 전승에 따르면, 안티스테네스는 피레우스에 살면서 날마다 아테네 성안까지 걸어와 소크라테스의 가르침을 들었고 자기 제자들에게도 소크라테스에게 가서 배우라고 권했다.",
+   "description_en": "He studied with Socrates. Xenophon makes him a speaking companion of Socrates in the Symposium and Memorabilia. Later tradition says he lived in Piraeus, walked daily into the city to hear Socrates, and told his own pupils to join him there.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -399,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "소크라테스의 최후를 함께하다",
+   "title_en": "Is present at the death of Socrates",
+   "description": "소크라테스가 독배를 마실 때 그 자리에 있었다. 플라톤은 《파이돈》에서 당시 함께한 아테네인 동료 가운데 안티스테네스의 이름을 적었다. 같은 대화편에 따르면 플라톤 자신은 그날 병으로 자리에 없었다. 후대 전승은 안티스테네스가 고발자 아니토스와 멜레토스가 처벌받게 하는 데 힘을 보탰다고 전한다.",
+   "description_en": "He was there when Socrates drank the hemlock. Plato names him among the Athenian companions in the Phaedo. The same dialogue says Plato himself was ill that day. A later tradition claims Antisthenes helped bring punishment on the accusers Anytus and Meletus.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -399,
+   "year_end": null,
+   "kind": "work",
+   "title": "키노사르게스에서 가르치다",
+   "title_en": "Teaches at Cynosarges",
+   "description": "소크라테스가 죽은 뒤, 성벽 밖 일리소스강 가에 있던 헤라클레스 신역의 체육관 키노사르게스에서 가르쳤다. 키노사르게스는 외국인 어머니에게서 태어난 이들이 이용하던 곳이었다. 후대 저술가들은 이를 견유학파의 시작으로 보았으나, 안티스테네스가 정식 학파를 세웠는지를 두고는 현대 연구에서도 견해가 갈린다. 디오클레스는 안티스테네스가 처음으로 외투를 겹쳐 입고 지팡이와 주머니를 들었다고 기록했지만, 소시크라테스는 그런 차림을 처음 한 인물이 아스펜도스의 디오도로스였다고 전한다.",
+   "description_en": "After Socrates died he spoke at the gymnasium of Cynosarges, a sanctuary of Heracles outside the walls by the Ilissos. The place served men born of foreign mothers. Later writers read this as the start of Cynicism, though modern scholars dispute whether he founded a formal school. Diocles says he was first to double his cloak and carry a staff and wallet; Sosicrates gives that costume to Diodorus of Aspendus.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "work",
+   "title": "헤라클레스와 키루스를 다룬 글을 쓰다",
+   "title_en": "Writes on Heracles and Cyrus",
+   "description": "후대의 저작 목록에는 그의 글이 10권에 60편이 넘는다고 적혀 있다. 안티스테네스는 그리스의 헤라클레스와 페르시아의 키루스를 본보기로 들어 노고를 덕을 수련하는 방편으로 삼았고, 덕만으로도 행복에 충분하다고 보았다. 쾌락을 느끼느니 차라리 미치겠다는 말도 그의 발언으로 전한다. 온전히 남아 있는 산문은 《아이아스》와 《오디세우스》뿐이다.",
+   "description_en": "A later catalogue lists more than sixty titles in ten volumes. He used the Greek Heracles and the Persian Cyrus as models of toil in the training of virtue, and held that virtue is enough for happiness. The saying that he would rather go mad than feel pleasure is attributed to him. Only the speeches Ajax and Odysseus survive intact.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "other",
+   "title": "플라톤과 맞서다",
+   "title_en": "Quarrels with Plato",
+   "description": "안티스테네스와 플라톤의 사이가 나빴다고 후대 저술가들은 전한다. 안티스테네스의 저작 목록에는 《사톤, 또는 모순에 관하여》가 있다. 디오게네스 라에르티오스는 안티스테네스가 플라톤의 오만을 조롱했다고 기록한다. 아리스토텔레스는 안티스테네스와 그의 추종자들이 사물이 무엇인지 정의할 수 없다고 주장했다고 전한다.",
+   "description_en": "Later writers say the two men were on bad terms. The catalogue includes Sathon, or On Contradiction. Diogenes Laertius records him mocking Plato’s pride. Aristotle reports that Antisthenes and his followers held that one cannot define what a thing is.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": null,
+   "year_end": null,
+   "kind": "meeting",
+   "title": "디오게네스를 제자로 삼았다고 전한다",
+   "title_en": "Is said to have taught Diogenes",
+   "description": "고대 전승은 시노페에서 온 디오게네스가 안티스테네스의 제자가 되었다고 전한다. 안티스테네스는 처음에 제자를 받지 않으려 했지만, 디오게네스가 끈질기게 따라다닌 끝에 마음을 바꾸었다고 한다. 그러나 디오게네스가 아테네에 온 것으로 추정되는 시기와 안티스테네스의 사망 시기가 잘 맞지 않는다. 이 때문에 현대 연구자 가운데는 두 사람의 직접적인 사제 관계를 후대에 만들어진 계보로 보는 이들이 많다.",
+   "description_en": "Ancient tradition makes Diogenes of Sinope his pupil. The story says he refused students until Diogenes wore him down. The likely date of Diogenes’ arrival in Athens sits awkwardly against Antisthenes’ death, so many modern scholars treat the direct apprenticeship as a later pedigree.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -371,
+   "year_end": null,
+   "kind": "other",
+   "title": "레욱트라 승리를 논평했다고 전한다",
+   "title_en": "Is said to have judged the victory at Leuctra",
+   "description": "테바이가 레욱트라에서 스파르타를 꺾었다. 플루타르코스는 안티스테네스가 이 승리를 학생들이 선생을 때린 일에 비유했다고 전한다. 디오도로스는 몇 년 뒤에도 안티스테네스를 당시 살아 있던 문인 가운데 한 명으로 기록했다.",
+   "description_en": "Thebes defeated Sparta at Leuctra. Plutarch reports that Antisthenes compared the victory to schoolboys beating their master. Diodorus still lists him among living men of letters a few years later.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  },
+  {
+   "year": -365,
+   "year_end": null,
+   "kind": "death",
+   "title": "병으로 죽다",
+   "title_en": "Dies of disease",
+   "description": "병으로 죽었다고 전한다. 디오게네스 라에르티오스의 시는 폐병이라고 적는다. 에우도키아는 일흔에 죽었다고 했으나, 레욱트라와 디오도로스의 기록을 보면 여든에 가깝다는 추정이 나온다. 디오게네스가 병석에 찾아왔다는 장면은 후대 전승이다.",
+   "description_en": "He is said to have died of disease. Diogenes Laertius’ epitaph calls it consumption. Eudocia gives his age as seventy, but the Leuctra remark and Diodorus’ notice suggest he was nearer eighty. The scene of Diogenes visiting his sickbed belongs to later tradition.",
+   "place_name": "아테네",
+   "place_name_en": "Athens",
+   "lat": 37.98416666666667,
+   "lng": 23.728055555555557
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "영문과 대조해 의미는 유지하면서 주어와 대상이 불분명한 표현, 직역투, 부자연스러운 서술어를 바로잡았다. 사건 사이의 흐름은 유지했으며 사실 확인이 필요한 새 쟁점은 발견하지 않았다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "「양쪽 부모가 아테네인이 아니면」은 부모 중 한 명만 아테네 시민이 아닌 경우를 명확히 나타내지 못하고, 「적자가 아닌 자」는 nothos의 의미를 지나치게 좁힌다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 문체」가 고르기아스에게서 익힌 수사학적 문체를 가리킨다는 점이 앞 문장만으로 분명하지 않다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그가 여기서」는 인물과 장소를 대명사로 받아 문맥을 다시 짚어야 하므로 안티스테네스와 타나그라 전투를 직접 밝혔다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "description"
+    ],
+    "problem": "「그 곁으로」가 누구의 곁인지 문장 자체만으로 분명하지 않고, 「말상대」보다 철학적 대화의 관계를 드러내는 표현이 자연스럽다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「소크라테스의 마지막」과 「독배를 받을 때」는 뜻이 모호하며, 「벌하는 데 손을 썼다」는 처벌에 관여했다는 원문의 행동 관계를 불분명하게 나타낸다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「체육관에서 말했다」와 「후대는 여기서 … 시작되었다고 읽었다」는 영어식 서술을 그대로 옮긴 표현이며, 마지막 문장의 행위 주체도 불분명하다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목은 헤라클레스와 키루스를 주제로 글을 썼다는 영문의 뜻을 충분히 드러내지 못하고, 「미치느니 쾌락을 느끼지 않겠다」는 원문의 비교 관계를 반대로 옮겼다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「사물의 정의를 내릴 수 없다고 했다고 기록한다」는 겹친 인용 구조가 어색하고, 원문의 「사물이 무엇인지 정의할 수 없다」는 뜻도 흐려진다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "description"
+    ],
+    "problem": "「고대는 전한다」와 「따라붙어 뜻을 꺾었다」는 주체와 행동 관계가 부자연스럽고, 「직접 사승」은 일반 독자가 바로 이해하기 어려운 표현이다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「승전을 평했다」와 「당대의 활동하는 철인」은 한국어 결합이 어색하며, 후자는 영문의 living men of letters보다 의미가 좁고 부자연스럽다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}

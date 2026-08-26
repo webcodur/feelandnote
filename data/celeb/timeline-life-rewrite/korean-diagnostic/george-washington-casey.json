@@ -1,0 +1,228 @@
+{
+ "slug": "george-washington-casey",
+ "events": [
+  {
+   "year": 1893,
+   "year_end": null,
+   "kind": "birth",
+   "title": "캔들라리아에서 태어나다",
+   "title_en": "Is born in Candelaria",
+   "description": "워싱턴의 생일에 태어나 초대 대통령의 이름을 받았다. 아버지 헨리는 아일랜드 골웨이에서 왔고, 어머니 애니는 코크 출신 이민자들의 딸이었다. 두 사람은 시카고에서 만나 네바다의 은광 마을에서 술집을 운영했다. 두 형은 제임스와 해리였다.",
+   "description_en": "He was born on Washington’s birthday and named for the first president. His father Henry came from County Galway, and his mother Annie was the daughter of Cork immigrants. They met in Chicago and ran a saloon in the Nevada silver camp. His older brothers were James and Harry.",
+   "place_name": "캔들라리아",
+   "place_name_en": "Candelaria",
+   "lat": 38.1589,
+   "lng": -118.089
+  },
+  {
+   "year": 1897,
+   "year_end": null,
+   "kind": "travel",
+   "title": "시애틀로 옮기다",
+   "title_en": "Moves to Seattle",
+   "description": "은광이 사그라지자 가족은 워싱턴주로 이주했다. 클론다이크로 떠났던 아버지는 배가 난파한 뒤 병세가 더 악화되어 돌아왔다. 1900년에는 누이 마거리트가 태어났다.",
+   "description_en": "When the silver camp faded the family went to Washington. His father left for the Klondike, his ship wrecked, and he came back sicker. A sister, Marguerite, was born in 1900.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1902,
+   "year_end": null,
+   "kind": "other",
+   "title": "아버지가 폐병으로 죽다",
+   "title_en": "His father dies of lung disease",
+   "description": "헨리가 쓰러지자 열네 살인 제임스가 가장을 맡았다. 아홉 살이던 케이시는 어머니 애니와 다른 형제자매들과 함께 지냈다. 학교는 초등학교까지만 다녔다.",
+   "description_en": "Henry collapsed. Fourteen-year-old James became head of the house, and he, at nine, stayed with his mother Annie and the other children. He attended only elementary school.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1907,
+   "year_end": null,
+   "kind": "work",
+   "title": "형의 회사에서 전령으로 일하다",
+   "title_en": "Rides as a messenger for his brother’s firm",
+   "description": "제임스는 친구 클로드 라이언과 함께 술집 지하에서 아메리칸 메신저 회사를 열었다. 케이시는 열네 살에 전령으로 입사했다. 시급은 15센트였고 수수료도 받았으며, 전보를 걸어서 또는 자전거로 날랐다.",
+   "description_en": "James opened the American Messenger Company with Claude Ryan in a basement under a saloon. He joined at fourteen as a messenger. Pay was fifteen cents an hour plus commission, and the telegrams went on foot or by bicycle.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1913,
+   "year_end": null,
+   "kind": "work",
+   "title": "소포 배달로 사업을 전환하다",
+   "title_en": "The firm turns to parcels",
+   "description": "아메리칸 메신저는 에버트 매케이브의 오토바이 배달 회사와 합병했다. 회사 이름은 머천츠 파셀로 바뀌었고, 주력 업무도 전보에서 소포 배달로 옮겨갔다. 케이시는 합병 뒤에도 회사에 남았다.",
+   "description_en": "American Messenger merged with Evert McCabe’s motorcycle delivery. The name became Merchants Parcel and the work shifted from telegrams to packages. He stayed inside the firm.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1917,
+   "year_end": 1919,
+   "kind": "other",
+   "title": "해군에 들어가다",
+   "title_en": "Joins the Navy",
+   "description": "전쟁이 일어나자 해군에 입대했다. 약 2년 뒤 회사로 돌아왔을 때 클로드는 이미 떠난 뒤였다. 회사에는 형 제임스와 찰리 소더스트롬, 맥 매케이브가 핵심 구성원으로 남아 있었다.",
+   "description_en": "When the war came he enlisted in the Navy. He returned to the company about two years later. Claude was already gone, and the remaining core was his brother, Charlie Soderstrom, and Mac McCabe.",
+   "place_name": null,
+   "place_name_en": null,
+   "lat": null,
+   "lng": null
+  },
+  {
+   "year": 1919,
+   "year_end": null,
+   "kind": "work",
+   "title": "오클랜드에서 회사 이름을 바꾸다",
+   "title_en": "Takes the new name in Oakland",
+   "description": "케이시와 동료들은 시애틀을 떠나 오클랜드의 모터 파셀을 인수했다. 샌프란시스코에 이미 같은 이름의 회사가 있어 유나이티드 파셀 서비스로 이름을 바꿨다. 2월에 오클랜드 사무소를 열었으며, 시애틀에서는 한동안 옛 이름을 그대로 사용했다.",
+   "description_en": "Leaving Seattle they bought Motor Parcel in Oakland. A firm of the same name already sat in San Francisco, so they became United Parcel Service. The Oakland office opened in February, and Seattle kept the old name for a while.",
+   "place_name": "오클랜드",
+   "place_name_en": "Oakland",
+   "lat": 37.8,
+   "lng": -122.25
+  },
+  {
+   "year": 1922,
+   "year_end": null,
+   "kind": "work",
+   "title": "연안 총괄을 맡다",
+   "title_en": "Runs the Pacific Coast",
+   "description": "로스앤젤레스에서 일반 운송업 허가를 가진 회사를 인수하고 본사도 그곳으로 옮겼다. 케이시는 여러 해 동안 태평양 연안 사업을 총괄하며 부사장과 이사를 지냈다. 이후 본사가 뉴욕으로 이전한 뒤에도 그는 서부에 남았다.",
+   "description_en": "In Los Angeles they bought a firm with common-carrier rights. Headquarters moved there. He ran the Pacific Coast for years and served as vice president and director. Headquarters later went to New York; he stayed in the West.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  },
+  {
+   "year": 1948,
+   "year_end": null,
+   "kind": "other",
+   "title": "어머니 이름으로 재단을 세우다",
+   "title_en": "Founds a foundation in his mother’s name",
+   "description": "형 제임스와 해리, 누이 마거리트와 함께 애니 이 케이시 재단을 세웠다. 재단의 첫 지원 대상은 시애틀의 빈곤 아동을 위한 캠프였다. 아버지는 오래전에 세상을 떠났지만 어머니는 아직 살아 있었다.",
+   "description_en": "With James, Harry, and Marguerite he established the Annie E. Casey Foundation. Its first grants backed a camp for poor children in Seattle. Their father was long gone; their mother was still alive.",
+   "place_name": "시애틀",
+   "place_name_en": "Seattle",
+   "lat": 47.605,
+   "lng": -122.33
+  },
+  {
+   "year": 1957,
+   "year_end": null,
+   "kind": "death",
+   "title": "로스앤젤레스에서 죽다",
+   "title_en": "Dies in Los Angeles",
+   "description": "당뇨병과 심장병으로 병원에서 숨졌다. 예순셋이었다. 아내는 벌리였으며, 장례는 시애틀에서 치렀다.",
+   "description_en": "Diabetes and heart disease killed him in a hospital. He was sixty-three. His wife was Verle, and the funeral was held in Seattle.",
+   "place_name": "로스앤젤레스",
+   "place_name_en": "Los Angeles",
+   "lat": 34.05223,
+   "lng": -118.24368
+  }
+ ],
+ "korean_prose_review": {
+  "status": "revised",
+  "summary": "직역투와 모호한 주어·지시어를 바로잡고, 회사의 변천과 케이시의 생애가 시간순으로 이어지도록 다듬었다. 영문에 없는 구체적 날짜는 덜어냈으며, 영문이 전하는 사실과 세부는 그대로 보존했다.",
+  "issues": [
+   {
+    "index": 0,
+    "fields": [
+     "description"
+    ],
+    "problem": "영문에는 없는 생일 날짜가 추가되어 있었고, 「나서」와 「형은」이 각각 문체와 복수 관계를 충분히 살리지 못했다."
+   },
+   {
+    "index": 1,
+    "fields": [
+     "description"
+    ],
+    "problem": "「클론다이크에 나갔던」과 「배가 깨져」가 이동 목적과 난파 상황을 부자연스럽게 표현했고, 「폐병은 더 깊어졌다」도 한국어 표현이 어색했다."
+   },
+   {
+    "index": 2,
+    "fields": [
+     "description"
+    ],
+    "problem": "「아홉 살인 그」는 앞 문장의 헨리와 제임스 가운데 누구를 가리키는지 즉시 파악하기 어려웠고, 「초등학교만 다녔다」는 학력의 범위를 다소 모호하게 전달했다."
+   },
+   {
+    "index": 3,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "제목이 전령이라는 직무보다 자전거에 치우쳐 있었고, 「전보는 걷거나 자전거로 날랐다」는 전보가 행동의 주체처럼 읽혀 주어·목적어 관계가 어색했다."
+   },
+   {
+    "index": 4,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「회사가 소포로 기울다」는 사업 전환을 불분명하게 표현했고, 「그 안에 남아 있었다」는 지시 대상과 재직 여부를 모호하게 만들었다."
+   },
+   {
+    "index": 5,
+    "fields": [
+     "description"
+    ],
+    "problem": "「클로드는 이미 빠져 있었고」와 「남은 축이었다」가 무엇에서 떠났고 누가 회사에 남았는지를 구체적으로 밝히지 않았다."
+   },
+   {
+    "index": 6,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "「상호를 갈다」는 회사 이름을 바꾼 일을 거칠고 부자연스럽게 표현했으며, 인수와 개명의 주체가 빠져 있었다. 「이월」도 숫자 표기가 필요한 문맥이었다."
+   },
+   {
+    "index": 7,
+    "fields": [
+     "description"
+    ],
+    "problem": "「공용운송 자격」은 뜻을 짐작해야 하는 직역투였고, 「태평양 연안을 총괄했다」는 그가 지역 자체가 아니라 회사의 연안 사업을 맡았다는 관계를 충분히 드러내지 못했다."
+   },
+   {
+    "index": 8,
+    "fields": [
+     "title",
+     "description"
+    ],
+    "problem": "재단을 「열다」라는 표현이 설립 행위와 어울리지 않았고, 「아버지는 오래전에 갔다」는 죽음을 모호한 지시적 표현으로 처리했다."
+   },
+   {
+    "index": 9,
+    "fields": [
+     "description"
+    ],
+    "problem": "「당뇨에 심장병이 겹쳐」를 질병명이 명확하게 드러나는 자연스러운 서술로 다듬었다."
+   }
+  ],
+  "fact_check": [],
+  "changed_indices": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ }
+}
