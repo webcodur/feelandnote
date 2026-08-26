@@ -42,6 +42,13 @@ loadEnv()
 
 const APPLY = process.argv.includes('--apply')
 
+/* 같은 집단 소속(P361·P527·P463)을 관계로 얹을지. 기본은 끈다 —
+   위키데이터에서 이 속성을 가장 많이 다는 집단이 학회·아카데미·순위 목록이라,
+   그대로 넣으면 「같은 소속」이 서로 만난 적 없는 회원 명부가 된다(실측: 채택 212개 중
+   대다수가 과학원·학회, 최대 순위 목록은 Bloomberg Billionaires Index). 밴드·역사 집단만
+   가려낼 방법이 서기 전에는 켜지 않는다. */
+const WITH_GROUPS = process.argv.includes('--with-groups')
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -163,6 +170,7 @@ async function run() {
   const allValues = qids.map((q) => `wd:${q}`).join(' ')
   const triples: { a: string; p: string; b: string }[] = []
   const cofounder: { a: string; b: string; org?: string; orgEn?: string }[] = []
+  const groupmate: { a: string; b: string; grp: string; org?: string; orgEn?: string }[] = []
   for (let i = 0; i < qids.length; i += BATCH) {
     const values = qids.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ')
     const q = `SELECT ?a ?p ?b WHERE { VALUES ?a { ${values} } VALUES ?p { ${propList} } ?a ?p ?b . FILTER(isIRI(?b)) }`
@@ -183,7 +191,28 @@ async function run() {
         orgEn: r.en?.value ?? r.ko?.value,
       })
     }
-    console.log(`  조회 ${Math.min(i + BATCH, qids.length)}/${qids.length} (관계 ${triples.length} · 공동창업 ${cofounder.length})`)
+    // 아이돌 그룹·밴드·팀처럼 한 집단에 함께 속한 쌍을 집단을 매개로 잇는다. 가족 속성만 긁던
+    // 때는 방탄소년단 멤버끼리도, 같은 팀 선수끼리도 서로 남남이었다(실측: 정국의 관계 0건).
+    // 소속을 말하는 속성이 항목마다 달라 셋을 함께 본다 — 부분(P361)·구성원(P527)·소속(P463).
+    if (WITH_GROUPS) {
+    const gq = `SELECT ?a ?b ?grp ?ko ?en WHERE { VALUES ?a { ${values} } VALUES ?b { ${allValues} }
+      { ?a wdt:P361 ?grp . ?b wdt:P361 ?grp } UNION
+      { ?grp wdt:P527 ?a . ?grp wdt:P527 ?b } UNION
+      { ?a wdt:P463 ?grp . ?b wdt:P463 ?grp }
+      FILTER(?a != ?b)
+      OPTIONAL { ?grp rdfs:label ?ko . FILTER(lang(?ko)='ko') }
+      OPTIONAL { ?grp rdfs:label ?en . FILTER(lang(?en)='en') } }`
+    for (const r of await wdqsFetch(gq)) {
+      groupmate.push({
+        a: r.a.value.split('/').pop()!,
+        b: r.b.value.split('/').pop()!,
+        grp: r.grp.value.split('/').pop()!,
+        org: r.ko?.value ?? r.en?.value,
+        orgEn: r.en?.value ?? r.ko?.value,
+      })
+    }
+    }
+    console.log(`  조회 ${Math.min(i + BATCH, qids.length)}/${qids.length} (관계 ${triples.length} · 공동창업 ${cofounder.length} · 한솥밥 ${groupmate.length})`)
     if (i + BATCH < qids.length) await sleep(SLEEP_MS)
   }
 
@@ -300,6 +329,80 @@ async function run() {
     addEdge({ from: B.id, to: A.id, type: 'cofounder', group: 'career', note, noteEn })
   }
 
+  // ── 한솥밥 간선 ──
+  // 학회·아카데미처럼 회원이 수십인 단체는 회원 전원을 서로 잇는다. 그건 관계망이 아니라 명부다.
+  // 우리 명단 안 구성원이 상한을 넘는 집단은 통째로 버린다(버린 수는 아래 실측에 적는다).
+  const MAX_GROUP_SIZE = 12
+  const groupMembers = new Map<string, Set<string>>()
+  for (const g of groupmate) {
+    const set = groupMembers.get(g.grp) ?? new Set<string>()
+    set.add(g.a)
+    set.add(g.b)
+    groupMembers.set(g.grp, set)
+  }
+  /* 집단 유형으로 한 번 더 거른다. 위키데이터에서 소속 속성을 가장 많이 다는 것은 학회·아카데미와
+     부자 순위 목록인데, 그 명부에 함께 오른 사람들은 서로 만난 적도 없다(실측: 미국 과학 진흥
+     협회, Bloomberg Billionaires Index). 사람이 실제로 한 무리로 묶이는 유형만 통과시킨다.
+     하위 유형까지 P279* 로 훑어 보이밴드·걸그룹이 음악 밴드에 딸려 들어오게 한다. */
+  const GROUP_TYPE_WHITELIST = [
+    'Q215380',   // 음악 밴드 — 보이밴드·걸그룹을 하위로 품는다
+    'Q847017',   // 스포츠 클럽
+    'Q12973014', // 스포츠팀
+    // '사람들의 모임'(Q16334295)은 넣지 않는다. 상위 클래스가 넓어 P279* 를 타고 학회·아카데미가
+    // 통째로 딸려 들어왔다(실측: 유형 통과 324/364 — 헝가리 과학원·교황청 과학원·아카데미
+    // 프랑세즈가 전부 통과). 페이팔 마피아 같은 통칭 무리를 잃더라도 명부는 들이지 않는다.
+  ]
+  const groupQids = [...groupMembers.keys()]
+  const typedGroups = new Set<string>()
+  if (WITH_GROUPS && groupQids.length) {
+    const okValues = GROUP_TYPE_WHITELIST.map((q) => `wd:${q}`).join(' ')
+    for (let i = 0; i < groupQids.length; i += BATCH) {
+      const values = groupQids.slice(i, i + BATCH).map((q) => `wd:${q}`).join(' ')
+      const tq = `SELECT DISTINCT ?g WHERE { VALUES ?g { ${values} } VALUES ?ok { ${okValues} }
+        ?g wdt:P31/wdt:P279* ?ok }`
+      for (const r of await wdqsFetch(tq)) typedGroups.add(r.g.value.split('/').pop()!)
+      console.log(`  집단 유형 조회 ${Math.min(i + BATCH, groupQids.length)}/${groupQids.length}`)
+      if (i + BATCH < groupQids.length) await sleep(SLEEP_MS)
+    }
+  }
+  const keptGroups = new Set(
+    [...groupMembers.entries()]
+      .filter(([q, m]) => m.size <= MAX_GROUP_SIZE && typedGroups.has(q))
+      .map(([q]) => q),
+  )
+  const groupOf = new Map<string, Set<string>>()
+  const groupEnOf = new Map<string, Set<string>>()
+  for (const g of groupmate) {
+    if (!keptGroups.has(g.grp) || !g.org) continue
+    const key = [g.a, g.b].sort().join('|')
+    const set = groupOf.get(key) ?? new Set<string>()
+    set.add(g.org)
+    groupOf.set(key, set)
+    if (g.orgEn) {
+      const setEn = groupEnOf.get(key) ?? new Set<string>()
+      setEn.add(g.orgEn)
+      groupEnOf.set(key, setEn)
+    }
+  }
+  const seenGroupPairs = new Set<string>()
+  for (const g of groupmate) {
+    if (!keptGroups.has(g.grp)) continue
+    const A = byQid.get(g.a), B = byQid.get(g.b)
+    if (!A || !B || A.id === B.id) continue
+    const pairKey = [g.a, g.b].sort().join('|')
+    if (seenGroupPairs.has(pairKey)) continue
+    seenGroupPairs.add(pairKey)
+    // 이미 더 가까운 사이(가족·사제·창업)가 있으면 얹지 않는다
+    const hasCloser = [...edges.values()].some((e) => e.from === A.id && e.to === B.id)
+    if (hasCloser) continue
+    const orgs = [...(groupOf.get(pairKey) ?? [])].slice(0, 2).join(' · ')
+    const orgsEn = [...(groupEnOf.get(pairKey) ?? [])].slice(0, 2).join(' and ')
+    const note = orgs ? `${orgs} 소속` : undefined
+    const noteEn = orgsEn ? `Both in ${orgsEn}` : undefined
+    addEdge({ from: A.id, to: B.id, type: 'colleague', group: 'career', note, noteEn })
+    addEdge({ from: B.id, to: A.id, type: 'colleague', group: 'career', note, noteEn })
+  }
+
   const final = [...edges.values()]
 
   // ── 실측 보고 ──
@@ -316,6 +419,16 @@ async function run() {
   console.log(`  속성별:`, Object.fromEntries([...perProp.entries()].sort((x, y) => y[1] - x[1])))
   console.log(`  최종 방향 간선 ${final.length} (논리 쌍 약 ${Math.round(final.length / 2)})`)
   console.log(`  그룹별:`, Object.fromEntries(perGroup))
+  console.log(`  한솥밥 집단 채택 ${keptGroups.size} / 후보 ${groupMembers.size}(유형 통과 ${typedGroups.size} · 구성원 ${MAX_GROUP_SIZE}명 이하) · 맺은 쌍 ${seenGroupPairs.size}`)
+  {
+    const named = [...groupMembers].map(([q, m]) => {
+      const sample = groupmate.find((g) => g.grp === q)
+      return { q, name: sample?.org ?? sample?.orgEn ?? q, size: m.size, kept: keptGroups.has(q) }
+    }).sort((a, b) => b.size - a.size)
+    const fmt = (list: typeof named) => list.map((g) => `${g.name}(${g.size})`).join(', ')
+    console.log(`  채택 집단:`, fmt(named.filter((g) => g.kept)))
+    console.log(`  제외 집단:`, fmt(named.filter((g) => !g.kept)))
+  }
   console.log(`  관계 1개 이상 보유 셀럽 ${persons.size}/${celebs.length} (${Math.round((100 * persons.size) / celebs.length)}%)`)
   const extPersons = new Set(extFinal.map((e) => e.from))
   const extKo = extFinal.filter((e) => labels.get(e.qid)?.ko).length
