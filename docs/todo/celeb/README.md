@@ -7,6 +7,7 @@
 
 | 문서 | 다음 작업 |
 |---|---|
+| [`celeb-timeline-life-rewrite-handoff.md`](celeb-timeline-life-rewrite-handoff.md) | 최근 473명과 기존 1~16건 1,157명을 재생성하고, 빈 737명을 채우며, 17건 이상 435명은 선검수한다 |
 | [`celeb-interpretation-sol-quality-failure-handoff.md`](celeb-interpretation-sol-quality-failure-handoff.md) | 인물 탐구의 주제 부재 결함을 진단하고 규칙 보강·판정 분리·표본 재검증을 실행한다 |
 | [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 원장의 미완료 인물을 다음 검수·재작성 회차로 넘긴다 |
 | [`celeb-avatar-defects.md`](celeb-avatar-defects.md) | 현재 명단에 남은 아바타 결함만 교체한다 |

@@ -20,6 +20,7 @@
     "celeb:speech:3-patch": "tsx scripts/celeb/speech/3-patch.ts",
     "celeb:speech:test": "tsx --test scripts/lib/celeb-speech-research.test.ts",
     "celeb:defer": "tsx scripts/celeb/defer.ts",
+    "celeb:timeline:test": "tsx --test scripts/celeb/timeline/*.test.ts",
     "celeb:i18n-backfill": "node scripts/celeb/i18n-backfill.mjs",
     "celeb:readings": "tsx scripts/celeb/readings.ts",
     "celeb:readings:translate": "tsx scripts/celeb/readings-translate.ts",
