@@ -218,9 +218,30 @@
       "navYoutube": "Video Archive",
       "navToday": "Today's Figure",
       "navOthers": "Other Figures",
-      "figureLinks": {
-        "title": "Figures in the Spotlight",
-        "description": "Meet the figures most visited over the past month"
+      "relationMap": {
+        "title": "Relation Map",
+        "description": "Follow what passed from one figure to another",
+        "shapeChain": "Chain",
+        "shapeChainHint": "A lineage passed hand to hand. Longer links crossed more time",
+        "chainTitle": "From {from} to {to}",
+        "chainSpan": "across {years, number} years",
+        "gapYears": "{years, number}y",
+        "highlightLead": "{from} → {to} · {years, number} years later",
+        "shapeExplorer": "Explorer",
+        "shapeExplorerHint": "Pick a figure to open their surroundings. Click a face to move there",
+        "searchPlaceholder": "Find a figure by name",
+        "searchClear": "Clear search",
+        "goBack": "Back to {name}",
+        "openDetail": "Open {name}",
+        "startersLead": "Start here",
+        "groupGave": "Who influenced them",
+        "groupTook": "Whom they influenced",
+        "groupRival": "Rivals",
+        "groupTogether": "Alongside them",
+        "groupFamily": "Family",
+        "groupCount": "{count, number}",
+        "groupCountPartial": "{shown, number} of {total, number}",
+        "openLink": "Show what passed from {from} to {to}"
       }
     },
     "youtube": {
@@ -303,7 +324,18 @@
     },
     "spectrum": {
       "metaTitle": "16-Axis Spectrum | Figures",
-      "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition."
+      "metaDescription": "Explore figures who stand out across 16 axes of ability, virtue, and disposition.",
+      "axisLibrary": {
+        "heading": "Library of Temperament",
+        "sub": "Works shared by figures at the extremes of this axis",
+        "prevWork": "Previous work",
+        "nextWork": "Next work",
+        "dot": "Item {index} of {count}",
+        "highDisposition": "What {pole}-leaning figures shared",
+        "lowDisposition": "What {pole}-leaning figures shared",
+        "highMetric": "What top-{label} figures shared",
+        "lowMetric": "What low-{label} figures shared"
+      }
     },
     "timelinePage": {
       "metaTitle": "Celebrity Timeline by Country | Figures",
