@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  deploymentId: process.env.NEXT_DEPLOYMENT_ID,
   // Windows 빌드에서도 Oracle Linux용 sharp 네이티브 파일을 standalone에 넣는다.
   // pnpm-workspace.yaml의 supportedArchitectures가 설치를, 이 trace가 복사를 맡는다.
   outputFileTracingIncludes: {

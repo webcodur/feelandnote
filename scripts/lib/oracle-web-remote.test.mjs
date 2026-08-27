@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict'
 import {
+  existsSync,
   lstatSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
   realpathSync,
   rmSync,
+  utimesSync,
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -18,12 +20,15 @@ import {
   chooseInactiveSlot,
   deploymentTargetForPath,
   legacyReleasesRootRemoveArgs,
+  inspectVersionedDeploymentHtml,
+  mergeRetainedStaticAssets,
   normalizeManifestPath,
   parseJpegDimensions,
   resolveDeploymentTarget,
   restoreStandaloneLinks,
   slotNameForPath,
   slotsRootInstallArgs,
+  STATIC_ASSET_RETENTION_MS,
 } from './oracle-web-remote.mjs'
 
 test('release id accepts deploy names and rejects path traversal', () => {
@@ -149,4 +154,81 @@ test('JPEG probe reads the dimensions from a start-of-frame segment', () => {
   ])
   assert.deepEqual(parseJpegDimensions(jpeg), { width: 800, height: 800 })
   assert.throws(() => parseJpegDimensions(Buffer.from('not-jpeg')), /not a JPEG/u)
+})
+
+test('a prepared release retains still-live static assets from the active release', () => {
+  const root = mkdtempSync(path.join(tmpdir(), 'oracle-web-static-retention-'))
+  const previousStatic = path.join(root, 'previous')
+  const candidateStatic = path.join(root, 'candidate')
+  const nowMs = Date.UTC(2026, 7, 27, 12)
+  const retentionMs = STATIC_ASSET_RETENTION_MS
+
+  try {
+    mkdirSync(path.join(previousStatic, 'chunks'), { recursive: true })
+    mkdirSync(path.join(candidateStatic, 'chunks'), { recursive: true })
+    writeFileSync(path.join(previousStatic, 'chunks', 'previous-only.js'), 'previous')
+    writeFileSync(path.join(previousStatic, 'chunks', 'shared.js'), 'stale shared')
+    writeFileSync(path.join(previousStatic, 'chunks', 'expired.js'), 'expired')
+    writeFileSync(path.join(candidateStatic, 'chunks', 'shared.js'), 'candidate shared')
+    writeFileSync(path.join(candidateStatic, 'chunks', 'candidate-only.js'), 'candidate')
+
+    const retainedAt = new Date(nowMs - 2 * 24 * 60 * 60 * 1_000)
+    const expiredAt = new Date(nowMs - retentionMs - 1_000)
+    utimesSync(path.join(previousStatic, 'chunks', 'previous-only.js'), retainedAt, retainedAt)
+    utimesSync(path.join(previousStatic, 'chunks', 'shared.js'), retainedAt, retainedAt)
+    utimesSync(path.join(previousStatic, 'chunks', 'expired.js'), expiredAt, expiredAt)
+
+    const result = mergeRetainedStaticAssets(previousStatic, candidateStatic, {
+      nowMs,
+      retentionMs,
+    })
+
+    assert.equal(readFileSync(path.join(candidateStatic, 'chunks', 'previous-only.js'), 'utf8'), 'previous')
+    assert.equal(readFileSync(path.join(candidateStatic, 'chunks', 'shared.js'), 'utf8'), 'candidate shared')
+    assert.equal(readFileSync(path.join(candidateStatic, 'chunks', 'candidate-only.js'), 'utf8'), 'candidate')
+    assert.equal(existsSync(path.join(candidateStatic, 'chunks', 'expired.js')), false)
+    assert.deepEqual(result, { copied: 1, alreadyPresent: 1, expired: 1 })
+  } finally {
+    rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('deployment HTML static assets must all identify the expected build', () => {
+  const deploymentId = 'a351550f-web-20260827t111605z'
+  const html = `<!doctype html>
+    <html data-dpl-id="${deploymentId}">
+      <head>
+        <link rel="stylesheet" href="/_next/static/css/app.css?dpl=${deploymentId}">
+        <script src="/_next/static/chunks/app.js?dpl=${deploymentId}"></script>
+      </head>
+    </html>`
+
+  assert.deepEqual(
+    inspectVersionedDeploymentHtml(html, 'http://127.0.0.1:3100/celeb/bill-gates', deploymentId),
+    {
+      deploymentId,
+      staticAssetUrls: [
+        `http://127.0.0.1:3100/_next/static/css/app.css?dpl=${deploymentId}`,
+        `http://127.0.0.1:3100/_next/static/chunks/app.js?dpl=${deploymentId}`,
+      ],
+    },
+  )
+
+  assert.throws(
+    () => inspectVersionedDeploymentHtml(
+      '<html><script src="/_next/static/chunks/app.js"></script></html>',
+      'http://127.0.0.1:3100/celeb/bill-gates',
+      deploymentId,
+    ),
+    /deployment id/u,
+  )
+
+  assert.equal(
+    inspectVersionedDeploymentHtml(
+      `<html><script src="/_next/static/chunks/app.js?dpl=${deploymentId}"></script></html>`,
+      'http://127.0.0.1:3100/celeb/bill-gates',
+      deploymentId,
+    ).deploymentId,
+    deploymentId,
+  )
 })
