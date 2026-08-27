@@ -9,7 +9,7 @@
 
 | 경로 | 다음 작업 |
 |---|---|
-| [`celeb/README.md#확정-작업`](celeb/README.md#확정-작업) | 읽어보기, 연표, 아바타 결함 |
+| [`celeb/README.md#확정-작업`](celeb/README.md#확정-작업) | 읽어보기, 연표, 아바타 결함, 관계 설명 |
 | [`external-api-migration-2026-08-01.md`](external-api-migration-2026-08-01.md) | 영문판이 확인된 레거시 도서의 EN locale 보완 |
 | [`web-deployment-platform-research.md`](web-deployment-platform-research.md) | 도메인 이전·Oracle 메모리·사용자 웹 변경 마감 |
 | [`document-audit.md`](document-audit.md) | 현역 문서와 코드·DB 대조 |

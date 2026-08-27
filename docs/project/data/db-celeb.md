@@ -60,7 +60,8 @@
   - `celeb/relations.ts` 재실행은 `source='wikidata'` 행을 교체한다. 수동 보강은 반드시 `source='manual'`로 저장한다
   - 실측(2026-07-22): 방향 간선 1,972 — thought 1,110 / rivalry 456 / family 148 / friendship 140 / career(P112 조직 매개) 118
   - rivalry·friendship은 위키데이터에 사실상 없어 GPT 제안+전수 훑기(1,692명) → 병렬 검증 → `source='manual'`+`note`(근거 한 줄)로 적재했다. 재수집해도 manual 행은 보존된다
-  - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`
+  - `note` 실측(2026-08-27, 양끝이 모두 노출 가능한 간선 기준): 맞수 842/842(100%) · 동석 2,866/2,932(98%) · 영향·사제 1,622/1,810(90%) · **가족 0/240(0%)**. 관계를 가진 2,201명 중 이웃 설명이 전부 있는 인물 82%, 하나도 없는 인물 3%. 남은 몫은 `docs/todo/celeb/celeb-relation-notes.md`
+  - UNIQUE(from_id, to_id, rel_type) · 화면은 셀럽 상세 `RelationGraphSection.tsx`와 탐색 허브의 관계망 구획(26.08.27 신설, 운영 비활성 — `service/explore.md`)
 - **`celeb_relations_external`**: 명단 밖 인물 (2026-07-22 `add_celeb_relations_external`). 짝이 셀럽이 아니면 명단 안 간선만으로는 텅 빈다 — 위키데이터 등재 인물을 이름·사진만 받아 이동 불가 노드로 띄운다. **본짝이 명단 밖이라고 다른 셀럽을 그 칸에 넣지 않는다.** 맞수·지기는 이 테이블, 스승·영향·창업은 비운다.
   - 실측: family 7,435 / rivalry 214 / friendship 158 행 · UNIQUE(from_id, qid, rel_type)
   - 가족은 위키데이터 속성 수집, 라이벌·지기는 전수 훑기 결과를 이름→QID 대조(wbsearchentities)로 적재. **접두 검색이라 수식어 넣으면 오배정된다** — 곤충 속(屬)·동명이인 사고로 라이벌 23건·지기 23건을 사후 교정했다(설명·생몰 검증 필수)
