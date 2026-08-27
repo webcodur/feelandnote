@@ -12,6 +12,7 @@
 | [`celeb-interpretation-sol-quality-failure-handoff.md`](celeb-interpretation-sol-quality-failure-handoff.md) | 인물 탐구의 주제 부재 결함을 진단하고 규칙 보강·판정 분리·표본 재검증을 실행한다 |
 | [`celeb-reading-full-rework-handoff-2026-08-04.md`](celeb-reading-full-rework-handoff-2026-08-04.md) | 원장의 미완료 인물을 다음 검수·재작성 회차로 넘긴다 |
 | [`celeb-avatar-defects.md`](celeb-avatar-defects.md) | 현재 명단에 남은 아바타 결함만 교체한다 |
+| [`celeb-relation-notes.md`](celeb-relation-notes.md) | 관계 설명의 빈자리를 메워 탐색 허브의 관계망을 운영에 연다. 영향·사제 188건과 가족 240건이 남았다 |
 
 ## 기획·결정 대기
 
