@@ -141,6 +141,20 @@ const CELEB_FILES = new Set([
   'sw/web/src/components/ui/cards/ContentCard/useContentCardState.ts',
   // 이어지는 인물의 순위 계산. 소비자는 인물 상세의 링크 구획뿐이다.
   'sw/web/src/lib/celeb/relatedFigures.ts',
+  // 위키데이터 속성에서 뽑은 공식 채널·프로필. 인물 상세 하단에만 선다.
+  'sw/web/src/actions/celebs/getCelebExternalLinks.ts',
+  'sw/web/src/lib/celeb/externalLinkProperties.ts',
+  'sw/web/src/lib/celeb/externalLinks.ts',
+  // 위 DefaultLayout·ReviewLayout과 같은 판단이다. Cloudflare가 보관하는 화면 중
+  // ContentCard를 그리는 곳은 인물 상세뿐이라 이 묶음만 정확히 적는다.
+  'sw/web/src/components/ui/cards/ContentCard/ContentCard.tsx',
+  'sw/web/src/components/ui/cards/ContentCard/modals/ContentIntroModal.tsx',
+  'sw/web/src/components/ui/cards/ContentCard/modals/ContentStatsModal.tsx',
+  'sw/web/src/components/ui/cards/ContentCard/sections/CardModals.tsx',
+  'sw/web/src/components/ui/cards/ContentCard/sections/CornerAccents.tsx',
+  'sw/web/src/components/ui/cards/ContentCard/slots/index.tsx',
+  // 판본 표기. contentLibrary 묶음과 같은 이유로 인물 상세의 감상배경에 걸린다.
+  'sw/web/src/lib/utils/editions.ts',
 ])
 
 const CONTENT_PREFIXES = [
@@ -182,6 +196,32 @@ const NON_HTML_RUNTIME_FILES = new Set([
   'sw/web/src/components/lab/CelebWorldsPreview.tsx',
   'sw/web/src/components/lab/SeaWavesBackground.tsx',
   'sw/web/src/lib/game/voice/voiceUrl.ts',
+  // 탐색 허브(/explore)와 서재는 Cloudflare ruleset v4가 보관하지 않는다.
+  // 보관 대상은 인물·작품 상세와 explore의 directory·timeline뿐이다.
+  'sw/web/src/actions/library/bestsellers.ts',
+  'sw/web/src/actions/library/index.ts',
+  'sw/web/src/actions/library/types.ts',
+  'sw/web/src/app/[locale]/(main)/explore/page.tsx',
+  'sw/web/src/app/[locale]/(main)/explore/sections.tsx',
+  'sw/web/src/app/[locale]/(main)/library/popular/page.tsx',
+  'sw/web/src/app/[locale]/(main)/library/sections.tsx',
+  'sw/web/src/components/features/landing/FactionShowcase.tsx',
+  'sw/web/src/components/features/library/curated/CuratedListView.tsx',
+  'sw/web/src/components/features/library/hub/PopularPreview.tsx',
+  'sw/web/src/components/features/library/sections/PopularSection.tsx',
+  'sw/web/src/components/features/user/explore/sections/SpectrumFullSection/sections/AxisLibraryPanel.tsx',
+  'sw/web/src/components/ui/CategoryTabFilter.tsx',
+  // 관계망은 탐색 허브에만 서고 운영에서는 아직 꺼져 있다(RELATION_MAP_ENABLED).
+  // 허브가 보관 대상이 되거나 인물 상세로 옮겨 가면 이 묶음을 celeb으로 올려야 한다.
+  'sw/web/src/actions/home/getRelationNeighborhood.ts',
+  'sw/web/src/actions/home/getRelationShapes.ts',
+  'sw/web/src/components/features/celeb/RelationMap/CelebNode.tsx',
+  'sw/web/src/components/features/celeb/RelationMap/ChainGraph.tsx',
+  'sw/web/src/components/features/celeb/RelationMap/RelationExplorer.tsx',
+  'sw/web/src/components/features/celeb/RelationMap/RelationMap.tsx',
+  'sw/web/src/lib/celeb/influenceChains.ts',
+  'sw/web/src/lib/celeb/relationNeighborhood.ts',
+  'sw/web/src/lib/celeb/relationShapes.ts',
 ])
 
 const CACHED_HTML_PREFIXES = [
@@ -199,6 +239,10 @@ const CACHED_HTML_PREFIXES = [
 ]
 
 const CACHED_HTML_FILES = new Set([
+  // 바닥글은 [locale]/layout.tsx에 있어 보관 대상 화면에도 그대로 실린다.
+  // 로고는 그 바닥글 안에서만 쓰인다.
+  'sw/web/src/components/ui/Layout/Footer.tsx',
+  'sw/web/src/components/ui/Logo.tsx',
   'sw/web/src/app/[locale]/(main)/layout.tsx',
   'sw/web/src/app/[locale]/layout.tsx',
   'sw/web/src/app/globals.css',
