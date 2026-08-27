@@ -12,11 +12,13 @@ import { getCelebs } from "@/actions/home/getCelebs";
 import { getTopByContentType } from "@/actions/home/getTopByContentType";
 import { getSpectrumDistribution } from "@/actions/spectrum/getSpectrumDistribution";
 import { getFactionHubPreviews } from "@/actions/home/getFactionHubPreviews";
+import { getRelationShapes } from "@/actions/home/getRelationShapes";
+import { getRelationNeighborhood } from "@/actions/home/getRelationNeighborhood";
 import { RetryBlock } from "@/components/ui/pending";
 import RankingTabs from "@/components/features/user/explore/hub/RankingTabs";
 import SpectrumDistribution from "@/components/features/user/explore/spectrumAnalysis/SpectrumDistribution";
 import FactionCard from "@/components/features/user/explore/hub/FactionCard";
-import FigureLinkGrid from "@/components/features/celeb/FigureLinkGrid";
+import RelationMap from "@/components/features/celeb/RelationMap/RelationMap";
 
 const HUB_SPECTRUM_MIN_INFLUENCE = 40;
 
@@ -69,21 +71,27 @@ export async function SpectrumSection() {
   return <SpectrumDistribution people={people} />;
 }
 
-/* 주목받는 인물 링크 — 홈(기록순 고정)과 달리 최근 30일 조회순이라 집합이 흘러
-   크롤러가 방문할 때마다 다른 인물 상세로 가는 길이 열린다. 실패하면 조용히 접는다 */
-export async function FigureLinksSection() {
-  const t = await getTranslations("explore.hub.figureLinks");
-  const celebs = await load("주목 인물 링크", () =>
-    getCelebs({ sortBy: "trending", limit: 24 }).then((r) => r.celebs),
-  );
+/* 관계망 — 탐색기와 사슬. 관계 자료는 인물 상세의 도표 모달에만 있어
+   크롤러에게 막다른 길이었다. 여기서 인물 상세로 가는 실제 링크로 편다.
+   조회순 인물 목록이 이 자리에 있던 때는 위 「인기」 탭과 같은 집합이라 겹쳤다.
+   탐색기의 첫 판은 여기서 서버가 받아 넘긴다 — 크롤러도 관계와 링크를 그대로 받는다.
+   실패하면 조용히 접는다 — 목차에 없는 보조 구획이라 자리를 비워도 화면이 성립한다 */
+export async function RelationMapSection() {
+  const t = await getTranslations("explore.hub.relationMap");
+  const shapes = await load("관계망", getRelationShapes);
+  if (!shapes) return null;
 
-  if (!celebs || celebs.length === 0) return null;
+  const opening = shapes.openingCelebId
+    ? await load("관계망 첫 판", () => getRelationNeighborhood(shapes.openingCelebId!))
+    : null;
+
   return (
-    <FigureLinkGrid
-      headingId="explore-figure-links"
+    <RelationMap
+      headingId="explore-relation-map"
       title={t("title")}
       description={t("description")}
-      figures={celebs}
+      shapes={shapes}
+      opening={opening}
     />
   );
 }

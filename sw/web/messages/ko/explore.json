@@ -218,9 +218,30 @@
       "navYoutube": "영상관",
       "navToday": "오늘의 인물",
       "navOthers": "기타 인물",
-      "figureLinks": {
-        "title": "요즘 주목받는 인물",
-        "description": "최근 한 달 동안 많이 찾은 인물부터 만나보세요"
+      "relationMap": {
+        "title": "관계망",
+        "description": "누가 누구에게 무엇을 건넸는지, 그 자취를 따라갑니다",
+        "shapeChain": "사슬",
+        "shapeChainHint": "스승에서 제자로 일자로 이어진 계보. 고리가 길수록 멀리 건넜습니다",
+        "chainTitle": "{from}에서 {to}까지",
+        "chainSpan": "{years, number}년을 건너",
+        "gapYears": "{years, number}년",
+        "highlightLead": "{from} → {to} · {years, number}년 뒤",
+        "shapeExplorer": "탐색기",
+        "shapeExplorerHint": "인물을 고르면 그 둘레가 펼쳐집니다. 얼굴을 누르면 그 사람으로 옮겨 갑니다",
+        "searchPlaceholder": "인물 이름으로 찾기",
+        "searchClear": "검색어 지우기",
+        "startersLead": "여기서부터",
+        "goBack": "{name} 되돌아가기",
+        "openDetail": "{name} 상세 보기",
+        "groupGave": "이 사람에게 영향을 준 인물",
+        "groupTook": "이 사람에게서 영향을 받은 인물",
+        "groupRival": "맞선 인물",
+        "groupTogether": "함께한 인물",
+        "groupFamily": "가족",
+        "groupCount": "{count, number}명",
+        "groupCountPartial": "{total, number}명 중 {shown, number}명",
+        "openLink": "{from}와 {to} 사이 보기"
       }
     },
     "youtube": {
@@ -303,7 +324,18 @@
     },
     "spectrum": {
       "metaTitle": "16축 스펙트럼 | 인물",
-      "metaDescription": "역량·덕목·성향 16개 축에서 두드러지는 인물을 살펴보세요."
+      "metaDescription": "역량·덕목·성향 16개 축에서 두드러지는 인물을 살펴보세요.",
+      "axisLibrary": {
+        "heading": "기질의 서재",
+        "sub": "이 축의 극단에 선 인물들이 함께 감상한 작품",
+        "prevWork": "이전 작품",
+        "nextWork": "다음 작품",
+        "dot": "{index}번째 / 전체 {count}개",
+        "highDisposition": "{pole} 쪽 기록가들의 공통 감상작",
+        "lowDisposition": "{pole} 쪽 기록가들의 공통 감상작",
+        "highMetric": "{label} 상위 기록가들의 공통 감상작",
+        "lowMetric": "{label} 하위 기록가들의 공통 감상작"
+      }
     },
     "timelinePage": {
       "metaTitle": "국가별 셀럽 연대기 | 인물",
