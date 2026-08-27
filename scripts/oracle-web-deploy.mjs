@@ -21,7 +21,11 @@ import {
   classifyCloudflarePurgeImpact,
   createCloudflarePurgePlan,
 } from './lib/cloudflare-purge-impact.mjs'
-import { parseJpegDimensions } from './lib/oracle-web-remote.mjs'
+import {
+  extractNextStaticAssetUrls,
+  parseJpegDimensions,
+  probeStaticAssetUrls,
+} from './lib/oracle-web-remote.mjs'
 
 const SCRIPT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const WEB_RELATIVE_PATH = 'sw/web'
@@ -390,7 +394,11 @@ function createIsolatedBuild(repoRoot, commit, releaseId) {
     run('pnpm', ['build:web'], {
       cwd: worktreeRoot,
       inherit: true,
-      env: { ...process.env, NEXT_DIST_DIR: DIST_DIR },
+      env: {
+        ...process.env,
+        NEXT_DIST_DIR: DIST_DIR,
+        NEXT_DEPLOYMENT_ID: releaseId,
+      },
     })
 
     const webRoot = path.join(worktreeRoot, WEB_RELATIVE_PATH)
@@ -509,6 +517,23 @@ async function verifyPublicSeoImage(releaseId, probeSlug) {
     bytes: bytes.length,
     hash: createHash('sha256').update(bytes).digest('hex').slice(0, 16),
     ...dimensions,
+  }
+}
+
+async function verifyPublicPageAssets(releaseId, probeSlug) {
+  const pageUrl = new URL(`/celeb/${encodeURIComponent(probeSlug)}`, PRODUCTION_SITE_URL)
+  pageUrl.searchParams.set('deploy-page-probe', releaseId)
+  const response = await fetch(pageUrl, { signal: AbortSignal.timeout(20_000) })
+  if (!response.ok) throw new Error(`Public page returned HTTP ${response.status}`)
+
+  const html = await response.text()
+  const assetUrls = extractNextStaticAssetUrls(html, pageUrl.href)
+  const staticAssets = await probeStaticAssetUrls(assetUrls)
+  return {
+    url: pageUrl.href,
+    status: response.status,
+    cache: response.headers.get('cf-cache-status') ?? 'unknown',
+    staticAssets,
   }
 }
 
@@ -633,8 +658,10 @@ async function main() {
     ], { releaseId, inherit: false }).stdout
     const activation = JSON.parse(activationOutput)
 
+    let publicPage
     let publicSeoImage
     try {
+      publicPage = await verifyPublicPageAssets(releaseId, config.probeSlug)
       publicSeoImage = await verifyPublicSeoImage(releaseId, config.probeSlug)
       deployed = true
     } catch (error) {
@@ -660,6 +687,7 @@ async function main() {
       deployed: true,
       activation,
       finalization,
+      publicPage,
       publicSeoImage,
       cloudflarePurgeRequired: requiredPurgeScopes,
       // 배포는 여기서 끝나지 않는다. 남은 범위를 비우는 명령을 바로 손에 쥐여 준다.

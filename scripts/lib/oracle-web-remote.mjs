@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import {
+  copyFileSync,
   existsSync,
   lstatSync,
   mkdirSync,
@@ -8,7 +9,9 @@ import {
   realpathSync,
   renameSync,
   rmSync,
+  statSync,
   symlinkSync,
+  utimesSync,
   writeFileSync,
 } from 'node:fs'
 import net from 'node:net'
@@ -25,6 +28,7 @@ const APP_RELATIVE_PATH = 'sw/web'
 const DIST_DIR = '.next-verify'
 const RELEASE_METADATA_FILE = '.feelandnote-release.json'
 const SLOT_NAMES = ['blue', 'green']
+export const STATIC_ASSET_RETENTION_MS = 35 * 24 * 60 * 60 * 1_000
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -222,6 +226,102 @@ function assertRealDirectory(directoryPath, label) {
   }
 }
 
+export function mergeRetainedStaticAssets(previousStaticRoot, candidateStaticRoot, options = {}) {
+  assertRealDirectory(previousStaticRoot, 'Previous Next static assets')
+  assertRealDirectory(candidateStaticRoot, 'Candidate Next static assets')
+
+  const nowMs = options.nowMs ?? Date.now()
+  const retentionMs = options.retentionMs ?? STATIC_ASSET_RETENTION_MS
+  if (!Number.isFinite(nowMs) || !Number.isFinite(retentionMs) || retentionMs <= 0) {
+    throw new Error('Static asset retention requires positive finite timing values')
+  }
+
+  const cutoffMs = nowMs - retentionMs
+  const pending = [previousStaticRoot]
+  const result = { copied: 0, alreadyPresent: 0, expired: 0 }
+
+  while (pending.length) {
+    const directory = pending.pop()
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const sourcePath = path.join(directory, entry.name)
+      if (entry.isSymbolicLink()) {
+        throw new Error(`Static asset tree contains a symbolic link: ${sourcePath}`)
+      }
+      if (entry.isDirectory()) {
+        pending.push(sourcePath)
+        continue
+      }
+      if (!entry.isFile()) {
+        throw new Error(`Static asset tree contains an unsupported entry: ${sourcePath}`)
+      }
+
+      const sourceStats = statSync(sourcePath)
+      if (sourceStats.mtimeMs < cutoffMs) {
+        result.expired += 1
+        continue
+      }
+
+      const relativePath = path.relative(previousStaticRoot, sourcePath)
+      const targetPath = path.resolve(candidateStaticRoot, relativePath)
+      assertInside(candidateStaticRoot, targetPath, 'Retained static asset')
+      if (existsSync(targetPath)) {
+        const targetStats = lstatSync(targetPath)
+        if (!targetStats.isFile() || targetStats.isSymbolicLink()) {
+          throw new Error(`Candidate static asset conflicts with a non-file: ${targetPath}`)
+        }
+        result.alreadyPresent += 1
+        continue
+      }
+
+      mkdirSync(path.dirname(targetPath), { recursive: true })
+      copyFileSync(sourcePath, targetPath)
+      utimesSync(targetPath, sourceStats.atime, sourceStats.mtime)
+      result.copied += 1
+    }
+  }
+
+  return result
+}
+
+export function extractNextStaticAssetUrls(html, pageUrl) {
+  if (typeof html !== 'string' || typeof pageUrl !== 'string') {
+    throw new Error('Static asset extraction requires HTML and a page URL')
+  }
+  const urls = []
+  const seen = new Set()
+  const assetPattern = /\b(?:src|href)=["']([^"']*\/_next\/static\/[^"']+)["']/giu
+  for (const match of html.matchAll(assetPattern)) {
+    const rawUrl = match[1].replaceAll('&amp;', '&')
+    const absoluteUrl = new URL(rawUrl, pageUrl).href
+    if (seen.has(absoluteUrl)) continue
+    seen.add(absoluteUrl)
+    urls.push(absoluteUrl)
+  }
+  if (!urls.length) throw new Error(`Deployment HTML has no Next static assets: ${pageUrl}`)
+  return urls
+}
+
+export function inspectVersionedDeploymentHtml(html, pageUrl, expectedDeploymentId) {
+  if (typeof expectedDeploymentId !== 'string' || !expectedDeploymentId) {
+    throw new Error('Expected deployment id is required')
+  }
+  const documentDeploymentId = html.match(/\bdata-dpl-id=["']([^"']+)["']/iu)?.[1] ?? null
+  if (documentDeploymentId && documentDeploymentId !== expectedDeploymentId) {
+    throw new Error(
+      `Deployment HTML has deployment id ${JSON.stringify(documentDeploymentId)}, expected ${JSON.stringify(expectedDeploymentId)}`,
+    )
+  }
+
+  const staticAssetUrls = extractNextStaticAssetUrls(html, pageUrl)
+  const mismatchedAssets = staticAssetUrls.filter((assetUrl) => (
+    new URL(assetUrl).searchParams.get('dpl') !== expectedDeploymentId
+  ))
+  if (mismatchedAssets.length) {
+    throw new Error(`Deployment HTML has static assets without deployment id ${expectedDeploymentId}`)
+  }
+  return { deploymentId: documentDeploymentId ?? expectedDeploymentId, staticAssetUrls }
+}
+
 function ensureSlotsRoot() {
   const user = run('id', ['-un']).stdout
   const group = run('id', ['-gn']).stdout
@@ -365,6 +465,33 @@ async function fetchWithTimeout(url, options = {}) {
   return response
 }
 
+export async function probeStaticAssetUrls(assetUrls, options = {}) {
+  if (!Array.isArray(assetUrls) || !assetUrls.length) {
+    throw new Error('Static asset probe requires at least one URL')
+  }
+  const concurrency = options.concurrency ?? 8
+  if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 16) {
+    throw new Error(`Invalid static asset probe concurrency: ${concurrency}`)
+  }
+
+  let checked = 0
+  let bytes = 0
+  for (let offset = 0; offset < assetUrls.length; offset += concurrency) {
+    const batch = assetUrls.slice(offset, offset + concurrency)
+    await Promise.all(batch.map(async (assetUrl) => {
+      const response = await fetchWithTimeout(assetUrl, { timeoutMs: 10_000 })
+      if (!response.ok) {
+        throw new Error(`Next static asset returned HTTP ${response.status}: ${assetUrl}`)
+      }
+      const body = await response.arrayBuffer()
+      if (!body.byteLength) throw new Error(`Next static asset is empty: ${assetUrl}`)
+      bytes += body.byteLength
+      checked += 1
+    }))
+  }
+  return { checked, bytes }
+}
+
 async function waitForHttp(url, attempts = 40) {
   let lastError
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -399,7 +526,12 @@ async function readSeoImage(url) {
   }
 }
 
-export async function verifyApplication(port, probeSlug, probeToken = Date.now().toString(36)) {
+export async function verifyApplication(
+  port,
+  probeSlug,
+  probeToken = Date.now().toString(36),
+  expectedDeploymentId = null,
+) {
   const origin = `http://127.0.0.1:${port}`
   const pageUrl = `${origin}/celeb/${encodeURIComponent(probeSlug)}`
   await waitForHttp(pageUrl)
@@ -410,6 +542,13 @@ export async function verifyApplication(port, probeSlug, probeToken = Date.now()
   if (!html.includes(`/seo-image/celeb/${probeSlug}`)) {
     throw new Error(`Canary page does not declare its SEO image: ${probeSlug}`)
   }
+  const deployment = expectedDeploymentId
+    ? inspectVersionedDeploymentHtml(html, pageUrl, expectedDeploymentId)
+    : {
+        deploymentId: null,
+        staticAssetUrls: extractNextStaticAssetUrls(html, pageUrl),
+      }
+  const staticAssets = await probeStaticAssetUrls(deployment.staticAssetUrls)
 
   const actual = await readSeoImage(
     `${origin}/seo-image/celeb/${encodeURIComponent(probeSlug)}?locale=ko&v=deploy-${probeToken}`,
@@ -423,6 +562,8 @@ export async function verifyApplication(port, probeSlug, probeToken = Date.now()
 
   return {
     pageStatus: page.status,
+    deploymentId: deployment.deploymentId,
+    staticAssets,
     actual: { bytes: actual.bytes, hash: actual.hash.slice(0, 16), ...actual.dimensions },
     fallback: { bytes: fallback.bytes, hash: fallback.hash.slice(0, 16), ...fallback.dimensions },
   }
@@ -491,7 +632,7 @@ async function runCanary(releaseId, port, probeSlug) {
       'server.js',
     ])
 
-    const probes = await verifyApplication(port, probeSlug, releaseId)
+    const probes = await verifyApplication(port, probeSlug, releaseId, releaseId)
     return { unit, port, slot, releaseId: metadata.releaseId, probes }
   } catch (error) {
     const logs = run('sudo', ['journalctl', '-u', unit, '-n', '80', '--no-pager'], {
@@ -537,7 +678,7 @@ async function activateRelease(releaseId, probeSlug) {
     switched = true
     run('sudo', ['systemctl', 'restart', SERVICE_NAME])
     await waitForServiceActive()
-    const probes = await verifyApplication(3000, probeSlug, releaseId)
+    const probes = await verifyApplication(3000, probeSlug, releaseId, releaseId)
     return {
       previousRelease,
       previousTarget,
@@ -610,6 +751,12 @@ function prepareRelease(releaseId, commit, archivePath, manifestPath) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'))
     const restoredLinks = restoreStandaloneLinks(stagingRoot, manifest)
     assertPreparedRelease(stagingRoot)
+    const retainedStaticAssets = currentPath
+      ? mergeRetainedStaticAssets(
+          path.join(currentPath, APP_RELATIVE_PATH, DIST_DIR, 'static'),
+          path.join(stagingRoot, APP_RELATIVE_PATH, DIST_DIR, 'static'),
+        )
+      : { copied: 0, alreadyPresent: 0, expired: 0 }
 
     if (existsSync(slotRoot)) {
       assertRealDirectory(slotRoot, `Inactive ${slot} slot`)
@@ -618,7 +765,7 @@ function prepareRelease(releaseId, commit, archivePath, manifestPath) {
     renameSync(stagingRoot, slotRoot)
     writeReleaseMetadata(slotRoot, { version: 1, slot, releaseId, commit })
     readReleaseMetadata(slotRoot, true)
-    return { slot, slotRoot, releaseId, commit, restoredLinks }
+    return { slot, slotRoot, releaseId, commit, restoredLinks, retainedStaticAssets }
   } catch (error) {
     if (existsSync(stagingRoot)) rmSync(stagingRoot, { recursive: true, force: true })
     throw error
